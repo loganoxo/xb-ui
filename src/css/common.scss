@@ -1,0 +1,93 @@
+body, div, span, header, footer, nav, section, aside, article, ul, dl, dt, dd, li, a, p, h1, h2, h3, h4,h5, h6, i, b, textarea, button, input, select, figure, figcaption {
+  padding: 0;
+  margin: 0;
+  list-style: none;
+  font-style: normal;
+  text-decoration: none;
+  border: none;
+  box-sizing: border-box;
+  font-family: "Microsoft Yahei",sans-serif;
+  -webkit-tap-highlight-color:transparent;
+  -webkit-font-smoothing: antialiased;
+  &:focus {
+    outline: none;
+  }
+}
+table{
+  border-collapse:collapse;
+}
+
+/*弹框进入动画样式*/
+@keyframes tipMove {
+  0% {
+    transform: scale(1)
+  }
+  35% {
+    transform: scale(.8)
+  }
+  70% {
+    transform: scale(1.1)
+  }
+  100% {
+    transform: scale(1)
+  }
+}
+
+input[type="button"], input[type="submit"], input[type="search"], input[type="reset"] {
+  -webkit-appearance: none;
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+}
+input[type="number"]{
+  -moz-appearance: textfield;
+}
+
+
+
+html,body{
+  height: 100%;
+  width: 100%;
+  background-color: #F5F5F5;
+}
+
+.clear::after{
+  content: '';
+  display: table;
+  clear: both;
+  font-size: 0;
+}
+
+.clear{
+  zoom:1;
+}
+
+.back_img{
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
+}
+
+.margin{
+  margin: 0 auto;
+}
+
+.left{
+  float: left;
+}
+
+.right{
+  float: right;
+}
+
+.ellipsis{
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.ml-20{
+  margin-left:20px;
+}
+
