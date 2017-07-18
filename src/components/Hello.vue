@@ -27,25 +27,17 @@
 </template>
 
 <script>
-  import Button from 'iview/src/components/button'
-  import DatePicker from 'iview/src/components/date-picker'
 export default {
   name: 'hello',
   components: {
-    Button,
-    DatePicker
   },
   data () {
     return {
-      msg: 'Welcome to Your Vue.js App',
-      social: ['facebook', 'github'],
-      fruit: ['苹果']
     }
   }
 }
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang="scss" scoped>
 h1, h2 {
   font-weight: normal;
