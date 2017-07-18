@@ -3,12 +3,9 @@ import App from './App'
 import router from './router'
 import * as filters from './filter/custom'
 import VueLazyload from 'vue-lazyload'
-import Checkbox from 'iview/src/components/checkbox'
 import 'iview/dist/styles/iview.css'
-
 Vue.config.productionTip = false
 Vue.use(VueLazyload)
-Vue.use(Checkbox)
 /*注册全局过滤器*/
 Object.keys(filters).forEach(key => {
   Vue.filter(key, filters[key])

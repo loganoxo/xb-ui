@@ -17,15 +17,29 @@
       <li><a href="http://vue-loader.vuejs.org/" target="_blank">vue-loader</a></li>
       <li><a href="https://github.com/vuejs/awesome-vue" target="_blank">awesome-vue</a></li>
     </ul>
+    <Button type="info">信息按钮</Button>
+    <Button type="success">成功按钮</Button>
+    <Button type="warning">警告按钮</Button>
+    <Button type="error">错误按钮</Button>
+    <Date-picker type="daterange" placement="bottom-end" placeholder="选择日期" style="width: 200px"></Date-picker>
+    <img src="~assets/logo.png">
   </div>
 </template>
 
 <script>
+  import Button from 'iview/src/components/button'
+  import DatePicker from 'iview/src/components/date-picker'
 export default {
   name: 'hello',
+  components: {
+    Button,
+    DatePicker
+  },
   data () {
     return {
-      msg: 'Welcome to Your Vue.js App'
+      msg: 'Welcome to Your Vue.js App',
+      social: ['facebook', 'github'],
+      fruit: ['苹果']
     }
   }
 }
