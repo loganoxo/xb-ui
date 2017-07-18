@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import App from './App'
 import router from './router'
-import store from './store/'
+import store from './store'
 import * as filters from './filter/custom'
 import VueLazyload from 'vue-lazyload'
 import 'iview/dist/styles/iview.css'
