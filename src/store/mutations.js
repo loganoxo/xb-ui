@@ -1,7 +1,7 @@
 /**
  * Created by ycb on 2017/7/17.
  */
-import {OUT_LOGIN} from './mutation-types.js'
+import {OUT_LOGIN,RECORD_USERINFO} from './mutation-types.js'
 import {setStore, getStore} from '../config/utils'
 export default {
   //退出登录

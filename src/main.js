@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import App from './App'
 import router from './router'
+import store from './store/'
 import * as filters from './filter/custom'
 import VueLazyload from 'vue-lazyload'
 import 'iview/dist/styles/iview.css'
@@ -13,7 +14,11 @@ Object.keys(filters).forEach(key => {
 /*根据路由改变页面标题*/
 router.afterEach(to =>{document.title = to.meta.title})
 
-const app = new Vue({
+new Vue({
+  el: '#app',
   router,
-  render: h => h(App)
-}).$mount('#app');
+  store,
+  template: '<App/>',
+  components: {App}
+});
+
