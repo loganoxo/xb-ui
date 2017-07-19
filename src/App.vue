@@ -1,23 +1,24 @@
 <template>
   <div id="app">
-    <img src="./assets/logo.png">
+    <Top></Top>
     <router-view></router-view>
+    <Bottom></Bottom>
   </div>
 </template>
 
 <script>
+import Top from "./components/Top.vue";
+import Bottom from "./components/Bottom.vue";
 export default {
-  name: 'app'
+  name: 'app',
+  components:{
+    Top:Top,
+    Bottom:Bottom
+  }
 }
 </script>
 
-<style>
-#app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
+<style lang="scss" scoped>
+
+
 </style>
