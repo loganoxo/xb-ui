@@ -4,13 +4,13 @@ import router from './router'
 import store from './store'
 import * as filters from './filter/custom'
 import VueLazyload from 'vue-lazyload'
-// import VueQuillEditor from 'vue-quill-editor'
+import VueQuillEditor from 'vue-quill-editor'
 import 'iview/dist/styles/iview.css'
 import animate from 'animate.css'
 
 Vue.config.productionTip = false
 Vue.use(VueLazyload)
-// Vue.use(VueQuillEditor)
+Vue.use(VueQuillEditor)
 Vue.use(VueLazyload)
 Vue.use(animate)
 

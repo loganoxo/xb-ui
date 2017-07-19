@@ -7,8 +7,6 @@
 </template>
 
 <script>
-  //  import Button from 'iview/src/components/button'
-  //  import DatePicker from 'iview/src/components/date-picker'
   export default {
     name: 'bottom',
     data () {
