@@ -1,24 +1,15 @@
-body, div, span, header, footer, nav, section, aside, article, ul, dl, dt, dd, li, a, p, h1, h2, h3, h4,h5, h6, i, b, textarea, button, input, select, figure, figcaption {
-  padding: 0;
-  margin: 0;
-  list-style: none;
-  font-style: normal;
-  text-decoration: none;
-  border: none;
-  box-sizing: border-box;
-  font-family: "Microsoft Yahei",sans-serif;
-  -webkit-tap-highlight-color:transparent;
-  -webkit-font-smoothing: antialiased;
-  &:focus {
-    outline: none;
-  }
+html,body{
+  height: 100%;
+  width: 100%;
+  background-color: #F5F5F5;
 }
+
 table{
   border-collapse:collapse;
 }
 
-/*弹框进入动画样式*/
-@keyframes tipMove {
+/*自定义内容弹框进入动画样式*/
+@keyframes popAnimation {
   0% {
     transform: scale(1)
   }
@@ -41,16 +32,13 @@ input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {
   -webkit-appearance: none;
 }
+
 input[type="number"]{
   -moz-appearance: textfield;
 }
 
-
-
-html,body{
-  height: 100%;
-  width: 100%;
-  background-color: #F5F5F5;
+.clear{
+  zoom:1;
 }
 
 .clear::after{
@@ -58,10 +46,6 @@ html,body{
   display: table;
   clear: both;
   font-size: 0;
-}
-
-.clear{
-  zoom:1;
 }
 
 .back_img{
@@ -90,6 +74,7 @@ html,body{
 .ml-20{
   margin-left:20px;
 }
+
 .container {
   width: 1200px;
   margin: auto;

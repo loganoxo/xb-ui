@@ -6,13 +6,12 @@ import * as filters from './filter/custom'
 import VueLazyload from 'vue-lazyload'
 import VueQuillEditor from 'vue-quill-editor'
 import 'iview/dist/styles/iview.css'
-import animate from 'animate.css'
+import 'animate.css/animate.css'
 
 Vue.config.productionTip = false
 Vue.use(VueLazyload)
 Vue.use(VueQuillEditor)
 Vue.use(VueLazyload)
-Vue.use(animate)
 
 /*VueLazyload配置初始化*/
 Vue.use(VueLazyload, {
