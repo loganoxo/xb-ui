@@ -22,6 +22,7 @@
   #bottom {
     background-color: #F8F8F8;
     > div {
+      background-color: #F8F8F8;
       height: 80px;
       font-size: 14px;
       line-height: 80px;

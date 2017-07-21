@@ -1,9 +1,6 @@
-html,body{
-  height: 100%;
-  width: 100%;
-  background-color: #F5F5F5;
+a{
+  cursor: pointer;
 }
-
 table{
   border-collapse:collapse;
 }
@@ -48,11 +45,6 @@ input[type="number"]{
   font-size: 0;
 }
 
-.back_img{
-  background-repeat: no-repeat;
-  background-size: 100% 100%;
-}
-
 .margin{
   margin: 0 auto;
 }
@@ -64,15 +56,172 @@ input[type="number"]{
 .right{
   float: right;
 }
-
+.pos-rel{
+  position: relative;
+}
+.over-hd{
+  overflow: hidden;
+}
+.vtc-mid{
+  vertical-align: middle;
+}
+.text-ct{
+  text-align: center;
+}
 .ellipsis{
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
 }
+.pos-lf-50{
+  left: 50% !important;
+}
+.pos-lf-0{
+  left: 0 !important;
+}
+.mt-5 {
+  margin-top: 5px;
+}
 
-.ml-20{
-  margin-left:20px;
+.mt-6 {
+  margin-top: 6px;
+}
+.mt-7{
+  margin-top: 7px;
+}
+.mt-8 {
+  margin-top: 8px;
+}
+
+.mt-10 {
+  margin-top: 10px;
+}
+
+.mt-12 {
+  margin-top: 12px;
+}
+
+.mt-15 {
+  margin-top: 15px;
+}
+
+.mt-17 {
+  margin-top: 17px;
+}
+
+.mt-20 {
+  margin-top: 20px;
+}
+
+.mt-22 {
+  margin-top: 22px;
+}
+
+.mt-40 {
+  margin-top: 40px;
+}
+.mt-80{
+  margin-top: 80px;
+}
+.ml-5 {
+  margin-left: 5px;
+}
+.ml-10 {
+  margin-left: 10px;
+}
+
+.ml-20 {
+  margin-left: 20px;
+}
+
+.ml-35 {
+  margin-left: 35px;
+}
+
+.ml-40 {
+  margin-left: 40px;
+}
+
+.ml-45 {
+  margin-left: 45px;
+}
+
+.mr-5 {
+  margin-right: 5px;
+}
+
+.mr-30 {
+  margin-right: 30px;
+}
+
+.mr-40 {
+  margin-right: 40px;
+}
+
+.mb-40 {
+  margin-bottom: 40px;
+}
+
+.mb-20 {
+  margin-bottom: 20px;
+}
+
+.pl-10 {
+  padding-left: 10px;
+}
+
+.pl-20 {
+  padding-left: 20px;
+}
+
+.pb-20 {
+  padding-bottom: 20px;
+}
+.pt-10{
+  padding-top: 10px;
+}
+.pt-20 {
+  padding-top: 20px;
+}
+
+.pt-40 {
+  padding-top: 40px;
+}
+
+.f-b {
+  font-weight: bold;
+}
+
+.fs-12 {
+  font-size: 12px;
+}
+
+.fs-14 {
+  font-size: 14px;
+}
+
+.fs-15 {
+  font-size: 15px;
+}
+
+.fs-16 {
+  font-size: 16px;
+}
+
+.fs-18 {
+  font-size: 18px;
+}
+
+.fs-20 {
+  font-size: 20px;
+}
+
+.fs-22 {
+  font-size: 22px;
+}
+
+.fs-24 {
+  font-size: 24px;
 }
 
 .container {

@@ -148,7 +148,7 @@ export default {
     }
 
     p{
-      width: 200px;
+      width: 152px;
       margin: 15px auto;
       a{
         display: inline-block;
