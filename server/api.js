@@ -2,13 +2,14 @@
  * Created by ycb on 2017/7/20.
  */
 const express = require('express');
+const config = require('./config');
 const request = require('request-promise');
 const uid = require('uid-safe');
 // const querystring = require('querystring');
 const redis = require("redis");
 const router = express.Router();
-const baseUrl = "http://192.168.1.227:8080";
-const redisClient = redis.createClient('6543', '192.168.1.44', {db: 15});
+const baseUrl = config.baseUrl;
+const redisClient = redis.createClient(config.redis.port, config.redis.host, {db: config.redis.db});
 
 redisClient.on('ready', function (res) {
   console.log('redis start:redis is ready');

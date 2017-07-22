@@ -2,6 +2,7 @@
  * Created by ycb on 2017/7/18.
  */
 const api = require('./api');
+const config = require('./config');
 const fs = require('fs');
 const path = require('path');
 const bodyParser = require('body-parser');
@@ -22,5 +23,5 @@ console.log(process.env.NODE_ENV);
  res.send(html)
  });*/
 // 监听8088端口
-app.listen(8088);
-console.log('success listen…………');
+app.listen(config.port);
+console.log('node run success and listen on port %s', config.port);
