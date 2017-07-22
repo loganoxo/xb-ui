@@ -4,5 +4,7 @@
 import {fetch} from '../config/axiosConfig'
 
 export default {
-
+  login (params) {
+    return fetch("/login",params)
+  },
 }

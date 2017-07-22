@@ -55,7 +55,7 @@ export default {
   },
   methods: {
     animateOver: function (res) {
-      if(res == 1){
+      if(res === 1){
         this.animateStart.sellerRes = true;
       }else {
         this.animateStart.buyerRes = true;
@@ -63,7 +63,7 @@ export default {
       this.animateStart.complete = false;
     },
     animateLeave: function (res) {
-      if(res == 1){
+      if(res === 1){
         this.animateStart.sellerRes = false;
       }else {
         this.animateStart.buyerRes = false;

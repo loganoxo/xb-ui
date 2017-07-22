@@ -24,9 +24,6 @@ axios.interceptors.response.use((res) => {
   return res;
 }, (error) => {
   console.error("请求异常或网络异常");
-  if (error.response.status === 999) {
-    /*window.location.href = '';*/
-  }
   return Promise.reject(error);
 });
 //返回一个Promise(发送post请求)
