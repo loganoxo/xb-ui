@@ -50,7 +50,7 @@
                   </Form-item>
                 </div>
                 <div style="width: 100px; float:left;">
-                  <img src="" width="100%" alt="">
+                  <img src="/api/vrcode.json" width="100%" alt="" @click="getVrcode">
                 </div>
               </div>
               <div class="pos-rel">
@@ -103,7 +103,7 @@
       Checkbox: Checkbox,
       CheckboxGroup: Checkbox.Group,
       iButton: Button,
-      Icon: Icon
+      Icon: Icon,
     },
     data () {
       //表单验证
@@ -138,6 +138,7 @@
       return {
         countTimeText: '获取动态码',
         selLogin: true,
+        imgUrl: null,
         loginNormalCustom:{
           phone: '',
           passWord: '',
@@ -174,8 +175,12 @@
     computed:{
     },
     created(){
+        this.getVrcode()
     },
     methods: {
+      getVrcode (){
+
+      },
       handleSubmit (name,callback) {
         let res = false;
         this.$refs[name].validate((valid) => {

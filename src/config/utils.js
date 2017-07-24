@@ -33,5 +33,18 @@ export const removeStorage = name => {
  * countTime 倒计时
  * val: 原先显示
  */
+export const countDown = (countTime,val) => {
+  let text = val;
+  val = countTime;
+  let timer = setInterval(function () {
+    val--;
+    // debugger;
+    if(val === 0){
+      val = text;
+      clearInterval(timer);
+    }
+  },1000);
+  return countTime;
+};
 
 

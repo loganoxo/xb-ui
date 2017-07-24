@@ -9,5 +9,5 @@ export default {
   },
   register (params) {
     return fetch("/sign-up.json",params)
-  },
+  }
 }
