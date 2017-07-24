@@ -50,7 +50,7 @@
                   </Form-item>
                 </div>
                 <div style="width: 100px; float:left;">
-                  <img src="/api/vrcode.json" width="100%" alt="" @click="getVrcode">
+                  <img :src="imgSrc" width="100%" alt="" @click="getVrcode">
                 </div>
               </div>
               <div class="pos-rel">
@@ -168,6 +168,7 @@
             {validator: validateTrendsCode, trigger: 'blur'}
           ]
         },
+        imgSrc:null
       }
     },
     mounted () {
@@ -179,7 +180,7 @@
     },
     methods: {
       getVrcode (){
-
+        this.imgSrc = "/api/vrcode.json?rand="+ new Date() / 100
       },
       handleSubmit (name,callback) {
         let res = false;

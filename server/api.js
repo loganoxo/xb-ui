@@ -104,8 +104,9 @@ router.get("/api/vrcode.json", (req, res, next) => {
   let codeImg = vrcode.getBase64();
   let imgBase64 = new Buffer(codeImg,'base64');
   res.writeHead(200, {
-    'Content-Type': 'image/png'
+    'Content-Type': 'image/jpeg;charset=UTF-8'
   });
+  console.log(imgBase64);
   res.end(imgBase64);
 });
 module.exports = router;
