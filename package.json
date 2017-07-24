@@ -13,9 +13,9 @@
     "animate.css": "^3.5.2",
     "axios": "^0.16.2",
     "body-parser": "^1.17.2",
+    "captchapng": "0.0.1",
     "cookie-parser": "^1.4.3",
     "express": "^4.15.3",
-    "express-session": "^1.15.4",
     "iview": "^2.0.0-rc.19",
     "log4js": "^2.2.0",
     "node-sass": "^4.5.3",
@@ -28,7 +28,6 @@
     "vue-lazyload": "^1.0.6",
     "vue-quill-editor": "^2.2.4",
     "vue-router": "^2.6.0",
-    "vue-sweetalert": "^0.1.18",
     "vuex": "^2.3.1"
   },
   "devDependencies": {

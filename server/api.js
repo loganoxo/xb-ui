@@ -8,7 +8,7 @@ const request = require('request-promise');
 const uid = require('uid-safe');
 const querystring = require('querystring');
 const redis = require("redis");
-const session = require('express-session');
+const captchapng = require('captchapng');
 
 const router = express.Router();
 const baseUrl = config.baseUrl;
@@ -27,7 +27,7 @@ redisClient.on('error', function (res) {
  * @param passWord
  * @param role
  */
-router.post('/api/login.json', function (req, res, next) {
+router.post('/api/login.json', (req, res, next) => {
   let nSession = req.cookies.nSession;
   let options = {
     method: 'POST',
@@ -56,9 +56,8 @@ router.post('/api/login.json', function (req, res, next) {
       res.end();
     })
     .catch(function (err) {
-      logConfig.logger.error('登陆接口错误信息：'+ err);
-      res.json("服务器错误");
-      res.end();
+      logConfig.logger.error('登陆接口错误信息：' + err);
+      res.end("服务器错误");
     });
 });
 
@@ -91,8 +90,22 @@ router.post('/api/sign-up.json', function (req, res, next) {
     })
     .catch(function (err) {
       logConfig.logger.error(err);
-      res.json("服务器错误");
-      res.end();
+      res.end("服务器错误");
     });
+});
+
+/**
+ * 图形验证码接口
+ */
+router.get("/api/vrcode.json", (req, res, next) => {
+  let vrcode = new captchapng(80,30,parseInt(Math.random()*9000+1000));
+  vrcode.color(0, 0, 0, 0);
+  vrcode.color(251, 119, 21, 255);
+  let codeImg = vrcode.getBase64();
+  let imgBase64 = new Buffer(codeImg,'base64');
+  res.writeHead(200, {
+    'Content-Type': 'image/png'
+  });
+  res.end(imgBase64);
 });
 module.exports = router;
