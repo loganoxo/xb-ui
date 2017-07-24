@@ -35,7 +35,7 @@
                 </Form-item>
                 <a class="right mt-6" href="">忘记密码</a>
               </div>
-              <iButton  style="margin-top: 25px;" type="error" long size="large" @click="handleSubmit('loginNormalCustom')">
+              <iButton  style="margin-top: 25px;" type="error" long size="large" @click="handleSubmit('loginNormalCustom',this.setUserInfo)">
                 登录
               </iButton>
             </iForm>
@@ -92,6 +92,7 @@
   import Input from 'iview/src/components/input'
   import Checkbox from 'iview/src/components/checkbox'
   import Button from 'iview/src/components/button'
+  import api from '../config/apiConfig'
   export default {
     name: 'login',
     components: {
@@ -129,7 +130,8 @@
         selLogin: true,
         loginNormalCustom:{
           phone: '',
-          pwd: ''
+          pwd: '',
+          role: ''
         },
         loginTrendsCustom:{
           phone: '',
@@ -160,14 +162,19 @@
     created(){
     },
     methods: {
-      handleSubmit (name) {
+      handleSubmit (name,callback) {
         this.$refs[name].validate((valid) => {
           if (valid) {
-            alert('提交成功!');
+            if (typeof callback == 'function') {
+                callback();
+            }
           } else {
             alert('表单验证失败!');
           }
         })
+      },
+      setUserInfo (){
+          api.login(this.loginNormalCustom)
       },
       handleReset (name) {
         this.$refs[name].resetFields();

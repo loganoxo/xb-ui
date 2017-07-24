@@ -16,38 +16,38 @@
 </template>
 
 <script>
-export default {
-  name: 'top',
-  data () {
-    return {
+  export default {
+    name: 'top',
+    data () {
+      return {}
     }
   }
-}
 </script>
 
 <style lang="scss" scoped>
   @import 'src/css/common';
   @import 'src/css/mixin';
-  #top{
+
+  #top {
     background-color: #F8F8F8;
-    >div{
+    > div {
       background-color: #F8F8F8;
       height: 80px;
     }
     border-bottom: 1px solid #F1F1F1;
-    .logo-link{
+    .logo-link {
       float: left;
     }
-    .top-rt{
+    .top-rt {
       display: table;
       height: 100%;
-      a,span{
+      a, span {
         display: table-cell;
         vertical-align: middle;
         font-size: 14px;
         color: #B0B0B0;
       }
-      a{
+      a {
         padding: 10px;
       }
     }
