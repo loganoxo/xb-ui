@@ -3,21 +3,29 @@
  */
 const express = require('express');
 const config = require('./config');
+const logConfig = require('./logConfig');
 const request = require('request-promise');
 const uid = require('uid-safe');
-// const querystring = require('querystring');
+const querystring = require('querystring');
 const redis = require("redis");
+
 const router = express.Router();
 const baseUrl = config.baseUrl;
 const redisClient = redis.createClient(config.redis.port, config.redis.host, {db: config.redis.db});
-
 redisClient.on('ready', function (res) {
-  console.log('redis start:redis is ready');
+  logConfig.logger.info('redis start：redis is ready');
 });
 
 redisClient.on('error', function (res) {
-  console.log('redis start:redis is error');
+  logConfig.logger.info('redis start：redis is error');
 });
+
+/**
+ * 用户登陆接口
+ * @param phone
+ * @param passWord
+ * @param role
+ */
 router.post('/api/login', function (req, res, next) {
   let nSession = req.cookies.nSession;
   let options = {
@@ -31,14 +39,15 @@ router.post('/api/login', function (req, res, next) {
   };
   request(options)
     .then(function (parsedBody) {
+      logConfig.logger.info(parsedBody);
       let userData = JSON.parse(parsedBody);
       res.cookie('nSession', uid.sync(18));
       redisClient.hmset('node:xiuba:session:' + nSession, userData.data, function (err, res) {
         if (err) {
-          console.log('redis存入用户session失败信息：' + err);
+          logConfig.logger.info('redis存入用户session失败信息：' + err);
         }
         if (res) {
-          console.log('redis存入用户session成功状态：' + res);
+          logConfig.logger.info('redis存入用户session成功状态：' + res);
         }
         redisClient.end();
       });
@@ -46,7 +55,8 @@ router.post('/api/login', function (req, res, next) {
       res.end();
     })
     .catch(function (err) {
-      res.json(err);
+      logConfig.logger.error('登陆接口错误信息：'+ err);
+      res.json("服务器错误");
       res.end();
     });
 });
