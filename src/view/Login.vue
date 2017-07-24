@@ -24,8 +24,8 @@
               <Form-item prop="phone">
                 <iInput placeholder="请输入手机号码" size="large" v-model="loginNormalCustom.phone"></iInput>
               </Form-item>
-              <Form-item style="margin-top: 10px;" prop="pwd" >
-                <iInput placeholder="请输入密码" size="large" v-model="loginNormalCustom.pwd"></iInput>
+              <Form-item style="margin-top: 10px;" prop="passWord" >
+                <iInput type="password" placeholder="请输入密码" size="large" v-model="loginNormalCustom.passWord"></iInput>
               </Form-item>
               <div class="remember-box">
                 <Form-item class="left">
@@ -35,7 +35,7 @@
                 </Form-item>
                 <a class="right mt-6" href="">忘记密码</a>
               </div>
-              <iButton  style="margin-top: 25px;" type="error" long size="large" @click="handleSubmit('loginNormalCustom',this.setUserInfo)">
+              <iButton  style="margin-top: 25px;" type="error" long size="large" @click="handleSubmit('loginNormalCustom',setUserInfo)">
                 登录
               </iButton>
             </iForm>
@@ -109,29 +109,37 @@
       const validatePhone = (rule, value, callback) => {
         if (!(/^1[34578]\d{9}$/.test(value))) {
           callback(new Error('请输入正确手机号'));
+        }else {
+            callback()
         }
       };
       const validatePass = (rule, value, callback) => {
         if (value === '') {
           callback(new Error('请输入密码'));
+        }else {
+          callback()
         }
       };
       const validateCode = (rule, value, callback) => {
         if (value === '') {
           callback(new Error('请输入验证码'));
+        }else {
+          callback()
         }
       };
       const validateTrendsCode = (rule, value, callback) => {
         if (value === '') {
           callback(new Error('请输入动态码'));
+        }else {
+          callback()
         }
       };
       return {
         selLogin: true,
         loginNormalCustom:{
           phone: '',
-          pwd: '',
-          role: ''
+          passWord: '',
+          role: 1
         },
         loginTrendsCustom:{
           phone: '',
@@ -163,18 +171,37 @@
     },
     methods: {
       handleSubmit (name,callback) {
+          console.log(1);
+        let res = false;
         this.$refs[name].validate((valid) => {
           if (valid) {
-            if (typeof callback == 'function') {
-                callback();
-            }
+            res = true;
           } else {
-            alert('表单验证失败!');
+            res = false;
           }
-        })
+        });
+        if (typeof callback == 'function' && res ) {
+          callback();
+        }
       },
       setUserInfo (){
-          api.login(this.loginNormalCustom)
+        api.login(this.loginNormalCustom).then((res)=>{
+          if(res.status){
+            this.$store.state.userInfo = res.data;
+            this.$store.state.login = true;
+            this.$swal({
+              text: '' + res.msg,
+              type: 'success',
+              confirmButtonText: "登陆成功",
+            })
+          }else {
+            this.$swal({
+              text: '' + res.msg,
+              type: 'error',
+              confirmButtonText: "登陆失败",
+            })
+          }
+        })
       },
       handleReset (name) {
         this.$refs[name].resetFields();

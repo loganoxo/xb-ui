@@ -5,10 +5,12 @@ import store from './store'
 import * as filters from './filter/custom'
 import VueLazyload from 'vue-lazyload'
 import VueQuillEditor from 'vue-quill-editor'
+import VueSweetAlert from 'vue-sweetalert'
 import 'iview/dist/styles/iview.css'
 import 'animate.css/animate.css'
 
 Vue.config.productionTip = false
+Vue.use(VueSweetAlert);
 Vue.use(VueLazyload)
 Vue.use(VueQuillEditor)
 Vue.use(VueLazyload)

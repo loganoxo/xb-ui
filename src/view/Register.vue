@@ -40,18 +40,15 @@
                 <Form-item label="手机号码:" prop="phone" class="left" style="width: 650px">
                   <iInput size="large" v-model="formCustom.phone"></iInput>
                 </Form-item>
-                <a v-show="this.formRes.phoneRes">
-                  手机号码填写有误
-                </a>
               </div>
               <div  class="clear form-input-box">
-                <Form-item label="设置登录密码" prop="passwd" class="left" style="width: 650px">
-                  <iInput type="password" v-model="formCustom.passwd" size="large"></iInput>
+                <Form-item  label="设置登录密码" prop="passwd" class="left" style="width: 650px">
+                  <iInput type="password" v-model="formCustom.pwd" size="large"></iInput>
                 </Form-item>
               </div>
               <div  class="clear form-input-box">
                 <Form-item label="确认密码" prop="passwdCheck" class="left" style="width: 650px">
-                  <iInput type="password" v-model="formCustom.passwdCheck" size="large"></iInput>
+                  <iInput type="password" v-model="formCustom.repwd" size="large"></iInput>
                 </Form-item>
               </div>
               <div class="clear form-input-box" >
@@ -167,9 +164,10 @@
         formCustom: {
           phone: '',
           imgValidate: '',
-          passwd: '',
-          passwdCheck: '',
-          age: ''
+          pwd: '',
+          repwd: '',
+          age: '',
+          role: ''
         },
         formRes:{
           phoneRes: false,

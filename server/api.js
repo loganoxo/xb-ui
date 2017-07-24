@@ -8,6 +8,7 @@ const request = require('request-promise');
 const uid = require('uid-safe');
 const querystring = require('querystring');
 const redis = require("redis");
+const session = require('express-session');
 
 const router = express.Router();
 const baseUrl = config.baseUrl;
@@ -26,11 +27,11 @@ redisClient.on('error', function (res) {
  * @param passWord
  * @param role
  */
-router.post('/api/login', function (req, res, next) {
+router.post('/api/login.json', function (req, res, next) {
   let nSession = req.cookies.nSession;
   let options = {
     method: 'POST',
-    uri: baseUrl + '/user/sign-in.json',
+    uri: baseUrl + '/user/sign-in',
     formData: {
       phone: req.body.phone,
       passWord: req.body.passWord,
@@ -60,4 +61,38 @@ router.post('/api/login', function (req, res, next) {
       res.end();
     });
 });
+
+/**
+ * 用户注册
+ * @param phone
+ * @param pwd
+ * @param repwd
+ * @param nickName
+ * @param smsCode
+ * @param role
+ */
+// router.post('/api/sign-up.json', function (req, res, next) {
+//   let options = {
+//     method: 'POST',
+//     uri: baseUrl + '/sign-up',
+//     formData: {
+//       phone: req.body.phone,
+//       pwd: req.body.pwd,
+//       nickName: '',
+//       smsCode: req.body.smsCode,
+//       role: req.body.role
+//     },
+//   };
+//   request(options)
+//     .then(function (parsedBody) {
+//       logConfig.logger.info(parsedBody);
+//       res.send(parsedBody);
+//       res.end();
+//     })
+//     .catch(function (err) {
+//       logConfig.logger.error(err);
+//       res.json("服务器错误");
+//       res.end();
+//     });
+// });
 module.exports = router;
