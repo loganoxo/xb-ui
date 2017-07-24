@@ -71,28 +71,28 @@ router.post('/api/login.json', function (req, res, next) {
  * @param smsCode
  * @param role
  */
-// router.post('/api/sign-up.json', function (req, res, next) {
-//   let options = {
-//     method: 'POST',
-//     uri: baseUrl + '/sign-up',
-//     formData: {
-//       phone: req.body.phone,
-//       pwd: req.body.pwd,
-//       nickName: '',
-//       smsCode: req.body.smsCode,
-//       role: req.body.role
-//     },
-//   };
-//   request(options)
-//     .then(function (parsedBody) {
-//       logConfig.logger.info(parsedBody);
-//       res.send(parsedBody);
-//       res.end();
-//     })
-//     .catch(function (err) {
-//       logConfig.logger.error(err);
-//       res.json("服务器错误");
-//       res.end();
-//     });
-// });
+router.post('/api/sign-up.json', function (req, res, next) {
+  let options = {
+    method: 'POST',
+    uri: baseUrl + '/sign-up',
+    formData: {
+      phone: req.body.phone,
+      pwd: req.body.pwd,
+      nickName: '',
+      smsCode: req.body.smsCode,
+      role: req.body.role
+    },
+  };
+  request(options)
+    .then(function (parsedBody) {
+      logConfig.logger.info(parsedBody);
+      res.send(parsedBody);
+      res.end();
+    })
+    .catch(function (err) {
+      logConfig.logger.error(err);
+      res.json("服务器错误");
+      res.end();
+    });
+});
 module.exports = router;

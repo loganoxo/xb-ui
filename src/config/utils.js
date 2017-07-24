@@ -27,3 +27,11 @@ export const removeStorage = name => {
   if (!name) return;
   window.localStorage.removeItem(name);
 }
+
+/**
+ * 倒计时
+ * countTime 倒计时
+ * val: 原先显示
+ */
+
+

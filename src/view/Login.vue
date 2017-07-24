@@ -57,7 +57,7 @@
                 <Form-item class="pt-10 clear" prop="trendsCode">
                   <iInput placeholder="动态码" size="large" v-model="loginTrendsCustom.trendsCode"></iInput>
                 </Form-item>
-                <a href="" class="get-code">获取动态码</a>
+                <a class="get-code" @click="getCode(60,countTimeText)" >{{countTimeText}}</a>
               </div>
 
               <div class="remember-box clear" style="margin-top: 15px;">
@@ -77,7 +77,7 @@
                 QQ账号登录
               </a>
               <router-link class="right" to="/register">注册</router-link>
-              <span class="right">没有账号，点击</span>
+              <span  class="right">没有账号，点击</span>
             </p>
           </div>
         </div>
@@ -93,6 +93,7 @@
   import Checkbox from 'iview/src/components/checkbox'
   import Button from 'iview/src/components/button'
   import api from '../config/apiConfig'
+  import {setStorage, getStorage,countDown} from '../config/utils'
   export default {
     name: 'login',
     components: {
@@ -135,6 +136,7 @@
         }
       };
       return {
+        countTimeText: '获取动态码',
         selLogin: true,
         loginNormalCustom:{
           phone: '',
@@ -164,23 +166,22 @@
           trendsCode: [
             {validator: validateTrendsCode, trigger: 'blur'}
           ]
-        }
+        },
       }
+    },
+    mounted () {
+    },
+    computed:{
     },
     created(){
     },
     methods: {
       handleSubmit (name,callback) {
-          console.log(1);
         let res = false;
         this.$refs[name].validate((valid) => {
-          if (valid) {
-            res = true;
-          } else {
-            res = false;
-          }
+          res = !!valid
         });
-        if (typeof callback == 'function' && res ) {
+        if (typeof callback === 'function' && res ) {
           callback();
         }
       },
