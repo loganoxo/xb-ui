@@ -57,7 +57,7 @@
                 <Form-item class="pt-10 clear" prop="trendsCode">
                   <iInput placeholder="动态码" size="large" v-model="loginTrendsCustom.trendsCode"></iInput>
                 </Form-item>
-                <a class="get-code" @click="getCode(60,countTimeText)" >{{countTimeText}}</a>
+                <SmsCountdown ref="timerbtn" class="btn btn-default" @sendCode="sendCode"></SmsCountdown>
               </div>
 
               <div class="remember-box clear" style="margin-top: 15px;">
@@ -94,6 +94,7 @@
   import Button from 'iview/src/components/button'
   import api from '../config/apiConfig'
   import {setStorage, getStorage,countDown} from '../config/utils'
+  import SmsCountdown from '@/components/SmsCountdown';
   export default {
     name: 'login',
     components: {
@@ -104,6 +105,7 @@
       CheckboxGroup: Checkbox.Group,
       iButton: Button,
       Icon: Icon,
+      SmsCountdown:SmsCountdown
     },
     data () {
       //表单验证
@@ -212,6 +214,9 @@
       },
       handleReset (name) {
         this.$refs[name].resetFields();
+      },
+      sendCode (){
+        console.log("这里是处理短信验证码逻辑");
       }
     }
   }
