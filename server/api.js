@@ -74,7 +74,7 @@ router.post('/api/login.json', (req, res, next) => {
 router.post('/api/sign-up.json', function (req, res, next) {
   let options = {
     method: 'POST',
-    uri: baseUrl + '/sign-up',
+    uri: baseUrl + '/user/sign-up',
     formData: {
       phone: req.body.phone,
       pwd: req.body.pwd,
@@ -95,6 +95,31 @@ router.post('/api/sign-up.json', function (req, res, next) {
     });
 });
 
+/**
+ * 发送验证码
+ * @param phone
+ * @param purpose 'fast': 快速登录，'reg': 注册
+ */
+router.post('/api/send-verify-code.json', function (req, res, next) {
+  let options = {
+    method: 'POST',
+    uri: baseUrl + '/user/send-verify-code',
+    formData: {
+      phone: req.body.phone,
+      purpose: req.body.purpose,
+    },
+  };
+  request(options)
+    .then(function (parsedBody) {
+      logConfig.logger.info(parsedBody);
+      res.send(parsedBody);
+      res.end();
+    })
+    .catch(function (err) {
+      logConfig.logger.error(err);
+      res.end("服务器错误");
+    });
+});
 /**
  * 图形验证码接口
  */

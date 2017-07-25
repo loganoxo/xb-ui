@@ -42,12 +42,12 @@
                 </Form-item>
               </div>
               <div  class="clear form-input-box">
-                <Form-item  label="设置登录密码" prop="passwd" class="left" style="width: 650px">
+                <Form-item  label="设置登录密码" prop="pwd" class="left" style="width: 650px">
                   <iInput type="password" v-model="formCustom.pwd" size="large"></iInput>
                 </Form-item>
               </div>
               <div  class="clear form-input-box">
-                <Form-item label="确认密码" prop="passwdCheck" class="left" style="width: 650px">
+                <Form-item label="确认密码" prop="repwd" class="left" style="width: 650px">
                   <iInput type="password" v-model="formCustom.repwd" size="large"></iInput>
                 </Form-item>
               </div>
@@ -55,26 +55,26 @@
                 <Form-item label="图形验证码" prop="imgValidate"  class="left" style="width: 550px">
                   <iInput type="text" size="large"></iInput>
                 </Form-item>
-                <img style="width: 100px;" src="" alt="">
-              </div>
-              <div  class="clear form-input-box">
-                <div>
-                  <Form-item label="手机验证码" prop="age" class="left pos-rel" style="width: 650px">
-                    <iInput type="text" v-model="formCustom.age" number size="large"></iInput>
-                    <span>获取动态码</span>
-                  </Form-item>
+                <div style="width: 100px; float:left;">
+                  <img :src="regImgSrc" width="100%" alt="" @click="getRegVrcode">
                 </div>
               </div>
+              <div  class="clear form-input-box">
+                  <Form-item label="手机验证码" prop="age" class="left pos-rel" style="width: 650px">
+                    <iInput type="text" v-model="formCustom.age" number size="large"></iInput>
+                    <SmsCountdown ref="timerbtn" class="btn btn-default" @sendCode="sendCode" style="position:absolute; top:3px;"></SmsCountdown>
+                  </Form-item>
+              </div>
 
-              <Form-item>
+              <Form-item prop="agreeStrip">
                 <Checkbox-group>
-                  <Checkbox label="我已仔细阅读并同意接受"></Checkbox><a class="fs-12">《用户使用协议》</a>
+                  <Checkbox label="我已仔细阅读并同意接受" v-model="formCustom.agreeStrip"></Checkbox><a class="fs-12">《用户使用协议》</a>
                 </Checkbox-group>
               </Form-item>
               <div>
-                <Form-item>
-                  <iButton v-show="selLogin.buyer" style="background-color: #ff6633; color: #fff" @click="handleSubmit('formCustom')">立即注册</iButton>
-                  <iButton v-show="selLogin.seller" style="background-color: #FF6865; color: #fff" @click="handleSubmit('formCustom')">立即注册</iButton>
+                <Form-item >
+                  <iButton v-show="selLogin.buyer" style="background-color: #ff6633; color: #fff" @click="handleSubmit('formCustom',registerBuyer)">立即注册</iButton>
+                  <iButton v-show="selLogin.seller" style="background-color: #FF6865; color: #fff" @click="handleSubmit('formCustom',registerSeller)">立即注册</iButton>
                   <iButton type="ghost" @click="handleReset('formCustom')" style="margin-left: 8px">重置</iButton>
                 </Form-item>
               </div>
@@ -101,6 +101,8 @@
   import Input from 'iview/src/components/input'
   import Button from 'iview/src/components/button'
   import Checkbox from 'iview/src/components/checkbox'
+  import api from '../config/apiConfig'
+  import SmsCountdown from '@/components/SmsCountdown';
   export default {
     name: 'register',
     components: {
@@ -110,7 +112,8 @@
       iButton: Button,
       Checkbox: Checkbox,
       CheckboxGroup: Checkbox.Group,
-      Icon: Icon
+      Icon: Icon,
+      SmsCountdown: SmsCountdown
     },
     data () {
       //表单验证
@@ -118,15 +121,16 @@
         if (!(/^1[34578]\d{9}$/.test(value))) {
           callback(new Error('请输入正确手机号'));
         }else {
+          callback();
         }
       };
       const validatePass = (rule, value, callback) => {
         if (value === '') {
           callback(new Error('请输入密码'));
         } else {
-          if (this.formCustom.passwdCheck !== '') {
+          if (this.formCustom.pwd !== '') {
             // 对第二个密码框单独验证
-            this.$refs.formCustom.validateField('passwdCheck');
+            this.$refs.formCustom.validateField('repwd');
           }
           callback();
         }
@@ -141,7 +145,7 @@
       const validatePassCheck = (rule, value, callback) => {
         if (value === '') {
           callback(new Error('请再次输入密码'));
-        } else if (value !== this.formCustom.passwd) {
+        } else if (value !== this.formCustom.pwd) {
           callback(new Error('两次输入密码不一致!'));
         } else {
           callback();
@@ -155,7 +159,16 @@
           callback(new Error('请输入数字值'));
         }
       };
+      const validateAgreeStrip  = (rule, value, callback) => {
+        if(!this.formCustom.agreeStrip){
+          return callback(new Error('请仔细阅读，并勾选！'));
+        }else {
+          callback();
+        }
+      };
       return {
+        countRegTimeText:"获取动态码",
+        regImgSrc: "/api/vrcode.json?rand="+ new Date() / 100,
         selLogin:{
           buyer: true,
           seller: false
@@ -167,7 +180,8 @@
           pwd: '',
           repwd: '',
           age: '',
-          role: ''
+          role: '',
+          agreeStrip: false,
         },
         formRes:{
           phoneRes: false,
@@ -176,10 +190,10 @@
           phone: [
             {validator: validatePhone, trigger: 'blur'}
           ],
-          passwd: [
+          pwd: [
             {validator: validatePass, trigger: 'blur'}
           ],
-          passwdCheck: [
+          repwd: [
             {validator: validatePassCheck, trigger: 'blur'}
           ],
           imgValidate: [
@@ -187,13 +201,20 @@
           ],
           age: [
             {validator: validateDynamicCode, trigger: 'blur'}
+          ],
+          agreeStrip: [
+            {validator: validateAgreeStrip, trigger: 'blur'}
           ]
+
         }
       }
     },
     created(){
     },
     methods: {
+      getRegVrcode (){
+        this.regImgSrc = "/api/vrcode.json?rand="+ new Date() / 100
+      },
       selLoginFunc (){
         this.selLogin.buyer = !this.selLogin.buyer;
         this.selLogin.seller = !this.selLogin.seller
@@ -201,17 +222,33 @@
       showFormWarn (res) {
         res = true;
       },
-      handleSubmit (name) {
+      handleSubmit (name,callback) {
+        let res = false;
         this.$refs[name].validate((valid) => {
-          if (valid) {
-            this.$Message.success('提交成功!');
-          } else {
-            this.$Message.error('表单验证失败!');
-          }
-        })
+          res = !!valid
+        });
+        if (typeof callback === 'function' && res ) {
+          callback();
+        }
       },
       handleReset (name) {
         this.$refs[name].resetFields();
+      },
+      registerBuyer (){
+        this.formCustom.role = 1
+      },
+      registerSeller (){
+        this.formCustom.role = 2
+      },
+      sendCode (){
+        console.log("这里是处理短信验证码逻辑");
+        let self = this;
+        this.$refs.formCustom.validateField('phone');
+        if ((/^.[A-Za-z0-9]+$/.test(self.formCustom.phone))) {
+          api.getCode({phone: self.formCustom.phone, purpose: 'reg'}).then((res) => {
+            console.log(res);
+          });
+        }
       }
     }
   }
@@ -220,7 +257,9 @@
 <style lang="scss" scoped>
   @import 'src/css/common';
   @import 'src/css/mixin';
-
+  .register-ctt{
+    padding-bottom: 50px;
+  }
   .register-ctt-top {
     margin-top: 60px;
     border-bottom: 2px solid #E6E6E6;

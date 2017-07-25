@@ -30,7 +30,7 @@
               <div class="remember-box">
                 <Form-item class="left">
                   <Checkbox-group>
-                    <Checkbox label="记住我(公共电脑建议勿勾选)"></Checkbox>
+                    <Checkbox label="记住我(公共电脑建议勿勾选)" v-model="rememberAccount"></Checkbox>
                   </Checkbox-group>
                 </Form-item>
                 <a class="right mt-6" href="">忘记密码</a>
@@ -53,11 +53,11 @@
                   <img :src="imgSrc" width="100%" alt="" @click="getVrcode">
                 </div>
               </div>
-              <div class="pos-rel">
+              <div class="pos-rel" @click="checkPhone">
                 <Form-item class="pt-10 clear" prop="trendsCode">
                   <iInput placeholder="动态码" size="large" v-model="loginTrendsCustom.trendsCode"></iInput>
                 </Form-item>
-                <SmsCountdown ref="timerbtn" class="btn btn-default" @sendCode="sendCode"></SmsCountdown>
+                <SmsCountdown ref="timerbtn" class="btn btn-default"  @sendCode="sendCode" :phone="loginTrendsCustom.phone"></SmsCountdown>
               </div>
 
               <div class="remember-box clear" style="margin-top: 15px;">
@@ -138,9 +138,11 @@
         }
       };
       return {
+        beginCountTime: false,
         countTimeText: '获取动态码',
         selLogin: true,
-        imgUrl: null,
+        rememberAccount: false,
+        imgSrc:null,
         loginNormalCustom:{
           phone: '',
           passWord: '',
@@ -170,7 +172,7 @@
             {validator: validateTrendsCode, trigger: 'blur'}
           ]
         },
-        imgSrc:null
+
       }
     },
     mounted () {
@@ -215,8 +217,16 @@
       handleReset (name) {
         this.$refs[name].resetFields();
       },
+      checkPhone (){
+        this.$refs.loginTrendsCustom.validateField('phone');
+      },
       sendCode (){
-        console.log("这里是处理短信验证码逻辑");
+        let self = this;
+        if ((/^.[A-Za-z0-9]+$/.test(self.loginTrendsCustom.phone))) {
+          api.getCode({phone: self.loginTrendsCustom.phone, purpose: 'fast'}).then((res) => {
+            console.log(res);
+          });
+        }
       }
     }
   }

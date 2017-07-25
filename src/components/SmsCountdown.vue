@@ -8,6 +8,7 @@
         type: Number,
         default: 60
       }
+
     },
     data () {
       return {
@@ -15,6 +16,7 @@
         disables: false
       }
     },
+    props: ['phone'],
     computed: {
       btnText: function () {
         return this.time > 0 ? this.time + 's 后重获取' : '获取验证码';
@@ -22,9 +24,11 @@
     },
     methods: {
       run: function () {
-        this.$emit('sendCode');
-        this.start();
-        this.setDisabled(true);
+        if (/^1[34578]\d{9}$/.test(this.phone)) {
+          this.$emit('sendCode');
+          this.start();
+          this.setDisabled(true);
+        }
       },
       start: function () {
         this.time = this.second;

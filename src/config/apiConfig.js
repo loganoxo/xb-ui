@@ -7,7 +7,8 @@ export default {
   login (params) {
     return fetch("/login.json",params)
   },
-  register (params) {
-    return fetch("/sign-up.json",params)
-  }
+  getCode(params) {
+    return fetch("/send-verify-code.json",params)
+  },
+
 }
