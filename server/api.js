@@ -119,6 +119,7 @@ router.post('/api/send-verify-code.json', function (req, res, next) {
       res.end("服务器错误");
     });
 });
+
 /**
  * 图形验证码接口
  */
