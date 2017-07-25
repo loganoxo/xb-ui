@@ -125,7 +125,7 @@ router.post('/api/send-verify-code.json', function (req, res, next) {
  */
 router.get("/api/vrcode.json", (req, res, next) => {
   let nSession = req.cookies.nSession;
- nSession = nSession.replace("s:","");
+  nSession = nSession.replace("s:","");
   let number = parseInt(Math.random()*9000+1000);
   let vrcode = new captchapng(80,30,number);
   vrcode.color(0, 0, 0, 0);
@@ -146,4 +146,34 @@ router.get("/api/vrcode.json", (req, res, next) => {
     }
   });
 });
+
+/**
+ * 检测是否第一次动态登陆
+ */
+router.post('/api/check-fast-sign-in.json', function (req, res, next) {
+  let nSession = req.cookies.nSession;
+  nSession = nSession.replace("s:","");
+  let options = {
+    method: 'POST',
+    uri: baseUrl + '/user/check-fast-sign-in',
+    formData: {
+      phone: req.body.phone,
+      smsCode: req.body.smsCode,
+    },
+  };
+  redisClient.hkeys('node:xiuba:session'+nSession, function(err, keys) {
+    console.log(keys);
+  });
+  request(options)
+    .then(function (parsedBody) {
+      logConfig.logger.info(parsedBody);
+      res.send(parsedBody);
+      res.end();
+    })
+    .catch(function (err) {
+      logConfig.logger.error(err);
+      res.end("服务器错误");
+    });
+});
+
 module.exports = router;

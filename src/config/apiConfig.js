@@ -10,5 +10,8 @@ export default {
   getCode(params) {
     return fetch("/send-verify-code.json",params)
   },
+  checkFastSignIn(params) {
+    return fetch("/check-fast-sign-in.json",params)
+  },
 
 }

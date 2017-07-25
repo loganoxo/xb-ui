@@ -18,7 +18,7 @@ app.use(cookieParser());
 app.use(session({
   name: 'nSession',
   secret: 'ycb',
-  cookie: {maxAge: 80000},
+  cookie: {maxAge: null},
   resave: false,
   saveUninitialized: true,
 }));
