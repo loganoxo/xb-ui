@@ -28,7 +28,7 @@ redisClient.on('error', function (res) {
  * @param role
  */
 router.post('/api/login.json', (req, res, next) => {
-  let nSession = req.cookies.nSession;
+  // let nSession = req.cookies.nSession;
   let options = {
     method: 'POST',
     uri: baseUrl + '/user/sign-in',
@@ -42,15 +42,16 @@ router.post('/api/login.json', (req, res, next) => {
     .then(function (parsedBody) {
       logConfig.logger.info(parsedBody);
       let userData = JSON.parse(parsedBody);
-      res.cookie('nSession', uid.sync(18));
-      redisClient.hmset('node:xiuba:session:' + nSession, userData.data, function (err, res) {
+      let userUid =  uid.sync(18);
+      res.cookie('nSession',userUid);
+      redisClient.hmset('node:xiuba:session:' + userUid, userData.data, function (err, res) {
         if (err) {
           logConfig.logger.info('redis存入用户session失败信息：' + err);
         }
         if (res) {
           logConfig.logger.info('redis存入用户session成功状态：' + res);
         }
-        redisClient.end();
+        redisClient.end(true);
       });
       res.send(parsedBody);
       res.end();
@@ -98,7 +99,8 @@ router.post('/api/sign-up.json', function (req, res, next) {
  * 图形验证码接口
  */
 router.get("/api/vrcode.json", (req, res, next) => {
-  let vrcode = new captchapng(80,30,parseInt(Math.random()*9000+1000));
+  let number = parseInt(Math.random()*9000+1000);
+  let vrcode = new captchapng(80,30,number);
   vrcode.color(0, 0, 0, 0);
   vrcode.color(251, 119, 21, 255);
   let codeImg = vrcode.getBase64();
@@ -106,7 +108,15 @@ router.get("/api/vrcode.json", (req, res, next) => {
   res.writeHead(200, {
     'Content-Type': 'image/jpeg;charset=UTF-8'
   });
-  console.log(imgBase64);
   res.end(imgBase64);
+  redisClient.hmset('node:xiuba:session:vcode', {code:number}, function (err, res) {
+    if (err) {
+      logConfig.logger.info('redis存入用户vcode失败信息：' + err);
+    }
+    if (res) {
+      logConfig.logger.info('redis存入用户vcode成功状态：' + res);
+    }
+    redisClient.end(true);
+  });
 });
 module.exports = router;
