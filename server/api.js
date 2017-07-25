@@ -41,8 +41,8 @@ router.post('/api/login.json', (req, res, next) => {
     .then(function (parsedBody) {
       logConfig.logger.info(parsedBody);
       let userData = JSON.parse(parsedBody);
-      let userUid =  uid.sync(18);
-      res.cookie('nSession',userUid);
+      let userUid = uid.sync(18);
+      res.cookie('nSession', userUid);
       redisClient.hmset('node:xiuba:session:' + userUid, userData.data, function (err, res) {
         if (err) {
           logConfig.logger.info('redis存入用户session失败信息：' + err);
@@ -125,18 +125,23 @@ router.post('/api/send-verify-code.json', function (req, res, next) {
  */
 router.get("/api/vrcode.json", (req, res, next) => {
   let nSession = req.cookies.nSession;
-  nSession = nSession.replace("s:","");
-  let number = parseInt(Math.random()*9000+1000);
-  let vrcode = new captchapng(80,30,number);
+  if (nSession) {
+    nSession = nSession.replace("s:", "");
+  } else {
+    logConfig.logger.info('获取图形验证码session失败');
+  }
+  logConfig.logger.info('图形验证码session：' + nSession);
+  let number = parseInt(Math.random() * 9000 + 1000);
+  let vrcode = new captchapng(80, 30, number);
   vrcode.color(0, 0, 0, 0);
   vrcode.color(251, 119, 21, 255);
   let codeImg = vrcode.getBase64();
-  let imgBase64 = new Buffer(codeImg,'base64');
+  let imgBase64 = new Buffer(codeImg, 'base64');
   res.writeHead(200, {
     'Content-Type': 'image/jpeg;charset=UTF-8'
   });
   res.end(imgBase64);
-  redisClient.hmset('node:xiuba:session:'+ nSession, {code:number}, function (err, res) {
+  redisClient.set('node:xiuba:session:' + nSession, number, function (err, res) {
     if (err) {
       logConfig.logger.info('redis存入用户vcode失败信息：' + err);
       redisClient.end(true);
@@ -152,7 +157,8 @@ router.get("/api/vrcode.json", (req, res, next) => {
  */
 router.post('/api/check-fast-sign-in.json', function (req, res, next) {
   let nSession = req.cookies.nSession;
-  nSession = nSession.replace("s:","");
+  nSession = nSession.replace("s:", "");
+  console.log('node:xiuba:session:' + nSession);
   let options = {
     method: 'POST',
     uri: baseUrl + '/user/check-fast-sign-in',
@@ -161,19 +167,19 @@ router.post('/api/check-fast-sign-in.json', function (req, res, next) {
       smsCode: req.body.smsCode,
     },
   };
-  redisClient.hkeys('node:xiuba:session'+nSession, function(err, keys) {
+  redisClient.get('node:xiuba:session:' + nSession, function (err, keys) {
     console.log(keys);
   });
-  request(options)
-    .then(function (parsedBody) {
-      logConfig.logger.info(parsedBody);
-      res.send(parsedBody);
-      res.end();
-    })
-    .catch(function (err) {
-      logConfig.logger.error(err);
-      res.end("服务器错误");
-    });
+  /* request(options)
+     .then(function (parsedBody) {
+       logConfig.logger.info(parsedBody);
+       res.send(parsedBody);
+       res.end();
+     })
+     .catch(function (err) {
+       logConfig.logger.error(err);
+       res.end("服务器错误");
+     });*/
 });
 
 module.exports = router;
