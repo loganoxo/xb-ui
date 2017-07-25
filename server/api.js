@@ -28,7 +28,6 @@ redisClient.on('error', function (res) {
  * @param role
  */
 router.post('/api/login.json', (req, res, next) => {
-  // let nSession = req.cookies.nSession;
   let options = {
     method: 'POST',
     uri: baseUrl + '/user/sign-in',
@@ -47,11 +46,11 @@ router.post('/api/login.json', (req, res, next) => {
       redisClient.hmset('node:xiuba:session:' + userUid, userData.data, function (err, res) {
         if (err) {
           logConfig.logger.info('redis存入用户session失败信息：' + err);
+          redisClient.end(true);
         }
         if (res) {
           logConfig.logger.info('redis存入用户session成功状态：' + res);
         }
-        redisClient.end(true);
       });
       res.send(parsedBody);
       res.end();
@@ -124,6 +123,8 @@ router.post('/api/send-verify-code.json', function (req, res, next) {
  * 图形验证码接口
  */
 router.get("/api/vrcode.json", (req, res, next) => {
+  let nSession = req.cookies.nSession;
+ nSession = nSession.replace("s:","");
   let number = parseInt(Math.random()*9000+1000);
   let vrcode = new captchapng(80,30,number);
   vrcode.color(0, 0, 0, 0);
@@ -134,14 +135,14 @@ router.get("/api/vrcode.json", (req, res, next) => {
     'Content-Type': 'image/jpeg;charset=UTF-8'
   });
   res.end(imgBase64);
-  redisClient.hmset('node:xiuba:session:vcode', {code:number}, function (err, res) {
+  redisClient.hmset('node:xiuba:session:'+ nSession, {code:number}, function (err, res) {
     if (err) {
       logConfig.logger.info('redis存入用户vcode失败信息：' + err);
+      redisClient.end(true);
     }
     if (res) {
       logConfig.logger.info('redis存入用户vcode成功状态：' + res);
     }
-    redisClient.end(true);
   });
 });
 module.exports = router;

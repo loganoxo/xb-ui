@@ -35,7 +35,6 @@
         </p>
       </div>
     </div>
-    <img src="/api/vrcode.json" />
   </div>
 </template>
 

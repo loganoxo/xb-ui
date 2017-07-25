@@ -1,5 +1,7 @@
 <template>
-  <button class="sendSmsBtn" :class="[disables ? 'dissendSmsBtn' : '']" type="button" @click="run" :disabled="disables || time > 0">{{ btnText }}</button>
+  <button class="sendSmsBtn" :class="[disables ? 'dissendSmsBtn' : '']" type="button" @click="run"
+          :disabled="disables || time > 0">{{ btnText }}
+  </button>
 </template>
 <script>
   export default {
@@ -7,16 +9,17 @@
       second: {
         type: Number,
         default: 60
-      }
-
+      },
+      phone: {
+        required: true
+      },
     },
-    data () {
+    data() {
       return {
         time: 0,
         disables: false
       }
     },
-    props: ['phone'],
     computed: {
       btnText: function () {
         return this.time > 0 ? this.time + 's 后重获取' : '获取验证码';
@@ -52,6 +55,7 @@
 
 <style scoped lang="scss">
   @import 'src/css/mixin';
+
   .sendSmsBtn {
     position: absolute;
     right: 0;
@@ -67,9 +71,15 @@
     top: 13px;
     margin-right: 2px;
     cursor: pointer;
+    outline: none;
+    @include transition;
+    &:hover {
+      background-color: darken($mainColor, 10%);
+    }
   }
+
   .dissendSmsBtn {
-    background-color:#666;
+    background-color: #666;
   }
 </style>
 

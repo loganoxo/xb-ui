@@ -139,17 +139,16 @@
       };
       return {
         beginCountTime: false,
-        countTimeText: '获取动态码',
         selLogin: true,
         rememberAccount: false,
         imgSrc:null,
         loginNormalCustom:{
-          phone: '',
-          passWord: '',
+          phone: null,
+          passWord:null,
           role: 1
         },
         loginTrendsCustom:{
-          phone: '',
+          phone: null,
           validateCode: '',
           trendsCode: ''
         },

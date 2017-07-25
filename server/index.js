@@ -10,9 +10,18 @@ const bodyParser = require('body-parser');
 const express = require('express');
 const cookieParser = require('cookie-parser');
 const redis = require("redis");
+const session = require('express-session');
+const uid = require('uid-safe');
 const app = express();
 logConfig.use(app);
 app.use(cookieParser());
+app.use(session({
+  name: 'nSession',
+  secret: 'ycb',
+  cookie: {maxAge: 80000},
+  resave: false,
+  saveUninitialized: true,
+}));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(api);
