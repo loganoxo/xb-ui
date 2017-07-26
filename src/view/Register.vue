@@ -176,7 +176,7 @@
       };
       return {
         countRegTimeText: "获取动态码",
-        regImgSrc: "/api/vrcode.json?rand=" + new Date() / 100,
+        regImgSrc: null,
         selLogin: {
           buyer: true,
           seller: false
@@ -218,6 +218,7 @@
       }
     },
     created(){
+      this.getRegVrcode();
     },
     methods: {
       getRegVrcode (){

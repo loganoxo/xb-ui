@@ -70,9 +70,8 @@ router.post('/api/login.json', (req, res, next) => {
  * @param role
  */
 router.post('/api/sign-up.json', function (req, res, next) {
-  let nSession = req.cookies.nSession;
-  nSession = nSession.replace("s:", "");
-  console.log('node:xiuba:session:' + nSession);
+  let nSession = req.sessionID;
+  // console.log('node:xiuba:session:' + nSession);
   let options = {
     method: 'POST',
     uri: baseUrl + '/user/sign-up',
@@ -139,12 +138,7 @@ router.post('/api/send-verify-code.json', function (req, res, next) {
  * 图形验证码接口
  */
 router.get("/api/vrcode.json", (req, res, next) => {
-  let nSession = req.cookies.nSession;
-  if (nSession) {
-    nSession = nSession.replace("s:", "");
-  } else {
-    logConfig.logger.info('获取图形验证码session失败');
-  }
+  let nSession = req.sessionID;
   logConfig.logger.info('图形验证码session：' + nSession);
   let number = parseInt(Math.random() * 9000 + 1000);
   let vrcode = new captchapng(80, 30, number);
@@ -171,9 +165,8 @@ router.get("/api/vrcode.json", (req, res, next) => {
  * 检测是否第一次动态登陆
  */
 router.post('/api/check-fast-sign-in.json', function (req, res, next) {
-  let nSession = req.cookies.nSession;
-  nSession = nSession.replace("s:", "");
-  console.log('node:xiuba:session:' + nSession);
+  let nSession = req.sessionID;
+  // console.log('node:xiuba:session:' + nSession);
   let options = {
     method: 'POST',
     uri: baseUrl + '/user/check-fast-sign-in',
@@ -183,7 +176,7 @@ router.post('/api/check-fast-sign-in.json', function (req, res, next) {
     },
   };
   redisClient.get('node:xiuba:session:' + nSession, function (err, keys) {
-    console.log(keys);
+    logConfig.logger.info(keys);
     if(Number(req.body.validateCode) === Number(keys)){
       request(options).then(function (parsedBody) {
         logConfig.logger.info(parsedBody);

@@ -11,7 +11,7 @@
         default: 60
       },
       phone: {
-        required: true
+//        required: true
       },
     },
     data() {

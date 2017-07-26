@@ -14,7 +14,6 @@ const session = require('express-session');
 const uid = require('uid-safe');
 const app = express();
 logConfig.use(app);
-app.use(cookieParser());
 app.use(session({
   name: 'nSession',
   secret: 'ycb',
@@ -22,6 +21,7 @@ app.use(session({
   resave: false,
   saveUninitialized: true,
 }));
+app.use(cookieParser());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(api);
