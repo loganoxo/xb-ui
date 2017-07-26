@@ -34,7 +34,6 @@ router.post('/api/login.json', (req, res, next) => {
     formData: {
       phone: req.body.phone,
       passWord: req.body.passWord,
-      role: req.body.role
     },
   };
   request(options)
@@ -71,27 +70,42 @@ router.post('/api/login.json', (req, res, next) => {
  * @param role
  */
 router.post('/api/sign-up.json', function (req, res, next) {
+  let nSession = req.cookies.nSession;
+  nSession = nSession.replace("s:", "");
+  console.log('node:xiuba:session:' + nSession);
   let options = {
     method: 'POST',
     uri: baseUrl + '/user/sign-up',
     formData: {
       phone: req.body.phone,
       pwd: req.body.pwd,
-      nickName: '',
+      repwd:req.body.repwd,
+      nickName:req.body.nickName,
       smsCode: req.body.smsCode,
-      role: req.body.role
+      role: req.body.role,
     },
   };
-  request(options)
-    .then(function (parsedBody) {
-      logConfig.logger.info(parsedBody);
-      res.send(parsedBody);
+  redisClient.get('node:xiuba:session:' + nSession, function (err, keys) {
+    console.log(keys);
+    if(Number(req.body.validateCode) === Number(keys)){
+      request(options).then(function (parsedBody) {
+        logConfig.logger.info(parsedBody);
+        res.send(parsedBody);
+        res.end();
+      }).catch(function (err) {
+        logConfig.logger.error(err);
+        res.json({status:false, msg:"服务器错误"});
+        res.end();
+      });
+    }else if(!keys){
+      res.json({status:false, msg:"图形验证码过期"});
       res.end();
-    })
-    .catch(function (err) {
-      logConfig.logger.error(err);
-      res.end("服务器错误");
-    });
+    }else {
+      res.json({status:false, msg:"图形验证码不符"});
+      res.end();
+    }
+  })
+
 });
 
 /**
@@ -116,7 +130,8 @@ router.post('/api/send-verify-code.json', function (req, res, next) {
     })
     .catch(function (err) {
       logConfig.logger.error(err);
-      res.end("服务器错误");
+      res.json({status:false, msg:"服务器错误"});
+      res.end();
     });
 });
 
@@ -169,17 +184,26 @@ router.post('/api/check-fast-sign-in.json', function (req, res, next) {
   };
   redisClient.get('node:xiuba:session:' + nSession, function (err, keys) {
     console.log(keys);
+    if(Number(req.body.validateCode) === Number(keys)){
+      request(options).then(function (parsedBody) {
+        logConfig.logger.info(parsedBody);
+        res.send(parsedBody);
+        res.end();
+      }).catch(function (err) {
+        logConfig.logger.error(err);
+        res.json({status:false, msg:"服务器错误"});
+        res.end();
+      });
+    }else if(!keys){
+      res.json({status:false, msg:"验证码过期"});
+      res.end();
+    }else {
+      res.json({status:false, msg:"验证码不符"});
+      res.end();
+    }
   });
-  /* request(options)
-     .then(function (parsedBody) {
-       logConfig.logger.info(parsedBody);
-       res.send(parsedBody);
-       res.end();
-     })
-     .catch(function (err) {
-       logConfig.logger.error(err);
-       res.end("服务器错误");
-     });*/
+
+
 });
 
 module.exports = router;

@@ -45,8 +45,8 @@
               </Form-item>
               <div class="mt-10 over-hd ">
                 <div style="width: 200px; float: left">
-                  <Form-item  size="large" prop="smsCode">
-                    <iInput placeholder="验证码" size="large" v-model="loginTrendsCustom.smsCode"></iInput>
+                  <Form-item  size="large" prop="validateCode">
+                    <iInput placeholder="验证码" size="large" v-model="loginTrendsCustom.validateCode"></iInput>
                   </Form-item>
                 </div>
                 <div style="width: 100px; float:left;">
@@ -54,8 +54,8 @@
                 </div>
               </div>
               <div class="pos-rel" @click="checkPhone">
-                <Form-item class="pt-10 clear" prop="trendsCode">
-                  <iInput placeholder="动态码" size="large" v-model="loginTrendsCustom.trendsCode"></iInput>
+                <Form-item class="pt-10 clear" prop="smsCode">
+                  <iInput placeholder="动态码" size="large" v-model="loginTrendsCustom.smsCode"></iInput>
                 </Form-item>
                 <SmsCountdown ref="timerbtn" class="btn btn-default"  @sendCode="sendCode" :phone="loginTrendsCustom.phone"></SmsCountdown>
               </div>
@@ -83,6 +83,19 @@
         </div>
       </div>
     </div>
+    <Modal
+      v-model="selRole"
+      class-name="vertical-center-modal" cancel-text=""  @on-ok="getRegister">
+      <h1 class="text-ct">注册角色选择</h1>
+      <div class="text-ct">
+        <label class="fs-16">
+          <input style="vertical-align: middle;font-size: 16px;" type="radio" v-model="loginTrendsCustom.role" v-bind:value="1">秀客
+        </label>
+        <label class="fs-16">
+          <input style="vertical-align: middle;font-size: 16px;" type="radio" v-model="loginTrendsCustom.role" v-bind:value="2">商家
+        </label>
+      </div>
+    </Modal>
   </div>
 </template>
 
@@ -92,10 +105,13 @@
   import Input from 'iview/src/components/input'
   import Checkbox from 'iview/src/components/checkbox'
   import Button from 'iview/src/components/button'
-  import Model from 'iview/src/components/modal'
+  import Radio from 'iview/src/components/radio'
   import api from '../config/apiConfig'
   import {setStorage, getStorage,countDown} from '../config/utils'
-  import SmsCountdown from '@/components/SmsCountdown';
+  import SmsCountdown from '@/components/SmsCountdown'
+  import Modal from 'iview/src/components/modal'
+//  import BombBox from '../components/Bombox'
+
   export default {
     name: 'login',
     components: {
@@ -106,7 +122,10 @@
       CheckboxGroup: Checkbox.Group,
       iButton: Button,
       Icon: Icon,
-      SmsCountdown:SmsCountdown
+      SmsCountdown:SmsCountdown,
+      Radio: Radio,
+      Modal: Modal
+//      BombBox: BombBox
     },
     data () {
       //表单验证
@@ -139,20 +158,25 @@
         }
       };
       return {
+        selRole: false,
         beginCountTime: false,
         selLogin: true,
         rememberAccount: false,
         rememberPhone: false,
         imgSrc:null,
+        modal1: true,
+        formValidate: {
+          gender: '',
+        },
         loginNormalCustom:{
           phone: null,
           passWord:null,
-          role: 1
         },
         loginTrendsCustom:{
           phone: null,
+          validateCode: '',
           smsCode: '',
-          trendsCode: ''
+          role: 1,
         },
         loginNormalRuleCustom: {
           phone: [
@@ -173,7 +197,6 @@
             {validator: validateTrendsCode, trigger: 'blur'}
           ]
         },
-
       }
     },
     mounted () {
@@ -187,6 +210,21 @@
       }
     },
     methods: {
+      getRegister(){
+        api.register({
+          phone: this.loginTrendsCustom.phone,
+          pwd: null,
+          repwd: null,
+          nickName: null,
+          smsCode: this.loginTrendsCustom.smsCode,
+          role: this.loginTrendsCustom.role
+        }).then((res) => {
+          console.log(res);
+          if(res.status){
+            this.instance('success','','登陆成功')
+          }
+        })
+      },
       getVrcode (){
         this.imgSrc = "/api/vrcode.json?rand="+ new Date() / 100
       },
@@ -205,17 +243,9 @@
             this.$store.state.userInfo = res.data;
             this.$store.state.login = true;
             this.rememberAccountFunc();
-            this.$swal({
-              text: '' + res.msg,
-              type: 'success',
-              confirmButtonText: "登陆成功",
-            })
+            this.instance('success','',res.msg)
           }else {
-            this.$swal({
-              text: '' + res.msg,
-              type: 'error',
-              confirmButtonText: "登陆失败",
-            })
+            this.instance('error','', res.msg)
           }
         })
       },
@@ -236,8 +266,17 @@
         this.$refs.loginTrendsCustom.validateField('phone');
       },
       checkRole (){
-        api.checkFastSignIn({phone: this.loginTrendsCustom.phone,smsCode: this.loginTrendsCustom.smsCode}).then((res)=>{
-            console.log(res);
+        api.checkFastSignIn({phone: this.loginTrendsCustom.phone,smsCode: this.loginTrendsCustom.smsCode,validateCode: this.loginTrendsCustom.validateCode}).then((res)=>{
+           if(res.status){
+             if(res.statusCode == 200){
+                if(res.status){
+                  this.instance('success','','登陆成功')
+                }
+             }else if(res.statusCode == 201){
+               this.selRole = true;
+             }
+           }
+
         })
       },
       sendCode (){
@@ -245,6 +284,36 @@
           api.getCode({phone: self.loginTrendsCustom.phone, purpose: 'fast'}).then((res) => {
             console.log(res);
         })
+      },
+      instance (type,text,ctt) {
+        const title = text;
+        const content = '<p>'+ ctt +'</p>';
+        switch (type) {
+          case 'info':
+            this.$Modal.info({
+              title: title,
+              content: content
+            });
+            break;
+          case 'success':
+            this.$Modal.success({
+              title: title,
+              content: content
+            });
+            break;
+          case 'warning':
+            this.$Modal.warning({
+              title: title,
+              content: content
+            });
+            break;
+          case 'error':
+            this.$Modal.error({
+              title: title,
+              content: content
+            });
+            break;
+        }
       }
     }
   }
@@ -253,6 +322,14 @@
 <style lang="scss" scoped>
   @import 'src/css/common';
   @import 'src/css/mixin';
+  .vertical-center-modal{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    .ivu-modal{
+      top: 0;
+    }
+  }
 
   .login-ctt {
     padding: 70px 0 250px 0;
@@ -330,3 +407,7 @@
     }
   }
 </style>
+
+
+
+

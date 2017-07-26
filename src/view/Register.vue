@@ -8,12 +8,14 @@
 
 
 
+
         </div>
         <div class="left pos-rel">
           <div class="fs-22 left">
             <Icon type="checkmark-circled" size="50px" color="#ccc"></Icon>
           </div>
           注册成功
+
 
 
 
@@ -41,51 +43,56 @@
                   <iInput size="large" v-model="formCustom.phone"></iInput>
                 </Form-item>
               </div>
-              <div  class="clear form-input-box">
-                <Form-item  label="设置登录密码" prop="pwd" class="left" style="width: 650px">
+              <div class="clear form-input-box">
+                <Form-item label="设置登录密码" prop="pwd" class="left" style="width: 650px">
                   <iInput type="password" v-model="formCustom.pwd" size="large"></iInput>
                 </Form-item>
               </div>
-              <div  class="clear form-input-box">
+              <div class="clear form-input-box">
                 <Form-item label="确认密码" prop="repwd" class="left" style="width: 650px">
                   <iInput type="password" v-model="formCustom.repwd" size="large"></iInput>
                 </Form-item>
               </div>
-              <div class="clear form-input-box" >
-                <Form-item label="图形验证码" prop="imgValidate"  class="left" style="width: 550px">
-                  <iInput type="text" size="large"></iInput>
+              <div class="clear form-input-box">
+                <Form-item label="图形验证码" prop="validateCode" class="left" style="width: 550px">
+                  <iInput type="text" size="large" v-model="formCustom.validateCode"></iInput>
                 </Form-item>
                 <div style="width: 100px; float:left;">
                   <img :src="regImgSrc" width="100%" alt="" @click="getRegVrcode">
                 </div>
               </div>
-              <div  class="clear form-input-box">
-                  <Form-item label="手机验证码" prop="age" class="left pos-rel" style="width: 650px">
-                    <iInput type="text" v-model="formCustom.age" number size="large"></iInput>
-                    <SmsCountdown ref="timerbtn" class="btn btn-default" @sendCode="sendCode" style="position:absolute; top:3px;"></SmsCountdown>
-                  </Form-item>
+              <div class="clear form-input-box">
+                <Form-item label="手机验证码" prop="smsCode" class="left pos-rel" style="width: 650px">
+                  <iInput type="text" v-model="formCustom.smsCode" number size="large"></iInput>
+                  <SmsCountdown style="position: absolute;top: 3px;" ref="timerbtn" class="btn btn-default"  @sendCode="sendCode" :phone="formCustom.phone"></SmsCountdown>
+                </Form-item>
               </div>
 
               <Form-item prop="agreeStrip">
                 <Checkbox-group>
-                  <Checkbox label="我已仔细阅读并同意接受" v-model="formCustom.agreeStrip"></Checkbox><a class="fs-12">《用户使用协议》</a>
+                  <Checkbox label="我已仔细阅读并同意接受" v-model="formCustom.agreeStrip"></Checkbox>
+                  <a class="fs-12">《用户使用协议》</a>
                 </Checkbox-group>
               </Form-item>
               <div>
-                <Form-item >
-                  <iButton v-show="selLogin.buyer" style="background-color: #ff6633; color: #fff" @click="handleSubmit('formCustom',registerBuyer)">立即注册</iButton>
-                  <iButton v-show="selLogin.seller" style="background-color: #FF6865; color: #fff" @click="handleSubmit('formCustom',registerSeller)">立即注册</iButton>
+                <Form-item>
+                  <iButton v-show="selLogin.buyer" style="background-color: #ff6633; color: #fff"
+                           @click="handleSubmit('formCustom',registerBuyer)">立即注册
+                  </iButton>
+                  <iButton v-show="selLogin.seller" style="background-color: #FF6865; color: #fff"
+                           @click="handleSubmit('formCustom',registerSeller)">立即注册
+                  </iButton>
                   <iButton type="ghost" @click="handleReset('formCustom')" style="margin-left: 8px">重置</iButton>
                 </Form-item>
               </div>
             </iForm>
             <p class="fs-14 text-ct vtc-mid">
-              <a  href="">
+              <a href="">
                 <img class="vtc-mid" src="~assets/img/common/qq_logo.png" alt="">
                 QQ账号登录
               </a>
               &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-              <span >我已有账号，现在就</span>
+              <span>我已有账号，现在就</span>
               <router-link class="" to="/login">登陆</router-link>
             </p>
           </div>
@@ -102,7 +109,7 @@
   import Button from 'iview/src/components/button'
   import Checkbox from 'iview/src/components/checkbox'
   import api from '../config/apiConfig'
-  import SmsCountdown from '@/components/SmsCountdown';
+  import SmsCountdown from '@/components/SmsCountdown'
   export default {
     name: 'register',
     components: {
@@ -120,7 +127,7 @@
       const validatePhone = (rule, value, callback) => {
         if (!(/^1[34578]\d{9}$/.test(value))) {
           callback(new Error('请输入正确手机号'));
-        }else {
+        } else {
           callback();
         }
       };
@@ -136,10 +143,10 @@
         }
       };
       const validateImgCode = (rule, value, callback) => {
-        if (!(/^.[A-Za-z0-9]+$/.test(value))) {
-          callback(new Error('请输入正确验证码'));
-        }else {
-          callback();
+        if (value === '') {
+          callback(new Error('请输入验证码'));
+        } else {
+          callback()
         }
       };
       const validatePassCheck = (rule, value, callback) => {
@@ -151,39 +158,40 @@
           callback();
         }
       };
-      const validateDynamicCode  = (rule, value, callback) => {
+      const validateSmsCode = (rule, value, callback) => {
         if (!value) {
           return callback(new Error('不能为空'));
-        }
-        if (!Number.isInteger(value)) {
+        }else if (!Number.isInteger(value)) {
           callback(new Error('请输入数字值'));
+        }else {
+          callback()
         }
       };
-      const validateAgreeStrip  = (rule, value, callback) => {
-        if(!this.formCustom.agreeStrip){
+      const validateAgreeStrip = (rule, value, callback) => {
+        if (!this.formCustom.agreeStrip) {
           return callback(new Error('请仔细阅读，并勾选！'));
-        }else {
+        } else {
           callback();
         }
       };
       return {
-        countRegTimeText:"获取动态码",
-        regImgSrc: "/api/vrcode.json?rand="+ new Date() / 100,
-        selLogin:{
+        countRegTimeText: "获取动态码",
+        regImgSrc: "/api/vrcode.json?rand=" + new Date() / 100,
+        selLogin: {
           buyer: true,
           seller: false
         },
 
         formCustom: {
           phone: '',
-          imgValidate: '',
           pwd: '',
           repwd: '',
-          age: '',
+          validateCode: '',
+          smsCode: '',
           role: '',
           agreeStrip: false,
         },
-        formRes:{
+        formRes: {
           phoneRes: false,
         },
         ruleCustom: {
@@ -196,11 +204,11 @@
           repwd: [
             {validator: validatePassCheck, trigger: 'blur'}
           ],
-          imgValidate: [
+          validateCode: [
             {validator: validateImgCode, trigger: 'blur'}
           ],
-          age: [
-            {validator: validateDynamicCode, trigger: 'blur'}
+          smsCode: [
+            {validator: validateSmsCode, trigger: 'blur'}
           ],
           agreeStrip: [
             {validator: validateAgreeStrip, trigger: 'blur'}
@@ -213,7 +221,7 @@
     },
     methods: {
       getRegVrcode (){
-        this.regImgSrc = "/api/vrcode.json?rand="+ new Date() / 100
+        this.regImgSrc = "/api/vrcode.json?rand=" + new Date() / 100
       },
       selLoginFunc (){
         this.selLogin.buyer = !this.selLogin.buyer;
@@ -222,12 +230,12 @@
       showFormWarn (res) {
         res = true;
       },
-      handleSubmit (name,callback) {
+      handleSubmit (name, callback) {
         let res = false;
         this.$refs[name].validate((valid) => {
-          res = !!valid
+          res = valid
         });
-        if (typeof callback === 'function' && res ) {
+        if (typeof callback === 'function' && res) {
           callback();
         }
       },
@@ -235,20 +243,37 @@
         this.$refs[name].resetFields();
       },
       registerBuyer (){
-        this.formCustom.role = 1
+        this.formCustom.role = 1;
+        api.register({
+          phone: this.formCustom.phone,
+          pwd: this.formCustom.pwd,
+          repwd: this.formCustom.repwd,
+          nickName: '',
+          smsCode: this.formCustom.smsCode,
+          validateCode: this.formCustom.validateCode,
+          role: this.formCustom.role
+        }).then((res) => {
+          console.log(res)
+        })
       },
       registerSeller (){
-        this.formCustom.role = 2
+        this.formCustom.role = 2;
+        api.register({
+          phone: this.formCustom.phone,
+          pwd: this.formCustom.pwd,
+          repwd: this.formCustom.repwd,
+          nickName: '',
+          smsCode: this.formCustom.smsCode,
+          validateCode: this.formCustom.validateCode,
+          role: this.formCustom.role
+        }).then((res) => {
+          console.log(res)
+        })
       },
       sendCode (){
-        console.log("这里是处理短信验证码逻辑");
-        let self = this;
-        this.$refs.formCustom.validateField('phone');
-        if ((/^.[A-Za-z0-9]+$/.test(self.formCustom.phone))) {
-          api.getCode({phone: self.formCustom.phone, purpose: 'reg'}).then((res) => {
-            console.log(res);
-          });
-        }
+        api.getCode({phone: this.formCustom.phone, purpose: 'reg'}).then((res) => {
+          console.log(res);
+        });
       }
     }
   }
@@ -257,9 +282,11 @@
 <style lang="scss" scoped>
   @import 'src/css/common';
   @import 'src/css/mixin';
-  .register-ctt{
+
+  .register-ctt {
     padding-bottom: 50px;
   }
+
   .register-ctt-top {
     margin-top: 60px;
     border-bottom: 2px solid #E6E6E6;
@@ -310,10 +337,10 @@
     border: 1px solid #ccc;
     .form-box {
       padding-bottom: 30px;
-      div.form-input-box{
+      div.form-input-box {
         width: 800px;
-        >div{
-          span{
+        > div {
+          span {
             background-color: #EAEAEA;
             color: #999;
             padding: 0px 10px;
@@ -324,7 +351,7 @@
             line-height: 24px;
           }
         }
-        >a{
+        > a {
           display: inline-block;
           height: 38px;
           line-height: 38px;
@@ -351,7 +378,7 @@
       > a.buyActive {
         background-color: $mainColor;
       }
-      > a.sellerActive{
+      > a.sellerActive {
         background-color: #FF6865;
       }
     }

@@ -13,5 +13,8 @@ export default {
   checkFastSignIn(params) {
     return fetch("/check-fast-sign-in.json",params)
   },
+  register (params) {
+    return fetch("/sign-up.json",params)
+  },
 
 }
