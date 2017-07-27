@@ -219,6 +219,10 @@
     },
     created(){
       this.getRegVrcode();
+      if(this.$route.name == 'seller'){
+        this.selLogin.buyer = false;
+        this.selLogin.seller = true;
+      }
     },
     methods: {
       getRegVrcode (){
@@ -244,7 +248,7 @@
         this.$refs[name].resetFields();
       },
       registerBuyer (){
-        this.formCustom.role = 1;
+        this.formCustom.role = 0;
         api.register({
           phone: this.formCustom.phone,
           pwd: this.formCustom.pwd,
@@ -258,7 +262,7 @@
         })
       },
       registerSeller (){
-        this.formCustom.role = 2;
+        this.formCustom.role = 1;
         api.register({
           phone: this.formCustom.phone,
           pwd: this.formCustom.pwd,

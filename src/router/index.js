@@ -35,7 +35,11 @@ export default new Router({
       component: Register,
       meta: {
         title: "用户注册"
-      }
+      },
+      children: [
+        {path : '/seller-register', name: 'seller'},
+        {path : '/buyer-register', name: 'buyer'},
+      ]
     },
     {
       path: '/user',

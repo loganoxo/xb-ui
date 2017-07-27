@@ -19,12 +19,12 @@
             </a>
             <span class="login-rt-ctt-top-line" :class="[selLogin ? 'pos-lf-0' : 'pos-lf-50']"></span>
           </p>
-          <div>
+          <div class="login-rt-ctt-ctt" >
             <iForm ref="loginNormalCustom" :model="loginNormalCustom" :rules="loginNormalRuleCustom"  v-show="selLogin" :class="[selLogin ? 'animated fadeIn' : 'animated fadeOut']">
               <Form-item prop="phone">
                 <iInput placeholder="请输入手机号码" size="large" v-model="loginNormalCustom.phone"></iInput>
               </Form-item>
-              <Form-item style="margin-top: 10px;" prop="passWord" >
+              <Form-item  prop="passWord" style="margin-top: 10px;" >
                 <iInput type="password" placeholder="请输入密码" size="large" v-model="loginNormalCustom.passWord"></iInput>
               </Form-item>
               <div class="remember-box">
@@ -33,7 +33,7 @@
                     <Checkbox label="记住我(公共电脑建议勿勾选)" v-model="rememberAccount"></Checkbox>
                   </Checkbox-group>
                 </Form-item>
-                <a class="right mt-6" href="">忘记密码</a>
+                <!--<a class="right mt-6" href="">忘记密码</a>-->
               </div>
               <iButton  style="margin-top: 25px;" type="error" long size="large" @click="handleSubmit('loginNormalCustom',setUserInfo)">
                 登录
@@ -46,7 +46,7 @@
               <div class="mt-10 over-hd ">
                 <div style="width: 200px; float: left">
                   <Form-item  size="large" prop="validateCode">
-                    <iInput placeholder="验证码" size="large" v-model="loginTrendsCustom.validateCode"></iInput>
+                    <iInput placeholder="图片验证码" size="large" v-model="loginTrendsCustom.validateCode"></iInput>
                   </Form-item>
                 </div>
                 <div style="width: 100px; float:left;">
@@ -71,12 +71,12 @@
                 登录
               </iButton>
             </iForm>
-            <p class="fs-14">
+            <p class="fs-14 login-rt-ctt-btm">
               <a class="left" href="">
                 <img class="left   mt-7 mr-5" src="~assets/img/common/qq_logo.png" alt="">
                 QQ账号登录
               </a>
-              <router-link class="right" to="/register">注册</router-link>
+              <router-link class="right" to="/register" >注册</router-link>
               <span  class="right">没有账号，点击</span>
             </p>
           </div>
@@ -89,10 +89,10 @@
       <h1 class="text-ct">注册角色选择</h1>
       <div class="text-ct">
         <label class="fs-16">
-          <input style="vertical-align: middle;font-size: 16px;" type="radio" v-model="loginTrendsCustom.role" v-bind:value="1">秀客
+          <input style="vertical-align: middle;font-size: 16px;" type="radio" v-model="loginTrendsCustom.role" v-bind:value="0">秀客
         </label>
         <label class="fs-16">
-          <input style="vertical-align: middle;font-size: 16px;" type="radio" v-model="loginTrendsCustom.role" v-bind:value="2">商家
+          <input style="vertical-align: middle;font-size: 16px;" type="radio" v-model="loginTrendsCustom.role" v-bind:value="1">商家
         </label>
       </div>
     </Modal>
@@ -125,7 +125,6 @@
       SmsCountdown:SmsCountdown,
       Radio: Radio,
       Modal: Modal
-//      BombBox: BombBox
     },
     data () {
       //表单验证
@@ -161,8 +160,8 @@
         selRole: false,
         beginCountTime: false,
         selLogin: true,
-        rememberAccount: false,
-        rememberPhone: false,
+        rememberAccount: true,
+        rememberPhone: true,
         imgSrc:null,
         modal1: true,
         formValidate: {
@@ -176,7 +175,7 @@
           phone: null,
           validateCode: '',
           smsCode: '',
-          role: 1,
+          role: 0,
         },
         loginNormalRuleCustom: {
           phone: [
@@ -206,22 +205,31 @@
     created(){
       this.getVrcode();
       if(getStorage('loginNormalCustom')) {
-          this.loginNormalCustom = getStorage('loginNormalCustom')
+          this.loginNormalCustom = getStorage('loginNormalCustom');
+          this.rememberAccount = true;
+      }
+      if(getStorage('loginTrendsCustomPhone')) {
+        this.loginTrendsCustom.phone = getStorage('loginTrendsCustomPhone');
+        this.rememberAccount = true;
       }
     },
     methods: {
       getRegister(){
         api.register({
           phone: this.loginTrendsCustom.phone,
-          pwd: null,
-          repwd: null,
+          pwd: this.loginTrendsCustom.phone.slice(5),
+          repwd: this.loginTrendsCustom.phone.slice(5),
           nickName: null,
           smsCode: this.loginTrendsCustom.smsCode,
-          role: this.loginTrendsCustom.role
+          role: this.loginTrendsCustom.role,
+          validateCode: this.loginTrendsCustom.validateCode
         }).then((res) => {
+            debugger
           console.log(res);
           if(res.status){
-            this.instance('success','','登陆成功')
+            this.instance('success','',res.msg)
+          }else {
+            this.instance('error','',res.msg)
           }
         })
       },
@@ -255,18 +263,21 @@
         }
       },
       rememberPhoneFunc(){
-        if(this.rememberAccount){
-          setStorage('loginNormalCustom', this.loginNormalCustom)
+        if(this.rememberPhone){
+          setStorage('loginTrendsCustomPhone', this.loginTrendsCustom.phone)
         }
       },
       handleReset (name) {
         this.$refs[name].resetFields();
       },
       checkPhone (){
+
         this.$refs.loginTrendsCustom.validateField('phone');
       },
       checkRole (){
         api.checkFastSignIn({phone: this.loginTrendsCustom.phone,smsCode: this.loginTrendsCustom.smsCode,validateCode: this.loginTrendsCustom.validateCode}).then((res)=>{
+           this.rememberPhoneFunc();
+           debugger
            if(res.status){
              if(res.statusCode == 200){
                 if(res.status){
@@ -275,14 +286,19 @@
              }else if(res.statusCode == 201){
                this.selRole = true;
              }
+           }else {
+             this.instance('error','',res.msg)
            }
-
         })
       },
       sendCode (){
         let self = this;
           api.getCode({phone: self.loginTrendsCustom.phone, purpose: 'fast'}).then((res) => {
-            console.log(res);
+            if(res.status){
+              this.instance('success','','发送成功')
+            }else {
+              this.instance('error','',res.msg)
+            }
         })
       },
       instance (type,text,ctt) {
@@ -377,6 +393,18 @@
             transition: left 0.1s;
           }
 
+        }
+        .login-rt-ctt-btm{
+          a.right{
+            display: inline-block;
+            border: 1px solid #CCCCCC;
+            padding: 1px 6px;
+            color: #666666;
+            height: 20px;
+            line-height: 20px;
+            margin-top: 8px;
+            margin-left: 5px;
+          }
         }
         > div {
           width: 302px;

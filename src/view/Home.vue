@@ -3,9 +3,9 @@
     <div class="container">
       <div class="login-box">
         <div class="buyer-login-box animated fadeInLeft">
-          <a href=""   :class="[animateStart.buyerRes ? 'animated pulse' : '' ]" @mouseover="animateOver(0)" @mouseleave="animateLeave(0)">
+          <router-link to="/buyer-register" :class="[animateStart.buyerRes ? 'animated pulse' : '' ]" @mouseover="animateOver(0)" @mouseleave="animateLeave(0)">
             <img src="~assets/img/home/home_01.png" alt="">
-          </a>
+          </router-link>
           <p>
             我想要免费试用，体验商品带给我更多快乐， 并将这份快乐传递给更多人！
           </p>
@@ -16,9 +16,9 @@
           <img class="right-icon" :class="[animateStart.sellerRes ? 'aright' : 'aleftDefault' ]" src="~assets/img/home/home_07.png" alt="">
         </div>
         <div class="seller-login-box animated fadeInRight">
-          <a href="" :class="[animateStart.sellerRes ? 'animated pulse' : 'arightDefault' ]" @mouseover="animateOver(1)" @mouseleave="animateLeave(1)">
+          <router-link to="/seller-register" :class="[animateStart.sellerRes ? 'animated pulse' : 'arightDefault' ]" @mouseover="animateOver(1)" @mouseleave="animateLeave(1)">
             <img src="~assets/img/home/home_02.png" alt="">
-          </a>
+          </router-link>
           <p>
             我想要推广商品、收集新品市场反馈、 提升产品销量。打造专属于我的品牌！
           </p>

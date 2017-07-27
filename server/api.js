@@ -188,10 +188,10 @@ router.post('/api/check-fast-sign-in.json', function (req, res, next) {
         res.end();
       });
     }else if(!keys){
-      res.json({status:false, msg:"验证码过期"});
+      res.json({status:false, msg:"图片验证码过期"});
       res.end();
     }else {
-      res.json({status:false, msg:"验证码不符"});
+      res.json({status:false, msg:"图片验证码不符"});
       res.end();
     }
   });
