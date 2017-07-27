@@ -109,6 +109,12 @@
         padding-left:16px;
         padding-right:16px;
         cursor: pointer;
+        &:hover{
+          color:$mainColor!important;
+          background-color:#fff;
+          border-top:1px solid #F4F4F4;
+          border-bottom:1px solid #F4F4F4;
+        }
       }
       a{
         color:inherit;
@@ -125,5 +131,8 @@
     background-color:#fff;
     border-top:1px solid #F4F4F4;
     border-bottom:1px solid #F4F4F4;
+  }
+  .my-xiu-ba-con-right{
+    width: 86%;
   }
 </style>
