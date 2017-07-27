@@ -8,23 +8,24 @@
         <div class="login-rt-ctt">
           <p class="login-rt-ctt-top">
             <a @click="selLogin = true" :class="[selLogin ? 'active' : '']">
-              <Icon v-show="selLogin" type="person"  color="#ff6633"></Icon>
-              <Icon v-show="!selLogin" type="person" ></Icon>
+              <Icon v-show="selLogin" type="person" color="#ff6633"></Icon>
+              <Icon v-show="!selLogin" type="person"></Icon>
               用户登录
             </a>
             <a @click="selLogin = false" :class="[selLogin ? '' : 'active']">
-              <Icon v-show="!selLogin" type="iphone" color="#ff6633" ></Icon>
-              <Icon v-show="selLogin"  type="iphone"  ></Icon>
+              <Icon v-show="!selLogin" type="iphone" color="#ff6633"></Icon>
+              <Icon v-show="selLogin" type="iphone"></Icon>
               手机动态码登录
             </a>
             <span class="login-rt-ctt-top-line" :class="[selLogin ? 'pos-lf-0' : 'pos-lf-50']"></span>
           </p>
-          <div class="login-rt-ctt-ctt" >
-            <iForm ref="loginNormalCustom" :model="loginNormalCustom" :rules="loginNormalRuleCustom"  v-show="selLogin" :class="[selLogin ? 'animated fadeIn' : 'animated fadeOut']">
+          <div class="login-rt-ctt-ctt">
+            <iForm ref="loginNormalCustom" :model="loginNormalCustom" :rules="loginNormalRuleCustom" v-show="selLogin"
+                   :class="[selLogin ? 'animated fadeIn' : 'animated fadeOut']">
               <Form-item prop="phone">
                 <iInput placeholder="请输入手机号码" size="large" v-model="loginNormalCustom.phone"></iInput>
               </Form-item>
-              <Form-item  prop="passWord" style="margin-top: 10px;" >
+              <Form-item prop="passWord" style="margin-top: 10px;">
                 <iInput type="password" placeholder="请输入密码" size="large" v-model="loginNormalCustom.passWord"></iInput>
               </Form-item>
               <div class="remember-box">
@@ -35,17 +36,22 @@
                 </Form-item>
                 <!--<a class="right mt-6" href="">忘记密码</a>-->
               </div>
-              <iButton  style="margin-top: 25px;" type="error" long size="large" @click="handleSubmit('loginNormalCustom',setUserInfo)">
+              <iButton style="margin-top: 25px;" type="error" long size="large"
+                       @click="handleSubmit('loginNormalCustom',setUserInfo)">
                 登录
               </iButton>
             </iForm>
-            <iForm  ref="loginTrendsCustom" :model="loginTrendsCustom" :rules="loginTrendsRuleCustom"  v-show="!selLogin" :class="[selLogin ? 'animated fadeOut' : 'animated fadeIn']">
+            <iForm ref="loginTrendsCustom" :model="loginTrendsCustom" :rules="loginTrendsRuleCustom" v-show="!selLogin"
+                   :class="[selLogin ? 'animated fadeOut' : 'animated fadeIn']">
               <Form-item prop="phone">
                 <iInput placeholder="请输入手机号码" size="large" v-model="loginTrendsCustom.phone"></iInput>
               </Form-item>
               <div class="mt-10 over-hd ">
                 <div style="width: 200px; float: left">
-                  <Form-item  size="large" prop="validateCode">
+                  <Form-item size="large" prop="validateCode">
+                    <iInput placeholder="验证码" size="large" v-model="loginTrendsCustom.validateCode"></iInput>
+                  </Form-item>
+                  <Form-item size="large" prop="validateCode">
                     <iInput placeholder="图片验证码" size="large" v-model="loginTrendsCustom.validateCode"></iInput>
                   </Form-item>
                 </div>
@@ -57,7 +63,8 @@
                 <Form-item class="pt-10 clear" prop="smsCode">
                   <iInput placeholder="动态码" size="large" v-model="loginTrendsCustom.smsCode"></iInput>
                 </Form-item>
-                <SmsCountdown ref="timerbtn" class="btn btn-default"  @sendCode="sendCode" :phone="loginTrendsCustom.phone"></SmsCountdown>
+                <SmsCountdown ref="timerbtn" class="btn btn-default" @sendCode="sendCode"
+                              :phone="loginTrendsCustom.phone"></SmsCountdown>
               </div>
 
               <div class="remember-box clear" style="margin-top: 15px;">
@@ -67,7 +74,8 @@
                   </Checkbox-group>
                 </Form-item>
               </div>
-              <iButton size="large" style="margin-top: 15px;" type="error" long @click="handleSubmit('loginTrendsCustom',checkRole)">
+              <iButton size="large" style="margin-top: 15px;" type="error" long
+                       @click="handleSubmit('loginTrendsCustom',checkRole)">
                 登录
               </iButton>
             </iForm>
@@ -76,8 +84,8 @@
                 <img class="left   mt-7 mr-5" src="~assets/img/common/qq_logo.png" alt="">
                 QQ账号登录
               </a>
-              <router-link class="right" to="/register" >注册</router-link>
-              <span  class="right">没有账号，点击</span>
+              <router-link class="right" to="/register">注册</router-link>
+              <span class="right">没有账号，点击</span>
             </p>
           </div>
         </div>
@@ -85,14 +93,16 @@
     </div>
     <Modal
       v-model="selRole"
-      class-name="vertical-center-modal" cancel-text=""  @on-ok="getRegister">
+      class-name="vertical-center-modal" cancel-text="" @on-ok="getRegister">
       <h1 class="text-ct">注册角色选择</h1>
       <div class="text-ct">
         <label class="fs-16">
-          <input style="vertical-align: middle;font-size: 16px;" type="radio" v-model="loginTrendsCustom.role" v-bind:value="0">秀客
+          <input style="vertical-align: middle;font-size: 16px;" type="radio" v-model="loginTrendsCustom.role"
+                 v-bind:value="0">秀客
         </label>
         <label class="fs-16">
-          <input style="vertical-align: middle;font-size: 16px;" type="radio" v-model="loginTrendsCustom.role" v-bind:value="1">商家
+          <input style="vertical-align: middle;font-size: 16px;" type="radio" v-model="loginTrendsCustom.role"
+                 v-bind:value="1">商家
         </label>
       </div>
     </Modal>
@@ -107,10 +117,10 @@
   import Button from 'iview/src/components/button'
   import Radio from 'iview/src/components/radio'
   import api from '../config/apiConfig'
-  import {setStorage, getStorage,countDown} from '../config/utils'
+  import {setStorage, getStorage} from '../config/utils'
   import SmsCountdown from '@/components/SmsCountdown'
   import Modal from 'iview/src/components/modal'
-//  import BombBox from '../components/Bombox'
+  //  import BombBox from '../components/Bombox'
 
   export default {
     name: 'login',
@@ -122,37 +132,37 @@
       CheckboxGroup: Checkbox.Group,
       iButton: Button,
       Icon: Icon,
-      SmsCountdown:SmsCountdown,
+      SmsCountdown: SmsCountdown,
       Radio: Radio,
       Modal: Modal
     },
-    data () {
+    data() {
       //表单验证
       const validatePhone = (rule, value, callback) => {
         if (!(/^1[34578]\d{9}$/.test(value))) {
           callback(new Error('请输入正确手机号'));
-        }else {
-            callback()
+        } else {
+          callback()
         }
       };
       const validatePass = (rule, value, callback) => {
         if (value === '') {
           callback(new Error('请输入密码'));
-        }else {
+        } else {
           callback()
         }
       };
       const validateCode = (rule, value, callback) => {
         if (value === '') {
           callback(new Error('请输入验证码'));
-        }else {
+        } else {
           callback()
         }
       };
       const validateTrendsCode = (rule, value, callback) => {
         if (value === '') {
           callback(new Error('请输入动态码'));
-        }else {
+        } else {
           callback()
         }
       };
@@ -162,16 +172,16 @@
         selLogin: true,
         rememberAccount: true,
         rememberPhone: true,
-        imgSrc:null,
+        imgSrc: null,
         modal1: true,
         formValidate: {
           gender: '',
         },
-        loginNormalCustom:{
+        loginNormalCustom: {
           phone: null,
-          passWord:null,
+          passWord: null,
         },
-        loginTrendsCustom:{
+        loginTrendsCustom: {
           phone: null,
           validateCode: '',
           smsCode: '',
@@ -198,23 +208,25 @@
         },
       }
     },
-    mounted () {
+    mounted() {
     },
-    computed:{
-    },
-    created(){
+    computed: {},
+    created() {
       this.getVrcode();
-      if(getStorage('loginNormalCustom')) {
+      if (getStorage('loginNormalCustom')) {
+        this.loginNormalCustom = getStorage('loginNormalCustom')
+        if (getStorage('loginNormalCustom')) {
           this.loginNormalCustom = getStorage('loginNormalCustom');
           this.rememberAccount = true;
-      }
-      if(getStorage('loginTrendsCustomPhone')) {
-        this.loginTrendsCustom.phone = getStorage('loginTrendsCustomPhone');
-        this.rememberAccount = true;
+        }
+        if (getStorage('loginTrendsCustomPhone')) {
+          this.loginTrendsCustom.phone = getStorage('loginTrendsCustomPhone');
+          this.rememberAccount = true;
+        }
       }
     },
     methods: {
-      getRegister(){
+      getRegister() {
         api.register({
           phone: this.loginTrendsCustom.phone,
           pwd: this.loginTrendsCustom.phone.slice(5),
@@ -224,86 +236,93 @@
           role: this.loginTrendsCustom.role,
           validateCode: this.loginTrendsCustom.validateCode
         }).then((res) => {
-            debugger
-          console.log(res);
-          if(res.status){
-            this.instance('success','',res.msg)
-          }else {
-            this.instance('error','',res.msg)
+          if (res.status) {
+            this.instance('success', '', res.msg)
+          } else {
+            this.instance('error', '', res.msg)
           }
         })
       },
-      getVrcode (){
-        this.imgSrc = "/api/vrcode.json?rand="+ new Date() / 100
+      getVrcode() {
+        this.imgSrc = "/api/vrcode.json?rand=" + new Date() / 100
       },
-      handleSubmit (name,callback) {
+      handleSubmit(name, callback) {
         let res = false;
         this.$refs[name].validate((valid) => {
           res = !!valid
         });
-        if (typeof callback === 'function' && res ) {
+        if (typeof callback === 'function' && res) {
           callback();
         }
       },
-      setUserInfo (){
-        api.login(this.loginNormalCustom).then((res)=>{
-          if(res.status){
+      setUserInfo() {
+        api.login(this.loginNormalCustom).then((res) => {
+          if (res.status) {
             this.$store.state.userInfo = res.data;
             this.$store.state.login = true;
             this.rememberAccountFunc();
-            this.instance('success','',res.msg)
-          }else {
-            this.instance('error','', res.msg)
+            this.instance('success', '', res.msg)
+          } else {
+            this.instance('error', '', res.msg)
           }
         })
       },
-      rememberAccountFunc(){
-        if(this.rememberAccount){
+      rememberAccountFunc() {
+        if (this.rememberAccount) {
           setStorage('loginNormalCustom', this.loginNormalCustom)
         }
       },
-      rememberPhoneFunc(){
-        if(this.rememberPhone){
+      rememberPhoneFunc() {
+        if (this.rememberPhone) {
           setStorage('loginTrendsCustomPhone', this.loginTrendsCustom.phone)
         }
       },
-      handleReset (name) {
+      handleReset(name) {
         this.$refs[name].resetFields();
       },
-      checkPhone (){
+      checkPhone() {
 
         this.$refs.loginTrendsCustom.validateField('phone');
       },
-      checkRole (){
-        api.checkFastSignIn({phone: this.loginTrendsCustom.phone,smsCode: this.loginTrendsCustom.smsCode,validateCode: this.loginTrendsCustom.validateCode}).then((res)=>{
-           this.rememberPhoneFunc();
-           debugger
-           if(res.status){
-             if(res.statusCode == 200){
-                if(res.status){
-                  this.instance('success','','登陆成功')
-                }
-             }else if(res.statusCode == 201){
-               this.selRole = true;
-             }
-           }else {
-             this.instance('error','',res.msg)
-           }
-        })
-      },
-      sendCode (){
-        let self = this;
-          api.getCode({phone: self.loginTrendsCustom.phone, purpose: 'fast'}).then((res) => {
-            if(res.status){
-              this.instance('success','','发送成功')
-            }else {
-              this.instance('error','',res.msg)
+      checkRole() {
+        api.checkFastSignIn({
+          phone: this.loginTrendsCustom.phone,
+          smsCode: this.loginTrendsCustom.smsCode,
+          validateCode: this.loginTrendsCustom.validateCode
+        }).then((res) => {
+          this.rememberPhoneFunc();
+          if (res.status) {
+            if (res.statusCode === 200) {
+              if (res.status) {
+                this.instance('success', '', '登陆成功')
+              }
+            } else if (res.statusCode === 201) {
+              this.selRole = true;
             }
+          } else {
+            this.instance('error', '', res.msg)
+          }
         })
       },
-      instance (type,text,ctt) {
+      sendCode() {
+        let self = this;
+        api.getCode({
+          phone: self.loginTrendsCustom.phone,
+          purpose: 'fast'
+        }).then((res) => {
+          console.log(res);
+          api.getCode({phone: self.loginTrendsCustom.phone, purpose: 'fast'}).then((res) => {
+            if (res.status) {
+              this.instance('success', '', '发送成功')
+            } else {
+              this.instance('error', '', res.msg)
+            }
+          })
+        })
+      },
+      instance(type, text, ctt) {
         const title = text;
-        const content = '<p>'+ ctt +'</p>';
+        const content = '<p>' + ctt + '</p>';
         switch (type) {
           case 'info':
             this.$Modal.info({
@@ -331,6 +350,7 @@
             break;
         }
       }
+
     }
   }
 </script>
@@ -338,11 +358,12 @@
 <style lang="scss" scoped>
   @import 'src/css/common';
   @import 'src/css/mixin';
-  .vertical-center-modal{
+
+  .vertical-center-modal {
     display: flex;
     align-items: center;
     justify-content: center;
-    .ivu-modal{
+    .ivu-modal {
       top: 0;
     }
   }
@@ -370,21 +391,21 @@
             width: 50%;
             text-align: center;
             border-bottom: 2px solid #CCCCCC;
-            i{
+            i {
               font-size: 20px;
               position: relative;
               top: 2px;
               left: -2px;
             }
-            i.active{
+            i.active {
               color: $mainColor;
             }
 
           }
-          a.active{
+          a.active {
             color: $mainColor;
           }
-          .login-rt-ctt-top-line{
+          .login-rt-ctt-top-line {
             position: absolute;
             left: 0;
             bottom: -2px;
@@ -394,8 +415,8 @@
           }
 
         }
-        .login-rt-ctt-btm{
-          a.right{
+        .login-rt-ctt-btm {
+          a.right {
             display: inline-block;
             border: 1px solid #CCCCCC;
             padding: 1px 6px;
@@ -414,15 +435,15 @@
             margin-top: 25px;
             overflow: hidden;
           }
-          p{
+          p {
             margin-top: 20px;
             height: 38px;
             line-height: 38px;
-            a{
+            a {
               color: #666;
             }
           }
-          a.get-code{
+          a.get-code {
             background-color: #EAEAEA;
             color: #999;
             padding: 3px 10px;

@@ -38,19 +38,21 @@ router.post('/api/login.json', (req, res, next) => {
   };
   request(options)
     .then(function (parsedBody) {
-      logConfig.logger.info(parsedBody);
-      let userData = JSON.parse(parsedBody);
-      let userUid = uid.sync(18);
-      res.cookie('nSession', userUid);
-      redisClient.hmset('node:xiuba:session:' + userUid, userData.data, function (err, res) {
-        if (err) {
-          logConfig.logger.info('redis存入用户session失败信息：' + err);
-          redisClient.end(true);
-        }
-        if (res) {
-          logConfig.logger.info('redis存入用户session成功状态：' + res);
-        }
-      });
+      if(parsedBody.status){
+        logConfig.logger.info(parsedBody);
+        let userData = JSON.parse(parsedBody);
+        let userUid = uid.sync(18);
+        res.cookie('nSession', userUid);
+        redisClient.hmset('node:xiuba:session:' + userUid, userData.data, function (err, res) {
+          if (err) {
+            logConfig.logger.info('redis存入用户session失败信息：' + err);
+            redisClient.end(true);
+          }
+          if (res) {
+            logConfig.logger.info('redis存入用户session成功状态：' + res);
+          }
+        });
+      }
       res.send(parsedBody);
       res.end();
     })

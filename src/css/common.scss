@@ -229,6 +229,11 @@ input[type="number"]{
   margin: auto;
 }
 
+.required:before{
+  content: "*";
+  color: #ff6633;
+}
+
 .container:before {
   content: " ";
   display: table;
