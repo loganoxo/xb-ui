@@ -49,9 +49,6 @@
               <div class="mt-10 over-hd ">
                 <div style="width: 200px; float: left">
                   <Form-item size="large" prop="validateCode">
-                    <iInput placeholder="验证码" size="large" v-model="loginTrendsCustom.validateCode"></iInput>
-                  </Form-item>
-                  <Form-item size="large" prop="validateCode">
                     <iInput placeholder="图片验证码" size="large" v-model="loginTrendsCustom.validateCode"></iInput>
                   </Form-item>
                 </div>
@@ -154,12 +151,12 @@
       };
       const validateCode = (rule, value, callback) => {
         if (value === '') {
-          callback(new Error('请输入验证码'));
+          callback(new Error('请输入图片验证码'));
         } else {
           callback()
         }
       };
-      const validateTrendsCode = (rule, value, callback) => {
+      const validateSmsCode = (rule, value, callback) => {
         if (value === '') {
           callback(new Error('请输入动态码'));
         } else {
@@ -199,11 +196,11 @@
           phone: [
             {validator: validatePhone, trigger: 'blur'},
           ],
-          smsCode: [
+          validateCode: [
             {validator: validateCode, trigger: 'blur'},
           ],
-          trendsCode: [
-            {validator: validateTrendsCode, trigger: 'blur'}
+          smsCode: [
+            {validator: validateSmsCode, trigger: 'blur'}
           ]
         },
       }
