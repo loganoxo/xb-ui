@@ -19,10 +19,10 @@
             <router-link to="/user/task-release">试用活动管理</router-link>
           </li>
           <li :class="{isSelect:isSelect ==='fundsManagement'}" @click="selectNavigate('fundsManagement')">
-            <Icon type="social-yen"></Icon>
+            <Icon type="social-usd"></Icon>
             <router-link to="/user/task-release">资金管理</router-link>
           </li>
-          <li :class="{isSelect:isSelect ===' tradingRecord'}" @click="selectNavigate('tradingRecord')">
+          <li :class="{isSelect:isSelect ==='tradingRecord'}" @click="selectNavigate('tradingRecord')">
             <Icon type="loop"></Icon>
             <router-link to="/user/task-release">交易记录</router-link>
           </li>
@@ -45,22 +45,10 @@
 
 <script>
   import Icon from 'iview/src/components/icon'
-  import Form from 'iview/src/components/form'
-  import Input from 'iview/src/components/input'
-  import Checkbox from 'iview/src/components/checkbox'
-  import Button from 'iview/src/components/button'
-  import Radio from 'iview/src/components/radio'
     export default {
       name: 'MyXiuBa',
       components: {
-        iInput: Input,
-        iForm: Form,
-        FormItem: Form.Item,
-        Checkbox: Checkbox,
-        CheckboxGroup: Checkbox.Group,
-        iButton: Button,
         Icon: Icon,
-        Radio: Radio,
       },
         data() {
             return {
@@ -90,9 +78,10 @@
     background-color:$mainColor;
     position: relative;
     h1{
-      @include sc(32px,#fff);
+      @include sc(28px,#fff);
       position: absolute;
       left: 22px;
+      line-height: 50px;
     }
   }
   .tmy-xiu-ba-con{
@@ -118,7 +107,7 @@
       }
       a{
         color:inherit;
-        font-size: 16px;
+        font-size: 14px;
       }
       i{
         font-size: 18px;

@@ -4,17 +4,16 @@ import router from './router'
 import store from './store'
 import * as filters from './filter/custom'
 import VueLazyload from 'vue-lazyload'
-import VueQuillEditor from 'vue-quill-editor'
 import 'iview/dist/styles/iview.css'
 import 'animate.css/animate.css'
 import Modal from 'iview/src/components/modal'
 
 Vue.config.productionTip = false
 Vue.use(VueLazyload)
-Vue.use(VueQuillEditor)
 Vue.use(VueLazyload)
 Vue.use(Modal);
 Vue.prototype.$Modal = Modal;
+
 /*VueLazyload配置初始化*/
 Vue.use(VueLazyload, {
   preLoad: 1.3,
