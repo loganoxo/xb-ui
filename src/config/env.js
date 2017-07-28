@@ -6,6 +6,7 @@
  * baseUrl: 接口地址
  **/
 let baseUrl = '/api';
+
 if (process.env.NODE_ENV === 'development') {
   baseUrl = '/api';
 }
