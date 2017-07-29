@@ -3,7 +3,7 @@
  */
 import axios from 'axios'
 import qs from 'qs'
-import {baseUrl} from './env'
+// import {baseUrl} from './env'
 
 axios.defaults.timeout = 100000;//响应时间
 axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded;charset=UTF-8';//配置请求头
@@ -29,7 +29,7 @@ axios.interceptors.response.use((res) => {
 //返回一个Promise(发送post请求)
 export function fetch(url, params) {
   return new Promise((resolve, reject) => {
-    url = baseUrl + url;
+    // url = baseUrl + url;
     axios.post(url, params)
       .then(response => {
         resolve(response.data);

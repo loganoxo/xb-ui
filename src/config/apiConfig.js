@@ -4,17 +4,39 @@
 import {fetch} from '../config/axiosConfig'
 
 export default {
+  /**
+   *用户普通登陆
+   */
   login (params) {
-    return fetch("/login.json",params)
+    return fetch("/api/login.json",params)
   },
+
+  /**
+   *获取短信验证码
+   */
   getCode(params) {
-    return fetch("/send-verify-code.json",params)
+    return fetch("/api/send-verify-code.json",params)
   },
+
+  /**
+   *用户快速登陆
+   */
   checkFastSignIn(params) {
-    return fetch("/check-fast-sign-in.json",params)
+    return fetch("/api/check-fast-sign-in.json",params)
   },
+
+  /**
+   *用户注册
+   */
   register (params) {
-    return fetch("/sign-up.json",params)
+    return fetch("/api/sign-up.json",params)
+  },
+
+  /**
+  *任务发布
+  */
+  taskCreate (params) {
+    return fetch("/aip/task-create.json",params)
   },
 
 }

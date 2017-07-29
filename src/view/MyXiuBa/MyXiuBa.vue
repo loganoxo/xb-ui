@@ -108,6 +108,8 @@
       a{
         color:inherit;
         font-size: 14px;
+        display: inline-block;
+        height: 38px;
       }
       i{
         font-size: 18px;

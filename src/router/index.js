@@ -5,8 +5,8 @@ const Home = r => require.ensure([], () => r(require('../view/Home.vue')), 'Home
 const Login = r => require.ensure([], () => r(require('../view/Login.vue')), 'Login');
 const Register = r => require.ensure([], () => r(require('../view/Register.vue')), 'Register');
 const MyXiuBa = r => require.ensure([], () => r(require('../view/MyXiuBa/MyXiuBa.vue')), 'MyXiuBa');
-const UserHome = r => require.ensure([], () => r(require('../view/MyXiuBa/children/UserHome.vue')), 'UserHome');
-const TaskReleaseProcess = r => require.ensure([], () => r(require('../view/MyXiuBa/children/TaskReleaseProcess.vue')), 'TaskReleaseProcess');
+const UserHome = r => require.ensure([], () => r(require('../view/MyXiuBa/children/UserHome.vue')), 'MyXiuBa');
+const TaskReleaseProcess = r => require.ensure([], () => r(require('../view/MyXiuBa/children/TaskReleaseProcess.vue')), 'MyXiuBa');
 
 Vue.use(Router);
 

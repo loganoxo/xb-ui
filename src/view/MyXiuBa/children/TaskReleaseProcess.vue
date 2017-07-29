@@ -1,7 +1,15 @@
 <template>
   <div class="task-release">
     <div class="task-release-title">发布试用活动</div>
-    <div class="flow-title"></div>
+    <div class="flow-title mt-10 mb-20">
+      <Steps :current="1">
+        <Step title="发布试用活动流程"></Step>
+        <Step title="填写试用活动信息"></Step>
+        <Step title="存入活动担保金"></Step>
+        <Step title="等待审核"></Step>
+        <Step title="活动上线"></Step>
+      </Steps>
+    </div>
     <div class="activity-con" v-show="stepName === 'information'">
       <div class="activity-info">
         <div class="activity-info-title">填写活动信息</div>
@@ -51,11 +59,23 @@
             </iSelect>
           </div>
           <div class="baby-img ml-45 mt-20">
-            <Upload action="//jsonplaceholder.typicode.com/posts/">
-              <span class="required">活动主图：</span>
-              <iButton type="ghost" icon="ios-cloud-upload-outline">请选择图片</iButton>
+            <span class="required left mt-20">活动主图：</span>
+            <Upload
+              ref="mainUpload"
+              :show-upload-list="false"
+              :on-success="handleSuccess"
+              :format="['jpg','jpeg','png','gif','bmp']"
+              :max-size="500"
+              name="活动主图"
+              :on-format-error="handleFormatError"
+              :on-exceeded-size="handleMaxSize"
+              :before-upload="handleBeforeUpload"
+              type="drag">
+              <div style="width: 58px;height:58px;line-height: 58px;">
+                <Icon type="camera" size="20"></Icon>
+              </div>
             </Upload>
-            <p class="size-color pl-60">支持jpg \ jpeg \ gif \ bmp格式，最佳尺寸400*400（像素），不超过300K，可与宝贝主图一致</p>
+            <p class="size-color pl-60 mt-10">支持jpg \ jpeg \ gif \ bmp格式，最佳尺寸400*400（像素），不超过300K，可与宝贝主图一致</p>
           </div>
           <div class="baby-url ml-45 mt-20">
             <span class="required">宝贝地址：</span>
@@ -99,7 +119,6 @@
           <div class="product-introduction ml-45 mt-20">
             <span class="left ml-5">商品简介：</span>
             <quill-editor ref="myTextEditor"
-                          v-model="content"
                           :options="editorOption"
                           @blur="onEditorBlur($event)"
                           @focus="onEditorFocus($event)"
@@ -112,39 +131,23 @@
           <template v-if="taskRelease.taskType === 'pc_search'">
             <div class="baby-main-img ml-40 mt-20">
               <span class="required left mr-5 mt-20">宝贝主图：</span>
-              <div class="demo-upload-list" v-for="item in uploadList">
-                <template v-if="item.status === 'finished'">
-                  <img :src="item.url">
-                  <div class="demo-upload-list-cover">
-                    <Icon type="ios-eye-outline" @click.native="handleView(item.name)"></Icon>
-                    <Icon type="ios-trash-outline" @click.native="handleRemove(item)"></Icon>
-                  </div>
-                </template>
-                <template v-else>
-                  <iProgress v-if="item.showProgress" :percent="item.percentage" hide-info></iProgress>
-                </template>
-              </div>
               <Upload
-                ref="upload"
+                ref="pcUpload"
+                 name="PC宝贝主图"
                 :show-upload-list="false"
                 :on-success="handleSuccess"
                 :format="['jpg','jpeg','png','gif','bmp']"
-                :max-size="500"
+                :max-size="300"
                 :on-format-error="handleFormatError"
                 :on-exceeded-size="handleMaxSize"
                 :before-upload="handleBeforeUpload"
-                type="drag"
-                action="//jsonplaceholder.typicode.com/posts/"
-                style="display: inline-block;width:58px;">
+                type="drag">
                 <div style="width: 58px;height:58px;line-height: 58px;">
                   <Icon type="camera" size="20"></Icon>
                 </div>
               </Upload>
               <p
                 class="size-color pl-60 mt-10">点击或者拖拽自主上传图片，支持jpg \ jpeg \ gif \ bmp格式，最佳尺寸400*400（像素），不超过300K，可与宝贝主图一致</p>
-              <Modal title="查看图片" v-model="visible">
-                <img :src="'https://o5wwk8baw.qnssl.com/' + imgName + '/large'" v-if="visible" style="width: 100%">
-              </Modal>
             </div>
             <div class="search-keyword mt-20 ml-28">
               <span class="required">搜索关键词：</span>
@@ -233,39 +236,23 @@
           <template v-else-if="taskRelease.taskType === 'app_search'">
             <div class="baby-main-img ml-40 mt-20">
               <span class="required left mr-5 mt-20">宝贝主图：</span>
-              <div class="demo-upload-list" v-for="item in uploadList">
-                <template v-if="item.status === 'finished'">
-                  <img :src="item.url">
-                  <div class="demo-upload-list-cover">
-                    <Icon type="ios-eye-outline" @click.native="handleView(item.name)"></Icon>
-                    <Icon type="ios-trash-outline" @click.native="handleRemove(item)"></Icon>
-                  </div>
-                </template>
-                <template v-else>
-                  <iProgress v-if="item.showProgress" :percent="item.percentage" hide-info></iProgress>
-                </template>
-              </div>
               <Upload
-                ref="upload"
+                ref="appUpload"
                 :show-upload-list="false"
                 :on-success="handleSuccess"
                 :format="['jpg','jpeg','png','gif','bmp']"
                 :max-size="500"
+                 name="APP宝贝主图"
                 :on-format-error="handleFormatError"
                 :on-exceeded-size="handleMaxSize"
                 :before-upload="handleBeforeUpload"
-                type="drag"
-                action="//jsonplaceholder.typicode.com/posts/"
-                style="display: inline-block;width:58px;">
+                type="drag">
                 <div style="width: 58px;height:58px;line-height: 58px;">
                   <Icon type="camera" size="20"></Icon>
                 </div>
               </Upload>
               <p
                 class="size-color pl-60 mt-10">点击或者拖拽自主上传图片，支持jpg \ jpeg \ gif \ bmp格式，最佳尺寸400*400（像素），不超过300K，可与宝贝主图一致</p>
-              <Modal title="查看图片" v-model="visible">
-                <img :src="'https://o5wwk8baw.qnssl.com/' + imgName + '/large'" v-if="visible" style="width: 100%">
-              </Modal>
             </div>
             <div class="search-keyword mt-20 ml-28">
               <span class="required">搜索关键词：</span>
@@ -414,9 +401,10 @@
   import Button from 'iview/src/components/button'
   import Radio from 'iview/src/components/radio'
   import {Select, Option} from 'iview/src/components/select'
-  import Upload from 'iview/src/components/upload'
-  import Progress from 'iview/src/components/progress';
-  import Modal from 'iview/src/components/modal'
+  import Upload from '@/components/upload'
+  import Progress from 'iview/src/components/progress'
+  import Steps  from 'iview/src/components/steps'
+/*  import Modal from 'iview/src/components/modal'*/
   import api from '@/config/apiConfig'
 
   export default {
@@ -436,12 +424,12 @@
       iOption: Option,
       Upload: Upload,
       iProgress: Progress,
-      Modal: Modal
+      Steps:Steps,
+      Step:Steps.Step
     },
     data() {
       return {
         name: 'base-example',
-        content: '',
         editorOption: {
           placeholder: "请在这里编辑您的商品简介！",
           modules: {
@@ -455,9 +443,8 @@
             ]
           }
         },
-        imgName: '',
         visible: false,
-        uploadList: [],
+        current: 0,
         stepName: 'information',
         PcTaskDetail: {
           itemMainImage: null,
@@ -498,14 +485,13 @@
           itemPrice: null,
           pinkage: "true",
           paymentMethod: "all",
+          itemDescription:'',
           taskDetail: {}
         }
       }
     },
-    mounted() {
-    },
-    created() {
-    },
+    mounted() {},
+    created() {},
     computed: {
       /**
        * 活动类型名称
@@ -532,54 +518,141 @@
     },
     methods: {
       onEditorBlur(editor) {
-        console.log('editor blur!', editor)
+        console.log('editor blur!', editor);
+        console.log(editor.container.innerHTML);
+        this.taskRelease.itemDescription = editor.container.innerHTML;
       },
-      onEditorFocus(editor) {
-        console.log('editor focus!', editor)
-      },
-      onEditorReady(editor) {
-        console.log('editor ready!', editor)
-      },
-      handleView(name) {
-        this.imgName = name;
-        this.visible = true;
-      },
-      handleRemove(file) {
-        // 从 upload 实例删除数据
-        const fileList = this.$refs.upload.fileList;
-        this.$refs.upload.fileList.splice(fileList.indexOf(file), 1);
-      },
+      onEditorFocus(editor) {},
+      onEditorReady(editor) {},
       handleSuccess(res, file) {
         // 因为上传过程为实例，这里模拟添加 url
         file.url = 'https://o5wwk8baw.qnssl.com/7eb99afb9d5f317c912f08b5212fd69a/avatar';
         file.name = '7eb99afb9d5f317c912f08b5212fd69a';
       },
       handleFormatError(file) {
-        this.$Notice.warning({
+        this.$Modal.warning({
           title: '文件格式不正确',
-          desc: '文件 ' + file.name + ' 格式不正确，请上传 jpg 或 png 格式的图片。'
+          content: '图片 ' + file.name + ' 格式不正确，请上传 jpg 或 jpeg 或 gif 或 bmp 格式的图片。'
         });
       },
       handleMaxSize(file) {
-        this.$Notice.warning({
+        this.$Modal.warning({
           title: '超出文件大小限制',
-          desc: '文件 ' + file.name + ' 太大，不能超过 2M。'
+          content: '图片 ' + file.name + ' 太大，不能超过 300K'
         });
       },
       handleBeforeUpload() {
-        const check = this.uploadList.length < 5;
+        const check = this.mainUploadList.length < 1;
         if (!check) {
-          this.$Notice.warning({
-            title: '最多只能上传 5 张图片。'
+          this.$Modal.warning({
+            title: '最多只能上传 1 张图片。'
           });
         }
         return check;
       },
       stepNext() {
-        this.stepName = 'deposit'
+        let _this = this;
+        if(!_this.taskRelease.taskDaysDuration){
+          _this.$Message.warning('亲，活动时长不能为空！');
+          return;
+        }
+        if(!_this.taskRelease.taskName){
+          _this.$Message.warning('亲，活动标题不能为空！');
+          return;
+        }
+        if(!_this.taskRelease.itemType){
+          _this.$Message.warning('亲，宝贝类型不能为空！');
+          return;
+        }
+        if(!_this.taskRelease.taskMainImage){
+          _this.$Message.warning('亲，请上传活动主图！');
+          return;
+        }
+        if(!_this.taskRelease.itemUrl){
+          _this.$Message.warning('亲，宝贝地址不能为空！');
+          return;
+        }
+        if(!_this.taskRelease.taskCount){
+          _this.$Message.warning('亲，宝贝数量不能为空！');
+          return;
+        }
+        if(!_this.taskRelease.itemPrice){
+          _this.$Message.warning('亲，宝贝单价不能为空！');
+          return;
+        }
+        if(!_this.taskRelease.itemPrice){
+          _this.$Message.warning('亲，宝贝单价不能为空！');
+          return;
+        }
+        if(!_this.taskRelease.itemPrice){
+          _this.$Message.warning('亲，宝贝单价不能为空！');
+          return;
+        }
+        if(!_this.PcTaskDetail.itemMainImage){
+          _this.$Message.warning('亲，请上传PC搜索宝贝主图！');
+          return;
+        }
+        if(!_this.PcTaskDetail.searchKeyword){
+          _this.$Message.warning('亲，搜索关键词不能空！');
+          return;
+        }
+        if(!_this.PcTaskDetail.searchPagePrice){
+          _this.$Message.warning('亲，展示价格不能空！');
+          return;
+        }
+        if(!_this.PcTaskDetail.searchPagePositionMin){
+          _this.$Message.warning('亲，宝贝搜索起始位置不能空！');
+          return;
+        }
+        if(!_this.PcTaskDetail.searchPagePositionMax){
+          _this.$Message.warning('亲，宝贝搜索结束位置不能空！');
+          return;
+        }
+        if(!_this.AppTaskDetail.itemMainImage){
+          _this.$Message.warning('亲，请上传手淘搜索宝贝主图！');
+          return;
+        }
+        if(!_this.AppTaskDetail.searchKeyword){
+          _this.$Message.warning('亲，搜索关键词不能空！');
+          return;
+        }
+        if(!_this.AppTaskDetail.searchPagePrice){
+          _this.$Message.warning('亲，展示价格不能空！');
+          return;
+        }
+        if(!_this.AppTaskDetail.searchRankPosition){
+          _this.$Message.warning('亲，宝贝搜索位置不能空！');
+          return;
+        }
+        if(!_this.taoCodeTaskDetail.taoCode){
+          _this.$Message.warning('亲，任务宝贝淘口令不能为空！');
+          return;
+        }
+        if(!_this.taoCodeTaskDetail.accessDescription){
+          _this.$Message.warning('亲，淘口令入口描述不能为空！');
+          return;
+        }
+        switch (_this.taskRelease.taskType){
+          case 'pc_search' :
+            _this.taskRelease.taskDetail = _this.PcTaskDetail;
+            break;
+          case 'app_search' :
+            _this.taskRelease.taskDetail = _this.AppTaskDetail;
+            break;
+          case 'tao_code' :
+            _this.taskRelease.taskDetail = _this.taoCodeTaskDetail;
+            break;
+        }
+        _this.stepName = 'deposit';
+        api.taskCreate(_this.taskRelease).then( res =>{
+          this.nextCurrent();
+        })
       },
       returnUpStep() {
         this.stepName = 'information'
+      },
+      nextCurrent() {
+        this.current += 1;
       }
     }
   }
@@ -726,4 +799,8 @@
       }
     }
   }
+  .ivu-steps-item{
+    line-height: 26px;
+  }
+
 </style>

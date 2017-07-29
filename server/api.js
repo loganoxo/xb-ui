@@ -9,9 +9,17 @@ const uid = require('uid-safe');
 const querystring = require('querystring');
 const redis = require("redis");
 const captchapng = require('captchapng');
+const ALY = require("aliyun-sdk");
 
 const router = express.Router();
 const baseUrl = config.baseUrl;
+
+/**
+ * 创建redis服务
+ * @param port
+ * @param host
+ * @param db
+ * */
 const redisClient = redis.createClient(config.redis.port, config.redis.host, {db: config.redis.db});
 redisClient.on('ready', function (res) {
   logConfig.logger.info('redis start：redis is ready');
@@ -19,6 +27,46 @@ redisClient.on('ready', function (res) {
 
 redisClient.on('error', function (res) {
   logConfig.logger.info('redis start：redis is error');
+});
+
+/**
+ * 创建阿里云服务
+ * @param accessKeyId
+ * @param secretAccessKey
+ * @param endpoint
+ * @param apiVersion
+ * */
+const sts = new ALY.STS({
+  accessKeyId: "X72ICf5NoVn2RCE2",
+  secretAccessKey: "ELPcLb4VNXY1fD0E8oHzlgTfsSTb7Z",
+  endpoint: 'https://sts.aliyuncs.com',
+  apiVersion: '2015-04-01'
+});
+
+/**
+ * 获取阿里云临时token接口
+ * @param Action
+ * @param RoleArn
+ * @param RoleSessionName
+ */
+router.get('/api/ali-token.json', (req, res, next) => {
+  sts.assumeRole({
+    Action: 'AssumeRole',
+    RoleArn: 'acs:ram::1787158783531067:role/xiuba-upload-temp',
+    //设置Token的附加Policy，可以在获取Token时，通过额外设置一个Policy进一步减小Token的权限；
+    //Policy: '{"Version":"1","Statement":[{"Effect":"Allow", "Action":"*", "Resource":"*"}]}',
+    //设置Token有效期，可选参数，默认3600秒；
+    //DurationSeconds: 3600,
+    RoleSessionName: 'RoleSessionName'
+  }, function (err, parsedBody) {
+    if (err) {
+      res.send(err);
+    }
+    if (parsedBody) {
+      res.send(parsedBody);
+    }
+    res.end();
+  });
 });
 
 /**
@@ -38,7 +86,7 @@ router.post('/api/login.json', (req, res, next) => {
   };
   request(options)
     .then(function (parsedBody) {
-      if(parsedBody.status){
+      if (parsedBody.status) {
         logConfig.logger.info(parsedBody);
         let userData = JSON.parse(parsedBody);
         let userUid = uid.sync(18);
@@ -80,29 +128,28 @@ router.post('/api/sign-up.json', function (req, res, next) {
     formData: {
       phone: req.body.phone,
       pwd: req.body.pwd,
-      repwd:req.body.repwd,
-      nickName:req.body.nickName,
+      repwd: req.body.repwd,
+      nickName: req.body.nickName,
       smsCode: req.body.smsCode,
       role: req.body.role,
     },
   };
   redisClient.get('node:xiuba:session:' + nSession, function (err, keys) {
-    console.log(keys);
-    if(Number(req.body.validateCode) === Number(keys)){
+    if (Number(req.body.validateCode) === Number(keys)) {
       request(options).then(function (parsedBody) {
         logConfig.logger.info(parsedBody);
         res.send(parsedBody);
         res.end();
       }).catch(function (err) {
         logConfig.logger.error(err);
-        res.json({status:false, msg:"服务器错误"});
+        res.json({status: false, msg: "服务器错误"});
         res.end();
       });
-    }else if(!keys){
-      res.json({status:false, msg:"图形验证码过期"});
+    } else if (!keys) {
+      res.json({status: false, msg: "图形验证码过期"});
       res.end();
-    }else {
-      res.json({status:false, msg:"图形验证码不符"});
+    } else {
+      res.json({status: false, msg: "图形验证码不符"});
       res.end();
     }
   })
@@ -131,13 +178,14 @@ router.post('/api/send-verify-code.json', function (req, res, next) {
     })
     .catch(function (err) {
       logConfig.logger.error(err);
-      res.json({status:false, msg:"服务器错误"});
+      res.json({status: false, msg: "服务器错误"});
       res.end();
     });
 });
 
 /**
  * 图形验证码接口
+ * @param sessionID
  */
 router.get("/api/vrcode.json", (req, res, next) => {
   let nSession = req.sessionID;
@@ -165,6 +213,8 @@ router.get("/api/vrcode.json", (req, res, next) => {
 
 /**
  * 检测是否第一次动态登陆
+ * @param phone
+ * @param smsCode
  */
 router.post('/api/check-fast-sign-in.json', function (req, res, next) {
   let nSession = req.sessionID;
@@ -179,26 +229,77 @@ router.post('/api/check-fast-sign-in.json', function (req, res, next) {
   };
   redisClient.get('node:xiuba:session:' + nSession, function (err, keys) {
     logConfig.logger.info(keys);
-    if(Number(req.body.validateCode) === Number(keys)){
+    if (Number(req.body.validateCode) === Number(keys)) {
       request(options).then(function (parsedBody) {
         logConfig.logger.info(parsedBody);
         res.send(parsedBody);
         res.end();
       }).catch(function (err) {
         logConfig.logger.error(err);
-        res.json({status:false, msg:"服务器错误"});
+        res.json({status: false, msg: "服务器错误"});
         res.end();
       });
-    }else if(!keys){
-      res.json({status:false, msg:"图片验证码过期"});
+    } else if (!keys) {
+      res.json({status: false, msg: "图片验证码过期"});
       res.end();
-    }else {
-      res.json({status:false, msg:"图片验证码不符"});
+    } else {
+      res.json({status: false, msg: "图片验证码不符"});
       res.end();
     }
   });
 
-
+  /**
+   * 任务发布接口
+   * @param taskType
+   * @param taskDaysDuration
+   * @param onlyShowForQualification
+   * @param refuseOldShowker
+   * @param taskName
+   * @param itemType
+   * @param taskMainImage
+   * @param itemUrl
+   * @param taskCount
+   * @param itemPrice
+   * @param pinkage
+   * @param itemDescription
+   * @param userId
+   * @param paymentMethod
+   * @param taskDetail
+   */
+  router.post("/aip/task-create.json", function (req, res, next) {
+    let options = {
+      method: 'POST',
+      uri: baseUrl + '/task/create',
+      formData: {
+        taskType: req.body.taskType,
+        taskDaysDuration: req.body.taskDaysDuration,
+        onlyShowForQualification: req.body.onlyShowForQualification,
+        refuseOldShowker: req.body.refuseOldShowker,
+        taskName: req.body.taskName,
+        itemType: req.body.itemType,
+        taskMainImage: req.body.taskMainImage,
+        itemUrl: req.body.itemUrl,
+        taskCount: req.body.taskCount,
+        itemPrice: req.body.itemPrice,
+        pinkage: req.body.pinkage,
+        itemDescription: req.body.itemDescription,
+        userId: req.body.userId,
+        paymentMethod: req.body.paymentMethod,
+        taskDetail: req.body.taskDetail
+      },
+    };
+    request(options)
+      .then(function (parsedBody) {
+        logConfig.logger.info(parsedBody);
+        res.send(parsedBody);
+        res.end();
+      })
+      .catch(function (err) {
+        logConfig.logger.error(err);
+        res.json({status: false, msg: "服务器错误"});
+        res.end();
+      });
+  })
 });
 
 module.exports = router;

@@ -28,4 +28,4 @@ let dateFormat = (timeSpan,format) => {
 
 
 
-export {dateFormat,}
+export {dateFormat}
