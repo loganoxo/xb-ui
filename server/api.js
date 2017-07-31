@@ -23,6 +23,17 @@ const baseUrl = config.baseUrl;
 const redisClient = redis.createClient(config.redis.port, config.redis.host, {db: config.redis.db});
 redisClient.on('ready', function (res) {
   logConfig.logger.info('redis start：redis is ready');
+
+/*  redisClient.psubscribe('node:xiuba:session:*');
+  logConfig.logger.info('redis psubscribe end');
+
+//  当接收到订阅消息调用对应服务
+  redisClient.on("pmessage", function (pattern, channel, expiredKey) {
+    console.log(expiredKey);
+    debugger;
+
+  });*/
+
 });
 
 redisClient.on('error', function (res) {
@@ -83,26 +94,29 @@ router.post('/api/login.json', (req, res, next) => {
       phone: req.body.phone,
       passWord: req.body.passWord,
     },
+    json: true,
   };
   request(options)
     .then(function (parsedBody) {
       if (parsedBody.status) {
         logConfig.logger.info(parsedBody);
-        let userData = JSON.parse(parsedBody);
-        let userUid = uid.sync(18);
-        res.cookie('nSession', userUid);
-        redisClient.hmset('node:xiuba:session:' + userUid, userData.data, function (err, res) {
-          if (err) {
-            logConfig.logger.info('redis存入用户session失败信息：' + err);
-            redisClient.end(true);
+        let userData = parsedBody.data;
+        req.session.regenerate(function (serr) {
+          if(!serr) {
+            redisClient.hmset('node:xiuba:session:' + req.sessionID, userData, function (err, res) {
+              if (err) {
+                logConfig.logger.info('redis存入用户session失败信息：' + err);
+                redisClient.end(true);
+              }
+              if (res) {
+                logConfig.logger.info('redis存入用户session成功状态：' + res);
+              }
+            });
           }
-          if (res) {
-            logConfig.logger.info('redis存入用户session成功状态：' + res);
-          }
+          res.send(parsedBody);
+          res.end();
         });
       }
-      res.send(parsedBody);
-      res.end();
     })
     .catch(function (err) {
       logConfig.logger.error('登陆接口错误信息：' + err);
