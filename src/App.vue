@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <Top></Top>
+    <Top v-show="$store.state.topShow"></Top>
     <router-view></router-view>
     <Bottom></Bottom>
   </div>
