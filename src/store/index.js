@@ -9,6 +9,7 @@ Vue.use(Vuex)
 const state = {
   userInfo: null, //用户信息
   login: false,//是否登录
+  topShow: true,
 }
 
 export default new Vuex.Store({

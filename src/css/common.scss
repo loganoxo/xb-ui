@@ -34,9 +34,7 @@ input[type="number"]{
   -moz-appearance: textfield;
 }
 
-.clear{
-  zoom:1;
-}
+
 
 .clear::after{
   content: '';
@@ -56,22 +54,24 @@ input[type="number"]{
 .right{
   float: right;
 }
-
+.block{
+  display: block;
+}
 .pos-rel{
   position: relative;
 }
-
 .over-hd{
   overflow: hidden;
 }
-
 .vtc-mid{
   vertical-align: middle;
+}
+.vtc-btm{
+  vertical-align: bottom;
 }
 .text-ct{
   text-align: center;
 }
-
 .ellipsis{
   overflow: hidden;
   text-overflow: ellipsis;
@@ -80,11 +80,12 @@ input[type="number"]{
 .pos-lf-50{
   left: 50% !important;
 }
-
 .pos-lf-0{
   left: 0 !important;
 }
-
+.mg-at{
+  margin: auto;
+}
 .mt-5 {
   margin-top: 5px;
 }
@@ -127,21 +128,14 @@ input[type="number"]{
 .mt-40 {
   margin-top: 40px;
 }
-
 .mt-80{
   margin-top: 80px;
 }
-
 .ml-5 {
   margin-left: 5px;
 }
-
 .ml-10 {
   margin-left: 10px;
-}
-
-.ml-15 {
-  margin-left: 15px;
 }
 
 .ml-20 {
@@ -179,7 +173,9 @@ input[type="number"]{
 .mr-5 {
   margin-right: 5px;
 }
-
+.mr-10{
+  margin-right: 10px;
+}
 .mr-30 {
   margin-right: 30px;
 }
@@ -272,6 +268,13 @@ input[type="number"]{
   color: #ff6633;
   font-size: 20px;
   vertical-align: -webkit-baseline-middle;
+}
+
+.circle-text:before{
+  content: "•";
+  color: #999;
+  font-size: 20px;
+  vertical-align: bottom;
 }
 
 .container:before {
