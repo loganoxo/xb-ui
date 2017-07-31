@@ -39,4 +39,18 @@ export default {
     return fetch("/aip/task-create.json",params)
   },
 
+  /**
+   *实名认证初始换
+   */
+  verifiedInit (params) {
+    return fetch("/api/user/identity/index.json",params)
+  },
+
+  /**
+   *实名认证提交
+   */
+  verifiedSubmit (params) {
+    return fetch("/api/user/identity/saveidentity.json",params)
+  },
+
 }

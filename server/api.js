@@ -183,7 +183,64 @@ router.post('/api/send-verify-code.json', function (req, res, next) {
     });
 });
 
+
 /**
+ * 实名认证提交认证
+ * @param realname 姓名
+ * @param idcard  身份证号
+ * @param picUrl  身份证正面
+ * @param reversePicUrl 身份证反面
+ */
+router.post('/api/user/identity/saveidentity.json', function (req, res, next) {
+  let options = {
+    method: 'POST',
+    uri: baseUrl + '/user/identity/saveidentity',
+    formData: {
+      realname: req.body.realname,
+      idcard: req.body.idcard,
+      picUrl: req.body.picUrl,
+      reversePicUrl: req.body.reversePicUrl
+    },
+  };
+  request(options)
+    .then(function (parsedBody) {
+      logConfig.logger.info(parsedBody);
+      res.send(parsedBody);
+      res.end();
+    })
+    .catch(function (err) {
+      logConfig.logger.error(err);
+      res.json({status: false, msg: "服务器错误"});
+      res.end();
+    });
+});
+
+/**
+ * 实名认证初始化
+ * @param realName 姓名
+ * @param success   成功状态
+ * @param processing  审核中
+ */
+router.post('/api/user/identity/index.json', function (req, res, next) {
+  let options = {
+    method: 'POST',
+    uri: baseUrl + 'user/identity/index',
+  };
+  request(options)
+    .then(function (parsedBody) {
+      logConfig.logger.info(parsedBody);
+      res.send(parsedBody);
+      res.end();
+    })
+    .catch(function (err) {
+      logConfig.logger.error(err);
+      res.json({status: false, msg: "服务器错误"});
+      res.end();
+    });
+});
+
+
+/**`
  * 图形验证码接口
  * @param sessionID
  */
