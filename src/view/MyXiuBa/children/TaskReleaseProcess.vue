@@ -75,7 +75,7 @@
                 <Icon type="camera" size="20"></Icon>
               </div>
             </Upload>
-            <p class="size-color pl-60 mt-10">支持jpg \ jpeg \ gif \ bmp格式，最佳尺寸400*400（像素），不超过300K，可与宝贝主图一致</p>
+            <p class="size-color pl-60 mt-10">点击自主上传图片，支持jpg \ jpeg \ gif \ bmp格式，最佳尺寸400*400（像素），不超过300K，可与宝贝主图一致</p>
           </div>
           <div class="baby-url ml-45 mt-20">
             <span class="required">宝贝地址：</span>
@@ -147,7 +147,7 @@
                 </div>
               </Upload>
               <p
-                class="size-color pl-60 mt-10">点击或者拖拽自主上传图片，支持jpg \ jpeg \ gif \ bmp格式，最佳尺寸400*400（像素），不超过300K，可与宝贝主图一致</p>
+                class="size-color pl-60 mt-10">点击自主上传图片，支持jpg \ jpeg \ gif \ bmp格式，最佳尺寸400*400（像素），不超过300K，可与宝贝主图一致</p>
             </div>
             <div class="search-keyword mt-20 ml-28">
               <span class="required">搜索关键词：</span>
@@ -252,7 +252,7 @@
                 </div>
               </Upload>
               <p
-                class="size-color pl-60 mt-10">点击或者拖拽自主上传图片，支持jpg \ jpeg \ gif \ bmp格式，最佳尺寸400*400（像素），不超过300K，可与宝贝主图一致</p>
+                class="size-color pl-60 mt-10">点击自主上传图片，支持jpg \ jpeg \ gif \ bmp格式，最佳尺寸400*400（像素），不超过300K，可与宝贝主图一致</p>
             </div>
             <div class="search-keyword mt-20 ml-28">
               <span class="required">搜索关键词：</span>
@@ -542,13 +542,13 @@
         });
       },
       handleBeforeUpload() {
-        const check = this.mainUploadList.length < 1;
+       /* const check = this.mainUploadList.length < 1;
         if (!check) {
           this.$Modal.warning({
             title: '最多只能上传 1 张图片。'
           });
         }
-        return check;
+        return check;*/
       },
       stepNext() {
         let _this = this;
@@ -643,9 +643,9 @@
             _this.taskRelease.taskDetail = _this.taoCodeTaskDetail;
             break;
         }
-        _this.stepName = 'deposit';
         api.taskCreate(_this.taskRelease).then( res =>{
           this.nextCurrent();
+          _this.stepName = 'deposit';
         })
       },
       returnUpStep() {
