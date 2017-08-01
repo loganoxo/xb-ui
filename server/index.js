@@ -14,12 +14,18 @@ const session = require('express-session');
 // const uid = require('uid-safe');
 const app = express();
 logConfig.use(app);
+var RedisStore = require('connect-redis')(session);
+var redisOptions={
+  host:config.redis.host,
+  port:config.redis.port,
+  prefix:"node:xiuba:session:",
+  db:config.redis.db,
+  ttl:3600
+};
 app.use(session({
-  name: 'nSession',
-  secret: 'ycb',
-  cookie: {maxAge: null},
-  resave: false,
-  saveUninitialized: true,
+  store: new RedisStore(redisOptions),
+  name: 'sid',
+  secret: 'xiuba love you 2017!',
 }));
 app.use(cookieParser());
 app.use(bodyParser.json());
