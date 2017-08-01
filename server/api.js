@@ -205,36 +205,36 @@ router.post('/api/sign-out.json', (req, res, next) => {
 
 
   /*  let options = {
-      method: 'POST',
-      uri: baseUrl + '/user/sign-in',
-      formData: {
-        phone: req.body.phone,
-        passWord: req.body.passWord,
-      },
-      json: true,
-    };
-    request(options)
-      .then(function (parsedBody) {
-        if (parsedBody.status) {
-          logConfig.logger.info(parsedBody);
-          let userData = parsedBody.data;*/
+   method: 'POST',
+   uri: baseUrl + '/user/sign-in',
+   formData: {
+   phone: req.body.phone,
+   passWord: req.body.passWord,
+   },
+   json: true,
+   };
+   request(options)
+   .then(function (parsedBody) {
+   if (parsedBody.status) {
+   logConfig.logger.info(parsedBody);
+   let userData = parsedBody.data;*/
   /*
-          req.session.destroy(function (serr) {
-            if(!serr) {
-              redisClient.hgetall('node:xiuba:session:' + req.sessionID, function(err, object) {
-                redisClient.del('node:xiuba:session:' + req.sessionID);
-                redisClient.del('node:xiuba:backup-session:' + req.sessionID);
-                logConfig.logger.info(object);
-              });
-            }
-          });
-  */
+   req.session.destroy(function (serr) {
+   if(!serr) {
+   redisClient.hgetall('node:xiuba:session:' + req.sessionID, function(err, object) {
+   redisClient.del('node:xiuba:session:' + req.sessionID);
+   redisClient.del('node:xiuba:backup-session:' + req.sessionID);
+   logConfig.logger.info(object);
+   });
+   }
+   });
+   */
   /* }
- })
- .catch(function (err) {
+   })
+   .catch(function (err) {
    logConfig.logger.error('登陆接口错误信息：' + err);
    res.end("服务器错误");
- });*/
+   });*/
 });
 
 /**
@@ -262,8 +262,8 @@ router.post('/api/sign-up.json', function (req, res, next) {
     },
     json: true,
   };
-  redisClient.get('node:xiuba:session:' + nSession, function (err, keys) {
-    if (Number(req.body.validateCode) === Number(keys)) {
+  getSessionData(req, function (data) {
+    if (Number(req.body.validateCode) === Number(data.vrCode)) {
       request(options).then(function (parsedBody) {
         logConfig.logger.info(parsedBody);
         res.send(parsedBody);
@@ -273,15 +273,14 @@ router.post('/api/sign-up.json', function (req, res, next) {
         res.json({status: false, msg: "服务器错误"});
         res.end();
       });
-    } else if (!keys) {
+    } else if (!data.vrCode) {
       res.json({status: false, msg: "图形验证码过期"});
       res.end();
     } else {
       res.json({status: false, msg: "图形验证码不符"});
       res.end();
     }
-  })
-
+  });
 });
 
 /**
@@ -321,55 +320,32 @@ router.post('/api/send-verify-code.json', function (req, res, next) {
  * @param reversePicUrl 身份证反面
  */
 router.post('/api/user/identity/saveidentity.json', function (req, res, next) {
-  // redisClient.hgetall(req.sessionID, function (err, object) {
-  //   let options = {
-  //     method: 'POST',
-  //     uri: baseUrl + '/user/identity/saveidentity',
-  //     formData: {
-  //       usrID: object,
-  //       realname: req.body.realname,
-  //       idcard: req.body.idcard,
-  //       picUrl: req.body.picUrl,
-  //       reversePicUrl: req.body.reversePicUrl
-  //     },
-  //     json: true,
-  //   };
-  //   request(options)
-  //     .then(function (parsedBody) {
-  //       logConfig.logger.info(parsedBody);
-  //       res.send(parsedBody);
-  //       res.end();
-  //     })
-  //     .catch(function (err) {
-  //       logConfig.logger.error(err);
-  //       res.json({status: false, msg: "服务器错误"});
-  //       res.end();
-  //     });
-  // });
-
-  let options = {
-    method: 'POST',
-    uri: baseUrl + '/user/identity/saveidentity',
-    formData: {
-      realname: req.body.realname,
-      idcard: req.body.idcard,
-      picUrl: req.body.picUrl,
-      reversePicUrl: req.body.reversePicUrl
-    },
-    json: true,
-  };
-  request(options)
-    .then(function (parsedBody) {
-      logConfig.logger.info(parsedBody);
-      res.send(parsedBody);
-      res.end();
-    })
-    .catch(function (err) {
-      logConfig.logger.error(err);
-      res.json({status: false, msg: "服务器错误"});
-      res.end();
-    });
-
+  getSessionData(req, function (data) {
+    let options = {
+      method: 'POST',
+      uri: baseUrl + '/user/identity/saveidentity',
+      formData: {
+        phone: req.body.phone,
+        userId: req.body.userId,
+        realname: req.body.realname,
+        idcard: req.body.idcard,
+        picUrl: req.body.picUrl,
+        reversePicUrl: req.body.reversePicUrl
+      },
+      json: true,
+    };
+    request(options)
+      .then(function (parsedBody) {
+        logConfig.logger.info(parsedBody);
+        res.send(parsedBody);
+        res.end();
+      })
+      .catch(function (err) {
+        logConfig.logger.error(err);
+        res.json({status: false, msg: "服务器错误"});
+        res.end();
+      });
+  });
 });
 
 /**
@@ -400,6 +376,9 @@ router.post('/api/identity-index.json', function (req, res, next) {
   let options = {
     method: 'POST',
     uri: baseUrl + '/user/identity/index',
+    formData: {
+      userId: req.body.userId
+    }
   };
   request(options)
     .then(function (parsedBody) {

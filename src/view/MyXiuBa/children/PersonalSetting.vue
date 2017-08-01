@@ -8,7 +8,7 @@
     <div class="personal-sel-box">
       <!--账号信息beg-->
       <div v-show="infoSelect == 'accountInfo'" class="animated fadeIn">
-        账号信息
+        {{$store.state.userInfo}}
       </div>
       <!--账号信息end-->
 
@@ -112,30 +112,27 @@
               </Form-item>
               <Form-item label="手持身份证正面面照"  class="ww-info-img">
                 <Upload
-                ref="pcUpload"
-                name="身份证正面截图"
-                :show-upload-list="false"
-                :on-success="handleSuccess"
-                :format="['jpg','jpeg','png','gif','bmp']"
-                :max-size="300"
-                :on-format-error="handleFormatError"
-                :on-exceeded-size="handleMaxSize"
-                :before-upload="handleBeforeUpload"
-                v-model="verifiedValidate.picUrl"
-                type="drag">
-                <div style="width: 58px;height:58px;line-height: 58px;">
-                  <Icon type="camera" size="20"></Icon>
-                </div>
-              </Upload>
+                  :show-upload-list="false"
+                  :on-success="handlePicUrlSuccess"
+                  :format="['jpg','jpeg','png','gif','bmp']"
+                  :max-size="500"
+                  name="picUrl"
+                  :on-format-error="handleFormatError"
+                  :on-exceeded-size="handleMaxSize"
+                  :before-upload="handleBeforeUpload"
+                  type="drag">
+                  <div style="width: 58px;height:58px;line-height: 58px;">
+                    <Icon type="camera" size="20"></Icon>
+                  </div>
+                </Upload>
               </Form-item>
               <Form-item label="手持身份证反面照"  class="ww-info-img" >
                 <Upload
-                  ref="pcUpload"
-                  name="身份证正面截图"
+                  name="reversePicUrl"
                   :show-upload-list="false"
-                  :on-success="handleSuccess"
+                  :on-success="handleReversePicUrlSuccess"
                   :format="['jpg','jpeg','png','gif','bmp']"
-                  :max-size="300"
+                  :max-size="500"
                   :on-format-error="handleFormatError"
                   :on-exceeded-size="handleMaxSize"
                   :before-upload="handleBeforeUpload"
@@ -210,6 +207,8 @@
   import Radio from 'iview/src/components/radio'
   import api from '@/config/apiConfig'
   import Upload from '@/components/upload'
+  import {setStorage, getStorage} from '@/config/utils'
+  import {aliCallbackImgUrl} from '@/config/env'
   //  import {setStorage, getStorage} from '/src/config/utils'
   export default {
     name: 'TaskReleaseProcess',
@@ -276,6 +275,8 @@
           verifiedFailed: 3
         },
         verifiedValidate: {
+          userId: '',
+          phone: '',
           realname: '',
           idcard: '',
           picUrl: '',
@@ -295,14 +296,15 @@
 
     },
     created() {
-      this.verifiedInit()
+      if(getStorage("userInfo")){
+        this.$store.state.userInfo = getStorage("userInfo");
+      }
+      this.verifiedInit({userId: this.$store.state.userInfo.id})
     },
     computed: {},
     methods: {
-
-
-      verifiedInit(){
-        api.verifiedInit().then((res) => {
+      verifiedInit(params){
+        api.verifiedInit(params).then((res) => {
             this.verifiedState = res.status;
             if(!this.verifiedState){
               this.verifiedState = 10;
@@ -322,18 +324,27 @@
 
       },
       verifiedFunc(){
-        this.verifiedValidate.picUrl = 'https://gd1.alicdn.com/imgextra/i2/TB1gtR8SpXXXXc_XpXXYXGcGpXX_M2.SS2_400x400.jpg_.webp';
-        this.verifiedValidate.reversePicUrl = 'https://gd1.alicdn.com/imgextra/i2/TB1gtR8SpXXXXc_XpXXYXGcGpXX_M2.SS2_400x400.jpg_.webp';
+        this.verifiedValidate.userId = this.$store.state.userInfo.id;
+        this.verifiedValidate.phone = this.$store.state.userInfo.phone;
+        console.log(this.verifiedValidate);
         api.verifiedSubmit(this.verifiedValidate).then((res) => {
-            console.log(res);
+            if(res.status){
+              this.verifiedState = this.verifiedStatus.verifiedIng;
+            }
         })
       },
       handleReset (name) {
       },
+      handlePicUrlSuccess(res, file) {
+        this.verifiedValidate.picUrl = aliCallbackImgUrl + res.name;
+          console.log(this.verifiedValidate.picUrl);
+      },
+      handleReversePicUrlSuccess(res,file){
+        this.verifiedValidate.reversePicUrl = aliCallbackImgUrl + res.name;
+        console.log(this.verifiedValidate.reversePicUrl);
+      },
       handleSuccess(res, file) {
-        // 因为上传过程为实例，这里模拟添加 url
-        file.url = 'http://img4.duitang.com/uploads/item/201507/22/20150722145405_mkadu.thumb.700_0.jpeg';
-        file.name = '7eb99afb9d5f317c912f08b5212fd69a';
+//        this.verifiedValidate.picUrl = aliCallbackImgUrl + res.name;
       },
       handleFormatError(file) {
         this.$Modal.warning({

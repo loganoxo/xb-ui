@@ -49,8 +49,8 @@ export default {
   /**
    *实名认证初始化
    */
-  verifiedInit () {
-    return fetch("/api/identity-index.json")
+  verifiedInit (params) {
+    return fetch("/api/identity-index.json",params)
   },
 
   /**

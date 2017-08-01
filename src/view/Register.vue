@@ -319,14 +319,14 @@
       }
     }
     > div:first-child {
-      margin-left: 300px;
+      margin-left: 360px;
       margin-right: 129px;
     }
     .register-ctt-top-line {
       position: absolute;
       width: 172px;
       border-bottom: 2px solid $mainColor;
-      left: 300px;
+      left: 360px;
       bottom: -2px;
     }
   }

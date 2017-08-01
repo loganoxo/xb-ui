@@ -525,7 +525,6 @@
       onEditorFocus(editor) {},
       onEditorReady(editor) {},
       handleSuccess(res, file) {
-        console.log(aliCallbackImgUrl);
         this.taskRelease.taskMainImage = aliCallbackImgUrl + res.name;
       },
       handleFormatError(file) {

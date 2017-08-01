@@ -5,12 +5,13 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 import mutations from './mutations'
 import action from './action'
-Vue.use(Vuex)
+import {setStorage, getStorage} from '../config/utils'
+Vue.use(Vuex);
 const state = {
-  userInfo: null, //用户信息
+  userInfo: {}, //用户信息
   login: false,//是否登录
   topShow: true,
-}
+};
 
 export default new Vuex.Store({
   state,
