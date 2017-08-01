@@ -19,7 +19,7 @@ app.use(session({
   secret: 'ycb',
   cookie: {maxAge: null},
   resave: false,
-  saveUninitialized: false,
+  saveUninitialized: true,
 }));
 app.use(cookieParser());
 app.use(bodyParser.json());

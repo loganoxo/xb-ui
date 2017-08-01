@@ -3,7 +3,7 @@
  */
 module.exports = {
   port: 8088,
-  baseUrl: 'http://192.168.1.65:8080',
+  baseUrl: 'http://192.168.1.128:9880',
   redis: {
     port: '6543',
     host: '192.168.1.44',

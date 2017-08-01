@@ -1,109 +1,113 @@
 <template>
-  <div class="login-ctt">
-    <div class="container">
-      <div class="login-lf">
-        <img src="~assets/img/login/login_01.png" alt="">
-      </div>
-      <div class="login-rt">
-        <div class="login-rt-ctt">
-          <p class="login-rt-ctt-top">
-            <a @click="selLogin = true" :class="[selLogin ? 'active' : '']">
-              <Icon v-show="selLogin" type="person" color="#ff6633"></Icon>
-              <Icon v-show="!selLogin" type="person"></Icon>
-              用户登录
-            </a>
-            <a @click="selLogin = false" :class="[selLogin ? '' : 'active']">
-              <Icon v-show="!selLogin" type="iphone" color="#ff6633"></Icon>
-              <Icon v-show="selLogin" type="iphone"></Icon>
-              手机动态码登录
-            </a>
-            <span class="login-rt-ctt-top-line" :class="[selLogin ? 'pos-lf-0' : 'pos-lf-50']"></span>
-          </p>
-          <div class="login-rt-ctt-ctt">
-            <iForm ref="loginNormalCustom" :model="loginNormalCustom" :rules="loginNormalRuleCustom" v-show="selLogin"
-                   :class="[selLogin ? 'animated fadeIn' : 'animated fadeOut']">
-              <Form-item prop="phone">
-                <iInput placeholder="请输入手机号码" size="large" v-model="loginNormalCustom.phone"></iInput>
-              </Form-item>
-              <Form-item prop="passWord" style="margin-top: 10px;">
-                <iInput type="password" placeholder="请输入密码" size="large" v-model="loginNormalCustom.passWord"></iInput>
-              </Form-item>
-              <div class="remember-box">
-                <Form-item class="left">
-                  <Checkbox-group>
-                    <Checkbox label="记住我(公共电脑建议勿勾选)" v-model="rememberAccount"></Checkbox>
-                  </Checkbox-group>
+  <div>
+    <role-top></role-top>
+    <div class="login-ctt">
+      <div class="container">
+        <div class="login-lf">
+          <img src="~assets/img/login/login_01.png" alt="">
+        </div>
+        <div class="login-rt">
+          <div class="login-rt-ctt">
+            <p class="login-rt-ctt-top">
+              <a @click="selLogin = true" :class="[selLogin ? 'active' : '']">
+                <Icon v-show="selLogin" type="person" color="#ff6633"></Icon>
+                <Icon v-show="!selLogin" type="person"></Icon>
+                用户登录
+              </a>
+              <a @click="selLogin = false" :class="[selLogin ? '' : 'active']">
+                <Icon v-show="!selLogin" type="iphone" color="#ff6633"></Icon>
+                <Icon v-show="selLogin" type="iphone"></Icon>
+                手机动态码登录
+              </a>
+              <span class="login-rt-ctt-top-line" :class="[selLogin ? 'pos-lf-0' : 'pos-lf-50']"></span>
+            </p>
+            <div class="login-rt-ctt-ctt">
+              <iForm ref="loginNormalCustom" :model="loginNormalCustom" :rules="loginNormalRuleCustom" v-show="selLogin"
+                     :class="[selLogin ? 'animated fadeIn' : 'animated fadeOut']">
+                <Form-item prop="phone">
+                  <iInput placeholder="请输入手机号码" size="large" v-model="loginNormalCustom.phone"></iInput>
                 </Form-item>
-                <!--<a class="right mt-6" href="">忘记密码</a>-->
-              </div>
-              <iButton style="margin-top: 25px;" type="error" long size="large"
-                       @click="handleSubmit('loginNormalCustom',setUserInfo)">
-                登录
-              </iButton>
-            </iForm>
-            <iForm ref="loginTrendsCustom" :model="loginTrendsCustom" :rules="loginTrendsRuleCustom" v-show="!selLogin"
-                   :class="[selLogin ? 'animated fadeOut' : 'animated fadeIn']">
-              <Form-item prop="phone">
-                <iInput placeholder="请输入手机号码" size="large" v-model="loginTrendsCustom.phone"></iInput>
-              </Form-item>
-              <div class="mt-10 over-hd ">
-                <div style="width: 200px; float: left">
-                  <Form-item size="large" prop="validateCode">
-                    <iInput placeholder="图片验证码" size="large" v-model="loginTrendsCustom.validateCode"></iInput>
+                <Form-item prop="passWord" style="margin-top: 10px;">
+                  <iInput type="password" placeholder="请输入密码" size="large" v-model="loginNormalCustom.passWord"></iInput>
+                </Form-item>
+                <div class="remember-box">
+                  <Form-item class="left">
+                    <Checkbox-group>
+                      <Checkbox label="记住我(公共电脑建议勿勾选)" v-model="rememberAccount"></Checkbox>
+                    </Checkbox-group>
+                  </Form-item>
+                  <!--<a class="right mt-6" href="">忘记密码</a>-->
+                </div>
+                <iButton style="margin-top: 25px;" type="error" long size="large"
+                         @click="handleSubmit('loginNormalCustom',setUserInfo)">
+                  登录
+                </iButton>
+              </iForm>
+              <iForm ref="loginTrendsCustom" :model="loginTrendsCustom" :rules="loginTrendsRuleCustom" v-show="!selLogin"
+                     :class="[selLogin ? 'animated fadeOut' : 'animated fadeIn']">
+                <Form-item prop="phone">
+                  <iInput placeholder="请输入手机号码" size="large" v-model="loginTrendsCustom.phone"></iInput>
+                </Form-item>
+                <div class="mt-10 over-hd ">
+                  <div style="width: 200px; float: left">
+                    <Form-item size="large" prop="validateCode">
+                      <iInput placeholder="图片验证码" size="large" v-model="loginTrendsCustom.validateCode"></iInput>
+                    </Form-item>
+                  </div>
+                  <div style="width: 100px; float:left;">
+                    <img :src="imgSrc" width="100%" alt="" @click="getVrcode">
+                  </div>
+                </div>
+                <div class="pos-rel" @click="checkPhone">
+                  <Form-item class="pt-10 clear" prop="smsCode">
+                    <iInput placeholder="动态码" size="large" v-model="loginTrendsCustom.smsCode"></iInput>
+                  </Form-item>
+                  <SmsCountdown ref="timerbtn" class="btn btn-default" @sendCode="sendCode"
+                                :phone="loginTrendsCustom.phone"></SmsCountdown>
+                </div>
+
+                <div class="remember-box clear" style="margin-top: 15px;">
+                  <Form-item class="left">
+                    <Checkbox-group>
+                      <Checkbox label="记住手机号码" v-model="rememberPhone"></Checkbox>
+                    </Checkbox-group>
                   </Form-item>
                 </div>
-                <div style="width: 100px; float:left;">
-                  <img :src="imgSrc" width="100%" alt="" @click="getVrcode">
-                </div>
-              </div>
-              <div class="pos-rel" @click="checkPhone">
-                <Form-item class="pt-10 clear" prop="smsCode">
-                  <iInput placeholder="动态码" size="large" v-model="loginTrendsCustom.smsCode"></iInput>
-                </Form-item>
-                <SmsCountdown ref="timerbtn" class="btn btn-default" @sendCode="sendCode"
-                              :phone="loginTrendsCustom.phone"></SmsCountdown>
-              </div>
-
-              <div class="remember-box clear" style="margin-top: 15px;">
-                <Form-item class="left">
-                  <Checkbox-group>
-                    <Checkbox label="记住手机号码" v-model="rememberPhone"></Checkbox>
-                  </Checkbox-group>
-                </Form-item>
-              </div>
-              <iButton size="large" style="margin-top: 15px;" type="error" long
-                       @click="handleSubmit('loginTrendsCustom',checkRole)">
-                登录
-              </iButton>
-            </iForm>
-            <p class="fs-14 login-rt-ctt-btm">
-              <a class="left" href="">
-                <img class="left   mt-7 mr-5" src="~assets/img/common/qq_logo.png" alt="">
-                QQ账号登录
-              </a>
-              <router-link class="right" to="/register">注册</router-link>
-              <span class="right">没有账号，点击</span>
-            </p>
+                <iButton size="large" style="margin-top: 15px;" type="error" long
+                         @click="handleSubmit('loginTrendsCustom',checkRole)">
+                  登录
+                </iButton>
+              </iForm>
+              <p class="fs-14 login-rt-ctt-btm">
+                <a class="left" href="">
+                  <img class="left   mt-7 mr-5" src="~assets/img/common/qq_logo.png" alt="">
+                  QQ账号登录
+                </a>
+                <router-link class="right" to="/register">注册</router-link>
+                <span class="right">没有账号，点击</span>
+              </p>
+            </div>
           </div>
         </div>
       </div>
+      <Modal
+        v-model="selRole"
+        class-name="vertical-center-modal" cancel-text="" @on-ok="getRegister">
+        <h1 class="text-ct">注册角色选择</h1>
+        <div class="text-ct">
+          <label class="fs-16">
+            <input style="vertical-align: middle;font-size: 16px;" type="radio" v-model="loginTrendsCustom.role"
+                   v-bind:value="0">秀客
+        </label>
+          <label class="fs-16">
+            <input style="vertical-align: middle;font-size: 16px;" type="radio" v-model="loginTrendsCustom.role"
+                   v-bind:value="1">商家
+        </label>
+        </div>
+      </Modal>
     </div>
-    <Modal
-      v-model="selRole"
-      class-name="vertical-center-modal" cancel-text="" @on-ok="getRegister">
-      <h1 class="text-ct">注册角色选择</h1>
-      <div class="text-ct">
-        <label class="fs-16">
-          <input style="vertical-align: middle;font-size: 16px;" type="radio" v-model="loginTrendsCustom.role"
-                 v-bind:value="0">秀客
-        </label>
-        <label class="fs-16">
-          <input style="vertical-align: middle;font-size: 16px;" type="radio" v-model="loginTrendsCustom.role"
-                 v-bind:value="1">商家
-        </label>
-      </div>
-    </Modal>
   </div>
+
 </template>
 
 <script>
@@ -117,6 +121,7 @@
   import {setStorage, getStorage} from '../config/utils'
   import SmsCountdown from '@/components/SmsCountdown'
   import Modal from 'iview/src/components/modal'
+  import RoleTop from '@/components/RoleTop.vue'
   //  import BombBox from '../components/Bombox'
 
   export default {
@@ -131,7 +136,8 @@
       Icon: Icon,
       SmsCountdown: SmsCountdown,
       Radio: Radio,
-      Modal: Modal
+      Modal: Modal,
+      RoleTop: RoleTop
     },
     data() {
       //表单验证
@@ -234,9 +240,10 @@
           validateCode: this.loginTrendsCustom.validateCode
         }).then((res) => {
           if (res.status) {
-            this.instance('success', '', res.msg)
+            this.instance('success', '', res.msg);
+            this.$router.go({name: 'home'});
           } else {
-            this.instance('error', '', res.msg)
+            this.instance('error', '', res.msg);
           }
         })
       },
@@ -258,7 +265,8 @@
             this.$store.state.userInfo = res.data;
             this.$store.state.login = true;
             this.rememberAccountFunc();
-            this.instance('success', '', res.msg)
+            this.instance('success', '', res.msg);
+            this.$router.go({name: 'home'})
           } else {
             this.instance('error', '', res.msg)
           }

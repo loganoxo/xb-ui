@@ -1,24 +1,17 @@
 <template>
   <div class="register-ctt">
+    <role-top></role-top>
     <div class="container">
       <div class="register-ctt-top pos-rel">
         <div class="left active">
           <span>1</span>
           填写注册信息
-
-
-
-
         </div>
         <div class="left pos-rel">
           <div class="fs-22 left">
             <Icon type="checkmark-circled" size="50px" color="#ccc"></Icon>
           </div>
           注册成功
-
-
-
-
         </div>
         <div class="register-ctt-top-line"></div>
       </div>
@@ -110,6 +103,7 @@
   import Checkbox from 'iview/src/components/checkbox'
   import api from '../config/apiConfig'
   import SmsCountdown from '@/components/SmsCountdown'
+  import RoleTop from '@/components/RoleTop.vue'
   export default {
     name: 'register',
     components: {
@@ -120,7 +114,8 @@
       Checkbox: Checkbox,
       CheckboxGroup: Checkbox.Group,
       Icon: Icon,
-      SmsCountdown: SmsCountdown
+      SmsCountdown: SmsCountdown,
+      RoleTop: RoleTop
     },
     data () {
       //表单验证

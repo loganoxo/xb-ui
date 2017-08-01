@@ -1,26 +1,70 @@
 <template>
-  <div id="top" class="">
-    <div class="container">
-      <a href="/" class="logo-link">
-        <img src="~assets/img/common/logo.png" alt="">
-      </a>
-      <div class="right top-rt">
-        <router-link to="/">首页</router-link>
-        <span>|</span>
-        <router-link to="/login">登陆</router-link>
-        <span>|</span>
-        <a href="">帮助中心</a>
+  <div>
+    <top-tip></top-tip>
+    <div class="home-top">
+      <div class="container">
+        <img src="~assets/img/common/top_logo.png" alt="" class="left mt-20">
+        <div class="left">
+          <div class="search-box">
+            <div class="pos-rel">
+              <div>
+                <a href="" class="active">宝贝</a>
+                <a href="">店铺</a>
+              </div>
+              <i class="ivu-icon ivu-icon-ios-search"></i>
+              <input type="text" class="search-btn">
+              <i data-v-fae95c8a="" class="ivu-icon ivu-icon-camera"></i>
+            </div>
+            <a href="">搜索</a>
+            <p class="link-text">
+              <a class="active" href="">男士内裤</a>
+              <a class="active" href="">时尚连衣裙</a>
+              <a href="">新款男鞋</a>
+              <a href="">时尚跑鞋</a>
+              <a href="">T恤</a>
+              <a class="active" href="">女士凉鞋</a>
+              <a href="">休闲短裤</a>
+              <a href="">背带裤</a>
+              <a href="">沙发垫</a>
+              <a href="">面膜</a>
+              <a href="">理发器</a>
+              <a href="">装饰画</a>
+              <a href="">更多></a>
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="home-nav">
+      <div class="container">
+        <a href="">首页</a>
+        <a href="">潮流女装</a>
+        <a href="">精品男装</a>
+        <a href="">时尚配饰</a>
+        <a href="">美容护肤</a>
+        <a href="">家具日用</a>
+        <a href="">鞋子箱包</a>
+        <a href="">数码家电</a>
+        <a href="">综合试用</a>
       </div>
     </div>
   </div>
+
 </template>
 
 <script>
+  import TopTip from '@/components/TopTip.vue'
   export default {
-    name: 'top',
+    name: 'home',
+    components: {
+      TopTip: TopTip
+    },
     data () {
       return {}
-    }
+    },
+    created(){
+    },
+    methods: {}
   }
 </script>
 
@@ -28,28 +72,102 @@
   @import 'src/css/common';
   @import 'src/css/mixin';
 
-  #top {
-    background-color: #F8F8F8;
+  .home-top {
+    height: 142px;
+    background-color: #fff;
     > div {
-      background-color: #F8F8F8;
-      height: 80px;
-    }
-    border-bottom: 1px solid #F1F1F1;
-    .logo-link {
-      float: left;
-    }
-    .top-rt {
-      display: table;
-      height: 100%;
-      a, span {
-        display: table-cell;
-        vertical-align: middle;
-        font-size: 14px;
-        color: #B0B0B0;
+      background-color: #fff;
+      div.search-box {
+        margin-left: 75px;
+        margin-top: 60px;
+        > a {
+          display: inline-block;
+          background-color: $mainColor;
+          color: #fff;
+          width: 122px;
+          height: 40px;
+          line-height: 40px;
+          text-align: center;
+          font-size: 16px;
+        }
+        p.link-text {
+          margin-top: 5px;
+          a {
+            color: #666;
+            padding: 5px 1px;
+            font-size: 13px;
+          }
+          a.active {
+            color: $mainColor;
+          }
+        }
+        > div.pos-rel {
+          float: left;
+          > div {
+            position: absolute;
+            top: -24px;
+            left: 0;
+            a {
+              display: inline-block;
+              height: 24px;
+              width: 48px;
+              text-align: center;
+              background-color: #fff;
+              color: $mainColor;
+              line-height: 24px;
+            }
+            a.active {
+              color: #fff;
+              background-color: $mainColor;
+            }
+
+          }
+        }
+        i.ivu-icon-ios-search {
+          position: absolute;
+          top: 11px;
+          left: 13px;
+          font-size: 20px;
+          color: #ccc;
+          cursor: pointer;
+        }
+        i.ivu-icon-camera {
+          position: absolute;
+          top: 8px;
+          right: 13px;
+          font-size: 24px;
+          color: #ccc;
+          cursor: pointer;
+        }
+        input.search-btn {
+          padding-left: 40px;
+          padding-right: 40px;
+          border: 3px solid $mainColor;
+          height: 40px;
+          outline: none;
+          width: 504px;
+        }
       }
+
+    }
+  }
+
+  .home-nav {
+    height: 42px;
+    background-color: $mainColor;
+    > div {
+      background-color: $mainColor;
       a {
-        padding: 10px;
+        float: left;
+        width: 120px;
+        text-align: center;
+        font-size: 16px;
+        height: 42px;
+        line-height: 42px;
+        color: #fff;
+
       }
     }
   }
+
 </style>

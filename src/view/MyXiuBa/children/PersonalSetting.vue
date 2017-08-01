@@ -1,14 +1,19 @@
 <template>
   <div class="personal-box">
     <div class="personal-sel-top">
-      <a href="">账号信息</a>
-      <a href="">旺旺号绑定</a>
-      <a href="" class="active">实名认证</a>
+      <a v-for="myInfoSelect in myInfoSelects" :class="{active:infoSelect == myInfoSelect.isSelect}" @click="infoSelect=myInfoSelect.isSelect">
+        {{myInfoSelect.text}}
+      </a>
     </div>
     <div class="personal-sel-box">
+      <!--账号信息beg-->
+      <div v-show="infoSelect == 'accountInfo'" class="animated fadeIn">
+        账号信息
+      </div>
+      <!--账号信息end-->
 
       <!--旺旺号绑定beg-->
-      <div v-show="false" class="ww-account-box">
+      <div v-show="infoSelect == 'wwBind'" class="ww-account-box animated fadeIn">
         <div class="ww-account-list">
           <a class="">添加新旺旺号</a>
           <ul class="ww-account-title">
@@ -49,16 +54,31 @@
         </div>
         <div class="ww-account-bind">
           <div class="ww-account-form">
-            <iForm ref="wwFormValidate" :model="wwFormValidate" label-position="right" :label-width="100">
-              <Form-item label="旺旺ID">
+            <iForm ref="wwFormValidate" :model="wwFormValidate" :rules="wwFormRuleCustom" label-position="right" :label-width="100">
+              <Form-item label="旺旺ID" prop="wwName">
                 <iInput v-model="wwFormValidate.wwName"></iInput>
               </Form-item>
               <Form-item label="旺旺信息截图"  class="ww-info-img">
-                <iInput v-model="wwFormValidate.wwInfoImg" type="file"></iInput>
+                <Upload
+                  ref="pcUpload"
+                  name="旺旺信息截图"
+                  :show-upload-list="false"
+                  :on-success="handleSuccess"
+                  :format="['jpg','jpeg','png','gif','bmp']"
+                  :max-size="300"
+                  :on-format-error="handleFormatError"
+                  :on-exceeded-size="handleMaxSize"
+                  :before-upload="handleBeforeUpload"
+                  v-model="wwFormValidate.wwInfoImg"
+                  type="drag">
+                  <div style="width: 58px;height:58px;line-height: 58px;">
+                    <Icon type="camera" size="20"></Icon>
+                  </div>
+                </Upload>
               </Form-item>
               <Form-item>
                 <iButton  style="background-color: #FF6865; color: #fff"
-                          @click="handleSubmit('wwFormValidate')">提交
+                          @click="handleSubmit('wwFormValidate',wwBindFunc)">提交
                   </iButton>
                 <iButton type="ghost" @click="handleReset('wwFormValidate')">重置</iButton>
               </Form-item>
@@ -80,8 +100,8 @@
       <!--旺旺号绑定end-->
 
       <!--实名认证beg-->
-      <div class="verified-box">
-        <div>
+      <div v-show="infoSelect == 'verified'" class="verified-box animated fadeIn">
+        <div v-if="verifiedState == verifiedStatus.verifiedBeg || verifiedState == verifiedStatus.verifiedFailed">
           <div class="verified-form">
             <iForm ref="verifiedValidate" :model="verifiedValidate" :rules="verifiedRuleCustom" label-position="right" :label-width="120">
               <Form-item label="真实姓名" prop="realname">
@@ -90,11 +110,41 @@
               <Form-item label="身份证号"  class="ww-info-img" prop="idcard">
                 <iInput v-model="verifiedValidate.idcard"></iInput>
               </Form-item>
-              <Form-item label="手持身份证正面照"  class="ww-info-img" prop="picUrl">
-                <iInput v-model="verifiedValidate.picUrl" type="file"></iInput>
+              <Form-item label="手持身份证正面面照"  class="ww-info-img">
+                <Upload
+                ref="pcUpload"
+                name="身份证正面截图"
+                :show-upload-list="false"
+                :on-success="handleSuccess"
+                :format="['jpg','jpeg','png','gif','bmp']"
+                :max-size="300"
+                :on-format-error="handleFormatError"
+                :on-exceeded-size="handleMaxSize"
+                :before-upload="handleBeforeUpload"
+                v-model="verifiedValidate.picUrl"
+                type="drag">
+                <div style="width: 58px;height:58px;line-height: 58px;">
+                  <Icon type="camera" size="20"></Icon>
+                </div>
+              </Upload>
               </Form-item>
-              <Form-item label="手持身份证反面照"  class="ww-info-img" prop="reversePicUrl">
-                <iInput v-model="verifiedValidate.reversePicUrl" type="file"></iInput>
+              <Form-item label="手持身份证反面照"  class="ww-info-img" >
+                <Upload
+                  ref="pcUpload"
+                  name="身份证正面截图"
+                  :show-upload-list="false"
+                  :on-success="handleSuccess"
+                  :format="['jpg','jpeg','png','gif','bmp']"
+                  :max-size="300"
+                  :on-format-error="handleFormatError"
+                  :on-exceeded-size="handleMaxSize"
+                  :before-upload="handleBeforeUpload"
+                  v-model="verifiedValidate.reversePicUrl"
+                  type="drag">
+                  <div style="width: 58px;height:58px;line-height: 58px;">
+                    <Icon type="camera" size="20"></Icon>
+                  </div>
+                </Upload>
               </Form-item>
               <p class="tip clear" style="margin-left: 116px;width: 600px;line-height: 30px;font-size: 14px;color: #999;padding-bottom: 30px;">
                 1.审核不通过：你的后台旺旺信息截图与旺旺ID不符合，请重新提交
@@ -110,9 +160,9 @@
               </p>
               <Form-item>
                 <iButton  style="background-color: #FF6865; color: #fff"
-                          @click="handleSubmit('verifiedValidate')">提交
+                          @click="handleSubmit('verifiedValidate',verifiedFunc)">提交
                 </iButton>
-                <iButton type="ghost" @click="handleReset('wwFormValidate')">重置</iButton>
+                <iButton type="ghost" @click="handleReset('verifiedValidate')">重置</iButton>
               </Form-item>
             </iForm>
           </div>
@@ -128,18 +178,25 @@
               <a href="">[查看示例截图]</a>
             </p>
           </div>
-          <p class="error-result-text clear">审核不通过：你的后台旺旺信息截图与旺旺ID不符合，请重新提交</p>
+          <p class="error-result-text clear" v-show="verifiedState == verifiedStatus.verifiedFailed">审核不通过：你的后台旺旺信息截图与旺旺ID不符合，请重新提交</p>
         </div>
-        <div class="verified-result">
-          <p>
+        <div class="verified-result" v-if="verifiedState == verifiedStatus.verifiedIng">
+          <p class="text-ct">
             <img src="~assets/img/common/right_64.png" alt="" class="vtc-btm">
             实名认证已提交
           </p>
-          <p>亲当前的实名认证已提交，工作人员会在一个工作日内审核你的活动，敬请关注！</p>
+          <p  class="text-ct">亲当前的实名认证已提交，工作人员会在一个工作日内审核你的活动，敬请关注！</p>
+
+        </div>
+        <div class="verified-result" v-if=" verifiedState == verifiedStatus.verifiedSuccess">
+          <p class="text-ct">
+            <img src="~assets/img/common/right_64.png" alt="" class="vtc-btm">
+            实名已认证
+          </p>
+          <p  class="text-ct">亲当前已是实名认证用户了~</p>
         </div>
       </div>
       <!--实名认证end-->
-
     </div>
   </div>
 </template>
@@ -152,6 +209,7 @@
   import Button from 'iview/src/components/button'
   import Radio from 'iview/src/components/radio'
   import api from '@/config/apiConfig'
+  import Upload from '@/components/upload'
   //  import {setStorage, getStorage} from '/src/config/utils'
   export default {
     name: 'TaskReleaseProcess',
@@ -164,58 +222,72 @@
       iButton: Button,
       Icon: Icon,
       Radio: Radio,
-      RadioGroup: Radio.Group
+      RadioGroup: Radio.Group,
+      Upload: Upload,
     },
     data() {
       //表单验证
-      const validatePhone = (rule, value, callback) => {
-        if (!(/^1[34578]\d{9}$/.test(value))) {
-          callback(new Error('请输入正确手机号'));
+      const validateName = (rule, value, callback) => {
+        if (value === '') {
+          callback(new Error('不能为空'));
         } else {
           callback()
         }
       };
-      const validatePass = (rule, value, callback) => {
+      const validateNameNum = (rule, value, callback) => {
         if (value === '') {
-          callback(new Error('请输入密码'));
-        } else {
-          callback()
-        }
-      };
-      const validateCode = (rule, value, callback) => {
-        if (value === '') {
-          callback(new Error('请输入图片验证码'));
-        } else {
-          callback()
-        }
-      };
-      const validateSmsCode = (rule, value, callback) => {
-        if (value === '') {
-          callback(new Error('请输入动态码'));
-        } else {
+          callback(new Error('请填写身份证号'));
+        } else if(!/(^[1-9]\d{5}(18|19|([23]\d))\d{2}((0[1-9])|(10|11|12))(([0-2][1-9])|10|20|30|31)\d{3}[0-9Xx]$)|(^[1-9]\d{5}\d{2}((0[1-9])|(10|11|12))(([0-2][1-9])|10|20|30|31)\d{2}[0-9Xx]$)/.test(value)) {
+          callback(new Error('身份证填写有误'))
+        }else {
           callback()
         }
       };
       return {
+        myInfoSelects: [
+          {
+            text: '账号信息',
+            isSelect: 'accountInfo'
+          },
+          {
+            text: '旺旺号绑定',
+            isSelect: 'wwBind'
+          },
+          {
+            text: '实名认证',
+            isSelect: 'verified'
+          },
+        ],
+        infoSelect: 'accountInfo',
+        wwFormValidate: {
+          wwName: '',
+          wwInfoImg: '',
+        },
+        wwFormRuleCustom: {
+          wwName: [
+            {validator: validateName, trigger: 'blur'},
+          ],
+        },
+        verifiedState: '',
+        verifiedStatus:{
+          verifiedBeg: 10,
+          verifiedIng: 1,
+          verifiedSuccess: 2,
+          verifiedFailed: 3
+        },
         verifiedValidate: {
-          realname: null,
-          idcard: null,
-          picUrl: null,
-          reversePicUrl: null
+          realname: '',
+          idcard: '',
+          picUrl: '',
+          reversePicUrl: ''
         },
         verifiedRuleCustom: {
           realname: [
-            {validator: validatePhone, trigger: 'blur'},
+            {validator: validateName, trigger: 'blur'},
           ],
           idcard: [
-            {validator: validatePass, trigger: 'blur'}
+            {validator: validateNameNum, trigger: 'blur'}
           ],
-          picUrl: [
-            {validator: validatePass, trigger: 'blur'}
-          ],
-          reversePicUrl: [
-            {validator: validatePass, trigger: 'blur'}
-          ]
         },
       }
     },
@@ -223,15 +295,66 @@
 
     },
     created() {
-
+      this.verifiedInit()
     },
     computed: {},
     methods: {
+
+
+      verifiedInit(){
+        api.verifiedInit().then((res) => {
+            this.verifiedState = res.status;
+            if(!this.verifiedState){
+              this.verifiedState = 10;
+            }
+        })
+      },
       handleSubmit (name, callback) {
+        let res = false;
+        this.$refs[name].validate((valid) => {
+          res = !!valid
+        });
+        if (typeof callback === 'function' && res) {
+          callback();
+        }
+      },
+      wwBindFunc(){
 
       },
+      verifiedFunc(){
+        this.verifiedValidate.picUrl = 'https://gd1.alicdn.com/imgextra/i2/TB1gtR8SpXXXXc_XpXXYXGcGpXX_M2.SS2_400x400.jpg_.webp';
+        this.verifiedValidate.reversePicUrl = 'https://gd1.alicdn.com/imgextra/i2/TB1gtR8SpXXXXc_XpXXYXGcGpXX_M2.SS2_400x400.jpg_.webp';
+        api.verifiedSubmit(this.verifiedValidate).then((res) => {
+            console.log(res);
+        })
+      },
       handleReset (name) {
-        this.$refs[name].resetFields();
+      },
+      handleSuccess(res, file) {
+        // 因为上传过程为实例，这里模拟添加 url
+        file.url = 'http://img4.duitang.com/uploads/item/201507/22/20150722145405_mkadu.thumb.700_0.jpeg';
+        file.name = '7eb99afb9d5f317c912f08b5212fd69a';
+      },
+      handleFormatError(file) {
+        this.$Modal.warning({
+          title: '文件格式不正确',
+          content: '图片 ' + file.name + ' 格式不正确，请上传 jpg 或 jpeg 或 gif 或 bmp 格式的图片。'
+        });
+      },
+      handleMaxSize(file) {
+        this.$Modal.warning({
+          title: '超出文件大小限制',
+          content: '图片 ' + file.name + ' 太大，不能超过 300K'
+        });
+      },
+      handleBeforeUpload() {
+        /* const check = this.mainUploadList.length < 1;
+         if (!check) {
+         this.$Modal.warning({
+         title: '最多只能上传 1 张图片。'
+         });
+         }
+         return check;*/
       },
     }
   }

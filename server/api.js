@@ -147,6 +147,7 @@ router.post('/api/sign-up.json', function (req, res, next) {
       smsCode: req.body.smsCode,
       role: req.body.role,
     },
+    json: true,
   };
   redisClient.get('node:xiuba:session:' + nSession, function (err, keys) {
     if (Number(req.body.validateCode) === Number(keys)) {
@@ -183,6 +184,7 @@ router.post('/api/send-verify-code.json', function (req, res, next) {
       phone: req.body.phone,
       purpose: req.body.purpose,
     },
+    json: true,
   };
   request(options)
     .then(function (parsedBody) {
@@ -206,6 +208,32 @@ router.post('/api/send-verify-code.json', function (req, res, next) {
  * @param reversePicUrl 身份证反面
  */
 router.post('/api/user/identity/saveidentity.json', function (req, res, next) {
+  // redisClient.hgetall(req.sessionID, function (err, object) {
+  //   let options = {
+  //     method: 'POST',
+  //     uri: baseUrl + '/user/identity/saveidentity',
+  //     formData: {
+  //       usrID: object,
+  //       realname: req.body.realname,
+  //       idcard: req.body.idcard,
+  //       picUrl: req.body.picUrl,
+  //       reversePicUrl: req.body.reversePicUrl
+  //     },
+  //     json: true,
+  //   };
+  //   request(options)
+  //     .then(function (parsedBody) {
+  //       logConfig.logger.info(parsedBody);
+  //       res.send(parsedBody);
+  //       res.end();
+  //     })
+  //     .catch(function (err) {
+  //       logConfig.logger.error(err);
+  //       res.json({status: false, msg: "服务器错误"});
+  //       res.end();
+  //     });
+  // });
+
   let options = {
     method: 'POST',
     uri: baseUrl + '/user/identity/saveidentity',
@@ -215,6 +243,7 @@ router.post('/api/user/identity/saveidentity.json', function (req, res, next) {
       picUrl: req.body.picUrl,
       reversePicUrl: req.body.reversePicUrl
     },
+    json: true,
   };
   request(options)
     .then(function (parsedBody) {
@@ -227,6 +256,7 @@ router.post('/api/user/identity/saveidentity.json', function (req, res, next) {
       res.json({status: false, msg: "服务器错误"});
       res.end();
     });
+
 });
 
 /**
@@ -235,10 +265,28 @@ router.post('/api/user/identity/saveidentity.json', function (req, res, next) {
  * @param success   成功状态
  * @param processing  审核中
  */
-router.post('/api/user/identity/index.json', function (req, res, next) {
+router.post('/api/identity-index.json', function (req, res, next) {
+  // redisClient.hgetall(req.sessionID, function (err, object) {
+  //   let options = {
+  //     method: 'POST',
+  //     uri: baseUrl + 'user/identity/index',
+  //     json: true,
+  //   };
+  //   request(options)
+  //     .then(function (parsedBody) {
+  //       logConfig.logger.info(parsedBody);
+  //       res.send(parsedBody);
+  //       res.end();
+  //     })
+  //     .catch(function (err) {
+  //       logConfig.logger.error(err);
+  //       res.json({status: false, msg: "服务器错误"});
+  //       res.end();
+  //     });
+  // });
   let options = {
     method: 'POST',
-    uri: baseUrl + 'user/identity/index',
+    uri: baseUrl + '/user/identity/index',
   };
   request(options)
     .then(function (parsedBody) {

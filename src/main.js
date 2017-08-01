@@ -8,7 +8,7 @@ import 'iview/dist/styles/iview.css'
 import 'animate.css/animate.css'
 import Modal from 'iview/src/components/modal'
 import Message from 'iview/src/components/message'
-import '../iview/iview.less';
+import '../iview/iview.less'
 
 Vue.config.productionTip = false
 Vue.use(VueLazyload)
