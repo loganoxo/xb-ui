@@ -47,6 +47,8 @@
   import Modal from 'iview/src/components/modal'
   import {oneOf} from 'iview/src/utils/assist';
   import Emitter from 'iview/src/mixins/emitter';
+  import {aliUrl,bucket} from '../config/env'
+  import {TimeToDate} from '../config/utils'
 
   const prefixCls = 'ivu-upload';
 
@@ -250,39 +252,29 @@
             return false;
           }
         }
+        console.log(file);
         this.handleStart(file);
-        /*let result;
-        window.OSS.urllib.request("http://localhost:8088/api/ali-token.json",
-          {method: 'GET'},
+        let _this = this;
+        OSS.urllib.request(aliUrl, {method: 'GET'},
           function (err, response) {
             if (err) {
-              console.log(err);
-              return;
+              return alert(err);
             }
-            try {
-              result = JSON.parse(response);
-              console.log(result)
-            } catch (e) {
-              let errmsg = 'parse sts response info error: ' + e.message;
-              console.log(errmsg);
-            }
+            const result = JSON.parse(response);
+            const client = new OSS.Wrapper({
+              region: 'oss-cn-hangzhou',
+              accessKeyId: result.AccessKeyId,
+              accessKeySecret: result.AccessKeySecret,
+              stsToken: result.SecurityToken,
+              bucket:bucket,
+            });
+            let key = _this.name + '/' + TimeToDate() + '/' + Math.random().toString(36).substr(2);
+            client.multipartUpload(key, file).then(function (data) {
+              _this.handleSuccess(data, file);
+            }).catch(function (err) {
+              _this.handleError(err, file);
+            });
           });
-        const client = new OSS.Wrapper({
-          accessKeyId: result.AccessKeyId,
-          accessKeySecret: result.AccessKeySecret,
-          stsToken: result.SecurityToken,
-          endpoint: 'https://sts.aliyuncs.com',
-          bucket: ''
-        });
-        client.multipartUpload(this.name, file).then(function (result) {
-          console.log(result);
-          this.uploadSuccess = true;
-          this.handleSuccess(result, file);
-        }).catch(function (err) {
-          console.log(err);
-          this.uploadError = true;
-          this.handleError(err, file);
-        });*/
       },
       handleStart(file) {
         file.uid = Date.now() + this.tempIndex++;

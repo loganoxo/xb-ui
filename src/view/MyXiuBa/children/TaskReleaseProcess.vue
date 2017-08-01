@@ -66,7 +66,7 @@
               :on-success="handleSuccess"
               :format="['jpg','jpeg','png','gif','bmp']"
               :max-size="500"
-              name="活动主图"
+              name="task"
               :on-format-error="handleFormatError"
               :on-exceeded-size="handleMaxSize"
               :before-upload="handleBeforeUpload"
@@ -133,7 +133,7 @@
               <span class="required left mr-5 mt-20">宝贝主图：</span>
               <Upload
                 ref="pcUpload"
-                 name="PC宝贝主图"
+                 name="task"
                 :show-upload-list="false"
                 :on-success="handleSuccess"
                 :format="['jpg','jpeg','png','gif','bmp']"
@@ -242,7 +242,7 @@
                 :on-success="handleSuccess"
                 :format="['jpg','jpeg','png','gif','bmp']"
                 :max-size="500"
-                 name="APP宝贝主图"
+                 name="task"
                 :on-format-error="handleFormatError"
                 :on-exceeded-size="handleMaxSize"
                 :before-upload="handleBeforeUpload"
@@ -404,8 +404,8 @@
   import Upload from '@/components/upload'
   import Progress from 'iview/src/components/progress'
   import Steps  from 'iview/src/components/steps'
-/*  import Modal from 'iview/src/components/modal'*/
   import api from '@/config/apiConfig'
+  import {aliCallbackImgUrl} from '@/config/env'
 
   export default {
     name: 'TaskReleaseProcess',
@@ -525,9 +525,8 @@
       onEditorFocus(editor) {},
       onEditorReady(editor) {},
       handleSuccess(res, file) {
-        // 因为上传过程为实例，这里模拟添加 url
-        file.url = 'https://o5wwk8baw.qnssl.com/7eb99afb9d5f317c912f08b5212fd69a/avatar';
-        file.name = '7eb99afb9d5f317c912f08b5212fd69a';
+        console.log(aliCallbackImgUrl);
+        this.taskRelease.taskMainImage = aliCallbackImgUrl + res.name;
       },
       handleFormatError(file) {
         this.$Modal.warning({

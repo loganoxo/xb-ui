@@ -3,7 +3,7 @@
     <div class="container">
       <p class="left">
         你好，<span class="user-name">freshbox02 </span>
-        <a href="">[ 退出登录 ]</a>
+        <span @click="signOut">[ 退出登录 ]</span>
       </p>
       <p class="right">
         <a href="">帮助中心</a>|
@@ -14,16 +14,25 @@
 </template>
 
 <script>
+  import api from '../config/apiConfig'
+
   export default {
     name: 'topTip',
-    beforeMount(){
+    beforeMount() {
       this.$store.state.topShow = false;
     },
-    created(){
+    created() {
 
     },
-    data () {
+    data() {
       return {}
+    },
+    methods: {
+      signOut() {
+        api.signOut().then(res => {
+
+        })
+      }
     }
   }
 </script>
@@ -38,15 +47,21 @@
       background-color: #F8F8F8;
       height: 30px;
       line-height: 30px;
-      span.user-name{
+      span.user-name {
         color: $mainColor;
         padding-right: 5px;
       }
-      p.right{
-        a{
+      p.left {
+        span {
+          cursor: pointer;
+        }
+      }
+      p.right {
+        a {
           color: #666;
           padding: 0 5px;
         }
+
       }
     }
   }

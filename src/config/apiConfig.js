@@ -12,6 +12,13 @@ export default {
   },
 
   /**
+   *用户退出登陆
+   */
+  signOut (params) {
+    return fetch("/api/sign-out.json",params)
+  },
+
+  /**
    *获取短信验证码
    */
   getCode(params) {
@@ -40,7 +47,7 @@ export default {
   },
 
   /**
-   *实名认证初始换
+   *实名认证初始化
    */
   verifiedInit () {
     return fetch("/api/identity-index.json")
