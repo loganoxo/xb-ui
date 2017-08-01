@@ -135,7 +135,7 @@
                 ref="pcUpload"
                  name="task"
                 :show-upload-list="false"
-                :on-success="handleSuccess"
+                :on-success="pcBabyImgSuccess"
                 :format="['jpg','jpeg','png','gif','bmp']"
                 :max-size="300"
                 :on-format-error="handleFormatError"
@@ -239,7 +239,7 @@
               <Upload
                 ref="appUpload"
                 :show-upload-list="false"
-                :on-success="handleSuccess"
+                :on-success="appBabyImgSuccess"
                 :format="['jpg','jpeg','png','gif','bmp']"
                 :max-size="500"
                  name="task"
@@ -526,6 +526,12 @@
       onEditorReady(editor) {},
       handleSuccess(res, file) {
         this.taskRelease.taskMainImage = aliCallbackImgUrl + res.name;
+      },
+      pcBabyImgSuccess(res,file) {
+        this.PcTaskDetail.itemMainImage = aliCallbackImgUrl + res.name;
+      },
+      appBabyImgSuccess(res,file) {
+        this.AppTaskDetail.itemMainImage = aliCallbackImgUrl + res.name;
       },
       handleFormatError(file) {
         this.$Modal.warning({

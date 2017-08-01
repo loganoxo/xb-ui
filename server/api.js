@@ -5,126 +5,34 @@ const express = require('express');
 const config = require('./config');
 const logConfig = require('./logConfig');
 const request = require('request-promise');
-const uid = require('uid-safe');
 const querystring = require('querystring');
-const redis = require("redis");
 const captchapng = require('captchapng');
-const ALY = require("aliyun-sdk");
+const redisClient = require("./redisServer");
+const sts = require('./aliServer');
 
 const router = express.Router();
 const baseUrl = config.baseUrl;
 
-const sessionExpireSeconds = 7200;//session过期时间 秒
-
 /**
- * 创建redis服务
- * @param port
- * @param host
- * @param db
+ * 订阅redis服务消息
  * */
-const redisClient = redis.createClient(config.redis.port, config.redis.host, {db: config.redis.db});
-const redisSubscribeClient = redis.createClient(config.redis.port, config.redis.host, {db: config.redis.db});
-
 redisClient.on('ready', function (res) {
   logConfig.logger.info('redis start：redis is ready');
-});
 
-redisSubscribeClient.on('ready', function (res) {
-  //订阅redis消息
-  redisSubscribeClient.psubscribe('__keyevent@15__:expired');
+  //开始订阅redis消息
+  redisClient.psubscribe('__keyevent@15__:expired');
+
   logConfig.logger.info('redis psubscribe end');
 
   // 监听当接收到redis订阅消息调用对应服务
-  redisSubscribeClient.on("pmessage", function (pattern, channel, expiredKey) {
-    if (expiredKey.indexOf('node:xiuba:session:') === 0) {
-      let backupSessionKey = expiredKey.replace('node:xiuba:session:', 'node:xiuba:backup-session:');
-      redisClient.hgetall(backupSessionKey, function (err, object) {
-        redisClient.del(backupSessionKey);
-        logConfig.logger.info(object);
-      });
-    }
+  redisClient.on("pmessage", function (pattern, channel, expiredKey) {
+    //此处处理当session过期时的逻辑
+
   });
 });
 
 redisClient.on('error', function (res) {
   logConfig.logger.info('redis start：redis is error');
-});
-
-/**
- * 从redis中获取session
- */
-const getSessionData = function (req, callback) {
-  let sessionID = req.sessionID;
-  redisClient.expire('node:xiuba:session:' + sessionID, sessionExpireSeconds);
-  redisClient.hgetall('node:xiuba:session:' + sessionID, function (err, data) {
-    callback(data);
-  });
-};
-
-/**
- * 存储session到redis
- */
-const setSessionData = function (req, data) {
-  let sessionID = req.sessionID;
-
-  redisClient.hmset('node:xiuba:session:' + sessionID, data, function (err, res) {
-    if (err) {
-      logConfig.logger.info('redis存入用户session失败信息：' + err);
-      redisClient.end(true);
-    }
-    if (res) {
-      logConfig.logger.info('redis存入用户session成功状态：' + res);
-    }
-  });
-  redisClient.expire('node:xiuba:session:' + sessionID, sessionExpireSeconds);
-  redisClient.hmset('node:xiuba:backup-session:' + sessionID, data);
-};
-
-/**
- * 合并对象方法
- */
-const extend = function (object, data) {
-  for (let obj in data) {
-    object[obj] = data[obj];
-  }
-  return object;
-};
-
-/**
- * 此方法用于当用户登陆后需要操作图形验证码时
- * 需要将图形验证码合并到session中
- */
-const setSessionDataForExists = function (req, data) {
-  getSessionData(req, function (result) {
-    if (result) {
-      setSessionData(req, extend(result, data))
-    } else {
-      setSessionData(req, data);
-    }
-  });
-};
-
-/**
- * 从redis中删除session
- */
-const delSession = function (req) {
-  let sessionID = req.sessionID;
-  redisClient.del('node:xiuba:session:' + sessionID);
-  redisClient.del('node:xiuba:backup-session:' + sessionID);
-};
-
-/**
- * 创建阿里云服务
- * @param accessKeyId
- * @param secretAccessKey
- * @param endpoint
- * @param apiVersion
- */
-const sts = new ALY.STS({
-  accessKeyId: "LTAIIrk65z4rEGeW",
-  secretAccessKey: "1l1IUcLy8QWW5VXMg8LhTkLQhbnXv1",
-  endpoint: 'https://sts.aliyuncs.com',
-  apiVersion: '2015-04-01'
 });
 
 /**
@@ -175,10 +83,10 @@ router.post('/api/login.json', (req, res, next) => {
     .then(function (parsedBody) {
       if (parsedBody.status) {
         let userData = parsedBody.data;
-        delSession(req);
+        delete req.session;
         req.session.regenerate(function (serr) {
           if (!serr) {
-            setSessionData(req, userData);
+            req.session.userData = userData
           }
           res.send(parsedBody);
           res.end();
@@ -192,53 +100,44 @@ router.post('/api/login.json', (req, res, next) => {
 });
 
 /**
- * 用户登陆接口
+ * 检测是否第一次动态登陆
  * @param phone
- * @param passWord
- * @param role
+ * @param smsCode
  */
-router.post('/api/sign-out.json', (req, res, next) => {
-  getSessionData(req, function (data) {
-    res.send(data);
+router.post('/api/check-fast-sign-in.json', function (req, res, next) {
+  let options = {
+    method: 'POST',
+    uri: baseUrl + '/user/check-fast-sign-in',
+    formData: {
+      phone: req.body.phone,
+      smsCode: req.body.smsCode,
+    },
+  };
+  if (Number(req.body.validateCode) === Number(req.session.vrCode)) {
+    request(options).then(function (parsedBody) {
+      logConfig.logger.info(parsedBody);
+      res.send(parsedBody);
+      res.end();
+    }).catch(function (err) {
+      logConfig.logger.error(err);
+      res.json({status: false, msg: "服务器错误"});
+      res.end();
+    });
+  } else {
+    res.json({status: false, msg: "图片验证码过期"});
     res.end();
-  });
-
-
-  /*  let options = {
-   method: 'POST',
-   uri: baseUrl + '/user/sign-in',
-   formData: {
-   phone: req.body.phone,
-   passWord: req.body.passWord,
-   },
-   json: true,
-   };
-   request(options)
-   .then(function (parsedBody) {
-   if (parsedBody.status) {
-   logConfig.logger.info(parsedBody);
-   let userData = parsedBody.data;*/
-  /*
-   req.session.destroy(function (serr) {
-   if(!serr) {
-   redisClient.hgetall('node:xiuba:session:' + req.sessionID, function(err, object) {
-   redisClient.del('node:xiuba:session:' + req.sessionID);
-   redisClient.del('node:xiuba:backup-session:' + req.sessionID);
-   logConfig.logger.info(object);
-   });
-   }
-   });
-   */
-  /* }
-   })
-   .catch(function (err) {
-   logConfig.logger.error('登陆接口错误信息：' + err);
-   res.end("服务器错误");
-   });*/
+  }
 });
 
 /**
- * 用户注册
+ * 用户登出接口
+ */
+router.post('/api/sign-out.json', (req, res, next) => {
+  // delete req.session;
+});
+
+/**
+ * 用户注册接口
  * @param phone
  * @param pwd
  * @param repwd
@@ -247,8 +146,6 @@ router.post('/api/sign-out.json', (req, res, next) => {
  * @param role
  */
 router.post('/api/sign-up.json', function (req, res, next) {
-  let nSession = req.sessionID;
-  // console.log('node:xiuba:session:' + nSession);
   let options = {
     method: 'POST',
     uri: baseUrl + '/user/sign-up',
@@ -262,29 +159,41 @@ router.post('/api/sign-up.json', function (req, res, next) {
     },
     json: true,
   };
-  getSessionData(req, function (data) {
-    if (Number(req.body.validateCode) === Number(data.vrCode)) {
-      request(options).then(function (parsedBody) {
-        logConfig.logger.info(parsedBody);
-        res.send(parsedBody);
-        res.end();
-      }).catch(function (err) {
-        logConfig.logger.error(err);
-        res.json({status: false, msg: "服务器错误"});
-        res.end();
-      });
-    } else if (!data.vrCode) {
-      res.json({status: false, msg: "图形验证码过期"});
+  if (Number(req.body.validateCode) === req.session.vrCode) {
+    request(options).then(function (parsedBody) {
+      logConfig.logger.info(parsedBody);
+      res.send(parsedBody);
       res.end();
-    } else {
-      res.json({status: false, msg: "图形验证码不符"});
+    }).catch(function (err) {
+      logConfig.logger.error(err);
+      res.json({status: false, msg: "服务器错误"});
       res.end();
-    }
-  });
+    });
+  } else {
+    res.json({status: false, msg: "图形验证码过期"});
+    res.end();
+  }
 });
 
 /**
- * 发送验证码
+ * 生成图形验证码接口
+ * @param sessionID
+ */
+router.get("/api/vrcode.json", (req, res, next) => {
+  let vrCode = parseInt(Math.random() * 9000 + 1000);
+  let vrCodeImg = new captchapng(80, 30, vrCode);
+  vrCodeImg.color(0, 0, 0, 0);
+  vrCodeImg.color(251, 119, 21, 255);
+  let vrCodeImgBase64 = new Buffer(vrCodeImg.getBase64(), 'base64');
+  res.writeHead(200, {
+    'Content-Type': 'image/jpeg;charset=UTF-8'
+  });
+  req.session.vrCode = vrCode;
+  res.end(vrCodeImgBase64);
+});
+
+/**
+ * 发送手机验证码接口
  * @param phone
  * @param purpose 'fast': 快速登录，'reg': 注册
  */
@@ -310,7 +219,6 @@ router.post('/api/send-verify-code.json', function (req, res, next) {
       res.end();
     });
 });
-
 
 /**
  * 实名认证提交认证
@@ -393,122 +301,79 @@ router.post('/api/identity-index.json', function (req, res, next) {
     });
 });
 
-
-/**`
- * 图形验证码接口
- * @param sessionID
- */
-router.get("/api/vrcode.json", (req, res, next) => {
-  let nSession = req.sessionID;
-  logConfig.logger.info('图形验证码session：' + nSession);
-  let vrCode = parseInt(Math.random() * 9000 + 1000);
-  let vrCodeImg = new captchapng(80, 30, vrCode);
-  vrCodeImg.color(0, 0, 0, 0);
-  vrCodeImg.color(251, 119, 21, 255);
-  let vrCodeImgBase64 = new Buffer(vrCodeImg.getBase64(), 'base64');
-  res.writeHead(200, {
-    'Content-Type': 'image/jpeg;charset=UTF-8'
-  });
-  res.end(vrCodeImgBase64);
-  setSessionDataForExists(req, {vrCode: vrCode});
-});
-
 /**
- * 检测是否第一次动态登陆
+ * 获取商品类型接口
  * @param phone
  * @param smsCode
  */
-router.post('/api/check-fast-sign-in.json', function (req, res, next) {
-  let nSession = req.sessionID;
-  // console.log('node:xiuba:session:' + nSession);
+router.post("/api/item-catalog.json", function (res, req, next) {
   let options = {
     method: 'POST',
-    uri: baseUrl + '/user/check-fast-sign-in',
-    formData: {
-      phone: req.body.phone,
-      smsCode: req.body.smsCode,
-    },
+    uri: baseUrl + '/task/get/item/catalog',
   };
-  getSessionData(req, function (data) {
-    if (data && data.vrCode) {
-      if (Number(req.body.validateCode) === Number(data.vrCode)) {
-        request(options).then(function (parsedBody) {
-          logConfig.logger.info(parsedBody);
-          res.send(parsedBody);
-          res.end();
-        }).catch(function (err) {
-          logConfig.logger.error(err);
-          res.json({status: false, msg: "服务器错误"});
-          res.end();
-        });
-      } else if (!data.vrCode) {
-        res.json({status: false, msg: "图片验证码过期"});
-        res.end();
-      } else {
-        res.json({status: false, msg: "图片验证码不符"});
-        res.end();
-      }
-    } else {
-      res.json({status: false, msg: "图片验证码过期"});
+  request(options).then(function (parsedBody) {
+    if (parsedBody) {
+      res.send(parsedBody);
       res.end();
     }
-  });
-  redisClient.get('node:xiuba:session:' + nSession, function (err, keys) {
-    logConfig.logger.info(keys);
-  });
-
-  /**
-   * 任务发布接口
-   * @param taskType
-   * @param taskDaysDuration
-   * @param onlyShowForQualification
-   * @param refuseOldShowker
-   * @param taskName
-   * @param itemType
-   * @param taskMainImage
-   * @param itemUrl
-   * @param taskCount
-   * @param itemPrice
-   * @param pinkage
-   * @param itemDescription
-   * @param userId
-   * @param paymentMethod
-   * @param taskDetail
-   */
-  router.post("/aip/task-create.json", function (req, res, next) {
-    let options = {
-      method: 'POST',
-      uri: baseUrl + '/task/create',
-      formData: {
-        taskType: req.body.taskType,
-        taskDaysDuration: req.body.taskDaysDuration,
-        onlyShowForQualification: req.body.onlyShowForQualification,
-        refuseOldShowker: req.body.refuseOldShowker,
-        taskName: req.body.taskName,
-        itemType: req.body.itemType,
-        taskMainImage: req.body.taskMainImage,
-        itemUrl: req.body.itemUrl,
-        taskCount: req.body.taskCount,
-        itemPrice: req.body.itemPrice,
-        pinkage: req.body.pinkage,
-        itemDescription: req.body.itemDescription,
-        userId: req.body.userId,
-        paymentMethod: req.body.paymentMethod,
-        taskDetail: req.body.taskDetail
-      },
-    };
-    request(options)
-      .then(function (parsedBody) {
-        logConfig.logger.info(parsedBody);
-        res.send(parsedBody);
-        res.end();
-      })
-      .catch(function (err) {
-        logConfig.logger.error(err);
-        res.json({status: false, msg: "服务器错误"});
-        res.end();
-      });
+  }).catch(function (err) {
+    logConfig.logger.error(err);
+    res.json({status: false, msg: "服务器错误"});
+    res.end();
   })
+});
+
+/**
+ * 任务发布接口
+ * @param taskType
+ * @param taskDaysDuration
+ * @param onlyShowForQualification
+ * @param refuseOldShowker
+ * @param taskName
+ * @param itemType
+ * @param taskMainImage
+ * @param itemUrl
+ * @param taskCount
+ * @param itemPrice
+ * @param pinkage
+ * @param itemDescription
+ * @param userId
+ * @param paymentMethod
+ * @param taskDetail
+ */
+router.post("/aip/task-create.json", function (req, res, next) {
+  let options = {
+    method: 'POST',
+    uri: baseUrl + '/task/create',
+    formData: {
+      taskType: req.body.taskType,
+      taskDaysDuration: req.body.taskDaysDuration,
+      onlyShowForQualification: req.body.onlyShowForQualification,
+      refuseOldShowker: req.body.refuseOldShowker,
+      taskName: req.body.taskName,
+      itemType: req.body.itemType,
+      taskMainImage: req.body.taskMainImage,
+      itemUrl: req.body.itemUrl,
+      taskCount: req.body.taskCount,
+      itemPrice: req.body.itemPrice,
+      pinkage: req.body.pinkage,
+      itemDescription: req.body.itemDescription,
+      userId: req.body.userId,
+      paymentMethod: req.body.paymentMethod,
+      taskDetail: req.body.taskDetail
+    },
+  };
+  request(options)
+    .then(function (parsedBody) {
+      logConfig.logger.info(parsedBody);
+      res.send(parsedBody);
+      res.end();
+    })
+    .catch(function (err) {
+      logConfig.logger.error(err);
+      res.json({status: false, msg: "服务器错误"});
+      res.end();
+    });
 });
 
 module.exports = router;

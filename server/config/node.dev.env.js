@@ -7,6 +7,6 @@ module.exports = {
   redis: {
     port: '6543',
     host: '192.168.1.44',
-    db: '15'
+    db: 15
   }
 };
