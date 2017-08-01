@@ -15,3 +15,6 @@ log4js.configure({
 });
 const logger = log4js.getLogger('cheese');
 exports.logger = logger;
+exports.use = function (app) {
+  app.use(log4js.connectLogger(logger, {level: 'auto', format: ':method :url'}));
+};
