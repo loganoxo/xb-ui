@@ -260,9 +260,11 @@
         aliUploadImg(key,file).then(res =>{
           if(res){
             console.log(res);
+            _this.uploadSuccess = true;
             _this.handleSuccess(res, file);
           }
         }).catch(err =>{
+          _this.uploadError = true;
           _this.handleError(err, file);
         })
       },
