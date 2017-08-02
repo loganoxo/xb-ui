@@ -1,7 +1,11 @@
 /**
  * Created by ycb on 2017/4/28.
  */
-let dateFormat = (timeSpan,format) => {
+
+/**
+ * 格式化时间
+ */
+const dateFormat = (timeSpan, format) => {
   if (!timeSpan) return;
   let date = new Date(timeSpan);
   let o = {
@@ -26,6 +30,28 @@ let dateFormat = (timeSpan,format) => {
   return format;
 };
 
+/**
+ * 格式化数字
+ * number：要格式化的数字
+ * decimals：保留几位小数
+ */
+const numberFormat = (number, decimals) => {
+  number = (number + '').replace(/[^0-9+-Ee.]/g, '');
+  let n = !isFinite(+number) ? 0 : +number,
+    prec = !isFinite(+decimals) ? 0 : Math.abs(decimals),
+    s = '',
+    toFixedFix = function (n, prec) {
+      let k = Math.pow(10, prec);
+      return '' + Math.ceil(n * k) / k;
+    };
+
+  s = (prec ? toFixedFix(n, prec) : '' + Math.round(n)).split('.');
+  if ((s[1] || '').length < prec) {
+    s[1] = s[1] || '';
+    s[1] += new Array(prec - s[1].length + 1).join('0');
+  }
+  return s.join('.');
+};
 
 
-export {dateFormat}
+export {dateFormat, numberFormat}

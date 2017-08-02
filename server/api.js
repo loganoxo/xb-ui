@@ -176,10 +176,10 @@ router.post('/api/sign-up.json', function (req, res, next) {
 
 /**
  * 生成图形验证码接口
- * @param sessionID
  */
 router.get("/api/vrcode.json", (req, res, next) => {
   let vrCode = parseInt(Math.random() * 9000 + 1000);
+  req.session.vrCode = vrCode;
   let vrCodeImg = new captchapng(80, 30, vrCode);
   vrCodeImg.color(0, 0, 0, 0);
   vrCodeImg.color(251, 119, 21, 255);
@@ -187,7 +187,6 @@ router.get("/api/vrcode.json", (req, res, next) => {
   res.writeHead(200, {
     'Content-Type': 'image/jpeg;charset=UTF-8'
   });
-  req.session.vrCode = vrCode;
   res.end(vrCodeImgBase64);
 });
 
@@ -281,12 +280,13 @@ router.post('/api/identity-index.json', function (req, res, next) {
  * @param phone
  * @param smsCode
  */
-router.post("/api/item-catalog.json", function (res, req, next) {
+router.post("/api/item-catalog.json", function (req, res, next) {
   let options = {
     method: 'POST',
     uri: baseUrl + '/task/get/item/catalog',
   };
-  request(options).then(function (parsedBody) {
+  request(options)
+    .then(function (parsedBody) {
     if (parsedBody) {
       res.send(parsedBody);
       res.end();
@@ -316,31 +316,31 @@ router.post("/api/item-catalog.json", function (res, req, next) {
  * @param paymentMethod
  * @param taskDetail
  */
-router.post("/aip/task-create.json", function (req, res, next) {
+router.post("/api/task-create.json", function (req, res, next) {
   let options = {
     method: 'POST',
-    uri: baseUrl + '/task/create',
+    uri: baseUrl + '/task/save',
     formData: {
+      userId:182,
       taskType: req.body.taskType,
       taskDaysDuration: req.body.taskDaysDuration,
       onlyShowForQualification: req.body.onlyShowForQualification,
       refuseOldShowker: req.body.refuseOldShowker,
       taskName: req.body.taskName,
-      itemType: req.body.itemType,
+      "itemCatalog.id":req.body.itemType,
       taskMainImage: req.body.taskMainImage,
       itemUrl: req.body.itemUrl,
       taskCount: req.body.taskCount,
       itemPrice: req.body.itemPrice,
       pinkage: req.body.pinkage,
       itemDescription: req.body.itemDescription,
-      userId: req.body.userId,
       paymentMethod: req.body.paymentMethod,
       taskDetail: req.body.taskDetail
     },
+    json: true,
   };
   request(options)
     .then(function (parsedBody) {
-      logConfig.logger.info(parsedBody);
       res.send(parsedBody);
       res.end();
     })

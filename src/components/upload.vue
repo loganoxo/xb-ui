@@ -47,8 +47,8 @@
   import Modal from 'iview/src/components/modal'
   import {oneOf} from 'iview/src/utils/assist';
   import Emitter from 'iview/src/mixins/emitter';
-  import {aliUrl,bucket} from '../config/env'
-  import {TimeToDate} from '../config/utils'
+  import {aliUrl, bucket} from '@/config/env'
+  import {TimeToDate, aliUploadImg} from '@/config/utils'
 
   const prefixCls = 'ivu-upload';
 
@@ -150,11 +150,11 @@
         prefixCls: prefixCls,
         dragOver: false,
         visible: false,
-        modelImgSrc:null,
-        uploadSuccess:false,
-        uploadError:false,
+        modelImgSrc: null,
+        uploadSuccess: false,
+        uploadError: false,
         fileList: [],
-        imageList:[],
+        imageList: [],
         tempIndex: 1
       };
     },
@@ -172,11 +172,11 @@
 
     },
     methods: {
-      handleView (image) {
+      handleView(image) {
         this.modelImgSrc = image;
         this.visible = true;
       },
-      handleRemove (index){
+      handleRemove(index) {
         this.imageList.splice(index, 1);
       },
       handleClick() {
@@ -252,29 +252,19 @@
             return false;
           }
         }
-        console.log(file);
+
         this.handleStart(file);
+
         let _this = this;
-        OSS.urllib.request(aliUrl, {method: 'GET'},
-          function (err, response) {
-            if (err) {
-              return alert(err);
-            }
-            const result = JSON.parse(response);
-            const client = new OSS.Wrapper({
-              region: 'oss-cn-hangzhou',
-              accessKeyId: result.AccessKeyId,
-              accessKeySecret: result.AccessKeySecret,
-              stsToken: result.SecurityToken,
-              bucket:bucket,
-            });
-            let key = _this.name + '/' + TimeToDate() + '/' + Math.random().toString(36).substr(2);
-            client.multipartUpload(key, file).then(function (data) {
-              _this.handleSuccess(data, file);
-            }).catch(function (err) {
-              _this.handleError(err, file);
-            });
-          });
+        let key = _this.name + '/' + TimeToDate() + '/' + Math.random().toString(36).substr(2);
+        aliUploadImg(key,file).then(res =>{
+          if(res){
+            console.log(res);
+            _this.handleSuccess(res, file);
+          }
+        }).catch(err =>{
+          _this.handleError(err, file);
+        })
       },
       handleStart(file) {
         file.uid = Date.now() + this.tempIndex++;
@@ -336,7 +326,8 @@
 </script>
 <style lang="scss" scoped>
   @import 'src/css/common';
-  .demo-upload-list{
+
+  .demo-upload-list {
     display: inline-block;
     width: 60px;
     height: 60px;
@@ -347,16 +338,18 @@
     overflow: hidden;
     background: #fff;
     position: relative;
-    box-shadow: 0 1px 1px rgba(0,0,0,.2);
+    box-shadow: 0 1px 1px rgba(0, 0, 0, .2);
     margin-right: 4px;
-  &:hover .demo-upload-list-cover{
-     display: block;
-   }
+    &:hover .demo-upload-list-cover {
+      display: block;
+    }
   }
+
   .demo-upload-list img {
     width: 100%;
     height: 100%;
   }
+
   .demo-upload-list-cover {
     display: none;
     position: absolute;
@@ -364,8 +357,9 @@
     bottom: 0;
     left: 0;
     right: 0;
-    background: rgba(0,0,0,.6);
+    background: rgba(0, 0, 0, .6);
   }
+
   .demo-upload-list-cover i {
     color: #fff;
     font-size: 20px;

@@ -3,7 +3,7 @@
  */
 const path = require('path');
 /**
- * 特别注意：如果没有指定环境变量则默认为生产环境
+ * 特别注意：如果没有指定环境变量则默认为开发环境
  */
 let env = process.env.NODE_ENV || 'development';
 env = env.toLowerCase();

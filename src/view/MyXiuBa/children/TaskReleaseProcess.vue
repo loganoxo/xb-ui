@@ -2,7 +2,7 @@
   <div class="task-release">
     <div class="task-release-title">发布试用活动</div>
     <div class="flow-title mt-10 mb-20">
-      <Steps :current="1">
+      <Steps :current="current">
         <Step title="发布试用活动流程"></Step>
         <Step title="填写试用活动信息"></Step>
         <Step title="存入活动担保金"></Step>
@@ -54,8 +54,12 @@
           <div class="baby-title ml-45 mt-20">
             <span class="required">宝贝类型：</span>
             <iSelect v-model="taskRelease.itemType" style="width:200px">
-              <!--<Option>请选择</Option>-->
-              <option value="">请选择</option>
+              <Option-group v-for="parentItem in itemCatalogList" v-if="parentItem.level == 1" :label="parentItem.name"
+                            :key="parentItem.id">
+                <iOption v-if="item.level == 2 && item.parentItemCatalog && item.parentItemCatalog.id == parentItem.id"
+                         v-for="item in itemCatalogList" :value="item.id" :key="item.name">{{ item.name }}
+                </iOption>
+              </Option-group>
             </iSelect>
           </div>
           <div class="baby-img ml-45 mt-20">
@@ -124,6 +128,10 @@
                           @focus="onEditorFocus($event)"
                           @ready="onEditorReady($event)">
             </quill-editor>
+            <form action="" method="post" enctype="multipart/form-data" id="uploadFormMulti">
+              <input style="display: none" :id="uniqueId" type="file" name="avator" multiple
+                     accept="image/jpg,image/jpeg,image/png,image/gif" @change="uploadImg">
+            </form>
           </div>
         </div>
         <div class="order-set mt-22">
@@ -133,7 +141,7 @@
               <span class="required left mr-5 mt-20">宝贝主图：</span>
               <Upload
                 ref="pcUpload"
-                 name="task"
+                name="task"
                 :show-upload-list="false"
                 :on-success="pcBabyImgSuccess"
                 :format="['jpg','jpeg','png','gif','bmp']"
@@ -242,7 +250,7 @@
                 :on-success="appBabyImgSuccess"
                 :format="['jpg','jpeg','png','gif','bmp']"
                 :max-size="500"
-                 name="task"
+                name="task"
                 :on-format-error="handleFormatError"
                 :on-exceeded-size="handleMaxSize"
                 :before-upload="handleBeforeUpload"
@@ -319,9 +327,6 @@
                   <Checkbox label="hua_pay_installment">
                     <span>花呗分期</span>
                   </Checkbox>
-                  <Checkbox label="wangwang_online">
-                    <span>旺旺在线</span>
-                  </Checkbox>
                 </Checkbox-group>
               </div>
             </div>
@@ -358,19 +363,30 @@
     <div class="deposits-received" v-show="stepName === 'deposit'">
       <div class="deposits-received-title mt-20 mb-20">试用活动信息已成功保存，请您存入本次活动的试用担保金。</div>
       <div class="deposits-received-info">
-        您现在为 <span class="second-color">{{taskRelease.taskName}}</span> 存入试用担保金 <span class="second-color">{{taskRelease.taskCount * taskRelease.itemPrice}}</span> 元，此笔款项将作为发布试用活动诚信担保的重要工具，待试客完成试用流程后将返还给每个试客 <span class="second-color">{{taskRelease.itemPrice}}</span> 元.
+        您现在为 <span class="second-color">{{taskRelease.taskName}}</span> 存入试用担保金 <span
+        class="second-color">{{taskRelease.taskCount * taskRelease.itemPrice}}</span>
+        元，此笔款项将作为发布试用活动诚信担保的重要工具，待试客完成试用流程后将返还给每个试客 <span class="second-color">{{taskRelease.itemPrice}}</span> 元.
       </div>
       <div class="description-fees mt-40">
         <h3>费用说明：</h3>
         <div class="description-fees-con mt-10">
-          <p>试用担保金 = 分数 × 单品试用担保金 = <span>{{taskRelease.taskCount}}</span> × <span>{{taskRelease.itemPrice}}</span> = <span>{{(taskRelease.taskCount * taskRelease.itemPrice)}}</span>元</p>
-          <p class="mt-6">单品推广费 = 单品试用担保金 × 费率 = <span>{{taskRelease.itemPrice}}</span> × <span>6%</span> = <span>{{taskRelease.itemPrice * 0.06}}</span>元（单品推广费超过平台设定的最高上限3.00元，本次实际收取的单品推广费用为3.00元）</p>
-          <p class="mt-6">总推广费用 = 单品推广费用 × 分数 = <span>{{taskRelease.itemPrice * 0.06 > 3 ? 3 :taskRelease.itemPrice * 0.06}}</span> × <span>{{taskRelease.taskCount}} = <span>{{AllPromotionExpenses}}</span></span></p>
-          <p class="mt-6">总费用 = 试用保证金 + 总推广费用 = <span>{{taskRelease.taskCount * taskRelease.itemPrice + AllPromotionExpenses}}</span>元</p>
+          <p>试用担保金 = 分数 × 单品试用担保金 = <span>{{taskRelease.taskCount}}</span>
+            × <span>{{taskRelease.itemPrice | numberFormat(2)}}</span>
+            = <span>{{(taskRelease.taskCount * taskRelease.itemPrice) | numberFormat(2)}}</span>元</p>
+          <p class="mt-6">单品推广费 = 单品试用担保金 × 费率 = <span>{{taskRelease.itemPrice | numberFormat(2)}}</span>
+            × <span>6%</span> = <span>{{(taskRelease.itemPrice * 0.06) | numberFormat(2)}}</span>元（单品推广费超过平台设定的最高上限3.00元，本次实际收取的单品推广费用为3.00元）
+          </p>
+          <p class="mt-6">
+            总推广费用 = 单品推广费用 × 分数 = <span>{{taskRelease.itemPrice * 0.06 > 3 ? 3 : taskRelease.itemPrice * 0.06}}</span>
+            × <span>{{taskRelease.taskCount}} = <span>{{AllPromotionExpenses | numberFormat(2)}}</span></span></p>
+          <p class="mt-6">
+            总费用 = 试用保证金 + 总推广费用 = <span>{{(taskRelease.taskCount * taskRelease.itemPrice + AllPromotionExpenses) | numberFormat(2)}}</span>元
+          </p>
         </div>
       </div>
       <div class="pay-info mt-40">
-        您的账户的当前余额为：<span class="second-color">0</span>元，本次总共要支付的金额为：<span class="second-color">{{taskRelease.taskCount * taskRelease.itemPrice + AllPromotionExpenses}}</span>元
+        您的账户的当前余额为：<span class="second-color">0</span>元，本次总共要支付的金额为：<span
+        class="second-color">{{taskRelease.taskCount * taskRelease.itemPrice + AllPromotionExpenses}}</span>元
       </div>
       <div class="description-fees-footer">
         <span class="pay-btn">确认支付</span>
@@ -393,19 +409,20 @@
 </template>
 
 <script>
-  import {quillEditor} from 'vue-quill-editor'
+  import {Quill, quillEditor} from 'vue-quill-editor'
   import Icon from 'iview/src/components/icon'
   import Form from 'iview/src/components/form'
   import Input from 'iview/src/components/input'
   import Checkbox from 'iview/src/components/checkbox'
   import Button from 'iview/src/components/button'
   import Radio from 'iview/src/components/radio'
-  import {Select, Option} from 'iview/src/components/select'
+  import {Select, Option, OptionGroup} from 'iview/src/components/select'
   import Upload from '@/components/upload'
   import Progress from 'iview/src/components/progress'
-  import Steps  from 'iview/src/components/steps'
+  import Steps from 'iview/src/components/steps'
   import api from '@/config/apiConfig'
   import {aliCallbackImgUrl} from '@/config/env'
+  import {TimeToDate, aliUploadImg} from '@/config/utils'
 
   export default {
     name: 'TaskReleaseProcess',
@@ -424,12 +441,15 @@
       iOption: Option,
       Upload: Upload,
       iProgress: Progress,
-      Steps:Steps,
-      Step:Steps.Step
+      Steps: Steps,
+      Step: Steps.Step,
+      OptionGroup: OptionGroup
     },
     data() {
       return {
         name: 'base-example',
+        uniqueId: 'uniqueId',
+        addImgRange: null,
         editorOption: {
           placeholder: "请在这里编辑您的商品简介！",
           modules: {
@@ -444,8 +464,9 @@
           }
         },
         visible: false,
-        current: 0,
+        current: 1,
         stepName: 'information',
+        itemCatalogList: [],
         PcTaskDetail: {
           itemMainImage: null,
           searchKeyword: null,
@@ -485,13 +506,27 @@
           itemPrice: null,
           pinkage: "true",
           paymentMethod: "all",
-          itemDescription:'',
+          itemDescription: '',
           taskDetail: {}
         }
       }
     },
-    mounted() {},
-    created() {},
+    mounted() {
+      let _this = this;
+      let imgHandler = async function (image) {
+        console.log(_this.$refs.myTextEditor);
+        _this.addImgRange = _this.$refs.myTextEditor.quill.getSelection();
+        if (image) {
+          let fileInput = document.getElementById(_this.uniqueId);
+          console.log(fileInput);
+          fileInput.click()
+        }
+      };
+      _this.$refs.myTextEditor.quill.getModule("toolbar").addHandler("image", imgHandler)
+    },
+    created() {
+      this.getItemCatalog();
+    },
     computed: {
       /**
        * 活动类型名称
@@ -522,15 +557,17 @@
         console.log(editor.container.innerHTML);
         this.taskRelease.itemDescription = editor.container.innerHTML;
       },
-      onEditorFocus(editor) {},
-      onEditorReady(editor) {},
+      onEditorFocus(editor) {
+      },
+      onEditorReady(editor) {
+      },
       handleSuccess(res, file) {
         this.taskRelease.taskMainImage = aliCallbackImgUrl + res.name;
       },
-      pcBabyImgSuccess(res,file) {
+      pcBabyImgSuccess(res, file) {
         this.PcTaskDetail.itemMainImage = aliCallbackImgUrl + res.name;
       },
-      appBabyImgSuccess(res,file) {
+      appBabyImgSuccess(res, file) {
         this.AppTaskDetail.itemMainImage = aliCallbackImgUrl + res.name;
       },
       handleFormatError(file) {
@@ -546,118 +583,174 @@
         });
       },
       handleBeforeUpload() {
-       /* const check = this.mainUploadList.length < 1;
-        if (!check) {
-          this.$Modal.warning({
-            title: '最多只能上传 1 张图片。'
-          });
-        }
-        return check;*/
+        /* const check = this.mainUploadList.length < 1;
+         if (!check) {
+           this.$Modal.warning({
+             title: '最多只能上传 1 张图片。'
+           });
+         }
+         return check;*/
       },
       stepNext() {
         let _this = this;
-        if(!_this.taskRelease.taskDaysDuration){
+        let URL_REG = /((item|detail).(tmall|taobao).*?)/;
+        if (!_this.taskRelease.taskDaysDuration) {
           _this.$Message.warning('亲，活动时长不能为空！');
           return;
         }
-        if(!_this.taskRelease.taskName){
+        if (!_this.taskRelease.taskDaysDuration < 3) {
+          _this.$Message.warning('亲，活动时长最短为3天起！');
+          return;
+        }
+        if (!_this.taskRelease.taskDaysDuration > 30) {
+          _this.$Message.warning('亲，活动时长最长为30天！');
+          return;
+        }
+        if (!_this.taskRelease.taskName) {
           _this.$Message.warning('亲，活动标题不能为空！');
           return;
         }
-        if(!_this.taskRelease.itemType){
+        if (!_this.taskRelease.itemType) {
           _this.$Message.warning('亲，宝贝类型不能为空！');
           return;
         }
-        if(!_this.taskRelease.taskMainImage){
+        if (!_this.taskRelease.taskMainImage) {
           _this.$Message.warning('亲，请上传活动主图！');
           return;
         }
-        if(!_this.taskRelease.itemUrl){
+        if (!_this.taskRelease.itemUrl) {
           _this.$Message.warning('亲，宝贝地址不能为空！');
           return;
         }
-        if(!_this.taskRelease.taskCount){
+        if (!URL_REG.test(_this.taskRelease.itemUrl)) {
+          _this.$Message.warning('亲，只能输入淘宝或者天猫宝贝地址！');
+          return;
+        }
+        if (!_this.taskRelease.taskCount) {
           _this.$Message.warning('亲，宝贝数量不能为空！');
           return;
         }
-        if(!_this.taskRelease.itemPrice){
+        if (!_this.taskRelease.itemPrice) {
           _this.$Message.warning('亲，宝贝单价不能为空！');
           return;
         }
-        if(!_this.taskRelease.itemPrice){
+        if (!_this.taskRelease.itemPrice) {
           _this.$Message.warning('亲，宝贝单价不能为空！');
           return;
         }
-        if(!_this.taskRelease.itemPrice){
+        if (!_this.taskRelease.itemPrice) {
           _this.$Message.warning('亲，宝贝单价不能为空！');
           return;
         }
-        if(!_this.PcTaskDetail.itemMainImage){
-          _this.$Message.warning('亲，请上传PC搜索宝贝主图！');
-          return;
+        if (_this.taskRelease.taskType === 'pc_search') {
+          if (!_this.PcTaskDetail.itemMainImage) {
+            _this.$Message.warning('亲，请上传PC搜索宝贝主图！');
+            return;
+          }
+          if (!_this.PcTaskDetail.searchKeyword) {
+            _this.$Message.warning('亲，搜索关键词不能空！');
+            return;
+          }
+          if (!_this.PcTaskDetail.searchPagePrice) {
+            _this.$Message.warning('亲，展示价格不能空！');
+            return;
+          }
+          if (!_this.PcTaskDetail.searchPagePositionMin) {
+            _this.$Message.warning('亲，宝贝搜索起始位置不能空！');
+            return;
+          }
+          if (!_this.PcTaskDetail.searchPagePositionMax) {
+            _this.$Message.warning('亲，宝贝搜索结束位置不能空！');
+            return;
+          }
+          if (_this.PcTaskDetail.searchPagePositionMax - _this.PcTaskDetail.searchPagePositionMin > 3) {
+            _this.$Message.warning('亲，宝贝参考页数差值最大不大于3页！');
+            return;
+          }
         }
-        if(!_this.PcTaskDetail.searchKeyword){
-          _this.$Message.warning('亲，搜索关键词不能空！');
-          return;
+        if (_this.taskRelease.taskType === 'app_search') {
+          if (!_this.AppTaskDetail.itemMainImage) {
+            _this.$Message.warning('亲，请上传手淘搜索宝贝主图！');
+            return;
+          }
+          if (!_this.AppTaskDetail.searchKeyword) {
+            _this.$Message.warning('亲，搜索关键词不能空！');
+            return;
+          }
+          if (!_this.AppTaskDetail.searchPagePrice) {
+            _this.$Message.warning('亲，展示价格不能空！');
+            return;
+          }
+          if (!_this.AppTaskDetail.searchRankPosition) {
+            _this.$Message.warning('亲，宝贝搜索位置不能空！');
+            return;
+          }
         }
-        if(!_this.PcTaskDetail.searchPagePrice){
-          _this.$Message.warning('亲，展示价格不能空！');
-          return;
+        if (_this.taskRelease.taskType === 'tao_code') {
+          if (!_this.taoCodeTaskDetail.taoCode) {
+            _this.$Message.warning('亲，任务宝贝淘口令不能为空！');
+            return;
+          }
+          if (!_this.taoCodeTaskDetail.accessDescription) {
+            _this.$Message.warning('亲，淘口令入口描述不能为空！');
+            return;
+          }
         }
-        if(!_this.PcTaskDetail.searchPagePositionMin){
-          _this.$Message.warning('亲，宝贝搜索起始位置不能空！');
-          return;
-        }
-        if(!_this.PcTaskDetail.searchPagePositionMax){
-          _this.$Message.warning('亲，宝贝搜索结束位置不能空！');
-          return;
-        }
-        if(!_this.AppTaskDetail.itemMainImage){
-          _this.$Message.warning('亲，请上传手淘搜索宝贝主图！');
-          return;
-        }
-        if(!_this.AppTaskDetail.searchKeyword){
-          _this.$Message.warning('亲，搜索关键词不能空！');
-          return;
-        }
-        if(!_this.AppTaskDetail.searchPagePrice){
-          _this.$Message.warning('亲，展示价格不能空！');
-          return;
-        }
-        if(!_this.AppTaskDetail.searchRankPosition){
-          _this.$Message.warning('亲，宝贝搜索位置不能空！');
-          return;
-        }
-        if(!_this.taoCodeTaskDetail.taoCode){
-          _this.$Message.warning('亲，任务宝贝淘口令不能为空！');
-          return;
-        }
-        if(!_this.taoCodeTaskDetail.accessDescription){
-          _this.$Message.warning('亲，淘口令入口描述不能为空！');
-          return;
-        }
-        switch (_this.taskRelease.taskType){
+        switch (_this.taskRelease.taskType) {
           case 'pc_search' :
-            _this.taskRelease.taskDetail = _this.PcTaskDetail;
+            _this.taskRelease.taskDetail = JSON.stringify(_this.PcTaskDetail);
             break;
           case 'app_search' :
-            _this.taskRelease.taskDetail = _this.AppTaskDetail;
+            _this.taskRelease.taskDetail = JSON.stringify(_this.AppTaskDetail);
             break;
           case 'tao_code' :
-            _this.taskRelease.taskDetail = _this.taoCodeTaskDetail;
+            _this.taskRelease.taskDetail = JSON.stringify(_this.taoCodeTaskDetail);
+            break;
+          case 'direct_access' :
+            _this.taskRelease.taskDetail = null;
             break;
         }
-        api.taskCreate(_this.taskRelease).then( res =>{
-          this.nextCurrent();
-          _this.stepName = 'deposit';
-        })
+        api.taskCreate(_this.taskRelease).then(res => {
+          if (res.status) {
+            this.nextCurrent();
+            _this.stepName = 'deposit';
+          }
+        });
+        this.nextCurrent();
+        _this.stepName = 'deposit';
       },
       returnUpStep() {
-        this.stepName = 'information'
+        this.stepName = 'information';
+        this.current = 1
       },
       nextCurrent() {
         this.current += 1;
-      }
+      },
+      getItemCatalog() {
+        let _this = this;
+        api.itemCatalog().then(res => {
+          if (res.status) {
+            _this.itemCatalogList = res.data
+          }
+        })
+      },
+      uploadImg: function (e) {
+        let vm = this;
+        let file = e.target.files[0];
+        let key = 'task' + '/' + TimeToDate() + '/' + Math.random().toString(36).substr(2);
+        aliUploadImg(key, file).then(res => {
+          if (res) {
+            let value = aliCallbackImgUrl + res.name;
+            vm.addImgRange = vm.$refs.myTextEditor.quill.getSelection();
+            vm.$refs.myTextEditor.quill.insertEmbed(vm.addImgRange !== null ? vm.addImgRange.index : 0, 'image', value, Quill.sources.USER);
+            document.getElementById(vm.uniqueId).value = '';
+            vm.$Message.warning('亲，图片上传成功！');
+          }
+        }).catch(err => {
+          document.getElementById(vm.uniqueId).value = '';
+          vm.$Message.warning('亲，图片上传失败！');
+        })
+      },
     }
   }
 </script>
@@ -720,31 +813,31 @@
 
   .deposits-received {
     padding-bottom: 226px;
-    .deposits-received-title{
-      @include sc(16px,#000);
+    .deposits-received-title {
+      @include sc(16px, #000);
       text-align: center;
     }
-    .deposits-received-info{
+    .deposits-received-info {
       text-align: left;
       padding: 0 120px;
       line-height: 32px;
-      @include sc(14px,#333);
+      @include sc(14px, #333);
     }
-    .description-fees{
+    .description-fees {
       padding: 0 42px;
     }
-    .description-fees-con{
-      padding:12px;
-      border:1px solid #FFD6D0;
-      background-color:#FFF5E0;
+    .description-fees-con {
+      padding: 12px;
+      border: 1px solid #FFD6D0;
+      background-color: #FFF5E0;
     }
-    .pay-info{
-      @include sc(18px,#000);
+    .pay-info {
+      @include sc(18px, #000);
       text-align: center;
     }
-    .description-fees-footer{
+    .description-fees-footer {
       text-align: center;
-      .pay-btn{
+      .pay-btn {
         display: inline-block;
         @include wh(120px, 36px);
         line-height: 36px;
@@ -758,8 +851,8 @@
           background-color: darken($mainColor, 10%);
         }
       }
-      .return{
-        color:#5980D4;
+      .return {
+        color: #5980D4;
         margin-left: 20px;
         margin-right: 20px;
         @include transition;
@@ -771,29 +864,30 @@
       }
     }
   }
-  .audit{
-    .audit-title{
-      @include sc(22px,#5C5C5C);
+
+  .audit {
+    .audit-title {
+      @include sc(22px, #5C5C5C);
       line-height: 46px;
       text-align: center;
     }
-    .audit-con{
+    .audit-con {
       text-align: center;
       font-size: 16px;
     }
-    .audit-footer{
+    .audit-footer {
       text-align: center;
-      color:#50B9DB;
+      color: #50B9DB;
       font-size: 16px;
-      a{
-        color:#50B9DB;
+      a {
+        color: #50B9DB;
         @include transition;
         &:hover {
           color: darken(#50B9DB, 10%);
           text-decoration: underline;
         }
       }
-      span{
+      span {
         cursor: pointer;
         @include transition;
         &:hover {
@@ -803,7 +897,8 @@
       }
     }
   }
-  .ivu-steps-item{
+
+  .ivu-steps-item {
     line-height: 26px;
   }
 

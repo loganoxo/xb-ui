@@ -43,7 +43,7 @@ export default {
    *任务发布
    */
   taskCreate(params) {
-    return fetch("/aip/task-create.json", params)
+    return fetch("/api/task-create.json", params)
   },
 
   /**

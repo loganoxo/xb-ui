@@ -1,6 +1,8 @@
 /**
  * Created by ycb on 2017/7/18.
  */
+import {aliUrl, bucket} from '../config/env'
+
 /**
  * 存储localStorage
  */
@@ -15,7 +17,7 @@ export const setStorage = (name, content) => {
 /**
  * 获取localStorage
  */
-export const getStorage = name => {
+export const getStorage = (name) => {
   if (!name) return;
   return JSON.parse(window.localStorage.getItem(name));
 }
@@ -23,7 +25,7 @@ export const getStorage = name => {
 /**
  * 删除localStorage
  */
-export const removeStorage = name => {
+export const removeStorage = (name) => {
   if (!name) return;
   window.localStorage.removeItem(name);
 }
@@ -45,4 +47,31 @@ export const TimeToDate = () => {
   return Y + M + D
 }
 
+/**
+ * 前端阿里云上传图片方法
+ */
+export const aliUploadImg = (key, file) => {
+  return new Promise((resolve, reject) => {
+    OSS.urllib.request(aliUrl, {method: 'GET'}, function (err, response) {
+      if (err) {
+        return alert(err);
+      }
+      const result = JSON.parse(response);
+      const client = new OSS.Wrapper({
+        region: 'oss-cn-hangzhou',
+        accessKeyId: result.AccessKeyId,
+        accessKeySecret: result.AccessKeySecret,
+        stsToken: result.SecurityToken,
+        bucket: bucket,
+      });
+      client.multipartUpload(key, file).then(response => {
+        resolve(response);
+      }, err => {
+        reject(err);
+      }).catch((error) => {
+        reject(error);
+      })
+    });
+  });
+}
 
