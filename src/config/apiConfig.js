@@ -49,8 +49,8 @@ export default {
   /**
    *实名认证初始化
    */
-  verifiedInit(params) {
-    return fetch("/api/identity-index.json", params)
+  verifiedInit() {
+    return fetch("/api/identity-index.json")
   },
 
   /**
@@ -65,6 +65,26 @@ export default {
    */
   itemCatalog() {
     return fetch("/api/item-catalog.json")
+  },
+
+  /**
+   * 绑定旺旺号
+   */
+  wwBind (params) {
+    return fetch("/api/alitm-bunding.json",params)
+  },
+
+  /**
+   * 获取旺旺信息列表
+   */
+  wwBindList () {
+    return fetch("/api/get-alitm-info-list.json")
+  },
+  /**
+   * 解绑旺旺号
+   */
+  wwUnbind () {
+    return fetch("/api/alitm-unBunding.json")
   },
 
 }

@@ -331,6 +331,9 @@
       return {}
     },
     created(){
+      if(getStorage("userInfo")){
+        this.$store.state.userInfo = getStorage("userInfo");
+      }
     },
     methods: {}
   }

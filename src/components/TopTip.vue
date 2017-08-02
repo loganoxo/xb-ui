@@ -1,9 +1,19 @@
 <template>
   <div id="topTip" class="top-tip">
     <div class="container">
-      <p class="left">
-        你好，<span class="user-name">freshbox02 </span>
+
+      <p v-show="$store.state.userInfo.phone" class="left">
+        你好，<span class="user-name">
+
+        <router-link  to="/user">{{$store.state.userInfo.phone}} </router-link>
+        </span>
         <span @click="signOut">[ 退出登录 ]</span>
+      </p>
+      <p v-show="!$store.state.userInfo.phone" class="left">
+        你好，欢迎来到秀吧！
+        <span class="user-name">
+          <router-link  to="/login">登录</router-link>
+        </span>
       </p>
       <p class="right">
         <a href="">帮助中心</a>|

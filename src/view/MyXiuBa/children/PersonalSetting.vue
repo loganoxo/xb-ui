@@ -14,7 +14,7 @@
 
       <!--旺旺号绑定beg-->
       <div v-show="infoSelect == 'wwBind'" class="ww-account-box animated fadeIn">
-        <div class="ww-account-list">
+        <div v-show="false" class="ww-account-list">
           <a class="">添加新旺旺号</a>
           <ul class="ww-account-title">
             <li>已绑定旺旺号</li>
@@ -55,21 +55,19 @@
         <div class="ww-account-bind">
           <div class="ww-account-form">
             <iForm ref="wwFormValidate" :model="wwFormValidate" :rules="wwFormRuleCustom" label-position="right" :label-width="100">
-              <Form-item label="旺旺ID" prop="wwName">
-                <iInput v-model="wwFormValidate.wwName"></iInput>
+              <Form-item label="旺旺ID" prop="alitmAccount">
+                <iInput v-model="wwFormValidate.alitmAccount"></iInput>
               </Form-item>
               <Form-item label="旺旺信息截图"  class="ww-info-img">
                 <Upload
-                  ref="pcUpload"
-                  name="旺旺信息截图"
                   :show-upload-list="false"
-                  :on-success="handleSuccess"
+                  :on-success="handlewwBindPicUrlSuccess"
                   :format="['jpg','jpeg','png','gif','bmp']"
-                  :max-size="300"
+                  :max-size="500"
+                  name="wwBind"
                   :on-format-error="handleFormatError"
                   :on-exceeded-size="handleMaxSize"
                   :before-upload="handleBeforeUpload"
-                  v-model="wwFormValidate.wwInfoImg"
                   type="drag">
                   <div style="width: 58px;height:58px;line-height: 58px;">
                     <Icon type="camera" size="20"></Icon>
@@ -259,11 +257,11 @@
         ],
         infoSelect: 'accountInfo',
         wwFormValidate: {
-          wwName: '',
-          wwInfoImg: '',
+          alitmAccount: '',
+          picUrl: '',
         },
         wwFormRuleCustom: {
-          wwName: [
+          alitmAccount: [
             {validator: validateName, trigger: 'blur'},
           ],
         },
@@ -275,8 +273,6 @@
           verifiedFailed: 3
         },
         verifiedValidate: {
-          userId: '',
-          phone: '',
           realname: '',
           idcard: '',
           picUrl: '',
@@ -299,10 +295,16 @@
       if(getStorage("userInfo")){
         this.$store.state.userInfo = getStorage("userInfo");
       }
-      this.verifiedInit({userId: this.$store.state.userInfo.id})
+      this.verifiedInit();
+      this.wwBindList();
     },
     computed: {},
     methods: {
+      wwBindList () {
+        api.wwBindList().then((res) =>{
+            console.log(res)
+        });
+      },
       verifiedInit(params){
         api.verifiedInit(params).then((res) => {
             this.verifiedState = res.status;
@@ -321,12 +323,12 @@
         }
       },
       wwBindFunc(){
-
+          console.log(this.wwFormValidate);
+        api.wwBind(this.wwFormValidate).then((res) => {
+            console.log(res);
+        })
       },
       verifiedFunc(){
-        this.verifiedValidate.userId = this.$store.state.userInfo.id;
-        this.verifiedValidate.phone = this.$store.state.userInfo.phone;
-        console.log(this.verifiedValidate);
         api.verifiedSubmit(this.verifiedValidate).then((res) => {
             if(res.status){
               this.verifiedState = this.verifiedStatus.verifiedIng;
@@ -335,6 +337,10 @@
       },
       handleReset (name) {
       },
+      handlewwBindPicUrlSuccess(res, file){
+        this.wwFormValidate.picUrl = aliCallbackImgUrl + res.name;
+        console.log(this.wwFormValidate.picUrl);
+      },
       handlePicUrlSuccess(res, file) {
         this.verifiedValidate.picUrl = aliCallbackImgUrl + res.name;
           console.log(this.verifiedValidate.picUrl);
@@ -342,9 +348,6 @@
       handleReversePicUrlSuccess(res,file){
         this.verifiedValidate.reversePicUrl = aliCallbackImgUrl + res.name;
         console.log(this.verifiedValidate.reversePicUrl);
-      },
-      handleSuccess(res, file) {
-//        this.verifiedValidate.picUrl = aliCallbackImgUrl + res.name;
       },
       handleFormatError(file) {
         this.$Modal.warning({

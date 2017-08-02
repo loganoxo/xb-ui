@@ -83,7 +83,6 @@ router.post('/api/login.json', (req, res, next) => {
     .then(function (parsedBody) {
       if (parsedBody.status) {
         let userData = parsedBody.data;
-        delete req.session;
         req.session.regenerate(function (serr) {
           if (!serr) {
             req.session.userData = userData
@@ -228,31 +227,27 @@ router.post('/api/send-verify-code.json', function (req, res, next) {
  * @param reversePicUrl 身份证反面
  */
 router.post('/api/user/identity/saveidentity.json', function (req, res, next) {
-  getSessionData(req, function (data) {
-    let options = {
-      method: 'POST',
-      uri: baseUrl + '/user/identity/saveidentity',
-      formData: {
-        phone: req.body.phone,
-        userId: req.body.userId,
-        realname: req.body.realname,
-        idcard: req.body.idcard,
-        picUrl: req.body.picUrl,
-        reversePicUrl: req.body.reversePicUrl
-      },
-      json: true,
-    };
-    request(options)
-      .then(function (parsedBody) {
-        logConfig.logger.info(parsedBody);
-        res.send(parsedBody);
-        res.end();
-      })
-      .catch(function (err) {
-        logConfig.logger.error(err);
-        res.json({status: false, msg: "服务器错误"});
-        res.end();
-      });
+  let options = {
+    method: 'POST',
+    uri: baseUrl + '/user/identity/saveidentity',
+    formData: {
+      phone: req.session.userData.phone,
+      userId: req.session.userData.id,
+      realname: req.body.realname,
+      idcard: req.body.idcard,
+      picUrl: req.body.picUrl,
+      reversePicUrl: req.body.reversePicUrl
+    },
+    json: true,
+  };
+  request(options).then(function (parsedBody) {
+    logConfig.logger.info(parsedBody);
+    res.send(parsedBody);
+    res.end();
+  }).catch(function (err) {
+      logConfig.logger.error(err);
+      res.json({status: false, msg: "服务器错误"});
+      res.end();
   });
 });
 
@@ -263,38 +258,18 @@ router.post('/api/user/identity/saveidentity.json', function (req, res, next) {
  * @param processing  审核中
  */
 router.post('/api/identity-index.json', function (req, res, next) {
-  // redisClient.hgetall(req.sessionID, function (err, object) {
-  //   let options = {
-  //     method: 'POST',
-  //     uri: baseUrl + 'user/identity/index',
-  //     json: true,
-  //   };
-  //   request(options)
-  //     .then(function (parsedBody) {
-  //       logConfig.logger.info(parsedBody);
-  //       res.send(parsedBody);
-  //       res.end();
-  //     })
-  //     .catch(function (err) {
-  //       logConfig.logger.error(err);
-  //       res.json({status: false, msg: "服务器错误"});
-  //       res.end();
-  //     });
-  // });
   let options = {
     method: 'POST',
     uri: baseUrl + '/user/identity/index',
     formData: {
-      userId: req.body.userId
+      userId: req.session.userData.id
     }
   };
-  request(options)
-    .then(function (parsedBody) {
+  request(options).then(function (parsedBody) {
       logConfig.logger.info(parsedBody);
       res.send(parsedBody);
       res.end();
-    })
-    .catch(function (err) {
+    }).catch(function (err) {
       logConfig.logger.error(err);
       res.json({status: false, msg: "服务器错误"});
       res.end();
@@ -375,5 +350,76 @@ router.post("/aip/task-create.json", function (req, res, next) {
       res.end();
     });
 });
+/**
+ * 绑定旺旺号
+ * @param userId
+ * @param alitm_account
+ * @param picUrl
+ */
+router.post('/api/alitm-bunding.json', function (req, res, next) {
+  let options = {
+    method: 'POST',
+    uri: baseUrl + '/alitm/alitm-bunding',
+    formData: {
+      userId: req.session.userData.id,
+      alitmAccount: req.body.alitmAccount,
+      picUrl: req.body.picUrl
+    }
+  };
+  request(options).then(function (parsedBody) {
+    logConfig.logger.info(parsedBody);
+    res.send(parsedBody);
+    res.end();
+  }).catch(function (err) {
+    logConfig.logger.error(err);
+    res.json({status: false, msg: "服务器错误"});
+    res.end();
+  });
+});
 
+/**
+ * 获取旺旺信息列表
+ * @param userId
+ */
+router.post('/api/get-alitm-info-list.json', function (req, res, next) {
+  let options = {
+    method: 'POST',
+    uri: baseUrl + '/alitm/get-alitm-info-list',
+    formData: {
+      userId: req.session.userData.id,
+    }
+  };
+  request(options).then(function (parsedBody) {
+    logConfig.logger.info(parsedBody);
+    res.send(parsedBody);
+    res.end();
+  }).catch(function (err) {
+    logConfig.logger.error(err);
+    res.json({status: false, msg: "服务器错误"});
+    res.end();
+  });
+});
+
+/**
+ * 解绑旺旺号
+ * @param userId
+ */
+router.post('/api/alitm-unBunding.json', function (req, res, next) {
+  let options = {
+    method: 'POST',
+    uri: baseUrl + '/alitm/alitm-unBunding',
+    formData: {
+      id: req.session.userData.userId,
+    }
+  };
+  request(options).then(function (parsedBody) {
+    logConfig.logger.info(parsedBody);
+    res.send(parsedBody);
+    res.end();
+  }).catch(function (err) {
+    logConfig.logger.error(err);
+    res.json({status: false, msg: "服务器错误"});
+    res.end();
+  });
+});
 module.exports = router;
