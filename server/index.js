@@ -1,7 +1,6 @@
 /**
  * Created by ycb on 2017/7/18.
  */
-const api = require('./api');
 const config = require('./config');
 const logConfig = require('./logConfig');
 const fs = require('fs');
@@ -37,7 +36,7 @@ app.use(bodyParser.json());
 
 app.use(bodyParser.urlencoded({extended: false}));
 
-app.use(api);
+app.use(require('./api'));
 
 logConfig.logger.info('当前node环境变量为：' + process.env.NODE_ENV);
 
