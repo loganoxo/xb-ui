@@ -14,8 +14,8 @@
 
       <!--旺旺号绑定beg-->
       <div v-show="infoSelect == 'wwBind'" class="ww-account-box animated fadeIn">
-        <div v-show="false" class="ww-account-list">
-          <a class="">添加新旺旺号</a>
+        <div v-show="!showWwBindBox" class="ww-account-list">
+          <a @click = addWwBindFunc>添加新旺旺号</a>
           <ul class="ww-account-title">
             <li>已绑定旺旺号</li>
             <li>绑定时间</li>
@@ -24,35 +24,24 @@
             <li>操作</li>
           </ul>
           <div>
-            <ul class="ww-account-ctt">
-              <li>freshbox</li>
-              <li>2017-07-04 17:00:00</li>
-              <li>个人信息截图</li>
-              <li>启用中</li>
+            <ul class="ww-account-ctt" v-for="ww in wwBindLists" :id="ww.id">
+              <li>ww.nickname</li>
+              <li>{{ww.applyTime | dateFormat('YYYY-MM-DD hh:mm:ss')}}</li>
+              <li><img :src="ww.picUrl" alt="" style="width: 50px; padding: 10px;"></li>
               <li>
-                <a href="">解绑</a>
+                <span v-show="ww.status == 1" >审核中</span>
+                <span v-show="ww.status == 2" >启用中</span>
+                <span v-show="ww.status == 3" >审核不通过</span>
+
               </li>
-            </ul>
-            <ul class="ww-account-ctt">
-              <li>freshbox</li>
-              <li>2017-07-04 17:00:00</li>
-              <li>个人信息截图</li>
-              <li>审核不通过</li>
               <li>
-                <a href="">重新提交</a>
-              </li>
-            </ul>
-            <ul class="ww-account-ctt">
-              <li>freshbox</li>
-              <li>2017-07-04 17:00:00</li>
-              <li>个人信息截图</li>
-              <li>审核中</li>
-              <li>
+                <a v-show="ww.status == 2">解绑</a>
+                <a v-show="ww.status == 3" @click="modifyWwBindFunc(ww)">重新提交</a>
               </li>
             </ul>
           </div>
         </div>
-        <div class="ww-account-bind">
+        <div class="ww-account-bind" v-show="showWwBindBox">
           <div class="ww-account-form">
             <iForm ref="wwFormValidate" :model="wwFormValidate" :rules="wwFormRuleCustom" label-position="right" :label-width="100">
               <Form-item label="旺旺ID" prop="alitmAccount">
@@ -255,7 +244,9 @@
             isSelect: 'verified'
           },
         ],
+        showWwBindBox: false,
         infoSelect: 'accountInfo',
+        wwBindLists: [],
         wwFormValidate: {
           alitmAccount: '',
           picUrl: '',
@@ -300,9 +291,24 @@
     },
     computed: {},
     methods: {
+      modifyWwBindFunc(ww){
+        this.showWwBindBox = true;
+        this.wwFormValidate.id = ww.id;
+      },
+      addWwBindFunc (){
+        this.showWwBindBox = true;
+      },
       wwBindList () {
         api.wwBindList().then((res) =>{
-            console.log(res)
+          this.wwBindLists = res.data;
+          if(res.status){
+            if(this.wwBindLists.length > 0){
+              this.showWwBindBox = false;
+            }
+          }else {
+
+          }
+
         });
       },
       verifiedInit(params){
@@ -323,9 +329,19 @@
         }
       },
       wwBindFunc(){
-          console.log(this.wwFormValidate);
         api.wwBind(this.wwFormValidate).then((res) => {
-            console.log(res);
+            if(res.status){
+                if(res.statusCode == 200){
+                  this.$Modal.success({
+                    content: "绑定成功"
+                  });
+                  window.location.reload();
+                }
+            }else {
+              this.$Modal.error({
+                content: '绑定失败'
+              });
+            }
         })
       },
       verifiedFunc(){

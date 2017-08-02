@@ -1,7 +1,7 @@
 /**
  * Created by ycb on 2017/7/22.
  */
-var port = normalizePort(process.env.PORT || '3000');
+const port = normalizePort(process.env.PORT || '3000');
 module.exports = {
   port: port,
   baseUrl: 'http://192.168.1.142:8765',
