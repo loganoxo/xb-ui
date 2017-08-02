@@ -25,7 +25,7 @@
           </ul>
           <div>
             <ul class="ww-account-ctt" v-for="ww in wwBindLists" :id="ww.id">
-              <li>ww.nickname</li>
+              <li>{{ww.alitmAccount}}</li>
               <li>{{ww.applyTime | dateFormat('YYYY-MM-DD hh:mm:ss')}}</li>
               <li><img :src="ww.picUrl" alt="" style="width: 50px; padding: 10px;"></li>
               <li>
@@ -35,7 +35,7 @@
 
               </li>
               <li>
-                <a v-show="ww.status == 2">解绑</a>
+                <a v-show="ww.status == 2" @click="deleteWwBindFunc(ww)">解绑</a>
                 <a v-show="ww.status == 3" @click="modifyWwBindFunc(ww)">重新提交</a>
               </li>
             </ul>
@@ -245,6 +245,7 @@
           },
         ],
         showWwBindBox: false,
+        modifyWw: false,
         infoSelect: 'accountInfo',
         wwBindLists: [],
         wwFormValidate: {
@@ -291,9 +292,24 @@
     },
     computed: {},
     methods: {
+      deleteWwBindFunc(ww){
+        api.wwUnbind({id: ww.id}).then((res) => {
+            if(res.status){
+              this.$Modal.success({
+                content: res.msg
+              });
+            }else {
+              this.$Modal.error({
+                content: res.msg
+              });
+            }
+        })
+      },
       modifyWwBindFunc(ww){
         this.showWwBindBox = true;
         this.wwFormValidate.id = ww.id;
+        this.wwFormValidate.alitmAccount = ww.alitmAccount;
+        this.modifyWw = true;
       },
       addWwBindFunc (){
         this.showWwBindBox = true;
@@ -329,20 +345,29 @@
         }
       },
       wwBindFunc(){
-        api.wwBind(this.wwFormValidate).then((res) => {
+        if(this.modifyWw){
+          api.wwModify(this.wwFormValidate).then((res) => {
             if(res.status){
-                if(res.statusCode == 200){
-                  this.$Modal.success({
-                    content: "绑定成功"
-                  });
-                  window.location.reload();
-                }
+              this.$Modal.success({content: res.msg})
+            }
+          })
+        }else{
+          api.wwBind(this.wwFormValidate).then((res) => {
+            if(res.status){
+              if(res.statusCode == 200){
+                this.$Modal.success({
+                  content: "绑定成功"
+                });
+                window.location.reload();
+              }
             }else {
               this.$Modal.error({
                 content: '绑定失败'
               });
             }
-        })
+          })
+        }
+
       },
       verifiedFunc(){
         api.verifiedSubmit(this.verifiedValidate).then((res) => {
@@ -355,15 +380,12 @@
       },
       handlewwBindPicUrlSuccess(res, file){
         this.wwFormValidate.picUrl = aliCallbackImgUrl + res.name;
-        console.log(this.wwFormValidate.picUrl);
       },
       handlePicUrlSuccess(res, file) {
         this.verifiedValidate.picUrl = aliCallbackImgUrl + res.name;
-          console.log(this.verifiedValidate.picUrl);
       },
       handleReversePicUrlSuccess(res,file){
         this.verifiedValidate.reversePicUrl = aliCallbackImgUrl + res.name;
-        console.log(this.verifiedValidate.reversePicUrl);
       },
       handleFormatError(file) {
         this.$Modal.warning({

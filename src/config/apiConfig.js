@@ -83,8 +83,15 @@ export default {
   /**
    * 解绑旺旺号
    */
-  wwUnbind () {
-    return fetch("/api/alitm-unBunding.json")
+  wwUnbind (params) {
+    return fetch("/api/alitm-unBunding.json",params)
+  },
+
+  /**
+   * 修改旺旺号
+   */
+  wwModify (params) {
+    return fetch("/api/alitm/resubmit.json",params)
   },
 
 }

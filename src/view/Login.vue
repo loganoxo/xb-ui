@@ -267,7 +267,7 @@
             this.rememberAccountFunc();
             this.instance('success', '', res.msg);
             setStorage("userInfo",  this.$store.state.userInfo);
-//            this.$router.go({name: 'home'})
+            this.$route.go({name: 'home'})
           } else {
             this.instance('error', '', res.msg)
           }

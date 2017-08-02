@@ -25,7 +25,7 @@
 
 <script>
   import api from '../config/apiConfig'
-
+  import {setStorage, getStorage,removeStorage} from '../config/utils'
   export default {
     name: 'topTip',
     beforeMount() {
@@ -39,6 +39,7 @@
     },
     methods: {
       signOut() {
+        removeStorage("userInfo");
         api.signOut().then(res => {
 
         })

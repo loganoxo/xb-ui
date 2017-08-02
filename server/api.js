@@ -409,7 +409,7 @@ router.post('/api/alitm-unBunding.json', function (req, res, next) {
     method: 'POST',
     uri: baseUrl + '/alitm/alitm-unBunding',
     formData: {
-      id: req.session.userData.userId,
+      id: req.body.id,
     }
   };
   request(options).then(function (parsedBody) {
@@ -422,4 +422,30 @@ router.post('/api/alitm-unBunding.json', function (req, res, next) {
     res.end();
   });
 });
+
+/**
+ * 修改旺旺号
+ * @param userId
+ */
+router.post('/api/alitm/resubmit.json', function (req, res, next) {
+  let options = {
+    method: 'POST',
+    uri: baseUrl + '/alitm/resubmit',
+    formData: {
+      id:  req.body.id,
+      alitmAccount: req.body.alitmAccount,
+      picUrl: req.body.picUrl
+    }
+  };
+  request(options).then(function (parsedBody) {
+    logConfig.logger.info(parsedBody);
+    res.send(parsedBody);
+    res.end();
+  }).catch(function (err) {
+    logConfig.logger.error(err);
+    res.json({status: false, msg: "服务器错误"});
+    res.end();
+  });
+});
+
 module.exports = router;
