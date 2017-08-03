@@ -429,7 +429,7 @@ router.post('/api/alitm-bunding.json', function (req, res, next) {
  * @param userId
  */
 router.post('/api/get-alitm-info-list.json', function (req, res, next) {
-  let options = {
+  let  options = {
     method: 'POST',
     uri: baseUrl + '/user/alitm/get-alitm-info-list',
     formData: {
