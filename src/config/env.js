@@ -11,8 +11,8 @@
 
 let baseUrl = '/api';
 let aliUrl = 'http://192.168.1.142:3000/api/ali-token.json';
-let bucket = 'xiuba-prod';
-let aliCallbackImgUrl = 'http://xiuba-prod.oss-cn-hangzhou.aliyuncs.com/';
+let bucket = 'xiuba-dev';
+let aliCallbackImgUrl = 'http://xiuba-dev.oss-cn-hangzhou.aliyuncs.com/';
 
 if (process.env.NODE_ENV === 'development') {
   baseUrl = '/api';
