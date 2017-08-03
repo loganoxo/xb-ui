@@ -70,6 +70,7 @@ router.get('/api/ali-token.json', (req, res, next) => {
  * @param role
  */
 router.post('/api/login.json', (req, res, next) => {
+  logConfig.logger.error('已进入用户登录接口');
   let options = {
     method: 'POST',
     uri: baseUrl + '/user/sign-in',
@@ -79,8 +80,10 @@ router.post('/api/login.json', (req, res, next) => {
     },
     json: true,
   };
+  logConfig.logger.error('开始请求java端：/api/login.json');
   request(options)
     .then(function (parsedBody) {
+      logConfig.logger.error('进入JAVA端数据返回');
       if (parsedBody.status) {
         let userData = parsedBody.data;
         req.session.regenerate(function (serr) {
@@ -90,6 +93,8 @@ router.post('/api/login.json', (req, res, next) => {
           res.send(parsedBody);
           res.end();
         });
+      }else{
+        logConfig.logger.error('java端数据返回异常');
       }
     })
     .catch(function (err) {
