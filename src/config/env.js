@@ -10,7 +10,7 @@
  */
 
 let baseUrl = '/api';
-let aliUrl = 'http://192.168.142:3000/api/ali-token.json';
+let aliUrl = 'http://192.168.1.142:3000/api/ali-token.json';
 let bucket = 'xiuba-prod';
 let aliCallbackImgUrl = 'http://xiuba-prod.oss-cn-hangzhou.aliyuncs.com/';
 
