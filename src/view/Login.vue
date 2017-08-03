@@ -137,7 +137,7 @@
       SmsCountdown: SmsCountdown,
       Radio: Radio,
       Modal: Modal,
-      RoleTop: RoleTop
+      RoleTop: RoleTop,
     },
     data() {
       //表单验证
@@ -230,6 +230,7 @@
     },
     methods: {
       getRegister() {
+        let self = this;
         api.register({
           phone: this.loginTrendsCustom.phone,
           pwd: this.loginTrendsCustom.phone.slice(5),
@@ -240,8 +241,12 @@
           validateCode: this.loginTrendsCustom.validateCode
         }).then((res) => {
           if (res.status) {
-            this.instance('success', '', res.msg);
-            this.$router.go({name: 'home'});
+            this.$Modal.success({
+              content: '登录成功',
+              onOk: function () {
+                self.$router.push({name: 'home'});
+              }
+            });
           } else {
             this.instance('error', '', res.msg);
           }
@@ -260,14 +265,20 @@
         }
       },
       setUserInfo() {
+        let self = this;
         api.login(this.loginNormalCustom).then((res) => {
           if (res.status) {
             this.$store.state.userInfo = res.data;
             this.$store.state.login = true;
             this.rememberAccountFunc();
-            this.instance('success', '', res.msg);
             setStorage("userInfo",  this.$store.state.userInfo);
-            this.$route.go({name: 'home'})
+            this.$Modal.success({
+              content: '登录成功',
+              onOk: function () {
+                self.$router.push({name: 'home'});
+              }
+            });
+
           } else {
             this.instance('error', '', res.msg)
           }

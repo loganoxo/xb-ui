@@ -244,6 +244,7 @@
       },
       registerBuyer (){
         this.formCustom.role = 0;
+        let self = this;
         api.register({
           phone: this.formCustom.phone,
           pwd: this.formCustom.pwd,
@@ -253,10 +254,22 @@
           validateCode: this.formCustom.validateCode,
           role: this.formCustom.role
         }).then((res) => {
-          console.log(res)
+          if(res.status){
+            self.$Modal.success({
+              content: res.msg,
+              onOk: function () {
+                self.$router.push({name: 'login'});
+              }
+            });
+          }else {
+            self.$Modal.error({
+              content: res.msg,
+            });
+          }
         })
       },
       registerSeller (){
+        let self = this;
         this.formCustom.role = 1;
         api.register({
           phone: this.formCustom.phone,
@@ -267,12 +280,32 @@
           validateCode: this.formCustom.validateCode,
           role: this.formCustom.role
         }).then((res) => {
-          console.log(res)
+          if(res.status){
+            self.$Modal.success({
+              content: res.msg,
+              onOk: function () {
+                self.$router.push({name: 'login'});
+              }
+            });
+          }else {
+            self.$Modal.error({
+              content: res.msg,
+            });
+          }
         })
       },
       sendCode (){
+        let self = this;
         api.getCode({phone: this.formCustom.phone, purpose: 'reg'}).then((res) => {
-          console.log(res);
+          if(res.status){
+            self.$Modal.success({
+              content: res.msg,
+            });
+          }else {
+            self.$Modal.error({
+              content: res.msg,
+            });
+          }
         });
       }
     }

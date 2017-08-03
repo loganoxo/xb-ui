@@ -33,7 +33,7 @@ export default new Router({
     },
     {
       path: '/login',
-      name: 'Login',
+      name: 'login',
       component: Login,
       meta: {
         title: "用户登陆"

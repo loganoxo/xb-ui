@@ -293,13 +293,14 @@
     computed: {},
     methods: {
       deleteWwBindFunc(ww){
+        let self = this;
         api.wwUnbind({id: ww.id}).then((res) => {
             if(res.status){
-              this.$Modal.success({
+              self.$Modal.success({
                 content: res.msg
               });
             }else {
-              this.$Modal.error({
+              self.$Modal.error({
                 content: res.msg
               });
             }
@@ -315,11 +316,12 @@
         this.showWwBindBox = true;
       },
       wwBindList () {
+        let self = this;
         api.wwBindList().then((res) =>{
-          this.wwBindLists = res.data;
+          self.wwBindLists = res.data;
           if(res.status){
-            if(this.wwBindLists.length > 0){
-              this.showWwBindBox = false;
+            if(self.wwBindLists.length > 0){
+              self.showWwBindBox = false;
             }
           }else {
 
@@ -327,11 +329,12 @@
 
         });
       },
-      verifiedInit(params){
-        api.verifiedInit(params).then((res) => {
-            this.verifiedState = res.status;
-            if(!this.verifiedState){
-              this.verifiedState = 10;
+      verifiedInit(){
+        let self = this;
+        api.verifiedInit().then((res) => {
+            self.verifiedState = res.status;
+            if(!self.verifiedState){
+              self.verifiedState = 10;
             }
         })
       },

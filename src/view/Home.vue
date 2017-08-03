@@ -121,7 +121,7 @@
             </a>
           </div>
           <div class="right-ctt">
-            <div class="login-up-box">
+            <div class="login-up-box" v-show="!$store.state.userInfo.phone">
               <div>
                 <img src="~assets/img/home/home_24.png" alt="">
                 <p>hi，你还没登录哦~</p>
@@ -131,7 +131,15 @@
                 <router-link to="/login">马上登录</router-link>
               </div>
             </div>
-
+            <div class="login-up-box" v-show="$store.state.userInfo.phone">
+              <div>
+                <img src="~assets/img/home/home_24.png" alt="">
+                <p>{{$store.state.userInfo.phone}}</p>
+              </div>
+              <div class="mt-10 text-ct">
+                <router-link  to="/user">个人中心</router-link>
+              </div>
+            </div>
             <div class="notice-box">
               <p>
                 <a class="active">常见问题</a>

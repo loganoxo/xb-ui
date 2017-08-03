@@ -42,7 +42,8 @@
         removeStorage("userInfo");
         api.signOut().then(res => {
 
-        })
+        });
+        window.location.reload();
       }
     }
   }
