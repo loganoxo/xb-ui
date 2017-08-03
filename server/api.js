@@ -70,7 +70,6 @@ router.get('/api/ali-token.json', (req, res, next) => {
  * @param role
  */
 router.post('/api/login.json', (req, res, next) => {
-  logConfig.logger.error('已进入用户登录接口');
   let options = {
     method: 'POST',
     uri: baseUrl + '/user/sign-in',
@@ -80,10 +79,8 @@ router.post('/api/login.json', (req, res, next) => {
     },
     json: true,
   };
-  logConfig.logger.error('开始请求java端：/api/login.json');
   request(options)
     .then(function (parsedBody) {
-      logConfig.logger.error('进入JAVA端数据返回');
       if (parsedBody.status) {
         let userData = parsedBody.data;
         req.session.regenerate(function (serr) {
@@ -94,7 +91,8 @@ router.post('/api/login.json', (req, res, next) => {
           res.end();
         });
       }else{
-        logConfig.logger.error('java端数据返回异常');
+        res.send(parsedBody);
+        res.end();
       }
     })
     .catch(function (err) {
@@ -119,9 +117,14 @@ router.post('/api/check-fast-sign-in.json', function (req, res, next) {
   };
   if (Number(req.body.validateCode) === Number(req.session.vrCode)) {
     request(options).then(function (parsedBody) {
-      logConfig.logger.info(parsedBody);
-      res.send(parsedBody);
-      res.end();
+      if (parsedBody.status) {
+        logConfig.logger.info(parsedBody);
+        res.send(parsedBody);
+        res.end();
+      }else {
+        res.send(parsedBody);
+        res.end();
+      }
     }).catch(function (err) {
       logConfig.logger.error(err);
       res.json({status: false, msg: "服务器错误"});
@@ -165,9 +168,14 @@ router.post('/api/sign-up.json', function (req, res, next) {
   };
   if (Number(req.body.validateCode) === req.session.vrCode) {
     request(options).then(function (parsedBody) {
-      logConfig.logger.info(parsedBody);
-      res.send(parsedBody);
-      res.end();
+      if (parsedBody.status) {
+        logConfig.logger.info(parsedBody);
+        res.send(parsedBody);
+        res.end();
+      }else {
+        res.send(parsedBody);
+        res.end();
+      }
     }).catch(function (err) {
       logConfig.logger.error(err);
       res.json({status: false, msg: "服务器错误"});
@@ -212,9 +220,14 @@ router.post('/api/send-verify-code.json', function (req, res, next) {
   };
   request(options)
     .then(function (parsedBody) {
-      logConfig.logger.info(parsedBody);
-      res.send(parsedBody);
-      res.end();
+      if (parsedBody.status) {
+        logConfig.logger.info(parsedBody);
+        res.send(parsedBody);
+        res.end();
+      }else {
+        res.send(parsedBody);
+        res.end();
+      }
     })
     .catch(function (err) {
       logConfig.logger.error(err);
@@ -245,9 +258,14 @@ router.post('/api/user/identity/saveidentity.json', function (req, res, next) {
     json: true,
   };
   request(options).then(function (parsedBody) {
-    logConfig.logger.info(parsedBody);
-    res.send(parsedBody);
-    res.end();
+    if (parsedBody.status) {
+      logConfig.logger.info(parsedBody);
+      res.send(parsedBody);
+      res.end();
+    }else {
+      res.send(parsedBody);
+      res.end();
+    }
   }).catch(function (err) {
       logConfig.logger.error(err);
       res.json({status: false, msg: "服务器错误"});
@@ -270,10 +288,15 @@ router.post('/api/identity-index.json', function (req, res, next) {
     }
   };
   request(options).then(function (parsedBody) {
+    if (parsedBody.status) {
       logConfig.logger.info(parsedBody);
       res.send(parsedBody);
       res.end();
-    }).catch(function (err) {
+    }else {
+      res.send(parsedBody);
+      res.end();
+    }
+  }).catch(function (err) {
       logConfig.logger.error(err);
       res.json({status: false, msg: "服务器错误"});
       res.end();
@@ -292,10 +315,14 @@ router.post("/api/item-catalog.json", function (req, res, next) {
   };
   request(options)
     .then(function (parsedBody) {
-    if (parsedBody) {
-      res.send(parsedBody);
-      res.end();
-    }
+      if (parsedBody.status) {
+        logConfig.logger.info(parsedBody);
+        res.send(parsedBody);
+        res.end();
+      }else {
+        res.send(parsedBody);
+        res.end();
+      }
   }).catch(function (err) {
     logConfig.logger.error(err);
     res.json({status: false, msg: "服务器错误"});
@@ -346,8 +373,14 @@ router.post("/api/task-create.json", function (req, res, next) {
   };
   request(options)
     .then(function (parsedBody) {
-      res.send(parsedBody);
-      res.end();
+      if (parsedBody.status) {
+        logConfig.logger.info(parsedBody);
+        res.send(parsedBody);
+        res.end();
+      }else {
+        res.send(parsedBody);
+        res.end();
+      }
     })
     .catch(function (err) {
       logConfig.logger.error(err);
@@ -372,9 +405,14 @@ router.post('/api/alitm-bunding.json', function (req, res, next) {
     }
   };
   request(options).then(function (parsedBody) {
-    logConfig.logger.info(parsedBody);
-    res.send(parsedBody);
-    res.end();
+    if (parsedBody.status) {
+      logConfig.logger.info(parsedBody);
+      res.send(parsedBody);
+      res.end();
+    }else {
+      res.send(parsedBody);
+      res.end();
+    }
   }).catch(function (err) {
     logConfig.logger.error(err);
     res.json({status: false, msg: "服务器错误"});
@@ -395,9 +433,14 @@ router.post('/api/get-alitm-info-list.json', function (req, res, next) {
     }
   };
   request(options).then(function (parsedBody) {
-    logConfig.logger.info(parsedBody);
-    res.send(parsedBody);
-    res.end();
+    if (parsedBody.status) {
+      logConfig.logger.info(parsedBody);
+      res.send(parsedBody);
+      res.end();
+    }else {
+      res.send(parsedBody);
+      res.end();
+    }
   }).catch(function (err) {
     logConfig.logger.error(err);
     res.json({status: false, msg: "服务器错误"});
@@ -418,9 +461,14 @@ router.post('/api/alitm-unBunding.json', function (req, res, next) {
     }
   };
   request(options).then(function (parsedBody) {
-    logConfig.logger.info(parsedBody);
-    res.send(parsedBody);
-    res.end();
+    if (parsedBody.status) {
+      logConfig.logger.info(parsedBody);
+      res.send(parsedBody);
+      res.end();
+    }else {
+      res.send(parsedBody);
+      res.end();
+    }
   }).catch(function (err) {
     logConfig.logger.error(err);
     res.json({status: false, msg: "服务器错误"});
@@ -443,9 +491,14 @@ router.post('/api/alitm/resubmit.json', function (req, res, next) {
     }
   };
   request(options).then(function (parsedBody) {
-    logConfig.logger.info(parsedBody);
-    res.send(parsedBody);
-    res.end();
+    if (parsedBody.status) {
+      logConfig.logger.info(parsedBody);
+      res.send(parsedBody);
+      res.end();
+    }else {
+      res.send(parsedBody);
+      res.end();
+    }
   }).catch(function (err) {
     logConfig.logger.error(err);
     res.json({status: false, msg: "服务器错误"});
