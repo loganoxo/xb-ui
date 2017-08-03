@@ -24,7 +24,7 @@
             <li>操作</li>
           </ul>
           <div>
-            <ul class="ww-account-ctt" v-for="ww in wwBindLists" :id="ww.id">
+            <ul class="ww-account-ctt" v-for="(ww, index) in wwBindLists" :id="ww.id">
               <li>{{ww.alitmAccount}}</li>
               <li>{{ww.applyTime | dateFormat('YYYY-MM-DD hh:mm:ss')}}</li>
               <li><img :src="ww.picUrl" alt="" style="width: 50px; padding: 10px;"></li>
@@ -35,7 +35,7 @@
 
               </li>
               <li>
-                <a v-show="ww.status == 2" @click="deleteWwBindFunc(ww)">解绑</a>
+                <a v-show="ww.status == 2" @click="deleteWwBindFunc(ww,index)">解绑</a>
                 <a v-show="ww.status == 3" @click="modifyWwBindFunc(ww)">重新提交</a>
               </li>
             </ul>
@@ -292,13 +292,15 @@
     },
     computed: {},
     methods: {
-      deleteWwBindFunc(ww){
+      deleteWwBindFunc(ww,index){
         let self = this;
         api.wwUnbind({id: ww.id}).then((res) => {
             if(res.status){
               self.$Modal.success({
                 content: res.msg
               });
+              self.wwBindLists.splice(index, 1);
+              self.$set(self.wwBindLists,index,self.wwBindLists[index]);
             }else {
               self.$Modal.error({
                 content: res.msg
@@ -318,13 +320,19 @@
       wwBindList () {
         let self = this;
         api.wwBindList().then((res) =>{
-          self.wwBindLists = res.data;
           if(res.status){
-            if(self.wwBindLists.length > 0){
-              self.showWwBindBox = false;
-            }
+              if(res.statusCode == 201){
+                self.showWwBindBox = true;
+              }else if(res.statusCode == 200){
+                self.wwBindLists = res.data;
+                if(self.wwBindLists.length > 0){
+                  self.showWwBindBox = false;
+                }
+              }
           }else {
-
+            self.$Modal.error({
+              content: res.msg
+            });
           }
 
         });
@@ -348,10 +356,23 @@
         }
       },
       wwBindFunc(){
+        let self = this;
         if(this.modifyWw){
           api.wwModify(this.wwFormValidate).then((res) => {
             if(res.status){
-              this.$Modal.success({content: res.msg})
+              if(res.statusCode == 200){
+                this.$Modal.success({
+                  content: "绑定成功",
+                  onOk:function () {
+                    window.location.reload();
+//                    self.$router.push({path: '/user/personal-setting'});
+                  }
+                });
+              }
+            }else {
+              this.$Modal.error({
+                content: res.msg
+              });
             }
           })
         }else{
@@ -359,13 +380,15 @@
             if(res.status){
               if(res.statusCode == 200){
                 this.$Modal.success({
-                  content: "绑定成功"
+                  content: "绑定成功",
+                  onOk:function () {
+                      window.location.reload();
+                  }
                 });
-                window.location.reload();
               }
             }else {
               this.$Modal.error({
-                content: '绑定失败'
+                content: res.msg
               });
             }
           })

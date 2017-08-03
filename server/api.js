@@ -218,8 +218,8 @@ router.post('/api/send-verify-code.json', function (req, res, next) {
     },
     json: true,
   };
-  request(options)
-    .then(function (parsedBody) {
+  if (Number(req.body.validateCode) === Number(req.session.vrCode)) {
+    request(options).then(function (parsedBody) {
       if (parsedBody.status) {
         logConfig.logger.info(parsedBody);
         res.send(parsedBody);
@@ -228,12 +228,16 @@ router.post('/api/send-verify-code.json', function (req, res, next) {
         res.send(parsedBody);
         res.end();
       }
-    })
-    .catch(function (err) {
-      logConfig.logger.error(err);
-      res.json({status: false, msg: "服务器错误"});
-      res.end();
+    }).catch(function (err) {
+        logConfig.logger.error(err);
+        res.json({status: false, msg: "服务器错误"});
+        res.end();
     });
+  }else {
+    res.json({status: false, msg: "图片验证码输入有误"});
+    res.end();
+  }
+
 });
 
 /**
@@ -397,7 +401,7 @@ router.post("/api/task-create.json", function (req, res, next) {
 router.post('/api/alitm-bunding.json', function (req, res, next) {
   let options = {
     method: 'POST',
-    uri: baseUrl + '/alitm/alitm-bunding',
+    uri: baseUrl + '/user/alitm/alitm-bunding',
     formData: {
       userId: req.session.userData.id,
       alitmAccount: req.body.alitmAccount,
@@ -427,7 +431,7 @@ router.post('/api/alitm-bunding.json', function (req, res, next) {
 router.post('/api/get-alitm-info-list.json', function (req, res, next) {
   let options = {
     method: 'POST',
-    uri: baseUrl + '/alitm/get-alitm-info-list',
+    uri: baseUrl + '/user/alitm/get-alitm-info-list',
     formData: {
       userId: req.session.userData.id,
     }
@@ -455,7 +459,7 @@ router.post('/api/get-alitm-info-list.json', function (req, res, next) {
 router.post('/api/alitm-unBunding.json', function (req, res, next) {
   let options = {
     method: 'POST',
-    uri: baseUrl + '/alitm/alitm-unBunding',
+    uri: baseUrl + '/user/alitm/alitm-unBunding',
     formData: {
       id: req.body.id,
     }
@@ -483,7 +487,7 @@ router.post('/api/alitm-unBunding.json', function (req, res, next) {
 router.post('/api/alitm/resubmit.json', function (req, res, next) {
   let options = {
     method: 'POST',
-    uri: baseUrl + '/alitm/resubmit',
+    uri: baseUrl + '/user/alitm/resubmit',
     formData: {
       id:  req.body.id,
       alitmAccount: req.body.alitmAccount,

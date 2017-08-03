@@ -63,7 +63,7 @@
                     <iInput placeholder="动态码" size="large" v-model="loginTrendsCustom.smsCode"></iInput>
                   </Form-item>
                   <SmsCountdown ref="timerbtn" class="btn btn-default" @sendCode="sendCode"
-                                :phone="loginTrendsCustom.phone"></SmsCountdown>
+                                :phone="loginTrendsCustom.phone" ></SmsCountdown>
                 </div>
 
                 <div class="remember-box clear" style="margin-top: 15px;">
@@ -177,6 +177,7 @@
         rememberPhone: true,
         imgSrc: null,
         modal1: true,
+        isBeginImgCode: false,
         formValidate: {
           gender: '',
         },
@@ -278,7 +279,6 @@
                 self.$router.push({name: 'home'});
               }
             });
-
           } else {
             this.instance('error', '', res.msg)
           }
@@ -298,7 +298,6 @@
         this.$refs[name].resetFields();
       },
       checkPhone() {
-
         this.$refs.loginTrendsCustom.validateField('phone');
       },
       checkRole() {
@@ -327,11 +326,12 @@
           phone: self.loginTrendsCustom.phone,
           purpose: 'fast'
         }).then((res) => {
-          console.log(res);
           api.getCode({phone: self.loginTrendsCustom.phone, purpose: 'fast'}).then((res) => {
             if (res.status) {
+              this.isBeginImgCode = true;
               this.instance('success', '', '发送成功')
             } else {
+              this.isBeginImgCode = false;
               this.instance('error', '', res.msg)
             }
           })
