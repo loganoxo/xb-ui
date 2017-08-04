@@ -171,7 +171,7 @@
           <!--<p class="error-result-text clear" >审核不通过：{{verified.assessReason}}</p>-->
 
         </div>
-        <div class="verified-result" v-if="verifiedState == verifiedStatus.verifiedIng">
+        <div class="verified-result mt-80" v-if="verifiedState == verifiedStatus.verifiedIng">
           <p class="text-ct">
             <img src="~assets/img/common/right_64.png" alt="" class="vtc-btm">
             实名认证已提交
@@ -179,7 +179,7 @@
           <p  class="text-ct">亲当前的实名认证已提交，工作人员会在一个工作日内审核你的活动，敬请关注！</p>
 
         </div>
-        <div class="verified-result" v-if=" verifiedState == verifiedStatus.verifiedSuccess">
+        <div class="verified-result mt-80" v-if=" verifiedState == verifiedStatus.verifiedSuccess">
           <p class="text-ct">
             <img src="~assets/img/common/right_64.png" alt="" class="vtc-btm">
             实名已认证
