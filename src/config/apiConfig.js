@@ -14,8 +14,8 @@ export default {
   /**
    *用户退出登陆
    */
-  signOut(params) {
-    return fetch("/api/sign-out.json", params)
+  signOut() {
+    return fetch("/api/sign-out.json")
   },
 
   /**

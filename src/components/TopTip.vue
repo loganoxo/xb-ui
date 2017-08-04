@@ -16,8 +16,8 @@
         </span>
       </p>
       <p class="right">
-        <a href="">帮助中心</a>|
-        <a href="">联系客服</a>
+        <a>帮助中心</a>|
+        <a>联系客服</a>
       </p>
     </div>
   </div>
@@ -51,7 +51,6 @@
     methods: {
       signOut() {
         let _this = this;
-        this.$router.push({name: 'home'});
         api.signOut().then(res => {
           if (res.status) {
             _this.$store.commit({
