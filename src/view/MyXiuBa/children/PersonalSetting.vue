@@ -35,7 +35,7 @@
               </li>
               <li>
                 <a v-show="ww.status == 2" @click="deleteWwBindFunc(ww,index)">解绑</a>
-                <a v-show="ww.status == 3" @click="modifyWwBindFunc(ww)">重新提交</a>
+                <a v-show="ww.status == 3" @click="modifyWwBindFunc(ww,index)">重新提交</a>
               </li>
             </ul>
           </div>
@@ -338,6 +338,7 @@
 
       deleteWwBindFunc(ww,index){
         let self = this;
+        console.log(ww);
         api.wwUnbind({id: ww.id}).then((res) => {
             if(res.status){
               self.$Modal.success({
@@ -352,7 +353,7 @@
             }
         })
       },
-      modifyWwBindFunc(ww){
+      modifyWwBindFunc(ww,index){
         this.showWwBindBox = true;
         this.wwFormValidate.id = ww.id;
         this.wwFormValidate.alitmAccount = ww.alitmAccount;

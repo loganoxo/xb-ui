@@ -92,7 +92,7 @@
               </a>
               &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
               <span>我已有账号，现在就</span>
-              <router-link class="" to="/login">登陆</router-link>
+              <router-link class="" to="/login">登录</router-link>
             </p>
           </div>
         </div>
@@ -264,7 +264,7 @@
         }).then((res) => {
           if (res.status) {
             self.$Modal.success({
-              content: res.msg,
+              content: "注册成功",
               onOk: function () {
                 self.$router.push({name: 'login'});
               }
@@ -290,7 +290,7 @@
         }).then((res) => {
           if (res.status) {
             self.$Modal.success({
-              content: res.msg,
+              content: "注册成功",
               onOk: function () {
                 self.$router.push({name: 'login'});
               }
