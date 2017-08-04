@@ -121,7 +121,7 @@
             </a>
           </div>
           <div class="right-ctt">
-            <div class="login-up-box" v-show="!$store.state.userInfo.phone">
+            <div class="login-up-box" v-show="!isLogin">
               <div>
                 <img src="~assets/img/home/home_24.png" alt="">
                 <p>hi，你还没登录哦~</p>
@@ -131,10 +131,10 @@
                 <router-link to="/login">马上登录</router-link>
               </div>
             </div>
-            <div class="login-up-box" v-show="$store.state.userInfo.phone">
+            <div class="login-up-box" v-show="isLogin">
               <div>
                 <img src="~assets/img/home/home_24.png" alt="">
-                <p>{{$store.state.userInfo.phone}}</p>
+                <p>{{getUserInfo.phone}}</p>
               </div>
               <div class="mt-10 text-ct">
                 <router-link  to="/user">个人中心</router-link>
@@ -339,8 +339,13 @@
       return {}
     },
     created(){
-      if(getStorage("userInfo")){
-        this.$store.state.userInfo = getStorage("userInfo");
+    },
+    computed: {
+      isLogin() {
+        return this.$store.state.login
+      },
+      getUserInfo() {
+        return this.$store.state.userInfo
       }
     },
     methods: {}

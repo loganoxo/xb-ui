@@ -223,7 +223,7 @@
     created() {
       this.getVrcode();
       if (getStorage('loginNormalCustom')) {
-        this.loginNormalCustom = getStorage('loginNormalCustom')
+        this.loginNormalCustom = getStorage('loginNormalCustom');
         if (getStorage('loginNormalCustom')) {
           this.loginNormalCustom = getStorage('loginNormalCustom');
           this.rememberAccount = true;
@@ -248,7 +248,7 @@
         }).then((res) => {
           if (res.status) {
             this.$Modal.success({
-              content: '登录成功',
+              content: '恭喜您，成功注册秀吧！',
               onOk: function () {
                 self.$router.push({name: 'home'});
               }
@@ -274,18 +274,19 @@
         let self = this;
         api.login(this.loginNormalCustom).then((res) => {
           if (res.status) {
-            this.$store.state.userInfo = res.data;
-            this.$store.state.login = true;
-            this.rememberAccountFunc();
-            setStorage("userInfo",  this.$store.state.userInfo);
-            this.$Modal.success({
-              content: '恭喜您，登录秀吧成功！',
+            self.$store.commit({
+              type: 'RECORD_USER_INFO',
+              info: res.data
+            });
+            self.rememberAccountFunc();
+            self.$Modal.success({
+              content: '恭喜您，成功登录秀吧！',
               onOk: function () {
                 self.$router.push({name: 'home'});
               }
             });
           } else {
-            this.instance('error', '', res.msg)
+            self.instance('error', '', res.msg)
           }
         })
       },
@@ -306,6 +307,7 @@
         this.$refs.loginTrendsCustom.validateField('phone');
       },
       checkRole() {
+        let self = this;
         api.checkFastSignIn({
           phone: this.loginTrendsCustom.phone,
           smsCode: this.loginTrendsCustom.smsCode,
@@ -313,9 +315,11 @@
           this.rememberPhoneFunc();
           if (res.status) {
             if (res.statusCode === 200) {
-              if (res.status) {
-                this.instance('success', '', '恭喜您，登陆秀吧成功！')
-              }
+                self.$store.commit({
+                  type: 'RECORD_USER_INFO',
+                  info: res.data
+                });
+                this.instance('success', '', '恭喜您，成功登录秀吧！')
             } else if (res.statusCode === 201) {
               this.selRole = true;
             }

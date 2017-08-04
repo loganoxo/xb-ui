@@ -2,4 +2,6 @@
  * Created by ycb on 2017/7/17.
  */
 export const OUT_LOGIN = 'OUT_LOGIN'
-export const RECORD_USERINFO = 'RECORD_USERINFO'
+export const RECORD_USER_INFO = 'RECORD_USER_INFO'
+export const INIT_USER_INFO = 'INIT_USER_INFO'
+export const CHANGE_TOP_SHOW = 'CHANGE_TOP_SHOW'

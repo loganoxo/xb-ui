@@ -7,7 +7,7 @@
       <div class="right top-rt">
         <router-link to="/">首页</router-link>
         <span>|</span>
-        <router-link to="/login">登陆</router-link>
+        <router-link to="/login">登录</router-link>
         <span>|</span>
         <a href="">帮助中心</a>
       </div>

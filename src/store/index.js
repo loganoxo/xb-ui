@@ -5,7 +5,8 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 import mutations from './mutations'
 import action from './action'
-import {setStorage, getStorage} from '../config/utils'
+import getters from './getters'
+
 Vue.use(Vuex);
 const state = {
   userInfo: {}, //用户信息
@@ -15,6 +16,7 @@ const state = {
 
 export default new Vuex.Store({
   state,
+  getters,
   action,
   mutations,
 })

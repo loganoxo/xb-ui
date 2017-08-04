@@ -38,7 +38,7 @@
           <p class="mt-6 pl-60">（单期活动时间为3-30天。）</p>
         </div>
         <div class="trial-condition ml-35 mt-20">
-          <span class="required">试客申请条件：</span>
+          <span class="ml-5">试客申请条件：</span>
           <Checkbox v-model="taskRelease.onlyShowForQualification">只有获得资格的试客才可以查看试用信息</Checkbox>
           <p class="pl-94 size-color">勾选后可以避免试客私下索要资格，避免同行举报。但流量、收藏量、分享量会相对减少</p>
           <p class="pl-94 mt-8">

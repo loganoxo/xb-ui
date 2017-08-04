@@ -321,20 +321,12 @@
     mounted() {
 
     },
-    created() {
-      if(getStorage("userInfo")){
-        this.$store.state.userInfo = getStorage("userInfo");
-      }
-    },
+    created() {},
     computed: {},
     methods: {
       myInfoFunc(index){
-          if(index == 1){
-            if(this.$store.state.userInfo.role == 1){
-                return false;
-            }else{
-                return true;
-            }
+          if(index === 1){
+            return this.$store.state.userInfo.role !== 1;
           }else {
               return true;
           }

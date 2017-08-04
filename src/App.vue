@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <Top v-show="$store.state.topShow"></Top>
+    <Top v-show="topShow"></Top>
     <router-view></router-view>
     <Bottom></Bottom>
   </div>
@@ -14,6 +14,16 @@ export default {
   components:{
     Top:Top,
     Bottom:Bottom
+  },
+  computed: {
+    topShow () {
+      return this.$store.state.topShow
+    }
+  },
+  created(){
+    this.$store.commit({
+      type:'INIT_USER_INFO'
+    })
   }
 }
 </script>

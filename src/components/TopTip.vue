@@ -2,17 +2,17 @@
   <div id="topTip" class="top-tip">
     <div class="container">
 
-      <p v-show="$store.state.userInfo.phone" class="left">
+      <p v-show="isLogin" class="left">
         你好，<span class="user-name">
 
-        <router-link  to="/user">{{$store.state.userInfo.phone}} </router-link>
+        <router-link to="/user">{{getUserInfo.phone}} </router-link>
         </span>
         <span @click="signOut">[ 退出登录 ]</span>
       </p>
-      <p v-show="!$store.state.userInfo.phone" class="left">
+      <p v-show="!isLogin" class="left">
         你好，欢迎来到秀吧！
         <span class="user-name">
-          <router-link  to="/login">登录</router-link>
+          <router-link to="/login">登录</router-link>
         </span>
       </p>
       <p class="right">
@@ -25,11 +25,22 @@
 
 <script>
   import api from '../config/apiConfig'
-  import {setStorage, getStorage,removeStorage} from '../config/utils'
+  import {setStorage, getStorage, removeStorage} from '../config/utils'
+
   export default {
     name: 'topTip',
     beforeMount() {
-      this.$store.state.topShow = false;
+      this.$store.commit({
+        type: 'CHANGE_TOP_SHOW'
+      })
+    },
+    computed: {
+      isLogin() {
+        return this.$store.state.login
+      },
+      getUserInfo() {
+        return this.$store.state.userInfo
+      }
     },
     created() {
 
@@ -39,12 +50,16 @@
     },
     methods: {
       signOut() {
-        removeStorage("userInfo");
+        let _this = this;
         this.$router.push({name: 'home'});
         api.signOut().then(res => {
-
+          if (res.status) {
+            _this.$store.commit({
+              type: 'OUT_LOGIN'
+            });
+            _this.$router.push({name: 'login'});
+          }
         });
-        window.location.reload();
       }
     }
   }

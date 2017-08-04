@@ -139,7 +139,10 @@ router.post('/api/check-fast-sign-in.json', function (req, res, next) {
  * 用户登出接口
  */
 router.post('/api/sign-out.json', (req, res, next) => {
-  // delete req.session;
+  req.session.destroy(function(err) {
+    res.json({status: true, msg: "退出登陆成功！"});
+    res.end();
+  })
 });
 
 /**
