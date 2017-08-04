@@ -40,6 +40,7 @@
     methods: {
       signOut() {
         removeStorage("userInfo");
+        this.$router.push({name: 'home'});
         api.signOut().then(res => {
 
         });

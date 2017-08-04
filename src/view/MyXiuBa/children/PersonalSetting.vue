@@ -1,14 +1,13 @@
 <template>
   <div class="personal-box">
     <div class="personal-sel-top">
-      <a v-for="myInfoSelect in myInfoSelects" :class="{active:infoSelect == myInfoSelect.isSelect}" @click="infoSelect=myInfoSelect.isSelect">
+      <a v-for="myInfoSelect in myInfoSelects" :class="{active:infoSelect == myInfoSelect.isSelect}" @click="myInfoSelectsFunc(myInfoSelect)">
         {{myInfoSelect.text}}
       </a>
     </div>
     <div class="personal-sel-box">
       <!--账号信息beg-->
       <div v-show="infoSelect == 'accountInfo'" class="animated fadeIn">
-        {{$store.state.userInfo}}
       </div>
       <!--账号信息end-->
 
@@ -74,14 +73,13 @@
           </div>
           <div class="left ww-account-cue">
             <p>
-              <a href="">什么是旺旺ID号？</a>
+              <a @click="demoShow = true, imgDemoUrl.picUrl = false,imgDemoUrl.reversePicUrl = false,imgDemoUrl.taobaoAccountInfo = false,imgDemoUrl.taobaoAccountDemo = true;">什么是旺旺ID号？</a>
             </p>
             <p>
-              <a href="">[查看示例截图]</a>
-              <a href="">[点这里去截图]</a>
+              <a @click="demoShow = true, imgDemoUrl.picUrl = false,imgDemoUrl.reversePicUrl = false,imgDemoUrl.taobaoAccountInfo = true,imgDemoUrl.taobaoAccountDemo = false;">[查看示例截图]</a>
             </p>
           </div>
-          <p class="error-result-text clear">审核不通过：你的后台旺旺信息截图与旺旺ID不符合，请重新提交</p>
+          <p v-show="remarks" class="error-result-text clear">审核不通过：{{remarks}}</p>
         </div>
       </div>
       <!--旺旺号绑定end-->
@@ -131,15 +129,15 @@
                 </Upload>
               </Form-item>
               <p class="tip clear" style="margin-left: 116px;width: 600px;line-height: 30px;font-size: 14px;color: #999;padding-bottom: 30px;">
-                1.审核不通过：你的后台旺旺信息截图与旺旺ID不符合，请重新提交
+                1.需身份证本人手持证件，照片需免冠，建议未化妆
                 <br>
-                2.审核不通过：你的后台旺旺信息截图与旺旺ID不符合，请重新提交
+                2.照片需五官清晰可见
                 <br>
-                3.审核不通过：你的后台旺旺信息截图与旺旺ID不符合，请重新提交
+                3.身份证上的信息需无遮挡，且清晰可见
                 <br>
-                4.审核不通过：你的后台旺旺信息截图与旺旺ID不符合，请重新提交
+                4.照片需露出手臂，照片请勿进行任何软件处理
                 <br>
-                5.审核不通过：你的后台旺旺信息截图与旺旺ID不符合，请重新提交
+                5.支持jpg/jpeg/bmp/png格式，最大不超过10M
                 <br>
               </p>
               <Form-item>
@@ -156,13 +154,13 @@
             <p>
             </p>
             <p>
-              <a href="">[查看示例截图]</a>
+              <a @click="demoShow = true, imgDemoUrl.taobaoAccountDemo = false,imgDemoUrl.taobaoAccountInfo = false,imgDemoUrl.picUrl = true,imgDemoUrl.reversePicUrl = false;">[查看示例截图]</a>
             </p>
             <p>
-              <a href="">[查看示例截图]</a>
+              <a @click="demoShow = true, imgDemoUrl.taobaoAccountDemo = false,imgDemoUrl.taobaoAccountInfo = false,imgDemoUrl.picUrl = false,imgDemoUrl.reversePicUrl = true;">[查看示例截图]</a>
             </p>
           </div>
-          <p class="error-result-text clear" v-show="verifiedState == verifiedStatus.verifiedFailed">审核不通过：你的后台旺旺信息截图与旺旺ID不符合，请重新提交</p>
+          <p class="error-result-text clear" v-show="verifiedState == verifiedStatus.verifiedFailed">审核不通过：{{verified.assessReason}}</p>
         </div>
         <div class="verified-result" v-if="verifiedState == verifiedStatus.verifiedIng">
           <p class="text-ct">
@@ -182,6 +180,18 @@
       </div>
       <!--实名认证end-->
     </div>
+
+    <Modal v-model="demoShow" width="900">
+      <div style="text-align:center">
+        <img v-show="imgDemoUrl.taobaoAccountDemo" src="~assets/img/case-demo/taobao-account-demo.jpg" alt="" style="width: 100%;margin-top: 20px;">
+        <img v-show="imgDemoUrl.taobaoAccountInfo" src="~assets/img/case-demo/taobao-account-info.png" alt="" style="width: 100%;margin-top: 20px;">
+        <img v-show="imgDemoUrl.picUrl" src="~assets/img/case-demo/sfza.jpg" alt="" style="width: 100%;margin-top: 20px;">
+        <img v-show="imgDemoUrl.reversePicUrl" src="~assets/img/case-demo/sfzb.jpg" alt="" style="width: 100%;margin-top: 20px;">
+      </div>
+      <div slot="footer">
+
+      </div>
+    </Modal>
   </div>
 </template>
 
@@ -196,6 +206,7 @@
   import Upload from '@/components/upload'
   import {setStorage, getStorage} from '@/config/utils'
   import {aliCallbackImgUrl} from '@/config/env'
+  import Modal from 'iview/src/components/modal'
   //  import {setStorage, getStorage} from '/src/config/utils'
   export default {
     name: 'TaskReleaseProcess',
@@ -210,6 +221,7 @@
       Radio: Radio,
       RadioGroup: Radio.Group,
       Upload: Upload,
+      Modal: Modal,
     },
     data() {
       //表单验证
@@ -233,20 +245,31 @@
         myInfoSelects: [
           {
             text: '账号信息',
-            isSelect: 'accountInfo'
+            isSelect: 'accountInfo',
+            callback: this.verifiedInit
           },
           {
             text: '旺旺号绑定',
-            isSelect: 'wwBind'
+            isSelect: 'wwBind',
+            callback: this.wwBindList
           },
           {
             text: '实名认证',
-            isSelect: 'verified'
+            isSelect: 'verified',
+            callback: this.verifiedInit
           },
         ],
         showWwBindBox: false,
         modifyWw: false,
+        remarks: '',
+        demoShow: false,
         infoSelect: 'accountInfo',
+        imgDemoUrl:{
+          taobaoAccountDemo: false,
+          taobaoAccountInfo: false,
+          picUrl: false,
+          reversePicUrl: false,
+        },
         wwBindLists: [],
         wwFormValidate: {
           alitmAccount: '',
@@ -257,6 +280,7 @@
             {validator: validateName, trigger: 'blur'},
           ],
         },
+        verified:{},
         verifiedState: '',
         verifiedStatus:{
           verifiedBeg: 10,
@@ -287,11 +311,14 @@
       if(getStorage("userInfo")){
         this.$store.state.userInfo = getStorage("userInfo");
       }
-      this.verifiedInit();
-      this.wwBindList();
     },
     computed: {},
     methods: {
+      myInfoSelectsFunc(myInfoSelect){
+        this.infoSelect=myInfoSelect.isSelect;
+        myInfoSelect.callback();
+      },
+
       deleteWwBindFunc(ww,index){
         let self = this;
         api.wwUnbind({id: ww.id}).then((res) => {
@@ -312,6 +339,7 @@
         this.showWwBindBox = true;
         this.wwFormValidate.id = ww.id;
         this.wwFormValidate.alitmAccount = ww.alitmAccount;
+        this.remarks = ww.remarks;
         this.modifyWw = true;
       },
       addWwBindFunc (){
@@ -340,10 +368,16 @@
       verifiedInit(){
         let self = this;
         api.verifiedInit().then((res) => {
-            self.verifiedState = res.status;
-            if(!self.verifiedState){
-              self.verifiedState = 10;
-            }
+          self.verified = res;
+          console.log(self.verified);
+          self.verifiedState = res.status;
+          if(self.verified.assessReason){
+            self.verifiedValidate.realname = self.verified.realname;
+            self.verifiedValidate.idcard = self.verified.idcard;
+          }
+          if(!self.verifiedState){
+            self.verifiedState = 10;
+          }
         })
       },
       handleSubmit (name, callback) {
@@ -355,17 +389,22 @@
           callback();
         }
       },
+      clearWwInfo(){
+        this.wwFormValidate.alitmAccount = '';
+        this.wwFormValidate.picUrl = '';
+      },
       wwBindFunc(){
         let self = this;
         if(this.modifyWw){
           api.wwModify(this.wwFormValidate).then((res) => {
             if(res.status){
               if(res.statusCode == 200){
-                this.$Modal.success({
-                  content: "绑定成功",
+                this.remarks = '';
+                self.$Modal.success({
+                  content: "亲！提交成功，客服妹子会尽快审核...",
                   onOk:function () {
-                    window.location.reload();
-//                    self.$router.push({path: '/user/personal-setting'});
+                    self.wwBindList();
+                    self.clearWwInfo();
                   }
                 });
               }
@@ -379,10 +418,11 @@
           api.wwBind(this.wwFormValidate).then((res) => {
             if(res.status){
               if(res.statusCode == 200){
-                this.$Modal.success({
-                  content: "绑定成功",
+                self.$Modal.success({
+                  content: "亲！提交成功，客服妹子会尽快审核...",
                   onOk:function () {
-                      window.location.reload();
+                    self.wwBindList();
+                    self.clearWwInfo();
                   }
                 });
               }
