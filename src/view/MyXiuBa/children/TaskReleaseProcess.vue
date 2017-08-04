@@ -32,7 +32,7 @@
         </div>
         <div class="activity-time ml-60 mt-20">
           <span class="required">活动时长：</span>
-          <iInput v-model="taskRelease.taskDaysDuration" placeholder="请输入活动时长" style="width: 120px"></iInput>
+          <iInput v-model.number="taskRelease.taskDaysDuration" placeholder="请输入活动时长" style="width: 120px"></iInput>
           <span>天</span>
           <span class="second-color ml-10">请于活动结束后48小时内审批完成所有试客资格，逾期系统将自动为您审批。</span>
           <p class="mt-6 pl-60">（单期活动时间为3-30天。）</p>
@@ -186,9 +186,9 @@
             <div class="baby-location ml-15 mt-20">
               <span class="required">宝贝搜索位置：</span>
               <span>第</span>
-              <iInput v-model="PcTaskDetail.searchPagePositionMin" style="width: 40px"></iInput>
+              <iInput v-model.number="PcTaskDetail.searchPagePositionMin" style="width: 40px"></iInput>
               <span>---</span>
-              <iInput v-model="PcTaskDetail.searchPagePositionMax" style="width: 40px"></iInput>
+              <iInput v-model.number="PcTaskDetail.searchPagePositionMax" style="width: 40px"></iInput>
               <span>页</span>
               <p class="size-color2 ml-80 mt-6">宝贝参考位置页数差值最大值不大于3页（如果PC端排名在10页以后， 可使用下面的卡条件功能）</p>
             </div>
@@ -598,11 +598,11 @@
           _this.$Message.warning('亲，活动时长不能为空！');
           return;
         }
-        if (!_this.taskRelease.taskDaysDuration < 3) {
+        if (_this.taskRelease.taskDaysDuration < 3) {
           _this.$Message.warning('亲，活动时长最短为3天起！');
           return;
         }
-        if (!_this.taskRelease.taskDaysDuration > 30) {
+        if (_this.taskRelease.taskDaysDuration > 30) {
           _this.$Message.warning('亲，活动时长最长为30天！');
           return;
         }
