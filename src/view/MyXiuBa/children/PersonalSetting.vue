@@ -41,7 +41,10 @@
           </div>
         </div>
         <div class="ww-account-bind" v-show="showWwBindBox">
-          <div class="ww-account-form">
+          <Alert  v-show="remarks.text"  type="warning" show-icon>
+            审核不通过： {{remarks.text}},请重新提交（{{remarks.auditTime | dateFormat('YYYY-MM-DD hh:mm:ss')}}）
+          </Alert>
+          <div class="ww-account-form mt-20">
             <iForm ref="wwFormValidate" :model="wwFormValidate" :rules="wwFormRuleCustom" label-position="right" :label-width="100">
               <Form-item label="旺旺ID" prop="alitmAccount">
                 <iInput v-model="wwFormValidate.alitmAccount"></iInput>
@@ -51,7 +54,7 @@
                   :show-upload-list="false"
                   :on-success="handlewwBindPicUrlSuccess"
                   :format="['jpg','jpeg','png','gif','bmp']"
-                  :max-size="500"
+                  :max-size="10000"
                   name="wwBind"
                   :on-format-error="handleFormatError"
                   :on-exceeded-size="handleMaxSize"
@@ -71,7 +74,7 @@
             </iForm>
 
           </div>
-          <div class="left ww-account-cue">
+          <div class="left ww-account-cue mt-20">
             <p>
               <a @click="demoShow = true, imgDemoUrl.picUrl = false,imgDemoUrl.reversePicUrl = false,imgDemoUrl.taobaoAccountInfo = false,imgDemoUrl.taobaoAccountDemo = true;">什么是旺旺ID号？</a>
             </p>
@@ -79,14 +82,19 @@
               <a @click="demoShow = true, imgDemoUrl.picUrl = false,imgDemoUrl.reversePicUrl = false,imgDemoUrl.taobaoAccountInfo = true,imgDemoUrl.taobaoAccountDemo = false;">[查看示例截图]</a>
             </p>
           </div>
-          <p v-show="remarks" class="error-result-text clear">审核不通过：{{remarks}}</p>
+          <!--<p v-show="remarks" class="error-result-text clear">审核不通过：{{remarks}},</p>-->
         </div>
       </div>
       <!--旺旺号绑定end-->
 
       <!--实名认证beg-->
       <div v-show="infoSelect == 'verified'" class="verified-box animated fadeIn">
+
         <div v-if="verifiedState == verifiedStatus.verifiedBeg || verifiedState == verifiedStatus.verifiedFailed">
+          <!--<Alert v-show="verifiedState == verifiedStatus.verifiedFailed" type="warning" show-icon>审核不通过：</Alert>-->
+          <Alert  v-show="verifiedState == verifiedStatus.verifiedFailed"  type="warning" show-icon>
+            审核不通过： {{verified.assessReason}},请重新提交！({{verified.auditTime |  dateFormat('YYYY-MM-DD hh:mm:ss')}})
+          </Alert>
           <div class="verified-form">
             <iForm ref="verifiedValidate" :model="verifiedValidate" :rules="verifiedRuleCustom" label-position="right" :label-width="120">
               <Form-item label="真实姓名" prop="realname">
@@ -100,7 +108,7 @@
                   :show-upload-list="false"
                   :on-success="handlePicUrlSuccess"
                   :format="['jpg','jpeg','png','gif','bmp']"
-                  :max-size="500"
+                  :max-size="10000"
                   name="picUrl"
                   :on-format-error="handleFormatError"
                   :on-exceeded-size="handleMaxSize"
@@ -117,7 +125,7 @@
                   :show-upload-list="false"
                   :on-success="handleReversePicUrlSuccess"
                   :format="['jpg','jpeg','png','gif','bmp']"
-                  :max-size="500"
+                  :max-size="10000"
                   :on-format-error="handleFormatError"
                   :on-exceeded-size="handleMaxSize"
                   :before-upload="handleBeforeUpload"
@@ -148,7 +156,7 @@
               </Form-item>
             </iForm>
           </div>
-          <div class="left verified-cue">
+          <div class="left mt-20 verified-cue">
             <p>
             </p>
             <p>
@@ -160,7 +168,8 @@
               <a @click="demoShow = true, imgDemoUrl.taobaoAccountDemo = false,imgDemoUrl.taobaoAccountInfo = false,imgDemoUrl.picUrl = false,imgDemoUrl.reversePicUrl = true;">[查看示例截图]</a>
             </p>
           </div>
-          <p class="error-result-text clear" v-show="verifiedState == verifiedStatus.verifiedFailed">审核不通过：{{verified.assessReason}}</p>
+          <!--<p class="error-result-text clear" >审核不通过：{{verified.assessReason}}</p>-->
+
         </div>
         <div class="verified-result" v-if="verifiedState == verifiedStatus.verifiedIng">
           <p class="text-ct">
@@ -207,6 +216,7 @@
   import {setStorage, getStorage} from '@/config/utils'
   import {aliCallbackImgUrl} from '@/config/env'
   import Modal from 'iview/src/components/modal'
+  import Alert from 'iview/src/components/alert'
   //  import {setStorage, getStorage} from '/src/config/utils'
   export default {
     name: 'TaskReleaseProcess',
@@ -222,6 +232,7 @@
       RadioGroup: Radio.Group,
       Upload: Upload,
       Modal: Modal,
+      Alert: Alert,
     },
     data() {
       //表单验证
@@ -261,7 +272,10 @@
         ],
         showWwBindBox: false,
         modifyWw: false,
-        remarks: '',
+        remarks: {
+            text: '',
+            auditTime: '',
+        },
         demoShow: false,
         infoSelect: 'accountInfo',
         imgDemoUrl:{
@@ -350,11 +364,16 @@
         this.showWwBindBox = true;
         this.wwFormValidate.id = ww.id;
         this.wwFormValidate.alitmAccount = ww.alitmAccount;
-        this.remarks = ww.remarks;
+        this.remarks.text = ww.remarks;
+        this.remarks.auditTime = ww.auditTime;
         this.modifyWw = true;
       },
       addWwBindFunc (){
         this.showWwBindBox = true;
+        this.wwFormValidate.id = '';
+        this.wwFormValidate.alitmAccount = '';
+        this.remarks = '';
+        this.modifyWw = false;
       },
       wwBindList () {
         let self = this;
@@ -380,7 +399,6 @@
         let self = this;
         api.verifiedInit().then((res) => {
           self.verified = res;
-          console.log(self.verified);
           self.verifiedState = res.status;
           if(self.verified.assessReason){
             self.verifiedValidate.realname = self.verified.realname;
@@ -514,8 +532,9 @@
     .personal-sel-box {
       .verified-box{
         width: 830px;
-        margin: 100px auto auto auto;
+        margin: 30px auto auto auto;
         .verified-form{
+          margin-top: 20px;
           width: 400px;
           float: left;
         }
@@ -596,7 +615,7 @@
         }
         .ww-account-bind {
           width: 830px;
-          margin: 40px auto auto auto;
+          margin: 30px auto auto auto;
           .ww-account-form{
             width: 400px;
             float: left;
