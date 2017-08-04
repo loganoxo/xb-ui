@@ -1,7 +1,7 @@
 <template>
   <div class="personal-box">
     <div class="personal-sel-top">
-      <a v-for="myInfoSelect in myInfoSelects" :class="{active:infoSelect == myInfoSelect.isSelect}" @click="myInfoSelectsFunc(myInfoSelect)">
+      <a v-for="(myInfoSelect,index) in myInfoSelects" :class="{active:infoSelect == myInfoSelect.isSelect}" @click="myInfoSelectsFunc(myInfoSelect)" v-if="myInfoFunc(index)">
         {{myInfoSelect.text}}
       </a>
     </div>
@@ -314,6 +314,17 @@
     },
     computed: {},
     methods: {
+      myInfoFunc(index){
+          if(index == 1){
+            if(this.$store.state.userInfo.role == 1){
+                return false;
+            }else{
+                return true;
+            }
+          }else {
+              return true;
+          }
+      },
       myInfoSelectsFunc(myInfoSelect){
         this.infoSelect=myInfoSelect.isSelect;
         myInfoSelect.callback();
