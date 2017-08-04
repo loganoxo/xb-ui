@@ -259,7 +259,6 @@
         let key = _this.name + '/' + TimeToDate() + '/' + Math.random().toString(36).substr(2);
         aliUploadImg(key,file).then(res =>{
           if(res){
-            console.log(res);
             _this.uploadSuccess = true;
             _this.handleSuccess(res, file);
           }

@@ -57,7 +57,13 @@
               <div class="clear form-input-box">
                 <Form-item label="手机验证码" prop="smsCode" class="left pos-rel" style="width: 650px">
                   <iInput type="text" v-model="formCustom.smsCode" number size="large"></iInput>
-                  <SmsCountdown style="position: absolute;top: 3px;" ref="timerbtn" class="btn btn-default"  @sendCode="sendCode" :phone="formCustom.phone"></SmsCountdown>
+                  <SmsCountdown style="top: 3px;"
+                                :on-success="sendCodeSuccess"
+                                :phone="formCustom.phone"
+                                :purpose="formCustom.purpose"
+                                :validateCode="formCustom.validateCode">
+                  </SmsCountdown>
+                  <!--<SmsCountdown style="position: absolute;top: 3px;"  class="btn btn-default"  @sendCode="sendCode" :phone="formCustom.phone"></SmsCountdown>-->
                 </Form-item>
               </div>
 
@@ -104,6 +110,7 @@
   import api from '../config/apiConfig'
   import SmsCountdown from '@/components/SmsCountdown'
   import RoleTop from '@/components/RoleTop.vue'
+
   export default {
     name: 'register',
     components: {
@@ -117,7 +124,7 @@
       SmsCountdown: SmsCountdown,
       RoleTop: RoleTop
     },
-    data () {
+    data() {
       //表单验证
       const validatePhone = (rule, value, callback) => {
         if (!(/^1[34578]\d{9}$/.test(value))) {
@@ -156,9 +163,9 @@
       const validateSmsCode = (rule, value, callback) => {
         if (!value) {
           return callback(new Error('不能为空'));
-        }else if (!Number.isInteger(value)) {
+        } else if (!Number.isInteger(value)) {
           callback(new Error('请输入数字值'));
-        }else {
+        } else {
           callback()
         }
       };
@@ -184,6 +191,7 @@
           validateCode: '',
           smsCode: '',
           role: '',
+          purpose: 'reg',
           agreeStrip: false,
         },
         formRes: {
@@ -212,25 +220,25 @@
         }
       }
     },
-    created(){
+    created() {
       this.getRegVrcode();
-      if(this.$route.name == 'seller'){
+      if (this.$route.name == 'seller') {
         this.selLogin.buyer = false;
         this.selLogin.seller = true;
       }
     },
     methods: {
-      getRegVrcode (){
+      getRegVrcode() {
         this.regImgSrc = "/api/vrcode.json?rand=" + new Date() / 100
       },
-      selLoginFunc (){
+      selLoginFunc() {
         this.selLogin.buyer = !this.selLogin.buyer;
         this.selLogin.seller = !this.selLogin.seller
       },
-      showFormWarn (res) {
+      showFormWarn(res) {
         res = true;
       },
-      handleSubmit (name, callback) {
+      handleSubmit(name, callback) {
         let res = false;
         this.$refs[name].validate((valid) => {
           res = valid
@@ -239,10 +247,10 @@
           callback();
         }
       },
-      handleReset (name) {
+      handleReset(name) {
         this.$refs[name].resetFields();
       },
-      registerBuyer (){
+      registerBuyer() {
         this.formCustom.role = 0;
         let self = this;
         api.register({
@@ -254,21 +262,21 @@
           validateCode: this.formCustom.validateCode,
           role: this.formCustom.role
         }).then((res) => {
-          if(res.status){
+          if (res.status) {
             self.$Modal.success({
               content: res.msg,
               onOk: function () {
                 self.$router.push({name: 'login'});
               }
             });
-          }else {
+          } else {
             self.$Modal.error({
               content: res.msg,
             });
           }
         })
       },
-      registerSeller (){
+      registerSeller() {
         let self = this;
         this.formCustom.role = 1;
         api.register({
@@ -280,33 +288,31 @@
           validateCode: this.formCustom.validateCode,
           role: this.formCustom.role
         }).then((res) => {
-          if(res.status){
+          if (res.status) {
             self.$Modal.success({
               content: res.msg,
               onOk: function () {
                 self.$router.push({name: 'login'});
               }
             });
-          }else {
+          } else {
             self.$Modal.error({
               content: res.msg,
             });
           }
         })
       },
-      sendCode (){
+      sendCodeSuccess(res) {
         let self = this;
-        api.getCode({phone: this.formCustom.phone, purpose: 'reg'}).then((res) => {
-          if(res.status){
-            self.$Modal.success({
-              content: res.msg,
-            });
-          }else {
-            self.$Modal.error({
-              content: res.msg,
-            });
-          }
-        });
+        if (res.status) {
+          self.$Modal.success({
+            content: "手机验证码发送成功！",
+          });
+        } else {
+          self.$Modal.error({
+            content: res.msg,
+          });
+        }
       }
     }
   }

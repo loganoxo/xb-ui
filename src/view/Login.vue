@@ -43,7 +43,8 @@
                   登录
                 </iButton>
               </iForm>
-              <iForm ref="loginTrendsCustom" :model="loginTrendsCustom" :rules="loginTrendsRuleCustom" v-show="!selLogin"
+              <iForm ref="loginTrendsCustom" :model="loginTrendsCustom" :rules="loginTrendsRuleCustom"
+                     v-show="!selLogin"
                      :class="[selLogin ? 'animated fadeOut' : 'animated fadeIn']">
                 <Form-item prop="phone">
                   <iInput placeholder="请输入手机号码" size="large" v-model="loginTrendsCustom.phone"></iInput>
@@ -62,8 +63,11 @@
                   <Form-item class="pt-10 clear" prop="smsCode">
                     <iInput placeholder="动态码" size="large" v-model="loginTrendsCustom.smsCode"></iInput>
                   </Form-item>
-                  <SmsCountdown ref="timerbtn" class="btn btn-default" @sendCode="sendCode"
-                                :phone="loginTrendsCustom.phone" ></SmsCountdown>
+                  <SmsCountdown :on-success="sendCodeSuccess"
+                                :phone="loginTrendsCustom.phone"
+                                :purpose="loginTrendsCustom.purpose"
+                                :validateCode="loginTrendsCustom.validateCode">
+                  </SmsCountdown>
                 </div>
 
                 <div class="remember-box clear" style="margin-top: 15px;">
@@ -98,11 +102,11 @@
           <label class="fs-16">
             <input style="vertical-align: middle;font-size: 16px;" type="radio" v-model="loginTrendsCustom.role"
                    v-bind:value="0">秀客
-        </label>
+          </label>
           <label class="fs-16">
             <input style="vertical-align: middle;font-size: 16px;" type="radio" v-model="loginTrendsCustom.role"
                    v-bind:value="1">商家
-        </label>
+          </label>
         </div>
       </Modal>
     </div>
@@ -188,6 +192,7 @@
         loginTrendsCustom: {
           phone: null,
           validateCode: '',
+          purpose:'fast',
           smsCode: '',
           role: 0,
         },
@@ -274,7 +279,7 @@
             this.rememberAccountFunc();
             setStorage("userInfo",  this.$store.state.userInfo);
             this.$Modal.success({
-              content: '登录成功',
+              content: '恭喜您，登录秀吧成功！',
               onOk: function () {
                 self.$router.push({name: 'home'});
               }
@@ -304,13 +309,12 @@
         api.checkFastSignIn({
           phone: this.loginTrendsCustom.phone,
           smsCode: this.loginTrendsCustom.smsCode,
-          validateCode: this.loginTrendsCustom.validateCode
         }).then((res) => {
           this.rememberPhoneFunc();
           if (res.status) {
             if (res.statusCode === 200) {
               if (res.status) {
-                this.instance('success', '', '登陆成功')
+                this.instance('success', '', '恭喜您，登陆秀吧成功！')
               }
             } else if (res.statusCode === 201) {
               this.selRole = true;
@@ -320,22 +324,12 @@
           }
         })
       },
-      sendCode() {
-        let self = this;
-        api.getCode({
-          phone: self.loginTrendsCustom.phone,
-          purpose: 'fast'
-        }).then((res) => {
-          api.getCode({phone: self.loginTrendsCustom.phone, purpose: 'fast'}).then((res) => {
-            if (res.status) {
-              this.isBeginImgCode = true;
-              this.instance('success', '', '发送成功')
-            } else {
-              this.isBeginImgCode = false;
-              this.instance('error', '', res.msg)
-            }
-          })
-        })
+      sendCodeSuccess(res) {
+        if (res.status) {
+          this.instance('success', '', '手机验证码发送成功')
+        } else {
+          this.instance('error', '', res.msg)
+        }
       },
       instance(type, text, ctt) {
         const title = text;

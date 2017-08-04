@@ -4,6 +4,8 @@
   </button>
 </template>
 <script>
+  import api from '@/config/apiConfig'
+
   export default {
     props: {
       second: {
@@ -11,7 +13,21 @@
         default: 60
       },
       phone: {
-//        required: true
+        required: true,
+        default: null
+      },
+      purpose: {
+        type: String,
+        required: true
+      },
+      validateCode: {
+        required: true
+      },
+      onSuccess: {
+        type: Function,
+        default() {
+          return {};
+        }
       },
     },
     data() {
@@ -28,9 +44,19 @@
     methods: {
       run: function () {
         if (/^1[34578]\d{9}$/.test(this.phone)) {
-          this.$emit('sendCode');
-          this.start();
-          this.setDisabled(true);
+          api.getCode({
+            phone: this.phone,
+            purpose: this.purpose,
+            validateCode: this.validateCode
+          }).then((res) => {
+            this.onSuccess(res);
+            if (res.status) {
+              this.start();
+              this.setDisabled(true);
+            }
+          }).catch(err => {
+            console.log('发送短信接口错误信息：' + err);
+          });
         }
       },
       start: function () {

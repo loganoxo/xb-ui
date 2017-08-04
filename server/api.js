@@ -118,7 +118,6 @@ router.post('/api/check-fast-sign-in.json', function (req, res, next) {
   if (Number(req.body.validateCode) === Number(req.session.vrCode)) {
     request(options).then(function (parsedBody) {
       if (parsedBody.status) {
-        logConfig.logger.info(parsedBody);
         res.send(parsedBody);
         res.end();
       }else {
@@ -169,7 +168,6 @@ router.post('/api/sign-up.json', function (req, res, next) {
   if (Number(req.body.validateCode) === req.session.vrCode) {
     request(options).then(function (parsedBody) {
       if (parsedBody.status) {
-        logConfig.logger.info(parsedBody);
         res.send(parsedBody);
         res.end();
       }else {
@@ -221,7 +219,6 @@ router.post('/api/send-verify-code.json', function (req, res, next) {
   if (Number(req.body.validateCode) === Number(req.session.vrCode)) {
     request(options).then(function (parsedBody) {
       if (parsedBody.status) {
-        logConfig.logger.info(parsedBody);
         res.send(parsedBody);
         res.end();
       }else {
@@ -320,7 +317,6 @@ router.post("/api/item-catalog.json", function (req, res, next) {
   request(options)
     .then(function (parsedBody) {
       if (parsedBody.status) {
-        logConfig.logger.info(parsedBody);
         res.send(parsedBody);
         res.end();
       }else {
@@ -378,7 +374,6 @@ router.post("/api/task-create.json", function (req, res, next) {
   request(options)
     .then(function (parsedBody) {
       if (parsedBody.status) {
-        logConfig.logger.info(parsedBody);
         res.send(parsedBody);
         res.end();
       }else {
@@ -410,7 +405,6 @@ router.post('/api/alitm-bunding.json', function (req, res, next) {
   };
   request(options).then(function (parsedBody) {
     if (parsedBody.status) {
-      logConfig.logger.info(parsedBody);
       res.send(parsedBody);
       res.end();
     }else {
@@ -429,7 +423,7 @@ router.post('/api/alitm-bunding.json', function (req, res, next) {
  * @param userId
  */
 router.post('/api/get-alitm-info-list.json', function (req, res, next) {
-  let  options = {
+  let options = {
     method: 'POST',
     uri: baseUrl + '/user/alitm/get-alitm-info-list',
     formData: {
@@ -438,7 +432,6 @@ router.post('/api/get-alitm-info-list.json', function (req, res, next) {
   };
   request(options).then(function (parsedBody) {
     if (parsedBody.status) {
-      logConfig.logger.info(parsedBody);
       res.send(parsedBody);
       res.end();
     }else {
@@ -466,7 +459,6 @@ router.post('/api/alitm-unBunding.json', function (req, res, next) {
   };
   request(options).then(function (parsedBody) {
     if (parsedBody.status) {
-      logConfig.logger.info(parsedBody);
       res.send(parsedBody);
       res.end();
     }else {
@@ -496,7 +488,6 @@ router.post('/api/alitm/resubmit.json', function (req, res, next) {
   };
   request(options).then(function (parsedBody) {
     if (parsedBody.status) {
-      logConfig.logger.info(parsedBody);
       res.send(parsedBody);
       res.end();
     }else {
