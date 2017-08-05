@@ -71,6 +71,7 @@
               :format="['jpg','jpeg','png','gif','bmp']"
               :max-size="300"
               name="task"
+              :default-file-list="defaultList"
               :on-format-error="handleFormatError"
               :on-exceeded-size="handleMaxSize"
               :on-upload-length="handleUploadLength"
@@ -463,6 +464,11 @@
             ]
           }
         },
+        defaultList: [
+          {
+            'src': 'https://o5wwk8baw.qnssl.com/a42bdcc1178e62b4694c830f028db5c0/avatar'
+          }
+        ],
         current: 1,
         stepName: 'information',
         itemCatalogList: [],

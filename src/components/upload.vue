@@ -12,7 +12,7 @@
         <iProgress v-if="item.showProgress" :percent="item.percentage" hide-info></iProgress>
       </template>
     </div>
-    <div class="left" :class="[prefixCls]" v-show="showUpload">
+    <div ref="upload"  class="left" :class="[prefixCls]" v-show="showUpload">
       <div
         :class="classes"
         @click="handleClick"
@@ -54,12 +54,12 @@
 
   export default {
     name: 'Upload',
-    mixins: [ Emitter ],
+    mixins: [Emitter],
     components: {
-      UploadList:UploadList,
-      Icon:Icon,
-      Modal:Modal,
-      iProgress:Progress
+      UploadList: UploadList,
+      Icon: Icon,
+      Modal: Modal,
+      iProgress: Progress
     },
     props: {
       multiple: {
@@ -83,14 +83,14 @@
       },
       type: {
         type: String,
-        validator (value) {
+        validator(value) {
           return oneOf(value, ['select', 'drag']);
         },
         default: 'select'
       },
       format: {
         type: Array,
-        default () {
+        default() {
           return [];
         }
       },
@@ -106,50 +106,50 @@
       },
       onUploadLength: {
         type: Function,
-        default () {
+        default() {
           return {};
         }
       },
       beforeUpload: Function,
       onProgress: {
         type: Function,
-        default () {
+        default() {
           return {};
         }
       },
       onSuccess: {
         type: Function,
-        default () {
+        default() {
           return {};
         }
       },
       onError: {
         type: Function,
-        default () {
+        default() {
           return {};
         }
       },
       onRemove: {
         type: Function,
-        default () {
+        default() {
           return {};
         }
       },
       onPreview: {
         type: Function,
-        default () {
+        default() {
           return {};
         }
       },
       onExceededSize: {
         type: Function,
-        default () {
+        default() {
           return {};
         }
       },
       onFormatError: {
         type: Function,
-        default () {
+        default() {
           return {};
         }
       },
@@ -160,19 +160,19 @@
         }
       }
     },
-    data () {
+    data() {
       return {
         prefixCls: prefixCls,
         dragOver: false,
         fileList: [],
         visible: false,
-        uploadSrc:null,
-        showUpload:true,
+        uploadSrc: null,
+        showUpload: true,
         tempIndex: 1
       };
     },
     computed: {
-      classes () {
+      classes() {
         return [
           `${prefixCls}`,
           {
@@ -184,19 +184,29 @@
       },
 
     },
+    created() {
+      if (this.defaultFileList.length > 0) {
+        let list = this.defaultFileList;
+        this.fileList = list.map(item => {
+          item.status = 'finished';
+          item.percentage = 100;
+          return item;
+        });
+      }
+    },
     methods: {
-      handleView (name) {
+      handleView(name) {
         this.uploadSrc = name;
         this.visible = true;
       },
-      handleRemove (file) {
+      handleRemove(file) {
         const fileList = this.$refs.upload.fileList;
         this.$refs.upload.fileList.splice(fileList.indexOf(file), 1);
       },
-      handleClick () {
+      handleClick() {
         this.$refs.input.click();
       },
-      handleChange (e) {
+      handleChange(e) {
         const files = e.target.files;
 
         if (!files) {
@@ -206,11 +216,11 @@
         this.uploadFiles(files);
         this.$refs.input.value = null;
       },
-      onDrop (e) {
+      onDrop(e) {
         this.dragOver = false;
         this.uploadFiles(e.dataTransfer.files);
       },
-      uploadFiles (files) {
+      uploadFiles(files) {
         let postFiles = Array.prototype.slice.call(files);
         if (!this.multiple) postFiles = postFiles.slice(0, 1);
 
@@ -220,7 +230,7 @@
           this.upload(file);
         });
       },
-      upload (file) {
+      upload(file) {
         if (!this.beforeUpload) {
           return this.post(file);
         }
@@ -233,12 +243,14 @@
             } else {
               this.post(file);
             }
-          }, () => {});
+          }, () => {
+          });
         } else if (before !== false) {
           this.post(file);
-        } else {}
+        } else {
+        }
       },
-      post (file) {
+      post(file) {
         if (this.format.length) {
           const _file_format = file.name.split('.').pop().toLocaleLowerCase();
           const checked = this.format.some(item => item.toLocaleLowerCase() === _file_format);
@@ -261,15 +273,15 @@
         let _this = this;
         _this.handleProgress(file);
         let key = _this.name + '/' + TimeToDate() + '/' + Math.random().toString(36).substr(2);
-        aliUploadImg(key,file).then(res =>{
-          if(res){
+        aliUploadImg(key, file).then(res => {
+          if (res) {
             _this.handleSuccess(res, file);
           }
-        }).catch(err =>{
+        }).catch(err => {
           _this.handleError(err, file);
         })
       },
-      handleStart (file) {
+      handleStart(file) {
         file.uid = Date.now() + this.tempIndex++;
         const _file = {
           status: 'uploading',
@@ -282,7 +294,7 @@
 
         this.fileList.push(_file);
       },
-      getFile (file) {
+      getFile(file) {
         const fileList = this.fileList;
         let target;
         fileList.every(item => {
@@ -291,16 +303,16 @@
         });
         return target;
       },
-      handleProgress (file) {
+      handleProgress(file) {
         const _file = this.getFile(file);
         let interval = setInterval(function () {
           _file.percentage += 25;
-          if(_file.percentage === 100){
+          if (_file.percentage === 100) {
             clearInterval(interval)
           }
-        },30)
+        }, 30)
       },
-      handleSuccess (res, file) {
+      handleSuccess(res, file) {
         const _file = this.getFile(file);
 
         if (_file) {
@@ -315,7 +327,7 @@
           }, 1000);
         }
       },
-      handleError (err, response, file) {
+      handleError(err, response, file) {
         const _file = this.getFile(file);
         const fileList = this.fileList;
 
@@ -340,24 +352,13 @@
       }
     },
     watch: {
-      defaultFileList: {
-        immediate: true,
-        handler(fileList) {
-          this.fileList = fileList.map(item => {
-            item.status = 'finished';
-            item.percentage = 100;
-            item.uid = Date.now() + this.tempIndex++;
-            return item;
-          });
-        }
-      },
       fileList: {
         deep: true,
         handler(newValue, oldValue) {
-         this.showUpload = newValue.length < this.uploadLength;
+          this.showUpload = newValue.length < this.uploadLength;
         },
       }
-    },
+    }
   };
 </script>
 <style lang="scss" scoped>
