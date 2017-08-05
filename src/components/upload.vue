@@ -1,15 +1,18 @@
 <template>
   <div class="clear">
-    <div class="demo-upload-list left" v-for="(image,index) in imageList">
-      <template>
-        <img :src="image">
+    <div class="demo-upload-list left" v-for="(item ,index) in fileList">
+      <template v-if="item.status === 'finished'">
+        <img :src="item.src">
         <div class="demo-upload-list-cover">
-          <Icon type="ios-eye-outline" @click.native="handleView(image)"></Icon>
-          <Icon type="ios-trash-outline" @click.native="handleRemove(index)"></Icon>
+          <Icon type="ios-eye-outline" @click.native="handleView(item.src)"></Icon>
+          <Icon type="ios-trash-outline" @click.native="handleRemove(item)"></Icon>
         </div>
       </template>
+      <template v-else>
+        <iProgress v-if="item.showProgress" :percent="item.percentage" hide-info></iProgress>
+      </template>
     </div>
-    <div class="left" :class="[prefixCls]">
+    <div class="left" :class="[prefixCls]" v-show="showUpload">
       <div
         :class="classes"
         @click="handleClick"
@@ -25,19 +28,15 @@
           :accept="accept">
         <slot></slot>
       </div>
+      <slot name="tip"></slot>
+      <upload-list
+        v-if="showUploadList"
+        :files="fileList"
+        @on-file-remove="handleRemove"
+        @on-file-preview="handlePreview"></upload-list>
     </div>
-    <div class="left mt-20 ml-20">
-      <span style="color: #19be6b;" v-if="uploadSuccess">
-        <i class="ivu-icon ivu-icon-ios-checkmark"></i>
-        恭喜您图片上传成功！
-      </span>
-      <span style="color:red;" v-if="uploadError">
-        <i class="ivu-icon ivu-icon-ios-close"></i>
-        图片上传失败，请删除图片重新上传！
-      </span>
-    </div>
-    <Modal title="查看图片" v-model="visible">
-      <img :src="modelImgSrc" v-if="visible" style="width: 100%">
+    <Modal title="图片查看器" v-model="visible">
+      <img :src="uploadSrc" v-if="visible" style="width: 100%">
     </Modal>
   </div>
 </template>
@@ -45,24 +44,24 @@
   import UploadList from 'iview/src/components/upload/upload-list.vue';
   import Icon from 'iview/src/components/icon'
   import Modal from 'iview/src/components/modal'
+  import Progress from 'iview/src/components/progress'
   import {oneOf} from 'iview/src/utils/assist';
   import Emitter from 'iview/src/mixins/emitter';
-  import {aliUrl, bucket} from '@/config/env'
+  import {aliUrl, bucket, aliCallbackImgUrl} from '@/config/env'
   import {TimeToDate, aliUploadImg} from '@/config/utils'
 
   const prefixCls = 'ivu-upload';
 
   export default {
     name: 'Upload',
-    components: {UploadList, Icon, Modal},
-    mixins: [Emitter],
+    mixins: [ Emitter ],
+    components: {
+      UploadList:UploadList,
+      Icon:Icon,
+      Modal:Modal,
+      iProgress:Progress
+    },
     props: {
-      headers: {
-        type: Object,
-        default() {
-          return {};
-        }
-      },
       multiple: {
         type: Boolean,
         default: false
@@ -84,14 +83,14 @@
       },
       type: {
         type: String,
-        validator(value) {
+        validator (value) {
           return oneOf(value, ['select', 'drag']);
         },
         default: 'select'
       },
       format: {
         type: Array,
-        default() {
+        default () {
           return [];
         }
       },
@@ -101,40 +100,56 @@
       maxSize: {
         type: Number
       },
+      uploadLength: {
+        type: Number,
+        default: 1
+      },
+      onUploadLength: {
+        type: Function,
+        default () {
+          return {};
+        }
+      },
       beforeUpload: Function,
+      onProgress: {
+        type: Function,
+        default () {
+          return {};
+        }
+      },
       onSuccess: {
         type: Function,
-        default() {
+        default () {
           return {};
         }
       },
       onError: {
         type: Function,
-        default() {
+        default () {
           return {};
         }
       },
       onRemove: {
         type: Function,
-        default() {
+        default () {
           return {};
         }
       },
       onPreview: {
         type: Function,
-        default() {
+        default () {
           return {};
         }
       },
       onExceededSize: {
         type: Function,
-        default() {
+        default () {
           return {};
         }
       },
       onFormatError: {
         type: Function,
-        default() {
+        default () {
           return {};
         }
       },
@@ -145,21 +160,19 @@
         }
       }
     },
-    data() {
+    data () {
       return {
         prefixCls: prefixCls,
         dragOver: false,
-        visible: false,
-        modelImgSrc: null,
-        uploadSuccess: false,
-        uploadError: false,
         fileList: [],
-        imageList: [],
+        visible: false,
+        uploadSrc:null,
+        showUpload:true,
         tempIndex: 1
       };
     },
     computed: {
-      classes() {
+      classes () {
         return [
           `${prefixCls}`,
           {
@@ -172,37 +185,32 @@
 
     },
     methods: {
-      handleView(image) {
-        this.modelImgSrc = image;
+      handleView (name) {
+        this.uploadSrc = name;
         this.visible = true;
       },
-      handleRemove(index) {
-        this.imageList.splice(index, 1);
+      handleRemove (file) {
+        const fileList = this.$refs.upload.fileList;
+        this.$refs.upload.fileList.splice(fileList.indexOf(file), 1);
       },
-      handleClick() {
+      handleClick () {
         this.$refs.input.click();
       },
-      handleChange(e) {
+      handleChange (e) {
         const files = e.target.files;
 
         if (!files) {
           return;
         }
+
         this.uploadFiles(files);
-        let reader = new FileReader();
-        let img = e.target.files[0];
-        reader.readAsDataURL(img);
-        let _this = this;
-        reader.onload = function () {
-          _this.imageList.push(reader.result)
-        };
         this.$refs.input.value = null;
       },
-      onDrop(e) {
+      onDrop (e) {
         this.dragOver = false;
         this.uploadFiles(e.dataTransfer.files);
       },
-      uploadFiles(files) {
+      uploadFiles (files) {
         let postFiles = Array.prototype.slice.call(files);
         if (!this.multiple) postFiles = postFiles.slice(0, 1);
 
@@ -212,7 +220,7 @@
           this.upload(file);
         });
       },
-      upload(file) {
+      upload (file) {
         if (!this.beforeUpload) {
           return this.post(file);
         }
@@ -225,17 +233,12 @@
             } else {
               this.post(file);
             }
-          }, () => {
-            // this.$emit('cancel', file);
-          });
+          }, () => {});
         } else if (before !== false) {
           this.post(file);
-        } else {
-          // this.$emit('cancel', file);
-        }
+        } else {}
       },
-      post(file) {
-        // check format
+      post (file) {
         if (this.format.length) {
           const _file_format = file.name.split('.').pop().toLocaleLowerCase();
           const checked = this.format.some(item => item.toLocaleLowerCase() === _file_format);
@@ -245,7 +248,6 @@
           }
         }
 
-        // check maxSize
         if (this.maxSize) {
           if (file.size > this.maxSize * 1024) {
             this.onExceededSize(file, this.fileList);
@@ -254,20 +256,20 @@
         }
 
         this.handleStart(file);
-
+        let formData = new FormData();
+        formData.append(this.name, file);
         let _this = this;
+        _this.handleProgress(file);
         let key = _this.name + '/' + TimeToDate() + '/' + Math.random().toString(36).substr(2);
         aliUploadImg(key,file).then(res =>{
           if(res){
-            _this.uploadSuccess = true;
             _this.handleSuccess(res, file);
           }
         }).catch(err =>{
-          _this.uploadError = true;
           _this.handleError(err, file);
         })
       },
-      handleStart(file) {
+      handleStart (file) {
         file.uid = Date.now() + this.tempIndex++;
         const _file = {
           status: 'uploading',
@@ -280,7 +282,7 @@
 
         this.fileList.push(_file);
       },
-      getFile(file) {
+      getFile (file) {
         const fileList = this.fileList;
         let target;
         fileList.every(item => {
@@ -289,12 +291,21 @@
         });
         return target;
       },
-      handleSuccess(res, file) {
+      handleProgress (file) {
+        const _file = this.getFile(file);
+        let interval = setInterval(function () {
+          _file.percentage += 25;
+          if(_file.percentage === 100){
+            clearInterval(interval)
+          }
+        },30)
+      },
+      handleSuccess (res, file) {
         const _file = this.getFile(file);
 
         if (_file) {
           _file.status = 'finished';
-          _file.response = res;
+          _file.src = aliCallbackImgUrl + res.name;
 
           this.dispatch('FormItem', 'on-form-change', _file);
           this.onSuccess(res, _file, this.fileList);
@@ -304,7 +315,7 @@
           }, 1000);
         }
       },
-      handleError(err, response, file) {
+      handleError (err, response, file) {
         const _file = this.getFile(file);
         const fileList = this.fileList;
 
@@ -314,6 +325,11 @@
 
         this.onError(err, response, file);
       },
+      handleRemove(file) {
+        const fileList = this.fileList;
+        fileList.splice(fileList.indexOf(file), 1);
+        this.onRemove(file, fileList);
+      },
       handlePreview(file) {
         if (file.status === 'finished') {
           this.onPreview(file);
@@ -321,6 +337,25 @@
       },
       clearFiles() {
         this.fileList = [];
+      }
+    },
+    watch: {
+      defaultFileList: {
+        immediate: true,
+        handler(fileList) {
+          this.fileList = fileList.map(item => {
+            item.status = 'finished';
+            item.percentage = 100;
+            item.uid = Date.now() + this.tempIndex++;
+            return item;
+          });
+        }
+      },
+      fileList: {
+        deep: true,
+        handler(newValue, oldValue) {
+         this.showUpload = newValue.length < this.uploadLength;
+        },
       }
     },
   };

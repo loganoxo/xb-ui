@@ -37,7 +37,7 @@ export const TimeToDate = () => {
   let time = new Date();
   let Y = time.getFullYear();
   let M = time.getMonth() + 1;
-  let D = time.getDay();
+  let D = time.getDate();
   if (M < 10) {
     M = '0' + M
   }

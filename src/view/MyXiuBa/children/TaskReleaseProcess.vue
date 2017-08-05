@@ -65,21 +65,21 @@
           <div class="baby-img ml-45 mt-20">
             <span class="required left mt-20">活动主图：</span>
             <Upload
-              ref="mainUpload"
+              ref="upload"
               :show-upload-list="false"
               :on-success="handleSuccess"
               :format="['jpg','jpeg','png','gif','bmp']"
-              :max-size="500"
+              :max-size="300"
               name="task"
               :on-format-error="handleFormatError"
               :on-exceeded-size="handleMaxSize"
-              :before-upload="handleBeforeUpload"
+              :on-upload-length="handleUploadLength"
               type="drag">
               <div style="width: 58px;height:58px;line-height: 58px;">
                 <Icon type="camera" size="20"></Icon>
               </div>
             </Upload>
-            <p class="size-color pl-60 mt-10">点击自主上传图片，支持jpg \ jpeg \ gif \ bmp格式，最佳尺寸400*400（像素），不超过300K，可与宝贝主图一致</p>
+            <p class="size-color pl-60 mt-10">点击或者拖拽自主上传图片，支持jpg \ jpeg \ gif \ bmp格式，最佳尺寸400*400（像素），不超过300K，可与宝贝主图一致</p>
           </div>
           <div class="baby-url ml-45 mt-20">
             <span class="required">宝贝地址：</span>
@@ -140,7 +140,7 @@
             <div class="baby-main-img ml-40 mt-20">
               <span class="required left mr-5 mt-20">宝贝主图：</span>
               <Upload
-                ref="pcUpload"
+                ref="upload"
                 name="task"
                 :show-upload-list="false"
                 :on-success="pcBabyImgSuccess"
@@ -148,14 +148,14 @@
                 :max-size="300"
                 :on-format-error="handleFormatError"
                 :on-exceeded-size="handleMaxSize"
-                :before-upload="handleBeforeUpload"
+                :on-upload-length="handleUploadLength"
                 type="drag">
                 <div style="width: 58px;height:58px;line-height: 58px;">
                   <Icon type="camera" size="20"></Icon>
                 </div>
               </Upload>
               <p
-                class="size-color pl-60 mt-10">点击自主上传图片，支持jpg \ jpeg \ gif \ bmp格式，最佳尺寸400*400（像素），不超过300K，可与宝贝主图一致</p>
+                class="size-color pl-60 mt-10">点击或者拖拽自主上传图片，支持jpg \ jpeg \ gif \ bmp格式，最佳尺寸400*400（像素），不超过300K，可与宝贝主图一致</p>
             </div>
             <div class="search-keyword mt-20 ml-28">
               <span class="required">搜索关键词：</span>
@@ -245,22 +245,22 @@
             <div class="baby-main-img ml-40 mt-20">
               <span class="required left mr-5 mt-20">宝贝主图：</span>
               <Upload
-                ref="appUpload"
+                ref="upload"
                 :show-upload-list="false"
                 :on-success="appBabyImgSuccess"
                 :format="['jpg','jpeg','png','gif','bmp']"
-                :max-size="500"
+                :max-size="300"
                 name="task"
                 :on-format-error="handleFormatError"
                 :on-exceeded-size="handleMaxSize"
-                :before-upload="handleBeforeUpload"
+                :on-upload-length="handleUploadLength"
                 type="drag">
                 <div style="width: 58px;height:58px;line-height: 58px;">
                   <Icon type="camera" size="20"></Icon>
                 </div>
               </Upload>
               <p
-                class="size-color pl-60 mt-10">点击自主上传图片，支持jpg \ jpeg \ gif \ bmp格式，最佳尺寸400*400（像素），不超过300K，可与宝贝主图一致</p>
+                class="size-color pl-60 mt-10">点击或者拖拽自主上传图片，支持jpg \ jpeg \ gif \ bmp格式，最佳尺寸400*400（像素），不超过300K，可与宝贝主图一致</p>
             </div>
             <div class="search-keyword mt-20 ml-28">
               <span class="required">搜索关键词：</span>
@@ -463,10 +463,10 @@
             ]
           }
         },
-        visible: false,
         current: 1,
         stepName: 'information',
         itemCatalogList: [],
+        userBalance: null,
         PcTaskDetail: {
           itemMainImage: null,
           searchKeyword: null,
@@ -526,6 +526,7 @@
     },
     created() {
       this.getItemCatalog();
+      this.getAccountBalance();
     },
     computed: {
       /**
@@ -582,14 +583,10 @@
           content: '图片 ' + file.name + ' 太大，不能超过 300K'
         });
       },
-      handleBeforeUpload() {
-        /* const check = this.mainUploadList.length < 1;
-         if (!check) {
-           this.$Modal.warning({
-             title: '最多只能上传 1 张图片。'
-           });
-         }
-         return check;*/
+      handleUploadLength(number) {
+        this.$Modal.warning({
+          title: '最多只能上传' + number + '张图片。'
+        })
       },
       stepNext() {
         let _this = this;
@@ -734,7 +731,7 @@
           }
         })
       },
-      uploadImg: function (e) {
+      uploadImg(e) {
         let vm = this;
         let file = e.target.files[0];
         let key = 'task' + '/' + TimeToDate() + '/' + Math.random().toString(36).substr(2);
@@ -751,6 +748,16 @@
           vm.$Message.warning('亲，图片上传失败！');
         })
       },
+      getAccountBalance() {
+        let _this = this;
+        api.getAccountBalance().then(res => {
+          if (res.status) {
+            _this.userBalance = res.data;
+          } else {
+            console.log(res.msg)
+          }
+        })
+      }
     }
   }
 </script>

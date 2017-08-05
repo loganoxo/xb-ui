@@ -40,7 +40,7 @@
             </ul>
           </div>
         </div>
-        <div class="ww-account-bind" v-show="showWwBindBox">
+        <div class="ww-account-bind" v-if="showWwBindBox">
           <Alert  v-show="remarks.text"  type="warning" show-icon>
             审核不通过： {{remarks.text}},请重新提交（{{remarks.auditTime | dateFormat('YYYY-MM-DD hh:mm:ss')}}）
           </Alert>

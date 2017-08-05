@@ -40,10 +40,24 @@ export default {
   },
 
   /**
-   *任务发布
+   *用户任务发布
    */
   taskCreate(params) {
     return fetch("/api/task-create.json", params)
+  },
+
+  /**
+   *获取商品类型
+   */
+  itemCatalog() {
+    return fetch("/api/item-catalog.json")
+  },
+
+  /**
+   *获取用户余额
+   */
+  getAccountBalance() {
+    return fetch("/api/get-account-balance.json")
   },
 
   /**
@@ -58,13 +72,6 @@ export default {
    */
   verifiedSubmit(params) {
     return fetch("/api/user/identity/saveidentity.json", params)
-  },
-
-  /**
-   *获取商品类型
-   */
-  itemCatalog() {
-    return fetch("/api/item-catalog.json")
   },
 
   /**
