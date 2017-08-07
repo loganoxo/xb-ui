@@ -107,18 +107,30 @@ router.post('/api/login.json', (req, res, next) => {
  * @param smsCode
  */
 router.post('/api/check-fast-sign-in.json', function (req, res, next) {
-  let options = {
+  let options =  {
     method: 'POST',
     uri: baseUrl + '/user/check-fast-sign-in',
     formData: {
       phone: req.body.phone,
       smsCode: req.body.smsCode,
     },
+    json: true,
   };
-  if (Number(req.body.validateCode) === Number(req.session.vrCode)) {
+  if (Number(req.body.validateCode) == Number(req.session.vrCode)) {
     request(options).then(function (parsedBody) {
-      res.send(parsedBody);
-      res.end();
+      if (parsedBody.status) {
+        let userData = parsedBody.data;
+        req.session.regenerate(function (serr) {
+          if (!serr) {
+            req.session.userData = userData
+          }
+          res.send(parsedBody);
+          res.end();
+        });
+      } else {
+        res.send(parsedBody);
+        res.end();
+      }
     }).catch(function (err) {
       logConfig.logger.error(err);
       res.json({status: false, msg: "服务器错误"});
@@ -215,7 +227,7 @@ router.post('/api/send-verify-code.json', function (req, res, next) {
     },
     json: true,
   };
-  if (Number(req.body.validateCode) === Number(req.session.vrCode)) {
+  if (Number(req.body.validateCode) == Number(req.session.vrCode)) {
     request(options).then(function (parsedBody) {
       res.send(parsedBody);
       res.end();
@@ -396,7 +408,8 @@ router.post('/api/alitm-bunding.json', function (req, res, next) {
       userId: req.session.userData.id,
       alitmAccount: req.body.alitmAccount,
       picUrl: req.body.picUrl
-    }
+    },
+    json: true,
   };
   request(options).then(function (parsedBody) {
     res.send(parsedBody);

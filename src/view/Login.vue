@@ -312,18 +312,20 @@
       },
       checkRole() {
         let self = this;
+        debugger
         api.checkFastSignIn({
           phone: this.loginTrendsCustom.phone,
           smsCode: this.loginTrendsCustom.smsCode,
           validateCode: this.loginTrendsCustom.validateCode,
         }).then((res) => {
           this.rememberPhoneFunc();
+
           if (res.status) {
             if (res.statusCode === 200) {
-                self.$store.commit({
-                  type: 'RECORD_USER_INFO',
-                  info: res.data
-                });
+              self.$store.commit({
+                type: 'RECORD_USER_INFO',
+                info: res.data
+              });
               self.$Modal.success({
                 content: '恭喜您，成功登录秀吧！',
                 onOk: function () {

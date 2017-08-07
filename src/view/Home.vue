@@ -116,9 +116,20 @@
             </ul>
           </div>
           <div class="middle-ctt left">
-            <a href="" class="left">
-              <img class="block" src="~assets/img/home/home_07.png" alt="">
-            </a>
+            <Carousel v-model="carouselValue">
+              <Carousel-item>
+                <img class="block" src="~assets/img/home/home_07.png" alt="">
+              </Carousel-item>
+              <Carousel-item>
+                <img class="block" src="~assets/img/home/home_07.png" alt="">
+              </Carousel-item>
+              <Carousel-item>
+                <img class="block" src="~assets/img/home/home_07.png" alt="">
+              </Carousel-item>
+              <Carousel-item>
+                <img class="block" src="~assets/img/home/home_07.png" alt="">
+              </Carousel-item>
+            </Carousel>
           </div>
           <div class="right-ctt">
             <div class="login-up-box" v-show="!isLogin">
@@ -320,6 +331,7 @@
   import {setStorage, getStorage} from '../config/utils'
   import SmsCountdown from '@/components/SmsCountdown'
   import Modal from 'iview/src/components/modal'
+  import Carousel from 'iview/src/components/carousel'
   export default {
     name: 'home',
     components: {
@@ -333,10 +345,14 @@
       Icon: Icon,
       SmsCountdown: SmsCountdown,
       Radio: Radio,
-      Modal: Modal
+      Modal: Modal,
+      Carousel: Carousel,
+      CarouselItem: Carousel.Item,
     },
     data () {
-      return {}
+      return {
+        carouselValue: 0
+      }
     },
     created(){
     },

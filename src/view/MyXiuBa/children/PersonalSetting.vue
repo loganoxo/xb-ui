@@ -501,9 +501,8 @@
         }
       },
       clearWwInfo(){
-        this.wwFormValidate.picUrl[0].src = '';
+        this.wwFormValidate.alitmAccount = '';
         let child = this.$refs;
-        console.log(child);
         child.upload.handleRemove();
       },
       clearVerified(){
@@ -676,6 +675,8 @@
             li{
               display: table-cell;
               vertical-align: middle;
+              word-wrap: break-word;
+              word-break: break-all;
               width: 20%;
             }
           }
