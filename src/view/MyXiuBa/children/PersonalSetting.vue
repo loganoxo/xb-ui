@@ -58,6 +58,7 @@
                   :max-size="2000"
                   :default-file-list="wwFormValidate.picUrl"
                   name="wwBind"
+                  :on-remove = "removewwBindPicUrl"
                   :on-format-error="handleFormatError"
                   :on-exceeded-size="handleMaxSize"
                   :before-upload="handleBeforeUpload"
@@ -118,6 +119,7 @@
                   :default-file-list="verifiedValidate.picUrl"
                   :on-format-error="handleFormatError"
                   :on-exceeded-size="handleMaxSize"
+                  :on-remove = "removeVerifiedPicUrl"
                   :before-upload="handleBeforeUpload"
                   type="drag">
                   <div style="width: 58px;height:58px;line-height: 58px;">
@@ -134,6 +136,7 @@
                   :default-file-list="verifiedValidate.reversePicUrl"
                   :format="['jpg','jpeg','png','gif','bmp']"
                   :max-size="2000"
+                  :on-remove = "removeVerifiedReversePicUrl"
                   :on-format-error="handleFormatError"
                   :on-exceeded-size="handleMaxSize"
                   :before-upload="handleBeforeUpload"
@@ -419,53 +422,57 @@
         });
       },
       wwBindFunc(){
-        let self = this;
-        if(this.modifyWw){
-          api.wwModify({
-            alitmAccount: this.wwFormValidate.alitmAccount,
-            picUrl: this.wwFormValidate.picUrl[0].src,
-            id: this.wwFormValidate.id
-          }).then((res) => {
-            if(res.status){
-              if(res.statusCode == 200){
-                this.remarks = '';
-                self.$Modal.success({
-                  content: "亲！提交成功，客服妹子会尽快审核...",
-                  onOk:function () {
-                    self.wwBindList();
-                    self.clearWwInfo();
-                  }
+        if(!(this.wwFormValidate.picUrl == '')){
+          if(this.modifyWw){
+            api.wwModify({
+              alitmAccount: this.wwFormValidate.alitmAccount,
+              picUrl: this.wwFormValidate.picUrl[0].src,
+              id: this.wwFormValidate.id
+            }).then((res) => {
+              if(res.status){
+                if(res.statusCode == 200){
+                  this.remarks = '';
+                  self.$Modal.success({
+                    content: "亲！提交成功，客服妹子会尽快审核...",
+                    onOk:function () {
+                      self.wwBindList();
+                      self.clearWwInfo();
+                    }
+                  });
+                }
+              }else {
+                this.$Modal.error({
+                  content: res.msg
                 });
               }
-            }else {
-              this.$Modal.error({
-                content: res.msg
-              });
-            }
-          })
-        }else{
-          api.wwBind({
-            alitmAccount: this.wwFormValidate.alitmAccount,
-            picUrl: this.wwFormValidate.picUrl[0].src,
-          }).then((res) => {
-            if(res.status){
-              if(res.statusCode == 200){
-                self.$Modal.success({
-                  content: "亲！提交成功，客服妹子会尽快审核...",
-                  onOk:function () {
-                    self.wwBindList();
-                    self.clearWwInfo();
-                  }
+            })
+          }else{
+            api.wwBind({
+              alitmAccount: this.wwFormValidate.alitmAccount,
+              picUrl: this.wwFormValidate.picUrl[0].src,
+            }).then((res) => {
+              if(res.status){
+                if(res.statusCode == 200){
+                  self.$Modal.success({
+                    content: "亲！提交成功，客服妹子会尽快审核...",
+                    onOk:function () {
+                      self.wwBindList();
+                      self.clearWwInfo();
+                    }
+                  });
+                }
+              }else {
+                this.$Modal.error({
+                  content: res.msg
                 });
               }
-            }else {
-              this.$Modal.error({
-                content: res.msg
-              });
-            }
-          })
+            })
+          }
+        }else {
+          this.$Modal.warning({
+            content: '请上传图片，后提交'
+          });
         }
-
       },
       verifiedInit(){
         let self = this;
@@ -477,12 +484,12 @@
             self.verifiedValidate.idcard = self.verified.idcard;
             self.verifiedValidate.picUrl = [
               {
-                  src: self.verified.picUrl
+                  src: res.picUrl
               }
             ];
             self.verifiedValidate.reversePicUrl =  [
               {
-                src: self.verified.reversePicUrl
+                src: res.reversePicUrl
               }
             ];
           }
@@ -490,6 +497,15 @@
             self.verifiedState = 10;
           }
         })
+      },
+      removeVerifiedPicUrl(){
+        this.verifiedValidate.picUrl= [];
+      },
+      removeVerifiedReversePicUrl(){
+        this.verifiedValidate.reversePicUrl= [];
+      },
+      removewwBindPicUrl(){
+        this.wwFormValidate.picUrl= [];
       },
       handleSubmit (name, callback) {
         let res = false;
@@ -508,23 +524,28 @@
       clearVerified(){
         this.verifiedValidate.realname = '';
         this.verifiedValidate.idcard = '';
-        this.verifiedValidate.picUrl = [];
-        this.verifiedValidate.reversePicUrl = [];
         let child = this.$refs;
         this.$refs.upload.handleRemove();
         this.$refs.upload2.handleRemove();
       },
       verifiedFunc(){
-        api.verifiedSubmit({
-          realname: this.verifiedValidate.realname,
-          idcard: this.verifiedValidate.idcard,
-          picUrl: this.verifiedValidate.picUrl[0].src,
-          reversePicUrl: this.verifiedValidate.reversePicUrl[0].src
-        }).then((res) => {
+        if(!(this.verifiedValidate.picUrl == '') && !(this.verifiedValidate.reversePicUrl == '')){
+          api.verifiedSubmit({
+            realname: this.verifiedValidate.realname,
+            idcard: this.verifiedValidate.idcard,
+            picUrl: this.verifiedValidate.picUrl[0].src,
+            reversePicUrl: this.verifiedValidate.reversePicUrl[0].src
+          }).then((res) => {
             if(res.status){
               this.verifiedState = this.verifiedStatus.verifiedIng;
             }
-        })
+          })
+        }else {
+          this.$Modal.warning({
+            content: '请上传图片，后提交'
+          });
+        }
+
       },
       handleReset(name,callback) {
         this.$refs[name].resetFields();
@@ -539,14 +560,14 @@
         }];
       },
       handlePicUrlSuccess(res, file) {
-        this.verifiedValidate.picUrl = [{
+        this.verifiedValidate.picUrl.push({
           src: aliCallbackImgUrl + res.name
-        }];
+        });
       },
       handleReversePicUrlSuccess(res,file){
-        this.verifiedValidate.reversePicUrl = [{
+        this.verifiedValidate.reversePicUrl.push({
           src: aliCallbackImgUrl + res.name
-        }];
+        });
       },
       handleFormatError(file) {
         this.$Modal.warning({
