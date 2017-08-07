@@ -177,8 +177,8 @@
         selRole: false,
         beginCountTime: false,
         selLogin: true,
-        rememberAccount: ['记住我(公共电脑建议勿勾选)'],
-        rememberPhone: ['记住手机号码'],
+        rememberAccount: [],
+        rememberPhone: [],
         imgSrc: null,
         modal1: true,
         isBeginImgCode: false,
@@ -226,9 +226,11 @@
         this.loginNormalCustom = getStorage('loginNormalCustom');
         if (getStorage('loginNormalCustom')) {
           this.loginNormalCustom = getStorage('loginNormalCustom');
+          this.rememberAccount = ['记住我(公共电脑建议勿勾选)'];
         }
         if (getStorage('loginTrendsCustomPhone')) {
           this.loginTrendsCustom.phone = getStorage('loginTrendsCustomPhone');
+          this.rememberPhone = ['记住手机号码'];
         }
       }
     },

@@ -8,7 +8,7 @@
       <div class="container">
         <div class="tmy-xiu-ba-con clear">
           <div class="my-xiu-ba-con-nav left">
-            <ul>
+            <ul v-if="getUserInfoRole == 1">
               <li :class="{isSelect:isSelect ==='userHome'}" @click="selectNavigate('userHome')">
                 <Icon type="person-stalker"></Icon>
                 <router-link to="/user/user-home">我的主页</router-link>
@@ -38,6 +38,36 @@
                 <router-link to="/user/task-release">帮助中心</router-link>
               </li>
             </ul>
+            <ul v-if="getUserInfoRole == 0">
+              <li :class="{isSelect:isSelect ==='userHome'}" @click="selectNavigate('userHome')">
+                <Icon type="person-stalker"></Icon>
+                <router-link to="/user/user-home">我的主页</router-link>
+              </li>
+              <li :class="{isSelect:isSelect ==='taskRelease'}" @click="selectNavigate('taskRelease')">
+                <Icon type="compose"></Icon>
+                <router-link to="/user/personal-setting">我的试用</router-link>
+              </li>
+              <li :class="{isSelect:isSelect ==='eventManagement'}" @click="selectNavigate('eventManagement')">
+                <Icon type="clipboard"></Icon>
+                <router-link to="/user/personal-setting" >我的报告</router-link>
+              </li>
+              <li :class="{isSelect:isSelect ==='fundsManagement'}" @click="selectNavigate('fundsManagement')">
+                <Icon type="social-yen"></Icon>
+                <router-link to="/user/personal-setting">资金管理</router-link>
+              </li>
+              <li :class="{isSelect:isSelect ===' tradingRecord'}" @click="selectNavigate('tradingRecord')">
+                <Icon type="loop"></Icon>
+                <router-link to="/user/personal-setting">交易记录</router-link>
+              </li>
+              <li :class="{isSelect:isSelect ==='personalSetting'}" @click="selectNavigate('personalSetting')">
+                <Icon type="gear-b"></Icon>
+                <router-link to="/user/personal-setting">个人设置</router-link>
+              </li>
+              <li :class="{isSelect:isSelect ==='helpCenter'}" @click="selectNavigate('helpCenter')">
+                <Icon type="help-buoy"></Icon>
+                <router-link to="/user/personal-setting">帮助中心</router-link>
+              </li>
+            </ul>
           </div>
           <div class="my-xiu-ba-con-right right">
             <router-view></router-view>
@@ -60,20 +90,25 @@
     },
     data() {
       return {
-        isSelect:"userHome"
+        isSelect:"userHome",
+        userInfo: '',
       }
+
     },
     mounted() {
 
     },
     created() {
-
     },
-    computed: {},
+    computed: {
+      getUserInfoRole(){
+        return this.$store.state.userInfo.role;
+      }
+    },
     methods: {
       selectNavigate(type) {
         this.isSelect = type;
-      }
+      },
     }
   }
 </script>

@@ -55,7 +55,7 @@
                   :show-upload-list="false"
                   :on-success="handlewwBindPicUrlSuccess"
                   :format="['jpg','jpeg','png','gif','bmp']"
-                  :max-size="10000"
+                  :max-size="2000"
                   :default-file-list="wwFormValidate.picUrl"
                   name="wwBind"
                   :on-format-error="handleFormatError"
@@ -73,6 +73,9 @@
                   </iButton>
                 <iButton type="ghost" @click="handleReset('wwFormValidate',clearWwInfo)">重置</iButton>
               </Form-item>
+              <p class="tip clear" style="margin-left: 102px;width: 600px;line-height: 30px;font-size: 14px;color: #999;padding-bottom: 30px;">
+               1.支持jpg/jpeg/gif/bmp/png格式，最大不超过2M
+              </p>
             </iForm>
 
           </div>
@@ -110,7 +113,7 @@
                   :show-upload-list="false"
                   :on-success="handlePicUrlSuccess"
                   :format="['jpg','jpeg','png','gif','bmp']"
-                  :max-size="10000"
+                  :max-size="2000"
                   name="picUrl"
                   :default-file-list="verifiedValidate.picUrl"
                   :on-format-error="handleFormatError"
@@ -130,7 +133,7 @@
                   :on-success="handleReversePicUrlSuccess"
                   :default-file-list="verifiedValidate.reversePicUrl"
                   :format="['jpg','jpeg','png','gif','bmp']"
-                  :max-size="10000"
+                  :max-size="2000"
                   :on-format-error="handleFormatError"
                   :on-exceeded-size="handleMaxSize"
                   :before-upload="handleBeforeUpload"
@@ -149,7 +152,7 @@
                 <br>
                 4.照片需露出手臂，照片请勿进行任何软件处理
                 <br>
-                5.支持jpg/jpeg/gif/bmp/png格式，最大不超过10M
+                5.支持jpg/jpeg/gif/bmp/png格式，最大不超过2M
                 <br>
               </p>
               <Form-item>
@@ -243,8 +246,19 @@
       const validateName = (rule, value, callback) => {
         if (value === '') {
           callback(new Error('不能为空'));
-        } else if(!/^[\u4E00-\u9FA5A-Za-z]+$/.test(value)){
-          callback(new Error('姓名只能为中英文'))
+        } else if(!/^[\u4E00-\u9FA5]+$/.test(value)){
+          callback(new Error('姓名只能为中文'))
+        } else if(value.length > 10){
+          callback(new Error('姓名最多为10个汉字'))
+        } else{
+          callback()
+        }
+      };
+      const wwName = (rule, value, callback) => {
+        if (value === '') {
+          callback(new Error('不能为空'));
+        } else if(value.length > 50){
+          callback(new Error('旺旺ID过长'))
         } else {
           callback()
         }
@@ -297,7 +311,7 @@
         },
         wwFormRuleCustom: {
           alitmAccount: [
-            {validator: validateName, trigger: 'blur'},
+            {validator: wwName, trigger: 'blur'},
           ],
         },
         verified:{},
@@ -544,7 +558,7 @@
       handleMaxSize(file) {
         this.$Modal.warning({
           title: '超出文件大小限制',
-          content: '图片 ' + file.name + ' 太大，不能超过 300K'
+          content: '图片 ' + file.name + ' 太大，不能超过 2M'
         });
       },
       handleBeforeUpload() {
