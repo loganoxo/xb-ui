@@ -312,7 +312,6 @@
       },
       checkRole() {
         let self = this;
-        debugger
         api.checkFastSignIn({
           phone: this.loginTrendsCustom.phone,
           smsCode: this.loginTrendsCustom.smsCode,
