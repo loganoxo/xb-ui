@@ -115,7 +115,7 @@ router.post('/api/check-fast-sign-in.json', function (req, res, next) {
       smsCode: req.body.smsCode,
     },
   };
-  if (Number(req.body.validateCode) === Number(req.session.vrCode)) {
+  if (Number(req.body.smsCode) === Number(req.session.vrCode)) {
     request(options).then(function (parsedBody) {
       res.send(parsedBody);
       res.end();
