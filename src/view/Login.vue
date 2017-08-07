@@ -31,9 +31,9 @@
                   <iInput type="password" placeholder="请输入密码" size="large" v-model="loginNormalCustom.passWord"></iInput>
                 </Form-item>
                 <div class="remember-box">
-                  <Form-item class="left">
-                    <Checkbox-group>
-                      <Checkbox label="记住我(公共电脑建议勿勾选)" v-model="rememberAccount"></Checkbox>
+                  <Form-item class="left" >
+                    <Checkbox-group v-model="rememberAccount">
+                      <Checkbox label="记住我(公共电脑建议勿勾选)" ></Checkbox>
                     </Checkbox-group>
                   </Form-item>
                   <!--<a class="right mt-6" href="">忘记密码</a>-->
@@ -72,8 +72,8 @@
 
                 <div class="remember-box clear" style="margin-top: 15px;">
                   <Form-item class="left">
-                    <Checkbox-group>
-                      <Checkbox label="记住手机号码" v-model="rememberPhone"></Checkbox>
+                    <Checkbox-group v-model="rememberPhone">
+                      <Checkbox label="记住手机号码" ></Checkbox>
                     </Checkbox-group>
                   </Form-item>
                 </div>
@@ -122,7 +122,7 @@
   import Button from 'iview/src/components/button'
   import Radio from 'iview/src/components/radio'
   import api from '../config/apiConfig'
-  import {setStorage, getStorage} from '../config/utils'
+  import {setStorage, getStorage,removeStorage} from '../config/utils'
   import SmsCountdown from '@/components/SmsCountdown'
   import Modal from 'iview/src/components/modal'
   import RoleTop from '@/components/RoleTop.vue'
@@ -177,8 +177,8 @@
         selRole: false,
         beginCountTime: false,
         selLogin: true,
-        rememberAccount: true,
-        rememberPhone: true,
+        rememberAccount: ['记住我(公共电脑建议勿勾选)'],
+        rememberPhone: ['记住手机号码'],
         imgSrc: null,
         modal1: true,
         isBeginImgCode: false,
@@ -226,11 +226,9 @@
         this.loginNormalCustom = getStorage('loginNormalCustom');
         if (getStorage('loginNormalCustom')) {
           this.loginNormalCustom = getStorage('loginNormalCustom');
-          this.rememberAccount = true;
         }
         if (getStorage('loginTrendsCustomPhone')) {
           this.loginTrendsCustom.phone = getStorage('loginTrendsCustomPhone');
-          this.rememberAccount = true;
         }
       }
     },
@@ -291,13 +289,17 @@
         })
       },
       rememberAccountFunc() {
-        if (this.rememberAccount) {
+        if (this.rememberAccount.length > 0) {
           setStorage('loginNormalCustom', this.loginNormalCustom)
+        }else {
+          removeStorage('loginNormalCustom')
         }
       },
       rememberPhoneFunc() {
-        if (this.rememberPhone) {
+        if (this.rememberPhone.length > 0) {
           setStorage('loginTrendsCustomPhone', this.loginTrendsCustom.phone)
+        }else {
+          removeStorage('loginTrendsCustomPhone')
         }
       },
       handleReset(name) {
