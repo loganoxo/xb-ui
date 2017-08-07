@@ -83,9 +83,12 @@ router.post('/api/login.json', (req, res, next) => {
     .then(function (parsedBody) {
       if (parsedBody.status) {
         let userData = parsedBody.data;
-        req.session.regenerate(function (serr) {
-          if (!serr) {
-            req.session.userData = userData
+        req.session.regenerate(function (err) {
+          if (!err) {
+            req.session.userData = userData;
+            logConfig.logger.info('用户信息存入redis成功！');
+          }else{
+            logConfig.logger.err('用户信息存入redis失败：' + err);
           }
           res.send(parsedBody);
           res.end();
@@ -107,7 +110,7 @@ router.post('/api/login.json', (req, res, next) => {
  * @param smsCode
  */
 router.post('/api/check-fast-sign-in.json', function (req, res, next) {
-  let options =  {
+  let options = {
     method: 'POST',
     uri: baseUrl + '/user/check-fast-sign-in',
     formData: {
@@ -116,13 +119,16 @@ router.post('/api/check-fast-sign-in.json', function (req, res, next) {
     },
     json: true,
   };
-  if (Number(req.body.validateCode) == Number(req.session.vrCode)) {
+  if (Number(req.body.validateCode) === req.session.vrCode) {
     request(options).then(function (parsedBody) {
       if (parsedBody.status) {
         let userData = parsedBody.data;
-        req.session.regenerate(function (serr) {
-          if (!serr) {
-            req.session.userData = userData
+        req.session.regenerate(function (err) {
+          if (!err) {
+            req.session.userData = userData;
+            logConfig.logger.info('用户信息存入redis成功！');
+          }else{
+            logConfig.logger.err('用户信息存入redis失败：' + err);
           }
           res.send(parsedBody);
           res.end();
@@ -227,7 +233,7 @@ router.post('/api/send-verify-code.json', function (req, res, next) {
     },
     json: true,
   };
-  if (Number(req.body.validateCode) == Number(req.session.vrCode)) {
+  if (Number(req.body.validateCode) === req.session.vrCode) {
     request(options).then(function (parsedBody) {
       res.send(parsedBody);
       res.end();
