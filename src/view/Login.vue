@@ -315,6 +315,7 @@
         api.checkFastSignIn({
           phone: this.loginTrendsCustom.phone,
           smsCode: this.loginTrendsCustom.smsCode,
+          validateCode: this.loginTrendsCustom.validateCode,
         }).then((res) => {
           this.rememberPhoneFunc();
           if (res.status) {
@@ -323,7 +324,12 @@
                   type: 'RECORD_USER_INFO',
                   info: res.data
                 });
-                this.instance('success', '', '恭喜您，成功登录秀吧！')
+              self.$Modal.success({
+                content: '恭喜您，成功登录秀吧！',
+                onOk: function () {
+                  self.$router.push({name: 'home'});
+                }
+              });
             } else if (res.statusCode === 201) {
               this.selRole = true;
             }
