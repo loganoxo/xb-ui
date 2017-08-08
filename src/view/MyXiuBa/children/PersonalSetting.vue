@@ -422,7 +422,8 @@
         });
       },
       wwBindFunc(){
-         let self = this;
+        let self = this;
+        debugger
         if(!(this.wwFormValidate.picUrl == '')){
           if(this.modifyWw){
             api.wwModify({
