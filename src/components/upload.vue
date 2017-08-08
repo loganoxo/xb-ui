@@ -357,6 +357,18 @@
         handler(newValue, oldValue) {
           this.showUpload = newValue.length < this.uploadLength;
         },
+      },
+      defaultFileList: {
+        handler() {
+          if (this.defaultFileList.length > 0) {
+            let list = this.defaultFileList;
+            this.fileList = list.map(item => {
+              item.status = 'finished';
+              item.percentage = 100;
+              return item;
+            });
+          }
+        },
       }
     }
   };
