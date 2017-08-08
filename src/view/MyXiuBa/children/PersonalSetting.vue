@@ -493,8 +493,6 @@
                 src: res.reversePicUrl
               }
             ];
-            self.$set(self.verifiedValidate.picUrl);
-            self.$set(self.verifiedValidate.reversePicUrl);
           }
           if(!self.verifiedState){
             self.verifiedState = 10;
@@ -539,8 +537,13 @@
             picUrl: this.verifiedValidate.picUrl[0].src,
             reversePicUrl: this.verifiedValidate.reversePicUrl[0].src
           }).then((res) => {
+
             if(res.status){
               this.verifiedState = this.verifiedStatus.verifiedIng;
+            }else {
+              this.$Modal.warning({
+                content: res.msg
+              });
             }
           })
         }else {
