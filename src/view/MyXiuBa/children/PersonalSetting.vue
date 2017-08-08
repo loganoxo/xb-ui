@@ -471,7 +471,7 @@
           }
         }else {
           this.$Modal.warning({
-            content: '请上传图片，后提交'
+            content: '请上传所有图片'
           });
         }
       },
@@ -543,7 +543,7 @@
           })
         }else {
           this.$Modal.warning({
-            content: '请上传图片，提交'
+            content: '请上传所有图片'
           });
         }
 
