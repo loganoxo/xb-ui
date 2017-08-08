@@ -517,7 +517,7 @@
           callback();
         }
       },
-      clearWwInfo(){
+      clearWwInfo (){
         this.wwFormValidate.alitmAccount = '';
         let child = this.$refs;
         child.upload.handleRemove();
