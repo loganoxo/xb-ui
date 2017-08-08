@@ -422,6 +422,7 @@
         });
       },
       wwBindFunc(){
+         let self = this;
         if(!(this.wwFormValidate.picUrl == '')){
           if(this.modifyWw){
             api.wwModify({
@@ -542,7 +543,7 @@
           })
         }else {
           this.$Modal.warning({
-            content: '请上传图片，后提交'
+            content: '请上传图片，提交'
           });
         }
 
