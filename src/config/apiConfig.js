@@ -38,6 +38,19 @@ export default {
   register(params) {
     return fetch("/api/sign-up.json", params)
   },
+  /**
+   *首页导航列表
+   */
+  getNavList () {
+    return fetch("/api/task/search/item/catalog/main.json")
+  },
+
+  /**
+   *首页试用任务展示接口
+   */
+  getHomeTaskList () {
+    return fetch("/api/task/search/index/newest.json")
+  },
 
   /**
    *用户任务发布

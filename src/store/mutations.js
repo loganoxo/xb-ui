@@ -26,6 +26,10 @@ export default {
   },
   //更改头部显示
   [types.CHANGE_TOP_SHOW](state) {
+    state.topShow = true;
+  },
+  //更改头部显示
+  [types.CHANGE_TOP_HIDE](state) {
     state.topShow = false;
-  }
+  },
 }

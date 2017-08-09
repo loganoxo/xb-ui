@@ -1,53 +1,5 @@
 <template>
   <div>
-    <top-tip></top-tip>
-    <div class="home-top">
-      <div class="container">
-        <img src="~assets/img/common/top_logo.png" alt="" class="left mt-20">
-        <div class="left">
-          <div class="search-box">
-            <div class="pos-rel">
-              <div>
-                <a href="" class="active">宝贝</a>
-                <a href="">店铺</a>
-              </div>
-              <i class="ivu-icon ivu-icon-ios-search"></i>
-              <input type="text" class="search-btn">
-              <i data-v-fae95c8a="" class="ivu-icon ivu-icon-camera"></i>
-            </div>
-            <a href="">搜索</a>
-            <p class="link-text">
-              <a class="active" href="">男士内裤</a>
-              <a class="active" href="">时尚连衣裙</a>
-              <a href="">新款男鞋</a>
-              <a href="">时尚跑鞋</a>
-              <a href="">T恤</a>
-              <a class="active" href="">女士凉鞋</a>
-              <a href="">休闲短裤</a>
-              <a href="">背带裤</a>
-              <a href="">沙发垫</a>
-              <a href="">面膜</a>
-              <a href="">理发器</a>
-              <a href="">装饰画</a>
-              <a href="">更多></a>
-            </p>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="home-nav">
-      <div class="container">
-        <a href="">首页</a>
-        <a href="">潮流女装</a>
-        <a href="">精品男装</a>
-        <a href="">时尚配饰</a>
-        <a href="">美容护肤</a>
-        <a href="">家具日用</a>
-        <a href="">鞋子箱包</a>
-        <a href="">数码家电</a>
-        <a href="">综合试用</a>
-      </div>
-    </div>
     <div class="home-ctt">
       <div class="container">
         <div class="home-section">
@@ -116,7 +68,7 @@
             </ul>
           </div>
           <div class="middle-ctt left">
-            <Carousel v-model="carouselValue">
+            <Carousel autoplay :autoplay-speed="5000">
               <Carousel-item>
                 <img class="block" src="~assets/img/home/home_07.png" alt="">
               </Carousel-item>
@@ -153,26 +105,10 @@
             </div>
             <div class="notice-box">
               <p>
-                <a class="active">常见问题</a>
-                <a>秀客规则</a>
-                <a>商家规则</a>
+                <a v-for="notice in noticeList" :class="[noticeActive == notice.active ? 'active' : '']" @click="changeNoticeTab(notice)">{{notice.title}}</a>
               </p>
-              <div class="notice-text">
-                <a href="" class="circle-text">
-                  如何编辑和提交试用报告？
-                </a>
-                <a href="" class="circle-text">
-                  如何到指定平台下单领取？
-                </a>
-                <a href="" class="circle-text">
-                  发布试用品需要什么条件？
-                </a>
-                <a href="" class="circle-text">
-                  试用担保金没有及时返还怎么办？
-                </a>
-                <a href="" class="circle-text">
-                  如何领取试用担保金
-                </a>
+              <div v-for="notice in noticeList" v-show="noticeActive == notice.active" class="notice-text animated fadeIn" >
+                <a  v-for="content in notice.content" :href="content.url" class="circle-text">{{content.text}}</a>
               </div>
             </div>
           </div>
@@ -185,122 +121,14 @@
             <p class="text-ct fs-14">快乐试用，热爱分享</p>
           </div>
           <div class="home-commodity-ctt">
-            <a href="" class="home-commodity-details">
+            <a href="" class="home-commodity-details" v-for="homeCommodity in homeCommodityList" :title="homeCommodity.taskName">
               <div class="home-commodity-img">
-                <img class="block" src="~assets/img/home/home_19.png" alt="">
+                <img class="block" v-lazy="homeCommodity.taskMainImage" alt="" style="width: 220px; height: 220px;">
               </div>
               <div class="home-commodity-text">
-                <p>【试潮品】迷你小音响</p>
+                <p>{{homeCommodity.taskName}}</p>
                 <p>
-                  <span class="left">￥2999.00</span>
-                  <span class="right">免费试用</span>
-                </p>
-              </div>
-            </a>
-            <a href="" class="home-commodity-details">
-              <div class="home-commodity-img">
-                <img class="block" src="~assets/img/home/home_19.png" alt="">
-              </div>
-              <div class="home-commodity-text">
-                <p>【试潮品】迷你小音响</p>
-                <p>
-                  <span class="left">￥2999.00</span>
-                  <span class="right">免费试用</span>
-                </p>
-              </div>
-            </a>
-            <a href="" class="home-commodity-details">
-              <div class="home-commodity-img">
-                <img class="block" src="~assets/img/home/home_19.png" alt="">
-              </div>
-              <div class="home-commodity-text">
-                <p>【试潮品】迷你小音响</p>
-                <p>
-                  <span class="left">￥2999.00</span>
-                  <span class="right">免费试用</span>
-                </p>
-              </div>
-            </a>
-            <a href="" class="home-commodity-details">
-              <div class="home-commodity-img">
-                <img class="block" src="~assets/img/home/home_19.png" alt="">
-              </div>
-              <div class="home-commodity-text">
-                <p>【试潮品】迷你小音响</p>
-                <p>
-                  <span class="left">￥2999.00</span>
-                  <span class="right">免费试用</span>
-                </p>
-              </div>
-            </a>
-            <a href="" class="home-commodity-details">
-              <div class="home-commodity-img">
-                <img class="block" src="~assets/img/home/home_19.png" alt="">
-              </div>
-              <div class="home-commodity-text">
-                <p>【试潮品】迷你小音响</p>
-                <p>
-                  <span class="left">￥2999.00</span>
-                  <span class="right">免费试用</span>
-                </p>
-              </div>
-            </a>
-            <a href="" class="home-commodity-details">
-              <div class="home-commodity-img">
-                <img class="block" src="~assets/img/home/home_19.png" alt="">
-              </div>
-              <div class="home-commodity-text">
-                <p>【试潮品】迷你小音响</p>
-                <p>
-                  <span class="left">￥2999.00</span>
-                  <span class="right">免费试用</span>
-                </p>
-              </div>
-            </a>
-            <a href="" class="home-commodity-details">
-              <div class="home-commodity-img">
-                <img class="block" src="~assets/img/home/home_19.png" alt="">
-              </div>
-              <div class="home-commodity-text">
-                <p>【试潮品】迷你小音响</p>
-                <p>
-                  <span class="left">￥2999.00</span>
-                  <span class="right">免费试用</span>
-                </p>
-              </div>
-            </a>
-            <a href="" class="home-commodity-details">
-              <div class="home-commodity-img">
-                <img class="block" src="~assets/img/home/home_19.png" alt="">
-              </div>
-              <div class="home-commodity-text">
-                <p>【试潮品】迷你小音响</p>
-                <p>
-                  <span class="left">￥2999.00</span>
-                  <span class="right">免费试用</span>
-                </p>
-              </div>
-            </a>
-            <a href="" class="home-commodity-details">
-              <div class="home-commodity-img">
-                <img class="block" src="~assets/img/home/home_19.png" alt="">
-              </div>
-              <div class="home-commodity-text">
-                <p>【试潮品】迷你小音响</p>
-                <p>
-                  <span class="left">￥2999.00</span>
-                  <span class="right">免费试用</span>
-                </p>
-              </div>
-            </a>
-            <a href="" class="home-commodity-details">
-              <div class="home-commodity-img">
-                <img class="block" src="~assets/img/home/home_19.png" alt="">
-              </div>
-              <div class="home-commodity-text">
-                <p>【试潮品】迷你小音响</p>
-                <p>
-                  <span class="left">￥2999.00</span>
+                  <span class="left">￥{{homeCommodity.itemPrice/100}}</span>
                   <span class="right">免费试用</span>
                 </p>
               </div>
@@ -314,13 +142,11 @@
         </div>
       </div>
     </div>
-
   </div>
 
 </template>
 
 <script>
-  import TopTip from "@/components/TopTip.vue";
   import Icon from 'iview/src/components/icon'
   import Form from 'iview/src/components/form'
   import Input from 'iview/src/components/input'
@@ -333,9 +159,13 @@
   import Modal from 'iview/src/components/modal'
   import Carousel from 'iview/src/components/carousel'
   export default {
+    beforeMount() {
+      this.$store.commit({
+        type: 'CHANGE_TOP_SHOW'
+      })
+    },
     name: 'home',
     components: {
-      TopTip: TopTip,
       iInput: Input,
       iForm: Form,
       FormItem: Form.Item,
@@ -351,10 +181,413 @@
     },
     data () {
       return {
-        carouselValue: 0
+        homeCommodityList:[
+          {
+            "id": 287,
+            "userId": 182,
+            "taskType": "direct_access",
+            "taskDaysDuration": 10,
+            "onlyShowForQualification": true,
+            "refuseOldShowker": false,
+            "taskName": "afsdafsdaafsdafsdaafsdafsdaafsdafsdaafsdafsdaafsdafsdaafsdafsda",
+            "itemCatalog":{"id": 102, "name": "下装", "level": 2, "parentItemCatalog":{}},
+            "taskMainImage": "http://xiuba-dev.oss-cn-hangzhou.aliyuncs.com/task/20170803/ha6phaswe84 ",
+            "itemUrl": "https://detail.tmall.com/item.htm?id=523786754479&spm=a223v.7835278.t0.1.469d35e6HXmkwL&pvid=85ef55f7-207d-4146-a277-b076d0bd76fb&scm=1007.12144.81309.9011_8949 ",
+            "storeName": null,
+            "taskCount": 10,
+            "itemPrice": 2900000,
+            "pinkage": true,
+            "paymentMethod": "all",
+            "itemDescription": "",
+            "taskDetail": null,
+            "showkerApplyTotalCount": 0,
+            "showkerApplySuccessCount": 0,
+            "taskStatus": "under_way",
+            "settlementStatus": "cannot_settlement",
+            "auditLogs":[{"id": 142, "taskId": 287, "auditSuccess": true, "resultMsg": null}],
+            "createTime": 1501646191000,
+            "upLineTime": 1501756109000,
+            "finishTime": null,
+            "updateTime": 1501756109000,
+            "taskDetailObject": null,
+            "taskTypeDesc": "宝贝链接下单",
+            "settlementStatusDesc": "不可申请结算",
+            "taskStatusDesc": "进行中"
+          },
+          {
+            "id": 287,
+            "userId": 182,
+            "taskType": "direct_access",
+            "taskDaysDuration": 10,
+            "onlyShowForQualification": true,
+            "refuseOldShowker": false,
+            "taskName": "afsdafsda",
+            "itemCatalog":{"id": 102, "name": "下装", "level": 2, "parentItemCatalog":{}},
+            "taskMainImage": "http://xiuba-dev.oss-cn-hangzhou.aliyuncs.com/task/20170803/ha6phaswe84 ",
+            "itemUrl": "https://detail.tmall.com/item.htm?id=523786754479&spm=a223v.7835278.t0.1.469d35e6HXmkwL&pvid=85ef55f7-207d-4146-a277-b076d0bd76fb&scm=1007.12144.81309.9011_8949 ",
+            "storeName": null,
+            "taskCount": 10,
+            "itemPrice": 2900000,
+            "pinkage": true,
+            "paymentMethod": "all",
+            "itemDescription": "",
+            "taskDetail": null,
+            "showkerApplyTotalCount": 0,
+            "showkerApplySuccessCount": 0,
+            "taskStatus": "under_way",
+            "settlementStatus": "cannot_settlement",
+            "auditLogs":[{"id": 142, "taskId": 287, "auditSuccess": true, "resultMsg": null}],
+            "createTime": 1501646191000,
+            "upLineTime": 1501756109000,
+            "finishTime": null,
+            "updateTime": 1501756109000,
+            "taskDetailObject": null,
+            "taskTypeDesc": "宝贝链接下单",
+            "settlementStatusDesc": "不可申请结算",
+            "taskStatusDesc": "进行中"
+          },
+          {
+            "id": 287,
+            "userId": 182,
+            "taskType": "direct_access",
+            "taskDaysDuration": 10,
+            "onlyShowForQualification": true,
+            "refuseOldShowker": false,
+            "taskName": "afsdafsda",
+            "itemCatalog":{"id": 102, "name": "下装", "level": 2, "parentItemCatalog":{}},
+            "taskMainImage": "http://xiuba-dev.oss-cn-hangzhou.aliyuncs.com/task/20170803/ha6phaswe84 ",
+            "itemUrl": "https://detail.tmall.com/item.htm?id=523786754479&spm=a223v.7835278.t0.1.469d35e6HXmkwL&pvid=85ef55f7-207d-4146-a277-b076d0bd76fb&scm=1007.12144.81309.9011_8949 ",
+            "storeName": null,
+            "taskCount": 10,
+            "itemPrice": 2900000,
+            "pinkage": true,
+            "paymentMethod": "all",
+            "itemDescription": "",
+            "taskDetail": null,
+            "showkerApplyTotalCount": 0,
+            "showkerApplySuccessCount": 0,
+            "taskStatus": "under_way",
+            "settlementStatus": "cannot_settlement",
+            "auditLogs":[{"id": 142, "taskId": 287, "auditSuccess": true, "resultMsg": null}],
+            "createTime": 1501646191000,
+            "upLineTime": 1501756109000,
+            "finishTime": null,
+            "updateTime": 1501756109000,
+            "taskDetailObject": null,
+            "taskTypeDesc": "宝贝链接下单",
+            "settlementStatusDesc": "不可申请结算",
+            "taskStatusDesc": "进行中"
+          },
+          {
+            "id": 287,
+            "userId": 182,
+            "taskType": "direct_access",
+            "taskDaysDuration": 10,
+            "onlyShowForQualification": true,
+            "refuseOldShowker": false,
+            "taskName": "afsdafsda",
+            "itemCatalog":{"id": 102, "name": "下装", "level": 2, "parentItemCatalog":{}},
+            "taskMainImage": "http://xiuba-dev.oss-cn-hangzhou.aliyuncs.com/task/20170803/ha6phaswe84 ",
+            "itemUrl": "https://detail.tmall.com/item.htm?id=523786754479&spm=a223v.7835278.t0.1.469d35e6HXmkwL&pvid=85ef55f7-207d-4146-a277-b076d0bd76fb&scm=1007.12144.81309.9011_8949 ",
+            "storeName": null,
+            "taskCount": 10,
+            "itemPrice": 2900000,
+            "pinkage": true,
+            "paymentMethod": "all",
+            "itemDescription": "",
+            "taskDetail": null,
+            "showkerApplyTotalCount": 0,
+            "showkerApplySuccessCount": 0,
+            "taskStatus": "under_way",
+            "settlementStatus": "cannot_settlement",
+            "auditLogs":[{"id": 142, "taskId": 287, "auditSuccess": true, "resultMsg": null}],
+            "createTime": 1501646191000,
+            "upLineTime": 1501756109000,
+            "finishTime": null,
+            "updateTime": 1501756109000,
+            "taskDetailObject": null,
+            "taskTypeDesc": "宝贝链接下单",
+            "settlementStatusDesc": "不可申请结算",
+            "taskStatusDesc": "进行中"
+          },
+          {
+            "id": 287,
+            "userId": 182,
+            "taskType": "direct_access",
+            "taskDaysDuration": 10,
+            "onlyShowForQualification": true,
+            "refuseOldShowker": false,
+            "taskName": "afsdafsda",
+            "itemCatalog":{"id": 102, "name": "下装", "level": 2, "parentItemCatalog":{}},
+            "taskMainImage": "http://xiuba-dev.oss-cn-hangzhou.aliyuncs.com/task/20170803/ha6phaswe84 ",
+            "itemUrl": "https://detail.tmall.com/item.htm?id=523786754479&spm=a223v.7835278.t0.1.469d35e6HXmkwL&pvid=85ef55f7-207d-4146-a277-b076d0bd76fb&scm=1007.12144.81309.9011_8949 ",
+            "storeName": null,
+            "taskCount": 10,
+            "itemPrice": 2900000,
+            "pinkage": true,
+            "paymentMethod": "all",
+            "itemDescription": "",
+            "taskDetail": null,
+            "showkerApplyTotalCount": 0,
+            "showkerApplySuccessCount": 0,
+            "taskStatus": "under_way",
+            "settlementStatus": "cannot_settlement",
+            "auditLogs":[{"id": 142, "taskId": 287, "auditSuccess": true, "resultMsg": null}],
+            "createTime": 1501646191000,
+            "upLineTime": 1501756109000,
+            "finishTime": null,
+            "updateTime": 1501756109000,
+            "taskDetailObject": null,
+            "taskTypeDesc": "宝贝链接下单",
+            "settlementStatusDesc": "不可申请结算",
+            "taskStatusDesc": "进行中"
+          },
+          {
+            "id": 287,
+            "userId": 182,
+            "taskType": "direct_access",
+            "taskDaysDuration": 10,
+            "onlyShowForQualification": true,
+            "refuseOldShowker": false,
+            "taskName": "afsdafsda",
+            "itemCatalog":{"id": 102, "name": "下装", "level": 2, "parentItemCatalog":{}},
+            "taskMainImage": "http://xiuba-dev.oss-cn-hangzhou.aliyuncs.com/task/20170803/ha6phaswe84 ",
+            "itemUrl": "https://detail.tmall.com/item.htm?id=523786754479&spm=a223v.7835278.t0.1.469d35e6HXmkwL&pvid=85ef55f7-207d-4146-a277-b076d0bd76fb&scm=1007.12144.81309.9011_8949 ",
+            "storeName": null,
+            "taskCount": 10,
+            "itemPrice": 2900000,
+            "pinkage": true,
+            "paymentMethod": "all",
+            "itemDescription": "",
+            "taskDetail": null,
+            "showkerApplyTotalCount": 0,
+            "showkerApplySuccessCount": 0,
+            "taskStatus": "under_way",
+            "settlementStatus": "cannot_settlement",
+            "auditLogs":[{"id": 142, "taskId": 287, "auditSuccess": true, "resultMsg": null}],
+            "createTime": 1501646191000,
+            "upLineTime": 1501756109000,
+            "finishTime": null,
+            "updateTime": 1501756109000,
+            "taskDetailObject": null,
+            "taskTypeDesc": "宝贝链接下单",
+            "settlementStatusDesc": "不可申请结算",
+            "taskStatusDesc": "进行中"
+          },
+          {
+            "id": 287,
+            "userId": 182,
+            "taskType": "direct_access",
+            "taskDaysDuration": 10,
+            "onlyShowForQualification": true,
+            "refuseOldShowker": false,
+            "taskName": "afsdafsda",
+            "itemCatalog":{"id": 102, "name": "下装", "level": 2, "parentItemCatalog":{}},
+            "taskMainImage": "http://xiuba-dev.oss-cn-hangzhou.aliyuncs.com/task/20170803/ha6phaswe84 ",
+            "itemUrl": "https://detail.tmall.com/item.htm?id=523786754479&spm=a223v.7835278.t0.1.469d35e6HXmkwL&pvid=85ef55f7-207d-4146-a277-b076d0bd76fb&scm=1007.12144.81309.9011_8949 ",
+            "storeName": null,
+            "taskCount": 10,
+            "itemPrice": 2900000,
+            "pinkage": true,
+            "paymentMethod": "all",
+            "itemDescription": "",
+            "taskDetail": null,
+            "showkerApplyTotalCount": 0,
+            "showkerApplySuccessCount": 0,
+            "taskStatus": "under_way",
+            "settlementStatus": "cannot_settlement",
+            "auditLogs":[{"id": 142, "taskId": 287, "auditSuccess": true, "resultMsg": null}],
+            "createTime": 1501646191000,
+            "upLineTime": 1501756109000,
+            "finishTime": null,
+            "updateTime": 1501756109000,
+            "taskDetailObject": null,
+            "taskTypeDesc": "宝贝链接下单",
+            "settlementStatusDesc": "不可申请结算",
+            "taskStatusDesc": "进行中"
+          },
+          {
+            "id": 287,
+            "userId": 182,
+            "taskType": "direct_access",
+            "taskDaysDuration": 10,
+            "onlyShowForQualification": true,
+            "refuseOldShowker": false,
+            "taskName": "afsdafsda",
+            "itemCatalog":{"id": 102, "name": "下装", "level": 2, "parentItemCatalog":{}},
+            "taskMainImage": "http://xiuba-dev.oss-cn-hangzhou.aliyuncs.com/task/20170803/ha6phaswe84 ",
+            "itemUrl": "https://detail.tmall.com/item.htm?id=523786754479&spm=a223v.7835278.t0.1.469d35e6HXmkwL&pvid=85ef55f7-207d-4146-a277-b076d0bd76fb&scm=1007.12144.81309.9011_8949 ",
+            "storeName": null,
+            "taskCount": 10,
+            "itemPrice": 2900000,
+            "pinkage": true,
+            "paymentMethod": "all",
+            "itemDescription": "",
+            "taskDetail": null,
+            "showkerApplyTotalCount": 0,
+            "showkerApplySuccessCount": 0,
+            "taskStatus": "under_way",
+            "settlementStatus": "cannot_settlement",
+            "auditLogs":[{"id": 142, "taskId": 287, "auditSuccess": true, "resultMsg": null}],
+            "createTime": 1501646191000,
+            "upLineTime": 1501756109000,
+            "finishTime": null,
+            "updateTime": 1501756109000,
+            "taskDetailObject": null,
+            "taskTypeDesc": "宝贝链接下单",
+            "settlementStatusDesc": "不可申请结算",
+            "taskStatusDesc": "进行中"
+          },
+          {
+            "id": 287,
+            "userId": 182,
+            "taskType": "direct_access",
+            "taskDaysDuration": 10,
+            "onlyShowForQualification": true,
+            "refuseOldShowker": false,
+            "taskName": "afsdafsda",
+            "itemCatalog":{"id": 102, "name": "下装", "level": 2, "parentItemCatalog":{}},
+            "taskMainImage": "http://xiuba-dev.oss-cn-hangzhou.aliyuncs.com/task/20170803/ha6phaswe84 ",
+            "itemUrl": "https://detail.tmall.com/item.htm?id=523786754479&spm=a223v.7835278.t0.1.469d35e6HXmkwL&pvid=85ef55f7-207d-4146-a277-b076d0bd76fb&scm=1007.12144.81309.9011_8949 ",
+            "storeName": null,
+            "taskCount": 10,
+            "itemPrice": 2900000,
+            "pinkage": true,
+            "paymentMethod": "all",
+            "itemDescription": "",
+            "taskDetail": null,
+            "showkerApplyTotalCount": 0,
+            "showkerApplySuccessCount": 0,
+            "taskStatus": "under_way",
+            "settlementStatus": "cannot_settlement",
+            "auditLogs":[{"id": 142, "taskId": 287, "auditSuccess": true, "resultMsg": null}],
+            "createTime": 1501646191000,
+            "upLineTime": 1501756109000,
+            "finishTime": null,
+            "updateTime": 1501756109000,
+            "taskDetailObject": null,
+            "taskTypeDesc": "宝贝链接下单",
+            "settlementStatusDesc": "不可申请结算",
+            "taskStatusDesc": "进行中"
+          },
+          {
+            "id": 287,
+            "userId": 182,
+            "taskType": "direct_access",
+            "taskDaysDuration": 10,
+            "onlyShowForQualification": true,
+            "refuseOldShowker": false,
+            "taskName": "afsdafsda",
+            "itemCatalog":{"id": 102, "name": "下装", "level": 2, "parentItemCatalog":{}},
+            "taskMainImage": "http://xiuba-dev.oss-cn-hangzhou.aliyuncs.com/task/20170803/ha6phaswe84 ",
+            "itemUrl": "https://detail.tmall.com/item.htm?id=523786754479&spm=a223v.7835278.t0.1.469d35e6HXmkwL&pvid=85ef55f7-207d-4146-a277-b076d0bd76fb&scm=1007.12144.81309.9011_8949 ",
+            "storeName": null,
+            "taskCount": 10,
+            "itemPrice": 2900000,
+            "pinkage": true,
+            "paymentMethod": "all",
+            "itemDescription": "",
+            "taskDetail": null,
+            "showkerApplyTotalCount": 0,
+            "showkerApplySuccessCount": 0,
+            "taskStatus": "under_way",
+            "settlementStatus": "cannot_settlement",
+            "auditLogs":[{"id": 142, "taskId": 287, "auditSuccess": true, "resultMsg": null}],
+            "createTime": 1501646191000,
+            "upLineTime": 1501756109000,
+            "finishTime": null,
+            "updateTime": 1501756109000,
+            "taskDetailObject": null,
+            "taskTypeDesc": "宝贝链接下单",
+            "settlementStatusDesc": "不可申请结算",
+            "taskStatusDesc": "进行中"
+          },
+        ],
+        noticeList:[
+          {
+            title: '常见问题',
+            content: [
+              {
+                url: '',
+                text: '如何编辑和提交试用报告？1'
+              },
+              {
+                url: '',
+                text: '如何到指定平台下单领取？？'
+              },
+              {
+                url: '',
+                text: '发布试用品需要什么条件？'
+              },
+              {
+                url: '',
+                text: '试用担保金没有及时返还怎么办？'
+              },
+              {
+                url: '',
+                text: '如何领取试用担保金？'
+              },
+            ],
+            active: 'faq'
+          },
+          {
+            title: '秀客规则',
+            content: [
+              {
+                url: '',
+                text: '如何编辑和提交试用报告？2'
+              },
+              {
+                url: '',
+                text: '如何到指定平台下单领取？？'
+              },
+              {
+                url: '',
+                text: '发布试用品需要什么条件？'
+              },
+              {
+                url: '',
+                text: '试用担保金没有及时返还怎么办？'
+              },
+              {
+                url: '',
+                text: '如何领取试用担保金？'
+              },
+            ],
+            active: 'buyerRule'
+          },
+          {
+            title: '商家规则',
+            content: [
+              {
+                url: '',
+                text: '如何编辑和提交试用报告？3'
+              },
+              {
+                url: '',
+                text: '如何到指定平台下单领取？？'
+              },
+              {
+                url: '',
+                text: '发布试用品需要什么条件？'
+              },
+              {
+                url: '',
+                text: '试用担保金没有及时返还怎么办？'
+              },
+              {
+                url: '',
+                text: '如何领取试用担保金？'
+              },
+            ],
+            active: 'sellerRule'
+          },
+        ],
+        noticeActive: 'faq'
       }
     },
     created(){
+      this.getHomeTaskList()
     },
     computed: {
       isLogin() {
@@ -364,7 +597,25 @@
         return this.$store.state.userInfo
       }
     },
-    methods: {}
+    methods: {
+      getHomeTaskList(){
+        let self = this;
+        api.getHomeTaskList().then((res) => {
+            if(res.status){
+              if(res.data.content != ''){
+                self.homeCommodityList = res.data.content;
+              }
+            }else {
+              self.$Modal.error({
+                content: res.msg
+              });
+            }
+        })
+      },
+      changeNoticeTab(notice){
+        this.noticeActive = notice.active;
+      }
+    }
   }
 </script>
 
@@ -372,103 +623,7 @@
   @import 'src/css/common';
   @import 'src/css/mixin';
 
-  .home-top {
-    height: 142px;
-    background-color: #fff;
-    > div {
-      background-color: #fff;
-      div.search-box {
-        margin-left: 75px;
-        margin-top: 60px;
-        > a {
-          display: inline-block;
-          background-color: $mainColor;
-          color: #fff;
-          width: 122px;
-          height: 40px;
-          line-height: 40px;
-          text-align: center;
-          font-size: 16px;
-        }
-        p.link-text {
-          margin-top: 5px;
-          a {
-            color: #666;
-            padding: 5px 1px;
-            font-size: 13px;
-          }
-          a.active {
-            color: $mainColor;
-          }
-        }
-        > div.pos-rel {
-          float: left;
-          > div {
-            position: absolute;
-            top: -24px;
-            left: 0;
-            a {
-              display: inline-block;
-              height: 24px;
-              width: 48px;
-              text-align: center;
-              background-color: #fff;
-              color: $mainColor;
-              line-height: 24px;
-            }
-            a.active {
-              color: #fff;
-              background-color: $mainColor;
-            }
 
-          }
-        }
-        i.ivu-icon-ios-search {
-          position: absolute;
-          top: 11px;
-          left: 13px;
-          font-size: 20px;
-          color: #ccc;
-          cursor: pointer;
-        }
-        i.ivu-icon-camera {
-          position: absolute;
-          top: 8px;
-          right: 13px;
-          font-size: 24px;
-          color: #ccc;
-          cursor: pointer;
-        }
-        input.search-btn {
-          padding-left: 40px;
-          padding-right: 40px;
-          border: 3px solid $mainColor;
-          height: 40px;
-          outline: none;
-          width: 504px;
-        }
-      }
-
-    }
-  }
-
-  .home-nav {
-    height: 42px;
-    background-color: $mainColor;
-    > div {
-      background-color: $mainColor;
-      a {
-        float: left;
-        width: 120px;
-        text-align: center;
-        font-size: 16px;
-        height: 42px;
-        line-height: 42px;
-        color: #fff;
-
-      }
-    }
-  }
 
   .home-ctt {
     background-color: #F1F1F1;
@@ -503,6 +658,9 @@
             }
           }
         }
+      }
+      .middle-ctt{
+        width: 610px;
       }
       .right-ctt{
         float: right;
@@ -550,6 +708,8 @@
             }
             a.active{
               border-right: 1px solid #ddd;
+              border-left: 1px solid #ddd;
+              border-top: 1px solid #ddd;
               border-bottom: none;
             }
           }
@@ -584,7 +744,7 @@
         .home-commodity-details{
           width: 222px;
           display: inline-block;
-          margin: 0 2px 30px 2px;
+          margin: 0 4px 30px 4px;
           .home-commodity-img{
             border: 1px solid #ddd;
           }
@@ -595,6 +755,9 @@
               line-height: 35px;
               height: 35px;
               font-size: 14px;
+              text-overflow: ellipsis;
+              white-space: nowrap;
+              overflow: hidden;
               &:first-child{
                 color: #000;
                 text-align: left;

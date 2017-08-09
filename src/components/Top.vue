@@ -37,15 +37,8 @@
     </div>
     <div class="home-nav">
       <div class="container">
-        <a href="">首页</a>
-        <a href="">潮流女装</a>
-        <a href="">精品男装</a>
-        <a href="">时尚配饰</a>
-        <a href="">美容护肤</a>
-        <a href="">家具日用</a>
-        <a href="">鞋子箱包</a>
-        <a href="">数码家电</a>
-        <a href="">综合试用</a>
+        <router-link  to="/">首页</router-link>
+        <a href="" v-for="nav in navList" >{{nav.name}}</a>
       </div>
     </div>
   </div>
@@ -54,17 +47,38 @@
 
 <script>
   import TopTip from '@/components/TopTip.vue'
+  import api from '../config/apiConfig'
   export default {
     name: 'home',
     components: {
-      TopTip: TopTip
+      TopTip: TopTip,
+      api: api
     },
     data () {
-      return {}
+      return {
+          navList: []
+      }
     },
     created(){
+     this.getNavList();
     },
-    methods: {}
+    methods: {
+      getNavList(){
+        let self = this;
+        api.getNavList().then((res) =>{
+          if(res.status){
+            res.data.sort(function(a,b){
+              return a.sortIndex-b.sortIndex
+            });
+            self.navList = res.data;
+          }else {
+            self.$Modal.error({
+              content: res.msg
+            });
+          }
+        })
+      }
+    }
   }
 </script>
 
@@ -159,7 +173,7 @@
       background-color: $mainColor;
       a {
         float: left;
-        width: 120px;
+        width: 109px;
         text-align: center;
         font-size: 16px;
         height: 42px;

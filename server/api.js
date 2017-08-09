@@ -105,6 +105,47 @@ router.post('/api/login.json', (req, res, next) => {
 });
 
 /**
+ * 首页导航接口
+ */
+router.post('/api/task/search/item/catalog/main.json', (req, res, next) => {
+  let options = {
+    method: 'GET',
+    uri: baseUrl + '/task/search/item/catalog/main',
+    json: true,
+  };
+  request(options)
+    .then(function (parsedBody) {
+      res.send(parsedBody);
+      res.end();
+    })
+    .catch(function (err) {
+      logConfig.logger.error('登陆接口错误信息：' + err);
+      res.end("服务器错误");
+    });
+});
+
+/**
+ * 首页试用任务展示接口
+ */
+router.post('/api/task/search/index/newest.json', (req, res, next) => {
+  let options = {
+    method: 'GET',
+    uri: baseUrl + '/task/search/index/newest',
+    json: true,
+  };
+  request(options)
+    .then(function (parsedBody) {
+      res.send(parsedBody);
+      res.end();
+    })
+    .catch(function (err) {
+      logConfig.logger.error('登陆接口错误信息：' + err);
+      res.end("服务器错误");
+    });
+});
+
+
+/**
  * 检测是否第一次动态登陆
  * @param phone
  * @param smsCode

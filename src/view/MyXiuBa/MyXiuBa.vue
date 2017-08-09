@@ -1,10 +1,9 @@
 <template>
   <div>
-    <top-tip></top-tip>
     <div class="my-xiu-ba container">
-      <div class="my-xiu-ba-title">
-        <h1 class="left">我的秀吧</h1>
-      </div>
+      <!--<div class="my-xiu-ba-title">-->
+        <!--<h1 class="left">我的秀吧</h1>-->
+      <!--</div>-->
       <div class="container">
         <div class="tmy-xiu-ba-con clear">
           <div class="my-xiu-ba-con-nav left">
@@ -87,6 +86,11 @@
     components: {
       TopTip: TopTip,
       Icon: Icon,
+    },
+    beforeMount() {
+      this.$store.commit({
+        type: 'CHANGE_TOP_SHOW'
+      })
     },
     data() {
       return {

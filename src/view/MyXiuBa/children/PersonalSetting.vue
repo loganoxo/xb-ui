@@ -423,17 +423,16 @@
       },
       wwBindFunc(){
         let self = this;
-        debugger
-        if(!(this.wwFormValidate.picUrl == '')){
-          if(this.modifyWw){
+        if(!(self.wwFormValidate.picUrl == '')){
+          if(self.modifyWw){
             api.wwModify({
-              alitmAccount: this.wwFormValidate.alitmAccount,
-              picUrl: this.wwFormValidate.picUrl[0].src,
-              id: this.wwFormValidate.id
+              alitmAccount: self.wwFormValidate.alitmAccount,
+              picUrl: self.wwFormValidate.picUrl[0].src,
+              id: self.wwFormValidate.id
             }).then((res) => {
               if(res.status){
                 if(res.statusCode == 200){
-                  this.remarks = '';
+                  self.remarks = '';
                   self.$Modal.success({
                     content: "亲！提交成功，客服妹子会尽快审核...",
                     onOk:function () {
@@ -443,7 +442,7 @@
                   });
                 }
               }else {
-                this.$Modal.error({
+                self.$Modal.error({
                   content: res.msg
                 });
               }
