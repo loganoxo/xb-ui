@@ -40,7 +40,7 @@
     <div class="home-nav">
       <div class="container">
         <router-link  to="/">首页</router-link>
-        <router-link  v-for="nav in navList"  :to="{ 'path': '/task-category', 'query': {'id': nav.id, 'name': nav.name}}">{{nav.name}}</router-link>
+        <router-link  v-for="nav in navList"  :key="nav.id" :to="{ 'path': '/task-category', 'query': {'id': nav.id, 'name': nav.name}}">{{nav.name}}</router-link>
       </div>
     </div>
   </div>
