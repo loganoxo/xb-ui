@@ -3,7 +3,9 @@
     <top-tip></top-tip>
     <div class="home-top">
       <div class="container">
-        <img src="~assets/img/common/top_logo.png" alt="" class="left mt-20">
+        <router-link  to="/" class="left mt-20">
+          <img src="~assets/img/common/top_logo.png" alt="" >
+        </router-link>
         <div class="left">
           <div class="search-box">
             <div class="pos-rel">
@@ -38,7 +40,7 @@
     <div class="home-nav">
       <div class="container">
         <router-link  to="/">首页</router-link>
-        <a href="" v-for="nav in navList" >{{nav.name}}</a>
+        <router-link  v-for="nav in navList"  :to="{ 'path': '/task-category', 'query': {'id': nav.id, 'name': nav.name}}">{{nav.name}}</router-link>
       </div>
     </div>
   </div>
@@ -79,6 +81,7 @@
         })
       }
     }
+
   }
 </script>
 

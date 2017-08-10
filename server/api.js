@@ -144,7 +144,27 @@ router.post('/api/task/search/index/newest.json', (req, res, next) => {
     });
 });
 
-
+/**
+ * 分类页面请求
+ * @param id  大类id
+ */
+router.post('/api/task/get/item/catalog/parent.json', (req, res, next) => {
+  let options =
+    {
+    method: 'GET',
+    uri: baseUrl + '/task/get/item/catalog/parent/' + req.body.id,
+    json: true,
+  };
+  request(options)
+    .then(function (parsedBody) {
+      res.send(parsedBody);
+      res.end();
+    })
+    .catch(function (err) {
+      logConfig.logger.error('登陆接口错误信息：' + err);
+      res.end("服务器错误");
+    });
+});
 /**
  * 检测是否第一次动态登陆
  * @param phone

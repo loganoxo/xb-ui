@@ -1,131 +1,85 @@
 <template>
   <div>
-    <div class="home-ctt">
+    <div class="task-category-ctt">
       <div class="container">
-        <div class="home-section">
-          <div class="left-ctt left mr-10">
-            <ul>
-              <li>
-                <div class="left img-box">
-                  <img src="~assets/img/home/home_10.png" alt="">
-                </div>
-                <div class="left text-box ml-10">
-                  <p>136****6666成功领取了</p>
-                  <p>
-                    <span>免打孔 雅黑...</span>
-                    <span class="text">￥35.00</span>
-                  </p>
-                </div>
-              </li>
-              <li>
-                <div class="left img-box">
-                  <img src="~assets/img/home/home_10.png" alt="">
-                </div>
-                <div class="left text-box ml-10">
-                  <p>136****6666成功领取了</p>
-                  <p>
-                    <span>免打孔 雅黑...</span>
-                    <span class="text">￥35.00</span>
-                  </p>
-                </div>
-              </li>
-              <li>
-                <div class="left img-box">
-                  <img src="~assets/img/home/home_10.png" alt="">
-                </div>
-                <div class="left text-box ml-10">
-                  <p>136****6666成功领取了</p>
-                  <p>
-                    <span>免打孔 雅黑...</span>
-                    <span class="text">￥35.00</span>
-                  </p>
-                </div>
-              </li>
-              <li>
-                <div class="left img-box">
-                  <img src="~assets/img/home/home_10.png" alt="">
-                </div>
-                <div class="left text-box ml-10">
-                  <p>136****6666成功领取了</p>
-                  <p>
-                    <span>免打孔 雅黑...</span>
-                    <span class="text">￥35.00</span>
-                  </p>
-                </div>
-              </li>
-              <li>
-                <div class="left img-box">
-                  <img src="~assets/img/home/home_10.png" alt="">
-                </div>
-                <div class="left text-box ml-10">
-                  <p>136****6666成功领取了</p>
-                  <p>
-                    <span>免打孔 雅黑...</span>
-                    <span class="text">￥35.00</span>
-                  </p>
-                </div>
-              </li>
-            </ul>
-          </div>
-          <div class="middle-ctt left">
-            <Carousel autoplay :autoplay-speed="5000">
-              <Carousel-item>
-                <img class="block" src="~assets/img/home/home_07.png" alt="">
-              </Carousel-item>
-              <Carousel-item>
-                <img class="block" src="~assets/img/home/home_07.png" alt="">
-              </Carousel-item>
-              <Carousel-item>
-                <img class="block" src="~assets/img/home/home_07.png" alt="">
-              </Carousel-item>
-              <Carousel-item>
-                <img class="block" src="~assets/img/home/home_07.png" alt="">
-              </Carousel-item>
-            </Carousel>
-          </div>
-          <div class="right-ctt">
-            <div class="login-up-box" v-show="!isLogin">
-              <div>
-                <img src="~assets/img/home/home_24.png" alt="">
-                <p>hi，你还没登录哦~</p>
-              </div>
-              <div class="mt-10">
-                <router-link  to="/register">免费注册</router-link>
-                <router-link to="/login">马上登录</router-link>
-              </div>
-            </div>
-            <div class="login-up-box" v-show="isLogin">
-              <div>
-                <img src="~assets/img/home/home_24.png" alt="">
-                <p>{{getUserInfo.phone}}</p>
-              </div>
-              <div class="mt-10 text-ct">
-                <router-link  to="/user">个人中心</router-link>
-              </div>
-            </div>
-            <div class="notice-box">
-              <p>
-                <a v-for="notice in noticeList" :class="[noticeActive == notice.active ? 'active' : '']" @click="changeNoticeTab(notice)">{{notice.title}}</a>
-              </p>
-              <div v-for="notice in noticeList" v-show="noticeActive == notice.active" class="notice-text animated fadeIn" >
-                <a  v-for="content in notice.content" :href="content.url" class="circle-text">{{content.text}}</a>
-              </div>
-            </div>
+        <div class="breadcrumb">
+          <Breadcrumb >
+            <Breadcrumb-item>当前位置：</Breadcrumb-item>
+            <Breadcrumb-item>试客联盟</Breadcrumb-item>
+            <Breadcrumb-item>试用品专区</Breadcrumb-item>
+            <Breadcrumb-item>{{$route.query.name}}</Breadcrumb-item>
+          </Breadcrumb>
+        </div>
+      </div>
+      <div class="container">
+        <div class="task-category-sel">
+          {{$route.query.name}}：
+          <a href="" class="active" >全部</a>
+          <a href="" v-for="category in categoryList">{{category.name}}</a>
+        </div>
+      </div>
+      <div class="container">
+        <div class="task-category-sort">
+          <div>
+            <Button-group size="small" class="left mt-10">
+              <iButton>
+                最新
+                <Icon type="arrow-down-c"></Icon>
+              </iButton>
+              <iButton>
+                价值
+                <Icon type="arrow-down-c"></Icon>
+              </iButton>
+              <iButton>
+                人气
+                <Icon type="arrow-down-c"></Icon>
+              </iButton>
+              <iButton>
+                份数
+                <Icon type="arrow-down-c"></Icon>
+              </iButton>
+              <iButton>
+                剩余时间
+                <Icon type="arrow-down-c"></Icon>
+              </iButton>
+            </Button-group>
+            <p class="right">
+              共
+              <span class="">119</span>万+件商品&nbsp;&nbsp;&nbsp;
+              <span>1</span> / <span>100</span>&nbsp;&nbsp;&nbsp;
+              <Button-group size="small">
+                <iButton icon="chevron-left"></iButton>
+                <iButton icon="chevron-right"></iButton>
+              </Button-group>
+            </p>
           </div>
         </div>
       </div>
       <div class="container">
-        <div class="home-commodity">
-          <div class="home-commodity-title">
-            <img src="~assets/img/home/home_15.png" alt="">
-            <p class="text-ct fs-14">快乐试用，热爱分享</p>
+        <div class="task-category-checkbox">
+          <div>
+            <div class="left mt-10" style="width: 200px">
+              <iInput placeholder="在结果中搜索" size="small" >
+                <iButton slot="append" size="small" icon="search"></iButton>
+              </iInput>
+            </div>
+            <Checkbox-group class="left ml-20">
+              <Checkbox label="PC搜索下单（taobao.com）"></Checkbox>
+              <Checkbox label="手淘搜索下单（APP）"></Checkbox>
+              <Checkbox label="淘口令下单（APP）"></Checkbox>
+              <Checkbox label="宝贝链接下单（taobao.com）"></Checkbox>
+            </Checkbox-group>
           </div>
-          <div class="home-commodity-ctt">
-            <a href="" class="home-commodity-details" v-for="homeCommodity in homeCommodityList" :title="homeCommodity.taskName">
-              <div class="home-commodity-img">
+        </div>
+      </div>
+      <div class="container">
+        <div class="task-category-commodity">
+          <div class="task-category-commodity-ctt">
+            <a href="" class="task-category-commodity-details" v-for="homeCommodity in homeCommodityList" :title="homeCommodity.taskName">
+              <div class="task-category-commodity-img">
                 <img class="block" v-lazy="homeCommodity.taskMainImage" alt="" style="width: 220px; height: 220px;">
               </div>
-              <div class="home-commodity-text">
+              <div class="task-category-commodity-text">
                 <p>{{homeCommodity.taskName}}</p>
                 <p>
                   <span class="left">￥{{homeCommodity.itemPrice/100}}</span>
@@ -134,11 +88,9 @@
               </div>
             </a>
           </div>
-        </div>
-      </div>
-      <div class="container">
-        <div class="home-bottom mt-20">
-          <img src="~assets/img/home/home_23.png" alt="">
+          <div class="task-category-commodity-page">
+            <Page :total="100" show-elevator></Page>
+          </div>
         </div>
       </div>
     </div>
@@ -155,16 +107,16 @@
   import Radio from 'iview/src/components/radio'
   import api from '../config/apiConfig'
   import {setStorage, getStorage} from '../config/utils'
-  import SmsCountdown from '@/components/SmsCountdown'
   import Modal from 'iview/src/components/modal'
-  import Carousel from 'iview/src/components/carousel'
+  import Breadcrumb from 'iview/src/components/breadcrumb'
+  import Page from 'iview/src/components/page'
   export default {
     beforeMount() {
       this.$store.commit({
         type: 'CHANGE_TOP_SHOW'
       })
     },
-    name: 'home',
+    name: 'task-category',
     components: {
       iInput: Input,
       iForm: Form,
@@ -172,15 +124,17 @@
       Checkbox: Checkbox,
       CheckboxGroup: Checkbox.Group,
       iButton: Button,
+      ButtonGroup: Button.Group,
       Icon: Icon,
-      SmsCountdown: SmsCountdown,
       Radio: Radio,
       Modal: Modal,
-      Carousel: Carousel,
-      CarouselItem: Carousel.Item,
+      Breadcrumb: Breadcrumb,
+      BreadcrumbItem: Breadcrumb.Item,
+      Page: Page
     },
     data () {
       return {
+        categoryList: [],
         homeCommodityList:[
           {
             "id": 287,
@@ -587,7 +541,9 @@
       }
     },
     created(){
-      this.getHomeTaskList()
+      this.getHomeTaskList();
+      let id = this.$route.query.id;
+      this.getTaskCategory(id);
     },
     computed: {
       isLogin() {
@@ -612,8 +568,27 @@
             }
         })
       },
+      getTaskCategory(id){
+        let self = this;
+        api.getTaskCategory({id:id}).then((res) => {
+          if(res.status){
+            self.categoryList = res.data;
+          }else {
+            self.$Modal.error({
+              content: res.msg
+            });
+          }
+        })
+      },
       changeNoticeTab(notice){
         this.noticeActive = notice.active;
+      }
+    },
+    watch: {
+      '$route' (to, from) {
+        //刷新参数放到这里里面去触发就可以刷新相同界面了
+        let id = this.$route.query.id;
+        this.getTaskCategory(id);
       }
     }
   }
@@ -624,130 +599,65 @@
   @import 'src/css/mixin';
 
 
-
-  .home-ctt {
+  .breadcrumb{
+    height: 36px;
+    background-color: #fff;
+    line-height: 36px;
+    margin: 10px 0;
+    padding: 0 10px;
+  }
+  .task-category-ctt {
     background-color: #F1F1F1;
-    .home-section {
-      margin: 10px auto 10px auto;
-      overflow: hidden;
-      .left-ctt {
-        background-color: #fff;
-        width: 285px;
-        height: 400px;
-        ul {
-          padding: 15px 20px;
-          li {
-            margin-bottom: 20px;
-            overflow: hidden;
-            div.text-box{
-              p{
-                line-height: 26px;
-                height: 26px;
-                font-size: 14px;
-                &:first-child{
-                  color: #999;
-                }
-                &:last-child{
-                  span.text{
-                    color: $mainColor;
-                    font-weight: bold;
-                  }
-                }
-              }
-
-            }
-          }
-        }
-      }
-      .middle-ctt{
-        width: 610px;
-      }
-      .right-ctt{
-        float: right;
-        width: 285px;
-        height: 400px;
-        .login-up-box{
-          background-color: #fff;
-          padding: 15px;
-          height: 172px;
-          margin-bottom: 10px;
-          img{
-            display: block;
-            margin: auto auto 15px auto;
-          }
-          p{
-            text-align: center;
-          }
-          a{
-            display: inline-block;
-            width: 119px;
-            background-color: $mainColor;
-            color: #fff;
-            text-align: center;
-            height: 30px;
-            line-height: 30px;
-            &:first-child{
-              margin-right: 10px;
-            }
-          }
-        }
-        .notice-box{
-          background-color: #fff;
-          height: 218px;
-          p{
-            display: table;
-            width: 100%;
-            height: 30px;
-            a{
-              color: #999;
-              text-align: center;
-              display: table-cell;
-              vertical-align: middle;
-              width: 33.33%;
-              border-bottom: 1px solid #ddd;
-            }
-            a.active{
-              border-right: 1px solid #ddd;
-              border-left: 1px solid #ddd;
-              border-top: 1px solid #ddd;
-              border-bottom: none;
-            }
-          }
-          .notice-text{
-            padding: 8px 0 0 20px;
-            a{
-              display: block;
-              line-height: 35px;
-              height: 35px;
-              color: #999;
-            }
-          }
-        }
+    .task-category-sel{
+      font-size: 14px;
+      background-color: #fff;
+      height: 64px;
+      line-height: 64px;
+      padding: 0 15px;
+      a{
+        display: inline-block;
+        font-size: 14px;
+        padding: 0 15px;
+        color: #000;
       }
     }
-    .home-commodity{
+    .task-category-sort{
+      height: 44px;
       background-color: #fff;
-      border: 1px solid #E8E8E8;
-      .home-commodity-title{
-        img{
-          display: block;
-          margin: 28px auto 10px auto;
-        }
-        p{
-          color: #999;
-        }
+      >div{
+        border-top: 1px solid #ddd;
+        height: 44px;
+        line-height: 44px;
+        padding: 0 10px;
+        background-color: #F1F1F1;
+        margin: 0 10px;
       }
-      .home-commodity-ctt{
+    }
+    .task-category-checkbox{
+      height: 44px;
+      background-color: #fff;
+      >div{
+        border-top: 1px solid #ddd;
+        border-bottom: 1px solid #ddd;
+        height: 44px;
+        line-height: 44px;
+        padding: 0 10px;
+        margin: 0 10px;
+      }
+    }
+    .task-category-commodity{
+      background-color: #fff;
+      .task-category-commodity-ctt{
         padding: 24px;
         text-align: left;
-        .home-commodity-details{
+        .task-category-commodity-details{
           width: 222px;
           display: inline-block;
           margin: 0 4px 30px 4px;
-          .home-commodity-img{
+          .task-category-commodity-img{
             border: 1px solid #ddd;
           }
-          .home-commodity-text{
+          .task-category-commodity-text{
             background-color: #EEEEEE;
             padding:5px;
             p{
@@ -772,10 +682,13 @@
                 }
               }
             }
-
           }
         }
-
+      }
+      .task-category-commodity-page{
+        padding:  0 20px 40px 20px;
+        margin-bottom: 20px;
+        text-align: center;
       }
     }
   }

@@ -4,6 +4,7 @@ const Home = r => require.ensure([], () => r(require('../view/Home.vue')), 'Home
 const SelRole = r => require.ensure([], () => r(require('../view/SelRole.vue')), 'SelRole');
 const Login = r => require.ensure([], () => r(require('../view/Login.vue')), 'Login');
 const Register = r => require.ensure([], () => r(require('../view/Register.vue')), 'Register');
+const TaskCategory = r => require.ensure([], () => r(require('../view/TaskCategory.vue')), 'TaskCategory');
 const MyXiuBa = r => require.ensure([], () => r(require('../view/MyXiuBa/MyXiuBa.vue')), 'MyXiuBa');
 const UserHome = r => require.ensure([], () => r(require('../view/MyXiuBa/children/UserHome.vue')), 'UserHome');
 const PersonalSetting = r => require.ensure([], () => r(require('../view/MyXiuBa/children/PersonalSetting.vue')), 'PersonalSetting');
@@ -50,6 +51,14 @@ export default new Router({
         {path : '/seller-register', name: 'seller'},
         {path : '/buyer-register', name: 'buyer'},
       ]
+    },
+    {
+      path: '/task-category',
+      name: 'task-category',
+      component: TaskCategory,
+      meta: {
+        title: "任务分类展示"
+      }
     },
     {
       path: '/user',

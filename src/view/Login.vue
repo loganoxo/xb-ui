@@ -38,7 +38,7 @@
                   </Form-item>
                   <!--<a class="right mt-6" href="">忘记密码</a>-->
                 </div>
-                <iButton style="margin-top: 25px;" type="error" long size="large"
+                <iButton style="margin-top: 25px;" type="error" long size="large" :disabled="btnState.normalLoginBtn"
                          @click="handleSubmit('loginNormalCustom',setUserInfo)">
                   登录
                 </iButton>
@@ -77,7 +77,7 @@
                     </Checkbox-group>
                   </Form-item>
                 </div>
-                <iButton size="large" style="margin-top: 15px;" type="error" long
+                <iButton size="large" style="margin-top: 15px;" type="error" long :disabled="btnState.trendsLoginBtn"
                          @click="handleSubmit('loginTrendsCustom',checkRole)">
                   登录
                 </iButton>
@@ -180,6 +180,10 @@
       };
       return {
         selRole: false,
+        btnState: {
+          normalLoginBtn: false,
+          trendsLoginBtn: false,
+        },
         beginCountTime: false,
         selLogin: true,
         rememberAccount: [],
@@ -277,7 +281,8 @@
       },
       setUserInfo() {
         let self = this;
-        api.login(this.loginNormalCustom).then((res) => {
+        self.btnState.normalLoginBtn = true;
+        api.login(self.loginNormalCustom).then((res) => {
           if (res.status) {
             self.$store.commit({
               type: 'RECORD_USER_INFO',
@@ -293,6 +298,7 @@
           } else {
             self.instance('error', '', res.msg)
           }
+          self.btnState.normalLoginBtn = false;
         })
       },
       rememberAccountFunc() {
@@ -317,13 +323,13 @@
       },
       checkRole() {
         let self = this;
+        self.btnState.trendsLoginBtn = true;
         api.checkFastSignIn({
           phone: this.loginTrendsCustom.phone,
           smsCode: this.loginTrendsCustom.smsCode,
           validateCode: this.loginTrendsCustom.validateCode,
         }).then((res) => {
           this.rememberPhoneFunc();
-
           if (res.status) {
             if (res.statusCode === 200) {
               self.$store.commit({
@@ -342,6 +348,7 @@
           } else {
             this.instance('error', '', res.msg)
           }
+          self.btnState.trendsLoginBtn = false;
         })
       },
       sendCodeSuccess(res) {

@@ -53,6 +53,13 @@ export default {
   },
 
   /**
+   *分类页面请求
+   */
+  getTaskCategory(params) {
+    return fetch("/api/task/get/item/catalog/parent.json", params)
+  },
+
+  /**
    *用户任务发布
    */
   taskCreate(params) {

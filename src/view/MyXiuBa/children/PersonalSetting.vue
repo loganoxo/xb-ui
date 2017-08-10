@@ -69,7 +69,7 @@
                 </Upload>
               </Form-item>
               <Form-item>
-                <iButton  style="background-color: #FF6865; color: #fff"
+                <iButton  :class="[btnState.wwBindBtn ? '': 'ww-bind-btn']"  :disabled="btnState.wwBindBtn"
                           @click="handleSubmit('wwFormValidate',wwBindFunc)">提交
                   </iButton>
                 <iButton type="ghost" @click="handleReset('wwFormValidate',clearWwInfo)">重置</iButton>
@@ -159,7 +159,7 @@
                 <br>
               </p>
               <Form-item>
-                <iButton  style="background-color: #FF6865; color: #fff"
+                <iButton :class="[btnState.verifiedBtn ? '' : 'verified-btn']"  :disabled="btnState.verifiedBtn"
                           @click="handleSubmit('verifiedValidate',verifiedFunc)">提交
                 </iButton>
                 <iButton type="ghost" @click="handleReset('verifiedValidate',clearVerified)">重置</iButton>
@@ -276,6 +276,10 @@
         }
       };
       return {
+        btnState: {
+          wwBindBtn: false,
+          verifiedBtn: false,
+        },
         myInfoSelects: [
           {
             text: '账号信息',
@@ -348,11 +352,11 @@
     computed: {},
     methods: {
       myInfoFunc(index){
-          if(index === 1){
-            return this.$store.state.userInfo.role !== 1;
-          }else {
-              return true;
-          }
+        if(index === 1){
+          return this.$store.state.userInfo.role !== 1;
+        }else {
+            return true;
+        }
       },
       myInfoSelectsFunc(myInfoSelect){
         this.infoSelect=myInfoSelect.isSelect;
@@ -424,6 +428,7 @@
       wwBindFunc(){
         let self = this;
         if(!(self.wwFormValidate.picUrl == '')){
+          self.btnState.wwBindBtn = true;
           if(self.modifyWw){
             api.wwModify({
               alitmAccount: self.wwFormValidate.alitmAccount,
@@ -446,6 +451,7 @@
                   content: res.msg
                 });
               }
+              self.btnState.wwBindBtn = false;
             })
           }else{
             api.wwBind({
@@ -467,6 +473,7 @@
                   content: res.msg
                 });
               }
+              self.btnState.wwBindBtn = false;
             })
           }
         }else {
@@ -530,21 +537,23 @@
         this.$refs.upload2.handleRemove();
       },
       verifiedFunc(){
-        if(!(this.verifiedValidate.picUrl == '') && !(this.verifiedValidate.reversePicUrl == '')){
+        let self = this;
+        if(!(self.verifiedValidate.picUrl == '') && !(self.verifiedValidate.reversePicUrl == '')){
+          self.btnState.verifiedBtn = true;
           api.verifiedSubmit({
-            realname: this.verifiedValidate.realname,
-            idcard: this.verifiedValidate.idcard,
-            picUrl: this.verifiedValidate.picUrl[0].src,
-            reversePicUrl: this.verifiedValidate.reversePicUrl[0].src
+            realname: self.verifiedValidate.realname,
+            idcard: self.verifiedValidate.idcard,
+            picUrl: self.verifiedValidate.picUrl[0].src,
+            reversePicUrl: self.verifiedValidate.reversePicUrl[0].src
           }).then((res) => {
-
             if(res.status){
-              this.verifiedState = this.verifiedStatus.verifiedIng;
+              self.verifiedState = self.verifiedStatus.verifiedIng;
             }else {
-              this.$Modal.warning({
+              self.$Modal.warning({
                 content: res.msg
               });
             }
+            self.btnState.verifiedBtn = false;
           })
         }else {
           this.$Modal.warning({
@@ -630,6 +639,10 @@
           margin-top: 20px;
           width: 400px;
           float: left;
+          .verified-btn{
+            background-color: #FF6865;
+            color: #fff;
+          }
         }
         .verified-cue{
           p{
@@ -714,6 +727,10 @@
           .ww-account-form{
             width: 400px;
             float: left;
+            .ww-bind-btn{
+              background-color: #FF6865;
+              color: #fff
+            }
           }
           .ww-account-cue{
             p{

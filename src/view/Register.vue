@@ -75,10 +75,10 @@
               </Form-item>
               <div>
                 <Form-item>
-                  <iButton v-show="selLogin.buyer" style="background-color: #ff6633; color: #fff"
-                           @click="handleSubmit('formCustom',registerBuyer)">立即注册
+                  <iButton v-show="selLogin.buyer" :class="[btnState.registerBuyerBtn ? '' : 'register-buyer-btn']"
+                           @click="handleSubmit('formCustom',registerBuyer)" :disabled="btnState.registerBuyerBtn" >立即注册
                   </iButton>
-                  <iButton v-show="selLogin.seller" style="background-color: #FF6865; color: #fff"
+                  <iButton v-show="selLogin.seller" :class="[btnState.registerSellerBtn ? '' : 'register-seller-btn']"
                            @click="handleSubmit('formCustom',registerSeller)">立即注册
                   </iButton>
                   <iButton type="ghost" @click="handleReset('formCustom')" style="margin-left: 8px">重置</iButton>
@@ -188,7 +188,13 @@
           buyer: true,
           seller: false
         },
-
+        formRes: {
+          phoneRes: false,
+        },
+        btnState: {
+          registerBuyerBtn: false,
+          registerSellerBtn: false,
+        },
         formCustom: {
           phone: '',
           pwd: '',
@@ -198,9 +204,6 @@
           role: '',
           purpose: 'reg',
           agreeStrip: false,
-        },
-        formRes: {
-          phoneRes: false,
         },
         ruleCustom: {
           phone: [
@@ -223,6 +226,7 @@
           ]
 
         }
+
       }
     },
     created() {
@@ -258,6 +262,7 @@
       registerBuyer() {
         this.formCustom.role = 0;
         let self = this;
+        self.btnState.registerBuyerBtn = true;
         api.register({
           phone: this.formCustom.phone,
           pwd: this.formCustom.pwd,
@@ -279,11 +284,13 @@
               content: res.msg,
             });
           }
+          self.btnState.registerBuyerBtn = false;
         })
       },
       registerSeller() {
         let self = this;
-        this.formCustom.role = 1;
+        self.formCustom.role = 1;
+        self.btnState.registerSellerBtn = true;
         api.register({
           phone: this.formCustom.phone,
           pwd: this.formCustom.pwd,
@@ -305,6 +312,7 @@
               content: res.msg,
             });
           }
+          self.btnState.registerSellerBtn = false;
         })
       },
       sendCodeSuccess(res) {
@@ -381,13 +389,21 @@
     border: 1px solid #ccc;
     .form-box {
       padding-bottom: 30px;
+      .register-seller-btn{
+        background-color: #FF6865;
+        color: #fff;
+      }
+      .register-buyer-btn{
+        background-color: #ff6633;
+        color: #fff;
+      }
       div.form-input-box {
         width: 800px;
         > div {
           span {
             background-color: #EAEAEA;
             color: #999;
-            padding: 0px 10px;
+            padding: 0 10px;
             position: absolute;
             right: 7px;
             top: 7px;
