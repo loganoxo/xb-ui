@@ -7,7 +7,7 @@
       <div class="container">
         <div class="tmy-xiu-ba-con clear">
           <div class="my-xiu-ba-con-nav left">
-            <ul v-if="getUserInfoRole == 1">
+            <ul v-if="getUserInfoRole === 1">
               <li :class="{isSelect:isSelect ==='userHome'}" @click="selectNavigate('userHome')">
                 <Icon type="person-stalker"></Icon>
                 <router-link to="/user/user-home">我的主页</router-link>
@@ -18,7 +18,7 @@
               </li>
               <li :class="{isSelect:isSelect ==='eventManagement'}" @click="selectNavigate('eventManagement')">
                 <Icon type="clipboard"></Icon>
-                <router-link to="/user/task-release">试用活动管理</router-link>
+                <router-link to="/user/activity-management">试用活动管理</router-link>
               </li>
               <li :class="{isSelect:isSelect ==='fundsManagement'}" @click="selectNavigate('fundsManagement')">
                 <Icon type="social-yen"></Icon>
@@ -37,7 +37,7 @@
                 <router-link to="/user/task-release">帮助中心</router-link>
               </li>
             </ul>
-            <ul v-if="getUserInfoRole == 0">
+            <ul v-if="getUserInfoRole === 0">
               <li :class="{isSelect:isSelect ==='userHome'}" @click="selectNavigate('userHome')">
                 <Icon type="person-stalker"></Icon>
                 <router-link to="/user/user-home">我的主页</router-link>
@@ -81,6 +81,7 @@
 <script>
   import Icon from 'iview/src/components/icon'
   import TopTip from "@/components/TopTip.vue";
+  import { mapActions } from 'vuex'
   export default {
     name: 'MyXiuBa',
     components: {
@@ -103,6 +104,7 @@
 
     },
     created() {
+      this.getBalance();
     },
     computed: {
       getUserInfoRole(){
@@ -110,6 +112,9 @@
       }
     },
     methods: {
+      ...mapActions([
+        'getBalance'
+      ]),
       selectNavigate(type) {
         this.isSelect = type;
       },

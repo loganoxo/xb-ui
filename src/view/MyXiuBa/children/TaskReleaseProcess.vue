@@ -67,24 +67,29 @@
             <Upload
               ref="upload"
               :show-upload-list="false"
+              :default-file-list="mainDefaultList"
+              :on-remove="removeMainImage"
               :on-success="handleSuccess"
               :format="['jpg','jpeg','png','gif','bmp']"
               :max-size="300"
               name="task"
-              :default-file-list="defaultList"
               :on-format-error="handleFormatError"
               :on-exceeded-size="handleMaxSize"
-              :on-upload-length="handleUploadLength"
               type="drag">
               <div style="width: 58px;height:58px;line-height: 58px;">
                 <Icon type="camera" size="20"></Icon>
               </div>
             </Upload>
-            <p class="size-color pl-60 mt-10">点击或者拖拽自主上传图片，支持jpg \ jpeg \ gif \ bmp格式，最佳尺寸400*400（像素），不超过300K，可与宝贝主图一致</p>
+            <p
+              class="size-color pl-60 mt-10">点击或者拖拽自主上传图片，支持jpg \ jpeg \ gif \ bmp格式，最佳尺寸400*400（像素），不超过300K，可与宝贝主图一致</p>
           </div>
           <div class="baby-url ml-45 mt-20">
             <span class="required">宝贝地址：</span>
             <iInput v-model="taskRelease.itemUrl" placeholder="请输入宝贝地址" style="width: 296px"></iInput>
+          </div>
+          <div class="store-name ml-45 mt-20">
+            <span class="required">店铺名称：</span>
+            <iInput v-model="taskRelease.storeName" placeholder="请输入店铺名称" style="width: 296px"></iInput>
           </div>
           <div class="baby-number ml-45 mt-20">
             <span class="required">宝贝数量：</span>
@@ -124,6 +129,7 @@
           <div class="product-introduction ml-45 mt-20">
             <span class="left ml-5">商品简介：</span>
             <quill-editor ref="myTextEditor"
+                          v-model="taskRelease.itemDescription"
                           :options="editorOption"
                           @blur="onEditorBlur($event)"
                           @focus="onEditorFocus($event)"
@@ -144,12 +150,13 @@
                 ref="upload"
                 name="task"
                 :show-upload-list="false"
+                :default-file-list="pcDefaultList"
+                :on-remove="removePcImage"
                 :on-success="pcBabyImgSuccess"
                 :format="['jpg','jpeg','png','gif','bmp']"
                 :max-size="300"
                 :on-format-error="handleFormatError"
                 :on-exceeded-size="handleMaxSize"
-                :on-upload-length="handleUploadLength"
                 type="drag">
                 <div style="width: 58px;height:58px;line-height: 58px;">
                   <Icon type="camera" size="20"></Icon>
@@ -180,7 +187,7 @@
             </div>
             <div class="search-price ml-40 mt-20">
               <span class="required">展示价格：</span>
-              <iInput v-model="PcTaskDetail.searchPagePrice" placeholder="请输入搜索列表页展示价格"
+              <iInput v-model.number="PcTaskDetail.searchPagePrice" placeholder="请输入搜索列表页展示价格"
                       style="width: 160px"></iInput>
               <span class="size-color2">（务必亲自搜索，确认价格准确）</span>
             </div>
@@ -249,12 +256,13 @@
                 ref="upload"
                 :show-upload-list="false"
                 :on-success="appBabyImgSuccess"
+                :default-file-list="appDefaultList"
+                :on-remove="removeAppImage"
                 :format="['jpg','jpeg','png','gif','bmp']"
                 :max-size="300"
                 name="task"
                 :on-format-error="handleFormatError"
                 :on-exceeded-size="handleMaxSize"
-                :on-upload-length="handleUploadLength"
                 type="drag">
                 <div style="width: 58px;height:58px;line-height: 58px;">
                   <Icon type="camera" size="20"></Icon>
@@ -333,9 +341,9 @@
             </div>
             <div class="price-select ml-45 mt-20">
               <span>价格区间：</span>
-              <iInput v-model="AppTaskDetail.priceRangeMin" style="width: 40px"></iInput>
+              <iInput v-model.number="AppTaskDetail.priceRangeMin" style="width: 40px"></iInput>
               <span>---</span>
-              <iInput v-model="AppTaskDetail.priceRangeMax" style="width: 40px"></iInput>
+              <iInput v-model.number="AppTaskDetail.priceRangeMax" style="width: 40px"></iInput>
               <span>元</span>
             </div>
             <div class="deliver-address ml-56 mt-20">
@@ -378,19 +386,26 @@
             × <span>6%</span> = <span>{{(taskRelease.itemPrice * 0.06) | numberFormat(2)}}</span>元（单品推广费超过平台设定的最高上限3.00元，本次实际收取的单品推广费用为3.00元）
           </p>
           <p class="mt-6">
-            总推广费用 = 单品推广费用 × 分数 = <span>{{taskRelease.itemPrice * 0.06 > 3 ? 3 : taskRelease.itemPrice * 0.06}}</span>
+            总推广费用 = 单品推广费用 × 份数 = <span>{{taskRelease.itemPrice * 0.06 > 3 ? 3 : taskRelease.itemPrice * 0.06}}</span>
             × <span>{{taskRelease.taskCount}} = <span>{{AllPromotionExpenses | numberFormat(2)}}</span></span></p>
           <p class="mt-6">
-            总费用 = 试用保证金 + 总推广费用 = <span>{{(taskRelease.taskCount * taskRelease.itemPrice + AllPromotionExpenses) | numberFormat(2)}}</span>元
+            总费用 = 试用保证金 + 总推广费用 = <span>{{orderMoney | numberFormat(2)}}</span>元
           </p>
         </div>
       </div>
-      <div class="pay-info mt-40">
-        您的账户的当前余额为：<span class="second-color">0</span>元，本次总共要支付的金额为：<span
-        class="second-color">{{taskRelease.taskCount * taskRelease.itemPrice + AllPromotionExpenses}}</span>元
+      <div class="pay-info mt-40" v-if="isBalance">
+        本次总共要支付的金额为：<span
+        class="second-color">{{orderMoney | numberFormat(2)}}</span>&nbsp;元。您的账户的当前余额为：<strong>{{userBalance || 0}}</strong>&nbsp;元
+      </div>
+      <div class="pay-info mt-40" v-else>
+        本次总共要支付的金额为：<strong>{{(orderMoney) | numberFormat(2)}}</strong>&nbsp;元。
+        您账户余额为：<strong>{{getBalance || 0}}</strong>&nbsp;元，还需充值：<span
+        class="second-color">{{Math.abs(orderMoney - getBalance)}}</span>&nbsp;元。
+
       </div>
       <div class="description-fees-footer">
-        <span class="pay-btn">确认支付</span>
+        <span class="pay-btn" v-if="isBalance" @click="openRecharge">前去支付</span>
+        <span class="pay-btn" v-else @click="openRecharge">前去充值</span>
         <span class="return" @click="returnUpStep">返回上一步</span>
         <span>试用活动管理</span>
       </div>
@@ -405,6 +420,12 @@
         <router-link to="/user/task-release">点此查看试用活动管理</router-link>
         <span class="ml-20">有问题？联系客服</span>
       </div>
+    </div>
+    <div class="pay-model" v-if="showPayModel">
+      <PayModel :orderMoney="orderMoney" @closeRecharge="closeRecharge">
+        <div slot="noBalance" class="title-tip"><span class="size-color3"><Icon color="#FF2424" size="18px" type="ios-information"></Icon><span class="ml-10">亲，您的余额不足，请充值。</span></span>还需充值 <strong class="size-color3">{{Math.abs(orderMoney - userBalance)}}</strong> 元</div>
+        <div slot="isBalance" class="title-tip"><Icon color="#FF2424" size="18px" type="ios-information"></Icon><span class="ml-10">您本次需要支付金额为 <span class="size-color3">{{orderMoney}}</span> 元。</span></div>
+      </PayModel>
     </div>
   </div>
 </template>
@@ -421,9 +442,11 @@
   import Upload from '@/components/upload'
   import Progress from 'iview/src/components/progress'
   import Steps from 'iview/src/components/steps'
+  import PayModel from '@/components/PayModel'
   import api from '@/config/apiConfig'
   import {aliCallbackImgUrl} from '@/config/env'
   import {TimeToDate, aliUploadImg} from '@/config/utils'
+  import { mapActions } from 'vuex'
 
   export default {
     name: 'TaskReleaseProcess',
@@ -444,7 +467,8 @@
       iProgress: Progress,
       Steps: Steps,
       Step: Steps.Step,
-      OptionGroup: OptionGroup
+      OptionGroup: OptionGroup,
+      PayModel: PayModel
     },
     data() {
       return {
@@ -464,15 +488,13 @@
             ]
           }
         },
-        defaultList: [
-          {
-            'src': 'https://o5wwk8baw.qnssl.com/a42bdcc1178e62b4694c830f028db5c0/avatar'
-          }
-        ],
+        showPayModel: false,
         current: 1,
         stepName: 'information',
         itemCatalogList: [],
-        userBalance: null,
+        mainDefaultList: [],
+        appDefaultList: [],
+        pcDefaultList: [],
         PcTaskDetail: {
           itemMainImage: null,
           searchKeyword: null,
@@ -508,6 +530,7 @@
           itemType: null,
           taskMainImage: null,
           itemUrl: null,
+          storeName: null,
           taskCount: null,
           itemPrice: null,
           pinkage: "true",
@@ -520,7 +543,6 @@
     mounted() {
       let _this = this;
       let imgHandler = async function (image) {
-        console.log(_this.$refs.myTextEditor);
         _this.addImgRange = _this.$refs.myTextEditor.quill.getSelection();
         if (image) {
           let fileInput = document.getElementById(_this.uniqueId);
@@ -532,7 +554,10 @@
     },
     created() {
       this.getItemCatalog();
-      this.getAccountBalance();
+      let taskId = this.$route.query.taskId;
+      if (taskId) {
+        this.getTaskInfo(taskId);
+      }
     },
     computed: {
       /**
@@ -556,13 +581,33 @@
        */
       AllPromotionExpenses: function () {
         return (this.taskRelease.itemPrice * 0.6 > 3 ? 3 : this.taskRelease.itemPrice * 0.6) * this.taskRelease.taskCount
+      },
+      /**
+       * 订单总金额
+       * @return {number}
+       */
+      orderMoney: function () {
+        return this.taskRelease.taskCount * this.taskRelease.itemPrice + this.AllPromotionExpenses
+      },
+      /**
+       * 余额是否足够支付订单金额
+       * @return {boolean}
+       */
+      isBalance: function () {
+        return this.orderMoney <= this.userBalance
+      },
+      /**
+      * 从vuex中获取余额
+      */
+      getBalance: function () {
+        return this.$store.state.userBalance
       }
     },
     methods: {
+      ...mapActions([
+        'getBalance'
+      ]),
       onEditorBlur(editor) {
-        console.log('editor blur!', editor);
-        console.log(editor.container.innerHTML);
-        this.taskRelease.itemDescription = editor.container.innerHTML;
       },
       onEditorFocus(editor) {
       },
@@ -588,11 +633,6 @@
           title: '超出文件大小限制',
           content: '图片 ' + file.name + ' 太大，不能超过 300K'
         });
-      },
-      handleUploadLength(number) {
-        this.$Modal.warning({
-          title: '最多只能上传' + number + '张图片。'
-        })
       },
       stepNext() {
         let _this = this;
@@ -701,9 +741,15 @@
         }
         switch (_this.taskRelease.taskType) {
           case 'pc_search' :
+            _this.PcTaskDetail.searchPagePrice = _this.PcTaskDetail.searchPagePrice * 100;
+            _this.PcTaskDetail.priceRangeMax = _this.PcTaskDetail.priceRangeMax * 100;
+            _this.PcTaskDetail.priceRangeMin = _this.PcTaskDetail.priceRangeMin * 100;
             _this.taskRelease.taskDetail = JSON.stringify(_this.PcTaskDetail);
             break;
           case 'app_search' :
+            _this.AppTaskDetail.searchPagePrice = _this.AppTaskDetail.searchPagePrice * 100;
+            _this.AppTaskDetail.priceRangeMax = _this.AppTaskDetail.priceRangeMax * 100;
+            _this.AppTaskDetail.priceRangeMin = _this.AppTaskDetail.priceRangeMin * 100;
             _this.taskRelease.taskDetail = JSON.stringify(_this.AppTaskDetail);
             break;
           case 'tao_code' :
@@ -717,10 +763,10 @@
           if (res.status) {
             this.nextCurrent();
             _this.stepName = 'deposit';
+          } else {
+            _this.$Message.warning(res.msg);
           }
         });
-        this.nextCurrent();
-        _this.stepName = 'deposit';
       },
       returnUpStep() {
         this.stepName = 'information';
@@ -728,6 +774,44 @@
       },
       nextCurrent() {
         this.current += 1;
+      },
+      getTaskInfo(taskId) {
+        let _this = this;
+        api.getTaskInfo({
+          taskId: taskId
+        }).then(res => {
+          if (res.status) {
+            _this.mainDefaultList.push({src: res.data.taskMainImage});
+            res.data.pinkage = res.data.pinkage.toString();
+            _this.taskRelease.itemType = res.data.itemCatalog.id;
+            for (let k in _this.taskRelease) {
+              for (let i in res.data) {
+                if (k === i) {
+                  _this.taskRelease[k] = res.data[i];
+                }
+              }
+            }
+            _this.taskRelease.itemPrice = _this.taskRelease.itemPrice / 100;
+            _this.taskRelease.taskDetail = {};
+            if (res.data.taskType === 'tao_code') {
+              _this.taoCodeTaskDetail = JSON.parse(res.data.taskDetail);
+            } else if (res.data.taskType === 'pc_search') {
+              _this.PcTaskDetail = JSON.parse(res.data.taskDetail);
+              _this.pcDefaultList.push({src: _this.PcTaskDetail.itemMainImage});
+              _this.PcTaskDetail.searchPagePrice = _this.PcTaskDetail.searchPagePrice / 100;
+              _this.PcTaskDetail.priceRangeMax = _this.PcTaskDetail.priceRangeMax / 100;
+              _this.PcTaskDetail.priceRangeMin = _this.PcTaskDetail.priceRangeMin / 100;
+            } else if (res.data.taskType === 'app_search') {
+              _this.AppTaskDetail = JSON.parse(res.data.taskDetail);
+              _this.appDefaultList.push({src: _this.AppTaskDetail.itemMainImage});
+              _this.AppTaskDetail.searchPagePrice = _this.AppTaskDetail.searchPagePrice / 100;
+              _this.AppTaskDetail.priceRangeMax = _this.AppTaskDetail.priceRangeMax / 100;
+              _this.AppTaskDetail.priceRangeMin = _this.AppTaskDetail.priceRangeMin / 100;
+            } else {
+              _this.taskRelease.taskDetail = {};
+            }
+          }
+        })
       },
       getItemCatalog() {
         let _this = this;
@@ -754,15 +838,20 @@
           vm.$Message.warning('亲，图片上传失败！');
         })
       },
-      getAccountBalance() {
-        let _this = this;
-        api.getAccountBalance().then(res => {
-          if (res.status) {
-            _this.userBalance = res.data;
-          } else {
-            console.log(res.msg)
-          }
-        })
+      removeMainImage() {
+        this.taskRelease.taskMainImage = null;
+      },
+      removeAppImage() {
+        this.AppTaskDetail.itemMainImage = null;
+      },
+      removePcImage() {
+        this.PcTaskDetail.itemMainImage = null;
+      },
+      openRecharge() {
+        this.showPayModel = true;
+      },
+      closeRecharge() {
+        this.showPayModel = false;
       }
     }
   }
@@ -782,6 +871,10 @@
 
   .size-color2 {
     color: #91A2BD;
+  }
+
+  .size-color3 {
+    color: #FF0100;
   }
 
   .task-release-title {
@@ -913,6 +1006,24 @@
 
   .ivu-steps-item {
     line-height: 26px;
+  }
+
+  .pay-model .ivu-radio-wrapper {
+  }
+
+  .pay-model {
+    @include fullScreenModel
+  }
+
+  .title-tip {
+    width: 582px;
+    height: 36px;
+    line-height: 36px;
+    margin: 52px auto 28px auto;
+    color: #000;
+    background-color: #FFF6F3;
+    padding-left: 26px;
+    font-size: 16px;
   }
 
 </style>

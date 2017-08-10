@@ -6,9 +6,10 @@ const Login = r => require.ensure([], () => r(require('../view/Login.vue')), 'Lo
 const Register = r => require.ensure([], () => r(require('../view/Register.vue')), 'Register');
 const TaskCategory = r => require.ensure([], () => r(require('../view/TaskCategory.vue')), 'TaskCategory');
 const MyXiuBa = r => require.ensure([], () => r(require('../view/MyXiuBa/MyXiuBa.vue')), 'MyXiuBa');
-const UserHome = r => require.ensure([], () => r(require('../view/MyXiuBa/children/UserHome.vue')), 'UserHome');
-const PersonalSetting = r => require.ensure([], () => r(require('../view/MyXiuBa/children/PersonalSetting.vue')), 'PersonalSetting');
-const TaskReleaseProcess = r => require.ensure([], () => r(require('../view/MyXiuBa/children/TaskReleaseProcess.vue')), 'TaskReleaseProcess');
+const UserHome = r => require.ensure([], () => r(require('../view/MyXiuBa/children/UserHome.vue')), 'MyXiuBa');
+const PersonalSetting = r => require.ensure([], () => r(require('../view/MyXiuBa/children/PersonalSetting.vue')), 'MyXiuBa');
+const TaskReleaseProcess = r => require.ensure([], () => r(require('../view/MyXiuBa/children/TaskReleaseProcess.vue')), 'MyXiuBa');
+const ActivityManagement = r => require.ensure([], () => r(require('../view/MyXiuBa/children/ActivityManagement.vue')), 'MyXiuBa');
 
 
 Vue.use(Router);
@@ -48,8 +49,14 @@ export default new Router({
         title: "用户注册"
       },
       children: [
-        {path : '/seller-register', name: 'seller'},
-        {path : '/buyer-register', name: 'buyer'},
+        {
+          path : '/seller-register',
+          name: 'seller'
+        },
+        {
+          path : '/buyer-register',
+          name: 'buyer'
+        },
       ]
     },
     {
@@ -82,6 +89,14 @@ export default new Router({
           component: TaskReleaseProcess,
           meta: {
             title: "发布试用活动"
+          }
+        },
+        {
+          path: 'activity-management',
+          name: 'ActivityManagement',
+          component: ActivityManagement,
+          meta: {
+            title: "试用活动管理"
           }
         },
         {

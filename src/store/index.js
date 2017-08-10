@@ -4,19 +4,19 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import mutations from './mutations'
-import action from './action'
+import actions from './action'
 import getters from './getters'
-
 Vue.use(Vuex);
 const state = {
   userInfo: {}, //用户信息
   login: false,//是否登录
-  topShow: true,
+  topShow: true,//头部切换
+  userBalance: 0,//用户账户余额
 };
 
 export default new Vuex.Store({
   state,
   getters,
-  action,
+  actions,
   mutations,
 })

@@ -87,7 +87,7 @@ router.post('/api/login.json', (req, res, next) => {
           if (!err) {
             req.session.userData = userData;
             logConfig.logger.info('用户信息存入redis成功！');
-          }else{
+          } else {
             logConfig.logger.err('用户信息存入redis失败：' + err);
           }
           res.send(parsedBody);
@@ -188,7 +188,7 @@ router.post('/api/check-fast-sign-in.json', function (req, res, next) {
           if (!err) {
             req.session.userData = userData;
             logConfig.logger.info('用户信息存入redis成功！');
-          }else{
+          } else {
             logConfig.logger.err('用户信息存入redis失败：' + err);
           }
           res.send(parsedBody);
@@ -214,11 +214,11 @@ router.post('/api/check-fast-sign-in.json', function (req, res, next) {
  */
 router.post('/api/sign-out.json', (req, res, next) => {
   req.session.destroy(function (err) {
-    if(err){
+    if (err) {
       logConfig.logger.error(err);
       res.json({status: false, msg: "服务器错误"});
       res.end();
-    }else {
+    } else {
       res.json({status: true, msg: "退出登陆成功！"});
       res.end();
     }
@@ -394,8 +394,9 @@ router.post("/api/get-account-balance.json", function (req, res, next) {
  */
 router.post("/api/item-catalog.json", function (req, res, next) {
   let options = {
-    method: 'POST',
+    method: 'GET',
     uri: baseUrl + '/task/get/item/catalog',
+    json: true
   };
   request(options)
     .then(function (parsedBody) {
@@ -406,59 +407,6 @@ router.post("/api/item-catalog.json", function (req, res, next) {
     res.json({status: false, msg: "服务器错误"});
     res.end();
   })
-});
-
-/**
- * 任务发布接口
- * @param taskType
- * @param taskDaysDuration
- * @param onlyShowForQualification
- * @param refuseOldShowker
- * @param taskName
- * @param itemType
- * @param taskMainImage
- * @param itemUrl
- * @param taskCount
- * @param itemPrice
- * @param pinkage
- * @param itemDescription
- * @param userId
- * @param paymentMethod
- * @param taskDetail
- */
-router.post("/api/task-create.json", function (req, res, next) {
-  let options = {
-    method: 'POST',
-    uri: baseUrl + '/task/save',
-    formData: {
-      userId: 182,
-      taskType: req.body.taskType,
-      taskDaysDuration: req.body.taskDaysDuration,
-      onlyShowForQualification: req.body.onlyShowForQualification,
-      refuseOldShowker: req.body.refuseOldShowker,
-      taskName: req.body.taskName,
-      "itemCatalog.id": req.body.itemType,
-      taskMainImage: req.body.taskMainImage,
-      itemUrl: req.body.itemUrl,
-      taskCount: req.body.taskCount,
-      itemPrice: req.body.itemPrice,
-      pinkage: req.body.pinkage,
-      itemDescription: req.body.itemDescription,
-      paymentMethod: req.body.paymentMethod,
-      taskDetail: req.body.taskDetail
-    },
-    json: true,
-  };
-  request(options)
-    .then(function (parsedBody) {
-      res.send(parsedBody);
-      res.end();
-    })
-    .catch(function (err) {
-      logConfig.logger.error(err);
-      res.json({status: false, msg: "服务器错误"});
-      res.end();
-    });
 });
 
 /**
@@ -476,7 +424,7 @@ router.post('/api/alitm-bunding.json', function (req, res, next) {
       alitmAccount: req.body.alitmAccount,
       picUrl: req.body.picUrl
     },
-    json: true,
+    json: true
   };
   request(options).then(function (parsedBody) {
     res.send(parsedBody);
@@ -555,5 +503,138 @@ router.post('/api/alitm/resubmit.json', function (req, res, next) {
     res.end();
   });
 });
+
+/**
+ * 任务发布接口
+ * @param taskType
+ * @param taskDaysDuration
+ * @param onlyShowForQualification
+ * @param refuseOldShowker
+ * @param taskName
+ * @param itemType
+ * @param taskMainImage
+ * @param itemUrl
+ * @param storeName
+ * @param taskCount
+ * @param itemPrice
+ * @param pinkage
+ * @param itemDescription
+ * @param userId
+ * @param paymentMethod
+ * @param taskDetail
+ */
+router.post("/api/task-create.json", function (req, res, next) {
+  let options = {
+    method: 'POST',
+    uri: baseUrl + '/task/save',
+    formData: {
+      userId: req.session.userData.id,
+      taskType: req.body.taskType,
+      taskDaysDuration: req.body.taskDaysDuration,
+      onlyShowForQualification: req.body.onlyShowForQualification,
+      refuseOldShowker: req.body.refuseOldShowker,
+      taskName: req.body.taskName,
+      "itemCatalog.id": req.body.itemType,
+      taskMainImage: req.body.taskMainImage,
+      itemUrl: req.body.itemUrl,
+      storeName: req.body.storeName,
+      taskCount: req.body.taskCount,
+      itemPrice: req.body.itemPrice * 100,
+      pinkage: req.body.pinkage,
+      itemDescription: req.body.itemDescription,
+      paymentMethod: req.body.paymentMethod,
+      taskDetail: req.body.taskDetail
+    },
+    json: true,
+  };
+  request(options)
+    .then(function (parsedBody) {
+      res.send(parsedBody);
+      res.end();
+    })
+    .catch(function (err) {
+      logConfig.logger.error(err);
+      res.json({status: false, msg: "服务器错误"});
+      res.end();
+    });
+});
+
+/**
+ * 试用活动管理接口
+ * @param userId
+ * @param pageIndex
+ * @param pageSize
+ * @param taskStatusList
+ * @param settlementStatusList
+ */
+router.post('/api/task-list.json', function (req, res, next) {
+  let options = {
+    method: 'GET',
+    uri: baseUrl + '/task/list/' + req.session.userData.id + '/' + req.body.pageIndex,
+    qs: {
+      pageSize: req.body.pageSize,
+      taskStatusList: req.body.taskStatusList,
+      settlementStatusList: req.body.settlementStatusList
+    },
+    json: true
+  };
+  request(options)
+    .then(function (parsedBody) {
+      res.send(parsedBody);
+      res.end();
+    })
+    .catch(function (err) {
+      logConfig.logger.error(err);
+      res.json({status: false, msg: "服务器错误"});
+      res.end();
+    });
+});
+
+/**
+ * 任务删除接口
+ * @param userId
+ * @param taskId
+ * */
+router.post('/api/delete-task.json', function (req, res, next) {
+  let options = {
+    method: 'GET',
+    uri: baseUrl + '/task/delete/' + req.session.userData.id + '/' + req.body.taskId,
+    json: true
+  };
+  request(options)
+    .then(function (parsedBody) {
+      res.send(parsedBody);
+      res.end();
+    })
+    .catch(function (err) {
+      logConfig.logger.error(err);
+      res.json({status: false, msg: "服务器错误"});
+      res.end();
+    });
+});
+
+/**
+ * 任务读取接口
+ * @param userId
+ * @param taskId
+ * */
+router.post('/api/get-task.json', function (req, res, next) {
+  let options = {
+    method: 'GET',
+    uri: baseUrl + '/task/get/' + req.session.userData.id + '/' + req.body.taskId,
+    json: true
+  };
+  request(options)
+    .then(function (parsedBody) {
+      res.send(parsedBody);
+      res.end();
+    })
+    .catch(function (err) {
+      logConfig.logger.error(err);
+      res.json({status: false, msg: "服务器错误"});
+      res.end();
+    });
+});
+
 
 module.exports = router;

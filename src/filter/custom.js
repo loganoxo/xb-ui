@@ -4,6 +4,8 @@
 
 /**
  * 格式化时间
+ * timeSpan：要格式化的时间（毫秒数）
+ * format：要格式化的时间格式（YYYY-MM-DD hh:mm:ss）
  */
 const dateFormat = (timeSpan, format) => {
   if (!timeSpan) return;

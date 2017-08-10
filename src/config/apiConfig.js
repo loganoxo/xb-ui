@@ -97,28 +97,48 @@ export default {
   /**
    * 绑定旺旺号
    */
-  wwBind (params) {
-    return fetch("/api/alitm-bunding.json",params)
+  wwBind(params) {
+    return fetch("/api/alitm-bunding.json", params)
   },
 
   /**
    * 获取旺旺信息列表
    */
-  wwBindList () {
+  wwBindList() {
     return fetch("/api/get-alitm-info-list.json")
   },
   /**
    * 解绑旺旺号
    */
-  wwUnbind (params) {
-    return fetch("/api/alitm-unBunding.json",params)
+  wwUnbind(params) {
+    return fetch("/api/alitm-unBunding.json", params)
   },
 
   /**
    * 修改旺旺号
    */
-  wwModify (params) {
-    return fetch("/api/alitm/resubmit.json",params)
+  wwModify(params) {
+    return fetch("/api/alitm/resubmit.json", params)
   },
 
+  /**
+   *获取试用活动管理列表
+   */
+  getTaskList(params) {
+    return fetch("/api/task-list.json", params)
+  },
+
+  /**
+   *试用活动管理任务删除
+   */
+  deleteTask(params) {
+    return fetch("/api/delete-task.json", params)
+  },
+
+  /**
+   *任务数据获取接口
+   */
+  getTaskInfo(params) {
+    return fetch("/api/get-task.json", params)
+  }
 }

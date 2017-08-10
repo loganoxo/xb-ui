@@ -104,12 +104,6 @@
         type: Number,
         default: 1
       },
-      onUploadLength: {
-        type: Function,
-        default() {
-          return {};
-        }
-      },
       beforeUpload: Function,
       onProgress: {
         type: Function,

@@ -1,7 +1,7 @@
 //项目主题颜色
 $mainColor: #ff6633;
 $secondColor: #FF9966;
-//全屏背景-白
+//全屏背景
 @mixin fullScreenModel {
   position: fixed;
   top: 0;
@@ -9,10 +9,11 @@ $secondColor: #FF9966;
   right: 0;
   bottom: 0;
   z-index: 200;
+  background-color: rgba(55,55,55,.6);
 }
 
 //弹框内容框
-@mixin fullScreenModelCon($width, $height, $borderColor, $borderRadius) {
+@mixin fullScreenModelCon($width, $height, $borderColor:#fff, $borderRadius:5px,$backgroundColor:#fff) {
   position: absolute;
   top: 40%;
   left: 50%;
@@ -22,6 +23,7 @@ $secondColor: #FF9966;
   margin-top: -($height/2);
   border: 1px solid $borderColor;
   border-radius: $borderRadius;
+  background-color:$backgroundColor;
 }
 
 // 背景图片地址和大小
