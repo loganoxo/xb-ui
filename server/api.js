@@ -573,8 +573,8 @@ router.post('/api/task-list.json', function (req, res, next) {
     uri: baseUrl + '/task/list/' + req.session.userData.id + '/' + req.body.pageIndex,
     qs: {
       pageSize: req.body.pageSize,
-      taskStatusList: req.body.taskStatusList,
-      settlementStatusList: req.body.settlementStatusList
+      taskStatusListString: req.body.taskStatusList,
+      settlementStatusListString: req.body.settlementStatusList
     },
     json: true
   };

@@ -2,7 +2,7 @@
   <div class="activity-management">
     <div class="activity-title pl-10">试用活动管理</div>
     <div class="activity-title-s pl-10">
-      共<span>2</span>个活动，其中待审核<span>2</span>个，进行中<span>0</span>个，已结束尚未结算<span>0</span>个
+      共<span>{{taskTotalCount}}</span>个活动，其中待审核<span>{{taskWaitingAuditCount}}</span>个，进行中<span>{{taskUnderWayCount}}</span>个，已结束尚未结算<span>{{settlementWaitingAuditCount}}</span>个
     </div>
     <div class="select-status pl-10 clear">
       <div class="left mr-10" style="padding-top: 1px;">
@@ -71,7 +71,7 @@
           <td class="registration">{{item.showkerApplyTotalCount}} / {{item.showkerApplySuccessCount}}（人）</td>
           <td>{{item.taskCount}}</td>
           <td>{{item.pinkage ? (item.itemPrice / 100 + 10) * item.taskCount : item.itemPrice / 100 * item.taskCount}}</td>
-          <td>
+          <td v-if="item.taskStatus !== 'under_way'">
             <p class="del-edit">
               <span class="mr-10" @click="editTask(item.id)">编辑</span>
               <span @click="deleteTask(item.id)">删除</span>
@@ -83,12 +83,17 @@
               <span>复制活动</span>
             </p>
           </td>
+          <td v-else>
+            <p class="bond mt-6">
+              <span>审批秀客</span>
+            </p>
+          </td>
         </tr>
         </tbody>
       </table>
     </div>
     <div class="activity-page mt-20 right mr-10">
-      <Page :total="total" :page-size="pageSize" @on-change="pageChange"></Page>
+      <Page :total="totalElements" :page-size="pageSize" @on-change="pageChange"></Page>
     </div>
     <Modal v-model="deleteModal" width="360">
       <p slot="header" style="color:#f60;text-align:center">
@@ -130,11 +135,15 @@
         deleteModal: false,
         modalLoading: false,
         taskId: null,
-        taskList: [],
+        taskList: null,
         checkAll: false,
         taskStatusList: [],
         settlementStatusList: [],
-        total: 100,
+        taskWaitingAuditCount: null,
+        taskUnderWayCount: null,
+        settlementWaitingAuditCount: null,
+        taskTotalCount: null,
+        totalElements: null,
         pageIndex: 1,
         pageSize: 5
       }
@@ -159,7 +168,11 @@
           pageSize: this.pageSize
         }).then(res => {
           if (res.status) {
-            this.total = res.data.taskTotalCount;
+            this.totalElements = res.data.taskPage.totalElements;
+            this.taskTotalCount = res.data.taskTotalCount;
+            this.taskWaitingAuditCount = res.data.taskWaitingAuditCount;
+            this.taskUnderWayCount = res.data.taskUnderWayCount;
+            this.settlementWaitingAuditCount = res.data.settlementWaitingAuditCount;
             this.taskList = res.data.taskPage.content;
           }
         })
