@@ -12,7 +12,8 @@ const needLogInList = [
   "/api/task-create.json",
   "/api/task-list.json",
   "/api/delete-task.json",
-  "/api/get-task.json"
+  "/api/get-task.json",
+  "/api/pay-by-balance.json"
 ];
 
 module.exports = needLogInList;

@@ -9,7 +9,7 @@
     </div>
     <div class="hasBalance ml-80 mt-40" v-if="isBalance">
       <span class="input-pay-pwd">请输入支付密码：</span>
-      <iInput v-model="payPassword" style="width: 200px"></iInput>
+      <iInput v-model.number="payPassword" type="password" style="width: 200px"></iInput>
     </div>
     <div class="select-pay-type ml-56 clear" v-else>
       <span class="left mt-8">请选择支付方式：</span>
@@ -22,7 +22,7 @@
         </Radio>
       </Radio-group>
     </div>
-    <div class="recharge-btn" v-if="isBalance">{{payButtonText}}</div>
+    <div class="recharge-btn" v-if="isBalance" @click="confirmPayment">{{payButtonText}}</div>
     <div class="recharge-btn" v-else>{{rechargeButtonText}}</div>
   </div>
 </template>
@@ -31,10 +31,11 @@
   import Input from 'iview/src/components/input'
   import Radio from 'iview/src/components/radio'
   import api from '@/config/apiConfig'
+
   export default {
     name: 'PayModel',
     components: {
-      iInput:Input,
+      iInput: Input,
       Radio: Radio,
       RadioGroup: Radio.Group,
     },
@@ -51,6 +52,12 @@
       rechargeButtonText: {
         type: String,
         default: '立即充值'
+      },
+      onSuccess:{
+        type: Function,
+        default() {
+          return {};
+        }
       }
     },
     data() {
@@ -67,15 +74,23 @@
     },
     computed: {
       userBalance: function () {
-        return this.$store.state.userBalance
+        return this.$store.state.userBalance / 100
       },
       isBalance: function () {
-        return this.orderMoney <= this.userBalance;
-      }
+        return this.orderMoney <= this.userBalance
+      },
     },
     methods: {
-      closeRecharge(){
+      closeRecharge() {
         this.$emit('closeRecharge');
+      },
+      confirmPayment() {
+        api.payByBalance({
+          fee:this.orderMoney,
+          payPassword:this.payPassword
+        }).then(res => {
+          this.onSuccess(res)
+        })
       }
     }
   }
@@ -84,6 +99,7 @@
 <style lang="scss" scoped>
   @import 'src/css/common';
   @import 'src/css/mixin';
+
   .pay-model-con {
     @include fullScreenModelCon(630px, 298px);
     .select-pay-type {

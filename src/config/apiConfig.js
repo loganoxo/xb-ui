@@ -81,6 +81,13 @@ export default {
   },
 
   /**
+   *用户余额支付
+   */
+  payByBalance(params) {
+    return fetch("/api/pay-by-balance.json", params)
+  },
+
+  /**
    *实名认证初始化
    */
   verifiedInit() {

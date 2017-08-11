@@ -98,7 +98,7 @@
           </div>
           <div class="baby-price ml-45 mt-20">
             <span class="required">宝贝单价：</span>
-            <iInput v-model="taskRelease.itemPrice" placeholder="请输入宝贝单价" style="width: 120px"></iInput>
+            <iInput v-model.number="taskRelease.itemPrice" placeholder="请输入宝贝单价" style="width: 120px"></iInput>
             <span>元</span>
             <p class="size-color pl-60 mt-8">试用活动期间，商家不允许修改下单页商品信息，经核查属实，本平台有权将试用担保金返还已获得资格的试客，商家账号按相应规则处罚</p>
           </div>
@@ -373,15 +373,15 @@
       <div class="deposits-received-title mt-20 mb-20">试用活动信息已成功保存，请您存入本次活动的试用担保金。</div>
       <div class="deposits-received-info">
         您现在为 <span class="second-color">{{taskRelease.taskName}}</span> 存入试用担保金 <span
-        class="second-color">{{taskRelease.taskCount * taskRelease.itemPrice}}</span>
+        class="second-color">{{taskRelease.taskCount * oneBond}}</span>
         元，此笔款项将作为发布试用活动诚信担保的重要工具，待试客完成试用流程后将返还给每个试客 <span class="second-color">{{taskRelease.itemPrice}}</span> 元.
       </div>
       <div class="description-fees mt-40">
         <h3>费用说明：</h3>
         <div class="description-fees-con mt-10">
-          <p>试用担保金 = 分数 × 单品试用担保金 = <span>{{taskRelease.taskCount}}</span>
-            × <span>{{taskRelease.itemPrice | numberFormat(2)}}</span>
-            = <span>{{(taskRelease.taskCount * taskRelease.itemPrice) | numberFormat(2)}}</span>元</p>
+          <p>试用担保金 = 份数 × 单品试用担保金 = <span>{{taskRelease.taskCount}}</span>
+            × <span>{{oneBond | numberFormat(2)}}</span>
+            = <span>{{(taskRelease.taskCount * oneBond) | numberFormat(2)}}</span>元</p>
           <p class="mt-6">单品推广费 = 单品试用担保金 × 费率 = <span>{{taskRelease.itemPrice | numberFormat(2)}}</span>
             × <span>6%</span> = <span>{{(taskRelease.itemPrice * 0.06) | numberFormat(2)}}</span>元（单品推广费超过平台设定的最高上限3.00元，本次实际收取的单品推广费用为3.00元）
           </p>
@@ -395,19 +395,19 @@
       </div>
       <div class="pay-info mt-40" v-if="isBalance">
         本次总共要支付的金额为：<span
-        class="second-color">{{orderMoney | numberFormat(2)}}</span>&nbsp;元。您的账户的当前余额为：<strong>{{userBalance || 0}}</strong>&nbsp;元
+        class="second-color">{{orderMoney | numberFormat(2)}}</span>&nbsp;元。您的账户的当前余额为：<strong>{{getUserBalance || 0}}</strong>&nbsp;元
       </div>
       <div class="pay-info mt-40" v-else>
         本次总共要支付的金额为：<strong>{{(orderMoney) | numberFormat(2)}}</strong>&nbsp;元。
-        您账户余额为：<strong>{{getBalance || 0}}</strong>&nbsp;元，还需充值：<span
-        class="second-color">{{Math.abs(orderMoney - getBalance)}}</span>&nbsp;元。
+        您账户余额为：<strong>{{getUserBalance || 0}}</strong>&nbsp;元，还需充值：<span
+        class="second-color">{{Math.abs(getUserBalance - orderMoney)}}</span>&nbsp;元。
 
       </div>
       <div class="description-fees-footer">
         <span class="pay-btn" v-if="isBalance" @click="openRecharge">前去支付</span>
         <span class="pay-btn" v-else @click="openRecharge">前去充值</span>
         <span class="return" @click="returnUpStep">返回上一步</span>
-        <span>试用活动管理</span>
+        <router-link to="/user/activity-management">试用活动管理</router-link>
       </div>
     </div>
     <div class="audit" v-show="stepName === 'audit'">
@@ -422,9 +422,13 @@
       </div>
     </div>
     <div class="pay-model" v-if="showPayModel">
-      <PayModel :orderMoney="orderMoney" @closeRecharge="closeRecharge">
-        <div slot="noBalance" class="title-tip"><span class="size-color3"><Icon color="#FF2424" size="18px" type="ios-information"></Icon><span class="ml-10">亲，您的余额不足，请充值。</span></span>还需充值 <strong class="size-color3">{{Math.abs(orderMoney - userBalance)}}</strong> 元</div>
-        <div slot="isBalance" class="title-tip"><Icon color="#FF2424" size="18px" type="ios-information"></Icon><span class="ml-10">您本次需要支付金额为 <span class="size-color3">{{orderMoney}}</span> 元。</span></div>
+      <PayModel :orderMoney="orderMoney" @closeRecharge="closeRecharge" :on-success="paySuccess">
+        <div slot="noBalance" class="title-tip"><span class="size-color3"><Icon color="#FF2424" size="18px" type="ios-information"></Icon><span
+          class="ml-10">亲，您的余额不足，请充值。</span></span>还需充值<strong class="size-color3">{{Math.abs(getUserBalance - orderMoney)}}</strong>元
+        </div>
+        <div slot="isBalance" class="title-tip">
+          <Icon color="#FF2424" size="18px" type="ios-information"></Icon>
+          <span class="ml-10">您本次需要支付金额为 <span class="size-color3">{{orderMoney}}</span> 元。</span></div>
       </PayModel>
     </div>
   </div>
@@ -446,7 +450,7 @@
   import api from '@/config/apiConfig'
   import {aliCallbackImgUrl} from '@/config/env'
   import {TimeToDate, aliUploadImg} from '@/config/utils'
-  import { mapActions } from 'vuex'
+  import {mapActions} from 'vuex'
 
   export default {
     name: 'TaskReleaseProcess',
@@ -576,31 +580,38 @@
         }
       },
       /**
+       * 单品试用担保金
+       * @return {number}
+       */
+      oneBond: function () {
+        return this.taskRelease.pinkage === 'true' ? this.taskRelease.itemPrice : this.taskRelease.itemPrice + 10
+      },
+      /**
        * 总推广费用
        * @return {number}
        */
       AllPromotionExpenses: function () {
-        return (this.taskRelease.itemPrice * 0.6 > 3 ? 3 : this.taskRelease.itemPrice * 0.6) * this.taskRelease.taskCount
+        return this.taskRelease.itemPrice * 0.6 > 3 ? 3 : this.taskRelease.itemPrice * 0.6 * this.taskRelease.taskCount
       },
       /**
        * 订单总金额
        * @return {number}
        */
       orderMoney: function () {
-        return this.taskRelease.taskCount * this.taskRelease.itemPrice + this.AllPromotionExpenses
+        return this.taskRelease.taskCount * this.oneBond + this.AllPromotionExpenses
       },
       /**
        * 余额是否足够支付订单金额
        * @return {boolean}
        */
       isBalance: function () {
-        return this.orderMoney <= this.userBalance
+        return this.orderMoney <= this.getUserBalance
       },
       /**
-      * 从vuex中获取余额
-      */
-      getBalance: function () {
-        return this.$store.state.userBalance
+       * 从vuex中获取余额
+       */
+      getUserBalance: function () {
+        return this.$store.state.userBalance / 100
       }
     },
     methods: {
@@ -764,7 +775,7 @@
             this.nextCurrent();
             _this.stepName = 'deposit';
           } else {
-            _this.$Message.warning(res.msg);
+            _this.$Message.error(res.msg);
           }
         });
       },
@@ -852,7 +863,24 @@
       },
       closeRecharge() {
         this.showPayModel = false;
-      }
+      },
+      paySuccess(res) {
+        if(res.status){
+          this.getBalance();
+          this.showPayModel = false;
+          this.$Message.success({
+            content:'支付成功！',
+            duration: 6
+          });
+          this.nextCurrent();
+          this.stepName = 'audit';
+        }else{
+          this.$Message.error({
+            content:res.msg,
+            duration: 6
+          })
+        }
+      },
     }
   }
 </script>

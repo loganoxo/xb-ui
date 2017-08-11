@@ -1,113 +1,154 @@
 <template>
   <div class="activity-management">
-    <div class="activity-title pl-10">试用活动管理</div>
-    <div class="activity-title-s pl-10">
-      共<span>{{taskTotalCount}}</span>个活动，其中待审核<span>{{taskWaitingAuditCount}}</span>个，进行中<span>{{taskUnderWayCount}}</span>个，已结束尚未结算<span>{{settlementWaitingAuditCount}}</span>个
+    <div v-show="showContent === 'manage'">
+      <div class="activity-title pl-10">试用活动管理</div>
+      <div class="activity-title-s pl-10">
+        共<span>{{taskTotalCount}}</span>个活动，其中待审核<span>{{taskWaitingAuditCount}}</span>个，进行中<span>{{taskUnderWayCount}}</span>个，已结束尚未结算<span>{{settlementWaitingAuditCount}}</span>个
+      </div>
+      <div class="select-status pl-10 clear">
+        <div class="left mr-10" style="padding-top: 1px;">
+          <Checkbox
+            :value="checkAll"
+            @click.prevent.native="handleCheckAll">所有状态
+          </Checkbox>
+        </div>
+        <div class="left">
+          <Checkbox-group v-model="taskStatusList" @on-change="checkAllGroupChange">
+            <Checkbox label="waiting_pay">
+              <span>待付款</span>
+            </Checkbox>
+            <Checkbox label="waiting_audit">
+              <span>待审核</span>
+            </Checkbox>
+            <Checkbox label="waiting_modify">
+              <span>待修改</span>
+            </Checkbox>
+            <Checkbox label="under_way">
+              <span>进行中</span>
+            </Checkbox>
+            <Checkbox label="finished">
+              <span>已结束</span>
+            </Checkbox>
+          </Checkbox-group>
+        </div>
+        <div class="left">
+          <Checkbox-group v-model="settlementStatusList" @on-change="checkAllGroupChange">
+            <Checkbox label="waiting_settlement">
+              <span>待申请结算</span>
+            </Checkbox>
+            <Checkbox label="waiting_audit">
+              <span>结算待审核</span>
+            </Checkbox>
+            <Checkbox label="settlement_finished">
+              <span>已结算</span>
+            </Checkbox>
+          </Checkbox-group>
+        </div>
+      </div>
+      <div class="activity-table">
+        <table>
+          <thead>
+          <tr>
+            <th width="20%">活动标题</th>
+            <th width="20%">活动开始/结束时间</th>
+            <th width="12%">活动状态</th>
+            <th width="12%">报名/已通过</th>
+            <th width="12%">可审批名额</th>
+            <th width="12%">存入担保金</th>
+            <th width="12%">操作</th>
+          </tr>
+          </thead>
+          <tbody v-for="item in taskList" :key="item.id">
+          <tr>
+            <td>
+              <img class="left ml-10" :src="item.taskMainImage" :alt="item.taskName">
+              <span class="img-title left">{{item.taskName}}</span>
+            </td>
+            <td>
+              <p>{{item.upLineTime | dateFormat('YYYY-MM-DD hh:mm:ss') || '----'}}</p>
+              <p class="mt-10">
+                {{(item.upLineTime ? item.upLineTime + item.taskDaysDuration * 3600 * 24 : item.upLineTime) | dateFormat('YYYY-MM-DD hh:mm:ss') || '----'}}</p>
+            </td>
+            <td>{{item.taskStatusDesc}}</td>
+            <td class="registration">{{item.showkerApplyTotalCount}} / {{item.showkerApplySuccessCount}}（人）</td>
+            <td>{{item.taskCount}}</td>
+            <td>
+              {{!item.pinkage ? (item.itemPrice / 100 + 10) * item.taskCount : item.itemPrice / 100 * item.taskCount}}
+            </td>
+            <td v-if="item.taskStatus !== 'under_way'">
+              <p class="del-edit">
+                <span class="mr-10" @click="editTask(item.id)">编辑</span>
+                <span @click="deleteTask(item.id)">删除</span>
+              </p>
+              <p class="bond mt-6">
+                <span>存担保金</span>
+              </p>
+              <p class="copy mt-6">
+                <span>复制活动</span>
+              </p>
+            </td>
+            <td v-else>
+              <p class="bond mt-6">
+                <span>审批秀客</span>
+              </p>
+            </td>
+          </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="activity-page mt-20 right mr-10">
+        <Page :total="totalElements" :page-size="pageSize" @on-change="pageChange"></Page>
+      </div>
+      <Modal v-model="deleteModal" width="360">
+        <p slot="header" style="color:#f60;text-align:center">
+          <Icon type="information-circled"></Icon>
+          <span>删除确认</span>
+        </p>
+        <div style="text-align:center">
+          <p>此任务删除后，任务将无法执行。</p>
+          <p>是否继续删除？</p>
+        </div>
+        <div slot="footer">
+          <iButton type="error" size="large" long :loading="modalLoading" @click="confirmDelete">删除</iButton>
+        </div>
+      </Modal>
     </div>
-    <div class="select-status pl-10 clear">
-      <div class="left mr-10" style="padding-top: 1px;">
-        <Checkbox
-          :value="checkAll"
-          @click.prevent.native="handleCheckAll">所有状态
-        </Checkbox>
-      </div>
-      <div class="left">
-        <Checkbox-group v-model="taskStatusList" @on-change="checkAllGroupChange">
-          <Checkbox label="waiting_pay">
-            <span>待付款</span>
-          </Checkbox>
-          <Checkbox label="waiting_audit">
-            <span>待审核</span>
-          </Checkbox>
-          <Checkbox label="waiting_modify">
-            <span>待修改</span>
-          </Checkbox>
-          <Checkbox label="under_way">
-            <span>进行中</span>
-          </Checkbox>
-          <Checkbox label="finished">
-            <span>已结束</span>
-          </Checkbox>
-        </Checkbox-group>
-      </div>
-      <div class="left">
-        <Checkbox-group v-model="settlementStatusList" @on-change="checkAllGroupChange">
-          <Checkbox label="waiting_settlement">
-            <span>待申请结算</span>
-          </Checkbox>
-          <Checkbox label="waiting_audit">
-            <span>结算待审核</span>
-          </Checkbox>
-          <Checkbox label="settlement_finished">
-            <span>已结算</span>
-          </Checkbox>
-        </Checkbox-group>
+    <div v-show="showContent === 'approve'">
+      <div class="activity-title pl-10">审批秀客</div>
+      <div class="approve-manage-info mt-12">
+        <div class="manage-info-con clear">
+          <div class="manage-img left">
+            <img src="" alt="">
+          </div>
+          <div class="manage-text left ml-5">
+            <p>宠物狗衣服狗狗猫咪衣服棉袜狗脚</p>
+            <p class="mt-15">总份数<strong>&nbsp;2&nbsp;</strong>，<strong>&nbsp;0&nbsp;</strong>人正在参与试用，<strong>&nbsp;0&nbsp;</strong>人完成试用，剩余名额 <strong>&nbsp;2&nbsp;</strong>
+              个</p>
+          </div>
+        </div>
+        <div class="approve-list mt-20">
+          <div class="approve-list-title">
+            <span :class="{isSelect:showApproveStatus === 'awaitApprove'}"
+                  @click="changeTitle('awaitApprove')">待审批</span>
+            <span :class="{isSelect:showApproveStatus === 'pass'}" @click="changeTitle('pass')">已通过</span>
+            <span :class="{isSelect:showApproveStatus === 'termination'}" @click="changeTitle('termination')">已终止</span>
+          </div>
+          <div class="await-approve" v-show="showApproveStatus === 'awaitApprove'">
+            <div class="mt-20">
+              <iSelect v-model="shokeyName" style="width: 120px;margin-right: 12px;">
+
+              </iSelect>
+              <iInput v-model="searchValue" style="width: 160px;margin-right: 8px;"></iInput>
+              <iButton type="primary">搜索</iButton>
+              <div class="clear">
+              <!--  <Table :columns="columnsTableData" :data="tableListData"></Table>-->
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
-    <div class="activity-table">
-      <table>
-        <thead>
-        <tr>
-          <th width="20%">活动标题</th>
-          <th width="20%">活动开始/结束时间</th>
-          <th width="12%">活动状态</th>
-          <th width="12%">报名/已通过</th>
-          <th width="12%">可审批名额</th>
-          <th width="12%">存入担保金</th>
-          <th width="12%">操作</th>
-        </tr>
-        </thead>
-        <tbody v-for="item in taskList" :key="item.id">
-        <tr>
-          <td>
-            <img class="left ml-10" :src="item.taskMainImage" :alt="item.taskName">
-            <span class="img-title left">{{item.taskName}}</span>
-          </td>
-          <td>
-            <p>{{item.upLineTime | dateFormat('YYYY-MM-DD hh:mm:ss') || '----'}}</p>
-            <p class="mt-10">{{(item.upLineTime ? item.upLineTime + item.taskDaysDuration * 3600 * 24 : item.upLineTime) | dateFormat('YYYY-MM-DD hh:mm:ss') || '----'}}</p>
-          </td>
-          <td>{{item.taskStatusDesc}}</td>
-          <td class="registration">{{item.showkerApplyTotalCount}} / {{item.showkerApplySuccessCount}}（人）</td>
-          <td>{{item.taskCount}}</td>
-          <td>{{item.pinkage ? (item.itemPrice / 100 + 10) * item.taskCount : item.itemPrice / 100 * item.taskCount}}</td>
-          <td v-if="item.taskStatus !== 'under_way'">
-            <p class="del-edit">
-              <span class="mr-10" @click="editTask(item.id)">编辑</span>
-              <span @click="deleteTask(item.id)">删除</span>
-            </p>
-            <p class="bond mt-6">
-              <span>存担保金</span>
-            </p>
-            <p class="copy mt-6">
-              <span>复制活动</span>
-            </p>
-          </td>
-          <td v-else>
-            <p class="bond mt-6">
-              <span>审批秀客</span>
-            </p>
-          </td>
-        </tr>
-        </tbody>
-      </table>
-    </div>
-    <div class="activity-page mt-20 right mr-10">
-      <Page :total="totalElements" :page-size="pageSize" @on-change="pageChange"></Page>
-    </div>
-    <Modal v-model="deleteModal" width="360">
-      <p slot="header" style="color:#f60;text-align:center">
-        <Icon type="information-circled"></Icon>
-        <span>删除确认</span>
-      </p>
-      <div style="text-align:center">
-        <p>此任务删除后，任务将无法执行。</p>
-        <p>是否继续删除？</p>
-      </div>
-      <div slot="footer">
-        <iButton type="error" size="large" long :loading="modalLoading" @click="confirmDelete">删除</iButton>
-      </div>
-    </Modal>
+    <div v-show="showContent === 'report'"></div>
   </div>
 </template>
 
@@ -118,6 +159,8 @@
   import Modal from 'iview/src/components/modal'
   import Icon from 'iview/src/components/icon'
   import Button from 'iview/src/components/button'
+  import Input from 'iview/src/components/input'
+  import {Select, Option, OptionGroup} from 'iview/src/components/select'
   import api from '@/config/apiConfig'
 
   export default {
@@ -128,10 +171,17 @@
       Page: Page,
       Modal: Modal,
       iButton: Button,
-      Icon: Icon
+      Icon: Icon,
+      iInput: Input,
+      iSelect: Select,
+      iOption: Option,
+      OptionGroup: OptionGroup,
+      iTable: Table
     },
     data() {
       return {
+        showContent: 'manage',
+        showApproveStatus: 'awaitApprove',
         deleteModal: false,
         modalLoading: false,
         taskId: null,
@@ -145,7 +195,24 @@
         taskTotalCount: null,
         totalElements: null,
         pageIndex: 1,
-        pageSize: 5
+        pageSize: 5,
+        shokeyName: null,
+        searchValue: null,
+        columnsTableData: [
+          {
+            title: '姓名',
+            key: 'name'
+          },
+          {
+            title: '年龄',
+            key: 'age'
+          },
+          {
+            title: '地址',
+            key: 'address'
+          }
+        ],
+        tableListData:null
       }
     },
     mounted() {
@@ -153,9 +220,7 @@
     created() {
       this.getTaskList();
     },
-    computed: {
-
-    },
+    computed: {},
     methods: {
       editTask(id) {
         this.$router.push({name: 'TaskReleaseProcess', query: {taskId: id}})
@@ -192,9 +257,9 @@
             _this.modalLoading = false;
             setTimeout(function () {
               _this.$Message.success('任务删除成功');
-            },500);
+            }, 500);
             _this.getTaskList();
-          }else{
+          } else {
             _this.deleteModal = false;
             _this.modalLoading = false;
             _this.$Message.error("抱歉，任务删除失败！");
@@ -225,6 +290,9 @@
           this.checkAll = false;
         }
         this.getTaskList();
+      },
+      changeTitle(type) {
+        this.showApproveStatus = type;
       }
     }
   }
@@ -333,5 +401,39 @@
         background-color: darken(#2b85e4, 10%);
       }
     }
+    .approve-manage-info {
+      height: 88px;
+      background-color: #F8F8F8;
+      border: 1px solid #F4F4F4;
+    }
+    .manage-img img {
+      @include wh(54px, 54px)
+    }
+    .manage-info-con {
+      padding: 15px 0 15px 10px;
+    }
+    .manage-text {
+      color: #000;
+      strong {
+        color: $mainColor;
+      }
+    }
+    .approve-list-title {
+      height: 32px;
+      border-bottom: 2px solid $mainColor;
+      span {
+        display: inline-block;
+        line-height: 32px;
+        @include sc(14px, #000);
+        width: 114px;
+        text-align: center;
+        cursor: pointer;
+      }
+      .isSelect {
+        background-color: $mainColor;
+        color: #fff;
+      }
+    }
+
   }
 </style>

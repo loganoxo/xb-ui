@@ -36,7 +36,7 @@ redisClient.on('error', function (res) {
 });
 
 /**
- * 获取阿里云临时token接口
+ * 获取阿里云临时token
  * @param Action
  * @param RoleArn
  * @param RoleSessionName
@@ -64,7 +64,7 @@ router.get('/api/ali-token.json', (req, res, next) => {
 });
 
 /**
- * 用户登陆接口
+ * 用户登陆
  * @param phone
  * @param passWord
  * @param role
@@ -105,7 +105,7 @@ router.post('/api/login.json', (req, res, next) => {
 });
 
 /**
- * 首页导航接口
+ * 首页导航
  */
 router.post('/api/task/search/item/catalog/main.json', (req, res, next) => {
   let options = {
@@ -125,7 +125,7 @@ router.post('/api/task/search/item/catalog/main.json', (req, res, next) => {
 });
 
 /**
- * 首页试用任务展示接口
+ * 首页试用任务展示
  */
 router.post('/api/task/search/index/newest.json', (req, res, next) => {
   let options = {
@@ -210,7 +210,7 @@ router.post('/api/check-fast-sign-in.json', function (req, res, next) {
 });
 
 /**
- * 用户登出接口
+ * 用户退出登录
  */
 router.post('/api/sign-out.json', (req, res, next) => {
   req.session.destroy(function (err) {
@@ -226,7 +226,7 @@ router.post('/api/sign-out.json', (req, res, next) => {
 });
 
 /**
- * 用户注册接口
+ * 用户注册
  * @param phone
  * @param pwd
  * @param repwd
@@ -264,7 +264,7 @@ router.post('/api/sign-up.json', function (req, res, next) {
 });
 
 /**
- * 生成图形验证码接口
+ * 生成图形验证码
  */
 router.get("/api/vrcode.json", (req, res, next) => {
   let vrCode = parseInt(Math.random() * 9000 + 1000);
@@ -280,7 +280,7 @@ router.get("/api/vrcode.json", (req, res, next) => {
 });
 
 /**
- * 发送手机验证码接口
+ * 发送手机验证码
  * @param phone
  * @param purpose 'fast': 快速登录，'reg': 注册
  */
@@ -366,7 +366,7 @@ router.post('/api/identity-index.json', function (req, res, next) {
 });
 
 /**
- * 获取账户余额
+ * 用户账户余额
  * @param userId
  */
 router.post("/api/get-account-balance.json", function (req, res, next) {
@@ -388,7 +388,38 @@ router.post("/api/get-account-balance.json", function (req, res, next) {
 });
 
 /**
- * 获取商品类型接口
+ * 用户通过余额支付订单
+ * @param userId
+ * @param fee
+ * @param payPassword
+ * @param platform
+ */
+router.post("/api/pay-by-balance.json",function (req, res, next) {
+  let options = {
+    method: 'POST',
+    uri: baseUrl + '/user/account/pay-by-account-balance',
+    formData: {
+      fee: req.body.fee,
+      uid: req.session.userData.id,
+      payPwd: req.body.payPassword,
+      platform:'PC'
+    },
+    json: true
+  };
+  request(options)
+    .then(function (parsedBody) {
+      res.send(parsedBody);
+      res.end();
+    })
+    .catch(function (err) {
+      logConfig.logger.error(err);
+      res.json({status: false, msg: "服务器错误"});
+      res.end();
+    });
+});
+
+/**
+ * 获取商品类型
  * @param phone
  * @param smsCode
  */
@@ -505,7 +536,7 @@ router.post('/api/alitm/resubmit.json', function (req, res, next) {
 });
 
 /**
- * 任务发布接口
+ * 用户任务发布
  * @param taskType
  * @param taskDaysDuration
  * @param onlyShowForQualification
@@ -560,7 +591,7 @@ router.post("/api/task-create.json", function (req, res, next) {
 });
 
 /**
- * 试用活动管理接口
+ * 用户试用活动管理
  * @param userId
  * @param pageIndex
  * @param pageSize
@@ -591,7 +622,7 @@ router.post('/api/task-list.json', function (req, res, next) {
 });
 
 /**
- * 任务删除接口
+ * 用户任务删除
  * @param userId
  * @param taskId
  * */
@@ -614,7 +645,7 @@ router.post('/api/delete-task.json', function (req, res, next) {
 });
 
 /**
- * 任务读取接口
+ * 用户任务读取
  * @param userId
  * @param taskId
  * */
