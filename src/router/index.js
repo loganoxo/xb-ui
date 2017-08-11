@@ -5,6 +5,7 @@ const SelRole = r => require.ensure([], () => r(require('../view/SelRole.vue')),
 const Login = r => require.ensure([], () => r(require('../view/Login.vue')), 'Login');
 const Register = r => require.ensure([], () => r(require('../view/Register.vue')), 'Register');
 const TaskCategory = r => require.ensure([], () => r(require('../view/TaskCategory.vue')), 'TaskCategory');
+const TaskDetails = r => require.ensure([], () => r(require('../view/TaskDetails.vue')), 'TaskDetails');
 const MyXiuBa = r => require.ensure([], () => r(require('../view/MyXiuBa/MyXiuBa.vue')), 'MyXiuBa');
 const UserHome = r => require.ensure([], () => r(require('../view/MyXiuBa/children/UserHome.vue')), 'MyXiuBa');
 const PersonalSetting = r => require.ensure([], () => r(require('../view/MyXiuBa/children/PersonalSetting.vue')), 'MyXiuBa');
@@ -65,6 +66,14 @@ export default new Router({
       component: TaskCategory,
       meta: {
         title: "任务分类展示"
+      }
+    },
+    {
+      path: '/task-details',
+      name: 'task-details',
+      component: TaskDetails,
+      meta: {
+        title: "任务详情页"
       }
     },
     {

@@ -597,8 +597,6 @@
 <style lang="scss" scoped>
   @import 'src/css/common';
   @import 'src/css/mixin';
-
-
   .breadcrumb{
     height: 36px;
     background-color: #fff;
@@ -617,7 +615,7 @@
       a{
         display: inline-block;
         font-size: 14px;
-        padding: 0 15px;
+        padding: 0 13px;
         color: #000;
       }
     }

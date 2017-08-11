@@ -86,7 +86,7 @@
           <div class="right-ctt">
             <div class="login-up-box" v-show="!isLogin">
               <div>
-                <img src="~assets/img/home/home_24.png" alt="">
+                <img src="~assets/img/common/home_24.png" alt="">
                 <p>hi，你还没登录哦~</p>
               </div>
               <div class="mt-10">
@@ -96,7 +96,7 @@
             </div>
             <div class="login-up-box" v-show="isLogin">
               <div>
-                <img src="~assets/img/home/home_24.png" alt="">
+                <img src="~assets/img/common/home_24.png" alt="">
                 <p>{{getUserInfo.phone}}</p>
               </div>
               <div class="mt-10 text-ct">
