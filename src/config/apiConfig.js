@@ -143,9 +143,23 @@ export default {
   },
 
   /**
-   *任务数据获取接口
+   *任务数据获取
    */
   getTaskInfo(params) {
     return fetch("/api/get-task.json", params)
-  }
+  },
+
+  /**
+   *获取审批秀客列表
+   */
+  getTaskApplyList(params) {
+    return fetch("/api/get-task-apply-list.json", params)
+  },
+
+  /**
+   *审核秀客是否通过
+   */
+  setTaskShoukeAudit(params) {
+    return fetch("/api/set-task-showke-audit", params)
+  },
 }

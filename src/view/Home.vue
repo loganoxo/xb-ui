@@ -620,10 +620,8 @@
 </script>
 
 <style lang="scss" scoped>
-  @import 'src/css/common';
+
   @import 'src/css/mixin';
-
-
 
   .home-ctt {
     background-color: #F1F1F1;

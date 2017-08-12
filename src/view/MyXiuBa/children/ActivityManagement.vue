@@ -1,9 +1,10 @@
 <template>
   <div class="activity-management">
+    <!--活动管理-->
     <div v-show="showContent === 'manage'">
       <div class="activity-title pl-10">试用活动管理</div>
       <div class="activity-title-s pl-10">
-        共<span>{{taskTotalCount}}</span>个活动，其中待审核<span>{{taskWaitingAuditCount}}</span>个，进行中<span>{{taskUnderWayCount}}</span>个，已结束尚未结算<span>{{settlementWaitingAuditCount}}</span>个
+        共<span>{{taskData.taskTotalCount}}</span>个活动，其中待审核<span>{{taskData.taskWaitingAuditCount}}</span>个，进行中<span>{{taskData.taskUnderWayCount}}</span>个，已结束尚未结算<span>{{taskData.settlementWaitingAuditCount}}</span>个
       </div>
       <div class="select-status pl-10 clear">
         <div class="left mr-10" style="padding-top: 1px;">
@@ -67,7 +68,8 @@
             <td>
               <p>{{item.upLineTime | dateFormat('YYYY-MM-DD hh:mm:ss') || '----'}}</p>
               <p class="mt-10">
-                {{(item.upLineTime ? item.upLineTime + item.taskDaysDuration * 3600 * 24 : item.upLineTime) | dateFormat('YYYY-MM-DD hh:mm:ss') || '----'}}</p>
+                {{(item.upLineTime ? (item.upLineTime + item.taskDaysDuration * 3600 * 24) : item.upLineTime) | dateFormat('YYYY-MM-DD hh:mm:ss')}}
+              </p>
             </td>
             <td>{{item.taskStatusDesc}}</td>
             <td class="registration">{{item.showkerApplyTotalCount}} / {{item.showkerApplySuccessCount}}（人）</td>
@@ -89,7 +91,7 @@
             </td>
             <td v-else>
               <p class="bond mt-6">
-                <span>审批秀客</span>
+                <span @click="approveGuest(item.id)">审批秀客</span>
               </p>
             </td>
           </tr>
@@ -113,8 +115,12 @@
         </div>
       </Modal>
     </div>
+    <!--审批秀客-->
     <div v-show="showContent === 'approve'">
-      <div class="activity-title pl-10">审批秀客</div>
+      <div class="activity-title pl-10">
+        <span class="left">审批秀客</span>
+        <span class="right" @click="ReturnManagePage('manage')">返回上一页</span>
+      </div>
       <div class="approve-manage-info mt-12">
         <div class="manage-info-con clear">
           <div class="manage-img left">
@@ -122,45 +128,340 @@
           </div>
           <div class="manage-text left ml-5">
             <p>宠物狗衣服狗狗猫咪衣服棉袜狗脚</p>
-            <p class="mt-15">总份数<strong>&nbsp;2&nbsp;</strong>，<strong>&nbsp;0&nbsp;</strong>人正在参与试用，<strong>&nbsp;0&nbsp;</strong>人完成试用，剩余名额 <strong>&nbsp;2&nbsp;</strong>
-              个</p>
+            <p class="mt-15">总份数<strong>&nbsp;2&nbsp;</strong>，<strong>&nbsp;0&nbsp;</strong>人正在参与试用，<strong>&nbsp;0&nbsp;</strong>人完成试用，剩余名额<strong>&nbsp;2&nbsp;</strong>个
+            </p>
           </div>
         </div>
         <div class="approve-list mt-20">
           <div class="approve-list-title">
-            <span :class="{isSelect:showApproveStatus === 'awaitApprove'}"
-                  @click="changeTitle('awaitApprove')">待审批</span>
-            <span :class="{isSelect:showApproveStatus === 'pass'}" @click="changeTitle('pass')">已通过</span>
-            <span :class="{isSelect:showApproveStatus === 'termination'}" @click="changeTitle('termination')">已终止</span>
+            <span :class="{isSelect:showApproveStatus === 'toAudit'}" @click="changeTitle('toAudit')">待审批</span>
+            <span :class="{isSelect:showApproveStatus === 'passAudit'}" @click="changeTitle('passAudit')">已通过</span>
+            <span :class="{isSelect:showApproveStatus === 'failAudit'}" @click="changeTitle('failAudit')">已终止</span>
           </div>
-          <div class="await-approve" v-show="showApproveStatus === 'awaitApprove'">
-            <div class="mt-20">
-              <iSelect v-model="shokeyName" style="width: 120px;margin-right: 12px;">
-
-              </iSelect>
-              <iInput v-model="searchValue" style="width: 160px;margin-right: 8px;"></iInput>
-              <iButton type="primary">搜索</iButton>
-              <div class="clear">
-              <!--  <Table :columns="columnsTableData" :data="tableListData"></Table>-->
+          <!--待审批-->
+          <div class="await-approve mt-20" v-show="showApproveStatus === 'toAudit'">
+            <iSelect v-model="shokeyName" style="width: 120px;margin-right: 12px;">
+              <iOption v-for="item in SelectList" :value="item.value" :key="item.value">{{ item.label }}</iOption>
+            </iSelect>
+            <iInput v-model="searchValue" style="width: 160px;margin-right: 8px;"></iInput>
+            <iButton type="primary">搜索</iButton>
+            <div class="activity-table mt-20">
+              <table>
+                <thead>
+                <tr>
+                  <th width="20%">秀客名称</th>
+                  <th width="20%">淘宝账号（旺旺号）</th>
+                  <th width="20%">申请时间</th>
+                  <th width="20%">已完成试用次数</th>
+                  <th width="20%">操作</th>
+                </tr>
+                </thead>
+                <tbody v-if="approveTableList.length > 0" v-for="item in approveTableList" :key="item.id">
+                <tr>
+                  <td>{{item.showkerName}}</td>
+                  <td>{{item.alitmAccount}}</td>
+                  <td>{{item.applyTime | dateFormat('YYYY-MM-DD hh:mm:ss')}}</td>
+                  <td class="registration">{{item.task.showkerApplySuccessCount}}</td>
+                  <td>
+                    <p class="del-edit">
+                      <span class="mr-10" @click="showkePassAudit(item.id,'passAudit')">通过</span>
+                      <span @click="showkeFailAudit(item.id,'failAudit')">不通过</span>
+                    </p>
+                  </td>
+                </tr>
+                </tbody>
+                <tbody v-if="approveTableList.length === 0">
+                <tr>
+                  <td colspan="5" width="100%">暂无数据</td>
+                </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+          <!--已通过-->
+          <div class="fail-audit mt-20" v-show="showApproveStatus === 'passAudit'">
+            <iSelect v-model="shokeyName" style="width: 120px;margin-right: 12px;">
+              <iOption v-for="item in SelectList" :value="item.value" :key="item.value">{{ item.label }}</iOption>
+            </iSelect>
+            <iInput v-model="searchValue" style="width: 160px;margin-right: 8px;"></iInput>
+            <span>订单编号：</span>
+            <iInput v-model="searchOrderNumber" style="width: 160px;margin-right: 8px;"></iInput>
+            <iButton type="primary">搜索</iButton>
+            <div class="clear mt-20">
+              <div class="left mr-10" style="margin-top: 2px;">
+                <Checkbox
+                  :value="checkAllByPass"
+                  @click.prevent.native="handleCheckPassAll">所有
+                </Checkbox>
+              </div>
+              <div class="left">
+                <Checkbox-group v-model="checkPassList" @on-change="checkPassChange">
+                  <Checkbox label="香蕉">
+                    <span>已通过待领取</span>
+                  </Checkbox>
+                  <Checkbox label="苹果">
+                    <span>订单号待审核</span>
+                  </Checkbox>
+                  <Checkbox label="西瓜">
+                    <span>已下订单待交试用报告</span>
+                  </Checkbox>
+                  <Checkbox label="西瓜">
+                    <span>报告待确认</span>
+                  </Checkbox>
+                  <Checkbox label="西瓜">
+                    <span>试用完成</span>
+                  </Checkbox>
+                  <Checkbox label="西瓜">
+                    <span>订单号有误</span>
+                  </Checkbox>
+                  <Checkbox label="西瓜">
+                    <span>报告不合格</span>
+                  </Checkbox>
+                  <Checkbox label="西瓜">
+                    <span>待返款</span>
+                  </Checkbox>
+                </Checkbox-group>
+              </div>
+            </div>
+            <div class="activity-table mt-20">
+              <table>
+                <thead>
+                <tr>
+                  <th width="20%">秀客名称</th>
+                  <th width="20%">淘宝账号（旺旺号）</th>
+                  <th width="20%">状态</th>
+                  <th width="20%">订单号</th>
+                  <th width="20%">操作</th>
+                </tr>
+                </thead>
+                <tbody v-if="approveTableList.length > 0" v-for="item in approveTableList" :key="item.id">
+                <tr>
+                  <td>{{item.showkerName}}</td>
+                  <td>{{item.alitmAccount}}</td>
+                  <td>{{item.applyTime}}</td>
+                  <td class="registration">{{item.task.showkerApplySuccessCount}}</td>
+                  <td>
+                    <p class="del-edit">
+                      <span @click="editTask(item.id)">审核订单号</span>
+                    </p>
+                  </td>
+                </tr>
+                </tbody>
+                <tbody v-if="approveTableList.length === 0">
+                <tr>
+                  <td colspan="5" width="100%">暂无数据</td>
+                </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+          <!--已终止-->
+          <div class="pass-audit mt-20" v-show="showApproveStatus === 'failAudit'">
+            <iSelect v-model="shokeyName" style="width: 120px;margin-right: 12px;">
+              <iOption v-for="item in SelectList" :value="item.value" :key="item.value">{{ item.label }}</iOption>
+            </iSelect>
+            <iInput v-model="searchValue" style="width: 160px;margin-right: 8px;"></iInput>
+            <span>订单编号：</span>
+            <iInput v-model="searchOrderNumber" style="width: 160px;margin-right: 8px;"></iInput>
+            <iButton type="primary">搜索</iButton>
+            <div class="clear mt-20">
+              <div class="left mr-10" style="margin-top: 2px;">
+                <Checkbox
+                  :value="checkAllByFail"
+                  @click.prevent.native="handleCheckFailAll">所有
+                </Checkbox>
+              </div>
+              <div class="left">
+                <Checkbox-group v-model="checkFailList" @on-change="checkFailChange">
+                  <Checkbox label="香蕉">
+                    <span>逾期系统终止</span>
+                  </Checkbox>
+                  <Checkbox label="苹果">
+                    <span>试客放弃试用</span>
+                  </Checkbox>
+                  <Checkbox label="西瓜">
+                    <span>管理员终止/商家终止</span>
+                  </Checkbox>
+                </Checkbox-group>
+              </div>
+            </div>
+            <div class="activity-table mt-20">
+              <table>
+                <thead>
+                <tr>
+                  <th width="16%">秀客名称</th>
+                  <th width="16%">淘宝账号（旺旺号）</th>
+                  <th width="16%">订单号</th>
+                  <th width="16%">试用状态</th>
+                  <th width="20%">终止时间</th>
+                  <th width="16%">终止原因</th>
+                </tr>
+                </thead>
+                <tbody v-if="approveTableList.length > 0" v-for="item in approveTableList" :key="item.id">
+                <tr>
+                  <td>{{item.showkerName}}</td>
+                  <td>{{item.alitmAccount}}</td>
+                  <td>{{item.applyTime}}</td>
+                  <td>{{item.task.showkerApplySuccessCount}}</td>
+                  <td>{{item.showkerName}}</td>
+                  <td>{{item.showkerName}}</td>
+                </tr>
+                </tbody>
+                <tbody v-if="approveTableList.length === 0">
+                <tr>
+                  <td colspan="6" width="100%">暂无数据</td>
+                </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+        <div class="check-order-model">
+          <div class="check-order-con">
+            <i class="right">&times;</i>
+            <p class="mt-40">为了防止不良秀客冒领担保金，请您仔细核对下面的订单号是否与你店铺宝贝的交易订单号一致！</p>
+            <p class="mt-22">
+              <span>订单号：</span>
+              <span class="main-color">1313246546546</span>
+            </p>
+            <p class="mt-15">
+              <span>秀客实付金额：<span class="main-color">100</span>元<span>（当前每单试用保证金100元）</span></span>
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!--试用报告-->
+    <div v-show="showContent === 'report'">
+      <div class="activity-title pl-10">
+        <span class="left">******的试用报告</span>
+        <span class="right" @click="ReturnManagePage('approve')">返回上一页</span>
+      </div>
+      <div class="report-info mt-12">
+        <div class="manage-info-con clear">
+          <div class="manage-img left">
+            <img src="" alt="">
+          </div>
+          <div class="manage-text left ml-5">
+            <p>宠物狗衣服狗狗猫咪衣服棉袜狗脚</p>
+            <p class="mt-15">总份数<strong>&nbsp;2&nbsp;</strong>，宝贝单价<strong>&nbsp;2&nbsp;</strong>元</p>
+          </div>
+        </div>
+        <div class="order-info mt-6">
+          <p>
+            <span>订单号：</span>
+            <strong>123456788</strong>
+          </p>
+          <p>
+            <span>订单金额：</span>
+            <strong>2</strong>
+            <span>元</span>
+          </p>
+          <p>
+            <span>订单状态：</span>
+            <strong>报告待确认</strong>
+            <span class="main-color">（0天24小时0时0分）</span>
+          </p>
+        </div>
+        <div class="trial-experience mt-20">
+          <div class="trial-experience-title">试用过程与体验：</div>
+          <div
+            class="trial-experience-con mt-22">独立访客撒了会计法撒开龙卷风拉萨附近开了撒就分开了撒娇地方卢萨卡就分开了撒酒疯离开撒酒疯拉萨附近拉萨减肥萨拉；福利卡减肥拉萨空间法拉盛看风景撒了附近；老师、附近啊；附近爱上；冷风机啊、龙卷风按时交付了；按时交付；</div>
+          <div class="trial-experience-title mt-22">试用图片：</div>
+          <div class="trial-img-info">
+            <div class="trial-img">
+              <img src="~assets/img/case-demo/taobao-account-info.png" alt="">
+            </div>
+            <ul class="trial-img-list clear mt-22">
+              <li>
+                <img src="~assets/img/case-demo/taobao-account-info.png" alt="">
+              </li>
+              <li>
+                <img src="~assets/img/case-demo/taobao-account-info.png" alt="">
+              </li>
+              <li>
+                <img src="~assets/img/case-demo/taobao-account-info.png" alt="">
+              </li>
+              <li>
+                <img src="~assets/img/case-demo/taobao-account-info.png" alt="">
+              </li>
+              <li>
+                <img src="~assets/img/case-demo/taobao-account-info.png" alt="">
+              </li>
+            </ul>
+            <span class="left-btn"><Icon type="chevron-left" size="32" color="#999"></Icon></span>
+            <span class="right-btn"><Icon type="chevron-right" size="32" color="#999"></Icon></span>
+          </div>
+          <div class="check-trial mt-40">
+            <div class="select-check">
+              <Radio-group v-model="trialCheckStatus">
+                <Radio label="pass" style="margin-right: 32px;">
+                  <span style="font-size: 16px;">通过</span>
+                </Radio>
+                <Radio label="no_pass">
+                  <span style="font-size: 16px;">不通过</span>
+                </Radio>
+              </Radio-group>
+            </div>
+            <div class="no-pass-reason mt-22" v-show="trialCheckStatus === 'no_pass'">
+              <iInput v-model="noPassReason" placeholder="请填写不通过的理由，以便秀客修改" style="width: 420px"></iInput>
+            </div>
+            <div class="true-btn" v-show="trialCheckStatus === 'no_pass'">确认</div>
+            <div class="true-btn" v-show="trialCheckStatus === 'pass'" @click="openRefundModel">确认</div>
+            <div class="remind mt-22 clear">
+              <div class="left mr-10">
+                <Icon type="alert-circled" color='#f60' size="36"></Icon>
+              </div>
+              <div class="left remind-con">
+                <p>通过试用报告需要支付秀客保证金，不通过报告则将报告退回，交给秀客重新修改！</p>
+                <p>您还有&nbsp;<time-down color='#ff4040' :fontWeight=600></time-down>&nbsp;进行审核，若该时间内未审核，系统将默认审核通过，开始给秀客返款！
+                </p>
               </div>
             </div>
           </div>
         </div>
       </div>
+      <div class="confirm-refund-model" v-if="showRefundModel">
+        <div class="confirm-refund-con">
+          <i class="right mr-10" @click="closeRefundModel">&times;</i>
+          <div class="confirm-refund-info mt-20">
+            <p>
+              <span>秀客返款：</span>
+              <span>宠物衣服狗狗猫咪衣服</span>
+            </p>
+            <p class="mt-8">
+              <span>返款金额：</span>
+              <strong>2</strong>
+              <span>元</span>
+            </p>
+          </div>
+          <div class="input-pwd mt-22 ml-35">
+            <span>请输入您的支付密码：</span>
+            <iInput v-model="refundPayPwd" type="password" style="width: 160px;margin-right: 16px;"></iInput>
+            <iButton type="primary">确认</iButton>
+          </div>
+          <div class="refund-tip ml-35 mt-22">
+            <p>如果您的支付密码没有修改，那么支付密码与登陆密码一致。</p>
+            <p class="mt-6">为了账户安全，建议您另外设置一个密码！
+              <router-link to="">修改支付密码</router-link>
+            </p>
+          </div>
+        </div>
+      </div>
     </div>
-    <div v-show="showContent === 'report'"></div>
   </div>
 </template>
 
 <script>
   import Checkbox from 'iview/src/components/checkbox'
-  import Table from 'iview/src/components/table'
   import Page from 'iview/src/components/page'
   import Modal from 'iview/src/components/modal'
   import Icon from 'iview/src/components/icon'
   import Button from 'iview/src/components/button'
   import Input from 'iview/src/components/input'
   import {Select, Option, OptionGroup} from 'iview/src/components/select'
+  import Radio from 'iview/src/components/radio'
+  import timeDown from '@/components/TimeDown'
   import api from '@/config/apiConfig'
 
   export default {
@@ -176,43 +477,50 @@
       iSelect: Select,
       iOption: Option,
       OptionGroup: OptionGroup,
-      iTable: Table
+      Radio: Radio,
+      RadioGroup: Radio.Group,
+      timeDown: timeDown
     },
     data() {
       return {
-        showContent: 'manage',
-        showApproveStatus: 'awaitApprove',
+        showContent: 'report',
+        showApproveStatus: 'toAudit',
         deleteModal: false,
         modalLoading: false,
         taskId: null,
         taskList: null,
         checkAll: false,
+        checkAllByPass: false,
+        checkAllByFail: false,
         taskStatusList: [],
         settlementStatusList: [],
-        taskWaitingAuditCount: null,
-        taskUnderWayCount: null,
-        settlementWaitingAuditCount: null,
-        taskTotalCount: null,
+        checkPassList: [],
+        checkFailList: [],
+        taskData: {},
         totalElements: null,
         pageIndex: 1,
+        approvePageIndex: 1,
         pageSize: 5,
         shokeyName: null,
         searchValue: null,
-        columnsTableData: [
+        searchOrderNumber: null,
+        approveTableList: [],
+        SelectList: [
           {
-            title: '姓名',
-            key: 'name'
+            value: 'name',
+            label: '试客名称'
           },
           {
-            title: '年龄',
-            key: 'age'
-          },
-          {
-            title: '地址',
-            key: 'address'
+            value: 'account',
+            label: '淘宝会员名'
           }
         ],
-        tableListData:null
+        trialCheckStatus: 'pass',
+        noPassReason: null,
+        orderEndTime: null,
+        trialEndTime: null,
+        showRefundModel: false,
+        refundPayPwd: null,
       }
     },
     mounted() {
@@ -226,19 +534,17 @@
         this.$router.push({name: 'TaskReleaseProcess', query: {taskId: id}})
       },
       getTaskList() {
+        let _this = this;
         api.getTaskList({
-          taskStatusList: JSON.stringify(this.taskStatusList),
-          settlementStatusList: JSON.stringify(this.settlementStatusList),
-          pageIndex: this.pageIndex,
-          pageSize: this.pageSize
+          taskStatusList: JSON.stringify(_this.taskStatusList),
+          settlementStatusList: JSON.stringify(_this.settlementStatusList),
+          pageIndex: _this.pageIndex,
+          pageSize: _this.pageSize
         }).then(res => {
           if (res.status) {
-            this.totalElements = res.data.taskPage.totalElements;
-            this.taskTotalCount = res.data.taskTotalCount;
-            this.taskWaitingAuditCount = res.data.taskWaitingAuditCount;
-            this.taskUnderWayCount = res.data.taskUnderWayCount;
-            this.settlementWaitingAuditCount = res.data.settlementWaitingAuditCount;
-            this.taskList = res.data.taskPage.content;
+            _this.taskData = res.data;
+            _this.totalElements = res.data.taskPage.totalElements;
+            _this.taskList = res.data.taskPage.content;
           }
         })
       },
@@ -281,6 +587,12 @@
           this.settlementStatusList = [];
         }
       },
+      handleCheckPassAll() {
+
+      },
+      handleCheckFailAll() {
+
+      },
       checkAllGroupChange() {
         if (this.settlementStatusList.length === 3 && this.taskStatusList.length === 5) {
           this.checkAll = true;
@@ -291,23 +603,88 @@
         }
         this.getTaskList();
       },
+      checkPassChange() {
+
+      },
+      checkFailChange() {
+
+      },
+      ReturnManagePage(type) {
+        this.showContent = type
+      },
+      approveGuest(taskId) {
+        this.showContent = 'approve';
+        this.taskId = taskId;
+        this.taskApplyList();
+      },
       changeTitle(type) {
         this.showApproveStatus = type;
+        this.taskApplyList();
+      },
+      taskApplyList() {
+        api.getTaskApplyList({
+          taskId: this.taskId,
+          status: this.showApproveStatus,
+          pageIndex: this.approvePageIndex,
+        }).then(res => {
+          let _this = this;
+          if (res.status) {
+            _this.approveTableList = res.data.content;
+          }
+        })
+      },
+      showkePassAudit(id, status) {
+        this.setShoukeAudit(id, status);
+      },
+      showkeFailAudit(id, status) {
+        this.setShoukeAudit(id, status);
+      },
+      setShoukeAudit(id, status) {
+        let _this = this;
+        api.setTaskShoukeAudit({
+          id: id,
+          status: status
+        }).then(res => {
+          if (res.status) {
+            _this.$Message("审核秀客成功！");
+            _this.taskApplyList();
+          } else {
+            _this.$Message(res.msg)
+          }
+        })
+      },
+      closeRefundModel() {
+        this.showRefundModel = false;
+      },
+      openRefundModel() {
+        this.showRefundModel = true;
       }
     }
   }
 </script>
 
 <style lang="scss" scoped>
-  @import 'src/css/common';
   @import 'src/css/mixin';
-
   .activity-management {
+    .main-color {
+      color: $mainColor;
+    }
     .activity-title {
       height: 52px;
       line-height: 52px;
       @include sc(20px, #666);
       border-bottom: 2px solid #F6F6F6;
+      span {
+        display: inline-block;
+      }
+      span:last-child {
+        font-size: 12px;
+        color: #2b85e4;
+        cursor: pointer;
+        &:hover {
+          text-decoration: underline;
+        }
+      }
     }
     .activity-title-s {
       height: 52px;
@@ -359,58 +736,47 @@
       color: #2b85e4;
     }
     .activity-table table td .del-edit span {
-      display: inline-block;
-      padding: 4px 6px;
-      background-color: #2b85e4;
-      color: #fff;
-      border-radius: 5px;
+      color: #2b85e4;
       cursor: pointer;
       @include transition;
       &:hover {
-        background-color: darken(#2b85e4, 10%);
+        color: darken(#2b85e4, 10%);
       }
     }
     .activity-table table td .del-edit span:last-child {
-      background-color: #2b85e4;
+      color: #2b85e4;
       @include transition;
       &:hover {
-        background-color: darken(#2b85e4, 10%);
+        color: darken(#2b85e4, 10%);
       }
     }
     .activity-table table td .bond span {
-      display: inline-block;
-      padding: 4px 6px;
-      background-color: $mainColor;
-      color: #fff;
+      color: $mainColor;
       border-radius: 5px;
       cursor: pointer;
       @include transition;
       &:hover {
-        background-color: darken($mainColor, 10%);
+        color: darken($mainColor, 10%);
       }
     }
     .activity-table table td .copy span {
-      display: inline-block;
-      padding: 4px 6px;
-      background-color: #2b85e4;
-      color: #fff;
-      border-radius: 5px;
+      color: #2b85e4;
       cursor: pointer;
       @include transition;
       &:hover {
-        background-color: darken(#2b85e4, 10%);
+        color: darken(#2b85e4, 10%);
       }
     }
     .approve-manage-info {
-      height: 88px;
-      background-color: #F8F8F8;
-      border: 1px solid #F4F4F4;
+
     }
     .manage-img img {
       @include wh(54px, 54px)
     }
     .manage-info-con {
       padding: 15px 0 15px 10px;
+      height: 88px;
+      background-color: #F8F8F8;
     }
     .manage-text {
       color: #000;
@@ -434,6 +800,135 @@
         color: #fff;
       }
     }
-
+    .order-info {
+      padding: 10px 0 16px 12px;
+      background-color: #F8F8F8;
+      p {
+        margin-top: 6px;
+      }
+    }
+    .trial-experience-con {
+      color: #000;
+      font-weight: 600;
+      line-height: 24px;
+    }
+    .trial-img-info {
+      @include wh(884px, 662px);
+      border: 1px solid #F8F6F5;
+      margin: 20px auto 0 auto;
+      position: relative;
+      .trial-img {
+        @include wh(420px, 500px);
+        margin: 26px auto 0 auto;
+        img {
+          @include wh(420px, 500px);
+        }
+      }
+      .left-btn {
+        position: absolute;
+        top: 260px;
+        left: 140px;
+        cursor: pointer;
+      }
+      .right-btn {
+        position: absolute;
+        top: 260px;
+        right: 140px;
+        cursor: pointer;
+      }
+    }
+    .trial-img-list {
+      border: 1px solid #f8f6f5;
+      margin: 24px 6px;
+      padding: 8px 0;
+      li {
+        float: left;
+        margin-left: 46px;
+        cursor: pointer;
+        img {
+          @include wh(120px, 80px);
+          border: 1px solid #f8f6f5;
+        }
+      }
+    }
+    .check-trial {
+      text-align: center;
+    }
+    .true-btn {
+      @include wh(120px, 32px);
+      line-height: 32px;
+      background-color: $mainColor;
+      color: #fff;
+      text-align: center;
+      margin: 24px auto 0 auto;
+      font-size: 14px;
+      cursor: pointer;
+    }
+    .remind {
+      width: 600px;
+      margin: 24px auto 0 auto;
+      .remind-con {
+        text-align: left;
+      }
+    }
+    .confirm-refund-model,
+    .check-order-model{
+      @include fullScreenModel;
+    }
+    .confirm-refund-con {
+      @include fullScreenModelCon(552px, 286px);
+      i {
+        font-size: 24px;
+        cursor: pointer;
+      }
+    }
+    .confirm-refund-info {
+      @include wh(514px, 68px);
+      padding: 12px 24px;
+      background-color: #EEEEEE;
+      margin: 46px auto 0 auto;
+      p:first-child {
+        span:first-child {
+          color: #000;
+        }
+      }
+      p:last-child {
+        span {
+          font-size: 16px;
+          color: #000;
+        }
+        strong {
+          font-size: 16px;
+          color: #f60;
+        }
+      }
+    }
+    .refund-tip {
+      color: #ACACAC;
+    }
+   .check-order-con{
+     position: absolute;
+     width: 600px;
+     background-color: #fff;
+     border-radius: 5px;
+     left: 50%;
+     margin-left: -300px;
+     top:30%;
+     padding: 0 32px 26px 32px;
+     text-align: center;
+   }
+    i{
+      font-size: 24px;
+      cursor: pointer;
+    }
+    p:nth-child(2){
+      span{
+        font-size: 16px;
+      }
+    }
+    p:nth-child(3){
+      font-size: 14px;
+    }
   }
+
 </style>

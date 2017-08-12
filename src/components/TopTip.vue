@@ -65,9 +65,7 @@
 </script>
 
 <style lang="scss" scoped>
-  @import 'src/css/common';
   @import 'src/css/mixin';
-
   .top-tip {
     background-color: #F8F8F8;
     > div {

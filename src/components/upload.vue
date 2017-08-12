@@ -368,8 +368,6 @@
   };
 </script>
 <style lang="scss" scoped>
-  @import 'src/css/common';
-
   .demo-upload-list {
     display: inline-block;
     width: 60px;

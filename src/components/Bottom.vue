@@ -16,9 +16,6 @@
 </script>
 
 <style lang="scss" scoped>
-  @import 'src/css/common';
-  @import 'src/css/mixin';
-
   #bottom {
     background-color: #F8F8F8;
     > div {

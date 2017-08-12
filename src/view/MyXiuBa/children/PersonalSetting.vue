@@ -227,7 +227,6 @@
   import {aliCallbackImgUrl} from '@/config/env'
   import Modal from 'iview/src/components/modal'
   import Alert from 'iview/src/components/alert'
-  //  import {setStorage, getStorage} from '/src/config/utils'
   export default {
     name: 'TaskReleaseProcess',
     components: {
@@ -610,7 +609,6 @@
 </script>
 
 <style lang="scss" scoped>
-  @import 'src/css/common';
   @import 'src/css/mixin';
   .personal-box {
 

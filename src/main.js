@@ -6,9 +6,9 @@ import * as filters from './filter/custom'
 import VueLazyload from 'vue-lazyload'
 import Modal from 'iview/src/components/modal'
 import Message from 'iview/src/components/message'
-import 'iview/dist/styles/iview.css'
 import 'animate.css/animate.css'
 import '../iview/iview.less'
+import '@/css/common.scss'
 
 Vue.config.productionTip = false;
 Vue.use(VueLazyload);

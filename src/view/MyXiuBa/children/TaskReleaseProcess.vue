@@ -167,8 +167,7 @@
             </div>
             <div class="search-keyword mt-20 ml-28">
               <span class="required">搜索关键词：</span>
-              <iInput v-model="PcTaskDetail.searchKeyword" placeholder="请输入搜索关键词"
-                      style="width: 260px"></iInput>
+              <iInput v-model="PcTaskDetail.searchKeyword" placeholder="请输入搜索关键词" style="width: 260px"></iInput>
               <span class="size-color2">（PC端请确保10页以内，若是长尾关键词请不要过量补单）</span>
             </div>
             <div class="sort-by ml-40 mt-20">
@@ -422,7 +421,7 @@
       </div>
     </div>
     <div class="pay-model" v-if="showPayModel">
-      <PayModel :orderMoney="orderMoney" @closeRecharge="closeRecharge" :on-success="paySuccess">
+      <PayModel :orderMoney="orderMoney" :taskId="taskId" @closeRecharge="closeRecharge" :on-success="paySuccess">
         <div slot="noBalance" class="title-tip"><span class="size-color3"><Icon color="#FF2424" size="18px" type="ios-information"></Icon><span
           class="ml-10">亲，您的余额不足，请充值。</span></span>还需充值<strong class="size-color3">{{Math.abs(getUserBalance - orderMoney)}}</strong>元
         </div>
@@ -495,6 +494,7 @@
         showPayModel: false,
         current: 1,
         stepName: 'information',
+        taskId:null,
         itemCatalogList: [],
         mainDefaultList: [],
         appDefaultList: [],
@@ -772,6 +772,7 @@
         }
         api.taskCreate(_this.taskRelease).then(res => {
           if (res.status) {
+            this.taskId = res.data.id;
             this.nextCurrent();
             _this.stepName = 'deposit';
           } else {
@@ -886,7 +887,6 @@
 </script>
 
 <style lang="scss" scoped>
-  @import 'src/css/common';
   @import 'src/css/mixin';
 
   .second-color {

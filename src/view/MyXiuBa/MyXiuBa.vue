@@ -123,7 +123,6 @@
 </script>
 
 <style lang="scss" scoped>
-  @import 'src/css/common';
   @import 'src/css/mixin';
   .my-xiu-ba-title{
     height: 50px;

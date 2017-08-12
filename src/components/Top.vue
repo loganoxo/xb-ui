@@ -86,7 +86,6 @@
 </script>
 
 <style lang="scss" scoped>
-  @import 'src/css/common';
   @import 'src/css/mixin';
 
   .home-top {

@@ -45,6 +45,10 @@
         required: true,
         default: 0
       },
+      taskId: {
+        type: Number,
+        required: true
+      },
       payButtonText: {
         type: String,
         default: '确认支付'
@@ -53,7 +57,7 @@
         type: String,
         default: '立即充值'
       },
-      onSuccess:{
+      onSuccess: {
         type: Function,
         default() {
           return {};
@@ -86,8 +90,9 @@
       },
       confirmPayment() {
         api.payByBalance({
-          fee:this.orderMoney,
-          payPassword:this.payPassword
+          fee: this.orderMoney,
+          payPassword: this.payPassword,
+          taskId: this.taskId
         }).then(res => {
           this.onSuccess(res)
         })
@@ -97,7 +102,6 @@
 </script>
 
 <style lang="scss" scoped>
-  @import 'src/css/common';
   @import 'src/css/mixin';
 
   .pay-model-con {

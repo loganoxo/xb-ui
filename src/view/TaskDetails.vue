@@ -195,7 +195,6 @@
 </script>
 
 <style lang="scss" scoped>
-  @import 'src/css/common';
   @import 'src/css/mixin';
   .task-details-ctt{
     background-color: #f1f1f1;

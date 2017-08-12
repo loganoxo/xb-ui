@@ -595,7 +595,6 @@
 </script>
 
 <style lang="scss" scoped>
-  @import 'src/css/common';
   @import 'src/css/mixin';
   .breadcrumb{
     height: 36px;
