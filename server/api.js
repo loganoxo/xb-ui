@@ -151,10 +151,10 @@ router.post('/api/task/search/index/newest.json', (req, res, next) => {
 router.post('/api/task/get/item/catalog/parent.json', (req, res, next) => {
   let options =
     {
-    method: 'GET',
-    uri: baseUrl + '/task/get/item/catalog/parent/' + req.body.id,
-    json: true,
-  };
+      method: 'GET',
+      uri: baseUrl + '/task/get/item/catalog/parent/' + req.body.id,
+      json: true,
+    };
   request(options)
     .then(function (parsedBody) {
       res.send(parsedBody);
@@ -394,7 +394,7 @@ router.post("/api/get-account-balance.json", function (req, res, next) {
  * @param payPassword
  * @param platform
  */
-router.post("/api/pay-by-balance.json",function (req, res, next) {
+router.post("/api/pay-by-balance.json", function (req, res, next) {
   let options = {
     method: 'POST',
     uri: baseUrl + '/user/account/pay-by-account-balance',
@@ -402,7 +402,8 @@ router.post("/api/pay-by-balance.json",function (req, res, next) {
       fee: req.body.fee,
       uid: req.session.userData.id,
       payPwd: req.body.payPassword,
-      platform:'PC'
+      taskId: req.body.taskId,
+      platform: 'PC'
     },
     json: true
   };
@@ -625,7 +626,7 @@ router.post('/api/task-list.json', function (req, res, next) {
  * 用户任务删除
  * @param userId
  * @param taskId
- * */
+ */
 router.post('/api/delete-task.json', function (req, res, next) {
   let options = {
     method: 'GET',
@@ -648,7 +649,7 @@ router.post('/api/delete-task.json', function (req, res, next) {
  * 用户任务读取
  * @param userId
  * @param taskId
- * */
+ */
 router.post('/api/get-task.json', function (req, res, next) {
   let options = {
     method: 'GET',
@@ -667,5 +668,59 @@ router.post('/api/get-task.json', function (req, res, next) {
     });
 });
 
+/**
+ * 根据任务id和状态获取任务申请列表
+ * @param taskId
+ * @param status
+ */
+router.post('/api/get-task-apply-list.json', function (req, res, next) {
+  let options = {
+    method: 'POST',
+    uri: baseUrl + '/task/seller/applyList',
+    formData: {
+      taskId: req.body.taskId,
+      status: req.body.status,
+      pageIndex: req.body.pageIndex
+    },
+    json: true
+  };
+  request(options)
+    .then(function (parsedBody) {
+      res.send(parsedBody);
+      res.end();
+    })
+    .catch(function (err) {
+      logConfig.logger.error(err);
+      res.json({status: false, msg: "服务器错误"});
+      res.end();
+    });
+});
+
+/**
+ * 审核秀客是否通过
+ * @param id
+ * @param status
+ */
+router.post('/api/set-task-showke-audit', function (req, res, next) {
+  let options = {
+    method: 'POST',
+    uri: baseUrl + '/task/seller/showkeAudit',
+    formData: {
+      id: req.body.id,
+      status: req.body.status,
+    },
+    json: true
+  };
+  request(options)
+    .then(function (parsedBody) {
+      res.send(parsedBody);
+      res.end();
+    })
+    .catch(function (err) {
+      logConfig.logger.error(err);
+      res.json({status: false, msg: "服务器错误"});
+      res.end();
+    });
+});
 
 module.exports = router;

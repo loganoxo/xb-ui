@@ -3,7 +3,7 @@
  */
 const config = require('./config');
 const logConfig = require('./logConfig');
-const needLogInList = require('./authority/needLogInList');
+const noLogInList = require('./authority/noLogInList');
 const fs = require('fs');
 const path = require('path');
 const bodyParser = require('body-parser');
@@ -41,12 +41,12 @@ app.use(bodyParser.urlencoded({extended: false}));
 app.use(function (req, res, next) {
   let url = req.originalUrl;
   let hasUrl = false;
-  for (let i = 0; i < needLogInList.length; i++) {
-    if (url.indexOf(needLogInList[i]) >= 0) {
+  for (let i = 0; i < noLogInList.length; i++) {
+    if (url.indexOf(noLogInList[i]) >= 0) {
       hasUrl = true;
     }
   }
-  if (hasUrl && !req.session.userData) {
+  if (!hasUrl && !req.session.userData) {
     res.writeHead(401);
     res.end();
   } else {
