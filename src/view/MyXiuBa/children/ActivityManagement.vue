@@ -67,23 +67,49 @@
             </td>
             <td>
               <p>{{item.upLineTime | dateFormat('YYYY-MM-DD hh:mm:ss') || '----'}}</p>
-              <p class="mt-10">
-                {{(item.upLineTime ? (item.upLineTime + item.taskDaysDuration * 3600 * 24) : item.upLineTime) | dateFormat('YYYY-MM-DD hh:mm:ss')}}
-              </p>
+              <p class="mt-10">{{item.endTime | dateFormat('YYYY-MM-DD hh:mm:ss') || '----'}}</p>
             </td>
             <td>{{item.taskStatusDesc}}</td>
             <td class="registration">{{item.showkerApplyTotalCount}} / {{item.showkerApplySuccessCount}}（人）</td>
             <td>{{item.taskCount}}</td>
-            <td>
-              {{!item.pinkage ? (item.itemPrice / 100 + 10) * item.taskCount : item.itemPrice / 100 * item.taskCount}}
-            </td>
-            <td v-if="item.taskStatus !== 'under_way'">
+            <td>{{!item.pinkage ? (item.itemPrice / 100 + 10) * item.taskCount : item.itemPrice / 100 * item.taskCount}}</td>
+            <td v-if="item.taskStatus === 'waiting_pay'">
               <p class="del-edit">
                 <span class="mr-10" @click="editTask(item.id)">编辑</span>
                 <span @click="deleteTask(item.id)">删除</span>
               </p>
               <p class="bond mt-6">
                 <span>存担保金</span>
+              </p>
+              <p class="copy mt-6">
+                <span>复制活动</span>
+              </p>
+            </td>
+            <td v-else-if="item.taskStatus === 'waiting_modify'">
+              <p class="del-edit">
+                <span class="mr-10" @click="editTask(item.id)">编辑</span>
+                <span @click="deleteTask(item.id)">删除</span>
+              </p>
+              <p class="copy mt-6">
+                <span>复制活动</span>
+              </p>
+            </td>
+            <td v-else-if="item.taskStatus === 'waiting_audit' || item.taskStatus === 'cannot_settlement' || item.taskStatus === 'waiting_audit'">
+              <p class="copy mt-6">
+                <span>复制活动</span>
+              </p>
+            </td>
+            <td v-else-if="item.taskStatus === 'waiting_settlement'">
+              <p class="copy mt-6">
+                <span>申请结算</span>
+              </p>
+              <p class="copy mt-6">
+                <span>复制活动</span>
+              </p>
+            </td>
+            <td v-else-if="item.taskStatus === 'settlement_finished'">
+              <p class="copy mt-6">
+                <span>结算详情</span>
               </p>
               <p class="copy mt-6">
                 <span>复制活动</span>
