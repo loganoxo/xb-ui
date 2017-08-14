@@ -1,6 +1,7 @@
 //项目主题颜色
 $mainColor: #ff6633;
 $secondColor: #FF9966;
+
 //全屏背景
 @mixin fullScreenModel {
   position: fixed;
@@ -31,15 +32,6 @@ $secondColor: #FF9966;
   background-image: url($url);
   background-repeat: no-repeat;
   background-size: 100% 100%;
-}
-
-//边框圆角
-@mixin borderRadius($radius) {
-  -webkit-border-radius: $radius;
-  -moz-border-radius: $radius;
-  -ms-border-radius: $radius;
-  -o-border-radius: $radius;
-  border-radius: $radius;
 }
 
 //边框阴影
@@ -103,9 +95,3 @@ $secondColor: #FF9966;
   color: $color;
 }
 
-//flex 布局和 子元素 对其方式
-@mixin fj($type: space-between) {
-  display: flex;
-  justify-content: $type;
-
-}

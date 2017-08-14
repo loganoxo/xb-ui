@@ -416,12 +416,13 @@
       </div>
       <div class="audit-con mt-20">亲当前的试用活动已提交，工作人员会在一个工作日内审核您的活动！敬请关注~</div>
       <div class="audit-footer mt-40">
-        <router-link to="/user/task-release">点此查看试用活动管理</router-link>
+        <router-link to="/user/activity-management">点此查看试用活动管理</router-link>
         <span class="ml-20">有问题？联系客服</span>
       </div>
     </div>
     <div class="pay-model" v-if="showPayModel">
-      <PayModel :orderMoney="orderMoney" :taskId="taskId" @closeRecharge="closeRecharge" :on-success="paySuccess">
+      <PayModel :orderMoney="orderMoney" @confirmPayment="confirmPayment">
+        <i slot="closeModel" class="close-recharge" @click="closeRecharge">&times;</i>
         <div slot="noBalance" class="title-tip"><span class="size-color3"><Icon color="#FF2424" size="18px" type="ios-information"></Icon><span
           class="ml-10">亲，您的余额不足，请充值。</span></span>还需充值<strong class="size-color3">{{Math.abs(getUserBalance - orderMoney)}}</strong>元
         </div>
@@ -865,22 +866,29 @@
       closeRecharge() {
         this.showPayModel = false;
       },
-      paySuccess(res) {
-        if(res.status){
-          this.getBalance();
-          this.showPayModel = false;
-          this.$Message.success({
-            content:'支付成功！',
-            duration: 6
-          });
-          this.nextCurrent();
-          this.stepName = 'audit';
-        }else{
-          this.$Message.error({
-            content:res.msg,
-            duration: 6
-          })
-        }
+      confirmPayment(pwd) {
+        let _this = this;
+        api.payByBalance({
+          fee: _this.orderMoney,
+          payPassword: pwd,
+          taskId: _this.taskId
+        }).then(res => {
+          if(res.status){
+            _this.getBalance();
+            _this.showPayModel = false;
+            _this.$Message.success({
+              content:'支付成功！',
+              duration: 6
+            });
+            _this.nextCurrent();
+            _this.stepName = 'audit';
+          }else{
+            _this.$Message.error({
+              content:res.msg,
+              duration: 6
+            })
+          }
+        })
       },
     }
   }
@@ -1044,7 +1052,6 @@
   }
 
   .title-tip {
-    width: 582px;
     height: 36px;
     line-height: 36px;
     margin: 52px auto 28px auto;

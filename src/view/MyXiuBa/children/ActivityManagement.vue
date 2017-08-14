@@ -316,17 +316,46 @@
             </div>
           </div>
         </div>
-        <div class="check-order-model">
+        <div class="check-order-model" v-show="showCheckOrder">
           <div class="check-order-con">
-            <i class="right">&times;</i>
+            <i class="right" @click="closeCheckOrder">&times;</i>
             <p class="mt-40">为了防止不良秀客冒领担保金，请您仔细核对下面的订单号是否与你店铺宝贝的交易订单号一致！</p>
             <p class="mt-22">
               <span>订单号：</span>
               <span class="main-color">1313246546546</span>
             </p>
             <p class="mt-15">
-              <span>秀客实付金额：<span class="main-color">100</span>元<span>（当前每单试用保证金100元）</span></span>
+              <span>秀客实付金额：<span class="main-color">110</span>元<span>（当前每单试用保证金100元）</span></span>
             </p>
+            <div class="mt-22">
+              <Radio-group v-model="orderReviewStatus">
+                <Radio label="pass" style="margin-right: 32px;">
+                  <span style="font-size: 16px;">通过</span>
+                </Radio>
+                <Radio label="no_pass">
+                  <span style="font-size: 16px;">不通过</span>
+                </Radio>
+              </Radio-group>
+            </div>
+            <div class="no-pass-reason mt-22" v-show="orderReviewStatus === 'no_pass'">
+              <iInput v-model="orderNoPassReason" placeholder="请填写不通过理由，如订单号不符或实付金额不符" style="width: 420px"></iInput>
+            </div>
+            <div class="true-btn" v-show="orderReviewStatus === 'no_pass'">确认</div>
+            <div class="true-btn" v-show="orderReviewStatus === 'pass' && securityMoney >= orderMoney" @click="openRefundModel">确认</div>
+            <PayModel v-show="orderReviewStatus === 'pass' && securityMoney < orderMoney" :orderMoney="orderMoney" @confirmPayment="confirmPayment" :payButtonText="payButtonText" :rechargeButtonText="rechargeButtonText" style="margin-top: 120px;">
+                <div slot="isBalance" class="title-tip">
+                <span class="size-color3">
+                <Icon color="#FF2424" size="18" type="ios-information"></Icon>
+                <span class="ml-10">注意：该秀客实付金额大于试用保证金，</span></span>需要补充担保金<strong
+                  class="main-color">{{Math.abs(securityMoney - orderMoney)}}</strong>元
+                </div>
+                <div slot="noBalance" class="title-tip">
+                <span class="size-color3">
+                <Icon color="#FF2424" size="18" type="ios-information"></Icon>
+                <span class="ml-10">注意：该秀客实付金额大于试用保证金，</span></span>需要补充担保金<strong
+                  class="main-color">{{Math.abs(securityMoney - orderMoney)}}</strong>元,请充值！
+                </div>
+              </PayModel>
           </div>
         </div>
       </div>
@@ -414,7 +443,8 @@
               </div>
               <div class="left remind-con">
                 <p>通过试用报告需要支付秀客保证金，不通过报告则将报告退回，交给秀客重新修改！</p>
-                <p>您还有&nbsp;<time-down color='#ff4040' :fontWeight=600></time-down>&nbsp;进行审核，若该时间内未审核，系统将默认审核通过，开始给秀客返款！
+                <p>您还有&nbsp;
+                  <time-down color='#ff4040' :fontWeight=600></time-down>&nbsp;进行审核，若该时间内未审核，系统将默认审核通过，开始给秀客返款！
                 </p>
               </div>
             </div>
@@ -461,7 +491,8 @@
   import Input from 'iview/src/components/input'
   import {Select, Option, OptionGroup} from 'iview/src/components/select'
   import Radio from 'iview/src/components/radio'
-  import timeDown from '@/components/TimeDown'
+  import PayModel from '@/components/PayModel'
+  import TimeDown from '@/components/TimeDown'
   import api from '@/config/apiConfig'
 
   export default {
@@ -479,11 +510,12 @@
       OptionGroup: OptionGroup,
       Radio: Radio,
       RadioGroup: Radio.Group,
-      timeDown: timeDown
+      TimeDown: TimeDown,
+      PayModel:PayModel
     },
     data() {
       return {
-        showContent: 'report',
+        showContent: 'manage',
         showApproveStatus: 'toAudit',
         deleteModal: false,
         modalLoading: false,
@@ -515,12 +547,19 @@
             label: '淘宝会员名'
           }
         ],
+        showCheckOrder:true,
         trialCheckStatus: 'pass',
         noPassReason: null,
         orderEndTime: null,
         trialEndTime: null,
         showRefundModel: false,
         refundPayPwd: null,
+        orderReviewStatus: 'pass',
+        orderNoPassReason: null,
+        orderMoney:110,
+        securityMoney:100,
+        payButtonText:'确认支付并通过',
+        rechargeButtonText:'确认支付并通过',
       }
     },
     mounted() {
@@ -658,6 +697,12 @@
       },
       openRefundModel() {
         this.showRefundModel = true;
+      },
+      closeCheckOrder() {
+        this.showCheckOrder = false;
+      },
+      confirmPayment() {
+
       }
     }
   }
@@ -665,6 +710,7 @@
 
 <style lang="scss" scoped>
   @import 'src/css/mixin';
+
   .activity-management {
     .main-color {
       color: $mainColor;
@@ -863,6 +909,10 @@
       margin: 24px auto 0 auto;
       font-size: 14px;
       cursor: pointer;
+      @include transition;
+      &:hover {
+        background-color: darken($mainColor, 10%);
+      }
     }
     .remind {
       width: 600px;
@@ -872,7 +922,7 @@
       }
     }
     .confirm-refund-model,
-    .check-order-model{
+    .check-order-model {
       @include fullScreenModel;
     }
     .confirm-refund-con {
@@ -906,27 +956,35 @@
     .refund-tip {
       color: #ACACAC;
     }
-   .check-order-con{
-     position: absolute;
-     width: 600px;
-     background-color: #fff;
-     border-radius: 5px;
-     left: 50%;
-     margin-left: -300px;
-     top:30%;
-     padding: 0 32px 26px 32px;
-     text-align: center;
-   }
-    i{
-      font-size: 24px;
-      cursor: pointer;
-    }
-    p:nth-child(2){
-      span{
-        font-size: 16px;
+    .check-order-con {
+      position: absolute;
+      width: 600px;
+      background-color: #fff;
+      border-radius: 5px;
+      left: 50%;
+      margin-left: -300px;
+      top: 30%;
+      padding: 0 32px 26px 32px;
+      text-align: center;
+      i {
+        font-size: 24px;
+        cursor: pointer;
+      }
+      > p:nth-child(2) {
+        span {
+          font-size: 16px;
+        }
+      }
+      > p:nth-child(3) {
+        font-size: 14px;
       }
     }
-    p:nth-child(3){
+    .title-tip {
+      height: 36px;
+      line-height: 36px;
+      margin: 20px auto 20px auto;
+      color: #000;
+      background-color: #FFF6F3;
       font-size: 14px;
     }
   }

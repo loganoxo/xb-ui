@@ -413,7 +413,7 @@ router.post("/api/pay-by-balance.json", function (req, res, next) {
       res.end();
     })
     .catch(function (err) {
-      logConfig.logger.error(err);
+      logConfig.logger.error(req.originalUrl + ':' + err);
       res.json({status: false, msg: "服务器错误"});
       res.end();
     });
@@ -616,7 +616,7 @@ router.post('/api/task-list.json', function (req, res, next) {
       res.end();
     })
     .catch(function (err) {
-      logConfig.logger.error(err);
+      logConfig.logger.error(req.originalUrl + ':' + err);
       res.json({status: false, msg: "服务器错误"});
       res.end();
     });

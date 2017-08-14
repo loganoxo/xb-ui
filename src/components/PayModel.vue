@@ -1,13 +1,13 @@
 <template>
   <div class="pay-model-con">
-    <i class="close-recharge" @click="closeRecharge">&times;</i>
+    <slot name="closeModel"></slot>
     <div v-if="!isBalance">
       <slot name="noBalance"></slot>
     </div>
     <div v-else>
       <slot name="isBalance"></slot>
     </div>
-    <div class="hasBalance ml-80 mt-40" v-if="isBalance">
+    <div class="hasBalance mt-40" v-if="isBalance">
       <span class="input-pay-pwd">请输入支付密码：</span>
       <iInput v-model.number="payPassword" type="password" style="width: 200px"></iInput>
     </div>
@@ -23,14 +23,13 @@
       </Radio-group>
     </div>
     <div class="recharge-btn" v-if="isBalance" @click="confirmPayment">{{payButtonText}}</div>
-    <div class="recharge-btn" v-else>{{rechargeButtonText}}</div>
+    <div class="recharge-btn" v-else @click="confirmRecharge">{{rechargeButtonText}}</div>
   </div>
 </template>
 
 <script>
   import Input from 'iview/src/components/input'
   import Radio from 'iview/src/components/radio'
-  import api from '@/config/apiConfig'
 
   export default {
     name: 'PayModel',
@@ -45,10 +44,6 @@
         required: true,
         default: 0
       },
-      taskId: {
-        type: Number,
-        required: true
-      },
       payButtonText: {
         type: String,
         default: '确认支付'
@@ -56,12 +51,6 @@
       rechargeButtonText: {
         type: String,
         default: '立即充值'
-      },
-      onSuccess: {
-        type: Function,
-        default() {
-          return {};
-        }
       }
     },
     data() {
@@ -80,22 +69,17 @@
       userBalance: function () {
         return this.$store.state.userBalance / 100
       },
+
       isBalance: function () {
         return this.orderMoney <= this.userBalance
       },
     },
     methods: {
-      closeRecharge() {
-        this.$emit('closeRecharge');
-      },
       confirmPayment() {
-        api.payByBalance({
-          fee: this.orderMoney,
-          payPassword: this.payPassword,
-          taskId: this.taskId
-        }).then(res => {
-          this.onSuccess(res)
-        })
+        this.$emit('confirmPayment',this.payPassword);
+      },
+      confirmRecharge() {
+        this.$emit('confirmRecharge');
       }
     }
   }
@@ -105,7 +89,15 @@
   @import 'src/css/mixin';
 
   .pay-model-con {
-    @include fullScreenModelCon(630px, 298px);
+    position: absolute;
+    width: 600px;
+    background-color: #fff;
+    border-radius: 5px;
+    left: 50%;
+    margin-left: -300px;
+    top: 30%;
+    padding: 0 32px 26px 32px;
+    text-align: center;
     .select-pay-type {
       font-size: 16px;
       .ali-logo {
@@ -133,7 +125,7 @@
       line-height: 30px;
       @include sc(16px, #fff);
       text-align: center;
-      margin: 56px auto 0 auto;
+      margin: 42px auto 0 auto;
       @include transition;
       border-radius: 5px;
       cursor: pointer;
@@ -145,7 +137,6 @@
     .close-recharge {
       font-size: 26px;
       float: right;
-      margin-right: 12px;
       cursor: pointer;
     }
   }
