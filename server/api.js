@@ -107,10 +107,10 @@ router.post('/api/login.json', (req, res, next) => {
 /**
  * 首页导航
  */
-router.post('/api/task/search/item/catalog/main.json', (req, res, next) => {
+router.post('/api/task/item/catalog/main.json', (req, res, next) => {
   let options = {
     method: 'GET',
-    uri: baseUrl + '/task/search/item/catalog/main',
+    uri: baseUrl + '/task/item/catalog/main',
     json: true,
   };
   request(options)
@@ -127,10 +127,10 @@ router.post('/api/task/search/item/catalog/main.json', (req, res, next) => {
 /**
  * 首页试用任务展示
  */
-router.post('/api/task/search/index/newest.json', (req, res, next) => {
+router.post('/api/task/index/newest.json', (req, res, next) => {
   let options = {
     method: 'GET',
-    uri: baseUrl + '/task/search/index/newest',
+    uri: baseUrl + '/task/index/newest',
     json: true,
   };
   request(options)
@@ -152,7 +152,7 @@ router.post('/api/task/get/item/catalog/parent.json', (req, res, next) => {
   let options =
     {
       method: 'GET',
-      uri: baseUrl + '/task/get/item/catalog/parent/' + req.body.id,
+      uri: baseUrl + '/task/item/catalog/parent/' + req.body.id,
       json: true,
     };
   request(options)
@@ -427,7 +427,7 @@ router.post("/api/pay-by-balance.json", function (req, res, next) {
 router.post("/api/item-catalog.json", function (req, res, next) {
   let options = {
     method: 'GET',
-    uri: baseUrl + '/task/get/item/catalog',
+    uri: baseUrl + '/task/item/catalog/all',
     json: true
   };
   request(options)

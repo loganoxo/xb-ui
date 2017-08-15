@@ -42,14 +42,14 @@ export default {
    *首页导航列表
    */
   getNavList () {
-    return fetch("/api/task/search/item/catalog/main.json")
+    return fetch("/api/task/item/catalog/main.json")
   },
 
   /**
    *首页试用任务展示接口
    */
   getHomeTaskList () {
-    return fetch("/api/task/search/index/newest.json")
+    return fetch("/api/task/index/newest.json")
   },
 
   /**

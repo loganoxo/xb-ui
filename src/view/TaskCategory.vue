@@ -14,8 +14,7 @@
       <div class="container">
         <div class="task-category-sel">
           {{$route.query.name}}：
-          <a href="" class="active" >全部</a>
-          <a href="" v-for="category in categoryList">{{category.name}}</a>
+          <a  v-for="category in categoryList" @click="taskCategoryFunc()">{{category.name}}</a>
         </div>
       </div>
       <div class="container">
@@ -554,6 +553,9 @@
       }
     },
     methods: {
+      taskCategoryFunc(index,callback){
+
+      },
       getHomeTaskList(){
         let self = this;
         api.getHomeTaskList().then((res) => {
@@ -573,6 +575,7 @@
         api.getTaskCategory({id:id}).then((res) => {
           if(res.status){
             self.categoryList = res.data;
+            self.categoryList.unshift({name: '全部'});
           }else {
             self.$Modal.error({
               content: res.msg
