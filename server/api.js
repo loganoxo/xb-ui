@@ -54,7 +54,7 @@ router.get('/api/ali-token.json', (req, res, next) => {
     RoleSessionName: 'RoleSessionName'
   }, function (err, parsedBody) {
     if (err) {
-      res.send(err);
+      logConfig.logger.error(req.originalUrl + ':' + err);
     }
     if (parsedBody) {
       res.send(parsedBody.Credentials);
@@ -99,8 +99,9 @@ router.post('/api/login.json', (req, res, next) => {
       }
     })
     .catch(function (err) {
-      logConfig.logger.error('登陆接口错误信息：' + err);
-      res.end("服务器错误");
+      logConfig.logger.error(req.originalUrl + ':' + err);
+      res.json({status: false, msg: "服务器错误"});
+      res.end();
     });
 });
 
@@ -119,8 +120,9 @@ router.post('/api/task/item/catalog/main.json', (req, res, next) => {
       res.end();
     })
     .catch(function (err) {
-      logConfig.logger.error('登陆接口错误信息：' + err);
-      res.end("服务器错误");
+      logConfig.logger.error(req.originalUrl + ':' + err);
+      res.json({status: false, msg: "服务器错误"});
+      res.end();
     });
 });
 
@@ -139,8 +141,9 @@ router.post('/api/task/index/newest.json', (req, res, next) => {
       res.end();
     })
     .catch(function (err) {
-      logConfig.logger.error('登陆接口错误信息：' + err);
-      res.end("服务器错误");
+      logConfig.logger.error(req.originalUrl + ':' + err);
+      res.json({status: false, msg: "服务器错误"});
+      res.end();
     });
 });
 
@@ -161,8 +164,9 @@ router.post('/api/task/get/item/catalog/parent.json', (req, res, next) => {
       res.end();
     })
     .catch(function (err) {
-      logConfig.logger.error('登陆接口错误信息：' + err);
-      res.end("服务器错误");
+      logConfig.logger.error(req.originalUrl + ':' + err);
+      res.json({status: false, msg: "服务器错误"});
+      res.end();
     });
 });
 /**
@@ -199,7 +203,7 @@ router.post('/api/check-fast-sign-in.json', function (req, res, next) {
         res.end();
       }
     }).catch(function (err) {
-      logConfig.logger.error(err);
+      logConfig.logger.error(req.originalUrl + ':' + err);
       res.json({status: false, msg: "服务器错误"});
       res.end();
     });
@@ -253,7 +257,7 @@ router.post('/api/sign-up.json', function (req, res, next) {
       res.send(parsedBody);
       res.end();
     }).catch(function (err) {
-      logConfig.logger.error(err);
+      logConfig.logger.error(req.originalUrl + ':' + err);
       res.json({status: false, msg: "服务器错误"});
       res.end();
     });
@@ -299,7 +303,7 @@ router.post('/api/send-verify-code.json', function (req, res, next) {
       res.send(parsedBody);
       res.end();
     }).catch(function (err) {
-      logConfig.logger.error(err);
+      logConfig.logger.error(req.originalUrl + ':' + err);
       res.json({status: false, msg: "服务器错误"});
       res.end();
     });
@@ -335,7 +339,7 @@ router.post('/api/user/identity/saveidentity.json', function (req, res, next) {
     res.send(parsedBody);
     res.end();
   }).catch(function (err) {
-    logConfig.logger.error(err);
+    logConfig.logger.error(req.originalUrl + ':' + err);
     res.json({status: false, msg: "服务器错误"});
     res.end();
   });
@@ -359,7 +363,7 @@ router.post('/api/identity-index.json', function (req, res, next) {
     res.send(parsedBody);
     res.end();
   }).catch(function (err) {
-    logConfig.logger.error(err);
+    logConfig.logger.error(req.originalUrl + ':' + err);
     res.json({status: false, msg: "服务器错误"});
     res.end();
   });
@@ -381,7 +385,7 @@ router.post("/api/get-account-balance.json", function (req, res, next) {
       res.end();
     })
     .catch(function (err) {
-      logConfig.logger.error(err);
+      logConfig.logger.error(req.originalUrl + ':' + err);
       res.json({status: false, msg: "服务器错误"});
       res.end();
     });
@@ -435,7 +439,7 @@ router.post("/api/item-catalog.json", function (req, res, next) {
       res.send(parsedBody);
       res.end();
     }).catch(function (err) {
-    logConfig.logger.error(err);
+    logConfig.logger.error(req.originalUrl + ':' + err);
     res.json({status: false, msg: "服务器错误"});
     res.end();
   })
@@ -462,7 +466,7 @@ router.post('/api/alitm-bunding.json', function (req, res, next) {
     res.send(parsedBody);
     res.end();
   }).catch(function (err) {
-    logConfig.logger.error(err);
+    logConfig.logger.error(req.originalUrl + ':' + err);
     res.json({status: false, msg: "服务器错误"});
     res.end();
   });
@@ -484,7 +488,7 @@ router.post('/api/get-alitm-info-list.json', function (req, res, next) {
     res.send(parsedBody);
     res.end();
   }).catch(function (err) {
-    logConfig.logger.error(err);
+    logConfig.logger.error(req.originalUrl + ':' + err);
     res.json({status: false, msg: "服务器错误"});
     res.end();
   });
@@ -506,7 +510,7 @@ router.post('/api/alitm-unBunding.json', function (req, res, next) {
     res.send(parsedBody);
     res.end();
   }).catch(function (err) {
-    logConfig.logger.error(err);
+    logConfig.logger.error(req.originalUrl + ':' + err);
     res.json({status: false, msg: "服务器错误"});
     res.end();
   });
@@ -530,7 +534,7 @@ router.post('/api/alitm/resubmit.json', function (req, res, next) {
     res.send(parsedBody);
     res.end();
   }).catch(function (err) {
-    logConfig.logger.error(err);
+    logConfig.logger.error(req.originalUrl + ':' + err);
     res.json({status: false, msg: "服务器错误"});
     res.end();
   });
@@ -585,7 +589,7 @@ router.post("/api/task-create.json", function (req, res, next) {
       res.end();
     })
     .catch(function (err) {
-      logConfig.logger.error(err);
+      logConfig.logger.error(req.originalUrl + ':' + err);
       res.json({status: false, msg: "服务器错误"});
       res.end();
     });
@@ -639,7 +643,7 @@ router.post('/api/delete-task.json', function (req, res, next) {
       res.end();
     })
     .catch(function (err) {
-      logConfig.logger.error(err);
+      logConfig.logger.error(req.originalUrl + ':' + err);
       res.json({status: false, msg: "服务器错误"});
       res.end();
     });
@@ -662,7 +666,7 @@ router.post('/api/get-task.json', function (req, res, next) {
       res.end();
     })
     .catch(function (err) {
-      logConfig.logger.error(err);
+      logConfig.logger.error(req.originalUrl + ':' + err);
       res.json({status: false, msg: "服务器错误"});
       res.end();
     });
@@ -680,7 +684,11 @@ router.post('/api/get-task-apply-list.json', function (req, res, next) {
     formData: {
       taskId: req.body.taskId,
       status: req.body.status,
-      pageIndex: req.body.pageIndex
+      pageIndex: req.body.pageIndex,
+      selectStatus: req.body.selectStatus,
+      searchValue: req.body.searchValue,
+      orderNum: req.body. orderNum,
+      endReasonList : req.body. endReasonList,
     },
     json: true
   };
@@ -690,7 +698,7 @@ router.post('/api/get-task-apply-list.json', function (req, res, next) {
       res.end();
     })
     .catch(function (err) {
-      logConfig.logger.error(err);
+      logConfig.logger.error(req.originalUrl + ':' + err);
       res.json({status: false, msg: "服务器错误"});
       res.end();
     });
@@ -717,7 +725,7 @@ router.post('/api/set-task-showke-audit', function (req, res, next) {
       res.end();
     })
     .catch(function (err) {
-      logConfig.logger.error(err);
+      logConfig.logger.error(req.originalUrl + ':' + err);
       res.json({status: false, msg: "服务器错误"});
       res.end();
     });
