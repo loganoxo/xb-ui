@@ -169,6 +169,65 @@ router.post('/api/task/get/item/catalog/parent.json', (req, res, next) => {
       res.end();
     });
 });
+
+/**
+ * 分类页面小类内容
+ * @param id  大类id
+ */
+router.post('/api/task/item/catalog/child.json', (req, res, next) => {
+  let options =
+    {
+      method: 'GET',
+      uri: baseUrl + '/task/item/catalog/' + req.body.cate + '/child' ,
+      json: true,
+    };
+  request(options)
+    .then(function (parsedBody) {
+      res.send(parsedBody);
+      res.end();
+    })
+    .catch(function (err) {
+      logConfig.logger.error(req.originalUrl + ':' + err);
+      res.json({status: false, msg: "服务器错误"});
+      res.end();
+    });
+});
+/**
+ * 分类页面任务详情请求
+ *@param pageIndex: 第几页，
+ *@param pageSize: 一页几个，
+ *@param taskName: 搜索关键词，
+ *@param taskTypes: 搜索关键词，
+ *@param itemCatalogs: 分类，
+ */
+router.post('/api/search/task/s.json', (req, res, next) => {
+  let options =
+    {
+      method: 'POST',
+      uri: baseUrl + '/search/task/s',
+      json: true,
+      formData: {
+        pageIndex: req.body.pageIndex,
+        pageSize: req.body.pageSize,
+        taskName: req.body.taskName,
+        taskTypes: req.body.taskTypes,
+        itemCatalogs:  req.body.itemCatalogs,
+        sortField: req.body.sortField,
+        sortOrder: req.body.sortOrder
+      },
+    };
+  request(options)
+    .then(function (parsedBody) {
+      res.send(parsedBody);
+      res.end();
+    })
+    .catch(function (err) {
+      logConfig.logger.error(req.originalUrl + ':' + err);
+      res.json({status: false, msg: "服务器错误"});
+      res.end();
+    });
+});
+
 /**
  * 检测是否第一次动态登陆
  * @param phone

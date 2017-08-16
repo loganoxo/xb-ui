@@ -11,7 +11,9 @@ const noLogInList = [
   "/api/send-verify-code.json",//发送手机验证码
   "/api/task/search/item/catalog/main.json",//首页导航
   "/api/task/search/index/newest.json",//首页分类展示
-  "/api/task/get/item/catalog/parent.json"//分类页面
+  "/api/task/get/item/catalog/parent.json",//分类页面
+  "/api/search/task/s.json",//
+  '/api/task/item/catalog/child.json'
 ];
 
 module.exports = noLogInList;

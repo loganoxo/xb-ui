@@ -58,6 +58,19 @@ export default {
   getTaskCategory(params) {
     return fetch("/api/task/get/item/catalog/parent.json", params)
   },
+  /**
+   *分类页面下的小类
+   */
+  getTaskCategoryList(params) {
+    return fetch('/api/task/item/catalog/child.json', params)
+  },
+
+  /**
+   * 分类页面任务详情请求
+   */
+  getSearchTask(params) {
+    return fetch("/api/search/task/s.json", params)
+  },
 
   /**
    *用户任务发布

@@ -14,10 +14,10 @@
                 <a href="">店铺</a>
               </div>
               <i class="ivu-icon ivu-icon-ios-search"></i>
-              <input type="text" class="search-btn">
+              <input type="text" class="search-btn" v-model="searchKey">
               <i data-v-fae95c8a="" class="ivu-icon ivu-icon-camera"></i>
             </div>
-            <a href="">搜索</a>
+            <router-link  :to="{ 'path': '/task-category', 'query': {'searchKey': searchKey }}">搜索</router-link>
             <p class="link-text">
               <a class="active" href="">男士内裤</a>
               <a class="active" href="">时尚连衣裙</a>
@@ -40,7 +40,7 @@
     <div class="home-nav">
       <div class="container">
         <router-link to="/">首页</router-link>
-        <router-link v-for="nav in navList" :key="nav.id" :to="{ 'path': '/task-category', 'query': {'id': nav.id, 'name': nav.name}}">{{nav.name}}</router-link>
+        <router-link v-for="nav in navList" :key="nav.id" :to="{ 'path': '/task-category', 'query': {'cate': nav.id}}">{{nav.name}}</router-link>
       </div>
     </div>
   </div>
@@ -58,6 +58,7 @@
     },
     data () {
       return {
+          searchKey: '',
           navList: []
       }
     },
