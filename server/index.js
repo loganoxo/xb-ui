@@ -14,6 +14,16 @@ const RedisStore = require('connect-redis')(session);
 
 const app = express();
 logConfig.use(app);
+app.use(bodyParser.json());
+
+app.use(bodyParser.urlencoded({extended: false}));
+
+app.use(cookieParser());
+
+if (process.env.NODE_ENV !== 'production') {
+  // 访问静态资源文件 这里是访问所有dist目录下的静态资源文件
+  app.use(express.static(path.resolve(__dirname, '../dist')));
+}
 
 const redisOptions = {
   host: config.redis.host,
@@ -31,41 +41,31 @@ app.use(session({
   saveUninitialized: true
 }));
 
-app.use(cookieParser());
-
-app.use(bodyParser.json());
-
-app.use(bodyParser.urlencoded({extended: false}));
-
-
 //用户权限拦截器
 app.use(function (req, res, next) {
   let url = req.originalUrl;
-  let hasUrl = false;
-  for (let i = 0; i < noLogInList.length; i++) {
-    if (url.indexOf(noLogInList[i]) >= 0) {
-      hasUrl = true;
+  console.log(url);
+  if (url.endsWith(".json")) {
+    let hasUrl = false;
+    for (let i = 0; i < noLogInList.length; i++) {
+      if (url.indexOf(noLogInList[i]) >= 0) {
+        hasUrl = true;
+      }
     }
-  }
-  if (!hasUrl && !req.session.userData) {
-    res.writeHead(401);
-    res.end();
+    if (!hasUrl && !req.session.userData) {
+      res.writeHead(401);
+      res.end();
+    } else {
+      next();
+    }
   } else {
-    next();
+    // 因为是单页应用 所有请求都走/dist/index.html
+    const html = fs.readFileSync(path.resolve(__dirname, '../dist/index.html'), 'utf-8');
+    res.send(html)
   }
 });
 
 app.use(require('./api'));
-
-if (process.env.NODE_ENV === 'production') {
-  // 访问静态资源文件 这里是访问所有dist目录下的静态资源文件
-  app.use(express.static(path.resolve(__dirname, '../dist')));
-  // 因为是单页应用 所有请求都走/dist/index.html
-  app.get('*', function (req, res) {
-    const html = fs.readFileSync(path.resolve(__dirname, '../dist/index.html'), 'utf-8');
-    res.send(html)
-  });
-}
 
 logConfig.logger.info('当前node环境变量为：' + process.env.NODE_ENV);
 

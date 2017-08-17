@@ -64,7 +64,6 @@ router.get('/api/ali-token.json', (req, res, next) => {
       logConfig.logger.error(req.originalUrl + ':' + err);
     }
     if (parsedBody) {
-      console.log(parsedBody);
       res.send(parsedBody.Credentials);
     }
     res.end();
