@@ -56,7 +56,12 @@ export const aliUploadImg = (key, file) => {
       if (err) {
         return alert(err);
       }
-      const result = JSON.parse(response);
+      let result;
+      try {
+         result = JSON.parse(response);
+      } catch (e) {
+        return console.log('parse sts response info error: ' + e.message);
+      }
       const client = new OSS.Wrapper({
         region: 'oss-cn-hangzhou',
         accessKeyId: result.AccessKeyId,
