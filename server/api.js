@@ -50,6 +50,7 @@ redisClient.on('error', function (res) {
 router.get('/api/ali-token.json', (req, res, next) => {
   res.set('Access-Control-Allow-Origin', '*');
   res.set('Access-Control-Allow-METHOD', 'GET');
+  res.setHeader("Content-Type", "application/json");
   sts.assumeRole({
     Action: 'AssumeRole',
     RoleArn: 'acs:ram::1787158783531067:role/aliyunosstokengeneratorrole',

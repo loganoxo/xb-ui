@@ -1,7 +1,6 @@
 /**
  * Created by ycb on 2017/7/18.
  */
-import axios from 'axios'
 import {aliUrl, bucket} from '../config/env'
 
 /**
@@ -53,8 +52,12 @@ export const TimeToDate = () => {
  */
 export const aliUploadImg = (key, file) => {
   return new Promise((resolve, reject) => {
-    axios.get(aliUrl).then(function (response) {
-      let result = response.data;
+    OSS.urllib.request(aliUrl, {method: 'GET'}, function (err, response) {
+      if (err) {
+        return alert(err);
+      }
+      console.log(response);
+      const result = JSON.parse(response);
       console.log(result);
       const client = new OSS.Wrapper({
         region: 'oss-cn-hangzhou',
@@ -70,8 +73,6 @@ export const aliUploadImg = (key, file) => {
       }).catch((error) => {
         reject(error);
       })
-    }).catch(function (error) {
-      console.log(error);
     });
   });
 }
