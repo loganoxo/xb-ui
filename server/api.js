@@ -64,6 +64,7 @@ router.get('/api/ali-token.json', (req, res, next) => {
       logConfig.logger.error(req.originalUrl + ':' + err);
     }
     if (parsedBody) {
+      logConfig.logger.info( '阿里云返回临时token数据:'+ parsedBody);
       res.send(parsedBody.Credentials);
     }
     res.end();
