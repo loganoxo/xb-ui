@@ -1,6 +1,7 @@
 /**
  * Created by ycb on 2017/7/18.
  */
+import axios from 'axios'
 import {aliUrl, bucket} from '../config/env'
 
 /**
@@ -52,34 +53,27 @@ export const TimeToDate = () => {
  */
 export const aliUploadImg = (key, file) => {
   return new Promise((resolve, reject) => {
-    OSS.urllib.request(aliUrl, {method: 'GET'}, function (err, response) {
-      if (err) {
-        return alert(err);
-      }
-      console.log(err);
-      console.log(response);
-      let result;
-      try {
-         result = JSON.parse(response);
-         console.log(result);
-      } catch (e) {
-        return console.log('parse sts response info error: ' + e.message);
-      }
-      const client = new OSS.Wrapper({
-        region: 'oss-cn-hangzhou',
-        accessKeyId: result.AccessKeyId,
-        accessKeySecret: result.AccessKeySecret,
-        stsToken: result.SecurityToken,
-        bucket: bucket,
-      });
-      client.multipartUpload(key, file).then(response => {
-        resolve(response);
-      }, err => {
-        reject(err);
-      }).catch((error) => {
-        reject(error);
+    axios.get(aliUrl)
+      .then(function (response) {
+        let result = response.data
+        const client = new OSS.Wrapper({
+          region: 'oss-cn-hangzhou',
+          accessKeyId: result.AccessKeyId,
+          accessKeySecret: result.AccessKeySecret,
+          stsToken: result.SecurityToken,
+          bucket: bucket,
+        });
+        client.multipartUpload(key, file).then(response => {
+          resolve(response);
+        }, err => {
+          reject(err);
+        }).catch((error) => {
+          reject(error);
+        })
       })
-    });
+      .catch(function (error) {
+        console.log(error);
+      });
   });
 }
 
