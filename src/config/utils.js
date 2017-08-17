@@ -56,6 +56,8 @@ export const aliUploadImg = (key, file) => {
       if (err) {
         return alert(err);
       }
+      console.log(err);
+      console.log(response);
       let result;
       try {
          result = JSON.parse(response);
