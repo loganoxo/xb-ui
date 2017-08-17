@@ -53,27 +53,26 @@ export const TimeToDate = () => {
  */
 export const aliUploadImg = (key, file) => {
   return new Promise((resolve, reject) => {
-    axios.get(aliUrl)
-      .then(function (response) {
-        let result = response.data
-        const client = new OSS.Wrapper({
-          region: 'oss-cn-hangzhou',
-          accessKeyId: result.AccessKeyId,
-          accessKeySecret: result.AccessKeySecret,
-          stsToken: result.SecurityToken,
-          bucket: bucket,
-        });
-        client.multipartUpload(key, file).then(response => {
-          resolve(response);
-        }, err => {
-          reject(err);
-        }).catch((error) => {
-          reject(error);
-        })
-      })
-      .catch(function (error) {
-        console.log(error);
+    axios.get(aliUrl).then(function (response) {
+      let result = response.data;
+      console.log(result);
+      const client = new OSS.Wrapper({
+        region: 'oss-cn-hangzhou',
+        accessKeyId: result.AccessKeyId,
+        accessKeySecret: result.AccessKeySecret,
+        stsToken: result.SecurityToken,
+        bucket: bucket,
       });
+      client.multipartUpload(key, file).then(response => {
+        resolve(response);
+      }, err => {
+        reject(err);
+      }).catch((error) => {
+        reject(error);
+      })
+    }).catch(function (error) {
+      console.log(error);
+    });
   });
 }
 

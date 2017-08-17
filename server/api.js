@@ -468,7 +468,6 @@ router.post("/api/pay-by-balance.json", function (req, res, next) {
     method: 'POST',
     uri: baseUrl + '/user/account/pay-by-account-balance',
     formData: {
-      fee: req.body.fee,
       uid: req.session.userData.id,
       payPwd: req.body.payPassword,
       taskId: req.body.taskId,
