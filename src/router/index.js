@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import Router from 'vue-router'
+
 const Home = r => require.ensure([], () => r(require('../view/Home.vue')), 'Home');
 const SelRole = r => require.ensure([], () => r(require('../view/SelRole.vue')), 'SelRole');
 const Login = r => require.ensure([], () => r(require('../view/Login.vue')), 'Login');
@@ -8,9 +9,10 @@ const TaskCategory = r => require.ensure([], () => r(require('../view/TaskCatego
 const TaskDetails = r => require.ensure([], () => r(require('../view/TaskDetails.vue')), 'TaskDetails');
 const MyXiuBa = r => require.ensure([], () => r(require('../view/MyXiuBa/MyXiuBa.vue')), 'MyXiuBa');
 const UserHome = r => require.ensure([], () => r(require('../view/MyXiuBa/children/UserHome.vue')), 'MyXiuBa');
-const PersonalSetting = r => require.ensure([], () => r(require('../view/MyXiuBa/children/PersonalSetting.vue')), 'MyXiuBa');
-const TaskReleaseProcess = r => require.ensure([], () => r(require('../view/MyXiuBa/children/TaskReleaseProcess.vue')), 'MyXiuBa');
-const ActivityManagement = r => require.ensure([], () => r(require('../view/MyXiuBa/children/ActivityManagement.vue')), 'MyXiuBa');
+const PersonalSetting = r => require.ensure([], () => r(require('../view/MyXiuBa/children/PersonalSetting.vue')), 'PersonalSetting');
+const TaskReleaseProcess = r => require.ensure([], () => r(require('../view/MyXiuBa/children/TaskReleaseProcess.vue')), 'TaskReleaseProcess');
+const ActivityManagement = r => require.ensure([], () => r(require('../view/MyXiuBa/children/ActivityManagement.vue')), 'ActivityManagement');
+const MyProbation = r => require.ensure([], () => r(require('../view/MyXiuBa/children/MyProbation.vue')), 'MyProbation');
 
 
 Vue.use(Router);
@@ -28,7 +30,7 @@ export default new Router({
     },
     {
       path: '/sel-role',
-      name: 'sel-role',
+      name: 'SelRole',
       component: SelRole,
       meta: {
         title: "注册角色选择"
@@ -51,18 +53,18 @@ export default new Router({
       },
       children: [
         {
-          path : '/seller-register',
+          path: '/seller-register',
           name: 'seller'
         },
         {
-          path : '/buyer-register',
+          path: '/buyer-register',
           name: 'buyer'
         },
       ]
     },
     {
       path: '/task-category',
-      name: 'task-category',
+      name: 'TaskCategory',
       component: TaskCategory,
       meta: {
         title: "任务分类展示"
@@ -70,7 +72,7 @@ export default new Router({
     },
     {
       path: '/task-details',
-      name: 'task-details',
+      name: 'TaskDetails',
       component: TaskDetails,
       meta: {
         title: "任务详情页"
@@ -106,6 +108,14 @@ export default new Router({
           component: ActivityManagement,
           meta: {
             title: "试用活动管理"
+          }
+        },
+        {
+          path: 'my-probation',
+          name: 'MyProbation',
+          component: MyProbation,
+          meta: {
+            title: "我的试用"
           }
         },
         {

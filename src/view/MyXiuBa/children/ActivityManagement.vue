@@ -72,7 +72,9 @@
             <td>{{item.taskStatusDesc}}</td>
             <td class="registration">{{item.showkerApplyTotalCount}} / {{item.showkerApplySuccessCount}}（人）</td>
             <td>{{item.taskCount}}</td>
-            <td>{{!item.pinkage ? (item.itemPrice / 100 + 10) * item.taskCount : item.itemPrice / 100 * item.taskCount}}</td>
+            <td>
+              {{!item.pinkage ? (item.itemPrice / 100 + 10) * item.taskCount : item.itemPrice / 100 * item.taskCount}}
+            </td>
             <td v-if="item.taskStatus === 'waiting_pay'">
               <p class="del-edit">
                 <span class="mr-10" @click="editTask(item.id)">编辑</span>
@@ -94,7 +96,8 @@
                 <span>复制活动</span>
               </p>
             </td>
-            <td v-else-if="item.taskStatus === 'waiting_audit' || item.taskStatus === 'cannot_settlement' || item.taskStatus === 'waiting_audit'">
+            <td
+              v-else-if="item.taskStatus === 'waiting_audit' || item.taskStatus === 'cannot_settlement' || item.taskStatus === 'waiting_audit'">
               <p class="copy mt-6">
                 <span>复制活动</span>
               </p>
@@ -166,7 +169,7 @@
           </div>
           <!--待审批-->
           <div class="await-approve mt-20" v-show="showApproveStatus === 'toAudit'">
-            <iSelect v-model="shokeyName" style="width: 120px;margin-right: 12px;">
+            <iSelect v-model="selectStatus" style="width: 120px;margin-right: 12px;">
               <iOption v-for="item in SelectList" :value="item.value" :key="item.value">{{ item.label }}</iOption>
             </iSelect>
             <iInput v-model="searchValue" style="width: 160px;margin-right: 8px;"></iInput>
@@ -206,7 +209,7 @@
           </div>
           <!--已通过-->
           <div class="fail-audit mt-20" v-show="showApproveStatus === 'passAudit'">
-            <iSelect v-model="shokeyName" style="width: 120px;margin-right: 12px;">
+            <iSelect v-model="selectStatus" style="width: 120px;margin-right: 12px;">
               <iOption v-for="item in SelectList" :value="item.value" :key="item.value">{{ item.label }}</iOption>
             </iSelect>
             <iInput v-model="searchValue" style="width: 160px;margin-right: 8px;"></iInput>
@@ -283,7 +286,7 @@
           </div>
           <!--已终止-->
           <div class="pass-audit mt-20" v-show="showApproveStatus === 'failAudit'">
-            <iSelect v-model="shokeyName" style="width: 120px;margin-right: 12px;">
+            <iSelect v-model="selectStatus" style="width: 120px;margin-right: 12px;">
               <iOption v-for="item in SelectList" :value="item.value" :key="item.value">{{ item.label }}</iOption>
             </iSelect>
             <iInput v-model="searchValue" style="width: 160px;margin-right: 8px;"></iInput>
@@ -298,14 +301,14 @@
                 </Checkbox>
               </div>
               <div class="left">
-                <Checkbox-group v-model="checkFailList" @on-change="checkFailChange">
-                  <Checkbox label="香蕉">
+                <Checkbox-group v-model="endReasonList" @on-change="checkFailChange">
+                  <Checkbox label="timeout_auto_close">
                     <span>逾期系统终止</span>
                   </Checkbox>
-                  <Checkbox label="苹果">
+                  <Checkbox label="buyer_manual_close">
                     <span>试客放弃试用</span>
                   </Checkbox>
-                  <Checkbox label="西瓜">
+                  <Checkbox label="seller_manual_close">
                     <span>管理员终止/商家终止</span>
                   </Checkbox>
                 </Checkbox-group>
@@ -367,21 +370,24 @@
               <iInput v-model="orderNoPassReason" placeholder="请填写不通过理由，如订单号不符或实付金额不符" style="width: 420px"></iInput>
             </div>
             <div class="true-btn" v-show="orderReviewStatus === 'no_pass'">确认</div>
-            <div class="true-btn" v-show="orderReviewStatus === 'pass' && securityMoney >= orderMoney" @click="openRefundModel">确认</div>
-            <PayModel v-show="orderReviewStatus === 'pass' && securityMoney < orderMoney" :orderMoney="orderMoney" @confirmPayment="confirmPayment" :payButtonText="payButtonText" :rechargeButtonText="rechargeButtonText" style="margin-top: 120px;">
-                <div slot="isBalance" class="title-tip">
+            <div class="true-btn" v-show="orderReviewStatus === 'pass' && securityMoney >= orderMoney"
+                 @click="openRefundModel">确认</div>
+            <PayModel v-show="orderReviewStatus === 'pass' && securityMoney < orderMoney" :orderMoney="orderMoney"
+                      @confirmPayment="confirmPayment" :payButtonText="payButtonText"
+                      :rechargeButtonText="rechargeButtonText" style="margin-top: 120px;">
+              <div slot="isBalance" class="title-tip">
                 <span class="size-color3">
                 <Icon color="#FF2424" size="18" type="ios-information"></Icon>
                 <span class="ml-10">注意：该秀客实付金额大于试用保证金，</span></span>需要补充担保金<strong
-                  class="main-color">{{Math.abs(securityMoney - orderMoney)}}</strong>元
-                </div>
-                <div slot="noBalance" class="title-tip">
+                class="main-color">{{Math.abs(securityMoney - orderMoney)}}</strong>元
+              </div>
+              <div slot="noBalance" class="title-tip">
                 <span class="size-color3">
                 <Icon color="#FF2424" size="18" type="ios-information"></Icon>
                 <span class="ml-10">注意：该秀客实付金额大于试用保证金，</span></span>需要补充担保金<strong
-                  class="main-color">{{Math.abs(securityMoney - orderMoney)}}</strong>元,请充值！
-                </div>
-              </PayModel>
+                class="main-color">{{Math.abs(securityMoney - orderMoney)}}</strong>元,请充值！
+              </div>
+            </PayModel>
           </div>
         </div>
       </div>
@@ -537,7 +543,7 @@
       Radio: Radio,
       RadioGroup: Radio.Group,
       TimeDown: TimeDown,
-      PayModel:PayModel
+      PayModel: PayModel
     },
     data() {
       return {
@@ -553,27 +559,27 @@
         taskStatusList: [],
         settlementStatusList: [],
         checkPassList: [],
-        checkFailList: [],
+        endReasonList: [],
         taskData: {},
         totalElements: null,
         pageIndex: 1,
         approvePageIndex: 1,
         pageSize: 5,
-        shokeyName: null,
+        selectStatus: null,
         searchValue: null,
         searchOrderNumber: null,
         approveTableList: [],
         SelectList: [
           {
-            value: 'name',
+            value: '1',
             label: '试客名称'
           },
           {
-            value: 'account',
+            value: '2',
             label: '淘宝会员名'
           }
         ],
-        showCheckOrder:true,
+        showCheckOrder: false,
         trialCheckStatus: 'pass',
         noPassReason: null,
         orderEndTime: null,
@@ -582,10 +588,10 @@
         refundPayPwd: null,
         orderReviewStatus: 'pass',
         orderNoPassReason: null,
-        orderMoney:110,
-        securityMoney:100,
-        payButtonText:'确认支付并通过',
-        rechargeButtonText:'确认支付并通过',
+        orderMoney: 110,
+        securityMoney: 100,
+        payButtonText: '确认支付并通过',
+        rechargeButtonText: '确认支付并通过',
       }
     },
     mounted() {
@@ -690,11 +696,15 @@
         api.getTaskApplyList({
           taskId: this.taskId,
           status: this.showApproveStatus,
+          selectStatus: this.selectStatus,
+          searchValue: this.searchValue,
+          orderNum: this.searchOrderNumber,
+          endReasonList: JSON.stringify(this.endReasonList),
           pageIndex: this.approvePageIndex,
         }).then(res => {
           let _this = this;
           if (res.status) {
-            _this.approveTableList = res.data.content;
+            _this.approveTableList = res.data.content || [];
           }
         })
       },

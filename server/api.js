@@ -1,6 +1,12 @@
 /**
  * Created by ycb on 2017/7/20.
  */
+
+/**
+ * 注意：（请使用JS严格模式语法）
+ */
+'use strict';
+
 const express = require('express');
 const config = require('./config');
 const logConfig = require('./logConfig');
@@ -15,7 +21,7 @@ const baseUrl = config.baseUrl;
 
 /**
  * 订阅redis服务消息
- * */
+ */
 redisClient.on('ready', function (res) {
   logConfig.logger.info('redis start：redis is ready');
 
@@ -746,8 +752,8 @@ router.post('/api/get-task-apply-list.json', function (req, res, next) {
       pageIndex: req.body.pageIndex,
       selectStatus: req.body.selectStatus,
       searchValue: req.body.searchValue,
-      orderNum: req.body. orderNum,
-      endReasonList : req.body. endReasonList,
+      orderNum: req.body.orderNum,
+      endReasonList: req.body.endReasonList,
     },
     json: true
   };
