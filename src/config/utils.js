@@ -59,6 +59,7 @@ export const aliUploadImg = (key, file) => {
       let result;
       try {
          result = JSON.parse(response);
+         console.log(result);
       } catch (e) {
         return console.log('parse sts response info error: ' + e.message);
       }
