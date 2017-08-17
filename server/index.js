@@ -37,15 +37,6 @@ app.use(bodyParser.json());
 
 app.use(bodyParser.urlencoded({extended: false}));
 
-if (process.env.NODE_ENV === 'production') {
-  // 访问静态资源文件 这里是访问所有dist目录下的静态资源文件
-  app.use(express.static(path.resolve(__dirname, '../dist')));
-  // 因为是单页应用 所有请求都走/dist/index.html
-  app.get('*', function (req, res) {
-    const html = fs.readFileSync(path.resolve(__dirname, '../dist/index.html'), 'utf-8');
-    res.send(html)
-  });
-}
 
 //用户权限拦截器
 app.use(function (req, res, next) {
@@ -65,6 +56,16 @@ app.use(function (req, res, next) {
 });
 
 app.use(require('./api'));
+
+if (process.env.NODE_ENV === 'production') {
+  // 访问静态资源文件 这里是访问所有dist目录下的静态资源文件
+  app.use(express.static(path.resolve(__dirname, '../dist')));
+  // 因为是单页应用 所有请求都走/dist/index.html
+  app.get('*', function (req, res) {
+    const html = fs.readFileSync(path.resolve(__dirname, '../dist/index.html'), 'utf-8');
+    res.send(html)
+  });
+}
 
 logConfig.logger.info('当前node环境变量为：' + process.env.NODE_ENV);
 

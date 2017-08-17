@@ -59,6 +59,7 @@ export const aliUploadImg = (key, file) => {
       console.log(response);
       var encodedString = String.fromCharCode.apply(null, response);
       console.log(encodedString);
+      console.log( JSON.parse(encodedString));
       const result = JSON.parse(response);
       console.log(result);
       const client = new OSS.Wrapper({
