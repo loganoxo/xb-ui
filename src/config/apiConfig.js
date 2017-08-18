@@ -64,12 +64,18 @@ export default {
   getTaskCategoryList(params) {
     return fetch('/api/task/item/catalog/child.json', params)
   },
-
   /**
    * 分类页面任务详情请求
    */
   getSearchTask(params) {
     return fetch("/api/search/task/s.json", params)
+  },
+
+  /**
+   * 详情页页面
+   */
+  getTaskDetails(params) {
+    return fetch("/api/task/get.json", params)
   },
 
   /**

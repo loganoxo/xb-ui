@@ -121,7 +121,14 @@
             <p class="text-ct fs-14">快乐试用，热爱分享</p>
           </div>
           <div class="home-commodity-ctt">
-            <a href="" class="home-commodity-details" v-for="homeCommodity in homeCommodityList" :title="homeCommodity.taskName">
+            <router-link
+              class="home-commodity-details"
+              v-for="homeCommodity in homeCommodityList"
+              :title="homeCommodity.taskName"
+              :key="homeCommodity.id"
+              :to="{ 'path': '/task-details','query': {'taskId': homeCommodity.id}}"
+            >
+              <!--:to="{ 'path': '/task-details', 'query': {'taskId': searchTask.id}}"-->
               <div class="home-commodity-img">
                 <img class="block" v-lazy="homeCommodity.taskMainImage" alt="" style="width: 220px; height: 220px;">
               </div>
@@ -132,7 +139,10 @@
                   <span class="right">免费试用</span>
                 </p>
               </div>
-            </a>
+            </router-link>
+            <!--<a href="" class="home-commodity-details" v-for="homeCommodity in homeCommodityList" :title="homeCommodity.taskName">-->
+             <!---->
+            <!--</a>-->
           </div>
         </div>
       </div>

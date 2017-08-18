@@ -235,6 +235,30 @@ router.post('/api/search/task/s.json', (req, res, next) => {
     });
 });
 
+
+/**
+ * 详情页请求
+ * @param taskId 商品ID
+ */
+router.post('/api/task/get.json', (req, res, next) => {
+  let options =
+    {
+      method: 'GET',
+      uri: baseUrl + '/task/get/' + req.body.taskId ,
+      json: true,
+    };
+  request(options)
+    .then(function (parsedBody) {
+      res.send(parsedBody);
+      res.end();
+    })
+    .catch(function (err) {
+      logConfig.logger.error(req.originalUrl + ':' + err);
+      res.json({status: false, msg: "服务器错误"});
+      res.end();
+    });
+});
+
 /**
  * 检测是否第一次动态登陆
  * @param phone

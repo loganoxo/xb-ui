@@ -26,14 +26,17 @@
                 <Icon type="arrow-down-c"></Icon>
               </iButton>
             </Button-group>
+            <Page class="right"
+                  :current="searchTaskParams.pageIndex"
+                  :total="pageCount"
+                  :page-size = searchTaskParams.pageSize
+                  @on-change = pageChange
+                  simple
+                  size="small"
+            ></Page>
             <p class="right">
               共
               <span class=""> {{pageCount}} </span>件商品&nbsp;&nbsp;&nbsp;
-              <!--<span>1</span> / <span>100</span>&nbsp;&nbsp;&nbsp;-->
-              <!--<Button-group size="small">-->
-                <!--<iButton icon="chevron-left"></iButton>-->
-                <!--<iButton icon="chevron-right"></iButton>-->
-              <!--</Button-group>-->
             </p>
           </div>
         </div>
@@ -58,7 +61,14 @@
       <div class="container">
         <div class="task-category-commodity">
           <div class="task-category-commodity-ctt">
-            <a v-show="searchTaskList.length > 0" href="" class="task-category-commodity-details" v-for="searchTask in searchTaskList" :title="searchTask.taskName">
+            <router-link
+              v-show="searchTaskList.length > 0"
+              v-for="searchTask in searchTaskList"
+              :title="searchTask.taskName"
+              :key= "searchTask.id"
+              :to="{ 'path': '/task-details', 'query': {'taskId': searchTask.id}}"
+              class="task-category-commodity-details"
+            >
               <div class="task-category-commodity-img">
                 <img class="block" v-lazy="searchTask.taskMainImage" alt="" style="width: 220px; height: 220px;">
               </div>
@@ -77,7 +87,7 @@
                   剩余时间：{{searchTask.createTime}}
                 </p>
               </div>
-            </a>
+            </router-link>
             <p v-show="searchTaskList.length <= 0">暂无数据</p>
           </div>
           <div class="task-category-commodity-page" v-show="searchTaskList.length > 0" >
@@ -281,11 +291,11 @@
         }
       },
       'searchTaskParams'(){
-        deep:true
+        deep:true;
         this.getSearchTask();
       },
       'searchTaskParams.taskTypes'(){
-        deep:true
+        deep:true;
         this.getSearchTask();
       },
     }
