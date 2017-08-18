@@ -44,8 +44,7 @@ app.use(session({
 //用户权限拦截器
 app.use(function (req, res, next) {
   let url = req.originalUrl;
-  console.log(url);
-  if (url.endsWith(".json")) {
+  if (url.indexOf(".json")>=0) {
     let hasUrl = false;
     for (let i = 0; i < noLogInList.length; i++) {
       if (url.indexOf(noLogInList[i]) >= 0) {
@@ -59,7 +58,7 @@ app.use(function (req, res, next) {
       next();
     }
   } else {
-    // 因为是单页应用 所有请求都走/dist/index.html
+    // 处理404页面
     const html = fs.readFileSync(path.resolve(__dirname, '../dist/index.html'), 'utf-8');
     res.send(html)
   }
