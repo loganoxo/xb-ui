@@ -24,12 +24,22 @@
     </div>
     <div class="recharge-btn" v-if="isBalance" @click="confirmPayment">{{payButtonText}}</div>
     <div class="recharge-btn" v-else @click="confirmRecharge">{{rechargeButtonText}}</div>
+    <div class="confirm-recharge-model" v-if="confirmRechargeModel">
+      <div class="confirm-recharge-con">
+        <h4>请前往充值界面进行充值！</h4>
+        <div class="btn">
+          <span @click="finishRecharge">已完成充值</span>
+          <span>充值遇到问题</span>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
 <script>
   import Input from 'iview/src/components/input'
   import Radio from 'iview/src/components/radio'
+  import { mapActions } from 'vuex'
 
   export default {
     name: 'PayModel',
@@ -56,7 +66,8 @@
     data() {
       return {
         payType: 'ali',
-        payPassword: null
+        payPassword: null,
+        confirmRechargeModel: false,
       }
     },
     mounted() {
@@ -75,11 +86,18 @@
       },
     },
     methods: {
+      ...mapActions([
+        'getBalance'
+      ]),
       confirmPayment() {
         this.$emit('confirmPayment',this.payPassword);
       },
       confirmRecharge() {
-        this.$emit('confirmRecharge');
+        this.confirmRechargeModel = true;
+      },
+      finishRecharge() {
+        this.getBalance();
+        this.confirmRechargeModel = false;
       }
     }
   }
@@ -121,11 +139,12 @@
       font-size: 16px;
     }
     .recharge-btn {
-      @include wh(120px, 30px);
+      display: inline-block;
+      padding: 4px 16px;
       line-height: 30px;
       @include sc(16px, #fff);
       text-align: center;
-      margin: 42px auto 0 auto;
+      margin: 28px auto 0 auto;
       @include transition;
       border-radius: 5px;
       cursor: pointer;
@@ -138,6 +157,51 @@
       font-size: 26px;
       float: right;
       cursor: pointer;
+    }
+    .confirm-recharge-model{
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      z-index: 999;
+      background-color: rgba(55,55,55,.6);
+    }
+    .confirm-recharge-con{
+      @include fullScreenModelCon(486px,186px);
+      h4{
+        font-size: 18px;
+        margin-top: 42px;
+        color: #666;
+        font-weight: 500;
+      }
+      .btn{
+        margin-top: 36px;
+        text-align: center;
+        span{
+          display: inline-block;
+          @include wh(120px,40px);
+          line-height: 40px;
+          color:#fff;
+          font-size: 16px;
+          border-radius: 5px;
+          text-align: center;
+          cursor: pointer;
+        }
+        span:first-child{
+          background-color: $mainColor;
+          margin-right: 42px;
+          &:hover {
+            background-color: darken($mainColor, 10%);
+          }
+        }
+        span:last-child{
+          background-color: #3FC0C5;
+          &:hover {
+            background-color: darken(#3FC0C5, 10%);
+          }
+        }
+      }
     }
   }
 </style>

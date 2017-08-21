@@ -16,7 +16,7 @@ let aliCallbackImgUrl = 'http://xiuba-dev.oss-cn-hangzhou.aliyuncs.com/';
 
 if (process.env.NODE_ENV === 'development') {
   baseUrl = '/api';
-  aliUrl = 'http://localhost:8088/api/ali-token.json';
+  aliUrl = 'http://localhost:9090/api/ali-token.json';
   bucket = 'xiuba-dev';
   aliCallbackImgUrl = 'http://xiuba-dev.oss-cn-hangzhou.aliyuncs.com/';
 }

@@ -153,11 +153,12 @@
       <div class="approve-manage-info mt-12">
         <div class="manage-info-con clear">
           <div class="manage-img left">
-            <img src="" alt="">
+            <img :src="approveTaskInfo.taskMainImage" alt="">
           </div>
           <div class="manage-text left ml-5">
-            <p>宠物狗衣服狗狗猫咪衣服棉袜狗脚</p>
-            <p class="mt-15">总份数<strong>&nbsp;2&nbsp;</strong>，<strong>&nbsp;0&nbsp;</strong>人正在参与试用，<strong>&nbsp;0&nbsp;</strong>人完成试用，剩余名额<strong>&nbsp;2&nbsp;</strong>个
+            <p>{{approveTaskInfo.taskName}}</p>
+            <p class="mt-15">
+              总份数<strong>&nbsp;{{approveTaskInfo.taskCount}}&nbsp;</strong>，<strong>&nbsp;{{approveTaskInfo.showkerApplySuccessCount}}&nbsp;</strong>人正在参与试用，<strong>&nbsp;{{approveTaskInfo.taskFinishCount || 0}}&nbsp;</strong>人完成试用，剩余名额<strong>&nbsp;{{approveTaskInfo.taskCount - approveTaskInfo.showkerApplySuccessCount}}&nbsp;</strong>个
             </p>
           </div>
         </div>
@@ -193,8 +194,8 @@
                   <td class="registration">{{item.task.showkerApplySuccessCount}}</td>
                   <td>
                     <p class="del-edit">
-                      <span class="mr-10" @click="showkePassAudit(item.id,'passAudit')">通过</span>
-                      <span @click="showkeFailAudit(item.id,'failAudit')">不通过</span>
+                      <span class="mr-10" @click="showkerPassAudit(item.id,'passAudit')">通过</span>
+                      <span @click="showkerFailAudit(item.id,'failAudit')">不通过</span>
                     </p>
                   </td>
                 </tr>
@@ -214,7 +215,7 @@
             </iSelect>
             <iInput v-model="searchValue" style="width: 160px;margin-right: 8px;"></iInput>
             <span>订单编号：</span>
-            <iInput v-model="searchOrderNumber" style="width: 160px;margin-right: 8px;"></iInput>
+            <iInput v-model="orderNum" style="width: 160px;margin-right: 8px;"></iInput>
             <iButton type="primary">搜索</iButton>
             <div class="clear mt-20">
               <div class="left mr-10" style="margin-top: 2px;">
@@ -224,30 +225,27 @@
                 </Checkbox>
               </div>
               <div class="left">
-                <Checkbox-group v-model="checkPassList" @on-change="checkPassChange">
-                  <Checkbox label="香蕉">
+                <Checkbox-group v-model="auditStatusList" @on-change="checkPassChange">
+                  <Checkbox label="pass_and_unclaimed">
                     <span>已通过待领取</span>
                   </Checkbox>
-                  <Checkbox label="苹果">
+                  <Checkbox label="order_num_waiting_audit">
                     <span>订单号待审核</span>
                   </Checkbox>
-                  <Checkbox label="西瓜">
+                  <Checkbox label="trial_report_waiting_submit">
                     <span>已下订单待交试用报告</span>
                   </Checkbox>
-                  <Checkbox label="西瓜">
+                  <Checkbox label="trial_report_waiting_confirm">
                     <span>报告待确认</span>
                   </Checkbox>
-                  <Checkbox label="西瓜">
+                  <Checkbox label="trial_finished">
                     <span>试用完成</span>
                   </Checkbox>
-                  <Checkbox label="西瓜">
+                  <Checkbox label="order_num_error">
                     <span>订单号有误</span>
                   </Checkbox>
                   <Checkbox label="西瓜">
                     <span>报告不合格</span>
-                  </Checkbox>
-                  <Checkbox label="西瓜">
-                    <span>待返款</span>
                   </Checkbox>
                 </Checkbox-group>
               </div>
@@ -267,11 +265,11 @@
                 <tr>
                   <td>{{item.showkerName}}</td>
                   <td>{{item.alitmAccount}}</td>
-                  <td>{{item.applyTime}}</td>
-                  <td class="registration">{{item.task.showkerApplySuccessCount}}</td>
+                  <td>{{getTaskStatus(item.status)}}</td>
+                  <td>{{item.orderNum}}</td>
                   <td>
                     <p class="del-edit">
-                      <span @click="editTask(item.id)">审核订单号</span>
+                      <span @click="openCheckOrder(item.id)">审核订单号</span>
                     </p>
                   </td>
                 </tr>
@@ -291,7 +289,7 @@
             </iSelect>
             <iInput v-model="searchValue" style="width: 160px;margin-right: 8px;"></iInput>
             <span>订单编号：</span>
-            <iInput v-model="searchOrderNumber" style="width: 160px;margin-right: 8px;"></iInput>
+            <iInput v-model="orderNum" style="width: 160px;margin-right: 8px;"></iInput>
             <iButton type="primary">搜索</iButton>
             <div class="clear mt-20">
               <div class="left mr-10" style="margin-top: 2px;">
@@ -330,10 +328,10 @@
                 <tr>
                   <td>{{item.showkerName}}</td>
                   <td>{{item.alitmAccount}}</td>
-                  <td>{{item.applyTime}}</td>
-                  <td>{{item.task.showkerApplySuccessCount}}</td>
-                  <td>{{item.showkerName}}</td>
-                  <td>{{item.showkerName}}</td>
+                  <td>{{item.orderNum}}</td>
+                  <td>{{getTaskStatus(item.status)}}</td>
+                  <td>{{item.updateTime | dateFormat('YYYY-MM-DD hh:mm:ss')}}</td>
+                  <td>{{item.trialEndReason}}</td>
                 </tr>
                 </tbody>
                 <tbody v-if="approveTableList.length === 0">
@@ -345,16 +343,17 @@
             </div>
           </div>
         </div>
-        <div class="check-order-model" v-show="showCheckOrder">
+        <div class="check-order-model" v-if="showCheckOrder">
           <div class="check-order-con">
             <i class="right" @click="closeCheckOrder">&times;</i>
             <p class="mt-40">为了防止不良秀客冒领担保金，请您仔细核对下面的订单号是否与你店铺宝贝的交易订单号一致！</p>
             <p class="mt-22">
               <span>订单号：</span>
-              <span class="main-color">1313246546546</span>
+              <span class="main-color">{{orderInfo.orderNum}}</span>
             </p>
             <p class="mt-15">
-              <span>秀客实付金额：<span class="main-color">110</span>元<span>（当前每单试用保证金100元）</span></span>
+              <span>秀客实付金额：<span
+                class="main-color">{{orderInfo.orderPrice || 0}}</span>元<span>（当前每单试用保证金<span>{{orderInfo.task.perMarginNeed || 0}}</span>元）</span></span>
             </p>
             <div class="mt-22">
               <Radio-group v-model="orderReviewStatus">
@@ -370,22 +369,24 @@
               <iInput v-model="orderNoPassReason" placeholder="请填写不通过理由，如订单号不符或实付金额不符" style="width: 420px"></iInput>
             </div>
             <div class="true-btn" v-show="orderReviewStatus === 'no_pass'">确认</div>
-            <div class="true-btn" v-show="orderReviewStatus === 'pass' && securityMoney >= orderMoney"
+            <div class="true-btn"
+                 v-show="orderReviewStatus === 'pass' && orderInfo.task.perMarginNeed >= orderInfo.orderPrice"
                  @click="openRefundModel">确认</div>
-            <PayModel v-show="orderReviewStatus === 'pass' && securityMoney < orderMoney" :orderMoney="orderMoney"
+            <PayModel v-show="orderReviewStatus === 'pass' && orderInfo.task.perMarginNeed < orderInfo.orderPrice"
+                      :orderMoney="orderInfo.orderPrice - orderInfo.task.perMarginNeed"
                       @confirmPayment="confirmPayment" :payButtonText="payButtonText"
                       :rechargeButtonText="rechargeButtonText" style="margin-top: 120px;">
               <div slot="isBalance" class="title-tip">
                 <span class="size-color3">
                 <Icon color="#FF2424" size="18" type="ios-information"></Icon>
                 <span class="ml-10">注意：该秀客实付金额大于试用保证金，</span></span>需要补充担保金<strong
-                class="main-color">{{Math.abs(securityMoney - orderMoney)}}</strong>元
+                class="main-color">{{Math.abs(orderInfo.orderPrice - orderInfo.task.perMarginNeed)}}</strong>元
               </div>
               <div slot="noBalance" class="title-tip">
                 <span class="size-color3">
                 <Icon color="#FF2424" size="18" type="ios-information"></Icon>
                 <span class="ml-10">注意：该秀客实付金额大于试用保证金，</span></span>需要补充担保金<strong
-                class="main-color">{{Math.abs(securityMoney - orderMoney)}}</strong>元,请充值！
+                class="main-color">{{Math.abs(orderInfo.orderPrice - orderInfo.task.perMarginNeed)}}</strong>元,请充值！
               </div>
             </PayModel>
           </div>
@@ -558,7 +559,7 @@
         checkAllByFail: false,
         taskStatusList: [],
         settlementStatusList: [],
-        checkPassList: [],
+        auditStatusList: [],
         endReasonList: [],
         taskData: {},
         totalElements: null,
@@ -567,8 +568,9 @@
         pageSize: 5,
         selectStatus: null,
         searchValue: null,
-        searchOrderNumber: null,
+        orderNum: null,
         approveTableList: [],
+        approveTaskInfo: {},
         SelectList: [
           {
             value: '1',
@@ -588,10 +590,11 @@
         refundPayPwd: null,
         orderReviewStatus: 'pass',
         orderNoPassReason: null,
+        orderInfo: {},
         orderMoney: 110,
         securityMoney: 100,
         payButtonText: '确认支付并通过',
-        rechargeButtonText: '确认支付并通过',
+        rechargeButtonText: '前去充值',
       }
     },
     mounted() {
@@ -618,6 +621,34 @@
             _this.taskList = res.data.taskPage.content;
           }
         })
+      },
+      getTaskStatus(type) {
+        switch (type) {
+          case "pass_and_unclaimed":
+            return "已通过待领取";
+            break;
+          case "order_num_waiting_audit":
+            return "订单号待审核";
+            break;
+          case "order_num_error":
+            return "订单号有误";
+            break;
+          case "trial_report_waiting_submit":
+            return "待提交试用报告";
+            break;
+          case "trial_report_waiting_confirm":
+            return "试用报告待确认";
+            break;
+          case "trial_report_unqualified":
+            return "报告不合格";
+            break;
+          case "trial_end":
+            return "试用终止";
+            break;
+          case "trial_finished":
+            return "试用完成";
+            break;
+        }
       },
       deleteTask(id) {
         this.deleteModal = true;
@@ -693,38 +724,41 @@
         this.taskApplyList();
       },
       taskApplyList() {
+        let _this = this;
+        _this.approveTableList = [];
         api.getTaskApplyList({
-          taskId: this.taskId,
-          status: this.showApproveStatus,
-          selectStatus: this.selectStatus,
-          searchValue: this.searchValue,
-          orderNum: this.searchOrderNumber,
-          endReasonList: JSON.stringify(this.endReasonList),
+          taskId: _this.taskId,
+          status: _this.showApproveStatus,
+          selectStatus: _this.selectStatus,
+          searchValue: _this.searchValue,
+          orderNum: _this.orderNum,
+          endReasonList: JSON.stringify(_this.endReasonList),
+          auditStatusList: JSON.stringify(_this.auditStatusList),
           pageIndex: this.approvePageIndex,
         }).then(res => {
-          let _this = this;
           if (res.status) {
-            _this.approveTableList = res.data.content || [];
+            _this.approveTableList = res.data.list.content || [];
+            _this.approveTaskInfo = res.data.taskInfo || {};
           }
         })
       },
-      showkePassAudit(id, status) {
-        this.setShoukeAudit(id, status);
+      showkerPassAudit(id, status) {
+        this.setShowkerAudit(id, status);
       },
-      showkeFailAudit(id, status) {
-        this.setShoukeAudit(id, status);
+      showkerFailAudit(id, status) {
+        this.setShowkerAudit(id, status);
       },
-      setShoukeAudit(id, status) {
+      setShowkerAudit(id, status) {
         let _this = this;
-        api.setTaskShoukeAudit({
+        api.setTaskShowkerAudit({
           id: id,
           status: status
         }).then(res => {
           if (res.status) {
-            _this.$Message("审核秀客成功！");
+            _this.$Message.success("审核秀客成功！");
             _this.taskApplyList();
           } else {
-            _this.$Message(res.msg)
+            _this.$Message.error(res.msg)
           }
         })
       },
@@ -736,6 +770,17 @@
       },
       closeCheckOrder() {
         this.showCheckOrder = false;
+      },
+      openCheckOrder(id) {
+        let _this = this;
+        _this.showCheckOrder = true;
+        api.orderNumberInfo({
+          id: id
+        }).then(res => {
+          if (res.status) {
+            _this.orderInfo = res.data
+          }
+        })
       },
       confirmPayment() {
 
@@ -943,7 +988,8 @@
       color: #fff;
       text-align: center;
       margin: 24px auto 0 auto;
-      font-size: 14px;
+      font-size: 16px;
+      border-radius: 5px;
       cursor: pointer;
       @include transition;
       &:hover {

@@ -41,14 +41,14 @@ export default {
   /**
    *首页导航列表
    */
-  getNavList () {
+  getNavList() {
     return fetch("/api/task/item/catalog/main.json")
   },
 
   /**
    *首页试用任务展示接口
    */
-  getHomeTaskList () {
+  getHomeTaskList() {
     return fetch("/api/task/index/newest.json")
   },
 
@@ -133,6 +133,7 @@ export default {
   wwBindList() {
     return fetch("/api/get-alitm-info-list.json")
   },
+
   /**
    * 解绑旺旺号
    */
@@ -178,7 +179,21 @@ export default {
   /**
    *审核秀客是否通过
    */
-  setTaskShoukeAudit(params) {
-    return fetch("/api/set-task-showke-audit", params)
+  setTaskShowkerAudit(params) {
+    return fetch("/api/set-task-showker-audit.json", params)
+  },
+
+  /**
+   *审核秀客订单号
+   */
+  orderNumberAudit(params) {
+    return fetch("/api/order-number-audit.json", params)
+  },
+
+  /**
+   *获取秀客订单详情
+   */
+  orderNumberInfo(params) {
+    return fetch("/api/order-number-info.json", params)
   },
 }

@@ -778,6 +778,7 @@ router.post('/api/get-task-apply-list.json', function (req, res, next) {
       searchValue: req.body.searchValue,
       orderNum: req.body.orderNum,
       endReasonList: req.body.endReasonList,
+      auditStatusList: req.body.auditStatusList,
     },
     json: true
   };
@@ -798,13 +799,66 @@ router.post('/api/get-task-apply-list.json', function (req, res, next) {
  * @param id
  * @param status
  */
-router.post('/api/set-task-showke-audit', function (req, res, next) {
+router.post('/api/set-task-showker-audit.json', function (req, res, next) {
   let options = {
     method: 'POST',
     uri: baseUrl + '/task/seller/showkeAudit',
     formData: {
       id: req.body.id,
       status: req.body.status,
+    },
+    json: true
+  };
+  request(options)
+    .then(function (parsedBody) {
+      res.send(parsedBody);
+      res.end();
+    })
+    .catch(function (err) {
+      logConfig.logger.error(req.originalUrl + ':' + err);
+      res.json({status: false, msg: "服务器错误"});
+      res.end();
+    });
+});
+
+/**
+ * 审核秀订单号审核
+ * @param id
+ * @param status
+ */
+router.post('/api/order-number-audit.json', function (req, res, next) {
+  let options = {
+    method: 'POST',
+    uri: baseUrl + '/task/seller/orderNumAudit',
+    formData: {
+      id: req.body.id,
+      status: req.body.status,
+    },
+    json: true
+  };
+  request(options)
+    .then(function (parsedBody) {
+      res.send(parsedBody);
+      res.end();
+    })
+    .catch(function (err) {
+      logConfig.logger.error(req.originalUrl + ':' + err);
+      res.json({status: false, msg: "服务器错误"});
+      res.end();
+    });
+});
+
+/**
+ * 获取秀客订单详情
+ * @param id
+ * @param status
+ */
+router.post('/api/order-number-info.json', function (req, res, next) {
+  let options = {
+    method: 'POST',
+    uri: baseUrl + '/task/seller/orderInfo',
+    formData: {
+      id: req.body.id,
     },
     json: true
   };

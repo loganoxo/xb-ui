@@ -20,9 +20,9 @@ const dateFormat = (timeSpan, format) => {
     "q+": Math.floor((date.getMonth() + 3) / 3), //季节
     "S": date.getMilliseconds() //毫秒
   };
-  if (/(Y+)/.test(format))
+  if (/(Y+)/.test(format)) {
     format = format.replace(RegExp.$1, (date.getFullYear() + "").substr(4 - RegExp.$1.length));
-
+  }
   for (let k in o) {
     if (new RegExp("(" + k + ")").test(format)) {
       format = format.replace(RegExp.$1,
@@ -54,6 +54,5 @@ const numberFormat = (number, decimals) => {
   }
   return s.join('.');
 };
-
 
 export {dateFormat, numberFormat}

@@ -2,7 +2,7 @@
  * Created by ycb on 2017/7/18.
  */
 import {aliUrl, bucket} from '../config/env'
-
+import axios from 'axios'
 /**
  * 存储localStorage
  */

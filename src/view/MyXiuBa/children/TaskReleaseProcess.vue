@@ -782,8 +782,21 @@
         });
       },
       returnUpStep() {
-        this.stepName = 'information';
-        this.current = 1
+        let _this = this;
+        _this.stepName = 'information';
+        _this.current = 1;
+        switch (_this.taskRelease.taskType) {
+          case 'pc_search' :
+            _this.PcTaskDetail.searchPagePrice = _this.PcTaskDetail.searchPagePrice / 100;
+            _this.PcTaskDetail.priceRangeMax = _this.PcTaskDetail.priceRangeMax / 100;
+            _this.PcTaskDetail.priceRangeMin = _this.PcTaskDetail.priceRangeMin / 100;
+            break;
+          case 'app_search' :
+            _this.AppTaskDetail.searchPagePrice = _this.AppTaskDetail.searchPagePrice / 100;
+            _this.AppTaskDetail.priceRangeMax = _this.AppTaskDetail.priceRangeMax / 100;
+            _this.AppTaskDetail.priceRangeMin = _this.AppTaskDetail.priceRangeMin / 100;
+            break;
+        }
       },
       nextCurrent() {
         this.current += 1;
