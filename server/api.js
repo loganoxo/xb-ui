@@ -668,7 +668,8 @@ router.post("/api/task-create.json", function (req, res, next) {
       pinkage: req.body.pinkage,
       itemDescription: req.body.itemDescription,
       paymentMethod: req.body.paymentMethod,
-      taskDetail: req.body.taskDetail
+      taskDetail: req.body.taskDetail,
+      id: req.body.id
     },
     json: true,
   };
@@ -795,7 +796,7 @@ router.post('/api/get-task-apply-list.json', function (req, res, next) {
 });
 
 /**
- * 审核秀客是否通过
+ *商家审核秀客是否通过
  * @param id
  * @param status
  */
@@ -822,7 +823,7 @@ router.post('/api/set-task-showker-audit.json', function (req, res, next) {
 });
 
 /**
- * 审核秀订单号审核
+ * 商家审核秀订单号
  * @param id
  * @param status
  */
@@ -849,7 +850,7 @@ router.post('/api/order-number-audit.json', function (req, res, next) {
 });
 
 /**
- * 获取秀客订单详情
+ * 商家获取秀客订单详情
  * @param id
  * @param status
  */
@@ -859,6 +860,148 @@ router.post('/api/order-number-info.json', function (req, res, next) {
     uri: baseUrl + '/task/seller/orderInfo',
     formData: {
       id: req.body.id,
+    },
+    json: true
+  };
+  request(options)
+    .then(function (parsedBody) {
+      res.send(parsedBody);
+      res.end();
+    })
+    .catch(function (err) {
+      logConfig.logger.error(req.originalUrl + ':' + err);
+      res.json({status: false, msg: "服务器错误"});
+      res.end();
+    });
+});
+
+/**
+ * 商家对任务补充保证金
+ * @param uid
+ * @param platform
+ * @param payPwd
+ * @param showkerTaskId
+ */
+router.post('/api/deposit-supplement.json', function (req, res, next) {
+  let options = {
+    method: 'POST',
+    uri: baseUrl + '/user/account/deposit_supplement',
+    formData: {
+      uid: req.session.userData.id,
+      platform: "pc",
+      payPwd:req.body.payPassword,
+      showkerTaskId:req.body.taskId
+    },
+    json: true
+  };
+  request(options)
+    .then(function (parsedBody) {
+      res.send(parsedBody);
+      res.end();
+    })
+    .catch(function (err) {
+      logConfig.logger.error(req.originalUrl + ':' + err);
+      res.json({status: false, msg: "服务器错误"});
+      res.end();
+    });
+});
+
+/**
+ * 商家查看试用报告详情
+ *  @param id
+ */
+router.post('/api/task-report-info.json', function (req, res, next) {
+  let options = {
+    method: 'POST',
+    uri: baseUrl + '/task/seller/reportInfo',
+    formData: {
+      id: req.body.id,
+    },
+    json: true
+  };
+  request(options)
+    .then(function (parsedBody) {
+      res.send(parsedBody);
+      res.end();
+    })
+    .catch(function (err) {
+      logConfig.logger.error(req.originalUrl + ':' + err);
+      res.json({status: false, msg: "服务器错误"});
+      res.end();
+    });
+});
+
+/**
+ * 商家审核试用报告
+ * @param id
+ * @param status
+ * @param msg
+ */
+router.post('/api/task-report-audit.json', function (req, res, next) {
+  let options = {
+    method: 'POST',
+    uri: baseUrl + '/task/seller/reportAudit',
+    formData: {
+      id: req.body.id,
+      status:req.body.status,
+      msg:req.body.msg
+    },
+    json: true
+  };
+  request(options)
+    .then(function (parsedBody) {
+      res.send(parsedBody);
+      res.end();
+    })
+    .catch(function (err) {
+      logConfig.logger.error(req.originalUrl + ':' + err);
+      res.json({status: false, msg: "服务器错误"});
+      res.end();
+    });
+});
+
+/**
+ * 秀客申请列表
+ * 待审核和未通过的
+ * @param showkerId
+ */
+router.post('/api/showker-apply-list.json', function (req, res, next) {
+  let options = {
+    method: 'GET',
+    uri: baseUrl + '/task/showker/list/apply/' + req.session.userData.id + '/' + req.body.pageIndex,
+    qs: {
+      selectStatus: req.body.selectStatus,
+      searchValue: req.body.searchValue,
+      status: req.body.status,
+      pageSize: req.body.pageSize
+    },
+    json: true
+  };
+  request(options)
+    .then(function (parsedBody) {
+      res.send(parsedBody);
+      res.end();
+    })
+    .catch(function (err) {
+      logConfig.logger.error(req.originalUrl + ':' + err);
+      res.json({status: false, msg: "服务器错误"});
+      res.end();
+    });
+});
+
+/**
+ * 秀客申请列表
+ * 审核通过的
+ * @param showkerId
+ */
+router.post('/api/showker-success-list.json', function (req, res, next) {
+  let options = {
+    method: 'GET',
+    uri: baseUrl + '/task/showker/list/success/' + req.session.userData.id + '/' + req.body.pageIndex,
+    qs: {
+      selectStatus: req.body.selectStatus,
+      searchValue: req.body.searchValue,
+      pageSize: req.body.pageSize
     },
     json: true
   };
