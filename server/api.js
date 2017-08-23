@@ -1107,6 +1107,63 @@ router.post('/api/showker-success-list.json', function (req, res, next) {
 });
 
 /**
+ * 秀客的试用报告
+ * @param showkerId
+ * @param pageIndex
+ * @param pageSize
+ * @param orderBy
+ * @param sort
+ * @return
+ */
+router.post('/api/task/showker/showkerTrialReports.json', function (req, res, next) {
+  let options = {
+    method: 'POST',
+    uri: baseUrl + '/task/showker/showkerTrialReports',
+    formData: {
+      showkerId: req.body.showkerId,
+      pageIndex:req.body.pageIndex,
+      pageSize:req.body.pageSize,
+    },
+    json: true
+  };
+  request(options)
+    .then(function (parsedBody) {
+      res.send(parsedBody);
+      res.end();
+    })
+    .catch(function (err) {
+      logConfig.logger.error(req.originalUrl + ':' + err);
+      res.json({status: false, msg: "服务器错误"});
+      res.end();
+    });
+});
+/**
+ * 获取用户、账户、旺旺账号
+ * @param userId
+ * @return
+ * @throws Exception
+ */
+router.post('/api/user/account/get-user-account.json', function (req, res, next) {
+  let options = {
+    method: 'POST',
+    uri: baseUrl + '/user/account/get-user-account',
+    formData: {
+      userId: req.session.userData.id,
+    },
+    json: true
+  };
+  request(options)
+    .then(function (parsedBody) {
+      res.send(parsedBody);
+      res.end();
+    })
+    .catch(function (err) {
+      logConfig.logger.error(req.originalUrl + ':' + err);
+      res.json({status: false, msg: "服务器错误"});
+      res.end();
+    });
+});
+/**
  * 秀客终止试用
  * @param id
  * @param status
