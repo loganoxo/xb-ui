@@ -253,9 +253,14 @@
           nickName: null,
           smsCode: this.loginTrendsCustom.smsCode,
           role: this.loginTrendsCustom.role,
-          validateCode: this.loginTrendsCustom.validateCode
+          validateCode: this.loginTrendsCustom.validateCode,
+          purpose:'fast'
         }).then((res) => {
           if (res.status) {
+            self.$store.commit({
+              type: 'RECORD_USER_INFO',
+              info: res.data
+            });
             this.$Modal.success({
               content: '恭喜您，成功注册秀吧！',
               onOk: function () {
@@ -263,7 +268,8 @@
               }
             });
           } else {
-            this.instance('error', '', res.msg);
+            self.instance('error', '', res.msg);
+            self.getVrcode();
           }
         })
       },
@@ -296,7 +302,8 @@
               }
             });
           } else {
-            self.instance('error', '', res.msg)
+            self.instance('error', '', res.msg);
+            self.getVrcode();
           }
           self.btnState.normalLoginBtn = false;
         })
@@ -346,16 +353,19 @@
               this.selRole = true;
             }
           } else {
-            this.instance('error', '', res.msg)
+            this.instance('error', '', res.msg);
+            self.getVrcode();
           }
           self.btnState.trendsLoginBtn = false;
         })
       },
       sendCodeSuccess(res) {
+        let _this = this;
         if (res.status) {
-          this.instance('success', '', '手机验证码发送成功')
+          _this.instance('success', '', '手机验证码发送成功')
         } else {
-          this.instance('error', '', res.msg)
+          _this.instance('error', '', res.msg);
+          _this.getVrcode();
         }
       },
       instance(type, text, ctt) {

@@ -231,7 +231,7 @@
     },
     created() {
       this.getRegVrcode();
-      if (this.$route.name == 'seller') {
+      if (this.$route.name === 'seller') {
         this.selLogin.buyer = false;
         this.selLogin.seller = true;
       }
@@ -270,7 +270,8 @@
           nickName: '',
           smsCode: this.formCustom.smsCode,
           validateCode: this.formCustom.validateCode,
-          role: this.formCustom.role
+          role: this.formCustom.role,
+          purpose: 'reg'
         }).then((res) => {
           if (res.status) {
             self.$Modal.success({
@@ -283,6 +284,7 @@
             self.$Modal.error({
               content: res.msg,
             });
+            self.getRegVrcode();
           }
           self.btnState.registerBuyerBtn = false;
         })
@@ -298,7 +300,8 @@
           nickName: '',
           smsCode: this.formCustom.smsCode,
           validateCode: this.formCustom.validateCode,
-          role: this.formCustom.role
+          role: this.formCustom.role,
+          purpose: 'reg'
         }).then((res) => {
           if (res.status) {
             self.$Modal.success({
@@ -311,6 +314,7 @@
             self.$Modal.error({
               content: res.msg,
             });
+            self.getRegVrcode();
           }
           self.btnState.registerSellerBtn = false;
         })
@@ -325,6 +329,7 @@
           self.$Modal.error({
             content: res.msg,
           });
+          self.getRegVrcode();
         }
       }
     }
