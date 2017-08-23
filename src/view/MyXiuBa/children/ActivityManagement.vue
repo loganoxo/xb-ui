@@ -265,11 +265,15 @@
                 <tr>
                   <td>{{item.showkerName}}</td>
                   <td>{{item.alitmAccount}}</td>
-                  <td>{{getTaskStatus(item.status)}}</td>
+                  <td>
+                    <p>{{getTaskStatus(item.status)}}</p>
+                    <p>0天24小时0时0分</p>
+                  </td>
                   <td>{{item.orderNum}}</td>
                   <td>
                     <p class="del-edit">
-                      <span @click="openCheckOrder(item.id)">审核订单号</span>
+                      <span v-if="item.status === 'order_num_waiting_audit'" @click="openCheckOrder(item.id)">审核订单号</span>
+                      <span v-if="item.status === 'trial_report_waiting_submit'" @click="AuditTrialReport(item.id)">审核试用报告</span>
                     </p>
                   </td>
                 </tr>
@@ -343,6 +347,7 @@
             </div>
           </div>
         </div>
+        <!--审核订单号弹窗-->
         <div class="check-order-model" v-if="showCheckOrder">
           <div class="check-order-con">
             <i class="right" @click="closeCheckOrder">&times;</i>
@@ -353,7 +358,7 @@
             </p>
             <p class="mt-15">
               <span>秀客实付金额：<span
-                class="main-color">{{orderInfo.orderPrice || 0}}</span>元<span>（当前每单试用保证金<span>{{orderInfo.task.perMarginNeed || 0}}</span>元）</span></span>
+                class="main-color">{{orderInfo.orderPrice || 0}}</span>元<span>（当前每单试用保证金<span>{{perMarginNeed}}</span>元）</span></span>
             </p>
             <div class="mt-22">
               <Radio-group v-model="orderReviewStatus">
@@ -370,23 +375,23 @@
             </div>
             <div class="true-btn" v-show="orderReviewStatus === 'no_pass'">确认</div>
             <div class="true-btn"
-                 v-show="orderReviewStatus === 'pass' && orderInfo.task.perMarginNeed >= orderInfo.orderPrice"
+                 v-show="orderReviewStatus === 'pass' && perMarginNeed >= orderInfo.orderPrice"
                  @click="openRefundModel">确认</div>
-            <PayModel v-show="orderReviewStatus === 'pass' && orderInfo.task.perMarginNeed < orderInfo.orderPrice"
-                      :orderMoney="orderInfo.orderPrice - orderInfo.task.perMarginNeed"
+            <PayModel v-show="orderReviewStatus === 'pass' && perMarginNeed < orderInfo.orderPrice"
+                      :orderMoney="orderInfo.orderPrice - perMarginNeed"
                       @confirmPayment="confirmPayment" :payButtonText="payButtonText"
                       :rechargeButtonText="rechargeButtonText" style="margin-top: 120px;">
               <div slot="isBalance" class="title-tip">
                 <span class="size-color3">
                 <Icon color="#FF2424" size="18" type="ios-information"></Icon>
                 <span class="ml-10">注意：该秀客实付金额大于试用保证金，</span></span>需要补充担保金<strong
-                class="main-color">{{Math.abs(orderInfo.orderPrice - orderInfo.task.perMarginNeed)}}</strong>元
+                class="main-color">{{Math.abs(orderInfo.orderPrice - perMarginNeed)}}</strong>元
               </div>
               <div slot="noBalance" class="title-tip">
                 <span class="size-color3">
                 <Icon color="#FF2424" size="18" type="ios-information"></Icon>
                 <span class="ml-10">注意：该秀客实付金额大于试用保证金，</span></span>需要补充担保金<strong
-                class="main-color">{{Math.abs(orderInfo.orderPrice - orderInfo.task.perMarginNeed)}}</strong>元,请充值！
+                class="main-color">{{Math.abs(orderInfo.orderPrice - perMarginNeed)}}</strong>元,请充值！
               </div>
             </PayModel>
           </div>
@@ -394,7 +399,7 @@
       </div>
     </div>
     <!--试用报告-->
-    <div v-show="showContent === 'report'">
+    <div v-if="showContent === 'report'">
       <div class="activity-title pl-10">
         <span class="left">******的试用报告</span>
         <span class="right" @click="ReturnManagePage('approve')">返回上一页</span>
@@ -402,53 +407,41 @@
       <div class="report-info mt-12">
         <div class="manage-info-con clear">
           <div class="manage-img left">
-            <img src="" alt="">
+            <img :src="taskReportInfoTask.taskMainImage" :alt="taskReportInfoTask.taskName">
           </div>
           <div class="manage-text left ml-5">
-            <p>宠物狗衣服狗狗猫咪衣服棉袜狗脚</p>
-            <p class="mt-15">总份数<strong>&nbsp;2&nbsp;</strong>，宝贝单价<strong>&nbsp;2&nbsp;</strong>元</p>
+            <p>{{taskReportInfoTask.taskName}}</p>
+            <p class="mt-15">总份数<strong>&nbsp;{{taskReportInfoTask.taskCount}}&nbsp;</strong>，宝贝单价<strong>&nbsp;{{taskReportInfoTask.itemPrice}}&nbsp;</strong>元</p>
           </div>
         </div>
         <div class="order-info mt-6">
           <p>
             <span>订单号：</span>
-            <strong>123456788</strong>
+            <strong>{{taskReportInfo.orderNum}}</strong>
           </p>
           <p>
             <span>订单金额：</span>
-            <strong>2</strong>
+            <strong>{{taskReportInfo.orderPrice}}</strong>
             <span>元</span>
           </p>
           <p>
             <span>订单状态：</span>
-            <strong>报告待确认</strong>
-            <span class="main-color">（0天24小时0时0分）</span>
+            <strong>{{getTaskStatus(taskReportInfo.status)}}</strong>
+            <span class="main-color">（<time-down color='#ff4040' :fontWeight=600 :endTime="taskReportInfo.currentGenerationEndTime"></time-down>）</span>
           </p>
         </div>
         <div class="trial-experience mt-20">
           <div class="trial-experience-title">试用过程与体验：</div>
           <div
-            class="trial-experience-con mt-22">独立访客撒了会计法撒开龙卷风拉萨附近开了撒就分开了撒娇地方卢萨卡就分开了撒酒疯离开撒酒疯拉萨附近拉萨减肥萨拉；福利卡减肥拉萨空间法拉盛看风景撒了附近；老师、附近啊；附近爱上；冷风机啊、龙卷风按时交付了；按时交付；</div>
+            class="trial-experience-con mt-22">{{taskReportInfo.trialReportText}}</div>
           <div class="trial-experience-title mt-22">试用图片：</div>
           <div class="trial-img-info">
             <div class="trial-img">
               <img src="~assets/img/case-demo/taobao-account-info.png" alt="">
             </div>
             <ul class="trial-img-list clear mt-22">
-              <li>
-                <img src="~assets/img/case-demo/taobao-account-info.png" alt="">
-              </li>
-              <li>
-                <img src="~assets/img/case-demo/taobao-account-info.png" alt="">
-              </li>
-              <li>
-                <img src="~assets/img/case-demo/taobao-account-info.png" alt="">
-              </li>
-              <li>
-                <img src="~assets/img/case-demo/taobao-account-info.png" alt="">
-              </li>
-              <li>
-                <img src="~assets/img/case-demo/taobao-account-info.png" alt="">
+              <li v-for="imgSrc in trialReportImages">
+                <img :src="imgSrc" alt="">
               </li>
             </ul>
             <span class="left-btn"><Icon type="chevron-left" size="32" color="#999"></Icon></span>
@@ -468,7 +461,7 @@
             <div class="no-pass-reason mt-22" v-show="trialCheckStatus === 'no_pass'">
               <iInput v-model="noPassReason" placeholder="请填写不通过的理由，以便秀客修改" style="width: 420px"></iInput>
             </div>
-            <div class="true-btn" v-show="trialCheckStatus === 'no_pass'">确认</div>
+            <div class="true-btn" v-show="trialCheckStatus === 'no_pass'" @click="confirmReport">确认</div>
             <div class="true-btn" v-show="trialCheckStatus === 'pass'" @click="openRefundModel">确认</div>
             <div class="remind mt-22 clear">
               <div class="left mr-10">
@@ -527,6 +520,7 @@
   import PayModel from '@/components/PayModel'
   import TimeDown from '@/components/TimeDown'
   import api from '@/config/apiConfig'
+  import {mapActions} from 'vuex'
 
   export default {
     name: 'ActivityManagement',
@@ -584,17 +578,17 @@
         showCheckOrder: false,
         trialCheckStatus: 'pass',
         noPassReason: null,
-        orderEndTime: null,
-        trialEndTime: null,
         showRefundModel: false,
         refundPayPwd: null,
         orderReviewStatus: 'pass',
         orderNoPassReason: null,
         orderInfo: {},
-        orderMoney: 110,
-        securityMoney: 100,
+        perMarginNeed:0,
         payButtonText: '确认支付并通过',
         rechargeButtonText: '前去充值',
+        taskReportInfo:{},
+        taskReportInfoTask:{},
+        trialReportImages:[],
       }
     },
     mounted() {
@@ -604,6 +598,9 @@
     },
     computed: {},
     methods: {
+      ...mapActions([
+        'getBalance'
+      ]),
       editTask(id) {
         this.$router.push({name: 'TaskReleaseProcess', query: {taskId: id}})
       },
@@ -778,13 +775,56 @@
           id: id
         }).then(res => {
           if (res.status) {
-            _this.orderInfo = res.data
+            _this.orderInfo = res.data;
+            _this.perMarginNeed = res.data.task.perMarginNeed;
           }
         })
       },
-      confirmPayment() {
+      confirmPayment(pwd) {
+        let _this = this;
+        api.depositSupplement({
+          payPassword: pwd,
+          taskId:_this.orderInfo.id
+        }).then(res => {
+          if(res.status){
+            _this.getBalance();
+            _this.showCheckOrder = false;
+            _this.$Message.success({
+              content:'支付成功！',
+              duration: 6
+            });
+            _this.taskApplyList();
+          }else{
+            _this.$Message.error({
+              content:res.msg,
+              duration: 6
+            })
+          }
+        })
+      },
+      AuditTrialReport(id) {
+        let _this = this;
+        _this.showContent = 'report';
+        api.taskReportInfo({id:id}).then(res =>{
+          if(res.status){
+            _this.taskReportInfo = res.data;
+            _this.taskReportInfoTask = res.data.task;
+            _this.trialReportImages = res.data.trialReportImages ? res.data.trialReportImages.splice(',') : [];
+          }
+        })
+      },
+      confirmReport() {
+        let _this = this;
+        api.taskReportAudit({
+          id: id,
+          status: _this.trialCheckStatus,
+          msg: _this.noPassReason
+        }).then(res =>{
+          if(res.status){
 
-      }
+          }
+        })
+      },
     }
   }
 </script>

@@ -1,5 +1,5 @@
 <template>
-  <span :style="{color: color, fontSize: size + 'px', fontWeight:fontWeight}">{{time}}</span>
+  <span :style="{color: color, fontSize: size + 'px', fontWeight: fontWeight}">{{time}}</span>
 </template>
 
 <script>
@@ -20,8 +20,8 @@
     },
     props: {
       endTime: {
-        type: String,
-        default: '2018-07-28 00:00:00'
+        type: Number,
+        default: new Date().getTime() + 86400000
       },
       color: {
         type: String,
@@ -38,9 +38,8 @@
     },
     methods: {
       timeDown() {
-        const endTime = new Date(this.endTime);
         const nowTime = new Date();
-        let leftTime = parseInt((endTime.getTime() - nowTime.getTime()) / 1000);
+        let leftTime = parseInt((this.endTime - nowTime.getTime()) / 1000);
         let d = parseInt(leftTime / (24 * 60 * 60));
         let h = this.formate(parseInt(leftTime / (60 * 60) % 24));
         let m = this.formate(parseInt(leftTime / 60 % 60));

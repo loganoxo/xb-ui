@@ -342,7 +342,8 @@ router.post('/api/sign-up.json', function (req, res, next) {
     },
     json: true,
   };
-  if (Number(req.body.validateCode) === req.session.vrCode) {
+  let validateCode = parseInt(req.body.validateCode);
+  if (validateCode === req.session.vrCode) {
     request(options).then(function (parsedBody) {
       res.send(parsedBody);
       res.end();
@@ -388,7 +389,8 @@ router.post('/api/send-verify-code.json', function (req, res, next) {
     },
     json: true,
   };
-  if (Number(req.body.validateCode) === req.session.vrCode) {
+  let validateCode = parseInt(req.body.validateCode);
+  if (validateCode === req.session.vrCode) {
     request(options).then(function (parsedBody) {
       res.send(parsedBody);
       res.end();
@@ -1086,7 +1088,9 @@ router.post('/api/showker-success-list.json', function (req, res, next) {
     qs: {
       selectStatus: req.body.selectStatus,
       searchValue: req.body.searchValue,
-      pageSize: req.body.pageSize
+      pageSize: req.body.pageSize,
+      auditTimeStart: req.body.auditTimeStart,
+      auditTimeEnd: req.body.auditTimeEnd
     },
     json: true
   };
@@ -1103,8 +1107,138 @@ router.post('/api/showker-success-list.json', function (req, res, next) {
 });
 
 /**
- * 秀客申请列表
- * 审核通过的
- * @param showkerId
+ * 秀客终止试用
+ * @param id
+ * @param status
  */
+router.post('/api/showker-end-trial.json', function (req, res, next) {
+  let options = {
+    method: 'POST',
+    uri: baseUrl + '/task/showker/endTrial',
+    formData: {
+      id: req.body.id,
+      status: req.body.status
+    },
+    json: true
+  };
+  request(options)
+    .then(function (parsedBody) {
+      res.send(parsedBody);
+      res.end();
+    })
+    .catch(function (err) {
+      logConfig.logger.error(req.originalUrl + ':' + err);
+      res.json({status: false, msg: "服务器错误"});
+      res.end();
+    });
+});
+
+/**
+ * 秀客删除未审核通过的记录
+ * @param showkerId
+ * @param id
+ */
+router.post('/api/showker-apply-delete.json', function (req, res, next) {
+  let options = {
+    method: 'POST',
+    uri: baseUrl + '/task/showker/applyDelete',
+    formData: {
+      showkerId: req.body.showkerId,
+      id: req.body.id
+    },
+    json: true
+  };
+  request(options)
+    .then(function (parsedBody) {
+      res.send(parsedBody);
+      res.end();
+    })
+    .catch(function (err) {
+      logConfig.logger.error(req.originalUrl + ':' + err);
+      res.json({status: false, msg: "服务器错误"});
+      res.end();
+    });
+});
+
+/**
+ * 秀客去下单
+ * @param id
+ */
+router.post('/api/showker-to-process-order.json', function (req, res, next) {
+  let options = {
+    method: 'POST',
+    uri: baseUrl + '/task/showker/toProcessOrder',
+    formData: {
+      id: req.body.id
+    },
+    json: true
+  };
+  request(options)
+    .then(function (parsedBody) {
+      res.send(parsedBody);
+      res.end();
+    })
+    .catch(function (err) {
+      logConfig.logger.error(req.originalUrl + ':' + err);
+      res.json({status: false, msg: "服务器错误"});
+      res.end();
+    });
+});
+
+/**
+ * 秀客保存或者修改订单号
+ * @param orderNum
+ * @param id
+ * @param actualPayMoney
+ */
+router.post('/api/showker-save-or-update-order.json', function (req, res, next) {
+  let options = {
+    method: 'POST',
+    uri: baseUrl + '/task/showker/saveOrUpdateOrder',
+    formData: {
+      id: req.body.id
+    },
+    json: true
+  };
+  request(options)
+    .then(function (parsedBody) {
+      res.send(parsedBody);
+      res.end();
+    })
+    .catch(function (err) {
+      logConfig.logger.error(req.originalUrl + ':' + err);
+      res.json({status: false, msg: "服务器错误"});
+      res.end();
+    });
+});
+
+/**
+ * 秀客保存或者修改试用报告
+ * @param id
+ * @param trialReportText
+ * @param trialReportImages
+ */
+router.post('/api/showker-save-or-update-report.json', function (req, res, next) {
+  let options = {
+    method: 'POST',
+    uri: baseUrl + '/task/showker/saveOrUpdateReport',
+    formData: {
+      id: req.body.id,
+      trialReportText: req.body.trialReportText,
+      trialReportImages: req.body.trialReportImages
+    },
+    json: true
+  };
+  request(options)
+    .then(function (parsedBody) {
+      res.send(parsedBody);
+      res.end();
+    })
+    .catch(function (err) {
+      logConfig.logger.error(req.originalUrl + ':' + err);
+      res.json({status: false, msg: "服务器错误"});
+      res.end();
+    });
+});
+
 module.exports = router;

@@ -11,16 +11,16 @@ import '../iview/iview.less'
 import '@/css/common.scss'
 
 Vue.config.productionTip = false;
-Vue.use(VueLazyload);
-Vue.use(VueLazyload);
-Vue.use(Modal);
+
 Vue.prototype.$Modal = Modal;
+
 Vue.prototype.$Message = Message;
+
 /*VueLazyload配置初始化*/
 Vue.use(VueLazyload, {
   preLoad: 1.3,
-  error: 'dist/error.png',
-  loading: 'dist/loading.gif',
+  error: '',
+  loading: '',
   attempt: 1
 });
 

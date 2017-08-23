@@ -5,19 +5,28 @@ table{
   border-collapse:collapse;
 }
 
+.showSweetAlert {
+  -webkit-animation: showSweetAlert 0.3s;
+  animation: showSweetAlert 0.3s;
+}
+
 /*自定义内容弹框进入动画样式*/
-@keyframes popAnimation {
+@keyframes showSweetAlert {
   0% {
-    transform: scale(1)
+    transform: scale(0.7);
+    -webkit-transform: scale(0.7);
   }
-  35% {
-    transform: scale(.8)
+  45% {
+    transform: scale(1.05);
+    -webkit-transform: scale(1.05);
   }
-  70% {
-    transform: scale(1.1)
+  80% {
+    transform: scale(0.95);
+    -webkit-transform: scale(0.95);
   }
   100% {
-    transform: scale(1)
+    transform: scale(1);
+    -webkit-transform: scale(1);
   }
 }
 
@@ -33,8 +42,6 @@ input::-webkit-inner-spin-button {
 input[type="number"]{
   -moz-appearance: textfield;
 }
-
-
 
 .clear::after{
   content: '';
@@ -58,38 +65,53 @@ input[type="number"]{
 .right{
   float: right;
 }
+
 .block{
   display: block;
 }
+
+.cursor-p{
+  cursor: pointer;
+}
+
 .pos-rel{
   position: relative;
 }
+
 .over-hd{
   overflow: hidden;
 }
+
 .vtc-mid{
   vertical-align: middle;
 }
+
 .vtc-btm{
   vertical-align: bottom;
 }
+
 .text-ct{
   text-align: center;
 }
+
 .ellipsis{
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
 }
+
 .pos-lf-50{
   left: 50% !important;
 }
+
 .pos-lf-0{
   left: 0 !important;
 }
+
 .mg-at{
   margin: auto;
 }
+
 .mt-5 {
   margin-top: 5px;
 }
@@ -132,12 +154,15 @@ input[type="number"]{
 .mt-40 {
   margin-top: 40px;
 }
+
 .mt-80{
   margin-top: 80px;
 }
+
 .ml-5 {
   margin-left: 5px;
 }
+
 .ml-10 {
   margin-left: 10px;
 }
@@ -177,9 +202,11 @@ input[type="number"]{
 .mr-5 {
   margin-right: 5px;
 }
+
 .mr-10{
   margin-right: 10px;
 }
+
 .mr-30 {
   margin-right: 30px;
 }
@@ -188,16 +215,22 @@ input[type="number"]{
   margin-right: 40px;
 }
 
-.mb-40 {
-  margin-bottom: 40px;
+.mb-10 {
+  margin-bottom: 10px;
 }
 
 .mb-20 {
   margin-bottom: 20px;
 }
+
+.mb-40 {
+  margin-bottom: 40px;
+}
+
 .pd-tb-20{
   padding: 20px 0;
 }
+
 .pl-10 {
   padding-left: 10px;
 }
@@ -220,6 +253,7 @@ input[type="number"]{
 .pt-10{
   padding-top: 10px;
 }
+
 .pt-20 {
   padding-top: 20px;
 }
@@ -267,6 +301,7 @@ input[type="number"]{
 .cl000{
   color: #000;
 }
+
 .container {
   width: 1200px;
   margin: auto;
@@ -296,6 +331,7 @@ input[type="number"]{
   display: table;
   clear: both;
 }
+
 .breadcrumb{
   height: 36px;
   background-color: #fff;

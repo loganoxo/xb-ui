@@ -773,7 +773,10 @@
         }
         api.taskCreate(_this.taskRelease).then(res => {
           if (res.status) {
-            this.taskId = res.data.id;
+            _this.taskId = res.data.id;
+            if(!_this.taskRelease.id){
+              _this.taskRelease.id = res.data.id;
+            }
             this.nextCurrent();
             _this.stepName = 'deposit';
           } else {
@@ -807,6 +810,7 @@
           taskId: taskId
         }).then(res => {
           if (res.status) {
+            _this.taskRelease.id = res.data.id;
             _this.mainDefaultList.push({src: res.data.taskMainImage});
             res.data.pinkage = res.data.pinkage.toString();
             _this.taskRelease.itemType = res.data.itemCatalog.id;
