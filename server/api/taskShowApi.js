@@ -1,0 +1,156 @@
+const express = require('express');
+const config = require('../config');
+const logConfig = require('../logConfig');
+const request = require('request-promise');
+
+const router = express.Router();
+const baseUrl = config.baseUrl;
+
+/**
+ * 首页导航
+ */
+router.post('/api/task/item/catalog/main.json', (req, res, next) => {
+  let options = {
+    method: 'GET',
+    uri: baseUrl + '/task/item/catalog/main',
+    json: true,
+  };
+  request(options)
+    .then(function (parsedBody) {
+      res.send(parsedBody);
+      res.end();
+    })
+    .catch(function (err) {
+      logConfig.logger.error(req.originalUrl + ':' + err);
+      res.json({status: false, msg: "服务器错误"});
+      res.end();
+    });
+});
+
+/**
+ * 首页试用任务展示
+ */
+router.post('/api/task/index/newest.json', (req, res, next) => {
+  let options = {
+    method: 'GET',
+    uri: baseUrl + '/task/index/newest',
+    json: true,
+  };
+  request(options)
+    .then(function (parsedBody) {
+      res.send(parsedBody);
+      res.end();
+    })
+    .catch(function (err) {
+      logConfig.logger.error(req.originalUrl + ':' + err);
+      res.json({status: false, msg: "服务器错误"});
+      res.end();
+    });
+});
+
+/**
+ * 分类页面请求
+ * @param id  大类id
+ */
+router.post('/api/task/get/item/catalog/parent.json', (req, res, next) => {
+  let options =
+    {
+      method: 'GET',
+      uri: baseUrl + '/task/item/catalog/parent/' + req.body.id,
+      json: true,
+    };
+  request(options)
+    .then(function (parsedBody) {
+      res.send(parsedBody);
+      res.end();
+    })
+    .catch(function (err) {
+      logConfig.logger.error(req.originalUrl + ':' + err);
+      res.json({status: false, msg: "服务器错误"});
+      res.end();
+    });
+});
+
+/**
+ * 分类页面小类内容
+ * @param id  大类id
+ */
+router.post('/api/task/item/catalog/child.json', (req, res, next) => {
+  let options =
+    {
+      method: 'GET',
+      uri: baseUrl + '/task/item/catalog/' + req.body.cate + '/child',
+      json: true,
+    };
+  request(options)
+    .then(function (parsedBody) {
+      res.send(parsedBody);
+      res.end();
+    })
+    .catch(function (err) {
+      logConfig.logger.error(req.originalUrl + ':' + err);
+      res.json({status: false, msg: "服务器错误"});
+      res.end();
+    });
+});
+
+/**
+ * 分类页面任务详情请求
+ *@param pageIndex: 第几页，
+ *@param pageSize: 一页几个，
+ *@param taskName: 搜索关键词，
+ *@param taskTypes: 搜索关键词，
+ *@param itemCatalogs: 分类，
+ */
+router.post('/api/search/task/s.json', (req, res, next) => {
+  let options =
+    {
+      method: 'POST',
+      uri: baseUrl + '/search/task/s',
+      json: true,
+      formData: {
+        pageIndex: req.body.pageIndex,
+        pageSize: req.body.pageSize,
+        taskName: req.body.taskName,
+        taskTypes: req.body.taskTypes,
+        itemCatalogs: req.body.itemCatalogs,
+        sortField: req.body.sortField,
+        sortOrder: req.body.sortOrder
+      },
+    };
+  request(options)
+    .then(function (parsedBody) {
+      res.send(parsedBody);
+      res.end();
+    })
+    .catch(function (err) {
+      logConfig.logger.error(req.originalUrl + ':' + err);
+      res.json({status: false, msg: "服务器错误"});
+      res.end();
+    });
+});
+
+/**
+ * 详情页请求
+ * @param taskId 商品ID
+ */
+router.post('/api/task/get.json', (req, res, next) => {
+  let options =
+    {
+      method: 'GET',
+      uri: baseUrl + '/task/get/' + req.body.taskId,
+      json: true,
+    };
+  request(options)
+    .then(function (parsedBody) {
+      res.send(parsedBody);
+      res.end();
+    })
+    .catch(function (err) {
+      logConfig.logger.error(req.originalUrl + ':' + err);
+      res.json({status: false, msg: "服务器错误"});
+      res.end();
+    });
+});
+
+module.exports = router;

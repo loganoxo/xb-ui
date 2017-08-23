@@ -417,7 +417,8 @@
         auditTimeStart:'',
         auditTimeEnd:'',
         trialReportImages:[],
-        trialReportText:null
+        trialReportText:null,
+        reportInfo:{}
       }
     },
     mounted() {
@@ -488,6 +489,15 @@
         _this.showPassOperation = type;
         if(type === 'report'){
           _this.itemId = id;
+          api.showkerReportInfo({
+            id:id
+          }).then(res =>{
+            if(res.status){
+              _this.reportInfo = res.data;
+            }else{
+              _this.$Message.error(res.msg);
+            }
+          })
         }else{
           api.showkerToProcessOrder({
             id: id
@@ -495,6 +505,8 @@
             if (res.status) {
               _this.taskPlaceInfo = res.data.taskInfo;
               _this.showkerTask = res.data.showkerTask;
+            }else{
+              _this.$Message.error(res.msg);
             }
           })
         }

@@ -71,48 +71,6 @@ router.get('/api/ali-token.json', (req, res, next) => {
 });
 
 /**
- * 用户登陆
- * @param phone
- * @param passWord
- * @param role
- */
-router.post('/api/login.json', (req, res, next) => {
-  let options = {
-    method: 'POST',
-    uri: baseUrl + '/user/sign-in',
-    formData: {
-      phone: req.body.phone,
-      passWord: req.body.passWord,
-    },
-    json: true,
-  };
-  request(options)
-    .then(function (parsedBody) {
-      if (parsedBody.status) {
-        let userData = parsedBody.data;
-        req.session.regenerate(function (err) {
-          if (!err) {
-            req.session.userData = userData;
-            logConfig.logger.info('用户信息存入redis成功！');
-          } else {
-            logConfig.logger.err('用户信息存入redis失败：' + err);
-          }
-          res.send(parsedBody);
-          res.end();
-        });
-      } else {
-        res.send(parsedBody);
-        res.end();
-      }
-    })
-    .catch(function (err) {
-      logConfig.logger.error(req.originalUrl + ':' + err);
-      res.json({status: false, msg: "服务器错误"});
-      res.end();
-    });
-});
-
-/**
  * 首页导航
  */
 router.post('/api/task/item/catalog/main.json', (req, res, next) => {
@@ -185,7 +143,7 @@ router.post('/api/task/item/catalog/child.json', (req, res, next) => {
   let options =
     {
       method: 'GET',
-      uri: baseUrl + '/task/item/catalog/' + req.body.cate + '/child' ,
+      uri: baseUrl + '/task/item/catalog/' + req.body.cate + '/child',
       json: true,
     };
   request(options)
@@ -219,7 +177,7 @@ router.post('/api/search/task/s.json', (req, res, next) => {
         pageSize: req.body.pageSize,
         taskName: req.body.taskName,
         taskTypes: req.body.taskTypes,
-        itemCatalogs:  req.body.itemCatalogs,
+        itemCatalogs: req.body.itemCatalogs,
         sortField: req.body.sortField,
         sortOrder: req.body.sortOrder
       },
@@ -244,7 +202,7 @@ router.post('/api/task/get.json', (req, res, next) => {
   let options =
     {
       method: 'GET',
-      uri: baseUrl + '/task/get/' + req.body.taskId ,
+      uri: baseUrl + '/task/get/' + req.body.taskId,
       json: true,
     };
   request(options)
@@ -260,153 +218,6 @@ router.post('/api/task/get.json', (req, res, next) => {
 });
 
 /**
- * 检测是否第一次动态登陆
- * @param phone
- * @param smsCode
- */
-router.post('/api/check-fast-sign-in.json', function (req, res, next) {
-  let options = {
-    method: 'POST',
-    uri: baseUrl + '/user/check-fast-sign-in',
-    formData: {
-      phone: req.body.phone,
-      smsCode: req.body.smsCode,
-    },
-    json: true,
-  };
-  if (Number(req.body.validateCode) === req.session.vrCode) {
-    request(options).then(function (parsedBody) {
-      if (parsedBody.status) {
-        let userData = parsedBody.data;
-        req.session.regenerate(function (err) {
-          if (!err) {
-            req.session.userData = userData;
-            logConfig.logger.info('用户信息存入redis成功！');
-          } else {
-            logConfig.logger.err('用户信息存入redis失败：' + err);
-          }
-          res.send(parsedBody);
-          res.end();
-        });
-      } else {
-        res.send(parsedBody);
-        res.end();
-      }
-    }).catch(function (err) {
-      logConfig.logger.error(req.originalUrl + ':' + err);
-      res.json({status: false, msg: "服务器错误"});
-      res.end();
-    });
-  } else {
-    res.json({status: false, msg: "图片验证码过期"});
-    res.end();
-  }
-});
-
-/**
- * 用户退出登录
- */
-router.post('/api/sign-out.json', (req, res, next) => {
-  req.session.destroy(function (err) {
-    if (err) {
-      logConfig.logger.error(err);
-      res.json({status: false, msg: "服务器错误"});
-      res.end();
-    } else {
-      res.json({status: true, msg: "退出登陆成功！"});
-      res.end();
-    }
-  })
-});
-
-/**
- * 用户注册
- * @param phone
- * @param pwd
- * @param repwd
- * @param nickName
- * @param smsCode
- * @param role
- */
-router.post('/api/sign-up.json', function (req, res, next) {
-  let options = {
-    method: 'POST',
-    uri: baseUrl + '/user/sign-up',
-    formData: {
-      phone: req.body.phone,
-      pwd: req.body.pwd,
-      repwd: req.body.repwd,
-      nickName: req.body.nickName,
-      smsCode: req.body.smsCode,
-      role: req.body.role,
-    },
-    json: true,
-  };
-  let validateCode = parseInt(req.body.validateCode);
-  if (validateCode === req.session.vrCode) {
-    request(options).then(function (parsedBody) {
-      res.send(parsedBody);
-      res.end();
-    }).catch(function (err) {
-      logConfig.logger.error(req.originalUrl + ':' + err);
-      res.json({status: false, msg: "服务器错误"});
-      res.end();
-    });
-  } else {
-    res.json({status: false, msg: "图形验证码过期"});
-    res.end();
-  }
-});
-
-/**
- * 生成图形验证码
- */
-router.get("/api/vrcode.json", (req, res, next) => {
-  let vrCode = parseInt(Math.random() * 9000 + 1000);
-  req.session.vrCode = vrCode;
-  let vrCodeImg = new captchapng(80, 30, vrCode);
-  vrCodeImg.color(0, 0, 0, 0);
-  vrCodeImg.color(251, 119, 21, 255);
-  let vrCodeImgBase64 = new Buffer(vrCodeImg.getBase64(), 'base64');
-  res.writeHead(200, {
-    'Content-Type': 'image/jpeg;charset=UTF-8'
-  });
-  res.end(vrCodeImgBase64);
-});
-
-/**
- * 发送手机验证码
- * @param phone
- * @param purpose 'fast': 快速登录，'reg': 注册
- */
-router.post('/api/send-verify-code.json', function (req, res, next) {
-  let options = {
-    method: 'POST',
-    uri: baseUrl + '/user/send-verify-code',
-    formData: {
-      phone: req.body.phone,
-      purpose: req.body.purpose,
-    },
-    json: true,
-  };
-  let validateCode = parseInt(req.body.validateCode);
-  if (validateCode === req.session.vrCode) {
-    request(options).then(function (parsedBody) {
-      res.send(parsedBody);
-      res.end();
-    }).catch(function (err) {
-      logConfig.logger.error(req.originalUrl + ':' + err);
-      res.json({status: false, msg: "服务器错误"});
-      res.end();
-    });
-  } else {
-    res.json({status: false, msg: "图片验证码输入有误"});
-    res.end();
-  }
-
-});
-
-/**
  * 获取用户交易列表
  * @param pageable
  * @param userId
@@ -414,8 +225,8 @@ router.post('/api/send-verify-code.json', function (req, res, next) {
  * @param createTimeEnd
  * @param accountChangeType
  * @param taskSerial
-*/
-router.post('/api/get-trad-list.json',function (req, res, next) {
+ */
+router.post('/api/get-trad-list.json', function (req, res, next) {
   let options = {
     method: 'POST',
     uri: baseUrl + '/user/account/get-trad-list',
@@ -443,7 +254,7 @@ router.post('/api/get-trad-list.json',function (req, res, next) {
  * 获取用户、账户、旺旺账号
  * @param userId
  */
-router.post('/api/get-user-account.json',function (req, res, next) {
+router.post('/api/get-user-account.json', function (req, res, next) {
   let options = {
     method: 'POST',
     uri: baseUrl + '/user/account/get-user-account',
@@ -469,7 +280,7 @@ router.post('/api/get-user-account.json',function (req, res, next) {
  * @param newPwd
  * @param repwd
  */
-router.post('/api/find-pwd-by-origin.json',function (req, res, next) {
+router.post('/api/find-pwd-by-origin.json', function (req, res, next) {
   let options = {
     method: 'POST',
     uri: baseUrl + '/user/account/reset-pwd-by-originPwd',
@@ -546,58 +357,6 @@ router.post('/api/identity-index.json', function (req, res, next) {
   });
 });
 
-/**
- * 用户账户余额
- * @param userId
- */
-router.post("/api/get-account-balance.json", function (req, res, next) {
-  let options = {
-    method: 'GET',
-    uri: baseUrl + '/user/getAccountBalanceByUserId/' + req.session.userData.id,
-    json: true
-  };
-  request(options)
-    .then(function (parsedBody) {
-      res.send(parsedBody);
-      res.end();
-    })
-    .catch(function (err) {
-      logConfig.logger.error(req.originalUrl + ':' + err);
-      res.json({status: false, msg: "服务器错误"});
-      res.end();
-    });
-});
-
-/**
- * 用户通过余额支付订单
- * @param userId
- * @param fee
- * @param payPassword
- * @param platform
- */
-router.post("/api/pay-by-balance.json", function (req, res, next) {
-  let options = {
-    method: 'POST',
-    uri: baseUrl + '/user/account/pay-by-account-balance',
-    formData: {
-      uid: req.session.userData.id,
-      payPwd: req.body.payPassword,
-      taskId: req.body.taskId,
-      platform: 'PC'
-    },
-    json: true
-  };
-  request(options)
-    .then(function (parsedBody) {
-      res.send(parsedBody);
-      res.end();
-    })
-    .catch(function (err) {
-      logConfig.logger.error(req.originalUrl + ':' + err);
-      res.json({status: false, msg: "服务器错误"});
-      res.end();
-    });
-});
 
 /**
  * 获取商品类型

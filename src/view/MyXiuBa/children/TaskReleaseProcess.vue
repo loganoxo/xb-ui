@@ -541,6 +541,7 @@
           pinkage: "true",
           paymentMethod: "all",
           itemDescription: '',
+          id: null,
           taskDetail: {}
         }
       }
@@ -649,8 +650,13 @@
       stepNext() {
         let _this = this;
         let URL_REG = /((item|detail).(tmall|taobao).*?)/;
+        let IS_NUMBER = /^[1-9]\d*$/;
         if (!_this.taskRelease.taskDaysDuration) {
           _this.$Message.warning('亲，活动时长不能为空！');
+          return;
+        }
+        if(!IS_NUMBER.test(_this.taskRelease.taskDaysDuration)){
+          _this.$Message.warning('亲，活动时长必须为数字！');
           return;
         }
         if (_this.taskRelease.taskDaysDuration < 3) {
@@ -681,20 +687,24 @@
           _this.$Message.warning('亲，只能输入淘宝或者天猫宝贝地址！');
           return;
         }
+        if (!_this.taskRelease.storeName) {
+          _this.$Message.warning('亲，店铺名称不能为空！');
+          return;
+        }
         if (!_this.taskRelease.taskCount) {
           _this.$Message.warning('亲，宝贝数量不能为空！');
           return;
         }
-        if (!_this.taskRelease.itemPrice) {
-          _this.$Message.warning('亲，宝贝单价不能为空！');
+        if(!IS_NUMBER.test(_this.taskRelease.taskCount)){
+          _this.$Message.warning('亲，宝贝数量必须为数字！');
           return;
         }
         if (!_this.taskRelease.itemPrice) {
           _this.$Message.warning('亲，宝贝单价不能为空！');
           return;
         }
-        if (!_this.taskRelease.itemPrice) {
-          _this.$Message.warning('亲，宝贝单价不能为空！');
+        if(!IS_NUMBER.test(_this.taskRelease.itemPrice)){
+          _this.$Message.warning('亲，宝贝单价必须为数字！');
           return;
         }
         if (_this.taskRelease.taskType === 'pc_search') {
@@ -710,6 +720,10 @@
             _this.$Message.warning('亲，展示价格不能空！');
             return;
           }
+          if(!IS_NUMBER.test(_this.PcTaskDetail.searchPagePrice)){
+            _this.$Message.warning('亲，展示价格必须为数字！');
+            return;
+          }
           if (!_this.PcTaskDetail.searchPagePositionMin) {
             _this.$Message.warning('亲，宝贝搜索起始位置不能空！');
             return;
@@ -718,7 +732,7 @@
             _this.$Message.warning('亲，宝贝搜索结束位置不能空！');
             return;
           }
-          if (_this.PcTaskDetail.searchPagePositionMax - _this.PcTaskDetail.searchPagePositionMin > 3) {
+          if (_this.PcTaskDetail.searchPagePositionMax - _this.PcTaskDetail.searchPagePositionMin > 2) {
             _this.$Message.warning('亲，宝贝参考页数差值最大不大于3页！');
             return;
           }
@@ -781,6 +795,18 @@
             _this.stepName = 'deposit';
           } else {
             _this.$Message.error(res.msg);
+            switch (_this.taskRelease.taskType) {
+              case 'pc_search' :
+                _this.PcTaskDetail.searchPagePrice = _this.PcTaskDetail.searchPagePrice / 100;
+                _this.PcTaskDetail.priceRangeMax = _this.PcTaskDetail.priceRangeMax / 100;
+                _this.PcTaskDetail.priceRangeMin = _this.PcTaskDetail.priceRangeMin / 100;
+                break;
+              case 'app_search' :
+                _this.AppTaskDetail.searchPagePrice = _this.AppTaskDetail.searchPagePrice / 100;
+                _this.AppTaskDetail.priceRangeMax = _this.AppTaskDetail.priceRangeMax / 100;
+                _this.AppTaskDetail.priceRangeMin = _this.AppTaskDetail.priceRangeMin / 100;
+                break;
+            }
           }
         });
       },

@@ -287,22 +287,23 @@ export default {
   },
 
   /**
-   * 秀客保存或者修改试用报告
-   */
-  showkerSaveOrUpdateReport(params) {
-    return fetch("/api/showker-save-or-update-report.json", params)
-  },
-
-  /**
    *获取秀客试用报告
    */
   getTrialReportList(params){
     return fetch("/api/task/showker/showkerTrialReports.json", params)
   },
+
   /**
    *获取用户、账户、旺旺账号
    */
   getUserAccount(){
     return fetch("/api/user/account/get-user-account.json")
-  }
+  },
+
+  /**
+   * 秀客填写试用报告当前任务详情
+   */
+  showkerReportInfo(params) {
+    return fetch("/api/showker-report-info.json", params)
+  },
 }

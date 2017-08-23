@@ -11,6 +11,7 @@ const express = require('express');
 const cookieParser = require('cookie-parser');
 const session = require('express-session');
 const RedisStore = require('connect-redis')(session);
+const api = require('./api/index.js');
 
 const app = express();
 
@@ -65,7 +66,9 @@ app.use(function (req, res, next) {
   }
 });
 
-app.use(require('./api'));
+Object.keys(api).forEach(function (key) {
+  app.use(require('./api/' + key));
+});
 
 logConfig.logger.info('当前node环境变量为：' + process.env.NODE_ENV);
 
