@@ -13,6 +13,7 @@ const PersonalSetting = r => require.ensure([], () => r(require('../view/MyXiuBa
 const TaskReleaseProcess = r => require.ensure([], () => r(require('../view/MyXiuBa/children/TaskReleaseProcess.vue')), 'TaskReleaseProcess');
 const ActivityManagement = r => require.ensure([], () => r(require('../view/MyXiuBa/children/ActivityManagement.vue')), 'ActivityManagement');
 const MyProbation = r => require.ensure([], () => r(require('../view/MyXiuBa/children/MyProbation.vue')), 'MyProbation');
+const MoneyManagement = r => require.ensure([], () => r(require('../view/MyXiuBa/children/MoneyManagement.vue')), 'MoneyManagement');
 
 
 Vue.use(Router);
@@ -124,6 +125,14 @@ export default new Router({
           component: PersonalSetting,
           meta: {
             title: "个人设置"
+          }
+        },
+        {
+          path:'money-management',
+          name:'MoneyManagement',
+          component:MoneyManagement,
+          meta:{
+            title :"资金管理"
           }
         }
       ]

@@ -38,6 +38,28 @@ export default {
   register(params) {
     return fetch("/api/sign-up.json", params)
   },
+
+  /**
+   *获取用户交易列表
+   */
+  getTradList(params) {
+    return fetch("/api/get-trad-list.json", params)
+  },
+
+  /**
+   *通过上一次的密码修改支付密码
+   */
+  findPwdOrigin(params) {
+    return fetch("/api/find-pwd-by-origin.json", params)
+  },
+
+  /**
+   *获取用户、账户、旺旺账号
+   */
+  getUserAccount() {
+    return fetch("/api/get-user-account.json")
+  },
+
   /**
    *首页导航列表
    */

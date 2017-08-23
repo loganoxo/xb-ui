@@ -22,7 +22,7 @@
               </li>
               <li :class="{isSelect:isSelect ==='fundsManagement'}" @click="selectNavigate('fundsManagement')">
                 <Icon type="social-yen"></Icon>
-                <router-link to="/user/task-release">资金管理</router-link>
+                <router-link to="/user/money-management">资金管理</router-link>
               </li>
               <li :class="{isSelect:isSelect ===' tradingRecord'}" @click="selectNavigate('tradingRecord')">
                 <Icon type="loop"></Icon>
@@ -52,7 +52,7 @@
               </li>
               <li :class="{isSelect:isSelect ==='fundsManagement'}" @click="selectNavigate('fundsManagement')">
                 <Icon type="social-yen"></Icon>
-                <router-link to="/user/personal-setting">资金管理</router-link>
+                <router-link to="/user/money-management">资金管理</router-link>
               </li>
               <li :class="{isSelect:isSelect ===' tradingRecord'}" @click="selectNavigate('tradingRecord')">
                 <Icon type="loop"></Icon>
