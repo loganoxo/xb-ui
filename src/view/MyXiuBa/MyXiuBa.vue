@@ -48,7 +48,7 @@
               </li>
               <li :class="{isSelect:isSelect ==='eventManagement'}" @click="selectNavigate('eventManagement')">
                 <Icon type="clipboard"></Icon>
-                <router-link to="/user/personal-setting" >我的报告</router-link>
+                <router-link to="/user/my-trial-report">我的报告</router-link>
               </li>
               <li :class="{isSelect:isSelect ==='fundsManagement'}" @click="selectNavigate('fundsManagement')">
                 <Icon type="social-yen"></Icon>

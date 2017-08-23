@@ -150,6 +150,155 @@
     <div class="my-pay" v-show="infoSelect === 'pay'">
       slflasfjkdlasfjksldafjksldfjsldfjsdlfsjdkdlfjsldfjsldjflksjdflskjfsljfsfjkfjkffdk
     </div>
+    <div class="my-account" v-show="infoSelect === 'accountInfo'">
+      <div class="user-safe" v-show="false">
+        <p class="fs-14">账户信息</p>
+        <ul>
+          <li>
+            <ul>
+              <li class="one">实名认证</li>
+              <li class="two">
+                未认证
+                <span>(建议定期修改登录密码)</span>
+              </li>
+              <li class="three">
+                <a href="">去认证</a>
+              </li>
+            </ul>
+          </li>
+          <li>
+            <ul>
+              <li class="one">绑定手机</li>
+              <li class="two">
+                13655816578
+              </li>
+              <li class="three">
+                <a href="">去设置</a>
+              </li>
+            </ul>
+          </li>
+          <li>
+            <ul>
+              <li class="one">
+                提现账号
+              </li>
+              <li class="two">
+                未绑定
+              </li>
+              <li class="three">
+                <a href="">未绑定</a>
+              </li>
+            </ul>
+          </li>
+          <li>
+            <ul>
+              <li class="one">
+                支付密码
+              </li>
+              <li class="two">
+                未设置(同登录密码)
+              </li>
+              <li class="three">
+                <a href="">重置</a>
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </div>
+      <div class="modify-pwd">
+        <div class="modify-pwd-sel">
+          <p>重置支付密码</p>
+          <div class="sel-box">
+            <p class="left">请选择重置的方式：</p>
+            <div class="left">
+              <div>
+                <div class="sel-canal">
+                  <p>
+                    我忘记支付密码了
+                    <br>
+                    <span style="color: #999">忘记密码或者密码被锁定了</span>
+                  </p>
+                  <i data-v-5aa11427="" class="ivu-icon ivu-icon-chevron-right" style="vertical-align: middle;display: table-cell; font-size: 20px;"></i>
+                </div>
+                <div class="sel-canal">
+                  <p>
+                    我记得原来的密码
+                  </p>
+                  <i data-v-5aa11427="" class="ivu-icon ivu-icon-chevron-right" style="vertical-align: middle;display: table-cell; font-size: 20px;"></i>
+                </div>
+                <iButton>
+                  返回上一页
+                </iButton>
+              </div>
+            </div>
+
+          </div>
+          <div v-show="false" class="sel-default-modify">
+            <iForm ref="defaultModify" :label-width="400">
+              <div class="clear form-input-box">
+                <Form-item label="原始密码"  class="left" style="width: 650px">
+                  <iInput type="password"  size="large"></iInput>
+                </Form-item>
+              </div>
+              <div class="clear form-input-box">
+                <Form-item label="新密码"  class="left" style="width: 650px">
+                  <iInput type="password"  size="large"></iInput>
+                </Form-item>
+              </div>
+              <div class="clear form-input-box">
+                <Form-item label="确认密码"  class="left" style="width: 650px">
+                  <iInput type="password"  size="large"></iInput>
+                </Form-item>
+              </div>
+              <div>
+                <Form-item>
+                  <iButton>
+                    确定
+                  </iButton>
+                  <iButton>
+                    返回上一页
+                  </iButton>
+                </Form-item>
+              </div>
+            </iForm>
+          </div>
+          <div v-show="false"  class="sel-phone-modify">
+            <iForm ref="phoneModify" :label-width="400">
+              <div class="clear form-input-box">
+                <Form-item label="绑定手机"  class="left" style="width: 650px">
+                  <iInput type="password"  size="large"></iInput>
+                </Form-item>
+              </div>
+              <div class="clear form-input-box">
+                <Form-item label="图形验证码"  class="left" style="width: 550px">
+                  <iInput type="text" size="large"></iInput>
+                </Form-item>
+                <!--<div style="width: 100px; float:left;">-->
+                <!--<img :src="regImgSrc" width="100%" alt="" @click="getRegVrcode">-->
+                <!--</div>-->
+              </div>
+              <div class="clear form-input-box">
+                <Form-item label="手机验证码"  class="left pos-rel" style="width: 650px">
+                  <iInput type="text" number size="large"></iInput>
+                  <!--<SmsCountdown style="top: 3px;"></SmsCountdown>-->
+                </Form-item>
+              </div>
+              <div>
+                <Form-item>
+                  <iButton>
+                    确定
+                  </iButton>
+                  <iButton>
+                    返回上一页
+                  </iButton>
+                </Form-item>
+              </div>
+            </iForm>
+          </div>
+        </div>
+      </div>
+    </div>
+
     <div class="common-question">
       <h2>常见问题</h2>
       <div class="mt-10">
@@ -178,9 +327,32 @@
 <script>
   import api from '@/config/apiConfig'
   import dateFormat from  '@/filter/custom'
-
+  import Icon from 'iview/src/components/icon'
+  import Alert from 'iview/src/components/alert'
+  import Form from 'iview/src/components/form'
+  import Input from 'iview/src/components/input'
+  import Checkbox from 'iview/src/components/checkbox'
+  import Button from 'iview/src/components/button'
+  import {setStorage, getStorage} from '@/config/utils'
+  import Modal from 'iview/src/components/modal'
+  import TimeDown from '@/components/TimeDown'
+  import SmsCountdown from '@/components/SmsCountdown'
   export default {
     name: 'MoneyManagement',
+    components: {
+      iInput: Input,
+      iForm: Form,
+      FormItem: Form.Item,
+      Checkbox: Checkbox,
+      CheckboxGroup: Checkbox.Group,
+      iButton: Button,
+      ButtonGroup: Button.Group,
+      Icon: Icon,
+      Modal: Modal,
+      TimeDown: TimeDown,
+      Alert: Alert,
+      SmsCountdown: SmsCountdown,
+    },
     data() {
       return{
         myInfoSelects:[
@@ -373,6 +545,82 @@
         color: #fff;
       }
     }
+    .my-account{
+      .user-safe{
+        margin-top: 20px;
+        P{
+          padding: 0 20px;
+          height: 36px;
+          line-height: 36px;
+          background-color: #f8f8f8;
+        }
+        ul{
+          width: 100%;
+          li{
+            ul{
+              display: table;
+              height: 60px;
+              font-size: 14px;
+              li{
+                display: table-cell;
+                vertical-align: middle;
+                text-align: center;
+              }
+              li.one{
+                width: 30%;
+                text-align: left;
+                padding-left: 20px;
+              }
+              li.two{
+                width: 50%;
+                text-align: left;
+              }
+              li.three{
+                width: 20%;
+              }
+            }
+          }
+        }
+      }
+      .modify-pwd{
+        margin-top: 20px;
+        font-size: 14px;
+        .modify-pwd-sel{
+          >P{
+            padding: 0 20px;
+            height: 36px;
+            line-height: 36px;
+            background-color: #f8f8f8;
+          }
+          .sel-box{
+            margin-top: 50px;
+            >p{
+              width: 20%;
+              text-align: center;
+            }
+            >div{
+              width: 80%;
+              .sel-canal{
+                border: 1px solid #E8E8E8;
+                width: 500px;
+                height: 70px;
+                display: table;
+                margin-bottom: 15px;
+                padding-left: 20px;
+                cursor: pointer;
+                p{
+                  display: table-cell;
+                  vertical-align: middle;
+                  width: 95%;
+                }
+              }
+
+            }
+          }
+        }
+      }
+    }
+
     .trading-record{
       margin-top: 30px;
       width: 100%;

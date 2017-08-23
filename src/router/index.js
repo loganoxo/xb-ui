@@ -3,6 +3,7 @@ import Router from 'vue-router'
 
 const Home = r => require.ensure([], () => r(require('../view/Home.vue')), 'Home');
 const SelRole = r => require.ensure([], () => r(require('../view/SelRole.vue')), 'SelRole');
+const TrialReport = r => require.ensure([], () => r(require('../view/TrialReport.vue')), 'TrialReport');
 const Login = r => require.ensure([], () => r(require('../view/Login.vue')), 'Login');
 const Register = r => require.ensure([], () => r(require('../view/Register.vue')), 'Register');
 const TaskCategory = r => require.ensure([], () => r(require('../view/TaskCategory.vue')), 'TaskCategory');
@@ -14,7 +15,7 @@ const TaskReleaseProcess = r => require.ensure([], () => r(require('../view/MyXi
 const ActivityManagement = r => require.ensure([], () => r(require('../view/MyXiuBa/children/ActivityManagement.vue')), 'ActivityManagement');
 const MyProbation = r => require.ensure([], () => r(require('../view/MyXiuBa/children/MyProbation.vue')), 'MyProbation');
 const MoneyManagement = r => require.ensure([], () => r(require('../view/MyXiuBa/children/MoneyManagement.vue')), 'MoneyManagement');
-
+const MyTrialReport = r => require.ensure([], () => r(require('../view/MyXiuBa/children/MyTrialReport.vue')), 'MyTrialReport');
 
 Vue.use(Router);
 
@@ -80,6 +81,14 @@ export default new Router({
       }
     },
     {
+      path: '/trial-report',
+      name: 'TrialReport',
+      component: TrialReport,
+      meta: {
+        title: "试用报告页"
+      }
+    },
+    {
       path: '/user',
       name: 'MyXiuBa',
       component: MyXiuBa,
@@ -120,6 +129,14 @@ export default new Router({
           }
         },
         {
+          path: 'my-trial-report',
+          name: 'MyTrialReport',
+          component: MyTrialReport,
+          meta: {
+            title: "我的报告"
+          }
+        },
+        {
           path: 'personal-setting',
           name: 'personalSetting',
           component: PersonalSetting,
@@ -134,7 +151,8 @@ export default new Router({
           meta:{
             title :"资金管理"
           }
-        }
+        },
+
       ]
     }
   ]

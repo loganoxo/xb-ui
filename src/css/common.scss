@@ -227,6 +227,9 @@ input[type="number"]{
   margin-bottom: 40px;
 }
 
+.mb-10{
+  margin-bottom: 10px;
+}
 .pd-tb-20{
   padding: 20px 0;
 }
@@ -329,6 +332,9 @@ input[type="number"]{
 .container:after {
   content: " ";
   display: table;
+  clear: both;
+}
+.clear{
   clear: both;
 }
 

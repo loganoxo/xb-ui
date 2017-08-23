@@ -7,7 +7,89 @@
     </div>
     <div class="personal-sel-box">
       <!--账号信息beg-->
-      <div v-show="infoSelect == 'accountInfo'" class="animated fadeIn">
+      <div v-show="infoSelect == 'accountInfo'" class="user-info-box animated fadeIn">
+        <div class="user-basic">
+          <p class="fs-14 user-basic-title">基本信息</p>
+          <div class="user-basic-ctt">
+            <div class="text-ct left">
+              <img class="block mg-at" src="~assets/img/common/home_24.png" alt="" style="width: 120px;">
+              <a class="fs-14 block mt-10" href="">修改头像</a>
+            </div>
+            <ul v-show="true" class="left">
+              <li>
+                手机帐号： {{userData.phone}}
+              </li>
+              <li>
+                <p v-if="userData.alitmNum <= 0 ">
+                  绑定淘宝账号：未绑定 - <a href="">马上绑定</a>
+                </p>
+                <p v-else>
+                  绑定淘宝账号：<a href="">已绑定</a>
+                </p>
+              </li>
+              <li>
+                <p v-if="Boolean(userData.ifCertification)">
+                  实名认证：<a>已认证</a>
+                </p>
+                <p v-else>
+                  实名认证：未认证 - <a href="">马上认证</a>
+                </p>
+              </li>
+              <li>
+                注册时间：{{userData.createTime | dateFormat('YYYY-MM-DD hh:mm:ss')}}
+              </li>
+            </ul>
+            <p v-show="false" class="img-box">
+              <!--<img :src="avatar.src" alt="" style="width: 68px;" v-for="avatar in avatars">-->
+              <img src="../../../assets/img/common/avatar/tx1.png" alt="" style="width: 68px;" v-for="avatar in avatars">
+            </p>
+          </div>
+
+        </div>
+
+        <div class="user-safe">
+          <p class="fs-14">账户&安全</p>
+          <ul>
+            <li>
+              <ul>
+                <li class="one">登录密码</li>
+                <li class="two">
+                  已设置
+                  <span>(建议定期修改登录密码)</span>
+                </li>
+                <li class="three">
+                  <a href="">去修改</a>
+                </li>
+              </ul>
+            </li>
+            <li>
+              <ul>
+                <li class="one">支付密码</li>
+                <li class="two">
+                  未设置
+                  <span>(同登录密码)</span>
+                </li>
+                <li class="three">
+                  <a href="">去设置</a>
+                </li>
+              </ul>
+            </li>
+            <li>
+              <ul>
+                <li class="one">
+                  支付密码
+                </li>
+                <li class="two">
+                  未设置
+                  <span>(同登录密码)</span>
+                </li>
+                <li class="three">
+                  <a href="">去设置</a>
+                </li>
+              </ul>
+            </li>
+          </ul>
+        </div>
       </div>
       <!--账号信息end-->
 
@@ -244,6 +326,7 @@
       Alert: Alert,
     },
     data() {
+
       //表单验证
       const validateName = (rule, value, callback) => {
         if (value === '') {
@@ -275,6 +358,45 @@
         }
       };
       return {
+        avatars: [
+          {
+              src: "../../../assets/img/common/avatar/tx1.png"
+          },
+          {
+            src: "../../../assets/img/common/avatar/tx2.png"
+          },
+          {
+            src: "../../../assets/img/common/avatar/tx3.png"
+          },
+          {
+            src: "../../../assets/img/common/avatar/tx4.png"
+          },
+          {
+            src: "../../../assets/img/common/avatar/tx5.png"
+          },
+          {
+            src: "../../../assets/img/common/avatar/tx6.png"
+          },
+          {
+            src: "../../../assets/img/common/avatar/tx7.png"
+          },
+          {
+            src: "../../../assets/img/common/avatar/tx8.png"
+          },
+          {
+            src: "../../../assets/img/common/avatar/tx9.png"
+          },
+          {
+            src: "../../../assets/img/common/avatar/tx10.png"
+          },
+          {
+            src: "../../../assets/img/common/avatar/tx11.png"
+          },
+          {
+            src: "../../../assets/img/common/avatar/tx12.png"
+          },
+        ],
+        userData: {},
         btnState: {
           wwBindBtn: false,
           verifiedBtn: false,
@@ -347,9 +469,19 @@
     mounted() {
 
     },
-    created() {},
+    created() {
+      this.getUserAccount()
+    },
     computed: {},
     methods: {
+      getUserAccount(){
+        var self = this
+        api.getUserAccount().then((res) => {
+          if(res.status){
+              this.userData = res.data;
+          }
+        })
+      },
       myInfoFunc(index){
         if(index === 1){
           return this.$store.state.userInfo.role !== 1;
@@ -610,8 +742,75 @@
 
 <style lang="scss" scoped>
   @import 'src/css/mixin';
+  .user-info-box{
+    margin-top: 20px;
+    .user-basic{
+      border: 1px solid #EEEEEE;
+      overflow: hidden;
+      P.user-basic-title{
+        padding: 0 20px;
+        height: 36px;
+        line-height: 36px;
+        background-color: #f8f8f8;
+      }
+      p.img-box{
+        width: 800px;
+        img{
+          margin: 0 10px 5px 10px;
+        }
+      }
+      .user-basic-ctt{
+        padding: 25px 0;
+        overflow: hidden;
+        >div{
+          width: 20%;
+          text-align: center;
+        }
+        >ul{
+          margin-top: 5px;
+          width: 80%;
+          line-height: 30px;
+          height: 30px;
+          font-size: 14px;
+        }
+      }
+    }
+    .user-safe{
+      margin-top: 20px;
+      P{
+        padding: 0 20px;
+        height: 36px;
+        line-height: 36px;
+        background-color: #f8f8f8;
+      }
+      ul{
+        width: 100%;
+        li{
+          ul{
+            display: table;
+            height: 60px;
+            font-size: 14px;
+            li{
+              display: table-cell;
+              vertical-align: middle;
+              text-align: center;
+            }
+            li.one{
+              width: 30%;
+            }
+            li.two{
+              width: 50%;
+              text-align: left;
+            }
+            li.three{
+              width: 20%;
+            }
+          }
+        }
+      }
+    }
+  }
   .personal-box {
-
     .personal-sel-top {
       border-bottom: 1px solid #FF845B;
       a {

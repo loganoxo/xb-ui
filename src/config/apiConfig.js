@@ -292,4 +292,17 @@ export default {
   showkerSaveOrUpdateReport(params) {
     return fetch("/api/showker-save-or-update-report.json", params)
   },
+
+  /**
+   *获取秀客试用报告
+   */
+  getTrialReportList(params){
+    return fetch("/api/task/showker/showkerTrialReports.json", params)
+  },
+  /**
+   *获取用户、账户、旺旺账号
+   */
+  getUserAccount(){
+    return fetch("/api/user/account/get-user-account.json")
+  }
 }
