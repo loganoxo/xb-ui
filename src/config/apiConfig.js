@@ -229,14 +229,14 @@ export default {
   },
 
   /**
-   * 商家审核试用报告详情
+   * 商家审核试用报告当前任务详情
    */
   taskReportInfo(params) {
     return fetch("/api/task-report-info.json", params)
   },
 
   /**
-   * 商家审核审核试用报告
+   * 商家审核试用报告
    */
   taskReportAudit(params) {
     return fetch("/api/task-report-audit.json", params)
@@ -244,7 +244,7 @@ export default {
 
   /**
    * 秀客申请列表
-   * 审核通过的
+   * 待审核和未通过的
    */
   showkerApplyList(params) {
     return fetch("/api/showker-apply-list.json", params)
@@ -280,28 +280,42 @@ export default {
   },
 
   /**
-   * 秀客保存或者修改订单号
+   * 秀客保存订单号
    */
-  showkerSaveOrUpdateOrder(params) {
-    return fetch("/api/showker-save-or-update-order.json", params)
+  showkerSaveOrder(params) {
+    return fetch("/api/showker-save-order.json", params)
   },
 
   /**
-   *获取秀客试用报告
+   * 秀客修改订单号
+   */
+  showkerModifyOrder(params) {
+    return fetch("/api/showker-modify-order.json", params)
+  },
+
+  /**
+   * 秀客保存试用报告
+   */
+  showkerSaveReport(params) {
+    return fetch("/api/showker-save-report.json", params)
+  },
+
+  /**
+   * 秀客修改试用报告
+   */
+  showkerModifyReport(params) {
+    return fetch("/api/showker-modify-report.json", params)
+  },
+
+  /**
+   * 获取秀客试用报告
    */
   getTrialReportList(params){
     return fetch("/api/task/showker/showkerTrialReports.json", params)
   },
 
   /**
-   *获取用户、账户、旺旺账号
-   */
-  getUserAccount(){
-    return fetch("/api/user/account/get-user-account.json")
-  },
-
-  /**
-   * 秀客填写试用报告当前任务详情
+   * 秀客填写试用报告或修改试用报告当前任务详情
    */
   showkerReportInfo(params) {
     return fetch("/api/showker-report-info.json", params)

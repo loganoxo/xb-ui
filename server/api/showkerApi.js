@@ -139,7 +139,7 @@ router.post('/api/showker-apply-delete.json', function (req, res, next) {
     method: 'POST',
     uri: baseUrl + '/task/showker/applyDelete',
     formData: {
-      showkerId: req.body.showkerId,
+      showkerId: req.session.userData.id,
       id: req.body.id
     },
     json: true
@@ -182,17 +182,19 @@ router.post('/api/showker-to-process-order.json', function (req, res, next) {
 });
 
 /**
- * 秀客保存或者修改订单号
+ * 秀客保存订单号
  * @param orderNum
  * @param id
  * @param actualPayMoney
  */
-router.post('/api/showker-save-or-update-order.json', function (req, res, next) {
+router.post('/api/showker-save-order.json', function (req, res, next) {
   let options = {
     method: 'POST',
-    uri: baseUrl + '/task/showker/saveOrUpdateOrder',
+    uri: baseUrl + '/task/showker/saveOrder',
     formData: {
-      id: req.body.id
+      id: req.body.id,
+      orderNum: req.body.orderNum,
+      actualPayMoney: req.body.actualPayMoney
     },
     json: true
   };
@@ -209,15 +211,44 @@ router.post('/api/showker-save-or-update-order.json', function (req, res, next) 
 });
 
 /**
- * 秀客保存或者修改试用报告
+ * 秀客修改订单号
+ * @param orderNum
+ * @param id
+ * @param actualPayMoney
+ */
+router.post('/api/showker-modify-order.json', function (req, res, next) {
+  let options = {
+    method: 'POST',
+    uri: baseUrl + '/task/showker/modifyOrder',
+    formData: {
+      id: req.body.id,
+      orderNum: req.body.orderNum,
+      actualPayMoney: req.body.actualPayMoney
+    },
+    json: true
+  };
+  request(options)
+    .then(function (parsedBody) {
+      res.send(parsedBody);
+      res.end();
+    })
+    .catch(function (err) {
+      logConfig.logger.error(req.originalUrl + ':' + err);
+      res.json({status: false, msg: "服务器错误"});
+      res.end();
+    });
+});
+
+/**
+ * 秀客保存试用报告
  * @param id
  * @param trialReportText
  * @param trialReportImages
  */
-router.post('/api/showker-save-or-update-report.json', function (req, res, next) {
+router.post('/api/showker-save-report.json', function (req, res, next) {
   let options = {
     method: 'POST',
-    uri: baseUrl + '/task/showker/saveOrUpdateReport',
+    uri: baseUrl + '/task/showker/saveReport',
     formData: {
       id: req.body.id,
       trialReportText: req.body.trialReportText,
@@ -238,6 +269,36 @@ router.post('/api/showker-save-or-update-report.json', function (req, res, next)
 });
 
 /**
+ * 秀客修改试用报告
+ * @param id
+ * @param trialReportText
+ * @param trialReportImages
+ */
+router.post('/api/showker-modify-report.json', function (req, res, next) {
+  let options = {
+    method: 'POST',
+    uri: baseUrl + '/task/showker/modifyReport',
+    formData: {
+      id: req.body.id,
+      trialReportText: req.body.trialReportText,
+      trialReportImages: req.body.trialReportImages
+    },
+    json: true
+  };
+  request(options)
+    .then(function (parsedBody) {
+      res.send(parsedBody);
+      res.end();
+    })
+    .catch(function (err) {
+      logConfig.logger.error(req.originalUrl + ':' + err);
+      res.json({status: false, msg: "服务器错误"});
+      res.end();
+    });
+});
+
+
+/**
  * 秀客填写试用报告当前任务详情
  * @param id
  */
@@ -247,6 +308,7 @@ router.post('/api/showker-report-info.json', function (req, res, next) {
     uri: baseUrl + '/task/showker/reportInfo',
     formData: {
       id: req.body.id,
+      showkerId: req.session.userData.id
     },
     json: true
   };
