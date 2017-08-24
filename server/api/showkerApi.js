@@ -1,3 +1,8 @@
+/**
+ * 注意：（请使用JS严格模式语法）
+ */
+'use strict';
+
 const express = require('express');
 const config = require('../config');
 const logConfig = require('../logConfig');
@@ -80,8 +85,8 @@ router.post('/api/task/showker/showkerTrialReports.json', function (req, res, ne
     uri: baseUrl + '/task/showker/showkerTrialReports',
     formData: {
       showkerId: req.body.showkerId,
-      pageIndex:req.body.pageIndex,
-      pageSize:req.body.pageSize,
+      pageIndex: req.body.pageIndex,
+      pageSize: req.body.pageSize,
     },
     json: true
   };

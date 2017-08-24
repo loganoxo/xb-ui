@@ -539,8 +539,10 @@
       uploadImgSuccess(res) {
         this.trialReportImages.push(aliCallbackImgUrl + res.name);
       },
-      removeImage() {
-
+      removeImage(file) {
+        let src =  file.src;
+        let index = this.trialReportImages.indexOf(src);
+        this.trialReportImages.splice(index,1);
       },
       handleFormatError(file) {
         this.$Modal.warning({
@@ -563,8 +565,12 @@
           pageIndex: _this.pageIndex,
           pageSize: 5,
         }).then(res => {
-          _this.applyList = res.data.content;
-          _this.totalElements = res.data.numberOfElements;
+          if(res.status){
+            _this.applyList = res.data.content;
+            _this.totalElements = res.data.numberOfElements;
+          }else{
+            _this.$Message.error(res.msg);
+          }
         })
       },
       showkerSuccessList() {
@@ -578,20 +584,24 @@
           auditTimeEnd: _this.auditTimeEnd,
           pageSize: 5,
         }).then(res => {
-          let content = res.data.content;
-          content.forEach(function (item) {
-            let data = {};
-            data.id = item.id;
-            data.alitmAccount = item.alitmAccount;
-            data.orderNum = item.orderNum;
-            data.status = item.status;
-            data.taskMainImage = item.task.taskMainImage;
-            data.taskName = item.task.taskName;
-            data.perMarginNeed = item.task.perMarginNeed;
-            data.createTime = item.task.createTime;
-            _this.applySuccessList.push(data)
-          });
-          _this.totalElements = res.data.numberOfElements;
+          if(res.status){
+            let content = res.data.content;
+            content.forEach(function (item) {
+              let data = {};
+              data.id = item.id;
+              data.alitmAccount = item.alitmAccount;
+              data.orderNum = item.orderNum;
+              data.status = item.status;
+              data.taskMainImage = item.task.taskMainImage;
+              data.taskName = item.task.taskName;
+              data.perMarginNeed = item.task.perMarginNeed;
+              data.createTime = item.task.createTime;
+              _this.applySuccessList.push(data);
+            });
+            _this.totalElements = res.data.numberOfElements;
+          }else{
+            _this.$Message.error(res.msg);
+          }
         })
       },
       endTrial(id,type) {
