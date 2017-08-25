@@ -52,6 +52,26 @@ router.post('/api/task/index/newest.json', (req, res, next) => {
       res.end();
     });
 });
+/**
+ * 首页左上角列表接口
+ */
+router.post('/api/task/showker-newest.json', (req, res, next) => {
+  let options = {
+    method: 'GET',
+    uri: baseUrl + '/task/showker/newest',
+    json: true,
+  };
+  request(options)
+    .then(function (parsedBody) {
+      res.send(parsedBody);
+      res.end();
+    })
+    .catch(function (err) {
+      logConfig.logger.error(req.originalUrl + ':' + err);
+      res.json({status: false, msg: "服务器错误"});
+      res.end();
+    });
+});
 
 /**
  * 分类页面请求
@@ -139,11 +159,11 @@ router.post('/api/search/task/s.json', (req, res, next) => {
  * 详情页请求
  * @param taskId 商品ID
  */
-router.post('/api/task/get.json', (req, res, next) => {
+router.post('/api/task/detail.json', (req, res, next) => {
   let options =
     {
       method: 'GET',
-      uri: baseUrl + '/task/get/' + req.body.taskId,
+      uri: baseUrl + '/task/detail/' + req.body.taskId,
       json: true,
     };
   request(options)
@@ -158,4 +178,71 @@ router.post('/api/task/get.json', (req, res, next) => {
     });
 });
 
+/**
+ * 详情页试客报告
+ * @param taskId
+ * @param pageIndex
+ */
+router.post('/api/task/showker/trial/report.json', function (req, res, next) {
+  let options = {
+    method: 'GET',
+    uri: baseUrl + "/task/showker/trial/report/"+ req.body.taskId + "/" + req.body.pageIndex,
+    json: true
+  };
+  request(options)
+    .then(function (parsedBody) {
+      res.send(parsedBody);
+      res.end();
+    })
+    .catch(function (err) {
+      logConfig.logger.error(req.originalUrl + ':' + err);
+      res.json({status: false, msg: "服务器错误"});
+      res.end();
+    });
+});
+
+/**
+ * 详情页已审批秀客列表
+ * @param taskId
+ * @param pageIndex
+ */
+router.post('/api/task/showker/success.json', function (req, res, next) {
+  let options = {
+    method: 'GET',
+    uri: baseUrl + "/task/showker/success/"+ req.body.taskId + "/" + req.body.pageIndex,
+    json: true
+  };
+  request(options)
+    .then(function (parsedBody) {
+      res.send(parsedBody);
+      res.end();
+    })
+    .catch(function (err) {
+      logConfig.logger.error(req.originalUrl + ':' + err);
+      res.json({status: false, msg: "服务器错误"});
+      res.end();
+    });
+});
+/**
+ * 详情页秀客是否能申请
+ * @param taskId
+ * @param pageIndex
+ */
+router.post('/api/task/showker/success.json', function (req, res, next) {
+  let options = {
+    method: 'GET',
+    uri: baseUrl + "/task/showker/success/"+ req.body.taskId + "/" + req.body.pageIndex,
+    json: true
+  };
+  request(options)
+    .then(function (parsedBody) {
+      res.send(parsedBody);
+      res.end();
+    })
+    .catch(function (err) {
+      logConfig.logger.error(req.originalUrl + ':' + err);
+      res.json({status: false, msg: "服务器错误"});
+      res.end();
+    });
+});
 module.exports = router;

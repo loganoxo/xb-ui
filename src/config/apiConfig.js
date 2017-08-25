@@ -73,6 +73,12 @@ export default {
   getHomeTaskList() {
     return fetch("/api/task/index/newest.json")
   },
+  /**
+   * 首页左上角类表接口
+   */
+  getHomeTaskTopLeftList() {
+    return fetch("/api/task/showker-newest.json")
+  },
 
   /**
    * 分类页面请求
@@ -99,7 +105,7 @@ export default {
    * 详情页页面
    */
   getTaskDetails(params) {
-    return fetch("/api/task/get.json", params)
+    return fetch('/api/task/detail.json', params)
   },
 
   /**
@@ -301,6 +307,19 @@ export default {
   },
 
   /**
+   *详情页试客报告列表
+   */
+  getDetailsShowkerList(params){
+    return fetch("/api/task/showker/trial/report.json",params)
+  },
+  /**
+   *详情页已审核试客列表
+   */
+  getDetailsSuccessShowkerList(params){
+    return fetch("/api/task/showker/success.json",params)
+  },
+
+  /**
    * 秀客修改试用报告
    */
   showkerModifyReport(params) {
@@ -320,4 +339,19 @@ export default {
   showkerReportInfo(params) {
     return fetch("/api/showker-report-info.json", params)
   },
+
+  /**
+   * 秀客能否申请试用
+   */
+  getShowkerCanTrial(params) {
+    return fetch("/api/task/showker/qualification/check.json", params)
+  },
+
+  /**
+   * 秀客申请试用任务
+   */
+  ShowkerApplySelWwId(params) {
+    return fetch("/api/task/showker/apply.json", params)
+  },
+
 }

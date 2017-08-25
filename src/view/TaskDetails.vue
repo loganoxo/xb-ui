@@ -7,7 +7,7 @@
             <Breadcrumb-item>当前位置：</Breadcrumb-item>
             <Breadcrumb-item>试客联盟</Breadcrumb-item>
             <Breadcrumb-item>试用品专区</Breadcrumb-item>
-            <Breadcrumb-item>{{commodityData.itemCatalog.name}}</Breadcrumb-item>
+            <Breadcrumb-item>{{commodityData.task.itemCatalog.parentItemCatalog.name}}</Breadcrumb-item>
           </Breadcrumb>
         </div>
       </div>
@@ -15,29 +15,29 @@
         <div class="task-details-top">
           <div class="task-details-top-left left">
             <!--<img src="~assets/img/task-details/task_details_03.png"  alt="">-->
-            <img :src="commodityData.taskMainImage"  alt="" >
+            <img :src="commodityData.task.taskMainImage"  alt="" >
           </div>
           <div class="task-details-top-right left">
-            <h3 class="fs-18" >{{commodityData.taskName}}</h3>
+            <h3 class="fs-18" >{{commodityData.task.taskName}}</h3>
             <p class="fs-14">
               活动类型：
-              <span class="fs-18">{{commodityData.taskType}}</span>
+              <span class="fs-18">{{commodityData.task.taskTypeDesc}}</span>
             </p>
             <p class="fs-14">
-              单品试用担保金：<span class="fs-18">{{(commodityData.itemPrice/100).toFixed(2)}}</span>元
+              单品试用担保金：<span class="fs-18">{{(commodityData.task.perMarginNeed/100).toFixed(2)}}</span>元
               &nbsp;&nbsp;&nbsp;&nbsp;
-              试用份数：<span class="fs-18"> {{commodityData.taskCount}} </span>份
+              试用份数：<span class="fs-18"> {{commodityData.task.taskCount}} </span>份
             </p>
             <p class="fs-14">
-              （商家已存入总试用担保金 {{commodityData.totalMarginNeed}} 元，请放心申请）
+              （商家已存入总试用担保金 {{commodityData.task.totalMarginNeed}} 元，请放心申请）
             </p>
             <p class="fs-14">
-              {{commodityData.showkerApplyTotalCount}} 人申请， {{commodityData.showkerApplySuccessCount}} 人正在参与试用， 0 人完成试用， 剩余 {{commodityData.taskCount - commodityData.showkerApplySuccessCount}} 份
+              {{commodityData.apply}} 人申请， {{commodityData.trailOn}} 人正在参与试用， {{commodityData.applySuccess}} 人完成试用， 剩余 {{commodityData.task.taskCount - commodityData.applySuccess}} 份
             </p>
             <p class="fs-14">
               <i class="ivu-icon ivu-icon-clock fs-16"></i>
               距申请结束：
-              <time-down color="#495060" size="20" ></time-down>&nbsp;
+              <time-down color="#495060" size="20" :endTime="commodityData.task.endTime" ></time-down>&nbsp;
               <!--<span class="fs-24">17</span> 天 <span class="fs-24">02</span> 小时 <span class="fs-24">56</span> 分钟 <span class="fs-24">31</span> 秒-->
             </p>
             <div>
@@ -62,7 +62,7 @@
               </li>
               <li>
                 <span>2</span>
-                <em>以14.00元到指定平台购买试用品</em>
+                <em>以{{(commodityData.task.perMarginNeed/100).toFixed(2)}}元到指定平台购买试用品</em>
                 <i class="ivu-icon ivu-icon-chevron-right" ></i>
               </li>
               <li>
@@ -96,7 +96,7 @@
             </a>
           </div>
           <div class="graphic-info-ctt">
-            <div v-show="graphicInfoSelClass == 'activity'" class="graphic-info-details" v-html="commodityData.itemDescription">
+            <div v-show="graphicInfoSelClass == 'activity'" class="graphic-info-details" v-html="commodityData.task.itemDescription">
               <!--<p class="fs-18 mb-40">-->
                 <!--该活动为9.9元试用活动，请您获得资格后以139.00元到指定平台购买试用品，在您试用完成后试客联盟将返还129.10元至您的互联支付账号；-->
               <!--</p>-->
@@ -278,6 +278,15 @@
 
       </div>
     </Modal>
+    <Modal
+      v-model="selWw"
+      class-name="vertical-center-modal" ok-text="确定申请" cancel-text="" @on-ok="selWwFunc">
+      <p class="fs-18 fb mt-20" style="color: #FF6600">请选择试用旺旺号:</p>
+      <p class="fs-14 mt-10">注意：请 <span style="color: #FF6600">务必使用选的旺旺号下单购买</span>，否则订单审核将无法通过！</p>
+      <Radio-group class="mt-20" v-model="selectedWw">
+        <Radio v-for="ww in wwList.alitms" :label="ww.id">{{ww.alitmAccount}}</Radio>
+      </Radio-group>
+    </Modal>
   </div>
 
 </template>
@@ -307,12 +316,11 @@
       iInput: Input,
       iForm: Form,
       FormItem: Form.Item,
-      Checkbox: Checkbox,
-      CheckboxGroup: Checkbox.Group,
       iButton: Button,
       ButtonGroup: Button.Group,
       Icon: Icon,
       Radio: Radio,
+      RadioGroup: Radio.Group,
       Modal: Modal,
       Breadcrumb: Breadcrumb,
       BreadcrumbItem: Breadcrumb.Item,
@@ -322,9 +330,18 @@
     },
     data () {
       return {
+        selWw: false,
+        selectedWw: '',
+        wwList: {},
         tryImgShow: false,
         commodityData: {
-          itemCatalog:{}
+            task:{
+              itemCatalog: {
+                parentItemCatalog:{
+
+                  }
+              }
+            }
         },
         graphicInfoSels: [
           {
@@ -343,13 +360,23 @@
             isClass: 'audited'
           }
         ],
-        graphicInfoSelClass: 'activity'
+        graphicInfoSelClass: 'activity',
+        detailsShowkerParams: {
+          taskId: '',
+          pageIndex: 1
+        },
+        detailsSuccessShowkerParams: {
+          taskId: '',
+          pageIndex: 1
+        },
       }
     },
     created(){
       let taskId = this.$route.query.taskId;
 //      taskId = 423;
-      this.getTaskDetails(taskId)
+      this.getTaskDetails(taskId);
+      this.getDetailsShowkerList(taskId);
+      this.getDetailsSuccessShowkerList(taskId);
     },
     computed: {
       isLogin() {
@@ -370,13 +397,83 @@
             }
           });
         }else {
-
+          this.getShowkerCanTrial();
         }
+      },
+      getShowkerCanTrial(){
+          let self = this;
+          api.getShowkerCanTrial({
+            taskId: self.$route.query.taskId
+          }).then((res) => {
+              console.log(res);
+              if(res.status){
+                self.selWw = true;
+                self.wwList = res.data;
+              }else {
+                if(res.statusCode == 'already_applied'){
+                  self.$Modal.warning({
+                    content: '<p class="fs-14">亲，你已成功申请，不能二次申请</span>',
+                  });
+                }else {
+                  self.$Modal.warning({
+                    content: '<p class="fs-20 f-b">亲，你还没绑定旺旺号 </p><br> <span class="fs-12">请先绑定旺旺号在申请试用!</span>',
+                    okText: '去绑定旺旺号',
+                    cancelText: '取消',
+                    onOk: function () {
+                      self.$router.push({path: '/user/personal-setting'});
+                    }
+                  });
+                }
+
+              }
+          })
+      },
+      getDetailsShowkerList(taskId){
+        let self = this;
+        self.detailsShowkerParams.taskId = taskId;
+        api.getDetailsShowkerList(self.detailsShowkerParams).then((res) => {
+          console.log(res);
+        })
+      },
+      getDetailsSuccessShowkerList(taskId){
+        let self = this;
+        self.detailsSuccessShowkerParams.taskId = taskId;
+        api.getDetailsSuccessShowkerList(self.detailsSuccessShowkerParams).then((res) => {
+          console.log(res);
+        })
       },
       getTaskDetails(taskId){
         api.getTaskDetails({taskId: taskId}).then((res) => {
-          this.commodityData = res;
-          this.graphicInfoSels[2].num = this.commodityData.showkerApplySuccessCount;
+          if(res.status){
+            this.commodityData = res.data;
+            this.graphicInfoSels[2].num = this.commodityData.showkerApplySuccessCount;
+          }else {
+            self.$Modal.error({
+              content: res.msg,
+            });
+          }
+
+        })
+      },
+      selWwFunc(){
+        let self = this;
+        api.ShowkerApplySelWwId({
+          wangwangId: self.selectedWw,
+          taskId: self.$route.query.taskId
+        }).then((res) => {
+          console.log(res)
+          if(res.status){
+            self.$Modal.success({
+              content: '申请成功',
+              onOk: function () {
+                self.$router.push({name: 'home'});
+              }
+            });
+          }else {
+            self.$Modal.error({
+              content: res.statusCode,
+            });
+          }
         })
       },
       tryImgShowFunc(){

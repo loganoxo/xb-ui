@@ -14,7 +14,8 @@
       <div class="container" v-show="$route.query.cate">
         <div class="task-category-sel">
           {{parentItemCatalog.name}}：
-          <a :class="[itemCatalogs[0] == category.id && itemCatalogs.length == 1 ? 'active' : '']" v-for="category in categoryList" @click="taskCategoryFunc(category)">{{category.name}}</a>
+           <a  @click="taskCategoryAllFunc()" :class="[taskCategoryAll ? 'active' : '' ]">全部</a>
+          <a :class="[itemCatalogs[0] == category.id && !taskCategoryAll ? 'active' : '']" v-for="category in categoryList" @click="taskCategoryFunc(category)">{{category.name}}</a>
         </div>
       </div>
       <div class="container">
@@ -84,7 +85,8 @@
                   申请人数:{{searchTask.taskDaysDuration}}
                 </p>
                 <p class="cl000">
-                  剩余时间：{{searchTask.createTime}}
+                  剩余时间：
+                  <time-down  :endTime="searchTask.updateTime" ></time-down>&nbsp;
                 </p>
               </div>
             </router-link>
@@ -118,6 +120,7 @@
   import Modal from 'iview/src/components/modal'
   import Breadcrumb from 'iview/src/components/breadcrumb'
   import Page from 'iview/src/components/page'
+  import TimeDown from '@/components/TimeDown'
   export default {
     beforeMount() {
       this.$store.commit({
@@ -138,7 +141,8 @@
       Modal: Modal,
       Breadcrumb: Breadcrumb,
       BreadcrumbItem: Breadcrumb.Item,
-      Page: Page
+      Page: Page,
+      TimeDown: TimeDown,
     },
     data () {
       return {
@@ -148,6 +152,7 @@
         },
         pageCount: 1,
         categoryList: [],
+        taskCategoryAll: false,
         searchTaskList:[],
         sortFieldList: [
           {
@@ -173,7 +178,7 @@
         ],
         sortFieldDefault: '最新',
         taskTypes: [],
-        itemCatalogs: [],
+        itemCatalogs: ['all'],
         searchTaskParams:{
           pageIndex: 1,
           pageSize: 2,
@@ -190,7 +195,6 @@
       let searchKey = this.$route.query.searchKey;
       if(cate){
         this.getTaskCategoryList(cate);
-        this.$route.query.cate = '';
       }
       if(searchKey){
         this.searchTaskParams.taskName = searchKey;
@@ -213,19 +217,18 @@
         this.searchTaskParams.pageIndex = data;
         this.getSearchTask();
       },
+      taskCategoryAllFunc(){
+        let self = this;
+        for(let i = 0; i < self.categoryList.length; i++){
+          self.itemCatalogs[i] = self.categoryList[i].id;
+        }
+        self.taskCategoryAll = true;
+        self.getSearchTask();
+      },
       taskCategoryFunc(category){
         let self = this;
-        if(category.id == 'all'){
-          for(let i = 0; i < self.categoryList.length; i++){
-            if(i < self.categoryList.length-1){
-              self.itemCatalogs[i] = self.categoryList[i+1].id;
-            }else {
-              break;
-            }
-          }
-        }else {
-          self.itemCatalogs = [category.id];
-        }
+        self.taskCategoryAll = false;
+        self.itemCatalogs = [category.id];
         this.getSearchTask();
       },
       getSortFieldFunc(sortField){
@@ -267,7 +270,6 @@
             for(let i = 0; i < self.categoryList.length; i++){
               self.itemCatalogs.push(self.categoryList[i].id);
             }
-            self.categoryList.unshift({id: 'all',name: '全部'});
             this.getSearchTask()
           }else {
             self.$Modal.error({

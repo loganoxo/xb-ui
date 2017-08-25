@@ -324,4 +324,49 @@ router.post('/api/showker-report-info.json', function (req, res, next) {
     });
 });
 
+/**
+ * 秀客能否申请试用
+ * @param showkerId
+ * @param taskId
+ */
+router.post('/api/task/showker/qualification/check.json', function (req, res, next) {
+  let options = {
+    method: 'POST',
+    uri: baseUrl + '/task/showker/qualification/check/' + req.session.userData.id + '/' + req.body.taskId,
+    json: true
+  };
+  request(options)
+    .then(function (parsedBody) {
+      res.send(parsedBody);
+      res.end();
+    })
+    .catch(function (err) {
+      logConfig.logger.error(req.originalUrl + ':' + err);
+      res.json({status: false, msg: "服务器错误"});
+      res.end();
+    });
+});
+/**
+ * 秀客所选旺旺
+ * @param wangwangId
+ * @param taskId
+ */
+router.post('/api/task/showker/apply.json', function (req, res, next) {
+  let options = {
+    method: 'GET',
+    uri: baseUrl + '/task/showker/apply/' + req.session.userData.id + '/' + req.body.wangwangId + '/' + req.body.taskId,
+    json: true
+  };
+  request(options)
+    .then(function (parsedBody) {
+      res.send(parsedBody);
+      res.end();
+    })
+    .catch(function (err) {
+      logConfig.logger.error(req.originalUrl + ':' + err);
+      res.json({status: false, msg: "服务器错误"});
+      res.end();
+    });
+});
+
 module.exports = router;
