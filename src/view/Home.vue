@@ -51,7 +51,7 @@
                 <img class="left ml-20" src="~assets/img/common/home_24.png" alt="">
                 <div class="left fs-14 ml-20" style="margin-left: 10px;line-height: 28px;">
                   <p>Hi~{{getUserInfo.phone}}</p>
-                  <router-link  to="/user">个人中心</router-link>
+                  <router-link  to="/user/user-home">个人中心</router-link>
                   <a @click="signOut">[ 退出登录 ]</a>
                 </div>
                 <p class="clear-both fs-14 mt-10 left ml-20">当前进行的活动：<router-link  to="/user">8</router-link> 个</p>

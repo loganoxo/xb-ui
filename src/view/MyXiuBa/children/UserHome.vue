@@ -7,7 +7,7 @@
             <p class="fs-16 user-home-account">我的主页</p>
             <div class="fs-14 user-info-box">
               <div class="left">
-                <img class="left" :src="userData.portraitPic" alt="">
+                <img class="left" :src="userData.portraitPic" alt="" width="68px">
               </div>
               <div class="left ml-20">
                 <p>
@@ -41,8 +41,24 @@
               </div>
             </div>
             <div class="left clear-both fs-14 pd-tb-20" style="border-bottom: 1px solid #eee;">
-              <p v-if="getUserInfoRole == 0">试用提醒：待审核 8 个，进行中 8 个（已通过待领取 0个；已下单待交试用报告 0个；待修改订单号/报告 0个）。 进入我的试用</p>
-              <p v-if="getUserInfoRole == 1">试用提醒：待审核 8 个，进行中 8 个（已通过待领取 0个；已下单待交试用报告 0个；待修改订单号/报告 0个）。 进入我的试用</p>
+              <p v-if="getUserInfoRole == 0">
+                试用提醒：待审核 {{trialCount.waitingAuditTaskApply}} 个，进行中 8 个（已通过待领取
+                <router-link to="/user/personal-setting">0</router-link>
+                个；已下单待交试用报告
+                <router-link to="/user/personal-setting">0</router-link>
+                个；待修改订单号/报告
+                <router-link to="/user/personal-setting">0</router-link>
+                个）。 进入我的试用
+              </p>
+              <p v-if="getUserInfoRole == 1">
+                试用提醒：待审核 8 个，进行中 8 个（已通过待领取
+                <router-link to="/user/personal-setting">0</router-link>
+                个；已下单待交试用报告
+                <router-link to="/user/personal-setting">0</router-link>
+                个；待修改订单号/报告
+                <router-link to="/user/personal-setting">0</router-link>
+                个）。 进入我的试用
+              </p>
             </div>
             <p class="fs-16 clear-both user-home-account" style="border-bottom: 1px solid #eee;">最新试用宝贝</p>
             <div v-if="getUserInfoRole == 0" class="home-commodity-ctt">
@@ -145,6 +161,7 @@
           trigger: 'click',
           arrow: 'hover'
         },
+        trialCount: {},
         homeCommodityList:[],
         userData: {
           userAccount: {
@@ -156,6 +173,7 @@
     created(){
       this.getUserAccount();
       this.getHomeTaskList();
+      this.personalTrialCount();
     },
     computed: {
       getUserInfoRole(){
@@ -177,11 +195,36 @@
           }
         })
       },
+      personalTrialCount(){
+        let self = this;
+        if(self.$store.state.userInfo.role == 0){
+          api.showkerPersonalTrialCount().then((res) => {
+            if(res.status){
+              self.trialCount = res.data
+            }else {
+              self.$Modal.error({
+                content: res.msg
+              });
+            }
+          })
+        }else {
+          api.sellerPersonalTrialCount().then((res) => {
+            if(res.status){
+              self.trialCount = res.data
+            }else {
+              self.$Modal.error({
+                content: res.msg
+              });
+            }
+          })
+        }
+
+      },
       getUserAccount(){
         var self = this;
         api.getUserAccount().then((res) => {
           if(res.status){
-            this.userData = res.data;
+            self.userData = res.data;
           }
         })
       },

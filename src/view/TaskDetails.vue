@@ -156,7 +156,7 @@
       <p class="fs-18 fb mt-20" style="color: #FF6600">请选择试用旺旺号:</p>
       <p class="fs-14 mt-10">注意：请 <span style="color: #FF6600">务必使用选的旺旺号下单购买</span>，否则订单审核将无法通过！</p>
       <Radio-group class="mt-20" v-model="selectedWw">
-        <Radio v-for="ww in wwList.alitms" :label="ww.id">{{ww.alitmAccount}}</Radio>
+        <Radio v-for="ww in wwList.alitms" :label="ww.id" :key="ww.id">{{ww.alitmAccount}}</Radio>
       </Radio-group>
     </Modal>
   </div>
@@ -352,12 +352,11 @@
           wangwangId: self.selectedWw,
           taskId: self.$route.query.taskId
         }).then((res) => {
-          console.log(res)
           if(res.status){
             self.$Modal.success({
               content: '申请成功',
               onOk: function () {
-                self.$router.push({name: 'home'});
+                self.$router.push({path: '/user/personal-setting'});
               }
             });
           }else {

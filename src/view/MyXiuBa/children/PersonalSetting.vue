@@ -12,10 +12,10 @@
           <p class="fs-14 user-basic-title">基本信息</p>
           <div class="user-basic-ctt">
             <div class="text-ct left">
-              <img class="block mg-at" src="~assets/img/common/home_24.png" alt="" style="width: 120px;">
-              <a class="fs-14 block mt-10" href="">修改头像</a>
+              <img class="block mg-at" :src="defaultAvatar" alt="" style="width: 120px;">
+              <a class="fs-14 block mt-10" @click="selPortraitPic">修改头像</a>
             </div>
-            <ul v-show="true" class="left">
+            <ul v-show="!showModifyAvatar" class="left">
               <li>
                 手机帐号： {{userData.phone}}
               </li>
@@ -39,9 +39,9 @@
                 注册时间：{{userData.createTime | dateFormat('YYYY-MM-DD hh:mm:ss')}}
               </li>
             </ul>
-            <p v-show="false" class="img-box">
+            <p v-show="showModifyAvatar" class="img-box">
               <!--<img :src="avatar.src" alt="" style="width: 68px;" v-for="avatar in avatars">-->
-              <img src="../../../assets/img/common/avatar/tx1.png" alt="" style="width: 68px;" v-for="avatar in avatars">
+              <img :src="avatar.src" alt="" @click="modifyPortraitPic(avatar)" :key="avatar.src" style="width: 68px; cursor: pointer" v-for="avatar in avatars">
             </p>
           </div>
 
@@ -360,42 +360,44 @@
       return {
         avatars: [
           {
-              src: "../../../assets/img/common/avatar/tx1.png"
+            src: "/static/avatar/tx1.png"
           },
           {
-            src: "../../../assets/img/common/avatar/tx2.png"
+            src: "/static/avatar/tx2.png"
           },
           {
-            src: "../../../assets/img/common/avatar/tx3.png"
+            src: "/static/avatar/tx3.png"
           },
           {
-            src: "../../../assets/img/common/avatar/tx4.png"
+            src: "/static/avatar/tx4.png"
           },
           {
-            src: "../../../assets/img/common/avatar/tx5.png"
+            src: "/static/avatar/tx5.png"
           },
           {
-            src: "../../../assets/img/common/avatar/tx6.png"
+            src: "/static/avatar/tx6.png"
           },
           {
-            src: "../../../assets/img/common/avatar/tx7.png"
+            src: "/static/avatar/tx7.png"
           },
           {
-            src: "../../../assets/img/common/avatar/tx8.png"
+            src: "/static/avatar/tx8.png"
           },
           {
-            src: "../../../assets/img/common/avatar/tx9.png"
+            src: "/static/avatar/tx9.png"
           },
           {
-            src: "../../../assets/img/common/avatar/tx10.png"
+            src: "/static/avatar/tx10.png"
           },
           {
-            src: "../../../assets/img/common/avatar/tx11.png"
+            src: "/static/avatar/tx11.png"
           },
           {
-            src: "../../../assets/img/common/avatar/tx12.png"
+            src: "/static/avatar/tx12.png"
           },
         ],
+        defaultAvatar: '',
+        showModifyAvatar: false,
         userData: {},
         btnState: {
           wwBindBtn: false,
@@ -479,6 +481,7 @@
         api.getUserAccount().then((res) => {
           if(res.status){
             self.userData = res.data;
+            self.defaultAvatar = res.data.portraitPic
           }
         })
       },
@@ -493,7 +496,24 @@
         this.infoSelect=myInfoSelect.isSelect;
         myInfoSelect.callback();
       },
-
+      //修改头像
+      selPortraitPic(){
+        this.showModifyAvatar = true;
+      },
+      modifyPortraitPic(avatar){
+        this.defaultAvatar = avatar.src;
+        api.modifyPortraitPic({
+          picStr: this.defaultAvatar
+        }).then((res) => {
+          if(res.status){
+            this.showModifyAvatar = false;
+          }else {
+            self.$Modal.error({
+              content: res.msg
+            });
+          }
+        })
+      },
       deleteWwBindFunc(ww,index){
         let self = this;
         api.wwUnbind({id: ww.id}).then((res) => {

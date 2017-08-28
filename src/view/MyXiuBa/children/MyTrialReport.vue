@@ -6,7 +6,6 @@
           <div v-show="!showReportDesc">
             <p class="fs-16 trial-account">
               {{showkerInfo.phone}}的试用报告
-              <a @click="showReportDesc = false;" class="right fs-14">返回上一页</a>
             </p>
             <p class="trial-tag">
               Ta的标签：&nbsp;&nbsp;
@@ -18,8 +17,7 @@
               <ul v-if="trialReportList.length > 0">
                 <li v-for="trialReport in trialReportList">
                   <div>
-                    <img :src="trialReport.taskMainImage" alt="">
-                    <p>136****666</p>
+                    <img :src="trialReport.task.taskMainImage" alt="" style="width: 150px;">
                   </div>
                   <div>
                     <p>发表于 {{trialReport.createTime | dateFormat('YYYY-MM-DD hh:mm:ss')}} </p>
@@ -47,13 +45,16 @@
             </div>
           </div>
           <div v-show="showReportDesc">
-            <p class="fs-16 trial-account">{{showkerReportDesc.showkerPhone}}的试用报告</p>
+            <p class="fs-16 trial-account">
+              {{showkerReportDesc.showkerPhone}}的试用报告
+               <a @click="showReportDesc = false;" class="right fs-14">返回上一页</a>
+            </p>
             <div class="trial-account-details">
               <div class="task-info">
-                <img :src="showkerReportDesc" alt="" width="100px" class="left">
+                <img :src="showkerReportDesc.task.taskMainImage" alt="" width="100px" class="left">
                 <div class="left ml-20">
-                  <p>{{showkerReportDesc.showkerName}}</p>
-                  <p>宝贝单价 2 元 。</p>
+                  <p>{{showkerReportDesc.task.taskName}}</p>
+                  <p>宝贝单价 {{showkerReportDesc.task.itemPrice / 100}} 元 。</p>
                 </div>
               </div>
             </div>
@@ -77,20 +78,20 @@
                   </Carousel-item>
                 </Carousel>
 
-                <p class="mt-20 mb-20 text-ct task-list-img">
-                  <a href="">
-                    <img class="mg-at" src="~assets/img/trial-report/trial_report_05.png" alt="">
-                  </a>
-                  <a href="">
-                    <img class="mg-at" src="~assets/img/trial-report/trial_report_05.png" alt="">
-                  </a>
-                  <a href="">
-                    <img class="mg-at" src="~assets/img/trial-report/trial_report_05.png" alt="">
-                  </a>
-                  <a href="">
-                    <img class="mg-at" src="~assets/img/trial-report/trial_report_05.png" alt="">
-                  </a>
-                </p>
+                <!--<p class="mt-20 mb-20 text-ct task-list-img">-->
+                  <!--<a href="">-->
+                    <!--<img class="mg-at" src="~assets/img/trial-report/trial_report_05.png" alt="">-->
+                  <!--</a>-->
+                  <!--<a href="">-->
+                    <!--<img class="mg-at" src="~assets/img/trial-report/trial_report_05.png" alt="">-->
+                  <!--</a>-->
+                  <!--<a href="">-->
+                    <!--<img class="mg-at" src="~assets/img/trial-report/trial_report_05.png" alt="">-->
+                  <!--</a>-->
+                  <!--<a href="">-->
+                    <!--<img class="mg-at" src="~assets/img/trial-report/trial_report_05.png" alt="">-->
+                  <!--</a>-->
+                <!--</p>-->
               </div>
             </div>
           </div>
@@ -174,7 +175,10 @@
           1000: '其他试用',
         },
         showkerTag: {},
-        showkerReportDesc: {}
+        showkerReportDesc: {
+          task: {}
+        },
+        showkerInfo: {}
       }
     },
     created(){
@@ -195,6 +199,7 @@
             }
             self.trialReportList = res.data.reportList.content;
             self.totalPages = res.data.reportList.totalElements;
+            self.showkerInfo = res.data.showkerInfo;
             self.showkerTag = res.data.showkerTag;
           } else {
             self.$Modal.error({
@@ -209,8 +214,8 @@
         this.getTrialReportList();
       },
       showReportDescFunc(trialReport){
-         this.showReportDesc = true;
          let self = this;
+         this.showReportDesc = true;
          api.ShowkerReportOne({
            id: trialReport.id,
            showkerId: trialReport.showkerId

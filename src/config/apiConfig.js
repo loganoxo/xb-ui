@@ -359,5 +359,31 @@ export default {
   ShowkerReportOne(params) {
     return fetch("/api/task/showker/trialReport.json", params)
   },
+  /**
+   * 修改用户头像
+   * @param userId
+   * @param picStr
+   */
+  modifyPortraitPic(params) {
+    return fetch("/api/user/edit_portrait_pic.json", params)
+  },
+
+  /**
+   * 商家个人主页试用提醒
+   * @param userId
+   * @param picStr
+   */
+  sellerPersonalTrialCount(params) {
+    return fetch("/api/task/seller-personal-trial-count.json", params)
+  },
+
+  /**
+   * 秀客个人主页试用提醒
+   * @param userId
+   * @param picStr
+   */
+  showkerPersonalTrialCount(params) {
+    return fetch("/api/task/showker-personal-trial-count.json", params)
+  },
 
 }

@@ -96,4 +96,31 @@ router.post('/api/find-pwd-by-origin.json', function (req, res, next) {
   });
 });
 
+
+/**
+ * 修改用户头像
+ * @param userId
+ * @param picStr
+ */
+router.post('/api/user/edit_portrait_pic.json', function (req, res, next) {
+  let options = {
+    method: 'POST',
+    uri: baseUrl + '/user/edit_portrait_pic',
+    formData: {
+      uid: req.session.userData.id,
+      picStr: req.body.picStr
+    },
+    json: true,
+  };
+  request(options).then(function (parsedBody) {
+    res.send(parsedBody);
+    res.end();
+  }).catch(function (err) {
+    logConfig.logger.error(req.originalUrl + ':' + err);
+    res.json({status: false, msg: "服务器错误"});
+    res.end();
+  });
+});
+
+
 module.exports = router;

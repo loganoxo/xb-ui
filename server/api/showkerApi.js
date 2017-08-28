@@ -41,6 +41,51 @@ router.post('/api/showker-apply-list.json', function (req, res, next) {
 });
 
 /**
+ * 秀客个人主页试用提醒
+ * @param showkerId
+ */
+router.post('/api/task/showker-personal-trial-count.json', function (req, res, next) {
+  let options = {
+    method: 'GET',
+    uri: baseUrl + '/task/showker/personal/trial/count/' + req.session.userData.id,
+    json: true
+  };
+  request(options)
+    .then(function (parsedBody) {
+      res.send(parsedBody);
+      res.end();
+    })
+    .catch(function (err) {
+      logConfig.logger.error(req.originalUrl + ':' + err);
+      res.json({status: false, msg: "服务器错误"});
+      res.end();
+    });
+});
+
+
+/**
+ * 商家个人主页试用提醒
+ * @param showkerId
+ */
+router.post('/api/task/seller-personal-trial-count.json', function (req, res, next) {
+  let options = {
+    method: 'GET',
+    uri: baseUrl + '/task/seller/personal/trial/count' + req.session.userData.id,
+    json: true
+  };
+  request(options)
+    .then(function (parsedBody) {
+      res.send(parsedBody);
+      res.end();
+    })
+    .catch(function (err) {
+      logConfig.logger.error(req.originalUrl + ':' + err);
+      res.json({status: false, msg: "服务器错误"});
+      res.end();
+    });
+});
+
+/**
  * 秀客申请列表
  * 审核通过的
  * @param showkerId

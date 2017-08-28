@@ -25,8 +25,7 @@
               <ul v-if="trialReportList.length > 0">
                 <li v-for="trialReport in trialReportList">
                   <div>
-                    <img :src="trialReport.taskMainImage" alt="">
-                    <p>136****666</p>
+                    <img :src="trialReport.task.taskMainImage" alt="" style="width: 150px">
                   </div>
                   <div>
                     <p>发表于 {{trialReport.createTime | dateFormat('YYYY-MM-DD hh:mm:ss')}} </p>
@@ -55,14 +54,14 @@
           </div>
           <div v-show="showReportDesc">
             <p class="fs-16 trial-account">
-              {{showkerInfo.phone}}的试用报告
-              <a @click="showReportDesc = false;" class="right fs-14">返回上一页</a>
+              {{showkerReportDesc.showkerPhone}}的试用报告
+               <a @click="showReportDesc = false;" class="right fs-14">返回上一页</a>
             </p>
             <div class="trial-account-details">
               <div class="task-info">
-                <img src="~assets/img/trial-report/trial_report_03.png" alt="" width="100px" class="left">
+                <img :src="showkerReportDesc.showkerPortraitPic" alt="" width="100px" class="left">
                 <div class="left ml-20">
-                  <p>宠物衣服狗狗猫咪衣服棉袜狗脚</p>
+                  <p>{{showkerReportDesc.showkerName}}</p>
                   <p>宝贝单价 2 元 。</p>
                 </div>
               </div>
@@ -82,24 +81,25 @@
                           :dots="setting.dots"
                           :trigger="setting.trigger"
                           :arrow="setting.arrow">
-                  <Carousel-item v-for="trialReportImage in showkerReportDesc.trialReportImages">
+                  <Carousel-item v-for="trialReportImage in showkerReportDesc.trialReportImages" :key="trialReportImage">
                     <img class="block mg-at" :src="trialReportImage" alt="" width="700px">
                   </Carousel-item>
                 </Carousel>
-                <p class="mt-20 mb-20 text-ct task-list-img">
-                  <a href="">
-                    <img class="mg-at" src="~assets/img/trial-report/trial_report_05.png" alt="">
-                  </a>
-                  <a href="">
-                    <img class="mg-at" src="~assets/img/trial-report/trial_report_05.png" alt="">
-                  </a>
-                  <a href="">
-                    <img class="mg-at" src="~assets/img/trial-report/trial_report_05.png" alt="">
-                  </a>
-                  <a href="">
-                    <img class="mg-at" src="~assets/img/trial-report/trial_report_05.png" alt="">
-                  </a>
-                </p>
+
+                <!--<p class="mt-20 mb-20 text-ct task-list-img">-->
+                  <!--<a href="">-->
+                    <!--<img class="mg-at" src="~assets/img/trial-report/trial_report_05.png" alt="">-->
+                  <!--</a>-->
+                  <!--<a href="">-->
+                    <!--<img class="mg-at" src="~assets/img/trial-report/trial_report_05.png" alt="">-->
+                  <!--</a>-->
+                  <!--<a href="">-->
+                    <!--<img class="mg-at" src="~assets/img/trial-report/trial_report_05.png" alt="">-->
+                  <!--</a>-->
+                  <!--<a href="">-->
+                    <!--<img class="mg-at" src="~assets/img/trial-report/trial_report_05.png" alt="">-->
+                  <!--</a>-->
+                <!--</p>-->
               </div>
             </div>
           </div>
@@ -224,7 +224,8 @@
         this.getTrialReportList();
       },
       showReportDescFunc(trialReport){
-        this.showReportDesc = true;
+        let self = this;
+        self.showReportDesc = true;
         api.ShowkerReportOne({
           id: trialReport.id,
           showkerId: trialReport.showkerId
