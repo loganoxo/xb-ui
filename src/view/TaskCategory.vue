@@ -152,7 +152,7 @@
         },
         pageCount: 1,
         categoryList: [],
-        taskCategoryAll: false,
+        taskCategoryAll: true,
         searchTaskList:[],
         sortFieldList: [
           {
@@ -282,6 +282,7 @@
     watch: {
       '$route' (to, from) {
         //刷新参数放到这里里面去触发就可以刷新相同界面了
+        this.searchTaskParams.taskName = '';
         let cate = this.$route.query.cate;
         let searchKey = this.$route.query.searchKey;
         if(cate){

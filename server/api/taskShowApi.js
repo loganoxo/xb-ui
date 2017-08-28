@@ -245,4 +245,30 @@ router.post('/api/task/showker/success.json', function (req, res, next) {
       res.end();
     });
 });
+/**
+ * 试用报告查看全文接口
+ * @param id
+ * @param showkerId
+ */
+router.post('/api/task/showker/trialReport.json', function (req, res, next) {
+  let options = {
+    method: 'POST',
+    uri: baseUrl + "/task/showker/trialReport",
+    json: true,
+    formData: {
+      id: req.body.id ,
+      showkerId: req.body.showkerId
+    },
+  };
+  request(options)
+    .then(function (parsedBody) {
+      res.send(parsedBody);
+      res.end();
+    })
+    .catch(function (err) {
+      logConfig.logger.error(req.originalUrl + ':' + err);
+      res.json({status: false, msg: "服务器错误"});
+      res.end();
+    });
+});
 module.exports = router;

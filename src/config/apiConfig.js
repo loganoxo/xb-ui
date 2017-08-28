@@ -353,5 +353,11 @@ export default {
   ShowkerApplySelWwId(params) {
     return fetch("/api/task/showker/apply.json", params)
   },
+  /**
+   * 试客报告，点击查看全部
+   */
+  ShowkerReportOne(params) {
+    return fetch("/api/task/showker/trialReport.json", params)
+  },
 
 }

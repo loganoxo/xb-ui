@@ -29,10 +29,10 @@
               试用份数：<span class="fs-18"> {{commodityData.task.taskCount}} </span>份
             </p>
             <p class="fs-14">
-              （商家已存入总试用担保金 {{commodityData.task.totalMarginNeed}} 元，请放心申请）
+              （商家已存入总试用担保金 {{commodityData.task.totalMarginNeed/100}} 元，请放心申请）
             </p>
             <p class="fs-14">
-              {{commodityData.apply}} 人申请， {{commodityData.trailOn}} 人正在参与试用， {{commodityData.applySuccess}} 人完成试用， 剩余 {{commodityData.task.taskCount - commodityData.applySuccess}} 份
+              {{commodityData.task.showkerApplyTotalCount}} 人申请， {{commodityData.trailOn ? commodityData.trailOn : 0}} 人正在参与试用， {{commodityData.trailDone}} 人完成试用， 剩余 {{commodityData.task.taskCount - commodityData.task.showkerApplySuccessCount}} 份
             </p>
             <p class="fs-14">
               <i class="ivu-icon ivu-icon-clock fs-16"></i>
@@ -97,174 +97,46 @@
           </div>
           <div class="graphic-info-ctt">
             <div v-show="graphicInfoSelClass == 'activity'" class="graphic-info-details" v-html="commodityData.task.itemDescription">
-              <!--<p class="fs-18 mb-40">-->
-                <!--该活动为9.9元试用活动，请您获得资格后以139.00元到指定平台购买试用品，在您试用完成后试客联盟将返还129.10元至您的互联支付账号；-->
-              <!--</p>-->
-              <!--<p class="fs-18">温馨提示：</p>-->
-              <!--<ul class="fs-18 mb-20">-->
-                <!--<li>-->
-                  <!--1、请不要使用信用卡、花呗等产生手续费的付款方式下单-->
-                <!--</li>-->
-                <!--<li>-->
-                  <!--2、请不要旺旺索要资格及催促商家返款-->
-                <!--</li>-->
-                <!--<li>-->
-                  <!--3、默认快递：中通快递-->
-                <!--</li>-->
-              <!--</ul>-->
-              <!--<img class="block margin" src="~assets/img/task-details/task_details_07.png" alt="">-->
             </div>
             <div v-show="graphicInfoSelClass == 'report'" class="graphic-info-report">
-              <ul>
-                <li>
+              <ul v-if="detailsShowkerList.length > 0">
+                <li v-for="detailsShowker in detailsShowkerList">
                   <div>
-                    <img src="~assets/img/common/home_24.png" alt="">
-                    <p>136****666</p>
+                    <img :src="detailsShowker.showkerPortraitPic" alt="" width="100px">
+                    <p>{{detailsShowker.showkerPhone}}</p>
                   </div>
                   <div>
-                    <p>发表于2017-08-07 10:45:49</p>
+                    <p>发表于{{detailsShowker.createTime | dateFormat('YYYY-MM-DD hh-mm-ss')}}</p>
                     <p class="text">
-                      真的很惊喜了哈，第一是速度，上午买了下午到，当日达效果不错，看来京东的物流确实很强大！照顾到买新机的人很着急！谢谢！速度666 第二，打开很惊艳，手感超级好！
-                      试用了一个多小时，系统流畅，拍照效果好，666.第三，性价比很高！5.5英寸，
-                      4G运行内存，64存储内存，电池容量大！很不错，处理器也还可以哈！如果你考虑在1500左右的手机这款就是值得购买的！好吧！上几张图片供大家看吧！
+                      {{detailsShowker.trialReportText}}
                       <a href="">查看全文</a>
                     </p>
                     <p>
-                      <a @click="tryImgShowFunc" ><img src="~assets/img/common/home_24.png" alt=""></a>
-                      <a ><img src="~assets/img/common/home_24.png" alt=""></a>
-                      <a ><img src="~assets/img/common/home_24.png" alt=""></a>
-                      <a ><img src="~assets/img/common/home_24.png" alt=""></a>
-                      <a ><img src="~assets/img/common/home_24.png" alt=""></a>
-                    </p>
-                  </div>
-                </li>
-                <li>
-                  <div>
-                    <img src="~assets/img/common/home_24.png" alt="">
-                    <p>136****666</p>
-                  </div>
-                  <div>
-                    <p>发表于2017-08-07 10:45:49</p>
-                    <p class="text">
-                      真的很惊喜了哈，第一是速度，上午买了下午到，当日达效果不错，看来京东的物流确实很强大！照顾到买新机的人很着急！谢谢！速度666 第二，打开很惊艳，手感超级好！
-                      试用了一个多小时，系统流畅，拍照效果好，666.第三，性价比很高！5.5英寸，
-                      4G运行内存，64存储内存，电池容量大！很不错，处理器也还可以哈！如果你考虑在1500左右的手机这款就是值得购买的！好吧！上几张图片供大家看吧！
-                      <a href="">查看全文</a>
-                    </p>
-                    <p>
-                      <a href=""><img src="~assets/img/common/home_24.png" alt=""></a>
-                      <a href=""><img src="~assets/img/common/home_24.png" alt=""></a>
-                      <a href=""><img src="~assets/img/common/home_24.png" alt=""></a>
-                      <a href=""><img src="~assets/img/common/home_24.png" alt=""></a>
-                      <a href=""><img src="~assets/img/common/home_24.png" alt=""></a>
-                    </p>
-                  </div>
-                </li>
-                <li>
-                  <div>
-                    <img src="~assets/img/common/home_24.png" alt="">
-                    <p>136****666</p>
-                  </div>
-                  <div>
-                    <p>发表于2017-08-07 10:45:49</p>
-                    <p class="text">
-                      真的很惊喜了哈，第一是速度，上午买了下午到，当日达效果不错，看来京东的物流确实很强大！照顾到买新机的人很着急！谢谢！速度666 第二，打开很惊艳，手感超级好！
-                      试用了一个多小时，系统流畅，拍照效果好，666.第三，性价比很高！5.5英寸，
-                      4G运行内存，64存储内存，电池容量大！很不错，处理器也还可以哈！如果你考虑在1500左右的手机这款就是值得购买的！好吧！上几张图片供大家看吧！
-                      <a href="">查看全文</a>
-                    </p>
-                    <p>
-                      <a href=""><img src="~assets/img/common/home_24.png" alt=""></a>
-                      <a href=""><img src="~assets/img/common/home_24.png" alt=""></a>
-                      <a href=""><img src="~assets/img/common/home_24.png" alt=""></a>
-                      <a href=""><img src="~assets/img/common/home_24.png" alt=""></a>
-                      <a href=""><img src="~assets/img/common/home_24.png" alt=""></a>
+                      <a v-for="trialReportImage in detailsShowker.trialReportImages"><img :src="trialReportImage" alt=""></a>
                     </p>
                   </div>
                 </li>
               </ul>
-              <div class="text-ct pd-tb-20">
+              <div v-if="detailsShowkerList.length <=0" class="fs-14 text-ct pt-20 pb-20">
+                暂无数据
+              </div>
+              <div class="text-ct pd-tb-20" v-if="detailsShowkerList.length > 0">
                 <Page
-                  :total= 100
-                  :page-size = 10
+                  :total= totalElements
+                  :page-size = 5
                   @on-change = pageChange
                   show-elevator
                 ></Page>
               </div>
             </div>
             <div v-show="graphicInfoSelClass == 'audited'" class="graphic-audited-buyer">
-              <a href="">
-                <img src="~assets/img/common/home_24.png" alt="">
-                <p class="cl000">136****666</p>
+              <a v-show="detailsSuccessShowkerList.length > 0 " href="" v-for="detailsSuccessShowker in detailsSuccessShowkerList">
+                <img :src="detailsSuccessShowker.showkerPortraitPic" alt="">
+                <p class="cl000">{{detailsSuccessShowker.showkerPhone}}</p>
               </a>
-              <a href="">
-                <img src="~assets/img/common/home_24.png" alt="">
-                <p class="cl000">136****666</p>
-              </a>
-              <a href="">
-                <img src="~assets/img/common/home_24.png" alt="">
-                <p class="cl000">136****666</p>
-              </a>
-              <a href="">
-                <img src="~assets/img/common/home_24.png" alt="">
-                <p class="cl000">136****666</p>
-              </a>
-              <a href="">
-                <img src="~assets/img/common/home_24.png" alt="">
-                <p class="cl000">136****666</p>
-              </a>
-              <a href="">
-                <img src="~assets/img/common/home_24.png" alt="">
-                <p class="cl000">136****666</p>
-              </a>
-              <a href="">
-                <img src="~assets/img/common/home_24.png" alt="">
-                <p class="cl000">136****666</p>
-              </a>
-              <a href="">
-                <img src="~assets/img/common/home_24.png" alt="">
-                <p class="cl000">136****666</p>
-              </a>
-              <a href="">
-                <img src="~assets/img/common/home_24.png" alt="">
-                <p class="cl000">136****666</p>
-              </a>
-              <a href="">
-                <img src="~assets/img/common/home_24.png" alt="">
-                <p class="cl000">136****666</p>
-              </a>
-              <a href="">
-                <img src="~assets/img/common/home_24.png" alt="">
-                <p class="cl000">136****666</p>
-              </a>
-              <a href="">
-                <img src="~assets/img/common/home_24.png" alt="">
-                <p class="cl000">136****666</p>
-              </a>
-              <a href="">
-                <img src="~assets/img/common/home_24.png" alt="">
-                <p class="cl000">136****666</p>
-              </a>
-              <a href="">
-                <img src="~assets/img/common/home_24.png" alt="">
-                <p class="cl000">136****666</p>
-              </a>
-              <a href="">
-                <img src="~assets/img/common/home_24.png" alt="">
-                <p class="cl000">136****666</p>
-              </a>
-              <a href="">
-                <img src="~assets/img/common/home_24.png" alt="">
-                <p class="cl000">136****666</p>
-              </a>
-              <a href="">
-                <img src="~assets/img/common/home_24.png" alt="">
-                <p class="cl000">136****666</p>
-              </a>
-              <a href="">
-                <img src="~assets/img/common/home_24.png" alt="">
-                <p class="cl000">136****666</p>
-              </a>
+              <p v-show="detailsSuccessShowkerList.length <= 0 " class="text-ct fs-14">
+                暂无已通过的申请秀客
+              </p>
             </div>
           </div>
         </div>
@@ -334,6 +206,7 @@
         selectedWw: '',
         wwList: {},
         tryImgShow: false,
+        totalElements: 1,
         commodityData: {
             task:{
               itemCatalog: {
@@ -347,17 +220,20 @@
           {
             text: '活动详情',
             num: '',
-            isClass: 'activity'
+            isClass: 'activity',
+            callback: ''
           },
           {
             text: '试用报告',
-            num: '0',
-            isClass: 'report'
+            num: '',
+            isClass: 'report',
+            callback: this.getDetailsShowkerList
           },
           {
             text: '已审批秀客',
-            num: '9',
-            isClass: 'audited'
+            num: '',
+            isClass: 'audited',
+            callback:  this.getDetailsSuccessShowkerList
           }
         ],
         graphicInfoSelClass: 'activity',
@@ -369,14 +245,12 @@
           taskId: '',
           pageIndex: 1
         },
+        detailsShowkerList: [],
+        detailsSuccessShowkerList: []
       }
     },
     created(){
-      let taskId = this.$route.query.taskId;
-//      taskId = 423;
-      this.getTaskDetails(taskId);
-      this.getDetailsShowkerList(taskId);
-      this.getDetailsSuccessShowkerList(taskId);
+      this.getTaskDetails();
     },
     computed: {
       isLogin() {
@@ -428,25 +302,42 @@
               }
           })
       },
-      getDetailsShowkerList(taskId){
+      getDetailsShowkerList(){
         let self = this;
-        self.detailsShowkerParams.taskId = taskId;
+        self.detailsShowkerParams.taskId = self.$route.query.taskId;
         api.getDetailsShowkerList(self.detailsShowkerParams).then((res) => {
-          console.log(res);
+            console.log(res);
+          if(res.status){
+            for(let i = 0, j = res.data.content.length; i < j; i++){
+              res.data.reportList.content[i].trialReportImages = JSON.parse(res.data.reportList.content[i].trialReportImages);
+            }
+            self.detailsShowkerList = res.data.content;
+            self.totalElements = res.data.totalElements;
+            self.graphicInfoSels[1].num = res.data.totalElements;
+          }else {
+            self.$Modal.error({
+              content: res.msg,
+            });
+          }
         })
       },
-      getDetailsSuccessShowkerList(taskId){
+      getDetailsSuccessShowkerList(){
         let self = this;
-        self.detailsSuccessShowkerParams.taskId = taskId;
+        self.detailsSuccessShowkerParams.taskId = self.$route.query.taskId;
         api.getDetailsSuccessShowkerList(self.detailsSuccessShowkerParams).then((res) => {
-          console.log(res);
+          if(res.status){
+            self.detailsSuccessShowkerList = res.data.content;
+            this.graphicInfoSels[2].num = res.data.totalElements;
+          }
         })
       },
-      getTaskDetails(taskId){
-        api.getTaskDetails({taskId: taskId}).then((res) => {
+      getTaskDetails(){
+        let self = this;
+        api.getTaskDetails({taskId: self.$route.query.taskId}).then((res) => {
           if(res.status){
             this.commodityData = res.data;
-            this.graphicInfoSels[2].num = this.commodityData.showkerApplySuccessCount;
+            this.graphicInfoSels[1].num = res.data.trailDone;
+            this.graphicInfoSels[2].num = res.data.trailDone;
           }else {
             self.$Modal.error({
               content: res.msg,
@@ -481,16 +372,21 @@
       },
       graphicSelFunc(graphicSel){
         this.graphicInfoSelClass = graphicSel.isClass;
+        if (typeof graphicSel.callback === 'function') {
+          graphicSel.callback();
+        }else {
+          return;
+        }
       },
-      pageChange(){
-
+      pageChange(data){
+        this.detailsShowkerParams.pageIndex = data;
+        this.getDetailsShowkerList();
       }
     },
     watch: {
       '$route' (to, from) {
         //刷新参数放到这里里面去触发就可以刷新相同界面了
         let taskId = this.$route.query.taskId;
-//        taskId = 423;
         this.getTaskDetails(taskId);
       },
 
@@ -620,6 +516,7 @@
               padding: 30px 0;
               margin: 0 30px;
               border-bottom: 1px solid #ddd;
+              width: 100%;
               div{
                 display: table-cell;
                 vertical-align: middle;

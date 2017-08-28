@@ -21,10 +21,10 @@
               </li>
               <li>
                 <p v-if="userData.alitmNum <= 0 ">
-                  绑定淘宝账号：未绑定 - <a href="">马上绑定</a>
+                  绑定淘宝账号：未绑定 - <a @click="myInfoSelectsFunc(myInfoSelects[1])">马上绑定</a>
                 </p>
                 <p v-else>
-                  绑定淘宝账号：<a href="">已绑定</a>
+                  绑定淘宝账号：<a>已绑定</a>
                 </p>
               </li>
               <li>
@@ -32,7 +32,7 @@
                   实名认证：<a>已认证</a>
                 </p>
                 <p v-else>
-                  实名认证：未认证 - <a href="">马上认证</a>
+                  实名认证：未认证 - <a @click="myInfoSelectsFunc(myInfoSelects[2])">马上认证</a>
                 </p>
               </li>
               <li>
@@ -475,10 +475,10 @@
     computed: {},
     methods: {
       getUserAccount(){
-        var self = this
+        let self = this;
         api.getUserAccount().then((res) => {
           if(res.status){
-              this.userData = res.data;
+            self.userData = res.data;
           }
         })
       },
