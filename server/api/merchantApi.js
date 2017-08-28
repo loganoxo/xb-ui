@@ -292,6 +292,7 @@ router.post('/api/order-number-audit.json', function (req, res, next) {
     formData: {
       id: req.body.id,
       status: req.body.status,
+      msg: req.body.msg
     },
     json: true
   };
@@ -374,6 +375,7 @@ router.post('/api/task-report-info.json', function (req, res, next) {
     uri: baseUrl + '/task/seller/reportInfo',
     formData: {
       id: req.body.id,
+      showkerId: req.body.showkerId
     },
     json: true
   };

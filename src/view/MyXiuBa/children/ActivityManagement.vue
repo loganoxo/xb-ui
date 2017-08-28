@@ -77,7 +77,7 @@
             </td>
             <td v-if="item.taskStatus === 'waiting_pay'">
               <p class="del-edit">
-                <span class="mr-10" @click="editTask(item.id)">编辑</span>
+                <span class="mr-10" @click="editTask(item.id,item.taskStatus)">编辑</span>
                 <span @click="deleteTask(item.id)">删除</span>
               </p>
               <p class="bond mt-6">
@@ -267,13 +267,13 @@
                   <td>{{item.alitmAccount}}</td>
                   <td>
                     <p>{{getTaskStatus(item.status)}}</p>
-                    <p>0天24小时0时0分</p>
+                    <p>{{item.currentGenerationEndTime}}</p>
                   </td>
                   <td>{{item.orderNum}}</td>
                   <td>
                     <p class="del-edit">
                       <span v-if="item.status === 'order_num_waiting_audit'" @click="openCheckOrder(item.id)">审核订单号</span>
-                      <span v-if="item.status === 'trial_report_waiting_submit'" @click="AuditTrialReport(item.id)">审核试用报告</span>
+                      <span v-if="item.status === 'trial_report_waiting_confirm'" @click="auditTrialReport(item.id,item.showkerId)">审核试用报告</span>
                     </p>
                   </td>
                 </tr>
@@ -362,22 +362,20 @@
             </p>
             <div class="mt-22">
               <Radio-group v-model="orderReviewStatus">
-                <Radio label="pass" style="margin-right: 32px;">
+                <Radio label="passAudit" style="margin-right: 32px;">
                   <span style="font-size: 16px;">通过</span>
                 </Radio>
-                <Radio label="no_pass">
+                <Radio label="failAudit">
                   <span style="font-size: 16px;">不通过</span>
                 </Radio>
               </Radio-group>
             </div>
-            <div class="no-pass-reason mt-22" v-show="orderReviewStatus === 'no_pass'">
+            <div class="no-pass-reason mt-22" v-show="orderReviewStatus === 'failAudit'">
               <iInput v-model="orderNoPassReason" placeholder="请填写不通过理由，如订单号不符或实付金额不符" style="width: 420px"></iInput>
             </div>
-            <div class="true-btn" v-show="orderReviewStatus === 'no_pass'">确认</div>
-            <div class="true-btn"
-                 v-show="orderReviewStatus === 'pass' && perMarginNeed >= orderInfo.orderPrice"
-                 @click="openRefundModel">确认</div>
-            <PayModel v-show="orderReviewStatus === 'pass' && perMarginNeed < orderInfo.orderPrice"
+            <div class="true-btn" v-show="orderReviewStatus === 'failAudit'" @click="orderNumberAudit">确认</div>
+            <div class="true-btn" v-show="orderReviewStatus === 'passAudit' && perMarginNeed >= orderInfo.orderPrice" @click="orderNumberAudit">确认</div>
+            <PayModel v-show="orderReviewStatus === 'passAudit' && perMarginNeed < orderInfo.orderPrice"
                       :orderMoney="orderInfo.orderPrice - perMarginNeed"
                       @confirmPayment="confirmPayment" :payButtonText="payButtonText"
                       :rechargeButtonText="rechargeButtonText" style="margin-top: 120px;">
@@ -401,47 +399,47 @@
     <!--试用报告-->
     <div v-if="showContent === 'report'">
       <div class="activity-title pl-10">
-        <span class="left">******的试用报告</span>
+        <span class="left">{{showkerTaskInfo.showkerName}}的试用报告</span>
         <span class="right" @click="ReturnManagePage('approve')">返回上一页</span>
       </div>
       <div class="report-info mt-12">
         <div class="manage-info-con clear">
           <div class="manage-img left">
-            <img :src="taskReportInfoTask.taskMainImage" :alt="taskReportInfoTask.taskName">
+            <img :src="showkerTaskInfo.task.taskMainImage" :alt="showkerTaskInfo.taskName">
           </div>
           <div class="manage-text left ml-5">
-            <p>{{taskReportInfoTask.taskName}}</p>
-            <p class="mt-15">总份数<strong>&nbsp;{{taskReportInfoTask.taskCount}}&nbsp;</strong>，宝贝单价<strong>&nbsp;{{taskReportInfoTask.itemPrice}}&nbsp;</strong>元</p>
+            <p>{{showkerTaskInfo.taskName}}</p>
+            <p class="mt-15">总份数<strong>&nbsp;{{showkerTaskInfo.task.taskCount}}&nbsp;</strong>，宝贝单价<strong>&nbsp;{{showkerTaskInfo.task.itemPrice}}&nbsp;</strong>元</p>
           </div>
         </div>
         <div class="order-info mt-6">
           <p>
             <span>订单号：</span>
-            <strong>{{taskReportInfo.orderNum}}</strong>
+            <strong>{{showkerTaskInfo.orderNum}}</strong>
           </p>
           <p>
             <span>订单金额：</span>
-            <strong>{{taskReportInfo.orderPrice}}</strong>
+            <strong>{{showkerTaskInfo.orderPrice}}</strong>
             <span>元</span>
           </p>
           <p>
             <span>订单状态：</span>
-            <strong>{{getTaskStatus(taskReportInfo.status)}}</strong>
-            <span class="main-color">（<time-down color='#ff4040' :fontWeight=600 :endTime="taskReportInfo.currentGenerationEndTime"></time-down>）</span>
+            <strong>{{getTaskStatus(showkerTaskInfo.status)}}</strong>
+            <span class="main-color">（<time-down color='#ff4040' :fontWeight=600 :endTime="showkerTaskInfo.currentGenerationEndTime"></time-down>）</span>
           </p>
         </div>
         <div class="trial-experience mt-20">
           <div class="trial-experience-title">试用过程与体验：</div>
           <div
-            class="trial-experience-con mt-22">{{taskReportInfo.trialReportText}}</div>
+            class="trial-experience-con mt-22">{{showkerReportInfo.trialReportText}}</div>
           <div class="trial-experience-title mt-22">试用图片：</div>
           <div class="trial-img-info">
             <div class="trial-img">
-              <img src="~assets/img/case-demo/taobao-account-info.png" alt="">
+              <img :src="showNowImageSrc">
             </div>
             <ul class="trial-img-list clear mt-22">
-              <li v-for="imgSrc in trialReportImages">
-                <img :src="imgSrc" alt="">
+              <li v-for="imgSrc in trialReportImages" @click="selectImg(imgSrc)">
+                <img :src="imgSrc">
               </li>
             </ul>
             <span class="left-btn"><Icon type="chevron-left" size="32" color="#999"></Icon></span>
@@ -469,14 +467,13 @@
               </div>
               <div class="left remind-con">
                 <p>通过试用报告需要支付秀客保证金，不通过报告则将报告退回，交给秀客重新修改！</p>
-                <p>您还有&nbsp;
-                  <time-down color='#ff4040' :fontWeight=600></time-down>&nbsp;进行审核，若该时间内未审核，系统将默认审核通过，开始给秀客返款！
-                </p>
+                <p>您还有&nbsp;<time-down color='#ff4040' :fontWeight=600 :endTime="showkerTaskInfo.currentGenerationEndTime"></time-down>&nbsp;进行审核，若该时间内未审核，系统将默认审核通过，开始给秀客返款！</p>
               </div>
             </div>
           </div>
         </div>
       </div>
+      <!--商家通过试用报告返款给秀客弹框-->
       <div class="confirm-refund-model" v-if="showRefundModel">
         <div class="confirm-refund-con">
           <i class="right mr-10" @click="closeRefundModel">&times;</i>
@@ -586,9 +583,10 @@
         perMarginNeed:0,
         payButtonText: '确认支付并通过',
         rechargeButtonText: '前去充值',
-        taskReportInfo:{},
-        taskReportInfoTask:{},
+        showkerReportInfo:{},
+        showkerTaskInfo:{},
         trialReportImages:[],
+        showNowImageSrc:null,
       }
     },
     mounted() {
@@ -601,8 +599,8 @@
       ...mapActions([
         'getBalance'
       ]),
-      editTask(id) {
-        this.$router.push({name: 'TaskReleaseProcess', query: {taskId: id}})
+      editTask(id,status) {
+        this.$router.push({name: 'TaskReleaseProcess', query: {taskId: id,status:status}})
       },
       getTaskList() {
         let _this = this;
@@ -802,30 +800,72 @@
           }
         })
       },
-      AuditTrialReport(id) {
+      auditTrialReport(id,showkerId) {
         let _this = this;
         _this.showContent = 'report';
-        api.taskReportInfo({id:id}).then(res =>{
+        api.taskReportInfo({
+          id:id,
+          showkerId:showkerId
+        }).then(res =>{
           if(res.status){
-            _this.taskReportInfo = res.data;
-            _this.taskReportInfoTask = res.data.task;
-            _this.trialReportImages = res.data.trialReportImages ? res.data.trialReportImages.splice(',') : [];
+            _this.showkerTaskInfo = res.data.showkerTask;
+            _this.showkerReportInfo = res.data.trialReport;
+            _this.trialReportImages = _this.showkerReportInfo.trialReportImages ? JSON.parse(_this.showkerReportInfo.trialReportImages) : [];
+            _this.showNowImageSrc = _this.trialReportImages[0];
+          }else{
+            _this.$Message.error(res.msg)
           }
         })
       },
       confirmReport() {
         let _this = this;
         api.taskReportAudit({
-          id: id,
+          id: _this.auditTrialReport.id,
           status: _this.trialCheckStatus,
           msg: _this.noPassReason
         }).then(res =>{
           if(res.status){
-
+            _this.$Message.success({
+              content:'试用报告审核成功！',
+              duration: 4
+            });
+            _this.taskApplyList();
+          }else{
+            _this.$Message.error({
+              content:res.msg,
+              duration: 4
+            })
           }
         })
       },
-    }
+      orderNumberAudit() {
+        let _this = this;
+        api.orderNumberAudit({
+          id:_this.orderInfo.id,
+          status:_this.orderReviewStatus,
+          msg:_this.orderNoPassReason
+        }).then(res =>{
+          if(res.status){
+            _this.$Message.success({
+              content:'订单号审核成功！',
+              duration: 4
+            });
+            _this.taskApplyList();
+            _this.closeCheckOrder();
+          }else{
+            _this.$Message.error({
+              content:res.msg,
+              duration: 4
+            });
+            _this.closeCheckOrder();
+          }
+        })
+      },
+    },
+    selectImg (src) {
+      console.log(src);
+      this.showNowImageSrc = src;
+    },
   }
 </script>
 

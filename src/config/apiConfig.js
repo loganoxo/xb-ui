@@ -200,28 +200,28 @@ export default {
   },
 
   /**
-   * 获取审批秀客列表
+   * 商家获取审批秀客列表
    */
   getTaskApplyList(params) {
     return fetch("/api/get-task-apply-list.json", params)
   },
 
   /**
-   * 审核秀客是否通过
+   * 商家审核秀客是否通过
    */
   setTaskShowkerAudit(params) {
     return fetch("/api/set-task-showker-audit.json", params)
   },
 
   /**
-   * 审核秀客订单号
+   * 商家审核秀客订单号
    */
   orderNumberAudit(params) {
     return fetch("/api/order-number-audit.json", params)
   },
 
   /**
-   * 获取秀客订单详情
+   * 商家获取秀客订单详情
    */
   orderNumberInfo(params) {
     return fetch("/api/order-number-info.json", params)
