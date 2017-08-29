@@ -755,7 +755,7 @@
 //        console.log(type)
         if(type.length === 3){
           type = null
-//          console.log(1111)
+          console.log(1111)
         }else {
           type = type;
         }
