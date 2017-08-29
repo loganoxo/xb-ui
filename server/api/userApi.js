@@ -91,4 +91,29 @@ router.post('/api/find-pwd-by-origin.json', function (req, res, next) {
   });
 });
 
+/**
+ * 获取交易明细列表
+ * @param userId
+ * @param tradId
+ */
+router.post("/api/get-trad-detail-list.json",function (req, res, next) {
+  let options = {
+    method: 'POST',
+    uri: baseUrl + '/user/account/get-trad-detail-list',
+    formData: {
+      userId: req.session.userData.id,
+      tradId: req.body.tradId
+    },
+    json: true,
+  };
+  request(options).then(function (parsedBody) {
+    res.send(parsedBody);
+    res.end();
+  }).catch(function (err) {
+    logConfig.logger.error(req.originalUrl + ':' + err);
+    res.json({status: false, msg: "服务器错误"});
+    res.end();
+  });
+});
+
 module.exports = router;

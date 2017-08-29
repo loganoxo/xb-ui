@@ -47,6 +47,13 @@ export default {
   },
 
   /**
+   * 获取交易明细列表
+   */
+  getTradListDetails(params) {
+    return fetch("/api/get-trad-detail-list.json", params)
+  },
+
+  /**
    *通过上一次的密码修改支付密码
    */
   findPwdOrigin(params) {
@@ -291,13 +298,6 @@ export default {
    */
   getTrialReportList(params){
     return fetch("/api/task/showker/showkerTrialReports.json", params)
-  },
-
-  /**
-   *获取用户、账户、旺旺账号
-   */
-  getUserAccount(){
-    return fetch("/api/user/account/get-user-account.json")
   },
 
   /**
