@@ -44,7 +44,7 @@
               </li>
               <li :class="{isSelect:isSelect ==='taskRelease'}" @click="selectNavigate('taskRelease')">
                 <Icon type="compose"></Icon>
-                <router-link to="/user/personal-setting">我的试用</router-link>
+                <router-link to="/user/my-probation">我的试用</router-link>
               </li>
               <li :class="{isSelect:isSelect ==='eventManagement'}" @click="selectNavigate('eventManagement')">
                 <Icon type="clipboard"></Icon>

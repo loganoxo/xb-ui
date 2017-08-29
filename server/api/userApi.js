@@ -1,3 +1,8 @@
+/**
+ * 注意：（请使用JS严格模式语法）
+ */
+'use strict';
+
 const express = require('express');
 const config = require('../config');
 const logConfig = require('../logConfig');
@@ -115,5 +120,32 @@ router.post("/api/get-trad-detail-list.json",function (req, res, next) {
     res.end();
   });
 });
+
+
+/**
+ * 修改用户头像
+ * @param userId
+ * @param picStr
+ */
+router.post('/api/user/edit_portrait_pic.json', function (req, res, next) {
+  let options = {
+    method: 'POST',
+    uri: baseUrl + '/user/edit_portrait_pic',
+    formData: {
+      uid: req.session.userData.id,
+      picStr: req.body.picStr
+    },
+    json: true,
+  };
+  request(options).then(function (parsedBody) {
+    res.send(parsedBody);
+    res.end();
+  }).catch(function (err) {
+    logConfig.logger.error(req.originalUrl + ':' + err);
+    res.json({status: false, msg: "服务器错误"});
+    res.end();
+  });
+});
+
 
 module.exports = router;

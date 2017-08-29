@@ -53,7 +53,9 @@ input[type="number"]{
 .clear{
   zoom: 1;
 }
-
+.clear-both{
+  clear: both;
+}
 .margin{
   margin: 0 auto;
 }
@@ -334,6 +336,7 @@ input[type="number"]{
   display: table;
   clear: both;
 }
+
 
 .breadcrumb{
   height: 36px;

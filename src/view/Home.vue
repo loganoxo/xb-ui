@@ -5,63 +5,15 @@
         <div class="home-section">
           <div class="left-ctt left mr-10">
             <ul>
-              <li>
+              <li v-for="taskTopLeft in taskTopLeftList">
                 <div class="left img-box">
-                  <img src="~assets/img/home/home_10.png" alt="">
+                  <img :src="taskTopLeft.task.taskMainImage" alt="" width="54px">
                 </div>
                 <div class="left text-box ml-10">
-                  <p>136****6666成功领取了</p>
+                  <p>{{taskTopLeft.showkerPhone}}成功领取了</p>
                   <p>
-                    <span>免打孔 雅黑...</span>
-                    <span class="text">￥35.00</span>
-                  </p>
-                </div>
-              </li>
-              <li>
-                <div class="left img-box">
-                  <img src="~assets/img/home/home_10.png" alt="">
-                </div>
-                <div class="left text-box ml-10">
-                  <p>136****6666成功领取了</p>
-                  <p>
-                    <span>免打孔 雅黑...</span>
-                    <span class="text">￥35.00</span>
-                  </p>
-                </div>
-              </li>
-              <li>
-                <div class="left img-box">
-                  <img src="~assets/img/home/home_10.png" alt="">
-                </div>
-                <div class="left text-box ml-10">
-                  <p>136****6666成功领取了</p>
-                  <p>
-                    <span>免打孔 雅黑...</span>
-                    <span class="text">￥35.00</span>
-                  </p>
-                </div>
-              </li>
-              <li>
-                <div class="left img-box">
-                  <img src="~assets/img/home/home_10.png" alt="">
-                </div>
-                <div class="left text-box ml-10">
-                  <p>136****6666成功领取了</p>
-                  <p>
-                    <span>免打孔 雅黑...</span>
-                    <span class="text">￥35.00</span>
-                  </p>
-                </div>
-              </li>
-              <li>
-                <div class="left img-box">
-                  <img src="~assets/img/home/home_10.png" alt="">
-                </div>
-                <div class="left text-box ml-10">
-                  <p>136****6666成功领取了</p>
-                  <p>
-                    <span>免打孔 雅黑...</span>
-                    <span class="text">￥35.00</span>
+                    <span class="left" style="width: 84px; overflow: hidden; text-overflow: ellipsis; white-space:nowrap;">{{taskTopLeft.task.taskName}}</span>
+                    <span class="text left ml-5">￥{{taskTopLeft.task.itemPrice/100}}</span>
                   </p>
                 </div>
               </li>
@@ -94,13 +46,46 @@
                 <router-link to="/login">马上登录</router-link>
               </div>
             </div>
-            <div class="login-up-box" v-show="isLogin">
+            <div class="login-in-box" v-show="isLogin &&　getUserInfoRole　== 0">
               <div>
-                <img src="~assets/img/common/home_24.png" alt="">
-                <p>{{getUserInfo.phone}}</p>
+                <img class="left ml-20" src="~assets/img/common/home_24.png" alt="">
+                <div class="left fs-14 ml-20" style="margin-left: 10px;line-height: 28px;">
+                  <p>Hi~{{getUserInfo.phone}}</p>
+                  <router-link  to="/user/user-home">个人中心</router-link>
+                  <a @click="signOut">[ 退出登录 ]</a>
+                </div>
+                <p class="clear-both fs-14 mt-10 left ml-20">当前进行的活动：<router-link  to="/user">8</router-link> 个</p>
+                <div class="left clear-both mt-10" style="width: 100%;">
+                  <router-link class="left text-ct" style="width: 33.33%;"  to="/user">10</router-link>
+                  <router-link class="left text-ct" style="width: 33.33%;" to="/user">0</router-link>
+                  <router-link class="left text-ct" style="width: 33.33%;" to="/user">0</router-link>
+                </div>
+                <div class="left clear-both mt-5" style="width: 100%;">
+                  <span class="left text-ct" style="width: 33.33%;"  to="/user">待领取</span>
+                  <span class="left text-ct" style="width: 33.33%;" to="/user">待下单</span>
+                  <span class="left text-ct" style="width: 33.33%;" to="/user">待交报告</span>
+                </div>
               </div>
-              <div class="mt-10 text-ct">
-                <router-link  to="/user">个人中心</router-link>
+            </div>
+            <div class="login-in-box" v-show="isLogin &&　getUserInfoRole　== 1">
+              <div>
+                <img class="left ml-20" src="~assets/img/common/home_24.png" alt="">
+                <div class="left fs-14 ml-20" style="margin-left: 10px;line-height: 28px;">
+                  <p>Hi~{{getUserInfo.phone}}</p>
+                  <router-link  to="/user">个人中心</router-link>
+                  <a @click="signOut">[ 退出登录 ]</a>
+                </div>
+                <p class="clear-both fs-14 mt-10 left ml-20">当前进行的活动：<router-link  to="/user">8</router-link> 个</p>
+                <div class="left clear-both mt-10" style="width: 100%;">
+                  <router-link class="left text-ct" style="width: 33.33%;"  to="/user">10</router-link>
+                  <router-link class="left text-ct" style="width: 33.33%;" to="/user">0</router-link>
+                  <router-link class="left text-ct" style="width: 33.33%;" to="/user">0</router-link>
+                </div>
+                <div class="left clear-both mt-5" style="width: 100%;">
+                  <span class="left text-ct" style="width: 33.33%;"  to="/user">待审秀客</span>
+                  <span class="left text-ct" style="width: 33.33%;" to="/user">待审订单</span>
+                  <span class="left text-ct" style="width: 33.33%;" to="/user">待审报告</span>
+                </div>
               </div>
             </div>
             <div class="notice-box">
@@ -121,14 +106,11 @@
             <p class="text-ct fs-14">快乐试用，热爱分享</p>
           </div>
           <div class="home-commodity-ctt">
-            <router-link
-              class="home-commodity-details"
+            <router-link class="home-commodity-details"
               v-for="homeCommodity in homeCommodityList"
               :title="homeCommodity.taskName"
               :key="homeCommodity.id"
-              :to="{ 'path': '/task-details','query': {'taskId': homeCommodity.id}}"
-            >
-              <!--:to="{ 'path': '/task-details', 'query': {'taskId': searchTask.id}}"-->
+              :to="{ 'path': '/task-details','query': {'taskId': homeCommodity.id}}">
               <div class="home-commodity-img">
                 <img class="block" v-lazy="homeCommodity.taskMainImage" alt="" style="width: 220px; height: 220px;">
               </div>
@@ -140,9 +122,6 @@
                 </p>
               </div>
             </router-link>
-            <!--<a href="" class="home-commodity-details" v-for="homeCommodity in homeCommodityList" :title="homeCommodity.taskName">-->
-             <!---->
-            <!--</a>-->
           </div>
         </div>
       </div>
@@ -191,328 +170,7 @@
     },
     data () {
       return {
-        homeCommodityList:[
-          {
-            "id": 287,
-            "userId": 182,
-            "taskType": "direct_access",
-            "taskDaysDuration": 10,
-            "onlyShowForQualification": true,
-            "refuseOldShowker": false,
-            "taskName": "afsdafsdaafsdafsdaafsdafsdaafsdafsdaafsdafsdaafsdafsdaafsdafsda",
-            "itemCatalog":{"id": 102, "name": "下装", "level": 2, "parentItemCatalog":{}},
-            "taskMainImage": "http://xiuba-dev.oss-cn-hangzhou.aliyuncs.com/task/20170803/ha6phaswe84 ",
-            "itemUrl": "https://detail.tmall.com/item.htm?id=523786754479&spm=a223v.7835278.t0.1.469d35e6HXmkwL&pvid=85ef55f7-207d-4146-a277-b076d0bd76fb&scm=1007.12144.81309.9011_8949 ",
-            "storeName": null,
-            "taskCount": 10,
-            "itemPrice": 2900000,
-            "pinkage": true,
-            "paymentMethod": "all",
-            "itemDescription": "",
-            "taskDetail": null,
-            "showkerApplyTotalCount": 0,
-            "showkerApplySuccessCount": 0,
-            "taskStatus": "under_way",
-            "settlementStatus": "cannot_settlement",
-            "auditLogs":[{"id": 142, "taskId": 287, "auditSuccess": true, "resultMsg": null}],
-            "createTime": 1501646191000,
-            "upLineTime": 1501756109000,
-            "finishTime": null,
-            "updateTime": 1501756109000,
-            "taskDetailObject": null,
-            "taskTypeDesc": "宝贝链接下单",
-            "settlementStatusDesc": "不可申请结算",
-            "taskStatusDesc": "进行中"
-          },
-          {
-            "id": 287,
-            "userId": 182,
-            "taskType": "direct_access",
-            "taskDaysDuration": 10,
-            "onlyShowForQualification": true,
-            "refuseOldShowker": false,
-            "taskName": "afsdafsda",
-            "itemCatalog":{"id": 102, "name": "下装", "level": 2, "parentItemCatalog":{}},
-            "taskMainImage": "http://xiuba-dev.oss-cn-hangzhou.aliyuncs.com/task/20170803/ha6phaswe84 ",
-            "itemUrl": "https://detail.tmall.com/item.htm?id=523786754479&spm=a223v.7835278.t0.1.469d35e6HXmkwL&pvid=85ef55f7-207d-4146-a277-b076d0bd76fb&scm=1007.12144.81309.9011_8949 ",
-            "storeName": null,
-            "taskCount": 10,
-            "itemPrice": 2900000,
-            "pinkage": true,
-            "paymentMethod": "all",
-            "itemDescription": "",
-            "taskDetail": null,
-            "showkerApplyTotalCount": 0,
-            "showkerApplySuccessCount": 0,
-            "taskStatus": "under_way",
-            "settlementStatus": "cannot_settlement",
-            "auditLogs":[{"id": 142, "taskId": 287, "auditSuccess": true, "resultMsg": null}],
-            "createTime": 1501646191000,
-            "upLineTime": 1501756109000,
-            "finishTime": null,
-            "updateTime": 1501756109000,
-            "taskDetailObject": null,
-            "taskTypeDesc": "宝贝链接下单",
-            "settlementStatusDesc": "不可申请结算",
-            "taskStatusDesc": "进行中"
-          },
-          {
-            "id": 287,
-            "userId": 182,
-            "taskType": "direct_access",
-            "taskDaysDuration": 10,
-            "onlyShowForQualification": true,
-            "refuseOldShowker": false,
-            "taskName": "afsdafsda",
-            "itemCatalog":{"id": 102, "name": "下装", "level": 2, "parentItemCatalog":{}},
-            "taskMainImage": "http://xiuba-dev.oss-cn-hangzhou.aliyuncs.com/task/20170803/ha6phaswe84 ",
-            "itemUrl": "https://detail.tmall.com/item.htm?id=523786754479&spm=a223v.7835278.t0.1.469d35e6HXmkwL&pvid=85ef55f7-207d-4146-a277-b076d0bd76fb&scm=1007.12144.81309.9011_8949 ",
-            "storeName": null,
-            "taskCount": 10,
-            "itemPrice": 2900000,
-            "pinkage": true,
-            "paymentMethod": "all",
-            "itemDescription": "",
-            "taskDetail": null,
-            "showkerApplyTotalCount": 0,
-            "showkerApplySuccessCount": 0,
-            "taskStatus": "under_way",
-            "settlementStatus": "cannot_settlement",
-            "auditLogs":[{"id": 142, "taskId": 287, "auditSuccess": true, "resultMsg": null}],
-            "createTime": 1501646191000,
-            "upLineTime": 1501756109000,
-            "finishTime": null,
-            "updateTime": 1501756109000,
-            "taskDetailObject": null,
-            "taskTypeDesc": "宝贝链接下单",
-            "settlementStatusDesc": "不可申请结算",
-            "taskStatusDesc": "进行中"
-          },
-          {
-            "id": 287,
-            "userId": 182,
-            "taskType": "direct_access",
-            "taskDaysDuration": 10,
-            "onlyShowForQualification": true,
-            "refuseOldShowker": false,
-            "taskName": "afsdafsda",
-            "itemCatalog":{"id": 102, "name": "下装", "level": 2, "parentItemCatalog":{}},
-            "taskMainImage": "http://xiuba-dev.oss-cn-hangzhou.aliyuncs.com/task/20170803/ha6phaswe84 ",
-            "itemUrl": "https://detail.tmall.com/item.htm?id=523786754479&spm=a223v.7835278.t0.1.469d35e6HXmkwL&pvid=85ef55f7-207d-4146-a277-b076d0bd76fb&scm=1007.12144.81309.9011_8949 ",
-            "storeName": null,
-            "taskCount": 10,
-            "itemPrice": 2900000,
-            "pinkage": true,
-            "paymentMethod": "all",
-            "itemDescription": "",
-            "taskDetail": null,
-            "showkerApplyTotalCount": 0,
-            "showkerApplySuccessCount": 0,
-            "taskStatus": "under_way",
-            "settlementStatus": "cannot_settlement",
-            "auditLogs":[{"id": 142, "taskId": 287, "auditSuccess": true, "resultMsg": null}],
-            "createTime": 1501646191000,
-            "upLineTime": 1501756109000,
-            "finishTime": null,
-            "updateTime": 1501756109000,
-            "taskDetailObject": null,
-            "taskTypeDesc": "宝贝链接下单",
-            "settlementStatusDesc": "不可申请结算",
-            "taskStatusDesc": "进行中"
-          },
-          {
-            "id": 287,
-            "userId": 182,
-            "taskType": "direct_access",
-            "taskDaysDuration": 10,
-            "onlyShowForQualification": true,
-            "refuseOldShowker": false,
-            "taskName": "afsdafsda",
-            "itemCatalog":{"id": 102, "name": "下装", "level": 2, "parentItemCatalog":{}},
-            "taskMainImage": "http://xiuba-dev.oss-cn-hangzhou.aliyuncs.com/task/20170803/ha6phaswe84 ",
-            "itemUrl": "https://detail.tmall.com/item.htm?id=523786754479&spm=a223v.7835278.t0.1.469d35e6HXmkwL&pvid=85ef55f7-207d-4146-a277-b076d0bd76fb&scm=1007.12144.81309.9011_8949 ",
-            "storeName": null,
-            "taskCount": 10,
-            "itemPrice": 2900000,
-            "pinkage": true,
-            "paymentMethod": "all",
-            "itemDescription": "",
-            "taskDetail": null,
-            "showkerApplyTotalCount": 0,
-            "showkerApplySuccessCount": 0,
-            "taskStatus": "under_way",
-            "settlementStatus": "cannot_settlement",
-            "auditLogs":[{"id": 142, "taskId": 287, "auditSuccess": true, "resultMsg": null}],
-            "createTime": 1501646191000,
-            "upLineTime": 1501756109000,
-            "finishTime": null,
-            "updateTime": 1501756109000,
-            "taskDetailObject": null,
-            "taskTypeDesc": "宝贝链接下单",
-            "settlementStatusDesc": "不可申请结算",
-            "taskStatusDesc": "进行中"
-          },
-          {
-            "id": 287,
-            "userId": 182,
-            "taskType": "direct_access",
-            "taskDaysDuration": 10,
-            "onlyShowForQualification": true,
-            "refuseOldShowker": false,
-            "taskName": "afsdafsda",
-            "itemCatalog":{"id": 102, "name": "下装", "level": 2, "parentItemCatalog":{}},
-            "taskMainImage": "http://xiuba-dev.oss-cn-hangzhou.aliyuncs.com/task/20170803/ha6phaswe84 ",
-            "itemUrl": "https://detail.tmall.com/item.htm?id=523786754479&spm=a223v.7835278.t0.1.469d35e6HXmkwL&pvid=85ef55f7-207d-4146-a277-b076d0bd76fb&scm=1007.12144.81309.9011_8949 ",
-            "storeName": null,
-            "taskCount": 10,
-            "itemPrice": 2900000,
-            "pinkage": true,
-            "paymentMethod": "all",
-            "itemDescription": "",
-            "taskDetail": null,
-            "showkerApplyTotalCount": 0,
-            "showkerApplySuccessCount": 0,
-            "taskStatus": "under_way",
-            "settlementStatus": "cannot_settlement",
-            "auditLogs":[{"id": 142, "taskId": 287, "auditSuccess": true, "resultMsg": null}],
-            "createTime": 1501646191000,
-            "upLineTime": 1501756109000,
-            "finishTime": null,
-            "updateTime": 1501756109000,
-            "taskDetailObject": null,
-            "taskTypeDesc": "宝贝链接下单",
-            "settlementStatusDesc": "不可申请结算",
-            "taskStatusDesc": "进行中"
-          },
-          {
-            "id": 287,
-            "userId": 182,
-            "taskType": "direct_access",
-            "taskDaysDuration": 10,
-            "onlyShowForQualification": true,
-            "refuseOldShowker": false,
-            "taskName": "afsdafsda",
-            "itemCatalog":{"id": 102, "name": "下装", "level": 2, "parentItemCatalog":{}},
-            "taskMainImage": "http://xiuba-dev.oss-cn-hangzhou.aliyuncs.com/task/20170803/ha6phaswe84 ",
-            "itemUrl": "https://detail.tmall.com/item.htm?id=523786754479&spm=a223v.7835278.t0.1.469d35e6HXmkwL&pvid=85ef55f7-207d-4146-a277-b076d0bd76fb&scm=1007.12144.81309.9011_8949 ",
-            "storeName": null,
-            "taskCount": 10,
-            "itemPrice": 2900000,
-            "pinkage": true,
-            "paymentMethod": "all",
-            "itemDescription": "",
-            "taskDetail": null,
-            "showkerApplyTotalCount": 0,
-            "showkerApplySuccessCount": 0,
-            "taskStatus": "under_way",
-            "settlementStatus": "cannot_settlement",
-            "auditLogs":[{"id": 142, "taskId": 287, "auditSuccess": true, "resultMsg": null}],
-            "createTime": 1501646191000,
-            "upLineTime": 1501756109000,
-            "finishTime": null,
-            "updateTime": 1501756109000,
-            "taskDetailObject": null,
-            "taskTypeDesc": "宝贝链接下单",
-            "settlementStatusDesc": "不可申请结算",
-            "taskStatusDesc": "进行中"
-          },
-          {
-            "id": 287,
-            "userId": 182,
-            "taskType": "direct_access",
-            "taskDaysDuration": 10,
-            "onlyShowForQualification": true,
-            "refuseOldShowker": false,
-            "taskName": "afsdafsda",
-            "itemCatalog":{"id": 102, "name": "下装", "level": 2, "parentItemCatalog":{}},
-            "taskMainImage": "http://xiuba-dev.oss-cn-hangzhou.aliyuncs.com/task/20170803/ha6phaswe84 ",
-            "itemUrl": "https://detail.tmall.com/item.htm?id=523786754479&spm=a223v.7835278.t0.1.469d35e6HXmkwL&pvid=85ef55f7-207d-4146-a277-b076d0bd76fb&scm=1007.12144.81309.9011_8949 ",
-            "storeName": null,
-            "taskCount": 10,
-            "itemPrice": 2900000,
-            "pinkage": true,
-            "paymentMethod": "all",
-            "itemDescription": "",
-            "taskDetail": null,
-            "showkerApplyTotalCount": 0,
-            "showkerApplySuccessCount": 0,
-            "taskStatus": "under_way",
-            "settlementStatus": "cannot_settlement",
-            "auditLogs":[{"id": 142, "taskId": 287, "auditSuccess": true, "resultMsg": null}],
-            "createTime": 1501646191000,
-            "upLineTime": 1501756109000,
-            "finishTime": null,
-            "updateTime": 1501756109000,
-            "taskDetailObject": null,
-            "taskTypeDesc": "宝贝链接下单",
-            "settlementStatusDesc": "不可申请结算",
-            "taskStatusDesc": "进行中"
-          },
-          {
-            "id": 287,
-            "userId": 182,
-            "taskType": "direct_access",
-            "taskDaysDuration": 10,
-            "onlyShowForQualification": true,
-            "refuseOldShowker": false,
-            "taskName": "afsdafsda",
-            "itemCatalog":{"id": 102, "name": "下装", "level": 2, "parentItemCatalog":{}},
-            "taskMainImage": "http://xiuba-dev.oss-cn-hangzhou.aliyuncs.com/task/20170803/ha6phaswe84 ",
-            "itemUrl": "https://detail.tmall.com/item.htm?id=523786754479&spm=a223v.7835278.t0.1.469d35e6HXmkwL&pvid=85ef55f7-207d-4146-a277-b076d0bd76fb&scm=1007.12144.81309.9011_8949 ",
-            "storeName": null,
-            "taskCount": 10,
-            "itemPrice": 2900000,
-            "pinkage": true,
-            "paymentMethod": "all",
-            "itemDescription": "",
-            "taskDetail": null,
-            "showkerApplyTotalCount": 0,
-            "showkerApplySuccessCount": 0,
-            "taskStatus": "under_way",
-            "settlementStatus": "cannot_settlement",
-            "auditLogs":[{"id": 142, "taskId": 287, "auditSuccess": true, "resultMsg": null}],
-            "createTime": 1501646191000,
-            "upLineTime": 1501756109000,
-            "finishTime": null,
-            "updateTime": 1501756109000,
-            "taskDetailObject": null,
-            "taskTypeDesc": "宝贝链接下单",
-            "settlementStatusDesc": "不可申请结算",
-            "taskStatusDesc": "进行中"
-          },
-          {
-            "id": 287,
-            "userId": 182,
-            "taskType": "direct_access",
-            "taskDaysDuration": 10,
-            "onlyShowForQualification": true,
-            "refuseOldShowker": false,
-            "taskName": "afsdafsda",
-            "itemCatalog":{"id": 102, "name": "下装", "level": 2, "parentItemCatalog":{}},
-            "taskMainImage": "http://xiuba-dev.oss-cn-hangzhou.aliyuncs.com/task/20170803/ha6phaswe84 ",
-            "itemUrl": "https://detail.tmall.com/item.htm?id=523786754479&spm=a223v.7835278.t0.1.469d35e6HXmkwL&pvid=85ef55f7-207d-4146-a277-b076d0bd76fb&scm=1007.12144.81309.9011_8949 ",
-            "storeName": null,
-            "taskCount": 10,
-            "itemPrice": 2900000,
-            "pinkage": true,
-            "paymentMethod": "all",
-            "itemDescription": "",
-            "taskDetail": null,
-            "showkerApplyTotalCount": 0,
-            "showkerApplySuccessCount": 0,
-            "taskStatus": "under_way",
-            "settlementStatus": "cannot_settlement",
-            "auditLogs":[{"id": 142, "taskId": 287, "auditSuccess": true, "resultMsg": null}],
-            "createTime": 1501646191000,
-            "upLineTime": 1501756109000,
-            "finishTime": null,
-            "updateTime": 1501756109000,
-            "taskDetailObject": null,
-            "taskTypeDesc": "宝贝链接下单",
-            "settlementStatusDesc": "不可申请结算",
-            "taskStatusDesc": "进行中"
-          },
-        ],
+        homeCommodityList:[],
         noticeList:[
           {
             title: '常见问题',
@@ -593,11 +251,13 @@
             active: 'sellerRule'
           },
         ],
-        noticeActive: 'faq'
+        noticeActive: 'faq',
+        taskTopLeftList: []
       }
     },
     created(){
-      this.getHomeTaskList()
+      this.getHomeTaskList();
+      this.getHomeTaskTopLeftList();
     },
     computed: {
       isLogin() {
@@ -605,21 +265,43 @@
       },
       getUserInfo() {
         return this.$store.state.userInfo
+      },
+      getUserInfoRole(){
+        return this.$store.state.userInfo.role
       }
     },
     methods: {
+      signOut() {
+        let _this = this;
+        api.signOut().then(res => {
+          if (res.status) {
+            _this.$store.commit({
+              type: 'OUT_LOGIN'
+            });
+            _this.$router.push({name: 'login'});
+          }
+        });
+      },
+      getHomeTaskTopLeftList(){
+        let self = this;
+        api.getHomeTaskTopLeftList().then((res) => {
+          if(res.status){
+            self.taskTopLeftList = res.data;
+          }
+        })
+      },
       getHomeTaskList(){
         let self = this;
         api.getHomeTaskList().then((res) => {
-            if(res.status){
-              if(res.data.content != ''){
-                self.homeCommodityList = res.data.content;
-              }
-            }else {
-              self.$Modal.error({
-                content: res.msg
-              });
+          if(res.status){
+            if(res.data){
+              self.homeCommodityList = res.data;
             }
+          }else {
+            self.$Modal.error({
+              content: res.msg
+            });
+          }
         })
       },
       changeNoticeTab(notice){
@@ -698,6 +380,12 @@
               margin-right: 10px;
             }
           }
+        }
+        .login-in-box{
+          background-color: #fff;
+          padding: 15px;
+          height: 172px;
+          margin-bottom: 10px;
         }
         .notice-box{
           background-color: #fff;

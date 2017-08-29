@@ -1,3 +1,8 @@
+/**
+ * 注意：（请使用JS严格模式语法）
+ */
+'use strict';
+
 const express = require('express');
 const config = require('../config');
 const logConfig = require('../logConfig');
@@ -67,7 +72,7 @@ router.post('/api/check-fast-sign-in.json', function (req, res, next) {
   let validateCode = parseInt(req.body.validateCode);
   if (validateCode === req.session.vrCode) {
     request(options).then(function (parsedBody) {
-      if (parsedBody.status && parsedBody.statusCode === 200) {
+      if (parsedBody.status && parsedBody.statusCode === 'login_success') {
         let userData = parsedBody.data;
         req.session.regenerate(function (err) {
           if (!err) {

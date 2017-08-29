@@ -338,7 +338,7 @@
         }).then((res) => {
           this.rememberPhoneFunc();
           if (res.status) {
-            if (res.statusCode == 'login_success') {
+            if (res.statusCode === 'login_success') {
               self.$store.commit({
                 type: 'RECORD_USER_INFO',
                 info: res.data
@@ -349,7 +349,7 @@
                   self.$router.push({name: 'home'});
                 }
               });
-            } else if (res.statusCode == 'need_reg') {
+            } else if (res.statusCode === 'need_reg') {
               this.selRole = true;
             }
           } else {

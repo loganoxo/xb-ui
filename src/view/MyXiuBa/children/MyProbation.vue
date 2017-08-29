@@ -51,7 +51,7 @@
         </div>
       </div>
       <!--已通过-->
-      <div class="probation-pass mt-20" v-if="showProbationStatus === 'passAudit' && !showPassOperation">
+      <div class="probation-pass mt-20" v-show="showProbationStatus === 'passAudit' && !showPassOperation">
         <div class="check-status clear">
           <div class="left mr-10" style="margin-top: 2px;">
             <Checkbox
@@ -61,28 +61,28 @@
           </div>
           <div class="left">
             <Checkbox-group v-model="checkPassList" @on-change="checkChange">
-              <Checkbox label="香蕉">
+              <Checkbox label="pass_and_unclaimed">
                 <span>已通过待领取</span>
               </Checkbox>
-              <Checkbox label="苹果">
+              <Checkbox label="order_num_waiting_audit">
                 <span>订单号待审核</span>
               </Checkbox>
-              <Checkbox label="西瓜">
+              <Checkbox label="trial_report_waiting_submit">
                 <span>已下订单待交试用报告</span>
               </Checkbox>
-              <Checkbox label="西瓜">
+              <Checkbox label="trial_report_waiting_confirm">
                 <span>报告待确认</span>
               </Checkbox>
-              <Checkbox label="西瓜">
+              <Checkbox label="trial_finished">
                 <span>试用完成</span>
               </Checkbox>
-              <Checkbox label="西瓜">
+              <Checkbox label="order_num_error">
                 <span>订单号有误</span>
               </Checkbox>
-              <Checkbox label="西瓜">
+              <Checkbox label="trial_report_unqualified">
                 <span>报告不合格</span>
               </Checkbox>
-              <Checkbox label="西瓜">
+              <Checkbox label="trial_end">
                 <span>试用终止</span>
               </Checkbox>
             </Checkbox-group>
@@ -90,13 +90,13 @@
         </div>
         <div class="order-query">
           <iSelect v-model="selectStatus" style="width: 120px;margin-right: 12px;">
-            <iOption v-for="item in SelectList" :value="item.value" :key="item.value">{{ item.label }}</iOption>
+            <iOption placeholder="请选择类型查询" v-for="item in SelectList" :value="item.value" :key="item.value">{{ item.label }}</iOption>
           </iSelect>
           <iInput v-model="searchValue" style="width: 160px;margin-right: 8px;"></iInput>
           <span class="ml-10">订单号：</span>
-          <iInput v-model="orderNumber" style="width: 160px;margin-right: 8px;"></iInput>
-          <span class="ml-10">通过时间：</span>
-          <Date-picker format="yyyy/MM/dd" type="daterange" placement="bottom-end" placeholder="选择日期"
+          <iInput v-model="orderNumber" placement="请输入订单号查询" style="width: 160px;margin-right: 8px;"></iInput>
+          <span class="ml-10">通过日期：</span>
+          <Date-picker format="yyyy/MM/dd" type="daterange" placement="bottom-end" placeholder="请选择日期查询"
                        style="width: 200px" @on-change="handleDataChange"></Date-picker>
           <iButton type="primary" class="ml-20">搜索</iButton>
         </div>
@@ -135,7 +135,7 @@
                   <Icon color="#f60" type="information-circled"></Icon>
                   <span>报告不合格</span>
                 </p>
-                <p class="mt-5" v-if="item.status === 'trial_report_unqualified'">24小时0分0秒</p>
+                <p class="mt-5" v-if="item.status === 'trial_report_unqualified'">{{item.currentGenerationEndTime}}</p>
                 <p class="mt-5 main-color" v-if="item.status === 'trial_end'">
                   <Icon color="#f60" type="information-circled"></Icon>
                   <span>试用终止</span>
@@ -143,14 +143,19 @@
               </td>
               <td>
                 <p v-if="item.status === 'pass_and_unclaimed'" class="operation"
-                   @click="changePassOperation('place',item.id)">去下单</p>
+                   @click="changePassOperation('place','',item.id)">去下单</p>
                 <p v-if="item.status === 'trial_report_waiting_submit'" class="operation"
-                   @click="changePassOperation('report',item.id)">填写试用报告</p>
-                <p v-if="item.status === 'order_num_waiting_audit'" class="operation mt-5"
-                   @click="openAuditOrder(item.id)">填订单号</p>
-                <p v-if="item.status !== 'trial_end'" class="operation mt-5" @click="endTrial(item.id,'passAudit')">结束试用</p>
-                <p v-if="item.status === 'trial_finished'">查看试用详情</p>
-                <p v-if="item.status === 'trial_finished'">查看试用返款</p>
+                   @click="changePassOperation('report','write',item.id)">填写试用报告</p>
+                <p v-if="item.status === 'trial_report_unqualified'" class="operation"
+                   @click="changePassOperation('report','amend',item.id)">修改试用报告</p>
+               <!-- <p v-if="item.status === 'order_num_waiting_audit'" class="operation mt-5"
+                   @click="openAuditOrder('write',item.id)">填订单号</p>-->
+                <p v-if="item.status === 'order_num_error'" class="operation mt-5"
+                   @click="openAuditOrder('amend',item.id)">修改订单号</p>
+                <p v-if="item.status !== 'trial_end' && item.status !== 'trial_finished'" class="operation mt-5"
+                   @click="endTrial(item.id,'passAudit')">结束试用</p>
+                <p v-if="item.status === 'trial_finished'" class="operation mt-5">查看试用详情</p>
+                <p v-if="item.status === 'trial_finished'" class="operation mt-5">查看试用返款</p>
               </td>
             </tr>
             </tbody>
@@ -163,7 +168,7 @@
         </div>
       </div>
       <!--已通过-去下单-->
-      <div class="pass-place" v-show="showProbationStatus === 'passAudit' && showPassOperation === 'place'">
+      <div class="pass-place" v-if="showProbationStatus === 'passAudit' && showPassOperation === 'place'">
         <div class="my-probation-title pl-10">
           <span class="left">去下单</span>
           <span class="right mr-30" @click="returnUpPage">返回上页</span>
@@ -181,19 +186,24 @@
         </div>
         <p class="place-type">
           <span>{{taskPlaceInfo.taskTypeDesc}}</span>
-          <span class="ml-20">下单剩余时间<time-down color='#ff4040' :fontWeight=600 :endTime="showkerTask.currentGenerationEndTime"></time-down>（超时未下单，即未在平台提交订单号，视为主动放弃试用资格）</span>
+          <span class="ml-20">下单剩余时间<time-down color='#ff4040' :fontWeight=600
+                                               :endTime="showkerTask.currentGenerationEndTime"></time-down>（超时未下单，即未在平台提交订单号，视为主动放弃试用资格）</span>
         </p>
         <div class="place-step mt-22"
              v-if="taskPlaceInfo.taskType === 'pc_search' || taskPlaceInfo.taskType === 'app_search'">
           <p v-if="taskPlaceInfo.taskType === 'pc_search'">第1步：打开浏览器输入【<span>www.taobao.com</span>】</p>
           <p v-if="taskPlaceInfo.taskType === 'app_search'">第1步：打开【<span>手机淘宝APP</span>】</p>
-          <p v-if="taskPlaceInfo.taskType === 'pc_search'">第2步：搜索框输入关键词【<span>{{taskPlaceInfo.taskDetailObject.searchKeyword}}</span>】</p>
-          <p v-if="taskPlaceInfo.taskType === 'app_search'">第2步：搜索框输入关键词【<span>{{taskPlaceInfo.taskDetailObject.searchKeyword}}</span>】</p>
+          <p v-if="taskPlaceInfo.taskType === 'pc_search'">
+            第2步：搜索框输入关键词【<span>{{taskPlaceInfo.taskDetailObject.searchKeyword}}</span>】</p>
+          <p v-if="taskPlaceInfo.taskType === 'app_search'">
+            第2步：搜索框输入关键词【<span>{{taskPlaceInfo.taskDetailObject.searchKeyword}}</span>】</p>
           <p>第3步：选择【<span>{{getTaskStatus(taskPlaceInfo.taskDetailObject.searchSort)}}</span>】排序</p>
           <p>
-            第4步：搜索指定价格【<span>{{taskPlaceInfo.taskDetailObject.priceRangeMin / 100}}-{{taskPlaceInfo.taskDetailObject.priceRangeMax / 100}}</span>】<span v-if="taskPlaceInfo.taskDetailObject.deliverAddress">，搜索指定发货地【<span>{{taskPlaceInfo.taskDetailObject.deliverAddress}}</span>】</span>，勾选【<span>{{checkText}}</span>】
+            第4步：搜索指定价格【<span>{{taskPlaceInfo.taskDetailObject.priceRangeMin / 100}}-{{taskPlaceInfo.taskDetailObject.priceRangeMax / 100}}</span>】<span
+            v-if="taskPlaceInfo.taskDetailObject.deliverAddress">，搜索指定发货地【<span>{{taskPlaceInfo.taskDetailObject.deliverAddress}}</span>】</span>，勾选【<span>{{checkText}}</span>】
           </p>
-          <p>第5步：在【<span>{{taskPlaceInfo.taskDetailObject.searchPagePositionMin}}-{{taskPlaceInfo.taskDetailObject.searchPagePositionMax}}</span>】页附近找到下图宝贝。（由于千人千面的影响，位置仅供参考）
+          <p>
+            第5步：在【<span>{{taskPlaceInfo.taskDetailObject.searchPagePositionMin}}-{{taskPlaceInfo.taskDetailObject.searchPagePositionMax}}</span>】页附近找到下图宝贝。（由于千人千面的影响，位置仅供参考）
           </p>
         </div>
         <div class="tao-code-place-step" v-if="taskPlaceInfo.taskType === 'tao_code'">
@@ -221,51 +231,54 @@
           </div>
         </div>
         <div class="write-order-number mt-40">
-          <span @click="openAuditOrder">下单完成，填订单号</span>
+          <span @click="openAuditOrder('write')">下单完成，填订单号</span>
           <span class="ml-35" @click="returnUpPage">返回上页</span>
         </div>
       </div>
       <!--已通过-填写试用报告-->
-      <div class="fill-report" v-show="showProbationStatus === 'passAudit' && showPassOperation === 'report'">
+      <div class="fill-report" v-if="showProbationStatus === 'passAudit' && showPassOperation === 'report'">
         <div class="my-probation-title pl-10">
           <span class="left">填写试用报告</span>
           <span class="right mr-30" @click="returnUpPage">返回上页</span>
         </div>
         <div class="commodity-info clear mt-20">
           <div class="commodity-img left">
-            <img alt="">
+            <img :src="reportInfo.task.taskMainImage">
           </div>
           <div class="commodity-text left ml-5">
-            <p>fsafsafasfsa</p>
+            <p>{{reportInfo.task.taskName}}</p>
             <p class="mt-15">
-              总份数<strong>&nbsp;0&nbsp;</strong>，宝贝单价<strong>&nbsp;0&nbsp;</strong>元
+              总份数<strong>&nbsp;{{reportInfo.task.taskCount}}&nbsp;</strong>，宝贝单价<strong>&nbsp;{{reportInfo.task.itemPrice / 100}}&nbsp;</strong>元
             </p>
           </div>
         </div>
         <div class="order-info mt-10">
           <p>
             <span>订单号：</span>
-            <span>21341564</span>
+            <span>{{reportInfo.orderNum}}</span>
           </p>
           <p>
             <span>订单金额：</span>
-            <span>2元</span>
+            <span>{{reportInfo.orderPrice}}</span>
+            <span>元</span>
           </p>
           <p>
             <span>订单状态：</span>
-            <span>已下单待提交报告</span>
-            <span class="main-color">（0天24小时0时0分）</span>
+            <span>{{getTaskStatus(reportInfo.status)}}</span>
+            <span class="main-color">{{reportInfo.currentGenerationEndTime}}</span>
           </p>
         </div>
         <div class="experience mt-22">
           <p class="mb-10">试用过程与体验：</p>
-          <iInput v-model="trialReportText" type="textarea" :autosize="{minRows: 2,maxRows: 5}" placeholder="请输入宝贝评价"></iInput>
+          <iInput v-model="trialReportText" type="textarea" :autosize="{minRows: 2,maxRows: 5}"
+                  placeholder="请输入宝贝评价"></iInput>
         </div>
         <div class="experience-img mt-22">
           <p class="mb-10">试用图片：</p>
           <Upload
             ref="upload"
             :show-upload-list="false"
+            :default-file-list="defaultImageList"
             :on-success="uploadImgSuccess"
             :on-remove="removeImage"
             :format="['jpg','jpeg','png','gif','bmp']"
@@ -316,8 +329,13 @@
               <td>{{item.currentGenerationEndTime | dateFormat('YYYY-MM-DD hh-mm-ss')}}</td>
               <td>{{getTaskStatus(item.status)}}</td>
               <td>
-                <p class="operation" @click="applyDelete(item.id,item.showkerId)">删除</p>
+                <p class="operation" @click="applyDelete(item.id)">删除</p>
               </td>
+            </tr>
+            </tbody>
+            <tbody v-if="applyList.length === 0">
+            <tr>
+              <td colspan="6" width="100%">暂无数据</td>
             </tr>
             </tbody>
           </table>
@@ -347,7 +365,7 @@
           <iInput v-model="payMoney" style="width: 120px;"></iInput>
           <span class="ml-5">元</span>
         </p>
-        <div class="submit-btn mt-40" @click="saveOrUpdateOrder">确认提交</div>
+        <div class="submit-btn mt-40" @click="saveOrUpdateOrderNumber">确认提交</div>
       </div>
     </div>
   </div>
@@ -412,13 +430,16 @@
         taskPlaceInfo: {},
         showkerTask: {},
         itemId: null,
+        orderStatus: null,
+        reportStatus: null,
         affirmOrderNumber: null,
         payMoney: null,
-        auditTimeStart:'',
-        auditTimeEnd:'',
-        trialReportImages:[],
-        trialReportText:null,
-        reportInfo:{}
+        auditTimeStart: '',
+        auditTimeEnd: '',
+        trialReportImages: [],
+        trialReportText: null,
+        reportInfo: {},
+        defaultImageList: [],
       }
     },
     mounted() {
@@ -426,6 +447,7 @@
     },
     created() {
       this.showkerApplyList();
+      this.showkerSuccessList();
     },
     computed: {
       checkText: function () {
@@ -484,28 +506,41 @@
           this.showkerSuccessList();
         }
       },
-      changePassOperation(type, id) {
+      changePassOperation(type, status, id) {
         let _this = this;
+        _this.reportStatus = status;
         _this.showPassOperation = type;
-        if(type === 'report'){
-          _this.itemId = id;
+        _this.itemId = id;
+        if (type === 'report') {
           api.showkerReportInfo({
-            id:id
-          }).then(res =>{
-            if(res.status){
-              _this.reportInfo = res.data;
-            }else{
+            id: id
+          }).then(res => {
+            if (res.status) {
+              _this.reportInfo = res.data.showkerTask;
+              if (status === 'write') {
+                _this.trialReportImages = [];
+                _this.trialReportText = null;
+              } else {
+                _this.trialReportImages = [];
+                let ImageList = JSON.parse(res.data.trialReport.trialReportImages);
+                _this.trialReportImages = ImageList;
+                for (let i = 0, len = ImageList.length; i < len; i++) {
+                  _this.defaultImageList.push({src: ImageList[i]});
+                }
+                _this.trialReportText = res.data.trialReport.trialReportText;
+              }
+            } else {
               _this.$Message.error(res.msg);
             }
-          })
-        }else{
+          });
+        } else {
           api.showkerToProcessOrder({
             id: id
           }).then(res => {
             if (res.status) {
               _this.taskPlaceInfo = res.data.taskInfo;
               _this.showkerTask = res.data.showkerTask;
-            }else{
+            } else {
               _this.$Message.error(res.msg);
             }
           })
@@ -532,15 +567,20 @@
       closeAuditOrder() {
         this.showAuditOrderNumber = false;
       },
-      openAuditOrder(id) {
+      openAuditOrder(status, id) {
         this.showAuditOrderNumber = true;
-        this.itemId = id;
+        if (!this.itemId) {
+          this.itemId = id;
+        }
+        this.orderStatus = status;
       },
       uploadImgSuccess(res) {
         this.trialReportImages.push(aliCallbackImgUrl + res.name);
       },
-      removeImage() {
-
+      removeImage(file) {
+        let src = file.src;
+        let index = this.trialReportImages.indexOf(src);
+        this.trialReportImages.splice(index, 1);
       },
       handleFormatError(file) {
         this.$Modal.warning({
@@ -563,8 +603,12 @@
           pageIndex: _this.pageIndex,
           pageSize: 5,
         }).then(res => {
-          _this.applyList = res.data.content;
-          _this.totalElements = res.data.numberOfElements;
+          if (res.status) {
+            _this.applyList = res.data.content;
+            _this.totalElements = res.data.numberOfElements;
+          } else {
+            _this.$Message.error(res.msg);
+          }
         })
       },
       showkerSuccessList() {
@@ -578,23 +622,27 @@
           auditTimeEnd: _this.auditTimeEnd,
           pageSize: 5,
         }).then(res => {
-          let content = res.data.content;
-          content.forEach(function (item) {
-            let data = {};
-            data.id = item.id;
-            data.alitmAccount = item.alitmAccount;
-            data.orderNum = item.orderNum;
-            data.status = item.status;
-            data.taskMainImage = item.task.taskMainImage;
-            data.taskName = item.task.taskName;
-            data.perMarginNeed = item.task.perMarginNeed;
-            data.createTime = item.task.createTime;
-            _this.applySuccessList.push(data)
-          });
-          _this.totalElements = res.data.numberOfElements;
+          if (res.status) {
+            let content = res.data.content;
+            content.forEach(function (item) {
+              let data = {};
+              data.id = item.id;
+              data.alitmAccount = item.alitmAccount;
+              data.orderNum = item.orderNum;
+              data.status = item.status;
+              data.taskMainImage = item.task.taskMainImage;
+              data.taskName = item.task.taskName;
+              data.perMarginNeed = item.task.perMarginNeed;
+              data.createTime = item.task.createTime;
+              _this.applySuccessList.push(data);
+            });
+            _this.totalElements = res.data.numberOfElements;
+          } else {
+            _this.$Message.error(res.msg);
+          }
         })
       },
-      endTrial(id,type) {
+      endTrial(id, type) {
         let _this = this;
         api.endTrial({
           id: id,
@@ -602,66 +650,116 @@
         }).then(res => {
           if (res.status) {
             _this.$Message.success({
-              content:'结束试用成功！',
+              content: '结束试用成功！',
               duration: 6
             });
-            if(type === 'passAudit'){
+            if (type === 'passAudit') {
               _this.showkerSuccessList();
-            }else{
+            } else {
               _this.showkerApplyList();
             }
-          }else{
+          } else {
             _this.$Message.error(res.msg);
           }
         })
       },
-      applyDelete(id, showkerId) {
+      applyDelete(id) {
         let _this = this;
         api.applyDelete({
           id: id,
-          showkerId: showkerId
         }).then(res => {
-          if(res.status){
+          if (res.status) {
             _this.$Message.success({
-              content:'删除试用成功！',
+              content: '删除试用成功！',
               duration: 6
             });
             _this.showkerApplyList();
-          }else{
+          } else {
             _this.$Message.error(res.msg);
           }
         })
       },
-      saveOrUpdateOrder() {
+      saveOrUpdateOrderNumber() {
         let _this = this;
-        api.showkerSaveOrUpdateOrder({
-          id: _this.itemId,
-          orderNum: _this.affirmOrderNumber,
-          actualPayMoney: _this.payMoney
-        }).then(res => {
-          if(res.status){
-            _this.$Message.success({
-              content:'订单号提交成功，请耐心等待商家审核！',
-              duration: 6
-            });
-            _this.showkerSuccessList();
-            _this.showAuditOrderNumber = false;
-          }else{
-            _this.$Message.error(res.msg);
-          }
-        })
+        if (_this.orderStatus === 'write') {
+          api.showkerSaveOrder({
+            id: _this.itemId,
+            orderNum: _this.affirmOrderNumber,
+            actualPayMoney: _this.payMoney
+          }).then(res => {
+            if (res.status) {
+              _this.$Message.success({
+                content: '订单号提交成功，请耐心等待商家审核！',
+                duration: 6
+              });
+              _this.showkerSuccessList();
+              _this.showAuditOrderNumber = false;
+              _this.returnUpPage();
+            } else {
+              _this.$Message.error(res.msg);
+            }
+          })
+        } else {
+          api.showkerModifyOrder({
+            id: _this.itemId,
+            orderNum: _this.affirmOrderNumber,
+            actualPayMoney: _this.payMoney
+          }).then(res => {
+            if (res.status) {
+              _this.$Message.success({
+                content: '订单号修改成功，请耐心等待商家审核！',
+                duration: 6
+              });
+              _this.showkerSuccessList();
+              _this.showAuditOrderNumber = false;
+              _this.returnUpPage();
+            } else {
+              _this.$Message.error(res.msg);
+            }
+          })
+        }
       },
       submitReport() {
         let _this = this;
-        api.showkerSaveOrUpdateReport({
-          id: _this.itemId,
-          trialReportText: _this.trialReportText,
-          trialReportImages: _this.trialReportImages
-        }).then(res =>{
-          if(res.status){
-
-          }
-        })
+        if (_this.trialReportImages.length < 5) {
+          _this.$Message.error("亲，图片上传数量不能少于5张！");
+          return;
+        }
+        if (_this.reportStatus === 'write') {
+          api.showkerSaveReport({
+            id: _this.itemId,
+            trialReportText: _this.trialReportText,
+            trialReportImages: JSON.stringify(_this.trialReportImages)
+          }).then(res => {
+            if (res.status) {
+              _this.$Message.success({
+                content: '试用报告提交成功，请耐心等待商家审核！',
+                duration: 6
+              });
+              _this.showkerSuccessList();
+              _this.returnUpPage();
+            } else {
+              _this.$Message.error(res.msg);
+            }
+          })
+        } else {
+          api.showkerModifyReport({
+            id: _this.itemId,
+            trialReportText: _this.trialReportText,
+            trialReportImages: JSON.stringify(_this.trialReportImages)
+          }).then(res => {
+            if (res.status) {
+              _this.$Message.success({
+                content: '试用报告修改成功，请耐心等待商家审核！',
+                duration: 6
+              });
+              _this.showkerSuccessList();
+              _this.returnUpPage();
+            } else {
+              _this.$Message.error(res.msg);
+            }
+          })
+        }
       },
     }
   }

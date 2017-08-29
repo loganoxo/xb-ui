@@ -147,6 +147,7 @@
             <div class="baby-main-img ml-40 mt-20">
               <span class="required left mr-5 mt-20">宝贝主图：</span>
               <Upload
+                key="pc-upload"
                 ref="upload"
                 name="task"
                 :show-upload-list="false"
@@ -253,6 +254,7 @@
               <span class="required left mr-5 mt-20">宝贝主图：</span>
               <Upload
                 ref="upload"
+                key="app-upload"
                 :show-upload-list="false"
                 :on-success="appBabyImgSuccess"
                 :default-file-list="appDefaultList"
@@ -373,7 +375,7 @@
       <div class="deposits-received-info">
         您现在为 <span class="second-color">{{taskRelease.taskName}}</span> 存入试用担保金 <span
         class="second-color">{{taskRelease.taskCount * oneBond}}</span>
-        元，此笔款项将作为发布试用活动诚信担保的重要工具，待试客完成试用流程后将返还给每个试客 <span class="second-color">{{taskRelease.itemPrice}}</span> 元.
+        元，此笔款项将作为发布试用活动诚信担保的重要工具，待试客完成试用流程后将返还给每个试客 <span class="second-color">{{oneBond}}</span> 元.
       </div>
       <div class="description-fees mt-40">
         <h3>费用说明：</h3>
@@ -392,15 +394,17 @@
           </p>
         </div>
       </div>
-      <div class="pay-info mt-40" v-if="isBalance">
-        本次总共要支付的金额为：<span
-        class="second-color">{{orderMoney | numberFormat(2)}}</span>&nbsp;元。您的账户的当前余额为：<strong>{{getUserBalance || 0}}</strong>&nbsp;元
+      <div class="pay-info mt-40" v-if="isBalance && !priceHasChange">
+        本次总共要支付的金额为：<span class="second-color">{{orderMoney | numberFormat(2)}}</span>&nbsp;元。您的账户的当前余额为：<strong>{{getUserBalance || 0}}</strong>&nbsp;元
       </div>
-      <div class="pay-info mt-40" v-else>
-        本次总共要支付的金额为：<strong>{{(orderMoney) | numberFormat(2)}}</strong>&nbsp;元。
-        您账户余额为：<strong>{{getUserBalance || 0}}</strong>&nbsp;元，还需充值：<span
-        class="second-color">{{Math.abs(getUserBalance - orderMoney)}}</span>&nbsp;元。
-
+      <div class="pay-info mt-40"  v-if="!isBalance && !priceHasChange">
+        本次总共要支付的金额为：<strong>{{orderMoney | numberFormat(2)}}</strong>&nbsp;元。您账户余额为：<strong>{{getUserBalance || 0}}</strong>&nbsp;元，还需充值：<span class="second-color">{{Math.abs(getUserBalance - orderMoney)}}</span>&nbsp;元。
+      </div>
+      <div class="pay-info mt-40" v-if="isBalance && priceHasChange">
+        该任务已付保证金 <strong>{{paidDeposit}}</strong>元，本次修改需要支付超出部分的金额为：<strong class="main-color">{{orderMoney - paidDeposit | numberFormat(2)}}</strong>元。您账号的当前余额为：<strong>{{getUserBalance || 0}}</strong>&nbsp;元
+      </div>
+      <div class="pay-info mt-40" v-if="!isBalance && priceHasChange">
+        该任务已付保证金 <strong>{{paidDeposit}}</strong>元，本次修改需要支付超出部分的金额为：<strong class="main-color">{{orderMoney - paidDeposit | numberFormat(2)}}</strong>元。您账号的当前余额为：<strong>{{getUserBalance || 0}}</strong>&nbsp;元,还需充值：<span class="second-color">{{Math.abs(getUserBalance - orderMoney)}}</span>&nbsp;元。
       </div>
       <div class="description-fees-footer">
         <span class="pay-btn" v-if="isBalance" @click="openRecharge">前去支付</span>
@@ -421,7 +425,7 @@
       </div>
     </div>
     <div class="pay-model" v-if="showPayModel">
-      <PayModel :orderMoney="orderMoney" @confirmPayment="confirmPayment">
+      <PayModel :orderMoney="!priceHasChange ? orderMoney : orderMoney - paidDeposit" @confirmPayment="confirmPayment">
         <i slot="closeModel" class="close-recharge" @click="closeRecharge">&times;</i>
         <div slot="noBalance" class="title-tip"><span class="size-color3"><Icon color="#FF2424" size="18px" type="ios-information"></Icon><span
           class="ml-10">亲，您的余额不足，请充值。</span></span>还需充值<strong class="size-color3">{{Math.abs(getUserBalance - orderMoney)}}</strong>元
@@ -430,6 +434,23 @@
           <Icon color="#FF2424" size="18px" type="ios-information"></Icon>
           <span class="ml-10">您本次需要支付金额为 <span class="size-color3">{{orderMoney}}</span> 元。</span></div>
       </PayModel>
+    </div>
+    <div class="editPriceModel">
+      <Modal v-model="editPriceAfterModel">
+       <div class="clear mt-40">
+         <div class="left mt-5">
+           <Icon color="#f60" size="42" type="information-circled"></Icon>
+         </div>
+         <div class="left ml-10">
+           <p style="font-size: 16px;">由于您修改了当前宝贝价格/包邮条件/发放数量等，且修改后的</p>
+           <p style="font-size: 16px;">价格高于原活动担保金，因此需要对超出部分进行支付。</p>
+         </div>
+       </div>
+        <div slot="footer">
+          <iButton type="error" size="large" @click="continueNextStep">我已了解，继续下一步</iButton>
+          <iButton style="margin-left: 35px;" type="error" size="large" @click="IThink">我再想想</iButton>
+        </div>
+      </Modal>
     </div>
   </div>
 </template>
@@ -442,6 +463,7 @@
   import Checkbox from 'iview/src/components/checkbox'
   import Button from 'iview/src/components/button'
   import Radio from 'iview/src/components/radio'
+  import Modal from 'iview/src/components/modal'
   import {Select, Option, OptionGroup} from 'iview/src/components/select'
   import Upload from '@/components/upload'
   import Progress from 'iview/src/components/progress'
@@ -450,6 +472,7 @@
   import api from '@/config/apiConfig'
   import {aliCallbackImgUrl} from '@/config/env'
   import {TimeToDate, aliUploadImg} from '@/config/utils'
+  import {oneOf} from 'iview/src/utils/assist'
   import {mapActions} from 'vuex'
 
   export default {
@@ -472,6 +495,7 @@
       Steps: Steps,
       Step: Steps.Step,
       OptionGroup: OptionGroup,
+      Modal: Modal,
       PayModel: PayModel
     },
     data() {
@@ -543,7 +567,13 @@
           itemDescription: '',
           id: null,
           taskDetail: {}
-        }
+        },
+        editBeforePrice:null,
+        editBeforePinkage:null,
+        editBeforeTaskCount:null,
+        editPriceAfterModel:false,
+        priceHasChange:false,
+        paidDeposit:null
       }
     },
     mounted() {
@@ -552,7 +582,6 @@
         _this.addImgRange = _this.$refs.myTextEditor.quill.getSelection();
         if (image) {
           let fileInput = document.getElementById(_this.uniqueId);
-          console.log(fileInput);
           fileInput.click()
         }
       };
@@ -593,7 +622,7 @@
        * @return {number}
        */
       AllPromotionExpenses: function () {
-        return this.taskRelease.itemPrice * 0.6 > 3 ? 3 : this.taskRelease.itemPrice * 0.6 * this.taskRelease.taskCount
+        return this.taskRelease.itemPrice * 0.06 > 3 ? 3 * this.taskRelease.taskCount : this.taskRelease.itemPrice * 0.06 * this.taskRelease.taskCount
       },
       /**
        * 订单总金额
@@ -611,6 +640,7 @@
       },
       /**
        * 从vuex中获取余额
+       * @return {number}
        */
       getUserBalance: function () {
         return this.$store.state.userBalance / 100
@@ -785,28 +815,35 @@
             _this.taskRelease.taskDetail = null;
             break;
         }
+        _this.taskCreate();
+      },
+      taskCreate() {
+        let _this = this;
         api.taskCreate(_this.taskRelease).then(res => {
+          let status = _this.$route.query.status;
           if (res.status) {
             _this.taskId = res.data.id;
             if(!_this.taskRelease.id){
               _this.taskRelease.id = res.data.id;
             }
-            this.nextCurrent();
-            _this.stepName = 'deposit';
+            if(status === 'waiting_modify' &&
+              _this.editBeforePrice >= _this.taskRelease.itemPrice &&
+              _this.editBeforeTaskCount >= _this.taskRelease.taskCount &&
+              _this.editBeforePinkage === _this.taskRelease.pinkage){
+              _this.$router.push({name: 'ActivityManagement'});
+            }else if(status === 'waiting_modify' &&
+              (_this.editBeforePrice < _this.taskRelease.itemPrice ||
+              _this.editBeforeTaskCount < _this.taskRelease.taskCount &&
+              _this.editBeforePinkage !== _this.taskRelease.pinkage)){
+              _this.editPriceAfterModel = true;
+              _this.priceHasChange = true;
+            }else if(!status || status === 'waiting_pay'){
+              _this.nextCurrent();
+              _this.stepName = 'deposit';
+            }
           } else {
             _this.$Message.error(res.msg);
-            switch (_this.taskRelease.taskType) {
-              case 'pc_search' :
-                _this.PcTaskDetail.searchPagePrice = _this.PcTaskDetail.searchPagePrice / 100;
-                _this.PcTaskDetail.priceRangeMax = _this.PcTaskDetail.priceRangeMax / 100;
-                _this.PcTaskDetail.priceRangeMin = _this.PcTaskDetail.priceRangeMin / 100;
-                break;
-              case 'app_search' :
-                _this.AppTaskDetail.searchPagePrice = _this.AppTaskDetail.searchPagePrice / 100;
-                _this.AppTaskDetail.priceRangeMax = _this.AppTaskDetail.priceRangeMax / 100;
-                _this.AppTaskDetail.priceRangeMin = _this.AppTaskDetail.priceRangeMin / 100;
-                break;
-            }
+            _this.conversionPrice(_this.taskRelease.taskType);
           }
         });
       },
@@ -814,21 +851,18 @@
         let _this = this;
         _this.stepName = 'information';
         _this.current = 1;
-        switch (_this.taskRelease.taskType) {
-          case 'pc_search' :
-            _this.PcTaskDetail.searchPagePrice = _this.PcTaskDetail.searchPagePrice / 100;
-            _this.PcTaskDetail.priceRangeMax = _this.PcTaskDetail.priceRangeMax / 100;
-            _this.PcTaskDetail.priceRangeMin = _this.PcTaskDetail.priceRangeMin / 100;
-            break;
-          case 'app_search' :
-            _this.AppTaskDetail.searchPagePrice = _this.AppTaskDetail.searchPagePrice / 100;
-            _this.AppTaskDetail.priceRangeMax = _this.AppTaskDetail.priceRangeMax / 100;
-            _this.AppTaskDetail.priceRangeMin = _this.AppTaskDetail.priceRangeMin / 100;
-            break;
-        }
+        _this.conversionPrice(_this.taskRelease.taskType);
       },
       nextCurrent() {
         this.current += 1;
+      },
+      IThink() {
+        this.editPriceAfterModel = false;
+      },
+      continueNextStep() {
+        this.editPriceAfterModel = false;
+        this.nextCurrent();
+        this.stepName = 'deposit';
       },
       getTaskInfo(taskId) {
         let _this = this;
@@ -836,7 +870,11 @@
           taskId: taskId
         }).then(res => {
           if (res.status) {
+            _this.paidDeposit = res.data.marginPaid / 100;
             _this.taskRelease.id = res.data.id;
+            _this.editBeforePrice = res.data.itemPrice / 100;
+            _this.editBeforeTaskCount = res.data.taskCount;
+            _this.editBeforePinkage = res.data.pinkage.toString();
             _this.mainDefaultList.push({src: res.data.taskMainImage});
             res.data.pinkage = res.data.pinkage.toString();
             _this.taskRelease.itemType = res.data.itemCatalog.id;
@@ -854,20 +892,31 @@
             } else if (res.data.taskType === 'pc_search') {
               _this.PcTaskDetail = JSON.parse(res.data.taskDetail);
               _this.pcDefaultList.push({src: _this.PcTaskDetail.itemMainImage});
-              _this.PcTaskDetail.searchPagePrice = _this.PcTaskDetail.searchPagePrice / 100;
-              _this.PcTaskDetail.priceRangeMax = _this.PcTaskDetail.priceRangeMax / 100;
-              _this.PcTaskDetail.priceRangeMin = _this.PcTaskDetail.priceRangeMin / 100;
+              _this.conversionPrice('pc_search');
             } else if (res.data.taskType === 'app_search') {
               _this.AppTaskDetail = JSON.parse(res.data.taskDetail);
               _this.appDefaultList.push({src: _this.AppTaskDetail.itemMainImage});
-              _this.AppTaskDetail.searchPagePrice = _this.AppTaskDetail.searchPagePrice / 100;
-              _this.AppTaskDetail.priceRangeMax = _this.AppTaskDetail.priceRangeMax / 100;
-              _this.AppTaskDetail.priceRangeMin = _this.AppTaskDetail.priceRangeMin / 100;
+              _this.conversionPrice('app_search');
             } else {
               _this.taskRelease.taskDetail = {};
             }
           }
         })
+      },
+      conversionPrice(type) {
+        let _this = this;
+        switch (type) {
+          case 'pc_search' :
+            _this.PcTaskDetail.searchPagePrice = _this.PcTaskDetail.searchPagePrice / 100;
+            _this.PcTaskDetail.priceRangeMax = _this.PcTaskDetail.priceRangeMax / 100;
+            _this.PcTaskDetail.priceRangeMin = _this.PcTaskDetail.priceRangeMin / 100;
+            break;
+          case 'app_search' :
+            _this.AppTaskDetail.searchPagePrice = _this.AppTaskDetail.searchPagePrice / 100;
+            _this.AppTaskDetail.priceRangeMax = _this.AppTaskDetail.priceRangeMax / 100;
+            _this.AppTaskDetail.priceRangeMin = _this.AppTaskDetail.priceRangeMin / 100;
+            break;
+        }
       },
       getItemCatalog() {
         let _this = this;
@@ -878,20 +927,20 @@
         })
       },
       uploadImg(e) {
-        let vm = this;
+        let _this = this;
         let file = e.target.files[0];
         let key = 'task' + '/' + TimeToDate() + '/' + Math.random().toString(36).substr(2);
         aliUploadImg(key, file).then(res => {
           if (res) {
             let value = aliCallbackImgUrl + res.name;
-            vm.addImgRange = vm.$refs.myTextEditor.quill.getSelection();
-            vm.$refs.myTextEditor.quill.insertEmbed(vm.addImgRange !== null ? vm.addImgRange.index : 0, 'image', value, Quill.sources.USER);
-            document.getElementById(vm.uniqueId).value = '';
-            vm.$Message.warning('亲，图片上传成功！');
+            _this.addImgRange = _this.$refs.myTextEditor.quill.getSelection();
+            _this.$refs.myTextEditor.quill.insertEmbed(_this.addImgRange !== null ? _this.addImgRange.index : 0, 'image', value, Quill.sources.USER);
+            document.getElementById(_this.uniqueId).value = '';
+            _this.$Message.warning('亲，图片上传成功！');
           }
         }).catch(err => {
-          document.getElementById(vm.uniqueId).value = '';
-          vm.$Message.warning('亲，图片上传失败！');
+          document.getElementById(_this.uniqueId).value = '';
+          _this.$Message.warning('亲，图片上传失败！');
         })
       },
       removeMainImage() {
@@ -940,6 +989,9 @@
 <style lang="scss" scoped>
   @import 'src/css/mixin';
 
+  .main-color{
+    color: $mainColor;
+  }
   .second-color {
     color: $secondColor;
   }

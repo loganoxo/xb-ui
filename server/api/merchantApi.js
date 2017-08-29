@@ -1,3 +1,8 @@
+/**
+ * 注意：（请使用JS严格模式语法）
+ */
+'use strict';
+
 const express = require('express');
 const config = require('../config');
 const logConfig = require('../logConfig');
@@ -287,6 +292,7 @@ router.post('/api/order-number-audit.json', function (req, res, next) {
     formData: {
       id: req.body.id,
       status: req.body.status,
+      msg: req.body.msg
     },
     json: true
   };
@@ -369,6 +375,7 @@ router.post('/api/task-report-info.json', function (req, res, next) {
     uri: baseUrl + '/task/seller/reportInfo',
     formData: {
       id: req.body.id,
+      showkerId: req.body.showkerId
     },
     json: true
   };

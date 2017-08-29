@@ -1,3 +1,8 @@
+/**
+ * 注意：（请使用JS严格模式语法）
+ */
+'use strict';
+
 const express = require('express');
 const logConfig = require('../logConfig');
 const redisClient = require("../redisServer");

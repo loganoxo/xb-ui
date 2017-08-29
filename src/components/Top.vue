@@ -11,7 +11,7 @@
             <div class="pos-rel">
               <div>
                 <a href="" class="active">宝贝</a>
-                <a href="">店铺</a>
+                <!--<a href="">店铺</a>-->
               </div>
               <i class="ivu-icon ivu-icon-ios-search"></i>
               <input type="text" class="search-btn" v-model="searchKey">
