@@ -12,7 +12,23 @@ export default {
           type:types.RECORD_USER_BALANCE,
           balance:res.data
         })
+      }else{
+        console.log(res.msg);
       }
+    })
+  },
+  loggedOut({commit}) {
+    return new Promise((resolve, reject) => {
+      api.loggedOut().then(res => {
+        if (res.status) {
+         commit({
+            type: 'OUT_LOGIN'
+          });
+        }
+        resolve(res);
+      }).catch(err =>{
+        reject(err);
+      });
     })
   }
 }

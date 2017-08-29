@@ -388,7 +388,7 @@
           </p>
           <p class="mt-6">
             总推广费用 = 单品推广费用 × 份数 = <span>{{taskRelease.itemPrice * 0.06 > 3 ? 3 : taskRelease.itemPrice * 0.06}}</span>
-            × <span>{{taskRelease.taskCount}} = <span>{{AllPromotionExpenses | numberFormat(2)}}</span></span></p>
+            × <span>{{taskRelease.taskCount}} = <span>{{allPromotionExpenses | numberFormat(2)}}</span></span></p>
           <p class="mt-6">
             总费用 = 试用保证金 + 总推广费用 = <span>{{orderMoney | numberFormat(2)}}</span>元
           </p>
@@ -565,7 +565,7 @@
           pinkage: "true",
           paymentMethod: "all",
           itemDescription: '',
-          id: null,
+          taskId: null,
           taskDetail: {}
         },
         editBeforePrice:null,
@@ -611,28 +611,28 @@
         }
       },
       /**
-       * 单品试用担保金
+       * 计算单品试用担保金
        * @return {number}
        */
       oneBond: function () {
         return this.taskRelease.pinkage === 'true' ? this.taskRelease.itemPrice : this.taskRelease.itemPrice + 10
       },
       /**
-       * 总推广费用
+       * 计算总推广费用
        * @return {number}
        */
-      AllPromotionExpenses: function () {
+      allPromotionExpenses: function () {
         return this.taskRelease.itemPrice * 0.06 > 3 ? 3 * this.taskRelease.taskCount : this.taskRelease.itemPrice * 0.06 * this.taskRelease.taskCount
       },
       /**
-       * 订单总金额
+       * 计算订单总金额
        * @return {number}
        */
       orderMoney: function () {
-        return this.taskRelease.taskCount * this.oneBond + this.AllPromotionExpenses
+        return this.taskRelease.taskCount * this.oneBond + this.allPromotionExpenses
       },
       /**
-       * 余额是否足够支付订单金额
+       * 计算余额是否足够支付订单金额
        * @return {boolean}
        */
       isBalance: function () {
@@ -823,8 +823,8 @@
           let status = _this.$route.query.status;
           if (res.status) {
             _this.taskId = res.data.id;
-            if(!_this.taskRelease.id){
-              _this.taskRelease.id = res.data.id;
+            if(!_this.taskRelease.taskId){
+              _this.taskRelease.taskId = res.data.id;
             }
             if(status === 'waiting_modify' &&
               _this.editBeforePrice >= _this.taskRelease.itemPrice &&
@@ -866,12 +866,15 @@
       },
       getTaskInfo(taskId) {
         let _this = this;
+        let type = _this.$route.query.type;
         api.getTaskInfo({
           taskId: taskId
         }).then(res => {
           if (res.status) {
+            if(!type){
+              _this.taskRelease.taskId = res.data.id;
+            }
             _this.paidDeposit = res.data.marginPaid / 100;
-            _this.taskRelease.id = res.data.id;
             _this.editBeforePrice = res.data.itemPrice / 100;
             _this.editBeforeTaskCount = res.data.taskCount;
             _this.editBeforePinkage = res.data.pinkage.toString();

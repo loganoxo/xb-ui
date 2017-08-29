@@ -4,10 +4,9 @@
 
       <p v-show="isLogin" class="left">
         你好，<span class="user-name">
-
         <router-link to="/user">{{getUserInfo.phone}} </router-link>
         </span>
-        <span @click="signOut">[ 退出登录 ]</span>
+        <span @click="goOut">[ 退出登录 ]</span>
       </p>
       <p v-show="!isLogin" class="left">
         你好，欢迎来到秀吧！
@@ -26,6 +25,7 @@
 <script>
   import api from '../config/apiConfig'
   import {setStorage, getStorage, removeStorage} from '../config/utils'
+  import {mapActions} from 'vuex'
 
   export default {
     name: 'topTip',
@@ -49,16 +49,18 @@
       return {}
     },
     methods: {
-      signOut() {
+      ...mapActions([
+        'loggedOut'
+      ]),
+      goOut() {
         let _this = this;
-        api.signOut().then(res => {
+        _this.loggedOut().then(res => {
           if (res.status) {
-            _this.$store.commit({
-              type: 'OUT_LOGIN'
-            });
-            _this.$router.push({name: 'login'});
+            _this.$router.push({name: 'login'})
+          }else{
+            _this.$Message.error(res.msg)
           }
-        });
+        })
       }
     }
   }
@@ -66,6 +68,7 @@
 
 <style lang="scss" scoped>
   @import 'src/css/mixin';
+
   .top-tip {
     background-color: #F8F8F8;
     > div {

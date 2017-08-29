@@ -14,8 +14,8 @@ export default {
   /**
    * 用户退出登陆
    */
-  signOut() {
-    return fetch("/api/sign-out.json")
+  loggedOut() {
+    return fetch("/api/logged-out.json")
   },
 
   /**
@@ -319,6 +319,7 @@ export default {
   getDetailsShowkerList(params){
     return fetch("/api/task/showker/trial/report.json",params)
   },
+
   /**
    *详情页已审核试客列表
    */
@@ -362,16 +363,16 @@ export default {
   ShowkerApplySelWwId(params) {
     return fetch("/api/task/showker/apply.json", params)
   },
+
   /**
    * 试客报告，点击查看全部
    */
   ShowkerReportOne(params) {
     return fetch("/api/task/showker/trialReport.json", params)
   },
+
   /**
    * 修改用户头像
-   * @param userId
-   * @param picStr
    */
   modifyPortraitPic(params) {
     return fetch("/api/user/edit_portrait_pic.json", params)
@@ -379,8 +380,6 @@ export default {
 
   /**
    * 商家个人主页试用提醒
-   * @param userId
-   * @param picStr
    */
   sellerPersonalTrialCount(params) {
     return fetch("/api/task/seller-personal-trial-count.json", params)
@@ -388,11 +387,15 @@ export default {
 
   /**
    * 秀客个人主页试用提醒
-   * @param userId
-   * @param picStr
    */
   showkerPersonalTrialCount(params) {
     return fetch("/api/task/showker-personal-trial-count.json", params)
   },
 
+  /**
+   * 商家通过试用报告并返款
+   */
+  showkerDepositReturn(params) {
+    return fetch("/api/showker-deposit-return.json", params)
+  },
 }

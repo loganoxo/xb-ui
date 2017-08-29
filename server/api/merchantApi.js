@@ -51,7 +51,7 @@ router.post("/api/task-create.json", function (req, res, next) {
       itemDescription: req.body.itemDescription,
       paymentMethod: req.body.paymentMethod,
       taskDetail: req.body.taskDetail,
-      id: req.body.id
+      id: req.body.taskId
     },
     json: true,
   };
@@ -405,6 +405,37 @@ router.post('/api/task-report-audit.json', function (req, res, next) {
       id: req.body.id,
       status: req.body.status,
       msg: req.body.msg
+    },
+    json: true
+  };
+  request(options)
+    .then(function (parsedBody) {
+      res.send(parsedBody);
+      res.end();
+    })
+    .catch(function (err) {
+      logConfig.logger.error(req.originalUrl + ':' + err);
+      res.json({status: false, msg: "服务器错误"});
+      res.end();
+    });
+});
+
+/**
+ * 商家通过试用报告并返款
+ * @param uid
+ * @param showkerTaskId
+ * @param payPwd
+ * @param platform
+ */
+router.post('/api/showker-deposit-return.json', function (req, res, next) {
+  let options = {
+    method: 'POST',
+    uri: baseUrl + '/user/account/showker_deposit_return',
+    formData: {
+      uid: req.session.userData.id,
+      showkerTaskId: req.body.showkerTaskId,
+      payPwd: req.body.payPwd,
+      platform: req.body.platform
     },
     json: true
   };

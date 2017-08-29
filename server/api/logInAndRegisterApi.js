@@ -191,10 +191,10 @@ router.post('/api/send-verify-code.json', function (req, res, next) {
 /**
  * 用户退出登录
  */
-router.post('/api/sign-out.json', (req, res, next) => {
+router.post('/api/logged-out.json', (req, res, next) => {
   req.session.destroy(function (err) {
     if (err) {
-      logConfig.logger.error(err);
+      logConfig.logger.error(req.originalUrl + ':' + err);
       res.json({status: false, msg: "服务器错误"});
       res.end();
     } else {
