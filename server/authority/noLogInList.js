@@ -5,7 +5,7 @@ const noLogInList = [
   "/api/login.json",//登录
   "/api/check-fast-sign-in.json",//快速登陆
   "/api/sign-up.json",//注册
-  "/api/sign-out.json",//退出登录
+  "/api/logged-out.json",//退出登录
   "/api/vrcode.json",//生成图形验证码
   "/api/send-verify-code.json",//发送手机验证码
   "/api/task/item/catalog/main.json",//首页导航
