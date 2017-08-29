@@ -558,16 +558,14 @@
       },
       wwBindList () {
         let self = this;
-        api.wwBindList().then((res) =>{
-          if(res.status){
-              if(res.statusCode == 201){
-                self.showWwBindBox = true;
-              }else if(res.statusCode == 200){
-                self.wwBindLists = res.data;
-                if(self.wwBindLists.length > 0){
-                  self.showWwBindBox = false;
-                }
-              }
+        api.wwBindList().then((res) => {
+          if (res.status) {
+            self.wwBindLists = res.data;
+            if(self.wwBindLists.length > 0) {
+              self.showWwBindBox = false;
+            }else {
+              self.showWwBindBox = true;
+            }
           }else {
             self.$Modal.error({
               content: res.msg
@@ -587,7 +585,6 @@
               id: self.wwFormValidate.id
             }).then((res) => {
               if(res.status){
-                if(res.statusCode == 200){
                   self.remarks = '';
                   self.$Modal.success({
                     content: "亲！提交成功，客服妹子会尽快审核...",
@@ -596,7 +593,6 @@
                       self.clearWwInfo();
                     }
                   });
-                }
               }else {
                 self.$Modal.error({
                   content: res.msg
@@ -610,7 +606,6 @@
               picUrl: this.wwFormValidate.picUrl[0].src,
             }).then((res) => {
               if(res.status){
-                if(res.statusCode == 200){
                   self.$Modal.success({
                     content: "亲！提交成功，客服妹子会尽快审核...",
                     onOk:function () {
@@ -618,7 +613,6 @@
                       self.clearWwInfo();
                     }
                   });
-                }
               }else {
                 this.$Modal.error({
                   content: res.msg
