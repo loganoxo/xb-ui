@@ -5,6 +5,7 @@ import store from './store'
 import * as filters from './filter/custom'
 import VueLazyload from 'vue-lazyload'
 import Modal from 'iview/src/components/modal'
+import LoadingBar from 'iview/src/components/loading-bar'
 import Message from 'iview/src/components/message'
 import 'animate.css/animate.css'
 import '../iview/iview.less'
@@ -29,9 +30,15 @@ Object.keys(filters).forEach(key => {
   Vue.filter(key, filters[key])
 });
 
-/*根据路由改变页面标题*/
+/*根据路由改变处理页面标题和组件加载进度*/
 router.afterEach(to => {
-  document.title = to.meta.title
+  document.title = to.meta.title;
+  LoadingBar.finish();
+});
+
+router.beforeEach((to, from, next) => {
+  LoadingBar.start();
+  next();
 });
 
 new Vue({

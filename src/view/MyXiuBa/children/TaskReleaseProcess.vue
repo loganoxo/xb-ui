@@ -147,6 +147,7 @@
             <div class="baby-main-img ml-40 mt-20">
               <span class="required left mr-5 mt-20">宝贝主图：</span>
               <Upload
+                key="pc-upload"
                 ref="upload"
                 name="task"
                 :show-upload-list="false"
@@ -253,6 +254,7 @@
               <span class="required left mr-5 mt-20">宝贝主图：</span>
               <Upload
                 ref="upload"
+                key="app-upload"
                 :show-upload-list="false"
                 :on-success="appBabyImgSuccess"
                 :default-file-list="appDefaultList"
@@ -399,10 +401,10 @@
         本次总共要支付的金额为：<strong>{{orderMoney | numberFormat(2)}}</strong>&nbsp;元。您账户余额为：<strong>{{getUserBalance || 0}}</strong>&nbsp;元，还需充值：<span class="second-color">{{Math.abs(getUserBalance - orderMoney)}}</span>&nbsp;元。
       </div>
       <div class="pay-info mt-40" v-if="isBalance && priceHasChange">
-        该任务已付保证金 <strong>{{paidDeposit}}</strong>元，本次修改需要支付超出部分的金额为：<strong class="main-color">{{orderMoney | numberFormat(2)}}</strong>元。您账号的当前余额为：<strong>{{getUserBalance || 0}}</strong>&nbsp;元
+        该任务已付保证金 <strong>{{paidDeposit}}</strong>元，本次修改需要支付超出部分的金额为：<strong class="main-color">{{orderMoney - paidDeposit | numberFormat(2)}}</strong>元。您账号的当前余额为：<strong>{{getUserBalance || 0}}</strong>&nbsp;元
       </div>
       <div class="pay-info mt-40" v-if="!isBalance && priceHasChange">
-        该任务已付保证金 <strong>{{paidDeposit}}</strong>元，本次修改需要支付超出部分的金额为：<strong class="main-color">{{orderMoney | numberFormat(2)}}</strong>元。您账号的当前余额为：<strong>{{getUserBalance || 0}}</strong>&nbsp;元,还需充值：<span class="second-color">{{Math.abs(getUserBalance - orderMoney)}}</span>&nbsp;元。
+        该任务已付保证金 <strong>{{paidDeposit}}</strong>元，本次修改需要支付超出部分的金额为：<strong class="main-color">{{orderMoney - paidDeposit | numberFormat(2)}}</strong>元。您账号的当前余额为：<strong>{{getUserBalance || 0}}</strong>&nbsp;元,还需充值：<span class="second-color">{{Math.abs(getUserBalance - orderMoney)}}</span>&nbsp;元。
       </div>
       <div class="description-fees-footer">
         <span class="pay-btn" v-if="isBalance" @click="openRecharge">前去支付</span>
@@ -423,7 +425,7 @@
       </div>
     </div>
     <div class="pay-model" v-if="showPayModel">
-      <PayModel :orderMoney="orderMoney" @confirmPayment="confirmPayment">
+      <PayModel :orderMoney="!priceHasChange ? orderMoney : orderMoney - paidDeposit" @confirmPayment="confirmPayment">
         <i slot="closeModel" class="close-recharge" @click="closeRecharge">&times;</i>
         <div slot="noBalance" class="title-tip"><span class="size-color3"><Icon color="#FF2424" size="18px" type="ios-information"></Icon><span
           class="ml-10">亲，您的余额不足，请充值。</span></span>还需充值<strong class="size-color3">{{Math.abs(getUserBalance - orderMoney)}}</strong>元
@@ -620,18 +622,14 @@
        * @return {number}
        */
       AllPromotionExpenses: function () {
-        return this.taskRelease.itemPrice * 0.6 > 3 ? 3 * this.taskRelease.taskCount : this.taskRelease.itemPrice * 0.6 * this.taskRelease.taskCount
+        return this.taskRelease.itemPrice * 0.06 > 3 ? 3 * this.taskRelease.taskCount : this.taskRelease.itemPrice * 0.06 * this.taskRelease.taskCount
       },
       /**
        * 订单总金额
        * @return {number}
        */
       orderMoney: function () {
-        if(!this.priceHasChange){
-          return this.taskRelease.taskCount * this.oneBond + this.AllPromotionExpenses
-        }else{
-          return this.taskRelease.taskCount * this.oneBond + this.AllPromotionExpenses - this.paidDeposit
-        }
+        return this.taskRelease.taskCount * this.oneBond + this.AllPromotionExpenses
       },
       /**
        * 余额是否足够支付订单金额
@@ -862,6 +860,7 @@
         this.editPriceAfterModel = false;
       },
       continueNextStep() {
+        this.editPriceAfterModel = false;
         this.nextCurrent();
         this.stepName = 'deposit';
       },
@@ -871,9 +870,9 @@
           taskId: taskId
         }).then(res => {
           if (res.status) {
-            _this.paidDeposit = res.data.marginPaid;
+            _this.paidDeposit = res.data.marginPaid / 100;
             _this.taskRelease.id = res.data.id;
-            _this.editBeforePrice = res.data.itemPrice;
+            _this.editBeforePrice = res.data.itemPrice / 100;
             _this.editBeforeTaskCount = res.data.taskCount;
             _this.editBeforePinkage = res.data.pinkage.toString();
             _this.mainDefaultList.push({src: res.data.taskMainImage});

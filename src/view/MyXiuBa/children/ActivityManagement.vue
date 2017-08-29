@@ -72,9 +72,7 @@
             <td>{{item.taskStatusDesc}}</td>
             <td class="registration">{{item.showkerApplyTotalCount}} / {{item.showkerApplySuccessCount}}（人）</td>
             <td>{{item.taskCount}}</td>
-            <td>
-              {{!item.pinkage ? (item.itemPrice / 100 + 10) * item.taskCount : item.itemPrice / 100 * item.taskCount}}
-            </td>
+            <td>{{!item.pinkage ? (item.itemPrice / 100 + 10) * item.taskCount : item.itemPrice / 100 * item.taskCount}}</td>
             <td v-if="item.taskStatus === 'waiting_pay'">
               <p class="del-edit">
                 <span class="mr-10" @click="editTask(item.id,item.taskStatus)">编辑</span>
@@ -89,15 +87,14 @@
             </td>
             <td v-else-if="item.taskStatus === 'waiting_modify'">
               <p class="del-edit">
-                <span class="mr-10" @click="editTask(item.id)">编辑</span>
+                <span class="mr-10" @click="editTask(item.id,item.taskStatus)">编辑</span>
                 <span @click="deleteTask(item.id)">删除</span>
               </p>
               <p class="copy mt-6">
                 <span>复制活动</span>
               </p>
             </td>
-            <td
-              v-else-if="item.taskStatus === 'waiting_audit' || item.taskStatus === 'cannot_settlement' || item.taskStatus === 'waiting_audit'">
+            <td v-else-if="item.taskStatus === 'waiting_audit' || item.taskStatus === 'cannot_settlement' || item.taskStatus === 'waiting_audit'">
               <p class="copy mt-6">
                 <span>复制活动</span>
               </p>
@@ -191,7 +188,9 @@
                   <td>{{item.showkerName}}</td>
                   <td>{{item.alitmAccount}}</td>
                   <td>{{item.applyTime | dateFormat('YYYY-MM-DD hh:mm:ss')}}</td>
-                  <td class="registration">{{item.task.showkerApplySuccessCount}}</td>
+                  <td class="registration">
+                    <router-link :to="{ 'path': '/task-details','query': {'taskId': item.id}}">{{item.task.showkerApplySuccessCount}}</router-link>
+                  </td>
                   <td>
                     <p class="del-edit">
                       <span class="mr-10" @click="showkerPassAudit(item.id,'passAudit')">通过</span>

@@ -5,6 +5,7 @@ import axios from 'axios'
 import qs from 'qs'
 import router from '@/router'
 import store from '@/store'
+import LoadingBar from 'iview/src/components/loading-bar'
 // import {baseUrl} from './env'
 
 axios.defaults.timeout = 100000;//响应时间
@@ -14,15 +15,19 @@ axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded
 axios.interceptors.request.use((config) => {
   if (config.method === 'post') {
     config.data = qs.stringify(config.data);
+    LoadingBar.start();
   }
   return config;
 }, (error) => {
+  LoadingBar.finish();
   return Promise.reject(error);
 });
 //返回状态判断(添加响应拦截器)
 axios.interceptors.response.use((res) => {
+  LoadingBar.finish();
   return res;
 }, (error) => {
+  LoadingBar.finish();
   if (error.response.status === 401) {
     store.commit({ type: 'OUT_LOGIN'});
     router.push({name: 'login'});

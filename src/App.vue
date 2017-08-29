@@ -23,7 +23,8 @@ export default {
   created(){
     this.$store.commit({
       type:'INIT_USER_INFO'
-    })
+    });
+//    this.$LoadingBar.start()
   }
 }
 </script>

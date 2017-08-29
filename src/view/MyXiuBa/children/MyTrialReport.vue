@@ -62,9 +62,7 @@
               <p class="fs-16 mt-20 mb-20">
                 试用过程与体验：
               </p>
-              <p class="fs-14 cl000 mb-40">
-                {{showkerReportDesc.trialReportText}}
-              </p>
+              <p class="fs-14 cl000 mb-40">{{showkerReportDesc.trialReportText}}</p>
               <p class="fs-16">试用图片：</p>
               <div style="margin: auto; width: 700px; border: 1px solid #F1EEEB" class="task-list-img-box">
                 <Carousel v-model="value3"
