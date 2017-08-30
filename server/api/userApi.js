@@ -278,6 +278,7 @@ router.post('/api/user/account/check-phone-message-before-reset-pwd.json', funct
     method: 'POST',
     uri: baseUrl + '/user/account/check-phone-message-before-reset-pwd',
     formData: {
+      uid: req.session.userData.id,
       phone: req.body.phone,
       smsCode: req.body.smsCode,
     },
