@@ -14,8 +14,8 @@ export default {
   /**
    * 用户退出登陆
    */
-  signOut() {
-    return fetch("/api/sign-out.json")
+  loggedOut() {
+    return fetch("/api/logged-out.json")
   },
 
   /**
@@ -25,6 +25,24 @@ export default {
     return fetch("/api/send-verify-code.json", params)
   },
 
+  /**
+   * 验证重置密码短信
+   */
+  validatePaySmscode(params) {
+    return fetch("/api/user/account/check-phone-message-before-reset-pwd.json", params)
+  },
+  /**
+   * 通过手机短信验证码重置支付密码
+   */
+  modifyPayPwd(params) {
+    return fetch("/api/user/account/reset-pay-pwd-by-smscode.json", params)
+  },
+  /**
+   * 通过上一次的支付密码修改支付密码
+   */
+  modifyDefaultPayPwd(params) {
+    return fetch('/api/user/account/reset-pay-pwd-by-originPwd.json', params)
+  },
   /**
    * 用户快速登陆
    */
@@ -60,6 +78,19 @@ export default {
     return fetch("/api/find-pwd-by-origin.json", params)
   },
 
+  /**
+   * 通过上一次的登录密码修改登录密码
+   */
+  modifyDefaultPwd(params) {
+    return fetch('/api/user/account/reset-login-pwd-by-originPwd.json', params)
+  },
+
+  /**
+   * 通过手机短信验证码重置登录密码
+   */
+  modifyTrendsPwd(params) {
+    return fetch('/api/user/account/reset-login-pwd-by-smscode.json', params)
+  },
   /**
    *获取用户、账户、旺旺账号
    */
@@ -319,6 +350,7 @@ export default {
   getDetailsShowkerList(params){
     return fetch("/api/task/showker/trial/report.json",params)
   },
+
   /**
    *详情页已审核试客列表
    */
@@ -362,16 +394,16 @@ export default {
   ShowkerApplySelWwId(params) {
     return fetch("/api/task/showker/apply.json", params)
   },
+
   /**
    * 试客报告，点击查看全部
    */
   ShowkerReportOne(params) {
     return fetch("/api/task/showker/trialReport.json", params)
   },
+
   /**
    * 修改用户头像
-   * @param userId
-   * @param picStr
    */
   modifyPortraitPic(params) {
     return fetch("/api/user/edit_portrait_pic.json", params)
@@ -379,8 +411,6 @@ export default {
 
   /**
    * 商家个人主页试用提醒
-   * @param userId
-   * @param picStr
    */
   sellerPersonalTrialCount(params) {
     return fetch("/api/task/seller-personal-trial-count.json", params)
@@ -388,11 +418,15 @@ export default {
 
   /**
    * 秀客个人主页试用提醒
-   * @param userId
-   * @param picStr
    */
   showkerPersonalTrialCount(params) {
     return fetch("/api/task/showker-personal-trial-count.json", params)
   },
 
+  /**
+   * 商家通过试用报告并返款
+   */
+  showkerDepositReturn(params) {
+    return fetch("/api/showker-deposit-return.json", params)
+  },
 }

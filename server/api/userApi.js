@@ -147,5 +147,151 @@ router.post('/api/user/edit_portrait_pic.json', function (req, res, next) {
   });
 });
 
+/**
+ * 通过上一次的支付密码修改支付密码
+ * @param userId
+ * @param oldPwd
+ * @param newPwd
+ * @param repwd
+ */
+router.post('/api/user/account/reset-pay-pwd-by-originPwd.json', function (req, res, next) {
+  let options = {
+    method: 'POST',
+    uri: baseUrl + '/user/account/reset-pay-pwd-by-originPwd',
+    formData: {
+      userId: req.session.userData.id,
+      oldPwd: req.body.oldPwd,
+      newPwd: req.body.newPwd,
+      repwd: req.body.repwd,
+    },
+    json: true,
+  };
+  request(options).then(function (parsedBody) {
+    res.send(parsedBody);
+    res.end();
+  }).catch(function (err) {
+    logConfig.logger.error(req.originalUrl + ':' + err);
+    res.json({status: false, msg: "服务器错误"});
+    res.end();
+  });
+});
+
+
+/**
+ * 通过上一次的登录密码修改登录密码
+ * @param userId
+ * @param oldPwd
+ * @param newPwd
+ * @param repwd
+ */
+router.post('/api/user/account/reset-login-pwd-by-originPwd.json', function (req, res, next) {
+  let options = {
+    method: 'POST',
+    uri: baseUrl + '/user/account/reset-login-pwd-by-originPwd',
+    formData: {
+      userId: req.session.userData.id,
+      oldPwd: req.body.oldPwd,
+      newPwd: req.body.newPwd,
+      repwd: req.body.repwd,
+    },
+    json: true,
+  };
+  request(options).then(function (parsedBody) {
+    res.send(parsedBody);
+    res.end();
+  }).catch(function (err) {
+    logConfig.logger.error(req.originalUrl + ':' + err);
+    res.json({status: false, msg: "服务器错误"});
+    res.end();
+  });
+});
+
+/**
+ * 通过手机短信验证码重置登录密码
+ * @param userId
+ * @param pwd
+ * @param repwd
+ * @return
+ */
+router.post('/api/user/account/reset-login-pwd-by-smscode.json', function (req, res, next) {
+  let options = {
+    method: 'POST',
+    uri: baseUrl + '/user/account/reset-login-pwd-by-smscode',
+    formData: {
+      userId: req.session.userData.id,
+      pwd: req.body.pwd,
+      repwd: req.body.repwd,
+      phone: req.body.phone,
+      smsCode: req.body.smsCode,
+    },
+    json: true,
+  };
+  request(options).then(function (parsedBody) {
+    res.send(parsedBody);
+    res.end();
+  }).catch(function (err) {
+    logConfig.logger.error(req.originalUrl + ':' + err);
+    res.json({status: false, msg: "服务器错误"});
+    res.end();
+  });
+});
+
+
+
+/**
+ * 通过手机短信验证码重置支付密码
+ * @param userId
+ * @param pwd
+ * @param repwd
+ */
+router.post('/api/user/account/reset-pay-pwd-by-smscode.json', function (req, res, next) {
+  let options = {
+    method: 'POST',
+    uri: baseUrl + '/user/account/reset-pay-pwd-by-smscode',
+    formData: {
+      userId: req.session.userData.id,
+      pwd: req.body.pwd,
+      repwd: req.body.repwd,
+      phone: req.body.phone,
+      smsCode: req.body.smsCode,
+    },
+    json: true,
+  };
+  request(options).then(function (parsedBody) {
+    res.send(parsedBody);
+    res.end();
+  }).catch(function (err) {
+    logConfig.logger.error(req.originalUrl + ':' + err);
+    res.json({status: false, msg: "服务器错误"});
+    res.end();
+  });
+});
+
+
+/**
+ * 验证重置密码短信
+ * @param phone
+ * @param smsCode
+ */
+router.post('/api/user/account/check-phone-message-before-reset-pwd.json', function (req, res, next) {
+  let options = {
+    method: 'POST',
+    uri: baseUrl + '/user/account/check-phone-message-before-reset-pwd',
+    formData: {
+      phone: req.body.phone,
+      smsCode: req.body.smsCode,
+    },
+    json: true,
+  };
+  request(options).then(function (parsedBody) {
+    res.send(parsedBody);
+    res.end();
+  }).catch(function (err) {
+    logConfig.logger.error(req.originalUrl + ':' + err);
+    res.json({status: false, msg: "服务器错误"});
+    res.end();
+  });
+});
+
 
 module.exports = router;

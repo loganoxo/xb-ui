@@ -70,7 +70,7 @@ router.post('/api/task/showker-personal-trial-count.json', function (req, res, n
 router.post('/api/task/seller-personal-trial-count.json', function (req, res, next) {
   let options = {
     method: 'GET',
-    uri: baseUrl + '/task/seller/personal/trial/count' + req.session.userData.id,
+    uri: baseUrl + '/task/seller/personal/trial/count/' + req.session.userData.id,
     json: true
   };
   request(options)
