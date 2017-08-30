@@ -26,6 +26,24 @@ export default {
   },
 
   /**
+   * 验证重置密码短信
+   */
+  validatePaySmscode(params) {
+    return fetch("/api/user/account/check-phone-message-before-reset-pwd.json", params)
+  },
+  /**
+   * 通过手机短信验证码重置支付密码
+   */
+  modifyPayPwd(params) {
+    return fetch("/api/user/account/reset-pay-pwd-by-smscode.json", params)
+  },
+  /**
+   * 通过上一次的支付密码修改支付密码
+   */
+  modifyDefaultPayPwd(params) {
+    return fetch('/api/user/account/reset-pay-pwd-by-originPwd.json', params)
+  },
+  /**
    * 用户快速登陆
    */
   checkFastSignIn(params) {
@@ -60,6 +78,19 @@ export default {
     return fetch("/api/find-pwd-by-origin.json", params)
   },
 
+  /**
+   * 通过上一次的登录密码修改登录密码
+   */
+  modifyDefaultPwd(params) {
+    return fetch('/api/user/account/reset-login-pwd-by-originPwd.json', params)
+  },
+
+  /**
+   * 通过手机短信验证码重置登录密码
+   */
+  modifyTrendsPwd(params) {
+    return fetch('/api/user/account/reset-login-pwd-by-smscode.json', params)
+  },
   /**
    *获取用户、账户、旺旺账号
    */

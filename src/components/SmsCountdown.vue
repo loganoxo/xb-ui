@@ -23,6 +23,9 @@
       validateCode: {
         required: true
       },
+      timeout:{
+        default: null
+      },
       onSuccess: {
         type: Function,
         default() {
@@ -44,19 +47,37 @@
     methods: {
       run: function () {
         if (/^1[34578]\d{9}$/.test(this.phone)) {
-          api.getCode({
-            phone: this.phone,
-            purpose: this.purpose,
-            validateCode: this.validateCode
-          }).then((res) => {
-            this.onSuccess(res);
-            if (res.status) {
-              this.start();
-              this.setDisabled(true);
-            }
-          }).catch(err => {
-            console.log('发送短信接口错误信息：' + err);
-          });
+          if(this.timeout){
+            api.getCode({
+              phone: this.phone,
+              purpose: this.purpose,
+              validateCode: this.validateCode,
+              timeout: this.timeout,
+            }).then((res) => {
+              this.onSuccess(res);
+              if (res.status) {
+                this.start();
+                this.setDisabled(true);
+              }
+            }).catch(err => {
+              console.log('发送短信接口错误信息：' + err);
+            });
+          }else {
+            api.getCode({
+              phone: this.phone,
+              purpose: this.purpose,
+              validateCode: this.validateCode,
+            }).then((res) => {
+              this.onSuccess(res);
+              if (res.status) {
+                this.start();
+                this.setDisabled(true);
+              }
+            }).catch(err => {
+              console.log('发送短信接口错误信息：' + err);
+            });
+          }
+
         }
       },
       start: function () {

@@ -483,25 +483,25 @@
 
           </div>
           <div v-show="myAccountSon.selPhoneModify" class="sel-default-modify mt-20">
-            <iForm ref="defaultModify" :label-width="400">
+            <iForm ref="defaultModifyCustom" :model="defaultModifyCustom" :rules="defaultModifyRuleCustom" :label-width="400">
               <div class="clear form-input-box">
-                <Form-item label="原始密码" class="left" style="width: 650px">
-                  <iInput type="password" size="large"></iInput>
+                <Form-item label="原始密码" class="left" style="width: 650px" prop="oldPwd">
+                  <iInput type="password" size="large" v-model="defaultModifyCustom.oldPwd"></iInput>
                 </Form-item>
               </div>
               <div class="clear form-input-box">
-                <Form-item label="新密码" class="left" style="width: 650px">
-                  <iInput type="password" size="large"></iInput>
+                <Form-item label="新密码" class="left" style="width: 650px" prop="newPwd">
+                  <iInput type="password" size="large" v-model="defaultModifyCustom.newPwd"></iInput>
                 </Form-item>
               </div>
               <div class="clear form-input-box">
-                <Form-item label="确认密码" class="left" style="width: 650px">
-                  <iInput type="password" size="large"></iInput>
+                <Form-item label="确认密码" class="left" style="width: 650px" prop="repwd">
+                  <iInput type="password" size="large" v-model="defaultModifyCustom.repwd"></iInput>
                 </Form-item>
               </div>
               <div>
                 <Form-item>
-                  <iButton>
+                  <iButton @click="handleSubmit('defaultModifyCustom',modifyDefaultPayPwdFunc)">
                     确定
                   </iButton>
                   <iButton @click="myAccountPwdChangeSon('selBox')">
@@ -512,33 +512,60 @@
             </iForm>
           </div>
           <div v-show="myAccountSon.selDefaultModify" class="sel-phone-modify mt-20">
-            <iForm ref="phoneModify" :label-width="400">
+            <iForm ref="payCustom" :model="payCustom" :rules="payRuleCustom" :label-width="400">
               <div class="clear form-input-box">
-                <Form-item label="绑定手机" class="left" style="width: 650px">
-                  <iInput type="password" size="large"></iInput>
+                <Form-item label="绑定手机" prop="phone" class="left" style="width: 650px">
+                  <iInput type="text" size="large" v-model="payCustom.phone" ></iInput>
                 </Form-item>
               </div>
               <div class="clear form-input-box">
-                <Form-item label="图形验证码" class="left" style="width: 550px">
-                  <iInput type="text" size="large"></iInput>
+                <Form-item label="图形验证码"  prop="validateCode" class="left" style="width: 550px">
+                  <iInput type="text" size="large" v-model="payCustom.validateCode"></iInput>
                 </Form-item>
-                <!--<div style="width: 100px; float:left;">-->
-                <!--<img :src="regImgSrc" width="100%" alt="" @click="getRegVrcode">-->
-                <!--</div>-->
+                <div style="width: 100px; float:left;">
+                  <img :src="imgSrc" width="100%" alt="" @click="getVrcode">
+                </div>
               </div>
               <div class="clear form-input-box">
                 <Form-item label="手机验证码" class="left pos-rel" style="width: 650px">
-                  <iInput type="text" number size="large"></iInput>
-                  <!--<SmsCountdown style="top: 3px;"></SmsCountdown>-->
+                  <iInput type="text" number size="large" v-model="payCustom.smsCode"></iInput>
+                  <SmsCountdown :on-success="sendCodeSuccess" style="top: 3px;"
+                                :phone="payCustom.phone"
+                                :purpose="payCustom.purpose"
+                                :validateCode="payCustom.validateCode"
+                                :timeout=120
+                  >
+                  </SmsCountdown>
                 </Form-item>
               </div>
               <div>
                 <Form-item>
-                  <iButton>
+                  <iButton @click="handleSubmit('payCustom',modifyPayPwdFunc)">
                     确定
                   </iButton>
                   <iButton @click="myAccountPwdChangeSon('selBox')">
                     返回上一页
+                  </iButton>
+                </Form-item>
+              </div>
+            </iForm>
+          </div>
+          <div v-show="myAccountSon.modifyPwd" class="mt-20">
+            <iForm ref="trendsModifyCustom" :model="trendsModifyCustom" :rules="trendsModifyRuleCustom" :label-width="400">
+              <div class="clear form-input-box">
+                <Form-item label="新密码" prop="pwd" class="left" style="width: 650px" >
+                  <iInput type="password" size="large" v-model="trendsModifyCustom.pwd"></iInput>
+                </Form-item>
+              </div>
+              <div class="clear form-input-box">
+                <Form-item label="确认新密码" class="left" style="width: 650px" prop="repwd">
+                  <iInput type="password" size="large" v-model="trendsModifyCustom.repwd"></iInput>
+                </Form-item>
+              </div>
+              <div>
+                <Form-item>
+                  <iButton @click="handleSubmit('payCustom',modifyFinishPayPwdFunc)">
+                    确定
                   </iButton>
                 </Form-item>
               </div>
@@ -589,11 +616,103 @@
       Alert: Alert,
       SmsCountdown: SmsCountdown,
       PayModel:PayModel
-
-
     },
     data() {
+      //表单验证
+      const validatePhone = (rule, value, callback) => {
+        if (!(/^1[34578]\d{9}$/.test(value))) {
+          callback(new Error('请输入正确手机号'));
+        } else {
+          callback()
+        }
+      };
+      const validatePass = (rule, value, callback) => {
+        if (value === '') {
+          callback(new Error('请输入密码'));
+        } else {
+          callback()
+        }
+      };
+      const validateCode = (rule, value, callback) => {
+        if (value === '') {
+          callback(new Error('请输入图片验证码'));
+        } else {
+          callback()
+        }
+      };
+      const validateDefaultPassCheck = (rule, value, callback) => {
+        if (value === '') {
+          callback(new Error('请再次输入密码'));
+        } else if (value !== this.defaultModifyCustom.newPwd) {
+          callback(new Error('两次输入密码不一致!'));
+        } else {
+          callback();
+        }
+      };
+      const validatePassCheck = (rule, value, callback) => {
+        if (value === '') {
+          callback(new Error('请再次输入密码'));
+        } else if (value !== this.trendsModifyCustom.pwd) {
+          callback(new Error('两次输入密码不一致!'));
+        } else {
+          callback();
+        }
+      };
+      const validateSmsCode = (rule, value, callback) => {
+        if (value === '') {
+          callback(new Error('请输入动态码'));
+        } else {
+          callback()
+        }
+      };
       return {
+        imgSrc: null,
+        payCustom: {
+          phone: null,
+          validateCode: '',
+          purpose:'forget',
+          smsCode: '',
+          role: 0,
+        },
+        payRuleCustom: {
+          phone: [
+            {validator: validatePhone, trigger: 'blur'},
+          ],
+          validateCode: [
+            {validator: validateCode, trigger: 'blur'},
+          ],
+          smsCode: [
+            {validator: validateSmsCode, trigger: 'blur'}
+          ]
+        },
+        trendsModifyCustom:{
+          pwd: '',
+          repwd: ''
+        },
+        defaultModifyCustom: {
+          oldPwd: '',
+          newPwd: '',
+          repwd: '',
+        },
+        defaultModifyRuleCustom: {
+          oldPwd: [
+            {validator: validatePass, trigger: 'blur'},
+          ],
+          newPwd: [
+            {validator: validatePass, trigger: 'blur'},
+          ],
+          repwd: [
+            {validator: validateDefaultPassCheck, trigger: 'blur'},
+          ]
+        },
+        trendsModifyRuleCustom: {
+          pwd: [
+            {validator: validatePass, trigger: 'blur'},
+          ],
+          repwd: [
+            {validator: validatePassCheck, trigger: 'blur'},
+          ],
+        },
         myInfoSelects: [
           {
             text: '账号信息',
@@ -677,7 +796,8 @@
         myAccountSon:{
           selBox:true,
           selDefaultModify:false,
-          selPhoneModify:false
+          selPhoneModify:false,
+          modifyPwd: false
         },
         formItem: {
           name: '',
@@ -697,6 +817,7 @@
 
     },
     created() {
+      this.getVrcode();
       this.getUserAccount();
       this.getTradList(null);
       this.getTradListAll([0,1,2],null,null,null);
@@ -707,6 +828,90 @@
       }
     },
     methods: {
+      handleSubmit(name, callback) {
+        let res = false;
+        this.$refs[name].validate((valid) => {
+          res = !!valid
+        });
+        if (typeof callback === 'function' && res) {
+          callback();
+        }
+      },
+      modifyDefaultPayPwdFunc(){
+        let self = this;
+        api.modifyDefaultPayPwd({
+          oldPwd: self.defaultModifyCustom.oldPwd,
+          newPwd: self.defaultModifyCustom.newPwd,
+          repwd: self.defaultModifyCustom.repwd
+        }).then((res) => {
+          if(res.status){
+            self.$Modal.success({
+              content: res.msg,
+              onOk: function () {
+                self.$router.push({path: '/user/user-home'});
+              }
+            });
+          }else {
+            self.$Modal.error({
+              content: res.msg
+            });
+          }
+        })
+      },
+      modifyPayPwdFunc(){
+        let self = this;
+        api.validatePaySmscode({
+          phone: self.payCustom.phone,
+          smsCode: self.payCustom.smsCode,
+        }).then((res) => {
+          if(res.status){
+            self.myAccountPwdChangeSon('modifyPwd');
+          }else {
+            self.$Modal.error({
+              content: res.msg
+            });
+            self.getVrcode();
+          }
+        });
+      },
+      modifyFinishPayPwdFunc(){
+        let self = this;
+        api.modifyPayPwd({
+          phone: self.payCustom.phone,
+          smsCode: self.payCustom.smsCode,
+          pwd: self.trendsModifyCustom.pwd,
+          repwd: self.trendsModifyCustom.repwd,
+        }).then(res => {
+          if(res.status){
+            self.$Modal.success({
+              content: res.msg,
+              onOk: function () {
+                self.$router.push({path: '/user/user-home'});
+              }
+            });
+          }else {
+            self.$Modal.error({
+              content: res.msg
+            });
+          }
+        })
+      },
+      checkPhone() {
+        this.$refs.loginTrendsCustom.validateField('phone');
+      },
+      sendCodeSuccess(res) {
+        let self = this;
+        if (res.status) {
+          self.$Modal.success({
+            content: res.msg
+          });
+        } else {
+          self.$Modal.error({
+            content: res.msg
+          });
+          self.getVrcode();
+        }
+      },
       accountInit(type) {
         this.infoSelect = type
       },
@@ -717,6 +922,9 @@
           this.detailSelect = type;
           this.getTradListDetails(type);
         }
+      },
+      getVrcode() {
+        this.imgSrc = "/api/vrcode.json?rand=" + new Date() / 100
       },
       getUserAccount() {
         let _this = this;

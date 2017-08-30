@@ -54,11 +54,11 @@
                   <router-link  to="/user/user-home">个人中心</router-link>
                   <a @click="signOut">[ 退出登录 ]</a>
                 </div>
-                <p class="clear-both fs-14 mt-10 left ml-20">当前进行的活动：<router-link  to="/user">8</router-link> 个</p>
+                <p class="clear-both fs-14 mt-10 left ml-20">当前进行的活动：<router-link  to="/user">{{trialCount.underWayShowkerTask}}</router-link> 个</p>
                 <div class="left clear-both mt-10" style="width: 100%;">
-                  <router-link class="left text-ct" style="width: 33.33%;"  to="/user">10</router-link>
-                  <router-link class="left text-ct" style="width: 33.33%;" to="/user">0</router-link>
-                  <router-link class="left text-ct" style="width: 33.33%;" to="/user">0</router-link>
+                  <router-link class="left text-ct" style="width: 33.33%;"  to="/user">{{trialCount.waitingAuditTaskApply}}</router-link>
+                  <router-link class="left text-ct" style="width: 33.33%;" to="/user">{{trialCount.passAndUnclaimedShowkerTask}}</router-link>
+                  <router-link class="left text-ct" style="width: 33.33%;" to="/user">{{trialCount.trialReportWaitingSubmitShowkerTask}}</router-link>
                 </div>
                 <div class="left clear-both mt-5" style="width: 100%;">
                   <span class="left text-ct" style="width: 33.33%;"  to="/user">待领取</span>
@@ -75,11 +75,11 @@
                   <router-link  to="/user">个人中心</router-link>
                   <a @click="signOut">[ 退出登录 ]</a>
                 </div>
-                <p class="clear-both fs-14 mt-10 left ml-20">当前进行的活动：<router-link  to="/user">8</router-link> 个</p>
+                <p class="clear-both fs-14 mt-10 left ml-20">当前进行的活动：<router-link  to="/user">{{trialCount.underWayTask}} </router-link> 个</p>
                 <div class="left clear-both mt-10" style="width: 100%;">
-                  <router-link class="left text-ct" style="width: 33.33%;"  to="/user">10</router-link>
-                  <router-link class="left text-ct" style="width: 33.33%;" to="/user">0</router-link>
-                  <router-link class="left text-ct" style="width: 33.33%;" to="/user">0</router-link>
+                  <router-link class="left text-ct" style="width: 33.33%;"  to="/user">{{trialCount.waitingAuditTask}} </router-link>
+                  <router-link class="left text-ct" style="width: 33.33%;" to="/user">{{trialCount.waitingAuditTaskApply}}</router-link>
+                  <router-link class="left text-ct" style="width: 33.33%;" to="/user">{{trialCount.orderNumWaitingAuditShowkerTask}}</router-link>
                 </div>
                 <div class="left clear-both mt-5" style="width: 100%;">
                   <span class="left text-ct" style="width: 33.33%;"  to="/user">待审秀客</span>
@@ -170,6 +170,7 @@
     },
     data () {
       return {
+        trialCount: {},
         homeCommodityList:[],
         noticeList:[
           {
@@ -258,6 +259,7 @@
     created(){
       this.getHomeTaskList();
       this.getHomeTaskTopLeftList();
+      this.personalTrialCount()
     },
     computed: {
       isLogin() {
@@ -281,6 +283,32 @@
             _this.$router.push({name: 'login'});
           }
         });
+      },
+      personalTrialCount(){
+        let self = this;
+        if(self.$store.state.login){
+          if(self.$store.state.userInfo.role == 0){
+            api.showkerPersonalTrialCount().then((res) => {
+              if(res.status){
+                self.trialCount = res.data
+              }else {
+                self.$Modal.error({
+                  content: res.msg
+                });
+              }
+            })
+          }else {
+            api.sellerPersonalTrialCount().then((res) => {
+              if(res.status){
+                self.trialCount = res.data
+              }else {
+                self.$Modal.error({
+                  content: res.msg
+                });
+              }
+            })
+          }
+        }
       },
       getHomeTaskTopLeftList(){
         let self = this;

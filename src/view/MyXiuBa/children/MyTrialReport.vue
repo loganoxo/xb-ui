@@ -71,25 +71,10 @@
                           :dots="setting.dots"
                           :trigger="setting.trigger"
                           :arrow="setting.arrow">
-                   <Carousel-item v-for="trialReportImage in showkerReportDesc.trialReportImages">
+                   <Carousel-item v-for="trialReportImage in showkerReportDesc.trialReportImages" :Key="trialReportImage.id">
                      <img class="block mg-at" :src="trialReportImage" alt="" width="700px">
                   </Carousel-item>
                 </Carousel>
-
-                <!--<p class="mt-20 mb-20 text-ct task-list-img">-->
-                  <!--<a href="">-->
-                    <!--<img class="mg-at" src="~assets/img/trial-report/trial_report_05.png" alt="">-->
-                  <!--</a>-->
-                  <!--<a href="">-->
-                    <!--<img class="mg-at" src="~assets/img/trial-report/trial_report_05.png" alt="">-->
-                  <!--</a>-->
-                  <!--<a href="">-->
-                    <!--<img class="mg-at" src="~assets/img/trial-report/trial_report_05.png" alt="">-->
-                  <!--</a>-->
-                  <!--<a href="">-->
-                    <!--<img class="mg-at" src="~assets/img/trial-report/trial_report_05.png" alt="">-->
-                  <!--</a>-->
-                <!--</p>-->
               </div>
             </div>
           </div>
