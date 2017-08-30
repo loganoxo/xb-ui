@@ -895,10 +895,11 @@
         api.wwBindList().then((res) => {
           if (res.status) {
             self.wwBindLists = res.data;
+            debugger
             if(self.wwBindLists == '') {
-              self.showWwBindBox = false;
-            }else {
               self.showWwBindBox = true;
+            }else {
+              self.showWwBindBox = false;
             }
           }else {
             self.$Modal.error({
