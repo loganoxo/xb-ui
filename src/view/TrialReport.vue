@@ -9,7 +9,7 @@
             <p>申请次数：{{applyCount}} 次</p>
             <p>成功申请：{{applySuccessCount}} 次</p>
             <p>上次申请成功：2017-06-06</p>
-            <p>上次登录：{{showkerInfo.lastLoginTime | dateFormat('YYYY-MM-DD')}}</p>
+            <p>上次登录：2017-08-09</p>
           </div>
         </div>
         <div class="trial-right left">

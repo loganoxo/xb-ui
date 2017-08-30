@@ -17,8 +17,7 @@
               <input type="text" class="search-btn" v-model="searchKey">
               <i data-v-fae95c8a="" class="ivu-icon ivu-icon-camera"></i>
             </div>
-            <!--<router-link  :to="{ 'path': '/task-category', 'query': {'searchKey': searchKey }}">搜索</router-link>-->
-            <a @click="goTaskCategory">搜索</a>
+            <router-link  :to="{ 'path': '/task-category', 'query': {'searchKey': searchKey }}">搜索</router-link>
             <p class="link-text">
               <a class="active" href="">男士内裤</a>
               <a class="active" href="">时尚连衣裙</a>
@@ -81,15 +80,6 @@
             });
           }
         })
-      },
-      goTaskCategory(){
-        let self = this;
-        if(self.searchKey){
-          self.$router.push({ path: '/task-category', query: { searchKey: self.searchKey }})
-        }else {
-          self.$Message.info('搜索词不能为空');
-        }
-
       }
     }
 

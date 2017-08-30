@@ -12,9 +12,7 @@
               <div class="left ml-20">
                 <p>
                   <span>账号：{{userData.phone}} </span>
-                  <span >
-                    支付密码：    未设置  设置
-                  </span>
+                  <span >支付密码：    未设置  设置</span>
                   <span v-if="userData.alitmNum <= 0 ">
                     淘宝账号：
                     <Icon type="information-circled" color="#FF6633"></Icon> 未绑定
@@ -44,27 +42,25 @@
             </div>
             <div class="left clear-both fs-14 pd-tb-20" style="border-bottom: 1px solid #eee;">
               <p v-if="getUserInfoRole == 0">
-                试用提醒：待审核 {{trialCount.waitingAuditTaskApply}} 个，进行中 {{trialCount.underWayShowkerTask}} 个
-                （已通过待领取
-                <router-link to="/user/personal-setting">{{trialCount.orderNumErrorShowkerTask}}</router-link>
-                个；
-                已下单待交试用报告
-                <router-link to="/user/personal-setting">{{trialCount.passAndUnclaimedShowkerTask}}</router-link>
-                个；
-                待修改订单号/报告
-                <router-link to="/user/personal-setting">{{trialCount.trialReportWaitingSubmitShowkerTask}}</router-link>
+                试用提醒：待审核 {{trialCount.waitingAuditTaskApply}} 个，进行中 8 个（已通过待领取
+                <router-link to="/user/personal-setting">0</router-link>
+                个；已下单待交试用报告
+                <router-link to="/user/personal-setting">0</router-link>
+                个；待修改订单号/报告
+                <router-link to="/user/personal-setting">0</router-link>
                 个）。 进入我的试用
               </p>
               <p v-if="getUserInfoRole == 1">
-                试用提醒：待审核 {{trialCount.waitingAuditTask}} 个，进行中 {{trialCount.underWayTask}} 个
-                （已通过待领取<router-link to="/user/personal-setting">{{trialCount.trialReportWaitingConfirmShowkerTask}}</router-link> 个；
-                已下单待交试用报告<router-link to="/user/personal-setting">{{trialCount.waitingAuditTaskApply}}</router-link>个；
-                待修改订单号/报告<router-link to="/user/personal-setting">{{trialCount.orderNumWaitingAuditShowkerTask}}</router-link>个）。
-                已结束尚未结算 {{}} 个
-                <router-link to="/user/personal-setting">进入试用活动管理</router-link>
+                试用提醒：待审核 8 个，进行中 8 个（已通过待领取
+                <router-link to="/user/personal-setting">0</router-link>
+                个；已下单待交试用报告
+                <router-link to="/user/personal-setting">0</router-link>
+                个；待修改订单号/报告
+                <router-link to="/user/personal-setting">0</router-link>
+                个）。 进入我的试用
               </p>
             </div>
-            <p  v-if="getUserInfoRole == 0" class="fs-16 clear-both user-home-account" style="border-bottom: 1px solid #eee;">最新试用宝贝</p>
+            <p class="fs-16 clear-both user-home-account" style="border-bottom: 1px solid #eee;">最新试用宝贝</p>
             <div v-if="getUserInfoRole == 0" class="home-commodity-ctt">
               <router-link
                 class="home-commodity-details"

@@ -17,9 +17,6 @@
            <a  @click="taskCategoryAllFunc()" :class="[taskCategoryAll ? 'active' : '' ]">全部</a>
           <a :class="[itemCatalogs[0] == category.id && !taskCategoryAll ? 'active' : '']" v-for="category in categoryList" @click="taskCategoryFunc(category)">{{category.name}}</a>
         </div>
-        <div v-if="$route.query.searchKey" class="task-category-sel">
-          全部结果：<span>{{$route.query.searchKey}}</span>
-        </div>
       </div>
       <div class="container">
         <div class="task-category-sort">

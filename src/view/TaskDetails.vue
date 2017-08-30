@@ -306,6 +306,7 @@
         let self = this;
         self.detailsShowkerParams.taskId = self.$route.query.taskId;
         api.getDetailsShowkerList(self.detailsShowkerParams).then((res) => {
+            console.log(res);
           if(res.status){
             for(let i = 0, j = res.data.content.length; i < j; i++){
               res.data.reportList.content[i].trialReportImages = JSON.parse(res.data.reportList.content[i].trialReportImages);
