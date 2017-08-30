@@ -782,7 +782,6 @@
             id:3
           }
         ],
-//        indeterminate: true,
         checkAll: false,
         transactType:[],
         activityNumber:null,
@@ -937,7 +936,7 @@
           }
         });
       },
-      getTradList(type) {
+      getTradList: function (type) {
         let _this = this;
         api.getTradList({
           createTimeStart: null,
@@ -948,11 +947,7 @@
         }).then(res => {
           if (res.status) {
             _this.myTableDetails = res.data.content.slice(0, 5);
-            if(_this.myTableDetails.length === 0){
-              _this.showBigNotice = true;
-            }else {
-              _this.showBigNotice = false;
-            }
+            _this.showBigNotice = _this.myTableDetails.length === 0;
 
           } else {
             _this.$Message.error(res.msg);
@@ -961,14 +956,11 @@
       },
       getTradListAll(type,beginTime,endTime,activityNumber) {
         let _this = this;
-//        console.log(type)
         if(type.length === 3){
-          type = null
-          console.log(1111)
+          type = null;
         }else {
           type = type;
         }
-//        console.log(type)
         api.getTradList({
           createTimeStart: beginTime,
           createTimeEnd: endTime,
@@ -978,11 +970,7 @@
         }).then(res => {
           if (res.status) {
             _this.myTableDetailsAll = res.data.content;
-            if(_this.myTableDetailsAll.length === 0){
-              _this.showBigNoticeAll = true;
-            }else {
-              _this.showBigNoticeAll = false;
-            }
+            _this.showBigNoticeAll = _this.myTableDetailsAll.length === 0;
 
           } else {
             _this.$Message.error(res.msg);
@@ -1017,12 +1005,7 @@
         }).then(res => {
           if (res) {
             _this.userListDetails = res;
-            if( _this.userListDetails.length === 0){
-              _this.showNotice = true;
-            }else {
-              _this.showNotice = false;
-            }
-
+            _this.showNotice = _this.userListDetails.length === 0;
           } else {
             console.log("列表数据为空！")
           }
@@ -1032,28 +1015,20 @@
         this.timeSelect = type
       },
       myAccountPwdChangeFather(type){
-        for( var k in this.myAccount){
-          if (k===type){
-            this.myAccount[k]=true
-          }else {
-            this.myAccount[k]=false
-          }
+        for(let k in this.myAccount){
+          this.myAccount[k] = k === type;
         }
       },
       myAccountPwdChangeSon(type){
-        for( var k in this.myAccountSon){
-          if (k===type){
-            this.myAccountSon[k]=true
-          }else {
-            this.myAccountSon[k]=false
-          }
+        for(let k in this.myAccountSon){
+          this.myAccountSon[k] = k === type;
         }
       },
       getTargetTime(type){
         let _this = this;
          function getDateStr(time) {
            let date = new Date();
-           date.setDate(date.getDate()+time)
+           date.setDate(date.getDate()+time);
            let seperator1 = "-";
            let seperator2 = ":";
            let month = date.getMonth() + 1;
@@ -1068,7 +1043,7 @@
              + " " + '00' + seperator2 + '00'
              + seperator2 + '00';
            return currentdate;
-         };
+         }
           if(type===0){
             _this.beginTime = getDateStr(0);
             _this.endTime = getDateStr(1);

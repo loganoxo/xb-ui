@@ -59,7 +59,7 @@
             <th width="12%">操作</th>
           </tr>
           </thead>
-          <tbody v-for="item in taskList" :key="item.id">
+          <tbody v-for="item in taskList" :key="item.id"  v-if="taskList && taskList.length > 0">
           <tr>
             <td>
               <img class="left ml-10" :src="item.taskMainImage" :alt="item.taskName">
@@ -70,7 +70,7 @@
               <p class="mt-10">{{item.endTime | dateFormat('YYYY-MM-DD hh:mm:ss') || '----'}}</p>
             </td>
             <td>{{item.taskStatusDesc}}</td>
-            <td class="registration">{{item.showkerApplyTotalCount}} / {{item.showkerApplySuccessCount}}（人）</td>
+            <td class="registration">{{item.showkerApplyTotalCoun || 0}} / {{item.showkerApplySuccessCount || 0}}（人）</td>
             <td>{{item.taskCount}}</td>
             <td>{{!item.pinkage ? (item.itemPrice / 100 + 10) * item.taskCount : item.itemPrice / 100 * item.taskCount}}</td>
             <td v-if="item.taskStatus === 'waiting_pay'">
@@ -82,7 +82,7 @@
                 <span>存担保金</span>
               </p>
               <p class="copy mt-6">
-                <span>复制活动</span>
+                <span @click="copyTask(item.id)">复制活动</span>
               </p>
             </td>
             <td v-else-if="item.taskStatus === 'waiting_modify'">
@@ -91,12 +91,12 @@
                 <span @click="deleteTask(item.id)">删除</span>
               </p>
               <p class="copy mt-6">
-                <span>复制活动</span>
+                <span @click="copyTask(item.id)">复制活动</span>
               </p>
             </td>
             <td v-else-if="item.taskStatus === 'waiting_audit' || item.taskStatus === 'cannot_settlement' || item.taskStatus === 'waiting_audit'">
               <p class="copy mt-6">
-                <span>复制活动</span>
+                <span @click="copyTask(item.id)">复制活动</span>
               </p>
             </td>
             <td v-else-if="item.taskStatus === 'waiting_settlement'">
@@ -104,7 +104,7 @@
                 <span>申请结算</span>
               </p>
               <p class="copy mt-6">
-                <span>复制活动</span>
+                <span @click="copyTask(item.id)">复制活动</span>
               </p>
             </td>
             <td v-else-if="item.taskStatus === 'settlement_finished'">
@@ -112,7 +112,7 @@
                 <span>结算详情</span>
               </p>
               <p class="copy mt-6">
-                <span>复制活动</span>
+                <span @click="copyTask(item.id)">复制活动</span>
               </p>
             </td>
             <td v-else>
@@ -120,6 +120,11 @@
                 <span @click="approveGuest(item.id)">审批秀客</span>
               </p>
             </td>
+          </tr>
+          </tbody>
+          <tbody v-if="taskList && taskList.length === 0">
+          <tr>
+            <td colspan="7" width="100%">暂无数据</td>
           </tr>
           </tbody>
         </table>
@@ -155,7 +160,7 @@
           <div class="manage-text left ml-5">
             <p>{{approveTaskInfo.taskName}}</p>
             <p class="mt-15">
-              总份数<strong>&nbsp;{{approveTaskInfo.taskCount}}&nbsp;</strong>，<strong>&nbsp;{{approveTaskInfo.showkerApplySuccessCount}}&nbsp;</strong>人正在参与试用，<strong>&nbsp;{{approveTaskInfo.taskFinishCount || 0}}&nbsp;</strong>人完成试用，剩余名额<strong>&nbsp;{{approveTaskInfo.taskCount - approveTaskInfo.showkerApplySuccessCount}}&nbsp;</strong>个
+              总份数<strong>&nbsp;{{approveTaskInfo.taskCount || 0}}&nbsp;</strong>，<strong>&nbsp;{{approveTaskInfo.showkerApplySuccessCount}}&nbsp;</strong>人正在参与试用，<strong>&nbsp;{{approveTaskInfo.taskFinishCount || 0}}&nbsp;</strong>人完成试用，剩余名额<strong>&nbsp;{{approveTaskInfo.taskCount - approveTaskInfo.showkerApplySuccessCount || 0}}&nbsp;</strong>个
             </p>
           </div>
         </div>
@@ -490,7 +495,7 @@
           <div class="input-pwd mt-22 ml-35">
             <span>请输入您的支付密码：</span>
             <iInput v-model="refundPayPwd" type="password" style="width: 160px;margin-right: 16px;"></iInput>
-            <iButton type="primary">确认</iButton>
+            <iButton type="primary" @click="confirmRefund">确认</iButton>
           </div>
           <div class="refund-tip ml-35 mt-22">
             <p>如果您的支付密码没有修改，那么支付密码与登陆密码一致。</p>
@@ -601,6 +606,9 @@
       editTask(id,status) {
         this.$router.push({name: 'TaskReleaseProcess', query: {taskId: id,status:status}})
       },
+      copyTask(id) {
+        this.$router.push({name: 'TaskReleaseProcess', query: {taskId: id,type:'copy'}})
+      },
       getTaskList() {
         let _this = this;
         api.getTaskList({
@@ -677,11 +685,11 @@
         if (this.checkAll) {
           this.taskStatusList = ['waiting_pay', 'waiting_audit', 'waiting_modify', 'under_way', 'finished'];
           this.settlementStatusList = ['waiting_settlement', 'waiting_audit', 'settlement_finished'];
-          this.getTaskList();
         } else {
           this.taskStatusList = [];
           this.settlementStatusList = [];
         }
+        this.getTaskList();
       },
       handleCheckPassAll() {
 
@@ -819,7 +827,7 @@
       confirmReport() {
         let _this = this;
         api.taskReportAudit({
-          id: _this.auditTrialReport.id,
+          id: _this.showkerTaskInfo.task.id,
           status: _this.trialCheckStatus,
           msg: _this.noPassReason
         }).then(res =>{
@@ -865,6 +873,28 @@
       console.log(src);
       this.showNowImageSrc = src;
     },
+    confirmRefund() {
+      let _this = this;
+      api.showkerDepositReturn({
+        showkerTaskId: _this.showkerTaskInfo.task.id,
+        payPwd: _this.refundPayPwd,
+        platform: "pc"
+      }).then(res =>{
+        if(res.status){
+          _this.$Message.success({
+            content:'向秀客返款成功！',
+            duration: 4
+          });
+          _this.ReturnManagePage('approve');
+          _this.taskApplyList();
+        }else{
+          _this.$Message.error({
+            content:res.msg,
+            duration: 4
+          })
+        }
+      })
+    }
   }
 </script>
 

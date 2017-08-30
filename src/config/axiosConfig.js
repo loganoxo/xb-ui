@@ -29,8 +29,13 @@ axios.interceptors.response.use((res) => {
 }, (error) => {
   LoadingBar.finish();
   if (error.response.status === 401) {
-    store.commit({ type: 'OUT_LOGIN'});
-    router.push({name: 'login'});
+    store.dispatch('loggedOut').then((res) => {
+      if(res.status){
+        router.push({name: 'login'});
+      }else{
+        console.log(res.msg);
+      }
+    });
   }
   console.error("请求异常或网络异常");
   return Promise.reject(error);
