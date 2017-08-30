@@ -139,7 +139,7 @@
         },
         totalPages: 1,
         trialReportParams: {
-          showkerId: 182,
+          showkerId: this.$store.state.userInfo.id,
           pageIndex: 1,
           pageSize: 5
         },
