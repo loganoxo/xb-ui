@@ -81,7 +81,7 @@
                           :dots="setting.dots"
                           :trigger="setting.trigger"
                           :arrow="setting.arrow">
-                  <Carousel-item v-for="trialReportImage in showkerReportDesc.trialReportImages" :key="trialReportImage">
+                  <Carousel-item v-for="trialReportImage in showkerReportDesc.trialReportImages" :key="trialReportImage.id">
                     <img class="block mg-at" :src="trialReportImage" alt="" width="700px">
                   </Carousel-item>
                 </Carousel>

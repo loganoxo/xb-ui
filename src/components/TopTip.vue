@@ -4,7 +4,7 @@
 
       <p v-show="isLogin" class="left">
         你好，<span class="user-name">
-        <router-link to="/user">{{getUserInfo.phone}} </router-link>
+        <router-link to="/user/user-home">{{getUserInfo.phone}} </router-link>
         </span>
         <span @click="goOut">[ 退出登录 ]</span>
       </p>

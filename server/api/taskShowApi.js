@@ -252,7 +252,7 @@ router.post('/api/task/showker/success.json', function (req, res, next) {
  */
 router.post('/api/task/showker/trialReport.json', function (req, res, next) {
   let options = {
-    method: 'POST',
+    method: 'GET',
     uri: baseUrl + "/task/showker/trialReport",
     json: true,
     formData: {

@@ -97,7 +97,10 @@
             </a>
           </div>
           <div class="graphic-info-ctt">
-            <div v-show="graphicInfoSelClass == 'activity'" class="graphic-info-details" v-html="commodityData.task.itemDescription">
+            <div v-show="graphicInfoSelClass == 'activity'" class="graphic-info-details" >
+              <div v-if="commodityData.cannotShowItemDescriptionOfQualification"  v-html="commodityData.task.itemDescription">
+
+              </div>
             </div>
             <div v-show="graphicInfoSelClass == 'report'" class="graphic-info-report">
               <ul v-if="detailsShowkerList.length > 0">

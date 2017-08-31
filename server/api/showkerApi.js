@@ -126,7 +126,7 @@ router.post('/api/showker-success-list.json', function (req, res, next) {
  */
 router.post('/api/task/showker/showkerTrialReports.json', function (req, res, next) {
   let options = {
-    method: 'POST',
+    method: 'GET',
     uri: baseUrl + '/task/showker/showkerTrialReports',
     formData: {
       showkerId: req.body.showkerId,
@@ -375,7 +375,7 @@ router.post('/api/showker-report-info.json', function (req, res, next) {
  */
 router.post('/api/task/showker/qualification/check.json', function (req, res, next) {
   let options = {
-    method: 'POST',
+    method: 'GET',
     uri: baseUrl + '/task/showker/qualification/check/' + req.session.userData.id + '/' + req.body.taskId,
     json: true
   };
@@ -397,7 +397,7 @@ router.post('/api/task/showker/qualification/check.json', function (req, res, ne
  */
 router.post('/api/task/showker/apply.json', function (req, res, next) {
   let options = {
-    method: 'GET',
+    method: 'POST',
     uri: baseUrl + '/task/showker/apply/' + req.session.userData.id + '/' + req.body.wangwangId + '/' + req.body.taskId,
     json: true
   };

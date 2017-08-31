@@ -371,7 +371,7 @@ router.post('/api/deposit-supplement.json', function (req, res, next) {
  */
 router.post('/api/task-report-info.json', function (req, res, next) {
   let options = {
-    method: 'POST',
+    method: 'GET',
     uri: baseUrl + '/task/seller/reportInfo',
     formData: {
       id: req.body.id,
