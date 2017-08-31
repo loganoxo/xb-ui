@@ -11,14 +11,14 @@
           </Breadcrumb>
         </div>
       </div>
-      <div class="container" v-show="$route.query.cate">
-        <div class="task-category-sel">
+      <div class="container" >
+        <div v-show="$route.query.cate"  class="task-category-sel">
           {{parentItemCatalog.name}}：
            <a  @click="taskCategoryAllFunc()" :class="[taskCategoryAll ? 'active' : '' ]">全部</a>
           <a :class="[itemCatalogs[0] == category.id && !taskCategoryAll ? 'active' : '']" v-for="category in categoryList" @click="taskCategoryFunc(category)">{{category.name}}</a>
         </div>
-        <div v-if="$route.query.searchKey" class="task-category-sel">
-          全部结果：<span>{{$route.query.searchKey}}</span>
+        <div v-show="$route.query.searchKey" class="task-category-sel">
+          全部结果：<span style="color: #ff6633;">“{{$route.query.searchKey}}”</span>
         </div>
       </div>
       <div class="container">
@@ -149,6 +149,7 @@
     },
     data () {
       return {
+        showAll: false,
         parentItemCatalog: {
           name: '',
           id: ''
@@ -292,6 +293,7 @@
           this.getTaskCategoryList(cate);
         }
         if(searchKey){
+          this.itemCatalogs = '';
           this.searchTaskParams.taskName = searchKey;
           this.getSearchTask();
         }
