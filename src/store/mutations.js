@@ -2,7 +2,7 @@
  * Created by ycb on 2017/7/17.
  */
 import * as types from './mutation-types'
-import {setStorage, getStorage, removeStorage} from '../config/utils'
+import {setStorage, getStorage, removeStorage} from '@/config/utils'
 export default {
   //退出登录
   [types.OUT_LOGIN](state) {

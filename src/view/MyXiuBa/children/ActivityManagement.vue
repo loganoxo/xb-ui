@@ -51,15 +51,18 @@
           <thead>
           <tr>
             <th width="20%">活动标题</th>
-            <th width="20%">活动开始/结束时间</th>
+            <th width="16%">活动开始/结束时间</th>
             <th width="12%">活动状态</th>
             <th width="12%">报名/已通过</th>
             <th width="12%">可审批名额</th>
-            <th width="12%">存入担保金</th>
+            <th width="16%">活动担保金/推广费/总存入</th>
             <th width="12%">操作</th>
           </tr>
           </thead>
-          <tbody v-for="item in taskList" :key="item.id"  v-if="taskList && taskList.length > 0">
+          <tbody v-for="item in taskList" :key="item.id" v-if="taskList && taskList.length > 0">
+          <tr class="task-number">
+            <td colspan="7">活动编号：{{item.number || '------'}}</td>
+          </tr>
           <tr>
             <td>
               <img class="left ml-10" :src="item.taskMainImage" :alt="item.taskName">
@@ -72,7 +75,7 @@
             <td>{{item.taskStatusDesc}}</td>
             <td class="registration">{{item.showkerApplyTotalCoun || 0}} / {{item.showkerApplySuccessCount || 0}}（人）</td>
             <td>{{item.taskCount}}</td>
-            <td>{{!item.pinkage ? (item.itemPrice / 100 + 10) * item.taskCount : item.itemPrice / 100 * item.taskCount}}</td>
+            <td>{{item.totalMarginNeed / 100}} / {{item.promotionExpensesNeed / 100}} / {{(item.marginPaid || 0 + item.promotionExpensesPaid || 0) / 100 }}</td>
             <td v-if="item.taskStatus === 'waiting_pay'">
               <p class="del-edit">
                 <span class="mr-10" @click="editTask(item.id,item.taskStatus)">编辑</span>
@@ -147,7 +150,7 @@
       </Modal>
     </div>
     <!--审批秀客-->
-    <div v-show="showContent === 'approve'">
+    <div v-if="showContent === 'approve'">
       <div class="activity-title pl-10">
         <span class="left">审批秀客</span>
         <span class="right" @click="ReturnManagePage('manage')">返回上一页</span>
@@ -271,7 +274,7 @@
                   <td>{{item.alitmAccount}}</td>
                   <td>
                     <p>{{getTaskStatus(item.status)}}</p>
-                    <p>{{item.currentGenerationEndTime}}</p>
+                    <p><time-down color='#ff4040' :fontWeight=600 :endTime="item.currentGenerationEndTime"></time-down></p>
                   </td>
                   <td>{{item.orderNum}}</td>
                   <td>
@@ -409,11 +412,11 @@
       <div class="report-info mt-12">
         <div class="manage-info-con clear">
           <div class="manage-img left">
-            <img :src="showkerTaskInfo.task.taskMainImage" :alt="showkerTaskInfo.taskName">
+            <img :src="showkerTaskInfo.task.taskMainImage || ''" :alt="showkerTaskInfo.taskName">
           </div>
           <div class="manage-text left ml-5">
             <p>{{showkerTaskInfo.taskName}}</p>
-            <p class="mt-15">总份数<strong>&nbsp;{{showkerTaskInfo.task.taskCount}}&nbsp;</strong>，宝贝单价<strong>&nbsp;{{showkerTaskInfo.task.itemPrice}}&nbsp;</strong>元</p>
+            <p class="mt-15">总份数<strong>&nbsp;{{showkerTaskInfo.task.taskCount}}&nbsp;</strong>，宝贝单价<strong>&nbsp;{{showkerTaskInfo.task.itemPrice / 100}}&nbsp;</strong>元</p>
           </div>
         </div>
         <div class="order-info mt-6">
@@ -442,12 +445,12 @@
               <img :src="showNowImageSrc">
             </div>
             <ul class="trial-img-list clear mt-22">
-              <li v-for="imgSrc in trialReportImages" @click="selectImg(imgSrc)">
-                <img :src="imgSrc">
+              <li v-for="(imgSrc,index) in trialReportImages" @mouseenter="selectChangeImg(imgSrc,index)">
+                 <img :src="imgSrc">
               </li>
             </ul>
-            <span class="left-btn"><Icon type="chevron-left" size="32" color="#999"></Icon></span>
-            <span class="right-btn"><Icon type="chevron-right" size="32" color="#999"></Icon></span>
+            <span class="left-btn" @click="leftChangeImg"><Icon type="chevron-left" size="32" color="#999"></Icon></span>
+            <span class="right-btn" @click="rightChangeImg"><Icon type="chevron-right" size="32" color="#999"></Icon></span>
           </div>
           <div class="check-trial mt-40">
             <div class="select-check">
@@ -484,11 +487,11 @@
           <div class="confirm-refund-info mt-20">
             <p>
               <span>秀客返款：</span>
-              <span>宠物衣服狗狗猫咪衣服</span>
+              <span>{{showkerTaskInfo.task.taskName}}</span>
             </p>
             <p class="mt-8">
               <span>返款金额：</span>
-              <strong>2</strong>
+              <strong>{{showkerTaskInfo.task.itemPrice / 100}}</strong>
               <span>元</span>
             </p>
           </div>
@@ -588,9 +591,12 @@
         payButtonText: '确认支付并通过',
         rechargeButtonText: '前去充值',
         showkerReportInfo:{},
-        showkerTaskInfo:{},
+        showkerTaskInfo:{
+          task:{}
+        },
         trialReportImages:[],
         showNowImageSrc:null,
+        reportImagesIndex:0
       }
     },
     mounted() {
@@ -598,16 +604,17 @@
     created() {
       this.getTaskList();
     },
+    watch: {},
     computed: {},
     methods: {
       ...mapActions([
         'getBalance'
       ]),
       editTask(id,status) {
-        this.$router.push({name: 'TaskReleaseProcess', query: {taskId: id,status:status}})
+        this.$router.push({name: 'TaskReleaseProcess', query: {taskId: id, status: status}})
       },
       copyTask(id) {
-        this.$router.push({name: 'TaskReleaseProcess', query: {taskId: id,type:'copy'}})
+        this.$router.push({name: 'TaskReleaseProcess', query: {taskId: id, type: 'copy'}})
       },
       getTaskList() {
         let _this = this;
@@ -649,6 +656,15 @@
             break;
           case "trial_finished":
             return "试用完成";
+            break;
+          case "timeout_auto_close":
+            return "任务超时终止";
+            break;
+          case "buyer_manual_close":
+            return "秀客主动终止";
+            break;
+          case "seller_manual_close":
+            return "商家主动终止";
             break;
         }
       },
@@ -868,33 +884,50 @@
           }
         })
       },
-    },
-    selectImg (src) {
-      console.log(src);
-      this.showNowImageSrc = src;
-    },
-    confirmRefund() {
-      let _this = this;
-      api.showkerDepositReturn({
-        showkerTaskId: _this.showkerTaskInfo.task.id,
-        payPwd: _this.refundPayPwd,
-        platform: "pc"
-      }).then(res =>{
-        if(res.status){
-          _this.$Message.success({
-            content:'向秀客返款成功！',
-            duration: 4
-          });
-          _this.ReturnManagePage('approve');
-          _this.taskApplyList();
-        }else{
-          _this.$Message.error({
-            content:res.msg,
-            duration: 4
-          })
+      selectChangeImg(src,index) {
+        this.showNowImageSrc = src;
+        this.reportImagesIndex = index;
+      },
+      leftChangeImg() {
+        let _this = this;
+        _this.reportImagesIndex--;
+        if(_this.reportImagesIndex < 0){
+          _this.reportImagesIndex = 4;
         }
-      })
-    }
+        _this.showNowImageSrc = _this.trialReportImages[_this.reportImagesIndex];
+      },
+      rightChangeImg() {
+        let _this = this;
+        _this.reportImagesIndex++;
+        if(_this.reportImagesIndex > 4){
+          _this.reportImagesIndex = 0;
+        }
+        _this.showNowImageSrc = _this.trialReportImages[_this.reportImagesIndex];
+      },
+      confirmRefund() {
+        let _this = this;
+        api.showkerDepositReturn({
+          showkerTaskId: _this.showkerTaskInfo.id,
+          payPwd: _this.refundPayPwd,
+          platform: "pc"
+        }).then(res =>{
+          if(res.status){
+            _this.$Message.success({
+              content:'向秀客返款成功！',
+              duration: 4
+            });
+            _this.showRefundModel =  false;
+            _this.ReturnManagePage('approve');
+            _this.taskApplyList();
+          }else{
+            _this.$Message.error({
+              content:res.msg,
+              duration: 4
+            })
+          }
+        })
+      }
+    },
   }
 </script>
 
@@ -946,6 +979,10 @@
       border-right: 1px solid #e9eaec;
       border-bottom: 1px solid #e9eaec;
       text-align: center;
+    }
+    .activity-table table tr.task-number td {
+      text-align: left;
+      padding:6px 0 6px 10px;
     }
     .activity-table table th {
       height: 40px;
@@ -1081,9 +1118,14 @@
         float: left;
         margin-left: 46px;
         cursor: pointer;
+        padding: 1px;
         img {
           @include wh(120px, 80px);
           border: 1px solid #f8f6f5;
+        }
+        &:hover{
+          padding: 0;
+          border:1px solid $mainColor;
         }
       }
     }

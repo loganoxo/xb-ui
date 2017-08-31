@@ -2,13 +2,12 @@
  * Created by ycb on 2017/7/18.
  */
 import {aliUrl, bucket} from '../config/env'
-import axios from 'axios'
 /**
  * 存储localStorage
  */
 export const setStorage = (name, content) => {
   if (!name) return;
-  if (typeof content !== 'string') {
+  if (content) {
     content = JSON.stringify(content);
   }
   window.localStorage.setItem(name, content);
@@ -31,7 +30,7 @@ export const removeStorage = (name) => {
 }
 
 /**
- * 生成当前年月日
+ * 生成当前时间的年月日
  */
 export const TimeToDate = () => {
   let time = new Date();
@@ -45,6 +44,30 @@ export const TimeToDate = () => {
     D = '0' + D
   }
   return Y + M + D
+}
+
+/**
+ * 验证是否是正实数（仅支持验证带2位小数正实数）
+ */
+export const isNumber = (number) => {
+  let IS_NUMBER = /^[0-9]+(.[0-9]{1,2})?$/;
+  return IS_NUMBER.test(number)
+}
+
+/**
+ * 验证是否是非0正整数
+ */
+export const isInteger = (number) => {
+  let IS_INTEGER = /^\+?[1-9][0-9]*$/;
+  return IS_INTEGER.test(number)
+}
+
+/**
+ * 验证是否是淘宝或者天猫链接地址
+ */
+export const isAliUrl = (url) => {
+  let URL_REG = /((item|detail).(tmall|taobao).*?)/;
+  return URL_REG.test(url)
 }
 
 /**

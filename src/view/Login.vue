@@ -121,12 +121,11 @@
   import Checkbox from 'iview/src/components/checkbox'
   import Button from 'iview/src/components/button'
   import Radio from 'iview/src/components/radio'
-  import api from '../config/apiConfig'
-  import {setStorage, getStorage,removeStorage} from '../config/utils'
+  import api from '@/config/apiConfig'
+  import {setStorage, getStorage,removeStorage} from '@/config/utils'
   import SmsCountdown from '@/components/SmsCountdown'
   import Modal from 'iview/src/components/modal'
   import RoleTop from '@/components/RoleTop.vue'
-  //  import BombBox from '../components/Bombox'
 
   export default {
     name: 'login',

@@ -50,7 +50,7 @@
 
 <script>
   import TopTip from '@/components/TopTip.vue'
-  import api from '../config/apiConfig'
+  import api from '@/config/apiConfig'
   export default {
     name: 'home',
     components: {

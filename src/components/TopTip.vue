@@ -23,7 +23,7 @@
 </template>
 
 <script>
-  import api from '../config/apiConfig'
+  import api from '@/config/apiConfig'
   import {setStorage, getStorage, removeStorage} from '../config/utils'
   import {mapActions} from 'vuex'
 

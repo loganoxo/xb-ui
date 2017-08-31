@@ -118,7 +118,7 @@
                 <img class="left ml-10" :src="item.taskMainImage">
                 <p class="left img-title">
                   <span>{{item.taskName}}</span>
-                  <span>{{item.createTime | dateFormat('YYYY-MM-DD hh-mm-ss')}}</span>
+                  <span>{{item.createTime | dateFormat('YYYY-MM-DD hh:mm:ss')}}</span>
                 </p>
               </td>
               <td>{{item.alitmAccount}}</td>
@@ -135,7 +135,7 @@
                   <Icon color="#f60" type="information-circled"></Icon>
                   <span>报告不合格</span>
                 </p>
-                <p class="mt-5" v-if="item.status === 'trial_report_unqualified'">{{item.currentGenerationEndTime}}</p>
+                <p class="mt-5" v-if="item.status === 'trial_report_unqualified'"><time-down color='#ff4040' :fontWeight=600 :endTime="item.currentGenerationEndTime"></time-down></p>
                 <p class="mt-5 main-color" v-if="item.status === 'trial_end'">
                   <Icon color="#f60" type="information-circled"></Icon>
                   <span>试用终止</span>
@@ -148,8 +148,8 @@
                    @click="changePassOperation('report','write',item.id)">填写试用报告</p>
                 <p v-if="item.status === 'trial_report_unqualified'" class="operation"
                    @click="changePassOperation('report','amend',item.id)">修改试用报告</p>
-               <!-- <p v-if="item.status === 'order_num_waiting_audit'" class="operation mt-5"
-                   @click="openAuditOrder('write',item.id)">填订单号</p>-->
+                <p v-if="item.status === 'pass_and_unclaimed'" class="operation mt-5"
+                   @click="openAuditOrder('write',item.id)">填订单号</p>
                 <p v-if="item.status === 'order_num_error'" class="operation mt-5"
                    @click="openAuditOrder('amend',item.id)">修改订单号</p>
                 <p v-if="item.status !== 'trial_end' && item.status !== 'trial_finished'" class="operation mt-5"
@@ -180,14 +180,13 @@
           <div class="commodity-text left ml-5">
             <p>{{taskPlaceInfo.taskName}}</p>
             <p class="mt-15">
-              总份数<strong>&nbsp;{{taskPlaceInfo.taskCount}}&nbsp;</strong>，宝贝单价<strong>&nbsp;{{taskPlaceInfo.itemPrice}}&nbsp;</strong>元
+              总份数<strong>&nbsp;{{taskPlaceInfo.taskCount || 0}}&nbsp;</strong>，宝贝单价<strong>&nbsp;{{taskPlaceInfo.itemPrice / 100 || 0}}&nbsp;</strong>元
             </p>
           </div>
         </div>
         <p class="place-type">
           <span>{{taskPlaceInfo.taskTypeDesc}}</span>
-          <span class="ml-20">下单剩余时间<time-down color='#ff4040' :fontWeight=600
-                                               :endTime="showkerTask.currentGenerationEndTime"></time-down>（超时未下单，即未在平台提交订单号，视为主动放弃试用资格）</span>
+          <span class="ml-20">下单剩余时间<time-down color='#ff4040' :fontWeight=600 :endTime="showkerTask.currentGenerationEndTime"></time-down>（超时未下单，即未在平台提交订单号，视为主动放弃试用资格）</span>
         </p>
         <div class="place-step mt-22"
              v-if="taskPlaceInfo.taskType === 'pc_search' || taskPlaceInfo.taskType === 'app_search'">
@@ -212,8 +211,7 @@
           <p>入口说明：【<span>直接在手机端上复制淘口令，打开手淘会自动弹出宝贝链接，或直接用手淘扫描上方二维码</span>】</p>
         </div>
         <div v-if="taskPlaceInfo.taskType === 'direct_access'" class="tao-link-place-step">
-          <p>宝贝链接：<a
-            href="https://tower.im/projects/45acecee017e41d2b0b48d29be2738e9/todos/9ebac8c5e424411e86bec0b68d00d822/">https://tower.im/projects/45acecee017e41d2b0b48d29be2738e9/todos/9ebac8c5e424411e86bec0b68d00d822/</a>
+          <p>宝贝链接：<a :href="taskPlaceInfo.itemUrl" target="_blank">{{taskPlaceInfo.itemUrl}}</a>
           </p>
         </div>
         <div class="baby-info clear mt-40"
@@ -248,7 +246,7 @@
           <div class="commodity-text left ml-5">
             <p>{{reportInfo.task.taskName}}</p>
             <p class="mt-15">
-              总份数<strong>&nbsp;{{reportInfo.task.taskCount}}&nbsp;</strong>，宝贝单价<strong>&nbsp;{{reportInfo.task.itemPrice / 100}}&nbsp;</strong>元
+              总份数<strong>&nbsp;{{reportInfo.task.taskCount || 0}}&nbsp;</strong>，宝贝单价<strong>&nbsp;{{reportInfo.task.itemPrice / 100 || 0}}&nbsp;</strong>元
             </p>
           </div>
         </div>
@@ -265,7 +263,7 @@
           <p>
             <span>订单状态：</span>
             <span>{{getTaskStatus(reportInfo.status)}}</span>
-            <span class="main-color">{{reportInfo.currentGenerationEndTime}}</span>
+            <span class="main-color"><time-down color='#ff4040' :fontWeight=600 :endTime="reportInfo.currentGenerationEndTime"></time-down></span>
           </p>
         </div>
         <div class="experience mt-22">
@@ -362,7 +360,7 @@
         </p>
         <p class="mt-20 ml-35">
           <span>请输入实付金额：</span>
-          <iInput v-model="payMoney" style="width: 120px;"></iInput>
+          <iInput v-model.number="payMoney" style="width: 120px;"></iInput>
           <span class="ml-5">元</span>
         </p>
         <div class="submit-btn mt-40" @click="saveOrUpdateOrderNumber">确认提交</div>

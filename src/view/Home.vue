@@ -37,7 +37,7 @@
             </Carousel>
           </div>
           <div class="right-ctt">
-            <div class="login-up-box" v-show="!isLogin">
+            <div class="login-up-box" v-if="!isLogin">
               <div>
                 <img src="~assets/img/common/home_24.png" alt="">
                 <p>hi，你还没登录哦~</p>
@@ -47,7 +47,7 @@
                 <router-link to="/login">马上登录</router-link>
               </div>
             </div>
-            <div class="login-in-box" v-show="isLogin &&　getUserInfoRole　== 0">
+            <div class="login-in-box" v-if="isLogin && getUserInfoRole　== 0">
               <div>
                 <img class="left ml-20" src="~assets/img/common/home_24.png" alt="">
                 <div class="left fs-14 ml-20" style="margin-left: 10px;line-height: 28px;">
@@ -68,12 +68,12 @@
                 </div>
               </div>
             </div>
-            <div class="login-in-box" v-show="isLogin &&　getUserInfoRole　== 1">
+            <div class="login-in-box" v-if="isLogin && getUserInfoRole　== 1">
               <div>
                 <img class="left ml-20" src="~assets/img/common/home_24.png" alt="">
                 <div class="left fs-14 ml-20" style="margin-left: 10px;line-height: 28px;">
                   <p>Hi~{{getUserInfo.phone}}</p>
-                  <router-link to="/user">个人中心</router-link>
+                  <router-link to="/user/user-home">个人中心</router-link>
                   <a @click="goOut">[ 退出登录 ]</a>
                 </div>
                 <p class="clear-both fs-14 mt-10 left ml-20">当前进行的活动：<router-link  to="/user">{{trialCount.underWayTask}} </router-link> 个</p>
@@ -143,7 +143,7 @@
   import Checkbox from 'iview/src/components/checkbox'
   import Button from 'iview/src/components/button'
   import Radio from 'iview/src/components/radio'
-  import api from '../config/apiConfig'
+  import api from '@/config/apiConfig'
   import {setStorage, getStorage} from '../config/utils'
   import SmsCountdown from '@/components/SmsCountdown'
   import Modal from 'iview/src/components/modal'

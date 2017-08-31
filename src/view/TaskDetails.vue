@@ -171,7 +171,7 @@
   import Checkbox from 'iview/src/components/checkbox'
   import Button from 'iview/src/components/button'
   import Radio from 'iview/src/components/radio'
-  import api from '../config/apiConfig'
+  import api from '@/config/apiConfig'
   import {setStorage, getStorage} from '../config/utils'
   import Modal from 'iview/src/components/modal'
   import Breadcrumb from 'iview/src/components/breadcrumb'

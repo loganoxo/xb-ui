@@ -10,6 +10,7 @@
         <Step title="活动上线"></Step>
       </Steps>
     </div>
+    <!--任务发布-->
     <div class="activity-con" v-show="stepName === 'information'">
       <div class="activity-info">
         <div class="activity-info-title">填写活动信息</div>
@@ -143,6 +144,7 @@
         </div>
         <div class="order-set mt-22">
           <div class="activity-info-title" v-if="taskRelease.taskType !== 'direct_access'">{{getSetType}}下单条件设置</div>
+          <!--PC搜索下单设置-->
           <template v-if="taskRelease.taskType === 'pc_search'">
             <div class="baby-main-img ml-40 mt-20">
               <span class="required left mr-5 mt-20">宝贝主图：</span>
@@ -249,6 +251,7 @@
               <span>元</span>
             </div>
           </template>
+          <!--APP搜索下单设置-->
           <template v-else-if="taskRelease.taskType === 'app_search'">
             <div class="baby-main-img ml-40 mt-20">
               <span class="required left mr-5 mt-20">宝贝主图：</span>
@@ -353,6 +356,7 @@
               <span class="size-color2">出于安全考虑，请勿大量使用</span>
             </div>
           </template>
+          <!--淘口令下单设置-->
           <template v-else-if="taskRelease.taskType === 'tao_code'">
             <div class="tao_code ml-56 mt-20">
               <span class="required">淘口令：</span>
@@ -370,6 +374,7 @@
       </div>
     </div>
     <div class="footer-btn" v-show="stepName === 'information'" @click="stepNext">下一步</div>
+    <!--存入保证金-->
     <div class="deposits-received" v-show="stepName === 'deposit'">
       <div class="deposits-received-title mt-20 mb-20">试用活动信息已成功保存，请您存入本次活动的试用担保金。</div>
       <div class="deposits-received-info">
@@ -384,10 +389,10 @@
             × <span>{{oneBond | numberFormat(2)}}</span>
             = <span>{{(taskRelease.taskCount * oneBond) | numberFormat(2)}}</span>元</p>
           <p class="mt-6">单品推广费 = 单品试用担保金 × 费率 = <span>{{taskRelease.itemPrice | numberFormat(2)}}</span>
-            × <span>6%</span> = <span>{{(taskRelease.itemPrice * 0.06) | numberFormat(2)}}</span>元（单品推广费超过平台设定的最高上限3.00元，本次实际收取的单品推广费用为3.00元）
+            × <span>6%</span> = <span>{{(taskRelease.itemPrice * 0.06) | numberFormat(2)}}</span>元<span v-if="taskRelease.itemPrice * 0.06 > 3">（单品推广费超过平台设定的最高上限3.00元，本次实际收取的单品推广费用为3.00元）</span>
           </p>
           <p class="mt-6">
-            总推广费用 = 单品推广费用 × 份数 = <span>{{taskRelease.itemPrice * 0.06 > 3 ? 3 : taskRelease.itemPrice * 0.06}}</span>
+            总推广费用 = 单品推广费用 × 份数 = <span>{{(taskRelease.itemPrice * 0.06 > 3 ? 3 : taskRelease.itemPrice * 0.06) | numberFormat(2)}}</span>
             × <span>{{taskRelease.taskCount}} = <span>{{allPromotionExpenses | numberFormat(2)}}</span></span></p>
           <p class="mt-6">
             总费用 = 试用保证金 + 总推广费用 = <span>{{orderMoney | numberFormat(2)}}</span>元
@@ -413,6 +418,7 @@
         <router-link to="/user/activity-management">试用活动管理</router-link>
       </div>
     </div>
+    <!--活动提交成功-->
     <div class="audit" v-show="stepName === 'audit'">
       <div class="audit-title">
         <Icon type="checkmark-circled" color="#309630" size=28></Icon>
@@ -424,6 +430,7 @@
         <span class="ml-20">有问题？联系客服</span>
       </div>
     </div>
+    <!--保证金支付弹框-->
     <div class="pay-model" v-if="showPayModel">
       <PayModel :orderMoney="!priceHasChange ? orderMoney : orderMoney - paidDeposit" @confirmPayment="confirmPayment">
         <i slot="closeModel" class="close-recharge" @click="closeRecharge">&times;</i>
@@ -435,19 +442,38 @@
           <span class="ml-10">您本次需要支付金额为 <span class="size-color3">{{orderMoney}}</span> 元。</span></div>
       </PayModel>
     </div>
+    <!--用户修改价格比原始价格高需要补差价提示弹框-->
     <div class="editPriceModel">
       <Modal v-model="editPriceAfterModel">
        <div class="clear mt-40">
          <div class="left mt-5">
-           <Icon color="#f60" size="42" type="information-circled"></Icon>
+           <Icon color="#f60" size="32" type="information-circled"></Icon>
          </div>
          <div class="left ml-10">
-           <p style="font-size: 16px;">由于您修改了当前宝贝价格/包邮条件/发放数量等，且修改后的</p>
-           <p style="font-size: 16px;">价格高于原活动担保金，因此需要对超出部分进行支付。</p>
+           <p style="font-size: 14px;">由于您修改了当前宝贝价格/包邮条件/发放数量等，且修改后的</p>
+           <p style="font-size: 14px;">价格高于原活动担保金，因此需要对超出部分进行支付。</p>
          </div>
        </div>
         <div slot="footer">
           <iButton type="error" size="large" @click="continueNextStep">我已了解，继续下一步</iButton>
+          <iButton style="margin-left: 35px;" type="error" size="large" @click="IThink">我再想想</iButton>
+        </div>
+      </Modal>
+    </div>
+    <!--用户修改价格比原始价格低提示弹框-->
+    <div class="editPriceToLow">
+      <Modal v-model="editPriceToLowAfterModel">
+        <div class="clear mt-40">
+          <div class="left mt-5">
+            <Icon color="#f60" size="32" type="information-circled"></Icon>
+          </div>
+          <div class="left ml-10">
+            <p style="font-size: 14px;">由于您修改了当前宝贝价格/包邮条件/发放数量等，且修改后的</p>
+            <p style="font-size: 14px;">价格低于原价格，对于超出部分的费用将在活动结算时返还给您。</p>
+          </div>
+        </div>
+        <div slot="footer">
+          <iButton type="error" size="large" @click="toLowContinueNextStep">我已了解，继续下一步</iButton>
           <iButton style="margin-left: 35px;" type="error" size="large" @click="IThink">我再想想</iButton>
         </div>
       </Modal>
@@ -471,7 +497,7 @@
   import PayModel from '@/components/PayModel'
   import api from '@/config/apiConfig'
   import {aliCallbackImgUrl} from '@/config/env'
-  import {TimeToDate, aliUploadImg} from '@/config/utils'
+  import {TimeToDate, aliUploadImg, isNumber, isInteger, isAliUrl} from '@/config/utils'
   import {oneOf} from 'iview/src/utils/assist'
   import {mapActions} from 'vuex'
 
@@ -568,10 +594,8 @@
           taskId: null,
           taskDetail: {}
         },
-        editBeforePrice:null,
-        editBeforePinkage:null,
-        editBeforeTaskCount:null,
         editPriceAfterModel:false,
+        editPriceToLowAfterModel:false,
         priceHasChange:false,
         paidDeposit:null
       }
@@ -680,12 +704,12 @@
       stepNext() {
         let _this = this;
         let URL_REG = /((item|detail).(tmall|taobao).*?)/;
-        let IS_NUMBER = /^[1-9]\d*$/;
+        let IS_NUMBER = /^[0-9]+(.[0-9]{1,2})?$/;
         if (!_this.taskRelease.taskDaysDuration) {
           _this.$Message.warning('亲，活动时长不能为空！');
           return;
         }
-        if(!IS_NUMBER.test(_this.taskRelease.taskDaysDuration)){
+        if(!isInteger(_this.taskRelease.taskDaysDuration)){
           _this.$Message.warning('亲，活动时长必须为数字！');
           return;
         }
@@ -713,7 +737,7 @@
           _this.$Message.warning('亲，宝贝地址不能为空！');
           return;
         }
-        if (!URL_REG.test(_this.taskRelease.itemUrl)) {
+        if (!isAliUrl(_this.taskRelease.itemUrl)) {
           _this.$Message.warning('亲，只能输入淘宝或者天猫宝贝地址！');
           return;
         }
@@ -725,7 +749,7 @@
           _this.$Message.warning('亲，宝贝数量不能为空！');
           return;
         }
-        if(!IS_NUMBER.test(_this.taskRelease.taskCount)){
+        if(!isInteger(_this.taskRelease.taskCount)){
           _this.$Message.warning('亲，宝贝数量必须为数字！');
           return;
         }
@@ -733,7 +757,7 @@
           _this.$Message.warning('亲，宝贝单价不能为空！');
           return;
         }
-        if(!IS_NUMBER.test(_this.taskRelease.itemPrice)){
+        if(!isNumber(_this.taskRelease.itemPrice)){
           _this.$Message.warning('亲，宝贝单价必须为数字！');
           return;
         }
@@ -750,7 +774,7 @@
             _this.$Message.warning('亲，展示价格不能空！');
             return;
           }
-          if(!IS_NUMBER.test(_this.PcTaskDetail.searchPagePrice)){
+          if(!isNumber(_this.PcTaskDetail.searchPagePrice)){
             _this.$Message.warning('亲，展示价格必须为数字！');
             return;
           }
@@ -762,8 +786,12 @@
             _this.$Message.warning('亲，宝贝搜索结束位置不能空！');
             return;
           }
+          if(_this.PcTaskDetail.searchPagePositionMax > _this.PcTaskDetail.searchPagePositionMin ){
+            _this.$Message.warning('亲，宝贝搜索位置起始页不能大于结束页！');
+            return;
+          }
           if (_this.PcTaskDetail.searchPagePositionMax - _this.PcTaskDetail.searchPagePositionMin > 2) {
-            _this.$Message.warning('亲，宝贝参考页数差值最大不大于3页！');
+            _this.$Message.warning('亲，宝贝搜索位置页数差值最大不大于3页！');
             return;
           }
         }
@@ -778,6 +806,10 @@
           }
           if (!_this.AppTaskDetail.searchPagePrice) {
             _this.$Message.warning('亲，展示价格不能空！');
+            return;
+          }
+          if(!isNumber(_this.AppTaskDetail.searchPagePrice)){
+            _this.$Message.warning('亲，展示价格必须为数字！');
             return;
           }
           if (!_this.AppTaskDetail.searchRankPosition) {
@@ -826,15 +858,11 @@
             if(!_this.taskRelease.taskId){
               _this.taskRelease.taskId = res.data.id;
             }
-            if(status === 'waiting_modify' &&
-              _this.editBeforePrice >= _this.taskRelease.itemPrice &&
-              _this.editBeforeTaskCount >= _this.taskRelease.taskCount &&
-              _this.editBeforePinkage === _this.taskRelease.pinkage){
+            if(status === 'waiting_modify' && _this.paidDeposit === _this.orderMoney){
               _this.$router.push({name: 'ActivityManagement'});
-            }else if(status === 'waiting_modify' &&
-              (_this.editBeforePrice < _this.taskRelease.itemPrice ||
-              _this.editBeforeTaskCount < _this.taskRelease.taskCount &&
-              _this.editBeforePinkage !== _this.taskRelease.pinkage)){
+            }else if(status === 'waiting_modify' && _this.paidDeposit > _this.orderMoney){
+              this.editPriceToLowAfterModel = true;
+            }else if(status === 'waiting_modify' && _this.paidDeposit < _this.orderMoney){
               _this.editPriceAfterModel = true;
               _this.priceHasChange = true;
             }else if(!status || status === 'waiting_pay'){
@@ -858,11 +886,15 @@
       },
       IThink() {
         this.editPriceAfterModel = false;
+        this.editPriceToLowAfterModel = false;
       },
       continueNextStep() {
         this.editPriceAfterModel = false;
         this.nextCurrent();
         this.stepName = 'deposit';
+      },
+      toLowContinueNextStep() {
+        this.$router.push({name: 'ActivityManagement'});
       },
       getTaskInfo(taskId) {
         let _this = this;
@@ -874,10 +906,7 @@
             if(!type){
               _this.taskRelease.taskId = res.data.id;
             }
-            _this.paidDeposit = res.data.marginPaid / 100;
-            _this.editBeforePrice = res.data.itemPrice / 100;
-            _this.editBeforeTaskCount = res.data.taskCount;
-            _this.editBeforePinkage = res.data.pinkage.toString();
+            _this.paidDeposit = res.data.marginPaid / 100 + res.data.promotionExpensesPaid / 100;
             _this.mainDefaultList.push({src: res.data.taskMainImage});
             res.data.pinkage = res.data.pinkage.toString();
             _this.taskRelease.itemType = res.data.itemCatalog.id;

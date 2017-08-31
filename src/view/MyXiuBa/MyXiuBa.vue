@@ -16,11 +16,11 @@
                 <Icon type="compose"></Icon>
                 <router-link to="/user/task-release">发布试用活动</router-link>
               </li>
-              <li :class="{isSelect:isSelect ==='eventManagement'}" @click="selectNavigate('eventManagement')">
+              <li :class="{isSelect:isSelect ==='activityManagement'}" @click="selectNavigate('activityManagement')">
                 <Icon type="clipboard"></Icon>
                 <router-link to="/user/activity-management">试用活动管理</router-link>
               </li>
-              <li :class="{isSelect:isSelect ==='fundsManagement'}" @click="selectNavigate('fundsManagement')">
+              <li :class="{isSelect:isSelect ==='moneyManagement'}" @click="selectNavigate('moneyManagement')">
                 <Icon type="social-yen"></Icon>
                 <router-link to="/user/money-management">资金管理</router-link>
               </li>
@@ -42,15 +42,15 @@
                 <Icon type="person-stalker"></Icon>
                 <router-link to="/user/user-home">我的主页</router-link>
               </li>
-              <li :class="{isSelect:isSelect ==='taskRelease'}" @click="selectNavigate('taskRelease')">
+              <li :class="{isSelect:isSelect ==='myProbation'}" @click="selectNavigate('myProbation')">
                 <Icon type="compose"></Icon>
                 <router-link to="/user/my-probation">我的试用</router-link>
               </li>
-              <li :class="{isSelect:isSelect ==='eventManagement'}" @click="selectNavigate('eventManagement')">
+              <li :class="{isSelect:isSelect ==='myTrialReport'}" @click="selectNavigate('myTrialReport')">
                 <Icon type="clipboard"></Icon>
                 <router-link to="/user/my-trial-report">我的报告</router-link>
               </li>
-              <li :class="{isSelect:isSelect ==='fundsManagement'}" @click="selectNavigate('fundsManagement')">
+              <li :class="{isSelect:isSelect ==='moneyManagement'}" @click="selectNavigate('moneyManagement')">
                 <Icon type="social-yen"></Icon>
                 <router-link to="/user/money-management">资金管理</router-link>
               </li>
@@ -81,6 +81,7 @@
 <script>
   import Icon from 'iview/src/components/icon'
   import TopTip from "@/components/TopTip.vue";
+  import {setStorage, getStorage, removeStorage} from '@/config/utils'
   import { mapActions } from 'vuex'
   export default {
     name: 'MyXiuBa',
@@ -105,6 +106,14 @@
     },
     created() {
       this.getBalance();
+      let type = getStorage("navigationTagsName");
+      if(type){
+        this.selectNavigate(type);
+      }
+    },
+    watch:{
+      $route(to,from){
+      }
     },
     computed: {
       getUserInfoRole(){
@@ -117,6 +126,7 @@
       ]),
       selectNavigate(type) {
         this.isSelect = type;
+        setStorage('navigationTagsName', type);
       },
     }
   }
@@ -149,7 +159,7 @@
         color:#999;
         padding-left:16px;
         padding-right:16px;
-        cursor: pointer;
+
         &:hover{
           color:$mainColor!important;
           background-color:#fff;

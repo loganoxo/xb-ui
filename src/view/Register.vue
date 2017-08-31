@@ -107,7 +107,7 @@
   import Input from 'iview/src/components/input'
   import Button from 'iview/src/components/button'
   import Checkbox from 'iview/src/components/checkbox'
-  import api from '../config/apiConfig'
+  import api from '@/config/apiConfig'
   import SmsCountdown from '@/components/SmsCountdown'
   import RoleTop from '@/components/RoleTop.vue'
 

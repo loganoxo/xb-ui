@@ -71,9 +71,7 @@
                 v-for="homeCommodity in homeCommodityList"
                 :title="homeCommodity.taskName"
                 :key="homeCommodity.id"
-                :to="{ 'path': '/task-details','query': {'taskId': homeCommodity.id}}"
-              >
-                <!--:to="{ 'path': '/task-details', 'query': {'taskId': searchTask.id}}"-->
+                :to="{ 'path': '/task-details','query': {'taskId': homeCommodity.id}}">
                 <div class="home-commodity-img">
                   <img class="block" v-lazy="homeCommodity.taskMainImage" alt="" style="width: 220px; height: 220px;">
                 </div>
