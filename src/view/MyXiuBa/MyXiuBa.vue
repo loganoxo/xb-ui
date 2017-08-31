@@ -109,6 +109,8 @@
       let type = getStorage("navigationTagsName");
       if(type){
         this.selectNavigate(type);
+      }else{
+        this.selectNavigate("userHome");
       }
     },
     watch:{

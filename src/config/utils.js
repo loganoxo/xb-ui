@@ -1,7 +1,7 @@
 /**
  * Created by ycb on 2017/7/18.
  */
-import {aliUrl, bucket} from '../config/env'
+import {aliUrl, bucket} from '@/config/env'
 /**
  * 存储localStorage
  */
