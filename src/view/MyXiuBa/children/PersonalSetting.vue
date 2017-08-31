@@ -868,6 +868,11 @@
               self.wwBindLists.splice(index, 1);
               self.$set(self.wwBindLists);
             }else {
+              if(res.statusCode == 'have_waiting_audit_apply'){
+                res.msg = '亲，该旺旺试用任务正在审核!';
+              }else if(res.statusCode == 'have_under_way_showker_task'){
+                res.msg = '亲，该旺旺试用任务正在进行！';
+              }
               self.$Modal.error({
                 content: res.msg
               });
@@ -1055,7 +1060,6 @@
           callback();
         }
       },
-
       handlewwBindPicUrlSuccess(res, file){
         this.wwFormValidate.picUrl = [{
           src: aliCallbackImgUrl + res.name
