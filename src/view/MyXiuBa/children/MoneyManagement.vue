@@ -1027,12 +1027,14 @@
 
     },
     created() {
+      if(this.$route.query.infoSelect){
+        this.infoSelect = this.$route.query.infoSelect;
+        this.myAccountPwdChangeFather('modifyPwd');
+      }
       this.getVrcode();
       this.getUserAccount();
       this.getTradList(null);
       this.getTradListAll([0,1,2],null,null,null);
-
-
     },
     computed: {
       getUserBalance: function () {

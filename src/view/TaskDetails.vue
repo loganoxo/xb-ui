@@ -371,7 +371,7 @@
                     okText: '去绑定旺旺号',
                     cancelText: '取消',
                     onOk: function () {
-                      self.$router.push({path: '/user/personal-setting'});
+                      self.$router.push({path: '/user/personal-setting',query: {infoSelect: 'wwBind'}});
                     }
                   });
                 }

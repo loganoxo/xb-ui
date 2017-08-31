@@ -700,8 +700,18 @@
 
     },
     created() {
-      this.getVrcode();
-      this.getUserAccount();
+      let self = this;
+      self.getVrcode();
+      self.getUserAccount();
+
+      if(self.$route.query.infoSelect){
+        for(let i = 0, j = self.myInfoSelects.length; i < j; i++){
+          if(self.$route.query.infoSelect == self.myInfoSelects[i].isSelect){
+            self.myInfoSelectsFunc(self.myInfoSelects[i]);
+            break;
+          }
+        }
+      }
     },
     computed: {},
     methods: {

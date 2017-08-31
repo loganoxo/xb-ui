@@ -12,15 +12,19 @@
               <div class="left ml-20">
                 <p>
                   <span>账号：{{userData.phone}} </span>
-                  <span v-if="userData.alitmNum <= 0" >
+                  <span v-if="!userData.userAccount.ifEditPwdAlready" >
                     支付密码：
                     <Icon type="information-circled" color="#FF6633"></Icon>未设置
-                    <router-link to="/user/money-management">设置</router-link>
+                    <router-link :to="{ 'path': '/user/money-management','query': {'infoSelect': 'accountInfo'}}">设置</router-link>
+                  </span>
+                  <span v-if="userData.userAccount.ifEditPwdAlready" >
+                    支付密码：
+                    <Icon color="#70CF70" type="checkmark-circled"></Icon> 已设置
                   </span>
                   <span v-if="userData.alitmNum <= 0 ">
                     淘宝账号：
                     <Icon type="information-circled" color="#FF6633"></Icon> 未绑定
-                    <router-link to="/user/personal-setting">去绑定</router-link>
+                    <router-link :to="{ 'path': '/user/personal-setting','query': {'infoSelect': 'wwBind'}}">去绑定</router-link>
                   </span>
                   <span v-else>
                     淘宝账号：
@@ -34,7 +38,7 @@
                   <span v-else>
                     实名认证：
                     <Icon type="information-circled" color="#FF6633"></Icon> 未认证
-                    <router-link to="/user/personal-setting">去认证</router-link>
+                    <router-link :to="{ 'path': '/user/personal-setting','query': {'infoSelect': 'verified'}}">去绑定</router-link>
                   </span>
                 </p>
                 <p>
