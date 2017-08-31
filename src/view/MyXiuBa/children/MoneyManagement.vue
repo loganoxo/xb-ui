@@ -10,24 +10,24 @@
         <div class="my-money-left left">
           <div class="moneyInfoLeft left">
             <div>可用余额（元）</div>
-            <div class="number mt-5 ">{{userAccount.accountBalance/100}}</div>
-            <p>收入金额（元）：{{userAccount.amountIncomes/100}}</p>
-            <p>支出金额（元）：{{userAccount.amountPayment/100}}</p>
+            <div class="number mt-5 ">{{userAccount.accountBalance/100 || 0}}</div>
+            <p>收入金额（元）：{{userAccount.amountIncomes/100||0}}</p>
+            <p>支出金额（元）：{{userAccount.amountPayment/100||0}}</p>
             <div class="view-details mt-10">
               <a href="javascript:;" @click="accountInit('pay')">我要充值</a>
-              <a>查看明细</a>
+              <router-link to="/user/personal-setting">查看明细</router-link >
             </div>
           </div>
           <div class="moneyInfoRight right">
             <div>提现金额（元）</div>
-            <div class="number mt-5 ">{{userAccount.enChashingMoney/100}}</div>
+            <div class="number mt-5 ">{{userAccount.enChashingMoney/100||0}}</div>
             <div class="clear">
-              <span class="sp left">提现帐号：未添加</span>
-              <a href="javascript:;" class="sa right">添加</a>
+              <span class="sp left">提现帐号：{{getIfBandingBankCard(userList.ifBandingBankCard)}}</span>
+              <a href="javascript:;" class="sa right" v-show="userList.ifBandingBankCard === null">添加</a>
             </div>
             <div class="view-details ">
               <a href="javascript:;" @click="accountInit('pay')">我要充值</a>
-              <a href="javascript:;">查看明细</a>
+              <router-link to="/user/personal-setting">查看明细</router-link >
             </div>
           </div>
         </div>
@@ -35,7 +35,7 @@
           <div>账户名：{{userList.phone}}</div>
           <div>真实姓名：{{userList.realName}}</div>
           <div>
-            <span>实名认证：未认证</span>&nbsp;&nbsp;&nbsp;&nbsp;<a href="#">去认证</a>
+            <span>实名认证：{{geIifCertification(userList.ifCertification)}}</span>&nbsp;&nbsp;&nbsp;&nbsp;<router-link to="/user/personal-setting" v-show="userList.ifCertification===false">去认证</router-link>
           </div>
           <div>绑定手机：{{userList.phone}}</div>
           <div>注册时间：{{userList.createTime | dateFormat('YYYY-MM-DD hh:mm:ss')}}</div>
@@ -72,7 +72,7 @@
               <p>{{item.changeName}}</p>
               <p>活动编号：{{item.cAmount}}</p>
             </td>
-            <td class="main-color">{{item.amountChange/100}}</td>
+            <td class="main-color">{{item.amountChange/100||0}}</td>
             <td>
               <p style="color:blue;" class="details" @click="detailsInit(item.id)">详情</p>
             </td>
@@ -92,17 +92,17 @@
                 <tr v-for="(item,index) in userListDetails">
                   <td>
                     <p>{{item.tradTime | dateFormat('YYYY-MM-DD ')}}</p>
-                    <p>{{item.tradTime | dateFormat('hh-mm-ss ')}}</p>
+                    <p>{{item.tradTime | dateFormat('hh:mm:ss ')}}</p>
                   </td>
                   <td>
                     {{item.serialNumber}}
                   </td>
                   <td>
-                    <p>{{item.tradName}}</p>
+                    <p>{{getTradType(item.tradName)}}</p>
                     <p>活动编号：11113244325324</p>
                   </td>
                   <td>
-                   {{item.tradAmount/100}}
+                   {{item.tradAmount/100||0}}
                   </td>
                 </tr>
                 <tr v-show="showNotice"><td colspan="4" style="color:red;font-size: 14px;">暂无数据！</td></tr>
@@ -110,7 +110,6 @@
               </table>
             </td>
           </tr>
-
           </tbody>
           <tbody>
             <tr v-show="showBigNotice"><td colspan="4" style="color: red;font-size: 14px" >暂无数据！</td></tr>
@@ -148,72 +147,89 @@
         <span class="right cursor-p" style="color: blue;">查看充值记录</span>
       </div>
       <div class="my-pay-desc">
-        <div> 请输入充值金额：<iInput class="ml-10 iinput" v-model="inputMoney" ></iInput>&nbsp;元（最低1元起充）</div>
-        <div class="mt-40 pay-choice">
-          <span>请选择支付方式：</span>&nbsp;&nbsp;
-          <input type="radio" name="payWay"  >&nbsp;&nbsp;
-          <img src="~assets/img/task-release/zfb_logo.png" alt="支付宝" class="zfb">&nbsp;&nbsp;&nbsp;
-          &nbsp;&nbsp;&nbsp;
-          <input type="radio" name="payWay" >&nbsp;&nbsp;
-          <img src="~assets/img/task-release/wechat_logo.png" class="wx">
+        <iForm :model="payMoney" :label-width="200" :rules="payMoneyRule">
+          <Form-item label="请输入充值金额:" prop="number">
+            <iInput v-model="payMoney.number"  style="width: 200px"></iInput>
+            <span class="ml-10">元(最低1元起充)</span>
+          </Form-item>
+          <Form-item label="请选择支付方式:" prop="payMode">
+            <Radio-group v-model.number="payMoney.payMode">
+              <Radio label="ali">
+                <img src="~assets/img/task-release/zfb_logo.png" alt="支付宝" class="vtc-mid">
+              </Radio>
+              <Radio label="weiXin">
+                <img src="~assets/img/task-release/wechat_logo.png" class="vtc-mid">
+              </Radio>
+            </Radio-group>
+          </Form-item>
+          <Form-item>
+            <iButton type="primary" style="width: 100px">提交</iButton>
+          </Form-item>
+        </iForm>
+      </div>
+      <div class="common-question">
+        <h2>常见问题</h2>
+        <div class="mt-10">
+          <h3>1、充值多久后到账？</h3>
+          <p>答：充值成功后，如果账户显示的余额不变，请您不要惊慌，我们的系统是有缓冲时间的，您只需要耐心稍等即可。</p>
         </div>
       </div>
-      <div class="btn">
-
-
-          <iButton type="info" >立即充值</iButton>
-
-
-      </div>
-
     </div>
     <div class="my-getoutmoney" v-show="infoSelect === 'getOut'">
-      <div class="not-certification" v-show="false">
+      <div class="not-certification" v-show="changeBankIDcardShow.iScertification">
         <h2><Icon type="close-circled" class="mr-10 vtc-mid icon"></Icon>很抱歉，您未进行实名认证，无法提现</h2>
-        <div class="how-todo"><span>你现在可以：</span><span class="ml-10">立即申请实名认证</span><span class="ml-10 mr-10">|</span><span class="ml-10">查看如何进行实名认证</span> </div>
+        <div class="how-todo"><span>你现在可以：</span><router-link to="/user/personal-setting" class="ml-10">立即申请实名认证</router-link ><span class="ml-10 mr-10">|</span><a class="ml-10">查看如何进行实名认证</a> </div>
       </div>
-      <div class="bound-bankcard" v-show="false">
+      <div class="bound-bankcard" v-show="changeBankIDcardShow.iSbondBankCard">
         <div class="bankcard-title"><Icon class="icon vtc-btm" type="information-circled" ></Icon><span class="ml-10">请先绑定银行卡，再进行提现操作</span></div>
-        <div class="addcard">
+        <div class="addcard" @click="addBankCard">
           <Icon class="icon" type="plus-circled"></Icon>
           <p class="mt-10">添加银行卡</p>
         </div>
       </div>
-      <div class="add-bankcard" v-show="false">
+      <div class="add-bankcard" v-show="true">
           <div class="title">
             <Icon type="information-circled" class="icon ml-20 over-hd"></Icon><span class="ml-56">每个用户只能绑定一张银行卡，如需换卡建议修改银行卡信息</span>
           </div>
           <div class="ipt-information">
-            <iForm :model="formItem" :label-width="200">
-              <Form-item label="开户人姓名:">
+            <iForm :model="formItem" :label-width="200" :rules="formRuleItem">
+              <Form-item label="开户人姓名:" prop="name">
                 <iInput v-model="formItem.name" ></iInput>
               </Form-item>
-              <Form-item label="选择银行">
-                <select v-model="formItem.select" >
-                  <option value ="中国建设银行" selected="selected">中国建设银行</option>
-                  <option value ="中国工商银行">中国工商银行</option>
-                  <option value="中国招商银行">中国招商银行</option>
-                  <option value="中国农业银行">中国农业银行</option>
-                </select>
+              <Form-item label="选择银行" prop="select">
+                <iSelect v-model="formItem.select" style="width:300px;height: 32px">
+                  <iOption  value="中国建设银行" >中国建设银行</iOption>
+                  <iOption  value="中国工商银行" >中国工商银行</iOption>
+                  <iOption  value="中国农业银行" >中国农业银行</iOption>
+                  <iOption  value="中国招商银行" >中国招商银行</iOption>
+                </iSelect>
               </Form-item>
-              <Form-item label="银行卡号:">
+              <Form-item label="银行卡号:" prop="bankNumber">
                 <iInput v-model="formItem.bankNumber" ></iInput>
               </Form-item>
-              <Form-item label="开户支行:">
+              <Form-item label="开户支行:" prop="bankBranch">
                 <iInput v-model="formItem.bankBranch" ></iInput>
               </Form-item>
-              <Form-item label="手机号:">
-                <iInput v-model="formItem.phone"  type="text" ></iInput>
+              <Form-item label="手机号:"  prop="phone">
+                <iInput v-model="formItem.phone"  ></iInput>
               </Form-item>
-              <Form-item label="图形验证码:">
-                <iInput v-model="formItem.picture" ></iInput>
+              <Form-item label="图形验证码:" class="formPosition" prop="validateCode" style="width: 380px">
+                <iInput v-model="formItem.validateCode" ></iInput>
+                <div style="width: 100px; " class="ibtn">
+                  <img :src="imgSrc" width="100%" alt="" @click="getVrcode">
+                </div>
               </Form-item>
-              <Form-item label="短信验证码:" class="formPosition">
-                <iInput v-model="formItem.picture"  class="formiInput "></iInput>
-                <iButton type="primary" class="ibtn" >获取验证码</iButton>
+              <Form-item label="短信验证码:" class="formPosition" prop="cord" style="width: 380px">
+                <iInput v-model="formItem.cord"  class="formiInput "></iInput>
+                <SmsCountdown :on-success="sendCodeSuccess" style="top: 2px; right: -112px"
+                              :phone="formItem.phone"
+                              :purpose="formItem.purpose"
+                              :validateCode="formItem.validateCode"
+                >
+                </SmsCountdown>
               </Form-item>
               <Form-item>
-                <iButton type="primary">提交</iButton>
+                <iButton type="primary" @click=" addBankCardInfo(formItem),closable">提交</iButton>
                 <iButton type="ghost" style="margin-left: 8px">取消</iButton>
               </Form-item>
             </iForm>
@@ -222,7 +238,7 @@
       <div class="get-out-number" v-show="true">
         <div  class="clear title">
           <span class="left">当前可用余额<span style="color:red ">{{getUserBalance}}</span>元</span>
-          <span class="right cursor-p" style="color: blue;">查看充值记录</span>
+          <span class="right cursor-p" style="color: blue;" @click="lookGetoutRecord('getoutRecord')">查看提现记录</span>
         </div>
         <div class="content">
           <div class="warning">
@@ -244,6 +260,97 @@
               <p class="mt-10 text-ct fs-14">当日18:00-次日12:00间申请提现的，在次日12:00处理，你可以在提现记录中查看进度</p>
             </Modal>
           </div>
+        </div>
+      </div>
+      <div class="getout-record" v-show="changeBankIDcardShow.getoutRecord">
+        <div class="titel clear">
+          <span class="left spl">提现记录</span>
+          <span class="right spr cursor-p" @click="lookGetoutRecord('getoutMoney')">返回上页</span>
+        </div>
+        <div class="content-input ">
+          <span>流水号：</span>
+          <iInput style="width: 150px"></iInput>
+          <span class="ml-10">申请时间：</span>
+          <Date-picker type="datetime" placeholder="选择日期" style="width: 200px" v-model="applyFrom"   format="yyyy-MM-dd HH:mm:ss" :key="applyFrom"  @on-change="applyFrom=$event"></Date-picker>
+          <span>-</span>
+          <Date-picker type="datetime" placeholder="选择日期" style="width: 200px" v-model="applyTo" format="yyyy-MM-dd HH:mm:ss" :key="applyTo"  @on-change="applyTo=$event"></Date-picker>
+          <iButton class="ibtn1">搜索</iButton>
+        </div>
+        <div class="content-select clear">
+          <span class="left" v-for="item in getoutStatus" :class="{actives:getoutSelect===item.isSelect}" @click="getoutStatusFun(item.isSelect)">{{item.text}}</span>
+        </div>
+        <div class="personal-list-table mt-10">
+          <table class="list-table">
+            <thead>
+            <tr>
+              <th style="width:20%;">申请时间</th>
+              <th style="width:30%;">流水号</th>
+              <th style="width:10%;">提现金额（元）</th>
+              <th style="width:20%;">代收手续费（元）</th>
+              <th style="width:10%;">状态</th>
+              <th style="width:10%;">操作</th>
+            </tr>
+            </thead>
+            <tbody  >
+            <tr>
+              <td>
+               2017-08-08<br/>
+                16:16:16
+              </td>
+              <td>
+               122222222222222222222
+              </td>
+              <td >5555555</td>
+              <td>
+                1
+              </td>
+              <td class="main-color">
+                提现中
+              </td>
+              <td> <p style="color:blue;" class="detailsSpc" >详情</p></td>
+            </tr>
+            <tr >
+              <td colspan="6" style="padding: 0px;">
+                <table class="small-table" style="background-color: #f9f9f9;">
+                  <thead>
+                  <tr>
+                    <th style="width:20%;">提现帐号类型</th>
+                    <th style="width:30%;">提现帐号</th>
+                    <th style="width:15%;">提现金额（元）</th>
+                    <th style="width:15%;">代收手续费（元）</th>
+                    <th style="width:20%;">实际到账金额（元）</th>
+                  </tr>
+                  </thead>
+                  <tbody>
+                  <tr >
+                    <td>
+                      中国农业银行
+                    </td>
+                    <td>
+                      121212121212121212121
+                    </td>
+                    <td>
+                     100
+                    </td>
+                    <td>
+                      1
+                    </td>
+                    <td>100</td>
+                  </tr>
+                  </tbody>
+                </table>
+              </td>
+            </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div class="common-question">
+        <h2>常见问题</h2>
+        <div class="mt-10">
+          <p>提现</p>
+          <p>1、最低提现金额1元，手续费01%，每天提现次数不限</p>
+          <p>2、当日12:00-当日18:00间申请提现的，在当日18:00处理，当日18:00-次日12:00间申请提现的，在次日12:00处理。</p>
         </div>
       </div>
     </div>
@@ -272,11 +379,11 @@
       <div class="activity-number mt-20">
         活动编号：<iInput v-model="activityNumber" style="width: 200px;height: 30px" class="ml-10"></iInput>
       </div>
-      <iButton style="width: 100px;color: #fff; " class="ibtn" @click="getTradListAll(transactType,beginTime,endTime,activityNumber)">筛选</iButton>
-      <div style="height: 1px;border-bottom: 1px solid red" class="mt-22"></div>
+      <iButton class="ibtn" @click="getTradListAll(transactType,beginTime,endTime,activityNumber)">筛选</iButton>
+      <div class="mt-22 line"></div>
       <div class="transaction-amount">
-        <span>收入：<span class="number">{{userAccount.amountIncomes/100}}</span>元</span>
-        <span class="ml-20">支出：<span class="number">{{userAccount.amountPayment/100}}</span>元</span>
+        <span>收入：<span class="number">{{userAccount.amountIncomes/100||0}}</span>元</span>
+        <span class="ml-20">支出：<span class="number">{{userAccount.amountPayment/100||0}}</span>元</span>
       </div>
       <div class="personal-list-table mt-10">
         <table class="list-table">
@@ -298,7 +405,7 @@
               <p>{{item.changeName}}</p>
               <p>活动编号：{{item.cAmount}}</p>
             </td>
-            <td class="main-color">{{item.amountChange/100}}</td>
+            <td class="main-color">{{item.amountChange/100||0}}</td>
             <td>
               <p style="color:blue;" class="details" @click="detailsInit(item.id)">详情</p>
             </td>
@@ -324,11 +431,11 @@
                     {{item.serialNumber}}
                   </td>
                   <td>
-                    <p>{{item.tradName}}</p>
+                    <p>{{getTradType(item.tradName)}}</p>
                     <p>活动编号：11113244325324</p>
                   </td>
                   <td>
-                    {{item.tradAmount/100}}
+                    {{item.tradAmount/100||0}}
                   </td>
                 </tr>
                 <tr>
@@ -395,6 +502,9 @@
           <tr v-show="showBigNoticeAll"><td colspan="4" style="color: red;font-size: 14px" >暂无数据！</td></tr>
           </tbody>
         </table>
+      </div>
+      <div class="right mt-22">
+        <Page :total="100"></Page>
       </div>
     </div>
     <div class="my-account" v-show="infoSelect === 'accountInfo'">
@@ -574,8 +684,6 @@
         </div>
       </div>
     </div>
-
-
   </div>
 </template>
 
@@ -586,25 +694,29 @@
   import Alert from 'iview/src/components/alert'
   import Table  from 'iview/src/components/table'
   import Form from 'iview/src/components/form'
-//  import Select from 'iview/src/components/select'
-//  import Option from 'iview/src/components/select'
   import Input from 'iview/src/components/input'
   import Radio from 'iview/src/components/radio'
   import Checkbox from 'iview/src/components/checkbox'
   import Button from 'iview/src/components/button'
+  import Page from 'iview/src/components/page'
   import {setStorage, getStorage} from '@/config/utils'
   import Modal from 'iview/src/components/modal'
   import TimeDown from '@/components/TimeDown'
   import SmsCountdown from '@/components/SmsCountdown'
   import PayModel from  '@/components/PayModel'
+  import {Select, Option, OptionGroup} from 'iview/src/components/select'
   export default {
     name: 'MoneyManagement',
     components: {
       iTable:Table,
       Radio:Radio,
+      RadioGroup:Radio.Group,
       DatePicker:DatePicker,
       iInput: Input,
       iForm: Form,
+      iSelect: Select,
+      iOption: Option,
+      OptionGroup: OptionGroup,
       FormItem: Form.Item,
       Checkbox: Checkbox,
       CheckboxGroup: Checkbox.Group,
@@ -615,13 +727,50 @@
       TimeDown: TimeDown,
       Alert: Alert,
       SmsCountdown: SmsCountdown,
-      PayModel:PayModel
+      PayModel:PayModel,
+      Page:Page
+
     },
     data() {
       //表单验证
       const validatePhone = (rule, value, callback) => {
         if (!(/^1[34578]\d{9}$/.test(value))) {
           callback(new Error('请输入正确手机号'));
+        } else {
+          callback()
+        }
+      };
+      const  validatePayNumber =(rule,value,callback)=>{
+        if (!(/^[1-9]\d*$/.test(value))){
+          callback(new Error('金额为数字，请您重新输入'))
+        }else {
+          callback()
+        }
+      };
+      const validateBankCard = (rule, value, callback) => {
+        if (!(/^([1-9]{1})(\d{15}|\d{18})$/.test(value))) {
+          callback(new Error('请输入正确的银行卡号'));
+        } else {
+          callback()
+        }
+      };
+      const validateBankName= (rule, value, callback) => {
+        if (value==='') {
+          callback(new Error('请选择所属银行'));
+        } else {
+          callback()
+        }
+      };
+      const validateName= (rule, value, callback) => {
+        if (value==='') {
+          callback(new Error('请输入姓名'));
+        } else {
+          callback()
+        }
+      };
+      const validateBankBranch= (rule, value, callback) => {
+        if (value==='') {
+          callback(new Error('请输入所属银行支行'));
         } else {
           callback()
         }
@@ -684,6 +833,7 @@
           smsCode: [
             {validator: validateSmsCode, trigger: 'blur'}
           ]
+
         },
         trendsModifyCustom:{
           pwd: '',
@@ -787,7 +937,7 @@
         activityNumber:null,
         modal1: false,
         modal2:false,
-        inputMoney:0,
+        inputMoney:null,
         myAccount:{
           userSafe:true,
           modifyPwd:false,
@@ -795,21 +945,82 @@
         myAccountSon:{
           selBox:true,
           selDefaultModify:false,
-          selPhoneModify:false,
-          modifyPwd: false
+          selPhoneModify:false
         },
         formItem: {
           name: '',
           select: '',
           bankNumber:'',
           bankBranch:'',
-          phone:'',
-          picture:''
+          phone:null,
+          validateCode:'',
+          cord:'',
+          purpose:'id_verify'
+        },
+        formRuleItem:{
+          phone: [
+            {validator: validatePhone, trigger: 'blur'}
+          ],
+          validateCode: [
+            {validator: validateCode, trigger: 'blur'}
+          ],
+          cord:[
+            {validator:validateSmsCode,trigger:'blur'}
+          ],
+          bankNumber:[
+            {validator:validateBankCard,trigger:'blur'}
+          ],
+          select: [
+            {validator: validateBankName, trigger: 'blur'}
+          ],
+          name: [
+            {validator: validateName, trigger: 'blur'}
+          ],
+          bankBranch: [
+            {validator: validateBankBranch, trigger: 'blur'}
+          ]
+        },
+        payMoney:{
+          number:null,
+          payMode: 'ali',
+        },
+        payMoneyRule:{
+          number: [
+            {validator: validatePayNumber, trigger: 'blur'}
+          ]
         },
         getoutMoney:{
           number:'',
           password:'',
-        }
+        },
+        applyFrom:'',
+        applyTo:'',
+        getoutStatus:[
+          {
+            text:'提现中',
+            isSelect:'doing',
+            id:0
+          },
+          {
+            text:'提现成功',
+            isSelect:'success',
+            id:1
+          },
+          {
+            text:'提现失败',
+            isSelect:'fail',
+            id:2
+          }
+        ],
+        getoutSelect:'doing',
+        changeBankIDcardShow:{
+          iScertification:false,
+          iSbondBankCard:false,
+          bondBankCard:false,
+          getoutMoney:false,
+          getoutRecord:false
+        },
+        getbankCardInformation:{}
       }
     },
     mounted() {
@@ -820,13 +1031,23 @@
       this.getUserAccount();
       this.getTradList(null);
       this.getTradListAll([0,1,2],null,null,null);
+
+
     },
     computed: {
       getUserBalance: function () {
         return this.$store.state.userBalance / 100
       }
+
     },
     methods: {
+      closable () {
+        this.$Message.info({
+          content: '可手动关闭的提示',
+          duration: 10,
+          closable: true
+        });
+      },
       handleSubmit(name, callback) {
         let res = false;
         this.$refs[name].validate((valid) => {
@@ -931,12 +1152,13 @@
           if (res.status) {
             _this.userList = res.data;
             _this.userAccount = res.data.userAccount;
+            _this.changeBankIdcardShowFun();
           } else {
             _this.$Message.error(res.msg);
           }
         });
       },
-      getTradList: function (type) {
+      getTradList (type) {
         let _this = this;
         api.getTradList({
           createTimeStart: null,
@@ -1054,10 +1276,91 @@
             _this.beginTime = getDateStr(-30);
             _this.endTime = getDateStr(1);
           }else {
-            _this.getTradListAll(null,null,null,null)
+            _this.getTradListAll([0,1,2],null,null,null)
           }
 
 
+      },
+      getoutStatusFun(type){
+        this.getoutSelect = type
+      },
+      getTradType(type){
+        switch (type){
+          case 'enchashment':
+            return '提现';
+            break;
+          case  'pay_for_task_deposit_seller':
+            return '支付活动担保金';
+            break;
+          case  'task_return_seller':
+            return '活动结算返款';
+            break;
+          case  'showker_task_supplementary_seller':
+            return '补充任务担保金';
+            break;
+          case  'task_deposit_pay_shower':
+            return '任务保证金退款';
+            break;
+          case  'task_deposit_return_shower':
+            return '任务保证金返款';
+            break;
+          case  'task_delete_return_seller':
+            return '删除活动返款';
+            break;
+        }
+      },
+      geIifCertification(type){
+        if (type===false){
+          return '未认证';
+        }else {
+          return '已认证';
+        }
+      },
+      getIfBandingBankCard(type){
+        return type===null?'未添加':'已添加';
+      },
+      changeBankIdcardShowFun(){
+        if (this.userList.ifCertification ===false){
+          this.changeBankIDcardShow.iScertification=true;
+          this.changeBankIDcardShow.iSbondBankCard=false;
+        }else if (this.userList.ifCertification===true){
+          if(this.userList.ifBandingBankCard === null){
+            this.changeBankIDcardShow.iScertification=false;
+            this.changeBankIDcardShow.iSbondBankCard=true;
+          }else {
+            for (let k in  this.changeBankIDcardShow) {
+              this.changeBankIDcardShow[k]=k==='getoutMoney';
+            }
+          }
+        }
+      },
+      addBankCard(){
+        this.changeBankIDcardShow.iScertification=false;
+        this.changeBankIDcardShow.iSbondBankCard=false;
+        this.changeBankIDcardShow.bondBankCard=true;
+      },
+      lookGetoutRecord(type){
+        for (let k in  this.changeBankIDcardShow) {
+          this.changeBankIDcardShow[k]=k===type;
+        }
+      },
+      addBankCardInfo(type){
+        let _this=this;
+        api.addBankCardInfo({
+          validateCode:type.validateCode,
+          accountName:type.name,
+          bankName:type.select,
+          bankNo:type.bankNumber,
+          bankPart:type.bankBranch,
+          phoneNo:type.phone,
+          smsCode:type.cord
+        }).then(res=>{
+          if(res.status){
+            _this.getbankCardInformation=res.data
+          }else {
+            _this.$Message.error(res.msg)
+          }
+        });
       }
     }
   }
@@ -1066,7 +1369,7 @@
 <style lang="scss" scoped>
   @import 'src/css/mixin';
   .personal-box {
-    .mian-color {
+    .main-color {
       color: $mainColor;
     }
     .title {
@@ -1281,18 +1584,9 @@
       cursor: pointer;
       position: relative;
     }
-    .details::before {
-      content: "▽";
-      color: blue;
-      position: absolute;
-      top: 0;
-      right: 70px;
-    }
-    .details:active {
-      .details::before{
-        transform: rotate(90deg);
-      }
-
+    .detailsSpc{
+      cursor: pointer;
+      position: relative;
     }
     .small-table td {
       padding: 10px;
@@ -1378,6 +1672,11 @@
         font-size: 14px;
         margin-left: 84px;
         margin-top: 12px;
+        width: 100px;
+      }
+      .line{
+        height: 1px;
+        border-bottom: 1px solid red
       }
       .transaction-amount{
         padding: 20px 10px;
@@ -1553,12 +1852,45 @@
 
         }
       }
+      .getout-record{
+        .titel{
+          font-size: 14px;
+          padding: 10px 15px;
+          border-bottom: 1px solid #F5F5F5;
+          .spr{
+            color: #86BCFF;
+          }
+        }
+        .content-input{
+          padding: 10px 15px;
+          border-bottom: 1px solid #F5F5F5;
+          .ibtn1{
+            margin-left: 10px;
+            background-color: $mainColor;
+            color: #fff;
+            width: 100px;
+          }
+        }
+        .content-select{
+          padding: 10px 10px;
+          span{
+            width: 120px;
+            padding: 6px 15px;
+            background-color: #F8F8F8;
+            text-align: center;
+            cursor: pointer;
+          }
+          span:nth-of-type(2){
+            border-left: 1px solid #F0F0F0;
+            border-right: 1px solid #F0F0F0;
+          }
+          span.actives{
+            background-color: $mainColor;
+            color: #fff;
+          }
+        }
+      }
     }
-
-
-
-
-
   }
 
 </style>

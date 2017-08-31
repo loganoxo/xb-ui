@@ -101,7 +101,7 @@ router.post('/api/find-pwd-by-origin.json', function (req, res, next) {
  * @param userId
  * @param tradId
  */
-router.post("/api/get-trad-detail-list.json",function (req, res, next) {
+router.post("/api/get-trad-detail-list.json", function (req, res, next) {
   let options = {
     method: 'POST',
     uri: baseUrl + '/user/account/get-trad-detail-list',
@@ -121,13 +121,54 @@ router.post("/api/get-trad-detail-list.json",function (req, res, next) {
   });
 });
 
+/**
+ * 添加银行卡
+ * @param accountName
+ * @param bankName
+ * @param bankNo
+ * @param bankPart
+ * @param phoneNo
+ * @param smsCode
+ * @param uid
+ */
+router.post('/api/add-bank-card.json', function (req, res, next) {
+  let options = {
+    method: 'POST',
+    uri: baseUrl + '/user/account/add_bank_card',
+    formData: {
+      uid: req.session.userData.id,
+      accountName: req.body.accountName,
+      bankName: req.body.bankName,
+      bankNo: req.body.bankNo,
+      bankPart: req.body.bankPart,
+      phoneNo: req.body.phoneNo,
+      smsCode: req.body.smsCode,
+    },
+    json: true,
+  };
+  let validateCode = parseInt(req.body.validateCode);
+  if (validateCode === req.session.vrCode) {
+    request(options).then(function (parsedBody) {
+      res.send(parsedBody);
+      res.end();
+    }).catch(function (err) {
+      logConfig.logger.error(req.originalUrl + ':' + err);
+      res.json({status: false, msg: "服务器错误"});
+      res.end();
+    });
+  } else {
+    res.json({status: false, msg: "图片验证码过期"});
+    res.end();
+  }
+
+});
 
 /**
  * 修改用户头像
  * @param userId
  * @param picStr
  */
-router.post('/api/user/edit_portrait_pic.json', function (req, res, next) {
+router.post('/api/user/edit-portrait-pic.json', function (req, res, next) {
   let options = {
     method: 'POST',
     uri: baseUrl + '/user/edit_portrait_pic',
@@ -235,7 +276,6 @@ router.post('/api/user/account/reset-login-pwd-by-smscode.json', function (req, 
     res.end();
   });
 });
-
 
 
 /**

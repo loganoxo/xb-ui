@@ -65,6 +65,12 @@ export default {
   },
 
   /**
+   * 添加银行卡
+   */
+  addBankCardInfo(params) {
+    return fetch("/api/add-bank-card.json", params)
+  },
+  /**
    * 获取交易明细列表
    */
   getTradListDetails(params) {
@@ -406,7 +412,7 @@ export default {
    * 修改用户头像
    */
   modifyPortraitPic(params) {
-    return fetch("/api/user/edit_portrait_pic.json", params)
+    return fetch("/api/user/edit-portrait-pic.json", params)
   },
 
   /**
