@@ -13,7 +13,9 @@
                 <p>
                   <span>账号：{{userData.phone}} </span>
                   <span >
-                    支付密码：    未设置  设置
+                    支付密码：
+                    <Icon type="information-circled" color="#FF6633"></Icon>未设置
+                    <router-link to="/user/money-management">设置</router-link>
                   </span>
                   <span v-if="userData.alitmNum <= 0 ">
                     淘宝账号：

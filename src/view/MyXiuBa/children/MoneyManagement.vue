@@ -1068,7 +1068,7 @@
             self.$Modal.success({
               content: res.msg,
               onOk: function () {
-                self.$router.push({path: '/user/user-home'});
+                self.$router.go(-1);
               }
             });
           }else {
@@ -1106,7 +1106,7 @@
             self.$Modal.success({
               content: res.msg,
               onOk: function () {
-                self.$router.push({path: '/user/user-home'});
+                self.$router.go(-1);
               }
             });
           }else {
