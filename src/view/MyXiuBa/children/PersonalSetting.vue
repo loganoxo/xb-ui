@@ -415,7 +415,6 @@
         <img v-show="imgDemoUrl.reversePicUrl" src="~assets/img/case-demo/sfzb.jpg" alt="" style="width: 100%;margin-top: 20px;">
       </div>
       <div slot="footer">
-
       </div>
     </Modal>
   </div>
@@ -747,7 +746,7 @@
             self.$Modal.success({
               content: res.msg,
               onOk: function () {
-                self.$router.push({path: '/login'});
+                self.$router.go(-1);
               }
             });
           }else {
@@ -785,7 +784,7 @@
             self.$Modal.success({
               content: res.msg,
               onOk: function () {
-                self.$router.push({path: '/login'});
+                self.$router.go(-1);
               }
             });
           }else {
@@ -895,7 +894,6 @@
         api.wwBindList().then((res) => {
           if (res.status) {
             self.wwBindLists = res.data;
-            debugger
             if(self.wwBindLists == '') {
               self.showWwBindBox = true;
             }else {
