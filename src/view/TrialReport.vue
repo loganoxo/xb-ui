@@ -150,7 +150,7 @@
         },
         totalPages: 1,
         trialReportParams: {
-          showkerId: 182,
+          showkerId: '',
           pageIndex: 1,
           pageSize: 5
         },
@@ -174,6 +174,9 @@
     },
     created(){
       this.getTrialReportList();
+      if(this.$route.query.showkerId){
+        this.trialReportParams.showkerId = this.$route.query.showkerId;
+      }
     },
     computed: {
       getUser(){

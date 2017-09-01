@@ -98,8 +98,11 @@
           </div>
           <div class="graphic-info-ctt">
             <div v-show="graphicInfoSelClass == 'activity'" class="graphic-info-details" >
-              <div v-if="commodityData.cannotShowItemDescriptionOfQualification"  v-html="commodityData.task.itemDescription">
+              <div v-if="!commodityData.cannotShowItemDescriptionOfQualification"  v-html="commodityData.task.itemDescription">
 
+              </div>
+              <div class="fs-18 text-ct" v-else >
+                <Icon type="information-circled" color="#FF6633" size="30" style="vertical-align: sub;"></Icon> 获得资格后才能看到试用品信息哦~
               </div>
             </div>
             <div v-show="graphicInfoSelClass == 'report'" class="graphic-info-report">
@@ -134,10 +137,10 @@
               </div>
             </div>
             <div v-show="graphicInfoSelClass == 'audited'" class="graphic-audited-buyer">
-              <a v-show="detailsSuccessShowkerList.length > 0 " href="" v-for="detailsSuccessShowker in detailsSuccessShowkerList">
-                <img :src="detailsSuccessShowker.showkerPortraitPic" alt="">
+              <router-link :to="{ 'path': '/trial-report','query': {'showkerId': detailsSuccessShowker.id}}" :key="detailsSuccessShowker.id" v-show="detailsSuccessShowkerList.length > 0 "  v-for="detailsSuccessShowker in detailsSuccessShowkerList">
+                <img :src="detailsSuccessShowker.showkerPortraitPic" width="68px" alt="">
                 <p class="cl000">{{detailsSuccessShowker.showkerPhone}}</p>
-              </a>
+              </router-link>
               <p v-show="detailsSuccessShowkerList.length <= 0 " class="text-ct fs-14">
                 暂无已通过的申请秀客
               </p>
