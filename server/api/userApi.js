@@ -28,7 +28,7 @@ router.post('/api/get-trad-list.json', function (req, res, next) {
       userId: req.session.userData.id,
       createTimeStart: req.body.createTimeStart,
       createTimeEnd: req.body.createTimeEnd,
-      accountChangeType: req.body.accountChangeType,
+      accountChangeTypeStr: req.body.accountChangeTypeStr,
       reversePicUrl: req.body.reversePicUrl,
       taskSerial: req.body.taskSerial
     },
@@ -160,8 +160,40 @@ router.post('/api/add-bank-card.json', function (req, res, next) {
     res.json({status: false, msg: "图片验证码过期"});
     res.end();
   }
-
 });
+
+/**
+ * 申请提现
+ *
+ * @param fee
+ * @param platform
+ * @param uid
+ * @param bankCardNum
+ * @param payPwd
+ * @return
+ */
+router.post('/api/with-draw-apply.json', function (req, res, next) {
+  let options = {
+    method: 'POST',
+    uri: baseUrl + '/user/account/with_draw_apply',
+    formData: {
+      uid: req.session.userData.id,
+      fee: req.body.fee,
+      bankCardNum: req.body.bankCardNum,
+      payPwd: req.body.payPwd
+    },
+    json: true,
+  };
+  request(options).then(function (parsedBody) {
+    res.send(parsedBody);
+    res.end();
+  }).catch(function (err) {
+    logConfig.logger.error(req.originalUrl + ':' + err);
+    res.json({status: false, msg: "服务器错误"});
+    res.end();
+  });
+});
+
 
 /**
  * 修改用户头像

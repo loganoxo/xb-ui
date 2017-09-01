@@ -70,7 +70,7 @@
             </td>
             <td>
               <p>{{item.changeName}}</p>
-              <p>活动编号：{{item.cAmount}}</p>
+              <p>活动编号：{{item.taskSerialNum}}</p>
             </td>
             <td class="main-color">{{item.amountChange/100||0}}</td>
             <td>
@@ -102,7 +102,7 @@
                     <p>活动编号：11113244325324</p>
                   </td>
                   <td>
-                   {{item.tradAmount/100||0}}
+                   {{item.tradAmount||0}}
                   </td>
                 </tr>
                 <tr v-show="showNotice"><td colspan="4" style="color:red;font-size: 14px;">暂无数据！</td></tr>
@@ -163,7 +163,11 @@
             </Radio-group>
           </Form-item>
           <Form-item>
-            <iButton type="primary" style="width: 100px">提交</iButton>
+            <iButton type="primary" style="width: 100px" @click="modal3 = true">提交</iButton>
+            <Modal
+              v-model="modal3"
+              :styles="{top:'210px',width:'580px'}">
+            </Modal>
           </Form-item>
         </iForm>
       </div>
@@ -187,7 +191,7 @@
           <p class="mt-10">添加银行卡</p>
         </div>
       </div>
-      <div class="add-bankcard" v-show="true">
+      <div class="add-bankcard" v-show="changeBankIDcardShow.bondBankCard">
           <div class="title">
             <Icon type="information-circled" class="icon ml-20 over-hd"></Icon><span class="ml-56">每个用户只能绑定一张银行卡，如需换卡建议修改银行卡信息</span>
           </div>
@@ -229,13 +233,13 @@
                 </SmsCountdown>
               </Form-item>
               <Form-item>
-                <iButton type="primary" @click=" addBankCardInfo(formItem),closable">提交</iButton>
+                <iButton type="primary" @click=" addBankCardInfo(formItem)">提交</iButton>
                 <iButton type="ghost" style="margin-left: 8px">取消</iButton>
               </Form-item>
             </iForm>
           </div>
       </div>
-      <div class="get-out-number" v-show="true">
+      <div class="get-out-number" v-show="changeBankIDcardShow.getoutMoney">
         <div  class="clear title">
           <span class="left">当前可用余额<span style="color:red ">{{getUserBalance}}</span>元</span>
           <span class="right cursor-p" style="color: blue;" @click="lookGetoutRecord('getoutRecord')">查看提现记录</span>
@@ -244,21 +248,31 @@
           <div class="warning">
             <Icon type="information-circled" class="icon ml-20 over-hd"></Icon><span class="ml-56">当日12:00-当日18:00间申请提现的，在当日18:00处理，当日18:00-次日12:00间申请提现的，在次日12:00处理</span>
           </div>
-          <div class="get-out-do mt-40" >
-            请输入提现金额：<iInput v-model="getoutMoney.number" class="iInput" ></iInput>&nbsp;元（最低1元起提）
-            <p class="mt-22">&nbsp;&nbsp;&nbsp;提现银行卡号：&nbsp;6227002451721185124</p>
-            <p  class="mt-22 psw">支付密码：<iInput v-model="getoutMoney.password" type="password" class="iInput" >
-             </iInput><span class="ml-10" @click="accountInit('accountInfo'),myAccountPwdChangeFather('modifyPwd')">重置支付密码</span>
-            </p>
-            <iButton type="primary" @click="modal2 = true" class="mt-22  ibtns">申请提现</iButton>
-            <Modal
-              v-model="modal2"
-              :styles="{top:'168px',width:'580px'}"
-              title="">
-              <p style="text-align: center;font-size: 40px;color: red"><Icon type="checkmark-circled"></Icon></p>
-              <p class="mt-10 text-ct fs-14">提现申请成功，当日12:00-当日18:00间申请提现的，在当日18:00处理</p>
-              <p class="mt-10 text-ct fs-14">当日18:00-次日12:00间申请提现的，在次日12:00处理，你可以在提现记录中查看进度</p>
-            </Modal>
+          <div class="get-out-do mt-22" >
+            <iForm :model="getoutMoney" :label-width="200" :rules="getoutMoneyRule">
+              <Form-item label="请输入提现金额:" prop="getoutNumber">
+                <iInput v-model="getoutMoney.getoutNumber" class="iInput" ></iInput>
+                <span>元（最低1元起提）</span>
+              </Form-item>
+              <Form-item label="提现银行卡号:" >
+                <p >{{userAccount.bankCardNum}}</p>
+              </Form-item>
+              <Form-item label="支付密码:" prop="password">
+                <iInput v-model="getoutMoney.password"  class="iInput" type="password" ></iInput>
+              </Form-item>
+              <Form-item >
+                <iButton type="primary" @click="modal2 = true,applyGetoutMoney(getoutMoney)" class="ibtns">申请提现</iButton>
+                <Modal
+                  v-model="modal2"
+                  :styles="{top:'210px',width:'580px'}"
+                  @on-ok="ok"
+                  title="">
+                  <p style="text-align: center;font-size: 40px;color: #FF6633;"><Icon :type="iconType"></Icon></p>
+                  <p class="mt-10 text-ct fs-14"><span style="color: #FF6633;">{{applyGetout}}</span>当日12:00-当日18:00间申请提现的，在当日18:00处理</p>
+                  <p class="mt-10 text-ct fs-14">当日18:00-次日12:00间申请提现的，在次日12:00处理，你可以在提现记录中查看进度</p>
+                </Modal>
+              </Form-item>
+            </iForm>
           </div>
         </div>
       </div>
@@ -370,20 +384,20 @@
         </div>
         <div class="left">
           <Checkbox-group v-model="transactType" class="checkBox  ml-45" @on-change="checkAllGroupChange">
-            <Checkbox label=2>活动</Checkbox>
-            <Checkbox label=0>充值</Checkbox>
-            <Checkbox label=1>提现</Checkbox>
+            <Checkbox label=0>活动</Checkbox>
+            <Checkbox label=1>充值</Checkbox>
+            <Checkbox label=2>提现</Checkbox>
           </Checkbox-group>
         </div>
       </div>
       <div class="activity-number mt-20">
         活动编号：<iInput v-model="activityNumber" style="width: 200px;height: 30px" class="ml-10"></iInput>
       </div>
-      <iButton class="ibtn" @click="getTradListAll(transactType,beginTime,endTime,activityNumber)">筛选</iButton>
+      <iButton class="ibtn" @click="getTradListAll(transactType)">筛选</iButton>
       <div class="mt-22 line"></div>
       <div class="transaction-amount">
-        <span>收入：<span class="number">{{userAccount.amountIncomes/100||0}}</span>元</span>
-        <span class="ml-20">支出：<span class="number">{{userAccount.amountPayment/100||0}}</span>元</span>
+        <span>收入：<span class="number">{{userAccount.amountIncomes||0}}</span>元</span>
+        <span class="ml-20">支出：<span class="number">{{userAccount.amountPayment||0}}</span>元</span>
       </div>
       <div class="personal-list-table mt-10">
         <table class="list-table">
@@ -403,7 +417,7 @@
             </td>
             <td>
               <p>{{item.changeName}}</p>
-              <p>活动编号：{{item.cAmount}}</p>
+              <p>活动编号：{{item.taskSerialNum}}</p>
             </td>
             <td class="main-color">{{item.amountChange/100||0}}</td>
             <td>
@@ -516,7 +530,6 @@
               <li class="one">实名认证</li>
               <li class="two">
                 未认证
-                <span>(建议定期修改登录密码)</span>
               </li>
               <li class="three">
                 <a href="javascript:;">去认证</a>
@@ -553,10 +566,10 @@
                 支付密码
               </li>
               <li class="two">
-                未设置(同登录密码)
+                未设置
               </li>
               <li class="three">
-                <a href="javascript:;" @click="myAccountPwdChangeFather('modifyPwd')">重置</a>
+                <a href="javascript:;" @click="myAccountPwdChangeFather('modifyPwd')">忘记支付密码？</a>
               </li>
             </ul>
           </li>
@@ -686,7 +699,6 @@
     </div>
   </div>
 </template>
-
 <script>
   import api from '@/config/apiConfig'
   import Icon from 'iview/src/components/icon'
@@ -705,6 +717,7 @@
   import SmsCountdown from '@/components/SmsCountdown'
   import PayModel from  '@/components/PayModel'
   import {Select, Option, OptionGroup} from 'iview/src/components/select'
+  import {mapActions} from 'vuex'
   export default {
     name: 'MoneyManagement',
     components: {
@@ -937,6 +950,7 @@
         activityNumber:null,
         modal1: false,
         modal2:false,
+        modal3:false,
         inputMoney:null,
         myAccount:{
           userSafe:true,
@@ -990,9 +1004,10 @@
           ]
         },
         getoutMoney:{
-          number:'',
+          getoutNumber:'',
           password:'',
         },
+        getoutMoneyRule:{},
         applyFrom:'',
         applyTo:'',
         getoutStatus:[
@@ -1017,10 +1032,12 @@
           iScertification:false,
           iSbondBankCard:false,
           bondBankCard:false,
-          getoutMoney:false,
+          getoutMoney:true,
           getoutRecord:false
         },
-        getbankCardInformation:{}
+        getbankCardInformation:{},
+        applyGetout:{},
+        iconType:'checkmark-circled'
       }
     },
     mounted() {
@@ -1033,8 +1050,8 @@
       }
       this.getVrcode();
       this.getUserAccount();
-      this.getTradList(null);
-      this.getTradListAll([0,1,2],null,null,null);
+      this.getTradList([]);
+      this.getTradListAll([0,1,2]);
     },
     computed: {
       getUserBalance: function () {
@@ -1043,9 +1060,15 @@
 
     },
     methods: {
+      ...mapActions([
+        'getBalance'
+      ]),
+      ok(){
+       this.getBalance()
+      },
       closable () {
         this.$Message.info({
-          content: '可手动关闭的提示',
+          content: this.getbankCardInformation.msg,
           duration: 10,
           closable: true
         });
@@ -1162,10 +1185,13 @@
       },
       getTradList (type) {
         let _this = this;
+        if(type.length===0||type.length === 3){
+          type = null;
+        }
         api.getTradList({
           createTimeStart: null,
           createTimeEnd: null,
-          accountChangeType: type,
+          accountChangeTypeStr: type,
           reversePicUrl: null,
           taskSerial: null
         }).then(res => {
@@ -1178,19 +1204,22 @@
           }
         });
       },
-      getTradListAll(type,beginTime,endTime,activityNumber) {
+      getTradListAll(type) {
         let _this = this;
-        if(type.length === 3){
+        if(type.length===0||type.length === 3){
           type = null;
         }else {
-          type = type;
+          for (let i = 0; i < type.length; i++) {
+            type[i]=parseInt(type[i])
+          }
+          type = JSON.stringify(type)
         }
         api.getTradList({
-          createTimeStart: beginTime,
-          createTimeEnd: endTime,
-          accountChangeType: type,
+          createTimeStart: _this.beginTime||null,
+          createTimeEnd:_this.endTime||null,
+          accountChangeTypeStr: type,
           reversePicUrl: null,
-          taskSerial: activityNumber
+          taskSerial: _this.activityNumber||null
         }).then(res => {
           if (res.status) {
             _this.myTableDetailsAll = res.data.content;
@@ -1278,7 +1307,9 @@
             _this.beginTime = getDateStr(-30);
             _this.endTime = getDateStr(1);
           }else {
-            _this.getTradListAll([0,1,2],null,null,null)
+            _this.beginTime=null;
+            _this.endTime=null;
+            _this.getTradListAll([0,1,2]);
           }
 
 
@@ -1319,7 +1350,7 @@
         }
       },
       getIfBandingBankCard(type){
-        return type===null?'未添加':'已添加';
+        return type===null?'未添加':this.userAccount.bankCardNum;
       },
       changeBankIdcardShowFun(){
         if (this.userList.ifCertification ===false){
@@ -1358,9 +1389,33 @@
           smsCode:type.cord
         }).then(res=>{
           if(res.status){
-            _this.getbankCardInformation=res.data
+            _this.getbankCardInformation=res;
+            _this.closable();
           }else {
             _this.$Message.error(res.msg)
+          }
+        });
+      },
+      applyGetoutMoney(types){
+        let _this=this;
+        api.applyGetoutMoney({
+          fee:types.getoutNumber*100,
+          bankCardNum:_this.userAccount.bankCardNum,
+          payPwd:types.password
+        }).then(res=>{
+          if(res.status){
+//            _this.getBalance();
+            _this.iconType='checkmark-circled';
+            _this.applyGetout=res.msg;
+            _this.getoutMoney.getoutNumber='';
+            _this.getoutMoney.password='';
+
+          }else {
+            _this.iconType='close-circled';
+            _this.applyGetout=res.msg;
+            _this.getoutMoney.getoutNumber='';
+            _this.getoutMoney.password='';
+//            _this.$Message.error(res.msg)
           }
         });
       }
@@ -1817,7 +1872,7 @@
             width: 1000px;
             background-color: #FFF6F3;
             margin: 0 auto;
-            margin-top: 30px;
+            margin-top: 20px;
             .icon{
               position: absolute;
               top: 11px;
@@ -1845,11 +1900,7 @@
             }
           }
           .ibtns{
-            width: 100px;
-            margin-left: 126px;
-            span{
-              width: 100px;
-            }
+            width: 120px;
           }
 
         }

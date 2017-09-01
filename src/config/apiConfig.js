@@ -53,7 +53,7 @@ export default {
   /**
    * 用户注册
    */
-  register(params) {
+  register(params){
     return fetch("/api/sign-up.json", params)
   },
 
@@ -70,6 +70,14 @@ export default {
   addBankCardInfo(params) {
     return fetch("/api/add-bank-card.json", params)
   },
+
+  /**
+   * 申请提现
+   */
+  applyGetoutMoney(params) {
+    return fetch("/api/with-draw-apply.json", params)
+  },
+
   /**
    * 获取交易明细列表
    */
