@@ -1055,7 +1055,7 @@
     },
     computed: {
       getUserBalance: function () {
-        return this.$store.state.userBalance / 100
+        return this.$store.state.userBalance
       }
 
     },

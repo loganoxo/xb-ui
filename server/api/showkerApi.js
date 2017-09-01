@@ -62,7 +62,6 @@ router.post('/api/task/showker-personal-trial-count.json', function (req, res, n
     });
 });
 
-
 /**
  * 商家个人主页试用提醒
  * @param showkerId
@@ -239,7 +238,7 @@ router.post('/api/showker-save-order.json', function (req, res, next) {
     formData: {
       id: req.body.id,
       orderNum: req.body.orderNum,
-      actualPayMoney: req.body.actualPayMoney
+      actualPayMoney: req.body.actualPayMoney * 100
     },
     json: true
   };
@@ -268,7 +267,7 @@ router.post('/api/showker-modify-order.json', function (req, res, next) {
     formData: {
       id: req.body.id,
       orderNum: req.body.orderNum,
-      actualPayMoney: req.body.actualPayMoney
+      actualPayMoney: req.body.actualPayMoney * 100
     },
     json: true
   };
@@ -348,9 +347,9 @@ router.post('/api/showker-modify-report.json', function (req, res, next) {
  */
 router.post('/api/showker-report-info.json', function (req, res, next) {
   let options = {
-    method: 'POST',
+    method: 'GET',
     uri: baseUrl + '/task/showker/reportInfo',
-    formData: {
+    qs: {
       id: req.body.id,
       showkerId: req.session.userData.id
     },

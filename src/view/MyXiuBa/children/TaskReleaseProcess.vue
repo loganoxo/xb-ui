@@ -497,7 +497,7 @@
   import PayModel from '@/components/PayModel'
   import api from '@/config/apiConfig'
   import {aliCallbackImgUrl} from '@/config/env'
-  import {TimeToDate, aliUploadImg, isNumber, isInteger, isAliUrl} from '@/config/utils'
+  import {timeToDate, aliUploadImg, isNumber, isInteger, isAliUrl, randomString} from '@/config/utils'
   import {oneOf} from 'iview/src/utils/assist'
   import {mapActions} from 'vuex'
 
@@ -667,7 +667,7 @@
        * @return {number}
        */
       getUserBalance: function () {
-        return this.$store.state.userBalance / 100
+        return this.$store.state.userBalance
       }
     },
     methods: {
@@ -786,7 +786,7 @@
             _this.$Message.warning('亲，宝贝搜索结束位置不能空！');
             return;
           }
-          if(_this.PcTaskDetail.searchPagePositionMax > _this.PcTaskDetail.searchPagePositionMin ){
+          if(_this.PcTaskDetail.searchPagePositionMax < _this.PcTaskDetail.searchPagePositionMin ){
             _this.$Message.warning('亲，宝贝搜索位置起始页不能大于结束页！');
             return;
           }
@@ -961,7 +961,7 @@
       uploadImg(e) {
         let _this = this;
         let file = e.target.files[0];
-        let key = 'task' + '/' + TimeToDate() + '/' + Math.random().toString(36).substr(2);
+        let key = 'task' + '/' + timeToDate() + '/' + randomString();
         aliUploadImg(key, file).then(res => {
           if (res) {
             let value = aliCallbackImgUrl + res.name;

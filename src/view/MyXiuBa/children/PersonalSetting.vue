@@ -868,9 +868,9 @@
               self.wwBindLists.splice(index, 1);
               self.$set(self.wwBindLists);
             }else {
-              if(res.statusCode == 'have_waiting_audit_apply'){
+              if(res.statusCode === 'have_waiting_audit_apply'){
                 res.msg = '亲，该旺旺试用任务正在审核!';
-              }else if(res.statusCode == 'have_under_way_showker_task'){
+              }else if(res.statusCode === 'have_under_way_showker_task'){
                 res.msg = '亲，该旺旺试用任务正在进行！';
               }
               self.$Modal.error({
@@ -909,11 +909,7 @@
         api.wwBindList().then((res) => {
           if (res.status) {
             self.wwBindLists = res.data;
-            if(self.wwBindLists == '') {
-              self.showWwBindBox = true;
-            }else {
-              self.showWwBindBox = false;
-            }
+            self.showWwBindBox = self.wwBindLists === '';
           }else {
             self.$Modal.error({
               content: res.msg
@@ -923,7 +919,7 @@
       },
       wwBindFunc(){
         let self = this;
-        if(!(self.wwFormValidate.picUrl == '')){
+        if(!(self.wwFormValidate.picUrl === '')){
           self.btnState.wwBindBtn = true;
           if(self.modifyWw){
             api.wwModify({

@@ -28,7 +28,7 @@
                     <img :src="trialReport.task.taskMainImage" alt="" style="width: 150px">
                   </div>
                   <div>
-                    <p>发表于 {{trialReport.createTime | dateFormat('YYYY-MM-DD hh:mm:ss')}} </p>
+                    <p>发表于{{trialReport.createTime | dateFormat('YYYY-MM-DD hh:mm:ss')}} </p>
                     <p class="text">
                       {{trialReport.trialReportText}}
                      <a @click="showReportDescFunc(trialReport)">查看全文</a>
@@ -52,7 +52,7 @@
               </div>
             </div>
           </div>
-          <div v-show="showReportDesc">
+          <div v-if="showReportDesc">
             <p class="fs-16 trial-account">
               {{showkerReportDesc.showkerPhone}}的试用报告
                <a @click="showReportDesc = false;" class="right fs-14">返回上一页</a>
@@ -70,9 +70,7 @@
               <p class="fs-16 mt-20 mb-20">
                 试用过程与体验：
               </p>
-              <p class="fs-14 cl000 mb-40">
-                {{showkerReportDesc.trialReportText}}
-              </p>
+              <p class="fs-14 cl000 mb-40">{{showkerReportDesc.trialReportText}}</p>
               <p class="fs-16">试用图片：</p>
               <div style="margin: auto; width: 700px; border: 1px solid #F1EEEB" class="task-list-img-box">
                 <Carousel v-model="value3"
@@ -85,21 +83,6 @@
                     <img class="block mg-at" :src="trialReportImage" alt="" width="700px">
                   </Carousel-item>
                 </Carousel>
-
-                <!--<p class="mt-20 mb-20 text-ct task-list-img">-->
-                  <!--<a href="">-->
-                    <!--<img class="mg-at" src="~assets/img/trial-report/trial_report_05.png" alt="">-->
-                  <!--</a>-->
-                  <!--<a href="">-->
-                    <!--<img class="mg-at" src="~assets/img/trial-report/trial_report_05.png" alt="">-->
-                  <!--</a>-->
-                  <!--<a href="">-->
-                    <!--<img class="mg-at" src="~assets/img/trial-report/trial_report_05.png" alt="">-->
-                  <!--</a>-->
-                  <!--<a href="">-->
-                    <!--<img class="mg-at" src="~assets/img/trial-report/trial_report_05.png" alt="">-->
-                  <!--</a>-->
-                <!--</p>-->
               </div>
             </div>
           </div>

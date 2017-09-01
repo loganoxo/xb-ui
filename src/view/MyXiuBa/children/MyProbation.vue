@@ -122,23 +122,26 @@
                 </p>
               </td>
               <td>{{item.alitmAccount}}</td>
-              <td>{{item.perMarginNeed}}</td>
-              <td>{{item.orderNum}}</td>
+              <td>{{item.perMarginNeed  / 100 || 0}}</td>
+              <td>{{item.orderNum || 0}}</td>
               <td>
-                <p v-if="item.status !== 'trial_end' && item.status !== 'order_num_error' && item.status !== 'trial_report_unqualified'">{{getTaskStatus(item.status)}}</p>
+                <div v-if="item.status !== 'trial_end' && item.status !== 'order_num_error' && item.status !== 'trial_report_unqualified'">
+                  <p>{{getTaskStatus(item.status)}}</p>
+                  <p><time-down color='#ff4040' :fontWeight=600 :endTime="item.currentGenerationEndTime"></time-down></p>
+                </div>
                 <p class="mt-5 main-color" v-if="item.status === 'order_num_error'">
                   <Icon color="#f60" type="information-circled"></Icon>
                   <span>订单号有误</span>
                 </p>
-                <p class="mt-5" v-if="item.status === 'order_num_error'">24小时0分0秒</p>
                 <p class="mt-5 main-color" v-if="item.status === 'trial_report_unqualified'">
                   <Icon color="#f60" type="information-circled"></Icon>
                   <span>报告不合格</span>
                 </p>
-                <p class="mt-5" v-if="item.status === 'trial_report_unqualified'"><time-down color='#ff4040' :fontWeight=600 :endTime="item.currentGenerationEndTime"></time-down></p>
-                <p class="mt-5 main-color" v-if="item.status === 'trial_end'">
-                  <Icon color="#f60" type="information-circled"></Icon>
-                  <span>试用终止</span>
+                <p class="mt-5 main-color cursor-p" v-if="item.status === 'trial_end'">
+                  <Tooltip :content="getTaskStatus(item.trialEndReason)" placement="top">
+                    <Icon color="#f60" type="information-circled"></Icon>
+                    <span>试用终止</span>
+                  </Tooltip>
                 </p>
               </td>
               <td>
@@ -257,7 +260,7 @@
           </p>
           <p>
             <span>订单金额：</span>
-            <span>{{reportInfo.orderPrice}}</span>
+            <span>{{reportInfo.orderPrice / 100 || 0}}</span>
             <span>元</span>
           </p>
           <p>
@@ -268,7 +271,7 @@
         </div>
         <div class="experience mt-22">
           <p class="mb-10">试用过程与体验：</p>
-          <iInput v-model="trialReportText" type="textarea" :autosize="{minRows: 2,maxRows: 5}"
+          <iInput v-model="trialReportText" type="textarea" :autosize="{minRows: 5,maxRows: 5}"
                   placeholder="请输入宝贝评价"></iInput>
         </div>
         <div class="experience-img mt-22">
@@ -436,7 +439,9 @@
         auditTimeEnd: '',
         trialReportImages: [],
         trialReportText: null,
-        reportInfo: {},
+        reportInfo: {
+          task:{}
+        },
         defaultImageList: [],
       }
     },
@@ -493,6 +498,12 @@
             break;
           case 'ren_qi':
             return "人气";
+            break;
+          case "buyer_manual_close":
+            return "秀客主动终止";
+            break;
+          case "seller_manual_close":
+            return "商家主动终止";
             break;
         }
       },
@@ -628,6 +639,7 @@
               data.alitmAccount = item.alitmAccount;
               data.orderNum = item.orderNum;
               data.status = item.status;
+              data.trialEndReason = item.trialEndReason;
               data.taskMainImage = item.task.taskMainImage;
               data.taskName = item.task.taskName;
               data.perMarginNeed = item.task.perMarginNeed;

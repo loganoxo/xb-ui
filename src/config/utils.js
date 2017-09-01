@@ -2,6 +2,7 @@
  * Created by ycb on 2017/7/18.
  */
 import {aliUrl, bucket} from '@/config/env'
+
 /**
  * 存储localStorage
  */
@@ -32,7 +33,7 @@ export const removeStorage = (name) => {
 /**
  * 生成当前时间的年月日
  */
-export const TimeToDate = () => {
+export const timeToDate = () => {
   let time = new Date();
   let Y = time.getFullYear();
   let M = time.getMonth() + 1;
@@ -44,6 +45,13 @@ export const TimeToDate = () => {
     D = '0' + D
   }
   return Y + M + D
+}
+
+/**
+ * 随机生成20位字符串（字母+ 数字）
+ */
+export const randomString = () => {
+  return timeToDate() + '/' + Math.random().toString(36).substr(2) + parseInt(new Date().getTime() / parseInt(Math.random() * 1000 - 100 + 100));
 }
 
 /**
@@ -71,7 +79,7 @@ export const isAliUrl = (url) => {
 }
 
 /**
- * 前端阿里云上传图片方法
+ * 上传图片到阿里云
  */
 export const aliUploadImg = (key, file) => {
   return new Promise((resolve, reject) => {

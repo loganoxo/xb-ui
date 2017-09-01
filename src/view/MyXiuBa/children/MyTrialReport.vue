@@ -4,16 +4,14 @@
       <div class="mt-10">
         <div class="trial-right left">
           <div v-show="!showReportDesc">
-            <p class="fs-16 trial-account">
-              {{showkerInfo.phone}}的试用报告
-            </p>
+            <p class="fs-16 trial-account">{{showkerInfo.phone}}的试用报告</p>
             <p class="trial-tag">
               Ta的标签：&nbsp;&nbsp;
               <a  v-for="(value, key) in showkerTag">
                 <iButton size="small" v-if=" value > 0" >{{showkerTagDesc[key]}}({{value}})</iButton>
               </a>
             </p>
-            <div  class="graphic-info-report">
+            <div class="graphic-info-report">
               <ul v-if="trialReportList.length > 0">
                 <li v-for="trialReport in trialReportList">
                   <div>
@@ -44,7 +42,7 @@
               </div>
             </div>
           </div>
-          <div v-show="showReportDesc">
+          <div v-if="showReportDesc">
             <p class="fs-16 trial-account">
               {{showkerReportDesc.showkerPhone}}的试用报告
                <a @click="showReportDesc = false;" class="right fs-14">返回上一页</a>
@@ -54,7 +52,7 @@
                 <img :src="showkerReportDesc.task.taskMainImage" alt="" width="100px" class="left">
                 <div class="left ml-20">
                   <p>{{showkerReportDesc.task.taskName}}</p>
-                  <p>宝贝单价 {{showkerReportDesc.task.itemPrice / 100}} 元 。</p>
+                  <p>宝贝单价&nbsp;<span>{{showkerReportDesc.task.itemPrice / 100}}</span>&nbsp;元 。</p>
                 </div>
               </div>
             </div>
@@ -71,7 +69,7 @@
                           :dots="setting.dots"
                           :trigger="setting.trigger"
                           :arrow="setting.arrow">
-                   <Carousel-item v-for="trialReportImage in showkerReportDesc.trialReportImages" :Key="trialReportImage.id">
+                   <Carousel-item v-for="trialReportImage in showkerReportDesc.trialReportImages" :Key="trialReportImage">
                      <img class="block mg-at" :src="trialReportImage" alt="" width="700px">
                   </Carousel-item>
                 </Carousel>

@@ -73,9 +73,9 @@
               <p class="mt-10">{{item.endTime | dateFormat('YYYY-MM-DD hh:mm:ss') || '----'}}</p>
             </td>
             <td>{{item.taskStatusDesc}}</td>
-            <td class="registration">{{item.showkerApplyTotalCoun || 0}} / {{item.showkerApplySuccessCount || 0}}（人）</td>
+            <td class="registration">{{item.showkerApplyTotalCount || 0}} / {{item.showkerApplySuccessCount || 0}}（人）</td>
             <td>{{item.taskCount}}</td>
-            <td>{{item.totalMarginNeed / 100}} / {{item.promotionExpensesNeed / 100}} / {{(item.marginPaid || 0 + item.promotionExpensesPaid || 0) / 100 }}</td>
+            <td>{{item.totalMarginNeed / 100}} / {{item.promotionExpensesNeed / 100}} / {{(item.marginPaid + item.promotionExpensesPaid) / 100 || 0}}</td>
             <td v-if="item.taskStatus === 'waiting_pay'">
               <p class="del-edit">
                 <span class="mr-10" @click="editTask(item.id,item.taskStatus)">编辑</span>
@@ -97,7 +97,7 @@
                 <span @click="copyTask(item.id)">复制活动</span>
               </p>
             </td>
-            <td v-else-if="item.taskStatus === 'waiting_audit' || item.taskStatus === 'cannot_settlement' || item.taskStatus === 'waiting_audit'">
+            <td v-else-if="item.taskStatus === 'waiting_audit' || item.taskStatus === 'cannot_settlement'">
               <p class="copy mt-6">
                 <span @click="copyTask(item.id)">复制活动</span>
               </p>
@@ -121,6 +121,9 @@
             <td v-else>
               <p class="bond mt-6">
                 <span @click="approveGuest(item.id)">审批秀客</span>
+              </p>
+              <p class="copy mt-6">
+                <span @click="copyTask(item.id)">复制活动</span>
               </p>
             </td>
           </tr>
@@ -163,7 +166,7 @@
           <div class="manage-text left ml-5">
             <p>{{approveTaskInfo.taskName}}</p>
             <p class="mt-15">
-              总份数<strong>&nbsp;{{approveTaskInfo.taskCount || 0}}&nbsp;</strong>，<strong>&nbsp;{{approveTaskInfo.showkerApplySuccessCount}}&nbsp;</strong>人正在参与试用，<strong>&nbsp;{{approveTaskInfo.taskFinishCount || 0}}&nbsp;</strong>人完成试用，剩余名额<strong>&nbsp;{{approveTaskInfo.taskCount - approveTaskInfo.showkerApplySuccessCount || 0}}&nbsp;</strong>个
+              总份数<strong>&nbsp;{{approveTaskInfo.taskCount || 0}}&nbsp;</strong>，<strong>&nbsp;{{approveTaskInfo.showkerApplyTotalCount || 0}}&nbsp;</strong>人正在参与试用，<strong>&nbsp;{{approveTaskInfo.showkerApplySuccessCount || 0}}&nbsp;</strong>人完成试用，剩余名额<strong>&nbsp;{{approveTaskInfo.taskCount - approveTaskInfo.showkerApplySuccessCount || 0}}&nbsp;</strong>个
             </p>
           </div>
         </div>
@@ -197,7 +200,7 @@
                   <td>{{item.alitmAccount}}</td>
                   <td>{{item.applyTime | dateFormat('YYYY-MM-DD hh:mm:ss')}}</td>
                   <td class="registration">
-                    <router-link :to="{ 'path': '/task-details','query': {'taskId': item.id}}">{{item.task.showkerApplySuccessCount}}</router-link>
+                    <router-link :to="{ 'path': '/my-trial-report','query': {'taskId': item.id}}">{{item.task.showkerApplySuccessCount}}</router-link>
                   </td>
                   <td>
                     <p class="del-edit">
@@ -274,7 +277,7 @@
                   <td>{{item.alitmAccount}}</td>
                   <td>
                     <p>{{getTaskStatus(item.status)}}</p>
-                    <p><time-down color='#ff4040' :fontWeight=600 :endTime="item.currentGenerationEndTime"></time-down></p>
+                    <p v-if="item.status !== 'trial_end' && item.status !== 'trial_finished'"><time-down color='#ff4040' :fontWeight=600 :endTime="item.currentGenerationEndTime"></time-down></p>
                   </td>
                   <td>{{item.orderNum}}</td>
                   <td>
@@ -342,7 +345,7 @@
                   <td>{{item.orderNum}}</td>
                   <td>{{getTaskStatus(item.status)}}</td>
                   <td>{{item.updateTime | dateFormat('YYYY-MM-DD hh:mm:ss')}}</td>
-                  <td>{{item.trialEndReason}}</td>
+                  <td>{{getTaskStatus(item.trialEndReason)}}</td>
                 </tr>
                 </tbody>
                 <tbody v-if="approveTableList.length === 0">
@@ -797,7 +800,8 @@
         }).then(res => {
           if (res.status) {
             _this.orderInfo = res.data;
-            _this.perMarginNeed = res.data.task.perMarginNeed;
+            _this.orderInfo.orderPrice = _this.orderInfo.orderPrice / 100;
+            _this.perMarginNeed = res.data.task.perMarginNeed /100;
           }
         })
       },
@@ -805,7 +809,7 @@
         let _this = this;
         api.depositSupplement({
           payPassword: pwd,
-          taskId:_this.orderInfo.id
+          taskId: _this.orderInfo.id
         }).then(res => {
           if(res.status){
             _this.getBalance();

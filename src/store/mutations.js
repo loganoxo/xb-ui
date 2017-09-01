@@ -35,6 +35,6 @@ export default {
   },
   //存入用户账户余额到vuex
   [types.RECORD_USER_BALANCE](state,{balance}) {
-    state.userBalance = balance;
+    state.userBalance = balance / 100;
   },
 }
