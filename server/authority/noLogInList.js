@@ -13,7 +13,8 @@ const noLogInList = [
   "/api/task/showker-newest.json",//首页左上角列表接口
   "/api/task/get/item/catalog/parent.json",//分类页面
   "/api/search/task/s.json",//
-  '/api/task/item/catalog/child.json'
+  '/api/task/item/catalog/child.json',
+  '/api/task/detail.json',
 ];
 
 module.exports = noLogInList;

@@ -59,15 +59,17 @@
                 个；
                 待修改订单号/报告
                 <router-link to="/user/personal-setting">{{trialCount.trialReportWaitingSubmitShowkerTask}}</router-link>
-                个）。 进入我的试用
+                个）。
+                <router-link to="/user/activity-management">进入试用活动管理</router-link>
+
               </p>
               <p v-if="getUserInfoRole == 1">
-                试用提醒：待审核 {{trialCount.waitingAuditTask}} 个，进行中 {{trialCount.underWayTask}} 个
-                （已通过待领取<router-link to="/user/personal-setting">{{trialCount.trialReportWaitingConfirmShowkerTask}}</router-link> 个；
-                已下单待交试用报告<router-link to="/user/personal-setting">{{trialCount.waitingAuditTaskApply}}</router-link>个；
-                待修改订单号/报告<router-link to="/user/personal-setting">{{trialCount.orderNumWaitingAuditShowkerTask}}</router-link>个）。
-                已结束尚未结算 {{}} 个
-                <router-link to="/user/personal-setting">进入试用活动管理</router-link>
+                活动提醒：待审核 {{trialCount.waitingAuditTask}} 个，进行中 {{trialCount.underWayTask}} 个
+                （待审批秀客 <router-link to="/user/personal-setting">{{trialCount.trialReportWaitingConfirmShowkerTask}}</router-link> 个；
+                待审核订单号 <router-link to="/user/personal-setting">{{trialCount.waitingAuditTaskApply}}</router-link> 个；
+                待审核报告 <router-link to="/user/personal-setting">{{trialCount.orderNumWaitingAuditShowkerTask}}</router-link> 个）。
+                已结束尚未结算 {{trialCount.waitingSettlementTask}} 个
+                <router-link to="/user/my-probation">进入我的试用</router-link>
               </p>
             </div>
             <p  v-if="getUserInfoRole == 0" class="fs-16 clear-both user-home-account" style="border-bottom: 1px solid #eee;">最新试用宝贝</p>
