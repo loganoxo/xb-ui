@@ -1,10 +1,10 @@
 <template>
-  <div>
-    <div class="my-xiu-ba container">
+  <div class="clear">
+    <div class="my-xiu-ba container clear">
       <!--<div class="my-xiu-ba-title">-->
         <!--<h1 class="left">我的秀吧</h1>-->
       <!--</div>-->
-      <div class="container">
+      <div class="container clear">
         <div class="tmy-xiu-ba-con clear">
           <div class="my-xiu-ba-con-nav left">
             <ul v-if="getUserInfoRole === 1">
@@ -18,7 +18,7 @@
               </li>
               <li :class="{isSelect:isSelect ==='activityManagement'}" @click="selectNavigate('activityManagement')">
                 <Icon type="clipboard"></Icon>
-                <router-link to="/user/activity-management">试用活动管理</router-link>
+                <router-link to="/user/activity-management/list">试用活动管理</router-link>
               </li>
               <li :class="{isSelect:isSelect ==='moneyManagement'}" @click="selectNavigate('moneyManagement')">
                 <Icon type="social-yen"></Icon>
@@ -44,7 +44,7 @@
               </li>
               <li :class="{isSelect:isSelect ==='myProbation'}" @click="selectNavigate('myProbation')">
                 <Icon type="compose"></Icon>
-                <router-link to="/user/my-probation">我的试用</router-link>
+                <router-link to="/user/my-probation/wait">我的试用</router-link>
               </li>
               <li :class="{isSelect:isSelect ==='myTrialReport'}" @click="selectNavigate('myTrialReport')">
                 <Icon type="clipboard"></Icon>
@@ -68,7 +68,7 @@
               </li>
             </ul>
           </div>
-          <div class="my-xiu-ba-con-right right">
+          <div class="my-xiu-ba-con-right right clear">
             <router-view></router-view>
           </div>
         </div>

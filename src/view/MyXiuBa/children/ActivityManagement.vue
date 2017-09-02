@@ -441,7 +441,7 @@
         <div class="trial-experience mt-20">
           <div class="trial-experience-title">试用过程与体验：</div>
           <div
-            class="trial-experience-con mt-22">{{showkerReportInfo.trialReportText}}</div>
+            class="trial-experience-con mt-22">{{showkerReportInfo.trialReportText || ''}}</div>
           <div class="trial-experience-title mt-22">试用图片：</div>
           <div class="trial-img-info">
             <div class="trial-img">
@@ -839,6 +839,7 @@
             _this.showkerReportInfo = res.data.trialReport;
             _this.trialReportImages = _this.showkerReportInfo.trialReportImages ? JSON.parse(_this.showkerReportInfo.trialReportImages) : [];
             _this.showNowImageSrc = _this.trialReportImages[0];
+            console.log(showkerTaskInfo);
           }else{
             _this.$Message.error(res.msg)
           }

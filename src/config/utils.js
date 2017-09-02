@@ -106,3 +106,58 @@ export const aliUploadImg = (key, file) => {
   });
 }
 
+/**
+ * 接口错误状态映射
+ */
+export const TaskErrorStatusList = (type) => {
+  switch (type) {
+    case "pass_and_unclaimed":
+      return "已通过待领取";
+      break;
+    case "order_num_waiting_audit":
+      return "订单号待审核";
+      break;
+    case "order_num_error":
+      return "订单号有误";
+      break;
+    case "trial_report_waiting_submit":
+      return "待提交试用报告";
+      break;
+    case "trial_report_waiting_confirm":
+      return "试用报告待确认";
+      break;
+    case "trial_report_unqualified":
+      return "报告不合格";
+      break;
+    case "trial_end":
+      return "试用终止";
+      break;
+    case "trial_finished":
+      return "试用完成";
+      break;
+    case "timeout_auto_close":
+      return "任务超时终止";
+      break;
+    case "buyer_manual_close":
+      return "秀客主动终止";
+      break;
+    case "seller_manual_close":
+      return "商家主动终止";
+      break;
+    case 'waiting_audit':
+      return "待审核";
+      break;
+    case 'audit_reject':
+      return "未通过";
+      break;
+    case 'zong_he':
+      return "综合";
+      break;
+    case 'xiao_liang':
+      return "销量";
+      break;
+    case 'ren_qi':
+      return "人气";
+      break;
+  }
+}

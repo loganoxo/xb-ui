@@ -12,8 +12,16 @@ const MyXiuBa = r => require.ensure([], () => r(require('../view/MyXiuBa/MyXiuBa
 const UserHome = r => require.ensure([], () => r(require('../view/MyXiuBa/children/UserHome.vue')), 'MyXiuBa');
 const PersonalSetting = r => require.ensure([], () => r(require('../view/MyXiuBa/children/PersonalSetting.vue')), 'PersonalSetting');
 const TaskReleaseProcess = r => require.ensure([], () => r(require('../view/MyXiuBa/children/TaskReleaseProcess.vue')), 'TaskReleaseProcess');
-const ActivityManagement = r => require.ensure([], () => r(require('../view/MyXiuBa/children/ActivityManagement.vue')), 'ActivityManagement');
-const MyProbation = r => require.ensure([], () => r(require('../view/MyXiuBa/children/MyProbation.vue')), 'MyProbation');
+// const ActivityManagement = r => require.ensure([], () => r(require('../view/MyXiuBa/children/ActivityManagement.vue')), 'ActivityManagement');
+const ActivityManagement = r => require.ensure([], () => r(require('../view/MyXiuBa/children/activityManagement/index.vue')), 'ActivityManagement');
+const ApproveShowker = r => require.ensure([], () => r(require('../view/MyXiuBa/children/activityManagement/children/approveShowker.vue')), 'ActivityManagement');
+const ProbationReport = r => require.ensure([], () => r(require('../view/MyXiuBa/children/activityManagement/children/probationReport.vue')), 'ActivityManagement');
+const ActivitiesList = r => require.ensure([], () => r(require('../view/MyXiuBa/children/activityManagement/children/activitiesList.vue')), 'ActivityManagement');
+// const MyProbation = r => require.ensure([], () => r(require('../view/MyXiuBa/children/MyProbation.vue')), 'MyProbation');
+const MyProbation = r => require.ensure([], () => r(require('../view/MyXiuBa/children/myProbation/index.vue')), 'MyProbation');
+const ApplyWaitAudit = r => require.ensure([], () => r(require('../view/MyXiuBa/children/myProbation/children/ApplyWaitAudit.vue')), 'MyTrialReport');
+const ApplyPassAudit = r => require.ensure([], () => r(require('../view/MyXiuBa/children/myProbation/children/applyPassAudit.vue')), 'MyTrialReport');
+const ApplyFailAudit = r => require.ensure([], () => r(require('../view/MyXiuBa/children/myProbation/children/applyFailAudit.vue')), 'MyTrialReport');
 const MoneyManagement = r => require.ensure([], () => r(require('../view/MyXiuBa/children/MoneyManagement.vue')), 'MoneyManagement');
 const MyTrialReport = r => require.ensure([], () => r(require('../view/MyXiuBa/children/MyTrialReport.vue')), 'MyTrialReport');
 
@@ -118,7 +126,24 @@ export default new Router({
           component: ActivityManagement,
           meta: {
             title: "试用活动管理"
-          }
+          },
+          children:[
+            {
+              path: 'list',
+              name: 'ActivitiesList',
+              component: ActivitiesList,
+            },
+            {
+              path: 'approve',
+              name: 'ApproveShowker',
+              component: ApproveShowker,
+            },
+            {
+              path: 'report',
+              name: 'ProbationReport',
+              component: ProbationReport,
+            }
+          ]
         },
         {
           path: 'my-probation',
@@ -126,7 +151,24 @@ export default new Router({
           component: MyProbation,
           meta: {
             title: "我的试用"
-          }
+          },
+          children:[
+            {
+              path: 'wait',
+              name: 'ApplyWaitAudit',
+              component: ApplyWaitAudit,
+            },
+            {
+              path: 'pass',
+              name: 'ApplyPassAudit',
+              component: ApplyPassAudit,
+            },
+            {
+              path: 'fail',
+              name: 'ApplyFailAudit',
+              component: ApplyFailAudit,
+            }
+          ]
         },
         {
           path: 'my-trial-report',
@@ -152,7 +194,6 @@ export default new Router({
             title :"资金管理"
           }
         },
-
       ]
     }
   ]

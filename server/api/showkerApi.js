@@ -226,44 +226,15 @@ router.post('/api/showker-to-process-order.json', function (req, res, next) {
 });
 
 /**
- * 秀客保存订单号
+ * 秀客修改/保存订单号
  * @param orderNum
  * @param id
  * @param actualPayMoney
  */
-router.post('/api/showker-save-order.json', function (req, res, next) {
+router.post('/api/showker-order-save.json', function (req, res, next) {
   let options = {
     method: 'POST',
-    uri: baseUrl + '/task/showker/saveOrder',
-    formData: {
-      id: req.body.id,
-      orderNum: req.body.orderNum,
-      actualPayMoney: req.body.actualPayMoney * 100
-    },
-    json: true
-  };
-  request(options)
-    .then(function (parsedBody) {
-      res.send(parsedBody);
-      res.end();
-    })
-    .catch(function (err) {
-      logConfig.logger.error(req.originalUrl + ':' + err);
-      res.json({status: false, msg: "服务器错误"});
-      res.end();
-    });
-});
-
-/**
- * 秀客修改订单号
- * @param orderNum
- * @param id
- * @param actualPayMoney
- */
-router.post('/api/showker-modify-order.json', function (req, res, next) {
-  let options = {
-    method: 'POST',
-    uri: baseUrl + '/task/showker/modifyOrder',
+    uri: baseUrl + '/task/showker/order/save',
     formData: {
       id: req.body.id,
       orderNum: req.body.orderNum,
@@ -292,7 +263,7 @@ router.post('/api/showker-modify-order.json', function (req, res, next) {
 router.post('/api/showker-save-report.json', function (req, res, next) {
   let options = {
     method: 'POST',
-    uri: baseUrl + '/task/showker/saveReport',
+    uri: baseUrl + '/task/showker/report/save',
     formData: {
       id: req.body.id,
       trialReportText: req.body.trialReportText,
@@ -321,7 +292,7 @@ router.post('/api/showker-save-report.json', function (req, res, next) {
 router.post('/api/showker-modify-report.json', function (req, res, next) {
   let options = {
     method: 'POST',
-    uri: baseUrl + '/task/showker/modifyReport',
+    uri: baseUrl + '/task/showker/report/modify',
     formData: {
       id: req.body.id,
       trialReportText: req.body.trialReportText,
@@ -348,7 +319,7 @@ router.post('/api/showker-modify-report.json', function (req, res, next) {
 router.post('/api/showker-report-info.json', function (req, res, next) {
   let options = {
     method: 'GET',
-    uri: baseUrl + '/task/showker/reportInfo',
+    uri: baseUrl + '/task/showker/report/info',
     qs: {
       id: req.body.id,
       showkerId: req.session.userData.id

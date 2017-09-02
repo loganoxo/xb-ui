@@ -245,6 +245,7 @@ router.post('/api/task/showker/success.json', function (req, res, next) {
       res.end();
     });
 });
+
 /**
  * 试用报告查看全文接口
  * @param id
@@ -253,7 +254,7 @@ router.post('/api/task/showker/success.json', function (req, res, next) {
 router.post('/api/task/showker/trialReport.json', function (req, res, next) {
   let options = {
     method: 'GET',
-    uri: baseUrl + "/task/showker/trialReport",
+    uri: baseUrl + "/task/showker/report/get",
     json: true,
     formData: {
       id: req.body.id ,

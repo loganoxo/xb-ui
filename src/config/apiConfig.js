@@ -340,15 +340,8 @@ export default {
   /**
    * 秀客保存订单号
    */
-  showkerSaveOrder(params) {
-    return fetch("/api/showker-save-order.json", params)
-  },
-
-  /**
-   * 秀客修改订单号
-   */
-  showkerModifyOrder(params) {
-    return fetch("/api/showker-modify-order.json", params)
+  showkerOrderSave(params) {
+    return fetch("/api/showker-order-save.json", params)
   },
 
   /**

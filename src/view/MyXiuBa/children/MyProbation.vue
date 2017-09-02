@@ -152,9 +152,9 @@
                 <p v-if="item.status === 'trial_report_unqualified'" class="operation"
                    @click="changePassOperation('report','amend',item.id)">修改试用报告</p>
                 <p v-if="item.status === 'pass_and_unclaimed'" class="operation mt-5"
-                   @click="openAuditOrder('write',item.id)">填订单号</p>
+                   @click="openAuditOrder(item.id)">填订单号</p>
                 <p v-if="item.status === 'order_num_error'" class="operation mt-5"
-                   @click="openAuditOrder('amend',item.id)">修改订单号</p>
+                   @click="openAuditOrder(item.id)">修改订单号</p>
                 <p v-if="item.status !== 'trial_end' && item.status !== 'trial_finished'" class="operation mt-5"
                    @click="endTrial(item.id,'passAudit')">结束试用</p>
                 <p v-if="item.status === 'trial_finished'" class="operation mt-5">查看试用详情</p>
@@ -232,7 +232,7 @@
           </div>
         </div>
         <div class="write-order-number mt-40">
-          <span @click="openAuditOrder('write')">下单完成，填订单号</span>
+          <span @click="openAuditOrder()">下单完成，填订单号</span>
           <span class="ml-35" @click="returnUpPage">返回上页</span>
         </div>
       </div>
@@ -347,7 +347,7 @@
         <Page :total="totalElements" :page-size="pageSize" @on-change="pageChange"></Page>
       </div>
     </div>
-    <!--审核订单号弹窗-->
+    <!--填写订单号弹窗-->
     <div class="audit-order-number-model" v-if="showAuditOrderNumber">
       <div class="audit-order-number-con showSweetAlert">
         <i class="close-model right mr-10" @click="closeAuditOrder">&times;</i>
@@ -576,12 +576,11 @@
       closeAuditOrder() {
         this.showAuditOrderNumber = false;
       },
-      openAuditOrder(status, id) {
+      openAuditOrder(id) {
         this.showAuditOrderNumber = true;
         if (!this.itemId) {
           this.itemId = id;
         }
-        this.orderStatus = status;
       },
       uploadImgSuccess(res) {
         this.trialReportImages.push(aliCallbackImgUrl + res.name);
@@ -691,8 +690,7 @@
       },
       saveOrUpdateOrderNumber() {
         let _this = this;
-        if (_this.orderStatus === 'write') {
-          api.showkerSaveOrder({
+          api.showkerOrderSave({
             id: _this.itemId,
             orderNum: _this.affirmOrderNumber,
             actualPayMoney: _this.payMoney
@@ -709,25 +707,6 @@
               _this.$Message.error(res.msg);
             }
           })
-        } else {
-          api.showkerModifyOrder({
-            id: _this.itemId,
-            orderNum: _this.affirmOrderNumber,
-            actualPayMoney: _this.payMoney
-          }).then(res => {
-            if (res.status) {
-              _this.$Message.success({
-                content: '订单号修改成功，请耐心等待商家审核！',
-                duration: 6
-              });
-              _this.showkerSuccessList();
-              _this.showAuditOrderNumber = false;
-              _this.returnUpPage();
-            } else {
-              _this.$Message.error(res.msg);
-            }
-          })
-        }
       },
       submitReport() {
         let _this = this;
