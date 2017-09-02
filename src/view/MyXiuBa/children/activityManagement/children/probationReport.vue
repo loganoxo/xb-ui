@@ -21,7 +21,7 @@
         </p>
         <p>
           <span>订单金额：</span>
-          <strong>{{showkerTaskInfo.orderPrice}}</strong>
+          <strong>{{showkerTaskInfo.orderPrice / 100 || 0}}</strong>
           <span>元</span>
         </p>
         <p>
@@ -86,7 +86,7 @@
           </p>
           <p class="mt-8">
             <span>返款金额：</span>
-            <strong>{{showkerTaskInfo.task.itemPrice / 100}}</strong>
+            <strong>{{showkerTaskInfo.orderPrice / 100}}</strong>
             <span>元</span>
           </p>
         </div>
@@ -96,7 +96,7 @@
           <iButton type="primary" @click="confirmRefund">确认</iButton>
         </div>
         <div class="refund-tip ml-35 mt-22">
-          <p>如果您的支付密码没有修改，那么支付密码与登陆密码一致。</p>
+          <p>如果您的支付密码没有修改，初始密码为：888888。</p>
           <p class="mt-6">为了账户安全，建议您另外设置一个密码！
             <router-link to="">修改支付密码</router-link>
           </p>
@@ -110,9 +110,9 @@
   import Icon from 'iview/src/components/icon'
   import Button from 'iview/src/components/button'
   import Input from 'iview/src/components/input'
+  import Radio from 'iview/src/components/radio'
   import TimeDown from '@/components/TimeDown'
   import api from '@/config/apiConfig'
-  import {mapActions} from 'vuex'
   import {TaskErrorStatusList} from '@/config/utils'
 
   export default {
@@ -120,6 +120,8 @@
     components: {
       iButton: Button,
       Icon: Icon,
+      Radio: Radio,
+      RadioGroup: Radio.Group,
       iInput: Input,
       TimeDown: TimeDown
     },
@@ -132,6 +134,7 @@
         showkerTaskInfo:{
           task:{}
         },
+        noPassReason:null,
         trialReportImages:[],
         showNowImageSrc:null,
         reportImagesIndex:0
@@ -141,17 +144,13 @@
     },
     created() {
       let id = this.$route.query.id;
-      let showkerId = this.$route.query.showkerId;
-      this.auditTrialReport(id, showkerId);
+      this.auditTrialReport(id);
     },
     watch: {},
     computed: {},
     methods: {
-      ...mapActions([
-        'getBalance'
-      ]),
       returnUpPage() {
-        this.$router.push({name: 'ActivitiesList'})
+        this.$router.push({name: 'ApproveShowker',query: {taskId: this.showkerTaskInfo.task.id}})
       },
       getTaskStatus(type) {
         return TaskErrorStatusList(type);
@@ -162,18 +161,16 @@
       openRefundModel() {
         this.showRefundModel = true;
       },
-      auditTrialReport(id,showkerId) {
+      auditTrialReport(id) {
         let _this = this;
         api.taskReportInfo({
           id:id,
-          showkerId:showkerId
         }).then(res =>{
           if(res.status){
             _this.showkerTaskInfo = res.data.showkerTask;
             _this.showkerReportInfo = res.data.trialReport;
             _this.trialReportImages = _this.showkerReportInfo.trialReportImages ? JSON.parse(_this.showkerReportInfo.trialReportImages) : [];
             _this.showNowImageSrc = _this.trialReportImages[0];
-            console.log(showkerTaskInfo);
           }else{
             _this.$Message.error(res.msg);
           }
@@ -182,8 +179,8 @@
       confirmReport() {
         let _this = this;
         api.taskReportAudit({
-          id: _this.showkerTaskInfo.task.id,
-          status: _this.trialCheckStatus,
+          id: _this.showkerTaskInfo.id,
+          status: _this.trialCheckStatus === 'pass' ? 'true' : 'false',
           msg: _this.noPassReason
         }).then(res =>{
           if(res.status){
@@ -233,7 +230,6 @@
               duration: 4
             });
             _this.showRefundModel =  false;
-            _this.getBalance();
             _this.returnUpPage();
           }else{
             _this.$Message.error({

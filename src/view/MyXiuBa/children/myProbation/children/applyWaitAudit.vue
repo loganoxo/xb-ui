@@ -118,9 +118,8 @@
       },
       endTrial(id, type) {
         let _this = this;
-        api.endTrial({
-          id: id,
-          status: _this.showProbationStatus
+        api.showkerApplyEed({
+          id: id
         }).then(res => {
           if (res.status) {
             _this.$Message.success({

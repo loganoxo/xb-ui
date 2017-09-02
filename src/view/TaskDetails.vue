@@ -28,33 +28,25 @@
               &nbsp;&nbsp;&nbsp;&nbsp;
               试用份数：<span class="fs-18"> {{commodityData.task.taskCount}} </span>份
             </p>
-            <p class="fs-14">
-              （商家已存入总试用担保金 {{commodityData.task.totalMarginNeed/100}} 元，请放心申请）
-            </p>
-            <p class="fs-14">
-              {{commodityData.task.showkerApplyTotalCount}} 人申请， {{commodityData.trailOn ? commodityData.trailOn : 0}} 人正在参与试用， {{commodityData.trailDone ? commodityData.trailDone : 0}} 人完成试用， 剩余 {{commodityData.task.taskCount - commodityData.task.showkerApplySuccessCount}} 份
-            </p>
+            <p class="fs-14">（商家已存入总试用担保金&nbsp;{{commodityData.task.totalMarginNeed/100}}&nbsp;元，请放心申请）</p>
+            <p class="fs-14">{{commodityData.task.showkerApplyTotalCount}} 人申请，{{commodityData.trailOn ? commodityData.trailOn : 0}} 人正在参与试用，{{commodityData.trailDone ? commodityData.trailDone : 0}} 人完成试用， 剩余 {{commodityData.task.taskCount - commodityData.task.showkerApplySuccessCount}} 份</p>
             <p class="fs-14">
               <i class="ivu-icon ivu-icon-clock fs-16"></i>
               距申请结束：
               <time-down color="#495060" size="20" :endTime="commodityData.task.endTime" ></time-down>&nbsp;
               <!--<span class="fs-24">17</span> 天 <span class="fs-24">02</span> 小时 <span class="fs-24">56</span> 分钟 <span class="fs-24">31</span> 秒-->
             </p>
-            <div v-if="getRole == 0 ? true : false">
+            <div v-if="getRole === 0">
               <iButton v-if="showApplyBtn"   size="large" class="fs-16 default-btn" long type="error" @click="applyForTrialFunc">申请试用</iButton>
               <iButton v-if="!showApplyBtn" disabled size="large" class="fs-16 default-btn" long >已申请</iButton>
             </div>
-            <iButton  v-if="getRole == 1 ? true : false" size="large" class="fs-16 default-btn" long type="warning" >商家号不可以参加试用</iButton>
+            <iButton v-if="getRole === 1" size="large" class="fs-16 default-btn" long type="warning" >商家号不可以参加试用</iButton>
           </div>
         </div>
       </div>
       <div class="container">
         <div class="task-details-step">
-            <div class="left title">
-              试用
-              流程
-              <span></span>
-            </div>
+            <div class="left title"> 试用流程<span></span></div>
             <ul class="left ctt">
               <li>
                 <span>1</span>
@@ -158,8 +150,7 @@
       </div>
     </Modal>
     <Modal
-      v-model="selWw"
-      class-name="vertical-center-modal" ok-text="确定" cancel-text="" @on-ok="selWwFunc(wwList.alitms)">
+      v-model="selWw" class-name="vertical-center-modal" ok-text="确定" cancel-text="" @on-ok="selWwFunc(wwList.alitms)">
       <p class="fs-18 fb mt-20" style="color: #FF6600">请选择试用旺旺号:</p>
       <p class="fs-14 mt-10">注意：请 <span style="color: #FF6600">务必使用选的旺旺号下单购买</span>，否则订单审核将无法通过！</p>
       <Radio-group class="mt-20" v-model="selectedWw">
@@ -319,7 +310,7 @@
           self.wwList = res.data;
           self.showApplyBtn = true;
         }else {
-          if(res.statusCode == 'already_applied'){
+          if(res.statusCode === 'already_applied'){
             self.showApplyBtn = false;
           }
         }
@@ -357,14 +348,14 @@
                 let selRes = false;
                 self.wwList = res.data;
                 for(let i = 0, j = res.data.alitms.length; i < j; i++){
-                  if(res.data.alitms[i].status == 2){
+                  if(res.data.alitms[i].status === 2){
                     selRes = true;
                     self.canUseWw = true;
                     break;
                   }
                 }
               }else {
-                if(res.statusCode == 'already_applied'){
+                if(res.statusCode === 'already_applied'){
                   self.$Modal.warning({
                     content: '<p class="fs-14">亲，你已成功申请，不能二次申请</span>',
                   });

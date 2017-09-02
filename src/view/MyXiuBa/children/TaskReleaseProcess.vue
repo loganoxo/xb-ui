@@ -497,7 +497,7 @@
   import PayModel from '@/components/PayModel'
   import api from '@/config/apiConfig'
   import {aliCallbackImgUrl} from '@/config/env'
-  import {timeToDate, aliUploadImg, isNumber, isInteger, isAliUrl, randomString} from '@/config/utils'
+  import {aliUploadImg, isNumber, isInteger, isAliUrl, randomString} from '@/config/utils'
   import {oneOf} from 'iview/src/utils/assist'
   import {mapActions} from 'vuex'
 
@@ -703,8 +703,6 @@
       },
       stepNext() {
         let _this = this;
-        let URL_REG = /((item|detail).(tmall|taobao).*?)/;
-        let IS_NUMBER = /^[0-9]+(.[0-9]{1,2})?$/;
         if (!_this.taskRelease.taskDaysDuration) {
           _this.$Message.warning('亲，活动时长不能为空！');
           return;
@@ -961,7 +959,7 @@
       uploadImg(e) {
         let _this = this;
         let file = e.target.files[0];
-        let key = 'task' + '/' + timeToDate() + '/' + randomString();
+        let key = 'task' + '/' + randomString();
         aliUploadImg(key, file).then(res => {
           if (res) {
             let value = aliCallbackImgUrl + res.name;

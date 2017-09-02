@@ -845,12 +845,13 @@
         this.showModifyAvatar = true;
       },
       modifyPortraitPic(avatar){
-        this.defaultAvatar = avatar.src;
+        let self = this;
+        self.defaultAvatar = avatar.src;
         api.modifyPortraitPic({
           picStr: this.defaultAvatar
         }).then((res) => {
           if(res.status){
-            this.showModifyAvatar = false;
+            self.showModifyAvatar = false;
           }else {
             self.$Modal.error({
               content: res.msg
@@ -891,7 +892,7 @@
         this.modifyWw = true;
       },
       addWwBindFunc (){
-        if(this.wwBindLists.length < 3){
+        if((this.wwBindLists && this.wwBindLists.length < 3) || !this.wwBindLists){
           this.showWwBindBox = true;
           this.wwFormValidate.id = '';
           this.wwFormValidate.alitmAccount = '';
@@ -899,6 +900,7 @@
           this.remarks.text = '';
           this.modifyWw = false;
         }else {
+          console.log(this.wwBindLists);
           this.$Modal.warning({
             content: "亲, 最多只能绑定3个旺旺号"
           });

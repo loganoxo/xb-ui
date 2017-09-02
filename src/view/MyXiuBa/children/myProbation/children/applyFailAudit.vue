@@ -106,7 +106,6 @@
         this.pageIndex = data;
         this.showkerApplyList('failAudit');
       },
-
       showkerApplyList(status) {
         let _this = this;
         api.showkerApplyList({

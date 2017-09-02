@@ -63,28 +63,6 @@ router.post('/api/task/showker-personal-trial-count.json', function (req, res, n
 });
 
 /**
- * 商家个人主页试用提醒
- * @param showkerId
- */
-router.post('/api/task/seller-personal-trial-count.json', function (req, res, next) {
-  let options = {
-    method: 'GET',
-    uri: baseUrl + '/task/seller/personal/trial/count/' + req.session.userData.id,
-    json: true
-  };
-  request(options)
-    .then(function (parsedBody) {
-      res.send(parsedBody);
-      res.end();
-    })
-    .catch(function (err) {
-      logConfig.logger.error(req.originalUrl + ':' + err);
-      res.json({status: false, msg: "服务器错误"});
-      res.end();
-    });
-});
-
-/**
  * 秀客申请列表
  * 审核通过的
  * @param showkerId
@@ -115,19 +93,16 @@ router.post('/api/showker-success-list.json', function (req, res, next) {
 });
 
 /**
- * 秀客的试用报告
+ * 秀客的试用报告（针对获取试用报告列表，分页查询）
  * @param showkerId
  * @param pageIndex
  * @param pageSize
- * @param orderBy
- * @param sort
- * @return
  */
-router.post('/api/task/showker/showkerTrialReports.json', function (req, res, next) {
+router.post('/api/task/showker/trial/reports.json', function (req, res, next) {
   let options = {
     method: 'GET',
-    uri: baseUrl + '/task/showker/showkerTrialReports',
-    formData: {
+    uri: baseUrl + '/task/showker/trial/reports',
+    qs: {
       showkerId: req.body.showkerId,
       pageIndex: req.body.pageIndex,
       pageSize: req.body.pageSize,
@@ -147,17 +122,69 @@ router.post('/api/task/showker/showkerTrialReports.json', function (req, res, ne
 });
 
 /**
- * 秀客终止试用
+ * 秀客的试用详情（针对获取秀客试用详情）
+ * @param showkerId
+ */
+router.post('/api/task/showker/trial/detail.json', function (req, res, next) {
+  let options = {
+    method: 'GET',
+    uri: baseUrl + '/task/showker/trial/detail',
+    qs: {
+      showkerId: req.body.showkerId,
+    },
+    json: true
+  };
+  request(options)
+    .then(function (parsedBody) {
+      res.send(parsedBody);
+      res.end();
+    })
+    .catch(function (err) {
+      logConfig.logger.error(req.originalUrl + ':' + err);
+      res.json({status: false, msg: "服务器错误"});
+      res.end();
+    });
+});
+
+/**
+ * 秀客终止试用（针对申请成功的任务）
  * @param id
  * @param status
  */
-router.post('/api/showker-end-trial.json', function (req, res, next) {
+router.post('/api/showker-trial-end.json', function (req, res, next) {
   let options = {
     method: 'POST',
-    uri: baseUrl + '/task/showker/endTrial',
+    uri: baseUrl + '/task/showker/trial/end',
     formData: {
-      id: req.body.id,
-      status: req.body.status
+      showkerTaskId: req.body.id,
+      showkerId: req.session.userData.id,
+    },
+    json: true
+  };
+  request(options)
+    .then(function (parsedBody) {
+      res.send(parsedBody);
+      res.end();
+    })
+    .catch(function (err) {
+      logConfig.logger.error(req.originalUrl + ':' + err);
+      res.json({status: false, msg: "服务器错误"});
+      res.end();
+    });
+});
+
+/**
+ * 秀客终止试用（针对申请还没有审核结果的任务）
+ * @param id
+ * @param status
+ */
+router.post('/api/showker-apply-end.json', function (req, res, next) {
+  let options = {
+    method: 'POST',
+    uri: baseUrl + '/task/showker/apply/end',
+    formData: {
+      showkerTaskId: req.body.id,
+      showkerId: req.session.userData.id,
     },
     json: true
   };
@@ -181,10 +208,10 @@ router.post('/api/showker-end-trial.json', function (req, res, next) {
 router.post('/api/showker-apply-delete.json', function (req, res, next) {
   let options = {
     method: 'POST',
-    uri: baseUrl + '/task/showker/applyDelete',
+    uri: baseUrl + '/task/showker/apply/delete',
     formData: {
       showkerId: req.session.userData.id,
-      id: req.body.id
+      showkerTaskId: req.body.id
     },
     json: true
   };
@@ -236,9 +263,10 @@ router.post('/api/showker-order-save.json', function (req, res, next) {
     method: 'POST',
     uri: baseUrl + '/task/showker/order/save',
     formData: {
-      id: req.body.id,
+      showkerTaskId: req.body.id,
+      showkerId: req.session.userData.id,
       orderNum: req.body.orderNum,
-      actualPayMoney: req.body.actualPayMoney * 100
+      orderPrice: req.body.actualPayMoney * 100
     },
     json: true
   };
@@ -263,9 +291,10 @@ router.post('/api/showker-order-save.json', function (req, res, next) {
 router.post('/api/showker-save-report.json', function (req, res, next) {
   let options = {
     method: 'POST',
-    uri: baseUrl + '/task/showker/report/save',
+    uri: baseUrl + '/task/showker/trial/report/save',
     formData: {
-      id: req.body.id,
+      showkerTaskId: req.body.id,
+      showkerId: req.session.userData.id,
       trialReportText: req.body.trialReportText,
       trialReportImages: req.body.trialReportImages
     },
@@ -292,9 +321,10 @@ router.post('/api/showker-save-report.json', function (req, res, next) {
 router.post('/api/showker-modify-report.json', function (req, res, next) {
   let options = {
     method: 'POST',
-    uri: baseUrl + '/task/showker/report/modify',
+    uri: baseUrl + '/task/showker/trial/report/modify',
     formData: {
-      id: req.body.id,
+      showkerTaskId: req.body.id,
+      showkerId: req.session.userData.id,
       trialReportText: req.body.trialReportText,
       trialReportImages: req.body.trialReportImages
     },
@@ -322,7 +352,6 @@ router.post('/api/showker-report-info.json', function (req, res, next) {
     uri: baseUrl + '/task/showker/report/info',
     qs: {
       id: req.body.id,
-      showkerId: req.session.userData.id
     },
     json: true
   };
@@ -360,6 +389,7 @@ router.post('/api/task/showker/qualification/check.json', function (req, res, ne
       res.end();
     });
 });
+
 /**
  * 秀客所选旺旺
  * @param wangwangId

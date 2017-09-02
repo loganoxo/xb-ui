@@ -48,7 +48,7 @@ export const timeToDate = () => {
 }
 
 /**
- * 随机生成20位字符串（字母+ 数字）
+ * 生成当前时间 + 随机20位字符串（字母+ 数字）
  */
 export const randomString = () => {
   return timeToDate() + '/' + Math.random().toString(36).substr(2) + parseInt(new Date().getTime() / parseInt(Math.random() * 1000 - 100 + 100));

@@ -317,10 +317,17 @@ export default {
   },
 
   /**
-   * 秀客终止试用
+   * 秀客终止试用（针对申请成功的任务）
    */
   endTrial(params) {
-    return fetch("/api/showker-end-trial.json", params)
+    return fetch("/api/showker-trial-end.json", params)
+  },
+
+  /**
+   * 秀客终止试用（针对申请还没有审核结果的任务）
+   */
+  showkerApplyEed(params) {
+    return fetch("/api/showker-apply-end.json", params)
   },
 
   /**
@@ -355,14 +362,14 @@ export default {
    *详情页试客报告列表
    */
   getDetailsShowkerList(params){
-    return fetch("/api/task/showker/trial/report.json",params)
+    return fetch("/api/task/trial/report.json",params)
   },
 
   /**
    *详情页已审核试客列表
    */
   getDetailsSuccessShowkerList(params){
-    return fetch("/api/task/showker/success.json",params)
+    return fetch("/api/task/success.json",params)
   },
 
   /**
@@ -373,14 +380,19 @@ export default {
   },
 
   /**
-   * 获取秀客试用报告
+   * 秀客的试用报告（针对获取试用报告列表，分页查询）
    */
-  getTrialReportList(params){
-    return fetch("/api/task/showker/showkerTrialReports.json", params)
+  getTrialReports(params){
+    return fetch("/api/task/showker/trial/reports.json", params)
   },
 
   /**
-   * 秀客填写试用报告当前任务详情
+   * 秀客的试用详情（针对获取秀客试用详情）
+   */
+  getTrialDetail(params){
+    return fetch("/api/task/showker/trial/detail.json", params)
+  },
+
   /**
    * 秀客填写试用报告或修改试用报告当前任务详情
    */

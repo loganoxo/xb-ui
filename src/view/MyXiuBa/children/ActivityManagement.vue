@@ -827,12 +827,11 @@
           }
         })
       },
-      auditTrialReport(id,showkerId) {
+      auditTrialReport(id) {
         let _this = this;
         _this.showContent = 'report';
         api.taskReportInfo({
           id:id,
-          showkerId:showkerId
         }).then(res =>{
           if(res.status){
             _this.showkerTaskInfo = res.data.showkerTask;

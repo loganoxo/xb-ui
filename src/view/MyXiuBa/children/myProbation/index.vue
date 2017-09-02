@@ -26,6 +26,11 @@
 
     },
     computed: {},
+    watch: {
+      $route(to){
+        this.showProbationStatus = to.name;
+      }
+    },
     methods: {
       changeTitle(name) {
         this.showProbationStatus = name;

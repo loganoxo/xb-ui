@@ -73,7 +73,7 @@
            </td>
            <td>{{item.alitmAccount}}</td>
            <td>{{item.perMarginNeed  / 100 || 0}}</td>
-           <td>{{item.orderNum || 0}}</td>
+           <td>{{item.orderNum || '-----'}}</td>
            <td>
              <div v-if="item.status !== 'trial_end' && item.status !== 'order_num_error' && item.status !== 'trial_report_unqualified'">
                <p>{{getTaskStatus(item.status)}}</p>
@@ -180,7 +180,7 @@
          </p>
          <p>
            <span>价格：</span>
-           <span>￥{{taskPlaceInfo.itemPrice}}</span>
+           <span>￥{{taskPlaceInfo.itemPrice / 100 || 0}}</span>
          </p>
        </div>
      </div>
@@ -409,7 +409,7 @@
         this.showkerApplyList();
       },
       returnUpPage() {
-        this.$router.push({name: 'ApplyPassAudit'});
+        this.showPassOperation = '';
       },
       handleCheckAll() {
 
@@ -429,6 +429,26 @@
         if (!this.itemId) {
           this.itemId = id;
         }
+      },
+      uploadImgSuccess(res) {
+        this.trialReportImages.push(aliCallbackImgUrl + res.name);
+      },
+      removeImage(file) {
+        let src = file.src;
+        let index = this.trialReportImages.indexOf(src);
+        this.trialReportImages.splice(index, 1);
+      },
+      handleFormatError(file) {
+        this.$Modal.warning({
+          title: '文件格式不正确',
+          content: '图片 ' + file.name + ' 格式不正确，请上传 jpg 或 jpeg 或 gif 或 bmp 格式的图片。'
+        });
+      },
+      handleMaxSize(file) {
+        this.$Modal.warning({
+          title: '超出文件大小限制',
+          content: '图片 ' + file.name + ' 太大，不能超过 300K'
+        });
       },
       showkerSuccessList() {
         let _this = this;
@@ -484,6 +504,10 @@
       },
       submitReport() {
         let _this = this;
+        if(!_this.trialReportText){
+          _this.$Message.error("亲，请描述您的试用过程与体验！");
+          return;
+        }
         if (_this.trialReportImages.length < 5) {
           _this.$Message.error("亲，图片上传数量不能少于5张！");
           return;

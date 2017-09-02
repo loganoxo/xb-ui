@@ -124,24 +124,30 @@ export default new Router({
           path: 'activity-management',
           name: 'ActivityManagement',
           component: ActivityManagement,
-          meta: {
-            title: "试用活动管理"
-          },
           children:[
             {
               path: 'list',
               name: 'ActivitiesList',
               component: ActivitiesList,
+              meta: {
+                title: "试用活动管理-活动列表"
+              },
             },
             {
               path: 'approve',
               name: 'ApproveShowker',
               component: ApproveShowker,
+              meta: {
+                title: "试用活动管理-审批秀客"
+              },
             },
             {
               path: 'report',
               name: 'ProbationReport',
               component: ProbationReport,
+              meta: {
+                title: "试用活动管理-试用报告"
+              },
             }
           ]
         },
@@ -149,24 +155,30 @@ export default new Router({
           path: 'my-probation',
           name: 'MyProbation',
           component: MyProbation,
-          meta: {
-            title: "我的试用"
-          },
           children:[
             {
               path: 'wait',
               name: 'ApplyWaitAudit',
               component: ApplyWaitAudit,
+              meta: {
+                title: "我的试用-待审批"
+              },
             },
             {
               path: 'pass',
               name: 'ApplyPassAudit',
               component: ApplyPassAudit,
+              meta: {
+                title: "我的试用-已通过"
+              },
             },
             {
               path: 'fail',
               name: 'ApplyFailAudit',
               component: ApplyFailAudit,
+              meta: {
+                title: "我的试用-未通过"
+              },
             }
           ]
         },

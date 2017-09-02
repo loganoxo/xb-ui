@@ -12,7 +12,7 @@
         <div class="manage-text left ml-5">
           <p>{{approveTaskInfo.taskName}}</p>
           <p class="mt-15">
-            总份数<strong>&nbsp;{{approveTaskInfo.taskCount || 0}}&nbsp;</strong>，<strong>&nbsp;{{approveTaskInfo.showkerApplyTotalCount || 0}}&nbsp;</strong>人正在参与试用，<strong>&nbsp;{{approveTaskInfo.showkerApplySuccessCount || 0}}&nbsp;</strong>人完成试用，剩余名额<strong>&nbsp;{{approveTaskInfo.taskCount - approveTaskInfo.showkerApplySuccessCount || 0}}&nbsp;</strong>个
+            总份数<strong>&nbsp;{{approveTaskInfo.taskCount || 0}}&nbsp;</strong>，<strong>&nbsp;{{trailOn}}&nbsp;</strong>人正在参与试用，<strong>&nbsp;{{trailDone || 0}}&nbsp;</strong>人完成试用，剩余名额<strong>&nbsp;{{approveTaskInfo.taskCount - approveTaskInfo.showkerApplySuccessCount || 0}}&nbsp;</strong>个
           </p>
         </div>
       </div>
@@ -46,12 +46,14 @@
                 <td>{{item.alitmAccount}}</td>
                 <td>{{item.applyTime | dateFormat('YYYY-MM-DD hh:mm:ss')}}</td>
                 <td class="registration">
-                  <router-link :to="{ 'path': '/my-trial-report','query': {'taskId': item.id}}">{{item.task.showkerApplySuccessCount}}</router-link>
+                  <router-link :to="{ 'path': '/my-trial-report','query': {'taskId': item.id}}">
+                    {{item.task.showkerApplySuccessCount}}
+                  </router-link>
                 </td>
                 <td>
                   <p class="del-edit">
-                    <span class="mr-10" @click="showkerPassAudit(item.id,'passAudit')">通过</span>
-                    <span @click="showkerFailAudit(item.id,'failAudit')">不通过</span>
+                    <span class="mr-10" @click="showkerPassAudit(item.id, 'true')">通过</span>
+                    <span @click="showkerFailAudit(item.id, 'false')">不通过</span>
                   </p>
                 </td>
               </tr>
@@ -123,13 +125,15 @@
                 <td>{{item.alitmAccount}}</td>
                 <td>
                   <p>{{getTaskStatus(item.status)}}</p>
-                  <p v-if="item.status !== 'trial_end' && item.status !== 'trial_finished'"><time-down color='#ff4040' :fontWeight=600 :endTime="item.currentGenerationEndTime"></time-down></p>
+                  <p v-if="item.status !== 'trial_end' && item.status !== 'trial_finished'">
+                    <time-down color='#ff4040' :fontWeight=600 :endTime="item.currentGenerationEndTime"></time-down>
+                  </p>
                 </td>
                 <td>{{item.orderNum}}</td>
                 <td>
                   <p class="del-edit">
                     <span v-if="item.status === 'order_num_waiting_audit'" @click="openCheckOrder(item.id)">审核订单号</span>
-                    <span v-if="item.status === 'trial_report_waiting_confirm'" @click="goProbationReport(item.id,item.showkerId)">审核试用报告</span>
+                    <span v-if="item.status === 'trial_report_waiting_confirm'" @click="goProbationReport(item.id)">审核试用报告</span>
                   </p>
                 </td>
               </tr>
@@ -230,7 +234,8 @@
             <iInput v-model="orderNoPassReason" placeholder="请填写不通过理由，如订单号不符或实付金额不符" style="width: 420px"></iInput>
           </div>
           <div class="true-btn" v-show="orderReviewStatus === 'failAudit'" @click="orderNumberAudit">确认</div>
-          <div class="true-btn" v-show="orderReviewStatus === 'passAudit' && perMarginNeed >= orderInfo.orderPrice" @click="orderNumberAudit">确认</div>
+          <div class="true-btn" v-show="orderReviewStatus === 'passAudit' && perMarginNeed >= orderInfo.orderPrice"
+               @click="orderNumberAudit">确认</div>
           <PayModel v-show="orderReviewStatus === 'passAudit' && perMarginNeed < orderInfo.orderPrice"
                     :orderMoney="orderInfo.orderPrice - perMarginNeed"
                     @confirmPayment="confirmPayment" :payButtonText="payButtonText"
@@ -307,6 +312,8 @@
         orderNum: null,
         approveTableList: [],
         approveTaskInfo: {},
+        trailOn: 0,
+        trailDone: 0,
         SelectList: [
           {
             value: '1',
@@ -321,16 +328,15 @@
         noPassReason: null,
         showRefundModel: false,
         refundPayPwd: null,
-        orderReviewStatus: 'pass',
+        orderReviewStatus: 'passAudit',
         orderNoPassReason: null,
         orderInfo: {},
-        perMarginNeed:0,
+        perMarginNeed: 0,
         payButtonText: '确认支付并通过',
         rechargeButtonText: '前去充值'
       }
     },
-    mounted() {
-    },
+    mounted() {},
     created() {
       this.taskId = this.$route.query.taskId;
       this.taskApplyList();
@@ -381,9 +387,6 @@
       checkFailChange() {
 
       },
-      ReturnManagePage(type) {
-        this.showContent = type
-      },
       approveGuest(taskId) {
         this.showContent = 'approve';
         this.taskId = taskId;
@@ -407,8 +410,10 @@
           pageIndex: this.approvePageIndex,
         }).then(res => {
           if (res.status) {
-            _this.approveTableList = res.data.list.content || [];
-            _this.approveTaskInfo = res.data.taskInfo || {};
+            _this.approveTableList = res.data.list.content;
+            _this.approveTaskInfo = res.data.taskInfo;
+            _this.trailOn = res.data.trailOn;
+            _this.trailDone = res.data.trailDone;
           }
         })
       },
@@ -450,7 +455,7 @@
           if (res.status) {
             _this.orderInfo = res.data;
             _this.orderInfo.orderPrice = _this.orderInfo.orderPrice / 100;
-            _this.perMarginNeed = res.data.task.perMarginNeed /100;
+            _this.perMarginNeed = res.data.task.perMarginNeed / 100;
           }
         })
       },
@@ -460,42 +465,42 @@
           payPassword: pwd,
           taskId: _this.orderInfo.id
         }).then(res => {
-          if(res.status){
+          if (res.status) {
             _this.getBalance();
             _this.showCheckOrder = false;
             _this.$Message.success({
-              content:'支付成功！',
+              content: '支付成功！',
               duration: 6
             });
             _this.taskApplyList();
-          }else{
+          } else {
             _this.$Message.error({
-              content:res.msg,
+              content: res.msg,
               duration: 6
             })
           }
         })
       },
-      goProbationReport(id,showkerId) {
-        this.$router.push({name: 'ProbationReport', query: {id: id, showkerId: showkerId}});
+      goProbationReport(id) {
+        this.$router.push({name: 'ProbationReport', query: {id: id}});
       },
       orderNumberAudit() {
         let _this = this;
         api.orderNumberAudit({
-          id:_this.orderInfo.id,
-          status:_this.orderReviewStatus,
-          msg:_this.orderNoPassReason
-        }).then(res =>{
-          if(res.status){
+          id: _this.orderInfo.id,
+          status: _this.orderReviewStatus === 'passAudit' ? 'true' : 'false',
+          msg: _this.orderNoPassReason
+        }).then(res => {
+          if (res.status) {
             _this.$Message.success({
-              content:'订单号审核成功！',
+              content: '订单号审核成功！',
               duration: 4
             });
             _this.taskApplyList();
             _this.closeCheckOrder();
-          }else{
+          } else {
             _this.$Message.error({
-              content:res.msg,
+              content: res.msg,
               duration: 4
             });
             _this.closeCheckOrder();

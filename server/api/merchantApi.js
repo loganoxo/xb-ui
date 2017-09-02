@@ -228,9 +228,10 @@ router.post('/api/get-task.json', function (req, res, next) {
 router.post('/api/get-task-apply-list.json', function (req, res, next) {
   let options = {
     method: 'POST',
-    uri: baseUrl + '/task/seller/applyList',
+    uri: baseUrl + '/task/merchant/apply/list',
     formData: {
       taskId: req.body.taskId,
+      merchantId: req.session.userData.id,
       status: req.body.status,
       pageIndex: req.body.pageIndex,
       selectStatus: req.body.selectStatus,
@@ -261,10 +262,11 @@ router.post('/api/get-task-apply-list.json', function (req, res, next) {
 router.post('/api/set-task-showker-audit.json', function (req, res, next) {
   let options = {
     method: 'POST',
-    uri: baseUrl + '/task/seller/showkeAudit',
+    uri: baseUrl + '/task/merchant/showker/audit',
     formData: {
-      id: req.body.id,
-      status: req.body.status,
+      taskApplyId: req.body.id,
+      merchantId: req.session.userData.id,
+      auditPass: req.body.status,
     },
     json: true
   };
@@ -288,10 +290,11 @@ router.post('/api/set-task-showker-audit.json', function (req, res, next) {
 router.post('/api/order-number-audit.json', function (req, res, next) {
   let options = {
     method: 'POST',
-    uri: baseUrl + '/task/seller/orderNumAudit',
+    uri: baseUrl + '/task/merchant/order/audit',
     formData: {
-      id: req.body.id,
-      status: req.body.status,
+      showkerTaskId: req.body.id,
+      merchantId: req.session.userData.id,
+      auditPass: req.body.status,
       msg: req.body.msg
     },
     json: true
@@ -316,9 +319,10 @@ router.post('/api/order-number-audit.json', function (req, res, next) {
 router.post('/api/order-number-info.json', function (req, res, next) {
   let options = {
     method: 'POST',
-    uri: baseUrl + '/task/seller/orderInfo',
+    uri: baseUrl + '/task/merchant/order/info',
     formData: {
-      id: req.body.id,
+      showkerTaskId: req.body.id,
+      merchantId: req.session.userData.id,
     },
     json: true
   };
@@ -372,10 +376,10 @@ router.post('/api/deposit-supplement.json', function (req, res, next) {
 router.post('/api/task-report-info.json', function (req, res, next) {
   let options = {
     method: 'POST',
-    uri: baseUrl + '/task/seller/reportInfo',
+    uri: baseUrl + '/task/merchant/report/info',
     formData: {
-      id: req.body.id,
-      showkerId: req.body.showkerId
+      showkerTaskId: req.body.id,
+      merchantId: req.session.userData.id
     },
     json: true
   };
@@ -400,10 +404,11 @@ router.post('/api/task-report-info.json', function (req, res, next) {
 router.post('/api/task-report-audit.json', function (req, res, next) {
   let options = {
     method: 'POST',
-    uri: baseUrl + '/task/seller/reportAudit',
+    uri: baseUrl + '/task/merchant/report/audit',
     formData: {
-      id: req.body.id,
-      status: req.body.status,
+      showkerTaskId: req.body.id,
+      merchantId: req.session.userData.id,
+      auditPass: req.body.status,
       msg: req.body.msg
     },
     json: true
@@ -437,6 +442,28 @@ router.post('/api/showker-deposit-return.json', function (req, res, next) {
       payPwd: req.body.payPwd,
       platform: req.body.platform
     },
+    json: true
+  };
+  request(options)
+    .then(function (parsedBody) {
+      res.send(parsedBody);
+      res.end();
+    })
+    .catch(function (err) {
+      logConfig.logger.error(req.originalUrl + ':' + err);
+      res.json({status: false, msg: "服务器错误"});
+      res.end();
+    });
+});
+
+/**
+ * 商家个人主页试用提醒
+ * @param showkerId
+ */
+router.post('/api/task/seller-personal-trial-count.json', function (req, res, next) {
+  let options = {
+    method: 'GET',
+    uri: baseUrl + '/task/merchant/personal/trial/count/' + req.session.userData.id,
     json: true
   };
   request(options)

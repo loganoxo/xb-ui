@@ -183,10 +183,10 @@ router.post('/api/task/detail.json', (req, res, next) => {
  * @param taskId
  * @param pageIndex
  */
-router.post('/api/task/showker/trial/report.json', function (req, res, next) {
+router.post('/api/task/trial/report.json', function (req, res, next) {
   let options = {
     method: 'GET',
-    uri: baseUrl + "/task/showker/trial/report/"+ req.body.taskId + "/" + req.body.pageIndex,
+    uri: baseUrl + "/task/trial/reports/"+ req.body.taskId + "/" + req.body.pageIndex,
     json: true
   };
   request(options)
@@ -206,32 +206,10 @@ router.post('/api/task/showker/trial/report.json', function (req, res, next) {
  * @param taskId
  * @param pageIndex
  */
-router.post('/api/task/showker/success.json', function (req, res, next) {
+router.post('/api/task/success.json', function (req, res, next) {
   let options = {
     method: 'GET',
-    uri: baseUrl + "/task/showker/success/"+ req.body.taskId + "/" + req.body.pageIndex,
-    json: true
-  };
-  request(options)
-    .then(function (parsedBody) {
-      res.send(parsedBody);
-      res.end();
-    })
-    .catch(function (err) {
-      logConfig.logger.error(req.originalUrl + ':' + err);
-      res.json({status: false, msg: "服务器错误"});
-      res.end();
-    });
-});
-/**
- * 详情页秀客是否能申请
- * @param taskId
- * @param pageIndex
- */
-router.post('/api/task/showker/success.json', function (req, res, next) {
-  let options = {
-    method: 'GET',
-    uri: baseUrl + "/task/showker/success/"+ req.body.taskId + "/" + req.body.pageIndex,
+    uri: baseUrl + "/task/success/"+ req.body.taskId + "/" + req.body.pageIndex,
     json: true
   };
   request(options)
@@ -247,7 +225,7 @@ router.post('/api/task/showker/success.json', function (req, res, next) {
 });
 
 /**
- * 试用报告查看全文接口
+ * 商家查看秀客试用报告全文
  * @param id
  * @param showkerId
  */
@@ -256,7 +234,7 @@ router.post('/api/task/showker/trialReport.json', function (req, res, next) {
     method: 'GET',
     uri: baseUrl + "/task/showker/report/get",
     json: true,
-    formData: {
+    qs: {
       id: req.body.id ,
       showkerId: req.body.showkerId
     },

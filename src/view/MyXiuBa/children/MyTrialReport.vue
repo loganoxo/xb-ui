@@ -8,7 +8,7 @@
             <p class="trial-tag">
               Ta的标签：&nbsp;&nbsp;
               <a  v-for="(value, key) in showkerTag">
-                <iButton size="small" v-if=" value > 0" >{{showkerTagDesc[key]}}({{value}})</iButton>
+                <iButton size="small" v-if=" value > 0" >{{key}}({{value}})</iButton>
               </a>
             </p>
             <div class="graphic-info-report">
@@ -143,18 +143,6 @@
         },
         trialReportList: [],
         showReportDesc: false,
-        showkerTagDesc: {
-          100: '时尚女装',
-          200: '精品男装',
-          300: '男女童装',
-          400: '鞋子箱包',
-          500: '潮流配饰',
-          600: '美食/特产',
-          700: '数码家电',
-          800: '家居日用',
-          900: '美容护肤',
-          1000: '其他试用',
-        },
         showkerTag: {},
         showkerReportDesc: {
           task: {}
@@ -163,7 +151,8 @@
       }
     },
     created(){
-        this.getTrialReportList();
+        this.getTrialReports();
+        this.getTrialDetail();
     },
     computed: {
         getUser(){
@@ -171,15 +160,26 @@
         }
     },
     methods: {
-      getTrialReportList(){
+      getTrialReports(){
         let self = this;
-        api.getTrialReportList(self.trialReportParams).then((res) => {
+        api.getTrialReports(self.trialReportParams).then((res) => {
           if(res.status){
             for(let i = 0, j = res.data.reportList.content.length; i < j; i++){
               res.data.reportList.content[i].trialReportImages = JSON.parse(res.data.reportList.content[i].trialReportImages);
             }
             self.trialReportList = res.data.reportList.content;
             self.totalPages = res.data.reportList.totalElements;
+          } else {
+            self.$Modal.error({
+              content: res.msg
+            });
+          }
+        })
+      },
+      getTrialDetail(){
+        let self = this;
+        api.getTrialDetail(self.trialReportParams).then((res) => {
+          if(res.status){
             self.showkerInfo = res.data.showkerInfo;
             self.showkerTag = res.data.showkerTag;
           } else {
@@ -187,12 +187,11 @@
               content: res.msg
             });
           }
-
         })
       },
       pageChange(data){
         this.trialReportParams.pageIndex = data;
-        this.getTrialReportList();
+        this.getTrialReports();
       },
       showReportDescFunc(trialReport){
          let self = this;

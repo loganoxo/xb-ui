@@ -6,10 +6,10 @@
           <div>
             <img :src="showkerInfo.portraitPic" alt="" style="width: 160px;">
             <p class="fs-16 mt-10 mb-10">{{showkerInfo.phone}}</p>
-            <p>申请次数：{{applyCount}} 次</p>
-            <p>成功申请：{{applySuccessCount}} 次</p>
-            <p>上次申请成功：2017-06-06</p>
-            <p>上次登录：{{showkerInfo.lastLoginTime | dateFormat('YYYY-MM-DD')}}</p>
+            <p>申请次数：{{applyCount || 0}} 次</p>
+            <p>成功申请：{{applySuccessCount || 0}} 次</p>
+            <p>上次申请成功：{{lastApplySuccessTime | dateFormat('YYYY-MM-DD') || '-----'}}</p>
+            <p>上次登录：{{showkerInfo.lastLoginTime | dateFormat('YYYY-MM-DD') || '-----'}}</p>
           </div>
         </div>
         <div class="trial-right left">
@@ -18,7 +18,7 @@
             <p class="trial-tag">
               Ta的标签：&nbsp;&nbsp;
               <a  v-for="(value, key) in showkerTag">
-              <iButton size="small" v-if=" value > 0" >{{showkerTagDesc[key]}}({{value}})</iButton>
+              <iButton size="small" v-if=" value > 0" >{{key}}({{value}})</iButton>
             </a>
             </p>
             <div  class="graphic-info-report">
@@ -156,24 +156,14 @@
         },
         trialReportList: [],
         showReportDesc: false,
-        showkerTagDesc: {
-          100: '时尚女装',
-          200: '精品男装',
-          300: '男女童装',
-          400: '鞋子箱包',
-          500: '潮流配饰',
-          600: '美食/特产',
-          700: '数码家电',
-          800: '家居日用',
-          900: '美容护肤',
-          1000: '其他试用',
-        },
         showkerTag: {},
-        showkerReportDesc: {}
+        showkerReportDesc: {},
+        lastApplySuccessTime: null,
       }
     },
     created(){
-      this.getTrialReportList();
+      this.getTrialReports();
+      this.getTrialDetail();
       if(this.$route.query.showkerId){
         this.trialReportParams.showkerId = this.$route.query.showkerId;
       }
@@ -184,30 +174,41 @@
       }
     },
     methods: {
-      getTrialReportList(){
+      getTrialReports(){
         let self = this;
-        api.getTrialReportList(self.trialReportParams).then((res) => {
+        api.getTrialReports(self.trialReportParams).then((res) => {
           if(res.status){
             for(let i = 0, j = res.data.reportList.content.length; i < j; i++){
               res.data.reportList.content[i].trialReportImages = JSON.parse(res.data.reportList.content[i].trialReportImages);
             }
-            self.applyCount = res.data.applyCount;
-            self.applySuccessCount = res.data.applySuccessCount;
             self.trialReportList = res.data.reportList.content;
-            self.showkerInfo = res.data.showkerInfo;
             self.totalPages = res.data.reportList.totalElements;
-            self.showkerTag = res.data.showkerTag;
           } else {
             self.$Modal.error({
               content: res.msg
             });
           }
-
+        })
+      },
+      getTrialDetail(){
+        let self = this;
+        api.getTrialDetail(self.trialReportParams).then((res) => {
+          if(res.status){
+            self.applyCount = res.data.applyCount;
+            self.applySuccessCount = res.data.applySuccessCount;
+            self.showkerInfo = res.data.showkerInfo;
+            self.showkerTag = res.data.showkerTag;
+            self.lastApplySuccessTime = res.data.lastApplySuccessTime;
+          } else {
+            self.$Modal.error({
+              content: res.msg
+            });
+          }
         })
       },
       pageChange(data){
         this.trialReportParams.pageIndex = data;
-        this.getTrialReportList();
+        this.getTrialReports();
       },
       showReportDescFunc(trialReport){
         let self = this;
