@@ -26,7 +26,7 @@
             </p>
           </td>
           <td>{{item.alitmAccount}}</td>
-          <td>{{item.task.perMarginNeed}}</td>
+          <td>{{item.task.perMarginNeed / 100}}</td>
           <td>{{getTaskStatus(item.status)}}</td>
           <td>
             <p class="operation" @click="endTrial(item.id)">结束试用</p>
@@ -117,7 +117,7 @@
           }
         })
       },
-      endTrial(id, type) {
+      endTrial(id) {
         let _this = this;
         api.showkerApplyEed({
           id: id

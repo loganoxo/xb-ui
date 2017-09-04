@@ -183,7 +183,7 @@ router.post('/api/showker-apply-end.json', function (req, res, next) {
     method: 'POST',
     uri: baseUrl + '/task/showker/apply/end',
     formData: {
-      showkerTaskId: req.body.id,
+      taskApplyId: req.body.id,
       showkerId: req.session.userData.id,
     },
     json: true

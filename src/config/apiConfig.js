@@ -333,7 +333,7 @@ export default {
   /**
    * 秀客终止试用（针对申请成功的任务）
    */
-  endTrial(params) {
+  showkerTrialEed(params) {
     return fetch("/api/showker-trial-end.json", params)
   },
 

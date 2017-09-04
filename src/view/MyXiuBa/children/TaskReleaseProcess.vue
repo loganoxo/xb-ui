@@ -82,7 +82,7 @@
               </div>
             </Upload>
             <p
-              class="size-color pl-60 mt-10">点击或者拖拽自主上传图片，支持jpg \ jpeg \ gif \ bmp格式，最佳尺寸400*400（像素），不超过300K，可与宝贝主图一致</p>
+              class="size-color pl-60 mt-10">点击或者拖拽自主上传图片，支持jpg \ jpeg \ png \ gif \ bmp格式，最佳尺寸400*400（像素），不超过300K，可与宝贝主图一致</p>
           </div>
           <div class="baby-url ml-45 mt-20">
             <span class="required">宝贝地址：</span>
@@ -166,7 +166,7 @@
                 </div>
               </Upload>
               <p
-                class="size-color pl-60 mt-10">点击或者拖拽自主上传图片，支持jpg \ jpeg \ gif \ bmp格式，最佳尺寸400*400（像素），不超过300K，可与宝贝主图一致</p>
+                class="size-color pl-60 mt-10">点击或者拖拽自主上传图片，支持jpg \ jpeg \ png \ gif \ bmp格式，最佳尺寸400*400（像素），不超过300K，可与宝贝主图一致</p>
             </div>
             <div class="search-keyword mt-20 ml-28">
               <span class="required">搜索关键词：</span>
@@ -273,7 +273,7 @@
                 </div>
               </Upload>
               <p
-                class="size-color pl-60 mt-10">点击或者拖拽自主上传图片，支持jpg \ jpeg \ gif \ bmp格式，最佳尺寸400*400（像素），不超过300K，可与宝贝主图一致</p>
+                class="size-color pl-60 mt-10">点击或者拖拽自主上传图片，支持jpg \ jpeg \ png \ gif \ bmp格式，最佳尺寸400*400（像素），不超过300K，可与宝贝主图一致</p>
             </div>
             <div class="search-keyword mt-20 ml-28">
               <span class="required">搜索关键词：</span>
@@ -415,7 +415,7 @@
         <span class="pay-btn" v-if="isBalance" @click="openRecharge">前去支付</span>
         <span class="pay-btn" v-else @click="openRecharge">前去充值</span>
         <span class="return" @click="returnUpStep">返回上一步</span>
-        <router-link to="/user/activity-management">试用活动管理</router-link>
+        <router-link to="/user/activity-management/list">试用活动管理</router-link>
       </div>
     </div>
     <!--活动提交成功-->
@@ -426,7 +426,7 @@
       </div>
       <div class="audit-con mt-20">亲当前的试用活动已提交，工作人员会在一个工作日内审核您的活动！敬请关注~</div>
       <div class="audit-footer mt-40">
-        <router-link to="/user/activity-management">点此查看试用活动管理</router-link>
+        <router-link to="/user/activity-management/list">点此查看试用活动管理</router-link>
         <span class="ml-20">有问题？联系客服</span>
       </div>
     </div>
@@ -434,12 +434,10 @@
     <div class="pay-model" v-if="showPayModel">
       <PayModel :orderMoney="!priceHasChange ? orderMoney : orderMoney - paidDeposit" @confirmPayment="confirmPayment">
         <i slot="closeModel" class="close-recharge" @click="closeRecharge">&times;</i>
-        <div slot="noBalance" class="title-tip"><span class="size-color3"><Icon color="#FF2424" size="18px" type="ios-information"></Icon><span
-          class="ml-10">亲，您的余额不足，请充值。</span></span>还需充值<strong class="size-color3">{{Math.abs(getUserBalance - orderMoney)}}</strong>元
-        </div>
+        <div slot="noBalance" class="title-tip"><span class="size-color3"><Icon color="#FF2424" size="18px" type="ios-information"></Icon><span class="ml-10">亲，您的余额不足，请充值。</span></span>还需充值<strong class="size-color3">{{Math.abs(getUserBalance - orderMoney)}}</strong>元</div>
         <div slot="isBalance" class="title-tip">
           <Icon color="#FF2424" size="18px" type="ios-information"></Icon>
-          <span class="ml-10">您本次需要支付金额为 <span class="size-color3">{{orderMoney}}</span> 元。</span></div>
+          <span class="ml-10">您本次需要支付金额为 <span class="size-color3">{{!priceHasChange ? orderMoney : (orderMoney - paidDeposit) | numberFormat(2)}}</span> 元。</span></div>
       </PayModel>
     </div>
     <!--用户修改价格比原始价格高需要补差价提示弹框-->
@@ -498,6 +496,7 @@
   import api from '@/config/apiConfig'
   import {aliCallbackImgUrl} from '@/config/env'
   import {aliUploadImg, isNumber, isInteger, isAliUrl, randomString} from '@/config/utils'
+  import {numberFormat} from '@/filter/custom'
   import {oneOf} from 'iview/src/utils/assist'
   import {mapActions} from 'vuex'
 
@@ -646,7 +645,7 @@
        * @return {number}
        */
       allPromotionExpenses: function () {
-        return this.taskRelease.itemPrice * 0.06 > 3 ? 3 * this.taskRelease.taskCount : this.taskRelease.itemPrice * 0.06 * this.taskRelease.taskCount
+        return this.taskRelease.itemPrice * 0.06 > 3 ? 3 * this.taskRelease.taskCount : numberFormat(this.taskRelease.itemPrice * 0.06,2) * this.taskRelease.taskCount
       },
       /**
        * 计算订单总金额
@@ -857,7 +856,7 @@
               _this.taskRelease.taskId = res.data.id;
             }
             if(status === 'waiting_modify' && _this.paidDeposit === _this.orderMoney){
-              _this.$router.push({name: 'ActivityManagement'});
+              _this.$router.push({name: 'ActivitiesList'});
             }else if(status === 'waiting_modify' && _this.paidDeposit > _this.orderMoney){
               this.editPriceToLowAfterModel = true;
             }else if(status === 'waiting_modify' && _this.paidDeposit < _this.orderMoney){
@@ -892,7 +891,7 @@
         this.stepName = 'deposit';
       },
       toLowContinueNextStep() {
-        this.$router.push({name: 'ActivityManagement'});
+        this.$router.push({name: 'ActivitiesList'});
       },
       getTaskInfo(taskId) {
         let _this = this;

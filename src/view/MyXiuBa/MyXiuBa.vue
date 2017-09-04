@@ -81,7 +81,7 @@
 <script>
   import Icon from 'iview/src/components/icon'
   import TopTip from "@/components/TopTip.vue";
-  import {setStorage, getStorage, removeStorage} from '@/config/utils'
+  import {setStorage, getStorage} from '@/config/utils'
   import { mapActions } from 'vuex'
   export default {
     name: 'MyXiuBa',

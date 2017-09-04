@@ -106,7 +106,7 @@
              <p v-if="item.status === 'order_num_error'" class="operation mt-5"
                 @click="openAuditOrder(item.id)">修改订单号</p>
              <p v-if="item.status !== 'trial_end' && item.status !== 'trial_finished'" class="operation mt-5"
-                @click="endTrial(item.id,'passAudit')">结束试用</p>
+                @click="endTrial(item.id)">结束试用</p>
              <p v-if="item.status === 'trial_finished'" class="operation mt-5">查看试用详情</p>
              <p v-if="item.status === 'trial_finished'" class="operation mt-5">查看试用返款</p>
            </td>
@@ -549,6 +549,22 @@
           })
         }
       },
+      endTrial(id) {
+        let _this = this;
+        api.showkerTrialEed({
+          id: id
+        }).then(res => {
+          if (res.status) {
+            _this.$Message.success({
+              content: '结束试用成功！',
+              duration: 6
+            });
+              _this.showkerSuccessList();
+            } else {
+            _this.$Message.error(res.msg);
+          }
+        })
+      }
     }
   }
 </script>

@@ -13,6 +13,7 @@
 </template>
 
 <script>
+  import {setStorage, getStorage} from '@/config/utils'
   export default {
     name: 'MyProbation',
     data() {
@@ -24,7 +25,12 @@
 
     },
     created() {
-
+      let name = getStorage("myProbationTitleName");
+      if(name){
+        this.changeTitle(name);
+      }else{
+        this.changeTitle("ApplyWaitAudit");
+      }
     },
     computed: {},
     watch: {
@@ -35,6 +41,7 @@
     methods: {
       changeTitle(name) {
         this.showProbationStatus = name;
+        setStorage('myProbationTitleName', name);
         this.$router.push({name: name});
       }
     }

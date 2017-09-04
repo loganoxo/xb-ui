@@ -93,12 +93,13 @@
         <div class="input-pwd mt-22 ml-35">
           <span>请输入您的支付密码：</span>
           <iInput v-model="refundPayPwd" type="password" style="width: 160px;margin-right: 16px;"></iInput>
+          <span class="ml-10" v-if="isPwdAmend"><router-link :to="{path:'/user/money-management/account-management',query:{type:'findPwd'}}">忘记支付密码？</router-link></span>
           <iButton type="primary" @click="confirmRefund">确认</iButton>
         </div>
-        <div class="refund-tip ml-35 mt-22">
+        <div class="refund-tip ml-35 mt-22" v-if="!isPwdAmend">
           <p>如果您的支付密码没有修改，初始密码为：888888。</p>
           <p class="mt-6">为了账户安全，建议您另外设置一个密码！
-            <router-link to="">修改支付密码</router-link>
+            <router-link :to="{path:'/user/money-management/account-management',query:{type:'resetPwd'}}">修改支付密码</router-link>
           </p>
         </div>
       </div>
@@ -147,7 +148,11 @@
       this.auditTrialReport(id);
     },
     watch: {},
-    computed: {},
+    computed: {
+      isPwdAmend: function () {
+        return this.$store.state.userInfo.userAccount.ifEditPwdAlready
+      },
+    },
     methods: {
       returnUpPage() {
         this.$router.push({name: 'ApproveShowker',query: {taskId: this.showkerTaskInfo.task.id}})
