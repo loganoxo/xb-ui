@@ -165,7 +165,7 @@
   import {TaskErrorStatusList} from '@/config/utils'
 
   export default {
-    name: 'ActivityManagement',
+    name: 'ActivitiesList',
     components: {
       Checkbox: Checkbox,
       CheckboxGroup: Checkbox.Group,

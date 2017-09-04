@@ -55,6 +55,7 @@
   import {TaskErrorStatusList} from '@/config/utils'
 
   export default {
+    name: 'ApplyWaitAudit',
     components: {
       iButton: Button,
       iInput: Input,

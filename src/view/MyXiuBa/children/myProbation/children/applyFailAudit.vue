@@ -62,6 +62,7 @@
   import {TaskErrorStatusList} from '@/config/utils'
 
   export default {
+    name: 'ApplyFailAudit',
     components: {
       iButton: Button,
       iInput: Input,

@@ -275,7 +275,7 @@
   import {TaskErrorStatusList} from '@/config/utils'
 
   export default {
-    name: 'ActivityManagement',
+    name: 'ApproveShowker',
     components: {
       Checkbox: Checkbox,
       CheckboxGroup: Checkbox.Group,

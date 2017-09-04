@@ -293,6 +293,7 @@
   import {TaskErrorStatusList} from '@/config/utils'
 
   export default {
+    name: 'ApplyPassAudit',
     components: {
       iButton: Button,
       Icon: Icon,

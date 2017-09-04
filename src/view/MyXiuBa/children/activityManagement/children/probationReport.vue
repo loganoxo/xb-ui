@@ -116,7 +116,7 @@
   import {TaskErrorStatusList} from '@/config/utils'
 
   export default {
-    name: 'ActivityManagement',
+    name: 'ProbationReport',
     components: {
       iButton: Button,
       Icon: Icon,
