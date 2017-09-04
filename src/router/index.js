@@ -23,8 +23,15 @@ const ApplyWaitAudit = r => require.ensure([], () => r(require('@/view/MyXiuBa/c
 const ApplyPassAudit = r => require.ensure([], () => r(require('@/view/MyXiuBa/children/myProbation/children/applyPassAudit.vue')), 'MyProbation');
 const ApplyFailAudit = r => require.ensure([], () => r(require('@/view/MyXiuBa/children/myProbation/children/applyFailAudit.vue')), 'MyProbation');
 
-const MoneyManagement = r => require.ensure([], () => r(require('@/view/MyXiuBa/children/MoneyManagement.vue')), 'MoneyManagement');
 const MyTrialReport = r => require.ensure([], () => r(require('@/view/MyXiuBa/children/MyTrialReport.vue')), 'MyTrialReport');
+
+// const MoneyManagement = r => require.ensure([], () => r(require('../view/MyXiuBa/children/MoneyManagement.vue')), 'MoneyManagement');
+const MoneyManagement = r => require.ensure([], () => r(require('../view/MyXiuBa/children/moneyManagement/index.vue')), 'MoneyManagement');
+const AccountInfo = r => require.ensure([], () => r(require('../view/MyXiuBa/children/moneyManagement/children/accountInfo.vue')), 'MoneyManagement');
+const AccountManagement = r => require.ensure([], () => r(require('../view/MyXiuBa/children/moneyManagement/children/accountManagement.vue')), 'MoneyManagement');
+const PayMoney = r => require.ensure([], () => r(require('../view/MyXiuBa/children/moneyManagement/children/payMoney.vue')), 'MoneyManagement');
+const GetoutMoney = r => require.ensure([], () => r(require('../view/MyXiuBa/children/moneyManagement/children/getoutMoney.vue')), 'MoneyManagement');
+const TransactionRecord = r => require.ensure([], () => r(require('../view/MyXiuBa/children/moneyManagement/children/transactionRecord.vue')), 'MoneyManagement');
 
 Vue.use(Router);
 
@@ -205,7 +212,49 @@ export default new Router({
           component:MoneyManagement,
           meta:{
             title :"资金管理"
-          }
+          },
+          children:[
+            {
+              path: 'account-info',
+              name: 'AccountInfo',
+              component: AccountInfo,
+              meta:{
+                title :"账号信息"
+              }
+            },
+            {
+              path: 'account-management',
+              name: 'AccountManagement',
+              component: AccountManagement,
+              meta:{
+                title :"账户管理"
+              }
+            },
+            {
+              path: 'pay-money',
+              name: 'PayMoney',
+              component: PayMoney,
+              meta:{
+                title :"充值"
+              }
+            },
+            {
+              path: 'getout-money',
+              name: 'GetoutMoney',
+              component: GetoutMoney,
+              meta:{
+                title :"提现"
+              }
+            },
+            {
+              path: 'transaction-record',
+              name: 'TransactionRecord',
+              component: TransactionRecord,
+              meta:{
+                title :"交易记录"
+              }
+            },
+          ]
         },
       ]
     }

@@ -194,6 +194,64 @@ router.post('/api/with-draw-apply.json', function (req, res, next) {
   });
 });
 
+/**
+ * 显示提现列表
+ * @param pageable
+ * @param userId
+ * @param serialNumber
+ * @param applyTimeStart
+ * @param applyTimeEnd
+ * @param state
+ * @return
+ */
+router.post('/api/get-with-draw-list.json', function (req, res, next) {
+  let options = {
+    method: 'POST',
+    uri: baseUrl + '/user/account/get_with_draw_list',
+    formData: {
+      userId: req.session.userData.id,
+      serialNumber: req.body.serialNumber,
+      applyTimeStart: req.body.applyTimeStart,
+      applyTimeEnd: req.body.applyTimeEnd,
+      state: req.body.state,
+    },
+    json: true,
+  };
+  request(options).then(function (parsedBody) {
+    res.send(parsedBody);
+    res.end();
+  }).catch(function (err) {
+    logConfig.logger.error(req.originalUrl + ':' + err);
+    res.json({status: false, msg: "服务器错误"});
+    res.end();
+  });
+});
+
+/**
+ * 获取某个活动的任务担保金返款列表
+
+ * @param taskId
+ * @return
+ */
+router.post('/api/get-deposit-return-list.json', function (req, res, next) {
+  let options = {
+    method: 'POST',
+    uri: baseUrl + '/user/account/get_deposit_return_list',
+    formData: {
+      taskId: req.body.taskId
+    },
+    json: true,
+  };
+  request(options).then(function (parsedBody) {
+    res.send(parsedBody);
+    res.end();
+  }).catch(function (err) {
+    logConfig.logger.error(req.originalUrl + ':' + err);
+    res.json({status: false, msg: "服务器错误"});
+    res.end();
+  });
+});
+
 
 /**
  * 修改用户头像

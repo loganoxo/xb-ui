@@ -79,10 +79,24 @@ export default {
   },
 
   /**
+   * 显示提现列表
+   */
+  getWithDrawList(params) {
+    return fetch("/api/get-with-draw-list.json", params)
+  },
+
+  /**
    * 获取交易明细列表
    */
   getTradListDetails(params) {
     return fetch("/api/get-trad-detail-list.json", params)
+  },
+
+  /**
+   * 获取某个活动的任务担保金返款列表
+   */
+  getDepositReturnList(params) {
+    return fetch("/api/get-deposit-return-list.json", params)
   },
 
   /**

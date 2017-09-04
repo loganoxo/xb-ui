@@ -159,5 +159,35 @@ export const TaskErrorStatusList = (type) => {
     case 'ren_qi':
       return "人气";
       break;
+    case 'enchashment':
+      return '提现';
+      break;
+    case  'pay_for_task_deposit_seller':
+      return '支付活动担保金';
+      break;
+    case  'task_return_seller':
+      return '活动结算返款';
+      break;
+    case  'showker_task_supplementary_seller':
+      return '补充任务担保金';
+      break;
+    case  'task_deposit_pay_shower':
+      return '任务保证金退款';
+      break;
+    case  'task_deposit_return_shower':
+      return '任务保证金返款';
+      break;
+    case  'task_delete_return_seller':
+      return '删除活动返款';
+      break;
+    case  'enchashment_audit_ing':
+      return '提现审核中';
+      break;
+    case  'enchashment_audit_success':
+      return '提现审核通过';
+      break;
+    case  'enchashment_audit_defeat':
+      return '提现审核未通过';
+      break;
   }
 }

@@ -5,7 +5,7 @@
       <a v-for="(myInfoSelect,index) in myInfoSelects" :class="{active:infoSelect === myInfoSelect.isSelect}"
          @click="accountInit(myInfoSelect.isSelect)">{{myInfoSelect.text}}</a>
     </div>
-    <div class="my-count mt-10" v-show="infoSelect === 'account'">
+    <div class="my-count mt-10" >
       <div class="my-money clear" >
         <div class="my-money-left left">
           <div class="moneyInfoLeft left">
@@ -45,11 +45,11 @@
       <div class="trading-record ">
         <ul class="clear">
           <li>最近交易记录</li>
-          <li><a href="javascript:;" @click="getTradList(null)">全部</a></li>
-          <li><a href="javascript:;" @click="getTradList(0)">充值记录</a></li>
-          <li><a href="javascript:;" @click="getTradList(1)">提现记录</a></li>
-          <li><a href="javascript:;" @click="getTradList(2)">活动记录</a></li>
-          <li><a href="javascript:;" @click="getTradList(3)">其它</a></li>
+          <li><a href="javascript:;" @click="getTradList([])">全部</a></li>
+          <li><a href="javascript:;" @click="getTradList([0])">充值记录</a></li>
+          <li><a href="javascript:;" @click="getTradList([1])">提现记录</a></li>
+          <li><a href="javascript:;" @click="getTradList([2])">活动记录</a></li>
+          <li><a href="javascript:;" @click="getTradList([3])">其它</a></li>
         </ul>
       </div>
       <div class="personal-list-table mt-10">
@@ -74,7 +74,7 @@
             </td>
             <td class="main-color">{{item.amountChange/100||0}}</td>
             <td>
-              <p style="color:blue;" class="details" @click="detailsInit(item.id)">详情</p>
+              <p style="color:blue;" class="details" @click="detailsInit(item.id)">详情<Icon :type="detailSelect===item.id?'arrow-up-b':'arrow-down-b'" class="ml-5 "></Icon></p>
             </td>
           </tr>
           <tr v-show="detailSelect===item.id">
@@ -167,6 +167,7 @@
             <Modal
               v-model="modal3"
               :styles="{top:'210px',width:'580px'}">
+              <PayModel></PayModel>
             </Modal>
           </Form-item>
         </iForm>
@@ -258,7 +259,7 @@
                 <p >{{userAccount.bankCardNum}}</p>
               </Form-item>
               <Form-item label="支付密码:" prop="password">
-                <iInput v-model="getoutMoney.password"  class="iInput" type="password" ></iInput>
+                <iInput v-model="getoutMoney.password"  class="iInput" :type="psw"  :icon="eye" @on-click="seyPassword"></iInput>
               </Form-item>
               <Form-item >
                 <iButton type="primary" @click="modal2 = true,applyGetoutMoney(getoutMoney)" class="ibtns">申请提现</iButton>
@@ -283,15 +284,15 @@
         </div>
         <div class="content-input ">
           <span>流水号：</span>
-          <iInput style="width: 150px"></iInput>
+          <iInput style="width: 150px" v-model="getoutRecord.serialNumber"></iInput>
           <span class="ml-10">申请时间：</span>
-          <Date-picker type="datetime" placeholder="选择日期" style="width: 200px" v-model="applyFrom"   format="yyyy-MM-dd HH:mm:ss" :key="applyFrom"  @on-change="applyFrom=$event"></Date-picker>
+          <Date-picker type="datetime" placeholder="选择日期" style="width: 200px" v-model="getoutRecord.applyFrom"   format="yyyy-MM-dd HH:mm:ss" :key="getoutRecord.applyFrom"  @on-change="getoutRecord.applyFrom=$event"></Date-picker>
           <span>-</span>
-          <Date-picker type="datetime" placeholder="选择日期" style="width: 200px" v-model="applyTo" format="yyyy-MM-dd HH:mm:ss" :key="applyTo"  @on-change="applyTo=$event"></Date-picker>
-          <iButton class="ibtn1">搜索</iButton>
+          <Date-picker type="datetime" placeholder="选择日期" style="width: 200px" v-model="getoutRecord.applyTo" format="yyyy-MM-dd HH:mm:ss" :key="getoutRecord.applyTo"  @on-change="getoutRecord.applyTo=$event"></Date-picker>
+          <iButton class="ibtn1" @click="getWithDrawList(getoutRecord)">搜索</iButton>
         </div>
         <div class="content-select clear">
-          <span class="left" v-for="item in getoutStatus" :class="{actives:getoutSelect===item.isSelect}" @click="getoutStatusFun(item.isSelect)">{{item.text}}</span>
+          <span class="left" v-for="item in getoutStatus" :class="{actives:getoutSelect===item.isSelect}" @click="getoutStatusFun(item.isSelect),getWithDrawList(getoutRecord,item.state)">{{item.text}}</span>
         </div>
         <div class="personal-list-table mt-10">
           <table class="list-table">
@@ -305,25 +306,25 @@
               <th style="width:10%;">操作</th>
             </tr>
             </thead>
-            <tbody  >
+            <tbody  v-for="item in getOutResList">
             <tr>
               <td>
-               2017-08-08<br/>
-                16:16:16
+              {{item.applyTime|dateFormat('YYYY-MM-DD ')}}<br/>
+                {{item.applyTime|dateFormat('hh:mm:ss ')}}
               </td>
               <td>
-               122222222222222222222
+               {{item.serialNumber}}
               </td>
-              <td >5555555</td>
+              <td >{{item.enCashMoney}}</td>
               <td>
-                1
+                {{item.poundage}}
               </td>
               <td class="main-color">
-                提现中
+                {{getTradType(item.state)}}
               </td>
-              <td> <p style="color:blue;" class="detailsSpc" >详情</p></td>
+              <td> <p style="color:blue;" class="detailsSpc" @click="getMoneyShowDetailsFun(item.id)" >详情</p></td>
             </tr>
-            <tr >
+            <tr v-show="getMoneyShowDetails===item.id" >
               <td colspan="6" style="padding: 0px;">
                 <table class="small-table" style="background-color: #f9f9f9;">
                   <thead>
@@ -338,23 +339,23 @@
                   <tbody>
                   <tr >
                     <td>
-                      中国农业银行
+                      {{item.bankName}}
                     </td>
                     <td>
-                      121212121212121212121
+                      {{item.bankCardNum}}
                     </td>
                     <td>
-                     100
+                     {{item.enCashMoney}}
                     </td>
                     <td>
-                      1
+                      {{item.poundage}}
                     </td>
-                    <td>100</td>
+                    <td>{{item.realAmount}}</td>
                   </tr>
                   </tbody>
                 </table>
               </td>
-            </tr>
+            </tr v>
             </tbody>
           </table>
         </div>
@@ -384,9 +385,9 @@
         </div>
         <div class="left">
           <Checkbox-group v-model="transactType" class="checkBox  ml-45" @on-change="checkAllGroupChange">
-            <Checkbox label=0>活动</Checkbox>
-            <Checkbox label=1>充值</Checkbox>
-            <Checkbox label=2>提现</Checkbox>
+            <Checkbox label="0">活动</Checkbox>
+            <Checkbox label="1">充值</Checkbox>
+            <Checkbox label="2">提现</Checkbox>
           </Checkbox-group>
         </div>
       </div>
@@ -421,7 +422,7 @@
             </td>
             <td class="main-color">{{item.amountChange/100||0}}</td>
             <td>
-              <p style="color:blue;" class="details" @click="detailsInit(item.id)">详情</p>
+              <p style="color:blue;" class="details" @click="detailsInit(item.id)">详情<Icon :type="detailSelect===item.id?'arrow-up-b':'arrow-down-b'" class="ml-5 "></Icon></p>
             </td>
           </tr>
           <tr v-show="detailSelect===item.id">
@@ -828,7 +829,10 @@
         }
       };
       return {
+        triangle:'arrow-down-b',
         imgSrc: null,
+        psw:'password',
+        eye:'eye',
         payCustom: {
           phone: null,
           validateCode: '',
@@ -1007,24 +1011,29 @@
           getoutNumber:'',
           password:'',
         },
-        getoutMoneyRule:{},
-        applyFrom:'',
-        applyTo:'',
+        getoutMoneyRule:{
+          getoutNumber:[
+            {validator: validatePayNumber, trigger: 'blur'}
+          ],
+          password:[
+            {validator:validatePass,trigger:'blur'}
+          ]
+        },
         getoutStatus:[
           {
             text:'提现中',
             isSelect:'doing',
-            id:0
+            state:"enchashment_audit_ing"
           },
           {
             text:'提现成功',
             isSelect:'success',
-            id:1
+            state:"enchashment_audit_success"
           },
           {
             text:'提现失败',
             isSelect:'fail',
-            id:2
+            state:"enchashment_audit_defeat"
           }
         ],
         getoutSelect:'doing',
@@ -1037,7 +1046,14 @@
         },
         getbankCardInformation:{},
         applyGetout:{},
-        iconType:'checkmark-circled'
+        iconType:'checkmark-circled',
+        getoutRecord:{
+          serialNumber:null,
+          applyFrom:'',
+          applyTo:'',
+        },
+        getOutResList:{},
+        getMoneyShowDetails:false
       }
     },
     mounted() {
@@ -1052,6 +1068,7 @@
       this.getUserAccount();
       this.getTradList([]);
       this.getTradListAll([0,1,2]);
+      this.getWithDrawList(this.getoutRecord)
     },
     computed: {
       getUserBalance: function () {
@@ -1063,6 +1080,24 @@
       ...mapActions([
         'getBalance'
       ]),
+      changeTriangle(){
+        alert(  11111)
+        if (this.triangle === 'arrow-down-b'){
+          this.triangle = 'arrow-up-b'
+        }else {
+          this.triangle = 'arrow-down-b'
+        }
+      },
+      seyPassword(){
+        if(this.psw==='password'){
+          this.psw = 'text';
+          this.eye = 'eye-disabled';
+        }else {
+          this.psw = 'password';
+          this.eye = 'eye';
+        }
+
+      },
       ok(){
        this.getBalance()
       },
@@ -1162,10 +1197,14 @@
       },
       detailsInit(type) {
         if (this.detailSelect === type) {
+//          this.triangle = 'arrow-down-b'
           this.detailSelect = 'none'
+
         } else {
+//          this.triangle = 'arrow-up-b'
           this.detailSelect = type;
           this.getTradListDetails(type);
+
         }
       },
       getVrcode() {
@@ -1187,6 +1226,8 @@
         let _this = this;
         if(type.length===0||type.length === 3){
           type = null;
+        }else {
+          type = JSON.stringify(type)
         }
         api.getTradList({
           createTimeStart: null,
@@ -1209,9 +1250,6 @@
         if(type.length===0||type.length === 3){
           type = null;
         }else {
-          for (let i = 0; i < type.length; i++) {
-            type[i]=parseInt(type[i])
-          }
           type = JSON.stringify(type)
         }
         api.getTradList({
@@ -1231,21 +1269,17 @@
         });
       },
       handleCheckAll () {
-        if (this.indeterminate) {
-          this.checkAll = false;
-        } else {
-          this.checkAll = !this.checkAll;
-        }
+        this.checkAll = !this.checkAll;
         if (this.checkAll) {
           this.transactType = ['0','1','2'];
         } else {
           this.transactType = [];
         }
       },
-      checkAllGroupChange (data) {
-        if (data.length === 3) {
+      checkAllGroupChange () {
+        if (this.transactType.length === 3) {
           this.checkAll = true;
-        } else if (data.length > 0) {
+        } else if (this.transactType.length > 0) {
           this.checkAll = false;
         } else {
           this.checkAll = false;
@@ -1340,6 +1374,15 @@
           case  'task_delete_return_seller':
             return '删除活动返款';
             break;
+          case  'enchashment_audit_ing':
+            return '提现审核中';
+            break;
+          case  'enchashment_audit_success':
+            return '提现审核通过';
+            break;
+          case  'enchashment_audit_defeat':
+            return '提现审核未通过';
+            break;
         }
       },
       geIifCertification(type){
@@ -1404,7 +1447,6 @@
           payPwd:types.password
         }).then(res=>{
           if(res.status){
-//            _this.getBalance();
             _this.iconType='checkmark-circled';
             _this.applyGetout=res.msg;
             _this.getoutMoney.getoutNumber='';
@@ -1415,9 +1457,30 @@
             _this.applyGetout=res.msg;
             _this.getoutMoney.getoutNumber='';
             _this.getoutMoney.password='';
-//            _this.$Message.error(res.msg)
           }
         });
+      },
+      getWithDrawList(type,state){
+        let _this=this;
+        api.getWithDrawList({
+          serialNumber:type.serialNumber,
+          applyTimeStart:type.applyFrom,
+          applyTimeEnd:type.applyTo,
+          state:state||null
+        }).then(res=>{
+          if (res.status){
+           _this.getOutResList=res.data.content;
+          }else {
+            _this.$Message.error(res.msg)
+          }
+        });
+      },
+      getMoneyShowDetailsFun(type){
+        if (this.getMoneyShowDetails === type){
+          this.getMoneyShowDetails = 'none'
+        }else {
+          this.getMoneyShowDetails=type
+        }
       }
     }
   }
@@ -1426,6 +1489,9 @@
 <style lang="scss" scoped>
   @import 'src/css/mixin';
   .personal-box {
+    .triangle{
+      transform: translate(180deg);
+    }
     .main-color {
       color: $mainColor;
     }
