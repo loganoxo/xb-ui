@@ -80,6 +80,16 @@
 <style lang="scss" >
   @import 'src/css/mixin';
   .personal-box {
+    .pay{
+      display: block;
+      width: 100px;
+      height: 30px;
+      line-height: 30px;
+      background-color: $mainColor;
+      color: #fff;
+      text-align: center;
+      border-radius: 2px;
+    }
     .triangle{
       transform: translate(180deg);
     }

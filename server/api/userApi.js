@@ -279,6 +279,36 @@ router.post('/api/user/edit-portrait-pic.json', function (req, res, next) {
 });
 
 /**
+ * 余额充值
+ * @param uid
+ * @param finalFee
+ * @param orderPlatform
+ * @param payChannel
+ */
+router.post('/api/balance-order-create.json', function (req, res, next) {
+  let options = {
+    method: 'POST',
+    uri: baseUrl + '/order/balance-order-create',
+    formData: {
+      uid: req.body.uid,
+      finalFee: req.body.finalFee,
+      orderPlatform: req.body.orderPlatform,
+      payChannel: req.body.payChannel
+    },
+    json: true,
+  };
+  request(options).then(function (parsedBody) {
+    res.send(parsedBody);
+    res.end();
+  }).catch(function (err) {
+    logConfig.logger.error(req.originalUrl + ':' + err);
+    res.json({status: false, msg: "服务器错误"});
+    res.end();
+  });
+});
+
+
+/**
  * 通过上一次的支付密码修改支付密码
  * @param userId
  * @param oldPwd

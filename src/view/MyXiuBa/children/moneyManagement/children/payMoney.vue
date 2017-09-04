@@ -21,12 +21,7 @@
           </Radio-group>
         </Form-item>
         <Form-item>
-          <iButton type="primary" style="width: 100px" @click="modal3 = true">提交</iButton>
-          <Modal
-            v-model="modal3"
-            :styles="{top:'210px',width:'600px'}">
-            <PayModel></PayModel>
-          </Modal>
+          <a  :href="url"  target="_blank"  class="pay" @click="modal3 = true ;balanceOrderCreate(payMoney)">提交</a>
         </Form-item>
       </iForm>
     </div>
@@ -64,6 +59,7 @@
       Icon: Icon,
       Modal: Modal,
       PayModel:PayModel,
+
 
     },
     data() {
@@ -112,7 +108,7 @@
       };
       return {
         payMoney:{
-          number:null,
+          number:100,
           payMode: 'ali',
         },
         payMoneyRule:{
@@ -122,13 +118,16 @@
         },
         imgSrc: null,
         modal3:false,
+        userList:{},
+        userAccount:{},
+        url:'',
       }
     },
     mounted() {
 
     },
     created() {
-      this.getUserAccount()
+      this.getUserAccount();
     },
     computed: {
       getUserBalance: function () {
@@ -140,7 +139,6 @@
       ...mapActions([
         'getBalance'
       ]),
-
       seyPassword(){
         if(this.psw==='password'){
           this.psw = 'text';
@@ -161,8 +159,25 @@
           }
         });
       },
+      balanceOrderCreate(type){
+        let _this = this;
+        api.balanceOrderCreate({
+          uid:_this.userList.id,
+          finalFee:type.number*100,
+          orderPlatform:'PC',
+          payChannel:1
+        }).then(res => {
+          if (res.status) {
+              console.log(res)
+            _this.url = 'http://192.168.1.142:8765/pay/build_req.htm?channel=1&userId='+_this.userList.id+'&orderId='+res.data.id+''
+          } else {
+            _this.$Message.error(res.msg);
+          }
+        });
+      },
     }
   }
 </script>
+
 
 

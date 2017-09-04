@@ -100,6 +100,14 @@ export default {
   },
 
   /**
+   * 余额充值
+   */
+  balanceOrderCreate(params) {
+    return fetch("/api/balance-order-create.json", params)
+  },
+
+
+  /**
    *通过上一次的密码修改支付密码
    */
   findPwdOrigin(params) {
