@@ -19,7 +19,7 @@ const ApproveShowker = r => require.ensure([], () => r(require('@/view/MyXiuBa/c
 const ProbationReport = r => require.ensure([], () => r(require('@/view/MyXiuBa/children/activityManagement/children/probationReport.vue')), 'ActivityManagement');
 
 const MyProbation = r => require.ensure([], () => r(require('@/view/MyXiuBa/children/myProbation/index.vue')), 'MyProbation');
-const ApplyWaitAudit = r => require.ensure([], () => r(require('../view/MyXiuBa/children/myProbation/children/ApplyWaitAudit.vue')), 'MyProbation');
+const ApplyWaitAudit = r => require.ensure([], () => r(require('@/view/MyXiuBa/children/myProbation/children/applyWaitAudit.vue')), 'MyProbation');
 const ApplyPassAudit = r => require.ensure([], () => r(require('@/view/MyXiuBa/children/myProbation/children/applyPassAudit.vue')), 'MyProbation');
 const ApplyFailAudit = r => require.ensure([], () => r(require('@/view/MyXiuBa/children/myProbation/children/applyFailAudit.vue')), 'MyProbation');
 
