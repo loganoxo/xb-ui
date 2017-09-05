@@ -28,7 +28,7 @@
             <iOption v-for="item in SelectList" :value="item.value" :key="item.value">{{ item.label }}</iOption>
           </iSelect>
           <iInput v-model="searchValue" style="width: 160px;margin-right: 8px;"></iInput>
-          <iButton type="primary">搜索</iButton>
+          <iButton type="primary" @click="taskApplyList">搜索</iButton>
           <div class="activity-table mt-20">
             <table>
               <thead>
@@ -74,7 +74,7 @@
           <iInput v-model="searchValue" style="width: 160px;margin-right: 8px;"></iInput>
           <span>订单编号：</span>
           <iInput v-model="orderNum" style="width: 160px;margin-right: 8px;"></iInput>
-          <iButton type="primary">搜索</iButton>
+          <iButton type="primary" @click="taskApplyList">搜索</iButton>
           <div class="clear mt-20">
             <div class="left mr-10" style="margin-top: 2px;">
               <Checkbox
@@ -102,7 +102,7 @@
                 <Checkbox label="order_num_error">
                   <span>订单号有误</span>
                 </Checkbox>
-                <Checkbox label="西瓜">
+                <Checkbox label="trial_report_unqualified">
                   <span>报告不合格</span>
                 </Checkbox>
               </Checkbox-group>
@@ -152,7 +152,7 @@
           <iInput v-model="searchValue" style="width: 160px;margin-right: 8px;"></iInput>
           <span>订单编号：</span>
           <iInput v-model="orderNum" style="width: 160px;margin-right: 8px;"></iInput>
-          <iButton type="primary">搜索</iButton>
+          <iButton type="primary" @click="taskApplyList">搜索</iButton>
           <div class="clear mt-20">
             <div class="left mr-10" style="margin-top: 2px;">
               <Checkbox
@@ -358,38 +358,43 @@
         this.pageIndex = data;
         this.getTaskList();
       },
-      handleCheckAll() {
-        this.checkAll = !this.checkAll;
-        if (this.checkAll) {
-          this.taskStatusList = ['waiting_pay', 'waiting_audit', 'waiting_modify', 'under_way', 'finished'];
-          this.settlementStatusList = ['waiting_settlement', 'waiting_audit', 'settlement_finished'];
-        } else {
-          this.taskStatusList = [];
-          this.settlementStatusList = [];
-        }
-        this.getTaskList();
-      },
       handleCheckPassAll() {
-
+        this.checkAllByPass = !this.checkAllByPass;
+        if (this.checkAllByPass) {
+          this.auditStatusList = ['pass_and_unclaimed', 'order_num_waiting_audit', 'trial_report_waiting_submit', 'trial_report_waiting_confirm', 'trial_finished' ,'order_num_error' ,'trial_report_unqualified'];
+        } else {
+          this.auditStatusList = [];
+        }
+        this.taskApplyList();
       },
       handleCheckFailAll() {
-
-      },
-      checkAllGroupChange() {
-        if (this.settlementStatusList.length === 3 && this.taskStatusList.length === 5) {
-          this.checkAll = true;
-        } else if (this.settlementStatusList.length > 0 || this.taskStatusList.length > 0) {
-          this.checkAll = false;
+        this.checkAllByFail = !this.checkAllByFail;
+        if (this.checkAllByFail) {
+          this.endReasonList = ['timeout_auto_close', 'buyer_manual_close', 'seller_manual_close'];
         } else {
-          this.checkAll = false;
+          this.endReasonList = [];
         }
-        this.getTaskList();
+        this.taskApplyList();
       },
       checkPassChange() {
-
+        if (this.auditStatusList.length === 7) {
+          this.checkAllByPass = true;
+        } else if (this.auditStatusList.length > 0) {
+          this.checkAllByPass = false;
+        } else {
+          this.checkAllByPass = false;
+        }
+        this.taskApplyList();
       },
       checkFailChange() {
-
+        if (this.endReasonList.length === 3) {
+          this.checkAllByFail = true;
+        } else if (this.endReasonList.length > 0) {
+          this.checkAllByFail = false;
+        } else {
+          this.checkAllByFail = false;
+        }
+        this.taskApplyList();
       },
       approveGuest(taskId) {
         this.showContent = 'approve';
@@ -412,7 +417,7 @@
           orderNum: _this.orderNum,
           endReasonList: JSON.stringify(_this.endReasonList),
           auditStatusList: JSON.stringify(_this.auditStatusList),
-          pageIndex: this.approvePageIndex,
+          pageIndex: _this.approvePageIndex
         }).then(res => {
           if (res.status) {
             _this.approveTableList = res.data.list.content;

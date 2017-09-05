@@ -25,6 +25,8 @@ router.post('/api/login.json', (req, res, next) => {
     formData: {
       phone: req.body.phone,
       passWord: req.body.passWord,
+      loginIp: req.ip,
+      sessionId: req.sessionID
     },
     json: true,
   };
@@ -66,6 +68,8 @@ router.post('/api/check-fast-sign-in.json', function (req, res, next) {
     formData: {
       phone: req.body.phone,
       smsCode: req.body.smsCode,
+      loginIp: req.ip,
+      sessionId: req.sessionID
     },
     json: true,
   };

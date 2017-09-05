@@ -48,7 +48,7 @@
        <span class="ml-10">通过日期：</span>
        <Date-picker format="yyyy/MM/dd" type="daterange" placement="bottom-end" placeholder="请选择日期查询"
                     style="width: 200px" @on-change="handleDataChange"></Date-picker>
-       <iButton type="primary" class="ml-20">搜索</iButton>
+       <iButton type="primary" class="ml-20" @click="showkerSuccessList">搜索</iButton>
      </div>
      <div class="probation-table mt-20">
        <table>
@@ -63,6 +63,9 @@
          </tr>
          </thead>
          <tbody v-if="applySuccessList.length > 0" v-for="item in applySuccessList" :key="item.id">
+         <tr class="task-number">
+           <td colspan="6">活动编号：{{item.orderNumber || '------'}}</td>
+         </tr>
          <tr>
            <td>
              <img class="left ml-10" :src="item.taskMainImage">
@@ -107,8 +110,8 @@
                 @click="openAuditOrder(item.id)">修改订单号</p>
              <p v-if="item.status !== 'trial_end' && item.status !== 'trial_finished'" class="operation mt-5"
                 @click="endTrial(item.id)">结束试用</p>
-             <p v-if="item.status === 'trial_finished'" class="operation mt-5">查看试用详情</p>
-             <p v-if="item.status === 'trial_finished'" class="operation mt-5">查看试用返款</p>
+             <p v-if="item.status === 'trial_finished'" class="operation mt-5"><router-link :to="{path:'',query:{}}">查看试用详情</router-link></p>
+             <p v-if="item.status === 'trial_finished'" class="operation mt-5"><router-link :to="{path:'/user/money-management/transaction-record',query:{taskNumber:item.orderNumber}}">查看试用返款</router-link></p>
            </td>
          </tr>
          </tbody>
@@ -348,9 +351,7 @@
         defaultImageList: [],
       }
     },
-    mounted() {
-
-    },
+    mounted() {},
     created() {
       this.showkerSuccessList();
     },
@@ -413,10 +414,23 @@
         this.showPassOperation = '';
       },
       handleCheckAll() {
-
+        this.checkAll = !this.checkAll;
+        if (this.checkAll) {
+          this.checkPassList = ['pass_and_unclaimed', 'order_num_waiting_audit', 'trial_report_waiting_submit', 'trial_report_waiting_confirm', 'trial_finished', 'order_num_error', 'trial_report_unqualified', 'trial_end'];
+        } else {
+          this.checkPassList = [];
+        }
+        this.showkerSuccessList()
       },
       checkChange() {
-
+        if (this.checkPassList.length === 8) {
+          this.checkAll = true;
+        } else if (this.checkPassList.length > 0) {
+          this.checkAll = false;
+        } else {
+          this.checkAll = false;
+        }
+        this.showkerSuccessList();
       },
       handleDataChange(data) {
         this.auditTimeStart = data[0];
@@ -461,6 +475,7 @@
           auditTimeStart: _this.auditTimeStart,
           auditTimeEnd: _this.auditTimeEnd,
           pageSize: 5,
+          statusList: JSON.stringify(_this.checkPassList),
         }).then(res => {
           if (res.status) {
             let content = res.data.content;
@@ -476,6 +491,7 @@
               data.taskName = item.task.taskName;
               data.perMarginNeed = item.task.perMarginNeed;
               data.createTime = item.task.createTime;
+              data.orderNumber = item.task.number;
               _this.applySuccessList.push(data);
             });
             _this.totalElements = res.data.numberOfElements;
@@ -518,8 +534,8 @@
           _this.$Message.error("亲，请描述您的试用过程与体验！");
           return;
         }
-        if (_this.trialReportImages.length < 5) {
-          _this.$Message.error("亲，图片上传数量不能少于5张！");
+        if (_this.trialReportImages.length > 5) {
+          _this.$Message.error("亲，图片上传数量最多5张！");
           return;
         }
         if (_this.reportStatus === 'write') {

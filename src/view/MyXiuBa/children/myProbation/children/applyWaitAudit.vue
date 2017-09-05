@@ -17,6 +17,9 @@
         </tr>
         </thead>
         <tbody v-if="applyList.length > 0" v-for="item in applyList" :key="item.id">
+        <tr class="task-number">
+          <td colspan="5">活动编号：{{item.task.number || '------'}}</td>
+        </tr>
         <tr>
           <td>
             <img class="left ml-10" :src="item.task.taskMainImage">
@@ -89,7 +92,7 @@
 
     },
     created() {
-      this.showkerApplyList("toAudit");
+      this.showkerApplyList();
     },
     computed: {},
     methods: {
@@ -98,14 +101,14 @@
       },
       pageChange(data) {
         this.pageIndex = data;
-        this.showkerApplyList("toAudit");
+        this.showkerApplyList();
       },
-      showkerApplyList(status) {
+      showkerApplyList() {
         let _this = this;
         api.showkerApplyList({
           selectStatus: _this.selectStatus,
           searchValue: _this.searchValue,
-          status: status,
+          status: 'toAudit',
           pageIndex: _this.pageIndex,
           pageSize: 5,
         }).then(res => {

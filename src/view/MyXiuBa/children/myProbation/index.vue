@@ -110,6 +110,11 @@
       padding-bottom: 15px;
     }
 
+    .probation-table table tr.task-number td {
+      text-align: left;
+      padding:6px 0 6px 10px;
+    }
+
     .probation-table table td img {
       width: 54px;
       height: 54px;

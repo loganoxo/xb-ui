@@ -4,7 +4,7 @@
       <iOption v-for="item in SelectList" :value="item.value" :key="item.value">{{ item.label }}</iOption>
     </iSelect>
     <iInput v-model="searchValue" style="width: 160px;margin-right: 8px;"></iInput>
-    <iButton type="primary">搜索</iButton>
+    <iButton type="primary" @click="showkerApplyList">搜索</iButton>
     <div class="probation-table mt-20">
       <table>
         <thead>
@@ -17,6 +17,9 @@
         </tr>
         </thead>
         <tbody v-if="applyList.length > 0" v-for="item in applyList" :key="item.id">
+        <tr class="task-number">
+          <td colspan="5">活动编号：{{item.task.number || '------'}}</td>
+        </tr>
         <tr>
           <td>
             <img class="left ml-10" :src="item.task.taskMainImage">
@@ -96,7 +99,7 @@
 
     },
     created() {
-      this.showkerApplyList("failAudit");
+      this.showkerApplyList();
     },
     computed: {},
     methods: {
@@ -105,14 +108,14 @@
       },
       pageChange(data) {
         this.pageIndex = data;
-        this.showkerApplyList('failAudit');
+        this.showkerApplyList();
       },
-      showkerApplyList(status) {
+      showkerApplyList() {
         let _this = this;
         api.showkerApplyList({
           selectStatus: _this.selectStatus,
           searchValue: _this.searchValue,
-          status: status,
+          status: 'failAudit',
           pageIndex: _this.pageIndex,
           pageSize: 5,
         }).then(res => {

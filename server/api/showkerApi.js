@@ -76,7 +76,9 @@ router.post('/api/showker-success-list.json', function (req, res, next) {
       searchValue: req.body.searchValue,
       pageSize: req.body.pageSize,
       auditTimeStart: req.body.auditTimeStart,
-      auditTimeEnd: req.body.auditTimeEnd
+      auditTimeEnd: req.body.auditTimeEnd,
+      pageIndex: req.body.pageIndex,
+      statusList: req.body.statusList
     },
     json: true
   };

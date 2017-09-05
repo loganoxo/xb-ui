@@ -150,6 +150,7 @@
   import Button from 'iview/src/components/button'
   import Page from 'iview/src/components/page'
   import Modal from 'iview/src/components/modal'
+  import {TaskErrorStatusList} from '@/config/utils'
   import {mapActions} from 'vuex'
   export default {
     name: 'MoneyManagement',
@@ -214,14 +215,19 @@
 
     },
     created() {
+      let taskNumber = this.$route.query.taskNumber;
       this.getUserAccount();
-      this.getTradListAll([0,1,2]);
+      if(taskNumber){
+        this.activityNumber = taskNumber;
+        this.getTradListAll();
+      }else{
+        this.getTradListAll([0,1,2]);
+      }
     },
     computed: {
       getUserBalance: function () {
         return this.$store.state.userBalance
       }
-
     },
     methods: {
       ...mapActions([
@@ -236,7 +242,6 @@
         } else {
           this.detailSelect = type;
           this.getTradListDetails(type);
-
         }
       },
       getUserAccount() {
@@ -245,7 +250,6 @@
           if (res.status) {
             _this.userList = res.data;
             _this.userAccount = res.data.userAccount;
-            _this.changeBankIdcardShowFun();
           } else {
             _this.$Message.error(res.msg);
           }
@@ -253,17 +257,17 @@
       },
       getTradListAll(type) {
         let _this = this;
-        if(type.length===0||type.length === 3){
+        if(type && (type.length===0||type.length === 3)){
           type = null;
         }else {
           type = JSON.stringify(type)
         }
         api.getTradList({
-          createTimeStart: _this.beginTime||null,
-          createTimeEnd:_this.endTime||null,
-          accountChangeTypeStr: type,
+          createTimeStart: _this.beginTime,
+          createTimeEnd:_this.endTime,
+          accountChangeTypeStr: type || null,
           reversePicUrl: null,
-          taskSerial: _this.activityNumber||null
+          taskSerial: _this.activityNumber
         }).then(res => {
           if (res.status) {
             _this.myTableDetailsAll = res.data.content;
@@ -341,57 +345,9 @@
           _this.endTime=null;
           _this.getTradListAll([0,1,2]);
         }
-
-
       },
       getTradType(type){
-        switch (type){
-          case 'enchashment':
-            return '提现';
-            break;
-          case  'pay_for_task_deposit_seller':
-            return '支付活动担保金';
-            break;
-          case  'task_return_seller':
-            return '活动结算返款';
-            break;
-          case  'showker_task_supplementary_seller':
-            return '补充任务担保金';
-            break;
-          case  'task_deposit_pay_shower':
-            return '任务保证金退款';
-            break;
-          case  'task_deposit_return_shower':
-            return '任务保证金返款';
-            break;
-          case  'task_delete_return_seller':
-            return '删除活动返款';
-            break;
-          case  'enchashment_audit_ing':
-            return '提现审核中';
-            break;
-          case  'enchashment_audit_success':
-            return '提现审核通过';
-            break;
-          case  'enchashment_audit_defeat':
-            return '提现审核未通过';
-            break;
-        }
-      },
-      changeBankIdcardShowFun(){
-        if (this.userList.ifCertification ===false){
-          this.changeBankIDcardShow.iScertification=true;
-          this.changeBankIDcardShow.iSbondBankCard=false;
-        }else if (this.userList.ifCertification===true){
-          if(this.userList.ifBandingBankCard === null){
-            this.changeBankIDcardShow.iScertification=false;
-            this.changeBankIDcardShow.iSbondBankCard=true;
-          }else {
-            for (let k in  this.changeBankIDcardShow) {
-              this.changeBankIDcardShow[k]=k==='getoutMoney';
-            }
-          }
-        }
+       return TaskErrorStatusList(type);
       },
       getDepositReturnList(type){
         let _this = this;

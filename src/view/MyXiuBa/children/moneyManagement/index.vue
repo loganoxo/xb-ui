@@ -9,7 +9,6 @@
   </div>
 </template>
 <script>
-  import {setStorage, getStorage, removeStorage} from '@/config/utils'
 
   export default {
     name: 'MoneyManagement',
@@ -46,13 +45,8 @@
 
     },
     created() {
-
-      let type = getStorage("navChangeType");
-      if(type){
-        this.selectNavigate(type);
-      }else{
-        this.selectNavigate("accountInfo");
-      }
+      let name = this.$route.name;
+      this.selectNavigate(name);
     },
     computed: {
 
@@ -69,7 +63,6 @@
       },
       selectNavigate(type) {
         this.infoSelect = type;
-        setStorage('navChangeType', type);
       },
 
     }

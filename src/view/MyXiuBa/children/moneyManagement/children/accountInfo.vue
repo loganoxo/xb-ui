@@ -207,7 +207,6 @@
           if (res.status) {
             _this.userList = res.data;
             _this.userAccount = res.data.userAccount;
-            _this.changeBankIdcardShowFun();
           } else {
             _this.$Message.error(res.msg);
           }
@@ -292,21 +291,6 @@
       },
       getIfBandingBankCard(type){
         return type===null?'未添加':this.userAccount.bankCardNum;
-      },
-      changeBankIdcardShowFun(){
-        if (this.userList.ifCertification ===false){
-          this.changeBankIDcardShow.iScertification=true;
-          this.changeBankIDcardShow.iSbondBankCard=false;
-        }else if (this.userList.ifCertification===true){
-          if(this.userList.ifBandingBankCard === null){
-            this.changeBankIDcardShow.iScertification=false;
-            this.changeBankIDcardShow.iSbondBankCard=true;
-          }else {
-            for (let k in  this.changeBankIDcardShow) {
-              this.changeBankIDcardShow[k]=k==='getoutMoney';
-            }
-          }
-        }
       },
     }
   }
