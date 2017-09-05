@@ -365,7 +365,7 @@
         api.getDetailsShowkerList(self.detailsShowkerParams).then((res) => {
           if(res.status){
             for(let i = 0, j = res.data.content.length; i < j; i++){
-              res.data.reportList.content[i].trialReportImages = JSON.parse(res.data.reportList.content[i].trialReportImages);
+              res.data.content[i].trialReportImages = JSON.parse(res.data.content[i].trialReportImages);
             }
             self.detailsShowkerList = res.data.content;
             self.totalElements = res.data.totalElements;
@@ -383,6 +383,7 @@
         api.getDetailsSuccessShowkerList(self.detailsSuccessShowkerParams).then((res) => {
           if(res.status){
             self.detailsSuccessShowkerList = res.data.content;
+
             this.graphicInfoSels[2].num = res.data.totalElements;
           }
         })
@@ -393,7 +394,7 @@
           if(res.status){
             this.commodityData = res.data;
             this.graphicInfoSels[1].num = res.data.trailDone;
-            this.graphicInfoSels[2].num = res.data.trailDone;
+            this.graphicInfoSels[2].num = res.data.task.showkerApplySuccessCount;
           }else {
             self.$Modal.error({
               content: res.msg,

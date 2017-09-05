@@ -162,11 +162,11 @@
       }
     },
     created(){
-      this.getTrialReports();
-      this.getTrialDetail();
       if(this.$route.query.showkerId){
         this.trialReportParams.showkerId = this.$route.query.showkerId;
       }
+      this.getTrialReports();
+      this.getTrialDetail();
     },
     computed: {
       getUser(){
@@ -178,11 +178,13 @@
         let self = this;
         api.getTrialReports(self.trialReportParams).then((res) => {
           if(res.status){
-            for(let i = 0, j = res.data.reportList.content.length; i < j; i++){
-              res.data.reportList.content[i].trialReportImages = JSON.parse(res.data.reportList.content[i].trialReportImages);
+            if(res.data.content != ''){
+              for(let i = 0, j = res.data.reportList.content.length; i < j; i++){
+                res.data.content[i].trialReportImages = JSON.parse(res.data.content[i].trialReportImages);
+              }
             }
-            self.trialReportList = res.data.reportList.content;
-            self.totalPages = res.data.reportList.totalElements;
+            self.trialReportList = res.data.content;
+            self.totalPages = res.data.totalElements;
           } else {
             self.$Modal.error({
               content: res.msg

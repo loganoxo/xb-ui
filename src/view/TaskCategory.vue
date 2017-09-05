@@ -185,7 +185,7 @@
         itemCatalogs: ['all'],
         searchTaskParams:{
           pageIndex: 1,
-          pageSize: 2,
+          pageSize: 20,
           taskName: '',
           taskTypes: [],
           itemCatalogs: [],
@@ -255,7 +255,8 @@
           if(res.status){
               self.pageCount = parseInt(res.data.total);
               self.searchTaskList = res.data.content;
-              self.$set(self.searchTaskList)
+              self.$set(self.searchTaskList);
+              setStorage("searchTaskParams", self.searchTaskParams);
           }else {
             self.$Modal.error({
               content: res.msg
@@ -274,6 +275,13 @@
             for(let i = 0; i < self.categoryList.length; i++){
               self.itemCatalogs.push(self.categoryList[i].id);
             }
+            if(getStorage("searchTaskParams")){
+              self.itemCatalogs = getStorage("searchTaskParams").itemCatalogs;
+            }
+            self.taskCategoryAll = false;
+            if(self.itemCatalogs.length > 1){
+              self.taskCategoryAll = true;
+            }
             this.getSearchTask()
           }else {
             self.$Modal.error({
@@ -286,6 +294,7 @@
     watch: {
       '$route' (to, from) {
         //刷新参数放到这里里面去触发就可以刷新相同界面了
+        window.localStorage.removeItem('searchTaskParams');
         this.searchTaskParams.taskName = '';
         let cate = this.$route.query.cate;
         let searchKey = this.$route.query.searchKey;
