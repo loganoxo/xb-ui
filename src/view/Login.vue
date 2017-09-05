@@ -87,14 +87,14 @@
                   <img class="left   mt-7 mr-5" src="~assets/img/common/qq_logo.png" alt="">
                   QQ账号登录
                 </a>
-                <router-link class="right" to="/register">注册</router-link>
+                <router-link class="right" to="/sel-role">注册</router-link>
                 <span class="right">没有账号，点击</span>
               </p>
             </div>
           </div>
         </div>
       </div>
-      <Modal
+      <!--<Modal
         v-model="selRole"
         class-name="vertical-center-modal" cancel-text="" @on-ok="getRegister">
         <h1 class="text-ct">注册角色选择</h1>
@@ -108,7 +108,7 @@
                    v-bind:value="1">商家
           </label>
         </div>
-      </Modal>
+      </Modal>-->
     </div>
   </div>
 
@@ -243,35 +243,6 @@
       }
     },
     methods: {
-      getRegister() {
-        let self = this;
-        api.register({
-          phone: this.loginTrendsCustom.phone,
-          pwd: this.loginTrendsCustom.phone.slice(5),
-          repwd: this.loginTrendsCustom.phone.slice(5),
-          nickName: null,
-          smsCode: this.loginTrendsCustom.smsCode,
-          role: this.loginTrendsCustom.role,
-          validateCode: this.loginTrendsCustom.validateCode,
-          purpose:'fast'
-        }).then((res) => {
-          if (res.status) {
-            self.$store.commit({
-              type: 'RECORD_USER_INFO',
-              info: res.data
-            });
-            this.$Modal.success({
-              content: '恭喜您，成功注册秀吧！',
-              onOk: function () {
-                self.$router.push({name: 'home'});
-              }
-            });
-          } else {
-            self.instance('error', '', res.msg);
-            self.getVrcode();
-          }
-        })
-      },
       getVrcode() {
         this.imgSrc = "/api/vrcode.json?rand=" + new Date() / 100
       },
@@ -349,7 +320,16 @@
                 }
               });
             } else if (res.statusCode === 'need_reg') {
-              this.selRole = true;
+//              this.selRole = true;
+              self.$router.push({
+                path: '/sel-role',
+                query: {
+                  phone: self.loginTrendsCustom.phone,
+                  validateCode: self.loginTrendsCustom.validateCode,
+                  smsCode: self.loginTrendsCustom.smsCode,
+                  role: self.loginTrendsCustom.role,
+                }
+              });
             }
           } else {
             this.instance('error', '', res.msg);

@@ -30,7 +30,7 @@
               </li>
               <li :class="{isSelect:isSelect ==='personalSetting'}" @click="selectNavigate('personalSetting')">
                 <Icon type="gear-b"></Icon>
-                <router-link to="/user/personal-setting">个人设置</router-link>
+                <router-link to="/user/personal-setting/personal-account-info">个人设置</router-link>
               </li>
               <li :class="{isSelect:isSelect ==='helpCenter'}" @click="selectNavigate('helpCenter')">
                 <Icon type="help-buoy"></Icon>
@@ -60,7 +60,7 @@
               </li>
               <li :class="{isSelect:isSelect ==='personalSetting'}" @click="selectNavigate('personalSetting')">
                 <Icon type="gear-b"></Icon>
-                <router-link to="/user/personal-setting">个人设置</router-link>
+                <router-link to="/user/personal-setting/personal-account-info">个人设置</router-link>
               </li>
               <li :class="{isSelect:isSelect ==='helpCenter'}" @click="selectNavigate('helpCenter')">
                 <Icon type="help-buoy"></Icon>

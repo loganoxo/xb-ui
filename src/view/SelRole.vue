@@ -1,11 +1,17 @@
 <template>
   <div class="sel-role-ctt">
+    <role-top></role-top>
+
     <div class="container">
+      <p v-if="showRegister" class="fs-24 left fast-register-tip">
+        <Icon type="information-circled" color="#FF6633"></Icon>
+        亲是第一次登录秀吧，请选择您的角色！
+      </p>
       <div class="login-box">
         <div class="buyer-login-box animated fadeInLeft">
-          <router-link to="/buyer-register" :class="[animateStart.buyerRes ? 'animated pulse' : '' ]" @mouseover="animateOver(0)" @mouseleave="animateLeave(0)">
+          <a @click="selRoleFunc(0)" :class="[animateStart.buyerRes ? 'animated pulse' : '' ]" @mouseover="animateOver(0)" @mouseleave="animateLeave(0)">
             <img src="~assets/img/sel-role/sel_role_01.png" alt="">
-          </router-link>
+          </a>
           <p>
             我想要免费试用，体验商品带给我更多快乐， 并将这份快乐传递给更多人！
           </p>
@@ -16,9 +22,9 @@
           <img class="right-icon" :class="[animateStart.sellerRes ? 'aright' : 'aleftDefault' ]" src="~assets/img/sel-role/sel_role_07.png" alt="">
         </div>
         <div class="seller-login-box animated fadeInRight">
-          <router-link to="/seller-register" :class="[animateStart.sellerRes ? 'animated pulse' : 'arightDefault' ]" @mouseover="animateOver(1)" @mouseleave="animateLeave(1)">
+          <a @click="selRoleFunc(1)"  :class="[animateStart.sellerRes ? 'animated pulse' : 'arightDefault' ]" @mouseover="animateOver(1)" @mouseleave="animateLeave(1)">
             <img src="~assets/img/sel-role/sel_role_02.png" alt="">
-          </router-link>
+          </a>
           <p>
             我想要推广商品、收集新品市场反馈、 提升产品销量。打造专属于我的品牌！
           </p>
@@ -39,43 +45,163 @@
 </template>
 
 <script>
-export default {
-  name: 'sel-role',
-  data () {
-    return {
+  import Icon from 'iview/src/components/icon'
+  import Form from 'iview/src/components/form'
+  import Input from 'iview/src/components/input'
+  import Checkbox from 'iview/src/components/checkbox'
+  import Button from 'iview/src/components/button'
+  import Radio from 'iview/src/components/radio'
+  import api from '@/config/apiConfig'
+  import {setStorage, getStorage,removeStorage} from '@/config/utils'
+  import SmsCountdown from '@/components/SmsCountdown'
+  import Modal from 'iview/src/components/modal'
+  import RoleTop from '@/components/RoleTop.vue'
+  export default {
+    name: 'sel-role',
+    components: {
+      iInput: Input,
+      iForm: Form,
+      FormItem: Form.Item,
+      Checkbox: Checkbox,
+      CheckboxGroup: Checkbox.Group,
+      iButton: Button,
+      Icon: Icon,
+      SmsCountdown: SmsCountdown,
+      Radio: Radio,
+      Modal: Modal,
+      RoleTop: RoleTop,
+    },
+    data () {
+      return {
         animateStart: {
           buyerRes: false,
           sellerRes: false,
           complete: false
         },
-    }
-  },
-  created(){
-    this.animateStart.complete = true;
-  },
-  methods: {
-    animateOver: function (res) {
-      if(res === 1){
-        this.animateStart.sellerRes = true;
-      }else {
-        this.animateStart.buyerRes = true;
+        loginTrendsCustom: {
+          phone: null,
+          validateCode: '',
+          purpose:'fast',
+          smsCode: '',
+          role: 0,
+        },
+        showRegister: false
       }
-      this.animateStart.complete = false;
     },
-    animateLeave: function (res) {
-      if(res === 1){
-        this.animateStart.sellerRes = false;
-      }else {
-        this.animateStart.buyerRes = false;
+
+    beforeMount() {
+      this.$store.commit({
+        type: 'CHANGE_TOP_HIDE'
+      })
+    },
+    created(){
+      let self = this;
+      self.animateStart.complete = true;
+      if(self.$route.query.phone){
+        self.showRegister = true;
+        self.loginTrendsCustom.phone = self.$route.query.phone;
+        self.loginTrendsCustom.pwd = self.$route.query.phone.slice(5);
+        self.loginTrendsCustom.repwd = self.$route.query.phone.slice(5);
+        self.loginTrendsCustom.smsCode = self.$route.query.smsCode;
+        self.loginTrendsCustom.validateCode = self.$route.query.validateCode;
       }
-      this.animateStart.complete = false;
+    },
+    methods: {
+      selRoleFunc(role){
+        let self = this;
+        if(self.showRegister){
+          self.loginTrendsCustom.role = role;
+          self.getRegister()
+        }else {
+          if(role == 0){
+            self.$router.push({path: '/buyer-register'});
+          }else if(role == 1){
+            self.$router.push({path: '/seller-register'});
+          }
+        }
+      },
+      setUserInfo() {
+        let self = this;
+        api.login({
+          phone: this.loginTrendsCustom.phone,
+          passWord: this.loginTrendsCustom.phone.slice(5),
+        }).then((res) => {
+          if (res.status) {
+            self.$store.commit({
+              type: 'RECORD_USER_INFO',
+              info: res.data
+            });
+            self.$router.push({name: 'home'});
+          } else {
+            self.$Modal.error({
+              content: res.msg,
+            });
+          }
+        })
+      },
+      getRegister() {
+        let self = this;
+        api.register({
+          phone: this.loginTrendsCustom.phone,
+          pwd: this.loginTrendsCustom.phone.slice(5),
+          repwd: this.loginTrendsCustom.phone.slice(5),
+          nickName: null,
+          smsCode: this.loginTrendsCustom.smsCode,
+          role: this.loginTrendsCustom.role,
+          validateCode: this.loginTrendsCustom.validateCode,
+          purpose:'fast'
+        }).then((res) => {
+          if (res.status) {
+            self.$store.commit({
+              type: 'RECORD_USER_INFO',
+              info: res.data
+            });
+            self.$Modal.success({
+              content: '恭喜您，成功注册秀吧！',
+              onOk: function () {
+                self.setUserInfo();
+              }
+            });
+          } else {
+            self.$Modal.error({
+              content: res.msg,
+            });
+          }
+        })
+      },
+      animateOver: function (res) {
+        if(res === 1){
+          this.animateStart.sellerRes = true;
+        }else {
+          this.animateStart.buyerRes = true;
+        }
+        this.animateStart.complete = false;
+      },
+      animateLeave: function (res) {
+        if(res === 1){
+          this.animateStart.sellerRes = false;
+        }else {
+          this.animateStart.buyerRes = false;
+        }
+        this.animateStart.complete = false;
+      }
     }
   }
-}
 </script>
 
 <style lang="scss" scoped>
   @import 'src/css/mixin';
+  .fast-register-tip{
+    margin-left: 156px;
+    margin-top: 140px;
+    margin-bottom: 100px;
+    i{
+      color: rgb(255, 102, 51);
+      font-size: 35px;
+      float: left;
+      margin-right: 10px;
+    }
+  }
   .sel-role-ctt{
     padding-bottom: 310px;
   }

@@ -89,7 +89,7 @@
                 </p>
                 <p class="cl000">
                   剩余时间：
-                  <time-down  :endTime="searchTask.updateTime" ></time-down>&nbsp;
+                  <time-down  :endTime="searchTask.endTime" ></time-down>&nbsp;
                 </p>
               </div>
             </router-link>

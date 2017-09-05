@@ -15,7 +15,7 @@
                   <span v-if="!userData.userAccount.ifEditPwdAlready" >
                     支付密码：
                     <Icon type="information-circled" color="#FF6633"></Icon>未设置
-                    <router-link :to="{ 'path': '/user/money-management','query': {'infoSelect': 'accountInfo'}}">设置</router-link>
+                    <router-link :to="{ 'path': '/user/money-management/account-management','query': {'infoSelect': 'accountInfo'}}">设置</router-link>
                   </span>
                   <span v-if="userData.userAccount.ifEditPwdAlready" >
                     支付密码：
@@ -24,7 +24,7 @@
                   <span v-if="userData.alitmNum <= 0 ">
                     淘宝账号：
                     <Icon type="information-circled" color="#FF6633"></Icon> 未绑定
-                    <router-link :to="{ 'path': '/user/personal-setting','query': {'infoSelect': 'wwBind'}}">去绑定</router-link>
+                    <router-link to="/user/personal-setting/ww-bind">去绑定</router-link>
                   </span>
                   <span v-else>
                     淘宝账号：
@@ -38,7 +38,7 @@
                   <span v-else>
                     实名认证：
                     <Icon type="information-circled" color="#FF6633"></Icon> 未认证
-                    <router-link :to="{ 'path': '/user/personal-setting','query': {'infoSelect': 'verified'}}">去绑定</router-link>
+                    <router-link to="/user/personal-setting/verified">去绑定</router-link>
                   </span>
                 </p>
                 <p>
@@ -59,8 +59,7 @@
                 待修改订单号/报告
                 <router-link to="/user/personal-setting">{{trialCount.orderNumErrorShowkerTask + trialCount.trialReportUnqualifiedShowkerTask}}</router-link>
                 个）。
-                <router-link to="/user/activity-management">进入试用活动管理</router-link>
-
+                <router-link to="/user/my-probation/wait">进入我的试用</router-link>
               </p>
               <p v-if="getUserInfoRole == 1">
                 活动提醒：待审核 {{trialCount.waitingAuditTask}} 个，进行中 {{trialCount.underWayTask}} 个
@@ -68,7 +67,7 @@
                 待审核订单号 <router-link to="/user/personal-setting">{{trialCount.orderNumWaitingAuditShowkerTask}}</router-link> 个；
                 待审核报告 <router-link to="/user/personal-setting">{{trialCount.trialReportWaitingConfirmShowkerTask}}</router-link> 个）。
                 已结束尚未结算 {{trialCount.waitingSettlementTask}} 个
-                <router-link to="/user/my-probation">进入我的试用</router-link>
+                <router-link to="/user/my-probation">进入试用活动管理</router-link>
               </p>
             </div>
             <p  v-if="getUserInfoRole == 0" class="fs-16 clear-both user-home-account" style="border-bottom: 1px solid #eee;">最新试用宝贝</p>

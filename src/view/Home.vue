@@ -43,7 +43,7 @@
                 <p>hi，你还没登录哦~</p>
               </div>
               <div class="mt-10">
-                <router-link  to="/register">免费注册</router-link>
+                <router-link  to="/sel-role">免费注册</router-link>
                 <router-link to="/login">马上登录</router-link>
               </div>
             </div>
@@ -55,16 +55,16 @@
                   <router-link to="/user/user-home">个人中心</router-link>
                   <a @click="goOut">[ 退出登录 ]</a>
                 </div>
-                <p class="clear-both fs-14 mt-10 left ml-20">当前进行的活动：<router-link  to="/user">{{trialCount.underWayShowkerTask}}</router-link> 个</p>
+                <p class="clear-both fs-14 mt-10 left ml-20">当前进行的活动：<router-link  to="/user/my-probation/pass">{{trialCount.underWayShowkerTask}}</router-link> 个</p>
                 <div class="left clear-both mt-10" style="width: 100%;">
-                  <router-link class="left text-ct" style="width: 33.33%;"  to="/user">{{trialCount.passAndUnclaimedShowkerTask}}</router-link>
-                  <router-link class="left text-ct" style="width: 33.33%;" to="/user">{{trialCount.waitingAuditTaskApply}}</router-link>
-                  <router-link class="left text-ct" style="width: 33.33%;" to="/user">{{trialCount.trialReportWaitingSubmitShowkerTask}}</router-link>
+                  <router-link class="left text-ct" style="width: 33.33%;"  to="/user/my-probation/pass">{{trialCount.passAndUnclaimedShowkerTask}}</router-link>
+                  <router-link class="left text-ct" style="width: 33.33%;" to="/user/my-probation/pass">{{trialCount.trialReportWaitingSubmitShowkerTask}}</router-link>
+                  <router-link class="left text-ct" style="width: 33.33%;" to="/user/my-probation/pass">{{trialCount.orderNumErrorShowkerTask + trialCount.trialReportUnqualifiedShowkerTask}}</router-link>
                 </div>
                 <div class="left clear-both mt-5" style="width: 100%;">
-                  <span class="left text-ct" style="width: 33.33%;"  to="/user">待领取</span>
-                  <span class="left text-ct" style="width: 33.33%;" to="/user">待下单</span>
-                  <span class="left text-ct" style="width: 33.33%;" to="/user">待交报告</span>
+                  <span class="left text-ct" style="width: 33.33%;"  to="/user/my-probation/pass">待领取</span>
+                  <span class="left text-ct" style="width: 33.33%;" to="/user/my-probation/pass">待交报告</span>
+                  <span class="left text-ct" style="width: 33.33%;" to="/user/my-probation/pass">待修改</span>
                 </div>
               </div>
             </div>
@@ -76,16 +76,16 @@
                   <router-link to="/user/user-home">个人中心</router-link>
                   <a @click="goOut">[ 退出登录 ]</a>
                 </div>
-                <p class="clear-both fs-14 mt-10 left ml-20">当前进行的活动：<router-link  to="/user">{{trialCount.underWayTask}} </router-link> 个</p>
+                <p class="clear-both fs-14 mt-10 left ml-20">当前进行的活动：<router-link  to="/user/activity-management/list">{{trialCount.underWayTask}} </router-link> 个</p>
                 <div class="left clear-both mt-10" style="width: 100%;">
-                  <router-link class="left text-ct" style="width: 33.33%;"  to="/user">{{trialCount.waitingAuditTask}} </router-link>
-                  <router-link class="left text-ct" style="width: 33.33%;" to="/user">{{trialCount.waitingAuditTaskApply}}</router-link>
-                  <router-link class="left text-ct" style="width: 33.33%;" to="/user">{{trialCount.orderNumWaitingAuditShowkerTask}}</router-link>
+                  <router-link class="left text-ct" style="width: 33.33%;"  to="/user/activity-management/list">{{trialCount.waitingAuditTaskApply}} </router-link>
+                  <router-link class="left text-ct" style="width: 33.33%;" to="/user/activity-management/list">{{trialCount.orderNumWaitingAuditShowkerTask}}</router-link>
+                  <router-link class="left text-ct" style="width: 33.33%;" to="/user/activity-management/list">{{trialCount.trialReportWaitingConfirmShowkerTask}}</router-link>
                 </div>
                 <div class="left clear-both mt-5" style="width: 100%;">
-                  <span class="left text-ct" style="width: 33.33%;"  to="/user">待审秀客</span>
-                  <span class="left text-ct" style="width: 33.33%;" to="/user">待审订单</span>
-                  <span class="left text-ct" style="width: 33.33%;" to="/user">待审报告</span>
+                  <span class="left text-ct" style="width: 33.33%;"  to="/user/activity-management/list">待审秀客</span>
+                  <span class="left text-ct" style="width: 33.33%;" to="/user/activity-management/list">待审订单</span>
+                  <span class="left text-ct" style="width: 33.33%;" to="/user/activity-management/list">待审报告</span>
                 </div>
               </div>
             </div>

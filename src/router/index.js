@@ -10,7 +10,6 @@ const TaskCategory = r => require.ensure([], () => r(require('@/view/TaskCategor
 const TaskDetails = r => require.ensure([], () => r(require('@/view/TaskDetails.vue')), 'TaskDetails');
 const MyXiuBa = r => require.ensure([], () => r(require('@/view/MyXiuBa/MyXiuBa.vue')), 'MyXiuBa');
 const UserHome = r => require.ensure([], () => r(require('@/view/MyXiuBa/children/UserHome.vue')), 'MyXiuBa');
-const PersonalSetting = r => require.ensure([], () => r(require('@/view/MyXiuBa/children/PersonalSetting.vue')), 'PersonalSetting');
 const TaskReleaseProcess = r => require.ensure([], () => r(require('@/view/MyXiuBa/children/TaskReleaseProcess.vue')), 'TaskReleaseProcess');
 
 const ActivityManagement = r => require.ensure([], () => r(require('@/view/MyXiuBa/children/activityManagement/index.vue')), 'ActivityManagement');
@@ -23,9 +22,14 @@ const ApplyWaitAudit = r => require.ensure([], () => r(require('@/view/MyXiuBa/c
 const ApplyPassAudit = r => require.ensure([], () => r(require('@/view/MyXiuBa/children/myProbation/children/applyPassAudit.vue')), 'MyProbation');
 const ApplyFailAudit = r => require.ensure([], () => r(require('@/view/MyXiuBa/children/myProbation/children/applyFailAudit.vue')), 'MyProbation');
 
+const PersonalSetting = r => require.ensure([], () => r(require('@/view/MyXiuBa/children/personalSetting/index.vue')), 'PersonalSetting');
+const PersonalAccountInfo = r => require.ensure([], () => r(require('@/view/MyXiuBa/children/personalSetting/children/PersonalAccountInfo.vue')), 'PersonalSetting');
+const WwBind = r => require.ensure([], () => r(require('@/view/MyXiuBa/children/personalSetting/children/WwBind.vue')), 'PersonalSetting');
+const Verfied = r => require.ensure([], () => r(require('@/view/MyXiuBa/children/personalSetting/children/Verfied.vue')), 'PersonalSetting');
+
+
 const MyTrialReport = r => require.ensure([], () => r(require('@/view/MyXiuBa/children/MyTrialReport.vue')), 'MyTrialReport');
 
-// const MoneyManagement = r => require.ensure([], () => r(require('../view/MyXiuBa/children/MoneyManagement.vue')), 'MoneyManagement');
 const MoneyManagement = r => require.ensure([], () => r(require('../view/MyXiuBa/children/moneyManagement/index.vue')), 'MoneyManagement');
 const AccountInfo = r => require.ensure([], () => r(require('../view/MyXiuBa/children/moneyManagement/children/accountInfo.vue')), 'MoneyManagement');
 const AccountManagement = r => require.ensure([], () => r(require('../view/MyXiuBa/children/moneyManagement/children/accountManagement.vue')), 'MoneyManagement');
@@ -202,9 +206,32 @@ export default new Router({
           path: 'personal-setting',
           name: 'personalSetting',
           component: PersonalSetting,
-          meta: {
-            title: "个人设置"
-          }
+          children:[
+            {
+              path: 'personal-account-info',
+              name: 'PersonalAccountInfo',
+              component: PersonalAccountInfo,
+              meta: {
+                title: "个人设置-账号信息"
+              },
+            },
+            {
+              path: 'ww-bind',
+              name: 'wwBind',
+              component: WwBind,
+              meta: {
+                title: "个人设置-旺旺绑定"
+              },
+            },
+            {
+              path: 'verified',
+              name: 'verified',
+              component: Verfied,
+              meta: {
+                title: "个人设置-实名认证"
+              },
+            }
+          ]
         },
         {
           path:'money-management',

@@ -37,8 +37,8 @@
               <!--<span class="fs-24">17</span> 天 <span class="fs-24">02</span> 小时 <span class="fs-24">56</span> 分钟 <span class="fs-24">31</span> 秒-->
             </p>
             <div v-if="getRole === 0">
-              <iButton v-if="showApplyBtn"   size="large" class="fs-16 default-btn" long type="error" @click="applyForTrialFunc">申请试用</iButton>
-              <iButton v-if="!showApplyBtn" disabled size="large" class="fs-16 default-btn" long >已申请</iButton>
+              <iButton v-if="!commodityData.taskApply"   size="large" class="fs-16 default-btn" long type="error" @click="applyForTrialFunc">申请试用</iButton>
+              <iButton v-if="commodityData.taskApply" disabled size="large" class="fs-16 default-btn" long >已申请</iButton>
             </div>
             <iButton v-if="getRole === 1" size="large" class="fs-16 default-btn" long type="warning" >商家号不可以参加试用</iButton>
           </div>
@@ -168,7 +168,7 @@
       </p>
       <div slot="footer" class="text-ct">
         <iButton type="error" size="large" class="mr-40">
-          <router-link to="/user/my-probation" style="color: #fff">看看我申请的宝贝</router-link>
+          <router-link to="/user/my-probation/wait" style="color: #fff">看看我申请的宝贝</router-link>
         </iButton>
         <iButton type="error" size="large">
           <a href="" style="color: #fff">好的，明白了</a>
@@ -222,7 +222,6 @@
         selectedWw: '',
         wwList: {},
         tryImgShow: false,
-        showApplyBtn: true,
         applySuccess: false,
         totalElements: 1,
         commodityData: {
@@ -303,18 +302,6 @@
     created(){
       let self = this;
       self.getTaskDetails();
-      api.getShowkerCanTrial({
-        taskId: self.$route.query.taskId
-      }).then((res) => {
-        if(res.status){
-          self.wwList = res.data;
-          self.showApplyBtn = true;
-        }else {
-          if(res.statusCode === 'already_applied'){
-            self.showApplyBtn = false;
-          }
-        }
-      })
     },
     computed: {
       isLogin() {
@@ -365,7 +352,7 @@
                     okText: '去绑定旺旺号',
                     cancelText: '取消',
                     onOk: function () {
-                      self.$router.push({path: '/user/personal-setting',query: {infoSelect: 'wwBind'}});
+                      self.$router.push({path: '/user/personal-setting/ww-bind'});
                     }
                   });
                 }

@@ -1,13 +1,8 @@
 <template>
   <div class="personal-box">
-    <div class="personal-sel-top">
-      <a v-for="(myInfoSelect,index) in myInfoSelects" :class="{active:infoSelect == myInfoSelect.isSelect}" @click="myInfoSelectsFunc(myInfoSelect)" v-if="myInfoFunc(index)">
-        {{myInfoSelect.text}}
-      </a>
-    </div>
     <div class="personal-sel-box">
       <!--账号信息beg-->
-      <div v-show="infoSelect == 'accountInfo'" class="user-info-box animated fadeIn">
+      <div  class="user-info-box animated fadeIn">
         <div class="user-basic">
           <p class="fs-14 user-basic-title">基本信息</p>
           <div class="user-basic-ctt">
@@ -21,7 +16,7 @@
               </li>
               <li>
                 <p v-if="userData.alitmNum <= 0 ">
-                  绑定淘宝账号：未绑定 - <a @click="myInfoSelectsFunc(myInfoSelects[1])">马上绑定</a>
+                  绑定淘宝账号：未绑定 - <router-link to="/user/personal-setting/ww-bind">马上绑定</router-link>
                 </p>
                 <p v-else>
                   绑定淘宝账号：<a>已绑定</a>
@@ -32,7 +27,8 @@
                   实名认证：<a>已认证</a>
                 </p>
                 <p v-else>
-                  实名认证：未认证 - <a @click="myInfoSelectsFunc(myInfoSelects[2])">马上认证</a>
+                  实名认证：未认证 -
+                  <router-link to="/user/personal-setting/verified">马上认证</router-link>
                 </p>
               </li>
               <li>
@@ -40,13 +36,10 @@
               </li>
             </ul>
             <p v-show="showModifyAvatar" class="img-box">
-              <!--<img :src="avatar.src" alt="" style="width: 68px;" v-for="avatar in avatars">-->
               <img :src="avatar.src" alt="" @click="modifyPortraitPic(avatar)" :key="avatar.src" style="width: 68px; cursor: pointer" v-for="avatar in avatars">
             </p>
           </div>
-
         </div>
-
         <div class="user-safe" v-show="myAccount.userSafe">
           <p class="fs-14">账户&安全</p>
           <ul>
@@ -217,204 +210,7 @@
         </div>
       </div>
       <!--账号信息end-->
-
-      <!--旺旺号绑定beg-->
-      <div v-show="infoSelect == 'wwBind'" class="ww-account-box animated fadeIn">
-        <div v-show="!showWwBindBox" class="ww-account-list">
-          <a @click = addWwBindFunc>添加新旺旺号</a>
-          <ul class="ww-account-title">
-            <li>已绑定旺旺号</li>
-            <li>绑定时间</li>
-            <li>个人信息截图</li>
-            <li>绑定状态</li>
-            <li>操作</li>
-          </ul>
-          <div>
-            <ul class="ww-account-ctt" v-for="(ww, index) in wwBindLists">
-              <li>{{ww.alitmAccount}}</li>
-              <li>{{ww.applyTime | dateFormat('YYYY-MM-DD hh:mm:ss')}}</li>
-              <li><img :src="ww.picUrl" alt="" style="width: 50px; padding: 10px;"></li>
-              <li>
-                <span v-show="ww.status == 1" >审核中</span>
-                <span v-show="ww.status == 2" >启用中</span>
-                <span v-show="ww.status == 3" >审核不通过</span>
-
-              </li>
-              <li>
-                <a v-show="ww.status == 2" @click="deleteWwBindFunc(ww,index)">解绑</a>
-                <a v-show="ww.status == 3" @click="modifyWwBindFunc(ww,index)">重新提交</a>
-              </li>
-            </ul>
-          </div>
-        </div>
-        <div class="ww-account-bind" v-if="showWwBindBox">
-          <Alert  v-show="remarks.text"  type="warning" show-icon>
-            审核不通过： {{remarks.text}},请重新提交（{{remarks.auditTime | dateFormat('YYYY-MM-DD hh:mm:ss')}}）
-          </Alert>
-          <div class="ww-account-form mt-20">
-            <iForm ref="wwFormValidate" :model="wwFormValidate" :rules="wwFormRuleCustom" label-position="right" :label-width="100">
-              <Form-item label="旺旺ID" prop="alitmAccount">
-                <iInput v-model="wwFormValidate.alitmAccount"></iInput>
-              </Form-item>
-              <Form-item label="旺旺信息截图"  class="ww-info-img">
-                <Upload
-                  ref="upload"
-                  :show-upload-list="false"
-                  :on-success="handlewwBindPicUrlSuccess"
-                  :format="['jpg','jpeg','png','gif','bmp']"
-                  :max-size="2000"
-                  :default-file-list="wwFormValidate.picUrl"
-                  name="wwBind"
-                  :on-remove = "removewwBindPicUrl"
-                  :on-format-error="handleFormatError"
-                  :on-exceeded-size="handleMaxSize"
-                  :before-upload="handleBeforeUpload"
-                  type="drag">
-                  <div style="width: 58px;height:58px;line-height: 58px;">
-                    <Icon type="camera" size="20"></Icon>
-                  </div>
-                </Upload>
-              </Form-item>
-              <Form-item>
-                <iButton  :class="[btnState.wwBindBtn ? '': 'ww-bind-btn']"  :disabled="btnState.wwBindBtn"
-                          @click="handleSubmit('wwFormValidate',wwBindFunc)">提交
-                  </iButton>
-                <iButton type="ghost" @click="handleReset('wwFormValidate',clearWwInfo)">重置</iButton>
-              </Form-item>
-              <p class="tip clear" style="margin-left: 102px;width: 600px;line-height: 30px;font-size: 14px;color: #999;padding-bottom: 30px;">
-               1.支持jpg/jpeg/gif/bmp/png格式，最大不超过2M
-              </p>
-            </iForm>
-
-          </div>
-          <div class="left ww-account-cue mt-20">
-            <p>
-              <a @click="demoShow = true, imgDemoUrl.picUrl = false,imgDemoUrl.reversePicUrl = false,imgDemoUrl.taobaoAccountInfo = false,imgDemoUrl.taobaoAccountDemo = true;">什么是旺旺ID号？</a>
-            </p>
-            <p>
-              <a @click="demoShow = true, imgDemoUrl.picUrl = false,imgDemoUrl.reversePicUrl = false,imgDemoUrl.taobaoAccountInfo = true,imgDemoUrl.taobaoAccountDemo = false;">[查看示例截图]</a>
-            </p>
-          </div>
-        </div>
-      </div>
-      <!--旺旺号绑定end-->
-
-      <!--实名认证beg-->
-      <div v-show="infoSelect == 'verified'" class="verified-box animated fadeIn">
-        <div v-if="verifiedState == verifiedStatus.verifiedBeg || verifiedState == verifiedStatus.verifiedFailed">
-          <Alert  v-show="verifiedState == verifiedStatus.verifiedFailed"  type="warning" show-icon>
-            审核不通过： {{verified.assessReason}},请重新提交！({{verified.auditTime |  dateFormat('YYYY-MM-DD hh:mm:ss')}})
-          </Alert>
-          <div class="verified-form">
-            <iForm ref="verifiedValidate" :model="verifiedValidate" :rules="verifiedRuleCustom" label-position="right" :label-width="120">
-              <Form-item label="真实姓名" prop="realname">
-                <iInput v-model="verifiedValidate.realname"></iInput>
-              </Form-item>
-              <Form-item label="身份证号"  class="ww-info-img" prop="idcard">
-                <iInput v-model="verifiedValidate.idcard"></iInput>
-              </Form-item>
-              <Form-item label="手持身份证正面面照"  class="ww-info-img" >
-                <Upload
-                  ref="upload"
-                  :show-upload-list="false"
-                  :on-success="handlePicUrlSuccess"
-                  :format="['jpg','jpeg','png','gif','bmp']"
-                  :max-size="2000"
-                  name="picUrl"
-                  :default-file-list="verifiedValidate.picUrl"
-                  :on-format-error="handleFormatError"
-                  :on-exceeded-size="handleMaxSize"
-                  :on-remove = "removeVerifiedPicUrl"
-                  :before-upload="handleBeforeUpload"
-                  type="drag">
-                  <div style="width: 58px;height:58px;line-height: 58px;">
-                    <Icon type="camera" size="20"></Icon>
-                  </div>
-                </Upload>
-              </Form-item>
-              <Form-item label="手持身份证反面照"  class="ww-info-img">
-                <Upload
-                  ref="upload2"
-                  name="reversePicUrl"
-                  :show-upload-list="false"
-                  :on-success="handleReversePicUrlSuccess"
-                  :default-file-list="verifiedValidate.reversePicUrl"
-                  :format="['jpg','jpeg','png','gif','bmp']"
-                  :max-size="2000"
-                  :on-remove = "removeVerifiedReversePicUrl"
-                  :on-format-error="handleFormatError"
-                  :on-exceeded-size="handleMaxSize"
-                  :before-upload="handleBeforeUpload"
-                  type="drag">
-                  <div style="width: 58px;height:58px;line-height: 58px;">
-                    <Icon type="camera" size="20"></Icon>
-                  </div>
-                </Upload>
-              </Form-item>
-              <p class="tip clear" style="margin-left: 116px;width: 600px;line-height: 30px;font-size: 14px;color: #999;padding-bottom: 30px;">
-                1.需身份证本人手持证件，照片需免冠，建议未化妆
-                <br>
-                2.照片需五官清晰可见
-                <br>
-                3.身份证上的信息需无遮挡，且清晰可见
-                <br>
-                4.照片需露出手臂，照片请勿进行任何软件处理
-                <br>
-                5.支持jpg/jpeg/gif/bmp/png格式，最大不超过2M
-                <br>
-              </p>
-              <Form-item>
-                <iButton :class="[btnState.verifiedBtn ? '' : 'verified-btn']"  :disabled="btnState.verifiedBtn"
-                          @click="handleSubmit('verifiedValidate',verifiedFunc)">提交
-                </iButton>
-                <iButton type="ghost" @click="handleReset('verifiedValidate',clearVerified)">重置</iButton>
-              </Form-item>
-            </iForm>
-          </div>
-          <div class="left mt-20 verified-cue">
-            <p>
-            </p>
-            <p>
-            </p>
-            <p>
-              <a @click="demoShow = true, imgDemoUrl.taobaoAccountDemo = false,imgDemoUrl.taobaoAccountInfo = false,imgDemoUrl.picUrl = true,imgDemoUrl.reversePicUrl = false;">[查看示例截图]</a>
-            </p>
-            <p>
-              <a @click="demoShow = true, imgDemoUrl.taobaoAccountDemo = false,imgDemoUrl.taobaoAccountInfo = false,imgDemoUrl.picUrl = false,imgDemoUrl.reversePicUrl = true;">[查看示例截图]</a>
-            </p>
-          </div>
-          <!--<p class="error-result-text clear" >审核不通过：{{verified.assessReason}}</p>-->
-
-        </div>
-        <div class="verified-result mt-80" v-if="verifiedState == verifiedStatus.verifiedIng">
-          <p class="text-ct">
-            <img src="~assets/img/common/right_64.png" alt="" class="vtc-btm">
-            实名认证已提交
-          </p>
-          <p  class="text-ct">亲当前的实名认证已提交，工作人员会在一个工作日内审核你的活动，敬请关注！</p>
-
-        </div>
-        <div class="verified-result mt-80" v-if=" verifiedState == verifiedStatus.verifiedSuccess">
-          <p class="text-ct">
-            <img src="~assets/img/common/right_64.png" alt="" class="vtc-btm">
-            实名已认证
-          </p>
-          <p  class="text-ct">亲当前已是实名认证用户了~</p>
-        </div>
-      </div>
-      <!--实名认证end-->
     </div>
-
-    <Modal v-model="demoShow" width="900">
-      <div style="text-align:center">
-        <img v-show="imgDemoUrl.taobaoAccountDemo" src="~assets/img/case-demo/taobao-account-demo.jpg" alt="" style="width: 100%;margin-top: 20px;">
-        <img v-show="imgDemoUrl.taobaoAccountInfo" src="~assets/img/case-demo/taobao-account-info.png" alt="" style="width: 100%;margin-top: 20px;">
-        <img v-show="imgDemoUrl.picUrl" src="~assets/img/case-demo/sfza.jpg" alt="" style="width: 100%;margin-top: 20px;">
-        <img v-show="imgDemoUrl.reversePicUrl" src="~assets/img/case-demo/sfzb.jpg" alt="" style="width: 100%;margin-top: 20px;">
-      </div>
-      <div slot="footer">
-      </div>
-    </Modal>
   </div>
 </template>
 
@@ -433,7 +229,7 @@
   import Alert from 'iview/src/components/alert'
   import SmsCountdown from '@/components/SmsCountdown'
   export default {
-    name: 'TaskReleaseProcess',
+    name: 'personalAccountInfo',
     components: {
       iInput: Input,
       iForm: Form,
@@ -494,35 +290,6 @@
         if (value === '') {
           callback(new Error('请输入动态码'));
         } else {
-          callback()
-        }
-      };
-      const validateName = (rule, value, callback) => {
-        if (value === '') {
-          callback(new Error('不能为空'));
-        } else if(!/^[\u4E00-\u9FA5]+$/.test(value)){
-          callback(new Error('姓名只能为中文'))
-        } else if(value.length > 10){
-          callback(new Error('姓名最多为10个汉字'))
-        } else{
-          callback()
-        }
-      };
-      const wwName = (rule, value, callback) => {
-        if (value === '') {
-          callback(new Error('不能为空'));
-        } else if(value.length > 50){
-          callback(new Error('旺旺ID过长'))
-        } else {
-          callback()
-        }
-      };
-      const validateNameNum = (rule, value, callback) => {
-        if (value === '') {
-          callback(new Error('请填写身份证号'));
-        } else if(!/(^[1-9]\d{5}(18|19|([23]\d))\d{2}((0[1-9])|(10|11|12))(([0-2][1-9])|10|20|30|31)\d{3}[0-9Xx]$)|(^[1-9]\d{5}\d{2}((0[1-9])|(10|11|12))(([0-2][1-9])|10|20|30|31)\d{2}[0-9Xx]$)/.test(value)) {
-          callback(new Error('身份证填写有误'))
-        }else {
           callback()
         }
       };
@@ -625,73 +392,6 @@
         defaultAvatar: '',
         showModifyAvatar: false,
         userData: {},
-        btnState: {
-          wwBindBtn: false,
-          verifiedBtn: false,
-        },
-        myInfoSelects: [
-          {
-            text: '账号信息',
-            isSelect: 'accountInfo',
-            callback: this.verifiedInit
-          },
-          {
-            text: '旺旺号绑定',
-            isSelect: 'wwBind',
-            callback: this.wwBindList
-          },
-          {
-            text: '实名认证',
-            isSelect: 'verified',
-            callback: this.verifiedInit
-          },
-        ],
-        showWwBindBox: false,
-        modifyWw: false,
-        remarks: {
-            text: '',
-            auditTime: '',
-        },
-        demoShow: false,
-        infoSelect: 'accountInfo',
-        imgDemoUrl:{
-          taobaoAccountDemo: false,
-          taobaoAccountInfo: false,
-          picUrl: false,
-          reversePicUrl: false,
-        },
-        wwBindLists: [],
-        wwFormValidate: {
-          alitmAccount: '',
-          picUrl: [],
-        },
-        wwFormRuleCustom: {
-          alitmAccount: [
-            {validator: wwName, trigger: 'blur'},
-          ],
-        },
-        verified:{},
-        verifiedState: '',
-        verifiedStatus:{
-          verifiedBeg: 10,
-          verifiedIng: 1,
-          verifiedSuccess: 2,
-          verifiedFailed: 3
-        },
-        verifiedValidate: {
-          realname: '',
-          idcard: '',
-          picUrl: [],
-          reversePicUrl: []
-        },
-        verifiedRuleCustom: {
-          realname: [
-            {validator: validateName, trigger: 'blur'},
-          ],
-          idcard: [
-            {validator: validateNameNum, trigger: 'blur'}
-          ],
-        },
       }
     },
     mounted() {
@@ -699,16 +399,8 @@
     },
     created() {
       let self = this;
-      self.getVrcode();
       self.getUserAccount();
-      if(self.$route.query.infoSelect){
-        for(let i = 0, j = self.myInfoSelects.length; i < j; i++){
-          if(self.$route.query.infoSelect == self.myInfoSelects[i].isSelect){
-            self.myInfoSelectsFunc(self.myInfoSelects[i]);
-            break;
-          }
-        }
-      }
+      self.getVrcode();
     },
     computed: {},
     methods: {
@@ -730,17 +422,23 @@
           }
         }
       },
+      modifyPortraitPic(avatar){
+        let self = this;
+        self.defaultAvatar = avatar.src;
+        api.modifyPortraitPic({
+          picStr: this.defaultAvatar
+        }).then((res) => {
+          if(res.status){
+            self.showModifyAvatar = false;
+          }else {
+            self.$Modal.error({
+              content: res.msg
+            });
+          }
+        })
+      },
       getVrcode() {
         this.imgSrc = "/api/vrcode.json?rand=" + new Date() / 100
-      },
-      handleSubmit(name, callback) {
-        let res = false;
-        this.$refs[name].validate((valid) => {
-          res = !!valid
-        });
-        if (typeof callback === 'function' && res) {
-          callback();
-        }
       },
       modifyDefaultPwdFunc(){
         let self = this;
@@ -830,7 +528,7 @@
         if(index === 1){
           return this.$store.state.userInfo.role !== 1;
         }else {
-            return true;
+          return true;
         }
       },
       myInfoSelectsFunc(myInfoSelect){
@@ -841,167 +539,6 @@
       selPortraitPic(){
         this.showModifyAvatar = true;
       },
-      modifyPortraitPic(avatar){
-        let self = this;
-        self.defaultAvatar = avatar.src;
-        api.modifyPortraitPic({
-          picStr: this.defaultAvatar
-        }).then((res) => {
-          if(res.status){
-            self.showModifyAvatar = false;
-          }else {
-            self.$Modal.error({
-              content: res.msg
-            });
-          }
-        })
-      },
-      deleteWwBindFunc(ww,index){
-        let self = this;
-        api.wwUnbind({id: ww.id}).then((res) => {
-            if(res.status){
-              self.$Modal.success({
-                content: res.msg
-              });
-              self.wwBindLists.splice(index, 1);
-              self.$set(self.wwBindLists);
-            }else {
-              if(res.statusCode === 'have_waiting_audit_apply'){
-                res.msg = '亲，该旺旺试用任务正在审核!';
-              }else if(res.statusCode === 'have_under_way_showker_task'){
-                res.msg = '亲，该旺旺试用任务正在进行！';
-              }
-              self.$Modal.error({
-                content: res.msg
-              });
-            }
-        })
-      },
-      modifyWwBindFunc(ww,index){
-        this.showWwBindBox = true;
-        this.wwFormValidate.id = ww.id;
-        this.wwFormValidate.alitmAccount = ww.alitmAccount;
-        this.wwFormValidate.picUrl = [{
-          src: ww.picUrl,
-        }];
-        this.remarks.text = ww.remarks;
-        this.remarks.auditTime = ww.auditTime;
-        this.modifyWw = true;
-      },
-      addWwBindFunc (){
-        if((this.wwBindLists && this.wwBindLists.length < 3) || !this.wwBindLists){
-          this.showWwBindBox = true;
-          this.wwFormValidate.id = '';
-          this.wwFormValidate.alitmAccount = '';
-          this.wwFormValidate.picUrl = [];
-          this.remarks.text = '';
-          this.modifyWw = false;
-        }else {
-          console.log(this.wwBindLists);
-          this.$Modal.warning({
-            content: "亲, 最多只能绑定3个旺旺号"
-          });
-        }
-      },
-      wwBindList () {
-        let self = this;
-        api.wwBindList().then((res) => {
-          if (res.status) {
-            self.wwBindLists = res.data;
-            self.showWwBindBox = self.wwBindLists === '';
-          }else {
-            self.$Modal.error({
-              content: res.msg
-            });
-          }
-        });
-      },
-      wwBindFunc(){
-        let self = this;
-        if(!(self.wwFormValidate.picUrl === '')){
-          self.btnState.wwBindBtn = true;
-          if(self.modifyWw){
-            api.wwModify({
-              alitmAccount: self.wwFormValidate.alitmAccount,
-              picUrl: self.wwFormValidate.picUrl[0].src,
-              id: self.wwFormValidate.id
-            }).then((res) => {
-              if(res.status){
-                  self.remarks = '';
-                  self.$Modal.success({
-                    content: "亲！提交成功，客服妹子会尽快审核...",
-                    onOk:function () {
-                      self.wwBindList();
-                      self.clearWwInfo();
-                    }
-                  });
-              }else {
-                self.$Modal.error({
-                  content: res.msg
-                });
-              }
-              self.btnState.wwBindBtn = false;
-            })
-          }else{
-            api.wwBind({
-              alitmAccount: this.wwFormValidate.alitmAccount,
-              picUrl: this.wwFormValidate.picUrl[0].src,
-            }).then((res) => {
-              if(res.status){
-                  self.$Modal.success({
-                    content: "亲！提交成功，客服妹子会尽快审核...",
-                    onOk:function () {
-                      self.wwBindList();
-                      self.clearWwInfo();
-                    }
-                  });
-              }else {
-                this.$Modal.error({
-                  content: res.msg
-                });
-              }
-              self.btnState.wwBindBtn = false;
-            })
-          }
-        }else {
-          this.$Modal.warning({
-            content: '请上传所有图片'
-          });
-        }
-      },
-      verifiedInit(){
-        let self = this;
-        api.verifiedInit().then((res) => {
-          self.verified = res;
-          self.verifiedState = res.status;
-          if(self.verified.assessReason){
-            self.verifiedValidate.realname = self.verified.realname;
-            self.verifiedValidate.idcard = self.verified.idcard;
-            self.verifiedValidate.picUrl = [
-              {
-                  src: res.picUrl
-              }
-            ];
-            self.verifiedValidate.reversePicUrl =  [
-              {
-                src: res.reversePicUrl
-              }
-            ];
-          }
-          if(!self.verifiedState){
-            self.verifiedState = 10;
-          }
-        })
-      },
-      removeVerifiedPicUrl(){
-        this.verifiedValidate.picUrl= [];
-      },
-      removeVerifiedReversePicUrl(){
-        this.verifiedValidate.reversePicUrl= [];
-      },
-      removewwBindPicUrl(){
-        this.wwFormValidate.picUrl= [];
-      },
       handleSubmit (name, callback) {
         let res = false;
         this.$refs[name].validate((valid) => {
@@ -1011,85 +548,11 @@
           callback();
         }
       },
-      clearWwInfo (){
-        this.wwFormValidate.alitmAccount = '';
-        let child = this.$refs;
-        child.upload.handleRemove();
-      },
-      clearVerified(){
-        this.verifiedValidate.realname = '';
-        this.verifiedValidate.idcard = '';
-        let child = this.$refs;
-        this.$refs.upload.handleRemove();
-        this.$refs.upload2.handleRemove();
-      },
-      verifiedFunc(){
-        let self = this;
-        if(!(self.verifiedValidate.picUrl == '') && !(self.verifiedValidate.reversePicUrl == '')){
-          self.btnState.verifiedBtn = true;
-          api.verifiedSubmit({
-            realname: self.verifiedValidate.realname,
-            idcard: self.verifiedValidate.idcard,
-            picUrl: self.verifiedValidate.picUrl[0].src,
-            reversePicUrl: self.verifiedValidate.reversePicUrl[0].src
-          }).then((res) => {
-            if(res.status){
-              self.verifiedState = self.verifiedStatus.verifiedIng;
-            }else {
-              self.$Modal.warning({
-                content: res.msg
-              });
-            }
-            self.btnState.verifiedBtn = false;
-          })
-        }else {
-          this.$Modal.warning({
-            content: '请上传所有图片'
-          });
-        }
-
-      },
       handleReset(name,callback) {
         this.$refs[name].resetFields();
         if (typeof callback === 'function') {
           callback();
         }
-      },
-      handlewwBindPicUrlSuccess(res, file){
-        this.wwFormValidate.picUrl = [{
-          src: aliCallbackImgUrl + res.name
-        }];
-      },
-      handlePicUrlSuccess(res, file) {
-        this.verifiedValidate.picUrl.push({
-          src: aliCallbackImgUrl + res.name
-        });
-      },
-      handleReversePicUrlSuccess(res,file){
-        this.verifiedValidate.reversePicUrl.push({
-          src: aliCallbackImgUrl + res.name
-        });
-      },
-      handleFormatError(file) {
-        this.$Modal.warning({
-          title: '文件格式不正确',
-          content: '图片 ' + file.name + ' 格式不正确，请上传 jpg 或 jpeg 或 gif 或 bmp 格式的图片。'
-        });
-      },
-      handleMaxSize(file) {
-        this.$Modal.warning({
-          title: '超出文件大小限制',
-          content: '图片 ' + file.name + ' 太大，不能超过 2M'
-        });
-      },
-      handleBeforeUpload() {
-        /* const check = this.mainUploadList.length < 1;
-         if (!check) {
-         this.$Modal.warning({
-         title: '最多只能上传 1 张图片。'
-         });
-         }
-         return check;*/
       },
     }
   }

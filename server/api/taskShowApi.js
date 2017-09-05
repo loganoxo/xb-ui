@@ -160,12 +160,17 @@ router.post('/api/search/task/s.json', (req, res, next) => {
  * @param taskId 商品ID
  */
 router.post('/api/task/detail.json', (req, res, next) => {
-  let options =
-    {
-      method: 'GET',
-      uri: baseUrl + '/task/detail/' + req.body.taskId,
-      json: true,
-    };
+  let options =  {
+    method: 'GET',
+    uri: baseUrl + '/task/detail/' + req.body.taskId,
+    json: true,
+  };
+  if(req.session.userData){
+    options.qs =  {
+      userId: req.session.userData.id,
+      role: req.session.userData.role,
+    }
+  }
   request(options)
     .then(function (parsedBody) {
       res.send(parsedBody);
