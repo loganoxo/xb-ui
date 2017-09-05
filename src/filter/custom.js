@@ -55,4 +55,5 @@ const numberFormat = (number, decimals) => {
   return s.join('.');
 };
 
+
 export {dateFormat, numberFormat}

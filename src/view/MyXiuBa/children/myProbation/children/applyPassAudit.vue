@@ -77,7 +77,7 @@
            <td>
              <div v-if="item.status !== 'trial_end' && item.status !== 'order_num_error' && item.status !== 'trial_report_unqualified'">
                <p>{{getTaskStatus(item.status)}}</p>
-               <p><time-down color='#ff4040' :fontWeight=600 :endTime="item.currentGenerationEndTime"></time-down></p>
+               <p v-if="item.status !== 'trial_finished'"><time-down color='#ff4040' :fontWeight=600 :endTime="item.currentGenerationEndTime"></time-down></p>
              </div>
              <p class="mt-5 main-color" v-if="item.status === 'order_num_error'">
                <Icon color="#f60" type="information-circled"></Icon>
@@ -468,6 +468,7 @@
               let data = {};
               data.id = item.id;
               data.alitmAccount = item.alitmAccount;
+              data.currentGenerationEndTime = item.currentGenerationEndTime;
               data.orderNum = item.orderNum;
               data.status = item.status;
               data.trialEndReason = item.trialEndReason;
@@ -485,6 +486,14 @@
       },
       saveOrUpdateOrderNumber() {
         let _this = this;
+        if(!_this.affirmOrderNumber){
+          _this.$Message.error("亲，请输入订单号！");
+          return;
+        }
+        if(!_this.payMoney){
+          _this.$Message.error("亲，请输入订单金额！");
+          return;
+        }
         api.showkerOrderSave({
           id: _this.itemId,
           orderNum: _this.affirmOrderNumber,

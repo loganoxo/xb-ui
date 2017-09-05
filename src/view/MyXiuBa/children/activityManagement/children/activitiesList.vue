@@ -49,11 +49,11 @@
         <thead>
         <tr>
           <th width="20%">活动标题</th>
-          <th width="16%">活动开始/结束时间</th>
-          <th width="12%">活动状态</th>
-          <th width="12%">报名/已通过</th>
-          <th width="12%">可审批名额</th>
-          <th width="16%">活动担保金/推广费/总存入</th>
+          <th width="12%">活动开始 / 结束时间</th>
+          <th width="10%">活动状态</th>
+          <th width="12%">报名 / 已通过</th>
+          <th width="10%">可审批名额</th>
+          <th width="24%">活动所需担保金 / 活动所需推广费 / 已存入</th>
           <th width="12%">操作</th>
         </tr>
         </thead>
@@ -72,7 +72,7 @@
           </td>
           <td v-if="item.taskStatus !== 'waiting_modify'">{{item.taskStatusDesc}}</td>
           <td class="cursor-p main-color" v-else>
-            <Tooltip content="这里是提示文字" placement="top">
+            <Tooltip :content="item.auditLogs[item.auditLogs.length - 1].resultMsg" placement="top">
               <Icon color="#f60" type="information-circled"></Icon>&nbsp;待修改
             </Tooltip>
           </td>
@@ -199,6 +199,7 @@
       }
     },
     mounted() {
+
     },
     created() {
       this.getTaskList();

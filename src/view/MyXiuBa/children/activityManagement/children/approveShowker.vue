@@ -12,7 +12,7 @@
         <div class="manage-text left ml-5">
           <p>{{approveTaskInfo.taskName}}</p>
           <p class="mt-15">
-            总份数<strong>&nbsp;{{approveTaskInfo.taskCount || 0}}&nbsp;</strong>，<strong>&nbsp;{{trailOn}}&nbsp;</strong>人正在参与试用，<strong>&nbsp;{{trailDone || 0}}&nbsp;</strong>人完成试用，剩余名额<strong>&nbsp;{{approveTaskInfo.taskCount - approveTaskInfo.showkerApplySuccessCount -  trailDone || 0}}&nbsp;</strong>个
+            总份数<strong>&nbsp;{{approveTaskInfo.taskCount || 0}}&nbsp;</strong>，<strong>&nbsp;{{trailOn}}&nbsp;</strong>人正在参与试用，<strong>&nbsp;{{trailDone || 0}}&nbsp;</strong>人完成试用，剩余名额<strong>&nbsp;{{approveTaskInfo.taskCount - approveTaskInfo.showkerApplySuccessCount || 0}}&nbsp;</strong>个
           </p>
         </div>
       </div>
@@ -125,7 +125,7 @@
                 <td>{{item.alitmAccount}}</td>
                 <td>
                   <p>{{getTaskStatus(item.status)}}</p>
-                  <p v-if="item.status !== 'trial_end' || item.status !== 'trial_finished'"><time-down color='#ff4040' :fontWeight=600 :endTime="item.currentGenerationEndTime"></time-down></p>
+                  <p v-if="item.status !== 'trial_end' && item.status !== 'trial_finished'"><time-down color='#ff4040' :fontWeight=600 :endTime="item.currentGenerationEndTime"></time-down></p>
                 </td>
                 <td>{{item.orderNum}}</td>
                 <td>

@@ -25,7 +25,7 @@
 
     },
     created() {
-      let name = this.$router.name;
+      let name = this.$route.name;
       this.changeTitle(name);
     },
     computed: {},
