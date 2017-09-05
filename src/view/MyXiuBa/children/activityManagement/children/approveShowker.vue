@@ -12,7 +12,7 @@
         <div class="manage-text left ml-5">
           <p>{{approveTaskInfo.taskName}}</p>
           <p class="mt-15">
-            总份数<strong>&nbsp;{{approveTaskInfo.taskCount || 0}}&nbsp;</strong>，<strong>&nbsp;{{trailOn}}&nbsp;</strong>人正在参与试用，<strong>&nbsp;{{trailDone || 0}}&nbsp;</strong>人完成试用，剩余名额<strong>&nbsp;{{approveTaskInfo.taskCount - approveTaskInfo.showkerApplySuccessCount || 0}}&nbsp;</strong>个
+            总份数<strong>&nbsp;{{approveTaskInfo.taskCount || 0}}&nbsp;</strong>，<strong>&nbsp;{{trailOn}}&nbsp;</strong>人正在参与试用，<strong>&nbsp;{{trailDone || 0}}&nbsp;</strong>人完成试用，剩余名额<strong>&nbsp;{{approveTaskInfo.taskCount - approveTaskInfo.showkerApplySuccessCount -  trailDone || 0}}&nbsp;</strong>个
           </p>
         </div>
       </div>
@@ -125,9 +125,7 @@
                 <td>{{item.alitmAccount}}</td>
                 <td>
                   <p>{{getTaskStatus(item.status)}}</p>
-                  <p v-if="item.status !== 'trial_end' && item.status !== 'trial_finished'">
-                    <time-down color='#ff4040' :fontWeight=600 :endTime="item.currentGenerationEndTime"></time-down>
-                  </p>
+                  <p v-if="item.status !== 'trial_end' || item.status !== 'trial_finished'"><time-down color='#ff4040' :fontWeight=600 :endTime="item.currentGenerationEndTime"></time-down></p>
                 </td>
                 <td>{{item.orderNum}}</td>
                 <td>
@@ -244,7 +242,7 @@
                 <span class="size-color3">
                 <Icon color="#FF2424" size="18" type="ios-information"></Icon>
                 <span class="ml-10">注意：该秀客实付金额大于试用保证金，</span></span>需要补充担保金<strong
-              class="main-color">{{Math.abs(orderInfo.orderPrice - perMarginNeed)}}</strong>元
+              class="main-color">{{Math.abs(orderInfo.orderPrice - perMarginNeed) | numberFormat(2)}}</strong>元
             </div>
             <div slot="noBalance" class="title-tip">
                 <span class="size-color3">
@@ -272,7 +270,7 @@
   import TimeDown from '@/components/TimeDown'
   import api from '@/config/apiConfig'
   import {mapActions} from 'vuex'
-  import {TaskErrorStatusList} from '@/config/utils'
+  import {TaskErrorStatusList, setStorage, getStorage} from '@/config/utils'
 
   export default {
     name: 'ApproveShowker',
@@ -340,6 +338,12 @@
     created() {
       this.taskId = this.$route.query.taskId;
       this.taskApplyList();
+      let type = getStorage("approveShowkerTitleName");
+      if(type){
+        this.changeTitle(type);
+      }else{
+        this.changeTitle("toAudit");
+      }
     },
     watch: {},
     computed: {},
@@ -395,6 +399,7 @@
       changeTitle(type) {
         this.showApproveStatus = type;
         this.taskApplyList();
+        setStorage('approveShowkerTitleName', type);
       },
       taskApplyList() {
         let _this = this;

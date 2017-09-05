@@ -379,15 +379,15 @@
       <div class="deposits-received-title mt-20 mb-20">试用活动信息已成功保存，请您存入本次活动的试用担保金。</div>
       <div class="deposits-received-info">
         您现在为 <span class="second-color">{{taskRelease.taskName}}</span> 存入试用担保金 <span
-        class="second-color">{{taskRelease.taskCount * oneBond}}</span>
-        元，此笔款项将作为发布试用活动诚信担保的重要工具，待试客完成试用流程后将返还给每个试客 <span class="second-color">{{oneBond}}</span> 元.
+        class="second-color">{{taskRelease.taskCount * oneBond / 100 | numberFormat(2)}}</span>
+        元，此笔款项将作为发布试用活动诚信担保的重要工具，待试客完成试用流程后将返还给每个试客 <span class="second-color">{{oneBond / 100}}</span> 元.
       </div>
       <div class="description-fees mt-40">
         <h3>费用说明：</h3>
         <div class="description-fees-con mt-10">
           <p>试用担保金 = 份数 × 单品试用担保金 = <span>{{taskRelease.taskCount}}</span>
-            × <span>{{oneBond | numberFormat(2)}}</span>
-            = <span>{{(taskRelease.taskCount * oneBond) | numberFormat(2)}}</span>元</p>
+            × <span>{{oneBond / 100 | numberFormat(2)}}</span>
+            = <span>{{(taskRelease.taskCount * oneBond / 100) | numberFormat(2)}}</span>元</p>
           <p class="mt-6">单品推广费 = 单品试用担保金 × 费率 = <span>{{taskRelease.itemPrice | numberFormat(2)}}</span>
             × <span>6%</span> = <span>{{(taskRelease.itemPrice * 0.06) | numberFormat(2)}}</span>元<span v-if="taskRelease.itemPrice * 0.06 > 3">（单品推广费超过平台设定的最高上限3.00元，本次实际收取的单品推广费用为3.00元）</span>
           </p>
@@ -395,18 +395,18 @@
             总推广费用 = 单品推广费用 × 份数 = <span>{{(taskRelease.itemPrice * 0.06 > 3 ? 3 : taskRelease.itemPrice * 0.06) | numberFormat(2)}}</span>
             × <span>{{taskRelease.taskCount}} = <span>{{allPromotionExpenses | numberFormat(2)}}</span></span></p>
           <p class="mt-6">
-            总费用 = 试用保证金 + 总推广费用 = <span>{{orderMoney | numberFormat(2)}}</span>元
+            总费用 = 试用保证金 + 总推广费用 = <span>{{orderMoney}}</span>元
           </p>
         </div>
       </div>
       <div class="pay-info mt-40" v-if="isBalance && !priceHasChange">
-        本次总共要支付的金额为：<span class="second-color">{{orderMoney | numberFormat(2)}}</span>&nbsp;元。您的账户的当前余额为：<strong>{{getUserBalance || 0}}</strong>&nbsp;元
+        本次总共要支付的金额为：<span class="second-color">{{orderMoney}}</span>&nbsp;元。您的账户的当前余额为：<strong>{{getUserBalance || 0}}</strong>&nbsp;元
       </div>
       <div class="pay-info mt-40"  v-if="!isBalance && !priceHasChange">
-        本次总共要支付的金额为：<strong>{{orderMoney | numberFormat(2)}}</strong>&nbsp;元。您账户余额为：<strong>{{getUserBalance || 0}}</strong>&nbsp;元，还需充值：<span class="second-color">{{Math.abs(getUserBalance - orderMoney)}}</span>&nbsp;元。
+        本次总共要支付的金额为：<strong>{{orderMoney}}</strong>&nbsp;元。您账户余额为：<strong>{{getUserBalance || 0}}</strong>&nbsp;元，还需充值：<span class="second-color">{{Math.abs(getUserBalance - orderMoney)}}</span>&nbsp;元。
       </div>
       <div class="pay-info mt-40" v-if="isBalance && priceHasChange">
-        该任务已付保证金 <strong>{{paidDeposit}}</strong>元，本次修改需要支付超出部分的金额为：<strong class="main-color">{{orderMoney - paidDeposit | numberFormat(2)}}</strong>元。您账号的当前余额为：<strong>{{getUserBalance || 0}}</strong>&nbsp;元
+        该任务已付保证金 <strong>{{paidDeposit | numberFormat(2)}}</strong>元，本次修改需要支付超出部分的金额为：<strong class="main-color">{{(orderMoney - paidDeposit) | numberFormat(2)}}</strong>元。您账号的当前余额为：<strong>{{getUserBalance || 0}}</strong>&nbsp;元
       </div>
       <div class="pay-info mt-40" v-if="!isBalance && priceHasChange">
         该任务已付保证金 <strong>{{paidDeposit}}</strong>元，本次修改需要支付超出部分的金额为：<strong class="main-color">{{orderMoney - paidDeposit | numberFormat(2)}}</strong>元。您账号的当前余额为：<strong>{{getUserBalance || 0}}</strong>&nbsp;元,还需充值：<span class="second-color">{{Math.abs(getUserBalance - orderMoney)}}</span>&nbsp;元。
@@ -432,12 +432,12 @@
     </div>
     <!--保证金支付弹框-->
     <div class="pay-model" v-if="showPayModel">
-      <PayModel :orderMoney="!priceHasChange ? orderMoney : orderMoney - paidDeposit" @confirmPayment="confirmPayment">
+      <PayModel :orderMoney="!priceHasChange ? orderMoney : numberFormat((orderMoney - paidDeposit),2)" @confirmPayment="confirmPayment">
         <i slot="closeModel" class="close-recharge" @click="closeRecharge">&times;</i>
         <div slot="noBalance" class="title-tip"><span class="size-color3"><Icon color="#FF2424" size="18px" type="ios-information"></Icon><span class="ml-10">亲，您的余额不足，请充值。</span></span>还需充值<strong class="size-color3">{{Math.abs(getUserBalance - orderMoney)}}</strong>元</div>
         <div slot="isBalance" class="title-tip">
           <Icon color="#FF2424" size="18px" type="ios-information"></Icon>
-          <span class="ml-10">您本次需要支付金额为 <span class="size-color3">{{!priceHasChange ? orderMoney : (orderMoney - paidDeposit) | numberFormat(2)}}</span> 元。</span></div>
+          <span class="ml-10">您本次需要支付金额为 <span class="size-color3">{{!priceHasChange ? orderMoney : numberFormat((orderMoney - paidDeposit),2)}}</span> 元。</span></div>
       </PayModel>
     </div>
     <!--用户修改价格比原始价格高需要补差价提示弹框-->
@@ -638,21 +638,21 @@
        * @return {number}
        */
       oneBond: function () {
-        return this.taskRelease.pinkage === 'true' ? this.taskRelease.itemPrice : this.taskRelease.itemPrice + 10
+        return this.taskRelease.pinkage === 'true' ? Math.ceil(this.taskRelease.itemPrice * 100) : Math.ceil(this.taskRelease.itemPrice * 100) + 1000
       },
       /**
        * 计算总推广费用
        * @return {number}
        */
       allPromotionExpenses: function () {
-        return this.taskRelease.itemPrice * 0.06 > 3 ? 3 * this.taskRelease.taskCount : numberFormat(this.taskRelease.itemPrice * 0.06,2) * this.taskRelease.taskCount
+        return this.taskRelease.itemPrice * 0.06 > 3 ? 3 * this.taskRelease.taskCount : Math.ceil(numberFormat(this.taskRelease.itemPrice * 0.06,2) * 100) * this.taskRelease.taskCount / 100
       },
       /**
        * 计算订单总金额
        * @return {number}
        */
       orderMoney: function () {
-        return this.taskRelease.taskCount * this.oneBond + this.allPromotionExpenses
+        return numberFormat(this.taskRelease.taskCount * this.oneBond / 100 + this.allPromotionExpenses,2)
       },
       /**
        * 计算余额是否足够支付订单金额
@@ -673,11 +673,11 @@
       ...mapActions([
         'getBalance'
       ]),
-      onEditorBlur(editor) {
-      },
-      onEditorFocus(editor) {
-      },
-      onEditorReady(editor) {
+      onEditorBlur(editor) {},
+      onEditorFocus(editor) {},
+      onEditorReady(editor) {},
+      priceFormat(num,decimals) {
+        return numberFormat(num,decimals);
       },
       handleSuccess(res, file) {
         this.taskRelease.taskMainImage = aliCallbackImgUrl + res.name;

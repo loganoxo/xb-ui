@@ -25,12 +25,8 @@
 
     },
     created() {
-      let name = getStorage("myProbationTitleName");
-      if(name){
-        this.changeTitle(name);
-      }else{
-        this.changeTitle("ApplyWaitAudit");
-      }
+      let name = this.$router.name;
+      this.changeTitle(name);
     },
     computed: {},
     watch: {

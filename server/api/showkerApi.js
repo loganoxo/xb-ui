@@ -234,9 +234,10 @@ router.post('/api/showker-apply-delete.json', function (req, res, next) {
 router.post('/api/showker-to-process-order.json', function (req, res, next) {
   let options = {
     method: 'POST',
-    uri: baseUrl + '/task/showker/toProcessOrder',
+    uri: baseUrl + '/task/showker/order/process',
     formData: {
-      id: req.body.id
+      showkerTaskId: req.body.id,
+      showkerId: req.session.userData.id
     },
     json: true
   };
@@ -266,7 +267,7 @@ router.post('/api/showker-order-save.json', function (req, res, next) {
       showkerTaskId: req.body.id,
       showkerId: req.session.userData.id,
       orderNum: req.body.orderNum,
-      orderPrice: req.body.actualPayMoney * 100
+      orderPrice: Math.ceil(req.body.actualPayMoney * 100)
     },
     json: true
   };

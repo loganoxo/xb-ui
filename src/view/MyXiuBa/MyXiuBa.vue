@@ -97,7 +97,6 @@
     data() {
       return {
         isSelect:"userHome",
-        userInfo: '',
       }
 
     },
@@ -113,10 +112,7 @@
         this.selectNavigate("userHome");
       }
     },
-    watch:{
-      $route(to,from){
-      }
-    },
+    watch:{},
     computed: {
       getUserInfoRole(){
         return this.$store.state.userInfo.role;

@@ -53,7 +53,7 @@
     },
     props: {
       orderMoney: {
-        type: Number,
+        type: [Number,String],
         required: true,
         default: 0
       },

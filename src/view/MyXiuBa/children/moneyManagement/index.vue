@@ -59,7 +59,6 @@
     },
     watch: {
       $route(to){
-//        alert(1111)
         this.infoSelect = to.name;
       }
     },

@@ -70,7 +70,12 @@
             <p>{{item.upLineTime | dateFormat('YYYY-MM-DD hh:mm:ss') || '----'}}</p>
             <p class="mt-10">{{item.endTime | dateFormat('YYYY-MM-DD hh:mm:ss') || '----'}}</p>
           </td>
-          <td>{{item.taskStatusDesc}}</td>
+          <td v-if="item.taskStatus !== 'waiting_modify'">{{item.taskStatusDesc}}</td>
+          <td class="cursor-p main-color" v-else>
+            <Tooltip content="这里是提示文字" placement="top">
+              <Icon color="#f60" type="information-circled"></Icon>&nbsp;待修改
+            </Tooltip>
+          </td>
           <td class="registration">{{item.showkerApplyTotalCount || 0}} / {{item.showkerApplySuccessCount || 0}}（人）</td>
           <td>{{item.taskCount}}</td>
           <td>{{item.totalMarginNeed / 100}} / {{item.promotionExpensesNeed / 100}} / {{(item.marginPaid + item.promotionExpensesPaid) / 100 || 0}}</td>
@@ -159,6 +164,7 @@
   import Icon from 'iview/src/components/icon'
   import Button from 'iview/src/components/button'
   import Input from 'iview/src/components/input'
+  import Tooltip from 'iview/src/components/tooltip'
   import PayModel from '@/components/PayModel'
   import api from '@/config/apiConfig'
   import {mapActions} from 'vuex'
@@ -174,6 +180,7 @@
       iButton: Button,
       Modal: Modal,
       iInput: Input,
+      Tooltip: Tooltip,
       PayModel: PayModel
     },
     data() {
