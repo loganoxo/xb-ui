@@ -849,7 +849,7 @@
             if(!_this.taskRelease.taskId){
               _this.taskRelease.taskId = res.data.id;
             }
-            if(status === 'waiting_modify' && _this.paidDeposit === _this.orderMoney){
+            if((status === 'waiting_modify' || status === 'waiting_pay') && _this.paidDeposit === _this.orderMoney){
               _this.$router.push({name: 'ActivitiesList'});
             }else if((status === 'waiting_modify' || status === 'waiting_pay') && _this.paidDeposit > 0 && _this.paidDeposit > _this.orderMoney){
               this.editPriceToLowAfterModel = true;
