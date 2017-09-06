@@ -469,7 +469,6 @@
       },
       showkerSuccessList() {
         let _this = this;
-        _this.applySuccessList = [];
         api.showkerSuccessList({
           selectStatus: _this.selectStatus,
           searchValue: _this.searchValue,
@@ -480,6 +479,7 @@
           statusList: JSON.stringify(_this.checkPassList),
         }).then(res => {
           if (res.status) {
+            _this.applySuccessList = [];
             let content = res.data.content;
             content.forEach(function (item) {
               let data = {};

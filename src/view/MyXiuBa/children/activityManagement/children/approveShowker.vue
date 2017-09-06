@@ -232,8 +232,7 @@
             <iInput v-model="orderNoPassReason" placeholder="请填写不通过理由，如订单号不符或实付金额不符" style="width: 420px"></iInput>
           </div>
           <div class="true-btn" v-show="orderReviewStatus === 'failAudit'" @click="orderNumberAudit">确认</div>
-          <div class="true-btn" v-show="orderReviewStatus === 'passAudit' && perMarginNeed >= orderInfo.orderPrice"
-               @click="orderNumberAudit">确认</div>
+          <div class="true-btn" v-show="orderReviewStatus === 'passAudit' && perMarginNeed >= orderInfo.orderPrice" @click="orderNumberAudit">确认</div>
           <PayModel v-show="orderReviewStatus === 'passAudit' && perMarginNeed < orderInfo.orderPrice"
                     :orderMoney="orderInfo.orderPrice - perMarginNeed"
                     @confirmPayment="confirmPayment" :payButtonText="payButtonText"
@@ -296,12 +295,8 @@
         taskId: null,
         checkAllByPass: false,
         checkAllByFail: false,
-        taskStatusList: [],
-        settlementStatusList: [],
         auditStatusList: [],
         endReasonList: [],
-        taskData: {},
-        totalElements: null,
         pageIndex: 1,
         approvePageIndex: 1,
         pageSize: 5,
@@ -337,13 +332,8 @@
     mounted() {},
     created() {
       this.taskId = this.$route.query.taskId;
+      this.showApproveStatus = "toAudit";
       this.taskApplyList();
-      let type = getStorage("approveShowkerTitleName");
-      if(type){
-        this.changeTitle(type);
-      }else{
-        this.changeTitle("toAudit");
-      }
     },
     watch: {},
     computed: {},
@@ -396,15 +386,9 @@
         }
         this.taskApplyList();
       },
-      approveGuest(taskId) {
-        this.showContent = 'approve';
-        this.taskId = taskId;
-        this.taskApplyList();
-      },
       changeTitle(type) {
         this.showApproveStatus = type;
         this.taskApplyList();
-        setStorage('approveShowkerTitleName', type);
       },
       taskApplyList() {
         let _this = this;
@@ -496,7 +480,7 @@
       },
       orderNumberAudit() {
         let _this = this;
-        if(!_this.orderNoPassReason){
+        if( _this.orderReviewStatus === 'failAudit' && !_this.orderNoPassReason){
           _this.$Message.error("亲，请填写不通过的理由！");
           return
         }

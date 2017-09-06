@@ -132,9 +132,7 @@
         showRefundModel: false,
         refundPayPwd: null,
         showkerReportInfo:{},
-        showkerTaskInfo:{
-          task:{}
-        },
+        showkerTaskInfo:{},
         noPassReason:null,
         trialReportImages:[],
         showNowImageSrc:null,
