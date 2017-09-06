@@ -386,10 +386,10 @@
         <h3>费用说明：</h3>
         <div class="description-fees-con mt-10">
           <p>试用担保金 = 份数 × 单品试用担保金 = <span>{{taskRelease.taskCount}}</span>
-            × <span>{{oneBond| numberFormat(2)}}</span>
+            × <span>{{oneBond}}</span>
             = <span>{{(taskRelease.taskCount * oneBond) | numberFormat(2)}}</span>元</p>
-          <p class="mt-6">单品推广费 = 单品试用担保金 × 费率 = <span>{{taskRelease.itemPrice | numberFormat(2)}}</span>
-            × <span>6%</span> = <span>{{onePromotionExpenses}}</span>元<span v-if="taskRelease.itemPrice * 0.06 > 3">（单品推广费超过平台设定的最高上限3.00元，本次实际收取的单品推广费用为3.00元）</span>
+          <p class="mt-6">单品推广费 = 单品试用担保金 × 费率 = <span>{{oneBond}}</span>
+            × <span>6%</span> = <span>{{(oneBond * 0.06).toFixed(2)}}</span>元<span v-if="taskRelease.itemPrice * 0.06 > 3">（单品推广费超过平台设定的最高上限3.00元，本次实际收取的单品推广费用为3.00元）</span>
           </p>
           <p class="mt-6">
             总推广费用 = 单品推广费用 × 份数 = <span>{{onePromotionExpenses}}</span>
@@ -642,7 +642,7 @@
         return this.taskRelease.pinkage === 'true' ? (this.taskRelease.itemPrice * 100).toFixed(2) / 100 : (this.taskRelease.itemPrice * 100).toFixed(2) / 100 + 10;
       },
       /**
-       * 计算单品推广费用
+       * 计算实际单品推广费用（单品推广费最高上限3元）
        * @return {number}
        */
       onePromotionExpenses:function () {
