@@ -14,8 +14,10 @@
       <div class="container" >
         <div v-show="$route.query.cate"  class="task-category-sel">
           {{parentItemCatalog.name}}：
-           <a  @click="taskCategoryAllFunc()" :class="[taskCategoryAll ? 'active' : '' ]">全部</a>
-          <a :class="[itemCatalogs[0] == category.id && !taskCategoryAll ? 'active' : '']" v-for="category in categoryList" @click="taskCategoryFunc(category)">{{category.name}}</a>
+          <router-link :class="[taskCategoryAll ? 'active' : '' ]" :to="{ 'path': '/task-category', 'query': {'cate': parentItemCatalog.id}}" >全部</router-link>
+          <router-link :class="[category.id == $route.query.cate ? 'active' : 'default']"  v-for="category in categoryList" :key="category.id" :to="{ 'path': '/task-category', 'query': {'cate': category.id}}"  >
+            {{category.name}}
+          </router-link>
         </div>
         <div v-show="$route.query.searchKey" class="task-category-sel">
           全部结果：<span style="color: #ff6633;">“{{$route.query.searchKey}}”</span>
@@ -25,7 +27,7 @@
         <div class="task-category-sort">
           <div>
             <Button-group size="small" class="left mt-10">
-              <iButton :class="[sortFieldDefault == sortField.name ? 'active' : '']" v-for="sortField in sortFieldList" :key="sortField.name" @click="getSortFieldFunc(sortField)">
+              <iButton :class="[sortFieldDefault.name == sortField.name ? 'active' : '']" v-for="sortField in sortFieldList" :key="sortField.name" @click="getSortFieldFunc(sortField)">
                 {{sortField.name}}
                 <Icon type="arrow-down-c"></Icon>
               </iButton>
@@ -85,7 +87,7 @@
                 <p class="cl000">
                   份数:{{searchTask.taskCount}}
                   &nbsp;&nbsp;&nbsp;&nbsp;
-                  申请人数:{{searchTask.taskDaysDuration}}
+                  申请人数:{{searchTask.showkerApplyTotalCount}}
                 </p>
                 <p class="cl000">
                   剩余时间：
@@ -180,9 +182,12 @@
             sortField: 'endTime',
           },
         ],
-        sortFieldDefault: '最新',
+        sortFieldDefault: {
+          name: '最新',
+          sortField: 'upLineTime',
+        },
         taskTypes: [],
-        itemCatalogs: ['all'],
+        itemCatalogs: [],
         searchTaskParams:{
           pageIndex: 1,
           pageSize: 20,
@@ -195,14 +200,16 @@
       }
     },
     created(){
-      let cate = this.$route.query.cate;
+      let self = this;
+      let cate = self.$route.query.cate;
       let searchKey = this.$route.query.searchKey;
       if(cate){
-        this.getTaskCategoryList(cate);
+        self.itemCatalogs = [parseInt(cate)];
+        self.getTaskCategoryList(cate);
       }
       if(searchKey){
-        this.searchTaskParams.taskName = searchKey;
-        this.getSearchTask();
+        self.searchTaskParams.taskName = searchKey;
+        self.getSearchTask();
       }
     },
     computed: {
@@ -226,18 +233,11 @@
         for(let i = 0; i < self.categoryList.length; i++){
           self.itemCatalogs[i] = self.categoryList[i].id;
         }
-        self.taskCategoryAll = true;
         self.getSearchTask();
       },
-      taskCategoryFunc(category){
-        let self = this;
-        self.taskCategoryAll = false;
-        self.itemCatalogs = [category.id];
-        this.getSearchTask();
-      },
       getSortFieldFunc(sortField){
-        this.sortFieldDefault = sortField.name;
-        this.searchTaskParams.sortField = sortField.sortField;
+        this.sortFieldDefault = sortField;
+        this.searchTaskParams.sortField = this.sortFieldDefault.sortField;
         this.getSearchTask();
       },
       getSearchTask(){
@@ -256,7 +256,6 @@
               self.pageCount = parseInt(res.data.total);
               self.searchTaskList = res.data.content;
               self.$set(self.searchTaskList);
-              setStorage("searchTaskParams", self.searchTaskParams);
           }else {
             self.$Modal.error({
               content: res.msg
@@ -266,21 +265,24 @@
       },
       getTaskCategoryList(cate){
         let self = this;
-        self.itemCatalogs = [];
         api.getTaskCategoryList({cate:cate}).then((res) => {
           if(res.status){
+            let  itemCatalogs = [];
             self.categoryList = res.data;
             self.parentItemCatalog.name =  res.data[0].parentItemCatalog.name;
             self.parentItemCatalog.id =  res.data[0].parentItemCatalog.id;
             for(let i = 0; i < self.categoryList.length; i++){
-              self.itemCatalogs.push(self.categoryList[i].id);
+              itemCatalogs.push(self.categoryList[i].id);
+              if(cate == self.categoryList[i].id){
+                self.itemCatalogs = [parseInt(cate)];
+                self.taskCategoryAll = false;
+                break
+              }else {
+                self.taskCategoryAll = true;
+              }
             }
-            if(getStorage("searchTaskParams")){
-              self.itemCatalogs = getStorage("searchTaskParams").itemCatalogs;
-            }
-            self.taskCategoryAll = false;
-            if(self.itemCatalogs.length > 1){
-              self.taskCategoryAll = true;
+            if(self.taskCategoryAll){
+              self.itemCatalogs = itemCatalogs;
             }
             this.getSearchTask()
           }else {
@@ -294,12 +296,13 @@
     watch: {
       '$route' (to, from) {
         //刷新参数放到这里里面去触发就可以刷新相同界面了
-        window.localStorage.removeItem('searchTaskParams');
+        let self = this;
         this.searchTaskParams.taskName = '';
         let cate = this.$route.query.cate;
         let searchKey = this.$route.query.searchKey;
         if(cate){
-          this.getTaskCategoryList(cate);
+          self.itemCatalogs = [parseInt(cate)];
+          self.getTaskCategoryList(cate);
         }
         if(searchKey){
           this.itemCatalogs = '';
@@ -344,6 +347,9 @@
       }
       a.active{
         color: $mainColor;
+      }
+      a.default{
+        color: #000;
       }
     }
     .task-category-sort{
