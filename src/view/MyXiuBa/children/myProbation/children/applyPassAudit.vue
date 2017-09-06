@@ -82,9 +82,11 @@
                <p>{{getTaskStatus(item.status)}}</p>
                <p v-if="item.status !== 'trial_finished'"><time-down color='#ff4040' :fontWeight=600 :endTime="item.currentGenerationEndTime"></time-down></p>
              </div>
-             <p class="mt-5 main-color" v-if="item.status === 'order_num_error'">
-               <Icon color="#f60" type="information-circled"></Icon>
-               <span>订单号有误</span>
+             <p class="mt-5 main-color cursor-p" v-if="item.status === 'order_num_error'">
+               <Tooltip :content="getTaskStatus(item.auditDescription)" placement="top">
+                 <Icon color="#f60" type="information-circled"></Icon>
+                 <span>订单号有误</span>
+               </Tooltip>
              </p>
              <p class="mt-5 main-color" v-if="item.status === 'trial_report_unqualified'">
                <Icon color="#f60" type="information-circled"></Icon>

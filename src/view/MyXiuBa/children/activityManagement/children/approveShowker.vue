@@ -46,7 +46,7 @@
                 <td>{{item.alitmAccount}}</td>
                 <td>{{item.applyTime | dateFormat('YYYY-MM-DD hh:mm:ss')}}</td>
                 <td class="registration">
-                  <router-link :to="{ 'path': '/my-trial-report','query': {'taskId': item.id}}">
+                  <router-link :to="{ 'path': '/trial-report','query': {'showkerId': item.showkerId}}">
                     {{item.task.showkerApplySuccessCount}}
                   </router-link>
                 </td>
@@ -248,7 +248,7 @@
                 <span class="size-color3">
                 <Icon color="#FF2424" size="18" type="ios-information"></Icon>
                 <span class="ml-10">注意：该秀客实付金额大于试用保证金，</span></span>需要补充担保金<strong
-              class="main-color">{{Math.abs(orderInfo.orderPrice - perMarginNeed)}}</strong>元,请充值！
+              class="main-color">{{Math.abs(orderInfo.orderPrice - perMarginNeed) | numberFormat(2)}}</strong>元,请充值！
             </div>
           </PayModel>
         </div>
@@ -496,6 +496,10 @@
       },
       orderNumberAudit() {
         let _this = this;
+        if(!_this.orderNoPassReason){
+          _this.$Message.error("亲，请填写不通过的理由！");
+          return
+        }
         api.orderNumberAudit({
           id: _this.orderInfo.id,
           status: _this.orderReviewStatus === 'passAudit' ? 'true' : 'false',

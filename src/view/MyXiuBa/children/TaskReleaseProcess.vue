@@ -639,38 +639,37 @@
        * @return {number}
        */
       oneBond: function () {
-        return this.taskRelease.pinkage === 'true' ? Math.ceil(this.taskRelease.itemPrice * 100) / 100 : Math.ceil(this.taskRelease.itemPrice * 100) / 100 + 10;
+        return this.taskRelease.pinkage === 'true' ? (this.taskRelease.itemPrice * 100).toFixed(2) / 100 : (this.taskRelease.itemPrice * 100).toFixed(2) / 100 + 10;
       },
       /**
        * 计算单品推广费用
        * @return {number}
        */
       onePromotionExpenses:function () {
-        return  this.taskRelease.itemPrice * 0.06 > 3 ?  3 * this.taskRelease.taskCount.toFixed(2) : (Math.ceil(this.taskRelease.itemPrice * 100) * 0.06 / 100).toFixed(2) * 100 / 100;
+        return  this.taskRelease.itemPrice * 0.06 > 3 ? 3 * this.taskRelease.taskCount : ((this.taskRelease.itemPrice * 100).toFixed(2) / 100 * 0.06).toFixed(2) * 1;
       },
       /**
        * 计算总推广费用
        * @return {number}
        */
       allPromotionExpenses: function () {
-        return Math.ceil(numberFormat(this.onePromotionExpenses * this.taskRelease.taskCount,2) * 100) / 100;
+        return (this.onePromotionExpenses * this.taskRelease.taskCount).toFixed(2) * 1;
       },
       /**
        * 计算订单总金额
        * @return {number}
        */
       orderMoney: function () {
-        return Math.ceil(numberFormat(this.taskRelease.taskCount * this.oneBond + this.allPromotionExpenses,2) * 100) / 100;
+        return (this.taskRelease.taskCount * this.oneBond).toFixed(2) * 1 + this.allPromotionExpenses;
       },
       /**
        * 计算修改价格后需要补充的金额
        * @return {number}
        */
       replenishMoney: function () {
-        return this.priceHasChange ? numberFormat(this.orderMoney - this.paidDeposit, 2) : 0;
+        return this.priceHasChange ? ((this.orderMoney * 100 - this.paidDeposit * 100) / 100).toFixed(2) : 0;
       },
       /**
-       *
        * 计算余额是否足够支付订单金额
        * @return {boolean}
        */
