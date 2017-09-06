@@ -13,7 +13,7 @@
     </div>
     <div class="add-bankcard" v-show="changeBankIDcardShow.bondBankCard">
       <div class="title">
-        <Icon type="information-circled" class="icon ml-20 over-hd"></Icon><span class="ml-56">每个用户只能绑定一张银行卡，如需换卡建议修改银行卡信息</span>
+        <Icon type="information-circled" class="icon ml-20 over-hd"></Icon><span >每个用户只能绑定一张银行卡，如需换卡建议修改银行卡信息</span>
       </div>
       <div class="ipt-information">
         <iForm :model="formItem" :label-width="200" :rules="formRuleItem">
@@ -217,10 +217,10 @@
       RadioGroup:Radio.Group,
       DatePicker:DatePicker,
       iInput: Input,
-      iForm: Form,
       iSelect: Select,
       iOption: Option,
       OptionGroup: OptionGroup,
+      iForm: Form,
       FormItem: Form.Item,
       Checkbox: Checkbox,
       CheckboxGroup: Checkbox.Group,
@@ -374,7 +374,7 @@
           iScertification:false,
           iSbondBankCard:false,
           bondBankCard:false,
-          getoutMoney:true,
+          getoutMoney:false,
           getoutRecord:false
         },
         getoutSelect:'doing',
@@ -411,9 +411,15 @@
 
     },
     created() {
-
+      if(this.$route.query.bandCard === 'bandCard'){
+        alert(111)
+        for (let k in  this.changeBankIDcardShow) {
+          this.changeBankIDcardShow[k]=k==='bondBankCard';
+        }
+      }else {
+        this.getUserAccount();
+      }
       this.getVrcode();
-      this.getUserAccount();
       this.getWithDrawList(this.getoutRecord)
     },
     computed: {
@@ -483,39 +489,7 @@
       },
 
       getTradType(type){
-        TaskErrorStatusList(type);
-        switch (type){
-          case 'enchashment':
-            return '提现';
-            break;
-          case  'pay_for_task_deposit_seller':
-            return '支付活动担保金';
-            break;
-          case  'task_return_seller':
-            return '活动结算返款';
-            break;
-          case  'showker_task_supplementary_seller':
-            return '补充任务担保金';
-            break;
-          case  'task_deposit_pay_shower':
-            return '任务保证金退款';
-            break;
-          case  'task_deposit_return_shower':
-            return '任务保证金返款';
-            break;
-          case  'task_delete_return_seller':
-            return '删除活动返款';
-            break;
-          case  'enchashment_audit_ing':
-            return '提现审核中';
-            break;
-          case  'enchashment_audit_success':
-            return '提现审核通过';
-            break;
-          case  'enchashment_audit_defeat':
-            return '提现审核未通过';
-            break;
-        }
+       return TaskErrorStatusList(type);
       },
 
       //控制提现模块每个部分是否显示，根据账户信息

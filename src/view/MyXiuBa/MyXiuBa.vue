@@ -52,7 +52,7 @@
               </li>
               <li :class="{isSelect:isSelect ==='moneyManagement'}" @click="selectNavigate('moneyManagement')">
                 <Icon type="social-yen"></Icon>
-                <router-link to="/user/money-management">资金管理</router-link>
+                <router-link to="/user/money-management/account-info">资金管理</router-link>
               </li>
               <li :class="{isSelect:isSelect ===' tradingRecord'}" @click="selectNavigate('tradingRecord')">
                 <Icon type="loop"></Icon>

@@ -7,10 +7,10 @@
           <ul>
             <li class="one">实名认证</li>
             <li class="two">
-              未认证
+              {{geIifCertification(userList.ifCertification)}}
             </li>
             <li class="three">
-              <a href="javascript:;">去认证</a>
+              <router-link to="/user/personal-setting/verified" v-show="userList.ifCertification===false">去认证</router-link>
             </li>
           </ul>
         </li>
@@ -18,7 +18,7 @@
           <ul>
             <li class="one">绑定手机</li>
             <li class="two">
-              13655816578
+              {{userList.phone}}
             </li>
             <li class="three">
               <a href="javascript:;">去设置</a>
@@ -31,10 +31,10 @@
               提现账号
             </li>
             <li class="two">
-              未绑定
+              {{getIfBandingBankCard(userList.ifBandingBankCard)}}
             </li>
             <li class="three">
-              <a href="javascript:;">未绑定</a>
+              <router-link :to="{'path':'/user/money-management/getout-money','query':{'bandCard':'bandCard'}}">去绑定</router-link>
             </li>
           </ul>
         </li>
@@ -50,6 +50,10 @@
               <a href="javascript:;" @click="myAccountPwdChangeFather('modifyPwd')">忘记支付密码？</a>
             </li>
           </ul>
+        </li>
+        <li style="height: 50px ; line-height: 50px;font-size: 16px" class="text-ct" v-show="userList.ifCertification===true&&userList.ifBandingBankCard !==null">
+          初始密码为888888，为了你的账号安全，建议您
+          <span class="cursor-p" style="color: #78BAFF" @click="flushCom">重置支付密码</span>。
         </li>
       </ul>
     </div>
@@ -306,10 +310,7 @@
         }
       };
       return {
-        triangle:'arrow-down-b',
         imgSrc: null,
-        psw:'password',
-        eye:'eye',
         payCustom: {
           phone: null,
           validateCode: '',
@@ -357,82 +358,9 @@
             {validator: validatePassCheck, trigger: 'blur'},
           ],
         },
-        myInfoSelects: [
-          {
-            text: '账号信息',
-            isSelect: 'account',
-            callback: this.accountInit
-          },
-          {
-            text: '充值',
-            isSelect: 'pay'
-          },
-          {
-            text: '提现',
-            isSelect: 'getOut'
-          },
-          {
-            text: '交易记录',
-            isSelect: 'jiaoYiJiLu'
-          },
-          {
-            text: '账户管理',
-            isSelect: 'accountInfo'
-          }
-        ],
-        myTableDetails: [
-          {
-            id: 1
-          },
-          {
-            id: 2
-          },
-          {
-            id: 3
-          }
-        ],
-        myTableDetailsAll:[],
         infoSelect: 'account',
-        detailSelect: 'false',
         userList: {},
         userAccount: {},
-        userListDetails: null,
-        showBigNotice:false,
-        showBigNoticeAll:false,
-        showNotice:false,
-        beginTime:null,
-        endTime:null,
-        timeSelect:'oneMouth',
-        choiceTime:[
-          {
-            text:'今天',
-            isSelect:'today',
-            id:0
-
-          },
-          {
-            text:'昨天',
-            isSelect:'yesterday',
-            id:1
-          },
-          {
-            text:'最近一个月',
-            isSelect:'oneMouth',
-            id:2
-          },
-          {
-            text:'全部',
-            isSelect:'all',
-            id:3
-          }
-        ],
-        checkAll: false,
-        transactType:[],
-        activityNumber:null,
-        modal1: false,
-        modal2:false,
-        modal3:false,
-        inputMoney:null,
         myAccount:{
           userSafe:true,
           modifyPwd:false,
@@ -441,85 +369,6 @@
           selBox:true,
           selDefaultModify:false,
           selPhoneModify:false
-        },
-        formItem: {
-          name: '',
-          select: '',
-          bankNumber:'',
-          bankBranch:'',
-          phone:null,
-          validateCode:'',
-          cord:'',
-          purpose:'id_verify'
-        },
-        formRuleItem:{
-          phone: [
-            {validator: validatePhone, trigger: 'blur'}
-          ],
-          validateCode: [
-            {validator: validateCode, trigger: 'blur'}
-          ],
-          cord:[
-            {validator:validateSmsCode,trigger:'blur'}
-          ],
-          bankNumber:[
-            {validator:validateBankCard,trigger:'blur'}
-          ],
-          select: [
-            {validator: validateBankName, trigger: 'blur'}
-          ],
-          name: [
-            {validator: validateName, trigger: 'blur'}
-          ],
-          bankBranch: [
-            {validator: validateBankBranch, trigger: 'blur'}
-          ]
-        },
-        payMoney:{
-          number:null,
-          payMode: 'ali',
-        },
-        payMoneyRule:{
-          number: [
-            {validator: validatePayNumber, trigger: 'blur'}
-          ]
-        },
-        getoutMoney:{
-          getoutNumber:'',
-          password:'',
-        },
-        getoutMoneyRule:{
-          getoutNumber:[
-            {validator: validatePayNumber, trigger: 'blur'}
-          ],
-          password:[
-            {validator:validatePass,trigger:'blur'}
-          ]
-        },
-        getoutStatus:[
-          {
-            text:'提现中',
-            isSelect:'doing',
-            state:"enchashment_audit_ing"
-          },
-          {
-            text:'提现成功',
-            isSelect:'success',
-            state:"enchashment_audit_success"
-          },
-          {
-            text:'提现失败',
-            isSelect:'fail',
-            state:"enchashment_audit_defeat"
-          }
-        ],
-        getoutSelect:'doing',
-        changeBankIDcardShow:{
-          iScertification:false,
-          iSbondBankCard:false,
-          bondBankCard:false,
-          getoutMoney:true,
-          getoutRecord:false
         },
         getbankCardInformation:{},
         applyGetout:{},
@@ -541,13 +390,24 @@
         this.infoSelect = this.$route.query.infoSelect;
         this.myAccountPwdChangeFather('modifyPwd');
       }
+      if (this.$route.query.type === 'resetPwd'){
+        this.myAccount.userSafe = false;
+        this.myAccount.modifyPwd=true;
+        this.myAccountSon.selBox = false;
+        this.myAccountSon.selPhoneModify = true
+      }else if(this.$route.query.type === 'findPwd'){
+        this.myAccount.userSafe = false;
+        this.myAccount.modifyPwd=true;
+        this.myAccountSon.selBox = false;
+        this.myAccountSon.selDefaultModify = true
+      }
       this.getVrcode();
       this.getUserAccount();
-      this.getTradList([]);
-      this.getTradListAll([0,1,2]);
-      this.getWithDrawList(this.getoutRecord)
     },
     computed: {
+      getUrlParams(){
+        return this.$route.fullPath.split("?")[1]
+      },
       getUserBalance: function () {
         return this.$store.state.userBalance
       }
@@ -557,33 +417,11 @@
       ...mapActions([
         'getBalance'
       ]),
-      changeTriangle(){
-        alert(  11111)
-        if (this.triangle === 'arrow-down-b'){
-          this.triangle = 'arrow-up-b'
-        }else {
-          this.triangle = 'arrow-down-b'
-        }
-      },
-      seyPassword(){
-        if(this.psw==='password'){
-          this.psw = 'text';
-          this.eye = 'eye-disabled';
-        }else {
-          this.psw = 'password';
-          this.eye = 'eye';
-        }
-
-      },
-      ok(){
-        this.getBalance()
-      },
-      closable () {
-        this.$Message.info({
-          content: this.getbankCardInformation.msg,
-          duration: 10,
-          closable: true
-        });
+      flushCom(){
+        this.myAccount.userSafe = false;
+        this.myAccount.modifyPwd=true;
+        this.myAccountSon.selBox = false;
+        this.myAccountSon.selPhoneModify = true
       },
       handleSubmit(name, callback) {
         let res = false;
@@ -672,18 +510,7 @@
       accountInit(type) {
         this.infoSelect = type
       },
-      detailsInit(type) {
-        if (this.detailSelect === type) {
-//          this.triangle = 'arrow-down-b'
-          this.detailSelect = 'none'
 
-        } else {
-//          this.triangle = 'arrow-up-b'
-          this.detailSelect = type;
-          this.getTradListDetails(type);
-
-        }
-      },
       getVrcode() {
         this.imgSrc = "/api/vrcode.json?rand=" + new Date() / 100
       },
@@ -693,91 +520,22 @@
           if (res.status) {
             _this.userList = res.data;
             _this.userAccount = res.data.userAccount;
-            _this.changeBankIdcardShowFun();
           } else {
             _this.$Message.error(res.msg);
           }
         });
       },
-      getTradList (type) {
-        let _this = this;
-        if(type.length===0||type.length === 3){
-          type = null;
+      geIifCertification(type){
+        if (type===false){
+          return '未认证';
         }else {
-          type = JSON.stringify(type)
+          return '已认证';
         }
-        api.getTradList({
-          createTimeStart: null,
-          createTimeEnd: null,
-          accountChangeTypeStr: type,
-          reversePicUrl: null,
-          taskSerial: null
-        }).then(res => {
-          if (res.status) {
-            _this.myTableDetails = res.data.content.slice(0, 5);
-            _this.showBigNotice = _this.myTableDetails.length === 0;
+      },
+      getIfBandingBankCard(type){
+        return type===null?'未绑定':this.userAccount.bankCardNum;
+      },
 
-          } else {
-            _this.$Message.error(res.msg);
-          }
-        });
-      },
-      getTradListAll(type) {
-        let _this = this;
-        if(type.length===0||type.length === 3){
-          type = null;
-        }else {
-          type = JSON.stringify(type)
-        }
-        api.getTradList({
-          createTimeStart: _this.beginTime||null,
-          createTimeEnd:_this.endTime||null,
-          accountChangeTypeStr: type,
-          reversePicUrl: null,
-          taskSerial: _this.activityNumber||null
-        }).then(res => {
-          if (res.status) {
-            _this.myTableDetailsAll = res.data.content;
-            _this.showBigNoticeAll = _this.myTableDetailsAll.length === 0;
-
-          } else {
-            _this.$Message.error(res.msg);
-          }
-        });
-      },
-      handleCheckAll () {
-        this.checkAll = !this.checkAll;
-        if (this.checkAll) {
-          this.transactType = ['0','1','2'];
-        } else {
-          this.transactType = [];
-        }
-      },
-      checkAllGroupChange () {
-        if (this.transactType.length === 3) {
-          this.checkAll = true;
-        } else if (this.transactType.length > 0) {
-          this.checkAll = false;
-        } else {
-          this.checkAll = false;
-        }
-      },
-      getTradListDetails(type) {
-        let _this = this;
-        api.getTradListDetails({
-          tradId: type
-        }).then(res => {
-          if (res) {
-            _this.userListDetails = res;
-            _this.showNotice = _this.userListDetails.length === 0;
-          } else {
-            console.log("列表数据为空！")
-          }
-        });
-      },
-      changeTimeChoiceStyle(type){
-        this.timeSelect = type
-      },
       myAccountPwdChangeFather(type){
         for(let k in this.myAccount){
           this.myAccount[k] = k === type;
@@ -788,177 +546,9 @@
           this.myAccountSon[k] = k === type;
         }
       },
-      getTargetTime(type){
-        let _this = this;
-        function getDateStr(time) {
-          let date = new Date();
-          date.setDate(date.getDate()+time);
-          let seperator1 = "-";
-          let seperator2 = ":";
-          let month = date.getMonth() + 1;
-          let strDate = date.getDate();
-          if (month >= 1 && month <= 9) {
-            month = "0" + month;
-          }
-          if (strDate >= 0 && strDate <= 9) {
-            strDate = "0" + strDate;
-          }
-          let currentdate = date.getFullYear() + seperator1 + month + seperator1 + strDate
-            + " " + '00' + seperator2 + '00'
-            + seperator2 + '00';
-          return currentdate;
-        }
-        if(type===0){
-          _this.beginTime = getDateStr(0);
-          _this.endTime = getDateStr(1);
-        }else if(type===1){
-          _this.beginTime = getDateStr(-1);
-          _this.endTime = getDateStr(0);
-        }else if (type===2){
-          _this.beginTime = getDateStr(-30);
-          _this.endTime = getDateStr(1);
-        }else {
-          _this.beginTime=null;
-          _this.endTime=null;
-          _this.getTradListAll([0,1,2]);
-        }
 
 
-      },
-      getoutStatusFun(type){
-        this.getoutSelect = type
-      },
-      getTradType(type){
-        switch (type){
-          case 'enchashment':
-            return '提现';
-            break;
-          case  'pay_for_task_deposit_seller':
-            return '支付活动担保金';
-            break;
-          case  'task_return_seller':
-            return '活动结算返款';
-            break;
-          case  'showker_task_supplementary_seller':
-            return '补充任务担保金';
-            break;
-          case  'task_deposit_pay_shower':
-            return '任务保证金退款';
-            break;
-          case  'task_deposit_return_shower':
-            return '任务保证金返款';
-            break;
-          case  'task_delete_return_seller':
-            return '删除活动返款';
-            break;
-          case  'enchashment_audit_ing':
-            return '提现审核中';
-            break;
-          case  'enchashment_audit_success':
-            return '提现审核通过';
-            break;
-          case  'enchashment_audit_defeat':
-            return '提现审核未通过';
-            break;
-        }
-      },
-      geIifCertification(type){
-        if (type===false){
-          return '未认证';
-        }else {
-          return '已认证';
-        }
-      },
-      getIfBandingBankCard(type){
-        return type===null?'未添加':this.userAccount.bankCardNum;
-      },
-      changeBankIdcardShowFun(){
-        if (this.userList.ifCertification ===false){
-          this.changeBankIDcardShow.iScertification=true;
-          this.changeBankIDcardShow.iSbondBankCard=false;
-        }else if (this.userList.ifCertification===true){
-          if(this.userList.ifBandingBankCard === null){
-            this.changeBankIDcardShow.iScertification=false;
-            this.changeBankIDcardShow.iSbondBankCard=true;
-          }else {
-            for (let k in  this.changeBankIDcardShow) {
-              this.changeBankIDcardShow[k]=k==='getoutMoney';
-            }
-          }
-        }
-      },
-      addBankCard(){
-        this.changeBankIDcardShow.iScertification=false;
-        this.changeBankIDcardShow.iSbondBankCard=false;
-        this.changeBankIDcardShow.bondBankCard=true;
-      },
-      lookGetoutRecord(type){
-        for (let k in  this.changeBankIDcardShow) {
-          this.changeBankIDcardShow[k]=k===type;
-        }
-      },
-      addBankCardInfo(type){
-        let _this=this;
-        api.addBankCardInfo({
-          validateCode:type.validateCode,
-          accountName:type.name,
-          bankName:type.select,
-          bankNo:type.bankNumber,
-          bankPart:type.bankBranch,
-          phoneNo:type.phone,
-          smsCode:type.cord
-        }).then(res=>{
-          if(res.status){
-            _this.getbankCardInformation=res;
-            _this.closable();
-          }else {
-            _this.$Message.error(res.msg)
-          }
-        });
-      },
-      applyGetoutMoney(types){
-        let _this=this;
-        api.applyGetoutMoney({
-          fee:types.getoutNumber*100,
-          bankCardNum:_this.userAccount.bankCardNum,
-          payPwd:types.password
-        }).then(res=>{
-          if(res.status){
-            _this.iconType='checkmark-circled';
-            _this.applyGetout=res.msg;
-            _this.getoutMoney.getoutNumber='';
-            _this.getoutMoney.password='';
 
-          }else {
-            _this.iconType='close-circled';
-            _this.applyGetout=res.msg;
-            _this.getoutMoney.getoutNumber='';
-            _this.getoutMoney.password='';
-          }
-        });
-      },
-      getWithDrawList(type,state){
-        let _this=this;
-        api.getWithDrawList({
-          serialNumber:type.serialNumber,
-          applyTimeStart:type.applyFrom,
-          applyTimeEnd:type.applyTo,
-          state:state||null
-        }).then(res=>{
-          if (res.status){
-            _this.getOutResList=res.data.content;
-          }else {
-            _this.$Message.error(res.msg)
-          }
-        });
-      },
-      getMoneyShowDetailsFun(type){
-        if (this.getMoneyShowDetails === type){
-          this.getMoneyShowDetails = 'none'
-        }else {
-          this.getMoneyShowDetails=type
-        }
-      }
     }
   }
 </script>

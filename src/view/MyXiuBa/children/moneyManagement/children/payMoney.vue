@@ -1,13 +1,13 @@
 <template>
   <div class="my-pay">
-    <div  class="clear my-pay-top">
+    <div class="clear my-pay-top">
       <span class="left">当前可用余额<span style="color:red ">{{getUserBalance}}</span>元</span>
       <span class="right cursor-p" style="color: blue;">查看充值记录</span>
     </div>
     <div class="my-pay-desc">
       <iForm :model="payMoney" :label-width="200" :rules="payMoneyRule">
         <Form-item label="请输入充值金额:" prop="number">
-          <iInput v-model="payMoney.number"  style="width: 200px"></iInput>
+          <iInput v-model="payMoney.number" @on-blur="" style="width: 200px"></iInput>
           <span class="ml-10">元(最低1元起充)</span>
         </Form-item>
         <Form-item label="请选择支付方式:" prop="payMode">
@@ -21,7 +21,17 @@
           </Radio-group>
         </Form-item>
         <Form-item>
-          <a  :href="url"  target="_blank"  class="pay" @click="modal3 = true ;balanceOrderCreate(payMoney)">提交</a>
+          <iButton  class="payMoneyBtn" @click="payPopWindow = true;balanceOrderCreate(payMoney,getUserInfo)">提交</iButton>
+          <Modal v-model="payPopWindow" width="360"
+                 :styles="{top:'310px',height:'300px'}">
+              <div style="text-align:center">
+              <p>请前往充值页面进行充值</p>
+            </div>
+            <div slot="footer">
+              <iButton type="success" style="width: 150px;" @click="success" >已完成充值</iButton>
+              <iButton type="error" style="width: 150px;"   @click="del">充值遇到问题</iButton>
+            </div>
+          </Modal>
         </Form-item>
       </iForm>
     </div>
@@ -33,7 +43,6 @@
       </div>
     </div>
   </div>
-  <!--<PayModel></PayModel>-->
 </template>
 <script>
   import api from '@/config/apiConfig'
@@ -43,14 +52,16 @@
   import Radio from 'iview/src/components/radio'
   import Button from 'iview/src/components/button'
   import Modal from 'iview/src/components/modal'
-  import PayModel from  '@/components/PayModel'
+  import PayModel from '@/components/PayModel'
+  import PopUpWindows from '@/components/PopUpWindows'
   import {mapActions} from 'vuex'
   import {isNumber} from '@/config/utils'
+
   export default {
     name: 'MoneyManagement',
     components: {
-      Radio:Radio,
-      RadioGroup:Radio.Group,
+      Radio: Radio,
+      RadioGroup: Radio.Group,
       iInput: Input,
       iForm: Form,
       FormItem: Form.Item,
@@ -58,17 +69,18 @@
       ButtonGroup: Button.Group,
       Icon: Icon,
       Modal: Modal,
-      PayModel:PayModel,
+      PayModel: PayModel,
+      PopUpWindows:PopUpWindows
 
 
     },
     data() {
       //表单验证
 
-      const  validatePayNumber =(rule,value,callback)=>{
-        if (!(/^[0-9]+(.[0-9]{1,2})?$/.test(value))){
+      const validatePayNumber = (rule, value, callback) => {
+        if (!(/^[0-9]+(.[0-9]{1,2})?$/.test(value))) {
           callback(new Error('金额为数字，请您重新输入'))
-        }else {
+        } else {
           callback()
         }
       };
@@ -107,31 +119,37 @@
         }
       };
       return {
-        payMoney:{
-          number:100,
+        payMoney: {
+          number: '',
           payMode: 'ali',
         },
-        payMoneyRule:{
+        payMoneyRule: {
           number: [
             {validator: validatePayNumber, trigger: 'blur'}
           ]
         },
         imgSrc: null,
-        modal3:false,
-        userList:{},
-        userAccount:{},
-        url:'',
+        modal3: false,
+        modal_loading: false,
+        payPopWindow:false,
+        userList: {},
+        userAccount: {},
+        url: '',
       }
     },
     mounted() {
 
     },
     created() {
-      this.getUserAccount();
+
     },
     computed: {
+
       getUserBalance: function () {
         return this.$store.state.userBalance
+      },
+      getUserInfo: function () {
+        return this.$store.state.userInfo.id
       }
 
     },
@@ -139,37 +157,38 @@
       ...mapActions([
         'getBalance'
       ]),
-      seyPassword(){
-        if(this.psw==='password'){
+      success(){
+        this.getBalance();
+        this.payPopWindow = false;
+      },
+      del () {
+        this.modal_loading = true;
+        setTimeout(() => {
+          this.modal_loading = false;
+          this.payPopWindow = false;
+        }, 1000);
+      },
+
+      seyPassword() {
+        if (this.psw === 'password') {
           this.psw = 'text';
           this.eye = 'eye-disabled';
-        }else {
+        } else {
           this.psw = 'password';
           this.eye = 'eye';
         }
       },
-      getUserAccount() {
-        let _this = this;
-        api.getUserAccount().then(res => {
-          if (res.status) {
-            _this.userList = res.data;
-            _this.userAccount = res.data.userAccount;
-          } else {
-            _this.$Message.error(res.msg);
-          }
-        });
-      },
-      balanceOrderCreate(type){
+      balanceOrderCreate(type, id) {
         let _this = this;
         api.balanceOrderCreate({
-          uid:_this.userList.id,
-          finalFee:type.number*100,
-          orderPlatform:'PC',
-          payChannel:1
+          uid: id,
+          finalFee: type.number * 100,
+          orderPlatform: 'PC',
+          payChannel: 1
         }).then(res => {
           if (res.status) {
-              console.log(res)
-            _this.url = 'http://192.168.1.142:8765/pay/build_req.htm?channel=1&userId='+_this.userList.id+'&orderId='+res.data.id+''
+            let src = 'http://192.168.1.142:8765/pay/build_req.htm?channel=1&userId=' + _this.getUserInfo + '&orderId=' + res.data.id;
+            window.open(src);
           } else {
             _this.$Message.error(res.msg);
           }

@@ -8,20 +8,20 @@
             <p>收入金额（元）：{{userAccount.amountIncomes/100||0}}</p>
             <p>支出金额（元）：{{userAccount.amountPayment/100||0}}</p>
             <div class="view-details mt-10">
-              <a href="javascript:;" @click="accountInit('PayMoney')">我要充值</a>
-              <router-link to="/user/personal-setting">查看明细</router-link >
+              <a class="iWantPay" href="javascript:;" @click="accountInit('PayMoney')">我要充值</a>
+              <router-link to="/user/personal-setting/personal-account-info">查看明细</router-link >
             </div>
           </div>
           <div class="moneyInfoRight right">
             <div>提现金额（元）</div>
-            <div class="number mt-5 ">{{userAccount.enChashingMoney/100||0}}</div>
+            <div class="number1 mt-5 ">{{userAccount.enChashingMoney/100||0}}</div>
             <div class="clear">
               <span class="sp left">提现帐号：{{getIfBandingBankCard(userList.ifBandingBankCard)}}</span>
-              <a href="javascript:;" class="sa right" v-show="userList.ifBandingBankCard === null">添加</a>
+              <router-link :to="{'path':'/user/money-management/getout-money','query':{'bandCard':'bandCard'}}" class="sa right" v-show="userList.ifBandingBankCard === null">添加</router-link>
             </div>
             <div class="view-details ">
-              <a href="javascript:;" @click="accountInit('PayMoney')">我要充值</a>
-              <router-link to="/user/personal-setting">查看明细</router-link >
+              <a class="iWantPay" href="javascript:;" @click="accountInit('PayMoney')">我要充值</a>
+              <router-link to="/user/personal-setting/personal-account-info">查看明细</router-link >
             </div>
           </div>
         </div>
@@ -29,7 +29,7 @@
           <div>账户名：{{userList.phone}}</div>
           <div>真实姓名：{{userList.realName}}</div>
           <div>
-            <span>实名认证：{{geIifCertification(userList.ifCertification)}}</span>&nbsp;&nbsp;&nbsp;&nbsp;<router-link to="/user/personal-setting" v-show="userList.ifCertification===false">去认证</router-link>
+            <span>实名认证：{{geIifCertification(userList.ifCertification)}}</span>&nbsp;&nbsp;&nbsp;&nbsp;<router-link to="/user/personal-setting/verified" v-show="userList.ifCertification===false">去认证</router-link>
           </div>
           <div>绑定手机：{{userList.phone}}</div>
           <div>注册时间：{{userList.createTime | dateFormat('YYYY-MM-DD hh:mm:ss')}}</div>
@@ -39,11 +39,11 @@
       <div class="trading-record ">
         <ul class="clear">
           <li>最近交易记录</li>
-          <li><a href="javascript:;" @click="getTradList([])">全部</a></li>
-          <li><a href="javascript:;" @click="getTradList([0])">充值记录</a></li>
-          <li><a href="javascript:;" @click="getTradList([1])">提现记录</a></li>
-          <li><a href="javascript:;" @click="getTradList([2])">活动记录</a></li>
-          <li><a href="javascript:;" @click="getTradList([3])">其它</a></li>
+          <!--<li><a href="javascript:;" @click="getTradList([])">全部</a></li>-->
+          <li v-for="(item ,index) in lis ">
+            <a href="javascript:;" :class="{lisColor:iSelect === item.isSelect}"
+               @click="getTradList(index===0?[]:[index-1]),changeLiColor(item.isSelect)">{{item.text}}</a>
+          </li>
         </ul>
       </div>
       <div class="personal-list-table mt-10">
@@ -66,7 +66,7 @@
               <p>{{item.changeName}}</p>
               <p>活动编号：{{item.taskSerialNum}}</p>
             </td>
-            <td class="main-color">{{item.amountChange/100||0}}</td>
+            <td class="main-color">{{typechang(item.amountChange/100)||0}}</td>
             <td>
               <p style="color:blue;" class="details" @click="detailsInit(item.id)">详情<Icon :type="detailSelect===item.id?'arrow-up-b':'arrow-down-b'" class="ml-5 "></Icon></p>
             </td>
@@ -134,12 +134,16 @@
             日，会在星期二24：00前处理，当然啦，如果遇到节假日，那节假日是不算在工作日里的</p>
         </div>
       </div>
+      <router-link
+        :to="{'path':'/user/money-management/account-management','query':{'type':'resetPwd'}}"
+        class="cursor-p" style="color: #78BAFF">重置支付密码</router-link>。
     </div>
 </template>
 <script>
   import api from '@/config/apiConfig'
   import Icon from 'iview/src/components/icon'
   import Button from 'iview/src/components/button'
+  import {TaskErrorStatusList} from '@/config/utils'
   import {mapActions} from 'vuex'
   export default {
     name: 'MoneyManagement',
@@ -169,7 +173,30 @@
           }
         ],
         detailSelect: 'false',
-        infoSelect:''
+        infoSelect:'',
+        lis:[
+          {
+            text:'全部',
+            isSelect:'all'
+          },
+          {
+            text:'活动记录',
+            isSelect:'activity'
+          },
+          {
+            text:'充值记录',
+            isSelect:'pay'
+          },
+          {
+            text:'提现记录',
+            isSelect:'getout'
+          },
+          {
+            text:'其它',
+            isSelect:'other'
+          }
+        ],
+        iSelect:'all'
       }
     },
     mounted() {
@@ -183,7 +210,6 @@
       getUserBalance: function () {
         return this.$store.state.userBalance
       }
-
     },
     methods: {
       ...mapActions([
@@ -192,6 +218,15 @@
       accountInit(name) {
         this.infoSelect = name;
         this.$router.push({name: name});
+      },
+      typechang(num){
+        if (num > 0){
+          num = '+'+num;
+        }
+        return num
+      },
+      changeLiColor(type){
+        this.iSelect = type
       },
       detailsInit(type) {
         if (this.detailSelect === type) {
@@ -224,7 +259,9 @@
           createTimeEnd: null,
           accountChangeTypeStr: type,
           reversePicUrl: null,
-          taskSerial: null
+          taskSerial: null,
+          page:0,
+          size:5
         }).then(res => {
           if (res.status) {
             _this.myTableDetails = res.data.content.slice(0, 5);
@@ -249,38 +286,7 @@
         });
       },
       getTradType(type){
-        switch (type){
-          case 'enchashment':
-            return '提现';
-            break;
-          case  'pay_for_task_deposit_seller':
-            return '支付活动担保金';
-            break;
-          case  'task_return_seller':
-            return '活动结算返款';
-            break;
-          case  'showker_task_supplementary_seller':
-            return '补充任务担保金';
-            break;
-          case  'task_deposit_pay_shower':
-            return '任务保证金退款';
-            break;
-          case  'task_deposit_return_shower':
-            return '任务保证金返款';
-            break;
-          case  'task_delete_return_seller':
-            return '删除活动返款';
-            break;
-          case  'enchashment_audit_ing':
-            return '提现审核中';
-            break;
-          case  'enchashment_audit_success':
-            return '提现审核通过';
-            break;
-          case  'enchashment_audit_defeat':
-            return '提现审核未通过';
-            break;
-        }
+       return TaskErrorStatusList(type)
       },
       geIifCertification(type){
         if (type===false){

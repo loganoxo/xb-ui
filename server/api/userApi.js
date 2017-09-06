@@ -19,6 +19,8 @@ const baseUrl = config.baseUrl;
  * @param createTimeEnd
  * @param accountChangeType
  * @param taskSerial
+ * @param page
+ * @param size
  */
 router.post('/api/get-trad-list.json', function (req, res, next) {
   let options = {
@@ -30,7 +32,9 @@ router.post('/api/get-trad-list.json', function (req, res, next) {
       createTimeEnd: req.body.createTimeEnd,
       accountChangeTypeStr: req.body.accountChangeTypeStr,
       reversePicUrl: req.body.reversePicUrl,
-      taskSerial: req.body.taskSerial
+      taskSerial: req.body.taskSerial,
+      page: req.body.page,
+      size: req.body.size
     },
     json: true,
   };

@@ -72,6 +72,17 @@
 <style lang="scss" >
   @import 'src/css/mixin';
   .personal-box {
+    .iWantPay{
+      color: #71B6FF;
+    }
+    .payMoneyBtn{
+      background-color: $mainColor;
+      color: #fff;
+      width: 120px;
+    }
+    .lisColor{
+      color: $mainColor;
+    }
     .pay{
       display: block;
       width: 100px;
@@ -145,12 +156,18 @@
         }
       }
 
-      .number {
+      .number, .number1{
         border-bottom: 1px solid gray;
         font-size: 20px;
-        color: $mainColor;
+
         padding-bottom: 10px;
         height: 40px;
+      }
+      .number{
+        color: #329832;
+      }
+      .number1{
+        color: #FF6633;
       }
       .view-details {
         padding-top: 10px;
@@ -352,16 +369,18 @@
       }
     }
     .my-transact{
-      .choice-time{
-        padding: 15px;
+      .date-picker{
+        padding: 15px ;
         border-bottom: 1px solid #F6F6F6;
+      }
+      .choice-time{
         span{
           display: inline-block;
           padding: 5px 20px;
           color: #9FADB7;
         }
         span:nth-of-type(1){
-          margin-left: 45px;
+          margin-left: 15px;
         }
         span.active{
           background-color: #DAE1E8;
@@ -443,7 +462,6 @@
 
           }
           span{
-            font-family:Microsoft YaHei ;
             font-size: 18px;
             color: #808080;
           }
@@ -463,7 +481,6 @@
             font-size: 35px;
           }
           p{
-            font-family: Microsoft YaHei;
             font-size: 20px;
             color: #48B4DC;
           }
@@ -472,21 +489,23 @@
       .add-bankcard{
         .title{
           color: #FF6F42;
-          height: 50px;
+          font-size: 16px;
+          height: 40px;
+          line-height: 40px;
           position: relative;
           width: 700px;
           background-color: #FFF6F3;
           margin: 0 auto;
-          margin-top: 60px;
+          margin-top: 30px;
           .icon{
             position: absolute;
-            top: 11px;
+            top: 10px;
           }
           .icon:before{
-            font-size: 30px;
+            font-size: 20px;
           }
           span{
-            font-family: Microsoft YaHei;
+            margin-left: 50px;
           }
         }
         .ipt-information{
