@@ -377,40 +377,20 @@
     <!--存入保证金-->
     <div class="deposits-received" v-show="stepName === 'deposit'">
       <div class="deposits-received-title mt-20 mb-20">试用活动信息已成功保存，请您存入本次活动的试用担保金。</div>
-      <div class="deposits-received-info">
-        您现在为 <span class="second-color">{{taskRelease.taskName}}</span> 存入试用担保金 <span
-        class="second-color">{{taskRelease.taskCount * oneBond | numberFormat(2)}}</span>
-        元，此笔款项将作为发布试用活动诚信担保的重要工具，待试客完成试用流程后将返还给每个试客 <span class="second-color">{{oneBond | numberFormat(2)}}</span> 元.
-      </div>
+      <div class="deposits-received-info">您现在为 <span class="second-color">{{taskRelease.taskName}}</span> 存入试用担保金<span class="second-color">{{taskRelease.taskCount * oneBond}}</span>元，此笔款项将作为发布试用活动诚信担保的重要工具，待试客完成试用流程后将返还给每个试客 <span class="second-color">{{oneBond}}</span> 元.</div>
       <div class="description-fees mt-40">
         <h3>费用说明：</h3>
         <div class="description-fees-con mt-10">
-          <p>试用担保金 = 份数 × 单品试用担保金 = <span>{{taskRelease.taskCount}}</span>
-            × <span>{{oneBond}}</span>
-            = <span>{{(taskRelease.taskCount * oneBond) | numberFormat(2)}}</span>元</p>
-          <p class="mt-6">单品推广费 = 单品试用担保金 × 费率 = <span>{{oneBond}}</span>
-            × <span>6%</span> = <span>{{(oneBond * 0.06).toFixed(2)}}</span>元<span v-if="taskRelease.itemPrice * 0.06 > 3">（单品推广费超过平台设定的最高上限3.00元，本次实际收取的单品推广费用为3.00元）</span>
-          </p>
-          <p class="mt-6">
-            总推广费用 = 单品推广费用 × 份数 = <span>{{onePromotionExpenses}}</span>
-            × <span>{{taskRelease.taskCount}} = <span>{{allPromotionExpenses}}</span></span>元</p>
-          <p class="mt-6">
-            总费用 = 试用保证金 + 总推广费用 = <span>{{orderMoney}}</span>元
-          </p>
+          <p>试用担保金 = 份数 × 单品试用担保金 =<span>{{taskRelease.taskCount}}</span>×<span>{{oneBond}}</span>= <span>{{taskRelease.taskCount * oneBond}}</span>元</p>
+          <p class="mt-6">单品推广费 = 单品试用担保金 × 费率 =<span>{{oneBond}}</span>× <span>6%</span> = <span>{{(oneBond * 0.06).toFixed(2)}}</span>元<span v-if="taskRelease.itemPrice * 0.06 > 3">（单品推广费超过平台设定的最高上限3.00元，本次实际收取的单品推广费用为3.00元）</span></p>
+          <p class="mt-6">总推广费用 = 单品推广费用 × 份数 =<span>{{onePromotionExpenses}}</span>× <span>{{taskRelease.taskCount}} = <span>{{allPromotionExpenses}}</span></span>元</p>
+          <p class="mt-6">总费用 = 试用保证金 + 总推广费用 = <span>{{orderMoney}}</span>元</p>
         </div>
       </div>
-      <div class="pay-info mt-40" v-if="isBalance && !priceHasChange">
-        本次总共要支付的金额为：<span class="second-color">{{orderMoney}}</span>&nbsp;元。您的账户的当前余额为：<strong>{{getUserBalance || 0}}</strong>&nbsp;元
-      </div>
-      <div class="pay-info mt-40"  v-if="!isBalance && !priceHasChange">
-        本次总共要支付的金额为：<strong>{{orderMoney}}</strong>&nbsp;元。您账户余额为：<strong>{{getUserBalance || 0}}</strong>&nbsp;元，还需充值：<span class="second-color">{{Math.abs(getUserBalance - orderMoney)}}</span>&nbsp;元。
-      </div>
-      <div class="pay-info mt-40" v-if="isBalance && priceHasChange">
-        该任务已付保证金 <strong>{{paidDeposit | numberFormat(2)}}</strong>元，本次修改需要支付超出部分的金额为：<strong class="main-color">{{replenishMoney}}</strong>元。您账号的当前余额为：<strong>{{getUserBalance || 0}}</strong>&nbsp;元
-      </div>
-      <div class="pay-info mt-40" v-if="!isBalance && priceHasChange">
-        该任务已付保证金 <strong>{{paidDeposit}}</strong>元，本次修改需要支付超出部分的金额为：<strong class="main-color">{{replenishMoney}}</strong>元。您账号的当前余额为：<strong>{{getUserBalance || 0}}</strong>&nbsp;元,还需充值：<span class="second-color">{{Math.abs(getUserBalance - orderMoney)}}</span>&nbsp;元。
-      </div>
+      <div class="pay-info mt-40" v-if="isBalance && !priceHasChange">本次总共要支付的金额为：<span class="second-color">{{orderMoney}}</span>&nbsp;元。您的账户的当前余额为：<strong>{{getUserBalance || 0}}</strong>&nbsp;元</div>
+      <div class="pay-info mt-40"  v-if="!isBalance && !priceHasChange">本次总共要支付的金额为：<strong>{{orderMoney}}</strong>&nbsp;元。您账户余额为：<strong>{{getUserBalance || 0}}</strong>&nbsp;元，还需充值：<span class="second-color">{{Math.abs(getUserBalance - orderMoney)}}</span>&nbsp;元。</div>
+      <div class="pay-info mt-40" v-if="isBalance && priceHasChange">该任务已付保证金 <strong>{{paidDeposit | numberFormat(2)}}</strong>元，本次修改需要支付超出部分的金额为：<strong class="main-color">{{replenishMoney}}</strong>元。您账号的当前余额为：<strong>{{getUserBalance || 0}}</strong>&nbsp;元</div>
+      <div class="pay-info mt-40" v-if="!isBalance && priceHasChange">该任务已付保证金 <strong>{{paidDeposit}}</strong>元，本次修改需要支付超出部分的金额为：<strong class="main-color">{{replenishMoney}}</strong>元。您账号的当前余额为：<strong>{{getUserBalance || 0}}</strong>&nbsp;元,还需充值：<span class="second-color">{{Math.abs(getUserBalance - orderMoney)}}</span>&nbsp;元。</div>
       <div class="description-fees-footer">
         <span class="pay-btn" v-if="isBalance" @click="openRecharge">前去支付</span>
         <span class="pay-btn" v-else @click="openRecharge">前去充值</span>
@@ -430,7 +410,6 @@
         <span class="ml-20">有问题？联系客服</span>
       </div>
     </div>
-
     <!--保证金支付弹框-->
     <div class="pay-model" v-if="showPayModel">
       <PayModel :orderMoney="!priceHasChange ? orderMoney : replenishMoney" @confirmPayment="confirmPayment">
@@ -872,12 +851,12 @@
             }
             if(status === 'waiting_modify' && _this.paidDeposit === _this.orderMoney){
               _this.$router.push({name: 'ActivitiesList'});
-            }else if(status === 'waiting_modify' && _this.paidDeposit > _this.orderMoney){
+            }else if((status === 'waiting_modify' || status === 'waiting_pay') && _this.paidDeposit > 0 && _this.paidDeposit > _this.orderMoney){
               this.editPriceToLowAfterModel = true;
-            }else if(status === 'waiting_modify' && _this.paidDeposit < _this.orderMoney){
+            }else if((status === 'waiting_modify' || status === 'waiting_pay') && _this.paidDeposit > 0 && _this.paidDeposit < _this.orderMoney){
               _this.editPriceAfterModel = true;
               _this.priceHasChange = true;
-            }else if(!status || status === 'waiting_pay'){
+            }else if(!status || (status === 'waiting_pay' && _this.paidDeposit === 0)){
               _this.nextCurrent();
               _this.stepName = 'deposit';
             }

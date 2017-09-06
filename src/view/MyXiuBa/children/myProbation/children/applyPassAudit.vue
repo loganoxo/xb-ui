@@ -46,7 +46,7 @@
        <span class="ml-10">订单号：</span>
        <iInput v-model="orderNumber" placement="请输入订单号查询" style="width: 160px;margin-right: 8px;"></iInput>
        <span class="ml-10">通过日期：</span>
-       <Date-picker format="yyyy/MM/dd" type="daterange" placement="bottom-end" placeholder="请选择日期查询"
+       <Date-picker format="yyyy-MM-dd" type="daterange" placement="bottom-end" placeholder="请选择日期查询"
                     style="width: 200px" @on-change="handleDataChange"></Date-picker>
        <iButton type="primary" class="ml-20" @click="showkerSuccessList">搜索</iButton>
      </div>
@@ -295,7 +295,7 @@
   import TimeDown from '@/components/TimeDown'
   import api from '@/config/apiConfig'
   import {aliCallbackImgUrl} from '@/config/env'
-  import {TaskErrorStatusList} from '@/config/utils'
+  import {TaskErrorStatusList, isNumber} from '@/config/utils'
 
   export default {
     name: 'ApplyPassAudit',
@@ -510,6 +510,10 @@
         }
         if(!_this.payMoney){
           _this.$Message.error("亲，请输入订单金额！");
+          return;
+        }
+        if(!isNumber(_this.payMoney)){
+          _this.$Message.error("亲，输入的金额格式有误！");
           return;
         }
         api.showkerOrderSave({
