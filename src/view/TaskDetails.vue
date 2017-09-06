@@ -353,7 +353,7 @@
                   });
                 }else {
                   self.$Modal.warning({
-                    content: '<p class="fs-14">res.msg</span>',
+                    content: '<p class="fs-14">' + res.msg + '</span>',
                   });
                 }
               }
