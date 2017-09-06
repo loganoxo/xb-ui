@@ -646,7 +646,7 @@
        * @return {number}
        */
       onePromotionExpenses:function () {
-        return  this.taskRelease.itemPrice * 0.06 > 3 ? 3 * this.taskRelease.taskCount : ((this.taskRelease.itemPrice * 100).toFixed(2) / 100 * 0.06).toFixed(2) * 1;
+        return  this.taskRelease.itemPrice * 0.06 > 3 ? 3 : ((this.taskRelease.itemPrice * 100).toFixed(2) / 100 * 0.06).toFixed(2) * 1;
       },
       /**
        * 计算总推广费用
