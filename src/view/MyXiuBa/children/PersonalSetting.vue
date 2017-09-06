@@ -40,7 +40,6 @@
               </li>
             </ul>
             <p v-show="showModifyAvatar" class="img-box">
-              <!--<img :src="avatar.src" alt="" style="width: 68px;" v-for="avatar in avatars">-->
               <img :src="avatar.src" alt="" @click="modifyPortraitPic(avatar)" :key="avatar.src" style="width: 68px; cursor: pointer" v-for="avatar in avatars">
             </p>
           </div>
@@ -70,7 +69,7 @@
                   <span>(同登录密码)</span>
                 </li>
                 <li class="three">
-                  <a href="">去设置</a>
+                  <router-link to="/user/money-management/account-management?infoSelect=accountInfo">去设置</router-link>
                 </li>
               </ul>
             </li>
@@ -84,7 +83,7 @@
                   <span>(同登录密码)</span>
                 </li>
                 <li class="three">
-                  <a href="">去设置</a>
+                  <router-link to="/user/money-management/getout-money">去设置</router-link>
                 </li>
               </ul>
             </li>

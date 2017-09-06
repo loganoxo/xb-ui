@@ -59,10 +59,10 @@
             </p>
             <div class="trial-account-details">
               <div class="task-info">
-                <img :src="showkerReportDesc.showkerPortraitPic" alt="" width="100px" class="left">
+                <img :src="showkerReportDesc.task.taskMainImage" alt="" width="100px" class="left">
                 <div class="left ml-20">
-                  <p>{{showkerReportDesc.showkerName}}</p>
-                  <p>宝贝单价 2 元 。</p>
+                  <p>{{showkerReportDesc.task.taskName}}</p>
+                  <p>宝贝单价&nbsp;<span>{{showkerReportDesc.task.itemPrice / 100}}</span>&nbsp;元 。</p>
                 </div>
               </div>
             </div>
@@ -179,7 +179,7 @@
         api.getTrialReports(self.trialReportParams).then((res) => {
           if(res.status){
             if(res.data.content != ''){
-              for(let i = 0, j = res.data.reportList.content.length; i < j; i++){
+              for(let i = 0, j = res.data.content.length; i < j; i++){
                 res.data.content[i].trialReportImages = JSON.parse(res.data.content[i].trialReportImages);
               }
             }
@@ -216,7 +216,7 @@
         let self = this;
         self.showReportDesc = true;
         api.ShowkerReportOne({
-          id: trialReport.id,
+          id: trialReport.showkerTaskId,
           showkerId: trialReport.showkerId
         }).then((res) => {
           if(res.status){

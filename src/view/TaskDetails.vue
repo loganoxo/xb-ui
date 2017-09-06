@@ -342,11 +342,7 @@
                   }
                 }
               }else {
-                if(res.statusCode === 'already_applied'){
-                  self.$Modal.warning({
-                    content: '<p class="fs-14">亲，你已成功申请，不能二次申请</span>',
-                  });
-                }else {
+                if(res.statusCode === 'alitm_null'){
                   self.$Modal.warning({
                     content: '<p class="fs-20 f-b">亲，你还没绑定旺旺号 </p><br> <span class="fs-12">请先绑定旺旺号在申请试用!</span>',
                     okText: '去绑定旺旺号',
@@ -354,6 +350,10 @@
                     onOk: function () {
                       self.$router.push({path: '/user/personal-setting/ww-bind'});
                     }
+                  });
+                }else {
+                  self.$Modal.warning({
+                    content: '<p class="fs-14">res.msg</span>',
                   });
                 }
               }
