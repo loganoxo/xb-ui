@@ -896,6 +896,7 @@
       },
       IThink() {
         let _this = this;
+        _this.conversionPrice(_this.taskRelease.taskType);
         _this.editPriceAfterModel = false;
         _this.editPriceToLowAfterModel = false;
       },
