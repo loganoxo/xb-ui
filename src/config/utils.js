@@ -107,7 +107,7 @@ export const aliUploadImg = (key, file) => {
 }
 
 /**
- * 接口错误状态映射
+ * 任务流程状态映射
  */
 export const TaskErrorStatusList = (type) => {
   switch (type) {

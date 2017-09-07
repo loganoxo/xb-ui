@@ -524,7 +524,7 @@
         showPayModel: false,
         current: 1,
         stepName: 'information',
-        taskId:null,
+        taskPayId: null,
         itemCatalogList: [],
         mainDefaultList: [],
         appDefaultList: [],
@@ -821,6 +821,23 @@
             return;
           }
         }
+        let status = _this.taskStatus;
+        if((status === 'waiting_modify' || status === 'waiting_pay') && _this.paidDeposit === _this.orderMoney){
+          _this.$router.push({name: 'ActivitiesList'});
+          _this.taskCreate();
+        }else if((status === 'waiting_modify' || status === 'waiting_pay') && _this.paidDeposit > _this.orderMoney){
+          this.editPriceToLowAfterModel = true;
+        }else if((status === 'waiting_modify' || status === 'waiting_pay') && _this.paidDeposit > 0 && _this.paidDeposit < _this.orderMoney){
+          _this.editPriceAfterModel = true;
+          _this.priceHasChange = true;
+        }else{
+          _this.taskCreate();
+          _this.nextCurrent();
+          _this.stepName = 'deposit';
+        }
+      },
+      taskCreate() {
+        let _this = this;
         switch (_this.taskRelease.taskType) {
           case 'pc_search' :
             _this.PcTaskDetail.searchPagePrice = _this.PcTaskDetail.searchPagePrice * 100;
@@ -841,43 +858,12 @@
             _this.taskRelease.taskDetail = null;
             break;
         }
-        let status = _this.taskStatus;
-        if(status === 'waiting_modify' && _this.paidDeposit === _this.orderMoney){
-          _this.$router.push({name: 'ActivitiesList'});
-          _this.taskCreate();
-        }else if(status === 'waiting_modify' && _this.paidDeposit > _this.orderMoney){
-          this.editPriceToLowAfterModel = true;
-        }else if(status === 'waiting_modify' && _this.paidDeposit < _this.orderMoney){
-          _this.editPriceAfterModel = true;
-          _this.priceHasChange = true;
-        }else if((status === 'waiting_pay' && _this.paidDeposit > _this.orderMoney)){
-          this.editPriceToLowAfterModel = true;
-        }else{
-          _this.taskCreate();
-          _this.nextCurrent();
-          _this.stepName = 'deposit';
-        }
-      },
-      taskCreate() {
-        let _this = this;
         api.taskCreate(_this.taskRelease).then(res => {
-//          let status = _this.taskStatus;
           if (res.status) {
-            _this.taskId = res.data.id;
+            _this.taskPayId = res.data.id;
             if(!_this.taskRelease.taskId){
               _this.taskRelease.taskId = res.data.id;
             }
-           /* if(status === 'waiting_modify' && _this.paidDeposit === _this.orderMoney){
-              _this.$router.push({name: 'ActivitiesList'});
-            }else if(status === 'waiting_modify' && _this.paidDeposit > 0 && _this.paidDeposit > _this.orderMoney){
-              this.editPriceToLowAfterModel = true;
-            }else if(status === 'waiting_modify' && _this.paidDeposit > 0 && _this.paidDeposit < _this.orderMoney){
-              _this.editPriceAfterModel = true;
-              _this.priceHasChange = true;
-            }else {
-              _this.nextCurrent();
-              _this.stepName = 'deposit';
-            }*/
           } else {
             _this.$Message.error(res.msg);
             _this.conversionPrice(_this.taskRelease.taskType);
@@ -896,7 +882,6 @@
       },
       IThink() {
         let _this = this;
-        _this.conversionPrice(_this.taskRelease.taskType);
         _this.editPriceAfterModel = false;
         _this.editPriceToLowAfterModel = false;
       },
@@ -1014,7 +999,7 @@
         api.payByBalance({
           fee: _this.orderMoney,
           payPassword: pwd,
-          taskId: _this.taskId
+          taskId: _this.taskPayId
         }).then(res => {
           if(res.status){
             _this.getBalance();
