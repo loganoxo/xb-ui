@@ -37,8 +37,8 @@
               <!--<span class="fs-24">17</span> 天 <span class="fs-24">02</span> 小时 <span class="fs-24">56</span> 分钟 <span class="fs-24">31</span> 秒-->
             </p>
             <div v-if="getRole === 0">
-              <iButton v-if="!commodityData.taskApply"   size="large" class="fs-16 default-btn" long type="error" @click="applyForTrialFunc">申请试用</iButton>
-              <iButton v-if="commodityData.taskApply" disabled size="large" class="fs-16 default-btn" long >已申请</iButton>
+              <iButton v-if="commodityData.taskApply"   size="large" class="fs-16 default-btn" long type="error" @click="applyForTrialFunc">申请试用</iButton>
+              <iButton v-if="!commodityData.taskApply" disabled size="large" class="fs-16 default-btn" long >已申请</iButton>
             </div>
             <iButton v-if="getRole === 1" size="large" class="fs-16 default-btn" long type="warning" >商家号不可以参加试用</iButton>
           </div>
@@ -111,7 +111,6 @@
                       <router-link :to="{'path':'/trial-report','query':{'showkerId': detailsShowker.showkerId, 'showReportDesc': true, 'showkerTaskId': detailsShowker.showkerTaskId }}">查看全文</router-link>
                     </p>
                     <p>
-                      <!--<a v-for="trialReportImage in detailsShowker.trialReportImages"><img :src="trialReportImage" alt=""></a>-->
                       <a v-for="trialReportImage in detailsShowker.trialReportImages"   @click="trialReportPicShowFunc(trialReportImage)">
                         <img :src="trialReportImage" alt="">
                       </a>
@@ -145,14 +144,6 @@
         </div>
       </div>
     </div>
-    <Modal v-model="tryImgShow" width="600">
-      <div style="text-align:center">
-        <img  src="../assets/img/case-demo/taobao-account-demo.jpg" alt="" style="width: 100%;margin-top: 20px;">
-      </div>
-      <div slot="footer">
-
-      </div>
-    </Modal>
     <Modal
       v-model="selWw" class-name="vertical-center-modal" ok-text="确定" cancel-text="" @on-ok="selWwFunc(wwList.alitms)">
       <p class="fs-18 fb mt-20" style="color: #FF6600">请选择试用旺旺号:</p>
