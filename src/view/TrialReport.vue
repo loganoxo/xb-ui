@@ -170,8 +170,16 @@
       }
     },
     created(){
-      if(this.$route.query.showkerId){
-        this.trialReportParams.showkerId = this.$route.query.showkerId;
+      let self = this;
+      if(self.$route.query.showkerId){
+        self.trialReportParams.showkerId = self.$route.query.showkerId;
+      }
+      if(self.$route.query.showReportDesc){
+        let trialReport = {
+          showkerTaskId: self.$route.query.showkerTaskId,
+          showkerId: self.$route.query.showkerId
+        };
+        self.showReportDescFunc(trialReport);
       }
       this.getTrialReports();
       this.getTrialDetail();

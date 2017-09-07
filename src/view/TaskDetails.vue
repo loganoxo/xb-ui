@@ -108,7 +108,7 @@
                     <p>发表于{{detailsShowker.createTime | dateFormat('YYYY-MM-DD hh-mm-ss')}}</p>
                     <p class="text">
                       {{detailsShowker.trialReportText}}
-                      <a href="">查看全文</a>
+                      <router-link :to="{'path':'/trial-report','query':{'showkerId': detailsShowker.showkerId, 'showReportDesc': true, 'showkerTaskId': detailsShowker.showkerTaskId }}">查看全文</router-link>
                     </p>
                     <p>
                       <!--<a v-for="trialReportImage in detailsShowker.trialReportImages"><img :src="trialReportImage" alt=""></a>-->
