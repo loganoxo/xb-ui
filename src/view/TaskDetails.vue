@@ -37,8 +37,8 @@
               <!--<span class="fs-24">17</span> 天 <span class="fs-24">02</span> 小时 <span class="fs-24">56</span> 分钟 <span class="fs-24">31</span> 秒-->
             </p>
             <div v-if="getRole === 0">
-              <iButton v-if="commodityData.taskApply"   size="large" class="fs-16 default-btn" long type="error" @click="applyForTrialFunc">申请试用</iButton>
-              <iButton v-if="!commodityData.taskApply" disabled size="large" class="fs-16 default-btn" long >已申请</iButton>
+              <iButton v-show="!commodityData.taskApply"   size="large" class="fs-16 default-btn" long type="error" @click="applyForTrialFunc">申请试用</iButton>
+              <iButton v-show="commodityData.taskApply" disabled size="large" class="fs-16 default-btn" long >已申请</iButton>
             </div>
             <iButton v-if="getRole === 1" size="large" class="fs-16 default-btn" long type="warning" >商家号不可以参加试用</iButton>
           </div>
