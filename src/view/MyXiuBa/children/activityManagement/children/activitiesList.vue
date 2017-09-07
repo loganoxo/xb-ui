@@ -210,7 +210,7 @@
         'getBalance'
       ]),
       editTask(id,status) {
-        this.$router.push({name: 'TaskReleaseProcess', query: {taskId: id, status: status}})
+        this.$router.push({name: 'TaskReleaseProcess', query: {taskId: id}})
       },
       copyTask(id) {
         this.$router.push({name: 'TaskReleaseProcess', query: {taskId: id, type: 'copy'}})

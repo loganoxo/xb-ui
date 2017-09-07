@@ -121,7 +121,7 @@ export const TaskErrorStatusList = (type) => {
       return "订单号有误";
       break;
     case "trial_report_waiting_submit":
-      return "待提交试用报告";
+      return "已下单待交试用报告";
       break;
     case "trial_report_waiting_confirm":
       return "试用报告待确认";

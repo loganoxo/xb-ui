@@ -21,7 +21,7 @@
              <span>已下订单待交试用报告</span>
            </Checkbox>
            <Checkbox label="trial_report_waiting_confirm">
-             <span>报告待确认</span>
+             <span>试用报告待确认</span>
            </Checkbox>
            <Checkbox label="trial_finished">
              <span>试用完成</span>
@@ -83,14 +83,16 @@
                <p v-if="item.status !== 'trial_finished'"><time-down color='#ff4040' :fontWeight=600 :endTime="item.currentGenerationEndTime"></time-down></p>
              </div>
              <p class="mt-5 main-color cursor-p" v-if="item.status === 'order_num_error'">
-               <Tooltip :content="getTaskStatus(item.auditDescription)" placement="top">
+               <Tooltip :content="item.auditDescription" placement="top">
                  <Icon color="#f60" type="information-circled"></Icon>
                  <span>订单号有误</span>
                </Tooltip>
              </p>
              <p class="mt-5 main-color" v-if="item.status === 'trial_report_unqualified'">
-               <Icon color="#f60" type="information-circled"></Icon>
-               <span>报告不合格</span>
+               <Tooltip :content="item.auditDescription" placement="top">
+                 <Icon color="#f60" type="information-circled"></Icon>
+                 <span>报告不合格</span>
+               </Tooltip>
              </p>
              <p class="mt-5 main-color cursor-p" v-if="item.status === 'trial_end'">
                <Tooltip :content="getTaskStatus(item.trialEndReason)" placement="top">
@@ -471,12 +473,13 @@
         let _this = this;
         api.showkerSuccessList({
           selectStatus: _this.selectStatus,
+          orderNum: _this.orderNumber,
           searchValue: _this.searchValue,
-          pageIndex: _this.pageIndex,
           auditTimeStart: _this.auditTimeStart,
           auditTimeEnd: _this.auditTimeEnd,
-          pageSize: 5,
           statusList: JSON.stringify(_this.checkPassList),
+          pageSize: 5,
+          pageIndex: _this.pageIndex,
         }).then(res => {
           if (res.status) {
             _this.applySuccessList = [];

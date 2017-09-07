@@ -576,7 +576,9 @@
         editPriceAfterModel:false,
         editPriceToLowAfterModel:false,
         priceHasChange:false,
-        paidDeposit:null
+        paidDeposit:0,
+        taskStatus:null,
+        editTaskId:null,
       }
     },
     mounted() {
@@ -594,7 +596,8 @@
       this.getItemCatalog();
       let taskId = this.$route.query.taskId;
       if (taskId) {
-        this.getTaskInfo(taskId);
+        this.editTaskId = taskId;
+        this.getTaskInfo();
       }
     },
     computed: {
@@ -838,28 +841,43 @@
             _this.taskRelease.taskDetail = null;
             break;
         }
-        _this.taskCreate();
+        let status = _this.taskStatus;
+        if(status === 'waiting_modify' && _this.paidDeposit === _this.orderMoney){
+          _this.$router.push({name: 'ActivitiesList'});
+          _this.taskCreate();
+        }else if(status === 'waiting_modify' && _this.paidDeposit > _this.orderMoney){
+          this.editPriceToLowAfterModel = true;
+        }else if(status === 'waiting_modify' && _this.paidDeposit < _this.orderMoney){
+          _this.editPriceAfterModel = true;
+          _this.priceHasChange = true;
+        }else if((status === 'waiting_pay' && _this.paidDeposit > _this.orderMoney)){
+          this.editPriceToLowAfterModel = true;
+        }else{
+          _this.taskCreate();
+          _this.nextCurrent();
+          _this.stepName = 'deposit';
+        }
       },
       taskCreate() {
         let _this = this;
         api.taskCreate(_this.taskRelease).then(res => {
-          let status = _this.$route.query.status;
+//          let status = _this.taskStatus;
           if (res.status) {
             _this.taskId = res.data.id;
             if(!_this.taskRelease.taskId){
               _this.taskRelease.taskId = res.data.id;
             }
-            if((status === 'waiting_modify' || status === 'waiting_pay') && _this.paidDeposit === _this.orderMoney){
+           /* if(status === 'waiting_modify' && _this.paidDeposit === _this.orderMoney){
               _this.$router.push({name: 'ActivitiesList'});
-            }else if((status === 'waiting_modify' || status === 'waiting_pay') && _this.paidDeposit > 0 && _this.paidDeposit > _this.orderMoney){
+            }else if(status === 'waiting_modify' && _this.paidDeposit > 0 && _this.paidDeposit > _this.orderMoney){
               this.editPriceToLowAfterModel = true;
-            }else if((status === 'waiting_modify' || status === 'waiting_pay') && _this.paidDeposit > 0 && _this.paidDeposit < _this.orderMoney){
+            }else if(status === 'waiting_modify' && _this.paidDeposit > 0 && _this.paidDeposit < _this.orderMoney){
               _this.editPriceAfterModel = true;
               _this.priceHasChange = true;
-            }else if(!status || (status === 'waiting_pay' && _this.paidDeposit === 0)){
+            }else {
               _this.nextCurrent();
               _this.stepName = 'deposit';
-            }
+            }*/
           } else {
             _this.$Message.error(res.msg);
             _this.conversionPrice(_this.taskRelease.taskType);
@@ -868,36 +886,45 @@
       },
       returnUpStep() {
         let _this = this;
+        _this.getTaskInfo();
+        _this.conversionPrice(_this.taskRelease.taskType);
         _this.stepName = 'information';
         _this.current = 1;
-        _this.conversionPrice(_this.taskRelease.taskType);
       },
       nextCurrent() {
         this.current += 1;
       },
       IThink() {
-        this.editPriceAfterModel = false;
-        this.editPriceToLowAfterModel = false;
+        let _this = this;
+        _this.editPriceAfterModel = false;
+        _this.editPriceToLowAfterModel = false;
       },
       continueNextStep() {
-        this.editPriceAfterModel = false;
-        this.nextCurrent();
-        this.stepName = 'deposit';
+        let _this = this;
+        _this.taskCreate();
+        _this.editPriceAfterModel = false;
+        _this.nextCurrent();
+        _this.stepName = 'deposit';
       },
       toLowContinueNextStep() {
+        this.taskCreate();
         this.$router.push({name: 'ActivitiesList'});
       },
-      getTaskInfo(taskId) {
+      getTaskInfo() {
         let _this = this;
         let type = _this.$route.query.type;
         api.getTaskInfo({
-          taskId: taskId
+          taskId: _this.editTaskId
         }).then(res => {
           if (res.status) {
+            _this.mainDefaultList = [];
+            _this.pcDefaultList = [];
+            _this.appDefaultList = [];
             if(!type){
               _this.taskRelease.taskId = res.data.id;
             }
-            _this.paidDeposit = res.data.marginPaid / 100 + res.data.promotionExpensesPaid / 100;
+            _this.paidDeposit = (res.data.marginPaid + res.data.promotionExpensesPaid) / 100 || 0;
+            _this.taskStatus = res.data.taskStatus;
             _this.mainDefaultList.push({src: res.data.taskMainImage});
             res.data.pinkage = res.data.pinkage.toString();
             _this.taskRelease.itemType = res.data.itemCatalog.id;

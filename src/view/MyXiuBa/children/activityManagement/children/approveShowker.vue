@@ -94,7 +94,7 @@
                   <span>已下订单待交试用报告</span>
                 </Checkbox>
                 <Checkbox label="trial_report_waiting_confirm">
-                  <span>报告待确认</span>
+                  <span>试用报告待确认</span>
                 </Checkbox>
                 <Checkbox label="trial_finished">
                   <span>试用完成</span>

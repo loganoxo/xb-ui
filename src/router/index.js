@@ -27,7 +27,6 @@ const PersonalAccountInfo = r => require.ensure([], () => r(require('@/view/MyXi
 const WwBind = r => require.ensure([], () => r(require('@/view/MyXiuBa/children/personalSetting/children/WwBind.vue')), 'PersonalSetting');
 const Verfied = r => require.ensure([], () => r(require('@/view/MyXiuBa/children/personalSetting/children/Verfied.vue')), 'PersonalSetting');
 
-
 const MyTrialReport = r => require.ensure([], () => r(require('@/view/MyXiuBa/children/MyTrialReport.vue')), 'MyTrialReport');
 
 const MoneyManagement = r => require.ensure([], () => r(require('../view/MyXiuBa/children/moneyManagement/index.vue')), 'MoneyManagement');
