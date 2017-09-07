@@ -33,8 +33,8 @@
       <iButton class="ibtn" @click="getTradListAll(transactType)">筛选</iButton>
       <div class="mt-22 line"></div>
       <div class="transaction-amount">
-        <span>收入：<span style="color: #2F962F;">{{typechang(userAccount.amountIncomes)||0}}</span>元</span>
-        <span class="ml-20">支出：<span style="color: #FF0E0E;">{{userAccount.amountPayment||0}}</span>元</span>
+        <span>收入：<span style="color: #2F962F;">{{typechang(userAccount.amountIncomes/100)||0}}</span>元</span>
+        <span class="ml-20">支出：<span style="color: #FF0E0E;">{{userAccount.amountPayment>0?'-'+userAccount.amountPayment/100:userAccount.amountPayment/100||0}}</span>元</span>
       </div>
       <div class="personal-list-table mt-10">
         <table class="list-table">
@@ -85,11 +85,11 @@
                     <p>{{getTradType(item.tradName)}}</p>
                     <p>活动编号：{{item.showerTaskSerial||'无'}}</p>
                   </td>
-                  <td>
+                  <td class="main-color">
                     {{typechang(item.tradAmount/100)||0}}
                   </td>
                 </tr>
-                <tr v-show="tbodyDetails.changeName === '商家支付活动交易记录'">
+                <tr v-show="tbodyDetails.changeName === '商家支付活动交易记录'||tbodyDetails.changeName ==='商家活动交易记录'">
                   <td colspan="4">
                     <Button @click="modal1 = true;taskNumber = tbodyDetails.taskSerialNum ;getDepositReturnList(tbodyDetails.taskId)" class="theSpecialBtn">查看任务担保金支出明细</Button>
                     <Modal
@@ -119,7 +119,7 @@
                               <p>{{getTradType(item.tradName)}}</p>
                               <p>任务编号：{{item.showkerSerial||'无'}}</p>
                             </td>
-                            <td>
+                            <td class="main-color">
                               {{typechang(item.tradAmount/100)||0}}
                             </td>
                           </tr>
@@ -178,8 +178,10 @@
       <iButton class="ibtn" @click="getTradListAll(transactType)">筛选</iButton>
       <div class="mt-22 line"></div>
       <div class="transaction-amount">
-        <span>收入：<span style="color: #2F962F;">{{userAccount.amountIncomes||0}}</span>元</span>
-        <span class="ml-20">支出：<span style="color: #FF6161;">{{userAccount.amountPayment||0}}</span>元</span>
+        <span>收入：<span style="color: #2F962F;">{{typechang(userAccount.amountIncomes/100)||0}}</span>元</span>
+        <span class="ml-20">支出：<span style="color: #FF0E0E;">
+          {{userAccount.amountPayment>0?'-'+userAccount.amountPayment/100:userAccount.amountPayment/100||0}}
+        </span>元</span>
       </div>
       <div class="personal-list-table mt-10">
         <table class="list-table">
@@ -230,7 +232,7 @@
                     <p>{{getTradType(item.tradName)}}</p>
                     <p>活动编号：11113244325324</p>
                   </td>
-                  <td>
+                  <td class="main-color">
                     {{typechang(item.tradAmount/100)||0}}
                   </td>
                 </tr>
@@ -337,12 +339,15 @@
     },
     created() {
       let taskNumber = this.$route.query.taskNumber;
+      let activeTyep = this.$route.query.activeType;
       this.getUserAccount();
       if(taskNumber){
         this.activityNumber = taskNumber;
         this.getTradListAll();
-      }else{
-        this.getTradListAll([0,1,2]);
+      }else if(activeTyep){
+        this.getTradListAll([1]);
+      }else {
+        this.getTradListAll([]);
       }
     },
     computed: {

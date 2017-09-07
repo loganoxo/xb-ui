@@ -21,7 +21,7 @@
               {{userList.phone}}
             </li>
             <li class="three">
-              <a href="javascript:;">去设置</a>
+              <a href="javascript:;"></a>
             </li>
           </ul>
         </li>

@@ -1,14 +1,14 @@
 <template>
   <div>
-    <iButton :href="url" @click="payPopWindow = true">提交</iButton>
     <Modal v-model="payPopWindow" width="360"
-           :styles="{top:'310px',height:'300px'}">
+           :styles="{top:'310px'}"
+           :closable ='false'>
       <div style="text-align:center">
         <p>请前往充值页面进行充值</p>
       </div>
       <div slot="footer">
         <iButton type="success" style="width: 150px;" @click="success" >已完成充值</iButton>
-        <iButton type="error" style="width: 150px;"   @click="del">充值遇到问题</iButton>
+        <iButton type="error" style="width: 150px;"   @click="wrong">充值遇到问题</iButton>
       </div>
     </Modal>
   </div>
@@ -28,11 +28,25 @@
       ButtonGroup: Button.Group,
       Modal: Modal,
     },
-    props:['url'],
+    props: {
+      payPopWindows: {
+        type: Boolean,
+        required: true
+       }
+      },
     data () {
       return {
-        payPopWindow:false
+        payPopWindow:true
       }
+    },
+    computed:{
+      getUserBalance: function () {
+        return this.$store.state.userBalance
+      }
+    },
+    created(){
+//        console.log(this.payPopWindows)
+        this.payPopWindow =this.payPopWindows
     },
     methods:{
       ...mapActions([
@@ -41,9 +55,11 @@
       success(){
         this.getBalance();
         this.payPopWindow = false;
+        this.$emit('request',this.payPopWindow);
       },
-      del () {
+      wrong () {
         this.payPopWindow = false;
+        this.$emit('request',this.payPopWindow);
       }
     }
   }

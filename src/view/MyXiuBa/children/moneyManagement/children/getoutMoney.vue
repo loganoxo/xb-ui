@@ -2,7 +2,7 @@
   <div class="my-getoutmoney" >
     <div class="not-certification" v-show="changeBankIDcardShow.iScertification">
       <h2><Icon type="close-circled" class="mr-10 vtc-mid icon"></Icon>很抱歉，您未进行实名认证，无法提现</h2>
-      <div class="how-todo"><span>你现在可以：</span><router-link to="/user/personal-setting" class="ml-10">立即申请实名认证</router-link ><span class="ml-10 mr-10">|</span><a class="ml-10">查看如何进行实名认证</a> </div>
+      <div class="how-todo"><span>你现在可以：</span><router-link to="/user/personal-setting/verified" class="ml-10">立即申请实名认证</router-link ><span class="ml-10 mr-10">|</span><a class="ml-10">查看如何进行实名认证</a> </div>
     </div>
     <div class="bound-bankcard" v-show="changeBankIDcardShow.iSbondBankCard">
       <div class="bankcard-title"><Icon class="icon vtc-btm" type="information-circled" ></Icon><span class="ml-10">请先绑定银行卡，再进行提现操作</span></div>
@@ -134,14 +134,14 @@
             <td>
               {{item.serialNumber}}
             </td>
-            <td >{{item.enCashMoney}}</td>
+            <td >{{item.enCashMoney/100}}</td>
             <td>
-              {{item.poundage}}
+              {{item.poundage/100}}
             </td>
             <td class="main-color">
               {{getTradType(item.state)}}
             </td>
-            <td> <p style="color:blue;" class="detailsSpc" @click="getMoneyShowDetailsFun(item.id)" >详情</p></td>
+            <td> <p style="color:blue;" class="detailsSpc" @click="getMoneyShowDetailsFun(item.id)" >详情<Icon :type="getMoneyShowDetails===item.id?'arrow-up-b':'arrow-down-b'" class="ml-5 "></Icon></p></td>
           </tr>
           <tr v-show="getMoneyShowDetails===item.id" >
             <td colspan="6" style="padding: 0px;">
@@ -164,12 +164,12 @@
                     {{item.bankCardNum}}
                   </td>
                   <td>
-                    {{item.enCashMoney}}
+                    {{typechang(item.enCashMoney/100)}}
                   </td>
                   <td>
-                    {{item.poundage}}
+                    {{'-'+item.poundage/100}}
                   </td>
-                  <td>{{item.realAmount}}</td>
+                  <td>{{typechang(item.realAmount/100)}}</td>
                 </tr>
                 </tbody>
               </table>
@@ -183,7 +183,7 @@
       <h2>常见问题</h2>
       <div class="mt-10">
         <p>提现</p>
-        <p>1、最低提现金额1元，手续费01%，每天提现次数不限</p>
+        <p>1、最低提现金额1元，手续费1%，每天提现次数不限</p>
         <p>2、当日12:00-当日18:00间申请提现的，在当日18:00处理，当日18:00-次日12:00间申请提现的，在次日12:00处理。</p>
       </div>
     </div>
@@ -412,7 +412,6 @@
     },
     created() {
       if(this.$route.query.bandCard === 'bandCard'){
-        alert(111)
         for (let k in  this.changeBankIDcardShow) {
           this.changeBankIDcardShow[k]=k==='bondBankCard';
         }
@@ -431,6 +430,13 @@
       ...mapActions([
         'getBalance'
       ]),
+      //在金额为正前加+
+      typechang(num){
+        if (num > 0){
+          num = '+'+num;
+        }
+        return num
+      },
       seyPassword(){
         if(this.psw==='password'){
           this.psw = 'text';

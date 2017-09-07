@@ -2,7 +2,7 @@
   <div class="my-pay">
     <div class="clear my-pay-top">
       <span class="left">当前可用余额<span style="color:red ">{{getUserBalance}}</span>元</span>
-      <span class="right cursor-p" style="color: blue;">查看充值记录</span>
+      <router-link :to="{'path':'/user/money-management/transaction-record',query:{'activeType':1}}" class="right cursor-p" style="color: blue;">查看充值记录</router-link>
     </div>
     <div class="my-pay-desc">
       <iForm :model="payMoney" :label-width="200" :rules="payMoneyRule">
@@ -23,15 +23,18 @@
         <Form-item>
           <iButton  class="payMoneyBtn" @click="payPopWindow = true;balanceOrderCreate(payMoney,getUserInfo)">提交</iButton>
           <Modal v-model="payPopWindow" width="360"
-                 :styles="{top:'310px',height:'300px'}">
-              <div style="text-align:center">
+            :styles="{top:'310px',height:'300px'}">
+            <div style="text-align:center">
               <p>请前往充值页面进行充值</p>
             </div>
             <div slot="footer">
               <iButton type="success" style="width: 150px;" @click="success" >已完成充值</iButton>
-              <iButton type="error" style="width: 150px;"   @click="del">充值遇到问题</iButton>
-            </div>
+              <iButton type="error" style="width: 150px;"   @click="wrong">充值遇到问题</iButton>
+          </div>
           </Modal>
+         <!--<div v-if="payPopWindow">-->
+           <!--<PopUpWindows v-on:request="hideWindow" :payPopWindows="payPopWindow"></PopUpWindows>-->
+         <!--</div>-->
         </Form-item>
       </iForm>
     </div>
@@ -157,16 +160,17 @@
       ...mapActions([
         'getBalance'
       ]),
+      hideWindow(data){
+        this.payPopWindow = data
+      },
       success(){
         this.getBalance();
         this.payPopWindow = false;
+        this.$router.go(0);
+        this.payMoney.number = '';
       },
-      del () {
-        this.modal_loading = true;
-        setTimeout(() => {
-          this.modal_loading = false;
-          this.payPopWindow = false;
-        }, 1000);
+      wrong () {
+        this.payPopWindow = false;
       },
 
       seyPassword() {

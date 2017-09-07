@@ -39,7 +39,6 @@
       <div class="trading-record ">
         <ul class="clear">
           <li>最近交易记录</li>
-          <!--<li><a href="javascript:;" @click="getTradList([])">全部</a></li>-->
           <li v-for="(item ,index) in lis ">
             <a href="javascript:;" :class="{lisColor:iSelect === item.isSelect}"
                @click="getTradList(index===0?[]:[index-1]),changeLiColor(item.isSelect)">{{item.text}}</a>
@@ -95,8 +94,8 @@
                     <p>{{getTradType(item.tradName)}}</p>
                     <p>活动编号：11113244325324</p>
                   </td>
-                  <td>
-                    {{item.tradAmount||0}}
+                  <td class="main-color">
+                    {{item.tradAmount/100||0}}
                   </td>
                 </tr>
                 <tr v-show="showNotice"><td colspan="4" style="color:red;font-size: 14px;">暂无数据！</td></tr>
@@ -134,9 +133,6 @@
             日，会在星期二24：00前处理，当然啦，如果遇到节假日，那节假日是不算在工作日里的</p>
         </div>
       </div>
-      <router-link
-        :to="{'path':'/user/money-management/account-management','query':{'type':'resetPwd'}}"
-        class="cursor-p" style="color: #78BAFF">重置支付密码</router-link>。
     </div>
 </template>
 <script>

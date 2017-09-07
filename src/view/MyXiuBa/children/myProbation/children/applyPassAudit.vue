@@ -269,9 +269,15 @@
        <p class="mt-20 ml-45">
          <span>请输入订单号：</span>
          <iInput v-model="affirmOrderNumber" style="width: 300px;"></iInput>
-         <Tooltip class="ml-5 cursor-p" content="Top Center 文字提示" placement="top">
-           <span>什么是订单号？</span>
-         </Tooltip>
+         <!--<Tooltip class="ml-5 cursor-p" content="Top Center 文字提示" placement="top">-->
+           <!--<span>什么是订单号？</span>-->
+         <!--</Tooltip>-->
+         <iButton @click="orderImg = true">什么是订单号？</iButton>
+         <Modal v-model="orderImg" width="500">
+            <div style="text-align:center">
+              <img src="~assets/img/order-number/order_pc.png" alt="">
+             </div>
+          </Modal>
        </p>
        <p class="mt-20 ml-35">
          <span>请输入实付金额：</span>
@@ -298,6 +304,8 @@
   import api from '@/config/apiConfig'
   import {aliCallbackImgUrl} from '@/config/env'
   import {TaskErrorStatusList, isNumber} from '@/config/utils'
+  import Modal from 'iview/src/components/modal'
+
 
   export default {
     name: 'ApplyPassAudit',
@@ -314,7 +322,9 @@
       DatePicker: DatePicker,
       Tooltip: Tooltip,
       Upload: Upload,
-      TimeDown: TimeDown
+      TimeDown: TimeDown,
+      Modal: Modal
+
     },
     data() {
       return {
@@ -353,6 +363,7 @@
         trialReportText: null,
         reportInfo: {},
         defaultImageList: [],
+        orderImg:false
       }
     },
     mounted() {},
