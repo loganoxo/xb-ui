@@ -162,12 +162,8 @@
         提交申请成功，请耐心等待商家审核
       </p>
       <div slot="footer" class="text-ct">
-        <iButton type="error" size="large" class="mr-40">
-          <router-link to="/user/my-probation/wait" style="color: #fff">看看我申请的宝贝</router-link>
-        </iButton>
-        <iButton type="error" size="large">
-          <a href="" style="color: #fff">好的，明白了</a>
-        </iButton>
+        <router-link class="ivu-btn ivu-btn-error ivu-btn-large mr-40" to="/user/my-probation/wait" style="color: #fff">看看我申请的宝贝</router-link>
+        <a href="" class="ivu-btn ivu-btn-error ivu-btn-large" style="color: #fff">好的，明白了</a>
       </div>
     </Modal>
     <Modal v-model="trialReportPicShow" width="600">
