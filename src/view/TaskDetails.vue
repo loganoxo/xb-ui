@@ -397,8 +397,8 @@
         api.getTaskDetails({taskId: self.$route.query.taskId}).then((res) => {
           if(res.status){
             this.commodityData = res.data;
-            this.graphicInfoSels[1].num = res.data.trailDone;
-            this.graphicInfoSels[2].num = res.data.task.showkerApplySuccessCount;
+            parseInt(res.data.trailDone) ? this.graphicInfoSels[1].num = res.data.trailDone : this.graphicInfoSels[1].num = 0;
+            parseInt(res.data.task.showkerApplySuccessCount) ? this.graphicInfoSels[2].num = res.data.task.showkerApplySuccessCount : this.graphicInfoSels[2].num = 0;
           }else {
             self.$Modal.error({
               content: res.msg,
@@ -442,9 +442,6 @@
           });
         }
 
-      },
-      tryImgShowFunc(){
-        this.tryImgShow = true;
       },
       graphicSelFunc(graphicSel){
         this.graphicInfoSelClass = graphicSel.isClass;
