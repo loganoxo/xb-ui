@@ -59,11 +59,11 @@
               <ul>
                 <li class="one">支付密码</li>
                 <li class="two">
-                  未设置
-                  <span>(同登录密码)</span>
+                  <span v-if="!userData.userAccount.ifEditPwdAlready">未设置(初始密码888888)</span>
+                  <span v-if="userData.userAccount.ifEditPwdAlready">已设置</span>
                 </li>
                 <li class="three">
-                  <a href="">去设置</a>
+                  <router-link to="/user/money-management/account-management?infoSelect=accountInfo">去设置</router-link>
                 </li>
               </ul>
             </li>
@@ -73,11 +73,11 @@
                   提现账号
                 </li>
                 <li class="two">
-                  未设置
-                  <span>(同登录密码)</span>
+                  <span v-if="!userData.ifBandingBankCard">未设置</span>
+                  <span v-if="userData.ifBandingBankCard">已设置</span>
                 </li>
                 <li class="three">
-                  <a href="">去设置</a>
+                  <router-link to="/user/money-management/getout-money">去设置</router-link>
                 </li>
               </ul>
             </li>
@@ -229,7 +229,7 @@
   import Alert from 'iview/src/components/alert'
   import SmsCountdown from '@/components/SmsCountdown'
   export default {
-    name: 'personalAccountInfo',
+    name: 'ersonalAccountInfo',
     components: {
       iInput: Input,
       iForm: Form,

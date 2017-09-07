@@ -111,8 +111,12 @@
                       <a href="">查看全文</a>
                     </p>
                     <p>
-                      <a v-for="trialReportImage in detailsShowker.trialReportImages"><img :src="trialReportImage" alt=""></a>
+                      <!--<a v-for="trialReportImage in detailsShowker.trialReportImages"><img :src="trialReportImage" alt=""></a>-->
+                      <a v-for="trialReportImage in detailsShowker.trialReportImages"   @click="trialReportPicShowFunc(trialReportImage)">
+                        <img :src="trialReportImage" alt="">
+                      </a>
                     </p>
+
                   </div>
                 </li>
               </ul>
@@ -129,7 +133,7 @@
               </div>
             </div>
             <div v-show="graphicInfoSelClass == 'audited'" class="graphic-audited-buyer">
-              <router-link :to="{ 'path': '/trial-report','query': {'showkerId': detailsSuccessShowker.id}}" :key="detailsSuccessShowker.id" v-show="detailsSuccessShowkerList.length > 0 "  v-for="detailsSuccessShowker in detailsSuccessShowkerList">
+              <router-link :to="{ 'path': '/trial-report','query': {'showkerId': detailsSuccessShowker.showkerId}}" :key="detailsSuccessShowker.id" v-show="detailsSuccessShowkerList.length > 0 "  v-for="detailsSuccessShowker in detailsSuccessShowkerList">
                 <img :src="detailsSuccessShowker.showkerPortraitPic" width="68px" alt="">
                 <p class="cl000">{{detailsSuccessShowker.showkerPhone}}</p>
               </router-link>
@@ -175,6 +179,13 @@
         </iButton>
       </div>
     </Modal>
+    <Modal v-model="trialReportPicShow" width="600">
+      <div style="text-align:center">
+        <img :src="trialReportPic" alt="" style="width: 100%;margin-top: 20px;">
+      </div>
+      <div slot="footer">
+      </div>
+    </Modal>
   </div>
 
 </template>
@@ -218,6 +229,8 @@
     },
     data () {
       return {
+        trialReportPicShow: false,
+        trialReportPic: '',
         selWw: false,
         selectedWw: '',
         wwList: {},
@@ -453,7 +466,11 @@
       pageChange(data){
         this.detailsShowkerParams.pageIndex = data;
         this.getDetailsShowkerList();
-      }
+      },
+      trialReportPicShowFunc(trialReportImage){
+        this.trialReportPicShow = true;
+        this.trialReportPic = trialReportImage;
+      },
     },
     watch: {
       '$route' (to, from) {

@@ -34,7 +34,7 @@
                      <a @click="showReportDescFunc(trialReport)">查看全文</a>
                     </p>
                     <p>
-                      <a v-for="trialReportImage in trialReport.trialReportImages">
+                      <a v-for="(trialReportImage,index) in trialReport.trialReportImages"   @click="trialReportPicShowFunc(trialReportImage)">
                         <img :src="trialReportImage" alt="">
                       </a>
                     </p>
@@ -79,7 +79,7 @@
                           :dots="setting.dots"
                           :trigger="setting.trigger"
                           :arrow="setting.arrow">
-                  <Carousel-item v-for="trialReportImage in showkerReportDesc.trialReportImages" :key="trialReportImage.id">
+                  <Carousel-item v-for="trialReportImage in showkerReportDesc.trialReportImages" :key="trialReportImage">
                     <img class="block mg-at" :src="trialReportImage" alt="" width="700px">
                   </Carousel-item>
                 </Carousel>
@@ -89,7 +89,13 @@
         </div>
       </div>
     </div>
-
+    <Modal v-model="trialReportPicShow" width="600">
+      <div style="text-align:center">
+        <img :src="trialReportPic" alt="" style="width: 100%;margin-top: 20px;">
+      </div>
+      <div slot="footer">
+      </div>
+    </Modal>
   </div>
 
 </template>
@@ -137,6 +143,8 @@
     },
     data () {
       return {
+        trialReportPicShow: false,
+        trialReportPic: '',
         applyCount: '',
         applySuccessCount: '',
         value3: 0,
@@ -207,6 +215,10 @@
             });
           }
         })
+      },
+      trialReportPicShowFunc(trialReportImage){
+        this.trialReportPicShow = true;
+        this.trialReportPic = trialReportImage;
       },
       pageChange(data){
         this.trialReportParams.pageIndex = data;
