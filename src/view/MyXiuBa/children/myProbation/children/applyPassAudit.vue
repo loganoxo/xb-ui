@@ -273,7 +273,7 @@
            <!--<span>什么是订单号？</span>-->
          <!--</Tooltip>-->
          <iButton @click="orderImg = true">什么是订单号？</iButton>
-         <Modal v-model="orderImg" width="500">
+         <Modal v-model="orderImg" width="1380">
             <div style="text-align:center">
               <img src="~assets/img/order-number/order_pc.png" alt="">
              </div>

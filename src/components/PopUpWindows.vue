@@ -8,7 +8,7 @@
       </div>
       <div slot="footer">
         <iButton type="success" style="width: 150px;" @click="success" >已完成充值</iButton>
-        <iButton type="error" style="width: 150px;"   @click="wrong">充值遇到问题</iButton>
+        <iButton type="error" style="width: 150px;"   @click="error">充值遇到问题</iButton>
       </div>
     </Modal>
   </div>
@@ -45,7 +45,6 @@
       }
     },
     created(){
-//        console.log(this.payPopWindows)
         this.payPopWindow =this.payPopWindows
     },
     methods:{
@@ -57,7 +56,7 @@
         this.payPopWindow = false;
         this.$emit('request',this.payPopWindow);
       },
-      wrong () {
+      error () {
         this.payPopWindow = false;
         this.$emit('request',this.payPopWindow);
       }

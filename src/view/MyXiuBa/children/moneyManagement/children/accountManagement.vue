@@ -368,7 +368,8 @@
         myAccountSon:{
           selBox:true,
           selDefaultModify:false,
-          selPhoneModify:false
+          selPhoneModify:false,
+          modifyPwd:false,
         },
         getbankCardInformation:{},
         applyGetout:{},
@@ -460,6 +461,7 @@
           smsCode: self.payCustom.smsCode,
         }).then((res) => {
           if(res.status){
+            debugger
             self.myAccountPwdChangeSon('modifyPwd');
           }else {
             self.$Modal.error({
