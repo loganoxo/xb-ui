@@ -33,8 +33,8 @@
       <iButton class="ibtn" @click="getTradListAll(transactType)">筛选</iButton>
       <div class="mt-22 line"></div>
       <div class="transaction-amount">
-        <span>收入：<span style="color: #2F962F;">{{typechang(userAccount.amountIncomes/100)||0}}</span>元</span>
-        <span class="ml-20">支出：<span style="color: #FF0E0E;">{{userAccount.amountPayment>0?'-'+userAccount.amountPayment/100:userAccount.amountPayment/100||0}}</span>元</span>
+        <span>收入：<span style="color: #2F962F;">{{typechang(accountIncomes/100)||0}}</span>元</span>
+        <span class="ml-20">支出：<span style="color: #FF0E0E;">{{accountPayout/100||0}}</span>元</span>
       </div>
       <div class="personal-list-table mt-10">
         <table class="list-table">
@@ -120,7 +120,7 @@
                               <p>任务编号：{{item.showkerSerial||'无'}}</p>
                             </td>
                             <td class="main-color">
-                              {{typechang(item.tradAmount/100)||0}}
+                              {{'-'+item.tradAmount/100||0}}
                             </td>
                           </tr>
 
@@ -178,9 +178,9 @@
       <iButton class="ibtn" @click="getTradListAll(transactType)">筛选</iButton>
       <div class="mt-22 line"></div>
       <div class="transaction-amount">
-        <span>收入：<span style="color: #2F962F;">{{typechang(userAccount.amountIncomes/100)||0}}</span>元</span>
+        <span>收入：<span style="color: #2F962F;">{{typechang(accountIncomes/100)||0}}</span>元</span>
         <span class="ml-20">支出：<span style="color: #FF0E0E;">
-          {{userAccount.amountPayment>0?'-'+userAccount.amountPayment/100:userAccount.amountPayment/100||0}}
+          {{accountPayout/100||0}}
         </span>元</span>
       </div>
       <div class="personal-list-table mt-10">
@@ -331,7 +331,9 @@
         taskNumber:'',
         totalPages:1,
         pageSize:10,
-        pageIndex:0
+        pageIndex:0,
+        accountIncomes:0,
+        accountPayout:0
       }
     },
     mounted() {
@@ -407,8 +409,11 @@
           size:_this.pageSize
         }).then(res => {
           if (res.status) {
-            _this.totalPages = res.data.totalPages;
-            _this.myTableDetailsAll = res.data.content;
+            _this.totalPages = res.data.tradPage.totalPages;
+            _this.myTableDetailsAll = res.data.tradPage.content;
+            _this.accountIncomes = res.data.income;
+            _this.accountPayout = res.data.expense;
+
             _this.showBigNoticeAll = _this.myTableDetailsAll.length === 0;
 
           } else {

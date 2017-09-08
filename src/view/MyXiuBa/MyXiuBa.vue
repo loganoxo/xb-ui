@@ -24,9 +24,9 @@
                 <Icon type="social-yen"></Icon>
                 <router-link to="/user/money-management/account-info">资金管理</router-link>
               </li>
-              <li :class="{isSelect:isSelect ===' tradingRecord'}" @click="selectNavigate('tradingRecord')">
+              <li :class="{isSelect:isSelect ==='tradingRecord'}" @click="selectNavigate('tradingRecord')">
                 <Icon type="loop"></Icon>
-                <router-link to="/user/task-release">交易记录</router-link>
+                <router-link to="/user/money-management/transaction-record">交易记录</router-link>
               </li>
               <li :class="{isSelect:isSelect ==='personalSetting'}" @click="selectNavigate('personalSetting')">
                 <Icon type="gear-b"></Icon>
@@ -54,9 +54,9 @@
                 <Icon type="social-yen"></Icon>
                 <router-link to="/user/money-management/account-info">资金管理</router-link>
               </li>
-              <li :class="{isSelect:isSelect ===' tradingRecord'}" @click="selectNavigate('tradingRecord')">
+              <li :class="{isSelect:isSelect ==='tradingRecord'}" @click="selectNavigate('tradingRecord')">
                 <Icon type="loop"></Icon>
-                <router-link to="/user/personal-setting">交易记录</router-link>
+                <router-link to="/user/money-management/transaction-record">交易记录</router-link>
               </li>
               <li :class="{isSelect:isSelect ==='personalSetting'}" @click="selectNavigate('personalSetting')">
                 <Icon type="gear-b"></Icon>

@@ -95,7 +95,7 @@
                     <p>活动编号：11113244325324</p>
                   </td>
                   <td class="main-color">
-                    {{item.tradAmount/100||0}}
+                    {{typechang(item.tradAmount/100)||0}}
                   </td>
                 </tr>
                 <tr v-show="showNotice"><td colspan="4" style="color:red;font-size: 14px;">暂无数据！</td></tr>
@@ -260,7 +260,7 @@
           size:5
         }).then(res => {
           if (res.status) {
-            _this.myTableDetails = res.data.content.slice(0, 5);
+            _this.myTableDetails = res.data.tradPage.content.slice(0, 5);
             _this.showBigNotice = _this.myTableDetails.length === 0;
 
           } else {
