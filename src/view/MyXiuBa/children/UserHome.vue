@@ -21,12 +21,12 @@
                     支付密码：
                     <Icon color="#70CF70" type="checkmark-circled"></Icon> 已设置
                   </span>
-                  <span v-if="userData.alitmNum <= 0 ">
+                  <span v-if="userData.alitmNum <= 0 && getUserInfoRole === 0">
                     淘宝账号：
                     <Icon type="information-circled" color="#FF6633"></Icon> 未绑定
                     <router-link to="/user/personal-setting/ww-bind">去绑定</router-link>
                   </span>
-                  <span v-else>
+                  <span v-if="userData.alitmNum > 0 && getUserInfoRole === 0">
                     淘宝账号：
                     <Icon color="#70CF70" type="checkmark-circled"></Icon>
                     绑定成功
@@ -38,7 +38,7 @@
                   <span v-else>
                     实名认证：
                     <Icon type="information-circled" color="#FF6633"></Icon> 未认证
-                    <router-link to="/user/personal-setting/verified">去绑定</router-link>
+                    <router-link to="/user/personal-setting/verified">去认证</router-link>
                   </span>
                 </p>
                 <p>
