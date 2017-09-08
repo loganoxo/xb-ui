@@ -49,10 +49,10 @@
         <thead>
         <tr>
           <th width="20%">活动标题</th>
-          <th width="12%">活动开始 / 结束时间</th>
+          <th width="14%">活动开始 / 结束时间</th>
           <th width="10%">活动状态</th>
           <th width="12%">报名 / 已通过</th>
-          <th width="10%">可审批名额</th>
+          <th width="8%">可审批名额</th>
           <th width="24%">活动所需担保金 / 活动所需推广费 / 已存入</th>
           <th width="12%">操作</th>
         </tr>

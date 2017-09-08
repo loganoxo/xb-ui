@@ -24,7 +24,7 @@
                       <a @click="showReportDescFunc(trialReport)">查看全文</a>
                     </p>
                     <p>
-                      <a v-for="(trialReportImage,index) in trialReport.trialReportImages"   @click="trialReportPicShowFunc(trialReportImage)">
+                      <a v-for="(trialReportImage,index) in trialReport.trialReportImages" @click="trialReportPicShowFunc(trialReportImage)">
                         <img :src="trialReportImage" alt="">
                       </a>
                     </p>
@@ -98,13 +98,12 @@
   import Checkbox from 'iview/src/components/checkbox'
   import Button from 'iview/src/components/button'
   import Radio from 'iview/src/components/radio'
-  import api from '@/config/apiConfig'
-  import {setStorage, getStorage} from '@/config/utils'
   import Modal from 'iview/src/components/modal'
   import Breadcrumb from 'iview/src/components/breadcrumb'
   import Page from 'iview/src/components/page'
-  import TimeDown from '@/components/TimeDown'
   import Carousel from 'iview/src/components/carousel'
+  import api from '@/config/apiConfig'
+  import TimeDown from '@/components/TimeDown'
   export default {
     beforeMount() {
       this.$store.commit({

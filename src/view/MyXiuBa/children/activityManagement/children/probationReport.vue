@@ -20,7 +20,7 @@
           <strong>{{showkerTaskInfo.orderNum}}</strong>
         </p>
         <p>
-          <span>订单金额：</span>
+          <span>实付金额：</span>
           <strong>{{showkerTaskInfo.orderPrice / 100 || 0}}</strong>
           <span>元</span>
         </p>
@@ -77,7 +77,7 @@
     </div>
     <!--商家通过试用报告返款给秀客弹框-->
     <div class="confirm-refund-model" v-if="showRefundModel">
-      <div class="confirm-refund-con">
+      <div class="confirm-refund-con showSweetAlert">
         <i class="right mr-10" @click="closeRefundModel">&times;</i>
         <div class="confirm-refund-info mt-20">
           <p>
@@ -93,8 +93,8 @@
         <div class="input-pwd mt-22 ml-35">
           <span>请输入您的支付密码：</span>
           <iInput v-model="refundPayPwd" type="password" style="width: 160px;margin-right: 16px;"></iInput>
-          <span class="ml-10" v-if="isPwdAmend"><router-link :to="{path:'/user/money-management/account-management',query:{type:'findPwd'}}">忘记支付密码？</router-link></span>
           <iButton type="primary" @click="confirmRefund">确认</iButton>
+          <span class="ml-10" v-if="isPwdAmend"><router-link :to="{path:'/user/money-management/account-management',query:{type:'findPwd'}}">忘记支付密码？</router-link></span>
         </div>
         <div class="refund-tip ml-35 mt-22" v-if="!isPwdAmend">
           <p>如果您的支付密码没有修改，初始密码为：888888。</p>
@@ -132,7 +132,9 @@
         showRefundModel: false,
         refundPayPwd: null,
         showkerReportInfo:{},
-        showkerTaskInfo:{},
+        showkerTaskInfo:{
+          task:{}
+        },
         noPassReason:null,
         trialReportImages:[],
         showNowImageSrc:null,
@@ -206,16 +208,18 @@
       },
       leftChangeImg() {
         let _this = this;
+        let length = _this.trialReportImages.length;
         _this.reportImagesIndex--;
         if(_this.reportImagesIndex < 0){
-          _this.reportImagesIndex = 4;
+          _this.reportImagesIndex = length - 1;
         }
         _this.showNowImageSrc = _this.trialReportImages[_this.reportImagesIndex];
       },
       rightChangeImg() {
         let _this = this;
+        let length = _this.trialReportImages.length;
         _this.reportImagesIndex++;
-        if(_this.reportImagesIndex > 4){
+        if(_this.reportImagesIndex > length - 1){
           _this.reportImagesIndex = 0;
         }
         _this.showNowImageSrc = _this.trialReportImages[_this.reportImagesIndex];
@@ -229,10 +233,10 @@
         }).then(res =>{
           if(res.status){
             _this.$Message.success({
-              content:'向秀客返款成功！',
+              content:'已向秀客返款成功！',
               duration: 4
             });
-            _this.showRefundModel =  false;
+            _this.showRefundModel = false;
             _this.returnUpPage();
           }else{
             _this.$Message.error({

@@ -49,7 +49,7 @@
               </div>
             </div>
             <div class="left clear-both fs-14 pd-tb-20" style="border-bottom: 1px solid #eee;">
-              <p v-if="getUserInfoRole == 0">
+              <p v-if="getUserInfoRole === 0">
                 试用提醒：待审核 {{trialCount.waitingAuditTaskApply}} 个，进行中 {{trialCount.underWayShowkerTask}} 个
                 （已通过待领取 <router-link to="/user/personal-setting">{{trialCount.passAndUnclaimedShowkerTask}}</router-link>
                 个；
@@ -61,17 +61,17 @@
                 个）。
                 <router-link to="/user/my-probation/wait">进入我的试用</router-link>
               </p>
-              <p v-if="getUserInfoRole == 1">
+              <p v-if="getUserInfoRole === 1">
                 活动提醒：待审核 {{trialCount.waitingAuditTask}} 个，进行中 {{trialCount.underWayTask}} 个
-                （待审批秀客 <router-link to="/user/personal-setting">{{trialCount.waitingAuditTaskApply}}</router-link> 个；
-                待审核订单号 <router-link to="/user/personal-setting">{{trialCount.orderNumWaitingAuditShowkerTask}}</router-link> 个；
-                待审核报告 <router-link to="/user/personal-setting">{{trialCount.trialReportWaitingConfirmShowkerTask}}</router-link> 个）。
+                （待审批秀客 <router-link :to="{path:'/user/activity-management/list',query:{status:'under_way'}}">{{trialCount.waitingAuditTaskApply}}</router-link> 个；
+                待审核订单号 <router-link :to="{path:'/user/activity-management/list',query:{status:'under_way'}}">{{trialCount.orderNumWaitingAuditShowkerTask}}</router-link> 个；
+                待审核报告 <router-link :to="{path:'/user/activity-management/list',query:{status:'under_way'}}">{{trialCount.trialReportWaitingConfirmShowkerTask}}</router-link> 个）。
                 已结束尚未结算 {{trialCount.waitingSettlementTask}} 个
                 <router-link to="/user/my-probation">进入试用活动管理</router-link>
               </p>
             </div>
-            <p  v-if="getUserInfoRole == 0" class="fs-16 clear-both user-home-account" style="border-bottom: 1px solid #eee;">最新试用宝贝</p>
-            <div v-if="getUserInfoRole == 0" class="home-commodity-ctt">
+            <p v-if="getUserInfoRole === 0" class="fs-16 clear-both user-home-account" style="border-bottom: 1px solid #eee;">最新试用宝贝</p>
+            <div v-if="getUserInfoRole === 0" class="home-commodity-ctt">
               <router-link
                 class="home-commodity-details"
                 v-for="homeCommodity in homeCommodityList"
@@ -90,7 +90,7 @@
                 </div>
               </router-link>
             </div>
-            <div v-if="getUserInfoRole == 1" class="user-seller-tips-box">
+            <div v-if="getUserInfoRole === 1" class="user-seller-tips-box">
               <div class="fs-14 left user-seller-tips">
                 <p class="fs-16 mb-10">商家常见问题</p>
                 <ul>

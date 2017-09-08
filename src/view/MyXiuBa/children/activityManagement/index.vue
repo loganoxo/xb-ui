@@ -180,7 +180,8 @@
         @include wh(420px, 500px);
         margin: 26px auto 0 auto;
         img {
-          @include wh(420px, 500px);
+          width: 100%;
+          height: 100%;
         }
       }
       .left-btn {
@@ -205,8 +206,10 @@
         margin-left: 46px;
         cursor: pointer;
         padding: 1px;
+        @include wh(120px, 80px);
         img {
-          @include wh(120px, 80px);
+          width: 100%;
+          height: 100%;
           border: 1px solid #f8f6f5;
         }
         &:hover{
@@ -245,7 +248,7 @@
       @include fullScreenModel;
     }
     .confirm-refund-con {
-      @include fullScreenModelCon(552px, 286px);
+      @include fullScreenModelCon(552px, 228px);
       i {
         font-size: 24px;
         cursor: pointer;

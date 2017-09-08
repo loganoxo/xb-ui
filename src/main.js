@@ -31,14 +31,14 @@ Object.keys(filters).forEach(key => {
 });
 
 /*根据路由改变处理页面标题和组件加载进度*/
-router.afterEach(to => {
-  document.title = to.meta.title;
-  LoadingBar.finish();
-});
-
 router.beforeEach((to, from, next) => {
   LoadingBar.start();
   next();
+});
+
+router.afterEach(to => {
+  document.title = to.meta.title;
+  LoadingBar.finish();
 });
 
 new Vue({

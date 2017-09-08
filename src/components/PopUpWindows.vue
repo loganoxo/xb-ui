@@ -3,7 +3,7 @@
     <Modal v-model="payPopWindow" width="360"
            :styles="{top:'310px'}"
            :closable ='false'>
-      <div style="text-align:center">
+      <div class="text-ct">
         <p>请前往充值页面进行充值</p>
       </div>
       <div slot="footer">
@@ -45,7 +45,7 @@
       }
     },
     created(){
-        this.payPopWindow =this.payPopWindows
+      this.payPopWindow =this.payPopWindows
     },
     methods:{
       ...mapActions([
@@ -64,6 +64,3 @@
   }
 </script>
 
-<style lang="scss" scoped>
-
-</style>

@@ -111,8 +111,8 @@
         this.showkerApplyList();
       },
       showkerApplyList() {
-        _this.applyList = [];
         let _this = this;
+        _this.applyList = [];
         api.showkerApplyList({
           selectStatus: _this.selectStatus,
           searchValue: _this.searchValue,

@@ -113,7 +113,7 @@
              <p v-if="item.status === 'order_num_error'" class="operation mt-5"
                 @click="openAuditOrder(item.id)">修改订单号</p>
              <p v-if="item.status !== 'trial_end' && item.status !== 'trial_finished'" class="operation mt-5"
-                @click="endTrial(item.id)">结束试用</p>
+                @click="endTrialModel(item.id)">结束试用</p>
              <p v-if="item.status === 'trial_finished'" class="operation mt-5"><router-link :to="{path:'',query:{}}">查看试用详情</router-link></p>
              <p v-if="item.status === 'trial_finished'" class="operation mt-5"><router-link :to="{path:'/user/money-management/transaction-record',query:{taskNumber:item.orderNumber}}">查看试用返款</router-link></p>
            </td>
@@ -219,7 +219,7 @@
          <span>{{reportInfo.orderNum}}</span>
        </p>
        <p>
-         <span>订单金额：</span>
+         <span>实付金额：</span>
          <span>{{reportInfo.orderPrice / 100 || 0}}</span>
          <span>元</span>
        </p>
@@ -269,13 +269,10 @@
        <p class="mt-20 ml-45">
          <span>请输入订单号：</span>
          <iInput v-model="affirmOrderNumber" style="width: 300px;"></iInput>
-         <!--<Tooltip class="ml-5 cursor-p" content="Top Center 文字提示" placement="top">-->
-           <!--<span>什么是订单号？</span>-->
-         <!--</Tooltip>-->
          <iButton @click="orderImg = true">什么是订单号？</iButton>
          <Modal v-model="orderImg" width="1380">
-            <div style="text-align:center">
-              <img src="~assets/img/order-number/order_pc.png" alt="">
+            <div class="text-ct">
+              <img src="" alt="">
              </div>
           </Modal>
        </p>
@@ -287,6 +284,20 @@
        <div class="submit-btn mt-40" @click="saveOrUpdateOrderNumber">确认提交</div>
      </div>
    </div>
+   <!--删除试用确认弹框-->
+   <Modal v-model="deleteModal" width="360">
+     <p slot="header" style="color:#f60;text-align:center">
+       <Icon type="information-circled"></Icon>
+       <span>删除确认</span>
+     </p>
+     <div style="text-align:center">
+       <p>此任务删除后，任务将无法执行。</p>
+       <p>是否继续删除？</p>
+     </div>
+     <div slot="footer">
+       <Button type="error" size="large" long :loading="modalLoading" @click="endTrial">删除</Button>
+     </div>
+   </Modal>
  </div>
 </template>
 
@@ -299,12 +310,12 @@
   import Checkbox from 'iview/src/components/checkbox'
   import DatePicker from 'iview/src/components/date-picker'
   import Tooltip from 'iview/src/components/tooltip'
+  import Modal from 'iview/src/components/modal'
   import Upload from '@/components/upload'
   import TimeDown from '@/components/TimeDown'
   import api from '@/config/apiConfig'
   import {aliCallbackImgUrl} from '@/config/env'
   import {TaskErrorStatusList, isNumber} from '@/config/utils'
-  import Modal from 'iview/src/components/modal'
 
 
   export default {
@@ -321,10 +332,9 @@
       CheckboxGroup: Checkbox.Group,
       DatePicker: DatePicker,
       Tooltip: Tooltip,
+      Modal: Modal,
       Upload: Upload,
-      TimeDown: TimeDown,
-      Modal: Modal
-
+      TimeDown: TimeDown
     },
     data() {
       return {
@@ -363,6 +373,9 @@
         trialReportText: null,
         reportInfo: {},
         defaultImageList: [],
+        modalLoading: false,
+        deleteModal: false,
+        deleteId: null,
         orderImg:false
       }
     },
@@ -508,6 +521,7 @@
               data.perMarginNeed = item.task.perMarginNeed;
               data.createTime = item.task.createTime;
               data.orderNumber = item.task.number;
+              data.auditDescription = item.latestShowkerTaskOpLog.auditDescription;
               _this.applySuccessList.push(data);
             });
             _this.totalElements = res.data.numberOfElements;
@@ -594,12 +608,18 @@
           })
         }
       },
-      endTrial(id) {
+      endTrialModel (id) {
+        this.deleteModal = true;
+        this.deleteId = id;
+      },
+      endTrial() {
         let _this = this;
+        _this.modalLoading = true;
         api.showkerTrialEed({
-          id: id
+          id: _this.deleteId
         }).then(res => {
           if (res.status) {
+            _this.modalLoading = false;
             _this.$Message.success({
               content: '结束试用成功！',
               duration: 6
