@@ -94,21 +94,6 @@
           </div>
         </div>
       </div>
-      <!--<Modal
-        v-model="selRole"
-        class-name="vertical-center-modal" cancel-text="" @on-ok="getRegister">
-        <h1 class="text-ct">注册角色选择</h1>
-        <div class="text-ct">
-          <label class="fs-16">
-            <input style="vertical-align: middle;font-size: 16px;" type="radio" v-model="loginTrendsCustom.role"
-                   v-bind:value="0">秀客
-          </label>
-          <label class="fs-16">
-            <input style="vertical-align: middle;font-size: 16px;" type="radio" v-model="loginTrendsCustom.role"
-                   v-bind:value="1">商家
-          </label>
-        </div>
-      </Modal>-->
     </div>
   </div>
 
@@ -268,7 +253,7 @@
             self.$Modal.success({
               content: '恭喜您，成功登录秀吧！',
               onOk: function () {
-                self.$router.push({name: 'home'});
+                self.$router.push({name: 'Home'});
               }
             });
           } else {
@@ -316,11 +301,10 @@
               self.$Modal.success({
                 content: '恭喜您，成功登录秀吧！',
                 onOk: function () {
-                  self.$router.push({name: 'home'});
+                  self.$router.push({name: 'Home'});
                 }
               });
             } else if (res.statusCode === 'need_reg') {
-//              this.selRole = true;
               self.$router.push({
                 path: '/sel-role',
                 query: {

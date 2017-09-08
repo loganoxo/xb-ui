@@ -236,7 +236,6 @@
                     {{typechang(item.tradAmount/100)||0}}
                   </td>
                 </tr>
-
                 <tr v-show="showNotice"><td colspan="4" style="color:red;font-size: 14px;">暂无数据！</td></tr>
                 </tbody>
               </table>

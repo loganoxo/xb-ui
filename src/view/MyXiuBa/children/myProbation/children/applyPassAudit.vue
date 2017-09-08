@@ -114,7 +114,7 @@
                 @click="openAuditOrder(item.id)">修改订单号</p>
              <p v-if="item.status !== 'trial_end' && item.status !== 'trial_finished'" class="operation mt-5"
                 @click="endTrialModel(item.id)">结束试用</p>
-             <p v-if="item.status === 'trial_finished'" class="operation mt-5"><router-link :to="{path:'',query:{}}">查看试用详情</router-link></p>
+             <p v-if="item.status === 'trial_finished'" class="operation mt-5"><router-link :to="{path:'/user/my-trial-report',query:{}}">查看试用详情</router-link></p>
              <p v-if="item.status === 'trial_finished'" class="operation mt-5"><router-link :to="{path:'/user/money-management/transaction-record',query:{taskNumber:item.orderNumber}}">查看试用返款</router-link></p>
            </td>
          </tr>
@@ -381,7 +381,20 @@
     },
     mounted() {},
     created() {
-      this.showkerSuccessList();
+      let _this = this;
+      let status = _this.$route.query.status;
+      if(status){
+        if(status === 'order_num_error'){
+          _this.checkPassList.push('order_num_error');
+          _this.checkPassList.push('trial_report_unqualified');
+          _this.showkerSuccessList();
+        }else{
+          _this.checkPassList.push(status);
+          _this.showkerSuccessList();
+        }
+      }else {
+        _this.showkerSuccessList();
+      }
     },
     computed: {
       checkText: function () {

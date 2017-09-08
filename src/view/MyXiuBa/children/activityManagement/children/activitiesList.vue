@@ -202,7 +202,18 @@
 
     },
     created() {
-      this.getTaskList();
+      let status = this.$route.query.status;
+      if(status){
+        if(status === 'under_way' || status === 'waiting_audit'){
+          this.taskStatusList.push(status);
+          this.getTaskList();
+        } else if(status === 'waiting_settlement'){
+          this.settlementStatusList.push(status);
+          this.getTaskList();
+        }
+      }else{
+        this.getTaskList();
+      }
     },
     computed: {},
     methods: {

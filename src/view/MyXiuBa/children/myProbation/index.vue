@@ -3,9 +3,9 @@
     <div class="my-probation-title pl-10">我的试用</div>
     <div class="my-probation-list mt-20">
       <div class="my-probation-list-title">
-        <span :class="{isSelect:showProbationStatus === 'ApplyWaitAudit'}" @click="changeTitle('ApplyWaitAudit')">待审批</span>
-        <span :class="{isSelect:showProbationStatus === 'ApplyPassAudit'}" @click="changeTitle('ApplyPassAudit')">已通过</span>
-        <span :class="{isSelect:showProbationStatus === 'ApplyFailAudit'}" @click="changeTitle('ApplyFailAudit')">未通过</span>
+        <router-link to="/user/my-probation/wait" tag="span" :class="{isSelect:showProbationStatus === 'ApplyWaitAudit'}">待审批</router-link>
+        <router-link to="/user/my-probation/pass" tag="span" :class="{isSelect:showProbationStatus === 'ApplyPassAudit'}">已通过</router-link>
+        <router-link to="/user/my-probation/fail" tag="span" :class="{isSelect:showProbationStatus === 'ApplyFailAudit'}">未通过</router-link>
       </div>
     </div>
     <router-view></router-view>
@@ -13,7 +13,6 @@
 </template>
 
 <script>
-  import {setStorage, getStorage} from '@/config/utils'
   export default {
     name: 'MyProbation',
     data() {
@@ -21,12 +20,9 @@
         showProbationStatus:'ApplyWaitAudit'
       }
     },
-    mounted() {
-
-    },
+    mounted() {},
     created() {
-      let name = this.$route.name;
-      this.changeTitle(name);
+      this.showProbationStatus = this.$route.name;
     },
     computed: {},
     watch: {
@@ -34,13 +30,7 @@
         this.showProbationStatus = to.name;
       }
     },
-    methods: {
-      changeTitle(name) {
-        this.showProbationStatus = name;
-        setStorage('myProbationTitleName', name);
-        this.$router.push({name: name});
-      }
-    }
+    methods: {}
   }
 </script>
 

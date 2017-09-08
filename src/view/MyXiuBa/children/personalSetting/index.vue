@@ -1,7 +1,7 @@
 <template>
   <div class="personal-box">
     <div class="personal-sel-top">
-      <router-link :to="myInfoSelect.link" :key="myInfoSelect.link" v-for="(myInfoSelect,index) in myInfoSelects" :class="{active:infoSelect == myInfoSelect.isSelect}" @click="myInfoSelectsFunc(myInfoSelect)" v-if="myInfoFunc(index)">
+      <router-link :to="myInfoSelect.link" :key="myInfoSelect.link" v-for="(myInfoSelect,index) in myInfoSelects" :class="{active:infoSelect == myInfoSelect.isSelect}" v-if="myInfoFunc(index)">
         {{myInfoSelect.text}}
       </router-link>
     </div>
@@ -43,7 +43,6 @@
       SmsCountdown: SmsCountdown,
     },
     data() {
-      //表单验证
       return {
         userData: {},
         myInfoSelects: [
@@ -54,13 +53,13 @@
           },
           {
             text: '旺旺号绑定',
-            isSelect: 'wwBind',
+            isSelect: 'WwBind',
             link: '/user/personal-setting/ww-bind'
           },
           {
             text: '实名认证',
             link: '/user/personal-setting/verified',
-            isSelect: 'verified',
+            isSelect: 'Verfied',
           },
         ],
         infoSelect: '',
@@ -71,7 +70,7 @@
     },
     created() {
       let self = this;
-      this.infoSelect = self.$route.name;
+      self.infoSelect = self.$route.name;
     },
     computed: {},
     methods: {

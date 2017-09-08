@@ -29,12 +29,12 @@ const Verfied = r => require.ensure([], () => r(require('@/view/MyXiuBa/children
 
 const MyTrialReport = r => require.ensure([], () => r(require('@/view/MyXiuBa/children/MyTrialReport.vue')), 'MyTrialReport');
 
-const MoneyManagement = r => require.ensure([], () => r(require('../view/MyXiuBa/children/moneyManagement/index.vue')), 'MoneyManagement');
-const AccountInfo = r => require.ensure([], () => r(require('../view/MyXiuBa/children/moneyManagement/children/accountInfo.vue')), 'MoneyManagement');
-const AccountManagement = r => require.ensure([], () => r(require('../view/MyXiuBa/children/moneyManagement/children/accountManagement.vue')), 'MoneyManagement');
-const PayMoney = r => require.ensure([], () => r(require('../view/MyXiuBa/children/moneyManagement/children/payMoney.vue')), 'MoneyManagement');
-const GetoutMoney = r => require.ensure([], () => r(require('../view/MyXiuBa/children/moneyManagement/children/getoutMoney.vue')), 'MoneyManagement');
-const TransactionRecord = r => require.ensure([], () => r(require('../view/MyXiuBa/children/moneyManagement/children/transactionRecord.vue')), 'MoneyManagement');
+const MoneyManagement = r => require.ensure([], () => r(require('@/view/MyXiuBa/children/moneyManagement/index.vue')), 'MoneyManagement');
+const AccountInfo = r => require.ensure([], () => r(require('@/view/MyXiuBa/children/moneyManagement/children/accountInfo.vue')), 'MoneyManagement');
+const AccountManagement = r => require.ensure([], () => r(require('@/view/MyXiuBa/children/moneyManagement/children/accountManagement.vue')), 'MoneyManagement');
+const PayMoney = r => require.ensure([], () => r(require('@/view/MyXiuBa/children/moneyManagement/children/payMoney.vue')), 'MoneyManagement');
+const GetoutMoney = r => require.ensure([], () => r(require('@/view/MyXiuBa/children/moneyManagement/children/getoutMoney.vue')), 'MoneyManagement');
+const TransactionRecord = r => require.ensure([], () => r(require('@/view/MyXiuBa/children/moneyManagement/children/transactionRecord.vue')), 'MoneyManagement');
 
 Vue.use(Router);
 
@@ -43,7 +43,7 @@ export default new Router({
   routes: [
     {
       path: '/',
-      name: 'home',
+      name: 'Home',
       component: Home,
       meta: {
         title: "首页"
@@ -74,11 +74,11 @@ export default new Router({
       },
       children: [
         {
-          path: '/seller-register',
+          path: 'seller-register',
           name: 'seller'
         },
         {
-          path: '/buyer-register',
+          path: 'buyer-register',
           name: 'buyer'
         },
       ]
@@ -216,7 +216,7 @@ export default new Router({
             },
             {
               path: 'ww-bind',
-              name: 'wwBind',
+              name: 'WwBind',
               component: WwBind,
               meta: {
                 title: "个人设置-旺旺绑定"
@@ -224,7 +224,7 @@ export default new Router({
             },
             {
               path: 'verified',
-              name: 'verified',
+              name: 'Verfied',
               component: Verfied,
               meta: {
                 title: "个人设置-实名认证"
@@ -281,7 +281,7 @@ export default new Router({
               }
             },
           ]
-        },
+        }
       ]
     }
   ]

@@ -57,14 +57,14 @@
                 </div>
                 <p class="clear-both fs-14 mt-10 left ml-20">当前进行的活动：<router-link  to="/user/my-probation/pass">{{trialCount.underWayShowkerTask}}</router-link> 个</p>
                 <div class="left clear-both mt-10" style="width: 100%;">
-                  <router-link class="left text-ct" style="width: 33.33%;"  to="/user/my-probation/pass">{{trialCount.passAndUnclaimedShowkerTask}}</router-link>
-                  <router-link class="left text-ct" style="width: 33.33%;" to="/user/my-probation/pass">{{trialCount.trialReportWaitingSubmitShowkerTask}}</router-link>
-                  <router-link class="left text-ct" style="width: 33.33%;" to="/user/my-probation/pass">{{trialCount.orderNumErrorShowkerTask + trialCount.trialReportUnqualifiedShowkerTask}}</router-link>
+                  <router-link class="left text-ct" style="width: 33.33%;" :to="{path:'/user/my-probation/pass',query:{status:'pass_and_unclaimed'}}">{{trialCount.passAndUnclaimedShowkerTask}}</router-link>
+                  <router-link class="left text-ct" style="width: 33.33%;" :to="{path:'/user/my-probation/pass',query:{status:'trial_report_waiting_submit'}}">{{trialCount.trialReportWaitingSubmitShowkerTask}}</router-link>
+                  <router-link class="left text-ct" style="width: 33.33%;" :to="{path:'/user/my-probation/pass',query:{status:'order_num_error'}}">{{trialCount.orderNumErrorShowkerTask + trialCount.trialReportUnqualifiedShowkerTask}}</router-link>
                 </div>
                 <div class="left clear-both mt-5" style="width: 100%;">
-                  <span class="left text-ct" style="width: 33.33%;"  to="/user/my-probation/pass">待领取</span>
-                  <span class="left text-ct" style="width: 33.33%;" to="/user/my-probation/pass">待交报告</span>
-                  <span class="left text-ct" style="width: 33.33%;" to="/user/my-probation/pass">待修改</span>
+                  <span class="left text-ct" style="width: 33.33%;">待领取</span>
+                  <span class="left text-ct" style="width: 33.33%;">待交报告</span>
+                  <span class="left text-ct" style="width: 33.33%;">待修改</span>
                 </div>
               </div>
             </div>
@@ -78,14 +78,14 @@
                 </div>
                 <p class="clear-both fs-14 mt-10 left ml-20">当前进行的活动：<router-link  to="/user/activity-management/list">{{trialCount.underWayTask}} </router-link> 个</p>
                 <div class="left clear-both mt-10" style="width: 100%;">
-                  <router-link class="left text-ct" style="width: 33.33%;"  to="/user/activity-management/list">{{trialCount.waitingAuditTaskApply}} </router-link>
-                  <router-link class="left text-ct" style="width: 33.33%;" to="/user/activity-management/list">{{trialCount.orderNumWaitingAuditShowkerTask}}</router-link>
-                  <router-link class="left text-ct" style="width: 33.33%;" to="/user/activity-management/list">{{trialCount.trialReportWaitingConfirmShowkerTask}}</router-link>
+                  <router-link class="left text-ct" style="width: 33.33%;" :to="{path:'/user/activity-management/list',query:{status:'under_way'}}">{{trialCount.waitingAuditTaskApply}} </router-link>
+                  <router-link class="left text-ct" style="width: 33.33%;" :to="{path:'/user/activity-management/list',query:{status:'under_way'}}">{{trialCount.orderNumWaitingAuditShowkerTask}}</router-link>
+                  <router-link class="left text-ct" style="width: 33.33%;" :to="{path:'/user/activity-management/list',query:{status:'under_way'}}">{{trialCount.trialReportWaitingConfirmShowkerTask}}</router-link>
                 </div>
                 <div class="left clear-both mt-5" style="width: 100%;">
-                  <span class="left text-ct" style="width: 33.33%;"  to="/user/activity-management/list">待审秀客</span>
-                  <span class="left text-ct" style="width: 33.33%;" to="/user/activity-management/list">待审订单</span>
-                  <span class="left text-ct" style="width: 33.33%;" to="/user/activity-management/list">待审报告</span>
+                  <span class="left text-ct" style="width: 33.33%;">待审秀客</span>
+                  <span class="left text-ct" style="width: 33.33%;">待审订单</span>
+                  <span class="left text-ct" style="width: 33.33%;">待审报告</span>
                 </div>
               </div>
             </div>
