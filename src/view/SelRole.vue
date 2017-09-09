@@ -131,7 +131,7 @@
               type: 'RECORD_USER_INFO',
               info: res.data
             });
-            self.$router.push({name: 'home'});
+            self.$router.push({name: 'Home'});
           } else {
             self.$Modal.error({
               content: res.msg,

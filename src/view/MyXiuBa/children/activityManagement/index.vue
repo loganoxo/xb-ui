@@ -304,10 +304,13 @@
     .title-tip {
       height: 36px;
       line-height: 36px;
-      margin: 20px auto 20px auto;
+      margin: 56px auto 20px auto;
       color: #000;
       background-color: #FFF6F3;
       font-size: 14px;
+    }
+    .pay-model {
+      @include fullScreenModel
     }
   }
 

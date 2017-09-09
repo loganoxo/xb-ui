@@ -221,6 +221,9 @@
         span:nth-child(2) {
           color: #2b85e4;
           cursor: pointer;
+          &:hover{
+           color: darken(#2b85e4, 10%);
+          }
         }
       }
     }

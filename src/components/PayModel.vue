@@ -1,5 +1,5 @@
 <template>
-  <div class="pay-model-con">
+  <div class="pay-model-con showSweetAlert">
     <slot name="closeModel"></slot>
     <div v-if="!isBalance">
       <slot name="noBalance"></slot>

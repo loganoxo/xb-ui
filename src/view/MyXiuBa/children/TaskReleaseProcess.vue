@@ -1180,9 +1180,6 @@
     line-height: 26px;
   }
 
-  .pay-model .ivu-radio-wrapper {
-  }
-
   .pay-model {
     @include fullScreenModel
   }

@@ -33,11 +33,10 @@
             <table>
               <thead>
               <tr>
-                <th width="20%">秀客名称</th>
-                <th width="20%">淘宝账号（旺旺号）</th>
-                <th width="20%">申请时间</th>
-                <th width="20%">已完成试用次数</th>
-                <th width="20%">操作</th>
+                <th width="25%">淘宝账号（旺旺号）</th>
+                <th width="25%">申请时间</th>
+                <th width="25%">已完成试用次数</th>
+                <th width="25%">操作</th>
               </tr>
               </thead>
               <tbody v-if="approveTableList.length > 0" v-for="item in approveTableList" :key="item.id">
@@ -60,7 +59,7 @@
               </tbody>
               <tbody v-if="approveTableList.length === 0">
               <tr>
-                <td colspan="5" width="100%">暂无数据</td>
+                <td colspan="4" width="100%">暂无数据</td>
               </tr>
               </tbody>
             </table>
@@ -112,11 +111,10 @@
             <table>
               <thead>
               <tr>
-                <th width="20%">秀客名称</th>
-                <th width="20%">淘宝账号（旺旺号）</th>
-                <th width="20%">状态</th>
-                <th width="20%">订单号</th>
-                <th width="20%">操作</th>
+                <th width="25%">淘宝账号（旺旺号）</th>
+                <th width="25%">状态</th>
+                <th width="25%">订单号</th>
+                <th width="25%">操作</th>
               </tr>
               </thead>
               <tbody v-if="approveTableList.length > 0" v-for="item in approveTableList" :key="item.id">
@@ -138,7 +136,7 @@
               </tbody>
               <tbody v-if="approveTableList.length === 0">
               <tr>
-                <td colspan="5" width="100%">暂无数据</td>
+                <td colspan="4" width="100%">暂无数据</td>
               </tr>
               </tbody>
             </table>
@@ -178,12 +176,11 @@
             <table>
               <thead>
               <tr>
-                <th width="16%">秀客名称</th>
-                <th width="16%">淘宝账号（旺旺号）</th>
-                <th width="16%">订单号</th>
-                <th width="16%">试用状态</th>
+                <th width="20%">淘宝账号（旺旺号）</th>
+                <th width="20%">订单号</th>
+                <th width="20%">试用状态</th>
                 <th width="20%">终止时间</th>
-                <th width="16%">终止原因</th>
+                <th width="20%">终止原因</th>
               </tr>
               </thead>
               <tbody v-if="approveTableList.length > 0" v-for="item in approveTableList" :key="item.id">
@@ -198,7 +195,7 @@
               </tbody>
               <tbody v-if="approveTableList.length === 0">
               <tr>
-                <td colspan="6" width="100%">暂无数据</td>
+                <td colspan="5" width="100%">暂无数据</td>
               </tr>
               </tbody>
             </table>
@@ -269,7 +266,7 @@
   import TimeDown from '@/components/TimeDown'
   import api from '@/config/apiConfig'
   import {mapActions} from 'vuex'
-  import {TaskErrorStatusList, setStorage, getStorage} from '@/config/utils'
+  import {TaskErrorStatusList} from '@/config/utils'
 
   export default {
     name: 'ApproveShowker',

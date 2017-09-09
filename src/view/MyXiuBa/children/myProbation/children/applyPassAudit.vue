@@ -169,8 +169,8 @@
        </p>
      </div>
      <div class="tao-code-place-step" v-if="taskPlaceInfo.taskType === 'tao_code'">
-       <p>淘口令【<span>1224556546</span>】<span>复制口令</span></p>
-       <img src="" alt="">
+       <p class="mb-10">淘口令【<span id="copyCode">{{taskPlaceInfo.taskDetailObject.taoCode}}</span>】<span id="copyBtn" class="ml-10">点击复制口令</span></p>
+       <vue-q-art :config="config" :downloadButton="downloadButton"></vue-q-art>
        <p>入口说明：【<span>直接在手机端上复制淘口令，打开手淘会自动弹出宝贝链接，或直接用手淘扫描上方二维码</span>】</p>
      </div>
      <div v-if="taskPlaceInfo.taskType === 'direct_access'" class="tao-link-place-step">
@@ -311,6 +311,8 @@
   import DatePicker from 'iview/src/components/date-picker'
   import Tooltip from 'iview/src/components/tooltip'
   import Modal from 'iview/src/components/modal'
+  import VueQArt from 'vue-qart'
+  import Clipboard from 'clipboard';
   import Upload from '@/components/upload'
   import TimeDown from '@/components/TimeDown'
   import api from '@/config/apiConfig'
@@ -334,13 +336,21 @@
       Tooltip: Tooltip,
       Modal: Modal,
       Upload: Upload,
-      TimeDown: TimeDown
+      TimeDown: TimeDown,
+      VueQArt: VueQArt
     },
     data() {
       return {
+        config: {
+          value: '',
+          imagePath: require('@/assets/img/common/home_24.png')
+        },
+        downloadButton: false,
         showPassOperation: '',
         showAuditOrderNumber: false,
         SelectList: [
+
+
           {
             value: '1',
             label: '活动名称'
@@ -395,6 +405,19 @@
       }else {
         _this.showkerSuccessList();
       }
+      _this.$nextTick(function () {
+        let clipboard = new Clipboard('#copyBtn',{
+          target: ()=>document.getElementById('copyCode')
+        });
+        clipboard.on('success', ()=> {
+          _this.$Message.success("复制口令成功！");
+          clipboard.destroy();
+        });
+        clipboard.on('error', ()=> {
+          _this.$Message.error("复制口令失败！");
+          clipboard.destroy();
+        });
+      })
     },
     computed: {
       checkText: function () {
@@ -440,6 +463,7 @@
               _this.showPassOperation = type;
               _this.taskPlaceInfo = res.data.taskInfo;
               _this.showkerTask = res.data.showkerTask;
+              _this.config.value = res.data.taskInfo.taskDetailObject.taoCode;
             } else {
               _this.$Message.error(res.msg);
             }
@@ -534,7 +558,9 @@
               data.perMarginNeed = item.task.perMarginNeed;
               data.createTime = item.task.createTime;
               data.orderNumber = item.task.number;
-              data.auditDescription = item.latestShowkerTaskOpLog.auditDescription;
+              if(data.auditDescription){
+                data.auditDescription = item.latestShowkerTaskOpLog.auditDescription;
+              }
               _this.applySuccessList.push(data);
             });
             _this.totalElements = res.data.numberOfElements;

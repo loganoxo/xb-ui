@@ -72,6 +72,7 @@
 
 <script>
   import Icon from 'iview/src/components/icon'
+  import {mapActions} from 'vuex'
 
   export default {
     name: 'MyXiuBa',
@@ -87,6 +88,7 @@
     },
     created() {
       this.isSelect = this.$route.name;
+      this.getBalance();
     },
     watch: {
       $route(to) {
@@ -98,7 +100,11 @@
         return this.$store.state.userInfo.role;
       }
     },
-    methods: {}
+    methods: {
+      ...mapActions([
+        'getBalance'
+      ]),
+    }
   }
 </script>
 
@@ -149,6 +155,6 @@
   }
 
   .my-xiu-ba-con-right {
-    width: 88%;
+    width: 86%;
   }
 </style>

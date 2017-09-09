@@ -17,7 +17,7 @@ log4js.configure({
 });
 
 const logger = log4js.getLogger('console');
-exports.logger = logger;
-exports.use = function (app) {
+module.exports.logger = logger;
+module.exports.use = function (app) {
   app.use(log4js.connectLogger(logger, {level: 'auto', format: ':method :url'}));
 };

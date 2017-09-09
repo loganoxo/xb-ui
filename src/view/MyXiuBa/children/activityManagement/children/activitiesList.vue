@@ -85,7 +85,7 @@
               <span @click="deleteTask(item.id)">删除</span>
             </p>
             <p class="bond mt-6">
-              <span>存担保金</span>
+              <span @click="depositMoney((item.totalMarginNeed + item.promotionExpensesNeed) / 100,item.id)">存担保金</span>
             </p>
             <p class="copy mt-6">
               <span @click="copyTask(item.id)">复制活动</span>
@@ -141,6 +141,7 @@
     <div class="activity-page mt-20 right mr-10">
       <Page :total="totalElements" :page-size="pageSize" @on-change="pageChange"></Page>
     </div>
+    <!--删除任务弹框-->
     <Modal v-model="deleteModal" width="360">
       <p slot="header" style="color:#f60;text-align:center">
         <Icon type="information-circled"></Icon>
@@ -154,6 +155,15 @@
         <iButton type="error" size="large" long :loading="modalLoading" @click="confirmDelete">删除</iButton>
       </div>
     </Modal>
+    <!--支付保证金弹框-->
+    <div class="pay-model" v-if="showPayModel">
+      <PayModel :orderMoney="needDepositMoney" @confirmPayment="confirmPayment">
+        <i slot="closeModel" class="close-recharge" @click="showPayModel = false">&times;</i>
+        <div slot="isBalance" class="title-tip">
+          <Icon color="#FF2424" size="18px" type="ios-information"></Icon>
+          <span class="ml-10">您本次需要支付金额为 <span class="size-color3">{{needDepositMoney}}</span> 元。</span></div>
+      </PayModel>
+    </div>
   </div>
 </template>
 
@@ -196,6 +206,9 @@
         pageIndex: 1,
         approvePageIndex: 1,
         pageSize: 5,
+        showPayModel: false,
+        needDepositMoney: 0,
+        taskPayId: null,
       }
     },
     mounted() {
@@ -295,6 +308,34 @@
           this.checkAll = false;
         }
         this.getTaskList();
+      },
+      depositMoney(money, id) {
+        this.needDepositMoney = money;
+        this.taskPayId = id;
+        this.showPayModel = true;
+      },
+      confirmPayment(pwd) {
+        let _this = this;
+        api.payByBalance({
+          fee: _this.needDepositMoney,
+          payPassword: pwd,
+          taskId: _this.taskPayId
+        }).then(res => {
+          if(res.status){
+            _this.getBalance();
+            _this.getTaskList();
+            _this.showPayModel = false;
+            _this.$Message.success({
+              content:'支付成功！',
+              duration: 6
+            });
+          }else{
+            _this.$Message.error({
+              content:res.msg,
+              duration: 6
+            })
+          }
+        })
       }
     }
   }

@@ -4,7 +4,7 @@
         <div class="my-money-left left">
           <div class="moneyInfoLeft left">
             <div>可用余额（元）</div>
-            <div class="number mt-5 ">{{userAccount.accountBalance/100 || 0}}</div>
+            <div class="number mt-5 ">{{getUserBalance}}</div>
             <p>收入金额（元）：{{userAccount.amountIncomes/100||0}}</p>
             <p>支出金额（元）：{{userAccount.amountPayment/100||0}}</p>
             <div class="view-details mt-10">
@@ -140,7 +140,6 @@
   import Icon from 'iview/src/components/icon'
   import Button from 'iview/src/components/button'
   import {TaskErrorStatusList} from '@/config/utils'
-  import {mapActions} from 'vuex'
   export default {
     name: 'MoneyManagement',
     components: {
@@ -208,9 +207,6 @@
       }
     },
     methods: {
-      ...mapActions([
-        'getBalance'
-      ]),
       accountInit(name) {
         this.infoSelect = name;
         this.$router.push({name: name});
