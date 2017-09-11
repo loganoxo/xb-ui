@@ -288,14 +288,14 @@
    <Modal v-model="deleteModal" width="360">
      <p slot="header" style="color:#f60;text-align:center">
        <Icon type="information-circled"></Icon>
-       <span>删除确认</span>
+       <span>结束确认</span>
      </p>
      <div style="text-align:center">
-       <p>此任务删除后，任务将无法执行。</p>
-       <p>是否继续删除？</p>
+       <p>结束后将视为放弃试用资格，商家将不会返还任务保证金。</p>
+       <p>是否确认结束？</p>
      </div>
      <div slot="footer">
-       <Button type="error" size="large" long :loading="modalLoading" @click="endTrial">删除</Button>
+       <iButton type="error" size="large" long :loading="modalLoading" @click="endTrial">结束</iButton>
      </div>
    </Modal>
  </div>
@@ -318,7 +318,6 @@
   import api from '@/config/apiConfig'
   import {aliCallbackImgUrl} from '@/config/env'
   import {TaskErrorStatusList, isNumber} from '@/config/utils'
-
 
   export default {
     name: 'ApplyPassAudit',

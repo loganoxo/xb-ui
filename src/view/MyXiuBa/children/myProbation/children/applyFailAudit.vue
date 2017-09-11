@@ -4,7 +4,28 @@
       <iOption v-for="item in SelectList" :value="item.value" :key="item.value">{{ item.label }}</iOption>
     </iSelect>
     <iInput v-model="searchValue" style="width: 160px;margin-right: 8px;"></iInput>
-    <iButton type="primary" :loading="searchLoading" @click="showkerApplyList">搜索</iButton>
+    <iButton style="width: 69px;" type="primary" :loading="searchLoading" @click="showkerApplyList">搜索</iButton>
+    <div class="clear ml-45 ivu-select" style="width: 600px;">
+      <div class="left mr-10">
+        <Checkbox
+          :value="checkAllByFail"
+          @click.prevent.native="handleCheckFailAll">所有
+        </Checkbox>
+      </div>
+      <div class="left">
+        <Checkbox-group v-model="endReasonList" @on-change="checkFailChange">
+          <Checkbox label="timeout_auto_close">
+            <span>逾期系统终止</span>
+          </Checkbox>
+          <Checkbox label="buyer_manual_close">
+            <span>试客放弃试用</span>
+          </Checkbox>
+          <Checkbox label="seller_manual_close">
+            <span>管理员终止/商家终止</span>
+          </Checkbox>
+        </Checkbox-group>
+      </div>
+    </div>
     <div class="probation-table mt-20">
       <table>
         <thead>
@@ -73,6 +94,8 @@
       iOption: Option,
       OptionGroup: OptionGroup,
       Page: Page,
+      Checkbox: Checkbox,
+      CheckboxGroup: Checkbox.Group,
     },
     data() {
       return {
@@ -93,7 +116,9 @@
         pageSize: 5,
         pageIndex: 1,
         applyList: [],
-        searchLoading: false
+        checkAllByFail: false,
+        endReasonList: [],
+        searchLoading: false,
       }
     },
     mounted() {
@@ -120,6 +145,7 @@
           searchValue: _this.searchValue,
           status: 'failAudit',
           pageIndex: _this.pageIndex,
+          endReasonList: _this.endReasonList,
           pageSize: 5,
         }).then(res => {
           if (res.status) {
@@ -146,7 +172,26 @@
             _this.$Message.error(res.msg);
           }
         })
-      }
+      },
+      handleCheckFailAll() {
+        this.checkAllByFail = !this.checkAllByFail;
+        if (this.checkAllByFail) {
+          this.endReasonList = ['timeout_auto_close', 'buyer_manual_close', 'seller_manual_close'];
+        } else {
+          this.endReasonList = [];
+        }
+        this.showkerApplyList();
+      },
+      checkFailChange() {
+        if (this.endReasonList.length === 3) {
+          this.checkAllByFail = true;
+        } else if (this.endReasonList.length > 0) {
+          this.checkAllByFail = false;
+        } else {
+          this.checkAllByFail = false;
+        }
+        this.showkerApplyList();
+      },
     }
   }
 </script>

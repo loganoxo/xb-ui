@@ -13,7 +13,7 @@ export default {
           balance:res.data
         })
       }else{
-        console.log(res.msg);
+        console.error(res.msg);
       }
     })
   },

@@ -91,7 +91,7 @@
               <span @click="closeTask(item.id)">关闭</span>
             </p>
             <p class="bond mt-6">
-              <span @click="depositMoney((item.totalMarginNeed + item.promotionExpensesNeed) / 100,item.id)">存担保金</span>
+              <span @click="depositMoney((item.totalMarginNeed + item.promotionExpensesNeed -(item.marginPaid + item.promotionExpensesPaid) ) / 100,item.id,item.marginPaid + item.promotionExpensesPaid)">存担保金</span>
             </p>
             <p class="copy mt-6">
               <span @click="copyTask(item.id)">复制活动</span>
@@ -164,9 +164,9 @@
         <Icon type="information-circled"></Icon>
         <span>关闭确认</span>
       </p>
-      <div style="text-align:center">
-        <p>此任务关闭后，任务将无法执行。</p>
-        <p>是否继续关闭？</p>
+      <div class="text-ct">
+        <p>此任务关闭后，任务将无法发布，若已存入保证金，将返回至平台账户中。</p>
+        <p>是否确认关闭？</p>
       </div>
       <div slot="footer">
         <iButton type="error" size="large" long :loading="modalLoading" @click="confirmClose">关闭</iButton>
@@ -178,7 +178,7 @@
         <Icon type="information-circled"></Icon>
         <span>删除确认</span>
       </p>
-      <div style="text-align:center">
+      <div class="text-ct">
         <p>此任务删除后，任务将无法执行。</p>
         <p>是否继续删除？</p>
       </div>
@@ -240,6 +240,7 @@
         pageSize: 5,
         showPayModel: false,
         needDepositMoney: 0,
+        hasDeposited: 0,
         taskPayId: null,
       }
     },
@@ -382,8 +383,9 @@
         }
         this.getTaskList();
       },
-      depositMoney(money, id) {
+      depositMoney(money, id, deposited) {
         this.needDepositMoney = money;
+        this.hasDeposited = deposited;
         this.taskPayId = id;
         this.showPayModel = true;
       },
@@ -392,7 +394,8 @@
         api.payByBalance({
           fee: _this.needDepositMoney,
           payPassword: pwd,
-          taskId: _this.taskPayId
+          taskId: _this.taskPayId,
+          type: _this.hasDeposited > 0 ? 'supply_pay' : 'first_pay'
         }).then(res => {
           if(res.status){
             _this.getBalance();

@@ -115,6 +115,7 @@
   import TimeDown from '@/components/TimeDown'
   import api from '@/config/apiConfig'
   import {TaskErrorStatusList} from '@/config/utils'
+  import {mapActions} from 'vuex'
 
   export default {
     name: 'ProbationReport',
@@ -154,6 +155,9 @@
       },
     },
     methods: {
+      ...mapActions([
+        'getBalance'
+      ]),
       returnUpPage() {
         this.$router.push({name: 'ApproveShowker',query: {taskId: this.showkerTaskInfo.task.id}})
       },
@@ -236,6 +240,7 @@
               content:'已向秀客返款成功！',
               duration: 4
             });
+            _this.getBalance();
             _this.showRefundModel = false;
             _this.returnUpPage();
           }else{
