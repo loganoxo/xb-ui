@@ -29,7 +29,7 @@
               试用份数：<span class="fs-18"> {{commodityData.task.taskCount}} </span>份
             </p>
             <p class="fs-14">（商家已存入总试用担保金&nbsp;{{commodityData.task.totalMarginNeed/100}}&nbsp;元，请放心申请）</p>
-            <p class="fs-14">{{commodityData.task.showkerApplyTotalCount}} 人申请，{{commodityData.trailOn ? commodityData.trailOn : 0}} 人正在参与试用，{{commodityData.trailDone ? commodityData.trailDone : 0}} 人完成试用， 剩余 {{commodityData.task.taskCount - commodityData.task.showkerApplySuccessCount}} 份</p>
+            <p class="fs-14">{{commodityData.task.showkerApplyTotalCount}} 人申请，{{parseInt(commodityData.trailOn) ? commodityData.trailOn : 0}} 人正在参与试用，{{parseInt(commodityData.trailDone) ? commodityData.trailDone : 0}} 人完成试用， 剩余 {{commodityData.task.taskCount - commodityData.task.showkerApplySuccessCount}} 份</p>
             <p class="fs-14">
               <i class="ivu-icon ivu-icon-clock fs-16"></i>
               距申请结束：
@@ -41,42 +41,44 @@
               <iButton v-show="commodityData.taskApply" disabled size="large" class="fs-16 default-btn" long >已申请</iButton>
             </div>
             <iButton v-if="getRole === 1" size="large" class="fs-16 default-btn" long type="warning" >商家号不可以参加试用</iButton>
+            <router-link v-if="!isLogin" to="{'path':'/login'}" class="ivu-btn ivu-btn-error ivu-btn-long ivu-btn-large">
+                登陆账号
+            </router-link>
           </div>
         </div>
       </div>
       <div class="container">
         <div class="task-details-step">
-            <div class="left title"> 试用流程<span></span></div>
+            <div class="left title"> 秀吧流程<span></span></div>
             <ul class="left ctt">
               <li>
                 <span>1</span>
-                <em>获得试用资格</em>
+                <em>提交申请</em>
                 <i class="ivu-icon ivu-icon-chevron-right" ></i>
               </li>
               <li>
                 <span>2</span>
-                <em>以{{(commodityData.task.perMarginNeed/100).toFixed(2)}}元到指定平台购买试用品</em>
+                <em>商家审核，通过后即可获得秀客资格 </em>
                 <i class="ivu-icon ivu-icon-chevron-right" ></i>
               </li>
               <li>
                 <span>3</span>
-                <em>获得试用资格</em>
+                <em> 按照商家指定的方式，以{{(commodityData.task.perMarginNeed/100).toFixed(2)}}的价格购买本宝贝</em>
                 <i class="ivu-icon ivu-icon-chevron-right" ></i>
               </li>
               <li>
                 <span>4</span>
-                <em>获得试用资格</em>
+                <em>收到宝贝后，提交买家秀</em>
                 <i class="ivu-icon ivu-icon-chevron-right" ></i>
               </li>
               <li>
                 <span>5</span>
-                <em>获得试用资格</em>
-                <i class="ivu-icon ivu-icon-chevron-right" ></i>
+                <em> 商家返还{{(commodityData.task.perMarginNeed/100).toFixed(2)}}元到您的平台账户（可提现），圆满结束 </em>
               </li>
-              <li>
-                <span>6</span>
-                <em>获得试用资格</em>
-              </li>
+              <!--<li>-->
+                <!--<span>6</span>-->
+                <!--<em>获得试用资格</em>-->
+              <!--</li>-->
             </ul>
         </div>
       </div>
@@ -528,7 +530,7 @@
           display: table-cell;
           vertical-align: middle;
           font-size: 14px;
-          width: 16.666%;
+          width: 20%;
           span{
             display: inline-block;
             width: 38px;

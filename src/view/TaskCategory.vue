@@ -70,7 +70,7 @@
             <router-link
               v-show="searchTaskList.length > 0"
               v-for="searchTask in searchTaskList"
-              :title="searchTask.taskName"
+              :title="searchTask.taskName.replace(new RegExp(/<\/font>/g),'').replace(new RegExp(/<font class='search-highlight'>/g),'')"
               :key= "searchTask.id"
               :to="{ 'path': '/task-details', 'query': {'taskId': searchTask.id}}"
               class="task-category-commodity-details"
@@ -79,7 +79,7 @@
                 <img class="block" v-lazy="searchTask.taskMainImage" alt="" style="width: 220px; height: 220px;">
               </div>
               <div class="task-category-commodity-text">
-                <p>{{searchTask.taskName}}</p>
+                <p v-html="searchTask.taskName"></p>
                 <p class="task-category-commodity-text-price">
                   <span class="left">￥{{searchTask.itemPrice/100}}</span>
                   <span class="right">免费试用</span>

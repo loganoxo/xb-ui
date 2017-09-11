@@ -6,17 +6,19 @@
           <div class="left-ctt left mr-10">
             <ul>
               <li v-for="taskTopLeft in taskTopLeftList">
-                <div class="left img-box">
-                  <img :src="taskTopLeft.task.taskMainImage" alt="" width="54px">
-                </div>
-                <div class="left text-box ml-10">
-                  <p>{{taskTopLeft.showkerPhone}}成功领取了</p>
-                  <p>
-                    <span class="left"
-                          style="width: 84px; overflow: hidden; text-overflow: ellipsis; white-space:nowrap;">{{taskTopLeft.task.taskName}}</span>
-                    <span class="text left ml-5">￥{{taskTopLeft.task.itemPrice / 100}}</span>
-                  </p>
-                </div>
+                <router-link :to="{path:'/task-details',query:{taskId: taskTopLeft.task.id }}"  class="block">
+                  <div class="left img-box">
+                    <img :src="taskTopLeft.task.taskMainImage" alt="" width="54px">
+                  </div>
+                  <div class="left text-box ml-10">
+                    <p>{{taskTopLeft.showkerPhone}}成功领取了</p>
+                    <p>
+                      <span class="left"
+                            style="width: 84px; overflow: hidden; text-overflow: ellipsis; white-space:nowrap;">{{taskTopLeft.task.taskName}}</span>
+                      <span class="text left ml-5">￥{{taskTopLeft.task.itemPrice / 100}}</span>
+                    </p>
+                  </div>
+                </router-link>
               </li>
             </ul>
           </div>
