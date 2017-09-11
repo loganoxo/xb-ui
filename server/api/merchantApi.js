@@ -268,7 +268,7 @@ router.post('/api/get-task.json', function (req, res, next) {
 });
 
 /**
- * 商家任务管理申请列表
+ * 商家获取已申请任务秀客列表
  * @param taskId
  * @param status
  */

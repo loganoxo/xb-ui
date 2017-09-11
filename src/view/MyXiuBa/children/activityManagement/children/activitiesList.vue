@@ -344,9 +344,9 @@
         }).then(res =>{
           if(res.status){
             if(res.statusCode === 'waiting_audit'){
-              _this.$Message.success('任务申请结束成功，请耐心等待审核！');
+              _this.$Message.success('任务申请结算成功，请耐心等待审核！');
             }else{
-              _this.$Message.success('任务申请结束成功！');
+              _this.$Message.success('任务申请结算成功！');
             }
             _this.getTaskList();
           }else{

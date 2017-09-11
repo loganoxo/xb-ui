@@ -1,15 +1,8 @@
 /**
- * Created by ycb on 2017/7/22.
+ * Created by ycb on 2017/9/11.
  */
 const port = normalizePort(process.env.PORT || '3000');
 module.exports = {
-  /*port: port,
-  baseUrl: 'http://10.10.10.102:8765',
-  redis: {
-    port: '6379',
-    host: '10.10.10.103',
-    db: 15
-  }*/
   port: port,
   baseUrl: 'http://192.168.1.142:8765',
   redis: {
@@ -34,5 +27,3 @@ function normalizePort(val) {
 
   return false;
 }
-
-

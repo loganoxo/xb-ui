@@ -288,7 +288,7 @@ export default {
   },
 
   /**
-   * 商家获取审批秀客列表
+   * 商家获取已申请任务的秀客列表
    */
   getTaskApplyList(params) {
     return fetch("/api/get-task-apply-list.json", params)
