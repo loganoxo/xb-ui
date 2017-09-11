@@ -260,17 +260,24 @@ export default {
   },
 
   /**
-   * 试用活动管理任务关闭
+   * 商家试用活动管理任务关闭
    */
   closeTask(params) {
     return fetch("/api/close-task.json", params)
   },
 
   /**
-   * 试用活动管理任务删除
+   * 商家试用活动管理任务删除
    */
   deleteTask(params) {
     return fetch("/api/delete-task.json", params)
+  },
+
+  /**
+   * 商家申请任务结算
+   */
+  settlementTask(params) {
+    return fetch("/api/task-settlement.json", params)
   },
 
   /**

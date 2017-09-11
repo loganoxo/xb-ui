@@ -144,7 +144,6 @@ router.post("/api/pay-by-balance.json", function (req, res, next) {
     });
 });
 
-
 /**
  * 商家试用活动管理
  * @param userId
@@ -208,6 +207,29 @@ router.post('/api/delete-task.json', function (req, res, next) {
   let options = {
     method: 'GET',
     uri: baseUrl + '/task/delete/' + req.session.userData.id + '/' + req.body.taskId,
+    json: true
+  };
+  request(options)
+    .then(function (parsedBody) {
+      res.send(parsedBody);
+      res.end();
+    })
+    .catch(function (err) {
+      logConfig.logger.error(req.originalUrl + ':' + err);
+      res.json({status: false, msg: "服务器错误"});
+      res.end();
+    });
+});
+
+/**
+ * 商家申请任务结算
+ * @param userId
+ * @param taskId
+ */
+router.post('/api/task-settlement.json',function (req, res ,next) {
+  let options = {
+    method: 'GET',
+    uri: baseUrl + '/task/settlement/'+ req.session.userData.id+ '/'+ req.body.taskId,
     json: true
   };
   request(options)

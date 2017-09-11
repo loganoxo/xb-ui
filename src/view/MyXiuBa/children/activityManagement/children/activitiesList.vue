@@ -108,15 +108,18 @@
               <span @click="copyTask(item.id)">复制活动</span>
             </p>
           </td>
-          <td v-else-if="item.taskStatus === 'waiting_settlement'">
-            <p class="copy mt-6">
-              <span>申请结算</span>
+          <td v-else-if="item.settlementStatus === 'waiting_settlement'">
+            <p class="bond mt-6">
+              <span @click="approveShowker(item.id)">审批秀客</span>
+            </p>
+            <p class="bond mt-6">
+              <span @click="settlementTask(item.id)">申请结算</span>
             </p>
             <p class="copy mt-6">
               <span @click="copyTask(item.id)">复制活动</span>
             </p>
           </td>
-          <td v-else-if="item.taskStatus === 'settlement_finished'">
+          <td v-else-if="item.settlementStatus === 'settlement_finished'">
             <p class="copy mt-6">
               <span>结算详情</span>
             </p>
@@ -304,13 +307,13 @@
             _this.closeModal = false;
             _this.modalLoading = false;
             setTimeout(function () {
-              _this.$Message.success('任务关闭成功');
+              _this.$Message.success('任务关闭成功！');
             }, 500);
             _this.getTaskList();
           } else {
             _this.closeModal = false;
             _this.modalLoading = false;
-            _this.$Message.error("抱歉，任务关闭失败！");
+            _this.$Message.error(res.msg);
           }
         })
       },
@@ -324,13 +327,30 @@
             _this.deleteModal = false;
             _this.modalLoading = false;
             setTimeout(function () {
-              _this.$Message.success('任务删除成功');
+              _this.$Message.success('任务删除成功！');
             }, 500);
             _this.getTaskList();
           } else {
             _this.deleteModal = false;
             _this.modalLoading = false;
-            _this.$Message.error("抱歉，任务删除失败！");
+            _this.$Message.error(res.msg);
+          }
+        })
+      },
+      settlementTask(id) {
+        let _this =  this;
+        api.settlementTask({
+          taskId: id
+        }).then(res =>{
+          if(res.status){
+            if(res.statusCode === 'waiting_audit'){
+              _this.$Message.success('任务申请结束成功，请耐心等待审核！');
+            }else{
+              _this.$Message.success('任务申请结束成功！');
+            }
+            _this.getTaskList();
+          }else{
+            _this.$Message.error(res.msg);
           }
         })
       },
