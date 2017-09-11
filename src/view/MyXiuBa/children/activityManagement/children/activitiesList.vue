@@ -26,7 +26,7 @@
             <span>进行中</span>
           </Checkbox>
           <Checkbox label="finished">
-            <span>已结束</span>
+            <span>已完成</span>
           </Checkbox>
           <Checkbox label="closed">
             <span>已关闭</span>
@@ -35,6 +35,9 @@
       </div>
       <div class="left">
         <Checkbox-group v-model="settlementStatusList" @on-change="checkAllGroupChange">
+          <Checkbox label="cannot_settlement">
+            <span>不可申请结算</span>
+          </Checkbox>
           <Checkbox label="waiting_settlement">
             <span>待申请结算</span>
           </Checkbox>
@@ -362,7 +365,7 @@
         this.checkAll = !this.checkAll;
         if (this.checkAll) {
           this.taskStatusList = ['waiting_pay', 'waiting_audit', 'waiting_modify', 'under_way', 'finished', 'closed'];
-          this.settlementStatusList = ['waiting_settlement', 'waiting_audit', 'settlement_finished'];
+          this.settlementStatusList = ['waiting_settlement', 'waiting_audit', 'settlement_finished', 'cannot_settlement'];
         } else {
           this.taskStatusList = [];
           this.settlementStatusList = [];
@@ -370,7 +373,7 @@
         this.getTaskList();
       },
       checkAllGroupChange() {
-        if (this.settlementStatusList.length === 3 && this.taskStatusList.length === 6) {
+        if (this.settlementStatusList.length === 4 && this.taskStatusList.length === 6) {
           this.checkAll = true;
         } else if (this.settlementStatusList.length > 0 || this.taskStatusList.length > 0) {
           this.checkAll = false;
