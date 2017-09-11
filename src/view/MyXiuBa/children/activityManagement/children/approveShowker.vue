@@ -41,7 +41,6 @@
               </thead>
               <tbody v-if="approveTableList.length > 0" v-for="item in approveTableList" :key="item.id">
               <tr>
-                <td>{{item.showkerName}}</td>
                 <td>{{item.alitmAccount}}</td>
                 <td>{{item.applyTime | dateFormat('YYYY-MM-DD hh:mm:ss')}}</td>
                 <td class="registration">
@@ -119,7 +118,6 @@
               </thead>
               <tbody v-if="approveTableList.length > 0" v-for="item in approveTableList" :key="item.id">
               <tr>
-                <!--<td >{{item.showkerName}}</td>-->
                 <td>{{item.alitmAccount}}</td>
                 <td>
                   <p>{{getTaskStatus(item.status)}}</p>
@@ -185,7 +183,6 @@
               </thead>
               <tbody v-if="approveTableList.length > 0" v-for="item in approveTableList" :key="item.id">
               <tr>
-                <td>{{item.showkerName}}</td>
                 <td>{{item.alitmAccount}}</td>
                 <td>{{item.orderNum}}</td>
                 <td>{{getTaskStatus(item.status)}}</td>

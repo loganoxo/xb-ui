@@ -542,7 +542,7 @@
           pageSize: 5,
           pageIndex: _this.pageIndex,
         }).then(res => {
-          if (res.status) {
+          if(res.status) {
             _this.applySuccessList = [];
             let content = res.data.content;
             content.forEach(function (item) {
