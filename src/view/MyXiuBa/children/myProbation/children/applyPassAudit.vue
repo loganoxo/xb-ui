@@ -558,8 +558,10 @@
               data.perMarginNeed = item.task.perMarginNeed;
               data.createTime = item.task.createTime;
               data.orderNumber = item.task.number;
-              if(data.auditDescription){
+              if(item.latestShowkerTaskOpLog){
                 data.auditDescription = item.latestShowkerTaskOpLog.auditDescription;
+              }else {
+                data.auditDescription = '';
               }
               _this.applySuccessList.push(data);
             });
