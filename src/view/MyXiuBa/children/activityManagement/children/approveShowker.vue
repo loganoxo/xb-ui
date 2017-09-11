@@ -50,8 +50,7 @@
                 </td>
                 <td>
                   <p class="del-edit">
-                    <span class="mr-10" @click="showkerPassAudit(item.id, 'true')">通过</span>
-                    <span @click="showkerFailAudit(item.id, 'false')">不通过</span>
+                    <span @click="showkerPassAudit(item.id, 'true')">通过</span>
                   </p>
                 </td>
               </tr>
@@ -410,9 +409,6 @@
         })
       },
       showkerPassAudit(id, status) {
-        this.setShowkerAudit(id, status);
-      },
-      showkerFailAudit(id, status) {
         this.setShowkerAudit(id, status);
       },
       setShowkerAudit(id, status) {
