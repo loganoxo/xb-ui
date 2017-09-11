@@ -260,6 +260,13 @@ export default {
   },
 
   /**
+   * 试用活动管理任务关闭
+   */
+  closeTask(params) {
+    return fetch("/api/close-task.json", params)
+  },
+
+  /**
    * 试用活动管理任务删除
    */
   deleteTask(params) {

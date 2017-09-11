@@ -116,6 +116,7 @@ router.post("/api/get-account-balance.json", function (req, res, next) {
  * @param userId
  * @param fee
  * @param payPassword
+ * @param type
  * @param platform
  */
 router.post("/api/pay-by-balance.json", function (req, res, next) {
@@ -126,6 +127,7 @@ router.post("/api/pay-by-balance.json", function (req, res, next) {
       uid: req.session.userData.id,
       payPwd: req.body.payPassword,
       taskId: req.body.taskId,
+      type: req.body.type,
       platform: 'PC'
     },
     json: true
@@ -160,6 +162,29 @@ router.post('/api/task-list.json', function (req, res, next) {
       taskStatusListString: req.body.taskStatusList,
       settlementStatusListString: req.body.settlementStatusList
     },
+    json: true
+  };
+  request(options)
+    .then(function (parsedBody) {
+      res.send(parsedBody);
+      res.end();
+    })
+    .catch(function (err) {
+      logConfig.logger.error(req.originalUrl + ':' + err);
+      res.json({status: false, msg: "服务器错误"});
+      res.end();
+    });
+});
+
+/**
+ * 商家关闭已提交的任务
+ * @param userId
+ * @param taskId
+ */
+router.post('/api/close-task.json', function (req, res, next) {
+  let options = {
+    method: 'GET',
+    uri: baseUrl + '/task/close/' + req.session.userData.id + '/' + req.body.taskId,
     json: true
   };
   request(options)
@@ -221,7 +246,7 @@ router.post('/api/get-task.json', function (req, res, next) {
 });
 
 /**
- * 根据任务id和状态获取任务申请列表（商家编辑已提交过的任务）
+ * 商家任务管理申请列表
  * @param taskId
  * @param status
  */

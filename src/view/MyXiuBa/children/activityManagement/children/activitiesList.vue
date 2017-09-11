@@ -28,6 +28,9 @@
           <Checkbox label="finished">
             <span>已结束</span>
           </Checkbox>
+          <Checkbox label="closed">
+            <span>已关闭</span>
+          </Checkbox>
         </Checkbox-group>
       </div>
       <div class="left">
@@ -82,7 +85,7 @@
           <td v-if="item.taskStatus === 'waiting_pay'">
             <p class="del-edit">
               <span class="mr-10" @click="editTask(item.id,item.taskStatus)">编辑</span>
-              <span @click="deleteTask(item.id)">删除</span>
+              <span @click="closeTask(item.id)">关闭</span>
             </p>
             <p class="bond mt-6">
               <span @click="depositMoney((item.totalMarginNeed + item.promotionExpensesNeed) / 100,item.id)">存担保金</span>
@@ -94,7 +97,7 @@
           <td v-else-if="item.taskStatus === 'waiting_modify'">
             <p class="del-edit">
               <span class="mr-10" @click="editTask(item.id,item.taskStatus)">编辑</span>
-              <span @click="deleteTask(item.id)">删除</span>
+              <span @click="closeTask(item.id)">关闭</span>
             </p>
             <p class="copy mt-6">
               <span @click="copyTask(item.id)">复制活动</span>
@@ -121,6 +124,14 @@
               <span @click="copyTask(item.id)">复制活动</span>
             </p>
           </td>
+          <td v-else-if="item.taskStatus === 'closed'">
+            <p class="bond mt-6">
+              <span @click="deleteTask(item.id)">彻底删除</span>
+            </p>
+            <p class="copy mt-6">
+              <span @click="copyTask(item.id)">复制活动</span>
+            </p>
+          </td>
           <td v-else>
             <p class="bond mt-6">
               <span @click="approveShowker(item.id)">审批秀客</span>
@@ -141,6 +152,20 @@
     <div class="activity-page mt-20 right mr-10">
       <Page :total="totalElements" :page-size="pageSize" @on-change="pageChange"></Page>
     </div>
+    <!--关闭任务弹框-->
+    <Modal v-model="closeModal" width="360">
+      <p slot="header" style="color:#f60;text-align:center">
+        <Icon type="information-circled"></Icon>
+        <span>关闭确认</span>
+      </p>
+      <div style="text-align:center">
+        <p>此任务关闭后，任务将无法执行。</p>
+        <p>是否继续关闭？</p>
+      </div>
+      <div slot="footer">
+        <iButton type="error" size="large" long :loading="modalLoading" @click="confirmClose">关闭</iButton>
+      </div>
+    </Modal>
     <!--删除任务弹框-->
     <Modal v-model="deleteModal" width="360">
       <p slot="header" style="color:#f60;text-align:center">
@@ -152,7 +177,7 @@
         <p>是否继续删除？</p>
       </div>
       <div slot="footer">
-        <iButton type="error" size="large" long :loading="modalLoading" @click="confirmDelete">删除</iButton>
+        <iButton type="error" size="large" long :loading="modalLoading" @click="confirmClose">删除</iButton>
       </div>
     </Modal>
     <!--支付保证金弹框-->
@@ -198,6 +223,7 @@
         taskList: null,
         checkAll: false,
         deleteModal: false,
+        closeModal: false,
         modalLoading: false,
         taskStatusList: [],
         settlementStatusList: [],
@@ -260,15 +286,39 @@
       getTaskStatus(type) {
         return TaskErrorStatusList(type);
       },
+      closeTask(id) {
+        this.closeModal = true;
+        this.taskId = id;
+      },
       deleteTask(id) {
         this.deleteModal = true;
         this.taskId = id;
+      },
+      confirmClose() {
+        let _this = this;
+        _this.modalLoading = true;
+        api.closeTask({
+          taskId: _this.taskId
+        }).then(res => {
+          if (res.status) {
+            _this.closeModal = false;
+            _this.modalLoading = false;
+            setTimeout(function () {
+              _this.$Message.success('任务关闭成功');
+            }, 500);
+            _this.getTaskList();
+          } else {
+            _this.closeModal = false;
+            _this.modalLoading = false;
+            _this.$Message.error("抱歉，任务关闭失败！");
+          }
+        })
       },
       confirmDelete() {
         let _this = this;
         _this.modalLoading = true;
         api.deleteTask({
-          taskId: this.taskId
+          taskId: _this.taskId
         }).then(res => {
           if (res.status) {
             _this.deleteModal = false;
@@ -291,7 +341,7 @@
       handleCheckAll() {
         this.checkAll = !this.checkAll;
         if (this.checkAll) {
-          this.taskStatusList = ['waiting_pay', 'waiting_audit', 'waiting_modify', 'under_way', 'finished'];
+          this.taskStatusList = ['waiting_pay', 'waiting_audit', 'waiting_modify', 'under_way', 'finished', 'closed'];
           this.settlementStatusList = ['waiting_settlement', 'waiting_audit', 'settlement_finished'];
         } else {
           this.taskStatusList = [];
@@ -300,7 +350,7 @@
         this.getTaskList();
       },
       checkAllGroupChange() {
-        if (this.settlementStatusList.length === 3 && this.taskStatusList.length === 5) {
+        if (this.settlementStatusList.length === 3 && this.taskStatusList.length === 6) {
           this.checkAll = true;
         } else if (this.settlementStatusList.length > 0 || this.taskStatusList.length > 0) {
           this.checkAll = false;

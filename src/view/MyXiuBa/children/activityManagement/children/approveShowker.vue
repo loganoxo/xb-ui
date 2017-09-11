@@ -28,7 +28,7 @@
             <iOption v-for="item in SelectList" :value="item.value" :key="item.value">{{ item.label }}</iOption>
           </iSelect>
           <iInput v-model="searchValue" style="width: 160px;margin-right: 8px;"></iInput>
-          <iButton type="primary" @click="taskApplyList">搜索</iButton>
+          <iButton type="primary" :loading="searchLoading" @click="taskApplyList">搜索</iButton>
           <div class="activity-table mt-20">
             <table>
               <thead>
@@ -72,7 +72,7 @@
           <iInput v-model="searchValue" style="width: 160px;margin-right: 8px;"></iInput>
           <span>订单编号：</span>
           <iInput v-model="orderNum" style="width: 160px;margin-right: 8px;"></iInput>
-          <iButton type="primary" @click="taskApplyList">搜索</iButton>
+          <iButton type="primary" :loading="searchLoading" @click="taskApplyList">搜索</iButton>
           <div class="clear mt-20">
             <div class="left mr-10" style="margin-top: 2px;">
               <Checkbox
@@ -123,11 +123,12 @@
                   <p>{{getTaskStatus(item.status)}}</p>
                   <p v-if="item.status !== 'trial_end' && item.status !== 'trial_finished'"><time-down color='#ff4040' :fontWeight=600 :endTime="item.currentGenerationEndTime"></time-down></p>
                 </td>
-                <td>{{item.orderNum}}</td>
+                <td>{{item.orderNum || '------'}}</td>
                 <td>
                   <p class="del-edit">
                     <span v-if="item.status === 'order_num_waiting_audit'" @click="openCheckOrder(item.id)">审核订单号</span>
-                    <span v-if="item.status === 'trial_report_waiting_confirm'" @click="goProbationReport(item.id)">审核试用报告</span>
+                    <span v-else-if="item.status === 'trial_report_waiting_confirm'" @click="goProbationReport(item.id)">审核试用报告</span>
+                    <span v-else>------</span>
                   </p>
                 </td>
               </tr>
@@ -148,7 +149,7 @@
           <iInput v-model="searchValue" style="width: 160px;margin-right: 8px;"></iInput>
           <span>订单编号：</span>
           <iInput v-model="orderNum" style="width: 160px;margin-right: 8px;"></iInput>
-          <iButton type="primary" @click="taskApplyList">搜索</iButton>
+          <iButton type="primary" :loading="searchLoading" @click="taskApplyList">搜索</iButton>
           <div class="clear mt-20">
             <div class="left mr-10" style="margin-top: 2px;">
               <Checkbox
@@ -184,7 +185,7 @@
               <tbody v-if="approveTableList.length > 0" v-for="item in approveTableList" :key="item.id">
               <tr>
                 <td>{{item.alitmAccount}}</td>
-                <td>{{item.orderNum}}</td>
+                <td>{{item.orderNum || '------'}}</td>
                 <td>{{getTaskStatus(item.status)}}</td>
                 <td>{{item.updateTime | dateFormat('YYYY-MM-DD hh:mm:ss')}}</td>
                 <td>{{getTaskStatus(item.trialEndReason)}}</td>
@@ -320,7 +321,8 @@
         orderInfo: {},
         perMarginNeed: 0,
         payButtonText: '确认支付并通过',
-        rechargeButtonText: '前去充值'
+        rechargeButtonText: '前去充值',
+        searchLoading: false
       }
     },
     mounted() {},
@@ -387,6 +389,7 @@
       taskApplyList() {
         let _this = this;
         _this.approveTableList = [];
+        _this.searchLoading = true;
         api.getTaskApplyList({
           taskId: _this.taskId,
           status: _this.showApproveStatus,
@@ -398,6 +401,7 @@
           pageIndex: _this.approvePageIndex
         }).then(res => {
           if (res.status) {
+            _this.searchLoading = false;
             _this.approveTableList = res.data.list.content;
             _this.approveTaskInfo = res.data.taskInfo;
             _this.trailOn = res.data.trailOn;

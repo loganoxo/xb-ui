@@ -4,7 +4,7 @@
       <iOption v-for="item in SelectList" :value="item.value" :key="item.value">{{ item.label }}</iOption>
     </iSelect>
     <iInput v-model="searchValue" style="width: 160px;margin-right: 8px;"></iInput>
-    <iButton type="primary" @click="showkerApplyList">搜索</iButton>
+    <iButton type="primary" :loading="searchLoading" @click="showkerApplyList">搜索</iButton>
     <div class="probation-table mt-20">
       <table>
         <thead>
@@ -92,7 +92,8 @@
         totalElements: null,
         pageSize: 5,
         pageIndex: 1,
-        applyList: []
+        applyList: [],
+        searchLoading: false
       }
     },
     mounted() {
@@ -112,6 +113,7 @@
       },
       showkerApplyList() {
         let _this = this;
+        _this.searchLoading = true;
         _this.applyList = [];
         api.showkerApplyList({
           selectStatus: _this.selectStatus,
@@ -121,6 +123,7 @@
           pageSize: 5,
         }).then(res => {
           if (res.status) {
+            _this.searchLoading = false;
             _this.applyList = res.data.content;
             _this.totalElements = res.data.numberOfElements;
           } else {

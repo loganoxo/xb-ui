@@ -113,10 +113,10 @@
           self.loginTrendsCustom.role = role;
           self.getRegister()
         }else {
-          if(role == 0){
-            self.$router.push({path: '/buyer-register'});
-          }else if(role == 1){
-            self.$router.push({path: '/seller-register'});
+          if(role === 0){
+            self.$router.push({path: '/register/buyer-register'});
+          }else if(role === 1){
+            self.$router.push({path: '/register/seller-register'});
           }
         }
       },

@@ -48,7 +48,7 @@
        <span class="ml-10">通过日期：</span>
        <Date-picker format="yyyy-MM-dd" type="daterange" placement="bottom-end" placeholder="请选择日期查询"
                     style="width: 200px" @on-change="handleDataChange"></Date-picker>
-       <iButton type="primary" class="ml-20" @click="showkerSuccessList">搜索</iButton>
+       <iButton type="primary" class="ml-20" :loading="searchLoading" @click="showkerSuccessList">搜索</iButton>
      </div>
      <div class="probation-table mt-20">
        <table>
@@ -360,6 +360,7 @@
             label: '淘宝会员名'
           }
         ],
+        searchLoading: false,
         selectStatus: null,
         searchValue: null,
         orderNumber: null,
@@ -532,6 +533,7 @@
       },
       showkerSuccessList() {
         let _this = this;
+        _this.searchLoading =  true;
         api.showkerSuccessList({
           selectStatus: _this.selectStatus,
           orderNum: _this.orderNumber,
@@ -543,6 +545,7 @@
           pageIndex: _this.pageIndex,
         }).then(res => {
           if(res.status) {
+            _this.searchLoading =  false;
             _this.applySuccessList = [];
             let content = res.data.content;
             content.forEach(function (item) {

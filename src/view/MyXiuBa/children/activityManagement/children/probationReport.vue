@@ -32,10 +32,9 @@
       </div>
       <div class="trial-experience mt-20">
         <div class="trial-experience-title">试用过程与体验：</div>
-        <div
-          class="trial-experience-con mt-22">{{showkerReportInfo.trialReportText || ''}}</div>
+        <div class="trial-experience-con mt-22">{{showkerReportInfo.trialReportText || ''}}</div>
         <div class="trial-experience-title mt-22">试用图片：</div>
-        <div class="trial-img-info">
+        <div class="trial-img-info" v-if="trialReportImages.length > 0">
           <div class="trial-img">
             <img :src="showNowImageSrc">
           </div>
@@ -47,6 +46,7 @@
           <span class="left-btn" @click="leftChangeImg"><Icon type="chevron-left" size="32" color="#999"></Icon></span>
           <span class="right-btn" @click="rightChangeImg"><Icon type="chevron-right" size="32" color="#999"></Icon></span>
         </div>
+        <div v-else>暂无试用图片</div>
         <div class="check-trial mt-40">
           <div class="select-check">
             <Radio-group v-model="trialCheckStatus">

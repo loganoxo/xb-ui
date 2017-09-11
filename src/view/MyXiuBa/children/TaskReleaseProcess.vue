@@ -573,12 +573,12 @@
           taskId: null,
           taskDetail: {}
         },
-        editPriceAfterModel:false,
-        editPriceToLowAfterModel:false,
-        priceHasChange:false,
-        paidDeposit:0,
-        taskStatus:null,
-        editTaskId:null,
+        editPriceAfterModel: false,
+        editPriceToLowAfterModel: false,
+        priceHasChange: false,
+        paidDeposit: 0,
+        taskStatus: null,
+        editTaskId: null,
       }
     },
     mounted() {
@@ -676,13 +676,13 @@
       priceFormat(num,decimals) {
         return numberFormat(num,decimals);
       },
-      handleSuccess(res, file) {
+      handleSuccess(res) {
         this.taskRelease.taskMainImage = aliCallbackImgUrl + res.name;
       },
-      pcBabyImgSuccess(res, file) {
+      pcBabyImgSuccess(res) {
         this.PcTaskDetail.itemMainImage = aliCallbackImgUrl + res.name;
       },
-      appBabyImgSuccess(res, file) {
+      appBabyImgSuccess(res) {
         this.AppTaskDetail.itemMainImage = aliCallbackImgUrl + res.name;
       },
       handleFormatError(file) {
@@ -1004,7 +1004,8 @@
         api.payByBalance({
           fee: _this.orderMoney,
           payPassword: pwd,
-          taskId: _this.taskPayId
+          taskId: _this.taskPayId,
+          type: _this.priceHasChange ? 'supply_pay' : 'first_pay'
         }).then(res => {
           if(res.status){
             _this.getBalance();
