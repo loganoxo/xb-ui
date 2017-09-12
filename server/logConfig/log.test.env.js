@@ -3,17 +3,17 @@ log4js.configure({
   appenders: {
     cheese: {
       type: 'file',
-      filename: 'testing.log'
+      filename: 'cheese.log'
     }
   },
   categories: {
     default: {
-      appenders: ['testing'],
+      appenders: ['cheese'],
       level: 'info'
     }
   }
 });
-const logger = log4js.getLogger('testing');
+const logger = log4js.getLogger('cheese');
 module.exports.logger = logger;
 module.exports.use = function (app) {
   app.use(log4js.connectLogger(logger, {level: 'auto', format: ':method :url'}));
