@@ -264,20 +264,20 @@
         let self = this;
         self.btnState.registerBuyerBtn = true;
         api.register({
-          phone: this.formCustom.phone,
-          pwd: this.formCustom.pwd,
-          repwd: this.formCustom.repwd,
+          phone: self.formCustom.phone,
+          pwd: self.formCustom.pwd,
+          repwd: self.formCustom.repwd,
           nickName: '',
-          smsCode: this.formCustom.smsCode,
-          validateCode: this.formCustom.validateCode,
-          role: this.formCustom.role,
+          smsCode: self.formCustom.smsCode,
+          validateCode: self.formCustom.validateCode,
+          role: self.formCustom.role,
           purpose: 'reg'
         }).then((res) => {
           if (res.status) {
             self.$Modal.success({
               content: "注册成功",
               onOk: function () {
-                self.$router.push({name: 'login'});
+                self.setUserInfo(self.formCustom.phone, self.formCustom.pwd);
               }
             });
           } else {
@@ -294,20 +294,20 @@
         self.formCustom.role = 1;
         self.btnState.registerSellerBtn = true;
         api.register({
-          phone: this.formCustom.phone,
-          pwd: this.formCustom.pwd,
-          repwd: this.formCustom.repwd,
+          phone: self.formCustom.phone,
+          pwd: self.formCustom.pwd,
+          repwd: self.formCustom.repwd,
           nickName: '',
-          smsCode: this.formCustom.smsCode,
-          validateCode: this.formCustom.validateCode,
-          role: this.formCustom.role,
+          smsCode: self.formCustom.smsCode,
+          validateCode: self.formCustom.validateCode,
+          role: self.formCustom.role,
           purpose: 'reg'
         }).then((res) => {
           if (res.status) {
             self.$Modal.success({
               content: "注册成功",
               onOk: function () {
-                self.$router.push({name: 'login'});
+                self.setUserInfo(self.formCustom.phone, self.formCustom.pwd);
               }
             });
           } else {
@@ -317,6 +317,25 @@
             self.getRegVrcode();
           }
           self.btnState.registerSellerBtn = false;
+        })
+      },
+      setUserInfo(phone, pwd) {
+        let self = this;
+        api.login({
+          phone: phone,
+          passWord: pwd,
+        }).then((res) => {
+          if (res.status) {
+            self.$store.commit({
+              type: 'RECORD_USER_INFO',
+              info: res.data
+            });
+            self.$router.push({name: 'Home'});
+          } else {
+            self.$Modal.error({
+              content: res.msg,
+            });
+          }
         })
       },
       sendCodeSuccess(res) {
