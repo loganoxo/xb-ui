@@ -7,7 +7,20 @@ const path = require('path');
  */
 let env = process.env.NODE_ENV || 'development';
 env = env.toLowerCase();
-const file = path.resolve(__dirname, env === 'production' ? 'log.prod.env' : 'log.dev.env');
+const getPathName = function (env) {
+  switch (env) {
+    case 'production':
+      return 'node.prod.env';
+      break;
+    case 'development':
+      return 'node.dev.env';
+      break;
+    case 'testing':
+      return 'node.test.env';
+      break;
+  }
+};
+const file = path.resolve(__dirname, getPathName(env));
 try {
   let config = module.exports = require(file);
   console.log('Load config: [%s] %s', env, file);
