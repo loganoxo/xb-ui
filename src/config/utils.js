@@ -165,6 +165,9 @@ export const TaskErrorStatusList = (type) => {
     case  'pay_for_task_deposit_seller':
       return '支付活动担保金';
       break;
+    case  'task_trad_record_seller':
+      return '商家活动交易记录';
+      break;
     case  'task_return_seller':
       return '活动结算返款';
       break;

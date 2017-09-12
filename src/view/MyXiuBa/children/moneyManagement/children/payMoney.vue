@@ -15,14 +15,14 @@
             <Radio label="ali">
               <img src="~assets/img/task-release/zfb_logo.png" alt="支付宝" class="vtc-mid">
             </Radio>
-            <Radio label="weiXin">
+            <Radio label="weiXin" v-show="false">
               <img src="~assets/img/task-release/wechat_logo.png" class="vtc-mid">
             </Radio>
           </Radio-group>
         </Form-item>
         <Form-item>
-          <iButton  class="payMoneyBtn" @click="payPopWindow = true;balanceOrderCreate(payMoney,getUserInfo)">提交</iButton>
-          <Modal v-model="payPopWindow" width="360"
+          <iButton  class="payMoneyBtn" @click="payPopWindow = true;balanceOrderCreate(payMoney,getUserId)">提交</iButton>
+          <Modal  v-model="payPopWindow" width="360"
             :styles="{top:'310px',height:'300px'}">
             <div style="text-align:center">
               <p>请前往充值页面进行充值</p>
@@ -79,7 +79,10 @@
       const validatePayNumber = (rule, value, callback) => {
         if (!(/^[0-9]+(.[0-9]{1,2})?$/.test(value))) {
           callback(new Error('金额为数字，请您重新输入'))
-        } else {
+        } else if(value<1) {
+          callback(new Error('最低一元起充，请您重新输入'))
+        }
+        else {
           callback()
         }
       };
@@ -113,7 +116,7 @@
       getUserBalance: function () {
         return this.$store.state.userBalance
       },
-      getUserInfo: function () {
+      getUserId: function () {
         return this.$store.state.userInfo.id
       }
 
@@ -142,6 +145,11 @@
       },
       balanceOrderCreate(type, id) {
         let _this = this;
+        if (type.number===''){
+          _this.$Message.error('您未输入充值金额，请您重新输入');
+          _this.payPopWindow = false
+          return;
+        }
         api.balanceOrderCreate({
           uid: id,
           finalFee: type.number * 100,

@@ -79,6 +79,10 @@
             </Form-item>
             <Form-item label="支付密码:" prop="password">
               <iInput v-model="getoutMoney.password"  class="iInput" :type="psw"  :icon="eye" @on-click="seyPassword"></iInput>
+              <span v-show="getIfEditPwdAlready === false">初始密码为888888，为了你的账号安全，建议您
+                <router-link :to="{'path':'/user/money-management/account-management','query':{'type':'resetPwd'}}">重置支付密码。</router-link>
+              </span>
+              <span v-show="getIfEditPwdAlready === true"><router-link to="/user/money-management/account-management">忘记密码？</router-link></span>
             </Form-item>
             <Form-item >
               <iButton type="primary" @click="modal2 = true,applyGetoutMoney(getoutMoney)" class="ibtns">申请提现</iButton>
@@ -184,17 +188,13 @@
       <h2>常见问题</h2>
       <div class="mt-10">
         <p>提现</p>
-        <div>1、初始密码为888888，为了你的账号安全，建议您
-          <router-link :to="{'path':'/user/money-management/account-management','query':{'type':'resetPwd'}}">重置支付密码。</router-link>
-        </div>
-        <p>2、最低提现金额1元，手续费1%，每天提现次数不限</p>
-        <p>3、当日12:00-当日18:00间申请提现的，在当日18:00处理，当日18:00-次日12:00间申请提现的，在次日12:00处理。</p>
+        <p>1、最低提现金额1元，手续费1%，每天提现次数不限</p>
+        <p>2、当日12:00-当日18:00间申请提现的，在当日18:00处理，当日18:00-次日12:00间申请提现的，在次日12:00处理。</p>
       </div>
     </div>
   </div>
 </template>
 <script>
-  import api from '@/config/apiConfig'
   import Icon from 'iview/src/components/icon'
   import Form from 'iview/src/components/form'
   import Input from 'iview/src/components/input'
@@ -203,9 +203,10 @@
   import Page from 'iview/src/components/page'
   import Modal from 'iview/src/components/modal'
   import DatePicker  from 'iview/src/components/date-picker'
+  import {Select, Option, OptionGroup} from 'iview/src/components/select'
+  import api from '@/config/apiConfig'
   import SmsCountdown from '@/components/SmsCountdown'
   import PayModel from  '@/components/PayModel'
-  import {Select, Option, OptionGroup} from 'iview/src/components/select'
   import {TaskErrorStatusList} from '@/config/utils'
   import {mapActions} from 'vuex'
   export default {
@@ -393,6 +394,9 @@
       },
       getUserPhone: function(){
         return  this.$store.state.userInfo.phone
+      },
+      getIfEditPwdAlready: function(){
+        return  this.$store.state.userInfo.userAccount.ifEditPwdAlready
       }
     },
     methods: {
