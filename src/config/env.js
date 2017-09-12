@@ -10,18 +10,18 @@
  * aliPayUrl: 支付宝充值地址
  */
 
+let domain = window.location.protocol + '//' + window.location.host;
 let baseUrl = '/api';
-let aliUrl = 'http://10.10.10.102:8765/api/ali-token.json';
+let aliUrl = domain + '/api/ali-token.json';
 let bucket = 'xiuba-dev';
 let aliCallbackImgUrl = 'http://xiuba-dev.oss-cn-hangzhou.aliyuncs.com/';
-let aliPayUrl = 'http://10.10.10.102:8765/pay/build_req.htm?channel=1&userId=';
+let aliPayUrl = domain + '/pay/build_req.htm?channel=1&userId=';
+
 
 if (process.env.NODE_ENV === 'development') {
   baseUrl = '/api';
-  aliUrl = 'http://192.168.1.142:3000/api/ali-token.json';
   bucket = 'xiuba-dev';
   aliCallbackImgUrl = 'http://xiuba-dev.oss-cn-hangzhou.aliyuncs.com/';
-  aliPayUrl = 'http://192.168.1.142:8765/pay/build_req.htm?channel=1&userId='
 }
 
 export {
