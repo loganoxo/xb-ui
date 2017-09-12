@@ -4,7 +4,7 @@
 const port = normalizePort(process.env.PORT || '3000');
 module.exports = {
   port: port,
-  baseUrl: 'http://10.10.10.102:8765',
+  baseUrl: 'http://10.10.10.4:8765',
   redis: {
     port: '6379',
     host: '10.10.10.103',

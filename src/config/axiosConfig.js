@@ -6,7 +6,6 @@ import qs from 'qs'
 import router from '@/router'
 import store from '@/store'
 import LoadingBar from 'iview/src/components/loading-bar'
-// import {baseUrl} from './env'
 
 axios.defaults.timeout = 100000;//响应时间
 axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded;charset=UTF-8';//配置请求头
@@ -43,7 +42,6 @@ axios.interceptors.response.use((res) => {
 //返回一个Promise(发送post请求)
 export function fetch(url, params) {
   return new Promise((resolve, reject) => {
-    // url = baseUrl + url;
     axios.post(url, params)
       .then(response => {
         resolve(response.data);

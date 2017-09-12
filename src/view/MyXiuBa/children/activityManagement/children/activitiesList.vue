@@ -26,7 +26,7 @@
             <span>进行中</span>
           </Checkbox>
           <Checkbox label="finished">
-            <span>已完成</span>
+            <span>已结束</span>
           </Checkbox>
           <Checkbox label="closed">
             <span>已关闭</span>
@@ -76,7 +76,7 @@
             <p>{{item.upLineTime | dateFormat('YYYY-MM-DD hh:mm:ss') || '----'}}</p>
             <p class="mt-10">{{item.endTime | dateFormat('YYYY-MM-DD hh:mm:ss') || '----'}}</p>
           </td>
-          <td v-if="item.taskStatus !== 'waiting_modify'">{{item.taskStatusDesc}}</td>
+          <td v-if="item.taskStatus !== 'waiting_modify'">{{item.taskStatusDesc}}<br/>{{item.settlementStatusDesc}}</td>
           <td class="cursor-p main-color" v-else>
             <Tooltip :content="item.auditLogs[item.auditLogs.length - 1].resultMsg" placement="top">
               <Icon color="#f60" type="information-circled"></Icon>&nbsp;待修改
@@ -116,7 +116,7 @@
               <span @click="approveShowker(item.id)">审批秀客</span>
             </p>
             <p class="bond mt-6">
-              <span @click="settlementTask(item.id)">申请结算</span>
+              <span @click="settlementTask(item.id, item.number)">申请结算</span>
             </p>
             <p class="copy mt-6">
               <span @click="copyTask(item.id)">复制活动</span>
@@ -273,6 +273,7 @@
         taskPayId: null,
         directSettlementSuccess: false,
         auditSettlementSuccess: false,
+        ActivityNumber: null,
       }
     },
     mounted() {
@@ -372,8 +373,9 @@
           }
         })
       },
-      settlementTask(id) {
+      settlementTask(id, number) {
         let _this =  this;
+        _this.ActivityNumber = number;
         api.settlementTask({
           taskId: id
         }).then(res =>{
@@ -445,7 +447,8 @@
         })
       },
       lookBill() {
-
+        this.$router.push({name:'TransactionRecord',query:{taskNumber:this.ActivityNumber}});
+        this.directSettlementSuccess = false;
       }
     }
   }

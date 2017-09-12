@@ -1,23 +1,27 @@
 <template>
   <div>
-    <div v-if="getUserInfoRole===1" class="my-transact" >
+    <div v-if="getUserInfoRole===1" class="my-transact">
       <div class="clear date-picker">
         <div class="left">
           <span>起止日期：</span>
-          <Date-picker type="datetime" placeholder="选择日期" style="width: 200px" v-model="beginTime"   format="yyyy-MM-dd HH:mm:ss" :key="beginTime"  @on-change="beginTime=$event"></Date-picker>
+          <Date-picker type="datetime" placeholder="选择日期" style="width: 200px" v-model="beginTime"
+                       format="yyyy-MM-dd HH:mm:ss" :key="beginTime" @on-change="beginTime=$event"></Date-picker>
           <span>-</span>
-          <Date-picker type="datetime" placeholder="选择日期" style="width: 200px" v-model="endTime" format="yyyy-MM-dd HH:mm:ss" :key="endTime"  @on-change="endTime=$event"></Date-picker>
+          <Date-picker type="datetime" placeholder="选择日期" style="width: 200px" v-model="endTime"
+                       format="yyyy-MM-dd HH:mm:ss" :key="endTime" @on-change="endTime=$event"></Date-picker>
         </div>
         <div class="choice-time left">
-          <span class="cursor-p" v-for="item in choiceTime" :class="{active:timeSelect === item.isSelect} " @click="changeTimeChoiceStyle(item.isSelect),getTargetTime(item.id)" >{{item.text}}</span>
+          <span class="cursor-p" v-for="item in choiceTime" :class="{active:timeSelect === item.isSelect} "
+                @click="changeTimeChoiceStyle(item.isSelect),getTargetTime(item.id)">{{item.text}}</span>
         </div>
       </div>
-      <div class="transact-type " >
+      <div class="transact-type ">
         <span class="left">交易类型：</span>
         <div class="left ml-5">
           <Checkbox
             :value="checkAll"
-            @click.prevent.native="handleCheckAll">全部</Checkbox>
+            @click.prevent.native="handleCheckAll">全部
+          </Checkbox>
         </div>
         <div class="left">
           <Checkbox-group v-model="transactType" class="checkBox  ml-45" @on-change="checkAllGroupChange">
@@ -28,13 +32,14 @@
         </div>
       </div>
       <div class="activity-number mt-20">
-        活动编号：<iInput v-model="activityNumber" style="width: 200px;height: 30px" class="ml-10"></iInput>
+        活动编号：
+        <iInput v-model="activityNumber" style="width: 200px;height: 30px" class="ml-10"></iInput>
       </div>
       <iButton class="ibtn" @click="getTradListAll(transactType)">筛选</iButton>
       <div class="mt-22 line"></div>
       <div class="transaction-amount">
-        <span>收入：<span style="color: #2F962F;">{{typechang(accountIncomes/100)||0}}</span>元</span>
-        <span class="ml-20">支出：<span style="color: #FF0E0E;">{{accountPayout/100||0}}</span>元</span>
+        <span>收入：<span style="color: #2F962F;">{{typeChang(accountIncomes / 100) || 0}}</span>元</span>
+        <span class="ml-20">支出：<span style="color: #FF0E0E;">{{accountPayout / 100 || 0}}</span>元</span>
       </div>
       <Modal
         v-model="amountPopWindow"
@@ -85,7 +90,7 @@
             <th style="width: 20%">操作</th>
           </tr>
           </thead>
-          <tbody v-for="(tbodyDetails,index) in myTableDetailsAll" :key="index" >
+          <tbody v-for="(tbodyDetails,index) in myTableDetailsAll" :key="index">
           <tr>
             <td>
               <p>{{tbodyDetails.createTime | dateFormat('YYYY-MM-DD ')}}</p>
@@ -95,9 +100,11 @@
               <p>{{tbodyDetails.changeName}}</p>
               <p>活动编号：{{tbodyDetails.taskSerialNum}}</p>
             </td>
-            <td class="main-color">{{typechang(tbodyDetails.amountChange/100)||0}}</td>
+            <td class="main-color">{{typeChang(tbodyDetails.amountChange / 100) || 0}}</td>
             <td>
-              <p style="color:blue;" class="details" @click="detailsInit(tbodyDetails.id)">详情<Icon :type="detailSelect===tbodyDetails.id?'arrow-up-b':'arrow-down-b'" class="ml-5 "></Icon></p>
+              <p style="color:blue;" class="details" @click="detailsInit(tbodyDetails.id)">详情
+                <Icon :type="detailSelect===tbodyDetails.id?'arrow-up-b':'arrow-down-b'" class="ml-5 "></Icon>
+              </p>
             </td>
           </tr>
           <tr v-show="detailSelect===tbodyDetails.id">
@@ -122,10 +129,10 @@
                   </td>
                   <td>
                     <p>{{getTradType(item.tradName)}}</p>
-                    <p>活动编号：{{item.showerTaskSerial||'无'}}</p>
+                    <p>活动编号：{{item.showerTaskSerial || '无'}}</p>
                   </td>
                   <td class="main-color">
-                    {{typechang(item.tradAmount/100)||0}}
+                    {{typeChang(item.tradAmount / 100) || 0}}
                   </td>
                 </tr>
                 <tr v-show="tbodyDetails.changeName === '商家支付活动交易记录'||tbodyDetails.changeName ==='商家活动交易记录'">
@@ -135,33 +142,41 @@
                 </tr>
                 <tr v-show="showNotice"><td colspan="4" >暂无数据！</td></tr>
 
+                <tr v-show="showNotice">
+                  <td colspan="4">暂无数据！</td>
+                </tr>
                 </tbody>
               </table>
             </td>
           </tr>
           </tbody>
           <tbody>
-          <tr v-show="showBigNoticeAll"><td colspan="4"  >暂无数据！</td></tr>
+          <tr v-show="showBigNoticeAll">
+            <td colspan="4">暂无数据！</td>
+          </tr>
           </tbody>
         </table>
       </div>
-      <div class="right mt-22" style="margin-right: 382px; " >
-        <Page :total="totalPages*10" :page-size="pageSize" @on-change="changePages" ></Page>
+      <div class="right mt-22" style="margin-right: 382px; ">
+        <Page :total="totalPages*10" :page-size="pageSize" @on-change="changePages"></Page>
       </div>
     </div>
-    <div v-if="getUserInfoRole===0" class="my-transact" >
+    <div v-if="getUserInfoRole===0" class="my-transact">
       <div class="clear date-picker">
         <div class="left">
           <span>起止日期：</span>
-          <Date-picker type="datetime" placeholder="选择日期" style="width: 200px" v-model="beginTime"   format="yyyy-MM-dd HH:mm:ss" :key="beginTime"  @on-change="beginTime=$event"></Date-picker>
+          <Date-picker type="datetime" placeholder="选择日期" style="width: 200px" v-model="beginTime"
+                       format="yyyy-MM-dd HH:mm:ss" :key="beginTime" @on-change="beginTime=$event"></Date-picker>
           <span>-</span>
-          <Date-picker type="datetime" placeholder="选择日期" style="width: 200px" v-model="endTime" format="yyyy-MM-dd HH:mm:ss" :key="endTime"  @on-change="endTime=$event"></Date-picker>
+          <Date-picker type="datetime" placeholder="选择日期" style="width: 200px" v-model="endTime"
+                       format="yyyy-MM-dd HH:mm:ss" :key="endTime" @on-change="endTime=$event"></Date-picker>
         </div>
         <div class="choice-time left">
-          <span class="cursor-p" v-for="item in choiceTime" :class="{active:timeSelect === item.isSelect} " @click="changeTimeChoiceStyle(item.isSelect),getTargetTime(item.id)" >{{item.text}}</span>
+          <span class="cursor-p" v-for="item in choiceTime" :class="{active:timeSelect === item.isSelect} "
+                @click="changeTimeChoiceStyle(item.isSelect),getTargetTime(item.id)">{{item.text}}</span>
         </div>
       </div>
-      <div class="transact-type " >
+      <div class="transact-type ">
         <span class="left">交易类型：</span>
         <div class="left ml-5">
           <Checkbox
@@ -177,14 +192,15 @@
         </div>
       </div>
       <div class="activity-number mt-20">
-        活动编号：<iInput v-model="activityNumber" style="width: 200px;height: 30px" class="ml-10"></iInput>
+        活动编号：
+        <iInput v-model="activityNumber" style="width: 200px;height: 30px" class="ml-10"></iInput>
       </div>
       <iButton class="ibtn" @click="getTradListAll(transactType)">筛选</iButton>
       <div class="mt-22 line"></div>
       <div class="transaction-amount">
-        <span>收入:<span style="color: #2F962F;">{{typechang(accountIncomes/100)||0}}</span>元</span>
+        <span>收入:<span style="color: #2F962F;">{{typeChang(accountIncomes / 100) || 0}}</span>元</span>
         <span class="ml-20">支出：<span style="color: #FF0E0E;">
-          {{accountPayout/100||0}}
+          {{accountPayout / 100 || 0}}
         </span>元</span>
       </div>
       <div class="personal-list-table mt-10">
@@ -197,7 +213,7 @@
             <th style="width: 20%">操作</th>
           </tr>
           </thead>
-          <tbody v-for="(item,index) in myTableDetailsAll" >
+          <tbody v-for="(item,index) in myTableDetailsAll">
           <tr>
             <td>
               <p>{{item.createTime | dateFormat('YYYY-MM-DD ')}}</p>
@@ -207,9 +223,11 @@
               <p>{{item.changeName}}</p>
               <p>活动编号：{{item.taskSerialNum}}</p>
             </td>
-            <td class="main-color">{{typechang(item.amountChange/100)||0}}</td>
+            <td class="main-color">{{typeChang(item.amountChange / 100) || 0}}</td>
             <td>
-              <p style="color:blue;" class="details" @click="detailsInit(item.id)">详情<Icon :type="detailSelect===item.id?'arrow-up-b':'arrow-down-b'" class="ml-5 "></Icon></p>
+              <p style="color:blue;" class="details" @click="detailsInit(item.id)">详情
+                <Icon :type="detailSelect===item.id?'arrow-up-b':'arrow-down-b'" class="ml-5 "></Icon>
+              </p>
             </td>
           </tr>
           <tr v-show="detailSelect===item.id">
@@ -237,10 +255,12 @@
                     <p>活动编号：11113244325324</p>
                   </td>
                   <td class="main-color">
-                    {{typechang(item.tradAmount/100)||0}}
+                    {{typeChang(item.tradAmount / 100) || 0}}
                   </td>
                 </tr>
-                <tr v-show="showNotice"><td colspan="4" >暂无数据！</td></tr>
+                <tr v-show="showNotice">
+                  <td colspan="4">暂无数据！</td>
+                </tr>
                 </tbody>
               </table>
             </td>
@@ -257,8 +277,8 @@
 <script>
   import api from '@/config/apiConfig'
   import Icon from 'iview/src/components/icon'
-  import DatePicker  from 'iview/src/components/date-picker'
-  import Table  from 'iview/src/components/table'
+  import DatePicker from 'iview/src/components/date-picker'
+  import Table from 'iview/src/components/table'
   import Input from 'iview/src/components/input'
   import Checkbox from 'iview/src/components/checkbox'
   import Button from 'iview/src/components/button'
@@ -268,13 +288,14 @@
   import Form from 'iview/src/components/form'
   import {TaskErrorStatusList} from '@/config/utils'
   import {mapActions} from 'vuex'
+
   export default {
     name: 'MoneyManagement',
     components: {
       iForm: Form,
       FormItem: Form.Item,
-      DatePicker:DatePicker,
-      iTable:Table,
+      DatePicker: DatePicker,
+      iTable: Table,
       iInput: Input,
       Checkbox: Checkbox,
       CheckboxGroup: Checkbox.Group,
@@ -282,47 +303,47 @@
       ButtonGroup: Button.Group,
       Icon: Icon,
       Modal: Modal,
-      Page:Page,
-      Radio:Radio,
-      RadioGroup:Radio.Group,
+      Page: Page,
+      Radio: Radio,
+      RadioGroup: Radio.Group,
 
     },
     data() {
       return {
         imgSrc: null,
-        myTableDetailsAll:[],
+        myTableDetailsAll: [],
         userListDetails: null,
         infoSelect: 'account',
         detailSelect: 'false',
         userList: {},
         userAccount: {},
-        showBigNotice:false,
-        showBigNoticeAll:false,
-        showNotice:false,
-        beginTime:null,
-        endTime:null,
-        timeSelect:'oneMouth',
-        choiceTime:[
+        showBigNotice: false,
+        showBigNoticeAll: false,
+        showNotice: false,
+        beginTime: null,
+        endTime: null,
+        timeSelect: 'oneMouth',
+        choiceTime: [
           {
-            text:'今天',
-            isSelect:'today',
-            id:0
+            text: '今天',
+            isSelect: 'today',
+            id: 0
 
           },
           {
-            text:'昨天',
-            isSelect:'yesterday',
-            id:1
+            text: '昨天',
+            isSelect: 'yesterday',
+            id: 1
           },
           {
-            text:'最近一个月',
-            isSelect:'oneMouth',
-            id:2
+            text: '最近一个月',
+            isSelect: 'oneMouth',
+            id: 2
           },
           {
-            text:'全部',
-            isSelect:'all',
-            id:3
+            text: '全部',
+            isSelect: 'all',
+            id: 3
           }
         ],
         checkAll: false,
@@ -346,12 +367,12 @@
       let taskNumber = this.$route.query.taskNumber;
       let activeTyep = this.$route.query.activeType;
       this.getUserAccount();
-      if(taskNumber){
+      if (taskNumber) {
         this.activityNumber = taskNumber;
         this.getTradListAll();
-      }else if(activeTyep){
+      } else if (activeTyep) {
         this.getTradListAll([1]);
-      }else {
+      } else {
         this.getTradListAll([]);
       }
     },
@@ -359,7 +380,7 @@
       getUserBalance: function () {
         return this.$store.state.userBalance
       },
-      getUserInfoRole(){
+      getUserInfoRole() {
         return this.$store.state.userInfo.role;
       }
     },
@@ -367,9 +388,9 @@
       ...mapActions([
         'getBalance'
       ]),
-      typechang(num){
-        if (num > 0){
-          num = '+'+num;
+      typeChang(num) {
+        if (num > 0) {
+          num = '+' + num;
         }
         return num
       },
@@ -397,19 +418,19 @@
       },
       getTradListAll(type) {
         let _this = this;
-        if(type && (type.length===0||type.length === 3)){
+        if (type && (type.length === 0 || type.length === 3)) {
           type = null;
-        }else {
+        } else {
           type = JSON.stringify(type)
         }
         api.getTradList({
           createTimeStart: _this.beginTime,
-          createTimeEnd:_this.endTime,
+          createTimeEnd: _this.endTime,
           accountChangeTypeStr: type || null,
           reversePicUrl: null,
           taskSerial: _this.activityNumber,
-          page:_this.pageIndex,
-          size:_this.pageSize
+          page: _this.pageIndex,
+          size: _this.pageSize
         }).then(res => {
           if (res.status) {
             _this.totalPages = res.data.tradPage.totalPages;
@@ -437,15 +458,15 @@
           }
         });
       },
-      handleCheckAll () {
+      handleCheckAll() {
         this.checkAll = !this.checkAll;
         if (this.checkAll) {
-          this.transactType = ['0','1','2'];
+          this.transactType = ['0', '1', '2'];
         } else {
           this.transactType = [];
         }
       },
-      checkAllGroupChange () {
+      checkAllGroupChange() {
         if (this.transactType.length === 3) {
           this.checkAll = true;
         } else if (this.transactType.length > 0) {
@@ -454,14 +475,15 @@
           this.checkAll = false;
         }
       },
-      changeTimeChoiceStyle(type){
+      changeTimeChoiceStyle(type) {
         this.timeSelect = type
       },
-      getTargetTime(type){
+      getTargetTime(type) {
         let _this = this;
+
         function getDateStr(time) {
           let date = new Date();
-          date.setDate(date.getDate()+time);
+          date.setDate(date.getDate() + time);
           let seperator1 = "-";
           let seperator2 = ":";
           let month = date.getMonth() + 1;
@@ -477,34 +499,35 @@
             + seperator2 + '00';
           return currentdate;
         }
-        if(type===0){
+
+        if (type === 0) {
           _this.beginTime = getDateStr(0);
           _this.endTime = getDateStr(1);
-        }else if(type===1){
+        } else if (type === 1) {
           _this.beginTime = getDateStr(-1);
           _this.endTime = getDateStr(0);
-        }else if (type===2){
+        } else if (type === 2) {
           _this.beginTime = getDateStr(-30);
           _this.endTime = getDateStr(1);
-        }else {
-          _this.beginTime=null;
-          _this.endTime=null;
-          _this.getTradListAll([0,1,2]);
+        } else {
+          _this.beginTime = null;
+          _this.endTime = null;
+          _this.getTradListAll([0, 1, 2]);
         }
       },
-      getTradType(type){
-       return TaskErrorStatusList(type);
+      getTradType(type) {
+        return TaskErrorStatusList(type);
       },
-      getDepositReturnList(type){
+      getDepositReturnList(type) {
         let _this = this;
         api.getDepositReturnList({
-          taskId:type
+          taskId: type
         }).then(res => {
           if (res) {
-            _this.getDepositList=res;
-            _this.totalPay=0;
+            _this.getDepositList = res;
+            _this.totalPay = 0;
             for (let i = 0; i < res.length; i++) {
-              _this.totalPay=_this.totalPay+res[i].tradAmount
+              _this.totalPay = _this.totalPay + res[i].tradAmount
             }
 
           } else {
@@ -512,8 +535,8 @@
           }
         });
       },
-      changePages(data){
-        this.pageIndex = data-1;
+      changePages(data) {
+        this.pageIndex = data - 1;
         this.getTradListAll();
       },
 
