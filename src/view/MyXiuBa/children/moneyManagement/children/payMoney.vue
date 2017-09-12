@@ -32,9 +32,6 @@
               <iButton type="error" style="width: 150px;"   @click="error">充值遇到问题</iButton>
           </div>
           </Modal>
-         <!--<div v-if="payPopWindow">-->
-           <!--<PopUpWindows v-on:request="hideWindow" :payPopWindows="payPopWindow"></PopUpWindows>-->
-         <!--</div>-->
         </Form-item>
       </iForm>
     </div>
@@ -59,6 +56,7 @@
   import PopUpWindows from '@/components/PopUpWindows'
   import {mapActions} from 'vuex'
   import {isNumber} from '@/config/utils'
+  import {aliPayUrl} from '@/config/env'
 
   export default {
     name: 'MoneyManagement',
@@ -160,9 +158,6 @@
       ...mapActions([
         'getBalance'
       ]),
-      hideWindow(data){
-        this.payPopWindow = data
-      },
       success(){
         this.getBalance();
         this.payPopWindow = false;
@@ -191,7 +186,7 @@
           payChannel: 1
         }).then(res => {
           if (res.status) {
-            let src = 'http://192.168.1.142:8765/pay/build_req.htm?channel=1&userId=' + _this.getUserInfo + '&orderId=' + res.data.id;
+            let src = aliPayUrl + _this.getUserInfo + '&orderId=' + res.data.id;
             window.open(src);
           } else {
             _this.$Message.error(res.msg);

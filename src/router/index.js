@@ -162,11 +162,11 @@ export default new Router({
               },
             },
             {
-              path: 'detail',
-              name: 'ActivityDetail',
-              component: ActivityDetail,
+              path: 'report',
+              name: 'ProbationReport',
+              component: ProbationReport,
               meta: {
-                title: "试用活动管理-活动详情"
+                title: "试用活动管理-试用报告"
               },
             }
           ]
