@@ -10,13 +10,13 @@ env = env.toLowerCase();
 const getPathName = function (env) {
   switch (env) {
     case 'production':
-      return 'node.prod.env';
+      return 'log.prod.env';
       break;
     case 'development':
-      return 'node.dev.env';
+      return 'log.dev.env';
       break;
     case 'testing':
-      return 'node.test.env';
+      return 'log.test.env';
       break;
   }
 };
