@@ -36,6 +36,45 @@
         <span>收入：<span style="color: #2F962F;">{{typechang(accountIncomes/100)||0}}</span>元</span>
         <span class="ml-20">支出：<span style="color: #FF0E0E;">{{accountPayout/100||0}}</span>元</span>
       </div>
+      <Modal
+        v-model="amountPopWindow"
+        :styles="{top:'200px',width:'800px'}"
+        class-name ="pop-up-window">
+        <div slot="header">活动编号：<span style="color: red;">{{taskNumber||'无'}}&nbsp;,&nbsp;</span>共返还任务保证金：<span style="color: red;">{{totalPay/100}}</span>&nbsp;元</div>
+        <div>
+          <table class="alert-table-list" style="width: 100%;border: 1px solid #F3F3F3;background-color:#F8F8F8;text-align: center" >
+            <thead>
+            <tr style="border-bottom: 1px solid #F3F3F3;">
+              <th style="width: 20%;padding: 10px 0px;">交易时间</th>
+              <th style="width: 20%">流水号</th>
+              <th style="width: 40%">交易明细</th>
+              <th style="width: 20%">交易金额（元）</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr style="border-bottom: 1px solid #F3F3F3;" v-for="item in getDepositList">
+              <td style="padding:10px 0px;">
+                <p>{{item.tradTime|dateFormat('YYYY-MM-DD ') }}</p>
+                <p>{{item.tradTime | dateFormat('hh:mm:ss ')}}</p>
+              </td>
+              <td>{{item.serialNumber}}</td>
+              <td>
+                <p>{{getTradType(item.tradName)}}</p>
+                <p>任务编号：{{item.showkerSerial||'无'}}</p>
+              </td>
+              <td class="main-color">
+                {{'-'+item.tradAmount/100||0}}
+              </td>
+            </tr>
+            </tbody>
+            <tbody v-if="getDepositList.length===0">
+            <tr>
+              <td colspan="4" style="height: 40px">暂无数据！</td>
+            </tr>
+            </tbody>
+          </table>
+        </div>
+      </Modal>
       <div class="personal-list-table mt-10">
         <table class="list-table">
           <thead>
@@ -91,50 +130,11 @@
                 </tr>
                 <tr v-show="tbodyDetails.changeName === '商家支付活动交易记录'||tbodyDetails.changeName ==='商家活动交易记录'">
                   <td colspan="4">
-                    <Button @click="modal1 = true;taskNumber = tbodyDetails.taskSerialNum ;getDepositReturnList(tbodyDetails.taskId)" class="theSpecialBtn">查看任务担保金支出明细</Button>
-                    <Modal
-                      v-model="modal1"
-                      title="普通的Modal对话框标题"
-                      :styles="{top:'200px',width:'800px'}"
-                      class-name	="pop-up-window">
-                      <div slot="header">活动编号：<span style="color: red;">{{taskNumber||'无'}}&nbsp;,&nbsp;</span>共支付活动担保金：<span style="color: red;">{{totalPay/100}}</span>&nbsp;元</div>
-                      <div slot="">
-                        <table class="alert-table-list" style="width: 100%;border: 1px solid #F3F3F3;background-color:#F8F8F8;text-align: center" >
-                          <thead>
-                          <tr style="border-bottom: 1px solid #F3F3F3;">
-                            <th style="width: 20%;padding: 10px 0px;">交易时间</th>
-                            <th style="width: 20%">流水号</th>
-                            <th style="width: 40%">交易明细</th>
-                            <th style="width: 20%">交易金额（元）</th>
-                          </tr>
-                          </thead>
-                          <tbody>
-                          <tr style="border-bottom: 1px solid #F3F3F3;" v-for="item in getDepositList">
-                            <td style="padding:10px 0px;">
-                              <p>{{item.tradTime|dateFormat('YYYY-MM-DD ') }}</p>
-                              <p>{{item.tradTime | dateFormat('hh:mm:ss ')}}</p>
-                            </td>
-                            <td>{{item.serialNumber}}</td>
-                            <td>
-                              <p>{{getTradType(item.tradName)}}</p>
-                              <p>任务编号：{{item.showkerSerial||'无'}}</p>
-                            </td>
-                            <td class="main-color">
-                              {{'-'+item.tradAmount/100||0}}
-                            </td>
-                          </tr>
-                          </tbody>
-                          <tbody v-if="getDepositList.length===0">
-                            <tr>
-                              <td colspan="4" style="height: 40px">暂无数据！</td>
-                            </tr>
-                          </tbody>
-                        </table>
-                      </div>
-                    </Modal>
+                    <Button @click="amountPopWindow = true;taskNumber = tbodyDetails.taskSerialNum ;getDepositReturnList(tbodyDetails.taskId)" class="theSpecialBtn">查看任务担保金支出明细</Button>
                   </td>
                 </tr>
                 <tr v-show="showNotice"><td colspan="4" >暂无数据！</td></tr>
+
                 </tbody>
               </table>
             </td>
@@ -328,7 +328,7 @@
         checkAll: false,
         transactType:[],
         activityNumber:null,
-        modal1: false,
+        amountPopWindow: false,
         getDepositList:{},
         totalPay:0,
         taskNumber:'',

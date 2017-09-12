@@ -72,8 +72,6 @@
       Modal: Modal,
       PayModel: PayModel,
       PopUpWindows:PopUpWindows
-
-
     },
     data() {
       //表单验证
@@ -81,40 +79,6 @@
       const validatePayNumber = (rule, value, callback) => {
         if (!(/^[0-9]+(.[0-9]{1,2})?$/.test(value))) {
           callback(new Error('金额为数字，请您重新输入'))
-        } else {
-          callback()
-        }
-      };
-
-      const validatePass = (rule, value, callback) => {
-        if (value === '') {
-          callback(new Error('请输入密码'));
-        } else {
-          callback()
-        }
-      };
-
-      const validateDefaultPassCheck = (rule, value, callback) => {
-        if (value === '') {
-          callback(new Error('请再次输入密码'));
-        } else if (value !== this.defaultModifyCustom.newPwd) {
-          callback(new Error('两次输入密码不一致!'));
-        } else {
-          callback();
-        }
-      };
-      const validatePassCheck = (rule, value, callback) => {
-        if (value === '') {
-          callback(new Error('请再次输入密码'));
-        } else if (value !== this.trendsModifyCustom.pwd) {
-          callback(new Error('两次输入密码不一致!'));
-        } else {
-          callback();
-        }
-      };
-      const validateSmsCode = (rule, value, callback) => {
-        if (value === '') {
-          callback(new Error('请输入动态码'));
         } else {
           callback()
         }
@@ -167,7 +131,6 @@
       error () {
         this.payPopWindow = false;
       },
-
       seyPassword() {
         if (this.psw === 'password') {
           this.psw = 'text';

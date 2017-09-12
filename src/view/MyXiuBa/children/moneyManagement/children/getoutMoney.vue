@@ -75,7 +75,7 @@
               <span>元（最低1元起提）</span>
             </Form-item>
             <Form-item label="提现银行卡号:" >
-              <span >{{userAccount.bankCardNum}}</span><span class="ml-80 main-color cursor-p" @click="addBankCard">修改银行卡</span>
+              <span style="width: 202px;display: inline-block" >{{userAccount.bankCardNum}}</span><span class=" main-color cursor-p" @click="addBankCard">修改银行卡</span>
             </Form-item>
             <Form-item label="支付密码:" prop="password">
               <iInput v-model="getoutMoney.password"  class="iInput" :type="psw"  :icon="eye" @on-click="seyPassword"></iInput>
@@ -176,6 +176,7 @@
             </td>
           </tr v>
           </tbody>
+          <tbody v-show="getOutResList.length === 0"><tr><td colspan="6">暂无数据</td></tr></tbody>
         </table>
       </div>
     </div>
@@ -195,18 +196,13 @@
 <script>
   import api from '@/config/apiConfig'
   import Icon from 'iview/src/components/icon'
-  import DatePicker  from 'iview/src/components/date-picker'
-  import Alert from 'iview/src/components/alert'
-  import Table  from 'iview/src/components/table'
   import Form from 'iview/src/components/form'
   import Input from 'iview/src/components/input'
-  import Radio from 'iview/src/components/radio'
   import Checkbox from 'iview/src/components/checkbox'
   import Button from 'iview/src/components/button'
   import Page from 'iview/src/components/page'
-  import {setStorage, getStorage} from '@/config/utils'
   import Modal from 'iview/src/components/modal'
-  import TimeDown from '@/components/TimeDown'
+  import DatePicker  from 'iview/src/components/date-picker'
   import SmsCountdown from '@/components/SmsCountdown'
   import PayModel from  '@/components/PayModel'
   import {Select, Option, OptionGroup} from 'iview/src/components/select'
@@ -215,38 +211,26 @@
   export default {
     name: 'MoneyManagement',
     components: {
-      iTable:Table,
-      Radio:Radio,
-      RadioGroup:Radio.Group,
-      DatePicker:DatePicker,
       iInput: Input,
       iSelect: Select,
       iOption: Option,
       OptionGroup: OptionGroup,
       iForm: Form,
       FormItem: Form.Item,
+      DatePicker:DatePicker,
       Checkbox: Checkbox,
       CheckboxGroup: Checkbox.Group,
       iButton: Button,
       ButtonGroup: Button.Group,
       Icon: Icon,
       Modal: Modal,
-      TimeDown: TimeDown,
-      Alert: Alert,
       SmsCountdown: SmsCountdown,
       PayModel:PayModel,
       Page:Page
-
     },
     data() {
       //表单验证
-      const validatePhone = (rule, value, callback) => {
-        if (!(/^1[34578]\d{9}$/.test(value))) {
-          callback(new Error('请输入正确手机号'));
-        } else {
-          callback()
-        }
-      };
+
       const  validatePayNumber =(rule,value,callback)=>{
         if (!(/^[1-9]\d*$/.test(value))){
           callback(new Error('金额为数字，请您重新输入'))
@@ -296,24 +280,7 @@
           callback()
         }
       };
-      const validateDefaultPassCheck = (rule, value, callback) => {
-        if (value === '') {
-          callback(new Error('请再次输入密码'));
-        } else if (value !== this.defaultModifyCustom.newPwd) {
-          callback(new Error('两次输入密码不一致!'));
-        } else {
-          callback();
-        }
-      };
-      const validatePassCheck = (rule, value, callback) => {
-        if (value === '') {
-          callback(new Error('请再次输入密码'));
-        } else if (value !== this.trendsModifyCustom.pwd) {
-          callback(new Error('两次输入密码不一致!'));
-        } else {
-          callback();
-        }
-      };
+
       const validateSmsCode = (rule, value, callback) => {
         if (value === '') {
           callback(new Error('请输入动态码'));
@@ -402,7 +369,7 @@
           applyFrom:'',
           applyTo:'',
         },
-        getOutResList:{},
+        getOutResList:[],
         getMoneyShowDetails:false,
       }
     },
@@ -453,12 +420,10 @@
         this.getBalance()
       },
       closable () {
-        this.$Message.info({
-          content: this.getbankCardInformation.msg,
-          duration: 10,
-          closable: true
-        });
-        this.$router.go(0)
+        this.changeBankIDcardShow.iScertification=false;
+        this.changeBankIDcardShow.iSbondBankCard=false;
+        this.changeBankIDcardShow.bondBankCard=false;
+        this.changeBankIDcardShow.getoutMoney=true;
       },
       sendCodeSuccess(res) {
         let self = this;
@@ -546,7 +511,12 @@
         }).then(res=>{
           if(res.status){
             _this.getbankCardInformation=res;
-            _this.closable();
+            _this.$Message.info({
+              content: _this.getbankCardInformation.msg,
+              duration: 5,
+              closable: true
+            });
+            _this.closable ()
           }else {
             _this.$Message.error(res.msg)
           }

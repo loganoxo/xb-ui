@@ -235,41 +235,7 @@
           callback()
         }
       };
-      const  validatePayNumber =(rule,value,callback)=>{
-        if (!(/^[1-9]\d*$/.test(value))){
-          callback(new Error('金额为数字，请您重新输入'))
-        }else {
-          callback()
-        }
-      };
-      const validateBankCard = (rule, value, callback) => {
-        if (!(/^([1-9]{1})(\d{15}|\d{18})$/.test(value))) {
-          callback(new Error('请输入正确的银行卡号'));
-        } else {
-          callback()
-        }
-      };
-      const validateBankName= (rule, value, callback) => {
-        if (value==='') {
-          callback(new Error('请选择所属银行'));
-        } else {
-          callback()
-        }
-      };
-      const validateName= (rule, value, callback) => {
-        if (value==='') {
-          callback(new Error('请输入姓名'));
-        } else {
-          callback()
-        }
-      };
-      const validateBankBranch= (rule, value, callback) => {
-        if (value==='') {
-          callback(new Error('请输入所属银行支行'));
-        } else {
-          callback()
-        }
-      };
+
       const validatePass = (rule, value, callback) => {
         if (value === '') {
           callback(new Error('请输入密码'));
@@ -406,9 +372,7 @@
       this.getUserAccount();
     },
     computed: {
-      getUrlParams(){
-        return this.$route.fullPath.split("?")[1]
-      },
+
       getUserBalance: function () {
         return this.$store.state.userBalance
       }
