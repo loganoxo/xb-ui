@@ -123,21 +123,25 @@
                               {{'-'+item.tradAmount/100||0}}
                             </td>
                           </tr>
-
+                          </tbody>
+                          <tbody v-if="getDepositList.length===0">
+                            <tr>
+                              <td colspan="4" style="height: 40px">暂无数据！</td>
+                            </tr>
                           </tbody>
                         </table>
                       </div>
                     </Modal>
                   </td>
                 </tr>
-                <tr v-show="showNotice"><td colspan="4" style="color:red;font-size: 14px;">暂无数据！</td></tr>
+                <tr v-show="showNotice"><td colspan="4" >暂无数据！</td></tr>
                 </tbody>
               </table>
             </td>
           </tr>
           </tbody>
           <tbody>
-          <tr v-show="showBigNoticeAll"><td colspan="4" style="color: red;font-size: 14px" >暂无数据！</td></tr>
+          <tr v-show="showBigNoticeAll"><td colspan="4"  >暂无数据！</td></tr>
           </tbody>
         </table>
       </div>
@@ -178,7 +182,7 @@
       <iButton class="ibtn" @click="getTradListAll(transactType)">筛选</iButton>
       <div class="mt-22 line"></div>
       <div class="transaction-amount">
-        <span>收入：<span style="color: #2F962F;">{{typechang(accountIncomes/100)||0}}</span>元</span>
+        <span>收入:<span style="color: #2F962F;">{{typechang(accountIncomes/100)||0}}</span>元</span>
         <span class="ml-20">支出：<span style="color: #FF0E0E;">
           {{accountPayout/100||0}}
         </span>元</span>
@@ -236,14 +240,14 @@
                     {{typechang(item.tradAmount/100)||0}}
                   </td>
                 </tr>
-                <tr v-show="showNotice"><td colspan="4" style="color:red;font-size: 14px;">暂无数据！</td></tr>
+                <tr v-show="showNotice"><td colspan="4" >暂无数据！</td></tr>
                 </tbody>
               </table>
             </td>
           </tr>
           </tbody>
           <tbody>
-          <tr v-show="showBigNoticeAll"><td colspan="4" style="color: red;font-size: 14px" >暂无数据！</td></tr>
+          <tr v-show="showBigNoticeAll"><td colspan="4"  >暂无数据！</td></tr>
           </tbody>
         </table>
       </div>

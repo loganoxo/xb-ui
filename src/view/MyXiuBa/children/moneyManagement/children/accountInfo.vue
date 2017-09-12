@@ -92,20 +92,20 @@
                   </td>
                   <td>
                     <p>{{getTradType(item.tradName)}}</p>
-                    <p>活动编号：11113244325324</p>
+                    <p>活动编号：{{item.showerTaskSerial}}</p>
                   </td>
                   <td class="main-color">
                     {{typechang(item.tradAmount/100)||0}}
                   </td>
                 </tr>
-                <tr v-show="showNotice"><td colspan="4" style="color:red;font-size: 14px;">暂无数据！</td></tr>
+                <tr v-show="showNotice"><td colspan="4" >暂无数据！</td></tr>
                 </tbody>
               </table>
             </td>
           </tr>
           </tbody>
           <tbody>
-          <tr v-show="showBigNotice"><td colspan="4" style="color: red;font-size: 14px" >暂无数据！</td></tr>
+          <tr v-show="showBigNotice"><td colspan="4"  >暂无数据！</td></tr>
           </tbody>
         </table>
       </div>

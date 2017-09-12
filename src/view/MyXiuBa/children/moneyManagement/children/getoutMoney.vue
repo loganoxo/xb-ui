@@ -34,8 +34,8 @@
           <Form-item label="开户支行:" prop="bankBranch">
             <iInput v-model="formItem.bankBranch" ></iInput>
           </Form-item>
-          <Form-item label="手机号:"  prop="phone">
-            <iInput v-model="formItem.phone"  ></iInput>
+          <Form-item label="手机号:"  >
+            {{getUserPhone}}
           </Form-item>
           <Form-item label="图形验证码:" class="formPosition" prop="validateCode" style="width: 380px">
             <iInput v-model="formItem.validateCode" ></iInput>
@@ -46,7 +46,7 @@
           <Form-item label="短信验证码:" class="formPosition" prop="cord" style="width: 380px">
             <iInput v-model="formItem.cord"  class="formiInput "></iInput>
             <SmsCountdown :on-success="sendCodeSuccess" style="top: 2px; right: -112px"
-                          :phone="formItem.phone"
+                          :phone="this.getUserPhone"
                           :purpose="formItem.purpose"
                           :validateCode="formItem.validateCode"
             >
@@ -75,7 +75,7 @@
               <span>元（最低1元起提）</span>
             </Form-item>
             <Form-item label="提现银行卡号:" >
-              <p >{{userAccount.bankCardNum}}</p>
+              <span >{{userAccount.bankCardNum}}</span><span class="ml-80 main-color cursor-p" @click="addBankCard">修改银行卡</span>
             </Form-item>
             <Form-item label="支付密码:" prop="password">
               <iInput v-model="getoutMoney.password"  class="iInput" :type="psw"  :icon="eye" @on-click="seyPassword"></iInput>
@@ -183,8 +183,11 @@
       <h2>常见问题</h2>
       <div class="mt-10">
         <p>提现</p>
-        <p>1、最低提现金额1元，手续费1%，每天提现次数不限</p>
-        <p>2、当日12:00-当日18:00间申请提现的，在当日18:00处理，当日18:00-次日12:00间申请提现的，在次日12:00处理。</p>
+        <div>1、初始密码为888888，为了你的账号安全，建议您
+          <router-link :to="{'path':'/user/money-management/account-management','query':{'type':'resetPwd'}}">重置支付密码。</router-link>
+        </div>
+        <p>2、最低提现金额1元，手续费1%，每天提现次数不限</p>
+        <p>3、当日12:00-当日18:00间申请提现的，在当日18:00处理，当日18:00-次日12:00间申请提现的，在次日12:00处理。</p>
       </div>
     </div>
   </div>
@@ -330,15 +333,11 @@
           select: '',
           bankNumber:'',
           bankBranch:'',
-          phone:null,
           validateCode:'',
           cord:'',
           purpose:'id_verify'
         },
         formRuleItem:{
-          phone: [
-            {validator: validatePhone, trigger: 'blur'}
-          ],
           validateCode: [
             {validator: validateCode, trigger: 'blur'}
           ],
@@ -424,6 +423,9 @@
     computed: {
       getUserBalance: function () {
         return this.$store.state.userBalance
+      },
+      getUserPhone: function(){
+        return  this.$store.state.userInfo.phone
       }
     },
     methods: {
@@ -456,6 +458,7 @@
           duration: 10,
           closable: true
         });
+        this.$router.go(0)
       },
       sendCodeSuccess(res) {
         let self = this;
@@ -520,6 +523,7 @@
         this.changeBankIDcardShow.iScertification=false;
         this.changeBankIDcardShow.iSbondBankCard=false;
         this.changeBankIDcardShow.bondBankCard=true;
+        this.changeBankIDcardShow.getoutMoney=false;
       },
 
       //实现提现记录和提现操作间的跳转
@@ -538,7 +542,6 @@
           bankName:type.select,
           bankNo:type.bankNumber,
           bankPart:type.bankBranch,
-          phoneNo:type.phone,
           smsCode:type.cord
         }).then(res=>{
           if(res.status){

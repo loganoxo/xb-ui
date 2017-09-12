@@ -144,7 +144,7 @@
       }
       .moneyInfoLeft, .moneyInfoRight {
         height: 100%;
-        border-right: 1px solid gray;
+        border-right: 1px solid #F2F2F2;
         padding: 10px;
         width: 50%;
         text-align: center;
@@ -157,7 +157,7 @@
       }
 
       .number, .number1{
-        border-bottom: 1px solid gray;
+        border-bottom: 1px solid #E5E5E5;
         font-size: 20px;
 
         padding-bottom: 10px;
@@ -171,7 +171,7 @@
       }
       .view-details {
         padding-top: 10px;
-        border-top: 1px solid gray;
+        border-top: 1px solid #E5E5E5;
         a:first-of-type {
           padding-right: 15px;
         }

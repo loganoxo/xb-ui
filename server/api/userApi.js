@@ -145,7 +145,6 @@ router.post('/api/add-bank-card.json', function (req, res, next) {
       bankName: req.body.bankName,
       bankNo: req.body.bankNo,
       bankPart: req.body.bankPart,
-      phoneNo: req.body.phoneNo,
       smsCode: req.body.smsCode,
     },
     json: true,
