@@ -18,7 +18,7 @@
                     <img :src="trialReport.task.taskMainImage" alt="" style="width: 150px;">
                   </div>
                   <div>
-                    <p>发表于 {{trialReport.createTime | dateFormat('YYYY-MM-DD hh:mm:ss')}} </p>
+                    <p>成功发表于 {{trialReport.passTime | dateFormat('YYYY-MM-DD hh:mm:ss')}} </p>
                     <p class="text">
                       {{trialReport.trialReportText}}
                       <a @click="showReportDescFunc(trialReport)">查看全文</a>
