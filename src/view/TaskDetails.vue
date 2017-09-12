@@ -5,7 +5,7 @@
         <div class="breadcrumb">
           <Breadcrumb >
             <Breadcrumb-item>当前位置：</Breadcrumb-item>
-            <Breadcrumb-item>试客联盟</Breadcrumb-item>
+            <!--<Breadcrumb-item>试客联盟</Breadcrumb-item>-->
             <Breadcrumb-item>试用品专区</Breadcrumb-item>
             <Breadcrumb-item>{{commodityData.task.itemCatalog.parentItemCatalog.name}}</Breadcrumb-item>
           </Breadcrumb>
@@ -41,9 +41,9 @@
               <iButton v-show="commodityData.taskApply" disabled size="large" class="fs-16 default-btn" long >已申请</iButton>
             </div>
             <iButton v-if="getRole === 1" size="large" class="fs-16 default-btn" long type="warning" >商家号不可以参加试用</iButton>
-            <router-link v-if="!isLogin" to="{'path':'/login'}" class="ivu-btn ivu-btn-error ivu-btn-long ivu-btn-large">
-                登陆账号
-            </router-link>
+            <a v-if="!isLogin"  class="ivu-btn ivu-btn-error ivu-btn-large" @click="selectLogin = true" style="width: 150px;">
+                申请试用
+            </a>
           </div>
         </div>
       </div>
@@ -168,6 +168,18 @@
         <a href="" class="ivu-btn ivu-btn-error ivu-btn-large" style="color: #fff">好的，明白了</a>
       </div>
     </Modal>
+    <Modal v-model="selectLogin" width="500">
+      <p class="mt-20 mb-40 text-ct fs-22 vtc-mid" style="height: 50px;line-height: 50px">
+        <i class="ivu-icon ivu-icon-android-alert " style="color: #FF6600; font-size: 20px;"></i>
+        亲，你还没登录哦~
+        <br>
+        <span class="fs-12">请先登录后再申请免费试用</span>
+      </p>
+      <div slot="footer" class="text-ct">
+        <router-link class="ivu-btn ivu-btn-error ivu-btn-large mr-40 ml-20" to="/login" style="color: #fff">马上登录</router-link>
+        <router-link class="ivu-btn ivu-btn-error ivu-btn-large mr-40" to="/register" style="color: #fff">新用户注册</router-link>
+      </div>
+    </Modal>
     <Modal v-model="trialReportPicShow" width="600">
       <div style="text-align:center">
         <img :src="trialReportPic" alt="" style="width: 100%;margin-top: 20px;">
@@ -218,6 +230,7 @@
     },
     data () {
       return {
+        selectLogin: false,
         trialReportPicShow: false,
         trialReportPic: '',
         selWw: false,

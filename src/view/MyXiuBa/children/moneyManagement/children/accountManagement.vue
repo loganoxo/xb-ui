@@ -120,7 +120,7 @@
           <iForm ref="payCustom" :model="payCustom" :rules="payRuleCustom" :label-width="400">
             <div class="clear form-input-box">
               <Form-item label="绑定手机" prop="phone" class="left" style="width: 650px">
-                <iInput type="text" size="large" v-model="payCustom.phone" ></iInput>
+                <iInput type="text" size="large" v-model="payCustom.phone" :readonly="true" ></iInput>
               </Form-item>
             </div>
             <div class="clear form-input-box">
@@ -312,7 +312,7 @@
       return {
         imgSrc: null,
         payCustom: {
-          phone: null,
+          phone: this.$store.state.userInfo.phone,
           validateCode: '',
           purpose:'forget',
           smsCode: '',

@@ -14,7 +14,7 @@
               <li>
                 手机帐号： {{userData.phone}}
               </li>
-              <li>
+              <li v-if="getUserRole == 0">
                 <p v-if="userData.alitmNum <= 0 ">
                   绑定淘宝账号：未绑定 - <router-link to="/user/personal-setting/ww-bind">马上绑定</router-link>
                 </p>
@@ -402,7 +402,11 @@
       self.getUserAccount();
       self.getVrcode();
     },
-    computed: {},
+    computed: {
+      getUserRole() {
+        return this.$store.state.userInfo.role
+      }
+    },
     methods: {
       myAccountPwdChangeFather(type){
         for( var k in this.myAccount){
