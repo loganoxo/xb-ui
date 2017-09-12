@@ -70,17 +70,20 @@ export default new Router({
       path: '/register',
       name: 'Register',
       component: Register,
-      meta: {
-        title: "用户注册"
-      },
       children: [
         {
           path: 'seller-register',
-          name: 'seller'
+          name: 'seller',
+          meta: {
+            title: "用户注册"
+          },
         },
         {
           path: 'buyer-register',
-          name: 'buyer'
+          name: 'buyer',
+          meta: {
+            title: "用户注册"
+          },
         },
       ]
     },
@@ -162,11 +165,11 @@ export default new Router({
               },
             },
             {
-              path: 'report',
-              name: 'ProbationReport',
-              component: ProbationReport,
+              path: 'detail',
+              name: 'ActivityDetail',
+              component: ActivityDetail,
               meta: {
-                title: "试用活动管理-试用报告"
+                title: "试用活动管理-活动详情"
               },
             }
           ]
