@@ -13,15 +13,15 @@
         </Checkbox>
       </div>
       <div class="left">
-        <Checkbox-group v-model="endReasonList" @on-change="checkFailChange">
-          <Checkbox label="timeout_auto_close">
-            <span>逾期系统终止</span>
+        <Checkbox-group v-model="rejectReasonList" @on-change="checkFailChange">
+          <Checkbox label="system_reject">
+            <span>系统终止</span>
           </Checkbox>
-          <Checkbox label="buyer_manual_close">
-            <span>试客放弃试用</span>
-          </Checkbox>
-          <Checkbox label="seller_manual_close">
-            <span>管理员终止/商家终止</span>
+        <!--  <Checkbox label="merchant_reject">
+            <span>商家终止</span>
+          </Checkbox>-->
+          <Checkbox label="showker_give_up">
+            <span>秀客放弃</span>
           </Checkbox>
         </Checkbox-group>
       </div>
@@ -117,7 +117,7 @@
         pageIndex: 1,
         applyList: [],
         checkAllByFail: false,
-        endReasonList: [],
+        rejectReasonList: [],
         searchLoading: false,
       }
     },
@@ -145,7 +145,7 @@
           searchValue: _this.searchValue,
           status: 'failAudit',
           pageIndex: _this.pageIndex,
-          endReasonList: _this.endReasonList,
+          rejectReasonList: _this.rejectReasonList,
           pageSize: 5,
         }).then(res => {
           if (res.status) {
@@ -176,16 +176,16 @@
       handleCheckFailAll() {
         this.checkAllByFail = !this.checkAllByFail;
         if (this.checkAllByFail) {
-          this.endReasonList = ['timeout_auto_close', 'buyer_manual_close', 'seller_manual_close'];
+          this.rejectReasonList = ['system_reject', 'merchant_reject', 'showker_give_up'];
         } else {
-          this.endReasonList = [];
+          this.rejectReasonList = [];
         }
         this.showkerApplyList();
       },
       checkFailChange() {
-        if (this.endReasonList.length === 3) {
+        if (this.rejectReasonList.length === 3) {
           this.checkAllByFail = true;
-        } else if (this.endReasonList.length > 0) {
+        } else if (this.rejectReasonList.length > 0) {
           this.checkAllByFail = false;
         } else {
           this.checkAllByFail = false;

@@ -16,6 +16,7 @@ const ActivityManagement = r => require.ensure([], () => r(require('@/view/MyXiu
 const ActivitiesList = r => require.ensure([], () => r(require('@/view/MyXiuBa/children/activityManagement/children/activitiesList.vue')), 'ActivityManagement');
 const ApproveShowker = r => require.ensure([], () => r(require('@/view/MyXiuBa/children/activityManagement/children/approveShowker.vue')), 'ActivityManagement');
 const ProbationReport = r => require.ensure([], () => r(require('@/view/MyXiuBa/children/activityManagement/children/probationReport.vue')), 'ActivityManagement');
+const ActivityDetail = r => require.ensure([], () => r(require('@/view/MyXiuBa/children/activityManagement/children/activityDetail.vue')), 'ActivityManagement');
 
 const MyProbation = r => require.ensure([], () => r(require('@/view/MyXiuBa/children/myProbation/index.vue')), 'MyProbation');
 const ApplyWaitAudit = r => require.ensure([], () => r(require('@/view/MyXiuBa/children/myProbation/children/applyWaitAudit.vue')), 'MyProbation');
@@ -158,6 +159,14 @@ export default new Router({
               component: ProbationReport,
               meta: {
                 title: "试用活动管理-试用报告"
+              },
+            },
+            {
+              path: 'detail',
+              name: 'ActivityDetail',
+              component: ActivityDetail,
+              meta: {
+                title: "试用活动管理-活动详情"
               },
             }
           ]

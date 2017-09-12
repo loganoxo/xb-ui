@@ -106,7 +106,7 @@
               <span @click="copyTask(item.id)">复制活动</span>
             </p>
           </td>
-          <td v-else-if="item.taskStatus === 'waiting_audit' || item.taskStatus === 'cannot_settlement'">
+          <td v-else-if="item.taskStatus === 'waiting_audit' || item.settlementStatus === 'waiting_audit'">
             <p class="copy mt-6">
               <span @click="copyTask(item.id)">复制活动</span>
             </p>
@@ -165,7 +165,8 @@
         <span>关闭确认</span>
       </p>
       <div class="text-ct">
-        <p>此任务关闭后，任务将无法发布，若已存入保证金，将返回至平台账户中。</p>
+        <p>此任务关闭后，任务将无法发布，若已存入保证金，</p>
+        <p>将返回至平台账户中。</p>
         <p>是否确认关闭？</p>
       </div>
       <div slot="footer">
@@ -179,11 +180,39 @@
         <span>删除确认</span>
       </p>
       <div class="text-ct">
-        <p>此任务删除后，任务将无法执行。</p>
-        <p>是否继续删除？</p>
+        <p>是否彻底删除该活动？</p>
       </div>
       <div slot="footer">
-        <iButton type="error" size="large" long :loading="modalLoading" @click="confirmClose">删除</iButton>
+        <iButton type="error" size="large" long :loading="modalLoading" @click="confirmDelete">删除</iButton>
+      </div>
+    </Modal>
+    <!--结算成功弹框-直接结算-->
+    <Modal v-model="directSettlementSuccess" width="360">
+      <p slot="header" style="color:#f60;text-align:center">
+        <Icon type="checkmark-circled"></Icon>
+        <span>结算成功</span>
+      </p>
+      <div class="text-ct">
+        <p>该活动未产生需返还的多余费用，已直接结算成功！</p>
+      </div>
+      <div slot="footer" class="clear">
+        <iButton class="left ml-28" type="error" size="large" @click="lookBill">查看活动账单</iButton>
+        <iButton class="right mr-30" type="error" size="large" @click="directSettlementSuccess = false">我知道了</iButton>
+      </div>
+    </Modal>
+    <!--结算成功弹框-结算待审核-->
+    <Modal v-model="auditSettlementSuccess" width="360">
+      <p slot="header" style="color:#f60;text-align:center">
+        <Icon type="checkmark-circled"></Icon>
+        <span>结算审核提交成功</span>
+      </p>
+      <div class="text-ct">
+        <p>结算说明：活动剩余资格1，返还担保金共150.00元</p>
+        <p>返还推广费3元。</p>
+        <p>我们将在1个 工作日内完成结算审核！</p>
+      </div>
+      <div slot="footer" class="text-ct">
+        <iButton type="error" size="large" long @click="auditSettlementSuccess = false">确认</iButton>
       </div>
     </Modal>
     <!--支付保证金弹框-->
@@ -242,6 +271,8 @@
         needDepositMoney: 0,
         hasDeposited: 0,
         taskPayId: null,
+        directSettlementSuccess: false,
+        auditSettlementSuccess: false,
       }
     },
     mounted() {
@@ -266,7 +297,7 @@
       ...mapActions([
         'getBalance'
       ]),
-      editTask(id,status) {
+      editTask(id) {
         this.$router.push({name: 'TaskReleaseProcess', query: {taskId: id}})
       },
       copyTask(id) {
@@ -348,9 +379,9 @@
         }).then(res =>{
           if(res.status){
             if(res.statusCode === 'waiting_audit'){
-              _this.$Message.success('任务申请结算成功，请耐心等待审核！');
+              _this.auditSettlementSuccess = true;
             }else{
-              _this.$Message.success('任务申请结算成功！');
+              _this.directSettlementSuccess = true;
             }
             _this.getTaskList();
           }else{
@@ -412,6 +443,9 @@
             })
           }
         })
+      },
+      lookBill() {
+
       }
     }
   }

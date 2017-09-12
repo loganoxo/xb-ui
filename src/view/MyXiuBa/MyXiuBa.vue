@@ -15,13 +15,13 @@
           <Icon type="clipboard"></Icon>
           <router-link to="/user/activity-management/list">试用活动管理</router-link>
         </li>
-        <li :class="{isSelect:isSelect ==='AccountInfo'}">
+        <li :class="{isSelect:isSelect ==='AccountInfo' || isSelect === 'PayMoney' || isSelect === 'GetoutMoney' || isSelect === 'AccountManagement'}">
           <Icon type="social-yen"></Icon>
           <router-link to="/user/money-management/account-info">资金管理</router-link>
         </li>
         <li :class="{isSelect:isSelect ==='TransactionRecord'}">
           <Icon type="loop"></Icon>
-          <router-link to="/user/task-release">交易记录</router-link>
+          <router-link to="/user/money-management/transaction-record">交易记录</router-link>
         </li>
         <li :class="{isSelect:isSelect ==='PersonalAccountInfo'}">
           <Icon type="gear-b"></Icon>

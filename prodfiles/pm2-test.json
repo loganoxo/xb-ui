@@ -1,0 +1,12 @@
+{
+  "apps" : [{
+    "name"        : "xiuba-ui",
+    "script"      : "server/index.js",
+    "log_date_format"  : "YYYY-MM-DD HH:mm Z",
+    "ignoreWatch" : ["[\\/\\\\]\\./", "node_modules"],
+    "watch"       : false,
+    "env": {
+      "NODE_ENV": "testing"
+    }
+  }]
+}
