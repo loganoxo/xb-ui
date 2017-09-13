@@ -250,9 +250,16 @@
               info: res.data
             });
             self.rememberAccountFunc();
-            self.$Modal.success({
-              content: '恭喜您，成功登录秀吧！',
-              onOk: function () {
+//            self.$Modal.success({
+//              content: '恭喜您，成功登录秀吧！',
+//              okText: '',
+//            });
+
+            this.$Message.success({
+              top: 50,
+              content: '登录成功',
+              duration: 3,
+              onClose: function () {
                 self.$router.push({name: 'Home'});
               }
             });

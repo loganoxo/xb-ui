@@ -5,7 +5,6 @@
         <div class="breadcrumb">
           <Breadcrumb >
             <Breadcrumb-item>当前位置：</Breadcrumb-item>
-            <Breadcrumb-item>试客联盟</Breadcrumb-item>
             <Breadcrumb-item>试用品专区</Breadcrumb-item>
             <Breadcrumb-item v-if="$route.query.cate">{{parentItemCatalog.name}}</Breadcrumb-item>
           </Breadcrumb>
