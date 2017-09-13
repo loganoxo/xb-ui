@@ -176,7 +176,7 @@
       </p>
       <div slot="footer" class="text-ct">
         <router-link class="ivu-btn ivu-btn-error ivu-btn-large mr-40 ml-20" to="/login" style="color: #fff">马上登录</router-link>
-        <router-link class="ivu-btn ivu-btn-error ivu-btn-large mr-40" to="/register" style="color: #fff">新用户注册</router-link>
+        <router-link class="ivu-btn ivu-btn-error ivu-btn-large mr-40" to="/sel-role" style="color: #fff">新用户注册</router-link>
       </div>
     </Modal>
     <Modal v-model="trialReportPicShow" width="600">
