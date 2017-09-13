@@ -22,7 +22,7 @@
         </Form-item>
         <Form-item>
           <iButton  class="payMoneyBtn" @click="payPopWindow = true;balanceOrderCreate(payMoney,getUserId)">提交</iButton>
-          <Modal  v-model="payPopWindow" width="360"
+          <Modal v-show="payMoney.number !== ''" v-model="payPopWindow" width="360"
             :styles="{top:'310px',height:'300px'}">
             <div style="text-align:center">
               <p>请前往充值页面进行充值</p>
@@ -147,7 +147,10 @@
         let _this = this;
         if (type.number===''){
           _this.$Message.error('您未输入充值金额，请您重新输入');
-          _this.payPopWindow = false
+          _this.payPopWindow = false;
+          return;
+        }else if (parseInt(type.number)<1){
+          _this.payPopWindow = false;
           return;
         }
         api.balanceOrderCreate({

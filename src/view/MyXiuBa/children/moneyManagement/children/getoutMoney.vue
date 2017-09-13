@@ -82,7 +82,7 @@
               <span v-show="getIfEditPwdAlready === false">初始密码为888888，为了你的账号安全，建议您
                 <router-link :to="{'path':'/user/money-management/account-management','query':{'type':'resetPwd'}}">重置支付密码。</router-link>
               </span>
-              <span v-show="getIfEditPwdAlready === true"><router-link to="/user/money-management/account-management">忘记密码？</router-link></span>
+              <span v-show="getIfEditPwdAlready === true"><router-link to="/user/money-management/account-management">忘记支付密码？</router-link></span>
             </Form-item>
             <Form-item >
               <iButton type="primary" @click="modal2 = true,applyGetoutMoney(getoutMoney)" class="ibtns">申请提现</iButton>
@@ -145,7 +145,12 @@
             <td class="main-color">
               {{getTradType(item.state)}}
             </td>
-            <td> <p style="color:blue;" class="detailsSpc" @click="getMoneyShowDetailsFun(item.id)" >详情<Icon :type="getMoneyShowDetails===item.id?'arrow-up-b':'arrow-down-b'" class="ml-5 "></Icon></p></td>
+            <td>
+              <p style="color:blue;" class="detailsSpc" @click="getMoneyShowDetailsFun(item.id)" >
+                详情
+                <Icon :type="getMoneyShowDetails===item.id?'arrow-up-b':'arrow-down-b'" class="ml-5 "></Icon>
+              </p>
+            </td>
           </tr>
           <tr v-show="getMoneyShowDetails===item.id" >
             <td colspan="6" style="padding: 0px;">
