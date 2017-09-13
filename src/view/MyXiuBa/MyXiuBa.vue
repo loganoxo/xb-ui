@@ -88,11 +88,11 @@
     },
     created() {
       this.isSelect = this.$route.name;
-      this.getBalance();
     },
     watch: {
       $route(to) {
         this.isSelect = to.name;
+        this.getBalance();
       }
     },
     computed: {

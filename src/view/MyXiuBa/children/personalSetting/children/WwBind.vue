@@ -38,7 +38,7 @@
           <div class="ww-account-form mt-20">
             <iForm ref="wwFormValidate" :model="wwFormValidate" :rules="wwFormRuleCustom" label-position="right" :label-width="100">
               <Form-item label="旺旺ID" prop="alitmAccount">
-                <iInput v-model="wwFormValidate.alitmAccount"></iInput>
+                <iInput v-model="wwFormValidate.alitmAccount" :autocomplete="false"></iInput>
               </Form-item>
               <Form-item label="旺旺信息截图"  class="ww-info-img">
                 <Upload

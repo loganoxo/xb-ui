@@ -29,12 +29,12 @@
             </iSelect>
           </Form-item>
           <Form-item label="银行卡号:" prop="bankNumber">
-            <iInput v-model="formItem.bankNumber" ></iInput>
+            <iInput v-model="formItem.bankNumber" :autocomplete="false"></iInput>
           </Form-item>
           <Form-item label="开户支行:" prop="bankBranch">
-            <iInput v-model="formItem.bankBranch" ></iInput>
+            <iInput v-model="formItem.bankBranch" :autocomplete="false"></iInput>
           </Form-item>
-          <Form-item label="手机号:"  >
+          <Form-item label="手机号:">
             {{getUserPhone}}
           </Form-item>
           <Form-item label="图形验证码:" class="formPosition" prop="validateCode" style="width: 380px">
@@ -71,14 +71,14 @@
         <div class="get-out-do mt-22" >
           <iForm :model="getoutMoney" :label-width="200" :rules="getoutMoneyRule">
             <Form-item label="请输入提现金额:" prop="getoutNumber">
-              <iInput v-model="getoutMoney.getoutNumber" class="iInput" ></iInput>
+              <iInput v-model="getoutMoney.getoutNumber" class="iInput" :autocomplete="false"></iInput>
               <span>元（最低1元起提）</span>
             </Form-item>
             <Form-item label="提现银行卡号:" >
               <span style="width: 202px;display: inline-block" >{{userAccount.bankCardNum}}</span><span class=" main-color cursor-p" @click="addBankCard">修改银行卡</span>
             </Form-item>
             <Form-item label="支付密码:" prop="password">
-              <iInput v-model="getoutMoney.password"  class="iInput" :type="psw"  :icon="eye" @on-click="seyPassword"></iInput>
+              <iInput v-model="getoutMoney.password"  class="iInput" :type="psw" :icon="eye" :autocomplete="false" @on-click="seyPassword"></iInput>
               <span v-show="getIfEditPwdAlready === false">初始密码为888888，为了你的账号安全，建议您
                 <router-link :to="{'path':'/user/money-management/account-management','query':{'type':'resetPwd'}}">重置支付密码。</router-link>
               </span>

@@ -33,7 +33,7 @@
       </div>
       <div class="activity-number mt-20">
         活动编号：
-        <iInput v-model="activityNumber" style="width: 200px;height: 30px" class="ml-10"></iInput>
+        <iInput v-model="activityNumber" :autocomplete="false" style="width: 200px;height: 30px" class="ml-10"></iInput>
       </div>
       <iButton class="ibtn" @click="getTradListAll(transactType)">筛选</iButton>
       <div class="mt-22 line"></div>
@@ -189,7 +189,7 @@
       </div>
       <div class="activity-number mt-20">
         活动编号：
-        <iInput v-model="activityNumber" style="width: 200px;height: 30px" class="ml-10"></iInput>
+        <iInput v-model="activityNumber" :autocomplete="false" style="width: 200px;height: 30px" class="ml-10"></iInput>
       </div>
       <iButton class="ibtn" @click="getTradListAll(transactType)">筛选</iButton>
       <div class="mt-22 line"></div>

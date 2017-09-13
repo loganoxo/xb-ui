@@ -89,17 +89,17 @@
           <iForm ref="defaultModifyCustom" :model="defaultModifyCustom" :rules="defaultModifyRuleCustom" :label-width="400">
             <div class="clear form-input-box">
               <Form-item label="原始密码" class="left" style="width: 650px" prop="oldPwd">
-                <iInput type="password" size="large" v-model="defaultModifyCustom.oldPwd"></iInput>
+                <iInput type="password" size="large" :autocomplete="false" v-model="defaultModifyCustom.oldPwd"></iInput>
               </Form-item>
             </div>
             <div class="clear form-input-box">
               <Form-item label="新密码" class="left" style="width: 650px" prop="newPwd">
-                <iInput type="password" size="large" v-model="defaultModifyCustom.newPwd"></iInput>
+                <iInput type="password" size="large" :autocomplete="false" v-model="defaultModifyCustom.newPwd"></iInput>
               </Form-item>
             </div>
             <div class="clear form-input-box">
               <Form-item label="确认密码" class="left" style="width: 650px" prop="repwd">
-                <iInput type="password" size="large" v-model="defaultModifyCustom.repwd"></iInput>
+                <iInput type="password" size="large" :autocomplete="false" v-model="defaultModifyCustom.repwd"></iInput>
               </Form-item>
             </div>
             <div>
@@ -118,12 +118,12 @@
           <iForm ref="payCustom" :model="payCustom" :rules="payRuleCustom" :label-width="400">
             <div class="clear form-input-box">
               <Form-item label="绑定手机" prop="phone" class="left" style="width: 650px">
-                <iInput type="text" size="large" v-model="payCustom.phone"   style="border: none;"></iInput>
+                <iInput type="text" size="large" :autocomplete="false" v-model="payCustom.phone"   style="border: none;"></iInput>
               </Form-item>
             </div>
             <div class="clear form-input-box">
               <Form-item label="图形验证码"  prop="validateCode" class="left" style="width: 550px">
-                <iInput type="text" size="large" v-model="payCustom.validateCode"></iInput>
+                <iInput type="text" size="large" :autocomplete="false" v-model="payCustom.validateCode"></iInput>
               </Form-item>
               <div style="width: 100px; float:left;">
                 <img :src="imgSrc" width="100%" alt="" @click="getVrcode">
@@ -131,7 +131,7 @@
             </div>
             <div class="clear form-input-box">
               <Form-item label="手机验证码" class="left pos-rel" style="width: 650px">
-                <iInput type="text" number size="large" v-model="payCustom.smsCode"></iInput>
+                <iInput type="text" number size="large" :autocomplete="false" v-model="payCustom.smsCode"></iInput>
                 <SmsCountdown :on-success="sendCodeSuccess" style="top: 3px;"
                               :phone="payCustom.phone"
                               :purpose="payCustom.purpose"
@@ -157,12 +157,12 @@
           <iForm ref="trendsModifyCustom" :model="trendsModifyCustom" :rules="trendsModifyRuleCustom" :label-width="400">
             <div class="clear form-input-box">
               <Form-item label="新密码" prop="pwd" class="left" style="width: 650px" >
-                <iInput type="password" size="large" v-model="trendsModifyCustom.pwd"></iInput>
+                <iInput type="password" size="large" :autocomplete="false" v-model="trendsModifyCustom.pwd"></iInput>
               </Form-item>
             </div>
             <div class="clear form-input-box">
               <Form-item label="确认新密码" class="left" style="width: 650px" prop="repwd">
-                <iInput type="password" size="large" v-model="trendsModifyCustom.repwd"></iInput>
+                <iInput type="password" size="large" :autocomplete="false" v-model="trendsModifyCustom.repwd"></iInput>
               </Form-item>
             </div>
             <div>

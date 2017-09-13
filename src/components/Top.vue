@@ -14,10 +14,9 @@
                 <!--<a href="">店铺</a>-->
               </div>
               <i class="ivu-icon ivu-icon-ios-search"></i>
-              <input type="text" class="search-btn" v-model="searchKey">
+              <input type="text" class="search-btn" v-model="searchKey" autocomplete="off">
               <!--<i data-v-fae95c8a="" class="ivu-icon ivu-icon-camera"></i>-->
             </div>
-            <!--<router-link  :to="{ 'path': '/task-category', 'query': {'searchKey': searchKey }}">搜索</router-link>-->
             <a @click="goTaskCategory">搜索</a>
             <p class="link-text">
               <a class="active" href="">男士内裤</a>

@@ -3,7 +3,7 @@
     <iSelect v-model="selectStatus" style="width: 120px;margin-right: 12px;">
       <iOption v-for="item in SelectList" :value="item.value" :key="item.value">{{ item.label }}</iOption>
     </iSelect>
-    <iInput v-model="searchValue" style="width: 160px;margin-right: 8px;"></iInput>
+    <iInput v-model="searchValue" :autocomplete="false" style="width: 160px;margin-right: 8px;"></iInput>
     <iButton type="primary" :loading="searchLoading" @click="showkerApplyList">搜索</iButton>
     <div class="probation-table mt-20">
       <table>

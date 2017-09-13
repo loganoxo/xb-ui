@@ -12,10 +12,10 @@
           <div class="verified-form">
             <iForm ref="verifiedValidate" :model="verifiedValidate" :rules="verifiedRuleCustom" label-position="right" :label-width="120">
               <Form-item label="真实姓名" prop="realname">
-                <iInput v-model="verifiedValidate.realname"></iInput>
+                <iInput v-model="verifiedValidate.realname" :autocomplete="false"></iInput>
               </Form-item>
               <Form-item label="身份证号"  class="ww-info-img" prop="idcard">
-                <iInput v-model="verifiedValidate.idcard"></iInput>
+                <iInput v-model="verifiedValidate.idcard" :autocomplete="false"></iInput>
               </Form-item>
               <Form-item label="手持身份证正面面照"  class="ww-info-img" >
                 <Upload
