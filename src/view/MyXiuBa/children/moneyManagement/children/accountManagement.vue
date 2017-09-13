@@ -118,7 +118,7 @@
           <iForm ref="payCustom" :model="payCustom" :rules="payRuleCustom" :label-width="400">
             <div class="clear form-input-box">
               <Form-item label="绑定手机" prop="phone" class="left" style="width: 650px">
-                <iInput type="text" size="large" :autocomplete="false" v-model="payCustom.phone"   style="border: none;"></iInput>
+                <input class="fs-14" type="text" v-model="payCustom.phone" style="border: none;" readonly>
               </Form-item>
             </div>
             <div class="clear form-input-box">
