@@ -303,7 +303,7 @@
 
 <script>
   import Button from 'iview/src/components/button'
-  import Input from 'iview/src/components/input'
+  import Input from '@/components/Input'
   import Icon from 'iview/src/components/icon'
   import {Select, Option, OptionGroup} from 'iview/src/components/select'
   import Page from 'iview/src/components/page'

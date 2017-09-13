@@ -12,10 +12,10 @@
           <div class="verified-form">
             <iForm ref="verifiedValidate" :model="verifiedValidate" :rules="verifiedRuleCustom" label-position="right" :label-width="120">
               <Form-item label="真实姓名" prop="realname">
-                <iInput v-model="verifiedValidate.realname" :autocomplete="false"></iInput>
+                <iInput v-model="verifiedValidate.realname"></iInput>
               </Form-item>
               <Form-item label="身份证号"  class="ww-info-img" prop="idcard">
-                <iInput v-model="verifiedValidate.idcard" :autocomplete="false"></iInput>
+                <iInput v-model="verifiedValidate.idcard"></iInput>
               </Form-item>
               <Form-item label="手持身份证正面面照"  class="ww-info-img" >
                 <Upload
@@ -123,7 +123,7 @@
 <script>
   import Icon from 'iview/src/components/icon'
   import Form from 'iview/src/components/form'
-  import Input from 'iview/src/components/input'
+  import Input from '@/components/Input'
   import Checkbox from 'iview/src/components/checkbox'
   import Button from 'iview/src/components/button'
   import Radio from 'iview/src/components/radio'

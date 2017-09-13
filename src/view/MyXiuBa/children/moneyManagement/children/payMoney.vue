@@ -48,7 +48,7 @@
   import api from '@/config/apiConfig'
   import Icon from 'iview/src/components/icon'
   import Form from 'iview/src/components/form'
-  import Input from 'iview/src/components/input'
+  import Input from '@/components/Input'
   import Radio from 'iview/src/components/radio'
   import Button from 'iview/src/components/button'
   import Modal from 'iview/src/components/modal'

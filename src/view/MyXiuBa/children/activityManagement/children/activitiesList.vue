@@ -124,7 +124,7 @@
           </td>
           <td v-else-if="item.settlementStatus === 'settlement_finished'">
             <p class="copy mt-6">
-              <span>结算详情</span>
+              <span @click="billDetails(item.id)">结算详情</span>
             </p>
             <p class="copy mt-6">
               <span @click="copyTask(item.id)">复制活动</span>
@@ -215,6 +215,20 @@
         <iButton type="error" size="large" long @click="auditSettlementSuccess = false">确认</iButton>
       </div>
     </Modal>
+    <!--结算详情弹框-->
+    <Modal v-model="billDetailsModel" width="400">
+      <p slot="header" style="color:#f60;text-align:center">
+        <span>结算详情</span>
+      </p>
+      <div>
+        <p>活动标题：545454</p>
+        <p>结算时间：2017-05-09</p>
+        <p>结算备注：活动剩余资格{{taskCountLeft}}，返还担保金共{{marginRefund}}元，返还推广费{{promotionRefund}}元。</p>
+      </div>
+      <div slot="footer" class="text-ct">
+        <iButton type="error" size="large" long @click="billDetailsModel = false">确认</iButton>
+      </div>
+    </Modal>
     <!--支付保证金弹框-->
     <div class="pay-model" v-if="showPayModel">
       <PayModel :orderMoney="needDepositMoney" @confirmPayment="confirmPayment">
@@ -233,7 +247,7 @@
   import Modal from 'iview/src/components/modal'
   import Icon from 'iview/src/components/icon'
   import Button from 'iview/src/components/button'
-  import Input from 'iview/src/components/input'
+  import Input from '@/components/Input'
   import Tooltip from 'iview/src/components/tooltip'
   import PayModel from '@/components/PayModel'
   import api from '@/config/apiConfig'
@@ -273,6 +287,7 @@
         taskPayId: null,
         directSettlementSuccess: false,
         auditSettlementSuccess: false,
+        billDetailsModel: false,
         ActivityNumber: null,
         marginRefund: 0,
         promotionRefund: 0,
@@ -460,6 +475,10 @@
       lookBill() {
         this.$router.push({name:'TransactionRecord',query:{taskNumber:this.ActivityNumber}});
         this.directSettlementSuccess = false;
+      },
+      billDetails() {
+        let _this = this;
+        _this.billDetailsModel = true;
       }
     }
   }

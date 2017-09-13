@@ -33,7 +33,7 @@
         </div>
         <div class="activity-time ml-60 mt-20">
           <span class="required">活动时长：</span>
-          <iInput v-model.number="taskRelease.taskDaysDuration" placeholder="请输入活动时长" :autocomplete="false" style="width: 120px"></iInput>
+          <iInput v-model.number="taskRelease.taskDaysDuration" placeholder="请输入活动时长" style="width: 120px"></iInput>
           <span>天</span>
           <span class="second-color ml-10">请于活动结束后48小时内审批完成所有试客资格，逾期系统将自动为您审批。</span>
           <p class="mt-6 pl-60">（单期活动时间为3-30天。）</p>
@@ -463,7 +463,7 @@
   import {Quill, quillEditor} from 'vue-quill-editor'
   import Icon from 'iview/src/components/icon'
   import Form from 'iview/src/components/form'
-  import Input from 'iview/src/components/input'
+  import Input from '@/components/Input'
   import Checkbox from 'iview/src/components/checkbox'
   import Button from 'iview/src/components/button'
   import Radio from 'iview/src/components/radio'

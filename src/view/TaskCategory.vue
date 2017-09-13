@@ -50,7 +50,7 @@
         <div class="task-category-checkbox">
           <div>
             <div class="left mt-10" style="width: 200px">
-              <iInput placeholder="在结果中搜索" size="small" :autocomplete="false" v-model="searchTaskParams.taskName">
+              <iInput placeholder="在结果中搜索" size="small" v-model="searchTaskParams.taskName">
                 <iButton slot="append" size="small" icon="search" @click="searchTaskNameFunc"></iButton>
               </iInput>
             </div>
@@ -115,7 +115,7 @@
 <script>
   import Icon from 'iview/src/components/icon'
   import Form from 'iview/src/components/form'
-  import Input from 'iview/src/components/input'
+  import Input from '@/components/Input'
   import Checkbox from 'iview/src/components/checkbox'
   import Button from 'iview/src/components/button'
   import Radio from 'iview/src/components/radio'

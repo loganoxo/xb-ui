@@ -113,7 +113,7 @@
   import Icon from 'iview/src/components/icon'
   import Alert from 'iview/src/components/alert'
   import Form from 'iview/src/components/form'
-  import Input from 'iview/src/components/input'
+  import Input from '@/components/Input'
   import Checkbox from 'iview/src/components/checkbox'
   import Button from 'iview/src/components/button'
   import Radio from 'iview/src/components/radio'

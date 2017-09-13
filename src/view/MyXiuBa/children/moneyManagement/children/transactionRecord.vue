@@ -33,7 +33,7 @@
       </div>
       <div class="activity-number mt-20">
         活动编号：
-        <iInput v-model="activityNumber" :autocomplete="false" style="width: 200px;height: 30px" class="ml-10"></iInput>
+        <iInput v-model="activityNumber" style="width: 200px;height: 30px" class="ml-10"></iInput>
       </div>
       <iButton class="ibtn" @click="getTradListAll(transactType)">筛选</iButton>
       <div class="mt-22 line"></div>
@@ -189,7 +189,7 @@
       </div>
       <div class="activity-number mt-20">
         活动编号：
-        <iInput v-model="activityNumber" :autocomplete="false" style="width: 200px;height: 30px" class="ml-10"></iInput>
+        <iInput v-model="activityNumber" style="width: 200px;height: 30px" class="ml-10"></iInput>
       </div>
       <iButton class="ibtn" @click="getTradListAll(transactType)">筛选</iButton>
       <div class="mt-22 line"></div>
@@ -275,7 +275,7 @@
   import Icon from 'iview/src/components/icon'
   import DatePicker from 'iview/src/components/date-picker'
   import Table from 'iview/src/components/table'
-  import Input from 'iview/src/components/input'
+  import Input from '@/components/Input'
   import Checkbox from 'iview/src/components/checkbox'
   import Button from 'iview/src/components/button'
   import Page from 'iview/src/components/page'

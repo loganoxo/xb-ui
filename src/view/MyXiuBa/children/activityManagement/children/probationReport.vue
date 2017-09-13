@@ -110,7 +110,7 @@
 <script>
   import Icon from 'iview/src/components/icon'
   import Button from 'iview/src/components/button'
-  import Input from 'iview/src/components/input'
+  import Input from '@/components/Input'
   import Radio from 'iview/src/components/radio'
   import TimeDown from '@/components/TimeDown'
   import api from '@/config/apiConfig'

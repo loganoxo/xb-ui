@@ -36,9 +36,9 @@
             审核不通过： {{remarks.text}},请重新提交（{{remarks.auditTime | dateFormat('YYYY-MM-DD hh:mm:ss')}}）
           </Alert>
           <div class="ww-account-form mt-20">
-            <iForm ref="wwFormValidate" :model="wwFormValidate" :rules="wwFormRuleCustom" label-position="right" :label-width="130">
-              <Form-item label="旺旺ID：" prop="alitmAccount">
-                <iInput v-model="wwFormValidate.alitmAccount" :autocomplete="false"></iInput>
+            <iForm ref="wwFormValidate" :model="wwFormValidate" :rules="wwFormRuleCustom" label-position="right" :label-width="100">
+              <Form-item label="旺旺ID" prop="alitmAccount">
+                <iInput v-model="wwFormValidate.alitmAccount"></iInput>
               </Form-item>
               <Form-item label="旺旺号信用等级：" prop="alitmLevel">
                 <iSelect v-model="wwFormValidate.alitmLevel">
@@ -175,7 +175,7 @@
 <script>
   import Icon from 'iview/src/components/icon'
   import Form from 'iview/src/components/form'
-  import Input from 'iview/src/components/input'
+  import Input from '@/components/Input'
   import Checkbox from 'iview/src/components/checkbox'
   import {Select, Option, OptionGroup} from 'iview/src/components/select'
   import Button from 'iview/src/components/button'
