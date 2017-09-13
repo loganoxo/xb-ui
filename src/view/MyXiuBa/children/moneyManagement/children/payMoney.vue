@@ -21,8 +21,8 @@
           </Radio-group>
         </Form-item>
         <Form-item>
-          <iButton  class="payMoneyBtn" @click="payPopWindow = true;balanceOrderCreate(payMoney,getUserId)">提交</iButton>
-          <Modal v-show="payMoney.number !== ''" v-model="payPopWindow" width="360"
+          <iButton  class="payMoneyBtn" @click="balanceOrderCreate(payMoney,getUserId)">提交</iButton>
+          <Modal  v-model="payPopWindow" width="360"
             :styles="{top:'310px',height:'300px'}">
             <div style="text-align:center">
               <p>请前往充值页面进行充值</p>
@@ -100,6 +100,7 @@
         modal3: false,
         modal_loading: false,
         payPopWindow:false,
+        payPopWindowValue:false,
         userList: {},
         userAccount: {},
         url: '',
@@ -147,11 +148,14 @@
         let _this = this;
         if (type.number===''){
           _this.$Message.error('您未输入充值金额，请您重新输入');
-          _this.payPopWindow = false;
+          _this.payPopWindowValue = false;
           return;
         }else if (parseInt(type.number)<1){
-          _this.payPopWindow = false;
+          _this.payPopWindowValue = false;
           return;
+        }else{
+          _this.payPopWindowValue = true;
+          _this.payPopWindow = _this.payPopWindowValue;
         }
         api.balanceOrderCreate({
           uid: id,
