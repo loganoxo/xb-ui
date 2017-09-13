@@ -130,7 +130,7 @@
               </div>
             </div>
             <div class="clear form-input-box">
-              <Form-item label="手机验证码" class="left pos-rel" style="width: 650px">
+              <Form-item label="短信验证码" class="left pos-rel" style="width: 650px">
                 <iInput type="text" number size="large" :autocomplete="false" v-model="payCustom.smsCode"></iInput>
                 <SmsCountdown :on-success="sendCodeSuccess" style="top: 3px;"
                               :phone="payCustom.phone"

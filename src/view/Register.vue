@@ -55,7 +55,7 @@
                 </div>
               </div>
               <div class="clear form-input-box">
-                <Form-item label="手机验证码" prop="smsCode" class="left pos-rel" style="width: 650px">
+                <Form-item label="短信验证码" prop="smsCode" class="left pos-rel" style="width: 650px">
                   <iInput type="text" v-model="formCustom.smsCode" number size="large"></iInput>
                   <SmsCountdown style="top: 3px;"
                                 :on-success="sendCodeSuccess"
@@ -685,7 +685,7 @@
         let self = this;
         if (res.status) {
           self.$Modal.success({
-            content: "手机验证码发送成功！",
+            content: "短信验证码发送成功！",
           });
         } else {
           self.$Modal.error({

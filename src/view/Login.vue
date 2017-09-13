@@ -327,7 +327,7 @@
       sendCodeSuccess(res) {
         let _this = this;
         if (res.status) {
-          _this.instance('success', '', '手机验证码发送成功')
+          _this.instance('success', '', '短信验证码发送成功')
         } else {
           _this.instance('error', '', res.msg);
           _this.getVrcode();

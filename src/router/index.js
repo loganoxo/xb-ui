@@ -47,7 +47,7 @@ export default new Router({
       name: 'Home',
       component: Home,
       meta: {
-        title: "首页",
+        title: "首页-秀吧365-提权重  促转化",
         logInAuthority: false,
       }
     },

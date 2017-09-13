@@ -149,7 +149,8 @@
                 <iForm ref="payCustom" :model="payCustom" :rules="payRuleCustom" :label-width="400">
                   <div class="clear form-input-box">
                     <Form-item label="绑定手机" prop="phone" class="left" style="width: 650px">
-                      <iInput type="text" size="large" :autocomplete="false" v-model="payCustom.phone" ></iInput>
+                      <!--<iInput type="text" size="large" :autocomplete="false" v-model="payCustom.phone" ></iInput>-->
+                      <input class="fs-14" type="text" v-model="payCustom.phone" style="border: none;" readonly>
                     </Form-item>
                   </div>
                   <div class="clear form-input-box">
@@ -161,7 +162,7 @@
                     </div>
                   </div>
                   <div class="clear form-input-box">
-                    <Form-item label="手机验证码" class="left pos-rel" style="width: 650px">
+                    <Form-item label="短信验证码" class="left pos-rel" style="width: 650px">
                       <iInput type="text" number size="large" :autocomplete="false" v-model="payCustom.smsCode"></iInput>
                       <SmsCountdown :on-success="sendCodeSuccess" style="top: 3px;"
                                     :phone="payCustom.phone"
@@ -306,7 +307,7 @@
         },
         imgSrc: null,
         payCustom: {
-          phone: null,
+          phone: this.$store.state.userInfo.phone,
           validateCode: '',
           purpose:'forget',
           smsCode: '',

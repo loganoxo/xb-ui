@@ -78,8 +78,12 @@ router.post('/api/alitm-bunding.json', function (req, res, next) {
     uri: baseUrl + '/user/alitm/alitm-bunding',
     formData: {
       userId: req.session.userData.id,
+      creditLevel: req.body.creditLevel,
+      tqz: req.body.tqz,
+      wwCreditLevelPicUrl: req.body.wwCreditLevelPicUrl,
+      tqzPicUrl: req.body.tqzPicUrl,
       alitmAccount: req.body.alitmAccount,
-      picUrl: req.body.picUrl
+      wwInfoPic: req.body.wwInfoPic
     },
     json: true
   };
@@ -147,8 +151,12 @@ router.post('/api/alitm/resubmit.json', function (req, res, next) {
     uri: baseUrl + '/user/alitm/resubmit',
     formData: {
       id: req.body.id,
+      creditLevel: req.body.creditLevel,
+      tqz: req.body.tqz,
+      wwCreditLevelPicUrl: req.body.wwCreditLevelPicUrl,
+      tqzPicUrl: req.body.tqzPicUrl,
       alitmAccount: req.body.alitmAccount,
-      picUrl: req.body.picUrl
+      wwInfoPic: req.body.wwInfoPic
     }
   };
   request(options).then(function (parsedBody) {

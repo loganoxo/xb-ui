@@ -177,7 +177,7 @@ router.get("/api/vrcode.json", (req, res, next) => {
 });
 
 /**
- * 发送手机验证码
+ * 发送短信验证码
  * @param phone
  * @param purpose 'fast': 快速登录，'reg': 注册
  */

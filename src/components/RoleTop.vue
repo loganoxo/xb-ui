@@ -2,7 +2,7 @@
   <div id="top" class="">
     <div class="container">
       <router-link to="/" class="logo-link">
-        <img src="~assets/img/common/logo.png" alt="">
+        <img src="~assets/img/common/top_logo.png" style="width: 350px;"  alt="">
       </router-link>
       <div class="right top-rt">
         <router-link to="/">首页</router-link>
