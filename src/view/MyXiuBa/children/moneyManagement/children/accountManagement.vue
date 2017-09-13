@@ -34,7 +34,8 @@
               {{getIfBandingBankCard(userList.ifBandingBankCard)}}
             </li>
             <li class="three">
-              <router-link :to="{'path':'/user/money-management/getout-money','query':{'bandCard':'bandCard'}}">去绑定</router-link>
+              <a v-show="userList.ifBandingBankCard === null" @click="bandCard">去绑定</a>
+              <a v-show="userList.ifBandingBankCard !== null" @click="bandCard">去修改</a>
             </li>
           </ul>
         </li>
@@ -377,12 +378,22 @@
       },
       getIfEditPwdAlready: function(){
         return  this.$store.state.userInfo.userAccount.ifEditPwdAlready
+      },
+      getIfCertification:function () {
+        return this.$store.state.userInfo.ifCertification
       }
     },
     methods: {
       ...mapActions([
         'getBalance'
       ]),
+      bandCard(){
+        if(this.getIfCertification===false){
+          this.$Message.error('您还未实名认证，请您前往个人中心实名认证后再绑定银行卡')
+        }else {
+          this.$router.push({name: 'GetoutMoney',query:{bandCard:'bandCard'}});
+        }
+      },
       flushCom(){
         this.myAccount.userSafe = false;
         this.myAccount.modifyPwd=true;

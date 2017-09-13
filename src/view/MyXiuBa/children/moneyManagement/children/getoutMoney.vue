@@ -54,7 +54,7 @@
           </Form-item>
           <Form-item>
             <iButton type="primary" @click=" addBankCardInfo(formItem)">提交</iButton>
-            <iButton type="ghost" style="margin-left: 8px">取消</iButton>
+            <iButton type="ghost" style="margin-left: 8px" @click="goBack">取消</iButton>
           </Form-item>
         </iForm>
       </div>
@@ -427,6 +427,9 @@
       },
       ok(){
         this.getBalance()
+      },
+      goBack(){
+        this.$router.push({name:'AccountInfo'})
       },
       closable () {
         this.changeBankIDcardShow.iScertification=false;

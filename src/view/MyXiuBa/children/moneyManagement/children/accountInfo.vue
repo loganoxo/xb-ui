@@ -17,7 +17,7 @@
             <div class="number1 mt-5 ">{{userAccount.enChashingMoney/100||0}}</div>
             <div class="clear">
               <span class="sp left">提现帐号：{{getIfBandingBankCard(userList.ifBandingBankCard)}}</span>
-              <router-link :to="{'path':'/user/money-management/getout-money','query':{'bandCard':'bandCard'}}" class="sa right" v-show="userList.ifBandingBankCard === null">添加</router-link>
+              <a class="sa right" v-show="userList.ifBandingBankCard === null" @click="bandCard">添加</a>
             </div>
             <div class="view-details ">
               <a class="iWantPay" href="javascript:;" @click="accountInit('PayMoney')">我要充值</a>
@@ -62,7 +62,7 @@
               <p>{{item.createTime | dateFormat('hh:mm:ss ')}}</p>
             </td>
             <td>
-              <p>{{item.changeName}}</p>
+              <p>{{getTradType(item.changeName)}}</p>
               <p>活动编号：{{item.taskSerialNum}}</p>
             </td>
             <td class="main-color">{{typechang(item.amountChange/100)||0}}</td>
@@ -204,12 +204,22 @@
     computed: {
       getUserBalance: function () {
         return this.$store.state.userBalance
+      },
+      getIfCertification:function () {
+        return this.$store.state.userInfo.ifCertification
       }
     },
     methods: {
       accountInit(name) {
         this.infoSelect = name;
         this.$router.push({name: name});
+      },
+      bandCard(){
+        if(this.getIfCertification===false){
+          this.$Message.error('您还未实名认证，请您前往个人中心实名认证后再绑定银行卡')
+        }else {
+          this.$router.push({name: 'GetoutMoney',query:{bandCard:'bandCard'}});
+        }
       },
       typechang(num){
         if (num > 0){

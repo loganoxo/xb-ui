@@ -97,7 +97,7 @@
               <p>{{tbodyDetails.createTime | dateFormat('hh:mm:ss ')}}</p>
             </td>
             <td>
-              <p>{{tbodyDetails.changeName}}</p>
+              <p>{{getTradType(tbodyDetails.changeName)}}</p>
               <p>活动编号：{{tbodyDetails.taskSerialNum}}</p>
             </td>
             <td class="main-color">{{typeChang(tbodyDetails.amountChange / 100) || 0}}</td>
@@ -216,7 +216,7 @@
               <p>{{item.createTime | dateFormat('hh:mm:ss ')}}</p>
             </td>
             <td>
-              <p>{{item.changeName}}</p>
+              <p>{{getTradType(item.changeName)}}</p>
               <p>活动编号：{{item.taskSerialNum}}</p>
             </td>
             <td class="main-color">{{typeChang(item.amountChange / 100) || 0}}</td>

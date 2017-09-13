@@ -155,7 +155,7 @@
         }
         api.balanceOrderCreate({
           uid: id,
-          finalFee: type.number * 100,
+          finalFee:( type.number * 100).toFixed,
           orderPlatform: 'PC',
           payChannel: 1
         }).then(res => {
