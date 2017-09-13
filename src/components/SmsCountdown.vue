@@ -50,12 +50,10 @@
             purpose: _this.purpose,
             validateCode: _this.validateCode,
           }).then((res) => {
+            _this.onSuccess(res);
             if (res.status) {
-              _this.onSuccess(res);
               _this.start();
               _this.setDisabled(true);
-            } else {
-              _this.$Message.error(res.msg);
             }
           }).catch(err => {
             alert('发送短信接口错误信息：' + err);
