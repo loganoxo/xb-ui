@@ -155,13 +155,14 @@
         }
         api.balanceOrderCreate({
           uid: id,
-          finalFee:( type.number * 100).toFixed,
+          finalFee:(type.number * 100).toFixed(),
           orderPlatform: 'PC',
           payChannel: 1
         }).then(res => {
           if (res.status) {
             let src = aliPayUrl + _this.getUserInfo + '&orderId=' + res.data.id;
             window.open(src);
+            _this.payMoney.number='';
           } else {
             _this.$Message.error(res.msg);
           }

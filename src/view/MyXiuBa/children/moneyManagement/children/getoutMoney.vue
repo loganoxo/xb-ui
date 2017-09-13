@@ -408,6 +408,14 @@
       ...mapActions([
         'getBalance'
       ]),
+
+      //实现实名认证，添加银行卡，提现等模块的显示隐藏
+      showDifffentModel(type){
+        for (let k in  this.changeBankIDcardShow) {
+          this.changeBankIDcardShow[k]=k===type;
+        }
+      },
+
       //在金额为正前加+
       typechang(num){
         if (num > 0){
@@ -429,13 +437,17 @@
         this.getBalance()
       },
       goBack(){
-        this.$router.push({name:'AccountInfo'})
+       if(this.$route.query.bandCard === 'bandCard'){
+         this.$router.go(-1)
+       }else {
+         this.showDifffentModel('getoutMoney')
+       }
       },
       closable () {
         this.changeBankIDcardShow.iScertification=false;
         this.changeBankIDcardShow.iSbondBankCard=false;
         this.changeBankIDcardShow.bondBankCard=false;
-        this.$router.go(0)
+//        this.$router.go(0)
       },
       sendCodeSuccess(res) {
         let self = this;
@@ -497,12 +509,8 @@
 
       //点击绑定银行卡，其它模块隐藏，绑定银行卡模块显示
       addBankCard(){
-        this.changeBankIDcardShow.iScertification=false;
-        this.changeBankIDcardShow.iSbondBankCard=false;
-        this.changeBankIDcardShow.bondBankCard=true;
-        this.changeBankIDcardShow.getoutMoney=false;
+        this.showDifffentModel('bondBankCard')
       },
-
       //实现提现记录和提现操作间的跳转
       lookGetoutRecord(type){
         for (let k in  this.changeBankIDcardShow) {
@@ -523,11 +531,8 @@
         }).then(res=>{
           if(res.status){
             _this.getbankCardInformation=res;
-            _this.$Message.info({
-              content: _this.getbankCardInformation.msg,
-              duration: 5,
-              closable: true
-            });
+            _this.$Message.success(res.msg);
+            _this.getUserAccount();
             _this.closable ()
           }else {
             _this.$Message.error(res.msg)

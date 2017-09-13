@@ -18,6 +18,7 @@
             <div class="clear">
               <span class="sp left">提现帐号：{{getIfBandingBankCard(userList.ifBandingBankCard)}}</span>
               <a class="sa right" v-show="userList.ifBandingBankCard === null" @click="bandCard">添加</a>
+              <a class="sa right" v-show="userList.ifBandingBankCard !== null" @click="bandCard">修改</a>
             </div>
             <div class="view-details ">
               <a class="iWantPay" href="javascript:;" @click="accountInit('PayMoney')">我要充值</a>

@@ -45,16 +45,13 @@
               支付密码
             </li>
             <li class="two">
-              未设置
+              未设置(初始密码为888888，为了你的账号安全，建议您重置支付密码)
             </li>
             <li class="three">
-              <a href="javascript:;" @click="myAccountPwdChangeFather('modifyPwd')">忘记支付密码？</a>
+              <a href="javascript:;" v-show="getIfEditPwdAlready === false" @click="myAccountPwdChangeFather('modifyPwd')">重置支付密码</a>
+              <a href="javascript:;" v-show="getIfEditPwdAlready !== false" @click="myAccountPwdChangeFather('modifyPwd')">忘记支付密码？</a>
             </li>
           </ul>
-        </li>
-        <li  style="height: 50px ; line-height: 50px;font-size: 16px" class="text-ct" v-show="getIfEditPwdAlready === false">
-          初始密码为888888，为了你的账号安全，建议您
-          <span class="cursor-p" style="color: #78BAFF" @click="flushCom">重置支付密码</span>。
         </li>
       </ul>
     </div>

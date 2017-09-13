@@ -150,17 +150,24 @@ router.post('/api/add-bank-card.json', function (req, res, next) {
     json: true,
   };
   let validateCode = parseInt(req.body.validateCode);
-  if (validateCode === req.session.vrCode) {
-    request(options).then(function (parsedBody) {
-      res.send(parsedBody);
+  let time = new Date().getTime();
+  let vrCode = req.session.vrCode;
+  if (validateCode === vrCode.code) {
+    if(vrCode.expireTime > time){
+      request(options).then(function (parsedBody) {
+        res.send(parsedBody);
+        res.end();
+      }).catch(function (err) {
+        logConfig.logger.error(req.originalUrl + ':' + err);
+        res.json({status: false, msg: "服务器错误！"});
+        res.end();
+      });
+    }else {
+      res.json({status: false, msg: "图形验证码过期！"});
       res.end();
-    }).catch(function (err) {
-      logConfig.logger.error(req.originalUrl + ':' + err);
-      res.json({status: false, msg: "服务器错误"});
-      res.end();
-    });
+    }
   } else {
-    res.json({status: false, msg: "图片验证码过期"});
+    res.json({status: false, msg: "图形验证码错误！"});
     res.end();
   }
 });
