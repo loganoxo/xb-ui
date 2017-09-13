@@ -435,7 +435,7 @@
         this.changeBankIDcardShow.iScertification=false;
         this.changeBankIDcardShow.iSbondBankCard=false;
         this.changeBankIDcardShow.bondBankCard=false;
-        this.changeBankIDcardShow.getoutMoney=true;
+        this.$router.go(0)
       },
       sendCodeSuccess(res) {
         let self = this;

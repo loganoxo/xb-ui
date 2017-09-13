@@ -215,7 +215,7 @@
         this.$router.push({name: name});
       },
       bandCard(){
-        if(this.getIfCertification===false){
+        if(this.userList.ifCertification===false){
           this.$Message.error('您还未实名认证，请您前往个人中心实名认证后再绑定银行卡')
         }else {
           this.$router.push({name: 'GetoutMoney',query:{bandCard:'bandCard'}});
