@@ -825,9 +825,7 @@
         let type = _this.$route.query.type;
         if((status === 'waiting_modify' || status === 'waiting_pay') && _this.paidDeposit === _this.orderMoney && !type){
           _this.taskCreate();
-          setTimeout(function () {
-            this.$router.push({name: 'ActivitiesList'});
-          },500);
+          this.$router.push({name: 'ActivitiesList'});
         }else if((status === 'waiting_modify' || status === 'waiting_pay') && _this.paidDeposit > _this.orderMoney && !type){
           this.editPriceToLowAfterModel = true;
         }else if((status === 'waiting_modify' || status === 'waiting_pay') && _this.paidDeposit > 0 && _this.paidDeposit < _this.orderMoney && !type){
@@ -901,9 +899,7 @@
       },
       toLowContinueNextStep() {
         this.taskCreate();
-        setTimeout(function () {
-          this.$router.push({name: 'ActivitiesList'});
-        },500);
+        this.$router.push({name: 'ActivitiesList'});
       },
       getTaskInfo() {
         let _this = this;

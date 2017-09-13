@@ -9,7 +9,6 @@ export default {
     state.userInfo = {};
     state.login = false;
     removeStorage("userInfo");
-    removeStorage("navigationTagsName");
   },
   // 登陆成功后存储用户信息到vuex
   [types.RECORD_USER_INFO](state, {info}) {

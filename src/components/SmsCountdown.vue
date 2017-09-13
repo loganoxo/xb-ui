@@ -23,9 +23,6 @@
       validateCode: {
         required: true
       },
-      timeout:{
-        default: null
-      },
       onSuccess: {
         type: Function,
         default() {
@@ -45,49 +42,34 @@
       }
     },
     methods: {
-      run: function () {
-        if (/^1[34578]\d{9}$/.test(this.phone)) {
-          if(this.timeout){
-            api.getCode({
-              phone: this.phone,
-              purpose: this.purpose,
-              validateCode: this.validateCode,
-              timeout: this.timeout,
-            }).then((res) => {
-              this.onSuccess(res);
-              if (res.status) {
-                this.start();
-                this.setDisabled(true);
-              }
-            }).catch(err => {
-              console.log('发送短信接口错误信息：' + err);
-            });
-          }else {
-            api.getCode({
-              phone: this.phone,
-              purpose: this.purpose,
-              validateCode: this.validateCode,
-            }).then((res) => {
-              this.onSuccess(res);
-              if (res.status) {
-                this.start();
-                this.setDisabled(true);
-              }
-            }).catch(err => {
-              console.log('发送短信接口错误信息：' + err);
-            });
-          }
-
+      run() {
+        let _this = this;
+        if (/^1[34578]\d{9}$/.test(_this.phone)) {
+          api.getCode({
+            phone: _this.phone,
+            purpose: _this.purpose,
+            validateCode: _this.validateCode,
+          }).then((res) => {
+            if (res.status) {
+              _this.onSuccess(res);
+              _this.start();
+              _this.setDisabled(true);
+            } else {
+              _this.$Message.error(res.msg);
+            }
+          }).catch(err => {
+            alert('发送短信接口错误信息：' + err);
+          });
         }
       },
-      start: function () {
+      start() {
         this.time = this.second;
         this.timer();
       },
-      setDisabled: function (val) {
+      setDisabled(val) {
         this.disables = val;
       },
-      timer: function () {
+      timer() {
         if (this.time > 0) {
           this.time--;
           setTimeout(this.timer, 1000);

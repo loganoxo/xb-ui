@@ -207,8 +207,8 @@
         <span>结算审核提交成功</span>
       </p>
       <div class="text-ct">
-        <p>结算说明：活动剩余资格1，返还担保金共150.00元</p>
-        <p>返还推广费3元。</p>
+        <p>结算说明：活动剩余资格{{taskCountLeft}}，返还担保金共{{marginRefund}}元</p>
+        <p>返还推广费{{promotionRefund}}元。</p>
         <p>我们将在1个 工作日内完成结算审核！</p>
       </div>
       <div slot="footer" class="text-ct">
@@ -274,23 +274,29 @@
         directSettlementSuccess: false,
         auditSettlementSuccess: false,
         ActivityNumber: null,
+        marginRefund: 0,
+        promotionRefund: 0,
+        taskCountLeft: 0,
       }
     },
     mounted() {
 
     },
     created() {
-      let status = this.$route.query.status;
+      let _this = this;
+      let status = _this.$route.query.status;
       if(status){
         if(status === 'under_way' || status === 'waiting_audit'){
-          this.taskStatusList.push(status);
-          this.getTaskList();
+          _this.taskStatusList.push(status);
+          _this.getTaskList();
         } else if(status === 'waiting_settlement'){
-          this.settlementStatusList.push(status);
-          this.getTaskList();
+          _this.settlementStatusList.push(status);
+          _this.getTaskList();
         }
       }else{
-        this.getTaskList();
+        setTimeout(function () {
+          _this.getTaskList();
+        },200)
       }
     },
     computed: {},
@@ -382,6 +388,9 @@
           if(res.status){
             if(res.statusCode === 'waiting_audit'){
               _this.auditSettlementSuccess = true;
+              _this.marginRefund = res.msg.marginRefund / 100;
+              _this.promotionRefund = res.msg.promotionRefund / 100;
+              _this.taskCountLeft = res.msg.taskCountLeft;
             }else{
               _this.directSettlementSuccess = true;
             }
@@ -431,13 +440,13 @@
           type: _this.hasDeposited > 0 ? 'supply_pay' : 'first_pay'
         }).then(res => {
           if(res.status){
-            _this.getBalance();
-            _this.getTaskList();
             _this.showPayModel = false;
             _this.$Message.success({
               content:'支付成功！',
               duration: 6
             });
+            _this.getBalance();
+            _this.getTaskList();
           }else{
             _this.$Message.error({
               content:res.msg,
