@@ -164,7 +164,7 @@
           payChannel: 1
         }).then(res => {
           if (res.status) {
-            let src = aliPayUrl + _this.getUserInfo + '&orderId=' + res.data.id;
+            let src = aliPayUrl + 'orderSerial=' + res.data.orderSerial;
             window.open(src);
             _this.payMoney.number='';
           } else {

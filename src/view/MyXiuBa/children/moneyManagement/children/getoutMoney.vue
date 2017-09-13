@@ -443,12 +443,6 @@
          this.showDifffentModel('getoutMoney')
        }
       },
-      closable () {
-        this.changeBankIDcardShow.iScertification=false;
-        this.changeBankIDcardShow.iSbondBankCard=false;
-        this.changeBankIDcardShow.bondBankCard=false;
-//        this.$router.go(0)
-      },
       sendCodeSuccess(res) {
         let self = this;
         if (res.status) {
@@ -530,10 +524,12 @@
           smsCode:type.cord
         }).then(res=>{
           if(res.status){
-            _this.getbankCardInformation=res;
+            _this.getbankCardInformation=res.data;
             _this.$Message.success(res.msg);
-            _this.getUserAccount();
-            _this.closable ()
+            _this.formItem.validateCode='';
+            _this.formItem.cord='';
+            _this.showDifffentModel('getoutMoney');
+
           }else {
             _this.$Message.error(res.msg)
           }

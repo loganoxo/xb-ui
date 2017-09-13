@@ -193,7 +193,7 @@ export const TaskErrorStatusList = (type) => {
       return '任务保证金返款';
       break;
     case  'task_delete_return_seller':
-      return '删除活动返款';
+      return '删除活动返款-活动担保金';
       break;
     case  'enchashment_audit_ing':
       return '提现审核中';
@@ -204,5 +204,33 @@ export const TaskErrorStatusList = (type) => {
     case  'enchashment_audit_defeat':
       return '提现审核未通过';
       break;
+    case  'enchashment_record':
+      return '提现交易记录';
+      break;
+    case  'recharge_record':
+      return '充值交易记录';
+      break;
+    case  'recharge':
+      return '充值';
+      break;
+    case  'pay_for_task_deposit_supply_seller':
+      return '补交活动担保金';
+      break;
+    case  'pay_for_task_promotion_expenses':
+      return '支付活动推广费';
+      break;
+    case  'pay_for_task_promotion_expenses_supply_seller':
+      return '补交活动推广费';
+      break;
+    case  'task_delete_return_promotion_expenses_seller':
+      return '删除活动返款活动推广费';
+      break;
+    case  'task_return_deposit_seller':
+      return '动结算担保金返款';
+      break;
+    case  'task_return_promotion_expenses_seller':
+      return '活动结算推广费返款';
+      break;
+
   }
 };

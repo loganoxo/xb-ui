@@ -13,7 +13,7 @@ const domain = window.location.protocol + '//' + window.location.host;
 let bucket = 'xiuba-dev';
 let aliCallbackImgUrl = 'http://xiuba-dev.oss-cn-hangzhou.aliyuncs.com/';
 let aliUrl = domain + '/api/ali-token.json';
-let aliPayUrl = domain + '/pay/build_req.htm?channel=1&userId=';
+let aliPayUrl = domain + '/pay/build_req.htm?';
 
 if (process.env.NODE_ENV === 'development') {
   bucket = 'xiuba-dev';
