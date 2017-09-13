@@ -74,35 +74,41 @@ router.post('/api/check-fast-sign-in.json', function (req, res, next) {
     json: true,
   };
   let validateCode = parseInt(req.body.validateCode);
-  if (validateCode === req.session.vrCode) {
-    request(options).then(function (parsedBody) {
-      if (parsedBody.status && parsedBody.statusCode === 'login_success') {
-        let userData = parsedBody.data;
-        req.session.regenerate(function (err) {
-          if (!err) {
-            req.session.userData = userData;
-            logConfig.logger.info('用户信息存入redis成功！');
-          } else {
-            logConfig.logger.err('用户信息存入redis失败：' + err);
-          }
+  let time = new Date().getTime();
+  let vrCode = req.session.vrCode;
+  if (vrCode && validateCode === vrCode.code) {
+    if (vrCode.expireTime > time) {
+      request(options).then(function (parsedBody) {
+        if (parsedBody.status && parsedBody.statusCode === 'login_success') {
+          let userData = parsedBody.data;
+          req.session.regenerate(function (err) {
+            if (!err) {
+              req.session.userData = userData;
+              logConfig.logger.info('用户信息存入redis成功！');
+            } else {
+              logConfig.logger.err('用户信息存入redis失败：' + err);
+            }
+            res.send(parsedBody);
+            res.end();
+          });
+        } else {
           res.send(parsedBody);
           res.end();
-        });
-      } else {
-        res.send(parsedBody);
+        }
+      }).catch(function (err) {
+        logConfig.logger.error(req.originalUrl + ':' + err);
+        res.json({status: false, msg: "服务器错误"});
         res.end();
-      }
-    }).catch(function (err) {
-      logConfig.logger.error(req.originalUrl + ':' + err);
-      res.json({status: false, msg: "服务器错误"});
+      });
+    } else {
+      res.json({status: false, msg: "图形验证码过期！"});
       res.end();
-    });
+    }
   } else {
-    res.json({status: false, msg: "图片验证码过期"});
+    res.json({status: false, msg: "图形验证码错误！"});
     res.end();
   }
 });
-
 
 /**
  * 用户注册
@@ -129,17 +135,24 @@ router.post('/api/sign-up.json', function (req, res, next) {
     json: true,
   };
   let validateCode = parseInt(req.body.validateCode);
-  if (validateCode === req.session.vrCode) {
-    request(options).then(function (parsedBody) {
-      res.send(parsedBody);
+  let time = new Date().getTime();
+  let vrCode = req.session.vrCode;
+  if (vrCode && validateCode === vrCode.code) {
+    if (vrCode.expireTime > time) {
+      request(options).then(function (parsedBody) {
+        res.send(parsedBody);
+        res.end();
+      }).catch(function (err) {
+        logConfig.logger.error(req.originalUrl + ':' + err);
+        res.json({status: false, msg: "服务器错误！"});
+        res.end();
+      });
+    } else {
+      res.json({status: false, msg: "图形验证码过期！"});
       res.end();
-    }).catch(function (err) {
-      logConfig.logger.error(req.originalUrl + ':' + err);
-      res.json({status: false, msg: "服务器错误"});
-      res.end();
-    });
+    }
   } else {
-    res.json({status: false, msg: "图形验证码过期"});
+    res.json({status: false, msg: "图形验证码错误！"});
     res.end();
   }
 });
@@ -148,9 +161,12 @@ router.post('/api/sign-up.json', function (req, res, next) {
  * 生成图形验证码
  */
 router.get("/api/vrcode.json", (req, res, next) => {
-  let vrCode = parseInt(Math.random() * 9000 + 1000);
-  req.session.vrCode = vrCode;
-  let vrCodeImg = new captchapng(80, 30, vrCode);
+  let code = parseInt(Math.random() * 9000 + 1000);
+  req.session.vrCode = {
+    code: code,
+    expireTime: new Date().getTime() + 60 * 1000
+  };
+  let vrCodeImg = new captchapng(80, 30, code);
   vrCodeImg.color(0, 0, 0, 0);
   vrCodeImg.color(251, 119, 21, 255);
   let vrCodeImgBase64 = new Buffer(vrCodeImg.getBase64(), 'base64');
@@ -176,20 +192,26 @@ router.post('/api/send-verify-code.json', function (req, res, next) {
     json: true,
   };
   let validateCode = parseInt(req.body.validateCode);
-  if (validateCode === req.session.vrCode) {
-    request(options).then(function (parsedBody) {
-      res.send(parsedBody);
+  let time = new Date().getTime();
+  let vrCode = req.session.vrCode;
+  if (vrCode && validateCode === vrCode.code) {
+    if (vrCode.expireTime > time) {
+      request(options).then(function (parsedBody) {
+        res.send(parsedBody);
+        res.end();
+      }).catch(function (err) {
+        logConfig.logger.error(req.originalUrl + ':' + err);
+        res.json({status: false, msg: "服务器错误！"});
+        res.end();
+      });
+    } else {
+      res.json({status: false, msg: "图形验证码过期！"});
       res.end();
-    }).catch(function (err) {
-      logConfig.logger.error(req.originalUrl + ':' + err);
-      res.json({status: false, msg: "服务器错误"});
-      res.end();
-    });
+    }
   } else {
-    res.json({status: false, msg: "图片验证码输入有误"});
+    res.json({status: false, msg: "图形验证码错误！"});
     res.end();
   }
-
 });
 
 /**
@@ -199,7 +221,7 @@ router.post('/api/logged-out.json', (req, res, next) => {
   req.session.destroy(function (err) {
     if (err) {
       logConfig.logger.error(req.originalUrl + ':' + err);
-      res.json({status: false, msg: "服务器错误"});
+      res.json({status: false, msg: "服务器错误！"});
       res.end();
     } else {
       res.json({status: true, msg: "退出登陆成功！"});

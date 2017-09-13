@@ -28,15 +28,11 @@ axios.interceptors.response.use((res) => {
 }, (error) => {
   LoadingBar.finish();
   if (error.response.status === 401) {
-    store.dispatch('loggedOut').then((res) => {
-      if(res.status){
-        router.push({name: 'login'});
-      }else{
-        console.log(res.msg);
-      }
-    });
+    store.commit( 'OUT_LOGIN');
+    if(store.state.logInAuthority){
+      router.push({name: 'login'});
+    }
   }
-  console.error("请求异常或网络异常");
   return Promise.reject(error);
 });
 //返回一个Promise(发送post请求)

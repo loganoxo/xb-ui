@@ -12,6 +12,7 @@ const state = {
   login: false,//是否登录
   topShow: true,//头部切换
   userBalance: 0,//用户账户余额
+  logInAuthority: true,//用户页面权限
 };
 
 export default new Vuex.Store({

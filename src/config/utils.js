@@ -23,6 +23,18 @@ export const getStorage = (name) => {
 };
 
 /**
+ * 获取cookies
+ */
+export const getCookie = (name) => {
+  let arr,reg = new RegExp("(^| )"+name+"=([^;]*)(;|$)");
+  if(arr = document.cookie.match(reg)){
+    return unescape(arr[2]);
+  } else {
+    return null;
+  }
+};
+
+/**
  * 删除localStorage
  */
 export const removeStorage = (name) => {

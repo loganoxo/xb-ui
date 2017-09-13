@@ -3,6 +3,7 @@
  */
 import * as types from './mutation-types'
 import {setStorage, getStorage, removeStorage} from '@/config/utils'
+
 export default {
   //退出登录
   [types.OUT_LOGIN](state) {
@@ -10,7 +11,7 @@ export default {
     state.login = false;
     removeStorage("userInfo");
   },
-  // 登陆成功后存储用户信息到vuex
+  //登陆成功后存储用户信息到vuex
   [types.RECORD_USER_INFO](state, {info}) {
     state.userInfo = info;
     state.login = true;
@@ -22,7 +23,14 @@ export default {
     if (initUserInfo) {
       state.userInfo = initUserInfo;
       state.login = true;
+    } else {
+      state.userInfo = {};
+      state.login = false;
     }
+  },
+  //用户页面权限存入vuex
+  [types.LOG_IN_AUTHORITY](state, {logInAuthority}) {
+    state.logInAuthority = logInAuthority;
   },
   //更改头部显示
   [types.CHANGE_TOP_SHOW](state) {
@@ -33,7 +41,7 @@ export default {
     state.topShow = false;
   },
   //存入用户账户余额到vuex
-  [types.RECORD_USER_BALANCE](state,{balance}) {
+  [types.RECORD_USER_BALANCE](state, {balance}) {
     state.userBalance = balance / 100;
   },
 }

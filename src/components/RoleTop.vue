@@ -1,9 +1,9 @@
 <template>
   <div id="top" class="">
     <div class="container">
-      <a href="/" class="logo-link">
+      <router-link to="/" class="logo-link">
         <img src="~assets/img/common/logo.png" alt="">
-      </a>
+      </router-link>
       <div class="right top-rt">
         <router-link to="/">首页</router-link>
         <span>|</span>

@@ -47,7 +47,8 @@ export default new Router({
       name: 'Home',
       component: Home,
       meta: {
-        title: "首页"
+        title: "首页",
+        logInAuthority: false,
       }
     },
     {
@@ -55,7 +56,8 @@ export default new Router({
       name: 'SelRole',
       component: SelRole,
       meta: {
-        title: "注册角色选择"
+        title: "注册角色选择",
+        logInAuthority: false,
       }
     },
     {
@@ -63,7 +65,8 @@ export default new Router({
       name: 'login',
       component: Login,
       meta: {
-        title: "用户登陆"
+        title: "用户登陆",
+        logInAuthority: false,
       }
     },
     {
@@ -75,14 +78,16 @@ export default new Router({
           path: 'seller-register',
           name: 'seller',
           meta: {
-            title: "用户注册"
+            title: "用户注册",
+            logInAuthority: false,
           },
         },
         {
           path: 'buyer-register',
           name: 'buyer',
           meta: {
-            title: "用户注册"
+            title: "用户注册",
+            logInAuthority: false,
           },
         },
       ]
@@ -92,7 +97,8 @@ export default new Router({
       name: 'TaskCategory',
       component: TaskCategory,
       meta: {
-        title: "任务分类展示"
+        title: "任务分类展示",
+        logInAuthority: false,
       }
     },
     {
@@ -100,7 +106,8 @@ export default new Router({
       name: 'TaskDetails',
       component: TaskDetails,
       meta: {
-        title: "任务详情页"
+        title: "任务详情页",
+        logInAuthority: false,
       }
     },
     {
@@ -108,23 +115,22 @@ export default new Router({
       name: 'TrialReport',
       component: TrialReport,
       meta: {
-        title: "试用报告页"
+        title: "试用报告页",
+        logInAuthority: true,
       }
     },
     {
       path: '/user',
       name: 'MyXiuBa',
       component: MyXiuBa,
-      meta: {
-        title: "我的秀吧"
-      },
       children: [
         {
           path: 'user-home',
           name: 'UserHome',
           component: UserHome,
           meta: {
-            title: "我的主页"
+            title: "我的主页",
+            logInAuthority: true,
           }
         },
         {
@@ -132,20 +138,22 @@ export default new Router({
           name: 'TaskReleaseProcess',
           component: TaskReleaseProcess,
           meta: {
-            title: "发布试用活动"
+            title: "发布试用活动",
+            logInAuthority: true,
           }
         },
         {
           path: 'activity-management',
           name: 'ActivityManagement',
           component: ActivityManagement,
-          children:[
+          children: [
             {
               path: 'list',
               name: 'ActivitiesList',
               component: ActivitiesList,
               meta: {
-                title: "试用活动管理-活动列表"
+                title: "试用活动管理-活动列表",
+                logInAuthority: true,
               },
             },
             {
@@ -153,7 +161,8 @@ export default new Router({
               name: 'ApproveShowker',
               component: ApproveShowker,
               meta: {
-                title: "试用活动管理-审批秀客"
+                title: "试用活动管理-审批秀客",
+                logInAuthority: true,
               },
             },
             {
@@ -161,7 +170,8 @@ export default new Router({
               name: 'ProbationReport',
               component: ProbationReport,
               meta: {
-                title: "试用活动管理-试用报告"
+                title: "试用活动管理-试用报告",
+                logInAuthority: true,
               },
             },
             {
@@ -169,7 +179,8 @@ export default new Router({
               name: 'ActivityDetail',
               component: ActivityDetail,
               meta: {
-                title: "试用活动管理-活动详情"
+                title: "试用活动管理-活动详情",
+                logInAuthority: true,
               },
             }
           ]
@@ -178,13 +189,14 @@ export default new Router({
           path: 'my-probation',
           name: 'MyProbation',
           component: MyProbation,
-          children:[
+          children: [
             {
               path: 'wait',
               name: 'ApplyWaitAudit',
               component: ApplyWaitAudit,
               meta: {
-                title: "我的试用-待审批"
+                title: "我的试用-待审批",
+                logInAuthority: true,
               },
             },
             {
@@ -192,7 +204,8 @@ export default new Router({
               name: 'ApplyPassAudit',
               component: ApplyPassAudit,
               meta: {
-                title: "我的试用-已通过"
+                title: "我的试用-已通过",
+                logInAuthority: true,
               },
             },
             {
@@ -200,7 +213,8 @@ export default new Router({
               name: 'ApplyFailAudit',
               component: ApplyFailAudit,
               meta: {
-                title: "我的试用-未通过"
+                title: "我的试用-未通过",
+                logInAuthority: true,
               },
             }
           ]
@@ -210,20 +224,22 @@ export default new Router({
           name: 'MyTrialReport',
           component: MyTrialReport,
           meta: {
-            title: "我的报告"
+            title: "我的报告",
+            logInAuthority: true,
           }
         },
         {
           path: 'personal-setting',
           name: 'personalSetting',
           component: PersonalSetting,
-          children:[
+          children: [
             {
               path: 'personal-account-info',
               name: 'PersonalAccountInfo',
               component: PersonalAccountInfo,
               meta: {
-                title: "个人设置-账号信息"
+                title: "个人设置-账号信息",
+                logInAuthority: true,
               },
             },
             {
@@ -231,7 +247,8 @@ export default new Router({
               name: 'WwBind',
               component: WwBind,
               meta: {
-                title: "个人设置-旺旺绑定"
+                title: "个人设置-旺旺绑定",
+                logInAuthority: true,
               },
             },
             {
@@ -239,57 +256,60 @@ export default new Router({
               name: 'Verfied',
               component: Verfied,
               meta: {
-                title: "个人设置-实名认证"
+                title: "个人设置-实名认证",
+                logInAuthority: true,
               },
             }
           ]
         },
         {
-          path:'money-management',
-          name:'MoneyManagement',
-          component:MoneyManagement,
-          meta:{
-            title :"资金管理"
-          },
-          children:[
+          path: 'money-management',
+          name: 'MoneyManagement',
+          component: MoneyManagement,
+          children: [
             {
               path: 'account-info',
               name: 'AccountInfo',
               component: AccountInfo,
-              meta:{
-                title :"账号信息"
+              meta: {
+                title: "资金管理-账号信息",
+                logInAuthority: true,
               }
             },
             {
               path: 'account-management',
               name: 'AccountManagement',
               component: AccountManagement,
-              meta:{
-                title :"账户管理"
+              meta: {
+                title: "资金管理-账户管理",
+                logInAuthority: true,
               }
             },
             {
               path: 'pay-money',
               name: 'PayMoney',
               component: PayMoney,
-              meta:{
-                title :"充值"
+              meta: {
+                title: "资金管理-充值",
+                logInAuthority: true,
               }
             },
             {
               path: 'getout-money',
               name: 'GetoutMoney',
               component: GetoutMoney,
-              meta:{
-                title :"提现"
+              meta: {
+                title: "资金管理-提现",
+                logInAuthority: true,
               }
             },
             {
               path: 'transaction-record',
               name: 'TransactionRecord',
               component: TransactionRecord,
-              meta:{
-                title :"交易记录"
+              meta: {
+                title: "资金管理-交易记录",
+                logInAuthority: true,
               }
             },
           ]

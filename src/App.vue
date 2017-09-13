@@ -9,7 +9,7 @@
 <script>
   import Top from "./components/Top.vue";
   import Bottom from "./components/Bottom.vue";
-  import {getStorage} from '@/config/utils'
+  import {getStorage, getCookie} from '@/config/utils'
 
   export default {
     name: 'app',
@@ -21,14 +21,15 @@
       topShow() {
         return this.$store.state.topShow
       },
+      logInAuthority() {
+        return this.$store.state.logInAuthority;
+      }
     },
     created() {
       let _this = this;
-      _this.$store.commit({
-        type: 'INIT_USER_INFO'
-      });
       let userInfo = getStorage('userInfo');
-      if (!userInfo) {
+      _this.$store.commit('INIT_USER_INFO');
+      if (!userInfo && _this.logInAuthority) {
         _this.$store.dispatch('loggedOut').then((res) => {
           if (res.status) {
             _this.$router.push({name: 'login'});
@@ -37,7 +38,7 @@
           }
         });
       }
-    }
+    },
   }
 </script>
 

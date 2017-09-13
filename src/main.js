@@ -33,6 +33,10 @@ Object.keys(filters).forEach(key => {
 /*根据路由改变处理页面标题和组件加载进度*/
 router.beforeEach((to, from, next) => {
   LoadingBar.start();
+  store.commit({
+    type: 'LOG_IN_AUTHORITY',
+    logInAuthority: to.meta.logInAuthority
+  });
   next();
 });
 
