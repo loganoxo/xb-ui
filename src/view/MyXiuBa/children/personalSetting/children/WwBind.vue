@@ -36,11 +36,40 @@
             审核不通过： {{remarks.text}},请重新提交（{{remarks.auditTime | dateFormat('YYYY-MM-DD hh:mm:ss')}}）
           </Alert>
           <div class="ww-account-form mt-20">
-            <iForm ref="wwFormValidate" :model="wwFormValidate" :rules="wwFormRuleCustom" label-position="right" :label-width="100">
-              <Form-item label="旺旺ID" prop="alitmAccount">
+            <iForm ref="wwFormValidate" :model="wwFormValidate" :rules="wwFormRuleCustom" label-position="right" :label-width="130">
+              <Form-item label="旺旺ID：" prop="alitmAccount">
                 <iInput v-model="wwFormValidate.alitmAccount" :autocomplete="false"></iInput>
               </Form-item>
-              <Form-item label="旺旺信息截图"  class="ww-info-img">
+              <Form-item label="旺旺号信用等级：" prop="alitmLevel">
+                <iSelect v-model="wwFormValidate.alitmLevel">
+                  <iOption v-for="taobaoLevelImg in taobaoLevelImgs" :label='taobaoLevelImg.label' :value="taobaoLevelImg.value" :key="taobaoLevelImg.value">
+                    <img :src="taobaoLevelImg.text" alt="">
+                  </iOption>
+                </iSelect>
+              </Form-item>
+              <Form-item label="旺旺信用等级截图：" prop="alitmLevelPicUrl"  class="ww-info-img">
+                <Upload
+                  ref="uploadAlitmLevelPicUrl"
+                  :show-upload-list="false"
+                  :on-success="handlewwBindAlitmLevelPicUrlSuccess"
+                  :format="['jpg','jpeg','png','gif','bmp']"
+                  :max-size="2000"
+                  :default-file-list="wwFormValidate.alitmLevelPicUrl"
+                  name="wwBind"
+                  :on-remove = "removewwBindAlitmLevelPicUrl"
+                  :on-format-error="handleFormatError"
+                  :on-exceeded-size="handleMaxSize"
+                  :before-upload="handleBeforeUpload"
+                  type="drag">
+                  <div style="width: 58px;height:58px;line-height: 58px;">
+                    <Icon type="camera" size="20"></Icon>
+                  </div>
+                </Upload>
+              </Form-item>
+              <Form-item>
+                截图位置：我的淘宝->评价管理
+              </Form-item>
+              <Form-item label="账号信息截图："  prop="picUrl" class="ww-info-img">
                 <Upload
                   ref="upload"
                   :show-upload-list="false"
@@ -60,7 +89,39 @@
                 </Upload>
               </Form-item>
               <Form-item>
-                <iButton  :class="[btnState.wwBindBtn ? '': 'ww-bind-btn']"  :disabled="btnState.wwBindBtn"
+                截图位置：我的淘宝->账户设置->安全设置
+              </Form-item>
+              <Form-item label="淘气值：" prop="taoqizhi">
+                <iSelect v-model="wwFormValidate.taoqizhi">
+                  <iOption v-for="taoqizhi in taoqizhiList" :label='taoqizhi.label' :value="taoqizhi.value" :key="taoqizhi.value">
+                    {{taoqizhi.label}}
+                  </iOption>
+                </iSelect>
+              </Form-item>
+              <Form-item label="淘气值截图：" prop="taoqizhiPicUrl" class="ww-info-img">
+                <Upload
+                  ref="uploadTaoqizhiPicUrl"
+                  :show-upload-list="false"
+                  :on-success="handlewwBindtaoqizhiPicUrlSuccess"
+                  :format="['jpg','jpeg','png','gif','bmp']"
+                  :max-size="2000"
+                  :default-file-list="wwFormValidate.taoqizhiPicUrl"
+                  name="wwBind"
+                  :on-remove = "removewwBindtaoqizhiPicUrl"
+                  :on-format-error="handleFormatError"
+                  :on-exceeded-size="handleMaxSize"
+                  :before-upload="handleBeforeUpload"
+                  type="drag">
+                  <div style="width: 58px;height:58px;line-height: 58px;">
+                    <Icon type="camera" size="20"></Icon>
+                  </div>
+                </Upload>
+              </Form-item>
+              <Form-item>
+                截图位置：手机App->我的淘宝
+              </Form-item>
+              <Form-item>
+                  <iButton  :class="[btnState.wwBindBtn ? '': 'ww-bind-btn']"  :disabled="btnState.wwBindBtn"
                           @click="handleSubmit('wwFormValidate',wwBindFunc)">提交
                   </iButton>
                 <iButton type="ghost" @click="handleReset('wwFormValidate',clearWwInfo)">重置</iButton>
@@ -73,23 +134,37 @@
           </div>
           <div class="left ww-account-cue mt-20">
             <p>
-              <a @click="demoShow = true, imgDemoUrl.picUrl = false,imgDemoUrl.reversePicUrl = false,imgDemoUrl.taobaoAccountInfo = false,imgDemoUrl.taobaoAccountDemo = true;">什么是旺旺ID号？</a>
+              <a @click="changeDemoPicFunc(demoUrl.wwAccount);">什么是旺旺ID号？</a>
             </p>
             <p>
-              <a @click="demoShow = true, imgDemoUrl.picUrl = false,imgDemoUrl.reversePicUrl = false,imgDemoUrl.taobaoAccountInfo = true,imgDemoUrl.taobaoAccountDemo = false;">[查看示例截图]</a>
+
+            </p>
+            <p>
+              <a @click="changeDemoPicFunc(demoUrl.wwLevel)">[查看示例截图]</a>
+            </p>
+            <p>
+
+            </p>
+            <p class="mt-50">
+              <a @click="changeDemoPicFunc(demoUrl.wwAccountInfo)">[查看示例截图]</a>
+            </p>
+            <p>
+
+            </p>
+            <p>
+
+            </p>
+            <p class="mt-40">
+              <a @click="changeDemoPicFunc(demoUrl.taoqi)">[查看示例截图]</a>
             </p>
           </div>
         </div>
       </div>
       <!--旺旺号绑定end-->
     </div>
-
     <Modal v-model="demoShow" width="900">
       <div style="text-align:center">
-        <img v-show="imgDemoUrl.taobaoAccountDemo" src="~assets/img/case-demo/taobao-account-demo.jpg" alt="" style="width: 100%;margin-top: 20px;">
-        <img v-show="imgDemoUrl.taobaoAccountInfo" src="~assets/img/case-demo/taobao-account-info.png" alt="" style="width: 100%;margin-top: 20px;">
-        <img v-show="imgDemoUrl.picUrl" src="~assets/img/case-demo/sfza.jpg" alt="" style="width: 100%;margin-top: 20px;">
-        <img v-show="imgDemoUrl.reversePicUrl" src="~assets/img/case-demo/sfzb.jpg" alt="" style="width: 100%;margin-top: 20px;">
+        <img :src="demoShowPic" alt="" style="width: 100%; margin-top: 20px">
       </div>
       <div slot="footer">
       </div>
@@ -102,6 +177,7 @@
   import Form from 'iview/src/components/form'
   import Input from 'iview/src/components/input'
   import Checkbox from 'iview/src/components/checkbox'
+  import {Select, Option, OptionGroup} from 'iview/src/components/select'
   import Button from 'iview/src/components/button'
   import Radio from 'iview/src/components/radio'
   import api from '@/config/apiConfig'
@@ -126,6 +202,8 @@
       Upload: Upload,
       Modal: Modal,
       Alert: Alert,
+      iSelect: Select,
+      iOption: Option,
       SmsCountdown: SmsCountdown,
     },
     data() {
@@ -139,9 +217,127 @@
           callback()
         }
       };
-
       return {
+        taobaoLevelImgs: [
+          {
+            value: 1,
+            text: 'https://img.alicdn.com/newrank/b_red_1.gif',
+            label: '1心'
+          },
+          {
+            value: 2,
+            text: 'https://img.alicdn.com/newrank/b_red_2.gif',
+            label: '2心'
+          },
+          {
+            value: 3,
+            text: 'https://img.alicdn.com/newrank/b_red_3.gif',
+            label: '3心'
+          },
+          {
+            value: 4,
+            text: 'https://img.alicdn.com/newrank/b_red_4.gif',
+            label: '4心'
+          },
+          {
+            value: 5,
+            text: 'https://img.alicdn.com/newrank/b_red_5.gif',
+            label: '5心'
+          },
+          {
+            value: 6,
+            text: 'https://img.alicdn.com/newrank/b_blue_1.gif',
+            label: '1钻'
+          },
+          {
+            value: 7,
+            text: 'https://img.alicdn.com/newrank/b_blue_2.gif',
+            label: '2钻'
+          },
+          {
+            value: 8,
+            text: 'https://img.alicdn.com/newrank/b_blue_3.gif',
+            label: '3钻'
+          },
+          {
+            value: 9,
+            text: 'https://img.alicdn.com/newrank/b_blue_4.gif',
+            label: '4钻'
+          },
+          {
+            value: 10,
+            text: 'https://img.alicdn.com/newrank/b_blue_5.gif',
+            label: '5钻'
+          },
+          {
+            value: 11,
+            text: 'https://img.alicdn.com/newrank/s_crown_1.gif',
+            label: '1皇冠'
+          },
+          {
+            value: 12,
+            text: 'https://img.alicdn.com/newrank/s_crown_2.gif',
+            label: '2皇冠'
+          },
+          {
+            value: 13,
+            text: 'https://img.alicdn.com/newrank/s_crown_3.gif',
+            label: '3皇冠'
+          },
+          {
+            value: 14,
+            text: 'https://img.alicdn.com/newrank/s_crown_4.gif',
+            label: '4皇冠'
+          },
+          {
+            value: 15,
+            text: 'https://img.alicdn.com/newrank/s_crown_5.gif',
+            label: '5皇冠'
+          },
+        ],
+        taoqizhiList: [
+          {
+            value: 1,
+            label: '0-199'
+          },
+          {
+            value: 2,
+            label: '200-399'
+          },
+          {
+            value: 3,
+            label: '400-599'
+          },
+          {
+            value: 4,
+            label: '600-799'
+          },
+          {
+            value: 5,
+            label: '800-999'
+          },
+          {
+            value: 6,
+            label: '1000-1999'
+          },
+          {
+            value: 7,
+            label: '2000-2499'
+          },
+          {
+            value: 8,
+            label: '2500以上'
+          },
+        ],
         userData: {},
+        demoShowPic: '',
+        demoShow: false,
+        demoUrl: {
+            wwAccount: '/static/img/demo/ww-bind/taobao-account-demo.jpg',
+            wwAccountInfo: '/static/img/demo/ww-bind/taobao-account-info.png',
+            taoqi: '/static/img/demo/ww-bind/taoqi_demo.jpg',
+            wwLevel: '/static/img/demo/ww-bind/ww_level_demo.png'
+        },
         btnState: {
           wwBindBtn: false,
           verifiedBtn: false,
@@ -151,18 +347,33 @@
         wwBindLists: [],
         wwFormValidate: {
           alitmAccount: '',
+          alitmLevel: '',
+          taoqizhi: '',
           picUrl: [],
+          alitmLevelPicUrl: [],
+          taoqizhiPicUrl: [],
         },
         wwFormRuleCustom: {
           alitmAccount: [
-            {validator: wwName, trigger: 'blur'},
+            { required: true, validator: wwName, trigger: 'blur'},
+          ],
+          alitmLevel: [
+            { required: true, validator: wwName, trigger: 'blur'},
+          ],
+          alitmLevelPicUrl: [
+            { required: true, validator: wwName, trigger: 'blur'},
+          ],
+          picUrl: [
+            { required: true, validator: wwName, trigger: 'blur'},
+          ],
+          taoqizhi: [
+            { required: false, validator: wwName, trigger: 'blur'},
           ],
         },
         remarks: {
           text: '',
           auditTime: '',
         },
-        demoShow: false,
         imgDemoUrl:{
           taobaoAccountDemo: false,
           taobaoAccountInfo: false,
@@ -205,27 +416,43 @@
         this.showWwBindBox = true;
         this.wwFormValidate.id = ww.id;
         this.wwFormValidate.alitmAccount = ww.alitmAccount;
+        this.wwFormValidate.alitmLevel = this.taobaoLevelImgs[parseInt(ww.creditLevel) + 1].value;
+        this.wwFormValidate.taoqizhi = ww.tqz;
         this.wwFormValidate.picUrl = [{
-          src: ww.picUrl,
+          src: ww.wwInfoPic,
+        }];
+        this.wwFormValidate.alitmLevelPicUrl = [{
+          src: ww.wwCreditLevelPic,
+        }];
+        this.wwFormValidate.taoqizhiPicUrl = [{
+          src: ww.tqzPic,
         }];
         this.remarks.text = ww.remarks;
         this.remarks.auditTime = ww.auditTime;
         this.modifyWw = true;
+        this.$set(this.wwFormValidate);
       },
       addWwBindFunc (){
         if((this.wwBindLists && this.wwBindLists.length < 3) || !this.wwBindLists){
           this.showWwBindBox = true;
           this.wwFormValidate.id = '';
           this.wwFormValidate.alitmAccount = '';
+          this.wwFormValidate.alitmLevel = '';
+          this.wwFormValidate.taoqizhi = '';
           this.wwFormValidate.picUrl = [];
+          this.wwFormValidate.alitmLevelPicUrl = [];
+          this.wwFormValidate.taoqizhiPicUrl = [];
           this.remarks.text = '';
           this.modifyWw = false;
         }else {
-          console.log(this.wwBindLists);
           this.$Modal.warning({
             content: "亲, 最多只能绑定3个旺旺号"
           });
         }
+      },
+      changeDemoPicFunc(demoPic){
+        this.demoShow = true;
+        this.demoShowPic = demoPic;
       },
       wwBindList () {
         let self = this;
@@ -244,13 +471,17 @@
       },
       wwBindFunc(){
         let self = this;
-        if(!(self.wwFormValidate.picUrl === '')){
+        if(!(self.wwFormValidate.picUrl == '' || self.wwFormValidate.alitmLevelPicUrl == '')){
           self.btnState.wwBindBtn = true;
           if(self.modifyWw){
             api.wwModify({
-              alitmAccount: self.wwFormValidate.alitmAccount,
-              picUrl: self.wwFormValidate.picUrl[0].src,
-              id: self.wwFormValidate.id
+              alitmAccount: this.wwFormValidate.alitmAccount,
+              wwInfoPic: this.wwFormValidate.picUrl[0].src,
+              creditLevel: this.wwFormValidate.alitmLevel,
+              tqz: this.wwFormValidate.taoqizhi,
+              wwCreditLevelPicUrl: this.wwFormValidate.alitmLevelPicUrl[0].src,
+              tqzPicUrl: this.wwFormValidate.taoqizhiPicUrl[0].src,
+              id: self.wwFormValidate.id,
             }).then((res) => {
               if(res.status){
                 self.remarks = '';
@@ -272,7 +503,11 @@
           }else{
             api.wwBind({
               alitmAccount: this.wwFormValidate.alitmAccount,
-              picUrl: this.wwFormValidate.picUrl[0].src,
+              wwInfoPic: this.wwFormValidate.picUrl[0].src,
+              creditLevel: this.wwFormValidate.alitmLevel,
+              tqz: this.wwFormValidate.taoqizhi,
+              wwCreditLevelPicUrl: this.wwFormValidate.alitmLevelPicUrl[0].src,
+              tqzPicUrl: this.wwFormValidate.taoqizhiPicUrl[0].src,
             }).then((res) => {
               if(res.status){
                 self.$Modal.success({
@@ -293,17 +528,25 @@
           }
         }else {
           this.$Modal.warning({
-            content: '请上传所有图片'
+            content: '请上传必需图片'
           });
         }
       },
       removewwBindPicUrl(){
         this.wwFormValidate.picUrl= [];
       },
+      removewwBindAlitmLevelPicUrl(){
+        this.wwFormValidate.alitmLevelPicUrl = [];
+      },
+      removewwBindtaoqizhiPicUrl(){
+        this.wwFormValidate.taoqizhiPicUrl = [];
+      },
       clearWwInfo (){
         this.wwFormValidate.alitmAccount = '';
         let child = this.$refs;
         child.upload.handleRemove();
+        child.uploadAlitmLevelPicUrl.handleRemove();
+        child.uploadTaoqizhiPicUrl.handleRemove();
       },
       handleSubmit (name, callback) {
         let res = false;
@@ -325,15 +568,15 @@
           src: aliCallbackImgUrl + res.name
         }];
       },
-      handlePicUrlSuccess(res, file) {
-        this.verifiedValidate.picUrl.push({
+      handlewwBindtaoqizhiPicUrlSuccess(res, file){
+        this.wwFormValidate.taoqizhiPicUrl = [{
           src: aliCallbackImgUrl + res.name
-        });
+        }];
       },
-      handleReversePicUrlSuccess(res,file){
-        this.verifiedValidate.reversePicUrl.push({
+      handlewwBindAlitmLevelPicUrlSuccess(res, file){
+        this.wwFormValidate.alitmLevelPicUrl = [{
           src: aliCallbackImgUrl + res.name
-        });
+        }];
       },
       handleFormatError(file) {
         this.$Modal.warning({
