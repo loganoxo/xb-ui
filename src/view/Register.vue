@@ -525,7 +525,7 @@
         }
       };
       return {
-        agreementShow: true,
+        agreementShow: false,
         countRegTimeText: "获取动态码",
         regImgSrc: null,
         selLogin: {
