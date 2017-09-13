@@ -183,7 +183,7 @@
        <div class="left ml-20 mt-20">
          <p>
            <span>店铺名称：</span>
-           <span>{{taskPlaceInfo.storeName}}</span>
+           <span>{{getStoreName}}</span>
          </p>
          <p>
            <span>价格：</span>
@@ -422,6 +422,16 @@
     computed: {
       checkText: function () {
         return this.taskPlaceInfo.taskDetailObject.searchFilterDesc.split(',').join('、');
+      },
+      getStoreName: function () {
+        let length = this.taskPlaceInfo.storeName.length;
+        if(length && length > 4){
+          return this.taskPlaceInfo.storeName.substr(0,2)+ '****' + this.taskPlaceInfo.storeName.substr(-2);
+        }else if(length && length <= 4){
+          return this.taskPlaceInfo.storeName.substr(0,1)+ '****' + this.taskPlaceInfo.storeName.substr(-1);
+        } else {
+          return '****'
+        }
       }
     },
     methods: {

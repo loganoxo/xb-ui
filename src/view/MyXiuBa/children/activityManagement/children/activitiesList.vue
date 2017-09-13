@@ -42,7 +42,7 @@
             <span>待申请结算</span>
           </Checkbox>
           <Checkbox label="waiting_audit">
-            <span>结算待审核</span>
+            <span>待结算审核</span>
           </Checkbox>
           <Checkbox label="settlement_finished">
             <span>已结算</span>
@@ -296,7 +296,7 @@
       }else{
         setTimeout(function () {
           _this.getTaskList();
-        },200)
+        },400)
       }
     },
     computed: {},
@@ -388,9 +388,9 @@
           if(res.status){
             if(res.statusCode === 'waiting_audit'){
               _this.auditSettlementSuccess = true;
-              _this.marginRefund = res.msg.marginRefund / 100;
-              _this.promotionRefund = res.msg.promotionRefund / 100;
-              _this.taskCountLeft = res.msg.taskCountLeft;
+              _this.marginRefund = res.data.marginRefund / 100 || 0;
+              _this.promotionRefund = res.data.promotionRefund / 100 || 0;
+              _this.taskCountLeft = res.data.taskCountLeft || 0;
             }else{
               _this.directSettlementSuccess = true;
             }
@@ -445,8 +445,10 @@
               content:'支付成功！',
               duration: 6
             });
-            _this.getBalance();
-            _this.getTaskList();
+            setTimeout(function () {
+              _this.getBalance();
+              _this.getTaskList();
+            },400);
           }else{
             _this.$Message.error({
               content:res.msg,

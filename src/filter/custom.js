@@ -59,11 +59,11 @@ const numberFormat = (number, decimals) => {
  * 格式化手机号码（保留前三位和后四位）
  * number：要格式化的手机号码
  * */
- const phoneNumberFormat = (number) => {
-  if(typeof number !== 'string'){
+const phoneNumberFormat = (number) => {
+  if (typeof number !== 'string') {
     number = number.toString();
   }
-  return number.replace(/(\d{3})\d{4}(\d{4})/, '$1****$2');
+  return number.replace(/(\d{3})\d{4}(\d{4})/,'$1****$2');
 };
 
 export {dateFormat, numberFormat, phoneNumberFormat}
