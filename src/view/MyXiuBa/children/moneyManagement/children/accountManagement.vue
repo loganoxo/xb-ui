@@ -45,9 +45,9 @@
               支付密码
             </li>
             <li class="two">
-              <span v-show="userAccount.ifEditPwdAlready === false">未设置</span>
-              <span v-show="userAccount.ifEditPwdAlready === true">已设置</span>
-              <span>(初始密码为888888，为了你的账号安全，建议您重置支付密码)</span>
+              <span v-show="userAccount.ifEditPwdAlready === false">未设置(初始密码为888888，为了你的账号安全，建议您重置支付密码)</span>
+              <span v-show="userAccount.ifEditPwdAlready === true">已设置(为了你的账户安全，建议定期修改密码)</span>
+
             </li>
             <li class="three">
               <a href="javascript:;" v-show="userAccount.ifEditPwdAlready === false" @click="myAccountPwdChangeFather('modifyPwd')">重置支付密码</a>
