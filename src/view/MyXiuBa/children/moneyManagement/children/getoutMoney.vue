@@ -517,6 +517,7 @@
       //添加银行卡
       addBankCardInfo(type) {
         let _this = this;
+        _this.getVrcode();
         api.addBankCardInfo({
           validateCode: type.validateCode,
           accountName: type.name,

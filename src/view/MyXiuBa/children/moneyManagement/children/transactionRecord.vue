@@ -45,11 +45,7 @@
         v-model="amountPopWindow"
         :styles="{top:'200px',width:'800px'}"
         class-name ="pop-up-window">
-        <div slot="header">活动编号：<span style="color: red;">{{taskNumber||'无'}}&nbsp;,&nbsp;</span>共返还任务担保金：<span style="color: red;">{{totalPay/100}}</span>&nbsp;元</div>
-        class-name="pop-up-window">
-        <div slot="header">活动编号：<span style="color: red;">{{taskNumber || '无'}}&nbsp;,&nbsp;</span>共返还任务保证金：<span
-          style="color: red;">{{totalPay / 100}}</span>&nbsp;元
-        </div>
+        <div slot="header">活动编号：<span style="color: red;">{{taskNumber || '无'}}&nbsp;,&nbsp;</span>共返还任务保证金：<span style="color: red;">{{totalPay / 100}}</span>&nbsp;元</div>
         <div>
           <table class="alert-table-list"
                  style="width: 100%;border: 1px solid #F3F3F3;background-color:#F8F8F8;text-align: center">
@@ -105,7 +101,7 @@
               <p>{{getTradType(tbodyDetails.changeName)}}</p>
               <p>活动编号：{{tbodyDetails.taskSerialNum}}</p>
             </td>
-            <td :class="mainColor">{{typeChang(tbodyDetails.amountChange / 100) || 0}}</td>
+            <td :class="{tdColor:tbodyDetails.amountChange<0 , tdColorGreen:tbodyDetails.amountChange>0}">{{typeChang(tbodyDetails.amountChange / 100) || 0}}</td>
             <td>
               <p style="color:blue;" class="details" @click="detailsInit(tbodyDetails.id)">详情
                 <Icon :type="detailSelect===tbodyDetails.id?'arrow-up-b':'arrow-down-b'" class="ml-5 "></Icon>
@@ -136,11 +132,11 @@
                     <p>{{getTradType(item.tradName)}}</p>
                     <p>活动编号：{{item.showerTaskSerial || '无'}}</p>
                   </td>
-                  <td :class="mainColor">
+                  <td :class="{tdColor:item.tradAmount<0 , tdColorGreen:item.tradAmount>0}">
                     {{typeChang(item.tradAmount / 100) || 0}}
                   </td>
                 </tr>
-                <tr v-show="tbodyDetails.changeName === '商家支付活动交易记录'||tbodyDetails.changeName ==='商家活动交易记录'">
+                <tr v-show="tbodyDetails.changeName !== 'recharge_record'&& tbodyDetails.changeName !=='enchashment_record'">
                   <td colspan="4">
                     <Button
                       @click="amountPopWindow = true;taskNumber = tbodyDetails.taskSerialNum ;getDepositReturnList(tbodyDetails.taskId)"
@@ -230,7 +226,7 @@
               <p>{{getTradType(item.changeName)}}</p>
               <p>活动编号：{{item.taskSerialNum}}</p>
             </td>
-            <td :class="mainColor">{{typeChang(item.amountChange / 100) || 0}}</td>
+            <td :class="{tdColor:item.amountChange<0 , tdColorGreen:item.amountChange>0}">{{typeChang(item.amountChange / 100) || 0}}</td>
             <td>
               <p style="color:blue;" class="details" @click="detailsInit(item.id)">详情
                 <Icon :type="detailSelect===item.id?'arrow-up-b':'arrow-down-b'" class="ml-5 "></Icon>
@@ -259,9 +255,9 @@
                   </td>
                   <td>
                     <p>{{getTradType(item.tradName)}}</p>
-                    <p>活动编号：11113244325324</p>
+                    <p>活动编号：</p>
                   </td>
-                  <td :class="mainColor">
+                  <td :class="{tdColor:item.tradAmount<0 , tdColorGreen:item.tradAmount>0}">
                     {{typeChang(item.tradAmount / 100) || 0}}
                   </td>
                 </tr>
@@ -366,7 +362,8 @@
         pageIndex: 0,
         accountIncomes: 0,
         accountPayout: 0,
-        mainColor:'tdColor'
+        mainColor:true,
+        mainColorGreen:false
       }
     },
     mounted() {
@@ -397,7 +394,6 @@
       typeChang(num) {
         if (num > 0) {
           num = '+' + num;
-          this.mainColor = 'tdColorGreen'
         }
         return num
       },

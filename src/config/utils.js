@@ -193,7 +193,7 @@ export const TaskErrorStatusList = (type) => {
       return '任务担保金返款';
       break;
     case 'task_delete_return_seller':
-      return '删除活动返款-活动担保金';
+      return '关闭活动返款-活动担保金';
       break;
     case 'enchashment_audit_ing':
       return '提现审核中';
@@ -223,7 +223,7 @@ export const TaskErrorStatusList = (type) => {
       return '补交活动推广费';
       break;
     case 'task_delete_return_promotion_expenses_seller':
-      return '删除活动返款活动推广费';
+      return '关闭活动返款-活动推广费';
       break;
     case 'task_return_deposit_seller':
       return '活动结算担保金返款';

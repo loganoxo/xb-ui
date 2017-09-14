@@ -103,13 +103,13 @@
            </td>
            <td>
              <p v-if="item.status === 'pass_and_unclaimed'" class="operation"
-                @click="changePassOperation('place','',item.id)">去下单</p>
+                @click="changePassOperation('place','',item.id,item.taskType)">去下单</p>
              <p v-if="item.status === 'trial_report_waiting_submit'" class="operation"
                 @click="changePassOperation('report','write',item.id)">制作买家秀</p>
              <p v-if="item.status === 'trial_report_unqualified'" class="operation"
                 @click="changePassOperation('report','amend',item.id)">修改买家秀</p>
              <p v-if="item.status === 'pass_and_unclaimed'" class="operation mt-5"
-                @click="openAuditOrder(item.id)">填订单号</p>
+                @click="openAuditOrder(item.id,item.taskType)">填订单号</p>
              <p v-if="item.status === 'order_num_error'" class="operation mt-5"
                 @click="openAuditOrder(item.id)">修改订单号</p>
              <p v-if="item.status !== 'trial_end' && item.status !== 'trial_finished'" class="operation mt-5"
@@ -270,11 +270,16 @@
          <span>请输入订单号：</span>
          <iInput v-model="affirmOrderNumber" style="width: 300px;"></iInput>
          <iButton @click="orderImg = true">什么是订单号？</iButton>
-         <Modal v-model="orderImg" width="1380">
+         <Modal v-model="orderImg" width="1100" v-if="isPcOrApp === 'appSearch'">
             <div class="text-ct">
-              <img src="" alt="">
+              <img style="width: 1000px;height: 700px" src="~assets/img/order-number/order_pc.png" alt="">
              </div>
           </Modal>
+         <Modal v-model="orderImg" width="600" v-else>
+           <div class="text-ct">
+             <img style="width: 500px;height: 700px" src="~assets/img/order-number/order_phone.png" alt="">
+           </div>
+         </Modal>
        </p>
        <p class="mt-20 ml-35">
          <span>请输入实付金额：</span>
@@ -386,7 +391,8 @@
         modalLoading: false,
         deleteModal: false,
         deleteId: null,
-        orderImg:false
+        orderImg:false,
+        taskType: null,
       }
     },
     mounted() {},
@@ -423,6 +429,14 @@
       checkText: function () {
         return this.taskPlaceInfo.taskDetailObject.searchFilterDesc.split(',').join('、');
       },
+      isPcOrApp: function () {
+        let type = this.taskType;
+        if(type === 'pc_search' || type === 'direct_access'){
+          return 'pcSearch'
+        }else{
+          return 'appSearch'
+        }
+      },
       getStoreName: function () {
         let length = this.taskPlaceInfo.storeName.length;
         if(length && length > 4){
@@ -438,8 +452,11 @@
       getTaskStatus(type) {
         return TaskErrorStatusList(type);
       },
-      changePassOperation(type, status, id) {
+      changePassOperation(type, status, id, taskType) {
         let _this = this;
+        if(taskType){
+          _this.taskType = taskType;
+        }
         _this.reportStatus = status;
         _this.itemId = id;
         if (type === 'report') {
@@ -514,8 +531,9 @@
       closeAuditOrder() {
         this.showAuditOrderNumber = false;
       },
-      openAuditOrder(id) {
+      openAuditOrder(id,type) {
         this.showAuditOrderNumber = true;
+        this.taskType = type;
         if (!this.itemId) {
           this.itemId = id;
         }
@@ -570,6 +588,7 @@
               data.perMarginNeed = item.task.perMarginNeed;
               data.createTime = item.task.createTime;
               data.orderNumber = item.task.number;
+              data.taskType = item.task.taskType;
               if(item.latestShowkerTaskOpLog){
                 data.auditDescription = item.latestShowkerTaskOpLog.auditDescription;
               }else {

@@ -68,7 +68,7 @@
             <p>{{getTradType(item.changeName)}}</p>
             <p>活动编号：{{item.taskSerialNum}}</p>
           </td>
-          <td :class="mainColor">{{typeChang(item.amountChange / 100) || 0}}</td>
+          <td :class="{tdColor:item.amountChange<0 , tdColorGreen:item.amountChange>0}">{{typeChang(item.amountChange / 100) || 0}}</td>
           <td>
             <p style="color:blue;" class="details" @click="detailsInit(item.id)">详情
               <Icon :type="detailSelect===item.id?'arrow-up-b':'arrow-down-b'" class="ml-5 "></Icon>
@@ -99,7 +99,7 @@
                   <p>{{getTradType(item.tradName)}}</p>
                   <p>活动编号：{{item.showerTaskSerial}}</p>
                 </td>
-                <td :class="mainColor">
+                <td :class="{tdColor:item.tradAmount<0 , tdColorGreen:item.tradAmount>0}">
                   {{typeChang(item.tradAmount / 100) || 0}}
                 </td>
               </tr>
@@ -200,7 +200,6 @@
           }
         ],
         iSelect: 'all',
-        mainColor:'tdColor'
       }
     },
     mounted() {

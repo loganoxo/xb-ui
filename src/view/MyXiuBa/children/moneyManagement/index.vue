@@ -96,8 +96,11 @@
     .triangle{
       transform: translate(180deg);
     }
-    .tdColor {
+    .main-color{
       color: $mainColor;
+    }
+    .tdColor {
+      color: red;
     }
     .tdColorGreen{
       color: #329832;
