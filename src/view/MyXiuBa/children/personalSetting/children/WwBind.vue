@@ -402,9 +402,9 @@
             self.$set(self.wwBindLists);
           }else {
             if(res.statusCode === 'have_waiting_audit_apply'){
-              res.msg = '亲，该旺旺还有试用任务正在审核中，请完成该旺旺的所有任务后再进行解绑操作！';
+              res.msg = '亲，该旺旺还有活动任务正在审核中，请完成该旺旺的所有任务后再进行解绑操作！';
             }else if(res.statusCode === 'have_under_way_showker_task'){
-              res.msg = '亲，该旺旺还有试用任务正在进行中，请完成该旺旺的所有任务后再进行解绑操作！';
+              res.msg = '亲，该旺旺还有活动任务正在进行中，请完成该旺旺的所有任务后再进行解绑操作！';
             }
             self.$Modal.error({
               content: res.msg

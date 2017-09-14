@@ -65,7 +65,7 @@
                 </div>
                 <div class="left clear-both mt-5" style="width: 100%;">
                   <span class="left text-ct" style="width: 33.33%;">待领取</span>
-                  <span class="left text-ct" style="width: 33.33%;">待交报告</span>
+                  <span class="left text-ct" style="width: 33.33%;">待交买家秀</span>
                   <span class="left text-ct" style="width: 33.33%;">待修改</span>
                 </div>
               </div>
@@ -87,7 +87,7 @@
                 <div class="left clear-both mt-5" style="width: 100%;">
                   <span class="left text-ct" style="width: 33.33%;">待审秀客</span>
                   <span class="left text-ct" style="width: 33.33%;">待审订单</span>
-                  <span class="left text-ct" style="width: 33.33%;">待审报告</span>
+                  <span class="left text-ct" style="width: 33.33%;">待审买家秀</span>
                 </div>
               </div>
             </div>
@@ -106,7 +106,7 @@
         <div class="home-commodity">
           <div class="home-commodity-title">
             <img src="~assets/img/home/home_15.png" alt="">
-            <p class="text-ct fs-14">快乐试用，热爱分享</p>
+            <p class="text-ct fs-14">我型我秀，分享精彩</p>
           </div>
           <div class="home-commodity-ctt">
             <router-link class="home-commodity-details"
@@ -121,7 +121,7 @@
                 <p>{{homeCommodity.taskName}}</p>
                 <p>
                   <span class="left">￥{{homeCommodity.itemPrice/100}}</span>
-                  <span class="right">免费试用</span>
+                  <span class="right">免费活动</span>
                 </p>
               </div>
             </router-link>
@@ -182,7 +182,7 @@
             content: [
               {
                 url: '',
-                text: '如何编辑和提交试用报告？1'
+                text: '如何编辑和提交买家秀？1'
               },
               {
                 url: '',
@@ -190,15 +190,15 @@
               },
               {
                 url: '',
-                text: '发布试用品需要什么条件？'
+                text: '发布秀品活动需要什么条件？'
               },
               {
                 url: '',
-                text: '试用担保金没有及时返还怎么办？'
+                text: '活动担保金没有及时返还怎么办？'
               },
               {
                 url: '',
-                text: '如何领取试用担保金？'
+                text: '如何领取活动担保金？'
               },
             ],
             active: 'faq'
@@ -208,7 +208,7 @@
             content: [
               {
                 url: '',
-                text: '如何编辑和提交试用报告？2'
+                text: '如何编辑和提交买家秀？2'
               },
               {
                 url: '',
@@ -216,15 +216,15 @@
               },
               {
                 url: '',
-                text: '发布试用品需要什么条件？'
+                text: '发布秀品活动品需要什么条件？'
               },
               {
                 url: '',
-                text: '试用担保金没有及时返还怎么办？'
+                text: '活动担保金没有及时返还怎么办？'
               },
               {
                 url: '',
-                text: '如何领取试用担保金？'
+                text: '如何领取活动担保金？'
               },
             ],
             active: 'buyerRule'
@@ -234,7 +234,7 @@
             content: [
               {
                 url: '',
-                text: '如何编辑和提交试用报告？3'
+                text: '如何编辑和提交买家秀？3'
               },
               {
                 url: '',
@@ -242,15 +242,15 @@
               },
               {
                 url: '',
-                text: '发布试用品需要什么条件？'
+                text: '发布秀品活动品需要什么条件？'
               },
               {
                 url: '',
-                text: '试用担保金没有及时返还怎么办？'
+                text: '活动担保金没有及时返还怎么办？'
               },
               {
                 url: '',
-                text: '如何领取试用担保金？'
+                text: '如何领取活动担保金？'
               },
             ],
             active: 'sellerRule'

@@ -5,7 +5,8 @@
         <div class="breadcrumb">
           <Breadcrumb >
             <Breadcrumb-item>当前位置：</Breadcrumb-item>
-            <Breadcrumb-item>试用品专区</Breadcrumb-item>
+            <Breadcrumb-item>秀吧</Breadcrumb-item>
+            <Breadcrumb-item>秀品专区</Breadcrumb-item>
             <Breadcrumb-item>{{commodityData.task.itemCatalog.parentItemCatalog.name}}</Breadcrumb-item>
           </Breadcrumb>
         </div>
@@ -23,12 +24,12 @@
               <span class="fs-18">{{commodityData.task.taskTypeDesc}}</span>
             </p>
             <p class="fs-14">
-              单品试用担保金：<span class="fs-18">{{(commodityData.task.perMarginNeed/100).toFixed(2)}}</span>元
+              单品活动担保金：<span class="fs-18">{{(commodityData.task.perMarginNeed/100).toFixed(2)}}</span>元
               &nbsp;&nbsp;&nbsp;&nbsp;
-              试用份数：<span class="fs-18"> {{commodityData.task.taskCount}} </span>份
+              活动份数：<span class="fs-18"> {{commodityData.task.taskCount}} </span>份
             </p>
-            <p class="fs-14">（商家已存入总试用担保金&nbsp;{{commodityData.task.totalMarginNeed/100}}&nbsp;元，请放心申请）</p>
-            <p class="fs-14">{{commodityData.task.showkerApplyTotalCount}} 人申请，{{parseInt(commodityData.trailOn) ? commodityData.trailOn : 0}} 人正在参与试用，{{parseInt(commodityData.trailDone) ? commodityData.trailDone : 0}} 人完成试用， 剩余 {{commodityData.task.taskCount - commodityData.task.showkerApplySuccessCount}} 份</p>
+            <p class="fs-14">（商家已存入总活动担保金&nbsp;{{commodityData.task.totalMarginNeed/100}}&nbsp;元，请放心申请）</p>
+            <p class="fs-14">{{commodityData.task.showkerApplyTotalCount}} 人申请，{{parseInt(commodityData.trailOn) ? commodityData.trailOn : 0}} 人正在参与活动，{{parseInt(commodityData.trailDone) ? commodityData.trailDone : 0}} 人完成活动， 剩余 {{commodityData.task.taskCount - commodityData.task.showkerApplySuccessCount}} 份</p>
             <p class="fs-14">
               <i class="ivu-icon ivu-icon-clock fs-16"></i>
               距申请结束：
@@ -36,12 +37,12 @@
               <!--<span class="fs-24">17</span> 天 <span class="fs-24">02</span> 小时 <span class="fs-24">56</span> 分钟 <span class="fs-24">31</span> 秒-->
             </p>
             <div v-if="getRole === 0">
-              <iButton v-show="!commodityData.taskApply"   size="large" class="fs-16 default-btn" long type="error" @click="applyForTrialFunc">申请试用</iButton>
+              <iButton v-show="!commodityData.taskApply"   size="large" class="fs-16 default-btn" long type="error" @click="applyForTrialFunc">申请活动</iButton>
               <iButton v-show="commodityData.taskApply" disabled size="large" class="fs-16 default-btn" long >已申请</iButton>
             </div>
-            <iButton v-if="getRole === 1" size="large" class="fs-16 default-btn" long type="warning" >商家号不可以参加试用</iButton>
+            <iButton v-if="getRole === 1" size="large" class="fs-16 default-btn" long type="warning" >商家号不可以参加活动</iButton>
             <a v-if="!isLogin"  class="ivu-btn ivu-btn-error ivu-btn-large" @click="selectLogin = true" style="width: 150px;">
-                申请试用
+                申请活动
             </a>
           </div>
         </div>
@@ -95,7 +96,7 @@
 
               </div>
               <div class="fs-18 text-ct" v-else >
-                <Icon type="information-circled" color="#FF6633" size="30" style="vertical-align: sub;"></Icon> 获得资格后才能看到试用品信息哦~
+                <Icon type="information-circled" color="#FF6633" size="30" style="vertical-align: sub;"></Icon> 获得资格后才能看到活动品信息哦~
               </div>
             </div>
             <div v-show="graphicInfoSelClass == 'report'" class="graphic-info-report">
@@ -147,7 +148,7 @@
     </div>
     <Modal
       v-model="selWw" class-name="vertical-center-modal" ok-text="确定" cancel-text="" @on-ok="selWwFunc(wwList.alitms)">
-      <p class="fs-18 fb mt-20" style="color: #FF6600">请选择试用旺旺号:</p>
+      <p class="fs-18 fb mt-20" style="color: #FF6600">请选择活动旺旺号:</p>
       <p class="fs-14 mt-10">注意：请 <span style="color: #FF6600">务必使用选的旺旺号下单购买</span>，否则订单审核将无法通过！</p>
       <Radio-group class="mt-20" v-model="selectedWw">
         <Radio v-for="ww in wwList.alitms" :label="ww.id" :key="ww.id" :disabled="wwState[ww.status].disabled">
@@ -172,7 +173,7 @@
         <i class="ivu-icon ivu-icon-android-alert " style="color: #FF6600; font-size: 20px;"></i>
         亲，你还没登录哦~
         <br>
-        <span class="fs-12">请先登录后再申请免费试用</span>
+        <span class="fs-12">请先登录后再申请免费活动</span>
       </p>
       <div slot="footer" class="text-ct">
         <router-link class="ivu-btn ivu-btn-error ivu-btn-large mr-40 ml-20" to="/login" style="color: #fff">马上登录</router-link>
@@ -255,7 +256,7 @@
             callback: ''
           },
           {
-            text: '试用报告',
+            text: '买家秀',
             num: '',
             isClass: 'report',
             callback: this.getDetailsShowkerList
@@ -358,7 +359,7 @@
               }else {
                 if(res.statusCode === 'alitm_null'){
                   self.$Modal.warning({
-                    content: '<p class="fs-20 f-b">亲，你还没绑定旺旺号 </p><br> <span class="fs-12">请先绑定旺旺号在申请试用!</span>',
+                    content: '<p class="fs-20 f-b">亲，你还没绑定旺旺号 </p><br> <span class="fs-12">请先绑定旺旺号在申请活动!</span>',
                     okText: '去绑定旺旺号',
                     cancelText: '取消',
                     onOk: function () {

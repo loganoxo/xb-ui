@@ -1,7 +1,7 @@
 <template>
   <div class="activity-management">
     <div class="activity-title pl-10">
-      <span class="left">{{showkerTaskInfo.showkerName}}的试用报告</span>
+      <span class="left">{{showkerTaskInfo.showkerName}}的买家秀</span>
       <span class="right" @click="returnUpPage()">返回上一页</span>
     </div>
     <div class="report-info mt-12">
@@ -31,9 +31,9 @@
         </p>
       </div>
       <div class="trial-experience mt-20">
-        <div class="trial-experience-title">试用过程与体验：</div>
+        <div class="trial-experience-title">活动过程与体验：</div>
         <div class="trial-experience-con mt-22">{{showkerReportInfo.trialReportText || ''}}</div>
-        <div class="trial-experience-title mt-22">试用图片：</div>
+        <div class="trial-experience-title mt-22">买家秀图片：</div>
         <div class="trial-img-info" v-if="trialReportImages.length > 0">
           <div class="trial-img">
             <img :src="showNowImageSrc">
@@ -46,7 +46,7 @@
           <span class="left-btn" @click="leftChangeImg"><Icon type="chevron-left" size="32" color="#999"></Icon></span>
           <span class="right-btn" @click="rightChangeImg"><Icon type="chevron-right" size="32" color="#999"></Icon></span>
         </div>
-        <div v-else>暂无试用图片</div>
+        <div v-else>暂无买家秀图片</div>
         <div class="check-trial mt-40">
           <div class="select-check">
             <Radio-group v-model="trialCheckStatus">
@@ -68,7 +68,7 @@
               <Icon type="alert-circled" color='#f60' size="36"></Icon>
             </div>
             <div class="left remind-con">
-              <p>通过试用报告需要支付秀客保证金，不通过报告则将报告退回，交给秀客重新修改！</p>
+              <p>通过买家秀需要支付秀客秀客，不通过则会退回，交给秀客重新修改！</p>
               <p>您还有&nbsp;<time-down color='#ff4040' :fontWeight=600 :endTime="showkerTaskInfo.currentGenerationEndTime"></time-down>&nbsp;进行审核，若该时间内未审核，系统将默认审核通过，开始给秀客返款！</p>
             </div>
           </div>
@@ -194,7 +194,7 @@
         }).then(res =>{
           if(res.status){
             _this.$Message.success({
-              content:'试用报告审核成功！',
+              content:'买家秀审核成功！',
               duration: 4
             });
             _this.returnUpPage();

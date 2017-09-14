@@ -25,13 +25,13 @@
     </div>
     <div class="fs-14 pd-tb-20 clear" style="border-bottom: 1px solid #eee;">
       <p v-if="getUserInfoRole === 0">
-        试用提醒：待审核
+        活动提醒：待审核
         <router-link to="/user/my-probation/wait">{{trialCount.waitingAuditTaskApply}}</router-link>个，进行中
         <router-link to="/user/my-probation/pass">{{trialCount.underWayShowkerTask}}</router-link>个（已通过待领取
-        <router-link :to="{path:'/user/my-probation/pass',query:{status:'pass_and_unclaimed'}}">{{trialCount.passAndUnclaimedShowkerTask}}</router-link>个；已下单待交试用报告
-        <router-link :to="{path:'/user/my-probation/pass',query:{status:'trial_report_waiting_submit'}}">{{trialCount.trialReportWaitingSubmitShowkerTask}}</router-link>个；待修改订单号/报告
+        <router-link :to="{path:'/user/my-probation/pass',query:{status:'pass_and_unclaimed'}}">{{trialCount.passAndUnclaimedShowkerTask}}</router-link>个；已下单待交买家秀
+        <router-link :to="{path:'/user/my-probation/pass',query:{status:'trial_report_waiting_submit'}}">{{trialCount.trialReportWaitingSubmitShowkerTask}}</router-link>个；待修改订单号/买家秀
         <router-link :to="{path:'/user/my-probation/pass',query:{status:'order_num_error'}}">{{trialCount.orderNumErrorShowkerTask + trialCount.trialReportUnqualifiedShowkerTask}}</router-link>个）。
-        <router-link to="/user/my-probation/wait">进入我的试用</router-link>
+        <router-link to="/user/my-probation/wait">进入我的买家秀</router-link>
       </p>
       <p v-if="getUserInfoRole === 1">
         活动提醒：待审核
@@ -62,10 +62,10 @@
           {{trialCount.waitingSettlementTask}}
         </router-link>
         个
-        <router-link to="/user/activity-management/list">进入试用活动管理</router-link>
+        <router-link to="/user/activity-management/list">进入买家秀活动管理</router-link>
       </p>
     </div>
-    <p v-if="getUserInfoRole === 0" class="clear-both user-home-account">最新试用宝贝</p>
+    <p v-if="getUserInfoRole === 0" class="clear-both user-home-account">最新秀品宝贝</p>
     <div v-if="getUserInfoRole === 0" class="home-commodity-ctt">
       <router-link
         class="home-commodity-details"
@@ -80,7 +80,7 @@
           <p>{{homeCommodity.taskName}}</p>
           <p>
             <span class="left">￥{{homeCommodity.itemPrice / 100}}</span>
-            <span class="right">免费试用</span>
+            <span class="right">免费活动</span>
           </p>
         </div>
       </router-link>
@@ -89,10 +89,10 @@
       <div class="fs-14 left user-seller-tips">
         <p class="fs-16 mb-10">商家常见问题</p>
         <ul>
-          <li>发布试用品需要什么条件？</li>
-          <li>什么是试用担保金？</li>
+          <li>发布秀品活动需要什么条件？</li>
+          <li>什么是活动担保金？</li>
           <li>如产品价格出现变动商家怎么办？</li>
-          <li>试客被通过审批后迟迟不下单，并联系不到人，怎么办？</li>
+          <li>秀客被通过审批后迟迟不下单，并联系不到人，怎么办？</li>
           <li>什么情况下可以取消会员的通过资格？</li>
         </ul>
       </div>

@@ -115,7 +115,7 @@ export default new Router({
       name: 'TrialReport',
       component: TrialReport,
       meta: {
-        title: "试用报告页",
+        title: "买家秀页",
         logInAuthority: true,
       }
     },
@@ -138,7 +138,7 @@ export default new Router({
           name: 'TaskReleaseProcess',
           component: TaskReleaseProcess,
           meta: {
-            title: "发布试用活动",
+            title: "发布秀品活动",
             logInAuthority: true,
           }
         },
@@ -152,7 +152,7 @@ export default new Router({
               name: 'ActivitiesList',
               component: ActivitiesList,
               meta: {
-                title: "试用活动管理-活动列表",
+                title: "秀品活动管理-活动列表",
                 logInAuthority: true,
               },
             },
@@ -161,7 +161,7 @@ export default new Router({
               name: 'ApproveShowker',
               component: ApproveShowker,
               meta: {
-                title: "试用活动管理-审批秀客",
+                title: "秀品活动管理-审批秀客",
                 logInAuthority: true,
               },
             },
@@ -170,7 +170,7 @@ export default new Router({
               name: 'ProbationReport',
               component: ProbationReport,
               meta: {
-                title: "试用活动管理-试用报告",
+                title: "买家秀活动管理-买家秀",
                 logInAuthority: true,
               },
             },
@@ -179,7 +179,7 @@ export default new Router({
               name: 'ActivityDetail',
               component: ActivityDetail,
               meta: {
-                title: "试用活动管理-活动详情",
+                title: "买家秀活动管理-买家秀详情",
                 logInAuthority: true,
               },
             }
@@ -195,7 +195,7 @@ export default new Router({
               name: 'ApplyWaitAudit',
               component: ApplyWaitAudit,
               meta: {
-                title: "我的试用-待审批",
+                title: "我的买家秀-待审批",
                 logInAuthority: true,
               },
             },
@@ -204,7 +204,7 @@ export default new Router({
               name: 'ApplyPassAudit',
               component: ApplyPassAudit,
               meta: {
-                title: "我的试用-已通过",
+                title: "我的买家秀-已通过",
                 logInAuthority: true,
               },
             },
@@ -213,7 +213,7 @@ export default new Router({
               name: 'ApplyFailAudit',
               component: ApplyFailAudit,
               meta: {
-                title: "我的试用-未通过",
+                title: "我的买家秀-未通过",
                 logInAuthority: true,
               },
             }

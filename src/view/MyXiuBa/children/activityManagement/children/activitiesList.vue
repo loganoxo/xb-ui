@@ -1,6 +1,6 @@
 <template>
   <div class="activity-management">
-    <div class="activity-title pl-10">试用活动管理</div>
+    <div class="activity-title pl-10">秀品活动管理</div>
     <div class="activity-title-s pl-10">
       共<span>{{taskData.taskTotalCount}}</span>个活动，其中待审核<span>{{taskData.taskWaitingAuditCount}}</span>个，进行中<span>{{taskData.taskUnderWayCount}}</span>个，已结束尚未结算<span>{{taskData.settlementWaitingAuditCount}}</span>个
     </div>

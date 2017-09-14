@@ -112,7 +112,7 @@ router.post("/api/get-account-balance.json", function (req, res, next) {
 });
 
 /**
- * 商家通过余额支付保证金
+ * 商家通过余额支付担保金
  * @param userId
  * @param fee
  * @param payPassword
@@ -145,7 +145,7 @@ router.post("/api/pay-by-balance.json", function (req, res, next) {
 });
 
 /**
- * 商家试用活动管理
+ * 商家活动活动管理
  * @param userId
  * @param pageIndex
  * @param pageSize
@@ -386,7 +386,7 @@ router.post('/api/order-number-info.json', function (req, res, next) {
 });
 
 /**
- * 商家对任务补充保证金
+ * 商家对任务补充担保金
  * @param uid
  * @param platform
  * @param payPwd
@@ -417,7 +417,7 @@ router.post('/api/deposit-supplement.json', function (req, res, next) {
 });
 
 /**
- * 商家查看试用报告详情
+ * 商家查看买家秀详情
  *  @param id
  */
 router.post('/api/task-report-info.json', function (req, res, next) {
@@ -443,7 +443,7 @@ router.post('/api/task-report-info.json', function (req, res, next) {
 });
 
 /**
- * 商家审核试用报告
+ * 商家审核买家秀
  * @param id
  * @param status
  * @param msg
@@ -473,7 +473,7 @@ router.post('/api/task-report-audit.json', function (req, res, next) {
 });
 
 /**
- * 商家通过试用报告并返款
+ * 商家通过买家秀并返款
  * @param uid
  * @param showkerTaskId
  * @param payPwd
@@ -504,7 +504,7 @@ router.post('/api/showker-deposit-return.json', function (req, res, next) {
 });
 
 /**
- * 商家个人主页试用提醒
+ * 商家个人主页活动提醒
  * @param showkerId
  */
 router.post('/api/task/seller-personal-trial-count.json', function (req, res, next) {

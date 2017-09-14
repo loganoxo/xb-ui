@@ -133,19 +133,19 @@ export const TaskErrorStatusList = (type) => {
       return "订单号有误";
       break;
     case "trial_report_waiting_submit":
-      return "已下单待交试用报告";
+      return "已下单待交买家秀";
       break;
     case "trial_report_waiting_confirm":
-      return "试用报告待确认";
+      return "买家秀待确认";
       break;
     case "trial_report_unqualified":
       return "报告不合格";
       break;
     case "trial_end":
-      return "试用终止";
+      return "活动终止";
       break;
     case "trial_finished":
-      return "试用完成";
+      return "活动完成";
       break;
     case "timeout_auto_close":
       return "任务超时终止";
@@ -187,10 +187,10 @@ export const TaskErrorStatusList = (type) => {
       return '补充任务担保金';
       break;
     case  'task_deposit_pay_shower':
-      return '任务保证金退款';
+      return '任务担保金退款';
       break;
     case  'task_deposit_return_shower':
-      return '任务保证金返款';
+      return '任务担保金返款';
       break;
     case  'task_delete_return_seller':
       return '删除活动返款-活动担保金';

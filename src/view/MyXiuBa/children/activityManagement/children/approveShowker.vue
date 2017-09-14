@@ -12,7 +12,7 @@
         <div class="manage-text left ml-5">
           <p>{{approveTaskInfo.taskName}}</p>
           <p class="mt-15">
-            总份数<strong>&nbsp;{{approveTaskInfo.taskCount || 0}}&nbsp;</strong>，<strong>&nbsp;{{trailOn}}&nbsp;</strong>人正在参与试用，<strong>&nbsp;{{trailDone || 0}}&nbsp;</strong>人完成试用，剩余名额<strong>&nbsp;{{approveTaskInfo.taskCount - approveTaskInfo.showkerApplySuccessCount || 0}}&nbsp;</strong>个
+            总份数<strong>&nbsp;{{approveTaskInfo.taskCount || 0}}&nbsp;</strong>，<strong>&nbsp;{{trailOn}}&nbsp;</strong>人正在参与活动，<strong>&nbsp;{{trailDone || 0}}&nbsp;</strong>人完成活动，剩余名额<strong>&nbsp;{{approveTaskInfo.taskCount - approveTaskInfo.showkerApplySuccessCount || 0}}&nbsp;</strong>个
           </p>
         </div>
       </div>
@@ -35,7 +35,7 @@
               <tr>
                 <th width="25%">淘宝账号（旺旺号）</th>
                 <th width="25%">申请时间</th>
-                <th width="25%">已完成试用次数</th>
+                <th width="25%">已完成活动次数</th>
                 <th width="25%">操作</th>
               </tr>
               </thead>
@@ -88,13 +88,13 @@
                   <span>订单号待审核</span>
                 </Checkbox>
                 <Checkbox label="trial_report_waiting_submit">
-                  <span>已下订单待交试用报告</span>
+                  <span>已下订单待交买家秀</span>
                 </Checkbox>
                 <Checkbox label="trial_report_waiting_confirm">
-                  <span>试用报告待确认</span>
+                  <span>买家秀待确认</span>
                 </Checkbox>
                 <Checkbox label="trial_finished">
-                  <span>试用完成</span>
+                  <span>活动完成</span>
                 </Checkbox>
                 <Checkbox label="order_num_error">
                   <span>订单号有误</span>
@@ -126,7 +126,7 @@
                 <td>
                   <p class="del-edit">
                     <span v-if="item.status === 'order_num_waiting_audit'" @click="openCheckOrder(item.id)">审核订单号</span>
-                    <span v-else-if="item.status === 'trial_report_waiting_confirm'" @click="goProbationReport(item.id)">审核试用报告</span>
+                    <span v-else-if="item.status === 'trial_report_waiting_confirm'" @click="goProbationReport(item.id)">审核买家秀</span>
                     <span v-else>------</span>
                   </p>
                 </td>
@@ -162,7 +162,7 @@
                   <span>逾期系统终止</span>
                 </Checkbox>
                 <Checkbox label="buyer_manual_close">
-                  <span>试客放弃试用</span>
+                  <span>秀品放弃活动</span>
                 </Checkbox>
                 <Checkbox label="seller_manual_close">
                   <span>管理员终止/商家终止</span>
@@ -176,7 +176,7 @@
               <tr>
                 <th width="20%">淘宝账号（旺旺号）</th>
                 <th width="20%">订单号</th>
-                <th width="20%">试用状态</th>
+                <th width="20%">活动状态</th>
                 <th width="20%">终止时间</th>
                 <th width="20%">终止原因</th>
               </tr>
@@ -210,7 +210,7 @@
           </p>
           <p class="mt-15">
               <span>秀客实付金额：<span
-                class="main-color">{{orderInfo.orderPrice || 0}}</span>元<span>（当前每单试用保证金<span>{{perMarginNeed}}</span>元）</span></span>
+                class="main-color">{{orderInfo.orderPrice || 0}}</span>元<span>（当前每单活动担保金<span>{{perMarginNeed}}</span>元）</span></span>
           </p>
           <div class="mt-22">
             <Radio-group v-model="orderReviewStatus">
@@ -234,13 +234,13 @@
             <div slot="isBalance" class="title-tip">
                 <span class="size-color3">
                 <Icon color="#FF2424" size="18" type="ios-information"></Icon>
-                <span class="ml-10">注意：该秀客实付金额大于试用保证金，</span></span>需要补充担保金<strong
+                <span class="ml-10">注意：该秀客实付金额大于活动担保金，</span></span>需要补充担保金<strong
               class="main-color">{{Math.abs(orderInfo.orderPrice - perMarginNeed) | numberFormat(2)}}</strong>元
             </div>
             <div slot="noBalance" class="title-tip">
                 <span class="size-color3">
                 <Icon color="#FF2424" size="18" type="ios-information"></Icon>
-                <span class="ml-10">注意：该秀客实付金额大于试用保证金，</span></span>需要补充担保金<strong
+                <span class="ml-10">注意：该秀客实付金额大于活动担保金，</span></span>需要补充担保金<strong
               class="main-color">{{Math.abs(orderInfo.orderPrice - perMarginNeed) | numberFormat(2)}}</strong>元,请充值！
             </div>
           </PayModel>
@@ -304,7 +304,7 @@
         SelectList: [
           {
             value: '1',
-            label: '试客名称'
+            label: '秀客名称'
           },
           {
             value: '2',

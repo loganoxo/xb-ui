@@ -5,7 +5,8 @@
         <div class="breadcrumb">
           <Breadcrumb >
             <Breadcrumb-item>当前位置：</Breadcrumb-item>
-            <Breadcrumb-item>试用品专区</Breadcrumb-item>
+            <Breadcrumb-item>秀吧</Breadcrumb-item>
+            <Breadcrumb-item>秀品专区</Breadcrumb-item>
             <Breadcrumb-item v-if="$route.query.cate">{{parentItemCatalog.name}}</Breadcrumb-item>
           </Breadcrumb>
         </div>
@@ -81,7 +82,7 @@
                 <p v-html="searchTask.taskName"></p>
                 <p class="task-category-commodity-text-price">
                   <span class="left">￥{{searchTask.itemPrice/100}}</span>
-                  <span class="right">免费试用</span>
+                  <span class="right">免费活动</span>
                 </p>
                 <p class="cl000">
                   份数:{{searchTask.taskCount}}

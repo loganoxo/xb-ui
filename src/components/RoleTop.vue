@@ -31,7 +31,7 @@
     background-color: #F8F8F8;
     > div {
       background-color: #F8F8F8;
-      height: 80px;
+      height: 100px;
     }
     border-bottom: 1px solid #F1F1F1;
     .logo-link {

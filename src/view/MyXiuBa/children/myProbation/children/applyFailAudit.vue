@@ -164,7 +164,7 @@
         }).then(res => {
           if (res.status) {
             _this.$Message.success({
-              content: '删除试用成功！',
+              content: '删除活动成功！',
               duration: 6
             });
             _this.showkerApplyList();

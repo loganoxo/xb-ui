@@ -142,7 +142,7 @@ export default {
   },
 
   /**
-   * 首页试用任务展示接口
+   * 首页活动任务展示接口
    */
   getHomeTaskList() {
     return fetch("/api/task/index/newest.json")
@@ -253,21 +253,21 @@ export default {
   },
 
   /**
-   * 获取试用活动管理列表
+   * 获取活动活动管理列表
    */
   getTaskList(params) {
     return fetch("/api/task-list.json", params)
   },
 
   /**
-   * 商家试用活动管理任务关闭
+   * 商家活动活动管理任务关闭
    */
   closeTask(params) {
     return fetch("/api/close-task.json", params)
   },
 
   /**
-   * 商家试用活动管理任务删除
+   * 商家活动活动管理任务删除
    */
   deleteTask(params) {
     return fetch("/api/delete-task.json", params)
@@ -316,21 +316,21 @@ export default {
   },
 
   /**
-   * 商家对任务补充保证金
+   * 商家对任务补充担保金
    */
   depositSupplement(params) {
     return fetch("/api/deposit-supplement.json", params)
   },
 
   /**
-   * 商家审核试用报告当前任务详情
+   * 商家审核买家秀当前任务详情
    */
   taskReportInfo(params) {
     return fetch("/api/task-report-info.json", params)
   },
 
   /**
-   * 商家审核试用报告
+   * 商家审核买家秀
    */
   taskReportAudit(params) {
     return fetch("/api/task-report-audit.json", params)
@@ -353,14 +353,14 @@ export default {
   },
 
   /**
-   * 秀客终止试用（针对申请成功的任务）
+   * 秀客终止活动（针对申请成功的任务）
    */
   showkerTrialEed(params) {
     return fetch("/api/showker-trial-end.json", params)
   },
 
   /**
-   * 秀客终止试用（针对申请还没有审核结果的任务）
+   * 秀客终止活动（针对申请还没有审核结果的任务）
    */
   showkerApplyEed(params) {
     return fetch("/api/showker-apply-end.json", params)
@@ -388,70 +388,70 @@ export default {
   },
 
   /**
-   * 秀客保存试用报告
+   * 秀客保存买家秀
    */
   showkerSaveReport(params) {
     return fetch("/api/showker-save-report.json", params)
   },
 
   /**
-   *详情页试客报告列表
+   *详情页秀客报告列表
    */
   getDetailsShowkerList(params){
     return fetch("/api/task/trial/report.json",params)
   },
 
   /**
-   *详情页已审核试客列表
+   *详情页已审核秀客列表
    */
   getDetailsSuccessShowkerList(params){
     return fetch("/api/task/success.json",params)
   },
 
   /**
-   * 秀客修改试用报告
+   * 秀客修改买家秀
    */
   showkerModifyReport(params) {
     return fetch("/api/showker-modify-report.json", params)
   },
 
   /**
-   * 秀客的试用报告（针对获取试用报告列表，分页查询）
+   * 秀客的买家秀（针对获取买家秀列表，分页查询）
    */
   getTrialReports(params){
     return fetch("/api/task/showker/trial/reports.json", params)
   },
 
   /**
-   * 秀客的试用详情（针对获取秀客试用详情）
+   * 秀客的活动详情（针对获取秀客活动详情）
    */
   getTrialDetail(params){
     return fetch("/api/task/showker/trial/detail.json", params)
   },
 
   /**
-   * 秀客填写试用报告或修改试用报告当前任务详情
+   * 秀客填写买家秀或修改买家秀当前任务详情
    */
   showkerReportInfo(params) {
     return fetch("/api/showker-report-info.json", params)
   },
 
   /**
-   * 秀客能否申请试用
+   * 秀客能否申请活动
    */
   getShowkerCanTrial(params) {
     return fetch("/api/task/showker/qualification/check.json", params)
   },
 
   /**
-   * 秀客申请试用任务
+   * 秀客申请活动任务
    */
   ShowkerApplySelWwId(params) {
     return fetch("/api/task/showker/apply.json", params)
   },
 
   /**
-   * 试客报告，点击查看全部
+   * 秀客报告，点击查看全部
    */
   ShowkerReportOne(params) {
     return fetch("/api/task/showker/trialReport.json", params)
@@ -465,21 +465,21 @@ export default {
   },
 
   /**
-   * 商家个人主页试用提醒
+   * 商家个人主页活动提醒
    */
   sellerPersonalTrialCount(params) {
     return fetch("/api/task/seller-personal-trial-count.json", params)
   },
 
   /**
-   * 秀客个人主页试用提醒
+   * 秀客个人主页活动提醒
    */
   showkerPersonalTrialCount(params) {
     return fetch("/api/task/showker-personal-trial-count.json", params)
   },
 
   /**
-   * 商家通过试用报告并返款
+   * 商家通过买家秀并返款
    */
   showkerDepositReturn(params) {
     return fetch("/api/showker-deposit-return.json", params)

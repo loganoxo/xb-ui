@@ -4,7 +4,7 @@
       <div class="mt-10">
         <div class="trial-right left">
           <div v-show="!showReportDesc">
-            <p class="fs-16 trial-account">{{showkerInfo.phone}}的试用报告</p>
+            <p class="fs-16 trial-account">{{showkerInfo.phone}}的买家秀</p>
             <p class="trial-tag">
               Ta的标签：&nbsp;&nbsp;
               <a  v-for="(value, key) in showkerTag">
@@ -44,7 +44,7 @@
           </div>
           <div v-if="showReportDesc">
             <p class="fs-16 trial-account">
-              {{showkerReportDesc.showkerPhone}}的试用报告
+              {{showkerReportDesc.showkerPhone}}的买家秀
                <a @click="showReportDesc = false;" class="right fs-14">返回上一页</a>
             </p>
             <div class="trial-account-details">
@@ -58,10 +58,10 @@
             </div>
             <div class="clear">
               <p class="fs-16 mt-20 mb-20">
-                试用过程与体验：
+                活动过程与体验：
               </p>
               <p class="fs-14 cl000 mb-40">{{showkerReportDesc.trialReportText}}</p>
-              <p class="fs-16">试用图片：</p>
+              <p class="fs-16">买家秀图片：</p>
               <div style="margin: auto; width: 700px; border: 1px solid #F1EEEB" class="task-list-img-box">
                 <Carousel v-model="value3"
                           :autoplay="setting.autoplay"

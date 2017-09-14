@@ -11,7 +11,7 @@
         <tr>
           <th width="30%">活动标题</th>
           <th width="15%">绑定淘宝会员名</th>
-          <th width="15%">试用担保金（元）</th>
+          <th width="15%">活动担保金（元）</th>
           <th width="15%">流程状态</th>
           <th width="15%">操作</th>
         </tr>
@@ -32,7 +32,7 @@
           <td>{{item.task.perMarginNeed / 100}}</td>
           <td>{{getTaskStatus(item.status)}}</td>
           <td>
-            <p class="operation" @click="endTrial(item.id)">结束试用</p>
+            <p class="operation" @click="endTrial(item.id)">结束活动</p>
           </td>
         </tr>
         </tbody>
@@ -130,7 +130,7 @@
         }).then(res => {
           if (res.status) {
             _this.$Message.success({
-              content: '结束试用成功！',
+              content: '结束活动成功！',
               duration: 6
             });
             if (type === 'passAudit') {

@@ -33,7 +33,7 @@ router.post('/api/task/item/catalog/main.json', (req, res, next) => {
 });
 
 /**
- * 首页试用任务展示
+ * 首页活动任务展示
  */
 router.post('/api/task/index/newest.json', (req, res, next) => {
   let options = {
@@ -184,7 +184,7 @@ router.post('/api/task/detail.json', (req, res, next) => {
 });
 
 /**
- * 详情页试客报告
+ * 详情页秀客报告
  * @param taskId
  * @param pageIndex
  */
@@ -230,7 +230,7 @@ router.post('/api/task/success.json', function (req, res, next) {
 });
 
 /**
- * 商家查看秀客试用报告全文
+ * 商家查看秀客买家秀全文
  * @param id
  * @param showkerId
  */

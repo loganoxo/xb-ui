@@ -41,7 +41,7 @@ router.post('/api/showker-apply-list.json', function (req, res, next) {
 });
 
 /**
- * 秀客个人主页试用提醒
+ * 秀客个人主页活动提醒
  * @param showkerId
  */
 router.post('/api/task/showker-personal-trial-count.json', function (req, res, next) {
@@ -95,7 +95,7 @@ router.post('/api/showker-success-list.json', function (req, res, next) {
 });
 
 /**
- * 秀客的试用报告（针对获取试用报告列表，分页查询）
+ * 秀客的买家秀（针对获取买家秀列表，分页查询）
  * @param showkerId
  * @param pageIndex
  * @param pageSize
@@ -124,7 +124,7 @@ router.post('/api/task/showker/trial/reports.json', function (req, res, next) {
 });
 
 /**
- * 秀客的试用详情（针对获取秀客试用详情）
+ * 秀客的活动详情（针对获取秀客活动详情）
  * @param showkerId
  */
 router.post('/api/task/showker/trial/detail.json', function (req, res, next) {
@@ -149,7 +149,7 @@ router.post('/api/task/showker/trial/detail.json', function (req, res, next) {
 });
 
 /**
- * 秀客终止试用（针对申请成功的任务）
+ * 秀客终止活动（针对申请成功的任务）
  * @param id
  * @param status
  */
@@ -176,7 +176,7 @@ router.post('/api/showker-trial-end.json', function (req, res, next) {
 });
 
 /**
- * 秀客终止试用（针对申请还没有审核结果的任务）
+ * 秀客终止活动（针对申请还没有审核结果的任务）
  * @param id
  * @param status
  */
@@ -286,7 +286,7 @@ router.post('/api/showker-order-save.json', function (req, res, next) {
 });
 
 /**
- * 秀客保存试用报告
+ * 秀客保存买家秀
  * @param id
  * @param trialReportText
  * @param trialReportImages
@@ -316,7 +316,7 @@ router.post('/api/showker-save-report.json', function (req, res, next) {
 });
 
 /**
- * 秀客修改试用报告
+ * 秀客修改买家秀
  * @param id
  * @param trialReportText
  * @param trialReportImages
@@ -346,7 +346,7 @@ router.post('/api/showker-modify-report.json', function (req, res, next) {
 });
 
 /**
- * 秀客填写试用报告当前任务详情
+ * 秀客填写买家秀当前任务详情
  * @param id
  */
 router.post('/api/showker-report-info.json', function (req, res, next) {
@@ -371,7 +371,7 @@ router.post('/api/showker-report-info.json', function (req, res, next) {
 });
 
 /**
- * 秀客能否申请试用
+ * 秀客能否申请活动
  * @param showkerId
  * @param taskId
  */

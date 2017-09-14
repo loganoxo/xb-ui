@@ -1,6 +1,6 @@
 <template>
   <div class="my-probation">
-    <div class="my-probation-title pl-10">我的试用</div>
+    <div class="my-probation-title pl-10">我的买家秀</div>
     <div class="my-probation-list mt-20">
       <div class="my-probation-list-title">
         <router-link to="/user/my-probation/wait" tag="span" :class="{isSelect:showProbationStatus === 'ApplyWaitAudit'}">待审批</router-link>

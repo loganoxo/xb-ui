@@ -13,7 +13,7 @@
             <img src="~assets/img/sel-role/sel_role_01.png" alt="">
           </a>
           <p>
-            我想要免费试用，体验商品带给我更多快乐， 并将这份快乐传递给更多人！
+            我想要免费活动，体验商品带给我更多快乐， 并将这份快乐传递给更多人！
           </p>
         </div>
         <div class="middle-icon-box fadeInDown">

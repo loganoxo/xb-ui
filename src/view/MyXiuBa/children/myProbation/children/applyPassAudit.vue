@@ -18,22 +18,22 @@
              <span>订单号待审核</span>
            </Checkbox>
            <Checkbox label="trial_report_waiting_submit">
-             <span>已下订单待交试用报告</span>
+             <span>已下订单待交买家秀</span>
            </Checkbox>
            <Checkbox label="trial_report_waiting_confirm">
-             <span>试用报告待确认</span>
+             <span>买家秀待确认</span>
            </Checkbox>
            <Checkbox label="trial_finished">
-             <span>试用完成</span>
+             <span>活动完成</span>
            </Checkbox>
            <Checkbox label="order_num_error">
              <span>订单号有误</span>
            </Checkbox>
            <Checkbox label="trial_report_unqualified">
-             <span>报告不合格</span>
+             <span>买家秀不合格</span>
            </Checkbox>
            <Checkbox label="trial_end">
-             <span>试用终止</span>
+             <span>活动终止</span>
            </Checkbox>
          </Checkbox-group>
        </div>
@@ -56,7 +56,7 @@
          <tr>
            <th width="25%">活动标题</th>
            <th width="12%">绑定淘宝会员名</th>
-           <th width="12%">试用担保金（元）</th>
+           <th width="12%">活动担保金（元）</th>
            <th width="17%">订单号</th>
            <th width="12%">流程状态</th>
            <th width="12%">操作</th>
@@ -97,7 +97,7 @@
              <p class="mt-5 main-color cursor-p" v-if="item.status === 'trial_end'">
                <Tooltip :content="getTaskStatus(item.trialEndReason)" placement="top">
                  <Icon color="#f60" type="information-circled"></Icon>
-                 <span>试用终止</span>
+                 <span>活动终止</span>
                </Tooltip>
              </p>
            </td>
@@ -105,17 +105,17 @@
              <p v-if="item.status === 'pass_and_unclaimed'" class="operation"
                 @click="changePassOperation('place','',item.id)">去下单</p>
              <p v-if="item.status === 'trial_report_waiting_submit'" class="operation"
-                @click="changePassOperation('report','write',item.id)">填写试用报告</p>
+                @click="changePassOperation('report','write',item.id)">制作买家秀</p>
              <p v-if="item.status === 'trial_report_unqualified'" class="operation"
-                @click="changePassOperation('report','amend',item.id)">修改试用报告</p>
+                @click="changePassOperation('report','amend',item.id)">修改买家秀</p>
              <p v-if="item.status === 'pass_and_unclaimed'" class="operation mt-5"
                 @click="openAuditOrder(item.id)">填订单号</p>
              <p v-if="item.status === 'order_num_error'" class="operation mt-5"
                 @click="openAuditOrder(item.id)">修改订单号</p>
              <p v-if="item.status !== 'trial_end' && item.status !== 'trial_finished'" class="operation mt-5"
-                @click="endTrialModel(item.id)">结束试用</p>
-             <p v-if="item.status === 'trial_finished'" class="operation mt-5"><router-link :to="{path:'/user/my-trial-report',query:{}}">查看试用详情</router-link></p>
-             <p v-if="item.status === 'trial_finished'" class="operation mt-5"><router-link :to="{path:'/user/money-management/transaction-record',query:{taskNumber:item.orderNumber}}">查看试用返款</router-link></p>
+                @click="endTrialModel(item.id)">结束活动</p>
+             <p v-if="item.status === 'trial_finished'" class="operation mt-5"><router-link :to="{path:'/user/my-trial-report',query:{}}">查看活动详情</router-link></p>
+             <p v-if="item.status === 'trial_finished'" class="operation mt-5"><router-link :to="{path:'/user/money-management/transaction-record',query:{taskNumber:item.orderNumber}}">查看活动返款</router-link></p>
            </td>
          </tr>
          </tbody>
@@ -149,7 +149,7 @@
      </div>
      <p class="place-type">
        <span>{{taskPlaceInfo.taskTypeDesc}}</span>
-       <span class="ml-20">下单剩余时间<time-down color='#ff4040' :fontWeight=600 :endTime="showkerTask.currentGenerationEndTime"></time-down>（超时未下单，即未在平台提交订单号，视为主动放弃试用资格）</span>
+       <span class="ml-20">下单剩余时间<time-down color='#ff4040' :fontWeight=600 :endTime="showkerTask.currentGenerationEndTime"></time-down>（超时未下单，即未在平台提交订单号，视为主动放弃活动资格）</span>
      </p>
      <div class="place-step mt-22"
           v-if="taskPlaceInfo.taskType === 'pc_search' || taskPlaceInfo.taskType === 'app_search'">
@@ -196,10 +196,10 @@
        <span class="ml-35" @click="returnUpPage">返回上页</span>
      </div>
    </div>
-   <!--已通过-填写试用报告-->
+   <!--已通过-制作买家秀-->
    <div class="fill-report" v-if="showPassOperation === 'report'">
      <div class="my-probation-title pl-10">
-       <span class="left">填写试用报告</span>
+       <span class="left">制作买家秀</span>
        <span class="right mr-30" @click="returnUpPage">返回上页</span>
      </div>
      <div class="commodity-info clear mt-20">
@@ -230,12 +230,12 @@
        </p>
      </div>
      <div class="experience mt-22">
-       <p class="mb-10">试用过程与体验：</p>
+       <p class="mb-10">活动过程与体验：</p>
        <iInput v-model="trialReportText" type="textarea" :autosize="{minRows: 5,maxRows: 5}"
                placeholder="请输入宝贝评价"></iInput>
      </div>
      <div class="experience-img mt-22">
-       <p class="mb-10">试用图片：</p>
+       <p class="mb-10">买家秀图片：</p>
        <Upload
          ref="upload"
          :show-upload-list="false"
@@ -255,7 +255,7 @@
        </Upload>
      </div>
      <div class="write-order-number mt-40">
-       <span @click="submitReport">提交报告</span>
+       <span @click="submitReport">提交买家秀</span>
        <span class="ml-35" @click="returnUpPage">返回上页</span>
      </div>
    </div>
@@ -284,14 +284,14 @@
        <div class="submit-btn mt-40" @click="saveOrUpdateOrderNumber">确认提交</div>
      </div>
    </div>
-   <!--删除试用确认弹框-->
+   <!--删除活动确认弹框-->
    <Modal v-model="deleteModal" width="360">
      <p slot="header" style="color:#f60;text-align:center">
        <Icon type="information-circled"></Icon>
        <span>结束确认</span>
      </p>
      <div style="text-align:center">
-       <p>结束后将视为放弃试用资格，商家将不会返还任务保证金。</p>
+       <p>结束后将视为放弃活动资格，商家将不会返还任务担保金。</p>
        <p>是否确认结束？</p>
      </div>
      <div slot="footer">
@@ -618,7 +618,7 @@
       submitReport() {
         let _this = this;
         if(!_this.trialReportText){
-          _this.$Message.error("亲，请描述您的试用过程与体验！");
+          _this.$Message.error("亲，请描述您的活动过程与体验！");
           return;
         }
         if (_this.trialReportImages.length > 5) {
@@ -633,7 +633,7 @@
           }).then(res => {
             if (res.status) {
               _this.$Message.success({
-                content: '试用报告提交成功，请耐心等待商家审核！',
+                content: '买家秀提交成功，请耐心等待商家审核！',
                 duration: 6
               });
               _this.showkerSuccessList();
@@ -650,7 +650,7 @@
           }).then(res => {
             if (res.status) {
               _this.$Message.success({
-                content: '试用报告修改成功，请耐心等待商家审核！',
+                content: '买家秀修改成功，请耐心等待商家审核！',
                 duration: 6
               });
               _this.showkerSuccessList();
@@ -674,7 +674,7 @@
           if (res.status) {
             _this.modalLoading = false;
             _this.$Message.success({
-              content: '结束试用成功！',
+              content: '结束活动成功！',
               duration: 6
             });
               _this.showkerSuccessList();

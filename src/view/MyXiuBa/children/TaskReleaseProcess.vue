@@ -1,10 +1,10 @@
 <template>
   <div class="task-release">
-    <div class="task-release-title">发布试用活动</div>
+    <div class="task-release-title">发布秀品活动</div>
     <div class="flow-title mt-10 mb-20">
       <Steps :current="current">
-        <Step title="发布试用活动流程"></Step>
-        <Step title="填写试用活动信息"></Step>
+        <Step title="发布秀品活动流程"></Step>
+        <Step title="填写秀品活动信息"></Step>
         <Step title="存入活动担保金"></Step>
         <Step title="等待审核"></Step>
         <Step title="活动上线"></Step>
@@ -13,7 +13,7 @@
     <!--任务发布-->
     <div class="activity-con" v-show="stepName === 'information'">
       <div class="activity-info">
-        <div class="activity-info-title">填写活动信息</div>
+        <div class="activity-info-title">填写秀品活动信息</div>
         <div class="activity-type ml-60 mt-22">
           <span class="required">活动类型：</span>
           <Radio-group v-model="taskRelease.taskType">
@@ -35,19 +35,19 @@
           <span class="required">活动时长：</span>
           <iInput v-model.number="taskRelease.taskDaysDuration" placeholder="请输入活动时长" style="width: 120px"></iInput>
           <span>天</span>
-          <span class="second-color ml-10">请于活动结束后48小时内审批完成所有试客资格，逾期系统将自动为您审批。</span>
+          <span class="second-color ml-10">请于活动结束后48小时内审批完成所有秀客资格，逾期系统将自动为您审批。</span>
           <p class="mt-6 pl-60">（单期活动时间为3-30天。）</p>
         </div>
         <div class="trial-condition ml-35 mt-20">
-          <span class="ml-5">试客申请条件：</span>
-          <Checkbox v-model="taskRelease.onlyShowForQualification">只有获得资格的试客才可以查看试用信息</Checkbox>
-          <p class="pl-94 size-color">勾选后可以避免试客私下索要资格，避免同行举报。但流量、收藏量、分享量会相对减少</p>
+          <span class="ml-5">秀客申请条件：</span>
+          <Checkbox v-model="taskRelease.onlyShowForQualification">只有获得资格的秀客才可以查看活动信息</Checkbox>
+          <p class="pl-94 size-color">勾选后可以避免秀客私下索要资格，避免同行举报。但流量、收藏量、分享量会相对减少</p>
           <p class="pl-94 mt-8">
-            <Checkbox v-model="taskRelease.refuseOldShowker">拒绝已参加过本店活动的试客再次申请</Checkbox>
+            <Checkbox v-model="taskRelease.refuseOldShowker">拒绝已参加过本店活动的秀客再次申请</Checkbox>
           </p>
         </div>
         <div class="baby-info mt-22">
-          <div class="activity-info-title">填写试用宝贝信息</div>
+          <div class="activity-info-title">填写秀品活动宝贝信息</div>
           <div class="baby-title ml-45 mt-20">
             <span class="required">活动标题：</span>
             <iInput v-model="taskRelease.taskName" placeholder="请输入活动标题" style="width: 296px"></iInput>
@@ -101,7 +101,7 @@
             <span class="required">宝贝单价：</span>
             <iInput v-model.number="taskRelease.itemPrice" placeholder="请输入宝贝单价" style="width: 120px"></iInput>
             <span>元</span>
-            <p class="size-color pl-60 mt-8">试用活动期间，商家不允许修改下单页商品信息，经核查属实，本平台有权将试用担保金返还已获得资格的试客，商家账号按相应规则处罚</p>
+            <p class="size-color pl-60 mt-8">活动活动期间，商家不允许修改下单页商品信息，经核查属实，本平台有权将活动担保金返还已获得资格的秀客，商家账号按相应规则处罚</p>
           </div>
           <div class="baby-pinkage ml-45 mt-20">
             <span class="required left">是否包邮：</span>
@@ -376,41 +376,41 @@
     <div class="footer-btn" v-show="stepName === 'information'" @click="stepNext">下一步</div>
     <!--存入保证金-->
     <div class="deposits-received" v-show="stepName === 'deposit'">
-      <div class="deposits-received-title mt-20 mb-20">试用活动信息已成功保存，请您存入本次活动的试用担保金。</div>
-      <div class="deposits-received-info">您现在为 <span class="second-color">{{taskRelease.taskName}}</span> 存入试用担保金<span class="second-color">{{taskRelease.taskCount * oneBond}}</span>元，此笔款项将作为发布试用活动诚信担保的重要工具，待试客完成试用流程后将返还给每个试客 <span class="second-color">{{oneBond}}</span> 元.</div>
+      <div class="deposits-received-title mt-20 mb-20">活动活动信息已成功保存，请您存入本次活动的活动担保金。</div>
+      <div class="deposits-received-info">您现在为 <span class="second-color">{{taskRelease.taskName}}</span> 存入活动担保金<span class="second-color">{{taskRelease.taskCount * oneBond}}</span>元，此笔款项将作为发布活动活动诚信担保的重要工具，待秀客完成活动流程后将返还给每个秀客 <span class="second-color">{{oneBond}}</span> 元.</div>
       <div class="description-fees mt-40">
         <h3>费用说明：</h3>
         <div class="description-fees-con mt-10">
-          <p>试用担保金 = 份数 × 单品试用担保金 =<span>{{taskRelease.taskCount}}</span>×<span>{{oneBond}}</span>= <span>{{taskRelease.taskCount * oneBond}}</span>元</p>
-          <p class="mt-6">单品推广费 = 单品试用担保金 × 费率 =<span>{{oneBond}}</span>× <span>6%</span> = <span>{{(oneBond * 0.06).toFixed(2)}}</span>元<span v-if="taskRelease.itemPrice * 0.06 > 3">（单品推广费超过平台设定的最高上限3.00元，本次实际收取的单品推广费用为3.00元）</span></p>
+          <p>活动担保金 = 份数 × 单品活动担保金 =<span>{{taskRelease.taskCount}}</span>×<span>{{oneBond}}</span>= <span>{{taskRelease.taskCount * oneBond}}</span>元</p>
+          <p class="mt-6">单品推广费 = 单品活动担保金 × 费率 =<span>{{oneBond}}</span>× <span>6%</span> = <span>{{(oneBond * 0.06).toFixed(2)}}</span>元<span v-if="taskRelease.itemPrice * 0.06 > 3">（单品推广费超过平台设定的最高上限3.00元，本次实际收取的单品推广费用为3.00元）</span></p>
           <p class="mt-6">总推广费用 = 单品推广费用 × 份数 =<span>{{onePromotionExpenses}}</span>× <span>{{taskRelease.taskCount}} = <span>{{allPromotionExpenses}}</span></span>元</p>
-          <p class="mt-6">总费用 = 试用保证金 + 总推广费用 = <span>{{orderMoney}}</span>元</p>
+          <p class="mt-6">总费用 = 活动担保金 + 总推广费用 = <span>{{orderMoney}}</span>元</p>
         </div>
       </div>
       <div class="pay-info mt-40" v-if="isBalance && !priceHasChange">本次总共要支付的金额为：<span class="second-color">{{orderMoney}}</span>&nbsp;元。您的账户的当前余额为：<strong>{{getUserBalance || 0}}</strong>&nbsp;元</div>
       <div class="pay-info mt-40"  v-if="!isBalance && !priceHasChange">本次总共要支付的金额为：<strong>{{orderMoney}}</strong>&nbsp;元。您账户余额为：<strong>{{getUserBalance || 0}}</strong>&nbsp;元，还需充值：<span class="second-color">{{Math.abs(getUserBalance - orderMoney)}}</span>&nbsp;元。</div>
-      <div class="pay-info mt-40" v-if="isBalance && priceHasChange">该任务已付保证金 <strong>{{paidDeposit | numberFormat(2)}}</strong>元，本次修改需要支付超出部分的金额为：<strong class="main-color">{{replenishMoney}}</strong>元。您账号的当前余额为：<strong>{{getUserBalance || 0}}</strong>&nbsp;元</div>
-      <div class="pay-info mt-40" v-if="!isBalance && priceHasChange">该任务已付保证金 <strong>{{paidDeposit}}</strong>元，本次修改需要支付超出部分的金额为：<strong class="main-color">{{replenishMoney}}</strong>元。您账号的当前余额为：<strong>{{getUserBalance || 0}}</strong>&nbsp;元,还需充值：<span class="second-color">{{Math.abs(getUserBalance - orderMoney)}}</span>&nbsp;元。</div>
+      <div class="pay-info mt-40" v-if="isBalance && priceHasChange">该任务已付担保金 <strong>{{paidDeposit | numberFormat(2)}}</strong>元，本次修改需要支付超出部分的金额为：<strong class="main-color">{{replenishMoney}}</strong>元。您账号的当前余额为：<strong>{{getUserBalance || 0}}</strong>&nbsp;元</div>
+      <div class="pay-info mt-40" v-if="!isBalance && priceHasChange">该任务已付担保金 <strong>{{paidDeposit}}</strong>元，本次修改需要支付超出部分的金额为：<strong class="main-color">{{replenishMoney}}</strong>元。您账号的当前余额为：<strong>{{getUserBalance || 0}}</strong>&nbsp;元,还需充值：<span class="second-color">{{Math.abs(getUserBalance - orderMoney)}}</span>&nbsp;元。</div>
       <div class="description-fees-footer">
         <span class="pay-btn" v-if="isBalance" @click="openRecharge">前去支付</span>
         <span class="pay-btn" v-else @click="openRecharge">前去充值</span>
         <span class="return" @click="returnUpStep">返回上一步</span>
-        <router-link to="/user/activity-management/list">试用活动管理</router-link>
+        <router-link to="/user/activity-management/list">秀品活动管理</router-link>
       </div>
     </div>
     <!--活动提交成功-->
     <div class="audit" v-show="stepName === 'audit'">
       <div class="audit-title">
         <Icon type="checkmark-circled" color="#309630" size=28></Icon>
-        <span>试用活动已提交</span>
+        <span>活动已提交</span>
       </div>
-      <div class="audit-con mt-20">亲当前的试用活动已提交，工作人员会在一个工作日内审核您的活动！敬请关注~</div>
+      <div class="audit-con mt-20">亲当前的活动已提交，工作人员会在一个工作日内审核您的活动！敬请关注~</div>
       <div class="audit-footer mt-40">
-        <router-link to="/user/activity-management/list">点此查看试用活动管理</router-link>
+        <router-link to="/user/activity-management/list">点此查看活动管理</router-link>
         <span class="ml-20">有问题？联系客服</span>
       </div>
     </div>
-    <!--保证金支付弹框-->
+    <!--担保金支付弹框-->
     <div class="pay-model" v-if="showPayModel">
       <PayModel :orderMoney="!priceHasChange ? orderMoney : replenishMoney" @confirmPayment="confirmPayment">
         <i slot="closeModel" class="close-recharge" @click="closeRecharge">&times;</i>
@@ -617,7 +617,7 @@
         }
       },
       /**
-       * 计算单品试用担保金
+       * 计算单品活动担保金
        * @return {number}
        */
       oneBond: function () {
