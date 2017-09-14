@@ -151,7 +151,7 @@
       <p class="fs-18 fb mt-20" style="color: #FF6600">请选择活动旺旺号:</p>
       <p class="fs-14 mt-10">注意：请 <span style="color: #FF6600">务必使用选的旺旺号下单购买</span>，否则订单审核将无法通过！</p>
       <Radio-group class="mt-20" v-model="selectedWw">
-        <Radio v-for="ww in wwList.alitms" :label="ww.id" :key="ww.id" :disabled="wwState[ww.status].disabled">
+        <Radio v-for="ww in wwList" :label="ww.id" :key="ww.id" :disabled="wwState[ww.status].disabled">
           {{ww.alitmAccount}}
           <span v-if="wwState[ww.status].text">({{wwState[ww.status].text}})</span>
         </Radio>
@@ -349,6 +349,7 @@
                 self.selWw = true;
                 let selRes = false;
                 self.wwList = res.data;
+                debugger
                 for(let i = 0, j = res.data.length; i < j; i++){
                   if(res.data[i].status === 2){
                     selRes = true;
