@@ -1,4 +1,4 @@
-<template>
+  <template>
   <div>
     <div class="task-details-ctt">
       <div class="container">
@@ -349,8 +349,8 @@
                 self.selWw = true;
                 let selRes = false;
                 self.wwList = res.data;
-                for(let i = 0, j = res.data.alitms.length; i < j; i++){
-                  if(res.data.alitms[i].status === 2){
+                for(let i = 0, j = res.data.length; i < j; i++){
+                  if(res.data[i].status === 2){
                     selRes = true;
                     self.canUseWw = true;
                     break;
