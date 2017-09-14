@@ -272,7 +272,7 @@
          <iButton @click="orderImg = true">什么是订单号？</iButton>
          <Modal v-model="orderImg" width="1100" v-if="isPcOrApp === 'appSearch'">
             <div class="text-ct">
-              <img style="width: 1000px;height: 700px" src="~assets/img/order-number/order_pc.png" alt="">
+              <img style="width: 1000px;height: 750px" src="~assets/img/order-number/order_pc.png" alt="">
              </div>
           </Modal>
          <Modal v-model="orderImg" width="600" v-else>
