@@ -226,7 +226,7 @@ export const TaskErrorStatusList = (type) => {
       return '删除活动返款活动推广费';
       break;
     case  'task_return_deposit_seller':
-      return '动结算担保金返款';
+      return '活动结算担保金返款';
       break;
     case  'task_return_promotion_expenses_seller':
       return '活动结算推广费返款';
