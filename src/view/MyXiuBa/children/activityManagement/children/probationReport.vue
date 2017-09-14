@@ -151,12 +151,12 @@
     watch: {},
     computed: {
       isPwdAmend: function () {
-        return this.$store.state.userInfo.userAccount.ifEditPwdAlready
+        return this.$store.getters.getIsEditPwdAlready;
       },
     },
     methods: {
       ...mapActions([
-        'getBalance'
+        'getUserInformation'
       ]),
       returnUpPage() {
         this.$router.push({name: 'ApproveShowker',query: {taskId: this.showkerTaskInfo.task.id}})
@@ -240,7 +240,7 @@
               content:'已向秀客返款成功！',
               duration: 4
             });
-            _this.getBalance();
+            _this.getUserInformation();
             _this.showRefundModel = false;
             _this.returnUpPage();
           }else{

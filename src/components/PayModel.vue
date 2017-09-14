@@ -42,7 +42,6 @@
 <script>
   import Input from '@/components/Input'
   import Radio from 'iview/src/components/radio'
-  import { mapActions } from 'vuex'
 
   export default {
     name: 'PayModel',
@@ -81,19 +80,16 @@
     },
     computed: {
       userBalance: function () {
-        return this.$store.state.userBalance
+        return this.$store.getters.getUserBalance;
       },
       isPwdAmend: function () {
-        return this.$store.state.userInfo.userAccount.ifEditPwdAlready
+        return this.$store.getters.getIsEditPwdAlready;
       },
       isBalance: function () {
-        return this.orderMoney <= this.userBalance
+        return this.orderMoney <= this.userBalance;
       },
     },
     methods: {
-      ...mapActions([
-        'getBalance'
-      ]),
       confirmPayment() {
         this.$emit('confirmPayment',this.payPassword);
       },
@@ -101,7 +97,6 @@
         this.confirmRechargeModel = true;
       },
       finishRecharge() {
-        this.getBalance();
         this.confirmRechargeModel = false;
       }
     }

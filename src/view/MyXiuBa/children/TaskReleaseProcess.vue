@@ -617,7 +617,14 @@
         }
       },
       /**
-       * 计算单品活动担保金
+       * 从vuex中获取余额
+       * @return {number}
+       */
+      getUserBalance: function () {
+        return this.$store.getters.getUserBalance;
+      },
+      /**
+       * 计算单品试用担保金
        * @return {number}
        */
       oneBond: function () {
@@ -668,7 +675,7 @@
     },
     methods: {
       ...mapActions([
-        'getBalance'
+        'getUserInformation'
       ]),
       onEditorBlur(editor) {},
       onEditorFocus(editor) {},
@@ -1008,7 +1015,7 @@
           type: _this.priceHasChange ? 'supply_pay' : 'first_pay'
         }).then(res => {
           if(res.status){
-            _this.getBalance();
+            _this.getUserInformation();
             _this.showPayModel = false;
             _this.$Message.success({
               content:'支付成功！',

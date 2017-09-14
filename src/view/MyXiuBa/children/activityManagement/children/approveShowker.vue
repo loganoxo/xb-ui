@@ -334,7 +334,7 @@
     computed: {},
     methods: {
       ...mapActions([
-        'getBalance'
+        'getUserInformation'
       ]),
       getTaskStatus(type) {
         return TaskErrorStatusList(type);
@@ -454,7 +454,7 @@
           taskId: _this.orderInfo.id
         }).then(res => {
           if (res.status) {
-            _this.getBalance();
+            _this.getUserInformation();
             _this.showCheckOrder = false;
             _this.$Message.success({
               content: '支付成功！',

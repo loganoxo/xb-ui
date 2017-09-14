@@ -46,8 +46,13 @@
         :styles="{top:'200px',width:'800px'}"
         class-name ="pop-up-window">
         <div slot="header">活动编号：<span style="color: red;">{{taskNumber||'无'}}&nbsp;,&nbsp;</span>共返还任务担保金：<span style="color: red;">{{totalPay/100}}</span>&nbsp;元</div>
+        class-name="pop-up-window">
+        <div slot="header">活动编号：<span style="color: red;">{{taskNumber || '无'}}&nbsp;,&nbsp;</span>共返还任务保证金：<span
+          style="color: red;">{{totalPay / 100}}</span>&nbsp;元
+        </div>
         <div>
-          <table class="alert-table-list" style="width: 100%;border: 1px solid #F3F3F3;background-color:#F8F8F8;text-align: center" >
+          <table class="alert-table-list"
+                 style="width: 100%;border: 1px solid #F3F3F3;background-color:#F8F8F8;text-align: center">
             <thead>
             <tr style="border-bottom: 1px solid #F3F3F3;">
               <th style="width: 20%;padding: 10px 0px;">交易时间</th>
@@ -59,16 +64,16 @@
             <tbody>
             <tr style="border-bottom: 1px solid #F3F3F3;" v-for="item in getDepositList">
               <td style="padding:10px 0px;">
-                <p>{{item.tradTime|dateFormat('YYYY-MM-DD ') }}</p>
+                <p>{{item.tradTime | dateFormat('YYYY-MM-DD ') }}</p>
                 <p>{{item.tradTime | dateFormat('hh:mm:ss ')}}</p>
               </td>
               <td>{{item.serialNumber}}</td>
               <td>
                 <p>{{getTradType(item.tradName)}}</p>
-                <p>任务编号：{{item.showkerSerial||'无'}}</p>
+                <p>任务编号：{{item.showkerSerial || '无'}}</p>
               </td>
               <td class="main-color">
-                {{'-'+item.tradAmount/100||0}}
+                {{'-' + item.tradAmount / 100 || 0}}
               </td>
             </tr>
             </tbody>
@@ -137,10 +142,15 @@
                 </tr>
                 <tr v-show="tbodyDetails.changeName === '商家支付活动交易记录'||tbodyDetails.changeName ==='商家活动交易记录'">
                   <td colspan="4">
-                    <Button @click="amountPopWindow = true;taskNumber = tbodyDetails.taskSerialNum ;getDepositReturnList(tbodyDetails.taskId)" class="theSpecialBtn">查看任务担保金支出明细</Button>
+                    <Button
+                      @click="amountPopWindow = true;taskNumber = tbodyDetails.taskSerialNum ;getDepositReturnList(tbodyDetails.taskId)"
+                      class="theSpecialBtn">查看任务担保金支出明细
+                    </Button>
                   </td>
                 </tr>
-                <tr v-show="showNotice"><td colspan="4" >暂无数据！</td></tr>
+                <tr v-show="showNotice">
+                  <td colspan="4">暂无数据！</td>
+                </tr>
                 </tbody>
               </table>
             </td>
@@ -177,7 +187,8 @@
         <div class="left ml-5">
           <Checkbox
             :value="checkAll"
-            @click.prevent.native="handleCheckAll">全部</Checkbox>
+            @click.prevent.native="handleCheckAll">全部
+          </Checkbox>
         </div>
         <div class="left">
           <Checkbox-group v-model="transactType" class="checkBox  ml-45" @on-change="checkAllGroupChange">
@@ -263,7 +274,9 @@
           </tr>
           </tbody>
           <tbody>
-          <tr v-show="showBigNoticeAll"><td colspan="4"  >暂无数据！</td></tr>
+          <tr v-show="showBigNoticeAll">
+            <td colspan="4">暂无数据！</td>
+          </tr>
           </tbody>
         </table>
       </div>
@@ -283,7 +296,6 @@
   import Radio from 'iview/src/components/radio'
   import Form from 'iview/src/components/form'
   import {TaskErrorStatusList} from '@/config/utils'
-  import {mapActions} from 'vuex'
 
   export default {
     name: 'MoneyManagement',
@@ -343,17 +355,17 @@
           }
         ],
         checkAll: false,
-        transactType:[],
-        activityNumber:null,
+        transactType: [],
+        activityNumber: null,
         amountPopWindow: false,
-        getDepositList:{},
-        totalPay:0,
-        taskNumber:'',
-        totalPages:1,
-        pageSize:10,
-        pageIndex:0,
-        accountIncomes:0,
-        accountPayout:0
+        getDepositList: {},
+        totalPay: 0,
+        taskNumber: '',
+        totalPages: 1,
+        pageSize: 10,
+        pageIndex: 0,
+        accountIncomes: 0,
+        accountPayout: 0
       }
     },
     mounted() {
@@ -361,12 +373,12 @@
     },
     created() {
       let taskNumber = this.$route.query.taskNumber;
-      let activeTyep = this.$route.query.activeType;
+      let activeType = this.$route.query.activeType;
       this.getUserAccount();
       if (taskNumber) {
         this.activityNumber = taskNumber;
         this.getTradListAll();
-      } else if (activeTyep) {
+      } else if (activeType) {
         this.getTradListAll([1]);
       } else {
         this.getTradListAll([]);
@@ -374,16 +386,13 @@
     },
     computed: {
       getUserBalance: function () {
-        return this.$store.state.userBalance
+        return this.$store.getters.getUserBalance;
       },
       getUserInfoRole() {
         return this.$store.state.userInfo.role;
       }
     },
     methods: {
-      ...mapActions([
-        'getBalance'
-      ]),
       typeChang(num) {
         if (num > 0) {
           num = '+' + num;

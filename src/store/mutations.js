@@ -5,23 +5,25 @@ import * as types from './mutation-types'
 import {setStorage, getStorage, removeStorage} from '@/config/utils'
 
 export default {
-  //退出登录
+  //退出登录后清除用户信息
   [types.OUT_LOGIN](state) {
     state.userInfo = {};
     state.login = false;
     removeStorage("userInfo");
   },
-  //登陆成功后存储用户信息到vuex
+  //存储用户信息到vuex
   [types.RECORD_USER_INFO](state, {info}) {
     state.userInfo = info;
     state.login = true;
+    let userInfo = getStorage("userInfo");
+    if(userInfo){
+      removeStorage("userInfo");
+    }
     setStorage('userInfo', info);
   },
   //页面刷新的时候从本地缓存获取用户信息数据存储到vuex
   [types.INIT_USER_INFO](state) {
     let initUserInfo = getStorage('userInfo');
-
-
     if (initUserInfo) {
       state.userInfo = initUserInfo;
       state.login = true;
@@ -30,7 +32,7 @@ export default {
       state.login = false;
     }
   },
-  //用户页面权限存入vuex
+  //存储用户页面权限到vuex
   [types.LOG_IN_AUTHORITY](state, {logInAuthority}) {
     state.logInAuthority = logInAuthority;
   },

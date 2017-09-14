@@ -72,7 +72,6 @@
 
 <script>
   import Icon from 'iview/src/components/icon'
-  import {mapActions} from 'vuex'
 
   export default {
     name: 'MyXiuBa',
@@ -92,7 +91,6 @@
     watch: {
       $route(to) {
         this.isSelect = to.name;
-        this.getBalance();
       }
     },
     computed: {
@@ -100,11 +98,7 @@
         return this.$store.state.userInfo.role;
       }
     },
-    methods: {
-      ...mapActions([
-        'getBalance'
-      ]),
-    }
+    methods: {}
   }
 </script>
 

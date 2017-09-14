@@ -53,7 +53,7 @@
               <div>
                 <img class="left ml-20" src="~assets/img/common/home_24.png" alt="">
                 <div class="left fs-14 ml-20" style="margin-left: 10px;line-height: 28px;">
-                  <p>Hi~{{getUserInfo.phone}}</p>
+                  <p>Hi~{{getUserInfoPhone}}</p>
                   <router-link to="/user/user-home">个人中心</router-link>
                   <a @click="goOut">[ 退出登录 ]</a>
                 </div>
@@ -74,7 +74,7 @@
               <div>
                 <img class="left ml-20" src="~assets/img/common/home_24.png" alt="">
                 <div class="left fs-14 ml-20" style="margin-left: 10px;line-height: 28px;">
-                  <p>Hi~{{getUserInfo.phone}}</p>
+                  <p>Hi~{{getUserInfoPhone}}</p>
                   <router-link to="/user/user-home">个人中心</router-link>
                   <a @click="goOut">[ 退出登录 ]</a>
                 </div>
@@ -269,8 +269,8 @@
       isLogin() {
         return this.$store.state.login
       },
-      getUserInfo() {
-        return this.$store.state.userInfo
+      getUserInfoPhone() {
+        return this.$store.state.userInfo.phone
       },
       getUserInfoRole() {
         return this.$store.state.userInfo.role
@@ -296,7 +296,7 @@
       personalTrialCount(){
         let self = this;
         if(self.$store.state.login){
-          if(self.$store.state.userInfo.role == 0){
+          if(self.getUserInfoRole === 0){
             api.showkerPersonalTrialCount().then((res) => {
               if(res.status){
                 self.trialCount = res.data

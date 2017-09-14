@@ -162,13 +162,9 @@
         },
         trialCount: {},
         homeCommodityList: [],
-        userData: {
-          userAccount: {}
-        },
       }
     },
     created() {
-      this.getUserAccount();
       this.getHomeTaskList();
       this.personalTrialCount();
     },
@@ -177,7 +173,10 @@
         return this.$store.state.userInfo.role;
       },
       getUserBalance() {
-        return this.$store.state.userBalance;
+        return this.$store.getters.getUserBalance;
+      },
+      userData: function () {
+        return this.$store.state.userInfo;
       }
     },
     methods: {
@@ -218,14 +217,6 @@
             }
           })
         }
-      },
-      getUserAccount() {
-        let self = this;
-        api.getUserAccount().then((res) => {
-          if (res.status) {
-            self.userData = res.data;
-          }
-        })
       }
     },
     watch: {}

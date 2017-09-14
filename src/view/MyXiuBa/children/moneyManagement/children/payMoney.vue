@@ -2,7 +2,9 @@
   <div class="my-pay">
     <div class="clear my-pay-top">
       <span class="left">当前可用余额<span style="color:red ">{{getUserBalance}}</span>元</span>
-      <router-link :to="{'path':'/user/money-management/transaction-record',query:{'activeType':1}}" class="right cursor-p" style="color: blue;">查看充值记录</router-link>
+      <router-link :to="{'path':'/user/money-management/transaction-record',query:{'activeType':1}}"
+                   class="right cursor-p" style="color: blue;">查看充值记录
+      </router-link>
     </div>
     <div class="my-pay-desc">
       <iForm :model="payMoney" :label-width="200" :rules="payMoneyRule">
@@ -21,16 +23,16 @@
           </Radio-group>
         </Form-item>
         <Form-item>
-          <iButton  class="payMoneyBtn" @click="balanceOrderCreate(payMoney,getUserId)">提交</iButton>
-          <Modal  v-model="payPopWindow" width="360"
-            :styles="{top:'310px',height:'300px'}">
+          <iButton class="payMoneyBtn" @click="balanceOrderCreate(payMoney,getUserId)">提交</iButton>
+          <Modal v-model="payPopWindow" width="360"
+                 :styles="{top:'310px',height:'300px'}">
             <div style="text-align:center">
               <p>请前往充值页面进行充值</p>
             </div>
             <div slot="footer">
-              <iButton type="success" style="width: 150px;" @click="success" >已完成充值</iButton>
-              <iButton type="error" style="width: 150px;"   @click="error">充值遇到问题</iButton>
-          </div>
+              <iButton type="success" style="width: 150px;" @click="success">已完成充值</iButton>
+              <iButton type="error" style="width: 150px;" @click="error">充值遇到问题</iButton>
+            </div>
           </Modal>
         </Form-item>
       </iForm>
@@ -54,7 +56,7 @@
   import Modal from 'iview/src/components/modal'
   import PayModel from '@/components/PayModel'
   import PopUpWindows from '@/components/PopUpWindows'
-  import {mapActions} from 'vuex'
+  import {mapGetters} from 'vuex'
   import {isNumber} from '@/config/utils'
   import {aliPayUrl} from '@/config/env'
 
@@ -71,15 +73,13 @@
       Icon: Icon,
       Modal: Modal,
       PayModel: PayModel,
-      PopUpWindows:PopUpWindows
+      PopUpWindows: PopUpWindows
     },
     data() {
-      //表单验证
-
       const validatePayNumber = (rule, value, callback) => {
         if (!(/^[0-9]+(.[0-9]{1,2})?$/.test(value))) {
           callback(new Error('金额为数字，请您重新输入'))
-        } else if(value<1) {
+        } else if (value < 1) {
           callback(new Error('最低一元起充，请您重新输入'))
         }
         else {
@@ -99,8 +99,8 @@
         imgSrc: null,
         modal3: false,
         modal_loading: false,
-        payPopWindow:false,
-        payPopWindowValue:false,
+        payPopWindow: false,
+        payPopWindowValue: false,
         userList: {},
         userAccount: {},
         url: '',
@@ -113,26 +113,24 @@
 
     },
     computed: {
-
       getUserBalance: function () {
-        return this.$store.state.userBalance
+        return this.$store.getters.getUserBalance;
       },
       getUserId: function () {
         return this.$store.state.userInfo.id
       }
-
     },
     methods: {
-      ...mapActions([
-        'getBalance'
+      ...mapGetters([
+        'getUserInformation'
       ]),
-      success(){
-        this.getBalance();
+      success() {
+        this.getUserInformation();
         this.payPopWindow = false;
         this.$router.go(0);
         this.payMoney.number = '';
       },
-      error () {
+      error() {
         this.payPopWindow = false;
       },
       seyPassword() {
@@ -146,27 +144,27 @@
       },
       balanceOrderCreate(type, id) {
         let _this = this;
-        if (type.number===''){
+        if (type.number === '') {
           _this.$Message.error('您未输入充值金额，请您重新输入');
           _this.payPopWindowValue = false;
           return;
-        }else if (parseInt(type.number)<1){
+        } else if (parseInt(type.number) < 1) {
           _this.payPopWindowValue = false;
           return;
-        }else{
+        } else {
           _this.payPopWindowValue = true;
           _this.payPopWindow = _this.payPopWindowValue;
         }
         api.balanceOrderCreate({
           uid: id,
-          finalFee:(type.number * 100).toFixed(),
+          finalFee: (type.number * 100).toFixed(),
           orderPlatform: 'PC',
           payChannel: 1
         }).then(res => {
           if (res.status) {
             let src = aliPayUrl + 'orderSerial=' + res.data.orderSerial;
             window.open(src);
-            _this.payMoney.number='';
+            _this.payMoney.number = '';
           } else {
             _this.$Message.error(res.msg);
           }

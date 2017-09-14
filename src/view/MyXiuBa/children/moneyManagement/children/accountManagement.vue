@@ -1,5 +1,5 @@
 <template>
-  <div class="my-account" >
+  <div class="my-account">
     <div class="user-safe" v-show="myAccount.userSafe">
       <p class="fs-14">账户信息</p>
       <ul>
@@ -10,7 +10,8 @@
               {{geIifCertification(userList.ifCertification)}}
             </li>
             <li class="three">
-              <router-link to="/user/personal-setting/verified" v-show="userList.ifCertification===false">去认证</router-link>
+              <router-link to="/user/personal-setting/verified" v-show="!userList.ifCertification">去认证
+              </router-link>
             </li>
           </ul>
         </li>
@@ -45,13 +46,13 @@
               支付密码
             </li>
             <li class="two">
-              <span v-show="userAccount.ifEditPwdAlready === false">未设置(初始密码为888888，为了你的账号安全，建议您重置支付密码)</span>
-              <span v-show="userAccount.ifEditPwdAlready === true">已设置(为了你的账户安全，建议定期修改密码)</span>
+              <span v-if="!isEditPwdAlready">未设置(初始密码为888888，为了你的账号安全，建议您重置支付密码)</span>
+              <span v-else>已设置(为了你的账户安全，建议定期修改密码)</span>
 
             </li>
             <li class="three">
-              <a href="javascript:;" v-show="userAccount.ifEditPwdAlready === false" @click="myAccountPwdChangeFather('modifyPwd')">重置支付密码</a>
-              <a href="javascript:;" v-show="userAccount.ifEditPwdAlready === true" @click="myAccountPwdChangeFather('modifyPwd')">忘记支付密码？</a>
+              <a href="javascript:;" v-if="!isEditPwdAlready" @click="myAccountPwdChangeFather('modifyPwd')">重置支付密码</a>
+              <a href="javascript:;" v-else @click="myAccountPwdChangeFather('modifyPwd')">忘记支付密码？</a>
             </li>
           </ul>
         </li>
@@ -73,7 +74,7 @@
                 <i data-v-5aa11427="" class="ivu-icon ivu-icon-chevron-right"
                    style="vertical-align: middle;display: table-cell; font-size: 20px;"></i>
               </div>
-              <div  @click="myAccountPwdChangeSon('selPhoneModify')" class="sel-canal">
+              <div @click="myAccountPwdChangeSon('selPhoneModify')" class="sel-canal">
                 <p>
                   我记得原来的密码
                 </p>
@@ -88,7 +89,8 @@
 
         </div>
         <div v-show="myAccountSon.selPhoneModify" class="sel-default-modify mt-20">
-          <iForm ref="defaultModifyCustom" :model="defaultModifyCustom" :rules="defaultModifyRuleCustom" :label-width="400">
+          <iForm ref="defaultModifyCustom" :model="defaultModifyCustom" :rules="defaultModifyRuleCustom"
+                 :label-width="400">
             <div class="clear form-input-box">
               <Form-item label="原始密码" class="left" style="width: 650px" prop="oldPwd">
                 <iInput type="password" size="large" v-model="defaultModifyCustom.oldPwd"></iInput>
@@ -124,7 +126,7 @@
               </Form-item>
             </div>
             <div class="clear form-input-box">
-              <Form-item label="图形验证码"  prop="validateCode" class="left" style="width: 550px">
+              <Form-item label="图形验证码" prop="validateCode" class="left" style="width: 550px">
                 <iInput type="text" size="large" v-model="payCustom.validateCode"></iInput>
               </Form-item>
               <div style="width: 100px; float:left;">
@@ -156,9 +158,10 @@
           </iForm>
         </div>
         <div v-show="myAccountSon.modifyPwd" class="mt-20">
-          <iForm ref="trendsModifyCustom" :model="trendsModifyCustom" :rules="trendsModifyRuleCustom" :label-width="400">
+          <iForm ref="trendsModifyCustom" :model="trendsModifyCustom" :rules="trendsModifyRuleCustom"
+                 :label-width="400">
             <div class="clear form-input-box">
-              <Form-item label="新密码" prop="pwd" class="left" style="width: 650px" >
+              <Form-item label="新密码" prop="pwd" class="left" style="width: 650px">
                 <iInput type="password" size="large" v-model="trendsModifyCustom.pwd"></iInput>
               </Form-item>
             </div>
@@ -184,9 +187,9 @@
 <script>
   import api from '@/config/apiConfig'
   import Icon from 'iview/src/components/icon'
-  import DatePicker  from 'iview/src/components/date-picker'
+  import DatePicker from 'iview/src/components/date-picker'
   import Alert from 'iview/src/components/alert'
-  import Table  from 'iview/src/components/table'
+  import Table from 'iview/src/components/table'
   import Form from 'iview/src/components/form'
   import Input from '@/components/Input'
   import Radio from 'iview/src/components/radio'
@@ -197,16 +200,17 @@
   import Modal from 'iview/src/components/modal'
   import TimeDown from '@/components/TimeDown'
   import SmsCountdown from '@/components/SmsCountdown'
-  import PayModel from  '@/components/PayModel'
+  import PayModel from '@/components/PayModel'
   import {Select, Option, OptionGroup} from 'iview/src/components/select'
   import {mapActions} from 'vuex'
+
   export default {
     name: 'MoneyManagement',
     components: {
-      iTable:Table,
-      Radio:Radio,
-      RadioGroup:Radio.Group,
-      DatePicker:DatePicker,
+      iTable: Table,
+      Radio: Radio,
+      RadioGroup: Radio.Group,
+      DatePicker: DatePicker,
       iInput: Input,
       iForm: Form,
       iSelect: Select,
@@ -222,8 +226,8 @@
       TimeDown: TimeDown,
       Alert: Alert,
       SmsCountdown: SmsCountdown,
-      PayModel:PayModel,
-      Page:Page
+      PayModel: PayModel,
+      Page: Page
 
     },
     data() {
@@ -280,7 +284,7 @@
         payCustom: {
           phone: this.$store.state.userInfo.phone,
           validateCode: '',
-          purpose:'forget',
+          purpose: 'forget',
           smsCode: '',
           role: 0,
         },
@@ -296,7 +300,7 @@
           ]
 
         },
-        trendsModifyCustom:{
+        trendsModifyCustom: {
           pwd: '',
           repwd: ''
         },
@@ -325,70 +329,56 @@
           ],
         },
         infoSelect: 'account',
-        userList: {},
         userAccount: {},
-        myAccount:{
-          userSafe:true,
-          modifyPwd:false,
+        myAccount: {
+          userSafe: true,
+          modifyPwd: false,
         },
-        myAccountSon:{
-          selBox:true,
-          selDefaultModify:false,
-          selPhoneModify:false,
-          modifyPwd:false,
+        myAccountSon: {
+          selBox: true,
+          selDefaultModify: false,
+          selPhoneModify: false,
+          modifyPwd: false,
         },
-        getbankCardInformation:{},
-        applyGetout:{},
-        iconType:'checkmark-circled',
-        getoutRecord:{
-          serialNumber:null,
-          applyFrom:'',
-          applyTo:'',
-        },
-        getOutResList:{},
-        getMoneyShowDetails:false
       }
     },
     mounted() {
-
     },
     created() {
-      if(this.$route.query.infoSelect){
+      if (this.$route.query.infoSelect) {
         this.infoSelect = this.$route.query.infoSelect;
         this.myAccountPwdChangeFather('modifyPwd');
       }
-      if (this.$route.query.type === 'resetPwd'){
+      if (this.$route.query.type === 'resetPwd') {
         this.myAccount.userSafe = false;
-        this.myAccount.modifyPwd=true;
+        this.myAccount.modifyPwd = true;
         this.myAccountSon.selBox = false;
         this.myAccountSon.selPhoneModify = true
-      }else if(this.$route.query.type === 'findPwd'){
+      } else if (this.$route.query.type === 'findPwd') {
         this.myAccount.userSafe = false;
-        this.myAccount.modifyPwd=true;
+        this.myAccount.modifyPwd = true;
         this.myAccountSon.selBox = false;
         this.myAccountSon.selDefaultModify = true
       }
       this.getVrcode();
-      this.getUserAccount();
     },
     computed: {
-      getUserBalance: function () {
-        return this.$store.state.userBalance
+      isEditPwdAlready: function () {
+        return this.$store.getters.getIsEditPwdAlready;
       },
-
-      getIfCertification:function () {
-        return this.$store.state.userInfo.ifCertification
+      userList: function () {
+        return this.$store.getters.getPersonalInfo;
       }
     },
     methods: {
       ...mapActions([
-        'getBalance'
+        'getUserInformation'
       ]),
-      bandCard(){
-        if(this.userList.ifCertification===false){
+      bandCard() {
+        if (!this.userList.ifCertification) {
           this.$Message.error('您还未实名认证，请您前往个人中心实名认证后再绑定银行卡')
-        }else {
-          this.$router.push({name: 'GetoutMoney',query:{bandCard:'bandCard'}});
+        } else {
+          this.$router.push({name: 'GetoutMoney', query: {bandCard: 'bandCard'}});
         }
       },
       handleSubmit(name, callback) {
@@ -400,37 +390,38 @@
           callback();
         }
       },
-      modifyDefaultPayPwdFunc(){
+      modifyDefaultPayPwdFunc() {
         let self = this;
         api.modifyDefaultPayPwd({
           oldPwd: self.defaultModifyCustom.oldPwd,
           newPwd: self.defaultModifyCustom.newPwd,
           repwd: self.defaultModifyCustom.repwd
         }).then((res) => {
-          if(res.status){
+          if (res.status) {
             self.$Modal.success({
               content: res.msg,
               onOk: function () {
                 self.$router.go(-1);
+                self.getUserInformation();
               }
             });
-          }else {
+          } else {
             self.$Modal.error({
               content: res.msg
             });
           }
         })
       },
-      modifyPayPwdFunc(){
+      modifyPayPwdFunc() {
         let self = this;
         api.validatePaySmscode({
           phone: self.payCustom.phone,
           smsCode: self.payCustom.smsCode,
         }).then((res) => {
-          if(res.status){
-            debugger
+          if (res.status) {
             self.myAccountPwdChangeSon('modifyPwd');
-          }else {
+            self.getUserInformation();
+          } else {
             self.$Modal.error({
               content: res.msg
             });
@@ -438,7 +429,7 @@
           }
         });
       },
-      modifyFinishPayPwdFunc(){
+      modifyFinishPayPwdFunc() {
         let self = this;
         api.modifyPayPwd({
           phone: self.payCustom.phone,
@@ -446,14 +437,15 @@
           pwd: self.trendsModifyCustom.pwd,
           repwd: self.trendsModifyCustom.repwd,
         }).then(res => {
-          if(res.status){
+          if (res.status) {
             self.$Modal.success({
               content: res.msg,
               onOk: function () {
                 self.$router.go(-1);
+                self.getUserInformation();
               }
             });
-          }else {
+          } else {
             self.$Modal.error({
               content: res.msg
             });
@@ -483,41 +475,27 @@
       getVrcode() {
         this.imgSrc = "/api/vrcode.json?rand=" + new Date() / 100
       },
-      getUserAccount() {
-        let _this = this;
-        api.getUserAccount().then(res => {
-          if (res.status) {
-            _this.userList = res.data;
-            _this.userAccount = res.data.userAccount;
-          } else {
-            _this.$Message.error(res.msg);
-          }
-        });
-      },
-      geIifCertification(type){
-        if (type===false){
+      geIifCertification(type) {
+        if (type === false) {
           return '未认证';
-        }else {
+        } else {
           return '已认证';
         }
       },
-      getIfBandingBankCard(type){
-        return type===null?'未绑定':this.userAccount.bankCardNum;
+      getIfBandingBankCard(type) {
+        return type === null ? '未绑定' : this.userAccount.bankCardNum;
       },
 
-      myAccountPwdChangeFather(type){
-        for(let k in this.myAccount){
+      myAccountPwdChangeFather(type) {
+        for (let k in this.myAccount) {
           this.myAccount[k] = k === type;
         }
       },
-      myAccountPwdChangeSon(type){
-        for(let k in this.myAccountSon){
+      myAccountPwdChangeSon(type) {
+        for (let k in this.myAccountSon) {
           this.myAccountSon[k] = k === type;
         }
       },
-
-
-
     }
   }
 </script>

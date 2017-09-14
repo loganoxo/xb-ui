@@ -317,7 +317,7 @@
     computed: {},
     methods: {
       ...mapActions([
-        'getBalance'
+        'getUserInformation'
       ]),
       editTask(id) {
         this.$router.push({name: 'TaskReleaseProcess', query: {taskId: id}})
@@ -461,7 +461,7 @@
               duration: 6
             });
             setTimeout(function () {
-              _this.getBalance();
+              _this.getUserInformation();
               _this.getTaskList();
             },400);
           }else{
