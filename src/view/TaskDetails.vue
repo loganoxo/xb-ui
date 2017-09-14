@@ -349,7 +349,6 @@
                 self.selWw = true;
                 let selRes = false;
                 self.wwList = res.data;
-                debugger
                 for(let i = 0, j = res.data.length; i < j; i++){
                   if(res.data[i].status === 2){
                     selRes = true;
