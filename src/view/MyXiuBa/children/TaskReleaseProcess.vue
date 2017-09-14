@@ -665,13 +665,6 @@
       isBalance: function () {
         return this.orderMoney <= this.getUserBalance
       },
-      /**
-       * 从vuex中获取余额
-       * @return {number}
-       */
-      getUserBalance: function () {
-        return this.$store.state.userBalance
-      }
     },
     methods: {
       ...mapActions([

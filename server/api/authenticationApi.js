@@ -37,7 +37,7 @@ router.post('/api/user/identity/saveidentity.json', function (req, res, next) {
     res.end();
   }).catch(function (err) {
     logConfig.logger.error(req.originalUrl + ':' + err);
-    res.json({status: false, msg: "服务器错误"});
+    res.json({status: false, msg: "服务器请求超时，请稍后在试！"});
     res.end();
   });
 });
@@ -61,7 +61,7 @@ router.post('/api/identity-index.json', function (req, res, next) {
     res.end();
   }).catch(function (err) {
     logConfig.logger.error(req.originalUrl + ':' + err);
-    res.json({status: false, msg: "服务器错误"});
+    res.json({status: false, msg: "服务器请求超时，请稍后在试！"});
     res.end();
   });
 });
@@ -92,7 +92,7 @@ router.post('/api/alitm-bunding.json', function (req, res, next) {
     res.end();
   }).catch(function (err) {
     logConfig.logger.error(req.originalUrl + ':' + err);
-    res.json({status: false, msg: "服务器错误"});
+    res.json({status: false, msg: "服务器请求超时，请稍后在试！"});
     res.end();
   });
 });
@@ -114,7 +114,7 @@ router.post('/api/get-alitm-info-list.json', function (req, res, next) {
     res.end();
   }).catch(function (err) {
     logConfig.logger.error(req.originalUrl + ':' + err);
-    res.json({status: false, msg: "服务器错误"});
+    res.json({status: false, msg: "服务器请求超时，请稍后在试！"});
     res.end();
   });
 });
@@ -136,7 +136,7 @@ router.post('/api/alitm-unBunding.json', function (req, res, next) {
     res.end();
   }).catch(function (err) {
     logConfig.logger.error(req.originalUrl + ':' + err);
-    res.json({status: false, msg: "服务器错误"});
+    res.json({status: false, msg: "服务器请求超时，请稍后在试！"});
     res.end();
   });
 });
@@ -164,7 +164,7 @@ router.post('/api/alitm/resubmit.json', function (req, res, next) {
     res.end();
   }).catch(function (err) {
     logConfig.logger.error(req.originalUrl + ':' + err);
-    res.json({status: false, msg: "服务器错误"});
+    res.json({status: false, msg: "服务器请求超时，请稍后在试！"});
     res.end();
   });
 });

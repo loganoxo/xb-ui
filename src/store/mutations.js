@@ -7,7 +7,6 @@ import {setStorage, getStorage, removeStorage} from '@/config/utils'
 export default {
   //退出登录后清除用户信息
   [types.OUT_LOGIN](state) {
-    state.userInfo = {};
     state.login = false;
     removeStorage("userInfo");
   },

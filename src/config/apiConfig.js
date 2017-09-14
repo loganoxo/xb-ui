@@ -106,7 +106,6 @@ export default {
     return fetch("/api/balance-order-create.json", params)
   },
 
-
   /**
    *通过上一次的密码修改支付密码
    */

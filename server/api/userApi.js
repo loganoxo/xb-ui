@@ -43,7 +43,7 @@ router.post('/api/get-trad-list.json', function (req, res, next) {
     res.end();
   }).catch(function (err) {
     logConfig.logger.error(req.originalUrl + ':' + err);
-    res.json({status: false, msg: "服务器错误"});
+    res.json({status: false, msg: "服务器请求超时，请稍后在试！"});
     res.end();
   });
 });
@@ -66,7 +66,7 @@ router.post('/api/get-user-account.json', function (req, res, next) {
     res.end();
   }).catch(function (err) {
     logConfig.logger.error(req.originalUrl + ':' + err);
-    res.json({status: false, msg: "服务器错误"});
+    res.json({status: false, msg: "服务器请求超时，请稍后在试！"});
     res.end();
   });
 });
@@ -95,7 +95,7 @@ router.post('/api/find-pwd-by-origin.json', function (req, res, next) {
     res.end();
   }).catch(function (err) {
     logConfig.logger.error(req.originalUrl + ':' + err);
-    res.json({status: false, msg: "服务器错误"});
+    res.json({status: false, msg: "服务器请求超时，请稍后在试！"});
     res.end();
   });
 });
@@ -120,7 +120,7 @@ router.post("/api/get-trad-detail-list.json", function (req, res, next) {
     res.end();
   }).catch(function (err) {
     logConfig.logger.error(req.originalUrl + ':' + err);
-    res.json({status: false, msg: "服务器错误"});
+    res.json({status: false, msg: "服务器请求超时，请稍后在试！"});
     res.end();
   });
 });
@@ -159,7 +159,7 @@ router.post('/api/add-bank-card.json', function (req, res, next) {
         res.end();
       }).catch(function (err) {
         logConfig.logger.error(req.originalUrl + ':' + err);
-        res.json({status: false, msg: "服务器错误！"});
+        res.json({status: false, msg: "服务器请求超时，请稍后在试！"});
         res.end();
       });
     }else {
@@ -174,7 +174,6 @@ router.post('/api/add-bank-card.json', function (req, res, next) {
 
 /**
  * 申请提现
- *
  * @param fee
  * @param platform
  * @param uid
@@ -199,7 +198,7 @@ router.post('/api/with-draw-apply.json', function (req, res, next) {
     res.end();
   }).catch(function (err) {
     logConfig.logger.error(req.originalUrl + ':' + err);
-    res.json({status: false, msg: "服务器错误"});
+    res.json({status: false, msg: "服务器请求超时，请稍后在试！"});
     res.end();
   });
 });
@@ -232,14 +231,13 @@ router.post('/api/get-with-draw-list.json', function (req, res, next) {
     res.end();
   }).catch(function (err) {
     logConfig.logger.error(req.originalUrl + ':' + err);
-    res.json({status: false, msg: "服务器错误"});
+    res.json({status: false, msg: "服务器请求超时，请稍后在试！"});
     res.end();
   });
 });
 
 /**
  * 获取某个活动的任务担保金返款列表
-
  * @param taskId
  * @return
  */
@@ -257,7 +255,7 @@ router.post('/api/get-deposit-return-list.json', function (req, res, next) {
     res.end();
   }).catch(function (err) {
     logConfig.logger.error(req.originalUrl + ':' + err);
-    res.json({status: false, msg: "服务器错误"});
+    res.json({status: false, msg: "服务器请求超时，请稍后在试！"});
     res.end();
   });
 });
@@ -283,7 +281,7 @@ router.post('/api/user/edit-portrait-pic.json', function (req, res, next) {
     res.end();
   }).catch(function (err) {
     logConfig.logger.error(req.originalUrl + ':' + err);
-    res.json({status: false, msg: "服务器错误"});
+    res.json({status: false, msg: "服务器请求超时，请稍后在试！"});
     res.end();
   });
 });
@@ -300,7 +298,7 @@ router.post('/api/balance-order-create.json', function (req, res, next) {
     method: 'POST',
     uri: baseUrl + '/order/balance-order-create',
     formData: {
-      uid: req.body.uid,
+      uid: req.session.userData.id,
       finalFee: req.body.finalFee,
       orderPlatform: req.body.orderPlatform,
       payChannel: req.body.payChannel
@@ -312,11 +310,10 @@ router.post('/api/balance-order-create.json', function (req, res, next) {
     res.end();
   }).catch(function (err) {
     logConfig.logger.error(req.originalUrl + ':' + err);
-    res.json({status: false, msg: "服务器错误"});
+    res.json({status: false, msg: "服务器请求超时，请稍后在试！"});
     res.end();
   });
 });
-
 
 /**
  * 通过上一次的支付密码修改支付密码
@@ -342,11 +339,10 @@ router.post('/api/user/account/reset-pay-pwd-by-originPwd.json', function (req, 
     res.end();
   }).catch(function (err) {
     logConfig.logger.error(req.originalUrl + ':' + err);
-    res.json({status: false, msg: "服务器错误"});
+    res.json({status: false, msg: "服务器请求超时，请稍后在试！"});
     res.end();
   });
 });
-
 
 /**
  * 通过上一次的登录密码修改登录密码
@@ -372,7 +368,7 @@ router.post('/api/user/account/reset-login-pwd-by-originPwd.json', function (req
     res.end();
   }).catch(function (err) {
     logConfig.logger.error(req.originalUrl + ':' + err);
-    res.json({status: false, msg: "服务器错误"});
+    res.json({status: false, msg: "服务器请求超时，请稍后在试！"});
     res.end();
   });
 });
@@ -402,11 +398,10 @@ router.post('/api/user/account/reset-login-pwd-by-smscode.json', function (req, 
     res.end();
   }).catch(function (err) {
     logConfig.logger.error(req.originalUrl + ':' + err);
-    res.json({status: false, msg: "服务器错误"});
+    res.json({status: false, msg: "服务器请求超时，请稍后在试！"});
     res.end();
   });
 });
-
 
 /**
  * 通过手机短信验证码重置支付密码
@@ -432,11 +427,10 @@ router.post('/api/user/account/reset-pay-pwd-by-smscode.json', function (req, re
     res.end();
   }).catch(function (err) {
     logConfig.logger.error(req.originalUrl + ':' + err);
-    res.json({status: false, msg: "服务器错误"});
+    res.json({status: false, msg: "服务器请求超时，请稍后在试！"});
     res.end();
   });
 });
-
 
 /**
  * 验证重置密码短信
@@ -459,7 +453,7 @@ router.post('/api/user/account/check-phone-message-before-reset-pwd.json', funct
     res.end();
   }).catch(function (err) {
     logConfig.logger.error(req.originalUrl + ':' + err);
-    res.json({status: false, msg: "服务器错误"});
+    res.json({status: false, msg: "服务器请求超时，请稍后在试！"});
     res.end();
   });
 });

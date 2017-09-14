@@ -4,7 +4,7 @@
       <div class="my-money-left left">
         <div class="moneyInfoLeft left">
           <div>可用余额（元）</div>
-          <div class="number mt-5 ">{{getUserBalance}}</div>
+          <div class="number mt-5 ">{{userBalance}}</div>
           <p>收入金额（元）：{{userAccount.amountIncomes / 100 || 0}}</p>
           <p>支出金额（元）：{{userAccount.amountPayment / 100 || 0}}</p>
           <div class="view-details mt-10">
@@ -215,7 +215,7 @@
       userList: function () {
         return this.$store.getters.getPersonalInfo || {};
       },
-      getUserBalance: function () {
+      userBalance: function () {
         return this.$store.getters.getUserBalance;
       }
     },

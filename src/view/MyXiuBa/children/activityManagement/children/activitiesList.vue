@@ -106,15 +106,12 @@
               <span @click="copyTask(item.id)">复制活动</span>
             </p>
           </td>
-          <td v-else-if="item.taskStatus === 'waiting_audit' || item.settlementStatus === 'waiting_audit'">
+          <td v-else-if="item.taskStatus === 'waiting_audit'">
             <p class="copy mt-6">
               <span @click="copyTask(item.id)">复制活动</span>
             </p>
           </td>
           <td v-else-if="item.settlementStatus === 'waiting_settlement'">
-            <p class="bond mt-6">
-              <span @click="approveShowker(item.id)">审批秀客</span>
-            </p>
             <p class="bond mt-6">
               <span @click="settlementTask(item.id, item.number)">申请结算</span>
             </p>
@@ -122,7 +119,7 @@
               <span @click="copyTask(item.id)">复制活动</span>
             </p>
           </td>
-          <td v-else-if="item.settlementStatus === 'settlement_finished'">
+          <td v-else-if="item.settlementStatus === 'settlement_finished' || item.taskStatus === 'finished'">
             <p class="copy mt-6">
               <span @click="billDetails(item.id)">结算详情</span>
             </p>
@@ -231,11 +228,16 @@
     </Modal>
     <!--支付保证金弹框-->
     <div class="pay-model" v-if="showPayModel">
-      <PayModel :orderMoney="needDepositMoney" @confirmPayment="confirmPayment">
+      <PayModel :orderMoney="getUserBalance - needDepositMoney > 0 ? needDepositMoney : Math.abs(getUserBalance - needDepositMoney)" @confirmPayment="confirmPayment">
         <i slot="closeModel" class="close-recharge" @click="showPayModel = false">&times;</i>
+        <div slot="noBalance" class="title-tip">
+          <span class="size-color3"><Icon color="#FF2424" size="18px" type="ios-information"></Icon>
+            <span class="ml-10">亲，您的余额不足，请充值。</span>
+          </span>还需充值<strong class="size-color3">{{Math.abs(getUserBalance - needDepositMoney)}}</strong>元</div>
         <div slot="isBalance" class="title-tip">
           <Icon color="#FF2424" size="18px" type="ios-information"></Icon>
-          <span class="ml-10">您本次需要支付金额为 <span class="size-color3">{{needDepositMoney}}</span> 元。</span></div>
+          <span class="ml-10">您本次需要支付金额为 <span class="size-color3">{{needDepositMoney}}</span> 元。</span>
+        </div>
       </PayModel>
     </div>
   </div>
@@ -314,7 +316,11 @@
         },400)
       }
     },
-    computed: {},
+    computed: {
+      getUserBalance: function () {
+        return this.$store.getters.getUserBalance;
+      },
+    },
     methods: {
       ...mapActions([
         'getUserInformation'
@@ -460,8 +466,8 @@
               content:'支付成功！',
               duration: 6
             });
+            _this.getUserInformation();
             setTimeout(function () {
-              _this.getUserInformation();
               _this.getTaskList();
             },400);
           }else{

@@ -35,7 +35,7 @@ router.post('/api/showker-apply-list.json', function (req, res, next) {
     })
     .catch(function (err) {
       logConfig.logger.error(req.originalUrl + ':' + err);
-      res.json({status: false, msg: "服务器错误"});
+      res.json({status: false, msg: "服务器请求超时，请稍后在试！"});
       res.end();
     });
 });
@@ -57,7 +57,7 @@ router.post('/api/task/showker-personal-trial-count.json', function (req, res, n
     })
     .catch(function (err) {
       logConfig.logger.error(req.originalUrl + ':' + err);
-      res.json({status: false, msg: "服务器错误"});
+      res.json({status: false, msg: "服务器请求超时，请稍后在试！"});
       res.end();
     });
 });
@@ -89,7 +89,7 @@ router.post('/api/showker-success-list.json', function (req, res, next) {
     })
     .catch(function (err) {
       logConfig.logger.error(req.originalUrl + ':' + err);
-      res.json({status: false, msg: "服务器错误"});
+      res.json({status: false, msg: "服务器请求超时，请稍后在试！"});
       res.end();
     });
 });
@@ -118,7 +118,7 @@ router.post('/api/task/showker/trial/reports.json', function (req, res, next) {
     })
     .catch(function (err) {
       logConfig.logger.error(req.originalUrl + ':' + err);
-      res.json({status: false, msg: "服务器错误"});
+      res.json({status: false, msg: "服务器请求超时，请稍后在试！"});
       res.end();
     });
 });
@@ -143,7 +143,7 @@ router.post('/api/task/showker/trial/detail.json', function (req, res, next) {
     })
     .catch(function (err) {
       logConfig.logger.error(req.originalUrl + ':' + err);
-      res.json({status: false, msg: "服务器错误"});
+      res.json({status: false, msg: "服务器请求超时，请稍后在试！"});
       res.end();
     });
 });
@@ -170,7 +170,7 @@ router.post('/api/showker-trial-end.json', function (req, res, next) {
     })
     .catch(function (err) {
       logConfig.logger.error(req.originalUrl + ':' + err);
-      res.json({status: false, msg: "服务器错误"});
+      res.json({status: false, msg: "服务器请求超时，请稍后在试！"});
       res.end();
     });
 });
@@ -197,7 +197,7 @@ router.post('/api/showker-apply-end.json', function (req, res, next) {
     })
     .catch(function (err) {
       logConfig.logger.error(req.originalUrl + ':' + err);
-      res.json({status: false, msg: "服务器错误"});
+      res.json({status: false, msg: "服务器请求超时，请稍后在试！"});
       res.end();
     });
 });
@@ -224,7 +224,7 @@ router.post('/api/showker-apply-delete.json', function (req, res, next) {
     })
     .catch(function (err) {
       logConfig.logger.error(req.originalUrl + ':' + err);
-      res.json({status: false, msg: "服务器错误"});
+      res.json({status: false, msg: "服务器请求超时，请稍后在试！"});
       res.end();
     });
 });
@@ -250,7 +250,7 @@ router.post('/api/showker-to-process-order.json', function (req, res, next) {
     })
     .catch(function (err) {
       logConfig.logger.error(req.originalUrl + ':' + err);
-      res.json({status: false, msg: "服务器错误"});
+      res.json({status: false, msg: "服务器请求超时，请稍后在试！"});
       res.end();
     });
 });
@@ -280,7 +280,7 @@ router.post('/api/showker-order-save.json', function (req, res, next) {
     })
     .catch(function (err) {
       logConfig.logger.error(req.originalUrl + ':' + err);
-      res.json({status: false, msg: "服务器错误"});
+      res.json({status: false, msg: "服务器请求超时，请稍后在试！"});
       res.end();
     });
 });
@@ -310,7 +310,7 @@ router.post('/api/showker-save-report.json', function (req, res, next) {
     })
     .catch(function (err) {
       logConfig.logger.error(req.originalUrl + ':' + err);
-      res.json({status: false, msg: "服务器错误"});
+      res.json({status: false, msg: "服务器请求超时，请稍后在试！"});
       res.end();
     });
 });
@@ -340,7 +340,7 @@ router.post('/api/showker-modify-report.json', function (req, res, next) {
     })
     .catch(function (err) {
       logConfig.logger.error(req.originalUrl + ':' + err);
-      res.json({status: false, msg: "服务器错误"});
+      res.json({status: false, msg: "服务器请求超时，请稍后在试！"});
       res.end();
     });
 });
@@ -365,7 +365,7 @@ router.post('/api/showker-report-info.json', function (req, res, next) {
     })
     .catch(function (err) {
       logConfig.logger.error(req.originalUrl + ':' + err);
-      res.json({status: false, msg: "服务器错误"});
+      res.json({status: false, msg: "服务器请求超时，请稍后在试！"});
       res.end();
     });
 });
@@ -388,7 +388,7 @@ router.post('/api/task/showker/qualification/check.json', function (req, res, ne
     })
     .catch(function (err) {
       logConfig.logger.error(req.originalUrl + ':' + err);
-      res.json({status: false, msg: "服务器错误"});
+      res.json({status: false, msg: "服务器请求超时，请稍后在试！"});
       res.end();
     });
 });
@@ -411,7 +411,7 @@ router.post('/api/task/showker/apply.json', function (req, res, next) {
     })
     .catch(function (err) {
       logConfig.logger.error(req.originalUrl + ':' + err);
-      res.json({status: false, msg: "服务器错误"});
+      res.json({status: false, msg: "服务器请求超时，请稍后在试！"});
       res.end();
     });
 });

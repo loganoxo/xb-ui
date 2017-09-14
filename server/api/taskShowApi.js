@@ -27,7 +27,7 @@ router.post('/api/task/item/catalog/main.json', (req, res, next) => {
     })
     .catch(function (err) {
       logConfig.logger.error(req.originalUrl + ':' + err);
-      res.json({status: false, msg: "服务器错误"});
+      res.json({status: false, msg: "服务器请求超时，请稍后在试！"});
       res.end();
     });
 });
@@ -48,7 +48,7 @@ router.post('/api/task/index/newest.json', (req, res, next) => {
     })
     .catch(function (err) {
       logConfig.logger.error(req.originalUrl + ':' + err);
-      res.json({status: false, msg: "服务器错误"});
+      res.json({status: false, msg: "服务器请求超时，请稍后在试！"});
       res.end();
     });
 });
@@ -68,7 +68,7 @@ router.post('/api/task/showker-newest.json', (req, res, next) => {
     })
     .catch(function (err) {
       logConfig.logger.error(req.originalUrl + ':' + err);
-      res.json({status: false, msg: "服务器错误"});
+      res.json({status: false, msg: "服务器请求超时，请稍后在试！"});
       res.end();
     });
 });
@@ -91,7 +91,7 @@ router.post('/api/task/get/item/catalog/parent.json', (req, res, next) => {
     })
     .catch(function (err) {
       logConfig.logger.error(req.originalUrl + ':' + err);
-      res.json({status: false, msg: "服务器错误"});
+      res.json({status: false, msg: "服务器请求超时，请稍后在试！"});
       res.end();
     });
 });
@@ -114,7 +114,7 @@ router.post('/api/task/item/catalog/child.json', (req, res, next) => {
     })
     .catch(function (err) {
       logConfig.logger.error(req.originalUrl + ':' + err);
-      res.json({status: false, msg: "服务器错误"});
+      res.json({status: false, msg: "服务器请求超时，请稍后在试！"});
       res.end();
     });
 });
@@ -150,7 +150,7 @@ router.post('/api/search/task/s.json', (req, res, next) => {
     })
     .catch(function (err) {
       logConfig.logger.error(req.originalUrl + ':' + err);
-      res.json({status: false, msg: "服务器错误"});
+      res.json({status: false, msg: "服务器请求超时，请稍后在试！"});
       res.end();
     });
 });
@@ -178,7 +178,7 @@ router.post('/api/task/detail.json', (req, res, next) => {
     })
     .catch(function (err) {
       logConfig.logger.error(req.originalUrl + ':' + err);
-      res.json({status: false, msg: "服务器错误"});
+      res.json({status: false, msg: "服务器请求超时，请稍后在试！"});
       res.end();
     });
 });
@@ -201,7 +201,7 @@ router.post('/api/task/trial/report.json', function (req, res, next) {
     })
     .catch(function (err) {
       logConfig.logger.error(req.originalUrl + ':' + err);
-      res.json({status: false, msg: "服务器错误"});
+      res.json({status: false, msg: "服务器请求超时，请稍后在试！"});
       res.end();
     });
 });
@@ -224,7 +224,7 @@ router.post('/api/task/success.json', function (req, res, next) {
     })
     .catch(function (err) {
       logConfig.logger.error(req.originalUrl + ':' + err);
-      res.json({status: false, msg: "服务器错误"});
+      res.json({status: false, msg: "服务器请求超时，请稍后在试！"});
       res.end();
     });
 });
@@ -251,7 +251,7 @@ router.post('/api/task/showker/trialReport.json', function (req, res, next) {
     })
     .catch(function (err) {
       logConfig.logger.error(req.originalUrl + ':' + err);
-      res.json({status: false, msg: "服务器错误"});
+      res.json({status: false, msg: "服务器请求超时，请稍后在试！"});
       res.end();
     });
 });

@@ -345,16 +345,17 @@
     mounted() {
     },
     created() {
+      let type = this.$route.query.type;
       if (this.$route.query.infoSelect) {
         this.infoSelect = this.$route.query.infoSelect;
         this.myAccountPwdChangeFather('modifyPwd');
       }
-      if (this.$route.query.type === 'resetPwd') {
+      if (type && type === 'resetPwd') {
         this.myAccount.userSafe = false;
         this.myAccount.modifyPwd = true;
         this.myAccountSon.selBox = false;
         this.myAccountSon.selPhoneModify = true
-      } else if (this.$route.query.type === 'findPwd') {
+      } else if (type && type === 'findPwd') {
         this.myAccount.userSafe = false;
         this.myAccount.modifyPwd = true;
         this.myAccountSon.selBox = false;

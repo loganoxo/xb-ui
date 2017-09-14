@@ -23,7 +23,7 @@
           </Radio-group>
         </Form-item>
         <Form-item>
-          <iButton class="payMoneyBtn" @click="balanceOrderCreate(payMoney,getUserId)">提交</iButton>
+          <iButton class="payMoneyBtn" @click="balanceOrderCreate()">提交</iButton>
           <Modal v-model="payPopWindow" width="360"
                  :styles="{top:'310px',height:'300px'}">
             <div style="text-align:center">
@@ -116,9 +116,6 @@
       getUserBalance: function () {
         return this.$store.getters.getUserBalance;
       },
-      getUserId: function () {
-        return this.$store.state.userInfo.id
-      }
     },
     methods: {
       ...mapGetters([
@@ -142,7 +139,7 @@
           this.eye = 'eye';
         }
       },
-      balanceOrderCreate(type, id) {
+      balanceOrderCreate() {
         let _this = this;
         if (type.number === '') {
           _this.$Message.error('您未输入充值金额，请您重新输入');
@@ -156,8 +153,7 @@
           _this.payPopWindow = _this.payPopWindowValue;
         }
         api.balanceOrderCreate({
-          uid: id,
-          finalFee: (type.number * 100).toFixed(),
+          finalFee: (_this.payMoney.number * 100).toFixed(),
           orderPlatform: 'PC',
           payChannel: 1
         }).then(res => {

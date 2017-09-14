@@ -23,23 +23,23 @@ export const getStorage = (name) => {
 };
 
 /**
- * 获取cookies
- */
-export const getCookie = (name) => {
-  let arr,reg = new RegExp("(^| )"+name+"=([^;]*)(;|$)");
-  if(arr = document.cookie.match(reg)){
-    return unescape(arr[2]);
-  } else {
-    return null;
-  }
-};
-
-/**
  * 删除localStorage
  */
 export const removeStorage = (name) => {
   if (!name) return;
   window.localStorage.removeItem(name);
+};
+
+/**
+ * 获取cookies
+ */
+export const getCookie = (name) => {
+  let arr, reg = new RegExp("(^| )" + name + "=([^;]*)(;|$)");
+  if (arr = document.cookie.match(reg)) {
+    return unescape(arr[2]);
+  } else {
+    return null;
+  }
 };
 
 /**
@@ -174,63 +174,62 @@ export const TaskErrorStatusList = (type) => {
     case 'enchashment':
       return '提现';
       break;
-    case  'pay_for_task_deposit_seller':
+    case 'pay_for_task_deposit_seller':
       return '支付活动担保金';
       break;
-    case  'task_trad_record_seller':
+    case 'task_trad_record_seller':
       return '商家活动交易记录';
       break;
-    case  'task_return_seller':
+    case 'task_return_seller':
       return '活动结算返款';
       break;
-    case  'showker_task_supplementary_seller':
+    case 'showker_task_supplementary_seller':
       return '补充任务担保金';
       break;
-    case  'task_deposit_pay_shower':
+    case 'task_deposit_pay_shower':
       return '任务担保金退款';
       break;
-    case  'task_deposit_return_shower':
+    case 'task_deposit_return_shower':
       return '任务担保金返款';
       break;
-    case  'task_delete_return_seller':
+    case 'task_delete_return_seller':
       return '删除活动返款-活动担保金';
       break;
-    case  'enchashment_audit_ing':
+    case 'enchashment_audit_ing':
       return '提现审核中';
       break;
-    case  'enchashment_audit_success':
+    case 'enchashment_audit_success':
       return '提现审核通过';
       break;
-    case  'enchashment_audit_defeat':
+    case 'enchashment_audit_defeat':
       return '提现审核未通过';
       break;
-    case  'enchashment_record':
+    case 'enchashment_record':
       return '提现交易记录';
       break;
-    case  'recharge_record':
+    case 'recharge_record':
       return '充值交易记录';
       break;
-    case  'recharge':
+    case 'recharge':
       return '充值';
       break;
-    case  'pay_for_task_deposit_supply_seller':
+    case 'pay_for_task_deposit_supply_seller':
       return '补交活动担保金';
       break;
-    case  'pay_for_task_promotion_expenses':
+    case 'pay_for_task_promotion_expenses':
       return '支付活动推广费';
       break;
-    case  'pay_for_task_promotion_expenses_supply_seller':
+    case 'pay_for_task_promotion_expenses_supply_seller':
       return '补交活动推广费';
       break;
-    case  'task_delete_return_promotion_expenses_seller':
+    case 'task_delete_return_promotion_expenses_seller':
       return '删除活动返款活动推广费';
       break;
-    case  'task_return_deposit_seller':
+    case 'task_return_deposit_seller':
       return '活动结算担保金返款';
       break;
-    case  'task_return_promotion_expenses_seller':
+    case 'task_return_promotion_expenses_seller':
       return '活动结算推广费返款';
       break;
-
   }
 };

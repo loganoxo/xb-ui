@@ -51,7 +51,7 @@ router.post('/api/login.json', (req, res, next) => {
     })
     .catch(function (err) {
       logConfig.logger.error(req.originalUrl + ':' + err);
-      res.json({status: false, msg: "服务器错误"});
+      res.json({status: false, msg: "服务器请求超时，请稍后在试！"});
       res.end();
     });
 });
@@ -97,7 +97,7 @@ router.post('/api/check-fast-sign-in.json', function (req, res, next) {
         }
       }).catch(function (err) {
         logConfig.logger.error(req.originalUrl + ':' + err);
-        res.json({status: false, msg: "服务器错误"});
+        res.json({status: false, msg: "服务器请求超时，请稍后在试！"});
         res.end();
       });
     } else {
@@ -144,7 +144,7 @@ router.post('/api/sign-up.json', function (req, res, next) {
         res.end();
       }).catch(function (err) {
         logConfig.logger.error(req.originalUrl + ':' + err);
-        res.json({status: false, msg: "服务器错误！"});
+        res.json({status: false, msg: "服务器请求超时，请稍后在试！"});
         res.end();
       });
     } else {
@@ -201,7 +201,7 @@ router.post('/api/send-verify-code.json', function (req, res, next) {
         res.end();
       }).catch(function (err) {
         logConfig.logger.error(req.originalUrl + ':' + err);
-        res.json({status: false, msg: "服务器错误！"});
+        res.json({status: false, msg: "服务器请求超时，请稍后在试！"});
         res.end();
       });
     } else {
@@ -221,7 +221,7 @@ router.post('/api/logged-out.json', (req, res, next) => {
   req.session.destroy(function (err) {
     if (err) {
       logConfig.logger.error(req.originalUrl + ':' + err);
-      res.json({status: false, msg: "服务器错误！"});
+      res.json({status: false, msg: "服务器请求超时，请稍后在试！"});
       res.end();
     } else {
       res.json({status: true, msg: "退出登陆成功！"});

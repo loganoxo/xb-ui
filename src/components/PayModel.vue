@@ -1,5 +1,5 @@
 <template>
-  <div class="pay-model-con showSweetAlert">
+  <div class="pay-model-con">
     <slot name="closeModel"></slot>
     <div v-if="!isBalance">
       <slot name="noBalance"></slot>
@@ -19,7 +19,7 @@
         <Radio label="ali">
           <span class="ali-logo"></span>
         </Radio>
-        <Radio label="wechat">
+        <Radio label="wechat" style="display: none;">
           <span class="wechat-logo"></span>
         </Radio>
       </Radio-group>
@@ -31,7 +31,7 @@
         <h4>请前往充值界面进行充值！</h4>
         <div class="btn">
           <span @click="finishRecharge">已完成充值</span>
-          <span>充值遇到问题</span>
+          <span @click="hasProblem">充值遇到问题</span>
         </div>
       </div>
     </div>
@@ -42,6 +42,9 @@
 <script>
   import Input from '@/components/Input'
   import Radio from 'iview/src/components/radio'
+  import api from '@/config/apiConfig'
+  import {aliPayUrl} from '@/config/env'
+  import {mapGetters} from 'vuex'
 
   export default {
     name: 'PayModel',
@@ -72,13 +75,12 @@
         confirmRechargeModel: false,
       }
     },
-    mounted() {
-
-    },
-    created() {
-
-    },
+    mounted() {},
+    created() {},
     computed: {
+      ...mapGetters([
+        'getUserInformation'
+      ]),
       userBalance: function () {
         return this.$store.getters.getUserBalance;
       },
@@ -95,8 +97,22 @@
       },
       confirmRecharge() {
         this.confirmRechargeModel = true;
+        api.balanceOrderCreate({
+          finalFee: (this.orderMoney * 100).toFixed(),
+          orderPlatform: 'PC',
+          payChannel: 1
+        }).then(res => {
+          if(res.status){
+            let src = aliPayUrl + 'orderSerial=' + res.data.orderSerial;
+            window.open(src);
+          }
+        })
       },
       finishRecharge() {
+        this.confirmRechargeModel = false;
+        this.getUserInformation();
+      },
+      hasProblem() {
         this.confirmRechargeModel = false;
       }
     }
