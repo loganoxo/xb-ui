@@ -105,7 +105,7 @@
               <p>{{getTradType(tbodyDetails.changeName)}}</p>
               <p>活动编号：{{tbodyDetails.taskSerialNum}}</p>
             </td>
-            <td class="main-color">{{typeChang(tbodyDetails.amountChange / 100) || 0}}</td>
+            <td :class="mainColor">{{typeChang(tbodyDetails.amountChange / 100) || 0}}</td>
             <td>
               <p style="color:blue;" class="details" @click="detailsInit(tbodyDetails.id)">详情
                 <Icon :type="detailSelect===tbodyDetails.id?'arrow-up-b':'arrow-down-b'" class="ml-5 "></Icon>
@@ -136,7 +136,7 @@
                     <p>{{getTradType(item.tradName)}}</p>
                     <p>活动编号：{{item.showerTaskSerial || '无'}}</p>
                   </td>
-                  <td class="main-color">
+                  <td :class="mainColor">
                     {{typeChang(item.tradAmount / 100) || 0}}
                   </td>
                 </tr>
@@ -230,7 +230,7 @@
               <p>{{getTradType(item.changeName)}}</p>
               <p>活动编号：{{item.taskSerialNum}}</p>
             </td>
-            <td class="main-color">{{typeChang(item.amountChange / 100) || 0}}</td>
+            <td :class="mainColor">{{typeChang(item.amountChange / 100) || 0}}</td>
             <td>
               <p style="color:blue;" class="details" @click="detailsInit(item.id)">详情
                 <Icon :type="detailSelect===item.id?'arrow-up-b':'arrow-down-b'" class="ml-5 "></Icon>
@@ -261,7 +261,7 @@
                     <p>{{getTradType(item.tradName)}}</p>
                     <p>活动编号：11113244325324</p>
                   </td>
-                  <td class="main-color">
+                  <td :class="mainColor">
                     {{typeChang(item.tradAmount / 100) || 0}}
                   </td>
                 </tr>
@@ -365,7 +365,8 @@
         pageSize: 10,
         pageIndex: 0,
         accountIncomes: 0,
-        accountPayout: 0
+        accountPayout: 0,
+        mainColor:'tdColor'
       }
     },
     mounted() {
@@ -396,6 +397,7 @@
       typeChang(num) {
         if (num > 0) {
           num = '+' + num;
+          this.mainColor = 'tdColorGreen'
         }
         return num
       },

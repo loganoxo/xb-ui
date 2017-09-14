@@ -96,8 +96,11 @@
     .triangle{
       transform: translate(180deg);
     }
-    .main-color {
+    .tdColor {
       color: $mainColor;
+    }
+    .tdColorGreen{
+      color: #329832;
     }
     .title {
       height: 52px;

@@ -49,6 +49,25 @@ router.post('/api/get-trad-list.json', function (req, res, next) {
 });
 
 /**
+ * 获取银行卡信息
+ */
+router.post('/api/get-bank-card-information.json', function (req, res, next) {
+  let options = {
+    method: 'GET',
+    uri: baseUrl + '/user/account/getBankCardByUid/' + req.session.userData.id,
+    json: true
+  };
+  request(options).then(function (parsedBody) {
+    res.send(parsedBody);
+    res.end();
+  }).catch(function (err) {
+    logConfig.logger.error(req.originalUrl + ':' + err);
+    res.json({status: false, msg: "服务器超时，请稍后再试！"});
+    res.end();
+  })
+});
+
+/**
  * 获取用户、账户、旺旺账号
  * @param userId
  */
@@ -153,7 +172,7 @@ router.post('/api/add-bank-card.json', function (req, res, next) {
   let time = new Date().getTime();
   let vrCode = req.session.vrCode;
   if (validateCode === vrCode.code) {
-    if(vrCode.expireTime > time){
+    if (vrCode.expireTime > time) {
       request(options).then(function (parsedBody) {
         res.send(parsedBody);
         res.end();
@@ -162,7 +181,7 @@ router.post('/api/add-bank-card.json', function (req, res, next) {
         res.json({status: false, msg: "服务器请求超时，请稍后在试！"});
         res.end();
       });
-    }else {
+    } else {
       res.json({status: false, msg: "图形验证码过期！"});
       res.end();
     }

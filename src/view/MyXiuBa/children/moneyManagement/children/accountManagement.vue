@@ -369,7 +369,11 @@
       },
       userList: function () {
         return this.$store.getters.getPersonalInfo;
+      },
+      bankCardNumber:function () {
+        return this.$store.getters.getUserAccountInfo.bankCardNum
       }
+
     },
     methods: {
       ...mapActions([
@@ -484,7 +488,7 @@
         }
       },
       getIfBandingBankCard(type) {
-        return type === null ? '未绑定' : this.userAccount.bankCardNum;
+        return type === null ? '未绑定' : this.bankCardNumber
       },
 
       myAccountPwdChangeFather(type) {

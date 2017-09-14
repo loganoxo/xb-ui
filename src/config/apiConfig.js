@@ -26,6 +26,13 @@ export default {
   },
 
   /**
+  * 获取银行卡信息
+  */
+  getBankCardInformation(){
+    return fetch("/api/get-bank-card-information.json")
+  },
+
+  /**
    * 验证重置密码短信
    */
   validatePaySmscode(params) {

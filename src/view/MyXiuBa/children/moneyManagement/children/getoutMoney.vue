@@ -85,7 +85,7 @@
             </Form-item>
             <Form-item label="提现银行卡号:">
               <span style="width: 202px;display: inline-block">{{userAccount.bankCardNum}}</span><span
-              class=" main-color cursor-p" @click="addBankCard">修改银行卡</span>
+              class=" main-color cursor-p" @click="getBankCardInformationApi">修改银行卡</span>
             </Form-item>
             <Form-item label="支付密码:" prop="password">
               <iInput v-model="getoutMoney.password" class="iInput" :type="psw" :icon="eye"
@@ -226,15 +226,12 @@
   import Icon from 'iview/src/components/icon'
   import Form from 'iview/src/components/form'
   import Input from '@/components/Input'
-  import Checkbox from 'iview/src/components/checkbox'
   import Button from 'iview/src/components/button'
-  import Page from 'iview/src/components/page'
   import Modal from 'iview/src/components/modal'
   import DatePicker from 'iview/src/components/date-picker'
   import {Select, Option, OptionGroup} from 'iview/src/components/select'
   import api from '@/config/apiConfig'
   import SmsCountdown from '@/components/SmsCountdown'
-  import PayModel from '@/components/PayModel'
   import {TaskErrorStatusList} from '@/config/utils'
   import {mapActions} from 'vuex'
 
@@ -248,15 +245,11 @@
       iForm: Form,
       FormItem: Form.Item,
       DatePicker: DatePicker,
-      Checkbox: Checkbox,
-      CheckboxGroup: Checkbox.Group,
       iButton: Button,
       ButtonGroup: Button.Group,
       Icon: Icon,
       Modal: Modal,
       SmsCountdown: SmsCountdown,
-      PayModel: PayModel,
-      Page: Page
     },
     data() {
       //表单验证
@@ -399,19 +392,19 @@
         },
         getOutResList: [],
         getMoneyShowDetails: false,
+        getBankCardInfo:{}
       }
     },
     mounted() {
     },
     created() {
       if (this.$route.query.bandCard === 'bandCard') {
-        for (let k in  this.changeBankIDcardShow) {
-          this.changeBankIDcardShow[k] = k === 'bondBankCard';
-        }
+        this.getBankCardInformationApi()
+      }else {
+        this.changeBankIdcardShowFun();
       }
       this.getVrcode();
       this.getWithDrawList(this.getoutRecord);
-      this.changeBankIdcardShowFun();
     },
     computed: {
       getUserBalance: function () {
@@ -585,7 +578,20 @@
           }
         });
       },
-
+      getBankCardInformationApi(){
+        let  _this = this;
+        api.getBankCardInformation().then(res=>{
+          if (res){
+            _this.formItem.name= res.accountName;
+            _this.formItem.select= res.bankName;
+            _this.formItem.bankNumber= res.bankNo;
+            _this.formItem.bankBranch= res.bankPart;
+            _this.showDifffentModel('bondBankCard');
+          }else {
+            _this.$Message.error(res.msg)
+          }
+        })
+      },
       //查看提现信息详情
       getMoneyShowDetailsFun(type) {
         if (this.getMoneyShowDetails === type) {
@@ -593,7 +599,7 @@
         } else {
           this.getMoneyShowDetails = type
         }
-      }
+      },
     }
   }
 </script>

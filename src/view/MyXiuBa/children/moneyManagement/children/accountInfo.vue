@@ -28,7 +28,7 @@
       </div>
       <div class="my-money-right  right">
         <div>账户名：{{userList.phone}}</div>
-        <div>真实姓名：{{userList.realName || '----'}}</div>
+        <div>真实姓名：{{userList.realName}}</div>
         <div>
           <span>实名认证：{{geIifCertification(userList.ifCertification)}}</span>&nbsp;&nbsp;&nbsp;&nbsp;<router-link
           to="/user/personal-setting/verified" v-show="userList.ifCertification===false">去认证
@@ -68,7 +68,7 @@
             <p>{{getTradType(item.changeName)}}</p>
             <p>活动编号：{{item.taskSerialNum}}</p>
           </td>
-          <td class="main-color">{{typechang(item.amountChange / 100) || 0}}</td>
+          <td :class="mainColor">{{typeChang(item.amountChange / 100) || 0}}</td>
           <td>
             <p style="color:blue;" class="details" @click="detailsInit(item.id)">详情
               <Icon :type="detailSelect===item.id?'arrow-up-b':'arrow-down-b'" class="ml-5 "></Icon>
@@ -99,8 +99,8 @@
                   <p>{{getTradType(item.tradName)}}</p>
                   <p>活动编号：{{item.showerTaskSerial}}</p>
                 </td>
-                <td class="main-color">
-                  {{typechang(item.tradAmount / 100) || 0}}
+                <td :class="mainColor">
+                  {{typeChang(item.tradAmount / 100) || 0}}
                 </td>
               </tr>
               <tr v-show="showNotice">
@@ -199,7 +199,8 @@
             isSelect: 'other'
           }
         ],
-        iSelect: 'all'
+        iSelect: 'all',
+        mainColor:'tdColor'
       }
     },
     mounted() {
@@ -231,9 +232,11 @@
           this.$router.push({name: 'GetoutMoney', query: {bandCard: 'bandCard'}});
         }
       },
-      typechang(num) {
+
+      typeChang(num) {
         if (num > 0) {
           num = '+' + num;
+          this.mainColor = 'tdColorGreen'
         }
         return num
       },
