@@ -20,6 +20,8 @@ export default {
   //页面刷新的时候从本地缓存获取用户信息数据存储到vuex
   [types.INIT_USER_INFO](state) {
     let initUserInfo = getStorage('userInfo');
+
+
     if (initUserInfo) {
       state.userInfo = initUserInfo;
       state.login = true;

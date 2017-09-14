@@ -375,9 +375,7 @@
       getUserBalance: function () {
         return this.$store.state.userBalance
       },
-      getIfEditPwdAlready: function(){
-        return  this.$store.state.userInfo.userAccount.ifEditPwdAlready
-      },
+
       getIfCertification:function () {
         return this.$store.state.userInfo.ifCertification
       }
