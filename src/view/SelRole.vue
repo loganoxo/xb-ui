@@ -156,9 +156,10 @@
               type: 'RECORD_USER_INFO',
               info: res.data
             });
-            self.$Modal.success({
+            self.$Message.success({
               content: '恭喜您，成功注册秀吧！',
-              onOk: function () {
+              duration: 1,
+              onClose: function () {
                 self.setUserInfo();
               }
             });

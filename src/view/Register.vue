@@ -617,9 +617,10 @@
           purpose: 'reg'
         }).then((res) => {
           if (res.status) {
-            self.$Modal.success({
+            self.$Message.success({
               content: "注册成功",
-              onOk: function () {
+              duration: 1,
+              onClose: function () {
                 self.setUserInfo(self.formCustom.phone, self.formCustom.pwd);
               }
             });
@@ -647,9 +648,10 @@
           purpose: 'reg'
         }).then((res) => {
           if (res.status) {
-            self.$Modal.success({
+            self.$Message.success({
               content: "注册成功",
-              onOk: function () {
+              duration: 1,
+              onClose: function () {
                 self.setUserInfo(self.formCustom.phone, self.formCustom.pwd);
               }
             });
@@ -684,8 +686,9 @@
       sendCodeSuccess(res) {
         let self = this;
         if (res.status) {
-          self.$Modal.success({
+          self.$Message.success({
             content: "短信验证码发送成功！",
+            duration: 1,
           });
         } else {
           self.$Modal.error({

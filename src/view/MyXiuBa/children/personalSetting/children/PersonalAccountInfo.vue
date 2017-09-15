@@ -468,9 +468,11 @@
           repwd: self.defaultModifyCustom.repwd
         }).then((res) => {
           if(res.status){
-            self.$Modal.success({
+            self.$Message.success({
+              top: 50,
               content: res.msg,
-              onOk: function () {
+              duration: 1,
+              onClose: function () {
                 self.$router.go(-1);
                 self.getUserInformation();
               }
@@ -507,9 +509,11 @@
           repwd: self.trendsModifyCustom.repwd,
         }).then(res => {
           if(res.status){
-            self.$Modal.success({
+            self.$Message.success({
+              top: 50,
               content: res.msg,
-              onOk: function () {
+              duration: 1,
+              onClose: function () {
                 self.$router.go(-1);
                 self.getUserInformation();
               }
@@ -527,8 +531,8 @@
       sendCodeSuccess(res) {
         let self = this;
         if (res.status) {
-          self.$Modal.success({
-            content: res.msg
+          self.$Message.success({
+            content: res.msg,
           });
         } else {
           self.$Modal.error({

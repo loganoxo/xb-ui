@@ -465,8 +465,9 @@
       sendCodeSuccess(res) {
         let self = this;
         if (res.status) {
-          self.$Modal.success({
-            content: res.msg
+          self.$Message.success({
+            content: res.msg,
+            duration: 1,
           });
         } else {
           self.$Modal.error({

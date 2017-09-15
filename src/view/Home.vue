@@ -6,7 +6,6 @@
           <div class="left-ctt left mr-10">
             <ul :class="[leftTopSlider ? 'slider-top-active' : 'slider-top-default']" @mouseover="clearLeftTopSliderFunc()" @mouseleave="leftTopSliderFunc()">
               <li v-for="taskTopLeft in taskTopLeftList">
-                <!--query:{taskId: taskTopLeft.task.id }-->
                 <router-link :to="{path:'/task-details'}" :title="taskTopLeft.task.taskName" class="block">
                   <div class="left img-box">
                     <img :src="taskTopLeft.task.taskMainImage" alt="" width="54px">
@@ -17,13 +16,21 @@
                       价值<span class="text ml-5">￥{{taskTopLeft.task.itemPrice / 100}}</span> 的宝贝
                     </p>
                     <span style="color: #999;">
-                      {{(new Date() -taskTopLeft.createTime)/1000 < 60000  ? parseInt((new Date() -taskTopLeft.createTime)/60000)  : parseInt((new Date() -taskTopLeft.createTime)/1440000)}}
+                      {{
+                                     (new Date() -taskTopLeft.createTime)/1000 < 60   ?  1 :
+                                  (new Date() -taskTopLeft.createTime)/1000/60 < 60   ? parseInt((new Date() -taskTopLeft.createTime)/1000/60) :
+                              (new Date() -taskTopLeft.createTime)/1000/60/60/24 < 1  ? parseInt((new Date() -taskTopLeft.createTime)/1000/60/60) :
+                          parseInt((new Date() -taskTopLeft.createTime)/1000/60/60/24)
+                      }}
                     </span>
-                    <span style="color: #999;" v-if="(new Date() -taskTopLeft.createTime)/1000 < 60000 ">
-                      分钟
+                    <span style="color: #999;" v-if="(new Date() -taskTopLeft.createTime)/1000/60 < 60 || (new Date() -taskTopLeft.createTime)/1000 < 60">
+                      分钟前
                     </span>
-                    <span style="color: #999;" v-else>
-                      小时
+                    <span style="color: #999;" v-if="(new Date() -taskTopLeft.createTime)/1000/60/60/24 < 1 && (new Date() -taskTopLeft.createTime)/1000/60 >= 60">
+                      小时前
+                    </span>
+                    <span style="color: #999;" v-if="(new Date() -taskTopLeft.createTime)/1000/60/60/24 >= 1">
+                      天前
                     </span>
                   </div>
                 </router-link>
@@ -86,7 +93,10 @@
                   <router-link to="/user/user-home">个人中心</router-link>
                   <a @click="goOut">[ 退出登录 ]</a>
                 </div>
-                <p class="clear-both fs-14 mt-10 left ml-20">当前进行的活动：<router-link  to="/user/activity-management/list">{{trialCount.underWayTask}} </router-link> 个</p>
+                <p class="clear-both fs-14 mt-10 left ml-20">当前进行的活动：
+                  <router-link  to="/user/activity-management/list">{{trialCount.underWayTask}} </router-link> 个
+                  &nbsp;<router-link to="/user/task-release">发布活动</router-link>
+                </p>
                 <div class="left clear-both mt-10" style="width: 100%;">
                   <router-link class="left text-ct" style="width: 33.33%;" :to="{path:'/user/activity-management/list',query:{status:'under_way'}}">{{trialCount.waitingAuditTaskApply}} </router-link>
                   <router-link class="left text-ct" style="width: 33.33%;" :to="{path:'/user/activity-management/list',query:{status:'under_way'}}">{{trialCount.orderNumWaitingAuditShowkerTask}}</router-link>

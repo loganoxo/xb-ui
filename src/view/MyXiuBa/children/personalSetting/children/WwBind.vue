@@ -187,8 +187,7 @@
   import Modal from 'iview/src/components/modal'
   import Alert from 'iview/src/components/alert'
   import SmsCountdown from '@/components/SmsCountdown'
-  import {mapActions} from 'vuex'
-  import {mapMutations} from 'vuex'
+
   export default {
     name: 'wwBind',
     components: {
@@ -400,8 +399,9 @@
         let self = this;
         api.wwUnbind({id: ww.id}).then((res) => {
           if(res.status){
-            self.$Modal.success({
-              content: res.msg
+            self.$Message.success({
+              content: res.msg,
+              duration: 1,
             });
             self.wwBindLists.splice(index, 1);
             self.$set(self.wwBindLists);
@@ -491,9 +491,10 @@
             }).then((res) => {
               if(res.status){
                 self.remarks = '';
-                self.$Modal.success({
+                self.$Message.success({
                   content: "亲！提交成功，客服妹子会尽快审核...",
-                  onOk:function () {
+                  duration: 1,
+                  onClose: function () {
                     self.wwBindList();
                     self.clearWwInfo();
                     self.getUserInformation();
@@ -517,9 +518,10 @@
               tqzPicUrl: this.wwFormValidate.taoqizhiPicUrl[0].src,
             }).then((res) => {
               if(res.status){
-                self.$Modal.success({
+                self.$Message.success({
                   content: "亲！提交成功，客服妹子会尽快审核...",
-                  onOk:function () {
+                  duration: 1,
+                  onClose: function () {
                     self.wwBindList();
                     self.clearWwInfo();
                     self.getUserInformation();

@@ -300,9 +300,11 @@
                 type: 'RECORD_USER_INFO',
                 info: res.data
               });
-              self.$Modal.success({
-                content: '恭喜您，成功登录秀吧！',
-                onOk: function () {
+              self.$Message.success({
+                top: 50,
+                content: '登录成功',
+                duration: 1,
+                onClose: function () {
                   self.$router.push({name: 'Home'});
                 }
               });
@@ -327,7 +329,10 @@
       sendCodeSuccess(res) {
         let _this = this;
         if (res.status) {
-          _this.instance('success', '', '短信验证码发送成功')
+          _this.$Message.success({
+            content: '短信验证码发送成功',
+            duration: 1,
+          });
         } else {
           _this.instance('error', '', res.msg);
           _this.getVrcode();
@@ -344,9 +349,9 @@
             });
             break;
           case 'success':
-            this.$Modal.success({
-              title: title,
-              content: content
+            this.$Message.success({
+              content: content,
+              duration: 1,
             });
             break;
           case 'warning':
