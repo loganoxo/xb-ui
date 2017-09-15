@@ -6,7 +6,7 @@
           <div class="left-ctt left mr-10">
             <ul :class="[leftTopSlider ? 'slider-top-active' : 'slider-top-default']" @mouseover="clearLeftTopSliderFunc()" @mouseleave="leftTopSliderFunc()">
               <li v-for="taskTopLeft in taskTopLeftList">
-                <router-link :to="{path:'/task-details'}" :title="taskTopLeft.task.taskName" class="block">
+                <router-link :to="{path:'/task-details', query:{taskId: taskTopLeft.task.id }}" :title="taskTopLeft.task.taskName" class="block">
                   <div class="left img-box">
                     <img :src="taskTopLeft.task.taskMainImage" alt="" width="54px">
                   </div>
