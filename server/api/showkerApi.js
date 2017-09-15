@@ -355,7 +355,7 @@ router.post('/api/showker-modify-report.json', function (req, res, next) {
 router.post('/api/showker-task-info.json', function (req, res, next) {
   let options = {
     method: 'GET',
-    uri: baseUrl + '/get/stid/' + req.body.id + '/uid/' + req.session.userData.id,
+    uri: baseUrl + '/task/showker/get/stid/' + req.body.id + '/uid/' + req.session.userData.id,
     json: true
   };
   request(options)
@@ -377,7 +377,7 @@ router.post('/api/showker-task-info.json', function (req, res, next) {
 router.post('/api/showker-task-report.json', function (req, res, next) {
   let options = {
     method: 'GET',
-    uri: baseUrl + 'report/get/stid/' + req.body.id,
+    uri: baseUrl + '/task/showker/report/get/stid/' + req.body.id,
     json: true
   };
   request(options)
@@ -399,7 +399,7 @@ router.post('/api/showker-task-report.json', function (req, res, next) {
 router.post('/api/trial-report.json', function (req, res, next) {
   let options = {
     method: 'GET',
-    uri: baseUrl + 'report/get/trid/' + req.body.id,
+    uri: baseUrl + '/task/showker/report/get/trid/' + req.body.id,
     json: true
   };
   request(options)
