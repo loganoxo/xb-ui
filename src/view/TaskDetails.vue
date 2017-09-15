@@ -501,6 +501,7 @@
         }
       }
       .task-details-top-right{
+        width: 770px;
         padding: 15px 0;
         p{
           line-height: 48px;
