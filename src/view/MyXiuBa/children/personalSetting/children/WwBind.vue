@@ -187,6 +187,8 @@
   import Modal from 'iview/src/components/modal'
   import Alert from 'iview/src/components/alert'
   import SmsCountdown from '@/components/SmsCountdown'
+  import {mapActions} from 'vuex'
+  import {mapMutations} from 'vuex'
   export default {
     name: 'wwBind',
     components: {
@@ -391,6 +393,9 @@
     },
     computed: {},
     methods: {
+      ...mapActions([
+        'getUserInformation'
+      ]),
       deleteWwBindFunc(ww,index){
         let self = this;
         api.wwUnbind({id: ww.id}).then((res) => {
@@ -400,6 +405,7 @@
             });
             self.wwBindLists.splice(index, 1);
             self.$set(self.wwBindLists);
+            self.getUserInformation();
           }else {
             if(res.statusCode === 'have_waiting_audit_apply'){
               res.msg = '亲，该旺旺还有活动任务正在审核中，请完成该旺旺的所有任务后再进行解绑操作！';
@@ -490,6 +496,7 @@
                   onOk:function () {
                     self.wwBindList();
                     self.clearWwInfo();
+                    self.getUserInformation();
                     self.showWwBindBox = false;
                   }
                 });
@@ -515,6 +522,7 @@
                   onOk:function () {
                     self.wwBindList();
                     self.clearWwInfo();
+                    self.getUserInformation();
                     self.showWwBindBox = false;
                   }
                 });

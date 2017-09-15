@@ -108,6 +108,7 @@ router.post('/api/task/showker/trial/reports.json', function (req, res, next) {
       showkerId: req.body.showkerId,
       pageIndex: req.body.pageIndex,
       pageSize: req.body.pageSize,
+      itemCatalogname: req.body.itemCatalogname,
     },
     json: true
   };

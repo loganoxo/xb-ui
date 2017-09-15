@@ -134,6 +134,8 @@
   import Modal from 'iview/src/components/modal'
   import Alert from 'iview/src/components/alert'
   import SmsCountdown from '@/components/SmsCountdown'
+  import {mapActions} from 'vuex'
+  import {mapMutations} from 'vuex'
   export default {
     name: 'verified',
     components: {
@@ -225,6 +227,9 @@
     },
     computed: {},
     methods: {
+      ...mapActions([
+        'getUserInformation'
+      ]),
       getVrcode() {
         this.imgSrc = "/api/vrcode.json?rand=" + new Date() / 100
       },
@@ -276,6 +281,7 @@
           }).then((res) => {
             if(res.status){
               self.verifiedState = self.verifiedStatus.verifiedIng;
+              self.getUserInformation();
             }else {
               self.$Modal.warning({
                 content: res.msg

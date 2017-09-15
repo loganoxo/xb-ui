@@ -7,15 +7,15 @@
           <p class="fs-14 user-basic-title">基本信息</p>
           <div class="user-basic-ctt">
             <div class="text-ct left">
-              <img class="block mg-at" :src="defaultAvatar" alt="" style="width: 120px;">
+              <img class="block mg-at" :src="userList.portraitPic" alt="" style="width: 120px;">
               <a class="fs-14 block mt-10" @click="selPortraitPic">修改头像</a>
             </div>
             <ul v-show="!showModifyAvatar" class="left">
               <li>
-                手机帐号： {{userData.phone}}
+                手机帐号： {{userList.phone}}
               </li>
-              <li v-if="getUserRole == 0">
-                <p v-if="userData.alitmNum <= 0 ">
+              <li v-if="userList.role == 0">
+                <p v-if="userList.alitmNum <= 0 ">
                   绑定淘宝账号：未绑定 - <router-link to="/user/personal-setting/ww-bind">马上绑定</router-link>
                 </p>
                 <p v-else>
@@ -23,7 +23,7 @@
                 </p>
               </li>
               <li>
-                <p v-if="Boolean(userData.ifCertification)">
+                <p v-if="Boolean(userList.ifCertification)">
                   实名认证：<a>已认证</a>
                 </p>
                 <p v-else>
@@ -32,7 +32,7 @@
                 </p>
               </li>
               <li>
-                注册时间：{{userData.createTime | dateFormat('YYYY-MM-DD hh:mm:ss')}}
+                注册时间：{{userList.createTime | dateFormat('YYYY-MM-DD hh:mm:ss')}}
               </li>
             </ul>
             <p v-show="showModifyAvatar" class="img-box">
@@ -59,8 +59,8 @@
               <ul>
                 <li class="one">支付密码</li>
                 <li class="two">
-                  <span v-if="!userData.userAccount.ifEditPwdAlready">未设置(初始密码888888)</span>
-                  <span v-if="userData.userAccount.ifEditPwdAlready">已设置</span>
+                  <span v-if="!isEditPwdAlready">未设置(初始密码888888)</span>
+                  <span v-if="isEditPwdAlready">已设置</span>
                 </li>
                 <li class="three">
                   <router-link to="/user/money-management/account-management?infoSelect=accountInfo">去设置</router-link>
@@ -73,8 +73,8 @@
                   提现账号
                 </li>
                 <li class="two">
-                  <span v-if="!userData.ifBandingBankCard">未设置</span>
-                  <span v-if="userData.ifBandingBankCard">已设置</span>
+                  <span v-if="!userList.ifBandingBankCard">未设置</span>
+                  <span v-if="userList.ifBandingBankCard">已设置</span>
                 </li>
                 <li class="three">
                   <router-link to="/user/money-management/getout-money">去设置</router-link>
@@ -392,9 +392,8 @@
             src: "/static/avatar/tx12.png"
           },
         ],
-        defaultAvatar: '',
         showModifyAvatar: false,
-        userData: this.$store.state.getPersonalInfo,
+        userData: {},
       }
     },
     mounted() {
@@ -402,13 +401,24 @@
     },
     created() {
       let self = this;
-      self.getUserAccount();
       self.getVrcode();
     },
     computed: {
       getUserRole() {
         return this.$store.state.userInfo.role
       },
+      userAccount: function () {
+        return this.$store.getters.getUserAccountInfo || {};
+      },
+      userList: function () {
+        return this.$store.getters.getPersonalInfo || {};
+      },
+      userBalance: function () {
+        return this.$store.getters.getUserBalance;
+      },
+      isEditPwdAlready: function () {
+        return this.$store.getters.getIsEditPwdAlready;
+      }
     },
     methods: {
       ...mapActions([
@@ -434,13 +444,12 @@
       },
       modifyPortraitPic(avatar){
         let self = this;
-        self.defaultAvatar = avatar.src;
         api.modifyPortraitPic({
-          picStr: this.defaultAvatar
+          picStr: avatar.src
         }).then((res) => {
           if(res.status){
             self.showModifyAvatar = false;
-            this.getUserInformation();
+            self.getUserInformation();
           }else {
             self.$Modal.error({
               content: res.msg
@@ -463,6 +472,7 @@
               content: res.msg,
               onOk: function () {
                 self.$router.go(-1);
+                self.getUserInformation();
               }
             });
           }else {
@@ -501,6 +511,7 @@
               content: res.msg,
               onOk: function () {
                 self.$router.go(-1);
+                self.getUserInformation();
               }
             });
           }else {
@@ -525,15 +536,6 @@
           });
           self.getVrcode();
         }
-      },
-      getUserAccount(){
-        let self = this;
-        api.getUserAccount().then((res) => {
-          if(res.status){
-            self.userData = res.data;
-            self.defaultAvatar = res.data.portraitPic
-          }
-        })
       },
       myInfoFunc(index){
         if(index === 1){

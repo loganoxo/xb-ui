@@ -7,7 +7,7 @@
             <p class="fs-16 trial-account">{{showkerInfo.phone}}的买家秀</p>
             <p class="trial-tag">
               Ta的标签：&nbsp;&nbsp;
-              <a  v-for="(value, key) in showkerTag">
+              <a  v-for="(value, key) in showkerTag" v-if="value" style="margin-right: 20px;" @click="getTagTrialReports(key)">
                 <iButton size="small" v-if=" value > 0" >{{key}}({{value}})</iButton>
               </a>
             </p>
@@ -147,7 +147,8 @@
         trialReportParams: {
           showkerId: this.$store.state.userInfo.id,
           pageIndex: 1,
-          pageSize: 5
+          pageSize: 5,
+          itemCatalogname: '',
         },
         trialReportList: [],
         showReportDesc: false,
@@ -168,6 +169,10 @@
         }
     },
     methods: {
+      getTagTrialReports(key){
+          this.trialReportParams.itemCatalogname = key;
+          this.getTrialReports();
+      },
       getTrialReports(){
         let self = this;
         api.getTrialReports(self.trialReportParams).then((res) => {
