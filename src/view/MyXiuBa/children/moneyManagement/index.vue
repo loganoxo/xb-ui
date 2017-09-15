@@ -14,7 +14,6 @@
     name: 'MoneyManagement',
 
     data() {
-
       return {
         myInfoSelects: [
           {
@@ -42,17 +41,14 @@
       }
     },
     mounted() {
-
     },
     created() {
       let name = this.$route.name;
       this.selectNavigate(name);
     },
-    computed: {
-
-    },
+    computed: {},
     watch: {
-      $route(to){
+      $route(to) {
         this.infoSelect = to.name;
       }
     },
@@ -69,21 +65,22 @@
   }
 </script>
 
-<style lang="scss" >
+<style lang="scss">
   @import 'src/css/mixin';
+
   .personal-box {
-    .iWantPay{
+    .iWantPay {
       color: #71B6FF;
     }
-    .payMoneyBtn{
+    .payMoneyBtn {
       background-color: $mainColor;
       color: #fff;
       width: 120px;
     }
-    .lisColor{
+    .lisColor {
       color: $mainColor;
     }
-    .pay{
+    .pay {
       display: block;
       width: 100px;
       height: 30px;
@@ -93,16 +90,16 @@
       text-align: center;
       border-radius: 2px;
     }
-    .triangle{
+    .triangle {
       transform: translate(180deg);
     }
-    .main-color{
+    .main-color {
       color: $mainColor;
     }
     .tdColor {
       color: red;
     }
-    .tdColorGreen{
+    .tdColorGreen {
       color: #329832;
     }
     .title {
@@ -162,17 +159,17 @@
         }
       }
 
-      .number, .number1{
+      .number, .number1 {
         border-bottom: 1px solid #E5E5E5;
         font-size: 20px;
 
         padding-bottom: 10px;
         height: 40px;
       }
-      .number{
+      .number {
         color: #329832;
       }
-      .number1{
+      .number1 {
         color: #FF6633;
       }
       .view-details {
@@ -214,7 +211,7 @@
         }
         ul {
           width: 100%;
-          border: 1px solid  #f3f3f3;
+          border: 1px solid #f3f3f3;
           li {
             ul {
               display: table;
@@ -244,7 +241,7 @@
       .modify-pwd {
         margin-top: 20px;
         font-size: 14px;
-        border: 1px solid  #f3f3f3; ;
+        border: 1px solid #f3f3f3;;
         padding-bottom: 20px;
         .modify-pwd-sel {
           > P {
@@ -289,7 +286,7 @@
           float: left;
           padding: 5px 10px;
         }
-        li:active{
+        li:active {
           color: $mainColor;
         }
       }
@@ -323,14 +320,14 @@
       cursor: pointer;
       position: relative;
     }
-    .detailsSpc{
+    .detailsSpc {
       cursor: pointer;
       position: relative;
     }
     .small-table td {
       padding: 10px;
     }
-    .small-table tbody:last-child{
+    .small-table tbody:last-child {
       text-align: center;
 
     }
@@ -338,32 +335,32 @@
       margin-top: 80px;
       padding-left: 10px;
     }
-    .my-pay{
-      .my-pay-top{
+    .my-pay {
+      .my-pay-top {
         padding: 10px;
         font-size: 14px;
         border-bottom: 1px solid #f4f4f4;
       }
-      .my-pay-desc{
+      .my-pay-desc {
         padding: 80px 0px 0px 100px;
         font-size: 16px;
-        .iinput{
+        .iinput {
           width: 150px;
           height: 30px;
         }
       }
-      .pay-choice{
+      .pay-choice {
         height: 30px;
         line-height: 30px;
-        input{
+        input {
           vertical-align: middle;
         }
-        .wx,.zfb{
+        .wx, .zfb {
           vertical-align: middle;
         }
       }
-      .btn > button{
-        width: 150px ;
+      .btn > button {
+        width: 150px;
         background-color: $mainColor;
         height: 30px;
         border: none;
@@ -374,126 +371,126 @@
         margin: 30px 0px 0px 230px;
       }
     }
-    .my-transact{
-      .date-picker{
-        padding: 15px ;
+    .my-transact {
+      .date-picker {
+        padding: 15px;
         border-bottom: 1px solid #F6F6F6;
       }
-      .choice-time{
-        span{
+      .choice-time {
+        span {
           display: inline-block;
           padding: 5px 20px;
           color: #9FADB7;
         }
-        span:nth-of-type(1){
+        span:nth-of-type(1) {
           margin-left: 15px;
         }
-        span.active{
+        span.active {
           background-color: #DAE1E8;
           border-radius: 13px;
           color: #000;
         }
       }
-      .transact-type{
+      .transact-type {
         position: relative;
         padding: 15px;
-        .checkBox{
+        .checkBox {
           position: absolute;
           top: 13px;
           left: 86px;
 
         }
       }
-      .activity-number{
+      .activity-number {
         padding: 10px 15px;
       }
-      .ibtn{
-        background-color:$mainColor;
+      .ibtn {
+        background-color: $mainColor;
         color: #fff;
         font-size: 14px;
         margin-left: 84px;
         margin-top: 12px;
         width: 100px;
       }
-      .line{
+      .line {
         height: 1px;
         border-bottom: 1px solid #F6F6F6;
       }
-      .transaction-amount{
+      .transaction-amount {
         padding: 20px 10px;
         font-size: 16px;
-        .number{
+        .number {
           color: $mainColor;
         }
       }
     }
-    .theSpecialBtn{
+    .theSpecialBtn {
       border: none;
       background-color: #f9f9f9;
       cursor: pointer;
       outline: none;
       color: blue;
     }
-    .my-getoutmoney{
-      .not-certification{
+    .my-getoutmoney {
+      .not-certification {
         text-align: center;
-        h2{
+        h2 {
           margin-top: 80px;
           color: #7C7C7C;
-          .icon:before{
+          .icon:before {
             font-size: 30px;
           }
         }
-        .how-todo{
+        .how-todo {
           font-size: 16px;
           margin-top: 52px;
           color: #50A6FF;
           span:nth-of-type(1),
-          span:nth-of-type(3){
+          span:nth-of-type(3) {
             color: #BABABA;
           }
         }
       }
-      .bound-bankcard{
+      .bound-bankcard {
         text-align: center;
-        .bankcard-title{
+        .bankcard-title {
           margin-top: 80px;
-          .icon{
+          .icon {
             /*vertical-align: middle;*/
           }
-          .icon:before{
+          .icon:before {
             color: #FF7F57;
             font-size: 30px;
             /*vertical-align: middle;*/
 
           }
-          span{
+          span {
             font-size: 18px;
             color: #808080;
           }
         }
-        .addcard{
+        .addcard {
           background-color: #F8F8F8;
           height: 140px;
           width: 260px;
           border: 1px dashed #D3D3D3;
           margin: 40px auto;
           cursor: pointer;
-          .icon{
+          .icon {
             margin-top: 35px;
             color: #58C1E5;
           }
-          .icon:before{
+          .icon:before {
             font-size: 35px;
           }
-          p{
+          p {
             font-size: 20px;
             color: #48B4DC;
           }
         }
       }
-      .add-bankcard{
-        .title{
+      .add-bankcard {
+        .title {
           color: #FF6F42;
           font-size: 16px;
           height: 40px;
@@ -503,22 +500,22 @@
           background-color: #FFF6F3;
           margin: 0 auto;
           margin-top: 30px;
-          .icon{
+          .icon {
             position: absolute;
             top: 10px;
           }
-          .icon:before{
+          .icon:before {
             font-size: 20px;
           }
-          span{
+          span {
             margin-left: 50px;
           }
         }
-        .ipt-information{
+        .ipt-information {
           margin-left: 96px;
-          margin-top:36px;
+          margin-top: 36px;
           width: 500px;
-          select{
+          select {
             box-sizing: border-box;
             width: 300px;
             padding: 4px 7px;
@@ -526,12 +523,12 @@
             border: 1px solid #DDDEE1;
             border-radius: 2px;
           }
-          select:focus{
-            border:1px solid #FF855C ;
+          select:focus {
+            border: 1px solid #FF855C;
           }
-          .formPosition{
+          .formPosition {
             position: relative;
-            .ibtn{
+            .ibtn {
               position: absolute;
               top: 0;
               right: -120px;
@@ -540,15 +537,15 @@
 
         }
       }
-      .get-out-number{
-        .title{
+      .get-out-number {
+        .title {
           font-size: 14px;
           border-bottom: 1px solid #F4F4F4;
           padding: 0px 10px;
         }
-        .content{
+        .content {
           font-size: 16px;
-          .warning{
+          .warning {
             color: #FF6F42;
             height: 40px;
             line-height: 40px;
@@ -557,71 +554,71 @@
             background-color: #FFF6F3;
             margin: 0 auto;
             margin-top: 20px;
-            .icon{
+            .icon {
               position: absolute;
               top: 11px;
             }
-            .icon:before{
+            .icon:before {
               font-size: 20px;
             }
-            span{
+            span {
               font-size: 16px;
               font-family: Microsoft YaHei;
             }
           }
-          .get-out-do{
+          .get-out-do {
             padding: 20px 80px;
-            .iInput{
+            .iInput {
               width: 200px;
               height: 40px;
             }
           }
-          .psw{
-            padding-left:46px ;
-            span{
+          .psw {
+            padding-left: 46px;
+            span {
               color: #5CAAFF;
               cursor: pointer;
             }
           }
-          .ibtns{
+          .ibtns {
             width: 120px;
           }
 
         }
       }
-      .getout-record{
-        .titel{
+      .getout-record {
+        .titel {
           font-size: 14px;
           padding: 10px 15px;
           border-bottom: 1px solid #F5F5F5;
-          .spr{
+          .spr {
             color: #86BCFF;
           }
         }
-        .content-input{
+        .content-input {
           padding: 10px 15px;
           border-bottom: 1px solid #F5F5F5;
-          .ibtn1{
+          .ibtn1 {
             margin-left: 10px;
             background-color: $mainColor;
             color: #fff;
             width: 100px;
           }
         }
-        .content-select{
+        .content-select {
           padding: 10px 10px;
-          span{
+          span {
             width: 120px;
             padding: 6px 15px;
             background-color: #F8F8F8;
             text-align: center;
             cursor: pointer;
           }
-          span:nth-of-type(2){
+          span:nth-of-type(2) {
             border-left: 1px solid #F0F0F0;
             border-right: 1px solid #F0F0F0;
           }
-          span.actives{
+          span.actives {
             background-color: $mainColor;
             color: #fff;
           }

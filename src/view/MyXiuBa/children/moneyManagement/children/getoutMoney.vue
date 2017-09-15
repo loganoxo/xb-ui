@@ -96,11 +96,11 @@
               <span v-show="getIfEditPwdAlready === true"><router-link to="/user/money-management/account-management">忘记支付密码？</router-link></span>
             </Form-item>
             <Form-item>
-              <iButton type="primary" @click="modal2 = true,applyGetoutMoney(getoutMoney)" class="ibtns">申请提现</iButton>
+              <iButton type="primary" @click="getOutMoneyPopWindow = true,applyGetoutMoney(getoutMoney)" class="ibtns">申请提现</iButton>
               <Modal
-                v-model="modal2"
+                v-model="getOutMoneyPopWindow"
                 :styles="{top:'210px',width:'580px'}"
-                @on-ok="ok"
+                @on-ok="success"
                 title="">
                 <p style="text-align: center;font-size: 40px;color: #FF6633;">
                   <Icon :type="iconType"></Icon>
@@ -192,12 +192,12 @@
                     {{item.bankCardNum}}
                   </td>
                   <td>
-                    {{typechang(item.enCashMoney / 100)}}
+                    {{typeChang(item.enCashMoney / 100)}}
                   </td>
                   <td>
                     {{'-' + item.poundage / 100}}
                   </td>
-                  <td>{{typechang(item.realAmount / 100)}}</td>
+                  <td>{{typeChang(item.realAmount / 100)}}</td>
                 </tr>
                 </tbody>
               </table>
@@ -253,7 +253,6 @@
     },
     data() {
       //表单验证
-
       const validatePayNumber = (rule, value, callback) => {
         if (!(/^[1-9]\d*$/.test(value))) {
           callback(new Error('金额为数字，请您重新输入'))
@@ -303,7 +302,6 @@
           callback()
         }
       };
-
       const validateSmsCode = (rule, value, callback) => {
         if (value === '') {
           callback(new Error('请输入动态码'));
@@ -315,7 +313,7 @@
         imgSrc: null,
         psw: 'password',
         eye: 'eye',
-        modal2: false,
+        getOutMoneyPopWindow: false,
         formItem: {
           name: '',
           select: '',
@@ -436,7 +434,7 @@
       },
 
       //在金额为正前加+
-      typechang(num) {
+      typeChang(num) {
         if (num > 0) {
           num = '+' + num;
         }
@@ -451,14 +449,17 @@
           this.eye = 'eye';
         }
       },
-      ok() {
+      success() {
         this.getUserInformation();
       },
       goBack() {
         if (this.$route.query.bandCard === 'bandCard') {
           this.$router.go(-1)
         } else {
-          this.showDifffentModel('getoutMoney')
+//          this.showDifffentModel('getoutMoney')
+          this.changeBankIdcardShowFun();
+          this.changeBankIDcardShow.bondBankCard = false;
+
         }
       },
       sendCodeSuccess(res) {
@@ -517,7 +518,6 @@
       //添加银行卡
       addBankCardInfo(type) {
         let _this = this;
-        _this.getVrcode();
         api.addBankCardInfo({
           validateCode: type.validateCode,
           accountName: type.name,
@@ -533,8 +533,9 @@
             _this.formItem.cord = '';
             _this.showDifffentModel('getoutMoney');
             _this.getUserInformation();
-
+            _this.getVrcode();
           } else {
+            _this.getVrcode();
             _this.$Message.error(res.msg)
           }
         });

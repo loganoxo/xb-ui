@@ -187,48 +187,24 @@
 <script>
   import api from '@/config/apiConfig'
   import Icon from 'iview/src/components/icon'
-  import DatePicker from 'iview/src/components/date-picker'
-  import Alert from 'iview/src/components/alert'
-  import Table from 'iview/src/components/table'
   import Form from 'iview/src/components/form'
-  import Input from '@/components/Input'
-  import Radio from 'iview/src/components/radio'
-  import Checkbox from 'iview/src/components/checkbox'
   import Button from 'iview/src/components/button'
-  import Page from 'iview/src/components/page'
-  import {setStorage, getStorage} from '@/config/utils'
   import Modal from 'iview/src/components/modal'
-  import TimeDown from '@/components/TimeDown'
+  import Input from '@/components/Input'
   import SmsCountdown from '@/components/SmsCountdown'
-  import PayModel from '@/components/PayModel'
-  import {Select, Option, OptionGroup} from 'iview/src/components/select'
   import {mapActions} from 'vuex'
 
   export default {
     name: 'MoneyManagement',
     components: {
-      iTable: Table,
-      Radio: Radio,
-      RadioGroup: Radio.Group,
-      DatePicker: DatePicker,
       iInput: Input,
       iForm: Form,
-      iSelect: Select,
-      iOption: Option,
-      OptionGroup: OptionGroup,
       FormItem: Form.Item,
-      Checkbox: Checkbox,
-      CheckboxGroup: Checkbox.Group,
       iButton: Button,
       ButtonGroup: Button.Group,
       Icon: Icon,
       Modal: Modal,
-      TimeDown: TimeDown,
-      Alert: Alert,
-      SmsCountdown: SmsCountdown,
-      PayModel: PayModel,
-      Page: Page
-
+      SmsCountdown: SmsCountdown
     },
     data() {
       //表单验证
@@ -329,7 +305,6 @@
           ],
         },
         infoSelect: 'account',
-        userAccount: {},
         myAccount: {
           userSafe: true,
           modifyPwd: false,
@@ -481,11 +456,7 @@
         this.imgSrc = "/api/vrcode.json?rand=" + new Date() / 100
       },
       geIifCertification(type) {
-        if (type === false) {
-          return '未认证';
-        } else {
-          return '已认证';
-        }
+        return type===false?'未认证':'已认证';
       },
       getIfBandingBankCard(type) {
         return type === null ? '未绑定' : this.bankCardNumber

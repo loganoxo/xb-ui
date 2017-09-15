@@ -231,11 +231,9 @@
           this.$router.push({name: 'GetoutMoney', query: {bandCard: 'bandCard'}});
         }
       },
-
       typeChang(num) {
         if (num > 0) {
           num = '+' + num;
-          this.mainColor = 'tdColorGreen'
         }
         return num
       },
@@ -292,11 +290,7 @@
         return TaskErrorStatusList(type)
       },
       geIifCertification(type) {
-        if (type === false) {
-          return '未认证';
-        } else {
-          return '已认证';
-        }
+        return type===false?'未认证':'已认证';
       },
       getIfBandingBankCard(type) {
         return type === null ? '未添加' : this.userAccount.bankCardNum;

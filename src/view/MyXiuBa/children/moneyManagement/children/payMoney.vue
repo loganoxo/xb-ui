@@ -79,9 +79,10 @@
       const validatePayNumber = (rule, value, callback) => {
         if (!(/^[0-9]+(.[0-9]{1,2})?$/.test(value))) {
           callback(new Error('金额为数字，请您重新输入'))
-        } else if (value < 1) {
-          callback(new Error('最低一元起充，请您重新输入'))
         }
+//        else if (value < 1) {
+//          callback(new Error('最低一元起充，请您重新输入'))
+//        }
         else {
           callback()
         }
@@ -106,9 +107,7 @@
         url: '',
       }
     },
-    mounted() {
-
-    },
+    mounted() {},
     created() {
 
     },
@@ -141,14 +140,17 @@
       },
       balanceOrderCreate() {
         let _this = this;
-        if (type.number === '') {
+
+        if (_this.payMoney.number === '') {
           _this.$Message.error('您未输入充值金额，请您重新输入');
           _this.payPopWindowValue = false;
           return;
-        } else if (parseInt(type.number) < 1) {
-          _this.payPopWindowValue = false;
-          return;
-        } else {
+        }
+//        else if (parseInt(_this.payMoney.number) < 1) {
+//          _this.payPopWindowValue = false;
+//          return;
+//        }
+        else {
           _this.payPopWindowValue = true;
           _this.payPopWindow = _this.payPopWindowValue;
         }
