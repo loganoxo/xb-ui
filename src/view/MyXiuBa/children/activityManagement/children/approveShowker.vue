@@ -488,6 +488,7 @@
               content: '订单号审核成功！',
               duration: 4
             });
+            _this.getUserInformation();
             _this.taskApplyList();
             _this.closeCheckOrder();
           } else {

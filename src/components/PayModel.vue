@@ -15,7 +15,7 @@
     </div>
     <div class="select-pay-type ml-56 clear" v-else>
       <span class="left mt-8">请选择支付方式：</span>
-      <Radio-group v-model="payType">
+      <Radio-group v-model="payType" class="left ml-20">
         <Radio label="ali">
           <span class="ali-logo"></span>
         </Radio>

@@ -43,5 +43,13 @@ export default {
         alert('获取用户信息：' + res.msg);
       }
     });
+  },
+  //获取当前服务器时间
+  getSeverTime({commit}) {
+    api.getSeverTime().then(res =>{
+      if(res.status){
+
+      }
+    })
   }
 }

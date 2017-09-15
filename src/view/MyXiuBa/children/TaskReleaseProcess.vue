@@ -362,13 +362,14 @@
               <span class="required">淘口令：</span>
               <iInput v-model="taoCodeTaskDetail.taoCode" placeholder="请输入任务宝贝的淘口令" style="width: 320px"></iInput>
             </div>
-            <div class="entrance_describe ml-45 mt-20">
+            <!--<div class="entrance_describe ml-45 mt-20">
               <span class="required">入口描述：</span>
               <iInput v-model="taoCodeTaskDetail.accessDescription" type="textarea" :rows="6"
                       placeholder="重要！商家必须清楚描述找到任务宝贝的入口和步骤。参见下面格式：第一步：复制淘口令。第二步：打开淘宝APP。第三步：在弹除的淘口令窗口点击立即查看。第四步：下单购买。"
                       style="width: 320px">
               </iInput>
-            </div>
+            </div>-->
+
           </template>
         </div>
       </div>
@@ -814,10 +815,6 @@
         if (_this.taskRelease.taskType === 'tao_code') {
           if (!_this.taoCodeTaskDetail.taoCode) {
             _this.$Message.warning('亲，任务宝贝淘口令不能为空！');
-            return;
-          }
-          if (!_this.taoCodeTaskDetail.accessDescription) {
-            _this.$Message.warning('亲，淘口令入口描述不能为空！');
             return;
           }
         }

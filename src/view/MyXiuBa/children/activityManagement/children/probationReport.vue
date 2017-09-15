@@ -1,8 +1,12 @@
 <template>
   <div class="activity-management">
-    <div class="activity-title pl-10">
-      <span class="left">{{showkerTaskInfo.showkerName}}的买家秀</span>
+    <div class="activity-title pl-10" v-if="!showType">
+      <span class="left">{{showkerTaskInfo.showkerPhone}}的买家秀</span>
       <span class="right" @click="returnUpPage()">返回上一页</span>
+    </div>
+    <div class="activity-title pl-10" v-else>
+      <span class="left">我的买家秀</span>
+      <span></span>
     </div>
     <div class="report-info mt-12">
       <div class="manage-info-con clear">
@@ -46,8 +50,8 @@
           <span class="left-btn" @click="leftChangeImg"><Icon type="chevron-left" size="32" color="#999"></Icon></span>
           <span class="right-btn" @click="rightChangeImg"><Icon type="chevron-right" size="32" color="#999"></Icon></span>
         </div>
-        <div v-else>暂无买家秀图片</div>
-        <div class="check-trial mt-40">
+        <div class="no-buyer-show" v-else>暂无买家秀图片</div>
+        <div class="check-trial mt-40" v-if="!showType">
           <div class="select-check">
             <Radio-group v-model="trialCheckStatus">
               <Radio label="pass" style="margin-right: 32px;">
@@ -139,16 +143,27 @@
         noPassReason:null,
         trialReportImages:[],
         showNowImageSrc:null,
-        reportImagesIndex:0
+        reportImagesIndex:0,
+        showType: false,
       }
     },
     mounted() {
     },
     created() {
       let id = this.$route.query.id;
-      this.auditTrialReport(id);
+      let from = this.$route.query.from;
+      if(from){
+        this.showType = true;
+        this.lookShowkerReport(id);
+      }else {
+        this.auditTrialReport(id);
+      }
     },
-    watch: {},
+    watch: {
+      $route(to){
+        console.log(to);
+      }
+    },
     computed: {
       isPwdAmend: function () {
         return this.$store.getters.getIsEditPwdAlready;
@@ -182,6 +197,19 @@
             _this.showNowImageSrc = _this.trialReportImages[0];
           }else{
             _this.$Message.error(res.msg);
+          }
+        })
+      },
+      lookShowkerReport(id) {
+        let _this = this;
+        api.showkerReportInfo({
+          id:id
+        }).then( res=>{
+          if(res.status){
+            _this.showkerTaskInfo = res.data.showkerTask;
+            _this.showkerReportInfo = res.data.trialReport;
+            _this.trialReportImages = _this.showkerReportInfo.trialReportImages ? JSON.parse(_this.showkerReportInfo.trialReportImages) : [];
+            _this.showNowImageSrc = _this.trialReportImages[0];
           }
         })
       },

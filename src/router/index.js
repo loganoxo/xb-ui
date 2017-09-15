@@ -179,7 +179,7 @@ export default new Router({
               name: 'ActivityDetail',
               component: ActivityDetail,
               meta: {
-                title: "买家秀活动管理-买家秀详情",
+                title: "买家秀管理-买家秀详情",
                 logInAuthority: true,
               },
             }
@@ -216,7 +216,13 @@ export default new Router({
                 title: "我的买家秀-未通过",
                 logInAuthority: true,
               },
-            }
+            },
+            {
+              path: 'report',
+              redirect: {
+                name: 'ProbationReport'
+              }
+            },
           ]
         },
         {

@@ -525,4 +525,26 @@ router.post('/api/task/seller-personal-trial-count.json', function (req, res, ne
     });
 });
 
+/**
+ * 商家查看活动结算详情
+ * @param taskId
+ */
+router.post('/api/task-settlement-detail.json', function (req, res, next) {
+  let options = {
+    method: 'GET',
+    uri: baseUrl + '/task/settlement/detail/' + req.session.userData.id +'/' + req.body.taskId,
+    json: true
+  };
+  request(options)
+    .then(function (parsedBody) {
+      res.send(parsedBody);
+      res.end();
+    })
+    .catch(function (err) {
+      logConfig.logger.error(req.originalUrl + ':' + err);
+      res.json({status: false, msg: "服务器请求超时，请稍后在试！"});
+      res.end();
+    });
+});
+
 module.exports = router;

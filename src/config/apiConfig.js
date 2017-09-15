@@ -490,4 +490,18 @@ export default {
   showkerDepositReturn(params) {
     return fetch("/api/showker-deposit-return.json", params)
   },
+
+  /**
+   * 商家查看活动结算详情
+   */
+  taskSettlementDetail(params) {
+    return fetch("/api/task-settlement-detail.json", params)
+  },
+
+  /**
+   * 获取服务器时间
+   */
+  getSeverTime() {
+    return fetch("/api/get-sever-time.json")
+  }
 }

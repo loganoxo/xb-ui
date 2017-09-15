@@ -47,4 +47,8 @@ export default {
   [types.RECORD_USER_BALANCE](state, {balance}) {
     state.userBalance = balance / 100;
   },
+  //存入服务器时间到vuex
+  [types.RECORD_SEVER_TIME](state, {balance}) {
+    state.userBalance = balance / 100;
+  },
 }

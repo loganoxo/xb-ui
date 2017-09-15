@@ -312,6 +312,11 @@
     .pay-model {
       @include fullScreenModel
     }
+    .no-buyer-show {
+      text-align: center;
+      font-size: 20px;
+      margin-top: 24px;
+    }
   }
 
 </style>

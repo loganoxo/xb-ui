@@ -121,7 +121,7 @@
           </td>
           <td v-else-if="item.settlementStatus === 'settlement_finished' || item.taskStatus === 'finished'">
             <p class="copy mt-6">
-              <span @click="billDetails(item.id)">结算详情</span>
+              <span @click="billDetails(item.id, item.storeName)">结算详情</span>
             </p>
             <p class="copy mt-6">
               <span @click="copyTask(item.id)">复制活动</span>
@@ -213,14 +213,14 @@
       </div>
     </Modal>
     <!--结算详情弹框-->
-    <Modal v-model="billDetailsModel" width="400">
+    <Modal v-model="billDetailsModel" width="420">
       <p slot="header" style="color:#f60;text-align:center">
         <span>结算详情</span>
       </p>
       <div>
-        <p>活动标题：545454</p>
-        <p>结算时间：2017-05-09</p>
-        <p>结算备注：活动剩余资格{{taskCountLeft}}，返还担保金共{{marginRefund}}元，返还推广费{{promotionRefund}}元。</p>
+        <p>活动标题：{{taskSettlementDetailInfo.storeName}}</p>
+        <p>结算时间：{{taskSettlementDetailInfo.settlementTime | dateFormat('YYYY-MM-DD hh-mm-ss')}}</p>
+        <p>结算备注：活动剩余资格{{taskSettlementDetailInfo.taskCountLeft}}，返还担保金共{{taskSettlementDetailInfo.marginRefund}}元，返还推广费{{taskSettlementDetailInfo.promotionRefund}}元。</p>
       </div>
       <div slot="footer" class="text-ct">
         <iButton type="error" size="large" long @click="billDetailsModel = false">确认</iButton>
@@ -231,7 +231,7 @@
       <PayModel :orderMoney="getUserBalance - needDepositMoney > 0 ? needDepositMoney : Math.abs(getUserBalance - needDepositMoney)" @confirmPayment="confirmPayment">
         <i slot="closeModel" class="close-recharge" @click="showPayModel = false">&times;</i>
         <div slot="noBalance" class="title-tip">
-          <span class="size-color3"><Icon color="#FF2424" size="18px" type="ios-information"></Icon>
+          <span class="size-color3"><Icon color="#FF2424" size="18" type="ios-information"></Icon>
             <span class="ml-10">亲，您的余额不足，请充值。</span>
           </span>还需充值<strong class="size-color3">{{Math.abs(getUserBalance - needDepositMoney)}}</strong>元</div>
         <div slot="isBalance" class="title-tip">
@@ -294,6 +294,8 @@
         marginRefund: 0,
         promotionRefund: 0,
         taskCountLeft: 0,
+        taskSettlementDetailInfo: {},
+        title:null,
       }
     },
     mounted() {
@@ -482,11 +484,23 @@
         this.$router.push({name:'TransactionRecord',query:{taskNumber:this.ActivityNumber}});
         this.directSettlementSuccess = false;
       },
-      billDetails() {
+      billDetails(taskId, storeName) {
         let _this = this;
-        _this.billDetailsModel = true;
+        api.taskSettlementDetail({
+          taskId: taskId
+        }).then(res =>{
+          if(res.status){
+            _this.billDetailsModel = true;
+            _this.taskSettlementDetailInfo.settlementTime = res.data.settlementTime;
+            _this.taskSettlementDetailInfo.taskCountLeft = res.data.taskCountLeft;
+            _this.taskSettlementDetailInfo.marginRefund = res.data.marginRefund / 100;
+            _this.taskSettlementDetailInfo.promotionRefund = res.data.promotionRefund / 100;
+            _this.taskSettlementDetailInfo.storeName = storeName;
+          }else{
+            _this.$Message.error(res.msg)
+          }
+        })
       }
     }
   }
 </script>
-
