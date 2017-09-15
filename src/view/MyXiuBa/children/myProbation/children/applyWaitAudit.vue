@@ -138,7 +138,7 @@
           if (res.status) {
             _this.searchLoading = false;
             _this.applyList = res.data.content;
-            _this.totalElements = res.data.numberOfElements;
+            _this.totalElements = res.data.totalElements;
           } else {
             _this.$Message.error(res.msg);
           }

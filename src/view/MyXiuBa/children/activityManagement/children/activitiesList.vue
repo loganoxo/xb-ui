@@ -91,7 +91,7 @@
               <span @click="closeTask(item.id)">关闭</span>
             </p>
             <p class="bond mt-6">
-              <span @click="depositMoney((item.totalMarginNeed + item.promotionExpensesNeed -(item.marginPaid + item.promotionExpensesPaid) ) / 100,item.id,item.marginPaid + item.promotionExpensesPaid)">存担保金</span>
+              <span @click="depositMoney((item.totalMarginNeed + item.promotionExpensesNeed),item.id,item.marginPaid + item.promotionExpensesPaid)">存担保金</span>
             </p>
             <p class="copy mt-6">
               <span @click="copyTask(item.id)">复制活动</span>
@@ -119,9 +119,12 @@
               <span @click="copyTask(item.id)">复制活动</span>
             </p>
           </td>
-          <td v-else-if="item.settlementStatus === 'settlement_finished' || item.taskStatus === 'finished'">
+          <td v-else-if="(item.settlementStatus === 'settlement_finished' || item.settlementStatus === 'waiting_audit') && item.taskStatus === 'finished'">
             <p class="copy mt-6">
               <span @click="billDetails(item.id, item.storeName)">结算详情</span>
+            </p>
+            <p class="copy mt-6" v-if="item.settlementStatus === 'settlement_finished'">
+              <router-link :to="{path:'/user/money-management/transaction-record',query:{taskNumber:item.number}}">查看活动返款</router-link>
             </p>
             <p class="copy mt-6">
               <span @click="copyTask(item.id)">复制活动</span>
@@ -152,7 +155,7 @@
         </tbody>
       </table>
     </div>
-    <div class="activity-page mt-20 right mr-10">
+    <div class="activity-page mt-20 right mr-10" v-show="taskList && taskList.length > 0">
       <Page :total="totalElements" :page-size="pageSize" @on-change="pageChange"></Page>
     </div>
     <!--关闭任务弹框-->
@@ -323,7 +326,7 @@
         return this.$store.getters.getUserBalance;
       },
       orderMoney: function () {
-        return this.hasDeposited === 0 ? this.needDepositMoney : (this.needDepositMoney - this.hasDeposited).toFixed(2) * 1
+        return this.hasDeposited > 0 ? (this.needDepositMoney - this.hasDeposited).toFixed(2) * 1 : this.needDepositMoney;
       }
     },
     methods: {
@@ -452,15 +455,15 @@
         this.getTaskList();
       },
       depositMoney(money, id, deposited) {
-        this.needDepositMoney = money || 0;
-        this.hasDeposited = deposited || 0;
+        this.needDepositMoney = money / 100 || 0;
+        this.hasDeposited = deposited / 100 || 0;
         this.taskPayId = id;
         this.showPayModel = true;
       },
       confirmPayment(pwd) {
         let _this = this;
         api.payByBalance({
-          fee: _this.needDepositMoney,
+          fee: _this.orderMoney,
           payPassword: pwd,
           taskId: _this.taskPayId,
           type: _this.hasDeposited > 0 ? 'supply_pay' : 'first_pay'

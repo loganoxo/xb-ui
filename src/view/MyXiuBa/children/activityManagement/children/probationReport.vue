@@ -119,7 +119,6 @@
   import TimeDown from '@/components/TimeDown'
   import api from '@/config/apiConfig'
   import {TaskErrorStatusList} from '@/config/utils'
-  import {mapActions} from 'vuex'
 
   export default {
     name: 'ProbationReport',
@@ -147,8 +146,7 @@
         showType: false,
       }
     },
-    mounted() {
-    },
+    mounted() {},
     created() {
       let id = this.$route.query.id;
       let from = this.$route.query.from;
@@ -159,20 +157,13 @@
         this.auditTrialReport(id);
       }
     },
-    watch: {
-      $route(to){
-        console.log(to);
-      }
-    },
+    watch: {},
     computed: {
       isPwdAmend: function () {
         return this.$store.getters.getIsEditPwdAlready;
       },
     },
     methods: {
-      ...mapActions([
-        'getUserInformation'
-      ]),
       returnUpPage() {
         this.$router.push({name: 'ApproveShowker',query: {taskId: this.showkerTaskInfo.task.id}})
       },
@@ -268,7 +259,6 @@
               content:'已向秀客返款成功！',
               duration: 4
             });
-            _this.getUserInformation();
             _this.showRefundModel = false;
             _this.returnUpPage();
           }else{

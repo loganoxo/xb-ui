@@ -167,7 +167,7 @@
     created() {
       this.getHomeTaskList();
       this.personalTrialCount();
-
+      this.$store.dispatch('getUserInformation');
     },
     computed: {
       getUserInfoRole() {

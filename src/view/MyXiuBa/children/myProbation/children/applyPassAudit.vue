@@ -482,7 +482,7 @@
 
       pageChange(data) {
         this.pageIndex = data;
-        this.showkerApplyList();
+        this.showkerSuccessList();
       },
       returnUpPage() {
         this.showPassOperation = '';
@@ -576,7 +576,7 @@
               }
               _this.applySuccessList.push(data);
             });
-            _this.totalElements = res.data.numberOfElements;
+            _this.totalElements = res.data.totalElements;
           } else {
             _this.$Message.error(res.msg);
           }
