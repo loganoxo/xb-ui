@@ -389,9 +389,9 @@
         </div>
       </div>
       <div class="pay-info mt-40" v-if="isBalance && !priceHasChange">本次总共要支付的金额为：<span class="second-color">{{orderMoney}}</span>&nbsp;元。您的账户的当前余额为：<strong>{{getUserBalance || 0}}</strong>&nbsp;元</div>
-      <div class="pay-info mt-40"  v-if="!isBalance && !priceHasChange">本次总共要支付的金额为：<strong>{{orderMoney}}</strong>&nbsp;元。您账户余额为：<strong>{{getUserBalance || 0}}</strong>&nbsp;元，还需充值：<span class="second-color">{{Math.abs(getUserBalance - orderMoney)}}</span>&nbsp;元。</div>
+      <div class="pay-info mt-40"  v-if="!isBalance && !priceHasChange">本次总共要支付的金额为：<strong>{{orderMoney}}</strong>&nbsp;元。您账户余额为：<strong>{{getUserBalance || 0}}</strong>&nbsp;元，还需充值：<span class="second-color">{{(orderMoney - getUserBalance).toFixed(2)}}</span>&nbsp;元。</div>
       <div class="pay-info mt-40" v-if="isBalance && priceHasChange">该任务已付担保金 <strong>{{paidDeposit | numberFormat(2)}}</strong>元，本次修改需要支付超出部分的金额为：<strong class="main-color">{{replenishMoney}}</strong>元。您账号的当前余额为：<strong>{{getUserBalance || 0}}</strong>&nbsp;元</div>
-      <div class="pay-info mt-40" v-if="!isBalance && priceHasChange">该任务已付担保金 <strong>{{paidDeposit}}</strong>元，本次修改需要支付超出部分的金额为：<strong class="main-color">{{replenishMoney}}</strong>元。您账号的当前余额为：<strong>{{getUserBalance || 0}}</strong>&nbsp;元,还需充值：<span class="second-color">{{Math.abs(getUserBalance - orderMoney)}}</span>&nbsp;元。</div>
+      <div class="pay-info mt-40" v-if="!isBalance && priceHasChange">该任务已付担保金 <strong>{{paidDeposit}}</strong>元，本次修改需要支付超出部分的金额为：<strong class="main-color">{{replenishMoney}}</strong>元。您账号的当前余额为：<strong>{{getUserBalance || 0}}</strong>&nbsp;元,还需充值：<span class="second-color">{{(orderMoney - getUserBalance).toFixed(2)}}</span>&nbsp;元。</div>
       <div class="description-fees-footer">
         <span class="pay-btn" v-if="isBalance" @click="openRecharge">前去支付</span>
         <span class="pay-btn" v-else @click="openRecharge">前去充值</span>
@@ -415,7 +415,7 @@
     <div class="pay-model" v-if="showPayModel">
       <PayModel :orderMoney="!priceHasChange ? orderMoney : replenishMoney" @confirmPayment="confirmPayment">
         <i slot="closeModel" class="close-recharge" @click="closeRecharge">&times;</i>
-        <div slot="noBalance" class="title-tip"><span class="size-color3"><Icon color="#FF2424" size="18px" type="ios-information"></Icon><span class="ml-10">亲，您的余额不足，请充值。</span></span>还需充值<strong class="size-color3">{{Math.abs(getUserBalance - orderMoney)}}</strong>元</div>
+        <div slot="noBalance" class="title-tip"><span class="size-color3"><Icon color="#FF2424" size="18px" type="ios-information"></Icon><span class="ml-10">亲，您的余额不足，请充值。</span></span>还需充值<strong class="size-color3">{{(orderMoney - getUserBalance).toFixed(2)}}</strong>元</div>
         <div slot="isBalance" class="title-tip">
           <Icon color="#FF2424" size="18px" type="ios-information"></Icon>
           <span class="ml-10">您本次需要支付金额为 <span class="size-color3">{{!priceHasChange ? orderMoney : replenishMoney}}</span> 元。</span></div>

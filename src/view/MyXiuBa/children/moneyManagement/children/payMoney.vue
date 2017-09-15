@@ -56,7 +56,7 @@
   import Modal from 'iview/src/components/modal'
   import PayModel from '@/components/PayModel'
   import PopUpWindows from '@/components/PopUpWindows'
-  import {mapGetters} from 'vuex'
+  import {mapActions} from 'vuex'
   import {isNumber} from '@/config/utils'
   import {aliPayUrl} from '@/config/env'
 
@@ -118,7 +118,7 @@
       },
     },
     methods: {
-      ...mapGetters([
+      ...mapActions ([
         'getUserInformation'
       ]),
       success() {

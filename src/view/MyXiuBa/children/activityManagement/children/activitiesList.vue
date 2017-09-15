@@ -228,15 +228,15 @@
     </Modal>
     <!--支付保证金弹框-->
     <div class="pay-model" v-if="showPayModel">
-      <PayModel :orderMoney="getUserBalance - needDepositMoney > 0 ? needDepositMoney : Math.abs(getUserBalance - needDepositMoney)" @confirmPayment="confirmPayment">
+      <PayModel :orderMoney="orderMoney" @confirmPayment="confirmPayment">
         <i slot="closeModel" class="close-recharge" @click="showPayModel = false">&times;</i>
         <div slot="noBalance" class="title-tip">
           <span class="size-color3"><Icon color="#FF2424" size="18" type="ios-information"></Icon>
             <span class="ml-10">亲，您的余额不足，请充值。</span>
-          </span>还需充值<strong class="size-color3">{{Math.abs(getUserBalance - needDepositMoney)}}</strong>元</div>
+          </span>还需充值<strong class="size-color3">{{(orderMoney - getUserBalance).toFixed(2)}}</strong>元</div>
         <div slot="isBalance" class="title-tip">
           <Icon color="#FF2424" size="18px" type="ios-information"></Icon>
-          <span class="ml-10">您本次需要支付金额为 <span class="size-color3">{{needDepositMoney}}</span> 元。</span>
+          <span class="ml-10">您本次需要支付金额为 <span class="size-color3">{{orderMoney}}</span> 元。</span>
         </div>
       </PayModel>
     </div>
@@ -322,6 +322,9 @@
       getUserBalance: function () {
         return this.$store.getters.getUserBalance;
       },
+      orderMoney: function () {
+        return this.hasDeposited === 0 ? this.needDepositMoney : (this.needDepositMoney - this.hasDeposited).toFixed(2) * 1
+      }
     },
     methods: {
       ...mapActions([
@@ -449,8 +452,8 @@
         this.getTaskList();
       },
       depositMoney(money, id, deposited) {
-        this.needDepositMoney = money;
-        this.hasDeposited = deposited;
+        this.needDepositMoney = money || 0;
+        this.hasDeposited = deposited || 0;
         this.taskPayId = id;
         this.showPayModel = true;
       },

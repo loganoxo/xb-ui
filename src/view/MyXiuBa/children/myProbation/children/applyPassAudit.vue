@@ -114,7 +114,7 @@
                 @click="openAuditOrder(item.id)">修改订单号</p>
              <p v-if="item.status !== 'trial_end' && item.status !== 'trial_finished'" class="operation mt-5"
                 @click="endTrialModel(item.id)">结束活动</p>
-             <p v-if="item.status === 'trial_report_waiting_confirm'" class="operation mt-5"
+             <p v-if="item.status === 'trial_report_waiting_confirm' || item.status === 'trial_finished'" class="operation mt-5"
                 @click="lookReportInfo(item.id)">查看买家秀详情</p>
              <p v-if="item.status === 'trial_finished'" class="operation mt-5"><router-link :to="{path:'/user/money-management/transaction-record',query:{taskNumber:item.orderNumber}}">查看活动返款</router-link></p>
            </td>
@@ -349,8 +349,6 @@
         showPassOperation: '',
         showAuditOrderNumber: false,
         SelectList: [
-
-
           {
             value: '1',
             label: '活动名称'

@@ -44,7 +44,7 @@
   import Radio from 'iview/src/components/radio'
   import api from '@/config/apiConfig'
   import {aliPayUrl} from '@/config/env'
-  import {mapGetters} from 'vuex'
+  import {mapActions} from 'vuex'
 
   export default {
     name: 'PayModel',
@@ -78,7 +78,7 @@
     mounted() {},
     created() {},
     computed: {
-      ...mapGetters([
+      ...mapActions ([
         'getUserInformation'
       ]),
       userBalance: function () {
@@ -90,6 +90,9 @@
       isBalance: function () {
         return this.orderMoney <= this.userBalance;
       },
+      payMoney: function () {
+        return this.isBalance ? 0 : ((this.orderMoney - this.userBalance) * 100).toFixed(2) * 1;
+      }
     },
     methods: {
       confirmPayment() {
@@ -98,7 +101,7 @@
       confirmRecharge() {
         this.confirmRechargeModel = true;
         api.balanceOrderCreate({
-          finalFee: (this.orderMoney * 100).toFixed(),
+          finalFee: this.payMoney,
           orderPlatform: 'PC',
           payChannel: 1
         }).then(res => {

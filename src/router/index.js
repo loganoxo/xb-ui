@@ -16,7 +16,9 @@ const ActivityManagement = r => require.ensure([], () => r(require('@/view/MyXiu
 const ActivitiesList = r => require.ensure([], () => r(require('@/view/MyXiuBa/children/activityManagement/children/activitiesList.vue')), 'ActivityManagement');
 const ApproveShowker = r => require.ensure([], () => r(require('@/view/MyXiuBa/children/activityManagement/children/approveShowker.vue')), 'ActivityManagement');
 const ProbationReport = r => require.ensure([], () => r(require('@/view/MyXiuBa/children/activityManagement/children/probationReport.vue')), 'ActivityManagement');
-const ActivityDetail = r => require.ensure([], () => r(require('@/view/MyXiuBa/children/activityManagement/children/activityDetail.vue')), 'ActivityManagement');
+const DetailAndLog = r => require.ensure([], () => r(require('../view/MyXiuBa/children/activityManagement/children/detailAndLog/index.vue')), 'ActivityManagement');
+const ActivityDeatail = r => require.ensure([], () => r(require('../view/MyXiuBa/children/activityManagement/children/detailAndLog/children/activityDeatail.vue')), 'ActivityManagement');
+const ActivityLog = r => require.ensure([], () => r(require('../view/MyXiuBa/children/activityManagement/children/detailAndLog/children/activityLog.vue')), 'ActivityManagement');
 
 const MyProbation = r => require.ensure([], () => r(require('@/view/MyXiuBa/children/myProbation/index.vue')), 'MyProbation');
 const ApplyWaitAudit = r => require.ensure([], () => r(require('@/view/MyXiuBa/children/myProbation/children/applyWaitAudit.vue')), 'MyProbation');
@@ -174,15 +176,6 @@ export default new Router({
                 logInAuthority: true,
               },
             },
-            {
-              path: 'detail',
-              name: 'ActivityDetail',
-              component: ActivityDetail,
-              meta: {
-                title: "买家秀管理-买家秀详情",
-                logInAuthority: true,
-              },
-            }
           ]
         },
         {
