@@ -14,25 +14,25 @@
                 <!--<a href="">店铺</a>-->
               </div>
               <i class="ivu-icon ivu-icon-ios-search"></i>
-              <input type="text" class="search-btn" v-model="searchKey" autocomplete="off">
+              <input type="text" class="search-btn" v-model="searchKey" @keydown="goKeyEnterFunc"  autocomplete="off">
               <!--<i data-v-fae95c8a="" class="ivu-icon ivu-icon-camera"></i>-->
             </div>
             <a @click="goTaskCategory">搜索</a>
-            <p class="link-text">
-              <a class="active" href="">男士内裤</a>
-              <a class="active" href="">时尚连衣裙</a>
-              <a href="">新款男鞋</a>
-              <a href="">时尚跑鞋</a>
-              <a href="">T恤</a>
-              <a class="active" href="">女士凉鞋</a>
-              <a href="">休闲短裤</a>
-              <a href="">背带裤</a>
-              <a href="">沙发垫</a>
-              <a href="">面膜</a>
-              <a href="">理发器</a>
-              <a href="">装饰画</a>
-              <a href="">更多></a>
-            </p>
+            <!--<p class="link-text">-->
+              <!--<a class="active" href="">男士内裤</a>-->
+              <!--<a class="active" href="">时尚连衣裙</a>-->
+              <!--<a href="">新款男鞋</a>-->
+              <!--<a href="">时尚跑鞋</a>-->
+              <!--<a href="">T恤</a>-->
+              <!--<a class="active" href="">女士凉鞋</a>-->
+              <!--<a href="">休闲短裤</a>-->
+              <!--<a href="">背带裤</a>-->
+              <!--<a href="">沙发垫</a>-->
+              <!--<a href="">面膜</a>-->
+              <!--<a href="">理发器</a>-->
+              <!--<a href="">装饰画</a>-->
+              <!--<a href="">更多></a>-->
+            <!--</p>-->
           </div>
         </div>
       </div>
@@ -80,6 +80,11 @@
             });
           }
         })
+      },
+      goKeyEnterFunc(ev){
+        if(ev.keyCode==13){
+          this.goTaskCategory()
+        }
       },
       goTaskCategory(){
         let self = this;
