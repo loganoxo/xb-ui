@@ -187,6 +187,11 @@
       <div slot="footer">
       </div>
     </Modal>
+    <Modal v-model="alitNumSuccess" cancel-text="" ok-text="去绑定旺旺号" @on-ok="goWwBind()">
+      <div class="ivu-modal-confirm-body"><div class="ivu-modal-confirm-body-icon ivu-modal-confirm-body-icon-warning">
+        <i class="ivu-icon ivu-icon-android-alert vtd-mid"></i></div><div><p class="fs-20 f-b">亲，你还没绑定旺旺号 </p><br> <span class="fs-12">请先绑定旺旺号在申请活动!</span></div>
+      </div>
+    </Modal>
   </div>
 
 </template>
@@ -230,6 +235,7 @@
     },
     data () {
       return {
+        alitNumSuccess: false,
         selectLogin: false,
         trialReportPicShow: false,
         trialReportPic: '',
@@ -358,14 +364,7 @@
                 }
               }else {
                 if(res.statusCode === 'alitm_null'){
-                  self.$Modal.warning({
-                    content: '<p class="fs-20 f-b">亲，你还没绑定旺旺号 </p><br> <span class="fs-12">请先绑定旺旺号在申请活动!</span>',
-                    okText: '去绑定旺旺号',
-                    cancelText: '取消',
-                    onOk: function () {
-                      self.$router.push({path: '/user/personal-setting/ww-bind'});
-                    }
-                  });
+                  self.alitNumSuccess = true;
                 }else {
                   self.$Modal.warning({
                     content: '<p class="fs-14">' + res.msg + '</span>',
@@ -373,6 +372,9 @@
                 }
               }
           })
+      },
+      goWwBind(){
+        this.$router.push({path: '/user/personal-setting/ww-bind'});
       },
       getDetailsShowkerList(){
         let self = this;
@@ -602,7 +604,6 @@
             li{
               display: table;
               padding: 30px 0;
-              margin: 0 30px;
               border-bottom: 1px solid #ddd;
               width: 100%;
               div{
@@ -610,11 +611,11 @@
                 vertical-align: middle;
               }
               >div:first-child{
-                width: 15%;
+                width: 150px;
                 text-align: center;
               }
               >div:last-child{
-                width: 85%;
+                width: 1000px;
                 p{
                   line-height: 30px;
                   font-size: 14px;

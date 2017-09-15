@@ -167,6 +167,7 @@
     created() {
       this.getHomeTaskList();
       this.personalTrialCount();
+
     },
     computed: {
       getUserInfoRole() {

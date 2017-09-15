@@ -150,7 +150,7 @@
                   <div class="clear form-input-box">
                     <Form-item label="绑定手机" prop="phone" class="left" style="width: 650px">
                       <!--<iInput type="text" size="large" :autocomplete="false" v-model="payCustom.phone" ></iInput>-->
-                      <input class="fs-14" type="text" v-model="payCustom.phone" style="border: none;" readonly>
+                      <iInput class="fs-14" type="text" v-model="payCustom.phone" style="border: none;" readonly></iInput>>
                     </Form-item>
                   </div>
                   <div class="clear form-input-box">
@@ -163,7 +163,7 @@
                   </div>
                   <div class="clear form-input-box">
                     <Form-item label="短信验证码" class="left pos-rel" style="width: 650px">
-                      <iInput type="text" number size="large" :autocomplete="false" v-model="payCustom.smsCode"></iInput>
+                      <iInput type="text" number size="large" v-model="payCustom.smsCode"></iInput>
                       <SmsCountdown :on-success="sendCodeSuccess" style="top: 3px;"
                                     :phone="payCustom.phone"
                                     :purpose="payCustom.purpose"
@@ -194,7 +194,7 @@
                   </div>
                   <div class="clear form-input-box">
                     <Form-item label="确认新密码" class="left" style="width: 650px" prop="repwd">
-                      <iInput type="password" size="large" v-model="trendsModifyCustom.repwd"></iInput>
+                      <iInput type="password" size="large"  v-model="trendsModifyCustom.repwd"></iInput>
                     </Form-item>
                   </div>
                   <div>
@@ -392,7 +392,7 @@
         ],
         defaultAvatar: '',
         showModifyAvatar: false,
-        userData: {},
+        userData: this.$store.state.getPersonalInfo,
       }
     },
     mounted() {
@@ -406,11 +406,14 @@
     computed: {
       getUserRole() {
         return this.$store.state.userInfo.role
-      }
+      },
     },
     methods: {
+      ...mapActions([
+        'getUserInformation'
+      ]),
       myAccountPwdChangeFather(type){
-        for( var k in this.myAccount){
+        for( let k in this.myAccount){
           if (k===type){
             this.myAccount[k]=true
           }else {
@@ -419,7 +422,7 @@
         }
       },
       myAccountPwdChangeSon(type){
-        for( var k in this.myAccountSon){
+        for( let k in this.myAccountSon){
           if (k===type){
             this.myAccountSon[k]=true
           }else {
@@ -435,6 +438,7 @@
         }).then((res) => {
           if(res.status){
             self.showModifyAvatar = false;
+            this.getUserInformation();
           }else {
             self.$Modal.error({
               content: res.msg

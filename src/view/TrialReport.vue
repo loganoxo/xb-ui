@@ -319,11 +319,11 @@
           vertical-align: middle;
         }
         >div:first-child{
-          width: 20%;
+          width: 200px;
           text-align: center;
         }
         >div:last-child{
-          width: 85%;
+          width: 850px;
           p{
             line-height: 30px;
             font-size: 14px;

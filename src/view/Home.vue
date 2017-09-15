@@ -4,19 +4,27 @@
       <div class="container">
         <div class="home-section">
           <div class="left-ctt left mr-10">
-            <ul>
+            <ul :class="[leftTopSlider ? 'slider-top-active' : 'slider-top-default']">
               <li v-for="taskTopLeft in taskTopLeftList">
-                <router-link :to="{path:'/task-details',query:{taskId: taskTopLeft.task.id }}"  class="block">
+                <!--query:{taskId: taskTopLeft.task.id }-->
+                <router-link :to="{path:'/task-details'}"  class="block">
                   <div class="left img-box">
                     <img :src="taskTopLeft.task.taskMainImage" alt="" width="54px">
                   </div>
                   <div class="left text-box ml-10">
-                    <p>{{taskTopLeft.showkerPhone}}成功领取了</p>
+                    <p>秀客{{taskTopLeft.showkerPhone}}免费领取了</p>
                     <p>
-                      <span class="left"
-                            style="width: 84px; overflow: hidden; text-overflow: ellipsis; white-space:nowrap;">{{taskTopLeft.task.taskName}}</span>
-                      <span class="text left ml-5">￥{{taskTopLeft.task.itemPrice / 100}}</span>
+                      价值<span class="text ml-5">￥{{taskTopLeft.task.itemPrice / 100}}</span> 的宝贝
                     </p>
+                    <span style="color: #999;">
+                      {{(new Date() -taskTopLeft.createTime)/1000 < 60000  ? parseInt((new Date() -taskTopLeft.createTime)/60000)  : parseInt((new Date() -taskTopLeft.createTime)/1440000)}}
+                    </span>
+                    <span style="color: #999;" v-if="(new Date() -taskTopLeft.createTime)/1000 < 60000 ">
+                      分钟
+                    </span>
+                    <span style="color: #999;" v-else>
+                      小时
+                    </span>
                   </div>
                 </router-link>
               </li>
@@ -174,6 +182,7 @@
     },
     data () {
       return {
+        leftTopSlider: false,
         trialCount: {},
         homeCommodityList:[],
         noticeList:[
@@ -263,7 +272,7 @@
     created(){
       this.getHomeTaskList();
       this.getHomeTaskTopLeftList();
-      this.personalTrialCount()
+      this.personalTrialCount();
     },
     computed: {
       isLogin() {
@@ -274,7 +283,20 @@
       },
       getUserInfoRole() {
         return this.$store.state.userInfo.role
-      }
+      },
+    },
+    mounted: function () {
+      this.$nextTick(function () {
+        let self = this;
+        setInterval(function () {
+          if(self.leftTopSlider){
+            let part = self.taskTopLeftList.splice(0,1);
+            self.taskTopLeftList = self.taskTopLeftList.concat(part);
+          }
+          self.leftTopSlider = !self.leftTopSlider;
+        },1500)
+      })
+
     },
     methods: {
       ...mapActions([
@@ -324,6 +346,12 @@
         api.getHomeTaskTopLeftList().then((res) => {
           if(res.status){
             self.taskTopLeftList = res.data;
+//            setInterval(function () {
+//
+//
+//            },3000)
+          }else {
+
           }
         })
       },
@@ -351,7 +379,6 @@
 <style lang="scss" scoped>
 
   @import 'src/css/mixin';
-
   .home-ctt {
     background-color: #F1F1F1;
     .home-section {
@@ -366,19 +393,14 @@
           li {
             margin-bottom: 20px;
             overflow: hidden;
+            height: 57px;
             div.text-box{
               p{
-                line-height: 26px;
-                height: 26px;
                 font-size: 14px;
-                &:first-child{
-                  color: #999;
-                }
-                &:last-child{
-                  span.text{
-                    color: $mainColor;
-                    font-weight: bold;
-                  }
+                color: #999;
+                span.text{
+                  color: $mainColor;
+                  font-weight: bold;
                 }
               }
 
@@ -513,6 +535,20 @@
     }
   }
 
-
+  .slider-top-active{
+    margin-top: -77px;
+    animation: sliderTop 1s;
+  }
+  .slider-top-default{
+    margin-top: 0;
+  }
+  @keyframes  sliderTop{
+    0% {
+      margin-top: 0;
+    }
+    100%{
+      margin-top: -77px;
+    }
+  }
 
 </style>
