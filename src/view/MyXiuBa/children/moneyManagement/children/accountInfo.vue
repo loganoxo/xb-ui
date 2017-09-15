@@ -207,6 +207,7 @@
     },
     created() {
       this.getTradList([]);
+      this.$store.dispatch('getUserInformation');
     },
     computed: {
       userAccount: function () {

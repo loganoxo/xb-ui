@@ -43,10 +43,10 @@ export default {
   [types.CHANGE_TOP_HIDE](state) {
     state.topShow = false;
   },
-  //存入用户账户余额到vuex
-  [types.RECORD_USER_BALANCE](state, {balance}) {
-    state.userBalance = balance / 100;
-  },
+  // //存入用户账户余额到vuex
+  // [types.RECORD_USER_BALANCE](state, {balance}) {
+  //   state.userBalance = balance / 100;
+  // },
   //存入服务器时间到vuex
   [types.RECORD_SEVER_TIME](state, {balance}) {
     state.userBalance = balance / 100;

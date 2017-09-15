@@ -64,14 +64,16 @@
          </thead>
          <tbody v-if="applySuccessList.length > 0" v-for="item in applySuccessList" :key="item.id">
          <tr class="task-number">
-           <td colspan="6">活动编号：{{item.orderNumber || '------'}}</td>
+           <td colspan="6">
+             <span>活动编号：{{item.orderNumber || '------'}}</span>
+             <span class="ml-20">通过日期：{{item.createTime | dateFormat('YYYY-MM-DD hh:mm:ss')}}</span>
+           </td>
          </tr>
          <tr>
            <td>
              <img class="left ml-10" :src="item.taskMainImage">
              <p class="left img-title">
                <span>{{item.taskName}}</span>
-               <span>{{item.createTime | dateFormat('YYYY-MM-DD hh:mm:ss')}}</span>
              </p>
            </td>
            <td>{{item.alitmAccount}}</td>
@@ -112,11 +114,11 @@
                 @click="openAuditOrder(item.id)">填订单号</p>
              <p v-if="item.status === 'order_num_error'" class="operation mt-5"
                 @click="openAuditOrder(item.id)">修改订单号</p>
-             <p v-if="item.status !== 'trial_end' && item.status !== 'trial_finished'" class="operation mt-5"
-                @click="endTrialModel(item.id)">结束活动</p>
              <p v-if="item.status === 'trial_report_waiting_confirm' || item.status === 'trial_finished'" class="operation mt-5"
                 @click="lookReportInfo(item.id)">查看买家秀详情</p>
              <p v-if="item.status === 'trial_finished'" class="operation mt-5"><router-link :to="{path:'/user/money-management/transaction-record',query:{taskNumber:item.orderNumber}}">查看活动返款</router-link></p>
+             <p v-if="item.status !== 'trial_end' && item.status !== 'trial_finished'" class="operation mt-5"
+                @click="endTrialModel(item.id)">结束活动</p>
            </td>
          </tr>
          </tbody>
@@ -205,29 +207,29 @@
      </div>
      <div class="commodity-info clear mt-20">
        <div class="commodity-img left">
-         <img :src="reportInfo.task.taskMainImage">
+         <img :src="showkerTask.task.taskMainImage">
        </div>
        <div class="commodity-text left ml-5">
-         <p>{{reportInfo.task.taskName}}</p>
+         <p>{{showkerTask.task.taskName}}</p>
          <p class="mt-15">
-           总份数<strong>&nbsp;{{reportInfo.task.taskCount || 0}}&nbsp;</strong>，宝贝单价<strong>&nbsp;{{reportInfo.task.itemPrice / 100 || 0}}&nbsp;</strong>元
+           总份数<strong>&nbsp;{{showkerTask.task.taskCount || 0}}&nbsp;</strong>，宝贝单价<strong>&nbsp;{{showkerTask.task.itemPrice / 100 || 0}}&nbsp;</strong>元
          </p>
        </div>
      </div>
      <div class="order-info mt-10">
        <p>
          <span>订单号：</span>
-         <span>{{reportInfo.orderNum}}</span>
+         <span>{{showkerTask.orderNum}}</span>
        </p>
        <p>
          <span>实付金额：</span>
-         <span>{{reportInfo.orderPrice / 100 || 0}}</span>
+         <span>{{showkerTask.orderPrice / 100 || 0}}</span>
          <span>元</span>
        </p>
        <p>
          <span>订单状态：</span>
-         <span>{{getTaskStatus(reportInfo.status)}}</span>
-         <span class="main-color"><time-down color='#ff4040' :fontWeight=600 :endTime="reportInfo.currentGenerationEndTime"></time-down></span>
+         <span>{{getTaskStatus(showkerTask.status)}}</span>
+         <span class="main-color"><time-down color='#ff4040' :fontWeight=600 :endTime="showkerTask.currentGenerationEndTime"></time-down></span>
        </p>
      </div>
      <div class="experience mt-22">
@@ -380,7 +382,7 @@
         auditTimeEnd: '',
         trialReportImages: [],
         trialReportText: null,
-        reportInfo: {},
+        showkerTask: {},
         defaultImageList: [],
         modalLoading: false,
         deleteModal: false,
@@ -442,23 +444,27 @@
         _this.reportStatus = status;
         _this.itemId = id;
         if (type === 'report') {
-          api.showkerReportInfo({
-            id: id
+          api.showkerTaskInfo({
+            id: id,
           }).then(res => {
             if (res.status) {
               _this.showPassOperation = type;
-              _this.reportInfo = res.data.showkerTask;
+              _this.showkerTask = res.data;
               if (status === 'write') {
                 _this.trialReportImages = [];
                 _this.trialReportText = null;
               } else {
-                _this.trialReportImages = [];
-                let ImageList = JSON.parse(res.data.trialReport.trialReportImages);
-                _this.trialReportImages = ImageList;
-                for (let i = 0, len = ImageList.length; i < len; i++) {
-                  _this.defaultImageList.push({src: ImageList[i]});
-                }
-                _this.trialReportText = res.data.trialReport.trialReportText;
+                api.showkerTaskReport({
+                  id: id,
+                }).then(res => {
+                  _this.trialReportImages = [];
+                  let ImageList = JSON.parse(res.data.trialReportImages);
+                  _this.trialReportImages = ImageList;
+                  for (let i = 0, len = ImageList.length; i < len; i++) {
+                    _this.defaultImageList.push({src: ImageList[i]});
+                  }
+                  _this.trialReportText = res.data.trialReportText;
+                });
               }
             } else {
               _this.$Message.error(res.msg);
@@ -567,7 +573,7 @@
               data.taskMainImage = item.task.taskMainImage;
               data.taskName = item.task.taskName;
               data.perMarginNeed = item.task.perMarginNeed;
-              data.createTime = item.task.createTime;
+              data.createTime = item.createTime;
               data.orderNumber = item.task.number;
               if(item.latestShowkerTaskOpLog){
                 data.auditDescription = item.latestShowkerTaskOpLog.auditDescription;

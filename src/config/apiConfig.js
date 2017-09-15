@@ -26,9 +26,9 @@ export default {
   },
 
   /**
-  * 获取银行卡信息
-  */
-  getBankCardInformation(){
+   * 获取银行卡信息
+   */
+  getBankCardInformation() {
     return fetch("/api/get-bank-card-information.json")
   },
 
@@ -60,7 +60,7 @@ export default {
   /**
    * 用户注册
    */
-  register(params){
+  register(params) {
     return fetch("/api/sign-up.json", params)
   },
 
@@ -329,13 +329,6 @@ export default {
   },
 
   /**
-   * 商家审核买家秀当前任务详情
-   */
-  taskReportInfo(params) {
-    return fetch("/api/task-report-info.json", params)
-  },
-
-  /**
    * 商家审核买家秀
    */
   taskReportAudit(params) {
@@ -403,15 +396,15 @@ export default {
   /**
    *详情页秀客报告列表
    */
-  getDetailsShowkerList(params){
-    return fetch("/api/task/trial/report.json",params)
+  getDetailsShowkerList(params) {
+    return fetch("/api/task/trial/report.json", params)
   },
 
   /**
    *详情页已审核秀客列表
    */
-  getDetailsSuccessShowkerList(params){
-    return fetch("/api/task/success.json",params)
+  getDetailsSuccessShowkerList(params) {
+    return fetch("/api/task/success.json", params)
   },
 
   /**
@@ -424,22 +417,38 @@ export default {
   /**
    * 秀客的买家秀（针对获取买家秀列表，分页查询）
    */
-  getTrialReports(params){
+  getTrialReports(params) {
     return fetch("/api/task/showker/trial/reports.json", params)
   },
 
   /**
    * 秀客的活动详情（针对获取秀客活动详情）
    */
-  getTrialDetail(params){
+  getTrialDetail(params) {
     return fetch("/api/task/showker/trial/detail.json", params)
   },
 
   /**
-   * 秀客填写买家秀或修改买家秀当前任务详情
+   * 根据秀客任务ID获取秀客任务，用户ID兼容秀客角色和商家角色
+   * 当uid为秀客的uid时，获取属于该秀客的任务
+   * 当uid为商家的uid时，获取属于该商家活动的任务
    */
-  showkerReportInfo(params) {
-    return fetch("/api/showker-report-info.json", params)
+  showkerTaskInfo(params) {
+    return fetch("/api/showker-task-info.json", params)
+  },
+
+  /**
+   * 根据秀客任务ID获取试用报告
+   */
+  showkerTaskReport(params) {
+    return fetch("/api/showker-task-report.json", params)
+  },
+
+  /**
+   * 根据试用报告ID获取试用报告
+   */
+  getTrialReport(params) {
+    return fetch("/api/trial-report.json", params)
   },
 
   /**

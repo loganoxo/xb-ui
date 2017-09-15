@@ -347,16 +347,59 @@ router.post('/api/showker-modify-report.json', function (req, res, next) {
 });
 
 /**
- * 秀客填写买家秀当前任务详情
+ * 根据秀客任务ID获取秀客任务，用户ID兼容秀客角色和商家角色
+ * 当uid为秀客的uid时，获取属于该秀客的任务
+ * 当uid为商家的uid时，获取属于该商家活动的任务
  * @param id
  */
-router.post('/api/showker-report-info.json', function (req, res, next) {
+router.post('/api/showker-task-info.json', function (req, res, next) {
   let options = {
     method: 'GET',
-    uri: baseUrl + '/task/showker/report/info',
-    qs: {
-      id: req.body.id,
-    },
+    uri: baseUrl + '/get/stid/' + req.body.id + '/uid/' + req.session.userData.id,
+    json: true
+  };
+  request(options)
+    .then(function (parsedBody) {
+      res.send(parsedBody);
+      res.end();
+    })
+    .catch(function (err) {
+      logConfig.logger.error(req.originalUrl + ':' + err);
+      res.json({status: false, msg: "服务器请求超时，请稍后在试！"});
+      res.end();
+    });
+});
+
+/**
+ * 根据秀客任务ID获取试用报告
+ * @param id
+ */
+router.post('/api/showker-task-report.json', function (req, res, next) {
+  let options = {
+    method: 'GET',
+    uri: baseUrl + 'report/get/stid/' + req.body.id,
+    json: true
+  };
+  request(options)
+    .then(function (parsedBody) {
+      res.send(parsedBody);
+      res.end();
+    })
+    .catch(function (err) {
+      logConfig.logger.error(req.originalUrl + ':' + err);
+      res.json({status: false, msg: "服务器请求超时，请稍后在试！"});
+      res.end();
+    });
+});
+
+/**
+ * 根据试用报告ID获取试用报告
+ * @param id
+ */
+router.post('/api/trial-report.json', function (req, res, next) {
+  let options = {
+    method: 'GET',
+    uri: baseUrl + 'report/get/trid/' + req.body.id,
     json: true
   };
   request(options)

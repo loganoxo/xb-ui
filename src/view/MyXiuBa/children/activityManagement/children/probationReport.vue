@@ -6,7 +6,7 @@
     </div>
     <div class="activity-title pl-10" v-else>
       <span class="left">我的买家秀</span>
-      <span></span>
+      <span class="right" @click="returnUpPageFrom()">返回上一页</span>
     </div>
     <div class="report-info mt-12">
       <div class="manage-info-con clear">
@@ -15,7 +15,9 @@
         </div>
         <div class="manage-text left ml-5">
           <p>{{showkerTaskInfo.taskName}}</p>
-          <p class="mt-15">总份数<strong>&nbsp;{{showkerTaskInfo.task.taskCount}}&nbsp;</strong>，宝贝单价<strong>&nbsp;{{showkerTaskInfo.task.itemPrice / 100}}&nbsp;</strong>元</p>
+          <p class="mt-15">
+            总份数<strong>&nbsp;{{showkerTaskInfo.task.taskCount}}&nbsp;</strong>，宝贝单价<strong>&nbsp;{{showkerTaskInfo.task.itemPrice / 100}}&nbsp;</strong>元
+          </p>
         </div>
       </div>
       <div class="order-info mt-6">
@@ -31,7 +33,8 @@
         <p>
           <span>订单状态：</span>
           <strong>{{getTaskStatus(showkerTaskInfo.status)}}</strong>
-          <span class="main-color">（<time-down color='#ff4040' :fontWeight=600 :endTime="showkerTaskInfo.currentGenerationEndTime"></time-down>）</span>
+          <span class="main-color"><time-down color='#ff4040' :fontWeight=600
+                                              :endTime="showkerTaskInfo.currentGenerationEndTime"></time-down></span>
         </p>
       </div>
       <div class="trial-experience mt-20">
@@ -48,7 +51,8 @@
             </li>
           </ul>
           <span class="left-btn" @click="leftChangeImg"><Icon type="chevron-left" size="32" color="#999"></Icon></span>
-          <span class="right-btn" @click="rightChangeImg"><Icon type="chevron-right" size="32" color="#999"></Icon></span>
+          <span class="right-btn" @click="rightChangeImg"><Icon type="chevron-right" size="32"
+                                                                color="#999"></Icon></span>
         </div>
         <div class="no-buyer-show" v-else>暂无买家秀图片</div>
         <div class="check-trial mt-40" v-if="!showType">
@@ -73,7 +77,10 @@
             </div>
             <div class="left remind-con">
               <p>通过买家秀需要支付秀客秀客，不通过则会退回，交给秀客重新修改！</p>
-              <p>您还有&nbsp;<time-down color='#ff4040' :fontWeight=600 :endTime="showkerTaskInfo.currentGenerationEndTime"></time-down>&nbsp;进行审核，若该时间内未审核，系统将默认审核通过，开始给秀客返款！</p>
+              <p>您还有&nbsp;
+                <time-down color='#ff4040' :fontWeight=600
+                           :endTime="showkerTaskInfo.currentGenerationEndTime"></time-down>&nbsp;进行审核，若该时间内未审核，系统将默认审核通过，开始给秀客返款！
+              </p>
             </div>
           </div>
         </div>
@@ -98,12 +105,14 @@
           <span>请输入您的支付密码：</span>
           <iInput v-model="refundPayPwd" type="password" style="width: 160px;margin-right: 16px;"></iInput>
           <iButton type="primary" @click="confirmRefund">确认</iButton>
-          <span class="ml-10" v-if="isPwdAmend"><router-link :to="{path:'/user/money-management/account-management',query:{type:'findPwd'}}">忘记支付密码？</router-link></span>
+          <span class="ml-10" v-if="isPwdAmend"><router-link
+            :to="{path:'/user/money-management/account-management',query:{type:'findPwd'}}">忘记支付密码？</router-link></span>
         </div>
         <div class="refund-tip ml-35 mt-22" v-if="!isPwdAmend">
           <p>如果您的支付密码没有修改，初始密码为：888888。</p>
           <p class="mt-6">为了账户安全，建议您另外设置一个密码！
-            <router-link :to="{path:'/user/money-management/account-management',query:{type:'resetPwd'}}">修改支付密码</router-link>
+            <router-link :to="{path:'/user/money-management/account-management',query:{type:'resetPwd'}}">修改支付密码
+            </router-link>
           </p>
         </div>
       </div>
@@ -135,27 +144,26 @@
         trialCheckStatus: 'pass',
         showRefundModel: false,
         refundPayPwd: null,
-        showkerReportInfo:{},
-        showkerTaskInfo:{
-          task:{}
+        showkerReportInfo: {},
+        showkerTaskInfo: {
+          task: {}
         },
-        noPassReason:null,
-        trialReportImages:[],
-        showNowImageSrc:null,
-        reportImagesIndex:0,
+        noPassReason: null,
+        trialReportImages: [],
+        showNowImageSrc: null,
+        reportImagesIndex: 0,
         showType: false,
       }
     },
-    mounted() {},
+    mounted() {
+    },
     created() {
       let id = this.$route.query.id;
       let from = this.$route.query.from;
-      if(from){
+      if (from) {
         this.showType = true;
-        this.lookShowkerReport(id);
-      }else {
-        this.auditTrialReport(id);
       }
+      this.lookShowkerReport(id);
     },
     watch: {},
     computed: {
@@ -165,7 +173,10 @@
     },
     methods: {
       returnUpPage() {
-        this.$router.push({name: 'ApproveShowker',query: {taskId: this.showkerTaskInfo.task.id}})
+        this.$router.push({name: 'ApproveShowker', query: {taskId: this.showkerTaskInfo.task.id}})
+      },
+      returnUpPageFrom() {
+        this.$router.push({name: 'ApplyPassAudit'})
       },
       getTaskStatus(type) {
         return TaskErrorStatusList(type);
@@ -176,33 +187,28 @@
       openRefundModel() {
         this.showRefundModel = true;
       },
-      auditTrialReport(id) {
-        let _this = this;
-        api.taskReportInfo({
-          id:id,
-        }).then(res =>{
-          if(res.status){
-            _this.showkerTaskInfo = res.data.showkerTask;
-            _this.showkerReportInfo = res.data.trialReport;
-            _this.trialReportImages = _this.showkerReportInfo.trialReportImages ? JSON.parse(_this.showkerReportInfo.trialReportImages) : [];
-            _this.showNowImageSrc = _this.trialReportImages[0];
-          }else{
-            _this.$Message.error(res.msg);
-          }
-        })
-      },
       lookShowkerReport(id) {
         let _this = this;
-        api.showkerReportInfo({
-          id:id
-        }).then( res=>{
-          if(res.status){
-            _this.showkerTaskInfo = res.data.showkerTask;
-            _this.showkerReportInfo = res.data.trialReport;
+        api.showkerTaskInfo({
+          id: id,
+        }).then(res => {
+          if (res.status) {
+            _this.showkerTaskInfo = res.data;
+          } else {
+            _this.$Message.error(res.msg);
+          }
+        });
+        api.showkerTaskReport({
+          id: id,
+        }).then(res => {
+          if (res.status) {
+            _this.showkerReportInfo = res.data;
             _this.trialReportImages = _this.showkerReportInfo.trialReportImages ? JSON.parse(_this.showkerReportInfo.trialReportImages) : [];
             _this.showNowImageSrc = _this.trialReportImages[0];
+          } else {
+            _this.$Message.error(res.msg);
           }
-        })
+        });
       },
       confirmReport() {
         let _this = this;
@@ -210,22 +216,22 @@
           id: _this.showkerTaskInfo.id,
           status: _this.trialCheckStatus === 'pass' ? 'true' : 'false',
           msg: _this.noPassReason
-        }).then(res =>{
-          if(res.status){
+        }).then(res => {
+          if (res.status) {
             _this.$Message.success({
-              content:'买家秀审核成功！',
+              content: '买家秀审核成功！',
               duration: 4
             });
             _this.returnUpPage();
-          }else{
+          } else {
             _this.$Message.error({
-              content:res.msg,
+              content: res.msg,
               duration: 4
             })
           }
         })
       },
-      selectChangeImg(src,index) {
+      selectChangeImg(src, index) {
         this.showNowImageSrc = src;
         this.reportImagesIndex = index;
       },
@@ -233,7 +239,7 @@
         let _this = this;
         let length = _this.trialReportImages.length;
         _this.reportImagesIndex--;
-        if(_this.reportImagesIndex < 0){
+        if (_this.reportImagesIndex < 0) {
           _this.reportImagesIndex = length - 1;
         }
         _this.showNowImageSrc = _this.trialReportImages[_this.reportImagesIndex];
@@ -242,7 +248,7 @@
         let _this = this;
         let length = _this.trialReportImages.length;
         _this.reportImagesIndex++;
-        if(_this.reportImagesIndex > length - 1){
+        if (_this.reportImagesIndex > length - 1) {
           _this.reportImagesIndex = 0;
         }
         _this.showNowImageSrc = _this.trialReportImages[_this.reportImagesIndex];
@@ -253,17 +259,17 @@
           showkerTaskId: _this.showkerTaskInfo.id,
           payPwd: _this.refundPayPwd,
           platform: "pc"
-        }).then(res =>{
-          if(res.status){
+        }).then(res => {
+          if (res.status) {
             _this.$Message.success({
-              content:'已向秀客返款成功！',
+              content: '已向秀客返款成功！',
               duration: 4
             });
             _this.showRefundModel = false;
             _this.returnUpPage();
-          }else{
+          } else {
             _this.$Message.error({
-              content:res.msg,
+              content: res.msg,
               duration: 4
             })
           }

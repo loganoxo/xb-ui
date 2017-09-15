@@ -47,7 +47,7 @@
         if (leftTime <= 0) {
           this.flag = true;
           this.$emit('timeEnd');
-          this.time = `0天0小时0分0秒`;
+          this.time = ``;
         }else{
           this.time = `${d}天${h}小时${m}分${s}秒`
         }

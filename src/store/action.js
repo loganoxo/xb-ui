@@ -6,7 +6,7 @@ import api from '@/config/apiConfig'
 
 export default {
   //获取用户账户余额
-  getBalance({commit}) {
+  /*getBalance({commit}) {
     api.getAccountBalance().then(res => {
       if (res.status) {
         commit({
@@ -17,7 +17,7 @@ export default {
         alert('获取用户账户余额：' + res.msg);
       }
     })
-  },
+  },*/
   //用户退出登陆
   loggedOut({commit}) {
     return new Promise((resolve, reject) => {

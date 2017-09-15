@@ -417,32 +417,6 @@ router.post('/api/deposit-supplement.json', function (req, res, next) {
 });
 
 /**
- * 商家查看买家秀详情
- *  @param id
- */
-router.post('/api/task-report-info.json', function (req, res, next) {
-  let options = {
-    method: 'POST',
-    uri: baseUrl + '/task/merchant/report/info',
-    formData: {
-      showkerTaskId: req.body.id,
-      merchantId: req.session.userData.id
-    },
-    json: true
-  };
-  request(options)
-    .then(function (parsedBody) {
-      res.send(parsedBody);
-      res.end();
-    })
-    .catch(function (err) {
-      logConfig.logger.error(req.originalUrl + ':' + err);
-      res.json({status: false, msg: "服务器请求超时，请稍后在试！"});
-      res.end();
-    });
-});
-
-/**
  * 商家审核买家秀
  * @param id
  * @param status

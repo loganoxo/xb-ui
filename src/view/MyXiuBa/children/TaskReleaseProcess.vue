@@ -619,7 +619,6 @@
       },
       /**
        * 从vuex中获取余额
-       * @return {number}
        */
       getUserBalance: function () {
         return this.$store.getters.getUserBalance;
@@ -647,10 +646,10 @@
       },
       /**
        * 计算订单总金额
-       * @return {number}
+       * @return {string}
        */
       orderMoney: function () {
-        return (this.taskRelease.taskCount * this.oneBond).toFixed(2) * 1 + this.allPromotionExpenses;
+        return (((this.taskRelease.taskCount * this.oneBond * 100) + this.allPromotionExpenses * 100) / 100).toFixed(2);
       },
       /**
        * 计算修改价格后需要补充的金额
@@ -718,6 +717,10 @@
         }
         if (!_this.taskRelease.taskName) {
           _this.$Message.warning('亲，活动标题不能为空！');
+          return;
+        }
+        if(_this.taskRelease.taskName.length > 30){
+          _this.$Message.warning('亲，活动标题最多30个文字！');
           return;
         }
         if (!_this.taskRelease.itemType) {
