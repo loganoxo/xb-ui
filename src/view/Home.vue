@@ -4,10 +4,10 @@
       <div class="container">
         <div class="home-section">
           <div class="left-ctt left mr-10">
-            <ul :class="[leftTopSlider ? 'slider-top-active' : 'slider-top-default']">
+            <ul :class="[leftTopSlider ? 'slider-top-active' : 'slider-top-default']" @mouseover="clearLeftTopSliderFunc()" @mouseleave="leftTopSliderFunc()">
               <li v-for="taskTopLeft in taskTopLeftList">
                 <!--query:{taskId: taskTopLeft.task.id }-->
-                <router-link :to="{path:'/task-details'}"  class="block">
+                <router-link :to="{path:'/task-details'}" :title="taskTopLeft.task.taskName" class="block">
                   <div class="left img-box">
                     <img :src="taskTopLeft.task.taskMainImage" alt="" width="54px">
                   </div>
@@ -182,6 +182,7 @@
     },
     data () {
       return {
+        leftTopSliderTimer: '',
         leftTopSlider: false,
         trialCount: {},
         homeCommodityList:[],
@@ -288,13 +289,7 @@
     mounted: function () {
       this.$nextTick(function () {
         let self = this;
-        setInterval(function () {
-          if(self.leftTopSlider){
-            let part = self.taskTopLeftList.splice(0,1);
-            self.taskTopLeftList = self.taskTopLeftList.concat(part);
-          }
-          self.leftTopSlider = !self.leftTopSlider;
-        },1500)
+        self.leftTopSliderFunc();
       })
 
     },
@@ -346,10 +341,7 @@
         api.getHomeTaskTopLeftList().then((res) => {
           if(res.status){
             self.taskTopLeftList = res.data;
-//            setInterval(function () {
-//
-//
-//            },3000)
+
           }else {
 
           }
@@ -368,6 +360,20 @@
             });
           }
         })
+      },
+      leftTopSliderFunc(){
+        let self = this;
+        self.leftTopSliderTimer = setInterval(function () {
+          if(self.leftTopSlider){
+            let part = self.taskTopLeftList.splice(0,1);
+            self.taskTopLeftList = self.taskTopLeftList.concat(part);
+          }
+          self.leftTopSlider = !self.leftTopSlider;
+        },1500)
+      },
+      clearLeftTopSliderFunc(){
+        let self = this;
+        clearInterval(self.leftTopSliderTimer);
       },
       changeNoticeTab(notice){
         this.noticeActive = notice.active;

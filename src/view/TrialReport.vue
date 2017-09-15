@@ -28,6 +28,7 @@
                     <img :src="trialReport.task.taskMainImage" alt="" style="width: 150px">
                   </div>
                   <div>
+                    <p>{{trialReport.task.taskName}}</p>
                     <p>发表于{{trialReport.createTime | dateFormat('YYYY-MM-DD hh:mm:ss')}} </p>
                     <p class="text">
                       {{trialReport.trialReportText}}

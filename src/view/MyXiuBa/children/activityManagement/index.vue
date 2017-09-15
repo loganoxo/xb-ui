@@ -181,7 +181,6 @@
         margin: 26px auto 0 auto;
         img {
           width: 100%;
-          height: 100%;
         }
       }
       .left-btn {

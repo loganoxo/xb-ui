@@ -3,7 +3,7 @@
     <role-top></role-top>
 
     <div class="container">
-      <p v-if="showRegister" class="fs-24 left fast-register-tip">
+      <p v-if="showRegister" class="fs-24  fast-register-tip">
         <Icon type="information-circled" color="#FF6633"></Icon>
         亲是第一次登录秀吧，请选择您的角色！
       </p>
@@ -192,9 +192,8 @@
 <style lang="scss" scoped>
   @import 'src/css/mixin';
   .fast-register-tip{
-    margin-left: 156px;
+    margin-left: 364px;
     margin-top: 140px;
-    margin-bottom: 100px;
     i{
       color: rgb(255, 102, 51);
       font-size: 35px;

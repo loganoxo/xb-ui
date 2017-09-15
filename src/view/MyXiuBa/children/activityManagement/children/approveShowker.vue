@@ -35,7 +35,7 @@
               <tr>
                 <th width="25%">淘宝账号（旺旺号）</th>
                 <th width="25%">申请时间</th>
-                <th width="25%">已完成活动次数</th>
+                <th width="25%">秀客的买家秀记录</th>
                 <th width="25%">操作</th>
               </tr>
               </thead>
@@ -45,7 +45,7 @@
                 <td>{{item.applyTime | dateFormat('YYYY-MM-DD hh:mm:ss')}}</td>
                 <td class="registration">
                   <router-link :to="{ 'path': '/trial-report','query': {'showkerId': item.showkerId}}">
-                    {{item.task.showkerApplySuccessCount}}
+                   查看
                   </router-link>
                 </td>
                 <td>

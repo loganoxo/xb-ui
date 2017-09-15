@@ -18,6 +18,7 @@
                     <img :src="trialReport.task.taskMainImage" alt="" style="width: 150px;">
                   </div>
                   <div>
+                    <p>{{trialReport.task.taskName}}</p>
                     <p>成功发布于 {{trialReport.passTime | dateFormat('YYYY-MM-DD hh:mm:ss')}} </p>
                     <p class="text">
                       {{trialReport.trialReportText}}

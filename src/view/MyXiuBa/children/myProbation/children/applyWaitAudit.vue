@@ -32,7 +32,7 @@
           <td>{{item.task.perMarginNeed / 100}}</td>
           <td>{{getTaskStatus(item.status)}}</td>
           <td>
-            <p class="operation" @click="endTrial(item.id)">结束活动</p>
+            <p class="operation" @click="endTrialModel(item.id)">结束活动</p>
           </td>
         </tr>
         </tbody>
@@ -46,6 +46,20 @@
     <div class="activity-page mt-20 right mr-10" v-show="applyList.length > 0">
       <Page :total="totalElements" :page-size="pageSize" @on-change="pageChange"></Page>
     </div>
+    <!--删除活动确认弹框-->
+    <Modal v-model="deleteModal" width="360">
+      <p slot="header" style="color:#f60;text-align:center">
+        <Icon type="information-circled"></Icon>
+        <span>结束确认</span>
+      </p>
+      <div style="text-align:center">
+        <p>结束试用后将直接终止该活动的试用资格，并不可再次申请。</p>
+        <p>是否确认结束？</p>
+      </div>
+      <div slot="footer">
+        <iButton type="error" size="large" long :loading="modalLoading" @click="endTrial">结束</iButton>
+      </div>
+    </Modal>
   </div>
 </template>
 
@@ -56,6 +70,8 @@
   import Page from 'iview/src/components/page'
   import api from '@/config/apiConfig'
   import {TaskErrorStatusList} from '@/config/utils'
+  import Modal from 'iview/src/components/modal'
+  import Icon from 'iview/src/components/icon'
 
   export default {
     name: 'ApplyWaitAudit',
@@ -66,6 +82,8 @@
       iOption: Option,
       OptionGroup: OptionGroup,
       Page: Page,
+      Modal: Modal,
+      Icon: Icon,
     },
     data() {
       return {
@@ -86,6 +104,9 @@
         pageSize: 5,
         pageIndex: 1,
         applyList: [],
+        modalLoading: false,
+        deleteModal: false,
+        deleteId: null,
         searchLoading: false
       }
     },
@@ -123,21 +144,23 @@
           }
         })
       },
-      endTrial(id) {
+      endTrialModel (id) {
+        this.deleteModal = true;
+        this.deleteId = id;
+      },
+      endTrial() {
         let _this = this;
+        _this.modalLoading = true;
         api.showkerApplyEed({
-          id: id
+          id: _this.deleteId
         }).then(res => {
           if (res.status) {
+            _this.modalLoading = false;
             _this.$Message.success({
               content: '结束活动成功！',
               duration: 6
             });
-            if (type === 'passAudit') {
-              _this.showkerSuccessList();
-            } else {
-              _this.showkerApplyList();
-            }
+            _this.showkerSuccessList();
           } else {
             _this.$Message.error(res.msg);
           }
