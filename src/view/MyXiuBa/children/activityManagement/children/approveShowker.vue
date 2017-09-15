@@ -402,6 +402,9 @@
           if (res.status) {
             _this.searchLoading = false;
             _this.approveTableList = res.data.list.content;
+            for(let i = 0, j = _this.approveTableList.length; i < j; i++){
+              _this.approveTableList[i].alitmAccount
+            }
             _this.approveTaskInfo = res.data.taskInfo;
             _this.trailOn = res.data.trailOn;
             _this.trailDone = res.data.trailDone;
