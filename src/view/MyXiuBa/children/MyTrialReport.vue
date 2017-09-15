@@ -213,9 +213,8 @@
       showReportDescFunc(trialReport){
          let self = this;
          this.showReportDesc = true;
-         api.ShowkerReportOne({
-           id: trialReport.showkerTaskId,
-           showkerId: trialReport.showkerId
+         api.getTrialReport({
+           id: trialReport.id
          }).then((res) => {
             if(res.status){
               self.showkerReportDesc = res.data;

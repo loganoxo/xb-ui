@@ -466,13 +466,6 @@ export default {
   },
 
   /**
-   * 秀客报告，点击查看全部
-   */
-  ShowkerReportOne(params) {
-    return fetch("/api/task/showker/trialReport.json", params)
-  },
-
-  /**
    * 修改用户头像
    */
   modifyPortraitPic(params) {
