@@ -187,7 +187,8 @@
   import Modal from 'iview/src/components/modal'
   import Alert from 'iview/src/components/alert'
   import SmsCountdown from '@/components/SmsCountdown'
-
+  import {mapActions} from 'vuex'
+  import {mapMutations} from 'vuex'
   export default {
     name: 'wwBind',
     components: {
