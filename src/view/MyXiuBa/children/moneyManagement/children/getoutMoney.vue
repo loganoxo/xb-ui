@@ -581,13 +581,14 @@
       },
       getBankCardInformationApi(){
         let  _this = this;
+        _this.showDifffentModel('bondBankCard');
         api.getBankCardInformation().then(res=>{
           if (res){
             _this.formItem.name= res.accountName;
             _this.formItem.select= res.bankName;
             _this.formItem.bankNumber= res.bankNo;
             _this.formItem.bankBranch= res.bankPart;
-            _this.showDifffentModel('bondBankCard');
+
           }else {
             _this.$Message.error(res.msg)
           }

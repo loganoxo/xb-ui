@@ -192,7 +192,7 @@
        </div>
      </div>
      <div class="write-order-number mt-40">
-       <span @click="openAuditOrder()">下单完成，填订单号</span>
+       <span @click="openAuditOrder('',taskType)">下单完成，填订单号</span>
        <span class="ml-35" @click="returnUpPage">返回上页</span>
      </div>
    </div>
@@ -270,7 +270,7 @@
          <span>请输入订单号：</span>
          <iInput v-model="affirmOrderNumber" style="width: 300px;"></iInput>
          <iButton @click="orderImg = true">什么是订单号？</iButton>
-         <Modal v-model="orderImg" width="1100" v-if="isPcOrApp === 'appSearch'">
+         <Modal v-model="orderImg" width="1100" v-if="isPcOrApp === 'pcSearch'">
             <div class="text-ct">
               <img style="width: 1000px;height: 750px" src="~assets/img/order-number/order_pc.png" alt="">
              </div>
