@@ -54,8 +54,6 @@
   import Radio from 'iview/src/components/radio'
   import Button from 'iview/src/components/button'
   import Modal from 'iview/src/components/modal'
-  import PayModel from '@/components/PayModel'
-  import PopUpWindows from '@/components/PopUpWindows'
   import {mapActions} from 'vuex'
   import {isNumber} from '@/config/utils'
   import {aliPayUrl} from '@/config/env'
@@ -72,8 +70,6 @@
       ButtonGroup: Button.Group,
       Icon: Icon,
       Modal: Modal,
-      PayModel: PayModel,
-      PopUpWindows: PopUpWindows
     },
     data() {
       const validatePayNumber = (rule, value, callback) => {
@@ -98,19 +94,12 @@
           ]
         },
         imgSrc: null,
-        modal3: false,
-        modal_loading: false,
         payPopWindow: false,
         payPopWindowValue: false,
-        userList: {},
-        userAccount: {},
-        url: '',
       }
     },
     mounted() {},
-    created() {
-
-    },
+    created() {},
     computed: {
       getUserBalance: function () {
         return this.$store.getters.getUserBalance;
@@ -143,6 +132,9 @@
 
         if (_this.payMoney.number === '') {
           _this.$Message.error('您未输入充值金额，请您重新输入');
+          _this.payPopWindowValue = false;
+          return;
+        }else if (!(/^[0-9]+(.[0-9]{1,2})?$/.test(parseInt(_this.payMoney.number)))){
           _this.payPopWindowValue = false;
           return;
         }

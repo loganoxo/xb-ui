@@ -105,13 +105,13 @@
            </td>
            <td>
              <p v-if="item.status === 'pass_and_unclaimed'" class="operation"
-                @click="changePassOperation('place','',item.id)">去下单</p>
+                @click="changePassOperation('place','',item.id,item.taskType)">去下单</p>
              <p v-if="item.status === 'trial_report_waiting_submit'" class="operation"
                 @click="changePassOperation('report','write',item.id)">制作买家秀</p>
              <p v-if="item.status === 'trial_report_unqualified'" class="operation"
                 @click="changePassOperation('report','amend',item.id)">修改买家秀</p>
              <p v-if="item.status === 'pass_and_unclaimed'" class="operation mt-5"
-                @click="openAuditOrder(item.id)">填订单号</p>
+                @click="openAuditOrder(item.id,item.taskType)">填订单号</p>
              <p v-if="item.status === 'order_num_error'" class="operation mt-5"
                 @click="openAuditOrder(item.id)">修改订单号</p>
              <p v-if="item.status === 'trial_report_waiting_confirm' || item.status === 'trial_finished'" class="operation mt-5"
@@ -195,7 +195,7 @@
        </div>
      </div>
      <div class="write-order-number mt-40">
-       <span @click="openAuditOrder()">下单完成，填订单号</span>
+       <span @click="openAuditOrder('',orderType)">下单完成，填订单号</span>
        <span class="ml-35" @click="returnUpPage">返回上页</span>
      </div>
    </div>
@@ -273,11 +273,16 @@
          <span>请输入订单号：</span>
          <iInput v-model="affirmOrderNumber" style="width: 300px;"></iInput>
          <iButton @click="orderImg = true">什么是订单号？</iButton>
-         <Modal v-model="orderImg" width="1380">
+         <Modal v-if="pcOrApp === 'pcOrder'" v-model="orderImg" width="1000">
             <div class="text-ct">
-              <img src="" alt="">
+              <img style="width: 900px;height: 750px;"  src="~assets/img/order-number/order_pc.png" alt="">
              </div>
           </Modal>
+         <Modal v-else v-model="orderImg" width="360">
+           <div class="text-ct">
+             <img style="width: 300px;height: 450px;" src="~assets/img/order-number/order_phone.png" alt="">
+           </div>
+         </Modal>
        </p>
        <p class="mt-20 ml-35">
          <span>请输入实付金额：</span>
@@ -387,7 +392,9 @@
         modalLoading: false,
         deleteModal: false,
         deleteId: null,
-        orderImg:false
+        orderImg:false,
+        orderType:null,
+        taskOrderType:null
       }
     },
     mounted() {},
@@ -433,16 +440,24 @@
         } else {
           return '****'
         }
+      },
+      pcOrApp:function () {
+        if (this.orderType==='pc_search'|| this.orderType === 'direct_access'){
+          return 'pcOrder';
+        }else if (this.orderType === 'tao_code'|| this.orderType === 'app_search'){
+          return 'appOrder';
+        }
       }
     },
     methods: {
       getTaskStatus(type) {
         return TaskErrorStatusList(type);
       },
-      changePassOperation(type, status, id) {
+      changePassOperation(type, status, id ,orderType) {
         let _this = this;
         _this.reportStatus = status;
         _this.itemId = id;
+        _this.orderType=orderType;
         if (type === 'report') {
           api.showkerTaskInfo({
             id: id,
@@ -519,7 +534,9 @@
       closeAuditOrder() {
         this.showAuditOrderNumber = false;
       },
-      openAuditOrder(id) {
+      openAuditOrder(id,type) {
+        this.orderType = type;
+        console.log(this.orderType);
         this.showAuditOrderNumber = true;
         if (!this.itemId) {
           this.itemId = id;
@@ -575,6 +592,7 @@
               data.perMarginNeed = item.task.perMarginNeed;
               data.createTime = item.createTime;
               data.orderNumber = item.task.number;
+              data.taskType = item.task.taskType;
               if(item.latestShowkerTaskOpLog){
                 data.auditDescription = item.latestShowkerTaskOpLog.auditDescription;
               }else {

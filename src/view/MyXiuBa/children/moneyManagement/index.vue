@@ -2,8 +2,12 @@
   <div class="personal-box">
     <div class="title">资金管理</div>
     <div class="personal-sel-top mt-20">
-      <a v-for="(item,index) in myInfoSelects" :class="{active:infoSelect === item.isSelect}"
-         @click="accountInit(item.isSelect);selectNavigate(item.isSelect)">{{item.text}}</a>
+      <a v-if="getUserAccountRole===1" v-for="item in myInfoSelectMerchant" :class="{active:infoSelect === item.isSelect}"
+         @click="accountInit(item.isSelect);selectNavigate(item.isSelect)">{{item.text}}
+      </a>
+      <a v-if="getUserAccountRole===0"  v-for="item in myInfoSelectTasker" :class="{active:infoSelect === item.isSelect}"
+         @click="accountInit(item.isSelect);selectNavigate(item.isSelect)">{{item.text}}
+      </a>
     </div>
     <router-view></router-view>
   </div>
@@ -15,7 +19,7 @@
 
     data() {
       return {
-        myInfoSelects: [
+        myInfoSelectMerchant: [
           {
             text: '账号信息',
             isSelect: 'AccountInfo',
@@ -23,6 +27,24 @@
           {
             text: '充值',
             isSelect: 'PayMoney'
+          },
+          {
+            text: '提现',
+            isSelect: 'GetoutMoney'
+          },
+          {
+            text: '交易记录',
+            isSelect: 'TransactionRecord'
+          },
+          {
+            text: '账户管理',
+            isSelect: 'AccountManagement'
+          }
+        ],
+        myInfoSelectTasker: [
+          {
+            text: '账号信息',
+            isSelect: 'AccountInfo',
           },
           {
             text: '提现',
@@ -46,7 +68,11 @@
       let name = this.$route.name;
       this.selectNavigate(name);
     },
-    computed: {},
+    computed: {
+      getUserAccountRole:function () {
+        return this.$store.getters.getUserAccountInfo.role
+      }
+    },
     watch: {
       $route(to) {
         this.infoSelect = to.name;

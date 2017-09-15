@@ -190,7 +190,7 @@ export const TaskErrorStatusList = (type) => {
       return '任务担保金退款';
       break;
     case 'task_deposit_return_shower':
-      return '任务担保金返款';
+      return '秀客担保金返款';
       break;
     case 'task_delete_return_seller':
       return '关闭活动返款-活动担保金';

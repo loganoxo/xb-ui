@@ -45,7 +45,7 @@
         v-model="amountPopWindow"
         :styles="{top:'200px',width:'800px'}"
         class-name ="pop-up-window">
-        <div slot="header">活动编号：<span style="color: red;">{{taskNumber || '无'}}&nbsp;,&nbsp;</span>共返还任务保证金：<span style="color: red;">{{totalPay / 100}}</span>&nbsp;元</div>
+        <div slot="header">活动编号：<span style="color: red;">{{taskNumber || '无'}}&nbsp;,&nbsp;</span>共返还秀客担保金：<span style="color: red;">{{totalPay / 100}}</span>&nbsp;元</div>
         <div>
           <table class="alert-table-list"
                  style="width: 100%;border: 1px solid #F3F3F3;background-color:#F8F8F8;text-align: center">
@@ -66,7 +66,6 @@
               <td>{{item.serialNumber}}</td>
               <td>
                 <p>{{getTradType(item.tradName)}}</p>
-                <p>任务编号：{{item.showkerSerial || '无'}}</p>
               </td>
               <td class="main-color">
                 {{'-' + item.tradAmount / 100 || 0}}
@@ -130,7 +129,6 @@
                   </td>
                   <td>
                     <p>{{getTradType(item.tradName)}}</p>
-                    <p>活动编号：{{item.showerTaskSerial || '无'}}</p>
                   </td>
                   <td :class="{tdColor:item.tradAmount<0 , tdColorGreen:item.tradAmount>0}">
                     {{typeChang(item.tradAmount / 100) || 0}}
@@ -140,7 +138,7 @@
                   <td colspan="4">
                     <Button
                       @click="amountPopWindow = true;taskNumber = tbodyDetails.taskSerialNum ;getDepositReturnList(tbodyDetails.taskId)"
-                      class="theSpecialBtn">查看任务担保金支出明细
+                      class="theSpecialBtn">查看秀客担保金支出明细
                     </Button>
                   </td>
                 </tr>
@@ -189,7 +187,6 @@
         <div class="left">
           <Checkbox-group v-model="transactType" class="checkBox  ml-45" @on-change="checkAllGroupChange">
             <Checkbox label="0">活动</Checkbox>
-            <Checkbox label="1">充值</Checkbox>
             <Checkbox label="2">提现</Checkbox>
           </Checkbox-group>
         </div>
@@ -255,7 +252,6 @@
                   </td>
                   <td>
                     <p>{{getTradType(item.tradName)}}</p>
-                    <p>活动编号：</p>
                   </td>
                   <td :class="{tdColor:item.tradAmount<0 , tdColorGreen:item.tradAmount>0}">
                     {{typeChang(item.tradAmount / 100) || 0}}
@@ -376,10 +372,12 @@
       if (taskNumber) {
         this.activityNumber = taskNumber;
         this.getTradListAll();
-      } else if (activeType) {
+      } else if (activeType === 1) {
         this.getTradListAll([1]);
-      } else {
-        this.getTradListAll([]);
+      } else if (activeType === 1){
+        this.getTradListAll([2]);
+      }else {
+        this.getTradListAll();
       }
     },
     computed: {
@@ -470,12 +468,22 @@
         }
       },
       checkAllGroupChange() {
-        if (this.transactType.length === 3) {
-          this.checkAll = true;
-        } else if (this.transactType.length > 0) {
-          this.checkAll = false;
-        } else {
-          this.checkAll = false;
+        if (this.getUserInfoRole === 1){
+          if (this.transactType.length === 3) {
+            this.checkAll = true;
+          } else if (this.transactType.length > 0) {
+            this.checkAll = false;
+          } else {
+            this.checkAll = false;
+          }
+        }else if(this.getUserInfoRole === 0) {
+          if (this.transactType.length === 2) {
+            this.checkAll = true;
+          } else if (this.transactType.length > 0) {
+            this.checkAll = false;
+          } else {
+            this.checkAll = false;
+          }
         }
       },
       changeTimeChoiceStyle(type) {

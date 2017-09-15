@@ -8,12 +8,12 @@
           <p>收入金额（元）：{{userAccount.amountIncomes / 100 || 0}}</p>
           <p>支出金额（元）：{{userAccount.amountPayment / 100 || 0}}</p>
           <div class="view-details mt-10">
-            <a class="iWantPay" href="javascript:;" @click="accountInit('PayMoney')">我要充值</a>
-            <router-link to="/user/personal-setting/personal-account-info">查看明细</router-link>
+            <a v-if="getUserAccountRole===1" class="iWantPay" href="javascript:;" @click="accountInit('PayMoney')">我要充值</a>
+            <router-link v-if="getUserAccountRole===1" :to="{'path':'/user/money-management/transaction-record',query:{'activeType':1}}">充值记录</router-link>
           </div>
         </div>
         <div class="moneyInfoRight right">
-          <div>提现金额（元）</div>
+          <div>提现中（元）</div>
           <div class="number1 mt-5 ">{{userAccount.enChashingMoney / 100 || 0}}</div>
           <div class="clear">
             <span class="sp left">提现帐号：{{getIfBandingBankCard(userList.ifBandingBankCard)}}</span>
@@ -21,8 +21,8 @@
             <a class="sa right" v-show="userList.ifBandingBankCard !== null" @click="bandCard">修改</a>
           </div>
           <div class="view-details ">
-            <a class="iWantPay" href="javascript:;" @click="accountInit('PayMoney')">我要充值</a>
-            <router-link to="/user/personal-setting/personal-account-info">查看明细</router-link>
+            <a class="iWantPay" href="javascript:;" @click="accountInit('PayMoney')">我要提现</a>
+            <router-link :to="{'path':'/user/money-management/transaction-record',query:{'activeType':2}}">提现记录</router-link>
           </div>
         </div>
       </div>
@@ -42,8 +42,8 @@
     <div class="trading-record ">
       <ul class="clear">
         <li>最近交易记录</li>
-        <li v-for="(item ,index) in lis ">
-          <a href="javascript:;" :class="{lisColor:iSelect === item.isSelect}"
+        <li v-for="(item ,index) in lis " v-if="item.isSelect!=='pay'">
+          <a  href="javascript:;" :class="{lisColor:iSelect === item.isSelect}"
              @click="getTradList(index===0?[]:[index-1]),changeLiColor(item.isSelect)">{{item.text}}</a>
         </li>
       </ul>
@@ -97,7 +97,6 @@
                 </td>
                 <td>
                   <p>{{getTradType(item.tradName)}}</p>
-                  <p>活动编号：{{item.showerTaskSerial}}</p>
                 </td>
                 <td :class="{tdColor:item.tradAmount<0 , tdColorGreen:item.tradAmount>0}">
                   {{typeChang(item.tradAmount / 100) || 0}}
@@ -218,6 +217,9 @@
       },
       userBalance: function () {
         return this.$store.getters.getUserBalance;
+      },
+      getUserAccountRole:function () {
+        return this.$store.getters.getUserAccountInfo.role
       }
     },
     methods: {
