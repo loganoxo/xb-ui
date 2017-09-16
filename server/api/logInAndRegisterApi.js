@@ -29,26 +29,26 @@ router.post('/api/login.json', (req, res, next) => {
       sessionId: req.sessionID
     },
     json: true,
+    headers: {}
   };
-  request(options)
-    .then(function (parsedBody) {
-      if (parsedBody.status) {
-        let userData = parsedBody.data;
-        req.session.regenerate(function (err) {
-          if (!err) {
-            req.session.userData = userData;
-            logConfig.logger.info('用户信息存入redis成功！');
-          } else {
-            logConfig.logger.err('用户信息存入redis失败：' + err);
-          }
-          res.send(parsedBody);
-          res.end();
-        });
-      } else {
+  request(options).then(function (parsedBody) {
+    if (parsedBody.status) {
+      let userData = parsedBody.data;
+      req.session.regenerate(function (err) {
+        if (!err) {
+          req.session.userData = userData;
+          logConfig.logger.info('用户信息存入redis成功！');
+        } else {
+          logConfig.logger.err('用户信息存入redis失败：' + err);
+        }
         res.send(parsedBody);
         res.end();
-      }
-    })
+      });
+    } else {
+      res.send(parsedBody);
+      res.end();
+    }
+  })
     .catch(function (err) {
       logConfig.logger.error(req.originalUrl + ':' + err);
       res.json({status: false, msg: "服务器请求超时，请稍后在试！"});

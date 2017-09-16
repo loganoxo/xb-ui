@@ -24,8 +24,10 @@
         </Radio>
       </Radio-group>
     </div>
-    <div class="recharge-btn" v-if="isBalance" @click="confirmPayment">{{payButtonText}}</div>
-    <div class="recharge-btn" v-else @click="confirmRecharge">{{rechargeButtonText}}</div>
+    <!--<div class="recharge-btn" v-if="isBalance" @click="confirmPayment">{{payButtonText}}</div>-->
+    <iButton type="primary" v-if="isBalance" :loading="payLoading" @click="taskApplyList" class="recharge-btn">{{payButtonText}}</iButton>
+    <iButton type="primary" v-else :loading="payLoading" @click="confirmRecharge" class="recharge-btn">{{rechargeButtonText}}</iButton>
+    <!--<div class="recharge-btn" v-else @click="confirmRecharge">{{rechargeButtonText}}</div>-->
     <div class="confirm-recharge-model" v-if="confirmRechargeModel">
       <div class="confirm-recharge-con">
         <h4>请前往充值界面进行充值！</h4>
@@ -42,6 +44,7 @@
 <script>
   import Input from '@/components/Input'
   import Radio from 'iview/src/components/radio'
+  import Button from 'iview/src/components/button'
   import api from '@/config/apiConfig'
   import {aliPayUrl} from '@/config/env'
   import {mapActions} from 'vuex'
@@ -52,6 +55,7 @@
       iInput: Input,
       Radio: Radio,
       RadioGroup: Radio.Group,
+      iButton: Button,
     },
     props: {
       orderMoney: {
@@ -73,6 +77,7 @@
         payType: 'ali',
         payPassword: null,
         confirmRechargeModel: false,
+        payLoading: false,
       }
     },
     mounted() {},
@@ -99,7 +104,9 @@
         this.$emit('confirmPayment',this.payPassword);
       },
       confirmRecharge() {
-        this.confirmRechargeModel = true;
+        let _this = this;
+        _this.confirmRechargeModel = true;
+        _this.payLoading = true;
         api.balanceOrderCreate({
           finalFee: this.payMoney,
           orderPlatform: 'PC',
@@ -108,6 +115,7 @@
           if(res.status){
             let src = aliPayUrl + 'orderSerial=' + res.data.orderSerial;
             window.open(src);
+            _this.payLoading = false;
           }
         })
       },
@@ -160,7 +168,7 @@
     .recharge-btn {
       display: inline-block;
       padding: 4px 16px;
-      line-height: 30px;
+      line-height: 24px;
       @include sc(16px, #fff);
       text-align: center;
       margin: 28px auto 0 auto;

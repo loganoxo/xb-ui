@@ -17,7 +17,7 @@ const ActivitiesList = r => require.ensure([], () => r(require('@/view/MyXiuBa/c
 const ApproveShowker = r => require.ensure([], () => r(require('@/view/MyXiuBa/children/activityManagement/children/approveShowker.vue')), 'ActivityManagement');
 const ProbationReport = r => require.ensure([], () => r(require('@/view/MyXiuBa/children/activityManagement/children/probationReport.vue')), 'ActivityManagement');
 const DetailAndLog = r => require.ensure([], () => r(require('../view/MyXiuBa/children/activityManagement/children/detailAndLog/index.vue')), 'ActivityManagement');
-const ActivityDeatail = r => require.ensure([], () => r(require('../view/MyXiuBa/children/activityManagement/children/detailAndLog/children/activityDeatail.vue')), 'ActivityManagement');
+const ActivityDetail = r => require.ensure([], () => r(require('../view/MyXiuBa/children/activityManagement/children/detailAndLog/children/activityDetail.vue')), 'ActivityManagement');
 const ActivityLog = r => require.ensure([], () => r(require('../view/MyXiuBa/children/activityManagement/children/detailAndLog/children/activityLog.vue')), 'ActivityManagement');
 
 const MyProbation = r => require.ensure([], () => r(require('@/view/MyXiuBa/children/myProbation/index.vue')), 'MyProbation');
@@ -175,6 +175,31 @@ export default new Router({
                 title: "买家秀活动管理-买家秀",
                 logInAuthority: true,
               },
+            },
+            {
+              path: 'detail-log',
+              name: 'DetailAndLog',
+              component: DetailAndLog,
+              children: [
+                {
+                  path: 'detail',
+                  name: 'ActivityDetail',
+                  component: ActivityDetail,
+                  meta: {
+                    title: "买家秀活动管理-活动详情",
+                    logInAuthority: true,
+                  },
+                },
+                {
+                  path: 'log',
+                  name: 'ActivityLog',
+                  component: ActivityLog,
+                  meta: {
+                    title: "买家秀活动管理-活动日志",
+                    logInAuthority: true,
+                  },
+                },
+              ]
             },
           ]
         },

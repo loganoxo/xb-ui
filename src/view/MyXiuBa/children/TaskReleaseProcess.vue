@@ -362,14 +362,6 @@
               <span class="required">淘口令：</span>
               <iInput v-model="taoCodeTaskDetail.taoCode" placeholder="请输入任务宝贝的淘口令" style="width: 320px"></iInput>
             </div>
-            <!--<div class="entrance_describe ml-45 mt-20">
-              <span class="required">入口描述：</span>
-              <iInput v-model="taoCodeTaskDetail.accessDescription" type="textarea" :rows="6"
-                      placeholder="重要！商家必须清楚描述找到任务宝贝的入口和步骤。参见下面格式：第一步：复制淘口令。第二步：打开淘宝APP。第三步：在弹除的淘口令窗口点击立即查看。第四步：下单购买。"
-                      style="width: 320px">
-              </iInput>
-            </div>-->
-
           </template>
         </div>
       </div>
@@ -390,7 +382,7 @@
       </div>
       <div class="pay-info mt-40" v-if="isBalance && !priceHasChange">本次总共要支付的金额为：<span class="second-color">{{orderMoney}}</span>&nbsp;元。您的账户的当前余额为：<strong>{{getUserBalance || 0}}</strong>&nbsp;元</div>
       <div class="pay-info mt-40"  v-if="!isBalance && !priceHasChange">本次总共要支付的金额为：<strong>{{orderMoney}}</strong>&nbsp;元。您账户余额为：<strong>{{getUserBalance || 0}}</strong>&nbsp;元，还需充值：<span class="second-color">{{(orderMoney - getUserBalance).toFixed(2)}}</span>&nbsp;元。</div>
-      <div class="pay-info mt-40" v-if="isBalance && priceHasChange">该任务已付担保金 <strong>{{paidDeposit | numberFormat(2)}}</strong>元，本次修改需要支付超出部分的金额为：<strong class="main-color">{{replenishMoney}}</strong>元。您账号的当前余额为：<strong>{{getUserBalance || 0}}</strong>&nbsp;元</div>
+      <div class="pay-info mt-40" v-if="isBalance && priceHasChange">该任务已付担保金 <strong>{{paidDeposit.toFixed(2)}}</strong>元，本次修改需要支付超出部分的金额为：<strong class="main-color">{{replenishMoney}}</strong>元。您账号的当前余额为：<strong>{{getUserBalance || 0}}</strong>&nbsp;元</div>
       <div class="pay-info mt-40" v-if="!isBalance && priceHasChange">该任务已付担保金 <strong>{{paidDeposit}}</strong>元，本次修改需要支付超出部分的金额为：<strong class="main-color">{{replenishMoney}}</strong>元。您账号的当前余额为：<strong>{{getUserBalance || 0}}</strong>&nbsp;元,还需充值：<span class="second-color">{{(orderMoney - getUserBalance).toFixed(2)}}</span>&nbsp;元。</div>
       <div class="description-fees-footer">
         <span class="pay-btn" v-if="isBalance" @click="openRecharge">前去支付</span>
@@ -471,13 +463,11 @@
   import Modal from 'iview/src/components/modal'
   import {Select, Option, OptionGroup} from 'iview/src/components/select'
   import Upload from '@/components/upload'
-  import Progress from 'iview/src/components/progress'
   import Steps from 'iview/src/components/steps'
   import PayModel from '@/components/PayModel'
   import api from '@/config/apiConfig'
   import {aliCallbackImgUrl} from '@/config/env'
   import {aliUploadImg, isNumber, isInteger, isAliUrl, randomString} from '@/config/utils'
-  import {numberFormat} from '@/filter/custom'
   import {oneOf} from 'iview/src/utils/assist'
   import {mapActions} from 'vuex'
 
@@ -497,7 +487,6 @@
       iSelect: Select,
       iOption: Option,
       Upload: Upload,
-      iProgress: Progress,
       Steps: Steps,
       Step: Steps.Step,
       OptionGroup: OptionGroup,
@@ -646,17 +635,17 @@
       },
       /**
        * 计算订单总金额
-       * @return {string}
+       * @return {number}
        */
       orderMoney: function () {
-        return (((this.taskRelease.taskCount * this.oneBond * 100) + this.allPromotionExpenses * 100) / 100).toFixed(2);
+        return (((this.taskRelease.taskCount * this.oneBond * 100) + this.allPromotionExpenses * 100) / 100).toFixed(2) * 1;
       },
       /**
        * 计算修改价格后需要补充的金额
        * @return {number}
        */
       replenishMoney: function () {
-        return this.priceHasChange ? ((this.orderMoney * 100 - this.paidDeposit * 100) / 100).toFixed(2) : 0;
+        return this.priceHasChange ? ((this.orderMoney * 100 - this.paidDeposit * 100) / 100).toFixed(2) * 1 : 0;
       },
       /**
        * 计算余额是否足够支付订单金额
@@ -673,9 +662,6 @@
       onEditorBlur(editor) {},
       onEditorFocus(editor) {},
       onEditorReady(editor) {},
-      priceFormat(num,decimals) {
-        return numberFormat(num,decimals);
-      },
       handleSuccess(res) {
         this.taskRelease.taskMainImage = aliCallbackImgUrl + res.name;
       },
@@ -1030,169 +1016,166 @@
 
 <style lang="scss" scoped>
   @import 'src/css/mixin';
-
-  .main-color{
-    color: $mainColor;
-  }
-  .second-color {
-    color: $secondColor;
-  }
-
-  .size-color {
-    color: #A5A5A5;
-  }
-
-  .size-color2 {
-    color: #91A2BD;
-  }
-
-  .size-color3 {
-    color: #FF0100;
-  }
-
-  .task-release-title {
-    height: 52px;
-    line-height: 52px;
-    @include sc(20px, #666)
-  }
-
-  .activity-con {
-    border: 1px solid #F5F5F5;
-    padding-bottom: 42px;
-  }
-
-  .activity-info-title {
-    height: 40px;
-    line-height: 40px;
-    background-color: #F8F8F8;
-    border-bottom: 1px solid #f5f5f5;
-    padding-left: 16px;
-    @include sc(16px, #666)
-  }
-
-  .quill-editor {
-    width: 880px;
-    display: inline-block;
-    height: 200px;
-  }
-
-  .footer-btn {
-    @include wh(240px, 42px);
-    line-height: 42px;
-    @include sc(24px, #fff);
-    background-color: $mainColor;
-    text-align: center;
-    margin: 20px auto 42px auto;
-    @include transition;
-    cursor: pointer;
-    &:hover {
-      background-color: darken($mainColor, 10%);
+  .task-release{
+    .main-color{
+      color: $mainColor;
     }
-  }
+    .second-color {
+      color: $secondColor;
+    }
 
-  .deposits-received {
-    padding-bottom: 226px;
-    .deposits-received-title {
-      @include sc(16px, #000);
+    .size-color {
+      color: #A5A5A5;
+    }
+
+    .size-color2 {
+      color: #91A2BD;
+    }
+
+    .size-color3 {
+      color: #FF0100;
+    }
+
+    .task-release-title {
+      height: 52px;
+      line-height: 52px;
+      @include sc(20px, #666)
+    }
+
+    .activity-con {
+      border: 1px solid #F5F5F5;
+      padding-bottom: 42px;
+    }
+
+    .activity-info-title {
+      height: 40px;
+      line-height: 40px;
+      background-color: #F8F8F8;
+      border-bottom: 1px solid #f5f5f5;
+      padding-left: 16px;
+      @include sc(16px, #666)
+    }
+
+    .quill-editor {
+      width: 880px;
+      display: inline-block;
+      height: 200px;
+    }
+
+    .footer-btn {
+      @include wh(240px, 42px);
+      line-height: 42px;
+      @include sc(24px, #fff);
+      background-color: $mainColor;
       text-align: center;
+      margin: 20px auto 42px auto;
+      @include transition;
+      cursor: pointer;
+      &:hover {
+        background-color: darken($mainColor, 10%);
+      }
     }
-    .deposits-received-info {
-      text-align: left;
-      padding: 0 120px;
-      line-height: 32px;
-      @include sc(14px, #333);
-    }
-    .description-fees {
-      padding: 0 42px;
+
+    .deposits-received {
+      padding-bottom: 226px;
+      .deposits-received-title {
+        @include sc(16px, #000);
+        text-align: center;
+      }
+      .deposits-received-info {
+        text-align: left;
+        padding: 0 120px;
+        line-height: 32px;
+        @include sc(14px, #333);
+      }
+      .description-fees {
+        padding: 0 42px;
+      }
+      .pay-info {
+        @include sc(18px, #000);
+        text-align: center;
+      }
+      .description-fees-footer {
+        text-align: center;
+        .pay-btn {
+          display: inline-block;
+          @include wh(120px, 36px);
+          line-height: 36px;
+          @include sc(18px, #fff);
+          background-color: $mainColor;
+          text-align: center;
+          margin: 20px auto 42px auto;
+          @include transition;
+          cursor: pointer;
+          &:hover {
+            background-color: darken($mainColor, 10%);
+          }
+        }
+        .return {
+          color: #5980D4;
+          margin-left: 20px;
+          margin-right: 20px;
+          @include transition;
+          cursor: pointer;
+          &:hover {
+            color: darken(#5980D4, 10%);
+            text-decoration: underline;
+          }
+        }
+      }
     }
     .description-fees-con {
       padding: 12px;
       border: 1px solid #FFD6D0;
       background-color: #FFF5E0;
     }
-    .pay-info {
-      @include sc(18px, #000);
-      text-align: center;
-    }
-    .description-fees-footer {
-      text-align: center;
-      .pay-btn {
-        display: inline-block;
-        @include wh(120px, 36px);
-        line-height: 36px;
-        @include sc(18px, #fff);
-        background-color: $mainColor;
+    .audit {
+      .audit-title {
+        @include sc(22px, #5C5C5C);
+        line-height: 46px;
         text-align: center;
-        margin: 20px auto 42px auto;
-        @include transition;
-        cursor: pointer;
-        &:hover {
-          background-color: darken($mainColor, 10%);
-        }
       }
-      .return {
-        color: #5980D4;
-        margin-left: 20px;
-        margin-right: 20px;
-        @include transition;
-        cursor: pointer;
-        &:hover {
-          color: darken(#5980D4, 10%);
-          text-decoration: underline;
-        }
+      .audit-con {
+        text-align: center;
+        font-size: 16px;
       }
-    }
-  }
-
-  .audit {
-    .audit-title {
-      @include sc(22px, #5C5C5C);
-      line-height: 46px;
-      text-align: center;
-    }
-    .audit-con {
-      text-align: center;
-      font-size: 16px;
-    }
-    .audit-footer {
-      text-align: center;
-      color: #50B9DB;
-      font-size: 16px;
-      a {
+      .audit-footer {
+        text-align: center;
         color: #50B9DB;
-        @include transition;
-        &:hover {
-          color: darken(#50B9DB, 10%);
-          text-decoration: underline;
+        font-size: 16px;
+        a {
+          color: #50B9DB;
+          @include transition;
+          &:hover {
+            color: darken(#50B9DB, 10%);
+            text-decoration: underline;
+          }
         }
-      }
-      span {
-        cursor: pointer;
-        @include transition;
-        &:hover {
-          color: darken(#50B9DB, 10%);
-          text-decoration: underline;
+        span {
+          cursor: pointer;
+          @include transition;
+          &:hover {
+            color: darken(#50B9DB, 10%);
+            text-decoration: underline;
+          }
         }
       }
     }
-  }
-
-  .ivu-steps-item {
-    line-height: 26px;
-  }
-
-  .pay-model {
-    @include fullScreenModel
-  }
-
-  .title-tip {
-    height: 36px;
-    line-height: 36px;
-    margin: 52px auto 28px auto;
-    color: #000;
-    background-color: #FFF6F3;
-    padding-left: 26px;
-    font-size: 16px;
+    .ivu-steps-item {
+      line-height: 26px;
+    }
+    .pay-model {
+      @include fullScreenModel
+    }
+    .title-tip {
+      height: 36px;
+      line-height: 36px;
+      margin: 52px auto 28px auto;
+      color: #000;
+      background-color: #FFF6F3;
+      padding-left: 26px;
+      font-size: 16px;
+    }
   }
 
 </style>

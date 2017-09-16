@@ -107,7 +107,7 @@
                     <p>{{detailsShowker.showkerPhone}}</p>
                   </div>
                   <div>
-                    <p>发表于{{detailsShowker.createTime | dateFormat('YYYY-MM-DD hh-mm-ss')}}</p>
+                    <p>发表于{{detailsShowker.createTime | dateFormat('YYYY-MM-DD hh:mm:ss')}}</p>
                     <p class="text">
                       {{detailsShowker.trialReportText}}
                       <router-link :to="{'path':'/trial-report','query':{'showkerId': detailsShowker.showkerId, 'showReportDesc': true, 'id': detailsShowker.id }}">查看全文</router-link>

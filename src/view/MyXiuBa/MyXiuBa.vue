@@ -11,7 +11,7 @@
           <Icon type="compose"></Icon>
           <router-link to="/user/task-release">发布秀品活动</router-link>
         </li>
-        <li :class="{isSelect:isSelect === 'ActivitiesList' || isSelect === 'ApproveShowker'}">
+        <li :class="{isSelect:isSelect === 'ActivitiesList' || isSelect === 'ApproveShowker' || isSelect === 'ActivityDetail' || isSelect === 'ActivityLog'}">
           <Icon type="clipboard"></Icon>
           <router-link to="/user/activity-management/list">秀品活动管理</router-link>
         </li>

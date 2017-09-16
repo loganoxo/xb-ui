@@ -25,7 +25,7 @@
             <img class="left ml-10" :src="item.task.taskMainImage">
             <p class="left img-title">
               <span>{{item.task.taskName}}</span>
-              <span>{{item.task.createTime | dateFormat('YYYY-MM-DD hh-mm-ss')}}</span>
+              <span>{{item.task.createTime | dateFormat('YYYY-MM-DD hh:mm:ss')}}</span>
             </p>
           </td>
           <td>{{item.alitmAccount}}</td>

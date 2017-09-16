@@ -279,7 +279,10 @@
         }
       }
     }
-
+    .close-model{
+      font-size: 24px;
+      cursor: pointer;
+    }
     .order-info {
       height: 112px;
       width: 100%;

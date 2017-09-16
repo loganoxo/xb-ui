@@ -110,13 +110,22 @@
             <p class="copy mt-6">
               <span @click="copyTask(item.id)">复制活动</span>
             </p>
+            <p class="copy mt-6">
+              <span @click="lookTaskDetail(item.id)">查看详情</span>
+            </p>
           </td>
           <td v-else-if="item.settlementStatus === 'waiting_settlement'">
+            <p class="bond mt-6">
+              <span @click="approveShowker(item.id)">审批秀客</span>
+            </p>
             <p class="bond mt-6">
               <span @click="settlementTask(item.id, item.number)">申请结算</span>
             </p>
             <p class="copy mt-6">
               <span @click="copyTask(item.id)">复制活动</span>
+            </p>
+            <p class="copy mt-6">
+              <span @click="lookTaskDetail(item.id)">查看详情</span>
             </p>
           </td>
           <td v-else-if="(item.settlementStatus === 'settlement_finished' || item.settlementStatus === 'waiting_audit') && item.taskStatus === 'finished'">
@@ -124,10 +133,13 @@
               <span @click="billDetails(item.id, item.storeName)">结算详情</span>
             </p>
             <p class="copy mt-6" v-if="item.settlementStatus === 'settlement_finished'">
-              <router-link :to="{path:'/user/money-management/transaction-record',query:{taskNumber:item.number}}">查看活动返款</router-link>
+              <router-link :to="{path:'/user/money-management/transaction-record',query:{taskNumber:item.number}}">查看活动账单</router-link>
             </p>
             <p class="copy mt-6">
               <span @click="copyTask(item.id)">复制活动</span>
+            </p>
+            <p class="copy mt-6">
+              <span @click="lookTaskDetail(item.id)">查看详情</span>
             </p>
           </td>
           <td v-else-if="item.taskStatus === 'closed'">
@@ -137,6 +149,9 @@
             <p class="copy mt-6">
               <span @click="copyTask(item.id)">复制活动</span>
             </p>
+            <p class="copy mt-6">
+              <span @click="lookTaskDetail(item.id)">查看详情</span>
+            </p>
           </td>
           <td v-else>
             <p class="bond mt-6">
@@ -144,6 +159,9 @@
             </p>
             <p class="copy mt-6">
               <span @click="copyTask(item.id)">复制活动</span>
+            </p>
+            <p class="copy mt-6">
+              <span @click="lookTaskDetail(item.id)">查看详情</span>
             </p>
           </td>
         </tr>
@@ -222,7 +240,7 @@
       </p>
       <div>
         <p>活动标题：{{taskSettlementDetailInfo.storeName}}</p>
-        <p>结算时间：{{taskSettlementDetailInfo.settlementTime | dateFormat('YYYY-MM-DD hh-mm-ss')}}</p>
+        <p>结算时间：{{taskSettlementDetailInfo.settlementTime | dateFormat('YYYY-MM-DD hh:mm:ss')}}</p>
         <p>结算备注：活动剩余资格{{taskSettlementDetailInfo.taskCountLeft}}，返还担保金共{{taskSettlementDetailInfo.marginRefund}}元，返还推广费{{taskSettlementDetailInfo.promotionRefund}}元。</p>
       </div>
       <div slot="footer" class="text-ct">
@@ -339,6 +357,9 @@
       copyTask(id) {
         this.$router.push({name: 'TaskReleaseProcess', query: {taskId: id, type: 'copy'}})
       },
+      lookTaskDetail(id) {
+        this.$router.push({name: 'ActivityDetail', query: {taskId: id}})
+      },
       approveShowker(id) {
         this.$router.push({name: 'ApproveShowker', query: {taskId: id}})
       },
@@ -380,6 +401,7 @@
             setTimeout(function () {
               _this.$Message.success('任务关闭成功！');
             }, 500);
+            _this.$store.dispatch('getUserInformation');
             _this.getTaskList();
           } else {
             _this.closeModal = false;

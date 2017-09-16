@@ -17,9 +17,6 @@
           <Checkbox label="system_reject">
             <span>系统终止</span>
           </Checkbox>
-        <!--  <Checkbox label="merchant_reject">
-            <span>商家终止</span>
-          </Checkbox>-->
           <Checkbox label="showker_give_up">
             <span>秀客放弃</span>
           </Checkbox>
@@ -46,11 +43,11 @@
             <img class="left ml-10" :src="item.task.taskMainImage">
             <p class="left img-title">
               <span>{{item.task.taskName}}</span>
-              <span>{{item.task.createTime | dateFormat('YYYY-MM-DD hh-mm-ss')}}</span>
+              <span>{{item.task.createTime | dateFormat('YYYY-MM-DD hh:mm:ss')}}</span>
             </p>
           </td>
           <td>{{item.alitmAccount}}</td>
-          <td>{{item.currentGenerationEndTime | dateFormat('YYYY-MM-DD hh-mm-ss')}}</td>
+          <td>{{item.currentGenerationEndTime | dateFormat('YYYY-MM-DD hh:mm:ss')}}</td>
           <td>{{getTaskStatus(item.status)}}</td>
           <td>
             <p class="operation" @click="applyDelete(item.id)">删除</p>
@@ -121,9 +118,7 @@
         searchLoading: false,
       }
     },
-    mounted() {
-
-    },
+    mounted() {},
     created() {
       this.showkerApplyList();
     },
@@ -145,7 +140,7 @@
           searchValue: _this.searchValue,
           status: 'failAudit',
           pageIndex: _this.pageIndex,
-          rejectReasonList: _this.rejectReasonList,
+          rejectReasonList: JSON.stringify(_this.rejectReasonList),
           pageSize: 5,
         }).then(res => {
           if (res.status) {
@@ -159,9 +154,7 @@
       },
       applyDelete(id) {
         let _this = this;
-        api.applyDelete({
-          id: id,
-        }).then(res => {
+        api.applyDelete({id: id,}).then(res => {
           if (res.status) {
             _this.$Message.success({
               content: '删除活动成功！',
@@ -176,14 +169,14 @@
       handleCheckFailAll() {
         this.checkAllByFail = !this.checkAllByFail;
         if (this.checkAllByFail) {
-          this.rejectReasonList = ['system_reject', 'merchant_reject', 'showker_give_up'];
+          this.rejectReasonList = ['system_reject', 'showker_give_up'];
         } else {
           this.rejectReasonList = [];
         }
         this.showkerApplyList();
       },
       checkFailChange() {
-        if (this.rejectReasonList.length === 3) {
+        if (this.rejectReasonList.length === 2) {
           this.checkAllByFail = true;
         } else if (this.rejectReasonList.length > 0) {
           this.checkAllByFail = false;

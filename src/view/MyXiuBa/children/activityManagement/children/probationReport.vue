@@ -189,18 +189,14 @@
       },
       lookShowkerReport(id) {
         let _this = this;
-        api.showkerTaskInfo({
-          id: id,
-        }).then(res => {
+        api.showkerTaskInfo({id: id}).then(res => {
           if (res.status) {
             _this.showkerTaskInfo = res.data;
           } else {
             _this.$Message.error(res.msg);
           }
         });
-        api.showkerTaskReport({
-          id: id,
-        }).then(res => {
+        api.showkerTaskReport({id: id}).then(res => {
           if (res.status) {
             _this.showkerReportInfo = res.data;
             _this.trialReportImages = _this.showkerReportInfo.trialReportImages ? JSON.parse(_this.showkerReportInfo.trialReportImages) : [];

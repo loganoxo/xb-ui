@@ -46,6 +46,10 @@ app.use(session({
 
 //用户权限拦截器
 app.use(function (req, res, next) {
+  let ip = req.headers['x-forwarded-for'];
+  if(ip){
+    req.realIp = ip.split(',')[0];
+  }
   let url = req.originalUrl;
   if (url.indexOf(".json") >= 0) {
     let hasUrl = false;

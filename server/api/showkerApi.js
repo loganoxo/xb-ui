@@ -214,7 +214,7 @@ router.post('/api/showker-apply-delete.json', function (req, res, next) {
     uri: baseUrl + '/task/showker/apply/delete',
     formData: {
       showkerId: req.session.userData.id,
-      showkerTaskId: req.body.id
+      taskApplyId: req.body.id
     },
     json: true
   };

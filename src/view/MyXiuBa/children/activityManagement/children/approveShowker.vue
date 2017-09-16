@@ -1,6 +1,6 @@
 <template>
   <div class="activity-management">
-    <div class="activity-title pl-10">
+    <div class="activity-title pl-10 clear">
       <span class="left">审批秀客</span>
       <span class="right"><router-link to="/user/activity-management/list">返回上一页</router-link></span>
     </div>
@@ -240,20 +240,20 @@
           <div class="true-btn" v-show="orderReviewStatus === 'failAudit'" @click="orderNumberAudit">确认</div>
           <div class="true-btn" v-show="orderReviewStatus === 'passAudit' && perMarginNeed >= orderInfo.orderPrice" @click="orderNumberAudit">确认</div>
           <PayModel v-show="orderReviewStatus === 'passAudit' && perMarginNeed < orderInfo.orderPrice"
-                    :orderMoney="orderInfo.orderPrice - perMarginNeed"
+                    :orderMoney="needReplenishMoney"
                     @confirmPayment="confirmPayment" :payButtonText="payButtonText"
                     :rechargeButtonText="rechargeButtonText" style="margin-top: 120px;">
             <div slot="isBalance" class="title-tip">
                 <span class="size-color3">
                 <Icon color="#FF2424" size="18" type="ios-information"></Icon>
                 <span class="ml-10">注意：该秀客实付金额大于活动担保金，</span></span>需要补充担保金<strong
-              class="main-color">{{Math.abs(orderInfo.orderPrice - perMarginNeed) | numberFormat(2)}}</strong>元
+              class="main-color">{{needReplenishMoney}}</strong>元
             </div>
             <div slot="noBalance" class="title-tip">
                 <span class="size-color3">
                 <Icon color="#FF2424" size="18" type="ios-information"></Icon>
                 <span class="ml-10">注意：该秀客实付金额大于活动担保金，</span></span>需要补充担保金<strong
-              class="main-color">{{Math.abs(orderInfo.orderPrice - perMarginNeed) | numberFormat(2)}}</strong>元,请充值！
+              class="main-color">{{needReplenishMoney}}</strong>元,请充值！
             </div>
           </PayModel>
         </div>
@@ -454,7 +454,11 @@
       this.taskApplyList();
     },
     watch: {},
-    computed: {},
+    computed: {
+      needReplenishMoney: function () {
+        return (this.orderInfo.orderPrice - this.perMarginNeed).toFixed(2) * 1
+      }
+    },
     methods: {
       ...mapActions([
         'getUserInformation'
@@ -534,13 +538,13 @@
                   _this.approveTableList[i].tqz = _this.taoqizhiList[parseInt(res.data.tqz) - 1].label;
                   _this.$set(_this.approveTableList);
                 }
-
               })
             }
-
             _this.approveTaskInfo = res.data.taskInfo;
             _this.trailOn = res.data.trailOn;
             _this.trailDone = res.data.trailDone;
+          }else{
+            _this.$Message.error(res.msg)
           }
         })
       },
