@@ -479,5 +479,26 @@ router.post('/api/user/account/check-phone-message-before-reset-pwd.json', funct
   });
 });
 
+/**
+ * 通过旺旺名获取信息
+ * @param phone
+ * @param smsCode
+ */
+router.post('/api/user/alitm/getAlitmByAccount.json', function (req, res, next) {
+  let options = {
+    method: 'POST',
+    uri: baseUrl + 'user/alitm/getAlitmByAccount/' + req.body.account,
+    json: true,
+  };
+  request(options).then(function (parsedBody) {
+    res.send(parsedBody);
+    res.end();
+  }).catch(function (err) {
+    logConfig.logger.error(req.originalUrl + ':' + err);
+    res.json({status: false, msg: "服务器请求超时，请稍后在试！"});
+    res.end();
+  });
+});
+
 
 module.exports = router;

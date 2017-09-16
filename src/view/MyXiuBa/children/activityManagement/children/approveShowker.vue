@@ -403,7 +403,11 @@
             _this.searchLoading = false;
             _this.approveTableList = res.data.list.content;
             for(let i = 0, j = _this.approveTableList.length; i < j; i++){
-              _this.approveTableList[i].alitmAccount
+              api.getAlitmByAccount({
+                account: _this.approveTableList[i].alitmAccount,
+              }).then((res) => {
+                  console.log(res);
+              })
             }
             _this.approveTaskInfo = res.data.taskInfo;
             _this.trailOn = res.data.trailOn;

@@ -505,5 +505,12 @@ export default {
    */
   getSeverTime() {
     return fetch("/api/get-sever-time.json")
+  },
+
+  /**
+   * 获取服务器时间
+   */
+  getAlitmByAccount(params) {
+    return fetch("/api/user/alitm/getAlitmByAccount.json", params)
   }
 }
