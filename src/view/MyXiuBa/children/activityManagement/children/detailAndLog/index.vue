@@ -9,9 +9,9 @@
         <router-link to="/user/activity-management/detail-log/detail" tag="span"
                      :class="{isSelect:showStatus === 'ActivityDetail'}">活动详情
         </router-link>
-        <router-link to="/user/activity-management/detail-log/log" tag="span"
+       <!-- <router-link to="/user/activity-management/detail-log/log" tag="span"
                      :class="{isSelect:showStatus === 'ActivityLog'}">活动日志
-        </router-link>
+        </router-link>-->
       </div>
     </div>
     <router-view></router-view>

@@ -156,11 +156,12 @@
         let _this = this;
         api.applyDelete({id: id,}).then(res => {
           if (res.status) {
+
+            _this.showkerApplyList();
             _this.$Message.success({
               content: '删除活动成功！',
               duration: 6
             });
-            _this.showkerApplyList();
           } else {
             _this.$Message.error(res.msg);
           }
