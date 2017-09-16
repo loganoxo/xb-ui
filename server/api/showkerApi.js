@@ -24,7 +24,8 @@ router.post('/api/showker-apply-list.json', function (req, res, next) {
       selectStatus: req.body.selectStatus,
       searchValue: req.body.searchValue,
       status: req.body.status,
-      pageSize: req.body.pageSize
+      pageSize: req.body.pageSize,
+      rejectReasonList: req.body.rejectReasonList
     },
     json: true
   };
