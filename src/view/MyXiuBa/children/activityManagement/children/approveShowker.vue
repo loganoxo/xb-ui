@@ -123,7 +123,7 @@
               <tr>
                 <td>
                   <p>{{item.alitmAccount}}</p>
-                  <p><img :src="item.creditLevel" alt=""></p>
+                  <p><img :src="item.creditLevel" alt="" style="width: auto; height: auto;"></p>
                   <p>淘气值：{{item.tqz}}</p>
                 </td>
                 <td>
@@ -193,7 +193,7 @@
               <tr>
                 <td>
                   <p>{{item.alitmAccount}}</p>
-                  <p><img :src="item.creditLevel" alt=""></p>
+                  <p><img :src="item.creditLevel" alt="" style="width: auto; height: auto;"></p>
                   <p>淘气值：{{item.tqz}}</p>
                 </td>
                 <td>{{item.orderNum || '------'}}</td>
