@@ -242,6 +242,8 @@ router.post('/api/get-with-draw-list.json', function (req, res, next) {
       applyTimeStart: req.body.applyTimeStart,
       applyTimeEnd: req.body.applyTimeEnd,
       state: req.body.state,
+      page: req.body.page,
+      size: req.body.size
     },
     json: true,
   };

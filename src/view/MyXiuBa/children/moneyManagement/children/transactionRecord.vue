@@ -38,8 +38,8 @@
       <iButton class="ibtn" @click="getTradListAll(transactType)">筛选</iButton>
       <div class="mt-22 line"></div>
       <div class="transaction-amount">
-        <span>收入：<span style="color: #2F962F;">{{typeChang(accountIncomes / 100) || 0}}</span>元</span>
-        <span class="ml-20">支出：<span style="color: #FF0E0E;">{{accountPayout / 100 || 0}}</span>元</span>
+        <span>收入：<span style="color: #2F962F;">{{accountIncomes / 100 || 0}}</span>元</span>
+        <span class="ml-20">支出：<span style="color: #FF0E0E;">{{Math.abs(accountPayout / 100) || 0}}</span>元</span>
       </div>
       <Modal
         v-model="amountPopWindow"
@@ -198,9 +198,9 @@
       <iButton class="ibtn" @click="getTradListAll(transactType)">筛选</iButton>
       <div class="mt-22 line"></div>
       <div class="transaction-amount">
-        <span>收入:<span style="color: #2F962F;">{{typeChang(accountIncomes / 100) || 0}}</span>元</span>
+        <span>收入:<span style="color: #2F962F;">{{accountIncomes / 100|| 0}}</span>元</span>
         <span class="ml-20">支出：<span style="color: #FF0E0E;">
-          {{accountPayout / 100 || 0}}
+          {{Math.abs(accountPayout / 100) || 0}}
         </span>元</span>
       </div>
       <div class="personal-list-table mt-10">

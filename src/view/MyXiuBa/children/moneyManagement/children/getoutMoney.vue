@@ -211,6 +211,9 @@
           </tbody>
         </table>
       </div>
+      <div class="right mt-22" style="margin-right: 382px; ">
+        <Page :total="totalPages*10" :page-size="size" @on-change="changePages"></Page>
+      </div>
     </div>
     <div class="common-question">
       <h2>常见问题</h2>
@@ -225,12 +228,13 @@
 <script>
   import Icon from 'iview/src/components/icon'
   import Form from 'iview/src/components/form'
-  import Input from '@/components/Input'
+  import Page from 'iview/src/components/page'
   import Button from 'iview/src/components/button'
   import Modal from 'iview/src/components/modal'
   import DatePicker from 'iview/src/components/date-picker'
   import {Select, Option, OptionGroup} from 'iview/src/components/select'
   import api from '@/config/apiConfig'
+  import Input from '@/components/Input'
   import SmsCountdown from '@/components/SmsCountdown'
   import {TaskErrorStatusList} from '@/config/utils'
   import {mapActions} from 'vuex'
@@ -244,12 +248,13 @@
       OptionGroup: OptionGroup,
       iForm: Form,
       FormItem: Form.Item,
+      Page:Page,
       DatePicker: DatePicker,
       iButton: Button,
       ButtonGroup: Button.Group,
       Icon: Icon,
       Modal: Modal,
-      SmsCountdown: SmsCountdown,
+      SmsCountdown: SmsCountdown
     },
     data() {
       //表单验证
@@ -367,7 +372,7 @@
           {
             text: '全部',
             isSelect: 'all',
-            state: "enchashment_audit_ing"
+            state: null
           },
           {
             text: '提现中',
@@ -395,7 +400,11 @@
         },
         getOutResList: [],
         getMoneyShowDetails: false,
-        getBankCardInfo:{}
+        getBankCardInfo:{},
+        totalPages:5,
+        pageIndex:0,
+        size:10,
+        getOutState:null
       }
     },
     mounted() {
@@ -463,7 +472,6 @@
         if (this.$route.query.bandCard === 'bandCard') {
           this.$router.go(-1)
         } else {
-//          this.showDifffentModel('getoutMoney')
           this.changeBankIdcardShowFun();
           this.changeBankIDcardShow.bondBankCard = false;
 
@@ -575,14 +583,18 @@
       //获取提现信息
       getWithDrawList(type, state) {
         let _this = this;
+        _this.getOutState = state;
         api.getWithDrawList({
           serialNumber: type.serialNumber,
           applyTimeStart: type.applyFrom,
           applyTimeEnd: type.applyTo,
-          state: state || null
+          state: state || null,
+          page:_this.pageIndex,
+          size:_this.size
         }).then(res => {
           if (res.status) {
             _this.getOutResList = res.data.content;
+            _this.totalPages = res.data.totalPages;
           } else {
             _this.$Message.error(res.msg)
           }
@@ -607,6 +619,10 @@
         } else {
           this.getMoneyShowDetails = type
         }
+      },
+      changePages(data) {
+        this.pageIndex = data - 1;
+        this.getWithDrawList(this.getoutRecord,this.getOutState)
       },
     }
   }

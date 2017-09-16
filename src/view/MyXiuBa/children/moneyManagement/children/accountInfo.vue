@@ -129,7 +129,7 @@
     </div>
     <div class="common-question">
       <h2>常见问题</h2>
-      <div class="mt-10">
+      <div class="mt-10" v-if="getUserAccountRole === 1">
         <h3>充值多久后到账？</h3>
         <p>充值成功后，如果账户显示的余额不变，请您不要惊慌，我们的系统是有缓冲时间的，您只需要耐心稍等即可。</p>
       </div>
