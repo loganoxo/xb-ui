@@ -708,7 +708,7 @@
               content: '结束活动成功！',
               duration: 6
             });
-            this.deleteModal = true;
+            this.deleteModal = false;
             _this.showkerSuccessList();
           } else {
             _this.$Message.error(res.msg);
