@@ -44,7 +44,7 @@
                 <td>
                   <p>{{item.alitmAccount}}</p>
                   <p><img :src="item.creditLevel" alt="" style="width: auto;height: auto;"></p>
-                  <p>淘气值：{{item.tqz}}</p>
+                  <p v-if="item.tqz">淘气值：{{item.tqz}}</p>
                 </td>
                 <td>{{item.applyTime | dateFormat('YYYY-MM-DD hh:mm:ss')}}</td>
                 <td class="registration">
@@ -124,7 +124,7 @@
                 <td>
                   <p>{{item.alitmAccount}}</p>
                   <p><img :src="item.creditLevel" alt="" style="width: auto; height: auto;"></p>
-                  <p>淘气值：{{item.tqz}}</p>
+                  <p v-if="item.tqz">淘气值：{{item.tqz}}</p>
                 </td>
                 <td>
                   <p>{{getTaskStatus(item.status)}}</p>
@@ -194,7 +194,7 @@
                 <td>
                   <p>{{item.alitmAccount}}</p>
                   <p><img :src="item.creditLevel" alt="" style="width: auto; height: auto;"></p>
-                  <p>淘气值：{{item.tqz}}</p>
+                  <p v-if="item.tqz">淘气值：{{item.tqz}}</p>
                 </td>
                 <td>{{item.orderNum || '------'}}</td>
                 <td>{{getTaskStatus(item.status)}}</td>

@@ -17,7 +17,7 @@
             <ul class="ww-account-ctt" v-for="(ww, index) in wwBindLists">
               <li>
                 <p>{{ww.alitmAccount}}</p>
-                <p><img :src="ww.creditLevel" alt="" style="width: auto;height: auto;"></p>
+                <p v-if="ww.creditLevel"><img :src="ww.creditLevel" alt="" style="width: auto;height: auto;"></p>
                 <p v-if="ww.tqz">淘气值：{{ww.tqz}}</p>
               </li>
               <li>{{ww.applyTime | dateFormat('YYYY-MM-DD hh:mm:ss')}}</li>
