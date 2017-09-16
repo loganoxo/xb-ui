@@ -282,6 +282,7 @@
     .close-model{
       font-size: 24px;
       cursor: pointer;
+      color: #666;
     }
     .order-info {
       height: 112px;
