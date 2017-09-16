@@ -18,7 +18,7 @@
         <p>
           <span>可用金额：{{getUserBalance}} 元 </span>
           <span>提现中：{{userData.userAccount.enChashingMoney ? userData.userAccount.enChashingMoney : 0 }} 元  </span>
-          <router-link :to="{path: '/user/money-management/pay-money'}">充值</router-link>
+          <router-link v-if="getUserInfoRole === 1" :to="{path: '/user/money-management/pay-money'}">充值</router-link>
           <router-link :to="{path: '/user/money-management/getout-money'}">提现</router-link>
         </p>
       </div>

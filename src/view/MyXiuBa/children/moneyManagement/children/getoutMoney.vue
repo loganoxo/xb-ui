@@ -362,8 +362,13 @@
           getoutMoney: false,
           getoutRecord: false
         },
-        getoutSelect: 'doing',
+        getoutSelect: 'all',
         getoutStatus: [
+          {
+            text: '全部',
+            isSelect: 'all',
+            state: "enchashment_audit_ing"
+          },
           {
             text: '提现中',
             isSelect: 'doing',
@@ -398,6 +403,8 @@
     created() {
       if (this.$route.query.bandCard === 'bandCard') {
         this.getBankCardInformationApi()
+      }else if (this.$route.query.getOutMoneyRecord === 'getOutRecord'){
+        this.showDifffentModel('getoutRecord')
       }else {
         this.changeBankIdcardShowFun();
       }

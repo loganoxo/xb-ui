@@ -47,14 +47,15 @@
   </div>
 </template>
 <script>
-  import api from '@/config/apiConfig'
+
   import Icon from 'iview/src/components/icon'
   import Form from 'iview/src/components/form'
-  import Input from '@/components/Input'
   import Radio from 'iview/src/components/radio'
   import Button from 'iview/src/components/button'
   import Modal from 'iview/src/components/modal'
   import {mapActions} from 'vuex'
+  import api from '@/config/apiConfig'
+  import Input from '@/components/Input'
   import {isNumber} from '@/config/utils'
   import {aliPayUrl} from '@/config/env'
 

@@ -21,8 +21,8 @@
             <a class="sa right" v-show="userList.ifBandingBankCard !== null" @click="bandCard">修改</a>
           </div>
           <div class="view-details ">
-            <a class="iWantPay" href="javascript:;" @click="accountInit('PayMoney')">我要提现</a>
-            <router-link :to="{'path':'/user/money-management/transaction-record',query:{'activeType':2}}">提现记录</router-link>
+            <a class="iWantPay" href="javascript:;" @click="accountInit('GetoutMoney')">我要提现</a>
+            <router-link :to="{'path':'/user/money-management/getout-money',query:{'getOutMoneyRecord':'getOutRecord'}}">提现记录</router-link>
           </div>
         </div>
       </div>
@@ -30,7 +30,7 @@
         <div>账户名：{{userList.phone}}</div>
         <div>真实姓名：{{userList.realName}}</div>
         <div>
-          <span>实名认证：{{geIifCertification(userList.ifCertification)}}</span>&nbsp;&nbsp;&nbsp;&nbsp;<router-link
+          <span>实名认证：{{getIfCertification(userList.ifCertification)}}</span>&nbsp;&nbsp;&nbsp;&nbsp;<router-link
           to="/user/personal-setting/verified" v-show="userList.ifCertification===false">去认证
         </router-link>
         </div>
@@ -40,11 +40,18 @@
       </div>
     </div>
     <div class="trading-record ">
-      <ul class="clear">
+      <ul class="clear" v-if="getUserAccountRole===1">
         <li>最近交易记录</li>
-        <li v-for="(item ,index) in lis " v-if="item.isSelect!=='pay'">
+        <li v-for="(item ,index) in lis " >
           <a  href="javascript:;" :class="{lisColor:iSelect === item.isSelect}"
              @click="getTradList(index===0?[]:[index-1]),changeLiColor(item.isSelect)">{{item.text}}</a>
+        </li>
+      </ul>
+      <ul class="clear" v-if="getUserAccountRole===0">
+        <li>最近交易记录</li>
+        <li v-for="(item ,index) in lis " v-if="item.isSelect!=='pay'" >
+          <a  href="javascript:;" :class="{lisColor:iSelect === item.isSelect}"
+              @click="getTradList(index===0?[]:[index-1]),changeLiColor(item.isSelect)">{{item.text}}</a>
         </li>
       </ul>
     </div>
@@ -144,9 +151,9 @@
   </div>
 </template>
 <script>
-  import api from '@/config/apiConfig'
   import Icon from 'iview/src/components/icon'
   import Button from 'iview/src/components/button'
+  import api from '@/config/apiConfig'
   import {TaskErrorStatusList} from '@/config/utils'
 
   export default {
@@ -292,7 +299,7 @@
       getTradType(type) {
         return TaskErrorStatusList(type)
       },
-      geIifCertification(type) {
+      getIfCertification(type) {
         return type===false?'未认证':'已认证';
       },
       getIfBandingBankCard(type) {
