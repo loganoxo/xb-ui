@@ -302,7 +302,6 @@
         taskData: {},
         totalElements: null,
         pageIndex: 1,
-        approvePageIndex: 1,
         pageSize: 5,
         showPayModel: false,
         needDepositMoney: 0,

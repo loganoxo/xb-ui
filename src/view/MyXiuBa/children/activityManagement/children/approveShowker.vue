@@ -211,6 +211,9 @@
           </div>
         </div>
       </div>
+      <div class="activity-page mt-20 right mr-10" v-if="approveTableList && approveTableList.length > 0">
+        <Page :total="totalElements" :page-size="pageSize" @on-change="pageChange"></Page>
+      </div>
       <!--审核订单号弹窗-->
       <div class="check-order-model" v-if="showCheckOrder">
         <div class="check-order-con">
@@ -415,8 +418,8 @@
         auditStatusList: [],
         endReasonList: [],
         pageIndex: 1,
-        approvePageIndex: 1,
         pageSize: 5,
+        totalElements: 0,
         selectStatus: null,
         searchValue: null,
         orderNum: null,
@@ -468,7 +471,7 @@
       },
       pageChange(data) {
         this.pageIndex = data;
-        this.getTaskList();
+        this.taskApplyList();
       },
       handleCheckPassAll() {
         this.checkAllByPass = !this.checkAllByPass;
@@ -524,11 +527,15 @@
           orderNum: _this.orderNum,
           endReasonList: JSON.stringify(_this.endReasonList),
           auditStatusList: JSON.stringify(_this.auditStatusList),
-          pageIndex: _this.approvePageIndex
+          pageIndex: _this.pageIndex
         }).then(res => {
           if (res.status) {
             _this.searchLoading = false;
             _this.approveTableList = res.data.list.content;
+            _this.approveTaskInfo = res.data.taskInfo;
+            _this.trailOn = res.data.trailOn;
+            _this.trailDone = res.data.trailDone;
+            _this.totalElements = res.data.totalElements;
             for(let i = 0, j = _this.approveTableList.length; i < j; i++){
               api.getAlitmByAccount({
                 account: _this.approveTableList[i].alitmAccount,
@@ -540,9 +547,6 @@
                 }
               })
             }
-            _this.approveTaskInfo = res.data.taskInfo;
-            _this.trailOn = res.data.trailOn;
-            _this.trailDone = res.data.trailDone;
           }else{
             _this.$Message.error(res.msg)
           }

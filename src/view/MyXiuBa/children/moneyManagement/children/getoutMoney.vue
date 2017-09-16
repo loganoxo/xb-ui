@@ -211,7 +211,7 @@
           </tbody>
         </table>
       </div>
-      <div class="right mt-22" style="margin-right: 382px; ">
+      <div class="right mt-22" v-show="getOutResList && getOutResList.length > 0" v-if="!isChange">
         <Page :total="totalElements"  @on-change="changePages"></Page>
       </div>
     </div>
@@ -403,10 +403,7 @@
         getBankCardInfo:{},
         totalElements: null,
         pageIndex:1,
-
-        getOutState:null,
-        data1:null,
-        data2:null
+        isChange: false,
       }
     },
     mounted() {
@@ -498,9 +495,12 @@
       },
       //添加提现状态的样式锚点
       getoutStatusFun(type,status) {
-        this.pageIndex = 0;
+        this.pageIndex = 1;
         this.getOutSelect = type;
         this.titleStatus = status;
+        if(status !== null){
+          this.isChange  = true;
+        }
         this.getWithDrawList();
       },
 
@@ -596,10 +596,11 @@
           applyTimeStart: _this.getoutRecord.applyFrom,
           applyTimeEnd: _this.getoutRecord.applyTo,
           state: _this.titleStatus,
-          page: _this.pageIndex,
+          page: _this.pageIndex - 1,
           size: 10
         }).then(res => {
           if (res.status) {
+            _this.isChange  = false;
             _this.getOutResList = res.data.content;
             _this.totalElements = res.data.totalElements;
           } else {
@@ -629,8 +630,6 @@
       },
       changePages(data) {
         this.pageIndex = data;
-        this.data1 = this.pageIndex;
-        data = this.data1;
         this.getWithDrawList();
       },
     }
