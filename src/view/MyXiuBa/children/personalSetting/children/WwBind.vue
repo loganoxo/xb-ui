@@ -495,8 +495,12 @@
         api.wwBindList().then((res) => {
           if (res.status) {
             for(let i = 0, j = res.data.length; i < j; i++){
-              res.data[i].creditLevel = self.taobaoLevelImgs[parseInt(res.data[i].creditLevel) - 1]['text'];
-              res.data[i].tqz = self.taoqizhiList[parseInt(res.data[i].tqz) - 1]['label'];
+              if(res.data[i].creditLevel){
+                res.data[i].creditLevel = self.taobaoLevelImgs[parseInt(res.data[i].creditLevel) - 1]['text'];
+              }
+              if(res.data[i].tqz){
+                res.data[i].tqz = self.taoqizhiList[parseInt(res.data[i].tqz) - 1]['label'];
+              }
             }
             self.wwBindLists = res.data;
             if(res.statusCode == 'success_but_not_any_alitm'){
