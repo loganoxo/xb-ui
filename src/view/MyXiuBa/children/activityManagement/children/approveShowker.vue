@@ -41,7 +41,11 @@
               </thead>
               <tbody v-if="approveTableList.length > 0" v-for="item in approveTableList" :key="item.id">
               <tr>
-                <td>{{item.alitmAccount}}</td>
+                <td>
+                  <p>{{item.alitmAccount}}</p>
+                  <p><img :src="item.creditLevel" alt=""></p>
+                  <p>淘气值：{{item.tqz}}</p>
+                </td>
                 <td>{{item.applyTime | dateFormat('YYYY-MM-DD hh:mm:ss')}}</td>
                 <td class="registration">
                   <router-link :to="{ 'path': '/trial-report','query': {'showkerId': item.showkerId}}">
@@ -117,7 +121,11 @@
               </thead>
               <tbody v-if="approveTableList.length > 0" v-for="item in approveTableList" :key="item.id">
               <tr>
-                <td>{{item.alitmAccount}}</td>
+                <td>
+                  <p>{{item.alitmAccount}}</p>
+                  <p><img :src="item.creditLevel" alt=""></p>
+                  <p>淘气值：{{item.tqz}}</p>
+                </td>
                 <td>
                   <p>{{getTaskStatus(item.status)}}</p>
                   <p v-if="item.status !== 'trial_end' && item.status !== 'trial_finished'"><time-down color='#ff4040' :fontWeight=600 :endTime="item.currentGenerationEndTime"></time-down></p>
