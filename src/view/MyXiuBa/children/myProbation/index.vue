@@ -242,9 +242,10 @@
       .audit-order-number-con {
         @include fullScreenModelCon(600px, 308px);
       }
-      i {
+      i.close-model {
         font-size: 32px;
         cursor: pointer;
+        color: #666;
       }
       .tip-title {
         @include wh(540px, 42px);
@@ -279,11 +280,7 @@
         }
       }
     }
-    .close-model{
-      font-size: 24px;
-      cursor: pointer;
-      color: #666;
-    }
+
     .order-info {
       height: 112px;
       width: 100%;
