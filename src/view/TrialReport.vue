@@ -17,7 +17,7 @@
             <p class="fs-16 trial-account">{{showkerInfo.phone}}的买家秀</p>
             <p class="trial-tag">
               Ta的标签：&nbsp;&nbsp;
-              <a  v-for="(value, key) in showkerTag" style="margin-right: 20px;" @click="getTagTrialReports(key)">
+              <a  v-for="(value, key) in showkerTag" v-if="value" style="margin-right: 20px;" @click="getTagTrialReports(key)">
               <iButton size="small" v-if=" value > 0" >{{key}}({{value}})</iButton>
             </a>
             </p>
@@ -178,7 +178,7 @@
       }
       if(self.$route.query.showReportDesc){
         let trialReport = {
-          showkerTaskId: self.$route.query.showkerTaskId,
+          id: self.$route.query.id,
           showkerId: self.$route.query.showkerId
         };
         self.showReportDescFunc(trialReport);

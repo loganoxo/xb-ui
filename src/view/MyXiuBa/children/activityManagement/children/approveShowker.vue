@@ -43,7 +43,7 @@
               <tr>
                 <td>
                   <p>{{item.alitmAccount}}</p>
-                  <p><img :src="item.creditLevel" alt=""></p>
+                  <p><img :src="item.creditLevel" alt="" style="width: auto;height: auto;"></p>
                   <p>淘气值：{{item.tqz}}</p>
                 </td>
                 <td>{{item.applyTime | dateFormat('YYYY-MM-DD hh:mm:ss')}}</td>
@@ -532,9 +532,12 @@
                 if(res.status){
                   _this.approveTableList[i].creditLevel = _this.taobaoLevelImgs[parseInt(res.data.creditLevel) -1].text;
                   _this.approveTableList[i].tqz = _this.taoqizhiList[parseInt(res.data.tqz) - 1].label;
+                  _this.$set(_this.approveTableList);
                 }
+
               })
             }
+
             _this.approveTaskInfo = res.data.taskInfo;
             _this.trailOn = res.data.trailOn;
             _this.trailDone = res.data.trailDone;

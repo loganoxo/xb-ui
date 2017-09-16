@@ -15,7 +15,11 @@
           </ul>
           <div>
             <ul class="ww-account-ctt" v-for="(ww, index) in wwBindLists">
-              <li>{{ww.alitmAccount}}</li>
+              <li>
+                <p>{{ww.alitmAccount}}</p>
+                <p><img :src="taobaoLevelImgs[ww.creditLevel -1].text" alt="" style="width: auto;height: auto;"></p>
+                <p>淘气值：{{taoqizhiList[ww.tqz -1].label}}</p>
+              </li>
               <li>{{ww.applyTime | dateFormat('YYYY-MM-DD hh:mm:ss')}}</li>
               <li><img :src="ww.picUrl" alt="" style="width: 50px; padding: 10px;"></li>
               <li>
@@ -162,6 +166,20 @@
       </div>
       <!--旺旺号绑定end-->
     </div>
+    <!--删除任务弹框-->
+    <Modal v-model="deleteWwModal" width="360">
+      <p slot="header" style="color:#f60;text-align:center">
+        <Icon type="information-circled"></Icon>
+        <span>删除确认</span>
+      </p>
+      <div class="text-ct">
+        <p>解绑后该旺旺将从亲的账号中删除，</p>
+        <p>是否确认解绑？</p>
+      </div>
+      <div slot="footer">
+        <iButton type="error" size="large" long :loading="modalLoading" @click="confirmDelete">删除</iButton>
+      </div>
+    </Modal>
     <Modal v-model="demoShow" width="900">
       <div style="text-align:center">
         <img :src="demoShowPic" alt="" style="width: 100%; margin-top: 20px">
@@ -220,6 +238,9 @@
         }
       };
       return {
+        modalLoading: false,
+        deleteWwModal: false,
+        deleteWwId: '',
         taobaoLevelImgs: [
           {
             value: 1,
@@ -398,7 +419,14 @@
       ]),
       deleteWwBindFunc(ww,index){
         let self = this;
-        api.wwUnbind({id: ww.id}).then((res) => {
+        self.deleteWwId = ww.id;
+        self.deleteWwModal = true;
+      },
+      confirmDelete(){
+        let self = this;
+        self.modalLoading = true;
+        api.wwUnbind({id: self.deleteWwId}).then((res) => {
+          self.modalLoading = false;
           if(res.status){
             self.$Message.success({
               content: res.msg,
@@ -413,10 +441,11 @@
             }else if(res.statusCode === 'have_under_way_showker_task'){
               res.msg = '亲，该旺旺还有活动任务正在进行中，请完成该旺旺的所有任务后再进行解绑操作！';
             }
-            self.$Modal.error({
+            self.$Message.error({
               content: res.msg
             });
           }
+          self.deleteWwModal = false;
         })
       },
       modifyWwBindFunc(ww,index){
@@ -503,8 +532,9 @@
                   }
                 });
               }else {
-                self.$Modal.error({
-                  content: res.msg
+                self.$Message.error({
+                  content: res.msg,
+                  duration: 9
                 });
               }
               self.btnState.wwBindBtn = false;
