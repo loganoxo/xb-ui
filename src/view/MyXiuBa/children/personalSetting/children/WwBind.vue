@@ -167,7 +167,7 @@
       <!--旺旺号绑定end-->
     </div>
     <!--删除任务弹框-->
-    <Modal v-model="deleteWwModal" width="360">
+    <Modal  v-model="deleteWwModal" width="360">
       <p slot="header" style="color:#f60;text-align:center">
         <Icon type="information-circled"></Icon>
         <span>删除确认</span>
