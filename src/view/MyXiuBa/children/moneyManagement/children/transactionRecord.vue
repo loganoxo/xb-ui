@@ -93,8 +93,8 @@
           <tbody v-for="(tbodyDetails,index) in myTableDetailsAll" :key="index">
           <tr>
             <td>
-              <p>{{tbodyDetails.createTime | dateFormat('YYYY-MM-DD ')}}</p>
-              <p>{{tbodyDetails.createTime | dateFormat('hh:mm:ss ')}}</p>
+              <p>{{tbodyDetails.tradTime | dateFormat('YYYY-MM-DD ')}}</p>
+              <p>{{tbodyDetails.tradTime | dateFormat('hh:mm:ss ')}}</p>
             </td>
             <td>
               <p>{{getTradType(tbodyDetails.changeName)}}</p>
@@ -216,8 +216,8 @@
           <tbody v-for="(item,index) in myTableDetailsAll">
           <tr>
             <td>
-              <p>{{item.createTime | dateFormat('YYYY-MM-DD ')}}</p>
-              <p>{{item.createTime | dateFormat('hh:mm:ss ')}}</p>
+              <p>{{item.tradTime | dateFormat('YYYY-MM-DD ')}}</p>
+              <p>{{item.tradTime | dateFormat('hh:mm:ss ')}}</p>
             </td>
             <td>
               <p>{{getTradType(item.changeName)}}</p>
@@ -425,8 +425,8 @@
           type = JSON.stringify(type)
         }
         api.getTradList({
-          createTimeStart: _this.beginTime,
-          createTimeEnd: _this.endTime,
+          tradTimeStart: _this.beginTime,
+          tradTimeEnd: _this.endTime,
           accountChangeTypeStr: type || null,
           reversePicUrl: null,
           taskSerial: _this.activityNumber,

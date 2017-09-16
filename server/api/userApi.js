@@ -28,8 +28,8 @@ router.post('/api/get-trad-list.json', function (req, res, next) {
     uri: baseUrl + '/user/account/get-trad-list',
     formData: {
       userId: req.session.userData.id,
-      createTimeStart: req.body.createTimeStart,
-      createTimeEnd: req.body.createTimeEnd,
+      tradTimeStart: req.body.tradTimeStart,
+      tradTimeEnd: req.body.tradTimeEnd,
       accountChangeTypeStr: req.body.accountChangeTypeStr,
       reversePicUrl: req.body.reversePicUrl,
       taskSerial: req.body.taskSerial,
