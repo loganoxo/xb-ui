@@ -245,7 +245,6 @@
       i.close-model {
         font-size: 32px;
         cursor: pointer;
-        color: #666;
       }
       .tip-title {
         @include wh(540px, 42px);
