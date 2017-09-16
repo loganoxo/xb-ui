@@ -134,7 +134,7 @@
       </div>
       <div class="content-select clear">
         <span class="left" v-for="item in getOutStatus" :class="{actives:getOutSelect===item.isSelect}"
-              @click="getoutStatusFun(item.isSelect),getWithDrawList(getoutRecord,item.state)">{{item.text}}</span>
+              @click="getoutStatusFun(item.isSelect,item.state)">{{item.text}}</span>
       </div>
       <div class="personal-list-table mt-10">
         <table class="list-table">
@@ -212,7 +212,7 @@
         </table>
       </div>
       <div class="right mt-22" style="margin-right: 382px; ">
-        <Page :total="totalPages*10" :page-size="size" @on-change="changePages"></Page>
+        <Page :total="totalElements"  @on-change="changePages"></Page>
       </div>
     </div>
     <div class="common-question">
@@ -391,6 +391,7 @@
           }
         ],
         applyGetOut: null,
+        titleStatus: null,
         iconType: 'checkmark-circled',
         getoutRecord: {
           serialNumber: null,
@@ -400,10 +401,12 @@
         getOutResList: [],
         getMoneyShowDetails: false,
         getBankCardInfo:{},
-        totalPages:5,
-        pageIndex:0,
-        size:10,
-        getOutState:null
+        totalElements: null,
+        pageIndex:1,
+
+        getOutState:null,
+        data1:null,
+        data2:null
       }
     },
     mounted() {
@@ -417,7 +420,7 @@
         this.changeBankIdcardShowFun();
       }
       this.getVrcode();
-      this.getWithDrawList(this.getoutRecord);
+      this.getWithDrawList(this.titleStatus);
     },
     computed: {
       getUserBalance: function () {
@@ -494,8 +497,11 @@
         this.imgSrc = "/api/vrcode.json?rand=" + new Date() / 100
       },
       //添加提现状态的样式锚点
-      getoutStatusFun(type) {
-        this.getOutSelect = type
+      getoutStatusFun(type,status) {
+        this.pageIndex = 0;
+        this.getOutSelect = type;
+        this.titleStatus = status;
+        this.getWithDrawList();
       },
 
       getTradType(type) {
@@ -581,22 +587,21 @@
           }
         });
       },
-
       //获取提现信息
-      getWithDrawList(type, state) {
+      getWithDrawList() {
         let _this = this;
-        _this.getOutState = state;
+        _this.getOutResList = {};
         api.getWithDrawList({
-          serialNumber: type.serialNumber,
-          applyTimeStart: type.applyFrom,
-          applyTimeEnd: type.applyTo,
-          state: state || null,
-          page:_this.pageIndex,
-          size:_this.size
+          serialNumber: _this.getoutRecord.serialNumber,
+          applyTimeStart: _this.getoutRecord.applyFrom,
+          applyTimeEnd: _this.getoutRecord.applyTo,
+          state: _this.titleStatus,
+          page: _this.pageIndex,
+          size: 10
         }).then(res => {
           if (res.status) {
             _this.getOutResList = res.data.content;
-            _this.totalPages = res.data.totalPages;
+            _this.totalElements = res.data.totalElements;
           } else {
             _this.$Message.error(res.msg)
           }
@@ -623,8 +628,10 @@
         }
       },
       changePages(data) {
-        this.pageIndex = data - 1;
-        this.getWithDrawList(this.getoutRecord,this.getOutState)
+        this.pageIndex = data;
+        this.data1 = this.pageIndex;
+        data = this.data1;
+        this.getWithDrawList();
       },
     }
   }
