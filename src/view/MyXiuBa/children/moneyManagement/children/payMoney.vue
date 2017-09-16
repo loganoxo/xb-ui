@@ -113,7 +113,6 @@
       success() {
         this.getUserInformation();
         this.payPopWindow = false;
-        this.$router.go(0);
         this.payMoney.number = '';
       },
       error() {

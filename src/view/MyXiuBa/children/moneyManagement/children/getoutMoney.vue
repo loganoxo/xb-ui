@@ -1,6 +1,6 @@
 <template>
   <div class="my-getoutmoney">
-    <div class="not-certification" v-show="changeBankIDcardShow.iScertification">
+    <div class="not-certification" v-show="changeBankIdCardShow.isCertification">
       <h2>
         <Icon type="close-circled" class="mr-10 vtc-mid icon"></Icon>
         很抱歉，您未进行实名认证，无法提现
@@ -9,7 +9,7 @@
         <router-link to="/user/personal-setting/verified" class="ml-10">立即申请实名认证</router-link>
         <span class="ml-10 mr-10">|</span><a class="ml-10">查看如何进行实名认证</a></div>
     </div>
-    <div class="bound-bankcard" v-show="changeBankIDcardShow.iSbondBankCard">
+    <div class="bound-bankcard" v-show="changeBankIdCardShow.isBondBankCard">
       <div class="bankcard-title">
         <Icon class="icon vtc-btm" type="information-circled"></Icon>
         <span class="ml-10">请先绑定银行卡，再进行提现操作</span></div>
@@ -18,7 +18,7 @@
         <p class="mt-10">添加银行卡</p>
       </div>
     </div>
-    <div class="add-bankcard" v-show="changeBankIDcardShow.bondBankCard">
+    <div class="add-bankcard" v-show="changeBankIdCardShow.bondBankCard">
       <div class="title">
         <Icon type="information-circled" class="icon ml-20 over-hd"></Icon>
         <span>每个用户只能绑定一张银行卡，如需换卡建议修改银行卡信息</span>
@@ -67,7 +67,7 @@
         </iForm>
       </div>
     </div>
-    <div class="get-out-number" v-show="changeBankIDcardShow.getoutMoney">
+    <div class="get-out-number" v-show="changeBankIdCardShow.getoutMoney">
       <div class="clear title">
         <span class="left">当前可用余额<span style="color:red ">{{getUserBalance}}</span>元</span>
         <span class="right cursor-p" style="color: blue;" @click="lookGetoutRecord('getoutRecord')">查看提现记录</span>
@@ -78,7 +78,7 @@
           <span class="ml-56">当日12:00-当日18:00间申请提现的，在当日18:00处理，当日18:00-次日12:00间申请提现的，在次日12:00处理</span>
         </div>
         <div class="get-out-do mt-22">
-          <iForm :model="getoutMoney" :label-width="200" :rules="getoutMoneyRule">
+          <iForm :model="getoutMoney" :label-width="200" :rules="getOutMoneyRule">
             <Form-item label="请输入提现金额:" prop="getoutNumber">
               <iInput v-model="getoutMoney.getoutNumber" class="iInput"></iInput>
               <span>元（最低1元起提）</span>
@@ -105,7 +105,7 @@
                 <p style="text-align: center;font-size: 40px;color: #FF6633;">
                   <Icon :type="iconType"></Icon>
                 </p>
-                <p class="mt-10 text-ct fs-14"><span style="color: #FF6633;">{{applyGetout}}</span>当日12:00-当日18:00间申请提现的，在当日18:00处理
+                <p class="mt-10 text-ct fs-14"><span style="color: #FF6633;">{{applyGetOut}}</span>当日12:00-当日18:00间申请提现的，在当日18:00处理
                 </p>
                 <p class="mt-10 text-ct fs-14">当日18:00-次日12:00间申请提现的，在次日12:00处理，你可以在提现记录中查看进度</p>
               </Modal>
@@ -114,7 +114,7 @@
         </div>
       </div>
     </div>
-    <div class="getout-record" v-show="changeBankIDcardShow.getoutRecord">
+    <div class="getout-record" v-show="changeBankIdCardShow.getoutRecord">
       <div class="titel clear">
         <span class="left spl">提现记录</span>
         <span class="right spr cursor-p" @click="lookGetoutRecord('getoutMoney')">返回上页</span>
@@ -133,7 +133,7 @@
         <iButton class="ibtn1" @click="getWithDrawList(getoutRecord)">搜索</iButton>
       </div>
       <div class="content-select clear">
-        <span class="left" v-for="item in getoutStatus" :class="{actives:getoutSelect===item.isSelect}"
+        <span class="left" v-for="item in getOutStatus" :class="{actives:getOutSelect===item.isSelect}"
               @click="getoutStatusFun(item.isSelect),getWithDrawList(getoutRecord,item.state)">{{item.text}}</span>
       </div>
       <div class="personal-list-table mt-10">
@@ -352,7 +352,7 @@
           getoutNumber: '',
           password: ''
         },
-        getoutMoneyRule: {
+        getOutMoneyRule: {
           getoutNumber: [
             {validator: validatePayNumber, trigger: 'blur'}
           ],
@@ -360,15 +360,15 @@
             {validator: validatePass, trigger: 'blur'}
           ]
         },
-        changeBankIDcardShow: {
-          iscertification: false,
-          iSbondBankCard: false,
+        changeBankIdCardShow: {
+          isCertification: false,
+          isBondBankCard: false,
           bondBankCard: false,
           getoutMoney: false,
           getoutRecord: false
         },
-        getoutSelect: 'all',
-        getoutStatus: [
+        getOutSelect: 'all',
+        getOutStatus: [
           {
             text: '全部',
             isSelect: 'all',
@@ -390,8 +390,7 @@
             state: "enchashment_audit_defeat"
           }
         ],
-        getbankCardInformation: {},
-        applyGetout: {},
+        applyGetOut: null,
         iconType: 'checkmark-circled',
         getoutRecord: {
           serialNumber: null,
@@ -444,8 +443,8 @@
 
       //实现实名认证，添加银行卡，提现等模块的显示隐藏
       showDifffentModel(type) {
-        for (let k in  this.changeBankIDcardShow) {
-          this.changeBankIDcardShow[k] = k === type;
+        for (let k in  this.changeBankIdCardShow) {
+          this.changeBankIdCardShow[k] = k === type;
         }
       },
 
@@ -473,7 +472,7 @@
           this.$router.go(-1)
         } else {
           this.changeBankIdcardShowFun();
-          this.changeBankIDcardShow.bondBankCard = false;
+          this.changeBankIdCardShow.bondBankCard = false;
 
         }
       },
@@ -496,7 +495,7 @@
       },
       //添加提现状态的样式锚点
       getoutStatusFun(type) {
-        this.getoutSelect = type
+        this.getOutSelect = type
       },
 
       getTradType(type) {
@@ -506,15 +505,15 @@
       //控制提现模块每个部分是否显示，根据账户信息
       changeBankIdcardShowFun() {
         if (this.userList.ifCertification === false) {
-          this.changeBankIDcardShow.iScertification = true;
-          this.changeBankIDcardShow.iSbondBankCard = false;
+          this.changeBankIdCardShow.isCertification = true;
+          this.changeBankIdCardShow.isBondBankCard = false;
         } else if (this.userList.ifCertification === true) {
           if (this.userList.ifBandingBankCard === null) {
-            this.changeBankIDcardShow.iScertification = false;
-            this.changeBankIDcardShow.iSbondBankCard = true;
+            this.changeBankIdCardShow.iScertification = false;
+            this.changeBankIdCardShow.isBondBankCard = true;
           } else {
-            for (let k in  this.changeBankIDcardShow) {
-              this.changeBankIDcardShow[k] = k === 'getoutMoney';
+            for (let k in  this.changeBankIdCardShow) {
+              this.changeBankIdCardShow[k] = k === 'getoutMoney';
             }
           }
         }
@@ -526,8 +525,8 @@
       },
       //实现提现记录和提现操作间的跳转
       lookGetoutRecord(type) {
-        for (let k in  this.changeBankIDcardShow) {
-          this.changeBankIDcardShow[k] = k === type;
+        for (let k in  this.changeBankIdCardShow) {
+          this.changeBankIdCardShow[k] = k === type;
         }
       },
 
@@ -543,7 +542,6 @@
           smsCode: type.cord
         }).then(res => {
           if (res.status) {
-            _this.getbankCardInformation = res.data;
             _this.$Message.success(res.msg);
             _this.formItem.validateCode = '';
             _this.formItem.cord = '';
@@ -560,6 +558,10 @@
       //申请提现
       applyGetoutMoney(types) {
         let _this = this;
+        if (!(/^[0-9]+(.[0-9]{1,2})?$/.test(parseInt(types.getoutNumber)))){
+          _this.getOutMoneyPopWindow = false;
+          return;
+        }
         api.applyGetoutMoney({
           fee: types.getoutNumber * 100,
           bankCardNum: _this.userAccount.bankCardNum,
@@ -567,13 +569,13 @@
         }).then(res => {
           if (res.status) {
             _this.iconType = 'checkmark-circled';
-            _this.applyGetout = res.msg;
+            _this.applyGetOut = res.msg;
             _this.getoutMoney.getoutNumber = '';
             _this.getoutMoney.password = '';
 
           } else {
             _this.iconType = 'close-circled';
-            _this.applyGetout = res.msg;
+            _this.applyGetOut = res.msg;
             _this.getoutMoney.getoutNumber = '';
             _this.getoutMoney.password = '';
           }
