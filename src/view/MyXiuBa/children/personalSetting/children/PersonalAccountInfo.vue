@@ -135,7 +135,7 @@
                   </div>
                   <div>
                     <Form-item>
-                      <iButton @click="handleSubmit('defaultModifyCustom',modifyDefaultPwdFunc)">
+                      <iButton :disabled="defaultModifyBtnState" @click="handleSubmit('defaultModifyCustom',modifyDefaultPwdFunc)">
                         确定
                       </iButton>
                       <iButton @click="myAccountPwdChangeSon('selBox')">
@@ -149,8 +149,7 @@
                 <iForm ref="payCustom" :model="payCustom" :rules="payRuleCustom" :label-width="400">
                   <div class="clear form-input-box">
                     <Form-item label="绑定手机" prop="phone" class="left" style="width: 650px">
-                      <!--<iInput type="text" size="large" :autocomplete="false" v-model="payCustom.phone" ></iInput>-->
-                      <iInput class="fs-14" type="text" v-model="payCustom.phone" style="border: none;" readonly></iInput>>
+                       <input class="fs-14" type="text" v-model="payCustom.phone" style="border: none;" readonly>
                     </Form-item>
                   </div>
                   <div class="clear form-input-box">
@@ -175,7 +174,7 @@
                   </div>
                   <div>
                     <Form-item>
-                      <iButton @click="handleSubmit('payCustom',modifyPwdFunc)">
+                      <iButton :disabled="trendsModifyBtnState2" @click="handleSubmit('payCustom',modifyPwdFunc)">
                         确定
                       </iButton>
                       <iButton @click="myAccountPwdChangeSon('selBox')">
@@ -199,7 +198,7 @@
                   </div>
                   <div>
                     <Form-item>
-                      <iButton @click="handleSubmit('payCustom',modifyFinishPwdFunc)">
+                      <iButton :disabled="trendsModifyBtnState" @click="handleSubmit('payCustom',modifyFinishPwdFunc)">
                         确定
                       </iButton>
                     </Form-item>
@@ -308,6 +307,9 @@
           modifyPwd: false
         },
         imgSrc: null,
+        defaultModifyBtnState: false,
+        trendsModifyBtnState: false,
+        trendsModifyBtnState2:false,
         payCustom: {
           phone: this.$store.state.userInfo.phone,
           validateCode: '',
@@ -462,11 +464,13 @@
       },
       modifyDefaultPwdFunc(){
         let self = this;
+        self.defaultModifyBtnState = true;
         api.modifyDefaultPwd({
           oldPwd: self.defaultModifyCustom.oldPwd,
           newPwd: self.defaultModifyCustom.newPwd,
           repwd: self.defaultModifyCustom.repwd
         }).then((res) => {
+          self.defaultModifyBtnState = false;
           if(res.status){
             self.$Message.success({
               top: 50,
@@ -486,10 +490,12 @@
       },
       modifyPwdFunc(){
         let self = this;
+        self.trendsModifyBtnState2 = true;
         api.validatePaySmscode({
           phone: self.payCustom.phone,
           smsCode: self.payCustom.smsCode,
         }).then((res) => {
+          self.trendsModifyBtnState2 = false;
           if(res.status){
             self.myAccountPwdChangeSon('modifyPwd');
           }else {
@@ -502,12 +508,14 @@
       },
       modifyFinishPwdFunc(){
         let self = this;
+        self.trendsModifyBtnState = true;
         api.modifyTrendsPwd({
           phone: self.payCustom.phone,
           smsCode: self.payCustom.smsCode,
           pwd: self.trendsModifyCustom.pwd,
           repwd: self.trendsModifyCustom.repwd,
         }).then(res => {
+          self.trendsModifyBtnState = false;
           if(res.status){
             self.$Message.success({
               top: 50,

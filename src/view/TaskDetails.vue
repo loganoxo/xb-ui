@@ -37,7 +37,7 @@
               <!--<span class="fs-24">17</span> 天 <span class="fs-24">02</span> 小时 <span class="fs-24">56</span> 分钟 <span class="fs-24">31</span> 秒-->
             </p>
             <div v-if="getRole === 0">
-              <iButton v-show="!commodityData.taskApply"   size="large" class="fs-16 default-btn" long type="error" @click="applyForTrialFunc">申请活动</iButton>
+              <iButton v-show="!commodityData.taskApply" :disabled="taskApplyLoading"  size="large" class="fs-16 default-btn" long type="error" @click="applyForTrialFunc">申请活动</iButton>
               <iButton v-show="commodityData.taskApply" disabled size="large" class="fs-16 default-btn" long >已申请</iButton>
             </div>
             <iButton v-if="getRole === 1" size="large" class="fs-16 default-btn" long type="warning" >商家号不可以参加活动</iButton>
@@ -235,6 +235,7 @@
     },
     data () {
       return {
+        taskApplyLoading: false,
         alitNumSuccess: false,
         selectLogin: false,
         trialReportPicShow: false,
@@ -347,31 +348,33 @@
         }
       },
       getShowkerCanTrial(){
-          let self = this;
-          api.getShowkerCanTrial({
-            taskId: self.$route.query.taskId
-          }).then((res) => {
-              if(res.status){
-                self.selWw = true;
-                let selRes = false;
-                self.wwList = res.data;
-                for(let i = 0, j = res.data.length; i < j; i++){
-                  if(res.data[i].status === 2){
-                    selRes = true;
-                    self.canUseWw = true;
-                    break;
-                  }
-                }
-              }else {
-                if(res.statusCode === 'alitm_null'){
-                  self.alitNumSuccess = true;
-                }else {
-                  self.$Modal.warning({
-                    content: '<p class="fs-14">' + res.msg + '</span>',
-                  });
-                }
+        let self = this;
+        self.taskApplyLoading = true;
+        api.getShowkerCanTrial({
+          taskId: self.$route.query.taskId
+        }).then((res) => {
+          self.taskApplyLoading = false;
+          if(res.status){
+            self.selWw = true;
+            let selRes = false;
+            self.wwList = res.data;
+            for(let i = 0, j = res.data.length; i < j; i++){
+              if(res.data[i].status === 2){
+                selRes = true;
+                self.canUseWw = true;
+                break;
               }
-          })
+            }
+          }else {
+            if(res.statusCode === 'alitm_null'){
+              self.alitNumSuccess = true;
+            }else {
+              self.$Modal.warning({
+                content: '<p class="fs-14">' + res.msg + '</span>',
+              });
+            }
+          }
+        })
       },
       goWwBind(){
         this.$router.push({path: '/user/personal-setting/ww-bind'});
