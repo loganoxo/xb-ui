@@ -17,8 +17,8 @@
             <ul class="ww-account-ctt" v-for="(ww, index) in wwBindLists">
               <li>
                 <p>{{ww.alitmAccount}}</p>
-                <p><img :src="taobaoLevelImgs[ww.creditLevel -1].text" alt="" style="width: auto;height: auto;"></p>
-                <p>淘气值：{{taoqizhiList[ww.tqz -1].label}}</p>
+                <p><img :src="taobaoLevelImgs[parseInt(ww.creditLevel) -1].text" alt="" style="width: auto;height: auto;"></p>
+                <p>淘气值：{{taoqizhiList[parseInt(ww.tqz) -1].label}}</p>
               </li>
               <li>{{ww.applyTime | dateFormat('YYYY-MM-DD hh:mm:ss')}}</li>
               <li><img :src="ww.picUrl" alt="" style="width: 50px; padding: 10px;"></li>
