@@ -487,7 +487,7 @@ router.post('/api/user/account/check-phone-message-before-reset-pwd.json', funct
 router.post('/api/user/alitm/getAlitmByAccount.json', function (req, res, next) {
   let options = {
     method: 'POST',
-    uri: baseUrl + 'user/alitm/getAlitmByAccount/' + req.body.account,
+    uri: baseUrl + '/user/alitm/getAlitmByAccount/' + req.body.account,
     json: true,
   };
   request(options).then(function (parsedBody) {
