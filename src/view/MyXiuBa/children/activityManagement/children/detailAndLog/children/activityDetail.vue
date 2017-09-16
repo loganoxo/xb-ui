@@ -55,7 +55,7 @@
           <div class="baby-img ml-45 mt-20">
             <span class="required left mt-20">活动主图：</span>
             <div class="demo-upload-list">
-              <img :src="mainDefaultList[0].src" alt="">
+              <img :src="mainDefaultList" alt="">
             </div>
           </div>
           <div class="baby-url ml-45 mt-20">
@@ -114,7 +114,7 @@
             <div class="baby-main-img ml-40 mt-20">
               <span class="required left mr-5 mt-20">宝贝主图：</span>
               <div class="demo-upload-list">
-                <img :src="pcDefaultList[0].src" alt="">
+                <img :src="pcDefaultList" alt="">
               </div>
             </div>
             <div class="search-keyword mt-20 ml-28">
@@ -204,7 +204,7 @@
             <div class="baby-main-img ml-40 mt-20">
               <span class="required left mr-5 mt-20">宝贝主图：</span>
               <div class="demo-upload-list">
-                <img :src="appDefaultList[0].src" alt="">
+                <img :src="appDefaultList" alt="">
               </div>
             </div>
             <div class="search-keyword mt-20 ml-28">
@@ -345,9 +345,9 @@
           }
         },
         itemCatalogList: [],
-        mainDefaultList: [],
-        appDefaultList: [],
-        pcDefaultList: [],
+        mainDefaultList: null,
+        appDefaultList: null,
+        pcDefaultList: null,
         PcTaskDetail: {
           itemMainImage: null,
           searchKeyword: null,
@@ -457,15 +457,15 @@
           taskId: _this.editTaskId
         }).then(res => {
           if (res.status) {
-            _this.mainDefaultList = [];
-            _this.pcDefaultList = [];
-            _this.appDefaultList = [];
+            _this.mainDefaultList = null;
+            _this.pcDefaultList = null;
+            _this.appDefaultList = null;
             if(!type){
               _this.taskRelease.taskId = res.data.id;
             }
             _this.paidDeposit = (res.data.marginPaid + res.data.promotionExpensesPaid) / 100 || 0;
             _this.taskStatus = res.data.taskStatus;
-            _this.mainDefaultList.push({src: res.data.taskMainImage});
+            _this.mainDefaultList = res.data.taskMainImage;
             res.data.pinkage = res.data.pinkage.toString();
             _this.taskRelease.itemType = res.data.itemCatalog.id;
             for (let k in _this.taskRelease) {
@@ -481,11 +481,11 @@
               _this.taoCodeTaskDetail = JSON.parse(res.data.taskDetail);
             } else if (res.data.taskType === 'pc_search') {
               _this.PcTaskDetail = JSON.parse(res.data.taskDetail);
-              _this.pcDefaultList.push({src: _this.PcTaskDetail.itemMainImage});
+              _this.pcDefaultList = _this.PcTaskDetail.itemMainImage;
               _this.conversionPrice('pc_search');
             } else if (res.data.taskType === 'app_search') {
               _this.AppTaskDetail = JSON.parse(res.data.taskDetail);
-              _this.appDefaultList.push({src: _this.AppTaskDetail.itemMainImage});
+              _this.appDefaultList = _this.AppTaskDetail.itemMainImage;
               _this.conversionPrice('app_search');
             } else {
               _this.taskRelease.taskDetail = {};
