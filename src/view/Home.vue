@@ -40,16 +40,13 @@
           <div class="middle-ctt left">
             <Carousel autoplay :autoplay-speed="5000">
               <Carousel-item>
-                <img class="block" src="~assets/img/home/home_07.png" alt="">
+                <img class="block" src="~assets/img/home/banner_01.jpg" alt="">
               </Carousel-item>
               <Carousel-item>
-                <img class="block" src="~assets/img/home/home_07.png" alt="">
+                <img class="block" src="~assets/img/home/banner_02.jpg" alt="">
               </Carousel-item>
               <Carousel-item>
-                <img class="block" src="~assets/img/home/home_07.png" alt="">
-              </Carousel-item>
-              <Carousel-item>
-                <img class="block" src="~assets/img/home/home_07.png" alt="">
+                <img class="block" src="~assets/img/home/banner_03.jpg" alt="">
               </Carousel-item>
             </Carousel>
           </div>
