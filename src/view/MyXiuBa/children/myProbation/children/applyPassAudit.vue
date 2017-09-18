@@ -106,7 +106,7 @@
               </p>
             </td>
             <td>
-              <p v-if="item.status === 'pass_and_unclaimed'" class="operation"
+              <p v-if="item.status === 'pass_and_unclaimed' || item.status === 'order_num_error'" class="operation"
                  @click="changePassOperation('place','',item.id,item.taskType)">去下单</p>
               <p v-if="item.status === 'trial_report_waiting_submit'" class="operation"
                  @click="changePassOperation('report','write',item.id)">制作买家秀</p>
@@ -115,14 +115,11 @@
               <p v-if="item.status === 'pass_and_unclaimed'" class="operation mt-5"
                  @click="openAuditOrder(item.id,item.taskType)">填订单号</p>
               <p v-if="item.status === 'order_num_error'" class="operation mt-5"
-                 @click="openAuditOrder(item.id)">修改订单号</p>
-              <p v-if="item.status === 'trial_report_waiting_confirm' || item.status === 'trial_finished'"
-                 class="operation mt-5"
+                 @click="openAuditOrder(item.id,item.taskType)">修改订单号</p>
+              <p v-if="item.status === 'trial_report_waiting_confirm' || item.status === 'trial_finished'" class="operation mt-5"
                  @click="lookReportInfo(item.id)">查看买家秀详情</p>
               <p v-if="item.status === 'trial_finished'" class="operation mt-5">
-                <router-link
-                  :to="{path:'/user/money-management/transaction-record',query:{taskNumber:item.orderNumber}}">查看活动账单
-                </router-link>
+                <router-link :to="{path:'/user/money-management/transaction-record',query:{taskNumber:item.orderNumber}}">查看活动账单</router-link>
               </p>
               <p v-if="item.status !== 'trial_end' && item.status !== 'trial_finished'" class="operation mt-5"
                  @click="endTrialModel(item.id)">结束活动</p>
@@ -204,7 +201,7 @@
         </div>
       </div>
       <div class="write-order-number mt-40">
-        <span @click="openAuditOrder('',orderType)">下单完成，填订单号</span>
+        <span @click="openAuditOrder(null,orderType)">下单完成，填订单号</span>
         <span class="ml-35" @click="returnUpPage">返回上页</span>
       </div>
     </div>
@@ -544,9 +541,8 @@
       },
       openAuditOrder(id, type) {
         this.orderType = type;
-        console.log(this.orderType);
         this.showAuditOrderNumber = true;
-        if (!this.itemId) {
+        if (id && !this.itemId) {
           this.itemId = id;
         }
       },

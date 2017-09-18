@@ -67,7 +67,7 @@
             </Radio-group>
           </div>
           <div class="no-pass-reason mt-22" v-show="trialCheckStatus === 'no_pass'">
-            <iInput v-model="noPassReason" placeholder="请填写不通过的理由，以便秀客修改" style="width: 420px"></iInput>
+            <iInput v-model="noPassReason" placeholder="请填写买家秀不通过的理由，以便秀客修改" style="width: 420px"></iInput>
           </div>
           <div class="true-btn" v-show="trialCheckStatus === 'no_pass'" @click="confirmReport">确认</div>
           <div class="true-btn" v-show="trialCheckStatus === 'pass'" @click="openRefundModel">确认</div>
@@ -78,8 +78,7 @@
             <div class="left remind-con">
               <p>通过买家秀需要支付秀客秀客，不通过则会退回，交给秀客重新修改！</p>
               <p>您还有&nbsp;
-                <time-down color='#ff4040' :fontWeight=600
-                           :endTime="showkerTaskInfo.currentGenerationEndTime"></time-down>&nbsp;进行审核，若该时间内未审核，系统将默认审核通过，开始给秀客返款！
+                <time-down color='#ff4040' :fontWeight=600 :endTime="showkerTaskInfo.currentGenerationEndTime"></time-down>&nbsp;进行审核，若该时间内未审核，系统将默认审核通过，开始给秀客返款！
               </p>
             </div>
           </div>
@@ -105,14 +104,12 @@
           <span>请输入您的支付密码：</span>
           <iInput v-model="refundPayPwd" type="password" style="width: 160px;margin-right: 16px;"></iInput>
           <iButton type="primary" @click="confirmRefund">确认</iButton>
-          <span class="ml-10" v-if="isPwdAmend"><router-link
-            :to="{path:'/user/money-management/account-management',query:{type:'findPwd'}}">忘记支付密码？</router-link></span>
+          <span class="ml-10" v-if="isPwdAmend"><router-link :to="{path:'/user/money-management/account-management',query:{type:'findPwd'}}">忘记支付密码？</router-link></span>
         </div>
         <div class="refund-tip ml-35 mt-22" v-if="!isPwdAmend">
           <p>如果您的支付密码没有修改，初始密码为：888888。</p>
           <p class="mt-6">为了账户安全，建议您另外设置一个密码！
-            <router-link :to="{path:'/user/money-management/account-management',query:{type:'resetPwd'}}">修改支付密码
-            </router-link>
+            <router-link :to="{path:'/user/money-management/account-management',query:{type:'resetPwd'}}">修改支付密码</router-link>
           </p>
         </div>
       </div>
@@ -208,6 +205,10 @@
       },
       confirmReport() {
         let _this = this;
+        if(!_this.noPassReason){
+          _this.$Message.info('请填写买家秀不通过理由！');
+          return;
+        }
         api.taskReportAudit({
           id: _this.showkerTaskInfo.id,
           status: _this.trialCheckStatus === 'pass' ? 'true' : 'false',

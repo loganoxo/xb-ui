@@ -7,11 +7,12 @@ import router from '@/router'
 import store from '@/store'
 import LoadingBar from 'iview/src/components/loading-bar'
 
-axios.defaults.timeout = 100000;//响应时间
-axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded;charset=UTF-8';//配置请求头
+axios.defaults.timeout = 100000;//配置请求响应时间
+axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded;charset=UTF-8';//配置post请求头类型
 
 //POST传参序列化(添加请求拦截器)
 axios.interceptors.request.use((config) => {
+  axios.defaults.headers.userphone = store.state.userInfo ? store.state.userInfo.phone : null;//将用户手机号放入请求头
   if (config.method === 'post') {
     config.data = qs.stringify(config.data);
     LoadingBar.start();
