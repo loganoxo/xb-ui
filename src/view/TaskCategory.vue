@@ -14,7 +14,7 @@
       <div class="container" >
         <div v-show="$route.query.cate"  class="task-category-sel">
           {{parentItemCatalog.name}}：
-          <router-link :class="[taskCategoryAll ? 'active' : '' ]" :to="{ 'path': '/task-category', 'query': {'cate': parentItemCatalog.id}}" >全部</router-link>
+          <router-link :class="[taskCategoryAll ? 'active' : '' ]" :to="{ 'path': '/task-category' + parentItemCatalog.id , 'query': {'cate': parentItemCatalog.id}}" >全部</router-link>
           <router-link :class="[category.id == $route.query.cate ? 'active' : 'default']"  v-for="category in categoryList" :key="category.id" :to="{ 'path': '/task-category', 'query': {'cate': category.id}}"  >
             {{category.name}}
           </router-link>
@@ -257,8 +257,9 @@
               self.searchTaskList = res.data.content;
               self.$set(self.searchTaskList);
           }else {
-            self.$Modal.error({
-              content: res.msg
+            self.$Message.error({
+              content: res.msg,
+              duration: 9
             });
           }
         })
@@ -286,8 +287,9 @@
             }
             this.getSearchTask()
           }else {
-            self.$Modal.error({
-              content: res.msg
+            self.$Message.error({
+              content: res.msg,
+              duration: 9
             });
           }
         })

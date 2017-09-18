@@ -183,8 +183,9 @@
             self.trialReportList = res.data.content;
             self.totalPages = res.data.totalElements;
           } else {
-            self.$Modal.error({
-              content: res.msg
+            self.$Message.error({
+              content: res.msg,
+              duration: 9
             });
           }
         })
@@ -196,8 +197,9 @@
             self.showkerInfo = res.data.showkerInfo;
             self.showkerTag = res.data.showkerTag;
           } else {
-            self.$Modal.error({
-              content: res.msg
+            self.$Message.error({
+              content: res.msg,
+              duration: 9
             });
           }
         })
@@ -220,8 +222,9 @@
               self.showkerReportDesc = res.data;
               self.showkerReportDesc.trialReportImages = JSON.parse(self.showkerReportDesc.trialReportImages);
             }else {
-              self.$Modal.error({
-                content: res.msg
+              self.$Message.error({
+                content: res.msg,
+                duration: 9
               });
             }
 

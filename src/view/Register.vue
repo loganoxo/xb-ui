@@ -625,8 +625,9 @@
               }
             });
           } else {
-            self.$Modal.error({
+            self.$Message.error({
               content: res.msg,
+              duration: 9
             });
             self.getRegVrcode();
           }
@@ -656,8 +657,9 @@
               }
             });
           } else {
-            self.$Modal.error({
+            self.$Message.error({
               content: res.msg,
+              duration: 9
             });
             self.getRegVrcode();
           }
@@ -677,8 +679,9 @@
             });
             self.$router.push({name: 'Home'});
           } else {
-            self.$Modal.error({
+            self.$Message.error({
               content: res.msg,
+              duration: 9
             });
           }
         })
@@ -691,8 +694,9 @@
             duration: 1,
           });
         } else {
-          self.$Modal.error({
+          self.$Message.error({
             content: res.msg,
+            duration: 9
           });
           self.getRegVrcode();
         }

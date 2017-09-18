@@ -133,8 +133,9 @@
             });
             self.$router.push({name: 'Home'});
           } else {
-            self.$Modal.error({
+            self.$Message.error({
               content: res.msg,
+              duration: 9
             });
           }
         })
@@ -164,8 +165,9 @@
               }
             });
           } else {
-            self.$Modal.error({
+            self.$Message.error({
               content: res.msg,
+              duration: 9
             });
           }
         })

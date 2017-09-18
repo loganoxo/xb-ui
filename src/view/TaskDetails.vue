@@ -398,8 +398,9 @@
             self.totalElements = res.data.totalElements;
             self.graphicInfoSels[1].num = res.data.totalElements;
           }else {
-            self.$Modal.error({
+            self.$Message.error({
               content: res.msg,
+              duration: 9
             });
           }
         })
@@ -427,8 +428,9 @@
               self.graphicInfoSels[2].num = 0;
             }
           }else {
-            self.$Modal.error({
+            self.$Message.error({
               content: res.msg,
+              duration: 9
             });
           }
 
@@ -456,8 +458,9 @@
               if(res.status){
                 self.applySuccess = true;
               }else {
-                self.$Modal.error({
-                  content: res.statusCode,
+                self.$Message.error({
+                  content: res.msg,
+                  duration: 9
                 });
               }
             })

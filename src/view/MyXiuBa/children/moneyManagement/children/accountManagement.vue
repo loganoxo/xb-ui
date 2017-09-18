@@ -387,8 +387,9 @@
               }
             });
           } else {
-            self.$Modal.error({
-              content: res.msg
+            self.$Message.error({
+              content: res.msg,
+              duration: 9
             });
           }
         })
@@ -403,8 +404,9 @@
             self.myAccountPwdChangeSon('modifyPwd');
             self.getUserInformation();
           } else {
-            self.$Modal.error({
-              content: res.msg
+            self.$Message.error({
+              content: res.msg,
+              duration: 9
             });
             self.getVrcode();
           }
@@ -428,8 +430,9 @@
               }
             });
           } else {
-            self.$Modal.error({
-              content: res.msg
+            self.$Message.error({
+              content: res.msg,
+              duration: 9
             });
           }
         })
@@ -445,8 +448,9 @@
             content: res.msg
           });
         } else {
-          self.$Modal.error({
-            content: res.msg
+          self.$Message.error({
+            content: res.msg,
+            duration: 9
           });
           self.getVrcode();
         }

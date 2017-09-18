@@ -361,7 +361,7 @@
             });
             break;
           case 'error':
-            this.$Modal.error({
+            this.$Message.error({
               title: title,
               content: content
             });

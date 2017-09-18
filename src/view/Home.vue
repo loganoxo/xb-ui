@@ -332,8 +332,9 @@
               if(res.status){
                 self.trialCount = res.data
               }else {
-                self.$Modal.error({
-                  content: res.msg
+                self.$Message.error({
+                  content: res.msg,
+                  duration: 9
                 });
               }
             })
@@ -342,8 +343,9 @@
               if(res.status){
                 self.trialCount = res.data
               }else {
-                self.$Modal.error({
-                  content: res.msg
+                self.$Message.error({
+                  content: res.msg,
+                  duration: 9
                 });
               }
             })
@@ -369,8 +371,9 @@
               self.homeCommodityList = res.data;
             }
           }else {
-            self.$Modal.error({
-              content: res.msg
+            self.$Message.error({
+              content: res.msg,
+              duration: 9
             });
           }
         })

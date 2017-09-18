@@ -497,8 +497,9 @@
               self.showWwBindBox = true;
             }
           }else {
-            self.$Modal.error({
-              content: res.msg
+            self.$Message.error({
+              content: res.msg,
+              duration: 9
             });
           }
         });
@@ -558,8 +559,10 @@
                   }
                 });
               }else {
-                this.$Modal.error({
-                  content: res.msg
+
+                this.$Message.error({
+                  content: res.msg,
+                  duration: 9
                 });
               }
               self.btnState.wwBindBtn = false;

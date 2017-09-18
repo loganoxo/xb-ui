@@ -453,9 +453,11 @@
             self.showModifyAvatar = false;
             self.getUserInformation();
           }else {
-            self.$Modal.error({
-              content: res.msg
+            self.$Message.error({
+              content: res.msg,
+              duration: 9
             });
+
           }
         })
       },
@@ -482,8 +484,9 @@
               }
             });
           }else {
-            self.$Modal.error({
-              content: res.msg
+            self.$Message.error({
+              content: res.msg,
+              duration: 9
             });
           }
         })
@@ -499,8 +502,9 @@
           if(res.status){
             self.myAccountPwdChangeSon('modifyPwd');
           }else {
-            self.$Modal.error({
-              content: res.msg
+            self.$Message.error({
+              content: res.msg,
+              duration: 9
             });
             self.getVrcode();
           }
@@ -527,8 +531,9 @@
               }
             });
           }else {
-            self.$Modal.error({
-              content: res.msg
+            self.$Message.error({
+              content: res.msg,
+              duration: 9
             });
           }
         })
@@ -543,8 +548,9 @@
             content: res.msg,
           });
         } else {
-          self.$Modal.error({
-            content: res.msg
+          self.$Message.error({
+            content: res.msg,
+            duration: 9
           });
           self.getVrcode();
         }

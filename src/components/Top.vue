@@ -75,8 +75,9 @@
             });
             self.navList = res.data;
           }else {
-            self.$Modal.error({
-              content: res.msg
+            self.$Message.error({
+              content: res.msg,
+              duration: 9
             });
           }
         })
@@ -89,7 +90,7 @@
       goTaskCategory(){
         let self = this;
         if(self.searchKey){
-          self.$router.push({ path: '/task-category', query: { searchKey: self.searchKey }})
+          self.$router.push({ path: '/task-category/all', query: { searchKey: self.searchKey }})
         }else {
           self.$Message.info('搜索词不能为空');
         }
