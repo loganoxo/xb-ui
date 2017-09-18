@@ -82,7 +82,7 @@
                 </iButton>
               </iForm>
               <p class="fs-14 login-rt-ctt-btm">
-                <a class="left" href="" v-if="false">
+                <a class="left" href="" >
                   <img class="left   mt-7 mr-5" src="~assets/img/common/qq_logo.png" alt="">
                   QQ账号登录
                 </a>
