@@ -412,9 +412,13 @@
         let self = this;
         api.getTaskDetails({taskId: self.$route.query.taskId}).then((res) => {
           if(res.status){
-            this.commodityData = res.data;
-            parseInt(res.data.trailDone) ? this.graphicInfoSels[1].num = res.data.trailDone : this.graphicInfoSels[1].num = 0;
-            parseInt(res.data.task.showkerApplySuccessCount) ? this.graphicInfoSels[2].num = res.data.task.showkerApplySuccessCount : this.graphicInfoSels[2].num = 0;
+            self.commodityData = res.data;
+            parseInt(res.data.trailDone) ? self.graphicInfoSels[1].num = res.data.trailDone : self.graphicInfoSels[1].num = 0;
+            if(parseInt(res.data.task.showkerApplySuccessCount) || parseInt(res.data.trialEnd)){
+              self.graphicInfoSels[2].num = parseInt(res.data.task.showkerApplySuccessCount) + parseInt(res.data.trialEnd)
+            }else{
+              self.graphicInfoSels[2].num = 0;
+            }
           }else {
             self.$Modal.error({
               content: res.msg,
