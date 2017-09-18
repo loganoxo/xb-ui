@@ -508,7 +508,7 @@ export default {
   },
 
   /**
-   * 获取服务器时间
+   * 通过旺旺名获取信息
    */
   getAlitmByAccount(params) {
     return fetch("/api/user/alitm/getAlitmByAccount.json", params)

@@ -9,11 +9,11 @@
         </li>
         <li :class="{isSelect:isSelect ==='TaskReleaseProcess'}">
           <Icon type="compose"></Icon>
-          <router-link to="/user/task-release">发布秀品活动</router-link>
+          <router-link to="/user/task-release">发布活动</router-link>
         </li>
         <li :class="{isSelect:isSelect === 'ActivitiesList' || isSelect === 'ApproveShowker' || isSelect === 'ActivityDetail' || isSelect === 'ActivityLog'}">
           <Icon type="clipboard"></Icon>
-          <router-link to="/user/activity-management/list">秀品活动管理</router-link>
+          <router-link to="/user/activity-management/list">活动管理</router-link>
         </li>
         <li :class="{isSelect:isSelect ==='AccountInfo' || isSelect === 'PayMoney' || isSelect === 'GetoutMoney' || isSelect === 'AccountManagement'}">
           <Icon type="social-yen"></Icon>
@@ -40,7 +40,7 @@
         </li>
         <li :class="{isSelect:isSelect === 'ApplyWaitAudit' || isSelect === 'ApplyPassAudit' || isSelect === 'ApplyFailAudit'}">
           <Icon type="compose"></Icon>
-          <router-link to="/user/my-probation/wait">我的活动</router-link>
+          <router-link to="/user/my-probation/pass">我的活动</router-link>
         </li>
         <li :class="{isSelect:isSelect ==='MyTrialReport'}">
           <Icon type="clipboard"></Icon>

@@ -1,10 +1,9 @@
 <template>
   <div class="task-release">
-    <div class="task-release-title">发布秀品活动</div>
+    <div class="task-release-title">发布活动</div>
     <div class="flow-title mt-10 mb-20">
       <Steps :current="current">
-        <Step title="发布秀品活动流程"></Step>
-        <Step title="填写秀品活动信息"></Step>
+        <Step title="填写活动信息"></Step>
         <Step title="存入活动担保金"></Step>
         <Step title="等待审核"></Step>
         <Step title="活动上线"></Step>
@@ -13,7 +12,7 @@
     <!--任务发布-->
     <div class="activity-con" v-show="stepName === 'information'">
       <div class="activity-info">
-        <div class="activity-info-title">填写秀品活动信息</div>
+        <div class="activity-info-title">填写活动信息</div>
         <div class="activity-type ml-60 mt-22">
           <span class="required">活动类型：</span>
           <Radio-group v-model="taskRelease.taskType">
@@ -47,7 +46,7 @@
           </p>
         </div>
         <div class="baby-info mt-22">
-          <div class="activity-info-title">填写秀品活动宝贝信息</div>
+          <div class="activity-info-title">填写活动宝贝信息</div>
           <div class="baby-title ml-45 mt-20">
             <span class="required">活动标题：</span>
             <iInput v-model="taskRelease.taskName" placeholder="请输入活动标题" style="width: 296px"></iInput>
@@ -468,7 +467,6 @@
   import api from '@/config/apiConfig'
   import {aliCallbackImgUrl} from '@/config/env'
   import {aliUploadImg, isNumber, isInteger, isAliUrl, randomString} from '@/config/utils'
-  import {oneOf} from 'iview/src/utils/assist'
   import {mapActions} from 'vuex'
 
   export default {
@@ -512,7 +510,7 @@
           }
         },
         showPayModel: false,
-        current: 1,
+        current: 0,
         stepName: 'information',
         taskPayId: null,
         itemCatalogList: [],
@@ -866,7 +864,7 @@
         _this.getTaskInfo();
         _this.conversionPrice(_this.taskRelease.taskType);
         _this.stepName = 'information';
-        _this.current = 1;
+        _this.current = 0;
       },
       nextCurrent() {
         this.current += 1;

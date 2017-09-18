@@ -2,7 +2,7 @@
   <div class="activity-detail">
     <div class="activity-con">
       <div class="activity-info">
-        <div class="activity-info-title mt-20">填写秀品活动信息</div>
+        <div class="activity-info-title mt-20">填写活动信息</div>
         <div class="activity-type ml-60 mt-22">
           <span class="required">活动类型：</span>
           <Radio-group v-model="taskRelease.taskType">
@@ -36,7 +36,7 @@
           </p>
         </div>
         <div class="baby-info mt-22">
-          <div class="activity-info-title">填写秀品活动宝贝信息</div>
+          <div class="activity-info-title">填写活动宝贝信息</div>
           <div class="baby-title ml-45 mt-20">
             <span class="required">活动标题：</span>
             <iInput v-model="taskRelease.taskName" placeholder="请输入活动标题" :disabled ="true" style="width: 296px"></iInput>

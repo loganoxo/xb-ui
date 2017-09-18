@@ -48,6 +48,7 @@ app.use(session({
 app.use(function (req, res, next) {
   let ip = req.headers['x-forwarded-for'];
   if(ip){
+    logConfig.logger.info('x-forwarded-for：' + ip);
     req.realIp = ip.split(',')[0];
   }
   let url = req.originalUrl;

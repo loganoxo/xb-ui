@@ -5,6 +5,10 @@ table{
   border-collapse:collapse;
 }
 
+body{
+  overflow-y: scroll;
+}
+
 .showSweetAlert {
   -webkit-animation: showSweetAlert 0.3s;
   animation: showSweetAlert 0.3s;

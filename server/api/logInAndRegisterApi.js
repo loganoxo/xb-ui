@@ -6,6 +6,7 @@
 const express = require('express');
 const config = require('../config');
 const logConfig = require('../logConfig');
+const apiConfig = require('../apiConfig');
 const request = require('request-promise');
 const captchapng = require('captchapng');
 
@@ -56,6 +57,38 @@ router.post('/api/login.json', (req, res, next) => {
     });
 });
 
+/*router.post('/api/login.json', (req, res, next) => {
+  let options = apiConfig.postOptions('/user/sign-in', req, {
+    phone: req.body.phone,
+    passWord: req.body.passWord,
+    loginIp: req.ip,
+    sessionId: req.sessionID
+  });
+  request(options).then(function (parsedBody) {
+    if (parsedBody.status) {
+      let userData = parsedBody.data;
+      req.session.regenerate(function (err) {
+        if (!err) {
+          req.session.userData = userData;
+          logConfig.logger.info('User information is stored in redis successfully！');
+        } else {
+          logConfig.logger.err('User information is stored in redis failed：' + err);
+        }
+        res.send(parsedBody);
+        res.end();
+      });
+    } else {
+      res.send(parsedBody);
+      res.end();
+    }
+  })
+    .catch(function (err) {
+      logConfig.logger.error(req.originalUrl + ':' + err);
+      res.json({status: false, msg: "服务器请求超时，请稍后在试！"});
+      res.end();
+    });
+});*/
+
 /**
  * 检测是否第一次动态登陆
  * @param phone
@@ -84,9 +117,9 @@ router.post('/api/check-fast-sign-in.json', function (req, res, next) {
           req.session.regenerate(function (err) {
             if (!err) {
               req.session.userData = userData;
-              logConfig.logger.info('用户信息存入redis成功！');
+              logConfig.logger.info('User information is stored in redis successfully！');
             } else {
-              logConfig.logger.err('用户信息存入redis失败：' + err);
+              logConfig.logger.err('User information is stored in redis failed：' + err);
             }
             res.send(parsedBody);
             res.end();

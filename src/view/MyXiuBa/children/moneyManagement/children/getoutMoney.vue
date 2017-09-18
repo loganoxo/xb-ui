@@ -56,8 +56,7 @@
             <SmsCountdown :on-success="sendCodeSuccess" style="top: 2px; right: -112px"
                           :phone="this.getUserPhone"
                           :purpose="formItem.purpose"
-                          :validateCode="formItem.validateCode"
-            >
+                          :validateCode="formItem.validateCode">
             </SmsCountdown>
           </Form-item>
           <Form-item>
@@ -212,7 +211,7 @@
         </table>
       </div>
       <div class="right mt-22" v-show="getOutResList && getOutResList.length > 0" v-if="!isChange">
-        <Page :total="totalElements"  @on-change="changePages"></Page>
+        <Page :total="totalElements" :page-size="pageSize" @on-change="changePages"></Page>
       </div>
     </div>
     <div class="common-question">
@@ -403,6 +402,7 @@
         getBankCardInfo:{},
         totalElements: null,
         pageIndex:1,
+        pageSize: 10,
         isChange: false,
       }
     },
@@ -598,7 +598,7 @@
           applyTimeEnd: _this.getoutRecord.applyTo,
           state: _this.titleStatus,
           page: _this.pageIndex - 1,
-          size: 10
+          size: _this.pageSize
         }).then(res => {
           if (res.status) {
             _this.isChange  = false;

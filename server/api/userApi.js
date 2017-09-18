@@ -500,5 +500,4 @@ router.post('/api/user/alitm/getAlitmByAccount.json', function (req, res, next) 
   });
 });
 
-
 module.exports = router;
