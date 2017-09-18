@@ -65,7 +65,7 @@
 
 <script>
   import Button from 'iview/src/components/button'
-  import Input from '@/components/Input'
+  import Input from 'iview/src/components/input'
   import {Select, Option, OptionGroup} from 'iview/src/components/select'
   import Page from 'iview/src/components/page'
   import api from '@/config/apiConfig'

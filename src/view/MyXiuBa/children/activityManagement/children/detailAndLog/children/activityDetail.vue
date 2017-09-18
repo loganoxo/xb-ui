@@ -312,7 +312,7 @@
 <script>
   import {Quill, quillEditor} from 'vue-quill-editor'
   import Icon from 'iview/src/components/icon'
-  import Input from '@/components/Input'
+  import Input from 'iview/src/components/input'
   import Checkbox from 'iview/src/components/checkbox'
   import Button from 'iview/src/components/button'
   import Radio from 'iview/src/components/radio'

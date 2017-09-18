@@ -219,7 +219,7 @@
       <h2>常见问题</h2>
       <div class="mt-10">
         <p>提现</p>
-        <p>1、最低提现金额1元，手续费1%，每天提现次数不限</p>
+        <p>1、最低提现金额1元，手续费0.1%，每天提现次数不限</p>
         <p>2、当日12:00-当日18:00间申请提现的，在当日18:00处理，当日18:00-次日12:00间申请提现的，在次日12:00处理。</p>
       </div>
     </div>
@@ -233,8 +233,8 @@
   import Modal from 'iview/src/components/modal'
   import DatePicker from 'iview/src/components/date-picker'
   import {Select, Option, OptionGroup} from 'iview/src/components/select'
+  import Input from 'iview/src/components/input'
   import api from '@/config/apiConfig'
-  import Input from '@/components/Input'
   import SmsCountdown from '@/components/SmsCountdown'
   import {TaskErrorStatusList} from '@/config/utils'
   import {mapActions} from 'vuex'

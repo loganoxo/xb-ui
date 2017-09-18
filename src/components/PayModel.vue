@@ -42,7 +42,7 @@
 </template>
 
 <script>
-  import Input from '@/components/Input'
+  import Input from 'iview/src/components/input'
   import Radio from 'iview/src/components/radio'
   import Button from 'iview/src/components/button'
   import api from '@/config/apiConfig'

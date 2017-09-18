@@ -190,7 +190,7 @@
   import Form from 'iview/src/components/form'
   import Button from 'iview/src/components/button'
   import Modal from 'iview/src/components/modal'
-  import Input from '@/components/Input'
+  import Input from 'iview/src/components/input'
   import SmsCountdown from '@/components/SmsCountdown'
   import {mapActions} from 'vuex'
 

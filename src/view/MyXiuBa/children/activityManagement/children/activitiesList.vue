@@ -270,7 +270,7 @@
   import Modal from 'iview/src/components/modal'
   import Icon from 'iview/src/components/icon'
   import Button from 'iview/src/components/button'
-  import Input from '@/components/Input'
+  import Input from 'iview/src/components/input'
   import Tooltip from 'iview/src/components/tooltip'
   import PayModel from '@/components/PayModel'
   import api from '@/config/apiConfig'

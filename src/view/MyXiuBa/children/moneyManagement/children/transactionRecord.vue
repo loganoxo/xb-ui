@@ -35,7 +35,7 @@
         活动编号：
         <iInput v-model="activityNumber" style="width: 200px;height: 30px" class="ml-10"></iInput>
       </div>
-      <iButton class="ibtn" @click="getTradListAll(transactType)">筛选</iButton>
+      <iButton class="ibtn" @click="changePageShow(transactType)">筛选</iButton>
       <div class="mt-22 line"></div>
       <div class="transaction-amount">
         <span>收入：<span style="color: #2F962F;">{{accountIncomes / 100 || 0}}</span>元</span>
@@ -157,7 +157,7 @@
           </tbody>
         </table>
       </div>
-      <div class="right mt-22" style="margin-right: 382px; ">
+      <div class="right mt-22"  v-if="!isChange">
         <Page :total="totalPages*10" :page-size="pageSize" @on-change="changePages"></Page>
       </div>
     </div>
@@ -280,7 +280,7 @@
   import Icon from 'iview/src/components/icon'
   import DatePicker from 'iview/src/components/date-picker'
   import Table from 'iview/src/components/table'
-  import Input from '@/components/Input'
+  import Input from 'iview/src/components/input'
   import Checkbox from 'iview/src/components/checkbox'
   import Button from 'iview/src/components/button'
   import Page from 'iview/src/components/page'
@@ -306,7 +306,6 @@
       Page: Page,
       Radio: Radio,
       RadioGroup: Radio.Group,
-
     },
     data() {
       return {
@@ -315,8 +314,6 @@
         userListDetails: null,
         infoSelect: 'account',
         detailSelect: 'false',
-        userList: {},
-        userAccount: {},
         showBigNotice: false,
         showBigNoticeAll: false,
         showNotice: false,
@@ -359,7 +356,9 @@
         accountIncomes: 0,
         accountPayout: 0,
         mainColor:true,
-        mainColorGreen:false
+        mainColorGreen:false,
+        isChange:false,
+
       }
     },
     mounted() {
@@ -368,7 +367,6 @@
     created() {
       let taskNumber = this.$route.query.taskNumber;
       let activeType = this.$route.query.activeType;
-      this.getUserAccount();
       if (taskNumber) {
         this.activityNumber = taskNumber;
         this.getTradListAll();
@@ -389,6 +387,11 @@
       }
     },
     methods: {
+      changePageShow(type){
+        this.pageIndex = 0 ;
+        this.isChange = true ;
+        this.getTradListAll(type);
+      },
       typeChang(num) {
         if (num > 0) {
           num = '+' + num;
@@ -406,23 +409,12 @@
           this.getTradListDetails(type);
         }
       },
-      getUserAccount() {
-        let _this = this;
-        api.getUserAccount().then(res => {
-          if (res.status) {
-            _this.userList = res.data;
-            _this.userAccount = res.data.userAccount;
-          } else {
-            _this.$Message.error(res.msg);
-          }
-        });
-      },
       getTradListAll(type) {
         let _this = this;
         if (type && (type.length === 0 || type.length === 3)) {
           type = null;
         } else {
-          type = JSON.stringify(type)
+          type = JSON.stringify(type);
         }
         api.getTradList({
           tradTimeStart: _this.beginTime,
@@ -434,6 +426,7 @@
           size: _this.pageSize
         }).then(res => {
           if (res.status) {
+            _this.isChange = false;
             _this.totalPages = res.data.tradPage.totalPages;
             _this.myTableDetailsAll = res.data.tradPage.content;
             _this.accountIncomes = res.data.income;
@@ -491,7 +484,6 @@
       },
       getTargetTime(type) {
         let _this = this;
-
         function getDateStr(time) {
           let date = new Date();
           date.setDate(date.getDate() + time);
@@ -523,7 +515,8 @@
         } else {
           _this.beginTime = null;
           _this.endTime = null;
-          _this.getTradListAll([0, 1, 2]);
+          _this.isChange = true;
+          _this.getTradListAll();
         }
       },
       getTradType(type) {
@@ -548,7 +541,7 @@
       },
       changePages(data) {
         this.pageIndex = data - 1;
-        this.getTradListAll();
+        this.getTradListAll(this.transactType);
       },
 
 
