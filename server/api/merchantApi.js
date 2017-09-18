@@ -46,7 +46,7 @@ router.post("/api/task-create.json", function (req, res, next) {
       itemUrl: req.body.itemUrl,
       storeName: req.body.storeName,
       taskCount: req.body.taskCount,
-      itemPrice: Math.ceil(req.body.itemPrice * 100),
+      itemPrice: (req.body.itemPrice * 100).toFixed(2) * 1,
       pinkage: req.body.pinkage,
       itemDescription: req.body.itemDescription,
       paymentMethod: req.body.paymentMethod,

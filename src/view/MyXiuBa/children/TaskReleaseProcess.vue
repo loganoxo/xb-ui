@@ -808,24 +808,19 @@
         let status = _this.taskStatus;
         let type = _this.$route.query.type;
         if((status === 'waiting_modify' || status === 'waiting_pay') && _this.paidDeposit === _this.orderMoney && !type){
-          _this.taskCreate();
-          this.$router.push({name: 'ActivitiesList'});
+          _this.taskCreate(true);
         }else if((status === 'waiting_modify' || status === 'waiting_pay') && _this.paidDeposit > _this.orderMoney && !type){
           this.editPriceToLowAfterModel = true;
         }else if((status === 'waiting_modify' || status === 'waiting_pay') && _this.paidDeposit > 0 && _this.paidDeposit < _this.orderMoney && !type){
           _this.editPriceAfterModel = true;
           _this.priceHasChange = true;
         } else if(type && type === 'copy'){
-          _this.taskCreate();
-          _this.nextCurrent();
-          _this.stepName = 'deposit';
+          _this.taskCreate(false);
         }else{
-          _this.taskCreate();
-          _this.nextCurrent();
-          _this.stepName = 'deposit';
+          _this.taskCreate(false);
         }
       },
-      taskCreate() {
+      taskCreate(type) {
         let _this = this;
         switch (_this.taskRelease.taskType) {
           case 'pc_search' :
@@ -853,6 +848,12 @@
             if(!_this.taskRelease.taskId){
               _this.taskRelease.taskId = res.data.id;
             }
+            if(type === true){
+              _this.$router.push({name: 'ActivitiesList'});
+            }else{
+              _this.nextCurrent();
+              _this.stepName = 'deposit';
+            }
           } else {
             _this.$Message.error(res.msg);
             _this.conversionPrice(_this.taskRelease.taskType);
@@ -876,14 +877,11 @@
       },
       continueNextStep() {
         let _this = this;
-        _this.taskCreate();
+        _this.taskCreate(false);
         _this.editPriceAfterModel = false;
-        _this.nextCurrent();
-        _this.stepName = 'deposit';
       },
       toLowContinueNextStep() {
-        this.taskCreate();
-        this.$router.push({name: 'ActivitiesList'});
+        this.taskCreate(true);
       },
       getTaskInfo() {
         let _this = this;

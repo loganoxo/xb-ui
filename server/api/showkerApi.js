@@ -272,7 +272,7 @@ router.post('/api/showker-order-save.json', function (req, res, next) {
       showkerTaskId: req.body.id,
       showkerId: req.session.userData.id,
       orderNum: req.body.orderNum,
-      orderPrice: Math.ceil(req.body.actualPayMoney * 100)
+      orderPrice: (req.body.actualPayMoney * 100).toFixed(2) * 1
     },
     json: true
   };

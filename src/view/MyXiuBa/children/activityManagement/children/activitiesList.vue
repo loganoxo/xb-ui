@@ -108,10 +108,10 @@
           </td>
           <td v-else-if="item.taskStatus === 'waiting_audit'">
             <p class="copy mt-6">
-              <span @click="copyTask(item.id)">复制活动</span>
+              <span @click="lookTaskDetail(item.id)">查看详情</span>
             </p>
             <p class="copy mt-6">
-              <span @click="lookTaskDetail(item.id)">查看详情</span>
+              <span @click="copyTask(item.id)">复制活动</span>
             </p>
           </td>
           <td v-else-if="item.settlementStatus === 'waiting_settlement'">
@@ -122,10 +122,10 @@
               <span @click="settlementTask(item.id, item.number)">申请结算</span>
             </p>
             <p class="copy mt-6">
-              <span @click="copyTask(item.id)">复制活动</span>
+              <span @click="lookTaskDetail(item.id)">查看详情</span>
             </p>
             <p class="copy mt-6">
-              <span @click="lookTaskDetail(item.id)">查看详情</span>
+              <span @click="copyTask(item.id)">复制活动</span>
             </p>
           </td>
           <td v-else-if="(item.settlementStatus === 'settlement_finished' || item.settlementStatus === 'waiting_audit') && item.taskStatus === 'finished'">
@@ -136,10 +136,10 @@
               <router-link :to="{path:'/user/money-management/transaction-record',query:{taskNumber:item.number}}">查看活动账单</router-link>
             </p>
             <p class="copy mt-6">
-              <span @click="copyTask(item.id)">复制活动</span>
+              <span @click="lookTaskDetail(item.id)">查看详情</span>
             </p>
             <p class="copy mt-6">
-              <span @click="lookTaskDetail(item.id)">查看详情</span>
+              <span @click="copyTask(item.id)">复制活动</span>
             </p>
           </td>
           <td v-else-if="item.taskStatus === 'closed'">
@@ -147,10 +147,10 @@
               <span @click="deleteTask(item.id)">彻底删除</span>
             </p>
             <p class="copy mt-6">
-              <span @click="copyTask(item.id)">复制活动</span>
+              <span @click="lookTaskDetail(item.id)">查看详情</span>
             </p>
             <p class="copy mt-6">
-              <span @click="lookTaskDetail(item.id)">查看详情</span>
+              <span @click="copyTask(item.id)">复制活动</span>
             </p>
           </td>
           <td v-else>
@@ -158,10 +158,10 @@
               <span @click="approveShowker(item.id)">审批秀客</span>
             </p>
             <p class="copy mt-6">
-              <span @click="copyTask(item.id)">复制活动</span>
+              <span @click="lookTaskDetail(item.id)">查看详情</span>
             </p>
             <p class="copy mt-6">
-              <span @click="lookTaskDetail(item.id)">查看详情</span>
+              <span @click="copyTask(item.id)">复制活动</span>
             </p>
           </td>
         </tr>
