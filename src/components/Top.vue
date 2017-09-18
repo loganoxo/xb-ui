@@ -221,6 +221,9 @@
         height: 42px;
         line-height: 42px;
         color: #fff;
+        &:hover{
+          background-color: #ff3300;
+        }
       }
       a.active{
         background-color: #ff3300;

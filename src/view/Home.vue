@@ -148,7 +148,7 @@
               </div>
             </router-link>
             <p class="text-ct">
-              <router-link class="ivu-btn" :to="{ 'path': '/task-category/all', 'query': {'searchKey': 'all'}}">查看全部活动</router-link>
+              <router-link class="ivu-btn" :to="{ 'path': '/task-category', 'query': {'searchKey': 'all'}}">查看全部活动</router-link>
             </p>
           </div>
         </div>

@@ -41,7 +41,7 @@
               <iButton v-show="commodityData.taskApply" disabled size="large" class="fs-16 default-btn" long >已申请</iButton>
             </div>
             <iButton v-if="getRole === 1" size="large" class="fs-16 default-btn" long type="warning" >商家号不可以参加活动</iButton>
-            <a v-if="!isLogin"  class="ivu-btn ivu-btn-error ivu-btn-large" @click="selectLogin = true" style="width: 150px;">
+            <a v-if="!isLogin && getRole === 0 "  class="ivu-btn ivu-btn-error ivu-btn-large" @click="selectLogin = true" style="width: 150px;">
                 申请活动
             </a>
           </div>
@@ -99,6 +99,7 @@
                 <Icon type="information-circled" color="#FF6633" size="30" style="vertical-align: sub;"></Icon> 获得资格后才能看到活动品信息哦~
                 <div v-if="getRole === 0 && isLogin" style="display: inline-block">
                   <iButton v-show="!commodityData.taskApply" :disabled="taskApplyLoading"  style="width: 100px;" size="large" class="fs-16 default-btn ivu-btn-small"  type="error" @click="applyForTrialFunc">申请活动</iButton>
+                  <iButton v-show="commodityData.taskApply" disabled size="large" class="fs-16 default-btn" long >已申请</iButton>
                 </div>
                 <a v-if="!isLogin && getRole === 0 "  class="ivu-btn ivu-btn-error ivu-btn-small" @click="selectLogin = true" style="width: 100px;">
                   申请活动
