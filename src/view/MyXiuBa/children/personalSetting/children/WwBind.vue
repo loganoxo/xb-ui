@@ -450,7 +450,6 @@
         this.showWwBindBox = true;
         this.wwFormValidate.id = ww.id;
         this.wwFormValidate.alitmAccount = ww.alitmAccount;
-        debugger
         this.wwFormValidate.alitmLevel = this.taobaoLevelImgs[parseInt(ww.creditLevel) + 1].value;
         this.wwFormValidate.taoqizhi = ww.tqz;
         this.wwFormValidate.picUrl = [{
@@ -464,7 +463,6 @@
         }];
         this.remarks.text = ww.remarks;
         this.remarks.auditTime = ww.auditTime;
-        debugger
         this.modifyWw = true;
         this.$set(this.wwFormValidate);
       },
@@ -509,7 +507,6 @@
         let self = this;
         if(!(self.wwFormValidate.picUrl == '' || self.wwFormValidate.alitmLevelPicUrl == '')){
           self.btnState.wwBindBtn = true;
-          debugger;
           if(self.modifyWw){
             api.wwModify({
               alitmAccount: this.wwFormValidate.alitmAccount,
