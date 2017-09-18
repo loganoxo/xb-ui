@@ -20,7 +20,7 @@
           </router-link>
         </div>
         <div v-show="$route.query.searchKey" class="task-category-sel">
-          全部结果：<span style="color: #ff6633;">“{{$route.query.searchKey}}”</span>
+          全部结果：<span style="color: #ff6633;" v-if="searchTaskParams.taskName">“{{searchTaskParams.taskName}}”</span>
         </div>
       </div>
       <div class="container">
@@ -208,7 +208,11 @@
         self.getTaskCategoryList(cate);
       }
       if(searchKey){
-        self.searchTaskParams.taskName = searchKey;
+        if(searchKey == 'all'){
+          self.searchTaskParams.taskName = '';
+        }else {
+          self.searchTaskParams.taskName = searchKey;
+        }
         self.getSearchTask();
       }
     },
@@ -307,9 +311,12 @@
           self.getTaskCategoryList(cate);
         }
         if(searchKey){
-          this.itemCatalogs = '';
-          this.searchTaskParams.taskName = searchKey;
-          this.getSearchTask();
+          if(searchKey == 'all'){
+            self.searchTaskParams.taskName = '';
+          }else {
+            self.searchTaskParams.taskName = searchKey;
+          }
+          self.getSearchTask();
         }
       },
       'searchTaskParams'(){

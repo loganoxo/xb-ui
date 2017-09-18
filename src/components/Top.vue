@@ -40,6 +40,7 @@
     <div class="home-nav">
       <div class="container">
         <router-link to="/">首页</router-link>
+        <router-link :to="{ 'path': '/task-category/all', 'query': {'searchKey': 'all'}}">全部活动</router-link>
         <router-link v-for="nav in navList" :key="nav.id" :to="{ 'path': '/task-category/' + nav.id, 'query': {'cate': nav.id}}">{{nav.name}}</router-link>
       </div>
     </div>
@@ -191,7 +192,7 @@
       background-color: $mainColor;
       a {
         float: left;
-        width: 109px;
+        width: 100px;
         text-align: center;
         font-size: 16px;
         height: 42px;
