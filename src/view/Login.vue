@@ -38,8 +38,7 @@
                   </Form-item>
                   <!--<a class="right mt-6" href="">忘记密码</a>-->
                 </div>
-                <iButton style="margin-top: 25px;" type="error" long size="large" :disabled="btnState.normalLoginBtn"
-                         @click="handleSubmit('loginNormalCustom',setUserInfo)">
+                <iButton style="margin-top: 25px;" type="error" long size="large" :loading="btnState.normalLoginBtn" @click="handleSubmit('loginNormalCustom',setUserInfo)">
                   登录
                 </iButton>
               </iForm>
@@ -77,7 +76,7 @@
                     </Checkbox-group>
                   </Form-item>
                 </div>
-                <iButton size="large" style="margin-top: 15px;" type="error" long :disabled="btnState.trendsLoginBtn"
+                <iButton size="large" style="margin-top: 15px;" type="error" long :loading="btnState.trendsLoginBtn"
                          @click="handleSubmit('loginTrendsCustom',checkRole)">
                   登录
                 </iButton>
@@ -260,19 +259,13 @@
               info: res.data
             });
             self.rememberAccountFunc();
-            self.$Message.success({
-              top: 50,
-              content: '登录成功',
-              duration: 1,
-              onClose: function () {
-                self.$router.push({name: 'Home'});
-              }
-            });
+            self.$Message.success({top: 50, content: '登录成功', duration: 1,});
+            self.$router.push({name: 'Home'});
+            self.btnState.normalLoginBtn = false;
           } else {
             self.instance('error', '', res.msg);
             self.getVrcode();
           }
-          self.btnState.normalLoginBtn = false;
         })
       },
       rememberAccountFunc() {
@@ -310,14 +303,9 @@
                 type: 'RECORD_USER_INFO',
                 info: res.data
               });
-              self.$Message.success({
-                top: 50,
-                content: '登录成功',
-                duration: 1,
-                onClose: function () {
-                  self.$router.push({name: 'Home'});
-                }
-              });
+              self.$Message.success({top: 50, content: '登录成功', duration: 1,});
+              self.$router.push({name: 'Home'});
+              self.btnState.trendsLoginBtn = false;
             } else if (res.statusCode === 'need_reg') {
               self.$router.push({
                 path: '/sel-role',
@@ -333,7 +321,6 @@
             this.instance('error', '', res.msg);
             self.getVrcode();
           }
-          self.btnState.trendsLoginBtn = false;
         })
       },
       sendCodeSuccess(res) {
