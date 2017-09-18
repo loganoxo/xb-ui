@@ -47,8 +47,8 @@ app.use(session({
 //用户权限拦截器
 app.use(function (req, res, next) {
   let ip = req.headers['x-forwarded-for'];
+  logConfig.logger.info('x-forwarded-for：' + ip);
   if(ip){
-    logConfig.logger.info('x-forwarded-for：' + ip);
     req.realIp = ip.split(',')[0];
   }
   let url = req.originalUrl;
