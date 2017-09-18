@@ -210,6 +210,7 @@
       if(searchKey){
         if(searchKey == 'all'){
           self.searchTaskParams.taskName = '';
+          self.itemCatalogs = [];
         }else {
           self.searchTaskParams.taskName = searchKey;
         }
@@ -313,6 +314,7 @@
         if(searchKey){
           if(searchKey == 'all'){
             self.searchTaskParams.taskName = '';
+            self.itemCatalogs = [];
           }else {
             self.searchTaskParams.taskName = searchKey;
           }
