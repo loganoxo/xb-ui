@@ -17,8 +17,8 @@
             <ul class="ww-account-ctt" v-for="(ww, index) in wwBindLists">
               <li>
                 <p>{{ww.alitmAccount}}</p>
-                <p v-if="ww.creditLevel"><img :src="ww.creditLevel" alt="" style="width: auto;height: auto;"></p>
-                <p v-if="ww.tqz">淘气值：{{ww.tqz}}</p>
+                <p v-if="ww.creditLevel"><img :src="taobaoLevelImgs[parseInt(ww.creditLevel) - 1]['text']" alt="" style="width: auto;height: auto;"></p>
+                <p v-if="ww.tqz">淘气值：{{taoqizhiList[parseInt(ww.tqz) - 1]['label']}}</p>
               </li>
               <li>{{ww.applyTime | dateFormat('YYYY-MM-DD hh:mm:ss')}}</li>
               <li><img :src="ww.picUrl" alt="" style="width: 50px; padding: 10px;"></li>
@@ -450,6 +450,7 @@
         this.showWwBindBox = true;
         this.wwFormValidate.id = ww.id;
         this.wwFormValidate.alitmAccount = ww.alitmAccount;
+        debugger
         this.wwFormValidate.alitmLevel = this.taobaoLevelImgs[parseInt(ww.creditLevel) + 1].value;
         this.wwFormValidate.taoqizhi = ww.tqz;
         this.wwFormValidate.picUrl = [{
@@ -463,6 +464,7 @@
         }];
         this.remarks.text = ww.remarks;
         this.remarks.auditTime = ww.auditTime;
+        debugger
         this.modifyWw = true;
         this.$set(this.wwFormValidate);
       },
@@ -492,14 +494,6 @@
         let self = this;
         api.wwBindList().then((res) => {
           if (res.status) {
-            for(let i = 0, j = res.data.length; i < j; i++){
-              if(res.data[i].creditLevel){
-                res.data[i].creditLevel = self.taobaoLevelImgs[parseInt(res.data[i].creditLevel) - 1]['text'];
-              }
-              if(res.data[i].tqz){
-                res.data[i].tqz = self.taoqizhiList[parseInt(res.data[i].tqz) - 1]['label'];
-              }
-            }
             self.wwBindLists = res.data;
             if(res.statusCode == 'success_but_not_any_alitm'){
               self.showWwBindBox = true;
@@ -515,6 +509,7 @@
         let self = this;
         if(!(self.wwFormValidate.picUrl == '' || self.wwFormValidate.alitmLevelPicUrl == '')){
           self.btnState.wwBindBtn = true;
+          debugger;
           if(self.modifyWw){
             api.wwModify({
               alitmAccount: this.wwFormValidate.alitmAccount,
