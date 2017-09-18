@@ -28,7 +28,7 @@
                   <iInput placeholder="请输入手机号码" size="large" v-model="loginNormalCustom.phone"></iInput>
                 </Form-item>
                 <Form-item prop="passWord" style="margin-top: 10px;">
-                  <iInput type="password" placeholder="请输入密码" size="large" v-model="loginNormalCustom.passWord"></iInput>
+                  <iInput type="password" placeholder="请输入密码" size="large" v-model="loginNormalCustom.passWord" @on-keypress="pressEnterLoginNormal"></iInput>
                 </Form-item>
                 <div class="remember-box">
                   <Form-item class="left" >
@@ -61,7 +61,7 @@
                 </div>
                 <div class="pos-rel" @click="checkPhone">
                   <Form-item class="pt-10 clear" prop="smsCode">
-                    <iInput placeholder="动态码" size="large" v-model="loginTrendsCustom.smsCode"></iInput>
+                    <iInput placeholder="动态码" size="large" v-model="loginTrendsCustom.smsCode"  @on-keypress="pressEnterLoginTrends"></iInput>
                   </Form-item>
                   <SmsCountdown :on-success="sendCodeSuccess"
                                 :phone="loginTrendsCustom.phone"
@@ -83,7 +83,7 @@
                 </iButton>
               </iForm>
               <p class="fs-14 login-rt-ctt-btm">
-                <a class="left" href="">
+                <a class="left" href="" v-if="false">
                   <img class="left   mt-7 mr-5" src="~assets/img/common/qq_logo.png" alt="">
                   QQ账号登录
                 </a>
@@ -230,6 +230,16 @@
     methods: {
       getVrcode() {
         this.imgSrc = "/api/vrcode.json?rand=" + new Date() / 100
+      },
+      pressEnterLoginNormal(event){
+        if (event.keyCode === 13){
+          this.handleSubmit('loginNormalCustom',this.setUserInfo)
+        }
+      },
+      pressEnterLoginTrends(event){
+        if (event.keyCode === 13){
+          this.handleSubmit('loginTrendsCustom',this.checkRole)
+        }
       },
       handleSubmit(name, callback) {
         let res = false;

@@ -10,14 +10,14 @@
             审核不通过： {{verified.assessReason}},请重新提交！({{verified.auditTime |  dateFormat('YYYY-MM-DD hh:mm:ss')}})
           </Alert>
           <div class="verified-form">
-            <iForm ref="verifiedValidate" :model="verifiedValidate" :rules="verifiedRuleCustom" label-position="right" :label-width="120">
+            <iForm ref="verifiedValidate" :model="verifiedValidate" :rules="verifiedRuleCustom" label-position="right" :label-width="130">
               <Form-item label="真实姓名" prop="realname">
                 <iInput v-model="verifiedValidate.realname"></iInput>
               </Form-item>
               <Form-item label="身份证号"  class="ww-info-img" prop="idcard">
                 <iInput v-model="verifiedValidate.idcard"></iInput>
               </Form-item>
-              <Form-item label="手持身份证正面面照"  class="ww-info-img" >
+              <Form-item label="手持身份证正面面照" prop="frontagePic"  class="ww-info-img" >
                 <Upload
                   ref="upload"
                   :show-upload-list="false"
@@ -36,7 +36,7 @@
                   </div>
                 </Upload>
               </Form-item>
-              <Form-item label="手持身份证反面照"  class="ww-info-img">
+              <Form-item label="手持身份证反面照"  prop="reverseSidePic" class="ww-info-img">
                 <Upload
                   ref="upload2"
                   name="reversePicUrl"
@@ -210,10 +210,16 @@
         },
         verifiedRuleCustom: {
           realname: [
-            {validator: validateName, trigger: 'blur'},
+            {required: true,validator: validateName, trigger: 'blur'},
           ],
           idcard: [
-            {validator: validateNameNum, trigger: 'blur'}
+            {required: true,validator: validateNameNum, trigger: 'blur'}
+          ],
+          frontagePic: [
+            {required: true,validator: validateNameNum, trigger: 'blur'}
+          ],
+          reverseSidePic: [
+            {required: true,validator: validateNameNum, trigger: 'blur'}
           ],
         },
       }

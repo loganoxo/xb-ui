@@ -516,6 +516,7 @@
           _this.beginTime = null;
           _this.endTime = null;
           _this.isChange = true;
+          _this.transactType= [];
           _this.getTradListAll();
         }
       },

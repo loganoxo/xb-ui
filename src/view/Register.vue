@@ -68,8 +68,8 @@
               </div>
 
               <Form-item prop="agreeStrip">
-                <Checkbox-group>
-                  <Checkbox label="我已仔细阅读并同意接受" v-model="formCustom.agreeStrip"></Checkbox>
+                <Checkbox-group v-model="checked">
+                  <Checkbox label="agree" v-model="formCustom.agreeStrip">我已仔细阅读并同意接受</Checkbox>
                   <a class="fs-12" @click="agreementShow = true">《用户使用协议》</a>
                 </Checkbox-group>
               </Form-item>
@@ -547,8 +547,9 @@
           smsCode: '',
           role: '',
           purpose: 'reg',
-          agreeStrip: false,
+          agreeStrip: true,
         },
+        checked:['agree'],
         ruleCustom: {
           phone: [
             {validator: validatePhone, trigger: 'blur'}
