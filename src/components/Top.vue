@@ -39,9 +39,9 @@
     </div>
     <div class="home-nav">
       <div class="container">
-        <router-link to="/">首页</router-link>
-        <router-link :to="{ 'path': '/task-category/all', 'query': {'searchKey': 'all'}}">全部活动</router-link>
-        <router-link v-for="nav in navList" :key="nav.id" :to="{ 'path': '/task-category/' + nav.id, 'query': {'cate': nav.id}}">{{nav.name}}</router-link>
+        <a :class="[$store.state.TaskCategoryActive.info == 'home' ? 'active' : '']" @click="selTaskCategoryHome()">首页</a>
+        <a :class="[$store.state.TaskCategoryActive.info == 'all' ? 'active' : '']" @click="selTaskCategoryAllFunc">全部活动</a>
+        <a :class="[$store.state.TaskCategoryActive.info == nav.id ? 'active' : '']" @click="selTaskCategoryActiveFunc(nav)" v-for="nav in navList" >{{nav.name}}</a>
       </div>
     </div>
   </div>
@@ -67,6 +67,26 @@
      this.getNavList();
     },
     methods: {
+      selTaskCategoryHome(){
+        let self = this;
+        self.$store.commit({
+          type: 'TASK_CATEGORY_LIST',
+          info: 'home'
+        });
+        self.$router.push({ 'path': '/'});
+      },
+      selTaskCategoryAllFunc(){
+        let self = this;
+        self.$store.commit({
+          type: 'TASK_CATEGORY_LIST',
+          info: 'all'
+        });
+        self.$router.push({ 'path': '/task-category', 'query': {'searchKey': 'all'}});
+      },
+      selTaskCategoryActiveFunc(nav){
+        let self = this;
+        self.$router.push({ 'path': '/task-category', 'query': {'cate': nav.id}});
+      },
       getNavList(){
         let self = this;
         api.getNavList().then((res) =>{
@@ -88,10 +108,13 @@
           this.goTaskCategory()
         }
       },
+      setTaskCategoryList(){
+
+      },
       goTaskCategory(){
         let self = this;
         if(self.searchKey){
-          self.$router.push({ path: '/task-category/all', query: { searchKey: self.searchKey }})
+          self.$router.push({ path: '/task-category', query: { searchKey: self.searchKey }})
         }else {
           self.$Message.info('搜索词不能为空');
         }
@@ -198,7 +221,9 @@
         height: 42px;
         line-height: 42px;
         color: #fff;
-
+      }
+      a.active{
+        background-color: #ff3300;
       }
     }
   }

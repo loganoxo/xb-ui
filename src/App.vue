@@ -39,6 +39,18 @@
         });
       }
     },
+    watch: {
+      '$route' (to, from) {
+        let self = this;
+        //刷新参数放到这里里面去触发就可以刷新相同界面了
+        if(!(self.$route.name == 'TaskCategory' || self.$route.name == 'TaskDetails' ||  self.$route.name == 'Home' )){
+          self.$store.commit({
+            type: 'TASK_CATEGORY_LIST',
+            info: ''
+          });
+        };
+      }
+    }
   }
 </script>
 

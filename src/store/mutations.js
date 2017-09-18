@@ -51,4 +51,9 @@ export default {
   [types.RECORD_SEVER_TIME](state, {balance}) {
     state.userBalance = balance / 100;
   },
+
+  //导航列表存入
+  [types.TASK_CATEGORY_LIST](state,info){
+    state.TaskCategoryActive = info;
+  }
 }

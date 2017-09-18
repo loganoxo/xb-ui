@@ -147,6 +147,9 @@
                 </p>
               </div>
             </router-link>
+            <p class="text-ct">
+              <router-link class="ivu-btn" :to="{ 'path': '/task-category/all', 'query': {'searchKey': 'all'}}">查看全部活动</router-link>
+            </p>
           </div>
         </div>
       </div>
@@ -288,6 +291,10 @@
       this.getHomeTaskList();
       this.getHomeTaskTopLeftList();
       this.personalTrialCount();
+      this.$store.commit({
+        type: 'TASK_CATEGORY_LIST',
+        info: 'home'
+      });
     },
     computed: {
       isLogin() {

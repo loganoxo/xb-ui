@@ -14,7 +14,7 @@
       <div class="container" >
         <div v-show="$route.query.cate"  class="task-category-sel">
           {{parentItemCatalog.name}}：
-          <router-link :class="[taskCategoryAll ? 'active' : '' ]" :to="{ 'path': '/task-category' + parentItemCatalog.id , 'query': {'cate': parentItemCatalog.id}}" >全部</router-link>
+          <router-link :class="[taskCategoryAll ? 'active' : '' ]" :to="{ 'path': '/task-category', 'query': {'cate': parentItemCatalog.id}}" >全部</router-link>
           <router-link :class="[category.id == $route.query.cate ? 'active' : 'default']"  v-for="category in categoryList" :key="category.id" :to="{ 'path': '/task-category', 'query': {'cate': category.id}}"  >
             {{category.name}}
           </router-link>
@@ -277,6 +277,10 @@
             self.categoryList = res.data;
             self.parentItemCatalog.name =  res.data[0].parentItemCatalog.name;
             self.parentItemCatalog.id =  res.data[0].parentItemCatalog.id;
+            self.$store.commit({
+              type: 'TASK_CATEGORY_LIST',
+              info: res.data[0].parentItemCatalog.id,
+            });
             for(let i = 0; i < self.categoryList.length; i++){
               itemCatalogs.push(self.categoryList[i].id);
               if(cate == self.categoryList[i].id){

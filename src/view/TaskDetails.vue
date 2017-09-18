@@ -98,10 +98,10 @@
               <div class="fs-18 text-ct" v-else >
                 <Icon type="information-circled" color="#FF6633" size="30" style="vertical-align: sub;"></Icon> 获得资格后才能看到活动品信息哦~
                 <div v-if="getRole === 0 && isLogin" style="display: inline-block">
-                  <iButton v-show="!commodityData.taskApply" :disabled="taskApplyLoading"  style="width: 100px;" size="large" class="fs-16 default-btn ivu-btn-small"  type="error" @click="applyForTrialFunc">马上申请</iButton>
+                  <iButton v-show="!commodityData.taskApply" :disabled="taskApplyLoading"  style="width: 100px;" size="large" class="fs-16 default-btn ivu-btn-small"  type="error" @click="applyForTrialFunc">申请活动</iButton>
                 </div>
                 <a v-if="!isLogin && getRole === 0 "  class="ivu-btn ivu-btn-error ivu-btn-small" @click="selectLogin = true" style="width: 100px;">
-                  马上申请
+                  申请活动
                 </a>
               </div>
 
@@ -421,6 +421,10 @@
         api.getTaskDetails({taskId: self.$route.query.taskId}).then((res) => {
           if(res.status){
             self.commodityData = res.data;
+            self.$store.commit({
+              type: 'TASK_CATEGORY_LIST',
+              info: self.commodityData.task.itemCatalog.parentItemCatalog.id
+            });
             parseInt(res.data.trailDone) ? self.graphicInfoSels[1].num = res.data.trailDone : self.graphicInfoSels[1].num = 0;
             if(parseInt(res.data.task.showkerApplySuccessCount) || parseInt(res.data.trialEnd)){
               self.graphicInfoSels[2].num = parseInt(res.data.task.showkerApplySuccessCount) + parseInt(res.data.trialEnd)
