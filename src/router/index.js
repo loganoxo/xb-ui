@@ -98,7 +98,7 @@ export default new Router({
       ]
     },
     {
-      path: '/task-category',
+      path: '/task-category/:id',
       name: 'TaskCategory',
       component: TaskCategory,
       meta: {

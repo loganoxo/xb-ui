@@ -4,25 +4,63 @@
 
       <p v-show="isLogin" class="left">
         你好，<span class="user-name">
-        <router-link to="/user/user-home">{{getUserInfo.phone}} </router-link>
+        <router-link to="/user/user-home">
+          <span v-if="getUserInfo.role == 1"> 商家 </span>
+          <span v-if="getUserInfo.role == 0"> 秀客 </span>
+          {{getUserInfo.phone}}
+        </router-link>
         </span>
         <span @click="goOut">[ 退出登录 ]</span>
+        <a href="" class="ml-10 qq-tip">
+          <img src="~assets/img/common/qq.png" alt="" >
+          加入QQ交流群：<span>478732305</span>
+        </a>
       </p>
       <p v-show="!isLogin" class="left">
         你好，欢迎来到秀吧！
         <span class="user-name">
-          <router-link to="/login">登录</router-link>
+          <router-link to="/login">登录秀吧</router-link>
         </span>
+        <span class="user-name">
+          <router-link to="/sel-role">免费注册</router-link>
+        </span>
+        <a href="" class="ml-10 qq-tip">
+          <img src="~assets/img/common/qq.png" alt="" >
+          加入QQ交流群：<span>478732305</span>
+        </a>
       </p>
       <p class="right">
-        <a>帮助中心</a>|
-        <a>联系客服</a>
+        <router-link to="/">
+          <i data-v-38a9a25e="" class="ivu-icon ivu-icon-home vtc-text-btm fs-16"></i>
+          秀吧首页
+        </router-link>
+        <router-link to="/user/user-home">
+          <i data-v-38a9a25e="" class="ivu-icon ivu-icon-person vtc-text-btm fs-16"></i>
+          个人中心
+        </router-link>
+        <router-link to=“”>
+          <i data-v-38a9a25e="" class="ivu-icon ivu-icon-help-buoy vtc-text-btm fs-16"></i>
+          帮助中心
+        </router-link>
+        <a>
+          <i data-v-38a9a25e="" class="ivu-icon ivu-icon-person-stalker vtc-text-btm fs-16"></i>
+          联系客服
+        </a>
+        <a>
+          <Tooltip content="按Ctrl + D 收藏本站" placement="bottom-end">
+            <i data-v-38a9a25e="" class="ivu-icon ivu-icon-star vtc-text-btm fs-16"></i>
+            收藏本站
+         </Tooltip>
+        </a>
+
       </p>
     </div>
   </div>
 </template>
 
 <script>
+  import Icon from 'iview/src/components/icon'
+  import Tooltip from 'iview/src/components/tooltip'
   import api from '@/config/apiConfig'
   import {setStorage, getStorage, removeStorage} from '../config/utils'
   import {mapActions} from 'vuex'
@@ -33,6 +71,10 @@
       this.$store.commit({
         type: 'CHANGE_TOP_SHOW'
       })
+    },
+    components: {
+      Icon: Icon,
+      Tooltip: Tooltip,
     },
     computed: {
       isLogin() {
@@ -78,6 +120,13 @@
       span.user-name {
         color: $mainColor;
         padding-right: 5px;
+      }
+      a.qq-tip{
+        color: $mainColor;
+        img{
+          vertical-align: sub;
+          width: 18px;
+        }
       }
       p.left {
         span {

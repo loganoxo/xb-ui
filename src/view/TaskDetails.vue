@@ -36,7 +36,7 @@
               <time-down color="#495060" size="20" :endTime="commodityData.task.endTime" ></time-down>&nbsp;
               <!--<span class="fs-24">17</span> 天 <span class="fs-24">02</span> 小时 <span class="fs-24">56</span> 分钟 <span class="fs-24">31</span> 秒-->
             </p>
-            <div v-if="getRole === 0">
+            <div v-if="getRole === 0 && isLogin">
               <iButton v-show="!commodityData.taskApply" :disabled="taskApplyLoading"  size="large" class="fs-16 default-btn" long type="error" @click="applyForTrialFunc">申请活动</iButton>
               <iButton v-show="commodityData.taskApply" disabled size="large" class="fs-16 default-btn" long >已申请</iButton>
             </div>
@@ -97,7 +97,14 @@
               </div>
               <div class="fs-18 text-ct" v-else >
                 <Icon type="information-circled" color="#FF6633" size="30" style="vertical-align: sub;"></Icon> 获得资格后才能看到活动品信息哦~
+                <div v-if="getRole === 0 && isLogin" style="display: inline-block">
+                  <iButton v-show="!commodityData.taskApply" :disabled="taskApplyLoading"  style="width: 100px;" size="large" class="fs-16 default-btn ivu-btn-small"  type="error" @click="applyForTrialFunc">马上申请</iButton>
+                </div>
+                <a v-if="!isLogin && getRole === 0 "  class="ivu-btn ivu-btn-error ivu-btn-small" @click="selectLogin = true" style="width: 100px;">
+                  马上申请
+                </a>
               </div>
+
             </div>
             <div v-show="graphicInfoSelClass == 'report'" class="graphic-info-report">
               <ul v-if="detailsShowkerList.length > 0">

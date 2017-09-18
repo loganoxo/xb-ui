@@ -72,7 +72,7 @@
               <div>
                 <img class="left ml-20" src="~assets/img/common/home_24.png" alt="">
                 <div class="left fs-14 ml-20" style="margin-left: 10px;line-height: 28px;">
-                  <p>Hi~{{getUserInfoPhone}}</p>
+                  <p>Hi~ 秀客 {{getUserInfoPhone}}</p>
                   <router-link to="/user/user-home">个人中心</router-link>
                   <a @click="goOut">[ 退出登录 ]</a>
                 </div>
@@ -93,7 +93,7 @@
               <div>
                 <img class="left ml-20" src="~assets/img/common/home_24.png" alt="">
                 <div class="left fs-14 ml-20" style="margin-left: 10px;line-height: 28px;">
-                  <p>Hi~{{getUserInfoPhone}}</p>
+                  <p>Hi~ 商家 {{getUserInfoPhone}}</p>
                   <router-link to="/user/user-home">个人中心</router-link>
                   <a @click="goOut">[ 退出登录 ]</a>
                 </div>
