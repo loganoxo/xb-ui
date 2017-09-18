@@ -211,6 +211,10 @@
         if(searchKey == 'all'){
           self.searchTaskParams.taskName = '';
           self.itemCatalogs = [];
+          self.$store.commit({
+            type: 'TASK_CATEGORY_LIST',
+            info: 'all'
+          });
         }else {
           self.searchTaskParams.taskName = searchKey;
         }
@@ -319,6 +323,10 @@
           if(searchKey == 'all'){
             self.searchTaskParams.taskName = '';
             self.itemCatalogs = [];
+            self.$store.commit({
+              type: 'TASK_CATEGORY_LIST',
+              info: 'all'
+            });
           }else {
             self.searchTaskParams.taskName = searchKey;
           }
