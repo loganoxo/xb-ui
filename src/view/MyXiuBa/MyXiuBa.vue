@@ -15,10 +15,10 @@
           <Icon type="clipboard"></Icon>
           <router-link to="/user/activity-management/list">活动管理</router-link>
         </li>
-        <li :class="{isSelect:isSelect === 'ActivitiesList' || isSelect === 'ApproveShowker' || isSelect === 'ActivityDetail' || isSelect === 'ActivityLog'}">
+       <!-- <li :class="{isSelect:isSelect === 'ActivitiesList' || isSelect === 'ApproveShowker' || isSelect === 'ActivityDetail' || isSelect === 'ActivityLog'}">
           <Icon type="ios-paper"></Icon>
           <router-link to="/user/activity-management/list">任务管理</router-link>
-        </li>
+        </li>-->
         <li :class="{isSelect:isSelect ==='AccountInfo' || isSelect === 'PayMoney' || isSelect === 'GetoutMoney' || isSelect === 'AccountManagement'}">
           <Icon type="social-yen"></Icon>
           <router-link to="/user/money-management/account-info">资金管理</router-link>
