@@ -52,7 +52,7 @@ export default new Router({
       name: 'Home',
       component: Home,
       meta: {
-        title: "首页-秀吧365  提权重促转化",
+        title: "秀吧-提权重促转化",
         logInAuthority: false,
       }
     },

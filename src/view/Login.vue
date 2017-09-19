@@ -263,7 +263,10 @@
             self.$Message.success({top: 50, content: '登录成功', duration: 1,});
             self.$router.push({name: 'Home'});
           } else {
-            self.instance('error', '', res.msg);
+            this.$Message.error({
+              content: res.msg,
+              duration: 9,
+            });
             self.getVrcode();
           }
         })

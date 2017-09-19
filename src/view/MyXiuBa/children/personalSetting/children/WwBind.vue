@@ -26,7 +26,6 @@
                 <span v-show="ww.status == 1" >审核中</span>
                 <span v-show="ww.status == 2" >启用中</span>
                 <span v-show="ww.status == 3" >审核不通过</span>
-
               </li>
               <li>
                 <a v-show="ww.status == 2" @click="deleteWwBindFunc(ww,index)">解绑</a>
@@ -71,7 +70,7 @@
                 </Upload>
               </Form-item>
               <Form-item>
-                截图位置：我的淘宝->评价管理
+                截图位置：打开淘宝首页并登录后，点击顶部“我的淘宝”，然后在左侧菜单列表中点击“评价管理”，即可查看当前旺旺信用等级
               </Form-item>
               <!--<Form-item label="账号信息截图："  prop="picUrl" class="ww-info-img">
                 <Upload
@@ -122,7 +121,7 @@
                 </Upload>
               </Form-item>
               <Form-item>
-                截图位置：打开淘宝首页，将鼠标移至左上角自己的淘宝账户，即可看到自己的淘气值；
+                截图位置：打开淘宝首页，将鼠标移至左上角自己的淘宝账户，即可看到自己的淘气值
               </Form-item>
               <Form-item>
                   <iButton  :class="[btnState.wwBindBtn ? '': 'ww-bind-btn']"  :disabled="btnState.wwBindBtn"
@@ -149,7 +148,10 @@
             <p>
 
             </p>
-            <p class="mt-46">
+            <p>
+
+            </p>
+            <p style="margin-top: 52px;">
               <a @click="changeDemoPicFunc(demoUrl.taoqi)">[查看示例截图]</a>
             </p>
           </div>

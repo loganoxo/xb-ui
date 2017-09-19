@@ -6,12 +6,12 @@
     </div>
     <div class="detail-and-log-list mt-20">
       <div class="detail-and-log-list-title">
-        <router-link to="/user/activity-management/detail-log/detail" tag="span"
-                     :class="{isSelect:showStatus === 'ActivityDetail'}">活动详情
+        <router-link to="/user/activity-management/detail-log/detail" tag="span":class="{isSelect:showStatus === 'ActivityDetail'}">
+          活动详情
         </router-link>
-       <!-- <router-link to="/user/activity-management/detail-log/log" tag="span"
-                     :class="{isSelect:showStatus === 'ActivityLog'}">活动日志
-        </router-link>-->
+        <router-link to="/user/activity-management/detail-log/log" tag="span":class="{isSelect:showStatus === 'ActivityLog'}">
+          活动日志
+        </router-link>
       </div>
     </div>
     <router-view></router-view>
@@ -21,6 +21,7 @@
 <script>
   export default {
     name: 'DetailAndLog',
+
     data() {
       return {
         showStatus: 'ActivityDetail'
