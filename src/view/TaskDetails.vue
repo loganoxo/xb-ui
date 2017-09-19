@@ -92,7 +92,7 @@
           </div>
           <div class="graphic-info-ctt">
             <div v-show="graphicInfoSelClass == 'activity'" class="graphic-info-details" >
-              <div v-if="!commodityData.cannotShowItemDescriptionOfQualification"  v-html="commodityData.task.itemDescription">
+              <div class="text-ct" v-if="!commodityData.cannotShowItemDescriptionOfQualification"  v-html="commodityData.task.itemDescription">
 
               </div>
               <div class="fs-18 text-ct" v-else >
@@ -428,7 +428,8 @@
             });
             parseInt(res.data.trailDone) ? self.graphicInfoSels[1].num = res.data.trailDone : self.graphicInfoSels[1].num = 0;
             if(parseInt(res.data.task.showkerApplySuccessCount) || parseInt(res.data.trialEnd)){
-              self.graphicInfoSels[2].num = parseInt(res.data.task.showkerApplySuccessCount) + parseInt(res.data.trialEnd)
+                debugger
+              self.graphicInfoSels[2].num = parseInt(res.data.task.showkerApplySuccessCount) + parseInt(res.data.trailEnd)
             }else{
               self.graphicInfoSels[2].num = 0;
             }
