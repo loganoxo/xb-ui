@@ -17,7 +17,7 @@
               <Form-item label="身份证号"  class="ww-info-img" prop="idcard">
                 <iInput v-model="verifiedValidate.idcard"></iInput>
               </Form-item>
-              <Form-item label="手持身份证正面面照"   class="ww-info-img" >
+              <Form-item label="手持身份证正面面照" prop="frontagePic"  class="ww-info-img" >
                 <Upload
                   ref="upload"
                   :show-upload-list="false"
@@ -36,7 +36,7 @@
                   </div>
                 </Upload>
               </Form-item>
-              <Form-item label="手持身份证反面照"  class="ww-info-img">
+              <Form-item label="手持身份证反面照" prop="reverseSidePic" class="ww-info-img">
                 <Upload
                   ref="upload2"
                   name="reversePicUrl"
@@ -166,6 +166,13 @@
           callback()
         }
       };
+      const wwRequired = (rule, value, callback) => {
+        if (value === '') {
+          callback(new Error('不能为空'));
+        }  else {
+          callback()
+        }
+      };
       const validateNameNum = (rule, value, callback) => {
         if (value === '') {
           callback(new Error('请填写身份证号'));
@@ -216,10 +223,10 @@
             {required: true,validator: validateNameNum, trigger: 'blur'}
           ],
           frontagePic: [
-            {required: true, trigger: 'blur'}
+            {required: true, validator: wwRequired, trigger: 'blur'}
           ],
           reverseSidePic: [
-            {required: true, trigger: 'blur'}
+            {required: true, validator: wwRequired, trigger: 'blur'}
           ],
         },
       }
