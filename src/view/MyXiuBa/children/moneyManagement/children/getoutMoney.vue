@@ -79,7 +79,7 @@
         <div class="get-out-do mt-22">
           <iForm :model="getoutMoney" :label-width="200" :rules="getOutMoneyRule">
             <Form-item label="请输入提现金额:" prop="getoutNumber">
-              <iInput v-model="getoutMoney.getoutNumber" class="iInput"></iInput>
+              <iInput v-model="getoutMoney.getoutNumber" class="iInput" autocomplete="false"></iInput>
               <span>元（最低1元起提）</span>
             </Form-item>
             <Form-item label="提现银行卡号:">
@@ -87,8 +87,9 @@
               class=" main-color cursor-p" @click="getBankCardInformationApi">修改银行卡</span>
             </Form-item>
             <Form-item label="支付密码:" prop="password">
+              <input type="password" style="width: 0;height: 0;border: none"/>
               <iInput v-model="getoutMoney.password" class="iInput" :type="psw" :icon="eye"
-                      @on-click="seyPassword"></iInput>
+                      @on-click="seyPassword" autocomplete="false"></iInput>
               <span v-show="getIfEditPwdAlready === false">初始密码为888888，为了你的账号安全，建议您
                 <router-link :to="{'path':'/user/money-management/account-management','query':{'type':'resetPwd'}}">重置支付密码。</router-link>
               </span>
