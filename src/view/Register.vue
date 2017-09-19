@@ -18,12 +18,12 @@
       <div class="container">
         <div class="register-form-box">
           <div class="register-form-sel">
-            <a :class="[selLogin.buyer ? 'buyActive' : '']" @click="selLoginFunc">
+            <a :class="[selLogin.buyer ? 'buyActive' : '']" @click="selLoginFunc(0)">
               <img v-show="selLogin.buyer" src="~assets/img/register/register_01.png" alt="">
               <img v-show="!selLogin.buyer" src="~assets/img/register/register_03.png" alt="">
               秀客注册
             </a>
-            <a :class="[selLogin.seller ? 'sellerActive' : '']" @click="selLoginFunc">
+            <a :class="[selLogin.seller ? 'sellerActive' : '']" @click="selLoginFunc(1)">
               <img v-show="selLogin.seller" src="~assets/img/register/register_04.png" alt="">
               <img v-show="!selLogin.seller" src="~assets/img/register/register_02.png" alt="">
               商家注册
@@ -74,11 +74,14 @@
                 </Checkbox-group>
               </Form-item>
               <div>
-                <Form-item>
-                  <iButton v-show="selLogin.buyer" :class="[btnState.registerBuyerBtn ? '' : 'register-buyer-btn']"
+                <Form-item v-show="selLogin.buyer">
+                  <iButton  :class="[btnState.registerBuyerBtn ? '' : 'register-buyer-btn']"
                            @click="handleSubmit('formCustom',registerBuyer)" :disabled="btnState.registerBuyerBtn" >立即注册
                   </iButton>
-                  <iButton v-show="selLogin.seller" :class="[btnState.registerSellerBtn ? '' : 'register-seller-btn']"
+                  <iButton type="ghost" @click="handleReset('formCustom')" style="margin-left: 8px">重置</iButton>
+                </Form-item>
+                <Form-item v-show="selLogin.seller">
+                  <iButton  :class="[btnState.registerSellerBtn ? '' : 'register-seller-btn']"
                            @click="handleSubmit('formCustom',registerSeller)">立即注册
                   </iButton>
                   <iButton type="ghost" @click="handleReset('formCustom')" style="margin-left: 8px">重置</iButton>
@@ -584,9 +587,14 @@
       getRegVrcode() {
         this.regImgSrc = "/api/vrcode.json?rand=" + new Date() / 100
       },
-      selLoginFunc() {
-        this.selLogin.buyer = !this.selLogin.buyer;
-        this.selLogin.seller = !this.selLogin.seller
+      selLoginFunc(num) {
+        if(num == 0){
+          this.selLogin.buyer = true;
+          this.selLogin.seller = false
+        }else {
+          this.selLogin.seller = true;
+          this.selLogin.buyer = false;
+        }
       },
       showFormWarn(res) {
         res = true;

@@ -9,7 +9,7 @@
           <ul class="ww-account-title">
             <li>已绑定旺旺号</li>
             <li>绑定时间</li>
-            <li>个人信息截图</li>
+            <li>信用等级截图</li>
             <li>绑定状态</li>
             <li>操作</li>
           </ul>
@@ -21,7 +21,7 @@
                 <p v-if="ww.tqz">淘气值：{{taoqizhiList[parseInt(ww.tqz) - 1]['label']}}</p>
               </li>
               <li>{{ww.applyTime | dateFormat('YYYY-MM-DD hh:mm:ss')}}</li>
-              <li><img :src="ww.picUrl" alt="" style="width: 50px; padding: 10px;"></li>
+              <li><img :src="ww.wwCreditLevelPicUrl" alt="" style="width: 50px; padding: 10px;"></li>
               <li>
                 <span v-show="ww.status == 1" >审核中</span>
                 <span v-show="ww.status == 2" >启用中</span>
@@ -73,7 +73,7 @@
               <Form-item>
                 截图位置：我的淘宝->评价管理
               </Form-item>
-              <Form-item label="账号信息截图："  prop="picUrl" class="ww-info-img">
+              <!--<Form-item label="账号信息截图："  prop="picUrl" class="ww-info-img">
                 <Upload
                   ref="upload"
                   :show-upload-list="false"
@@ -94,7 +94,7 @@
               </Form-item>
               <Form-item>
                 截图位置：我的淘宝->账户设置->安全设置
-              </Form-item>
+              </Form-item>-->
               <Form-item label="淘气值：" prop="taoqizhi">
                 <iSelect v-model="wwFormValidate.taoqizhi">
                   <iOption v-for="taoqizhi in taoqizhiList" :label='taoqizhi.label' :value="taoqizhi.value" :key="taoqizhi.value">
@@ -122,7 +122,7 @@
                 </Upload>
               </Form-item>
               <Form-item>
-                截图位置：手机App->我的淘宝
+                截图位置：打开淘宝首页，将鼠标移至左上角自己的淘宝账户，即可看到自己的淘气值；
               </Form-item>
               <Form-item>
                   <iButton  :class="[btnState.wwBindBtn ? '': 'ww-bind-btn']"  :disabled="btnState.wwBindBtn"
@@ -149,16 +149,7 @@
             <p>
 
             </p>
-            <p class="mt-50">
-              <a @click="changeDemoPicFunc(demoUrl.wwAccountInfo)">[查看示例截图]</a>
-            </p>
-            <p>
-
-            </p>
-            <p>
-
-            </p>
-            <p class="mt-40">
+            <p class="mt-46">
               <a @click="changeDemoPicFunc(demoUrl.taoqi)">[查看示例截图]</a>
             </p>
           </div>
@@ -234,6 +225,13 @@
         } else if(value.length > 50){
           callback(new Error('旺旺ID过长'))
         } else {
+          callback()
+        }
+      };
+      const wwRequired = (rule, value, callback) => {
+        if (value === '') {
+          callback(new Error('不能为空'));
+        }  else {
           callback()
         }
       };
@@ -358,7 +356,7 @@
         demoUrl: {
             wwAccount: '/static/img/demo/ww-bind/taobao-account-demo.jpg',
             wwAccountInfo: '/static/img/demo/ww-bind/taobao-account-info.png',
-            taoqi: '/static/img/demo/ww-bind/taoqi_demo.jpg',
+            taoqi: '/static/img/demo/ww-bind/taoqi_demo.png',
             wwLevel: '/static/img/demo/ww-bind/ww_level_demo.png'
         },
         btnState: {
@@ -372,7 +370,7 @@
           alitmAccount: '',
           alitmLevel: '',
           taoqizhi: '',
-          picUrl: [],
+//          picUrl: [],
           alitmLevelPicUrl: [],
           taoqizhiPicUrl: [],
         },
@@ -381,25 +379,26 @@
             { required: true, validator: wwName, trigger: 'blur'},
           ],
           alitmLevel: [
-            { required: true, validator: wwName, trigger: 'blur'},
+            { required: true, validator: wwRequired, trigger: 'change'},
           ],
           alitmLevelPicUrl: [
+            { required: true, validator: wwRequired, trigger: 'blur'},
+          ],
+          taoqizhi: [
+            { required: true, validator: wwRequired, trigger: 'change'},
+          ],
+          taoqizhiPicUrl: [
             { required: true, validator: wwName, trigger: 'blur'},
           ],
-          picUrl: [
-            { required: true, validator: wwName, trigger: 'blur'},
-          ],
+//          picUrl: [
+//            { required: true, validator: wwName, trigger: 'blur'},
+//          ],
         },
         remarks: {
           text: '',
           auditTime: '',
         },
-        imgDemoUrl:{
-          taobaoAccountDemo: false,
-          taobaoAccountInfo: false,
-          picUrl: false,
-          reversePicUrl: false,
-        },
+
       }
     },
     mounted() {
@@ -452,9 +451,9 @@
         this.wwFormValidate.alitmAccount = ww.alitmAccount;
         this.wwFormValidate.alitmLevel = this.taobaoLevelImgs[parseInt(ww.creditLevel) + 1].value;
         this.wwFormValidate.taoqizhi = ww.tqz;
-        this.wwFormValidate.picUrl = [{
-          src: ww.wwInfoPic,
-        }];
+//        this.wwFormValidate.picUrl = [{
+//          src: ww.wwInfoPic,
+//        }];
         this.wwFormValidate.alitmLevelPicUrl = [{
           src: ww.wwCreditLevelPic,
         }];
@@ -473,7 +472,7 @@
           this.wwFormValidate.alitmAccount = '';
           this.wwFormValidate.alitmLevel = '';
           this.wwFormValidate.taoqizhi = '';
-          this.wwFormValidate.picUrl = [];
+//          this.wwFormValidate.picUrl = [];
           this.wwFormValidate.alitmLevelPicUrl = [];
           this.wwFormValidate.taoqizhiPicUrl = [];
           this.remarks.text = '';
@@ -506,12 +505,12 @@
       },
       wwBindFunc(){
         let self = this;
-        if(!(self.wwFormValidate.picUrl == '' || self.wwFormValidate.alitmLevelPicUrl == '')){
+        if(!(self.wwFormValidate.taoqizhiPicUrl == '' || self.wwFormValidate.alitmLevelPicUrl == '')){
           self.btnState.wwBindBtn = true;
           if(self.modifyWw){
             api.wwModify({
               alitmAccount: this.wwFormValidate.alitmAccount,
-              wwInfoPic: this.wwFormValidate.picUrl[0].src,
+//              wwInfoPic: this.wwFormValidate.picUrl[0].src,
               creditLevel: this.wwFormValidate.alitmLevel,
               tqz: this.wwFormValidate.taoqizhi,
               wwCreditLevelPicUrl: this.wwFormValidate.alitmLevelPicUrl[0].src,
@@ -541,7 +540,7 @@
           }else{
             api.wwBind({
               alitmAccount: this.wwFormValidate.alitmAccount,
-              wwInfoPic: this.wwFormValidate.picUrl[0].src,
+//              wwInfoPic: this.wwFormValidate.picUrl[0].src,
               creditLevel: this.wwFormValidate.alitmLevel,
               tqz: this.wwFormValidate.taoqizhi,
               wwCreditLevelPicUrl: this.wwFormValidate.alitmLevelPicUrl[0].src,
@@ -574,9 +573,9 @@
           });
         }
       },
-      removewwBindPicUrl(){
-        this.wwFormValidate.picUrl= [];
-      },
+//      removewwBindPicUrl(){
+//        this.wwFormValidate.picUrl= [];
+//      },
       removewwBindAlitmLevelPicUrl(){
         this.wwFormValidate.alitmLevelPicUrl = [];
       },
@@ -586,7 +585,6 @@
       clearWwInfo (){
         this.wwFormValidate.alitmAccount = '';
         let child = this.$refs;
-        child.upload.handleRemove();
         child.uploadAlitmLevelPicUrl.handleRemove();
         child.uploadTaoqizhiPicUrl.handleRemove();
       },
@@ -605,11 +603,11 @@
           callback();
         }
       },
-      handlewwBindPicUrlSuccess(res, file){
-        this.wwFormValidate.picUrl = [{
-          src: aliCallbackImgUrl + res.name
-        }];
-      },
+//      handlewwBindPicUrlSuccess(res, file){
+//        this.wwFormValidate.picUrl = [{
+//          src: aliCallbackImgUrl + res.name
+//        }];
+//      },
       handlewwBindtaoqizhiPicUrlSuccess(res, file){
         this.wwFormValidate.taoqizhiPicUrl = [{
           src: aliCallbackImgUrl + res.name

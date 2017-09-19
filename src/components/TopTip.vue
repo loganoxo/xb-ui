@@ -124,8 +124,8 @@
       a.qq-tip{
         color: $mainColor;
         img{
-          vertical-align: sub;
-          width: 18px;
+          vertical-align: text-bottom;
+          width: 16px;
         }
       }
       p.left {

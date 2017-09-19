@@ -4,7 +4,7 @@
       <!--商家管理导航-->
       <ul v-if="getUserInfoRole === 1">
         <li :class="{isSelect:isSelect ==='UserHome'}">
-          <Icon type="person-stalker"></Icon>
+          <Icon type="person"></Icon>
           <router-link to="/user/user-home">我的主页</router-link>
         </li>
         <li :class="{isSelect:isSelect ==='TaskReleaseProcess'}">
@@ -39,7 +39,7 @@
       <!--秀客管理导航-->
       <ul v-else-if="getUserInfoRole === 0">
         <li :class="{isSelect:isSelect ==='UserHome'}">
-          <Icon type="person-stalker"></Icon>
+          <Icon type="person"></Icon>
           <router-link to="/user/user-home">我的主页</router-link>
         </li>
         <li :class="{isSelect:isSelect === 'ApplyWaitAudit' || isSelect === 'ApplyPassAudit' || isSelect === 'ApplyFailAudit'}">

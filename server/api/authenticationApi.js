@@ -83,7 +83,7 @@ router.post('/api/alitm-bunding.json', function (req, res, next) {
       wwCreditLevelPicUrl: req.body.wwCreditLevelPicUrl,
       tqzPicUrl: req.body.tqzPicUrl,
       alitmAccount: req.body.alitmAccount,
-      wwInfoPic: req.body.wwInfoPic
+      // wwInfoPic: req.body.wwInfoPic
     },
     json: true
   };
@@ -156,7 +156,7 @@ router.post('/api/alitm/resubmit.json', function (req, res, next) {
       wwCreditLevelPicUrl: req.body.wwCreditLevelPicUrl,
       tqzPicUrl: req.body.tqzPicUrl,
       alitmAccount: req.body.alitmAccount,
-      wwInfoPic: req.body.wwInfoPic
+      // wwInfoPic: req.body.wwInfoPic
     }
   };
   request(options).then(function (parsedBody) {

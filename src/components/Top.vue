@@ -134,13 +134,13 @@
     > div {
       background-color: #fff;
       div.search-box {
-        margin-left: 75px;
+        margin-left: 50px;
         margin-top: 60px;
         > a {
           display: inline-block;
           background-color: $mainColor;
           color: #fff;
-          width: 122px;
+          width: 100px;
           height: 40px;
           line-height: 40px;
           text-align: center;
@@ -201,7 +201,7 @@
           border: 3px solid $mainColor;
           height: 40px;
           outline: none;
-          width: 504px;
+          width: 400px;
         }
       }
 

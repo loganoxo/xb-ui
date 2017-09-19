@@ -40,7 +40,7 @@
               <iButton v-show="!commodityData.taskApply" :disabled="taskApplyLoading"  size="large" class="fs-16 default-btn" long type="error" @click="applyForTrialFunc">申请活动</iButton>
               <iButton v-show="commodityData.taskApply" disabled size="large" class="fs-16 default-btn" long >已申请</iButton>
             </div>
-            <iButton v-if="getRole === 1 && isLogin " size="large" class="fs-16 default-btn" long type="warning" >商家号不可以参加活动</iButton>
+            <iButton v-if="getRole === 1 && isLogin " size="large" class="fs-16 default-btn"  type="warning" style="width: 200px;">商家号不可以参加活动</iButton>
             <a v-if="!isLogin "  class="ivu-btn ivu-btn-error ivu-btn-large" @click="selectLogin = true" style="width: 150px;">
                 申请活动
             </a>

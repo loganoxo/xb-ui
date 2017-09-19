@@ -253,6 +253,7 @@
         let self = this;
         self.btnState.normalLoginBtn = true;
         api.login(self.loginNormalCustom).then((res) => {
+          self.btnState.normalLoginBtn = false;
           if (res.status) {
             self.$store.commit({
               type: 'RECORD_USER_INFO',
@@ -261,7 +262,6 @@
             self.rememberAccountFunc();
             self.$Message.success({top: 50, content: '登录成功', duration: 1,});
             self.$router.push({name: 'Home'});
-            self.btnState.normalLoginBtn = false;
           } else {
             self.instance('error', '', res.msg);
             self.getVrcode();
@@ -296,6 +296,7 @@
           smsCode: this.loginTrendsCustom.smsCode,
           validateCode: this.loginTrendsCustom.validateCode,
         }).then((res) => {
+          self.btnState.trendsLoginBtn = false;
           this.rememberPhoneFunc();
           if (res.status) {
             if (res.statusCode === 'login_success') {
@@ -305,7 +306,6 @@
               });
               self.$Message.success({top: 50, content: '登录成功', duration: 1,});
               self.$router.push({name: 'Home'});
-              self.btnState.trendsLoginBtn = false;
             } else if (res.statusCode === 'need_reg') {
               self.$router.push({
                 path: '/sel-role',
@@ -359,7 +359,6 @@
             break;
           case 'error':
             this.$Message.error({
-              title: title,
               content: content
             });
             break;
