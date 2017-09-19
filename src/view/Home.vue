@@ -116,10 +116,10 @@
                   <span class="left text-ct" style="width: 33.33%;">待审买家秀</span>
                 </div>
                 <p class="clear-both pt-10">
-                  <!--<router-link to="/user/task-release" class="ivu-btn ivu-btn-success ivu-btn-long">-->
-                    <!--免费发布活动-->
-                  <!--</router-link>-->
-                  <router-link to="/user/task-release" class="ivu-btn ivu-btn-error ivu-btn-long">
+                  <router-link v-if="parseInt(trialCount.finishedTaskCount) + parseInt(trialCount.underWayTask) <= 0 " to="/user/task-release" class="ivu-btn ivu-btn-success ivu-btn-long">
+                    免费发布活动
+                  </router-link>
+                  <router-link v-if="parseInt(trialCount.finishedTaskCount) + parseInt(trialCount.underWayTask) > 0 " to="/user/task-release" class="ivu-btn ivu-btn-error ivu-btn-long">
                     继续发布活动
                   </router-link>
                 </p>

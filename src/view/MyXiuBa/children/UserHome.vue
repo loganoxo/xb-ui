@@ -186,7 +186,7 @@
         api.getHomeTaskList().then((res) => {
           if (res.status) {
             if (res.data) {
-              self.homeCommodityList = res.data;
+              self.homeCommodityList = res.data.splice(0,8);
             }
           } else {
             self.$Message.error({
