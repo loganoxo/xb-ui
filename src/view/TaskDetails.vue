@@ -75,10 +75,6 @@
                 <span>5</span>
                 <em> 商家返还{{(commodityData.task.perMarginNeed/100).toFixed(2)}}元到您的平台账户（可提现），圆满结束 </em>
               </li>
-              <!--<li>-->
-                <!--<span>6</span>-->
-                <!--<em>获得试用资格</em>-->
-              <!--</li>-->
             </ul>
         </div>
       </div>

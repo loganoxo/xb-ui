@@ -27,9 +27,10 @@
         <div class="task-category-sort">
           <div>
             <Button-group size="small" class="left mt-10">
-              <iButton :class="[sortFieldDefault.name == sortField.name ? 'active' : '']" v-for="sortField in sortFieldList" :key="sortField.name" @click="getSortFieldFunc(sortField)">
+              <iButton :class="[sortFieldDefault.name == sortField.name ? 'active' : '']" v-for="(sortField,index) in sortFieldList" :key="sortField.name" @click="getSortFieldFunc(sortField, index)">
                 {{sortField.name}}
-                <Icon type="arrow-down-c"></Icon>
+                <Icon v-show="sortField.sort == 'desc' " type="arrow-down-c"></Icon>
+                <Icon v-show="sortField.sort == 'asc' " type="arrow-up-c"></Icon>
               </iButton>
             </Button-group>
             <Page class="right"
@@ -164,22 +165,32 @@
           {
             name: '最新',
             sortField: 'upLineTime',
+            sort: 'desc',
+            again: false,
           },
           {
             name: '价值',
             sortField: 'itemPrice',
+            sort: 'desc',
+            again: false,
           },
           {
             name: '人气',
             sortField: 'showkerApplyTotalCount',
+            sort: 'desc',
+            again: false,
           },
           {
             name: '份数',
             sortField: 'taskCount',
+            sort: 'desc',
+            again: false,
           },
           {
             name: '剩余时间',
             sortField: 'endTime',
+            sort: 'desc',
+            again: false,
           },
         ],
         sortFieldDefault: {
@@ -244,8 +255,26 @@
         }
         self.getSearchTask();
       },
-      getSortFieldFunc(sortField){
+      getSortFieldFunc(sortField,index){
+        if(this.sortFieldDefault.name == sortField.name){
+          if(sortField.sort == 'desc'){
+            sortField.sort = 'asc';
+            this.searchTaskParams.sortOrder= 'asc';
+          }else {
+            sortField.sort = 'desc';
+            this.searchTaskParams.sortOrder= 'desc';
+          }
+        }else {
+          this.searchTaskParams.sortOrder= 'desc';
+        }
         this.sortFieldDefault = sortField;
+        for(let i = 0, j = this.sortFieldList.length; i < j; i++){
+          if(i == index){
+            continue;
+          }else {
+            this.sortFieldList[i].sort = 'desc';
+          }
+        }
         this.searchTaskParams.sortField = this.sortFieldDefault.sortField;
         this.getSearchTask();
       },
