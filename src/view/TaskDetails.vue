@@ -196,6 +196,19 @@
         <i class="ivu-icon ivu-icon-android-alert vtd-mid"></i></div><div><p class="fs-20 f-b">亲，你还没绑定旺旺号 </p><br> <span class="fs-12">请先绑定旺旺号在申请活动!</span></div>
       </div>
     </Modal>
+    <Modal
+      v-model="showkerApplyBefore"
+      width="700px"
+    >
+      <p slot="header" style="color:#f60;text-align:center">
+        <Icon type="information-circled"></Icon>
+        <span>删除确认</span>
+      </p>
+      <div >
+        <TaskApplyBefore></TaskApplyBefore>
+      </div>
+      <p slot="footer"></p>
+    </Modal>
   </div>
 
 </template>
@@ -214,6 +227,7 @@
   import Breadcrumb from 'iview/src/components/breadcrumb'
   import Page from 'iview/src/components/page'
   import TimeDown from '@/components/TimeDown'
+  import TaskApplyBefore from '@/components/TaskApplyBefore'
   export default {
     beforeMount() {
       this.$store.commit({
@@ -235,10 +249,14 @@
       BreadcrumbItem: Breadcrumb.Item,
       Page: Page,
       TimeDown: TimeDown,
-      Alert: Alert
+      Alert: Alert,
+      TaskApplyBefore:TaskApplyBefore
+
     },
     data () {
       return {
+        showkerApplyBefore:false,
+        needBrowseCollectAddCart:false,
         taskApplyLoading: false,
         alitNumSuccess: false,
         selectLogin: false,
@@ -348,7 +366,12 @@
             }
           });
         }else {
-          this.getShowkerCanTrial();
+          if (self.needBrowseCollectAddCart){
+            this.showkerApplyBefore = true;
+          }else {
+            this.getShowkerCanTrial();
+          }
+
         }
       },
       getShowkerCanTrial(){
@@ -418,13 +441,13 @@
         api.getTaskDetails({taskId: self.$route.query.taskId}).then((res) => {
           if(res.status){
             self.commodityData = res.data;
+            self.needBrowseCollectAddCart=res.data.task.needBrowseCollectAddCart;
             self.$store.commit({
               type: 'TASK_CATEGORY_LIST',
               info: self.commodityData.task.itemCatalog.parentItemCatalog.id
             });
             parseInt(res.data.trailDone) ? self.graphicInfoSels[1].num = res.data.trailDone : self.graphicInfoSels[1].num = 0;
             if(parseInt(res.data.task.showkerApplySuccessCount) || parseInt(res.data.trialEnd)){
-                debugger
               self.graphicInfoSels[2].num = parseInt(res.data.task.showkerApplySuccessCount) + parseInt(res.data.trailEnd)
             }else{
               self.graphicInfoSels[2].num = 0;

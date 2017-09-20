@@ -34,7 +34,7 @@
     <div class="container">
       <div class="qq-login-box">
         <img src="~assets/img/sel-role/sel_role_04.png" alt="">
-        <a href="">QQ账号登录</a>
+        <a href="" v-if="false">QQ账号登录</a>
         <p>
           我已注册，现在就
           <router-link to="/login">登录</router-link>

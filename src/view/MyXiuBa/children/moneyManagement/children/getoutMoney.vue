@@ -34,6 +34,24 @@
               <iOption value="中国工商银行">中国工商银行</iOption>
               <iOption value="中国农业银行">中国农业银行</iOption>
               <iOption value="中国招商银行">中国招商银行</iOption>
+              <iOption value="中国银行">中国银行</iOption>
+              <iOption value="兴业银行">兴业银行</iOption>
+              <iOption value="浦发银行">浦发银行</iOption>
+              <iOption value="中信银行">中信银行</iOption>
+              <iOption value="广发银行">广发银行</iOption>
+              <iOption value="民生银行">民生银行</iOption>
+              <iOption value="光大银行">光大银行</iOption>
+              <iOption value="交通银行">交通银行</iOption>
+              <iOption value="中国邮政储蓄银行">中国邮政储蓄银行</iOption>
+              <iOption value="渤海银行">渤海银行</iOption>
+              <iOption value="杭州银行">杭州银行</iOption>
+              <iOption value="华夏银行">华夏银行</iOption>
+              <iOption value="恒生银行">恒生银行</iOption>
+              <iOption value="花旗银行">花旗银行</iOption>
+              <iOption value="江苏银行">江苏银行</iOption>
+              <iOption value="浙商银行">浙商银行</iOption>
+              <iOption value="渣打银行">渣打银行</iOption>
+              <iOption value="平安银行">平安银行</iOption>
             </iSelect>
           </Form-item>
           <Form-item label="银行卡号:" prop="bankNumber">
@@ -79,7 +97,7 @@
         <div class="get-out-do mt-22">
           <iForm :model="getoutMoney" :label-width="200" :rules="getOutMoneyRule">
             <Form-item label="请输入提现金额:" prop="getoutNumber">
-              <iInput v-model="getoutMoney.getoutNumber" class="iInput" autocomplete="false"></iInput>
+              <iInput v-model="getoutMoney.getoutNumber" class="iInput"></iInput>
               <span>元（最低1元起提）</span>
             </Form-item>
             <Form-item label="提现银行卡号:">
@@ -89,7 +107,7 @@
             <Form-item label="支付密码:" prop="password">
               <input type="password" style="width: 0;height: 0;border: none"/>
               <iInput v-model="getoutMoney.password" class="iInput" :type="psw" :icon="eye"
-                      @on-click="seyPassword" autocomplete="false"></iInput>
+                      @on-click="seyPassword" ></iInput>
               <span v-show="getIfEditPwdAlready === false">初始密码为888888，为了你的账号安全，建议您
                 <router-link :to="{'path':'/user/money-management/account-management','query':{'type':'resetPwd'}}">重置支付密码。</router-link>
               </span>

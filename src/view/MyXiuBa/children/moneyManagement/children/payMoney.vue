@@ -37,6 +37,8 @@
         </Form-item>
       </iForm>
     </div>
+
+
     <div class="common-question">
       <h2>常见问题</h2>
       <div class="mt-10">
@@ -44,6 +46,7 @@
         <p>答：充值成功后，如果账户显示的余额不变，请您不要惊慌，我们的系统是有缓冲时间的，您只需要耐心稍等即可。</p>
       </div>
     </div>
+
   </div>
 </template>
 <script>
@@ -56,7 +59,7 @@
   import Modal from 'iview/src/components/modal'
   import {isNumber} from '@/config/utils'
   import {aliPayUrl} from '@/config/env'
-
+  import TaskApplyBefore from '@/components/TaskApplyBefore'
   export default {
     name: 'MoneyManagement',
     components: {
@@ -69,6 +72,7 @@
       ButtonGroup: Button.Group,
       Icon: Icon,
       Modal: Modal,
+      TaskApplyBefore:TaskApplyBefore
     },
     data() {
       const validatePayNumber = (rule, value, callback) => {
@@ -95,6 +99,7 @@
         imgSrc: null,
         payPopWindow: false,
         payPopWindowValue: false,
+        modal1:false,
       }
     },
     mounted() {},

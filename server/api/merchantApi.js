@@ -40,6 +40,7 @@ router.post("/api/task-create.json", function (req, res, next) {
       taskDaysDuration: req.body.taskDaysDuration,
       onlyShowForQualification: req.body.onlyShowForQualification,
       refuseOldShowker: req.body.refuseOldShowker,
+      needBrowseCollectAddCart:req.body.showkerApplyBefore,
       taskName: req.body.taskName,
       "itemCatalog.id": req.body.itemType,
       taskMainImage: req.body.taskMainImage,
