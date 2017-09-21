@@ -11,7 +11,6 @@ const TaskDetails = r => require.ensure([], () => r(require('@/view/TaskDetails.
 const MyXiuBa = r => require.ensure([], () => r(require('@/view/MyXiuBa/MyXiuBa.vue')), 'MyXiuBa');
 const UserHome = r => require.ensure([], () => r(require('@/view/MyXiuBa/children/UserHome.vue')), 'MyXiuBa');
 const TaskReleaseProcess = r => require.ensure([], () => r(require('@/view/MyXiuBa/children/TaskReleaseProcess.vue')), 'MyXiuBa');
-const MyTrialReport = r => require.ensure([], () => r(require('@/view/MyXiuBa/children/MyTrialReport.vue')), 'MyXiuBa');
 
 const ActivityManagement = r => require.ensure([], () => r(require('@/view/MyXiuBa/children/activityManagement/index.vue')), 'ActivityManagement');
 const ActivitiesList = r => require.ensure([], () => r(require('@/view/MyXiuBa/children/activityManagement/children/activitiesList.vue')), 'ActivityManagement');
