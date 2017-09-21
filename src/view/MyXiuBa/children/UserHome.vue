@@ -27,7 +27,7 @@
       <p v-if="getUserInfoRole === 0">
         活动提醒：待审核
         <router-link to="/user/my-probation/wait">{{trialCount.waitingAuditTaskApply}}</router-link>个，进行中
-        <router-link to="/user/my-probation/pass">{{trialCount.underWayShowkerTask}}</router-link>个（已通过待领取
+        <router-link to="/user/my-probation/pass">{{trialCount.underWayShowkerTask}}</router-link>个（已通过待下单
         <router-link :to="{path:'/user/my-probation/pass',query:{status:'pass_and_unclaimed'}}">{{trialCount.passAndUnclaimedShowkerTask}}</router-link>个；已下单待交买家秀
         <router-link :to="{path:'/user/my-probation/pass',query:{status:'trial_report_waiting_submit'}}">{{trialCount.trialReportWaitingSubmitShowkerTask}}</router-link>个；待修改订单号/买家秀
         <router-link :to="{path:'/user/my-probation/pass',query:{status:'order_num_error'}}">{{trialCount.orderNumErrorShowkerTask + trialCount.trialReportUnqualifiedShowkerTask}}</router-link>个）。
@@ -186,7 +186,7 @@
         api.getHomeTaskList().then((res) => {
           if (res.status) {
             if (res.data) {
-              self.homeCommodityList = res.data.splice(0,8);
+              self.homeCommodityList = res.data;
             }
           } else {
             self.$Message.error({

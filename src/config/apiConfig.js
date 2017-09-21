@@ -475,8 +475,8 @@ export default {
   /**
    * 商家个人主页活动提醒
    */
-  sellerPersonalTrialCount(params) {
-    return fetch("/api/task/seller-personal-trial-count.json", params)
+  sellerPersonalTrialCount() {
+    return fetch("/api/task/seller-personal-trial-count.json")
   },
 
   /**
@@ -508,9 +508,73 @@ export default {
   },
 
   /**
-   * 通过旺旺名获取信息
+   * 通过旺旺名获取旺旺号等级和淘气值信息
    */
   getAlitmByAccount(params) {
     return fetch("/api/user/alitm/getAlitmByAccount.json", params)
-  }
+  },
+
+  /**
+   * 商家进入秀客任务管理页任务列表（所有待审核活动）
+   */
+  appliesWaitingAuditTask(params) {
+    return fetch("/api/applies/waiting/audit/task.json", params)
+  },
+
+  /**
+   * 商家进入秀客任务管理页任务详情（待审核新增）
+   */
+  appliesWaitingAuditNewest(params) {
+    return fetch("/api/applies/waiting/audit/newest.json", params)
+  },
+
+  /**
+   * 商家进入秀客任务管理页任务详情（待审核全部）
+   */
+  appliesWaitingAuditAll(params) {
+    return fetch("/api/applies/waiting/audit/all.json", params)
+  },
+
+  /**
+   * 商家进入秀客任务管理页任务详情（所有已通过核活动）
+   */
+  passesTask(params) {
+    return fetch("/api/passes/task.json", params)
+  },
+
+  /**
+   * 商家进入秀客任务管理页任务列表（单号待审核数，买家秀待审核数）
+   */
+  passesShowkerTaskCountsInfo(params) {
+    return fetch("/api/passes/showker/task/counts/info.json", params)
+  },
+
+  /**
+   * 商家进入秀客任务管理页任务列表（单号待审核数，买家秀待审核数）
+   */
+  passesShowkerTask(params) {
+    return fetch("/api/passes/showker/task.json", params)
+  },
+
+  /**
+   * 商家进入秀客任务管理页任务列表（所有未通过审核的活动）
+   */
+  appliesEndTask(params) {
+    return fetch("/api/applies/end/task.json", params)
+  },
+
+  /**
+   * 商家进入秀客任务管理页任务列表（所有未通过审核的任务）
+   */
+  appliesEndShowkerTask(params) {
+    return fetch("/api/applies/end/showker/task.json", params)
+  },
+
+  /**
+   * 商家进入秀客任务管理页任务列表（未通过审核的人数）
+   */
+  appliesEndShowkerTaskCount(params) {
+    return fetch("/api/passes/end/showker/task/count.json", params)
+  },
+
 }

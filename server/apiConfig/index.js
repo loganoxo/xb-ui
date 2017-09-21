@@ -16,7 +16,7 @@ const postOptions = function (url, req, formData = {}) {
 
 const getOptions = function (url, req, qs = {}) {
   return {
-    method: 'GET ',
+    method: 'GET',
     uri: baseUrl + url,
     qs: qs,
     json: true,

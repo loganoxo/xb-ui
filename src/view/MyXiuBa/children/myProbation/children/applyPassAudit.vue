@@ -12,7 +12,7 @@
         <div class="left">
           <Checkbox-group v-model="checkPassList" @on-change="checkChange">
             <Checkbox label="pass_and_unclaimed">
-              <span>已通过待领取</span>
+              <span>已通过待下单</span>
             </Checkbox>
             <Checkbox label="order_num_waiting_audit">
               <span>订单号待审核</span>
@@ -550,8 +550,7 @@
         this.trialReportImages.push(aliCallbackImgUrl + res.name);
       },
       removeImage(file) {
-        let src = file.src;
-        let index = this.trialReportImages.indexOf(src);
+        let index = this.trialReportImages.indexOf(file.src);
         this.trialReportImages.splice(index, 1);
       },
       handleFormatError(file) {

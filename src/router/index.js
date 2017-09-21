@@ -10,7 +10,8 @@ const TaskCategory = r => require.ensure([], () => r(require('@/view/TaskCategor
 const TaskDetails = r => require.ensure([], () => r(require('@/view/TaskDetails.vue')), 'TaskDetails');
 const MyXiuBa = r => require.ensure([], () => r(require('@/view/MyXiuBa/MyXiuBa.vue')), 'MyXiuBa');
 const UserHome = r => require.ensure([], () => r(require('@/view/MyXiuBa/children/UserHome.vue')), 'MyXiuBa');
-const TaskReleaseProcess = r => require.ensure([], () => r(require('@/view/MyXiuBa/children/TaskReleaseProcess.vue')), 'TaskReleaseProcess');
+const TaskReleaseProcess = r => require.ensure([], () => r(require('@/view/MyXiuBa/children/TaskReleaseProcess.vue')), 'MyXiuBa');
+const MyTrialReport = r => require.ensure([], () => r(require('@/view/MyXiuBa/children/MyTrialReport.vue')), 'MyXiuBa');
 
 const ActivityManagement = r => require.ensure([], () => r(require('@/view/MyXiuBa/children/activityManagement/index.vue')), 'ActivityManagement');
 const ActivitiesList = r => require.ensure([], () => r(require('@/view/MyXiuBa/children/activityManagement/children/activitiesList.vue')), 'ActivityManagement');
@@ -25,12 +26,15 @@ const ApplyWaitAudit = r => require.ensure([], () => r(require('@/view/MyXiuBa/c
 const ApplyPassAudit = r => require.ensure([], () => r(require('@/view/MyXiuBa/children/myProbation/children/applyPassAudit.vue')), 'MyProbation');
 const ApplyFailAudit = r => require.ensure([], () => r(require('@/view/MyXiuBa/children/myProbation/children/applyFailAudit.vue')), 'MyProbation');
 
+const TaskManagement = r => require.ensure([], () => r(require('@/view/MyXiuBa/children/taskManagement/index.vue')), 'TaskManagement');
+const TaskWaitAudit = r => require.ensure([], () => r(require('@/view/MyXiuBa/children/taskManagement/children/taskWaitAudit.vue')), 'TaskManagement');
+const TaskPassAudit = r => require.ensure([], () => r(require('@/view/MyXiuBa/children/taskManagement/children/taskPassAudit.vue')), 'TaskManagement');
+const TaskFailAudit = r => require.ensure([], () => r(require('@/view/MyXiuBa/children/taskManagement/children/taskFailAudit.vue')), 'TaskManagement');
+
 const PersonalSetting = r => require.ensure([], () => r(require('@/view/MyXiuBa/children/personalSetting/index.vue')), 'PersonalSetting');
 const PersonalAccountInfo = r => require.ensure([], () => r(require('@/view/MyXiuBa/children/personalSetting/children/PersonalAccountInfo.vue')), 'PersonalSetting');
 const WwBind = r => require.ensure([], () => r(require('@/view/MyXiuBa/children/personalSetting/children/WwBind.vue')), 'PersonalSetting');
 const Verfied = r => require.ensure([], () => r(require('@/view/MyXiuBa/children/personalSetting/children/Verfied.vue')), 'PersonalSetting');
-
-const MyTrialReport = r => require.ensure([], () => r(require('@/view/MyXiuBa/children/MyTrialReport.vue')), 'MyTrialReport');
 
 const MoneyManagement = r => require.ensure([], () => r(require('@/view/MyXiuBa/children/moneyManagement/index.vue')), 'MoneyManagement');
 const AccountInfo = r => require.ensure([], () => r(require('@/view/MyXiuBa/children/moneyManagement/children/accountInfo.vue')), 'MoneyManagement');
@@ -43,8 +47,12 @@ Vue.use(Router);
 
 export default new Router({
   mode: 'history',
-  scrollBehavior (to, from, savedPosition) {
-    return { x: 0, y: 0 }
+  scrollBehavior(to, from, savedPosition) {
+    if (savedPosition) {
+      return savedPosition
+    } else {
+      return { x: 0, y: 0 }
+    }
   },
   routes: [
     {
@@ -143,7 +151,7 @@ export default new Router({
           name: 'TaskReleaseProcess',
           component: TaskReleaseProcess,
           meta: {
-            title: "发布秀品活动",
+            title: "发布活动",
             logInAuthority: true,
           }
         },
@@ -157,7 +165,7 @@ export default new Router({
               name: 'ActivitiesList',
               component: ActivitiesList,
               meta: {
-                title: "秀品活动管理-活动列表",
+                title: "活动管理-活动列表",
                 logInAuthority: true,
               },
             },
@@ -166,7 +174,7 @@ export default new Router({
               name: 'ApproveShowker',
               component: ApproveShowker,
               meta: {
-                title: "秀品活动管理-审批秀客",
+                title: "活动管理-审批秀客",
                 logInAuthority: true,
               },
             },
@@ -175,7 +183,7 @@ export default new Router({
               name: 'ProbationReport',
               component: ProbationReport,
               meta: {
-                title: "买家秀活动管理-买家秀",
+                title: "活动管理-买家秀",
                 logInAuthority: true,
               },
             },
@@ -189,7 +197,7 @@ export default new Router({
                   name: 'ActivityDetail',
                   component: ActivityDetail,
                   meta: {
-                    title: "买家秀活动管理-活动详情",
+                    title: "活动管理-活动详情",
                     logInAuthority: true,
                   },
                 },
@@ -198,12 +206,46 @@ export default new Router({
                   name: 'ActivityLog',
                   component: ActivityLog,
                   meta: {
-                    title: "买家秀活动管理-活动日志",
+                    title: "活动管理-活动日志",
                     logInAuthority: true,
                   },
                 },
               ]
             },
+          ]
+        },
+        {
+          path: 'task-management',
+          name: 'TaskManagement',
+          component: TaskManagement,
+          children: [
+            {
+              path: 'wait',
+              name: 'TaskWaitAudit',
+              component: TaskWaitAudit,
+              meta: {
+                title: "任务管理-待审核",
+                logInAuthority: true,
+              }
+            },
+            {
+              path: 'pass',
+              name: 'TaskPassAudit',
+              component: TaskPassAudit,
+              meta: {
+                title: "任务管理-已通过",
+                logInAuthority: true,
+              }
+            },
+            {
+              path: 'fail',
+              name: 'TaskFailAudit',
+              component: TaskFailAudit,
+              meta: {
+                title: "任务管理-已终止",
+                logInAuthority: true,
+              }
+            }
           ]
         },
         {

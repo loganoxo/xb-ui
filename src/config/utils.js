@@ -124,7 +124,7 @@ export const aliUploadImg = (key, file) => {
 export const TaskErrorStatusList = (type) => {
   switch (type) {
     case "pass_and_unclaimed":
-      return "已通过待领取";
+      return "已通过待下单";
       break;
     case "order_num_waiting_audit":
       return "订单号待审核";

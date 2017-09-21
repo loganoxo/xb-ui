@@ -4,7 +4,7 @@
       <!--商家管理导航-->
       <ul v-if="getUserInfoRole === 1">
         <li :class="{isSelect:isSelect ==='UserHome'}">
-          <Icon type="person"></Icon>
+          <Icon type="person-stalker"></Icon>
           <router-link to="/user/user-home">我的主页</router-link>
         </li>
         <li :class="{isSelect:isSelect ==='TaskReleaseProcess'}">
@@ -15,9 +15,9 @@
           <Icon type="clipboard"></Icon>
           <router-link to="/user/activity-management/list">活动管理</router-link>
         </li>
-        <li :class="{isSelect:isSelect === 'ActivitiesList' || isSelect === 'ApproveShowker' || isSelect === 'ActivityDetail' || isSelect === 'ActivityLog'}">
+        <li :class="{isSelect:isSelect === 'TaskWaitAudit' || isSelect === 'TaskPassAudit' || isSelect === 'TaskFailAudit'}">
           <Icon type="ios-paper"></Icon>
-          <router-link to="/user/activity-management/list">任务管理</router-link>
+          <router-link to="/user/task-management/wait">任务管理</router-link>
         </li>
         <li :class="{isSelect:isSelect ==='AccountInfo' || isSelect === 'PayMoney' || isSelect === 'GetoutMoney' || isSelect === 'AccountManagement'}">
           <Icon type="social-yen"></Icon>
@@ -39,7 +39,7 @@
       <!--秀客管理导航-->
       <ul v-else-if="getUserInfoRole === 0">
         <li :class="{isSelect:isSelect ==='UserHome'}">
-          <Icon type="person"></Icon>
+          <Icon type="person-stalker"></Icon>
           <router-link to="/user/user-home">我的主页</router-link>
         </li>
         <li :class="{isSelect:isSelect === 'ApplyWaitAudit' || isSelect === 'ApplyPassAudit' || isSelect === 'ApplyFailAudit'}">
@@ -117,6 +117,7 @@
   .my-xiu-ba-con-nav {
     background-color: #F8F8F8;
     border: 1px solid #F4F4F4;
+    width: 12%;
     ul {
       li {
         height: 38px;
@@ -124,7 +125,7 @@
         color: #999;
         padding-left: 16px;
         padding-right: 16px;
-
+        text-align: center;
         &:hover {
           color: $mainColor !important;
           background-color: #fff;

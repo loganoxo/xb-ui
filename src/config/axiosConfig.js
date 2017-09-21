@@ -1,5 +1,5 @@
 /**
- * Created by ycb on 2017/4/25.
+ * Created by ycb on 2017/7/25.
  */
 import axios from 'axios'
 import qs from 'qs'
@@ -28,7 +28,7 @@ axios.interceptors.response.use((res) => {
   return res;
 }, (error) => {
   LoadingBar.finish();
-  if (error.response.status === 401) {
+  if (error.response && error.response.status === 401) {
     store.commit( 'OUT_LOGIN');
     if(store.state.logInAuthority){
       router.push({name: 'login'});

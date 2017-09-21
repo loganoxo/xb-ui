@@ -305,7 +305,7 @@
         <p class="mt-6">总费用 = 活动担保金 + 总推广费用 = <span>{{orderMoney}}</span>元</p>
       </div>
     </div>
-    <div class="footer-btn"><router-link to="/user/activity-management/list">返回上一页</router-link></div>
+    <router-link class="footer-btn" tag="div" to="/user/activity-management/list">返回上一页</router-link>
   </div>
 </template>
 

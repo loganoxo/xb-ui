@@ -24,10 +24,8 @@
         </Radio>
       </Radio-group>
     </div>
-    <!--<div class="recharge-btn" v-if="isBalance" @click="confirmPayment">{{payButtonText}}</div>-->
     <iButton type="primary" v-if="isBalance" :loading="payLoading" @click="confirmPayment" class="recharge-btn">{{payButtonText}}</iButton>
     <iButton type="primary" v-else :loading="payLoading" @click="confirmRecharge" class="recharge-btn">{{rechargeButtonText}}</iButton>
-    <!--<div class="recharge-btn" v-else @click="confirmRecharge">{{rechargeButtonText}}</div>-->
     <div class="confirm-recharge-model" v-if="confirmRechargeModel">
       <div class="confirm-recharge-con">
         <h4>请前往充值界面进行充值！</h4>

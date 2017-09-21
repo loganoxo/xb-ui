@@ -6,6 +6,7 @@
 const express = require('express');
 const config = require('../config');
 const logConfig = require('../logConfig');
+const apiConfig = require('../apiConfig');
 const request = require('request-promise');
 
 const router = express.Router();
@@ -227,10 +228,10 @@ router.post('/api/delete-task.json', function (req, res, next) {
  * @param userId
  * @param taskId
  */
-router.post('/api/task-settlement.json',function (req, res ,next) {
+router.post('/api/task-settlement.json', function (req, res, next) {
   let options = {
     method: 'GET',
-    uri: baseUrl + '/task/settlement/'+ req.session.userData.id+ '/'+ req.body.taskId,
+    uri: baseUrl + '/task/settlement/' + req.session.userData.id + '/' + req.body.taskId,
     json: true
   };
   request(options)
@@ -507,9 +508,398 @@ router.post('/api/task/seller-personal-trial-count.json', function (req, res, ne
 router.post('/api/task-settlement-detail.json', function (req, res, next) {
   let options = {
     method: 'GET',
-    uri: baseUrl + '/task/settlement/detail/' + req.session.userData.id +'/' + req.body.taskId,
+    uri: baseUrl + '/task/settlement/detail/' + req.session.userData.id + '/' + req.body.taskId,
     json: true
   };
+  request(options)
+    .then(function (parsedBody) {
+      res.send(parsedBody);
+      res.end();
+    })
+    .catch(function (err) {
+      logConfig.logger.error(req.originalUrl + ':' + err);
+      res.json({status: false, msg: "服务器请求超时，请稍后在试！"});
+      res.end();
+    });
+});
+
+/**
+ * 商家进入秀客任务管理页任务列表（所有待审核活动）
+ * @param merchantId
+ * @param pageIndex
+ * @param pageSize
+ * @param taskNumber
+ * @param alitmAccount
+ */
+router.post('/api/applies/waiting/audit/task.json', function (req, res, next) {
+  let options = apiConfig.getOptions('/task/merchant/applies/waiting/audit/task', req, {
+    merchantId: req.session.userData.id,
+    pageIndex: req.body.pageIndex,
+    pageSize: req.body.pageSize,
+    taskNumber: req.body.taskNumber,
+    alitmAccount: req.body.alitmAccount,
+  });
+  request(options)
+    .then(function (parsedBody) {
+      let dataList = [];
+      if (parsedBody.status) {
+        parsedBody.data.content.forEach(item => {
+          let data = {};
+          data.newestTaskApplyCount = item.newestTaskApplyCount;
+          data.id = item.task.id;
+          data.number = item.task.number;
+          data.taskMainImage = item.task.taskMainImage;
+          data.taskName = item.task.taskName;
+          dataList.push(data);
+        });
+      }
+      res.send({
+        msg: parsedBody.msg,
+        status: parsedBody.status,
+        data: {
+          content: dataList,
+          totalElements: parsedBody.data.totalElements
+        }
+      });
+      res.end();
+    })
+    .catch(function (err) {
+      logConfig.logger.error(req.originalUrl + ':' + err);
+      res.json({status: false, msg: "服务器请求超时，请稍后在试！"});
+      res.end();
+    });
+});
+
+/**
+ * 商家进入秀客任务管理页任务详情（待审核新增）
+ * @param merchantId
+ * @param taskId
+ * @param pageIndex
+ * @param alitmAccount
+ */
+router.post('/api/applies/waiting/audit/newest.json', function (req, res, next) {
+  let options = apiConfig.getOptions('/task/merchant/applies/waiting/audit/newest', req, {
+    merchantId: req.session.userData.id,
+    taskId: req.body.taskId,
+    pageIndex: req.body.pageIndex,
+    alitmAccount: req.body.alitmAccount,
+  });
+  request(options)
+    .then(function (parsedBody) {
+      let dataList = [];
+      if (parsedBody.status && parsedBody.data) {
+        parsedBody.data.content.forEach(item => {
+          let data = {};
+          data.alitmAccount = item.taskApply.alitmAccount;
+          data.applyTime = item.taskApply.applyTime;
+          dataList.push(data);
+        });
+        res.send({
+          msg: parsedBody.msg,
+          status: parsedBody.status,
+          data: {
+            content: dataList,
+            totalElements: parsedBody.data.totalElements
+          }
+        });
+        res.end();
+      } else {
+        res.send(parsedBody);
+        res.end();
+      }
+    })
+    .catch(function (err) {
+      logConfig.logger.error(req.originalUrl + ':' + err);
+      res.json({status: false, msg: "服务器请求超时，请稍后在试！"});
+      res.end();
+    });
+});
+
+/**
+ * 商家进入秀客任务管理页任务详情（待审核全部）
+ * @param merchantId
+ * @param taskId
+ * @param pageIndex
+ */
+router.post('/api/applies/waiting/audit/all.json', function (req, res, next) {
+  let options = apiConfig.getOptions('/task/merchant/applies/waiting/audit/all', req, {
+    merchantId: req.session.userData.id,
+    taskId: req.body.taskId,
+    pageIndex: req.body.pageIndex,
+  });
+  request(options)
+    .then(function (parsedBody) {
+      let dataList = [];
+      if (parsedBody.status && parsedBody.data) {
+        parsedBody.data.content.forEach(item => {
+          let data = {};
+          data.alitmAccount = item.taskApply.alitmAccount;
+          data.applyTime = item.taskApply.applyTime;
+          data.id = item.taskApply.id;
+          data.showkerId = item.taskApply.showkerId;
+          dataList.push(data);
+        });
+        res.send({
+          msg: parsedBody.msg,
+          status: parsedBody.status,
+          data: {
+            content: dataList,
+            totalElements: parsedBody.data.totalElements
+          }
+        });
+        res.end();
+      } else {
+        res.send(parsedBody);
+        res.end();
+      }
+    })
+    .catch(function (err) {
+      logConfig.logger.error(req.originalUrl + ':' + err);
+      res.json({status: false, msg: "服务器请求超时，请稍后在试！"});
+      res.end();
+    });
+});
+
+/**
+ * 商家进入秀客任务管理页任务列表（所有已通过审核活动）
+ * @param merchantId
+ * @param pageIndex
+ * @param pageSize
+ * @param taskNumber
+ * @param alitmAccount
+ * @param orderNum
+ * @param showkerTaskStatusList
+ */
+router.post('/api/passes/task.json', function (req, res, next) {
+  let options = apiConfig.getOptions('/task/merchant/passes/task', req, {
+    merchantId: req.session.userData.id,
+    pageIndex: req.body.pageIndex,
+    pageSize: req.body.pageSize,
+    taskNumber: req.body.taskNumber,
+    alitmAccount: req.body.alitmAccount,
+    orderNum: req.body.orderNum,
+    showkerTaskStatusList: req.body.showkerTaskStatusList,
+  });
+  request(options)
+    .then(function (parsedBody) {
+      let dataList = [];
+      if (parsedBody.status && parsedBody.data) {
+        parsedBody.data.content.forEach(item => {
+          let data = {};
+          data.id = item.id;
+          data.number = item.number;
+          data.taskMainImage = item.taskMainImage;
+          data.taskName = item.taskName;
+          dataList.push(data);
+        });
+        res.send({
+          msg: parsedBody.msg,
+          status: parsedBody.status,
+          data: {
+            content: dataList,
+            totalElements: parsedBody.data.totalElements
+          }
+        });
+        res.end();
+      } else {
+        res.send(parsedBody);
+        res.end();
+      }
+    })
+    .catch(function (err) {
+      logConfig.logger.error(req.originalUrl + ':' + err);
+      res.json({status: false, msg: "服务器请求超时，请稍后在试！"});
+      res.end();
+    });
+});
+
+/**
+ * 商家进入秀客任务管理页任务列表（已通过审核任务中的单号待审核数，买家秀待审核数）
+ * @param merchantId
+ * @param taskId
+ */
+router.post('/api/passes/showker/task/counts/info.json', function (req, res, next) {
+  let options = apiConfig.getOptions('/task/merchant/passes/showker/task/counts/info', req, {
+    merchantId: req.session.userData.id,
+    taskId: req.body.taskId,
+  });
+  request(options)
+    .then(function (parsedBody) {
+      res.send(parsedBody);
+      res.end();
+    })
+    .catch(function (err) {
+      logConfig.logger.error(req.originalUrl + ':' + err);
+      res.json({status: false, msg: "服务器请求超时，请稍后在试！"});
+      res.end();
+    });
+});
+
+/**
+ * 商家进入秀客任务管理页任务列表（所有通过审核的任务）
+ * @param merchantId
+ * @param taskId
+ * @param alitmAccount
+ * @param orderNum
+ * @param showkerTaskStatusList
+ */
+router.post('/api/passes/showker/task.json', function (req, res, next) {
+  let options = apiConfig.getOptions('/task/merchant/passes/showker/task', req, {
+    merchantId: req.session.userData.id,
+    taskId: req.body.taskId,
+    alitmAccount: req.body.alitmAccount,
+    orderNum: req.body.orderNum,
+    showkerTaskStatusList: req.body.showkerTaskStatusList,
+  });
+  request(options)
+    .then(function (parsedBody) {
+      let dataList = [];
+      if (parsedBody.status && parsedBody.data) {
+        parsedBody.data.content.forEach(item => {
+          let data = {};
+          data.alitmAccount = item.alitmAccount;
+          data.id = item.id;
+          data.status = item.status;
+          data.orderNum = item.orderNum;
+          data.currentGenerationEndTime = item.currentGenerationEndTime;
+          dataList.push(data);
+        });
+        res.send({
+          msg: parsedBody.msg,
+          status: parsedBody.status,
+          data: {
+            content: dataList,
+            totalElements: parsedBody.data.totalElements
+          }
+        });
+        res.end();
+      } else {
+        res.send(parsedBody);
+        res.end();
+      }
+    })
+    .catch(function (err) {
+      logConfig.logger.error(req.originalUrl + ':' + err);
+      res.json({status: false, msg: "服务器请求超时，请稍后在试！"});
+      res.end();
+    });
+});
+
+/**
+ * 商家进入秀客任务管理页任务列表（所有未通过审核的活动）
+ * @param merchantId
+ * @param taskId
+ * @param alitmAccount
+ * @param taskNumber
+ * @param rejectReasonList
+ */
+router.post('/api/applies/end/task.json', function (req, res, next) {
+  let options = apiConfig.getOptions('/task/merchant/applies/end/task', req, {
+    merchantId: req.session.userData.id,
+    pageIndex: req.body.pageIndex,
+    pageSize: req.body.pageSize,
+    taskNumber: req.body.taskNumber,
+    alitmAccount: req.body.alitmAccount,
+    rejectReasonList: req.body.rejectReasonList,
+  });
+  request(options)
+    .then(function (parsedBody) {
+      let dataList = [];
+      if (parsedBody.status && parsedBody.data) {
+        parsedBody.data.content.forEach(item => {
+          let data = {};
+          data.id = item.id;
+          data.number = item.number;
+          data.taskMainImage = item.taskMainImage;
+          data.taskName = item.taskName;
+          dataList.push(data);
+        });
+        res.send({
+          msg: parsedBody.msg,
+          status: parsedBody.status,
+          data: {
+            content: dataList,
+            totalElements: parsedBody.data.totalElements
+          }
+        });
+        res.end();
+      } else {
+        res.send(parsedBody);
+        res.end();
+      }
+    })
+    .catch(function (err) {
+      logConfig.logger.error(req.originalUrl + ':' + err);
+      res.json({status: false, msg: "服务器请求超时，请稍后在试！"});
+      res.end();
+    });
+});
+
+/**
+ * 商家进入秀客任务管理页任务列表（所有未通过审核的任务）
+ * @param merchantId
+ * @param taskId
+ * @param pageIndex
+ * @param pageSize
+ * @param alitmAccount
+ * @param rejectReasonList
+ */
+router.post('/api/applies/end/showker/task.json', function (req, res, next) {
+  let options = apiConfig.getOptions('/task/merchant/applies/end/showker/task', req, {
+    merchantId: req.session.userData.id,
+    taskId: req.body.taskId,
+    pageIndex: req.body.pageIndex,
+    pageSize: req.body.pageSize,
+    alitmAccount: req.body.alitmAccount,
+    rejectReasonList: req.body.rejectReasonList,
+  });
+  request(options)
+    .then(function (parsedBody) {
+      let dataList = [];
+      if (parsedBody.status && parsedBody.data) {
+        parsedBody.data.content.forEach(item => {
+          let data = {};
+          data.alitmAccount = item.alitmAccount;
+          data.id = item.id;
+          data.status = item.status;
+          data.rejectReasonDesc = item.rejectReasonDesc;
+          data.auditTime = item.auditTime;
+          dataList.push(data);
+        });
+        res.send({
+          msg: parsedBody.msg,
+          status: parsedBody.status,
+          data: {
+            content: dataList,
+            totalElements: parsedBody.data.totalElements
+          }
+        });
+        res.end();
+      } else {
+        res.send(parsedBody);
+        res.end();
+      }
+    })
+    .catch(function (err) {
+      logConfig.logger.error(req.originalUrl + ':' + err);
+      res.json({status: false, msg: "服务器请求超时，请稍后在试！"});
+      res.end();
+    });
+});
+
+
+/**
+ * 商家进入秀客任务管理页任务列表（未通过审核的人数）
+ * @param merchantId
+ * @param taskId
+ */
+router.post('/api/passes/end/showker/task/count.json', function (req, res, next) {
+  let options = apiConfig.getOptions('/task/merchant/end/showker/task/count', req, {
+    merchantId: req.session.userData.id,
+    taskId: req.body.taskId,
+    alitmAccount: req.body.alitmAccount,
+    rejectReasonList: req.body.rejectReasonList,
+  });
   request(options)
     .then(function (parsedBody) {
       res.send(parsedBody);

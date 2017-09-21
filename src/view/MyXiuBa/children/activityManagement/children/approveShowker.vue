@@ -86,7 +86,7 @@
             <div class="left">
               <Checkbox-group v-model="auditStatusList" @on-change="checkPassChange">
                 <Checkbox label="pass_and_unclaimed">
-                  <span>已通过待领取</span>
+                  <span>已通过待下单</span>
                 </Checkbox>
                 <Checkbox label="order_num_waiting_audit">
                   <span>订单号待审核</span>
@@ -170,7 +170,7 @@
                   <span>逾期系统终止</span>
                 </Checkbox>
                 <Checkbox label="buyer_manual_close">
-                  <span>秀品放弃活动</span>
+                  <span>秀客放弃活动</span>
                 </Checkbox>
                 <Checkbox label="seller_manual_close">
                   <span>管理员终止/商家终止</span>
@@ -277,7 +277,6 @@
   import PayModel from '@/components/PayModel'
   import TimeDown from '@/components/TimeDown'
   import api from '@/config/apiConfig'
-  import {mapActions} from 'vuex'
   import {TaskErrorStatusList} from '@/config/utils'
 
   export default {
@@ -300,117 +299,6 @@
     },
     data() {
       return {
-        taobaoLevelImgs: [
-          {
-            value: 1,
-            text: 'https://img.alicdn.com/newrank/b_red_1.gif',
-            label: '1心'
-          },
-          {
-            value: 2,
-            text: 'https://img.alicdn.com/newrank/b_red_2.gif',
-            label: '2心'
-          },
-          {
-            value: 3,
-            text: 'https://img.alicdn.com/newrank/b_red_3.gif',
-            label: '3心'
-          },
-          {
-            value: 4,
-            text: 'https://img.alicdn.com/newrank/b_red_4.gif',
-            label: '4心'
-          },
-          {
-            value: 5,
-            text: 'https://img.alicdn.com/newrank/b_red_5.gif',
-            label: '5心'
-          },
-          {
-            value: 6,
-            text: 'https://img.alicdn.com/newrank/b_blue_1.gif',
-            label: '1钻'
-          },
-          {
-            value: 7,
-            text: 'https://img.alicdn.com/newrank/b_blue_2.gif',
-            label: '2钻'
-          },
-          {
-            value: 8,
-            text: 'https://img.alicdn.com/newrank/b_blue_3.gif',
-            label: '3钻'
-          },
-          {
-            value: 9,
-            text: 'https://img.alicdn.com/newrank/b_blue_4.gif',
-            label: '4钻'
-          },
-          {
-            value: 10,
-            text: 'https://img.alicdn.com/newrank/b_blue_5.gif',
-            label: '5钻'
-          },
-          {
-            value: 11,
-            text: 'https://img.alicdn.com/newrank/s_crown_1.gif',
-            label: '1皇冠'
-          },
-          {
-            value: 12,
-            text: 'https://img.alicdn.com/newrank/s_crown_2.gif',
-            label: '2皇冠'
-          },
-          {
-            value: 13,
-            text: 'https://img.alicdn.com/newrank/s_crown_3.gif',
-            label: '3皇冠'
-          },
-          {
-            value: 14,
-            text: 'https://img.alicdn.com/newrank/s_crown_4.gif',
-            label: '4皇冠'
-          },
-          {
-            value: 15,
-            text: 'https://img.alicdn.com/newrank/s_crown_5.gif',
-            label: '5皇冠'
-          },
-        ],
-        taoqizhiList: [
-          {
-            value: 1,
-            label: '0-199'
-          },
-          {
-            value: 2,
-            label: '200-399'
-          },
-          {
-            value: 3,
-            label: '400-599'
-          },
-          {
-            value: 4,
-            label: '600-799'
-          },
-          {
-            value: 5,
-            label: '800-999'
-          },
-          {
-            value: 6,
-            label: '1000-1999'
-          },
-          {
-            value: 7,
-            label: '2000-2499'
-          },
-          {
-            value: 8,
-            label: '2500以上'
-          },
-        ],
         showApproveStatus: 'toAudit',
         taskId: null,
         checkAllByPass: false,
@@ -420,7 +308,7 @@
         pageIndex: 1,
         pageSize: 5,
         totalElements: 0,
-        selectStatus: null,
+        selectStatus: '2',
         searchValue: null,
         orderNum: null,
         approveTableList: [],
@@ -428,10 +316,6 @@
         trailOn: 0,
         trailDone: 0,
         SelectList: [
-          {
-            value: '1',
-            label: '秀客名称'
-          },
           {
             value: '2',
             label: '淘宝会员名'
@@ -463,9 +347,6 @@
       }
     },
     methods: {
-      ...mapActions([
-        'getUserInformation'
-      ]),
       getTaskStatus(type) {
         return TaskErrorStatusList(type);
       },
@@ -536,19 +417,18 @@
             _this.trailOn = res.data.trailOn;
             _this.trailDone = res.data.trailDone;
             _this.totalElements = res.data.totalElements;
-            for(let i = 0, j = _this.approveTableList.length; i < j; i++){
+            _this.approveTableList.forEach(item => {
               api.getAlitmByAccount({
-                account: _this.approveTableList[i].alitmAccount,
+                account: item.alitmAccount,
               }).then((res) => {
-                if(res.status){
-                  _this.approveTableList[i].creditLevel = _this.taobaoLevelImgs[parseInt(res.data.creditLevel) -1].text;
-                  _this.approveTableList[i].tqz = _this.taoqizhiList[parseInt(res.data.tqz) - 1].label;
-                  _this.$set(_this.approveTableList);
+                if (res.status) {
+                  _this.$set(item, 'creditLevel', res.data.creditLevelUrl);
+                  _this.$set(item, 'tqz', res.data.tqzNum);
                 }
-              })
-            }
+              });
+            });
           }else{
-            _this.$Message.error(res.msg)
+            _this.$Message.error(res.msg);
           }
         })
       },
@@ -598,7 +478,7 @@
           taskId: _this.orderInfo.id
         }).then(res => {
           if (res.status) {
-            _this.getUserInformation();
+            _this.$store.dispatch('getUserInformation');
             _this.showCheckOrder = false;
             _this.$Message.success({
               content: '支付成功！',
@@ -632,7 +512,7 @@
               content: '订单号审核成功！',
               duration: 4
             });
-            _this.getUserInformation();
+            _this.$store.dispatch('getUserInformation');
             _this.taskApplyList();
             _this.closeCheckOrder();
           } else {

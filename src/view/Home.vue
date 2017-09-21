@@ -83,15 +83,10 @@
                   <router-link class="left text-ct" style="width: 33.33%;" :to="{path:'/user/my-probation/pass',query:{status:'order_num_error'}}">{{trialCount.orderNumErrorShowkerTask + trialCount.trialReportUnqualifiedShowkerTask}}</router-link>
                 </div>
                 <div class="left clear-both mt-5" style="width: 100%;">
-                  <span class="left text-ct" style="width: 33.33%;">待领取</span>
+                  <span class="left text-ct" style="width: 33.33%;">待下单</span>
                   <span class="left text-ct" style="width: 33.33%;">待交买家秀</span>
                   <span class="left text-ct" style="width: 33.33%;">待修改</span>
                 </div>
-                <p class="clear-both pt-10">
-                  <router-link to="/user/my-probation/pass" class="ivu-btn ivu-btn-long">
-                    进入我的活动
-                  </router-link>
-                </p>
               </div>
             </div>
             <div class="login-in-box" v-if="isLogin && getUserInfoRole　== 1">
@@ -104,6 +99,7 @@
                 </div>
                 <p class="clear-both fs-14 mt-10 left ml-20">当前进行的活动：
                   <router-link  to="/user/activity-management/list">{{trialCount.underWayTask}} </router-link> 个
+                  &nbsp;<router-link to="/user/task-release">免费发布活动</router-link>
                 </p>
                 <div class="left clear-both mt-10" style="width: 100%;">
                   <router-link class="left text-ct" style="width: 33.33%;" :to="{path:'/user/activity-management/list',query:{status:'under_way'}}">{{trialCount.waitingAuditTaskApply}} </router-link>
@@ -115,14 +111,6 @@
                   <span class="left text-ct" style="width: 33.33%;">待审订单</span>
                   <span class="left text-ct" style="width: 33.33%;">待审买家秀</span>
                 </div>
-                <p class="clear-both pt-10">
-                  <router-link v-if="parseInt(trialCount.finishedTaskCount) + parseInt(trialCount.underWayTask) <= 0 " to="/user/task-release" class="ivu-btn ivu-btn-success ivu-btn-long">
-                    免费发布活动
-                  </router-link>
-                  <router-link v-if="parseInt(trialCount.finishedTaskCount) + parseInt(trialCount.underWayTask) > 0 " to="/user/task-release" class="ivu-btn ivu-btn-error ivu-btn-long">
-                    继续发布活动
-                  </router-link>
-                </p>
               </div>
             </div>
             <div class="notice-box">
@@ -235,6 +223,10 @@
                 url: '',
                 text: '活动担保金没有及时返还怎么办？'
               },
+              {
+                url: '',
+                text: '如何领取活动担保金？'
+              },
             ],
             active: 'faq'
           },
@@ -257,6 +249,10 @@
                 url: '',
                 text: '活动担保金没有及时返还怎么办？'
               },
+              {
+                url: '',
+                text: '如何领取活动担保金？'
+              },
             ],
             active: 'buyerRule'
           },
@@ -278,6 +274,10 @@
               {
                 url: '',
                 text: '活动担保金没有及时返还怎么办？'
+              },
+              {
+                url: '',
+                text: '如何领取活动担保金？'
               },
             ],
             active: 'sellerRule'
@@ -448,7 +448,7 @@
         .login-up-box{
           background-color: #fff;
           padding: 15px;
-          height: 205px;
+          height: 172px;
           margin-bottom: 10px;
           img{
             display: block;
@@ -473,12 +473,12 @@
         .login-in-box{
           background-color: #fff;
           padding: 15px;
-          height: 205px;
+          height: 172px;
           margin-bottom: 10px;
         }
         .notice-box{
           background-color: #fff;
-          height: 185px;
+          height: 218px;
           p{
             display: table;
             width: 100%;
