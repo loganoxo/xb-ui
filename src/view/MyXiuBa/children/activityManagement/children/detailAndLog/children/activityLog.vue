@@ -7,7 +7,7 @@
           <ul slot="content" class="seller-log-details">
             <li v-for="log in logList">
               {{log.createTime | dateFormat('YYYY-MM-DD hh:mm:ss')}}
-              {{log.opDesc}}
+              {{log.opDesc.replace('{phone}',showkerLog.showkerPhone)}}
               <span v-if="log.auditReason">{{log.auditReason}}</span>
               <div v-if="log.opType == 'under_way' && showkerLogList.length > 0" class="shower-log-box">
                 <Collapse >
