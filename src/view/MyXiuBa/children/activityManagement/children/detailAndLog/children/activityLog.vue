@@ -89,7 +89,7 @@
       },
       getShowkerLog(showkerLog, index){
         let self = this;
-        if(showkerLog.detailsAarrayList.length > 0){
+        if(showkerLog.detailsAarrayList != ''){
             return
         }else {
           api.getShowkerLog({
@@ -97,7 +97,7 @@
           }).then((res) => {
             if(res.status){
               self.showkerLogList[index].detailsAarrayList = res.data;
-              self.$set(self.showkerLogList);
+              self.$set(self.showkerLogList,index, self.showkerLogList[index]);
             }else {
               self.$Message.error({
                 content: res.msg,
