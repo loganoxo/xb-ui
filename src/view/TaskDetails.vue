@@ -197,15 +197,21 @@
       </div>
     </Modal>
     <Modal
+      v-if="needBrowseCollectAddCart"
       v-model="showkerApplyBefore"
-      width="700px"
-    >
+      width="700px">
       <p slot="header" style="color:#f60;text-align:center">
         <Icon type="information-circled"></Icon>
         <span>删除确认</span>
       </p>
       <div >
-        <TaskApplyBefore></TaskApplyBefore>
+        <TaskApplyBefore
+          :taskDetail="taskDetail"
+          :storeName="storeName"
+          :taskTypeDesc="taskTypeDesc"
+          :WwNumberLIst="WwNumberLIst"
+          :taskType="taskType"
+          :taskId="taskId"></TaskApplyBefore>
       </div>
       <p slot="footer"></p>
     </Modal>
@@ -256,6 +262,12 @@
       return {
         showkerApplyBefore:false,
         needBrowseCollectAddCart:false,
+        taskDetail:{},
+        storeName:null,
+        taskTypeDesc:null,
+        taskType:null,
+        taskId:null,
+        WwNumberLIst:{},
         taskApplyLoading: false,
         alitNumSuccess: false,
         selectLogin: false,
@@ -352,6 +364,12 @@
       },
       getRole() {
         return this.$store.state.userInfo.role
+      },
+      getNeedBrowseCollectAddCart(){
+        return this.needBrowseCollectAddCart
+      },
+      getTaskId(){
+        return this.$route.query.taskId
       }
     },
     methods: {
@@ -366,12 +384,25 @@
           });
         }else {
           if (self.needBrowseCollectAddCart){
-            this.showkerApplyBefore = true;
+            self.getShowWwList()
           }else {
-            this.getShowkerCanTrial();
+            self.getShowkerCanTrial();
           }
 
         }
+      },
+      getShowWwList(){
+        let self = this;
+        self.showkerApplyBefore = true;
+        self.taskId = self.getTaskId;
+        api.getShowkerCanTrial({
+          taskId: self.$route.query.taskId
+        }).then((res) => {
+          if(res.status){
+            self.WwNumberLIst = res.data.alitmList;
+            self.taskType = res.data.taskType;
+          }
+        })
       },
       getShowkerCanTrial(){
         let self = this;
@@ -384,8 +415,8 @@
             self.selWw = true;
             let selRes = false;
             self.wwList = res.data.alitmList;
-            for(let i = 0, j = res.data.length; i < j; i++){
-              if(res.data[i].status === 2){
+            for(let i = 0, j = res.data.alitmList.length; i < j; i++){
+              if(res.data.alitmList[i].status === 2){
                 selRes = true;
                 self.canUseWw = true;
                 break;
@@ -441,6 +472,9 @@
           if(res.status){
             self.commodityData = res.data;
             self.needBrowseCollectAddCart=res.data.task.needBrowseCollectAddCart;
+            self.taskDetail= res.data.task.taskDetailObject;
+            self.storeName = res.data.task.storeName;
+            self.taskTypeDesc = res.data.task.taskTypeDesc;
             self.$store.commit({
               type: 'TASK_CATEGORY_LIST',
               info: self.commodityData.task.itemCatalog.parentItemCatalog.id
@@ -477,7 +511,12 @@
           }else {
             api.ShowkerApplySelWwId({
               wangwangId: self.selectedWw,
-              taskId: self.$route.query.taskId
+              taskId: self.$route.query.taskId,
+              searchCondition:null,
+              itemLocation:null,
+              browseToBottom:null,
+              enshrine:null,
+              addToCart:null
             }).then((res) => {
               if(res.status){
                 self.applySuccess = true;

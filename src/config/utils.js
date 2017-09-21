@@ -231,5 +231,36 @@ export const TaskErrorStatusList = (type) => {
     case 'task_return_promotion_expenses_seller':
       return '活动结算推广费返款';
       break;
+    case 'pinkage':
+      return '包邮';
+      break;
+    case 'mobile_exclusive':
+      return '手机专享';
+      break;
+    case 'tao_coin_deduction':
+      return '淘金币抵扣';
+      break;
+    case 'sales_return_7_plus':
+      return '7+天退货';
+      break;
+    case 'global_shopping':
+      return '全球购';
+      break;
+    case 'overseas_goods':
+      return '海外商品';
+      break;
+    case 'consumer_protect':
+      return '消费者保障';
+      break;
+    case 'pay_after_receive':
+      return '货到付款';
+      break;
+    case 'hua_pay_installment':
+      return '花呗分期';
+      break;
+    case 'wangwang_online':
+      return '旺旺在线';
+      break;
+
   }
 };

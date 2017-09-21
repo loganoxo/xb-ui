@@ -448,6 +448,13 @@ router.post('/api/task/showker/apply.json', function (req, res, next) {
   let options = {
     method: 'POST',
     uri: baseUrl + '/task/showker/apply/' + req.session.userData.id + '/' + req.body.wangwangId + '/' + req.body.taskId,
+    formData:{
+      searchCondition : req.body.searchCondition,
+      itemLocation : req.body.itemLocation,
+      browseToBottom : req.body.browseToBottom,
+      enshrine : req.body.enshrine,
+      addToCart : req.body.addToCart
+    },
     json: true
   };
   request(options)
