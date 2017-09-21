@@ -13,8 +13,8 @@
               </span>
               <span v-if="log.auditReason">{{log.auditReason}}</span>
               <div v-if="log.opType == 'under_way' && showkerLogList.length > 0" class="shower-log-box">
-                <Collapse  v-for="(showkerLog , index) in showkerLogList" >
-                  <Panel>
+                <Collapse>
+                  <Panel v-for="(showkerLog , index) in showkerLogList" :key="showkerLog.id" >
                     <span style="width: 98%;display: inline-block;"  @click="getShowkerLog(showkerLog, index)"> 秀客 {{showkerLog.showkerPhone}} 任务进程</span>
                     <div slot="content" class="shower-log-details">
                       <p v-for="details in showkerLog.detailsAarrayList">
@@ -41,7 +41,8 @@
     components: {
       Icon: Icon,
       Collapse: Collapse,
-      Panel: Collapse.Panel
+      Panel: Collapse.Panel,
+
     },
     data () {
       return {
@@ -49,6 +50,7 @@
         logList: [],
         showkerLogList: [],
         deleteIndex: [],
+        collapseIndex: [],
       }
     },
     mounted() {
@@ -70,6 +72,7 @@
               if(self.logList[i].showkerTaskId){
                 self.logList[i].detailsAarrayList = [];
                 let part = self.logList.slice(i,i+1);
+                self.collapseIndex.push(i);
                 self.showkerLogList.push(part[0]);
                 self.deleteIndex.push(i);
               }
