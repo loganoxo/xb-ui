@@ -255,4 +255,50 @@ router.post('/api/task/showker/trialReport.json', function (req, res, next) {
       res.end();
     });
 });
+/**
+ * 获取活动日志接口
+ * @param id
+ * @param showkerId
+ */
+router.post('/api/task-log.json', function (req, res, next) {
+  let options = {
+    method: 'GET',
+    uri: baseUrl + "/task/log/" + req.body.taskId + "/" + req.session.userData.id ,
+    json: true,
+  };
+  request(options)
+    .then(function (parsedBody) {
+      res.send(parsedBody);
+      res.end();
+    })
+    .catch(function (err) {
+      logConfig.logger.error(req.originalUrl + ':' + err);
+      res.json({status: false, msg: "服务器请求超时，请稍后在试！"});
+      res.end();
+    });
+});
+
+/**
+ * 获取活动日志秀客任务进程接口
+ * @param id
+ * @param showkerId
+ */
+router.post('/api/task-detail-log.json', function (req, res, next) {
+  let options = {
+    method: 'GET',
+    uri: baseUrl + "/task/log/detail/" + req.body.showkerTaskId + "/" + req.session.userData.id ,
+    json: true,
+  };
+  request(options)
+    .then(function (parsedBody) {
+      res.send(parsedBody);
+      res.end();
+    })
+    .catch(function (err) {
+      logConfig.logger.error(req.originalUrl + ':' + err);
+      res.json({status: false, msg: "服务器请求超时，请稍后在试！"});
+      res.end();
+    });
+});
+
 module.exports = router;

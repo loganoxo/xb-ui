@@ -36,6 +36,13 @@ const PersonalAccountInfo = r => require.ensure([], () => r(require('@/view/MyXi
 const WwBind = r => require.ensure([], () => r(require('@/view/MyXiuBa/children/personalSetting/children/WwBind.vue')), 'PersonalSetting');
 const Verfied = r => require.ensure([], () => r(require('@/view/MyXiuBa/children/personalSetting/children/Verfied.vue')), 'PersonalSetting');
 
+const HelpCenter = r => require.ensure([], () => r(require('@/view/MyXiuBa/children/helpCenter/index.vue')), 'helpCenter');
+const Faq = r => require.ensure([], () => r(require('@/view/MyXiuBa/children/helpCenter/children/Faq.vue')), 'helpCenter');
+const FaqSeller = r => require.ensure([], () => r(require('@/view/MyXiuBa/children/helpCenter/children/FaqSeller.vue')), 'helpCenter');
+const FaqShowker = r => require.ensure([], () => r(require('@/view/MyXiuBa/children/helpCenter/children/FaqShowker.vue')), 'helpCenter');
+
+const MyTrialReport = r => require.ensure([], () => r(require('@/view/MyXiuBa/children/MyTrialReport.vue')), 'MyTrialReport');
+
 const MoneyManagement = r => require.ensure([], () => r(require('@/view/MyXiuBa/children/moneyManagement/index.vue')), 'MoneyManagement');
 const AccountInfo = r => require.ensure([], () => r(require('@/view/MyXiuBa/children/moneyManagement/children/accountInfo.vue')), 'MoneyManagement');
 const AccountManagement = r => require.ensure([], () => r(require('@/view/MyXiuBa/children/moneyManagement/children/accountManagement.vue')), 'MoneyManagement');
@@ -326,6 +333,40 @@ export default new Router({
               component: Verfied,
               meta: {
                 title: "个人设置-实名认证",
+                logInAuthority: true,
+              },
+            }
+          ]
+        },
+        {
+          path: 'help-center',
+          name: 'helpCenter',
+          component: HelpCenter,
+          children: [
+            {
+              path: 'faq',
+              name: 'faq',
+              component: Faq,
+              meta: {
+                title: "帮助中心-常见问题",
+                logInAuthority: true,
+              },
+            },
+            {
+              path: 'faq-seller',
+              name: 'faqSeller',
+              component: FaqSeller,
+              meta: {
+                title: "帮助中心-商家中心",
+                logInAuthority: true,
+              },
+            },
+            {
+              path: 'faq-showker',
+              name: 'faqShowker',
+              component: FaqShowker,
+              meta: {
+                title: "个人设置-秀客中心",
                 logInAuthority: true,
               },
             }

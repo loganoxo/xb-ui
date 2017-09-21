@@ -251,7 +251,6 @@
       TimeDown: TimeDown,
       Alert: Alert,
       TaskApplyBefore:TaskApplyBefore
-
     },
     data () {
       return {
@@ -384,7 +383,7 @@
           if(res.status){
             self.selWw = true;
             let selRes = false;
-            self.wwList = res.data;
+            self.wwList = res.data.alitmList;
             for(let i = 0, j = res.data.length; i < j; i++){
               if(res.data[i].status === 2){
                 selRes = true;

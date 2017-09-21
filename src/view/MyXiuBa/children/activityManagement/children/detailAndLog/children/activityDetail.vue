@@ -399,6 +399,7 @@
     created() {
       this.getItemCatalog();
       let taskId = this.$route.query.taskId;
+      this.$emit('viewIn',taskId);
       if (taskId) {
         this.editTaskId = taskId;
         this.getTaskInfo();

@@ -577,4 +577,18 @@ export default {
     return fetch("/api/passes/end/showker/task/count.json", params)
   },
 
+  /**
+   * 获取活动任务日志
+   */
+  getLogList(params) {
+    return fetch("/api/task-log.json", params)
+  },
+
+  /**
+   * 获取秀客活动进程任务日志
+   */
+  getShowkerLog(params){
+    return fetch("/api/task-detail-log.json", params)
+  }
+
 }

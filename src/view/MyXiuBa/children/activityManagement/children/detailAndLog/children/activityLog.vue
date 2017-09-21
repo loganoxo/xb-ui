@@ -1,66 +1,39 @@
-<template>
+<template :ref="c1">
   <div class="log-box">
     <div class="seller-log-box">
       <Collapse v-model="buyerCourse">
         <Panel name="1">
           商家活动进程
-
-
           <ul slot="content" class="seller-log-details">
-            <li>2017-09-19 15:30:33:38 商家创建活动</li>
-            <li>2017-09-19 15:30:33:38 商家创建活动</li>
-            <li>2017-09-19 15:30:33:38 商家创建活动</li>
-            <li>
-              2017-09-19 15:30:33:38 商家活动进行中：
-               <div class="shower-log-box">
-              <Collapse v-model="value1">
-                <Panel name="1">
-                  秀客 13758794623 活动进程
-                  <div slot="content" class="shower-log-details">
-                  <p>2017-09-19 15:30:33:38 商家创建活动</p>
-                  <p>2017-09-19 15:30:33:38 商家创建活动</p>
-                  <p>2017-09-19 15:30:33:38 商家创建活动</p>
-                  <p>2017-09-19 15:30:33:38 商家创建活动</p>
-                  <p>2017-09-19 15:30:33:38 商家创建活动</p>
-                </div>
-                </Panel>
-                <Panel name="2">
-                  秀客 13758794623 活动进程
-                  <div slot="content" class="shower-log-details">
-                  <p>2017-09-19 15:30:33:38 商家创建活动</p>
-                  <p>2017-09-19 15:30:33:38 商家创建活动</p>
-                  <p>2017-09-19 15:30:33:38 商家创建活动</p>
-                  <p>2017-09-19 15:30:33:38 商家创建活动</p>
-                  <p>2017-09-19 15:30:33:38 商家创建活动</p>
-                </div>
-                </Panel>
-                <Panel name="3">
-                  秀客 13758794623 活动进程
-                  <div slot="content" class="shower-log-details">
-                  <p>2017-09-19 15:30:33:38 商家创建活动</p>
-                  <p>2017-09-19 15:30:33:38 商家创建活动</p>
-                  <p>2017-09-19 15:30:33:38 商家创建活动</p>
-                  <p>2017-09-19 15:30:33:38 商家创建活动</p>
-                  <p>2017-09-19 15:30:33:38 商家创建活动</p>
-                </div>
-                </Panel>
-              </Collapse>
-            </div>
+            <li v-for="log in logList">
+              {{log.createTime | dateFormat('YYYY-MM-DD hh:mm:ss')}}
+              {{log.opDesc}}
+              <span v-if="log.auditReason">{{log.auditReason}}</span>
+              <div v-if="log.opType == 'under_way' && showkerLogList.length > 0" class="shower-log-box">
+                <Collapse v-model="value1" >
+                  <Panel v-for="(showkerLog , index) in showkerLogList" >
+                    <span style="width: 98%;display: inline-block;"  @click="getShowkerLog(showkerLog, index)"> 秀客 {{showkerLog.showkerPhone}} 任务进程</span>
+                    <div slot="content" class="shower-log-details">
+                      <p v-for="details in showkerLog.detailsAarrayList">
+                        {{details.opTime | dateFormat('YYYY-MM-DD hh:mm:ss')}}
+                        {{details.opDesc.replace('{phone}',showkerLog.showkerPhone)}}
+                      </p>
+                    </div>
+                  </Panel>
+                </Collapse>
+              </div>
             </li>
-            <li>2017-09-19 15:30:33:38 商家创建活动</li>
           </ul>
         </Panel>
       </Collapse>
     </div>
-
-
   </div>
 </template>
 
 <script>
   import Icon from 'iview/src/components/icon'
   import Collapse from 'iview/src/components/collapse'
-
+  import api from '@/config/apiConfig'
   export default {
     components: {
       Icon: Icon,
@@ -70,17 +43,60 @@
     data () {
       return {
         value1: '1',
-        buyerCourse: "1"
+        buyerCourse: "1",
+        logList: [],
+        showkerLogList: [],
+        deleteIndex: [],
       }
     },
     mounted() {
 
     },
     created() {
-
+      this.getLogList()
     },
     computed: {},
-    methods: {}
+    methods: {
+      getLogList(){
+        let self  = this;
+        api.getLogList({
+          taskId: self.$route.query.taskId
+        }).then((res) => {
+          if(res.status){
+            self.logList = res.data;
+            for(let i = 0, j = self.logList.length; i < j; i++){
+              if(self.logList[i].showkerTaskId){
+                self.logList[i].detailsAarrayList = [];
+                let part = self.logList.slice(i,i+1);
+                self.showkerLogList.push(part[0]);
+                self.deleteIndex.push(i);
+              }
+            }
+            for(let z = 0, g = self.deleteIndex.length; z < g; z++){
+              self.logList.splice(self.deleteIndex[z],1);
+            }
+          }else {
+            self.$Message.error({
+              content: res.msg,
+            })
+          }
+        })
+      },
+      getShowkerLog(showkerLog, index){
+        let self = this;
+        if(showkerLog.detailsAarrayList.length > 0){
+            return
+        }else {
+          api.getShowkerLog({
+            showkerTaskId: showkerLog.showkerTaskId
+          }).then((res) => {
+            self.showkerLogList[index].detailsAarrayList = res.data;
+            self.$set(self.showkerLogList);
+          })
+        }
+
+      }
+    }
   }
 </script>
 

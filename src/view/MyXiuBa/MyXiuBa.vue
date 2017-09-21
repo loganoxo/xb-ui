@@ -33,7 +33,7 @@
         </li>
         <li :class="{isSelect:isSelect ==='helpCenter'}">
           <Icon type="help-buoy"></Icon>
-          <router-link to="/user/task-release">帮助中心</router-link>
+          <router-link to="/user/help-center/faq">帮助中心</router-link>
         </li>
       </ul>
       <!--秀客管理导航-->
@@ -62,9 +62,9 @@
           <Icon type="gear-b"></Icon>
           <router-link to="/user/personal-setting/personal-account-info">个人设置</router-link>
         </li>
-        <li :class="{isSelect:isSelect ==='helpCenter'}">
+        <li :class="{isSelect:isSelect ==='helpCenter'|| isSelect === 'faq' || isSelect === 'faqSeller' || isSelect === 'faqShowker'}">
           <Icon type="help-buoy"></Icon>
-          <router-link to="/user/personal-setting">帮助中心</router-link>
+          <router-link to="/user/help-center/faq">帮助中心</router-link>
         </li>
       </ul>
     </div>

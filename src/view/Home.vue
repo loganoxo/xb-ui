@@ -63,7 +63,7 @@
                 <img src="~assets/img/common/home_24.png" alt="">
                 <p>hi，你还没登录哦~</p>
               </div>
-              <div class="mt-10">
+              <div class="mt-40">
                 <router-link  to="/sel-role">免费注册</router-link>
                 <router-link to="/login">马上登录</router-link>
               </div>
