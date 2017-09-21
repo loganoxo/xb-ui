@@ -10,7 +10,7 @@
               {{log.opDesc}}
               <span v-if="log.auditReason">{{log.auditReason}}</span>
               <div v-if="log.opType == 'under_way' && showkerLogList.length > 0" class="shower-log-box">
-                <Collapse v-model="value1" >
+                <Collapse >
                   <Panel v-for="(showkerLog , index) in showkerLogList" >
                     <span style="width: 98%;display: inline-block;"  @click="getShowkerLog(showkerLog, index)"> 秀客 {{showkerLog.showkerPhone}} 任务进程</span>
                     <div slot="content" class="shower-log-details">
@@ -42,7 +42,6 @@
     },
     data () {
       return {
-        value1: '1',
         buyerCourse: "1",
         logList: [],
         showkerLogList: [],
