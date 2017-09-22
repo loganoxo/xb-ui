@@ -5,7 +5,7 @@
     <span class="ml-10">活动编号：</span>
     <iInput v-model="taskNumber" style="width: 160px;margin-right: 8px;"></iInput>
     <iButton type="primary" :loading="searchLoading" @click="appliesWaitingAuditTask">搜索</iButton>
-    <Collapse class="mt-20">
+    <Collapse class="mt-20" accordion>
       <Panel v-for="(item,index) in taskWaitAuditList" :key="item.id">
         <div @click="appliesWaitingAuditNewest(item.id,index)" style="width: 100%; height: 100%;">
           <div class="manage-img inline-block">
@@ -170,12 +170,12 @@
         let _this = this;
         _this.operateTaskId = taskId;
         _this.operateIndex = index;
-        if (_this.taskWaitAuditList[index].applyAllTask) {
+       /* if (_this.taskWaitAuditList[index].applyAllTask) {
           _this.taskWaitAuditList[index].applyAllTask = [];
         }
         if (_this.taskWaitAuditList[index].applyNewestTask) {
           _this.taskWaitAuditList[index].applyNewestTask = [];
-        }
+        }*/
         api.appliesWaitingAuditNewest({
           taskId: taskId,
           pageIndex: _this.pageIndex,

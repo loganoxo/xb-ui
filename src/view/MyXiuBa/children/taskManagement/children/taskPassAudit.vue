@@ -247,7 +247,7 @@
         _this.searchLoading = true;
         api.passesTask({
           pageIndex: _this.pageIndex,
-          pageSize: _this.pageIndex,
+          pageSize: _this.pageSize,
           taskNumber: _this.taskNumber,
           alitmAccount: _this.alitmAccount,
           orderNum: _this.orderNum,

@@ -119,6 +119,24 @@ export const aliUploadImg = (key, file) => {
 };
 
 /**
+ * 深度copy（数组，对象）
+ */
+export const extendDeep = (obj, child) => {
+  let i, proxy;
+  proxy = JSON.stringify(parent);
+  proxy = JSON.parse(proxy);
+  child = child || {};
+  for (i in proxy) {
+    if (proxy.hasOwnProperty(i)) {
+      child[i] = proxy[i];
+    }
+  }
+  proxy = null;
+  return child;
+
+};
+
+/**
  * 任务流程状态映射
  */
 export const TaskErrorStatusList = (type) => {

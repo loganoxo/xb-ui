@@ -26,7 +26,7 @@
         </Checkbox-group>
       </div>
     </div>
-    <Collapse class="mt-20">
+    <Collapse class="mt-20" accordion>
       <Panel v-for="(item,index) in taskFailAuditList" :key="item.id">
         <div @click="appliesEndShowkerTask(item.id,index)" style="width: 100%; height: 100%;">
           <div class="manage-img inline-block">
