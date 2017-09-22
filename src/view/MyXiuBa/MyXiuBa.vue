@@ -68,7 +68,7 @@
         </li>
       </ul>
     </div>
-    <div class="my-xiu-ba-con-right left clear">
+    <div class="my-xiu-ba-con-right left clear ml-20">
       <router-view></router-view>
     </div>
   </div>

@@ -9,8 +9,8 @@
     </p>
     <div>
       <div v-show="selFaq == 'common'" class="faq-que-ans animated fadeIn ">
-        <Collapse class="mt-20">
-          <Panel>
+        <Collapse class="mt-20" v-model="selectedFaq">
+          <Panel name="1">
             1、秀客下单规则：
 
 
@@ -22,34 +22,26 @@
               <p>1.5、因商家修改产品价格、标题、属性以及活动页面主图而造成秀客下单错误的，及时向平台客服反应； </p>
             </div>
           </Panel>
-        </Collapse>
-        <Collapse class="mt-20">
-          <Panel>
+          <Panel name="2">
             2、获得免费试用资格后需在多久内下单？
               <p slot="content">
             获得试用资格的秀客，需在24小时内完成下单并将订单号和金额反馈至平台，超时视为自动放弃任务，系统将自动取消任务资格。
             </p>
           </Panel>
-        </Collapse>
-        <Collapse class="mt-20">
-          <Panel>
+          <Panel name="3">
             3、下单需要垫付么
             <p slot="content">
             是的，秀客去到商家店铺购买商品时，需先行垫付，到商品确认收货评价后商家返还垫付资金。
           </p>
           </Panel>
-        </Collapse>
-        <Collapse class="mt-20">
-          <Panel>
+          <Panel name="4">
             4、可以使用花呗、淘金币、信用卡等返利方式下单领取吗？
             <p slot="content">
             不可以。下单领取时禁止使用花呗、信用卡和淘宝客等返利方式付款，如使用后，
             对商家不必要的金钱损失， 秀吧365试用平台视情节严重，对秀客进行对应的处罚，情节严重会进行封号处理。
            </p>
           </Panel>
-        </Collapse>
-        <Collapse class="mt-20">
-          <Panel>
+          <Panel name="5">
             5、商家如何发货？
 
 
@@ -57,9 +49,7 @@
               <p> 秀客下单后，商家会根据默认合作快递发货。</p>
             </div>
           </Panel>
-        </Collapse>
-        <Collapse class="mt-20">
-          <Panel>
+          <Panel name="6">
             6、下单后什么时候发货？
 
 
@@ -67,9 +57,7 @@
               <p>下单后，商家会在72小时之内操作发货。</p>
             </div>
           </Panel>
-        </Collapse>
-        <Collapse class="mt-20">
-          <Panel>
+          <Panel name="7">
             7、商家如何返款？
 
 
@@ -77,70 +65,12 @@
               <p> 目前平台只保证金返款。商家核实试用报告无误后操作（确认返款），存入的保证金将于操作后打入秀客的平台账户。</p>
             </div>
           </Panel>
-        </Collapse>
-        <Collapse class="mt-20">
-          <Panel>
+          <Panel name="8">
             8、商家什么时候返款？
 
 
             <div slot="content">
               <p> 在平台提交买家秀后，商家会在3天内操作返款。</p>
-            </div>
-          </Panel>
-        </Collapse>
-        <Collapse class="mt-20">
-          <Panel>
-            9、秀客的买家秀通过后多久可以返款？
-
-
-
-
-
-
-
-
-            <div slot="content">
-              <p>
-                商家发布活动时可选择宝贝是否包邮，如果宝贝不包邮，需要额外多垫付10元邮费，随货款一起对买手实行多退少补返还！
-              </p>
-            </div>
-          </Panel>
-        </Collapse>
-        <Collapse class="mt-20">
-          <Panel>
-            11、什么条件下可以申请活动结算？
-
-
-
-
-            <div slot="content">
-              <p>进行中的活动需满足以下两点可申请结算：</p>
-              <p>1、审批份数大于或等于规定试用名额</p>
-              <p>2、没有正在参与活动的试客（所有审核的试客都已完成或终止试用）</p>
-              <p>已结束的活动需满足以下两点可申请结算：</p>
-              <p>1、审批份数大于或等于规定试用名额</p>
-              <p>1.1如申请人数大于试用品发放份数，商家审批完相应份数的试用名额</p>
-              <p>1.2如申请人数小于试用品发放份数，商家审批申请人数60%以上的试用名额</p>
-              <p>2、没有正在参与活动的试客（所有审核的试客都已完成或终止试用）</p>
-            </div>
-          </Panel>
-        </Collapse>
-        <Collapse class="mt-20">
-          <Panel>
-            11、申请的提现什么时候处理？提现多久后到账？
-
-
-
-
-
-
-
-
-            <div slot="content">
-              <p>
-                每天进行两提现处理。当日12:00-当日18:00间申请提现的，在当日18:00处理；当日18:00-次日12:00间申请提现的，
-                在次日12:00处理。成功提现的订单即表示已经打款成功，具体到账时间以每个银行受理时间为准。
-              </p>
             </div>
           </Panel>
         </Collapse>
@@ -351,6 +281,7 @@
     },
     data() {
       return {
+        selectedFaq: '',
         faqSelList: [
           {
             text: '秀客常见问题',
@@ -372,9 +303,13 @@
       this.$nextTick(function () {
         let self = this;
         let page = self.$route.query.page;
+        let qusNum = self.$route.query.qusNum;
         if(page){
           let child = self.$refs;
           child[page][0].$el.click()
+        }
+        if(qusNum){
+          self.selectedFaq = qusNum
         }
       })
     },

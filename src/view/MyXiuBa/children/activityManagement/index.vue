@@ -172,12 +172,12 @@
       line-height: 24px;
     }
     .trial-img-info {
-      @include wh(884px, 662px);
+      width: 884px;
       border: 1px solid #F8F6F5;
       margin: 20px auto 0 auto;
       position: relative;
       .trial-img {
-        @include wh(420px, 500px);
+        width: 420px;
         margin: 26px auto 0 auto;
         img {
           width: 100%;

@@ -130,7 +130,7 @@
                 <a v-for="notice in noticeList" :class="[noticeActive == notice.active ? 'active' : '']" @click="changeNoticeTab(notice)">{{notice.title}}</a>
               </p>
               <div v-for="notice in noticeList" v-show="noticeActive == notice.active" class="notice-text animated fadeIn" >
-                <router-link  v-for="content in notice.content"  :to="{path: content.url, query: {page: content.page}}" class="circle-text">{{content.text}}</router-link>
+                <router-link  v-for="content in notice.content"  :to="{path: content.url, query: {page: content.page, qusNum: content.qusNum}}" class="circle-text">{{content.text}}</router-link>
               </div>
             </div>
           </div>
@@ -222,22 +222,26 @@
               {
                 url: '/user/help-center/faq',
                 text: '平台有哪些活动？',
-                page: 'common'
+                page: 'common',
+                qusNum: '1'
               },
               {
                 url: '/user/help-center/faq',
                 text: '注册秀吧收费么？',
-                page: 'common'
+                page: 'common',
+                qusNum: '1'
               },
               {
                 url: '/user/help-center/faq',
                 text: '支持哪几个平台试用活动？',
-                page: 'common'
+                page: 'common',
+                qusNum: '4'
               },
               {
                 url: '/user/help-center/faq',
                 text: '平台能提现吗？提现需要手续费吗？',
-                page: 'common'
+                page: 'common',
+                qusNum: '10'
               },
             ],
             active: 'faq'
@@ -253,17 +257,20 @@
               {
                 url: '/user/help-center/faq-showker',
                 text: '秀客下单规则？',
-                page: 'common'
+                page: 'common',
+                qusNum: '1'
               },
               {
                 url: '/user/help-center/faq-showker',
                 text: '下单需要垫付么？',
-                page: 'common'
+                page: 'common',
+                qusNum: '3'
               },
               {
                 url: '/user/help-center/faq-showker',
                 text: '商家如何返款？',
-                page: 'common'
+                page: 'common',
+                qusNum: '7'
               },
             ],
             active: 'buyerRule'
@@ -279,17 +286,20 @@
               {
                 url: '/user/help-center/faq-seller',
                 text: '商家活动支持哪几种搜索/下单渠道？',
-                page: 'common'
+                page: 'common',
+                qusNum: '1'
               },
               {
                 url: '/user/help-center/faq-seller',
                 text: '商家发布活动如何收费？',
-                page: 'common'
+                page: 'common',
+                qusNum: '5'
               },
               {
                 url: '/user/help-center/faq-seller',
                 text: '什么条件下可以申请活动结算？',
-                page: 'common'
+                page: 'common',
+                qusNum: '11'
               },
             ],
             active: 'sellerRule'

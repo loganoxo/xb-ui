@@ -9,40 +9,32 @@
     </p>
     <div>
       <div v-show="selFaq == 'common'" class="faq-que-ans animated fadeIn ">
-        <Collapse class="mt-20">
-          <Panel>
+        <Collapse class="mt-20" v-model="selectedFaq">
+          <Panel name="1">
             1、商家活动支持哪几种搜索/下单渠道？
             <p slot="content">
             目前支持淘宝自然搜索，手淘自然搜索，淘口令，直接下单。
            </p>
           </Panel>
-        </Collapse>
-        <Collapse class="mt-20">
-          <Panel>
+          <Panel name="2">
             2、商家发布任务支持哪几种支付方式？
               <p slot="content">
             目前支持支付宝方式
          </p>
           </Panel>
-        </Collapse>
-        <Collapse class="mt-20">
-          <Panel>
+          <Panel name="3">
             3、商家发布的活动需要审核么？审核一般需要多久？
              <p slot="content">
             商家提交的活动是需要经过客服人工审核的，当日18：00之前的任务于当日审核，18：00之后的任务次日审核。 如需紧急上线请联系在线客服。
         </p>
           </Panel>
-        </Collapse>
-        <Collapse class="mt-20">
-          <Panel>
+          <Panel name="4">
             4、审核上线的活动可以中途修改、撤销或者暂停么？
              <p slot="content">
             活动提交审核前，商家应自行检查活动信息是否正确，活动审核上线中途不能撤销或者申请活动暂停。
            </p>
           </Panel>
-        </Collapse>
-        <Collapse class="mt-20">
-          <Panel>
+          <Panel name="5">
             5、商家如何发货？
 
 
@@ -51,9 +43,7 @@
 
             </div>
           </Panel>
-        </Collapse>
-        <Collapse class="mt-20">
-          <Panel>
+          <Panel name="6">
             6、秀客下单后要在多久之内操作发货？
 
 
@@ -61,47 +51,40 @@
               <p> 秀客下单后，商家需在72小时之内给秀客操作发货。平台认为商家操作了成功审核订单号即表示在自己的店铺成功发货。</p>
             </div>
           </Panel>
-        </Collapse>
-        <Collapse class="mt-20">
-          <Panel>
+          <Panel name="7">
             7、商家如何给秀客返款？
-
 
             <div slot="content">
               <p> 目前秀吧平台只支持保证金返款。</p>
             </div>
           </Panel>
-        </Collapse>
-        <Collapse class="mt-20">
-          <Panel>
+          <Panel name="8">
             8、秀客需在多长的时间内在平台提交买家秀？
-
 
             <div slot="content">
               <p>秀客需要在商家发货后12天内提交买家秀，提交后商家需要在72小时内进行审核评价。</p>
             </div>
           </Panel>
-        </Collapse>
-        <Collapse class="mt-20">
-          <Panel>
+          <Panel name="9">
             9、秀客的买家秀通过后多久可以返款？
-
-
-
-
-
 
             <div slot="content">
               <p>
-                商家发布活动时可选择宝贝是否包邮，如果宝贝不包邮，需要额外多垫付10元邮费，随货款一起对买手实行多退少补返还！
-              </p>
+                秀客发表买家秀，商家确认通过后，通过即可返款。
+            </p>
             </div>
           </Panel>
-        </Collapse>
-        <Collapse class="mt-20">
-          <Panel>
-            11、什么条件下可以申请活动结算？
+          <Panel name="10">
+            10、试用宝贝邮费怎么算？
 
+            <div slot="content">
+            <p>
+              商家发布活动时可选择宝贝是否包邮，如果宝贝不包邮，需要额外多垫付10元邮费，随货款一起对买手实行多退少补返还！
+           </p>
+          </div>
+          </Panel>
+          <Panel name="11">
+            11、什么条件下可以申请活动结算？
 
             <div slot="content">
               <p>进行中的活动需满足以下两点可申请结算：</p>
@@ -112,23 +95,6 @@
               <p>1.1如申请人数大于试用品发放份数，商家审批完相应份数的试用名额</p>
               <p>1.2如申请人数小于试用品发放份数，商家审批申请人数60%以上的试用名额</p>
               <p>2、没有正在参与活动的试客（所有审核的试客都已完成或终止试用）</p>
-            </div>
-          </Panel>
-        </Collapse>
-        <Collapse class="mt-20">
-          <Panel>
-            11、申请的提现什么时候处理？提现多久后到账？
-
-
-
-
-
-
-            <div slot="content">
-              <p>
-                每天进行两提现处理。当日12:00-当日18:00间申请提现的，在当日18:00处理；当日18:00-次日12:00间申请提现的，
-                在次日12:00处理。成功提现的订单即表示已经打款成功，具体到账时间以每个银行受理时间为准。
-              </p>
             </div>
           </Panel>
         </Collapse>
@@ -294,6 +260,7 @@
     },
     data() {
       return {
+        selectedFaq: '',
         faqSelList: [
           {
             text: '商家常见问题',
@@ -315,19 +282,18 @@
       this.$nextTick(function () {
         let self = this;
         let page = self.$route.query.page;
+        let qusNum = self.$route.query.qusNum;
         if(page){
           let child = self.$refs;
           child[page][0].$el.click()
         }
+        if(qusNum){
+          self.selectedFaq = qusNum
+        }
       })
     },
     created() {
-        this.selQuestion({
-          text: '商家活动完整流程',
-          type: 'ghost',
-          selFaq: 'special',
-          ref: 'special'
-        },1)
+
     },
     computed: {
       getUserRole() {
