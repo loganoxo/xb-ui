@@ -480,7 +480,7 @@
               info: self.commodityData.task.itemCatalog.parentItemCatalog.id
             });
             parseInt(res.data.trailDone) ? self.graphicInfoSels[1].num = res.data.trailDone : self.graphicInfoSels[1].num = 0;
-            if(parseInt(res.data.task.showkerApplySuccessCount) || parseInt(res.data.trialEnd)){
+            if(parseInt(res.data.task.showkerApplySuccessCount) || parseInt(res.data.trailEnd)){
               self.graphicInfoSels[2].num = parseInt(res.data.task.showkerApplySuccessCount) + parseInt(res.data.trailEnd)
             }else{
               self.graphicInfoSels[2].num = 0;
