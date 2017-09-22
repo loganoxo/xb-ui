@@ -72,7 +72,7 @@
             <p>{{item.tradTime | dateFormat('hh:mm:ss ')}}</p>
           </td>
           <td>
-            <p>{{getTradType(item.changeName)}}</p>
+            <p>{{getTradType(item.accountChangeType)}}</p>
             <p>活动编号：{{item.taskSerialNum}}</p>
           </td>
           <td :class="{tdColor:item.amountChange<0 , tdColorGreen:item.amountChange>0}">{{typeChang(item.amountChange / 100) || 0}}</td>

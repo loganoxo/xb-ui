@@ -279,6 +279,17 @@ export const TaskErrorStatusList = (type) => {
     case 'wangwang_online':
       return '旺旺在线';
       break;
-
+    case 0 :
+      return '活动';
+      break;
+    case 1 :
+      return '充值';
+      break;
+    case 2 :
+      return '提现';
+      break;
+    case 3 :
+      return 'VIP会员订购';
+      break;
   }
 };

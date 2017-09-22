@@ -8,7 +8,7 @@
             <Radio v-for="ww in WwNumberLIst " :label="ww.id" :key="ww.id"><span>{{ww.alitmAccount}}</span></Radio>
           </Radio-group>
         </div>
-        <div class="activity-type mt-40" >
+        <div v-if="taskType === 'pc_search'" class="activity-type mt-40" >
           <span class="serial-number">2</span>
           <h3 >通过商家指定的方式找到该宝贝</h3>
           <div class=" mt-10 search-type">{{taskTypeDesc}}</div>
@@ -22,11 +22,38 @@
             <p class="left ml-20 mt-22">店铺名称：{{storeName}}<br/>价格：￥{{taskDetail.searchPagePrice/100}}</p>
           </div>
         </div>
+        <div v-if="taskType === 'app_search'" class="activity-type mt-40" >
+          <span class="serial-number">2</span>
+          <h3 >通过商家指定的方式找到该宝贝</h3>
+          <div class=" mt-10 search-type">{{taskTypeDesc}}</div>
+          <p>第一步：打开浏览器输入[www.taobao.com]</p>
+          <p>第二步：输入关键词[{{taskDetail.searchKeyword}}]</p>
+          <p>第三步：选择[{{changeNameType(taskDetail.searchSort)}}]排序</p>
+          <p>第四步：搜索指定价格[{{taskDetail.priceRangeMin/100}}-{{taskDetail.priceRangeMax/100}}],勾选[{{checkText}}]</p>
+          <p>第五步：在[{{taskDetail.searchRankPosition}}]页附近找到下图宝贝。(由于千人千面的影响，位置仅供参考)</p>
+          <div class="mt-20 clear">
+            <img class="pic left " :src="taskDetail.itemMainImage" alt="">
+            <p class="left ml-20 mt-22">店铺名称：{{storeName}}<br/>价格：￥{{taskDetail.searchPagePrice/100}}</p>
+          </div>
+        </div>
+        <div v-if="taskType === 'tao_code'" class="activity-type mt-40" >
+          <span class="serial-number">2</span>
+          <h3 >通过商家指定的方式找到该宝贝</h3>
+          <div class=" mt-10 search-type">{{taskTypeDesc}}</div>
+          <p><span>淘口令</span><span>【<strong>{{taskDetail.taoCode}}</strong>】</span><a class="ml-10" href="javascript:;">点击复制淘口令</a></p>
+          <p>入口说明：【<strong>直接在手机端上复制淘口令，打开手淘会自动弹出宝贝链接，或直接用手淘扫描上方二维码</strong>】</p>
+        </div>
+        <div v-if="taskType === 'direct_access'" class="activity-type mt-40" >
+          <span class="serial-number">2</span>
+          <h3 >通过商家指定的方式找到该宝贝</h3>
+          <div class=" mt-10 search-type">{{taskTypeDesc}}</div>
+          <p><span>宝贝链接:</span><a target="_blank" :href="itemUrl">{{itemUrl}}</a></p>
+        </div>
         <div class="screen-shot mt-22 clear" >
           <span class="serial-number">3</span>
           <h3>宝贝浏览见底、收藏、加入购物车，并提交相关截图</h3>
           <div class="mt-22 left">宝贝截图上传：</div>
-          <div v-if="taskTypeDesc === 'PC搜索下单'" class="clear left center mt-20 ">
+          <div v-if="taskType === 'pc_search'" class="clear left center mt-20 ">
            <div class="left ml-10 ">
              <Upload
                class="ml-5"
@@ -133,7 +160,7 @@
              <p class="mt-8 cursor-p example" >查看示例图</p>
            </div>
           </div>
-          <div v-if="taskTypeDesc === '手淘搜索下单'" class="clear left center mt-20 ">
+          <div v-if="taskType === 'app_search'" class="clear left center mt-20 ">
            <div class="left ml-10">
              <Upload
                class="ml-5"
@@ -219,7 +246,7 @@
              <p class="mt-8 cursor-p example" >查看示例图</p>
            </div>
           </div>
-          <div v-if="taskTypeDesc === '淘口令下单'" class="clear left center mt-20 ">
+          <div v-if="taskType === 'tao_code'" class="clear left center mt-20 ">
             <div class="left ml-10">
               <Upload
                 class="ml-5"
@@ -284,7 +311,7 @@
               <p class="mt-8 cursor-p example" >查看示例图</p>
             </div>
           </div>
-          <div v-if="taskTypeDesc === '宝贝链接下单'" class="clear left center mt-20 ">
+          <div v-if="taskType === 'direct_access'" class="clear left center mt-20 ">
             <div class="left ml-10">
               <Upload
                 class="ml-5"
@@ -402,6 +429,10 @@
       },
       taskId:{
         default:null
+      },
+      itemUrl:{
+        type:String,
+        default:null
       }
     },
     data() {
@@ -416,7 +447,8 @@
           browseToBottomImage:null,
           enshrineImage:null,
           addToCartImage:null
-        }
+        },
+        payPopWindow:false,
       }
     },
     computed: {
@@ -424,7 +456,9 @@
         return this.$store.getters.getUserBalance;
       },
       checkText: function () {
-        return this.taskDetail.searchFilterDesc.split(',').join('、');
+        if(this.taskDetail.searchFilterDesc){
+          return this.taskDetail.searchFilterDesc.split(',').join('、');
+        }
       },
     },
     created() {
@@ -438,7 +472,10 @@
       },
       //提交
       success(type){
-        this.selWwFunc(type)
+        this.selWwFunc(type);
+//        this.payPopWindow = false;
+//        this.$emit('request', this.payPopWindow);
+
       },
       removeMainImage() {
 
@@ -493,7 +530,9 @@
               addToCart:self.upLoadImageUrl.addToCartImage||null,
             }).then((res) => {
               if(res.status){
-                self.$Message.success('活动申请成功')
+                self.$Message.success('活动申请成功');
+                self.payPopWindow = false;
+                self.$emit('request', self.payPopWindow);
               }else {
                 self.$Message.error({
                   content: res.msg,

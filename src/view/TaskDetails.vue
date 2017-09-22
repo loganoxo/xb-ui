@@ -38,7 +38,7 @@
             </p>
             <div v-if="getRole === 0 && isLogin">
               <iButton v-show="!commodityData.taskApply" :disabled="taskApplyLoading"  size="large" class="fs-16 default-btn" long type="error" @click="applyForTrialFunc">申请活动</iButton>
-              <iButton v-show="commodityData.taskApply" disabled size="large" class="fs-16 default-btn" long >已申请</iButton>
+              <iButton v-show="commodityData.taskApply||disabled" disabled size="large" class="fs-16 default-btn" long >已申请</iButton>
             </div>
             <iButton v-if="getRole === 1 && isLogin " size="large" class="fs-16 default-btn"  type="warning" style="width: 200px;">商家号不可以参加活动</iButton>
             <a v-if="!isLogin "  class="ivu-btn ivu-btn-error ivu-btn-large" @click="selectLogin = true" style="width: 150px;">
@@ -150,6 +150,7 @@
         </div>
       </div>
     </div>
+
     <Modal
       v-model="selWw" class-name="vertical-center-modal" ok-text="确定" cancel-text="" @on-ok="selWwFunc(wwList)">
       <p class="fs-18 fb mt-20" style="color: #FF6600">请选择活动旺旺号:</p>
@@ -199,19 +200,22 @@
     <Modal
       v-if="needBrowseCollectAddCart"
       v-model="showkerApplyBefore"
-      width="700px">
+      :mask-closable=false
+      width="700">
       <p slot="header" style="color:#f60;text-align:center">
         <Icon type="information-circled"></Icon>
-        <span>删除确认</span>
+        <span>该活动需要先浏览、收藏、加购后方可申请</span>
       </p>
       <div >
         <TaskApplyBefore
+          v-on:request="getShowkerApplyBefore"
           :taskDetail="taskDetail"
           :storeName="storeName"
           :taskTypeDesc="taskTypeDesc"
           :WwNumberLIst="WwNumberLIst"
           :taskType="taskType"
-          :taskId="taskId"></TaskApplyBefore>
+          :taskId="taskId"
+          :itemUrl="itemUrl"></TaskApplyBefore>
       </div>
       <p slot="footer"></p>
     </Modal>
@@ -267,7 +271,10 @@
         taskTypeDesc:null,
         taskType:null,
         taskId:null,
+        itemUrl:null,
         WwNumberLIst:{},
+        disabled:false,
+
         taskApplyLoading: false,
         alitNumSuccess: false,
         selectLogin: false,
@@ -373,6 +380,10 @@
       }
     },
     methods: {
+      getShowkerApplyBefore(payPopWindow){
+        this.showkerApplyBefore = payPopWindow;
+        this.applySuccess = true;
+      },
       applyForTrialFunc(){
         let self = this;
         if(!self.$store.state.login){
@@ -461,7 +472,6 @@
         api.getDetailsSuccessShowkerList(self.detailsSuccessShowkerParams).then((res) => {
           if(res.status){
             self.detailsSuccessShowkerList = res.data.content;
-
             this.graphicInfoSels[2].num = res.data.totalElements;
           }
         })
@@ -472,7 +482,8 @@
           if(res.status){
             self.commodityData = res.data;
             self.needBrowseCollectAddCart=res.data.task.needBrowseCollectAddCart;
-            self.taskDetail = res.data.task.taskDetailObject;
+            self.taskDetail= res.data.task.taskDetailObject;
+            self.itemUrl = res.data.task.itemUrl;
             self.storeName = res.data.task.storeName;
             self.taskTypeDesc = res.data.task.taskTypeDesc;
             self.$store.commit({

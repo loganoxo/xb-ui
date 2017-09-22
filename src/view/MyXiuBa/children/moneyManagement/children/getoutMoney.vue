@@ -29,7 +29,7 @@
             <iInput v-model="formItem.name"></iInput>
           </Form-item>
           <Form-item label="选择银行" prop="select">
-            <iSelect v-model="formItem.select" style="width:300px;height: 32px">
+            <iSelect v-model="formItem.select" filterable="true" style="width:300px;height: 32px">
               <iOption value="中国建设银行">中国建设银行</iOption>
               <iOption value="中国工商银行">中国工商银行</iOption>
               <iOption value="中国农业银行">中国农业银行</iOption>
