@@ -1,466 +1,419 @@
 <template>
   <div>
-    秀客中心
+    <p class="mt-20">
+      <ButtonGroup shape="circle">
+        <iButton :ref="faqSel.ref" v-for="(faqSel,index) in faqSelList" :type="faqSel.type" @click="selQuestion(faqSel,index)">
+          {{faqSel.text}}
+        </iButton>
+      </ButtonGroup>
+    </p>
+    <div>
+      <div v-show="selFaq == 'common'" class="faq-que-ans animated fadeIn ">
+        <Collapse class="mt-20">
+          <Panel>
+            1、秀客下单规则：
+
+
+            <div slot="content">
+              <p>1.1、秀客参与下单活动时，须严格按试用详情中的步骤流程进行操作，不允许利用其他方式下单购买，经核查属实，秀客帐号按一类违规处理；</p>
+              <p>1.2、秀客下单时，应核对活动商家店铺的旺旺号、以及产品的标题、价格。未核实信息导致下单错误的，将取消本次活动的试用资格，所产生的损失由秀客自行承担； </p>
+              <p>1.3、秀客搜索不到对应产品时，应停止操作，以免下单错误，及时向平台客服反应；</p>
+              <p>1.4、秀客下单时发现活动产品与店铺产品不一致时（包括价格、标题、属性及活动页面主图），应停止操作，及时向平台客服反应；</p>
+              <p>1.5、因商家修改产品价格、标题、属性以及活动页面主图而造成秀客下单错误的，及时向平台客服反应； </p>
+            </div>
+          </Panel>
+        </Collapse>
+        <Collapse class="mt-20">
+          <Panel>
+            2、获得免费试用资格后需在多久内下单？
+              <p slot="content">
+            获得试用资格的秀客，需在24小时内完成下单并将订单号和金额反馈至平台，超时视为自动放弃任务，系统将自动取消任务资格。
+            </p>
+          </Panel>
+        </Collapse>
+        <Collapse class="mt-20">
+          <Panel>
+            3、下单需要垫付么
+            <p slot="content">
+            是的，秀客去到商家店铺购买商品时，需先行垫付，到商品确认收货评价后商家返还垫付资金。
+          </p>
+          </Panel>
+        </Collapse>
+        <Collapse class="mt-20">
+          <Panel>
+            4、可以使用花呗、淘金币、信用卡等返利方式下单领取吗？
+            <p slot="content">
+            不可以。下单领取时禁止使用花呗、信用卡和淘宝客等返利方式付款，如使用后，
+            对商家不必要的金钱损失， 秀吧365试用平台视情节严重，对秀客进行对应的处罚，情节严重会进行封号处理。
+           </p>
+          </Panel>
+        </Collapse>
+        <Collapse class="mt-20">
+          <Panel>
+            5、商家如何发货？
+
+
+            <div slot="content">
+              <p> 秀客下单后，商家会根据默认合作快递发货。</p>
+            </div>
+          </Panel>
+        </Collapse>
+        <Collapse class="mt-20">
+          <Panel>
+            6、下单后什么时候发货？
+
+
+            <div slot="content">
+              <p>下单后，商家会在72小时之内操作发货。</p>
+            </div>
+          </Panel>
+        </Collapse>
+        <Collapse class="mt-20">
+          <Panel>
+            7、商家如何返款？
+
+
+            <div slot="content">
+              <p> 目前平台只保证金返款。商家核实试用报告无误后操作（确认返款），存入的保证金将于操作后打入秀客的平台账户。</p>
+            </div>
+          </Panel>
+        </Collapse>
+        <Collapse class="mt-20">
+          <Panel>
+            8、商家什么时候返款？
+
+
+            <div slot="content">
+              <p> 在平台提交买家秀后，商家会在3天内操作返款。</p>
+            </div>
+          </Panel>
+        </Collapse>
+        <Collapse class="mt-20">
+          <Panel>
+            9、秀客的买家秀通过后多久可以返款？
+
+
+
+
+
+
+
+
+            <div slot="content">
+              <p>
+                商家发布活动时可选择宝贝是否包邮，如果宝贝不包邮，需要额外多垫付10元邮费，随货款一起对买手实行多退少补返还！
+              </p>
+            </div>
+          </Panel>
+        </Collapse>
+        <Collapse class="mt-20">
+          <Panel>
+            11、什么条件下可以申请活动结算？
+
+
+
+
+            <div slot="content">
+              <p>进行中的活动需满足以下两点可申请结算：</p>
+              <p>1、审批份数大于或等于规定试用名额</p>
+              <p>2、没有正在参与活动的试客（所有审核的试客都已完成或终止试用）</p>
+              <p>已结束的活动需满足以下两点可申请结算：</p>
+              <p>1、审批份数大于或等于规定试用名额</p>
+              <p>1.1如申请人数大于试用品发放份数，商家审批完相应份数的试用名额</p>
+              <p>1.2如申请人数小于试用品发放份数，商家审批申请人数60%以上的试用名额</p>
+              <p>2、没有正在参与活动的试客（所有审核的试客都已完成或终止试用）</p>
+            </div>
+          </Panel>
+        </Collapse>
+        <Collapse class="mt-20">
+          <Panel>
+            11、申请的提现什么时候处理？提现多久后到账？
+
+
+
+
+
+
+
+
+            <div slot="content">
+              <p>
+                每天进行两提现处理。当日12:00-当日18:00间申请提现的，在当日18:00处理；当日18:00-次日12:00间申请提现的，
+                在次日12:00处理。成功提现的订单即表示已经打款成功，具体到账时间以每个银行受理时间为准。
+              </p>
+            </div>
+          </Panel>
+        </Collapse>
+      </div>
+      <div v-show="selFaq == 'special'" class="faq-special-explain animated fadeIn ml-5">
+        <p>秀客完整流程：1、注册账号 > 2、申请活动 > 3、通过审批 > 4、下单领取 > 5、提交单号 > 6、提交试用报告 > 7、领取试用担保金</p>
+        <ul class="faq-special-ctt">
+          <li>
+            <p class="fs-14 f-b cl000">1、注册账号</p>
+            <ul class="faq-special-explain-txt">
+              <li>
+                第一步：在秀客365首页或顶部点击“免费注册”，进入注册页面。
+
+              </li>
+              <li>
+                第二步：选择“秀客注册”。
+
+              </li>
+              <li>
+                第三步：填写注册信息并提交即可成功注册。
+
+              </li>
+            </ul>
+          </li>
+          <li>
+            <p class="fs-14 f-b cl000">2、申请活动</p>
+            <ul class="faq-special-explain-txt">
+              <li>
+                第一步：在首页或宝贝列表页面点击您感兴趣的宝贝，进入活动页面，点击“申请活动”按钮。
+
+              </li>
+              <li>
+                第二步：选择你将要前去淘宝购物的旺旺号，然后提交申请。（若未绑定旺旺号，需要先绑定）
+
+              </li>
+              <li>
+                第三步：申请提交成功。接下来，请您耐心等待商家审批。
+
+              </li>
+            </ul>
+          </li>
+          <li>
+            <p class="fs-14 f-b cl000"> 3、通过审批</p>
+            <ul class="faq-special-explain-txt">
+              <li>
+                报名成功后，您可以留意“我的活动”，进入查看您参与的活动。
+
+              </li>
+            </ul>
+          </li>
+          <li>
+            <p class="fs-14 f-b cl000"> 4、下单领取</p>
+            <ul class="faq-special-explain-txt">
+              <li>
+                商家须在秀客提交订单号后的3天之内去核对订单号，商家逾期不审核系统将自动审核通过。
+
+
+
+              </li>
+              <li>
+                获得活动资格后，秀客应在24小时内去下单并填写订单号，逾期系统将自动取消秀客的本次活动资格。
+
+
+              <li>
+                第二步：点击“审核订单号”查看该订单号，用此订单号与您指定的下单平台中的“交易记录”核对，核对订单号与实付金额都正确，点击“通过”。
+
+              </li>
+              <li>
+                下单领取步骤：
+
+              </li>
+              <li>
+                第一步：获得活动资格后，在“我的活动>已通过”的活动中点击“去下单”
+
+              </li>
+              <li>
+                第二步：按照商家指定的步骤查找相关宝贝。
+
+              </li>
+              <li>
+                第三步：找到宝贝后，按正常网购流程拍下商品，并付款。
+
+              </li>
+            </ul>
+          </li>
+          <li>
+            <p class="fs-14 f-b cl000">5、提交单号</p>
+            <ul class="faq-special-explain-txt">
+              <li>
+                注：请您在下单领取后立即返回秀吧365填写订单号。
+
+              </li>
+              <li>
+                第一步：按正常网购流程拍下商品并付款之后，在购买记录中(淘宝或拍拍)复制此次交易的订单编号。
+
+              </li>
+              <li>
+                第二步：返回秀吧365，在“我的活动>已通过”的试用参与活动中点击“填订单号”。。
+
+              </li>
+              <li>
+                第三步：在弹出的提示框中，粘贴订单编号，并填写实付金额，点击“确定提交”，然后等待商家审核订单号。
+
+              </li>
+            </ul>
+          </li>
+          <li>
+            <p class="fs-14 f-b cl000">6、提交买家秀</p>
+            <ul class="faq-special-explain-txt">
+              <li>
+                秀客收到宝贝后，就可以拍下照片并制作买家秀了。在下单并填写订单号之后，须在14天内提交试用报告，否则系统将自动取消秀客的本次试用资格。
+
+              </li>
+              <li>
+                活动达到结算条件后可对活动进行结算。
+
+              </li>
+              <li>
+                提示：如果因物流或其它因素不能按时提交买家秀，您可以物流截图为凭证，向平台客服反馈。
+
+              </li>
+              <li>
+                注：若在您的店铺交易记录中查不到这个订单号，则需要秀客修改,此时请点击“不通过”，让秀客重新修改订单号。
+
+              </li>
+              <li>
+                第一步：在“我的活动>已通过”的活动中点击“制作买家秀”。
+
+              </li>
+              <li>
+                第二步：在新打开的制作买家秀页面中写下您本次的买家秀，并附上真实原创的宝贝照片，完善内容之后点击“提交买家秀”按钮。
+
+              </li>
+              <li>
+                提示：买家秀提交后，不能再修改(商家审核不通过除外)，请您确认已经完善内容了之后再提交。
+
+              </li>
+              <li>
+                第三步：买家秀提交成功后，商家会在7天内审核，状态显示为“买家秀待确认”。
+
+              </li>
+              <li>
+                注：1、如果商家在7天内未审核，系统会自动通过买家秀，并给您返还宝贝担保金。
+
+              </li>
+              <li>
+                2、点击“提交买家秀”后，在商家审核通过之前，只有您和当前活动的商家能看到，报告审核通过后才公开显示。
+
+              </li>
+            </ul>
+          </li>
+          <li>
+            <p class="fs-14 f-b cl000">7、领取担保金</p>
+            <ul class="faq-special-explain-txt">
+              <li>
+                秀客的买家我由商家审核通过后，活动的宝贝担保金自动返还到秀客的平台账户中。可对平台账户进行提现：
+
+              </li>
+              <li>
+                活动达到结算条件后可对活动进行结算。
+
+              </li>
+              <li>
+                提示：如果因物流或其它因素不能按时提交买家秀，您可以物流截图为凭证，向平台客服反馈。
+
+              </li>
+              <li>
+                注：若在您的店铺交易记录中查不到这个订单号，则需要秀客修改,此时请点击“不通过”，让秀客重新修改订单号。
+
+              </li>
+              <li>
+                第一步：点击资金管理；
+
+              </li>
+              <li>
+                第二步：可在“交易记录”中查看到返回的试用保证金
+
+              </li>
+              <li>
+                第三步：点击“提现”，输入需要提现的金额和支付密码，点“提交”；（需要先实名认证及绑定提现银行卡）
+
+              </li>
+              <li>
+                第五步：两个工作日后，登录您提现的银行卡，可查看到该笔提现款项。
+
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </div>
+    </div>
   </div>
 </template>
 
 <script>
-  import Icon from 'iview/src/components/icon'
-  import Form from 'iview/src/components/form'
-  import Input from 'iview/src/components/input'
-  import Checkbox from 'iview/src/components/checkbox'
-  import {Select, Option, OptionGroup} from 'iview/src/components/select'
   import Button from 'iview/src/components/button'
-  import Radio from 'iview/src/components/radio'
+  import Icon from 'iview/src/components/icon'
+  import Collapse from 'iview/src/components/collapse'
   import api from '@/config/apiConfig'
-  import Upload from '@/components/upload'
-  import {setStorage, getStorage} from '@/config/utils'
-  import {aliCallbackImgUrl} from '@/config/env'
-  import Modal from 'iview/src/components/modal'
-  import Alert from 'iview/src/components/alert'
-  import SmsCountdown from '@/components/SmsCountdown'
-  import {mapActions} from 'vuex'
-  import {mapMutations} from 'vuex'
   export default {
-    name: 'wwBind',
+    name: '',
     components: {
-      iInput: Input,
-      iForm: Form,
-      FormItem: Form.Item,
-      Checkbox: Checkbox,
-      CheckboxGroup: Checkbox.Group,
       iButton: Button,
+      ButtonGroup: Button.Group,
       Icon: Icon,
-      Radio: Radio,
-      RadioGroup: Radio.Group,
-      Upload: Upload,
-      Modal: Modal,
-      Alert: Alert,
-      iSelect: Select,
-      iOption: Option,
-      SmsCountdown: SmsCountdown,
+      Collapse: Collapse,
+      Panel: Collapse.Panel,
     },
     data() {
-      //表单验证
-      const wwName = (rule, value, callback) => {
-        if (value === '') {
-          callback(new Error('不能为空'));
-        } else if(value.length > 50){
-          callback(new Error('旺旺ID过长'))
-        } else {
-          callback()
-        }
-      };
-      const wwRequired = (rule, value, callback) => {
-        if (value === '') {
-          callback(new Error('不能为空'));
-        }  else {
-          callback()
-        }
-      };
       return {
-        modalLoading: false,
-        deleteWwModal: false,
-        deleteWwId: '',
-        taobaoLevelImgs: [
+        faqSelList: [
           {
-            value: 1,
-            text: 'https://img.alicdn.com/newrank/b_red_1.gif',
-            label: '1心'
+            text: '秀客常见问题',
+            type: 'primary',
+            selFaq: 'common',
+            ref: 'common'
           },
           {
-            value: 2,
-            text: 'https://img.alicdn.com/newrank/b_red_2.gif',
-            label: '2心'
-          },
-          {
-            value: 3,
-            text: 'https://img.alicdn.com/newrank/b_red_3.gif',
-            label: '3心'
-          },
-          {
-            value: 4,
-            text: 'https://img.alicdn.com/newrank/b_red_4.gif',
-            label: '4心'
-          },
-          {
-            value: 5,
-            text: 'https://img.alicdn.com/newrank/b_red_5.gif',
-            label: '5心'
-          },
-          {
-            value: 6,
-            text: 'https://img.alicdn.com/newrank/b_blue_1.gif',
-            label: '1钻'
-          },
-          {
-            value: 7,
-            text: 'https://img.alicdn.com/newrank/b_blue_2.gif',
-            label: '2钻'
-          },
-          {
-            value: 8,
-            text: 'https://img.alicdn.com/newrank/b_blue_3.gif',
-            label: '3钻'
-          },
-          {
-            value: 9,
-            text: 'https://img.alicdn.com/newrank/b_blue_4.gif',
-            label: '4钻'
-          },
-          {
-            value: 10,
-            text: 'https://img.alicdn.com/newrank/b_blue_5.gif',
-            label: '5钻'
-          },
-          {
-            value: 11,
-            text: 'https://img.alicdn.com/newrank/s_crown_1.gif',
-            label: '1皇冠'
-          },
-          {
-            value: 12,
-            text: 'https://img.alicdn.com/newrank/s_crown_2.gif',
-            label: '2皇冠'
-          },
-          {
-            value: 13,
-            text: 'https://img.alicdn.com/newrank/s_crown_3.gif',
-            label: '3皇冠'
-          },
-          {
-            value: 14,
-            text: 'https://img.alicdn.com/newrank/s_crown_4.gif',
-            label: '4皇冠'
-          },
-          {
-            value: 15,
-            text: 'https://img.alicdn.com/newrank/s_crown_5.gif',
-            label: '5皇冠'
-          },
+            text: '秀客完整流程',
+            type: 'ghost',
+            selFaq: 'special',
+            ref: 'special'
+          }
         ],
-        taoqizhiList: [
-          {
-            value: 1,
-            label: '0-199'
-          },
-          {
-            value: 2,
-            label: '200-399'
-          },
-          {
-            value: 3,
-            label: '400-599'
-          },
-          {
-            value: 4,
-            label: '600-799'
-          },
-          {
-            value: 5,
-            label: '800-999'
-          },
-          {
-            value: 6,
-            label: '1000-1999'
-          },
-          {
-            value: 7,
-            label: '2000-2499'
-          },
-          {
-            value: 8,
-            label: '2500以上'
-          },
-        ],
-        userData: {},
-        demoShowPic: '',
-        demoShow: false,
-        demoUrl: {
-            wwAccount: '/static/img/demo/ww-bind/taobao-account-demo.jpg',
-            wwAccountInfo: '/static/img/demo/ww-bind/taobao-account-info.png',
-            taoqi: '/static/img/demo/ww-bind/taoqi_demo.png',
-            wwLevel: '/static/img/demo/ww-bind/ww_level_demo.png'
-        },
-        btnState: {
-          wwBindBtn: false,
-          verifiedBtn: false,
-        },
-        showWwBindBox: false,
-        modifyWw: false,
-        wwBindLists: [],
-        wwFormValidate: {
-          alitmAccount: '',
-          alitmLevel: '',
-          taoqizhi: '',
-//          picUrl: [],
-          alitmLevelPicUrl: [],
-          taoqizhiPicUrl: [],
-        },
-        wwFormRuleCustom: {
-          alitmAccount: [
-            { required: true, validator: wwName, trigger: 'blur'},
-          ],
-          alitmLevel: [
-            { required: true, validator: wwRequired, trigger: 'change'},
-          ],
-          alitmLevelPicUrl: [
-            { required: true, validator: wwRequired, trigger: 'blur'},
-          ],
-          taoqizhi: [
-            { required: true, validator: wwRequired, trigger: 'change'},
-          ],
-          taoqizhiPicUrl: [
-            { required: true, validator: wwName, trigger: 'blur'},
-          ],
-//          picUrl: [
-//            { required: true, validator: wwName, trigger: 'blur'},
-//          ],
-        },
-        remarks: {
-          text: '',
-          auditTime: '',
-        },
-
+        selFaq: 'common'
       }
     },
-    mounted() {
-
+    mounted: function () {
+      this.$nextTick(function () {
+        let self = this;
+        let page = self.$route.query.page;
+        if(page){
+          let child = self.$refs;
+          child[page][0].$el.click()
+        }
+      })
     },
     created() {
-      let self = this;
-      self.wwBindList()
     },
-    computed: {},
+    computed: {
+      getUserRole() {
+        return this.$store.state.userInfo.role
+      },
+      userAccount: function () {
+        return this.$store.getters.getUserAccountInfo || {};
+      },
+      userList: function () {
+        return this.$store.getters.getPersonalInfo || {};
+      },
+      userBalance: function () {
+        return this.$store.getters.getUserBalance;
+      },
+      isEditPwdAlready: function () {
+        return this.$store.getters.getIsEditPwdAlready;
+      }
+    },
     methods: {
-      ...mapActions([
-        'getUserInformation'
-      ]),
-      deleteWwBindFunc(ww,index){
+      selQuestion(faqSel, index){
         let self = this;
-        self.deleteWwId = ww.id;
-        self.deleteWwModal = true;
-      },
-      confirmDelete(){
-        let self = this;
-        self.modalLoading = true;
-        api.wwUnbind({id: self.deleteWwId}).then((res) => {
-          self.modalLoading = false;
-          if(res.status){
-            self.$Message.success({
-              content: res.msg,
-              duration: 1,
-              onClose:function () {
-                self.$router.go(0);
-              }
-            });
-
-          }else {
-            if(res.statusCode === 'have_waiting_audit_apply'){
-              res.msg = '亲，该旺旺还有活动任务正在审核中，请完成该旺旺的所有任务后再进行解绑操作！';
-            }else if(res.statusCode === 'have_under_way_showker_task'){
-              res.msg = '亲，该旺旺还有活动任务正在进行中，请完成该旺旺的所有任务后再进行解绑操作！';
+        if (faqSel.type == 'primary') {
+          return
+        } else {
+          for (let i = 0, j = self.faqSelList.length; i < j; i++) {
+            if (i == index) {
+              continue;
+            } else {
+              self.faqSelList[i].type = 'ghost';
             }
-            self.$Message.error({
-              content: res.msg
-            });
-          }
-          self.deleteWwModal = false;
-        })
-      },
-      modifyWwBindFunc(ww,index){
-        this.showWwBindBox = true;
-        this.wwFormValidate.id = ww.id;
-        this.wwFormValidate.alitmAccount = ww.alitmAccount;
-        this.wwFormValidate.alitmLevel = this.taobaoLevelImgs[parseInt(ww.creditLevel) + 1].value;
-        this.wwFormValidate.taoqizhi = ww.tqz;
-//        this.wwFormValidate.picUrl = [{
-//          src: ww.wwInfoPic,
-//        }];
-        this.wwFormValidate.alitmLevelPicUrl = [{
-          src: ww.wwCreditLevelPic,
-        }];
-        this.wwFormValidate.taoqizhiPicUrl = [{
-          src: ww.tqzPic,
-        }];
-        this.remarks.text = ww.remarks;
-        this.remarks.auditTime = ww.auditTime;
-        this.modifyWw = true;
-        this.$set(this.wwFormValidate);
-      },
-      addWwBindFunc (){
-        if((this.wwBindLists && this.wwBindLists.length < 3) || !this.wwBindLists){
-          this.showWwBindBox = true;
-          this.wwFormValidate.id = '';
-          this.wwFormValidate.alitmAccount = '';
-          this.wwFormValidate.alitmLevel = '';
-          this.wwFormValidate.taoqizhi = '';
-//          this.wwFormValidate.picUrl = [];
-          this.wwFormValidate.alitmLevelPicUrl = [];
-          this.wwFormValidate.taoqizhiPicUrl = [];
-          this.remarks.text = '';
-          this.modifyWw = false;
-        }else {
-          this.$Modal.warning({
-            content: "亲, 最多只能绑定3个旺旺号"
-          });
-        }
-      },
-      changeDemoPicFunc(demoPic){
-        this.demoShow = true;
-        this.demoShowPic = demoPic;
-      },
-      wwBindList () {
-        let self = this;
-        api.wwBindList().then((res) => {
-          if (res.status) {
-            self.wwBindLists = res.data;
-            if(res.statusCode == 'success_but_not_any_alitm'){
-              self.showWwBindBox = true;
-            }
-          }else {
-            self.$Message.error({
-              content: res.msg,
-              duration: 9
-            });
-          }
-        });
-      },
-      wwBindFunc(){
-        let self = this;
-        if(!(self.wwFormValidate.taoqizhiPicUrl == '' || self.wwFormValidate.alitmLevelPicUrl == '')){
-          self.btnState.wwBindBtn = true;
-          if(self.modifyWw){
-            api.wwModify({
-              alitmAccount: this.wwFormValidate.alitmAccount,
-//              wwInfoPic: this.wwFormValidate.picUrl[0].src,
-              creditLevel: this.wwFormValidate.alitmLevel,
-              tqz: this.wwFormValidate.taoqizhi,
-              wwCreditLevelPicUrl: this.wwFormValidate.alitmLevelPicUrl[0].src,
-              tqzPicUrl: this.wwFormValidate.taoqizhiPicUrl[0].src,
-              id: self.wwFormValidate.id,
-            }).then((res) => {
-              if(res.status){
-                self.remarks = '';
-                self.$Message.success({
-                  content: "亲！提交成功，客服妹子会尽快审核...",
-                  duration: 1,
-                  onClose: function () {
-                    self.wwBindList();
-                    self.clearWwInfo();
-                    self.getUserInformation();
-                    self.showWwBindBox = false;
-                  }
-                });
-              }else {
-                self.$Message.error({
-                  content: res.msg,
-                  duration: 9
-                });
-              }
-              self.btnState.wwBindBtn = false;
-            })
-          }else{
-            api.wwBind({
-              alitmAccount: this.wwFormValidate.alitmAccount,
-//              wwInfoPic: this.wwFormValidate.picUrl[0].src,
-              creditLevel: this.wwFormValidate.alitmLevel,
-              tqz: this.wwFormValidate.taoqizhi,
-              wwCreditLevelPicUrl: this.wwFormValidate.alitmLevelPicUrl[0].src,
-              tqzPicUrl: this.wwFormValidate.taoqizhiPicUrl[0].src,
-            }).then((res) => {
-              if(res.status){
-                self.$Message.success({
-                  content: "亲！提交成功，客服妹子会尽快审核...",
-                  duration: 1,
-                  onClose: function () {
-                    self.wwBindList();
-                    self.clearWwInfo();
-                    self.getUserInformation();
-                    self.showWwBindBox = false;
-                  }
-                });
-              }else {
 
-                this.$Message.error({
-                  content: res.msg,
-                  duration: 9
-                });
-              }
-              self.btnState.wwBindBtn = false;
-            })
           }
-        }else {
-          this.$Modal.warning({
-            content: '请上传必需图片'
-          });
+          self.faqSelList[index].type = 'primary';
+          self.selFaq = faqSel.selFaq
         }
-      },
-//      removewwBindPicUrl(){
-//        this.wwFormValidate.picUrl= [];
-//      },
-      removewwBindAlitmLevelPicUrl(){
-        this.wwFormValidate.alitmLevelPicUrl = [];
-      },
-      removewwBindtaoqizhiPicUrl(){
-        this.wwFormValidate.taoqizhiPicUrl = [];
-      },
-      clearWwInfo (){
-        this.wwFormValidate.alitmAccount = '';
-        let child = this.$refs;
-        child.uploadAlitmLevelPicUrl.handleRemove();
-        child.uploadTaoqizhiPicUrl.handleRemove();
-      },
-      handleSubmit (name, callback) {
-        let res = false;
-        this.$refs[name].validate((valid) => {
-          res = !!valid
-        });
-        if (typeof callback === 'function' && res) {
-          callback();
-        }
-      },
-      handleReset(name,callback) {
-        this.$refs[name].resetFields();
-        if (typeof callback === 'function') {
-          callback();
-        }
-      },
-//      handlewwBindPicUrlSuccess(res, file){
-//        this.wwFormValidate.picUrl = [{
-//          src: aliCallbackImgUrl + res.name
-//        }];
-//      },
-      handlewwBindtaoqizhiPicUrlSuccess(res, file){
-        this.wwFormValidate.taoqizhiPicUrl = [{
-          src: aliCallbackImgUrl + res.name
-        }];
-      },
-      handlewwBindAlitmLevelPicUrlSuccess(res, file){
-        this.wwFormValidate.alitmLevelPicUrl = [{
-          src: aliCallbackImgUrl + res.name
-        }];
-      },
-      handleFormatError(file) {
-        this.$Modal.warning({
-          title: '文件格式不正确',
-          content: '图片 ' + file.name + ' 格式不正确，请上传 jpg 或 jpeg 或 gif 或 bmp 格式的图片。'
-        });
-      },
-      handleMaxSize(file) {
-        this.$Modal.warning({
-          title: '超出文件大小限制',
-          content: '图片 ' + file.name + ' 太大，不能超过 2M'
-        });
-      },
-      handleBeforeUpload() {
-        /* const check = this.mainUploadList.length < 1;
-         if (!check) {
-         this.$Modal.warning({
-         title: '最多只能上传 1 张图片。'
-         });
-         }
-         return check;*/
       },
     }
   }
@@ -469,4 +422,32 @@
 <style lang="scss" scoped>
   @import 'src/css/mixin';
 
+  .faq-que-ans {
+    width: 900px;
+  }
+
+  .faq-special-explain {
+    > p {
+      margin-top: 30px;
+      margin-bottom: 30px;
+      font-size: 14px;
+      color: #000;
+    }
+    .faq-special-ctt {
+      > li {
+        padding-left: 20px;
+        margin-top: 30px;
+        p {
+          padding: 10px 0;
+        }
+      }
+    }
+    .faq-special-explain-txt {
+      li {
+        line-height: 28px;
+        padding-left: 20px;
+        font-size: 14px;
+      }
+    }
+  }
 </style>

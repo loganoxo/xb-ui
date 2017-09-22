@@ -58,7 +58,7 @@ export default new Router({
       return savedPosition
     } else {
       return { x: 0, y: 0 }
-    }
+    };
   },
   routes: [
     {
@@ -341,6 +341,7 @@ export default new Router({
           path: 'help-center',
           name: 'helpCenter',
           component: HelpCenter,
+          logInAuthority: false,
           children: [
             {
               path: 'faq',
@@ -348,7 +349,7 @@ export default new Router({
               component: Faq,
               meta: {
                 title: "帮助中心-常见问题",
-                logInAuthority: true,
+                logInAuthority: false,
               },
             },
             {
@@ -357,7 +358,7 @@ export default new Router({
               component: FaqSeller,
               meta: {
                 title: "帮助中心-商家中心",
-                logInAuthority: true,
+                logInAuthority: false,
               },
             },
             {
@@ -366,7 +367,7 @@ export default new Router({
               component: FaqShowker,
               meta: {
                 title: "个人设置-秀客中心",
-                logInAuthority: true,
+                logInAuthority: false,
               },
             }
           ]

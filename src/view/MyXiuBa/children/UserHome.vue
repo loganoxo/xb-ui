@@ -89,11 +89,26 @@
       <div class="fs-14 left user-seller-tips">
         <p class="fs-16 mb-10">商家常见问题</p>
         <ul>
-          <li>发布秀品活动需要什么条件？</li>
-          <li>什么是活动担保金？</li>
-          <li>如产品价格出现变动商家怎么办？</li>
-          <li>秀客被通过审批后迟迟不下单，并联系不到人，怎么办？</li>
-          <li>什么情况下可以取消会员的通过资格？</li>
+          <li>
+            <router-link :to="{path: '/user/help-center/faq-seller', query: {'page': 'special'}}">
+              商家活动完整流程？
+            </router-link>
+          </li>
+          <li>
+            <router-link :to="{path: '/user/help-center/faq-seller', query: {'page': 'common'}}">
+              商家活动支持哪几种搜索/下单渠道？
+            </router-link>
+          </li>
+          <li>
+            <router-link :to="{path: '/user/help-center/faq-seller', query: {'page': 'common'}}">
+              商家发布活动如何收费？
+            </router-link>
+          </li>
+          <li>
+            <router-link :to="{path: '/user/help-center/faq-seller', query: {'page': 'common'}}">
+              什么条件下可以申请活动结算？
+            </router-link>
+          </li>
         </ul>
       </div>
       <div class="fs-14 left user-seller-tips">
@@ -309,6 +324,9 @@
         height: 180px;
         overflow: hidden;
         li {
+          a{
+            color: #666;
+          }
           height: 24px;
           line-height: 24px;
         }

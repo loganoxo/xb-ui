@@ -1,8 +1,8 @@
 <template>
   <div class="my-xiu-ba container tmy-xiu-ba-con clear">
-    <div class="my-xiu-ba-con-nav left">
+    <div class="my-xiu-ba-con-nav left" v-show="isLogin">
       <!--商家管理导航-->
-      <ul v-if="getUserInfoRole === 1">
+      <ul v-if="getUserInfoRole === 1 && isLogin">
         <li :class="{isSelect:isSelect ==='UserHome'}">
           <Icon type="person-stalker"></Icon>
           <router-link to="/user/user-home">我的主页</router-link>
@@ -37,7 +37,7 @@
         </li>
       </ul>
       <!--秀客管理导航-->
-      <ul v-else-if="getUserInfoRole === 0">
+      <ul v-else-if="getUserInfoRole === 0 && isLogin">
         <li :class="{isSelect:isSelect ==='UserHome'}">
           <Icon type="person-stalker"></Icon>
           <router-link to="/user/user-home">我的主页</router-link>
@@ -68,7 +68,7 @@
         </li>
       </ul>
     </div>
-    <div class="my-xiu-ba-con-right right clear">
+    <div class="my-xiu-ba-con-right left clear">
       <router-view></router-view>
     </div>
   </div>
@@ -88,6 +88,7 @@
       }
     },
     mounted() {
+
     },
     created() {
       this.isSelect = this.$route.name;
@@ -100,7 +101,10 @@
     computed: {
       getUserInfoRole() {
         return this.$store.state.userInfo.role;
-      }
+      },
+      isLogin(){
+        return this.$store.state.login
+      },
     },
     methods: {}
   }

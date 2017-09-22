@@ -88,6 +88,7 @@
   .personal-box {
     .personal-sel-top {
       border-bottom: 1px solid #FF845B;
+      margin: auto;
       a {
         background-color: #fff;
         color: #666;

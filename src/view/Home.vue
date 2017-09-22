@@ -130,7 +130,7 @@
                 <a v-for="notice in noticeList" :class="[noticeActive == notice.active ? 'active' : '']" @click="changeNoticeTab(notice)">{{notice.title}}</a>
               </p>
               <div v-for="notice in noticeList" v-show="noticeActive == notice.active" class="notice-text animated fadeIn" >
-                <a  v-for="content in notice.content" :href="content.url" class="circle-text">{{content.text}}</a>
+                <router-link  v-for="content in notice.content"  :to="{path: content.url, query: {page: content.page}}" class="circle-text">{{content.text}}</router-link>
               </div>
             </div>
           </div>
@@ -220,64 +220,76 @@
             title: '常见问题',
             content: [
               {
-                url: '',
-                text: '如何编辑和提交买家秀？1'
+                url: '/user/help-center/faq',
+                text: '平台有哪些活动？',
+                page: 'common'
               },
               {
-                url: '',
-                text: '如何到指定平台下单领取？？'
+                url: '/user/help-center/faq',
+                text: '注册秀吧收费么？',
+                page: 'common'
               },
               {
-                url: '',
-                text: '发布秀品活动需要什么条件？'
+                url: '/user/help-center/faq',
+                text: '支持哪几个平台试用活动？',
+                page: 'common'
               },
               {
-                url: '',
-                text: '活动担保金没有及时返还怎么办？'
+                url: '/user/help-center/faq',
+                text: '平台能提现吗？提现需要手续费吗？',
+                page: 'common'
               },
             ],
             active: 'faq'
           },
           {
-            title: '秀客规则',
+            title: '秀客问题',
             content: [
               {
-                url: '',
-                text: '如何编辑和提交买家秀？2'
+                url: '/user/help-center/faq-showker',
+                text: '秀客完整流程？',
+                page: 'special'
               },
               {
-                url: '',
-                text: '如何到指定平台下单领取？？'
+                url: '/user/help-center/faq-showker',
+                text: '秀客下单规则？',
+                page: 'common'
               },
               {
-                url: '',
-                text: '发布秀品活动品需要什么条件？'
+                url: '/user/help-center/faq-showker',
+                text: '下单需要垫付么？',
+                page: 'common'
               },
               {
-                url: '',
-                text: '活动担保金没有及时返还怎么办？'
+                url: '/user/help-center/faq-showker',
+                text: '商家如何返款？',
+                page: 'common'
               },
             ],
             active: 'buyerRule'
           },
           {
-            title: '商家规则',
+            title: '商家问题',
             content: [
               {
-                url: '',
-                text: '如何编辑和提交买家秀？3'
+                url: '/user/help-center/faq-seller',
+                text: '商家活动完整流程？',
+                page: 'special'
               },
               {
-                url: '',
-                text: '如何到指定平台下单领取？？'
+                url: '/user/help-center/faq-seller',
+                text: '商家活动支持哪几种搜索/下单渠道？',
+                page: 'common'
               },
               {
-                url: '',
-                text: '发布秀品活动品需要什么条件？'
+                url: '/user/help-center/faq-seller',
+                text: '商家发布活动如何收费？',
+                page: 'common'
               },
               {
-                url: '',
-                text: '活动担保金没有及时返还怎么办？'
+                url: '/user/help-center/faq-seller',
+                text: '什么条件下可以申请活动结算？',
+                page: 'common'
               },
             ],
             active: 'sellerRule'

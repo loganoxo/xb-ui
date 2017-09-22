@@ -38,7 +38,7 @@
           <i data-v-38a9a25e="" class="ivu-icon ivu-icon-person vtc-text-btm fs-16"></i>
           个人中心
         </router-link>
-        <router-link to=“”>
+        <router-link to="/user/help-center/faq">
           <i data-v-38a9a25e="" class="ivu-icon ivu-icon-help-buoy vtc-text-btm fs-16"></i>
           帮助中心
         </router-link>

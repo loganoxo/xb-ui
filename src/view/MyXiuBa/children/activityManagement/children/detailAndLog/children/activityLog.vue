@@ -97,7 +97,7 @@
           }).then((res) => {
             if(res.status){
               self.showkerLogList[index].detailsAarrayList = res.data;
-              self.$set(self.showkerLogList,index, self.showkerLogList[index]);
+              self.$set(self.showkerLogList,index, );
             }else {
               self.$Message.error({
                 content: res.msg,
