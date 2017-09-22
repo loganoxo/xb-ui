@@ -472,7 +472,7 @@
           if(res.status){
             self.commodityData = res.data;
             self.needBrowseCollectAddCart=res.data.task.needBrowseCollectAddCart;
-            self.taskDetail= res.data.task.taskDetailObject;
+            self.taskDetail = res.data.task.taskDetailObject;
             self.storeName = res.data.task.storeName;
             self.taskTypeDesc = res.data.task.taskTypeDesc;
             self.$store.commit({
