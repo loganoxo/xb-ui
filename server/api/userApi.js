@@ -69,6 +69,25 @@ router.post('/api/get-bank-card-information.json', function (req, res, next) {
 });
 
 /**
+ * 获取用户截图
+ */
+router.post('/api/get-user-screen-shot.json', function (req, res, next) {
+  let options = {
+    method: 'GET',
+    uri: baseUrl + '/task/showker/getScreenshot/'+req.body.id,
+    json: true
+  };
+  request(options).then(function (parsedBody) {
+    res.send(parsedBody);
+    res.end();
+  }).catch(function (err) {
+    logConfig.logger.error(req.originalUrl + ':' + err);
+    res.json({status: false, msg: "服务器超时，请稍后再试！"});
+    res.end();
+  })
+});
+
+/**
  * 获取用户、账户、旺旺账号
  * @param userId
  */

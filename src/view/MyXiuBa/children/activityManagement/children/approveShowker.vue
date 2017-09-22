@@ -33,10 +33,11 @@
             <table>
               <thead>
               <tr>
-                <th width="25%">淘宝账号（旺旺号）</th>
-                <th width="25%">申请时间</th>
-                <th width="25%">秀客的买家秀记录</th>
-                <th width="25%">操作</th>
+                <th width="20%">淘宝账号（旺旺号）</th>
+                <th width="20%">申请时间</th>
+                <th width="20%">秀客的买家秀记录</th>
+                <th width="20%">流程状态</th>
+                <th width="20%">操作</th>
               </tr>
               </thead>
               <tbody v-if="approveTableList.length > 0" v-for="item in approveTableList" :key="item.id">
@@ -52,21 +53,73 @@
                    查看
                   </router-link>
                 </td>
+                <td>{{getTaskStatus(item.status)}}</td>
                 <td>
                   <p class="del-edit">
-                    <span @click="showkerPassAudit(item.id, 'true')">通过</span>
+                    <span @click="getUserScreenShot(item.id)">审核</span>
+                    <span class="ml-40" @click="showkerPassAudit(item.id, 'true')">通过</span>
                   </p>
                 </td>
               </tr>
               </tbody>
               <tbody v-if="approveTableList.length === 0">
               <tr>
-                <td colspan="4" width="100%">暂无数据</td>
+                <td colspan="5" width="100%">暂无数据</td>
               </tr>
               </tbody>
             </table>
           </div>
         </div>
+        <Modal v-model="approvalPop"
+                width="600">
+          <p slot="header" style="color:#f60;text-align:center">
+            <Icon type="information-circled"></Icon>
+            <span>3333提交的活动申请截图</span>
+          </p>
+          <div class="text-ct mt-20 ">
+            <div v-if="userScreenShotImg.searchCondition !== ''" style="display: inline-block;padding: 0 10px">
+              <img style="width:80px ;height: 80px" :src="userScreenShotImg.searchCondition" alt="">
+              <p>搜索条件截图</p>
+            </div>
+            <div  v-if="userScreenShotImg.itemLocation !== ''" style="display: inline-block;padding: 0 10px">
+              <img style="width: 80px;height: 80px" :src="userScreenShotImg.itemLocation" alt="">
+              <p>所在位置截图</p>
+            </div>
+            <div  v-if="userScreenShotImg.browseToBottom !== ''" style="display: inline-block;padding: 0 10px">
+              <img style="width: 80px;height: 80px" :src="userScreenShotImg.browseToBottom" alt="">
+              <p>宝贝浏览见底</p>
+            </div>
+            <div  v-if="userScreenShotImg.enshrine !== ''"  style="display: inline-block;padding: 0 10px">
+              <img style="width: 80px;height: 80px" :src="userScreenShotImg.enshrine" alt="">
+              <p>加入收藏夹</p>
+            </div>
+            <div  v-if="userScreenShotImg.addToCart !== ''" style="display: inline-block;padding: 0 10px" >
+              <img style="width: 80px;height: 80px" :src="userScreenShotImg.addToCart" alt="">
+              <p>加入购物车</p>
+            </div>
+          </div>
+          <div class="text-ct mt-20">
+            <Radio-group v-model="passOrNoPass" >
+              <Radio  label=true ><span>通过</span></Radio>
+              <Radio class="ml-20" label=false><span>希望重新提交</span></Radio>
+            </Radio-group>
+          </div>
+          <div v-show="passOrNoPass ==='false'" class="mt-20 text-ct">
+            <iInput style="width: 80%" placeholder="请填写截图不正确的地方，以便秀客修改" v-model="reason"></iInput>
+          </div>
+          <div class="text-ct mt-20">
+            <iButton type="success"
+                     style="width: 100px;height: 30px;background-color:#FF6636;border-color:#FF6636 "
+                      @click="showkerPassAudit(passId,passOrNoPass)">确定</iButton>
+          </div>
+          <div slot="footer" class="clear">
+           <div class="left ml-20" style="color: #FF6636;font-size: 29px"> <Icon type="alert-circled"></Icon></div>
+           <div class="left ml-20" style="text-align: left">
+             <p>通过秀客直接获得活动资金，希望重新提交将通知秀客重新修改截图！</p>
+             <p> 您还有 <time-down :endTime="activeEndTime"></time-down> 进行审核，若该时间内未审核，系统将随机审核通过！</p>
+           </div>
+          </div>
+        </Modal>
         <!--已通过-->
         <div class="fail-audit mt-20" v-show="showApproveStatus === 'passAudit'">
           <iSelect v-model="selectStatus" style="width: 120px;margin-right: 12px;">
@@ -299,6 +352,12 @@
     },
     data() {
       return {
+        passOrNoPass:'true',
+        reason:null,
+        passId:null,
+        approvalPop:false,
+        activeEndTime:null,
+        userScreenShotImg:{},
         showApproveStatus: 'toAudit',
         taskId: null,
         checkAllByPass: false,
@@ -339,6 +398,7 @@
       this.taskId = this.$route.query.taskId;
       this.showApproveStatus = "toAudit";
       this.taskApplyList();
+      this.activeEndTime = parseInt(this.$route.query.endTime)+24*2*60*60;
     },
     watch: {},
     computed: {
@@ -443,10 +503,12 @@
         let _this = this;
         api.setTaskShowkerAudit({
           id: id,
-          status: status
+          status: status,
+          reason:_this.reason
         }).then(res => {
           if (res.status) {
             _this.$Message.success("审核秀客成功！");
+            _this.approvalPop = false;
             _this.taskApplyList();
           } else {
             _this.$Message.error(res.msg)
@@ -525,6 +587,20 @@
               duration: 4
             });
             _this.closeCheckOrder();
+          }
+        })
+      },
+      getUserScreenShot(type){
+        let _this = this ;
+        _this.passId =type;
+        api.getUserScreenShot({
+          id:type
+        }).then(res=>{
+          if (res.status){
+            _this.approvalPop = true;
+            _this.userScreenShotImg =res.data;
+          }else {
+            _this.$Message.error(res.msg)
           }
         })
       }

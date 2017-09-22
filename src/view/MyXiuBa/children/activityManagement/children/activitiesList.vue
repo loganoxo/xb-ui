@@ -167,7 +167,7 @@
           </td>
           <td v-else>
             <p class="bond mt-6">
-              <span @click="approveShowker(item.id)">审批秀客</span>
+              <span @click="approveShowker(item.id,item.endTime)">审批秀客</span>
             </p>
             <p class="copy mt-6">
               <span @click="lookTaskDetail(item.id)">查看详情</span>
@@ -390,8 +390,8 @@
       lookTaskDetail(id) {
         this.$router.push({name: 'ActivityDetail', query: {taskId: id}})
       },
-      approveShowker(id) {
-        this.$router.push({name: 'ApproveShowker', query: {taskId: id}})
+      approveShowker(id,time) {
+        this.$router.push({name: 'ApproveShowker', query: {taskId: id,endTime:time}})
       },
       sortChange(name){
         this.sortList.select = name;

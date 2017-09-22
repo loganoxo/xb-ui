@@ -33,6 +33,13 @@ export default {
   },
 
   /**
+   * 获取用户截图
+   */
+  getUserScreenShot(params){
+    return fetch("/api/get-user-screen-shot.json",params)
+  },
+
+  /**
    * 验证重置密码短信
    */
   validatePaySmscode(params) {

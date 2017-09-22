@@ -288,8 +288,14 @@ export const TaskErrorStatusList = (type) => {
     case 2 :
       return '提现';
       break;
-    case 3 :
-      return 'VIP会员订购';
+    case 'waiting_resubmit' :
+      return '待重新提交';
+      break;
+    case 'audit_pass' :
+      return '审核通过';
+      break;
+    case 'deleted' :
+      return '已删除';
       break;
   }
 };

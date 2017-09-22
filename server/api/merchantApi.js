@@ -316,6 +316,7 @@ router.post('/api/set-task-showker-audit.json', function (req, res, next) {
       taskApplyId: req.body.id,
       merchantId: req.session.userData.id,
       auditPass: req.body.status,
+      reason : req.body.reason
     },
     json: true
   };
