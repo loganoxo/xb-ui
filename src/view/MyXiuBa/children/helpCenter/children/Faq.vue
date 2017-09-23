@@ -2,7 +2,7 @@
   <div>
     <p class="mt-20">
       <ButtonGroup shape="circle">
-        <iButton :ref="faqSel.ref" v-for="(faqSel,index) in faqSelList" :type="faqSel.type" @click="selQuestion(faqSel,index)">{{faqSel.text}}</iButton>
+        <iButton :ref="faqSel.ref" v-for="(faqSel,index) in faqSelList" :type="faqSel.type" :key="index" @click="selQuestion(faqSel,index)">{{faqSel.text}}</iButton>
       </ButtonGroup>
     </p>
     <div id="lastOne">
