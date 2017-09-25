@@ -26,11 +26,11 @@
           <span class="serial-number">2</span>
           <h3 >通过商家指定的方式找到该宝贝</h3>
           <div class=" mt-10 search-type">{{taskTypeDesc}}</div>
-          <p>第一步：打开浏览器输入[www.taobao.com]</p>
-          <p>第二步：输入关键词[{{taskDetail.searchKeyword}}]</p>
-          <p>第三步：选择[{{changeNameType(taskDetail.searchSort)}}]排序</p>
-          <p>第四步：搜索指定价格[{{taskDetail.priceRangeMin/100}}-{{taskDetail.priceRangeMax/100}}],勾选[{{checkText}}]</p>
-          <p>第五步：在[{{taskDetail.searchRankPosition}}]页附近找到下图宝贝。(由于千人千面的影响，位置仅供参考)</p>
+          <p>第一步：打开[<strong>手机淘宝APP</strong>]</p>
+          <p>第二步：输入关键词[<strong>{{taskDetail.searchKeyword}}</strong>]</p>
+          <p>第三步：选择[<strong>{{changeNameType(taskDetail.searchSort)}}</strong>]排序</p>
+          <p>第四步：搜索指定价格[<strong>{{taskDetail.priceRangeMin/100}}-{{taskDetail.priceRangeMax/100}}</strong>],勾选[<strong>{{checkText}}</strong>]</p>
+          <p>第五步：在[<strong>{{taskDetail.searchRankPosition}}</strong>]页附近找到下图宝贝。(由于千人千面的影响，位置仅供参考)</p>
           <div class="mt-20 clear">
             <img class="pic left " :src="taskDetail.itemMainImage" alt="">
             <p class="left ml-20 mt-22">店铺名称：{{storeName}}<br/>价格：￥{{taskDetail.searchPagePrice/100}}</p>
@@ -40,7 +40,8 @@
           <span class="serial-number">2</span>
           <h3 >通过商家指定的方式找到该宝贝</h3>
           <div class=" mt-10 search-type">{{taskTypeDesc}}</div>
-          <p><span>淘口令</span><span>【<strong>{{taskDetail.taoCode}}</strong>】</span><a class="ml-10" href="javascript:;">点击复制淘口令</a></p>
+          <p><span>淘口令</span><span>【<strong id="copyCode">{{taskDetail.taoCode}}</strong>】</span><span class="ml-10 cursor-p" style="color: blue" id="copyBtn">点击复制淘口令</span></p>
+          <vue-q-art :config="config" :downloadButton="downloadButton"></vue-q-art>
           <p>入口说明：【<strong>直接在手机端上复制淘口令，打开手淘会自动弹出宝贝链接，或直接用手淘扫描上方二维码</strong>】</p>
         </div>
         <div v-if="taskType === 'direct_access'" class="activity-type mt-40" >
@@ -457,6 +458,10 @@
   import {TaskErrorStatusList} from '@/config/utils'
   import {aliCallbackImgUrl} from '@/config/env'
   import api from '@/config/apiConfig'
+  import VueQArt from 'vue-qart'
+  import Clipboard from 'clipboard';
+
+
 
 
   export default {
@@ -469,6 +474,8 @@
       RadioGroup: Radio.Group,
       Upload: Upload,
       Icon: Icon,
+      VueQArt: VueQArt
+
     },
     props:{
       taskDetail:{
@@ -500,6 +507,11 @@
     },
     data() {
       return {
+        config: {
+          value: '',
+          imagePath: require('@/assets/img/common/home_24.png')
+        },
+        downloadButton:false,
         divShow:false,
         divShowApp:false,
         divShowTaoCode:false,
@@ -556,6 +568,20 @@
       },
     },
     created() {
+      let _this = this;
+      _this.$nextTick(function () {
+        let clipboard = new Clipboard('#copyBtn', {
+          target: () => document.getElementById('copyCode')
+        });
+        clipboard.on('success', () => {
+          _this.$Message.success("复制口令成功！");
+          clipboard.destroy();
+        });
+        clipboard.on('error', () => {
+          _this.$Message.error("复制口令失败！");
+          clipboard.destroy();
+        });
+      });
     },
     methods: {
       ...mapActions([
