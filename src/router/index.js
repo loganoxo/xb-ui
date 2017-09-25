@@ -10,6 +10,7 @@ const TaskCategory = r => require.ensure([], () => r(require('@/view/TaskCategor
 const TaskDetails = r => require.ensure([], () => r(require('@/view/TaskDetails.vue')), 'TaskDetails');
 const MyXiuBa = r => require.ensure([], () => r(require('@/view/MyXiuBa/MyXiuBa.vue')), 'MyXiuBa');
 const UserHome = r => require.ensure([], () => r(require('@/view/MyXiuBa/children/UserHome.vue')), 'MyXiuBa');
+const Recommend = r => require.ensure([], () => r(require('@/view/MyXiuBa/children/Recommend.vue')), 'MyXiuBa');
 const TaskReleaseProcess = r => require.ensure([], () => r(require('@/view/MyXiuBa/children/TaskReleaseProcess.vue')), 'MyXiuBa');
 
 const ActivityManagement = r => require.ensure([], () => r(require('@/view/MyXiuBa/children/activityManagement/index.vue')), 'ActivityManagement');
@@ -149,6 +150,15 @@ export default new Router({
           component: UserHome,
           meta: {
             title: "我的主页",
+            logInAuthority: true,
+          }
+        },
+        {
+          path: 'recommend',
+          name: 'Recommend',
+          component: Recommend,
+          meta: {
+            title: "推荐有礼",
             logInAuthority: true,
           }
         },
