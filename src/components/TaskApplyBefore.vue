@@ -73,7 +73,7 @@
                </div>
              </Upload>
              <p class="mt-8">搜索条件截图</p>
-             <p class="mt-8 cursor-p example" >查看示例图</p>
+             <p class="mt-8 cursor-p example"  @click="pcSearchSelectFun('one')">查看示例图</p>
            </div>
            <div class="left ml-20">
              <Upload
@@ -94,7 +94,7 @@
                </div>
              </Upload>
              <p class="mt-8">所在位置截图</p>
-             <p class="mt-8 cursor-p example">查看示例图</p>
+             <p class="mt-8 cursor-p example"  @click="pcSearchSelectFun('two')">查看示例图</p>
            </div>
            <div class="left ml-20">
              <Upload
@@ -115,7 +115,7 @@
                </div>
              </Upload>
              <p class="mt-8">宝贝浏览见底</p>
-             <p class="mt-8 cursor-p example">查看示例图</p>
+             <p class="mt-8 cursor-p example" @click="pcSearchSelectFun('three')">查看示例图</p>
            </div>
            <div class="left ml-20">
              <Upload
@@ -136,7 +136,7 @@
                </div>
              </Upload>
              <p class="mt-8">宝贝加入收藏夹</p>
-             <p class="mt-8 cursor-p example">查看示例图</p>
+             <p class="mt-8 cursor-p example" @click="pcSearchSelectFun('four')">查看示例图</p>
            </div>
            <div class="left ml-20">
              <Upload
@@ -157,7 +157,7 @@
                </div>
              </Upload>
              <p class="mt-8">宝贝加入购物车</p>
-             <p class="mt-8 cursor-p example" >查看示例图</p>
+             <p class="mt-8 cursor-p example" @click="pcSearchSelectFun('five')">查看示例图</p>
            </div>
           </div>
           <div v-if="taskType === 'app_search'" class="clear left center mt-20 ">
@@ -180,7 +180,7 @@
                </div>
              </Upload>
              <p class="mt-8">所在位置截图</p>
-             <p class="mt-8 cursor-p example">查看示例图</p>
+             <p class="mt-8 cursor-p example" @click="appSearchSelectFun('one')" >查看示例图</p>
            </div>
            <div class="left ml-35">
              <Upload
@@ -201,7 +201,7 @@
                </div>
              </Upload>
              <p class="mt-8">宝贝浏览见底</p>
-             <p class="mt-8 cursor-p example">查看示例图</p>
+             <p class="mt-8 cursor-p example"  @click="appSearchSelectFun('two')" >查看示例图</p>
            </div>
            <div class="left ml-35">
              <Upload
@@ -222,7 +222,7 @@
                </div>
              </Upload>
              <p class="mt-8">宝贝加入收藏夹</p>
-             <p class="mt-8 cursor-p example">查看示例图</p>
+             <p class="mt-8 cursor-p example"  @click="appSearchSelectFun('three')">查看示例图</p>
            </div>
            <div class="left ml-35">
              <Upload
@@ -243,7 +243,7 @@
                </div>
              </Upload>
              <p class="mt-8">宝贝加入购物车</p>
-             <p class="mt-8 cursor-p example" >查看示例图</p>
+             <p class="mt-8 cursor-p example"  @click="appSearchSelectFun('four')">查看示例图</p>
            </div>
           </div>
           <div v-if="taskType === 'tao_code'" class="clear left center mt-20 ">
@@ -266,7 +266,7 @@
                 </div>
               </Upload>
               <p class="mt-8">宝贝浏览见底</p>
-              <p class="mt-8 cursor-p example">查看示例图</p>
+              <p class="mt-8 cursor-p example" @click="taoCodeSearchSelectFun('one')">查看示例图</p>
             </div>
             <div class="left ml-35">
               <Upload
@@ -287,7 +287,7 @@
                 </div>
               </Upload>
               <p class="mt-8">宝贝加入收藏夹</p>
-              <p class="mt-8 cursor-p example">查看示例图</p>
+              <p class="mt-8 cursor-p example" @click="taoCodeSearchSelectFun('two')">查看示例图</p>
             </div>
             <div class="left ml-35">
               <Upload
@@ -308,7 +308,7 @@
                 </div>
               </Upload>
               <p class="mt-8">宝贝加入购物车</p>
-              <p class="mt-8 cursor-p example" >查看示例图</p>
+              <p class="mt-8 cursor-p example" @click="taoCodeSearchSelectFun('three')" >查看示例图</p>
             </div>
           </div>
           <div v-if="taskType === 'direct_access'" class="clear left center mt-20 ">
@@ -331,7 +331,7 @@
                 </div>
               </Upload>
               <p class="mt-8">宝贝浏览见底</p>
-              <p class="mt-8 cursor-p example">查看示例图</p>
+              <p class="mt-8 cursor-p example" @click="directAccessSearchSelectFun('one')">查看示例图</p>
             </div>
             <div class="left ml-35">
               <Upload
@@ -352,7 +352,7 @@
                 </div>
               </Upload>
               <p class="mt-8">宝贝加入收藏夹</p>
-              <p class="mt-8 cursor-p example">查看示例图</p>
+              <p class="mt-8 cursor-p example" @click="directAccessSearchSelectFun('two')">查看示例图</p>
             </div>
             <div class="left ml-35">
               <Upload
@@ -373,7 +373,7 @@
                 </div>
               </Upload>
               <p class="mt-8">宝贝加入购物车</p>
-              <p class="mt-8 cursor-p example" >查看示例图</p>
+              <p class="mt-8 cursor-p example" @click="directAccessSearchSelectFun('three')" >查看示例图</p>
             </div>
           </div>
         </div>
@@ -382,7 +382,70 @@
           <iButton type="success" style="color: #fff;width: 150px;height: 30px;" @click="success(selectedWw)">提交申请</iButton>
           <iButton class="ml-20" style="width: 150px;height: 30px;">取消</iButton>
         </div>
+        <div style="z-index: 2000" v-if="divShow">
+          <Modal v-model="pcSearch" title="照片查看器" width="1000" :styles="{top:'20px'}">
+            <div v-if="pcSearchSelect.one">
+              <img style="width: 900px;" src="~assets/img/screen-shot/select_type.jpg" alt="">
+            </div>
+            <div v-if="pcSearchSelect.two">
+              <img style="width: 900px;" src="~assets/img/screen-shot/position_pc.jpg" alt="">
+            </div>
+            <div v-if="pcSearchSelect.three">
+              <img style="width: 900px;" src="~assets/img/screen-shot/under_pc.jpg" alt="">
+            </div>
+            <div v-if="pcSearchSelect.four">
+              <img style="width: 900px;" src="~assets/img/screen-shot/collect_pc.jpg" alt="">
+            </div>
+            <div v-if="pcSearchSelect.five">
+              <img style="width: 900px;" src="~assets/img/screen-shot/shop_car_pc.jpg" alt="">
+            </div>
+          </Modal>
+        </div>
+        <div style="z-index: 2000" v-if="divShowApp">
+          <Modal v-model="appSearch" title="照片查看器" width="560" :styles="{top:'20px'}">
+            <div v-if="appSearchSelect.one">
+              <img style="width: 500px;" src="~assets/img/screen-shot/position_app.png" alt="">
+            </div>
+            <div v-if="appSearchSelect.two">
+              <img style="width: 500px;" src="~assets/img/screen-shot/under_app.jpg" alt="">
+            </div>
+            <div v-if="appSearchSelect.three">
+              <img style="width: 500px;" src="~assets/img/screen-shot/collect_app.png" alt="">
+            </div>
+            <div v-if="appSearchSelect.four">
+              <img style="width: 500px;" src="~assets/img/screen-shot/shop_car_app.png" alt="">
+            </div>
+          </Modal>
+        </div>
+        <div style="z-index: 2000" v-if="divShowTaoCode">
+          <Modal v-model="taoCodeSearch" title="照片查看器" width="560" :styles="{top:'20px'}">
+            <div v-if="taoCodeSearchSelect.one">
+              <img style="width: 500px;" src="~assets/img/screen-shot/under_app.jpg" alt="">
+            </div>
+            <div v-if="taoCodeSearchSelect.two">
+              <img style="width: 500px;" src="~assets/img/screen-shot/collect_app.png" alt="">
+            </div>
+            <div v-if="taoCodeSearchSelect.three">
+              <img style="width: 500px;" src="~assets/img/screen-shot/shop_car_app.png" alt="">
+            </div>
+          </Modal>
+        </div>
+        <div style="z-index: 2000" v-if="divShowDirectAccess">
+          <Modal v-model="directAccessSearch" title="照片查看器" width="1000" :styles="{top:'20px'}">
+            <div v-if="directAccessSearchSelect.one">
+              <img style="width: 900px;" src="~assets/img/screen-shot/under_pc.jpg" alt="">
+            </div>
+            <div v-if="directAccessSearchSelect.two">
+              <img style="width: 900px;" src="~assets/img/screen-shot/collect_pc.jpg" alt="">
+            </div>
+            <div v-if="directAccessSearchSelect.three">
+              <img style="width: 900px;" src="~assets/img/screen-shot/shop_car_pc.jpg" alt="">
+            </div>
+          </Modal>
+        </div>
+
       </div>
+
 </template>
 <script>
   import Button from 'iview/src/components/button'
@@ -437,6 +500,10 @@
     },
     data() {
       return {
+        divShow:false,
+        divShowApp:false,
+        divShowTaoCode:false,
+        divShowDirectAccess:false,
         selectedWw:null,
         pcDefaultList: [],
         mainDefaultList: [],
@@ -449,6 +516,33 @@
           addToCartImage:null
         },
         payPopWindow:false,
+        pcSearch:false,
+        pcSearchSelect:{
+          one:false,
+          two:false,
+          three:false,
+          four:false,
+          five:false
+        },
+        appSearch:false,
+        appSearchSelect:{
+          one:false,
+          two:false,
+          three:false,
+          four:false,
+        },
+        taoCodeSearch:false,
+        taoCodeSearchSelect:{
+          one:false,
+          two:false,
+          three:false,
+        },
+        directAccessSearch:false,
+        directAccessSearchSelect:{
+          one:false,
+          two:false,
+          three:false,
+        }
       }
     },
     computed: {
@@ -470,12 +564,37 @@
       changeNameType(type){
        return TaskErrorStatusList(type );
       },
+      pcSearchSelectFun(type){
+        this.divShow = true;
+        this.pcSearch = true;
+        for (let k in this.pcSearchSelect) {
+          k === type ? this.pcSearchSelect[k] =true : this.pcSearchSelect[k]=false;
+        }
+      },
+      appSearchSelectFun(type){
+        this.divShowApp = true;
+        this.appSearch = true;
+        for (let k in this.appSearchSelect) {
+          k === type ? this.appSearchSelect[k] =true : this.appSearchSelect[k]=false;
+        }
+      },
+      taoCodeSearchSelectFun(type){
+        this.divShowTaoCode = true;
+        this.taoCodeSearch = true;
+        for (let k in this.taoCodeSearchSelect) {
+          k === type ? this.taoCodeSearchSelect[k] =true : this.taoCodeSearchSelect[k]=false;
+        }
+      },
+      directAccessSearchSelectFun(type){
+        this.divShowDirectAccess = true;
+        this.directAccessSearch = true;
+        for (let k in this.directAccessSearchSelect) {
+          k === type ? this.directAccessSearchSelect[k] =true : this.directAccessSearchSelect[k]=false;
+        }
+      },
       //提交
       success(type){
         this.selWwFunc(type);
-//        this.payPopWindow = false;
-//        this.$emit('request', this.payPopWindow);
-
       },
       removeMainImage() {
 
@@ -509,13 +628,12 @@
       handleMaxSize(file) {
         this.$Modal.warning({
           title: '超出文件大小限制',
-          content: '图片 ' + file.name + ' 太大，不能超过 300K'
+          content: '图片 ' + file.name + ' 太大，不能超过 2M'
         });
       },
       selWwFunc(alitms){
-        let self = this;
-        if(alitms){
-          if(self.selectedWw == ''){
+          let self = this;
+          if(alitms === null){
             this.$Message.info({
               content: '请选择旺旺号',
             });
@@ -541,13 +659,6 @@
               }
             })
           }
-
-        }else {
-          this.$Message.info({
-            content: '无可用旺旺号',
-          });
-        }
-
       },
     }
   }

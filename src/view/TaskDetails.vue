@@ -200,7 +200,6 @@
     <Modal
       v-if="needBrowseCollectAddCart"
       v-model="showkerApplyBefore"
-      :mask-closable=false
       width="700">
       <p slot="header" style="color:#f60;text-align:center">
         <Icon type="information-circled"></Icon>
