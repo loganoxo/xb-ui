@@ -94,7 +94,10 @@
               <div class="fs-18 text-ct" v-else >
                 <Icon type="information-circled" color="#FF6633" size="30" style="vertical-align: sub;"></Icon> 获得资格后才能看到活动品信息哦~
                 <div v-if="getRole === 0 && isLogin" style="display: inline-block">
-                  <iButton v-show="!commodityData.taskApply" :disabled="taskApplyLoading"  style="width: 100px;" size="large" class="fs-16 default-btn ivu-btn-small"  type="error" @click="applyForTrialFunc">申请活动</iButton>
+                  <iButton v-show="!commodityData.taskApply" :disabled="taskApplyLoading"
+                           style="width: 100px;" size="large"
+                           class="fs-16 default-btn ivu-btn-small"
+                           type="error" @click="applyForTrialFunc">申请活动</iButton>
                   <iButton v-show="commodityData.taskApply" disabled size="large" class="fs-16 default-btn" long >已申请</iButton>
                 </div>
                 <a v-if="!isLogin "  class="ivu-btn ivu-btn-error ivu-btn-small" @click="selectLogin = true" style="width: 100px;">
@@ -170,7 +173,7 @@
       </p>
       <div slot="footer" class="text-ct">
         <router-link class="ivu-btn ivu-btn-error ivu-btn-large mr-40" to="/user/my-probation/wait" style="color: #fff">看看我申请的宝贝</router-link>
-        <a href="" class="ivu-btn ivu-btn-error ivu-btn-large" style="color: #fff">好的，明白了</a>
+        <span  @click="applySuccess = false" class="ivu-btn ivu-btn-error ivu-btn-large" style="color: #fff">好的，明白了</span>
       </div>
     </Modal>
     <Modal v-model="selectLogin" width="500">
@@ -362,7 +365,7 @@
     },
     created(){
       let self = this;
-      self.getTaskDetails();
+        self.getTaskDetails();
     },
     computed: {
       isLogin() {
@@ -394,7 +397,7 @@
           });
         }else {
           if (self.needBrowseCollectAddCart){
-            self.getShowWwList()
+            self.getShowWwList();
           }else {
             self.getShowkerCanTrial();
           }
@@ -403,12 +406,12 @@
       },
       getShowWwList(){
         let self = this;
-        self.showkerApplyBefore = true;
         self.taskId = self.getTaskId;
         api.getShowkerCanTrial({
           taskId: self.$route.query.taskId
         }).then((res) => {
           if(res.status){
+            self.showkerApplyBefore = true;
             self.WwNumberLIst = res.data.alitmList;
             self.taskType = res.data.taskType;
           }
@@ -479,12 +482,16 @@
         let self = this;
         api.getTaskDetails({taskId: self.$route.query.taskId}).then((res) => {
           if(res.status){
+
             self.commodityData = res.data;
             self.needBrowseCollectAddCart=res.data.task.needBrowseCollectAddCart;
             self.taskDetail= res.data.task.taskDetailObject;
             self.itemUrl = res.data.task.itemUrl;
             self.storeName = res.data.task.storeName;
             self.taskTypeDesc = res.data.task.taskTypeDesc;
+            if (self.$route.query.resubmit === 'resubmit'){
+              self.applyForTrialFunc()
+            }
             self.$store.commit({
               type: 'TASK_CATEGORY_LIST',
               info: self.commodityData.task.itemCatalog.parentItemCatalog.id

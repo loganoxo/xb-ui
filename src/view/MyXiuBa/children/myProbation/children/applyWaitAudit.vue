@@ -32,7 +32,9 @@
           <td>{{item.task.perMarginNeed / 100}}</td>
           <td>{{getTaskStatus(item.status)}}</td>
           <td>
-            <p class="operation" @click="endTrialModel(item.id)">结束活动</p>
+            <p class="operation" v-show="item.status === 'waiting_resubmit'" @click="resubmitFun(item.task.id)">重新提交</p>
+            <p class="operation mt-5" @click="getUserScreenShot(item.id,item.reason,item.status,item.task.endTime)">查看详情</p>
+            <p class="operation mt-5" @click="endTrialModel(item.id)">结束活动</p>
           </td>
         </tr>
         </tbody>
@@ -60,6 +62,47 @@
         <iButton type="error" size="large" long :loading="modalLoading" @click="endTrial">结束</iButton>
       </div>
     </Modal>
+    <!--查看详情弹窗-->
+    <Modal v-model="approvalPop"
+           width="550">
+      <p slot="header" style="color:#f60;text-align:center">
+        <Icon type="information-circled"></Icon>
+        <span>已提交的活动截图</span>
+      </p>
+      <div class="text-ct mt-20 ">
+        <div v-if="userScreenShotImg.searchCondition !== ''" style="display: inline-block;padding: 0 10px">
+          <img style="width:80px ;height: 80px" :src="userScreenShotImg.searchCondition" alt="">
+          <p>搜索条件截图</p>
+        </div>
+        <div  v-if="userScreenShotImg.itemLocation !== ''" style="display: inline-block;padding: 0 10px">
+          <img style="width: 80px;height: 80px" :src="userScreenShotImg.itemLocation" alt="">
+          <p>所在位置截图</p>
+        </div>
+        <div  v-if="userScreenShotImg.browseToBottom !== ''" style="display: inline-block;padding: 0 10px">
+          <img style="width: 80px;height: 80px" :src="userScreenShotImg.browseToBottom" alt="">
+          <p>宝贝浏览见底</p>
+        </div>
+        <div  v-if="userScreenShotImg.enshrine !== ''"  style="display: inline-block;padding: 0 10px">
+          <img style="width: 80px;height: 80px" :src="userScreenShotImg.enshrine" alt="">
+          <p>加入收藏夹</p>
+        </div>
+        <div  v-if="userScreenShotImg.addToCart !== ''" style="display: inline-block;padding: 0 10px" >
+          <img style="width: 80px;height: 80px" :src="userScreenShotImg.addToCart" alt="">
+          <p>加入购物车</p>
+        </div>
+      </div>
+      <div slot="footer" v-show="status === 'waiting_resubmit'" class="clear">
+        <div class="left ml-20" style="color: #FF6636;font-size: 29px">
+          <Icon type="alert-circled"></Icon>
+        </div>
+        <div  class="left ml-20" style="text-align: left">
+          <p>商家希望重新提交申请，理由：{{reason}}</p>
+          <p> 您还有 <time-down  :endTime="endTime" ></time-down>  重新提交，若该时间内未提交，将视为放弃活动！
+          </p>
+        </div>
+      </div>
+    </Modal>
+
   </div>
 </template>
 
@@ -68,10 +111,11 @@
   import Input from 'iview/src/components/input'
   import {Select, Option, OptionGroup} from 'iview/src/components/select'
   import Page from 'iview/src/components/page'
-  import api from '@/config/apiConfig'
-  import {TaskErrorStatusList} from '@/config/utils'
   import Modal from 'iview/src/components/modal'
   import Icon from 'iview/src/components/icon'
+  import api from '@/config/apiConfig'
+  import {TaskErrorStatusList} from '@/config/utils'
+  import TimeDown from '@/components/TimeDown'
 
   export default {
     name: 'ApplyWaitAudit',
@@ -84,6 +128,7 @@
       Page: Page,
       Modal: Modal,
       Icon: Icon,
+      TimeDown: TimeDown,
     },
     data() {
       return {
@@ -107,7 +152,12 @@
         modalLoading: false,
         deleteModal: false,
         deleteId: null,
-        searchLoading: false
+        searchLoading: false,
+        approvalPop:false,
+        userScreenShotImg:{},
+        reason:null,
+        status:null,
+        endTime:null,
       }
     },
     mounted() {
@@ -118,6 +168,9 @@
     },
     computed: {},
     methods: {
+      resubmitFun(type){
+        this.$router.push({name:'TaskDetails',query:{taskId:type,resubmit:'resubmit'}})
+      },
       getTaskStatus(type) {
         return TaskErrorStatusList(type);
       },
@@ -163,6 +216,22 @@
             _this.showkerSuccessList();
           } else {
             _this.$Message.error(res.msg);
+          }
+        })
+      },
+      getUserScreenShot(type,reason,status,endTime){
+        let _this = this ;
+        _this.reason = reason;
+        _this.status = status;
+        _this.endTime = endTime;
+        api.getUserScreenShot({
+          id:type
+        }).then(res=>{
+          if (res.status){
+            _this.approvalPop = true;
+            _this.userScreenShotImg =res.data;
+          }else {
+            _this.$Message.error(res.msg)
           }
         })
       }
