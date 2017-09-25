@@ -1,6 +1,6 @@
 <template>
   <div class="my-xiu-ba container tmy-xiu-ba-con clear">
-    <div class="my-xiu-ba-con-nav left">
+    <div class="my-xiu-ba-con-nav left" v-if="isLogin">
       <!--商家管理导航-->
       <ul v-if="getUserInfoRole === 1">
         <li :class="{isSelect:isSelect ==='UserHome'}">
@@ -35,7 +35,12 @@
           <Icon type="help-buoy"></Icon>
           <router-link to="/user/help-center/faq">帮助中心</router-link>
         </li>
+        <li :class="{isSelect:isSelect === 'Recommend'}">
+          <Icon type="share"></Icon>
+          <router-link to="/user/recommend">邀请有礼</router-link>
+        </li>
       </ul>
+
       <!--秀客管理导航-->
       <ul v-else-if="getUserInfoRole === 0">
         <li :class="{isSelect:isSelect ==='UserHome'}">
@@ -65,6 +70,10 @@
         <li :class="{isSelect:isSelect === 'faq' || isSelect === 'faqSeller' || isSelect === 'faqShowker'}">
           <Icon type="help-buoy"></Icon>
           <router-link to="/user/help-center/faq">帮助中心</router-link>
+        </li>
+        <li :class="{isSelect:isSelect === 'Recommend'}">
+          <Icon type="share"></Icon>
+          <router-link to="/user/recommend">邀请有礼</router-link>
         </li>
       </ul>
     </div>
@@ -96,14 +105,20 @@
     watch: {
       $route(to) {
         this.isSelect = to.name;
+        console.log(this.isSelect);
       }
     },
     computed: {
       getUserInfoRole() {
         return this.$store.state.userInfo.role;
-      }
+      },
+      isLogin() {
+        return this.$store.state.login
+      },
     },
-    methods: {}
+    methods: {
+
+    }
   }
 </script>
 
