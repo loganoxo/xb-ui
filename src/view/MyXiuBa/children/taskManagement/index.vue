@@ -103,6 +103,10 @@
       border-top: 1px solid #F7F7F7;
       padding: 20px 0;
     }
+    .ivu-collapse{
+      background-color: #fff;
+      border: none;
+    }
     .ivu-collapse > .ivu-collapse-item > .ivu-collapse-header{
       height: 62px;
       line-height: 62px;
@@ -121,10 +125,17 @@
       padding: 0;
     }
     .ivu-collapse > .ivu-collapse-item{
-      border-top: 12px solid #fff;
+      margin-top: 10px;
+      border-left: 1px solid #dddee1;
+      border-right: 1px solid #dddee1;
+      border-bottom: 1px solid #dddee1;
+      background-color: #F7F7F7;
     }
     .ivu-collapse > .ivu-collapse-item:first-child{
-      border-top: 0;
+      margin-top: 0;
+    }
+    .ivu-collapse > .ivu-collapse-item:first-child{
+      border-top: 1px solid #dddee1;
     }
     .manage-img {
       height: 42px;
