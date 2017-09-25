@@ -39,7 +39,7 @@ redisClient.on('error', function (res) {
  * @param RoleSessionName
  */
 router.get('/api/ali-token.json', (req, res, next) => {
-  var start = new Date().getTime();
+  let start = new Date().getTime();
   logConfig.logger.info('ali-token-start:'+ start);
   res.set('Access-Control-Allow-Origin', '*');
   res.set('Access-Control-Allow-METHOD', 'GET');
@@ -53,7 +53,7 @@ router.get('/api/ali-token.json', (req, res, next) => {
     //DurationSeconds: 3600,
     RoleSessionName: 'RoleSessionName'
   }, function (err, parsedBody) {
-    var end =  new Date().getTime();
+    let end =  new Date().getTime();
     logConfig.logger.info('ali-token-end:'+ (end - start));
     if (err) {
       logConfig.logger.error(req.originalUrl + ':' + err);
@@ -62,7 +62,7 @@ router.get('/api/ali-token.json', (req, res, next) => {
       res.send(parsedBody.Credentials);
     }
     res.end();
-    var endFinish = new Date().getTime();
+    let endFinish = new Date().getTime();
     logConfig.logger.info('ali-token-endFinish:'+ (endFinish - start));
   });
 });

@@ -57,8 +57,8 @@
           <Icon type="arrow-down-c"></Icon>
         </iButton>
       </ButtonGroup>
-      <iInput v-model="searchOrderNum" size="small" placeholder="使用活动编号搜索" class="left ml-10" style="width: 280px;">
-        <iButton slot="append" icon="ios-search" size="small"></iButton>
+      <iInput v-model="taskNumber" size="small" placeholder="使用活动编号搜索" class="left ml-10" style="width: 280px;" @on-enter="getTaskList">
+        <iButton slot="append" icon="ios-search" size="small" :loading="searchLoading" @click="getTaskList"></iButton>
       </iInput>
     </div>
     <!--管理列表-->
@@ -77,7 +77,10 @@
         </thead>
         <tbody v-for="item in taskList" :key="item.id" v-if="taskList && taskList.length > 0">
         <tr class="task-number">
-          <td colspan="7">活动编号：{{item.number || '------'}}</td>
+          <td colspan="7">
+            <span>活动编号：{{item.number || '------'}}</span>
+            <span class="ml-10">创建时间：{{item.createTime | dateFormat('YYYY-MM-DD hh:mm:ss') || '----'}}</span>
+          </td>
         </tr>
         <tr>
           <td>
@@ -127,7 +130,7 @@
             </p>
           </td>
           <td v-else-if="item.settlementStatus === 'waiting_settlement'">
-            <p class="bond mt-6">
+            <p class="bond mt-6" v-if="isApproveExpire(item.endTime)">
               <span @click="approveShowker(item.id)">审批秀客</span>
             </p>
             <p class="bond mt-6">
@@ -323,13 +326,14 @@
         directSettlementSuccess: false,
         auditSettlementSuccess: false,
         billDetailsModel: false,
+        searchLoading: false,
         ActivityNumber: null,
         marginRefund: 0,
         promotionRefund: 0,
         taskCountLeft: 0,
         taskSettlementDetailInfo: {},
         title:null,
-        searchOrderNum: null,
+        taskNumber: null,
         sortList:{
           select: 'createTime',
           defaultList:[
@@ -340,7 +344,7 @@
             },
             {
               name: '开始时间',
-              sortField: 'startTime',
+              sortField: 'upLineTime',
               sort: 'desc',
             },
             {
@@ -393,14 +397,22 @@
       approveShowker(id,time) {
         this.$router.push({name: 'ApproveShowker', query: {taskId: id,endTime:time}})
       },
+      isApproveExpire(endTime) {
+        return new Date().getTime() < endTime + 48 * 3600 * 1000;
+      },
       sortChange(name){
         this.sortList.select = name;
+        this.getTaskList(name);
       },
-      getTaskList() {
+      getTaskList(orderBy) {
         let _this = this;
+        _this.searchLoading = true;
         api.getTaskList({
           taskStatusList: JSON.stringify(_this.taskStatusList),
           settlementStatusList: JSON.stringify(_this.settlementStatusList),
+          taskNumber: _this.taskNumber,
+          orderBy: orderBy ? orderBy : 'createTime',
+          sort: 'desc',
           pageIndex: _this.pageIndex,
           pageSize: _this.pageSize
         }).then(res => {
@@ -408,7 +420,10 @@
             _this.taskData = res.data;
             _this.totalElements = res.data.taskPage.totalElements;
             _this.taskList = res.data.taskPage.content;
+          } else {
+            _this.$Message.error(res.msg);
           }
+          _this.searchLoading = false;
         })
       },
       getTaskStatus(type) {
@@ -429,18 +444,16 @@
           taskId: _this.taskId
         }).then(res => {
           if (res.status) {
-            _this.closeModal = false;
-            _this.modalLoading = false;
             setTimeout(function () {
               _this.$Message.success('任务关闭成功！');
             }, 500);
             _this.$store.dispatch('getUserInformation');
             _this.getTaskList();
           } else {
-            _this.closeModal = false;
-            _this.modalLoading = false;
             _this.$Message.error(res.msg);
           }
+          _this.closeModal = false;
+          _this.modalLoading = false;
         })
       },
       confirmDelete() {
@@ -450,17 +463,15 @@
           taskId: _this.taskId
         }).then(res => {
           if (res.status) {
-            _this.deleteModal = false;
-            _this.modalLoading = false;
             setTimeout(function () {
               _this.$Message.success('任务删除成功！');
             }, 500);
             _this.getTaskList();
           } else {
-            _this.deleteModal = false;
-            _this.modalLoading = false;
             _this.$Message.error(res.msg);
           }
+          _this.closeModal = false;
+          _this.modalLoading = false;
         })
       },
       settlementTask(id, number) {
@@ -526,7 +537,6 @@
           type: _this.hasDeposited > 0 ? 'supply_pay' : 'first_pay'
         }).then(res => {
           if(res.status){
-            _this.showPayModel = false;
             _this.$Message.success({
               content:'支付成功！',
               duration: 6
@@ -541,6 +551,7 @@
               duration: 6
             })
           }
+          _this.showPayModel = false;
         })
       },
       lookBill() {

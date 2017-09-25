@@ -3,6 +3,7 @@ export default {
   getUserAccountInfo: state => {
     return state.userInfo.userAccount;
   },
+
   //从vuex中获取用户个人基本信息
   getPersonalInfo: state => {
     return {
@@ -23,10 +24,12 @@ export default {
       status: state.userInfo.status
     }
   },
+
   //从vuex中获取用户账户余额
   getUserBalance: state => {
     return state.userInfo.userAccount.accountBalance / 100;
   },
+
   //从vuex中获取用户是否修改过支付密码
   getIsEditPwdAlready: state => {
     return state.userInfo.userAccount.ifEditPwdAlready;
