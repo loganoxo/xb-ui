@@ -1,11 +1,6 @@
 <template>
   <div class="mt-20">
-    <span>淘宝会员名：</span>
-    <iInput v-model="alitmAccount" style="width: 160px;margin-right: 8px;"></iInput>
-    <span>活动编号：</span>
-    <iInput v-model="taskNumber" style="width: 160px;margin-right: 8px;"></iInput>
-    <iButton type="primary" :loading="searchLoading" @click="appliesEndTask">搜索</iButton>
-    <div class="clear mt-20">
+    <div class="clear mt-20 mb-20">
       <div class="left mr-10" style="margin-top: 2px;">
         <Checkbox
           :value="checkAllByFail"
@@ -26,7 +21,14 @@
         </Checkbox-group>
       </div>
     </div>
-    <Collapse class="mt-20" accordion>
+    <div class="search-list">
+      <span>淘宝会员名：</span>
+      <iInput v-model="alitmAccount" style="width: 160px;margin-right: 8px;"></iInput>
+      <span>活动编号：</span>
+      <iInput v-model="taskNumber" style="width: 160px;margin-right: 8px;"></iInput>
+      <iButton type="primary" :loading="searchLoading" @click="appliesEndTask">搜索</iButton>
+    </div>
+    <Collapse class="mt-10" v-if="taskFailAuditList.length > 0">
       <Panel v-for="(item,index) in taskFailAuditList" :key="item.id">
         <div @click="appliesEndShowkerTask(item.id,index)" style="width: 100%; height: 100%;">
           <div class="manage-img inline-block">
@@ -71,8 +73,9 @@
         </div>
       </Panel>
     </Collapse>
+    <div class="mt-40 text-ct" v-else>暂无已终止数据</div>
     <div class="activity-page mt-20 right mr-10" v-if="taskFailAuditList && taskFailAuditList.length > 0">
-      <Page :total="totalElements" :page-size="pageSize" @on-change="pageChange"></Page>
+      <Page :total="totalElements" :page-size="pageSize" :current="pageIndex" @on-change="pageChange"></Page>
     </div>
   </div>
 </template>
@@ -102,7 +105,7 @@
     data() {
       return {
         pageIndex: 1,
-        pageSize: 10,
+        pageSize: 5,
         alitmAccount: null,
         taskNumber: null,
         orderNum: null,
@@ -131,6 +134,7 @@
         } else {
           this.rejectReasonList = [];
         }
+        this.pageIndex = 1;
         this.appliesEndTask();
       },
       checkFailChange() {
@@ -141,6 +145,7 @@
         } else {
           this.checkAllByFail = false;
         }
+        this.pageIndex = 1;
         this.appliesEndTask();
       },
       pageChange(data) {
@@ -152,7 +157,7 @@
         _this.searchLoading = true;
         api.appliesEndTask({
           pageIndex: _this.pageIndex,
-          pageSize: _this.pageIndex,
+          pageSize: _this.pageSize,
           taskNumber: _this.taskNumber,
           alitmAccount: _this.alitmAccount,
           rejectReasonList: JSON.stringify(_this.rejectReasonList)
@@ -181,7 +186,7 @@
         api.appliesEndShowkerTask({
           taskId: taskId,
           pageIndex: _this.pageIndex,
-          pageSize: _this.pageIndex,
+          pageSize: _this.pageSize,
           alitmAccount: _this.alitmAccount,
           rejectReasonList: JSON.stringify(_this.rejectReasonList)
         }).then(res => {

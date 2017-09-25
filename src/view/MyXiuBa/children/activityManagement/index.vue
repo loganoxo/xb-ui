@@ -53,6 +53,7 @@
     .select-status {
       height: 52px;
       line-height: 52px;
+      border-bottom: 2px solid #F6F6F6;
     }
     .activity-table table {
       width: 100%;
@@ -315,6 +316,13 @@
       text-align: center;
       font-size: 20px;
       margin-top: 24px;
+    }
+    .list-sort{
+      padding: 12px 0;
+      .active{
+        background-color: $mainColor;
+        color: #fff;
+      }
     }
   }
 

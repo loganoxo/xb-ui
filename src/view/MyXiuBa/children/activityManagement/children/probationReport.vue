@@ -33,8 +33,7 @@
         <p>
           <span>订单状态：</span>
           <strong>{{getTaskStatus(showkerTaskInfo.status)}}</strong>
-          <span class="main-color"><time-down color='#ff4040' :fontWeight=600
-                                              :endTime="showkerTaskInfo.currentGenerationEndTime"></time-down></span>
+          <span class="main-color"><time-down color='#ff4040' :fontWeight=600 :endTime="showkerTaskInfo.currentGenerationEndTime"></time-down></span>
         </p>
       </div>
       <div class="trial-experience mt-20">
@@ -152,8 +151,7 @@
         showType: false,
       }
     },
-    mounted() {
-    },
+    mounted() {},
     created() {
       let id = this.$route.query.id;
       let from = this.$route.query.from;

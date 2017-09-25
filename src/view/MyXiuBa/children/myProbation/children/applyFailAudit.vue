@@ -62,7 +62,7 @@
       </table>
     </div>
     <div class="activity-page mt-20 right mr-10" v-show="applyList.length > 0">
-      <Page :total="totalElements" :page-size="pageSize" @on-change="pageChange"></Page>
+      <Page :total="totalElements" :page-size="pageSize" :current="pageIndex" @on-change="pageChange"></Page>
     </div>
   </div>
 </template>
@@ -174,6 +174,7 @@
         } else {
           this.rejectReasonList = [];
         }
+        this.pageIndex = 1;
         this.showkerApplyList();
       },
       checkFailChange() {
@@ -184,6 +185,7 @@
         } else {
           this.checkAllByFail = false;
         }
+        this.pageIndex = 1;
         this.showkerApplyList();
       },
     }

@@ -42,8 +42,8 @@
       <iInput v-model="orderNum" style="width: 160px;margin-right: 8px;"></iInput>
       <iButton type="primary" :loading="searchLoading" @click="passesTaskList">搜索</iButton>
     </div>
-    <Collapse class="mt-10" v-for="(item,index) in taskPassAuditList" :key="item.id">
-      <Panel v-for="">
+    <Collapse class="mt-10" accordion v-if="taskPassAuditList.length > 0">
+      <Panel v-for="(item,index) in taskPassAuditList" :key="item.id">
         <div @click="passesShowkerTask(item.id,index)" style="width: 100%; height: 100%;">
           <div class="manage-img inline-block">
             <img :src="item.taskMainImage" alt="">
@@ -53,8 +53,8 @@
             <p>活动名称：{{item.taskName}}</p>
           </div>
           <div class="waiting-task-number">
-            <p>订单号待审核<span>{{item.orderNumWaitingAuditShowkerTask}}</span>个</p>
-            <p>买家秀待确认<span>{{item.trialReportWaitingConfirmShowkerTask}}</span>个</p>
+            <p>订单号待审核<span>{{item.orderNumWaitingAuditShowkerTask || 0}}</span>个</p>
+            <p>买家秀待确认<span>{{item.trialReportWaitingConfirmShowkerTask || 0}}</span>个</p>
           </div>
         </div>
         <div slot="content" class="task-table">
@@ -82,9 +82,11 @@
               </td>
               <td>{{item.orderNum || '------'}}</td>
               <td>
-                <span v-if="item.status === 'order_num_waiting_audit'" @click="openCheckOrder(item.id)">审核订单号</span>
-                <span v-else-if="item.status === 'trial_report_waiting_confirm'" @click="goProbationReport(item.id)">审核买家秀</span>
-                <span v-else>------</span>
+               <p class="del-edit">
+                 <span v-if="item.status === 'order_num_waiting_audit'" @click="openCheckOrder(item.id)">审核订单号</span>
+                 <span v-else-if="item.status === 'trial_report_waiting_confirm'" @click="goProbationReport(item.id)">审核买家秀</span>
+                 <span v-else>------</span>
+               </p>
               </td>
             </tr>
             </tbody>
@@ -97,8 +99,9 @@
         </div>
       </Panel>
     </Collapse>
+    <div class="text-ct mt-40" v-else>暂无已通过数据</div>
     <div class="activity-page mt-20 right mr-10" v-if="taskPassAuditList && taskPassAuditList.length > 0">
-      <Page :total="totalElements" :page-size="pageSize" @on-change="pageChange"></Page>
+      <Page :total="totalElements" :page-size="pageSize" :current="pageIndex" @on-change="pageChange"></Page>
     </div>
     <!--审核订单号弹窗-->
     <div class="check-order-model" v-if="showCheckOrder">
@@ -190,7 +193,7 @@
         auditStatusList: [],
         showkerTaskStatusList: [],
         pageIndex: 1,
-        pageSize: 10,
+        pageSize: 5,
         taskPassAuditList: [],
         totalElements: 0,
         operateTaskId: null,
@@ -226,6 +229,7 @@
         } else {
           this.auditStatusList = [];
         }
+        this.pageIndex = 1;
         this.passesTaskList();
       },
       checkPassChange() {
@@ -236,6 +240,7 @@
         } else {
           this.checkAllByPass = false;
         }
+        this.pageIndex = 1;
         this.passesTaskList();
       },
       pageChange(data) {
@@ -255,6 +260,7 @@
         }).then(res => {
           if (res.status) {
             _this.taskPassAuditList = res.data.content;
+            _this.totalElements = res.data.totalElements;
             _this.taskPassAuditList.forEach(item => {
               api.passesShowkerTaskCountsInfo({
                 taskId: item.id

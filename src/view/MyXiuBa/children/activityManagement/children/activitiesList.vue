@@ -50,6 +50,18 @@
         </Checkbox-group>
       </div>
     </div>
+    <div class="list-sort clear">
+      <ButtonGroup class="left">
+        <iButton :class="[sortList.select === item.sortField ? 'active' : '']" size="small" v-for="(item,index) in sortList.defaultList" :key="index" @click="sortChange(item.sortField)">
+          <span>{{item.name}}</span>
+          <Icon type="arrow-down-c"></Icon>
+        </iButton>
+      </ButtonGroup>
+      <iInput v-model="searchOrderNum" size="small" placeholder="使用活动编号搜索" class="left ml-10" style="width: 280px;">
+        <iButton slot="append" icon="ios-search" size="small"></iButton>
+      </iInput>
+    </div>
+    <!--管理列表-->
     <div class="activity-table">
       <table>
         <thead>
@@ -173,8 +185,9 @@
         </tbody>
       </table>
     </div>
+    <!--列表分页-->
     <div class="activity-page mt-20 right mr-10" v-show="taskList && taskList.length > 0">
-      <Page :total="totalElements" :page-size="pageSize" :current="1" @on-change="pageChange"></Page>
+      <Page :total="totalElements" :page-size="pageSize" :current="pageIndex" @on-change="pageChange"></Page>
     </div>
     <!--关闭任务弹框-->
     <Modal v-model="closeModal" width="360">
@@ -274,7 +287,6 @@
   import Tooltip from 'iview/src/components/tooltip'
   import PayModel from '@/components/PayModel'
   import api from '@/config/apiConfig'
-  import {mapActions} from 'vuex'
   import {TaskErrorStatusList} from '@/config/utils'
 
   export default {
@@ -285,6 +297,7 @@
       Page: Page,
       Icon: Icon,
       iButton: Button,
+      ButtonGroup: Button.Group,
       Modal: Modal,
       iInput: Input,
       Tooltip: Tooltip,
@@ -316,6 +329,27 @@
         taskCountLeft: 0,
         taskSettlementDetailInfo: {},
         title:null,
+        searchOrderNum: null,
+        sortList:{
+          select: 'createTime',
+          defaultList:[
+            {
+              name: '创建时间',
+              sortField: 'createTime',
+              sort: 'desc',
+            },
+            {
+              name: '开始时间',
+              sortField: 'startTime',
+              sort: 'desc',
+            },
+            {
+              name: '结束时间',
+              sortField: 'endTime',
+              sort: 'desc',
+            },
+          ]
+        }
       }
     },
     mounted() {
@@ -347,9 +381,6 @@
       }
     },
     methods: {
-      ...mapActions([
-        'getUserInformation'
-      ]),
       editTask(id) {
         this.$router.push({name: 'TaskReleaseProcess', query: {taskId: id}})
       },
@@ -361,6 +392,9 @@
       },
       approveShowker(id) {
         this.$router.push({name: 'ApproveShowker', query: {taskId: id}})
+      },
+      sortChange(name){
+        this.sortList.select = name;
       },
       getTaskList() {
         let _this = this;
@@ -463,6 +497,7 @@
           this.taskStatusList = [];
           this.settlementStatusList = [];
         }
+        this.pageIndex = 1;
         this.getTaskList();
       },
       checkAllGroupChange() {
@@ -473,6 +508,7 @@
         } else {
           this.checkAll = false;
         }
+        this.pageIndex = 1;
         this.getTaskList();
       },
       depositMoney(money, id, deposited) {
@@ -495,7 +531,7 @@
               content:'支付成功！',
               duration: 6
             });
-            _this.getUserInformation();
+            _this.$store.dispatch('getUserInformation');
             setTimeout(function () {
               _this.getTaskList();
             },400);

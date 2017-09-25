@@ -369,23 +369,39 @@
       </div>
     </div>
     <div class="footer-btn" v-show="stepName === 'information'" @click="stepNext">下一步</div>
-    <!--存入保证金-->
+    <!--存入担保金详情-->
     <div class="deposits-received" v-show="stepName === 'deposit'">
       <div class="deposits-received-title mt-20 mb-20">活动活动信息已成功保存，请您存入本次活动的活动担保金。</div>
-      <div class="deposits-received-info">您现在为 <span class="second-color">{{taskRelease.taskName}}</span> 存入活动担保金<span class="second-color">{{taskRelease.taskCount * oneBond}}</span>元，此笔款项将作为发布活动活动诚信担保的重要工具，待秀客完成活动流程后将返还给每个秀客 <span class="second-color">{{oneBond}}</span> 元.</div>
+      <div class="deposits-received-info">您现在为 <span class="second-color">{{taskRelease.taskName}}</span> 存入活动担保金<span
+        class="second-color">{{taskRelease.taskCount * oneBond}}</span>元，此笔款项将作为发布活动活动诚信担保的重要工具，待秀客完成活动流程后将返还给每个秀客 <span
+        class="second-color">{{oneBond}}</span> 元.
+      </div>
       <div class="description-fees mt-40">
         <h3>费用说明：</h3>
         <div class="description-fees-con mt-10">
-          <p>活动担保金 = 份数 × 单品活动担保金 =<span>{{taskRelease.taskCount}}</span>×<span>{{oneBond}}</span>= <span>{{taskRelease.taskCount * oneBond}}</span>元</p>
-          <p class="mt-6">单品推广费 = 单品活动担保金 × 费率 =<span>{{oneBond}}</span>× <span>6%</span> = <span>{{(oneBond * 0.06).toFixed(2)}}</span>元<span v-if="taskRelease.itemPrice * 0.06 > 3">（单品推广费超过平台设定的最高上限3.00元，本次实际收取的单品推广费用为3.00元）</span></p>
-          <p class="mt-6">总推广费用 = 单品推广费用 × 份数 =<span>{{onePromotionExpenses}}</span>× <span>{{taskRelease.taskCount}} = <span>{{allPromotionExpenses}}</span></span>元</p>
+          <p>
+            活动担保金 = 份数 × 单品活动担保金 =<span>{{taskRelease.taskCount}}</span>×<span>{{oneBond}}</span>= <span>{{taskRelease.taskCount * oneBond}}</span>元
+          </p>
+          <p class="mt-6">单品推广费 = 单品活动担保金 × 费率 =<span>{{oneBond}}</span>× <span>6%</span>
+            = <span>{{(oneBond * 0.06).toFixed(2)}}</span>元<span v-if="taskRelease.itemPrice * 0.06 > 3">（单品推广费超过平台设定的最高上限3.00元，本次实际收取的单品推广费用为3.00元）</span>
+          </p>
+          <p class="mt-6">总推广费用 = 单品推广费用 × 份数 =<span>{{onePromotionExpenses}}</span>× <span>{{taskRelease.taskCount}} = <span>{{allPromotionExpenses}}</span></span>元
+          </p>
           <p class="mt-6">总费用 = 活动担保金 + 总推广费用 = <span>{{orderMoney}}</span>元</p>
         </div>
       </div>
-      <div class="pay-info mt-40" v-if="isBalance && !priceHasChange">本次总共要支付的金额为：<span class="second-color">{{orderMoney}}</span>&nbsp;元。您的账户的当前余额为：<strong>{{getUserBalance || 0}}</strong>&nbsp;元</div>
-      <div class="pay-info mt-40"  v-if="!isBalance && !priceHasChange">本次总共要支付的金额为：<strong>{{orderMoney}}</strong>&nbsp;元。您账户余额为：<strong>{{getUserBalance || 0}}</strong>&nbsp;元，还需充值：<span class="second-color">{{(orderMoney - getUserBalance).toFixed(2)}}</span>&nbsp;元。</div>
-      <div class="pay-info mt-40" v-if="isBalance && priceHasChange">该任务已付担保金 <strong>{{paidDeposit.toFixed(2)}}</strong>元，本次修改需要支付超出部分的金额为：<strong class="main-color">{{replenishMoney}}</strong>元。您账号的当前余额为：<strong>{{getUserBalance || 0}}</strong>&nbsp;元</div>
-      <div class="pay-info mt-40" v-if="!isBalance && priceHasChange">该任务已付担保金 <strong>{{paidDeposit}}</strong>元，本次修改需要支付超出部分的金额为：<strong class="main-color">{{replenishMoney}}</strong>元。您账号的当前余额为：<strong>{{getUserBalance || 0}}</strong>&nbsp;元,还需充值：<span class="second-color">{{(orderMoney - getUserBalance).toFixed(2)}}</span>&nbsp;元。</div>
+      <div class="pay-info mt-40" v-if="isBalance && !priceHasChange">本次总共要支付的金额为：<span class="second-color">{{orderMoney}}</span>&nbsp;元。您的账户的当前余额为：<strong>{{getUserBalance || 0}}</strong>&nbsp;元
+      </div>
+      <div class="pay-info mt-40" v-if="!isBalance && !priceHasChange">本次总共要支付的金额为：<strong>{{orderMoney}}</strong>&nbsp;元。您账户余额为：<strong>{{getUserBalance || 0}}</strong>&nbsp;元，还需充值：<span
+        class="second-color">{{(orderMoney - getUserBalance).toFixed(2)}}</span>&nbsp;元。
+      </div>
+      <div class="pay-info mt-40" v-if="isBalance && priceHasChange">
+        该任务已付担保金 <strong>{{paidDeposit.toFixed(2)}}</strong>元，本次修改需要支付超出部分的金额为：<strong class="main-color">{{replenishMoney}}</strong>元。您账号的当前余额为：<strong>{{getUserBalance || 0}}</strong>&nbsp;元
+      </div>
+      <div class="pay-info mt-40" v-if="!isBalance && priceHasChange">该任务已付担保金 <strong>{{paidDeposit}}</strong>元，本次修改需要支付超出部分的金额为：<strong
+        class="main-color">{{replenishMoney}}</strong>元。您账号的当前余额为：<strong>{{getUserBalance || 0}}</strong>&nbsp;元,还需充值：<span
+        class="second-color">{{(orderMoney - getUserBalance).toFixed(2)}}</span>&nbsp;元。
+      </div>
       <div class="description-fees-footer">
         <span class="pay-btn" v-if="isBalance" @click="openRecharge">前去支付</span>
         <span class="pay-btn" v-else @click="openRecharge">前去充值</span>
@@ -393,7 +409,7 @@
         <router-link to="/user/activity-management/list">秀品活动管理</router-link>
       </div>
     </div>
-    <!--活动提交成功-->
+    <!--活动提交成功提示-->
     <div class="audit" v-show="stepName === 'audit'">
       <div class="audit-title">
         <Icon type="checkmark-circled" color="#309630" size=28></Icon>
@@ -409,24 +425,29 @@
     <div class="pay-model" v-if="showPayModel">
       <PayModel :orderMoney="!priceHasChange ? orderMoney : replenishMoney" @confirmPayment="confirmPayment">
         <i slot="closeModel" class="close-recharge" @click="closeRecharge">&times;</i>
-        <div slot="noBalance" class="title-tip"><span class="size-color3"><Icon color="#FF2424" size="18px" type="ios-information"></Icon><span class="ml-10">亲，您的余额不足，请充值。</span></span>还需充值<strong class="size-color3">{{(orderMoney - getUserBalance).toFixed(2)}}</strong>元</div>
+        <div slot="noBalance" class="title-tip"><span class="size-color3"><Icon color="#FF2424" size="18px"
+                                                                                type="ios-information"></Icon><span
+          class="ml-10">亲，您的余额不足，请充值。</span></span>还需充值<strong
+          class="size-color3">{{(orderMoney - getUserBalance).toFixed(2)}}</strong>元
+        </div>
         <div slot="isBalance" class="title-tip">
           <Icon color="#FF2424" size="18px" type="ios-information"></Icon>
-          <span class="ml-10">您本次需要支付金额为 <span class="size-color3">{{!priceHasChange ? orderMoney : replenishMoney}}</span> 元。</span></div>
+          <span class="ml-10">您本次需要支付金额为 <span
+            class="size-color3">{{!priceHasChange ? orderMoney : replenishMoney}}</span> 元。</span></div>
       </PayModel>
     </div>
     <!--用户修改价格比原始价格高需要补差价提示弹框-->
     <div class="editPriceModel">
       <Modal v-model="editPriceAfterModel">
-       <div class="clear mt-40">
-         <div class="left mt-5">
-           <Icon color="#f60" size="32" type="information-circled"></Icon>
-         </div>
-         <div class="left ml-10">
-           <p style="font-size: 14px;">由于您修改了当前宝贝价格/包邮条件/发放数量等，且修改后的</p>
-           <p style="font-size: 14px;">价格高于原活动担保金，因此需要对超出部分进行支付。</p>
-         </div>
-       </div>
+        <div class="clear mt-40">
+          <div class="left mt-5">
+            <Icon color="#f60" size="32" type="information-circled"></Icon>
+          </div>
+          <div class="left ml-10">
+            <p style="font-size: 14px;">由于您修改了当前宝贝价格/包邮条件/发放数量等，且修改后的</p>
+            <p style="font-size: 14px;">价格高于原活动担保金，因此需要对超出部分进行支付。</p>
+          </div>
+        </div>
         <div slot="footer">
           <iButton type="error" size="large" @click="continueNextStep">我已了解，继续下一步</iButton>
           <iButton style="margin-left: 35px;" type="error" size="large" @click="IThink">我再想想</iButton>
@@ -451,6 +472,19 @@
         </div>
       </Modal>
     </div>
+    <!--商家发布任务活动总价低于500元提醒弹框-->
+    <Modal v-model="price500Model" width="360">
+        <p slot="header" style="color:#f60;text-align:center">
+          <Icon type="information-circled"></Icon>
+          <span>温馨提示</span>
+        </p>
+        <div class="text-ct">
+          <p>您发布的活动总价值必须在500元以上</p>
+        </div>
+        <div slot="footer">
+          <iButton type="error" size="large" long  @click="price500Model = false">我知道了</iButton>
+        </div>
+    </Modal>
   </div>
 </template>
 
@@ -470,7 +504,6 @@
   import api from '@/config/apiConfig'
   import {aliCallbackImgUrl} from '@/config/env'
   import {aliUploadImg, isNumber, isInteger, isAliUrl, randomString} from '@/config/utils'
-  import {mapActions} from 'vuex'
 
   export default {
     name: 'TaskReleaseProcess',
@@ -524,7 +557,7 @@
           itemMainImage: null,
           searchKeyword: null,
           searchSort: 'zong_he',
-          searchPagePrice: null,
+          searchPagePrice: 0,
           searchPagePositionMin: null,
           searchPagePositionMax: null,
           searchFilter: [],
@@ -551,14 +584,14 @@
           taskDaysDuration: null,
           onlyShowForQualification: false,
           refuseOldShowker: false,
-          showkerApplyBefore:false,
+          showkerApplyBefore: false,
           taskName: null,
           itemType: null,
           taskMainImage: null,
           itemUrl: null,
           storeName: null,
-          taskCount: null,
-          itemPrice: null,
+          taskCount: 0,
+          itemPrice: 0,
           pinkage: "true",
           paymentMethod: "all",
           itemDescription: '',
@@ -567,6 +600,7 @@
         },
         editPriceAfterModel: false,
         editPriceToLowAfterModel: false,
+        price500Model: false,
         priceHasChange: false,
         paidDeposit: 0,
         taskStatus: null,
@@ -610,6 +644,7 @@
       },
       /**
        * 从vuex中获取余额
+       * @return {number}
        */
       getUserBalance: function () {
         return this.$store.getters.getUserBalance;
@@ -625,8 +660,8 @@
        * 计算实际单品推广费用（单品推广费最高上限3元）
        * @return {number}
        */
-      onePromotionExpenses:function () {
-        return  this.taskRelease.itemPrice * 0.06 > 3 ? 3 : ((this.taskRelease.itemPrice * 100).toFixed(2) / 100 * 0.06).toFixed(2) * 1;
+      onePromotionExpenses: function () {
+        return this.taskRelease.itemPrice * 0.06 > 3 ? 3 : ((this.taskRelease.itemPrice * 100).toFixed(2) / 100 * 0.06).toFixed(2) * 1;
       },
       /**
        * 计算总推广费用
@@ -658,12 +693,12 @@
       },
     },
     methods: {
-      ...mapActions([
-        'getUserInformation'
-      ]),
-      onEditorBlur(editor) {},
-      onEditorFocus(editor) {},
-      onEditorReady(editor) {},
+      onEditorBlur(editor) {
+      },
+      onEditorFocus(editor) {
+      },
+      onEditorReady(editor) {
+      },
       handleSuccess(res) {
         this.taskRelease.taskMainImage = aliCallbackImgUrl + res.name;
       },
@@ -691,7 +726,7 @@
           _this.$Message.warning('亲，活动时长不能为空！');
           return;
         }
-        if(!isInteger(_this.taskRelease.taskDaysDuration)){
+        if (!isInteger(_this.taskRelease.taskDaysDuration)) {
           _this.$Message.warning('亲，活动时长必须为数字！');
           return;
         }
@@ -707,7 +742,7 @@
           _this.$Message.warning('亲，活动标题不能为空！');
           return;
         }
-        if(_this.taskRelease.taskName.length > 30){
+        if (_this.taskRelease.taskName.length > 30) {
           _this.$Message.warning('亲，活动标题最多30个文字！');
           return;
         }
@@ -735,7 +770,7 @@
           _this.$Message.warning('亲，宝贝数量不能为空！');
           return;
         }
-        if(!isInteger(_this.taskRelease.taskCount)){
+        if (!isInteger(_this.taskRelease.taskCount)) {
           _this.$Message.warning('亲，宝贝数量必须为数字！');
           return;
         }
@@ -743,7 +778,7 @@
           _this.$Message.warning('亲，宝贝单价不能为空！');
           return;
         }
-        if(!isNumber(_this.taskRelease.itemPrice)){
+        if (!isNumber(_this.taskRelease.itemPrice)) {
           _this.$Message.warning('亲，宝贝单价必须为数字！');
           return;
         }
@@ -760,7 +795,7 @@
             _this.$Message.warning('亲，展示价格不能空！');
             return;
           }
-          if(!isNumber(_this.PcTaskDetail.searchPagePrice)){
+          if (!isNumber(_this.PcTaskDetail.searchPagePrice)) {
             _this.$Message.warning('亲，展示价格必须为数字！');
             return;
           }
@@ -772,7 +807,7 @@
             _this.$Message.warning('亲，宝贝搜索结束位置不能空！');
             return;
           }
-          if(_this.PcTaskDetail.searchPagePositionMax < _this.PcTaskDetail.searchPagePositionMin ){
+          if (_this.PcTaskDetail.searchPagePositionMax < _this.PcTaskDetail.searchPagePositionMin) {
             _this.$Message.warning('亲，宝贝搜索位置起始页不能大于结束页！');
             return;
           }
@@ -794,7 +829,7 @@
             _this.$Message.warning('亲，展示价格不能空！');
             return;
           }
-          if(!isNumber(_this.AppTaskDetail.searchPagePrice)){
+          if (!isNumber(_this.AppTaskDetail.searchPagePrice)) {
             _this.$Message.warning('亲，展示价格必须为数字！');
             return;
           }
@@ -811,16 +846,20 @@
         }
         let status = _this.taskStatus;
         let type = _this.$route.query.type;
-        if((status === 'waiting_modify' || status === 'waiting_pay') && _this.paidDeposit === _this.orderMoney && !type){
+        if(_this.taskRelease.taskCount * _this.oneBond < 500){
+          _this.price500Model = true;
+          return;
+        }
+        if ((status === 'waiting_modify' || status === 'waiting_pay') && _this.paidDeposit === _this.orderMoney && !type) {
           _this.taskCreate(true);
-        }else if((status === 'waiting_modify' || status === 'waiting_pay') && _this.paidDeposit > _this.orderMoney && !type){
+        } else if ((status === 'waiting_modify' || status === 'waiting_pay') && _this.paidDeposit > _this.orderMoney && !type) {
           this.editPriceToLowAfterModel = true;
-        }else if((status === 'waiting_modify' || status === 'waiting_pay') && _this.paidDeposit > 0 && _this.paidDeposit < _this.orderMoney && !type){
+        } else if ((status === 'waiting_modify' || status === 'waiting_pay') && _this.paidDeposit > 0 && _this.paidDeposit < _this.orderMoney && !type) {
           _this.editPriceAfterModel = true;
           _this.priceHasChange = true;
-        } else if(type && type === 'copy'){
+        } else if (type && type === 'copy') {
           _this.taskCreate(false);
-        }else{
+        } else {
           _this.taskCreate(false);
         }
       },
@@ -849,12 +888,12 @@
         api.taskCreate(_this.taskRelease).then(res => {
           if (res.status) {
             _this.taskPayId = res.data.id;
-            if(!_this.taskRelease.taskId){
+            if (!_this.taskRelease.taskId) {
               _this.taskRelease.taskId = res.data.id;
             }
-            if(type === true){
+            if (type === true) {
               _this.$router.push({name: 'ActivitiesList'});
-            }else{
+            } else {
               _this.nextCurrent();
               _this.stepName = 'deposit';
             }
@@ -897,7 +936,7 @@
             _this.mainDefaultList = [];
             _this.pcDefaultList = [];
             _this.appDefaultList = [];
-            if(!type){
+            if (!type) {
               _this.taskRelease.taskId = res.data.id;
             }
             _this.paidDeposit = (res.data.marginPaid + res.data.promotionExpensesPaid) / 100 || 0;
@@ -993,18 +1032,18 @@
           taskId: _this.taskPayId,
           type: _this.priceHasChange ? 'supply_pay' : 'first_pay'
         }).then(res => {
-          if(res.status){
-            _this.getUserInformation();
+          if (res.status) {
+            _this.$store.dispatch('getUserInformation');
             _this.showPayModel = false;
             _this.$Message.success({
-              content:'支付成功！',
+              content: '支付成功！',
               duration: 6
             });
             _this.nextCurrent();
             _this.stepName = 'audit';
-          }else{
+          } else {
             _this.$Message.error({
-              content:res.msg,
+              content: res.msg,
               duration: 6
             })
           }
@@ -1016,8 +1055,9 @@
 
 <style lang="scss" scoped>
   @import 'src/css/mixin';
-  .task-release{
-    .main-color{
+
+  .task-release {
+    .main-color {
       color: $mainColor;
     }
     .second-color {

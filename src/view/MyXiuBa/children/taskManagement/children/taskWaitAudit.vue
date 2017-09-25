@@ -1,11 +1,13 @@
 <template>
   <div class="mt-20">
-    <span>淘宝会员名：</span>
-    <iInput v-model="alitmAccount" style="width: 160px;margin-right: 8px;"></iInput>
-    <span class="ml-10">活动编号：</span>
-    <iInput v-model="taskNumber" style="width: 160px;margin-right: 8px;"></iInput>
-    <iButton type="primary" :loading="searchLoading" @click="appliesWaitingAuditTask">搜索</iButton>
-    <Collapse class="mt-20" accordion>
+    <div class="search-list">
+      <span>淘宝会员名：</span>
+      <iInput v-model="alitmAccount" style="width: 160px;margin-right: 8px;"></iInput>
+      <span class="ml-10">活动编号：</span>
+      <iInput v-model="taskNumber" style="width: 160px;margin-right: 8px;"></iInput>
+      <iButton type="primary" :loading="searchLoading" @click="appliesWaitingAuditTask">搜索</iButton>
+    </div>
+    <Collapse class="mt-10" v-if="taskWaitAuditList.length > 0">
       <Panel v-for="(item,index) in taskWaitAuditList" :key="item.id">
         <div @click="appliesWaitingAuditNewest(item.id,index)" style="width: 100%; height: 100%;">
           <div class="manage-img inline-block">
@@ -27,7 +29,7 @@
               <th width="25%">操作</th>
             </tr>
             </thead>
-            <tbody v-for="item in item.applyNewestTask" :key="item.id" v-if="item.applyNewestTask && item.applyNewestTask.length > 0">
+            <tbody v-for="item in item.applyNewestTask" :key="item.id">
             <tr>
               <td>
                 <p>{{item.alitmAccount}}</p>
@@ -63,7 +65,7 @@
               </td>
             </tr>
             </tbody>
-            <tbody v-if="!taskWaitAuditList[index].applyNewestTask && (!taskWaitAuditList[index].applyAllTask || taskWaitAuditList[index].applyAllTask.length === 0)">
+            <tbody v-show="!taskWaitAuditList[index].applyNewestTask && (!taskWaitAuditList[index].applyAllTask || taskWaitAuditList[index].applyAllTask.length === 0)">
             <tr>
               <td colspan="4" width="100%">
                 <p>
@@ -72,7 +74,7 @@
               </td>
             </tr>
             </tbody>
-            <tbody v-if="!taskWaitAuditList[index].applyAllTask && taskWaitAuditList[index].applyNewestTask">
+            <tbody v-show="!taskWaitAuditList[index].applyAllTask && taskWaitAuditList[index].applyNewestTask">
             <tr>
               <td colspan="4" width="100%">暂无数据</td>
             </tr>
@@ -81,6 +83,7 @@
         </div>
       </Panel>
     </Collapse>
+    <div class="mt-40 text-ct" v-else>暂无待审批数据</div>
     <div class="activity-page mt-20 right mr-10" v-if="taskWaitAuditList && taskWaitAuditList.length > 0">
       <Page :total="totalElements" :page-size="pageSize" @on-change="pageChange"></Page>
     </div>
@@ -111,7 +114,7 @@
         taskId: null,
         totalElements: 0,
         pageIndex: 1,
-        pageSize: 10,
+        pageSize: 5,
         alitmAccount: null,
         taskNumber: null,
         operateTaskId: null,
@@ -170,12 +173,12 @@
         let _this = this;
         _this.operateTaskId = taskId;
         _this.operateIndex = index;
-       /* if (_this.taskWaitAuditList[index].applyAllTask) {
+        if (_this.taskWaitAuditList[index].applyAllTask) {
           _this.taskWaitAuditList[index].applyAllTask = [];
         }
         if (_this.taskWaitAuditList[index].applyNewestTask) {
           _this.taskWaitAuditList[index].applyNewestTask = [];
-        }*/
+        }
         api.appliesWaitingAuditNewest({
           taskId: taskId,
           pageIndex: _this.pageIndex,

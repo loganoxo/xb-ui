@@ -134,7 +134,7 @@
         </table>
       </div>
       <div class="activity-page mt-20 right mr-10" v-show="applySuccessList.length > 0 && !showPassOperation">
-        <Page :total="totalElements" :page-size="pageSize" @on-change="pageChange"></Page>
+        <Page :total="totalElements" :page-size="pageSize" :current="pageIndex" @on-change="pageChange"></Page>
       </div>
     </div>
     <!--已通过-去下单-->
@@ -520,6 +520,7 @@
         } else {
           this.checkPassList = [];
         }
+        this.pageIndex = 1;
         this.showkerSuccessList()
       },
       checkChange() {
@@ -530,6 +531,7 @@
         } else {
           this.checkAll = false;
         }
+        this.pageIndex = 1;
         this.showkerSuccessList();
       },
       handleDataChange(data) {

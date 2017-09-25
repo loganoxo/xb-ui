@@ -28,6 +28,7 @@
     mounted() {},
     created() {
       this.getPersonalTrialCount();
+      this.showTaskStatus = this.$route.name;
     },
     watch: {
       $route(to) {
@@ -118,6 +119,12 @@
     }
     .ivu-collapse-content{
       padding: 0;
+    }
+    .ivu-collapse > .ivu-collapse-item{
+      border-top: 12px solid #fff;
+    }
+    .ivu-collapse > .ivu-collapse-item:first-child{
+      border-top: 0;
     }
     .manage-img {
       height: 42px;

@@ -25,7 +25,7 @@
       </div>
       <div class="container">
         <div class="task-category-sort">
-          <div>
+          <div class="clear">
             <Button-group size="small" class="left mt-10">
               <iButton :class="[sortFieldDefault.name == sortField.name ? 'active' : '']" v-for="(sortField,index) in sortFieldList" :key="sortField.name" @click="getSortFieldFunc(sortField, index)">
                 {{sortField.name}}

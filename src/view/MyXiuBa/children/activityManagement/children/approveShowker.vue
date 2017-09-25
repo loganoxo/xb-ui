@@ -212,7 +212,7 @@
         </div>
       </div>
       <div class="activity-page mt-20 right mr-10" v-if="approveTableList && approveTableList.length > 0">
-        <Page :total="totalElements" :page-size="pageSize" @on-change="pageChange"></Page>
+        <Page :total="totalElements" :page-size="pageSize" :current="pageIndex" @on-change="pageChange"></Page>
       </div>
       <!--审核订单号弹窗-->
       <div class="check-order-model" v-if="showCheckOrder">
@@ -361,6 +361,7 @@
         } else {
           this.auditStatusList = [];
         }
+        this.pageIndex = 1;
         this.taskApplyList();
       },
       handleCheckFailAll() {
@@ -370,6 +371,7 @@
         } else {
           this.endReasonList = [];
         }
+        this.pageIndex = 1;
         this.taskApplyList();
       },
       checkPassChange() {
@@ -380,6 +382,7 @@
         } else {
           this.checkAllByPass = false;
         }
+        this.pageIndex = 1;
         this.taskApplyList();
       },
       checkFailChange() {
@@ -390,6 +393,7 @@
         } else {
           this.checkAllByFail = false;
         }
+        this.pageIndex = 1;
         this.taskApplyList();
       },
       changeTitle(type) {
