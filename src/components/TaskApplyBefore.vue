@@ -674,7 +674,6 @@
               addToCart:self.upLoadImageUrl.addToCartImage||null,
             }).then((res) => {
               if(res.status){
-                self.$Message.success('活动申请成功');
                 self.payPopWindow = false;
                 self.$emit('request', self.payPopWindow);
               }else {
