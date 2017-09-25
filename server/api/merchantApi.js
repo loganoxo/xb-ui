@@ -547,6 +547,7 @@ router.post('/api/applies/waiting/audit/task.json', function (req, res, next) {
         parsedBody.data.content.forEach(item => {
           let data = {};
           data.newestTaskApplyCount = item.newestTaskApplyCount;
+          data.totalTaskApplyCount = item.totalTaskApplyCount;
           data.id = item.task.id;
           data.number = item.task.number;
           data.taskMainImage = item.task.taskMainImage;
@@ -691,6 +692,8 @@ router.post('/api/passes/task.json', function (req, res, next) {
           data.number = item.number;
           data.taskMainImage = item.taskMainImage;
           data.taskName = item.taskName;
+          data.settlementStatusDesc = item.settlementStatusDesc;
+          data.taskStatusDesc = item.taskStatusDesc;
           dataList.push(data);
         });
         res.send({
@@ -887,7 +890,6 @@ router.post('/api/applies/end/showker/task.json', function (req, res, next) {
       res.end();
     });
 });
-
 
 /**
  * 商家进入秀客任务管理页任务列表（未通过审核的人数）

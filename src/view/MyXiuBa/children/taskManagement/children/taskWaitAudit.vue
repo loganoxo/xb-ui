@@ -17,7 +17,10 @@
             <p>活动编号：{{item.number}}</p>
             <p>活动名称：{{item.taskName}}</p>
           </div>
-          <div class="new-add-wait" v-if="item.newestTaskApplyCount > 0">新增待审批{{item.newestTaskApplyCount}}人</div>
+          <div class="waiting-task-number">
+            <p>新增待审批<span>{{item.newestTaskApplyCount || 0}}</span>人</p>
+            <p>共有待审批<span>{{item.totalTaskApplyCount || 0}}</span>人</p>
+          </div>
         </div>
         <div slot="content" class="task-table">
           <table>
@@ -153,6 +156,7 @@
       },
       appliesWaitingAuditTask() {
         let _this = this;
+        _this.taskWaitAuditList = [];
         _this.searchLoading = true;
         api.appliesWaitingAuditTask({
           pageIndex: _this.pageIndex,

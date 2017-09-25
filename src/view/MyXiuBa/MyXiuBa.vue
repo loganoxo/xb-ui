@@ -1,8 +1,8 @@
 <template>
   <div class="my-xiu-ba container tmy-xiu-ba-con clear">
-    <div class="my-xiu-ba-con-nav left" v-show="isLogin">
+    <div class="my-xiu-ba-con-nav left">
       <!--商家管理导航-->
-      <ul v-if="getUserInfoRole === 1 && isLogin">
+      <ul v-if="getUserInfoRole === 1">
         <li :class="{isSelect:isSelect ==='UserHome'}">
           <Icon type="person-stalker"></Icon>
           <router-link to="/user/user-home">我的主页</router-link>
@@ -27,17 +27,17 @@
           <Icon type="loop"></Icon>
           <router-link to="/user/money-management/transaction-record">交易记录</router-link>
         </li>
-        <li :class="{isSelect:isSelect ==='PersonalAccountInfo'}">
+        <li :class="{isSelect:isSelect ==='PersonalAccountInfo' || isSelect === 'WwBind' || isSelect === 'Verfied'}">
           <Icon type="gear-b"></Icon>
           <router-link to="/user/personal-setting/personal-account-info">个人设置</router-link>
         </li>
-        <li :class="{isSelect:isSelect ==='helpCenter'}">
+        <li :class="{isSelect:isSelect === 'faq' || isSelect === 'faqSeller' || isSelect === 'faqShowker'}">
           <Icon type="help-buoy"></Icon>
           <router-link to="/user/help-center/faq">帮助中心</router-link>
         </li>
       </ul>
       <!--秀客管理导航-->
-      <ul v-else-if="getUserInfoRole === 0 && isLogin">
+      <ul v-else-if="getUserInfoRole === 0">
         <li :class="{isSelect:isSelect ==='UserHome'}">
           <Icon type="person-stalker"></Icon>
           <router-link to="/user/user-home">我的主页</router-link>
@@ -62,7 +62,7 @@
           <Icon type="gear-b"></Icon>
           <router-link to="/user/personal-setting/personal-account-info">个人设置</router-link>
         </li>
-        <li :class="{isSelect:isSelect ==='helpCenter'|| isSelect === 'faq' || isSelect === 'faqSeller' || isSelect === 'faqShowker'}">
+        <li :class="{isSelect:isSelect === 'faq' || isSelect === 'faqSeller' || isSelect === 'faqShowker'}">
           <Icon type="help-buoy"></Icon>
           <router-link to="/user/help-center/faq">帮助中心</router-link>
         </li>
@@ -101,10 +101,7 @@
     computed: {
       getUserInfoRole() {
         return this.$store.state.userInfo.role;
-      },
-      isLogin(){
-        return this.$store.state.login
-      },
+      }
     },
     methods: {}
   }

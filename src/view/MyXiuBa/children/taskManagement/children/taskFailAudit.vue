@@ -154,6 +154,7 @@
       },
       appliesEndTask() {
         let _this = this;
+        _this.taskFailAuditList = [];
         _this.searchLoading = true;
         api.appliesEndTask({
           pageIndex: _this.pageIndex,

@@ -49,7 +49,10 @@
             <img :src="item.taskMainImage" alt="">
           </div>
           <div class="manage-text left ml-5 inline-block">
-            <p>活动编号：{{item.number}}</p>
+            <p>
+              <span>活动编号：{{item.number}}</span>
+              <span class="ml-5">（{{item.taskStatusDesc}} / {{item.settlementStatusDesc}}）</span>
+            </p>
             <p>活动名称：{{item.taskName}}</p>
           </div>
           <div class="waiting-task-number">
@@ -249,6 +252,7 @@
       },
       passesTaskList() {
         let _this = this;
+        _this.taskPassAuditList = [];
         _this.searchLoading = true;
         api.passesTask({
           pageIndex: _this.pageIndex,
