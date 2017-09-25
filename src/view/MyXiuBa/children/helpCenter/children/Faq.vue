@@ -242,9 +242,6 @@
         selFaq: 'common'
       }
     },
-    beforeMount() {
-      this.changeTopShow();
-    },
     mounted: function () {
       this.$nextTick(function () {
         let self = this;
