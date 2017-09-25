@@ -12,8 +12,6 @@
         <Collapse class="mt-20" v-model="selectedFaq">
           <Panel name="1">
             1、秀客下单规则：
-
-
             <div slot="content">
               <p>1.1、秀客参与下单活动时，须严格按试用详情中的步骤流程进行操作，不允许利用其他方式下单购买，经核查属实，秀客帐号按一类违规处理；</p>
               <p>1.2、秀客下单时，应核对活动商家店铺的旺旺号、以及产品的标题、价格。未核实信息导致下单错误的，将取消本次活动的试用资格，所产生的损失由秀客自行承担； </p>
@@ -357,9 +355,6 @@
 <style lang="scss" scoped>
   @import 'src/css/mixin';
 
-  .faq-que-ans {
-    width: 900px;
-  }
 
   .faq-special-explain {
     > p {

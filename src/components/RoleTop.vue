@@ -9,7 +9,7 @@
         <span>|</span>
         <router-link to="/login">登录</router-link>
         <span>|</span>
-        <a href="">帮助中心</a>
+        <router-link to="/user/help-center/faq">帮助中心</router-link>
       </div>
     </div>
   </div>

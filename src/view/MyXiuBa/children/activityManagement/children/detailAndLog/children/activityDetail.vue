@@ -1,5 +1,43 @@
 <template>
   <div class="activity-detail">
+    <div class="activity-table mt-20">
+      <table>
+        <thead>
+        <tr>
+          <th width="20%">活动标题</th>
+          <th width="14%">活动开始 / 结束时间</th>
+          <th width="10%">活动状态</th>
+          <th width="12%">报名 / 已通过</th>
+          <th width="8%">可审批名额</th>
+          <th width="24%">活动所需担保金 / 活动所需推广费 / 已存入</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr class="task-number">
+          <td colspan="7">活动编号：{{itemCatalog.number || '------'}}</td>
+        </tr>
+        <tr>
+          <td>
+            <img class="left ml-10" :src="itemCatalog.taskMainImage" :alt="itemCatalog.taskName">
+            <span class="img-title left">{{itemCatalog.taskName}}</span>
+          </td>
+          <td>
+            <p>{{itemCatalog.upLineTime | dateFormat('YYYY-MM-DD hh:mm:ss') || '----'}}</p>
+            <p class="mt-10">{{itemCatalog.endTime | dateFormat('YYYY-MM-DD hh:mm:ss') || '----'}}</p>
+          </td>
+          <td v-if="itemCatalog.taskStatus !== 'waiting_modify'">{{itemCatalog.taskStatusDesc}}<br/>{{itemCatalog.settlementStatusDesc}}</td>
+          <td class="cursor-p main-color" v-else>
+            <Tooltip :content="itemCatalog.auditLogs[itemCatalog.auditLogs.length - 1].resultMsg" placement="top">
+              <Icon color="#f60" type="information-circled"></Icon>&nbsp;待修改
+            </Tooltip>
+          </td>
+          <td class="registration">{{itemCatalog.showkerApplyTotalCount || 0}} / {{itemCatalog.showkerApplySuccessCount || 0}}（人）</td>
+          <td>{{itemCatalog.taskCount}}</td>
+          <td>{{itemCatalog.totalMarginNeed / 100}} / {{itemCatalog.promotionExpensesNeed / 100}} / {{(itemCatalog.marginPaid + itemCatalog.promotionExpensesPaid) / 100 || 0}}</td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
     <div class="activity-con">
       <div class="activity-info">
         <div class="activity-info-title mt-20">填写活动信息</div>
@@ -345,6 +383,7 @@
           }
         },
         itemCatalogList: [],
+        itemCatalog: [],
         mainDefaultList: null,
         appDefaultList: null,
         pcDefaultList: null,
@@ -399,7 +438,6 @@
     created() {
       this.getItemCatalog();
       let taskId = this.$route.query.taskId;
-      this.$emit('viewIn',taskId);
       if (taskId) {
         this.editTaskId = taskId;
         this.getTaskInfo();
@@ -458,6 +496,7 @@
           taskId: _this.editTaskId
         }).then(res => {
           if (res.status) {
+            _this.itemCatalog = res.data;
             _this.mainDefaultList = null;
             _this.pcDefaultList = null;
             _this.appDefaultList = null;
@@ -523,6 +562,78 @@
 
 <style lang="scss" scoped>
   @import 'src/css/mixin';
+  .activity-table table {
+    width: 100%;
+    border: 1px solid #dddee1;
+    border-bottom: 0;
+    border-right: 0;
+  }
+  .activity-table table td,
+  .activity-table table th {
+    border-right: 1px solid #e9eaec;
+    border-bottom: 1px solid #e9eaec;
+    text-align: center;
+  }
+  .activity-table table tr.task-number td {
+    text-align: left;
+    padding:6px 0 6px 10px;
+  }
+  .activity-table table th {
+    height: 40px;
+    white-space: nowrap;
+    overflow: hidden;
+    background-color: #f8f8f9;
+  }
+  .activity-table table td {
+    padding-top: 15px;
+    padding-bottom: 15px;
+  }
+  .activity-table table td img {
+    width: 54px;
+    height: 54px;
+  }
+  .activity-table table td .img-title {
+    display: inline-block;
+    width: 132px;
+    height: 54px;
+    padding-left: 10px;
+    text-align: left;
+  }
+  .activity-table table td.registration {
+    color: #2b85e4;
+  }
+  .activity-table table td .del-edit span {
+    color: #2b85e4;
+    cursor: pointer;
+    @include transition;
+    &:hover {
+      color: darken(#2b85e4, 10%);
+    }
+  }
+  .activity-table table td .del-edit span:last-child {
+    color: #2b85e4;
+    @include transition;
+    &:hover {
+      color: darken(#2b85e4, 10%);
+    }
+  }
+  .activity-table table td .bond span {
+    color: $mainColor;
+    border-radius: 5px;
+    cursor: pointer;
+    @include transition;
+    &:hover {
+      color: darken($mainColor, 10%);
+    }
+  }
+  .activity-table table td .copy span {
+    color: #2b85e4;
+    cursor: pointer;
+    @include transition;
+    &:hover {
+      color: darken(#2b85e4, 10%);
+    }
+  }
 
   .activity-detail{
     .main-color{

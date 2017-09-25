@@ -95,17 +95,17 @@
             </router-link>
           </li>
           <li>
-            <router-link :to="{path: '/user/help-center/faq-seller', query: {'page': 'common'}}">
+            <router-link :to="{path: '/user/help-center/faq-seller', query: {'page': 'common', qusNum : '1'}}">
               商家活动支持哪几种搜索/下单渠道？
             </router-link>
           </li>
           <li>
-            <router-link :to="{path: '/user/help-center/faq-seller', query: {'page': 'common'}}">
+            <router-link :to="{path: '/user/help-center/faq-seller', query: {'page': 'common', qusNum : '2'}}">
               商家发布活动如何收费？
             </router-link>
           </li>
           <li>
-            <router-link :to="{path: '/user/help-center/faq-seller', query: {'page': 'common'}}">
+            <router-link :to="{path: '/user/help-center/faq-seller', query: {'page': 'common', qusNum : '11'}}">
               什么条件下可以申请活动结算？
             </router-link>
           </li>

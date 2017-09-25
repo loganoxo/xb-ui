@@ -242,6 +242,9 @@
         selFaq: 'common'
       }
     },
+    beforeMount() {
+      this.changeTopShow();
+    },
     mounted: function () {
       this.$nextTick(function () {
         let self = this;
@@ -277,6 +280,7 @@
     },
 
     methods: {
+
       selQuestion(faqSel,index){
         let self = this;
         if(faqSel.type == 'primary'){
@@ -300,10 +304,6 @@
 
 <style lang="scss" scoped>
   @import 'src/css/mixin';
-
-  .faq-que-ans {
-    width: 900px;
-  }
 
   .faq-special-explain {
     > p {

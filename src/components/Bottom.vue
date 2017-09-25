@@ -1,7 +1,7 @@
 <template>
   <div id="bottom" class="">
     <div class="container">
-      Copyright © 2014-2018 www.xinshike.com    备案/许可证编号为: 浙ICP备14033561号-5  浙公网安备 33010602001682号 杭州米众科技有限公司旗下网站
+      Copyright © 2017-2018 www.xinshike.com 备案/许可证编号为: 浙ICP备17043547号-1 杭州秀客科技有限公司
     </div>
   </div>
 </template>

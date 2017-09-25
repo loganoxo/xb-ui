@@ -1,5 +1,5 @@
 <template>
-  <div class="personal-box">
+  <div class="personal-box" :class="[!isLogin ? 'ml-12p' : '']">
     <div class="personal-sel-top">
       <router-link :to="myInfoSelect.link" :key="myInfoSelect.link" v-for="(myInfoSelect,index) in myInfoSelects" :class="{active:infoSelect == myInfoSelect.isSelect}">
         {{myInfoSelect.text}}
@@ -25,6 +25,8 @@
   import Modal from 'iview/src/components/modal'
   import Alert from 'iview/src/components/alert'
   import SmsCountdown from '@/components/SmsCountdown'
+  import {mapActions} from 'vuex'
+  import {mapMutations} from 'vuex'
   export default {
     name: 'TaskReleaseProcess',
     components: {
@@ -42,6 +44,7 @@
       Alert: Alert,
       SmsCountdown: SmsCountdown,
     },
+
     data() {
       return {
         userData: {},
@@ -65,6 +68,9 @@
         infoSelect: '',
       }
     },
+    beforeMount() {
+      this.changeTopShow();
+    },
     mounted() {
 
     },
@@ -72,8 +78,15 @@
       let self = this;
       self.infoSelect = self.$route.name;
     },
-    computed: {},
+    computed: {
+      isLogin(){
+        return this.$store.state.login
+      },
+    },
     methods: {
+      ...mapMutations({
+        changeTopShow: 'CHANGE_TOP_SHOW'
+      }),
     },
     watch: {
       $route(to){

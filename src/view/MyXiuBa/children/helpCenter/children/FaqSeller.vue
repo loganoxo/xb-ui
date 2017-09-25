@@ -337,10 +337,6 @@
 <style lang="scss" scoped>
   @import 'src/css/mixin';
 
-  .faq-que-ans {
-    width: 900px;
-  }
-
   .faq-special-explain {
     > p {
       margin-top: 30px;
