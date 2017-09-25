@@ -28,7 +28,7 @@
       <iInput v-model="taskNumber" style="width: 160px;margin-right: 8px;"></iInput>
       <iButton type="primary" :loading="searchLoading" @click="appliesEndTask">搜索</iButton>
     </div>
-    <Collapse class="mt-10" v-if="taskFailAuditList.length > 0">
+    <Collapse class="mt-10" accordion v-if="taskFailAuditList.length > 0">
       <Panel v-for="(item,index) in taskFailAuditList" :key="item.id">
         <div @click="appliesEndShowkerTask(item.id,index)" style="width: 100%; height: 100%;">
           <div class="manage-img inline-block">

@@ -7,7 +7,7 @@
       <iInput v-model="taskNumber" style="width: 160px;margin-right: 8px;"></iInput>
       <iButton type="primary" :loading="searchLoading" @click="appliesWaitingAuditTask">搜索</iButton>
     </div>
-    <Collapse class="mt-10" v-if="taskWaitAuditList.length > 0">
+    <Collapse class="mt-10" accordion v-if="taskWaitAuditList.length > 0">
       <Panel v-for="(item,index) in taskWaitAuditList" :key="item.id">
         <div @click="appliesWaitingAuditNewest(item.id,index)" style="width: 100%; height: 100%;">
           <div class="manage-img inline-block">
