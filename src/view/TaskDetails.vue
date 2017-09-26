@@ -173,7 +173,7 @@
       </p>
       <div slot="footer" class="text-ct">
         <router-link class="ivu-btn ivu-btn-error ivu-btn-large mr-40" to="/user/my-probation/wait" style="color: #fff">看看我申请的宝贝</router-link>
-        <span  @click="applySuccess = false" class="ivu-btn ivu-btn-error ivu-btn-large" style="color: #fff">好的，明白了</span>
+        <span  @click="refreshPage" class="ivu-btn ivu-btn-error ivu-btn-large" style="color: #fff">好的，明白了</span>
       </div>
     </Modal>
     <Modal v-model="selectLogin" width="500">
@@ -382,6 +382,10 @@
       }
     },
     methods: {
+      refreshPage(){
+        this.applySuccess = false;
+        this.getTaskDetails();
+      },
       getShowkerApplyBefore(payPopWindow){
         this.showkerApplyBefore = payPopWindow;
         this.applySuccess = true;
@@ -414,6 +418,22 @@
             self.showkerApplyBefore = true;
             self.WwNumberLIst = res.data.alitmList;
             self.taskType = res.data.taskType;
+            let selRes = false;
+            for(let i = 0, j = res.data.alitmList.length; i < j; i++){
+              if(res.data.alitmList[i].status === 2){
+                selRes = true;
+                self.canUseWw = true;
+                break;
+              }
+            }
+          }else {
+            if(res.statusCode === 'alitm_null'){
+              self.alitNumSuccess = true;
+            }else {
+              self.$Modal.warning({
+                content: '<p class="fs-14">' + res.msg + '</span>',
+              });
+            }
           }
         })
       },

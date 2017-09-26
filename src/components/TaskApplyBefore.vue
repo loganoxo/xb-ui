@@ -11,35 +11,37 @@
         <div v-if="taskType === 'pc_search'" class="activity-type mt-40" >
           <span class="serial-number">2</span>
           <h3 >通过商家指定的方式找到该宝贝</h3>
-          <div class=" mt-10 search-type">{{taskTypeDesc}}</div>
-          <p>第一步：打开浏览器输入[www.taobao.com]</p>
-          <p>第二步：输入关键词[{{taskDetail.searchKeyword}}]</p>
-          <p>第三步：选择[{{changeNameType(taskDetail.searchSort)}}]排序</p>
-          <p>第四步：搜索指定价格[{{taskDetail.priceRangeMin}}-{{taskDetail.priceRangeMax}}],勾选[{{checkText}}]</p>
-          <p>第五步：在[{{taskDetail.searchPagePositionMin}}-{{taskDetail.searchPagePositionMax}}]页附近找到下图宝贝。(由于千人千面的影响，位置仅供参考)</p>
+          <div class=" mt-10 search-type"><strong>{{taskTypeDesc}}</strong></div>
+          <p>第一步：打开浏览器输入[<strong>www.taobao.com</strong>]</p>
+          <p>第二步：输入关键词[<strong>{{taskDetail.searchKeyword}}</strong>]</p>
+          <p>第三步：选择[<strong>{{changeNameType(taskDetail.searchSort)}}</strong>]排序</p>
+          <p v-if="taskDetail.priceRangeMax !==0 ">第四步：搜索指定价格[<strong>{{taskDetail.priceRangeMin}}-{{taskDetail.priceRangeMax}}</strong>],勾选[<strong>{{checkText}}</strong>]</p>
+          <p v-if="taskDetail.priceRangeMax ===0">第四步：搜索指定价格[<strong></strong>],勾选[<strong>{{checkText}}</strong>]</p>
+          <p>第五步：在[<strong>{{taskDetail.searchPagePositionMin}}-{{taskDetail.searchPagePositionMax}}</strong>]页附近找到下图宝贝。(由于千人千面的影响，位置仅供参考)</p>
           <div class="mt-20 clear">
             <img class="pic left " :src="taskDetail.itemMainImage" alt="">
-            <p class="left ml-20 mt-22">店铺名称：{{storeName}}<br/>价格：￥{{taskDetail.searchPagePrice/100}}</p>
+            <p class="left ml-20 mt-22">店铺名称：<strong>{{storeName}}</strong><br/>价格：<strong>￥{{taskDetail.searchPagePrice/100}}</strong></p>
           </div>
         </div>
         <div v-if="taskType === 'app_search'" class="activity-type mt-40" >
           <span class="serial-number">2</span>
           <h3 >通过商家指定的方式找到该宝贝</h3>
-          <div class=" mt-10 search-type">{{taskTypeDesc}}</div>
+          <div class=" mt-10 search-type"><strong>{{taskTypeDesc}}</strong></div>
           <p>第一步：打开[<strong>手机淘宝APP</strong>]</p>
           <p>第二步：输入关键词[<strong>{{taskDetail.searchKeyword}}</strong>]</p>
           <p>第三步：选择[<strong>{{changeNameType(taskDetail.searchSort)}}</strong>]排序</p>
-          <p>第四步：搜索指定价格[<strong>{{taskDetail.priceRangeMin/100}}-{{taskDetail.priceRangeMax/100}}</strong>],勾选[<strong>{{checkText}}</strong>]</p>
+          <p v-if="taskDetail.priceRangeMax !==0 ">第四步：搜索指定价格[<strong>{{taskDetail.priceRangeMin/100}}-{{taskDetail.priceRangeMax/100}}</strong>],勾选[<strong>{{checkText}}</strong>]</p>
+          <p v-else>第四步：搜索指定价格[<strong></strong>],勾选[<strong>{{checkText}}</strong>]</p>
           <p>第五步：在[<strong>{{taskDetail.searchRankPosition}}</strong>]页附近找到下图宝贝。(由于千人千面的影响，位置仅供参考)</p>
           <div class="mt-20 clear">
             <img class="pic left " :src="taskDetail.itemMainImage" alt="">
-            <p class="left ml-20 mt-22">店铺名称：{{storeName}}<br/>价格：￥{{taskDetail.searchPagePrice/100}}</p>
+            <p class="left ml-20 mt-22">店铺名称：<strong>{{storeName}}</strong><br/>价格：<strong>￥{{taskDetail.searchPagePrice/100}}</strong></p>
           </div>
         </div>
         <div v-if="taskType === 'tao_code'" class="activity-type mt-40" >
           <span class="serial-number">2</span>
           <h3 >通过商家指定的方式找到该宝贝</h3>
-          <div class=" mt-10 search-type">{{taskTypeDesc}}</div>
+          <div class=" mt-10 search-type"><strong>{{taskTypeDesc}}</strong></div>
           <p><span>淘口令</span><span>【<strong id="copyCode">{{taskDetail.taoCode}}</strong>】</span><span class="ml-10 cursor-p" style="color: blue" id="copyBtn">点击复制淘口令</span></p>
           <vue-q-art :config="config" :downloadButton="downloadButton"></vue-q-art>
           <p>入口说明：【<strong>直接在手机端上复制淘口令，打开手淘会自动弹出宝贝链接，或直接用手淘扫描上方二维码</strong>】</p>
@@ -47,7 +49,7 @@
         <div v-if="taskType === 'direct_access'" class="activity-type mt-40" >
           <span class="serial-number">2</span>
           <h3 >通过商家指定的方式找到该宝贝</h3>
-          <div class=" mt-10 search-type">{{taskTypeDesc}}</div>
+          <div class=" mt-10 search-type"><strong>{{taskTypeDesc}}</strong></div>
           <p><span>宝贝链接:</span><a target="_blank" :href="itemUrl">{{itemUrl}}</a></p>
         </div>
         <div class="screen-shot mt-22 clear" >
@@ -64,7 +66,7 @@
                :on-remove="removeMainImage"
                :on-success="searchConditionImageFun"
                :format="['jpg','jpeg','png','gif','bmp']"
-               :max-size="2"
+               :max-size="2048"
                name="task"
                :on-format-error="handleFormatError"
                :on-exceeded-size="handleMaxSize"
@@ -85,7 +87,7 @@
                :on-remove="removeMainImage"
                :on-success="itemLocationImageFun"
                :format="['jpg','jpeg','png','gif','bmp']"
-               :max-size="2"
+               :max-size="2048"
                name="task"
                :on-format-error="handleFormatError"
                :on-exceeded-size="handleMaxSize"
@@ -106,7 +108,7 @@
                :on-remove="removeMainImage"
                :on-success="browseToBottomImageFun"
                :format="['jpg','jpeg','png','gif','bmp']"
-               :max-size="2"
+               :max-size="2048"
                name="task"
                :on-format-error="handleFormatError"
                :on-exceeded-size="handleMaxSize"
@@ -127,7 +129,7 @@
                :on-remove="removeMainImage"
                :on-success="enshrineImageFun"
                :format="['jpg','jpeg','png','gif','bmp']"
-               :max-size="2"
+               :max-size="2048"
                name="task"
                :on-format-error="handleFormatError"
                :on-exceeded-size="handleMaxSize"
@@ -148,7 +150,7 @@
                :on-remove="removeMainImage"
                :on-success="addToCartImageFun"
                :format="['jpg','jpeg','png','gif','bmp']"
-               :max-size="2"
+               :max-size="2048"
                name="task"
                :on-format-error="handleFormatError"
                :on-exceeded-size="handleMaxSize"
@@ -171,7 +173,7 @@
                :on-remove="removeMainImage"
                :on-success="itemLocationImageFun"
                :format="['jpg','jpeg','png','gif','bmp']"
-               :max-size="2"
+               :max-size="2048"
                name="task"
                :on-format-error="handleFormatError"
                :on-exceeded-size="handleMaxSize"
@@ -192,7 +194,7 @@
                :on-remove="removeMainImage"
                :on-success="browseToBottomImageFun"
                :format="['jpg','jpeg','png','gif','bmp']"
-               :max-size="2"
+               :max-size="2048"
                name="task"
                :on-format-error="handleFormatError"
                :on-exceeded-size="handleMaxSize"
@@ -213,7 +215,7 @@
                :on-remove="removeMainImage"
                :on-success="enshrineImageFun"
                :format="['jpg','jpeg','png','gif','bmp']"
-               :max-size="2"
+               :max-size="2048"
                name="task"
                :on-format-error="handleFormatError"
                :on-exceeded-size="handleMaxSize"
@@ -234,7 +236,7 @@
                :on-remove="removeMainImage"
                :on-success="addToCartImageFun"
                :format="['jpg','jpeg','png','gif','bmp']"
-               :max-size="2"
+               :max-size="2048"
                name="task"
                :on-format-error="handleFormatError"
                :on-exceeded-size="handleMaxSize"
@@ -257,7 +259,7 @@
                 :on-remove="removeMainImage"
                 :on-success="browseToBottomImageFun"
                 :format="['jpg','jpeg','png','gif','bmp']"
-                :max-size="2"
+                :max-size="2048"
                 name="task"
                 :on-format-error="handleFormatError"
                 :on-exceeded-size="handleMaxSize"
@@ -278,7 +280,7 @@
                 :on-remove="removeMainImage"
                 :on-success="enshrineImageFun"
                 :format="['jpg','jpeg','png','gif','bmp']"
-                :max-size="2"
+                :max-size="2048"
                 name="task"
                 :on-format-error="handleFormatError"
                 :on-exceeded-size="handleMaxSize"
@@ -299,7 +301,7 @@
                 :on-remove="removeMainImage"
                 :on-success="addToCartImageFun"
                 :format="['jpg','jpeg','png','gif','bmp']"
-                :max-size="2"
+                :max-size="2048"
                 name="task"
                 :on-format-error="handleFormatError"
                 :on-exceeded-size="handleMaxSize"
@@ -322,7 +324,7 @@
                 :on-remove="removeMainImage"
                 :on-success="browseToBottomImageFun"
                 :format="['jpg','jpeg','png','gif','bmp']"
-                :max-size="2"
+                :max-size="2048"
                 name="task"
                 :on-format-error="handleFormatError"
                 :on-exceeded-size="handleMaxSize"
@@ -343,7 +345,7 @@
                 :on-remove="removeMainImage"
                 :on-success="enshrineImageFun"
                 :format="['jpg','jpeg','png','gif','bmp']"
-                :max-size="2"
+                :max-size="2048"
                 name="task"
                 :on-format-error="handleFormatError"
                 :on-exceeded-size="handleMaxSize"
@@ -364,7 +366,7 @@
                 :on-remove="removeMainImage"
                 :on-success="addToCartImageFun"
                 :format="['jpg','jpeg','png','gif','bmp']"
-                :max-size="2"
+                :max-size="2048"
                 name="task"
                 :on-format-error="handleFormatError"
                 :on-exceeded-size="handleMaxSize"

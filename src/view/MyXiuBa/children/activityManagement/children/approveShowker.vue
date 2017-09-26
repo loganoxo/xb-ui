@@ -56,8 +56,8 @@
                 <td>{{getTaskStatus(item.status)}}</td>
                 <td>
                   <p class="del-edit">
-                    <span v-show="approveTaskInfo.needBrowseCollectAddCart"  @click="getUserScreenShot(item.id)">审核</span>
-                    <span class="ml-40" @click="showkerPassAudit(item.id, 'true')">通过</span>
+                    <span class="mr-40" v-show="approveTaskInfo.needBrowseCollectAddCart"  @click="getUserScreenShot(item.id)">审核</span>
+                    <span  @click="showkerPassAudit(item.id, 'true')">通过</span>
                   </p>
                 </td>
               </tr>

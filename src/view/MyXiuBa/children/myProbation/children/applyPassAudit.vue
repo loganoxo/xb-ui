@@ -275,21 +275,22 @@
         <p class="tip-title mt-20">
           <span>注意：订单号及实付金额提交后商家审核前不能修改，请正确填写！</span>
         </p>
-        <p class="mt-20 ml-45">
+        <div class="mt-20 ml-45">
           <span>请输入订单号：</span>
           <iInput v-model="affirmOrderNumber" style="width: 300px;"></iInput>
           <iButton @click="orderImg = true">什么是订单号？</iButton>
-          <Modal v-if="pcOrApp === 'pcOrder'" v-model="orderImg" width="1000">
+          <Modal v-if="pcOrApp === 'pcOrder'" v-model="orderImg" width="1000" transfer="false">
             <div class="text-ct">
               <img style="width: 900px;height: 750px;" src="~assets/img/order-number/order_pc.png" alt="">
             </div>
           </Modal>
-          <Modal v-else v-model="orderImg" width="360">
+          <Modal v-else v-model="orderImg" width="360" transfer="false">
             <div class="text-ct">
               <img style="width: 300px;height: 450px;" src="~assets/img/order-number/order_phone.png" alt="">
             </div>
           </Modal>
-        </p>
+        </div>
+
         <p class="mt-20 ml-35">
           <span>请输入实付金额：</span>
           <iInput v-model.number="payMoney" style="width: 120px;"></iInput>

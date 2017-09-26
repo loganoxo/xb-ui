@@ -72,6 +72,9 @@
           <p class="pl-94 mt-8">
             <Checkbox v-model="taskRelease.refuseOldShowker" disabled>拒绝已参加过本店活动的秀客再次申请</Checkbox>
           </p>
+          <p class="pl-94 mt-8">
+            <Checkbox v-model="taskRelease.showkerApplyBefore" disabled>必须先完成浏览、收藏、加购，才可以申请活动资格</Checkbox>
+          </p>
         </div>
         <div class="baby-info mt-22">
           <div class="activity-info-title">填写活动宝贝信息</div>
@@ -418,6 +421,7 @@
           taskDaysDuration: null,
           onlyShowForQualification: false,
           refuseOldShowker: false,
+          showkerApplyBefore:false,
           taskName: null,
           itemType: null,
           taskMainImage: null,
