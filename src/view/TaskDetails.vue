@@ -429,10 +429,6 @@
           }else {
             if(res.statusCode === 'alitm_null'){
               self.alitNumSuccess = true;
-            }else {
-              self.$Modal.warning({
-                content: '<p class="fs-14">' + res.msg + '</span>',
-              });
             }
           }
         })
@@ -502,7 +498,6 @@
         let self = this;
         api.getTaskDetails({taskId: self.$route.query.taskId}).then((res) => {
           if(res.status){
-
             self.commodityData = res.data;
             self.needBrowseCollectAddCart=res.data.task.needBrowseCollectAddCart;
             self.taskDetail= res.data.task.taskDetailObject;
