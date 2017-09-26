@@ -70,31 +70,33 @@
             </table>
           </div>
         </div>
+        <!--审核图片弹窗-->
         <Modal v-model="approvalPop"
+               transfer="false"
                 width="600">
           <p slot="header" style="color:#f60;text-align:center">
             <Icon type="information-circled"></Icon>
             <span>3333提交的活动申请截图</span>
           </p>
           <div class="text-ct mt-20 ">
-            <div v-if="userScreenShotImg.searchCondition !== ''" style="display: inline-block;padding: 0 10px">
-              <img style="width:80px ;height: 80px" :src="userScreenShotImg.searchCondition" alt="">
+            <div  v-if="userScreenShotImg.searchCondition" style="display: inline-block;padding: 0 10px">
+              <img class="cursor-p" style="width:80px ;height: 80px" :src="userScreenShotImg.searchCondition" alt="" @click="viewScreenShotFun(userScreenShotImg.searchCondition)">
               <p>搜索条件截图</p>
             </div>
-            <div  v-if="userScreenShotImg.itemLocation !== ''" style="display: inline-block;padding: 0 10px">
-              <img style="width: 80px;height: 80px" :src="userScreenShotImg.itemLocation" alt="">
+            <div  v-if="userScreenShotImg.itemLocation " style="display: inline-block;padding: 0 10px">
+              <img class="cursor-p" style="width: 80px;height: 80px" :src="userScreenShotImg.itemLocation" alt="" @click="viewScreenShotFun(userScreenShotImg.itemLocation)">
               <p>所在位置截图</p>
             </div>
-            <div  v-if="userScreenShotImg.browseToBottom !== ''" style="display: inline-block;padding: 0 10px">
-              <img style="width: 80px;height: 80px" :src="userScreenShotImg.browseToBottom" alt="">
+            <div  v-if="userScreenShotImg.browseToBottom" style="display: inline-block;padding: 0 10px">
+              <img class="cursor-p" style="width: 80px;height: 80px" :src="userScreenShotImg.browseToBottom" alt="" @click="viewScreenShotFun(userScreenShotImg.browseToBottom)">
               <p>宝贝浏览见底</p>
             </div>
-            <div  v-if="userScreenShotImg.enshrine !== ''"  style="display: inline-block;padding: 0 10px">
-              <img style="width: 80px;height: 80px" :src="userScreenShotImg.enshrine" alt="">
+            <div  v-if="userScreenShotImg.enshrine "  style="display: inline-block;padding: 0 10px">
+              <img class="cursor-p" style="width: 80px;height: 80px" :src="userScreenShotImg.enshrine" @click="viewScreenShotFun(userScreenShotImg.enshrine)">
               <p>加入收藏夹</p>
             </div>
-            <div  v-if="userScreenShotImg.addToCart !== ''" style="display: inline-block;padding: 0 10px" >
-              <img style="width: 80px;height: 80px" :src="userScreenShotImg.addToCart" alt="">
+            <div  v-if="userScreenShotImg.addToCart" style="display: inline-block;padding: 0 10px" >
+              <img class="cursor-p" style="width: 80px;height: 80px" :src="userScreenShotImg.addToCart" alt="" @click="viewScreenShotFun(userScreenShotImg.addToCart)">
               <p>加入购物车</p>
             </div>
           </div>
@@ -118,6 +120,12 @@
              <p>通过秀客直接获得活动资金，希望重新提交将通知秀客重新修改截图！</p>
              <p> 您还有 <time-down :endTime="activeEndTime"></time-down> 进行审核，若该时间内未审核，系统将随机审核通过！</p>
            </div>
+          </div>
+        </Modal>
+        <!--照片查看器-->
+        <Modal title="照片查看器" v-model="viewScreenShot" transfer="false" width="600" >
+          <div class="text-ct">
+            <img  :src="viewScreenShotUrl" alt="">
           </div>
         </Modal>
         <!--已通过-->
@@ -352,6 +360,8 @@
     },
     data() {
       return {
+        viewScreenShotUrl:null,
+        viewScreenShot:false,
         passOrNoPass:'true',
         reason:null,
         passId:null,
@@ -407,6 +417,10 @@
       }
     },
     methods: {
+      viewScreenShotFun(type){
+        this.viewScreenShotUrl = type;
+        this.viewScreenShot = true;
+      },
       getTaskStatus(type) {
         return TaskErrorStatusList(type);
       },

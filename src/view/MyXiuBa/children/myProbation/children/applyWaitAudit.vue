@@ -33,7 +33,7 @@
           <td>{{getTaskStatus(item.status)}}</td>
           <td>
             <p class="operation" v-show="item.status === 'waiting_resubmit'" @click="resubmitFun(item.task.id)">重新提交</p>
-            <p class="operation mt-5" @click="getUserScreenShot(item.id,item.reason,item.status,item.task.endTime)">查看详情</p>
+            <p v-show="item.task.needBrowseCollectAddCart" class="operation mt-5" @click="getUserScreenShot(item.id,item.reason,item.status,item.task.endTime)">查看详情</p>
             <p class="operation mt-5" @click="endTrialModel(item.id)">结束活动</p>
           </td>
         </tr>
@@ -64,30 +64,31 @@
     </Modal>
     <!--查看详情弹窗-->
     <Modal v-model="approvalPop"
-           width="550">
+           width="550"
+           transfer="false">
       <p slot="header" style="color:#f60;text-align:center">
         <Icon type="information-circled"></Icon>
         <span>已提交的活动截图</span>
       </p>
       <div class="text-ct mt-20 ">
-        <div v-if="userScreenShotImg.searchCondition !== ''" style="display: inline-block;padding: 0 10px">
-          <img style="width:80px ;height: 80px" :src="userScreenShotImg.searchCondition" alt="">
+        <div v-if="userScreenShotImg.searchCondition " style="display: inline-block;padding: 0 10px">
+          <img class="cursor-p" style="width:80px ;height: 80px" :src="userScreenShotImg.searchCondition" alt="" @click="viewScreenShotFun(userScreenShotImg.searchCondition)">
           <p>搜索条件截图</p>
         </div>
-        <div  v-if="userScreenShotImg.itemLocation !== ''" style="display: inline-block;padding: 0 10px">
-          <img style="width: 80px;height: 80px" :src="userScreenShotImg.itemLocation" alt="">
+        <div  v-if="userScreenShotImg.itemLocation " style="display: inline-block;padding: 0 10px">
+          <img class="cursor-p" style="width: 80px;height: 80px" :src="userScreenShotImg.itemLocation" alt="" @click="viewScreenShotFun(userScreenShotImg.itemLocation)">
           <p>所在位置截图</p>
         </div>
-        <div  v-if="userScreenShotImg.browseToBottom !== ''" style="display: inline-block;padding: 0 10px">
-          <img style="width: 80px;height: 80px" :src="userScreenShotImg.browseToBottom" alt="">
+        <div  v-if="userScreenShotImg.browseToBottom " style="display: inline-block;padding: 0 10px">
+          <img class="cursor-p" style="width: 80px;height: 80px" :src="userScreenShotImg.browseToBottom" alt="" @click="viewScreenShotFun(userScreenShotImg.browseToBottom)">
           <p>宝贝浏览见底</p>
         </div>
-        <div  v-if="userScreenShotImg.enshrine !== ''"  style="display: inline-block;padding: 0 10px">
-          <img style="width: 80px;height: 80px" :src="userScreenShotImg.enshrine" alt="">
+        <div  v-if="userScreenShotImg.enshrine "  style="display: inline-block;padding: 0 10px">
+          <img class="cursor-p" style="width: 80px;height: 80px" :src="userScreenShotImg.enshrine" alt="" @click="viewScreenShotFun(userScreenShotImg.enshrine)">
           <p>加入收藏夹</p>
         </div>
-        <div  v-if="userScreenShotImg.addToCart !== ''" style="display: inline-block;padding: 0 10px" >
-          <img style="width: 80px;height: 80px" :src="userScreenShotImg.addToCart" alt="">
+        <div  v-if="userScreenShotImg.addToCart " style="display: inline-block;padding: 0 10px" >
+          <img class="cursor-p" style="width: 80px;height: 80px" :src="userScreenShotImg.addToCart" alt="" @click="viewScreenShotFun(userScreenShotImg.addToCart)">
           <p>加入购物车</p>
         </div>
       </div>
@@ -102,7 +103,12 @@
         </div>
       </div>
     </Modal>
-
+    <!--照片查看器-->
+    <Modal v-model="viewScreenShot" transfer="false"  width="580" title="照片查看器">
+      <div class="text-ct">
+        <img :src="viewScreenShotUrl" alt="">
+      </div>
+    </Modal>
   </div>
 </template>
 
@@ -132,6 +138,8 @@
     },
     data() {
       return {
+        viewScreenShot:false,
+        viewScreenShotUrl:null,
         SelectList: [
           {
             value: '1',
@@ -168,6 +176,10 @@
     },
     computed: {},
     methods: {
+      viewScreenShotFun(type){
+        this.viewScreenShotUrl = type;
+        this.viewScreenShot = true;
+      },
       resubmitFun(type){
         this.$router.push({name:'TaskDetails',query:{taskId:type,resubmit:'resubmit'}})
       },
