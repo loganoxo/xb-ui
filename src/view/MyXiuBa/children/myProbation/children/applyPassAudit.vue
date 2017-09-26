@@ -279,12 +279,12 @@
           <span>请输入订单号：</span>
           <iInput v-model="affirmOrderNumber" style="width: 300px;"></iInput>
           <iButton @click="orderImg = true">什么是订单号？</iButton>
-          <Modal v-if="pcOrApp === 'pcOrder'" v-model="orderImg" width="1000" transfer="false">
+          <Modal v-if="pcOrApp === 'pcOrder'" v-model="orderImg" width="1000" :transfer="false">
             <div class="text-ct">
               <img style="width: 900px;height: 750px;" src="~assets/img/order-number/order_pc.png" alt="">
             </div>
           </Modal>
-          <Modal v-else v-model="orderImg" width="360" transfer="false">
+          <Modal v-else v-model="orderImg" width="360" :transfer="false">
             <div class="text-ct">
               <img style="width: 300px;height: 450px;" src="~assets/img/order-number/order_phone.png" alt="">
             </div>

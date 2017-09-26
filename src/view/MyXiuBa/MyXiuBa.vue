@@ -27,6 +27,10 @@
           <Icon type="loop"></Icon>
           <router-link to="/user/money-management/transaction-record">交易记录</router-link>
         </li>
+        <li :class="{isSelect:isSelect ==='VipMember'}">
+          <Icon type="ribbon-b"></Icon>
+          <router-link to="/user/vip-member">VIP会员</router-link>
+        </li>
         <li :class="{isSelect:isSelect ==='PersonalAccountInfo' || isSelect === 'WwBind' || isSelect === 'Verfied'}">
           <Icon type="gear-b"></Icon>
           <router-link to="/user/personal-setting/personal-account-info">个人设置</router-link>

@@ -56,7 +56,7 @@
                 <td>{{getTaskStatus(item.status)}}</td>
                 <td>
                   <p class="del-edit">
-                    <span class="mr-40" v-show="approveTaskInfo.needBrowseCollectAddCart"  @click="getUserScreenShot(item.id)">审核</span>
+                    <span class="mr-40" v-show="approveTaskInfo.needBrowseCollectAddCart"  @click="getUserScreenShot(item.id,item.alitmAccount)">审核</span>
                     <span  @click="showkerPassAudit(item.id, 'true')">通过</span>
                   </p>
                 </td>
@@ -72,11 +72,11 @@
         </div>
         <!--审核图片弹窗-->
         <Modal v-model="approvalPop"
-               transfer="false"
+               :transfer="false"
                 width="600">
           <p slot="header" style="color:#f60;text-align:center">
             <Icon type="information-circled"></Icon>
-            <span>3333提交的活动申请截图</span>
+            <span>{{applyName}}提交的活动申请截图</span>
           </p>
           <div class="text-ct mt-20 ">
             <div  v-if="userScreenShotImg.searchCondition" style="display: inline-block;padding: 0 10px">
@@ -112,20 +112,20 @@
           <div class="text-ct mt-20">
             <iButton type="success"
                      style="width: 100px;height: 30px;background-color:#FF6636;border-color:#FF6636 "
-                      @click="showkerPassAudit(passId,passOrNoPass)">确定</iButton>
+                      @click="showkerPassAudit(passId,passOrNoPass,reason)">确定</iButton>
           </div>
           <div slot="footer" class="clear">
            <div class="left ml-20" style="color: #FF6636;font-size: 29px"> <Icon type="alert-circled"></Icon></div>
            <div class="left ml-20" style="text-align: left">
-             <p>通过秀客直接获得活动资金，希望重新提交将通知秀客重新修改截图！</p>
+             <p>“通过”秀客直接获得活动资格，“希望重新提交”将通知秀客重新修改截图！</p>
              <p> 您还有 <time-down :endTime="activeEndTime"></time-down> 进行审核，若该时间内未审核，系统将随机审核通过！</p>
            </div>
           </div>
         </Modal>
         <!--照片查看器-->
-        <Modal title="照片查看器" v-model="viewScreenShot" transfer="false" width="600" >
+        <Modal title="照片查看器" v-model="viewScreenShot" :transfer="false" width="600" >
           <div class="text-ct">
-            <img  :src="viewScreenShotUrl" alt="">
+            <img style="width: 560px"  :src="viewScreenShotUrl" alt="">
           </div>
         </Modal>
         <!--已通过-->
@@ -360,10 +360,12 @@
     },
     data() {
       return {
+        applyName:null,
         viewScreenShotUrl:null,
         viewScreenShot:false,
         passOrNoPass:'true',
         passId:null,
+        reason:null,
         approvalPop:false,
         activeEndTime:null,
         userScreenShotImg:{},
@@ -509,14 +511,15 @@
           }
         })
       },
-      showkerPassAudit(id, status) {
-        this.setShowkerAudit(id, status);
+      showkerPassAudit(id, status,reason) {
+        this.setShowkerAudit(id, status,reason);
       },
-      setShowkerAudit(id, status) {
+      setShowkerAudit(id, status,reason) {
         let _this = this;
         api.setTaskShowkerAudit({
           id: id,
           status: status,
+          reason:reason||null
         }).then(res => {
           if (res.status) {
             _this.$Message.success("审核秀客成功！");
@@ -602,9 +605,10 @@
           }
         })
       },
-      getUserScreenShot(type){
+      getUserScreenShot(type,name){
         let _this = this ;
         _this.passId =type;
+        _this.applyName = name;
         api.getUserScreenShot({
           id:type
         }).then(res=>{

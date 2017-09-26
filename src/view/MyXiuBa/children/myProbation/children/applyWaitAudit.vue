@@ -33,7 +33,7 @@
           <td>{{getTaskStatus(item.status)}}</td>
           <td>
             <p class="operation" v-show="item.status === 'waiting_resubmit'" @click="resubmitFun(item.task.id)">重新提交</p>
-            <p v-show="item.task.needBrowseCollectAddCart" class="operation mt-5" @click="getUserScreenShot(item.id,item.reason,item.status,item.task.endTime)">查看详情</p>
+            <p v-show="item.task.needBrowseCollectAddCart" class="operation mt-5" @click="getScreenEndTime(item.id,item.reason,item.status,item.task.endTime)">查看详情</p>
             <p class="operation mt-5" @click="endTrialModel(item.id)">结束活动</p>
           </td>
         </tr>
@@ -65,7 +65,7 @@
     <!--查看详情弹窗-->
     <Modal v-model="approvalPop"
            width="550"
-           transfer="false">
+           :transfer="false">
       <p slot="header" style="color:#f60;text-align:center">
         <Icon type="information-circled"></Icon>
         <span>已提交的活动截图</span>
@@ -98,15 +98,15 @@
         </div>
         <div  class="left ml-20" style="text-align: left">
           <p>商家希望重新提交申请，理由：{{reason}}</p>
-          <p> 您还有 <time-down  :endTime="endTime" ></time-down>  重新提交，若该时间内未提交，将视为放弃活动！
+          <p> 您还有 <time-down :endTime="getEndTime"></time-down>  重新提交，若该时间内未提交，将视为放弃活动！
           </p>
         </div>
       </div>
     </Modal>
     <!--照片查看器-->
-    <Modal v-model="viewScreenShot" transfer="false"  width="580" title="照片查看器">
+    <Modal v-model="viewScreenShot" :transfer="false"  width="580" title="照片查看器">
       <div class="text-ct">
-        <img :src="viewScreenShotUrl" alt="">
+        <img style="width: 550px" :src="viewScreenShotUrl" alt="">
       </div>
     </Modal>
   </div>
@@ -165,7 +165,7 @@
         userScreenShotImg:{},
         reason:null,
         status:null,
-        endTime:null,
+        getEndTime:null,
       }
     },
     mounted() {
@@ -231,11 +231,16 @@
           }
         })
       },
+      getScreenEndTime(type,reason,status,endTime){
+        this.showkerApplyList();
+        this.getUserScreenShot(type,reason,status,endTime)
+      },
       getUserScreenShot(type,reason,status,endTime){
         let _this = this ;
+        _this.getEndTime = null;
         _this.reason = reason;
         _this.status = status;
-        _this.endTime = endTime;
+        _this.getEndTime = endTime;
         api.getUserScreenShot({
           id:type
         }).then(res=>{

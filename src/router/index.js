@@ -10,6 +10,7 @@ const TaskCategory = r => require.ensure([], () => r(require('@/view/TaskCategor
 const TaskDetails = r => require.ensure([], () => r(require('@/view/TaskDetails.vue')), 'TaskDetails');
 const MyXiuBa = r => require.ensure([], () => r(require('@/view/MyXiuBa/MyXiuBa.vue')), 'MyXiuBa');
 const UserHome = r => require.ensure([], () => r(require('@/view/MyXiuBa/children/UserHome.vue')), 'MyXiuBa');
+const VipMember = r => require.ensure([], () => r(require('@/view/MyXiuBa/children/VipMember.vue')), 'VipMember');
 const Recommend = r => require.ensure([], () => r(require('@/view/MyXiuBa/children/Recommend.vue')), 'MyXiuBa');
 const TaskReleaseProcess = r => require.ensure([], () => r(require('@/view/MyXiuBa/children/TaskReleaseProcess.vue')), 'MyXiuBa');
 
@@ -433,6 +434,15 @@ export default new Router({
               }
             },
           ]
+        },
+        {
+          path: 'vip-member',
+          name: 'VipMember',
+          component: VipMember,
+          meta: {
+            title: "VIP会员",
+            logInAuthority: true,
+          }
         }
       ]
     }

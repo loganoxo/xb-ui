@@ -142,7 +142,8 @@
         let _this = this;
         api.setTaskShowkerAudit({
           id: id,
-          status: status
+          status: status,
+          reason:null
         }).then(res => {
           if (res.status) {
             _this.$Message.success("审核秀客成功！");
