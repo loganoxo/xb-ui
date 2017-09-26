@@ -26,12 +26,15 @@
     "redis": "^2.7.1",
     "request": "^2.81.0",
     "request-promise": "^4.2.1",
+    "social-share": "^0.1.0",
+    "social-share.js": "^1.0.16",
     "uid-safe": "^2.1.4",
     "vue": "^2.3.3",
     "vue-lazyload": "^1.0.6",
     "vue-qart": "^2.1.0",
     "vue-quill-editor": "^2.2.4",
     "vue-router": "^2.6.0",
+    "vue-social-sharing": "^2.2.5",
     "vuex": "^2.3.1"
   },
   "devDependencies": {

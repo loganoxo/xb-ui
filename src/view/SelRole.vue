@@ -52,7 +52,7 @@
   import Button from 'iview/src/components/button'
   import Radio from 'iview/src/components/radio'
   import api from '@/config/apiConfig'
-  import {setStorage, getStorage,removeStorage} from '@/config/utils'
+  import {getCookie,setCookie,delCookie,setStorage, getStorage,removeStorage} from '@/config/utils'
   import SmsCountdown from '@/components/SmsCountdown'
   import Modal from 'iview/src/components/modal'
   import RoleTop from '@/components/RoleTop.vue'
@@ -105,6 +105,9 @@
         self.loginTrendsCustom.smsCode = self.$route.query.smsCode;
         self.loginTrendsCustom.validateCode = self.$route.query.validateCode;
       }
+      if(!getCookie('recommendCode') && self.$route.query.recommendCode){
+        setCookie('recommendCode', self.$route.query.recommendCode, 30);
+      }
     },
     methods: {
       selRoleFunc(role){
@@ -142,6 +145,10 @@
       },
       getRegister() {
         let self = this;
+        let recommendCode = '';
+        if(getCookie('recommendCode')){
+          recommendCode = getCookie('recommendCode');
+        }
         api.register({
           phone: this.loginTrendsCustom.phone,
           pwd: this.loginTrendsCustom.phone.slice(5),
@@ -150,7 +157,8 @@
           smsCode: this.loginTrendsCustom.smsCode,
           role: this.loginTrendsCustom.role,
           validateCode: this.loginTrendsCustom.validateCode,
-          purpose:'fast'
+          purpose:'fast',
+          recommendCode: recommendCode
         }).then((res) => {
           if (res.status) {
             self.$store.commit({
@@ -161,6 +169,7 @@
               content: '恭喜您，成功注册秀吧！',
               duration: 1,
               onClose: function () {
+                delCookie('recommendCode');
                 self.setUserInfo();
               }
             });

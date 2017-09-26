@@ -10,7 +10,6 @@ const postOptions = function (url, req, formData = {}) {
     headers: {
       xAppUserPhone: req.session.userInfo ? req.session.userInfo.phone : null,
       xForwardedFor: req.realIp ? req.realIp : null,
-      xUserId: req.session.userInfo ? req.session.userInfo.id : null,
     }
   }
 };
@@ -24,7 +23,6 @@ const getOptions = function (url, req, qs = {}) {
     headers: {
       xAppUserPhone: req.session.userInfo ? req.session.userInfo.phone : null,
       xForwardedFor: req.realIp ? req.realIp : null,
-      xUserId: req.session.userInfo ? req.session.userInfo.id : null,
     }
   }
 };

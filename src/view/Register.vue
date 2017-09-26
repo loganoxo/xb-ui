@@ -437,7 +437,7 @@
           3、因本协议产生之争议需根据您使用的服务归属的平台确定具体的争议对象，例如因您使用秀吧365服务所产生的争议应由秀吧365的经营者与您沟通并处理。一旦产生争议，您与秀吧365平台的经营者均同意以被告住所地人民法院为第一审管辖法院。
           <br>
           <br>
-    </p>
+      </p>
       </div>
       <div slot="footer" class="text-ct">
         <iButton type="error" size="large"   @click="agreementShow = false;">关闭</iButton>
@@ -456,6 +456,7 @@
   import SmsCountdown from '@/components/SmsCountdown'
   import RoleTop from '@/components/RoleTop.vue'
   import Modal from 'iview/src/components/modal'
+  import {getCookie,setCookie,delCookie,setStorage, getStorage,removeStorage} from '@/config/utils'
   export default {
     name: 'register',
     components: {
@@ -614,7 +615,11 @@
       registerBuyer() {
         this.formCustom.role = 0;
         let self = this;
+        let recommendCode = '';
         self.btnState.registerBuyerBtn = true;
+        if(getCookie('recommendCode')){
+          recommendCode = getCookie('recommendCode');
+        }
         api.register({
           phone: self.formCustom.phone,
           pwd: self.formCustom.pwd,
@@ -623,13 +628,15 @@
           smsCode: self.formCustom.smsCode,
           validateCode: self.formCustom.validateCode,
           role: self.formCustom.role,
-          purpose: 'reg'
+          purpose: 'reg',
+          recommendCode: recommendCode
         }).then((res) => {
           if (res.status) {
             self.$Message.success({
               content: "注册成功",
               duration: 1,
               onClose: function () {
+                delCookie('recommendCode');
                 self.setUserInfo(self.formCustom.phone, self.formCustom.pwd);
               }
             });
@@ -646,7 +653,11 @@
       registerSeller() {
         let self = this;
         self.formCustom.role = 1;
+        let recommendCode = '';
         self.btnState.registerSellerBtn = true;
+        if(getCookie('recommendCode')){
+          recommendCode = getCookie('recommendCode');
+        }
         api.register({
           phone: self.formCustom.phone,
           pwd: self.formCustom.pwd,
@@ -655,16 +666,19 @@
           smsCode: self.formCustom.smsCode,
           validateCode: self.formCustom.validateCode,
           role: self.formCustom.role,
-          purpose: 'reg'
+          purpose: 'reg',
+          recommendCode: recommendCode
         }).then((res) => {
           if (res.status) {
             self.$Message.success({
               content: "注册成功",
               duration: 1,
               onClose: function () {
+                delCookie('recommendCode');
                 self.setUserInfo(self.formCustom.phone, self.formCustom.pwd);
               }
             });
+
           } else {
             self.$Message.error({
               content: res.msg,

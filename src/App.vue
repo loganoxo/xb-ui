@@ -10,7 +10,6 @@
   import Top from "./components/Top.vue";
   import Bottom from "./components/Bottom.vue";
   import {getStorage, getCookie} from '@/config/utils'
-
   export default {
     name: 'app',
     components: {

@@ -9,10 +9,11 @@ const logConfig = require('../logConfig');
 const apiConfig = require('../apiConfig');
 const request = require('request-promise');
 const captchapng = require('captchapng');
-
+const cryptoConfig = require('../cryptoConfig');
+const cookie = require('cookie-parser');
 const router = express.Router();
 const baseUrl = config.baseUrl;
-
+const secret = new Buffer('xiuba');
 /**
  * 用户登陆
  * @param phone
@@ -167,6 +168,10 @@ router.post('/api/sign-up.json', function (req, res, next) {
     },
     json: true,
   };
+  if(req.body.recommendCode){
+     let userId = cryptoConfig.getDecAse192(req.body.recommendCode,secret);
+     options.headers.xUserId = userId;
+  }
   let validateCode = parseInt(req.body.validateCode);
   let time = new Date().getTime();
   let vrCode = req.session.vrCode;
@@ -262,5 +267,15 @@ router.post('/api/logged-out.json', (req, res, next) => {
     }
   })
 });
+
+/**
+ * 生成推荐链接
+ */
+router.post("/api/recommend-url.json", (req, res, next) => {
+  let userId = new Buffer(req.session.userData.id);
+  let recommendUrl = req.hostname +  ':9090/sel-role?recommendCode=' +　cryptoConfig.getEncAse192(userId,secret);
+  res.end(recommendUrl);
+});
+
 
 module.exports = router;

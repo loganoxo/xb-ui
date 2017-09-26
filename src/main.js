@@ -11,6 +11,8 @@ import 'animate.css/animate.css'
 import '../iview/iview.less'
 import '@/css/common.scss'
 
+
+
 Vue.config.productionTip = false;
 
 Vue.prototype.$Modal = Modal;

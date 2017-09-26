@@ -603,6 +603,12 @@ export default {
    */
   getShowkerLog(params) {
     return fetch("/api/task-detail-log.json", params)
-  }
+  },
 
+  /**
+   * 获取推荐链接
+   * */
+  getRecommendUrl(){
+    return fetch("/api/recommend-url.json")
+  }
 }
