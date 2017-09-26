@@ -273,7 +273,7 @@ router.post('/api/logged-out.json', (req, res, next) => {
  */
 router.post("/api/recommend-url.json", (req, res, next) => {
   let userId = new Buffer(req.session.userData.id);
-  let recommendUrl = req.hostname +  ':9090/sel-role?recommendCode=' +　cryptoConfig.getEncAse192(userId,secret);
+  let recommendUrl = req.hostname + '/sel-role?recommendCode=' +　cryptoConfig.getEncAse192(userId,secret);
   res.end(recommendUrl);
 });
 
