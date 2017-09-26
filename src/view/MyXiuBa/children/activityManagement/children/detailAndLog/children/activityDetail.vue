@@ -25,15 +25,21 @@
             <p>{{itemCatalog.upLineTime | dateFormat('YYYY-MM-DD hh:mm:ss') || '----'}}</p>
             <p class="mt-10">{{itemCatalog.endTime | dateFormat('YYYY-MM-DD hh:mm:ss') || '----'}}</p>
           </td>
-          <td v-if="itemCatalog.taskStatus !== 'waiting_modify'">{{itemCatalog.taskStatusDesc}}<br/>{{itemCatalog.settlementStatusDesc}}</td>
+          <td v-if="itemCatalog.taskStatus !== 'waiting_modify'">
+            {{itemCatalog.taskStatusDesc}}<br/>{{itemCatalog.settlementStatusDesc}}
+          </td>
           <td class="cursor-p main-color" v-else>
             <Tooltip :content="itemCatalog.auditLogs[itemCatalog.auditLogs.length - 1].resultMsg" placement="top">
               <Icon color="#f60" type="information-circled"></Icon>&nbsp;待修改
             </Tooltip>
           </td>
-          <td class="registration">{{itemCatalog.showkerApplyTotalCount || 0}} / {{itemCatalog.showkerApplySuccessCount || 0}}（人）</td>
+          <td class="registration">
+            {{itemCatalog.showkerApplyTotalCount || 0}} / {{itemCatalog.showkerApplySuccessCount || 0}}（人）
+          </td>
           <td>{{itemCatalog.taskCount}}</td>
-          <td>{{itemCatalog.totalMarginNeed / 100}} / {{itemCatalog.promotionExpensesNeed / 100}} / {{(itemCatalog.marginPaid + itemCatalog.promotionExpensesPaid) / 100 || 0}}</td>
+          <td>
+            {{itemCatalog.totalMarginNeed / 100}} / {{itemCatalog.promotionExpensesNeed / 100}} / {{(itemCatalog.marginPaid + itemCatalog.promotionExpensesPaid) / 100 || 0}}
+          </td>
         </tr>
         </tbody>
       </table>
@@ -60,7 +66,8 @@
         </div>
         <div class="activity-time ml-60 mt-20">
           <span class="required">活动时长：</span>
-          <iInput v-model.number="taskRelease.taskDaysDuration" placeholder="请输入活动时长" :disabled ="true" style="width: 120px"></iInput>
+          <iInput v-model.number="taskRelease.taskDaysDuration" placeholder="请输入活动时长" :disabled="true"
+                  style="width: 120px"></iInput>
           <span>天</span>
           <span class="second-color ml-10">请于活动结束后48小时内审批完成所有秀客资格，逾期系统将自动为您审批。</span>
           <p class="mt-6 pl-60">（单期活动时间为3-30天。）</p>
@@ -73,14 +80,14 @@
             <Checkbox v-model="taskRelease.refuseOldShowker" disabled>拒绝已参加过本店活动的秀客再次申请</Checkbox>
           </p>
           <p class="pl-94 mt-8">
-            <Checkbox v-model="taskRelease.showkerApplyBefore" disabled>必须先完成浏览、收藏、加购，才可以申请活动资格</Checkbox>
+            <Checkbox v-model="taskRelease.needBrowseCollectAddCart" disabled>必须先完成浏览、收藏、加购，才可以申请活动资格</Checkbox>
           </p>
         </div>
         <div class="baby-info mt-22">
           <div class="activity-info-title">填写活动宝贝信息</div>
           <div class="baby-title ml-45 mt-20">
             <span class="required">活动标题：</span>
-            <iInput v-model="taskRelease.taskName" placeholder="请输入活动标题" :disabled ="true" style="width: 296px"></iInput>
+            <iInput v-model="taskRelease.taskName" placeholder="请输入活动标题" :disabled="true" style="width: 296px"></iInput>
           </div>
           <div class="baby-title ml-45 mt-20">
             <span class="required">宝贝类型：</span>
@@ -88,7 +95,7 @@
               <Option-group v-for="parentItem in itemCatalogList" v-if="parentItem.level == 1" :label="parentItem.name"
                             :key="parentItem.id">
                 <iOption v-if="item.level == 2 && item.parentItemCatalog && item.parentItemCatalog.id == parentItem.id"
-                         v-for="item in itemCatalogList" :value="item.id" :key="item.name">{{ item.name }}
+                         v-for="item in itemCatalogList" :value="item.id" :key="item.id">{{ item.name }}
                 </iOption>
               </Option-group>
             </iSelect>
@@ -101,20 +108,23 @@
           </div>
           <div class="baby-url ml-45 mt-20">
             <span class="required">宝贝地址：</span>
-            <iInput v-model="taskRelease.itemUrl" placeholder="请输入宝贝地址" :disabled ="true" style="width: 296px"></iInput>
+            <iInput v-model="taskRelease.itemUrl" placeholder="请输入宝贝地址" :disabled="true" style="width: 296px"></iInput>
           </div>
           <div class="store-name ml-45 mt-20">
             <span class="required">店铺名称：</span>
-            <iInput v-model="taskRelease.storeName" placeholder="请输入店铺名称" :disabled ="true" style="width: 296px"></iInput>
+            <iInput v-model="taskRelease.storeName" placeholder="请输入店铺名称" :disabled="true"
+                    style="width: 296px"></iInput>
           </div>
           <div class="baby-number ml-45 mt-20">
             <span class="required">宝贝数量：</span>
-            <iInput v-model="taskRelease.taskCount" placeholder="请输入宝贝数量" :disabled ="true" style="width: 120px"></iInput>
+            <iInput v-model="taskRelease.taskCount" placeholder="请输入宝贝数量" :disabled="true"
+                    style="width: 120px"></iInput>
             <span>份</span>
           </div>
           <div class="baby-price ml-45 mt-20">
             <span class="required">宝贝单价：</span>
-            <iInput v-model.number="taskRelease.itemPrice" placeholder="请输入宝贝单价" :disabled ="true" style="width: 120px"></iInput>
+            <iInput v-model.number="taskRelease.itemPrice" placeholder="请输入宝贝单价" :disabled="true"
+                    style="width: 120px"></iInput>
             <span>元</span>
             <p class="size-color pl-60 mt-8">活动活动期间，商家不允许修改下单页商品信息，经核查属实，本平台有权将活动担保金返还已获得资格的秀客，商家账号按相应规则处罚</p>
           </div>
@@ -160,7 +170,8 @@
             </div>
             <div class="search-keyword mt-20 ml-28">
               <span class="required">搜索关键词：</span>
-              <iInput v-model="PcTaskDetail.searchKeyword" placeholder="请输入搜索关键词" :disabled ="true" style="width: 260px"></iInput>
+              <iInput v-model="PcTaskDetail.searchKeyword" placeholder="请输入搜索关键词" :disabled="true"
+                      style="width: 260px"></iInput>
               <span class="size-color2">（PC端请确保10页以内，若是长尾关键词请不要过量补单）</span>
             </div>
             <div class="sort-by ml-40 mt-20">
@@ -179,15 +190,16 @@
             </div>
             <div class="search-price ml-40 mt-20">
               <span class="required">展示价格：</span>
-              <iInput v-model.number="PcTaskDetail.searchPagePrice" :disabled ="true" placeholder="请输入搜索列表页展示价格" style="width: 160px"></iInput>
+              <iInput v-model.number="PcTaskDetail.searchPagePrice" :disabled="true" placeholder="请输入搜索列表页展示价格"
+                      style="width: 160px"></iInput>
               <span class="size-color2">（务必亲自搜索，确认价格准确）</span>
             </div>
             <div class="baby-location ml-15 mt-20">
               <span class="required">宝贝搜索位置：</span>
               <span>第</span>
-              <iInput v-model.number="PcTaskDetail.searchPagePositionMin" :disabled ="true" style="width: 40px"></iInput>
+              <iInput v-model.number="PcTaskDetail.searchPagePositionMin" :disabled="true" style="width: 40px"></iInput>
               <span>---</span>
-              <iInput v-model.number="PcTaskDetail.searchPagePositionMax" :disabled ="true" style="width: 40px"></iInput>
+              <iInput v-model.number="PcTaskDetail.searchPagePositionMax" :disabled="true" style="width: 40px"></iInput>
               <span>页</span>
               <p class="size-color2 ml-80 mt-6">宝贝参考位置页数差值最大值不大于3页（如果PC端排名在10页以后， 可使用下面的卡条件功能）</p>
             </div>
@@ -234,9 +246,9 @@
             </div>
             <div class="price-select ml-45 mt-20">
               <span>价格区间：</span>
-              <iInput v-model="PcTaskDetail.priceRangeMin" :disabled ="true" style="width: 40px"></iInput>
+              <iInput v-model="PcTaskDetail.priceRangeMin" :disabled="true" style="width: 40px"></iInput>
               <span>---</span>
-              <iInput v-model="PcTaskDetail.priceRangeMax" :disabled ="true" style="width: 40px"></iInput>
+              <iInput v-model="PcTaskDetail.priceRangeMax" :disabled="true" style="width: 40px"></iInput>
               <span>元</span>
             </div>
           </template>
@@ -250,7 +262,8 @@
             </div>
             <div class="search-keyword mt-20 ml-28">
               <span class="required">搜索关键词：</span>
-              <iInput v-model="AppTaskDetail.searchKeyword" placeholder="请输入搜索关键词" :disabled ="true" style="width: 260px"></iInput>
+              <iInput v-model="AppTaskDetail.searchKeyword" placeholder="请输入搜索关键词" :disabled="true"
+                      style="width: 260px"></iInput>
               <span class="size-color2">（APP端请确保在120位以内，若是长尾关键词请不要过量补单）</span>
             </div>
             <div class="sort-by ml-40 mt-20">
@@ -266,13 +279,14 @@
             </div>
             <div class="search-price ml-40 mt-20">
               <span class="required">展示价格：</span>
-              <iInput v-model="AppTaskDetail.searchPagePrice" placeholder="请输入搜索列表页展示价格" :disabled ="true" style="width: 160px"></iInput>
+              <iInput v-model="AppTaskDetail.searchPagePrice" placeholder="请输入搜索列表页展示价格" :disabled="true"
+                      style="width: 160px"></iInput>
               <span class="size-color2">（务必亲自搜索，确认价格准确）</span>
             </div>
             <div class="baby-location ml-15 mt-20">
               <span class="required">宝贝搜索位置：</span>
               <span>从上往下数第</span>
-              <iInput v-model="AppTaskDetail.searchRankPosition" :disabled ="true" style="width: 40px"></iInput>
+              <iInput v-model="AppTaskDetail.searchRankPosition" :disabled="true" style="width: 40px"></iInput>
               <span>个宝贝左右</span>
               <p class="size-color2 ml-80 mt-6">位置统一切换为一列展示后，在数位置。（如果移动端排名在100名以内，可使用下面的卡条件功能）</p>
             </div>
@@ -316,14 +330,14 @@
             </div>
             <div class="price-select ml-45 mt-20">
               <span>价格区间：</span>
-              <iInput v-model.number="AppTaskDetail.priceRangeMin" :disabled ="true" style="width: 40px"></iInput>
+              <iInput v-model.number="AppTaskDetail.priceRangeMin" :disabled="true" style="width: 40px"></iInput>
               <span>---</span>
-              <iInput v-model.number="AppTaskDetail.priceRangeMax" :disabled ="true" style="width: 40px"></iInput>
+              <iInput v-model.number="AppTaskDetail.priceRangeMax" :disabled="true" style="width: 40px"></iInput>
               <span>元</span>
             </div>
             <div class="deliver-address ml-56 mt-20">
               <span>发货地：</span>
-              <iInput v-model="AppTaskDetail.deliverAddress" :disabled ="true" style="width: 120px"></iInput>
+              <iInput v-model="AppTaskDetail.deliverAddress" :disabled="true" style="width: 120px"></iInput>
               <span class="size-color2">出于安全考虑，请勿大量使用</span>
             </div>
           </template>
@@ -331,7 +345,8 @@
           <template v-else-if="taskRelease.taskType === 'tao_code'">
             <div class="tao_code ml-56 mt-20">
               <span class="required">淘口令：</span>
-              <iInput v-model="taoCodeTaskDetail.taoCode" placeholder="请输入任务宝贝的淘口令" :disabled ="true" style="width: 320px"></iInput>
+              <iInput v-model="taoCodeTaskDetail.taoCode" placeholder="请输入任务宝贝的淘口令" :disabled="true"
+                      style="width: 320px"></iInput>
             </div>
           </template>
         </div>
@@ -340,9 +355,15 @@
     <div class="description-fees mt-40">
       <h3>费用说明：</h3>
       <div class="description-fees-con mt-10">
-        <p>活动担保金 = 份数 × 单品活动担保金 =<span>{{taskRelease.taskCount}}</span>×<span>{{oneBond}}</span>= <span>{{taskRelease.taskCount * oneBond}}</span>元</p>
-        <p class="mt-6">单品推广费 = 单品活动担保金 × 费率 =<span>{{oneBond}}</span>× <span>6%</span> = <span>{{(oneBond * 0.06).toFixed(2)}}</span>元<span v-if="taskRelease.itemPrice * 0.06 > 3">（单品推广费超过平台设定的最高上限3.00元，本次实际收取的单品推广费用为3.00元）</span></p>
-        <p class="mt-6">总推广费用 = 单品推广费用 × 份数 =<span>{{onePromotionExpenses}}</span>× <span>{{taskRelease.taskCount}} = <span>{{allPromotionExpenses}}</span></span>元</p>
+        <p>
+          活动担保金 = 份数 × 单品活动担保金 =<span>{{taskRelease.taskCount}}</span>×<span>{{oneBond}}</span>= <span>{{taskRelease.taskCount * oneBond}}</span>元
+        </p>
+        <p class="mt-6">单品推广费 = 单品活动担保金 × 费率 =<span>{{oneBond}}</span>× <span>6%</span>
+          = <span>{{(oneBond * 0.06).toFixed(2)}}</span>元<span v-if="taskRelease.itemPrice * 0.06 > 3">（单品推广费超过平台设定的最高上限3.00元，本次实际收取的单品推广费用为3.00元）</span>
+        </p>
+        <p class="mt-6">
+          总推广费用 = 单品推广费用 × 份数 =<span>{{onePromotionExpenses}}</span>× <span>{{taskRelease.taskCount}} = <span>{{allPromotionExpenses}}</span></span>元
+        </p>
         <p class="mt-6">总费用 = 活动担保金 + 总推广费用 = <span>{{orderMoney}}</span>元</p>
       </div>
     </div>
@@ -421,7 +442,7 @@
           taskDaysDuration: null,
           onlyShowForQualification: false,
           refuseOldShowker: false,
-          showkerApplyBefore:false,
+          needBrowseCollectAddCart: false,
           taskName: null,
           itemType: null,
           taskMainImage: null,
@@ -438,7 +459,8 @@
         editTaskId: null,
       }
     },
-    mounted() {},
+    mounted() {
+    },
     created() {
       this.getItemCatalog();
       let taskId = this.$route.query.taskId;
@@ -474,8 +496,8 @@
        * 计算实际单品推广费用（单品推广费最高上限3元）
        * @return {number}
        */
-      onePromotionExpenses:function () {
-        return  this.taskRelease.itemPrice * 0.06 > 3 ? 3 : ((this.taskRelease.itemPrice * 100).toFixed(2) / 100 * 0.06).toFixed(2) * 1;
+      onePromotionExpenses: function () {
+        return this.taskRelease.itemPrice * 0.06 > 3 ? 3 : ((this.taskRelease.itemPrice * 100).toFixed(2) / 100 * 0.06).toFixed(2) * 1;
       },
       /**
        * 计算总推广费用
@@ -504,7 +526,7 @@
             _this.mainDefaultList = null;
             _this.pcDefaultList = null;
             _this.appDefaultList = null;
-            if(!type){
+            if (!type) {
               _this.taskRelease.taskId = res.data.id;
             }
             _this.paidDeposit = (res.data.marginPaid + res.data.promotionExpensesPaid) / 100 || 0;
@@ -566,36 +588,43 @@
 
 <style lang="scss" scoped>
   @import 'src/css/mixin';
+
   .activity-table table {
     width: 100%;
     border: 1px solid #dddee1;
     border-bottom: 0;
     border-right: 0;
   }
+
   .activity-table table td,
   .activity-table table th {
     border-right: 1px solid #e9eaec;
     border-bottom: 1px solid #e9eaec;
     text-align: center;
   }
+
   .activity-table table tr.task-number td {
     text-align: left;
-    padding:6px 0 6px 10px;
+    padding: 6px 0 6px 10px;
   }
+
   .activity-table table th {
     height: 40px;
     white-space: nowrap;
     overflow: hidden;
     background-color: #f8f8f9;
   }
+
   .activity-table table td {
     padding-top: 15px;
     padding-bottom: 15px;
   }
+
   .activity-table table td img {
     width: 54px;
     height: 54px;
   }
+
   .activity-table table td .img-title {
     display: inline-block;
     width: 132px;
@@ -603,9 +632,11 @@
     padding-left: 10px;
     text-align: left;
   }
+
   .activity-table table td.registration {
     color: #2b85e4;
   }
+
   .activity-table table td .del-edit span {
     color: #2b85e4;
     cursor: pointer;
@@ -614,6 +645,7 @@
       color: darken(#2b85e4, 10%);
     }
   }
+
   .activity-table table td .del-edit span:last-child {
     color: #2b85e4;
     @include transition;
@@ -621,6 +653,7 @@
       color: darken(#2b85e4, 10%);
     }
   }
+
   .activity-table table td .bond span {
     color: $mainColor;
     border-radius: 5px;
@@ -630,6 +663,7 @@
       color: darken($mainColor, 10%);
     }
   }
+
   .activity-table table td .copy span {
     color: #2b85e4;
     cursor: pointer;
@@ -639,8 +673,8 @@
     }
   }
 
-  .activity-detail{
-    .main-color{
+  .activity-detail {
+    .main-color {
       color: $mainColor;
     }
 
@@ -698,7 +732,7 @@
       &:hover {
         background-color: darken($mainColor, 10%);
       }
-      a{
+      a {
         color: #fff;
       }
     }
@@ -721,7 +755,7 @@
       position: relative;
       box-shadow: 0 1px 1px rgba(0, 0, 0, .2);
       margin-right: 4px;
-      img{
+      img {
         width: 100%;
         height: 100%;
       }

@@ -35,8 +35,8 @@ export default {
   /**
    * 获取用户截图
    */
-  getUserScreenShot(params){
-    return fetch("/api/get-user-screen-shot.json",params)
+  getUserScreenShot(params) {
+    return fetch("/api/get-user-screen-shot.json", params)
   },
 
   /**
@@ -592,9 +592,16 @@ export default {
   },
 
   /**
+   * 商家进入秀客任务管理页任务列表（设置新增待审核为已读）
+   */
+  waitingAuditNewestMarkRead(params) {
+    return fetch("/api/applies/waiting/audit/newest/clear/one.json", params)
+  },
+
+  /**
    * 获取秀客活动进程任务日志
    */
-  getShowkerLog(params){
+  getShowkerLog(params) {
     return fetch("/api/task-detail-log.json", params)
   }
 

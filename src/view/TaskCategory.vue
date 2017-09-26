@@ -256,8 +256,8 @@
         self.getSearchTask();
       },
       getSortFieldFunc(sortField,index){
-        if(this.sortFieldDefault.name == sortField.name){
-          if(sortField.sort == 'desc'){
+        if(this.sortFieldDefault.name === sortField.name){
+          if(sortField.sort === 'desc'){
             sortField.sort = 'asc';
             this.searchTaskParams.sortOrder= 'asc';
           }else {
@@ -269,9 +269,7 @@
         }
         this.sortFieldDefault = sortField;
         for(let i = 0, j = this.sortFieldList.length; i < j; i++){
-          if(i == index){
-            continue;
-          }else {
+          if(i !== index){
             this.sortFieldList[i].sort = 'desc';
           }
         }

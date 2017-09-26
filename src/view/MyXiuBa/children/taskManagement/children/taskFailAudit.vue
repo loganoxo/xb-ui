@@ -4,7 +4,7 @@
       <div class="left mr-10" style="margin-top: 2px;">
         <Checkbox
           :value="checkAllByFail"
-          @click.prevent.native="handleCheckFailAll">所有
+          @click.prevent.native="handleCheckFailAll">全部
         </Checkbox>
       </div>
       <div class="left">
@@ -156,12 +156,16 @@
         let _this = this;
         _this.taskFailAuditList = [];
         _this.searchLoading = true;
+        let rejectReasonList = JSON.stringify(_this.rejectReasonList);
+        if (_this.taskNumber || _this.alitmAccount) {
+          rejectReasonList = [];
+        }
         api.appliesEndTask({
           pageIndex: _this.pageIndex,
           pageSize: _this.pageSize,
           taskNumber: _this.taskNumber,
           alitmAccount: _this.alitmAccount,
-          rejectReasonList: JSON.stringify(_this.rejectReasonList)
+          rejectReasonList: rejectReasonList
         }).then(res => {
           if (res.status) {
             _this.taskFailAuditList = res.data.content;

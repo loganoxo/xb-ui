@@ -41,14 +41,14 @@ router.post("/api/task-create.json", function (req, res, next) {
       taskDaysDuration: req.body.taskDaysDuration,
       onlyShowForQualification: req.body.onlyShowForQualification,
       refuseOldShowker: req.body.refuseOldShowker,
-      needBrowseCollectAddCart:req.body.showkerApplyBefore,
+      needBrowseCollectAddCart: req.body.needBrowseCollectAddCart,
       taskName: req.body.taskName,
       "itemCatalog.id": req.body.itemType,
       taskMainImage: req.body.taskMainImage,
       itemUrl: req.body.itemUrl,
       storeName: req.body.storeName,
       taskCount: req.body.taskCount,
-      itemPrice: (req.body.itemPrice * 100).toFixed(2) * 1,
+      itemPrice: (req.body.itemPrice * 100).toFixed(0) * 1,
       pinkage: req.body.pinkage,
       itemDescription: req.body.itemDescription,
       paymentMethod: req.body.paymentMethod,
@@ -319,7 +319,33 @@ router.post('/api/set-task-showker-audit.json', function (req, res, next) {
       taskApplyId: req.body.id,
       merchantId: req.session.userData.id,
       auditPass: req.body.status,
-      reason : req.body.reason
+    },
+    json: true
+  };
+  request(options)
+    .then(function (parsedBody) {
+      res.send(parsedBody);
+      res.end();
+    })
+    .catch(function (err) {
+      logConfig.logger.error(req.originalUrl + ':' + err);
+      res.json({status: false, msg: "服务器请求超时，请稍后在试！"});
+      res.end();
+    });
+});
+
+/**
+ * 商家设置新增任务为已读状态
+ * @param taskId
+ * @param taskApplyId
+ */
+router.post('/api/applies/waiting/audit/newest/clear/one.json', function (req, res, next) {
+  let options = {
+    method: 'POST',
+    uri: baseUrl + '/task/merchant/applies/waiting/audit/newest/clear/one',
+    formData: {
+      taskId: req.body.taskId,
+      taskApplyId: req.body.taskApplyId
     },
     json: true
   };

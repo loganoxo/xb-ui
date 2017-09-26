@@ -32,20 +32,22 @@
               <th width="25%">操作</th>
             </tr>
             </thead>
-            <tbody v-for="item in item.applyNewestTask" :key="item.id">
+            <tbody v-for="newest in item.applyNewestTask" :key="newest.id">
             <tr>
               <td>
-                <p>{{item.alitmAccount}}</p>
-                <p v-if="item.creditLevel"><img :src="item.creditLevel" alt="" style="width: auto;height: auto;"></p>
-                <p v-if="item.tqz">淘气值：{{item.tqz}}</p>
+                <p>{{newest.alitmAccount}}</p>
+                <p v-if="newest.creditLevel"><img :src="newest.creditLevel" alt="" style="width: auto;height: auto;">
+                </p>
+                <p v-if="newest.tqz">淘气值：{{newest.tqz}}</p>
               </td>
-              <td>{{item.applyTime | dateFormat('YYYY-MM-DD hh:mm:ss')}}</td>
+              <td>{{newest.applyTime | dateFormat('YYYY-MM-DD hh:mm:ss')}}</td>
               <td class="registration">
-                <router-link :to="{ 'path': '/trial-report','query': {'showkerId': item.showkerId}}">0</router-link>
+                <router-link :to="{ 'path': '/trial-report','query': {'showkerId': newest.showkerId}}">0</router-link>
               </td>
               <td>
                 <p class="del-edit">
-                  <span @click="taskWaitToPass(item.task.id, 'true', 'newest')">通过</span>
+                  <span @click="taskWaitToPass(newest.id, 'true', 'newest')">通过</span>
+                  <iButton size="small" class="ml-5 main-color" @click="markRead(item.id,newest.id)">设为已读</iButton>
                 </p>
               </td>
             </tr>
@@ -77,7 +79,7 @@
               </td>
             </tr>
             </tbody>
-            <tbody v-show="!taskWaitAuditList[index].applyAllTask && taskWaitAuditList[index].applyNewestTask">
+            <tbody v-show="(!taskWaitAuditList[index].applyAllTask || taskWaitAuditList[index].applyAllTask.length === 0) && taskWaitAuditList[index].applyNewestTask">
             <tr>
               <td colspan="4" width="100%">暂无数据</td>
             </tr>
@@ -136,7 +138,7 @@
         this.pageIndex = data;
         this.appliesWaitingAuditTask();
       },
-      taskWaitToPass(id,status,type) {
+      taskWaitToPass(id, status, type) {
         let _this = this;
         api.setTaskShowkerAudit({
           id: id,
@@ -144,13 +146,14 @@
         }).then(res => {
           if (res.status) {
             _this.$Message.success("审核秀客成功！");
-            if(type === 'newest'){
+            if (type === 'newest') {
               _this.appliesWaitingAuditNewest(_this.operateTaskId, _this.operateIndex);
-            }else{
+            } else {
               _this.appliesWaitingAuditAll(_this.operateTaskId, _this.operateIndex);
             }
+            _this.appliesWaitingAuditTask();
           } else {
-            _this.$Message.error(res.msg)
+            _this.$Message.error(res.msg);
           }
         })
       },
@@ -231,6 +234,19 @@
                 }
               });
             })
+          } else {
+            _this.$Message.error(res.msg);
+          }
+        })
+      },
+      markRead(taskId, taskApplyId) {
+        let _this = this;
+        api.waitingAuditNewestMarkRead({
+          taskId: taskId,
+          taskApplyId: taskApplyId
+        }).then(res => {
+          if (res.status) {
+            _this.$Message.success("设置已读成功！");
           } else {
             _this.$Message.error(res.msg);
           }

@@ -363,7 +363,6 @@
         viewScreenShotUrl:null,
         viewScreenShot:false,
         passOrNoPass:'true',
-        reason:null,
         passId:null,
         approvalPop:false,
         activeEndTime:null,
@@ -518,7 +517,6 @@
         api.setTaskShowkerAudit({
           id: id,
           status: status,
-          reason:_this.reason
         }).then(res => {
           if (res.status) {
             _this.$Message.success("审核秀客成功！");

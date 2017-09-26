@@ -4,7 +4,7 @@
       <div class="left mr-10" style="margin-top: 2px;">
         <Checkbox
           :value="checkAllByPass"
-          @click.prevent.native="handleCheckPassAll">所有
+          @click.prevent.native="handleCheckPassAll">全部
         </Checkbox>
       </div>
       <div class="left">
@@ -85,11 +85,11 @@
               </td>
               <td>{{item.orderNum || '------'}}</td>
               <td>
-               <p class="del-edit">
-                 <span v-if="item.status === 'order_num_waiting_audit'" @click="openCheckOrder(item.id)">审核订单号</span>
-                 <span v-else-if="item.status === 'trial_report_waiting_confirm'" @click="goProbationReport(item.id)">审核买家秀</span>
-                 <span v-else>------</span>
-               </p>
+                <p class="del-edit">
+                  <span v-if="item.status === 'order_num_waiting_audit'" @click="openCheckOrder(item.id)">审核订单号</span>
+                  <span v-else-if="item.status === 'trial_report_waiting_confirm'" @click="goProbationReport(item.id)">审核买家秀</span>
+                  <span v-else>------</span>
+                </p>
               </td>
             </tr>
             </tbody>
@@ -193,7 +193,6 @@
         orderNum: null,
         taskNumber: null,
         checkAllByPass: false,
-        auditStatusList: [],
         showkerTaskStatusList: [],
         pageIndex: 1,
         pageSize: 5,
@@ -228,17 +227,17 @@
       handleCheckPassAll() {
         this.checkAllByPass = !this.checkAllByPass;
         if (this.checkAllByPass) {
-          this.auditStatusList = ['pass_and_unclaimed', 'order_num_waiting_audit', 'trial_report_waiting_submit', 'trial_report_waiting_confirm', 'trial_finished', 'order_num_error', 'trial_report_unqualified'];
+          this.showkerTaskStatusList = ['pass_and_unclaimed', 'order_num_waiting_audit', 'trial_report_waiting_submit', 'trial_report_waiting_confirm', 'trial_finished', 'order_num_error', 'trial_report_unqualified'];
         } else {
-          this.auditStatusList = [];
+          this.showkerTaskStatusList = [];
         }
         this.pageIndex = 1;
         this.passesTaskList();
       },
       checkPassChange() {
-        if (this.auditStatusList.length === 7) {
+        if (this.showkerTaskStatusList.length === 7) {
           this.checkAllByPass = true;
-        } else if (this.auditStatusList.length > 0) {
+        } else if (this.showkerTaskStatusList.length > 0) {
           this.checkAllByPass = false;
         } else {
           this.checkAllByPass = false;
@@ -254,13 +253,17 @@
         let _this = this;
         _this.taskPassAuditList = [];
         _this.searchLoading = true;
+        let showkerTaskStatusList = JSON.stringify(_this.showkerTaskStatusList);
+        if (_this.taskNumber || _this.alitmAccount || _this.orderNum) {
+          showkerTaskStatusList = [];
+        }
         api.passesTask({
           pageIndex: _this.pageIndex,
           pageSize: _this.pageSize,
           taskNumber: _this.taskNumber,
           alitmAccount: _this.alitmAccount,
           orderNum: _this.orderNum,
-          showkerTaskStatusList: JSON.stringify(_this.showkerTaskStatusList),
+          showkerTaskStatusList: showkerTaskStatusList,
         }).then(res => {
           if (res.status) {
             _this.taskPassAuditList = res.data.content;
@@ -340,7 +343,7 @@
         })
       },
       goProbationReport(id) {
-        this.$router.push({name: 'ProbationReport', query: {id: id}});
+        this.$router.push({name: 'ProbationReport', query: {id: id, from:'taskPassAudit'}});
       },
       orderNumberAudit() {
         let _this = this;

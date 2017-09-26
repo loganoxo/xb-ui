@@ -52,9 +52,10 @@
     </div>
     <div class="list-sort clear">
       <ButtonGroup class="left">
-        <iButton :class="[sortList.select === item.sortField ? 'active' : '']" size="small" v-for="(item,index) in sortList.defaultList" :key="index" @click="sortChange(item.sortField)">
+        <iButton :class="[sortList.select === item.sortField ? 'active' : '']" size="small" v-for="(item,index) in sortList.defaultList" :key="index" @click="sortChange(item.sortField,index)">
           <span>{{item.name}}</span>
-          <Icon type="arrow-down-c"></Icon>
+          <Icon v-show="item.sort == 'desc'" type="arrow-down-c"></Icon>
+          <Icon v-show="item.sort == 'asc' " type="arrow-up-c"></Icon>
         </iButton>
       </ButtonGroup>
       <iInput v-model="taskNumber" size="small" placeholder="使用活动编号搜索" class="left ml-10" style="width: 280px;" @on-enter="getTaskList">
@@ -129,12 +130,23 @@
               <span @click="copyTask(item.id)">复制活动</span>
             </p>
           </td>
-          <td v-else-if="item.settlementStatus === 'waiting_settlement'">
+          <td v-else-if="item.settlementStatus === 'waiting_settlement' && item.taskStatus === 'finished'">
             <p class="bond mt-6" v-if="isApproveExpire(item.endTime)">
               <span @click="approveShowker(item.id)">审批秀客</span>
             </p>
             <p class="bond mt-6">
               <span @click="settlementTask(item.id, item.number)">申请结算</span>
+            </p>
+            <p class="copy mt-6">
+              <span @click="lookTaskDetail(item.id)">查看详情</span>
+            </p>
+            <p class="copy mt-6">
+              <span @click="copyTask(item.id)">复制活动</span>
+            </p>
+          </td>
+          <td v-else-if="item.settlementStatus === 'cannot_settlement' && item.taskStatus === 'finished'">
+            <p class="bond mt-6" v-if="isApproveExpire(item.endTime)">
+              <span @click="approveShowker(item.id)">审批秀客</span>
             </p>
             <p class="copy mt-6">
               <span @click="lookTaskDetail(item.id)">查看详情</span>
@@ -400,11 +412,13 @@
       isApproveExpire(endTime) {
         return new Date().getTime() < endTime + 48 * 3600 * 1000;
       },
-      sortChange(name){
+      sortChange(name,index){
+        let sort = this.sortList.defaultList[index].sort;
         this.sortList.select = name;
-        this.getTaskList(name);
+        this.sortList.defaultList[index].sort = sort === 'desc'? 'asc' : 'desc';
+        this.getTaskList(name,this.sortList.defaultList[index].sort);
       },
-      getTaskList(orderBy) {
+      getTaskList(orderBy,sort) {
         let _this = this;
         _this.searchLoading = true;
         api.getTaskList({
@@ -412,7 +426,7 @@
           settlementStatusList: JSON.stringify(_this.settlementStatusList),
           taskNumber: _this.taskNumber,
           orderBy: orderBy ? orderBy : 'createTime',
-          sort: 'desc',
+          sort: sort ? sort : 'desc',
           pageIndex: _this.pageIndex,
           pageSize: _this.pageSize
         }).then(res => {

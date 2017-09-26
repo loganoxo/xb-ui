@@ -45,7 +45,7 @@
             <Checkbox v-model="taskRelease.refuseOldShowker">拒绝已参加过本店活动的秀客再次申请</Checkbox>
           </p>
           <p class="pl-94 mt-8">
-            <Checkbox v-model="taskRelease.showkerApplyBefore">必须先完成浏览、收藏、加购，才可以申请活动资格</Checkbox>
+            <Checkbox v-model="taskRelease.needBrowseCollectAddCart">必须先完成浏览、收藏、加购，才可以申请活动资格</Checkbox>
           </p>
         </div>
         <div class="baby-info mt-22">
@@ -585,7 +585,7 @@
           taskDaysDuration: null,
           onlyShowForQualification: false,
           refuseOldShowker: false,
-          showkerApplyBefore: false,
+          needBrowseCollectAddCart: false,
           taskName: null,
           itemType: null,
           taskMainImage: null,
@@ -872,15 +872,15 @@
         let _this = this;
         switch (_this.taskRelease.taskType) {
           case 'pc_search' :
-            _this.PcTaskDetail.searchPagePrice = _this.PcTaskDetail.searchPagePrice * 100;
-            _this.PcTaskDetail.priceRangeMax = _this.PcTaskDetail.priceRangeMax * 100;
-            _this.PcTaskDetail.priceRangeMin = _this.PcTaskDetail.priceRangeMin * 100;
+            _this.PcTaskDetail.searchPagePrice = (_this.PcTaskDetail.searchPagePrice * 100).toFixed(0);
+            _this.PcTaskDetail.priceRangeMax = (_this.PcTaskDetail.priceRangeMax * 100).toFixed(0);
+            _this.PcTaskDetail.priceRangeMin = (_this.PcTaskDetail.priceRangeMin * 100).toFixed(0);
             _this.taskRelease.taskDetail = JSON.stringify(_this.PcTaskDetail);
             break;
           case 'app_search' :
-            _this.AppTaskDetail.searchPagePrice = _this.AppTaskDetail.searchPagePrice * 100;
-            _this.AppTaskDetail.priceRangeMax = _this.AppTaskDetail.priceRangeMax * 100;
-            _this.AppTaskDetail.priceRangeMin = _this.AppTaskDetail.priceRangeMin * 100;
+            _this.AppTaskDetail.searchPagePrice = (_this.AppTaskDetail.searchPagePrice * 100).toFixed(0);
+            _this.AppTaskDetail.priceRangeMax = (_this.AppTaskDetail.priceRangeMax * 100).toFixed(0);
+            _this.AppTaskDetail.priceRangeMin = (_this.AppTaskDetail.priceRangeMin * 100).toFixed(0);
             _this.taskRelease.taskDetail = JSON.stringify(_this.AppTaskDetail);
             break;
           case 'tao_code' :
@@ -978,14 +978,14 @@
         let _this = this;
         switch (type) {
           case 'pc_search' :
-            _this.PcTaskDetail.searchPagePrice = _this.PcTaskDetail.searchPagePrice / 100;
-            _this.PcTaskDetail.priceRangeMax = _this.PcTaskDetail.priceRangeMax / 100;
-            _this.PcTaskDetail.priceRangeMin = _this.PcTaskDetail.priceRangeMin / 100;
+            _this.PcTaskDetail.searchPagePrice = (_this.PcTaskDetail.searchPagePrice / 100).toFixed(2);
+            _this.PcTaskDetail.priceRangeMax = (_this.PcTaskDetail.priceRangeMax / 100).toFixed(2);
+            _this.PcTaskDetail.priceRangeMin = (_this.PcTaskDetail.priceRangeMin / 100).toFixed(2);
             break;
           case 'app_search' :
-            _this.AppTaskDetail.searchPagePrice = _this.AppTaskDetail.searchPagePrice / 100;
-            _this.AppTaskDetail.priceRangeMax = _this.AppTaskDetail.priceRangeMax / 100;
-            _this.AppTaskDetail.priceRangeMin = _this.AppTaskDetail.priceRangeMin / 100;
+            _this.AppTaskDetail.searchPagePrice = (_this.AppTaskDetail.searchPagePrice / 100).toFixed(2);
+            _this.AppTaskDetail.priceRangeMax = (_this.AppTaskDetail.priceRangeMax / 100).toFixed(2);
+            _this.AppTaskDetail.priceRangeMin = (_this.AppTaskDetail.priceRangeMin / 100).toFixed(2);
             break;
         }
       },

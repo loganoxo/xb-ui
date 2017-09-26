@@ -105,7 +105,6 @@
     watch: {
       $route(to) {
         this.isSelect = to.name;
-        console.log(this.isSelect);
       }
     },
     computed: {
