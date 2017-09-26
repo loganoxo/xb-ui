@@ -28,7 +28,7 @@
             <tr>
               <th width="25%">淘宝账号（旺旺号）</th>
               <th width="25%">申请时间</th>
-              <th width="25%">已完成活动次数</th>
+              <th width="25%">秀客的买家秀记录</th>
               <th width="25%">操作</th>
             </tr>
             </thead>
@@ -47,7 +47,7 @@
               <td>
                 <p class="del-edit">
                   <span @click="taskWaitToPass(newest.id, 'true', 'newest')">通过</span>
-                  <iButton size="small" class="ml-5 main-color" @click="markRead(item.id,newest.id)">设为已读</iButton>
+                  <iButton type="primary" size="small" class="ml-5"  @click="markRead(item.id,newest.id)">设为已读</iButton>
                 </p>
               </td>
             </tr>
@@ -73,15 +73,8 @@
             <tbody v-show="!taskWaitAuditList[index].applyNewestTask && (!taskWaitAuditList[index].applyAllTask || taskWaitAuditList[index].applyAllTask.length === 0)">
             <tr>
               <td colspan="4" width="100%">
-                <p>
-                  <span class="ml-10 cursor-p look_record" @click="appliesWaitingAuditAll(item.id,index)">暂无新增数据，查看全部记录</span>
-                </p>
+                <span class="ml-10 cursor-p look_record" @click="appliesWaitingAuditAll(item.id,index)">暂无新增数据，查看全部记录</span>
               </td>
-            </tr>
-            </tbody>
-            <tbody v-show="(!taskWaitAuditList[index].applyAllTask || taskWaitAuditList[index].applyAllTask.length === 0) && taskWaitAuditList[index].applyNewestTask">
-            <tr>
-              <td colspan="4" width="100%">暂无数据</td>
             </tr>
             </tbody>
           </table>
@@ -247,7 +240,8 @@
           taskApplyId: taskApplyId
         }).then(res => {
           if (res.status) {
-            _this.$Message.success("设置已读成功！");
+            _this.$Message.success("设置新增待审批已读成功！");
+            _this.appliesWaitingAuditNewest(_this.operateTaskId, _this.operateIndex);
           } else {
             _this.$Message.error(res.msg);
           }

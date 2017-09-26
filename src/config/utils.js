@@ -123,7 +123,7 @@ export const aliUploadImg = (key, file) => {
  */
 export const extendDeep = (obj, child) => {
   let i, proxy;
-  proxy = JSON.stringify(parent);
+  proxy = JSON.stringify(obj);
   proxy = JSON.parse(proxy);
   child = child || {};
   for (i in proxy) {

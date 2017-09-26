@@ -213,7 +213,19 @@
 
     },
     created() {
-      this.passesTaskList();
+      let _this = this;
+      let status = _this.$route.query.status;
+      if (status) {
+        if (status === 'orderNum') {
+          _this.showkerTaskStatusList.push('order_num_waiting_audit');
+          _this.passesTaskList();
+        } else if (status === 'trialReport') {
+          _this.showkerTaskStatusList.push('trial_report_waiting_confirm');
+          _this.passesTaskList();
+        }
+      }else{
+        this.passesTaskList();
+      }
     },
     computed: {
       needReplenishMoney: function () {

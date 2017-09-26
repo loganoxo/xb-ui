@@ -40,7 +40,7 @@
         <div class="trial-condition ml-35 mt-20">
           <span class="ml-5">秀客申请条件：</span>
           <Checkbox v-model="taskRelease.onlyShowForQualification">只有获得资格的秀客才可以查看活动信息</Checkbox>
-          <p class="pl-94 size-color">勾选后可以避免秀客私下索要资格，避免同行举报。但流量、收藏量、分享量会相对减少</p>
+          <p class="pl-94 size-color mt-5">勾选后可以避免秀客私下索要资格，避免同行举报。但流量、收藏量、分享量会相对减少</p>
           <p class="pl-94 mt-8">
             <Checkbox v-model="taskRelease.refuseOldShowker">拒绝已参加过本店活动的秀客再次申请</Checkbox>
           </p>
@@ -53,6 +53,9 @@
           <div class="baby-title ml-45 mt-20">
             <span class="required">活动标题：</span>
             <iInput v-model="taskRelease.taskName" placeholder="请输入活动标题" style="width: 296px"></iInput>
+            <span class="ml-20 size-color"><Icon v-show="taskNameLength > 35" color="#f60"
+                                                 type="information-circled"></Icon>&nbsp;最多支持35个字符，当前已输入 <span
+              class="main-color">{{taskNameLength}}</span> / 35个字符。</span>
           </div>
           <div class="baby-title ml-45 mt-20">
             <span class="required">宝贝类型：</span>
@@ -103,7 +106,8 @@
             <span class="required">宝贝单价：</span>
             <iInput v-model.number="taskRelease.itemPrice" placeholder="请输入宝贝单价" style="width: 120px"></iInput>
             <span>元</span>
-            <span v-show="taskRelease.itemPrice && taskRelease.itemPrice < 10" class="main-color ml-20"><Icon color="#f60" type="information-circled"></Icon>&nbsp;每份试用品的价值必须在10元以上</span>
+            <span v-show="taskRelease.itemPrice && taskRelease.itemPrice < 10" class="main-color ml-20"><Icon
+              color="#f60" type="information-circled"></Icon>&nbsp;每份试用品的价值必须在10元以上</span>
             <p class="size-color pl-60 mt-8">活动活动期间，商家不允许修改下单页商品信息，经核查属实，本平台有权将活动担保金返还已获得资格的秀客，商家账号按相应规则处罚</p>
           </div>
           <div class="baby-pinkage ml-45 mt-20">
@@ -248,9 +252,9 @@
             </div>
             <div class="price-select ml-45 mt-20">
               <span>价格区间：</span>
-              <iInput v-model="PcTaskDetail.priceRangeMin" style="width: 40px"></iInput>
+              <iInput v-model.number="PcTaskDetail.priceRangeMin" style="width: 40px"></iInput>
               <span>---</span>
-              <iInput v-model="PcTaskDetail.priceRangeMax" style="width: 40px"></iInput>
+              <iInput v-model.number="PcTaskDetail.priceRangeMax" style="width: 40px"></iInput>
               <span>元</span>
             </div>
           </template>
@@ -356,7 +360,7 @@
             <div class="deliver-address ml-56 mt-20">
               <span>发货地：</span>
               <iInput v-model="AppTaskDetail.deliverAddress" style="width: 120px"></iInput>
-              <span class="size-color2">出于安全考虑，请勿大量使用</span>
+              <span class="size-color2 ml-5">出于安全考虑，请勿大量使用</span>
             </div>
           </template>
           <!--淘口令下单设置-->
@@ -475,16 +479,16 @@
     </div>
     <!--商家发布任务活动总价低于500元提醒弹框-->
     <Modal v-model="price500Model" width="360">
-        <p slot="header" style="color:#f60;text-align:center">
-          <Icon type="information-circled"></Icon>
-          <span>温馨提示</span>
-        </p>
-        <div class="text-ct">
-          <p>您发布的活动总价值必须在500元以上</p>
-        </div>
-        <div slot="footer">
-          <iButton type="error" size="large" long  @click="price500Model = false">我知道了</iButton>
-        </div>
+      <p slot="header" style="color:#f60;text-align:center">
+        <Icon type="information-circled"></Icon>
+        <span>温馨提示</span>
+      </p>
+      <div class="text-ct">
+        <p>您发布的活动总价值必须在500元以上</p>
+      </div>
+      <div slot="footer">
+        <iButton type="error" size="large" long @click="price500Model = false">我知道了</iButton>
+      </div>
     </Modal>
   </div>
 </template>
@@ -504,7 +508,7 @@
   import PayModel from '@/components/PayModel'
   import api from '@/config/apiConfig'
   import {aliCallbackImgUrl} from '@/config/env'
-  import {aliUploadImg, isNumber, isInteger, isAliUrl, randomString} from '@/config/utils'
+  import {aliUploadImg, isNumber, isInteger, isAliUrl, randomString, extendDeep} from '@/config/utils'
 
   export default {
     name: 'TaskReleaseProcess',
@@ -558,7 +562,7 @@
           itemMainImage: null,
           searchKeyword: null,
           searchSort: 'zong_he',
-          searchPagePrice: 0,
+          searchPagePrice: null,
           searchPagePositionMin: null,
           searchPagePositionMax: null,
           searchFilter: [],
@@ -692,6 +696,13 @@
       isBalance: function () {
         return this.orderMoney <= this.getUserBalance
       },
+      /**
+       * 计算活动标题输入字符数
+       * @return {number}
+       */
+      taskNameLength: function () {
+        return this.taskRelease.taskName ? this.taskRelease.taskName.length : 0;
+      }
     },
     methods: {
       onEditorBlur(editor) {
@@ -743,8 +754,8 @@
           _this.$Message.warning('亲，活动标题不能为空！');
           return;
         }
-        if (_this.taskRelease.taskName.length > 30) {
-          _this.$Message.warning('亲，活动标题最多30个文字！');
+        if (_this.taskRelease.taskName.length > 35) {
+          _this.$Message.warning('亲，活动标题最多35个字符！');
           return;
         }
         if (!_this.taskRelease.itemType) {
@@ -851,7 +862,7 @@
         }
         let status = _this.taskStatus;
         let type = _this.$route.query.type;
-        if(_this.taskRelease.taskCount * _this.oneBond < 500){
+        if (_this.taskRelease.taskCount * _this.oneBond < 500) {
           _this.price500Model = true;
           return;
         }
@@ -870,18 +881,20 @@
       },
       taskCreate(type) {
         let _this = this;
+        let pcTaskDetail = extendDeep(_this.PcTaskDetail);
+        let appTaskDetail = extendDeep(_this.AppTaskDetail);
         switch (_this.taskRelease.taskType) {
           case 'pc_search' :
-            _this.PcTaskDetail.searchPagePrice = (_this.PcTaskDetail.searchPagePrice * 100).toFixed(0);
-            _this.PcTaskDetail.priceRangeMax = (_this.PcTaskDetail.priceRangeMax * 100).toFixed(0);
-            _this.PcTaskDetail.priceRangeMin = (_this.PcTaskDetail.priceRangeMin * 100).toFixed(0);
-            _this.taskRelease.taskDetail = JSON.stringify(_this.PcTaskDetail);
+            pcTaskDetail.searchPagePrice = (pcTaskDetail.searchPagePrice * 100).toFixed(0) * 1;
+            pcTaskDetail.priceRangeMax = pcTaskDetail.priceRangeMax > 0 ? (pcTaskDetail.priceRangeMax * 100).toFixed(0) * 1 : null;
+            pcTaskDetail.priceRangeMin = pcTaskDetail.priceRangeMin > 0 ? (pcTaskDetail.priceRangeMin * 100).toFixed(0) * 1 : null;
+            _this.taskRelease.taskDetail = JSON.stringify(pcTaskDetail);
             break;
           case 'app_search' :
-            _this.AppTaskDetail.searchPagePrice = (_this.AppTaskDetail.searchPagePrice * 100).toFixed(0);
-            _this.AppTaskDetail.priceRangeMax = (_this.AppTaskDetail.priceRangeMax * 100).toFixed(0);
-            _this.AppTaskDetail.priceRangeMin = (_this.AppTaskDetail.priceRangeMin * 100).toFixed(0);
-            _this.taskRelease.taskDetail = JSON.stringify(_this.AppTaskDetail);
+            appTaskDetail.searchPagePrice = (appTaskDetail.searchPagePrice * 100).toFixed(0) * 1;
+            appTaskDetail.priceRangeMax = appTaskDetail.priceRangeMax > 0 ? (appTaskDetail.priceRangeMax * 100).toFixed(0) * 1 : null;
+            appTaskDetail.priceRangeMin = appTaskDetail.priceRangeMin > 0 ? (appTaskDetail.priceRangeMin * 100).toFixed(0) * 1 : null;
+            _this.taskRelease.taskDetail = JSON.stringify(appTaskDetail);
             break;
           case 'tao_code' :
             _this.taskRelease.taskDetail = JSON.stringify(_this.taoCodeTaskDetail);
@@ -904,14 +917,18 @@
             }
           } else {
             _this.$Message.error(res.msg);
-            _this.conversionPrice(_this.taskRelease.taskType);
           }
         });
       },
       returnUpStep() {
         let _this = this;
-        _this.getTaskInfo();
-        _this.conversionPrice(_this.taskRelease.taskType);
+        let type = _this.$route.query.type;
+        if ((type && type === 'copy') || !type) {
+          _this.editTaskId = _this.taskPayId;
+          _this.getTaskInfo();
+        } else {
+          _this.getTaskInfo();
+        }
         _this.stepName = 'information';
         _this.current = 0;
       },
@@ -978,14 +995,14 @@
         let _this = this;
         switch (type) {
           case 'pc_search' :
-            _this.PcTaskDetail.searchPagePrice = (_this.PcTaskDetail.searchPagePrice / 100).toFixed(2);
-            _this.PcTaskDetail.priceRangeMax = (_this.PcTaskDetail.priceRangeMax / 100).toFixed(2);
-            _this.PcTaskDetail.priceRangeMin = (_this.PcTaskDetail.priceRangeMin / 100).toFixed(2);
+            _this.PcTaskDetail.searchPagePrice = (_this.PcTaskDetail.searchPagePrice / 100).toFixed(2) * 1;
+            _this.PcTaskDetail.priceRangeMax = _this.PcTaskDetail.priceRangeMax > 0 ? (_this.PcTaskDetail.priceRangeMax / 100).toFixed(2) * 1 : null;
+            _this.PcTaskDetail.priceRangeMin = _this.PcTaskDetail.priceRangeMin > 0 ? (_this.PcTaskDetail.priceRangeMin / 100).toFixed(2) * 1 : null;
             break;
           case 'app_search' :
-            _this.AppTaskDetail.searchPagePrice = (_this.AppTaskDetail.searchPagePrice / 100).toFixed(2);
-            _this.AppTaskDetail.priceRangeMax = (_this.AppTaskDetail.priceRangeMax / 100).toFixed(2);
-            _this.AppTaskDetail.priceRangeMin = (_this.AppTaskDetail.priceRangeMin / 100).toFixed(2);
+            _this.AppTaskDetail.searchPagePrice = (_this.AppTaskDetail.searchPagePrice / 100).toFixed(2) * 1;
+            _this.AppTaskDetail.priceRangeMax = _this.AppTaskDetail.priceRangeMax > 0 ? (_this.AppTaskDetail.priceRangeMax / 100).toFixed(2) * 1 : null;
+            _this.AppTaskDetail.priceRangeMin = _this.AppTaskDetail.priceRangeMin > 0 ? (_this.AppTaskDetail.priceRangeMin / 100).toFixed(2) * 1 : null;
             break;
         }
       },

@@ -8,7 +8,7 @@
       <div class="left mr-10" style="padding-top: 1px;">
         <Checkbox
           :value="checkAll"
-          @click.prevent.native="handleCheckAll">所有状态
+          @click.prevent.native="handleCheckAll">全部
         </Checkbox>
       </div>
       <div class="left">
@@ -52,13 +52,15 @@
     </div>
     <div class="list-sort clear">
       <ButtonGroup class="left">
-        <iButton :class="[sortList.select === item.sortField ? 'active' : '']" size="small" v-for="(item,index) in sortList.defaultList" :key="index" @click="sortChange(item.sortField,index)">
+        <iButton :class="[sortList.select === item.sortField ? 'active' : '']" size="small"
+                 v-for="(item,index) in sortList.defaultList" :key="index" @click="sortChange(item.sortField,index)">
           <span>{{item.name}}</span>
           <Icon v-show="item.sort == 'desc'" type="arrow-down-c"></Icon>
           <Icon v-show="item.sort == 'asc' " type="arrow-up-c"></Icon>
         </iButton>
       </ButtonGroup>
-      <iInput v-model="taskNumber" size="small" placeholder="使用活动编号搜索" class="left ml-10" style="width: 280px;" @on-enter="getTaskList">
+      <iInput v-model="taskNumber" size="small" placeholder="使用活动编号搜索" class="left ml-10" style="width: 280px;"
+              @on-enter="getTaskList">
         <iButton slot="append" icon="ios-search" size="small" :loading="searchLoading" @click="getTaskList"></iButton>
       </iInput>
     </div>
@@ -100,14 +102,17 @@
           </td>
           <td class="registration">{{item.showkerApplyTotalCount || 0}} / {{item.showkerApplySuccessCount || 0}}（人）</td>
           <td>{{item.taskCount}}</td>
-          <td>{{item.totalMarginNeed / 100}} / {{item.promotionExpensesNeed / 100}} / {{(item.marginPaid + item.promotionExpensesPaid) / 100 || 0}}</td>
+          <td>
+            {{item.totalMarginNeed / 100}} / {{item.promotionExpensesNeed / 100}} / {{(item.marginPaid + item.promotionExpensesPaid) / 100 || 0}}
+          </td>
           <td v-if="item.taskStatus === 'waiting_pay'">
             <p class="del-edit">
               <span class="mr-10" @click="editTask(item.id,item.taskStatus)">编辑</span>
               <span @click="closeTask(item.id)">关闭</span>
             </p>
             <p class="bond mt-6">
-              <span @click="depositMoney((item.totalMarginNeed + item.promotionExpensesNeed),item.id,item.marginPaid + item.promotionExpensesPaid)">存担保金</span>
+              <span
+                @click="depositMoney((item.totalMarginNeed + item.promotionExpensesNeed),item.id,item.marginPaid + item.promotionExpensesPaid)">存担保金</span>
             </p>
             <p class="copy mt-6">
               <span @click="copyTask(item.id)">复制活动</span>
@@ -155,12 +160,15 @@
               <span @click="copyTask(item.id)">复制活动</span>
             </p>
           </td>
-          <td v-else-if="(item.settlementStatus === 'settlement_finished' || item.settlementStatus === 'waiting_audit') && item.taskStatus === 'finished'">
+          <td
+            v-else-if="(item.settlementStatus === 'settlement_finished' || item.settlementStatus === 'waiting_audit') && item.taskStatus === 'finished'">
             <p class="copy mt-6">
               <span @click="billDetails(item.id, item.storeName)">结算详情</span>
             </p>
             <p class="copy mt-6" v-if="item.settlementStatus === 'settlement_finished'">
-              <router-link :to="{path:'/user/money-management/transaction-record',query:{taskNumber:item.number}}">查看活动账单</router-link>
+              <router-link :to="{path:'/user/money-management/transaction-record',query:{taskNumber:item.number}}">
+                查看活动账单
+              </router-link>
             </p>
             <p class="copy mt-6">
               <span @click="lookTaskDetail(item.id)">查看详情</span>
@@ -282,7 +290,8 @@
         <div slot="noBalance" class="title-tip">
           <span class="size-color3"><Icon color="#FF2424" size="18" type="ios-information"></Icon>
             <span class="ml-10">亲，您的余额不足，请充值。</span>
-          </span>还需充值<strong class="size-color3">{{(orderMoney - getUserBalance).toFixed(2)}}</strong>元</div>
+          </span>还需充值<strong class="size-color3">{{(orderMoney - getUserBalance).toFixed(2)}}</strong>元
+        </div>
         <div slot="isBalance" class="title-tip">
           <Icon color="#FF2424" size="18px" type="ios-information"></Icon>
           <span class="ml-10">您本次需要支付金额为 <span class="size-color3">{{orderMoney}}</span> 元。</span>
@@ -344,11 +353,11 @@
         promotionRefund: 0,
         taskCountLeft: 0,
         taskSettlementDetailInfo: {},
-        title:null,
+        title: null,
         taskNumber: null,
-        sortList:{
+        sortList: {
           select: 'createTime',
-          defaultList:[
+          defaultList: [
             {
               name: '创建时间',
               sortField: 'createTime',
@@ -374,18 +383,18 @@
     created() {
       let _this = this;
       let status = _this.$route.query.status;
-      if(status){
-        if(status === 'under_way' || status === 'waiting_audit'){
+      if (status) {
+        if (status === 'under_way' || status === 'waiting_audit') {
           _this.taskStatusList.push(status);
           _this.getTaskList();
-        } else if(status === 'waiting_settlement'){
+        } else if (status === 'waiting_settlement') {
           _this.settlementStatusList.push(status);
           _this.getTaskList();
         }
-      }else{
+      } else {
         setTimeout(function () {
           _this.getTaskList();
-        },400)
+        }, 400)
       }
     },
     computed: {
@@ -406,24 +415,30 @@
       lookTaskDetail(id) {
         this.$router.push({name: 'ActivityDetail', query: {taskId: id}})
       },
-      approveShowker(id,time) {
-        this.$router.push({name: 'ApproveShowker', query: {taskId: id,endTime:time}})
+      approveShowker(id, time) {
+        this.$router.push({name: 'ApproveShowker', query: {taskId: id, endTime: time}})
       },
       isApproveExpire(endTime) {
         return new Date().getTime() < endTime + 48 * 3600 * 1000;
       },
-      sortChange(name,index){
+      sortChange(name, index) {
         let sort = this.sortList.defaultList[index].sort;
         this.sortList.select = name;
-        this.sortList.defaultList[index].sort = sort === 'desc'? 'asc' : 'desc';
-        this.getTaskList(name,this.sortList.defaultList[index].sort);
+        this.sortList.defaultList[index].sort = sort === 'desc' ? 'asc' : 'desc';
+        this.getTaskList(name, this.sortList.defaultList[index].sort);
       },
-      getTaskList(orderBy,sort) {
+      getTaskList(orderBy, sort) {
         let _this = this;
+        let taskStatusList = JSON.stringify(_this.taskStatusList);
+        let settlementStatusList = JSON.stringify(_this.settlementStatusList);
         _this.searchLoading = true;
+        if (_this.taskNumber) {
+          taskStatusList = [];
+          settlementStatusList = [];
+        }
         api.getTaskList({
-          taskStatusList: JSON.stringify(_this.taskStatusList),
-          settlementStatusList: JSON.stringify(_this.settlementStatusList),
+          taskStatusList: taskStatusList,
+          settlementStatusList: settlementStatusList,
           taskNumber: _this.taskNumber,
           orderBy: orderBy ? orderBy : 'createTime',
           sort: sort ? sort : 'desc',
@@ -484,27 +499,27 @@
           } else {
             _this.$Message.error(res.msg);
           }
-          _this.closeModal = false;
+          _this.deleteModal = false;
           _this.modalLoading = false;
         })
       },
       settlementTask(id, number) {
-        let _this =  this;
+        let _this = this;
         _this.ActivityNumber = number;
         api.settlementTask({
           taskId: id
-        }).then(res =>{
-          if(res.status){
-            if(res.statusCode === 'waiting_audit'){
+        }).then(res => {
+          if (res.status) {
+            if (res.statusCode === 'waiting_audit') {
               _this.auditSettlementSuccess = true;
               _this.marginRefund = res.data.marginRefund / 100 || 0;
               _this.promotionRefund = res.data.promotionRefund / 100 || 0;
               _this.taskCountLeft = res.data.taskCountLeft || 0;
-            }else{
+            } else {
               _this.directSettlementSuccess = true;
             }
             _this.getTaskList();
-          }else{
+          } else {
             _this.$Message.error(res.msg);
           }
         })
@@ -550,18 +565,18 @@
           taskId: _this.taskPayId,
           type: _this.hasDeposited > 0 ? 'supply_pay' : 'first_pay'
         }).then(res => {
-          if(res.status){
+          if (res.status) {
             _this.$Message.success({
-              content:'支付成功！',
+              content: '支付成功！',
               duration: 6
             });
             _this.$store.dispatch('getUserInformation');
             setTimeout(function () {
               _this.getTaskList();
-            },400);
-          }else{
+            }, 400);
+          } else {
             _this.$Message.error({
-              content:res.msg,
+              content: res.msg,
               duration: 6
             })
           }
@@ -569,22 +584,22 @@
         })
       },
       lookBill() {
-        this.$router.push({name:'TransactionRecord',query:{taskNumber:this.ActivityNumber}});
+        this.$router.push({name: 'TransactionRecord', query: {taskNumber: this.ActivityNumber}});
         this.directSettlementSuccess = false;
       },
       billDetails(taskId, storeName) {
         let _this = this;
         api.taskSettlementDetail({
           taskId: taskId
-        }).then(res =>{
-          if(res.status){
+        }).then(res => {
+          if (res.status) {
             _this.billDetailsModel = true;
             _this.taskSettlementDetailInfo.settlementTime = res.data.settlementTime;
             _this.taskSettlementDetailInfo.taskCountLeft = res.data.taskCountLeft;
             _this.taskSettlementDetailInfo.marginRefund = res.data.marginRefund / 100;
             _this.taskSettlementDetailInfo.promotionRefund = res.data.promotionRefund / 100;
             _this.taskSettlementDetailInfo.storeName = storeName;
-          }else{
+          } else {
             _this.$Message.error(res.msg)
           }
         })

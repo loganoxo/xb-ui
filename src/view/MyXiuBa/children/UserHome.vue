@@ -43,17 +43,17 @@
         <router-link :to="{path:'/user/activity-management/list',query:{status:'under_way'}}"> {{trialCount.underWayTask}}</router-link>
         个
         （待审批秀客
-        <router-link :to="{path:'/user/activity-management/list',query:{status:'under_way'}}">
+        <router-link :to="{path:'/user/task-management/wait'}">
           {{trialCount.waitingAuditTaskApply}}
         </router-link>
         个；
         待审核订单号
-        <router-link :to="{path:'/user/activity-management/list',query:{status:'under_way'}}">
+        <router-link :to="{path:'/user/task-management/pass',query:{status:'orderNum'}}">
           {{trialCount.orderNumWaitingAuditShowkerTask}}
         </router-link>
         个；
-        待审核报告
-        <router-link :to="{path:'/user/activity-management/list',query:{status:'under_way'}}">
+        待审核买家秀
+        <router-link :to="{path:'/user/task-management/pass',query:{status:'trialReport'}}">
           {{trialCount.trialReportWaitingConfirmShowkerTask}}
         </router-link>
         个）。

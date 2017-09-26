@@ -106,9 +106,9 @@
                   <router-link  to="/user/activity-management/list">{{trialCount.underWayTask}} </router-link> 个
                 </p>
                 <div class="left clear-both mt-10" style="width: 100%;">
-                  <router-link class="left text-ct" style="width: 33.33%;" :to="{path:'/user/activity-management/list',query:{status:'under_way'}}">{{trialCount.waitingAuditTaskApply}} </router-link>
-                  <router-link class="left text-ct" style="width: 33.33%;" :to="{path:'/user/activity-management/list',query:{status:'under_way'}}">{{trialCount.orderNumWaitingAuditShowkerTask}}</router-link>
-                  <router-link class="left text-ct" style="width: 33.33%;" :to="{path:'/user/activity-management/list',query:{status:'under_way'}}">{{trialCount.trialReportWaitingConfirmShowkerTask}}</router-link>
+                  <router-link class="left text-ct" style="width: 33.33%;" :to="{path:'/user/task-management/wait'}">{{trialCount.waitingAuditTaskApply}} </router-link>
+                  <router-link class="left text-ct" style="width: 33.33%;" :to="{path:'/user/task-management/pass',query:{status:'orderNum'}}">{{trialCount.orderNumWaitingAuditShowkerTask}}</router-link>
+                  <router-link class="left text-ct" style="width: 33.33%;" :to="{path:'/user/task-management/pass',query:{status:'trialReport'}}">{{trialCount.trialReportWaitingConfirmShowkerTask}}</router-link>
                 </div>
                 <div class="left clear-both mt-5" style="width: 100%;">
                   <span class="left text-ct" style="width: 33.33%;">待审秀客</span>

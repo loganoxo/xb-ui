@@ -341,15 +341,10 @@ router.post('/api/set-task-showker-audit.json', function (req, res, next) {
  * @param taskApplyId
  */
 router.post('/api/applies/waiting/audit/newest/clear/one.json', function (req, res, next) {
-  let options = {
-    method: 'POST',
-    uri: baseUrl + '/task/merchant/applies/waiting/audit/newest/clear/one',
-    formData: {
-      taskId: req.body.taskId,
-      taskApplyId: req.body.taskApplyId
-    },
-    json: true
-  };
+  let options = apiConfig.postOptions('/task/merchant/applies/waiting/audit/newest/clear/one', req, {
+    taskId: req.body.taskId,
+    taskApplyId: req.body.taskApplyId
+  });
   request(options)
     .then(function (parsedBody) {
       res.send(parsedBody);
@@ -624,6 +619,8 @@ router.post('/api/applies/waiting/audit/newest.json', function (req, res, next) 
           let data = {};
           data.alitmAccount = item.taskApply.alitmAccount;
           data.applyTime = item.taskApply.applyTime;
+          data.id = item.taskApply.id;
+          data.showkerId = item.taskApply.showkerId;
           dataList.push(data);
         });
         res.send({
