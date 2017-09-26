@@ -64,7 +64,7 @@
     </Modal>
     <!--查看详情弹窗-->
     <Modal v-model="approvalPop"
-           width="550"
+           width="600"
            :transfer="false">
       <p slot="header" style="color:#f60;text-align:center">
         <Icon type="information-circled"></Icon>
@@ -98,8 +98,7 @@
         </div>
         <div  class="left ml-20" style="text-align: left">
           <p>商家希望重新提交申请，理由：{{reason}}</p>
-          <p> 您还有 <time-down :endTime="getEndTime"></time-down>  重新提交，若该时间内未提交，将视为放弃活动！
-          </p>
+          <p> 您还有 <time-down :endTime="getEndTime" ></time-down> 重新提交，若该时间内未提交，将视为放弃活动！</p>
         </div>
       </div>
     </Modal>
