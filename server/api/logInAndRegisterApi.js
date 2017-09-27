@@ -248,7 +248,6 @@ router.post('/api/user/qq/data-complete.json', function (req, res, next) {
       qqOpenId: req.body.qqOpenId,
       phone: req.body.phone,
       pwd: req.body.pwd,
-      repwd: req.body.repwd,
       smsCode: req.body.smsCode,
       role: req.body.role,
       purpose: req.body.purpose

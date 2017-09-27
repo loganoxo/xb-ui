@@ -65,7 +65,7 @@
         </iButton>
       </iForm>
     </div>
-    <div class="container">
+    <div v-show="!showQQ" class="container">
       <div class="qq-login-box">
         <img src="~assets/img/sel-role/sel_role_04.png" alt="">
         <a href="https://graph.qq.com/oauth/show?which=ConfirmPage&display=pc&client_id=101432052&response_type=token&scope=all&redirect_uri=https%3A%2F%2Fwww.xiuba365.com%2Fqq-login">QQ账号登录</a>
@@ -206,10 +206,8 @@
           qqOpenId: self.loginTrendsCustom.qqOpenId,
           phone: this.loginTrendsCustom.phone,
           pwd: this.loginTrendsCustom.phone.slice(5),
-          repwd: this.loginTrendsCustom.phone.slice(5),
           smsCode: this.loginTrendsCustom.smsCode,
           role: this.loginTrendsCustom.role,
-          validateCode: this.loginTrendsCustom.validateCode,
           purpose:this.loginTrendsCustom.purpose,
           recommendCode: recommendCode
         }).then((res) => {
