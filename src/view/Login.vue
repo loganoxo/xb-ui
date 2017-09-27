@@ -263,8 +263,8 @@
             });
             self.rememberAccountFunc();
             self.$Message.success({top: 50, content: '登录成功', duration: 1,});
-            self.$router.push({name: 'Home'});
             self.btnState.normalLoginBtn = false;
+            self.$router.go(-1);
           } else {
             self.instance('error', '', res.msg);
             self.btnState.normalLoginBtn = false;
@@ -308,8 +308,8 @@
                 info: res.data
               });
               self.$Message.success({top: 50, content: '登录成功', duration: 1,});
-              self.$router.push({name: 'Home'});
               self.btnState.trendsLoginBtn = false;
+              self.$router.go(-1);
             } else if (res.statusCode === 'need_reg') {
               self.$router.push({
                 path: '/sel-role',

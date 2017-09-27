@@ -65,7 +65,7 @@
         </iButton>
       </iForm>
     </div>
-    <div v-show="!showQQ" class="container">
+    <div v-show="!showQQFrom" class="container">
       <div class="qq-login-box">
         <img src="~assets/img/sel-role/sel_role_04.png" alt="">
         <a href="https://graph.qq.com/oauth/show?which=ConfirmPage&display=pc&client_id=101432052&response_type=token&scope=all&redirect_uri=https%3A%2F%2Fwww.xiuba365.com%2Fqq-login">QQ账号登录</a>
@@ -321,7 +321,7 @@
             duration: 1,
           });
         } else {
-          _this.instance('error', '', res.msg);
+          _this.$Message.error('error', '', res.msg);
           _this.getVrcode();
         }
       },

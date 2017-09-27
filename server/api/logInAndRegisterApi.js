@@ -208,6 +208,7 @@ router.post('/api/sign-up.json', function (req, res, next) {
       purpose: req.body.purpose
     },
     json: true,
+    headers: {},
   };
   if(req.body.recommendCode){
      options.headers.xUserId = cryptoConfig.getDecAse192(req.body.recommendCode,secret);
@@ -253,6 +254,7 @@ router.post('/api/user/qq/data-complete.json', function (req, res, next) {
       purpose: req.body.purpose
     },
     json: true,
+    headers: {},
   };
   if(req.body.recommendCode){
     let userId = cryptoConfig.getDecAse192(req.body.recommendCode,secret);
