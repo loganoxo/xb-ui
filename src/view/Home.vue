@@ -512,6 +512,7 @@
           margin-bottom: 10px;
           img.portrait-img{
             width: 56px;
+            border-radius: 50%;
           }
         }
         .notice-box{

@@ -3,7 +3,7 @@
     <p class="user-home-account">我的主页</p>
     <div class="fs-14 user-info-box clear">
       <div class="left">
-        <img class="left" :src="userData.portraitPic" alt="" width="68px">
+        <img class="left" :src="userData.portraitPic" alt="" width="56px" style="border-radius: 50%">
       </div>
       <div class="left ml-20">
         <p>

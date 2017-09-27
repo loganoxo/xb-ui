@@ -7,7 +7,7 @@
           <p class="fs-14 user-basic-title">基本信息</p>
           <div class="user-basic-ctt">
             <div class="text-ct left">
-              <img class="block mg-at" :src="userList.portraitPic" alt="" style="width: 120px;">
+              <img class="block mg-at" :src="userList.portraitPic" alt="" style="width: 120px; border-radius: 50%;">
               <a class="fs-14 block mt-10" @click="selPortraitPic">修改头像</a>
             </div>
             <ul v-show="!showModifyAvatar" class="left">
