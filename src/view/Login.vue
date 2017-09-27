@@ -82,7 +82,7 @@
                 </iButton>
               </iForm>
               <p class="fs-14 login-rt-ctt-btm">
-                <a class="left" href="" >
+                <a class="left" href="https://graph.qq.com/oauth/show?which=ConfirmPage&display=pc&client_id=101432052&response_type=token&scope=all&redirect_uri=https%3A%2F%2Fwww.xiuba365.com%2Fqq-login" >
                   <img class="left   mt-7 mr-5" src="~assets/img/common/qq_logo.png" alt="">
                   QQ账号登录
                 </a>

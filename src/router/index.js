@@ -2,6 +2,7 @@ import Vue from 'vue'
 import Router from 'vue-router'
 
 const Home = r => require.ensure([], () => r(require('@/view/Home.vue')), 'Home');
+const QQLogin = r => require.ensure([], () => r(require('@/view/QQLogin.vue')), 'QQLogin');
 const SelRole = r => require.ensure([], () => r(require('@/view/SelRole.vue')), 'SelRole');
 const TrialReport = r => require.ensure([], () => r(require('@/view/TrialReport.vue')), 'TrialReport');
 const Login = r => require.ensure([], () => r(require('@/view/Login.vue')), 'Login');
@@ -78,6 +79,15 @@ export default new Router({
       component: SelRole,
       meta: {
         title: "注册角色选择",
+        logInAuthority: false,
+      }
+    },
+    {
+      path: '/qq-login',
+      name: 'QQLogin',
+      component: QQLogin,
+      meta: {
+        title: "QQ登录中",
         logInAuthority: false,
       }
     },

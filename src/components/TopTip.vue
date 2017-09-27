@@ -7,7 +7,7 @@
         <router-link to="/user/user-home">
           <span v-if="getUserInfo.role == 1"> 商家 </span>
           <span v-if="getUserInfo.role == 0"> 秀客 </span>
-          {{getUserInfo.phone}}
+          {{decodeURIComponent(getUserInfo.nickname)}}
         </router-link>
         </span>
         <span @click="goOut">[ 退出登录 ]</span>

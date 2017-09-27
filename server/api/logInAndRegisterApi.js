@@ -58,6 +58,46 @@ router.post('/api/login.json', (req, res, next) => {
     });
 });
 
+
+
+/**
+ * qq快速登录
+ * @param accessToken
+ */
+router.post('/api/user/qq/sign-in.json', function (req, res, next) {
+  let options = {
+    method: 'POST',
+    uri: baseUrl + '/user/qq/sign-in',
+    formData: {
+      accessToken: req.body.accessToken,
+    },
+    json: true,
+  };
+  request(options).then(function (parsedBody) {
+    if (parsedBody.status) {
+      let userData = parsedBody.data;
+      req.session.regenerate(function (err) {
+        if (!err) {
+          req.session.userData = userData;
+          logConfig.logger.info('用户信息存入redis成功！');
+        } else {
+          logConfig.logger.err('用户信息存入redis失败：' + err);
+        }
+        res.send(parsedBody);
+        res.end();
+      });
+    } else {
+      res.send(parsedBody);
+      res.end();
+    }
+  })
+    .catch(function (err) {
+      logConfig.logger.error(req.originalUrl + ':' + err);
+      res.json({status: false, msg: "服务器请求超时，请稍后在试！"});
+      res.end();
+    });
+});
+
 /*router.post('/api/login.json', (req, res, next) => {
   let options = apiConfig.postOptions('/user/sign-in', req, {
     phone: req.body.phone,

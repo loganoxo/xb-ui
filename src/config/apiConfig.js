@@ -63,6 +63,12 @@ export default {
   checkFastSignIn(params) {
     return fetch("/api/check-fast-sign-in.json", params)
   },
+  /**
+   * QQ快速登录
+   */
+  QQLoginFunc(params) {
+    return fetch("/api/user/qq/sign-in.json", params)
+  },
 
   /**
    * 用户注册

@@ -70,9 +70,9 @@
             </div>
             <div class="login-in-box" v-if="isLogin && getUserInfoRole　== 0">
               <div>
-                <img class="left ml-20" src="~assets/img/common/home_24.png" alt="">
+                <img class="left ml-20" :src="$store.state.userInfo.portraitPic" alt="">
                 <div class="left fs-14 ml-20" style="margin-left: 10px;line-height: 28px;">
-                  <p>Hi~ 秀客 {{getUserInfoPhone}}</p>
+                  <p>Hi~ 秀客 {{decodeURIComponent(getUserInfoPhone)}}</p>
                   <router-link to="/user/user-home">个人中心</router-link>
                   <a @click="goOut">[ 退出登录 ]</a>
                 </div>
@@ -96,9 +96,9 @@
             </div>
             <div class="login-in-box" v-if="isLogin && getUserInfoRole　== 1">
               <div>
-                <img class="left ml-20" src="~assets/img/common/home_24.png" alt="">
+                <img class="left ml-20" :src="$store.state.userInfo.portraitPic" alt="">
                 <div class="left fs-14 ml-20" style="margin-left: 10px;line-height: 28px;">
-                  <p>Hi~ 商家 {{getUserInfoPhone}}</p>
+                  <p>Hi~ 商家 {{decodeURIComponent(getUserInfoPhone)}}</p>
                   <router-link to="/user/user-home">个人中心</router-link>
                   <a @click="goOut">[ 退出登录 ]</a>
                 </div>
@@ -323,7 +323,7 @@
         return this.$store.state.login
       },
       getUserInfoPhone() {
-        return this.$store.state.userInfo.phone
+        return this.$store.state.userInfo.nickname
       },
       getUserInfoRole() {
         return this.$store.state.userInfo.role
@@ -475,6 +475,7 @@
           img{
             display: block;
             margin: auto auto 15px auto;
+            width: 56px;
           }
           p{
             text-align: center;
@@ -497,6 +498,9 @@
           padding: 15px;
           height: 205px;
           margin-bottom: 10px;
+          img{
+            width: 56px;
+          }
         }
         .notice-box{
           background-color: #fff;
