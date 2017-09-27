@@ -1,8 +1,9 @@
 <template>
   <div class="activity-management">
-    <div class="activity-title pl-10" v-if="!showType">
+    <div class="activity-title pl-10" v-if="showType">
       <span class="left">{{showkerTaskInfo.showkerPhone}}的买家秀</span>
-      <span class="right" @click="returnUpPage()">返回上一页</span>
+      <span v-if="showType === 'buyer'" class="right" @click="returnUpPage()">返回上一页</span>
+      <span v-else class="right" @click="returnTaskPassAudit()">返回上一页</span>
     </div>
     <div class="activity-title pl-10" v-else>
       <span class="left">我的买家秀</span>
@@ -50,11 +51,10 @@
             </li>
           </ul>
           <span class="left-btn" @click="leftChangeImg"><Icon type="chevron-left" size="32" color="#999"></Icon></span>
-          <span class="right-btn" @click="rightChangeImg"><Icon type="chevron-right" size="32"
-                                                                color="#999"></Icon></span>
+          <span class="right-btn" @click="rightChangeImg"><Icon type="chevron-right" size="32" color="#999"></Icon></span>
         </div>
         <div class="no-buyer-show" v-else>暂无买家秀图片</div>
-        <div class="check-trial mt-40" v-if="!showType">
+        <div class="check-trial mt-40" v-if="!showType || (showType && showType === 'taskPassAudit')">
           <div class="select-check">
             <Radio-group v-model="trialCheckStatus">
               <Radio label="pass" style="margin-right: 32px;">
@@ -148,15 +148,18 @@
         trialReportImages: [],
         showNowImageSrc: null,
         reportImagesIndex: 0,
-        showType: false,
+        showType: null,
       }
     },
     mounted() {},
     created() {
       let id = this.$route.query.id;
       let from = this.$route.query.from;
-      if (from) {
-        this.showType = true;
+      if (from === 'buyer') {
+        this.showType = 'buyer';
+      }
+      if(from === 'taskPassAudit'){
+        this.showType = 'taskPassAudit';
       }
       this.lookShowkerReport(id);
     },
@@ -172,6 +175,9 @@
       },
       returnUpPageFrom() {
         this.$router.push({name: 'ApplyPassAudit'})
+      },
+      returnTaskPassAudit() {
+        this.$router.push({path: '/user/task-management/pass'})
       },
       getTaskStatus(type) {
         return TaskErrorStatusList(type);

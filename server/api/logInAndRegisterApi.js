@@ -14,6 +14,7 @@ const cookie = require('cookie-parser');
 const router = express.Router();
 const baseUrl = config.baseUrl;
 const secret = new Buffer('xiuba');
+
 /**
  * 用户登陆
  * @param phone
@@ -57,8 +58,6 @@ router.post('/api/login.json', (req, res, next) => {
       res.end();
     });
 });
-
-
 
 /**
  * qq快速登录

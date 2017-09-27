@@ -56,8 +56,19 @@
             <p>活动名称：{{item.taskName}}</p>
           </div>
           <div class="waiting-task-number">
-            <p>订单号待审核<span>{{item.orderNumWaitingAuditShowkerTask || 0}}</span>个</p>
-            <p>买家秀待确认<span>{{item.trialReportWaitingConfirmShowkerTask || 0}}</span>个</p>
+            <p>
+              <span>全部<span class="main-color">({{item.allTaskNum || 0}})</span></span>
+              <span class="ml-5">已通过待下单<span class="main-color">({{item.pass_and_unclaimed || 0}})</span></span>
+              <span class="ml-5">订单号待审核<span class="main-color">({{item.order_num_waiting_audit || 0}})</span></span>
+              <span class="ml-5">已下单待交买家秀<span
+                class="main-color">({{item.trial_report_waiting_submit || 0}})</span></span>
+            </p>
+            <p>
+              <span>买家秀待确认<span class="main-color">({{item.trial_report_waiting_confirm || 0}})</span></span>
+              <span class="ml-5">活动完成<span class="main-color">({{item.trial_finished || 0}})</span></span>
+              <span class="ml-5">订单号有误<span class="main-color">({{item.order_num_error || 0}})</span></span>
+              <span class="ml-5">报告不合格<span class="main-color">({{item.trial_report_unqualified || 0}})</span></span>
+            </p>
           </div>
         </div>
         <div slot="content" class="task-table">
@@ -223,7 +234,7 @@
           _this.showkerTaskStatusList.push('trial_report_waiting_confirm');
           _this.passesTaskList();
         }
-      }else{
+      } else {
         this.passesTaskList();
       }
     },
@@ -284,8 +295,14 @@
               api.passesShowkerTaskCountsInfo({
                 taskId: item.id
               }).then(res => {
-                _this.$set(item, 'orderNumWaitingAuditShowkerTask', res.data.orderNumWaitingAuditShowkerTask);
-                _this.$set(item, 'trialReportWaitingConfirmShowkerTask', res.data.trialReportWaitingConfirmShowkerTask);
+                if (res.status) {
+                  let allTaskNum = 0;
+                  Object.keys(res.data).forEach(key => {
+                    _this.$set(item, key, res.data[key]);
+                    allTaskNum += res.data[key];
+                  });
+                  _this.$set(item, 'allTaskNum', allTaskNum);
+                }
               })
             });
             _this.searchLoading = false;
@@ -355,13 +372,13 @@
         })
       },
       goProbationReport(id) {
-        this.$router.push({name: 'ProbationReport', query: {id: id, from:'taskPassAudit'}});
+        this.$router.push({name: 'ProbationReport', query: {id: id, from: 'taskPassAudit'}});
       },
       orderNumberAudit() {
         let _this = this;
         if (_this.orderReviewStatus === 'failAudit' && !_this.orderNoPassReason) {
           _this.$Message.error("亲，请填写不通过的理由！");
-          return
+          return;
         }
         api.orderNumberAudit({
           id: _this.orderInfo.id,

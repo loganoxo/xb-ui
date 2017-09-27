@@ -173,9 +173,7 @@
       p{
         height: 21px;
         line-height: 21px;
-        span{
-          color: $mainColor;
-        }
+        text-align: right;
       }
     }
     .task-table table{

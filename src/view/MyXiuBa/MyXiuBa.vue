@@ -15,7 +15,7 @@
           <Icon type="clipboard"></Icon>
           <router-link to="/user/activity-management/list">活动管理</router-link>
         </li>
-        <li :class="{isSelect:isSelect === 'TaskWaitAudit' || isSelect === 'TaskPassAudit' || isSelect === 'TaskFailAudit'}">
+        <li :class="{isSelect:isSelect === 'TaskWaitAudit' || isSelect === 'TaskPassAudit' || isSelect === 'TaskFailAudit' || isSelect === 'ProbationReport'}">
           <Icon type="ios-paper"></Icon>
           <router-link to="/user/task-management/wait">任务管理</router-link>
         </li>
@@ -90,7 +90,7 @@
 <script>
   import Icon from 'iview/src/components/icon'
   import 'social-share.js/dist/css/share.min.css'
-  import 'social-share.js/dist/js/social-share.min'
+  import 'social-share.js/dist/js/social-share.min.js'
   export default {
     name: 'MyXiuBa',
     components: {
@@ -110,7 +110,7 @@
     watch: {
       $route(to) {
         this.isSelect = to.name;
-        if(to.name == 'Recommend'){
+        if(to.name === 'Recommend'){
             this.$router.go(0);
         }
       }

@@ -86,7 +86,7 @@
                   <img class="left   mt-7 mr-5" src="~assets/img/common/qq_logo.png" alt="">
                   QQ账号登录
                 </a>
-                <router-link class="right" to="/sel-role">注册</router-link>
+                <iButton class="right mt-6 ml-5" size="small" type="primary" @click="goSelRole">注册</iButton>
                 <span class="right">没有账号，点击</span>
               </p>
             </div>
@@ -229,6 +229,9 @@
     methods: {
       getVrcode() {
         this.imgSrc = "/api/vrcode.json?rand=" + new Date() / 100
+      },
+      goSelRole() {
+        this.$router.push({path:'/sel-role'})
       },
       pressEnterLoginNormal(event){
         if (event.keyCode === 13){
