@@ -97,6 +97,8 @@ router.post('/api/user/qq/sign-in.json', function (req, res, next) {
     });
 });
 
+
+
 /*router.post('/api/login.json', (req, res, next) => {
   let options = apiConfig.postOptions('/user/sign-in', req, {
     phone: req.body.phone,
@@ -231,6 +233,55 @@ router.post('/api/sign-up.json', function (req, res, next) {
     res.json({status: false, msg: "图形验证码错误！"});
     res.end();
   }
+});
+
+/**
+ * qq快速注册
+ * @param accessToken
+ */
+router.post('/api/user/qq/data-complete.json', function (req, res, next) {
+  let options = {
+    method: 'POST',
+    uri: baseUrl + '/user/qq/data-complete',
+    formData: {
+      accessToken: req.body.accessToken,
+      qqOpenId: req.body.qqOpenId,
+      phone: req.body.phone,
+      pwd: req.body.pwd,
+      repwd: req.body.repwd,
+      smsCode: req.body.smsCode,
+      role: req.body.role,
+      purpose: req.body.purpose
+    },
+    json: true,
+  };
+  if(req.body.recommendCode){
+    let userId = cryptoConfig.getDecAse192(req.body.recommendCode,secret);
+    options.headers.xUserId = userId;
+  }
+  request(options).then(function (parsedBody) {
+    if (parsedBody.status) {
+      let userData = parsedBody.data;
+      req.session.regenerate(function (err) {
+        if (!err) {
+          req.session.userData = userData;
+          logConfig.logger.info('用户信息存入redis成功！');
+        } else {
+          logConfig.logger.err('用户信息存入redis失败：' + err);
+        }
+        res.send(parsedBody);
+        res.end();
+      });
+    } else {
+      res.send(parsedBody);
+      res.end();
+    }
+  })
+    .catch(function (err) {
+      logConfig.logger.error(req.originalUrl + ':' + err);
+      res.json({status: false, msg: "服务器请求超时，请稍后在试！"});
+      res.end();
+    });
 });
 
 /**

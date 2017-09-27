@@ -42,46 +42,8 @@
       })
     },
     data() {
-      //表单验证
-      const validatePhone = (rule, value, callback) => {
-        if (!(/^1[34578]\d{9}$/.test(value))) {
-          callback(new Error('请输入正确手机号'));
-        } else {
-          callback()
-        }
-      };
-      const validatePass = (rule, value, callback) => {
-        if (value === '') {
-          callback(new Error('请输入密码'));
-        } else {
-          callback()
-        }
-      };
-      const validateCode = (rule, value, callback) => {
-        if (value === '') {
-          callback(new Error('请输入图片验证码'));
-        } else {
-          callback()
-        }
-      };
-      const validateSmsCode = (rule, value, callback) => {
-        if (value === '') {
-          callback(new Error('请输入动态码'));
-        } else {
-          callback()
-        }
-      };
       return {
-        selRole: false,
-        btnState: {
-          normalLoginBtn: false,
-          trendsLoginBtn: false,
-        },
         accessToken: {},
-        beginCountTime: false,
-        selLogin: true,
-        rememberAccount: [],
-        rememberPhone: [],
         imgSrc: null,
         modal1: true,
       }
@@ -104,15 +66,6 @@
        }
     },
     methods: {
-      handleSubmit(name, callback) {
-        let res = false;
-        this.$refs[name].validate((valid) => {
-          res = !!valid
-        });
-        if (typeof callback === 'function' && res) {
-          callback();
-        }
-      },
       setUserInfo() {
         let self = this;
         api.QQLoginFunc({
@@ -125,47 +78,17 @@
             });
             self.$router.push({name: 'Home'});
           } else {
-            self.$Message.error({
-              content: res.msg,
-              duration: 9
-            });
+            if(res.statusCode == 'new_user'){
+              self.$router.push({path: '/sel-role',query: {accessToken: self.accessToken.accessToken, qqOpenId: res.msg}});
+            }else {
+              self.$Message.error({
+                content: res.msg,
+                duration: 6
+              });
+            }
           }
         })
       },
-      handleReset(name) {
-        this.$refs[name].resetFields();
-      },
-      instance(type, text, ctt) {
-        const title = text;
-        const content = '<p>' + ctt + '</p>';
-        switch (type) {
-          case 'info':
-            this.$Modal.info({
-              title: title,
-              content: content
-            });
-            break;
-          case 'success':
-            this.$Message.success({
-              content: content,
-              duration: 1,
-            });
-            break;
-          case 'warning':
-            this.$Modal.warning({
-              title: title,
-              content: content
-            });
-            break;
-          case 'error':
-            this.$Message.error({
-              title: title,
-              content: content
-            });
-            break;
-        }
-      }
-
     }
   }
 </script>

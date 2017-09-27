@@ -59,18 +59,24 @@
           </div>
           <div class="right-ctt">
             <div class="login-up-box" v-if="!isLogin">
-              <div>
+              <div class="portrait-box">
                 <img src="~assets/img/common/home_24.png" alt="">
                 <p>hi，你还没登录哦~</p>
               </div>
-              <div class="mt-40">
+              <div class="mt-20 default-login">
                 <router-link  to="/sel-role">免费注册</router-link>
                 <router-link to="/login">马上登录</router-link>
+              </div>
+              <div class="text-ct mt-10">
+                <a  href="https://graph.qq.com/oauth/show?which=ConfirmPage&display=pc&client_id=101432052&response_type=token&scope=all&redirect_uri=https%3A%2F%2Fwww.xiuba365.com%2Fqq-login" >
+                  <img style="vertical-align: -7px;"   src="~assets/img/common/qq_logo.png" alt="">
+                  使用QQ登录秀吧
+                </a>
               </div>
             </div>
             <div class="login-in-box" v-if="isLogin && getUserInfoRole　== 0">
               <div>
-                <img class="left ml-20" :src="$store.state.userInfo.portraitPic" alt="">
+                <img class="left ml-20 portrait-img" :src="$store.state.userInfo.portraitPic" alt="">
                 <div class="left fs-14 ml-20" style="margin-left: 10px;line-height: 28px;">
                   <p>Hi~ 秀客 {{decodeURIComponent(getUserInfoPhone)}}</p>
                   <router-link to="/user/user-home">个人中心</router-link>
@@ -96,7 +102,7 @@
             </div>
             <div class="login-in-box" v-if="isLogin && getUserInfoRole　== 1">
               <div>
-                <img class="left ml-20" :src="$store.state.userInfo.portraitPic" alt="">
+                <img class="left ml-20 portrait-img" :src="$store.state.userInfo.portraitPic" alt="">
                 <div class="left fs-14 ml-20" style="margin-left: 10px;line-height: 28px;">
                   <p>Hi~ 商家 {{decodeURIComponent(getUserInfoPhone)}}</p>
                   <router-link to="/user/user-home">个人中心</router-link>
@@ -472,33 +478,39 @@
           padding: 15px;
           height: 205px;
           margin-bottom: 10px;
-          img{
-            display: block;
-            margin: auto auto 15px auto;
-            width: 56px;
+          .portrait-box{
+            img{
+              display: block;
+              margin: auto auto 15px auto;
+              width: 56px;
+            }
           }
+
           p{
             text-align: center;
           }
-          a{
-            display: inline-block;
-            width: 119px;
-            background-color: $mainColor;
-            color: #fff;
-            text-align: center;
-            height: 30px;
-            line-height: 30px;
-            &:first-child{
-              margin-right: 10px;
+          .default-login{
+            a{
+              display: inline-block;
+              width: 119px;
+              background-color: $mainColor;
+              color: #fff;
+              text-align: center;
+              height: 30px;
+              line-height: 30px;
+              &:first-child{
+                margin-right: 10px;
+              }
             }
           }
+
         }
         .login-in-box{
           background-color: #fff;
           padding: 15px;
           height: 205px;
           margin-bottom: 10px;
-          img{
+          img.portrait-img{
             width: 56px;
           }
         }

@@ -78,6 +78,13 @@ export default {
   },
 
   /**
+   * qq快速注册
+   */
+  qqRegister(params) {
+    return fetch("/api/user/qq/data-complete.json", params)
+  },
+
+  /**
    *获取用户交易列表
    */
   getTradList(params) {

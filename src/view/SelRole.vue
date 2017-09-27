@@ -2,7 +2,7 @@
   <div class="sel-role-ctt">
     <role-top></role-top>
 
-    <div class="container">
+    <div class="container" v-show="false">
       <p v-if="showRegister" class="fs-24  fast-register-tip">
         <Icon type="information-circled" color="#FF6633"></Icon>
         亲是第一次登录秀吧，请选择您的角色！
@@ -30,6 +30,42 @@
           </p>
         </div>
       </div>
+    </div>
+    <div >
+      <!--<iForm ref="loginTrendsCustom" :model="loginTrendsCustom" :rules="loginTrendsRuleCustom"-->
+             <!--v-show="!selLogin"-->
+             <!--:class="[selLogin ? 'animated fadeOut' : 'animated fadeIn']">-->
+      <iForm  style="width: 300px; margin: 150px auto;" ref="loginTrendsCustom" :model="loginTrendsCustom" :rules="loginTrendsRuleCustom">
+        <Form-item prop="phone">
+          <iInput placeholder="请输入手机号码" size="large" v-model="loginTrendsCustom.phone"></iInput>
+        </Form-item>
+        <div class="mt-10 over-hd ">
+          <div style="width: 200px; float: left">
+            <Form-item size="large" prop="validateCode">
+              <iInput placeholder="图片验证码" size="large" v-model="loginTrendsCustom.validateCode"></iInput>
+            </Form-item>
+          </div>
+          <div style="width: 100px; float:left;">
+            <img :src="imgSrc" width="100%" alt="" @click="getVrcode">
+          </div>
+        </div>
+        <div class="pos-rel" @click="checkPhone">
+          <Form-item class="pt-10 clear" prop="smsCode">
+            <iInput placeholder="动态码" size="large" v-model="loginTrendsCustom.smsCode"  @on-keypress="pressEnterLoginTrends"></iInput>
+          </Form-item>
+          <SmsCountdown :on-success="sendCodeSuccess"
+                        :phone="loginTrendsCustom.phone"
+                        :purpose="loginTrendsCustom.purpose"
+                        :validateCode="loginTrendsCustom.validateCode">
+          </SmsCountdown>
+        </div>
+
+
+        <iButton size="large" style="margin-top: 15px;" type="error" long :loading="btnState.trendsLoginBtn"
+                 @click="handleSubmit('loginTrendsCustom',qqLoginFunc)">
+          登录
+        </iButton>
+      </iForm>
     </div>
     <div class="container">
       <div class="qq-login-box">
@@ -72,11 +108,38 @@
       RoleTop: RoleTop,
     },
     data () {
+      //表单验证
+      const validatePhone = (rule, value, callback) => {
+        if (!(/^1[34578]\d{9}$/.test(value))) {
+          callback(new Error('请输入正确手机号'));
+        } else {
+          callback()
+        }
+      };
+      const validateCode = (rule, value, callback) => {
+        if (value === '') {
+          callback(new Error('请输入图片验证码'));
+        } else {
+          callback()
+        }
+      };
+      const validateSmsCode = (rule, value, callback) => {
+        if (value === '') {
+          callback(new Error('请输入动态码'));
+        } else {
+          callback()
+        }
+      };
       return {
+        imgSrc: null,
         animateStart: {
           buyerRes: false,
           sellerRes: false,
           complete: false
+        },
+        btnState: {
+          normalLoginBtn: false,
+          trendsLoginBtn: false,
         },
         loginTrendsCustom: {
           phone: null,
@@ -85,7 +148,18 @@
           smsCode: '',
           role: 0,
         },
-        showRegister: false
+        showRegister: false,
+        loginTrendsRuleCustom: {
+          phone: [
+            {validator: validatePhone, trigger: 'blur'},
+          ],
+          validateCode: [
+            {validator: validateCode, trigger: 'blur'},
+          ],
+          smsCode: [
+            {validator: validateSmsCode, trigger: 'blur'}
+          ]
+        },
       }
     },
 
@@ -96,7 +170,9 @@
     },
     created(){
       let self = this;
+      self.getVrcode();
       self.animateStart.complete = true;
+      //快速注册参数
       if(self.$route.query.phone){
         self.showRegister = true;
         self.loginTrendsCustom.phone = self.$route.query.phone;
@@ -105,11 +181,46 @@
         self.loginTrendsCustom.smsCode = self.$route.query.smsCode;
         self.loginTrendsCustom.validateCode = self.$route.query.validateCode;
       }
+      //推荐链接参数
       if(!getCookie('recommendCode') && self.$route.query.recommendCode){
         setCookie('recommendCode', self.$route.query.recommendCode, 30);
       }
+      //qq快速注册参数
+      if(self.$route.query.accessToken && self.$route.query.qqOpenId){
+        self.showRegister = true;
+        self.loginTrendsCustom.purpose = 'qq_bind';
+        self.loginTrendsCustom.accessToken = self.$route.query.accessToken;
+        self.loginTrendsCustom.qqOpenId = self.$route.query.qqOpenId;
+      }
     },
     methods: {
+      qqLoginFunc(){
+        let self = this;
+        let recommendCode = '';
+        if(getCookie('recommendCode')){
+          recommendCode = getCookie('recommendCode');
+        }
+        api.qqRegister({
+          accessToken: self.loginTrendsCustom.accessToken,
+          qqOpenId: self.loginTrendsCustom.qqOpenId,
+          phone: this.loginTrendsCustom.phone,
+          pwd: this.loginTrendsCustom.phone.slice(5),
+          repwd: this.loginTrendsCustom.phone.slice(5),
+          smsCode: this.loginTrendsCustom.smsCode,
+          role: this.loginTrendsCustom.role,
+          validateCode: this.loginTrendsCustom.validateCode,
+          purpose:this.loginTrendsCustom.purpose,
+          recommendCode: recommendCode
+        }).then((res) => {
+            console.log(res);
+        })
+      },
+      getVrcode() {
+        this.imgSrc = "/api/vrcode.json?rand=" + new Date() / 100
+      },
+      checkPhone() {
+        this.$refs.loginTrendsCustom.validateField('phone');
+      },
       selRoleFunc(role){
         let self = this;
         if(self.showRegister){
@@ -143,6 +254,9 @@
           }
         })
       },
+      qqRegister(){
+        let self = this;
+      },
       getRegister() {
         let self = this;
         let recommendCode = '';
@@ -157,7 +271,7 @@
           smsCode: this.loginTrendsCustom.smsCode,
           role: this.loginTrendsCustom.role,
           validateCode: this.loginTrendsCustom.validateCode,
-          purpose:'fast',
+          purpose:this.loginTrendsCustom.purpose,
           recommendCode: recommendCode
         }).then((res) => {
           if (res.status) {
@@ -180,6 +294,32 @@
             });
           }
         })
+      },
+      sendCodeSuccess(res) {
+        let _this = this;
+        if (res.status) {
+          _this.$Message.success({
+            content: '短信验证码发送成功',
+            duration: 1,
+          });
+        } else {
+          _this.instance('error', '', res.msg);
+          _this.getVrcode();
+        }
+      },
+      pressEnterLoginTrends(event){
+        if (event.keyCode === 13){
+          this.handleSubmit('loginTrendsCustom',this.checkRole)
+        }
+      },
+      handleSubmit(name, callback) {
+        let res = false;
+        this.$refs[name].validate((valid) => {
+          res = !!valid
+        });
+        if (typeof callback === 'function' && res) {
+          callback();
+        }
       },
       animateOver: function (res) {
         if(res === 1){
