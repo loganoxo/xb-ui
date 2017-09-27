@@ -2,7 +2,7 @@
   <div class="sel-role-ctt">
     <role-top></role-top>
 
-    <div class="container" v-show="false">
+    <div class="container">
       <p v-if="showRegister" class="fs-24  fast-register-tip">
         <Icon type="information-circled" color="#FF6633"></Icon>
         亲是第一次登录秀吧，请选择您的角色！
@@ -31,7 +31,7 @@
         </div>
       </div>
     </div>
-    <div >
+    <div v-show="showQQ">
       <!--<iForm ref="loginTrendsCustom" :model="loginTrendsCustom" :rules="loginTrendsRuleCustom"-->
              <!--v-show="!selLogin"-->
              <!--:class="[selLogin ? 'animated fadeOut' : 'animated fadeIn']">-->
@@ -59,8 +59,6 @@
                         :validateCode="loginTrendsCustom.validateCode">
           </SmsCountdown>
         </div>
-
-
         <iButton size="large" style="margin-top: 15px;" type="error" long :loading="btnState.trendsLoginBtn"
                  @click="handleSubmit('loginTrendsCustom',qqLoginFunc)">
           登录
@@ -70,7 +68,7 @@
     <div class="container">
       <div class="qq-login-box">
         <img src="~assets/img/sel-role/sel_role_04.png" alt="">
-        <a href="" v-if="false">QQ账号登录</a>
+        <a href="">QQ账号登录</a>
         <p>
           我已注册，现在就
           <router-link to="/login">登录</router-link>
@@ -132,6 +130,8 @@
       };
       return {
         imgSrc: null,
+        showQQFrom: false,
+        showQQ: false,
         animateStart: {
           buyerRes: false,
           sellerRes: false,
@@ -188,6 +188,7 @@
       //qq快速注册参数
       if(self.$route.query.accessToken && self.$route.query.qqOpenId){
         self.showRegister = true;
+        self.showQQFrom = true;
         self.loginTrendsCustom.purpose = 'qq_bind';
         self.loginTrendsCustom.accessToken = self.$route.query.accessToken;
         self.loginTrendsCustom.qqOpenId = self.$route.query.qqOpenId;
@@ -212,7 +213,24 @@
           purpose:this.loginTrendsCustom.purpose,
           recommendCode: recommendCode
         }).then((res) => {
-            console.log(res);
+          if (res.status) {
+            self.$store.commit({
+              type: 'RECORD_USER_INFO',
+              info: res.data
+            });
+            self.$Message.success({
+              content: '恭喜您，成功注册秀吧！',
+              duration: 1,
+              onClose: function () {
+                self.$router.push({name: 'Home'});
+              }
+            });
+          } else {
+            self.$Message.error({
+              content: res.msg,
+              duration: 9
+            });
+          }
         })
       },
       getVrcode() {
@@ -225,7 +243,11 @@
         let self = this;
         if(self.showRegister){
           self.loginTrendsCustom.role = role;
-          self.getRegister()
+          if(self.showQQFrom){
+            self.showQQ = true;
+          }else {
+            self.getRegister()
+          }
         }else {
           if(role === 0){
             self.$router.push({path: '/register/buyer-register'});
@@ -254,9 +276,7 @@
           }
         })
       },
-      qqRegister(){
-        let self = this;
-      },
+
       getRegister() {
         let self = this;
         let recommendCode = '';
