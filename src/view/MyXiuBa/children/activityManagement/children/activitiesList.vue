@@ -311,7 +311,7 @@
   import Tooltip from 'iview/src/components/tooltip'
   import PayModel from '@/components/PayModel'
   import api from '@/config/apiConfig'
-  import {TaskErrorStatusList} from '@/config/utils'
+  import {TaskErrorStatusList, getSeverTime} from '@/config/utils'
 
   export default {
     name: 'ActivitiesList',
@@ -378,7 +378,6 @@
       }
     },
     mounted() {
-
     },
     created() {
       let _this = this;
@@ -419,7 +418,7 @@
         this.$router.push({name: 'ApproveShowker', query: {taskId: id, endTime: time}})
       },
       isApproveExpire(endTime) {
-        return new Date().getTime() < endTime + 48 * 3600 * 1000;
+        return getSeverTime() < endTime + 48 * 3600 * 1000;
       },
       sortChange(name, index) {
         let sort = this.sortList.defaultList[index].sort;

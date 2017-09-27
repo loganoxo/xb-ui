@@ -123,11 +123,11 @@ export const aliUploadImg = (key, file) => {
       }
       const result = JSON.parse(response);
       const client = new OSS.Wrapper({
-        region: 'oss-cn-hangzhou',
         accessKeyId: result.AccessKeyId,
         accessKeySecret: result.AccessKeySecret,
         stsToken: result.SecurityToken,
         bucket: bucket,
+        endpoint: 'https://oss-cn-hangzhou.aliyuncs.com',
       });
       client.multipartUpload(key, file).then(response => {
         resolve(response);

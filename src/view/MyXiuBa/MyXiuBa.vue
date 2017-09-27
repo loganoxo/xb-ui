@@ -148,7 +148,7 @@
         color: #999;
         padding-left: 16px;
         padding-right: 16px;
-        text-align: center;
+        text-align: left;
         &:hover {
           color: $mainColor !important;
           background-color: #fff;

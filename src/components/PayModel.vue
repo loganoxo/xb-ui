@@ -9,9 +9,15 @@
     </div>
     <div class="hasBalance mt-40" v-if="isBalance">
       <span class="input-pay-pwd">请输入支付密码：</span>
-      <iInput v-model.number="payPassword" type="password" style="width: 200px"  @on-keypress="pressEnterLoginNormal"></iInput>
-      <span class="ml-10" v-if="isPwdAmend"><router-link :to="{path:'/user/money-management/account-management',query:{type:'findPwd'}}">忘记支付密码？</router-link></span>
-      <p class="mt-20 default-pwd" v-else>初始密码为：888888，为了您的账号安全，建议您<router-link :to="{path:'/user/money-management/account-management',query:{type:'resetPwd'}}">重置支付密码</router-link>！</p>
+      <iInput v-model.number="payPassword" type="password" style="width: 200px"
+              @on-keypress="pressEnterLoginNormal"></iInput>
+      <span class="ml-10" v-if="isPwdAmend"><router-link
+        :to="{path:'/user/money-management/account-management',query:{type:'findPwd'}}">忘记支付密码？</router-link></span>
+      <p class="mt-20 default-pwd" v-else>初始密码为：888888，为了您的账号安全，建议您
+        <router-link :to="{path:'/user/money-management/account-management',query:{type:'resetPwd'}}">重置支付密码
+        </router-link>
+        ！
+      </p>
     </div>
     <div class="select-pay-type ml-56 clear" v-else>
       <span class="left mt-8">请选择支付方式：</span>
@@ -57,7 +63,7 @@
     },
     props: {
       orderMoney: {
-        type: [Number,String],
+        type: [Number, String],
         required: true,
         default: 0
       },
@@ -78,10 +84,12 @@
         payLoading: false,
       }
     },
-    mounted() {},
-    created() {},
+    mounted() {
+    },
+    created() {
+    },
     computed: {
-      ...mapActions ([
+      ...mapActions([
         'getUserInformation'
       ]),
       userBalance: function () {
@@ -99,10 +107,10 @@
     },
     methods: {
       confirmPayment() {
-        this.$emit('confirmPayment',this.payPassword);
+        this.$emit('confirmPayment', this.payPassword);
       },
-      pressEnterLoginNormal(event){
-        if (event.keyCode === 13){
+      pressEnterLoginNormal(event) {
+        if (event.keyCode === 13) {
           this.confirmPayment()
         }
       },
@@ -115,7 +123,7 @@
           orderPlatform: 'PC',
           payChannel: 1
         }).then(res => {
-          if(res.status){
+          if (res.status) {
             let src = aliPayUrl + 'orderSerial=' + res.data.orderSerial;
             window.open(src);
             _this.payLoading = false;
@@ -188,44 +196,44 @@
       float: right;
       cursor: pointer;
     }
-    .confirm-recharge-model{
+    .confirm-recharge-model {
       position: fixed;
       top: 0;
       left: 0;
       right: 0;
       bottom: 0;
       z-index: 999;
-      background-color: rgba(55,55,55,.6);
+      background-color: rgba(55, 55, 55, .6);
     }
-    .confirm-recharge-con{
-      @include fullScreenModelCon(486px,186px);
-      h4{
+    .confirm-recharge-con {
+      @include fullScreenModelCon(486px, 186px);
+      h4 {
         font-size: 18px;
         margin-top: 42px;
         color: #666;
         font-weight: 500;
       }
-      .btn{
+      .btn {
         margin-top: 36px;
         text-align: center;
-        span{
+        span {
           display: inline-block;
-          @include wh(120px,40px);
+          @include wh(120px, 40px);
           line-height: 40px;
-          color:#fff;
+          color: #fff;
           font-size: 16px;
           border-radius: 5px;
           text-align: center;
           cursor: pointer;
         }
-        span:first-child{
+        span:first-child {
           background-color: $mainColor;
           margin-right: 42px;
           &:hover {
             background-color: darken($mainColor, 10%);
           }
         }
-        span:last-child{
+        span:last-child {
           background-color: #3FC0C5;
           &:hover {
             background-color: darken(#3FC0C5, 10%);
@@ -233,7 +241,7 @@
         }
       }
     }
-    .default-pwd{
+    .default-pwd {
       font-size: 14px;
       color: #666;
     }
