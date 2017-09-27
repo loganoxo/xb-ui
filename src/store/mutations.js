@@ -16,7 +16,7 @@ export default {
     state.userInfo = info;
     state.login = true;
     let userInfo = getStorage("userInfo");
-    if(userInfo){
+    if (userInfo) {
       removeStorage("userInfo");
     }
     setStorage('userInfo', info);
@@ -32,6 +32,12 @@ export default {
       state.userInfo = {};
       state.login = false;
     }
+  },
+
+  //获取当前服务器时间
+  [types.GET_SEVER_TIME](state, {time}) {
+    state.severTime = time ? new Date(time.severTime).getTime() : new Date().getTime();
+    state.clientTime = time.clientTime;
   },
 
   //存储用户页面权限到vuex
@@ -50,7 +56,7 @@ export default {
   },
 
   //导航列表存入
-  [types.TASK_CATEGORY_LIST](state,info){
+  [types.TASK_CATEGORY_LIST](state, {info}) {
     state.TaskCategoryActive = info;
   }
 }

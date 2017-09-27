@@ -514,13 +514,6 @@ export default {
   },
 
   /**
-   * 获取服务器时间
-   */
-  getSeverTime() {
-    return fetch("/api/get-sever-time.json")
-  },
-
-  /**
    * 通过旺旺名获取旺旺号等级和淘气值信息
    */
   getAlitmByAccount(params) {

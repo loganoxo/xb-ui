@@ -24,18 +24,26 @@ axios.interceptors.request.use((config) => {
 });
 //返回状态判断(添加响应拦截器)
 axios.interceptors.response.use((res) => {
+  store.commit({
+    type: 'GET_SEVER_TIME',
+    time: {
+      severTime: res.headers.date,
+      clientTime: new Date().getTime()
+    }
+  });
   LoadingBar.finish();
   return res;
 }, (error) => {
   LoadingBar.finish();
   if (error.response && error.response.status === 401) {
-    store.commit( 'OUT_LOGIN');
-    if(store.state.logInAuthority){
+    store.commit('OUT_LOGIN');
+    if (store.state.logInAuthority) {
       router.push({name: 'login'});
     }
   }
   return Promise.reject(error);
 });
+
 //返回一个Promise(发送post请求)
 export function fetch(url, params) {
   return new Promise((resolve, reject) => {

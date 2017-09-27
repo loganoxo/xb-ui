@@ -67,13 +67,4 @@ router.get('/api/ali-token.json', (req, res, next) => {
   });
 });
 
-/**
- * 获取服务器当前时间
- */
-router.post('/api/get-sever-time.json',function (req, res, next) {
-  const nowTime = new Date().getTime();
-  res.json({status: true, data: nowTime});
-  res.end();
-});
-
 module.exports = router;

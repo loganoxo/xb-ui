@@ -40,9 +40,9 @@ router.post('/api/login.json', (req, res, next) => {
       req.session.regenerate(function (err) {
         if (!err) {
           req.session.userData = userData;
-          logConfig.logger.info('用户信息存入redis成功！');
+          logConfig.logger.info('User information is stored in redis successfully！');
         } else {
-          logConfig.logger.err('用户信息存入redis失败：' + err);
+          logConfig.logger.err('User information is stored in redis failed：' + err);
         }
         res.send(parsedBody);
         res.end();
@@ -78,9 +78,9 @@ router.post('/api/user/qq/sign-in.json', function (req, res, next) {
       req.session.regenerate(function (err) {
         if (!err) {
           req.session.userData = userData;
-          logConfig.logger.info('用户信息存入redis成功！');
+          logConfig.logger.info('User information is stored in redis successfully！');
         } else {
-          logConfig.logger.err('用户信息存入redis失败：' + err);
+          logConfig.logger.err('User information is stored in redis failed：' + err);
         }
         res.send(parsedBody);
         res.end();
@@ -208,8 +208,7 @@ router.post('/api/sign-up.json', function (req, res, next) {
     json: true,
   };
   if(req.body.recommendCode){
-     let userId = cryptoConfig.getDecAse192(req.body.recommendCode,secret);
-     options.headers.xUserId = userId;
+     options.headers.xUserId = cryptoConfig.getDecAse192(req.body.recommendCode,secret);
   }
   let validateCode = parseInt(req.body.validateCode);
   let time = new Date().getTime();
