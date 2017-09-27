@@ -99,7 +99,7 @@
     },
     methods: {
       confirmPayment() {
-        this.$emit('confirmPayment', this.payPassword);
+        this.$emit('confirmPayment',this.payPassword,false);
       },
       pressEnterLoginNormal(event) {
         if (event.keyCode === 13) {

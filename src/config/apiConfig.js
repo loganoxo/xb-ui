@@ -370,6 +370,13 @@ export default {
   },
 
   /**
+   * 充值会员
+   */
+  memberPurchase(params) {
+    return fetch("/api/user-member-purchase.json",params)
+  },
+
+  /**
    * 秀客申请列表
    * 待审核和未通过的
    */

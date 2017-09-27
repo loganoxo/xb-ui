@@ -106,6 +106,29 @@ router.post('/api/get-user-member-level-info.json', function (req, res, next) {
   })
 });
 
+
+/**
+ * 充值会员
+ */
+router.post('/api/user-member-purchase.json', function (req, res, next) {
+  let options = {
+    method: 'POST',
+    uri: baseUrl + '/user/member/purchase/' + req.session.userData.id +'/'+ req.body.memberId,
+    formData:{
+      payPwd:req.body.payPwd
+    },
+    json: true
+  };
+  request(options).then(function (parsedBody) {
+    res.send(parsedBody);
+    res.end();
+  }).catch(function (err) {
+    logConfig.logger.error(req.originalUrl + ':' + err);
+    res.json({status: false, msg: "服务器超时，请稍后再试！"});
+    res.end();
+  })
+});
+
 /**
  * 获取用户截图
  */
