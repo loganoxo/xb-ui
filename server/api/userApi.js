@@ -69,6 +69,44 @@ router.post('/api/get-bank-card-information.json', function (req, res, next) {
 });
 
 /**
+ * 获取会员活动信息
+ */
+router.post('/api/get-user-member-all.json', function (req, res, next) {
+  let options = {
+    method: 'GET',
+    uri: baseUrl + '/user/member/all',
+    json: true
+  };
+  request(options).then(function (parsedBody) {
+    res.send(parsedBody);
+    res.end();
+  }).catch(function (err) {
+    logConfig.logger.error(req.originalUrl + ':' + err);
+    res.json({status: false, msg: "服务器超时，请稍后再试！"});
+    res.end();
+  })
+});
+
+/**
+ * 获取会员等级详细信息
+ */
+router.post('/api/get-user-member-level-info.json', function (req, res, next) {
+  let options = {
+    method: 'GET',
+    uri: baseUrl + '/user/member/get/level/' + req.body.level,
+    json: true
+  };
+  request(options).then(function (parsedBody) {
+    res.send(parsedBody);
+    res.end();
+  }).catch(function (err) {
+    logConfig.logger.error(req.originalUrl + ':' + err);
+    res.json({status: false, msg: "服务器超时，请稍后再试！"});
+    res.end();
+  })
+});
+
+/**
  * 获取用户截图
  */
 router.post('/api/get-user-screen-shot.json', function (req, res, next) {

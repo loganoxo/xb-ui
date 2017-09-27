@@ -79,9 +79,9 @@
         if (!(/^[0-9]+(.[0-9]{1,2})?$/.test(value))) {
           callback(new Error('金额为数字，请您重新输入'))
         }
-        else if (value < 1) {
-          callback(new Error('最低一元起充,请您重新输入'))
-        }
+//        else if (value < 1) {
+//          callback(new Error('最低一元起充,请您重新输入'))
+//        }
         else {
           callback()
         }
@@ -138,10 +138,10 @@
           _this.payPopWindowValue = false;
           return;
         }
-        else if (parseInt(_this.payMoney.number) < 1) {
-          _this.payPopWindowValue = false;
-          return;
-        }
+//        else if (parseInt(_this.payMoney.number) < 1) {
+//          _this.payPopWindowValue = false;
+//          return;
+//        }
         else {
           _this.payPopWindowValue = true;
           _this.payPopWindow = _this.payPopWindowValue;

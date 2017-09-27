@@ -356,6 +356,20 @@ export default {
   },
 
   /**
+   * 获取会员活动信息
+   */
+  getUserMemberAll() {
+    return fetch("/api/get-user-member-all.json")
+  },
+
+  /**
+   * 获取会员等级详细信息
+   */
+  getUserMemberLevelInfo(params) {
+    return fetch("/api/get-user-member-level-info.json",params)
+  },
+
+  /**
    * 秀客申请列表
    * 待审核和未通过的
    */

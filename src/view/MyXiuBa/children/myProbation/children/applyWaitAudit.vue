@@ -33,7 +33,7 @@
           <td>{{getTaskStatus(item.status)}}</td>
           <td>
             <p class="operation" v-show="item.status === 'waiting_resubmit'" @click="resubmitFun(item.task.id)">重新提交</p>
-            <p v-show="item.task.needBrowseCollectAddCart" class="operation mt-5" @click="getScreenEndTime(item.id,item.reason,item.status,item.task.endTime)">查看详情</p>
+            <p v-show="item.task.needBrowseCollectAddCart" class="operation mt-5" @click="getEndTime=item.task.endTime;getUserScreenShot(item.id,item.reason,item.status,item.task.endTime)">查看详情</p>
             <p class="operation mt-5" @click="endTrialModel(item.id)">结束活动</p>
           </td>
         </tr>
@@ -164,16 +164,21 @@
         userScreenShotImg:{},
         reason:null,
         status:null,
-        getEndTime:null,
+        getEndTime:1509888888888,
       }
     },
-    mounted() {
-
-    },
+    mounted() {},
     created() {
       this.showkerApplyList();
     },
     computed: {},
+    watch:{
+      approvalPop:function (val) {
+        if (val === false){
+          this.showkerApplyList();
+        }
+      }
+    },
     methods: {
       viewScreenShotFun(type){
         this.viewScreenShotUrl = type;
@@ -230,16 +235,11 @@
           }
         })
       },
-      getScreenEndTime(type,reason,status,endTime){
-        this.showkerApplyList();
-        this.getUserScreenShot(type,reason,status,endTime)
-      },
-      getUserScreenShot(type,reason,status,endTime){
+      getUserScreenShot(type,reason,status,time){
         let _this = this ;
-        _this.getEndTime = null;
         _this.reason = reason;
         _this.status = status;
-        _this.getEndTime = endTime;
+        _this.getEndTime = parseInt(time);
         api.getUserScreenShot({
           id:type
         }).then(res=>{
