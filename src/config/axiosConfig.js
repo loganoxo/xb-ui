@@ -12,16 +12,17 @@ axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded
 
 //POST传参序列化(添加请求拦截器)
 axios.interceptors.request.use((config) => {
-  axios.defaults.headers.userphone = store.state.userInfo ? store.state.userInfo.phone : null;//将用户手机号放入请求头
+  // axios.defaults.headers.userPhone = store.state.userInfo ? store.state.userInfo.phone : null;//将用户手机号放入请求头
   if (config.method === 'post') {
     config.data = qs.stringify(config.data);
     LoadingBar.start();
   }
   return config;
 }, (error) => {
-  LoadingBar.finish();
+  LoadingBar.error();
   return Promise.reject(error);
 });
+
 //返回状态判断(添加响应拦截器)
 axios.interceptors.response.use((res) => {
   store.commit({
@@ -34,7 +35,7 @@ axios.interceptors.response.use((res) => {
   LoadingBar.finish();
   return res;
 }, (error) => {
-  LoadingBar.finish();
+  LoadingBar.error();
   if (error.response && error.response.status === 401) {
     store.commit('OUT_LOGIN');
     if (store.state.logInAuthority) {

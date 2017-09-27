@@ -3,18 +3,21 @@
     <Top v-show="topShow"></Top>
     <router-view></router-view>
     <Bottom></Bottom>
+    <BackTop :height="200" :bottom="160"></BackTop>
   </div>
 </template>
 
 <script>
   import Top from "./components/Top.vue";
   import Bottom from "./components/Bottom.vue";
+  import BackTop from "iview/src/components/back-top";
   import {getStorage, getCookie} from '@/config/utils'
   export default {
     name: 'app',
     components: {
       Top: Top,
-      Bottom: Bottom
+      Bottom: Bottom,
+      BackTop: BackTop,
     },
     computed: {
       topShow() {
