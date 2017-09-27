@@ -666,6 +666,7 @@ router.post('/api/applies/waiting/audit/all.json', function (req, res, next) {
           data.applyTime = item.taskApply.applyTime;
           data.id = item.taskApply.id;
           data.showkerId = item.taskApply.showkerId;
+          data.newest = item.newest;
           dataList.push(data);
         });
         res.send({

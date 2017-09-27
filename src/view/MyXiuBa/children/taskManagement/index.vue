@@ -58,7 +58,9 @@
     .main-color {
       color: $mainColor;
     }
-
+    .readBackground{
+      background-color: #FDF2E9;
+    }
     .task-management-title {
       height: 52px;
       line-height: 52px;

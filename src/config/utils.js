@@ -128,6 +128,7 @@ export const aliUploadImg = (key, file) => {
         stsToken: result.SecurityToken,
         bucket: bucket,
         endpoint: 'https://oss-cn-hangzhou.aliyuncs.com',
+        secure: true
       });
       client.multipartUpload(key, file).then(response => {
         resolve(response);

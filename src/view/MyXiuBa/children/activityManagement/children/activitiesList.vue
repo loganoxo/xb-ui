@@ -100,8 +100,8 @@
               <Icon color="#f60" type="information-circled"></Icon>&nbsp;待修改
             </Tooltip>
           </td>
-          <td class="registration">{{item.showkerApplyTotalCount || 0}} / {{item.showkerApplySuccessCount || 0}}（人）</td>
-          <td>{{item.taskCount}}</td>
+          <td>{{item.showkerApplyTotalCount || 0}} / {{item.showkerApplyPassedCount || 0}}（人）</td>
+          <td>{{item.taskCount - item.showkerApplySuccessCount}}</td>
           <td>
             {{item.totalMarginNeed / 100}} / {{item.promotionExpensesNeed / 100}} / {{(item.marginPaid + item.promotionExpensesPaid) / 100 || 0}}
           </td>
@@ -135,7 +135,7 @@
               <span @click="copyTask(item.id)">复制活动</span>
             </p>
           </td>
-          <td v-else-if="item.settlementStatus === 'waiting_settlement' && item.taskStatus === 'finished'">
+          <td v-else-if="item.settlementStatus === 'waiting_settlement' && (item.taskStatus === 'finished' || item.taskStatus === 'under_way')">
             <p class="bond mt-6" v-if="isApproveExpire(item.endTime)">
               <span @click="approveShowker(item.id)">审批秀客</span>
             </p>
@@ -160,15 +160,12 @@
               <span @click="copyTask(item.id)">复制活动</span>
             </p>
           </td>
-          <td
-            v-else-if="(item.settlementStatus === 'settlement_finished' || item.settlementStatus === 'waiting_audit') && item.taskStatus === 'finished'">
+          <td v-else-if="(item.settlementStatus === 'settlement_finished' || item.settlementStatus === 'waiting_audit') && item.taskStatus === 'finished'">
             <p class="copy mt-6">
               <span @click="billDetails(item.id, item.storeName)">结算详情</span>
             </p>
             <p class="copy mt-6" v-if="item.settlementStatus === 'settlement_finished'">
-              <router-link :to="{path:'/user/money-management/transaction-record',query:{taskNumber:item.number}}">
-                查看活动账单
-              </router-link>
+              <router-link :to="{path:'/user/money-management/transaction-record',query:{taskNumber:item.number}}">查看活动账单</router-link>
             </p>
             <p class="copy mt-6">
               <span @click="lookTaskDetail(item.id)">查看详情</span>

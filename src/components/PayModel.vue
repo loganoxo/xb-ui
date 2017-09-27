@@ -13,11 +13,7 @@
               @on-keypress="pressEnterLoginNormal"></iInput>
       <span class="ml-10" v-if="isPwdAmend"><router-link
         :to="{path:'/user/money-management/account-management',query:{type:'findPwd'}}">忘记支付密码？</router-link></span>
-      <p class="mt-20 default-pwd" v-else>初始密码为：888888，为了您的账号安全，建议您
-        <router-link :to="{path:'/user/money-management/account-management',query:{type:'resetPwd'}}">重置支付密码
-        </router-link>
-        ！
-      </p>
+      <p class="mt-20 default-pwd" v-else>初始密码为：888888，为了您的账号安全，建议您<router-link :to="{path:'/user/money-management/account-management',query:{type:'resetPwd'}}">重置支付密码</router-link>！</p>
     </div>
     <div class="select-pay-type ml-56 clear" v-else>
       <span class="left mt-8">请选择支付方式：</span>
@@ -51,7 +47,6 @@
   import Button from 'iview/src/components/button'
   import api from '@/config/apiConfig'
   import {aliPayUrl} from '@/config/env'
-  import {mapActions} from 'vuex'
 
   export default {
     name: 'PayModel',
@@ -89,9 +84,6 @@
     created() {
     },
     computed: {
-      ...mapActions([
-        'getUserInformation'
-      ]),
       userBalance: function () {
         return this.$store.getters.getUserBalance;
       },
@@ -132,7 +124,7 @@
       },
       finishRecharge() {
         this.confirmRechargeModel = false;
-        this.getUserInformation();
+        this.$store.dispatch('getUserInformation');
       },
       hasProblem() {
         this.confirmRechargeModel = false;
