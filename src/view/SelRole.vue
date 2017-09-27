@@ -2,7 +2,7 @@
   <div class="sel-role-ctt">
     <role-top></role-top>
 
-    <div class="container">
+    <div v-show="!showQQ" class="container">
       <p v-if="showRegister" class="fs-24  fast-register-tip">
         <Icon type="information-circled" color="#FF6633"></Icon>
         亲是第一次登录秀吧，请选择您的角色！

@@ -18,6 +18,7 @@ const noLogInList = [
   '/api/task/trial/report.json',
   '/api/task/success.json',
   '/api/user/qq/sign-in.json',
+  '/api/user/qq/data-complete.json',
 ];
 
 module.exports = noLogInList;
