@@ -89,8 +89,7 @@
 
 <script>
   import Icon from 'iview/src/components/icon'
-  import 'social-share.js/dist/css/share.min.css'
-  import 'social-share.js/dist/js/social-share.min.js'
+  import api from '@/config/apiConfig'
   export default {
     name: 'MyXiuBa',
     components: {
@@ -105,14 +104,12 @@
 
     },
     created() {
-      this.isSelect = this.$route.name;
+      let _this = this;
+      _this.isSelect = this.$route.name;
     },
     watch: {
       $route(to) {
         this.isSelect = to.name;
-        if(to.name === 'Recommend'){
-            this.$router.go(0);
-        }
       }
     },
     computed: {

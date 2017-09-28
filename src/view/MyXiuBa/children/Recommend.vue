@@ -4,12 +4,12 @@
     <div>
       <p class="mt-20">
         <span class="fs-18">我的邀请链接：</span>
-        <input type="text" class="ivu-input" style="width: 30%" v-model="copyValue" readonly="readonly" id="copyCode"/>
+        <input type="text" class="ivu-input" style="width: 30%" readonly="readonly" v-model="copyValue" id="copyCode"/>
         <a class="ivu-btn ivu-btn-button ivu-btn-primary" id="copyBtn">复制链接</a>
       </p>
       <div class="mt-20 fs-18">
         <span>一键分享：</span>
-        <div  class="social-share inline-block" :data-url="copyValue" data-sites="qzone, qq, weibo, wechat, douban" data-description="秀吧 一键分享到微博，QQ空间，腾讯微博，人人，豆瓣"></div>
+        <div v-html="copyHtml" style="display: inline-block;"></div>
       </div>
       <div class="award-box">
         <p class="fs-18">奖励说明：</p>
@@ -27,14 +27,84 @@
           </p>
         </div>
         <div class="mt-20 clear-both">
-          <iTable :columns="columns1" :data="data1"></iTable>
+          <div data-v-616de780="" class="ivu-table-wrapper">
+            <div class="ivu-table"><!---->
+              <div class="ivu-table-header">
+                <table cellspacing="0" cellpadding="0" border="0" style="width: 1031px;">
+                  <thead>
+                  <tr>
+                    <th class="">
+                      <div class="ivu-table-cell"><span>用户</span></div>
+                    </th>
+                    <th class="">
+                      <div class="ivu-table-cell"><span>注册时间</span></div>
+                    </th>
+                    <th class="">
+                      <div class="ivu-table-cell"><span>类型</span> </div>
+                    </th>
+                    <th class="main-color">
+                      <div class="ivu-table-cell">
+                        <span style="color: #495060;">今日奖励</span>
+                      </div>
+                    </th>
+                    <th class="main-color">
+                      <div class="ivu-table-cell">
+                        <span style="color: #495060;">累计奖励</span>
+                      </div>
+                    </th>
+                  </tr>
+                  </thead>
+                </table>
+              </div>
+              <div class="ivu-table-body">
+                <table cellspacing="0" cellpadding="0" border="0" style="width: 1031px;" v-show="recommendData.length">
+                  <tbody class="ivu-table-tbody">
+                    <tr class="ivu-table-row" v-for="recommend in recommendData">
+                      <td class="">
+                        <div class="ivu-table-cell"> <span>{{recommend.id}}</span> </div>
+                      </td>
+                      <td class="">
+                        <div class="ivu-table-cell"><span>{{recommend.inviteeRegisterTime | dateFormat('YYYY-MM-DD hh:mm:ss')}}</span> </div>
+                      </td>
+                      <td class="">
+                        <div class="ivu-table-cell">
+                          <span v-if="recommend.inviteeRole == 0">秀客</span>
+                          <span v-if="recommend.inviteeRole == 1">商家</span>
+                        </div>
+                      </td>
+                      <td class="main-color">
+                        <div class="ivu-table-cell"> <span>￥{{recommend.todayReward}}</span> </div>
+                      </td>
+                      <td class="main-color">
+                        <div class="ivu-table-cell"> <span>￥{{recommend.accumulativeReward}}</span> </div>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+              <div class="ivu-table-tip" v-show="!recommendData.length">
+                <table cellspacing="0" cellpadding="0" border="0">
+                  <tbody>
+                  <tr>
+                    <td><span>暂无筛选结果</span></td>
+                  </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
+      <div class="mt-20 right">
+        <Page :total="totalElements" :page-size="10" :current="page + 1" @on-change="pageChange"></Page>
+      </div>
+
     </div>
   </div>
 </template>
 
 <script>
+  import 'social-share.js/dist/css/share.min.css'
   import Icon from 'iview/src/components/icon'
   import api from '@/config/apiConfig'
   import {setStorage, getStorage} from '@/config/utils'
@@ -48,7 +118,7 @@
     beforeMount() {
       this.$store.commit({
         type: 'CHANGE_TOP_SHOW'
-      })
+      });
     },
     name: 'Recommend',
     components: {
@@ -64,71 +134,16 @@
     data() {
       return {
         copyValue: '',
-        columns1: [
-          {
-            title: '用户',
-            key: 'phone'
-          },
-          {
-            title: '注册时间',
-            key: 'age'
-          },
-          {
-            title: '类型',
-            key: 'type'
-          },
-          {
-            title: '<span style="color: #495060;">今日奖励</span>',
-            key: 'nowAward',
-            className: 'main-color'
-          },
-          {
-            title: '<span style="color: #495060;">累计奖励</span>',
-            key: 'countAward',
-            className: 'main-color'
-          },
-        ],
-        data1: [
-          {
-            phone: '136****6578',
-            age: 18,
-            address: '北京市朝阳区芍药居',
-            type: '秀客',
-            nowAward: '6',
-            countAward: '20'
-          },
-          {
-            phone: '136****6578',
-            age: 25,
-            address: '北京市海淀区西二旗',
-            type: '秀客',
-            nowAward: '6',
-            countAward: '20',
-          },
-          {
-            phone: '136****6578',
-            age: 30,
-            address: '上海市浦东新区世纪大道',
-            type: '秀客',
-            nowAward: '6',
-            countAward: '20'
-          },
-          {
-            phone: '136****6578',
-            age: 26,
-            address: '深圳市南山区深南大道',
-            type: '秀客',
-            nowAward: '6',
-            countAward: '20'
-          }
-        ]
+        copyHtml: '',
+        totalElements: 10,
+        copyStatue: false,
+        recommendData: [],
+        page: 0,
       }
     },
     created() {
       let _this = this;
-      api.getRecommendUrl().then((res) => {
-          _this.copyValue = res;
-      });
+      _this.getRecommendPage();
       _this.$nextTick(function () {
         let clipboard = new Clipboard('#copyBtn', {
           target: () => document.getElementById('copyCode')
@@ -141,14 +156,47 @@
           _this.$Message.error("复制链接失败！");
           clipboard.destroy();
         });
+
       })
     },
     computed: {},
-    methods: {},
-    watch: {
+    mounted () {
+      let _this = this;
+      api.getRecommendUrl().then((res) => {
+        this.init();
+        _this.copyValue = res;
+        _this.copyHtml = '<div style="display: inline-block;" data-sites="qzone, qq, weibo, wechat, douban" data-description="秀吧 一键分享到微博，QQ空间，腾讯微博，人人，豆瓣" class="social-share" data-url=' + _this.copyValue + '  ></div>';
 
-    }
+      });
+    },
+    methods: {
+      getRecommendPage(){
+        let self = this;
+        api.getRecommendPage({
+          page: self.page
+        }).then((res) => {
+          console.log(res.data);
+          if(res.status){
+              self.recommendData = res.data.page.content;
+          }
+        })
+      },
+      pageChange(data) {
+        this.page = data;
+        this.getRecommendPage();
+      },
+      init: function () {
+        let url = 'https://cdnjs.cloudflare.com/ajax/libs/social-share.js/1.0.16/js/social-share.min.js'
+        let script = document.createElement('script');
+        script.setAttribute('src', url);
+        document.getElementsByTagName('head')[0].appendChild(script)
+      }
+    },
+    watch: {}
   }
+
+
+//  import 'social-share.js/dist/js/social-share.min.js'
 </script>
 
 <style lang="scss" scoped>

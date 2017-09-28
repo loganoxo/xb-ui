@@ -703,6 +703,28 @@ router.post('/api/user/alitm/getAlitmByAccount.json', function (req, res, next) 
 });
 
 
-
+/**
+ * 获取邀请列表
+ * @param pageable
+ * @param inviterId
+ */
+router.post('/api/user/reward/getRecommendPage.json', function (req, res, next) {
+  let options = {
+    method: 'GET',
+    uri: baseUrl + '/user/reward/getRecommendPage/' + req.session.userData.id,
+    qs: {
+      page: req.body.page,
+    },
+    json: true,
+  };
+  request(options).then(function (parsedBody) {
+    res.send(parsedBody);
+    res.end();
+  }).catch(function (err) {
+    logConfig.logger.error(req.originalUrl + ':' + err);
+    res.json({status: false, msg: "服务器请求超时，请稍后在试！"});
+    res.end();
+  });
+});
 
 module.exports = router;

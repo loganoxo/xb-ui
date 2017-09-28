@@ -637,5 +637,12 @@ export default {
    * */
   getRecommendUrl(){
     return fetch("/api/recommend-url.json")
+  },
+
+  /**
+   * 获取推荐列表
+   * */
+  getRecommendPage(params){
+    return fetch("/api/user/reward/getRecommendPage.json", params)
   }
 }

@@ -11,7 +11,8 @@
   import Top from "./components/Top.vue";
   import Bottom from "./components/Bottom.vue";
   import BackTop from "iview/src/components/back-top";
-  import {getStorage, getCookie} from '@/config/utils'
+  import {getStorage, getCookie} from '@/config/utils';
+  import api from '@/config/apiConfig'
   export default {
     name: 'app',
     components: {

@@ -13,7 +13,7 @@ const cryptoConfig = require('../cryptoConfig');
 const cookie = require('cookie-parser');
 const router = express.Router();
 const baseUrl = config.baseUrl;
-const secret = new Buffer('xiuba');
+const secret = 'xiuba';
 
 /**
  * 用户登陆
@@ -362,7 +362,7 @@ router.post('/api/logged-out.json', (req, res, next) => {
  * 生成推荐链接
  */
 router.post("/api/recommend-url.json", (req, res, next) => {
-  let userId = new Buffer(req.session.userData.id);
+  let userId = String(req.session.userData.id);
   let recommendUrl = req.hostname + '/sel-role?recommendCode=' +　cryptoConfig.getEncAse192(userId,secret);
   res.end(recommendUrl);
 });
