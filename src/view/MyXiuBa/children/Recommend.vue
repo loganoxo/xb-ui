@@ -61,7 +61,7 @@
                   <tbody class="ivu-table-tbody">
                     <tr class="ivu-table-row" v-for="recommend in recommendData">
                       <td class="">
-                        <div class="ivu-table-cell"> <span>{{recommend.id}}</span> </div>
+                        <div class="ivu-table-cell"> <span>{{recommend.inviteePhone}}</span> </div>
                       </td>
                       <td class="">
                         <div class="ivu-table-cell"><span>{{recommend.inviteeRegisterTime | dateFormat('YYYY-MM-DD hh:mm:ss')}}</span> </div>

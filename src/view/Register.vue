@@ -655,7 +655,7 @@
         self.formCustom.role = 1;
         let recommendCode = '';
         self.btnState.registerSellerBtn = true;
-        if(getCookie('recommendCode')){
+        if(!getCookie('recommendCode')){
           recommendCode = getCookie('recommendCode');
         }
         api.register({
