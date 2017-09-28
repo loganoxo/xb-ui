@@ -3,13 +3,13 @@
      <div class="content">
        <div class="title">
         <img class="vipImg" src="~assets/img/screen-shot/vip_member_title.jpg" alt="">
-      </div>
-       <div class="explanation">
+       </div>
+       <div class="explanation ">
         <p><strong>VIP会员服务说明</strong></p>
         <p class="mt-5">可在服务期内免费使用秀吧所有服务功能；可免费发布秀吧PC、APP所有活动类型；会员开通后，费用不退还</p>
         <p class="mt-20 mb-20"><strong>请您选择您的会员周期：</strong></p>
-        <div class="member-cycle clear">
-            <iButton  class="member-price cursor-p left mr-10" v-for="(item,index) in memberInformation" :key="index" :class="{active:isSelect === index} "
+        <div class="member-cycle text-ct ">
+            <iButton  class="member-price cursor-p  mr-10" v-for="(item,index) in memberInformation" :key="index" :class="{active:isSelect === index} "
                  @click="changeStyle(index,item.validDays,item.validDaysDesc,item.finalFee,item.level,item.id)"
                      :disabled=" memberLevelInfo.validDays >item.validDays">
               <p class="price">￥{{item.finalFee/100}}元</p>
@@ -17,14 +17,14 @@
             </iButton>
         </div>
         <div class="mt-30 member-time">
-          <p v-if="getMemberLevel !== memberLevel">您已选择升级 <strong>{{year}}会员</strong>，有效期至
+          <p v-if="getMemberLevel !== memberLevel" style="font-size: 14px">您已选择<span class="my-color">升级</span> <strong>{{year}}会员</strong>，有效期至
             <span style="color: #FC9F84">{{endTime |dateFormat('YYYY-MM-DD ')}}</span>
             <span>根据您现在的会员版本可折价抵扣：<strong>{{moneyRemaining}}元</strong>,成功升级后现有版本将失效</span>
           </p>
-          <p v-else>您已选择续费 <strong>{{year}}</strong>会员，有效期至
-            <span style="color: #FC9F84">{{endTime |dateFormat('YYYY-MM-DD ')}}</span>
+          <p v-else style="font-size: 14px">您已选择 <span class="my-color">续费</span> <strong>{{year}}</strong>会员，有效期至
+            <span class="my-color">{{endTime |dateFormat('YYYY-MM-DD ')}}</span>
           </p>
-          <p class="mt-10">本次总共要支付的金额为：<strong>{{rechargeSum}}</strong>元,您的账户余额为：<strong>{{getUserBalance}}</strong>元，还需要充值：<strong>{{needRecharge}}</strong>元。</p>
+          <p class="mt-10">本次总共要支付的金额为：<strong>{{rechargeSum}}</strong>元,您的账户余额为：<strong>{{getUserBalance}}</strong>元 <span v-if="needRecharge>0">，还需要充值：<strong>{{needRecharge}}</strong>元。</span></p>
         </div>
         <div v-if="needRecharge > 0" class="text-ct mt-20"><iButton class="btn-recharge" @click="recharge = true">前去充值</iButton></div>
         <div v-else class="text-ct  mt-20"><iButton class="btn-recharge" @click="recharge = true">马上购买</iButton></div>
@@ -64,12 +64,21 @@
          <p class="ml-22 mt-5">5.真实有效：<span class="we-do">不仅仅能提升排名，带来真实流量，还能提高转化！宝贝深度优化专家，实至名归！</span></p>
        </div>
      </div>
-     <Modal width="600" v-model="recharge">
-       <p slot="header" class="text-ct mt-10">
-         <span>您本次要充值的金额为{{rechargeSum}}</span>
-       </p>
-       <PayModel :orderMoney="rechargeSum"  @confirmPayment="confirmPayment"></PayModel>
-     </Modal>
+    <!--支付弹窗-->
+    <div class="pay-model" v-if="recharge">
+      <PayModel :orderMoney="rechargeSum" @confirmPayment="confirmPayment">
+        <i slot="closeModel" class="close-recharge" @click="recharge = false">&times;</i>
+        <div slot="noBalance" class="title-tip">
+          <span class="size-color3"><Icon color="#FF2424" size="18" type="ios-information"></Icon>
+            <span class="ml-10">亲，您的余额不足，请充值。</span>
+          </span>还需充值<strong class="size-color3">{{needRecharge}}</strong>元
+        </div>
+        <div slot="isBalance" class="title-tip">
+          <Icon color="#FF2424" size="18px" type="ios-information"></Icon>
+          <span class="ml-10">您本次需要支付金额为 <span class="size-color3">{{rechargeSum}}</span> 元。</span>
+        </div>
+      </PayModel>
+    </div>
   </div>
 </template>
 <script>
@@ -250,6 +259,20 @@
 <style lang="scss">
   @import 'src/css/mixin';
  .personal-box{
+   .my-color{
+     color: #FC9F84;
+   }
+   .title-tip {
+     height: 36px;
+     line-height: 36px;
+     margin: 56px auto 20px auto;
+     color: #000;
+     background-color: #FFF6F3;
+     font-size: 14px;
+   }
+   .pay-model {
+     @include fullScreenModel
+   }
    .ml-22{
      margin-left: 23px;
    }
@@ -302,7 +325,6 @@
          background-color: $mainColor;
          color: #fff;
          font-size: 14px;
-         transform: translateX(-50%);
        }
      }
    }

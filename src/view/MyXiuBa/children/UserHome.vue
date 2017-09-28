@@ -16,8 +16,16 @@
           <span v-else>实名认证：<Icon type="information-circled" color="#FF6633"></Icon> 未认证 &nbsp;&nbsp;<router-link to="/user/personal-setting/verified">去认证</router-link></span>
         </p>
         <p>
-          <Icon type="ribbon-b" style="color: red"></Icon>
-          <span>到期时间{{getMemberDeadline}}</span>
+          <span v-if="getUserInfoRole === 1&& !getMemberLevel">
+            <Icon type="ribbon-b" style="color: gray"></Icon>
+            <span>非会员</span>
+            <router-link to="/user/vip-member" >马上开通会员</router-link>
+          </span>
+          <span v-if="getUserInfoRole === 1&&getMemberLevel">
+            <Icon type="ribbon-b" style="color: red"></Icon>
+            <span>到期时间:{{Math.ceil((parseInt(getMemberDeadline) -parseInt( (new Date().getTime())))/86400000)}}天</span>
+            <router-link to="/user/vip-member" >续费</router-link>
+          </span>
           <span>可用金额：{{getUserBalance}} 元 </span>
           <span>提现中：{{userData.userAccount.enChashingMoney ? userData.userAccount.enChashingMoney : 0 }} 元  </span>
           <router-link v-if="getUserInfoRole === 1" :to="{path: '/user/money-management/pay-money'}">充值</router-link>
@@ -179,6 +187,7 @@
         },
         trialCount: {},
         homeCommodityList: [],
+        lastTime:null,
       }
     },
     created() {
@@ -198,11 +207,15 @@
       },
        getMemberDeadline:function () {
          return this.$store.state.userInfo.memberDeadline
-       }
+       },
+      getMemberLevel:function () {
+        return this.$store.state.userInfo.memberLevel
+      },
+
     },
     methods: {
       getLastDay(){
-
+        this.lastTime = (getMemberDeadline - (new Date().getTime()))/86400
       },
       getHomeTaskList() {
         let self = this;

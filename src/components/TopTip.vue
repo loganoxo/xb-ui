@@ -4,6 +4,14 @@
 
       <p v-show="isLogin" class="left">
         你好，<span class="user-name">
+        <span  @click="openMember"  v-if="getUserInfo.role == 1&&!getMemberLevel">
+           <Tooltip content="亲当前未开通会员，点击图标马上开通" placement="bottom-start" >
+              <span><Icon  type="ribbon-b" color="gray"></Icon></span>
+            </Tooltip>
+        </span>
+        <span  v-if="getUserInfo.role == 1&&getMemberLevel">
+          <Icon  type="ribbon-b" color="red"></Icon>
+        </span>
         <router-link to="/user/user-home">
           <span v-if="getUserInfo.role == 1"> 商家 </span>
           <span v-if="getUserInfo.role == 0"> 秀客 </span>
@@ -88,7 +96,10 @@
       },
       getUserInfo() {
         return this.$store.state.userInfo
-      }
+      },
+      getMemberLevel:function () {
+        return this.$store.state.userInfo.memberLevel
+      },
     },
     created() {
 
@@ -100,6 +111,9 @@
       ...mapActions([
         'loggedOut'
       ]),
+      openMember(){
+        this.$router.push({name:'VipMember'})
+      },
       goOut() {
         let _this = this;
         _this.loggedOut().then(res => {

@@ -19,9 +19,10 @@
           <p>第一步：打开浏览器输入[<strong>www.taobao.com</strong>]</p>
           <p>第二步：输入关键词[<strong>{{taskDetail.searchKeyword}}</strong>]</p>
           <p>第三步：选择[<strong>{{changeNameType(taskDetail.searchSort)}}</strong>]排序</p>
-          <p v-if="taskDetail.priceRangeMax !==0 ">第四步：搜索指定价格[<strong>{{taskDetail.priceRangeMin/100}}-{{taskDetail.priceRangeMax/100}}</strong>],勾选[<strong>{{checkText}}</strong>]</p>
-          <p v-if="taskDetail.priceRangeMax ===0">第四步：搜索指定价格[<strong></strong>],勾选[<strong>{{checkText}}</strong>]</p>
-          <p>第五步：在[<strong>{{taskDetail.searchPagePositionMin}}-{{taskDetail.searchPagePositionMax}}</strong>]页附近找到下图宝贝。(由于千人千面的影响，位置仅供参考)</p>
+          <p>第四步：在[<strong>{{taskDetail.searchPagePositionMin}}-{{taskDetail.searchPagePositionMax}}</strong>]页附近找到下图宝贝。(由于千人千面的影响，位置仅供参考)</p>
+          <p v-if="taskDetail.priceRangeMax !==0 || checkText">第五步：
+            <span v-if="taskDetail.priceRangeMax !==0">搜索指定价格[<strong>{{taskDetail.priceRangeMin/100}}-{{taskDetail.priceRangeMax/100}}</strong>],</span>
+            <span v-if="checkText">勾选[<strong>{{checkText}}</strong>]</span></p>
           <div class="mt-20 clear">
             <img class="pic left " :src="taskDetail.itemMainImage" alt="">
             <p class="left ml-20 mt-22">店铺名称：<strong>{{storeName}}</strong><br/>价格：<strong>￥{{taskDetail.searchPagePrice/100}}</strong></p>
