@@ -11,7 +11,7 @@
           <span v-if="!userData.userAccount.ifEditPwdAlready">支付密码：<Icon type="information-circled" color="#FF6633"></Icon>&nbsp;未设置<router-link :to="{ 'path': '/user/money-management/account-management','query': {'infoSelect': 'accountInfo'}}">&nbsp;&nbsp;设置</router-link></span>
           <span v-if="userData.userAccount.ifEditPwdAlready">支付密码：<Icon color="#70CF70" type="checkmark-circled"></Icon> 已设置</span>
           <span v-if="userData.alitmNum <= 0 "><span v-if="userData.alitmNum <= 0 && getUserInfoRole === 0">淘宝账号：<Icon type="information-circled" color="#FF6633"></Icon> 未绑定<router-link to="/user/personal-setting/ww-bind">去绑定</router-link></span></span>
-          <span v-else><span v-if="userData.alitmNum > 0 && getUserInfoRole === 0">淘宝账号：<Icon color="#70CF70" type="checkmark-circled"></Icon>绑定成功</span></span>
+          <span v-else><span v-if="userData.alitmNum > 0 && getUserInfoRole === 0">淘宝账号：<Icon color="#70CF70" type="checkmark-circled"></Icon> 绑定成功</span></span>
           <span v-if="Boolean(userData.ifCertification)">实名认证：<Icon color="#70CF70" type="checkmark-circled"></Icon> 已认证</span>
           <span v-else>实名认证：<Icon type="information-circled" color="#FF6633"></Icon> 未认证 &nbsp;&nbsp;<router-link to="/user/personal-setting/verified">去认证</router-link></span>
         </p>

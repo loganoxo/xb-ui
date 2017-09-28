@@ -168,11 +168,11 @@
           第2步：搜索框输入关键词【<span>{{taskPlaceInfo.taskDetailObject.searchKeyword}}</span>】</p>
         <p>第3步：选择【<span>{{getTaskStatus(taskPlaceInfo.taskDetailObject.searchSort)}}</span>】排序</p>
         <p>
-          第4步：搜索指定价格【<span>{{taskPlaceInfo.taskDetailObject.priceRangeMin / 100}}-{{taskPlaceInfo.taskDetailObject.priceRangeMax / 100}}</span>】<span
-          v-if="taskPlaceInfo.taskDetailObject.deliverAddress">，搜索指定发货地【<span>{{taskPlaceInfo.taskDetailObject.deliverAddress}}</span>】</span>，勾选【<span>{{checkText}}</span>】
+          第4步：在【<span>{{taskPlaceInfo.taskDetailObject.searchPagePositionMin}}-{{taskPlaceInfo.taskDetailObject.searchPagePositionMax}}</span>】页附近找到下图宝贝。（由于千人千面的影响，位置仅供参考）
         </p>
-        <p>
-          第5步：在【<span>{{taskPlaceInfo.taskDetailObject.searchPagePositionMin}}-{{taskPlaceInfo.taskDetailObject.searchPagePositionMax}}</span>】页附近找到下图宝贝。（由于千人千面的影响，位置仅供参考）
+        <p v-if="taskPlaceInfo.taskDetailObject.priceRangeMin > 0 || taskPlaceInfo.taskDetailObject.deliverAddress || checkText">
+          第5步：<span class="minor-color" v-if="taskPlaceInfo.taskDetailObject.priceRangeMin > 0">搜索指定价格【<span>{{taskPlaceInfo.taskDetailObject.priceRangeMin / 100}}-{{taskPlaceInfo.taskDetailObject.priceRangeMax / 100}}</span>】</span><span
+          class="minor-color" v-if="taskPlaceInfo.taskDetailObject.deliverAddress">，搜索指定发货地【<span>{{taskPlaceInfo.taskDetailObject.deliverAddress}}</span>】</span>，<span class="minor-color" v-if="checkText">勾选【<span>{{checkText}}</span>】</span>
         </p>
       </div>
       <div class="tao-code-place-step" v-if="taskPlaceInfo.taskType === 'tao_code'">
@@ -436,7 +436,7 @@
     },
     computed: {
       checkText: function () {
-        return this.taskPlaceInfo.taskDetailObject.searchFilterDesc.split(',').join('、');
+        return this.taskPlaceInfo.taskDetailObject.searchFilterDesc ? this.taskPlaceInfo.taskDetailObject.searchFilterDesc.split(',').join('、') : null;
       },
       getStoreName: function () {
         let length = this.taskPlaceInfo.storeName.length;

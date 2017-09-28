@@ -39,7 +39,7 @@
         </div>
         <Icon :class="{showTableStyles:selectId === item.id}" class="right mr-30 mt-15" type="arrow-right-b"></Icon>
         <div class="waiting-task-number">
-          <p class="mt-12 task-wait-fail">共 0 人</p>
+          <p class="mt-12 task-wait-fail">共{{item.data}}人</p>
         </div>
       </div>
       <collapse-transition>
@@ -181,6 +181,7 @@
                 rejectReasonList: JSON.stringify(_this.rejectReasonList)
               }).then(res => {
                 if (res.status) {
+                  console.log();
                   _this.$set(item, 'data', res.data);
                 }
               })

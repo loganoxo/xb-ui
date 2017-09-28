@@ -41,7 +41,9 @@
     .main-color {
       color: $mainColor;
     }
-
+    .minor-color {
+      color: #999!important;
+    }
     .my-probation-title {
       height: 52px;
       line-height: 52px;
@@ -56,7 +58,6 @@
         }
       }
     }
-
     .my-probation-list-title {
       height: 32px;
       border-bottom: 2px solid $mainColor;
