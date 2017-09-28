@@ -166,12 +166,11 @@
         }).then(res => {
           if (res.status) {
             _this.$Message.success("审核秀客成功！");
-            /* if (type === 'newest') {
-               _this.appliesWaitingAuditNewest(_this.operateTaskId, _this.operateIndex);
-             } else {
-             }*/
             _this.appliesWaitingAuditAll(_this.operateTaskId, _this.operateIndex);
             _this.$set(_this.taskWaitAuditList[_this.operateIndex], 'totalTaskApplyCount', _this.taskWaitAuditList[_this.operateIndex].totalTaskApplyCount - 1);
+            if(_this.taskWaitAuditList[_this.operateIndex].newestTaskApplyCount > 0){
+              _this.$set(_this.taskWaitAuditList[_this.operateIndex], 'newestTaskApplyCount', _this.taskWaitAuditList[_this.operateIndex].newestTaskApplyCount - 1);
+            }
           } else {
             _this.$Message.error(res.msg);
           }

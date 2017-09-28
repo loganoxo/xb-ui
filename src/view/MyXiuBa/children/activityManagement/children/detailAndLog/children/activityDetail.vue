@@ -66,7 +66,7 @@
         </div>
         <div class="activity-time ml-60 mt-20">
           <span class="required">活动时长：</span>
-          <iInput v-model.number="taskRelease.taskDaysDuration" placeholder="请输入活动时长" :disabled="true"
+          <iInput v-model="taskRelease.taskDaysDuration" placeholder="请输入活动时长" :disabled="true"
                   style="width: 120px"></iInput>
           <span>天</span>
           <span class="second-color ml-10">请于活动结束后48小时内审批完成所有秀客资格，逾期系统将自动为您审批。</span>
@@ -123,7 +123,7 @@
           </div>
           <div class="baby-price ml-45 mt-20">
             <span class="required">宝贝单价：</span>
-            <iInput v-model.number="taskRelease.itemPrice" placeholder="请输入宝贝单价" :disabled="true"
+            <iInput v-model="taskRelease.itemPrice" placeholder="请输入宝贝单价" :disabled="true"
                     style="width: 120px"></iInput>
             <span>元</span>
             <p class="size-color pl-60 mt-8">活动活动期间，商家不允许修改下单页商品信息，经核查属实，本平台有权将活动担保金返还已获得资格的秀客，商家账号按相应规则处罚</p>
@@ -190,16 +190,16 @@
             </div>
             <div class="search-price ml-40 mt-20">
               <span class="required">展示价格：</span>
-              <iInput v-model.number="PcTaskDetail.searchPagePrice" :disabled="true" placeholder="请输入搜索列表页展示价格"
+              <iInput v-model="PcTaskDetail.searchPagePrice" :disabled="true" placeholder="请输入搜索列表页展示价格"
                       style="width: 160px"></iInput>
               <span class="size-color2">（务必亲自搜索，确认价格准确）</span>
             </div>
             <div class="baby-location ml-15 mt-20">
               <span class="required">宝贝搜索位置：</span>
               <span>第</span>
-              <iInput v-model.number="PcTaskDetail.searchPagePositionMin" :disabled="true" style="width: 40px"></iInput>
+              <iInput v-model="PcTaskDetail.searchPagePositionMin" :disabled="true" style="width: 40px"></iInput>
               <span>---</span>
-              <iInput v-model.number="PcTaskDetail.searchPagePositionMax" :disabled="true" style="width: 40px"></iInput>
+              <iInput v-model="PcTaskDetail.searchPagePositionMax" :disabled="true" style="width: 40px"></iInput>
               <span>页</span>
               <p class="size-color2 ml-80 mt-6">宝贝参考位置页数差值最大值不大于3页（如果PC端排名在10页以后， 可使用下面的卡条件功能）</p>
             </div>
@@ -330,9 +330,9 @@
             </div>
             <div class="price-select ml-45 mt-20">
               <span>价格区间：</span>
-              <iInput v-model.number="AppTaskDetail.priceRangeMin" :disabled="true" style="width: 40px"></iInput>
+              <iInput v-model="AppTaskDetail.priceRangeMin" :disabled="true" style="width: 40px"></iInput>
               <span>---</span>
-              <iInput v-model.number="AppTaskDetail.priceRangeMax" :disabled="true" style="width: 40px"></iInput>
+              <iInput v-model="AppTaskDetail.priceRangeMax" :disabled="true" style="width: 40px"></iInput>
               <span>元</span>
             </div>
             <div class="deliver-address ml-56 mt-20">
@@ -563,14 +563,14 @@
         let _this = this;
         switch (type) {
           case 'pc_search' :
-            _this.PcTaskDetail.searchPagePrice = _this.PcTaskDetail.searchPagePrice / 100;
-            _this.PcTaskDetail.priceRangeMax = _this.PcTaskDetail.priceRangeMax / 100;
-            _this.PcTaskDetail.priceRangeMin = _this.PcTaskDetail.priceRangeMin / 100;
+            _this.PcTaskDetail.searchPagePrice = (_this.PcTaskDetail.searchPagePrice / 100).toFixed(2) * 1;
+            _this.PcTaskDetail.priceRangeMax = _this.PcTaskDetail.priceRangeMax > 0 ? (_this.PcTaskDetail.priceRangeMax / 100).toFixed(2) * 1 : null;
+            _this.PcTaskDetail.priceRangeMin = _this.PcTaskDetail.priceRangeMin > 0 ? (_this.PcTaskDetail.priceRangeMin / 100).toFixed(2) * 1 : null;
             break;
           case 'app_search' :
-            _this.AppTaskDetail.searchPagePrice = _this.AppTaskDetail.searchPagePrice / 100;
-            _this.AppTaskDetail.priceRangeMax = _this.AppTaskDetail.priceRangeMax / 100;
-            _this.AppTaskDetail.priceRangeMin = _this.AppTaskDetail.priceRangeMin / 100;
+            _this.AppTaskDetail.searchPagePrice = (_this.AppTaskDetail.searchPagePrice / 100).toFixed(2) * 1;
+            _this.AppTaskDetail.priceRangeMax = _this.AppTaskDetail.priceRangeMax > 0 ? (_this.AppTaskDetail.priceRangeMax / 100).toFixed(2) * 1 : null;
+            _this.AppTaskDetail.priceRangeMin = _this.AppTaskDetail.priceRangeMin > 0 ? (_this.AppTaskDetail.priceRangeMin / 100).toFixed(2) * 1 : null;
             break;
         }
       },

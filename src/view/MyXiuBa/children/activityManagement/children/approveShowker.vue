@@ -12,7 +12,7 @@
         <div class="manage-text left ml-5">
           <p>{{approveTaskInfo.taskName}}</p>
           <p class="mt-15">
-            总份数<strong>&nbsp;{{approveTaskInfo.taskCount || 0}}&nbsp;</strong>，<strong>&nbsp;{{trailOn}}&nbsp;</strong>人正在参与活动，<strong>&nbsp;{{trailDone || 0}}&nbsp;</strong>人完成活动，剩余名额<strong>&nbsp;{{approveTaskInfo.taskCount - approveTaskInfo.showkerApplySuccessCount || 0}}&nbsp;</strong>个
+            总份数<strong>&nbsp;{{approveTaskInfo.taskCount || 0}}&nbsp;</strong>，<strong>&nbsp;{{trailOn || 0}}&nbsp;</strong>人正在参与活动，<strong>&nbsp;{{trailDone || 0}}&nbsp;</strong>人完成活动，剩余名额<strong>&nbsp;{{approveTaskInfo.taskCount - approveTaskInfo.showkerApplySuccessCount || 0}}&nbsp;</strong>个
           </p>
         </div>
       </div>

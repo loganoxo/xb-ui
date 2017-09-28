@@ -1,11 +1,14 @@
 <template>
   <div class="activity-management">
-    <div class="activity-title pl-10" v-if="showType">
+    <div class="activity-title pl-10" v-if="!showType">
       <span class="left">{{showkerTaskInfo.showkerPhone}}的买家秀</span>
-      <span v-if="showType === 'buyer'" class="right" @click="returnUpPage()">返回上一页</span>
-      <span v-else class="right" @click="returnTaskPassAudit()">返回上一页</span>
+      <span class="right" @click="returnUpPage()">返回上一页</span>
     </div>
-    <div class="activity-title pl-10" v-else>
+    <div class="activity-title pl-10" v-else-if="showType && showType === 'taskPassAudit'">
+      <span class="left">{{showkerTaskInfo.showkerPhone}}的买家秀</span>
+      <span class="right" @click="returnTaskPassAudit()">返回上一页</span>
+    </div>
+    <div class="activity-title pl-10" v-else-if="showType && showType === 'buyer'">
       <span class="left">我的买家秀</span>
       <span class="right" @click="returnUpPageFrom()">返回上一页</span>
     </div>
@@ -34,8 +37,7 @@
         <p>
           <span>订单状态：</span>
           <strong>{{getTaskStatus(showkerTaskInfo.status)}}</strong>
-          <span class="main-color"><time-down color='#ff4040' :fontWeight=600
-                                              :endTime="showkerTaskInfo.currentGenerationEndTime"></time-down></span>
+          <span class="main-color"><time-down color='#ff4040' :fontWeight=600 :endTime="showkerTaskInfo.currentGenerationEndTime"></time-down></span>
         </p>
       </div>
       <div class="trial-experience mt-20">
@@ -52,8 +54,7 @@
             </li>
           </ul>
           <span class="left-btn" @click="leftChangeImg"><Icon type="chevron-left" size="32" color="#999"></Icon></span>
-          <span class="right-btn" @click="rightChangeImg"><Icon type="chevron-right" size="32"
-                                                                color="#999"></Icon></span>
+          <span class="right-btn" @click="rightChangeImg"><Icon type="chevron-right" size="32" color="#999"></Icon></span>
         </div>
         <div class="no-buyer-show" v-else>暂无买家秀图片</div>
         <div class="check-trial mt-40" v-if="!showType || (showType && showType === 'taskPassAudit')">
