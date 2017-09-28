@@ -1,6 +1,6 @@
 <template >
-  <div>
-    <p slot="header" style="color:#f60;text-align:center">
+  <div class="content">
+    <p slot="header" class="header">
       <Icon type="information-circled"></Icon>
       <span>{{applyName}}提交的活动申请截图</span>
     </p>
@@ -61,10 +61,6 @@
   import Modal from 'iview/src/components/modal'
   import Radio from 'iview/src/components/radio'
   import Icon from 'iview/src/components/icon'
-  import Upload from '@/components/upload'
-  import {mapActions} from 'vuex'
-  import {TaskErrorStatusList} from '@/config/utils'
-  import {aliCallbackImgUrl} from '@/config/env'
   import api from '@/config/apiConfig'
   import TimeDown from '@/components/TimeDown'
   import Input from 'iview/src/components/input'
@@ -78,7 +74,6 @@
       Modal: Modal,
       Radio: Radio,
       RadioGroup: Radio.Group,
-      Upload: Upload,
       Icon: Icon,
       TimeDown: TimeDown,
       iInput: Input,
@@ -88,7 +83,7 @@
     },
     props:{
       applyName:{
-//        type:Object,
+        type:String,
         default:null
       },
       userScreenShotImg:{
@@ -96,7 +91,6 @@
         default:null
       },
       passId:{
-//        type:String,
         default:null
       },
       activeEndTime:{
@@ -112,17 +106,12 @@
       }
     },
     computed: {
-      getUserBalance: function () {
-        return this.$store.getters.getUserBalance;
-      },
     },
     created() {
 
     },
     methods: {
-      ...mapActions([
-        'getUserInformation'
-      ]),
+
       viewScreenShotFun(type){
         this.viewScreenShotUrl = type;
         this.viewScreenShot = true;
@@ -150,6 +139,11 @@
 </script>
 <style lang="scss" scoped>
   @import 'src/css/mixin';
-
+  .content{
+    .header{
+      color:#f60;
+      text-align:center;
+    }
+  }
 </style>
 
