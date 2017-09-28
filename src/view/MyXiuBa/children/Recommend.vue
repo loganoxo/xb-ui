@@ -21,9 +21,9 @@
       </div>
       <div class="mt-30">
         <div class="fs-18">
-          <span class="left">我邀请的好友：</span>
-          <p class="fs-14 cl000 left">
-            一共邀请了 <span style="color: #ff6600"> 3 </span> 位好友，共获得 <span style="color: #ff6600"> ￥15 </span> 奖励
+          <span >我邀请的好友：</span>
+          <p class="fs-14 cl000 " style="display: inline-block;">
+            一共邀请了 <span style="color: #ff6600"> {{count}} </span> 位好友，共获得 <span style="color: #ff6600"> ￥{{reward}} </span> 奖励
           </p>
         </div>
         <div class="mt-20 clear-both">
@@ -96,7 +96,7 @@
         </div>
       </div>
       <div class="mt-20 right">
-        <Page :total="totalElements" :page-size="10" :current="page + 1" @on-change="pageChange"></Page>
+        <Page :total="count" :page-size="size" :current="page + 1" @on-change="pageChange"></Page>
       </div>
 
     </div>
@@ -138,7 +138,10 @@
         totalElements: 10,
         copyStatue: false,
         recommendData: [],
+        count: 0,
+        reward: 0,
         page: 0,
+        size: 10,
       }
     },
     created() {
@@ -163,7 +166,7 @@
     mounted () {
       let _this = this;
       api.getRecommendUrl().then((res) => {
-        this.init();
+        _this.init();
         _this.copyValue = res;
         _this.copyHtml = '<div style="display: inline-block;" data-sites="qzone, qq, weibo, wechat, douban" data-description="秀吧 一键分享到微博，QQ空间，腾讯微博，人人，豆瓣" class="social-share" data-url=' + _this.copyValue + '  ></div>';
 
@@ -173,16 +176,18 @@
       getRecommendPage(){
         let self = this;
         api.getRecommendPage({
-          page: self.page
+          page: self.page,
+          size: self.size,
         }).then((res) => {
-          console.log(res.data);
           if(res.status){
+              self.count = res.data.count;
+              self.reward = res.data.reward;
               self.recommendData = res.data.page.content;
           }
         })
       },
       pageChange(data) {
-        this.page = data;
+        this.page = data -1;
         this.getRecommendPage();
       },
       init: function () {

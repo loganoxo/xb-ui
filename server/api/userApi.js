@@ -714,6 +714,7 @@ router.post('/api/user/reward/getRecommendPage.json', function (req, res, next) 
     uri: baseUrl + '/user/reward/getRecommendPage/' + req.session.userData.id,
     qs: {
       page: req.body.page,
+      size: req.body.size,
     },
     json: true,
   };

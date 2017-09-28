@@ -170,7 +170,6 @@
     },
     created(){
       let self = this;
-      self.getVrcode();
       self.animateStart.complete = true;
       //快速注册参数
       if(self.$route.query.phone){
@@ -189,6 +188,7 @@
       if(self.$route.query.accessToken && self.$route.query.qqOpenId){
         self.showRegister = true;
         self.showQQFrom = true;
+        self.getVrcode();
         self.loginTrendsCustom.purpose = 'qq_bind';
         self.loginTrendsCustom.accessToken = self.$route.query.accessToken;
         self.loginTrendsCustom.qqOpenId = self.$route.query.qqOpenId;
