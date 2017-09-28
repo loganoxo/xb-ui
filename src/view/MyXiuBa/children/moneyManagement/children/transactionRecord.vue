@@ -128,7 +128,8 @@
                     {{item.serialNumber}}
                   </td>
                   <td>
-                    <p>{{getTradType(item.tradName)}}</p>
+                    <p v-if="getTradType(item.tradName)">{{getTradType(item.tradName) }}</p>
+                    <p v-else>{{item.tradName}}</p>
                   </td>
                   <td :class="{tdColor:item.tradAmount<0 , tdColorGreen:item.tradAmount>0}">
                     {{typeChang(item.tradAmount / 100) || 0}}
