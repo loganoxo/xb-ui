@@ -72,7 +72,7 @@
           {{trialCount.waitingSettlementTask}}
         </router-link>
         个
-        <router-link to="/user/activity-management/list">进入秀品活动管理</router-link>
+        <router-link to="/user/activity-management/list">进入活动管理</router-link>
       </p>
     </div>
     <p v-if="getUserInfoRole === 0" class="clear-both user-home-account">最新秀品宝贝</p>

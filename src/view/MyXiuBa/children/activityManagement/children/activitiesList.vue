@@ -101,7 +101,7 @@
             </Tooltip>
           </td>
           <td>{{item.showkerApplyTotalCount || 0}} / {{item.showkerApplyPassedCount || 0}}（人）</td>
-          <td>{{item.taskCount - item.showkerApplySuccessCount}}</td>
+          <td>{{(item.taskCount  - item.showkerApplySuccessCount) || 0}}</td>
           <td>
             {{item.totalMarginNeed / 100}} / {{item.promotionExpensesNeed / 100}} / {{(item.marginPaid + item.promotionExpensesPaid) / 100 || 0}}
           </td>

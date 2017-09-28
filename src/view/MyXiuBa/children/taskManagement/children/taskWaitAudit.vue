@@ -44,12 +44,12 @@
               </td>
               <td>{{allTask.applyTime | dateFormat('YYYY-MM-DD hh:mm:ss')}}</td>
               <td class="registration">
-                <router-link :to="{ 'path': '/trial-report','query': {'showkerId': allTask.showkerId}}">0</router-link>
+                <router-link :to="{ 'path': '/trial-report','query': {'showkerId': allTask.showkerId}}">查看</router-link>
               </td>
               <td>
-                <Tooltip v-if="allTask.reason" :content="allTask.reason" placement="top" class="cursor-p">
+                <Tooltip v-if="allTask.reason && allTask.status === 'waiting_resubmit'" :content="allTask.reason" placement="top" class="cursor-p">
                   <Icon color="#f60" type="information-circled"></Icon>
-                  <span>{{getStatusInfo(allTask.status)}}</span>
+                  <span class="main-color">{{getStatusInfo(allTask.status)}}</span>
                 </Tooltip>
                 <span v-else>{{getStatusInfo(allTask.status)}}</span>
               </td>
@@ -305,8 +305,10 @@
         this.approvalPopInfo.activeEndTime = time;
       },
       auditSuccess(closePop) {
-        this.approvalPopInfo.approvalPop = closePop;
-        this.appliesWaitingAuditAll(this.operateTaskId, this.operateIndex);
+        let _this = this;
+        _this.approvalPopInfo.approvalPop = closePop;
+        _this.appliesWaitingAuditAll(_this.operateTaskId, _this.operateIndex);
+        _this.$set(_this.taskWaitAuditList[_this.operateIndex], 'newestTaskApplyCount', _this.taskWaitAuditList[_this.operateIndex].newestTaskApplyCount - 1);
       },
       collapseToggle(id, index) {
         if (this.selectId === id) {
