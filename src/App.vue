@@ -51,7 +51,7 @@
             type: 'TASK_CATEGORY_LIST',
             info: ''
           });
-        };
+        }
       }
     }
   }

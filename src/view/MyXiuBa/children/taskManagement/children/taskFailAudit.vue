@@ -28,51 +28,21 @@
       <iInput v-model="taskNumber" style="width: 160px;margin-right: 8px;"></iInput>
       <iButton type="primary" :loading="searchLoading" @click="appliesEndTask">搜索</iButton>
     </div>
-    <Collapse class="mt-10" accordion v-if="taskFailAuditList.length > 0">
-      <Panel v-for="(item,index) in taskFailAuditList" :key="item.id">
-        <div @click="appliesEndShowkerTask(item.id,index)" style="width: 100%; height: 100%;">
-          <div class="manage-img inline-block">
-            <img :src="item.taskMainImage" alt="">
-          </div>
-          <div class="manage-text left ml-5 inline-block">
-            <p>活动编号：{{item.number}}</p>
-            <p>活动名称：{{item.taskName}}</p>
-          </div>
-          <div class="waiting-task-number">
-            <p class="mt-12">共 0 人</p>
-          </div>
+    <div class="mt-12" v-for="(item,index) in taskFailAuditList" :key="item.id" v-if="taskFailAuditList.length > 0">
+      <div class="collapse-header" @click="collapseToggle(item.id,index)">
+        <div class="manage-img inline-block">
+          <img :src="item.taskMainImage" alt="">
         </div>
-        <div slot="content" class="task-table">
-          <table>
-            <thead>
-            <tr>
-              <th width="25%">淘宝账号（旺旺号）</th>
-              <th width="25%">状态</th>
-              <th width="25%">终止时间</th>
-              <th width="25%">终止原因</th>
-            </tr>
-            </thead>
-            <tbody v-for="item in item.failTask" :key="item.id">
-            <tr>
-              <td>
-                <p>{{item.alitmAccount}}</p>
-                <p><img :src="item.creditLevel" alt="" style="width: auto; height: auto;"></p>
-                <p v-if="item.tqz">淘气值：{{item.tqz}}</p>
-              </td>
-              <td>{{getTaskStatus(item.status)}}</td>
-              <td>{{item.updateTime | dateFormat('YYYY-MM-DD hh:mm:ss') || '------'}}</td>
-              <td>{{item.rejectReasonDesc || '------'}}</td>
-            </tr>
-            </tbody>
-            <tbody v-if="taskFailAuditList[index].failTask && taskFailAuditList[index].failTask.length === 0">
-            <tr>
-              <td colspan="5" width="100%">暂无数据</td>
-            </tr>
-            </tbody>
-          </table>
+        <div class="manage-text left ml-5 inline-block">
+          <p>活动编号：{{item.number}}</p>
+          <p>活动名称：{{item.taskName}}</p>
         </div>
-      </Panel>
-    </Collapse>
+        <Icon :class="{showTableStyles:selectId === item.id}" class="right mr-30 mt-15" type="arrow-right-b"></Icon>
+        <div class="waiting-task-number">
+          <p class="mt-12 task-wait-fail">共 0 人</p>
+        </div>
+      </div>
+    </div>
     <div class="mt-40 text-ct" v-else>暂无已终止数据</div>
     <div class="activity-page mt-20 right mr-10" v-if="taskFailAuditList && taskFailAuditList.length > 0">
       <Page :total="totalElements" :page-size="pageSize" :current="pageIndex" @on-change="pageChange"></Page>
@@ -87,6 +57,7 @@
   import Icon from 'iview/src/components/icon'
   import Button from 'iview/src/components/button'
   import Input from 'iview/src/components/input'
+  import CollapseTransition from 'iview/src/components/base/collapse-transition'
   import api from '@/config/apiConfig'
   import {TaskErrorStatusList} from '@/config/utils'
   import TimeDown from '@/components/TimeDown'
@@ -101,6 +72,8 @@
       Page: Page,
       iButton: Button,
       iInput: Input,
+      Icon: Icon,
+      CollapseTransition: CollapseTransition
     },
     data() {
       return {
@@ -114,6 +87,7 @@
         rejectReasonList: [],
         taskFailAuditList: [],
         totalElements: 0,
+        selectId: null,
       }
     },
     mounted() {
@@ -211,6 +185,14 @@
             _this.$Message.error(res.msg);
           }
         })
+      },
+      collapseToggle(id, index) {
+        if (this.selectId === id) {
+          this.selectId = null;
+        } else {
+          this.selectId = id;
+          this.appliesEndShowkerTask(id, index)
+        }
       },
     }
   }

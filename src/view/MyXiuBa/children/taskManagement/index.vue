@@ -105,39 +105,19 @@
       border-top: 1px solid #F7F7F7;
       padding: 20px 0;
     }
-    .ivu-collapse{
-      background-color: #fff;
-      border: none;
-    }
-    .ivu-collapse > .ivu-collapse-item > .ivu-collapse-header{
+    .collapse-header{
       height: 62px;
       line-height: 62px;
       padding: 10px 0;
-    }
-    .ivu-collapse > .ivu-collapse-item > .ivu-collapse-header > i{
-      float: right;
-      line-height: 42px;
-      margin-right: 26px;
-    }
-    .ivu-collapse-content > .ivu-collapse-content-box{
-      padding-top: 0;
-      padding-bottom: 0;
-    }
-    .ivu-collapse-content{
-      padding: 0;
-    }
-    .ivu-collapse > .ivu-collapse-item{
-      margin-top: 10px;
-      border-left: 1px solid #dddee1;
-      border-right: 1px solid #dddee1;
-      border-bottom: 1px solid #dddee1;
+      color: #666;
+      cursor: pointer;
+      position: relative;
       background-color: #F7F7F7;
-    }
-    .ivu-collapse > .ivu-collapse-item:first-child{
-      margin-top: 0;
-    }
-    .ivu-collapse > .ivu-collapse-item:first-child{
-      border-top: 1px solid #dddee1;
+      border: 1px solid #dddee1;
+      > i.showTableStyles{
+        transform: rotate(90deg);
+        transition: transform .2s ease-in-out ;
+      }
     }
     .manage-img {
       height: 42px;
@@ -171,16 +151,25 @@
       height: 42px;
       line-height: 42px;
       color: #666;
-      margin-right: 28px;
-      p{
+      margin-right: 20px;
+      p.task-wait-fail{
         height: 21px;
         line-height: 21px;
         text-align: right;
       }
+      p.task-pass{
+        text-align: right;
+        width: 438px;
+      }
+      p.task-pass.lineHeight{
+        line-height: 21px;
+      }
     }
     .task-table table{
       width: 100%;
-      border-top: 1px solid #dddee1;
+      border-left: 1px solid #dddee1;
+      border-right: 1px solid #dddee1;
+      border-bottom: 1px solid #dddee1;
     }
     .task-table table td,
     .task-table table th{

@@ -34,7 +34,8 @@
         <p>
           <span>订单状态：</span>
           <strong>{{getTaskStatus(showkerTaskInfo.status)}}</strong>
-          <span class="main-color"><time-down color='#ff4040' :fontWeight=600 :endTime="showkerTaskInfo.currentGenerationEndTime"></time-down></span>
+          <span class="main-color"><time-down color='#ff4040' :fontWeight=600
+                                              :endTime="showkerTaskInfo.currentGenerationEndTime"></time-down></span>
         </p>
       </div>
       <div class="trial-experience mt-20">
@@ -51,7 +52,8 @@
             </li>
           </ul>
           <span class="left-btn" @click="leftChangeImg"><Icon type="chevron-left" size="32" color="#999"></Icon></span>
-          <span class="right-btn" @click="rightChangeImg"><Icon type="chevron-right" size="32" color="#999"></Icon></span>
+          <span class="right-btn" @click="rightChangeImg"><Icon type="chevron-right" size="32"
+                                                                color="#999"></Icon></span>
         </div>
         <div class="no-buyer-show" v-else>暂无买家秀图片</div>
         <div class="check-trial mt-40" v-if="!showType || (showType && showType === 'taskPassAudit')">
@@ -77,7 +79,8 @@
             <div class="left remind-con">
               <p>通过买家秀需要支付秀客秀客，不通过则会退回，交给秀客重新修改！</p>
               <p>您还有&nbsp;
-                <time-down color='#ff4040' :fontWeight=600 :endTime="showkerTaskInfo.currentGenerationEndTime"></time-down>&nbsp;进行审核，若该时间内未审核，系统将默认审核通过，开始给秀客返款！
+                <time-down color='#ff4040' :fontWeight=600
+                           :endTime="showkerTaskInfo.currentGenerationEndTime"></time-down>&nbsp;进行审核，若该时间内未审核，系统将默认审核通过，开始给秀客返款！
               </p>
             </div>
           </div>
@@ -103,12 +106,14 @@
           <span>请输入您的支付密码：</span>
           <iInput v-model="refundPayPwd" type="password" style="width: 160px;margin-right: 16px;"></iInput>
           <iButton type="primary" @click="confirmRefund">确认</iButton>
-          <span class="ml-10" v-if="isPwdAmend"><router-link :to="{path:'/user/money-management/account-management',query:{type:'findPwd'}}">忘记支付密码？</router-link></span>
+          <span class="ml-10" v-if="isPwdAmend"><router-link
+            :to="{path:'/user/money-management/account-management',query:{type:'findPwd'}}">忘记支付密码？</router-link></span>
         </div>
         <div class="refund-tip ml-35 mt-22" v-if="!isPwdAmend">
           <p>如果您的支付密码没有修改，初始密码为：888888。</p>
           <p class="mt-6">为了账户安全，建议您另外设置一个密码！
-            <router-link :to="{path:'/user/money-management/account-management',query:{type:'resetPwd'}}">修改支付密码</router-link>
+            <router-link :to="{path:'/user/money-management/account-management',query:{type:'resetPwd'}}">修改支付密码
+            </router-link>
           </p>
         </div>
       </div>
@@ -149,16 +154,18 @@
         showNowImageSrc: null,
         reportImagesIndex: 0,
         showType: null,
+        from: null,
       }
     },
     mounted() {},
     created() {
       let id = this.$route.query.id;
       let from = this.$route.query.from;
+      this.from = from;
       if (from === 'buyer') {
         this.showType = 'buyer';
       }
-      if(from === 'taskPassAudit'){
+      if (from === 'taskPassAudit') {
         this.showType = 'taskPassAudit';
       }
       this.lookShowkerReport(id);
@@ -209,7 +216,7 @@
       },
       confirmReport() {
         let _this = this;
-        if(!_this.noPassReason){
+        if (!_this.noPassReason) {
           _this.$Message.info('请填写买家秀不通过理由！');
           return;
         }
@@ -223,7 +230,11 @@
               content: '买家秀审核成功！',
               duration: 4
             });
-            _this.returnUpPage();
+            if (_this.from && _this.from === 'taskPassAudit') {
+              _this.returnTaskPassAudit();
+            } else {
+              _this.returnUpPage();
+            }
           } else {
             _this.$Message.error({
               content: res.msg,

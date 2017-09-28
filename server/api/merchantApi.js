@@ -577,6 +577,8 @@ router.post('/api/applies/waiting/audit/task.json', function (req, res, next) {
           data.number = item.task.number;
           data.taskMainImage = item.task.taskMainImage;
           data.taskName = item.task.taskName;
+          data.endTime = item.task.endTime;
+          data.needBrowseCollectAddCart = item.task.needBrowseCollectAddCart;
           dataList.push(data);
         });
       }
@@ -666,6 +668,9 @@ router.post('/api/applies/waiting/audit/all.json', function (req, res, next) {
           data.applyTime = item.taskApply.applyTime;
           data.id = item.taskApply.id;
           data.showkerId = item.taskApply.showkerId;
+          data.status = item.taskApply.status;
+          data.reason = item.taskApply.reason;
+          data.screenshot = item.taskApply.screenshot;
           data.newest = item.newest;
           dataList.push(data);
         });

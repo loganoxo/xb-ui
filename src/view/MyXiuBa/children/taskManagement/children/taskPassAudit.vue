@@ -22,13 +22,16 @@
             <span>买家秀待确认</span>
           </Checkbox>
           <Checkbox label="trial_finished">
-            <span>活动完成</span>
+            <span>任务完成</span>
           </Checkbox>
           <Checkbox label="order_num_error">
             <span>订单号有误</span>
           </Checkbox>
           <Checkbox label="trial_report_unqualified">
             <span>报告不合格</span>
+          </Checkbox>
+          <Checkbox label="trial_end">
+            <span>任务终止</span>
           </Checkbox>
         </Checkbox-group>
       </div>
@@ -42,36 +45,35 @@
       <iInput v-model="orderNum" style="width: 160px;margin-right: 8px;"></iInput>
       <iButton type="primary" :loading="searchLoading" @click="passesTaskList">搜索</iButton>
     </div>
-    <Collapse class="mt-10" accordion v-if="taskPassAuditList.length > 0">
-      <Panel v-for="(item,index) in taskPassAuditList" :key="item.id">
-        <div @click="passesShowkerTask(item.id,index)" style="width: 100%; height: 100%;">
-          <div class="manage-img inline-block">
-            <img :src="item.taskMainImage" alt="">
-          </div>
-          <div class="manage-text left ml-5 inline-block">
-            <p>
-              <span>活动编号：{{item.number}}</span>
-              <span class="ml-5">（{{item.taskStatusDesc}} / {{item.settlementStatusDesc}}）</span>
-            </p>
-            <p>活动名称：{{item.taskName}}</p>
-          </div>
-          <div class="waiting-task-number">
-            <p>
-              <span>全部<span class="main-color">({{item.allTaskNum || 0}})</span></span>
-              <span class="ml-5">已通过待下单<span class="main-color">({{item.pass_and_unclaimed || 0}})</span></span>
-              <span class="ml-5">订单号待审核<span class="main-color">({{item.order_num_waiting_audit || 0}})</span></span>
-              <span class="ml-5">已下单待交买家秀<span
-                class="main-color">({{item.trial_report_waiting_submit || 0}})</span></span>
-            </p>
-            <p>
-              <span>买家秀待确认<span class="main-color">({{item.trial_report_waiting_confirm || 0}})</span></span>
-              <span class="ml-5">活动完成<span class="main-color">({{item.trial_finished || 0}})</span></span>
-              <span class="ml-5">订单号有误<span class="main-color">({{item.order_num_error || 0}})</span></span>
-              <span class="ml-5">报告不合格<span class="main-color">({{item.trial_report_unqualified || 0}})</span></span>
-            </p>
-          </div>
+    <div class="mt-12" v-for="(item,index) in taskPassAuditList" :key="item.id" v-if="taskPassAuditList.length > 0">
+      <div class="collapse-header" @click="collapseToggle(item.id,index)">
+        <div class="manage-img inline-block">
+          <img :src="item.taskMainImage" alt="">
         </div>
-        <div slot="content" class="task-table">
+        <div class="manage-text left ml-5 inline-block">
+          <p>
+            <span>活动编号：{{item.number}}</span>
+            <span class="ml-5">（{{item.taskStatusDesc}} / {{item.settlementStatusDesc}}）</span>
+          </p>
+          <p>活动名称：{{item.taskName}}</p>
+        </div>
+        <Icon :class="{showTableStyles:selectId === item.id}" class="right mr-30 mt-15" type="arrow-right-b"></Icon>
+        <div class="waiting-task-number">
+          <p class="task-pass" :class="{lineHeight:showkerTaskStatusList.length === 0 || showkerTaskStatusList.length === 8 || showkerTaskStatusList.length > 4}">
+            <span v-show="showkerTaskStatusList.length === 0 || showkerTaskStatusList.length === 8">全部<span class="main-color">({{item.allTaskNum || 0}})</span></span>
+            <span v-show="showkerTaskStatusList.length === 0 || oneOf('pass_and_unclaimed',showkerTaskStatusList)" class="ml-5">已通过待下单<span class="main-color">({{item.pass_and_unclaimed || 0}})</span></span>
+            <span v-show="showkerTaskStatusList.length === 0 || oneOf('order_num_waiting_audit',showkerTaskStatusList)" class="ml-5">订单号待审核<span class="main-color">({{item.order_num_waiting_audit || 0}})</span></span>
+            <span v-show="showkerTaskStatusList.length === 0 || oneOf('trial_report_waiting_submit',showkerTaskStatusList)" class="ml-5">已下单待交买家秀<span class="main-color">({{item.trial_report_waiting_submit || 0}})</span></span>
+            <span v-show="showkerTaskStatusList.length === 0 || oneOf('trial_report_waiting_confirm',showkerTaskStatusList)">买家秀待确认<span class="main-color">({{item.trial_report_waiting_confirm || 0}})</span></span>
+            <span v-show="showkerTaskStatusList.length === 0 || oneOf('trial_finished',showkerTaskStatusList)" class="ml-5">任务完成<span class="main-color">({{item.trial_finished || 0}})</span></span>
+            <span v-show="showkerTaskStatusList.length === 0 || oneOf('order_num_error',showkerTaskStatusList)" class="ml-5">订单号有误<span class="main-color">({{item.order_num_error || 0}})</span></span>
+            <span v-show="showkerTaskStatusList.length === 0 || oneOf('trial_report_unqualified',showkerTaskStatusList)" class="ml-5">报告不合格<span class="main-color">({{item.trial_report_unqualified || 0}})</span></span>
+            <span v-show="showkerTaskStatusList.length === 0 || oneOf('trial_end',showkerTaskStatusList)" class="ml-5">任务终止<span class="main-color">({{item.trial_end || 0}})</span></span>
+          </p>
+        </div>
+      </div>
+      <collapse-transition>
+        <div class="task-table" v-show="selectId === item.id">
           <table>
             <thead>
             <tr>
@@ -111,8 +113,8 @@
             </tbody>
           </table>
         </div>
-      </Panel>
-    </Collapse>
+      </collapse-transition>
+    </div>
     <div class="text-ct mt-40" v-else>暂无已通过数据</div>
     <div class="activity-page mt-20 right mr-10" v-if="taskPassAuditList && taskPassAuditList.length > 0">
       <Page :total="totalElements" :page-size="pageSize" :current="pageIndex" @on-change="pageChange"></Page>
@@ -169,13 +171,14 @@
 </template>
 
 <script>
-  import Collapse from 'iview/src/components/collapse'
   import Checkbox from 'iview/src/components/checkbox'
   import Page from 'iview/src/components/page'
   import Icon from 'iview/src/components/icon'
   import Button from 'iview/src/components/button'
   import Input from 'iview/src/components/input'
   import Radio from 'iview/src/components/radio'
+  import CollapseTransition from 'iview/src/components/base/collapse-transition'
+  import {oneOf} from 'iview/src/utils/assist';
   import api from '@/config/apiConfig'
   import {TaskErrorStatusList} from '@/config/utils'
   import TimeDown from '@/components/TimeDown'
@@ -184,8 +187,6 @@
   export default {
     name: 'TaskFailAudit',
     components: {
-      Collapse: Collapse,
-      Panel: Collapse.Panel,
       Icon: Icon,
       Checkbox: Checkbox,
       CheckboxGroup: Checkbox.Group,
@@ -195,7 +196,8 @@
       Radio: Radio,
       RadioGroup: Radio.Group,
       TimeDown: TimeDown,
-      PayModel: PayModel
+      PayModel: PayModel,
+      CollapseTransition: CollapseTransition,
     },
     data() {
       return {
@@ -211,18 +213,17 @@
         totalElements: 0,
         operateTaskId: null,
         operateIndex: null,
+        selectId: null,
         payButtonText: '确认支付并通过',
         rechargeButtonText: '前去充值',
         showCheckOrder: false,
         orderInfo: {},
         orderReviewStatus: 'passAudit',
         orderNoPassReason: null,
-        perMarginNeed: 0
+        perMarginNeed: 0,
       }
     },
-    mounted() {
-
-    },
+    mounted() {},
     created() {
       let _this = this;
       let status = _this.$route.query.status;
@@ -244,13 +245,21 @@
       }
     },
     methods: {
+      oneOf(value, validList) {
+        for (let i = 0; i < validList.length; i++) {
+          if (value === validList[i]) {
+            return true;
+          }
+        }
+        return false;
+      },
       getTaskStatus(type) {
         return TaskErrorStatusList(type);
       },
       handleCheckPassAll() {
         this.checkAllByPass = !this.checkAllByPass;
         if (this.checkAllByPass) {
-          this.showkerTaskStatusList = ['pass_and_unclaimed', 'order_num_waiting_audit', 'trial_report_waiting_submit', 'trial_report_waiting_confirm', 'trial_finished', 'order_num_error', 'trial_report_unqualified'];
+          this.showkerTaskStatusList = ['pass_and_unclaimed', 'order_num_waiting_audit', 'trial_report_waiting_submit', 'trial_report_waiting_confirm', 'trial_finished', 'order_num_error', 'trial_report_unqualified', 'trial_end'];
         } else {
           this.showkerTaskStatusList = [];
         }
@@ -258,7 +267,7 @@
         this.passesTaskList();
       },
       checkPassChange() {
-        if (this.showkerTaskStatusList.length === 7) {
+        if (this.showkerTaskStatusList.length === 8) {
           this.checkAllByPass = true;
         } else if (this.showkerTaskStatusList.length > 0) {
           this.checkAllByPass = false;
@@ -274,7 +283,7 @@
       },
       passesTaskList() {
         let _this = this;
-        _this.taskPassAuditList = [];
+//        _this.taskPassAuditList = [];
         _this.searchLoading = true;
         let showkerTaskStatusList = JSON.stringify(_this.showkerTaskStatusList);
         if (_this.taskNumber || _this.alitmAccount || _this.orderNum) {
@@ -322,7 +331,10 @@
           showkerTaskStatusList: JSON.stringify(_this.showkerTaskStatusList),
         }).then(res => {
           if (res.status) {
-            _this.$set(_this.taskPassAuditList[index], 'passTask', res.data.content);
+            _this.$set(_this.taskPassAuditList[index], 'passTask', []);
+            res.data.content.forEach(item =>{
+              _this.taskPassAuditList[index].passTask.push(item);
+            });
             _this.taskPassAuditList[index].passTask.forEach(item => {
               api.getAlitmByAccount({
                 account: item.alitmAccount,
@@ -401,7 +413,15 @@
             _this.closeCheckOrder();
           }
         })
-      }
+      },
+      collapseToggle(id, index) {
+        if (this.selectId === id) {
+          this.selectId = null;
+        } else {
+          this.selectId = id;
+          this.passesShowkerTask(id, index)
+        }
+      },
     }
   }
 </script>

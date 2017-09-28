@@ -190,10 +190,10 @@ export const TaskErrorStatusList = (type) => {
       return "报告不合格";
       break;
     case "trial_end":
-      return "活动终止";
+      return "任务终止";
       break;
     case "trial_finished":
-      return "活动完成";
+      return "任务完成";
       break;
     case "timeout_auto_close":
       return "任务超时终止";
