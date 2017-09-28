@@ -15,7 +15,7 @@
           <p>第一步：打开浏览器输入[<strong>www.taobao.com</strong>]</p>
           <p>第二步：输入关键词[<strong>{{taskDetail.searchKeyword}}</strong>]</p>
           <p>第三步：选择[<strong>{{changeNameType(taskDetail.searchSort)}}</strong>]排序</p>
-          <p v-if="taskDetail.priceRangeMax !==0 ">第四步：搜索指定价格[<strong>{{taskDetail.priceRangeMin}}-{{taskDetail.priceRangeMax}}</strong>],勾选[<strong>{{checkText}}</strong>]</p>
+          <p v-if="taskDetail.priceRangeMax !==0 ">第四步：搜索指定价格[<strong>{{taskDetail.priceRangeMin/100}}-{{taskDetail.priceRangeMax/100}}</strong>],勾选[<strong>{{checkText}}</strong>]</p>
           <p v-if="taskDetail.priceRangeMax ===0">第四步：搜索指定价格[<strong></strong>],勾选[<strong>{{checkText}}</strong>]</p>
           <p>第五步：在[<strong>{{taskDetail.searchPagePositionMin}}-{{taskDetail.searchPagePositionMax}}</strong>]页附近找到下图宝贝。(由于千人千面的影响，位置仅供参考)</p>
           <div class="mt-20 clear">
@@ -383,7 +383,7 @@
         <p class="descriptive">点击上传图片，支持jpg \ jpeg \ png \ gif \ bmp格式，不超过2M</p>
         <div class="text-ct mt-40">
           <iButton type="success" style="color: #fff;width: 150px;height: 30px;" @click="success(selectedWw)">提交申请</iButton>
-          <iButton class="ml-20" style="width: 150px;height: 30px;">取消</iButton>
+          <iButton class="ml-20" style="width: 150px;height: 30px;" @click="error">取消</iButton>
         </div>
         <div style="z-index: 2000" v-if="divShow">
           <Modal v-model="pcSearch" title="照片查看器" width="1000" :styles="{top:'20px'}">
@@ -446,9 +446,7 @@
             </div>
           </Modal>
         </div>
-
       </div>
-
 </template>
 <script>
   import Button from 'iview/src/components/button'
@@ -620,6 +618,10 @@
       //提交
       success(type){
         this.selWwFunc(type);
+      },
+      error(){
+        this.payPopWindow = null;
+        this.$emit('request', this.payPopWindow);
       },
       removeMainImage() {
 

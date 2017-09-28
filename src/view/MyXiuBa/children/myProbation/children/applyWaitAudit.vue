@@ -30,7 +30,13 @@
           </td>
           <td>{{item.alitmAccount}}</td>
           <td>{{item.task.perMarginNeed / 100}}</td>
-          <td>{{getTaskStatus(item.status)}}</td>
+          <td>
+            <Tooltip :content="item.reason" placement="top" v-if="item.status === 'waiting_resubmit'">
+              <Icon color="#f60" type="information-circled"></Icon>
+              <span>{{getTaskStatus(item.status)}}</span>
+            </Tooltip>
+            <span v-else> {{getTaskStatus(item.status)}}</span>
+          </td>
           <td>
             <p class="operation" v-show="item.status === 'waiting_resubmit'" @click="resubmitFun(item.task.id)">重新提交</p>
             <p v-show="item.task.needBrowseCollectAddCart" class="operation mt-5" @click="getEndTime=item.task.endTime;getUserScreenShot(item.id,item.reason,item.status,item.task.endTime)">查看详情</p>
@@ -115,6 +121,7 @@
   import Button from 'iview/src/components/button'
   import Input from 'iview/src/components/input'
   import {Select, Option, OptionGroup} from 'iview/src/components/select'
+  import Tooltip from 'iview/src/components/tooltip'
   import Page from 'iview/src/components/page'
   import Modal from 'iview/src/components/modal'
   import Icon from 'iview/src/components/icon'
@@ -134,6 +141,7 @@
       Modal: Modal,
       Icon: Icon,
       TimeDown: TimeDown,
+      Tooltip:Tooltip
     },
     data() {
       return {

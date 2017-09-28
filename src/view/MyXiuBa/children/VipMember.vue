@@ -270,6 +270,8 @@
        padding: 20px 40px;
        background-color: #F8F8F8;
        .member-price{
+         box-sizing: border-box;
+         height: 93px;
          width: 200px;
          padding: 10px;
          border: 1px dashed #D8D8D8;

@@ -387,8 +387,15 @@
         this.getTaskDetails();
       },
       getShowkerApplyBefore(payPopWindow){
-        this.showkerApplyBefore = payPopWindow;
-        this.applySuccess = true;
+        if (payPopWindow === null){
+          this.showkerApplyBefore = false;
+          this.$router.push({name:'ApplyWaitAudit'});
+          return
+        }else {
+          this.showkerApplyBefore = payPopWindow;
+          this.applySuccess = true;
+        }
+
       },
       applyForTrialFunc(){
         let self = this;
