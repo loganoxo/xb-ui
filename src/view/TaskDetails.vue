@@ -160,8 +160,8 @@
       <p class="fs-14 mt-10">注意：请 <span style="color: #FF6600">务必使用选的旺旺号下单购买</span>，否则订单审核将无法通过！</p>
       <Radio-group class="mt-20" v-model="selectedWw">
         <Radio v-for="ww in wwList" :label="ww.id" :key="ww.id" :disabled="wwState[ww.status].disabled">
-          {{ww.alitmAccount}}
-          <span v-if="wwState[ww.status].text">({{wwState[ww.status].text}})</span>
+          <span :class="[ww.status !=2 ? 'cl999':'']">{{ww.alitmAccount}}</span>
+          <span v-if="wwState[ww.status].text" :class="[ww.status !=2 ? 'cl999':'']">({{wwState[ww.status].text}})</span>
         </Radio>
       </Radio-group>
       <span v-if="!canUseWw" style="color: #FF6600">（无可用旺旺号）</span>
@@ -217,7 +217,9 @@
           :WwNumberLIst="WwNumberLIst"
           :taskType="taskType"
           :taskId="taskId"
-          :itemUrl="itemUrl"></TaskApplyBefore>
+          :itemUrl="itemUrl"
+          :wwState="wwState"
+        ></TaskApplyBefore>
       </div>
       <p slot="footer"></p>
     </Modal>

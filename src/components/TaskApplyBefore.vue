@@ -5,7 +5,11 @@
           <h3 class="ml-20">选择活动旺旺号</h3>
           <div class="ml-20 mt-10">注意：请<span>务必使用选中的旺旺号完成浏览，收藏，加购</span>,否则资格审核将无法通过</div>
           <Radio-group v-model="selectedWw" class="ml-20 mt-10">
-            <Radio v-for="ww in WwNumberLIst " :label="ww.id" :key="ww.id" :disabled="ww.status !==2"><span>{{ww.alitmAccount}}</span></Radio>
+            <Radio v-for="ww in WwNumberLIst " :label="ww.id" :key="ww.id" :disabled="ww.status !==2">
+
+              <span :class="[ww.status !=2 ? 'cl999':'']">{{ww.alitmAccount}}</span>
+              <span v-if="wwState[ww.status].text" :class="[ww.status !=2 ? 'cl999':'']">({{wwState[ww.status].text}})</span>
+            </Radio>
           </Radio-group>
         </div>
         <div v-if="taskType === 'pc_search'" class="activity-type mt-40" >
@@ -499,6 +503,10 @@
       },
       itemUrl:{
         type:String,
+        default:null
+      },
+      wwState:{
+        type: Array,
         default:null
       }
     },
