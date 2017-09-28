@@ -195,46 +195,6 @@
           }
         })
       },
-      getAllWaitTask(taskId, index) {
-        let _this = this;
-        _this.operateTaskId = taskId;
-        _this.operateIndex = index;
-//        _this.appliesWaitingAuditNewest(taskId, index);
-        _this.appliesWaitingAuditAll(taskId, index);
-      },
-      /*      appliesWaitingAuditNewest(taskId, index) {
-              let _this = this;
-              if (_this.taskWaitAuditList[index].applyAllTask) {
-                _this.taskWaitAuditList[index].applyAllTask = [];
-              }
-              if (_this.taskWaitAuditList[index].applyNewestTask) {
-                _this.taskWaitAuditList[index].applyNewestTask = [];
-              }
-              api.appliesWaitingAuditNewest({
-                taskId: taskId,
-                alitmAccount: _this.alitmAccount,
-              }).then(res => {
-                if (res.status) {
-                  if (res.data) {
-                    _this.$set(_this.taskWaitAuditList[index], 'applyNewestTask', res.data.content);
-                    _this.taskWaitAuditList[index].applyNewestTask.forEach(item => {
-                      api.getAlitmByAccount({
-                        account: item.alitmAccount,
-                      }).then((res) => {
-                        if (res.status) {
-                          if (Object.keys(res.data).length > 0) {
-                            _this.$set(item, 'creditLevel', res.data.creditLevelUrl);
-                            _this.$set(item, 'tqz', res.data.tqzNum);
-                          }
-                        }
-                      });
-                    })
-                  }
-                } else {
-                  _this.$Message.error(res.msg);
-                }
-              })
-            },*/
       lookMoreDate(taskId, index) {
         this.appliesWaitingAuditAll(taskId, index, 'more')
       },
@@ -289,7 +249,6 @@
         }).then(res => {
           if (res.status) {
             _this.$Message.success("设置新增待审批已读成功！");
-//            _this.appliesWaitingAuditNewest(_this.operateTaskId, _this.operateIndex);
             _this.appliesWaitingAuditAll(_this.operateTaskId, _this.operateIndex);
             _this.$set(_this.taskWaitAuditList[_this.operateIndex], 'newestTaskApplyCount', _this.taskWaitAuditList[_this.operateIndex].newestTaskApplyCount - 1);
           } else {

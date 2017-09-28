@@ -42,6 +42,37 @@
           <p class="mt-12 task-wait-fail">共 0 人</p>
         </div>
       </div>
+      <collapse-transition>
+        <div class="task-table" v-show="selectId === item.id">
+          <table>
+            <thead>
+            <tr>
+              <th width="25%">淘宝账号（旺旺号）</th>
+              <th width="25%">状态</th>
+              <th width="25%">终止时间</th>
+              <th width="25%">终止原因</th>
+            </tr>
+            </thead>
+            <tbody v-for="item in item.failTask" :key="item.id">
+            <tr>
+              <td>
+                <p>{{item.alitmAccount}}</p>
+                <p><img :src="item.creditLevel" alt="" style="width: auto; height: auto;"></p>
+                <p v-if="item.tqz">淘气值：{{item.tqz}}</p>
+              </td>
+              <td>{{getTaskStatus(item.status)}}</td>
+              <td>{{item.auditTime | dateFormat('YYYY-MM-DD hh:mm:ss') || '------'}}</td>
+              <td>{{item.rejectReasonDesc || '------'}}</td>
+            </tr>
+            </tbody>
+            <tbody v-if="taskFailAuditList[index].failTask && taskFailAuditList[index].failTask.length === 0">
+            <tr>
+              <td colspan="5" width="100%">暂无数据</td>
+            </tr>
+            </tbody>
+          </table>
+        </div>
+      </collapse-transition>
     </div>
     <div class="mt-40 text-ct" v-else>暂无已终止数据</div>
     <div class="activity-page mt-20 right mr-10" v-if="taskFailAuditList && taskFailAuditList.length > 0">
