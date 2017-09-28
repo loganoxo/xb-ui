@@ -108,7 +108,6 @@
   import Modal from 'iview/src/components/modal'
   import Input from 'iview/src/components/input'
   import PayModel from '@/components/PayModel'
-  import {mapActions} from 'vuex'
   import Icon from 'iview/src/components/icon'
 
   export default {
@@ -185,9 +184,6 @@
     },
     watch: {},
     methods: {
-      ...mapActions([
-        'getUserInformation'
-      ]),
       changeStyle(type, day, year, recharge, level, id) {
         this.isSelect = type;
         this.year = year;
@@ -250,19 +246,19 @@
           }
         });
       },
-      confirmPayment(pwd, close) {
+      confirmPayment(pwd) {
         let _this = this;
-        _this.recharge = close;
         api.memberPurchase({
           memberId: _this.memberId,
           payPwd: pwd
         }).then(res => {
           if (res.status) {
+            _this.recharge = false;
             _this.$Message.success({
               content: '支付成功！',
               duration: 2,
             });
-            _this.getUserInformation();
+            this.$store.dispatch('getUserInformation');
             setTimeout(function () {
               _this.$router.go(0)
             }, 2000)
