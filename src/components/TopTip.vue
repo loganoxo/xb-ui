@@ -6,11 +6,11 @@
         你好，<span class="user-name">
         <span  @click="openMember"  v-if="getUserInfo.role == 1&&!getMemberLevel">
            <Tooltip content="亲当前未开通会员，点击图标马上开通" placement="bottom-start" >
-              <span><Icon  type="ribbon-b" color="gray"></Icon></span>
+              <span><Icon  type="social-vimeo" color="gray"></Icon></span>
             </Tooltip>
         </span>
         <span  v-if="getUserInfo.role == 1&&getMemberLevel">
-          <Icon  type="ribbon-b" color="red"></Icon>
+          <Icon  type="social-vimeo" color="red"></Icon>
         </span>
         <router-link to="/user/user-home">
           <span v-if="getUserInfo.role == 1"> 商家 </span>

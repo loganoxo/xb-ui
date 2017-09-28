@@ -6,7 +6,10 @@
        </div>
        <div class="explanation ">
         <p><strong>VIP会员服务说明</strong></p>
-        <p class="mt-5">可在服务期内免费使用秀吧所有服务功能；可免费发布秀吧PC、APP所有活动类型；会员开通后，费用不退还</p>
+        <p class="mt-5">1、可在服务期内免费使用秀吧所有服务功能；可免费发布秀吧PC、APP所有活动类型；</p>
+        <p class="mt-5">2、会员开通后，费用不退还；</p>
+        <p class="mt-5">3、会员周期仅支持向上扩展，不支持向下扩展。譬如：当前为会员周期为半年版，在该会员周期到期前不支持购买季度时长的版本。</p>
+        <p class="mt-5">4、会员升级时，将现有会员剩余时间按天进行折算，剩余价格将抵扣到新版本的费用中（若折扣出的价格有溢出，将不退回）。</p>
         <p class="mt-20 mb-20"><strong>请您选择您的会员周期：</strong></p>
         <div class="member-cycle text-ct ">
             <iButton  class="member-price cursor-p  mr-10" v-for="(item,index) in memberInformation" :key="index" :class="{active:isSelect === index} "
@@ -17,14 +20,20 @@
             </iButton>
         </div>
         <div class="mt-30 member-time">
-          <p v-if="getMemberLevel !== memberLevel" style="font-size: 14px">您已选择<span class="my-color">升级</span> <strong>{{year}}会员</strong>，有效期至
+          <p class="mb-10" v-if="getMemberLevel === null">您当前为：非会员</p>
+          <p class="mb-10" v-if="getMemberLevel !== null">您当前的会员到期时间：{{getMemberDeadline | dateFormat('YYYY-MM-DD')}}</p>
+          <p v-if="getMemberLevel !== memberLevel && getMemberLevel !== null" style="font-size: 14px">您已选择<span class="my-color">升级</span> <strong>{{year}}会员</strong>，有效期至
             <span style="color: #FC9F84">{{endTime |dateFormat('YYYY-MM-DD ')}}</span>
             <span>根据您现在的会员版本可折价抵扣：<strong>{{moneyRemaining}}元</strong>,成功升级后现有版本将失效</span>
           </p>
-          <p v-else style="font-size: 14px">您已选择 <span class="my-color">续费</span> <strong>{{year}}</strong>会员，有效期至
+          <p v-if="getMemberLevel === memberLevel" style="font-size: 14px">您已选择 <span class="my-color">续费</span> <strong>{{year}}</strong>会员，有效期至
             <span class="my-color">{{endTime |dateFormat('YYYY-MM-DD ')}}</span>
           </p>
-          <p class="mt-10">本次总共要支付的金额为：<strong>{{rechargeSum}}</strong>元,您的账户余额为：<strong>{{getUserBalance}}</strong>元 <span v-if="needRecharge>0">，还需要充值：<strong>{{needRecharge}}</strong>元。</span></p>
+          <p v-if="getMemberLevel === null" style="font-size: 14px">
+            您已选择<strong>{{year}}会员</strong>，有效期至
+            <span style="color: #FC9F84">{{endTime |dateFormat('YYYY-MM-DD ')}}</span>
+          </p>
+          <p class="mt-10">本次总共要支付的金额为：<strong>{{rechargeSum>0?rechargeSum:0}}</strong>元,您的账户余额为：<strong>{{getUserBalance}}</strong>元 <span v-if="needRecharge>0">，还需要充值：<strong>{{needRecharge}}</strong>元。</span></p>
         </div>
         <div v-if="needRecharge > 0" class="text-ct mt-20"><iButton class="btn-recharge" @click="recharge = true">前去充值</iButton></div>
         <div v-else class="text-ct  mt-20"><iButton class="btn-recharge" @click="recharge = true">马上购买</iButton></div>

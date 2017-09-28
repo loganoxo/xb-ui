@@ -368,7 +368,7 @@
       this.taskId = this.$route.query.taskId;
       this.showApproveStatus = "toAudit";
       this.taskApplyList();
-      this.activeEndTime = parseInt(this.$route.query.endTime)+24*2*60*60;
+      this.activeEndTime = parseInt(this.$route.query.endTime)+24*2*60*60*1000;
     },
     watch: {},
     computed: {

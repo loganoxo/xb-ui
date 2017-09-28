@@ -105,8 +105,16 @@
                 <img class="left ml-20 portrait-img" :src="$store.state.userInfo.portraitPic" alt="">
                 <div class="left fs-14 ml-20" style="margin-left: 10px;line-height: 28px;">
                   <p>Hi~ 商家 {{decodeURIComponent(getUserInfoPhone)}}</p>
-                  <router-link to="/user/user-home">个人中心</router-link>
-                  <a @click="goOut">[ 退出登录 ]</a>
+                  <div v-if="getUserInfoRole === 1&& !getMemberLevel" class="fs-12">
+                    <Icon type="social-vimeo" style="color: gray"></Icon>
+                    <span>非会员</span>
+                    <router-link to="/user/vip-member" >马上开通会员</router-link>
+                  </div>
+                  <div v-if="getUserInfoRole === 1&&getMemberLevel" class="fs-12">
+                    <Icon type="social-vimeo" style="color: red"></Icon>
+                    <span>到期时间:{{Math.ceil((parseInt(getMemberDeadline) -parseInt( (new Date().getTime())))/86400000)}}天</span>
+                    <router-link to="/user/vip-member" >续费</router-link>
+                  </div>
                 </div>
                 <p class="clear-both fs-14 mt-10 left ml-20">当前进行的活动：
                   <router-link  to="/user/activity-management/list">{{trialCount.underWayTask}} </router-link> 个
@@ -333,6 +341,12 @@
       },
       getUserInfoRole() {
         return this.$store.state.userInfo.role
+      },
+      getMemberDeadline:function () {
+        return this.$store.state.userInfo.memberDeadline
+      },
+      getMemberLevel:function () {
+        return this.$store.state.userInfo.memberLevel
       },
     },
     mounted: function () {

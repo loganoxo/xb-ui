@@ -17,12 +17,12 @@
         </p>
         <p>
           <span v-if="getUserInfoRole === 1&& !getMemberLevel">
-            <Icon type="ribbon-b" style="color: gray"></Icon>
+            <Icon type="social-vimeo" style="color: gray"></Icon>
             <span>非会员</span>
             <router-link to="/user/vip-member" >马上开通会员</router-link>
           </span>
           <span v-if="getUserInfoRole === 1&&getMemberLevel">
-            <Icon type="ribbon-b" style="color: red"></Icon>
+            <Icon type="social-vimeo" style="color: red"></Icon>
             <span>到期时间:{{Math.ceil((parseInt(getMemberDeadline) -parseInt( (new Date().getTime())))/86400000)}}天</span>
             <router-link to="/user/vip-member" >续费</router-link>
           </span>
