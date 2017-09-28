@@ -292,7 +292,7 @@ router.get("/api/vrcode.json", (req, res, next) => {
   let code = parseInt(Math.random() * 9000 + 1000);
   req.session.vrCode = {
     code: code,
-    expireTime: new Date().getTime() + 60 * 1000
+    expireTime: new Date().getTime() + 120 * 1000
   };
   let vrCodeImg = new captchapng(80, 30, code);
   vrCodeImg.color(0, 0, 0, 0);
