@@ -138,7 +138,6 @@
     mounted() {
     },
     created() {
-
       this.getUserMemberLevelInfo();
     },
     computed: {
@@ -205,6 +204,10 @@
       },
       getUserMemberLevelInfo(){
         let _this = this;
+        if (!_this.getMemberLevel){
+          _this.getUserMemberAll();
+          return;
+        }
         api.getUserMemberLevelInfo({
           level:_this.getMemberLevel
         }).then(res => {

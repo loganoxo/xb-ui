@@ -318,6 +318,9 @@ export const TaskErrorStatusList = (type) => {
     case 2 :
       return '提现';
       break;
+    case 3 :
+      return '会员订购';
+      break;
     case 'waiting_resubmit' :
       return '待重新提交';
       break;
