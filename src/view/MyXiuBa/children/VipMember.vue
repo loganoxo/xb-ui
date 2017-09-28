@@ -30,7 +30,40 @@
       </div>
     </div>
      <div class="footer ">
-       <div class="title">他们在奔跑，你呢</div>
+       <div class="title"><Icon type="android-walk" style="font-size: 20px"></Icon><strong class="ml-10">他们在奔跑，你呢...</strong></div>
+       <div class="ml-20 mt-20">
+         <h3>Q：我们是谁？</h3>
+         <p class="mt-8">A：宝贝深度优化专家，我们只做2件事：1.提权重  2.促转化</p>
+       </div>
+       <div class="ml-20 mt-30">
+         <h3>Q：我们是怎么做到的？</h3>
+         <p class="mt-8">A：1. 我们是如何提高权重的？</p>
+         <p class="ml-22 mt-5">1.1 从点击浏览，到收藏加购，再到下单转化，加上买家秀，实现一站式全链路的排名提升！</p>
+         <p class="ml-22 mt-5">1.2 多种任务类型（搜索，预售，复购，问大家，淘口令等等），充分匹配各大流量入口！</p>
+         <p class="ml-22 mt-5">1.3 真实消费者，真实交易，永远不会担心降权被罚，在阳光下享受流量猛增的快感！</p>
+       </div>
+       <div class="ml-20 mt-30">
+         <h3>Q：适合谁来用？</h3>
+         <p class="mt-8">A：1.新品新店一直起不来</p>
+         <p class="ml-22 mt-5">2.宝贝权重低，排名落后，自然流量少</p>
+         <p class="ml-22 mt-5">3.基础销量很低，甚至无法破零，又不敢刷单</p>
+         <p class="ml-22 mt-5">4.人群标签混乱，虽有流量但质量偏低，持续无转化</p>
+         <p class="ml-22 mt-5">5.找不到好的推广渠道，报不上活动，又吃不消直通车钻展的高昂费用</p>
+       </div>
+       <div class="ml-20 mt-30">
+         <h3>Q：我们的优势</h3>
+         <p class="mt-8">A：1.账号优质：我们的秀客都是真实的消费者，和刷单平台相比，有质的区别</p>
+         <p class="ml-22 mt-5">2.人群标签：秀客根据兴趣选择宝贝，自带人群标签</p>
+         <p class="ml-22 mt-5">3.公开透明：每个环节都做到严格可控，商家自己审核秀客，杜绝了暗箱操作的可能性</p>
+         <p class="ml-22 mt-5">4.流程完整：包括了点击浏览收藏加购下单评价的所有环节，缺一不可</p>
+         <p class="ml-22 mt-5">5.真实有效：不仅仅能提升排名，带来真实流量，还能提高转化！宝贝深度优化专家，实至名归！</p>
+       </div>
+       <div class="ml-20 mt-30">
+
+       </div>
+       <div class="ml-20 mt-30">
+
+       </div>
      </div>
      <Modal width="600" v-model="recharge">
        <p slot="header" class="text-ct mt-10">
@@ -47,7 +80,7 @@
   import Input from 'iview/src/components/input'
   import PayModel from '@/components/PayModel'
   import {mapActions} from 'vuex'
-
+  import Icon from 'iview/src/components/icon'
 
   export default {
     name: 'VipMember',
@@ -56,6 +89,8 @@
       Modal: Modal,
       iInput: Input,
       PayModel:PayModel,
+      Icon: Icon,
+
     },
     data() {
       return {
@@ -213,6 +248,9 @@
 <style lang="scss">
   @import 'src/css/mixin';
  .personal-box{
+   .ml-22{
+     margin-left: 22px;
+   }
    .content{
      width: 100%;
      border: 1px solid #F1F1F1;
@@ -267,7 +305,10 @@
    .footer{
      padding: 30px 50px;
      .title{
-
+       border-bottom: 1px solid #E7E7E7;
+       color: #D6D6D6;
+       padding: 0;
+       margin: 0;
      }
    }
  }
