@@ -402,6 +402,7 @@
               content: '订单号审核成功！',
               duration: 4
             });
+            _this.$store.dispatch('getPersonalTrialCount');
             _this.$store.dispatch('getUserInformation');
             _this.showCheckOrder = false;
             _this.passesShowkerTask(_this.operateTaskId, _this.operateIndex);

@@ -278,6 +278,11 @@
                 <iInput v-model.number="PcTaskDetail.priceRangeMax" style="width: 40px"></iInput>
                 <span>元</span>
               </div>
+              <div class="deliver-address ml-56 mt-20">
+                <span>发货地：</span>
+                <iInput v-model="PcTaskDetail.deliverAddress" style="width: 120px"></iInput>
+                <span class="size-color2 ml-5">出于安全考虑，请勿大量使用</span>
+              </div>
             </template>
             <!--APP搜索下单设置-->
             <template v-else-if="taskRelease.taskType === 'app_search'">
@@ -592,6 +597,7 @@
           searchFilter: [],
           priceRangeMin: null,
           priceRangeMax: null,
+          deliverAddress: null,
         },
         AppTaskDetail: {
           itemMainImage: null,
@@ -685,7 +691,7 @@
        * @return {number}
        */
       oneBond: function () {
-        return this.taskRelease.pinkage === 'true' ? (this.taskRelease.itemPrice * 100).toFixed(2) / 100 : (this.taskRelease.itemPrice * 100).toFixed(2) / 100 + 10;
+        return this.taskRelease.pinkage === 'true' ? (this.taskRelease.itemPrice * 100).toFixed(2) / 100 : ((this.taskRelease.itemPrice * 100).toFixed(2) / 100 + 10).toFixed(2);
       },
       /**
        * 计算实际单品推广费用（单品推广费最高上限3元）

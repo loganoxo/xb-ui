@@ -5,27 +5,27 @@
       <span>{{applyName}}提交的活动申请截图</span>
     </p>
     <div class="text-ct mt-20 ">
-      <div v-if="userScreenShotImg.searchCondition" style="display: inline-block;padding: 0 10px">
+      <div v-if="userScreenShotImg && userScreenShotImg.searchCondition" style="display: inline-block;padding: 0 10px">
         <img class="cursor-p" style="width:80px ;height: 80px" :src="userScreenShotImg.searchCondition" alt=""
              @click="viewScreenShotFun(userScreenShotImg.searchCondition)">
         <p>搜索条件截图</p>
       </div>
-      <div v-if="userScreenShotImg.itemLocation " style="display: inline-block;padding: 0 10px">
+      <div v-if="userScreenShotImg && userScreenShotImg.itemLocation" style="display: inline-block;padding: 0 10px">
         <img class="cursor-p" style="width: 80px;height: 80px" :src="userScreenShotImg.itemLocation" alt=""
              @click="viewScreenShotFun(userScreenShotImg.itemLocation)">
         <p>所在位置截图</p>
       </div>
-      <div v-if="userScreenShotImg.browseToBottom" style="display: inline-block;padding: 0 10px">
+      <div v-if="userScreenShotImg && userScreenShotImg.browseToBottom" style="display: inline-block;padding: 0 10px">
         <img class="cursor-p" style="width: 80px;height: 80px" :src="userScreenShotImg.browseToBottom" alt=""
              @click="viewScreenShotFun(userScreenShotImg.browseToBottom)">
         <p>宝贝浏览见底</p>
       </div>
-      <div v-if="userScreenShotImg.enshrine " style="display: inline-block;padding: 0 10px">
+      <div v-if="userScreenShotImg && userScreenShotImg.enshrine" style="display: inline-block;padding: 0 10px">
         <img class="cursor-p" style="width: 80px;height: 80px" :src="userScreenShotImg.enshrine"
              @click="viewScreenShotFun(userScreenShotImg.enshrine)">
         <p>加入收藏夹</p>
       </div>
-      <div v-if="userScreenShotImg.addToCart" style="display: inline-block;padding: 0 10px">
+      <div v-if="userScreenShotImg && userScreenShotImg.addToCart" style="display: inline-block;padding: 0 10px">
         <img class="cursor-p" style="width: 80px;height: 80px" :src="userScreenShotImg.addToCart" alt=""
              @click="viewScreenShotFun(userScreenShotImg.addToCart)">
         <p>加入购物车</p>
@@ -82,8 +82,6 @@
       Icon: Icon,
       TimeDown: TimeDown,
       iInput: Input,
-
-
     },
     props: {
       applyName: {
@@ -128,7 +126,7 @@
         }).then(res => {
           if (res.status) {
             _this.$Message.success("审核秀客成功！");
-            _this.$emit('request', false);
+            _this.$emit('request', false, _this.passOrNoPass);
           } else {
             _this.$Message.error(res.msg)
           }

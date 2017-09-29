@@ -81,8 +81,7 @@
             <div class="left remind-con">
               <p>通过买家秀需要支付秀客秀客，不通过则会退回，交给秀客重新修改！</p>
               <p>您还有&nbsp;
-                <time-down color='#ff4040' :fontWeight=600
-                           :endTime="showkerTaskInfo.currentGenerationEndTime"></time-down>&nbsp;进行审核，若该时间内未审核，系统将默认审核通过，开始给秀客返款！
+                <time-down color='#ff4040' :fontWeight=600 :endTime="showkerTaskInfo.currentGenerationEndTime"></time-down>&nbsp;进行审核，若该时间内未审核，系统将默认审核通过，开始给秀客返款！
               </p>
             </div>
           </div>
@@ -91,7 +90,7 @@
     </div>
     <!--商家通过试用报告返款给秀客弹框-->
     <div class="confirm-refund-model" v-if="showRefundModel">
-      <div class="confirm-refund-con showSweetAlert">
+      <div class="confirm-refund-con fadeIn">
         <i class="right mr-10" @click="closeRefundModel">&times;</i>
         <div class="confirm-refund-info mt-20">
           <p>
@@ -114,8 +113,7 @@
         <div class="refund-tip ml-35 mt-22" v-if="!isPwdAmend">
           <p>如果您的支付密码没有修改，初始密码为：888888。</p>
           <p class="mt-6">为了账户安全，建议您另外设置一个密码！
-            <router-link :to="{path:'/user/money-management/account-management',query:{type:'resetPwd'}}">修改支付密码
-            </router-link>
+            <router-link :to="{path:'/user/money-management/account-management',query:{type:'resetPwd'}}">修改支付密码</router-link>
           </p>
         </div>
       </div>

@@ -31,4 +31,17 @@ export default {
       }
     });
   },
+  //获取商家任务管理活动数量信息
+  getPersonalTrialCount({commit}) {
+    api.sellerPersonalTrialCount().then(res => {
+      if (res.status) {
+        commit({
+          type: types.TASK_MANAGEMENT_COUNT_INFO,
+          countInfo: res.data
+        })
+      } else {
+        alert('获取用户信息：' + res.msg);
+      }
+    })
+  }
 }

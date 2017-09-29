@@ -34,7 +34,7 @@
               <th width="20%">操作</th>
             </tr>
             </thead>
-            <tbody v-for="allTask in item.applyAllTask" :key="allTask.id">
+            <tbody v-for="(allTask,allTaskIndex) in item.applyAllTask" :key="allTask.id">
             <tr :class="{readBackground:allTask.newest}">
               <td>
                 <p>{{allTask.alitmAccount}}</p>
@@ -47,7 +47,8 @@
                 <router-link :to="{ 'path': '/trial-report','query': {'showkerId': allTask.showkerId}}">查看</router-link>
               </td>
               <td>
-                <Tooltip v-if="allTask.reason && allTask.status === 'waiting_resubmit'" :content="allTask.reason" placement="top" class="cursor-p">
+                <Tooltip v-if="allTask.reason && allTask.status === 'waiting_resubmit'" :content="allTask.reason"
+                         placement="top" class="cursor-p">
                   <Icon color="#f60" type="information-circled"></Icon>
                   <span class="main-color">{{getStatusInfo(allTask.status)}}</span>
                 </Tooltip>
@@ -55,22 +56,20 @@
               </td>
               <td>
                 <p class="del-edit">
-                  <span v-if="item.needBrowseCollectAddCart" @click="taskWaitToAudit(allTask.id,allTask.alitmAccount,allTask.screenshot,item.endTime)">审批</span>
-                  <span class="ml-5" @click="taskWaitToPass(allTask.id, 'true')">通过</span>
+                  <span v-if="item.needBrowseCollectAddCart"
+                        @click="taskWaitToAudit(allTask.id,allTask.alitmAccount,allTask.screenshot,item.endTime,allTaskIndex)">审批</span>
+                  <span class="ml-5" @click="taskWaitToPass(allTask.id, 'true',allTaskIndex)">通过</span>
                   <span v-if="allTask.newest" class="ml-5" @click="markRead(item.id,allTask.id)">设为已读</span>
                 </p>
               </td>
             </tr>
-            <tr v-show="allTask.hasMoreData">
-              <td colspan="5">
-              <span v-if="allTask.hasMoreData === 1" class="ml-10 cursor-p look_record" @click="lookMoreDate(item.id,index)">查看更多数据...</span>
-                <span v-if="allTask.hasMoreData === 0" class="ml-10 cursor-p">没有更多数据了</span>
-              </td>
-            </tr>
             </tbody>
-            <tbody v-if="!item.applyAllTask || item.applyAllTask.length === 0">
-            <tr>
-              <td colspan="5">暂无数据！</td>
+            <tbody v-if="taskWaitAuditList[operateIndex]">
+            <tr v-if="taskWaitAuditList[operateIndex].hasMoreData">
+              <td colspan="5">
+                <span v-if="taskWaitAuditList[operateIndex].hasMoreData === 1" class="ml-10 cursor-p look_record" @click="lookMoreDate(item.id,index)">查看更多数据...</span>
+                <span v-if="taskWaitAuditList[operateIndex].hasMoreData === 2" class="ml-10 cursor-p">没有更多数据了</span>
+              </td>
             </tr>
             </tbody>
           </table>
@@ -139,6 +138,7 @@
           userScreenShotImg: null,
           passId: null,
           activeEndTime: null,
+          index: null,
         }
       }
     },
@@ -157,7 +157,7 @@
         this.pageIndex = data;
         this.appliesWaitingAuditTask();
       },
-      taskWaitToPass(id, status) {
+      taskWaitToPass(id, status, index) {
         let _this = this;
         api.setTaskShowkerAudit({
           id: id,
@@ -166,12 +166,13 @@
         }).then(res => {
           if (res.status) {
             _this.$Message.success("审核秀客成功！");
-            _this.appliesWaitingAuditAll(_this.operateTaskId, _this.operateIndex);
-            if(_this.taskWaitAuditList[_this.operateIndex].newestTaskApplyCount > 0){
+            _this.$store.dispatch('getPersonalTrialCount');
+            _this.appliesWaitingAuditAll(_this.operateTaskId, _this.operateIndex, 'audit');
+            if (_this.taskWaitAuditList[_this.operateIndex].applyAllTask[index].newest && _this.taskWaitAuditList[_this.operateIndex].newestTaskApplyCount > 0) {
               _this.$set(_this.taskWaitAuditList[_this.operateIndex], 'newestTaskApplyCount', _this.taskWaitAuditList[_this.operateIndex].newestTaskApplyCount - 1);
             }
-            if(_this.taskWaitAuditList[_this.operateIndex].newestTaskApplyCount > 0){
-              _this.$set(_this.taskWaitAuditList[_this.operateIndex], 'newestTaskApplyCount', _this.taskWaitAuditList[_this.operateIndex].newestTaskApplyCount - 1);
+            if (!_this.taskWaitAuditList[_this.operateIndex].applyAllTask[index].newest && _this.taskWaitAuditList[_this.operateIndex].totalTaskApplyCount > 0) {
+              _this.$set(_this.taskWaitAuditList[_this.operateIndex], 'totalTaskApplyCount', _this.taskWaitAuditList[_this.operateIndex].totalTaskApplyCount - 1);
             }
           } else {
             _this.$Message.error(res.msg);
@@ -190,6 +191,9 @@
           if (res.status) {
             _this.taskWaitAuditList = res.data.content;
             _this.totalElements = res.data.totalElements;
+            res.data.content.forEach(item => {
+              _this.$set(item, 'hasMoreData', 0);
+            });
             _this.searchLoading = false;
           } else {
             _this.$Message.error(res.msg);
@@ -214,13 +218,22 @@
         }).then(res => {
           if (res.status) {
             if (res.data.content.length > 0) {
-              if (res.data.content.length > 5) {
+              if (res.data.content.length > 4) {
                 _this.$set(_this.taskWaitAuditList[index], 'hasMoreData', 1);
               }
-              _this.$set(_this.taskWaitAuditList[index], 'applyAllTask', []);
-              res.data.content.forEach(item => {
-                _this.taskWaitAuditList[index].applyAllTask.push(item);
-              });
+              if (!_this.taskWaitAuditList[index].applyAllTask) {
+                _this.$set(_this.taskWaitAuditList[index], 'applyAllTask', []);
+                _this.taskWaitAuditList[index].applyAllTask = res.data.content;
+              } else {
+                if (type !== 'audit') {
+                  res.data.content.forEach(item => {
+                    _this.taskWaitAuditList[index].applyAllTask.push(item);
+                  });
+                } else {
+                  _this.taskWaitAuditList[index].applyAllTask = [];
+                  _this.taskWaitAuditList[index].applyAllTask = res.data.content;
+                }
+              }
               _this.taskWaitAuditList[index].applyAllTask.forEach(item => {
                 api.getAlitmByAccount({
                   account: item.alitmAccount,
@@ -234,8 +247,7 @@
                 });
               })
             } else if (res.data.content.length === 0) {
-              _this.taskWaitAuditList[index].applyAllTask = [];
-              _this.$set(_this.taskWaitAuditList[index], 'hasMoreData', 0);
+              _this.$set(_this.taskWaitAuditList[index], 'hasMoreData', 2);
             }
           } else {
             _this.$Message.error(res.msg);
@@ -250,8 +262,9 @@
         }).then(res => {
           if (res.status) {
             _this.$Message.success("设置新增待审批已读成功！");
-            _this.appliesWaitingAuditAll(_this.operateTaskId, _this.operateIndex);
-            if(_this.taskWaitAuditList[_this.operateIndex].newestTaskApplyCount > 0){
+            _this.$store.dispatch('getPersonalTrialCount');
+            _this.appliesWaitingAuditAll(_this.operateTaskId, _this.operateIndex, 'audit');
+            if (_this.taskWaitAuditList[_this.operateIndex].newestTaskApplyCount > 0) {
               _this.$set(_this.taskWaitAuditList[_this.operateIndex], 'newestTaskApplyCount', _this.taskWaitAuditList[_this.operateIndex].newestTaskApplyCount - 1);
             }
           } else {
@@ -259,24 +272,36 @@
           }
         })
       },
-      taskWaitToAudit(id,account,screenshot,time) {
+      taskWaitToAudit(id, account, screenshot, time, index) {
         this.approvalPopInfo.approvalPop = true;
         this.approvalPopInfo.passId = id;
         this.approvalPopInfo.applyName = account;
         this.approvalPopInfo.userScreenShotImg = JSON.parse(screenshot);
         this.approvalPopInfo.activeEndTime = time;
+        this.approvalPopInfo.index = index;
       },
-      auditSuccess(closePop) {
+      auditSuccess(closePop,type) {
         let _this = this;
         _this.approvalPopInfo.approvalPop = closePop;
-        _this.appliesWaitingAuditAll(_this.operateTaskId, _this.operateIndex);
-        if(_this.taskWaitAuditList[_this.operateIndex].newestTaskApplyCount > 0){
-          _this.$set(_this.taskWaitAuditList[_this.operateIndex], 'newestTaskApplyCount', _this.taskWaitAuditList[_this.operateIndex].newestTaskApplyCount - 1);
+        _this.$store.dispatch('getPersonalTrialCount');
+        _this.appliesWaitingAuditAll(_this.operateTaskId, _this.operateIndex, 'audit');
+        if(type === 'true'){
+          if (_this.taskWaitAuditList[_this.operateIndex].applyAllTask[_this.approvalPopInfo.index].newest && _this.taskWaitAuditList[_this.operateIndex].newestTaskApplyCount > 0) {
+            _this.$set(_this.taskWaitAuditList[_this.operateIndex], 'newestTaskApplyCount', _this.taskWaitAuditList[_this.operateIndex].newestTaskApplyCount - 1);
+          }
+          if (!_this.taskWaitAuditList[_this.operateIndex].applyAllTask[_this.approvalPopInfo.index].newest && _this.taskWaitAuditList[_this.operateIndex].totalTaskApplyCount > 0) {
+            _this.$set(_this.taskWaitAuditList[_this.operateIndex], 'totalTaskApplyCount', _this.taskWaitAuditList[_this.operateIndex].totalTaskApplyCount - 1);
+          }
         }
       },
       collapseToggle(id, index) {
         if (this.selectId === id) {
           this.selectId = null;
+          this.taskWaitAuditList.forEach(item => {
+            if (item.applyAllTask) {
+              item.applyAllTask = [];
+            }
+          });
         } else {
           this.selectId = id;
           this.appliesWaitingAuditAll(id, index)

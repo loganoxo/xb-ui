@@ -162,25 +162,19 @@
            v-if="taskPlaceInfo.taskType === 'pc_search' || taskPlaceInfo.taskType === 'app_search'">
         <p v-if="taskPlaceInfo.taskType === 'pc_search'">第1步：打开浏览器输入【<span>www.taobao.com</span>】</p>
         <p v-if="taskPlaceInfo.taskType === 'app_search'">第1步：打开【<span>手机淘宝APP</span>】</p>
-        <p v-if="taskPlaceInfo.taskType === 'pc_search'">
-          第2步：搜索框输入关键词【<span>{{taskPlaceInfo.taskDetailObject.searchKeyword}}</span>】</p>
-        <p v-if="taskPlaceInfo.taskType === 'app_search'">
-          第2步：搜索框输入关键词【<span>{{taskPlaceInfo.taskDetailObject.searchKeyword}}</span>】</p>
+        <p v-if="taskPlaceInfo.taskType === 'pc_search'"> 第2步：搜索框输入关键词【<span>{{taskPlaceInfo.taskDetailObject.searchKeyword}}</span>】</p>
+        <p v-if="taskPlaceInfo.taskType === 'app_search'">第2步：搜索框输入关键词【<span>{{taskPlaceInfo.taskDetailObject.searchKeyword}}</span>】</p>
         <p>第3步：选择【<span>{{getTaskStatus(taskPlaceInfo.taskDetailObject.searchSort)}}</span>】排序</p>
-        <p>
-          第4步：在【<span>{{taskPlaceInfo.taskDetailObject.searchPagePositionMin}}-{{taskPlaceInfo.taskDetailObject.searchPagePositionMax}}</span>】页附近找到下图宝贝。（由于千人千面的影响，位置仅供参考）
-        </p>
+        <p v-if="taskPlaceInfo.taskType === 'app_search'">第四步：从上往下数第【<span>{{taskPlaceInfo.taskDetailObject.searchRankPosition}}</span>】个宝贝左右</p>
+        <p v-if="taskPlaceInfo.taskType === 'pc_search'"> 第4步：在【<span>{{taskPlaceInfo.taskDetailObject.searchPagePositionMin}}-{{taskPlaceInfo.taskDetailObject.searchPagePositionMax}}</span>】页附近找到下图宝贝。（由于千人千面的影响，位置仅供参考）</p>
         <p v-if="taskPlaceInfo.taskDetailObject.priceRangeMin > 0 || taskPlaceInfo.taskDetailObject.deliverAddress || checkText">
-          第5步：<span class="minor-color" v-if="taskPlaceInfo.taskDetailObject.priceRangeMin > 0">搜索指定价格【<span>{{taskPlaceInfo.taskDetailObject.priceRangeMin / 100}}-{{taskPlaceInfo.taskDetailObject.priceRangeMax / 100}}</span>】</span><span
-          class="minor-color" v-if="taskPlaceInfo.taskDetailObject.deliverAddress">，搜索指定发货地【<span>{{taskPlaceInfo.taskDetailObject.deliverAddress}}</span>】</span>，<span class="minor-color" v-if="checkText">勾选【<span>{{checkText}}</span>】</span>
+          第5步：<span class="minor-color" v-if="taskPlaceInfo.taskDetailObject.priceRangeMin > 0">搜索指定价格【<span>{{taskPlaceInfo.taskDetailObject.priceRangeMin / 100}}-{{taskPlaceInfo.taskDetailObject.priceRangeMax / 100}}</span>】，</span><span
+          class="minor-color" v-if="taskPlaceInfo.taskDetailObject.deliverAddress">搜索指定发货地【<span>{{taskPlaceInfo.taskDetailObject.deliverAddress}}</span>】，</span><span class="minor-color" v-if="checkText">勾选【<span>{{checkText}}</span>】</span>
         </p>
       </div>
       <div class="tao-code-place-step" v-if="taskPlaceInfo.taskType === 'tao_code'">
-        <p class="mb-10">淘口令【<span id="copyCode">{{taskPlaceInfo.taskDetailObject.taoCode}}</span>】<span id="copyBtn"
-                                                                                                         class="ml-10">点击复制口令</span>
-        </p>
-        <vue-q-art :config="config" :downloadButton="downloadButton"></vue-q-art>
-        <p>入口说明：【<span>直接在手机端上复制淘口令，打开手淘会自动弹出宝贝链接，或直接用手淘扫描上方二维码</span>】</p>
+        <p class="mb-10">淘口令【<span id="copyCode">{{taskPlaceInfo.taskDetailObject.taoCode}}</span>】<span id="copyBtn" class="ml-10">点击复制口令</span></p>
+        <p>入口说明：【<span>直接在手机端上复制淘口令，打开手淘会自动弹出宝贝链接</span>】</p>
       </div>
       <div v-if="taskPlaceInfo.taskType === 'direct_access'" class="tao-link-place-step">
         <p>宝贝链接：<a :href="taskPlaceInfo.itemUrl" target="_blank">{{taskPlaceInfo.itemUrl}}</a>
@@ -326,7 +320,6 @@
   import DatePicker from 'iview/src/components/date-picker'
   import Tooltip from 'iview/src/components/tooltip'
   import Modal from 'iview/src/components/modal'
-  import VueQArt from 'vue-qart'
   import Clipboard from 'clipboard';
   import Upload from '@/components/upload'
   import TimeDown from '@/components/TimeDown'
@@ -351,14 +344,9 @@
       Modal: Modal,
       Upload: Upload,
       TimeDown: TimeDown,
-      VueQArt: VueQArt
     },
     data() {
       return {
-        config: {
-          value: '',
-          imagePath: require('@/assets/img/common/home_24.png')
-        },
         downloadButton: false,
         showPassOperation: '',
         showAuditOrderNumber: false,
@@ -496,7 +484,6 @@
               _this.showPassOperation = type;
               _this.taskPlaceInfo = res.data.taskInfo;
               _this.showkerTask = res.data.showkerTask;
-              _this.config.value = res.data.taskInfo.taskDetailObject.taoCode;
             } else {
               _this.$Message.error(res.msg);
             }

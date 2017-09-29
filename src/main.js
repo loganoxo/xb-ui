@@ -7,7 +7,7 @@ import VueLazyload from 'vue-lazyload'
 import Modal from 'iview/src/components/modal'
 import LoadingBar from 'iview/src/components/loading-bar'
 import Message from 'iview/src/components/message'
-import 'animate.css/animate.css'
+// import 'animate.css/animate.css'
 import '../iview/iview.less'
 import '@/css/common.scss'
 

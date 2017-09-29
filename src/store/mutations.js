@@ -45,6 +45,11 @@ export default {
     state.logInAuthority = logInAuthority;
   },
 
+  //商家任务管理活动数量信息（活动总数量，新增待审批，订单号带审批，买家秀待确认）
+  [types.TASK_MANAGEMENT_COUNT_INFO](state, {countInfo}) {
+    state.taskManagementCountInfo = countInfo;
+  },
+
   //更改头部显示
   [types.CHANGE_TOP_SHOW](state) {
     state.topShow = true;

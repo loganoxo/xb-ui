@@ -250,7 +250,7 @@
       @include fullScreenModel;
     }
     .confirm-refund-con {
-      @include fullScreenModelCon(552px, 228px);
+      @include fullScreenModelCon(552px, 252px);
       i {
         font-size: 24px;
         cursor: pointer;

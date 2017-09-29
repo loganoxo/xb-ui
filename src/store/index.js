@@ -15,6 +15,7 @@ const state = {
   logInAuthority: true,//用户页面权限标识
   severTime: null,//当前服务器时间
   clientTime: null,//当前客户端时间
+  taskManagementCountInfo: {},//商家任务管理活动数量信息
   TaskCategoryActive: ''
 };
 
