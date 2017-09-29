@@ -178,10 +178,12 @@
       margin: 20px auto 0 auto;
       position: relative;
       .trial-img {
-        width: 420px;
+        width: 700px;
         margin: 26px auto 0 auto;
         img {
-          width: 100%;
+          width: 70%;
+          display: block;
+          margin: auto;
         }
       }
       .left-btn {

@@ -242,11 +242,11 @@
         deleteWwModal: false,
         deleteWwId: '',
         taobaoLevelImgs: [
-          {
-            value: 1,
-            text: 'https://img.alicdn.com/newrank/b_red_1.gif',
-            label: '1心'
-          },
+//          {
+//            value: 1,
+//            text: 'https://img.alicdn.com/newrank/b_red_1.gif',
+//            label: '1心'
+//          },
           {
             value: 2,
             text: 'https://img.alicdn.com/newrank/b_red_2.gif',

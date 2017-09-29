@@ -2,7 +2,7 @@
   <div class="seller-adv">
     <role-top></role-top>
     <div class="text-ct pos-rel" style="min-width: 1200px" >
-      <img src="/static/img/seller-adv/seller-adv_02.png" alt="" style="width: 100%;" >
+      <img src="/static/img/seller-adv/seller-adv_02.jpg" alt="" style="width: 100%;" >
       <router-link style="
         position: absolute;
         top: 60%;

@@ -255,7 +255,7 @@
                 url: '/user/help-center/faq',
                 text: '平台能提现吗？提现需要手续费吗？',
                 page: 'common',
-                qusNum: '10'
+                qusNum: '11'
               },
             ],
             active: 'faq'

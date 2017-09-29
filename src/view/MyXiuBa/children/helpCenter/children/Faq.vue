@@ -9,7 +9,7 @@
       <div v-show="selFaq == 'common'" class="faq-que-ans animated fadeIn " >
         <Collapse class="mt-20" v-model="selectedFaq">
           <Panel name="1">
-            1、注册秀吧收费么？
+            <span >1、注册秀吧收费么？</span>
             <p slot="content">
             注册秀吧是免费的，秀客成功注册之后可以免费申请试用商品。商家注册成功后可以发布试用商品。
            </p>
@@ -61,19 +61,25 @@
             </div>
           </Panel>
           <Panel name="9">
-            9、充值多久后到账？
+            9、如何进行实名认证？
+            <div slot="content">
+            <p>登录后进入个人中心，选择个人设置下的实名认证，按要求填写表单内容提交即可，后台会在24小时内完成审核。</p>
+          </div>
+          </Panel>
+          <Panel name="10">
+            10、充值多久后到账？
             <div slot="content">
               <p>充值成功后，如果账户显示的余额不变，请您不要惊慌，我们的系统是有缓冲时间的，您只需要耐心稍等即可。</p>
             </div>
           </Panel>
-          <Panel name="10">
-            10、提现需要手续费吗？
+          <Panel name="11"  >
+            <span>11、提现需要手续费吗？</span>
             <div slot="content">
               <p>提现时，平台收取0.1%转账手续费。</p>
             </div>
           </Panel>
-          <Panel name="11">
-            <span>11、申请的提现什么时候处理？提现多久后到账？</span>
+          <Panel name="12">
+            <span>12、申请的提现什么时候处理？提现多久后到账？</span>
             <div slot="content">
               <p>
                 每天进行两提现处理。当日12:00-当日18:00间申请提现的，在当日18:00处理；当日18:00-次日12:00间申请提现的，

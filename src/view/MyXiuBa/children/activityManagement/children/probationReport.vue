@@ -45,17 +45,18 @@
         <div class="trial-experience-con mt-22">{{showkerReportInfo.trialReportText || ''}}</div>
         <div class="trial-experience-title mt-22">买家秀图片：</div>
         <div class="trial-img-info" v-if="trialReportImages.length > 0">
-          <div class="trial-img">
+          <div class="trial-img" style="min-height: 400px">
             <img :src="showNowImageSrc">
           </div>
-          <ul class="trial-img-list clear mt-22">
-            <li v-for="(imgSrc,index) in trialReportImages" @mouseenter="selectChangeImg(imgSrc,index)">
-              <img :src="imgSrc">
-            </li>
-          </ul>
           <span class="left-btn" @click="leftChangeImg"><Icon type="chevron-left" size="32" color="#999"></Icon></span>
           <span class="right-btn" @click="rightChangeImg"><Icon type="chevron-right" size="32" color="#999"></Icon></span>
+
         </div>
+        <ul v-if="trialReportImages.length > 0" class="trial-img-list clear mt-22">
+          <li v-for="(imgSrc,index) in trialReportImages" @mouseenter="selectChangeImg(imgSrc,index)">
+            <img :src="imgSrc">
+          </li>
+        </ul>
         <div class="no-buyer-show" v-else>暂无买家秀图片</div>
         <div class="check-trial mt-40" v-if="!showType || (showType && showType === 'taskPassAudit')">
           <div class="select-check">
