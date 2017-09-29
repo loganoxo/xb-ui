@@ -322,7 +322,8 @@
           }
         }
         .member-price:hover {
-          color: #000;
+          border: 1px dashed $mainColor;
+          color: $mainColor;
         }
         .member-price.active {
           background-color: #F6E363;
