@@ -68,6 +68,27 @@ router.post('/api/get-bank-card-information.json', function (req, res, next) {
   })
 });
 
+
+/**
+ * 判断是否可以发布活动
+ */
+router.post('/api/get-check-Member-for-task.json', function (req, res, next) {
+  let options = {
+    method: 'GET',
+    uri: baseUrl + '/task/checkMemberForTask/' + req.session.userData.id,
+    json: true
+  };
+  request(options).then(function (parsedBody) {
+    res.send(parsedBody);
+    res.end();
+  }).catch(function (err) {
+    logConfig.logger.error(req.originalUrl + ':' + err);
+    res.json({status: false, msg: "服务器超时，请稍后再试！"});
+    res.end();
+  })
+});
+
+
 /**
  * 获取会员活动信息
  */

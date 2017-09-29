@@ -370,6 +370,13 @@ export default {
   },
 
   /**
+   * 判断是否可以发布活动
+   */
+  checkMemberForTask() {
+    return fetch("/api/get-check-Member-for-task.json")
+  },
+
+  /**
    * 充值会员
    */
   memberPurchase(params) {
