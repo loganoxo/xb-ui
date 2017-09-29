@@ -9,7 +9,7 @@
         <Step title="活动上线"></Step>
       </Steps>
     </div>
-    <div v-if="getMemberStatus === 'need_member_for_more_task'||getMemberStatus==='need_member_for_more_audit'" class="text-ct " >
+    <div v-show="getMemberStatus === 'need_member_for_more_task'||getMemberStatus==='need_member_for_more_audit'" class="text-ct " >
       <div class="mt-80" style="font-size:20px;color: #949494" v-if="getMemberStatus === 'need_member_for_more_task'" >
         <Icon style="font-size: 25px ;transform: translateY(3px)" type="close-circled"></Icon>
         <span><strong>很抱歉，当前你为非会员，购买会员后才能继续发布任务！</strong></span>
@@ -25,7 +25,7 @@
         <iButton @click="openMember" class="check-member" type="success" size="large">购买会员</iButton>
       </div>
     </div>
-    <div v-else>
+    <div v-if="blockOrNone" v-cloak >
       <!--任务发布-->
       <div class="activity-con" v-show="stepName === 'information'">
         <div class="activity-info">
@@ -557,6 +557,7 @@
     },
     data() {
       return {
+        blockOrNone:false,
         name: 'base-example',
         uniqueId: 'uniqueId',
         addImgRange: null,
@@ -735,7 +736,11 @@
         api.checkMemberForTask().then(res => {
           if (res) {
             _this.getMemberStatus = res.statusCode;
-            console.log(res);
+            if (res.statusCode !== 'need_member_for_more_task'&& res.statusCode !== 'need_member_for_more_audit'){
+              _this.blockOrNone = true;
+            }else {
+              _this.blockOrNone = false
+            }
           } else {
             _this.$Message.error(res.msg)
           }
@@ -1118,6 +1123,9 @@
   @import 'src/css/mixin';
 
   .task-release {
+    [v-cloak]{
+      display: none
+    }
     .check-member {
       width: 200px;
       font-size: 18px;

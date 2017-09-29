@@ -203,10 +203,15 @@
     <Modal
       v-if="needBrowseCollectAddCart"
       v-model="showkerApplyBefore"
+      :closable="false"
+      :mask-closable="false"
       width="700">
-      <p slot="header" style="color:#f60;text-align:center">
+      <p slot="header" class="my-pop text-ct" style="color:#f60 ;position: relative">
         <Icon type="information-circled"></Icon>
         <span>该活动需要先浏览、收藏、加购后方可申请</span>
+        <span class="cursor-p" style="position: absolute;right: 10px;color: gray" @click="closeMyPop">
+           <Icon type="close" class="close-my-pop" ></Icon>
+        </span>
       </p>
       <div >
         <TaskApplyBefore
@@ -388,10 +393,18 @@
         this.applySuccess = false;
         this.getTaskDetails();
       },
+      closeMyPop(){
+        this.showkerApplyBefore = false;
+        if (this.$route.query.resubmit){
+          this.$router.push({name:'ApplyWaitAudit'});
+        }
+      },
       getShowkerApplyBefore(payPopWindow){
         if (payPopWindow === null){
           this.showkerApplyBefore = false;
-          this.$router.push({name:'ApplyWaitAudit'});
+          if (this.$route.query.resubmit){
+            this.$router.push({name:'ApplyWaitAudit'});
+          }
           return
         }else {
           this.showkerApplyBefore = payPopWindow;
@@ -609,6 +622,10 @@
   @import 'src/css/mixin';
   .task-details-ctt{
     background-color: #f1f1f1;
+    .my-pop{
+      position: relative;
+
+    }
     .task-details-top{
       background-color: #fff;
       padding: 10px;

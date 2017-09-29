@@ -44,7 +44,7 @@
         <div v-if="needRecharge > 0" class="text-ct mt-20">
           <iButton class="btn-recharge" @click="recharge = true">前去充值</iButton>
         </div>
-        <div v-else class="text-ct  mt-20">
+        <div v-else  class="text-ct mt-20">
           <iButton class="btn-recharge" @click="recharge = true">马上购买</iButton>
         </div>
       </div>
@@ -322,8 +322,7 @@
           }
         }
         .member-price:hover {
-          border: 1px dashed $mainColor;
-          color: $mainColor;
+          color: #000;
         }
         .member-price.active {
           background-color: #F6E363;
