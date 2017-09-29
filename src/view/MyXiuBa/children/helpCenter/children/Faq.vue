@@ -209,7 +209,6 @@
 
 
       </div>
-      <span id="q10">来吧</span>
     </div>
   </div>
 </template>
