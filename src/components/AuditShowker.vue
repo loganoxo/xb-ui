@@ -41,10 +41,7 @@
       <iInput style="width: 80%" placeholder="请填写截图不正确的地方，以便秀客修改" v-model="reason"></iInput>
     </div>
     <div class="text-ct mt-20">
-      <iButton type="success"
-               style="width: 110px;"
-               @click="showkerPassAudit(passId,passOrNoPass,reason)">确定
-      </iButton>
+      <iButton type="success" style="width: 110px;" @click="showkerPassAudit(passId,passOrNoPass,reason)">确定</iButton>
     </div>
     <div class="clear mt-20 pt-10">
       <div class="left ml-20" style="color: #FF6636;font-size: 29px">
@@ -52,10 +49,7 @@
       </div>
       <div class="left ml-20" style="text-align: left">
         <p>“通过”秀客直接获得活动资格，“希望重新提交”将通知秀客重新修改截图！</p>
-        <p> 您还有
-          <time-down :endTime="activeEndTime"></time-down>
-          进行审核，若该时间内未审核，系统将随机审核通过！
-        </p>
+        <p> 您还有<time-down :endTime="activeEndTime"></time-down>进行审核，若该时间内未审核，系统将随机审核通过！</p>
       </div>
     </div>
     <!--照片查看器-->

@@ -77,7 +77,7 @@
         </div>
       </collapse-transition>
     </div>
-    <div class="mt-40 text-ct" v-else>暂无待审批数据</div>
+    <div class="mt-40 text-ct" v-if="taskWaitAuditList.length === 0">暂无待审批数据</div>
     <div class="activity-page mt-20 right mr-10" v-if="taskWaitAuditList && taskWaitAuditList.length > 0">
       <Page :total="totalElements" :page-size="pageSize" @on-change="pageChange"></Page>
     </div>
@@ -167,7 +167,9 @@
           if (res.status) {
             _this.$Message.success("审核秀客成功！");
             _this.appliesWaitingAuditAll(_this.operateTaskId, _this.operateIndex);
-            _this.$set(_this.taskWaitAuditList[_this.operateIndex], 'totalTaskApplyCount', _this.taskWaitAuditList[_this.operateIndex].totalTaskApplyCount - 1);
+            if(_this.taskWaitAuditList[_this.operateIndex].newestTaskApplyCount > 0){
+              _this.$set(_this.taskWaitAuditList[_this.operateIndex], 'newestTaskApplyCount', _this.taskWaitAuditList[_this.operateIndex].newestTaskApplyCount - 1);
+            }
             if(_this.taskWaitAuditList[_this.operateIndex].newestTaskApplyCount > 0){
               _this.$set(_this.taskWaitAuditList[_this.operateIndex], 'newestTaskApplyCount', _this.taskWaitAuditList[_this.operateIndex].newestTaskApplyCount - 1);
             }
@@ -249,7 +251,9 @@
           if (res.status) {
             _this.$Message.success("设置新增待审批已读成功！");
             _this.appliesWaitingAuditAll(_this.operateTaskId, _this.operateIndex);
-            _this.$set(_this.taskWaitAuditList[_this.operateIndex], 'newestTaskApplyCount', _this.taskWaitAuditList[_this.operateIndex].newestTaskApplyCount - 1);
+            if(_this.taskWaitAuditList[_this.operateIndex].newestTaskApplyCount > 0){
+              _this.$set(_this.taskWaitAuditList[_this.operateIndex], 'newestTaskApplyCount', _this.taskWaitAuditList[_this.operateIndex].newestTaskApplyCount - 1);
+            }
           } else {
             _this.$Message.error(res.msg);
           }
@@ -266,7 +270,9 @@
         let _this = this;
         _this.approvalPopInfo.approvalPop = closePop;
         _this.appliesWaitingAuditAll(_this.operateTaskId, _this.operateIndex);
-        _this.$set(_this.taskWaitAuditList[_this.operateIndex], 'newestTaskApplyCount', _this.taskWaitAuditList[_this.operateIndex].newestTaskApplyCount - 1);
+        if(_this.taskWaitAuditList[_this.operateIndex].newestTaskApplyCount > 0){
+          _this.$set(_this.taskWaitAuditList[_this.operateIndex], 'newestTaskApplyCount', _this.taskWaitAuditList[_this.operateIndex].newestTaskApplyCount - 1);
+        }
       },
       collapseToggle(id, index) {
         if (this.selectId === id) {

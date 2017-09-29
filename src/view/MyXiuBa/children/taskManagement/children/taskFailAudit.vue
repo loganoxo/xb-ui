@@ -74,7 +74,7 @@
         </div>
       </collapse-transition>
     </div>
-    <div class="mt-40 text-ct" v-else>暂无已终止数据</div>
+    <div class="mt-40 text-ct" v-if="taskFailAuditList.length === 0">暂无已终止数据</div>
     <div class="activity-page mt-20 right mr-10" v-if="taskFailAuditList && taskFailAuditList.length > 0">
       <Page :total="totalElements" :page-size="pageSize" :current="pageIndex" @on-change="pageChange"></Page>
     </div>
@@ -140,6 +140,7 @@
           this.rejectReasonList = [];
         }
         this.pageIndex = 1;
+        this.selectId = null;
         this.appliesEndTask();
       },
       checkFailChange() {
@@ -151,6 +152,7 @@
           this.checkAllByFail = false;
         }
         this.pageIndex = 1;
+        this.selectId = null;
         this.appliesEndTask();
       },
       pageChange(data) {

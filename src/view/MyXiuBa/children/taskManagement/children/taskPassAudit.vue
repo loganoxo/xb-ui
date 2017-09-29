@@ -115,7 +115,7 @@
         </div>
       </collapse-transition>
     </div>
-    <div class="text-ct mt-40" v-else>暂无已通过数据</div>
+    <div class="text-ct mt-40" v-if="taskPassAuditList.length === 0">暂无已通过数据</div>
     <div class="activity-page mt-20 right mr-10" v-if="taskPassAuditList && taskPassAuditList.length > 0">
       <Page :total="totalElements" :page-size="pageSize" :current="pageIndex" @on-change="pageChange"></Page>
     </div>
@@ -263,6 +263,7 @@
           this.showkerTaskStatusList = [];
         }
         this.pageIndex = 1;
+        this.selectId = null;
         this.passesTaskList();
       },
       checkPassChange() {
@@ -274,6 +275,7 @@
           this.checkAllByPass = false;
         }
         this.pageIndex = 1;
+        this.selectId = null;
         this.passesTaskList();
       },
       pageChange(data) {
@@ -282,7 +284,6 @@
       },
       passesTaskList() {
         let _this = this;
-//        _this.taskPassAuditList = [];
         _this.searchLoading = true;
         let showkerTaskStatusList = JSON.stringify(_this.showkerTaskStatusList);
         if (_this.taskNumber || _this.alitmAccount || _this.orderNum) {
