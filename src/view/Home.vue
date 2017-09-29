@@ -169,7 +169,7 @@
                 <p>{{homeCommodity.taskName}}</p>
                 <p>
                   <span class="left">￥{{homeCommodity.itemPrice/100}}</span>
-                  <span class="right">免费活动</span>
+                  <!--<span class="right">免费活动</span>-->
                 </p>
               </div>
             </router-link>

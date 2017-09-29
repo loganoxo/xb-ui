@@ -83,7 +83,7 @@
                 <p v-html="searchTask.taskName"></p>
                 <p class="task-category-commodity-text-price">
                   <span class="left">￥{{searchTask.itemPrice/100}}</span>
-                  <span class="right">免费活动</span>
+                  <!--<span class="right">免费活动</span>-->
                 </p>
                 <p class="cl000">
                   份数:{{searchTask.taskCount}}
