@@ -54,8 +54,7 @@
           <h3 >通过商家指定的方式找到该宝贝</h3>
           <div class=" mt-10 search-type"><strong>{{taskTypeDesc}}</strong></div>
           <p><span>淘口令</span><span>【<strong id="copyCode">{{taskDetail.taoCode}}</strong>】</span><span class="ml-10 cursor-p" style="color: blue" id="copyBtn">点击复制淘口令</span></p>
-          <vue-q-art :config="config" :downloadButton="downloadButton"></vue-q-art>
-          <p>入口说明：【<strong>直接在手机端上复制淘口令，打开手淘会自动弹出宝贝链接，或直接用手淘扫描上方二维码</strong>】</p>
+          <p>入口说明：【<strong>直接在手机端上复制淘口令，打开手淘会自动弹出宝贝链接</strong>】</p>
         </div>
         <div v-if="taskType === 'direct_access'" class="activity-type mt-40" >
           <span class="serial-number">2</span>
