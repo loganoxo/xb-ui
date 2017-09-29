@@ -248,6 +248,11 @@
 //            label: '1心'
 //          },
           {
+            value: '',
+            text: '',
+            label: ''
+          },
+          {
             value: 2,
             text: 'https://img.alicdn.com/newrank/b_red_2.gif',
             label: '2心'
