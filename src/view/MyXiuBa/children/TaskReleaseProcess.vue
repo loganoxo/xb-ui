@@ -652,7 +652,9 @@
           fileInput.click()
         }
       };
-      _this.$refs.myTextEditor.quill.getModule("toolbar").addHandler("image", imgHandler)
+      setTimeout(function () {
+        _this.$refs.myTextEditor.quill.getModule("toolbar").addHandler("image", imgHandler)
+      },100)
     },
     created() {
       this.checkMemberForTask();
@@ -742,11 +744,7 @@
         api.checkMemberForTask().then(res => {
           if (res) {
             _this.getMemberStatus = res.statusCode;
-            if (res.statusCode !== 'need_member_for_more_task'&& res.statusCode !== 'need_member_for_more_audit'){
-              _this.blockOrNone = true;
-            }else {
-              _this.blockOrNone = false
-            }
+            _this.blockOrNone = res.statusCode !== 'need_member_for_more_task' && res.statusCode !== 'need_member_for_more_audit';
           } else {
             _this.$Message.error(res.msg)
           }
@@ -1074,7 +1072,7 @@
             _this.addImgRange = _this.$refs.myTextEditor.quill.getSelection();
             _this.$refs.myTextEditor.quill.insertEmbed(_this.addImgRange !== null ? _this.addImgRange.index : 0, 'image', value, Quill.sources.USER);
             document.getElementById(_this.uniqueId).value = '';
-            _this.$Message.warning('亲，图片上传成功！');
+            _this.$Message.success('亲，图片上传成功！');
           }
         }).catch(err => {
           document.getElementById(_this.uniqueId).value = '';

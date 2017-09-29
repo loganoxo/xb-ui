@@ -490,7 +490,7 @@
        * @return {number}
        */
       oneBond: function () {
-        return this.taskRelease.pinkage === 'true' ? (this.taskRelease.itemPrice * 100).toFixed(2) / 100 : (this.taskRelease.itemPrice * 100).toFixed(2) / 100 + 10;
+        return this.taskRelease.pinkage === 'true' ? (this.taskRelease.itemPrice * 100).toFixed(2) / 100 : ((this.taskRelease.itemPrice * 100).toFixed(2) / 100 + 10).toFixed(2);
       },
       /**
        * 计算实际单品推广费用（单品推广费最高上限3元）

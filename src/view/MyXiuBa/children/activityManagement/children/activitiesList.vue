@@ -2,7 +2,7 @@
   <div class="activity-management">
     <div class="activity-title pl-10">活动管理</div>
     <div class="activity-title-s pl-10">
-      共<span>{{taskData.taskTotalCount}}</span>个活动，其中待审核<span>{{taskData.taskWaitingAuditCount}}</span>个，进行中<span>{{taskData.taskUnderWayCount}}</span>个，已结束尚未结算<span>{{taskData.settlementWaitingAuditCount}}</span>个
+      共<span>{{taskData.taskTotalCount}}</span>个活动，其中待审核<span>{{taskData.taskWaitingAuditCount}}</span>个，进行中<span>{{taskData.taskUnderWayCount}}</span>个，已结束尚未结算<span>{{taskData.taskFinishedSettlementWaitingCount}}</span>个
     </div>
     <div class="select-status pl-10 clear">
       <div class="left mr-10" style="padding-top: 1px;">
