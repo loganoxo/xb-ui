@@ -14,10 +14,11 @@
                 <!--<a href="">店铺</a>-->
               </div>
               <i class="ivu-icon ivu-icon-ios-search"></i>
-              <input type="text" class="search-btn" v-model="searchKey" @keydown="goKeyEnterFunc"  autocomplete="off">
+              <input type="text" class="search-btn left" v-model="searchKey" @keydown="goKeyEnterFunc"  autocomplete="off">
               <!--<i data-v-fae95c8a="" class="ivu-icon ivu-icon-camera"></i>-->
+              <a @click="goTaskCategory" class="search left">搜索</a>
             </div>
-            <a @click="goTaskCategory">搜索</a>
+
             <!--<p class="link-text">-->
               <!--<a class="active" href="">男士内裤</a>-->
               <!--<a class="active" href="">时尚连衣裙</a>-->
@@ -33,8 +34,12 @@
               <!--<a href="">装饰画</a>-->
               <!--<a href="">更多></a>-->
             <!--</p>-->
+
           </div>
         </div>
+        <router-link to="/seller-adv" class="seller-guide animated infinite pulse ic_plugin_help" >
+          <img src="/static/img/common/seller-guide.png" alt="">
+        </router-link>
       </div>
     </div>
     <div class="home-nav">
@@ -134,9 +139,9 @@
     > div {
       background-color: #fff;
       div.search-box {
-        margin-left: 50px;
+        margin-left: 20px;
         margin-top: 60px;
-        > a {
+        a.search {
           display: inline-block;
           background-color: $mainColor;
           color: #fff;
@@ -146,6 +151,7 @@
           text-align: center;
           font-size: 16px;
         }
+
         p.link-text {
           margin-top: 5px;
           a {
@@ -204,12 +210,21 @@
           width: 400px;
         }
       }
-
+      a.seller-guide{
+        display: inline-block;
+        width: 150px;
+        margin-top: 10px;
+        margin-left: 10px;
+        img{
+          width: 100%;
+        }
+      }
     }
   }
 
   .home-nav {
     height: 42px;
+    clear: both;
     background-color: $mainColor;
     > div {
       background-color: $mainColor;
