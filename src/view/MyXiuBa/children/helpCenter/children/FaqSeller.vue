@@ -336,7 +336,6 @@
 
 <style lang="scss" scoped>
   @import 'src/css/mixin';
-
   .faq-special-explain {
     > p {
       margin-top: 30px;
@@ -360,5 +359,8 @@
         font-size: 14px;
       }
     }
+  }
+  .faq-que-ans p{
+    line-height: 24px;
   }
 </style>

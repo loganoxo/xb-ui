@@ -317,13 +317,13 @@
           }
           &:last-child {
             color: #FF6633;
-            span:last-child {
-              background-color: #FCE2E4;
-              padding: 0 10px;
-              height: 30px;
-              line-height: 30px;
-              margin-top: 2px;
-            }
+            /*span:last-child {*/
+              /*background-color: #FCE2E4;*/
+              /*padding: 0 10px;*/
+              /*height: 30px;*/
+              /*line-height: 30px;*/
+              /*margin-top: 2px;*/
+            /*}*/
           }
         }
 

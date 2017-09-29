@@ -144,7 +144,7 @@
                 <a v-for="notice in noticeList" :class="[noticeActive == notice.active ? 'active' : '']" @click="changeNoticeTab(notice)">{{notice.title}}</a>
               </p>
               <div v-for="(notice,index) in noticeList" v-show="noticeActive == notice.active" :key="index" class="notice-text animated fadeIn" >
-                <router-link  v-for="(content,index) in notice.content" :key="index" :to="{path: content.url, query: {page: content.page, qusNum: content.qusNum}}" class="circle-text">{{content.text}}</router-link>
+                <router-link  v-for="(content,index) in notice.content" :key="index" :to="{path: content.url, query: {page: content.page, qusNum: content.qusNum}, hash: 'q10'}" class="circle-text">{{content.text}}</router-link>
               </div>
             </div>
           </div>
@@ -601,13 +601,13 @@
               }
               &:last-child{
                 color: #FF6633;
-                span:last-child{
-                  background-color: #FCE2E4;
-                  padding: 0 10px;
-                  height: 30px;
-                  line-height: 30px;
-                  margin-top: 2px;
-                }
+                /*span:last-child{*/
+                  /*background-color: #FCE2E4;*/
+                  /*padding: 0 10px;*/
+                  /*height: 30px;*/
+                  /*line-height: 30px;*/
+                  /*margin-top: 2px;*/
+                /*}*/
               }
             }
 

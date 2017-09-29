@@ -5,7 +5,7 @@
         <iButton :ref="faqSel.ref" v-for="(faqSel,index) in faqSelList" :type="faqSel.type" :key="index" @click="selQuestion(faqSel,index)">{{faqSel.text}}</iButton>
       </ButtonGroup>
     </p>
-    <div id="lastOne">
+    <div>
       <div v-show="selFaq == 'common'" class="faq-que-ans animated fadeIn " >
         <Collapse class="mt-20" v-model="selectedFaq">
           <Panel name="1">
@@ -209,6 +209,7 @@
 
 
       </div>
+      <span id="q10">来吧</span>
     </div>
   </div>
 </template>
@@ -331,5 +332,8 @@
         font-size: 14px;
       }
     }
+  }
+  .faq-que-ans p{
+    line-height: 24px;
   }
 </style>
