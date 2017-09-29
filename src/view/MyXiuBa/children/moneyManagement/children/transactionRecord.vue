@@ -25,7 +25,6 @@
           <Checkbox label="0">活动</Checkbox>
           <Checkbox label="1">充值</Checkbox>
           <Checkbox label="2">提现</Checkbox>
-          <Checkbox label="3">推荐奖励</Checkbox>
           <Checkbox label="100">其它</Checkbox>
         </Checkbox-group>
       </div>
@@ -406,7 +405,7 @@
       },
       getTradListAll(type) {
         let _this = this;
-        if (type && (type.length === 0 || type.length === 3)) {
+        if (type && (type.length === 0 || type.length === 4)) {
           type = null;
         } else {
           type = JSON.stringify(type);
@@ -450,14 +449,14 @@
       handleCheckAll() {
         this.checkAll = !this.checkAll;
         if (this.checkAll) {
-          this.transactType = ['0', '1', '2','3','100'];
+          this.transactType = ['0', '1', '2','100'];
         } else {
           this.transactType = [];
         }
       },
       checkAllGroupChange() {
         if (this.getUserInfoRole === 1){
-          if (this.transactType.length === 5) {
+          if (this.transactType.length === 4) {
             this.checkAll = true;
           } else if (this.transactType.length > 0) {
             this.checkAll = false;
