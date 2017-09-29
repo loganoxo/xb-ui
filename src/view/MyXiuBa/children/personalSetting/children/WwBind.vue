@@ -17,7 +17,7 @@
             <ul class="ww-account-ctt" v-for="(ww, index) in wwBindLists">
               <li>
                 <p>{{ww.alitmAccount}}</p>
-                <p v-if="ww.creditLevel"><img :src="taobaoLevelImgs[parseInt(ww.creditLevel) - 1]['text']" alt="" style="width: auto;height: auto;"></p>
+                <p v-if="ww.creditLevel"><img :src="taobaoLevelImgs[parseInt(ww.creditLevel) - 2]['text']" alt="" style="width: auto;height: auto;"></p>
                 <p v-if="ww.tqz">淘气值：{{taoqizhiList[parseInt(ww.tqz) - 1]['label']}}</p>
               </li>
               <li>{{ww.applyTime | dateFormat('YYYY-MM-DD hh:mm:ss')}}</li>
@@ -247,11 +247,11 @@
 //            text: 'https://img.alicdn.com/newrank/b_red_1.gif',
 //            label: '1心'
 //          },
-          {
-            value: '',
-            text: '',
-            label: ''
-          },
+//          {
+//            value: '',
+//            text: '',
+//            label: ''
+//          },
           {
             value: 2,
             text: 'https://img.alicdn.com/newrank/b_red_2.gif',
