@@ -33,7 +33,7 @@
           <td>
             <Tooltip :content="item.reason" placement="top" v-if="item.reason && item.status === 'waiting_resubmit'">
               <Icon color="#f60" type="information-circled"></Icon>
-              <span>{{getTaskStatus(item.status)}}</span>
+              <span class="main-color">{{getTaskStatus(item.status)}}</span>
             </Tooltip>
             <span v-else> {{getTaskStatus(item.status)}}</span>
           </td>

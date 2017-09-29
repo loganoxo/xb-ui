@@ -562,9 +562,10 @@
           type: _this.hasDeposited > 0 ? 'supply_pay' : 'first_pay'
         }).then(res => {
           if (res.status) {
+            _this.showPayModel = false;
             _this.$Message.success({
               content: '支付成功！',
-              duration: 6
+              duration: 4
             });
             _this.$store.dispatch('getUserInformation');
             setTimeout(function () {
@@ -576,7 +577,6 @@
               duration: 6
             })
           }
-          _this.showPayModel = false;
         })
       },
       lookBill() {

@@ -258,7 +258,7 @@
               content: '支付成功！',
               duration: 2,
             });
-            this.$store.dispatch('getUserInformation');
+            _this.$store.dispatch('getUserInformation');
             setTimeout(function () {
               _this.$router.go(0)
             }, 2000)
