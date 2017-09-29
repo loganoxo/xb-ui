@@ -15,23 +15,21 @@
                 @click="changeTimeChoiceStyle(item.isSelect),getTargetTime(item.id)">{{item.text}}</span>
         </div>
       </div>
-      <div class="transact-type ">
+      <div class="transact-type clear ">
         <span class="left">交易类型：</span>
-        <div class="left ml-5">
-          <Checkbox
-            :value="checkAll"
-            @click.prevent.native="handleCheckAll">全部
-          </Checkbox>
-        </div>
-        <div class="left">
-          <Checkbox-group v-model="transactType" class="checkBox  ml-45" @on-change="checkAllGroupChange">
-            <Checkbox label="0">活动</Checkbox>
-            <Checkbox label="1">充值</Checkbox>
-            <Checkbox label="2">提现</Checkbox>
-          </Checkbox-group>
-        </div>
+        <Checkbox class="left ml-5"
+          :value="checkAll"
+          @click.prevent.native="handleCheckAll">全部
+        </Checkbox>
+        <Checkbox-group v-model="transactType" class="checkBox left  ml-45" @on-change="checkAllGroupChange">
+          <Checkbox label="0">活动</Checkbox>
+          <Checkbox label="1">充值</Checkbox>
+          <Checkbox label="2">提现</Checkbox>
+          <Checkbox label="3">推荐奖励</Checkbox>
+          <Checkbox label="100">其它</Checkbox>
+        </Checkbox-group>
       </div>
-      <div class="activity-number mt-20">
+      <div class="activity-number mt-10">
         活动编号：
         <iInput v-model="activityNumber" style="width: 200px;height: 30px" class="ml-10"></iInput>
       </div>
@@ -135,7 +133,7 @@
                     {{typeChang(item.tradAmount / 100) || 0}}
                   </td>
                 </tr>
-                <tr v-show="tbodyDetails.changeName !== 'recharge_record'&& tbodyDetails.changeName !=='enchashment_record'">
+                <tr v-show="tbodyDetails.accountChangeType === 0">
                   <td colspan="4">
                     <Button
                       @click="amountPopWindow = true;taskNumber = tbodyDetails.taskSerialNum ;getDepositReturnList(tbodyDetails.taskId)"
@@ -177,24 +175,20 @@
                 @click="changeTimeChoiceStyle(item.isSelect),getTargetTime(item.id)">{{item.text}}</span>
         </div>
       </div>
-      <div class="transact-type ">
+      <div class="transact-type clear ">
         <span class="left">交易类型：</span>
-        <div class="left ml-5">
-          <Checkbox
-            :value="checkAll"
-            @click.prevent.native="handleCheckAll">全部
-          </Checkbox>
-        </div>
-        <div class="left">
-          <Checkbox-group v-model="transactType" class="checkBox  ml-45" @on-change="checkAllGroupChange">
-            <Checkbox label="0">活动</Checkbox>
-            <Checkbox label="2">提现</Checkbox>
-          </Checkbox-group>
-        </div>
+        <Checkbox class="ml-5 left"
+          :value="checkAll"
+          @click.prevent.native="handleCheckAll">全部
+        </Checkbox>
+        <Checkbox-group v-model="transactType" class="checkBox left ml-45 " @on-change="checkAllGroupChange">
+          <Checkbox label="0">活动</Checkbox>
+          <Checkbox label="2">提现</Checkbox>
+        </Checkbox-group>
       </div>
-      <div class="activity-number mt-20">
+      <div class="activity-number mt-10">
         活动编号：
-        <iInput v-model="activityNumber" style="width: 200px;height: 30px" class="ml-10"></iInput>
+        <iInput v-model="activityNumber" style="width: 200px;height: 30px" class="ml-5"></iInput>
       </div>
       <iButton class="ibtn" @click="getTradListAll(transactType)">筛选</iButton>
       <div class="mt-22 line"></div>
@@ -456,14 +450,14 @@
       handleCheckAll() {
         this.checkAll = !this.checkAll;
         if (this.checkAll) {
-          this.transactType = ['0', '1', '2'];
+          this.transactType = ['0', '1', '2','3','100'];
         } else {
           this.transactType = [];
         }
       },
       checkAllGroupChange() {
         if (this.getUserInfoRole === 1){
-          if (this.transactType.length === 3) {
+          if (this.transactType.length === 5) {
             this.checkAll = true;
           } else if (this.transactType.length > 0) {
             this.checkAll = false;

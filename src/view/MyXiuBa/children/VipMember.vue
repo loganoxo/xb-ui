@@ -8,8 +8,8 @@
         <p><strong>VIP会员服务说明</strong></p>
         <p class="mt-5">1、可在服务期内免费使用秀吧所有服务功能；可免费发布秀吧PC、APP所有活动类型；</p>
         <p class="mt-5">2、会员开通后，费用不退还；</p>
-        <p class="mt-5">3、会员周期仅支持向上扩展，不支持向下扩展。譬如：当前为会员周期为半年版，在该会员周期到期前不支持购买季度时长的版本。</p>
-        <p class="mt-5">4、会员升级时，将现有会员剩余时间按天进行折算，剩余价格将抵扣到新版本的费用中（若折扣出的价格有溢出，将不退回）。</p>
+        <p class="mt-5">3、会员周期仅支持向上扩展，不支持向下扩展。譬如：当前会员周期为半年版，在该会员周期到期前不支持购买季度时长的版本。</p>
+        <p class="mt-5">4、会员升级时，将现有会员剩余时间按天进行折算，剩余价格将抵扣到新版本的费用中（若折算出的价格有溢出，将不退回）。</p>
         <p class="mt-20 mb-20"><strong>请您选择您的会员周期：</strong></p>
         <div class="member-cycle text-ct ">
           <iButton class="member-price cursor-p  mr-10" v-for="(item,index) in memberInformation" :key="index"

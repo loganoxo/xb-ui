@@ -321,6 +321,18 @@ export const TaskErrorStatusList = (type) => {
     case 3 :
       return '会员订购';
       break;
+    case 4 :
+      return '邀请奖励-秀客';
+      break;
+    case 5 :
+      return '活动提成-秀客';
+      break;
+    case 6 :
+      return '邀请奖励-商家';
+      break;
+    case 7 :
+      return '活动提成-商家';
+      break;
     case 'waiting_resubmit' :
       return '待重新提交';
       break;

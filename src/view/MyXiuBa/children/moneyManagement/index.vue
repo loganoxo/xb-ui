@@ -95,6 +95,9 @@
   @import 'src/css/mixin';
 
   .personal-box {
+    .check-box{
+
+    }
     .iWantPay {
       color: #71B6FF;
     }
@@ -146,6 +149,7 @@
         line-height: 36px;
         width: 144px;
         text-align: center;
+        border-bottom: 1px solid $mainColor;
       }
       a.active {
         background-color: $mainColor;
@@ -350,6 +354,9 @@
       cursor: pointer;
       position: relative;
     }
+    .small-table{
+      border: none;
+    }
     .small-table td {
       padding: 10px;
     }
@@ -422,8 +429,8 @@
         padding: 15px;
         .checkBox {
           position: absolute;
-          top: 13px;
-          left: 86px;
+          top: 15px;
+          left: 92px;
 
         }
       }
