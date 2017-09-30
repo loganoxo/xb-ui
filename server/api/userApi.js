@@ -24,21 +24,16 @@ const baseUrl = config.baseUrl;
  * @param size
  */
 router.post('/api/get-trad-list.json', function (req, res, next) {
-  let options = {
-    method: 'POST',
-    uri: baseUrl + '/user/account/get-trad-list',
-    formData: {
-      userId: req.session.userData.id,
-      tradTimeStart: req.body.tradTimeStart,
-      tradTimeEnd: req.body.tradTimeEnd,
-      accountChangeTypeStr: req.body.accountChangeTypeStr,
-      reversePicUrl: req.body.reversePicUrl,
-      taskSerial: req.body.taskSerial,
-      page: req.body.page,
-      size: req.body.size
-    },
-    json: true,
-  };
+  let options = apiConfig.postOptions('/user/account/get-trad-list',req,{
+    userId: req.session.userData.id,
+    tradTimeStart: req.body.tradTimeStart,
+    tradTimeEnd: req.body.tradTimeEnd,
+    accountChangeTypeStr: req.body.accountChangeTypeStr,
+    reversePicUrl: req.body.reversePicUrl,
+    taskSerial: req.body.taskSerial,
+    page: req.body.page,
+    size: req.body.size
+  });
   request(options).then(function (parsedBody) {
     res.send(parsedBody);
     res.end();

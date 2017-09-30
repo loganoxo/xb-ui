@@ -91,9 +91,15 @@
                 <p v-if="item.tqz">淘气值：{{item.tqz}}</p>
               </td>
               <td>
-                <p>{{getTaskStatus(item.status)}}</p>
+                <p v-if="item.status !== 'trial_end'">{{getTaskStatus(item.status)}}</p>
                 <p v-if="item.status !== 'trial_end' && item.status !== 'trial_finished'">
                   <time-down color='#ff4040' :fontWeight=600 :endTime="item.currentGenerationEndTime"></time-down>
+                </p>
+                <p v-if="item.status === 'trial_end'">
+                  <Tooltip :content="getTaskStatus(item.trialEndReason)" placement="top" class="cursor-p">
+                    <Icon color="#f60" type="information-circled"></Icon>
+                    <span class="main-color">{{getTaskStatus(item.status)}}</span>
+                  </Tooltip>
                 </p>
               </td>
               <td>{{item.orderNum || '------'}}</td>
@@ -177,6 +183,7 @@
   import Button from 'iview/src/components/button'
   import Input from 'iview/src/components/input'
   import Radio from 'iview/src/components/radio'
+  import Tooltip from 'iview/src/components/tooltip'
   import CollapseTransition from 'iview/src/components/base/collapse-transition'
   import api from '@/config/apiConfig'
   import {TaskErrorStatusList} from '@/config/utils'
@@ -192,6 +199,7 @@
       Page: Page,
       iButton: Button,
       iInput: Input,
+      Tooltip: Tooltip,
       Radio: Radio,
       RadioGroup: Radio.Group,
       TimeDown: TimeDown,

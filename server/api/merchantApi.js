@@ -799,6 +799,7 @@ router.post('/api/passes/showker/task.json', function (req, res, next) {
           data.status = item.status;
           data.orderNum = item.orderNum;
           data.currentGenerationEndTime = item.currentGenerationEndTime;
+          data.trialEndReason = item.trialEndReason;
           dataList.push(data);
         });
         res.send({
