@@ -95,9 +95,6 @@
   @import 'src/css/mixin';
 
   .personal-box {
-    .check-box{
-
-    }
     .iWantPay {
       color: #71B6FF;
     }
@@ -346,6 +343,9 @@
     .personal-list-table tr table {
       width: 100%;
     }
+    .personal-list-table .t-body tr:last-of-type{
+     border: none;
+    }
     .details {
       cursor: pointer;
       position: relative;
@@ -354,8 +354,9 @@
       cursor: pointer;
       position: relative;
     }
-    .small-table{
+    .personal-list-table .small-table{
       border: none;
+      background-color: #f9f9f9;
     }
     .small-table td {
       padding: 10px;
