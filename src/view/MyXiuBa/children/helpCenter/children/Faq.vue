@@ -7,32 +7,33 @@
     </p>
     <div>
       <div v-show="selFaq == 'common'" class="faq-que-ans animated fadeIn " >
+        <a ref="anchor" href="javascript:void(0)" ></a>
         <Collapse class="mt-20" v-model="selectedFaq">
-          <Panel name="1">
+          <Panel name="1" id="q1">
             <span >1、注册秀吧收费么？</span>
             <p slot="content">
             注册秀吧是免费的，秀客成功注册之后可以免费申请试用商品。商家注册成功后可以发布试用商品。
            </p>
           </Panel>
-          <Panel name="2">
+          <Panel name="2" id="q2">
             2、注册成功之后，角色可以修改吗？
             <p slot="content">
             不可以，一经注册的角色是不能修改的，秀客只能是秀客，商家只能是商家。
             </p>
           </Panel>
-          <Panel name="3">
+          <Panel name="3" id="q3">
             3、忘记密码怎么办，怎样找回忘记密码？
             <p slot="content">
             在登录页面，点击[找回密码]，然后按照页面的提示信息输入手机号进行密码重置。
             </p>
           </Panel>
-          <Panel name="4">
+          <Panel name="4" id="q4">
             4、支持哪几个平台试用活动？
             <p slot="content">
             目前暂时支持淘宝网和手淘，后续会陆续增加其他平台，敬请关注。
           </p>
           </Panel>
-          <Panel name="5">
+          <Panel name="5" id="q5">
             5、一个账户可以绑定几个旺旺号？ 旺旺号要求是什么？
             <div slot="content">
               <p>一个账户可以绑定淘宝三个旺旺号，旺旺号要求：</p>
@@ -42,44 +43,44 @@
               <p>4）历史订单中差评比例低于1%（建议绑定平时购物最多的旺旺号）</p>
             </div>
           </Panel>
-          <Panel name="6">
+          <Panel name="6" id="q6">
             6、旺旺号绑定成功了还可以修改或者更换吗？
             <div slot="content">
               <p>绑定成功后可以解绑，但重新绑定需要重新审核。</p>
             </div>
           </Panel>
-          <Panel name="7">
+          <Panel name="7" id="q7">
             7、申请绑定的旺旺号没通过平台审核怎么办？
             <div slot="content">
               <p>请先核实您绑定的淘宝帐号是否符合要求，核实后，请重新绑定。</p>
             </div>
           </Panel>
-          <Panel name="8">
+          <Panel name="8" id="q8">
             8、什么是实名认证？为什么要进行实名认证？
             <div slot="content">
               <p>实名认证是对用户资料真实性进行的一种验证审核。经过实名认证的用户可以申请账户提现，这是为了保障亲的账户资金安全。</p>
             </div>
           </Panel>
-          <Panel name="9">
+          <Panel name="9" id="q9">
             9、如何进行实名认证？
             <div slot="content">
             <p>登录后进入个人中心，选择个人设置下的实名认证，按要求填写表单内容提交即可，后台会在24小时内完成审核。</p>
           </div>
           </Panel>
-          <Panel name="10">
+          <Panel name="10" id="q10">
             10、充值多久后到账？
             <div slot="content">
               <p>充值成功后，如果账户显示的余额不变，请您不要惊慌，我们的系统是有缓冲时间的，您只需要耐心稍等即可。</p>
             </div>
           </Panel>
-          <Panel name="11"  >
+          <Panel name="11" id="q11" >
             <span>11、提现需要手续费吗？</span>
             <div slot="content">
               <p>提现时，平台收取0.1%转账手续费。</p>
             </div>
           </Panel>
-          <Panel name="12">
-            <span>12、申请的提现什么时候处理？提现多久后到账？</span>
+          <Panel name="12" id="q12">
+            <span >12、申请的提现什么时候处理？提现多久后到账？</span>
             <div slot="content">
               <p>
                 每天进行两提现处理。当日12:00-当日18:00间申请提现的，在当日18:00处理；当日18:00-次日12:00间申请提现的，
@@ -245,7 +246,8 @@
             ref: 'special'
           }
         ],
-        selFaq: 'common'
+        selFaq: 'common',
+        questionId: ''
       }
     },
     mounted: function () {
@@ -253,12 +255,20 @@
         let self = this;
         let page = self.$route.query.page;
         let qusNum = self.$route.query.qusNum;
+        let child = self.$refs;
         if(page){
-          let child = self.$refs;
+
           child[page][0].$el.click()
         }
         if(qusNum){
-            self.selectedFaq = qusNum
+          self.selectedFaq = qusNum;
+          self.questionId = 'q' + qusNum;
+          child.anchor.onclick = function () {
+            document.getElementById(self.questionId).scrollIntoView();
+          };
+          setTimeout(function () {
+            child.anchor.click();
+          },300)
         }
       })
     },
@@ -279,11 +289,10 @@
       },
       isEditPwdAlready: function () {
         return this.$store.getters.getIsEditPwdAlready;
-      }
+      },
+
     },
-
     methods: {
-
       selQuestion(faqSel,index){
         let self = this;
         if(faqSel.type == 'primary'){
@@ -301,6 +310,9 @@
           self.selFaq = faqSel.selFaq
         }
       },
+      goAnchor(questionId) {
+        document.getElementById(questionId).scrollIntoView();
+      }
     }
   }
 </script>

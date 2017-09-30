@@ -9,6 +9,7 @@
     </p>
     <div>
       <div v-show="selFaq == 'common'" class="faq-que-ans animated fadeIn ">
+        <a ref="anchor" href="javascript:void(0)" ></a>
         <Collapse class="mt-20" v-model="selectedFaq">
           <Panel name="1">
             1、秀客下单规则：
@@ -302,12 +303,20 @@
         let self = this;
         let page = self.$route.query.page;
         let qusNum = self.$route.query.qusNum;
+        let child = self.$refs;
         if(page){
           let child = self.$refs;
           child[page][0].$el.click()
         }
         if(qusNum){
-          self.selectedFaq = qusNum
+          self.selectedFaq = qusNum;
+          self.questionId = 'q' + qusNum;
+          child.anchor.onclick = function () {
+            document.getElementById(self.questionId).scrollIntoView();
+          };
+          setTimeout(function () {
+            child.anchor.click();
+          },300)
         }
       })
     },
@@ -331,6 +340,9 @@
       }
     },
     methods: {
+      goAnchor(questionId) {
+        document.getElementById(questionId).scrollIntoView();
+      },
       selQuestion(faqSel, index){
         let self = this;
         if (faqSel.type == 'primary') {
