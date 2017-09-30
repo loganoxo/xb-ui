@@ -209,6 +209,7 @@
             _this.searchLoading = false;
           } else {
             _this.$Message.error(res.msg);
+            _this.searchLoading = false;
           }
         })
       },
@@ -312,6 +313,7 @@
         }
       },
       collapseToggle(id, index) {
+        this.taskPageIndex = 1;
         if (this.selectId === id) {
           this.selectId = null;
           this.taskWaitAuditList.forEach(item => {

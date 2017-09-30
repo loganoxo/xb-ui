@@ -50,14 +50,15 @@
                 <td>{{item.applyTime | dateFormat('YYYY-MM-DD hh:mm:ss')}}</td>
                 <td class="registration">
                   <router-link :to="{ 'path': '/trial-report','query': {'showkerId': item.showkerId}}">
-                   查看
+                    查看
                   </router-link>
                 </td>
                 <td>{{getTaskStatus(item.status)}}</td>
                 <td>
                   <p class="del-edit">
-                    <span class="mr-40" v-show="approveTaskInfo.needBrowseCollectAddCart"  @click="getUserScreenShot(item.id,item.alitmAccount)">审核</span>
-                    <span  @click="showkerPassAudit(item.id, 'true')">通过</span>
+                    <span class="mr-40" v-show="approveTaskInfo.needBrowseCollectAddCart"
+                          @click="getUserScreenShot(item.id,item.alitmAccount)">审核</span>
+                    <span @click="showkerPassAudit(item.id, 'true')">通过</span>
                   </p>
                 </td>
               </tr>
@@ -131,13 +132,16 @@
                 </td>
                 <td>
                   <p>{{getTaskStatus(item.status)}}</p>
-                  <p v-if="item.status !== 'trial_end' && item.status !== 'trial_finished'"><time-down color='#ff4040' :fontWeight=600 :endTime="item.currentGenerationEndTime"></time-down></p>
+                  <p v-if="item.status !== 'trial_end' && item.status !== 'trial_finished'">
+                    <time-down color='#ff4040' :fontWeight=600 :endTime="item.currentGenerationEndTime"></time-down>
+                  </p>
                 </td>
                 <td>{{item.orderNum || '------'}}</td>
                 <td>
                   <p class="del-edit">
                     <span v-if="item.status === 'order_num_waiting_audit'" @click="openCheckOrder(item.id)">审核订单号</span>
-                    <span v-else-if="item.status === 'trial_report_waiting_confirm'" @click="goProbationReport(item.id)">审核买家秀</span>
+                    <span v-else-if="item.status === 'trial_report_waiting_confirm'"
+                          @click="goProbationReport(item.id)">审核买家秀</span>
                     <span v-else>------</span>
                   </p>
                 </td>
@@ -244,7 +248,8 @@
             <iInput v-model="orderNoPassReason" placeholder="请填写不通过理由，如订单号不符或实付金额不符" style="width: 420px"></iInput>
           </div>
           <div class="true-btn" v-show="orderReviewStatus === 'failAudit'" @click="orderNumberAudit">确认</div>
-          <div class="true-btn" v-show="orderReviewStatus === 'passAudit' && perMarginNeed >= orderInfo.orderPrice" @click="orderNumberAudit">确认</div>
+          <div class="true-btn" v-show="orderReviewStatus === 'passAudit' && perMarginNeed >= orderInfo.orderPrice"
+               @click="orderNumberAudit">确认</div>
           <PayModel v-show="orderReviewStatus === 'passAudit' && perMarginNeed < orderInfo.orderPrice"
                     :orderMoney="needReplenishMoney"
                     @confirmPayment="confirmPayment" :payButtonText="payButtonText"
@@ -265,16 +270,13 @@
         </div>
       </div>
       <!--审核图片弹窗-->
-      <Modal v-model="approvalPop"
-             :transfer="false"
-             width="600">
+      <Modal v-model="approvalPop" :transfer="false" width="600">
         <AuditShowker
           :applyName="applyName"
           :userScreenShotImg="userScreenShotImg"
           :passId="passId"
           :activeEndTime="activeEndTime"
-          v-on:request="auditSuccess"
-        >
+          @:request="auditSuccess">
         </AuditShowker>
         <div slot="footer" style="padding: 0px ; border: none"></div>
       </Modal>
@@ -314,19 +316,19 @@
       RadioGroup: Radio.Group,
       TimeDown: TimeDown,
       PayModel: PayModel,
-      AuditShowker:AuditShowker,
+      AuditShowker: AuditShowker,
     },
     data() {
       return {
-        applyName:null,
-        viewScreenShotUrl:null,
-        viewScreenShot:false,
-        passOrNoPass:'true',
-        passId:null,
-        reason:null,
-        approvalPop:false,
-        activeEndTime:null,
-        userScreenShotImg:{},
+        applyName: null,
+        viewScreenShotUrl: null,
+        viewScreenShot: false,
+        passOrNoPass: 'true',
+        passId: null,
+        reason: null,
+        approvalPop: false,
+        activeEndTime: null,
+        userScreenShotImg: {},
         showApproveStatus: 'toAudit',
         taskId: null,
         checkAllByPass: false,
@@ -362,12 +364,13 @@
         searchLoading: false
       }
     },
-    mounted() {},
+    mounted() {
+    },
     created() {
       this.taskId = this.$route.query.taskId;
       this.showApproveStatus = "toAudit";
       this.taskApplyList();
-      this.activeEndTime = parseInt(this.$route.query.endTime)+24*2*60*60*1000;
+      this.activeEndTime = parseInt(this.$route.query.endTime) + 24 * 2 * 60 * 60 * 1000;
     },
     watch: {},
     computed: {
@@ -376,11 +379,11 @@
       }
     },
     methods: {
-      auditSuccess(closePop){
+      auditSuccess(closePop) {
         this.approvalPop = closePop;
         this.taskApplyList();
       },
-      viewScreenShotFun(type){
+      viewScreenShotFun(type) {
         this.viewScreenShotUrl = type;
         this.viewScreenShot = true;
       },
@@ -394,7 +397,7 @@
       handleCheckPassAll() {
         this.checkAllByPass = !this.checkAllByPass;
         if (this.checkAllByPass) {
-          this.auditStatusList = ['pass_and_unclaimed', 'order_num_waiting_audit', 'trial_report_waiting_submit', 'trial_report_waiting_confirm', 'trial_finished' ,'order_num_error' ,'trial_report_unqualified'];
+          this.auditStatusList = ['pass_and_unclaimed', 'order_num_waiting_audit', 'trial_report_waiting_submit', 'trial_report_waiting_confirm', 'trial_finished', 'order_num_error', 'trial_report_unqualified'];
         } else {
           this.auditStatusList = [];
         }
@@ -469,20 +472,20 @@
                 }
               });
             });
-          }else{
+          } else {
             _this.$Message.error(res.msg);
           }
         })
       },
-      showkerPassAudit(id, status,reason) {
-        this.setShowkerAudit(id, status,reason);
+      showkerPassAudit(id, status, reason) {
+        this.setShowkerAudit(id, status, reason);
       },
-      setShowkerAudit(id, status,reason) {
+      setShowkerAudit(id, status, reason) {
         let _this = this;
         api.setTaskShowkerAudit({
           id: id,
           status: status,
-          reason:reason || null
+          reason: reason || null
         }).then(res => {
           if (res.status) {
             _this.$Message.success("审核秀客成功！");
@@ -542,7 +545,7 @@
       },
       orderNumberAudit() {
         let _this = this;
-        if( _this.orderReviewStatus === 'failAudit' && !_this.orderNoPassReason){
+        if (_this.orderReviewStatus === 'failAudit' && !_this.orderNoPassReason) {
           _this.$Message.error("亲，请填写不通过的理由！");
           return
         }
@@ -568,17 +571,17 @@
           }
         })
       },
-      getUserScreenShot(type,name){
-        let _this = this ;
-        _this.passId =type;
+      getUserScreenShot(type, name) {
+        let _this = this;
+        _this.passId = type;
         _this.applyName = name;
         api.getUserScreenShot({
-          id:type
-        }).then(res=>{
-          if (res.status){
+          id: type
+        }).then(res => {
+          if (res.status) {
             _this.approvalPop = true;
-            _this.userScreenShotImg =res.data;
-          }else {
+            _this.userScreenShotImg = res.data;
+          } else {
             _this.$Message.error(res.msg)
           }
         })
