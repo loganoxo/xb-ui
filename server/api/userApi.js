@@ -24,7 +24,7 @@ const baseUrl = config.baseUrl;
  * @param size
  */
 router.post('/api/get-trad-list.json', function (req, res, next) {
-  let options = apiConfig.postOptions('/user/account/get-trad-list',req,{
+  let options = apiConfig.postOptions('/user/account/get-trad-list', req, {
     userId: req.session.userData.id,
     tradTimeStart: req.body.tradTimeStart,
     tradTimeEnd: req.body.tradTimeEnd,
@@ -48,7 +48,7 @@ router.post('/api/get-trad-list.json', function (req, res, next) {
  * 获取银行卡信息
  */
 router.post('/api/get-bank-card-information.json', function (req, res, next) {
-  let options = apiConfig.getOptions('/user/account/getBankCardByUid/'+ req.session.userData.id,req);
+  let options = apiConfig.getOptions('/user/account/getBankCardByUid/' + req.session.userData.id, req);
   request(options).then(function (parsedBody) {
     res.send(parsedBody);
     res.end();
@@ -64,7 +64,7 @@ router.post('/api/get-bank-card-information.json', function (req, res, next) {
  * 判断是否可以发布活动
  */
 router.post('/api/get-check-Member-for-task.json', function (req, res, next) {
-  let options= apiConfig.getOptions('/task/checkMemberForTask/' + req.session.userData.id,req);
+  let options = apiConfig.getOptions('/task/checkMemberForTask/' + req.session.userData.id, req);
   request(options).then(function (parsedBody) {
     res.send(parsedBody);
     res.end();
@@ -80,7 +80,7 @@ router.post('/api/get-check-Member-for-task.json', function (req, res, next) {
  * 获取会员活动信息
  */
 router.post('/api/get-user-member-all.json', function (req, res, next) {
-  let options = apiConfig.getOptions('/user/member/all',req);
+  let options = apiConfig.getOptions('/user/member/all', req);
   request(options).then(function (parsedBody) {
     res.send(parsedBody);
     res.end();
@@ -95,7 +95,7 @@ router.post('/api/get-user-member-all.json', function (req, res, next) {
  * 获取会员等级详细信息
  */
 router.post('/api/get-user-member-level-info.json', function (req, res, next) {
-  let options = apiConfig.getOptions( '/user/member/get/level/' + req.body.level,req);
+  let options = apiConfig.getOptions('/user/member/get/level/' + req.body.level, req);
   request(options).then(function (parsedBody) {
     res.send(parsedBody);
     res.end();
@@ -111,8 +111,8 @@ router.post('/api/get-user-member-level-info.json', function (req, res, next) {
  * 充值会员
  */
 router.post('/api/user-member-purchase.json', function (req, res, next) {
-  let options = apiConfig.postOptions('/user/member/purchase/' + req.session.userData.id +'/'+ req.body.memberId,req,{
-    payPwd:req.body.payPwd
+  let options = apiConfig.postOptions('/user/member/purchase/' + req.session.userData.id + '/' + req.body.memberId, req, {
+    payPwd: req.body.payPwd
   });
   request(options).then(function (parsedBody) {
     res.send(parsedBody);
@@ -128,7 +128,7 @@ router.post('/api/user-member-purchase.json', function (req, res, next) {
  * 获取用户截图
  */
 router.post('/api/get-user-screen-shot.json', function (req, res, next) {
-  let options =apiConfig.getOptions( '/task/showker/getScreenshot/'+req.body.id,req);
+  let options = apiConfig.getOptions('/task/showker/getScreenshot/' + req.body.id, req);
   request(options).then(function (parsedBody) {
     res.send(parsedBody);
     res.end();
@@ -144,7 +144,7 @@ router.post('/api/get-user-screen-shot.json', function (req, res, next) {
  * @param userId
  */
 router.post('/api/get-user-account.json', function (req, res, next) {
-  let options = apiConfig.postOptions('/user/account/get-user-account',req,{
+  let options = apiConfig.postOptions('/user/account/get-user-account', req, {
     userId: req.session.userData.id,
   });
   request(options).then(function (parsedBody) {
@@ -165,7 +165,7 @@ router.post('/api/get-user-account.json', function (req, res, next) {
  * @param repwd
  */
 router.post('/api/find-pwd-by-origin.json', function (req, res, next) {
-  let options = apiConfig.postOptions('/user/account/reset-pwd-by-originPwd',req,{
+  let options = apiConfig.postOptions('/user/account/reset-pwd-by-originPwd', req, {
     userId: req.session.userData.id,
     oldPwd: req.body.oldPwd,
     newPwd: req.body.newPwd,
@@ -187,7 +187,7 @@ router.post('/api/find-pwd-by-origin.json', function (req, res, next) {
  * @param tradId
  */
 router.post("/api/get-trad-detail-list.json", function (req, res, next) {
-  let options = apiConfig.postOptions( '/user/account/get-trad-detail-list',req,{
+  let options = apiConfig.postOptions('/user/account/get-trad-detail-list', req, {
     userId: req.session.userData.id,
     tradId: req.body.tradId
   });
@@ -212,7 +212,7 @@ router.post("/api/get-trad-detail-list.json", function (req, res, next) {
  * @param uid
  */
 router.post('/api/add-bank-card.json', function (req, res, next) {
-  let options = apiConfig.postOptions( '/user/account/add_bank_card',req,{
+  let options = apiConfig.postOptions('/user/account/add_bank_card', req, {
     uid: req.session.userData.id,
     accountName: req.body.accountName,
     bankName: req.body.bankName,
@@ -253,7 +253,7 @@ router.post('/api/add-bank-card.json', function (req, res, next) {
  * @return
  */
 router.post('/api/with-draw-apply.json', function (req, res, next) {
-  let options = apiConfig.postOptions('/user/account/with_draw_apply',req,{
+  let options = apiConfig.postOptions('/user/account/with_draw_apply', req, {
     uid: req.session.userData.id,
     fee: req.body.fee,
     bankCardNum: req.body.bankCardNum,
@@ -280,7 +280,7 @@ router.post('/api/with-draw-apply.json', function (req, res, next) {
  * @return
  */
 router.post('/api/get-with-draw-list.json', function (req, res, next) {
-  let options = apiConfig.postOptions('/user/account/get_with_draw_list',req,{
+  let options = apiConfig.postOptions('/user/account/get_with_draw_list', req, {
     userId: req.session.userData.id,
     serialNumber: req.body.serialNumber,
     applyTimeStart: req.body.applyTimeStart,
@@ -305,7 +305,7 @@ router.post('/api/get-with-draw-list.json', function (req, res, next) {
  * @return
  */
 router.post('/api/get-deposit-return-list.json', function (req, res, next) {
-  let options = apiConfig.postOptions('/user/account/get_deposit_return_list',req,{
+  let options = apiConfig.postOptions('/user/account/get_deposit_return_list', req, {
     taskId: req.body.taskId
   });
   request(options).then(function (parsedBody) {
@@ -325,7 +325,7 @@ router.post('/api/get-deposit-return-list.json', function (req, res, next) {
  * @param picStr
  */
 router.post('/api/user/edit-portrait-pic.json', function (req, res, next) {
-  let options = apiConfig.postOptions( '/user/edit_portrait_pic',req,{
+  let options = apiConfig.postOptions('/user/edit_portrait_pic', req, {
     uid: req.session.userData.id,
     picStr: req.body.picStr
   });
@@ -347,7 +347,7 @@ router.post('/api/user/edit-portrait-pic.json', function (req, res, next) {
  * @param payChannel
  */
 router.post('/api/balance-order-create.json', function (req, res, next) {
-  let options = apiConfig.postOptions('/order/balance-order-create',req,{
+  let options = apiConfig.postOptions('/order/balance-order-create', req, {
     uid: req.session.userData.id,
     finalFee: req.body.finalFee,
     orderPlatform: req.body.orderPlatform,
@@ -372,7 +372,7 @@ router.post('/api/balance-order-create.json', function (req, res, next) {
  * @param repwd
  */
 router.post('/api/user/account/reset-pay-pwd-by-originPwd.json', function (req, res, next) {
-  let options = apiConfig.postOptions('/user/account/reset-pay-pwd-by-originPwd',req,{
+  let options = apiConfig.postOptions('/user/account/reset-pay-pwd-by-originPwd', req, {
     userId: req.session.userData.id,
     oldPwd: req.body.oldPwd,
     newPwd: req.body.newPwd,
@@ -396,7 +396,7 @@ router.post('/api/user/account/reset-pay-pwd-by-originPwd.json', function (req, 
  * @param repwd
  */
 router.post('/api/user/account/reset-login-pwd-by-originPwd.json', function (req, res, next) {
-  let options = apiConfig.postOptions('/user/account/reset-login-pwd-by-originPwd',req,{
+  let options = apiConfig.postOptions('/user/account/reset-login-pwd-by-originPwd', req, {
     userId: req.session.userData.id,
     oldPwd: req.body.oldPwd,
     newPwd: req.body.newPwd,
@@ -420,7 +420,7 @@ router.post('/api/user/account/reset-login-pwd-by-originPwd.json', function (req
  * @return
  */
 router.post('/api/user/account/reset-login-pwd-by-smscode.json', function (req, res, next) {
-  let options = apiConfig.postOptions('/user/account/reset-login-pwd-by-smscode',req,{
+  let options = apiConfig.postOptions('/user/account/reset-login-pwd-by-smscode', req, {
     userId: req.session.userData.id,
     pwd: req.body.pwd,
     repwd: req.body.repwd,
@@ -444,7 +444,7 @@ router.post('/api/user/account/reset-login-pwd-by-smscode.json', function (req, 
  * @param repwd
  */
 router.post('/api/user/account/reset-pay-pwd-by-smscode.json', function (req, res, next) {
-  let options = apiConfig.postOptions('/user/account/reset-pay-pwd-by-smscode',req,{
+  let options = apiConfig.postOptions('/user/account/reset-pay-pwd-by-smscode', req, {
     userId: req.session.userData.id,
     pwd: req.body.pwd,
     repwd: req.body.repwd,
@@ -467,7 +467,7 @@ router.post('/api/user/account/reset-pay-pwd-by-smscode.json', function (req, re
  * @param smsCode
  */
 router.post('/api/user/account/check-phone-message-before-reset-pwd.json', function (req, res, next) {
-  let options = apiConfig.postOptions('/user/account/check-phone-message-before-reset-pwd',req,{
+  let options = apiConfig.postOptions('/user/account/check-phone-message-before-reset-pwd', req, {
     uid: req.session.userData.id,
     phone: req.body.phone,
     smsCode: req.body.smsCode,
@@ -488,8 +488,8 @@ router.post('/api/user/account/check-phone-message-before-reset-pwd.json', funct
  * @param smsCode
  */
 router.post('/api/user/alitm/getAlitmByAccount.json', function (req, res, next) {
-  let options = apiConfig.getOptions('/user/alitm/getAlitmByAccount',req,{
-    account:req.body.account
+  let options = apiConfig.getOptions('/user/alitm/getAlitmByAccount', req, {
+    account: req.body.account
   });
   request(options).then(function (parsedBody) {
     const tbLevelImagesUrl = [
@@ -603,8 +603,8 @@ router.post('/api/user/alitm/getAlitmByAccount.json', function (req, res, next) 
         label: '2500以上'
       },
     ];
-    let data ={};
-    if(parsedBody.status && parsedBody.data){
+    let data = {};
+    if (parsedBody.status && parsedBody.data) {
       data.creditLevelUrl = parsedBody.data.creditLevel ? tbLevelImagesUrl[parsedBody.data.creditLevel - 1].text : null;
       data.tqzNum = parsedBody.data.tqz ? tqzList[parsedBody.data.tqz - 1].label : null;
       res.send({
@@ -613,7 +613,7 @@ router.post('/api/user/alitm/getAlitmByAccount.json', function (req, res, next) 
         data: data
       });
       res.end();
-    }else{
+    } else {
       res.send(parsedBody);
       res.end();
     }
@@ -631,7 +631,7 @@ router.post('/api/user/alitm/getAlitmByAccount.json', function (req, res, next) 
  * @param inviterId
  */
 router.post('/api/user/reward/getRecommendPage.json', function (req, res, next) {
-  let options = apiConfig.getOptions('/user/reward/getRecommendPage/' + req.session.userData.id,req,{
+  let options = apiConfig.getOptions('/user/reward/getRecommendPage/' + req.session.userData.id, req, {
     page: req.body.page,
     size: req.body.size,
   });

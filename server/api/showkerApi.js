@@ -7,7 +7,7 @@ const express = require('express');
 const config = require('../config');
 const logConfig = require('../logConfig');
 const request = require('request-promise');
-
+const apiConfig = require('../apiConfig');
 const router = express.Router();
 const baseUrl = config.baseUrl;
 
@@ -17,18 +17,13 @@ const baseUrl = config.baseUrl;
  * @param showkerId
  */
 router.post('/api/showker-apply-list.json', function (req, res, next) {
-  let options = {
-    method: 'GET',
-    uri: baseUrl + '/task/showker/list/apply/' + req.session.userData.id + '/' + req.body.pageIndex,
-    qs: {
-      selectStatus: req.body.selectStatus,
-      searchValue: req.body.searchValue,
-      status: req.body.status,
-      pageSize: req.body.pageSize,
-      rejectReasonList: req.body.rejectReasonList
-    },
-    json: true
-  };
+  let  options = apiConfig.getOptions('/task/showker/list/apply/' + req.session.userData.id + '/' + req.body.pageIndex,req,{
+    selectStatus: req.body.selectStatus,
+    searchValue: req.body.searchValue,
+    status: req.body.status,
+    pageSize: req.body.pageSize,
+    rejectReasonList: req.body.rejectReasonList
+  });
   request(options)
     .then(function (parsedBody) {
       res.send(parsedBody);
@@ -46,11 +41,7 @@ router.post('/api/showker-apply-list.json', function (req, res, next) {
  * @param showkerId
  */
 router.post('/api/task/showker-personal-trial-count.json', function (req, res, next) {
-  let options = {
-    method: 'GET',
-    uri: baseUrl + '/task/showker/personal/trial/count/' + req.session.userData.id,
-    json: true
-  };
+  let  options = apiConfig.getOptions('/task/showker/personal/trial/count/' + req.session.userData.id,req);
   request(options)
     .then(function (parsedBody) {
       res.send(parsedBody);
@@ -69,21 +60,16 @@ router.post('/api/task/showker-personal-trial-count.json', function (req, res, n
  * @param showkerId
  */
 router.post('/api/showker-success-list.json', function (req, res, next) {
-  let options = {
-    method: 'GET',
-    uri: baseUrl + '/task/showker/list/success/' + req.session.userData.id + '/' + req.body.pageIndex,
-    qs: {
-      selectStatus: req.body.selectStatus,
-      searchValue: req.body.searchValue,
-      pageSize: req.body.pageSize,
-      auditTimeStart: req.body.auditTimeStart,
-      auditTimeEnd: req.body.auditTimeEnd,
-      pageIndex: req.body.pageIndex,
-      statusList: req.body.statusList,
-      orderNum: req.body.orderNum
-    },
-    json: true
-  };
+  let  options = apiConfig.getOptions('/task/showker/list/success/' + req.session.userData.id + '/' + req.body.pageIndex,req,{
+    selectStatus: req.body.selectStatus,
+    searchValue: req.body.searchValue,
+    pageSize: req.body.pageSize,
+    auditTimeStart: req.body.auditTimeStart,
+    auditTimeEnd: req.body.auditTimeEnd,
+    pageIndex: req.body.pageIndex,
+    statusList: req.body.statusList,
+    orderNum: req.body.orderNum
+  });
   request(options)
     .then(function (parsedBody) {
       res.send(parsedBody);
@@ -103,17 +89,12 @@ router.post('/api/showker-success-list.json', function (req, res, next) {
  * @param pageSize
  */
 router.post('/api/task/showker/trial/reports.json', function (req, res, next) {
-  let options = {
-    method: 'GET',
-    uri: baseUrl + '/task/showker/trial/reports',
-    qs: {
-      showkerId: req.body.showkerId,
-      pageIndex: req.body.pageIndex,
-      pageSize: req.body.pageSize,
-      itemCatalogname: req.body.itemCatalogname,
-    },
-    json: true
-  };
+  let  options = apiConfig.getOptions( '/task/showker/trial/reports',req,{
+    showkerId: req.body.showkerId,
+    pageIndex: req.body.pageIndex,
+    pageSize: req.body.pageSize,
+    itemCatalogname: req.body.itemCatalogname,
+  });
   request(options)
     .then(function (parsedBody) {
       res.send(parsedBody);
@@ -131,14 +112,9 @@ router.post('/api/task/showker/trial/reports.json', function (req, res, next) {
  * @param showkerId
  */
 router.post('/api/task/showker/trial/detail.json', function (req, res, next) {
-  let options = {
-    method: 'GET',
-    uri: baseUrl + '/task/showker/trial/detail',
-    qs: {
-      showkerId: req.body.showkerId,
-    },
-    json: true
-  };
+  let options = apiConfig.getOptions( '/task/showker/trial/detail',req,{
+    showkerId: req.body.showkerId,
+  });
   request(options)
     .then(function (parsedBody) {
       res.send(parsedBody);
@@ -157,15 +133,10 @@ router.post('/api/task/showker/trial/detail.json', function (req, res, next) {
  * @param status
  */
 router.post('/api/showker-trial-end.json', function (req, res, next) {
-  let options = {
-    method: 'POST',
-    uri: baseUrl + '/task/showker/trial/end',
-    formData: {
-      showkerTaskId: req.body.id,
-      showkerId: req.session.userData.id,
-    },
-    json: true
-  };
+  let  options = apiConfig.postOptions( '/task/showker/trial/end',req,{
+    showkerTaskId: req.body.id,
+    showkerId: req.session.userData.id,
+  });
   request(options)
     .then(function (parsedBody) {
       res.send(parsedBody);
@@ -184,15 +155,10 @@ router.post('/api/showker-trial-end.json', function (req, res, next) {
  * @param status
  */
 router.post('/api/showker-apply-end.json', function (req, res, next) {
-  let options = {
-    method: 'POST',
-    uri: baseUrl + '/task/showker/apply/end',
-    formData: {
-      taskApplyId: req.body.id,
-      showkerId: req.session.userData.id,
-    },
-    json: true
-  };
+  let  options = apiConfig.postOptions( '/task/showker/apply/end',req,{
+    taskApplyId: req.body.id,
+    showkerId: req.session.userData.id,
+  });
   request(options)
     .then(function (parsedBody) {
       res.send(parsedBody);
@@ -211,15 +177,10 @@ router.post('/api/showker-apply-end.json', function (req, res, next) {
  * @param id
  */
 router.post('/api/showker-apply-delete.json', function (req, res, next) {
-  let options = {
-    method: 'POST',
-    uri: baseUrl + '/task/showker/apply/delete',
-    formData: {
-      showkerId: req.session.userData.id,
-      taskApplyId: req.body.id
-    },
-    json: true
-  };
+  let  options = apiConfig.postOptions( '/task/showker/apply/delete',req,{
+    showkerId: req.session.userData.id,
+    taskApplyId: req.body.id
+  });
   request(options)
     .then(function (parsedBody) {
       res.send(parsedBody);
@@ -237,15 +198,10 @@ router.post('/api/showker-apply-delete.json', function (req, res, next) {
  * @param id
  */
 router.post('/api/showker-to-process-order.json', function (req, res, next) {
-  let options = {
-    method: 'POST',
-    uri: baseUrl + '/task/showker/order/process',
-    formData: {
-      showkerTaskId: req.body.id,
-      showkerId: req.session.userData.id
-    },
-    json: true
-  };
+  let  options = apiConfig.postOptions('/task/showker/order/process',req,{
+    showkerTaskId: req.body.id,
+    showkerId: req.session.userData.id
+  });
   request(options)
     .then(function (parsedBody) {
       res.send(parsedBody);
@@ -265,17 +221,12 @@ router.post('/api/showker-to-process-order.json', function (req, res, next) {
  * @param actualPayMoney
  */
 router.post('/api/showker-order-save.json', function (req, res, next) {
-  let options = {
-    method: 'POST',
-    uri: baseUrl + '/task/showker/order/save',
-    formData: {
-      showkerTaskId: req.body.id,
-      showkerId: req.session.userData.id,
-      orderNum: req.body.orderNum,
-      orderPrice: (req.body.actualPayMoney * 100).toFixed(2) * 1
-    },
-    json: true
-  };
+  let  options = apiConfig.postOptions('/task/showker/order/save',req,{
+    showkerTaskId: req.body.id,
+    showkerId: req.session.userData.id,
+    orderNum: req.body.orderNum,
+    orderPrice: (req.body.actualPayMoney * 100).toFixed(2) * 1
+  });
   request(options)
     .then(function (parsedBody) {
       res.send(parsedBody);
@@ -295,17 +246,12 @@ router.post('/api/showker-order-save.json', function (req, res, next) {
  * @param trialReportImages
  */
 router.post('/api/showker-save-report.json', function (req, res, next) {
-  let options = {
-    method: 'POST',
-    uri: baseUrl + '/task/showker/trial/report/save',
-    formData: {
-      showkerTaskId: req.body.id,
-      showkerId: req.session.userData.id,
-      trialReportText: req.body.trialReportText,
-      trialReportImages: req.body.trialReportImages
-    },
-    json: true
-  };
+  let  options = apiConfig.postOptions( '/task/showker/trial/report/save',req,{
+    showkerTaskId: req.body.id,
+    showkerId: req.session.userData.id,
+    trialReportText: req.body.trialReportText,
+    trialReportImages: req.body.trialReportImages
+  });
   request(options)
     .then(function (parsedBody) {
       res.send(parsedBody);
@@ -325,17 +271,12 @@ router.post('/api/showker-save-report.json', function (req, res, next) {
  * @param trialReportImages
  */
 router.post('/api/showker-modify-report.json', function (req, res, next) {
-  let options = {
-    method: 'POST',
-    uri: baseUrl + '/task/showker/trial/report/modify',
-    formData: {
-      showkerTaskId: req.body.id,
-      showkerId: req.session.userData.id,
-      trialReportText: req.body.trialReportText,
-      trialReportImages: req.body.trialReportImages
-    },
-    json: true
-  };
+  let  options = apiConfig.postOptions(  '/task/showker/trial/report/modify',req,{
+    showkerTaskId: req.body.id,
+    showkerId: req.session.userData.id,
+    trialReportText: req.body.trialReportText,
+    trialReportImages: req.body.trialReportImages
+  });
   request(options)
     .then(function (parsedBody) {
       res.send(parsedBody);
@@ -355,11 +296,7 @@ router.post('/api/showker-modify-report.json', function (req, res, next) {
  * @param id
  */
 router.post('/api/showker-task-info.json', function (req, res, next) {
-  let options = {
-    method: 'GET',
-    uri: baseUrl + '/task/showker/get/stid/' + req.body.id + '/uid/' + req.session.userData.id,
-    json: true
-  };
+  let  options = apiConfig.getOptions( '/task/showker/get/stid/' + req.body.id + '/uid/' + req.session.userData.id,req);
   request(options)
     .then(function (parsedBody) {
       res.send(parsedBody);
@@ -377,11 +314,7 @@ router.post('/api/showker-task-info.json', function (req, res, next) {
  * @param id
  */
 router.post('/api/showker-task-report.json', function (req, res, next) {
-  let options = {
-    method: 'GET',
-    uri: baseUrl + '/task/showker/report/get/stid/' + req.body.id,
-    json: true
-  };
+  let  options = apiConfig.getOptions('/task/showker/report/get/stid/' + req.body.id,req);
   request(options)
     .then(function (parsedBody) {
       res.send(parsedBody);
@@ -399,11 +332,7 @@ router.post('/api/showker-task-report.json', function (req, res, next) {
  * @param id
  */
 router.post('/api/trial-report.json', function (req, res, next) {
-  let options = {
-    method: 'GET',
-    uri: baseUrl + '/task/showker/report/get/trid/' + req.body.id,
-    json: true
-  };
+  let  options = apiConfig.getOptions('/task/showker/report/get/trid/' + req.body.id,req);
   request(options)
     .then(function (parsedBody) {
       res.send(parsedBody);
@@ -422,11 +351,7 @@ router.post('/api/trial-report.json', function (req, res, next) {
  * @param taskId
  */
 router.post('/api/task/showker/qualification/check.json', function (req, res, next) {
-  let options = {
-    method: 'GET',
-    uri: baseUrl + '/task/showker/qualification/check/' + req.session.userData.id + '/' + req.body.taskId,
-    json: true
-  };
+  let  options = apiConfig.getOptions('/task/showker/qualification/check/' + req.session.userData.id + '/' + req.body.taskId,req);
   request(options)
     .then(function (parsedBody) {
       res.send(parsedBody);
@@ -445,18 +370,13 @@ router.post('/api/task/showker/qualification/check.json', function (req, res, ne
  * @param taskId
  */
 router.post('/api/task/showker/apply.json', function (req, res, next) {
-  let options = {
-    method: 'POST',
-    uri: baseUrl + '/task/showker/apply/' + req.session.userData.id + '/' + req.body.wangwangId + '/' + req.body.taskId,
-    formData:{
-      searchCondition : req.body.searchCondition,
-      itemLocation : req.body.itemLocation,
-      browseToBottom : req.body.browseToBottom,
-      enshrine : req.body.enshrine,
-      addToCart : req.body.addToCart
-    },
-    json: true
-  };
+  let  options = apiConfig.postOptions('/task/showker/apply/' + req.session.userData.id + '/' + req.body.wangwangId + '/' + req.body.taskId,req,{
+    searchCondition : req.body.searchCondition,
+    itemLocation : req.body.itemLocation,
+    browseToBottom : req.body.browseToBottom,
+    enshrine : req.body.enshrine,
+    addToCart : req.body.addToCart
+  });
   request(options)
     .then(function (parsedBody) {
       res.send(parsedBody);

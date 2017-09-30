@@ -15,7 +15,7 @@ const baseUrl = config.baseUrl;
  * 首页导航
  */
 router.post('/api/task/item/catalog/main.json', (req, res, next) => {
-  let options = apiConfig.getOptions('/task/item/catalog/main',req);
+  let options = apiConfig.getOptions('/task/item/catalog/main', req);
   request(options)
     .then(function (parsedBody) {
       res.send(parsedBody);
@@ -32,7 +32,7 @@ router.post('/api/task/item/catalog/main.json', (req, res, next) => {
  * 首页活动任务展示
  */
 router.post('/api/task/index/newest.json', (req, res, next) => {
-  let options = apiConfig.getOptions('/task/index/newest',req);
+  let options = apiConfig.getOptions('/task/index/newest', req);
   request(options)
     .then(function (parsedBody) {
       res.send(parsedBody);
@@ -48,7 +48,7 @@ router.post('/api/task/index/newest.json', (req, res, next) => {
  * 首页左上角列表接口
  */
 router.post('/api/task/showker-newest.json', (req, res, next) => {
-  let options = apiConfig.getOptions('/task/showker/newest',req);
+  let options = apiConfig.getOptions('/task/showker/newest', req);
   request(options)
     .then(function (parsedBody) {
       res.send(parsedBody);
@@ -66,7 +66,7 @@ router.post('/api/task/showker-newest.json', (req, res, next) => {
  * @param id  大类id
  */
 router.post('/api/task/get/item/catalog/parent.json', (req, res, next) => {
-  let options = apiConfig.getOptions('/task/item/catalog/parent/' + req.body.id,req);
+  let options = apiConfig.getOptions('/task/item/catalog/parent/' + req.body.id, req);
   request(options)
     .then(function (parsedBody) {
       res.send(parsedBody);
@@ -84,7 +84,7 @@ router.post('/api/task/get/item/catalog/parent.json', (req, res, next) => {
  * @param id  大类id
  */
 router.post('/api/task/item/catalog/child.json', (req, res, next) => {
-  let options = apiConfig.getOptions('/task/item/catalog/' + req.body.cate + '/child',req);
+  let options = apiConfig.getOptions('/task/item/catalog/' + req.body.cate + '/child', req);
   request(options)
     .then(function (parsedBody) {
       res.send(parsedBody);
@@ -106,7 +106,7 @@ router.post('/api/task/item/catalog/child.json', (req, res, next) => {
  *@param itemCatalogs: 分类，
  */
 router.post('/api/search/task/s.json', (req, res, next) => {
-  let options = apiConfig.postOptions('/search/task/s',req,{
+  let options = apiConfig.postOptions('/search/task/s', req, {
     pageIndex: req.body.pageIndex,
     pageSize: req.body.pageSize,
     taskName: req.body.taskName,
@@ -132,9 +132,9 @@ router.post('/api/search/task/s.json', (req, res, next) => {
  * @param taskId 商品ID
  */
 router.post('/api/task/detail.json', (req, res, next) => {
-  let options = apiConfig.getOptions('/task/detail/' + req.body.taskId,req);
-  if(req.session.userData){
-    options.qs =  {
+  let options = apiConfig.getOptions('/task/detail/' + req.body.taskId, req);
+  if (req.session.userData) {
+    options.qs = {
       userId: req.session.userData.id,
       role: req.session.userData.role,
     }
@@ -157,7 +157,7 @@ router.post('/api/task/detail.json', (req, res, next) => {
  * @param pageIndex
  */
 router.post('/api/task/trial/report.json', function (req, res, next) {
-  let options = apiConfig.getOptions("/task/trial/reports/"+ req.body.taskId + "/" + req.body.pageIndex,req);
+  let options = apiConfig.getOptions("/task/trial/reports/" + req.body.taskId + "/" + req.body.pageIndex, req);
   request(options)
     .then(function (parsedBody) {
       res.send(parsedBody);
@@ -176,7 +176,7 @@ router.post('/api/task/trial/report.json', function (req, res, next) {
  * @param pageIndex
  */
 router.post('/api/task/success.json', function (req, res, next) {
-  let options = apiConfig.getOptions("/task/success/"+ req.body.taskId + "/" + req.body.pageIndex,req);
+  let options = apiConfig.getOptions("/task/success/" + req.body.taskId + "/" + req.body.pageIndex, req);
 
   request(options)
     .then(function (parsedBody) {
@@ -196,8 +196,8 @@ router.post('/api/task/success.json', function (req, res, next) {
  * @param showkerId
  */
 router.post('/api/task/showker/trialReport.json', function (req, res, next) {
-  let options = apiConfig.getOptions( "/task/showker/report/get",req,{
-    id: req.body.id ,
+  let options = apiConfig.getOptions("/task/showker/report/get", req, {
+    id: req.body.id,
     showkerId: req.body.showkerId
   });
   request(options)
@@ -217,7 +217,7 @@ router.post('/api/task/showker/trialReport.json', function (req, res, next) {
  * @param showkerId
  */
 router.post('/api/task-log.json', function (req, res, next) {
-  let options = apiConfig.getOptions( "/task/log/" + req.body.taskId + "/" + req.session.userData.id ,req);
+  let options = apiConfig.getOptions("/task/log/" + req.body.taskId + "/" + req.session.userData.id, req);
   request(options)
     .then(function (parsedBody) {
       res.send(parsedBody);
@@ -236,7 +236,7 @@ router.post('/api/task-log.json', function (req, res, next) {
  * @param showkerId
  */
 router.post('/api/task-detail-log.json', function (req, res, next) {
-  let options = apiConfig.getOptions( "/task/log/detail/" + req.body.showkerTaskId + "/" + req.session.userData.id ,req);
+  let options = apiConfig.getOptions("/task/log/detail/" + req.body.showkerTaskId + "/" + req.session.userData.id, req);
   request(options)
     .then(function (parsedBody) {
       res.send(parsedBody);

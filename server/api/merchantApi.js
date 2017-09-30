@@ -32,31 +32,26 @@ const baseUrl = config.baseUrl;
  * @param taskDetail
  */
 router.post("/api/task-create.json", function (req, res, next) {
-  let options = {
-    method: 'POST',
-    uri: baseUrl + '/task/save',
-    formData: {
-      userId: req.session.userData.id,
-      taskType: req.body.taskType,
-      taskDaysDuration: req.body.taskDaysDuration,
-      onlyShowForQualification: req.body.onlyShowForQualification,
-      refuseOldShowker: req.body.refuseOldShowker,
-      needBrowseCollectAddCart: req.body.needBrowseCollectAddCart,
-      taskName: req.body.taskName,
-      "itemCatalog.id": req.body.itemType,
-      taskMainImage: req.body.taskMainImage,
-      itemUrl: req.body.itemUrl,
-      storeName: req.body.storeName,
-      taskCount: req.body.taskCount,
-      itemPrice: (req.body.itemPrice * 100).toFixed(0) * 1,
-      pinkage: req.body.pinkage,
-      itemDescription: req.body.itemDescription,
-      paymentMethod: req.body.paymentMethod,
-      taskDetail: req.body.taskDetail,
-      id: req.body.taskId
-    },
-    json: true,
-  };
+  let options = apiConfig.postOptions('/task/save', req, {
+    userId: req.session.userData.id,
+    taskType: req.body.taskType,
+    taskDaysDuration: req.body.taskDaysDuration,
+    onlyShowForQualification: req.body.onlyShowForQualification,
+    refuseOldShowker: req.body.refuseOldShowker,
+    needBrowseCollectAddCart: req.body.needBrowseCollectAddCart,
+    taskName: req.body.taskName,
+    "itemCatalog.id": req.body.itemType,
+    taskMainImage: req.body.taskMainImage,
+    itemUrl: req.body.itemUrl,
+    storeName: req.body.storeName,
+    taskCount: req.body.taskCount,
+    itemPrice: (req.body.itemPrice * 100).toFixed(0) * 1,
+    pinkage: req.body.pinkage,
+    itemDescription: req.body.itemDescription,
+    paymentMethod: req.body.paymentMethod,
+    taskDetail: req.body.taskDetail,
+    id: req.body.taskId
+  });
   request(options)
     .then(function (parsedBody) {
       res.send(parsedBody);
@@ -75,11 +70,7 @@ router.post("/api/task-create.json", function (req, res, next) {
  * @param smsCode
  */
 router.post("/api/item-catalog.json", function (req, res, next) {
-  let options = {
-    method: 'GET',
-    uri: baseUrl + '/task/item/catalog/all',
-    json: true
-  };
+  let options = apiConfig.getOptions('/task/item/catalog/all', req);
   request(options)
     .then(function (parsedBody) {
       res.send(parsedBody);
@@ -96,11 +87,7 @@ router.post("/api/item-catalog.json", function (req, res, next) {
  * @param userId
  */
 router.post("/api/get-account-balance.json", function (req, res, next) {
-  let options = {
-    method: 'GET',
-    uri: baseUrl + '/user/getAccountBalanceByUserId/' + req.session.userData.id,
-    json: true
-  };
+  let options = apiConfig.getOptions('/user/getAccountBalanceByUserId/' + req.session.userData.id, req);
   request(options)
     .then(function (parsedBody) {
       res.send(parsedBody);
@@ -122,18 +109,13 @@ router.post("/api/get-account-balance.json", function (req, res, next) {
  * @param platform
  */
 router.post("/api/pay-by-balance.json", function (req, res, next) {
-  let options = {
-    method: 'POST',
-    uri: baseUrl + '/user/account/pay-by-account-balance',
-    formData: {
-      uid: req.session.userData.id,
-      payPwd: req.body.payPassword,
-      taskId: req.body.taskId,
-      type: req.body.type,
-      platform: 'PC'
-    },
-    json: true
-  };
+  let options = apiConfig.postOptions('/user/account/pay-by-account-balance', req, {
+    uid: req.session.userData.id,
+    payPwd: req.body.payPassword,
+    taskId: req.body.taskId,
+    type: req.body.type,
+    platform: 'PC'
+  });
   request(options)
     .then(function (parsedBody) {
       res.send(parsedBody);
@@ -155,19 +137,14 @@ router.post("/api/pay-by-balance.json", function (req, res, next) {
  * @param settlementStatusList
  */
 router.post('/api/task-list.json', function (req, res, next) {
-  let options = {
-    method: 'GET',
-    uri: baseUrl + '/task/list/' + req.session.userData.id + '/' + req.body.pageIndex,
-    qs: {
-      pageSize: req.body.pageSize,
-      taskNumber: req.body.taskNumber,
-      orderBy: req.body.orderBy,
-      sort: req.body.sort,
-      taskStatusListString: req.body.taskStatusList,
-      settlementStatusListString: req.body.settlementStatusList
-    },
-    json: true
-  };
+  let options = apiConfig.getOptions('/task/list/' + req.session.userData.id + '/' + req.body.pageIndex, req, {
+    pageSize: req.body.pageSize,
+    taskNumber: req.body.taskNumber,
+    orderBy: req.body.orderBy,
+    sort: req.body.sort,
+    taskStatusListString: req.body.taskStatusList,
+    settlementStatusListString: req.body.settlementStatusList
+  });
   request(options)
     .then(function (parsedBody) {
       res.send(parsedBody);
@@ -186,11 +163,7 @@ router.post('/api/task-list.json', function (req, res, next) {
  * @param taskId
  */
 router.post('/api/close-task.json', function (req, res, next) {
-  let options = {
-    method: 'GET',
-    uri: baseUrl + '/task/close/' + req.session.userData.id + '/' + req.body.taskId,
-    json: true
-  };
+  let options = apiConfig.getOptions('/task/close/' + req.session.userData.id + '/' + req.body.taskId, req);
   request(options)
     .then(function (parsedBody) {
       res.send(parsedBody);
@@ -209,11 +182,7 @@ router.post('/api/close-task.json', function (req, res, next) {
  * @param taskId
  */
 router.post('/api/delete-task.json', function (req, res, next) {
-  let options = {
-    method: 'GET',
-    uri: baseUrl + '/task/delete/' + req.session.userData.id + '/' + req.body.taskId,
-    json: true
-  };
+  let options = apiConfig.getOptions('/task/delete/' + req.session.userData.id + '/' + req.body.taskId, req);
   request(options)
     .then(function (parsedBody) {
       res.send(parsedBody);
@@ -232,11 +201,7 @@ router.post('/api/delete-task.json', function (req, res, next) {
  * @param taskId
  */
 router.post('/api/task-settlement.json', function (req, res, next) {
-  let options = {
-    method: 'GET',
-    uri: baseUrl + '/task/settlement/' + req.session.userData.id + '/' + req.body.taskId,
-    json: true
-  };
+  let options = apiConfig.getOptions('/task/settlement/' + req.session.userData.id + '/' + req.body.taskId, req);
   request(options)
     .then(function (parsedBody) {
       res.send(parsedBody);
@@ -255,11 +220,7 @@ router.post('/api/task-settlement.json', function (req, res, next) {
  * @param taskId
  */
 router.post('/api/get-task.json', function (req, res, next) {
-  let options = {
-    method: 'GET',
-    uri: baseUrl + '/task/get/' + req.session.userData.id + '/' + req.body.taskId,
-    json: true
-  };
+  let options = apiConfig.getOptions('/task/get/' + req.session.userData.id + '/' + req.body.taskId, req);
   request(options)
     .then(function (parsedBody) {
       res.send(parsedBody);
@@ -278,22 +239,17 @@ router.post('/api/get-task.json', function (req, res, next) {
  * @param status
  */
 router.post('/api/get-task-apply-list.json', function (req, res, next) {
-  let options = {
-    method: 'POST',
-    uri: baseUrl + '/task/merchant/apply/list',
-    formData: {
-      taskId: req.body.taskId,
-      merchantId: req.session.userData.id,
-      status: req.body.status,
-      pageIndex: req.body.pageIndex,
-      selectStatus: req.body.selectStatus,
-      searchValue: req.body.searchValue,
-      orderNum: req.body.orderNum,
-      endReasonList: req.body.endReasonList,
-      auditStatusList: req.body.auditStatusList,
-    },
-    json: true
-  };
+  let options = apiConfig.postOptions('/task/merchant/apply/list', req, {
+    taskId: req.body.taskId,
+    merchantId: req.session.userData.id,
+    status: req.body.status,
+    pageIndex: req.body.pageIndex,
+    selectStatus: req.body.selectStatus,
+    searchValue: req.body.searchValue,
+    orderNum: req.body.orderNum,
+    endReasonList: req.body.endReasonList,
+    auditStatusList: req.body.auditStatusList,
+  });
   request(options)
     .then(function (parsedBody) {
       res.send(parsedBody);
@@ -312,17 +268,12 @@ router.post('/api/get-task-apply-list.json', function (req, res, next) {
  * @param status
  */
 router.post('/api/set-task-showker-audit.json', function (req, res, next) {
-  let options = {
-    method: 'POST',
-    uri: baseUrl + '/task/merchant/showker/audit',
-    formData: {
-      taskApplyId: req.body.id,
-      merchantId: req.session.userData.id,
-      auditPass: req.body.status,
-      reason:req.body.reason
-    },
-    json: true
-  };
+  let options = apiConfig.postOptions('/task/merchant/showker/audit', req, {
+    taskApplyId: req.body.id,
+    merchantId: req.session.userData.id,
+    auditPass: req.body.status,
+    reason: req.body.reason
+  });
   request(options)
     .then(function (parsedBody) {
       res.send(parsedBody);
@@ -363,17 +314,13 @@ router.post('/api/applies/waiting/audit/newest/clear/one.json', function (req, r
  * @param status
  */
 router.post('/api/order-number-audit.json', function (req, res, next) {
-  let options = {
-    method: 'POST',
-    uri: baseUrl + '/task/merchant/order/audit',
-    formData: {
-      showkerTaskId: req.body.id,
-      merchantId: req.session.userData.id,
-      auditPass: req.body.status,
-      msg: req.body.msg
-    },
-    json: true
-  };
+  let options = apiConfig.postOptions('/task/merchant/order/audit', req, {
+    showkerTaskId: req.body.id,
+    merchantId: req.session.userData.id,
+    auditPass: req.body.status,
+    msg: req.body.msg
+  });
+
   request(options)
     .then(function (parsedBody) {
       res.send(parsedBody);
@@ -392,15 +339,10 @@ router.post('/api/order-number-audit.json', function (req, res, next) {
  * @param status
  */
 router.post('/api/order-number-info.json', function (req, res, next) {
-  let options = {
-    method: 'POST',
-    uri: baseUrl + '/task/merchant/order/info',
-    formData: {
-      showkerTaskId: req.body.id,
-      merchantId: req.session.userData.id,
-    },
-    json: true
-  };
+  let options = apiConfig.postOptions('/task/merchant/order/info', req, {
+    showkerTaskId: req.body.id,
+    merchantId: req.session.userData.id,
+  });
   request(options)
     .then(function (parsedBody) {
       res.send(parsedBody);
@@ -421,17 +363,12 @@ router.post('/api/order-number-info.json', function (req, res, next) {
  * @param showkerTaskId
  */
 router.post('/api/deposit-supplement.json', function (req, res, next) {
-  let options = {
-    method: 'POST',
-    uri: baseUrl + '/user/account/deposit_supplement',
-    formData: {
-      uid: req.session.userData.id,
-      platform: "pc",
-      payPwd: req.body.payPassword,
-      showkerTaskId: req.body.taskId
-    },
-    json: true
-  };
+  let options = apiConfig.postOptions('/user/account/deposit_supplement', req, {
+    uid: req.session.userData.id,
+    platform: "pc",
+    payPwd: req.body.payPassword,
+    showkerTaskId: req.body.taskId
+  });
   request(options)
     .then(function (parsedBody) {
       res.send(parsedBody);
@@ -451,17 +388,12 @@ router.post('/api/deposit-supplement.json', function (req, res, next) {
  * @param msg
  */
 router.post('/api/task-report-audit.json', function (req, res, next) {
-  let options = {
-    method: 'POST',
-    uri: baseUrl + '/task/merchant/report/audit',
-    formData: {
-      showkerTaskId: req.body.id,
-      merchantId: req.session.userData.id,
-      auditPass: req.body.status,
-      msg: req.body.msg
-    },
-    json: true
-  };
+  let options = apiConfig.postOptions('/task/merchant/report/audit', req, {
+    showkerTaskId: req.body.id,
+    merchantId: req.session.userData.id,
+    auditPass: req.body.status,
+    msg: req.body.msg
+  });
   request(options)
     .then(function (parsedBody) {
       res.send(parsedBody);
@@ -482,17 +414,12 @@ router.post('/api/task-report-audit.json', function (req, res, next) {
  * @param platform
  */
 router.post('/api/showker-deposit-return.json', function (req, res, next) {
-  let options = {
-    method: 'POST',
-    uri: baseUrl + '/user/account/showker_deposit_return',
-    formData: {
-      uid: req.session.userData.id,
-      showkerTaskId: req.body.showkerTaskId,
-      payPwd: req.body.payPwd,
-      platform: req.body.platform
-    },
-    json: true
-  };
+  let options = apiConfig.postOptions('/user/account/showker_deposit_return', req, {
+    uid: req.session.userData.id,
+    showkerTaskId: req.body.showkerTaskId,
+    payPwd: req.body.payPwd,
+    platform: req.body.platform
+  });
   request(options)
     .then(function (parsedBody) {
       res.send(parsedBody);

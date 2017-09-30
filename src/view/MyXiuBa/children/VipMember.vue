@@ -28,7 +28,7 @@
           <p v-if="getMemberLevel !== memberLevel && getMemberLevel !== null" style="font-size: 14px">您已选择<span
             class="my-color">升级</span> <strong>{{year}}会员</strong>，有效期至
             <span style="color: #FC9F84">{{endTime | dateFormat('YYYY-MM-DD ')}}</span>
-            <span>根据您现在的会员版本可折价抵扣：<strong>{{moneyRemaining}}元</strong>,成功升级后现有版本将失效</span>
+            <span>根据您现在的会员版本可折价抵扣：<strong>{{moneyRemaining/100}}元</strong>,成功升级后现有版本将失效</span>
           </p>
           <p v-if="getMemberLevel === memberLevel" style="font-size: 14px">您已选择 <span class="my-color">续费</span>
             <strong>{{year}}</strong>会员，有效期至
@@ -202,7 +202,7 @@
         } else {
           stopTime = new Date().getTime() + parseInt(day) * 24 * 3600 * 1000;
           this.endTime = stopTime;
-          this.rechargeSum = recharge / 100 - this.moneyRemaining;
+          this.rechargeSum = recharge / 100 - this.moneyRemaining/100;
           if (this.rechargeSum - this.getUserBalance < 0) {
             this.needRecharge = 0
           } else {
@@ -239,7 +239,7 @@
             _this.memberLevelInfo = res.data;
             let timeRemainings = _this.getMemberDeadline - new Date().getTime();
             _this.timeRemaining = Math.floor(timeRemainings / (24 * 60 * 60 * 1000));
-            _this.moneyRemaining = Math.floor((parseInt((_this.memberLevelInfo.finalFee / 100)) / parseInt(_this.memberLevelInfo.validDays)) * parseInt(_this.timeRemaining));
+            _this.moneyRemaining = Math.floor((parseInt((_this.memberLevelInfo.finalFee)) / parseInt(_this.timeRemaining)) * parseInt(_this.memberLevelInfo.validDays));
             _this.getUserMemberAll();
           } else {
             _this.$Message.error(res.msg);

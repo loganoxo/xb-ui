@@ -7,7 +7,7 @@ const express = require('express');
 const logConfig = require('../logConfig');
 const redisClient = require("../redisServer");
 const sts = require('../aliServer');
-
+const apiConfig = require('../apiConfig');
 const router = express.Router();
 
 /**
@@ -40,7 +40,7 @@ redisClient.on('error', function (res) {
  */
 router.get('/api/ali-token.json', (req, res, next) => {
   let start = new Date().getTime();
-  logConfig.logger.info('ali-token-start:'+ start);
+  logConfig.logger.info('ali-token-start:' + start);
   res.set('Access-Control-Allow-Origin', '*');
   res.set('Access-Control-Allow-METHOD', 'GET');
   res.setHeader("Content-Type", "application/json");
@@ -53,8 +53,8 @@ router.get('/api/ali-token.json', (req, res, next) => {
     //DurationSeconds: 3600,
     RoleSessionName: 'RoleSessionName'
   }, function (err, parsedBody) {
-    let end =  new Date().getTime();
-    logConfig.logger.info('ali-token-end:'+ (end - start));
+    let end = new Date().getTime();
+    logConfig.logger.info('ali-token-end:' + (end - start));
     if (err) {
       logConfig.logger.error(req.originalUrl + ':' + err);
     }
@@ -63,7 +63,7 @@ router.get('/api/ali-token.json', (req, res, next) => {
     }
     res.end();
     let endFinish = new Date().getTime();
-    logConfig.logger.info('ali-token-endFinish:'+ (endFinish - start));
+    logConfig.logger.info('ali-token-endFinish:' + (endFinish - start));
   });
 });
 

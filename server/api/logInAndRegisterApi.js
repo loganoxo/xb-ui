@@ -98,7 +98,6 @@ router.post('/api/user/qq/sign-in.json', function (req, res, next) {
 });
 
 
-
 /*router.post('/api/login.json', (req, res, next) => {
   let options = apiConfig.postOptions('/user/sign-in', req, {
     phone: req.body.phone,
@@ -210,8 +209,8 @@ router.post('/api/sign-up.json', function (req, res, next) {
     json: true,
     headers: {},
   };
-  if(req.body.recommendCode){
-     options.headers.xUserId = cryptoConfig.getDecAse192(req.body.recommendCode,secret);
+  if (req.body.recommendCode) {
+    options.headers.xUserId = cryptoConfig.getDecAse192(req.body.recommendCode, secret);
   }
   let validateCode = parseInt(req.body.validateCode);
   let time = new Date().getTime();
@@ -256,8 +255,8 @@ router.post('/api/user/qq/data-complete.json', function (req, res, next) {
     json: true,
     headers: {},
   };
-  if(req.body.recommendCode){
-    let userId = cryptoConfig.getDecAse192(req.body.recommendCode,secret);
+  if (req.body.recommendCode) {
+    let userId = cryptoConfig.getDecAse192(req.body.recommendCode, secret);
     options.headers.xUserId = userId;
   }
   request(options).then(function (parsedBody) {
@@ -363,7 +362,7 @@ router.post('/api/logged-out.json', (req, res, next) => {
  */
 router.post("/api/recommend-url.json", (req, res, next) => {
   let userId = String(req.session.userData.id);
-  let recommendUrl = req.hostname + '/sel-role?recommendCode=' +　cryptoConfig.getEncAse192(userId,secret);
+  let recommendUrl = req.hostname + '/sel-role?recommendCode=' + cryptoConfig.getEncAse192(userId, secret);
   res.end(recommendUrl);
 });
 
