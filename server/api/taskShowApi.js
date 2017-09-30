@@ -7,7 +7,7 @@ const express = require('express');
 const config = require('../config');
 const logConfig = require('../logConfig');
 const request = require('request-promise');
-
+const apiConfig = require('../apiConfig');
 const router = express.Router();
 const baseUrl = config.baseUrl;
 
@@ -15,11 +15,7 @@ const baseUrl = config.baseUrl;
  * 首页导航
  */
 router.post('/api/task/item/catalog/main.json', (req, res, next) => {
-  let options = {
-    method: 'GET',
-    uri: baseUrl + '/task/item/catalog/main',
-    json: true,
-  };
+  let options = apiConfig.getOptions('/task/item/catalog/main',req);
   request(options)
     .then(function (parsedBody) {
       res.send(parsedBody);
@@ -36,11 +32,7 @@ router.post('/api/task/item/catalog/main.json', (req, res, next) => {
  * 首页活动任务展示
  */
 router.post('/api/task/index/newest.json', (req, res, next) => {
-  let options = {
-    method: 'GET',
-    uri: baseUrl + '/task/index/newest',
-    json: true,
-  };
+  let options = apiConfig.getOptions('/task/index/newest',req);
   request(options)
     .then(function (parsedBody) {
       res.send(parsedBody);
@@ -56,11 +48,7 @@ router.post('/api/task/index/newest.json', (req, res, next) => {
  * 首页左上角列表接口
  */
 router.post('/api/task/showker-newest.json', (req, res, next) => {
-  let options = {
-    method: 'GET',
-    uri: baseUrl + '/task/showker/newest',
-    json: true,
-  };
+  let options = apiConfig.getOptions('/task/showker/newest',req);
   request(options)
     .then(function (parsedBody) {
       res.send(parsedBody);
@@ -78,12 +66,7 @@ router.post('/api/task/showker-newest.json', (req, res, next) => {
  * @param id  大类id
  */
 router.post('/api/task/get/item/catalog/parent.json', (req, res, next) => {
-  let options =
-    {
-      method: 'GET',
-      uri: baseUrl + '/task/item/catalog/parent/' + req.body.id,
-      json: true,
-    };
+  let options = apiConfig.getOptions('/task/item/catalog/parent/' + req.body.id,req);
   request(options)
     .then(function (parsedBody) {
       res.send(parsedBody);
@@ -101,12 +84,7 @@ router.post('/api/task/get/item/catalog/parent.json', (req, res, next) => {
  * @param id  大类id
  */
 router.post('/api/task/item/catalog/child.json', (req, res, next) => {
-  let options =
-    {
-      method: 'GET',
-      uri: baseUrl + '/task/item/catalog/' + req.body.cate + '/child',
-      json: true,
-    };
+  let options = apiConfig.getOptions('/task/item/catalog/' + req.body.cate + '/child',req);
   request(options)
     .then(function (parsedBody) {
       res.send(parsedBody);
@@ -128,21 +106,15 @@ router.post('/api/task/item/catalog/child.json', (req, res, next) => {
  *@param itemCatalogs: 分类，
  */
 router.post('/api/search/task/s.json', (req, res, next) => {
-  let options =
-    {
-      method: 'POST',
-      uri: baseUrl + '/search/task/s',
-      json: true,
-      formData: {
-        pageIndex: req.body.pageIndex,
-        pageSize: req.body.pageSize,
-        taskName: req.body.taskName,
-        taskTypes: req.body.taskTypes,
-        itemCatalogs: req.body.itemCatalogs,
-        sortField: req.body.sortField,
-        sortOrder: req.body.sortOrder
-      },
-    };
+  let options = apiConfig.postOptions('/search/task/s',req,{
+    pageIndex: req.body.pageIndex,
+    pageSize: req.body.pageSize,
+    taskName: req.body.taskName,
+    taskTypes: req.body.taskTypes,
+    itemCatalogs: req.body.itemCatalogs,
+    sortField: req.body.sortField,
+    sortOrder: req.body.sortOrder
+  });
   request(options)
     .then(function (parsedBody) {
       res.send(parsedBody);
@@ -160,11 +132,7 @@ router.post('/api/search/task/s.json', (req, res, next) => {
  * @param taskId 商品ID
  */
 router.post('/api/task/detail.json', (req, res, next) => {
-  let options =  {
-    method: 'GET',
-    uri: baseUrl + '/task/detail/' + req.body.taskId,
-    json: true,
-  };
+  let options = apiConfig.getOptions('/task/detail/' + req.body.taskId,req);
   if(req.session.userData){
     options.qs =  {
       userId: req.session.userData.id,
@@ -189,11 +157,7 @@ router.post('/api/task/detail.json', (req, res, next) => {
  * @param pageIndex
  */
 router.post('/api/task/trial/report.json', function (req, res, next) {
-  let options = {
-    method: 'GET',
-    uri: baseUrl + "/task/trial/reports/"+ req.body.taskId + "/" + req.body.pageIndex,
-    json: true
-  };
+  let options = apiConfig.getOptions("/task/trial/reports/"+ req.body.taskId + "/" + req.body.pageIndex,req);
   request(options)
     .then(function (parsedBody) {
       res.send(parsedBody);
@@ -212,11 +176,8 @@ router.post('/api/task/trial/report.json', function (req, res, next) {
  * @param pageIndex
  */
 router.post('/api/task/success.json', function (req, res, next) {
-  let options = {
-    method: 'GET',
-    uri: baseUrl + "/task/success/"+ req.body.taskId + "/" + req.body.pageIndex,
-    json: true
-  };
+  let options = apiConfig.getOptions("/task/success/"+ req.body.taskId + "/" + req.body.pageIndex,req);
+
   request(options)
     .then(function (parsedBody) {
       res.send(parsedBody);
@@ -235,15 +196,10 @@ router.post('/api/task/success.json', function (req, res, next) {
  * @param showkerId
  */
 router.post('/api/task/showker/trialReport.json', function (req, res, next) {
-  let options = {
-    method: 'GET',
-    uri: baseUrl + "/task/showker/report/get",
-    json: true,
-    qs: {
-      id: req.body.id ,
-      showkerId: req.body.showkerId
-    },
-  };
+  let options = apiConfig.getOptions( "/task/showker/report/get",req,{
+    id: req.body.id ,
+    showkerId: req.body.showkerId
+  });
   request(options)
     .then(function (parsedBody) {
       res.send(parsedBody);
@@ -261,11 +217,7 @@ router.post('/api/task/showker/trialReport.json', function (req, res, next) {
  * @param showkerId
  */
 router.post('/api/task-log.json', function (req, res, next) {
-  let options = {
-    method: 'GET',
-    uri: baseUrl + "/task/log/" + req.body.taskId + "/" + req.session.userData.id ,
-    json: true,
-  };
+  let options = apiConfig.getOptions( "/task/log/" + req.body.taskId + "/" + req.session.userData.id ,req);
   request(options)
     .then(function (parsedBody) {
       res.send(parsedBody);
@@ -284,11 +236,7 @@ router.post('/api/task-log.json', function (req, res, next) {
  * @param showkerId
  */
 router.post('/api/task-detail-log.json', function (req, res, next) {
-  let options = {
-    method: 'GET',
-    uri: baseUrl + "/task/log/detail/" + req.body.showkerTaskId + "/" + req.session.userData.id ,
-    json: true,
-  };
+  let options = apiConfig.getOptions( "/task/log/detail/" + req.body.showkerTaskId + "/" + req.session.userData.id ,req);
   request(options)
     .then(function (parsedBody) {
       res.send(parsedBody);

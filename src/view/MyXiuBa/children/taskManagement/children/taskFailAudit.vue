@@ -29,7 +29,7 @@
       <iButton type="primary" :loading="searchLoading" @click="appliesEndTask">搜索</iButton>
     </div>
     <div class="mt-12" v-for="(item,index) in taskFailAuditList" :key="item.id" v-if="taskFailAuditList.length > 0">
-      <div class="collapse-header" @click="collapseToggle(item.id,index)">
+      <div class="collapse-header clear" @click="collapseToggle(item.id,index)">
         <div class="manage-img inline-block">
           <img :src="item.taskMainImage" alt="">
         </div>
@@ -177,17 +177,6 @@
           if (res.status) {
             _this.taskFailAuditList = res.data.content;
             _this.totalElements = res.data.totalElements;
-           /* _this.taskFailAuditList.forEach(item => {
-              api.appliesEndShowkerTaskCount({
-                taskId: item.id,
-                alitmAccount: _this.alitmAccount,
-                rejectReasonList: JSON.stringify(_this.rejectReasonList)
-              }).then(res => {
-                if (res.status) {
-                  _this.$set(item, 'data', res.data);
-                }
-              })
-            });*/
             _this.searchLoading = false;
           } else {
             _this.$Message.error(res.msg);

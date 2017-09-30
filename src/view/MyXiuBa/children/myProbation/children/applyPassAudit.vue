@@ -605,6 +605,10 @@
           _this.$Message.error("亲，请输入订单号！");
           return;
         }
+        if (_this.affirmOrderNumber.length > 22) {
+          _this.$Message.error("亲，订单号长度过长，请输入正确的订单号！");
+          return;
+        }
         if (!_this.payMoney) {
           _this.$Message.error("亲，请输入订单金额！");
           return;

@@ -23,7 +23,6 @@
     props: {
       endTime: {
         required: true,
-        type: [Number],
         default: new Date().getTime() + 86400000
       },
       color: {

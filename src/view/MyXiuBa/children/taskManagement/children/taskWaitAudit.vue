@@ -8,16 +8,17 @@
       <iButton type="primary" :loading="searchLoading" @click="appliesWaitingAuditTask">搜索</iButton>
     </div>
     <div class="mt-12" v-for="(item,index) in taskWaitAuditList" :key="item.id" v-if="taskWaitAuditList.length > 0">
-      <div class="collapse-header" @click="collapseToggle(item.id,index)">
-        <div class="manage-img inline-block">
+      <div class="collapse-header clear" @click="collapseToggle(item.id,index)">
+        <div class="manage-img inline-block mt-10">
           <img :src="item.taskMainImage" alt="">
         </div>
         <div class="manage-text left ml-5 inline-block">
           <p>活动编号：{{item.number}}</p>
           <p>活动名称：{{item.taskName}}</p>
+          <p>参与概况：总份数<span class="main-color">20</span>，<span class="main-color">7</span>人正在参与活动，<span class="main-color">0</span>人完成活动，剩余名额<span class="main-color">13</span>个</p>
         </div>
-        <Icon :class="{showTableStyles:selectId === item.id}" class="right mr-30 mt-15" type="arrow-right-b"></Icon>
-        <div class="waiting-task-number">
+        <Icon :class="{showTableStyles:selectId === item.id}" class="right mr-30 mt-28" type="arrow-right-b"></Icon>
+        <div class="waiting-task-number mt-10">
           <p class="task-wait-fail">新增待审批<span>{{item.newestTaskApplyCount || 0}}</span>人</p>
           <p class="task-wait-fail">共有待审批<span>{{item.totalTaskApplyCount || 0}}</span>人</p>
         </div>
@@ -47,7 +48,8 @@
                 <router-link :to="{ 'path': '/trial-report','query': {'showkerId': allTask.showkerId}}">查看</router-link>
               </td>
               <td>
-                <Tooltip v-if="allTask.reason && allTask.status === 'waiting_resubmit'" :content="allTask.reason" placement="top" class="cursor-p">
+                <Tooltip v-if="allTask.reason && allTask.status === 'waiting_resubmit'" :content="allTask.reason"
+                         placement="top" class="cursor-p">
                   <Icon color="#f60" type="information-circled"></Icon>
                   <span class="main-color">{{getStatusInfo(allTask.status)}}</span>
                 </Tooltip>
@@ -55,8 +57,7 @@
               </td>
               <td>
                 <p class="del-edit">
-                  <span v-if="item.needBrowseCollectAddCart"
-                        @click="taskWaitToAudit(allTask.id,allTask.alitmAccount,allTask.screenshot,item.endTime,allTaskIndex)">审批</span>
+                  <span v-if="item.needBrowseCollectAddCart" @click="taskWaitToAudit(allTask.id,allTask.alitmAccount,allTask.screenshot,item.endTime,allTaskIndex)">审批</span>
                   <span class="ml-5" @click="taskWaitToPass(allTask.id, 'true',allTaskIndex)">通过</span>
                   <span v-if="allTask.newest" class="ml-5" @click="markRead(item.id,allTask.id)">设为已读</span>
                 </p>
@@ -64,11 +65,11 @@
             </tr>
             </tbody>
             <tbody>
-           <tr>
-             <td colspan="5">
-               <Page :total="taskTotalElements" :page-size="taskPageSize" :current="taskPageIndex" @on-change="TaskPageChange"></Page>
-             </td>
-           </tr>
+            <tr>
+              <td colspan="5">
+                <Page :total="taskTotalElements" :page-size="taskPageSize" :current="taskPageIndex" @on-change="TaskPageChange"></Page>
+              </td>
+            </tr>
             </tbody>
           </table>
         </div>
@@ -219,7 +220,7 @@
                 _this.$set(_this.taskWaitAuditList[index], 'applyAllTask', []);
               }
               _this.taskWaitAuditList[index].applyAllTask = res.data.content;
-              _this.taskTotalElements =  res.data.totalElements;
+              _this.taskTotalElements = res.data.totalElements;
               _this.taskWaitAuditList[index].applyAllTask.forEach(item => {
                 api.getAlitmByAccount({
                   account: item.alitmAccount,
@@ -232,6 +233,8 @@
                   }
                 });
               })
+            } else {
+              _this.taskWaitAuditList[index].applyAllTask = [];
             }
           } else {
             _this.$Message.error(res.msg);
@@ -265,12 +268,12 @@
         this.approvalPopInfo.activeEndTime = time;
         this.approvalPopInfo.index = index;
       },
-      auditSuccess(closePop,type) {
+      auditSuccess(closePop, type) {
         let _this = this;
         _this.approvalPopInfo.approvalPop = closePop;
         _this.$store.dispatch('getPersonalTrialCount');
         _this.appliesWaitingAuditAll(_this.operateTaskId, _this.operateIndex);
-        if(type === 'true'){
+        if (type === 'true') {
           if (_this.taskWaitAuditList[_this.operateIndex].applyAllTask[_this.approvalPopInfo.index].newest && _this.taskWaitAuditList[_this.operateIndex].newestTaskApplyCount > 0) {
             _this.$set(_this.taskWaitAuditList[_this.operateIndex], 'newestTaskApplyCount', _this.taskWaitAuditList[_this.operateIndex].newestTaskApplyCount - 1);
           }

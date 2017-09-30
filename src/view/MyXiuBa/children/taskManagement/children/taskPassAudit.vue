@@ -46,7 +46,7 @@
       <iButton type="primary" :loading="searchLoading" @click="passesTaskList">搜索</iButton>
     </div>
     <div class="mt-12" v-for="(item,index) in taskPassAuditList" :key="item.id" v-if="taskPassAuditList.length > 0">
-      <div class="collapse-header" @click="collapseToggle(item.id,index)">
+      <div class="collapse-header clear" @click="collapseToggle(item.id,index)">
         <div class="manage-img inline-block">
           <img :src="item.taskMainImage" alt="">
         </div>

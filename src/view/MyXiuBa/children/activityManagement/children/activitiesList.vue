@@ -2,7 +2,7 @@
   <div class="activity-management">
     <div class="activity-title pl-10">活动管理</div>
     <div class="activity-title-s pl-10">
-      共<span>{{taskData.taskTotalCount}}</span>个活动，其中待审核<span>{{taskData.taskWaitingAuditCount}}</span>个，进行中<span>{{taskData.taskUnderWayCount}}</span>个，已结束尚未结算<span>{{taskData.taskFinishedSettlementWaitingCount}}</span>个
+      共<span>{{taskData.taskTotalCount}}</span>个活动，其中待审核<span>{{taskData.taskWaitingAuditCount}}</span>个，进行中<span>{{taskData.taskUnderWayCount}}</span>个，已结束待申请结算<span>{{taskData.taskFinishedSettlementWaitingCount}}</span>个
     </div>
     <div class="select-status pl-10 clear">
       <div class="left mr-10" style="padding-top: 1px;">
@@ -101,7 +101,7 @@
             </Tooltip>
           </td>
           <td>{{item.showkerApplyTotalCount || 0}} / {{item.showkerApplyPassedCount || 0}}（人）</td>
-          <td>{{(item.taskCount  - item.showkerApplySuccessCount) || 0}}</td>
+          <td>{{(item.taskCount  - item.showkerApplySuccessCount)}}</td>
           <td>
             {{item.totalMarginNeed / 100}} / {{item.promotionExpensesNeed / 100}} / {{(item.marginPaid + item.promotionExpensesPaid) / 100 || 0}}
           </td>
@@ -136,7 +136,7 @@
             </p>
           </td>
           <td v-else-if="item.settlementStatus === 'waiting_settlement' && (item.taskStatus === 'finished' || item.taskStatus === 'under_way')">
-            <p class="bond mt-6" v-if="isApproveExpire(item.endTime) || (item.taskCount - item.showkerApplySuccessCount) == 0">
+            <p class="bond mt-6" v-if="isApproveExpire(item.endTime) && (item.taskCount - item.showkerApplySuccessCount) != 0">
               <span @click="approveShowker(item.id)">审批秀客</span>
             </p>
             <p class="bond mt-6">
@@ -150,7 +150,7 @@
             </p>
           </td>
           <td v-else-if="item.settlementStatus === 'cannot_settlement' && item.taskStatus === 'finished'">
-            <p class="bond mt-6" v-if="isApproveExpire(item.endTime) || (item.taskCount - item.showkerApplySuccessCount) == 0">
+            <p class="bond mt-6" v-if="isApproveExpire(item.endTime) && (item.taskCount - item.showkerApplySuccessCount) != 0">
               <span @click="approveShowker(item.id)">审批秀客</span>
             </p>
             <p class="copy mt-6">

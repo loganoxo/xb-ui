@@ -98,7 +98,6 @@
       padding: 20px 0;
     }
     .collapse-header{
-      height: 62px;
       line-height: 62px;
       padding: 10px 0;
       color: #666;
