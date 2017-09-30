@@ -9,7 +9,7 @@
         <Step title="活动上线"></Step>
       </Steps>
     </div>
-    <!--判断是有权限能发布任务-->
+    <!--判断是否有权限能发布任务-->
     <div v-show="getMemberStatus === 'need_member_for_more_task'||getMemberStatus==='need_member_for_more_audit'" class="text-ct " >
       <div class="mt-80" style="font-size:20px;color: #949494" v-if="getMemberStatus === 'need_member_for_more_task'" >
         <Icon style="font-size: 25px ;transform: translateY(3px)" type="close-circled"></Icon>

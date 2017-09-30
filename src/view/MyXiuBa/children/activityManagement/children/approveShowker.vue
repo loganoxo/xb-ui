@@ -70,21 +70,6 @@
             </table>
           </div>
         </div>
-        <!--审核图片弹窗-->
-        <Modal v-model="approvalPop"
-               :transfer="false"
-                width="600">
-          <AuditShowker
-          :applyName="applyName"
-          :userScreenShotImg="userScreenShotImg"
-          :passId="passId"
-          :activeEndTime="activeEndTime"
-          v-on:request="auditSuccess"
-          >
-          </AuditShowker>
-          <div slot="footer" style="padding: 0px ; border: none"></div>
-        </Modal>
-
         <!--已通过-->
         <div class="fail-audit mt-20" v-show="showApproveStatus === 'passAudit'">
           <iSelect v-model="selectStatus" style="width: 120px;margin-right: 12px;">
@@ -279,6 +264,20 @@
           </PayModel>
         </div>
       </div>
+      <!--审核图片弹窗-->
+      <Modal v-model="approvalPop"
+             :transfer="false"
+             width="600">
+        <AuditShowker
+          :applyName="applyName"
+          :userScreenShotImg="userScreenShotImg"
+          :passId="passId"
+          :activeEndTime="activeEndTime"
+          v-on:request="auditSuccess"
+        >
+        </AuditShowker>
+        <div slot="footer" style="padding: 0px ; border: none"></div>
+      </Modal>
     </div>
   </div>
 </template>
@@ -450,7 +449,8 @@
           orderNum: _this.orderNum,
           endReasonList: JSON.stringify(_this.endReasonList),
           auditStatusList: JSON.stringify(_this.auditStatusList),
-          pageIndex: _this.pageIndex
+          pageIndex: _this.pageIndex,
+          pageSize: _this.pageSize
         }).then(res => {
           if (res.status) {
             _this.searchLoading = false;

@@ -845,10 +845,11 @@ router.post('/api/applies/end/task.json', function (req, res, next) {
       if (parsedBody.status && parsedBody.data) {
         parsedBody.data.content.forEach(item => {
           let data = {};
-          data.id = item.id;
-          data.number = item.number;
-          data.taskMainImage = item.taskMainImage;
-          data.taskName = item.taskName;
+          data.id = item.task.id;
+          data.number = item.task.number;
+          data.taskMainImage = item.task.taskMainImage;
+          data.taskName = item.task.taskName;
+          data.count = item.count;
           dataList.push(data);
         });
         res.send({
@@ -929,7 +930,7 @@ router.post('/api/applies/end/showker/task.json', function (req, res, next) {
  * @param merchantId
  * @param taskId
  */
-router.post('/api/passes/end/showker/task/count.json', function (req, res, next) {
+/*router.post('/api/passes/end/showker/task/count.json', function (req, res, next) {
   let options = apiConfig.getOptions('/task/merchant/end/showker/task/count', req, {
     merchantId: req.session.userData.id,
     taskId: req.body.taskId,
@@ -946,6 +947,6 @@ router.post('/api/passes/end/showker/task/count.json', function (req, res, next)
       res.json({status: false, msg: "服务器请求超时，请稍后在试！"});
       res.end();
     });
-});
+});*/
 
 module.exports = router;

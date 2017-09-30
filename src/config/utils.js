@@ -108,7 +108,7 @@ export const isInteger = (number) => {
  * 验证是否是淘宝或者天猫链接地址
  */
 export const isAliUrl = (url) => {
-  let URL_REG = /((item|detail).(tmall|taobao).*?)/;
+  let URL_REG = /((item|detail|s.click).(tmall|taobao).*?)/;
   return URL_REG.test(url)
 };
 
