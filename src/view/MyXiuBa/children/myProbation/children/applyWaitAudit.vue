@@ -39,7 +39,8 @@
           </td>
           <td>
             <p class="operation" v-show="item.status === 'waiting_resubmit'" @click="resubmitFun(item.task.id)">重新提交</p>
-            <p v-show="item.task.needBrowseCollectAddCart" class="operation mt-5" @click="getUserScreenShot(item.id,item.reason,item.status,item.task.endTime)">查看详情</p>
+            <p v-show="item.task.needBrowseCollectAddCart" class="operation mt-5"
+               @click="getUserScreenShot(item.id,item.reason,item.status,item.task.endTime)">查看详情</p>
             <p class="operation mt-5" @click="endTrialModel(item.id)">结束活动</p>
           </td>
         </tr>
@@ -78,23 +79,28 @@
       </p>
       <div class="text-ct mt-20 ">
         <div v-if="userScreenShotImg.searchCondition " style="display: inline-block;padding: 0 10px">
-          <img class="cursor-p" style="width:80px ;height: 80px" :src="userScreenShotImg.searchCondition" alt="" @click="viewScreenShotFun(userScreenShotImg.searchCondition)">
+          <img class="cursor-p" style="width:80px ;height: 80px" :src="userScreenShotImg.searchCondition" alt=""
+               @click="viewScreenShotFun(userScreenShotImg.searchCondition)">
           <p>搜索条件截图</p>
         </div>
-        <div  v-if="userScreenShotImg.itemLocation " style="display: inline-block;padding: 0 10px">
-          <img class="cursor-p" style="width: 80px;height: 80px" :src="userScreenShotImg.itemLocation" alt="" @click="viewScreenShotFun(userScreenShotImg.itemLocation)">
+        <div v-if="userScreenShotImg.itemLocation " style="display: inline-block;padding: 0 10px">
+          <img class="cursor-p" style="width: 80px;height: 80px" :src="userScreenShotImg.itemLocation" alt=""
+               @click="viewScreenShotFun(userScreenShotImg.itemLocation)">
           <p>所在位置截图</p>
         </div>
-        <div  v-if="userScreenShotImg.browseToBottom " style="display: inline-block;padding: 0 10px">
-          <img class="cursor-p" style="width: 80px;height: 80px" :src="userScreenShotImg.browseToBottom" alt="" @click="viewScreenShotFun(userScreenShotImg.browseToBottom)">
+        <div v-if="userScreenShotImg.browseToBottom " style="display: inline-block;padding: 0 10px">
+          <img class="cursor-p" style="width: 80px;height: 80px" :src="userScreenShotImg.browseToBottom" alt=""
+               @click="viewScreenShotFun(userScreenShotImg.browseToBottom)">
           <p>宝贝浏览见底</p>
         </div>
-        <div  v-if="userScreenShotImg.enshrine "  style="display: inline-block;padding: 0 10px">
-          <img class="cursor-p" style="width: 80px;height: 80px" :src="userScreenShotImg.enshrine" alt="" @click="viewScreenShotFun(userScreenShotImg.enshrine)">
+        <div v-if="userScreenShotImg.enshrine " style="display: inline-block;padding: 0 10px">
+          <img class="cursor-p" style="width: 80px;height: 80px" :src="userScreenShotImg.enshrine" alt=""
+               @click="viewScreenShotFun(userScreenShotImg.enshrine)">
           <p>加入收藏夹</p>
         </div>
-        <div  v-if="userScreenShotImg.addToCart " style="display: inline-block;padding: 0 10px" >
-          <img class="cursor-p" style="width: 80px;height: 80px" :src="userScreenShotImg.addToCart" alt="" @click="viewScreenShotFun(userScreenShotImg.addToCart)">
+        <div v-if="userScreenShotImg.addToCart " style="display: inline-block;padding: 0 10px">
+          <img class="cursor-p" style="width: 80px;height: 80px" :src="userScreenShotImg.addToCart" alt=""
+               @click="viewScreenShotFun(userScreenShotImg.addToCart)">
           <p>加入购物车</p>
         </div>
       </div>
@@ -102,14 +108,17 @@
         <div class="left ml-20" style="color: #FF6636;font-size: 29px">
           <Icon type="alert-circled"></Icon>
         </div>
-        <div  class="left ml-20" style="text-align: left">
+        <div class="left ml-20" style="text-align: left">
           <p>商家希望重新提交申请，理由：{{reason}}</p>
-          <p> 您还有 <time-down :endTime="getEndTime" ></time-down> 重新提交，若该时间内未提交，将视为放弃活动！</p>
+          <p> 您还有
+            <time-down :endTime="getEndTime"></time-down>
+            重新提交，若该时间内未提交，将视为放弃活动！
+          </p>
         </div>
       </div>
     </Modal>
     <!--照片查看器-->
-    <Modal v-model="viewScreenShot" :transfer="false"  width="580" title="照片查看器">
+    <Modal v-model="viewScreenShot" :transfer="false" width="580" title="照片查看器">
       <div class="text-ct">
         <img style="width: 550px" :src="viewScreenShotUrl" alt="">
       </div>
@@ -141,12 +150,12 @@
       Modal: Modal,
       Icon: Icon,
       TimeDown: TimeDown,
-      Tooltip:Tooltip
+      Tooltip: Tooltip
     },
     data() {
       return {
-        viewScreenShot:false,
-        viewScreenShotUrl:null,
+        viewScreenShot: false,
+        viewScreenShotUrl: null,
         SelectList: [
           {
             value: '1',
@@ -168,32 +177,33 @@
         deleteModal: false,
         deleteId: null,
         searchLoading: false,
-        approvalPop:false,
-        userScreenShotImg:{},
-        reason:null,
-        status:null,
-        getEndTime:1509888888888,
+        approvalPop: false,
+        userScreenShotImg: {},
+        reason: null,
+        status: null,
+        getEndTime: 1509888888888,
       }
     },
-    mounted() {},
+    mounted() {
+    },
     created() {
       this.showkerApplyList();
     },
     computed: {},
-    watch:{
-      approvalPop:function (val) {
-        if (val === false){
+    watch: {
+      approvalPop: function (val) {
+        if (val === false) {
           this.showkerApplyList();
         }
       }
     },
     methods: {
-      viewScreenShotFun(type){
+      viewScreenShotFun(type) {
         this.viewScreenShotUrl = type;
         this.viewScreenShot = true;
       },
-      resubmitFun(type){
-        this.$router.push({name:'TaskDetails',query:{taskId:type,resubmit:'resubmit'}})
+      resubmitFun(type) {
+        this.$router.push({name: 'TaskDetails', query: {taskId: type, resubmit: 'resubmit'}})
       },
       getTaskStatus(type) {
         return TaskErrorStatusList(type);
@@ -221,7 +231,7 @@
           }
         })
       },
-      endTrialModel (id) {
+      endTrialModel(id) {
         this.deleteModal = true;
         this.deleteId = id;
       },
@@ -237,25 +247,25 @@
               content: '结束活动成功！',
               duration: 6
             });
-            _this.showkerSuccessList();
+            _this.showkerApplyList();
             _this.deleteModal = false;
           } else {
             _this.$Message.error(res.msg);
           }
         })
       },
-      getUserScreenShot(type,reason,status,time){
-        let _this = this ;
+      getUserScreenShot(type, reason, status, time) {
+        let _this = this;
         _this.reason = reason;
         _this.status = status;
         _this.getEndTime = parseInt(time);
         api.getUserScreenShot({
-          id:type
-        }).then(res=>{
-          if (res.status){
+          id: type
+        }).then(res => {
+          if (res.status) {
             _this.approvalPop = true;
-            _this.userScreenShotImg =res.data;
-          }else {
+            _this.userScreenShotImg = res.data;
+          } else {
             _this.$Message.error(res.msg)
           }
         })
