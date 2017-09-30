@@ -9,6 +9,7 @@
         <Step title="活动上线"></Step>
       </Steps>
     </div>
+    <!--判断是有权限能发布任务-->
     <div v-show="getMemberStatus === 'need_member_for_more_task'||getMemberStatus==='need_member_for_more_audit'" class="text-ct " >
       <div class="mt-80" style="font-size:20px;color: #949494" v-if="getMemberStatus === 'need_member_for_more_task'" >
         <Icon style="font-size: 25px ;transform: translateY(3px)" type="close-circled"></Icon>
@@ -25,8 +26,8 @@
         <iButton @click="openMember" class="check-member" type="success" size="large">购买会员</iButton>
       </div>
     </div>
-    <div v-if="blockOrNone" v-cloak >
-      <!--任务发布-->
+    <!--任务发布相关-->
+    <template v-show="blockOrNone">
       <div class="activity-con" v-show="stepName === 'information'">
         <div class="activity-info">
           <div class="activity-info-title">填写活动信息</div>
@@ -517,7 +518,7 @@
           <iButton type="error" size="large" long @click="price500Model = false">我知道了</iButton>
         </div>
       </Modal>
-    </div>
+    </template>
   </div>
 </template>
 
@@ -652,9 +653,7 @@
           fileInput.click()
         }
       };
-      setTimeout(function () {
-        _this.$refs.myTextEditor.quill.getModule("toolbar").addHandler("image", imgHandler)
-      },400)
+      _this.$refs.myTextEditor.quill.getModule("toolbar").addHandler("image", imgHandler);
     },
     created() {
       this.checkMemberForTask();
