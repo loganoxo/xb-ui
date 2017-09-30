@@ -79,16 +79,18 @@
       <Page :total="totalElements" :page-size="pageSize" :current="pageIndex" @on-change="pageChange"></Page>
     </div>
     <!--审核秀客图片-->
-    <Modal v-model="approvalPopInfo.approvalPop" :transfer="false" width="600">
-      <AuditShowker
-        :applyName="approvalPopInfo.applyName"
-        :userScreenShotImg="approvalPopInfo.userScreenShotImg"
-        :passId="approvalPopInfo.passId"
-        :activeEndTime="approvalPopInfo.activeEndTime"
-        @request="auditSuccess">
-      </AuditShowker>
-      <div slot="footer" style="padding: 0px ; border: none"></div>
-    </Modal>
+    <template v-if="showApprovalPop">
+      <Modal v-model="approvalPopInfo.approvalPop" :transfer="false" width="600">
+        <AuditShowker
+          :applyName="approvalPopInfo.applyName"
+          :userScreenShotImg="approvalPopInfo.userScreenShotImg"
+          :passId="approvalPopInfo.passId"
+          :activeEndTime="approvalPopInfo.activeEndTime"
+          @request="auditSuccess">
+        </AuditShowker>
+        <div slot="footer" style="padding: 0px ; border: none"></div>
+      </Modal>
+    </template>
   </div>
 </template>
 
@@ -132,6 +134,7 @@
         operateTaskId: null,
         operateIndex: null,
         selectId: null,
+        showApprovalPop: false,
         approvalPopInfo: {
           approvalPop: false,
           applyName: null,
@@ -254,6 +257,7 @@
         })
       },
       taskWaitToAudit(id, account, screenshot, time, index) {
+        this.showApprovalPop = true;
         this.approvalPopInfo.approvalPop = true;
         this.approvalPopInfo.passId = id;
         this.approvalPopInfo.applyName = account;
