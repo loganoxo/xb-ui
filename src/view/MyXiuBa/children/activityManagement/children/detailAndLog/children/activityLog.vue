@@ -43,7 +43,7 @@
         <Panel name="1">
           商家活动进程
           <ul slot="content" class="seller-log-details">
-            <li v-for="log in logList">
+            <li v-for="log in logList" v-if="!(log.opType == 'showker_apply_success')">
               {{log.createTime | dateFormat('YYYY-MM-DD hh:mm:ss')}}
               <span v-if="log.showkerPhone">{{log.opDesc.replace(/{phone}/g,log.showkerPhone)}}</span>
               <span v-else>
@@ -138,9 +138,9 @@
                 self.deleteIndex.push(i);
               }
             }
-            for(let z = 0, g = self.deleteIndex.length; z < g; z++){
-              self.logList.splice(self.deleteIndex[z],1);
-            }
+//            for(let z = 0, g = self.deleteIndex.length; z < g; z++){
+//              self.logList.splice(self.deleteIndex[z],1);
+//            }
           }else {
             self.$Message.error({
               content: res.msg,
