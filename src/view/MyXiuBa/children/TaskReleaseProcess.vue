@@ -654,7 +654,7 @@
       };
       setTimeout(function () {
         _this.$refs.myTextEditor.quill.getModule("toolbar").addHandler("image", imgHandler)
-      },100)
+      },400)
     },
     created() {
       this.checkMemberForTask();
