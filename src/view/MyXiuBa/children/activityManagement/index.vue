@@ -258,7 +258,7 @@
     }
     .confirm-refund-info {
       @include wh(514px, 68px);
-      padding: 12px 24px;
+      padding: 12px 22px;
       background-color: #EEEEEE;
       margin: 46px auto 0 auto;
       p:first-child {

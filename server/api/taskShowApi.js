@@ -4,12 +4,10 @@
 'use strict';
 
 const express = require('express');
-const config = require('../config');
 const logConfig = require('../logConfig');
 const request = require('request-promise');
 const apiConfig = require('../apiConfig');
 const router = express.Router();
-const baseUrl = config.baseUrl;
 
 /**
  * 首页导航

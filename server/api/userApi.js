@@ -4,13 +4,11 @@
 'use strict';
 
 const express = require('express');
-const config = require('../config');
 const logConfig = require('../logConfig');
 const apiConfig = require('../apiConfig');
 const request = require('request-promise');
 
 const router = express.Router();
-const baseUrl = config.baseUrl;
 
 /**
  * 获取用户交易列表

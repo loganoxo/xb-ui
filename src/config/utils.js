@@ -187,7 +187,7 @@ export const TaskErrorStatusList = (type) => {
       return "买家秀待确认";
       break;
     case "trial_report_unqualified":
-      return "报告不合格";
+      return "买家秀不合格";
       break;
     case "trial_end":
       return "任务终止";

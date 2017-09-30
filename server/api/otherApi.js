@@ -7,7 +7,6 @@ const express = require('express');
 const logConfig = require('../logConfig');
 const redisClient = require("../redisServer");
 const sts = require('../aliServer');
-const apiConfig = require('../apiConfig');
 const router = express.Router();
 
 /**

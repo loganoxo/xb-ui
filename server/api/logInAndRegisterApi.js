@@ -4,15 +4,13 @@
 'use strict';
 
 const express = require('express');
-const config = require('../config');
 const logConfig = require('../logConfig');
 const apiConfig = require('../apiConfig');
 const request = require('request-promise');
 const captchapng = require('captchapng');
 const cryptoConfig = require('../cryptoConfig');
-const cookie = require('cookie-parser');
+// const cookie = require('cookie-parser');
 const router = express.Router();
-const baseUrl = config.baseUrl;
 const secret = 'xiuba';
 
 /**
@@ -22,18 +20,12 @@ const secret = 'xiuba';
  * @param role
  */
 router.post('/api/login.json', (req, res, next) => {
-  let options = {
-    method: 'POST',
-    uri: baseUrl + '/user/sign-in',
-    formData: {
-      phone: req.body.phone,
-      passWord: req.body.passWord,
-      loginIp: req.ip,
-      sessionId: req.sessionID
-    },
-    json: true,
-    headers: {}
-  };
+  let options = apiConfig.postOptions('/user/sign-in', req, {
+    phone: req.body.phone,
+    passWord: req.body.passWord,
+    loginIp: req.ip,
+    sessionId: req.sessionID
+  });
   request(options).then(function (parsedBody) {
     if (parsedBody.status) {
       let userData = parsedBody.data;
@@ -64,14 +56,9 @@ router.post('/api/login.json', (req, res, next) => {
  * @param accessToken
  */
 router.post('/api/user/qq/sign-in.json', function (req, res, next) {
-  let options = {
-    method: 'POST',
-    uri: baseUrl + '/user/qq/sign-in',
-    formData: {
-      accessToken: req.body.accessToken,
-    },
-    json: true,
-  };
+  let options = apiConfig.postOptions('/user/qq/sign-in', req, {
+    accessToken: req.body.accessToken,
+  });
   request(options).then(function (parsedBody) {
     if (parsedBody.status) {
       let userData = parsedBody.data;
@@ -97,56 +84,18 @@ router.post('/api/user/qq/sign-in.json', function (req, res, next) {
     });
 });
 
-
-/*router.post('/api/login.json', (req, res, next) => {
-  let options = apiConfig.postOptions('/user/sign-in', req, {
-    phone: req.body.phone,
-    passWord: req.body.passWord,
-    loginIp: req.ip,
-    sessionId: req.sessionID
-  });
-  request(options).then(function (parsedBody) {
-    if (parsedBody.status) {
-      let userData = parsedBody.data;
-      req.session.regenerate(function (err) {
-        if (!err) {
-          req.session.userData = userData;
-          logConfig.logger.info('User information is stored in redis successfully！');
-        } else {
-          logConfig.logger.err('User information is stored in redis failed：' + err);
-        }
-        res.send(parsedBody);
-        res.end();
-      });
-    } else {
-      res.send(parsedBody);
-      res.end();
-    }
-  })
-    .catch(function (err) {
-      logConfig.logger.error(req.originalUrl + ':' + err);
-      res.json({status: false, msg: "服务器请求超时，请稍后在试！"});
-      res.end();
-    });
-});*/
-
 /**
  * 检测是否第一次动态登陆
  * @param phone
  * @param smsCode
  */
 router.post('/api/check-fast-sign-in.json', function (req, res, next) {
-  let options = {
-    method: 'POST',
-    uri: baseUrl + '/user/check-fast-sign-in',
-    formData: {
-      phone: req.body.phone,
-      smsCode: req.body.smsCode,
-      loginIp: req.ip,
-      sessionId: req.sessionID
-    },
-    json: true,
-  };
+  let options = apiConfig.postOptions('/user/check-fast-sign-in', req, {
+    phone: req.body.phone,
+    smsCode: req.body.smsCode,
+    loginIp: req.ip,
+    sessionId: req.sessionID
+  });
   let validateCode = parseInt(req.body.validateCode);
   let time = new Date().getTime();
   let vrCode = req.session.vrCode;
@@ -194,21 +143,15 @@ router.post('/api/check-fast-sign-in.json', function (req, res, next) {
  * @param role
  */
 router.post('/api/sign-up.json', function (req, res, next) {
-  let options = {
-    method: 'POST',
-    uri: baseUrl + '/user/sign-up',
-    formData: {
-      phone: req.body.phone,
-      pwd: req.body.pwd,
-      repwd: req.body.repwd,
-      nickName: req.body.nickName,
-      smsCode: req.body.smsCode,
-      role: req.body.role,
-      purpose: req.body.purpose
-    },
-    json: true,
-    headers: {},
-  };
+  let options = apiConfig.postOptions('/user/sign-up', req, {
+    phone: req.body.phone,
+    pwd: req.body.pwd,
+    repwd: req.body.repwd,
+    nickName: req.body.nickName,
+    smsCode: req.body.smsCode,
+    role: req.body.role,
+    purpose: req.body.purpose
+  });
   if (req.body.recommendCode) {
     options.headers.xUserId = cryptoConfig.getDecAse192(req.body.recommendCode, secret);
   }
@@ -240,24 +183,17 @@ router.post('/api/sign-up.json', function (req, res, next) {
  * @param accessToken
  */
 router.post('/api/user/qq/data-complete.json', function (req, res, next) {
-  let options = {
-    method: 'POST',
-    uri: baseUrl + '/user/qq/data-complete',
-    formData: {
-      accessToken: req.body.accessToken,
-      qqOpenId: req.body.qqOpenId,
-      phone: req.body.phone,
-      pwd: req.body.pwd,
-      smsCode: req.body.smsCode,
-      role: req.body.role,
-      purpose: req.body.purpose
-    },
-    json: true,
-    headers: {},
-  };
+  let options = apiConfig.postOptions('/user/qq/data-complete', req, {
+    accessToken: req.body.accessToken,
+    qqOpenId: req.body.qqOpenId,
+    phone: req.body.phone,
+    pwd: req.body.pwd,
+    smsCode: req.body.smsCode,
+    role: req.body.role,
+    purpose: req.body.purpose
+  });
   if (req.body.recommendCode) {
-    let userId = cryptoConfig.getDecAse192(req.body.recommendCode, secret);
-    options.headers.xUserId = userId;
+    options.headers.xUserId = cryptoConfig.getDecAse192(req.body.recommendCode, secret);
   }
   request(options).then(function (parsedBody) {
     if (parsedBody.status) {
@@ -309,15 +245,10 @@ router.get("/api/vrcode.json", (req, res, next) => {
  * @param purpose 'fast': 快速登录，'reg': 注册
  */
 router.post('/api/send-verify-code.json', function (req, res, next) {
-  let options = {
-    method: 'POST',
-    uri: baseUrl + '/user/send-verify-code',
-    formData: {
-      phone: req.body.phone,
-      purpose: req.body.purpose,
-    },
-    json: true,
-  };
+  let options = apiConfig.postOptions('/user/send-verify-code', req, {
+    phone: req.body.phone,
+    purpose: req.body.purpose,
+  });
   let validateCode = parseInt(req.body.validateCode);
   let time = new Date().getTime();
   let vrCode = req.session.vrCode;
@@ -365,6 +296,5 @@ router.post("/api/recommend-url.json", (req, res, next) => {
   let recommendUrl = req.hostname + '/sel-role?recommendCode=' + cryptoConfig.getEncAse192(userId, secret);
   res.end(recommendUrl);
 });
-
 
 module.exports = router;

@@ -437,11 +437,7 @@ router.post('/api/showker-deposit-return.json', function (req, res, next) {
  * @param showkerId
  */
 router.post('/api/task/seller-personal-trial-count.json', function (req, res, next) {
-  let options = {
-    method: 'GET',
-    uri: baseUrl + '/task/merchant/personal/trial/count/' + req.session.userData.id,
-    json: true
-  };
+  let options = apiConfig.getOptions('/task/merchant/personal/trial/count/' + req.session.userData.id, req);
   request(options)
     .then(function (parsedBody) {
       res.send(parsedBody);
@@ -459,11 +455,7 @@ router.post('/api/task/seller-personal-trial-count.json', function (req, res, ne
  * @param taskId
  */
 router.post('/api/task-settlement-detail.json', function (req, res, next) {
-  let options = {
-    method: 'GET',
-    uri: baseUrl + '/task/settlement/detail/' + req.session.userData.id + '/' + req.body.taskId,
-    json: true
-  };
+  let options = apiConfig.getOptions('/task/settlement/detail/' + req.session.userData.id + '/' + req.body.taskId, req);
   request(options)
     .then(function (parsedBody) {
       res.send(parsedBody);
@@ -500,6 +492,11 @@ router.post('/api/applies/waiting/audit/task.json', function (req, res, next) {
           let data = {};
           data.newestTaskApplyCount = item.newestTaskApplyCount;
           data.totalTaskApplyCount = item.totalTaskApplyCount;
+          data.trailDone = item.trailDone;
+          data.trailEnd = item.trailEnd;
+          data.showkerApplySuccessCount = item.showkerApplySuccessCount;
+          data.trailOn = item.trailOn;
+          data.taskCount = item.taskCount;
           data.id = item.task.id;
           data.number = item.task.number;
           data.taskMainImage = item.task.taskMainImage;
@@ -533,7 +530,7 @@ router.post('/api/applies/waiting/audit/task.json', function (req, res, next) {
  * @param pageIndex
  * @param alitmAccount
  */
-router.post('/api/applies/waiting/audit/newest.json', function (req, res, next) {
+/*router.post('/api/applies/waiting/audit/newest.json', function (req, res, next) {
   let options = apiConfig.getOptions('/task/merchant/applies/waiting/audit/newest', req, {
     merchantId: req.session.userData.id,
     taskId: req.body.taskId,
@@ -571,7 +568,7 @@ router.post('/api/applies/waiting/audit/newest.json', function (req, res, next) 
       res.json({status: false, msg: "服务器请求超时，请稍后在试！"});
       res.end();
     });
-});
+});*/
 
 /**
  * 商家进入秀客任务管理页任务详情（待审核全部）

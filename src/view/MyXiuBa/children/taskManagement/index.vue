@@ -121,8 +121,6 @@
       }
     }
     .manage-text{
-      height: 42px;
-      line-height: 42px;
       float: left;
       margin-left: 10px;
       p{
