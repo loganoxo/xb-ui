@@ -496,6 +496,7 @@ router.post('/api/applies/waiting/audit/task.json', function (req, res, next) {
           data.trailEnd = item.trailEnd;
           data.showkerApplySuccessCount = item.showkerApplySuccessCount;
           data.trailOn = item.trailOn;
+          data.residueCount = item.residueCount;
           data.taskCount = item.taskCount;
           data.id = item.task.id;
           data.number = item.task.number;

@@ -15,7 +15,9 @@
         <div class="manage-text left ml-5 inline-block">
           <p>活动编号：{{item.number}}</p>
           <p>活动名称：{{item.taskName}}</p>
-          <p>参与概况：总份数<span class="main-color">{{item.taskCount}}</span>，<span class="main-color">{{item.trailOn}}</span>人正在参与活动，<span class="main-color">{{item.trailDone }}</span>人完成活动，剩余名额<span class="main-color">{{item.taskCount - item.showkerApplySuccessCount}}</span>个</p>
+          <p>参与概况：总份数<span class="main-color">{{item.taskCount}}</span>，<span class="main-color">{{item.trailOn}}</span>人正在参与活动，<span
+            class="main-color">{{item.trailDone }}</span>人完成活动，剩余名额<span class="main-color">{{item.residueCount}}</span>个
+          </p>
         </div>
         <Icon :class="{showTableStyles:selectId === item.id}" class="right mr-30 mt-28" type="arrow-right-b"></Icon>
         <div class="waiting-task-number mt-10">
@@ -57,7 +59,8 @@
               </td>
               <td>
                 <p class="del-edit">
-                  <span v-if="item.needBrowseCollectAddCart" @click="taskWaitToAudit(allTask.id,allTask.alitmAccount,allTask.screenshot,item.endTime,allTaskIndex)">审批</span>
+                  <span v-if="item.needBrowseCollectAddCart"
+                        @click="taskWaitToAudit(allTask.id,allTask.alitmAccount,allTask.screenshot,item.endTime,allTaskIndex)">审批</span>
                   <span class="ml-5" @click="taskWaitToPass(allTask.id, 'true',allTaskIndex)">通过</span>
                   <span v-if="allTask.newest" class="ml-5" @click="markRead(item.id,allTask.id)">设为已读</span>
                 </p>
@@ -67,7 +70,8 @@
             <tbody>
             <tr>
               <td colspan="5">
-                <Page :total="taskTotalElements" :page-size="taskPageSize" :current="taskPageIndex" @on-change="TaskPageChange"></Page>
+                <Page :total="taskTotalElements" :page-size="taskPageSize" :current="taskPageIndex"
+                      @on-change="TaskPageChange"></Page>
               </td>
             </tr>
             </tbody>
@@ -176,11 +180,17 @@
             _this.$Message.success("审核秀客成功！");
             _this.$store.dispatch('getPersonalTrialCount');
             _this.appliesWaitingAuditAll(_this.operateTaskId, _this.operateIndex);
-            if (_this.taskWaitAuditList[_this.operateIndex].applyAllTask[index].newest && _this.taskWaitAuditList[_this.operateIndex].newestTaskApplyCount > 0) {
+            if (_this.taskWaitAuditList[_this.operateIndex].newestTaskApplyCount > 0) {
               _this.$set(_this.taskWaitAuditList[_this.operateIndex], 'newestTaskApplyCount', _this.taskWaitAuditList[_this.operateIndex].newestTaskApplyCount - 1);
             }
-            if (!_this.taskWaitAuditList[_this.operateIndex].applyAllTask[index].newest && _this.taskWaitAuditList[_this.operateIndex].totalTaskApplyCount > 0) {
+            if (_this.taskWaitAuditList[_this.operateIndex].totalTaskApplyCount > 0) {
               _this.$set(_this.taskWaitAuditList[_this.operateIndex], 'totalTaskApplyCount', _this.taskWaitAuditList[_this.operateIndex].totalTaskApplyCount - 1);
+            }
+            if (_this.taskWaitAuditList[_this.operateIndex].residueCount > 0) {
+              _this.$set(_this.taskWaitAuditList[_this.operateIndex], 'residueCount', _this.taskWaitAuditList[_this.operateIndex].residueCount - 1);
+            }
+            if (_this.taskWaitAuditList[_this.operateIndex].trailOn > 0) {
+              _this.$set(_this.taskWaitAuditList[_this.operateIndex], 'trailOn', _this.taskWaitAuditList[_this.operateIndex].trailOn + 1);
             }
           } else {
             _this.$Message.error(res.msg);
@@ -274,11 +284,17 @@
         _this.$store.dispatch('getPersonalTrialCount');
         _this.appliesWaitingAuditAll(_this.operateTaskId, _this.operateIndex);
         if (type === 'true') {
-          if (_this.taskWaitAuditList[_this.operateIndex].applyAllTask[_this.approvalPopInfo.index].newest && _this.taskWaitAuditList[_this.operateIndex].newestTaskApplyCount > 0) {
+          if (_this.taskWaitAuditList[_this.operateIndex].newestTaskApplyCount > 0) {
             _this.$set(_this.taskWaitAuditList[_this.operateIndex], 'newestTaskApplyCount', _this.taskWaitAuditList[_this.operateIndex].newestTaskApplyCount - 1);
           }
-          if (!_this.taskWaitAuditList[_this.operateIndex].applyAllTask[_this.approvalPopInfo.index].newest && _this.taskWaitAuditList[_this.operateIndex].totalTaskApplyCount > 0) {
+          if (_this.taskWaitAuditList[_this.operateIndex].totalTaskApplyCount > 0) {
             _this.$set(_this.taskWaitAuditList[_this.operateIndex], 'totalTaskApplyCount', _this.taskWaitAuditList[_this.operateIndex].totalTaskApplyCount - 1);
+          }
+          if (_this.taskWaitAuditList[_this.operateIndex].residueCount > 0) {
+            _this.$set(_this.taskWaitAuditList[_this.operateIndex], 'residueCount', _this.taskWaitAuditList[_this.operateIndex].residueCount - 1);
+          }
+          if (_this.taskWaitAuditList[_this.operateIndex].trailOn > 0) {
+            _this.$set(_this.taskWaitAuditList[_this.operateIndex], 'trailOn', _this.taskWaitAuditList[_this.operateIndex].trailOn + 1);
           }
         }
       },
