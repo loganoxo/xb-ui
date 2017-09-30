@@ -7,6 +7,7 @@ const express = require('express');
 const config = require('../config');
 const logConfig = require('../logConfig');
 const request = require('request-promise');
+const apiConfig = require('../apiConfig');
 
 const router = express.Router();
 const baseUrl = config.baseUrl;
@@ -19,19 +20,14 @@ const baseUrl = config.baseUrl;
  * @param reversePicUrl 身份证反面
  */
 router.post('/api/user/identity/saveidentity.json', function (req, res, next) {
-  let options = {
-    method: 'POST',
-    uri: baseUrl + '/user/identity/saveidentity',
-    formData: {
-      phone: req.session.userData.phone,
-      userId: req.session.userData.id,
-      realname: req.body.realname,
-      idcard: req.body.idcard,
-      picUrl: req.body.picUrl,
-      reversePicUrl: req.body.reversePicUrl
-    },
-    json: true,
-  };
+  let options = apiConfig.postOptions('/user/identity/saveidentity', req, {
+    phone: req.session.userData.phone,
+    userId: req.session.userData.id,
+    realname: req.body.realname,
+    idcard: req.body.idcard,
+    picUrl: req.body.picUrl,
+    reversePicUrl: req.body.reversePicUrl
+  });
   request(options).then(function (parsedBody) {
     res.send(parsedBody);
     res.end();
@@ -49,13 +45,9 @@ router.post('/api/user/identity/saveidentity.json', function (req, res, next) {
  * @param processing  审核中
  */
 router.post('/api/identity-index.json', function (req, res, next) {
-  let options = {
-    method: 'POST',
-    uri: baseUrl + '/user/identity/index',
-    formData: {
-      userId: req.session.userData.id
-    }
-  };
+  let options = apiConfig.postOptions('/user/identity/index', req, {
+    userId: req.session.userData.id
+  });
   request(options).then(function (parsedBody) {
     res.send(parsedBody);
     res.end();
@@ -73,20 +65,14 @@ router.post('/api/identity-index.json', function (req, res, next) {
  * @param picUrl
  */
 router.post('/api/alitm-bunding.json', function (req, res, next) {
-  let options = {
-    method: 'POST',
-    uri: baseUrl + '/user/alitm/alitm-bunding',
-    formData: {
-      userId: req.session.userData.id,
-      creditLevel: req.body.creditLevel,
-      tqz: req.body.tqz,
-      wwCreditLevelPicUrl: req.body.wwCreditLevelPicUrl,
-      tqzPicUrl: req.body.tqzPicUrl,
-      alitmAccount: req.body.alitmAccount,
-      // wwInfoPic: req.body.wwInfoPic
-    },
-    json: true
-  };
+  let options = apiConfig.postOptions('/user/alitm/alitm-bunding', req, {
+    userId: req.session.userData.id,
+    creditLevel: req.body.creditLevel,
+    tqz: req.body.tqz,
+    wwCreditLevelPicUrl: req.body.wwCreditLevelPicUrl,
+    tqzPicUrl: req.body.tqzPicUrl,
+    alitmAccount: req.body.alitmAccount,
+  });
   request(options).then(function (parsedBody) {
     res.send(parsedBody);
     res.end();
@@ -102,13 +88,9 @@ router.post('/api/alitm-bunding.json', function (req, res, next) {
  * @param userId
  */
 router.post('/api/get-alitm-info-list.json', function (req, res, next) {
-  let options = {
-    method: 'POST',
-    uri: baseUrl + '/user/alitm/get-alitm-info-list',
-    formData: {
-      userId: req.session.userData.id,
-    }
-  };
+  let options = apiConfig.postOptions('/user/alitm/get-alitm-info-list', req, {
+    userId: req.session.userData.id,
+  });
   request(options).then(function (parsedBody) {
     res.send(parsedBody);
     res.end();
@@ -124,13 +106,9 @@ router.post('/api/get-alitm-info-list.json', function (req, res, next) {
  * @param userId
  */
 router.post('/api/alitm-unBunding.json', function (req, res, next) {
-  let options = {
-    method: 'POST',
-    uri: baseUrl + '/user/alitm/alitm-unBunding',
-    formData: {
-      id: req.body.id,
-    }
-  };
+  let options = apiConfig.postOptions('/user/alitm/alitm-unBunding', req, {
+    id: req.body.id,
+  });
   request(options).then(function (parsedBody) {
     res.send(parsedBody);
     res.end();
@@ -146,19 +124,14 @@ router.post('/api/alitm-unBunding.json', function (req, res, next) {
  * @param userId
  */
 router.post('/api/alitm/resubmit.json', function (req, res, next) {
-  let options = {
-    method: 'POST',
-    uri: baseUrl + '/user/alitm/resubmit',
-    formData: {
-      id: req.body.id,
-      creditLevel: req.body.creditLevel,
-      tqz: req.body.tqz,
-      wwCreditLevelPicUrl: req.body.wwCreditLevelPicUrl,
-      tqzPicUrl: req.body.tqzPicUrl,
-      alitmAccount: req.body.alitmAccount,
-      // wwInfoPic: req.body.wwInfoPic
-    }
-  };
+  let options = apiConfig.postOptions('/user/alitm/resubmit', req, {
+    id: req.body.id,
+    creditLevel: req.body.creditLevel,
+    tqz: req.body.tqz,
+    wwCreditLevelPicUrl: req.body.wwCreditLevelPicUrl,
+    tqzPicUrl: req.body.tqzPicUrl,
+    alitmAccount: req.body.alitmAccount,
+  });
   request(options).then(function (parsedBody) {
     res.send(parsedBody);
     res.end();
