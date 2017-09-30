@@ -8,8 +8,11 @@
           <p>收入金额（元）：{{userAccount.amountIncomes / 100 || 0}}</p>
           <p>支出金额（元）：{{userAccount.amountPayment / 100 || 0}}</p>
           <div class="view-details mt-10">
-            <a v-if="getUserAccountRole===1" class="iWantPay" href="javascript:;" @click="accountInit('PayMoney')">我要充值</a>
-            <router-link v-if="getUserAccountRole===1" :to="{'path':'/user/money-management/transaction-record',query:{'activeType':1}}">充值记录</router-link>
+            <a v-if="getUserAccountRole===1" class="iWantPay" href="javascript:;"
+               @click="accountInit('PayMoney')">我要充值</a>
+            <router-link v-if="getUserAccountRole===1"
+                         :to="{'path':'/user/money-management/transaction-record',query:{'activeType':1}}">充值记录
+            </router-link>
           </div>
         </div>
         <div class="moneyInfoRight right">
@@ -22,7 +25,9 @@
           </div>
           <div class="view-details ">
             <a class="iWantPay" href="javascript:;" @click="accountInit('GetoutMoney')">我要提现</a>
-            <router-link :to="{'path':'/user/money-management/getout-money',query:{'getOutMoneyRecord':'getOutRecord'}}">提现记录</router-link>
+            <router-link
+              :to="{'path':'/user/money-management/getout-money',query:{'getOutMoneyRecord':'getOutRecord'}}">提现记录
+            </router-link>
           </div>
         </div>
       </div>
@@ -42,16 +47,16 @@
     <div class="trading-record ">
       <ul class="clear" v-if="getUserAccountRole===1">
         <li>最近交易记录</li>
-        <li v-for="(item ,index) in lis " >
-          <a  href="javascript:;" :class="{lisColor:iSelect === item.isSelect}"
+        <li v-for="(item ,index) in lis ">
+          <a href="javascript:;" :class="{lisColor:iSelect === item.isSelect}"
              @click="getTradList(index===0?[]:[index-1]),changeLiColor(item.isSelect)">{{item.text}}</a>
         </li>
       </ul>
       <ul class="clear" v-if="getUserAccountRole===0">
         <li>最近交易记录</li>
-        <li v-for="(item ,index) in lis " v-if="item.isSelect!=='pay'" >
-          <a  href="javascript:;" :class="{lisColor:iSelect === item.isSelect}"
-              @click="getTradList(index===0?[]:[index-1]),changeLiColor(item.isSelect)">{{item.text}}</a>
+        <li v-for="(item ,index) in lis " v-if="item.isSelect!=='pay'">
+          <a href="javascript:;" :class="{lisColor:iSelect === item.isSelect}"
+             @click="getTradList(index===0?[]:[index-1]),changeLiColor(item.isSelect)">{{item.text}}</a>
         </li>
       </ul>
     </div>
@@ -75,7 +80,9 @@
             <p>{{getTradType(item.accountChangeType)}}</p>
             <p>活动编号：{{item.taskSerialNum}}</p>
           </td>
-          <td :class="{tdColor:item.amountChange<0 , tdColorGreen:item.amountChange>0}">{{typeChang(item.amountChange / 100) || 0}}</td>
+          <td :class="{tdColor:item.amountChange<0 , tdColorGreen:item.amountChange>0}">
+            {{typeChang(item.amountChange / 100) || 0}}
+          </td>
           <td>
             <p style="color:blue;" class="details" @click="detailsInit(item.id)">详情
               <Icon :type="detailSelect===item.id?'arrow-up-b':'arrow-down-b'" class="ml-5 "></Icon>
@@ -125,6 +132,7 @@
         </tbody>
       </table>
     </div>
+
     <div class="get-more">
       <a href="javascript:;" @click="accountInit('TransactionRecord')">查看所有交易记录</a>
     </div>
@@ -154,6 +162,8 @@
   import Button from 'iview/src/components/button'
   import api from '@/config/apiConfig'
   import {TaskErrorStatusList} from '@/config/utils'
+  import CollapseTransition from 'iview/src/components/base/collapse-transition'
+
 
   export default {
     name: 'MoneyManagement',
@@ -161,6 +171,8 @@
       iButton: Button,
       ButtonGroup: Button.Group,
       Icon: Icon,
+      CollapseTransition: CollapseTransition
+
     },
     data() {
       return {
@@ -224,7 +236,7 @@
       userBalance: function () {
         return this.$store.getters.getUserBalance;
       },
-      getUserAccountRole:function () {
+      getUserAccountRole: function () {
         return this.$store.getters.getUserAccountInfo.role
       }
     },
@@ -299,7 +311,7 @@
         return TaskErrorStatusList(type)
       },
       getIfCertification(type) {
-        return type===false?'未认证':'已认证';
+        return type === false ? '未认证' : '已认证';
       },
       getIfBandingBankCard(type) {
         return type === null ? '未添加' : this.userAccount.bankCardNum;

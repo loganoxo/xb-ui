@@ -13,7 +13,7 @@
         <p class="mt-20 mb-20"><strong>请您选择您的会员周期：</strong></p>
         <div class="member-cycle text-ct ">
           <iButton class="member-price cursor-p  mr-10" v-for="(item,index) in memberInformation" :key="index"
-                   :class="{active:isSelect === index} "
+                   :class="{active:isSelect === index,hover:memberLevelInfo.validDays <= item.validDays} "
                    @click="changeStyle(index,item.validDays,item.validDaysDesc,item.finalFee,item.level,item.id)"
                    :disabled=" memberLevelInfo.validDays >item.validDays">
             <p class="price">￥{{item.finalFee / 100}}元</p>
@@ -321,7 +321,7 @@
             font-size: 20px;
           }
         }
-        .member-price:hover {
+        .member-price.hover:hover {
           border: 1px dashed $mainColor;
           color: $mainColor;
         }

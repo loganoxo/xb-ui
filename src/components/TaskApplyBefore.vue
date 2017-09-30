@@ -16,14 +16,14 @@
           <span class="serial-number">2</span>
           <h3 >通过商家指定的方式找到该宝贝</h3>
           <div class=" mt-10 search-type"><strong>{{taskTypeDesc}}</strong></div>
-          <p>第一步：打开浏览器输入[<strong>www.taobao.com</strong>]</p>
-          <p>第二步：输入关键词[<strong>{{taskDetail.searchKeyword}}</strong>]</p>
-          <p>第三步：选择[<strong>{{changeNameType(taskDetail.searchSort)}}</strong>]排序</p>
-          <p>第四步：在[<strong>{{taskDetail.searchPagePositionMin}}-{{taskDetail.searchPagePositionMax}}</strong>]页附近找到下图宝贝。(由于千人千面的影响，位置仅供参考)</p>
+          <p>第一步：打开浏览器输入【<strong>www.taobao.com</strong>】</p>
+          <p>第二步：输入关键词【<strong>{{taskDetail.searchKeyword}}</strong>】</p>
+          <p>第三步：选择【<strong>{{changeNameType(taskDetail.searchSort)}}</strong>】排序</p>
+          <p>第四步：在【<strong>{{taskDetail.searchPagePositionMin}}-{{taskDetail.searchPagePositionMax}}</strong>】页附近找到下图宝贝。(由于千人千面的影响，位置仅供参考)</p>
           <p v-if="taskDetail.priceRangeMax !==null || checkText || taskDetail.deliverAddress">
             第五步：
-            <span v-if="taskDetail.priceRangeMax">搜索指定价格[<strong>{{taskDetail.priceRangeMin/100}}-{{taskDetail.priceRangeMax/100}}</strong>],</span>
-            <span v-if="checkText">勾选[<strong>{{checkText}}</strong>]</span>
+            <span v-if="taskDetail.priceRangeMax">搜索指定价格【<strong>{{taskDetail.priceRangeMin/100}}-{{taskDetail.priceRangeMax/100}}</strong>】,</span>
+            <span v-if="checkText">勾选【<strong>{{checkText}}</strong>】</span>
             <span v-if="taskDetail.deliverAddress">,发货地<strong>【{{taskDetail.deliverAddress}}】</strong></span>
           </p>
           <div class="mt-20 clear">
@@ -35,14 +35,14 @@
           <span class="serial-number">2</span>
           <h3 >通过商家指定的方式找到该宝贝</h3>
           <div class=" mt-10 search-type"><strong>{{taskTypeDesc}}</strong></div>
-          <p>第一步：打开[<strong>手机淘宝APP</strong>]</p>
-          <p>第二步：输入关键词[<strong>{{taskDetail.searchKeyword}}</strong>]</p>
-          <p>第三步：选择[<strong>{{changeNameType(taskDetail.searchSort)}}</strong>]排序</p>
-          <p>第四步：在第[<strong>{{taskDetail.searchRankPosition}}</strong>]个宝贝附近找到下图宝贝。(由于千人千面的影响，位置仅供参考)</p>
+          <p>第一步：打开【<strong>手机淘宝APP</strong>】</p>
+          <p>第二步：输入关键词【<strong>{{taskDetail.searchKeyword}}</strong>】</p>
+          <p>第三步：选择【<strong>{{changeNameType(taskDetail.searchSort)}}</strong>】排序</p>
+          <p>第四步：在第【<strong>{{taskDetail.searchRankPosition}}</strong>】个宝贝附近找到下图宝贝。(由于千人千面的影响，位置仅供参考)</p>
           <p v-if="taskDetail.priceRangeMax !==null || checkText || taskDetail.deliverAddress">
             第五步：
-            <span v-if="taskDetail.priceRangeMax">搜索指定价格[<strong>{{taskDetail.priceRangeMin/100}}-{{taskDetail.priceRangeMax/100}}</strong>],</span>
-            <span v-if="checkText">勾选[<strong>{{checkText}}</strong>]</span>
+            <span v-if="taskDetail.priceRangeMax">搜索指定价格【<strong>{{taskDetail.priceRangeMin/100}}-{{taskDetail.priceRangeMax/100}}</strong>】,</span>
+            <span v-if="checkText">勾选【<strong>{{checkText}}</strong>】</span>
             <span v-if="taskDetail.deliverAddress">,发货地<strong>【{{taskDetail.deliverAddress}}】</strong></span>
           </p>
           <div class="mt-20 clear">
