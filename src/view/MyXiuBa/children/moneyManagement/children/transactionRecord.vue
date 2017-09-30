@@ -105,7 +105,7 @@
             </td>
           </tr>
           <tr v-show="detailSelect===tbodyDetails.id">
-            <td colspan="4" style="padding: 0px;">
+            <td colspan="4" style="padding: 0px;border: none">
               <table class="small-table" style="background-color: #f9f9f9;">
                 <thead>
                 <tr>
@@ -225,7 +225,7 @@
             </td>
           </tr>
           <tr v-show="detailSelect===item.id">
-            <td colspan="4" style="padding: 0px;">
+            <td colspan="4" style="padding: 0px;border: none">
               <table class="small-table" style="background-color: #f9f9f9;">
                 <thead>
                 <tr>

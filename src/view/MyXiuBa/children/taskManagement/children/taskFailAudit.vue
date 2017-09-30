@@ -39,7 +39,7 @@
         </div>
         <Icon :class="{showTableStyles:selectId === item.id}" class="right mr-30 mt-15" type="arrow-right-b"></Icon>
         <div class="waiting-task-number">
-          <p class="mt-12 task-wait-fail">共{{item.data}}人</p>
+          <p class="mt-12 task-wait-fail">共{{item.count}}人</p>
         </div>
       </div>
       <collapse-transition>
@@ -176,21 +176,22 @@
         }).then(res => {
           if (res.status) {
             _this.taskFailAuditList = res.data.content;
-            _this.taskFailAuditList.forEach(item => {
+            _this.totalElements = res.data.totalElements;
+           /* _this.taskFailAuditList.forEach(item => {
               api.appliesEndShowkerTaskCount({
                 taskId: item.id,
                 alitmAccount: _this.alitmAccount,
                 rejectReasonList: JSON.stringify(_this.rejectReasonList)
               }).then(res => {
                 if (res.status) {
-                  console.log();
                   _this.$set(item, 'data', res.data);
                 }
               })
-            });
+            });*/
             _this.searchLoading = false;
           } else {
             _this.$Message.error(res.msg);
+            _this.searchLoading = false;
           }
         })
       },

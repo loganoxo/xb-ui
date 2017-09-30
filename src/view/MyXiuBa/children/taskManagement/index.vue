@@ -2,7 +2,7 @@
   <div class="task-management">
     <div class="task-management-title pl-10">秀客任务管理</div>
     <div class="activity-title-s pl-10">
-      共<span>{{personalTrialCount.taskTotalCount}}</span>个活动，其中新增待审批秀客<span>{{personalTrialCount.waitingAuditTaskApply}}</span>个，订单号待审核<span>{{personalTrialCount.orderNumWaitingAuditShowkerTask}}</span>个，买家秀待确认<span>{{personalTrialCount.trialReportWaitingConfirmShowkerTask}}</span>个
+      共<span>{{personalTrialCount.taskTotalCount}}</span>个活动，其中新增待审批秀客<span>{{personalTrialCount.new_number_of_pending_audit}}</span>个，订单号待审核<span>{{personalTrialCount.orderNumWaitingAuditShowkerTask}}</span>个，买家秀待确认<span>{{personalTrialCount.trialReportWaitingConfirmShowkerTask}}</span>个
     </div>
     <div class="task-management-list mt-20">
       <div class="task-management-list-title">
