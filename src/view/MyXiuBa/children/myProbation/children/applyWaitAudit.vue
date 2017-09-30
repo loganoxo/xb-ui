@@ -238,7 +238,7 @@
               duration: 6
             });
             _this.showkerSuccessList();
-            this.deleteModal = false;
+            _this.deleteModal = false;
           } else {
             _this.$Message.error(res.msg);
           }
