@@ -36,7 +36,7 @@
           <td class="registration">
             {{itemCatalog.showkerApplyTotalCount || 0}} / {{itemCatalog.showkerApplySuccessCount || 0}}（人）
           </td>
-          <td>{{itemCatalog.taskCount}}</td>
+          <td>{{itemCatalog.taskCount  - itemCatalog.showkerApplySuccessCount}}</td>
           <td>
             {{itemCatalog.totalMarginNeed / 100}} / {{itemCatalog.promotionExpensesNeed / 100}} / {{(itemCatalog.marginPaid + itemCatalog.promotionExpensesPaid) / 100 || 0}}
           </td>
@@ -633,9 +633,9 @@
     text-align: left;
   }
 
-  .activity-table table td.registration {
-    color: #2b85e4;
-  }
+  /*.activity-table table td.registration {*/
+    /*color: #2b85e4;*/
+  /*}*/
 
   .activity-table table td .del-edit span {
     color: #2b85e4;

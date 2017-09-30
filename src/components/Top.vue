@@ -37,7 +37,7 @@
 
           </div>
         </div>
-        <router-link to="/seller-adv" class="seller-guide animated infinite pulse ic_plugin_help" >
+        <router-link to="/seller-adv" class="seller-guide" >
           <img src="/static/img/common/seller-guide.png" alt="">
         </router-link>
       </div>
@@ -214,7 +214,7 @@
         display: inline-block;
         width: 150px;
         margin-top: 10px;
-        margin-left: 10px;
+        margin-left: 33px;
         img{
           width: 100%;
         }

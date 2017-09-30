@@ -7,7 +7,9 @@
       <div class="right top-rt">
         <router-link to="/">首页</router-link>
         <span>|</span>
-        <router-link to="/login">登录</router-link>
+        <router-link to="/login" v-if="!isLogin">登录</router-link>
+        <span v-if="!isLogin">|</span>
+        <router-link to="/register/seller-register">注册</router-link>
         <span>|</span>
         <router-link to="/user/help-center/faq">帮助中心</router-link>
       </div>
@@ -20,7 +22,15 @@
     name: 'top',
     data () {
       return {}
-    }
+    },
+    computed: {
+      getUserInfoRole() {
+        return this.$store.state.userInfo.role;
+      },
+      isLogin() {
+        return this.$store.state.login
+      },
+    },
   }
 </script>
 
