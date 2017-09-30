@@ -70,14 +70,6 @@
              </td>
            </tr>
             </tbody>
-            <!--<tbody v-if="taskWaitAuditList[operateIndex]">
-            <tr v-if="taskWaitAuditList[operateIndex].hasMoreData">
-              <td colspan="5">
-                <span v-if="taskWaitAuditList[operateIndex].hasMoreData === 1" class="ml-10 cursor-p look_record" @click="lookMoreDate(item.id,index)">查看更多数据...</span>
-                <span v-if="taskWaitAuditList[operateIndex].hasMoreData === 2" class="ml-10 cursor-p">没有更多数据了</span>
-              </td>
-            </tr>
-            </tbody>-->
           </table>
         </div>
       </collapse-transition>
@@ -203,9 +195,6 @@
           if (res.status) {
             _this.taskWaitAuditList = res.data.content;
             _this.totalElements = res.data.totalElements;
-            /*res.data.content.forEach(item => {
-              _this.$set(item, 'hasMoreData', 0);
-            });*/
             _this.searchLoading = false;
           } else {
             _this.$Message.error(res.msg);
@@ -213,16 +202,8 @@
           }
         })
       },
-      /*lookMoreDate(taskId, index) {
-        this.appliesWaitingAuditAll(taskId, index, 'more')
-      },*/
-      appliesWaitingAuditAll(taskId, index, type) {
+      appliesWaitingAuditAll(taskId, index) {
         let _this = this;
-       /* if (type && type === 'more') {
-          this.morePageIndex++;
-        } else {
-          this.morePageIndex = 1;
-        }*/
         _this.operateTaskId = taskId;
         _this.operateIndex = index;
         api.appliesWaitingAuditAll({
@@ -236,22 +217,6 @@
               }
               _this.taskWaitAuditList[index].applyAllTask = res.data.content;
               _this.taskTotalElements =  res.data.totalElements;
-              /* if (res.data.content.length > 4) {
-                 _this.$set(_this.taskWaitAuditList[index], 'hasMoreData', 1);
-               }*/
-             /* if (!_this.taskWaitAuditList[index].applyAllTask) {
-                _this.$set(_this.taskWaitAuditList[index], 'applyAllTask', []);
-                _this.taskWaitAuditList[index].applyAllTask = res.data.content;
-              } else {
-                if (type !== 'audit') {
-                  res.data.content.forEach(item => {
-                    _this.taskWaitAuditList[index].applyAllTask.push(item);
-                  });
-                } else {
-                  _this.taskWaitAuditList[index].applyAllTask = [];
-                  _this.taskWaitAuditList[index].applyAllTask = res.data.content;
-                }
-              }*/
               _this.taskWaitAuditList[index].applyAllTask.forEach(item => {
                 api.getAlitmByAccount({
                   account: item.alitmAccount,
@@ -264,9 +229,7 @@
                   }
                 });
               })
-            }/* else if (res.data.content.length === 0) {
-              _this.$set(_this.taskWaitAuditList[index], 'hasMoreData', 2);
-            }*/
+            }
           } else {
             _this.$Message.error(res.msg);
           }

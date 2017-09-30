@@ -136,7 +136,7 @@
             </p>
           </td>
           <td v-else-if="item.settlementStatus === 'waiting_settlement' && (item.taskStatus === 'finished' || item.taskStatus === 'under_way')">
-            <p class="bond mt-6" v-if="isApproveExpire(item.endTime)">
+            <p class="bond mt-6" v-if="isApproveExpire(item.endTime) || (item.taskCount - item.showkerApplySuccessCount) == 0">
               <span @click="approveShowker(item.id)">审批秀客</span>
             </p>
             <p class="bond mt-6">
@@ -150,7 +150,7 @@
             </p>
           </td>
           <td v-else-if="item.settlementStatus === 'cannot_settlement' && item.taskStatus === 'finished'">
-            <p class="bond mt-6" v-if="isApproveExpire(item.endTime)">
+            <p class="bond mt-6" v-if="isApproveExpire(item.endTime) || (item.taskCount - item.showkerApplySuccessCount) == 0">
               <span @click="approveShowker(item.id)">审批秀客</span>
             </p>
             <p class="copy mt-6">
