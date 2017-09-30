@@ -15,8 +15,8 @@
         <div class="manage-text left ml-5 inline-block">
           <p>活动编号：{{item.number}}</p>
           <p>活动名称：{{item.taskName}}</p>
-          <p>参与概况：总份数<span class="main-color">{{item.taskCount}}</span>，<span class="main-color">{{item.trailOn}}</span>人正在参与活动，<span
-            class="main-color">{{item.trailDone }}</span>人完成活动，剩余名额<span class="main-color">{{item.residueCount}}</span>个
+          <p>参与概况：总份数<span class="main-color">{{item.taskCount || 0}}</span>，<span class="main-color">{{item.trailOn || 0}}</span>人正在参与活动，<span
+            class="main-color">{{item.trailDone || 0}}</span>人完成活动，剩余名额<span class="main-color">{{item.residueCount || 0}}</span>个
           </p>
         </div>
         <Icon :class="{showTableStyles:selectId === item.id}" class="right mr-30 mt-28" type="arrow-right-b"></Icon>
