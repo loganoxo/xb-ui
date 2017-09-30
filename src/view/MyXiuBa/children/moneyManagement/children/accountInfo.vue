@@ -165,6 +165,7 @@
   import api from '@/config/apiConfig'
   import {TaskErrorStatusList} from '@/config/utils'
   import CollapseTransition from 'iview/src/components/base/collapse-transition'
+  import Collapse from 'iview/src/components/collapse'
 
 
   export default {
@@ -173,7 +174,8 @@
       iButton: Button,
       ButtonGroup: Button.Group,
       Icon: Icon,
-      CollapseTransition: CollapseTransition
+      CollapseTransition: CollapseTransition,
+      Collapse:Collapse,
 
     },
     data() {
@@ -267,7 +269,8 @@
       },
       detailsInit(type) {
         if (this.detailSelect === type) {
-          this.detailSelect = 'none'
+          this.detailSelect = 'none';
+          this.userListDetails = []
         } else {
           this.detailSelect = type;
           this.getTradListDetails(type);
