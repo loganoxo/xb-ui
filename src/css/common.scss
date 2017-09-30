@@ -109,10 +109,6 @@ body {
   animation-name: fadeInDown;
 }
 
-input[type="button"], input[type="submit"], input[type="search"], input[type="reset"] {
-  -webkit-appearance: none;
-}
-
 @-webkit-keyframes fadeInRight {
   from {
     opacity: 0;
@@ -171,6 +167,10 @@ input[type="button"], input[type="submit"], input[type="search"], input[type="re
   animation-name: fadeIn;
 }
 /*animate css end*/
+
+input[type="button"], input[type="submit"], input[type="search"], input[type="reset"] {
+  -webkit-appearance: none;
+}
 
 input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {
@@ -304,6 +304,10 @@ input[type="number"] {
 
 .mt-22 {
   margin-top: 22px;
+}
+
+.mt-28 {
+  margin-top: 28px;
 }
 
 .mt-30 {
