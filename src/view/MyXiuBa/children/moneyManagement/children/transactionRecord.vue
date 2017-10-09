@@ -104,47 +104,51 @@
               </p>
             </td>
           </tr>
-          <tr v-show="detailSelect===tbodyDetails.id">
+          <tr >
             <td colspan="4" style="padding: 0px;border: none">
-              <table class="small-table" style="background-color: #f9f9f9;">
-                <thead>
-                <tr>
-                  <th style="width:20%;">交易时间</th>
-                  <th style="width:30%;">流水号</th>
-                  <th style="width:30%;">交易明细</th>
-                  <th style="width:10%;">交易金额（元）</th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr v-for="(item,index) in userListDetails">
-                  <td>
-                    <p>{{item.tradTime | dateFormat('YYYY-MM-DD ')}}</p>
-                    <p>{{item.tradTime | dateFormat('hh:mm:ss ')}}</p>
-                  </td>
-                  <td>
-                    {{item.serialNumber}}
-                  </td>
-                  <td>
-                    <p v-if="getTradType(item.tradName)">{{getTradType(item.tradName) }}</p>
-                    <p v-else>{{item.tradName}}</p>
-                  </td>
-                  <td :class="{tdColor:item.tradAmount<0 , tdColorGreen:item.tradAmount>0}">
-                    {{typeChang(item.tradAmount / 100) || 0}}
-                  </td>
-                </tr>
-                <tr v-show="tbodyDetails.accountChangeType === 0">
-                  <td colspan="4">
-                    <Button
-                      @click="amountPopWindow = true;taskNumber = tbodyDetails.taskSerialNum ;getDepositReturnList(tbodyDetails.taskId)"
-                      class="theSpecialBtn">查看秀客担保金支出明细
-                    </Button>
-                  </td>
-                </tr>
-                <tr v-show="showNotice">
-                  <td colspan="4">暂无数据！</td>
-                </tr>
-                </tbody>
-              </table>
+              <collapse-transition>
+                <div v-show="detailSelect===tbodyDetails.id">
+                  <table class="small-table" style="background-color: #f9f9f9;">
+                    <thead>
+                    <tr>
+                      <th style="width:20%;">交易时间</th>
+                      <th style="width:30%;">流水号</th>
+                      <th style="width:30%;">交易明细</th>
+                      <th style="width:10%;">交易金额（元）</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr v-for="(item,index) in userListDetails">
+                      <td>
+                        <p>{{item.tradTime | dateFormat('YYYY-MM-DD ')}}</p>
+                        <p>{{item.tradTime | dateFormat('hh:mm:ss ')}}</p>
+                      </td>
+                      <td>
+                        {{item.serialNumber}}
+                      </td>
+                      <td>
+                        <p v-if="getTradType(item.tradName)">{{getTradType(item.tradName) }}</p>
+                        <p v-else>{{item.tradName}}</p>
+                      </td>
+                      <td :class="{tdColor:item.tradAmount<0 , tdColorGreen:item.tradAmount>0}">
+                        {{typeChang(item.tradAmount / 100) || 0}}
+                      </td>
+                    </tr>
+                    <tr v-show="tbodyDetails.accountChangeType === 0">
+                      <td colspan="4">
+                        <Button
+                          @click="amountPopWindow = true;taskNumber = tbodyDetails.taskSerialNum ;getDepositReturnList(tbodyDetails.taskId)"
+                          class="theSpecialBtn">查看秀客担保金支出明细
+                        </Button>
+                      </td>
+                    </tr>
+                    <tr v-show="showNotice">
+                      <td colspan="4">暂无数据！</td>
+                    </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </collapse-transition>
             </td>
           </tr>
           </tbody>
@@ -224,38 +228,42 @@
               </p>
             </td>
           </tr>
-          <tr v-show="detailSelect===item.id">
+          <tr>
             <td colspan="4" style="padding: 0px;border: none">
-              <table class="small-table" style="background-color: #f9f9f9;">
-                <thead>
-                <tr>
-                  <th style="width:20%;">交易时间</th>
-                  <th style="width:30%;">流水号</th>
-                  <th style="width:30%;">交易明细</th>
-                  <th style="width:10%;">交易金额（元）</th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr v-for="(item,index) in userListDetails">
-                  <td>
-                    <p>{{item.tradTime | dateFormat('YYYY-MM-DD ')}}</p>
-                    <p>{{item.tradTime | dateFormat('hh:mm:ss ')}}</p>
-                  </td>
-                  <td>
-                    {{item.serialNumber}}
-                  </td>
-                  <td>
-                    <p>{{getTradType(item.tradName)}}</p>
-                  </td>
-                  <td :class="{tdColor:item.tradAmount<0 , tdColorGreen:item.tradAmount>0}">
-                    {{typeChang(item.tradAmount / 100) || 0}}
-                  </td>
-                </tr>
-                <tr v-show="showNotice">
-                  <td colspan="4">暂无数据！</td>
-                </tr>
-                </tbody>
-              </table>
+              <collapse-transition>
+                <div v-show="detailSelect===item.id">
+                  <table class="small-table" style="background-color: #f9f9f9;">
+                    <thead>
+                    <tr>
+                      <th style="width:20%;">交易时间</th>
+                      <th style="width:30%;">流水号</th>
+                      <th style="width:30%;">交易明细</th>
+                      <th style="width:10%;">交易金额（元）</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr v-for="(item,index) in userListDetails">
+                      <td>
+                        <p>{{item.tradTime | dateFormat('YYYY-MM-DD ')}}</p>
+                        <p>{{item.tradTime | dateFormat('hh:mm:ss ')}}</p>
+                      </td>
+                      <td>
+                        {{item.serialNumber}}
+                      </td>
+                      <td>
+                        <p>{{getTradType(item.tradName)}}</p>
+                      </td>
+                      <td :class="{tdColor:item.tradAmount<0 , tdColorGreen:item.tradAmount>0}">
+                        {{typeChang(item.tradAmount / 100) || 0}}
+                      </td>
+                    </tr>
+                    <tr v-show="showNotice">
+                      <td colspan="4">暂无数据！</td>
+                    </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </collapse-transition>
             </td>
           </tr>
           </tbody>
@@ -282,7 +290,7 @@
   import Radio from 'iview/src/components/radio'
   import Form from 'iview/src/components/form'
   import {TaskErrorStatusList} from '@/config/utils'
-
+  import CollapseTransition from 'iview/src/components/base/collapse-transition'
   export default {
     name: 'MoneyManagement',
     components: {
@@ -300,6 +308,7 @@
       Page: Page,
       Radio: Radio,
       RadioGroup: Radio.Group,
+      CollapseTransition:CollapseTransition,
     },
     data() {
       return {
