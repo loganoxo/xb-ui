@@ -93,7 +93,6 @@
 
 <style lang="scss">
   @import 'src/css/mixin';
-
   .personal-box {
     .iWantPay {
       color: #71B6FF;

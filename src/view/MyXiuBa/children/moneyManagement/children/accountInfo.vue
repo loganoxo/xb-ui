@@ -70,7 +70,7 @@
           <th style="width: 20%">操作</th>
         </tr>
         </thead>
-        <tbody v-for="(item,index) in myTableDetails" class="t-body">
+        <tbody v-for="(item,index) in myTableDetails" class="t-body" :key="index">
         <tr>
           <td>
             <p>{{item.tradTime | dateFormat('YYYY-MM-DD ')}}</p>
@@ -89,43 +89,45 @@
             </p>
           </td>
         </tr>
-        <collapse-transition>
-          <tr v-if="detailSelect===item.id"  >
-            <td colspan="4" style="padding: 0px;border: none">
-              <table class="small-table" >
-                <thead >
-                <tr >
-                  <th style="width:20%;">交易时间</th>
-                  <th style="width:30%;">流水号</th>
-                  <th style="width:30%;">交易明细</th>
-                  <th style="width:10%;">交易金额（元）</th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr v-for="(item,index) in userListDetails">
-                  <td>
-                    <p>{{item.tradTime | dateFormat('YYYY-MM-DD ')}}</p>
-                    <p>{{item.tradTime | dateFormat('hh:mm:ss ')}}</p>
-                  </td>
-                  <td>
-                    {{item.serialNumber}}
-                  </td>
-                  <td>
-                    <p v-if="getTradType(item.tradName)">{{getTradType(item.tradName) }}</p>
-                    <p v-else>{{item.tradName}}</p>
-                  </td>
-                  <td :class="{tdColor:item.tradAmount<0 , tdColorGreen:item.tradAmount>0}">
-                    {{typeChang(item.tradAmount / 100) || 0}}
-                  </td>
-                </tr>
-                <tr v-show="showNotice">
-                  <td colspan="4">暂无数据！</td>
-                </tr>
-                </tbody>
-              </table>
-            </td>
-          </tr>
-        </collapse-transition>
+        <tr >
+          <td colspan="4" style="padding: 0px;border: none">
+            <collapse-transition>
+              <div v-show="detailSelect===item.id">
+                <table class="small-table">
+                  <thead>
+                  <tr>
+                    <th style="width:20%;">交易时间</th>
+                    <th style="width:30%;">流水号</th>
+                    <th style="width:30%;">交易明细</th>
+                    <th style="width:10%;">交易金额（元）</th>
+                  </tr>
+                  </thead>
+                  <tbody>
+                  <tr v-for="(item,index) in userListDetails">
+                    <td>
+                      <p>{{item.tradTime | dateFormat('YYYY-MM-DD ')}}</p>
+                      <p>{{item.tradTime | dateFormat('hh:mm:ss ')}}</p>
+                    </td>
+                    <td>
+                      {{item.serialNumber}}
+                    </td>
+                    <td>
+                      <p v-if="getTradType(item.tradName)">{{getTradType(item.tradName) }}</p>
+                      <p v-else>{{item.tradName}}</p>
+                    </td>
+                    <td :class="{tdColor:item.tradAmount<0 , tdColorGreen:item.tradAmount>0}">
+                      {{typeChang(item.tradAmount / 100) || 0}}
+                    </td>
+                  </tr>
+                  <tr v-show="showNotice">
+                    <td colspan="4">暂无数据！</td>
+                  </tr>
+                  </tbody>
+                </table>
+              </div>
+            </collapse-transition>
+          </td>
+        </tr>
         </tbody>
         <tbody>
         <tr v-show="showBigNotice">
@@ -134,7 +136,6 @@
         </tbody>
       </table>
     </div>
-
     <div class="get-more">
       <a href="javascript:;" @click="accountInit('TransactionRecord')">查看所有交易记录</a>
     </div>
@@ -167,7 +168,6 @@
   import CollapseTransition from 'iview/src/components/base/collapse-transition'
   import Collapse from 'iview/src/components/collapse'
 
-
   export default {
     name: 'MoneyManagement',
     components: {
@@ -175,12 +175,12 @@
       ButtonGroup: Button.Group,
       Icon: Icon,
       CollapseTransition: CollapseTransition,
-      Collapse:Collapse,
-
+      Collapse: Collapse,
     },
     data() {
       return {
-        expand:null,
+        bigListId: null,
+        expand: null,
         transitionName: 'expand',
         imgSrc: null,
         userListDetails: null,
