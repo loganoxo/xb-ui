@@ -163,13 +163,22 @@
               :key="homeCommodity.id"
               :to="{ 'path': '/task-details','query': {'taskId': homeCommodity.id}}">
               <div class="home-commodity-img">
-                <img class="block" v-lazy="homeCommodity.taskMainImage" alt="" style="width: 220px; height: 220px;">
+                <img class="block" v-lazy="homeCommodity.taskMainImage" alt="" style="width: 100%;">
               </div>
               <div class="home-commodity-text">
-                <p>{{homeCommodity.taskName}}</p>
-                <p>
+                <p class="home-commodity-title">{{homeCommodity.taskName}}</p>
+                <p class="home-commodity-price">
                   <span class="left">￥{{homeCommodity.itemPrice/100}}</span>
                   <!--<span class="right">免费活动</span>-->
+                </p>
+                <p class="home-commodity-apply">
+                  限量 <span style="color: #ff6600"> {{homeCommodity.taskCount || 0 }} </span> 份，
+                  <span style="color: #ff6600"> {{homeCommodity.showkerApplyTotalCount || 0}} </span> 人已申请
+                </p>
+                <p class="home-commodity-take">
+                  <router-link :to="{ 'path': '/task-details','query': {'taskId': homeCommodity.id}}" class="ivu-btn ivu-btn-long" >
+                    免费领取
+                  </router-link>
                 </p>
               </div>
             </router-link>
@@ -582,35 +591,35 @@
           width: 222px;
           display: inline-block;
           margin: 0 4px 30px 4px;
+          padding: 0 5px 20px 5px;
           .home-commodity-img{
             border: 1px solid #ddd;
           }
           .home-commodity-text{
             background-color: #EEEEEE;
-            padding:5px;
+            padding: 5px 5px 8px 5px;
             p{
-              line-height: 35px;
-              height: 35px;
+              line-height: 28px;
+              height: 28px;
               font-size: 14px;
               text-overflow: ellipsis;
               white-space: nowrap;
               overflow: hidden;
-              &:first-child{
-                color: #000;
-                text-align: left;
-              }
-              &:last-child{
-                color: #FF6633;
-                /*span:last-child{*/
-                  /*background-color: #FCE2E4;*/
-                  /*padding: 0 10px;*/
-                  /*height: 30px;*/
-                  /*line-height: 30px;*/
-                  /*margin-top: 2px;*/
-                /*}*/
-              }
             }
-
+            p.home-commodity-title{
+              color: #000;
+              text-align: left;
+            }
+            p.home-commodity-price{
+              color: #FF6633;
+            }
+            p.home-commodity-apply{
+              color: #000;
+            }
+            p.home-commodity-take{
+              height: 40px;
+              line-height: 40px;
+            }
           }
         }
 

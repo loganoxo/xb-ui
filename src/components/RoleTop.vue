@@ -11,6 +11,8 @@
         <span v-if="!isLogin">|</span>
         <router-link to="/register/seller-register">注册</router-link>
         <span>|</span>
+        <router-link to="/seller-adv">商家入驻必读</router-link>
+        <span>|</span>
         <router-link to="/user/help-center/faq">帮助中心</router-link>
       </div>
     </div>
