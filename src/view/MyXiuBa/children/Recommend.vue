@@ -32,7 +32,7 @@
         <div class="fs-18">
           <span >我邀请的好友：</span>
           <p class="fs-14 cl000 " style="display: inline-block;">
-            一共邀请了 <span style="color: #ff6600"> {{count}} </span> 位好友，共获得 <span style="color: #ff6600"> ￥{{reward}} </span> 奖励
+            一共邀请了 <span style="color: #ff6600"> {{count}} </span> 位好友，共获得 <span style="color: #ff6600"> ￥{{reward/100}} </span> 奖励
           </p>
         </div>
         <div class="mt-20 clear-both">
@@ -82,10 +82,10 @@
                         </div>
                       </td>
                       <td class="main-color">
-                        <div class="ivu-table-cell"> <span>￥{{recommend.todayReward}}</span> </div>
+                        <div class="ivu-table-cell"> <span>￥{{recommend.todayReward/100}}</span> </div>
                       </td>
                       <td class="main-color">
-                        <div class="ivu-table-cell"> <span>￥{{recommend.accumulativeReward}}</span> </div>
+                        <div class="ivu-table-cell"> <span>￥{{recommend.accumulativeReward/100}}</span> </div>
                       </td>
                     </tr>
                   </tbody>
@@ -177,7 +177,7 @@
       api.getRecommendUrl().then((res) => {
         _this.init();
         _this.copyValue = res;
-        _this.copyHtml = '<div style="display: inline-block;" data-sites="qzone, qq, weibo" data-title="秀吧，邀你共享好礼，秀出精彩！" data-image="static/avatar/xiuba_icon.png" data-description="秀出精彩，畅享好礼！我已经在秀吧了，你还在等什么呢！" class="social-share" data-url=' + _this.copyValue + '  ></div>';
+        _this.copyHtml = '<div style="display: inline-block;" data-sites="qzone, qq, weibo" data-title="秀吧，邀你共享好礼，秀出精彩！" data-image="https://www.xiuba365.com/static/avatar/xiuba_icon.png" data-description="秀出精彩，畅享好礼！我已经在秀吧了，你还在等什么呢！" class="social-share" data-url=' + _this.copyValue + '  ></div>';
 
       });
     },
