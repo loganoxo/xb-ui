@@ -14,9 +14,18 @@
       <div class="award-box">
         <p class="fs-18">奖励说明：</p>
         <ul>
-          <li>1.通过您的邀请链接成功进行注册，如果是秀客，成功注册并完成首个任务后，即可获得￥3奖励，且自该秀客注册起一年时间内，该秀客每完成一个任务，您都可以从对应活动的推广费中获得15%的提成；</li>
-          <li>2.通过您的邀请链接成功进行注册，如果是商家，秀客完成其首个任务后，即可获得￥3奖励，且自该商家注册起一年时间内，每个秀客完成该商家的一个任务时，您都可以从对应活动的推广费中获得10%的提成；</li>
-          <li>3.奖励的金额将直接充值到您的账户余额中，您可以用来提现；</li>
+          <li>
+            1.通过您的邀请链接成功进行注册，如果是秀客，成功注册并完成首个任务后，即可获得 <span style="color: #ff6600">￥3</span> 奖励，
+            且自该秀客注册起一年时间内，该秀客每完成一个任务，您都可以从对应活动的推广费中获得
+            <span style="color: #ff6600">15%</span> 的提成；
+          </li>
+          <li>
+            2.通过您的邀请链接成功进行注册，如果是商家，秀客完成其首个任务后，即可获得 <span style="color: #ff6600">￥3</span> 奖励，且自该商家注册起一年时间内，
+            每个秀客完成该商家的一个任务时，您都可以从对应活动的推广费中获得 <span style="color: #ff6600">10%</span> 的提成；
+          </li>
+          <li>
+            3.奖励的金额将直接充值到您的账户余额中，您可以用来提现；
+          </li>
         </ul>
       </div>
       <div class="mt-30">
@@ -168,7 +177,7 @@
       api.getRecommendUrl().then((res) => {
         _this.init();
         _this.copyValue = res;
-        _this.copyHtml = '<div style="display: inline-block;" data-sites="qzone, qq, weibo, wechat, douban" data-description="秀吧 一键分享到微博，QQ空间，腾讯微博，人人，豆瓣" class="social-share" data-url=' + _this.copyValue + '  ></div>';
+        _this.copyHtml = '<div style="display: inline-block;" data-sites="qzone, qq, weibo" data-description="秀出精彩，畅享好礼！我已经在秀吧了，你还在等什么呢！" class="social-share" data-url=' + _this.copyValue + '  ></div>';
 
       });
     },
