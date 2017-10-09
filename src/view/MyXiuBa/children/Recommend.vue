@@ -177,7 +177,7 @@
       api.getRecommendUrl().then((res) => {
         _this.init();
         _this.copyValue = res;
-        _this.copyHtml = '<div style="display: inline-block;" data-sites="qzone, qq, weibo" data-title="秀吧，邀你共享好礼，秀出精彩！" data-description="秀出精彩，畅享好礼！我已经在秀吧了，你还在等什么呢！" class="social-share" data-url=' + _this.copyValue + '  ></div>';
+        _this.copyHtml = '<div style="display: inline-block;" data-sites="qzone, qq, weibo" data-title="秀吧，邀你共享好礼，秀出精彩！" data-image="static/avatar/xiuba_icon.png" data-description="秀出精彩，畅享好礼！我已经在秀吧了，你还在等什么呢！" class="social-share" data-url=' + _this.copyValue + '  ></div>';
 
       });
     },
