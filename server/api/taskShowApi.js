@@ -42,6 +42,7 @@ router.post('/api/task/index/newest.json', (req, res, next) => {
       res.end();
     });
 });
+
 /**
  * 首页左上角列表接口
  */
@@ -209,6 +210,7 @@ router.post('/api/task/showker/trialReport.json', function (req, res, next) {
       res.end();
     });
 });
+
 /**
  * 获取活动日志接口
  * @param id

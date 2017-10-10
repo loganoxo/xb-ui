@@ -88,13 +88,9 @@
     .activity-table table td .img-title {
       display: inline-block;
       width: 132px;
-      height: 54px;
       padding-left: 10px;
       text-align: left;
     }
-    /*.activity-table table td.registration {*/
-      /*color: #2b85e4;*/
-    /*}*/
     .activity-table table td .del-edit span {
       color: #2b85e4;
       cursor: pointer;
