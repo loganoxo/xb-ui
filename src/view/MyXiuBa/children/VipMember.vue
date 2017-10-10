@@ -193,7 +193,7 @@
         if (level === this.getMemberLevel) {
           stopTime = new Date().getTime() + parseInt(day) * 24 * 3600 * 1000 + this.timeRemaining * 24 * 3600 * 1000;
           this.endTime = stopTime;
-          this.rechargeSum = recharge / 100;
+          this.rechargeSum =(recharge / 100).toFixed(2);
           if (this.rechargeSum - this.getUserBalance < 0) {
             this.needRecharge = 0
           } else {
@@ -202,7 +202,7 @@
         } else {
           stopTime = new Date().getTime() + parseInt(day) * 24 * 3600 * 1000;
           this.endTime = stopTime;
-          this.rechargeSum = recharge / 100 - this.moneyRemaining/100;
+          this.rechargeSum = (recharge / 100 - this.moneyRemaining/100).toFixed(2);
           if (this.rechargeSum - this.getUserBalance < 0) {
             this.needRecharge = 0
           } else {
