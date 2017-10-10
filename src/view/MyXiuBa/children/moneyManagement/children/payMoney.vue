@@ -57,7 +57,7 @@
   import Modal from 'iview/src/components/modal'
   import {isNumber} from '@/config/utils'
   import {aliPayUrl} from '@/config/env'
-  import TaskApplyBefore from '@/components/TaskApplyBefore'
+
   export default {
     name: 'MoneyManagement',
     components: {
@@ -70,7 +70,6 @@
       ButtonGroup: Button.Group,
       Icon: Icon,
       Modal: Modal,
-      TaskApplyBefore:TaskApplyBefore
     },
     data() {
       const validatePayNumber = (rule, value, callback) => {

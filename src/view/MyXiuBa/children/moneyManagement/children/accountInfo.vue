@@ -166,7 +166,6 @@
   import api from '@/config/apiConfig'
   import {TaskErrorStatusList} from '@/config/utils'
   import CollapseTransition from 'iview/src/components/base/collapse-transition'
-  import Collapse from 'iview/src/components/collapse'
 
   export default {
     name: 'MoneyManagement',
@@ -175,7 +174,6 @@
       ButtonGroup: Button.Group,
       Icon: Icon,
       CollapseTransition: CollapseTransition,
-      Collapse: Collapse,
     },
     data() {
       return {
