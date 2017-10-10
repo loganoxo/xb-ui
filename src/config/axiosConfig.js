@@ -12,7 +12,6 @@ axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded
 
 //POST传参序列化(添加请求拦截器)
 axios.interceptors.request.use((config) => {
-  // axios.defaults.headers.userPhone = store.state.userInfo ? store.state.userInfo.phone : null;//将用户手机号放入请求头
   if (config.method === 'post') {
     config.data = qs.stringify(config.data);
     LoadingBar.start();

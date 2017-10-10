@@ -20,9 +20,9 @@ const ActivityManagement = r => require.ensure([], () => r(require('@/view/MyXiu
 const ActivitiesList = r => require.ensure([], () => r(require('@/view/MyXiuBa/children/activityManagement/children/activitiesList.vue')), 'ActivityManagement');
 const ApproveShowker = r => require.ensure([], () => r(require('@/view/MyXiuBa/children/activityManagement/children/approveShowker.vue')), 'ActivityManagement');
 const ProbationReport = r => require.ensure([], () => r(require('@/view/MyXiuBa/children/activityManagement/children/probationReport.vue')), 'ActivityManagement');
-const DetailAndLog = r => require.ensure([], () => r(require('../view/MyXiuBa/children/activityManagement/children/detailAndLog/index.vue')), 'ActivityManagement');
-const ActivityDetail = r => require.ensure([], () => r(require('../view/MyXiuBa/children/activityManagement/children/detailAndLog/children/activityDetail.vue')), 'ActivityManagement');
-const ActivityLog = r => require.ensure([], () => r(require('../view/MyXiuBa/children/activityManagement/children/detailAndLog/children/activityLog.vue')), 'ActivityManagement');
+const DetailAndLog = r => require.ensure([], () => r(require('@/view/MyXiuBa/children/activityManagement/children/detailAndLog/index.vue')), 'ActivityManagement');
+const ActivityDetail = r => require.ensure([], () => r(require('@/view/MyXiuBa/children/activityManagement/children/detailAndLog/children/activityDetail.vue')), 'ActivityManagement');
+const ActivityLog = r => require.ensure([], () => r(require('@/view/MyXiuBa/children/activityManagement/children/detailAndLog/children/activityLog.vue')), 'ActivityManagement');
 
 const MyProbation = r => require.ensure([], () => r(require('@/view/MyXiuBa/children/myProbation/index.vue')), 'MyProbation');
 const ApplyWaitAudit = r => require.ensure([], () => r(require('@/view/MyXiuBa/children/myProbation/children/applyWaitAudit.vue')), 'MyProbation');
@@ -58,11 +58,7 @@ Vue.use(Router);
 export default new Router({
   mode: 'history',
   scrollBehavior(to, from, savedPosition) {
-    if (savedPosition) {
-      return savedPosition
-    } else {
-      return { x: 0, y: 0 }
-    }
+    return savedPosition ? savedPosition : {x: 0, y: 0}
   },
   routes: [
     {

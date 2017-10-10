@@ -405,7 +405,6 @@
           if (this.$route.query.resubmit){
             this.$router.push({name:'ApplyWaitAudit'});
           }
-          return
         }else {
           this.showkerApplyBefore = payPopWindow;
           this.applySuccess = true;
