@@ -11,7 +11,7 @@ const captchapng = require('captchapng');
 const cryptoConfig = require('../cryptoConfig');
 // const cookie = require('cookie-parser');
 const router = express.Router();
-const secret = 'xiuba';
+const secret = 'xiuba';//推荐链接加密密钥
 
 /**
  * 用户登陆

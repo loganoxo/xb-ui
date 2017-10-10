@@ -10,7 +10,6 @@ const apiConfig = require('../apiConfig');
 const request = require('request-promise');
 
 const router = express.Router();
-const baseUrl = config.baseUrl;
 
 /**
  * 商家进行任务发布
