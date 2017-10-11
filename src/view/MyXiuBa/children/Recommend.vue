@@ -205,11 +205,9 @@
         document.getElementsByTagName('head')[0].appendChild(script)
       }
     },
-    watch: {}
+
   }
 
-
-//  import 'social-share.js/dist/js/social-share.min.js'
 </script>
 
 <style lang="scss" scoped>

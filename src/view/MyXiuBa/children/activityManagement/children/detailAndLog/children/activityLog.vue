@@ -76,6 +76,7 @@
 <script>
   import Icon from 'iview/src/components/icon'
   import Collapse from 'iview/src/components/collapse'
+  import {decode} from '@/config/utils'
   import api from '@/config/apiConfig'
   export default {
     components: {
@@ -99,7 +100,7 @@
 
     },
     created() {
-      let taskId = this.$route.query.taskId;
+      let taskId = decode(this.$route.query.q);
       if (taskId) {
         this.taskId = taskId;
         this.getTaskInfo();
@@ -125,7 +126,7 @@
       getLogList(){
         let self  = this;
         api.getLogList({
-          taskId: self.$route.query.taskId
+          taskId: self.taskId
         }).then((res) => {
           if(res.status){
             self.logList = res.data;

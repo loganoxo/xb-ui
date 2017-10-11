@@ -186,7 +186,7 @@
   import Tooltip from 'iview/src/components/tooltip'
   import CollapseTransition from 'iview/src/components/base/collapse-transition'
   import api from '@/config/apiConfig'
-  import {TaskErrorStatusList} from '@/config/utils'
+  import {TaskErrorStatusList, encryption} from '@/config/utils'
   import TimeDown from '@/components/TimeDown'
   import PayModel from '@/components/PayModel'
 
@@ -392,7 +392,7 @@
         })
       },
       goProbationReport(id) {
-        this.$router.push({name: 'ProbationReport', query: {id: id, from: 'taskPassAudit'}});
+        this.$router.push({name: 'ProbationReport', query: {id: encryption(id), from: 'taskPassAudit'}});
       },
       orderNumberAudit() {
         let _this = this;

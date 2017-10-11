@@ -6,7 +6,7 @@
           <div class="left-ctt left mr-10">
             <ul :class="[leftTopSlider ? 'slider-top-active' : 'slider-top-default']" @mouseover="clearLeftTopSliderFunc()" @mouseleave="leftTopSliderFunc()">
               <li v-for="taskTopLeft in taskTopLeftList">
-                <router-link :to="{path:'/task-details', query:{taskId: taskTopLeft.task.id }}" :title="taskTopLeft.task.taskName" class="block">
+                <router-link :to="{path:'/task-details', query:{q: encryptionId(taskTopLeft.task.id)}}" :title="taskTopLeft.task.taskName" class="block">
                   <div class="left img-box">
                     <img :src="taskTopLeft.task.taskMainImage" alt="" width="54px">
                   </div>
@@ -161,7 +161,7 @@
               v-for="homeCommodity in homeCommodityList"
               :title="homeCommodity.taskName"
               :key="homeCommodity.id"
-              :to="{ 'path': '/task-details','query': {'taskId': homeCommodity.id}}">
+              :to="{ 'path': '/task-details','query': {'q': encryptionId(homeCommodity.id)}}">
               <div class="home-commodity-img">
                 <img class="block" v-lazy="homeCommodity.taskMainImage" alt="" style="width: 100%; height: 208px;">
               </div>
@@ -176,7 +176,7 @@
                   <span style="color: #ff6600"> {{homeCommodity.showkerApplyTotalCount || 0}} </span> 人已申请
                 </p>
                 <p class="home-commodity-take">
-                  <router-link :to="{ 'path': '/task-details','query': {'taskId': homeCommodity.id}}" class="ivu-btn ivu-btn-long" >
+                  <router-link :to="{ 'path': '/task-details','query': {'q':encryptionId(homeCommodity.id)}}" class="ivu-btn ivu-btn-long" >
                     免费领取
                   </router-link>
                 </p>
@@ -206,7 +206,7 @@
   import Button from 'iview/src/components/button'
   import Radio from 'iview/src/components/radio'
   import api from '@/config/apiConfig'
-  import {setStorage, getStorage} from '../config/utils'
+  import {setStorage, getStorage, encryption} from '@/config/utils'
   import SmsCountdown from '@/components/SmsCountdown'
   import Modal from 'iview/src/components/modal'
   import Carousel from 'iview/src/components/carousel'
@@ -372,6 +372,9 @@
       ...mapMutations({
         changeTopShow: 'CHANGE_TOP_SHOW'
       }),
+      encryptionId(id){
+        return encryption(id);
+      },
       goOut() {
         let _this = this;
         _this.loggedOut().then(res => {

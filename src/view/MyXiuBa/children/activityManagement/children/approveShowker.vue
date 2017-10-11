@@ -49,7 +49,7 @@
                 </td>
                 <td>{{item.applyTime | dateFormat('YYYY-MM-DD hh:mm:ss')}}</td>
                 <td class="registration">
-                  <router-link :to="{ 'path': '/trial-report','query': {'showkerId': item.showkerId}}">
+                  <router-link :to="{ 'path': '/trial-report','query': {'q': encryptionId(item.showkerId)}}">
                     查看
                   </router-link>
                 </td>
@@ -297,7 +297,7 @@
   import TimeDown from '@/components/TimeDown'
   import AuditShowker from '@/components/AuditShowker'
   import api from '@/config/apiConfig'
-  import {TaskErrorStatusList} from '@/config/utils'
+  import {TaskErrorStatusList, encryption, decode} from '@/config/utils'
   export default {
     name: 'ApproveShowker',
     components: {
@@ -366,7 +366,7 @@
     mounted() {
     },
     created() {
-      this.taskId = this.$route.query.taskId;
+      this.taskId = decode(this.$route.query.q);
       this.showApproveStatus = "toAudit";
       this.taskApplyList();
       this.activeEndTime = parseInt(this.$route.query.endTime) + 24 * 2 * 60 * 60 * 1000;
@@ -378,6 +378,9 @@
       }
     },
     methods: {
+      encryptionId(id){
+        return encryption(id)
+      },
       auditSuccess() {
         this.approvalPop = false;
         this.taskApplyList();
@@ -540,7 +543,7 @@
         })
       },
       goProbationReport(id) {
-        this.$router.push({name: 'ProbationReport', query: {id: id}});
+        this.$router.push({name: 'ProbationReport', query: {id: encryption(id)}});
       },
       orderNumberAudit() {
         let _this = this;

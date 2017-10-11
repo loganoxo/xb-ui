@@ -379,6 +379,7 @@
   import Button from 'iview/src/components/button'
   import Radio from 'iview/src/components/radio'
   import {Select, Option, OptionGroup} from 'iview/src/components/select'
+  import {decode} from '@/config/utils'
   import api from '@/config/apiConfig'
 
   export default {
@@ -463,7 +464,7 @@
     },
     created() {
       this.getItemCatalog();
-      let taskId = this.$route.query.taskId;
+      let taskId = decode(this.$route.query.q);
       if (taskId) {
         this.editTaskId = taskId;
         this.getTaskInfo();

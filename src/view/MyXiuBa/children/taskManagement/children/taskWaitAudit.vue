@@ -7,6 +7,35 @@
       <iInput v-model="taskNumber" style="width: 160px;margin-right: 8px;"></iInput>
       <iButton type="primary" :loading="searchLoading" @click="appliesWaitingAuditTask">搜索</iButton>
     </div>
+    <div class="mt-10">
+      <iForm ref="wwFormValidate" :model="wwFormValidate"  label-position="right" class="clear">
+        <p class="left" ><strong>旺旺号筛选：</strong></p>
+        <div class="left clear">
+          <p class="left">旺旺号信用等级大于等于：</p>
+          <Form-item class="left" style="transform: translateY(-20%)" >
+            <iSelect v-model="wwFormValidate.alitmLevel" style="width: 160px;">
+              <iOption v-for="(taobaoLevelImg,index) in taobaoLevelImgs" :label='taobaoLevelImg.label' :value="taobaoLevelImg.value" :key="taobaoLevelImg.value">
+                <span v-show="index === 0">{{taobaoLevelImg.text}}</span>
+                <img v-show="index !== 0" :src="taobaoLevelImg.text" alt="">
+              </iOption>
+            </iSelect>
+          </Form-item>
+        </div>
+        <div class="left clear ml-20">
+          <p class="left">淘气值范围：</p>
+          <Form-item  class="left" style="transform: translateY(-20%)" >
+            <iSelect v-model="wwFormValidate.taoqizhi" style="width: 160px;">
+              <iOption v-for="taoqizhi in taoqizhiList" :label='taoqizhi.label' :value="taoqizhi.value" :key="taoqizhi.value">
+                {{taoqizhi.label}}
+              </iOption>
+            </iSelect>
+          </Form-item>
+        </div>
+        <div class="left ml-20">
+          <iButton type="primary" style="transform: translateY(-20%);width: 100px" :loading="searchLoading" >筛选</iButton>
+        </div>
+      </iForm>
+    </div>
     <div class="mt-12" v-for="(item,index) in taskWaitAuditList" :key="item.id" v-if="taskWaitAuditList.length > 0">
       <div class="collapse-header clear" @click="collapseToggle(item.id,index)">
         <div class="manage-img inline-block mt-10">
@@ -48,11 +77,10 @@
               </td>
               <td>{{allTask.applyTime | dateFormat('YYYY-MM-DD hh:mm:ss')}}</td>
               <td class="registration">
-                <router-link :to="{ 'path': '/trial-report','query': {'showkerId': allTask.showkerId}}">查看</router-link>
+                <router-link :to="{ 'path': '/trial-report','query': {'q': encryptionId(allTask.showkerId)}}">查看</router-link>
               </td>
               <td>
-                <Tooltip v-if="allTask.reason && allTask.status === 'waiting_resubmit'" :content="allTask.reason"
-                         placement="top" class="cursor-p">
+                <Tooltip v-if="allTask.reason && allTask.status === 'waiting_resubmit'" :content="allTask.reason" placement="top" class="cursor-p">
                   <Icon color="#f60" type="information-circled"></Icon>
                   <span class="main-color">{{getStatusInfo(allTask.status)}}</span>
                 </Tooltip>
@@ -101,6 +129,9 @@
 </template>
 
 <script>
+  import Form from 'iview/src/components/form'
+  import {Select, Option, OptionGroup} from 'iview/src/components/select'
+  import Checkbox from 'iview/src/components/checkbox'
   import Page from 'iview/src/components/page'
   import Icon from 'iview/src/components/icon'
   import Button from 'iview/src/components/button'
@@ -110,11 +141,17 @@
   import CollapseTransition from 'iview/src/components/base/collapse-transition'
   import AuditShowker from '@/components/AuditShowker'
   import api from '@/config/apiConfig'
-  import {TaskErrorStatusList} from '@/config/utils'
+  import {TaskErrorStatusList, encryption} from '@/config/utils'
 
   export default {
     name: 'TaskWaitAudit',
     components: {
+      iForm: Form,
+      iSelect: Select,
+      iOption: Option,
+      Checkbox: Checkbox,
+      CheckboxGroup: Checkbox.Group,
+      FormItem: Form.Item,
       Page: Page,
       iButton: Button,
       iInput: Input,
@@ -126,6 +163,126 @@
     },
     data() {
       return {
+        wwFormValidate: {
+          alitmLevel: '',
+          taoqizhi: '',
+          onlyNew:'',
+        },
+        taobaoLevelImgs: [
+          {
+            value: '1',
+            text: '不限',
+            label: '不限'
+          },
+          {
+            value: 2,
+            text: 'https://img.alicdn.com/newrank/b_red_2.gif',
+            label: '2心'
+          },
+          {
+            value: 3,
+            text: 'https://img.alicdn.com/newrank/b_red_3.gif',
+            label: '3心'
+          },
+          {
+            value: 4,
+            text: 'https://img.alicdn.com/newrank/b_red_4.gif',
+            label: '4心'
+          },
+          {
+            value: 5,
+            text: 'https://img.alicdn.com/newrank/b_red_5.gif',
+            label: '5心'
+          },
+          {
+            value: 6,
+            text: 'https://img.alicdn.com/newrank/b_blue_1.gif',
+            label: '1钻'
+          },
+          {
+            value: 7,
+            text: 'https://img.alicdn.com/newrank/b_blue_2.gif',
+            label: '2钻'
+          },
+          {
+            value: 8,
+            text: 'https://img.alicdn.com/newrank/b_blue_3.gif',
+            label: '3钻'
+          },
+          {
+            value: 9,
+            text: 'https://img.alicdn.com/newrank/b_blue_4.gif',
+            label: '4钻'
+          },
+          {
+            value: 10,
+            text: 'https://img.alicdn.com/newrank/b_blue_5.gif',
+            label: '5钻'
+          },
+          {
+            value: 11,
+            text: 'https://img.alicdn.com/newrank/s_crown_1.gif',
+            label: '1皇冠'
+          },
+          {
+            value: 12,
+            text: 'https://img.alicdn.com/newrank/s_crown_2.gif',
+            label: '2皇冠'
+          },
+          {
+            value: 13,
+            text: 'https://img.alicdn.com/newrank/s_crown_3.gif',
+            label: '3皇冠'
+          },
+          {
+            value: 14,
+            text: 'https://img.alicdn.com/newrank/s_crown_4.gif',
+            label: '4皇冠'
+          },
+          {
+            value: 15,
+            text: 'https://img.alicdn.com/newrank/s_crown_5.gif',
+            label: '5皇冠'
+          },
+        ],
+        taoqizhiList: [
+          {
+            value:0,
+            label:'不限'
+          },
+          {
+            value: 1,
+            label: '0-199'
+          },
+          {
+            value: 2,
+            label: '200-399'
+          },
+          {
+            value: 3,
+            label: '400-599'
+          },
+          {
+            value: 4,
+            label: '600-799'
+          },
+          {
+            value: 5,
+            label: '800-999'
+          },
+          {
+            value: 6,
+            label: '1000-1999'
+          },
+          {
+            value: 7,
+            label: '2000-2499'
+          },
+          {
+            value: 8,
+            label: '2500以上'
+          },
+        ],
         searchLoading: false,
         taskWaitAuditList: [],
         taskId: null,
@@ -159,6 +316,9 @@
     },
     computed: {},
     methods: {
+      encryptionId(id){
+        return encryption(id)
+      },
       getStatusInfo(status) {
         return TaskErrorStatusList(status)
       },

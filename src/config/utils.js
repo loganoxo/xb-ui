@@ -167,6 +167,43 @@ export const getSeverTime = () => {
 };
 
 /**
+ * 生成随机6位小写字母组成的字符串
+ */
+export const randomLetter = () => {
+  let result = [];
+  for (let i = 0; i < 6; i++) {
+    let ranNum = Math.ceil(Math.random() * 25);
+    result.push(String.fromCharCode(97 + ranNum));
+  }
+  return result.toString().replace(/,/g, '');
+};
+
+/**
+ * 对数字进行简单加密（主要用来加密任务id,活动id）
+ */
+export const encryption = (num) => {
+  if (!num) {
+    return
+  }
+  let newNum = num.toString().split('');
+  for (let i = 0, len = newNum.length; i < len; i++) {
+    newNum[i] += randomLetter();
+  }
+  return newNum.toString().replace(/,/g, '');
+};
+
+/**
+ * 对进行加密后的数字进行解密
+ */
+export const decode = (string) => {
+  if (!string) {
+    return
+  }
+  let newString = string.match(/\d+/g);
+  return parseInt(newString.join(',').replace(/,/g, ''));
+};
+
+/**
  * 任务流程状态映射
  */
 export const TaskErrorStatusList = (type) => {
@@ -259,7 +296,7 @@ export const TaskErrorStatusList = (type) => {
       return '充值交易记录';
       break;
     case 'recharge':
-      return '充值';
+      return '充值-其它';
       break;
     case 'pay_for_task_deposit_supply_seller':
       return '补交活动担保金';
@@ -342,5 +379,12 @@ export const TaskErrorStatusList = (type) => {
     case 'deleted' :
       return '已删除';
       break;
+    case 'recharge_alipay':
+      return '充值-支付宝';
+      break;
+    case 'recharge_wxpay':
+      return '充值-微信';
+      break;
+
   }
 };

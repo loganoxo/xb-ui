@@ -537,7 +537,7 @@
   import PayModel from '@/components/PayModel'
   import api from '@/config/apiConfig'
   import {aliCallbackImgUrl} from '@/config/env'
-  import {aliUploadImg, isNumber, isInteger, isAliUrl, randomString, extendDeep} from '@/config/utils'
+  import {aliUploadImg, isNumber, isInteger, isAliUrl, randomString, extendDeep, decode} from '@/config/utils'
 
   export default {
     name: 'TaskReleaseProcess',
@@ -658,7 +658,7 @@
     created() {
       this.checkMemberForTask();
       this.getItemCatalog();
-      let taskId = this.$route.query.taskId;
+      let taskId = decode(this.$route.query.q);
       if (taskId) {
         this.editTaskId = taskId;
         this.getTaskInfo();

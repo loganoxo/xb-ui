@@ -25,6 +25,7 @@
           <Checkbox label="0">活动</Checkbox>
           <Checkbox label="1">充值</Checkbox>
           <Checkbox label="2">提现</Checkbox>
+          <Checkbox label="3">推荐奖励</Checkbox>
           <Checkbox label="100">其它</Checkbox>
         </Checkbox-group>
       </div>
@@ -187,6 +188,7 @@
         <Checkbox-group v-model="transactType" class="checkBox left ml-45 " @on-change="checkAllGroupChange">
           <Checkbox label="0">活动</Checkbox>
           <Checkbox label="2">提现</Checkbox>
+          <Checkbox label="3">推荐奖励</Checkbox>
         </Checkbox-group>
       </div>
       <div class="activity-number mt-10">
@@ -414,7 +416,7 @@
       },
       getTradListAll(type) {
         let _this = this;
-        if (type && (type.length === 0 || type.length === 4)) {
+        if (type && (type.length === 0 || type.length === 5)) {
           type = null;
         } else {
           type = JSON.stringify(type);
@@ -434,7 +436,6 @@
             _this.myTableDetailsAll = res.data.tradPage.content;
             _this.accountIncomes = res.data.income;
             _this.accountPayout = res.data.expense;
-
             _this.showBigNoticeAll = _this.myTableDetailsAll.length === 0;
 
           } else {
@@ -458,14 +459,18 @@
       handleCheckAll() {
         this.checkAll = !this.checkAll;
         if (this.checkAll) {
-          this.transactType = ['0', '1', '2','100'];
+          if(this.getUserInfoRole === 1){
+            this.transactType = ['0', '1', '2','3','100'];
+          }else {
+            this.transactType = ['0', '2','3'];
+          }
         } else {
           this.transactType = [];
         }
       },
       checkAllGroupChange() {
         if (this.getUserInfoRole === 1){
-          if (this.transactType.length === 4) {
+          if (this.transactType.length === 5) {
             this.checkAll = true;
           } else if (this.transactType.length > 0) {
             this.checkAll = false;
@@ -473,7 +478,7 @@
             this.checkAll = false;
           }
         }else if(this.getUserInfoRole === 0) {
-          if (this.transactType.length === 2) {
+          if (this.transactType.length === 3) {
             this.checkAll = true;
           } else if (this.transactType.length > 0) {
             this.checkAll = false;

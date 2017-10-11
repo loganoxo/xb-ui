@@ -325,7 +325,7 @@
   import TimeDown from '@/components/TimeDown'
   import api from '@/config/apiConfig'
   import {aliCallbackImgUrl} from '@/config/env'
-  import {TaskErrorStatusList, isNumber} from '@/config/utils'
+  import {TaskErrorStatusList, isNumber, encryption} from '@/config/utils'
 
   export default {
     name: 'ApplyPassAudit',
@@ -443,6 +443,9 @@
       }
     },
     methods: {
+      encryptionId(id){
+        return encryption(id)
+      },
       getTaskStatus(type) {
         return TaskErrorStatusList(type);
       },
@@ -705,7 +708,7 @@
         })
       },
       lookReportInfo(id) {
-        this.$router.push({path: '/user/my-probation/report', query: {id: id, from: 'buyer'}});
+        this.$router.push({path: '/user/my-probation/report', query: {id: encryption(id), from: 'buyer'}});
       }
     }
   }
