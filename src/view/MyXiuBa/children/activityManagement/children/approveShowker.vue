@@ -276,7 +276,7 @@
           :userScreenShotImg="userScreenShotImg"
           :passId="passId"
           :activeEndTime="activeEndTime"
-          @:request="auditSuccess">
+          @request="auditSuccess">
         </AuditShowker>
         <div slot="footer" style="padding: 0px ; border: none"></div>
       </Modal>
@@ -298,7 +298,6 @@
   import AuditShowker from '@/components/AuditShowker'
   import api from '@/config/apiConfig'
   import {TaskErrorStatusList} from '@/config/utils'
-
   export default {
     name: 'ApproveShowker',
     components: {
@@ -379,8 +378,8 @@
       }
     },
     methods: {
-      auditSuccess(closePop) {
-        this.approvalPop = closePop;
+      auditSuccess() {
+        this.approvalPop = false;
         this.taskApplyList();
       },
       viewScreenShotFun(type) {

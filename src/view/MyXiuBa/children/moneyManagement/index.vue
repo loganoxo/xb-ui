@@ -94,6 +94,10 @@
 <style lang="scss">
   @import 'src/css/mixin';
   .personal-box {
+    .payMoneyBtn{
+      color: #fff;
+      width: 120px;padding: 10px 10px;background-color: #FF6600;
+    }
     .iWantPay {
       color: #71B6FF;
     }

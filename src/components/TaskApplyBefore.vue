@@ -70,6 +70,9 @@
           <div v-if="taskType === 'pc_search'" class="clear left center mt-20 ">
            <div class="left ml-10 ">
              <Upload
+
+
+
                class="ml-5"
                ref="upload"
                :show-upload-list="false"

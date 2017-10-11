@@ -122,32 +122,6 @@
     },
     data() {
       return {
-        memberCycle: [
-          {
-            select: 'one',
-            textTop: '4999.00',
-            year: '2年',
-            day: '730'
-          },
-          {
-            select: 'two',
-            textTop: '2999.00',
-            year: '1年',
-            day: '365'
-          },
-          {
-            select: 'three',
-            textTop: '1999.00',
-            year: '半年',
-            day: '182'
-          },
-          {
-            select: 'four',
-            textTop: '1199.00',
-            year: '一季度',
-            day: '90'
-          }
-        ],
         isSelect: 'one',
         day: 730,
         year: '0年',

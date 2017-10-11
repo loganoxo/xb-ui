@@ -17,7 +17,7 @@
             <Radio label="ali">
               <img src="~assets/img/task-release/zfb_logo.png" alt="支付宝" class="vtc-mid">
             </Radio>
-            <Radio label="weiXin" v-show="false">
+            <Radio label="weiXin" >
               <img src="~assets/img/task-release/wechat_logo.png" class="vtc-mid">
             </Radio>
           </Radio-group>
@@ -32,6 +32,17 @@
             <div slot="footer">
               <iButton type="success" style="width: 150px;" @click="success">已完成充值</iButton>
               <iButton type="error" style="width: 150px;" @click="error">充值遇到问题</iButton>
+            </div>
+          </Modal>
+          <Modal v-model="payPopWindowWX"
+                 :styles="{top:'310px'}">
+            <div slot="header" class="text-ct">微信支付二维码</div>
+            <div class="text-ct">
+              <img :src="imgSrc" alt="">
+            </div>
+            <div slot="footer" class="text-ct">
+              <iButton type="success" style="width: 120px;padding: 10px 10px;background-color: #FF6600;border: none" @click="success">充值成功</iButton>
+              <iButton type="error" style="width: 120px;padding: 10px 10px;margin-left: 50px;background-color: #3FC0C5;border: none" @click="error" >充值失败</iButton>
             </div>
           </Modal>
         </Form-item>
@@ -56,7 +67,7 @@
   import Button from 'iview/src/components/button'
   import Modal from 'iview/src/components/modal'
   import {isNumber} from '@/config/utils'
-  import {aliPayUrl} from '@/config/env'
+  import {aliPayUrl,weiXinPayUrl} from '@/config/env'
 
   export default {
     name: 'MoneyManagement',
@@ -76,9 +87,9 @@
         if (!(/^[0-9]+(.[0-9]{1,2})?$/.test(value))) {
           callback(new Error('金额为数字，请您重新输入'))
         }
-        else if (value < 1) {
-          callback(new Error('最低一元起充,请您重新输入'))
-        }
+//        else if (value < 1) {
+//          callback(new Error('最低一元起充,请您重新输入'))
+//        }
         else {
           callback()
         }
@@ -95,8 +106,7 @@
         },
         imgSrc: null,
         payPopWindow: false,
-        payPopWindowValue: false,
-        modal1:false,
+        payPopWindowWX:false,
       }
     },
     mounted() {},
@@ -110,10 +120,12 @@
       success() {
         this.$store.dispatch('getUserInformation');
         this.payPopWindow = false;
+        this.payPopWindowWX = false;
         this.payMoney.number = '';
       },
       error() {
         this.payPopWindow = false;
+        this.payPopWindowWX = false;
       },
       seyPassword() {
         if (this.psw === 'password') {
@@ -126,22 +138,19 @@
       },
       balanceOrderCreate() {
         let _this = this;
-
         if (_this.payMoney.number === '') {
           _this.$Message.error('您未输入充值金额，请您重新输入');
-          _this.payPopWindowValue = false;
           return;
         }else if (!(/^[0-9]+(.[0-9]{1,2})?$/.test(parseInt(_this.payMoney.number)))){
-          _this.payPopWindowValue = false;
           return;
         }
-        else if (parseInt(_this.payMoney.number) < 1) {
-          _this.payPopWindowValue = false;
-          return;
-        }
+//        else if (parseInt(_this.payMoney.number) < 1) {
+//          return;
+//        }
         else {
-          _this.payPopWindowValue = true;
-          _this.payPopWindow = _this.payPopWindowValue;
+          if (_this.payMoney.payMode === 'ali'){
+            _this.payPopWindow = true;
+          }
         }
         api.balanceOrderCreate({
           finalFee: (_this.payMoney.number * 100).toFixed(),
@@ -149,8 +158,18 @@
           payChannel: 1
         }).then(res => {
           if (res.status) {
-            let src = aliPayUrl + 'orderSerial=' + res.data.orderSerial;
-            window.open(src);
+            if(_this.payMoney.payMode === 'ali'){
+              let src = aliPayUrl + 'orderSerial=' + res.data.orderSerial;
+              window.open(src);
+            }else {
+               _this.imgSrc = weiXinPayUrl + 'orderSerial=' + res.data.orderSerial+'&userId='+res.data.uid;
+//               _this.imgSrc = 'http://192.168.1.142:8765/pay/wxpay_qrcode.htm?' + 'orderSerial=' + res.data.orderSerial+'&userId='+res.data.uid;
+              if (_this.imgSrc){
+                _this.payPopWindowWX = true;
+              }else {
+                _this.$Message.error(res.msg)
+              }
+            }
             _this.payMoney.number = '';
           } else {
             _this.$Message.error(res.msg);
