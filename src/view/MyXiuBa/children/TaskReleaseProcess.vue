@@ -27,7 +27,7 @@
       </div>
     </div>
     <!--任务发布相关-->
-    <template v-show="blockOrNone">
+    <div v-show="blockOrNone">
       <div class="activity-con" v-show="stepName === 'information'">
         <div class="activity-info">
           <div class="activity-info-title">填写活动信息</div>
@@ -518,7 +518,7 @@
           <iButton type="error" size="large" long @click="price500Model = false">我知道了</iButton>
         </div>
       </Modal>
-    </template>
+    </div>
   </div>
 </template>
 
