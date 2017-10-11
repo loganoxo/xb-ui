@@ -49,7 +49,7 @@
                 </td>
                 <td>{{item.applyTime | dateFormat('YYYY-MM-DD hh:mm:ss')}}</td>
                 <td class="registration">
-                  <router-link :to="{ 'path': '/trial-report','query': {'showkerId': item.showkerId}}">
+                  <router-link :to="{ 'path': '/trial-report','query': {'q': encryptionId(item.showkerId)}}">
                     查看
                   </router-link>
                 </td>
@@ -378,6 +378,9 @@
       }
     },
     methods: {
+      encryptionId(id){
+        return encryption(id)
+      },
       auditSuccess() {
         this.approvalPop = false;
         this.taskApplyList();

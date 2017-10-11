@@ -14,7 +14,6 @@
       <div class="container">
         <div class="task-details-top">
           <div class="task-details-top-left left">
-            <!--<img src="~assets/img/task-details/task_details_03.png"  alt="">-->
             <img :src="commodityData.task.taskMainImage"  alt="" >
           </div>
           <div class="task-details-top-right left">

@@ -48,7 +48,7 @@
               </td>
               <td>{{allTask.applyTime | dateFormat('YYYY-MM-DD hh:mm:ss')}}</td>
               <td class="registration">
-                <router-link :to="{ 'path': '/trial-report','query': {'showkerId': allTask.showkerId}}">查看</router-link>
+                <router-link :to="{ 'path': '/trial-report','query': {'q': encryption(allTask.showkerId)}}">查看</router-link>
               </td>
               <td>
                 <Tooltip v-if="allTask.reason && allTask.status === 'waiting_resubmit'" :content="allTask.reason"
@@ -110,7 +110,7 @@
   import CollapseTransition from 'iview/src/components/base/collapse-transition'
   import AuditShowker from '@/components/AuditShowker'
   import api from '@/config/apiConfig'
-  import {TaskErrorStatusList} from '@/config/utils'
+  import {TaskErrorStatusList, encryption} from '@/config/utils'
 
   export default {
     name: 'TaskWaitAudit',
@@ -159,6 +159,9 @@
     },
     computed: {},
     methods: {
+      encryptionId(id){
+        return encryption(id)
+      },
       getStatusInfo(status) {
         return TaskErrorStatusList(status)
       },
