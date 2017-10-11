@@ -9,31 +9,12 @@
 </template>
 
 <script>
-  import Icon from 'iview/src/components/icon'
-  import Form from 'iview/src/components/form'
-  import Input from 'iview/src/components/input'
-  import Checkbox from 'iview/src/components/checkbox'
-  import Button from 'iview/src/components/button'
-  import Radio from 'iview/src/components/radio'
   import api from '@/config/apiConfig'
-  import {setStorage, getStorage,removeStorage} from '@/config/utils'
-  import SmsCountdown from '@/components/SmsCountdown'
-  import Modal from 'iview/src/components/modal'
   import RoleTop from '@/components/RoleTop.vue'
 
   export default {
     name: 'QQLogin',
     components: {
-      iInput: Input,
-      iForm: Form,
-      FormItem: Form.Item,
-      Checkbox: Checkbox,
-      CheckboxGroup: Checkbox.Group,
-      iButton: Button,
-      Icon: Icon,
-      SmsCountdown: SmsCountdown,
-      Radio: Radio,
-      Modal: Modal,
       RoleTop: RoleTop,
     },
     beforeMount() {

@@ -116,7 +116,6 @@
   import 'social-share.js/dist/css/share.min.css'
   import Icon from 'iview/src/components/icon'
   import api from '@/config/apiConfig'
-  import {setStorage, getStorage} from '@/config/utils'
   import Modal from 'iview/src/components/modal'
   import Breadcrumb from 'iview/src/components/breadcrumb'
   import Page from 'iview/src/components/page'

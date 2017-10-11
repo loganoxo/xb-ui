@@ -7,7 +7,6 @@ import VueLazyload from 'vue-lazyload'
 import Modal from 'iview/src/components/modal'
 import LoadingBar from 'iview/src/components/loading-bar'
 import Message from 'iview/src/components/message'
-// import 'animate.css/animate.css'
 import '../iview/iview.less'
 import '@/css/common.scss'
 
@@ -31,7 +30,7 @@ Object.keys(filters).forEach(key => {
   Vue.filter(key, filters[key])
 });
 
-/*根据路由改变处理页面标题和组件加载进度*/
+/*根据路由改变处理业务逻辑*/
 router.beforeEach((to, from, next) => {
   LoadingBar.start();
   store.commit({
