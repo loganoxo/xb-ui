@@ -176,7 +176,7 @@
                   <span style="color: #ff6600"> {{homeCommodity.showkerApplyTotalCount || 0}} </span> 人已申请
                 </p>
                 <p class="home-commodity-take">
-                  <router-link :to="{ 'path': '/task-details','query': {'taskId': homeCommodity.id}}" class="ivu-btn ivu-btn-long" >
+                  <router-link :to="{ 'path': '/task-details','query': {'q':encryptionId(homeCommodity.id)}}" class="ivu-btn ivu-btn-long" >
                     免费领取
                   </router-link>
                 </p>

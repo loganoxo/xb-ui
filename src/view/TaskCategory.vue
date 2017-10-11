@@ -73,7 +73,7 @@
               v-for="searchTask in searchTaskList"
               :title="searchTask.taskName.replace(new RegExp(/<\/font>/g),'').replace(new RegExp(/<font class='search-highlight'>/g),'')"
               :key= "searchTask.id"
-              :to="{ 'path': '/task-details', 'query': {'taskId': searchTask.id}}"
+              :to="{ 'path': '/task-details', 'query': {'q': encryptionId(searchTask.id)}}"
               class="task-category-commodity-details"
             >
               <div class="task-category-commodity-img">
@@ -96,7 +96,7 @@
                 </p>
               </div>
             </router-link>
-            <p v-show="searchTaskList.length <= 0">暂无数据</p>
+            <p class="text-ct" v-show="searchTaskList.length <= 0">暂无数据</p>
           </div>
           <div class="task-category-commodity-page" v-show="searchTaskList.length > 0" >
             <Page
@@ -122,7 +122,7 @@
   import Button from 'iview/src/components/button'
   import Radio from 'iview/src/components/radio'
   import api from '@/config/apiConfig'
-  import {setStorage, getStorage} from '../config/utils'
+  import {encryption} from '@/config/utils'
   import Modal from 'iview/src/components/modal'
   import Breadcrumb from 'iview/src/components/breadcrumb'
   import Page from 'iview/src/components/page'
@@ -219,7 +219,7 @@
         self.getTaskCategoryList(cate);
       }
       if(searchKey){
-        if(searchKey == 'all'){
+        if(searchKey === 'all'){
           self.searchTaskParams.taskName = '';
           self.itemCatalogs = [];
           self.$store.commit({
@@ -241,6 +241,9 @@
       }
     },
     methods: {
+      encryptionId(id){
+        return encryption(id)
+      },
       searchTaskNameFunc(){
         this.getSearchTask();
       },

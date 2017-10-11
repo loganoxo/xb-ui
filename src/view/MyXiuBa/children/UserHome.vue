@@ -82,7 +82,7 @@
         v-for="homeCommodity in homeCommodityList"
         :title="homeCommodity.taskName"
         :key="homeCommodity.id"
-        :to="{ 'path': '/task-details','query': {'taskId': homeCommodity.id}}">
+        :to="{ 'path': '/task-details','query': {'q': encryptionId(homeCommodity.id)}}">
         <div class="home-commodity-img">
           <img class="block" v-lazy="homeCommodity.taskMainImage" alt="" style="width: 100%;">
         </div>
@@ -152,7 +152,7 @@
   import Button from 'iview/src/components/button'
   import Radio from 'iview/src/components/radio'
   import api from '@/config/apiConfig'
-  import {setStorage, getStorage,getSeverTime} from '@/config/utils'
+  import {setStorage, getStorage, getSeverTime, encryption} from '@/config/utils'
   import Modal from 'iview/src/components/modal'
   import Breadcrumb from 'iview/src/components/breadcrumb'
   import Page from 'iview/src/components/page'
@@ -223,6 +223,9 @@
 
     },
     methods: {
+      encryptionId(id){
+        return encryption(id)
+      },
       getLastDay(){
         this.lastTime = (getMemberDeadline - (new Date().getTime()))/86400
       },
