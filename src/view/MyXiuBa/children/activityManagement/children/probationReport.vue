@@ -128,7 +128,7 @@
   import Radio from 'iview/src/components/radio'
   import TimeDown from '@/components/TimeDown'
   import api from '@/config/apiConfig'
-  import {TaskErrorStatusList} from '@/config/utils'
+  import {TaskErrorStatusList, decode} from '@/config/utils'
 
   export default {
     name: 'ProbationReport',
@@ -159,7 +159,7 @@
     },
     mounted() {},
     created() {
-      let id = this.$route.query.id;
+      let id = decode(this.$route.query.id);
       let from = this.$route.query.from;
       this.from = from;
       if (from === 'buyer') {

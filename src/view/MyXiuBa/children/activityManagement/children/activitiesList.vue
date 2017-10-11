@@ -308,7 +308,7 @@
   import Tooltip from 'iview/src/components/tooltip'
   import PayModel from '@/components/PayModel'
   import api from '@/config/apiConfig'
-  import {TaskErrorStatusList, getSeverTime} from '@/config/utils'
+  import {TaskErrorStatusList, getSeverTime, encryption, decode} from '@/config/utils'
 
   export default {
     name: 'ActivitiesList',
@@ -403,16 +403,16 @@
     },
     methods: {
       editTask(id) {
-        this.$router.push({name: 'TaskReleaseProcess', query: {taskId: id}})
+        this.$router.push({name: 'TaskReleaseProcess', query: {q: encryption(id)}})
       },
       copyTask(id) {
-        this.$router.push({name: 'TaskReleaseProcess', query: {taskId: id, type: 'copy'}})
+        this.$router.push({name: 'TaskReleaseProcess', query: {q: encryption(id), type: 'copy'}})
       },
       lookTaskDetail(id) {
-        this.$router.push({name: 'ActivityDetail', query: {taskId: id}})
+        this.$router.push({name: 'ActivityDetail', query: {q: encryption(id)}})
       },
       approveShowker(id, time) {
-        this.$router.push({name: 'ApproveShowker', query: {taskId: id, endTime: time}})
+        this.$router.push({name: 'ApproveShowker', query: {q: encryption(id), endTime: time}})
       },
       isApproveExpire(endTime) {
         return getSeverTime() < endTime + 48 * 3600 * 1000;

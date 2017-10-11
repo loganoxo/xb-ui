@@ -6,10 +6,10 @@
     </div>
     <div class="detail-and-log-list mt-20">
       <div class="detail-and-log-list-title">
-        <router-link :to="{'path':'/user/activity-management/detail-log/detail',query:{'taskId': $route.query.taskId}}" tag="span":class="{isSelect:showStatus === 'ActivityDetail'}">
+        <router-link :to="{'path':'/user/activity-management/detail-log/detail',query:{'q': taskId}}" tag="span":class="{isSelect:showStatus === 'ActivityDetail'}">
           活动详情
         </router-link>
-        <router-link  :to="{'path':'/user/activity-management/detail-log/log',query:{'taskId': $route.query.taskId}}" tag="span":class="{isSelect:showStatus === 'ActivityLog'}">
+        <router-link  :to="{'path':'/user/activity-management/detail-log/log',query:{'q': taskId}}" tag="span":class="{isSelect:showStatus === 'ActivityLog'}">
           活动日志
         </router-link>
       </div>
@@ -32,6 +32,7 @@
     },
     mounted() {},
     created() {
+      this.taskId = this.$route.query.q;
       this.showStatus = this.$route.name;
     },
     computed: {},

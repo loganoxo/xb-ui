@@ -372,7 +372,7 @@
     },
     created(){
       let self = this;
-        self.getTaskDetails();
+      self.getTaskDetails();
     },
     computed: {
       isLogin() {
