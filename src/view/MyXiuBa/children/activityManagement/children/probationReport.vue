@@ -128,7 +128,7 @@
   import Radio from 'iview/src/components/radio'
   import TimeDown from '@/components/TimeDown'
   import api from '@/config/apiConfig'
-  import {TaskErrorStatusList, decode} from '@/config/utils'
+  import {TaskErrorStatusList, decode, encryption} from '@/config/utils'
 
   export default {
     name: 'ProbationReport',
@@ -178,7 +178,7 @@
     },
     methods: {
       returnUpPage() {
-        this.$router.push({name: 'ApproveShowker', query: {taskId: this.showkerTaskInfo.task.id}})
+        this.$router.push({name: 'ApproveShowker', query: {q: encryption(this.showkerTaskInfo.task.id)}})
       },
       returnUpPageFrom() {
         this.$router.push({name: 'ApplyPassAudit'})

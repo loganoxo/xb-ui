@@ -48,11 +48,10 @@
               </td>
               <td>{{allTask.applyTime | dateFormat('YYYY-MM-DD hh:mm:ss')}}</td>
               <td class="registration">
-                <router-link :to="{ 'path': '/trial-report','query': {'q': encryption(allTask.showkerId)}}">查看</router-link>
+                <router-link :to="{ 'path': '/trial-report','query': {'q': encryptionId(allTask.showkerId)}}">查看</router-link>
               </td>
               <td>
-                <Tooltip v-if="allTask.reason && allTask.status === 'waiting_resubmit'" :content="allTask.reason"
-                         placement="top" class="cursor-p">
+                <Tooltip v-if="allTask.reason && allTask.status === 'waiting_resubmit'" :content="allTask.reason" placement="top" class="cursor-p">
                   <Icon color="#f60" type="information-circled"></Icon>
                   <span class="main-color">{{getStatusInfo(allTask.status)}}</span>
                 </Tooltip>
