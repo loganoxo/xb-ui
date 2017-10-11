@@ -296,7 +296,7 @@ export const TaskErrorStatusList = (type) => {
       return '充值交易记录';
       break;
     case 'recharge':
-      return '充值';
+      return '充值-其它';
       break;
     case 'pay_for_task_deposit_supply_seller':
       return '补交活动担保金';
@@ -379,5 +379,12 @@ export const TaskErrorStatusList = (type) => {
     case 'deleted' :
       return '已删除';
       break;
+    case 'recharge_alipay':
+      return '充值-支付宝';
+      break;
+    case 'recharge_wxpay':
+      return '充值-微信';
+      break;
+
   }
 };

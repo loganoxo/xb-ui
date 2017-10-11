@@ -11,7 +11,7 @@
       <iForm ref="wwFormValidate" :model="wwFormValidate"  label-position="right" class="clear">
         <p class="left" ><strong>旺旺号筛选：</strong></p>
         <div class="left clear">
-          <p class="left">旺旺号信用等级大于：</p>
+          <p class="left">旺旺号信用等级大于等于：</p>
           <Form-item class="left" style="transform: translateY(-20%)" >
             <iSelect v-model="wwFormValidate.alitmLevel" style="width: 160px;">
               <iOption v-for="(taobaoLevelImg,index) in taobaoLevelImgs" :label='taobaoLevelImg.label' :value="taobaoLevelImg.value" :key="taobaoLevelImg.value">
@@ -32,11 +32,6 @@
           </Form-item>
         </div>
         <div class="left ml-20">
-          <CheckboxGroup v-model="wwFormValidate.onlyNew">
-            <Checkbox label="1">只显示新增</Checkbox>
-          </CheckboxGroup>
-        </div>
-        <div class="left ml-10">
           <iButton type="primary" style="transform: translateY(-20%);width: 100px" :loading="searchLoading" >筛选</iButton>
         </div>
       </iForm>
