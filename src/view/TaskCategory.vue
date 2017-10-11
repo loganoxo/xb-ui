@@ -86,13 +86,20 @@
                   <!--<span class="right">免费活动</span>-->
                 </p>
                 <p class="cl000">
-                  份数:{{searchTask.taskCount}}
-                  &nbsp;&nbsp;&nbsp;&nbsp;
-                  申请人数:{{searchTask.showkerApplyTotalCount}}
+                  限量 <span style="color: #ff6600"> {{searchTask.taskCount || 0 }} </span> 份，
+                  <span style="color: #ff6600"> {{searchTask.showkerApplyTotalCount || 0}} </span> 人已申请
+                  <!--份数:{{searchTask.taskCount}}-->
+                  <!--&nbsp;&nbsp;&nbsp;&nbsp;-->
+                  <!--申请人数:{{searchTask.showkerApplyTotalCount}}-->
                 </p>
                 <p class="cl000">
                   剩余时间：
                   <time-down  :endTime="searchTask.endTime" ></time-down>&nbsp;
+                </p>
+                <p >
+                  <router-link :to="{ 'path': '/task-details','query': {'taskId': searchTask.id}}" class="ivu-btn ivu-btn-long" >
+                    免费领取
+                  </router-link>
                 </p>
               </div>
             </router-link>

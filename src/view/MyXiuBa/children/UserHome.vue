@@ -84,7 +84,7 @@
         :key="homeCommodity.id"
         :to="{ 'path': '/task-details','query': {'taskId': homeCommodity.id}}">
         <div class="home-commodity-img">
-          <img class="block" v-lazy="homeCommodity.taskMainImage" alt="" style="width: 100%;">
+          <img class="block" v-lazy="homeCommodity.taskMainImage" alt="" style="width: 100%; height: 208px;">
         </div>
         <div class="home-commodity-text">
           <p class="home-commodity-title">{{homeCommodity.taskName}}</p>
