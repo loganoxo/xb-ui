@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="container">
-      <div class="mt-10">
+      <div class="mt-10 clear">
         <div class="trial-left left">
           <div>
             <img :src="showkerInfo.portraitPic" alt="" style="width: 160px;">
@@ -13,11 +13,11 @@
           </div>
         </div>
         <div class="trial-right left">
-          <div v-show="!showReportDesc">
+          <div v-if="!showReportDesc">
             <p class="fs-16 trial-account">{{showkerInfo.phone}}的买家秀</p>
             <p class="trial-tag">
               Ta的标签：&nbsp;&nbsp;
-              <a  v-for="(value, key) in showkerTag" v-if="value" style="margin-right: 20px;" @click="getTagTrialReports(key)">
+              <a v-for="(value, key) in showkerTag" v-if="value" style="margin-right: 20px;" @click="getTagTrialReports(key)">
               <iButton size="small" v-if=" value > 0" >{{key}}({{value}})</iButton>
             </a>
             </p>
@@ -25,7 +25,7 @@
               <ul v-if="trialReportList.length > 0">
                 <li v-for="trialReport in trialReportList">
                   <div>
-                    <img :src="trialReport.task.taskMainImage" alt="" style="width: 150px">
+                    <img v-if="trialReport.task" :src="trialReport.task.taskMainImage" alt="" style="width: 150px">
                   </div>
                   <div>
                     <p>{{trialReport.task.taskName}}</p>
@@ -53,7 +53,7 @@
               </div>
             </div>
           </div>
-          <div v-if="showReportDesc">
+          <div v-if="showReportDesc && showkerReportDesc.task">
             <p class="fs-16 trial-account">
               {{showkerReportDesc.showkerPhone}}的买家秀
                <a @click="showReportDesc = false;" class="right fs-14">返回上一页</a>
@@ -110,7 +110,7 @@
   import Button from 'iview/src/components/button'
   import Radio from 'iview/src/components/radio'
   import api from '@/config/apiConfig'
-  import {setStorage, getStorage} from '@/config/utils'
+  import {setStorage, getStorage, decode} from '@/config/utils'
   import Modal from 'iview/src/components/modal'
   import Breadcrumb from 'iview/src/components/breadcrumb'
   import Page from 'iview/src/components/page'
@@ -173,13 +173,13 @@
     },
     created(){
       let self = this;
-      if(self.$route.query.showkerId){
-        self.trialReportParams.showkerId = self.$route.query.showkerId;
+      if(self.$route.query.q){
+        self.trialReportParams.showkerId = decode(self.$route.query.q);
       }
       if(self.$route.query.showReportDesc){
         let trialReport = {
-          id: self.$route.query.id,
-          showkerId: self.$route.query.showkerId
+          id: decode(self.$route.query.id),
+          showkerId: decode(self.$route.query.q)
         };
         self.showReportDescFunc(trialReport);
       }

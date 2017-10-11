@@ -117,7 +117,7 @@
                     <p>发表于{{detailsShowker.createTime | dateFormat('YYYY-MM-DD hh:mm:ss')}}</p>
                     <p class="text">
                       {{detailsShowker.trialReportText}}
-                      <router-link :to="{'path':'/trial-report','query':{'showkerId': detailsShowker.showkerId, 'showReportDesc': true, 'id': detailsShowker.id }}">查看全文</router-link>
+                      <router-link :to="{'path':'/trial-report','query':{'q': encryptionId(detailsShowker.showkerId), 'showReportDesc': true, 'id': encryptionId(detailsShowker.id)}}">查看全文</router-link>
                     </p>
                     <p>
                       <a v-for="trialReportImage in detailsShowker.trialReportImages"   @click="trialReportPicShowFunc(trialReportImage)">
@@ -141,7 +141,7 @@
               </div>
             </div>
             <div v-show="graphicInfoSelClass == 'audited'" class="graphic-audited-buyer">
-              <router-link :to="{ 'path': '/trial-report','query': {'showkerId': detailsSuccessShowker.showkerId}}" :key="detailsSuccessShowker.id" v-show="detailsSuccessShowkerList.length > 0 "  v-for="detailsSuccessShowker in detailsSuccessShowkerList">
+              <router-link :to="{ 'path': '/trial-report','query': {'q': encryptionId(detailsSuccessShowker.showkerId)}}" :key="detailsSuccessShowker.id" v-show="detailsSuccessShowkerList.length > 0 "  v-for="detailsSuccessShowker in detailsSuccessShowkerList">
                 <img :src="detailsSuccessShowker.showkerPortraitPic" width="68px" alt="">
                 <p class="cl000">{{detailsSuccessShowker.showkerPhone}}</p>
               </router-link>
@@ -241,7 +241,7 @@
   import Button from 'iview/src/components/button'
   import Radio from 'iview/src/components/radio'
   import api from '@/config/apiConfig'
-  import {setStorage, getStorage} from '../config/utils'
+  import {setStorage, getStorage, decode, encryption} from '@/config/utils'
   import Modal from 'iview/src/components/modal'
   import Breadcrumb from 'iview/src/components/breadcrumb'
   import Page from 'iview/src/components/page'
@@ -385,10 +385,13 @@
         return this.needBrowseCollectAddCart
       },
       getTaskId(){
-        return this.$route.query.taskId
+        return decode(this.$route.query.q)
       }
     },
     methods: {
+      encryptionId(id){
+        return encryption(id);
+      },
       refreshPage(){
         this.applySuccess = false;
         this.getTaskDetails();
@@ -433,7 +436,7 @@
         let self = this;
         self.taskId = self.getTaskId;
         api.getShowkerCanTrial({
-          taskId: self.$route.query.taskId
+          taskId: decode(self.$route.query.q)
         }).then((res) => {
           if(res.status){
             self.showkerApplyBefore = true;
@@ -458,7 +461,7 @@
         let self = this;
         self.taskApplyLoading = true;
         api.getShowkerCanTrial({
-          taskId: self.$route.query.taskId
+          taskId: decode(self.$route.query.q)
         }).then((res) => {
           self.taskApplyLoading = false;
           if(res.status){
@@ -488,7 +491,7 @@
       },
       getDetailsShowkerList(){
         let self = this;
-        self.detailsShowkerParams.taskId = self.$route.query.taskId;
+        self.detailsShowkerParams.taskId = decode(self.$route.query.q);
         api.getDetailsShowkerList(self.detailsShowkerParams).then((res) => {
           if(res.status){
             for(let i = 0, j = res.data.content.length; i < j; i++){
@@ -507,7 +510,7 @@
       },
       getDetailsSuccessShowkerList(){
         let self = this;
-        self.detailsSuccessShowkerParams.taskId = self.$route.query.taskId;
+        self.detailsSuccessShowkerParams.taskId = decode(self.$route.query.q);
         api.getDetailsSuccessShowkerList(self.detailsSuccessShowkerParams).then((res) => {
           if(res.status){
             self.detailsSuccessShowkerList = res.data.content;
@@ -517,7 +520,7 @@
       },
       getTaskDetails(){
         let self = this;
-        api.getTaskDetails({taskId: self.$route.query.taskId}).then((res) => {
+        api.getTaskDetails({taskId: decode(self.$route.query.q)}).then((res) => {
           if(res.status){
             self.commodityData = res.data;
             self.needBrowseCollectAddCart=res.data.task.needBrowseCollectAddCart;
@@ -564,7 +567,7 @@
           }else {
             api.ShowkerApplySelWwId({
               wangwangId: self.selectedWw,
-              taskId: self.$route.query.taskId,
+              taskId: decode(self.$route.query.q),
               searchCondition:null,
               itemLocation:null,
               browseToBottom:null,
@@ -609,7 +612,7 @@
     watch: {
       '$route' (to, from) {
         //刷新参数放到这里里面去触发就可以刷新相同界面了
-        let taskId = this.$route.query.taskId;
+        let taskId = decode(this.$route.query.q);
         this.getTaskDetails(taskId);
       },
 
