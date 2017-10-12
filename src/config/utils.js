@@ -382,8 +382,20 @@ export const TaskErrorStatusList = (type) => {
     case 'recharge_alipay':
       return '充值-支付宝';
       break;
+    case 'invite_seller_success':
+      return '成功邀请商家';
+      break;
     case 'recharge_wxpay':
       return '充值-微信';
+      break;
+    case 'invite_showker_success':
+      return '成功邀请秀客';
+      break;
+    case 'seller_task_commission':
+      return '商家活动提成';
+      break;
+    case 'showker_task_commission':
+      return '秀客活动提成';
       break;
 
   }
