@@ -14,12 +14,12 @@
         </iOption>
       </iSelect>
       <span class="ml-10">淘气值范围：</span>
-      <iSelect v-model="wwFormValidate.taoqizhi" style="width: 120px;">
+      <iSelect v-model="wwFormValidate.tqz" style="width: 120px;">
         <iOption v-for="taoqizhi in taoqizhiList" :label='taoqizhi.label' :value="taoqizhi.value" :key="taoqizhi.value">
           {{taoqizhi.label}}
         </iOption>
       </iSelect>
-      <iButton class="ml-10" type="primary" :loading="searchLoading" @click="appliesWaitingAuditTask">搜索</iButton>
+      <iButton class="ml-10" type="primary" :loading="searchLoading" @click="searchAuditTask">搜索</iButton>
     </div>
     <div class="mt-12" v-for="(item,index) in taskWaitAuditList" :key="item.id" v-if="taskWaitAuditList.length > 0">
       <div class="collapse-header clear" @click="collapseToggle(item.id,index)">
@@ -317,6 +317,10 @@
         this.taskPageIndex = data;
         this.appliesWaitingAuditAll(this.operateTaskId, this.operateIndex);
       },
+      searchAuditTask(){
+        this.selectId = null;
+        this.appliesWaitingAuditTask();
+      },
       taskWaitToPass(id, status) {
         let _this = this;
         api.setTaskShowkerAudit({
@@ -366,7 +370,6 @@
       },
       appliesWaitingAuditAll(taskId, index) {
         let _this = this;
-        this.selectId = null;
         _this.operateTaskId = taskId;
         _this.operateIndex = index;
         api.appliesWaitingAuditAll({
