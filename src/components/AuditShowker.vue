@@ -6,27 +6,27 @@
     </p>
     <div class="text-ct mt-20 ">
       <div v-if="userScreenShotImg && userScreenShotImg.searchCondition" style="display: inline-block;padding: 0 10px">
-        <img class="cursor-p" style="width:80px ;height: 80px" :src="userScreenShotImg.searchCondition + '!thum54'" alt=""
+        <img class="cursor-p" width="80" height="80" :src="userScreenShotImg.searchCondition + '!thum80'" alt=""
              @click="viewScreenShotFun(userScreenShotImg.searchCondition)">
         <p>搜索条件截图</p>
       </div>
       <div v-if="userScreenShotImg && userScreenShotImg.itemLocation" style="display: inline-block;padding: 0 10px">
-        <img class="cursor-p" style="width: 80px;height: 80px" :src="userScreenShotImg.itemLocation + '!thum54'" alt=""
+        <img class="cursor-p" width="80" height="80" :src="userScreenShotImg.itemLocation + '!thum80'" alt=""
              @click="viewScreenShotFun(userScreenShotImg.itemLocation)">
         <p>所在位置截图</p>
       </div>
       <div v-if="userScreenShotImg && userScreenShotImg.browseToBottom" style="display: inline-block;padding: 0 10px">
-        <img class="cursor-p" style="width: 80px;height: 80px" :src="userScreenShotImg.browseToBottom + '!thum54'" alt=""
+        <img class="cursor-p" width="80" height="80" :src="userScreenShotImg.browseToBottom + '!thum80'" alt=""
              @click="viewScreenShotFun(userScreenShotImg.browseToBottom)">
         <p>宝贝浏览见底</p>
       </div>
       <div v-if="userScreenShotImg && userScreenShotImg.enshrine" style="display: inline-block;padding: 0 10px">
-        <img class="cursor-p" style="width: 80px;height: 80px" :src="userScreenShotImg.enshrine + '!thum54'"
+        <img class="cursor-p" width="80" height="80" :src="userScreenShotImg.enshrine + '!thum80'"
              @click="viewScreenShotFun(userScreenShotImg.enshrine)">
         <p>加入收藏夹</p>
       </div>
       <div v-if="userScreenShotImg && userScreenShotImg.addToCart" style="display: inline-block;padding: 0 10px">
-        <img class="cursor-p" style="width: 80px;height: 80px" :src="userScreenShotImg.addToCart + '!thum54'" alt=""
+        <img class="cursor-p" width="80" height="80" :src="userScreenShotImg.addToCart + '!thum80'" alt=""
              @click="viewScreenShotFun(userScreenShotImg.addToCart)">
         <p>加入购物车</p>
       </div>

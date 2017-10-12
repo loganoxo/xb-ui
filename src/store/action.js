@@ -40,7 +40,7 @@ export default {
           countInfo: res.data
         })
       } else {
-        alert('获取用户信息：' + res.msg);
+        alert('获取商家任务管理活动数量信息：' + res.msg);
       }
     })
   }

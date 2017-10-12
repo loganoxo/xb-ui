@@ -7,7 +7,8 @@
       <iInput v-model="taskNumber" style="width: 140px;margin-right: 8px;"></iInput>
       <span class="ml-10">旺旺号信用等级大于等于：</span>
       <iSelect v-model="wwFormValidate.alitmLevel" style="width: 130px;">
-        <iOption v-for="(taobaoLevelImg,index) in taobaoLevelImgs" :label='taobaoLevelImg.label' :value="taobaoLevelImg.value" :key="taobaoLevelImg.value">
+        <iOption v-for="(taobaoLevelImg,index) in taobaoLevelImgs" :label='taobaoLevelImg.label'
+                 :value="taobaoLevelImg.value" :key="taobaoLevelImg.value">
           <span v-show="index === 0">{{taobaoLevelImg.text}}</span>
           <img v-show="index !== 0" :src="taobaoLevelImg.text" alt="">
         </iOption>
@@ -61,10 +62,12 @@
               </td>
               <td>{{allTask.applyTime | dateFormat('YYYY-MM-DD hh:mm:ss')}}</td>
               <td class="registration">
-                <router-link :to="{ 'path': '/trial-report','query': {'q': encryptionId(allTask.showkerId)}}">查看</router-link>
+                <router-link :to="{ 'path': '/trial-report','query': {'q': encryptionId(allTask.showkerId)}}">查看
+                </router-link>
               </td>
               <td>
-                <Tooltip v-if="allTask.reason && allTask.status === 'waiting_resubmit'" :content="allTask.reason" placement="top" class="cursor-p">
+                <Tooltip v-if="allTask.reason && allTask.status === 'waiting_resubmit'" :content="allTask.reason"
+                         placement="top" class="cursor-p">
                   <Icon color="#f60" type="information-circled"></Icon>
                   <span class="main-color">{{getStatusInfo(allTask.status)}}</span>
                 </Tooltip>
@@ -83,7 +86,8 @@
             <tbody>
             <tr>
               <td colspan="5">
-                <Page :total="taskTotalElements" :page-size="taskPageSize" :current="taskPageIndex" @on-change="TaskPageChange"></Page>
+                <Page :total="taskTotalElements" :page-size="taskPageSize" :current="taskPageIndex"
+                      @on-change="TaskPageChange"></Page>
               </td>
             </tr>
             </tbody>
@@ -149,7 +153,7 @@
         wwFormValidate: {
           alitmLevel: '',
           taoqizhi: '',
-          onlyNew:'',
+          onlyNew: '',
         },
         taobaoLevelImgs: [
           {
@@ -230,8 +234,8 @@
         ],
         taoqizhiList: [
           {
-            value:0,
-            label:'不限'
+            value: 0,
+            label: '不限'
           },
           {
             value: 1,
@@ -299,7 +303,7 @@
     },
     computed: {},
     methods: {
-      encryptionId(id){
+      encryptionId(id) {
         return encryption(id)
       },
       getStatusInfo(status) {
@@ -347,6 +351,8 @@
           pageSize: _this.pageSize,
           taskNumber: _this.taskNumber,
           alitmAccount: _this.alitmAccount,
+          tqz: _this.wwFormValidate.tqz,
+          creditLevel: _this.wwFormValidate.alitmLevel
         }).then(res => {
           if (res.status) {
             _this.taskWaitAuditList = res.data.content;
@@ -364,7 +370,9 @@
         _this.operateIndex = index;
         api.appliesWaitingAuditAll({
           taskId: taskId,
-          pageIndex: _this.taskPageIndex
+          pageIndex: _this.taskPageIndex,
+          tqz: _this.wwFormValidate.tqz,
+          creditLevel: _this.wwFormValidate.alitmLevel
         }).then(res => {
           if (res.status) {
             if (res.data.content.length > 0) {

@@ -521,6 +521,8 @@ router.post('/api/applies/waiting/audit/task.json', function (req, res, next) {
     pageSize: req.body.pageSize,
     taskNumber: req.body.taskNumber,
     alitmAccount: req.body.alitmAccount,
+    tqz: req.body.tqz,
+    creditLevel: req.body.creditLevel
   });
   request(options)
     .then(function (parsedBody) {
@@ -620,6 +622,8 @@ router.post('/api/applies/waiting/audit/all.json', function (req, res, next) {
     merchantId: req.session.userData.id,
     taskId: req.body.taskId,
     pageIndex: req.body.pageIndex,
+    tqz: req.body.tqz,
+    creditLevel: req.body.creditLevel,
   });
   request(options)
     .then(function (parsedBody) {
