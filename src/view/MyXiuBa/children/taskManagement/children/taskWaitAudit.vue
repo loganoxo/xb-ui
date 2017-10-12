@@ -152,12 +152,12 @@
       return {
         wwFormValidate: {
           alitmLevel: '',
-          taoqizhi: '',
+          tqz: '',
           onlyNew: '',
         },
         taobaoLevelImgs: [
           {
-            value: 1,
+            value: '',
             text: '不限',
             label: '不限'
           },
@@ -234,7 +234,7 @@
         ],
         taoqizhiList: [
           {
-            value: 0,
+            value: '',
             label: '不限'
           },
           {
@@ -366,6 +366,7 @@
       },
       appliesWaitingAuditAll(taskId, index) {
         let _this = this;
+        this.selectId = null;
         _this.operateTaskId = taskId;
         _this.operateIndex = index;
         api.appliesWaitingAuditAll({

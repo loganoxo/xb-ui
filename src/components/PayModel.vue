@@ -21,7 +21,7 @@
         <Radio label="ali">
           <span class="ali-logo"></span>
         </Radio>
-        <Radio label="wechat" style="display: none;">
+        <Radio label="wechat">
           <span class="wechat-logo"></span>
         </Radio>
       </Radio-group>
@@ -37,6 +37,16 @@
         </div>
       </div>
     </div>
+    <Modal v-model="payPopWindowWX" :styles="{top:'310px'}">
+      <div slot="header" class="text-ct">微信支付二维码</div>
+      <div class="text-ct">
+        <img :src="wxPayImgSrc" alt="">
+      </div>
+      <div slot="footer" class="text-ct">
+        <iButton type="success" style="width: 120px;padding: 10px 10px;background-color: #FF6600;border: none" @click="finishRecharge">充值成功</iButton>
+        <iButton type="error" style="width: 120px;padding: 10px 10px;margin-left: 50px;background-color: #3FC0C5;border: none" @click="hasProblem" >充值失败</iButton>
+      </div>
+    </Modal>
   </div>
 
 </template>
@@ -45,8 +55,9 @@
   import Input from 'iview/src/components/input'
   import Radio from 'iview/src/components/radio'
   import Button from 'iview/src/components/button'
+  import Modal from 'iview/src/components/modal'
   import api from '@/config/apiConfig'
-  import {aliPayUrl} from '@/config/env'
+  import {aliPayUrl, weiXinPayUrl} from '@/config/env'
 
   export default {
     name: 'PayModel',
@@ -55,6 +66,7 @@
       Radio: Radio,
       RadioGroup: Radio.Group,
       iButton: Button,
+      Modal: Modal,
     },
     props: {
       orderMoney: {
@@ -74,8 +86,10 @@
     data() {
       return {
         payType: 'ali',
+        wxPayImgSrc: null,
         payPassword: null,
         confirmRechargeModel: false,
+        payPopWindowWX: false,
         payLoading: false,
       }
     },
@@ -108,7 +122,6 @@
       },
       confirmRecharge() {
         let _this = this;
-        _this.confirmRechargeModel = true;
         _this.payLoading = true;
         api.balanceOrderCreate({
           finalFee: this.payMoney,
@@ -116,18 +129,26 @@
           payChannel: 1
         }).then(res => {
           if (res.status) {
-            let src = aliPayUrl + 'orderSerial=' + res.data.orderSerial;
-            window.open(src);
+            if(_this.payType === 'ali'){
+              _this.confirmRechargeModel = true;
+              let src = aliPayUrl + 'orderSerial=' + res.data.orderSerial;
+              window.open(src);
+            }else{
+              this.payPopWindowWX = true;
+              _this.wxPayImgSrc = weiXinPayUrl + 'orderSerial=' + res.data.orderSerial+'&userId='+res.data.uid;
+            }
             _this.payLoading = false;
           }
         })
       },
       finishRecharge() {
         this.confirmRechargeModel = false;
+        this.payPopWindowWX = false;
         this.$store.dispatch('getUserInformation');
       },
       hasProblem() {
         this.confirmRechargeModel = false;
+        this.payPopWindowWX = false;
       }
     }
   }

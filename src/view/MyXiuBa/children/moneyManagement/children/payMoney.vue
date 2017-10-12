@@ -163,7 +163,6 @@
               window.open(src);
             }else {
                _this.imgSrc = weiXinPayUrl + 'orderSerial=' + res.data.orderSerial+'&userId='+res.data.uid;
-//               _this.imgSrc = 'http://192.168.1.142:8765/pay/wxpay_qrcode.htm?' + 'orderSerial=' + res.data.orderSerial+'&userId='+res.data.uid;
               if (_this.imgSrc){
                 _this.payPopWindowWX = true;
               }else {
