@@ -7,6 +7,7 @@ const express = require('express');
 const config = require('../config');
 const logConfig = require('../logConfig');
 const apiConfig = require('../apiConfig');
+const {tbLevelImagesUrl, tqzList} = require('../common');
 const request = require('request-promise');
 
 const router = express.Router();
@@ -251,8 +252,46 @@ router.post('/api/get-task-apply-list.json', function (req, res, next) {
   });
   request(options)
     .then(function (parsedBody) {
-      res.send(parsedBody);
-      res.end();
+      let dataList = [];
+      if (parsedBody.status && parsedBody.data) {
+        parsedBody.data.list.content.forEach(item => {
+          let data = {};
+          data.alitmAccount = item.information.alitmAccount;
+          data.id = item.information.id;
+          data.showkerId = item.information.showkerId;
+          data.status = item.information.status;
+          data.orderNum = item.information.orderNum;
+          data.applyTime = item.information.applyTime;
+          data.updateTime = item.information.updateTime;
+          data.currentGenerationEndTime = item.information.currentGenerationEndTime;
+          data.trialEndReason = item.information.trialEndReason;
+          data.creditLevel = item.alitm ? tbLevelImagesUrl[item.alitm.creditLevel - 1].text : null;
+          data.tqz = item.alitm ? tqzList[item.alitm.tqz - 1].label : null;
+          dataList.push(data);
+        });
+        res.send({
+          msg: parsedBody.msg,
+          status: parsedBody.status,
+          data: {
+            content: dataList,
+            taskInfo: {
+              taskName: parsedBody.data.taskInfo.taskName,
+              needBrowseCollectAddCart: parsedBody.data.taskInfo.needBrowseCollectAddCart,
+              taskCount: parsedBody.data.taskInfo.taskCount,
+              taskMainImage: parsedBody.data.taskInfo.taskMainImage,
+              showkerApplySuccessCount: parsedBody.data.taskInfo.showkerApplySuccessCount,
+              trailDone: parsedBody.data.trailDone,
+              trailEnd: parsedBody.data.trailEnd,
+              trailOn: parsedBody.data.trailOn,
+            },
+            totalElements: parsedBody.data.list.totalElements
+          }
+        });
+        res.end();
+      } else {
+        res.send(parsedBody);
+        res.end();
+      }
     })
     .catch(function (err) {
       logConfig.logger.error(req.originalUrl + ':' + err);
@@ -596,6 +635,8 @@ router.post('/api/applies/waiting/audit/all.json', function (req, res, next) {
           data.reason = item.taskApply.reason;
           data.screenshot = item.taskApply.screenshot;
           data.newest = item.newest;
+          data.creditLevel = item.alitm ? tbLevelImagesUrl[item.alitm.creditLevel - 1].text : null;
+          data.tqz = item.alitm ? tqzList[item.alitm.tqz - 1].label : null;
           dataList.push(data);
         });
         res.send({
@@ -718,12 +759,14 @@ router.post('/api/passes/showker/task.json', function (req, res, next) {
       if (parsedBody.status && parsedBody.data) {
         parsedBody.data.content.forEach(item => {
           let data = {};
-          data.alitmAccount = item.alitmAccount;
-          data.id = item.id;
-          data.status = item.status;
-          data.orderNum = item.orderNum;
-          data.currentGenerationEndTime = item.currentGenerationEndTime;
-          data.trialEndReason = item.trialEndReason;
+          data.alitmAccount = item.showkerTask.alitmAccount;
+          data.id = item.showkerTask.id;
+          data.status = item.showkerTask.status;
+          data.orderNum = item.showkerTask.orderNum;
+          data.currentGenerationEndTime = item.showkerTask.currentGenerationEndTime;
+          data.trialEndReason = item.showkerTask.trialEndReason;
+          data.creditLevel = item.alitm ? tbLevelImagesUrl[item.alitm.creditLevel - 1].text : null;
+          data.tqz = item.alitm ? tqzList[item.alitm.tqz - 1].label : null;
           dataList.push(data);
         });
         res.send({
@@ -822,11 +865,13 @@ router.post('/api/applies/end/showker/task.json', function (req, res, next) {
       if (parsedBody.status && parsedBody.data) {
         parsedBody.data.content.forEach(item => {
           let data = {};
-          data.alitmAccount = item.alitmAccount;
-          data.id = item.id;
-          data.status = item.status;
-          data.rejectReasonDesc = item.rejectReasonDesc;
-          data.auditTime = item.auditTime;
+          data.alitmAccount = item.taskApply.alitmAccount;
+          data.id = item.taskApply.id;
+          data.status = item.taskApply.status;
+          data.rejectReasonDesc = item.taskApply.rejectReasonDesc;
+          data.auditTime = item.taskApply.auditTime;
+          data.creditLevel = item.alitm ? tbLevelImagesUrl[item.alitm.creditLevel - 1].text : null;
+          data.tqz = item.alitm ? tqzList[item.alitm.tqz - 1].label : null;
           dataList.push(data);
         });
         res.send({

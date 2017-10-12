@@ -97,7 +97,7 @@
                   <time-down  :endTime="searchTask.endTime" ></time-down>&nbsp;
                 </p>
                 <p >
-                  <router-link :to="{ 'path': '/task-details','query': {'taskId': searchTask.id}}" class="ivu-btn ivu-btn-long" >
+                  <router-link :to="{ 'path': '/task-details','query': {'q': encryptionId(searchTask.id)}}" class="ivu-btn ivu-btn-long" >
                     免费领取
                   </router-link>
                 </p>

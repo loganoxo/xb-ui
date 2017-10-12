@@ -2,43 +2,27 @@
   <div class="mt-20">
     <div class="search-list">
       <span>淘宝会员名：</span>
-      <iInput v-model="alitmAccount" style="width: 160px;margin-right: 8px;"></iInput>
+      <iInput v-model="alitmAccount" style="width: 100px;margin-right: 8px;"></iInput>
       <span class="ml-10">活动编号：</span>
-      <iInput v-model="taskNumber" style="width: 160px;margin-right: 8px;"></iInput>
-      <iButton type="primary" :loading="searchLoading" @click="appliesWaitingAuditTask">搜索</iButton>
-    </div>
-    <div class="mt-10">
-      <iForm ref="wwFormValidate" :model="wwFormValidate"  label-position="right" class="clear">
-        <p class="left" ><strong>旺旺号筛选：</strong></p>
-        <div class="left clear">
-          <p class="left">旺旺号信用等级大于等于：</p>
-          <Form-item class="left" style="transform: translateY(-20%)" >
-            <iSelect v-model="wwFormValidate.alitmLevel" style="width: 160px;">
-              <iOption v-for="(taobaoLevelImg,index) in taobaoLevelImgs" :label='taobaoLevelImg.label' :value="taobaoLevelImg.value" :key="taobaoLevelImg.value">
-                <span v-show="index === 0">{{taobaoLevelImg.text}}</span>
-                <img v-show="index !== 0" :src="taobaoLevelImg.text" alt="">
-              </iOption>
-            </iSelect>
-          </Form-item>
-        </div>
-        <div class="left clear ml-20">
-          <p class="left">淘气值范围：</p>
-          <Form-item  class="left" style="transform: translateY(-20%)" >
-            <iSelect v-model="wwFormValidate.taoqizhi" style="width: 160px;">
-              <iOption v-for="taoqizhi in taoqizhiList" :label='taoqizhi.label' :value="taoqizhi.value" :key="taoqizhi.value">
-                {{taoqizhi.label}}
-              </iOption>
-            </iSelect>
-          </Form-item>
-        </div>
-        <div class="left ml-20">
-          <iButton type="primary" style="transform: translateY(-20%);width: 100px" :loading="searchLoading" >筛选</iButton>
-        </div>
-      </iForm>
+      <iInput v-model="taskNumber" style="width: 140px;margin-right: 8px;"></iInput>
+      <span class="ml-10">旺旺号信用等级大于等于：</span>
+      <iSelect v-model="wwFormValidate.alitmLevel" style="width: 130px;">
+        <iOption v-for="(taobaoLevelImg,index) in taobaoLevelImgs" :label='taobaoLevelImg.label' :value="taobaoLevelImg.value" :key="taobaoLevelImg.value">
+          <span v-show="index === 0">{{taobaoLevelImg.text}}</span>
+          <img v-show="index !== 0" :src="taobaoLevelImg.text" alt="">
+        </iOption>
+      </iSelect>
+      <span class="ml-10">淘气值范围：</span>
+      <iSelect v-model="wwFormValidate.taoqizhi" style="width: 120px;">
+        <iOption v-for="taoqizhi in taoqizhiList" :label='taoqizhi.label' :value="taoqizhi.value" :key="taoqizhi.value">
+          {{taoqizhi.label}}
+        </iOption>
+      </iSelect>
+      <iButton class="ml-10" type="primary" :loading="searchLoading" @click="appliesWaitingAuditTask">搜索</iButton>
     </div>
     <div class="mt-12" v-for="(item,index) in taskWaitAuditList" :key="item.id" v-if="taskWaitAuditList.length > 0">
       <div class="collapse-header clear" @click="collapseToggle(item.id,index)">
-        <div class="manage-img inline-block mt-10">
+        <div class="manage-img inline-block">
           <img :src="item.taskMainImage" alt="">
         </div>
         <div class="manage-text left ml-5 inline-block">
@@ -170,7 +154,7 @@
         },
         taobaoLevelImgs: [
           {
-            value: '1',
+            value: 1,
             text: '不限',
             label: '不限'
           },
@@ -330,7 +314,7 @@
         this.taskPageIndex = data;
         this.appliesWaitingAuditAll(this.operateTaskId, this.operateIndex);
       },
-      taskWaitToPass(id, status, index) {
+      taskWaitToPass(id, status) {
         let _this = this;
         api.setTaskShowkerAudit({
           id: id,
@@ -390,18 +374,6 @@
               }
               _this.taskWaitAuditList[index].applyAllTask = res.data.content;
               _this.taskTotalElements = res.data.totalElements;
-              _this.taskWaitAuditList[index].applyAllTask.forEach(item => {
-                api.getAlitmByAccount({
-                  account: item.alitmAccount,
-                }).then((res) => {
-                  if (res.status) {
-                    if (Object.keys(res.data).length > 0) {
-                      _this.$set(item, 'creditLevel', res.data.creditLevelUrl);
-                      _this.$set(item, 'tqz', res.data.tqzNum);
-                    }
-                  }
-                });
-              })
             } else {
               _this.taskWaitAuditList[index].applyAllTask = [];
             }

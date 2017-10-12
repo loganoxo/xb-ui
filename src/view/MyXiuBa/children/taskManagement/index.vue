@@ -111,8 +111,8 @@
       }
     }
     .manage-img {
-      height: 42px;
-      width: 42px;
+      height: 54px;
+      width: 54px;
       float: left;
       margin-left: 20px;
       img{

@@ -195,16 +195,6 @@
         }).then(res => {
           if (res.status) {
             _this.$set(_this.taskFailAuditList[index], 'failTask', res.data.content);
-            _this.taskFailAuditList[index].failTask.forEach(item => {
-              api.getAlitmByAccount({
-                account: item.alitmAccount,
-              }).then((res) => {
-                if (res.status) {
-                  _this.$set(item, 'creditLevel', res.data.creditLevelUrl);
-                  _this.$set(item, 'tqz', res.data.tqzNum);
-                }
-              });
-            })
           } else {
             _this.$Message.error(res.msg);
           }

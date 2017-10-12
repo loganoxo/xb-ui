@@ -59,16 +59,28 @@
         </div>
         <Icon :class="{showTableStyles:selectId === item.id}" class="right mr-30 mt-15" type="arrow-right-b"></Icon>
         <div class="waiting-task-number">
-          <p class="task-pass" :class="{lineHeight:showkerTaskStatusList.length === 0 || showkerTaskStatusList.length === 8 || showkerTaskStatusList.length > 4}">
-            <span v-show="showkerTaskStatusList.length === 0 || showkerTaskStatusList.length === 8">全部<span class="main-color">({{item.allTaskNum || 0}})</span></span>
-            <span v-show="showkerTaskStatusList.length === 0 || oneOf('pass_and_unclaimed',showkerTaskStatusList)" class="ml-5">已通过待下单<span class="main-color">({{item.pass_and_unclaimed || 0}})</span></span>
-            <span v-show="showkerTaskStatusList.length === 0 || oneOf('order_num_waiting_audit',showkerTaskStatusList)" class="ml-5">订单号待审核<span class="main-color">({{item.order_num_waiting_audit || 0}})</span></span>
-            <span v-show="showkerTaskStatusList.length === 0 || oneOf('trial_report_waiting_submit',showkerTaskStatusList)" class="ml-5">已下单待交买家秀<span class="main-color">({{item.trial_report_waiting_submit || 0}})</span></span>
-            <span v-show="showkerTaskStatusList.length === 0 || oneOf('trial_report_waiting_confirm',showkerTaskStatusList)">买家秀待确认<span class="main-color">({{item.trial_report_waiting_confirm || 0}})</span></span>
-            <span v-show="showkerTaskStatusList.length === 0 || oneOf('trial_finished',showkerTaskStatusList)" class="ml-5">任务完成<span class="main-color">({{item.trial_finished || 0}})</span></span>
-            <span v-show="showkerTaskStatusList.length === 0 || oneOf('order_num_error',showkerTaskStatusList)" class="ml-5">订单号有误<span class="main-color">({{item.order_num_error || 0}})</span></span>
-            <span v-show="showkerTaskStatusList.length === 0 || oneOf('trial_report_unqualified',showkerTaskStatusList)" class="ml-5">买家秀不合格<span class="main-color">({{item.trial_report_unqualified || 0}})</span></span>
-            <span v-show="showkerTaskStatusList.length === 0 || oneOf('trial_end',showkerTaskStatusList)" class="ml-5">任务终止<span class="main-color">({{item.trial_end || 0}})</span></span>
+          <p class="task-pass"
+             :class="{lineHeight:showkerTaskStatusList.length === 0 || showkerTaskStatusList.length === 8 || showkerTaskStatusList.length > 4}">
+            <span v-show="showkerTaskStatusList.length === 0 || showkerTaskStatusList.length === 8">全部<span
+              class="main-color">({{item.allTaskNum || 0}})</span></span>
+            <span v-show="showkerTaskStatusList.length === 0 || oneOf('pass_and_unclaimed',showkerTaskStatusList)"
+                  class="ml-5">已通过待下单<span class="main-color">({{item.pass_and_unclaimed || 0}})</span></span>
+            <span v-show="showkerTaskStatusList.length === 0 || oneOf('order_num_waiting_audit',showkerTaskStatusList)"
+                  class="ml-5">订单号待审核<span class="main-color">({{item.order_num_waiting_audit || 0}})</span></span>
+            <span
+              v-show="showkerTaskStatusList.length === 0 || oneOf('trial_report_waiting_submit',showkerTaskStatusList)"
+              class="ml-5">已下单待交买家秀<span class="main-color">({{item.trial_report_waiting_submit || 0}})</span></span>
+            <span
+              v-show="showkerTaskStatusList.length === 0 || oneOf('trial_report_waiting_confirm',showkerTaskStatusList)">买家秀待确认<span
+              class="main-color">({{item.trial_report_waiting_confirm || 0}})</span></span>
+            <span v-show="showkerTaskStatusList.length === 0 || oneOf('trial_finished',showkerTaskStatusList)"
+                  class="ml-5">任务完成<span class="main-color">({{item.trial_finished || 0}})</span></span>
+            <span v-show="showkerTaskStatusList.length === 0 || oneOf('order_num_error',showkerTaskStatusList)"
+                  class="ml-5">订单号有误<span class="main-color">({{item.order_num_error || 0}})</span></span>
+            <span v-show="showkerTaskStatusList.length === 0 || oneOf('trial_report_unqualified',showkerTaskStatusList)"
+                  class="ml-5">买家秀不合格<span class="main-color">({{item.trial_report_unqualified || 0}})</span></span>
+            <span v-show="showkerTaskStatusList.length === 0 || oneOf('trial_end',showkerTaskStatusList)" class="ml-5">任务终止<span
+              class="main-color">({{item.trial_end || 0}})</span></span>
           </p>
         </div>
       </div>
@@ -230,7 +242,8 @@
         perMarginNeed: 0,
       }
     },
-    mounted() {},
+    mounted() {
+    },
     created() {
       let _this = this;
       let status = _this.$route.query.status;
@@ -340,19 +353,9 @@
         }).then(res => {
           if (res.status) {
             _this.$set(_this.taskPassAuditList[index], 'passTask', []);
-            res.data.content.forEach(item =>{
+            res.data.content.forEach(item => {
               _this.taskPassAuditList[index].passTask.push(item);
             });
-            _this.taskPassAuditList[index].passTask.forEach(item => {
-              api.getAlitmByAccount({
-                account: item.alitmAccount,
-              }).then(res => {
-                if (res.status) {
-                  _this.$set(item, 'creditLevel', res.data.creditLevelUrl);
-                  _this.$set(item, 'tqz', res.data.tqzNum);
-                }
-              });
-            })
           } else {
             _this.$Message.error(res.msg);
           }

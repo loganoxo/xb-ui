@@ -151,12 +151,18 @@
       p.left {
         span {
           cursor: pointer;
+          &:hover{
+            color: red;
+          }
         }
       }
       p.right {
         a {
           color: #666;
           padding: 0 5px;
+          &:hover{
+            color: $mainColor;
+          }
         }
 
       }
