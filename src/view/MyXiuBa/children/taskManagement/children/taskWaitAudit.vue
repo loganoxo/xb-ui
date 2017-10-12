@@ -6,9 +6,8 @@
       <span class="ml-10">活动编号：</span>
       <iInput v-model="taskNumber" style="width: 140px;margin-right: 8px;"></iInput>
       <span class="ml-10">旺旺号信用等级大于等于：</span>
-      <iSelect v-model="wwFormValidate.alitmLevel" style="width: 130px;">
-        <iOption v-for="(taobaoLevelImg,index) in taobaoLevelImgs" :label='taobaoLevelImg.label'
-                 :value="taobaoLevelImg.value" :key="taobaoLevelImg.value">
+      <iSelect v-model="wwFormValidate.creditLevel" style="width: 130px;">
+        <iOption v-for="(taobaoLevelImg,index) in taobaoLevelImgs" :label='taobaoLevelImg.label' :value="taobaoLevelImg.value" :key="taobaoLevelImg.value">
           <span v-show="index === 0">{{taobaoLevelImg.text}}</span>
           <img v-show="index !== 0" :src="taobaoLevelImg.text" alt="">
         </iOption>
@@ -151,9 +150,8 @@
     data() {
       return {
         wwFormValidate: {
-          alitmLevel: '',
-          tqz: '',
-          onlyNew: '',
+          creditLevel: null,
+          tqz: null,
         },
         taobaoLevelImgs: [
           {
@@ -356,7 +354,7 @@
           taskNumber: _this.taskNumber,
           alitmAccount: _this.alitmAccount,
           tqz: _this.wwFormValidate.tqz,
-          creditLevel: _this.wwFormValidate.alitmLevel
+          creditLevel: _this.wwFormValidate.creditLevel
         }).then(res => {
           if (res.status) {
             _this.taskWaitAuditList = res.data.content;
@@ -376,7 +374,7 @@
           taskId: taskId,
           pageIndex: _this.taskPageIndex,
           tqz: _this.wwFormValidate.tqz,
-          creditLevel: _this.wwFormValidate.alitmLevel
+          creditLevel: _this.wwFormValidate.creditLevel
         }).then(res => {
           if (res.status) {
             if (res.data.content.length > 0) {

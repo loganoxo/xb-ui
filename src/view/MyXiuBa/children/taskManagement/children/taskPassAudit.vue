@@ -57,7 +57,7 @@
           </p>
           <p>活动名称：{{item.taskName}}</p>
         </div>
-        <Icon :class="{showTableStyles:selectId === item.id}" class="right mr-30 mt-15" type="arrow-right-b"></Icon>
+        <Icon :class="{showTableStyles:selectId === item.id}" class="right mr-10 mt-15" type="arrow-right-b"></Icon>
         <div class="waiting-task-number">
           <p class="task-pass"
              :class="{lineHeight:showkerTaskStatusList.length === 0 || showkerTaskStatusList.length === 8 || showkerTaskStatusList.length > 4}">

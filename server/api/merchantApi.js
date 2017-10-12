@@ -565,53 +565,6 @@ router.post('/api/applies/waiting/audit/task.json', function (req, res, next) {
 });
 
 /**
- * 商家进入秀客任务管理页任务详情（待审核新增）
- * @param merchantId
- * @param taskId
- * @param pageIndex
- * @param alitmAccount
- */
-/*router.post('/api/applies/waiting/audit/newest.json', function (req, res, next) {
-  let options = apiConfig.getOptions('/task/merchant/applies/waiting/audit/newest', req, {
-    merchantId: req.session.userData.id,
-    taskId: req.body.taskId,
-    pageIndex: req.body.pageIndex,
-    alitmAccount: req.body.alitmAccount,
-  });
-  request(options)
-    .then(function (parsedBody) {
-      let dataList = [];
-      if (parsedBody.status && parsedBody.data) {
-        parsedBody.data.content.forEach(item => {
-          let data = {};
-          data.alitmAccount = item.taskApply.alitmAccount;
-          data.applyTime = item.taskApply.applyTime;
-          data.id = item.taskApply.id;
-          data.showkerId = item.taskApply.showkerId;
-          dataList.push(data);
-        });
-        res.send({
-          msg: parsedBody.msg,
-          status: parsedBody.status,
-          data: {
-            content: dataList,
-            totalElements: parsedBody.data.totalElements
-          }
-        });
-        res.end();
-      } else {
-        res.send(parsedBody);
-        res.end();
-      }
-    })
-    .catch(function (err) {
-      logConfig.logger.error(req.originalUrl + ':' + err);
-      res.json({status: false, msg: "服务器请求超时，请稍后在试！"});
-      res.end();
-    });
-});*/
-
-/**
  * 商家进入秀客任务管理页任务详情（待审核全部）
  * @param merchantId
  * @param taskId
@@ -899,28 +852,5 @@ router.post('/api/applies/end/showker/task.json', function (req, res, next) {
     });
 });
 
-/**
- * 商家进入秀客任务管理页任务列表（未通过审核的人数）
- * @param merchantId
- * @param taskId
- */
-/*router.post('/api/passes/end/showker/task/count.json', function (req, res, next) {
-  let options = apiConfig.getOptions('/task/merchant/end/showker/task/count', req, {
-    merchantId: req.session.userData.id,
-    taskId: req.body.taskId,
-    alitmAccount: req.body.alitmAccount,
-    rejectReasonList: req.body.rejectReasonList,
-  });
-  request(options)
-    .then(function (parsedBody) {
-      res.send(parsedBody);
-      res.end();
-    })
-    .catch(function (err) {
-      logConfig.logger.error(req.originalUrl + ':' + err);
-      res.json({status: false, msg: "服务器请求超时，请稍后在试！"});
-      res.end();
-    });
-});*/
 
 module.exports = router;
