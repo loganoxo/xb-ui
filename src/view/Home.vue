@@ -117,7 +117,7 @@
                   </div>
                 </div>
                 <p class="clear-both fs-14 mt-10 left ml-20">当前进行的活动：
-                  <router-link  to="/user/activity-management/list">{{trialCount.underWayTask}} </router-link> 个
+                  <router-link  :to="{path:'/user/activity-management/list',query:{status:'under_way'}}">{{trialCount.underWayTask}} </router-link> 个
                 </p>
                 <div class="left clear-both mt-10" style="width: 100%;">
                   <router-link class="left text-ct" style="width: 33.33%;" :to="{path:'/user/task-management/wait'}">{{trialCount.waitingAuditTaskApply}} </router-link>

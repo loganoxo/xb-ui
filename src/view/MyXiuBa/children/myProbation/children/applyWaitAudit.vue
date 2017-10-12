@@ -198,8 +198,8 @@
       }
     },
     methods: {
-      viewScreenShotFun(type) {
-        this.viewScreenShotUrl = type;
+      viewScreenShotFun(imgUrl) {
+        this.viewScreenShotUrl = imgUrl;
         this.viewScreenShot = true;
       },
       resubmitFun(id) {
@@ -254,13 +254,13 @@
           }
         })
       },
-      getUserScreenShot(type, reason, status, time) {
+      getUserScreenShot(id, reason, status, time) {
         let _this = this;
         _this.reason = reason;
         _this.status = status;
         _this.getEndTime = parseInt(time);
         api.getUserScreenShot({
-          id: type
+          id: id
         }).then(res => {
           if (res.status) {
             _this.approvalPop = true;

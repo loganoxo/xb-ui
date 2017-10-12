@@ -158,8 +158,8 @@
     },
     watch: {},
     methods: {
-      changeStyle(type, day, year, recharge, level, id) {
-        this.isSelect = type;
+      changeStyle(select, day, year, recharge, level, id) {
+        this.isSelect = select;
         this.year = year;
         this.memberLevel = level;
         this.memberId = id;
