@@ -386,7 +386,7 @@
         } else if (status === 'waiting_settlement') {
           _this.settlementStatusList.push(status);
           _this.getTaskList();
-        }else if(status === 'doing'){
+        }else if(status === 'under_way'){
           _this.taskStatusList.push(status)
         }
       } else {
