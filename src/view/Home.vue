@@ -8,7 +8,7 @@
               <li v-for="taskTopLeft in taskTopLeftList">
                 <router-link :to="{path:'/task-details', query:{q: encryptionId(taskTopLeft.task.id)}}" :title="taskTopLeft.task.taskName" class="block">
                   <div class="left img-box">
-                    <img :src="taskTopLeft.task.taskMainImage" alt="" width="54px">
+                    <img :src="taskTopLeft.task.taskMainImage + '!thum54'" alt="" width="54" height="54">
                   </div>
                   <div class="left text-box ml-10">
                     <p>秀客{{taskTopLeft.showkerPhone}}免费领取了</p>
@@ -163,7 +163,7 @@
               :key="homeCommodity.id"
               :to="{ 'path': '/task-details','query': {'q': encryptionId(homeCommodity.id)}}">
               <div class="home-commodity-img">
-                <img class="block" v-lazy="homeCommodity.taskMainImage" alt="" style="width: 100%; height: 208px;">
+                <img class="block" v-lazy="homeCommodity.taskMainImage + '!orgi75'" alt="" style="width: 100%; height: 208px;">
               </div>
               <div class="home-commodity-text">
                 <p class="home-commodity-title">{{homeCommodity.taskName}}</p>

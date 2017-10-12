@@ -7,7 +7,7 @@
     <div class="approve-manage-info mt-12">
       <div class="manage-info-con clear">
         <div class="manage-img left">
-          <img :src="approveTaskInfo.taskMainImage" alt="">
+          <img :src="approveTaskInfo.taskMainImage + '!thum54'" alt="">
         </div>
         <div class="manage-text left ml-5">
           <p>{{approveTaskInfo.taskName}}</p>
@@ -561,12 +561,12 @@
           }
         })
       },
-      getUserScreenShot(type, name) {
+      getUserScreenShot(id, name) {
         let _this = this;
-        _this.passId = type;
+        _this.passId = id;
         _this.applyName = name;
         api.getUserScreenShot({
-          id: type
+          id: id
         }).then(res => {
           if (res.status) {
             _this.approvalPop = true;

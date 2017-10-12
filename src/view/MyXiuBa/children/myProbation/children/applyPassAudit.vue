@@ -70,7 +70,7 @@
           </tr>
           <tr>
             <td>
-              <img class="left ml-10" :src="item.taskMainImage">
+              <img class="left ml-10" :src="item.taskMainImage + '!thum54'">
               <p class="left img-title">
                 <span>{{item.taskName}}</span>
               </p>
@@ -145,7 +145,7 @@
       </div>
       <div class="commodity-info clear mt-20">
         <div class="commodity-img left">
-          <img :src="taskPlaceInfo.taskMainImage" alt="">
+          <img :src="taskPlaceInfo.taskMainImage + '!thum54'" alt="">
         </div>
         <div class="commodity-text left ml-5">
           <p>{{taskPlaceInfo.taskName}}</p>
@@ -207,7 +207,7 @@
       </div>
       <div class="commodity-info clear mt-20">
         <div class="commodity-img left">
-          <img :src="showkerTask.task.taskMainImage">
+          <img :src="showkerTask.task.taskMainImage + '!thum54'">
         </div>
         <div class="commodity-text left ml-5">
           <p>{{showkerTask.task.taskName}}</p>

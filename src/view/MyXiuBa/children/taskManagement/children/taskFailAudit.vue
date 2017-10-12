@@ -31,7 +31,7 @@
     <div class="mt-12" v-for="(item,index) in taskFailAuditList" :key="item.id" v-if="taskFailAuditList.length > 0">
       <div class="collapse-header clear" @click="collapseToggle(item.id,index)">
         <div class="manage-img inline-block">
-          <img :src="item.taskMainImage" alt="">
+          <img :src="item.taskMainImage + '!thum54'" alt="">
         </div>
         <div class="manage-text left ml-5 inline-block">
           <p>活动编号：{{item.number}}</p>

@@ -15,7 +15,7 @@
     <div class="report-info mt-12">
       <div class="manage-info-con clear">
         <div class="manage-img left">
-          <img :src="showkerTaskInfo.task.taskMainImage || ''" :alt="showkerTaskInfo.taskName">
+          <img :src="showkerTaskInfo.task.taskMainImage + '!thum54' || ''" :alt="showkerTaskInfo.taskName">
         </div>
         <div class="manage-text left ml-5">
           <p>{{showkerTaskInfo.taskName}}</p>
@@ -54,7 +54,7 @@
         </div>
         <ul v-if="trialReportImages.length > 0" class="trial-img-list clear mt-22">
           <li v-for="(imgSrc,index) in trialReportImages" @mouseenter="selectChangeImg(imgSrc,index)">
-            <img :src="imgSrc">
+            <img :src="imgSrc + '!orgi75'">
           </li>
         </ul>
         <div class="no-buyer-show" v-else>暂无买家秀图片</div>

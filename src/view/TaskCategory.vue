@@ -77,7 +77,7 @@
               class="task-category-commodity-details"
             >
               <div class="task-category-commodity-img">
-                <img class="block" v-lazy="searchTask.taskMainImage" alt="" style="width: 220px; height: 220px;">
+                <img class="block" v-lazy="searchTask.taskMainImage + '!orgi75'" alt="" style="width: 220px; height: 220px;">
               </div>
               <div class="task-category-commodity-text">
                 <p v-html="searchTask.taskName"></p>

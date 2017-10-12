@@ -23,7 +23,7 @@
     <div class="mt-12" v-for="(item,index) in taskWaitAuditList" :key="item.id" v-if="taskWaitAuditList.length > 0">
       <div class="collapse-header clear" @click="collapseToggle(item.id,index)">
         <div class="manage-img inline-block">
-          <img :src="item.taskMainImage" alt="">
+          <img :src="item.taskMainImage + '!thum54'" alt="">
         </div>
         <div class="manage-text left ml-5 inline-block">
           <p>活动编号：{{item.number}}</p>
@@ -83,8 +83,7 @@
             <tbody>
             <tr>
               <td colspan="5">
-                <Page :total="taskTotalElements" :page-size="taskPageSize" :current="taskPageIndex"
-                      @on-change="TaskPageChange"></Page>
+                <Page :total="taskTotalElements" :page-size="taskPageSize" :current="taskPageIndex" @on-change="TaskPageChange"></Page>
               </td>
             </tr>
             </tbody>

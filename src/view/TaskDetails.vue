@@ -14,7 +14,7 @@
       <div class="container">
         <div class="task-details-top">
           <div class="task-details-top-left left">
-            <img :src="commodityData.task.taskMainImage"  alt="" >
+            <img :src="commodityData.task.taskMainImage + '!orgi75'"  alt="" >
           </div>
           <div class="task-details-top-right left">
             <h3 class="fs-18" >{{commodityData.task.taskName}}</h3>
@@ -120,7 +120,7 @@
                     </p>
                     <p>
                       <a v-for="trialReportImage in detailsShowker.trialReportImages"   @click="trialReportPicShowFunc(trialReportImage)">
-                        <img :src="trialReportImage" alt="">
+                        <img :src="trialReportImage + '!thum54'" alt="">
                       </a>
                     </p>
 

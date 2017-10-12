@@ -22,7 +22,7 @@
         </tr>
         <tr>
           <td>
-            <img class="left ml-10" :src="item.task.taskMainImage">
+            <img class="left ml-10" :src="item.task.taskMainImage + '!thum54'">
             <p class="left img-title">
               <span>{{item.task.taskName}}</span>
               <span>{{item.task.createTime | dateFormat('YYYY-MM-DD hh:mm:ss')}}</span>
@@ -135,7 +135,7 @@
   import Modal from 'iview/src/components/modal'
   import Icon from 'iview/src/components/icon'
   import api from '@/config/apiConfig'
-  import {TaskErrorStatusList} from '@/config/utils'
+  import {TaskErrorStatusList, encryption} from '@/config/utils'
   import TimeDown from '@/components/TimeDown'
 
   export default {
@@ -202,8 +202,8 @@
         this.viewScreenShotUrl = type;
         this.viewScreenShot = true;
       },
-      resubmitFun(type) {
-        this.$router.push({name: 'TaskDetails', query: {taskId: type, resubmit: 'resubmit'}})
+      resubmitFun(id) {
+        this.$router.push({name: 'TaskDetails', query: {q: encryption(id), resubmit: 'resubmit'}})
       },
       getTaskStatus(type) {
         return TaskErrorStatusList(type);

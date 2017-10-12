@@ -87,7 +87,7 @@
         </tr>
         <tr>
           <td>
-            <img class="left ml-10" :src="item.taskMainImage" :alt="item.taskName">
+            <img class="left ml-10" :src="item.taskMainImage + '!thum54'" :alt="item.taskName">
             <span class="img-title left">{{item.taskName}}</span>
           </td>
           <td>

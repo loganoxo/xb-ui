@@ -48,7 +48,7 @@
     <div class="mt-12" v-for="(item,index) in taskPassAuditList" :key="item.id" v-if="taskPassAuditList.length > 0">
       <div class="collapse-header clear" @click="collapseToggle(item.id,index)">
         <div class="manage-img inline-block">
-          <img :src="item.taskMainImage" alt="">
+          <img :src="item.taskMainImage + '!thum54'" alt="">
         </div>
         <div class="manage-text left ml-5 inline-block">
           <p>

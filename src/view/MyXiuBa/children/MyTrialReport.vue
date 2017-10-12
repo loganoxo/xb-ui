@@ -15,7 +15,7 @@
               <ul v-if="trialReportList.length > 0">
                 <li v-for="trialReport in trialReportList" :key="trialReport.id">
                   <div>
-                    <img :src="trialReport.task.taskMainImage" alt="" style="width: 150px;">
+                    <img :src="trialReport.task.taskMainImage + '!orgi75'" alt="" style="width: 150px;">
                   </div>
                   <div>
                     <p>{{trialReport.task.taskName}}</p>
@@ -50,7 +50,7 @@
             </p>
             <div class="trial-account-details">
               <div class="task-info">
-                <img :src="showkerReportDesc.task.taskMainImage" alt="" width="100px" class="left">
+                <img :src="showkerReportDesc.task.taskMainImage + '!orgi75'" alt="" width="100px" class="left">
                 <div class="left ml-20">
                   <p>{{showkerReportDesc.task.taskName}}</p>
                   <p>宝贝单价&nbsp;<span>{{showkerReportDesc.task.itemPrice / 100}}</span>&nbsp;元 。</p>
@@ -71,7 +71,7 @@
                           :trigger="setting.trigger"
                           :arrow="setting.arrow">
                    <Carousel-item v-for="trialReportImage in showkerReportDesc.trialReportImages" :key="trialReportImage">
-                     <img class="block mg-at" :src="trialReportImage" alt="" width="700px">
+                     <img class="block mg-at" :src="trialReportImage + '!orgi75'" alt="" width="700px">
                   </Carousel-item>
                 </Carousel>
               </div>

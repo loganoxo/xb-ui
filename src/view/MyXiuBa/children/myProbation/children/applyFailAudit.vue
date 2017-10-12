@@ -40,7 +40,7 @@
         </tr>
         <tr>
           <td>
-            <img class="left ml-10" :src="item.task.taskMainImage">
+            <img class="left ml-10" :src="item.task.taskMainImage + 'thum54'">
             <p class="left img-title">
               <span>{{item.task.taskName}}</span>
               <span>{{item.task.createTime | dateFormat('YYYY-MM-DD hh:mm:ss')}}</span>
