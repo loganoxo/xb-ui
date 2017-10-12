@@ -1,6 +1,6 @@
 <template>
   <div class="user-home clear">
-    <p class="user-home-account">推荐有礼</p>
+    <p class="user-home-account">邀请有礼</p>
     <div>
       <p class="mt-20">
         <span class="fs-18">我的邀请链接：</span>

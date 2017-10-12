@@ -5,7 +5,7 @@
       <img src="/static/img/seller-adv/seller-adv_02.jpg" alt="" style="width: 100%;" >
       <router-link style="
         position: absolute;
-        top: 60%;
+        top: 62%;
         left: 50%;
         width: 330px;
         background-color: rgb(0, 111, 255);
