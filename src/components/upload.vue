@@ -2,7 +2,7 @@
   <div class="clear">
     <div class="demo-upload-list left" v-for="(item ,index) in fileList">
       <template v-if="item.status === 'finished'">
-        <img :src="item.src">
+        <img :src="item.src + '!thum54'">
         <div class="demo-upload-list-cover">
           <Icon type="ios-eye-outline" @click.native="handleView(item.src)"></Icon>
           <Icon type="ios-trash-outline" @click.native="handleRemove(item)"></Icon>
@@ -36,7 +36,7 @@
         @on-file-preview="handlePreview"></upload-list>
     </div>
     <Modal title="图片查看器" v-model="visible">
-      <img :src="uploadSrc" v-if="visible" style="width: 100%">
+      <img :src="uploadSrc + '!orgi75'" v-if="visible" style="width: 100%">
     </Modal>
   </div>
 </template>
