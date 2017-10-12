@@ -15,19 +15,22 @@
                 @click="changeTimeChoiceStyle(item.isSelect),getTargetTime(item.id)">{{item.text}}</span>
         </div>
       </div>
-      <div class="transact-type clear ">
-        <span class="left">交易类型：</span>
-        <Checkbox class="left ml-5"
-          :value="checkAll"
-          @click.prevent.native="handleCheckAll">全部
-        </Checkbox>
-        <Checkbox-group v-model="transactType" class="checkBox left  ml-45" @on-change="checkAllGroupChange">
-          <Checkbox label="0">活动</Checkbox>
-          <Checkbox label="1">充值</Checkbox>
-          <Checkbox label="2">提现</Checkbox>
-          <Checkbox label="3">推荐奖励</Checkbox>
-          <Checkbox label="100">其它</Checkbox>
-        </Checkbox-group>
+      <div class="transact-type  ">
+        <span >交易类型：</span>
+        <div class="checkbox" >
+          <Checkbox :value="checkAll" @click.prevent.native="handleCheckAll">
+            全部
+          </Checkbox>
+        </div>
+        <div class="checkbox">
+         <Checkbox-group v-model="transactType"  @on-change="checkAllGroupChange">
+           <Checkbox label="0">活动</Checkbox>
+           <Checkbox label="1">充值</Checkbox>
+           <Checkbox label="2">提现</Checkbox>
+           <Checkbox label="3">推荐奖励</Checkbox>
+           <Checkbox label="100">其它</Checkbox>
+         </Checkbox-group>
+        </div>
       </div>
       <div class="activity-number mt-10">
         活动编号：
@@ -179,13 +182,12 @@
                 @click="changeTimeChoiceStyle(item.isSelect),getTargetTime(item.id)">{{item.text}}</span>
         </div>
       </div>
-      <div class="transact-type clear ">
-        <span class="left">交易类型：</span>
-        <Checkbox class="ml-5 left"
-          :value="checkAll"
-          @click.prevent.native="handleCheckAll">全部
+      <div class="transact-type  ">
+        <span >交易类型：</span>
+        <Checkbox :value="checkAll" @click.prevent.native="handleCheckAll">
+          全部
         </Checkbox>
-        <Checkbox-group v-model="transactType" class="checkBox left ml-45 " @on-change="checkAllGroupChange">
+        <Checkbox-group v-model="transactType"  @on-change="checkAllGroupChange" class="checkbox">
           <Checkbox label="0">活动</Checkbox>
           <Checkbox label="2">提现</Checkbox>
           <Checkbox label="3">推荐奖励</Checkbox>

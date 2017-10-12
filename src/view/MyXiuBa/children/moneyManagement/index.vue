@@ -429,13 +429,10 @@
         }
       }
       .transact-type {
-        position: relative;
+        margin: 0 auto;
         padding: 15px;
-        .checkBox {
-          position: absolute;
-          top: 15px;
-          left: 92px;
-
+        .checkbox{
+          display: inline-block;
         }
       }
       .activity-number {

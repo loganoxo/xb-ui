@@ -24,7 +24,7 @@
             第五步：
             <span v-if="taskDetail.priceRangeMax">搜索指定价格【<strong>{{taskDetail.priceRangeMin/100}}-{{taskDetail.priceRangeMax/100}}</strong>】,</span>
             <span v-if="checkText">勾选【<strong>{{checkText}}</strong>】</span>
-            <span v-if="taskDetail.deliverAddress">,发货地<strong>【{{taskDetail.deliverAddress}}】</strong></span>
+            <span v-if="taskDetail.deliverAddress">，发货地<strong>【{{taskDetail.deliverAddress}}】</strong></span>
           </p>
           <div class="mt-20 clear">
             <img class="pic left " :src="taskDetail.itemMainImage" alt="">
@@ -43,7 +43,7 @@
             第五步：
             <span v-if="taskDetail.priceRangeMax">搜索指定价格【<strong>{{taskDetail.priceRangeMin/100}}-{{taskDetail.priceRangeMax/100}}</strong>】,</span>
             <span v-if="checkText">勾选【<strong>{{checkText}}</strong>】</span>
-            <span v-if="taskDetail.deliverAddress">,发货地<strong>【{{taskDetail.deliverAddress}}】</strong></span>
+            <span v-if="taskDetail.deliverAddress">，发货地<strong>【{{taskDetail.deliverAddress}}】</strong></span>
           </p>
           <div class="mt-20 clear">
             <img class="pic left " :src="taskDetail.itemMainImage" alt="">
