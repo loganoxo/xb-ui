@@ -47,6 +47,10 @@
   @import 'src/css/mixin';
 
   .task-management{
+    .ww-active{
+      background-color: $mainColor;
+      color: #fff;
+    }
     .main-color {
       color: $mainColor;
     }

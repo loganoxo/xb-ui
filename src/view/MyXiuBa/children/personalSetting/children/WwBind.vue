@@ -39,9 +39,19 @@
             审核不通过： {{remarks.text}},请重新提交（{{remarks.auditTime | dateFormat('YYYY-MM-DD hh:mm:ss')}}）
           </Alert>
           <div class="ww-account-form mt-20">
-            <iForm ref="wwFormValidate" :model="wwFormValidate" :rules="wwFormRuleCustom" label-position="right" :label-width="130">
+            <iForm ref="wwFormValidate" :model="wwFormValidate" :rules="wwFormRuleCustom" label-position="right" :label-width="150">
               <Form-item label="旺旺ID：" prop="alitmAccount">
                 <iInput v-model="wwFormValidate.alitmAccount"></iInput>
+              </Form-item>
+              <Form-item label="性别：" prop="alitmAccount">
+                <Radio-group v-model="wwFormValidate.sex">
+                  <Radio label="0">
+                    男
+                  </Radio>
+                  <Radio label="1" >
+                    女
+                  </Radio>
+                </Radio-group>
               </Form-item>
               <Form-item label="旺旺号信用等级：" prop="alitmLevel">
                 <iSelect v-model="wwFormValidate.alitmLevel">
@@ -123,6 +133,19 @@
               <Form-item>
                 截图位置：打开淘宝首页，将鼠标移至左上角自己的淘宝账户，即可看到自己的淘气值
               </Form-item>
+              <Form-item label="收货地址：" prop="address">
+                <region-picker
+                  :auto="true"
+                  :placeholder="{province: '选择省份', city: '选择市', district: '选择地区'}"
+                  :province="region.province"
+                  :city="region.city"
+                  :district="region.district"
+                  @onchange="regionPickerChange">
+                </region-picker>
+              </Form-item>
+              <Form-item prop="detailAddress">
+                <iInput placeholder="请输入详细地址" v-model="wwFormValidate.detailAddress"></iInput>
+              </Form-item>
               <Form-item>
                   <iButton  :class="[btnState.wwBindBtn ? '': 'ww-bind-btn']"  :disabled="btnState.wwBindBtn"
                           @click="handleSubmit('wwFormValidate',wwBindFunc)">提交
@@ -198,8 +221,11 @@
   import Modal from 'iview/src/components/modal'
   import Alert from 'iview/src/components/alert'
   import SmsCountdown from '@/components/SmsCountdown'
-  import {mapActions} from 'vuex'
-  import {mapMutations} from 'vuex'
+  import {mapActions, mapMutations} from 'vuex'
+  import {RegionPicker} from 'vue-region-picker'
+  import CHINA_REGION  from 'china-area-data'
+  RegionPicker.region = CHINA_REGION;
+  RegionPicker.vueVersion = 2;
   export default {
     name: 'wwBind',
     components: {
@@ -218,6 +244,7 @@
       iSelect: Select,
       iOption: Option,
       SmsCountdown: SmsCountdown,
+      RegionPicker: RegionPicker,
     },
     data() {
       //表单验证
@@ -236,6 +263,13 @@
         }  else {
           callback()
         }
+      };
+      const addAddress = (rule, value, callback) => {
+        if (value === '') {
+          callback(new Error('地址不能为空'));
+        }  else {
+          callback()
+          }
       };
       return {
         modalLoading: false,
@@ -374,12 +408,14 @@
         modifyWw: false,
         wwBindLists: [],
         wwFormValidate: {
+          sex:'0',
           alitmAccount: '',
           alitmLevel: '',
           taoqizhi: '',
 //          picUrl: [],
           alitmLevelPicUrl: [],
           taoqizhiPicUrl: [],
+          detailAddress:null,
         },
         wwFormRuleCustom: {
           alitmAccount: [
@@ -400,12 +436,19 @@
 //          picUrl: [
 //            { required: true, validator: wwName, trigger: 'blur'},
 //          ],
+          address:[
+            {required:true,validator:addAddress,trigger:'blur'}
+          ],
+//          detailAddress:[
+//            { required: true, validator: addAddress, trigger: 'blur'},
+//          ]
         },
         remarks: {
           text: '',
           auditTime: '',
         },
-
+        region:{},
+        address:{},
       }
     },
     mounted() {
@@ -413,13 +456,16 @@
     },
     created() {
       let self = this;
-      self.wwBindList()
+      self.wwBindList();
     },
     computed: {},
     methods: {
       ...mapActions([
         'getUserInformation'
       ]),
+      regionPickerChange(obj){
+        this.address = obj;
+      },
       deleteWwBindFunc(ww,index){
         let self = this;
         self.deleteWwId = ww.id;
@@ -458,6 +504,11 @@
         this.wwFormValidate.alitmAccount = ww.alitmAccount;
         this.wwFormValidate.alitmLevel = this.taobaoLevelImgs[parseInt(ww.creditLevel) + 1].value;
         this.wwFormValidate.taoqizhi = ww.tqz;
+        this.address.province = ww.takeProvince;
+        this.address.city = ww.takeCity;
+        this.address.district = ww.takeDistrict;
+        this.wwFormValidate.sex = ww.alitmRole;
+        this.wwFormValidate.detailAddress = ww.takeDetail;
 //        this.wwFormValidate.picUrl = [{
 //          src: ww.wwInfoPic,
 //        }];
@@ -523,6 +574,11 @@
               wwCreditLevelPicUrl: this.wwFormValidate.alitmLevelPicUrl[0].src,
               tqzPicUrl: this.wwFormValidate.taoqizhiPicUrl[0].src,
               id: self.wwFormValidate.id,
+              takeProvince:this.address.province,
+              takeCity:this.address.city,
+              takeDistrict:this.address.district,
+              alitmRole:this.wwFormValidate.sex,
+              takeDetail:this.wwFormValidate.detailAddress
             }).then((res) => {
               if(res.status){
                 self.remarks = '';
@@ -552,7 +608,14 @@
               tqz: this.wwFormValidate.taoqizhi,
               wwCreditLevelPicUrl: this.wwFormValidate.alitmLevelPicUrl[0].src,
               tqzPicUrl: this.wwFormValidate.taoqizhiPicUrl[0].src,
+              takeProvince:this.address.province,
+              takeCity:this.address.city,
+              takeDistrict:this.address.district,
+              alitmRole:this.wwFormValidate.sex,
+              takeDetail:this.wwFormValidate.detailAddress
             }).then((res) => {
+              console.log(res);
+              debugger
               if(res.status){
                 self.$Message.success({
                   content: "亲！提交成功，客服妹子会尽快审核...",
@@ -596,11 +659,13 @@
         child.uploadTaoqizhiPicUrl.handleRemove();
       },
       handleSubmit (name, callback) {
+        console.log(name);
         let res = false;
         this.$refs[name].validate((valid) => {
           res = !!valid
         });
         if (typeof callback === 'function' && res) {
+          console.log(name);
           callback();
         }
       },
@@ -654,6 +719,14 @@
   @import 'src/css/mixin';
   .user-info-box{
     margin-top: 20px;
+    .ivu-form-item-content>.myAddress>.province> .province-select{
+      height: 50px;
+      width: 200px;
+      border: none;
+    }
+    .china-address{
+      height: 200px;
+    }
     .user-basic{
       border: 1px solid #EEEEEE;
       overflow: hidden;

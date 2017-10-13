@@ -528,3 +528,23 @@ input[type="number"] {
   padding: 0 10px;
 }
 
+/*RegionPicker css start*/
+.region-picker{
+  width: 482px;
+  .province-select,
+  .city-select,
+  .district-select{
+    height: 30px;
+    line-height: 30px;
+    font-size: 12px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    padding-left: 8px;
+    padding-right: 24px;
+    border-radius: 4px;
+    border-color: #dddee1;
+    outline: none;
+  }
+}
+/*RegionPicker css end*/

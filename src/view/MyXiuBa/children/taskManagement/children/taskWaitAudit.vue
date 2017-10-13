@@ -43,8 +43,16 @@
         <div class="task-table" v-show="selectId === item.id">
           <table>
             <thead>
-            <tr>
-              <th width="20%">淘宝账号（旺旺号）</th>
+            <tr height="70px">
+              <th width="20%" >
+                <p style="margin-bottom: 5px">淘宝账号（旺旺号）</p>
+                <iButton :class="[sortList.select === item.sortField ? 'ww-active' : '']" size="small"
+                         v-for="(item,index) in sortList.defaultList" :key="index" @click="sortChange(item.sortField,index)">
+                  <span>{{item.name}}</span>
+                  <Icon v-show="item.sort == 'desc'" type="arrow-down-c"></Icon>
+                  <Icon v-show="item.sort == 'asc' " type="arrow-up-c"></Icon>
+                </iButton>
+              </th>
               <th width="20%">申请时间</th>
               <th width="20%">秀客的买家秀记录</th>
               <th width="20%">流程状态</th>
@@ -290,6 +298,21 @@
           passId: null,
           activeEndTime: null,
           index: null,
+        },
+        sortList: {
+          select: 'createTime',
+          defaultList: [
+            {
+              name: '按等级',
+              sortField: 'level',
+              sort: 'desc',
+            },
+            {
+              name: '按淘气值',
+              sortField: 'tqz',
+              sort: 'desc',
+            },
+          ]
         }
       }
     },
@@ -301,6 +324,11 @@
     },
     computed: {},
     methods: {
+      sortChange(name, index) {
+        let sort = this.sortList.defaultList[index].sort;
+        this.sortList.select = name;
+        this.sortList.defaultList[index].sort = sort === 'desc' ? 'asc' : 'desc';
+      },
       encryptionId(id) {
         return encryption(id)
       },

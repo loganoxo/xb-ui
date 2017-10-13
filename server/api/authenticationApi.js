@@ -70,10 +70,16 @@ router.post('/api/alitm-bunding.json', function (req, res, next) {
     wwCreditLevelPicUrl: req.body.wwCreditLevelPicUrl,
     tqzPicUrl: req.body.tqzPicUrl,
     alitmAccount: req.body.alitmAccount,
+    takeProvince: req.body.takeProvince,
+    takeCity:req.body.takeCity,
+    takeDistrict:req.body.takeDistrict,
+    alitmRole:req.body.alitmRole,
+    takeDetail:req.body.takeDetail,
   });
   request(options).then(function (parsedBody) {
     res.send(parsedBody);
     res.end();
+
   }).catch(function (err) {
     logConfig.logger.error(req.originalUrl + ':' + err);
     res.json({status: false, msg: "服务器请求超时，请稍后在试！"});
@@ -129,6 +135,11 @@ router.post('/api/alitm/resubmit.json', function (req, res, next) {
     wwCreditLevelPicUrl: req.body.wwCreditLevelPicUrl,
     tqzPicUrl: req.body.tqzPicUrl,
     alitmAccount: req.body.alitmAccount,
+    takeProvince: req.body.takeProvince,
+    takeCity:req.body.takeCity,
+    takeDistrict:req.body.takeDistrict,
+    alitmRole:req.body.alitmRole,
+    takeDetail:req.body.takeDetail,
   });
   request(options).then(function (parsedBody) {
     res.send(parsedBody);
