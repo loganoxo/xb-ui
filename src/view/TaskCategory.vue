@@ -304,6 +304,7 @@
           itemCatalogs: JSON.stringify(self.searchTaskParams.itemCatalogs),
           sortField: self.searchTaskParams.sortField,
           sortOrder: self.searchTaskParams.sortOrder,
+          showkerId: self.$store.state.userInfo.role == 0 ? self.$store.state.userInfo.id : '',
           ifAccess: self.searchTaskParams.ifAccess == '' ? '' : true,
         }).then((res) => {
           if(res.status){
