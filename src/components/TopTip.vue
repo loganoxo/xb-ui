@@ -19,15 +19,15 @@
         </router-link>
         </span>
         <span @click="goOut">[ 退出登录 ]</span>
-        <a v-if="getUserInfo.role == 1" href="" class="ml-10 qq-tip">
+        <a v-if="getUserInfo.role == 1" href="http://shang.qq.com/wpa/qunwpa?idkey=c05716ea03d527adb67d4e23d2a9ed942f729dfb0db13ca332e10996805d2b9d" class="ml-10 qq-tip">
           <img src="~assets/img/common/qq.png" alt="" >
           加入QQ交流群：
-          <span >123456</span>
+          <span >482437157</span>
         </a>
-        <a v-if="getUserInfo.role == 0" href="" class="ml-10 qq-tip">
+        <a v-if="getUserInfo.role == 0" href="http://shang.qq.com/wpa/qunwpa?idkey=a5e370e72edddbc2b9edc58d9517719b97d32a6683ef4faa0675c52bf494d9d1" class="ml-10 qq-tip">
           <img src="~assets/img/common/qq.png" alt="" >
           加入QQ交流群：
-          <span >654321</span>
+          <span >643014216</span>
         </a>
       </p>
       <p v-show="!isLogin" class="left">
