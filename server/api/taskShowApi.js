@@ -112,7 +112,8 @@ router.post('/api/search/task/s.json', (req, res, next) => {
     taskTypes: req.body.taskTypes,
     itemCatalogs: req.body.itemCatalogs,
     sortField: req.body.sortField,
-    sortOrder: req.body.sortOrder
+    sortOrder: req.body.sortOrder,
+    ifAccess: req.body.ifAccess
   });
   request(options)
     .then(function (parsedBody) {

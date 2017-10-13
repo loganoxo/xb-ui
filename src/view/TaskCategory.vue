@@ -62,6 +62,9 @@
               <Checkbox label="tao_code">淘口令下单（APP）</Checkbox>
               <Checkbox label="direct_access">宝贝链接下单（taobao.com）</Checkbox>
             </Checkbox-group>
+            <Checkbox-group v-if="isLogin && getRole == 0" class="left ml-20" v-model="searchTaskParams.ifAccess">
+              <Checkbox label="true">仅显示可接</Checkbox>
+            </Checkbox-group>
           </div>
         </div>
       </div>
@@ -213,7 +216,8 @@
           taskTypes: [],
           itemCatalogs: [],
           sortField: 'upLineTime',
-          sortOrder: 'desc'
+          sortOrder: 'desc',
+          ifAccess: [],
         }
       }
     },
@@ -242,6 +246,9 @@
     computed: {
       isLogin() {
         return this.$store.state.login
+      },
+      getRole() {
+        return this.$store.state.userInfo.role
       },
       getUserInfo() {
         return this.$store.state.userInfo
@@ -296,7 +303,8 @@
           taskTypes: JSON.stringify(self.searchTaskParams.taskTypes),
           itemCatalogs: JSON.stringify(self.searchTaskParams.itemCatalogs),
           sortField: self.searchTaskParams.sortField,
-          sortOrder: self.searchTaskParams.sortOrder
+          sortOrder: self.searchTaskParams.sortOrder,
+          ifAccess: self.searchTaskParams.ifAccess == '' ? '' : true,
         }).then((res) => {
           if(res.status){
               self.pageCount = parseInt(res.data.total);
@@ -375,6 +383,10 @@
         this.getSearchTask();
       },
       'searchTaskParams.taskTypes'(){
+        deep:true;
+        this.getSearchTask();
+      },
+      'searchTaskParams.ifAccess'(){
         deep:true;
         this.getSearchTask();
       },
