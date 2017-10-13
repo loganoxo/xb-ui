@@ -331,15 +331,15 @@
             _this.$store.dispatch('getPersonalTrialCount');
             _this.appliesWaitingAuditAll(_this.operateTaskId, _this.operateIndex);
             if (_this.taskWaitAuditList[_this.operateIndex].newestTaskApplyCount > 0) {
-              _this.$set(_this.taskWaitAuditList[_this.operateIndex], 'newestTaskApplyCount', _this.taskWaitAuditList[_this.operateIndex].newestTaskApplyCount - 1);
+              _this.taskWaitAuditList[_this.operateIndex].newestTaskApplyCount -= 1;
             }
             if (_this.taskWaitAuditList[_this.operateIndex].totalTaskApplyCount > 0) {
-              _this.$set(_this.taskWaitAuditList[_this.operateIndex], 'totalTaskApplyCount', _this.taskWaitAuditList[_this.operateIndex].totalTaskApplyCount - 1);
+              _this.taskWaitAuditList[_this.operateIndex].totalTaskApplyCount -= 1;
             }
             if (_this.taskWaitAuditList[_this.operateIndex].residueCount > 0) {
-              _this.$set(_this.taskWaitAuditList[_this.operateIndex], 'residueCount', _this.taskWaitAuditList[_this.operateIndex].residueCount - 1);
+              _this.taskWaitAuditList[_this.operateIndex].residueCount -= 1;
             }
-            _this.$set(_this.taskWaitAuditList[_this.operateIndex], 'trailOn', _this.taskWaitAuditList[_this.operateIndex].trailOn + 1);
+            _this.taskWaitAuditList[_this.operateIndex].trailOn += 1;
           } else {
             _this.$Message.error(res.msg);
           }
@@ -402,7 +402,7 @@
             _this.$store.dispatch('getPersonalTrialCount');
             _this.appliesWaitingAuditAll(_this.operateTaskId, _this.operateIndex);
             if (_this.taskWaitAuditList[_this.operateIndex].newestTaskApplyCount > 0) {
-              _this.$set(_this.taskWaitAuditList[_this.operateIndex], 'newestTaskApplyCount', _this.taskWaitAuditList[_this.operateIndex].newestTaskApplyCount - 1);
+              _this.taskWaitAuditList[_this.operateIndex].newestTaskApplyCount -= 1;
             }
           } else {
             _this.$Message.error(res.msg);
@@ -425,15 +425,15 @@
         _this.appliesWaitingAuditAll(_this.operateTaskId, _this.operateIndex);
         if (type === 'true') {
           if (_this.taskWaitAuditList[_this.operateIndex].newestTaskApplyCount > 0) {
-            _this.$set(_this.taskWaitAuditList[_this.operateIndex], 'newestTaskApplyCount', _this.taskWaitAuditList[_this.operateIndex].newestTaskApplyCount - 1);
+            _this.taskWaitAuditList[_this.operateIndex].newestTaskApplyCount -= 1;
           }
           if (_this.taskWaitAuditList[_this.operateIndex].totalTaskApplyCount > 0) {
-            _this.$set(_this.taskWaitAuditList[_this.operateIndex], 'totalTaskApplyCount', _this.taskWaitAuditList[_this.operateIndex].totalTaskApplyCount - 1);
+            _this.taskWaitAuditList[_this.operateIndex].totalTaskApplyCount -= 1;
           }
           if (_this.taskWaitAuditList[_this.operateIndex].residueCount > 0) {
-            _this.$set(_this.taskWaitAuditList[_this.operateIndex], 'residueCount', _this.taskWaitAuditList[_this.operateIndex].residueCount - 1);
+            _this.taskWaitAuditList[_this.operateIndex].residueCount -= 1;
           }
-          _this.$set(_this.taskWaitAuditList[_this.operateIndex], 'trailOn', _this.taskWaitAuditList[_this.operateIndex].trailOn + 1);
+          _this.taskWaitAuditList[_this.operateIndex].trailOn += 1;
         }
       },
       collapseToggle(id, index) {
