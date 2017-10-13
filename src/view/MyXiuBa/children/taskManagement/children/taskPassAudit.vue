@@ -431,7 +431,7 @@
           this.selectId = null;
         } else {
           this.selectId = id;
-          this.passesShowkerTask(id, index)
+          this.passesShowkerTask(id, index);
         }
       },
     }
