@@ -4,6 +4,7 @@ import Router from 'vue-router'
 const Home = r => require.ensure([], () => r(require('@/view/Home.vue')), 'Home');
 const QQLogin = r => require.ensure([], () => r(require('@/view/QQLogin.vue')), 'QQLogin');
 const SellerAdv = r => require.ensure([], () => r(require('@/view/SellerAdv.vue')), 'SellerAdv');
+const AboutUs = r => require.ensure([], () => r(require('@/view/AboutUs.vue')), 'AboutUs');
 const SelRole = r => require.ensure([], () => r(require('@/view/SelRole.vue')), 'SelRole');
 const TrialReport = r => require.ensure([], () => r(require('@/view/TrialReport.vue')), 'TrialReport');
 const Login = r => require.ensure([], () => r(require('@/view/Login.vue')), 'Login');
@@ -94,6 +95,15 @@ export default new Router({
       component: SellerAdv,
       meta: {
         title: "商家推广",
+        logInAuthority: false,
+      }
+    },
+    {
+      path: '/about-us',
+      name: 'AboutUs',
+      component: AboutUs,
+      meta: {
+        title: "关于我们",
         logInAuthority: false,
       }
     },
