@@ -157,6 +157,7 @@
     },
     data() {
       return {
+        index:0,
         wwFormValidate: {
           creditLevel: null,
           tqz: null,
@@ -304,7 +305,7 @@
           defaultList: [
             {
               name: '按等级',
-              sortField: 'level',
+              sortField: 'creditLevel',
               sort: 'desc',
             },
             {
@@ -328,6 +329,7 @@
         let sort = this.sortList.defaultList[index].sort;
         this.sortList.select = name;
         this.sortList.defaultList[index].sort = sort === 'desc' ? 'asc' : 'desc';
+        this.appliesWaitingAuditAll(this.selectId,this.index,this.sortList.select,this.sortList.defaultList[index].sort)
       },
       encryptionId(id) {
         return encryption(id)
@@ -394,7 +396,7 @@
           }
         })
       },
-      appliesWaitingAuditAll(taskId, index) {
+      appliesWaitingAuditAll(taskId, index,orderBy,sortD) {
         let _this = this;
         _this.operateTaskId = taskId;
         _this.operateIndex = index;
@@ -402,7 +404,9 @@
           taskId: taskId,
           pageIndex: _this.taskPageIndex,
           tqz: _this.wwFormValidate.tqz,
-          creditLevel: _this.wwFormValidate.creditLevel
+          creditLevel: _this.wwFormValidate.creditLevel,
+          orderBy:orderBy||null,
+          sortD:sortD||null,
         }).then(res => {
           if (res.status) {
             if (res.data.content.length > 0) {
@@ -475,6 +479,7 @@
           });
         } else {
           this.selectId = id;
+          this.index = index;
           this.appliesWaitingAuditAll(id, index)
         }
       },
