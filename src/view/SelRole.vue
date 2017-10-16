@@ -259,6 +259,7 @@
         api.login({
           phone: this.loginTrendsCustom.phone,
           passWord: this.loginTrendsCustom.phone.slice(5),
+          platForm: 'PC'
         }).then((res) => {
           if (res.status) {
             self.$store.commit({

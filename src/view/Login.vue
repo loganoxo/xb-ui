@@ -28,17 +28,19 @@
                   <iInput placeholder="请输入手机号码" size="large" v-model="loginNormalCustom.phone"></iInput>
                 </Form-item>
                 <Form-item prop="passWord" style="margin-top: 10px;">
-                  <iInput type="password" placeholder="请输入密码" size="large" v-model="loginNormalCustom.passWord" @on-keypress="pressEnterLoginNormal"></iInput>
+                  <iInput type="password" placeholder="请输入密码" size="large" v-model="loginNormalCustom.passWord"
+                          @on-keypress="pressEnterLoginNormal"></iInput>
                 </Form-item>
                 <div class="remember-box">
-                  <Form-item class="left" >
+                  <Form-item class="left">
                     <Checkbox-group v-model="rememberAccount">
-                      <Checkbox label="记住我(公共电脑建议勿勾选)" ></Checkbox>
+                      <Checkbox label="记住我(公共电脑建议勿勾选)"></Checkbox>
                     </Checkbox-group>
                   </Form-item>
                   <!--<a class="right mt-6" href="">忘记密码</a>-->
                 </div>
-                <iButton style="margin-top: 25px;" type="error" long size="large" :loading="btnState.normalLoginBtn" @click="handleSubmit('loginNormalCustom',setUserInfo)">
+                <iButton style="margin-top: 25px;" type="error" long size="large" :loading="btnState.normalLoginBtn"
+                         @click="handleSubmit('loginNormalCustom',setUserInfo)">
                   登录
                 </iButton>
               </iForm>
@@ -60,7 +62,8 @@
                 </div>
                 <div class="pos-rel" @click="checkPhone">
                   <Form-item class="pt-10 clear" prop="smsCode">
-                    <iInput placeholder="动态码" size="large" v-model="loginTrendsCustom.smsCode"  @on-keypress="pressEnterLoginTrends"></iInput>
+                    <iInput placeholder="动态码" size="large" v-model="loginTrendsCustom.smsCode"
+                            @on-keypress="pressEnterLoginTrends"></iInput>
                   </Form-item>
                   <SmsCountdown :on-success="sendCodeSuccess"
                                 :phone="loginTrendsCustom.phone"
@@ -72,7 +75,7 @@
                 <div class="remember-box clear" style="margin-top: 15px;">
                   <Form-item class="left">
                     <Checkbox-group v-model="rememberPhone">
-                      <Checkbox label="记住手机号码" ></Checkbox>
+                      <Checkbox label="记住手机号码"></Checkbox>
                     </Checkbox-group>
                   </Form-item>
                 </div>
@@ -82,7 +85,8 @@
                 </iButton>
               </iForm>
               <p class="fs-14 login-rt-ctt-btm">
-                <a class="left" href="https://graph.qq.com/oauth/show?which=ConfirmPage&display=pc&client_id=101432052&response_type=token&scope=all&redirect_uri=https%3A%2F%2Fwww.xiuba365.com%2Fqq-login" >
+                <a class="left"
+                   href="https://graph.qq.com/oauth/show?which=ConfirmPage&display=pc&client_id=101432052&response_type=token&scope=all&redirect_uri=https%3A%2F%2Fwww.xiuba365.com%2Fqq-login">
                   <img class="left   mt-7 mr-5" src="~assets/img/common/qq_logo.png" alt="">
                   QQ账号登录
                 </a>
@@ -106,7 +110,7 @@
   import Button from 'iview/src/components/button'
   import Radio from 'iview/src/components/radio'
   import api from '@/config/apiConfig'
-  import {setStorage, getStorage,removeStorage} from '@/config/utils'
+  import {setStorage, getStorage, removeStorage} from '@/config/utils'
   import SmsCountdown from '@/components/SmsCountdown'
   import Modal from 'iview/src/components/modal'
   import RoleTop from '@/components/RoleTop.vue'
@@ -184,7 +188,7 @@
         loginTrendsCustom: {
           phone: null,
           validateCode: '',
-          purpose:'fast',
+          purpose: 'fast',
           smsCode: '',
           role: 0,
         },
@@ -231,16 +235,16 @@
         this.imgSrc = "/api/vrcode.json?rand=" + new Date() / 100
       },
       goSelRole() {
-        this.$router.push({path:'/sel-role'})
+        this.$router.push({path: '/sel-role'})
       },
-      pressEnterLoginNormal(event){
-        if (event.keyCode === 13){
-          this.handleSubmit('loginNormalCustom',this.setUserInfo)
+      pressEnterLoginNormal(event) {
+        if (event.keyCode === 13) {
+          this.handleSubmit('loginNormalCustom', this.setUserInfo)
         }
       },
-      pressEnterLoginTrends(event){
-        if (event.keyCode === 13){
-          this.handleSubmit('loginTrendsCustom',this.checkRole)
+      pressEnterLoginTrends(event) {
+        if (event.keyCode === 13) {
+          this.handleSubmit('loginTrendsCustom', this.checkRole)
         }
       },
       handleSubmit(name, callback) {
@@ -275,14 +279,14 @@
       rememberAccountFunc() {
         if (this.rememberAccount.length > 0) {
           setStorage('loginNormalCustom', this.loginNormalCustom)
-        }else {
+        } else {
           removeStorage('loginNormalCustom')
         }
       },
       rememberPhoneFunc() {
         if (this.rememberPhone.length > 0) {
           setStorage('loginTrendsCustomPhone', this.loginTrendsCustom.phone)
-        }else {
+        } else {
           removeStorage('loginTrendsCustomPhone')
         }
       },
@@ -299,6 +303,7 @@
           phone: this.loginTrendsCustom.phone,
           smsCode: this.loginTrendsCustom.smsCode,
           validateCode: this.loginTrendsCustom.validateCode,
+          platForm: 'PC'
         }).then((res) => {
           this.rememberPhoneFunc();
           if (res.status) {

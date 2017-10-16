@@ -694,6 +694,7 @@
         api.login({
           phone: phone,
           passWord: pwd,
+          platForm: 'PC'
         }).then((res) => {
           if (res.status) {
             self.$store.commit({
