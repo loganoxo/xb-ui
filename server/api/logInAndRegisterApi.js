@@ -58,6 +58,7 @@ router.post('/api/login.json', (req, res, next) => {
 router.post('/api/user/qq/sign-in.json', function (req, res, next) {
   let options = apiConfig.postOptions('/user/qq/sign-in', req, {
     accessToken: req.body.accessToken,
+    sessionId: req.sessionID
   });
   request(options).then(function (parsedBody) {
     if (parsedBody.status) {
