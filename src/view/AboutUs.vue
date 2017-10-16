@@ -5,7 +5,7 @@
       <h1 >Contect</h1>
       <p class="mt-40">我们真诚期待您的宝贵意见，并给予您最好的支持和服务！</p>
       <div class="mt-20 clear">
-        <img width="40%" src="~assets/img/about-us/my-address.jpg" alt="" class="left">
+        <img width="40%" src="~assets/img/about-us/my-address.png" alt="" class="left">
         <div class="left pl-60 my-address">
           <p class="fs-18"><strong>杭州秀客科技有限公司</strong></p>
           <p class="mt-20">浙江省杭州市江干区笕丁路168号大世界五金城32幢401室295</p>
