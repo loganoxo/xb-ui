@@ -34,9 +34,7 @@
       iButton : Button
     },
     beforeMount() {
-      this.$store.commit({
-        type: 'CHANGE_TOP_HIDE'
-      })
+
     },
     data() {
       //表单验证
