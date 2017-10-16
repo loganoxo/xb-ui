@@ -56,6 +56,10 @@
           <i data-v-38a9a25e="" class="ivu-icon ivu-icon-help-buoy vtc-text-btm fs-16"></i>
           帮助中心
         </router-link>
+        <router-link to="/about-us">
+          <i data-v-38a9a25e="" class="ivu-icon ivu-icon-ios-help vtc-text-btm fs-16"></i>
+          关于我们
+        </router-link>
         <a>
           <i data-v-38a9a25e="" class="ivu-icon ivu-icon-person-stalker vtc-text-btm fs-16"></i>
           联系客服

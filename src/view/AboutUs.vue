@@ -1,54 +1,37 @@
 <template>
-  <div class="seller-adv">
+  <div class="about-us">
     <role-top></role-top>
-    <div class="text-ct pos-rel" style="min-width: 1200px" >
-      <img src="/static/img/seller-adv/seller-adv_02.jpg" alt="" style="width: 100%;" >
-      <router-link style="
-        position: absolute;
-        top: 62%;
-        left: 50%;
-        width: 330px;
-        background-color: rgb(0, 111, 255);
-        color: rgb(255, 255, 255);
-        border: none;
-        margin-left: -165px;
-        font-size: 30px;
-      " class="ivu-btn ivu-btn-circle ivu-btn-large" to="/register/seller-register">
-        立即申请商家注册
-      </router-link>
-    </div>
-    <div class="container" style="min-width: 1200px">
-      <img src="/static/img/seller-adv/seller-adv_04.png" alt="">
-      <img src="/static/img/seller-adv/seller-adv_06.png" alt="">
-      <img src="/static/img/seller-adv/seller-adv_07.png" alt="">
-      <img src="/static/img/seller-adv/seller-adv_08.png" alt="">
-      <img src="/static/img/seller-adv/seller-adv_10.png" alt="">
-      <img src="/static/img/seller-adv/seller-adv_12.png" alt="">
-    </div>
-    <div class="seller-bottom" style="min-width: 1200px">
-      <div class="container">
-        <div>
-          <router-link style="
-          width: 278px;
-          border: none;
-          font-size: 26px;
-          display: block;" class="ivu-btn ivu-btn-circle ivu-btn-large" to="/register/seller-register">
-            立即申请商家注册
-          </router-link>
-          <p class="mt-20" style="color: #fff;">一站式权重优化专家</p>
+    <div class="container pos-rel title" style="min-width: 1200px" >
+      <h1 >Contect</h1>
+      <p class="mt-40">我们真诚期待您的宝贵意见，并给予您最好的支持和服务！</p>
+      <div class="mt-20 clear">
+        <img width="40%" src="~assets/img/about-us/my-address.jpg" alt="" class="left">
+        <div class="left pl-60 my-address">
+          <p class="fs-18"><strong>杭州秀客科技有限公司</strong></p>
+          <p class="mt-20">浙江省杭州市江干区笕丁路168号大世界五金城32幢401室295</p>
+          <p class="mt-20">联系方式：0571-26894144</p>
+          <iButton type="success" class="mt-20 button" @click="register">立即注册</iButton>
         </div>
       </div>
     </div>
+    <div class="container content" style="min-width: 1200px">
+      <h2>关于我们</h2>
+      <p class="mt-20">杭州秀客科技有限公司坐落于中国电子商务之都-杭州，自公司之初，就专注于电商领域，致力于为广大卖家提供专业、高效的软件和数据服务，
+        帮助卖家更好的管理和运营自己的店铺。经过多年的行业积累和技术沉淀，公司已经成为了整体服务对象超过100万，员工逾200人的电商服务企业。</p>
+      <p class="mt-20">秀吧365是公司的最新产品，其着重于帮助卖家提高权重以及促进转化，通过精准化的人群标签以及从点击浏览，到收藏加购，再到下单转化，
+        最终加上买家秀的一站式全链路过程，帮助卖家迅速提高排名，促进转化率的提升。迄今为止，秀吧已经获得了数万卖家的信任和喜爱，成为了卖家在日常店铺中必不可少的高效工具。</p>
+    </div>
   </div>
 </template>
-
 <script>
 
   import RoleTop from '@/components/RoleTop.vue'
+  import Button from 'iview/src/components/button'
   export default {
-    name: 'SellerAdv',
+    name: 'AboutUs',
     components: {
       RoleTop: RoleTop,
+      iButton : Button
     },
     beforeMount() {
       this.$store.commit({
@@ -64,22 +47,35 @@
 
     },
     methods: {
-
+      register(){
+        this.$router.push({name:'seller'})
+      }
     }
   }
 </script>
 
 <style lang="scss" scoped>
   @import 'src/css/mixin';
-  .seller-bottom{
-    background-color: #351E97;
-    height: 170px;
-    >div{
-      div{
-        width: 300px;
-        margin: 45px auto;
-        text-align: center;
+  .about-us{
+    text-align: left;
+    .title{
+      padding: 40px 20px;
+      border-bottom: 1px solid #eee;
+      h1{
+        position: absolute;
+        left: 20px;
       }
+      .my-address{
+        padding-top: 50px;
+      }
+      .button{
+        width: 220px;
+        background-color: #FF6600;
+        border: none;
+      }
+    }
+    .content{
+      padding: 20px;
     }
   }
 
