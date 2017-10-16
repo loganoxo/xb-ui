@@ -184,6 +184,7 @@
         loginNormalCustom: {
           phone: null,
           passWord: null,
+          platForm: 'PC'
         },
         loginTrendsCustom: {
           phone: null,
