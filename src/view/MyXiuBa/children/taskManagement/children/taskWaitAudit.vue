@@ -305,12 +305,12 @@
           defaultList: [
             {
               name: '按等级',
-              sortField: 'creditLevel',
+              sortField: 'alitm.creditLevel',
               sort: 'desc',
             },
             {
               name: '按淘气值',
-              sortField: 'tqz',
+              sortField: 'alitm.tqz',
               sort: 'desc',
             },
           ]
@@ -407,7 +407,6 @@
           creditLevel: _this.wwFormValidate.creditLevel,
           orderBy:orderBy||null,
           sortD:sortD||null,
-
         }).then(res => {
           if (res.status) {
             if (res.data.content.length > 0) {
