@@ -330,6 +330,7 @@
           } else {
             this.instance('error', '', res.msg);
             self.getVrcode();
+            self.btnState.trendsLoginBtn = false;
           }
         })
       },
