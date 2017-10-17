@@ -506,7 +506,7 @@
         </Modal>
       </div>
       <!--商家发布任务活动总价低于500元提醒弹框-->
-      <Modal v-model="price500Model" width="360">
+    <!--  <Modal v-model="price500Model" width="360">
         <p slot="header" style="color:#f60;text-align:center">
           <Icon type="information-circled"></Icon>
           <span>温馨提示</span>
@@ -517,7 +517,7 @@
         <div slot="footer">
           <iButton type="error" size="large" long @click="price500Model = false">我知道了</iButton>
         </div>
-      </Modal>
+      </Modal>-->
     </div>
   </div>
 </template>
@@ -909,10 +909,10 @@
         }
         let status = _this.taskStatus;
         let type = _this.$route.query.type;
-        if (_this.taskRelease.taskCount * _this.oneBond < 500) {
+       /* if (_this.taskRelease.taskCount * _this.oneBond < 500) {
           _this.price500Model = true;
           return;
-        }
+        }*/
         if ((status === 'waiting_modify' || status === 'waiting_pay') && _this.paidDeposit === _this.orderMoney && !type) {
           _this.taskCreate(true);
         } else if ((status === 'waiting_modify' || status === 'waiting_pay') && _this.paidDeposit > _this.orderMoney && !type) {
