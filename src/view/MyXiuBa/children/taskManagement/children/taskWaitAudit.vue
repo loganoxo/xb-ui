@@ -314,7 +314,9 @@
               sort: 'desc',
             },
           ]
-        }
+        },
+        sortD:null,
+        orderBy:null,
       }
     },
     mounted() {
@@ -329,7 +331,9 @@
         let sort = this.sortList.defaultList[index].sort;
         this.sortList.select = name;
         this.sortList.defaultList[index].sort = sort === 'desc' ? 'asc' : 'desc';
-        this.appliesWaitingAuditAll(this.selectId,this.index,name,this.sortList.defaultList[index].sort)
+        this.sortD = sort === 'desc' ? 'asc' : 'desc';
+        this.orderBy = name;
+        this.appliesWaitingAuditAll(this.selectId,this.index)
       },
       encryptionId(id) {
         return encryption(id)
@@ -405,8 +409,8 @@
           pageIndex: _this.taskPageIndex,
           tqz: _this.wwFormValidate.tqz,
           creditLevel: _this.wwFormValidate.creditLevel,
-          orderBy:orderBy||null,
-          sortD:sortD||null,
+          orderBy:_this.orderBy||null,
+          sortD:_this.sortD||null,
         }).then(res => {
           if (res.status) {
             if (res.data.content.length > 0) {
