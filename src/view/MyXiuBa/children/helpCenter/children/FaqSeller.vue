@@ -20,7 +20,7 @@
           <Panel name="2" id="q2">
             2、商家发布任务支持哪几种支付方式？
               <p slot="content">
-            目前支持支付宝方式
+            目前支持支付宝与微信两种方式
          </p>
           </Panel>
           <Panel name="3" id="q3">

@@ -125,8 +125,15 @@
         }
 
       }
+    },
+    watch: {
+      '$route' (to, from) {
+        let self = this;
+        if(to.name == 'login'){
+          self.searchKey = '';
+        }
+      }
     }
-
   }
 </script>
 

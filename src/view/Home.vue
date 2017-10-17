@@ -76,9 +76,15 @@
             </div>
             <div class="login-in-box" v-if="isLogin && getUserInfoRole　== 0">
               <div>
-                <img class="left ml-20 portrait-img" :src="$store.state.userInfo.portraitPic" alt="">
+                <router-link to="/user/user-home" class="left">
+                  <img class="block ml-20 portrait-img" :src="$store.state.userInfo.portraitPic" alt="">
+                </router-link>
                 <div class="left fs-14 ml-20" style="margin-left: 10px;line-height: 28px;">
-                  <p>Hi~ 秀客 {{decodeURIComponent(getUserInfoPhone)}}</p>
+                  <p>
+                    <router-link to="/user/user-home">
+                     Hi~ 秀客 {{decodeURIComponent(getUserInfoPhone)}}
+                    </router-link>
+                  </p>
                   <router-link to="/user/user-home">个人中心</router-link>
                   <a @click="goOut">[ 退出登录 ]</a>
                 </div>
@@ -102,9 +108,15 @@
             </div>
             <div class="login-in-box" v-if="isLogin && getUserInfoRole　== 1">
               <div>
-                <img class="left ml-20 portrait-img" :src="$store.state.userInfo.portraitPic" alt="">
+                <router-link to="/user/user-home" class="left">
+                  <img class=" ml-20 portrait-img block" :src="$store.state.userInfo.portraitPic" alt="">
+                </router-link>
                 <div class="left fs-14 ml-20" style="margin-left: 10px;line-height: 28px;">
-                  <p>Hi~ 商家 {{decodeURIComponent(getUserInfoPhone)}}</p>
+                  <p>
+                    <router-link to="/user/user-home">
+                      Hi~ 商家 {{decodeURIComponent(getUserInfoPhone)}}
+                    </router-link>
+                  </p>
                   <div v-if="getUserInfoRole === 1&& !getMemberLevel" class="fs-12">
                     <Icon type="social-vimeo" style="color: gray"></Icon>
                     <span>非会员</span>
