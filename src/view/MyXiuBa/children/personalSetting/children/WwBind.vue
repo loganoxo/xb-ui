@@ -143,8 +143,8 @@
                   @onchange="regionPickerChange">
                 </region-picker>
               </Form-item>
-              <Form-item prop="detailAddress">
-                <iInput placeholder="请输入详细地址" v-model="wwFormValidate.detailAddress"></iInput>
+              <Form-item  prop="detailAddress">
+                <iInput  v-model="wwFormValidate.detailAddress"></iInput>
               </Form-item>
               <Form-item>
                   <iButton  :class="[btnState.wwBindBtn ? '': 'ww-bind-btn']"  :disabled="btnState.wwBindBtn"
@@ -415,7 +415,7 @@
 //          picUrl: [],
           alitmLevelPicUrl: [],
           taoqizhiPicUrl: [],
-          detailAddress:null,
+          detailAddress: '',
         },
         wwFormRuleCustom: {
           alitmAccount: [
@@ -437,11 +437,11 @@
 //            { required: true, validator: wwName, trigger: 'blur'},
 //          ],
           address:[
-            {required:true,validator:addAddress,trigger:'blur'}
+            {required:true,validator:wwRequired,trigger:'blur'}
           ],
-//          detailAddress:[
-//            { required: true, validator: addAddress, trigger: 'blur'},
-//          ]
+          detailAddress:[
+            { required: true, validator: addAddress, trigger: 'blur'},
+          ]
         },
         remarks: {
           text: '',
@@ -657,13 +657,11 @@
         child.uploadTaoqizhiPicUrl.handleRemove();
       },
       handleSubmit (name, callback) {
-        console.log(name);
         let res = false;
         this.$refs[name].validate((valid) => {
           res = !!valid
         });
         if (typeof callback === 'function' && res) {
-          console.log(name);
           callback();
         }
       },
