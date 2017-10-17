@@ -230,7 +230,7 @@ export const TaskErrorStatusList = (type) => {
       return "任务终止";
       break;
     case "trial_finished":
-      return "任务完成";
+      return "活动完成";
       break;
     case "timeout_auto_close":
       return "任务超时终止";

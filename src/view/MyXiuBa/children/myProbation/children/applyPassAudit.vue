@@ -95,7 +95,7 @@
               <p class="mt-5 main-color" v-if="item.status === 'trial_report_unqualified'">
                 <Tooltip :content="item.auditDescription" placement="top">
                   <Icon color="#f60" type="information-circled"></Icon>
-                  <span>报告不合格</span>
+                  <span>买家秀不合格</span>
                 </Tooltip>
               </p>
               <p class="mt-5 main-color cursor-p" v-if="item.status === 'trial_end'">

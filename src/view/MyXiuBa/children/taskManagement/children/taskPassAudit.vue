@@ -22,7 +22,7 @@
             <span>买家秀待确认</span>
           </Checkbox>
           <Checkbox label="trial_finished">
-            <span>任务完成</span>
+            <span>活动完成</span>
           </Checkbox>
           <Checkbox label="order_num_error">
             <span>订单号有误</span>
@@ -74,7 +74,7 @@
               v-show="showkerTaskStatusList.length === 0 || oneOf('trial_report_waiting_confirm',showkerTaskStatusList)">买家秀待确认<span
               class="main-color">({{item.trial_report_waiting_confirm || 0}})</span></span>
             <span v-show="showkerTaskStatusList.length === 0 || oneOf('trial_finished',showkerTaskStatusList)"
-                  class="ml-5">任务完成<span class="main-color">({{item.trial_finished || 0}})</span></span>
+                  class="ml-5">活动完成<span class="main-color">({{item.trial_finished || 0}})</span></span>
             <span v-show="showkerTaskStatusList.length === 0 || oneOf('order_num_error',showkerTaskStatusList)"
                   class="ml-5">订单号有误<span class="main-color">({{item.order_num_error || 0}})</span></span>
             <span v-show="showkerTaskStatusList.length === 0 || oneOf('trial_report_unqualified',showkerTaskStatusList)"

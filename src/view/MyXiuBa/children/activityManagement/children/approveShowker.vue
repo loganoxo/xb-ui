@@ -121,7 +121,7 @@
                   <span>订单号有误</span>
                 </Checkbox>
                 <Checkbox label="trial_report_unqualified">
-                  <span>报告不合格</span>
+                  <span>买家秀不合格</span>
                 </Checkbox>
               </Checkbox-group>
             </div>
