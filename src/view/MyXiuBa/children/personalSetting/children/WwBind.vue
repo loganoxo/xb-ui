@@ -614,8 +614,6 @@
               alitmRole:this.wwFormValidate.sex,
               takeDetail:this.wwFormValidate.detailAddress
             }).then((res) => {
-              console.log(res);
-              debugger
               if(res.status){
                 self.$Message.success({
                   content: "亲！提交成功，客服妹子会尽快审核...",

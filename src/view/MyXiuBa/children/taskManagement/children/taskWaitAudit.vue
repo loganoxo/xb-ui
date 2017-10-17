@@ -329,7 +329,7 @@
         let sort = this.sortList.defaultList[index].sort;
         this.sortList.select = name;
         this.sortList.defaultList[index].sort = sort === 'desc' ? 'asc' : 'desc';
-        this.appliesWaitingAuditAll(this.selectId,this.index,this.sortList.select,this.sortList.defaultList[index].sort)
+        this.appliesWaitingAuditAll(this.selectId,this.index,name,this.sortList.defaultList[index].sort)
       },
       encryptionId(id) {
         return encryption(id)
