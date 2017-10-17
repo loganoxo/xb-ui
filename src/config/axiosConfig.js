@@ -37,9 +37,9 @@ axios.interceptors.response.use((res) => {
   LoadingBar.error();
   if (error.response && error.response.status === 401) {
     store.commit('OUT_LOGIN');
-    if (store.state.logInAuthority) {
+    /*if (store.state.logInAuthority) {
       router.push({name: 'login'});
-    }
+    }*/
   }
   return Promise.reject(error);
 });
