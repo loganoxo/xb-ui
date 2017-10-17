@@ -40,18 +40,18 @@
           <div class="middle-ctt left">
             <Carousel autoplay :autoplay-speed="5000">
               <Carousel-item>
-                <router-link to="/sel-role" class="block">
+                <router-link to="" class="block">
                   <img class="block" src="~assets/img/home/banner_01.jpg" alt="">
                 </router-link>
 
               </Carousel-item>
               <Carousel-item>
-                <router-link to="/sel-role" class="block">
+                <router-link to="" class="block">
                   <img class="block" src="~assets/img/home/banner_02.jpg" alt="">
                 </router-link>
               </Carousel-item>
               <Carousel-item>
-                <router-link to="/sel-role" class="block">
+                <router-link to="" class="block">
                  <img class="block" src="~assets/img/home/banner_03.jpg" alt="">
                 </router-link>
               </Carousel-item>
