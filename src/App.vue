@@ -24,15 +24,15 @@
       topShow() {
         return this.$store.state.topShow
       },
-      /*logInAuthority() {
+      logInAuthority() {
         return this.$store.state.logInAuthority;
-      }*/
+      }
     },
     created() {
       let _this = this;
-//      let userInfo = getStorage('userInfo');
+      let userInfo = getStorage('userInfo');
       _this.$store.commit('INIT_USER_INFO');
-      /*if (!userInfo && _this.logInAuthority) {
+      if (!userInfo && _this.logInAuthority) {
         _this.$store.dispatch('loggedOut').then((res) => {
           if (res.status) {
             _this.$router.push({name: 'login'});
@@ -40,7 +40,7 @@
             console.log(res.msg);
           }
         });
-      }*/
+      }
     },
     watch: {
       '$route' (to, from) {

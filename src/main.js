@@ -32,6 +32,10 @@ Object.keys(filters).forEach(key => {
 /*根据路由改变处理业务逻辑*/
 router.beforeEach((to, from, next) => {
   LoadingBar.start();
+  store.commit({
+    type: "LOG_IN_AUTHORITY",
+    logInAuthority: to.meta.logInAuthority
+  });
   if (to.meta.logInAuthority && !store.state.login) {
     router.push({name: 'login'})
   } else if (to.matched.length === 0) {

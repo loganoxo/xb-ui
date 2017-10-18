@@ -8,6 +8,7 @@ export default {
   //退出登录后变更登陆状态和清除localStorage用户信息
   [types.OUT_LOGIN](state) {
     state.login = false;
+    state.userInfo = {};
     removeStorage("userInfo");
   },
 
@@ -40,10 +41,10 @@ export default {
     state.clientTime = time.clientTime;
   },
 
- /* //存储用户页面权限到vuex
+  //存储用户页面权限到vuex
   [types.LOG_IN_AUTHORITY](state, {logInAuthority}) {
     state.logInAuthority = logInAuthority;
-  },*/
+  },
 
   //商家任务管理活动数量信息（活动总数量，新增待审批，订单号带审批，买家秀待确认）
   [types.TASK_MANAGEMENT_COUNT_INFO](state, {countInfo}) {
