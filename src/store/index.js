@@ -16,7 +16,8 @@ const state = {
   severTime: null,//当前服务器时间
   clientTime: null,//当前客户端时间
   taskManagementCountInfo: {},//商家任务管理活动数量信息
-  TaskCategoryActive: ''
+  TaskCategoryActive: '',
+  onlyShowkerShow: false,
 };
 
 export default new Vuex.Store({

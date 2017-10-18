@@ -63,5 +63,11 @@ export default {
   //导航列表存入
   [types.TASK_CATEGORY_LIST](state, {info}) {
     state.TaskCategoryActive = info;
+  },
+
+  //首页秀客显示问题
+  [types.ONLY_SHOWKER_SHOW](state) {
+    state.onlyShowkerShow = true;
   }
+
 }

@@ -4,7 +4,8 @@
     <div class="home-top">
       <div class="container">
         <router-link  to="/" class="left mt-20">
-          <img src="~assets/img/common/top_logo.png" alt="" >
+          <img v-if="!$store.state.onlyShowkerShow" src="~assets/img/common/top_logo.png" alt="" >
+          <img v-if="$store.state.onlyShowkerShow"  src="~assets/img/common/top_logo_xk.png" alt="" >
         </router-link>
         <div class="left">
           <div class="search-box">
@@ -37,7 +38,7 @@
 
           </div>
         </div>
-        <router-link to="/seller-adv" class="seller-guide" >
+        <router-link to="/seller-adv" class="seller-guide" v-if="!$store.state.onlyShowkerShow" >
           <img src="/static/img/common/seller-guide.png" alt="">
         </router-link>
       </div>

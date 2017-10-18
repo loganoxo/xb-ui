@@ -202,7 +202,8 @@
       </div>
       <div class="container">
         <div class="home-bottom mt-20">
-          <img src="~assets/img/home/home_23.png" alt="">
+          <img v-if="!$store.state.onlyShowkerShow" class="ml-5" src="~assets/img/home/home_23.png" alt="">
+          <img v-if="$store.state.onlyShowkerShow" class="ml-5" src="~assets/img/home/home_24.png" alt="">
         </div>
       </div>
     </div>
@@ -352,6 +353,11 @@
         type: 'TASK_CATEGORY_LIST',
         info: 'home'
       });
+      if(this.$route.query.onlyShowkerShow){
+        this.$store.commit({
+          type: 'ONLY_SHOWKER_SHOW',
+        });
+      }
     },
     computed: {
       isLogin() {
