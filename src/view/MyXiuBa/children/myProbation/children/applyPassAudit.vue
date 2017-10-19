@@ -95,7 +95,7 @@
               <p class="mt-5 main-color" v-if="item.status === 'trial_report_unqualified'">
                 <Tooltip :content="item.auditDescription" placement="top">
                   <Icon color="#f60" type="information-circled"></Icon>
-                  <span>买家秀不合格</span>
+                  <span>报告不合格</span>
                 </Tooltip>
               </p>
               <p class="mt-5 main-color cursor-p" v-if="item.status === 'trial_end'">
@@ -156,10 +156,9 @@
       </div>
       <p class="place-type">
         <span>{{taskPlaceInfo.taskTypeDesc}}</span>
-        <span class="ml-20">下单剩余时间<time-down color='#ff4040' :fontWeight=600 :endTime="showkerTask.currentGenerationEndTime"></time-down>（超时未下单，即未在平台提交订单号，视为主动放弃活动资格）</span>
+        <span v-if="showkerTask.currentGenerationEndTime" class="ml-20">下单剩余时间<time-down color='#ff4040' :fontWeight=600 :endTime="showkerTask.currentGenerationEndTime"></time-down>（超时未下单，即未在平台提交订单号，视为主动放弃活动资格）</span>
       </p>
-      <div class="place-step mt-22"
-           v-if="taskPlaceInfo.taskType === 'pc_search' || taskPlaceInfo.taskType === 'app_search'">
+      <div class="place-step mt-22" v-if="taskPlaceInfo.taskType === 'pc_search' || taskPlaceInfo.taskType === 'app_search'">
         <p v-if="taskPlaceInfo.taskType === 'pc_search'">第1步：打开浏览器输入【<span>www.taobao.com</span>】</p>
         <p v-if="taskPlaceInfo.taskType === 'app_search'">第1步：打开【<span>手机淘宝APP</span>】</p>
         <p v-if="taskPlaceInfo.taskType === 'pc_search'"> 第2步：搜索框输入关键词【<span>{{taskPlaceInfo.taskDetailObject.searchKeyword}}</span>】</p>
