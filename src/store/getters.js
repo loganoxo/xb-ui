@@ -27,11 +27,11 @@ export default {
 
   //从vuex中获取用户账户余额
   getUserBalance: state => {
-    return state.userInfo.userAccount ? state.userInfo.userAccount.accountBalance / 100 : 0;
+    return state.userInfo.length > 0 ? state.userInfo.userAccount.accountBalance / 100 : 0;
   },
 
   //从vuex中获取用户是否修改过支付密码
   getIsEditPwdAlready: state => {
-    return state.userInfo.userAccount ? state.userInfo.userAccount.ifEditPwdAlready : false;
+    return state.userInfo.length > 0 ? state.userInfo.userAccount.ifEditPwdAlready : false;
   }
 }

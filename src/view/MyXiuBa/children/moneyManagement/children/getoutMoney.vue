@@ -113,10 +113,10 @@
               <input type="password" style="width: 0;height: 0;border: none"/>
               <iInput v-model="getoutMoney.password" class="iInput" :type="psw" :icon="eye"
                       @on-click="seyPassword"></iInput>
-              <span v-show="getIfEditPwdAlready === false">初始密码为888888，为了你的账号安全，建议您
+              <span v-show="!getIfEditPwdAlready">初始密码为888888，为了你的账号安全，建议您
                 <router-link :to="{'path':'/user/money-management/account-management','query':{'type':'resetPwd'}}">重置支付密码。</router-link>
               </span>
-              <span v-show="getIfEditPwdAlready === true"><router-link to="/user/money-management/account-management">忘记支付密码？</router-link></span>
+              <span v-show="getIfEditPwdAlready"><router-link to="/user/money-management/account-management">忘记支付密码？</router-link></span>
             </Form-item>
             <Form-item>
               <iButton type="primary" @click="getOutMoneyPopWindow = true,applyGetoutMoney(getoutMoney)" class="ibtns">申请提现</iButton>
