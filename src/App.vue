@@ -31,7 +31,7 @@
     created() {
       let _this = this;
       let userInfo = getStorage('userInfo');
-      _this.$store.commit('INIT_USER_INFO');
+//      _this.$store.commit('INIT_USER_INFO');
       _this.setChannelFunc();
       if (!userInfo && _this.logInAuthority) {
         _this.$store.dispatch('loggedOut').then((res) => {

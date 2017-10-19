@@ -29,7 +29,10 @@ Object.keys(filters).forEach(key => {
   Vue.filter(key, filters[key])
 });
 
-/*根据路由改变处理业务逻辑*/
+/*页面刷新的时候初始化用户信息存储*/
+store.commit('INIT_USER_INFO');
+
+/*根据路由改变前处理业务逻辑*/
 router.beforeEach((to, from, next) => {
   LoadingBar.start();
   store.commit({
@@ -44,6 +47,7 @@ router.beforeEach((to, from, next) => {
   next();
 });
 
+/*根据路由改变后处理业务逻辑*/
 router.afterEach(to => {
   document.title = to.meta.title;
   LoadingBar.finish();
