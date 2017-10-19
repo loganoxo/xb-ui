@@ -6,7 +6,7 @@
         <router-link  to="/" class="left mt-20">
           <img v-if="!$store.state.onlyShowkerShow" src="~assets/img/common/top_logo.png" alt="" >
           <img v-if="$store.state.onlyShowkerShow"  src="~assets/img/common/top_logo_xk.png" alt="" >
-        </router-link>
+        </router-link >
         <div class="left">
           <div class="search-box">
             <div class="pos-rel">

@@ -37,7 +37,7 @@
               </li>
             </ul>
           </div>
-          <div class="middle-ctt left">
+          <div  class="middle-ctt left">
             <Carousel autoplay :autoplay-speed="5000">
               <Carousel-item>
                 <router-link to="" class="block">
