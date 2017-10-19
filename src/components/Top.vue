@@ -45,9 +45,9 @@
     </div>
     <div class="home-nav">
       <div class="container">
-        <a :class="[$store.state.TaskCategoryActive.info == 'home' ? 'active' : '']" @click="selTaskCategoryHome()">首页</a>
-        <a :class="[$store.state.TaskCategoryActive.info == 'all' ? 'active' : '']" @click="selTaskCategoryAllFunc">全部活动</a>
-        <a :class="[$store.state.TaskCategoryActive.info == nav.id ? 'active' : '']" @click="selTaskCategoryActiveFunc(nav)" v-for="nav in navList" >{{nav.name}}</a>
+        <a :class="[$store.state.TaskCategoryActive == 'home' ? 'active' : '']" @click="selTaskCategoryHome()">首页</a>
+        <a :class="[$store.state.TaskCategoryActive == 'all' ? 'active' : '']" @click="selTaskCategoryAllFunc">全部活动</a>
+        <a :class="[$store.state.TaskCategoryActive == nav.id ? 'active' : '']" @click="selTaskCategoryActiveFunc(nav)" v-for="nav in navList" >{{nav.name}}</a>
       </div>
     </div>
   </div>
@@ -92,6 +92,10 @@
       selTaskCategoryActiveFunc(nav){
         let self = this;
         self.$router.push({ 'path': '/task-category', 'query': {'cate': nav.id}});
+        self.$store.commit({
+          type: 'TASK_CATEGORY_LIST',
+          info: nav.id
+        });
       },
       getNavList(){
         let self = this;
