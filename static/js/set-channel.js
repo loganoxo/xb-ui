@@ -3,26 +3,26 @@
  */
 
   //这里处理用户渠道-搜索引擎
-  let expireDate = new Date();
+  var expireDate = new Date();
   expireDate.setDate(expireDate.getDate() + 36500);
-  let regexp = /(.*\.)*(\w*\.\w*)/;
-  let domain = regexp.exec(window.location.host)[2];
-  let cookieAttr = ";expires=" + expireDate.toUTCString() + ";path=/;domain=" + domain;
-  let referer = document.referrer;
+  var regexp = /(.*\.)*(\w*\.\w*)/;
+  var domain = regexp.exec(window.location.host)[2];
+  var cookieAttr = ";expires=" + expireDate.toUTCString() + ";path=/;domain=" + domain;
+  var referer = document.referrer;
   if (referer && '' !== referer) {
-    let searchEngineConfig = {
+    var searchEngineConfig = {
       'www.baidu.com': {'name': 'BAIDU', 'queryKey': 'wd'},
       'www.so.com': {'name': '360', 'queryKey': 'q'},
       'www.sogou.com': {'name': 'SOUGOU', 'queryKey': 'query'}
     };
-    let searchKeyWord = null;
-    for (let key in searchEngineConfig) {
+    var searchKeyWord = null;
+    for (var key in searchEngineConfig) {
       if (referer.indexOf(key) !== -1) {
-        let qudaoData = searchEngineConfig[key];
-        eval("let regexStr = /\&" + qudaoData.queryKey + "\=([^\&]*)/;");
-        let searchKey = referer.match(regexStr);
+        var qudaoData = searchEngineConfig[key];
+        eval("var regexStr = /\&" + qudaoData.queryKey + "\=([^\&]*)/;");
+        var searchKey = referer.match(regexStr);
         if (searchKey === null || searchKey.length < 2) {
-          eval("let regexStr = /\\?" + qudaoData.queryKey + "\=([^\&]*)/;");
+          eval("var regexStr = /\\?" + qudaoData.queryKey + "\=([^\&]*)/;");
           searchKey = referer.match(regexStr);
         }
         if (searchKey && searchKey.length > 1 && null !== searchKey[1] && '' !== searchKey[1]) {
@@ -42,12 +42,12 @@
     }
   }
   //这里处理用户渠道-自定义渠道
-//        let path = this.location.pathname;
-//        let host = this.location.host;
+//        var path = this.location.pathname;
+//        var host = this.location.host;
 //        // console.info(path);
 //        //销售推广
 //        if (path && path.indexOf("/s/") !== -1) {
-//          let salerId = this.location.pathname.replace("/s/", "");
+//          var salerId = this.location.pathname.replace("/s/", "");
 //          document.cookie = "from_qudao=saler_dev" + cookieAttr;
 //          document.cookie = "reg_user_from_saler_id=" + salerId + cookieAttr;
 //        }
@@ -72,7 +72,7 @@
 //          document.cookie = "from_qudao=sogou" + cookieAttr;
 //        }
 //        if (path && path.indexOf("uref") >= 0) {
-//          let user_ref_code = path.match(/uref.*/)[0];
+//          var user_ref_code = path.match(/uref.*/)[0];
 //          document.cookie = "user_refer_code=" + user_ref_code.substr(4, user_ref_code.length) + cookieAttr;
 //          document.cookie = "from_qudao=user_recommend" + cookieAttr;
 //        }
