@@ -18,6 +18,8 @@ const state = {
   taskManagementCountInfo: {},//商家任务管理活动数量信息
   TaskCategoryActive: '',
   onlyShowkerShow: false,
+  wechartShow: false,
+  wechartRes: true,
 };
 
 export default new Vuex.Store({

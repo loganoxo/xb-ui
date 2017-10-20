@@ -69,6 +69,13 @@ export default {
   //首页秀客显示问题
   [types.ONLY_SHOWKER_SHOW](state) {
     state.onlyShowkerShow = true;
-  }
+  },
 
+  //
+  [types.SET_WECHART_SHOW](state,{result}) {
+    state.wechartShow = result;
+  },
+  [types.SET_WECHART_RES](state,{result}) {
+    state.wechartRes = result;
+  }
 }

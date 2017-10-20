@@ -207,7 +207,7 @@
         </div>
       </div>
     </div>
-    <Modal v-model="wechartShow" width="600" @on-cancel="cancelWeiChartFunc">
+    <Modal v-model="$store.state.wechartShow" width="600" @on-cancel="cancelWeiChartFunc">
       <div style="text-align: right;margin-right: 11px;position: relative;top: -2px;">
         <Checkbox-group  v-model="wechartShowAgain">
           <Checkbox label="true">不再提醒</Checkbox>
@@ -355,7 +355,7 @@
         ],
         noticeActive: 'faq',
         taskTopLeftList: [],
-        wechartShow: false,
+//        wechartShow: false,
       }
     },
     created(){
@@ -372,6 +372,13 @@
           type: 'ONLY_SHOWKER_SHOW',
         });
       }
+    },
+    destroyed() {
+      let self = this;
+      self.$store.commit({
+        type: 'SET_WECHART_SHOW',
+        result: false
+      });
     },
     computed: {
       isLogin() {
@@ -397,6 +404,7 @@
       })
 
     },
+
     methods: {
       ...mapActions([
         'loggedOut'
@@ -409,8 +417,16 @@
       },
       weChartAlertFunc(){
         let self = this;
-        if(self.$store.state.login && !getStorage('wechartShowAgain' + self.$store.state.userInfo.phone)){
-            self.wechartShow = true;
+        if(self.$store.state.wechartRes && self.$store.state.login && !getStorage('wechartShowAgain' + self.$store.state.userInfo.phone)){
+          self.$store.commit({
+            type: 'SET_WECHART_SHOW',
+            result: true
+          });
+          self.$store.commit({
+            type: 'SET_WECHART_RES',
+            result: false
+          });
+
 //          api.checkWechartAlert().then((res) => {
 //              if(res.status){
 //                self.wechartShow = true;
