@@ -524,7 +524,7 @@
         this.$set(this.wwFormValidate);
       },
       addWwBindFunc (){
-        if((this.wwBindLists && this.wwBindLists.length < 3) || !this.wwBindLists){
+        if((this.wwBindLists && this.wwBindLists.length < 1) || !this.wwBindLists){
           this.showWwBindBox = true;
           this.wwFormValidate.id = '';
           this.wwFormValidate.alitmAccount = '';
@@ -537,7 +537,7 @@
           this.modifyWw = false;
         }else {
           this.$Modal.warning({
-            content: "亲, 最多只能绑定3个旺旺号"
+            content: "亲, 最多只能绑定1个旺旺号"
           });
         }
       },
