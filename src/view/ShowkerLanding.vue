@@ -1,5 +1,6 @@
 <template>
   <div class="thowker-landing">
+    <role-top></role-top>
     <div class="text-ct pos-rel" style="min-width: 1200px" >
       <img class="img" src="/static/img/showker-landing/showker01.jpg" alt=""  >
       <img @click="toLogin" src="/static/img/showker-landing/showker_btn.jpg" alt="" class="showker-btn" >
