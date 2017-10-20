@@ -40,11 +40,12 @@ router.beforeEach((to, from, next) => {
     logInAuthority: to.meta.logInAuthority
   });
   if (to.meta.logInAuthority && !store.state.login) {
-    router.push({name: 'login'})
+    next('/login');
   } else if (to.matched.length === 0) {
     from.name ? next({name: from.name}) : next('/');
+  }else{
+    next();
   }
-  next();
 });
 
 /*根据路由改变后处理业务逻辑*/
