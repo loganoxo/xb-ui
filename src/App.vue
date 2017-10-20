@@ -3,15 +3,17 @@
     <Top v-show="topShow"></Top>
     <router-view></router-view>
     <Bottom></Bottom>
-    <BackTop :height="200" :bottom="160"></BackTop>
+    <side-navigation></side-navigation>
+<!--    <BackTop :height="200" :bottom="160"></BackTop>-->
   </div>
 </template>
 
 <script>
-  import Top from "./components/Top.vue";
-  import Bottom from "./components/Bottom.vue";
-  import BackTop from "iview/src/components/back-top";
-  import {getStorage, getCookie} from '@/config/utils';
+  import Top from "@/components/Top.vue"
+  import Bottom from "@/components/Bottom.vue"
+  import SideNavigation from '@/components/SideNavigation.vue'
+  import BackTop from "iview/src/components/back-top"
+  import {getStorage, getCookie} from '@/config/utils'
   import api from '@/config/apiConfig'
   export default {
     name: 'app',
@@ -19,6 +21,7 @@
       Top: Top,
       Bottom: Bottom,
       BackTop: BackTop,
+      SideNavigation: SideNavigation,
     },
     computed: {
       topShow() {
