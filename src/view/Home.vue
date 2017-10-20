@@ -207,6 +207,17 @@
         </div>
       </div>
     </div>
+    <Modal v-model="wechartShow" width="600" @on-cancel="cancelWeiChartFunc">
+      <div style="text-align: right;margin-right: 11px;position: relative;top: -2px;">
+        <Checkbox-group  v-model="wechartShowAgain">
+          <Checkbox label="true">不再提醒</Checkbox>
+        </Checkbox-group>
+        <img v-show="getUserInfoRole == 0" src="/static/img/home/wechart_alert_06.jpg" alt="" style="width: 100%; margin-top: 20px">
+        <img v-show="getUserInfoRole == 1" src="/static/img/home/wechart_alert_03.jpg" alt="" style="width: 100%; margin-top: 20px">
+      </div>
+      <div slot="footer">
+      </div>
+    </Modal>
   </div>
 
 </template>
@@ -247,6 +258,7 @@
     },
     data () {
       return {
+        wechartShowAgain: [],
         leftTopSliderTimer: '',
         leftTopSlider: false,
         trialCount: {},
@@ -342,10 +354,12 @@
           },
         ],
         noticeActive: 'faq',
-        taskTopLeftList: []
+        taskTopLeftList: [],
+        wechartShow: false,
       }
     },
     created(){
+      this.weChartAlertFunc();
       this.getHomeTaskList();
       this.getHomeTaskTopLeftList();
       this.personalTrialCount();
@@ -392,6 +406,31 @@
       }),
       encryptionId(id){
         return encryption(id);
+      },
+      weChartAlertFunc(){
+        let self = this;
+        if(self.$store.state.login && !getStorage('wechartShowAgain' + self.$store.state.userInfo.phone)){
+            self.wechartShow = true;
+//          api.checkWechartAlert().then((res) => {
+//              if(res.status){
+//                self.wechartShow = true;
+//              }else {
+//                self.wechartShow = false;
+//                console.log(res);
+//              }
+//          })
+        }
+      },
+      cancelWeiChartFunc(){
+        let self = this;
+        if(self.wechartShowAgain != ''){
+            setStorage('wechartShowAgain' + self.$store.state.userInfo.phone,'no')
+//          api.noWechartAlert().then((res) => {
+//              if(!res.status){
+//                self.$Message.error(res.msg)
+//              }
+//          })
+        }
       },
       goOut() {
         let _this = this;

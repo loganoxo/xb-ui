@@ -651,5 +651,33 @@ export default {
    * */
   getRecommendPage(params){
     return fetch("/api/user/reward/getRecommendPage.json", params)
-  }
+  },
+
+  /**
+   * 判断是否弹出微信弹框
+   */
+  checkWechartAlert(){
+    return fetch('/api/user/verify/check.json')
+  },
+
+  /**
+   * 判断是否弹出微信弹框
+   */
+  checkWechartAlert(){
+    return fetch('/api/user/verify/check.json')
+  },
+
+  /**
+   * 设置微信弹框
+   */
+  setWechartAlert(){
+    return fetch('/api/user/verify/set.json')
+  },
+
+  /**
+   * 微信弹框不再提示
+   */
+  noWechartAlert(){
+    return fetch('/api/user/verify/stop.json')
+  },
 }
