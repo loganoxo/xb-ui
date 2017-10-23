@@ -39,8 +39,7 @@
           </td>
           <td>
             <p class="operation" v-show="item.status === 'waiting_resubmit'" @click="resubmitFun(item.task.id)">重新提交</p>
-            <p v-show="item.task.needBrowseCollectAddCart" class="operation mt-5"
-               @click="getUserScreenShot(item.id,item.reason,item.status,item.task.endTime)">查看详情</p>
+            <p v-show="item.task.needBrowseCollectAddCart" class="operation mt-5" @click="getUserScreenShot(item.id,item.reason,item.status,item.task.endTime)">查看详情</p>
             <p class="operation mt-5" @click="endTrialModel(item.id)">结束活动</p>
           </td>
         </tr>

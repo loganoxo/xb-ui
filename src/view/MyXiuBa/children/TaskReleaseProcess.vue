@@ -688,18 +688,18 @@
         return this.$store.getters.getUserBalance;
       },
       /**
-       * 计算单品试用担保金
+       * 计算单品活动担保金
        * @return {number}
        */
       oneBond: function () {
         return this.taskRelease.pinkage === 'true' ? (this.taskRelease.itemPrice * 100).toFixed(2) / 100 : ((this.taskRelease.itemPrice * 100).toFixed(2) / 100 + 10).toFixed(2);
       },
       /**
-       * 计算实际单品推广费用（单品推广费最高上限3元）
+       * 计算单品推广费用（单品推广费最高上限3元）
        * @return {number}
        */
       onePromotionExpenses: function () {
-        return this.taskRelease.itemPrice * 0.06 > 3 ? 3 : ((this.taskRelease.itemPrice * 100).toFixed(2) / 100 * 0.06).toFixed(2) * 1;
+        return this.oneBond * 0.06 > 3 ? 3 : ((this.oneBond * 100).toFixed(2) / 100 * 0.06).toFixed(2) * 1;
       },
       /**
        * 计算总推广费用

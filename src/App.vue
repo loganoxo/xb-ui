@@ -4,7 +4,6 @@
     <router-view></router-view>
     <Bottom></Bottom>
     <side-navigation></side-navigation>
-<!--    <BackTop :height="200" :bottom="160"></BackTop>-->
   </div>
 </template>
 
