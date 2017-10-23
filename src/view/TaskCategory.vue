@@ -296,6 +296,12 @@
       getSearchTask(){
         let self = this;
         self.searchTaskParams.itemCatalogs = self.itemCatalogs;
+        let showkerId = '';
+        if(self.$store.state.userInfo && self.$store.state.userInfo.role == 0){
+          showkerId = self.$store.state.userInfo.id
+        }else {
+          showkerId = '';
+        }
         api.getSearchTask({
           pageIndex: self.searchTaskParams.pageIndex,
           pageSize: self.searchTaskParams.pageSize,
@@ -304,7 +310,7 @@
           itemCatalogs: JSON.stringify(self.searchTaskParams.itemCatalogs),
           sortField: self.searchTaskParams.sortField,
           sortOrder: self.searchTaskParams.sortOrder,
-          showkerId: self.$store.state.userInfo.role == 0 ? self.$store.state.userInfo.id : '',
+          showkerId: showkerId,
           ifAccess: self.searchTaskParams.ifAccess == '' ? '' : true,
         }).then((res) => {
           if(res.status){
