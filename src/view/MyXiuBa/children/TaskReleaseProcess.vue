@@ -760,7 +760,7 @@
       },
       handleSuccess(res) {
         this.taskRelease.taskMainImage = aliCallbackImgUrl + res.name;
-      },
+  },
       pcBabyImgSuccess(res) {
         this.PcTaskDetail.itemMainImage = aliCallbackImgUrl + res.name;
       },

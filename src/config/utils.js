@@ -78,7 +78,7 @@ export const timeToDate = () => {
   if (D < 10) {
     D = '0' + D
   }
-  return Y + M + D
+  return Y.toString() + M.toString() + D.toString();
 };
 
 /**
