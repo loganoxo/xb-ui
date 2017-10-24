@@ -528,8 +528,13 @@
           command: self.command,
         }).then((res) => {
           if(res.status){
-            self.$Message.success(res.msg);
             self.wechartAlertShow = false;
+            self.$Message.success({
+              content:'恭喜您成功获得一个月VIP会员',
+              onClose: function () {
+                self.$store.dispatch('getUserInformation');
+              }
+            });
           }else {
             self.$Message.error(res.msg);
           }

@@ -2,12 +2,14 @@
  * Created by ycb on 2017/4/26.
  */
 import {fetch} from '../config/axiosConfig'
+import {setStorage, getStorage, removeStorage} from '@/config/utils'
 
 export default {
   /**
    * 用户普通登陆
    */
   login(params) {
+    setStorage('weChartPop', 1);
     return fetch("/api/login.json", params)
   },
 
@@ -61,12 +63,14 @@ export default {
    * 用户快速登陆
    */
   checkFastSignIn(params) {
+    setStorage('weChartPop', 1);
     return fetch("/api/check-fast-sign-in.json", params)
   },
   /**
    * QQ快速登录
    */
   QQLoginFunc(params) {
+    setStorage('weChartPop', 1);
     return fetch("/api/user/qq/sign-in.json", params)
   },
 

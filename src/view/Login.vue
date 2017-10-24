@@ -270,7 +270,6 @@
             self.$Message.success({top: 50, content: '登录成功', duration: 1,});
             self.btnState.normalLoginBtn = false;
             self.$router.push({name: 'Home'});
-            setStorage('weChartPop', 1);
           } else {
             self.instance('error', '', res.msg);
             self.btnState.normalLoginBtn = false;
