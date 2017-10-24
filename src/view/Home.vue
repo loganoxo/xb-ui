@@ -497,8 +497,9 @@
       weChartAlertFunc(){
         let self = this;
         api.checkWechartAlert().then((res) => {
-          if(res.status){
+          if(res.status && getStorage('weChartPop') == 1){
             self.wechartAlertShow = true;
+            setStorage('weChartPop',2)
           }else {
             self.wechartAlertShow = false;
           }
