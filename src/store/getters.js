@@ -1,27 +1,31 @@
 export default {
   //从vuex中获取用户账户信息
   getUserAccountInfo: state => {
-    return state.userInfo.userAccount;
+    return Object.keys(state.userInfo).length > 0 ? state.userInfo.userAccount : {};
   },
 
   //从vuex中获取用户个人基本信息
   getPersonalInfo: state => {
-    return {
-      alitmNum: state.userInfo.alitmNum,
-      alitms: state.userInfo.alitms,
-      createTime: state.userInfo.createTime,
-      id: state.userInfo.id,
-      ifBandingBankCard: state.userInfo.ifBandingBankCard,
-      ifCertification: state.userInfo.ifCertification,
-      lastLoginTime: state.userInfo.lastLoginTime,
-      nickname: state.userInfo.nickname,
-      password: state.userInfo.password,
-      phone: state.userInfo.phone,
-      portraitPic: state.userInfo.portraitPic,
-      realName: state.userInfo.realName,
-      role: state.userInfo.role,
-      salt: state.userInfo.salt,
-      status: state.userInfo.status
+    if (Object.keys(state.userInfo).length > 0) {
+      return {
+        alitmNum: state.userInfo.alitmNum,
+        alitms: state.userInfo.alitms,
+        createTime: state.userInfo.createTime,
+        id: state.userInfo.id,
+        ifBandingBankCard: state.userInfo.ifBandingBankCard,
+        ifCertification: state.userInfo.ifCertification,
+        lastLoginTime: state.userInfo.lastLoginTime,
+        nickname: state.userInfo.nickname,
+        password: state.userInfo.password,
+        phone: state.userInfo.phone,
+        portraitPic: state.userInfo.portraitPic,
+        realName: state.userInfo.realName,
+        role: state.userInfo.role,
+        salt: state.userInfo.salt,
+        status: state.userInfo.status
+      }
+    } else {
+      return {}
     }
   },
 

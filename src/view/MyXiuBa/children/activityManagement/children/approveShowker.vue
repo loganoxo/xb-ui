@@ -584,6 +584,8 @@
           selectStatus: _this.selectStatus,
           searchValue: _this.searchValue,
           orderNum: _this.orderNum,
+          tqz: _this.wwFormValidate.tqz,
+          creditLevel: _this.wwFormValidate.creditLevel,
           endReasonList: JSON.stringify(_this.endReasonList),
           auditStatusList: JSON.stringify(_this.auditStatusList),
           pageIndex: _this.pageIndex,
