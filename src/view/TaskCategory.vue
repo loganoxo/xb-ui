@@ -119,6 +119,61 @@
           </div>
         </div>
       </div>
+      <div class="container">
+        <div class="task-category-commodity">
+          <div class="home-commodity-title">
+            <img src="/static/img/home/home_25.png" alt="">
+            <p class="text-ct fs-14">我型我秀，分享精彩</p>
+          </div>
+          <div class="task-category-commodity-ctt">
+            <router-link
+              v-show="historyTaskList.length > 0"
+              v-for="historyTask in historyTaskList"
+              :title="historyTask.taskName.replace(new RegExp(/<\/font>/g),'').replace(new RegExp(/<font class='search-highlight'>/g),'')"
+              :key= "historyTask.id"
+              :to="{ 'path': '/task-details', 'query': {'q': encryptionId(historyTask.id)}}"
+              class="task-category-commodity-details"
+            >
+              <div class="task-category-commodity-img">
+                <img class="block" v-lazy="historyTask.taskMainImage + '!orgi75'" alt="" style="width: 220px; height: 220px;">
+              </div>
+              <div class="task-category-commodity-text">
+                <p v-html="historyTask.taskName"></p>
+                <p class="task-category-commodity-text-price">
+                  <span class="left">￥{{historyTask.itemPrice/100}}</span>
+                  <!--<span class="right">免费活动</span>-->
+                </p>
+                <p class="cl000">
+                  限量 <span style="color: #ff6600"> {{historyTask.taskCount || 0 }} </span> 份，
+                  <span style="color: #ff6600"> {{historyTask.showkerApplyTotalCount || 0}} </span> 人已申请
+                  <!--份数:{{searchTask.taskCount}}-->
+                  <!--&nbsp;&nbsp;&nbsp;&nbsp;-->
+                  <!--申请人数:{{searchTask.showkerApplyTotalCount}}-->
+                </p>
+                <p class="cl000">
+                  剩余时间：
+                  <time-down  :endTime="historyTask.endTime" ></time-down>&nbsp;
+                </p>
+                <p >
+                  <router-link :to="{ 'path': '/task-details','query': {'q': encryptionId(historyTask.id)}}" class="ivu-btn ivu-btn-long" >
+                    免费领取
+                  </router-link>
+                </p>
+              </div>
+            </router-link>
+            <p class="text-ct" v-show="historyTaskList.length <= 0">暂无数据</p>
+          </div>
+          <div class="task-category-commodity-page" v-show="historyTaskList.length > 0" >
+            <Page
+              :current="historyTaskListParams.pageIndex"
+              :total= "historyTaskListTotal"
+              :page-size = "historyTaskListParams.pageSize"
+              @on-change = historyPageChange
+              show-elevator
+            ></Page>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 
@@ -168,9 +223,11 @@
           id: ''
         },
         pageCount: 1,
+        historyTaskListTotal: 1,
         categoryList: [],
         taskCategoryAll: true,
-        searchTaskList:[],
+        searchTaskList: [],
+        historyTaskList: [],
         sortFieldList: [
           {
             name: '最新',
@@ -218,6 +275,12 @@
           sortField: 'upLineTime',
           sortOrder: 'desc',
           ifAccess: [],
+        },
+        historyTaskListParams:{
+          pageIndex: 1,
+          pageSize: 20,
+          itemCatalogs: [],
+          sortField: 'endTime',
         }
       }
     },
@@ -241,7 +304,9 @@
           self.searchTaskParams.taskName = searchKey;
         }
         self.getSearchTask();
+        self.getSearchHistoryTask();
       }
+
     },
     computed: {
       isLogin() {
@@ -264,6 +329,10 @@
       pageChange(data){
         this.searchTaskParams.pageIndex = data;
         this.getSearchTask();
+      },
+      historyPageChange(data){
+        this.historyTaskListParams.pageIndex = data;
+        this.getSearchHistoryTask();
       },
       taskCategoryAllFunc(){
         let self = this;
@@ -314,9 +383,29 @@
           ifAccess: self.searchTaskParams.ifAccess == '' ? '' : true,
         }).then((res) => {
           if(res.status){
-              self.pageCount = parseInt(res.data.total);
-              self.searchTaskList = res.data.content;
-              self.$set(self.searchTaskList);
+            self.pageCount = parseInt(res.data.total);
+            self.searchTaskList = res.data.content;
+            self.$set(self.searchTaskList);
+          }else {
+            self.$Message.error({
+              content: res.msg,
+              duration: 9
+            });
+          }
+        })
+      },
+      getSearchHistoryTask(){
+        let self = this;
+        api.getSearchHistoryTask({
+          pageIndex: self.historyTaskListParams.pageIndex,
+          pageSize: self.historyTaskListParams.pageSize,
+          itemCatalogs: JSON.stringify(self.historyTaskListParams.itemCatalogs),
+          sortField: 'endTime',
+        }).then((res) => {
+          if(res.status){
+            self.historyTaskList = res.data.content;
+            self.historyTaskListTotal = parseInt(res.data.total);
+            self.$set(self.historyTaskList);
           }else {
             self.$Message.error({
               content: res.msg,
@@ -339,6 +428,7 @@
             });
             for(let i = 0; i < self.categoryList.length; i++){
               itemCatalogs.push(self.categoryList[i].id);
+              self.historyTaskListParams.itemCatalogs.push(self.categoryList[i].id);
               if(cate == self.categoryList[i].id){
                 self.itemCatalogs = [parseInt(cate)];
                 self.taskCategoryAll = false;
@@ -350,7 +440,8 @@
             if(self.taskCategoryAll){
               self.itemCatalogs = itemCatalogs;
             }
-            this.getSearchTask()
+            this.getSearchTask();
+            self.getSearchHistoryTask();
           }else {
             self.$Message.error({
               content: res.msg,
@@ -367,6 +458,7 @@
         this.searchTaskParams.taskName = '';
         let cate = this.$route.query.cate;
         let searchKey = this.$route.query.searchKey;
+        self.historyTaskListParams.itemCatalogs = [];
         if(cate){
           self.itemCatalogs = [parseInt(cate)];
           self.getTaskCategoryList(cate);
@@ -383,6 +475,7 @@
             self.searchTaskParams.taskName = searchKey;
           }
           self.getSearchTask();
+          self.getSearchHistoryTask();
         }
       },
       'searchTaskParams'(){
@@ -409,6 +502,13 @@
     line-height: 36px;
     margin: 10px 0;
     padding: 0 10px;
+  }
+  .home-commodity-title{
+    padding-top: 5px;
+    img{
+      display: block;
+      margin: 28px auto 10px auto;
+    }
   }
   .task-category-ctt {
     background-color: #F1F1F1;
