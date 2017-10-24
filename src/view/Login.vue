@@ -269,8 +269,8 @@
             self.rememberAccountFunc();
             self.$Message.success({top: 50, content: '登录成功', duration: 1,});
             self.btnState.normalLoginBtn = false;
-            self.$router.push({name: 'Home'});
             setStorage('weChartPop', 1);
+            self.$router.push({name: 'Home'});
           } else {
             self.instance('error', '', res.msg);
             self.btnState.normalLoginBtn = false;
@@ -316,6 +316,7 @@
               });
               self.$Message.success({top: 50, content: '登录成功', duration: 1,});
               self.btnState.trendsLoginBtn = false;
+              setStorage('weChartPop', 1);
               self.$router.push({name: 'Home'});
             } else if (res.statusCode === 'need_reg') {
               self.$router.push({

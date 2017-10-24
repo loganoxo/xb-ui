@@ -57,7 +57,9 @@
               type: 'RECORD_USER_INFO',
               info: res.data
             });
+            setStorage('weChartPop', 1);
             self.$router.push({name: 'Home'});
+
           } else {
             if(res.statusCode == 'new_user'){
               self.$router.push({path: '/sel-role',query: {accessToken: self.accessToken.accessToken, qqOpenId: res.msg}});

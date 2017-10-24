@@ -266,8 +266,8 @@
               type: 'RECORD_USER_INFO',
               info: res.data
             });
-            self.$router.push({name: 'Home'});
             setStorage('weChartPop', 1);
+            self.$router.push({name: 'Home'});
           } else {
             self.$Message.error({
               content: res.msg,
