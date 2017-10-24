@@ -245,7 +245,7 @@
           :on-success="uploadImgSuccess"
           :on-remove="removeImage"
           :format="['jpg','jpeg','png','gif','bmp']"
-          :max-size="300"
+          :max-size="2000"
           name="report"
           :uploadLength="5"
           :on-format-error="handleFormatError"
@@ -554,7 +554,7 @@
       handleMaxSize(file) {
         this.$Modal.warning({
           title: '超出文件大小限制',
-          content: '图片 ' + file.name + ' 太大，不能超过 300K'
+          content: '图片 ' + file.name + ' 太大，不能超过 2M'
         });
       },
       showkerSuccessList() {
