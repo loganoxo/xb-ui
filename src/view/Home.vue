@@ -271,7 +271,7 @@
         <Checkbox-group  v-model="wechartShowAgain">
           <Checkbox label="true">不再提醒</Checkbox>
         </Checkbox-group>
-        <img v-show="getUserInfoRole == 0" src="/static/img/home/wechart_alert_06.png" alt="" style="width: 100%; margin-top: 20px">
+        <img v-show="getUserInfoRole == 0" src="/static/img/home/wechart_alert_06.jpg" alt="" style="width: 100%; margin-top: 20px">
         <!--<p v-show="getUserInfoRole == 0" class="ml-10" style="position: absolute;bottom: 90px;left: 21px; height: 30px; line-height: 30px;">-->
         <!--<span class="left fs-14 mr-10" style="color: #ff6633;">特权口令：</span>-->
         <!--<iInput v-model="command"  class="left mr-10" style="width:150px;"></iInput>-->
@@ -302,9 +302,10 @@
 
   export default {
     beforeMount() {
-      this.changeTopShow();
-      if(this.$store.state.wechartRes && !getStorage('setWeChartshower') && this.$store.state.userInfo.role == 0){
-        this.weChartShowkerAlertFunc();
+      let self = this;
+      self.changeTopShow();
+      if( getStorage('weChartPop') == 1 && self.$store.state.userInfo.role == 0 && !  getStorage('setWeChartshower' + self.$store.state.userInfo.phone)){
+        self.weChartShowkerAlertFunc();
       }
     },
     name: 'home',
@@ -493,6 +494,7 @@
           type: 'SET_WECHART_SHOW',
           result: true
         });
+        setStorage('weChartPop', 2);
       },
       weChartAlertFunc(){
         let self = this;
@@ -550,7 +552,7 @@
               }
             })
           }else {
-            setStorage('setWeChartshower', '1')
+            setStorage('setWeChartshower' + self.$store.state.userInfo.phone , '1')
           }
         }
       },
