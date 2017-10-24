@@ -267,6 +267,7 @@
               info: res.data
             });
             self.$router.push({name: 'Home'});
+            setStorage('weChartPop', 1);
           } else {
             self.$Message.error({
               content: res.msg,
