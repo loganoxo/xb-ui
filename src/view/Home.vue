@@ -200,6 +200,43 @@
           </div>
         </div>
       </div>
+      <!--历史活动开始-->
+      <div class="container mt-10">
+        <div class="home-commodity">
+          <div class="home-commodity-title">
+            <img src="/static/img/home/home_25.png" alt="">
+            <p class="text-ct fs-14">我型我秀，分享精彩</p>
+          </div>
+          <div class="home-commodity-ctt">
+            <router-link class="home-commodity-details"
+                         v-for="homeHistory in homeHistoryList"
+                         :title="homeHistory.taskName"
+                         :key="homeHistory.id"
+                         :to="{ 'path': '/task-details','query': {'q': encryptionId(homeHistory.id)}}">
+              <div class="home-commodity-img">
+                <img class="block" v-lazy="homeHistory.taskMainImage + '!orgi75'" alt="" style="width: 100%; height: 208px;">
+              </div>
+              <div class="home-commodity-text">
+                <p class="home-commodity-title">{{homeHistory.taskName}}</p>
+                <p class="home-commodity-price">
+                  <span class="left">￥{{homeHistory.itemPrice/100}}</span>
+                  <!--<span class="right">免费活动</span>-->
+                </p>
+                <p class="home-commodity-apply">
+                  限量 <span style="color: #ff6600"> {{homeHistory.taskCount || 0 }} </span> 份，
+                  <span style="color: #ff6600"> {{homeHistory.showkerApplyTotalCount || 0}} </span> 人已申请
+                </p>
+                <p class="home-commodity-take">
+                  <router-link :to="{ 'path': '/task-details','query': {'q':encryptionId(homeHistory.id)}}" class="ivu-btn ivu-btn-long" >
+                    免费领取
+                  </router-link>
+                </p>
+              </div>
+            </router-link>
+          </div>
+        </div>
+      </div>
+      <!--历史活动结束-->
       <div class="container">
         <div class="home-bottom mt-20">
           <img v-if="!$store.state.onlyShowkerShow" class="ml-5" src="~assets/img/home/home_23.png" alt="">
@@ -293,6 +330,7 @@
         leftTopSlider: false,
         trialCount: {},
         homeCommodityList:[],
+        homeHistoryList: [],
         noticeList:[
           {
             title: '常见问题',
@@ -392,6 +430,7 @@
       this.getHomeTaskList();
       this.getHomeTaskTopLeftList();
       this.personalTrialCount();
+      this.getHomeHistoryList();
 //      this.$store.commit({
 //        type: 'TASK_CATEGORY_LIST',
 //        info: 'home'
@@ -457,7 +496,6 @@
       weChartAlertFunc(){
         let self = this;
         api.checkWechartAlert().then((res) => {
-
           if(res.status){
             self.wechartAlertShow = true;
           }else {
@@ -465,6 +503,7 @@
           }
         })
       },
+
       setWeChartAlertFunc(role){
         let self = this;
         let commandList = {
@@ -488,6 +527,7 @@
         }).then((res) => {
           if(res.status){
             self.$Message.success(res.msg);
+            self.wechartAlertShow = false;
           }else {
             self.$Message.error(res.msg);
           }
@@ -562,6 +602,21 @@
           if(res.status){
             if(res.data){
               self.homeCommodityList = res.data;
+            }
+          }else {
+            self.$Message.error({
+              content: res.msg,
+              duration: 9
+            });
+          }
+        })
+      },
+      getHomeHistoryList(){
+        let self = this;
+        api.getHomeHistoryList().then((res) => {
+          if(res.status){
+            if(res.data){
+              self.homeHistoryList = res.data;
             }
           }else {
             self.$Message.error({

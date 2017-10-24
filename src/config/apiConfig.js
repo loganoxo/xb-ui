@@ -202,6 +202,13 @@ export default {
   },
 
   /**
+   * 分类页面历史活动任务详情请求
+   */
+  getSearchHistoryTask(params) {
+    return fetch('/api/search/task/his.json', params)
+  },
+
+  /**
    * 详情页页面
    */
   getTaskDetails(params) {
@@ -674,4 +681,12 @@ export default {
   noWechartAlert(){
     return fetch('/api/user/verify/stop.json')
   },
+  /**
+   * PC首页历史活动接口
+   */
+  getHomeHistoryList(){
+    return fetch('/api/task/index/history.json')
+  },
+
+
 }
