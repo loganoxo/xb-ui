@@ -660,18 +660,12 @@ export default {
     return fetch('/api/user/verify/check.json')
   },
 
-  /**
-   * 判断是否弹出微信弹框
-   */
-  checkWechartAlert(){
-    return fetch('/api/user/verify/check.json')
-  },
 
   /**
    * 设置微信弹框
    */
-  setWechartAlert(){
-    return fetch('/api/user/verify/set.json')
+  setWechartAlert(params){
+    return fetch('/api/user/verify/set.json',params)
   },
 
   /**

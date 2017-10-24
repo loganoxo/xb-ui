@@ -207,13 +207,38 @@
         </div>
       </div>
     </div>
+    <Modal v-model="wechartAlertShow" width="600" @on-cancel="cancelWeiChartFunc">
+      <div style="text-align: right;margin-right: 11px;position: relative;top: -2px;">
+        <Checkbox-group  v-model="wechartShowAgain">
+          <Checkbox label="true">不再提醒</Checkbox>
+        </Checkbox-group>
+
+        <!--<p v-show="getUserInfoRole == 0" class="ml-10" style="position: absolute;bottom: 90px;left: 21px; height: 30px; line-height: 30px;">-->
+          <!--<span class="left fs-14 mr-10" style="color: #ff6633;">特权口令：</span>-->
+          <!--<iInput v-model="command"  class="left mr-10" style="width:150px;"></iInput>-->
+          <!--<iButton class="left" type="error" @click="setWeChartAlertFunc(0)" >提交</iButton>-->
+        <!--</p>-->
+        <img v-show="getUserInfoRole == 1" src="/static/img/home/wechart_alert_03.png" alt="" style="width: 100%; margin-top: 20px">
+        <p v-show="getUserInfoRole == 1" class="ml-10" style="position: absolute;bottom: 90px;left: 21px; height: 30px; line-height: 30px;">
+          <span class="left fs-14 mr-10" style="color: #ff6633;">特权口令：</span>
+          <iInput v-model="command" class="left mr-10" style="width:150px;"></iInput>
+          <iButton  class="left" type="error" @click="setWeChartAlertFunc(1)" >提交</iButton>
+        </p>
+      </div>
+      <div slot="footer">
+      </div>
+    </Modal>
     <Modal v-model="$store.state.wechartShow" width="600" @on-cancel="cancelWeiChartFunc">
       <div style="text-align: right;margin-right: 11px;position: relative;top: -2px;">
         <Checkbox-group  v-model="wechartShowAgain">
           <Checkbox label="true">不再提醒</Checkbox>
         </Checkbox-group>
-        <img v-show="getUserInfoRole == 0" src="/static/img/home/wechart_alert_06.jpg" alt="" style="width: 100%; margin-top: 20px">
-        <img v-show="getUserInfoRole == 1" src="/static/img/home/wechart_alert_03.jpg" alt="" style="width: 100%; margin-top: 20px">
+        <img v-show="getUserInfoRole == 0" src="/static/img/home/wechart_alert_06.png" alt="" style="width: 100%; margin-top: 20px">
+        <!--<p v-show="getUserInfoRole == 0" class="ml-10" style="position: absolute;bottom: 90px;left: 21px; height: 30px; line-height: 30px;">-->
+        <!--<span class="left fs-14 mr-10" style="color: #ff6633;">特权口令：</span>-->
+        <!--<iInput v-model="command"  class="left mr-10" style="width:150px;"></iInput>-->
+        <!--<iButton class="left" type="error" @click="setWeChartAlertFunc(0)" >提交</iButton>-->
+        <!--</p>-->
       </div>
       <div slot="footer">
       </div>
@@ -240,6 +265,9 @@
   export default {
     beforeMount() {
       this.changeTopShow();
+      if(this.$store.state.wechartRes && !getStorage('setWeChartshower') && this.$store.state.userInfo.role == 0){
+        this.weChartShowkerAlertFunc();
+      }
     },
     name: 'home',
     components: {
@@ -258,6 +286,8 @@
     },
     data () {
       return {
+        command: '',
+        wechartAlertShow: false,
         wechartShowAgain: [],
         leftTopSliderTimer: '',
         leftTopSlider: false,
@@ -355,7 +385,6 @@
         ],
         noticeActive: 'faq',
         taskTopLeftList: [],
-//        wechartShow: false,
       }
     },
     created(){
@@ -363,21 +392,25 @@
       this.getHomeTaskList();
       this.getHomeTaskTopLeftList();
       this.personalTrialCount();
-      this.$store.commit({
-        type: 'TASK_CATEGORY_LIST',
-        info: 'home'
-      });
-      if(this.$route.query.onlyShowkerShow){
-        this.$store.commit({
-          type: 'ONLY_SHOWKER_SHOW',
-        });
-      }
+//      this.$store.commit({
+//        type: 'TASK_CATEGORY_LIST',
+//        info: 'home'
+//      });
+//      if(this.$route.query.onlyShowkerShow){
+//        this.$store.commit({
+//          type: 'ONLY_SHOWKER_SHOW',
+//        });
+//      }
     },
     destroyed() {
       let self = this;
       self.$store.commit({
         type: 'SET_WECHART_SHOW',
         result: false
+      });
+      self.$store.commit({
+        type: 'SET_WECHART_RES',
+        result: false,
       });
     },
     computed: {
@@ -402,7 +435,6 @@
         let self = this;
         self.leftTopSliderFunc();
       })
-
     },
 
     methods: {
@@ -415,37 +447,64 @@
       encryptionId(id){
         return encryption(id);
       },
+      weChartShowkerAlertFunc(){
+        let self = this;
+        self.$store.commit({
+          type: 'SET_WECHART_SHOW',
+          result: true
+        });
+      },
       weChartAlertFunc(){
         let self = this;
-        if(self.$store.state.wechartRes && self.$store.state.login && !getStorage('wechartShowAgain' + self.$store.state.userInfo.phone)){
-          self.$store.commit({
-            type: 'SET_WECHART_SHOW',
-            result: true
-          });
-          self.$store.commit({
-            type: 'SET_WECHART_RES',
-            result: false
-          });
+        api.checkWechartAlert().then((res) => {
 
-//          api.checkWechartAlert().then((res) => {
-//              if(res.status){
-//                self.wechartShow = true;
-//              }else {
-//                self.wechartShow = false;
-//                console.log(res);
-//              }
-//          })
+          if(res.status){
+            self.wechartAlertShow = true;
+          }else {
+            self.wechartAlertShow = false;
+          }
+        })
+      },
+      setWeChartAlertFunc(role){
+        let self = this;
+        let commandList = {
+          0: 1788,
+          1: 9188
+        };
+        if(self.command === ''){
+          self.$Message.error('口令不能为空');
+        }else {
+          if(parseInt(self.command) === parseInt(commandList[role])){
+            self.setWechartAlert()
+          }else {
+            self.$Message.error('口令输入错误');
+          }
         }
+      },
+      setWechartAlert(){
+        let self = this;
+        api.setWechartAlert({
+          command: self.command,
+        }).then((res) => {
+          if(res.status){
+            self.$Message.success(res.msg);
+          }else {
+            self.$Message.error(res.msg);
+          }
+        });
       },
       cancelWeiChartFunc(){
         let self = this;
         if(self.wechartShowAgain != ''){
-            setStorage('wechartShowAgain' + self.$store.state.userInfo.phone,'no')
-//          api.noWechartAlert().then((res) => {
-//              if(!res.status){
-//                self.$Message.error(res.msg)
-//              }
-//          })
+          if(self.$store.state.userInfo.role == 1){
+            api.noWechartAlert().then((res) => {
+              if(!res.status){
+                self.$Message.error(res.msg)
+              }
+            })
+          }else {
+            setStorage('setWeChartshower', '1')
+          }
         }
       },
       goOut() {
