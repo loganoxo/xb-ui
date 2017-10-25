@@ -32,17 +32,18 @@
             <p class="fs-14">
               <i class="ivu-icon ivu-icon-clock fs-16"></i>
               距申请结束：
-              <time-down color="#495060" size="20" :endTime="commodityData.task.endTime" ></time-down>&nbsp;
+              <time-down color="#495060" size="20" :endTime="commodityData.task.endTime" @timeEnd="timeEndFunc" ></time-down>&nbsp;
               <!--<span class="fs-24">17</span> 天 <span class="fs-24">02</span> 小时 <span class="fs-24">56</span> 分钟 <span class="fs-24">31</span> 秒-->
             </p>
-            <div v-if="getRole === 0 && isLogin">
+            <div v-if="getRole === 0 && isLogin && !timeEndShow">
               <iButton v-show="!commodityData.taskApply" :disabled="taskApplyLoading"  size="large" class="fs-16 default-btn" long type="error" @click="applyForTrialFunc">申请活动</iButton>
               <iButton v-show="commodityData.taskApply||disabled" disabled size="large" class="fs-16 default-btn" long >已申请</iButton>
             </div>
             <iButton v-if="getRole === 1 && isLogin " size="large" class="fs-16 default-btn"  type="warning" style="width: 200px;">商家号不可以参加活动</iButton>
-            <a v-if="!isLogin "  class="ivu-btn ivu-btn-error ivu-btn-large" @click="selectLogin = true" style="width: 150px;">
+            <a v-if="!isLogin && !timeEndShow "  class="ivu-btn ivu-btn-error ivu-btn-large" @click="selectLogin = true" style="width: 150px;">
                 申请活动
             </a>
+            <iButton v-show="timeEndShow" disabled size="large" class="fs-16 default-btn" long style="width: 150px;" >已结束</iButton>
           </div>
         </div>
       </div>
@@ -282,7 +283,7 @@
         itemUrl:null,
         WwNumberLIst:{},
         disabled:false,
-
+        timeEndShow: false,
         taskApplyLoading: false,
         alitNumSuccess: false,
         selectLogin: false,
@@ -412,6 +413,9 @@
           this.applySuccess = true;
         }
 
+      },
+      timeEndFunc(){
+        this.timeEndShow = true;
       },
       applyForTrialFunc(){
         let self = this;

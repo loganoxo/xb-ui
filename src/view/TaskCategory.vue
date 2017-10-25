@@ -156,7 +156,7 @@
                 </p>
                 <p >
                   <router-link :to="{ 'path': '/task-details','query': {'q': encryptionId(historyTask.id)}}" class="ivu-btn ivu-btn-long" >
-                    免费领取
+                    查看详情
                   </router-link>
                 </p>
               </div>

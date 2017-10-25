@@ -1,5 +1,5 @@
 <template>
-  <span :style="{color: color, fontSize: size + 'px', fontWeight: fontWeight}">{{time}}</span>
+  <span :style="{color: color, fontSize: size + 'px', fontWeight: fontWeight}" v-html="time"></span>
 </template>
 
 <script>
@@ -50,7 +50,7 @@
         if (leftTime <= 0) {
           this.flag = true;
           this.$emit('timeEnd');
-          this.time = ``;
+          this.time = `<span class="fs-14">已结束</span>`;
         } else {
           this.time = `${d}天${h}小时${m}分${s}秒`
         }

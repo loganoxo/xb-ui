@@ -228,7 +228,7 @@
                 </p>
                 <p class="home-commodity-take">
                   <router-link :to="{ 'path': '/task-details','query': {'q':encryptionId(homeHistory.id)}}" class="ivu-btn ivu-btn-long" >
-                    免费领取
+                    查看详情
                   </router-link>
                 </p>
               </div>
@@ -428,7 +428,9 @@
       }
     },
     created(){
-      this.weChartAlertFunc();
+      if(this.$store.state.login){
+        this.weChartAlertFunc();
+      }
       this.getHomeTaskList();
       this.getHomeTaskTopLeftList();
       this.personalTrialCount();
