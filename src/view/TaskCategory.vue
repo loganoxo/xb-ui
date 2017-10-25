@@ -304,7 +304,7 @@
           self.searchTaskParams.taskName = searchKey;
         }
         self.getSearchTask();
-//        self.getSearchHistoryTask();
+        self.getSearchHistoryTask();
       }
 
     },
@@ -441,7 +441,7 @@
               self.itemCatalogs = itemCatalogs;
             }
             this.getSearchTask();
-//            self.getSearchHistoryTask();
+            self.getSearchHistoryTask();
           }else {
             self.$Message.error({
               content: res.msg,
@@ -475,7 +475,7 @@
             self.searchTaskParams.taskName = searchKey;
           }
           self.getSearchTask();
-//          self.getSearchHistoryTask();
+          self.getSearchHistoryTask();
         }
       },
       'searchTaskParams'(){
