@@ -1,19 +1,22 @@
 <template>
   <div>
     <role-top></role-top>
-    <div class="text-ct fs-22">
-      秀吧登录中....
+    <div class="third-party-login fs-22">
+      <Spin class="spin"></Spin>
+      <p class="mt-10">秀吧登录中....</p>
     </div>
   </div>
 </template>
 
 <script>
+  import Spin from 'iview/src/components/spin'
   import api from '@/config/apiConfig'
   import RoleTop from '@/components/RoleTop.vue'
   import {setStorage, getStorage, removeStorage} from '@/config/utils'
   export default {
     name: 'ThirdPartyLogin',
     components: {
+      Spin: Spin,
       RoleTop: RoleTop,
     },
     beforeMount() {
@@ -51,5 +54,12 @@
 </script>
 
 <style lang="scss" scoped>
-
+.third-party-login{
+  margin: 200px auto;
+  text-align: center;
+}
+  .spin{
+    width: 20px;
+    margin: auto
+  }
 </style>
