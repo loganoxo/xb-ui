@@ -119,61 +119,61 @@
           </div>
         </div>
       </div>
-      <!--<div class="container">-->
-        <!--<div class="task-category-commodity">-->
-          <!--<div class="home-commodity-title">-->
-            <!--<img src="/static/img/home/home_25.png" alt="">-->
-            <!--<p class="text-ct fs-14">我型我秀，分享精彩</p>-->
-          <!--</div>-->
-          <!--<div class="task-category-commodity-ctt">-->
-            <!--<router-link-->
-              <!--v-show="historyTaskList.length > 0"-->
-              <!--v-for="historyTask in historyTaskList"-->
-              <!--:title="historyTask.taskName.replace(new RegExp(/<\/font>/g),'').replace(new RegExp(/<font class='search-highlight'>/g),'')"-->
-              <!--:key= "historyTask.id"-->
-              <!--:to="{ 'path': '/task-details', 'query': {'q': encryptionId(historyTask.id)}}"-->
-              <!--class="task-category-commodity-details"-->
-            <!--&gt;-->
-              <!--<div class="task-category-commodity-img">-->
-                <!--<img class="block" v-lazy="historyTask.taskMainImage + '!orgi75'" alt="" style="width: 220px; height: 220px;">-->
-              <!--</div>-->
-              <!--<div class="task-category-commodity-text">-->
-                <!--<p v-html="historyTask.taskName"></p>-->
-                <!--<p class="task-category-commodity-text-price">-->
-                  <!--<span class="left">￥{{historyTask.itemPrice/100}}</span>-->
-                  <!--&lt;!&ndash;<span class="right">免费活动</span>&ndash;&gt;-->
-                <!--</p>-->
-                <!--<p class="cl000">-->
-                  <!--限量 <span style="color: #ff6600"> {{historyTask.taskCount || 0 }} </span> 份，-->
-                  <!--<span style="color: #ff6600"> {{historyTask.showkerApplyTotalCount || 0}} </span> 人已申请-->
-                  <!--&lt;!&ndash;份数:{{searchTask.taskCount}}&ndash;&gt;-->
-                  <!--&lt;!&ndash;&nbsp;&nbsp;&nbsp;&nbsp;&ndash;&gt;-->
-                  <!--&lt;!&ndash;申请人数:{{searchTask.showkerApplyTotalCount}}&ndash;&gt;-->
-                <!--</p>-->
-                <!--<p class="cl000">-->
-                  <!--剩余时间：-->
-                  <!--<time-down  :endTime="historyTask.endTime" ></time-down>&nbsp;-->
-                <!--</p>-->
-                <!--<p >-->
-                  <!--<router-link :to="{ 'path': '/task-details','query': {'q': encryptionId(historyTask.id)}}" class="ivu-btn ivu-btn-long" >-->
-                    <!--免费领取-->
-                  <!--</router-link>-->
-                <!--</p>-->
-              <!--</div>-->
-            <!--</router-link>-->
-            <!--<p class="text-ct" v-show="historyTaskList.length <= 0">暂无数据</p>-->
-          <!--</div>-->
-          <!--<div class="task-category-commodity-page" v-show="historyTaskList.length > 0" >-->
-            <!--<Page-->
-              <!--:current="historyTaskListParams.pageIndex"-->
-              <!--:total= "historyTaskListTotal"-->
-              <!--:page-size = "historyTaskListParams.pageSize"-->
-              <!--@on-change = historyPageChange-->
-              <!--show-elevator-->
-            <!--&gt;</Page>-->
-          <!--</div>-->
-        <!--</div>-->
-      <!--</div>-->
+      <div class="container">
+        <div class="task-category-commodity">
+          <div class="home-commodity-title">
+            <img src="/static/img/home/home_25.png" alt="">
+            <p class="text-ct fs-14">我型我秀，分享精彩</p>
+          </div>
+          <div class="task-category-commodity-ctt">
+            <router-link
+              v-show="historyTaskList.length > 0"
+              v-for="historyTask in historyTaskList"
+              :title="historyTask.taskName.replace(new RegExp(/<\/font>/g),'').replace(new RegExp(/<font class='search-highlight'>/g),'')"
+              :key= "historyTask.id"
+              :to="{ 'path': '/task-details', 'query': {'q': encryptionId(historyTask.id)}}"
+              class="task-category-commodity-details"
+            >
+              <div class="task-category-commodity-img">
+                <img class="block" v-lazy="historyTask.taskMainImage + '!orgi75'" alt="" style="width: 220px; height: 220px;">
+              </div>
+              <div class="task-category-commodity-text">
+                <p v-html="historyTask.taskName"></p>
+                <p class="task-category-commodity-text-price">
+                  <span class="left">￥{{historyTask.itemPrice/100}}</span>
+                  <!--<span class="right">免费活动</span>-->
+                </p>
+                <p class="cl000">
+                  限量 <span style="color: #ff6600"> {{historyTask.taskCount || 0 }} </span> 份，
+                  <span style="color: #ff6600"> {{historyTask.showkerApplyTotalCount || 0}} </span> 人已申请
+                  <!--份数:{{searchTask.taskCount}}-->
+                  <!--&nbsp;&nbsp;&nbsp;&nbsp;-->
+                  <!--申请人数:{{searchTask.showkerApplyTotalCount}}-->
+                </p>
+                <p class="cl000">
+                  剩余时间：
+                  <time-down  :endTime="historyTask.endTime" ></time-down>&nbsp;
+                </p>
+                <p >
+                  <router-link :to="{ 'path': '/task-details','query': {'q': encryptionId(historyTask.id)}}" class="ivu-btn ivu-btn-long" >
+                    免费领取
+                  </router-link>
+                </p>
+              </div>
+            </router-link>
+            <p class="text-ct" v-show="historyTaskList.length <= 0">暂无数据</p>
+          </div>
+          <div class="task-category-commodity-page" v-show="historyTaskList.length > 0" >
+            <Page
+              :current="historyTaskListParams.pageIndex"
+              :total= "historyTaskListTotal"
+              :page-size = "historyTaskListParams.pageSize"
+              @on-change = historyPageChange
+              show-elevator
+            ></Page>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 
