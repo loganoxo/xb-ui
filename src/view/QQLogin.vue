@@ -11,7 +11,7 @@
 <script>
   import api from '@/config/apiConfig'
   import RoleTop from '@/components/RoleTop.vue'
-
+  import {setStorage, getStorage, removeStorage} from '@/config/utils'
   export default {
     name: 'QQLogin',
     components: {
@@ -59,7 +59,6 @@
             });
             setStorage('weChartPop', 1);
             self.$router.push({name: 'Home'});
-
           } else {
             if(res.statusCode == 'new_user'){
               self.$router.push({path: '/sel-role',query: {accessToken: self.accessToken.accessToken, qqOpenId: res.msg}});
