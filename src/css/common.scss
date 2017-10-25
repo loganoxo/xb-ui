@@ -253,6 +253,9 @@ input[type="number"] {
   text-overflow: ellipsis;
   white-space: nowrap;
 }
+[v-cloak] {
+  display: none;
+}
 
 .pos-lf-50 {
   left: 50% !important;

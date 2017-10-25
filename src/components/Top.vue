@@ -47,7 +47,7 @@
       <div class="container">
         <a :class="[$store.state.TaskCategoryActive == 'home' ? 'active' : '']" @click="selTaskCategoryHome()">首页</a>
         <a :class="[$store.state.TaskCategoryActive == 'all' ? 'active' : '']" @click="selTaskCategoryAllFunc">全部活动</a>
-        <a :class="[$store.state.TaskCategoryActive == nav.id ? 'active' : '']" @click="selTaskCategoryActiveFunc(nav)" v-for="nav in navList" >{{nav.name}}</a>
+        <a v-if="nav.name != '美食/特产' && nav.name != '其它试用'" :class="[$store.state.TaskCategoryActive == nav.id ? 'active' : '']" @click="selTaskCategoryActiveFunc(nav)" v-for="nav in navList" >{{nav.name}}</a>
       </div>
     </div>
   </div>

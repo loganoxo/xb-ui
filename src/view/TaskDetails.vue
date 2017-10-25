@@ -29,21 +29,24 @@
             </p>
             <p class="fs-14">（商家已存入总活动担保金&nbsp;{{commodityData.task.totalMarginNeed/100}}&nbsp;元，请放心申请）</p>
             <p class="fs-14">{{commodityData.task.showkerApplyTotalCount}} 人申请，{{parseInt(commodityData.trailOn) ? commodityData.trailOn : 0}} 人正在参与活动，{{parseInt(commodityData.trailDone) ? commodityData.trailDone : 0}} 人完成活动， 剩余 {{commodityData.task.taskCount - commodityData.task.showkerApplySuccessCount}} 份</p>
-            <p class="fs-14">
+            <p class="fs-14" v-show="applyResShow">
               <i class="ivu-icon ivu-icon-clock fs-16"></i>
               距申请结束：
               <time-down color="#495060" size="20" :endTime="commodityData.task.endTime" @timeEnd="timeEndFunc" ></time-down>&nbsp;
-              <!--<span class="fs-24">17</span> 天 <span class="fs-24">02</span> 小时 <span class="fs-24">56</span> 分钟 <span class="fs-24">31</span> 秒-->
             </p>
-            <div v-if="getRole === 0 && isLogin && !timeEndShow">
-              <iButton v-show="!commodityData.taskApply" :disabled="taskApplyLoading"  size="large" class="fs-16 default-btn" long type="error" @click="applyForTrialFunc">申请活动</iButton>
-              <iButton v-show="commodityData.taskApply||disabled" disabled size="large" class="fs-16 default-btn" long >已申请</iButton>
+            <div v-show="applyResShow">
+              <iButton v-show="timeEndShow" disabled size="large" class="fs-16 default-btn" long style="width: 150px;" >已结束</iButton>
+              <div v-show="!timeEndShow">
+                <div v-if="getRole === 0 && isLogin">
+                  <iButton v-show="!commodityData.taskApply" :disabled="taskApplyLoading"  size="large" class="fs-16 default-btn" long type="error" @click="applyForTrialFunc">申请活动</iButton>
+                  <iButton v-show="commodityData.taskApply||disabled" disabled size="large" class="fs-16 default-btn" long >已申请</iButton>
+                </div>
+                <iButton v-if="getRole === 1 && isLogin" size="large" class="fs-16 default-btn"  type="warning" style="width: 200px;">商家号不可以参加活动</iButton>
+                <a v-if="!isLogin && !timeEndShow"  class="ivu-btn ivu-btn-error ivu-btn-large" @click="selectLogin = true" style="width: 150px;">
+                  申请活动
+                </a>
+              </div>
             </div>
-            <iButton v-if="getRole === 1 && isLogin " size="large" class="fs-16 default-btn"  type="warning" style="width: 200px;">商家号不可以参加活动</iButton>
-            <a v-if="!isLogin && !timeEndShow "  class="ivu-btn ivu-btn-error ivu-btn-large" @click="selectLogin = true" style="width: 150px;">
-                申请活动
-            </a>
-            <iButton v-show="timeEndShow" disabled size="large" class="fs-16 default-btn" long style="width: 150px;" >已结束</iButton>
           </div>
         </div>
       </div>
@@ -88,23 +91,21 @@
           </div>
           <div class="graphic-info-ctt">
             <div v-show="graphicInfoSelClass == 'activity'" class="graphic-info-details" >
-              <div class="text-ct" v-if="!commodityData.cannotShowItemDescriptionOfQualification"  v-html="commodityData.task.itemDescription">
-
-              </div>
+              <div class="text-ct" v-if="!commodityData.cannotShowItemDescriptionOfQualification"  v-html="commodityData.task.itemDescription"></div>
               <div class="fs-18 text-ct" v-else >
                 <Icon type="information-circled" color="#FF6633" size="30" style="vertical-align: sub;"></Icon> 获得资格后才能看到活动品信息哦~
-                <div v-if="getRole === 0 && isLogin" style="display: inline-block">
+                <div v-show="getRole === 0 && isLogin &&!timeEndShow" style="display: inline-block">
                   <iButton v-show="!commodityData.taskApply" :disabled="taskApplyLoading"
                            style="width: 100px;" size="large"
                            class="fs-16 default-btn ivu-btn-small"
                            type="error" @click="applyForTrialFunc">申请活动</iButton>
                   <iButton v-show="commodityData.taskApply" disabled size="large" class="fs-16 default-btn" long >已申请</iButton>
                 </div>
-                <a v-if="!isLogin "  class="ivu-btn ivu-btn-error ivu-btn-small" @click="selectLogin = true" style="width: 100px;">
+                <a v-show="!isLogin && !timeEndShow"  class="ivu-btn ivu-btn-error ivu-btn-small" @click="selectLogin = true" style="width: 100px;">
                   申请活动
                 </a>
+                <iButton v-show="timeEndShow" disabled size="small" class="fs-16 default-btn" long style="width: 100px;" >已结束</iButton>
               </div>
-
             </div>
             <div v-show="graphicInfoSelClass == 'report'" class="graphic-info-report">
               <ul v-if="detailsShowkerList.length > 0">
@@ -153,7 +154,6 @@
         </div>
       </div>
     </div>
-
     <Modal
       v-model="selWw" class-name="vertical-center-modal" ok-text="确定" cancel-text="" @on-ok="selWwFunc(wwList)">
       <p class="fs-18 fb mt-20" style="color: #FF6600">请选择活动旺旺号:</p>
@@ -247,12 +247,14 @@
   import Page from 'iview/src/components/page'
   import TimeDown from '@/components/TimeDown'
   import TaskApplyBefore from '@/components/TaskApplyBefore'
+  import {getSeverTime} from '@/config/utils'
   export default {
     beforeMount() {
       this.$store.commit({
         type: 'CHANGE_TOP_SHOW'
-      })
+      });
     },
+
     name: 'task-details',
     components: {
       iInput: Input,
@@ -277,6 +279,7 @@
         needBrowseCollectAddCart:false,
         taskDetail:{},
         storeName:null,
+        applyResShow: false,
         taskTypeDesc:null,
         taskType:null,
         taskId:null,
@@ -412,7 +415,6 @@
           this.showkerApplyBefore = payPopWindow;
           this.applySuccess = true;
         }
-
       },
       timeEndFunc(){
         this.timeEndShow = true;
@@ -523,6 +525,7 @@
       },
       getTaskDetails(){
         let self = this;
+        self.applyResShow = false;
         api.getTaskDetails({taskId: decode(self.$route.query.q)}).then((res) => {
           if(res.status){
             self.commodityData = res.data;
@@ -531,6 +534,7 @@
             self.itemUrl = res.data.task.itemUrl;
             self.storeName = res.data.task.storeName;
             self.taskTypeDesc = res.data.task.taskTypeDesc;
+            parseInt(self.commodityData.task.endTime) - parseInt(getSeverTime()) ? self.timeEndShow = false : self.timeEndShow = true;
             if (self.$route.query.resubmit === 'resubmit'){
               self.applyForTrialFunc()
             }
@@ -538,12 +542,14 @@
               type: 'TASK_CATEGORY_LIST',
               info: self.commodityData.task.itemCatalog.parentItemCatalog.id
             });
+
             parseInt(res.data.trailDone) ? self.graphicInfoSels[1].num = res.data.trailDone : self.graphicInfoSels[1].num = 0;
             if(parseInt(res.data.task.showkerApplySuccessCount) || parseInt(res.data.trailEnd)){
               self.graphicInfoSels[2].num = parseInt(res.data.task.showkerApplySuccessCount) + parseInt(res.data.trailEnd)
             }else{
               self.graphicInfoSels[2].num = 0;
             }
+            self.applyResShow = true;
           }else {
             self.$Message.error({
               content: res.msg,
