@@ -34,7 +34,10 @@
       let _this = this;
       let queryString = _this.$route.query.p;
       if(queryString){
-        api.thirdPartyLogin({queryString:queryString}).then(res =>{
+        api.thirdPartyLogin({
+          queryString:encodeURI(queryString),
+          platForm: 'PC'
+        }).then(res =>{
           if(res.status){
             _this.$store.commit({
               type: 'RECORD_USER_INFO',
