@@ -1067,7 +1067,7 @@
         let key = 'task' + '/' + randomString();
         aliUploadImg(key, file).then(res => {
           if (res) {
-            let value = aliCallbackImgUrl + res.name;
+            let value = aliCallbackImgUrl + res.name + '!orgi75';
             _this.addImgRange = _this.$refs.myTextEditor.quill.getSelection();
             _this.$refs.myTextEditor.quill.insertEmbed(_this.addImgRange !== null ? _this.addImgRange.index : 0, 'image', value, Quill.sources.USER);
             document.getElementById(_this.uniqueId).value = '';

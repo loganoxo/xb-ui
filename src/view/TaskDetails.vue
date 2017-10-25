@@ -94,11 +94,8 @@
               <div class="text-ct" v-if="!commodityData.cannotShowItemDescriptionOfQualification"  v-html="commodityData.task.itemDescription"></div>
               <div class="fs-18 text-ct" v-else >
                 <Icon type="information-circled" color="#FF6633" size="30" style="vertical-align: sub;"></Icon> 获得资格后才能看到活动品信息哦~
-                <div v-show="getRole === 0 && isLogin &&!timeEndShow" style="display: inline-block">
-                  <iButton v-show="!commodityData.taskApply" :disabled="taskApplyLoading"
-                           style="width: 100px;" size="large"
-                           class="fs-16 default-btn ivu-btn-small"
-                           type="error" @click="applyForTrialFunc">申请活动</iButton>
+                <div v-show="getRole === 0 && isLogin && !timeEndShow" style="display: inline-block">
+                  <iButton v-show="!commodityData.taskApply" :disabled="taskApplyLoading" style="width: 100px;" size="large" class="fs-16 default-btn ivu-btn-small" type="error" @click="applyForTrialFunc">申请活动</iButton>
                   <iButton v-show="commodityData.taskApply" disabled size="large" class="fs-16 default-btn" long >已申请</iButton>
                 </div>
                 <a v-show="!isLogin && !timeEndShow"  class="ivu-btn ivu-btn-error ivu-btn-small" @click="selectLogin = true" style="width: 100px;">
@@ -286,7 +283,7 @@
         itemUrl:null,
         WwNumberLIst:{},
         disabled:false,
-        timeEndShow: false,
+        timeEndShow: true,
         taskApplyLoading: false,
         alitNumSuccess: false,
         selectLogin: false,
