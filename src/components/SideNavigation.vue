@@ -1,45 +1,65 @@
 <template>
   <div class="side-navigation">
-    <a v-if="isLogin && getUserRole === 1" href="http://wpa.qq.com/msgrd?v=3&site=qq&menu=yes&uin=800019404" class="side-box" target="_blank">
-      <i class="side-box-bg qq"></i>
-      <span class="animated fadeInRight box-content-service">联系在线客服</span>
-    </a>
-    <a v-if="isLogin && getUserRole === 0" href="http://wpa.qq.com/msgrd?v=3&site=qq&menu=yes&uin=800061938" class="side-box" target="_blank">
-      <i class="side-box-bg qq"></i>
-      <span class="animated fadeInRight box-content-service">联系在线客服</span>
-    </a>
-    <div v-if="isLogin && getUserRole === 1" class="side-box mt-10">
-      <i class="side-box-bg wechat"></i>
-      <div class="animated fadeInRight box-content-wechat">
-        <span>秀吧365，提权重，促转化</span>
-        <img src="~assets/img/common/merchant_wechat.png" alt="" height="120" width="120">
+    <Tooltip placement="left" :always="always" :transfer="true" :disabled="disabled" class="display-block" v-if="isLogin && getUserRole === 1">
+      <div class="side-box side-box-bg qq"></div>
+      <div slot="content">
+        <span v-show="showCloseBtn" class="close-qq-box" @click="closeQqBoxNow">关闭</span>
+        <p class="pt-10">产品客服：<a href="http://wpa.qq.com/msgrd?v=3&site=qq&menu=yes&uin=800019404" class="qq-refer-logo" target="_blank"></a></p>
+        <p class="mt-20">咨询时间：周一至周五</p>
+        <p class="text-align-rt mt-5">9:00 --- 18:00</p>
       </div>
-    </div>
-    <div v-if="isLogin && getUserRole === 0" class="side-box mt-10">
-      <i class="side-box-bg wechat"></i>
-      <div class="animated fadeInRight box-content-wechat">
-        <span>秀吧365，为你精挑细选每一天</span>
-        <img src="~assets/img/common/showker_wechat.jpg" alt="" height="120" width="120">
+    </Tooltip>
+    <Tooltip placement="left" :always="always" :transfer="true" :disabled="disabled" class="mt-10 display-block" v-if="isLogin && getUserRole === 0">
+      <div class="side-box side-box-bg qq"></div>
+      <div slot="content">
+        <p class="pt-10">产品客服：<a href="http://wpa.qq.com/msgrd?v=3&site=qq&menu=yes&uin=800061938" class="qq-refer-logo" target="_blank"></a></p>
+        <p class="mt-20">咨询时间：周一至周五</p>
+        <p class="text-align-rt mt-5">9:00 --- 18:00</p>
       </div>
-    </div>
-    <div class="side-box mt-10" @click="returnTop">
-      <i class="side-box-bg return-top"></i>
-      <div class="animated fadeInRight box-content-top">回到顶部</div>
-    </div>
+    </Tooltip>
+    <Tooltip placement="left" :transfer="true" class="mt-10 display-block" v-if="isLogin && getUserRole === 1">
+      <div class="side-box side-box-bg wechat"></div>
+      <div slot="content" class="text-ct">
+        <p>秀吧365，提权重，促转化</p>
+        <img src="~assets/img/common/merchant_wechat.png" alt="" height="140" width="140" class="mt-5">
+      </div>
+    </Tooltip>
+    <Tooltip placement="left" :transfer="true" class="mt-10 display-block" v-if="isLogin && getUserRole === 0">
+      <div class="side-box side-box-bg wechat"></div>
+      <div slot="content" class="text-ct">
+        <p>秀吧365，为你精挑细选每一天</p>
+        <img src="~assets/img/common/showker_wechat.jpg" alt="" height="140" width="140" class="mt-5">
+      </div>
+    </Tooltip>
+    <Tooltip placement="left" :transfer="true" class="mt-10 display-block" content="回到顶部">
+      <div class="return-top side-box side-box-bg" @click="returnTop"></div>
+    </Tooltip>
   </div>
 </template>
 
 <script>
-  import { scrollTop } from 'iview/src/utils/assist';
+  import Tooltip from 'iview/src/components/tooltip'
+  import Icon from 'iview/src/components/icon'
+  import {scrollTop} from 'iview/src/utils/assist'
+
   export default {
+    name: 'SideNavigation',
+    components: {
+      Tooltip: Tooltip,
+      Icon: Icon,
+    },
     data() {
-      return {}
+      return {
+        disabled: false,
+        always: true,
+        showCloseBtn: true,
+      }
     },
     mounted() {
 
     },
     created() {
-
+      this.closeQqBox();
     },
     computed: {
       isLogin: function () {
@@ -53,6 +73,17 @@
       returnTop() {
         const sTop = document.documentElement.scrollTop || document.body.scrollTop;
         scrollTop(window, sTop, 0, 1000);
+      },
+      closeQqBox() {
+        let _this = this;
+        setTimeout(() => {
+          _this.always = false;
+          _this.showCloseBtn = false;
+        }, 1000 * 30)
+      },
+      closeQqBoxNow() {
+        this.always = false;
+        this.showCloseBtn = false;
       }
     }
   }
@@ -60,6 +91,10 @@
 
 <style lang="scss" scoped>
   @import 'src/css/mixin';
+
+  .display-block {
+    display: block;
+  }
 
   .side-navigation {
     position: fixed;
@@ -80,24 +115,12 @@
     &:hover {
       background-color: darken($mainColor, 10%);
     }
-    &:hover .box-content-service {
-      visibility: visible;
-      width: 120px;
-    }
-    &:hover .box-content-top {
-      visibility: visible;
-      width: 120px;
-    }
-    &:hover .box-content-wechat {
-      visibility: visible;
-      width: 132px;
-    }
   }
 
   .side-box-bg {
     width: 44px;
     height: 44px;
-    display: inline-block;
+    display: block;
     background-image: url("~assets/img/common/side_nav_bg.png");
     background-repeat: no-repeat;
   }
@@ -114,48 +137,23 @@
     background-position: -88px 0;
   }
 
-  .box-content-service,
-  .box-content-top {
-    visibility: hidden;
-    position: absolute;
-    height: 44px;
-    width: 0;
-    right: 50px;
-    overflow: hidden;
-    top: 0;
-    color: #212326;
-    font-size: 14px;
-    line-height: 44px;
-    text-align: center;
-    border: 1px solid $mainColor;
-    @include transition;
-    background-color: #fff;
+  .qq-refer-logo {
+    display: inline-block;
+    width: 72px;
+    height: 22px;
+    vertical-align: middle;
+    background: url("~assets/img/common/qq_interflow_logo.png") no-repeat;
   }
 
-  .box-content-wechat {
-    visibility: hidden;
+  .close-qq-box {
     position: absolute;
-    height: 186px;
-    width: 0;
-    right: 50px;
-    top: -72px;
-    color: #212326;
-    overflow: hidden;
-    font-size: 14px;
-    line-height: 44px;
-    text-align: center;
-    background-color: #fff;
-    border: 1px solid $mainColor;
+    top: -16px;
+    right: 12px;
+    cursor: pointer;
+    color: #575C6A;
     @include transition;
-    span {
-      line-height: 20px;
-      display: inline-block;
-      border-bottom: 1px solid #eee;
-      margin-top: 6px;
-    }
-    img{
-      display: block;
-      margin-left: 6px;
+    &:hover {
+      color: darken(#575C6A, 10%);
     }
   }
 

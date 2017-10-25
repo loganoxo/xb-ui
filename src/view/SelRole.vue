@@ -180,7 +180,7 @@
         self.loginTrendsCustom.smsCode = self.$route.query.smsCode;
         self.loginTrendsCustom.validateCode = self.$route.query.validateCode;
       }
-      //推荐链接参数
+      //推荐链接推广参数
       if(!getCookie('recommendCode') && self.$route.query.recommendCode){
         setCookie('recommendCode', self.$route.query.recommendCode, 30);
       }
