@@ -5,10 +5,11 @@
         <div class="left">
           <span>起止日期：</span>
           <Date-picker type="datetime" placeholder="选择日期" style="width: 200px" v-model="beginTime"
-                       format="yyyy-MM-dd HH:mm:ss" :key="beginTime" @on-change="beginTime=$event"></Date-picker>
+                       format="yyyy-MM-dd HH:mm:ss"  @on-change="beginTimeFun">
+          </Date-picker>
           <span>-</span>
           <Date-picker type="datetime" placeholder="选择日期" style="width: 200px" v-model="endTime"
-                       format="yyyy-MM-dd HH:mm:ss" :key="endTime" @on-change="endTime=$event"></Date-picker>
+                       format="yyyy-MM-dd HH:mm:ss"  @on-change="endTimeFun"></Date-picker>
         </div>
         <div class="choice-time left">
           <span class="cursor-p" v-for="item in choiceTime" :class="{active:timeSelect === item.isSelect} "
@@ -172,10 +173,10 @@
         <div class="left">
           <span>起止日期：</span>
           <Date-picker type="datetime" placeholder="选择日期" style="width: 200px" v-model="beginTime"
-                       format="yyyy-MM-dd HH:mm:ss" :key="beginTime" @on-change="beginTime=$event"></Date-picker>
+                       format="yyyy-MM-dd HH:mm:ss"  @on-change="beginTimeFun"></Date-picker>
           <span>-</span>
           <Date-picker type="datetime" placeholder="选择日期" style="width: 200px" v-model="endTime"
-                       format="yyyy-MM-dd HH:mm:ss" :key="endTime" @on-change="endTime=$event"></Date-picker>
+                       format="yyyy-MM-dd HH:mm:ss" @on-change="endTimeFun"></Date-picker>
         </div>
         <div class="choice-time left">
           <span class="cursor-p" v-for="item in choiceTime" :class="{active:timeSelect === item.isSelect} "
@@ -394,6 +395,14 @@
       }
     },
     methods: {
+      beginTimeFun(e){
+        this.beginTime = e;
+        console.log('111:'+this.beginTime);
+      },
+      endTimeFun(e){
+        this.endTime = e;
+        console.log('222:'+this.endTime);
+      },
       changePageShow(type){
         this.pageIndex = 0 ;
         this.isChange = true ;
