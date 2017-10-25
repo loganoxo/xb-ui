@@ -12,6 +12,13 @@ export default {
   },
 
   /**
+   * 第三方平台登陆
+   */
+  thirdPartyLogin(params) {
+    return fetch("/api/user/sign-in-sync.json", params)
+  },
+
+  /**
    * 用户退出登陆
    */
   loggedOut() {

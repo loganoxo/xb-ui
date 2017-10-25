@@ -9,6 +9,7 @@ const ShowkerLanding = r => require.ensure([], () => r(require('@/view/ShowkerLa
 const SelRole = r => require.ensure([], () => r(require('@/view/SelRole.vue')), 'SelRole');
 const TrialReport = r => require.ensure([], () => r(require('@/view/TrialReport.vue')), 'TrialReport');
 const Login = r => require.ensure([], () => r(require('@/view/Login.vue')), 'Login');
+const ThirdPartyLogin = r => require.ensure([], () => r(require('@/view/ThirdPartyLogin.vue')), 'ThirdPartyLogin');
 const Register = r => require.ensure([], () => r(require('@/view/Register.vue')), 'Register');
 const TaskCategory = r => require.ensure([], () => r(require('@/view/TaskCategory.vue')), 'TaskCategory');
 const TaskDetails = r => require.ensure([], () => r(require('@/view/TaskDetails.vue')), 'TaskDetails');
@@ -16,7 +17,7 @@ const MyXiuBa = r => require.ensure([], () => r(require('@/view/MyXiuBa/MyXiuBa.
 const UserHome = r => require.ensure([], () => r(require('@/view/MyXiuBa/children/UserHome.vue')), 'MyXiuBa');
 const VipMember = r => require.ensure([], () => r(require('@/view/MyXiuBa/children/VipMember.vue')), 'VipMember');
 const Recommend = r => require.ensure([], () => r(require('@/view/MyXiuBa/children/Recommend.vue')), 'Recommend');
-const TaskReleaseProcess = r => require.ensure([], () => r(require('@/view/MyXiuBa/children/TaskReleaseProcess.vue')), 'MyXiuBa');
+const TaskReleaseProcess = r => require.ensure([], () => r(require('@/view/MyXiuBa/children/TaskReleaseProcess.vue')), 'TaskReleaseProcess');
 
 const ActivityManagement = r => require.ensure([], () => r(require('@/view/MyXiuBa/children/activityManagement/index.vue')), 'ActivityManagement');
 const ActivitiesList = r => require.ensure([], () => r(require('@/view/MyXiuBa/children/activityManagement/children/activitiesList.vue')), 'ActivityManagement');
@@ -114,6 +115,15 @@ export default new Router({
       component: AboutUs,
       meta: {
         title: "关于我们",
+        logInAuthority: false,
+      }
+    },
+    {
+      path: '/go-xb',
+      name: 'ThirdPartyLogin',
+      component: ThirdPartyLogin,
+      meta: {
+        title: "用户登陆",
         logInAuthority: false,
       }
     },
