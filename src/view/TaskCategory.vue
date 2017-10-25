@@ -68,7 +68,7 @@
           </div>
         </div>
       </div>
-      <div class="container">
+      <div class="container" style="background-color: #fff;">
         <div class="task-category-commodity">
           <div class="task-category-commodity-ctt">
             <router-link
@@ -120,7 +120,7 @@
         </div>
       </div>
       <div class="container">
-        <div class="task-category-commodity">
+        <div class="task-category-commodity mt-10">
           <div class="home-commodity-title">
             <img src="/static/img/home/home_25.png" alt="">
             <p class="text-ct fs-14">我型我秀，分享精彩</p>
@@ -504,7 +504,7 @@
     padding: 0 10px;
   }
   .home-commodity-title{
-    padding-top: 5px;
+    overflow: hidden;
     img{
       display: block;
       margin: 28px auto 10px auto;

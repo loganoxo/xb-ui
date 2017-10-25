@@ -201,7 +201,7 @@
         </div>
       </div>
       <!--历史活动开始-->
-      <div class="container mt-10">
+      <div class="container" style="margin-top: 10px;">
         <div class="home-commodity">
           <div class="home-commodity-title">
             <img src="/static/img/home/home_25.png" alt="">
