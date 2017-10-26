@@ -29,20 +29,21 @@
             </p>
             <p class="fs-14">（商家已存入总活动担保金&nbsp;{{commodityData.task.totalMarginNeed/100}}&nbsp;元，请放心申请）</p>
             <p class="fs-14">{{commodityData.task.showkerApplyTotalCount}} 人申请，{{parseInt(commodityData.trailOn) ? commodityData.trailOn : 0}} 人正在参与活动，{{parseInt(commodityData.trailDone) ? commodityData.trailDone : 0}} 人完成活动， 剩余 {{commodityData.task.taskCount - commodityData.task.showkerApplySuccessCount}} 份</p>
-            <p class="fs-14" v-show="applyResShow">
+            <p class="fs-14">
               <i class="ivu-icon ivu-icon-clock fs-16"></i>
               距申请结束：
-              <time-down color="#495060" size="20" :endTime="commodityData.task.endTime" @timeEnd="timeEndFunc" ></time-down>&nbsp;
+              <time-down v-show="applyBtnShow === 'buyerTasking' || applyBtnShow === 'noLogin' || applyBtnShow === 'sellerTasking' "  color="#495060" size="20" :endTime="commodityData.task.endTime" ></time-down>
+              <span v-show="applyBtnShow === 'taskEnd'" >已结束</span>
             </p>
-            <div v-show="applyResShow">
-              <iButton v-show="timeEndShow" disabled size="large" class="fs-16 default-btn" long style="width: 150px;" >已结束</iButton>
-              <div v-show="!timeEndShow">
-                <div v-if="getRole === 0 && isLogin">
+            <div >
+              <iButton v-show="applyBtnShow === 'taskEnd'" disabled size="large" class="fs-16 default-btn" long style="width: 150px;" >已结束</iButton>
+              <div >
+                <div v-if="applyBtnShow === 'buyerTasking'">
                   <iButton v-show="!commodityData.taskApply" :disabled="taskApplyLoading"  size="large" class="fs-16 default-btn" long type="error" @click="applyForTrialFunc">申请活动</iButton>
                   <iButton v-show="commodityData.taskApply||disabled" disabled size="large" class="fs-16 default-btn" long >已申请</iButton>
                 </div>
-                <iButton v-if="getRole === 1 && isLogin" size="large" class="fs-16 default-btn"  type="warning" style="width: 200px;">商家号不可以参加活动</iButton>
-                <a v-if="!isLogin && !timeEndShow"  class="ivu-btn ivu-btn-error ivu-btn-large" @click="selectLogin = true" style="width: 150px;">
+                <iButton v-if="applyBtnShow === 'sellerTasking'" size="large" class="fs-16 default-btn"  type="warning" style="width: 200px;">商家号不可以参加活动</iButton>
+                <a v-if="applyBtnShow === 'noLogin'"  class="ivu-btn ivu-btn-error ivu-btn-large" @click="selectLogin = true" style="width: 150px;">
                   申请活动
                 </a>
               </div>
@@ -94,11 +95,11 @@
               <div class="text-ct" v-if="!commodityData.cannotShowItemDescriptionOfQualification"  v-html="commodityData.task.itemDescription"></div>
               <div class="fs-18 text-ct" v-else >
                 <Icon type="information-circled" color="#FF6633" size="30" style="vertical-align: sub;"></Icon> 获得资格后才能看到活动品信息哦~
-                <div v-show="getRole === 0 && isLogin && !timeEndShow" style="display: inline-block">
+                <div v-if="applyBtnShow === 'buyerTasking'" style="display: inline-block">
                   <iButton v-show="!commodityData.taskApply" :disabled="taskApplyLoading" style="width: 100px;" size="large" class="fs-16 default-btn ivu-btn-small" type="error" @click="applyForTrialFunc">申请活动</iButton>
                   <iButton v-show="commodityData.taskApply" disabled size="large" class="fs-16 default-btn" long >已申请</iButton>
                 </div>
-                <a v-show="!isLogin && !timeEndShow"  class="ivu-btn ivu-btn-error ivu-btn-small" @click="selectLogin = true" style="width: 100px;">
+                <a v-if="applyBtnShow === 'noLogin'"   class="ivu-btn ivu-btn-error ivu-btn-small" @click="selectLogin = true" style="width: 100px;">
                   申请活动
                 </a>
                 <iButton v-show="timeEndShow" disabled size="small" class="fs-16 default-btn" long style="width: 100px;" >已结束</iButton>
@@ -276,14 +277,14 @@
         needBrowseCollectAddCart:false,
         taskDetail:{},
         storeName:null,
-        applyResShow: false,
         taskTypeDesc:null,
         taskType:null,
         taskId:null,
         itemUrl:null,
         WwNumberLIst:{},
         disabled:false,
-        timeEndShow: true,
+        timeEndShow: false,
+        applyBtnShow: '',
         taskApplyLoading: false,
         alitNumSuccess: false,
         selectLogin: false,
@@ -373,6 +374,7 @@
     created(){
       let self = this;
       self.getTaskDetails();
+
     },
     computed: {
       isLogin() {
@@ -412,9 +414,6 @@
           this.showkerApplyBefore = payPopWindow;
           this.applySuccess = true;
         }
-      },
-      timeEndFunc(){
-        this.timeEndShow = true;
       },
       applyForTrialFunc(){
         let self = this;
@@ -522,7 +521,6 @@
       },
       getTaskDetails(){
         let self = this;
-        self.applyResShow = false;
         api.getTaskDetails({taskId: decode(self.$route.query.q)}).then((res) => {
           if(res.status){
             self.commodityData = res.data;
@@ -531,7 +529,23 @@
             self.itemUrl = res.data.task.itemUrl;
             self.storeName = res.data.task.storeName;
             self.taskTypeDesc = res.data.task.taskTypeDesc;
-            parseInt(self.commodityData.task.endTime) - parseInt(getSeverTime()) ? self.timeEndShow = false : self.timeEndShow = true;
+            parseInt(res.data.task.endTime) - parseInt(getSeverTime()) > 0 ? self.timeEndShow = false : self.timeEndShow = true;
+            if(self.timeEndShow || res.data.taskCount - res.data.task.showkerApplySuccessCount <= 0){
+              self.applyBtnShow = "taskEnd";
+            }else {
+              if(self.$store.state.login){
+                  if(self.$store.state.userInfo.role == 1){
+                    self.applyBtnShow = "sellerTasking";
+                  }else {
+                    self.applyBtnShow = "buyerTasking"
+                  }
+              }else {
+                if(!self.timeEndShow && res.data.task.taskCount - res.data.task.showkerApplySuccessCount > 0){
+                  self.applyBtnShow = 'noLogin';
+                }
+              }
+            }
+
             if (self.$route.query.resubmit === 'resubmit'){
               self.applyForTrialFunc()
             }
@@ -539,14 +553,12 @@
               type: 'TASK_CATEGORY_LIST',
               info: self.commodityData.task.itemCatalog.parentItemCatalog.id
             });
-
             parseInt(res.data.trailDone) ? self.graphicInfoSels[1].num = res.data.trailDone : self.graphicInfoSels[1].num = 0;
             if(parseInt(res.data.task.showkerApplySuccessCount) || parseInt(res.data.trailEnd)){
               self.graphicInfoSels[2].num = parseInt(res.data.task.showkerApplySuccessCount) + parseInt(res.data.trailEnd)
             }else{
               self.graphicInfoSels[2].num = 0;
             }
-            self.applyResShow = true;
           }else {
             self.$Message.error({
               content: res.msg,
