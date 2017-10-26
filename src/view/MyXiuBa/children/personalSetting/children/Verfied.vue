@@ -294,7 +294,7 @@
           }).then((res) => {
             if(res.status){
               self.verifiedState = self.verifiedStatus.verifiedIng;
-              self.getUserInformation();
+              self.$store.dispatch('getUserInformation');
             }else {
               self.$Modal.warning({
                 content: res.msg
