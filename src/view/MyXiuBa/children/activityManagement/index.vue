@@ -98,7 +98,7 @@
       -webkit-box-orient: vertical;
       &:hover{
         text-decoration: underline;
-        color: $mainColor;
+        color: #2b85e4;
       }
     }
     .activity-table table td .del-edit span {
