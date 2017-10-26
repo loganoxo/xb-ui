@@ -481,6 +481,7 @@
               content: res.msg,
               duration: 1,
               onClose:function () {
+                self.$store.dispatch('getUserInformation');
                 self.$router.go(0);
               }
             });
