@@ -276,7 +276,7 @@
         })
       },
       handleStart(file) {
-        file.uid = Date.now() + this.tempIndex++;
+        file.uid = Date.now() + this.tempIndex;
         const _file = {
           status: 'uploading',
           name: file.name,
@@ -289,12 +289,15 @@
         this.fileList.push(_file);
       },
       getFile(file) {
+        console.log(file.uid);
         const fileList = this.fileList;
         let target;
         fileList.every(item => {
+          console.log(item.uid);
           target = file.uid === item.uid ? item : null;
           return !target;
         });
+        console.log(target);
         return target;
       },
       handleProgress(file) {
@@ -308,14 +311,12 @@
       },
       handleSuccess(res, file) {
         const _file = this.getFile(file);
-
         if (_file) {
           _file.status = 'finished';
           _file.src = aliCallbackImgUrl + res.name;
 
           this.dispatch('FormItem', 'on-form-change', _file);
           this.onSuccess(res, _file, this.fileList);
-
           setTimeout(() => {
             _file.showProgress = false;
           }, 1000);

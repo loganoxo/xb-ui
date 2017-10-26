@@ -75,6 +75,7 @@ export default {
   [types.SET_WECHART_SHOW](state,{result}) {
     state.wechartShow = result;
   },
+
   [types.SET_WECHART_RES](state,{result}) {
     state.wechartRes = result;
   }
