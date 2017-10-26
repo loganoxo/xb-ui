@@ -69,11 +69,9 @@
             </td>
           </tr>
           <tr>
-            <td>
+            <td class="cursor-p" @click="goTaskDetails(item.taskId)">
               <img class="left ml-10" :src="item.taskMainImage + '!thum54'">
-              <p class="left img-title">
-                <span>{{item.taskName}}</span>
-              </p>
+              <a class="img-title left" :title="item.taskName">{{item.taskName}}</a>
             </td>
             <td>{{item.alitmAccount}}</td>
             <td>{{item.perMarginNeed / 100 || 0}}</td>
@@ -448,6 +446,9 @@
       getTaskStatus(type) {
         return TaskErrorStatusList(type);
       },
+      goTaskDetails(id) {
+        this.$router.push({name: 'TaskDetails', query: {q: encryption(id)}})
+      },
       changePassOperation(type, status, id, orderType) {
         let _this = this;
         _this.reportStatus = status;
@@ -577,6 +578,7 @@
             content.forEach(function (item) {
               let data = {};
               data.id = item.id;
+              data.taskId = item.task.id;
               data.alitmAccount = item.alitmAccount;
               data.currentGenerationEndTime = item.currentGenerationEndTime;
               data.orderNum = item.orderNum;

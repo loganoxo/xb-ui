@@ -18,15 +18,15 @@
         </thead>
         <tbody v-if="applyList.length > 0" v-for="item in applyList" :key="item.id">
         <tr class="task-number">
-          <td colspan="5">活动编号：{{item.task.number || '------'}}</td>
+          <td colspan="5">
+            <span>活动编号：{{item.task.number || '------'}}</span>
+            <span class="ml-10">申请日期：{{item.applyTime | dateFormat('YYYY-MM-DD hh:mm:ss')}}</span>
+          </td>
         </tr>
         <tr>
-          <td>
+          <td class="cursor-p" @click="goTaskDetails(item.task.id)">
             <img class="left ml-10" :src="item.task.taskMainImage + '!thum54'">
-            <p class="left img-title">
-              <span>{{item.task.taskName}}</span>
-              <span>{{item.task.createTime | dateFormat('YYYY-MM-DD hh:mm:ss')}}</span>
-            </p>
+            <a class="left img-title" :title="item.task.taskName">{{item.task.taskName}}</a>
           </td>
           <td>{{item.alitmAccount}}</td>
           <td>{{item.task.perMarginNeed / 100}}</td>
@@ -210,6 +210,9 @@
       pageChange(data) {
         this.pageIndex = data;
         this.showkerApplyList();
+      },
+      goTaskDetails(id) {
+        this.$router.push({name: 'TaskDetails', query: {q: encryption(id)}})
       },
       showkerApplyList() {
         let _this = this;

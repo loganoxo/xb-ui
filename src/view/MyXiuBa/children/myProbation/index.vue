@@ -112,12 +112,19 @@
     }
 
     .probation-table table td .img-title {
-      width: 200px;
-      height: 54px;
-      padding-left: 10px;
+      display: block;
+      color: #666;
+      width: 208px;
+      padding-left: 5px;
       text-align: left;
-      span {
-        display: block;
+      max-height: 54px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      word-break: break-all ;
+      -webkit-box-orient: vertical;
+      &:hover{
+        text-decoration: underline;
+        color: #2b85e4;
       }
     }
 
