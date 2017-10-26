@@ -9,7 +9,7 @@
             <p>申请次数：{{applyCount || 0}} 次</p>
             <p>成功申请：{{applySuccessCount || 0}} 次</p>
             <p>上次申请成功：{{lastApplySuccessTime | dateFormat('YYYY-MM-DD') || '-----'}}</p>
-            <p>上次登录：{{showkerInfo.lastLoginTime | dateFormat('YYYY-MM-DD') || '-----'}}</p>
+            <p>上次登录：{{getLastLoginTime | dateFormat('YYYY-MM-DD') || '-----'}}</p>
           </div>
         </div>
         <div class="trial-right left">
@@ -189,6 +189,9 @@
     computed: {
       getUser(){
         return this.$store.state.userInfo;
+      },
+      getLastLoginTime() {
+        return Math.max(this.showkerInfo.lastLoginTimeAPP, this.showkerInfo.lastLoginTimePC)
       }
     },
     methods: {
