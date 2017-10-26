@@ -127,8 +127,8 @@
               <span class="required">宝贝单价：</span>
               <iInput v-model.number="taskRelease.itemPrice" placeholder="请输入宝贝单价" style="width: 120px"></iInput>
               <span>元</span>
-              <span v-show="taskRelease.itemPrice && taskRelease.itemPrice < 10" class="main-color ml-20"><Icon
-                color="#f60" type="information-circled"></Icon>&nbsp;每份试用品的价值必须在10元以上</span>
+              <span v-show="taskRelease.itemPrice && taskRelease.itemPrice < 1" class="main-color ml-20"><Icon
+                color="#f60" type="information-circled"></Icon>&nbsp;每份试用品的价值必须在1元以上</span>
               <p class="size-color pl-60 mt-8">活动活动期间，商家不允许修改下单页商品信息，经核查属实，本平台有权将活动担保金返还已获得资格的秀客，商家账号按相应规则处罚</p>
             </div>
             <div class="baby-pinkage ml-45 mt-20">
