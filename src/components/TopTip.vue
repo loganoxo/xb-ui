@@ -60,7 +60,11 @@
           <i data-v-38a9a25e="" class="ivu-icon ivu-icon-ios-help vtc-text-btm fs-16"></i>
           关于我们
         </router-link>
-        <a>
+        <a href="http://wpa.qq.com/msgrd?v=3&site=qq&menu=yes&uin=800019404" target="_blank" v-if="getUserInfo.role === 1">
+          <i data-v-38a9a25e="" class="ivu-icon ivu-icon-person-stalker vtc-text-btm fs-16"></i>
+          联系客服
+        </a>
+        <a href="http://wpa.qq.com/msgrd?v=3&site=qq&menu=yes&uin=800061938" target="_blank" v-if="getUserInfo.role === 0">
           <i data-v-38a9a25e="" class="ivu-icon ivu-icon-person-stalker vtc-text-btm fs-16"></i>
           联系客服
         </a>
@@ -103,7 +107,7 @@
       },
       getMemberLevel:function () {
         return this.$store.state.userInfo.memberLevel
-      },
+      }
     },
     created() {
 
