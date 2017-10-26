@@ -841,8 +841,8 @@
           _this.$Message.warning('亲，宝贝单价必须为数字！');
           return;
         }
-        if (_this.taskRelease.itemPrice < 10) {
-          _this.$Message.warning('亲，每份试用品的价值必须在10元以上！');
+        if (_this.taskRelease.itemPrice < 1) {
+          _this.$Message.warning('亲，每份试用品的价值必须在1元以上！');
           return;
         }
         if (_this.taskRelease.taskType === 'pc_search') {
