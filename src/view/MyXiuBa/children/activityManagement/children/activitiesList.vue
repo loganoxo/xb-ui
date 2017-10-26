@@ -86,9 +86,9 @@
           </td>
         </tr>
         <tr>
-          <td>
+          <td @click="goTaskDetails(item.id)" class="cursor-p">
             <img class="left ml-10" :src="item.taskMainImage + '!thum54'" :alt="item.taskName">
-            <span class="img-title left">{{item.taskName}}</span>
+            <a class="img-title left" :title="item.taskName">{{item.taskName}}</a>
           </td>
           <td>
             <p>{{item.upLineTime | dateFormat('YYYY-MM-DD hh:mm:ss') || '----'}}</p>
@@ -416,6 +416,9 @@
       },
       isApproveExpire(endTime) {
         return getSeverTime() < endTime + 48 * 3600 * 1000;
+      },
+      goTaskDetails(id) {
+        this.$router.push({name: 'TaskDetails', query: {q: encryption(id)}})
       },
       sortChange(name, index) {
         let sort = this.sortList.defaultList[index].sort;

@@ -78,18 +78,28 @@
       background-color: #f8f8f9;
     }
     .activity-table table td {
-      padding-top: 15px;
-      padding-bottom: 15px;
+      padding-top: 10px;
+      padding-bottom: 10px;
     }
     .activity-table table td img {
       width: 54px;
       height: 54px;
     }
     .activity-table table td .img-title {
-      display: inline-block;
+      display: block;
+      color: #666;
       width: 132px;
-      padding-left: 10px;
+      padding-left: 5px;
       text-align: left;
+      max-height: 54px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      word-break: break-all ;
+      -webkit-box-orient: vertical;
+      &:hover{
+        text-decoration: underline;
+        color: $mainColor;
+      }
     }
     .activity-table table td .del-edit span {
       color: #2b85e4;
