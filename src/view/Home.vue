@@ -660,7 +660,7 @@
   .home-ctt {
     background-color: #F1F1F1;
     .user-name{
-      display: inline-block;
+      display: block;
       max-width: 160px;
     }
     .home-section {
