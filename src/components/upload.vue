@@ -289,15 +289,12 @@
         this.fileList.push(_file);
       },
       getFile(file) {
-        console.log(file.uid);
         const fileList = this.fileList;
         let target;
         fileList.every(item => {
-          console.log(item.uid);
           target = file.uid === item.uid ? item : null;
           return !target;
         });
-        console.log(target);
         return target;
       },
       handleProgress(file) {

@@ -80,11 +80,9 @@
                   <img class="block ml-20 portrait-img" :src="$store.state.userInfo.portraitPic" alt="">
                 </router-link>
                 <div class="left fs-14 ml-20" style="margin-left: 10px;line-height: 28px;">
-                  <p>
-                    <router-link to="/user/user-home">
+                  <router-link to="/user/user-home" :title="decodeURIComponent(getUserInfoPhone)" class="ellipsis user-name">
                      Hi~ 秀客 {{decodeURIComponent(getUserInfoPhone)}}
                     </router-link>
-                  </p>
                   <router-link to="/user/user-home">个人中心</router-link>
                   <a @click="goOut">[ 退出登录 ]</a>
                 </div>
@@ -112,11 +110,9 @@
                   <img class=" ml-20 portrait-img block" :src="$store.state.userInfo.portraitPic" alt="">
                 </router-link>
                 <div class="left fs-14 ml-20" style="margin-left: 10px;line-height: 28px;">
-                  <p>
-                    <router-link to="/user/user-home">
+                  <router-link to="/user/user-home" :title="decodeURIComponent(getUserInfoPhone)" class="ellipsis user-name">
                       Hi~ 商家 {{decodeURIComponent(getUserInfoPhone)}}
                     </router-link>
-                  </p>
                   <div v-if="getUserInfoRole === 1&& !getMemberLevel" class="fs-12">
                     <Icon type="social-vimeo" style="color: gray"></Icon>
                     <span>非会员</span>
@@ -663,6 +659,10 @@
   @import 'src/css/mixin';
   .home-ctt {
     background-color: #F1F1F1;
+    .user-name{
+      display: inline-block;
+      max-width: 160px;
+    }
     .home-section {
       margin: 10px auto 10px auto;
       overflow: hidden;
