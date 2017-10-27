@@ -81,7 +81,7 @@ export default new Router({
       component: Alipay,
       meta: {
         title: "支付宝支付",
-        logInAuthority: false,
+        logInAuthority: true,
       }
     },
     {

@@ -21,22 +21,12 @@
         for (let k in url) {
           alipayUrl = k + '=' + url[k]
         }
-        console.log(alipayUrl);
-//        window.location.href = alipayUrl
+        window.location.href = alipayUrl
       }
     },
     computed: {},
     methods: {
-      GetQueryString(name) {
-        let reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");
-        let r = window.location.search.substr(1).match(reg);
-        if (r != null) {
-          return unescape(r[2]);
-        } else {
-          return null;
 
-        }
-      }
     }
   }
 </script>
