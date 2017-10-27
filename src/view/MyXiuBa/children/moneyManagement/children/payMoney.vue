@@ -67,7 +67,7 @@
   import Button from 'iview/src/components/button'
   import Modal from 'iview/src/components/modal'
   import {isNumber} from '@/config/utils'
-  import {aliPayUrl,weiXinPayUrl} from '@/config/env'
+  import {aliPayUrl,weiXinPayUrl,openPayUrl} from '@/config/env'
 
   export default {
     name: 'MoneyManagement',
@@ -160,8 +160,7 @@
         }).then(res => {
           if (res.status) {
             if(_this.payMoney.payMode === 'ali'){
-              let src = aliPayUrl + 'orderSerial=' + res.data.orderSerial;
-              _this.alipayUrl = src;
+              _this.alipayUrl = aliPayUrl + 'orderSerial=' + res.data.orderSerial;;
               _this.openAlipayWindow();
             }else {
                _this.imgSrc = weiXinPayUrl + 'orderSerial=' + res.data.orderSerial+'&userId='+res.data.uid;
@@ -178,7 +177,7 @@
         });
       },
       openAlipayWindow(){
-          window.open(this.alipayUrl);
+        window.open(openPayUrl+this.alipayUrl)
       },
     }
   }

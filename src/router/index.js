@@ -56,6 +56,8 @@ const PayMoney = r => require.ensure([], () => r(require('@/view/MyXiuBa/childre
 const GetoutMoney = r => require.ensure([], () => r(require('@/view/MyXiuBa/children/moneyManagement/children/getoutMoney.vue')), 'MoneyManagement');
 const TransactionRecord = r => require.ensure([], () => r(require('@/view/MyXiuBa/children/moneyManagement/children/transactionRecord.vue')), 'MoneyManagement');
 
+const Alipay = r => require.ensure([], () => r(require('@/view/Alipay.vue')), 'Alipay');
+
 Vue.use(Router);
 
 export default new Router({
@@ -70,6 +72,15 @@ export default new Router({
       component: Home,
       meta: {
         title: "秀吧-提权重促转化",
+        logInAuthority: false,
+      }
+    },
+    {
+      path: '/ali-pay',
+      name: 'Alipay',
+      component: Alipay,
+      meta: {
+        title: "支付宝支付",
         logInAuthority: false,
       }
     },
