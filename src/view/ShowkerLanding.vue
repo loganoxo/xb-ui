@@ -2,9 +2,11 @@
   <div class="thowker-landing">
     <div class="text-ct pos-rel" style="min-width: 1200px" >
       <img class="img" src="/static/img/showker-landing/showker01.jpg" alt=""  >
-      <img @click="toLogin" src="/static/img/showker-landing/showker_btn.png" alt="" class="showker-btn" >
-      <iButton class="ibtn-showker">秀客注册</iButton>
-      <iButton class="ibtn-sell">商家注册</iButton>
+      <img @click="toLogin('buyer')" src="/static/img/showker-landing/showker_btn.png" alt="" class="showker-btn" >
+      <div class="ibtnBox">
+        <iButton @click="toLogin('buyer')" class="ibtn-showker mr-30">秀客注册</iButton>
+        <iButton  @click="toLogin('seller')" class="ibtn-sell">商家注册</iButton>
+      </div>
     </div>
     <div class=" text-ct" style="min-width: 1200px">
       <img class="img" src="/static/img/showker-landing/showker02.png" alt="">
@@ -41,8 +43,8 @@
 
     },
     methods: {
-      toLogin(){
-        this.$router.push({name:'buyer'})
+      toLogin(type){
+        this.$router.push({name:type})
       }
     }
   }
@@ -54,7 +56,7 @@
     background-color: #F8FBFA;
     .showker-btn{
       position: absolute;
-      bottom: 60px;
+      bottom: 7%;
       left: 50%;
       transform: translateX(-40%);
       width: 11.67%;
@@ -64,12 +66,28 @@
       display: block;
       width: 100%;
     }
-    .ibtn-showker,ibtn-sell{
+    .ibtnBox{
       position: absolute;
-      top: 50px;
+      top: 39px;
+      right: 12%;
+    }
+    .ibtn-showker,.ibtn-sell{
+
       width: 100px;
-      height: 40px;
-      border-radius: 20px;
+      height: 30px;
+      border-radius: 15px;
+      color: #fff;
+      background: rgba(255,251,240,0.3);
+    }
+    .ibtn-showker{
+      float: left;
+    }
+    .ibtn-sell{
+      float: right;
+    }
+    .ibtn-showker:hover,.ibtn-sell:hover{
+      color: $mainColor;
+      background: rgba(255,251,240,1);
     }
   }
 
