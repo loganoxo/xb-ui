@@ -276,13 +276,13 @@
         })
       },
       handleStart(file) {
-        file.uid = Date.now() + this.tempIndex;
+//        file.uid = Date.now() + this.tempIndex;
         const _file = {
           status: 'uploading',
           name: file.name,
           size: file.size,
           percentage: 0,
-          uid: file.uid,
+//          uid: file.uid,
           showProgress: true
         };
 
@@ -292,7 +292,7 @@
         const fileList = this.fileList;
         let target;
         fileList.every(item => {
-          target = file.uid === item.uid ? item : null;
+          target = file.name === item.name ? item : null;
           return !target;
         });
         return target;
@@ -312,7 +312,7 @@
           _file.status = 'finished';
           _file.src = aliCallbackImgUrl + res.name;
 
-          this.dispatch('FormItem', 'on-form-change', _file);
+//          this.dispatch('FormItem', 'on-form-change', _file);
           this.onSuccess(res, _file, this.fileList);
           setTimeout(() => {
             _file.showProgress = false;
