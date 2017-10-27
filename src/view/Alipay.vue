@@ -1,9 +1,6 @@
 <template>
 </template>
 <script>
-  import api from '@/config/apiConfig'
-  import {isNumber} from '@/config/utils'
-  import {aliPayUrl, weiXinPayUrl} from '@/config/env'
 
   export default {
     name: 'Alipay',
@@ -14,20 +11,17 @@
     mounted() {
     },
     created() {
-      if (this.$route) {
-        console.log(this.$route.query);
-        let url = this.$route.query;
-        let alipayUrl = null;
-        for (let k in url) {
-          alipayUrl = k + '=' + url[k]
+      let querySting = this.$route.query;
+      if (querySting) {
+        let openPayUrl = null;
+        for (let k in querySting) {
+          openPayUrl = k + '=' + querySting[k]
         }
-        window.location.href = alipayUrl
+        window.location.href = openPayUrl
       }
     },
     computed: {},
-    methods: {
-
-    }
+    methods: {}
   }
 </script>
 
