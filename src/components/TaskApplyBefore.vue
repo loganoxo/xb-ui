@@ -28,7 +28,7 @@
           </p>
           <div class="mt-20 clear">
             <img class="pic left " :src="taskDetail.itemMainImage" alt="">
-            <p class="left ml-20 mt-22">店铺名称：<strong>{{hiddenText(storeName)}}</strong><br/>价格：<strong>￥{{taskDetail.searchPagePrice/100}}</strong></p>
+            <p class="left ml-20 mt-22">掌柜旺旺：<strong>{{hiddenText(storeName)}}</strong><br/>价格：<strong>￥{{taskDetail.searchPagePrice/100}}</strong></p>
           </div>
         </div>
         <div v-if="taskType === 'app_search'" class="activity-type mt-40" >
@@ -47,7 +47,7 @@
           </p>
           <div class="mt-20 clear">
             <img class="pic left " :src="taskDetail.itemMainImage" alt="">
-            <p class="left ml-20 mt-22">店铺名称：<strong>{{hiddenText(storeName)}}</strong><br/>价格：<strong>￥{{taskDetail.searchPagePrice/100}}</strong></p>
+            <p class="left ml-20 mt-22">掌柜旺旺：<strong>{{hiddenText(storeName)}}</strong><br/>价格：<strong>￥{{taskDetail.searchPagePrice/100}}</strong></p>
           </div>
         </div>
         <div v-if="taskType === 'tao_code'" class="activity-type mt-40" >

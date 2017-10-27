@@ -115,8 +115,8 @@
               <iInput v-model="taskRelease.itemUrl" placeholder="请输入宝贝地址" style="width: 296px"></iInput>
             </div>
             <div class="store-name ml-45 mt-20">
-              <span class="required">店铺名称：</span>
-              <iInput v-model="taskRelease.storeName" placeholder="请输入店铺名称" style="width: 296px"></iInput>
+              <span class="required">掌柜旺旺：</span>
+              <iInput v-model="taskRelease.storeName" placeholder="请输入掌柜旺旺" style="width: 296px"></iInput>
             </div>
             <div class="baby-number ml-45 mt-20">
               <span class="required">宝贝数量：</span>
@@ -822,7 +822,7 @@
           return;
         }
         if (!_this.taskRelease.storeName) {
-          _this.$Message.warning('亲，店铺名称不能为空！');
+          _this.$Message.warning('亲，掌柜旺旺不能为空！');
           return;
         }
         if (!_this.taskRelease.taskCount) {

@@ -182,7 +182,7 @@
         <img class="left" :src="taskPlaceInfo.taskDetailObject.itemMainImage" alt="">
         <div class="left ml-20 mt-20">
           <p>
-            <span>店铺名称：</span>
+            <span>掌柜旺旺：</span>
             <span>{{getStoreName}}</span>
           </p>
           <p>
