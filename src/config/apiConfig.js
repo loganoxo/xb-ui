@@ -180,6 +180,14 @@ export default {
   getHomeTaskList() {
     return fetch("/api/task/index/newest.json")
   },
+
+  /**
+   * 首页推荐
+   */
+  getIndexRecommend() {
+    return fetch("/api/task/index/recommend.json")
+  },
+
   /**
    * 首页左上角类表接口
    */
@@ -380,7 +388,7 @@ export default {
    * 获取会员等级详细信息
    */
   getUserMemberLevelInfo(params) {
-    return fetch("/api/get-user-member-level-info.json",params)
+    return fetch("/api/get-user-member-level-info.json", params)
   },
 
   /**
@@ -394,7 +402,7 @@ export default {
    * 充值会员
    */
   memberPurchase(params) {
-    return fetch("/api/user-member-purchase.json",params)
+    return fetch("/api/user-member-purchase.json", params)
   },
 
   /**
@@ -656,21 +664,21 @@ export default {
   /**
    * 获取推荐链接
    * */
-  getRecommendUrl(){
+  getRecommendUrl() {
     return fetch("/api/recommend-url.json")
   },
 
   /**
    * 获取推荐列表
    * */
-  getRecommendPage(params){
+  getRecommendPage(params) {
     return fetch("/api/user/reward/getRecommendPage.json", params)
   },
 
   /**
    * 判断是否弹出微信弹框
    */
-  checkWechartAlert(){
+  checkWechartAlert() {
     return fetch('/api/user/verify/check.json')
   },
 
@@ -678,20 +686,20 @@ export default {
   /**
    * 设置微信弹框
    */
-  setWechartAlert(params){
-    return fetch('/api/user/verify/set.json',params)
+  setWechartAlert(params) {
+    return fetch('/api/user/verify/set.json', params)
   },
 
   /**
    * 微信弹框不再提示
    */
-  noWechartAlert(){
+  noWechartAlert() {
     return fetch('/api/user/verify/stop.json')
   },
   /**
    * PC首页历史活动接口
    */
-  getHomeHistoryList(){
+  getHomeHistoryList() {
     return fetch('/api/task/index/history.json')
   },
 

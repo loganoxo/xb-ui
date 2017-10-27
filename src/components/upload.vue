@@ -272,6 +272,7 @@
             _this.handleSuccess(res, file);
           }
         }).catch(err => {
+          console.log(err);
           _this.handleError(err, file);
         })
       },

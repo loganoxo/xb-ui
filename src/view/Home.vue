@@ -605,7 +605,7 @@
       },
       getHomeTaskList(){
         let self = this;
-        api.getHomeTaskList().then((res) => {
+        api.getIndexRecommend().then((res) => {
           if(res.status){
             if(res.data){
               self.homeCommodityList = res.data;
