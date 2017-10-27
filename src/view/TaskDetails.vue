@@ -530,7 +530,7 @@
             self.storeName = res.data.task.storeName;
             self.taskTypeDesc = res.data.task.taskTypeDesc;
             parseInt(res.data.task.endTime) - parseInt(getSeverTime()) > 0 ? self.timeEndShow = false : self.timeEndShow = true;
-            if(self.timeEndShow || res.data.task.taskCount - res.data.task.showkerApplySuccessCount <= 0){
+            if(self.timeEndShow || parseInt(res.data.task.taskCount) -  parseInt(res.data.task.showkerApplySuccessCount) <= 0){
               self.applyBtnShow = "taskEnd";
             }else {
               if(self.$store.state.login){
