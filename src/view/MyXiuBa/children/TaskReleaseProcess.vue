@@ -1021,6 +1021,7 @@
               }
             }
             _this.taskRelease.itemPrice = _this.taskRelease.itemPrice / 100;
+            _this.taskRelease.needBrowseCollectAddCart = false;
             _this.taskRelease.taskDetail = {};
             if (res.data.taskType === 'tao_code') {
               _this.taoCodeTaskDetail = JSON.parse(res.data.taskDetail);
