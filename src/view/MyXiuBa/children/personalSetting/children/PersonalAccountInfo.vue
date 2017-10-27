@@ -404,6 +404,7 @@
     created() {
       let self = this;
       self.getVrcode();
+      self.$store.dispatch('getUserInformation');
     },
     computed: {
       getUserRole() {

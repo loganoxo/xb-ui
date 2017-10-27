@@ -589,7 +589,6 @@
                   onClose: function () {
                     self.wwBindList();
                     self.clearWwInfo();
-                    self.$store.dispatch('getUserInformation');
                     self.showWwBindBox = false;
                   }
                 });
