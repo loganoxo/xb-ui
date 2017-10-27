@@ -9,8 +9,7 @@
     </div>
     <div class="hasBalance mt-40" v-if="isBalance">
       <span class="input-pay-pwd">请输入支付密码：</span>
-      <iInput v-model.number="payPassword" type="password" style="width: 200px"
-              @on-keypress="pressEnterLoginNormal"></iInput>
+      <iInput v-model="payPassword" type="password" style="width: 200px" @on-keypress="pressEnterLoginNormal"></iInput>
       <span class="ml-10" v-if="isPwdAmend"><router-link
         :to="{path:'/user/money-management/account-management',query:{type:'findPwd'}}">忘记支付密码？</router-link></span>
       <p class="mt-20 default-pwd" v-else>初始密码为：888888，为了您的账号安全，建议您<router-link :to="{path:'/user/money-management/account-management',query:{type:'resetPwd'}}">重置支付密码</router-link>！</p>
