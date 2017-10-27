@@ -107,6 +107,7 @@
         imgSrc: null,
         payPopWindow: false,
         payPopWindowWX:false,
+        alipayUrl:''
       }
     },
     mounted() {},
@@ -160,7 +161,8 @@
           if (res.status) {
             if(_this.payMoney.payMode === 'ali'){
               let src = aliPayUrl + 'orderSerial=' + res.data.orderSerial;
-              window.open(src);
+              _this.alipayUrl = src;
+              _this.openAlipayWindow();
             }else {
                _this.imgSrc = weiXinPayUrl + 'orderSerial=' + res.data.orderSerial+'&userId='+res.data.uid;
               if (_this.imgSrc){
@@ -174,6 +176,9 @@
             _this.$Message.error(res.msg);
           }
         });
+      },
+      openAlipayWindow(){
+          window.open(this.alipayUrl);
       },
     }
   }

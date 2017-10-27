@@ -40,8 +40,8 @@
           </Alert>
           <div class="ww-account-form mt-20">
             <iForm ref="wwFormValidate" :model="wwFormValidate" :rules="wwFormRuleCustom" label-position="right" :label-width="150">
-              <Form-item label="旺旺ID：" prop="alitmAccount">
-                <iInput v-model="wwFormValidate.alitmAccount"></iInput>
+              <Form-item label="旺旺ID：" prop="alitmAccount" >
+                <iInput v-model="wwFormValidate.alitmAccount" ></iInput>
               </Form-item>
               <Form-item label="性别：" prop="alitmAccount">
                 <Radio-group v-model="wwFormValidate.sex">
@@ -60,8 +60,8 @@
                   </iOption>
                 </iSelect>
               </Form-item>
-              <Form-item label="旺旺信用等级截图：" prop="alitmLevelPicUrl"  class="ww-info-img">
-                <Upload
+              <Form-item label="旺旺信用等级截图：" prop="alitmLevelPicUrl"  class="ww-info-img clear">
+                <Upload class="left"
                   ref="uploadAlitmLevelPicUrl"
                   :show-upload-list="false"
                   :on-success="handlewwBindAlitmLevelPicUrlSuccess"
@@ -78,6 +78,7 @@
                     <Icon type="camera" size="20"></Icon>
                   </div>
                 </Upload>
+                <a class="left ml-35" @click="changeDemoPicFunc(demoUrl.wwLevel)">[查看示例截图]</a>
               </Form-item>
               <Form-item>
                 截图位置：打开淘宝首页并登录后，点击顶部“我的淘宝”，然后在左侧菜单列表中点击“评价管理”，即可查看当前旺旺信用等级
@@ -111,8 +112,9 @@
                   </iOption>
                 </iSelect>
               </Form-item>
-              <Form-item label="淘气值截图：" prop="taoqizhiPicUrl" class="ww-info-img">
+              <Form-item label="淘气值截图：" prop="taoqizhiPicUrl" class="ww-info-img clear">
                 <Upload
+                  class="left"
                   ref="uploadTaoqizhiPicUrl"
                   :show-upload-list="false"
                   :on-success="handlewwBindtaoqizhiPicUrlSuccess"
@@ -129,6 +131,7 @@
                     <Icon type="camera" size="20"></Icon>
                   </div>
                 </Upload>
+                <a class="ml-35 left" @click="changeDemoPicFunc(demoUrl.taoqi)">[查看示例截图]</a>
               </Form-item>
               <Form-item>
                 截图位置：打开淘宝首页，将鼠标移至左上角自己的淘宝账户，即可看到自己的淘气值
@@ -161,21 +164,6 @@
           <div class="left ww-account-cue mt-20">
             <p>
               <a @click="changeDemoPicFunc(demoUrl.wwAccount);">什么是旺旺ID号？</a>
-            </p>
-            <p>
-
-            </p>
-            <p>
-              <a @click="changeDemoPicFunc(demoUrl.wwLevel)">[查看示例截图]</a>
-            </p>
-            <p>
-
-            </p>
-            <p>
-
-            </p>
-            <p style="margin-top: 52px;">
-              <a @click="changeDemoPicFunc(demoUrl.taoqi)">[查看示例截图]</a>
             </p>
           </div>
         </div>
