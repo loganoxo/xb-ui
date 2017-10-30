@@ -570,8 +570,8 @@
               api.showkerToProcessOrder({
                 id: self.commodityData.showkerTask.id
               }).then((res) => {
-                console.log(res);
                 self.taskStep = res.data.appTaskDetail;
+                self.storeName = res.data.showkerTask.task.storeName;
               })
             }
             parseInt(res.data.task.endTime) - parseInt(getSeverTime()) > 0 ? self.timeEndShow = false : self.timeEndShow = true;
