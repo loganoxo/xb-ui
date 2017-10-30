@@ -72,7 +72,7 @@
   import Button from 'iview/src/components/button'
   import Modal from 'iview/src/components/modal'
   import {isNumber} from '@/config/utils'
-  import {aliPayUrl, weiXinPayUrl, openPayUrl} from '@/config/env'
+  import {aliPayUrl,weiXinPayUrl} from '@/config/env'
 
   export default {
     name: 'MoneyManagement',

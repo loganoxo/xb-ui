@@ -36,6 +36,10 @@ store.commit('INIT_USER_INFO');
 router.beforeEach((to, from, next) => {
   LoadingBar.start();
   store.commit({
+    type:"CHANGE_TOP_HIDE",
+    result:to.meta.topShow
+  });
+  store.commit({
     type: "LOG_IN_AUTHORITY",
     logInAuthority: to.meta.logInAuthority
   });

@@ -15,11 +15,10 @@ let aliCallbackImgUrl = 'https://xiuba-dev.oss-cn-hangzhou.aliyuncs.com/';
 let aliUrl = domain + '/api/ali-token.json';
 let aliPayUrl = domain + '/pay/build_req.htm?';
 let weiXinPayUrl = domain + '/pay/wxpay_qrcode.htm?';
-let openPayUrl = domain + '/ali-pay?';
 
 if (process.env.NODE_ENV === 'development') {
   bucket = 'xiuba-dev';
   aliCallbackImgUrl = 'https://xiuba-dev.oss-cn-hangzhou.aliyuncs.com/';
 }
 
-export {bucket, aliCallbackImgUrl, aliUrl, aliPayUrl, weiXinPayUrl, openPayUrl}
+export {bucket, aliCallbackImgUrl, aliUrl, aliPayUrl, weiXinPayUrl, }
