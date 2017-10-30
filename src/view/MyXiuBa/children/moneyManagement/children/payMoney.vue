@@ -153,6 +153,7 @@
             _this.payPopWindow = true;
           }
         }
+        const newWindowUrl = window.open('about:blank');
         api.balanceOrderCreate({
           finalFee: (_this.payMoney.number * 100).toFixed(),
           orderPlatform: 'PC',
@@ -160,8 +161,7 @@
         }).then(res => {
           if (res.status) {
             if(_this.payMoney.payMode === 'ali'){
-              _this.alipayUrl = aliPayUrl + 'orderSerial=' + res.data.orderSerial;;
-              _this.openAlipayWindow();
+              newWindowUrl.location.href = aliPayUrl + 'orderSerial=' + res.data.orderSerial;
             }else {
                _this.imgSrc = weiXinPayUrl + 'orderSerial=' + res.data.orderSerial+'&userId='+res.data.uid;
               if (_this.imgSrc){

@@ -20,7 +20,7 @@
     },
     created() {
       let querySting = this.$route.query;
-      if (querySting) {
+      if (Object.keys(querySting).length > 0) {
         let openPayUrl = null;
         for (let k in querySting) {
           openPayUrl = k + '=' + querySting[k]
