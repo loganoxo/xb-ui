@@ -268,7 +268,7 @@
         itemCatalogs: [],
         searchTaskParams:{
           pageIndex: 1,
-          pageSize: 20,
+          pageSize: 10,
           taskName: '',
           taskTypes: [],
           itemCatalogs: [],
@@ -318,6 +318,9 @@
       getUserInfo() {
         return this.$store.state.userInfo
       }
+    },
+    mounted: function () {
+
     },
     methods: {
       encryptionId(id){
@@ -382,6 +385,7 @@
           showkerId: showkerId,
           ifAccess: self.searchTaskParams.ifAccess == '' ? '' : true,
         }).then((res) => {
+          window.scrollTo(0, 0);
           if(res.status){
             self.pageCount = parseInt(res.data.total);
             self.searchTaskList = res.data.content;
