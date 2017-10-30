@@ -17,7 +17,7 @@
             <Radio label="ali">
               <img src="~assets/img/task-release/zfb_logo.png" alt="支付宝" class="vtc-mid">
             </Radio>
-            <Radio label="weiXin" >
+            <Radio label="weiXin">
               <img src="~assets/img/task-release/wechat_logo.png" class="vtc-mid">
             </Radio>
           </Radio-group>
@@ -41,8 +41,13 @@
               <img :src="imgSrc" alt="">
             </div>
             <div slot="footer" class="text-ct">
-              <iButton type="success" style="width: 120px;padding: 10px 10px;background-color: #FF6600;border: none" @click="success">充值成功</iButton>
-              <iButton type="error" style="width: 120px;padding: 10px 10px;margin-left: 50px;background-color: #3FC0C5;border: none" @click="error" >充值失败</iButton>
+              <iButton type="success" style="width: 120px;padding: 10px 10px;background-color: #FF6600;border: none"
+                       @click="success">充值成功
+              </iButton>
+              <iButton type="error"
+                       style="width: 120px;padding: 10px 10px;margin-left: 50px;background-color: #3FC0C5;border: none"
+                       @click="error">充值失败
+              </iButton>
             </div>
           </Modal>
         </Form-item>
@@ -67,7 +72,7 @@
   import Button from 'iview/src/components/button'
   import Modal from 'iview/src/components/modal'
   import {isNumber} from '@/config/utils'
-  import {aliPayUrl,weiXinPayUrl,openPayUrl} from '@/config/env'
+  import {aliPayUrl, weiXinPayUrl, openPayUrl} from '@/config/env'
 
   export default {
     name: 'MoneyManagement',
@@ -106,12 +111,13 @@
         },
         imgSrc: null,
         payPopWindow: false,
-        payPopWindowWX:false,
-        alipayUrl:''
+        payPopWindowWX: false,
       }
     },
-    mounted() {},
-    created() {},
+    mounted() {
+    },
+    created() {
+    },
     computed: {
       getUserBalance: function () {
         return this.$store.getters.getUserBalance;
@@ -142,17 +148,14 @@
         if (_this.payMoney.number === '') {
           _this.$Message.error('您未输入充值金额，请您重新输入');
           return;
-        }else if (!(/^[0-9]+(.[0-9]{1,2})?$/.test(parseInt(_this.payMoney.number)))){
+        }
+        if (!(/^[0-9]+(.[0-9]{1,2})?$/.test(parseInt(_this.payMoney.number)))) {
           return;
         }
-//        else if (parseInt(_this.payMoney.number) < 1) {
+//        if (parseInt(_this.payMoney.number) < 1) {
 //          return;
 //        }
-        else {
-          if (_this.payMoney.payMode === 'ali'){
-            _this.payPopWindow = true;
-          }
-        }
+
         const newWindowUrl = window.open('about:blank');
         api.balanceOrderCreate({
           finalFee: (_this.payMoney.number * 100).toFixed(),
@@ -160,15 +163,12 @@
           payChannel: 1
         }).then(res => {
           if (res.status) {
-            if(_this.payMoney.payMode === 'ali'){
+            if (_this.payMoney.payMode === 'ali') {
+              _this.payPopWindow = true;
               newWindowUrl.location.href = aliPayUrl + 'orderSerial=' + res.data.orderSerial;
-            }else {
-               _this.imgSrc = weiXinPayUrl + 'orderSerial=' + res.data.orderSerial+'&userId='+res.data.uid;
-              if (_this.imgSrc){
-                _this.payPopWindowWX = true;
-              }else {
-                _this.$Message.error(res.msg)
-              }
+            } else {
+              _this.payPopWindowWX = true;
+              _this.imgSrc = weiXinPayUrl + 'orderSerial=' + res.data.orderSerial + '&userId=' + res.data.uid;
             }
             _this.payMoney.number = '';
           } else {
@@ -176,8 +176,8 @@
           }
         });
       },
-      openAlipayWindow(){
-        window.open(openPayUrl+this.alipayUrl)
+      openAlipayWindow() {
+        window.open(openPayUrl + this.alipayUrl)
       },
     }
   }
