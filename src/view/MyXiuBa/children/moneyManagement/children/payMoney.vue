@@ -134,15 +134,6 @@
         this.payPopWindow = false;
         this.payPopWindowWX = false;
       },
-      seyPassword() {
-        if (this.psw === 'password') {
-          this.psw = 'text';
-          this.eye = 'eye-disabled';
-        } else {
-          this.psw = 'password';
-          this.eye = 'eye';
-        }
-      },
       balanceOrderCreate() {
         let _this = this;
         if (_this.payMoney.number === '') {
@@ -156,28 +147,36 @@
 //          return;
 //        }
 
-        const newWindowUrl = window.open('about:blank');
-        api.balanceOrderCreate({
-          finalFee: (_this.payMoney.number * 100).toFixed(),
-          orderPlatform: 'PC',
-          payChannel: 1
-        }).then(res => {
-          if (res.status) {
-            if (_this.payMoney.payMode === 'ali') {
+        if(_this.payMoney.payMode === 'ali'){
+          const newWindowUrl = window.open('about:blank');
+          api.balanceOrderCreate({
+            finalFee: (_this.payMoney.number * 100).toFixed(),
+            orderPlatform: 'PC',
+            payChannel: 1
+          }).then(res => {
+            if (res.status) {
               _this.payPopWindow = true;
               newWindowUrl.location.href = aliPayUrl + 'orderSerial=' + res.data.orderSerial;
+              _this.payMoney.number = '';
             } else {
+              _this.$Message.error(res.msg);
+            }
+          });
+        }else{
+          api.balanceOrderCreate({
+            finalFee: (_this.payMoney.number * 100).toFixed(),
+            orderPlatform: 'PC',
+            payChannel: 1
+          }).then(res => {
+            if (res.status) {
               _this.payPopWindowWX = true;
               _this.imgSrc = weiXinPayUrl + 'orderSerial=' + res.data.orderSerial + '&userId=' + res.data.uid;
+              _this.payMoney.number = '';
+            } else {
+              _this.$Message.error(res.msg);
             }
-            _this.payMoney.number = '';
-          } else {
-            _this.$Message.error(res.msg);
-          }
-        });
-      },
-      openAlipayWindow() {
-        window.open(openPayUrl + this.alipayUrl)
+          });
+        }
       },
     }
   }
