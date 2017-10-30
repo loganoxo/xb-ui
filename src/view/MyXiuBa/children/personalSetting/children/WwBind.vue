@@ -471,11 +471,11 @@
         api.wwUnbind({id: self.deleteWwId}).then((res) => {
           self.modalLoading = false;
           if (res.status) {
+            self.$store.dispatch('getUserInformation');
             self.$Message.success({
               content: res.msg,
               duration: 1,
               onClose: function () {
-                self.$store.dispatch('getUserInformation');
                 self.$router.go(0);
               }
             });
@@ -559,6 +559,18 @@
       wwBindFunc() {
         let self = this;
         if (!(self.wwFormValidate.taoqizhiPicUrl == '' || self.wwFormValidate.alitmLevelPicUrl == '')) {
+          if(!self.address.province){
+            self.$Message.error('请选择省');
+            return
+          }
+          if(!self.address.city){
+            self.$Message.error('请选择市');
+            return
+          }
+          if(!self.address.district){
+            self.$Message.error('请选择地区');
+            return
+          }
           self.btnState.wwBindBtn = true;
           if (self.modifyWw) {
             api.wwModify({
@@ -604,7 +616,7 @@
               tqzPicUrl: self.wwFormValidate.taoqizhiPicUrl[0].src,
               takeProvince: self.address.province,
               takeCity: self.address.city,
-              takeDistrict: self.address.district,
+              takeDistrict: self.address.district || null,
               alitmRole: self.wwFormValidate.sex,
               takeDetail: self.wwFormValidate.detailAddress
             }).then((res) => {
