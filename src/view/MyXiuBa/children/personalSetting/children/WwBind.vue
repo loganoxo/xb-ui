@@ -596,17 +596,17 @@
             })
           } else {
             api.wwBind({
-              alitmAccount: this.wwFormValidate.alitmAccount,
+              alitmAccount: self.wwFormValidate.alitmAccount,
 //              wwInfoPic: this.wwFormValidate.picUrl[0].src,
-              creditLevel: this.wwFormValidate.alitmLevel,
-              tqz: this.wwFormValidate.taoqizhi,
-              wwCreditLevelPicUrl: this.wwFormValidate.alitmLevelPicUrl[0].src,
-              tqzPicUrl: this.wwFormValidate.taoqizhiPicUrl[0].src,
-              takeProvince: this.address.province,
-              takeCity: this.address.city,
-              takeDistrict: this.address.district,
-              alitmRole: this.wwFormValidate.sex,
-              takeDetail: this.wwFormValidate.detailAddress
+              creditLevel: self.wwFormValidate.alitmLevel,
+              tqz: self.wwFormValidate.taoqizhi,
+              wwCreditLevelPicUrl: self.wwFormValidate.alitmLevelPicUrl[0].src,
+              tqzPicUrl: self.wwFormValidate.taoqizhiPicUrl[0].src,
+              takeProvince: self.address.province,
+              takeCity: self.address.city,
+              takeDistrict: self.address.district,
+              alitmRole: self.wwFormValidate.sex,
+              takeDetail: self.wwFormValidate.detailAddress
             }).then((res) => {
               if (res.status) {
                 self.$Message.success({
