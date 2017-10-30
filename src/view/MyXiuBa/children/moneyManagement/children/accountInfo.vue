@@ -227,6 +227,10 @@
 
     },
     created() {
+      let queryString = this.$route.query;
+      if(queryString && queryString.trade_status === 'TRADE_SUCCESS'){
+        this.$router.push({path:'/user/money-management/account-info'});
+      }
       this.getTradList([]);
       this.$store.dispatch('getUserInformation');
     },
