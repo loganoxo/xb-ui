@@ -92,6 +92,26 @@
           </div>
           <div class="graphic-info-ctt">
             <div v-show="graphicInfoSelClass == 'activity'" class="graphic-info-details" >
+              <div v-if="commodityData.showkerTask" class="bgF1F1F1 fs-24 pd-20 task-step-explain mb-20">
+                <p class="task-step-title">PC搜索下单</p>
+                <ul>
+                  <li>第1步：打开浏览器输入【<strong>www.taobao.com</strong>】</li>
+                  <li>第2步：搜索框输入关键词【<strong>{{taskStep.searchKeyword}}</strong>】</li>
+                  <li>第3步：选择【<strong>{{changeNameType(taskStep.searchSort)}}</strong>】排序</li>
+                  <li>第4步：在【<strong v-if="taskStep.searchPagePositionMin || taskStep.searchPagePositionMax">{{taskStep.searchPagePositionMin}}-{{taskStep.searchPagePositionMax}}</strong>】页附近找到下图宝贝。(由于千人千面的影响，位置仅供参考)</li>
+                  <li v-if="taskStep.priceRangeMax !==null || checkText || taskStep.deliverAddress">
+                    第5步：
+                    <span v-if="taskStep.priceRangeMax">搜索指定价格【<strong>{{taskStep.priceRangeMin/100}}-{{taskStep.priceRangeMax/100}}</strong>】,</span>
+                    <span v-if="checkText">勾选【<strong>{{checkText}}</strong>】</span>
+                    <span v-if="taskStep.deliverAddress">，发货地<strong>【{{taskStep.deliverAddress}}】</strong></span>
+                  </li>
+                </ul>
+                <div class="mt-20 clear fs-14">
+                  <img class="pic left " :src="taskStep.itemMainImage" alt="" style="width: 100px;">
+                  <p class="left ml-20 mt-22">店铺名称：<strong>{{hiddenText(storeName)}}</strong><br/>价格：<strong>￥{{taskStep.searchPagePrice/100}}</strong></p>
+                </div>
+              </div>
+
               <div class="text-ct" v-if="!commodityData.cannotShowItemDescriptionOfQualification"  v-html="commodityData.task.itemDescription"></div>
               <div class="fs-18 text-ct" v-else >
                 <Icon type="information-circled" color="#FF6633" size="30" style="vertical-align: sub;"></Icon> 获得资格后才能看到活动品信息哦~
@@ -240,6 +260,7 @@
   import Radio from 'iview/src/components/radio'
   import api from '@/config/apiConfig'
   import {setStorage, getStorage, decode, encryption} from '@/config/utils'
+  import {TaskErrorStatusList} from '@/config/utils'
   import Modal from 'iview/src/components/modal'
   import Breadcrumb from 'iview/src/components/breadcrumb'
   import Page from 'iview/src/components/page'
@@ -276,7 +297,8 @@
         showkerApplyBefore:false,
         needBrowseCollectAddCart:false,
         taskDetail:{},
-        storeName:null,
+        taskStep:{},
+        storeName:'',
         taskTypeDesc:null,
         taskType:null,
         taskId:null,
@@ -388,7 +410,12 @@
       },
       getTaskId(){
         return decode(this.$route.query.q)
-      }
+      },
+      checkText: function () {
+        if(this.taskStep.searchFilterDesc){
+          return this.taskStep.searchFilterDesc.split(',').join('、');
+        }
+      },
     },
     methods: {
       encryptionId(id){
@@ -414,6 +441,21 @@
           this.showkerApplyBefore = payPopWindow;
           this.applySuccess = true;
         }
+      },
+      hiddenText(type){
+        let arr = type.split("");
+        let newArr = [];
+        for (let i = 0; i < arr.length; i++) {
+          if (i === 0 || i===arr.length -1){
+            newArr.push(arr[i])
+          }else {
+            newArr.push('*');
+          }
+        }
+        return  newArr.join("");
+      },
+      changeNameType(type){
+        return TaskErrorStatusList(type );
       },
       applyForTrialFunc(){
         let self = this;
@@ -529,6 +571,14 @@
             self.itemUrl = res.data.task.itemUrl;
             self.storeName = res.data.task.storeName;
             self.taskTypeDesc = res.data.task.taskTypeDesc;
+            if(self.commodityData.showkerTask){
+              api.showkerToProcessOrder({
+                id: self.commodityData.showkerTask.id
+              }).then((res) => {
+                console.log(res);
+                self.taskStep = res.data.appTaskDetail;
+              })
+            }
             parseInt(res.data.task.endTime) - parseInt(getSeverTime()) > 0 ? self.timeEndShow = false : self.timeEndShow = true;
             if(self.timeEndShow || parseInt(res.data.task.taskCount) -  parseInt(res.data.task.showkerApplySuccessCount) <= 0){
               self.applyBtnShow = "taskEnd";
@@ -640,6 +690,29 @@
 
 <style lang="scss" scoped>
   @import 'src/css/mixin';
+  .task-step-explain{
+    padding: 30px 50px;
+    p.task-step-title{
+      font-size: 24px;
+      color: #666;
+      padding-bottom: 15px;
+      border-bottom: 1px solid #ddd;
+    }
+    ul{
+      color: #666;
+      font-size: 14px;
+      margin-top: 30px;
+      li{
+        line-height: 40px;
+        height: 40px;
+        span{
+          color: #000;
+          font-weight: bold;
+        }
+      }
+
+    }
+  }
   .task-details-ctt{
     background-color: #f1f1f1;
     .my-pop{
