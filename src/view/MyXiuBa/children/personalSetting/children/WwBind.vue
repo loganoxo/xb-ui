@@ -567,10 +567,6 @@
             self.$Message.error('请选择市');
             return
           }
-          if(!self.address.district){
-            self.$Message.error('请选择地区');
-            return
-          }
           self.btnState.wwBindBtn = true;
           if (self.modifyWw) {
             api.wwModify({
@@ -583,7 +579,7 @@
               id: self.wwFormValidate.id,
               takeProvince: self.address.province,
               takeCity: self.address.city,
-              takeDistrict: self.address.district,
+              takeDistrict: self.address.district || null,
               alitmRole: self.wwFormValidate.sex,
               takeDetail: self.wwFormValidate.detailAddress
             }).then((res) => {
