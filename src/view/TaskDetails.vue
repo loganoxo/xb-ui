@@ -268,11 +268,6 @@
   import TaskApplyBefore from '@/components/TaskApplyBefore'
   import {getSeverTime} from '@/config/utils'
   export default {
-    beforeMount() {
-      this.$store.commit({
-        type: 'CHANGE_TOP_SHOW'
-      });
-    },
 
     name: 'task-details',
     components: {

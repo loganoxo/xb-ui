@@ -84,9 +84,7 @@
       },
     },
     methods: {
-      ...mapMutations({
-        changeTopShow: 'CHANGE_TOP_SHOW'
-      }),
+
     },
     watch: {
       $route(to){

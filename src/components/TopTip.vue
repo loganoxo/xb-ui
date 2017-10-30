@@ -89,11 +89,7 @@
 
   export default {
     name: 'topTip',
-    beforeMount() {
-      this.$store.commit({
-        type: 'CHANGE_TOP_SHOW'
-      })
-    },
+
     components: {
       Icon: Icon,
       Tooltip: Tooltip,

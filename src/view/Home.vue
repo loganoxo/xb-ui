@@ -299,7 +299,6 @@
   export default {
     beforeMount() {
       let self = this;
-      self.changeTopShow();
       if( getStorage('weChartPop') == 1 && self.$store.state.userInfo.role == 0 && !  getStorage('setWeChartshower' + self.$store.state.userInfo.phone)){
         self.weChartShowkerAlertFunc();
       }
@@ -480,9 +479,6 @@
       ...mapActions([
         'loggedOut'
       ]),
-      ...mapMutations({
-        changeTopShow: 'CHANGE_TOP_SHOW'
-      }),
       encryptionId(id){
         return encryption(id);
       },

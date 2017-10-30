@@ -193,11 +193,6 @@
   import Page from 'iview/src/components/page'
   import TimeDown from '@/components/TimeDown'
   export default {
-    beforeMount() {
-      this.$store.commit({
-        type: 'CHANGE_TOP_SHOW'
-      })
-    },
     name: 'task-category',
     components: {
       iInput: Input,

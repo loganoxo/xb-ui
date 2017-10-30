@@ -117,11 +117,7 @@
   import TimeDown from '@/components/TimeDown'
   import Carousel from 'iview/src/components/carousel'
   export default {
-    beforeMount() {
-      this.$store.commit({
-        type: 'CHANGE_TOP_SHOW'
-      })
-    },
+
     name: 'MyTrialReport',
     components: {
       iInput: Input,

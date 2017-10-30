@@ -123,11 +123,7 @@
   import Table from 'iview/src/components/table'
   import Clipboard from 'clipboard';
   export default {
-    beforeMount() {
-      this.$store.commit({
-        type: 'CHANGE_TOP_SHOW'
-      });
-    },
+
     name: 'Recommend',
     components: {
       Icon: Icon,

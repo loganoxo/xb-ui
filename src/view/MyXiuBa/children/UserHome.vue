@@ -160,11 +160,7 @@
   import Carousel from 'iview/src/components/carousel'
 
   export default {
-    beforeMount() {
-      this.$store.commit({
-        type: 'CHANGE_TOP_SHOW'
-      })
-    },
+
     name: 'UserHome',
     components: {
       iInput: Input,

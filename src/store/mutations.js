@@ -51,14 +51,10 @@ export default {
     state.taskManagementCountInfo = countInfo;
   },
 
-  //更改头部显示
-  [types.CHANGE_TOP_SHOW](state) {
-    state.topShow = true;
-  },
 
-  //更改头部显示
-  [types.CHANGE_TOP_HIDE](state) {
-    state.topShow = false;
+  //页面头部是否显示
+  [types.CHANGE_TOP_SHOW_HIDE](state, {status}) {
+    state.topShow = status;
   },
 
   //导航列表存入

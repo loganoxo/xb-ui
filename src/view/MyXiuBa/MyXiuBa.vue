@@ -100,11 +100,7 @@
         isSelect: "UserHome",
       }
     },
-    beforeMount() {
-      this.$store.commit({
-        type: 'CHANGE_TOP_SHOW'
-      });
-    },
+
     mounted() {
 
     },

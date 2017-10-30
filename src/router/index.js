@@ -71,6 +71,7 @@ export default new Router({
       meta: {
         title: "秀吧-提权重促转化",
         logInAuthority: false,
+        topShow: true
       }
     },
     {
@@ -80,6 +81,7 @@ export default new Router({
       meta: {
         title: "注册角色选择",
         logInAuthority: false,
+        topShow: false
       }
     },
     {
@@ -89,6 +91,7 @@ export default new Router({
       meta: {
         title: "QQ登录中",
         logInAuthority: false,
+        topShow: false
       }
     },
     {
@@ -98,6 +101,7 @@ export default new Router({
       meta: {
         title: "商家推广",
         logInAuthority: false,
+        topShow: false
       }
     },
     {
@@ -107,6 +111,7 @@ export default new Router({
       meta: {
         title: "秀客落地页",
         logInAuthority: false,
+        topShow: false
       }
     },
     {
@@ -116,7 +121,7 @@ export default new Router({
       meta: {
         title: "关于我们",
         logInAuthority: false,
-        // topShow:false,
+        topShow: false,
       }
     },
     {
@@ -126,6 +131,7 @@ export default new Router({
       meta: {
         title: "用户登陆",
         logInAuthority: false,
+        topShow: false
       }
     },
     {
@@ -135,6 +141,7 @@ export default new Router({
       meta: {
         title: "用户登陆",
         logInAuthority: false,
+        topShow: false
       }
     },
     {
@@ -156,6 +163,7 @@ export default new Router({
           meta: {
             title: "用户注册",
             logInAuthority: false,
+            topShow: false
           },
         },
       ]
@@ -167,6 +175,7 @@ export default new Router({
       meta: {
         title: "任务分类展示",
         logInAuthority: false,
+        topShow: true
       }
     },
     {
@@ -176,6 +185,7 @@ export default new Router({
       meta: {
         title: "任务详情页",
         logInAuthority: false,
+        topShow:true
       }
     },
     {
@@ -185,6 +195,7 @@ export default new Router({
       meta: {
         title: "买家秀页",
         logInAuthority: true,
+        topShow: true
       }
     },
     {
@@ -199,6 +210,7 @@ export default new Router({
           meta: {
             title: "我的主页",
             logInAuthority: true,
+            topShow: true
           }
         },
         {
@@ -208,6 +220,7 @@ export default new Router({
           meta: {
             title: "推荐有礼",
             logInAuthority: true,
+            topShow: true
           }
         },
         {
@@ -217,6 +230,7 @@ export default new Router({
           meta: {
             title: "发布活动",
             logInAuthority: true,
+            topShow: true
           }
         },
         {
@@ -231,6 +245,7 @@ export default new Router({
               meta: {
                 title: "活动管理-活动列表",
                 logInAuthority: true,
+                topShow: true
               },
             },
             {
@@ -240,6 +255,7 @@ export default new Router({
               meta: {
                 title: "活动管理-审批秀客",
                 logInAuthority: true,
+                topShow: true
               },
             },
             {
@@ -249,6 +265,7 @@ export default new Router({
               meta: {
                 title: "活动管理-买家秀",
                 logInAuthority: true,
+                topShow: true
               },
             },
             {
@@ -263,6 +280,7 @@ export default new Router({
                   meta: {
                     title: "活动管理-活动详情",
                     logInAuthority: true,
+                    topShow: true
                   },
                 },
                 {
@@ -272,6 +290,7 @@ export default new Router({
                   meta: {
                     title: "活动管理-活动日志",
                     logInAuthority: true,
+                    topShow: true
                   },
                 },
               ]
@@ -290,6 +309,7 @@ export default new Router({
               meta: {
                 title: "任务管理-待审核",
                 logInAuthority: true,
+                topShow: true
               }
             },
             {
@@ -299,6 +319,7 @@ export default new Router({
               meta: {
                 title: "任务管理-已通过",
                 logInAuthority: true,
+                topShow: true
               }
             },
             {
@@ -308,6 +329,7 @@ export default new Router({
               meta: {
                 title: "任务管理-已终止",
                 logInAuthority: true,
+                topShow: true
               }
             }
           ]
@@ -324,6 +346,7 @@ export default new Router({
               meta: {
                 title: "我的买家秀-待审批",
                 logInAuthority: true,
+                topShow: true
               },
             },
             {
@@ -333,6 +356,7 @@ export default new Router({
               meta: {
                 title: "我的买家秀-已通过",
                 logInAuthority: true,
+                topShow: true
               },
             },
             {
@@ -342,6 +366,7 @@ export default new Router({
               meta: {
                 title: "我的买家秀-未通过",
                 logInAuthority: true,
+                topShow: true
               },
             },
             {
@@ -359,6 +384,7 @@ export default new Router({
           meta: {
             title: "我的报告",
             logInAuthority: true,
+            topShow: true
           }
         },
         {
@@ -373,6 +399,7 @@ export default new Router({
               meta: {
                 title: "个人设置-账号信息",
                 logInAuthority: true,
+                topShow: true
               },
             },
             {
@@ -382,6 +409,7 @@ export default new Router({
               meta: {
                 title: "个人设置-旺旺绑定",
                 logInAuthority: true,
+                topShow: true
               },
             },
             {
@@ -391,6 +419,7 @@ export default new Router({
               meta: {
                 title: "个人设置-实名认证",
                 logInAuthority: true,
+                topShow: true
               },
             }
           ]
@@ -399,7 +428,6 @@ export default new Router({
           path: 'help-center',
           name: 'helpCenter',
           component: HelpCenter,
-          logInAuthority: false,
           children: [
             {
               path: 'faq',
@@ -408,6 +436,7 @@ export default new Router({
               meta: {
                 title: "帮助中心-常见问题",
                 logInAuthority: false,
+                topShow: true
               },
             },
             {
@@ -417,6 +446,7 @@ export default new Router({
               meta: {
                 title: "帮助中心-商家中心",
                 logInAuthority: false,
+                topShow: true
               },
             },
             {
@@ -426,6 +456,7 @@ export default new Router({
               meta: {
                 title: "个人设置-秀客中心",
                 logInAuthority: false,
+                topShow: true
               },
             }
           ]
@@ -442,6 +473,7 @@ export default new Router({
               meta: {
                 title: "资金管理-账号信息",
                 logInAuthority: true,
+                topShow: true
               }
             },
             {
@@ -451,6 +483,7 @@ export default new Router({
               meta: {
                 title: "资金管理-账户管理",
                 logInAuthority: true,
+                topShow: true
               }
             },
             {
@@ -460,6 +493,7 @@ export default new Router({
               meta: {
                 title: "资金管理-充值",
                 logInAuthority: true,
+                topShow: true
               }
             },
             {
@@ -469,6 +503,7 @@ export default new Router({
               meta: {
                 title: "资金管理-提现",
                 logInAuthority: true,
+                topShow: true
               }
             },
             {
@@ -478,6 +513,7 @@ export default new Router({
               meta: {
                 title: "资金管理-交易记录",
                 logInAuthority: true,
+                topShow: true
               }
             },
           ]
@@ -489,6 +525,7 @@ export default new Router({
           meta: {
             title: "VIP会员",
             logInAuthority: true,
+            topShow: true
           }
         }
       ]

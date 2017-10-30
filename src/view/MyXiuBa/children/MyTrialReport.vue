@@ -106,11 +106,7 @@
   import api from '@/config/apiConfig'
   import TimeDown from '@/components/TimeDown'
   export default {
-    beforeMount() {
-      this.$store.commit({
-        type: 'CHANGE_TOP_SHOW'
-      })
-    },
+
     name: 'MyTrialReport',
     components: {
       iInput: Input,
