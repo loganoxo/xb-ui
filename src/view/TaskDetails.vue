@@ -94,7 +94,7 @@
             <div v-show="graphicInfoSelClass == 'activity'" class="graphic-info-details" >
               <div v-if="commodityData.showkerTask" class="bgF1F1F1 fs-24 pd-20 task-step-explain mb-20">
                 <p class="task-step-title">{{commodityData.task.taskTypeDesc}}</p>
-                <ul>
+                <ul v-if="commodityData.task.taskType === 'pc_search'">
                   <li>第1步：打开浏览器输入【<strong>www.taobao.com</strong>】</li>
                   <li>第2步：搜索框输入关键词【<strong>{{taskStep.searchKeyword}}</strong>】</li>
                   <li>第3步：选择【<strong>{{changeNameType(taskStep.searchSort)}}</strong>】排序</li>
@@ -106,7 +106,53 @@
                     <span v-if="taskStep.deliverAddress">，发货地<strong>【{{taskStep.deliverAddress}}】</strong></span>
                   </li>
                 </ul>
-                <div class="mt-20 clear fs-14">
+                <ul v-if="commodityData.task.taskType === 'app_search'">
+                  <li>第1步：打开浏览器输入【<strong>手机淘宝APP</strong>】</li>
+                  <li>第2步：搜索框输入关键词【<strong>{{taskDetail.searchKeyword}}</strong>】</li>
+                  <li>第3步：选择【<strong>{{changeNameType(taskDetail.searchSort)}}</strong>】排序</li>
+                  <li>第4步：在【<strong v-if="taskDetail.searchPagePositionMin || taskDetail.searchPagePositionMax">{{taskDetail.searchPagePositionMin}}-{{taskDetail.searchPagePositionMax}}</strong>】页附近找到下图宝贝。(由于千人千面的影响，位置仅供参考)</li>
+                  <li v-if="taskDetail.priceRangeMax !==null || checkText || taskDetail.deliverAddress">
+                    第5步：
+                    <span v-if="taskDetail.priceRangeMax">搜索指定价格【<strong>{{taskDetail.priceRangeMin/100}}-{{taskDetail.priceRangeMax/100}}</strong>】,</span>
+                    <span v-if="checkText">勾选【<strong>{{checkText}}</strong>】</span>
+                    <span v-if="taskDetail.deliverAddress">，发货地<strong>【{{taskDetail.deliverAddress}}】</strong></span>
+                  </li>
+                </ul>
+                <ul v-if="commodityData.task.taskType === 'tao_code'" class="activity-type mt-40" >
+                  <li>
+                    <h3>通过商家指定的方式找到该宝贝</h3>
+                  </li>
+                  <li>
+                    <div class=" mt-10 search-type"><strong>{{taskTypeDesc}}</strong></div>
+                  </li>
+                  <li>
+                    <p><span>淘口令</span><span>【<strong id="copyCode">{{taskDetail.taoCode}}</strong>】</span><span class="ml-10 cursor-p" style="color: blue" id="copyBtn">点击复制淘口令</span></p>
+                  </li>
+                  <li>
+                    <p>入口说明：【<strong>直接在手机端上复制淘口令，打开手淘会自动弹出宝贝链接</strong>】</p>
+                  </li>
+                </ul>
+                <ul v-if="commodityData.task.taskType === 'direct_access'">
+                  <li>
+                    <h3 >通过商家指定的方式找到该宝贝</h3>
+                  </li>
+                  <li>
+                    <div class=" mt-10 search-type"><strong>{{taskTypeDesc}}</strong></div>
+                  </li>
+                  <li>
+                    <span>宝贝链接:</span>
+                  </li>
+                  <li>
+                    <p>
+                      <a target="_blank" :href="itemUrl" style="  width: 900px;overflow: hidden;
+                        display: inline-block;
+                        line-height: normal;
+                        vertical-align: middle;"
+                      >{{itemUrl}}</a>
+                    </p>
+                  </li>
+                </ul>
+                <div v-if="commodityData.task.taskType != 'tao_code' && commodityData.task.taskType != 'direct_access' " class="mt-20 clear fs-14">
                   <img class="pic left " :src="taskStep.itemMainImage" alt="" style="width: 100px;">
                   <p class="left ml-20 mt-22">店铺名称：<strong>{{hiddenText(storeName)}}</strong><br/>价格：<strong>￥{{taskStep.searchPagePrice/100}}</strong></p>
                 </div>
@@ -267,6 +313,7 @@
   import TimeDown from '@/components/TimeDown'
   import TaskApplyBefore from '@/components/TaskApplyBefore'
   import {getSeverTime} from '@/config/utils'
+  import Clipboard from 'clipboard';
   export default {
 
     name: 'task-details',
@@ -391,7 +438,19 @@
     created(){
       let self = this;
       self.getTaskDetails();
-
+      self.$nextTick(function () {
+        let clipboard = new Clipboard('#copyBtn', {
+          target: () => document.getElementById('copyCode')
+        });
+        clipboard.on('success', () => {
+          self.$Message.success("复制口令成功！");
+          clipboard.destroy();
+        });
+        clipboard.on('error', () => {
+          self.$Message.error("复制口令失败！");
+          clipboard.destroy();
+        });
+      });
     },
     computed: {
       isLogin() {
@@ -562,16 +621,21 @@
           if(res.status){
             self.commodityData = res.data;
             self.needBrowseCollectAddCart=res.data.task.needBrowseCollectAddCart;
-            self.taskDetail= res.data.task.taskDetailObject;
             self.itemUrl = res.data.task.itemUrl;
-            self.storeName = res.data.task.storeName;
-            self.taskTypeDesc = res.data.task.taskTypeDesc;
             if(self.commodityData.showkerTask){
               api.showkerToProcessOrder({
                 id: self.commodityData.showkerTask.id
               }).then((res) => {
-                self.taskStep = res.data.appTaskDetail;
+                if(self.commodityData.task.taskType === 'pc_search'){
+                  self.taskStep = res.data.pcTaskDetail;
+                }else if(self.commodityData.task.taskType === 'app_search'){
+                  self.taskStep = res.data.appTaskDetail;
+                }else if(self.commodityData.task.taskType === 'direct_access'){
+                  self.itemUrl  = res.data.showkerTask.task.itemUrl;
+                }
+                self.taskDetail= res.data.showkerTask.task.taskDetailObject;
                 self.storeName = res.data.showkerTask.task.storeName;
+                self.taskTypeDesc = res.data.showkerTask.task.taskTypeDesc;
               })
             }
             parseInt(res.data.task.endTime) - parseInt(getSeverTime()) > 0 ? self.timeEndShow = false : self.timeEndShow = true;
