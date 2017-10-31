@@ -12,7 +12,7 @@
   import Spin from 'iview/src/components/spin'
   import api from '@/config/apiConfig'
   import RoleTop from '@/components/RoleTop.vue'
-  import {setStorage, getStorage, removeStorage} from '@/config/utils'
+  import {setStorage, getStorage, removeStorage,encryption} from '@/config/utils'
   export default {
     name: 'ThirdPartyLogin',
     components: {
@@ -28,6 +28,8 @@
     created() {
       let _this = this;
       let queryString = _this.$route.query.p;
+      let pg = _this.$route.query.pg;
+      let other = _this.$route.query.other;
       if(queryString){
         api.thirdPartyLogin({
           queryString:encodeURI(queryString),
@@ -39,7 +41,13 @@
               info: res.data
             });
             setStorage('weChartPop', 1);
-            _this.$router.push({name: 'Home'});
+            if(pg && other){
+               let taskId = JSON.parse(other);
+              _this.$router.push({path: pg, 'query':{'q': encryption(taskId.p)}});
+            }else {
+              _this.$router.push({name: 'Home'});
+            }
+
           }else{
             _this.$Message.error(res.msg)
           }
