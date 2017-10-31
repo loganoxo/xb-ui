@@ -39,7 +39,10 @@
               <iButton v-show="applyBtnShow === 'taskEnd'" disabled size="large" class="fs-16 default-btn" long style="width: 150px;" >已结束</iButton>
               <div >
                 <div v-if="applyBtnShow === 'buyerTasking'">
-                  <iButton v-show="!commodityData.taskApply" :disabled="taskApplyLoading"  size="large" class="fs-16 default-btn" long type="error" @click="applyForTrialFunc">申请活动</iButton>
+                  <div>
+                    <iButton v-show="!commodityData.taskApply" :disabled="taskApplyLoading"  size="large" class="fs-16 default-btn" long type="error" @click="applyForTrialFunc">申请活动</iButton>
+                    <span v-show="!commodityData.taskApply && (commodityData.task.taskCount - commodityData.task.showkerApplySuccessCount <= 0) " class="cl999">还有{{parseInt(commodityData.task.taskCount) - parseInt(commodityData.trailDone)}}人未完成活动，仍有机会获得活动资格</span>
+                  </div>
                   <iButton v-show="commodityData.taskApply||disabled" disabled size="large" class="fs-16 default-btn" long >已申请</iButton>
                 </div>
                 <iButton v-if="applyBtnShow === 'sellerTasking'" size="large" class="fs-16 default-btn"  type="warning" style="width: 200px;">商家号不可以参加活动</iButton>
@@ -639,19 +642,17 @@
               })
             }
             parseInt(res.data.task.endTime) - parseInt(getSeverTime()) > 0 ? self.timeEndShow = false : self.timeEndShow = true;
-            if(self.timeEndShow || parseInt(res.data.task.taskCount) -  parseInt(res.data.task.showkerApplySuccessCount) <= 0){
+            if(self.timeEndShow || parseInt(self.commodityData.task.taskCount) <= parseInt(self.commodityData.trailDone) || res.data.task.taskStatus === 'finished'){
               self.applyBtnShow = "taskEnd";
             }else {
               if(self.$store.state.login){
-                  if(self.$store.state.userInfo.role == 1){
-                    self.applyBtnShow = "sellerTasking";
-                  }else {
-                    self.applyBtnShow = "buyerTasking"
-                  }
-              }else {
-                if(!self.timeEndShow && res.data.task.taskCount - res.data.task.showkerApplySuccessCount > 0){
-                  self.applyBtnShow = 'noLogin';
+                if(self.$store.state.userInfo.role == 1){
+                  self.applyBtnShow = "sellerTasking";
+                }else {
+                  self.applyBtnShow = "buyerTasking"
                 }
+              }else {
+                self.applyBtnShow = 'noLogin';
               }
             }
 
