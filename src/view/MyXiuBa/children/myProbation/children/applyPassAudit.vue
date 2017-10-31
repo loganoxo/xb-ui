@@ -191,6 +191,22 @@
           </p>
         </div>
       </div>
+      <div class="verification-link mt-20 pt-20" v-if="taskPlaceInfo.taskType === 'pc_search' || taskPlaceInfo.taskType === 'app_search'">
+        <span>宝贝链接验证：</span>
+        <iInput v-model="verificationLink" style="width: 300px;" placeholder="请输入宝贝链接地址"></iInput>
+        <iButton type="primary" @click="verificationLinkIsRight">验证</iButton>
+        <span class="link-right ml-5" v-show="verificationLinkStatus === 'success'"><Icon type="checkmark-circled" color="#69B045"></Icon>&nbsp;恭喜，找对啦！</span>
+        <span class="link-error ml-5"  v-show="verificationLinkStatus === 'error'"><Icon type="close-circled" color="red"></Icon>&nbsp;糟糕，不是这家哦~</span>
+      </div>
+      <div class="mt-10 ml-88">
+        <a @click="getAppUrlImage = true">手淘宝贝如何获取链接地址？</a>
+        <Modal v-model="getAppUrlImage" :width="600">
+          <div class="text-ct">
+            <img src="~assets/img/common/get-app-url-image.png" alt="">
+          </div>
+          <div slot="footer"></div>
+        </Modal>
+      </div>
       <div class="write-order-number mt-40">
         <span @click="openAuditOrder(null,orderType)">下单完成，填订单号</span>
         <span class="ml-35" @click="returnUpPage">返回上页</span>
@@ -384,8 +400,11 @@
         deleteModal: false,
         deleteId: null,
         orderImg: false,
+        getAppUrlImage: false,
         orderType: null,
-        taskOrderType: null
+        taskOrderType: null,
+        verificationLink: null,
+        verificationLinkStatus: null,
       }
     },
     mounted() {
@@ -710,6 +729,14 @@
       },
       lookReportInfo(id) {
         this.$router.push({path: '/user/my-probation/report', query: {id: encryption(id), from: 'buyer'}});
+      },
+      verificationLinkIsRight() {
+        if(!this.verificationLink){
+          this.verificationLinkStatus = null;
+          this.$Message.warning('亲，请输入需要验证的宝贝链接地址！');
+          return;
+        }
+        this.verificationLinkStatus = this.verificationLink === this.taskPlaceInfo.itemUrl ? 'success' : 'error';
       }
     }
   }

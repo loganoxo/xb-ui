@@ -162,12 +162,6 @@
         },
       }
     },
-
-    beforeMount() {
-      this.$store.commit({
-        type: 'CHANGE_TOP_HIDE'
-      })
-    },
     created(){
       let self = this;
       self.animateStart.complete = true;

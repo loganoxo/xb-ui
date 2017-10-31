@@ -312,5 +312,15 @@
         color: #666;
       }
     }
+
+    .verification-link{
+      border-top: 2px solid #F6F6F6;
+      .link-right{
+        color: #69B045;
+      }
+      .link-error{
+        color: red;
+      }
+    }
   }
 </style>

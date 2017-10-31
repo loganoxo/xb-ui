@@ -471,11 +471,6 @@
       RoleTop: RoleTop,
       Modal: Modal,
     },
-    beforeMount() {
-      this.$store.commit({
-        type: 'CHANGE_TOP_HIDE'
-      })
-    },
     data() {
       //表单验证
       const validatePhone = (rule, value, callback) => {
