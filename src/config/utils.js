@@ -204,6 +204,22 @@ export const decode = (string) => {
 };
 
 /**
+* 解析url地址参数
+*/
+export const getUrlParams = (url,name) => {
+  if(!url || !name){
+    return
+  }
+  let reg = new RegExp("(^|&)"+ name +"=([^&]*)(&|$)");
+  let r = url.match(reg);
+  console.log(r);
+  if (r !== null) {
+    return unescape(r[2]);
+  }
+  return null;
+};
+
+/**
  * 任务流程状态映射
  */
 export const TaskErrorStatusList = (type) => {

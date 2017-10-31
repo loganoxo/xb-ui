@@ -173,9 +173,8 @@
         <p class="mb-10">淘口令【<span id="copyCode">{{taskPlaceInfo.taskDetailObject.taoCode}}</span>】<span id="copyBtn" class="ml-10">点击复制口令</span></p>
         <p>入口说明：【<span>直接在手机端上复制淘口令，打开手淘会自动弹出宝贝链接</span>】</p>
       </div>
-      <div v-if="taskPlaceInfo.taskType === 'direct_access'" class="tao-link-place-step">
-        <p>宝贝链接：<a :href="taskPlaceInfo.itemUrl" target="_blank">{{taskPlaceInfo.itemUrl}}</a>
-        </p>
+      <div class="tao-link-place-step">
+        <p class="clear"><strong class="left">宝贝链接：</strong><a class="left ml-5" :href="taskPlaceInfo.itemUrl" target="_blank">{{taskPlaceInfo.itemUrl}}</a></p>
       </div>
       <div class="baby-info clear mt-40"
            v-if="taskPlaceInfo.taskType === 'pc_search' || taskPlaceInfo.taskType === 'app_search'">
@@ -198,7 +197,7 @@
         <span class="link-right ml-5" v-show="verificationLinkStatus === 'success'"><Icon type="checkmark-circled" color="#69B045"></Icon>&nbsp;恭喜，找对啦！</span>
         <span class="link-error ml-5"  v-show="verificationLinkStatus === 'error'"><Icon type="close-circled" color="red"></Icon>&nbsp;糟糕，不是这家哦~</span>
       </div>
-      <div class="mt-10 ml-88">
+      <div class="mt-10 ml-88" v-if="taskPlaceInfo.taskType === 'app_search'">
         <a @click="getAppUrlImage = true">手淘宝贝如何获取链接地址？</a>
         <Modal v-model="getAppUrlImage" :width="600">
           <div class="text-ct">
@@ -338,7 +337,7 @@
   import TimeDown from '@/components/TimeDown'
   import api from '@/config/apiConfig'
   import {aliCallbackImgUrl} from '@/config/env'
-  import {TaskErrorStatusList, isNumber, encryption} from '@/config/utils'
+  import {TaskErrorStatusList, isNumber, encryption, getUrlParams} from '@/config/utils'
 
   export default {
     name: 'ApplyPassAudit',
@@ -736,7 +735,9 @@
           this.$Message.warning('亲，请输入需要验证的宝贝链接地址！');
           return;
         }
-        this.verificationLinkStatus = this.verificationLink === this.taskPlaceInfo.itemUrl ? 'success' : 'error';
+        let newId = getUrlParams(this.verificationLink, 'id');
+        let oldId = getUrlParams(this.taskPlaceInfo.itemUrl, 'id');
+        this.verificationLinkStatus = newId === oldId ? 'success' : 'error';
       }
     }
   }
