@@ -19,7 +19,7 @@
                 <p>{{ww.alitmAccount}}</p>
                 <p v-if="ww.creditLevel"><img :src="taobaoLevelImgs[parseInt(ww.creditLevel) - 2]['text']" alt=""
                                               style="width: auto;height: auto;"></p>
-                <p v-if="ww.tqz">淘气值：{{taoqizhiList[parseInt(ww.tqz) - 1]['label']}}</p>
+                <p v-if="ww.tqz">淘气值：{{taoqizhiList[parseInt(ww.tqz) -                         1]['label']}}</p>
               </li>
               <li>{{ww.applyTime | dateFormat('YYYY-MM-DD hh:mm:ss')}}</li>
               <li><img :src="ww.wwCreditLevelPicUrl" alt="" style="width: 50px; padding: 10px;"></li>
@@ -270,16 +270,6 @@
         deleteWwModal: false,
         deleteWwId: '',
         taobaoLevelImgs: [
-//          {
-//            value: 1,
-//            text: 'https://img.alicdn.com/newrank/b_red_1.gif',
-//            label: '1心'
-//          },
-//          {
-//            value: '',
-//            text: '',
-//            label: ''
-//          },
           {
             value: 2,
             text: 'https://img.alicdn.com/newrank/b_red_2.gif',
@@ -405,7 +395,7 @@
           sex: '0',
           alitmAccount: '',
           alitmLevel: '',
-          taoqizhi: '',
+          taoqizhi: null,
 //          picUrl: [],
           alitmLevelPicUrl: [],
           taoqizhiPicUrl: [],
@@ -497,16 +487,16 @@
         this.showWwBindBox = true;
         this.wwFormValidate.id = ww.id;
         this.wwFormValidate.alitmAccount = ww.alitmAccount;
-        this.wwFormValidate.alitmLevel = this.taobaoLevelImgs[parseInt(ww.creditLevel) + 1].value;
+        this.wwFormValidate.alitmLevel = ww.creditLevel;
         this.wwFormValidate.taoqizhi = ww.tqz;
         this.address.province = ww.takeProvince;
         this.address.city = ww.takeCity;
         this.address.district = ww.takeDistrict;
+        this.region.province = ww.takeProvince;
+        this.region.city = ww.takeCity;
+        this.region.district = ww.district;
         this.wwFormValidate.sex = ww.alitmRole;
         this.wwFormValidate.detailAddress = ww.takeDetail;
-//        this.wwFormValidate.picUrl = [{
-//          src: ww.wwInfoPic,
-//        }];
         this.wwFormValidate.alitmLevelPicUrl = [{
           src: ww.wwCreditLevelPic,
         }];
@@ -563,10 +553,6 @@
             self.$Message.error('请选择省');
             return
           }
-          if(!self.address.city){
-            self.$Message.error('请选择市');
-            return
-          }
           self.btnState.wwBindBtn = true;
           if (self.modifyWw) {
             api.wwModify({
@@ -578,7 +564,7 @@
               tqzPicUrl: self.wwFormValidate.taoqizhiPicUrl[0].src,
               id: self.wwFormValidate.id,
               takeProvince: self.address.province,
-              takeCity: self.address.city,
+              takeCity: self.address.city || null,
               takeDistrict: self.address.district || null,
               alitmRole: self.wwFormValidate.sex,
               takeDetail: self.wwFormValidate.detailAddress
@@ -611,7 +597,7 @@
               wwCreditLevelPicUrl: self.wwFormValidate.alitmLevelPicUrl[0].src,
               tqzPicUrl: self.wwFormValidate.taoqizhiPicUrl[0].src,
               takeProvince: self.address.province,
-              takeCity: self.address.city,
+              takeCity: self.address.city || null,
               takeDistrict: self.address.district || null,
               alitmRole: self.wwFormValidate.sex,
               takeDetail: self.wwFormValidate.detailAddress
@@ -643,9 +629,6 @@
           });
         }
       },
-//      removewwBindPicUrl(){
-//        this.wwFormValidate.picUrl= [];
-//      },
       removewwBindAlitmLevelPicUrl() {
         this.wwFormValidate.alitmLevelPicUrl = [];
       },
