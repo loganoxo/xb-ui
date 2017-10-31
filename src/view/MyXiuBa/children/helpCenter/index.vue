@@ -69,7 +69,7 @@
       }
     },
     beforeMount() {
-      this.changeTopShow();
+
     },
     mounted() {
 

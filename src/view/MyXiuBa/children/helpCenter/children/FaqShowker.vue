@@ -72,6 +72,22 @@
               <p> 在平台提交买家秀后，商家会在3天内操作返款。</p>
             </div>
           </Panel>
+          <Panel name="9">
+            9、根据关键词找不到宝贝怎么办？
+
+
+            <div slot="content">
+              <p class="descript"> 温馨提示：</p>
+              <p class="mt-10">1、所有审核通过的任务都是审核客服通过商家提供条件筛选找到之后，才审核通过的，基本上都在前十页就可以找到的，请仔细搜索；</p>
+              <p>2、若通过下列方法还是无法找到，请<span style="color: #0000FF">清空浏览器缓存</span>或者<span style="color: #0000FF">退出登录淘宝号、更换谷歌、火狐浏览器</span> 尝试一下。</p>
+              <p class="descript mt-10">下面教大家如何快捷找到商家发布的对应宝贝：</p>
+              <p class="mt-10">第一步：根据搜索词和筛选条件进行搜索，核对商品价格、掌柜旺旺的前一个字符以及商品图片；</p>
+              <p>第二步：复制提示掌柜旺旺的的字符：</p>
+              <p>第三步：到搜索结果页面，用键盘同时按键 【<span class="descript">Ctrl+F</span>】 在页面搜提示的字符，一般很容易就找到了哦~</p>
+              <p class="mt-10"><span style="color: #0000FF">注意：</span>是在页面的右上角弹出框搜索，不是在淘宝的搜索框搜索，切勿在淘宝搜索框直接搜索店铺店铺名字，属严重违规行为！一经发现，直接封号~</p>
+              <p class="descript mt-10">如果还是找不到宝贝，请不要随意下单，请及时通过QQ或者微信的方式联系平台客服。</p>
+            </div>
+          </Panel>
         </Collapse>
       </div>
       <div v-show="selFaq == 'special'" class="faq-special-explain animated fadeIn ml-5">
@@ -392,5 +408,8 @@
   }
   .faq-que-ans p{
     line-height: 24px;
+  }
+  .descript{
+    color: #FF004F;
   }
 </style>
