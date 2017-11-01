@@ -4,8 +4,7 @@
       <span>{{taskPlaceInfo.taskTypeDesc}}</span>
       <span v-if="currentGenerationEndTime" class="ml-20">下单剩余时间<time-down color='#ff4040' :fontWeight=600 :endTime="currentGenerationEndTime"></time-down>（超时未下单，即未在平台提交订单号，视为主动放弃活动资格）</span>
     </div>
-    <div class="place-step mt-22 fs-12"
-         v-if="taskPlaceInfo.taskType === 'pc_search' || taskPlaceInfo.taskType === 'app_search'">
+    <div class="place-step mt-22" v-if="taskPlaceInfo.taskType === 'pc_search' || taskPlaceInfo.taskType === 'app_search'">
       <p v-if="taskPlaceInfo.taskType === 'pc_search'">第1步：打开浏览器输入【<span>www.taobao.com</span>】</p>
       <p v-if="taskPlaceInfo.taskType === 'app_search'">第1步：打开【<span>手机淘宝APP</span>】</p>
       <p v-if="taskPlaceInfo.taskType === 'pc_search'">
@@ -18,27 +17,16 @@
       <p v-if="taskPlaceInfo.taskType === 'pc_search'">
         第4步：在【<span>{{taskPlaceInfo.taskDetailObject.searchPagePositionMin}}-{{taskPlaceInfo.taskDetailObject.searchPagePositionMax}}</span>】页附近找到下图宝贝。（由于千人千面的影响，位置仅供参考）
       </p>
-      <p
-        v-if="taskPlaceInfo.taskDetailObject.priceRangeMin > 0 || taskPlaceInfo.taskDetailObject.deliverAddress || checkText">
-        第5步：<span class="minor-color"
-                  v-if="taskPlaceInfo.taskDetailObject.priceRangeMin > 0">搜索指定价格【<span>{{taskPlaceInfo.taskDetailObject.priceRangeMin / 100}}-{{taskPlaceInfo.taskDetailObject.priceRangeMax / 100}}</span>】，</span><span
-        class="minor-color"
-        v-if="taskPlaceInfo.taskDetailObject.deliverAddress">搜索指定发货地【<span>{{taskPlaceInfo.taskDetailObject.deliverAddress}}</span>】，</span><span
-        class="minor-color" v-if="checkText">勾选【<span>{{checkText}}</span>】</span>
-      </p>
+      <p v-if="taskPlaceInfo.taskDetailObject.priceRangeMin > 0 || taskPlaceInfo.taskDetailObject.deliverAddress || checkText">第5步：<span class="minor-color" v-if="taskPlaceInfo.taskDetailObject.priceRangeMin > 0">搜索指定价格【<span>{{taskPlaceInfo.taskDetailObject.priceRangeMin / 100}}-{{taskPlaceInfo.taskDetailObject.priceRangeMax / 100}}</span>】，</span><span class="minor-color" v-if="taskPlaceInfo.taskDetailObject.deliverAddress">搜索指定发货地【<span>{{taskPlaceInfo.taskDetailObject.deliverAddress}}</span>】，</span><span class="minor-color" v-if="checkText">勾选【<span>{{checkText}}</span>】</span></p>
     </div>
-    <div class="tao-code-place-step fs-12" v-if="taskPlaceInfo.taskType === 'tao_code'">
-      <p class="mb-10">
-        淘口令【<span id="copyCode">{{taskPlaceInfo.taskDetailObject.taoCode}}</span>】<span id="copyBtn"class="ml-10">点击复制口令</span>
-      </p>
+    <div class="tao-code-place-step" v-if="taskPlaceInfo.taskType === 'tao_code'">
+      <p class="mb-10">淘口令【<span id="copyCode">{{taskPlaceInfo.taskDetailObject.taoCode}}</span>】<span id="copyBtn" class="ml-10">点击复制口令</span></p>
       <p>入口说明：【<span>直接在手机端上复制淘口令，打开手淘会自动弹出宝贝链接</span>】</p>
     </div>
     <div class="tao-link-place-step" v-if="taskPlaceInfo.taskType === 'direct_access'">
-      <p class="clear"><strong class="left">宝贝链接：</strong><a class="left ml-5" :href="taskPlaceInfo.itemUrl"
-                                                             target="_blank">{{taskPlaceInfo.itemUrl}}</a></p>
+      <p class="clear"><strong class="left">宝贝链接：</strong><a class="left ml-5" :href="taskPlaceInfo.itemUrl" target="_blank">{{taskPlaceInfo.itemUrl}}</a></p>
     </div>
-    <div class="baby-info clear mt-40 fs-12"
-         v-if="taskPlaceInfo.taskType === 'pc_search' || taskPlaceInfo.taskType === 'app_search'">
+    <div class="baby-info clear mt-40" v-if="taskPlaceInfo.taskType === 'pc_search' || taskPlaceInfo.taskType === 'app_search'">
       <img class="left" :src="taskPlaceInfo.taskDetailObject.itemMainImage" alt="">
       <div class="left ml-20 mt-20">
         <p>
@@ -51,8 +39,14 @@
         </p>
       </div>
     </div>
-    <div class="verification-link mt-20 pt-20 fs-12"
-         v-if="taskPlaceInfo.taskType === 'pc_search' || taskPlaceInfo.taskType === 'app_search'">
+    <div class="precautions mt-20 pt-20">
+      <p>注意事项：</p>
+      <p class="mt-10">
+        <span>付款方式：</span>
+        <span v-if="taskPlaceInfo.paymentMethod === 'all'">无所谓（可以使用花呗、信用卡等付款，也可以不用）</span>
+        <span v-else>禁止使用花呗、信用卡付款</span></p>
+    </div>
+    <div class="verification-link mt-20 pt-20" v-if="taskPlaceInfo.taskType === 'pc_search' || taskPlaceInfo.taskType === 'app_search'">
       <span>宝贝链接验证：</span>
       <iInput v-model="verificationLink" style="width: 300px;" placeholder="请输入宝贝链接地址"></iInput>
       <iButton type="primary" @click="verificationLinkIsRight">验证</iButton>
@@ -60,7 +54,7 @@
       <span class="link-error ml-5" v-show="verificationLinkStatus === 'error'"><Icon type="close-circled" color="red"></Icon>&nbsp;糟糕，不是这家哦~</span>
     </div>
     <div class="mt-10 ml-88" v-if="taskPlaceInfo.taskType === 'app_search'">
-      <a @click="showGetAppUrlImage = true" class="fs-12">手淘宝贝如何获取链接地址？</a>
+      <a @click="showGetAppUrlImage = true">手淘宝贝如何获取链接地址？</a>
       <Modal v-model="showGetAppUrlImage" :width="600">
         <div class="text-ct">
           <img src="~assets/img/common/get-app-url-image.png" alt="">
@@ -111,6 +105,20 @@
 
     },
     created() {
+      let _this = this;
+      _this.$nextTick(function () {
+        let clipboard = new Clipboard('#copyBtn', {
+          target: () => document.getElementById('copyCode')
+        });
+        clipboard.on('success', () => {
+          _this.$Message.success("复制口令成功！");
+          clipboard.destroy();
+        });
+        clipboard.on('error', () => {
+          _this.$Message.error("复制口令失败！");
+          clipboard.destroy();
+        });
+      })
     },
     computed: {
       checkText() {
@@ -222,6 +230,19 @@
     }
     .link-error {
       color: red;
+    }
+  }
+
+  .precautions{
+    border-top: 2px solid #F6F6F6;
+    p:first-child{
+      color: $mainColor;
+      font-size: 18px;
+      font-weight: bold;
+    }
+    P:last-child{
+      color: $mainColor;
+      font-size: 12px;
     }
   }
 </style>

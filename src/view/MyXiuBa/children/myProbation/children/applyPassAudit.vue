@@ -151,7 +151,7 @@
         </div>
       </div>
       <place-order-step :taskPlaceInfo="taskPlaceInfo" :currentGenerationEndTime="showkerTask.currentGenerationEndTime"></place-order-step>
-      <div class="write-order-number mt-40">
+      <div class="write-order-number mt-20">
         <span @click="openAuditOrder(null,orderType)">下单完成，填订单号</span>
         <span class="ml-35" @click="returnUpPage">返回上页</span>
       </div>
@@ -346,11 +346,8 @@
         deleteModal: false,
         deleteId: null,
         orderImg: false,
-//        getAppUrlImage: false,
         orderType: null,
         taskOrderType: null,
-       /* verificationLink: null,
-        verificationLinkStatus: null,*/
       }
     },
     mounted() {
@@ -370,35 +367,8 @@
       } else {
         _this.showkerSuccessList();
       }
-     /* _this.$nextTick(function () {
-        let clipboard = new Clipboard('#copyBtn', {
-          target: () => document.getElementById('copyCode')
-        });
-        clipboard.on('success', () => {
-          _this.$Message.success("复制口令成功！");
-          clipboard.destroy();
-        });
-        clipboard.on('error', () => {
-          _this.$Message.error("复制口令失败！");
-          clipboard.destroy();
-        });
-      })*/
     },
     computed: {
-     /* checkText: function () {
-        return this.taskPlaceInfo.taskDetailObject.searchFilterDesc ? this.taskPlaceInfo.taskDetailObject.searchFilterDesc.split(',').join('、') : null;
-      },
-      getStoreName: function () {
-        let length = this.taskPlaceInfo.storeName.length;
-        let name = this.taskPlaceInfo.storeName;
-        if (length && length > 4) {
-          return name.substr(0, 2) + '****' + name.substr(-2);
-        } else if (length && length <= 4) {
-          return name.substr(0, 1) + '****' + name.substr(-1);
-        } else {
-          return '****'
-        }
-      },*/
       pcOrApp: function () {
         let type = this.orderType;
         return type === 'pc_search' || type === 'direct_access' ? 'pcOrder' : 'appOrder';
@@ -676,18 +646,6 @@
       lookReportInfo(id) {
         this.$router.push({path: '/user/my-probation/report', query: {id: encryption(id), from: 'buyer'}});
       },
-      /*verificationLinkIsRight() {
-        if(!this.verificationLink){
-          this.verificationLinkStatus = null;
-          this.$Message.warning('亲，请输入需要验证的宝贝链接地址！');
-          return;
-        }
-        let newId = getUrlParams(this.verificationLink, 'id');
-        let oldId = getUrlParams(this.taskPlaceInfo.itemUrl, 'id');
-        console.log(newId);
-        console.log(oldId);
-        this.verificationLinkStatus = newId === oldId ? 'success' : 'error';
-      }*/
     }
   }
 </script>

@@ -165,6 +165,8 @@
     }
 
     .write-order-number {
+      border-top: 2px solid #F6F6F6;
+      padding-top: 20px;
       span:first-child {
         display: inline-block;
         font-size: 18px;

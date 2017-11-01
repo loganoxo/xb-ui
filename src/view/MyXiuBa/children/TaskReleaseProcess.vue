@@ -71,16 +71,13 @@
             <div class="baby-title ml-45 mt-20">
               <span class="required">活动标题：</span>
               <iInput v-model="taskRelease.taskName" placeholder="请输入活动标题" style="width: 296px"></iInput>
-              <span class="ml-20 size-color"><Icon v-show="taskNameLength > 35" color="#f60"
-                                                   type="information-circled"></Icon>&nbsp;最多支持35个字符，当前已输入 <span
+              <span class="ml-20 size-color"><Icon v-show="taskNameLength > 35" color="#f60" type="information-circled"></Icon>&nbsp;最多支持35个字符，当前已输入 <span
                 class="main-color">{{taskNameLength}}</span> / 35个字符。</span>
             </div>
             <div class="baby-title ml-45 mt-20">
               <span class="required">宝贝类型：</span>
               <iSelect v-model="taskRelease.itemType" style="width:200px">
-                <Option-group v-for="parentItem in itemCatalogList" v-if="parentItem.level == 1"
-                              :label="parentItem.name"
-                              :key="parentItem.id">
+                <Option-group v-for="parentItem in itemCatalogList" v-if="parentItem.level == 1" :label="parentItem.name" :key="parentItem.id">
                   <iOption
                     v-if="item.level == 2 && item.parentItemCatalog && item.parentItemCatalog.id == parentItem.id"
                     v-for="item in itemCatalogList" :value="item.id" :key="item.name">{{ item.name }}
@@ -106,9 +103,7 @@
                   <Icon type="camera" size="20"></Icon>
                 </div>
               </Upload>
-              <p
-                class="size-color pl-60 mt-10">
-                点击或者拖拽自主上传图片，支持jpg \ jpeg \ png \ gif \ bmp格式，最佳尺寸400*400（像素），不超过300K，可与宝贝主图一致</p>
+              <p class="size-color pl-60 mt-10">点击或者拖拽自主上传图片，支持jpg \ jpeg \ png \ gif \ bmp格式，最佳尺寸400*400（像素），不超过300K，可与宝贝主图一致</p>
             </div>
             <div class="baby-url ml-45 mt-20">
               <span class="required">宝贝地址：</span>
