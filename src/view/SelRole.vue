@@ -210,6 +210,7 @@
               type: 'RECORD_USER_INFO',
               info: res.data
             });
+            self.$store.dispatch('getDetectionMerchantGuide');
             self.$Message.success({
               content: '恭喜您，成功注册秀吧！',
               duration: 1,
@@ -260,6 +261,7 @@
               type: 'RECORD_USER_INFO',
               info: res.data
             });
+            self.$store.dispatch('getDetectionMerchantGuide');
             setStorage('weChartPop', 1);
             self.$router.push({name: 'Home'});
           } else {
@@ -293,6 +295,7 @@
               type: 'RECORD_USER_INFO',
               info: res.data
             });
+            self.$store.dispatch('getDetectionMerchantGuide');
             self.$Message.success({
               content: '恭喜您，成功注册秀吧！',
               duration: 1,
