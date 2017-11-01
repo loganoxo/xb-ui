@@ -41,14 +41,16 @@
                 <div v-if="applyBtnShow === 'buyerTasking'">
                   <div>
                     <iButton style="width: 150px;" v-show="!commodityData.taskApply" :disabled="taskApplyLoading"  size="large" class="fs-16 default-btn" long type="error" @click="applyForTrialFunc">申请活动</iButton>
-                    <span  v-show="!commodityData.taskApply && (commodityData.task.taskCount - commodityData.task.showkerApplySuccessCount <= 0) " class="cl999 inline-block ml-10 fs-14">还有{{parseInt(commodityData.task.taskCount) - parseInt(commodityData.trailDone)}}人未完成活动，仍有机会获得活动资格</span>
                   </div>
                   <iButton style="width: 150px;" v-show="commodityData.taskApply||disabled" disabled size="large" class="fs-16 default-btn" long >已申请</iButton>
                 </div>
                 <iButton v-if="applyBtnShow === 'sellerTasking'" size="large" class="fs-16 default-btn"  type="warning" style="width: 200px;">商家号不可以参加活动</iButton>
-                <a v-if="applyBtnShow === 'noLogin'"  class="ivu-btn ivu-btn-error ivu-btn-large" @click="selectLogin = true" style="width: 150px;">
-                  申请活动
-                </a>
+                <div v-if="applyBtnShow === 'noLogin'">
+                  <a   class="ivu-btn ivu-btn-error ivu-btn-large" @click="selectLogin = true" style="width: 150px;">
+                    申请活动
+                  </a>
+                  <span  v-show="!commodityData.taskApply && (commodityData.task.taskCount - commodityData.task.showkerApplySuccessCount <= 0) " class="cl999 inline-block ml-10 fs-14">还有{{parseInt(commodityData.task.taskCount) - parseInt(commodityData.trailDone)}}人未完成活动，仍有机会获得活动资格</span>
+                </div>
               </div>
             </div>
           </div>
