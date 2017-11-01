@@ -60,7 +60,12 @@
       <p class="mt-10">
         <span>付款方式：</span>
         <span v-if="taskPlaceInfo.paymentMethod === 'all'">无所谓（可以使用花呗、信用卡等付款，也可以不用）</span>
-        <span v-else>禁止使用花呗、信用卡付款</span></p>
+        <span v-else>禁止使用花呗、信用卡付款</span>
+      </p>
+      <p class="mt-10" v-if="taskPlaceInfo.remark">
+        <span>商家备注：</span>
+        <span>{{taskPlaceInfo.remark}}</span>
+      </p>
     </div>
   </div>
 </template>
@@ -240,7 +245,8 @@
       font-size: 18px;
       font-weight: bold;
     }
-    P:last-child{
+    P:nth-child(2),
+    P:nth-child(3){
       color: $mainColor;
       font-size: 12px;
     }

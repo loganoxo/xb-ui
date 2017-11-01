@@ -150,6 +150,10 @@
                 </Radio>
               </Radio-group>
             </div>
+            <div class="task-remark ml-45 mt-20">
+              <span class="left ml-5">下单备注：</span>
+              <iInput class="task-remark-input"  type="textarea" :rows="6" placeholder="请在这里输入需要秀客注意的事项，例如：SKU信息等，这里的信息会无条件展示出来。" v-model="taskRelease.remark"></iInput>
+            </div>
             <div class="product-introduction ml-45 mt-20">
               <span class="left ml-5">商品简介：</span>
               <quill-editor ref="myTextEditor"
@@ -160,8 +164,7 @@
                             @ready="onEditorReady($event)">
               </quill-editor>
               <form action="" method="post" enctype="multipart/form-data" id="uploadFormMulti">
-                <input style="display: none" :id="uniqueId" type="file" name="avator" multiple
-                       accept="image/jpg,image/jpeg,image/png,image/gif" @change="uploadImg">
+                <input style="display: none" :id="uniqueId" type="file" name="avator" multiple accept="image/jpg,image/jpeg,image/png,image/gif" @change="uploadImg">
               </form>
             </div>
           </div>
@@ -625,6 +628,7 @@
           itemPrice: null,
           pinkage: "true",
           paymentMethod: "all",
+          remark: null,
           itemDescription: '',
           taskId: null,
           taskDetail: {}
@@ -1293,6 +1297,9 @@
       background-color: #FFF6F3;
       padding-left: 26px;
       font-size: 16px;
+    }
+    .task-remark-input{
+      width: 600px;
     }
   }
 
