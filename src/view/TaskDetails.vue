@@ -283,7 +283,6 @@
         showkerApplyBefore:false,
         needBrowseCollectAddCart:false,
         taskDetail:{},
-        taskStep:{},
         taskPlaceInfo: {},
         storeName:'',
         taskTypeDesc:null,
@@ -397,11 +396,7 @@
       getTaskId(){
         return decode(this.$route.query.q)
       },
-      checkText: function () {
-        if(this.taskStep.searchFilterDesc){
-          return this.taskStep.searchFilterDesc.split(',').join('、');
-        }
-      },
+
     },
     methods: {
       encryptionId(id){
@@ -559,13 +554,6 @@
                 id: self.commodityData.showkerTask.id
               }).then((res) => {
                 self.taskPlaceInfo = res.data.taskInfo;
-                if(self.commodityData.task.taskType === 'pc_search'){
-                  self.taskStep = res.data.pcTaskDetail;
-                }else if(self.commodityData.task.taskType === 'app_search'){
-                  self.taskStep = res.data.appTaskDetail;
-                }else if(self.commodityData.task.taskType === 'direct_access'){
-                  self.itemUrl  = res.data.showkerTask.task.itemUrl;
-                }
                 self.taskDetail= res.data.showkerTask.task.taskDetailObject;
                 self.storeName = res.data.showkerTask.task.storeName;
                 self.taskTypeDesc = res.data.showkerTask.task.taskTypeDesc;
