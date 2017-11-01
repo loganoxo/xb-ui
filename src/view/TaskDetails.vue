@@ -41,6 +41,7 @@
                 <div v-if="applyBtnShow === 'buyerTasking'">
                   <div>
                     <iButton style="width: 150px;" v-show="!commodityData.taskApply" :disabled="taskApplyLoading"  size="large" class="fs-16 default-btn" long type="error" @click="applyForTrialFunc">申请活动</iButton>
+                    <span  v-show="!commodityData.taskApply && (commodityData.task.taskCount - commodityData.task.showkerApplySuccessCount <= 0) " class="cl999 inline-block ml-10 fs-14">还有{{parseInt(commodityData.task.taskCount) - parseInt(commodityData.trailDone)}}人未完成活动，仍有机会获得活动资格</span>
                   </div>
                   <iButton style="width: 150px;" v-show="commodityData.taskApply||disabled" disabled size="large" class="fs-16 default-btn" long >已申请</iButton>
                 </div>
