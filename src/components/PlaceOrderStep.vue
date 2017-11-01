@@ -39,13 +39,6 @@
         </p>
       </div>
     </div>
-    <div class="precautions mt-20 pt-20">
-      <p>注意事项：</p>
-      <p class="mt-10">
-        <span>付款方式：</span>
-        <span v-if="taskPlaceInfo.paymentMethod === 'all'">无所谓（可以使用花呗、信用卡等付款，也可以不用）</span>
-        <span v-else>禁止使用花呗、信用卡付款</span></p>
-    </div>
     <div class="verification-link mt-20 pt-20" v-if="taskPlaceInfo.taskType === 'pc_search' || taskPlaceInfo.taskType === 'app_search'">
       <span>宝贝链接验证：</span>
       <iInput v-model="verificationLink" style="width: 300px;" placeholder="请输入宝贝链接地址"></iInput>
@@ -61,6 +54,13 @@
         </div>
         <div slot="footer"></div>
       </Modal>
+    </div>
+    <div class="precautions mt-20 pt-20">
+      <p>注意事项：</p>
+      <p class="mt-10">
+        <span>付款方式：</span>
+        <span v-if="taskPlaceInfo.paymentMethod === 'all'">无所谓（可以使用花呗、信用卡等付款，也可以不用）</span>
+        <span v-else>禁止使用花呗、信用卡付款</span></p>
     </div>
   </div>
 </template>
