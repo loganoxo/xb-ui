@@ -60,6 +60,7 @@
                       <p v-for="details in showkerLog.detailsAarrayList">
                         {{details.opTime | dateFormat('YYYY-MM-DD hh:mm:ss')}}
                         {{details.opDesc.replace('{phone}',showkerLog.showkerPhone)}}
+                        <span v-if="details.auditDescription">（原因：{{details.auditDescription}})</span>
                       </p>
                     </div>
                   </Panel>
