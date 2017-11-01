@@ -98,7 +98,7 @@
           </div>
           <div class="graphic-info-ctt">
             <div v-show="graphicInfoSelClass == 'activity'" class="graphic-info-details" >
-              <div v-if="commodityData.showkerTask" class="bgF1F1F1 fs-24 pd-20 task-step-explain mb-20">
+              <div v-if="commodityData.showkerTask" class="bgF1F1F1 pd-20 task-step-explain mb-20">
                 <place-order-step :taskPlaceInfo="taskPlaceInfo" :currentGenerationEndTime="commodityData.task.endTime"></place-order-step>
               </div>
               <div class="text-ct" v-if="!commodityData.cannotShowItemDescriptionOfQualification"  v-html="commodityData.task.itemDescription"></div>
