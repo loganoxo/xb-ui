@@ -33,9 +33,10 @@
       }
     },
     mounted() {
-
+      this.$router.push({name:'Home'});
     },
     created() {
+
     },
     computed: {},
     methods: {
@@ -140,19 +141,19 @@
   }
 
   .merchant-guide-step-04 {
-    width: 812px;
-    height: 842px;
+    width: 803px;
+    height: 684px;
     position: absolute;
     right: 0;
-    top: 0;
+    top: 126px;
   }
 
   .merchant-guide-step-04-btn {
     width: 134px;
     height: 28px;
     position: absolute;
-    bottom: 264px;
-    left: 136px;
+    bottom: 224px;
+    left: 126px;
     cursor: pointer;
   }
 </style>
