@@ -261,6 +261,7 @@
               type: 'RECORD_USER_INFO',
               info: res.data
             });
+            self.$store.dispatch('getDetectionMerchantGuide');
             self.rememberAccountFunc();
             self.$Message.success({top: 50, content: '登录成功', duration: 1,});
             self.btnState.normalLoginBtn = false;

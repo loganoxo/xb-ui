@@ -1,8 +1,12 @@
 <template>
   <div id="app">
-    <Top v-show="topShow"></Top>
+    <Top v-show="isTopShow"></Top>
     <router-view></router-view>
+    <!--网站底部信息-->
     <Bottom></Bottom>
+    <!--商家引导-->
+    <merchant-guide v-if="!isShowSuspendService && isLogin && getUserRole === 1"></merchant-guide>
+    <!--侧边栏信息导航-->
     <side-navigation></side-navigation>
     <!--侧边栏固定联系客服图片展示-->
     <div class="suspend-service" v-show="showSuspendService" v-if="isLogin">
@@ -21,6 +25,7 @@
   import Top from "@/components/Top.vue"
   import Bottom from "@/components/Bottom.vue"
   import SideNavigation from '@/components/SideNavigation.vue'
+  import MerchantGuide from '@/components/MerchantGuide.vue'
   import BackTop from "iview/src/components/back-top"
   import {getStorage, getCookie} from '@/config/utils'
   import api from '@/config/apiConfig'
@@ -32,6 +37,7 @@
       Bottom: Bottom,
       BackTop: BackTop,
       SideNavigation: SideNavigation,
+      MerchantGuide: MerchantGuide,
     },
     data() {
       return {
@@ -39,22 +45,26 @@
       }
     },
     computed: {
-      topShow() {
+      isTopShow() {
         return this.$store.state.topShow
       },
       logInAuthority() {
-        return this.$store.state.logInAuthority;
+        return this.$store.state.logInAuthority
       },
-      isLogin: function () {
+      isLogin () {
         return this.$store.state.login
       },
-      getUserRole: function () {
+      getUserRole () {
         return this.$store.getters.getUserRole
+      },
+      isShowSuspendService() {
+        return this.$store.state.showMerchantGuide
       }
     },
     created() {
       let _this = this;
       let userInfo = getStorage('userInfo');
+      _this.$store.dispatch('getDetectionMerchantGuide');
       if (!userInfo && _this.logInAuthority) {
         _this.$store.dispatch('loggedOut').then((res) => {
           if (res.status) {

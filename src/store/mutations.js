@@ -51,7 +51,6 @@ export default {
     state.taskManagementCountInfo = countInfo;
   },
 
-
   //页面头部是否显示
   [types.CHANGE_TOP_SHOW_HIDE](state, {status}) {
     state.topShow = status;
@@ -65,6 +64,11 @@ export default {
   //首页秀客显示问题
   [types.ONLY_SHOWKER_SHOW](state) {
     state.onlyShowkerShow = true;
+  },
+
+  //商家引导遮罩层
+  [types.SHOW_MERCHANT_GUIDE](state,{status}) {
+    state.showMerchantGuide = status;
   },
 
   //

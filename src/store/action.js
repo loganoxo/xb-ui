@@ -27,7 +27,7 @@ export default {
           info: res.data
         })
       } else {
-        alert('获取用户信息：' + res.msg);
+        console.log('获取用户信息：' + res.msg);
       }
     });
   },
@@ -40,7 +40,20 @@ export default {
           countInfo: res.data
         })
       } else {
-        alert('获取商家任务管理活动数量信息：' + res.msg);
+        console.log('获取商家任务管理活动数量信息：' + res.msg);
+      }
+    })
+  },
+  //检测商家引导遮罩层是否显示
+  getDetectionMerchantGuide({commit}) {
+    api.detectionMerchantGuide().then(res => {
+      if(res.status){
+        commit({
+          type: types.SHOW_MERCHANT_GUIDE,
+          status: res.data
+        })
+      } else {
+        console.log('获取商家遮罩层是否显示过信息：' + res.msg);
       }
     })
   }

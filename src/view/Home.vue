@@ -274,11 +274,9 @@
         <!--<iButton class="left" type="error" @click="setWeChartAlertFunc(0)" >提交</iButton>-->
         <!--</p>-->
       </div>
-      <div slot="footer">
-      </div>
+      <div slot="footer"></div>
     </Modal>
   </div>
-
 </template>
 
 <script>
@@ -288,13 +286,12 @@
   import Checkbox from 'iview/src/components/checkbox'
   import Button from 'iview/src/components/button'
   import Radio from 'iview/src/components/radio'
-  import api from '@/config/apiConfig'
-  import {setStorage, getStorage, encryption} from '@/config/utils'
-  import SmsCountdown from '@/components/SmsCountdown'
   import Modal from 'iview/src/components/modal'
   import Carousel from 'iview/src/components/carousel'
+  import SmsCountdown from '@/components/SmsCountdown'
+  import api from '@/config/apiConfig'
+  import {setStorage, getStorage, encryption} from '@/config/utils'
   import {mapActions} from 'vuex'
-  import {mapMutations} from 'vuex'
 
   export default {
     beforeMount() {

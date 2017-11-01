@@ -237,8 +237,15 @@
     }
 
     .tao-link-place-step {
+      strong{
+        color: #999;
+        font-weight: normal;
+      }
       a {
         color: #2b85e4;
+        max-width: 900px;
+        word-break: break-all;
+        display: inline-block;
         &:hover {
           text-decoration: underline;
         }

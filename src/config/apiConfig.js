@@ -52,24 +52,28 @@ export default {
   validatePaySmscode(params) {
     return fetch("/api/user/account/check-phone-message-before-reset-pwd.json", params)
   },
+
   /**
    * 通过手机短信验证码重置支付密码
    */
   modifyPayPwd(params) {
     return fetch("/api/user/account/reset-pay-pwd-by-smscode.json", params)
   },
+
   /**
    * 通过上一次的支付密码修改支付密码
    */
   modifyDefaultPayPwd(params) {
     return fetch('/api/user/account/reset-pay-pwd-by-originPwd.json', params)
   },
+
   /**
    * 用户快速登陆
    */
   checkFastSignIn(params) {
     return fetch("/api/check-fast-sign-in.json", params)
   },
+
   /**
    * QQ快速登录
    */
@@ -160,6 +164,7 @@ export default {
   modifyTrendsPwd(params) {
     return fetch('/api/user/account/reset-login-pwd-by-smscode.json', params)
   },
+
   /**
    *获取用户、账户、旺旺账号
    */
@@ -682,7 +687,6 @@ export default {
     return fetch('/api/user/verify/check.json')
   },
 
-
   /**
    * 设置微信弹框
    */
@@ -696,6 +700,7 @@ export default {
   noWechartAlert() {
     return fetch('/api/user/verify/stop.json')
   },
+
   /**
    * PC首页历史活动接口
    */
@@ -703,5 +708,18 @@ export default {
     return fetch('/api/task/index/history.json')
   },
 
+  /**
+   * 检测商家遮罩层是否显示
+   */
+  detectionMerchantGuide() {
+    return fetch('/api/detection-merchant-guide.json')
+  },
+
+  /**
+   * 设置商家遮罩层为已读
+   */
+  setMerchantGuide(params) {
+    return fetch('/api/set-merchant-guide.json',params)
+  },
 
 }
