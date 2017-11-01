@@ -164,42 +164,6 @@
       }
     }
 
-    .place-type {
-      padding: 28px 0 12px 0;
-      border-bottom: 2px solid #F6F6F6;
-      span:first-child {
-        font-size: 16px;
-        color: #666;
-      }
-      span:last-child {
-        color: red;
-        font-size: 14px;
-      }
-    }
-
-    .place-step,
-    .tao-code-place-step,
-    .tao-link-place-step {
-      p {
-        margin-top: 20px;
-        color: #999;
-        span {
-          color: #000;
-          font-weight: bold;
-        }
-      }
-    }
-
-    .baby-info {
-      img {
-        @include wh(124px, 124px);
-      }
-      p {
-        color: #8C9BB6;
-        margin-top: 8px;
-      }
-    }
-
     .write-order-number {
       span:first-child {
         display: inline-block;
@@ -218,34 +182,6 @@
         font-size: 14px;
         color: #2b85e4;
         cursor: pointer;
-        &:hover {
-          text-decoration: underline;
-        }
-      }
-    }
-
-    .tao-code-place-step {
-      p {
-        span:nth-child(2) {
-          color: #2b85e4;
-          cursor: pointer;
-          &:hover{
-           color: darken(#2b85e4, 10%);
-          }
-        }
-      }
-    }
-
-    .tao-link-place-step {
-      strong{
-        color: #999;
-        font-weight: normal;
-      }
-      a {
-        color: #2b85e4;
-        max-width: 900px;
-        word-break: break-all;
-        display: inline-block;
         &:hover {
           text-decoration: underline;
         }
@@ -317,16 +253,6 @@
       p {
         font-size: 14px;
         color: #666;
-      }
-    }
-
-    .verification-link{
-      border-top: 2px solid #F6F6F6;
-      .link-right{
-        color: #69B045;
-      }
-      .link-error{
-        color: red;
       }
     }
   }

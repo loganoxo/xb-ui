@@ -324,6 +324,7 @@
     },
     created() {
       this.appliesWaitingAuditTask();
+      this.$store.dispatch('getPersonalTrialCount');
     },
     computed: {},
     methods: {

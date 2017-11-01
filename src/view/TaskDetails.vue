@@ -649,7 +649,7 @@
               self.applyBtnShow = "taskEnd";
             }else {
               if(self.$store.state.login){
-                if(self.$store.state.userInfo.role == 1){
+                if(self.$store.state.userInfo.role === 1){
                   self.applyBtnShow = "sellerTasking";
                 }else {
                   self.applyBtnShow = "buyerTasking"

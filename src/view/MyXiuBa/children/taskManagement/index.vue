@@ -27,7 +27,6 @@
     mounted() {},
     created() {
       this.showTaskStatus = this.$route.name;
-      this.$store.dispatch('getPersonalTrialCount')
     },
     watch: {
       $route(to) {

@@ -147,65 +147,10 @@
         </div>
         <div class="commodity-text left ml-5">
           <p>{{taskPlaceInfo.taskName}}</p>
-          <p class="mt-15">
-            总份数<strong>&nbsp;{{taskPlaceInfo.taskCount || 0}}&nbsp;</strong>，宝贝单价<strong>&nbsp;{{taskPlaceInfo.itemPrice / 100 || 0}}&nbsp;</strong>元
-          </p>
+          <p class="mt-15">总份数<strong>&nbsp;{{taskPlaceInfo.taskCount || 0}}&nbsp;</strong>，宝贝单价<strong>&nbsp;{{taskPlaceInfo.itemPrice / 100 || 0}}&nbsp;</strong>元</p>
         </div>
       </div>
-      <p class="place-type">
-        <span>{{taskPlaceInfo.taskTypeDesc}}</span>
-        <span v-if="showkerTask.currentGenerationEndTime" class="ml-20">下单剩余时间<time-down color='#ff4040' :fontWeight=600 :endTime="showkerTask.currentGenerationEndTime"></time-down>（超时未下单，即未在平台提交订单号，视为主动放弃活动资格）</span>
-      </p>
-      <div class="place-step mt-22" v-if="taskPlaceInfo.taskType === 'pc_search' || taskPlaceInfo.taskType === 'app_search'">
-        <p v-if="taskPlaceInfo.taskType === 'pc_search'">第1步：打开浏览器输入【<span>www.taobao.com</span>】</p>
-        <p v-if="taskPlaceInfo.taskType === 'app_search'">第1步：打开【<span>手机淘宝APP</span>】</p>
-        <p v-if="taskPlaceInfo.taskType === 'pc_search'"> 第2步：搜索框输入关键词【<span>{{taskPlaceInfo.taskDetailObject.searchKeyword}}</span>】</p>
-        <p v-if="taskPlaceInfo.taskType === 'app_search'">第2步：搜索框输入关键词【<span>{{taskPlaceInfo.taskDetailObject.searchKeyword}}</span>】</p>
-        <p>第3步：选择【<span>{{getTaskStatus(taskPlaceInfo.taskDetailObject.searchSort)}}</span>】排序</p>
-        <p v-if="taskPlaceInfo.taskType === 'app_search'">第四步：从上往下数第【<span>{{taskPlaceInfo.taskDetailObject.searchRankPosition}}</span>】个宝贝左右</p>
-        <p v-if="taskPlaceInfo.taskType === 'pc_search'"> 第4步：在【<span>{{taskPlaceInfo.taskDetailObject.searchPagePositionMin}}-{{taskPlaceInfo.taskDetailObject.searchPagePositionMax}}</span>】页附近找到下图宝贝。（由于千人千面的影响，位置仅供参考）</p>
-        <p v-if="taskPlaceInfo.taskDetailObject.priceRangeMin > 0 || taskPlaceInfo.taskDetailObject.deliverAddress || checkText">
-          第5步：<span class="minor-color" v-if="taskPlaceInfo.taskDetailObject.priceRangeMin > 0">搜索指定价格【<span>{{taskPlaceInfo.taskDetailObject.priceRangeMin / 100}}-{{taskPlaceInfo.taskDetailObject.priceRangeMax / 100}}</span>】，</span><span
-          class="minor-color" v-if="taskPlaceInfo.taskDetailObject.deliverAddress">搜索指定发货地【<span>{{taskPlaceInfo.taskDetailObject.deliverAddress}}</span>】，</span><span class="minor-color" v-if="checkText">勾选【<span>{{checkText}}</span>】</span>
-        </p>
-      </div>
-      <div class="tao-code-place-step" v-if="taskPlaceInfo.taskType === 'tao_code'">
-        <p class="mb-10">淘口令【<span id="copyCode">{{taskPlaceInfo.taskDetailObject.taoCode}}</span>】<span id="copyBtn" class="ml-10">点击复制口令</span></p>
-        <p>入口说明：【<span>直接在手机端上复制淘口令，打开手淘会自动弹出宝贝链接</span>】</p>
-      </div>
-      <div class="tao-link-place-step" v-if="taskPlaceInfo.taskType === 'direct_access'">
-        <p class="clear"><strong class="left">宝贝链接：</strong><a class="left ml-5" :href="taskPlaceInfo.itemUrl" target="_blank">{{taskPlaceInfo.itemUrl}}</a></p>
-      </div>
-      <div class="baby-info clear mt-40"
-           v-if="taskPlaceInfo.taskType === 'pc_search' || taskPlaceInfo.taskType === 'app_search'">
-        <img class="left" :src="taskPlaceInfo.taskDetailObject.itemMainImage" alt="">
-        <div class="left ml-20 mt-20">
-          <p>
-            <span>掌柜旺旺：</span>
-            <span>{{getStoreName}}</span>
-          </p>
-          <p>
-            <span>价格：</span>
-            <span>￥{{taskPlaceInfo.itemPrice / 100 || 0}}</span>
-          </p>
-        </div>
-      </div>
-      <div class="verification-link mt-20 pt-20" v-if="taskPlaceInfo.taskType === 'pc_search' || taskPlaceInfo.taskType === 'app_search'">
-        <span>宝贝链接验证：</span>
-        <iInput v-model="verificationLink" style="width: 300px;" placeholder="请输入宝贝链接地址"></iInput>
-        <iButton type="primary" @click="verificationLinkIsRight">验证</iButton>
-        <span class="link-right ml-5" v-show="verificationLinkStatus === 'success'"><Icon type="checkmark-circled" color="#69B045"></Icon>&nbsp;恭喜，找对啦！</span>
-        <span class="link-error ml-5"  v-show="verificationLinkStatus === 'error'"><Icon type="close-circled" color="red"></Icon>&nbsp;糟糕，不是这家哦~</span>
-      </div>
-      <div class="mt-10 ml-88" v-if="taskPlaceInfo.taskType === 'app_search'">
-        <a @click="getAppUrlImage = true">手淘宝贝如何获取链接地址？</a>
-        <Modal v-model="getAppUrlImage" :width="600">
-          <div class="text-ct">
-            <img src="~assets/img/common/get-app-url-image.png" alt="">
-          </div>
-          <div slot="footer"></div>
-        </Modal>
-      </div>
+      <place-order-step :taskPlaceInfo="taskPlaceInfo" :currentGenerationEndTime="showkerTask.currentGenerationEndTime"></place-order-step>
       <div class="write-order-number mt-40">
         <span @click="openAuditOrder(null,orderType)">下单完成，填订单号</span>
         <span class="ml-35" @click="returnUpPage">返回上页</span>
@@ -332,12 +277,13 @@
   import DatePicker from 'iview/src/components/date-picker'
   import Tooltip from 'iview/src/components/tooltip'
   import Modal from 'iview/src/components/modal'
-  import Clipboard from 'clipboard';
+//  import Clipboard from 'clipboard';
   import Upload from '@/components/upload'
   import TimeDown from '@/components/TimeDown'
+  import PlaceOrderStep from '@/components/PlaceOrderStep'
   import api from '@/config/apiConfig'
   import {aliCallbackImgUrl} from '@/config/env'
-  import {TaskErrorStatusList, isNumber, encryption, getUrlParams} from '@/config/utils'
+  import {TaskErrorStatusList, isNumber, encryption} from '@/config/utils'
 
   export default {
     name: 'ApplyPassAudit',
@@ -356,6 +302,7 @@
       Modal: Modal,
       Upload: Upload,
       TimeDown: TimeDown,
+      PlaceOrderStep: PlaceOrderStep,
     },
     data() {
       return {
@@ -399,11 +346,11 @@
         deleteModal: false,
         deleteId: null,
         orderImg: false,
-        getAppUrlImage: false,
+//        getAppUrlImage: false,
         orderType: null,
         taskOrderType: null,
-        verificationLink: null,
-        verificationLinkStatus: null,
+       /* verificationLink: null,
+        verificationLinkStatus: null,*/
       }
     },
     mounted() {
@@ -423,7 +370,7 @@
       } else {
         _this.showkerSuccessList();
       }
-      _this.$nextTick(function () {
+     /* _this.$nextTick(function () {
         let clipboard = new Clipboard('#copyBtn', {
           target: () => document.getElementById('copyCode')
         });
@@ -435,10 +382,10 @@
           _this.$Message.error("复制口令失败！");
           clipboard.destroy();
         });
-      })
+      })*/
     },
     computed: {
-      checkText: function () {
+     /* checkText: function () {
         return this.taskPlaceInfo.taskDetailObject.searchFilterDesc ? this.taskPlaceInfo.taskDetailObject.searchFilterDesc.split(',').join('、') : null;
       },
       getStoreName: function () {
@@ -451,7 +398,7 @@
         } else {
           return '****'
         }
-      },
+      },*/
       pcOrApp: function () {
         let type = this.orderType;
         return type === 'pc_search' || type === 'direct_access' ? 'pcOrder' : 'appOrder';
@@ -729,7 +676,7 @@
       lookReportInfo(id) {
         this.$router.push({path: '/user/my-probation/report', query: {id: encryption(id), from: 'buyer'}});
       },
-      verificationLinkIsRight() {
+      /*verificationLinkIsRight() {
         if(!this.verificationLink){
           this.verificationLinkStatus = null;
           this.$Message.warning('亲，请输入需要验证的宝贝链接地址！');
@@ -740,7 +687,7 @@
         console.log(newId);
         console.log(oldId);
         this.verificationLinkStatus = newId === oldId ? 'success' : 'error';
-      }
+      }*/
     }
   }
 </script>
