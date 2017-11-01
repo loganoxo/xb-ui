@@ -115,7 +115,7 @@
                   <li>第1步：打开浏览器输入【<strong>手机淘宝APP</strong>】</li>
                   <li>第2步：搜索框输入关键词【<strong>{{taskDetail.searchKeyword}}</strong>】</li>
                   <li>第3步：选择【<strong>{{changeNameType(taskDetail.searchSort)}}</strong>】排序</li>
-                  <li>第4步：在【<strong v-if="taskDetail.searchPagePositionMin || taskDetail.searchPagePositionMax">{{taskDetail.searchPagePositionMin}}-{{taskDetail.searchPagePositionMax}}</strong>】页附近找到下图宝贝。(由于千人千面的影响，位置仅供参考)</li>
+                  <li>第4步：在【<strong v-if="taskDetail.searchRankPosition">{{taskDetail.searchRankPosition}}</strong>】页附近找到下图宝贝。(由于千人千面的影响，位置仅供参考)</li>
                   <li v-if="taskDetail.priceRangeMax !==null || checkText || taskDetail.deliverAddress">
                     第5步：
                     <span v-if="taskDetail.priceRangeMax">搜索指定价格【<strong>{{taskDetail.priceRangeMin/100}}-{{taskDetail.priceRangeMax/100}}</strong>】,</span>
