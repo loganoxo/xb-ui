@@ -1,26 +1,30 @@
 <template>
-  <div class="merchant-guide" v-if="showMerchantGuideStep">
-    <div class="merchant-guide-step-01" v-show="merchantGuideStep === 1">
-      <img src="~assets/img/merchant-guide/merchant-guide-step-01.png" alt="">
-      <div class="merchant-guide-step-01-btn" @click="merchantGuideNextStep(2,'UserHome')"></div>
-    </div>
-    <div class="merchant-guide-step-02" v-show="merchantGuideStep === 2">
-      <img src="~assets/img/merchant-guide/merchant-guide-step-02.png" alt="">
-      <div class="merchant-guide-step-02-btn" @click="merchantGuideNextStep(3,'TaskReleaseProcess')"></div>
-    </div>
-    <div class="merchant-guide-step-03" v-show="merchantGuideStep === 3">
-      <img src="~assets/img/merchant-guide/merchant-guide-step-03.png" alt="">
-      <div class="merchant-guide-step-03-btn" @click="merchantGuideNextStep(4,'TaskReleaseProcess')"></div>
-    </div>
-    <div class="merchant-guide-step-04" v-show="merchantGuideStep === 4">
-      <img src="~assets/img/merchant-guide/merchant-guide-step-04.png" alt="">
-      <div class="merchant-guide-step-04-btn" @click="startExperience()"></div>
+  <div>
+    <div class="merchant-guide-model" v-if="showMerchantGuideStep"></div>
+    <div class="merchant-guide" v-if="showMerchantGuideStep">
+      <div class="merchant-guide-step-01" v-show="merchantGuideStep === 1">
+        <img src="~assets/img/merchant-guide/merchant-guide-step-01.png" alt="">
+        <div class="merchant-guide-step-01-btn" @click="merchantGuideNextStep(2,'UserHome')"></div>
+      </div>
+      <div class="merchant-guide-step-02" v-show="merchantGuideStep === 2">
+        <img src="~assets/img/merchant-guide/merchant-guide-step-02.png" alt="">
+        <div class="merchant-guide-step-02-btn" @click="merchantGuideNextStep(3,'TaskReleaseProcess')"></div>
+      </div>
+      <div class="merchant-guide-step-03" v-show="merchantGuideStep === 3">
+        <img src="~assets/img/merchant-guide/merchant-guide-step-03.png" alt="">
+        <div class="merchant-guide-step-03-btn" @click="merchantGuideNextStep(4,'TaskReleaseProcess')"></div>
+      </div>
+      <div class="merchant-guide-step-04" v-show="merchantGuideStep === 4">
+        <img src="~assets/img/merchant-guide/merchant-guide-step-04.png" alt="">
+        <div class="merchant-guide-step-04-btn" @click="startExperience()"></div>
+      </div>
     </div>
   </div>
 </template>
 
 <script>
   import api from '@/config/apiConfig'
+
   export default {
     data() {
       return {
@@ -31,11 +35,12 @@
     mounted() {
 
     },
-    created() {},
+    created() {
+    },
     computed: {},
     methods: {
-      merchantGuideNextStep(step,to) {
-        this.$router.push({name:to});
+      merchantGuideNextStep(step, to) {
+        this.$router.push({name: to});
         this.merchantGuideStep = step;
       },
       startExperience() {
@@ -45,9 +50,9 @@
       startExperience() {
         let _this = this;
         api.setMerchantGuide().then(res => {
-          if(res.status){
+          if (res.status) {
             _this.$store.commit({
-              type:'SHOW_MERCHANT_GUIDE',
+              type: 'SHOW_MERCHANT_GUIDE',
               status: true
             })
           } else {
@@ -60,15 +65,23 @@
 </script>
 
 <style lang="scss" scoped>
-  .merchant-guide {
+  .merchant-guide-model{
     position: fixed;
-    height: 100%;
     top: 0;
     left: 0;
     right: 0;
     bottom: 0;
     z-index: 1000;
     background: rgba(0, 0, 0, 0.8);
+  }
+
+  .merchant-guide {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 1001;
   }
 
   .merchant-guide-step-01 {
@@ -78,9 +91,10 @@
     left: 50%;
     margin-left: -312px;
     margin-top: 166px;
+    z-index: 1001;
   }
 
-  .merchant-guide-step-01-btn{
+  .merchant-guide-step-01-btn {
     width: 134px;
     height: 28px;
     position: absolute;
@@ -98,7 +112,7 @@
     margin-top: 210px;
   }
 
-  .merchant-guide-step-02-btn{
+  .merchant-guide-step-02-btn {
     width: 134px;
     height: 28px;
     position: absolute;
@@ -116,7 +130,7 @@
     margin-top: 203px;
   }
 
-  .merchant-guide-step-03-btn{
+  .merchant-guide-step-03-btn {
     width: 134px;
     height: 28px;
     position: absolute;
@@ -133,7 +147,7 @@
     top: 0;
   }
 
-  .merchant-guide-step-04-btn{
+  .merchant-guide-step-04-btn {
     width: 134px;
     height: 28px;
     position: absolute;
