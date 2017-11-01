@@ -121,7 +121,7 @@
       </div>
       <div class="container">
         <div class="task-category-commodity mt-10">
-          <div class="home-commodity-title">
+          <div id="historyPage" class="home-commodity-title">
             <img src="/static/img/home/home_25.png" alt="">
             <p class="text-ct fs-14">我型我秀，分享精彩</p>
           </div>
@@ -263,7 +263,7 @@
         itemCatalogs: [],
         searchTaskParams:{
           pageIndex: 1,
-          pageSize: 10,
+          pageSize: 20,
           taskName: '',
           taskTypes: [],
           itemCatalogs: [],
@@ -331,6 +331,7 @@
       historyPageChange(data){
         this.historyTaskListParams.pageIndex = data;
         this.getSearchHistoryTask();
+        document.getElementById('historyPage').scrollIntoView(true);
       },
       taskCategoryAllFunc(){
         let self = this;
@@ -439,7 +440,7 @@
             if(self.taskCategoryAll){
               self.itemCatalogs = itemCatalogs;
             }
-            this.getSearchTask();
+            self.getSearchTask();
             self.getSearchHistoryTask();
           }else {
             self.$Message.error({
