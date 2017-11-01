@@ -44,9 +44,9 @@ if (referer && '' !== referer) {
 
 //这里处理用户渠道-自定义渠道
 
-//获取url地址中query参数
+  //获取url地址中query参数
 function getQueryString(name) {
-  var reg = new RegExp('(^|&)' + name + '=([^&]*)(&|$)', 'i');
+  var reg = new RegExp('(^|&|\\?)' + name + '=([^&]*)(&|$)', 'i');
   var r = window.location.search.substr(1).match(reg);
   if (r != null) {
     return unescape(r[2]);

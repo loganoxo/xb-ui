@@ -173,7 +173,7 @@
         <p class="mb-10">淘口令【<span id="copyCode">{{taskPlaceInfo.taskDetailObject.taoCode}}</span>】<span id="copyBtn" class="ml-10">点击复制口令</span></p>
         <p>入口说明：【<span>直接在手机端上复制淘口令，打开手淘会自动弹出宝贝链接</span>】</p>
       </div>
-      <div class="tao-link-place-step">
+      <div class="tao-link-place-step" v-if="taskPlaceInfo.taskType === 'direct_access'">
         <p class="clear"><strong class="left">宝贝链接：</strong><a class="left ml-5" :href="taskPlaceInfo.itemUrl" target="_blank">{{taskPlaceInfo.itemUrl}}</a></p>
       </div>
       <div class="baby-info clear mt-40"
@@ -737,6 +737,8 @@
         }
         let newId = getUrlParams(this.verificationLink, 'id');
         let oldId = getUrlParams(this.taskPlaceInfo.itemUrl, 'id');
+        console.log(newId);
+        console.log(oldId);
         this.verificationLinkStatus = newId === oldId ? 'success' : 'error';
       }
     }
