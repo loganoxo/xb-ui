@@ -160,7 +160,7 @@
                 </ul>
                 <div v-if="commodityData.task.taskType != 'tao_code' && commodityData.task.taskType != 'direct_access' " class="mt-20 clear fs-14">
                   <img class="pic left " :src="taskStep.itemMainImage" alt="" style="width: 100px;">
-                  <p class="left ml-20 mt-22">店铺名称：<strong>{{hiddenText(storeName)}}</strong><br/>价格：<strong>￥{{taskStep.searchPagePrice/100}}</strong></p>
+                  <p class="left ml-20 mt-22">掌柜旺旺：<strong>{{hiddenText(storeName)}}</strong><br/>价格：<strong>￥{{taskStep.searchPagePrice/100}}</strong></p>
                 </div>
               </div>
 
