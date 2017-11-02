@@ -26,7 +26,7 @@
         <div class="await-approve mt-20" v-show="showApproveStatus === 'toAudit'">
           <div class="prompt mb-20">
             <Icon type="information-circled"></Icon>
-            <span>亲，请记得在活动结束前审批秀客哦，如果活动结束后24小时内仍未审批满，系统将自动审批剩余名额！</span>
+            <span> 亲，请记得在活动结束前审批秀客哦，如果活动结束后24小时内仍未审批满，系统将自动按申请时间审批剩余名额！</span>
           </div>
           <iSelect v-model="selectStatus" style="width: 120px;margin-right: 12px;">
             <iOption v-for="item in SelectList" :value="item.value" :key="item.value">{{ item.label }}</iOption>

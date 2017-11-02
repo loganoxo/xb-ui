@@ -32,6 +32,7 @@
       background-color: #FFF4F1;
       text-align: center;
       color: red;
+      font-size: 14px;
     }
     .activity-title {
       height: 52px;

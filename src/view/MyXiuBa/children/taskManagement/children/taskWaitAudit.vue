@@ -2,7 +2,7 @@
   <div class="mt-20">
     <div class="prompt">
       <Icon type="information-circled"></Icon>
-      <span>亲，请记得在活动结束前审批秀客哦，如果活动结束后24小时内仍未审批满，系统将自动审批剩余名额！</span>
+      <span> 亲，请记得在活动结束前审批秀客哦，如果活动结束后24小时内仍未审批满，系统将自动按申请时间审批剩余名额！</span>
     </div>
     <div class="search-list">
       <span>淘宝会员名：</span>
