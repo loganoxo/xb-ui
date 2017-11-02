@@ -99,7 +99,7 @@
           <div class="graphic-info-ctt">
             <div v-show="graphicInfoSelClass == 'activity'" class="graphic-info-details" >
               <div v-if="commodityData.showkerTask" class="bgF1F1F1 pd-20 task-step-explain mb-20">
-                <place-order-step :taskPlaceInfo="taskPlaceInfo" :currentGenerationEndTime="commodityData.task.endTime"></place-order-step>
+                <place-order-step :taskPlaceInfo="taskPlaceInfo" :currentGenerationEndTime="showkerTask.currentGenerationEndTime"></place-order-step>
               </div>
               <div class="text-ct" v-if="!commodityData.cannotShowItemDescriptionOfQualification" v-html="commodityData.task.itemDescription"></div>
               <div class="fs-18 text-ct" v-else>
@@ -296,6 +296,7 @@
         needBrowseCollectAddCart:false,
         taskDetail:{},
         taskPlaceInfo: {},
+        showkerTask: {},
         storeName:'',
         taskTypeDesc:null,
         taskType:null,
@@ -566,6 +567,7 @@
                 id: self.commodityData.showkerTask.id
               }).then((res) => {
                 self.taskPlaceInfo = res.data.taskInfo;
+                self.showkerTask = res.data.showkerTask;
                 self.taskDetail= res.data.showkerTask.task.taskDetailObject;
                 self.storeName = res.data.showkerTask.task.storeName;
                 self.taskTypeDesc = res.data.showkerTask.task.taskTypeDesc;
