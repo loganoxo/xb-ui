@@ -101,8 +101,20 @@
               <div v-if="commodityData.showkerTask" class="bgF1F1F1 pd-20 task-step-explain mb-20">
                 <place-order-step :taskPlaceInfo="taskPlaceInfo" :currentGenerationEndTime="commodityData.task.endTime"></place-order-step>
               </div>
-              <div class="text-ct" v-if="!commodityData.cannotShowItemDescriptionOfQualification"  v-html="commodityData.task.itemDescription"></div>
+              <div class="text-ct" v-if="!commodityData.cannotShowItemDescriptionOfQualification" v-html="commodityData.task.itemDescription"></div>
               <div class="fs-18 text-ct" v-else >
+                <div class="precautions mb-20 pt-10">
+                  <p>注意事项：</p>
+                  <p class="mt-10">
+                    <span>付款方式：</span>
+                    <span v-if="commodityData.task.paymentMethod === 'all'">无所谓（可以使用花呗、信用卡等付款，也可以不用）</span>
+                    <span v-else>禁止使用花呗、信用卡付款</span>
+                  </p>
+                  <p class="mt-10" v-if="commodityData.task.remark">
+                    <span>商家备注：</span>
+                    <span>{{commodityData.task.remark}}</span>
+                  </p>
+                </div>
                 <Icon type="information-circled" color="#FF6633" size="30" style="vertical-align: sub;"></Icon> 获得资格后才能看到活动品信息哦~
                 <div v-if="applyBtnShow === 'buyerTasking'" style="display: inline-block">
                   <iButton v-show="!commodityData.taskApply" :disabled="taskApplyLoading" style="width: 100px;" size="large" class="fs-16 default-btn ivu-btn-small" type="error" @click="applyForTrialFunc">申请活动</iButton>
@@ -860,6 +872,18 @@
             float: left;
           }
         }
+      }
+    }
+    .precautions{
+      background-color: #F1F1F1;
+      padding-left: 20px;
+      text-align: left;
+      color: $mainColor;
+      font-size: 12px;
+      padding-bottom: 10px;
+      P:first-child{
+        font-size: 18px;
+        font-weight: bold;
       }
     }
 
