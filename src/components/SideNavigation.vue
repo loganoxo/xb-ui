@@ -1,5 +1,14 @@
 <template>
   <div class="side-navigation">
+    <Tooltip placement="left" :always="always" :transfer="true" :disabled="disabled" class="display-block" v-if="$route.name === 'sellerSpread' ">
+      <div class="side-box side-box-bg qq"></div>
+      <div slot="content">
+        <!--        <span v-show="showCloseBtn" class="close-qq-box" @click="closeQqBoxNow">关闭</span>-->
+        <p class="pt-10">产品客服：<a href="http://wpa.qq.com/msgrd?v=3&site=qq&menu=yes&uin=800019404" class="qq-refer-logo" target="_blank"></a></p>
+        <p class="mt-20">咨询时间：周一至周五</p>
+        <p class="text-align-rt mt-5">9:00 --- 18:00</p>
+      </div>
+    </Tooltip>
     <Tooltip placement="left" :always="always" :transfer="true" :disabled="disabled" class="display-block" v-if="isLogin && getUserRole === 1">
       <div class="side-box side-box-bg qq"></div>
       <div slot="content">
@@ -60,8 +69,12 @@
     },
     created() {
 //      this.closeQqBox();
+      console.log(this.$route.name)
     },
     computed: {
+      isBottomShow(){
+        return this.$store.state.bottomShow
+      },
       isLogin: function () {
         return this.$store.state.login
       },
