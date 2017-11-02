@@ -3,7 +3,7 @@
     <Top v-show="isTopShow"></Top>
     <router-view></router-view>
     <!--网站底部信息-->
-    <Bottom></Bottom>
+    <Bottom v-show="isBottomShow"></Bottom>
     <!--商家引导-->
     <merchant-guide v-if="!isShowSuspendService && isLogin && getUserRole === 1"></merchant-guide>
     <!--侧边栏信息导航-->
@@ -47,6 +47,9 @@
     computed: {
       isTopShow() {
         return this.$store.state.topShow
+      },
+      isBottomShow(){
+        return this.$store.state.bottomShow
       },
       logInAuthority() {
         return this.$store.state.logInAuthority

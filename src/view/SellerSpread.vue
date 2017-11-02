@@ -1,43 +1,111 @@
 <template>
   <div class="seller-adv">
-    <role-top></role-top>
-    <div class="text-ct pos-rel" style="min-width: 1200px" >
-      <img src="/static/img/seller-adv/seller-adv_02.jpg" alt="" style="width: 100%;" >
-      <router-link style="
-        position: absolute;
-        top: 62%;
-        left: 50%;
-        width: 330px;
-        background-color: rgb(0, 111, 255);
-        color: rgb(255, 255, 255);
-        border: none;
-        margin-left: -165px;
-        font-size: 30px;
-      " class="ivu-btn ivu-btn-circle ivu-btn-large" to="/register/seller-register">
-        立即申请商家注册
-      </router-link>
-    </div>
-    <div class="container" style="min-width: 1200px">
-      <img src="/static/img/seller-adv/seller-adv_04.png" alt="">
-      <img src="/static/img/seller-adv/seller-adv_06.png" alt="">
-      <img src="/static/img/seller-adv/seller-adv_07.png" alt="">
-      <img src="/static/img/seller-adv/seller-adv_08.png" alt="">
-      <img src="/static/img/seller-adv/seller-adv_10.png" alt="">
-      <img src="/static/img/seller-adv/seller-adv_12.png" alt="">
-    </div>
-    <div class="seller-bottom" style="min-width: 1200px">
-      <div class="container">
-        <div>
-          <router-link style="
-          width: 278px;
-          border: none;
-          font-size: 26px;
-          display: block;" class="ivu-btn ivu-btn-circle ivu-btn-large" to="/register/seller-register">
-            立即申请商家注册
-          </router-link>
-          <p class="mt-20" style="color: #fff;">一站式权重优化专家</p>
+
+    <div id="pageContain">
+      <div class="page page1 current">
+        <div class="contain">
+          <div>
+            <router-link to="/" class="left">
+              <img src="/static/img/common/logo-adv.png" alt="" class="block mt-30 ml-40">
+            </router-link>
+            <p class="right adv-top-part">
+              <router-link to="/login" class="adv-login-btn">登录</router-link>
+              <router-link to="/about-us" class="adv-us">关于我们</router-link>
+              <a href="http://wpa.qq.com/msgrd?v=3&site=qq&menu=yes&uin=800019404" target="_blank" class="adv-us ml-15"  >
+                联系我们
+              </a>
+            </p>
+          </div>
+          <div class="clear-both text-ct adv-text1-box">
+            <p>
+              <img class="adv-text-img" src="/static/img/seller-adv/seller-adv-text1.png" alt="">
+            </p>
+
+            <router-link to="/register/seller-register" class="adv-login-register">立即注册</router-link>
+          </div>
         </div>
       </div>
+      <div class="page page2">
+        <div class="contain">
+          <div>
+            <router-link to="/" class="left">
+              <img src="/static/img/common/logo-adv.png" alt="" class="block mt-30 ml-40">
+            </router-link>
+            <p class="right adv-top-part">
+              <router-link to="/login" class="adv-login-btn">登录</router-link>
+              <router-link to="/about-us" class="adv-us">关于我们</router-link>
+              <a href="http://wpa.qq.com/msgrd?v=3&site=qq&menu=yes&uin=800019404" target="_blank" class="adv-us ml-15"  >
+                联系我们
+              </a>
+            </p>
+          </div>
+          <div class="clear-both text-ct adv-text1-box">
+            <p class="">
+              <img class="adv-text-img" src="/static/img/seller-adv/seller-adv-text2.png" alt="">
+            </p>
+
+            <router-link to="/register/seller-register" class="adv-login-register">立即注册</router-link>
+          </div>
+        </div>
+      </div>
+      <div class="page page3">
+        <div class="contain">
+          <div>
+            <router-link to="/" class="left">
+              <img src="/static/img/common/logo-adv.png" alt="" class="block mt-30 ml-40">
+            </router-link>
+            <p class="right adv-top-part">
+              <router-link to="/login" class="adv-login-btn">登录</router-link>
+              <router-link to="/about-us" class="adv-us">关于我们</router-link>
+              <a href="http://wpa.qq.com/msgrd?v=3&site=qq&menu=yes&uin=800019404" target="_blank" class="adv-us ml-15"  >
+                联系我们
+              </a>
+            </p>
+          </div>
+          <div class="clear-both text-ct adv-text1-box">
+            <p>
+              <img class="adv-text-img" src="/static/img/seller-adv/seller-adv-text3.png" alt="">
+            </p>
+
+            <router-link to="/register/seller-register" class="adv-login-register">立即注册</router-link>
+          </div>
+        </div>
+      </div>
+      <div class="page page4">
+        <div class="contain">
+          <div>
+            <router-link to="/" class="left">
+              <img src="/static/img/common/logo-adv.png" alt="" class="block mt-30 ml-40">
+            </router-link>
+            <p class="right adv-top-part">
+              <router-link to="/login" class="adv-login-btn">登录</router-link>
+              <router-link to="/about-us" class="adv-us">关于我们</router-link>
+              <a href="http://wpa.qq.com/msgrd?v=3&site=qq&menu=yes&uin=800019404" target="_blank" class="adv-us ml-15"  >
+                联系我们
+              </a>
+            </p>
+          </div>
+          <div class="clear-both text-ct adv-text1-box">
+            <p>
+              <img class="adv-text-img" src="/static/img/seller-adv/seller-adv-text4.png" alt="">
+            </p>
+
+            <router-link to="/register/seller-register" class="adv-login-register">立即注册</router-link>
+          </div>
+        </div>
+      </div>
+    </div>
+    <ul id="navBar">
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
+    </ul>
+    <div v-show="advBottomShow" style="position: fixed; bottom: 0; width: 100%; z-index: 1;">
+      <a @click="goRegisterFunc($event)">
+        <img src="/static/img/seller-adv/adv-bottom.png" alt="" style="width: 100%; display: block;">
+        <span class="clfff fs-20 adv-bottom-closed" @click="colsedAdvBottomFunc($event)">&times;</span>
+      </a>
     </div>
   </div>
 </template>

@@ -55,6 +55,10 @@ export default {
   [types.CHANGE_TOP_SHOW_HIDE](state, {status}) {
     state.topShow = status;
   },
+  //页面底部是否显示
+  [types.CHANGE_BOTTOM_SHOW_HIDE](state, {status}) {
+    state.bottomShow = status;
+  },
 
   //导航列表存入
   [types.TASK_CATEGORY_LIST](state, {info}) {

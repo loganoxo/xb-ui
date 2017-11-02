@@ -12,6 +12,7 @@ const state = {
   userInfo: {}, //用户信息
   login: false,//是否登录标识
   topShow: true,//头部切换标识
+  bottomShow: true,//底部标签
   logInAuthority: true,//用户页面权限标识
   severTime: null,//当前服务器时间
   clientTime: null,//当前客户端时间
