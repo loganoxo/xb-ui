@@ -118,6 +118,7 @@
       position: relative;
       background-color: #F7F7F7;
       border: 1px solid #dddee1;
+      border-radius: 5px;
       > i.showTableStyles{
         transform: rotate(90deg);
         transition: transform .2s ease-in-out ;
