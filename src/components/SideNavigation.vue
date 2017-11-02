@@ -1,6 +1,6 @@
 <template>
   <div class="side-navigation">
-    <Tooltip placement="left" :always="always" :transfer="true" :disabled="disabled" class="display-block" v-if="$route.name === 'sellerSpread' ">
+    <Tooltip placement="left" :always="always" :transfer="true" :disabled="disabled" class="display-block" v-if="!isLogin && $route.name === 'sellerSpread' ">
       <div class="side-box side-box-bg qq"></div>
       <div slot="content">
         <!--        <span v-show="showCloseBtn" class="close-qq-box" @click="closeQqBoxNow">关闭</span>-->
