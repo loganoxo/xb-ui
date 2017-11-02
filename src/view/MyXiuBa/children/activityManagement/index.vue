@@ -24,6 +24,15 @@
     .main-color {
       color: $mainColor;
     }
+    .prompt{
+      height: 36px;
+      line-height: 36px;
+      border: 1px solid #FFB9B8;
+      border-radius: 5px;
+      background-color: #FFF4F1;
+      text-align: center;
+      color: red;
+    }
     .activity-title {
       height: 52px;
       line-height: 52px;

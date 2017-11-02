@@ -46,6 +46,15 @@
   @import 'src/css/mixin';
 
   .task-management{
+    .prompt{
+      height: 36px;
+      line-height: 36px;
+      border: 1px solid #FFB9B8;
+      border-radius: 5px;
+      background-color: #FFF4F1;
+      text-align: center;
+      color: red;
+    }
     .ww-active{
       background-color: $mainColor;
       color: #fff;
