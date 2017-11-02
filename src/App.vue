@@ -67,7 +67,9 @@
     created() {
       let _this = this;
       let userInfo = getStorage('userInfo');
-      _this.$store.dispatch('getDetectionMerchantGuide');
+      if(_this.isLogin){
+        _this.$store.dispatch('getDetectionMerchantGuide');
+      }
       if (!userInfo && _this.logInAuthority) {
         _this.$store.dispatch('loggedOut').then((res) => {
           if (res.status) {
