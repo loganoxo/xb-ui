@@ -33,7 +33,8 @@ module.exports = {
         loader: 'vue-loader',
         options: vueLoaderConfig
       },
-      { test: /iview.src.*?js$/,
+      {
+        test: /iview.src.*?js$/,
         loader: 'babel-loader'
       },
       {

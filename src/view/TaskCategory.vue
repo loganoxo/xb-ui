@@ -122,7 +122,7 @@
       <div class="container">
         <div class="task-category-commodity mt-10">
           <div id="historyPage" class="home-commodity-title">
-            <img src="/static/img/home/home_25.png" alt="">
+            <img src="~assets/img/home/home_25.png" alt="">
             <p class="text-ct fs-14">我型我秀，分享精彩</p>
           </div>
           <div class="task-category-commodity-ctt">

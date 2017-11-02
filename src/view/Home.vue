@@ -200,7 +200,7 @@
       <div class="container" style="margin-top: 10px;">
         <div class="home-commodity">
           <div class="home-commodity-title">
-            <img src="/static/img/home/home_25.png" alt="">
+            <img src="~assets/img/home/home_25.png" alt="">
             <p class="text-ct fs-14">我型我秀，分享精彩</p>
           </div>
           <div class="home-commodity-ctt">

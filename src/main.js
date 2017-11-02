@@ -19,8 +19,8 @@ Vue.prototype.$Message = Message;
 /*VueLazyload配置初始化*/
 Vue.use(VueLazyload, {
   preLoad: 1.3,
-  error: '/static/lazyLoadImage/lazy-load-image-error.svg',
-  loading: '/static/lazyLoadImage/lazy-load-image-loading.svg',
+  error: '/static/img/lazyLoadImage/lazy-load-image-error.svg',
+  loading: '/static/img/lazyLoadImage/lazy-load-image-loading.svg',
   attempt: 3
 });
 
