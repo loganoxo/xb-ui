@@ -102,7 +102,7 @@
                 <place-order-step :taskPlaceInfo="taskPlaceInfo" :currentGenerationEndTime="commodityData.task.endTime"></place-order-step>
               </div>
               <div class="text-ct" v-if="!commodityData.cannotShowItemDescriptionOfQualification" v-html="commodityData.task.itemDescription"></div>
-              <div class="fs-18 text-ct" v-else >
+              <div class="fs-18 text-ct" v-else>
                 <div class="precautions mb-20 pt-10">
                   <p>注意事项：</p>
                   <p class="mt-10">
