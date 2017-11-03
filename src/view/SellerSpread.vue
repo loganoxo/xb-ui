@@ -178,7 +178,7 @@
 
           id : 'pageContain',                            // id of contain
           slideTime : 800,                               // time of slide
-          continuous : false,                            // create an infinite feel with no endpoints
+          continuous : true,                            // create an infinite feel with no endpoints
           effect : {                                     // slide effect
             transform : {
               translate : 'Y',				   // 'X'|'Y'|'XY'|'none'
@@ -191,6 +191,7 @@
           start : 0,                                     // which page will display when install
           easing : 'fadeInDown',                                   // easing('ease','ease-in','ease-in-out' or use cubic-bezier like [.33, 1.81, 1, 1];
           onSwipeStart : function(index, thisPage) {   // callback before pageChange
+
             self.advBottomShow = true;
           },
           beforeChange : function(index, thisPage) {   // callback before pageChange
