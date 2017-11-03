@@ -26,7 +26,10 @@
               <li>
                 <span v-show="ww.status == 1">审核中</span>
                 <span v-show="ww.status == 2">启用中</span>
-                <span v-show="ww.status == 3">审核不通过</span>
+                <Tooltip v-show="ww.status == 3" :content="ww.remarks" placement="top" style="color: #ff6633;">
+                  <Icon type="information-circled" color="#FF6633"></Icon>
+                  <span >审核不通过(查看)</span>
+                </Tooltip>
               </li>
               <li>
                 <a v-show="ww.status == 2" @click="deleteWwBindFunc(ww,index)">解绑</a>
@@ -217,12 +220,14 @@
   import {mapActions, mapMutations} from 'vuex'
   import {RegionPicker} from 'vue-region-picker'
   import CHINA_REGION from 'china-area-data'
+  import Tooltip from 'iview/src/components/tooltip'
 
   RegionPicker.region = CHINA_REGION;
   RegionPicker.vueVersion = 2;
   export default {
     name: 'wwBind',
     components: {
+      Tooltip: Tooltip,
       iInput: Input,
       iForm: Form,
       FormItem: Form.Item,
