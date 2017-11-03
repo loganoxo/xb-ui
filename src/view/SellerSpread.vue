@@ -235,7 +235,6 @@
     font-size: 34px;
     line-height: 58px;
     border-radius: 34px;
-    margin-right: 20px;
     margin-top: 34px;
   }
   .adv-us{
