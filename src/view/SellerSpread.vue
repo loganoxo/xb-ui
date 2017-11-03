@@ -152,6 +152,7 @@
           }
         },
         advBottomShow: true,
+        advBottomAgain: true,
         FullPage: null,
       }
     },
@@ -165,7 +166,7 @@
         e.preventDefault()
       },
       colsedAdvBottomFunc(e){
-
+        this.advBottomAgain = false;
         this.advBottomShow = false;
         e.stopPropagation();
         e.preventDefault()
@@ -191,14 +192,19 @@
           start : 0,                                     // which page will display when install
           easing : 'fadeInDown',                                   // easing('ease','ease-in','ease-in-out' or use cubic-bezier like [.33, 1.81, 1, 1];
           onSwipeStart : function(index, thisPage) {   // callback before pageChange
+            if(self.advBottomAgain){
+              self.advBottomShow = true;
+            }
 
-            self.advBottomShow = true;
+
           },
           beforeChange : function(index, thisPage) {   // callback before pageChange
             self.advBottomShow = false;
           },
           callback : function(index, thisPage) {       // callback when pageChange
-            self.advBottomShow = true;
+            if(self.advBottomAgain){
+              self.advBottomShow = true;
+            }
           },
         });
 
