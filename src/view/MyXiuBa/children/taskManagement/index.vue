@@ -8,7 +8,7 @@
       <div class="task-management-list-title">
         <router-link to="/user/task-management/wait" tag="span" :class="{isSelect:showTaskStatus === 'TaskWaitAudit'}">待审批</router-link>
         <router-link to="/user/task-management/pass" tag="span" :class="{isSelect:showTaskStatus === 'TaskPassAudit'}">已通过</router-link>
-        <router-link to="/user/task-management/fail" tag="span" :class="{isSelect:showTaskStatus === 'TaskFailAudit'}">已终止</router-link>
+        <router-link to="/user/task-management/fail" tag="span" :class="{isSelect:showTaskStatus === 'TaskFailAudit'}">未通过</router-link>
       </div>
     </div>
     <router-view></router-view>
