@@ -122,23 +122,36 @@
       confirmRecharge() {
         let _this = this;
         _this.payLoading = true;
-        api.balanceOrderCreate({
-          finalFee: this.payMoney,
-          orderPlatform: 'PC',
-          payChannel: 1
-        }).then(res => {
-          if (res.status) {
-            if(_this.payType === 'ali'){
+        if (_this.payType === 'ali'){
+          const newWindowUrl = window.open('about:blank');
+          api.balanceOrderCreate({
+            finalFee: this.payMoney,
+            orderPlatform: 'PC',
+            payChannel: 1
+          }).then(res => {
+            if (res.status) {
               _this.confirmRechargeModel = true;
-              let src = aliPayUrl + 'orderSerial=' + res.data.orderSerial;
-              window.open(src);
-            }else{
+              newWindowUrl.location.href = aliPayUrl + 'orderSerial=' + res.data.orderSerial;
+              _this.payLoading = false;
+            }else {
+              _this.$Message.error(res.msg);
+            }
+          });
+        }else {
+          api.balanceOrderCreate({
+            finalFee: this.payMoney,
+            orderPlatform: 'PC',
+            payChannel: 1
+          }).then(res => {
+            if (res.status) {
               this.payPopWindowWX = true;
               _this.wxPayImgSrc = weiXinPayUrl + 'orderSerial=' + res.data.orderSerial+'&userId='+res.data.uid;
+              _this.payLoading = false;
+            }else {
+              _this.$Message.error(res.msg);
             }
-            _this.payLoading = false;
-          }
-        })
+          });
+        }
       },
       finishRecharge() {
         this.confirmRechargeModel = false;
