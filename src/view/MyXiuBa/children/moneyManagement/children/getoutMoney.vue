@@ -607,7 +607,6 @@
           } else {
             _this.iconType = 'close-circled';
             _this.applyGetOut = res.msg;
-            _this.getoutMoney.getoutNumber = '';
             _this.getoutMoney.password = '';
           }
         });
