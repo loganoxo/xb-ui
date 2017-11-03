@@ -256,6 +256,9 @@ export const TaskErrorStatusList = (type) => {
     case "seller_manual_close":
       return "商家主动终止";
       break;
+    case "admin_manual_close":
+      return "管理员终止";
+      break;
     case 'waiting_audit':
       return "待审核";
       break;

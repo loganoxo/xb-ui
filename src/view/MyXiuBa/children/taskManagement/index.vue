@@ -124,6 +124,9 @@
         transition: transform .2s ease-in-out ;
       }
     }
+    .noBorderRadius{
+      border-radius: 5px 5px 0 0;
+    }
     .manage-img {
       height: 54px;
       width: 54px;

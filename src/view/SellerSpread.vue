@@ -121,7 +121,7 @@
       <li></li>
       <li></li>
     </ul>
-    <div  :class="[advBottomShow ? 'animated fadeIn' : 'animated fadeOutDown']" style="position: fixed; bottom: 0; width: 100%; z-index: 1;">
+    <div :class="[advBottomShow ? 'animated fadeIn' : 'animated fadeOutDown']" style="position: fixed; bottom: 0; width: 100%; z-index: 1;">
       <a @click="goRegisterFunc($event)">
         <img src="/static/img/seller-adv/adv-bottom.png" alt="" style="width: 100%; display: block;">
         <span class="clfff fs-20 adv-bottom-closed" @click="colsedAdvBottomFunc($event)">&times;</span>

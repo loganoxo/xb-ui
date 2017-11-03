@@ -46,7 +46,7 @@
       <iButton type="primary" :loading="searchLoading" @click="passesTaskList">搜索</iButton>
     </div>
     <div class="mt-12" v-for="(item,index) in taskPassAuditList" :key="item.id" v-if="taskPassAuditList.length > 0">
-      <div class="collapse-header clear" @click="collapseToggle(item.id,index)">
+      <div class="collapse-header clear" @click="collapseToggle(item.id,index)" :class="{noBorderRadius:selectId}">
         <div class="manage-img inline-block">
           <img :src="item.taskMainImage + '!thum54'" alt="">
         </div>
@@ -108,7 +108,7 @@
                   <time-down color='#ff4040' :fontWeight=600 :endTime="item.currentGenerationEndTime"></time-down>
                 </p>
                 <p v-if="item.status === 'trial_end'">
-                  <Tooltip :content="getTaskStatus(item.trialEndReason)" placement="top" class="cursor-p">
+                  <Tooltip :content="item.trialEndReason === 'admin_manual_close' ? getTaskStatus(item.trialEndReason) +'：'+ item.auditDescription : getTaskStatus(item.trialEndReason)" placement="top" class="cursor-p">
                     <Icon color="#f60" type="information-circled"></Icon>
                     <span class="main-color">{{getTaskStatus(item.status)}}</span>
                   </Tooltip>

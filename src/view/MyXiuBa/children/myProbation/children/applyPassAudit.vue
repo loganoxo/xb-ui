@@ -97,7 +97,7 @@
                 </Tooltip>
               </p>
               <p class="mt-5 main-color cursor-p" v-if="item.status === 'trial_end'">
-                <Tooltip :content="getTaskStatus(item.trialEndReason)" placement="top">
+                <Tooltip :content="item.trialEndReason === 'admin_manual_close' ? getTaskStatus(item.trialEndReason) +'：'+ item.auditDescription : getTaskStatus(item.trialEndReason)" placement="top">
                   <Icon color="#f60" type="information-circled"></Icon>
                   <span>活动终止</span>
                 </Tooltip>

@@ -29,7 +29,7 @@
       <iButton type="primary" :loading="searchLoading" @click="appliesEndTask">搜索</iButton>
     </div>
     <div class="mt-12" v-for="(item,index) in taskFailAuditList" :key="item.id" v-if="taskFailAuditList.length > 0">
-      <div class="collapse-header clear" @click="collapseToggle(item.id,index)">
+      <div class="collapse-header clear" @click="collapseToggle(item.id,index)" :class="{noBorderRadius:selectId}">
         <div class="manage-img inline-block">
           <img :src="item.taskMainImage + '!thum54'" alt="">
         </div>
