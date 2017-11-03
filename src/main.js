@@ -9,6 +9,7 @@ import LoadingBar from 'iview/src/components/loading-bar'
 import Message from 'iview/src/components/message'
 import '../iview/iview.less'
 import '@/css/common.scss'
+import 'animate.css'
 
 Vue.config.productionTip = false;
 
@@ -38,6 +39,10 @@ router.beforeEach((to, from, next) => {
   store.commit({
     type: "CHANGE_TOP_SHOW_HIDE",
     status: to.meta.topShow
+  });
+  store.commit({
+    type: "CHANGE_BOTTOM_SHOW_HIDE",
+    status: to.meta.bottomShow
   });
   store.commit({
     type: "LOG_IN_AUTHORITY",

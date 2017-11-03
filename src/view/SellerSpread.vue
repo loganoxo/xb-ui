@@ -2,7 +2,7 @@
   <div class="seller-adv">
 
     <div id="pageContain">
-      <div class="page page1 current">
+      <div class="page page1 current ">
         <div class="contain">
           <div>
             <router-link to="/" class="left">
@@ -16,12 +16,17 @@
               </a>
             </p>
           </div>
-          <div class="clear-both text-ct adv-text1-box">
-            <p>
+          <div class="clear-both text-ct adv-text1-box ">
+            <p class="title">
               <img class="adv-text-img" src="/static/img/seller-adv/seller-adv-text1.png" alt="">
             </p>
+            <div class="titleEng">
+              <router-link to="/register/seller-register" class="adv-login-register ">立即注册</router-link>
+              <a class="block move-arrow-down" style="margin-top: 140px " @click="FullPage.next()">
+                <img src="/static/img/common/big-down.png" alt="">
+              </a>
+            </div>
 
-            <router-link to="/register/seller-register" class="adv-login-register">立即注册</router-link>
           </div>
         </div>
       </div>
@@ -39,12 +44,17 @@
               </a>
             </p>
           </div>
-          <div class="clear-both text-ct adv-text1-box">
-            <p class="">
+          <div class="clear-both text-ct adv-text1-box ">
+            <p class="title">
               <img class="adv-text-img" src="/static/img/seller-adv/seller-adv-text2.png" alt="">
             </p>
+            <div class="titleEng">
+              <router-link to="/register/seller-register" class="adv-login-register ">立即注册</router-link>
+              <a class="block move-arrow-down" style="margin-top: 140px " @click="FullPage.next()">
+                <img src="/static/img/common/big-down.png" alt="">
+              </a>
+            </div>
 
-            <router-link to="/register/seller-register" class="adv-login-register">立即注册</router-link>
           </div>
         </div>
       </div>
@@ -62,12 +72,17 @@
               </a>
             </p>
           </div>
-          <div class="clear-both text-ct adv-text1-box">
-            <p>
+          <div class="clear-both text-ct adv-text1-box ">
+            <p class="title">
               <img class="adv-text-img" src="/static/img/seller-adv/seller-adv-text3.png" alt="">
             </p>
+            <div class="titleEng">
+              <router-link to="/register/seller-register" class="adv-login-register ">立即注册</router-link>
+              <a class="block move-arrow-down" style="margin-top: 140px " @click="FullPage.next()">
+                <img src="/static/img/common/big-down.png" alt="">
+              </a>
+            </div>
 
-            <router-link to="/register/seller-register" class="adv-login-register">立即注册</router-link>
           </div>
         </div>
       </div>
@@ -85,12 +100,17 @@
               </a>
             </p>
           </div>
-          <div class="clear-both text-ct adv-text1-box">
-            <p>
+          <div class="clear-both text-ct adv-text1-box ">
+            <p class="title">
               <img class="adv-text-img" src="/static/img/seller-adv/seller-adv-text4.png" alt="">
             </p>
+            <div class="titleEng">
+              <router-link to="/register/seller-register" class="adv-login-register ">立即注册</router-link>
+              <a class="block move-arrow-down" style="margin-top: 70px " @click="FullPage.go(0)">
+                <img src="/static/img/common/big-down.png" alt="">
+              </a>
+            </div>
 
-            <router-link to="/register/seller-register" class="adv-login-register">立即注册</router-link>
           </div>
         </div>
       </div>
@@ -101,7 +121,7 @@
       <li></li>
       <li></li>
     </ul>
-    <div v-show="advBottomShow" style="position: fixed; bottom: 0; width: 100%; z-index: 1;">
+    <div  :class="[advBottomShow ? 'animated fadeIn' : 'animated fadeOutDown']" style="position: fixed; bottom: 0; width: 100%; z-index: 1;">
       <a @click="goRegisterFunc($event)">
         <img src="/static/img/seller-adv/adv-bottom.png" alt="" style="width: 100%; display: block;">
         <span class="clfff fs-20 adv-bottom-closed" @click="colsedAdvBottomFunc($event)">&times;</span>
@@ -132,6 +152,7 @@
           }
         },
         advBottomShow: true,
+        FullPage: null,
       }
     },
     created() {
@@ -151,8 +172,9 @@
       }
     },
     mounted: function () {
-      this.$nextTick(function () {
-        let runPage = new FullPage({
+      let self = this;
+      self.$nextTick(function () {
+        self.FullPage  = new FullPage({
 
           id : 'pageContain',                            // id of contain
           slideTime : 800,                               // time of slide
@@ -168,15 +190,15 @@
           mode : 'wheel,touch,nav:navBar',               // mode of fullpage
           start : 0,                                     // which page will display when install
           easing : 'fadeInDown',                                   // easing('ease','ease-in','ease-in-out' or use cubic-bezier like [.33, 1.81, 1, 1];
-          //  ,onSwipeStart : function(index, thisPage) {   // callback before pageChange
-          //    return 'stop';
-          //  }
-          //  ,beforeChange : function(index, thisPage) {   // callback before pageChange
-          //    return 'stop';
-          //  }
-          //  ,callback : function(index, thisPage) {       // callback when pageChange
-          //    alert(index);
-          //  };
+          onSwipeStart : function(index, thisPage) {   // callback before pageChange
+            self.advBottomShow = true;
+          },
+          beforeChange : function(index, thisPage) {   // callback before pageChange
+            self.advBottomShow = false;
+          },
+          callback : function(index, thisPage) {       // callback when pageChange
+            self.advBottomShow = true;
+          },
         });
 
       })
@@ -186,17 +208,6 @@
 
 <style lang="scss" scoped>
   @import 'src/css/mixin';
-  .seller-bottom{
-    background-color: #351E97;
-    height: 170px;
-    >div{
-      div{
-        width: 300px;
-        margin: 45px auto;
-        text-align: center;
-      }
-    }
-  }
   .adv-top-part{
     margin-right: 122px;
     margin-top: 55px;
@@ -231,7 +242,7 @@
     color: #fff;
   }
   .adv-text1-box{
-    margin-top: 10%;
+    margin-top: 8%;
     float: left;
     width: 100%;
   }
@@ -240,7 +251,7 @@
   }
   .adv-bottom-closed{
     position: absolute;
-    top: 48%;
+    top: 36%;
     right: 24%;
     z-index: 3;
     color: #fff;
@@ -338,7 +349,138 @@
     opacity: 0;
   }
 
+  .title,.titleEng {
+    -webkit-animation:dragTop .7s ease-in-out both;
+    -moz-animation:dragTop .7s ease-in-out both;
+    -ms-animation:dragTop .7s ease-in-out both;
+    animation:dragTop .7s ease-in-out both;
+    text-align: center;
+    color: #fff;
+    top: 13%;
+    left: 50%;
+  }
+  .title {
+    -webkit-animation-delay: .8s;
+    -moz-animation-delay:.8s;
+    -ms-animation-delay:.8s;
+    animation-delay:.8s;
+    width: 100%;
 
+  }
+  .titleEng {
+    -webkit-animation-delay: 1.2s;
+    -moz-animation-delay:1.2s;
+    -ms-animation-delay:1.2s;
+    animation-delay:1.2s;
+  }
+  .move-arrow-down {
+    -webkit-animation: float ease-in-out 2s infinite;
+    animation: float ease-in-out 2s infinite;
+  }
+  @-webkit-keyframes float {
+    0% {
+      -webkit-transform: translateY(0);
+      transform: translateY(0);
+    }
+    50% {
+      -webkit-transform: translateY(20px);
+      transform: translateY(20px);
+    }
+    100% {
+      -webkit-transform: translateY(0);
+      transform: translateY(0);
+    }
+  }
+  @keyframes float {
+    0% {
+      -webkit-transform: translateY(0);
+      transform: translateY(0);
+    }
+    50% {
+      -webkit-transform: translateY(20px);
+      transform: translateY(20px);
+    }
+    100% {
+      -webkit-transform: translateY(0);
+      transform: translateY(0);
+    }
+  }
+  @keyframes dragTop {
+    0% {
+      opacity:0;
+      transform:translateY(-70px)
+    }
+    60% {
+      opacity:1;
+      transform:translateY(20px)
+    }
+    90% {
+      transform:translateY(-5px)
+    }
+    97% {
+      transform:translateY(-1px)
+    }
+    100% {
+      transform:translateY(0px)
+    }
+  }
+  @-webkit-keyframes dragTop {
+    0% {
+      opacity:0;
+      -webkit-transform:translateY(-70px)
+    }
+    60% {
+      opacity:1;
+      -webkit-transform:translateY(20px)
+    }
+    90% {
+      -webkit-transform:translateY(-5px)
+    }
+    97% {
+      -webkit-transform:translateY(-1px)
+    }
+    100% {
+      -webkit-transform:translateY(0px)
+    }
+  }
+  @-moz-keyframes dragTop {
+    0% {
+      opacity:0;
+      -moz-transform:translateY(-70px)
+    }
+    60% {
+      opacity:1;
+      -moz-transform:translateY(20px)
+    }
+    90% {
+      -moz-transform:translateY(-5px)
+    }
+    97% {
+      -moz-transform:translateY(-1px)
+    }
+    100% {
+      -moz-transform:translateY(0px)
+    }
+  }
+  @-ms-keyframes dragTop {
+    0% {
+      opacity:0;
+      -ms-transform:translateY(-70px)
+    }
+    60% {
+      opacity:1;
+      -ms-transform:translateY(20px)
+    }
+    90% {
+      -ms-transform:translateY(-5px)
+    }
+    97% {
+      -ms-transform:translateY(-1px)
+    }
+    100% {
+      -ms-transform:translateY(0px)
+    }
+  }
 
 </style>
 
