@@ -257,7 +257,7 @@
         <span>结束确认</span>
       </p>
       <div style="text-align:center">
-        <p>结束后将视为放弃活动资格，商家将不会返还任务担保金。</p>
+        <p>结束后将视为放弃活动资格。</p>
         <p>是否确认结束？</p>
       </div>
       <div slot="footer">
