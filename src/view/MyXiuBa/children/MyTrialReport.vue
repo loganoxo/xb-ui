@@ -226,7 +226,7 @@
               self.showkerReportDesc.trialReportImages = JSON.parse(self.showkerReportDesc.trialReportImages);
               self.$nextTick(function () {
                 self.init();
-                self.copyValue = window.location.host + '/task-details?q=' + encryption(trialReport.task.id);
+                self.copyValue = 'http://' + window.location.host + '/task-details?q=' + encryption(trialReport.task.id);
                 let trialReportImages = null;
                 if(self.showkerReportDesc.trialReportImages.length > 0){
                   trialReportImages = self.showkerReportDesc.trialReportImages[0];
