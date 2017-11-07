@@ -44,10 +44,13 @@
             </div>
           </div>
           <div v-if="showReportDesc">
-            <p class="fs-16 trial-account">
+            <div class="fs-16 trial-account">
               {{showkerReportDesc.showkerPhone}}的买家秀
                <a @click="showReportDesc = false;" class="right fs-14">返回上一页</a>
-            </p>
+               <div class="right fs-14 mr-40">
+                分享精彩：<div v-html="copyHtml" style="display: inline-block;" ></div>
+               </div>
+            </div>
             <div class="trial-account-details">
               <div class="task-info">
                 <img :src="showkerReportDesc.task.taskMainImage + '!orgi75'" alt="" width="100px" class="left">
@@ -92,6 +95,7 @@
 </template>
 
 <script>
+  import 'social-share.js/dist/css/share.min.css'
   import Icon from 'iview/src/components/icon'
   import Alert from 'iview/src/components/alert'
   import Form from 'iview/src/components/form'
@@ -105,6 +109,7 @@
   import Carousel from 'iview/src/components/carousel'
   import api from '@/config/apiConfig'
   import TimeDown from '@/components/TimeDown'
+  import {setStorage, getStorage, decode, encryption} from '@/config/utils'
   export default {
 
     name: 'MyTrialReport',
@@ -129,6 +134,8 @@
     },
     data () {
       return {
+        copyHtml: '',
+        copyValue: '',
         trialReportPicShow: false,
         trialReportPic: '',
         value3: 0,
@@ -217,6 +224,18 @@
             if(res.status){
               self.showkerReportDesc = res.data;
               self.showkerReportDesc.trialReportImages = JSON.parse(self.showkerReportDesc.trialReportImages);
+              self.$nextTick(function () {
+                self.init();
+                self.copyValue = window.location.host + '/task-details?q=' + encryption(trialReport.task.id);
+                let trialReportImages = null;
+                if(self.showkerReportDesc.trialReportImages.length > 0){
+                  trialReportImages = self.showkerReportDesc.trialReportImages[0];
+                }else {
+                  trialReportImages = "https://www.xiuba365.com/static/avatar/xiuba_icon.png";
+                }
+                self.copyHtml = '<div style="display: inline-block;" data-sites="qzone, qq, weibo" data-title="秀吧365，精彩秀出每一天" data-image=' + trialReportImages + ' data-description="我在秀吧365上查看了+活动名称+精彩买家秀，心动不如行动，赶快和我一起加入，只要分享自己真实的使用体会，即可免费获得万千商品！" class="social-share" data-url=' + self.copyValue + '  ></div>';
+              });
+
             }else {
               self.$Message.error({
                 content: res.msg,
@@ -225,7 +244,13 @@
             }
 
          })
-      }
+      },
+      init: function () {
+        let url = '/static/js/social-share.min.js';
+        let script = document.createElement('script');
+        script.setAttribute('src', url);
+        document.getElementsByTagName('head')[0].appendChild(script)
+      },
     },
     watch: {
     }

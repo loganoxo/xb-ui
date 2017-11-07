@@ -35,7 +35,11 @@
               <time-down v-show="applyBtnShow === 'buyerTasking' || applyBtnShow === 'noLogin' || applyBtnShow === 'sellerTasking' "  color="#495060" size="20" :endTime="commodityData.task.endTime" ></time-down>
               <span v-show="applyBtnShow === 'taskEnd'" >已结束</span>
             </p>
-            <div >
+            <div style="margin: 0; line-height: 40px; font-size: 14px;">
+              好东西要分享：<div v-html="copyHtml" style="display: inline-block;" ></div>
+            </div>
+
+            <div  class="task-details-btn-box">
               <iButton v-show="applyBtnShow === 'taskEnd'" disabled size="large" class="fs-16 default-btn" long style="width: 150px;" >已结束</iButton>
               <div >
                 <div v-if="applyBtnShow === 'buyerTasking'">
@@ -252,6 +256,7 @@
 </template>
 
 <script>
+  import 'social-share.js/dist/css/share.min.css'
   import Icon from 'iview/src/components/icon'
   import Alert from 'iview/src/components/alert'
   import Form from 'iview/src/components/form'
@@ -292,6 +297,8 @@
     },
     data () {
       return {
+        copyHtml: '',
+        copyValue: '',
         showkerApplyBefore:false,
         needBrowseCollectAddCart:false,
         taskDetail:{},
@@ -394,7 +401,13 @@
     },
     created(){
       let self = this;
+      self.copyValue = window.location.href;
       self.getTaskDetails();
+    },
+    mounted () {
+      let self = this;
+
+
     },
     computed: {
       isLogin() {
@@ -601,6 +614,10 @@
             }else{
               self.graphicInfoSels[2].num = 0;
             }
+            self.$nextTick(function () {
+              self.init();
+              self.copyHtml = '<div style="display: inline-block;" data-sites="qzone, qq, weibo" data-title="【秀吧365】' + self.commodityData.task.taskName + '" data-image=' + self.commodityData.task.taskMainImage + ' data-description="活动名称+秀吧365，万千商品每日更新，赶快和我一起来免费试用吧！" class="social-share" data-url=' + self.copyValue + '  ></div>';
+            });
           }else {
             self.$Message.error({
               content: res.msg,
@@ -668,6 +685,12 @@
         this.trialReportPicShow = true;
         this.trialReportPic = trialReportImage;
       },
+      init: function () {
+        let url = '/static/js/social-share.min.js';
+        let script = document.createElement('script');
+        script.setAttribute('src', url);
+        document.getElementsByTagName('head')[0].appendChild(script)
+      },
     },
     watch: {
       '$route' (to, from) {
@@ -675,7 +698,6 @@
         let taskId = decode(this.$route.query.q);
         this.getTaskDetails(taskId);
       },
-
     }
   }
 </script>
@@ -727,9 +749,9 @@
         width: 770px;
         padding: 15px 0;
         p{
-          line-height: 48px;
+          line-height: 40px;
         }
-        div{
+        div.task-details-btn-box{
           margin-top: 10px;
         }
       }
