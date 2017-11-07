@@ -62,9 +62,9 @@
             <p class="pl-94 mt-8">
               <Checkbox v-model="taskRelease.refuseOldShowker">拒绝已参加过本店活动的秀客再次申请</Checkbox>
             </p>
-           <!-- <p class="pl-94 mt-8">
+            <p class="pl-94 mt-8">
               <Checkbox v-model="taskRelease.needBrowseCollectAddCart">必须先完成浏览、收藏、加购，才可以申请活动资格</Checkbox>
-            </p>-->
+            </p>
           </div>
           <div class="baby-info mt-22">
             <div class="activity-info-title">填写活动宝贝信息</div>
@@ -1020,7 +1020,6 @@
               }
             }
             _this.taskRelease.itemPrice = _this.taskRelease.itemPrice / 100;
-            _this.taskRelease.needBrowseCollectAddCart = false;
             _this.taskRelease.taskDetail = {};
             if (res.data.taskType === 'tao_code') {
               _this.taoCodeTaskDetail = JSON.parse(res.data.taskDetail);
