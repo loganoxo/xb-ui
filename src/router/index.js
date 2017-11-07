@@ -218,7 +218,7 @@ export default new Router({
       component: TrialReport,
       meta: {
         title: "买家秀页",
-        logInAuthority: true,
+        logInAuthority: false,
         topShow: true,
         bottomShow: true,
       }
