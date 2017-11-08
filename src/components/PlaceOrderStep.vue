@@ -96,7 +96,7 @@
         default: {}
       },
       currentGenerationEndTime: {
-        required: true,
+        default: null
       }
     },
     data() {

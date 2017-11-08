@@ -578,13 +578,13 @@
             self.commodityData = res.data;
             self.needBrowseCollectAddCart=res.data.task.needBrowseCollectAddCart;
             self.itemUrl = res.data.task.itemUrl;
+            self.taskDetail= res.data.task;
             if(self.commodityData.showkerTask){
               api.showkerToProcessOrder({
                 id: self.commodityData.showkerTask.id
               }).then((res) => {
                 self.taskPlaceInfo = res.data.taskInfo;
                 self.showkerTask = res.data.showkerTask;
-                self.taskDetail= res.data.showkerTask.task.taskDetailObject;
                 self.storeName = res.data.showkerTask.task.storeName;
                 self.taskTypeDesc = res.data.showkerTask.task.taskTypeDesc;
               })

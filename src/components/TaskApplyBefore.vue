@@ -12,7 +12,7 @@
             </Radio>
           </Radio-group>
         </div>
-        <div v-if="taskType === 'pc_search'" class="activity-type mt-40" >
+<!--        <div v-if="taskType === 'pc_search'" class="activity-type mt-40" >
           <span class="serial-number">2</span>
           <h3 >通过商家指定的方式找到该宝贝</h3>
           <div class=" mt-10 search-type"><strong>{{taskTypeDesc}}</strong></div>
@@ -62,7 +62,8 @@
           <h3 >通过商家指定的方式找到该宝贝</h3>
           <div class=" mt-10 search-type"><strong>{{taskTypeDesc}}</strong></div>
           <p style="width: 600px;overflow: hidden"><span>宝贝链接:</span><a target="_blank" :href="itemUrl">{{itemUrl}}</a></p>
-        </div>
+        </div>-->
+        <PlaceOrderStep :taskPlaceInfo="taskDetail" ></PlaceOrderStep>
         <div class="screen-shot mt-22 clear" >
           <span class="serial-number">3</span>
           <h3>宝贝浏览见底、收藏、加入购物车，并提交相关截图</h3>
@@ -465,6 +466,7 @@
   import Radio from 'iview/src/components/radio'
   import Icon from 'iview/src/components/icon'
   import Upload from '@/components/upload'
+  import PlaceOrderStep from '@/components/PlaceOrderStep'
   import {mapActions} from 'vuex'
   import {TaskErrorStatusList} from '@/config/utils'
   import {aliCallbackImgUrl} from '@/config/env'
@@ -482,13 +484,14 @@
       RadioGroup: Radio.Group,
       Upload: Upload,
       Icon: Icon,
-      VueQArt: VueQArt
+      VueQArt: VueQArt,
+      PlaceOrderStep:PlaceOrderStep
 
     },
     props:{
       taskDetail:{
         type:Object,
-        default:null
+        default:{}
       },
       storeName:{
         type:String,
