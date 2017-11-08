@@ -116,7 +116,7 @@
           target: () => document.getElementById('copyCode')
         });
         clipboard.on('success', () => {
-          _this.$Message.success("复制口令成功！");
+//          _this.$Message.success("复制口令成功！");
           clipboard.destroy();
         });
         clipboard.on('error', () => {

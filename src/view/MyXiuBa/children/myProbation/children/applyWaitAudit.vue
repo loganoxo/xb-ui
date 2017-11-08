@@ -180,7 +180,7 @@
         userScreenShotImg: {},
         reason: null,
         status: null,
-        getEndTime: 1509888888888,
+        getEndTime: 2059888888888,
       }
     },
     mounted() {
@@ -265,7 +265,9 @@
           id: id
         }).then(res => {
           if (res.status) {
-            _this.approvalPop = true;
+            if (_this.getEndTime){
+              _this.approvalPop = true;
+            }
             _this.userScreenShotImg = res.data;
           } else {
             _this.$Message.error(res.msg)
