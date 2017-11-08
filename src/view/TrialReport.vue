@@ -258,8 +258,9 @@
             if(self.showkerReportDesc.trialReportImages.length > 0){
               trialReportImages = self.showkerReportDesc.trialReportImages[0];
             }else {
-              trialReportImages = "https://www.xiuba365.com/static/img/common/logo.png";
+              trialReportImages = "http://" + window.location.host + "/static/img/common/logo.png";
             }
+            console.log(trialReportImages);
             self.$nextTick(function () {
               self.init();
               self.copyValue =  window.location.href;
