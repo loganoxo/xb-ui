@@ -260,7 +260,6 @@
             }else {
               trialReportImages = "http://" + window.location.host + "/static/img/common/logo.png";
             }
-            console.log(trialReportImages);
             self.$nextTick(function () {
               self.init();
               self.copyValue =  window.location.href;
