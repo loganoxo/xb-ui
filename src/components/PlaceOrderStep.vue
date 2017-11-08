@@ -104,6 +104,7 @@
         showGetAppUrlImage: false,
         verificationLink: null,
         verificationLinkStatus: null,
+        copySuccess:0
       }
     },
     mounted() {
@@ -116,8 +117,11 @@
           target: () => document.getElementById('copyCode')
         });
         clipboard.on('success', () => {
-//          _this.$Message.success("复制口令成功！");
-          clipboard.destroy();
+          _this.copySuccess++;
+        if ( _this.copySuccess>1){
+          _this.$Message.success("复制口令成功！");
+        }
+//          clipboard.destroy();
         });
         clipboard.on('error', () => {
           _this.$Message.error("复制口令失败！");

@@ -386,6 +386,7 @@
       openCheckOrder(id) {
         let _this = this;
         _this.showCheckOrder = true;
+        _this.orderNoPassReason = '';
         api.orderNumberInfo({id: id}).then(res => {
           if (res.status) {
             _this.orderInfo = res.data;
