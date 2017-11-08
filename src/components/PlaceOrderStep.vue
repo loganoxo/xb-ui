@@ -48,7 +48,7 @@
     </div>
     <div class="mt-10 ml-88" v-if="taskPlaceInfo.taskType === 'app_search'">
       <a @click="showGetAppUrlImage = true">手淘宝贝如何获取链接地址？</a>
-      <Modal v-model="showGetAppUrlImage" :width="600">
+      <Modal class="pos-rel" style="z-index: 2000" v-model="showGetAppUrlImage" :width="600">
         <div class="text-ct">
           <img src="~assets/img/common/get-app-url-image.png" alt="">
         </div>
