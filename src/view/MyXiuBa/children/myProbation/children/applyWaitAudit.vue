@@ -69,53 +69,55 @@
       </div>
     </Modal>
     <!--查看详情弹窗-->
-    <Modal v-model="approvalPop"
-           width="600"
-           :transfer="false">
-      <p slot="header" style="color:#f60;text-align:center">
-        <Icon type="information-circled"></Icon>
-        <span>已提交的活动截图</span>
-      </p>
-      <div class="text-ct mt-20 ">
-        <div v-if="userScreenShotImg.searchCondition " style="display: inline-block;padding: 0 10px">
-          <img class="cursor-p" style="width:80px ;height: 80px" :src="userScreenShotImg.searchCondition" alt=""
-               @click="viewScreenShotFun(userScreenShotImg.searchCondition)">
-          <p>搜索条件截图</p>
+    <div v-if="getEndTime">
+      <Modal v-model="approvalPop"
+             width="600"
+             :transfer="false">
+        <p slot="header" style="color:#f60;text-align:center">
+          <Icon type="information-circled"></Icon>
+          <span>已提交的活动截图</span>
+        </p>
+        <div class="text-ct mt-20 ">
+          <div v-if="userScreenShotImg.searchCondition " style="display: inline-block;padding: 0 10px">
+            <img class="cursor-p" style="width:80px ;height: 80px" :src="userScreenShotImg.searchCondition" alt=""
+                 @click="viewScreenShotFun(userScreenShotImg.searchCondition)">
+            <p>搜索条件截图</p>
+          </div>
+          <div v-if="userScreenShotImg.itemLocation " style="display: inline-block;padding: 0 10px">
+            <img class="cursor-p" style="width: 80px;height: 80px" :src="userScreenShotImg.itemLocation" alt=""
+                 @click="viewScreenShotFun(userScreenShotImg.itemLocation)">
+            <p>所在位置截图</p>
+          </div>
+          <div v-if="userScreenShotImg.browseToBottom " style="display: inline-block;padding: 0 10px">
+            <img class="cursor-p" style="width: 80px;height: 80px" :src="userScreenShotImg.browseToBottom" alt=""
+                 @click="viewScreenShotFun(userScreenShotImg.browseToBottom)">
+            <p>宝贝浏览见底</p>
+          </div>
+          <div v-if="userScreenShotImg.enshrine " style="display: inline-block;padding: 0 10px">
+            <img class="cursor-p" style="width: 80px;height: 80px" :src="userScreenShotImg.enshrine" alt=""
+                 @click="viewScreenShotFun(userScreenShotImg.enshrine)">
+            <p>加入收藏夹</p>
+          </div>
+          <div v-if="userScreenShotImg.addToCart " style="display: inline-block;padding: 0 10px">
+            <img class="cursor-p" style="width: 80px;height: 80px" :src="userScreenShotImg.addToCart" alt=""
+                 @click="viewScreenShotFun(userScreenShotImg.addToCart)">
+            <p>加入购物车</p>
+          </div>
         </div>
-        <div v-if="userScreenShotImg.itemLocation " style="display: inline-block;padding: 0 10px">
-          <img class="cursor-p" style="width: 80px;height: 80px" :src="userScreenShotImg.itemLocation" alt=""
-               @click="viewScreenShotFun(userScreenShotImg.itemLocation)">
-          <p>所在位置截图</p>
+        <div slot="footer" v-show="status === 'waiting_resubmit'" class="clear">
+          <div class="left ml-20" style="color: #FF6636;font-size: 29px">
+            <Icon type="alert-circled"></Icon>
+          </div>
+          <div class="left ml-20" style="text-align: left">
+            <p>商家希望重新提交申请，理由：{{reason}}</p>
+            <p> 您还有
+              <time-down :endTime="getEndTime"></time-down>
+              重新提交，若该时间内未提交，将视为放弃活动！
+            </p>
+          </div>
         </div>
-        <div v-if="userScreenShotImg.browseToBottom " style="display: inline-block;padding: 0 10px">
-          <img class="cursor-p" style="width: 80px;height: 80px" :src="userScreenShotImg.browseToBottom" alt=""
-               @click="viewScreenShotFun(userScreenShotImg.browseToBottom)">
-          <p>宝贝浏览见底</p>
-        </div>
-        <div v-if="userScreenShotImg.enshrine " style="display: inline-block;padding: 0 10px">
-          <img class="cursor-p" style="width: 80px;height: 80px" :src="userScreenShotImg.enshrine" alt=""
-               @click="viewScreenShotFun(userScreenShotImg.enshrine)">
-          <p>加入收藏夹</p>
-        </div>
-        <div v-if="userScreenShotImg.addToCart " style="display: inline-block;padding: 0 10px">
-          <img class="cursor-p" style="width: 80px;height: 80px" :src="userScreenShotImg.addToCart" alt=""
-               @click="viewScreenShotFun(userScreenShotImg.addToCart)">
-          <p>加入购物车</p>
-        </div>
-      </div>
-      <div slot="footer" v-show="status === 'waiting_resubmit'" class="clear">
-        <div class="left ml-20" style="color: #FF6636;font-size: 29px">
-          <Icon type="alert-circled"></Icon>
-        </div>
-        <div class="left ml-20" style="text-align: left">
-          <p>商家希望重新提交申请，理由：{{reason}}</p>
-          <p> 您还有
-            <time-down :endTime="getEndTime"></time-down>
-            重新提交，若该时间内未提交，将视为放弃活动！
-          </p>
-        </div>
-      </div>
-    </Modal>
+      </Modal>
+    </div>
     <!--照片查看器-->
     <Modal v-model="viewScreenShot" :transfer="false" width="580" title="照片查看器">
       <div class="text-ct">
@@ -180,7 +182,7 @@
         userScreenShotImg: {},
         reason: null,
         status: null,
-        getEndTime: 2059888888888,
+        getEndTime: null,
       }
     },
     mounted() {
@@ -265,9 +267,7 @@
           id: id
         }).then(res => {
           if (res.status) {
-            if (_this.getEndTime){
-              _this.approvalPop = true;
-            }
+            _this.approvalPop = true;
             _this.userScreenShotImg = res.data;
           } else {
             _this.$Message.error(res.msg)
