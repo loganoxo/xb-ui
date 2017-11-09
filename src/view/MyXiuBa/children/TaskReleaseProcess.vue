@@ -9,6 +9,10 @@
         <Step title="活动上线"></Step>
       </Steps>
     </div>
+    <div class="activity-tip mb-20">
+      <Icon type="information-circled" color="#FF0100"></Icon>
+      <span><b class="sizeColor3">注意：</b> 本站<b class="sizeColor3">不支持拍A发B</b>行为，发货必须按照活动发布指定的宝贝实际发货，否则视为违规，接到秀客投诉将会全额扣除保证金，并强制下线活动！</span>
+    </div>
     <!--判断是否有权限能发布任务-->
     <div v-show="getMemberStatus === 'need_member_for_more_task'||getMemberStatus==='need_member_for_more_audit'" class="text-ct " >
       <div class="mt-80" style="font-size:20px;color: #949494" v-if="getMemberStatus === 'need_member_for_more_task'" >
@@ -58,7 +62,7 @@
           <div class="trial-condition ml-35 mt-20">
             <span class="ml-5">秀客申请条件：</span>
             <Checkbox v-model="taskRelease.onlyShowForQualification">只有获得资格的秀客才可以查看活动信息</Checkbox>
-            <p class="pl-94 size-color mt-5">勾选后可以避免秀客私下索要资格，避免同行举报。但流量、收藏量、分享量会相对减少</p>
+            <p class="pl-94 sizeColor mt-5">勾选后可以避免秀客私下索要资格，避免同行举报。但流量、收藏量、分享量会相对减少</p>
             <p class="pl-94 mt-8">
               <Checkbox v-model="taskRelease.refuseOldShowker">拒绝已参加过本店活动的秀客再次申请</Checkbox>
             </p>
@@ -71,7 +75,7 @@
             <div class="baby-title ml-45 mt-20">
               <span class="required">活动标题：</span>
               <iInput v-model="taskRelease.taskName" placeholder="请输入活动标题" style="width: 296px"></iInput>
-              <span class="ml-20 size-color"><Icon v-show="taskNameLength > 35" color="#f60" type="information-circled"></Icon>&nbsp;最多支持35个字符，当前已输入 <span
+              <span class="ml-20 sizeColor"><Icon v-show="taskNameLength > 35" color="#f60" type="information-circled"></Icon>&nbsp;最多支持35个字符，当前已输入 <span
                 class="main-color">{{taskNameLength}}</span> / 35个字符。</span>
             </div>
             <div class="baby-title ml-45 mt-20">
@@ -103,7 +107,7 @@
                   <Icon type="camera" size="20"></Icon>
                 </div>
               </Upload>
-              <p class="size-color pl-60 mt-10">点击或者拖拽自主上传图片，支持jpg \ jpeg \ png \ gif \ bmp格式，最佳尺寸400*400（像素），不超过300K，可与宝贝主图一致</p>
+              <p class="sizeColor pl-60 mt-10">点击或者拖拽自主上传图片，支持jpg \ jpeg \ png \ gif \ bmp格式，最佳尺寸400*400（像素），不超过300K，可与宝贝主图一致</p>
             </div>
             <div class="baby-url ml-45 mt-20">
               <span class="required">宝贝地址：</span>
@@ -124,7 +128,7 @@
               <span>元</span>
               <span v-show="taskRelease.itemPrice && taskRelease.itemPrice < 1" class="main-color ml-20"><Icon
                 color="#f60" type="information-circled"></Icon>&nbsp;每份试用品的价值必须在1元以上</span>
-              <p class="size-color pl-60 mt-8">活动活动期间，商家不允许修改下单页商品信息，经核查属实，本平台有权将活动担保金返还已获得资格的秀客，商家账号按相应规则处罚</p>
+              <p class="sizeColor pl-60 mt-8">活动活动期间，商家不允许修改下单页商品信息，经核查属实，本平台有权将活动担保金返还已获得资格的秀客，商家账号按相应规则处罚</p>
             </div>
             <div class="discount ml-40 mt-20">
               <span class="required">折扣/活动：</span>
@@ -133,16 +137,16 @@
                   <span>免费试用</span>
                 </Radio>
                 <Radio label="discount_9_9" :disabled="discountDisabled.discount_9_9.disabled">
-                  <span>9.9元试用（50元以上的宝贝可选）</span>
+                  <span :class="{sizeColor:discountDisabled.discount_9_9.disabled}">9.9元试用（50元以上的宝贝可选）</span>
                 </Radio>
                 <Radio label="discount_49_9" :disabled="discountDisabled.discount_49_9.disabled">
-                  <span>49.9元试用（150元以上的宝贝可选）</span>
+                  <span :class="{sizeColor:discountDisabled.discount_9_9.disabled}">49.9元试用（150元以上的宝贝可选）</span>
                 </Radio>
                 <Radio label="discount_99_9" :disabled="discountDisabled.discount_99_9.disabled">
-                  <span>99.9元试用（250元以上的宝贝可选）</span>
+                  <span :class="{sizeColor:discountDisabled.discount_9_9.disabled}">99.9元试用（250元以上的宝贝可选）</span>
                 </Radio>
               </Radio-group>
-              <p class="size-color pl-60 mt-8" v-show="taskRelease.discountType !== 'discount_0'">秀客以<span class="main-color">{{discountDisabled[taskRelease.discountType].buyPrice}}</span>元价格在淘宝上购买，活动成功后返款<span class="main-color">{{discountDisabled[taskRelease.discountType].buyPrice - discountDisabled[taskRelease.discountType].returnPrice}}</span>元给秀客！</p>
+              <p class="sizeColor pl-60 mt-8" v-show="taskRelease.itemPrice">秀客以<span class="main-color">{{taskRelease.discountType !== 'discount_0' ? discountDisabled[taskRelease.discountType].buyPrice : taskRelease.itemPrice}}</span>元价格在淘宝上购买，活动成功后返款<span class="main-color">{{taskRelease.discountType !== 'discount_0' ? discountDisabled[taskRelease.discountType].buyPrice - discountDisabled[taskRelease.discountType].returnPrice : taskRelease.itemPrice}}</span>元给秀客！</p>
             </div>
             <div class="baby-pinkage ml-45 mt-20">
               <span class="required left">是否包邮：</span>
@@ -210,13 +214,13 @@
                   </div>
                 </Upload>
                 <p
-                  class="size-color pl-60 mt-10">
+                  class="sizeColor pl-60 mt-10">
                   点击或者拖拽自主上传图片，支持jpg \ jpeg \ png \ gif \ bmp格式，最佳尺寸400*400（像素），不超过300K，可与宝贝主图一致</p>
               </div>
               <div class="search-keyword mt-20 ml-28">
                 <span class="required">搜索关键词：</span>
                 <iInput v-model="PcTaskDetail.searchKeyword" placeholder="请输入搜索关键词" style="width: 260px"></iInput>
-                <span class="size-color2">（PC端请确保10页以内，若是长尾关键词请不要过量补单）</span>
+                <span class="sizeColor2">（PC端请确保10页以内，若是长尾关键词请不要过量补单）</span>
               </div>
               <div class="sort-by ml-40 mt-20">
                 <span class="required">排序方式：</span>
@@ -236,7 +240,7 @@
                 <span class="required">展示价格：</span>
                 <iInput v-model.number="PcTaskDetail.searchPagePrice" placeholder="请输入搜索列表页展示价格"
                         style="width: 160px"></iInput>
-                <span class="size-color2">（务必亲自搜索，确认价格准确）</span>
+                <span class="sizeColor2">（务必亲自搜索，确认价格准确）</span>
               </div>
               <div class="baby-location ml-15 mt-20">
                 <span class="required">宝贝搜索位置：</span>
@@ -245,7 +249,7 @@
                 <span>---</span>
                 <iInput v-model.number="PcTaskDetail.searchPagePositionMax" style="width: 40px"></iInput>
                 <span>页</span>
-                <p class="size-color2 ml-80 mt-6">宝贝参考位置页数差值最大值不大于3页（如果PC端排名在10页以后， 可使用下面的卡条件功能）</p>
+                <p class="sizeColor2 ml-80 mt-6">宝贝参考位置页数差值最大值不大于3页（如果PC端排名在10页以后， 可使用下面的卡条件功能）</p>
               </div>
               <div class="screen-condition ml-45 mt-20 clear">
                 <span class="left">刷选条件：</span>
@@ -298,7 +302,7 @@
               <div class="deliver-address ml-56 mt-20">
                 <span>发货地：</span>
                 <iInput v-model="PcTaskDetail.deliverAddress" style="width: 120px"></iInput>
-                <span class="size-color2 ml-5">出于安全考虑，请勿大量使用</span>
+                <span class="sizeColor2 ml-5">出于安全考虑，请勿大量使用</span>
               </div>
             </template>
             <!--APP搜索下单设置-->
@@ -323,14 +327,14 @@
                   </div>
                 </Upload>
                 <p
-                  class="size-color pl-60 mt-10">
+                  class="sizeColor pl-60 mt-10">
                   点击或者拖拽自主上传图片，支持jpg \ jpeg \ png \ gif \ bmp格式，最佳尺寸400*400（像素），不超过300K，可与宝贝主图一致</p>
               </div>
               <div class="search-keyword mt-20 ml-28">
                 <span class="required">搜索关键词：</span>
                 <iInput v-model="AppTaskDetail.searchKeyword" placeholder="请输入搜索关键词"
                         style="width: 260px"></iInput>
-                <span class="size-color2">（APP端请确保在120位以内，若是长尾关键词请不要过量补单）</span>
+                <span class="sizeColor2">（APP端请确保在120位以内，若是长尾关键词请不要过量补单）</span>
               </div>
               <div class="sort-by ml-40 mt-20">
                 <span class="required">排序方式：</span>
@@ -347,14 +351,14 @@
                 <span class="required">展示价格：</span>
                 <iInput v-model="AppTaskDetail.searchPagePrice" placeholder="请输入搜索列表页展示价格"
                         style="width: 160px"></iInput>
-                <span class="size-color2">（务必亲自搜索，确认价格准确）</span>
+                <span class="sizeColor2">（务必亲自搜索，确认价格准确）</span>
               </div>
               <div class="baby-location ml-15 mt-20">
                 <span class="required">宝贝搜索位置：</span>
                 <span>从上往下数第</span>
                 <iInput v-model="AppTaskDetail.searchRankPosition" style="width: 40px"></iInput>
                 <span>个宝贝左右</span>
-                <p class="size-color2 ml-80 mt-6">位置统一切换为一列展示后，在数位置。（如果移动端排名在100名以内，可使用下面的卡条件功能）</p>
+                <p class="sizeColor2 ml-80 mt-6">位置统一切换为一列展示后，在数位置。（如果移动端排名在100名以内，可使用下面的卡条件功能）</p>
               </div>
               <div class="screen-condition ml-45 mt-20 clear">
                 <span class="left">刷选条件：</span>
@@ -404,7 +408,7 @@
               <div class="deliver-address ml-56 mt-20">
                 <span>发货地：</span>
                 <iInput v-model="AppTaskDetail.deliverAddress" style="width: 120px"></iInput>
-                <span class="size-color2 ml-5">出于安全考虑，请勿大量使用</span>
+                <span class="sizeColor2 ml-5">出于安全考虑，请勿大量使用</span>
               </div>
             </template>
             <!--淘口令下单设置-->
@@ -474,15 +478,15 @@
       <div class="pay-model" v-if="showPayModel">
         <PayModel :orderMoney="!priceHasChange ? orderMoney : replenishMoney" @confirmPayment="confirmPayment">
           <i slot="closeModel" class="close-recharge" @click="closeRecharge">&times;</i>
-          <div slot="noBalance" class="title-tip"><span class="size-color3"><Icon color="#FF2424" size="18px"
+          <div slot="noBalance" class="title-tip"><span class="sizeColor3"><Icon color="#FF2424" size="18px"
                                                                                   type="ios-information"></Icon><span
             class="ml-10">亲，您的余额不足，请充值。</span></span>还需充值<strong
-            class="size-color3">{{(orderMoney - getUserBalance).toFixed(2)}}</strong>元
+            class="sizeColor3">{{(orderMoney - getUserBalance).toFixed(2)}}</strong>元
           </div>
           <div slot="isBalance" class="title-tip">
             <Icon color="#FF2424" size="18px" type="ios-information"></Icon>
             <span class="ml-10">您本次需要支付金额为 <span
-              class="size-color3">{{!priceHasChange ? orderMoney : replenishMoney}}</span> 元。</span></div>
+              class="sizeColor3">{{!priceHasChange ? orderMoney : replenishMoney}}</span> 元。</span></div>
         </PayModel>
       </div>
       <!--用户修改价格比原始价格高需要补差价提示弹框-->
@@ -1221,15 +1225,15 @@
       color: $secondColor;
     }
 
-    .size-color {
+    .sizeColor {
       color: #A5A5A5;
     }
 
-    .size-color2 {
+    .sizeColor2 {
       color: #91A2BD;
     }
 
-    .size-color3 {
+    .sizeColor3 {
       color: #FF0100;
     }
 
@@ -1375,6 +1379,16 @@
     }
     .task-remark-input{
       width: 600px;
+    }
+    .activity-tip{
+      height: 36px;
+      line-height: 36px;
+      border: 1px solid #FFB9B8;
+      border-radius: 5px;
+      background-color: #FFF4F1;
+      text-align: center;
+      color: #000;
+      font-size: 14px;
     }
   }
 
