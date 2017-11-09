@@ -647,6 +647,38 @@
       display: block;
       max-width: 160px;
     }
+    .buyer-xiu{
+      margin: 10px auto 10px auto;
+      overflow: hidden;
+      .left-ctt{
+        background-color: #fff;
+        height: 400px;
+      }
+      .right-ctt {
+        background-color: #fff;
+        width: 285px;
+        height: 400px;
+        ul {
+          padding: 15px 20px;
+          li {
+            margin-bottom: 20px;
+            overflow: hidden;
+            height: 57px;
+            div.text-box{
+              p{
+                font-size: 14px;
+                color: #999;
+                span.text{
+                  color: $mainColor;
+                  font-weight: bold;
+                }
+              }
+
+            }
+          }
+        }
+      }
+    }
     .home-section {
       margin: 10px auto 10px auto;
       overflow: hidden;

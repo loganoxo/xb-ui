@@ -468,6 +468,8 @@
         this.showAuditOrderNumber = false;
       },
       openAuditOrder(id, type) {
+        this.affirmOrderNumber= '';
+        this.payMoney = '';
         this.orderType = type;
         this.showAuditOrderNumber = true;
         if (id && !this.itemId) {
