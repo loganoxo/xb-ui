@@ -19,7 +19,6 @@ const state = {
   taskManagementCountInfo: {},//商家任务管理活动数量信息
   showMerchantGuide: true,//商家引导遮罩层是否显示标识 true:已读 false:未读
   TaskCategoryActive: '',
-  onlyShowkerShow: false,
   wechartShow: false,
   wechartRes: true,
 };

@@ -4,8 +4,8 @@
     <div class="home-top">
       <div class="container">
         <router-link  to="/" class="left mt-20">
-          <img v-if="!$store.state.onlyShowkerShow" src="~assets/img/common/top_logo.png" alt="" >
-          <img v-if="$store.state.onlyShowkerShow"  src="~assets/img/common/top_logo_xk.png" alt="" >
+          <img v-if="!isLogin || getUserInfoRole == 1 " src="~assets/img/common/top_logo.png" alt="" >
+          <img v-if="isLogin &&　getUserInfoRole == 0"  src="~assets/img/common/top_logo_xk.png" alt="" >
         </router-link >
         <div class="left">
           <div class="search-box">
@@ -38,7 +38,7 @@
 
           </div>
         </div>
-        <router-link to="/seller-adv" class="seller-guide" v-if="!$store.state.onlyShowkerShow" >
+        <router-link to="/seller-adv" class="seller-guide" v-if="" >
           <img src="/static/img/common/seller-guide.png" alt="">
         </router-link>
       </div>
@@ -71,6 +71,14 @@
     },
     created(){
      this.getNavList();
+    },
+    computed: {
+      isLogin() {
+        return this.$store.state.login
+      },
+      getUserInfoRole() {
+        return this.$store.state.userInfo.role
+      },
     },
     methods: {
       selTaskCategoryHome(){

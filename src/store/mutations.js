@@ -65,10 +65,6 @@ export default {
     state.TaskCategoryActive = info;
   },
 
-  //首页秀客显示问题
-  [types.ONLY_SHOWKER_SHOW](state) {
-    state.onlyShowkerShow = true;
-  },
 
   //商家引导遮罩层
   [types.SHOW_MERCHANT_GUIDE](state,{status}) {
