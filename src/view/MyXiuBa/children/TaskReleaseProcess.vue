@@ -130,9 +130,9 @@
                 color="#f60" type="information-circled"></Icon>&nbsp;每份试用品的价值必须在1元以上</span>
               <p class="sizeColor pl-60 mt-8">活动活动期间，商家不允许修改下单页商品信息，经核查属实，本平台有权将活动担保金返还已获得资格的秀客，商家账号按相应规则处罚</p>
             </div>
-            <div class="discount ml-40 mt-20">
-              <span class="required">折扣/活动：</span>
-              <Radio-group v-model="taskRelease.discountType">
+          <!--  <div class="discount ml-40 mt-20 clear">
+              <span class="required left">折扣/活动：</span>
+             &lt;!&ndash; <Radio-group v-model="taskRelease.discountType">
                 <Radio label="discount_0">
                   <span>免费试用</span>
                 </Radio>
@@ -145,9 +145,25 @@
                 <Radio label="discount_99_9" :disabled="discountDisabled.discount_99_9.disabled">
                   <span :class="{sizeColor:discountDisabled.discount_9_9.disabled}">99.9元试用（250元以上的宝贝可选）</span>
                 </Radio>
-              </Radio-group>
-              <p class="sizeColor pl-60 mt-8" v-show="taskRelease.itemPrice">秀客以<span class="main-color">{{taskRelease.discountType !== 'discount_0' ? discountDisabled[taskRelease.discountType].buyPrice : taskRelease.itemPrice}}</span>元价格在淘宝上购买，活动成功后返款<span class="main-color">{{taskRelease.discountType !== 'discount_0' ? discountDisabled[taskRelease.discountType].buyPrice - discountDisabled[taskRelease.discountType].returnPrice : taskRelease.itemPrice}}</span>元给秀客！</p>
-            </div>
+              </Radio-group>&ndash;&gt;
+              <div class="discount-btn left">
+                <span> 免费试用</span>
+                <span>（所有宝贝可选）</span>
+              </div>
+              <div class="discount-btn left ml-10">
+                <span> 9.9试用</span>
+                <span>（50元宝贝可选）</span>
+              </div>
+              <div class="discount-btn left ml-10">
+                <span> 49.9试用</span>
+                <span>（150元宝贝可选）</span>
+              </div>
+              <div class="discount-btn left ml-10">
+                <span> 99.9试用</span>
+                <span>（250元宝贝可选）</span>
+              </div>
+              <p class="sizeColor pl-60 mt-8" v-show="taskRelease.itemPrice">秀客以<span class="main-color">{{taskRelease.itemPrice}}</span>元价格在淘宝上购买，活动成功后返款<span class="main-color">{{taskRelease.itemPrice - discountDisabled[taskRelease.discountType].returnPrice}}</span>元给秀客！</p>
+            </div>-->
             <div class="baby-pinkage ml-45 mt-20">
               <span class="required left">是否包邮：</span>
               <Radio-group v-model="taskRelease.pinkage">
@@ -1389,6 +1405,22 @@
       text-align: center;
       color: #000;
       font-size: 14px;
+    }
+    .discount-btn{
+      display: inline-block;
+      width: 140px;
+      height: 40px;
+      text-align: center;
+      background-color: #00CD36;
+      padding: 3px 0;
+      color: #fff;
+      cursor: pointer;
+      span{
+        display: block;
+        &:first-child{
+          font-weight: bold;
+        }
+      }
     }
   }
 
