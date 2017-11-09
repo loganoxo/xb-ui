@@ -86,7 +86,7 @@
               </iSelect>
             </div>
             <div class="baby-img ml-45 mt-20">
-              <span class="required left mt-20">活动主图：</span>
+              <span class="required left mt-20 mr-5">活动主图：</span>
               <Upload
                 ref="upload"
                 :show-upload-list="false"
@@ -120,11 +120,29 @@
             </div>
             <div class="baby-price ml-45 mt-20">
               <span class="required">宝贝单价：</span>
-              <iInput v-model.number="taskRelease.itemPrice" placeholder="请输入宝贝单价" style="width: 120px"></iInput>
+              <iInput v-model.number="taskRelease.itemPrice" @on-change="clearDiscount" placeholder="请输入宝贝单价" style="width: 120px"></iInput>
               <span>元</span>
               <span v-show="taskRelease.itemPrice && taskRelease.itemPrice < 1" class="main-color ml-20"><Icon
                 color="#f60" type="information-circled"></Icon>&nbsp;每份试用品的价值必须在1元以上</span>
               <p class="size-color pl-60 mt-8">活动活动期间，商家不允许修改下单页商品信息，经核查属实，本平台有权将活动担保金返还已获得资格的秀客，商家账号按相应规则处罚</p>
+            </div>
+            <div class="discount ml-40 mt-20">
+              <span class="required">折扣/活动：</span>
+              <Radio-group v-model="taskRelease.discountType">
+                <Radio label="discount_0">
+                  <span>免费试用</span>
+                </Radio>
+                <Radio label="discount_9_9" :disabled="discountDisabled.discount_9_9.disabled">
+                  <span>9.9元试用（50元以上的宝贝可选）</span>
+                </Radio>
+                <Radio label="discount_49_9" :disabled="discountDisabled.discount_49_9.disabled">
+                  <span>49.9元试用（150元以上的宝贝可选）</span>
+                </Radio>
+                <Radio label="discount_99_9" :disabled="discountDisabled.discount_99_9.disabled">
+                  <span>99.9元试用（250元以上的宝贝可选）</span>
+                </Radio>
+              </Radio-group>
+              <p class="size-color pl-60 mt-8" v-show="taskRelease.discountType !== 'discount_0'">秀客以<span class="main-color">{{discountDisabled[taskRelease.discountType].buyPrice}}</span>元价格在淘宝上购买，活动成功后返款<span class="main-color">{{discountDisabled[taskRelease.discountType].buyPrice - discountDisabled[taskRelease.discountType].returnPrice}}</span>元给秀客！</p>
             </div>
             <div class="baby-pinkage ml-45 mt-20">
               <span class="required left">是否包邮：</span>
@@ -414,7 +432,7 @@
               活动担保金 = 份数 × 单品活动担保金 =<span>{{taskRelease.taskCount}}</span>×<span>{{oneBond}}</span>= <span>{{(taskRelease.taskCount * oneBond).toFixed(2)}}</span>元
             </p>
             <p class="mt-6">单品推广费 = 单品活动担保金 × 费率 =<span>{{oneBond}}</span>× <span>6%</span>
-              = <span>{{(oneBond * 0.06).toFixed(2)}}</span>元<span v-if="taskRelease.itemPrice * 0.06 > 3">（单品推广费超过平台设定的最高上限3.00元，本次实际收取的单品推广费用为3.00元）</span>
+              = <span>{{(oneBond * 0.06).toFixed(2)}}</span>元<span v-if="oneBond * 0.06 > 3">（单品推广费超过平台设定的最高上限3.00元，本次实际收取的单品推广费用为3.00元）</span>
             </p>
             <p class="mt-6">总推广费用 = 单品推广费用 × 份数 =<span>{{onePromotionExpenses}}</span>× <span>{{taskRelease.taskCount}} = <span>{{allPromotionExpenses}}</span></span>元
             </p>
@@ -626,12 +644,35 @@
           storeName: null,
           taskCount: null,
           itemPrice: null,
+          discountType: 'discount_0',
           pinkage: "true",
           paymentMethod: "all",
           remark: null,
           itemDescription: '',
           taskId: null,
           taskDetail: {}
+        },
+        discountDisabled: {
+          discount_0: {
+            disabled: false,
+            buyPrice: 0,
+            returnPrice: 0,
+          },
+          discount_9_9: {
+            disabled: true,
+            buyPrice: 50,
+            returnPrice: 9.9,
+          },
+          discount_49_9: {
+            disabled: true,
+            buyPrice: 150,
+            returnPrice: 49.9,
+          },
+          discount_99_9: {
+            disabled: true,
+            buyPrice: 250,
+            returnPrice: 99.9,
+          }
         },
         editPriceAfterModel: false,
         editPriceToLowAfterModel: false,
@@ -686,13 +727,23 @@
       getUserBalance: function () {
         return this.$store.getters.getUserBalance;
       },
+
       /**
-       * 计算单品活动担保金
+       * 计算商家需要存入的担保金（当用户勾选折扣试用的时候：宝贝单价 - 对应的折扣价格）
+       * @return {number}
+       */
+        newItemPrice: function () {
+        return this.taskRelease.discountType === 'discount_0' ? this.taskRelease.itemPrice : this.taskRelease.itemPrice - this.discountDisabled[this.taskRelease.discountType].returnPrice;
+      },
+
+      /**
+       * 计算最终商家发布单品活动担保金（商家需要存入的担保金 + 是否包邮）
        * @return {number}
        */
       oneBond: function () {
-        return this.taskRelease.pinkage === 'true' ? (this.taskRelease.itemPrice * 100).toFixed(2) / 100 : ((this.taskRelease.itemPrice * 100).toFixed(2) / 100 + 10).toFixed(2);
+        return this.taskRelease.pinkage === 'true' ? (this.newItemPrice * 100).toFixed(2) / 100 : ((this.newItemPrice * 100).toFixed(2) / 100 + 10).toFixed(2);
       },
+
       /**
        * 计算单品推广费用（单品推广费最高上限3元）
        * @return {number}
@@ -734,9 +785,34 @@
        */
       taskNameLength: function () {
         return this.taskRelease.taskName ? this.taskRelease.taskName.length : 0;
-      }
+      },
     },
     methods: {
+      clearDiscount() {
+        let _this = this;
+        let itemPrice =  _this.taskRelease.itemPrice;
+        if(itemPrice < 50){
+          if(!_this.discountDisabled.discount_9_9.disabled){
+            _this.discountDisabled.discount_9_9.disabled = true;
+          }
+          if(!_this.discountDisabled.discount_49_9.disabled){
+            _this.discountDisabled.discount_49_9.disabled = true;
+          }
+          if(!_this.discountDisabled.discount_99_9.disabled){
+            _this.discountDisabled.discount_99_9.disabled = true;
+          }
+          _this.taskRelease.discountType = 'discount_0';
+        }
+        if(itemPrice >= 50){
+          _this.discountDisabled.discount_9_9.disabled = false;
+        }
+        if(itemPrice >= 150){
+          _this.discountDisabled.discount_49_9.disabled = false;
+        }
+        if(itemPrice >= 250){
+          _this.discountDisabled.discount_99_9.disabled = false;
+        }
+      },
       checkMemberForTask() {
         let _this = this;
         api.checkMemberForTask().then(res => {
