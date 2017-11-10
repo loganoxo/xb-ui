@@ -47,7 +47,7 @@
         v-model="amountPopWindow"
         :styles="{top:'200px',width:'800px'}"
         class-name ="pop-up-window">
-        <div slot="header">活动编号：<span style="color: red;">{{taskNumber || '无'}}&nbsp;,&nbsp;</span>共返还秀客担保金：<span style="color: red;">{{totalPay / 100}}</span>&nbsp;元</div>
+        <div slot="header">活动编号：<span style="color: red;">{{taskNumber || '无'}}&nbsp;,&nbsp;</span>共返还秀客担保金：<span style="color: red;">{{(totalPay / 100).toFixed(2)}}</span>&nbsp;元</div>
         <div>
           <table class="alert-table-list"
                  style="width: 100%;border: 1px solid #F3F3F3;background-color:#F8F8F8;text-align: center">
@@ -548,12 +548,11 @@
           taskId: type
         }).then(res => {
           if (res) {
-            _this.getDepositList = res;
             _this.totalPay = 0;
-            for (let i = 0; i < res.length; i++) {
-              _this.totalPay = _this.totalPay + res[i].tradAmount
+            _this.getDepositList = res.list;
+            for (let i = 0, len = res.list.length; i <len; i++) {
+              _this.totalPay += (res.list[i].tradAmount - res.discountPrice);
             }
-
           } else {
             _this.$Message.error('数据列表为空');
           }
