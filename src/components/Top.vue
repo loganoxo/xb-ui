@@ -46,8 +46,10 @@
     <div class="home-nav">
       <div class="container">
         <a :class="[$store.state.TaskCategoryActive == 'home' ? 'active' : '']" @click="selTaskCategoryHome()">首页</a>
-        <a :class="[$store.state.TaskCategoryActive == 'all' ? 'active' : '']" @click="selTaskCategoryAllFunc">全部活动</a>
-        <a v-if="nav.name != '美食/特产' && nav.name != '其它试用'" :class="[$store.state.TaskCategoryActive == nav.id ? 'active' : '']" @click="selTaskCategoryActiveFunc(nav)" v-for="nav in navList" >{{nav.name}}</a>
+        <a :class="[$store.state.TaskCategoryActive == 'all' ? 'active' : '']" @click="selTaskCategoryAllFunc" >免费领</a>
+        <a :class="[$store.state.TaskCategoryActive == 'discount' ? 'active' : '']" @click="selDisCountTaskCategoryAllFunc">白菜价</a>
+        <!--<a :class="[$store.state.TaskCategoryActive == 'all' ? 'active' : '']" @click="selTaskCategoryAllFunc">全部活动</a>-->
+        <!--<a v-if="nav.name != '美食/特产' && nav.name != '其它试用'" :class="[$store.state.TaskCategoryActive == nav.id ? 'active' : '']" @click="selTaskCategoryActiveFunc(nav)" v-for="nav in navList" >{{nav.name}}</a>-->
       </div>
     </div>
   </div>
@@ -89,11 +91,27 @@
         });
         self.$router.push({ 'path': '/'});
       },
+      selDisCountTaskCategoryAllFunc(){
+        let self = this;
+        self.$store.commit({
+          type: 'SET_DISCOUNT_TASK_CATEGORY',
+          result: true
+        });
+        self.$store.commit({
+          type: 'TASK_CATEGORY_LIST',
+          info: 'discount'
+        });
+        self.$router.push({ 'path': '/task-category', 'query': {'discount': 'allDiscount'}});
+      },
       selTaskCategoryAllFunc(){
         let self = this;
         self.$store.commit({
           type: 'TASK_CATEGORY_LIST',
           info: 'all'
+        });
+        self.$store.commit({
+          type: 'SET_DISCOUNT_TASK_CATEGORY',
+          result: false
         });
         self.$router.push({ 'path': '/task-category', 'query': {'searchKey': 'all'}});
       },

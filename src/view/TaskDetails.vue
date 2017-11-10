@@ -6,8 +6,9 @@
           <Breadcrumb >
             <Breadcrumb-item>当前位置：</Breadcrumb-item>
             <Breadcrumb-item>秀吧</Breadcrumb-item>
-            <Breadcrumb-item>秀品专区</Breadcrumb-item>
             <Breadcrumb-item>{{commodityData.task.itemCatalog.parentItemCatalog.name}}</Breadcrumb-item>
+            <Breadcrumb-item>{{commodityData.task.itemCatalog.name}}</Breadcrumb-item>
+            <Breadcrumb-item v-if="commodityData.task.discountPrice">{{parseFloat(commodityData.task.discountPrice/100)}}试用</Breadcrumb-item>
           </Breadcrumb>
         </div>
       </div>
@@ -21,6 +22,7 @@
             <p class="fs-14">
               活动类型：
               <span class="fs-18">{{commodityData.task.taskTypeDesc}}</span>
+              <span v-if="commodityData.task.discountPrice" class="fs-14" style="color: #fff; padding: 2px 5px;" :style="{backgroundColor: $store.state.discountPriceType[parseFloat(commodityData.task.discountPrice/100)].backgroundColor}">{{parseFloat(commodityData.task.discountPrice/100)}}试用</span>
             </p>
             <p class="fs-14">
               单品活动担保金：<span class="fs-18">{{(commodityData.task.perMarginNeed/100).toFixed(2)}}</span>元
@@ -77,7 +79,7 @@
               </li>
               <li>
                 <span>3</span>
-                <em> 按照商家指定的方式，以{{(commodityData.task.perMarginNeed/100).toFixed(2)}}的价格购买本宝贝</em>
+                <em v-if="commodityData.task.discountPrice"> 按照商家指定的方式，以{{(commodityData.task.itemPrice/100).toFixed(2)}}的价格购买本宝贝</em>
                 <i class="ivu-icon ivu-icon-chevron-right" ></i>
               </li>
               <li>
@@ -87,7 +89,8 @@
               </li>
               <li>
                 <span>5</span>
-                <em> 商家返还{{(commodityData.task.perMarginNeed/100).toFixed(2)}}元到您的平台账户（可提现），圆满结束 </em>
+                <em v-if="!commodityData.task.discountPrice"> 商家返还{{(parseInt(commodityData.task.itemPrice)/100).toFixed(2)}}元到您的平台账户（可提现），圆满结束 </em>
+                <em v-if="commodityData.task.discountPrice"> 商家返还{{((parseInt(commodityData.task.itemPrice) - parseInt(commodityData.task.discountPrice))/100).toFixed(2)}}元到您的平台账户（可提现），圆满结束 </em>
               </li>
             </ul>
         </div>
@@ -405,6 +408,26 @@
     created(){
       let self = this;
       self.copyValue = window.location.href;
+      let discount = self.$route.query.discount;
+      if(discount){
+        self.$store.commit({
+          type: 'SET_DISCOUNT_TASK_CATEGORY',
+          result: true
+        });
+        self.$store.commit({
+          type: 'TASK_CATEGORY_LIST',
+          info: 'discount'
+        });
+      }else {
+        self.$store.commit({
+          type: 'SET_DISCOUNT_TASK_CATEGORY',
+          result: false
+        });
+        self.$store.commit({
+          type: 'TASK_CATEGORY_LIST',
+          info: 'all'
+        });
+      }
       self.getTaskDetails();
     },
     mounted () {

@@ -78,5 +78,9 @@ export default {
 
   [types.SET_WECHART_RES](state,{result}) {
     state.wechartRes = result;
-  }
+  },
+  [types.SET_DISCOUNT_TASK_CATEGORY](state,{result}) {
+    state.disCountTaskCategory = result;
+  },
+
 }

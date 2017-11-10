@@ -196,6 +196,46 @@
           </div>
         </div>
       </div>
+      <!--折扣专区开始-->
+      <div class="container" style="margin-top: 10px;">
+        <div class="home-commodity">
+          <div class="home-commodity-title">
+            <img src="/static/img/home/bcj.png" alt="">
+            <p class="text-ct fs-14">我型我秀，分享精彩</p>
+          </div>
+          <div class="home-commodity-ctt">
+            <router-link class="home-commodity-details"
+                         v-for="homeDisCount in homeDisCountList"
+                         :title="homeDisCount.taskName"
+                         :key="homeDisCount.id"
+                         :to="{ 'path': '/task-details','query': {'q': encryptionId(homeDisCount.id), 'discount': true,}}">
+              <div class="home-commodity-img">
+                <img class="block" v-lazy="homeDisCount.taskMainImage + '!orgi75'" alt="" style="width: 100%; height: 208px;">
+              </div>
+              <div class="home-commodity-text">
+                <p class="home-commodity-title">{{homeDisCount.taskName}}</p>
+                <p class="home-commodity-price">
+                  <span class="left" style="text-decoration: line-through;">￥{{homeDisCount.itemPrice/100}}</span>
+                  <span class="left home-discount-price" :style="{backgroundColor: $store.state.discountPriceType[parseFloat(homeDisCount.discountPrice/100)].backgroundColor}" >
+                    {{homeDisCount.discountPrice/100}}试用
+                  </span>
+                </p>
+                <p class="home-commodity-apply">
+                  限量 <span style="color: #ff6600"> {{homeDisCount.taskCount || 0 }} </span> 份，
+                  <span style="color: #ff6600"> {{homeDisCount.showkerApplyTotalCount || 0}} </span> 人已申请
+                </p>
+                <p class="home-commodity-take">
+                  <router-link :to="{ 'path': '/task-details','query': {'q':encryptionId(homeDisCount.id)}}" class="ivu-btn ivu-btn-long" >
+                    免费领取
+                  </router-link>
+                </p>
+              </div>
+            </router-link>
+          </div>
+        </div>
+      </div>
+      <!--折扣专区结束-->
+
       <!--历史活动开始-->
       <div class="container" style="margin-top: 10px;">
         <div class="home-commodity">
@@ -325,6 +365,7 @@
         trialCount: {},
         homeCommodityList:[],
         homeHistoryList: [],
+        homeDisCountList: [],
         noticeList:[
           {
             title: '常见问题',
@@ -427,6 +468,7 @@
       this.getHomeTaskTopLeftList();
       this.personalTrialCount();
       this.getHomeHistoryList();
+      this.getHomeDisCountList();
     },
     destroyed() {
       let self = this;
@@ -609,6 +651,19 @@
             if(res.data){
               self.homeHistoryList = res.data;
             }
+          }else {
+            self.$Message.error({
+              content: res.msg,
+              duration: 9
+            });
+          }
+        })
+      },
+      getHomeDisCountList(){
+        let self = this;
+        api.getHomeDisCountList().then((res) => {
+          if(res.status){
+            res.data ? self.homeDisCountList = res.data : self.homeDisCountList = [];
           }else {
             self.$Message.error({
               content: res.msg,
@@ -844,6 +899,15 @@
     }
   }
 
+  .home-discount-price{
+    color: #fff;
+    line-height: 20px;
+    height: 20px;
+    padding: 0 5px;
+    margin-right: 15px;
+    margin-top: 3px;
+    margin-left: 5px
+  }
   .slider-top-active{
     margin-top: -77px;
     animation: sliderTop 1s;
