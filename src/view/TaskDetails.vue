@@ -25,7 +25,7 @@
               <span v-if="commodityData.task.discountPrice" class="fs-14" style="color: #fff; padding: 2px 5px;" :style="{backgroundColor: $store.state.discountPriceType[parseFloat(commodityData.task.discountPrice/100)].backgroundColor}">{{parseFloat(commodityData.task.discountPrice/100)}}试用</span>
             </p>
             <p class="fs-14">
-              单品活动担保金：<span class="fs-18">{{(commodityData.task.perMarginNeed/100).toFixed(2)}}</span>元
+              单品活动担保金：<span class="fs-18">{{(commodityData.task.itemPrice/100).toFixed(2)}}</span>元
               &nbsp;&nbsp;&nbsp;&nbsp;
               活动份数：<span class="fs-18"> {{commodityData.task.taskCount}} </span>份
             </p>
