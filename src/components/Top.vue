@@ -45,7 +45,7 @@
     </div>
     <div class="home-nav">
       <div class="container">
-        <a :class="[$store.state.TaskCategoryActive == 'home' ? 'active' : '']" @click="selTaskCategoryHome()">首页</a>
+        <a :class="[$store.state.TaskCategoryActive == 'home' ? 'active' : '']" @click="selTaskCategoryHome">首页</a>
         <a :class="[$store.state.TaskCategoryActive == 'all' ? 'active' : '']" @click="selTaskCategoryAllFunc" >免费领</a>
         <a :class="[$store.state.TaskCategoryActive == 'discount' ? 'active' : '']" @click="selDisCountTaskCategoryAllFunc">白菜价</a>
         <!--<a :class="[$store.state.TaskCategoryActive == 'all' ? 'active' : '']" @click="selTaskCategoryAllFunc">全部活动</a>-->
