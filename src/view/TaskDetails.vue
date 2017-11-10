@@ -6,6 +6,8 @@
           <Breadcrumb >
             <Breadcrumb-item>当前位置：</Breadcrumb-item>
             <Breadcrumb-item>秀吧</Breadcrumb-item>
+            <Breadcrumb-item v-if="commodityData.task.discountPrice">{{$store.state.TaskCategoryActiveList[$store.state.TaskCategoryActive].text}}</Breadcrumb-item>
+            <Breadcrumb-item v-if="!commodityData.task.discountPrice">免费领</Breadcrumb-item>
             <Breadcrumb-item>{{commodityData.task.itemCatalog.parentItemCatalog.name}}</Breadcrumb-item>
             <Breadcrumb-item>{{commodityData.task.itemCatalog.name}}</Breadcrumb-item>
             <Breadcrumb-item v-if="commodityData.task.discountPrice">{{parseFloat(commodityData.task.discountPrice/100)}}试用</Breadcrumb-item>
@@ -40,7 +42,6 @@
             <div style="margin: 0; line-height: 40px; font-size: 14px;">
               好东西要分享：<div v-html="copyHtml" style="display: inline-block;" ></div>
             </div>
-
             <div  class="task-details-btn-box">
               <iButton v-show="applyBtnShow === 'taskEnd'" disabled size="large" class="fs-16 default-btn" long style="width: 150px;" >已结束</iButton>
               <div >
@@ -606,6 +607,12 @@
             self.needBrowseCollectAddCart=res.data.task.needBrowseCollectAddCart;
             self.itemUrl = res.data.task.itemUrl;
             self.taskDetail= res.data.task;
+            if(self.commodityData.task.discountPrice){
+              self.$store.commit({
+                type: 'TASK_CATEGORY_LIST',
+                info: 'discount'
+              });
+            }
             if(self.commodityData.showkerTask){
               api.showkerToProcessOrder({
                 id: self.commodityData.showkerTask.id
@@ -634,10 +641,10 @@
             if (self.$route.query.resubmit === 'resubmit'){
               self.applyForTrialFunc()
             }
-            self.$store.commit({
-              type: 'TASK_CATEGORY_LIST',
-              info: self.commodityData.task.itemCatalog.parentItemCatalog.id
-            });
+//            self.$store.commit({
+//              type: 'TASK_CATEGORY_LIST',
+//              info: self.commodityData.task.itemCatalog.parentItemCatalog.id
+//            });
             parseInt(res.data.trailDone) ? self.graphicInfoSels[1].num = res.data.trailDone : self.graphicInfoSels[1].num = 0;
             if(parseInt(res.data.task.showkerApplySuccessCount) || parseInt(res.data.trailEnd)){
               self.graphicInfoSels[2].num = parseInt(res.data.task.showkerApplySuccessCount) + parseInt(res.data.trailEnd)
