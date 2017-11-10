@@ -17,7 +17,7 @@
           <a :class="[($store.state.TaskCategoryActive == 'all' || $store.state.TaskCategoryActive == 'discount') &&  !$route.query.cate ? 'active' : '']" @click="selTaskCategoryAllFunc">全部活动</a>
           <a v-if="nav.name != '美食/特产' && nav.name != '其它试用'" :class="[$route.query.cate == nav.id ? 'active' : '']" @click="selTaskCategoryActiveFunc(nav)" v-for="nav in navList" >{{nav.name}}</a>
         </div>
-        <div v-show="$route.query.searchKey" class="task-category-sel">
+        <div v-show="$route.query.searchKey != 'all' && $route.query.searchKey"  class="task-category-sel">
           全部结果：<span style="color: #ff6633;" v-if="searchTaskParams.taskName">“{{searchTaskParams.taskName}}”</span>
         </div>
         <div v-show="$route.query.cate"  class="task-category-sel">
