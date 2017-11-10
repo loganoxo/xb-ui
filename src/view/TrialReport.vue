@@ -48,8 +48,7 @@
                   :total= totalPages
                   :page-size = trialReportParams.pageSize
                   @on-change = pageChange
-                  show-elevator
-                ></Page>
+                  show-elevator></Page>
               </div>
             </div>
           </div>
@@ -63,9 +62,9 @@
             </div>
             <div class="trial-account-details">
               <div class="task-info">
-                <img :src="showkerReportDesc.task.taskMainImage + '!orgi75'" alt="" width="100px" class="left">
+                <router-link tag="img" :to="{path: '/task-details',query:{q: encryptionId(showkerReportDesc.task.id)}}" :src="showkerReportDesc.task.taskMainImage + '!orgi75'" alt="" width="100" class="left cursor-p"></router-link>
                 <div class="left ml-20">
-                  <p>{{showkerReportDesc.task.taskName}}</p>
+                  <router-link :to="{path: '/task-details',query:{q: encryptionId(showkerReportDesc.task.id)}}">{{showkerReportDesc.task.taskName}}</router-link>
                   <p>宝贝单价&nbsp;<span>{{showkerReportDesc.task.itemPrice / 100}}</span>&nbsp;元 。</p>
                 </div>
               </div>
@@ -197,6 +196,9 @@
       }
     },
     methods: {
+      encryptionId(id) {
+        return encryption(id);
+      },
       getTagTrialReports(key){
         this.trialReportParams.itemCatalogname = key;
         this.getTrialReports();
@@ -319,7 +321,7 @@
       border: 1px solid #eee;
       overflow: hidden;
       .task-info{
-        p{
+        a,p{
           line-height: 30px;
           font-size: 14px;
         }
