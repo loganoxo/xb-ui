@@ -99,7 +99,7 @@
           </p>
           <p class="mt-8">
             <span>返款金额：</span>
-            <strong>{{showkerTaskInfo.orderPrice / 100}}</strong>
+            <strong>{{(countRefundAmount / 100).toFixed(2)}}</strong>
             <span>元</span>
           </p>
         </div>
@@ -172,8 +172,11 @@
     },
     watch: {},
     computed: {
+      countRefundAmount: function () {
+        return this.showkerTaskInfo.task.discountPrice > 0 ? this.showkerTaskInfo.orderPrice - this.showkerTaskInfo.task.discountPrice : this.showkerTaskInfo.orderPrice
+      },
       isPwdAmend: function () {
-        return this.$store.getters.getIsEditPwdAlready;
+        return this.$store.getters.getIsEditPwdAlready
       },
     },
     methods: {
