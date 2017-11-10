@@ -195,7 +195,7 @@
                 placeholder="请输入宝贝评价"></iInput>
       </div>
       <div class="experience-img mt-22">
-        <p class="mb-10">买家秀图片：</p>
+        <p class="mb-10">买家秀图片：（图片支持jpg、jpeg、png、gif、bmp格式，大小不超过2M）</p>
         <Upload
           ref="upload"
           :show-upload-list="false"
@@ -214,6 +214,20 @@
           </div>
         </Upload>
       </div>
+    <!--  <div class="experience-video mt-22">
+        <p class="mb-20">买家秀视频：（视频支持wmv、asf、rmvb、mpg、mpeg、3gp、mov、mp4、avi、dat、mkv、flv、vob格式，大小不超过200M）</p>
+        <Upload
+          upload-type="video"
+          :format="['wmv','asf','rmvb','mpg','mpeg','3gp','mov','mp4','avi','dat','mkv','flv','vob']"
+          :max-size="200000"
+          name="report-video"
+          type="drag">
+          <div class="pt-20 pb-20" style="width: 280px;">
+            <Icon type="ios-cloud-upload" size="52" style="color: #999"></Icon>
+            <p class="main-color">上传买家秀视频</p>
+          </div>
+        </Upload>
+      </div>-->
       <div class="write-order-number mt-40">
         <span @click="submitReport">提交买家秀</span>
         <span class="ml-35" @click="returnUpPage">返回上页</span>

@@ -130,40 +130,44 @@
                 color="#f60" type="information-circled"></Icon>&nbsp;每份试用品的价值必须在1元以上</span>
               <p class="sizeColor pl-60 mt-8">活动活动期间，商家不允许修改下单页商品信息，经核查属实，本平台有权将活动担保金返还已获得资格的秀客，商家账号按相应规则处罚</p>
             </div>
-          <!--  <div class="discount ml-40 mt-20 clear">
-              <span class="required left">折扣/活动：</span>
-             &lt;!&ndash; <Radio-group v-model="taskRelease.discountType">
-                <Radio label="discount_0">
-                  <span>免费试用</span>
-                </Radio>
-                <Radio label="discount_9_9" :disabled="discountDisabled.discount_9_9.disabled">
-                  <span :class="{sizeColor:discountDisabled.discount_9_9.disabled}">9.9元试用（50元以上的宝贝可选）</span>
-                </Radio>
-                <Radio label="discount_49_9" :disabled="discountDisabled.discount_49_9.disabled">
-                  <span :class="{sizeColor:discountDisabled.discount_9_9.disabled}">49.9元试用（150元以上的宝贝可选）</span>
-                </Radio>
-                <Radio label="discount_99_9" :disabled="discountDisabled.discount_99_9.disabled">
-                  <span :class="{sizeColor:discountDisabled.discount_9_9.disabled}">99.9元试用（250元以上的宝贝可选）</span>
-                </Radio>
-              </Radio-group>&ndash;&gt;
-              <div class="discount-btn left">
-                <span> 免费试用</span>
-                <span>（所有宝贝可选）</span>
+            <div class="discount ml-40 mt-20">
+              <div class="clear">
+                <span class="required mt-8 left">折扣/活动：</span>
+                <div class="discount-btn left ml-5 discount-charge" :class="{isSelect:taskRelease.discountType === 'discount_0'}"  @click="changeSelectDiscount('discount_0')">
+                  <span> 免费试用</span>
+                  <span>（所有宝贝可选）</span>
+                  <span class="is-select-gou" v-show="taskRelease.discountType === 'discount_0'"></span>
+                </div>
+                <div class="discount-btn left ml-10 discount-9-9" v-show="!discountDisabled.discount_9_9.disabled" :class="{isSelect:taskRelease.discountType === 'discount_9_9'}" @click="changeSelectDiscount('discount_9_9')">
+                  <span> 9.9试用</span>
+                  <span>（50元以上宝贝可选）</span>
+                  <span class="is-select-gou" v-show="taskRelease.discountType === 'discount_9_9'"></span>
+                </div>
+                <div class="discount-btn left ml-10 discount-9-9 disabled" v-show="discountDisabled.discount_9_9.disabled">
+                  <span> 9.9试用</span>
+                  <span>（50元以上宝贝可选）</span>
+                </div>
+                <div class="discount-btn left ml-10 discount-49-9" v-show="!discountDisabled.discount_49_9.disabled" :class="{isSelect:taskRelease.discountType === 'discount_49_9'}" @click="changeSelectDiscount('discount_49_9')">
+                  <span> 49.9试用</span>
+                  <span>（150元以上宝贝可选）</span>
+                  <span class="is-select-gou" v-show="taskRelease.discountType === 'discount_49_9'"></span>
+                </div>
+                <div class="discount-btn left ml-10 discount-49-9 disabled" v-show="discountDisabled.discount_49_9.disabled">
+                  <span> 49.9试用</span>
+                  <span>（150元以上宝贝可选）</span>
+                </div>
+                <div class="discount-btn left ml-10 discount-999" v-show="!discountDisabled.discount_99_9.disabled" :class="{isSelect:taskRelease.discountType === 'discount_99_9'}" @click="changeSelectDiscount('discount_99_9')">
+                  <span> 99.9试用</span>
+                  <span>（250元以上宝贝可选）</span>
+                  <span class="is-select-gou" v-show="taskRelease.discountType === 'discount_99_9'"></span>
+                </div>
+                <div class="discount-btn left ml-10 discount-999 disabled" v-show="discountDisabled.discount_99_9.disabled">
+                  <span> 99.9试用</span>
+                  <span>（250元以上宝贝可选）</span>
+                </div>
               </div>
-              <div class="discount-btn left ml-10">
-                <span> 9.9试用</span>
-                <span>（50元宝贝可选）</span>
-              </div>
-              <div class="discount-btn left ml-10">
-                <span> 49.9试用</span>
-                <span>（150元宝贝可选）</span>
-              </div>
-              <div class="discount-btn left ml-10">
-                <span> 99.9试用</span>
-                <span>（250元宝贝可选）</span>
-              </div>
-              <p class="sizeColor pl-60 mt-8" v-show="taskRelease.itemPrice">秀客以<span class="main-color">{{taskRelease.itemPrice}}</span>元价格在淘宝上购买，活动成功后返款<span class="main-color">{{taskRelease.itemPrice - discountDisabled[taskRelease.discountType].returnPrice}}</span>元给秀客！</p>
-            </div>-->
+              <p class="sizeColor pl-60 mt-20" v-show="taskRelease.itemPrice">秀客以<span class="main-color">{{taskRelease.itemPrice}}</span>元价格在淘宝上购买，活动成功后返款<span class="main-color">{{(taskRelease.itemPrice - discountDisabled[taskRelease.discountType].returnPrice).toFixed(2)}}</span>元给秀客！</p>
+            </div>
             <div class="baby-pinkage ml-45 mt-20">
               <span class="required left">是否包邮：</span>
               <Radio-group v-model="taskRelease.pinkage">
@@ -741,7 +745,7 @@
         }
       },
       /**
-       * 从vuex中获取余额
+       * 从vuex中获取用户账户余额
        * @return {number}
        */
       getUserBalance: function () {
@@ -808,10 +812,13 @@
       },
     },
     methods: {
+      changeSelectDiscount(type) {
+        this.taskRelease.discountType = type;
+      },
       clearDiscount() {
         let _this = this;
         let itemPrice =  _this.taskRelease.itemPrice;
-        if(itemPrice < 50){
+        if(itemPrice < 50 || itemPrice < 150 || itemPrice < 250){
           if(!_this.discountDisabled.discount_9_9.disabled){
             _this.discountDisabled.discount_9_9.disabled = true;
           }
@@ -1411,15 +1418,60 @@
       width: 140px;
       height: 40px;
       text-align: center;
-      background-color: #00CD36;
-      padding: 3px 0;
+      padding: 1px 0;
       color: #fff;
       cursor: pointer;
+      position: relative;
       span{
         display: block;
         &:first-child{
           font-weight: bold;
         }
+      }
+      &.discount-charge{
+        background-color: #00CD36;
+        border:2px solid #00CD36;
+        &:hover{
+          border-color:$mainColor;
+        }
+      }
+      &.discount-9-9{
+        background-color: #FF9900;
+        border:2px solid #FF9900;
+        &:hover{
+          border-color:$mainColor;
+        }
+      }
+      &.discount-49-9{
+        background-color: #CD3636;
+        border:2px solid #CD3636;
+        &:hover{
+          border-color:$mainColor;
+        }
+      }
+      &.discount-999{
+        background-color: #FF3699;
+        border:2px solid #FF3699;
+        &:hover{
+          border-color:$mainColor;
+        }
+      }
+      &.isSelect{
+        border-color:$mainColor;
+      }
+      &.disabled{
+       opacity: 0.5;
+        cursor: not-allowed;
+      }
+      .is-select-gou{
+        position: absolute;
+        display: inline-block;
+        top: 26px;
+        right: 0;
+        width: 11px;
+        height: 10px;
+        background-image: url("~assets/img/common/select-gou.png");
+        background-repeat: no-repeat;
       }
     }
   }

@@ -257,5 +257,10 @@
         color: #666;
       }
     }
+    .experience-video{
+      p {
+        font-size: 14px;
+      }
+    }
   }
 </style>

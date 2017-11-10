@@ -1,6 +1,6 @@
 <template>
   <div class="clear">
-    <div class="demo-upload-list left" v-for="(item ,index) in fileList">
+    <div class="demo-upload-list left" v-for="(item ,index) in fileList" v-if="uploadType === 'image'">
       <template v-if="item.status === 'finished'">
         <img :src="item.src + '!thum54'">
         <div class="demo-upload-list-cover">
@@ -41,13 +41,13 @@
   </div>
 </template>
 <script>
-  import UploadList from 'iview/src/components/upload/upload-list.vue';
+  import UploadList from 'iview/src/components/upload/upload-list.vue'
   import Icon from 'iview/src/components/icon'
   import Modal from 'iview/src/components/modal'
   import Progress from 'iview/src/components/progress'
-  import {oneOf} from 'iview/src/utils/assist';
-  import Emitter from 'iview/src/mixins/emitter';
-  import {aliUrl, bucket, aliCallbackImgUrl} from '@/config/env'
+  import {oneOf} from 'iview/src/utils/assist'
+  import Emitter from 'iview/src/mixins/emitter'
+  import {bucket, aliCallbackImgUrl} from '@/config/env'
   import {aliUploadImg, randomString} from '@/config/utils'
 
   const prefixCls = 'ivu-upload';
@@ -59,7 +59,7 @@
       UploadList: UploadList,
       Icon: Icon,
       Modal: Modal,
-      iProgress: Progress
+      iProgress: Progress,
     },
     props: {
       multiple: {
@@ -72,6 +72,10 @@
       name: {
         type: String,
         default: 'file'
+      },
+      uploadType: {
+        type: String,
+        default: 'image'
       },
       withCredentials: {
         type: Boolean,
@@ -202,7 +206,6 @@
       },
       handleChange(e) {
         const files = e.target.files;
-
         if (!files) {
           return;
         }
@@ -277,13 +280,13 @@
         })
       },
       handleStart(file) {
-//        file.uid = Date.now() + this.tempIndex;
+        file.uid = Date.now() + this.tempIndex;
         const _file = {
           status: 'uploading',
           name: file.name,
           size: file.size,
           percentage: 0,
-//          uid: file.uid,
+          uid: file.uid,
           showProgress: true
         };
 

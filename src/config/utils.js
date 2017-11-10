@@ -1,7 +1,7 @@
 /**
  * Created by ycb on 2017/7/18.
  */
-import {aliUrl, bucket} from '@/config/env'
+import {aliTokenUrl, bucket} from '@/config/env'
 import store from '@/store'
 
 /**
@@ -117,7 +117,7 @@ export const isAliUrl = (url) => {
  */
 export const aliUploadImg = (key, file) => {
   return new Promise((resolve, reject) => {
-    OSS.urllib.request(aliUrl, {method: 'GET'}, function (err, response) {
+    OSS.urllib.request(aliTokenUrl, {method: 'GET'}, function (err, response) {
       if (err) {
         return alert(err);
       }
