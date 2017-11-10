@@ -80,7 +80,7 @@
               </li>
               <li>
                 <span>3</span>
-                <em v-if="commodityData.task.discountPrice"> 按照商家指定的方式，以{{(commodityData.task.itemPrice/100).toFixed(2)}}的价格购买本宝贝</em>
+                <em> 按照商家指定的方式，以{{(commodityData.task.itemPrice/100).toFixed(2)}}的价格购买本宝贝</em>
                 <i class="ivu-icon ivu-icon-chevron-right" ></i>
               </li>
               <li>
