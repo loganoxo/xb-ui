@@ -322,7 +322,7 @@
         });
       }
       if(!self.$store.state.disCountTaskCategory){
-        self.searchTaskParams.discountTypes = ['discount_0'];
+        self.searchTaskParams.discountTypes = ['discount_0']
       }
       if(cate){
         self.itemCatalogs = [parseInt(cate)];
@@ -562,7 +562,7 @@
           });
         }
         if(!self.$store.state.disCountTaskCategory){
-          self.searchTaskParams.discountTypes = 'discount_0';
+          self.searchTaskParams.discountTypes = ['discount_0'];
         }
         if(cate){
           self.itemCatalogs = [parseInt(cate)];
