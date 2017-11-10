@@ -337,6 +337,7 @@
           type: 'TASK_CATEGORY_LIST',
           info: 'discount'
         });
+        self.itemCatalogs = [];
         self.searchTaskParams.discountTypes = self.$store.state.discountPriceType['不限'].discountTypes;
         self.getSearchTask();
       }
@@ -577,6 +578,7 @@
             info: 'discount'
           });
           self.searchTaskParams.discountTypes = self.$store.state.discountPriceType['不限'].discountTypes;
+          self.itemCatalogs = [];
           self.getSearchTask();
           self.getSearchHistoryTask();
         }
