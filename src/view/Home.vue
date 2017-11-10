@@ -52,7 +52,12 @@
               </Carousel-item>
               <Carousel-item>
                 <router-link to="" class="block">
-                 <img class="block" src="~assets/img/home/banner_03.jpg" alt="">
+                 <img class="block" src="~assets/img/home/banner_05.jpg" alt="">
+                </router-link>
+              </Carousel-item>
+              <Carousel-item>
+                <router-link to="" class="block">
+                  <img class="block" src="~assets/img/home/banner_04.jpg" alt="">
                 </router-link>
               </Carousel-item>
             </Carousel>
