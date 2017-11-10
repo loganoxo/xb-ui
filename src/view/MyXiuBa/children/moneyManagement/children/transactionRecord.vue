@@ -516,10 +516,7 @@
           if (strDate >= 0 && strDate <= 9) {
             strDate = "0" + strDate;
           }
-          let currentdate = date.getFullYear() + seperator1 + month + seperator1 + strDate
-            + " " + '00' + seperator2 + '00'
-            + seperator2 + '00';
-          return currentdate;
+          return date.getFullYear() + seperator1 + month + seperator1 + strDate + " " + '00' + seperator2 + '00' + seperator2 + '00';
         }
 
         if (type === 0) {
@@ -551,7 +548,7 @@
             _this.totalPay = 0;
             _this.getDepositList = res.list;
             for (let i = 0, len = res.list.length; i <len; i++) {
-              _this.totalPay += (res.list[i].tradAmount - res.discountPrice);
+              _this.totalPay += res.list[i].tradAmount;
             }
           } else {
             _this.$Message.error('数据列表为空');
