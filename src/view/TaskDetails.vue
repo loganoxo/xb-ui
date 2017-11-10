@@ -409,6 +409,12 @@
       let self = this;
       self.copyValue = window.location.href;
       let discount = self.$route.query.discount;
+      if(getStorage('disCountTaskCategory')){
+        self.$store.commit({
+          type: 'SET_DISCOUNT_TASK_CATEGORY',
+          result: getStorage('disCountTaskCategory'),
+        });
+      }
       if(discount){
         self.$store.commit({
           type: 'SET_DISCOUNT_TASK_CATEGORY',
@@ -432,8 +438,6 @@
     },
     mounted () {
       let self = this;
-
-
     },
     computed: {
       isLogin() {

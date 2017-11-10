@@ -63,6 +63,7 @@ export default {
   //导航列表存入
   [types.TASK_CATEGORY_LIST](state, {info}) {
     state.TaskCategoryActive = info;
+    setStorage('TaskCategoryActive', info);
   },
 
 
@@ -81,6 +82,7 @@ export default {
   },
   [types.SET_DISCOUNT_TASK_CATEGORY](state,{result}) {
     state.disCountTaskCategory = result;
+    setStorage('disCountTaskCategory', result);
   },
 
 }

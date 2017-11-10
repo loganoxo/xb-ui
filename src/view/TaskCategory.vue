@@ -13,7 +13,7 @@
       </div>
       <div class="container" >
         <div class="task-category-sel">
-          <span v-if="$store.state.TaskCategoryActive" >{{$store.state.TaskCategoryActiveList[$store.state.TaskCategoryActive].text}}</span>：
+          <span v-show="$store.state.TaskCategoryActive" >{{$store.state.TaskCategoryActiveList[$store.state.TaskCategoryActive].text}}</span>：
           <a :class="[($store.state.TaskCategoryActive == 'all' || $store.state.TaskCategoryActive == 'discount') &&  !$route.query.cate ? 'active' : '']" @click="selTaskCategoryAllFunc">全部活动</a>
           <a v-if="nav.name != '美食/特产' && nav.name != '其它试用'" :class="[$route.query.cate == nav.id ? 'active' : '']" @click="selTaskCategoryActiveFunc(nav)" v-for="nav in navList" >{{nav.name}}</a>
         </div>
@@ -201,6 +201,7 @@
 </template>
 
 <script>
+  import {setStorage, getStorage, encryption} from '@/config/utils'
   import Icon from 'iview/src/components/icon'
   import Form from 'iview/src/components/form'
   import Input from 'iview/src/components/input'
@@ -208,7 +209,6 @@
   import Button from 'iview/src/components/button'
   import Radio from 'iview/src/components/radio'
   import api from '@/config/apiConfig'
-  import {encryption} from '@/config/utils'
   import Modal from 'iview/src/components/modal'
   import Breadcrumb from 'iview/src/components/breadcrumb'
   import Page from 'iview/src/components/page'
@@ -309,6 +309,18 @@
       let searchKey = self.$route.query.searchKey;
       let discount = self.$route.query.discount;
       self.getNavList();
+      if(getStorage('disCountTaskCategory')){
+        self.$store.commit({
+          type: 'SET_DISCOUNT_TASK_CATEGORY',
+          result: getStorage('disCountTaskCategory'),
+        });
+      }
+      if(getStorage('TaskCategoryActive')){
+        self.$store.commit({
+          type: 'TASK_CATEGORY_LIST',
+          result: getStorage('TaskCategoryActive'),
+        });
+      }
       if(!self.$store.state.disCountTaskCategory){
         self.searchTaskParams.discountTypes = ['discount_0'];
       }
