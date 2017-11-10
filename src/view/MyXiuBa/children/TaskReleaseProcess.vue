@@ -1441,32 +1441,32 @@
         background-color: #00CD36;
         border:2px solid #00CD36;
         &:hover{
-          border-color:$mainColor;
+          border-color:#000;
         }
       }
       &.discount-9-9{
         background-color: #FF9900;
         border:2px solid #FF9900;
         &:hover{
-          border-color:$mainColor;
+          border-color:#000;
         }
       }
       &.discount-49-9{
         background-color: #CD3636;
         border:2px solid #CD3636;
         &:hover{
-          border-color:$mainColor;
+          border-color:#000;
         }
       }
       &.discount-999{
         background-color: #FF3699;
         border:2px solid #FF3699;
         &:hover{
-          border-color:$mainColor;
+          border-color:#000;
         }
       }
       &.isSelect{
-        border-color:$mainColor;
+        border-color:#000;
       }
       &.disabled{
        opacity: 0.5;

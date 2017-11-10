@@ -265,9 +265,9 @@
             <iInput v-model="orderNoPassReason" placeholder="请填写不通过理由，如订单号不符或实付金额不符" style="width: 420px"></iInput>
           </div>
           <div class="true-btn" v-show="orderReviewStatus === 'failAudit'" @click="orderNumberAudit">确认</div>
-          <div class="true-btn" v-show="orderReviewStatus === 'passAudit' && perMarginNeed >= orderInfo.orderPrice"
+          <div class="true-btn" v-show="orderReviewStatus === 'passAudit' && orderInfo.perMarginNeed >= getOderPrice"
                @click="orderNumberAudit">确认</div>
-          <PayModel v-show="orderReviewStatus === 'passAudit' && perMarginNeed < orderInfo.orderPrice"
+          <PayModel v-show="orderReviewStatus === 'passAudit' && orderInfo.perMarginNeed < getOderPrice"
                     :orderMoney="needReplenishMoney"
                     @confirmPayment="confirmPayment" :payButtonText="payButtonText"
                     :rechargeButtonText="rechargeButtonText" style="margin-top: 120px;">
@@ -493,7 +493,6 @@
         orderReviewStatus: 'passAudit',
         orderNoPassReason: null,
         orderInfo: {},
-        perMarginNeed: 0,
         payButtonText: '确认支付并通过',
         rechargeButtonText: '前去充值',
         searchLoading: false
@@ -509,8 +508,11 @@
     },
     watch: {},
     computed: {
+      getOderPrice: function () {
+        return this.orderInfo.discountPrice > 0 ? this.orderInfo.orderPrice - this.orderInfo.discountPrice : this.orderInfo.orderPrice
+      },
       needReplenishMoney: function () {
-        return (this.orderInfo.orderPrice - this.perMarginNeed).toFixed(2) * 1
+        return (this.getOderPrice - this.orderInfo.perMarginNeed).toFixed(2) * 1
       }
     },
     methods: {
@@ -640,9 +642,15 @@
           id: id
         }).then(res => {
           if (res.status) {
-            _this.orderInfo = res.data;
-            _this.orderInfo.orderPrice = _this.orderInfo.orderPrice / 100;
-            _this.perMarginNeed = res.data.task.perMarginNeed / 100;
+            _this.orderInfo = Object.assign({}, _this.orderInfo, {
+              orderPrice: res.data.orderPrice / 100,
+              orderNum: res.data.orderNum,
+              id: res.data.id,
+              perMarginNeed: res.data.task.perMarginNeed / 100,
+              discountPrice: res.data.task.discountPrice / 100,
+            })
+          }else{
+            _this.$Message.error(res.msg)
           }
         })
       },

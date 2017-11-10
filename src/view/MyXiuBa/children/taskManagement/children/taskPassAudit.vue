@@ -148,7 +148,7 @@
         </p>
         <p class="mt-15">
               <span>秀客实付金额：<span
-                class="main-color">{{orderInfo.orderPrice || 0}}</span>元<span>（当前每单活动担保金<span>{{perMarginNeed}}</span>元）</span></span>
+                class="main-color">{{orderInfo.orderPrice || 0}}</span>元<span>（当前每单活动担保金<span>{{orderInfo.perMarginNeed}}</span>元）</span></span>
         </p>
         <div class="mt-22">
           <Radio-group v-model="orderReviewStatus">
@@ -164,9 +164,9 @@
           <iInput v-model="orderNoPassReason" placeholder="请填写不通过理由，如订单号不符或实付金额不符" style="width: 420px"></iInput>
         </div>
         <div class="true-btn" v-show="orderReviewStatus === 'failAudit'" @click="orderNumberAudit">确认</div>
-        <div class="true-btn" v-show="orderReviewStatus === 'passAudit' && perMarginNeed >= orderInfo.orderPrice"
+        <div class="true-btn" v-show="orderReviewStatus === 'passAudit' && orderInfo.perMarginNeed >= getOderPrice"
              @click="orderNumberAudit">确认</div>
-        <PayModel v-show="orderReviewStatus === 'passAudit' && perMarginNeed < orderInfo.orderPrice"
+        <PayModel v-show="orderReviewStatus === 'passAudit' && orderInfo.perMarginNeed < getOderPrice"
                   :orderMoney="needReplenishMoney"
                   @confirmPayment="confirmPayment" :payButtonText="payButtonText"
                   :rechargeButtonText="rechargeButtonText" style="margin-top: 120px;">
@@ -239,7 +239,6 @@
         orderInfo: {},
         orderReviewStatus: 'passAudit',
         orderNoPassReason: null,
-        perMarginNeed: 0,
       }
     },
     mounted() {
@@ -260,8 +259,11 @@
       }
     },
     computed: {
+      getOderPrice: function () {
+        return this.orderInfo.discountPrice > 0 ? this.orderInfo.orderPrice - this.orderInfo.discountPrice : this.orderInfo.orderPrice
+      },
       needReplenishMoney: function () {
-        return (this.orderInfo.orderPrice - this.perMarginNeed).toFixed(2) * 1
+        return (this.getOderPrice - this.orderInfo.perMarginNeed).toFixed(2) * 1
       }
     },
     methods: {
@@ -389,9 +391,15 @@
         _this.orderNoPassReason = '';
         api.orderNumberInfo({id: id}).then(res => {
           if (res.status) {
-            _this.orderInfo = res.data;
-            _this.orderInfo.orderPrice = _this.orderInfo.orderPrice / 100;
-            _this.perMarginNeed = res.data.task.perMarginNeed / 100;
+            _this.orderInfo = Object.assign({}, _this.orderInfo, {
+              orderPrice: res.data.orderPrice / 100,
+              orderNum: res.data.orderNum,
+              id: res.data.id,
+              perMarginNeed: res.data.task.perMarginNeed / 100,
+              discountPrice: res.data.task.discountPrice / 100,
+            })
+          }else{
+            _this.$Message.error(res.msg)
           }
         })
       },
