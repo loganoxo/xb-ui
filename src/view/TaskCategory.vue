@@ -318,7 +318,7 @@
       if(getStorage('TaskCategoryActive')){
         self.$store.commit({
           type: 'TASK_CATEGORY_LIST',
-          result: getStorage('TaskCategoryActive'),
+          info: getStorage('TaskCategoryActive'),
         });
       }
       if(!self.$store.state.disCountTaskCategory){
@@ -548,6 +548,18 @@
         let searchKey = this.$route.query.searchKey;
         let discount = this.$route.query.discount;
         self.historyTaskListParams.itemCatalogs = [];
+        if(getStorage('disCountTaskCategory')){
+          self.$store.commit({
+            type: 'SET_DISCOUNT_TASK_CATEGORY',
+            result: getStorage('disCountTaskCategory'),
+          });
+        }
+        if(getStorage('TaskCategoryActive')){
+          self.$store.commit({
+            type: 'TASK_CATEGORY_LIST',
+            info: getStorage('TaskCategoryActive'),
+          });
+        }
         if(!self.$store.state.disCountTaskCategory){
           self.searchTaskParams.discountTypes = 'discount_0';
         }
@@ -624,8 +636,8 @@
     .task-category-sel{
       font-size: 14px;
       background-color: #fff;
-      height: 64px;
-      line-height: 64px;
+      height: 40px;
+      line-height: 40px;
       padding: 0 15px;
       a{
         display: inline-block;
