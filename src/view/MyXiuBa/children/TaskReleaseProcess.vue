@@ -1137,6 +1137,15 @@
             } else {
               _this.taskRelease.taskDetail = {};
             }
+            if(_this.taskRelease.itemPrice >= 50){
+              _this.discountDisabled.discount_9_9.disabled = false;
+            }
+            if(_this.taskRelease.itemPrice >= 150){
+              _this.discountDisabled.discount_49_9.disabled = false;
+            }
+            if(_this.taskRelease.itemPrice >= 250){
+              _this.discountDisabled.discount_99_9.disabled = false;
+            }
           }
         })
       },
