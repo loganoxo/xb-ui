@@ -128,6 +128,7 @@
   import Radio from 'iview/src/components/radio'
   import TimeDown from '@/components/TimeDown'
   import api from '@/config/apiConfig'
+  import {aliCallbackImgUrl} from '@/config/env'
   import {TaskErrorStatusList, decode, encryption} from '@/config/utils'
 
   export default {
@@ -211,6 +212,9 @@
           if (res.status) {
             _this.showkerReportInfo = res.data;
             _this.trialReportImages = _this.showkerReportInfo.trialReportImages ? JSON.parse(_this.showkerReportInfo.trialReportImages) : [];
+            for(let i =0, len = _this.trialReportImages.length; i<len; i++){
+              _this.trialReportImages[i] =  _this.trialReportImages[i].indexOf('aliyuncs') > 0 ? item : aliCallbackImgUrl + _this.trialReportImages[i];
+            }
             _this.showNowImageSrc = _this.trialReportImages[0];
           } else {
             _this.$Message.error(res.msg);
