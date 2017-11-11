@@ -47,7 +47,7 @@
             <a class="left img-title" :title="item.task.taskName">{{item.task.taskName}}</a>
           </td>
           <td>{{item.alitmAccount}}</td>
-          <td>{{item.currentGenerationEndTime | dateFormat('YYYY-MM-DD hh:mm:ss')}}</td>
+          <td>{{item.auditTime | dateFormat('YYYY-MM-DD hh:mm:ss')}}</td>
           <td>{{getTaskStatus(item.status)}}</td>
           <td>
             <p class="operation" @click="applyDelete(item.id)">删除</p>

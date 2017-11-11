@@ -44,6 +44,9 @@
     .minor-color {
       color: #999!important;
     }
+    .sizeColor3{
+      color: #FF0100;
+    }
     .my-probation-title {
       height: 52px;
       line-height: 52px;
@@ -248,6 +251,37 @@
           color: #000;
         }
       }
+    }
+
+    .precautions-info{
+      padding-top: 10px;
+      padding-bottom: 10px;
+      width: 100%;
+      background-color: #F8F8F8;
+      border: 1px solid #F2F2F2;
+      padding-left: 20px;
+      P:first-child{
+        color: $mainColor;
+        font-size: 18px;
+        font-weight: bold;
+      }
+      P:last-child{
+        color: $mainColor;
+        font-size: 12px;
+      }
+    }
+
+    .precautions-tip-info{
+      width: 520px;
+      height: 36px;
+      line-height: 36px;
+      border: 1px solid #FFB9B8;
+      border-radius: 5px;
+      background-color: #FFF4F1;
+      color: #000;
+      font-size: 14px;
+      padding-left: 20px;
+      font-weight: bold;
     }
 
     .experience,

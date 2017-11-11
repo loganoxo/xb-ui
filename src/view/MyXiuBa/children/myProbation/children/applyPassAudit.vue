@@ -189,6 +189,21 @@
           <span class="main-color"><time-down color='#ff4040' :fontWeight=600 :endTime="showkerTask.currentGenerationEndTime"></time-down></span>
         </p>
       </div>
+      <div class="precautions-info mt-10" v-if="showkerTask.task.remark">
+        <p>注意事项：</p>
+        <p class="mt-10 mr-10">
+          <span>商家备注：</span>
+          <span>{{showkerTask.task.remark}}</span>
+        </p>
+      </div>
+      <div class="precautions-tip-info mt-20">
+        <Icon type="information-circled" color="#FF0100"></Icon>
+        <span class="sizeColor3">注意：</span>
+        <span>商家若有备注</span>
+        <span class="sizeColor3">“勿晒图”</span>
+        <span>的，</span>
+        <span class="sizeColor3">请勿在淘宝评价中晒图片！</span>
+      </div>
       <div class="experience mt-22">
         <p class="mb-10">活动过程与体验：</p>
         <iInput v-model="trialReportText" type="textarea" :autosize="{minRows: 5,maxRows: 5}"
