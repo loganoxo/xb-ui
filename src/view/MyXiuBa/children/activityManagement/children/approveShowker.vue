@@ -20,13 +20,13 @@
         <div class="approve-list-title">
           <span :class="{isSelect:showApproveStatus === 'toAudit'}" @click="changeTitle('toAudit')">待审批</span>
           <span :class="{isSelect:showApproveStatus === 'passAudit'}" @click="changeTitle('passAudit')">已通过</span>
-          <span :class="{isSelect:showApproveStatus === 'failAudit'}" @click="changeTitle('failAudit')">已终止</span>
+          <span :class="{isSelect:showApproveStatus === 'failAudit'}" @click="changeTitle('failAudit')">未通过</span>
         </div>
         <!--待审批-->
         <div class="await-approve mt-20" v-show="showApproveStatus === 'toAudit'">
           <div class="prompt mb-20">
             <Icon type="information-circled"></Icon>
-            <span> 亲，请记得在活动结束前审批秀客哦，如果活动结束后24小时内仍未审批满，系统将自动按申请时间审批剩余名额！</span>
+            <span> 亲，请记得在活动结束前审批秀客哦，如果活动结束后48小时内仍未审批满，系统将自动按申请时间审批剩余名额！</span>
           </div>
           <iSelect v-model="selectStatus" style="width: 120px;margin-right: 12px;">
             <iOption v-for="item in SelectList" :value="item.value" :key="item.value">{{ item.label }}</iOption>
@@ -209,7 +209,7 @@
                 <th width="20%">淘宝账号（旺旺号）</th>
                 <th width="20%">订单号</th>
                 <th width="20%">活动状态</th>
-                <th width="20%">终止时间</th>
+                <th width="20%">审批时间</th>
                 <th width="20%">终止原因</th>
               </tr>
               </thead>

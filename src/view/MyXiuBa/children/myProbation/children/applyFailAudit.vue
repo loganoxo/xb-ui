@@ -29,7 +29,7 @@
         <tr>
           <th width="30%">活动标题</th>
           <th width="15%">绑定淘宝会员名</th>
-          <th width="15%">结束时间</th>
+          <th width="15%">审批时间</th>
           <th width="15%">流程状态</th>
           <th width="15%">操作</th>
         </tr>
