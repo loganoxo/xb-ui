@@ -293,7 +293,7 @@
       padding: 5px;
       background-color: #f8f8f8;
       border: 1px solid #ddd;
-      margin-right: 20px;
+      margin-right: 10px;
       p{
         line-height: 25px;
       }

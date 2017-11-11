@@ -106,9 +106,6 @@
           </div>
           <div class="graphic-info-ctt">
             <div v-show="graphicInfoSelClass == 'activity'" class="graphic-info-details" >
-              <div v-if="commodityData.showkerTask" class="bgF1F1F1 pd-20 task-step-explain mb-20">
-                <place-order-step :taskPlaceInfo="taskPlaceInfo" :currentGenerationEndTime="showkerTask.currentGenerationEndTime"></place-order-step>
-              </div>
               <div class="fs-18 text-ct">
                 <div class="precautions mb-20 pt-10">
                   <p>注意事项：</p>
@@ -117,23 +114,25 @@
                     <span v-if="commodityData.task.paymentMethod === 'all'">无所谓（可以使用花呗、信用卡等付款，也可以不用）</span>
                     <span v-else>禁止使用花呗、信用卡付款</span>
                   </p>
-                  <p class="mt-10" v-if="commodityData.task.remark">
+                  <p class="mt-10 mr-10" v-if="commodityData.task.remark">
                     <span>商家备注：</span>
                     <span>{{commodityData.task.remark}}</span>
                   </p>
                 </div>
                 <Icon type="information-circled" color="#FF6633" size="30" style="vertical-align: sub;"></Icon> 获得资格后才能看到活动品信息哦~
-                <div v-if="applyBtnShow === 'buyerTasking'" style="display: inline-block">
-                <iButton v-show="!commodityData.taskApply" :disabled="taskApplyLoading" style="width: 100px;" size="large" class="fs-16 default-btn ivu-btn-small" type="error" @click="applyForTrialFunc">申请活动</iButton>
-                <iButton v-show="commodityData.taskApply" disabled size="large" class="fs-16 default-btn" long >已申请</iButton>
-              </div>
+                <div v-if="applyBtnShow === 'buyerTasking'" class="inline-block">
+                  <iButton v-show="!commodityData.taskApply" :disabled="taskApplyLoading" style="width: 100px;" size="large" class="fs-16 default-btn ivu-btn-small" type="error" @click="applyForTrialFunc">申请活动</iButton>
+                  <iButton v-show="commodityData.taskApply" disabled size="large" class="fs-16 default-btn" long >已申请</iButton>
+                </div>
                 <a v-if="applyBtnShow === 'noLogin'"   class="ivu-btn ivu-btn-error ivu-btn-small" @click="selectLogin = true" style="width: 100px;">
                   申请活动
                 </a>
                 <iButton v-show="timeEndShow" disabled size="small" class="fs-16 default-btn" long style="width: 100px;" >已结束</iButton>
               </div>
-              <div class="text-ct" v-if="!commodityData.cannotShowItemDescriptionOfQualification" v-html="commodityData.task.itemDescription"></div>
-
+              <div v-if="commodityData.showkerTask" class="bgF1F1F1 pd-20 task-step-explain mb-20 mt-20">
+                <place-order-step :taskPlaceInfo="taskPlaceInfo" :currentGenerationEndTime="showkerTask.currentGenerationEndTime" :isShowPrecautions="false"></place-order-step>
+              </div>
+              <div class="text-ct mt-20" v-if="!commodityData.cannotShowItemDescriptionOfQualification" v-html="commodityData.task.itemDescription"></div>
             </div>
             <div v-show="graphicInfoSelClass == 'report'" class="graphic-info-report">
               <ul v-if="detailsShowkerList.length > 0">

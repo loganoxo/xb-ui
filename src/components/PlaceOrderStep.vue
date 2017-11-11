@@ -55,14 +55,14 @@
         <div slot="footer"></div>
       </Modal>
     </div>
-    <div class="precautions mt-20 pt-20">
+    <div class="precautions mt-20 pt-20" v-if="isShowPrecautions">
       <p>注意事项：</p>
       <p class="mt-10">
         <span>付款方式：</span>
         <span v-if="taskPlaceInfo.paymentMethod === 'all'">无所谓（可以使用花呗、信用卡等付款，也可以不用）</span>
         <span v-else>禁止使用花呗、信用卡付款</span>
       </p>
-      <p class="mt-10" v-if="taskPlaceInfo.remark">
+      <p class="mt-10 mr-10" v-if="taskPlaceInfo.remark">
         <span>商家备注：</span>
         <span>{{taskPlaceInfo.remark}}</span>
       </p>
@@ -97,6 +97,10 @@
       },
       currentGenerationEndTime: {
         default: null
+      },
+      isShowPrecautions: {
+        required: Boolean,
+        default: true
       }
     },
     data() {
