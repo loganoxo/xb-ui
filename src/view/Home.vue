@@ -3,7 +3,7 @@
     <div class="home-ctt">
       <div class="container">
         <div class="home-section">
-          <div class="left-ctt left mr-10">
+          <div class="left-ctt left ">
             <p class="left-ctt-top text-ct">
               <Icon type="navicon" style="font-size: 20px;margin-top: 2px"></Icon>
               <span class="ml-5">活动分类</span>
@@ -34,12 +34,12 @@
               </Carousel-item>
               <Carousel-item>
                 <router-link to="" class="block">
-                 <img class="block" src="~assets/img/home/banner_05.jpg" alt="">
+                 <img width="700" height="400" class="block" src="~assets/img/home/banner_05.jpg" alt="">
                 </router-link>
               </Carousel-item>
               <Carousel-item>
                 <router-link to="" class="block">
-                  <img class="block" src="~assets/img/home/banner_04.jpg" alt="">
+                  <img width="700" height="400" class="block" src="~assets/img/home/banner_04.jpg" alt="">
                 </router-link>
               </Carousel-item>
             </Carousel>
@@ -182,14 +182,16 @@
         <div class="buyer-xiu clear">
           <div class="left-ctt left">
             <div class="title clear">
-              <img src="~assets/img/home/top_xiu.png" alt="">
+              <img width="190px" height="25px" src="~assets/img/home/top_xiu.png" alt="">
               <span class="right cursor-p" @click="getMoreBuyerShow = true">更多买家秀...</span>
             </div>
             <ul class="clear" :class="[leftSlider ? 'slider-top-active-left' : 'slider-top-default-left']"
                 @mouseover="clearLeftSliderFunc()" @mouseleave="leftSliderFunc()">
               <li v-for="item in buyerShowList" class="content cursor-p left pos-rel" v-show="item.trialReportImages">
                 <router-link :to="{path:'/trial-report',query:{q:encryptionId(item.showkerId),showReportDesc:true,id:encryptionId(item.id)}}">
-                  <img :src="item.trialReportImages" alt="" width="200" height="260">
+                  <div style="width: 200px;height: 260px;overflow: hidden; display:table-cell;vertical-align:middle;text-align: center;" >
+                    <img :src="item.trialReportImages" alt="" width="200" style="max-height: 260px">
+                  </div>
                   <!-- <p class=" top-heart clear" >
                      <img class="left " style="vertical-align: middle " width="15" height="15" src="~assets/img/home/heart.png" alt="">
                      <span class="left" style="font-size: 14px">赞(12000)</span>
@@ -922,7 +924,7 @@
           padding: 15px 10px 10px 10px;
           border-bottom: 1px solid #F6F6F6;
           img{
-            height: 18px;
+            height: 25px;
           }
         }
         ul{
@@ -990,7 +992,7 @@
       }
       .right-ctt {
         background-color: #fff;
-        width: 285px;
+        width: 290px;
         height: 500px;
         ul {
           padding: 15px 20px;
@@ -1014,7 +1016,7 @@
       }
     }
     .home-section {
-      margin: 10px auto 10px auto;
+      margin: 10px auto 0 auto;
       overflow: hidden;
       .left-ctt {
         background-color: #fff;
@@ -1049,10 +1051,11 @@
       }
       .middle-ctt {
         width: 700px;
+        margin: 0 10px;
       }
       .right-ctt {
         float: right;
-        width: 285px;
+        width: 290px;
         height: 400px;
         .login-up-box {
           background-color: #fff;
