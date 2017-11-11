@@ -601,6 +601,7 @@
       },
       getTaskDetails(){
         let self = this;
+        self.commodityData = {};
         api.getTaskDetails({taskId: decode(self.$route.query.q)}).then((res) => {
           if(res.status){
             self.commodityData = res.data;
