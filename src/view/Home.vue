@@ -199,7 +199,7 @@
                     <span class="right pl-10">￥{{item.task.itemPrice/100}}</span>
                   </p>
                   <p class="mt-10 description pos-rel">
-                    <img style="vertical-align: middle" class="" src="~assets/img/home/double_marks.png" alt="">
+                    <span class="double-question-mark"></span>
                     <span style="color: #000">{{item.trialReportText.substring(0,20)}}</span>
                   </p>
                   <div class="clear bottom mt-20">
@@ -961,6 +961,15 @@
                 position: absolute;
                 left: 0;
                 top: -3px;
+              }
+              .double-question-mark{
+                position: absolute;
+                left: 0;
+                top: -3px;
+                display: inline-block;
+                width: 18px;
+                height: 34px;
+                background:url("~assets/img/home/double_marks.png");
               }
             }
             .icon-heart{
