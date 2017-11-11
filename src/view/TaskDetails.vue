@@ -124,15 +124,15 @@
                 </div>
                 <div v-if="commodityData.cannotShowItemDescriptionOfQualification">
                   <Icon type="information-circled" color="#FF6633" size="30" style="vertical-align: sub;"></Icon> 获得资格后才能看到活动品信息哦~
+                  <div v-if="applyBtnShow === 'buyerTasking'" class="inline-block">
+                    <iButton v-show="!commodityData.taskApply" :disabled="taskApplyLoading" style="width: 100px;" size="large" class="fs-16 default-btn ivu-btn-small" type="error" @click="applyForTrialFunc">申请活动</iButton>
+                    <iButton v-show="commodityData.taskApply" disabled size="large" class="fs-16 default-btn" long >已申请</iButton>
+                  </div>
+                  <a v-if="applyBtnShow === 'noLogin'"   class="ivu-btn ivu-btn-error ivu-btn-small" @click="selectLogin = true" style="width: 100px;">
+                    申请活动
+                  </a>
+                  <iButton v-show="timeEndShow" disabled size="small" class="fs-16 default-btn" long style="width: 100px;" >已结束</iButton>
                 </div>
-                <div v-if="applyBtnShow === 'buyerTasking'" class="inline-block">
-                  <iButton v-show="!commodityData.taskApply" :disabled="taskApplyLoading" style="width: 100px;" size="large" class="fs-16 default-btn ivu-btn-small" type="error" @click="applyForTrialFunc">申请活动</iButton>
-                  <iButton v-show="commodityData.taskApply" disabled size="large" class="fs-16 default-btn" long >已申请</iButton>
-                </div>
-                <a v-if="applyBtnShow === 'noLogin'"   class="ivu-btn ivu-btn-error ivu-btn-small" @click="selectLogin = true" style="width: 100px;">
-                  申请活动
-                </a>
-                <iButton v-show="timeEndShow" disabled size="small" class="fs-16 default-btn" long style="width: 100px;" >已结束</iButton>
               </div>
 
               <div class="text-ct mt-20" v-if="!commodityData.cannotShowItemDescriptionOfQualification" v-html="commodityData.task.itemDescription"></div>
