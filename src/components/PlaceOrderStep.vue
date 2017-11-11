@@ -99,7 +99,7 @@
         default: null
       },
       isShowPrecautions: {
-        required: Boolean,
+        type: Boolean,
         default: true
       }
     },
