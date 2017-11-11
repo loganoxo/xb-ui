@@ -678,8 +678,12 @@
         let self = this;
         self.$router.push({ 'path': '/task-category', 'query': {'cate': nav.id}});
         self.$store.commit({
+          type: 'SET_DISCOUNT_TASK_CATEGORY',
+          result: false
+        });
+        self.$store.commit({
           type: 'TASK_CATEGORY_LIST',
-          info: nav.id
+          info: 'all',
         });
       },
       getNavList(){
