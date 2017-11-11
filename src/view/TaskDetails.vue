@@ -109,8 +109,7 @@
               <div v-if="commodityData.showkerTask" class="bgF1F1F1 pd-20 task-step-explain mb-20">
                 <place-order-step :taskPlaceInfo="taskPlaceInfo" :currentGenerationEndTime="showkerTask.currentGenerationEndTime"></place-order-step>
               </div>
-              <div class="text-ct" v-if="!commodityData.cannotShowItemDescriptionOfQualification" v-html="commodityData.task.itemDescription"></div>
-              <div class="fs-18 text-ct" v-else>
+              <div class="fs-18 text-ct">
                 <div class="precautions mb-20 pt-10">
                   <p>注意事项：</p>
                   <p class="mt-10">
@@ -125,14 +124,16 @@
                 </div>
                 <Icon type="information-circled" color="#FF6633" size="30" style="vertical-align: sub;"></Icon> 获得资格后才能看到活动品信息哦~
                 <div v-if="applyBtnShow === 'buyerTasking'" style="display: inline-block">
-                  <iButton v-show="!commodityData.taskApply" :disabled="taskApplyLoading" style="width: 100px;" size="large" class="fs-16 default-btn ivu-btn-small" type="error" @click="applyForTrialFunc">申请活动</iButton>
-                  <iButton v-show="commodityData.taskApply" disabled size="large" class="fs-16 default-btn" long >已申请</iButton>
-                </div>
+                <iButton v-show="!commodityData.taskApply" :disabled="taskApplyLoading" style="width: 100px;" size="large" class="fs-16 default-btn ivu-btn-small" type="error" @click="applyForTrialFunc">申请活动</iButton>
+                <iButton v-show="commodityData.taskApply" disabled size="large" class="fs-16 default-btn" long >已申请</iButton>
+              </div>
                 <a v-if="applyBtnShow === 'noLogin'"   class="ivu-btn ivu-btn-error ivu-btn-small" @click="selectLogin = true" style="width: 100px;">
                   申请活动
                 </a>
                 <iButton v-show="timeEndShow" disabled size="small" class="fs-16 default-btn" long style="width: 100px;" >已结束</iButton>
               </div>
+              <div class="text-ct" v-if="!commodityData.cannotShowItemDescriptionOfQualification" v-html="commodityData.task.itemDescription"></div>
+
             </div>
             <div v-show="graphicInfoSelClass == 'report'" class="graphic-info-report">
               <ul v-if="detailsShowkerList.length > 0">
