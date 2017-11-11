@@ -431,6 +431,9 @@
                   if(res.status){
                     _this.trialReportImages = [];
                     let ImageList = JSON.parse(res.data.trialReportImages);
+                    for(let i =0, len = ImageList.length; i < len; i++){
+                      ImageList[i] = ImageList[i].indexOf('aliyuncs') > 0 ? ImageList[i] : aliCallbackImgUrl + ImageList[i];
+                    }
                     _this.trialReportImages = ImageList;
                     for (let i = 0, len = ImageList.length; i < len; i++) {
                       _this.defaultImageList.push({src: ImageList[i]});

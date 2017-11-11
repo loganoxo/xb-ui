@@ -212,8 +212,8 @@
           if (res.status) {
             _this.showkerReportInfo = res.data;
             _this.trialReportImages = _this.showkerReportInfo.trialReportImages ? JSON.parse(_this.showkerReportInfo.trialReportImages) : [];
-            for(let i =0, len = _this.trialReportImages.length; i<len; i++){
-              _this.trialReportImages[i] =  _this.trialReportImages[i].indexOf('aliyuncs') > 0 ? item : aliCallbackImgUrl + _this.trialReportImages[i];
+            for(let i =0, len = _this.trialReportImages.length; i < len; i++){
+              _this.trialReportImages[i] =  _this.trialReportImages[i].indexOf('aliyuncs') > 0 ? _this.trialReportImages[i] : aliCallbackImgUrl + _this.trialReportImages[i];
             }
             _this.showNowImageSrc = _this.trialReportImages[0];
           } else {
