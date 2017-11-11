@@ -1,5 +1,4 @@
 <template>
-  <div>
     <div class="container">
       <div class="mt-10 clear">
         <div class="trial-left left">
@@ -68,6 +67,7 @@
                 <div class="left ml-20">
                   <router-link :to="{path: '/task-details',query:{q: encryptionId(showkerReportDesc.task.id)}}">{{showkerReportDesc.task.taskName}}</router-link>
                   <p>宝贝单价&nbsp;<span>{{showkerReportDesc.task.itemPrice / 100}}</span>&nbsp;元 。</p>
+                  <iButton type="primary" class="mt-10" @click="applyingActivity">前去申请活动</iButton>
                 </div>
               </div>
             </div>
@@ -90,19 +90,22 @@
                 </Carousel>
               </div>
             </div>
+            <div class="xiuba-zan">
+              <div class="fs-16">不顺手来个点赞？</div>
+              <div class="zan-btn">
+                <zan></zan>
+              </div>
+            </div>
           </div>
         </div>
       </div>
+      <Modal v-model="trialReportPicShow" width="600">
+        <div style="text-align:center">
+          <img :src="trialReportPic + '!orgi75'" alt="" style="width: 100%;margin-top: 20px;">
+        </div>
+        <div slot="footer"></div>
+      </Modal>
     </div>
-    <Modal v-model="trialReportPicShow" width="600">
-      <div style="text-align:center">
-        <img :src="trialReportPic + '!orgi75'" alt="" style="width: 100%;margin-top: 20px;">
-      </div>
-      <div slot="footer">
-      </div>
-    </Modal>
-  </div>
-
 </template>
 
 <script>
@@ -114,14 +117,14 @@
   import Checkbox from 'iview/src/components/checkbox'
   import Button from 'iview/src/components/button'
   import Radio from 'iview/src/components/radio'
+  import api from '@/config/apiConfig'
+  import {setStorage, getStorage, decode, encryption} from '@/config/utils'
   import Modal from 'iview/src/components/modal'
   import Breadcrumb from 'iview/src/components/breadcrumb'
   import Page from 'iview/src/components/page'
-  import Carousel from 'iview/src/components/carousel'
-  import api from '@/config/apiConfig'
-  import {setStorage, getStorage, decode, encryption} from '@/config/utils'
-  import {aliCallbackImgUrl} from '@/config/env'
   import TimeDown from '@/components/TimeDown'
+  import Carousel from 'iview/src/components/carousel'
+  import Zan from '@/components/Zan'
   export default {
 
     name: 'MyTrialReport',
@@ -143,6 +146,7 @@
       Alert: Alert,
       Carousel: Carousel,
       CarouselItem: Carousel.Item,
+      Zan: Zan
     },
     data () {
       return {
@@ -203,6 +207,9 @@
     methods: {
       encryptionId(id) {
         return encryption(id);
+      },
+      applyingActivity() {
+        this.$router.push({path: '/task-details',query:{q: encryption(this.showkerReportDesc.task.id)}})
       },
       getTagTrialReports(key){
         this.trialReportParams.itemCatalogname = key;
@@ -358,6 +365,18 @@
       }
 
     }
+  }
+  .xiuba-zan{
+    width: 182px;
+    height: 62px;
+    margin: 20px auto;
+    text-align: center;
+  }
+  .zan-btn{
+    line-height: 30px;
+    background-color: $mainColor;
+    margin: 4px auto;
+    padding-top: 4px;
   }
   .graphic-info-report{
     width: 1000px;
