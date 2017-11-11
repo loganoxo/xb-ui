@@ -342,7 +342,7 @@
         self.getSearchTask();
       }
       if(searchKey){
-        self.searchTaskParams.discountTypes = '';
+//        self.searchTaskParams.discountTypes = '';
         if(searchKey === 'all'){
           self.searchTaskParams.taskName = '';
           self.itemCatalogs = [];
