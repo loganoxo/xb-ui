@@ -23,23 +23,23 @@
             <Carousel autoplay :autoplay-speed="5000">
               <Carousel-item>
                 <router-link to="" class="block">
-                  <img width="700" height="400" class="block" src="~assets/img/home/banner_01.jpg" alt="">
+                  <img class="block" src="~assets/img/home/banner_01.jpg" alt="">
                 </router-link>
 
               </Carousel-item>
               <Carousel-item>
                 <router-link to="" class="block">
-                  <img width="700" height="400" class="block" src="~assets/img/home/banner_02.jpg" alt="">
+                  <img  class="block" src="~assets/img/home/banner_02.jpg" alt="">
                 </router-link>
               </Carousel-item>
               <Carousel-item>
                 <router-link to="" class="block">
-                 <img width="700" height="400" class="block" src="~assets/img/home/banner_05.jpg" alt="">
+                 <img  class="block" src="~assets/img/home/banner_03.jpg" alt="">
                 </router-link>
               </Carousel-item>
               <Carousel-item>
                 <router-link to="" class="block">
-                  <img width="700" height="400" class="block" src="~assets/img/home/banner_04.jpg" alt="">
+                  <img  class="block" src="~assets/img/home/banner_04.jpg" alt="">
                 </router-link>
               </Carousel-item>
             </Carousel>
