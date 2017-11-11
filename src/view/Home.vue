@@ -191,8 +191,8 @@
                   @mouseover="clearLeftSliderFunc()" @mouseleave="leftSliderFunc()">
                 <li v-for="item in buyerShowList" class="content cursor-p left pos-rel" v-show="item.trialReportImages">
                   <router-link :to="{path:'/trial-report',query:{q:encryptionId(item.showkerId),showReportDesc:true,id:encryptionId(item.id)}}">
-                    <div class="masterImgBox" >
-                      <img :src="item.trialReportImages" alt="" width="200" style="max-height: 255px">
+                    <div>
+                      <img :src="item.trialReportImages" alt="" width="200" height="260">
                     </div>
                     <!-- <p class=" top-heart clear" >
                        <img class="left " style="vertical-align: middle " width="15" height="15" src="~assets/img/home/heart.png" alt="">
@@ -202,21 +202,21 @@
                       <span class="left">{{item.task.taskName.substring(0,12)}}</span>
                       <span class="right pl-10">￥{{item.task.itemPrice/100}}</span>
                     </p>
-                    <p class="mt-10 description pos-rel">
-                      <span class="double-question-mark"></span>
-                      <span style="color: #000">{{item.trialReportText.substring(0,20)}}</span>
-                    </p>
-                    <div class="clear bottom mt-20">
-                      <img class="left" width="48" height="48" src="~assets/img/common/avatar/tx1.png" alt="">
-                      <div class="left ml-10" style="margin-top: 5px">
-                        <p style="color: #000">{{item.showkerPhone}}</p>
-                        <!--<p class="click-good">
-                          <Icon class="icon-heart" type="heart"></Icon>
-                          <span>赞（12000）</span>
-                        </p>-->
-                      </div>
-                    </div>
                   </router-link>
+                  <p class="mt-10 description pos-rel">
+                    <span class="double-question-mark"></span>
+                    <a class="des-text" :title="item.trialReportText">{{item.trialReportText}}</a>
+                  </p>
+                  <div class="clear bottom mt-20">
+                    <img class="left" width="48" height="48" src="~assets/img/common/avatar/tx1.png" alt="">
+                    <div class="left ml-10" style="margin-top: 5px">
+                      <p style="color: #000">{{item.showkerPhone}}</p>
+                      <!--<p class="click-good">
+                        <Icon class="icon-heart" type="heart"></Icon>
+                        <span>赞（12000）</span>
+                      </p>-->
+                    </div>
+                  </div>
                 </li>
               </ul>
             </div>
@@ -450,6 +450,7 @@
   import Button from 'iview/src/components/button'
   import Radio from 'iview/src/components/radio'
   import Modal from 'iview/src/components/modal'
+  import Tooltip from 'iview/src/components/tooltip'
   import Carousel from 'iview/src/components/carousel'
   import SmsCountdown from '@/components/SmsCountdown'
   import api from '@/config/apiConfig'
@@ -478,6 +479,7 @@
       Modal: Modal,
       Carousel: Carousel,
       CarouselItem: Carousel.Item,
+      Tooltip:Tooltip
     },
     data() {
       return {
@@ -861,13 +863,13 @@
       },
       leftSliderFunc() {
         let self = this;
-        self.leftSliderTimer = setInterval(function () {
+       /* self.leftSliderTimer = setInterval(function () {
           if (self.leftSlider) {
             let part = self.buyerShowList.splice(0, 1);
             self.buyerShowList = self.buyerShowList.concat(part);
           }
           self.leftSlider = !self.leftSlider;
-        }, 1500)
+        }, 1500)*/
       },
       getHomeDisCountList(){
         let self = this;
@@ -961,6 +963,7 @@
                 margin-top: 3px;
               }
             }
+
             .price{
               position: absolute;
               width: 200px;
@@ -977,6 +980,8 @@
             }
             .description{
               padding-left: 25px;
+              height: 30px;
+              overflow: hidden;
               img{
                 position: absolute;
                 left: 0;
@@ -990,6 +995,17 @@
                 width: 18px;
                 height: 34px;
                 background:url("~assets/img/home/double_marks.png");
+              }
+              .des-text{
+                max-height: 40px;
+                line-height: 16px;
+                text-overflow: ellipsis;
+                display: -webkit-box;
+                -webkit-line-clamp: 2;
+                -webkit-box-orient: vertical;
+                overflow: hidden;
+                word-wrap: break-word;
+                color: #666;
               }
             }
             .icon-heart{
