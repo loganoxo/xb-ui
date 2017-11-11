@@ -181,80 +181,85 @@
       <div class="container">
         <div class="buyer-xiu clear">
           <div class="left-ctt left">
-            <div class="title clear">
-              <img width="190px" height="25px" src="~assets/img/home/top_xiu.png" alt="">
-              <span class="right cursor-p" @click="getMoreBuyerShow = true">更多买家秀...</span>
-            </div>
-            <ul class="clear" :class="[leftSlider ? 'slider-top-active-left' : 'slider-top-default-left']"
-                @mouseover="clearLeftSliderFunc()" @mouseleave="leftSliderFunc()">
-              <li v-for="item in buyerShowList" class="content cursor-p left pos-rel" v-show="item.trialReportImages">
-                <router-link :to="{path:'/trial-report',query:{q:encryptionId(item.showkerId),showReportDesc:true,id:encryptionId(item.id)}}">
-                  <div style="width: 200px;height: 260px;overflow: hidden; display:table-cell;vertical-align:middle;text-align: center;" >
-                    <img :src="item.trialReportImages" alt="" width="200" style="max-height: 260px">
-                  </div>
-                  <!-- <p class=" top-heart clear" >
-                     <img class="left " style="vertical-align: middle " width="15" height="15" src="~assets/img/home/heart.png" alt="">
-                     <span class="left" style="font-size: 14px">赞(12000)</span>
-                   </p>-->
-                  <p class="price clear">
-                    <span class="left">{{item.task.taskName.substring(0,12)}}</span>
-                    <span class="right pl-10">￥{{item.task.itemPrice/100}}</span>
-                  </p>
-                  <p class="mt-10 description pos-rel">
-                    <span class="double-question-mark"></span>
-                    <span style="color: #000">{{item.trialReportText.substring(0,20)}}</span>
-                  </p>
-                  <div class="clear bottom mt-20">
-                    <img class="left" width="48" height="48" src="~assets/img/common/avatar/tx1.png" alt="">
-                    <div class="left ml-10" style="margin-top: 5px">
-                      <p style="color: #000">{{item.showkerPhone}}</p>
-                      <!--<p class="click-good">
-                        <Icon class="icon-heart" type="heart"></Icon>
-                        <span>赞（12000）</span>
-                      </p>-->
+            <div style="overflow: hidden">
+              <div class="title clear">
+                <img  style="vertical-align: middle" src="~assets/img/home/top_mjx.png" alt="">
+                <span class="ml-10" style="font-size: 13px;color: #999;transform: translateY(2px)">给你最精彩</span>
+                <span class="right cursor-p" @click="getMoreBuyerShow = true">更多买家秀...</span>
+              </div>
+              <ul class="clear" :class="[leftSlider ? 'slider-top-active-left' : 'slider-top-default-left']"
+                  @mouseover="clearLeftSliderFunc()" @mouseleave="leftSliderFunc()">
+                <li v-for="item in buyerShowList" class="content cursor-p left pos-rel" v-show="item.trialReportImages">
+                  <router-link :to="{path:'/trial-report',query:{q:encryptionId(item.showkerId),showReportDesc:true,id:encryptionId(item.id)}}">
+                    <div class="masterImgBox" >
+                      <img :src="item.trialReportImages" alt="" width="200" style="max-height: 255px">
                     </div>
-                  </div>
-                </router-link>
-              </li>
-            </ul>
+                    <!-- <p class=" top-heart clear" >
+                       <img class="left " style="vertical-align: middle " width="15" height="15" src="~assets/img/home/heart.png" alt="">
+                       <span class="left" style="font-size: 14px">赞(12000)</span>
+                     </p>-->
+                    <p class="price clear">
+                      <span class="left">{{item.task.taskName.substring(0,12)}}</span>
+                      <span class="right pl-10">￥{{item.task.itemPrice/100}}</span>
+                    </p>
+                    <p class="mt-10 description pos-rel">
+                      <span class="double-question-mark"></span>
+                      <span style="color: #000">{{item.trialReportText.substring(0,20)}}</span>
+                    </p>
+                    <div class="clear bottom mt-20">
+                      <img class="left" width="48" height="48" src="~assets/img/common/avatar/tx1.png" alt="">
+                      <div class="left ml-10" style="margin-top: 5px">
+                        <p style="color: #000">{{item.showkerPhone}}</p>
+                        <!--<p class="click-good">
+                          <Icon class="icon-heart" type="heart"></Icon>
+                          <span>赞（12000）</span>
+                        </p>-->
+                      </div>
+                    </div>
+                  </router-link>
+                </li>
+              </ul>
+            </div>
           </div>
           <div class="right-ctt right ml-10">
-            <ul :class="[leftTopSlider ? 'slider-top-active-right' : 'slider-top-default-right']"
-                @mouseover="clearLeftTopSliderFunc()" @mouseleave="leftTopSliderFunc()">
-              <li v-for="taskTopLeft in taskTopLeftList">
-                <router-link :to="{path:'/task-details', query:{q: encryptionId(taskTopLeft.task.id)}}"
-                             :title="taskTopLeft.task.taskName" class="block">
-                  <div class="left img-box">
-                    <img :src="taskTopLeft.task.taskMainImage + '!thum54'" alt="" width="54" height="54">
-                  </div>
-                  <div class="left text-box ml-10">
-                    <p>秀客{{taskTopLeft.showkerPhone}}免费领取了</p>
-                    <p>
-                      价值<span class="text ml-5">￥{{taskTopLeft.task.itemPrice / 100}}</span> 的宝贝
-                    </p>
-                    <span style="color: #999;">
+            <div style="overflow: hidden">
+              <ul :class="[leftTopSlider ? 'slider-top-active-right' : 'slider-top-default-right']"
+                  @mouseover="clearLeftTopSliderFunc()" @mouseleave="leftTopSliderFunc()">
+                <li v-for="taskTopLeft in taskTopLeftList">
+                  <router-link :to="{path:'/task-details', query:{q: encryptionId(taskTopLeft.task.id)}}"
+                               :title="taskTopLeft.task.taskName" class="block">
+                    <div class="left img-box">
+                      <img :src="taskTopLeft.task.taskMainImage + '!thum54'" alt="" width="54" height="54">
+                    </div>
+                    <div class="left text-box ml-10">
+                      <p>秀客{{taskTopLeft.showkerPhone}}免费领取了</p>
+                      <p>
+                        价值<span class="text ml-5">￥{{taskTopLeft.task.itemPrice / 100}}</span> 的宝贝
+                      </p>
+                      <span style="color: #999;">
                 {{
-                      (new Date() - taskTopLeft.createTime) / 1000 < 60 ? 1 :
-                        (new Date() - taskTopLeft.createTime) / 1000 / 60 < 60 ? parseInt((new Date() - taskTopLeft.createTime) / 1000 / 60) :
-                          (new Date() - taskTopLeft.createTime) / 1000 / 60 / 60 / 24 < 1 ? parseInt((new Date() - taskTopLeft.createTime) / 1000 / 60 / 60) :
-                            parseInt((new Date() - taskTopLeft.createTime) / 1000 / 60 / 60 / 24)
-                      }}
+                        (new Date() - taskTopLeft.createTime) / 1000 < 60 ? 1 :
+                          (new Date() - taskTopLeft.createTime) / 1000 / 60 < 60 ? parseInt((new Date() - taskTopLeft.createTime) / 1000 / 60) :
+                            (new Date() - taskTopLeft.createTime) / 1000 / 60 / 60 / 24 < 1 ? parseInt((new Date() - taskTopLeft.createTime) / 1000 / 60 / 60) :
+                              parseInt((new Date() - taskTopLeft.createTime) / 1000 / 60 / 60 / 24)
+                        }}
               </span>
-                    <span style="color: #999;"
-                          v-if="(new Date() -taskTopLeft.createTime)/1000/60 < 60 || (new Date() -taskTopLeft.createTime)/1000 < 60">
+                      <span style="color: #999;"
+                            v-if="(new Date() -taskTopLeft.createTime)/1000/60 < 60 || (new Date() -taskTopLeft.createTime)/1000 < 60">
                 分钟前
               </span>
-                    <span style="color: #999;"
-                          v-if="(new Date() -taskTopLeft.createTime)/1000/60/60/24 < 1 && (new Date() -taskTopLeft.createTime)/1000/60 >= 60">
+                      <span style="color: #999;"
+                            v-if="(new Date() -taskTopLeft.createTime)/1000/60/60/24 < 1 && (new Date() -taskTopLeft.createTime)/1000/60 >= 60">
                 小时前
               </span>
-                    <span style="color: #999;" v-if="(new Date() -taskTopLeft.createTime)/1000/60/60/24 >= 1">
+                      <span style="color: #999;" v-if="(new Date() -taskTopLeft.createTime)/1000/60/60/24 >= 1">
                 天前
               </span>
-                  </div>
-                </router-link>
-              </li>
-            </ul>
+                    </div>
+                  </router-link>
+                </li>
+              </ul>
+            </div>
           </div>
         </div>
       </div>
@@ -915,7 +920,17 @@
     .buyer-xiu {
       margin: 10px auto 10px auto;
       overflow: hidden;
+      .masterImgBox{
+        width: 200px;
+        height: 260px;
+        overflow: hidden;
+        display:table-cell;
+        vertical-align:middle;
+        text-align: center;
+        background-color:#F1F2F6;
+      }
       .left-ctt {
+        padding: 0 10px;
         background-color: #fff;
         width: 900px;
         height: 500px;
@@ -924,14 +939,13 @@
           padding: 15px 10px 10px 10px;
           border-bottom: 1px solid #F6F6F6;
           img{
-            height: 25px;
           }
         }
         ul{
           padding: 10px 10px;
           width: 10000px;
           li{
-            padding: 0 10px 10px 10px;
+            padding: 0px 20px 0 0 ;
             width: 220px;
             margin-bottom: 52px;
             .top-heart{
@@ -951,9 +965,9 @@
               position: absolute;
               width: 200px;
               top: 230px;
+              left: 0;
               height: 30px;
               line-height: 30px;
-              left: 10px;
               padding: 0px 3px;
               color: #fff;
               background-color: rgba(0,0,0,0.5);
@@ -994,12 +1008,16 @@
         background-color: #fff;
         width: 290px;
         height: 500px;
+        padding: 10px 0px;
         ul {
           padding: 15px 20px;
           li {
-            margin-bottom: 19px;
             overflow: hidden;
-            height: 62px;
+            height: 80px;
+            /*padding:  0 0 20px 0;*/
+            /*background-color: blue;*/
+            /*border-top: 1px solid blue;*/
+            /*border-bottom: 1px solid blue;*/
             div.text-box {
               p {
                 font-size: 14px;
@@ -1030,7 +1048,7 @@
           font-size: 16px;
         }
         ul {
-         padding: 10px 10px;
+         padding: 10px 0px;
           li {
             padding: 7px 0px;
             text-align: center;
@@ -1044,8 +1062,7 @@
             color: $mainColor;
           }
           li:hover{
-            background-color: $mainColor;
-            color: #fff;
+            background-color: #ffe4dc;
           }
         }
       }
@@ -1216,7 +1233,7 @@
   }
 
   .slider-top-active-right {
-    margin-top: -81px;
+    margin-top: -80px;
     animation: sliderTopRight 1s;
   }
 
@@ -1229,7 +1246,7 @@
       margin-top: 0;
     }
     100% {
-      margin-top: -81px;
+      margin-top: -80px;
     }
   }
 
