@@ -190,7 +190,7 @@
               <ul class="clear" :class="[leftSlider ? 'slider-top-active-left' : 'slider-top-default-left']"
                   @mouseover="clearLeftSliderFunc()" @mouseleave="leftSliderFunc()">
                 <li v-for="item in buyerShowList" class="content cursor-p left pos-rel" v-show="item.trialReportImages">
-                  <router-link :to="{path:'/trial-report',query:{q:encryptionId(item.showkerId),showReportDesc:true,id:encryptionId(item.id)}}">
+                  <router-link :to="{path:'/trial-report',query:{q:encryptionId(item.showkerId),showReportDesc:true,id:encryptionId(item.id)}}" :title="item.task.taskName">
                     <div>
                       <img :src="item.trialReportImages" alt="" width="200" height="260">
                     </div>
@@ -199,7 +199,7 @@
                        <span class="left" style="font-size: 14px">赞(12000)</span>
                      </p>-->
                     <p class="price clear">
-                      <span class="left">{{item.task.taskName.substring(0,12)}}</span>
+                      <span class="left ellipsis">{{item.task.taskName}}</span>
                       <span class="right pl-10">￥{{item.task.itemPrice/100}}</span>
                     </p>
                   </router-link>
@@ -974,6 +974,9 @@
               padding: 0px 3px;
               color: #fff;
               background-color: rgba(0,0,0,0.5);
+              span:first-child{
+                width: 128px;
+              }
               span:last-child{
                 color: #FFFF00;
               }
