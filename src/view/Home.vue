@@ -863,13 +863,13 @@
       },
       leftSliderFunc() {
         let self = this;
-       /* self.leftSliderTimer = setInterval(function () {
+        self.leftSliderTimer = setInterval(function () {
           if (self.leftSlider) {
             let part = self.buyerShowList.splice(0, 1);
             self.buyerShowList = self.buyerShowList.concat(part);
           }
           self.leftSlider = !self.leftSlider;
-        }, 1500)*/
+        }, 1500)
       },
       getHomeDisCountList(){
         let self = this;
