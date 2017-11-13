@@ -122,7 +122,7 @@
                   </div>
                   <div v-if="getUserInfoRole === 1&&getMemberLevel" class="fs-12">
                     <Icon type="social-vimeo" style="color: red"></Icon>
-                    <span>到期时间:{{Math.ceil((parseInt(getMemberDeadline) - parseInt((new Date().getTime()))) / 86400000)}}天</span>
+                    <span>到期时间:{{Math.floor((parseInt(getMemberDeadline) - parseInt((new Date().getTime()))) / 86400000)}}天</span>
                     <router-link to="/user/vip-member">续费</router-link>
                   </div>
                 </div>
@@ -191,8 +191,8 @@
                   @mouseover="clearLeftSliderFunc()" @mouseleave="leftSliderFunc()">
                 <li v-for="item in buyerShowList" class="content cursor-p left pos-rel" v-show="item.trialReportImages">
                   <router-link :to="{path:'/trial-report',query:{q:encryptionId(item.showkerId),showReportDesc:true,id:encryptionId(item.id)}}" :title="item.task.taskName">
-                    <div>
-                      <img :src="item.trialReportImages" alt="" width="200" height="260">
+                    <div style="height: 260px">
+                      <img :src="item.trialReportImages+'!thum200'" alt="" width="200" height="260">
                     </div>
                     <!-- <p class=" top-heart clear" >
                        <img class="left " style="vertical-align: middle " width="15" height="15" src="~assets/img/home/heart.png" alt="">
