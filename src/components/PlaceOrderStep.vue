@@ -20,7 +20,7 @@
       <p v-if="taskPlaceInfo.taskDetailObject.priceRangeMin > 0 || taskPlaceInfo.taskDetailObject.deliverAddress || checkText">第5步：<span class="minor-color" v-if="taskPlaceInfo.taskDetailObject.priceRangeMin > 0">搜索指定价格【<span>{{taskPlaceInfo.taskDetailObject.priceRangeMin / 100}}-{{taskPlaceInfo.taskDetailObject.priceRangeMax / 100}}</span>】，</span><span class="minor-color" v-if="taskPlaceInfo.taskDetailObject.deliverAddress">搜索指定发货地【<span>{{taskPlaceInfo.taskDetailObject.deliverAddress}}</span>】，</span><span class="minor-color" v-if="checkText">勾选【<span>{{checkText}}</span>】</span></p>
     </div>
     <div class="tao-code-place-step" v-if="taskPlaceInfo.taskType === 'tao_code'">
-      <p class="mb-10">淘口令【<span id="copyCode">{{taskPlaceInfo.taskDetailObject.taoCode}}</span>】<span id="copyBtn" class="ml-10">点击复制口令</span></p>
+      <p class="mb-10">淘口令【<span id="copyCode">{{taskPlaceInfo.taskDetailObject.taoCode}}</span>】<span id="copyBtn" class="ml-10" @click="sendMessage">点击复制口令</span></p>
       <p>入口说明：【<span>直接在手机端上复制淘口令，打开手淘会自动弹出宝贝链接</span>】</p>
     </div>
     <div class="tao-link-place-step" v-if="taskPlaceInfo.taskType === 'direct_access'">
@@ -122,10 +122,6 @@
         });
         clipboard.on('success', () => {
           _this.copySuccess++;
-        if ( _this.copySuccess>1){
-          _this.$Message.success("复制口令成功！");
-        }
-//          clipboard.destroy();
         });
         clipboard.on('error', () => {
           _this.$Message.error("复制口令失败！");
@@ -150,6 +146,11 @@
       },
     },
     methods: {
+      sendMessage(){
+        if ( this.copySuccess>0){
+          this.$Message.success("复制口令成功！");
+        }
+      },
       getTaskStatus(type) {
         return TaskErrorStatusList(type);
       },
