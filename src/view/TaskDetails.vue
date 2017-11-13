@@ -335,6 +335,8 @@
         applySuccess: false,
         totalElements: 1,
         commodityData: {
+            showkerTask: {},
+            taskApply: {},
             task:{
               itemCatalog: {
                 parentItemCatalog:{
@@ -604,13 +606,24 @@
       },
       getTaskDetails(){
         let self = this;
-        self.commodityData = {};
+        self.commodityData= {
+          showkerTask: {},
+          taskApply: {},
+          task:{
+            itemCatalog: {
+              parentItemCatalog:{
+
+              }
+            }
+          }
+        };
         api.getTaskDetails({taskId: decode(self.$route.query.q)}).then((res) => {
           if(res.status){
             self.commodityData = res.data;
             self.needBrowseCollectAddCart=res.data.task.needBrowseCollectAddCart;
             self.itemUrl = res.data.task.itemUrl;
             self.taskDetail= res.data.task;
+            self.$set(self.commodityData);
             if(self.commodityData.task.discountPrice){
               self.$store.commit({
                 type: 'TASK_CATEGORY_LIST',
