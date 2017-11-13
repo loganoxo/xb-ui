@@ -192,7 +192,7 @@
                 <li v-for="item in buyerShowList" class="content cursor-p left pos-rel" v-show="item.trialReportImages">
                   <router-link :to="{path:'/trial-report',query:{q:encryptionId(item.showkerId),showReportDesc:true,id:encryptionId(item.id)}}" :title="item.task.taskName">
                     <div style="height: 260px">
-                      <img v-lazy="item.trialReportImages+'!thum200'" alt="" width="200" height="260">
+                      <img :src="item.trialReportImages+'!thum200'" alt="" width="200" height="260">
                     </div>
                     <!-- <p class=" top-heart clear" >
                        <img class="left " style="vertical-align: middle " width="15" height="15" src="~assets/img/home/heart.png" alt="">
