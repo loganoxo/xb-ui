@@ -23,7 +23,8 @@
           </span>
           <span v-if="getUserInfoRole === 1&&getMemberLevel">
             <Icon type="social-vimeo" style="color: red"></Icon>
-            <span>到期时间:{{Math.floor((parseInt(getMemberDeadline) -parseInt( (new Date().getTime())))/86400000)}}天</span>
+            会员版本：{{levelValue+'版'}}
+            <span class="ml-10">到期时间:{{Math.floor((parseInt(getMemberDeadline) -parseInt( (new Date().getTime())))/86400000)}}天</span>
             <router-link to="/user/vip-member" >续费</router-link>
           </span>
           <span>可用金额：{{getUserBalance}} 元 </span>
@@ -193,12 +194,14 @@
         trialCount: {},
         homeCommodityList: [],
         lastTime:null,
+        levelValue:'',
       }
     },
     created() {
       this.getHomeTaskList();
       this.personalTrialCount();
       this.$store.dispatch('getUserInformation');
+      this.getUserMemberLevelInfo();
     },
     computed: {
       getUserInfoRole() {
@@ -219,6 +222,21 @@
 
     },
     methods: {
+      getUserMemberLevelInfo() {
+        let _this = this;
+        if (!_this.getMemberLevel) {
+          return;
+        }
+        api.getUserMemberLevelInfo({
+          level: _this.getMemberLevel
+        }).then(res => {
+          if (res.status) {
+            _this.levelValue = res.data.validDaysDesc;
+          } else {
+            _this.$Message.error(res.msg);
+          }
+        });
+      },
       encryptionId(id){
         return encryption(id)
       },
