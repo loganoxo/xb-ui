@@ -210,7 +210,7 @@
                 placeholder="请输入宝贝评价"></iInput>
       </div>
       <div class="experience-img mt-22">
-        <p class="mb-10">买家秀图片：（图片支持jpg、jpeg、png、gif、bmp格式，大小不超过2M）</p>
+        <p class="mb-10">买家秀图片：（图片支持jpg、jpeg、png、gif、bmp格式，大小不超过10M）</p>
         <Upload
           ref="upload"
           :show-upload-list="false"
@@ -218,7 +218,7 @@
           :on-success="uploadImgSuccess"
           :on-remove="removeImage"
           :format="['jpg','jpeg','png','gif','bmp']"
-          :max-size="2000"
+          :max-size="10240"
           name="report"
           :uploadLength="5"
           :on-format-error="handleFormatError"
