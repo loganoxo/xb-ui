@@ -213,7 +213,9 @@
             _this.memberLevelInfo = res.data;
             let timeRemainings = _this.getMemberDeadline - new Date().getTime();
             _this.timeRemaining = Math.floor(timeRemainings / (24 * 60 * 60 * 1000));
-            _this.moneyRemaining = Math.floor((parseInt((_this.memberLevelInfo.finalFee)) / parseInt(_this.timeRemaining)) * parseInt(_this.memberLevelInfo.validDays));
+            console.log( _this.timeRemaining);
+            console.log(_this.memberLevelInfo.validDays);
+            _this.moneyRemaining = Math.floor((parseInt(_this.memberLevelInfo.finalFee) /parseInt(_this.memberLevelInfo.validDays))*parseInt(_this.timeRemaining) );
             _this.getUserMemberAll();
           } else {
             _this.$Message.error(res.msg);
@@ -301,7 +303,7 @@
         }
         .member-price.active {
           background-color: #F6E363;
-          border: 2px solid #FE6E42;
+          border: 1px solid #FE6E42;
           color: #FC803E;
         }
         .member-time {

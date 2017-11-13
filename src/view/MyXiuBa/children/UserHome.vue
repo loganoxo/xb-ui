@@ -23,7 +23,7 @@
           </span>
           <span v-if="getUserInfoRole === 1&&getMemberLevel">
             <Icon type="social-vimeo" style="color: red"></Icon>
-            <span>到期时间:{{Math.ceil((parseInt(getMemberDeadline) -parseInt( (new Date().getTime())))/86400000)}}天</span>
+            <span>到期时间:{{Math.floor((parseInt(getMemberDeadline) -parseInt( (new Date().getTime())))/86400000)}}天</span>
             <router-link to="/user/vip-member" >续费</router-link>
           </span>
           <span>可用金额：{{getUserBalance}} 元 </span>
