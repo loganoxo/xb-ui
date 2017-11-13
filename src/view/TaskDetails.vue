@@ -539,6 +539,10 @@
           }else {
             if(res.statusCode === 'alitm_null'){
               self.alitNumSuccess = true;
+            }else {
+              self.$Modal.warning({
+                content: '<p class="fs-14">' + res.msg + '</span>',
+              });
             }
           }
         })
