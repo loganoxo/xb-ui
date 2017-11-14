@@ -4,10 +4,6 @@
       <div class="container">
         <div class="home-section">
           <div class="left-ctt left ">
-            <p class="left-ctt-top text-ct">
-              <Icon type="navicon" style="font-size: 20px;margin-top: 2px"></Icon>
-              <span class="ml-5">活动分类</span>
-            </p>
             <ul>
               <li  v-if="nav.name != '美食/特产' && nav.name != '其它试用'" :class="[$store.state.TaskCategoryActive == nav.id ? 'active' : '']" @click="selTaskCategoryActiveFunc(nav)" v-for="nav in navList" >
                 <img width="16" height="16"  :src="nvaImgSrc[nav.id]" alt="">
@@ -462,6 +458,10 @@
       if (getStorage('weChartPop') == 1 && self.$store.state.userInfo.role == 0 && !getStorage('setWeChartshower' + self.$store.state.userInfo.phone)) {
         self.weChartShowkerAlertFunc();
       }
+      self.$store.commit({
+        type: 'SET_SHOW_TOP_CATEGORY_RES',
+        result: false,
+      });
     },
     name: 'home',
     components: {
@@ -729,6 +729,10 @@
         type: 'SET_WECHART_RES',
         result: false,
       });
+      self.$store.commit({
+        type: 'SET_SHOW_TOP_CATEGORY_RES',
+        result: true,
+      });
     },
     computed: {
       isLogin() {
@@ -786,18 +790,6 @@
           info: 'all'
         });
         self.$router.push({ 'path': '/task-category', 'query': {'searchKey': 'all'}});
-      },
-      selTaskCategoryActiveFunc(nav){
-        let self = this;
-        self.$router.push({ 'path': '/task-category', 'query': {'cate': nav.id}});
-        self.$store.commit({
-          type: 'SET_DISCOUNT_TASK_CATEGORY',
-          result: false
-        });
-        self.$store.commit({
-          type: 'TASK_CATEGORY_LIST',
-          info: 'all',
-        });
       },
       getNavList(){
         let self = this;
@@ -1131,7 +1123,7 @@
         background-color: #fff;
         width: 290px;
         height: 500px;
-        padding: 10px 0px;
+        padding: 10px 0;
         ul {
           padding: 15px 20px;
           li {
@@ -1171,12 +1163,12 @@
           font-size: 16px;
         }
         ul {
-         padding: 10px 0px;
           li {
-            padding: 7px 0px;
+            padding: 7px 0;
             text-align: center;
             font-size: 14px;
             cursor: pointer;
+            line-height: 30px;
             img{
               vertical-align: middle;
             }

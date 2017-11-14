@@ -45,12 +45,35 @@
     </div>
     <div class="home-nav">
       <div class="container">
-        <a :class="[$store.state.TaskCategoryActive == 'home' ? 'active' : '']" @click="selTaskCategoryHome">首页</a>
-        <a :class="[$store.state.TaskCategoryActive == 'all' ? 'active' : '']" @click="selTaskCategoryAllFunc" >免费领</a>
-        <a :class="[$store.state.TaskCategoryActive == 'discount' ? 'active' : '']" @click="selDisCountTaskCategoryAllFunc">白菜价</a>
-        <a  @click="buyerShowPop = true">买家秀</a>
-        <!--<a :class="[$store.state.TaskCategoryActive == 'all' ? 'active' : '']" @click="selTaskCategoryAllFunc">全部活动</a>-->
-        <!--<a v-if="nav.name != '美食/特产' && nav.name != '其它试用'" :class="[$store.state.TaskCategoryActive == nav.id ? 'active' : '']" @click="selTaskCategoryActiveFunc(nav)" v-for="nav in navList" >{{nav.name}}</a>-->
+        <div class="top-category">
+          <p class=" text-ct">
+            <Icon type="navicon" style="font-size: 20px;margin-top: 2px"></Icon>
+            <span class="ml-5">活动分类</span>
+          </p>
+          <ul class="top-category-list" v-if="$store.state.showTopCategoryRes">
+            <li  v-if="nav.name != '美食/特产' && nav.name != '其它试用'" :class="[$store.state.TaskCategoryActive == nav.id ? 'active' : '']" @click="selTaskCategoryActiveFunc(nav)" v-for="nav in navList" >
+              <img width="16" height="16"  :src="nvaImgSrc[nav.id]" alt="">
+              <span class="ml-5">{{nav.name}}</span>
+            </li>
+            <li :class="[$store.state.TaskCategoryActive == 'all' ? 'active' : '']" @click="selTaskCategoryAllFunc">
+              <img width="16" height="16"  src="/static/img/nav-picture/home_26.png" alt="">
+              <span class="ml-5">全部活动</span>
+            </li>
+          </ul>
+        </div>
+        <div class="home-nav-list">
+          <a :class="[$store.state.TaskCategoryActive == 'home' ? 'active' : '']" @click="selTaskCategoryHome">首页</a>
+          <a :class="[$store.state.TaskCategoryActive == 'all' ? 'active' : '']" @click="selTaskCategoryAllFunc" >免费领</a>
+          <a :class="[$store.state.TaskCategoryActive == 'discount' ? 'active' : '']" @click="selDisCountTaskCategoryAllFunc">
+            <i>
+              <img src="/static/img/common/new.png" alt="">
+            </i>
+            白菜价
+          </a>
+          <a  @click="buyerShowPop = true">买家秀</a>
+          <!--<a :class="[$store.state.TaskCategoryActive == 'all' ? 'active' : '']" @click="selTaskCategoryAllFunc">全部活动</a>-->
+          <!--<a v-if="nav.name != '美食/特产' && nav.name != '其它试用'" :class="[$store.state.TaskCategoryActive == nav.id ? 'active' : '']" @click="selTaskCategoryActiveFunc(nav)" v-for="nav in navList" >{{nav.name}}</a>-->
+        </div>
       </div>
     </div>
     <Modal v-model="buyerShowPop" width="300" height="400">
@@ -72,6 +95,7 @@
   import api from '@/config/apiConfig'
   import Modal from 'iview/src/components/modal'
   import Button from 'iview/src/components/button'
+  import Icon from 'iview/src/components/icon'
   export default {
     name: 'home',
     components: {
@@ -79,12 +103,25 @@
       api: api,
       Modal:Modal,
       iButton:Button,
+      Icon: Icon
     },
     data () {
       return {
-          searchKey: '',
-          navList: [],
-        buyerShowPop:false
+        searchKey: '',
+        navList: [],
+        buyerShowPop:false,
+        nvaImgSrc:{
+          100: '/static/img/nav-picture/home_07.png',
+          200: '/static/img/nav-picture/home_09.png',
+          300: '/static/img/nav-picture/home_11.png',
+          400: '/static/img/nav-picture/home_13.png',
+          500: '/static/img/nav-picture/home_15.png',
+          600: '/static/img/nav-picture/home_22.png',
+          700: '/static/img/nav-picture/home_23.png',
+          800: '/static/img/nav-picture/home_24.png',
+          900: '/static/img/nav-picture/home_25.png',
+          1000: '/static/img/nav-picture/home_26.png',
+        },
       }
     },
     created(){
@@ -135,8 +172,12 @@
         let self = this;
         self.$router.push({ 'path': '/task-category', 'query': {'cate': nav.id}});
         self.$store.commit({
+          type: 'SET_DISCOUNT_TASK_CATEGORY',
+          result: false
+        });
+        self.$store.commit({
           type: 'TASK_CATEGORY_LIST',
-          info: nav.id
+          info: 'all',
         });
       },
       getNavList(){
@@ -205,7 +246,6 @@
           text-align: center;
           font-size: 16px;
         }
-
         p.link-text {
           margin-top: 5px;
           a {
@@ -280,8 +320,50 @@
     height: 42px;
     clear: both;
     background-color: $mainColor;
-    > div {
+    .top-category{
+      position: relative;
+      width: 190px;
+      float: left;
+      background-color: #FF3600;
+      &:hover .top-category-list{
+        display: block;
+      }
+      > p {
+        height: 42px;
+        line-height: 42px;
+        font-size: 16px;
+        color: #fff;
+        font-weight: bold;
+        i{
+          font-size: 20px;
+          vertical-align: -1px;
+        }
+      }
+      .top-category-list{
+        position: absolute;
+        background-color: #fff;
+        width: 190px;
+        z-index: 3;
+        border: 2px solid #ff6633;
+        border-top: none;
+        height: 411px;
+        display: none;
+        li{
+          padding: 7px 0;
+          text-align: center;
+          font-size: 14px;
+          cursor: pointer;
+          line-height: 31px;
+          &:hover{
+            background-color: #ffe4dc;
+          }
+        }
+      }
+    }
+    div.home-nav-list {
       background-color: $mainColor;
+      margin-left: 5px;
+      float: left;
       a {
         float: left;
         width: 100px;
@@ -290,12 +372,22 @@
         height: 42px;
         line-height: 42px;
         color: #fff;
+        position: relative;
+        i{
+          position: absolute;
+          top: -7px;
+          right: -6px;
+          z-index: 5;
+          img{
+            display: block;
+          }
+        }
         &:hover{
-          background-color: #ff3300;
+          background-color: #ff9966;
         }
       }
       a.active{
-        background-color: #ff3300;
+        background-color: #ff9966;
       }
     }
   }

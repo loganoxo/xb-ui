@@ -196,6 +196,10 @@
         </div>
       </div>
     </div>
+    <router-link to="/user/task-release" class="baicaijia-dialog" v-show="baicaijiaDialog && $store.state.disCountTaskCategory && getRole == 1 ">
+      <b @click="baicaijiaDialog=false;">&times;</b>
+    </router-link>
+
   </div>
 
 </template>
@@ -234,6 +238,7 @@
     data () {
       return {
         showAll: false,
+        baicaijiaDialog: true,
         parentItemCatalog: {
           name: '',
           id: ''
@@ -729,6 +734,21 @@
         margin-bottom: 20px;
         text-align: center;
       }
+    }
+  }
+  .baicaijia-dialog{
+    position: fixed;
+    top: 25%;
+    left: 5%;
+    width: 136px;
+    height: 180px;
+    background: url("/static/img/dialog/baicaijia_dialog.png") no-repeat;
+    b{
+      font-size: 20px;
+      color: rgb(255, 255, 255);
+      float: right;
+      margin: 1px 8px 0 0;
+      font-weight: normal;
     }
   }
 

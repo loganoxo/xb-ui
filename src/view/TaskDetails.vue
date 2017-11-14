@@ -135,7 +135,9 @@
                 </div>
               </div>
 
-              <div class="text-ct mt-20" v-if="!commodityData.cannotShowItemDescriptionOfQualification" v-html="commodityData.task.itemDescription"></div>
+              <div class="text-ct mt-20"   v-show="!commodityData.cannotShowItemDescriptionOfQualification" >
+                <div v-html="commodityData.task.itemDescription"></div>
+              </div>
             </div>
             <div v-show="graphicInfoSelClass == 'report'" class="graphic-info-report">
               <ul v-if="detailsShowkerList.length > 0">
@@ -465,8 +467,10 @@
         return encryption(id);
       },
       refreshPage(){
+        let self = this;
         this.applySuccess = false;
-        this.getTaskDetails();
+        self.getTaskDetails();
+//        window.location.reload();
       },
       closeMyPop(){
         this.showkerApplyBefore = false;
@@ -970,5 +974,4 @@
     }
 
   }
-
 </style>

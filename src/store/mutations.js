@@ -84,5 +84,7 @@ export default {
     state.disCountTaskCategory = result;
     setStorage('disCountTaskCategory', result);
   },
-
+  [types.SET_SHOW_TOP_CATEGORY_RES](state,{result}) {
+    state.showTopCategoryRes = result;
+  },
 }
