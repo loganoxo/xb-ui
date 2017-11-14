@@ -1162,11 +1162,13 @@
     }
     .home-section {
       margin: 10px auto 0 auto;
-      overflow: hidden;
+      /*overflow: hidden;*/
       .left-ctt {
         background-color: #fff;
         width: 190px;
-        height: 400px;
+        height: 410px;
+        margin-top: -10px;
+        padding-top: 10px;
         .left-ctt-top{
           height: 50px;
           line-height: 50px;
