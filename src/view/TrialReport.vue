@@ -77,7 +77,7 @@
               </p>
               <p class="fs-14 cl000 mb-40">{{showkerReportDesc.trialReportText}}</p>
               <p class="fs-16">买家秀图片：</p>
-              <div style="margin: auto; width: 700px; border: 1px solid #F1EEEB" class="task-list-img-box">
+              <div class="task-list-img-box">
                 <Carousel v-model="value3"
                           :autoplay="setting.autoplay"
                           :autoplay-speed="setting.autoplaySpeed"
@@ -355,15 +355,17 @@
           font-size: 14px;
         }
       }
-      .task-list-img-box{
-        .task-list-img{
-          a{
-            display: inline-block;
-            margin-right: 50px;
-          }
-        }
+    }
+  }
+  .task-list-img-box{
+    margin: auto;
+    width: 700px;
+    border: 1px solid #F1EEEB;
+    .task-list-img{
+      a{
+        display: inline-block;
+        margin-right: 50px;
       }
-
     }
   }
   .xiuba-zan{
@@ -377,6 +379,10 @@
     background-color: $mainColor;
     margin: 4px auto;
     padding-top: 4px;
+    @include transition;
+    &:hover{
+      background-color: darken($mainColor, 10%);
+    }
   }
   .graphic-info-report{
     width: 1000px;

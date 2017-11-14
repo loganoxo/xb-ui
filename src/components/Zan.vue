@@ -2,7 +2,8 @@
   <div class="VueStar-ground">
     <div class="VueStar-icon" @click="zanClick">
       <Icon :type="iconType" :size="fontSize + 4" :color="color"></Icon>
-      <span class="zan-number ml-5" :style="{color:color,fontSize:fontSize + 'px'}">赞(520)</span>
+<!--      <Icon type="thumbsup" :size="iconFontSize + 4" :color="iconColor"></Icon>-->
+      <span class="zan-number ml-5" :style="{color: color,fontSize: fontSize + 'px'}">赞(520)</span>
     </div>
   </div>
 </template>
@@ -18,11 +19,19 @@
     props: {
       iconType: {
         type: String,
-        default: 'ios-heart-outline'
+        default: 'ios-heart'
+      },
+      iconColor: {
+        type: String,
+        default: '#fff'
       },
       color: {
         type: String,
         default: '#fff'
+      },
+      iconFontSize: {
+        type: Number,
+        default: 22
       },
       fontSize: {
         type: Number,
