@@ -296,7 +296,7 @@
         const fileList = this.fileList;
         let target;
         fileList.every(item => {
-          target = file.name === item.name ? item : null;
+          target = file.uid === item.uid ? item : null;
           return !target;
         });
         return target;

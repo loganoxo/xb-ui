@@ -548,6 +548,13 @@ export default {
   },
 
   /**
+   * 获取买家秀列表
+   */
+  getBuyerShowList() {
+    return fetch("/api/task/showker/index/report.json")
+  },
+
+  /**
    * 商家个人主页活动提醒
    */
   sellerPersonalTrialCount() {
@@ -706,6 +713,12 @@ export default {
    */
   getHomeHistoryList() {
     return fetch('/api/task/index/history.json')
+  },
+  /**
+   * PC首页历史活动接口
+   */
+  getHomeDisCountList() {
+    return fetch('/api/task/index/discount.json')
   },
 
   /**

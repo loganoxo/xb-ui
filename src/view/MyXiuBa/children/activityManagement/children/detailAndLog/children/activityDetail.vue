@@ -103,7 +103,7 @@
           <div class="baby-img ml-45 mt-20">
             <span class="required left mt-20">活动主图：</span>
             <div class="demo-upload-list">
-              <img :src="mainDefaultList" alt="">
+              <img :src="mainDefaultList + '!thum54'" alt="">
             </div>
           </div>
           <div class="baby-url ml-45 mt-20">
@@ -127,6 +127,32 @@
                     style="width: 120px"></iInput>
             <span>元</span>
             <p class="size-color pl-60 mt-8">活动活动期间，商家不允许修改下单页商品信息，经核查属实，本平台有权将活动担保金返还已获得资格的秀客，商家账号按相应规则处罚</p>
+          </div>
+          <div class="discount ml-40 mt-20">
+            <div class="clear">
+              <span class="required mt-8 left">折扣/活动：</span>
+              <div class="discount-btn left ml-5 discount-charge" :class="{isSelect:taskRelease.discountType === 'discount_0'}">
+                <span> 免费试用</span>
+                <span>（所有宝贝可选）</span>
+                <span class="is-select-gou" v-show="taskRelease.discountType === 'discount_0'"></span>
+              </div>
+              <div class="discount-btn left ml-10 discount-9-9 disabled" :class="{isSelect:taskRelease.discountType === 'discount_9_9'}">
+                <span> 9.9试用</span>
+                <span>（50元以上宝贝可选）</span>
+                <span class="is-select-gou" v-show="taskRelease.discountType === 'discount_9_9'"></span>
+              </div>
+              <div class="discount-btn left ml-10 discount-49-9 disabled" :class="{isSelect:taskRelease.discountType === 'discount_49_9'}">
+                <span> 49.9试用</span>
+                <span>（150元以上宝贝可选）</span>
+                <span class="is-select-gou" v-show="taskRelease.discountType === 'discount_49_9'"></span>
+              </div>
+              <div class="discount-btn left ml-10 discount-999 disabled" :class="{isSelect:taskRelease.discountType === 'discount_99_9'}">
+                <span> 99.9试用</span>
+                <span>（250元以上宝贝可选）</span>
+                <span class="is-select-gou" v-show="taskRelease.discountType === 'discount_99_9'"></span>
+              </div>
+            </div>
+            <p class="sizeColor pl-60 mt-20" v-show="taskRelease.itemPrice">秀客以<span class="main-color">{{taskRelease.itemPrice}}</span>元价格在淘宝上购买，活动成功后返款<span class="main-color">{{(taskRelease.itemPrice - discountDisabled[taskRelease.discountType].returnPrice).toFixed(2)}}</span>元给秀客！</p>
           </div>
           <div class="baby-pinkage ml-45 mt-20">
             <span class="required left">是否包邮：</span>
@@ -165,7 +191,7 @@
             <div class="baby-main-img ml-40 mt-20">
               <span class="required left mr-5 mt-20">宝贝主图：</span>
               <div class="demo-upload-list">
-                <img :src="pcDefaultList" alt="">
+                <img :src="pcDefaultList + '!thum54'" alt="">
               </div>
             </div>
             <div class="search-keyword mt-20 ml-28">
@@ -257,7 +283,7 @@
             <div class="baby-main-img ml-40 mt-20">
               <span class="required left mr-5 mt-20">宝贝主图：</span>
               <div class="demo-upload-list">
-                <img :src="appDefaultList" alt="">
+                <img :src="appDefaultList + '!thum54'" alt="">
               </div>
             </div>
             <div class="search-keyword mt-20 ml-28">
@@ -451,6 +477,7 @@
           storeName: null,
           taskCount: null,
           itemPrice: null,
+          discountType: 'discount_0',
           pinkage: "true",
           paymentMethod: "all",
           itemDescription: '',
@@ -458,6 +485,28 @@
           taskDetail: {}
         },
         editTaskId: null,
+        discountDisabled: {
+          discount_0: {
+            disabled: false,
+            buyPrice: 0,
+            returnPrice: 0,
+          },
+          discount_9_9: {
+            disabled: true,
+            buyPrice: 50,
+            returnPrice: 9.9,
+          },
+          discount_49_9: {
+            disabled: true,
+            buyPrice: 150,
+            returnPrice: 49.9,
+          },
+          discount_99_9: {
+            disabled: true,
+            buyPrice: 250,
+            returnPrice: 99.9,
+          }
+        },
       }
     },
     mounted() {
@@ -487,11 +536,19 @@
         }
       },
       /**
-       * 计算单品试用担保金
+       * 计算商家需要存入的担保金（当用户勾选折扣试用的时候：宝贝单价 - 对应的折扣价格）
+       * @return {number}
+       */
+      newItemPrice: function () {
+        return this.taskRelease.discountType === 'discount_0' ? this.taskRelease.itemPrice : this.taskRelease.itemPrice - this.discountDisabled[this.taskRelease.discountType].returnPrice;
+      },
+
+      /**
+       * 计算最终商家发布单品活动担保金（商家需要存入的担保金 + 是否包邮）
        * @return {number}
        */
       oneBond: function () {
-        return this.taskRelease.pinkage === 'true' ? (this.taskRelease.itemPrice * 100).toFixed(2) / 100 : ((this.taskRelease.itemPrice * 100).toFixed(2) / 100 + 10).toFixed(2);
+        return this.taskRelease.pinkage === 'true' ? (this.newItemPrice * 100).toFixed(2) / 100 : ((this.newItemPrice * 100).toFixed(2) / 100 + 10).toFixed(2);
       },
       /**
        * 计算实际单品推广费用（单品推广费最高上限3元）
@@ -760,6 +817,67 @@
         width: 100%;
         height: 100%;
       }
+    }
+  }
+  .discount-btn{
+    display: inline-block;
+    width: 140px;
+    height: 40px;
+    text-align: center;
+    padding: 1px 0;
+    color: #fff;
+    cursor: pointer;
+    position: relative;
+    span{
+      display: block;
+      &:first-child{
+        font-weight: bold;
+      }
+    }
+    &.discount-charge{
+      background-color: #00CD36;
+      border:2px solid #00CD36;
+      &:hover{
+        border-color:#000;
+      }
+    }
+    &.discount-9-9{
+      background-color: #FF9900;
+      border:2px solid #FF9900;
+      &:hover{
+        border-color:#000;
+      }
+    }
+    &.discount-49-9{
+      background-color: #CD3636;
+      border:2px solid #CD3636;
+      &:hover{
+        border-color:#000;
+      }
+    }
+    &.discount-999{
+      background-color: #FF3699;
+      border:2px solid #FF3699;
+      &:hover{
+        border-color:#000;
+      }
+    }
+    &.isSelect{
+      border-color:#000;
+    }
+    &.disabled{
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+    .is-select-gou{
+      position: absolute;
+      display: inline-block;
+      top: 28px;
+      right: -2px;
+      width: 11px;
+      height: 10px;
+      background-image: url("~assets/img/common/select-gou.png");
+      background-repeat: no-repeat;
     }
   }
 

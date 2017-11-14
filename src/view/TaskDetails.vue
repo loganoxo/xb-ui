@@ -6,8 +6,11 @@
           <Breadcrumb >
             <Breadcrumb-item>当前位置：</Breadcrumb-item>
             <Breadcrumb-item>秀吧</Breadcrumb-item>
-            <Breadcrumb-item>秀品专区</Breadcrumb-item>
+            <Breadcrumb-item v-if="commodityData.task.discountPrice">{{$store.state.TaskCategoryActiveList[$store.state.TaskCategoryActive].text}}</Breadcrumb-item>
+            <Breadcrumb-item v-if="!commodityData.task.discountPrice">免费领</Breadcrumb-item>
             <Breadcrumb-item>{{commodityData.task.itemCatalog.parentItemCatalog.name}}</Breadcrumb-item>
+            <Breadcrumb-item>{{commodityData.task.itemCatalog.name}}</Breadcrumb-item>
+            <Breadcrumb-item v-if="commodityData.task.discountPrice">{{parseFloat(commodityData.task.discountPrice/100)}}试用</Breadcrumb-item>
           </Breadcrumb>
         </div>
       </div>
@@ -21,9 +24,10 @@
             <p class="fs-14">
               活动类型：
               <span class="fs-18">{{commodityData.task.taskTypeDesc}}</span>
+              <span v-if="commodityData.task.discountPrice" class="fs-14" style="color: #fff; padding: 2px 5px;" :style="{backgroundColor: $store.state.discountPriceType[parseFloat(commodityData.task.discountPrice/100)].backgroundColor}">{{parseFloat(commodityData.task.discountPrice/100)}}试用</span>
             </p>
             <p class="fs-14">
-              单品活动担保金：<span class="fs-18">{{(commodityData.task.perMarginNeed/100).toFixed(2)}}</span>元
+              宝贝单价：<span class="fs-18">{{(commodityData.task.itemPrice/100).toFixed(2)}}</span>元
               &nbsp;&nbsp;&nbsp;&nbsp;
               活动份数：<span class="fs-18"> {{commodityData.task.taskCount}} </span>份
             </p>
@@ -38,7 +42,6 @@
             <div style="margin: 0; line-height: 40px; font-size: 14px;">
               好东西要分享：<div v-html="copyHtml" style="display: inline-block;" ></div>
             </div>
-
             <div  class="task-details-btn-box">
               <iButton v-show="applyBtnShow === 'taskEnd'" disabled size="large" class="fs-16 default-btn" long style="width: 150px;" >已结束</iButton>
               <div >
@@ -77,7 +80,7 @@
               </li>
               <li>
                 <span>3</span>
-                <em> 按照商家指定的方式，以{{(commodityData.task.perMarginNeed/100).toFixed(2)}}的价格购买本宝贝</em>
+                <em> 按照商家指定的方式，以{{(commodityData.task.itemPrice/100).toFixed(2)}}的价格购买本宝贝</em>
                 <i class="ivu-icon ivu-icon-chevron-right" ></i>
               </li>
               <li>
@@ -87,7 +90,8 @@
               </li>
               <li>
                 <span>5</span>
-                <em> 商家返还{{(commodityData.task.perMarginNeed/100).toFixed(2)}}元到您的平台账户（可提现），圆满结束 </em>
+                <em v-if="!commodityData.task.discountPrice"> 商家返还{{(parseInt(commodityData.task.itemPrice)/100).toFixed(2)}}元到您的平台账户（可提现），圆满结束 </em>
+                <em v-if="commodityData.task.discountPrice"> 商家返还{{((parseInt(commodityData.task.itemPrice) - parseInt(commodityData.task.discountPrice))/100).toFixed(2)}}元到您的平台账户（可提现），圆满结束 </em>
               </li>
             </ul>
         </div>
@@ -102,11 +106,10 @@
           </div>
           <div class="graphic-info-ctt">
             <div v-show="graphicInfoSelClass == 'activity'" class="graphic-info-details" >
-              <div v-if="commodityData.showkerTask" class="bgF1F1F1 pd-20 task-step-explain mb-20">
-                <place-order-step :taskPlaceInfo="taskPlaceInfo" :currentGenerationEndTime="showkerTask.currentGenerationEndTime"></place-order-step>
+              <div v-if="commodityData.showkerTask" class="bgF1F1F1 pd-20 task-step-explain mb-20 mt-20">
+                <place-order-step :taskPlaceInfo="taskPlaceInfo" :currentGenerationEndTime="showkerTask.currentGenerationEndTime" :isShowPrecautions="false"></place-order-step>
               </div>
-              <div class="text-ct" v-if="!commodityData.cannotShowItemDescriptionOfQualification" v-html="commodityData.task.itemDescription"></div>
-              <div class="fs-18 text-ct" v-else>
+              <div class="fs-18 text-ct">
                 <div class="precautions mb-20 pt-10">
                   <p>注意事项：</p>
                   <p class="mt-10">
@@ -114,21 +117,25 @@
                     <span v-if="commodityData.task.paymentMethod === 'all'">无所谓（可以使用花呗、信用卡等付款，也可以不用）</span>
                     <span v-else>禁止使用花呗、信用卡付款</span>
                   </p>
-                  <p class="mt-10" v-if="commodityData.task.remark">
+                  <p class="mt-10 mr-10" v-if="commodityData.task.remark">
                     <span>商家备注：</span>
                     <span>{{commodityData.task.remark}}</span>
                   </p>
                 </div>
-                <Icon type="information-circled" color="#FF6633" size="30" style="vertical-align: sub;"></Icon> 获得资格后才能看到活动品信息哦~
-                <div v-if="applyBtnShow === 'buyerTasking'" style="display: inline-block">
-                  <iButton v-show="!commodityData.taskApply" :disabled="taskApplyLoading" style="width: 100px;" size="large" class="fs-16 default-btn ivu-btn-small" type="error" @click="applyForTrialFunc">申请活动</iButton>
-                  <iButton v-show="commodityData.taskApply" disabled size="large" class="fs-16 default-btn" long >已申请</iButton>
+                <div v-if="commodityData.cannotShowItemDescriptionOfQualification">
+                  <Icon type="information-circled" color="#FF6633" size="30" style="vertical-align: sub;"></Icon> 获得资格后才能看到活动品信息哦~
+                  <div v-if="applyBtnShow === 'buyerTasking'" class="inline-block">
+                    <iButton v-show="!commodityData.taskApply" :disabled="taskApplyLoading" style="width: 100px;" size="large" class="fs-16 default-btn ivu-btn-small" type="error" @click="applyForTrialFunc">申请活动</iButton>
+                    <iButton v-show="commodityData.taskApply" disabled size="large" class="fs-16 default-btn" long >已申请</iButton>
+                  </div>
+                  <a v-if="applyBtnShow === 'noLogin'"   class="ivu-btn ivu-btn-error ivu-btn-small" @click="selectLogin = true" style="width: 100px;">
+                    申请活动
+                  </a>
+                  <iButton v-show="timeEndShow" disabled size="small" class="fs-16 default-btn" long style="width: 100px;" >已结束</iButton>
                 </div>
-                <a v-if="applyBtnShow === 'noLogin'"   class="ivu-btn ivu-btn-error ivu-btn-small" @click="selectLogin = true" style="width: 100px;">
-                  申请活动
-                </a>
-                <iButton v-show="timeEndShow" disabled size="small" class="fs-16 default-btn" long style="width: 100px;" >已结束</iButton>
               </div>
+
+              <div class="text-ct mt-20" v-if="!commodityData.cannotShowItemDescriptionOfQualification" v-html="commodityData.task.itemDescription"></div>
             </div>
             <div v-show="graphicInfoSelClass == 'report'" class="graphic-info-report">
               <ul v-if="detailsShowkerList.length > 0">
@@ -328,6 +335,8 @@
         applySuccess: false,
         totalElements: 1,
         commodityData: {
+            showkerTask: {},
+            taskApply: {},
             task:{
               itemCatalog: {
                 parentItemCatalog:{
@@ -405,12 +414,36 @@
     created(){
       let self = this;
       self.copyValue = window.location.href;
+      let discount = self.$route.query.discount;
+      if(getStorage('disCountTaskCategory')){
+        self.$store.commit({
+          type: 'SET_DISCOUNT_TASK_CATEGORY',
+          result: getStorage('disCountTaskCategory'),
+        });
+      }
+      if(discount){
+        self.$store.commit({
+          type: 'SET_DISCOUNT_TASK_CATEGORY',
+          result: true
+        });
+        self.$store.commit({
+          type: 'TASK_CATEGORY_LIST',
+          info: 'discount'
+        });
+      }else {
+        self.$store.commit({
+          type: 'SET_DISCOUNT_TASK_CATEGORY',
+          result: false
+        });
+        self.$store.commit({
+          type: 'TASK_CATEGORY_LIST',
+          info: 'all'
+        });
+      }
       self.getTaskDetails();
     },
     mounted () {
       let self = this;
-
-
     },
     computed: {
       isLogin() {
@@ -506,6 +539,10 @@
           }else {
             if(res.statusCode === 'alitm_null'){
               self.alitNumSuccess = true;
+            }else {
+              self.$Modal.warning({
+                content: '<p class="fs-14">' + res.msg + '</span>',
+              });
             }
           }
         })
@@ -573,12 +610,30 @@
       },
       getTaskDetails(){
         let self = this;
+        self.commodityData= {
+          showkerTask: {},
+          taskApply: {},
+          task:{
+            itemCatalog: {
+              parentItemCatalog:{
+
+              }
+            }
+          }
+        };
         api.getTaskDetails({taskId: decode(self.$route.query.q)}).then((res) => {
           if(res.status){
             self.commodityData = res.data;
             self.needBrowseCollectAddCart=res.data.task.needBrowseCollectAddCart;
             self.itemUrl = res.data.task.itemUrl;
             self.taskDetail= res.data.task;
+            self.$set(self.commodityData);
+            if(self.commodityData.task.discountPrice){
+              self.$store.commit({
+                type: 'TASK_CATEGORY_LIST',
+                info: 'discount'
+              });
+            }
             if(self.commodityData.showkerTask){
               api.showkerToProcessOrder({
                 id: self.commodityData.showkerTask.id
@@ -607,10 +662,10 @@
             if (self.$route.query.resubmit === 'resubmit'){
               self.applyForTrialFunc()
             }
-            self.$store.commit({
-              type: 'TASK_CATEGORY_LIST',
-              info: self.commodityData.task.itemCatalog.parentItemCatalog.id
-            });
+//            self.$store.commit({
+//              type: 'TASK_CATEGORY_LIST',
+//              info: self.commodityData.task.itemCatalog.parentItemCatalog.id
+//            });
             parseInt(res.data.trailDone) ? self.graphicInfoSels[1].num = res.data.trailDone : self.graphicInfoSels[1].num = 0;
             if(parseInt(res.data.task.showkerApplySuccessCount) || parseInt(res.data.trailEnd)){
               self.graphicInfoSels[2].num = parseInt(res.data.task.showkerApplySuccessCount) + parseInt(res.data.trailEnd)

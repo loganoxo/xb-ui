@@ -27,7 +27,7 @@
                :on-remove="removeMainImage"
                :on-success="searchConditionImageFun"
                :format="['jpg','jpeg','png','gif','bmp']"
-               :max-size="2048"
+               :max-size="10240"
                name="task"
                :on-format-error="handleFormatError"
                :on-exceeded-size="handleMaxSize"
@@ -48,7 +48,7 @@
                :on-remove="removeMainImage"
                :on-success="itemLocationImageFun"
                :format="['jpg','jpeg','png','gif','bmp']"
-               :max-size="2048"
+               :max-size="10240"
                name="task"
                :on-format-error="handleFormatError"
                :on-exceeded-size="handleMaxSize"
@@ -69,7 +69,7 @@
                :on-remove="removeMainImage"
                :on-success="browseToBottomImageFun"
                :format="['jpg','jpeg','png','gif','bmp']"
-               :max-size="2048"
+               :max-size="10240"
                name="task"
                :on-format-error="handleFormatError"
                :on-exceeded-size="handleMaxSize"
@@ -90,7 +90,7 @@
                :on-remove="removeMainImage"
                :on-success="enshrineImageFun"
                :format="['jpg','jpeg','png','gif','bmp']"
-               :max-size="2048"
+               :max-size="10240"
                name="task"
                :on-format-error="handleFormatError"
                :on-exceeded-size="handleMaxSize"
@@ -111,7 +111,7 @@
                :on-remove="removeMainImage"
                :on-success="addToCartImageFun"
                :format="['jpg','jpeg','png','gif','bmp']"
-               :max-size="2048"
+               :max-size="10240"
                name="task"
                :on-format-error="handleFormatError"
                :on-exceeded-size="handleMaxSize"
@@ -134,7 +134,7 @@
                :on-remove="removeMainImage"
                :on-success="itemLocationImageFun"
                :format="['jpg','jpeg','png','gif','bmp']"
-               :max-size="2048"
+               :max-size="10240"
                name="task"
                :on-format-error="handleFormatError"
                :on-exceeded-size="handleMaxSize"
@@ -155,7 +155,7 @@
                :on-remove="removeMainImage"
                :on-success="browseToBottomImageFun"
                :format="['jpg','jpeg','png','gif','bmp']"
-               :max-size="2048"
+               :max-size="10240"
                name="task"
                :on-format-error="handleFormatError"
                :on-exceeded-size="handleMaxSize"
@@ -176,7 +176,7 @@
                :on-remove="removeMainImage"
                :on-success="enshrineImageFun"
                :format="['jpg','jpeg','png','gif','bmp']"
-               :max-size="2048"
+               :max-size="10240"
                name="task"
                :on-format-error="handleFormatError"
                :on-exceeded-size="handleMaxSize"
@@ -197,7 +197,7 @@
                :on-remove="removeMainImage"
                :on-success="addToCartImageFun"
                :format="['jpg','jpeg','png','gif','bmp']"
-               :max-size="2048"
+               :max-size="10240"
                name="task"
                :on-format-error="handleFormatError"
                :on-exceeded-size="handleMaxSize"
@@ -220,7 +220,7 @@
                 :on-remove="removeMainImage"
                 :on-success="browseToBottomImageFun"
                 :format="['jpg','jpeg','png','gif','bmp']"
-                :max-size="2048"
+                :max-size="10240"
                 name="task"
                 :on-format-error="handleFormatError"
                 :on-exceeded-size="handleMaxSize"
@@ -241,7 +241,7 @@
                 :on-remove="removeMainImage"
                 :on-success="enshrineImageFun"
                 :format="['jpg','jpeg','png','gif','bmp']"
-                :max-size="2048"
+                :max-size="10240"
                 name="task"
                 :on-format-error="handleFormatError"
                 :on-exceeded-size="handleMaxSize"
@@ -262,7 +262,7 @@
                 :on-remove="removeMainImage"
                 :on-success="addToCartImageFun"
                 :format="['jpg','jpeg','png','gif','bmp']"
-                :max-size="2048"
+                :max-size="10240"
                 name="task"
                 :on-format-error="handleFormatError"
                 :on-exceeded-size="handleMaxSize"
@@ -285,7 +285,7 @@
                 :on-remove="removeMainImage"
                 :on-success="browseToBottomImageFun"
                 :format="['jpg','jpeg','png','gif','bmp']"
-                :max-size="2048"
+                :max-size="10240"
                 name="task"
                 :on-format-error="handleFormatError"
                 :on-exceeded-size="handleMaxSize"
@@ -306,7 +306,7 @@
                 :on-remove="removeMainImage"
                 :on-success="enshrineImageFun"
                 :format="['jpg','jpeg','png','gif','bmp']"
-                :max-size="2048"
+                :max-size="10240"
                 name="task"
                 :on-format-error="handleFormatError"
                 :on-exceeded-size="handleMaxSize"
@@ -327,7 +327,7 @@
                 :on-remove="removeMainImage"
                 :on-success="addToCartImageFun"
                 :format="['jpg','jpeg','png','gif','bmp']"
-                :max-size="2048"
+                :max-size="10240"
                 name="task"
                 :on-format-error="handleFormatError"
                 :on-exceeded-size="handleMaxSize"
@@ -341,7 +341,7 @@
             </div>
           </div>
         </div>
-        <p class="descriptive">点击上传图片，支持jpg \ jpeg \ png \ gif \ bmp格式，不超过2M</p>
+        <p class="descriptive">点击上传图片，支持jpg \ jpeg \ png \ gif \ bmp格式，不超过10M</p>
         <div class="text-ct mt-40">
           <iButton type="success" style="color: #fff;width: 150px;height: 30px;" @click="success(selectedWw)">提交申请</iButton>
           <iButton class="ml-20" style="width: 150px;height: 30px;" @click="error">取消</iButton>
@@ -421,7 +421,6 @@
   import {aliCallbackImgUrl} from '@/config/env'
   import api from '@/config/apiConfig'
   import VueQArt from 'vue-qart'
-  import Clipboard from 'clipboard';
 
   export default {
     name: 'TaskApplyBefore',
@@ -532,20 +531,6 @@
       },
     },
     created() {
-      let _this = this;
-      _this.$nextTick(function () {
-        let clipboard = new Clipboard('#copyBtn', {
-          target: () => document.getElementById('copyCode')
-        });
-        clipboard.on('success', () => {
-          _this.$Message.success("复制口令成功！");
-          clipboard.destroy();
-        });
-        clipboard.on('error', () => {
-          _this.$Message.error("复制口令失败！");
-          clipboard.destroy();
-        });
-      });
     },
     methods: {
       ...mapActions([
@@ -634,7 +619,7 @@
       handleMaxSize(file) {
         this.$Modal.warning({
           title: '超出文件大小限制',
-          content: '图片 ' + file.name + ' 太大，不能超过 2M'
+          content: '图片 ' + file.name + ' 太大，不能超过 10M'
         });
       },
       selWwFunc(alitms){

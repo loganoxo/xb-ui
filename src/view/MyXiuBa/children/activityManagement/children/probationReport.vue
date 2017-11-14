@@ -99,7 +99,7 @@
           </p>
           <p class="mt-8">
             <span>返款金额：</span>
-            <strong>{{showkerTaskInfo.orderPrice / 100}}</strong>
+            <strong>{{(countRefundAmount / 100).toFixed(2)}}</strong>
             <span>元</span>
           </p>
         </div>
@@ -128,6 +128,7 @@
   import Radio from 'iview/src/components/radio'
   import TimeDown from '@/components/TimeDown'
   import api from '@/config/apiConfig'
+  import {aliCallbackImgUrl} from '@/config/env'
   import {TaskErrorStatusList, decode, encryption} from '@/config/utils'
 
   export default {
@@ -172,8 +173,11 @@
     },
     watch: {},
     computed: {
+      countRefundAmount: function () {
+        return this.showkerTaskInfo.task.discountPrice > 0 ? this.showkerTaskInfo.orderPrice - this.showkerTaskInfo.task.discountPrice : this.showkerTaskInfo.orderPrice
+      },
       isPwdAmend: function () {
-        return this.$store.getters.getIsEditPwdAlready;
+        return this.$store.getters.getIsEditPwdAlready
       },
     },
     methods: {
@@ -208,6 +212,9 @@
           if (res.status) {
             _this.showkerReportInfo = res.data;
             _this.trialReportImages = _this.showkerReportInfo.trialReportImages ? JSON.parse(_this.showkerReportInfo.trialReportImages) : [];
+            for(let i =0, len = _this.trialReportImages.length; i < len; i++){
+              _this.trialReportImages[i] =  _this.trialReportImages[i].indexOf('aliyuncs') > 0 ? _this.trialReportImages[i] : aliCallbackImgUrl + _this.trialReportImages[i];
+            }
             _this.showNowImageSrc = _this.trialReportImages[0];
           } else {
             _this.$Message.error(res.msg);

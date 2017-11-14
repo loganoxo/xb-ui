@@ -41,9 +41,9 @@
           <Checkbox label="waiting_settlement">
             <span>待申请结算</span>
           </Checkbox>
-          <Checkbox label="waiting_audit">
+          <!--<Checkbox label="waiting_audit">
             <span>待结算审核</span>
-          </Checkbox>
+          </Checkbox>-->
           <Checkbox label="settlement_finished">
             <span>已结算</span>
           </Checkbox>
@@ -251,16 +251,15 @@
         <iButton class="right mr-30" type="error" size="large" @click="directSettlementSuccess = false">我知道了</iButton>
       </div>
     </Modal>
-    <!--结算成功弹框-结算待审核-->
+    <!--结算成功弹框-结算有返款-->
     <Modal v-model="auditSettlementSuccess" width="360">
       <p slot="header" style="color:#f60;text-align:center">
         <Icon type="checkmark-circled"></Icon>
-        <span>结算审核提交成功</span>
+        <span>结算成功</span>
       </p>
       <div class="text-ct">
         <p>结算说明：活动剩余资格{{taskCountLeft}}，返还担保金共{{marginRefund}}元</p>
         <p>返还推广费{{promotionRefund}}元。</p>
-        <p>我们将在1个 工作日内完成结算审核！</p>
       </div>
       <div slot="footer" class="text-ct">
         <iButton type="error" size="large" long @click="auditSettlementSuccess = false">确认</iButton>
@@ -509,7 +508,7 @@
           taskId: id
         }).then(res => {
           if (res.status) {
-            if (res.statusCode === 'waiting_audit') {
+            if (res.data) {
               _this.auditSettlementSuccess = true;
               _this.marginRefund = res.data.marginRefund / 100 || 0;
               _this.promotionRefund = res.data.promotionRefund / 100 || 0;

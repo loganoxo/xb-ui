@@ -24,7 +24,7 @@
         <div class="mt-30 member-time">
           <p class="mb-10" v-if="getMemberLevel === null">您当前为：非会员</p>
           <p class="mb-10" v-if="getMemberLevel !== null">
-            您当前的会员到期时间：{{getMemberDeadline | dateFormat('YYYY-MM-DD')}}</p>
+            您当前的会员版本为&nbsp;<span class="my-color">{{memberLevelInfo.validDaysDesc+'版'}}</span> ，到期时间：{{getMemberDeadline | dateFormat('YYYY-MM-DD')}}</p>
           <p v-if="getMemberLevel !== memberLevel && getMemberLevel !== null" style="font-size: 14px">您已选择<span
             class="my-color">升级</span> <strong>{{year}}会员</strong>，有效期至
             <span style="color: #FC9F84">{{endTime | dateFormat('YYYY-MM-DD ')}}</span>
@@ -158,6 +158,20 @@
     },
     watch: {},
     methods: {
+      getMemberLevelDes(getMemberLevel){
+        if (getMemberLevel === 100){
+          return '季度版'
+        }
+        if (getMemberLevel === 200){
+          return '半年版'
+        }
+        if (getMemberLevel === 300){
+          return '一年版'
+        }
+        if (getMemberLevel === 400){
+          return '两年版'
+        }
+      },
       changeStyle(select, day, year, recharge, level, id) {
         this.isSelect = select;
         this.year = year;
@@ -213,7 +227,7 @@
             _this.memberLevelInfo = res.data;
             let timeRemainings = _this.getMemberDeadline - new Date().getTime();
             _this.timeRemaining = Math.floor(timeRemainings / (24 * 60 * 60 * 1000));
-            _this.moneyRemaining = Math.floor((parseInt((_this.memberLevelInfo.finalFee)) / parseInt(_this.timeRemaining)) * parseInt(_this.memberLevelInfo.validDays));
+            _this.moneyRemaining = Math.floor((parseInt(_this.memberLevelInfo.finalFee) /parseInt(_this.memberLevelInfo.validDays))*parseInt(_this.timeRemaining) );
             _this.getUserMemberAll();
           } else {
             _this.$Message.error(res.msg);
@@ -301,7 +315,7 @@
         }
         .member-price.active {
           background-color: #F6E363;
-          border: 2px solid #FE6E42;
+          border: 1px solid #FE6E42;
           color: #FC803E;
         }
         .member-time {

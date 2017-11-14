@@ -20,13 +20,13 @@
         <div class="approve-list-title">
           <span :class="{isSelect:showApproveStatus === 'toAudit'}" @click="changeTitle('toAudit')">待审批</span>
           <span :class="{isSelect:showApproveStatus === 'passAudit'}" @click="changeTitle('passAudit')">已通过</span>
-          <span :class="{isSelect:showApproveStatus === 'failAudit'}" @click="changeTitle('failAudit')">已终止</span>
+          <span :class="{isSelect:showApproveStatus === 'failAudit'}" @click="changeTitle('failAudit')">未通过</span>
         </div>
         <!--待审批-->
         <div class="await-approve mt-20" v-show="showApproveStatus === 'toAudit'">
           <div class="prompt mb-20">
             <Icon type="information-circled"></Icon>
-            <span> 亲，请记得在活动结束前审批秀客哦，如果活动结束后24小时内仍未审批满，系统将自动按申请时间审批剩余名额！</span>
+            <span> 亲，请记得在活动结束前审批秀客哦，如果活动结束后48小时内仍未审批满，系统将自动按申请时间审批剩余名额！</span>
           </div>
           <iSelect v-model="selectStatus" style="width: 120px;margin-right: 12px;">
             <iOption v-for="item in SelectList" :value="item.value" :key="item.value">{{ item.label }}</iOption>
@@ -209,7 +209,7 @@
                 <th width="20%">淘宝账号（旺旺号）</th>
                 <th width="20%">订单号</th>
                 <th width="20%">活动状态</th>
-                <th width="20%">终止时间</th>
+                <th width="20%">审批时间</th>
                 <th width="20%">终止原因</th>
               </tr>
               </thead>
@@ -265,9 +265,9 @@
             <iInput v-model="orderNoPassReason" placeholder="请填写不通过理由，如订单号不符或实付金额不符" style="width: 420px"></iInput>
           </div>
           <div class="true-btn" v-show="orderReviewStatus === 'failAudit'" @click="orderNumberAudit">确认</div>
-          <div class="true-btn" v-show="orderReviewStatus === 'passAudit' && perMarginNeed >= orderInfo.orderPrice"
+          <div class="true-btn" v-show="orderReviewStatus === 'passAudit' && orderInfo.perMarginNeed >= getOderPrice"
                @click="orderNumberAudit">确认</div>
-          <PayModel v-show="orderReviewStatus === 'passAudit' && perMarginNeed < orderInfo.orderPrice"
+          <PayModel v-show="orderReviewStatus === 'passAudit' && orderInfo.perMarginNeed < getOderPrice"
                     :orderMoney="needReplenishMoney"
                     @confirmPayment="confirmPayment" :payButtonText="payButtonText"
                     :rechargeButtonText="rechargeButtonText" style="margin-top: 120px;">
@@ -493,7 +493,6 @@
         orderReviewStatus: 'passAudit',
         orderNoPassReason: null,
         orderInfo: {},
-        perMarginNeed: 0,
         payButtonText: '确认支付并通过',
         rechargeButtonText: '前去充值',
         searchLoading: false
@@ -509,8 +508,11 @@
     },
     watch: {},
     computed: {
+      getOderPrice: function () {
+        return this.orderInfo.discountPrice > 0 ? this.orderInfo.orderPrice - this.orderInfo.discountPrice : this.orderInfo.orderPrice
+      },
       needReplenishMoney: function () {
-        return (this.orderInfo.orderPrice - this.perMarginNeed).toFixed(2) * 1
+        return (this.getOderPrice - this.orderInfo.perMarginNeed).toFixed(2) * 1
       }
     },
     methods: {
@@ -640,9 +642,15 @@
           id: id
         }).then(res => {
           if (res.status) {
-            _this.orderInfo = res.data;
-            _this.orderInfo.orderPrice = _this.orderInfo.orderPrice / 100;
-            _this.perMarginNeed = res.data.task.perMarginNeed / 100;
+            _this.orderInfo = Object.assign({}, _this.orderInfo, {
+              orderPrice: res.data.orderPrice / 100,
+              orderNum: res.data.orderNum,
+              id: res.data.id,
+              perMarginNeed: res.data.task.perMarginNeed / 100,
+              discountPrice: res.data.task.discountPrice / 100,
+            })
+          }else{
+            _this.$Message.error(res.msg)
           }
         })
       },

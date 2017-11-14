@@ -31,7 +31,7 @@
           <td>{{item.alitmAccount}}</td>
           <td>{{item.task.perMarginNeed / 100}}</td>
           <td>
-            <Tooltip :content="item.reason" placement="top" v-if="item.reason && item.status === 'waiting_resubmit'">
+            <Tooltip :content="item.rejectToResubmitReason || item.reason" placement="top" v-if="item.reason && item.status === 'waiting_resubmit'">
               <Icon color="#f60" type="information-circled"></Icon>
               <span class="main-color">{{getTaskStatus(item.status)}}</span>
             </Tooltip>

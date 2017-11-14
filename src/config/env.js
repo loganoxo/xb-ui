@@ -8,8 +8,8 @@
  */
 
 const domain = window.location.protocol + '//' + window.location.host;
-let bucket = 'xiuba';
-let aliCallbackImgUrl = 'https://xiuba.oss-cn-hangzhou.aliyuncs.com/';
+let bucket = 'xiuba-prod';
+let aliCallbackImgUrl = 'https://xiuba-prod.oss-cn-hangzhou.aliyuncs.com/';
 let aliTokenUrl = domain + '/api/ali-token.json';
 let aliPayUrl = domain + '/pay/build_req.htm?';
 let weiXinPayUrl = domain + '/pay/wxpay_qrcode.htm?';

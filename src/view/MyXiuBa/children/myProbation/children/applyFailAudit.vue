@@ -29,7 +29,7 @@
         <tr>
           <th width="30%">活动标题</th>
           <th width="15%">绑定淘宝会员名</th>
-          <th width="15%">结束时间</th>
+          <th width="15%">审批时间</th>
           <th width="15%">流程状态</th>
           <th width="15%">操作</th>
         </tr>
@@ -47,7 +47,7 @@
             <a class="left img-title" :title="item.task.taskName">{{item.task.taskName}}</a>
           </td>
           <td>{{item.alitmAccount}}</td>
-          <td>{{item.currentGenerationEndTime | dateFormat('YYYY-MM-DD hh:mm:ss')}}</td>
+          <td>{{item.auditTime | dateFormat('YYYY-MM-DD hh:mm:ss')}}</td>
           <td>{{getTaskStatus(item.status)}}</td>
           <td>
             <p class="operation" @click="applyDelete(item.id)">删除</p>

@@ -21,6 +21,36 @@ const state = {
   TaskCategoryActive: '',
   wechartShow: false,
   wechartRes: true,
+  disCountTaskCategory: false,
+  TaskCategoryActiveList: {
+    'home': {
+      text: '首页'
+    },
+    'all': {
+      text: '免费领'
+    },
+    'discount': {
+      text: '白菜价'
+    }
+  },
+  discountPriceType: {
+    '不限': {
+      backgroundColor:　'',
+      discountTypes: ['discount_9_9','discount_49_9', 'discount_99_9'],
+    },
+    9.9: {
+      backgroundColor: '#ff9900',
+      discountTypes: ['discount_9_9'],
+    },
+    49.9: {
+      backgroundColor: '#cc3333',
+      discountTypes: ['discount_49_9'],
+    },
+    99.9: {
+      backgroundColor: '#ff3399',
+      discountTypes: ['discount_99_9'],
+    }
+  }
 };
 
 export default new Vuex.Store({

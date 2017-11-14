@@ -72,7 +72,7 @@
                         :show-upload-list="false"
                         :on-success="handlewwBindAlitmLevelPicUrlSuccess"
                         :format="['jpg','jpeg','png','gif','bmp']"
-                        :max-size="2000"
+                        :max-size="10240"
                         :default-file-list="wwFormValidate.alitmLevelPicUrl"
                         name="wwBind"
                         :on-remove="removewwBindAlitmLevelPicUrl"
@@ -126,7 +126,7 @@
                   :show-upload-list="false"
                   :on-success="handlewwBindtaoqizhiPicUrlSuccess"
                   :format="['jpg','jpeg','png','gif','bmp']"
-                  :max-size="2000"
+                  :max-size="10240"
                   :default-file-list="wwFormValidate.taoqizhiPicUrl"
                   name="wwBind"
                   :on-remove="removewwBindtaoqizhiPicUrl"
@@ -164,7 +164,7 @@
               </Form-item>
               <p class="tip clear"
                  style="margin-left: 102px;width: 600px;line-height: 30px;font-size: 14px;color: #999;padding-bottom: 30px;">
-                1.支持jpg/jpeg/gif/bmp/png格式，最大不超过2M
+                1.支持jpg/jpeg/gif/bmp/png格式，最大不超过10M
               </p>
             </iForm>
 

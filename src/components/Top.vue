@@ -45,11 +45,24 @@
     </div>
     <div class="home-nav">
       <div class="container">
-        <a :class="[$store.state.TaskCategoryActive == 'home' ? 'active' : '']" @click="selTaskCategoryHome()">首页</a>
-        <a :class="[$store.state.TaskCategoryActive == 'all' ? 'active' : '']" @click="selTaskCategoryAllFunc">全部活动</a>
-        <a v-if="nav.name != '美食/特产' && nav.name != '其它试用'" :class="[$store.state.TaskCategoryActive == nav.id ? 'active' : '']" @click="selTaskCategoryActiveFunc(nav)" v-for="nav in navList" >{{nav.name}}</a>
+        <a :class="[$store.state.TaskCategoryActive == 'home' ? 'active' : '']" @click="selTaskCategoryHome">首页</a>
+        <a :class="[$store.state.TaskCategoryActive == 'all' ? 'active' : '']" @click="selTaskCategoryAllFunc" >免费领</a>
+        <a :class="[$store.state.TaskCategoryActive == 'discount' ? 'active' : '']" @click="selDisCountTaskCategoryAllFunc">白菜价</a>
+        <a  @click="buyerShowPop = true">买家秀</a>
+        <!--<a :class="[$store.state.TaskCategoryActive == 'all' ? 'active' : '']" @click="selTaskCategoryAllFunc">全部活动</a>-->
+        <!--<a v-if="nav.name != '美食/特产' && nav.name != '其它试用'" :class="[$store.state.TaskCategoryActive == nav.id ? 'active' : '']" @click="selTaskCategoryActiveFunc(nav)" v-for="nav in navList" >{{nav.name}}</a>-->
       </div>
     </div>
+    <Modal v-model="buyerShowPop" width="300" height="400">
+      <div class="text-ct">
+        <div style="height: 20px"></div>
+        Coming soon，敬请期待！
+        <div style="height: 20px"></div>
+      </div>
+      <div slot="footer" class="text-ct">
+        <iButton type="error" long large @click="buyerShowPop = false">确定</iButton>
+      </div>
+    </Modal>
   </div>
 
 </template>
@@ -57,16 +70,21 @@
 <script>
   import TopTip from '@/components/TopTip.vue'
   import api from '@/config/apiConfig'
+  import Modal from 'iview/src/components/modal'
+  import Button from 'iview/src/components/button'
   export default {
     name: 'home',
     components: {
       TopTip: TopTip,
-      api: api
+      api: api,
+      Modal:Modal,
+      iButton:Button,
     },
     data () {
       return {
           searchKey: '',
-          navList: []
+          navList: [],
+        buyerShowPop:false
       }
     },
     created(){
@@ -89,11 +107,27 @@
         });
         self.$router.push({ 'path': '/'});
       },
+      selDisCountTaskCategoryAllFunc(){
+        let self = this;
+        self.$store.commit({
+          type: 'SET_DISCOUNT_TASK_CATEGORY',
+          result: true
+        });
+        self.$store.commit({
+          type: 'TASK_CATEGORY_LIST',
+          info: 'discount'
+        });
+        self.$router.push({ 'path': '/task-category', 'query': {'discount': 'allDiscount'}});
+      },
       selTaskCategoryAllFunc(){
         let self = this;
         self.$store.commit({
           type: 'TASK_CATEGORY_LIST',
           info: 'all'
+        });
+        self.$store.commit({
+          type: 'SET_DISCOUNT_TASK_CATEGORY',
+          result: false
         });
         self.$router.push({ 'path': '/task-category', 'query': {'searchKey': 'all'}});
       },
