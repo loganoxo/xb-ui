@@ -160,6 +160,7 @@
     <div class="fill-report" v-if="showPassOperation === 'report'">
       <div class="my-probation-title pl-10">
         <span class="left">制作买家秀</span>
+        <span class="left fs-12">（提交高质量的买家秀，有助于提高账户的信誉等级，参与活动的中奖率也越高）</span>
         <span class="right mr-30" @click="returnUpPage">返回上页</span>
       </div>
       <div class="commodity-info clear mt-20">
@@ -207,10 +208,10 @@
       <div class="experience mt-22">
         <p class="mb-10">活动过程与体验：</p>
         <iInput v-model="trialReportText" type="textarea" :autosize="{minRows: 5,maxRows: 5}"
-                placeholder="请输入宝贝评价"></iInput>
+                placeholder="请填写在试用过程中，对于宝贝的真实使用体会及感受，可以和淘宝上的宝贝评价一致"></iInput>
       </div>
       <div class="experience-img mt-22">
-        <p class="mb-10">买家秀图片：（图片支持jpg、jpeg、png、gif、bmp格式，大小不超过10M）</p>
+        <p class="mb-10">买家秀图片：（请上传宝贝试用和体验的相关图片，不是淘宝好评的截图。图片支持jpg、jpeg、png、gif、bmp格式，大小不超过10M）</p>
         <Upload
           ref="upload"
           :show-upload-list="false"

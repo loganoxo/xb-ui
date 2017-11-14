@@ -39,13 +39,13 @@
         </p>
       </div>
     </div>
-    <div class="verification-link mt-20 pt-20" v-if="taskPlaceInfo.taskType === 'pc_search' || taskPlaceInfo.taskType === 'app_search'">
+<!--    <div class="verification-link mt-20 pt-20" v-if="taskPlaceInfo.taskType === 'pc_search' || taskPlaceInfo.taskType === 'app_search'">
       <span>宝贝链接验证：</span>
       <iInput v-model="verificationLink" style="width: 300px;" placeholder="请输入宝贝链接地址"></iInput>
       <iButton type="primary" @click="verificationLinkIsRight">验证</iButton>
       <span class="link-right ml-5" v-show="verificationLinkStatus === 'success'"><Icon type="checkmark-circled" color="#69B045"></Icon>&nbsp;恭喜，找对啦！</span>
       <span class="link-error ml-5" v-show="verificationLinkStatus === 'error'"><Icon type="close-circled" color="red"></Icon>&nbsp;糟糕，不是这家哦~</span>
-    </div>
+    </div>-->
     <div class="mt-10 ml-88" v-if="taskPlaceInfo.taskType === 'app_search'">
       <a @click="showGetAppUrlImage = true">手淘宝贝如何获取链接地址？</a>
       <Modal class="pos-rel" style="z-index: 2000" v-model="showGetAppUrlImage" :width="600">
