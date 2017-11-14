@@ -66,7 +66,7 @@
           <a :class="[$store.state.TaskCategoryActive == 'all' ? 'active' : '']" @click="selTaskCategoryAllFunc" >免费领</a>
           <a :class="[$store.state.TaskCategoryActive == 'discount' ? 'active' : '']" @click="selDisCountTaskCategoryAllFunc">
             <i>
-              <img src="/static/img/common/new.png" alt="">
+              <img src="/static/img/common/new.gif" alt="">
             </i>
             白菜价
           </a>

@@ -197,7 +197,7 @@
       </div>
     </div>
     <router-link to="/user/task-release" class="baicaijia-dialog" v-show="baicaijiaDialog && $store.state.disCountTaskCategory && getRole == 1 ">
-      <b @click="baicaijiaDialog=false;">&times;</b>
+      <b @click="baicaijiaDialog=false; $event.preventDefault();">&times;</b>
     </router-link>
 
   </div>
