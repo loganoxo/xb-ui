@@ -35,7 +35,7 @@
       <div class="side-box side-box-bg wechat"></div>
       <div slot="content" class="text-ct">
         <p>秀吧365，为你精挑细选每一天</p>
-        <img src="~assets/img/common/showker_wechat.jpg" alt="" height="140" width="140" class="mt-5">
+        <img src="~assets/img/common/showker_wechat.png" alt="" height="140" width="140" class="mt-5">
       </div>
     </Tooltip>
     <Tooltip placement="left" :transfer="true" class="mt-10 display-block" content="回到顶部">
