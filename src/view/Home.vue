@@ -791,6 +791,18 @@
         });
         self.$router.push({ 'path': '/task-category', 'query': {'searchKey': 'all'}});
       },
+      selTaskCategoryActiveFunc(nav){
+        let self = this;
+        self.$router.push({ 'path': '/task-category', 'query': {'cate': nav.id}});
+        self.$store.commit({
+          type: 'SET_DISCOUNT_TASK_CATEGORY',
+          result: false
+        });
+        self.$store.commit({
+          type: 'TASK_CATEGORY_LIST',
+          info: 'all',
+        });
+      },
       getNavList(){
         let self = this;
         api.getNavList().then((res) =>{
