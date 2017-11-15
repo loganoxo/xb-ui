@@ -186,7 +186,7 @@
               <ul class="clear" :class="[leftSlider ? 'slider-top-active-left' : 'slider-top-default-left']"
                   @mouseover="clearLeftSliderFunc()" @mouseleave="leftSliderFunc()">
                 <li v-for="item in buyerShowList" class="content cursor-p left pos-rel" >
-                  <router-link :to="{path:'/trial-report',query:{q:encryptionId(item.showkerId),showReportDesc:true,id:encryptionId(item.id)}}" :title="item.task.taskName">
+                  <router-link :to="{path:'/trial-report',query:{q:encryptionId(item.showkerId),showReportDesc:true,id:encryptionId(item.id)}}" :title="item.taskName">
                     <div style="height: 260px">
                       <img :src="item.trialReportImages+'!thum200'" alt="" width="200" height="260">
                     </div>
@@ -195,8 +195,8 @@
                        <span class="left" style="font-size: 14px">赞(12000)</span>
                      </p>-->
                     <p class="price clear">
-                      <span class="left ellipsis">{{item.task.taskName}}</span>
-                      <span class="right pl-10">￥{{item.task.itemPrice/100}}</span>
+                      <span class="left ellipsis">{{item.taskName}}</span>
+                      <span class="right pl-10">￥{{item.itemPrice/100}}</span>
                     </p>
                   </router-link>
                   <p class="mt-10 description pos-rel">
@@ -207,10 +207,10 @@
                     <router-link :to="{path:'/trial-report',query:{q:encryptionId(item.showkerId)}}"><img class="left" width="48" height="48" :src="item.showkerPortraitPic" alt=""></router-link>
                     <div class="left ml-10" style="margin-top: 5px">
                       <p style="color: #000">{{item.showkerPhone}}</p>
-                      <img :src="taobaoLevelImgs[item.other.creditLevel?parseInt(item.other.creditLevel)-2:2].text" alt="">
+                      <img :src="item.creditLevel" alt="">
                     </div>
                   </div>
-                  <div class="text-ct"><span>淘气值：{{taoqizhiList[item.other.tqz?parseInt(item.other.tqz)-1:3].label}}</span></div>
+                  <div class="text-ct"><span>淘气值：{{item.tqz}}</span></div>
                 </li>
               </ul>
             </div>
@@ -773,8 +773,8 @@
             self.buyerShowList = res.data;
             for (let i = 0; i <  self.buyerShowList.length; i++) {
               if (JSON.parse(self.buyerShowList[i].trialReportImages)[0][0] !== 'h'){
-                self.buyerShowList[i].trialReportImages =aliCallbackImgUrl +JSON.parse(self.buyerShowList[i].trialReportImages)[0]
-              }else {
+                self.buyerShowList[i].trialReportImages = aliCallbackImgUrl + JSON.parse(self.buyerShowList[i].trialReportImages)[0]
+              } else {
                 self.buyerShowList[i].trialReportImages = JSON.parse(self.buyerShowList[i].trialReportImages)[0];
               }
             }
@@ -833,7 +833,7 @@
       weChartAlertFunc() {
         let self = this;
         api.checkWechartAlert().then((res) => {
-          if (res.status && getStorage('weChartPop') == 1) {
+          if (res.status && getStorage('weChartPop') === 1) {
             self.wechartAlertShow = true;
             setStorage('weChartPop', 2)
           } else {
