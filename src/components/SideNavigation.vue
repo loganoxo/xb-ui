@@ -3,7 +3,7 @@
     <Tooltip placement="left" :always="always" :transfer="true" :disabled="disabled" class="display-block" v-if="!isLogin && $route.name === 'sellerSpread' ">
       <div class="side-box side-box-bg qq"></div>
       <div slot="content">
-        <p class="pt-10">产品客服：<a href="http://wpa.qq.com/msgrd?v=3&site=qq&menu=yes&uin=800019404" class="qq-refer-logo" target="_blank"></a></p>
+        <p class="pt-10">产品客服：<a href="http://shang.qq.com/wpa/qunwpa?idkey=c05716ea03d527adb67d4e23d2a9ed942f729dfb0db13ca332e10996805d2b9d" class="qq-refer-logo" target="_blank"></a></p>
         <p class="mt-20">咨询时间：周一至周五</p>
         <p class="text-align-rt mt-5">9:00 --- 18:00</p>
       </div>
@@ -11,7 +11,7 @@
     <Tooltip placement="left" :always="always" :transfer="true" :disabled="disabled" class="display-block" v-if="isLogin && getUserRole === 1">
       <div class="side-box side-box-bg qq"></div>
       <div slot="content">
-        <p class="pt-10">产品客服：<a href="http://wpa.qq.com/msgrd?v=3&site=qq&menu=yes&uin=800019404" class="qq-refer-logo" target="_blank"></a></p>
+        <p class="pt-10">产品客服：<a href="http://shang.qq.com/wpa/qunwpa?idkey=c05716ea03d527adb67d4e23d2a9ed942f729dfb0db13ca332e10996805d2b9d" class="qq-refer-logo" target="_blank"></a></p>
         <p class="mt-20">咨询时间：周一至周五</p>
         <p class="text-align-rt mt-5">9:00 --- 18:00</p>
       </div>
@@ -19,7 +19,7 @@
     <Tooltip placement="left" :always="always" :transfer="true" :disabled="disabled" class="mt-10 display-block" v-if="isLogin && getUserRole === 0">
       <div class="side-box side-box-bg qq"></div>
       <div slot="content">
-        <p class="pt-10">产品客服：<a href="http://wpa.qq.com/msgrd?v=3&site=qq&menu=yes&uin=800061938" class="qq-refer-logo" target="_blank"></a></p>
+        <p class="pt-10">产品客服：<a href="http://shang.qq.com/wpa/qunwpa?idkey=a5e370e72edddbc2b9edc58d9517719b97d32a6683ef4faa0675c52bf494d9d1" class="qq-refer-logo" target="_blank"></a></p>
         <p class="mt-20">咨询时间：周一至周五</p>
         <p class="text-align-rt mt-5">9:00 --- 18:00</p>
       </div>
@@ -35,7 +35,7 @@
       <div class="side-box side-box-bg wechat"></div>
       <div slot="content" class="text-ct">
         <p>秀吧365，为你精挑细选每一天</p>
-        <img src="~assets/img/common/showker_wechat.jpg" alt="" height="140" width="140" class="mt-5">
+        <img src="~assets/img/common/showker_wechat.png" alt="" height="140" width="140" class="mt-5">
       </div>
     </Tooltip>
     <Tooltip placement="left" :transfer="true" class="mt-10 display-block" content="回到顶部">
