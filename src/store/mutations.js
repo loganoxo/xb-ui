@@ -55,6 +55,7 @@ export default {
   [types.CHANGE_TOP_SHOW_HIDE](state, {status}) {
     state.topShow = status;
   },
+
   //页面底部是否显示
   [types.CHANGE_BOTTOM_SHOW_HIDE](state, {status}) {
     state.bottomShow = status;
@@ -65,7 +66,6 @@ export default {
     state.TaskCategoryActive = info;
     setStorage('TaskCategoryActive', info);
   },
-
 
   //商家引导遮罩层
   [types.SHOW_MERCHANT_GUIDE](state,{status}) {
@@ -80,10 +80,12 @@ export default {
   [types.SET_WECHART_RES](state,{result}) {
     state.wechartRes = result;
   },
+
   [types.SET_DISCOUNT_TASK_CATEGORY](state,{result}) {
     state.disCountTaskCategory = result;
     setStorage('disCountTaskCategory', result);
   },
+
   [types.SET_SHOW_TOP_CATEGORY_RES](state,{result}) {
     state.showTopCategoryRes = result;
   },

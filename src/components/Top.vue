@@ -362,7 +362,6 @@
     }
     div.home-nav-list {
       background-color: $mainColor;
-      margin-left: 5px;
       float: left;
       a {
         float: left;
@@ -388,6 +387,8 @@
       }
       a.active{
         background-color: #ff9966;
+        border-left: 2px solid $mainColor;
+        border-right:2px solid $mainColor;
       }
     }
   }
