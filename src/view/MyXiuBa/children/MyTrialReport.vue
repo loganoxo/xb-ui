@@ -47,7 +47,7 @@
             <div class="fs-16 trial-account">
               {{showkerReportDesc.showkerPhone}}的买家秀
                <a @click="showReportDesc = false;" class="right fs-14">返回上一页</a>
-               <div class="right fs-14 mr-40">
+               <div class="right fs-14 mr-40" style="margin-top: -2px;" >
                 分享精彩：<div v-html="copyHtml" style="display: inline-block;" ></div>
                </div>
             </div>
@@ -290,6 +290,8 @@
       padding: 15px 15px;
       border: 1px solid #eee;
       overflow: hidden;
+      width: 100%;
+      margin-top: 5px;
       .task-info{
         p{
           line-height: 30px;
