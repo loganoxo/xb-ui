@@ -190,10 +190,10 @@
                     <div style="height: 260px">
                       <img :src="item.trialReportImages+'!thum200'" alt="" width="200" height="260">
                     </div>
-                    <!-- <p class=" top-heart clear" >
-                       <img class="left " style="vertical-align: middle " width="15" height="15" src="~assets/img/home/heart.png" alt="">
-                       <span class="left" style="font-size: 14px">赞(12000)</span>
-                     </p>-->
+                     <p class=" top-heart clear" >
+                       <Icon type="heart" class="left" style="font-size: 14px;margin-top: 2px"></Icon>
+                       <span class="left ml-5" >赞({{item.likeCount}})</span>
+                     </p>
                     <p class="price clear">
                       <span class="left ellipsis">{{item.taskName}}</span>
                       <span class="right pl-10">￥{{item.itemPrice/100}}</span>
@@ -204,13 +204,13 @@
                     <a class="des-text" :title="item.trialReportText">{{item.trialReportText}}</a>
                   </p>
                   <div class="clear bottom mt-20">
-                    <router-link :to="{path:'/trial-report',query:{q:encryptionId(item.showkerId)}}" class="user-head-box"><img class="left" width="48" height="48" :src="getUserHead(item.showkerPortraitPic)" alt=""></router-link>
+                    <router-link :to="{path:'/trial-report',query:{q:encryptionId(item.showkerId)}}" class="user-head-box"><img class="left ml-10" width="48" height="48" :src="getUserHead(item.showkerPortraitPic)" alt=""></router-link>
                     <div class="left ml-10" style="margin-top: 5px">
                       <p style="color: #000">{{item.showkerPhone}}</p>
                       <img :src="item.creditLevel" alt="">
+                      <p >淘气值：{{item.tqz}}</p>
                     </div>
                   </div>
-                  <div class="text-ct"><span>淘气值：{{item.tqz}}</span></div>
                 </li>
               </ul>
             </div>
@@ -1017,7 +1017,7 @@
             .top-heart{
               position: absolute;
               top: 5px;
-              right: 15px;
+              right: 22px;
               background-color: #fff;
               border: 1px solid #fff;
               border-radius: 3px;
