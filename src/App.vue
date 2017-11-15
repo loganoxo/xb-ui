@@ -14,7 +14,7 @@
         <img src="~assets/img/common/suspend-service.png" alt="">
       </a>
       <a href="http://shang.qq.com/wpa/qunwpa?idkey=a5e370e72edddbc2b9edc58d9517719b97d32a6683ef4faa0675c52bf494d9d1" target="_blank" v-else>
-        <img src="~assets/img/common/suspend-service.png" alt="">
+        <img src="~assets/img/common/suspend-service-showker.png" alt="">
       </a>
       <span class="close-suspend-service" @click.stop.self="closeSuspendService">关闭</span>
     </div>

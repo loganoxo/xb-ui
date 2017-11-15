@@ -413,7 +413,7 @@
         <Checkbox-group v-model="wechartShowAgain">
           <Checkbox label="true">不再提醒</Checkbox>
         </Checkbox-group>
-        <img v-show="getUserInfoRole == 0" src="/static/img/home/wechart_alert_06.jpg" alt=""
+        <img v-show="getUserInfoRole == 0" src="/static/img/home/wechart_alert_06.png" alt=""
              style="width: 100%; margin-top: 20px">
         <!--<p v-show="getUserInfoRole == 0" class="ml-10" style="position: absolute;bottom: 90px;left: 21px; height: 30px; line-height: 30px;">-->
         <!--<span class="left fs-14 mr-10" style="color: #ff6633;">特权口令：</span>-->
