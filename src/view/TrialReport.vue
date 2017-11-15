@@ -90,8 +90,9 @@
             </div>
             <div class="xiuba-zan">
               <div class="fs-16">不顺手来个点赞？</div>
-              <div class="zan-btn">
-                <zan></zan>
+              <div class="zan-btn" @click="clickPraise" >
+                <zan
+                :iconType="ZanIconType"></zan>
               </div>
             </div>
           </div>
@@ -148,6 +149,7 @@
     },
     data () {
       return {
+        ZanIconType:null,
         copyHtml: '',
         copyValue: '',
         trialReportPicShow: false,
@@ -175,6 +177,7 @@
         showkerTag: {},
         showkerReportDesc: {},
         lastApplySuccessTime: null,
+        trialReportId:null,
       }
     },
     created(){
@@ -191,6 +194,7 @@
       }
       this.getTrialReports();
       this.getTrialDetail();
+
     },
     computed: {
       getUser(){
@@ -201,6 +205,31 @@
       }
     },
     methods: {
+      clickPraise(){
+        let self = this;
+        api.clickPraise({
+          trialReportId : self.showkerReportDesc.id
+        }).then((res) =>{
+          if (res.status){
+            self.$Message.success('点赞成功!');
+          }else {
+            self.$Message.error(res.msg)
+          }
+        })
+      },
+      whetherClickPraise(){
+        let self = this;
+        console.log(self.showkerReportDesc.id);
+        api.whetherClickPraise({
+          trialReportId : self.showkerReportDesc.id
+        }).then((res) =>{
+          if (res.status){
+            self.$Message.success('您已经点过赞了!');
+          }else {
+            self.$Message.error(res.msg)
+          }
+        })
+      },
       encryptionId(id) {
         return encryption(id);
       },
@@ -263,6 +292,7 @@
         }).then((res) => {
           if(res.status){
             self.showkerReportDesc = res.data;
+            self.whetherClickPraise();
             self.showkerReportDesc.trialReportImages = JSON.parse(self.showkerReportDesc.trialReportImages);
             let trialReportImages = null;
             if(self.showkerReportDesc.trialReportImages.length > 0){
