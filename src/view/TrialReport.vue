@@ -13,7 +13,7 @@
         </div>
         <div class="trial-right left">
           <div v-if="!showReportDesc">
-            <p class="fs-16 trial-account">{{showkerInfo.phone}}的买家秀</p>
+            <p class="fs-16 trial-account">{{showkerInfo.phone}}的买家秀&nbsp;(共获得<span style="color: #FF6633">{{zanTotalNumbers}}</span>个赞）</p>
             <p class="trial-tag">
               Ta的标签：&nbsp;&nbsp;
               <a v-for="(value, key) in showkerTag" v-if="value" style="margin-right: 20px;" @click="getTagTrialReports(key)">
@@ -92,7 +92,9 @@
               <div class="fs-16">不顺手来个点赞？</div>
               <div class="zan-btn" @click="clickPraise" >
                 <zan
-                :iconType="ZanIconType"></zan>
+                  :iconType="ZanIconType"
+                  :zanNumber = 'zanNumber'>
+                </zan>
               </div>
             </div>
           </div>
@@ -103,6 +105,18 @@
           <img :src="trialReportPic + '!orgi75'" alt="" style="width: 100%;margin-top: 20px;">
         </div>
         <div slot="footer"></div>
+      </Modal>
+      <Modal v-model="selectLogin" width="500">
+        <p class="mt-20 mb-40 text-ct fs-22 vtc-mid" style="height: 50px;line-height: 50px">
+          <i class="ivu-icon ivu-icon-android-alert " style="color: #FF6600; font-size: 20px;"></i>
+          亲，你还没登录哦~
+          <br>
+          <span class="fs-12">请先登录后再点赞</span>
+        </p>
+        <div slot="footer" class="text-ct">
+          <router-link class="ivu-btn ivu-btn-error ivu-btn-large mr-40 ml-40" to="/login" style="color: #fff; width: 102px;">马上登录</router-link>
+          <router-link class="ivu-btn ivu-btn-error ivu-btn-large mr-40" to="/sel-role" style="color: #fff;  width: 102px;">新用户注册</router-link>
+        </div>
       </Modal>
     </div>
 </template>
@@ -149,7 +163,10 @@
     },
     data () {
       return {
-        ZanIconType:null,
+        zanTotalNumbers:0,
+        zanNumber:0,
+        ZanIconType:'ios-heart-outline',
+        selectLogin:false,
         copyHtml: '',
         copyValue: '',
         trialReportPicShow: false,
@@ -178,6 +195,7 @@
         showkerReportDesc: {},
         lastApplySuccessTime: null,
         trialReportId:null,
+        trialReports:{},
       }
     },
     created(){
@@ -190,6 +208,7 @@
           id: decode(self.$route.query.id),
           showkerId: decode(self.$route.query.q)
         };
+        self.trialReports = trialReport;
         self.showReportDescFunc(trialReport);
       }
       this.getTrialReports();
@@ -201,17 +220,25 @@
         return this.$store.state.userInfo;
       },
       getLastLoginTime() {
-        return Math.max(this.showkerInfo.lastLoginTimeAPP, this.showkerInfo.lastLoginTimePC)
+        return Math.max(this.showkerInfo.lastLoginTimeAPP, this.showkerInfo.lastLoginTimePC);
+      },
+      getWhetherLogin(){
+        return this.$store.state.login;
       }
     },
     methods: {
       clickPraise(){
         let self = this;
+        if(!self.getWhetherLogin){
+         return self.selectLogin = true;
+        }
         api.clickPraise({
           trialReportId : self.showkerReportDesc.id
         }).then((res) =>{
           if (res.status){
             self.$Message.success('点赞成功!');
+            self.showReportDescFunc(self.trialReports);
+            self.ZanIconType = 'ios-heart-outline';
           }else {
             self.$Message.error(res.msg)
           }
@@ -219,12 +246,13 @@
       },
       whetherClickPraise(){
         let self = this;
-        console.log(self.showkerReportDesc.id);
         api.whetherClickPraise({
           trialReportId : self.showkerReportDesc.id
         }).then((res) =>{
           if (res.status){
-            self.$Message.success('您已经点过赞了!');
+            if (res.data){
+              self.ZanIconType = 'ios-heart';
+            }
           }else {
             self.$Message.error(res.msg)
           }
@@ -250,6 +278,9 @@
               }
             }
             self.trialReportList = res.data.content;
+            res.data.content.forEach((item) =>{
+              self.zanTotalNumbers += item.other.likeCount
+            });
             self.totalPages = res.data.totalElements;
           } else {
             self.$Message.error({
@@ -292,6 +323,7 @@
         }).then((res) => {
           if(res.status){
             self.showkerReportDesc = res.data;
+            self.zanNumber = res.data.other.likeCount;
             self.whetherClickPraise();
             self.showkerReportDesc.trialReportImages = JSON.parse(self.showkerReportDesc.trialReportImages);
             let trialReportImages = null;
