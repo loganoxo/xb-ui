@@ -105,7 +105,7 @@
   .suspend-service {
     display: block;
     position: fixed;
-    right: 99px;
+    right: 64px;
     top: 242px;
     cursor: pointer;
   }
