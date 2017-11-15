@@ -575,6 +575,20 @@ export default {
   },
 
   /**
+   * 点赞接口
+   */
+  clickPraise(params) {
+    return fetch("/api/task/showker/like/report.json",params)
+  },
+
+  /**
+   * 判断是否已经点赞接口
+   */
+  whetherClickPraise(params) {
+    return fetch("/api/task/showker/liked/report.json",params)
+  },
+
+  /**
    * 商家个人主页活动提醒
    */
   sellerPersonalTrialCount() {
