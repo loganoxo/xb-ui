@@ -225,7 +225,7 @@
                   :on-remove="removePcImage"
                   :on-success="pcBabyImgSuccess"
                   :format="['jpg','jpeg','png','gif','bmp']"
-                  :max-size="300"
+                  :max-size="1024"
                   :on-format-error="handleFormatError"
                   :on-exceeded-size="handleMaxSize"
                   type="drag">
@@ -235,7 +235,7 @@
                 </Upload>
                 <p
                   class="sizeColor pl-60 mt-10">
-                  点击或者拖拽自主上传图片，支持jpg \ jpeg \ png \ gif \ bmp格式，最佳尺寸400*400（像素），不超过300K，可与宝贝主图一致</p>
+                  点击或者拖拽自主上传图片，支持jpg \ jpeg \ png \ gif \ bmp格式，最佳尺寸400*400（像素），不超过1M，可与宝贝主图一致</p>
               </div>
               <div class="search-keyword mt-20 ml-28">
                 <span class="required">搜索关键词：</span>
@@ -337,7 +337,7 @@
                   :default-file-list="appDefaultList"
                   :on-remove="removeAppImage"
                   :format="['jpg','jpeg','png','gif','bmp']"
-                  :max-size="300"
+                  :max-size="1024"
                   name="task"
                   :on-format-error="handleFormatError"
                   :on-exceeded-size="handleMaxSize"
@@ -348,7 +348,7 @@
                 </Upload>
                 <p
                   class="sizeColor pl-60 mt-10">
-                  点击或者拖拽自主上传图片，支持jpg \ jpeg \ png \ gif \ bmp格式，最佳尺寸400*400（像素），不超过300K，可与宝贝主图一致</p>
+                  点击或者拖拽自主上传图片，支持jpg \ jpeg \ png \ gif \ bmp格式，最佳尺寸400*400（像素），不超过1M，可与宝贝主图一致</p>
               </div>
               <div class="search-keyword mt-20 ml-28">
                 <span class="required">搜索关键词：</span>
@@ -878,7 +878,7 @@
       handleMaxSize(file) {
         this.$Modal.warning({
           title: '超出文件大小限制',
-          content: '图片 ' + file.name + ' 太大，不能超过 300K'
+          content: '图片 ' + file.name + ' 太大，不能超过 1M'
         });
       },
       stepNext() {
