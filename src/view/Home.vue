@@ -401,7 +401,6 @@
         <Checkbox-group v-model="wechartShowAgain">
           <Checkbox label="true">不再提醒</Checkbox>
         </Checkbox-group>
-
         <!--<p v-show="getUserInfoRole == 0" class="ml-10" style="position: absolute;bottom: 90px;left: 21px; height: 30px; line-height: 30px;">-->
         <!--<span class="left fs-14 mr-10" style="color: #ff6633;">特权口令：</span>-->
         <!--<iInput v-model="command"  class="left mr-10" style="width:150px;"></iInput>-->
@@ -420,21 +419,35 @@
       <div slot="footer">
       </div>
     </Modal>
-    <Modal v-model="$store.state.wechartShow" width="550" @on-cancel="cancelWeiChartFunc">
-      <div style="text-align: right;margin-right: 11px;position: relative;top: -2px;">
-        <Checkbox-group v-model="wechartShowAgain">
-          <Checkbox label="true">不再提醒</Checkbox>
-        </Checkbox-group>
-        <img v-show="getUserInfoRole == 0" src="/static/img/home/wechart_alert_06.png" alt=""
-             style="width: 100%; margin-top: 20px">
-        <!--<p v-show="getUserInfoRole == 0" class="ml-10" style="position: absolute;bottom: 90px;left: 21px; height: 30px; line-height: 30px;">-->
-        <!--<span class="left fs-14 mr-10" style="color: #ff6633;">特权口令：</span>-->
-        <!--<iInput v-model="command"  class="left mr-10" style="width:150px;"></iInput>-->
-        <!--<iButton class="left" type="error" @click="setWeChartAlertFunc(0)" >提交</iButton>-->
-        <!--</p>-->
+   <!-- <Modal v-model="$store.state.wechartShow" width="550" @on-cancel="cancelWeiChartFunc">
+    <div style="text-align: right;margin-right: 11px;position: relative;top: -2px;">
+      <Checkbox-group v-model="wechartShowAgain">
+        <Checkbox label="true">不再提醒</Checkbox>
+      </Checkbox-group>
+      <img v-show="getUserInfoRole == 0" src="/static/img/home/wechart_alert_07.png" alt=""
+           style="width: 100%; margin-top: 20px">
+      &lt;!&ndash;<p v-show="getUserInfoRole == 0" class="ml-10" style="position: absolute;bottom: 90px;left: 21px; height: 30px; line-height: 30px;">&ndash;&gt;
+      &lt;!&ndash;<span class="left fs-14 mr-10" style="color: #ff6633;">特权口令：</span>&ndash;&gt;
+      &lt;!&ndash;<iInput v-model="command"  class="left mr-10" style="width:150px;"></iInput>&ndash;&gt;
+      &lt;!&ndash;<iButton class="left" type="error" @click="setWeChartAlertFunc(0)" >提交</iButton>&ndash;&gt;
+      &lt;!&ndash;</p>&ndash;&gt;
+    </div>
+    <div slot="footer"></div>
+  </Modal>-->
+    <div class="confirm-recharge-model" v-show="$store.state.wechartShow">
+      <div class="confirm-recharge-con">
+        <div class="pos-rel">
+          <Checkbox-group v-model="wechartShowAgain" style="position: absolute;top:25px;right: 30px;">
+            <Checkbox label="true">不再提醒</Checkbox>
+          </Checkbox-group>
+          <div style="position: absolute;top:27px;right: 15px;cursor: pointer;color: #FF6633" @click="cancelWeiChartFunc">
+            <Icon type="close" ></Icon>
+          </div>
+          <img v-show="getUserInfoRole == 0" src="/static/img/home/wechart_alert_07.png" alt=""
+               style="width: 507px;height: 340px; margin-top: 20px">
+        </div>
       </div>
-      <div slot="footer"></div>
-    </Modal>
+    </div>
     <Modal v-model="getMoreBuyerShow" width="300" >
       <div class="text-ct">
         <div style="height: 20px"></div>
@@ -493,6 +506,7 @@
     },
     data() {
       return {
+        confirmRechargeModel:true,
         command: '',
         wechartAlertShow: false,
         wechartShowAgain: [],
@@ -901,6 +915,10 @@
             setStorage('setWeChartshower' + self.$store.state.userInfo.phone, '1')
           }
         }
+        self.$store.commit({
+          type: 'SET_WECHART_SHOW',
+          info: false
+        });
       },
       goOut() {
         let _this = this;
@@ -1032,7 +1050,23 @@
 <style lang="scss" scoped>
 
   @import 'src/css/mixin';
+  .confirm-recharge-model {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 999;
+    background-color: rgba(55, 55, 55, .6);
+  }
+  .confirm-recharge-con {
+    position: absolute;
+    top: 20%;
+    left: 50%;
+    width: 507px;
+    margin-left: -254px;
 
+  }
   .home-ctt {
     background-color: #F1F1F1;
     .user-name {

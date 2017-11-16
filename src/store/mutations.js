@@ -72,7 +72,7 @@ export default {
     state.showMerchantGuide = status;
   },
 
-  //
+  //秀客登录首页弹出微信弹窗
   [types.SET_WECHART_SHOW](state,{result}) {
     state.wechartShow = result;
   },

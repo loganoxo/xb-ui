@@ -26,6 +26,7 @@
   import Bottom from "@/components/Bottom.vue"
   import SideNavigation from '@/components/SideNavigation.vue'
   import MerchantGuide from '@/components/MerchantGuide.vue'
+  import SellerGuide from '@/components/sellerGuide.vue'
   import BackTop from "iview/src/components/back-top"
   import {getStorage, getCookie} from '@/config/utils'
   import api from '@/config/apiConfig'
@@ -38,6 +39,7 @@
       BackTop: BackTop,
       SideNavigation: SideNavigation,
       MerchantGuide: MerchantGuide,
+      SellerGuide:SellerGuide,
     },
     data() {
       return {
