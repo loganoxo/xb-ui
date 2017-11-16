@@ -5,10 +5,10 @@
       <div class="user-info-box animated fadeIn">
         <div class="user-basic">
           <p class="fs-14 user-basic-title">基本信息</p>
-          <div class="user-basic-ctt">
+          <div class="user-basic-ctt clear">
             <div class="text-ct left">
-              <img class="block mg-at" :src="userHeadUrl" alt="" style="width: 120px; border-radius: 50%;">
-              <a class="fs-14 block mt-10" @click="toggleShow">修改头像</a>
+              <img class="block mg-at" :src="userHeadUrl" alt=""
+                   style="width: 120px; border-radius: 50%;">
               <picture-upload field="pictureUploadImage"
                               @crop-success="cropSuccess"
                               v-model="showPictureUpload"
@@ -19,7 +19,7 @@
                               img-format="png">
               </picture-upload>
             </div>
-            <ul v-show="!showModifyAvatar" class="left">
+            <ul class="left">
               <li>
                 手机帐号：{{userList.phone}}
               </li>
@@ -45,10 +45,14 @@
                 注册时间：{{userList.createTime | dateFormat('YYYY-MM-DD hh:mm:ss')}}
               </li>
             </ul>
-            <p v-show="showModifyAvatar" class="img-box">
-              <img :src="avatar.src" alt="" @click="modifyPortraitPic(avatar)" :key="avatar.src"
-                   style="width: 68px; cursor: pointer" v-for="avatar in avatars">
-            </p>
+            <!-- <p v-show="showModifyAvatar" class="img-box">
+               <img :src="avatar.src" alt="" @click="modifyPortraitPic(avatar)" :key="avatar.src"
+                    style="width: 68px; cursor: pointer" v-for="avatar in avatars">
+             </p>-->
+          </div>
+          <div class="edit-head">
+            <a class="fs-14 mt-10" @click="toggleShow">修改头像</a>
+            <span>（上传自定义个性头像，可以提高活动申请通过率哦）</span>
           </div>
         </div>
         <div class="user-safe" v-show="myAccount.userSafe">
@@ -371,45 +375,45 @@
             {validator: validatePassCheck, trigger: 'blur'},
           ],
         },
-        avatars: [
-          {
-            src: "/static/avatar/tx1.png"
-          },
-          {
-            src: "/static/avatar/tx2.png"
-          },
-          {
-            src: "/static/avatar/tx3.png"
-          },
-          {
-            src: "/static/avatar/tx4.png"
-          },
-          {
-            src: "/static/avatar/tx5.png"
-          },
-          {
-            src: "/static/avatar/tx6.png"
-          },
-          {
-            src: "/static/avatar/tx7.png"
-          },
-          {
-            src: "/static/avatar/tx8.png"
-          },
-          {
-            src: "/static/avatar/tx9.png"
-          },
-          {
-            src: "/static/avatar/tx10.png"
-          },
-          {
-            src: "/static/avatar/tx11.png"
-          },
-          {
-            src: "/static/avatar/tx12.png"
-          },
-        ],
-        showModifyAvatar: false,
+        /* avatars: [
+           {
+             src: "/static/avatar/tx1.png"
+           },
+           {
+             src: "/static/avatar/tx2.png"
+           },
+           {
+             src: "/static/avatar/tx3.png"
+           },
+           {
+             src: "/static/avatar/tx4.png"
+           },
+           {
+             src: "/static/avatar/tx5.png"
+           },
+           {
+             src: "/static/avatar/tx6.png"
+           },
+           {
+             src: "/static/avatar/tx7.png"
+           },
+           {
+             src: "/static/avatar/tx8.png"
+           },
+           {
+             src: "/static/avatar/tx9.png"
+           },
+           {
+             src: "/static/avatar/tx10.png"
+           },
+           {
+             src: "/static/avatar/tx11.png"
+           },
+           {
+             src: "/static/avatar/tx12.png"
+           },
+         ],*/
+//        showModifyAvatar: false,
         userData: {},
         showPictureUpload: false,
         pictureUploadImage: null,
@@ -487,7 +491,7 @@
           picStr: _this.pictureUploadImage
         }).then((res) => {
           if (res.status) {
-            _this.showModifyAvatar = false;
+//            _this.showModifyAvatar = false;
             _this.$store.dispatch('getUserInformation');
           } else {
             _this.$Message.error(res.msg);
@@ -595,14 +599,14 @@
           return true;
         }
       },
-      myInfoSelectsFunc(myInfoSelect) {
+      /*myInfoSelectsFunc(myInfoSelect) {
         this.infoSelect = myInfoSelect.isSelect;
         myInfoSelect.callback();
       },
       //修改头像
       selPortraitPic() {
         this.showModifyAvatar = true;
-      },
+      },*/
       handleSubmit(name, callback) {
         let res = false;
         this.$refs[name].validate((valid) => {
@@ -643,8 +647,7 @@
         }
       }
       .user-basic-ctt {
-        padding: 25px 0;
-        overflow: hidden;
+        padding: 25px 0 0 0;
         > div {
           width: 20%;
           text-align: center;
@@ -652,9 +655,10 @@
         > ul {
           margin-top: 5px;
           width: 80%;
-          line-height: 30px;
-          height: 30px;
           font-size: 14px;
+          li {
+            line-height: 30px;
+          }
         }
       }
     }
@@ -833,6 +837,12 @@
       }
 
     }
+  }
+
+  .edit-head {
+    padding-left: 68px;
+    margin-top: 12px;
+    padding-bottom: 26px;
   }
 
   .my-account {

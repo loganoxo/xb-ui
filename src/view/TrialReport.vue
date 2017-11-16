@@ -4,7 +4,7 @@
       <div class="mt-10 clear">
         <div class="trial-left left">
           <div>
-            <img :src="showkerInfo.portraitPic" alt="" style="width: 160px;">
+            <img :src="getUserHead(showkerInfo.portraitPic)" alt="" width="120" height="120">
             <p class="fs-16 mt-10 mb-10">{{showkerInfo.phone}}</p>
             <p>申请次数：{{applyCount || 0}} 次</p>
             <p>成功申请：{{applySuccessCount || 0}} 次</p>
@@ -113,13 +113,14 @@
   import Checkbox from 'iview/src/components/checkbox'
   import Button from 'iview/src/components/button'
   import Radio from 'iview/src/components/radio'
-  import api from '@/config/apiConfig'
-  import {setStorage, getStorage, decode, encryption} from '@/config/utils'
   import Modal from 'iview/src/components/modal'
   import Breadcrumb from 'iview/src/components/breadcrumb'
   import Page from 'iview/src/components/page'
-  import TimeDown from '@/components/TimeDown'
   import Carousel from 'iview/src/components/carousel'
+  import api from '@/config/apiConfig'
+  import {setStorage, getStorage, decode, encryption} from '@/config/utils'
+  import {aliCallbackImgUrl} from '@/config/env'
+  import TimeDown from '@/components/TimeDown'
   export default {
 
     name: 'MyTrialReport',
@@ -201,11 +202,20 @@
         this.trialReportParams.itemCatalogname = key;
         this.getTrialReports();
       },
+      getUserHead(src) {
+        if (src.indexOf('head-image') >= 0) {
+          return aliCallbackImgUrl + src + '!orgi75'
+        } else if (src.indexOf('q.qlogo.cn/qq') >= 0) {
+          return src
+        } else {
+          return '/static/img/common/tx-default.png'
+        }
+      },
       getTrialReports(){
         let self = this;
         api.getTrialReports(self.trialReportParams).then((res) => {
           if(res.status){
-            if(res.data.content != ''){
+            if(res.data.content !== ''){
               for(let i = 0, j = res.data.content.length; i < j; i++){
                 res.data.content[i].trialReportImages = JSON.parse(res.data.content[i].trialReportImages);
               }
@@ -294,6 +304,9 @@
       background-color: #f8f8f8;
       border: 1px solid #ddd;
       margin-right: 10px;
+      img{
+        margin-left: 12px;
+      }
       p{
         line-height: 25px;
       }

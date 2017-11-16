@@ -144,7 +144,7 @@
                 <li v-for="detailsShowker in detailsShowkerList">
                   <div>
                     <router-link class="block" :to="{path:'/trial-report',query:{q:encryptionId(detailsShowker.showkerId)}}">
-                      <img :src="detailsShowker.showkerPortraitPic" alt="" width="100px">
+                      <img :src="getUserHead(detailsShowker.showkerPortraitPic)" alt="" width="100px">
                     </router-link>
 
                     <p>{{detailsShowker.showkerPhone}}</p>
@@ -178,7 +178,7 @@
             </div>
             <div v-show="graphicInfoSelClass == 'audited'" class="graphic-audited-buyer">
               <router-link :to="{ 'path': '/trial-report','query': {'q': encryptionId(detailsSuccessShowker.showkerId)}}" :key="detailsSuccessShowker.id" v-show="detailsSuccessShowkerList.length > 0 "  v-for="detailsSuccessShowker in detailsSuccessShowkerList">
-                <img :src="detailsSuccessShowker.showkerPortraitPic" width="68px" alt="">
+                <img :src="getUserHead(detailsSuccessShowker.showkerPortraitPic)" width="68" height="68" alt="">
                 <p class="cl000">{{detailsSuccessShowker.showkerPhone}}</p>
               </router-link>
               <p v-show="detailsSuccessShowkerList.length <= 0 " class="text-ct fs-14">
@@ -276,17 +276,16 @@
   import Checkbox from 'iview/src/components/checkbox'
   import Button from 'iview/src/components/button'
   import Radio from 'iview/src/components/radio'
+  import Modal from 'iview/src/components/modal'
+  import Page from 'iview/src/components/page'
+  import Breadcrumb from 'iview/src/components/breadcrumb'
+  import Clipboard from 'clipboard';
   import api from '@/config/apiConfig'
   import PlaceOrderStep from '@/components/PlaceOrderStep'
-  import {setStorage, getStorage, decode, encryption} from '@/config/utils'
-  import {TaskErrorStatusList} from '@/config/utils'
-  import Modal from 'iview/src/components/modal'
-  import Breadcrumb from 'iview/src/components/breadcrumb'
-  import Page from 'iview/src/components/page'
+  import {setStorage, getStorage,getSeverTime, decode, encryption, TaskErrorStatusList} from '@/config/utils'
+  import {aliCallbackImgUrl} from '@/config/env'
   import TimeDown from '@/components/TimeDown'
   import TaskApplyBefore from '@/components/TaskApplyBefore'
-  import {getSeverTime} from '@/config/utils'
-  import Clipboard from 'clipboard';
   export default {
     name: 'task-details',
     components: {
@@ -454,9 +453,9 @@
       getRole() {
         return this.$store.state.userInfo.role
       },
-      getNeedBrowseCollectAddCart(){
+     /* getNeedBrowseCollectAddCart(){
         return this.needBrowseCollectAddCart
-      },
+      },*/
       getTaskId(){
         return decode(this.$route.query.q)
       },
@@ -466,11 +465,19 @@
       encryptionId(id){
         return encryption(id);
       },
+      getUserHead(src) {
+        if (src.indexOf('head-image') >= 0) {
+          return aliCallbackImgUrl + src + '!orgi75'
+        } else if (src.indexOf('q.qlogo.cn/qq') >= 0) {
+          return src
+        } else {
+          return '/static/img/common/tx-default.png'
+        }
+      },
       refreshPage(){
         let self = this;
         this.applySuccess = false;
         self.getTaskDetails();
-//        window.location.reload();
       },
       closeMyPop(){
         this.showkerApplyBefore = false;
@@ -956,6 +963,9 @@
             margin-right: 66px;
             margin-bottom: 30px;
             float: left;
+            img{
+              border-radius: 50%;
+            }
           }
         }
       }

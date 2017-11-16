@@ -784,8 +784,8 @@
       },
       cancelWeiChartFunc() {
         let self = this;
-        if (self.wechartShowAgain != '') {
-          if (self.$store.state.userInfo.role == 1) {
+        if (self.wechartShowAgain !== '') {
+          if (self.$store.state.userInfo.role === 1) {
             api.noWechartAlert().then((res) => {
               if (!res.status) {
                 self.$Message.error(res.msg)
