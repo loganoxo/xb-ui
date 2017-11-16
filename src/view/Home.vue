@@ -231,7 +231,7 @@
                         价值<span class="text ml-5">￥{{taskTopLeft.task.itemPrice / 100}}</span> 的宝贝
                       </p>
                       <span style="color: #999;">
-                {{
+                      {{
                         (new Date() - taskTopLeft.createTime) / 1000 < 60 ? 1 :
                           (new Date() - taskTopLeft.createTime) / 1000 / 60 < 60 ? parseInt((new Date() - taskTopLeft.createTime) / 1000 / 60) :
                             (new Date() - taskTopLeft.createTime) / 1000 / 60 / 60 / 24 < 1 ? parseInt((new Date() - taskTopLeft.createTime) / 1000 / 60 / 60) :
@@ -260,7 +260,11 @@
       <div class="container">
         <div class="home-commodity">
           <div class="home-commodity-title">
-            <img src="~assets/img/home/home_15.png" alt="">
+            <div class="home-commodity-img-title">
+              <div class="part-title-img-box">
+                <span class="fs-18">免费领</span>
+              </div>
+            </div>
             <p class="text-ct fs-14">我型我秀，分享精彩</p>
           </div>
           <div class="home-commodity-ctt">
@@ -302,7 +306,11 @@
       <div class="container" style="margin-top: 10px;">
         <div class="home-commodity">
           <div class="home-commodity-title">
-            <img src="/static/img/home/bcj.png" alt="">
+            <div class="home-commodity-img-title">
+              <div class="part-title-img-box">
+                <span class="fs-18">白菜价</span>
+              </div>
+            </div>
             <p class="text-ct fs-14">我型我秀，分享精彩</p>
           </div>
           <div class="home-commodity-ctt">
@@ -342,7 +350,11 @@
       <div class="container" style="margin-top: 10px;">
         <div class="home-commodity">
           <div class="home-commodity-title">
-            <img src="~assets/img/home/home_25.png" alt="">
+            <div class="home-commodity-img-title">
+              <div class="part-title-img-box">
+                <span class="fs-18">历史活动</span>
+              </div>
+            </div>
             <p class="text-ct fs-14">我型我秀，分享精彩</p>
           </div>
           <div class="home-commodity-ctt">
@@ -1283,6 +1295,7 @@
       background-color: #fff;
       border: 1px solid #E8E8E8;
       .home-commodity-title {
+        margin-top: 30px;
         img {
           display: block;
           margin: 28px auto 10px auto;
@@ -1352,6 +1365,19 @@
     margin-top: 0;
   }
 
+  .part-title-img-box{
+    width: 270px;
+    height: 30px;
+    background: url('/static/img/common/part-title-img.png') no-repeat;
+    margin: auto;
+    span{
+      font-weight: bold;
+      margin-left: 113px;
+      width: 96px;
+      display: block;
+      text-align: center;
+    }
+  }
   @keyframes sliderTop {
     0% {
       margin-top: 0;
