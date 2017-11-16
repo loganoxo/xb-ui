@@ -27,21 +27,17 @@
                 <span v-show="ww.status == 1">审核中</span>
                 <div v-if="ww.status == 2 ">
                   <p>{{wwStatusTextOn}}</p>
-                  <div @click="getAlimitId(ww.id)">
-                    <iSwitch
-                      v-model="switchTrue"
-                      @on-change="switchTypeTrue(ww.id)">
-                    </iSwitch>
-                  </div>
+                  <iSwitch
+                    v-model="switchTrue"
+                    @on-change="switchTypeTrue(ww.id)">
+                  </iSwitch>
                 </div>
                 <div v-if="ww.status == 5 ">
                   <p>{{wwStatusTextOff}}</p>
-                  <div @click="getAlimitId(ww.id)">
-                    <iSwitch
-                      v-model="switchFalse"
-                      @on-change="switchTypeFalse(ww.id)">
-                    </iSwitch>
-                  </div>
+                  <iSwitch
+                    v-model="switchFalse"
+                    @on-change="switchTypeFalse(ww.id)">
+                  </iSwitch>
                 </div>
                 <Tooltip v-show="ww.status == 3" :content="ww.remarks" placement="top" style="color: #ff6633;">
                   <Icon type="information-circled" color="#FF6633"></Icon>
