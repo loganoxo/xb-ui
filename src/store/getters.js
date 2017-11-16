@@ -44,6 +44,6 @@ export default {
 
   //从userInfo中获取用户头像地址
   getUserHeadUrl: state => {
-    return Object.keys(state.userInfo).length > 0 ? aliCallbackImgUrl + state.userInfo.portraitPic : null;
+    return Object.keys(state.userInfo).length > 0 &&state.userInfo.portraitPic.indexOf('head-image') > 0 ? aliCallbackImgUrl + state.userInfo.portraitPic : '';
   }
 }
