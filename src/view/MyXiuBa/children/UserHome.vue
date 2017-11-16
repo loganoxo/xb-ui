@@ -3,7 +3,7 @@
     <p class="user-home-account">我的主页</p>
     <div class="fs-14 user-info-box clear">
       <div class="left">
-        <img class="left" :src="userData.portraitPic" alt="" width="56px" style="border-radius: 50%">
+        <img class="left" :src="userHeadUrl + '!thum54'" alt="" width="56px" style="border-radius: 50%">
       </div>
       <div class="left ml-20">
         <p>
@@ -205,21 +205,23 @@
     },
     computed: {
       getUserInfoRole() {
-        return this.$store.state.userInfo.role;
+        return this.$store.getters.getUserRole;
       },
       getUserBalance() {
         return this.$store.getters.getUserBalance;
       },
-      userData: function () {
+      userData() {
         return this.$store.state.userInfo;
       },
-       getMemberDeadline:function () {
+       getMemberDeadline() {
          return this.$store.state.userInfo.memberDeadline
        },
-      getMemberLevel:function () {
+      getMemberLevel() {
         return this.$store.state.userInfo.memberLevel
       },
-
+      userHeadUrl() {
+        return this.$store.getters.getUserHeadUrl
+      }
     },
     methods: {
       getUserMemberLevelInfo() {

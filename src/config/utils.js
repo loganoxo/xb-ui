@@ -113,7 +113,7 @@ export const isAliUrl = (url) => {
 };
 
 /**
- * 上传图片到阿里云
+ * 上传图片到阿里云（分片上传file文件）
  */
 export const aliUploadImg = (key, file) => {
   return new Promise((resolve, reject) => {
@@ -131,6 +131,35 @@ export const aliUploadImg = (key, file) => {
         secure: true
       });
       client.multipartUpload(key, file).then(response => {
+        resolve(response);
+      }, err => {
+        reject(err);
+      }).catch((error) => {
+        reject(error);
+      })
+    });
+  });
+};
+
+/**
+ * 上传图片到阿里云（上传Buffer文件）
+ */
+export const aliUploadImgBuffer = (key, file) => {
+  return new Promise((resolve, reject) => {
+    OSS.urllib.request(aliTokenUrl, {method: 'GET'}, function (err, response) {
+      if (err) {
+        return alert(err);
+      }
+      const result = JSON.parse(response);
+      const client = new OSS.Wrapper({
+        accessKeyId: result.AccessKeyId,
+        accessKeySecret: result.AccessKeySecret,
+        stsToken: result.SecurityToken,
+        bucket: bucket,
+        endpoint: 'https://oss-cn-hangzhou.aliyuncs.com',
+        secure: true
+      });
+      client.put(key, file).then(response => {
         resolve(response);
       }, err => {
         reject(err);

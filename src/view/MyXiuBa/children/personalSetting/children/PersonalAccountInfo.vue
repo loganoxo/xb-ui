@@ -2,21 +2,31 @@
   <div class="personal-box">
     <div class="personal-sel-box">
       <!--账号信息beg-->
-      <div  class="user-info-box animated fadeIn">
+      <div class="user-info-box animated fadeIn">
         <div class="user-basic">
           <p class="fs-14 user-basic-title">基本信息</p>
           <div class="user-basic-ctt">
             <div class="text-ct left">
-              <img class="block mg-at" :src="userList.portraitPic" alt="" style="width: 120px; border-radius: 50%;">
-              <a class="fs-14 block mt-10" @click="selPortraitPic">修改头像</a>
+              <img class="block mg-at" :src="userHeadUrl + '!orgi75'" alt="" style="width: 120px; border-radius: 50%;">
+              <a class="fs-14 block mt-10" @click="toggleShow">修改头像</a>
+              <picture-upload field="pictureUploadImage"
+                              @crop-success="cropSuccess"
+                              v-model="showPictureUpload"
+                              :width="120"
+                              :height="120"
+                              :max-size="300"
+                              :lang-ext="langExt"
+                              img-format="jpg/jpeg/png/gif/bmp">
+              </picture-upload>
             </div>
             <ul v-show="!showModifyAvatar" class="left">
               <li>
-                手机帐号： {{userList.phone}}
+                手机帐号：{{userList.phone}}
               </li>
               <li v-if="userList.role == 0">
                 <p v-if="userList.alitmNum <= 0 ">
-                  绑定淘宝账号：未绑定 - <router-link to="/user/personal-setting/ww-bind">马上绑定</router-link>
+                  绑定淘宝账号：未绑定 -
+                  <router-link to="/user/personal-setting/ww-bind">马上绑定</router-link>
                 </p>
                 <p v-else>
                   绑定淘宝账号：<a>已绑定</a>
@@ -36,7 +46,8 @@
               </li>
             </ul>
             <p v-show="showModifyAvatar" class="img-box">
-              <img :src="avatar.src" alt="" @click="modifyPortraitPic(avatar)" :key="avatar.src" style="width: 68px; cursor: pointer" v-for="avatar in avatars">
+              <img :src="avatar.src" alt="" @click="modifyPortraitPic(avatar)" :key="avatar.src"
+                   style="width: 68px; cursor: pointer" v-for="avatar in avatars">
             </p>
           </div>
         </div>
@@ -51,7 +62,7 @@
                   <span>(建议定期修改登录密码)</span>
                 </li>
                 <li class="three">
-                  <a @click="myAccountPwdChangeFather('modifyPwd')" >去修改</a>
+                  <a @click="myAccountPwdChangeFather('modifyPwd')">去修改</a>
                 </li>
               </ul>
             </li>
@@ -85,7 +96,7 @@
         </div>
 
         <!--修改密码-->
-        <div class="my-account" >
+        <div class="my-account">
           <div class="modify-pwd clear" v-show="myAccount.modifyPwd">
             <div class="modify-pwd-sel clear">
               <p>修改登录密码</p>
@@ -102,7 +113,7 @@
                       <i data-v-5aa11427="" class="ivu-icon ivu-icon-chevron-right"
                          style="vertical-align: middle;display: table-cell; font-size: 20px;"></i>
                     </div>
-                    <div  @click="myAccountPwdChangeSon('selPhoneModify')" class="sel-canal">
+                    <div @click="myAccountPwdChangeSon('selPhoneModify')" class="sel-canal">
                       <p>
                         我记得原来的密码
                       </p>
@@ -117,7 +128,8 @@
 
               </div>
               <div v-show="myAccountSon.selPhoneModify" class="sel-default-modify mt-20">
-                <iForm ref="defaultModifyCustom" :model="defaultModifyCustom" :rules="defaultModifyRuleCustom" :label-width="400">
+                <iForm ref="defaultModifyCustom" :model="defaultModifyCustom" :rules="defaultModifyRuleCustom"
+                       :label-width="400">
                   <div class="clear form-input-box">
                     <Form-item label="原始密码" class="left" style="width: 650px" prop="oldPwd">
                       <iInput type="password" size="large" v-model="defaultModifyCustom.oldPwd"></iInput>
@@ -135,7 +147,8 @@
                   </div>
                   <div>
                     <Form-item>
-                      <iButton :disabled="defaultModifyBtnState" @click="handleSubmit('defaultModifyCustom',modifyDefaultPwdFunc)">
+                      <iButton :disabled="defaultModifyBtnState"
+                               @click="handleSubmit('defaultModifyCustom',modifyDefaultPwdFunc)">
                         确定
                       </iButton>
                       <iButton @click="myAccountPwdChangeSon('selBox')">
@@ -149,11 +162,11 @@
                 <iForm ref="payCustom" :model="payCustom" :rules="payRuleCustom" :label-width="400">
                   <div class="clear form-input-box">
                     <Form-item label="绑定手机" prop="phone" class="left" style="width: 650px">
-                       <input class="fs-14" type="text" v-model="payCustom.phone" style="border: none;" readonly>
+                      <input class="fs-14" type="text" v-model="payCustom.phone" style="border: none;" readonly>
                     </Form-item>
                   </div>
                   <div class="clear form-input-box">
-                    <Form-item label="图形验证码"  prop="validateCode" class="left" style="width: 550px">
+                    <Form-item label="图形验证码" prop="validateCode" class="left" style="width: 550px">
                       <iInput type="text" size="large" v-model="payCustom.validateCode"></iInput>
                     </Form-item>
                     <div style="width: 100px; float:left;">
@@ -185,15 +198,16 @@
                 </iForm>
               </div>
               <div v-show="myAccountSon.modifyPwd" class="mt-20">
-                <iForm ref="trendsModifyCustom" :model="trendsModifyCustom" :rules="trendsModifyRuleCustom" :label-width="400">
+                <iForm ref="trendsModifyCustom" :model="trendsModifyCustom" :rules="trendsModifyRuleCustom"
+                       :label-width="400">
                   <div class="clear form-input-box">
-                    <Form-item label="新密码" prop="pwd" class="left" style="width: 650px" >
+                    <Form-item label="新密码" prop="pwd" class="left" style="width: 650px">
                       <iInput type="password" size="large" v-model="trendsModifyCustom.pwd"></iInput>
                     </Form-item>
                   </div>
                   <div class="clear form-input-box">
                     <Form-item label="确认新密码" class="left" style="width: 650px" prop="repwd">
-                      <iInput type="password" size="large"  v-model="trendsModifyCustom.repwd"></iInput>
+                      <iInput type="password" size="large" v-model="trendsModifyCustom.repwd"></iInput>
                     </Form-item>
                   </div>
                   <div>
@@ -221,15 +235,15 @@
   import Checkbox from 'iview/src/components/checkbox'
   import Button from 'iview/src/components/button'
   import Radio from 'iview/src/components/radio'
-  import api from '@/config/apiConfig'
-  import Upload from '@/components/upload'
-  import {setStorage, getStorage} from '@/config/utils'
-  import {aliCallbackImgUrl} from '@/config/env'
   import Modal from 'iview/src/components/modal'
   import Alert from 'iview/src/components/alert'
+  import pictureUpload from 'vue-image-crop-upload';
+  import api from '@/config/apiConfig'
+  import Upload from '@/components/upload'
+  import {setStorage, getStorage, aliUploadImgBuffer, randomString} from '@/config/utils'
+  import {aliCallbackImgUrl} from '@/config/env'
   import SmsCountdown from '@/components/SmsCountdown'
-  import {mapActions} from 'vuex'
-  import {mapMutations} from 'vuex'
+
   export default {
     name: 'ersonalAccountInfo',
     components: {
@@ -246,6 +260,7 @@
       Modal: Modal,
       Alert: Alert,
       SmsCountdown: SmsCountdown,
+      pictureUpload: pictureUpload,
     },
     data() {
       //表单验证
@@ -296,24 +311,24 @@
         }
       };
       return {
-        myAccount:{
-          userSafe:true,
-          modifyPwd:false,
+        myAccount: {
+          userSafe: true,
+          modifyPwd: false,
         },
-        myAccountSon:{
-          selBox:true,
-          selDefaultModify:false,
-          selPhoneModify:false,
+        myAccountSon: {
+          selBox: true,
+          selDefaultModify: false,
+          selPhoneModify: false,
           modifyPwd: false
         },
         imgSrc: null,
         defaultModifyBtnState: false,
         trendsModifyBtnState: false,
-        trendsModifyBtnState2:false,
+        trendsModifyBtnState2: false,
         payCustom: {
           phone: this.$store.state.userInfo.phone,
           validateCode: '',
-          purpose:'forget',
+          purpose: 'forget',
           smsCode: '',
           role: 0,
         },
@@ -328,7 +343,7 @@
             {validator: validateSmsCode, trigger: 'blur'}
           ]
         },
-        trendsModifyCustom:{
+        trendsModifyCustom: {
           pwd: '',
           repwd: ''
         },
@@ -396,6 +411,23 @@
         ],
         showModifyAvatar: false,
         userData: {},
+        showPictureUpload: false,
+        pictureUploadImage: null,
+        langExt: {
+          hint: '点击，或拖动图片至此处,支持jpg/jpeg/png/gif/bmp格式，大小不超过300K',
+          noSupported: '浏览器不支持该功能，请使用IE10以上或其他现在浏览器！',
+          btn: {
+            off: '取消',
+            close: '关闭',
+            back: '上一步',
+            save: '保存'
+          },
+          error: {
+            onlyImg: '亲，仅限上传jpg/jpeg/png/gif/bmp格式图片格式',
+            outOfSize: '单文件大小不能超过',
+            lowestPx: '图片最低像素为（宽*高）：'
+          }
+        }
       }
     },
     mounted() {
@@ -407,65 +439,65 @@
       self.$store.dispatch('getUserInformation');
     },
     computed: {
-      getUserRole() {
-        return this.$store.state.userInfo.role
+      userAccount() {
+        return this.$store.getters.getUserAccountInfo || {}
       },
-      userAccount: function () {
-        return this.$store.getters.getUserAccountInfo || {};
+      userList() {
+        return this.$store.getters.getPersonalInfo || {}
       },
-      userList: function () {
-        return this.$store.getters.getPersonalInfo || {};
+      userBalance() {
+        return this.$store.getters.getUserBalance
       },
-      userBalance: function () {
-        return this.$store.getters.getUserBalance;
+      isEditPwdAlready() {
+        return this.$store.getters.getIsEditPwdAlready
       },
-      isEditPwdAlready: function () {
-        return this.$store.getters.getIsEditPwdAlready;
+      userHeadUrl() {
+        return this.$store.getters.getUserHeadUrl
       }
     },
     methods: {
-      ...mapActions([
-        'getUserInformation'
-      ]),
-      myAccountPwdChangeFather(type){
-        for( let k in this.myAccount){
-          if (k===type){
-            this.myAccount[k]=true
-          }else {
-            this.myAccount[k]=false
+      cropSuccess(imgDataUrl, field) {
+        let _this = this;
+        let reg = new RegExp(/^data:image\/\w+;base64,/);
+        let dataBuffer = new Buffer(imgDataUrl.replace(reg, ''), 'base64');
+        let key = 'head-image' + '/' + randomString();
+        aliUploadImgBuffer(key, dataBuffer).then(res => {
+          if (res) {
+            _this.pictureUploadImage = res.name;
+            _this.modifyPortraitPic();
           }
+        })
+      },
+      toggleShow() {
+        this.showPictureUpload = !this.showPictureUpload;
+      },
+      myAccountPwdChangeFather(type) {
+        for (let k in this.myAccount) {
+          this.myAccount[k] = k === type;
         }
       },
-      myAccountPwdChangeSon(type){
-        for( let k in this.myAccountSon){
-          if (k===type){
-            this.myAccountSon[k]=true
-          }else {
-            this.myAccountSon[k]=false
-          }
+      myAccountPwdChangeSon(type) {
+        for (let k in this.myAccountSon) {
+          this.myAccountSon[k] = k === type;
         }
       },
-      modifyPortraitPic(avatar){
-        let self = this;
+      modifyPortraitPic() {
+        let _this = this;
         api.modifyPortraitPic({
-          picStr: avatar.src
+          picStr: _this.pictureUploadImage
         }).then((res) => {
-          if(res.status){
-            self.showModifyAvatar = false;
-            self.getUserInformation();
-          }else {
-            self.$Message.error({
-              content: res.msg,
-              duration: 9
-            });
-
+          if (res.status) {
+            _this.showModifyAvatar = false;
+            _this.$store.dispatch('getUserInformation');
+          } else {
+            _this.$Message.error(res.msg);
           }
         })
       },
       getVrcode() {
         this.imgSrc = "/api/vrcode.json?rand=" + new Date() / 100
       },
-      modifyDefaultPwdFunc(){
+      modifyDefaultPwdFunc() {
         let self = this;
         self.defaultModifyBtnState = true;
         api.modifyDefaultPwd({
@@ -474,7 +506,7 @@
           repwd: self.defaultModifyCustom.repwd
         }).then((res) => {
           self.defaultModifyBtnState = false;
-          if(res.status){
+          if (res.status) {
             self.$Message.success({
               top: 50,
               content: res.msg,
@@ -484,7 +516,7 @@
                 self.getUserInformation();
               }
             });
-          }else {
+          } else {
             self.$Message.error({
               content: res.msg,
               duration: 9
@@ -492,7 +524,7 @@
           }
         })
       },
-      modifyPwdFunc(){
+      modifyPwdFunc() {
         let self = this;
         self.trendsModifyBtnState2 = true;
         api.validatePaySmscode({
@@ -500,9 +532,9 @@
           smsCode: self.payCustom.smsCode,
         }).then((res) => {
           self.trendsModifyBtnState2 = false;
-          if(res.status){
+          if (res.status) {
             self.myAccountPwdChangeSon('modifyPwd');
-          }else {
+          } else {
             self.$Message.error({
               content: res.msg,
               duration: 9
@@ -511,7 +543,7 @@
           }
         });
       },
-      modifyFinishPwdFunc(){
+      modifyFinishPwdFunc() {
         let self = this;
         self.trendsModifyBtnState = true;
         api.modifyTrendsPwd({
@@ -521,7 +553,7 @@
           repwd: self.trendsModifyCustom.repwd,
         }).then(res => {
           self.trendsModifyBtnState = false;
-          if(res.status){
+          if (res.status) {
             self.$Message.success({
               top: 50,
               content: res.msg,
@@ -531,7 +563,7 @@
                 self.getUserInformation();
               }
             });
-          }else {
+          } else {
             self.$Message.error({
               content: res.msg,
               duration: 9
@@ -556,22 +588,22 @@
           self.getVrcode();
         }
       },
-      myInfoFunc(index){
-        if(index === 1){
+      myInfoFunc(index) {
+        if (index === 1) {
           return this.$store.state.userInfo.role !== 1;
-        }else {
+        } else {
           return true;
         }
       },
-      myInfoSelectsFunc(myInfoSelect){
-        this.infoSelect=myInfoSelect.isSelect;
+      myInfoSelectsFunc(myInfoSelect) {
+        this.infoSelect = myInfoSelect.isSelect;
         myInfoSelect.callback();
       },
       //修改头像
-      selPortraitPic(){
+      selPortraitPic() {
         this.showModifyAvatar = true;
       },
-      handleSubmit (name, callback) {
+      handleSubmit(name, callback) {
         let res = false;
         this.$refs[name].validate((valid) => {
           res = !!valid
@@ -580,7 +612,7 @@
           callback();
         }
       },
-      handleReset(name,callback) {
+      handleReset(name, callback) {
         this.$refs[name].resetFields();
         if (typeof callback === 'function') {
           callback();
@@ -592,31 +624,32 @@
 
 <style lang="scss" scoped>
   @import 'src/css/mixin';
-  .user-info-box{
+
+  .user-info-box {
     margin-top: 20px;
-    .user-basic{
+    .user-basic {
       border: 1px solid #EEEEEE;
       overflow: hidden;
-      P.user-basic-title{
+      P.user-basic-title {
         padding: 0 20px;
         height: 36px;
         line-height: 36px;
         background-color: #f8f8f8;
       }
-      p.img-box{
+      p.img-box {
         width: 800px;
-        img{
+        img {
           margin: 0 10px 5px 10px;
         }
       }
-      .user-basic-ctt{
+      .user-basic-ctt {
         padding: 25px 0;
         overflow: hidden;
-        >div{
+        > div {
           width: 20%;
           text-align: center;
         }
-        >ul{
+        > ul {
           margin-top: 5px;
           width: 80%;
           line-height: 30px;
@@ -625,34 +658,34 @@
         }
       }
     }
-    .user-safe{
+    .user-safe {
       margin-top: 20px;
-      P{
+      P {
         padding: 0 20px;
         height: 36px;
         line-height: 36px;
         background-color: #f8f8f8;
       }
-      ul{
+      ul {
         width: 100%;
-        li{
-          ul{
+        li {
+          ul {
             display: table;
             height: 60px;
             font-size: 14px;
-            li{
+            li {
               display: table-cell;
               vertical-align: middle;
               text-align: center;
             }
-            li.one{
+            li.one {
               width: 30%;
             }
-            li.two{
+            li.two {
               width: 50%;
               text-align: left;
             }
-            li.three{
+            li.three {
               width: 20%;
             }
           }
@@ -660,6 +693,7 @@
       }
     }
   }
+
   .personal-box {
     .personal-sel-top {
       border-bottom: 1px solid #FF845B;
@@ -679,42 +713,42 @@
       }
     }
     .personal-sel-box {
-      .verified-box{
+      .verified-box {
         width: 830px;
         margin: 30px auto auto auto;
-        .verified-form{
+        .verified-form {
           margin-top: 20px;
           width: 400px;
           float: left;
-          .verified-btn{
+          .verified-btn {
             background-color: #FF6865;
             color: #fff;
           }
         }
-        .verified-cue{
-          p{
+        .verified-cue {
+          p {
             height: 36px;
             line-height: 36px;
             margin-bottom: 21px;
             margin-left: 30px;
-            a{
+            a {
               margin-right: 30px;
             }
           }
         }
-        .error-result-text{
+        .error-result-text {
           margin-left: 116px;
           clear: both;
           font-size: 14px;
         }
-        .verified-result{
-          p:first-child{
+        .verified-result {
+          p:first-child {
             font-size: 30pt;
             margin: auto;
             width: 500px;
             color: #666;
           }
-          p:last-child{
+          p:last-child {
             font-size: 14px;
             margin: 60px auto;
             width: 600px;
@@ -722,9 +756,9 @@
           }
         }
       }
-      .ww-account-box{
-        .ww-account-list{
-          >a{
+      .ww-account-box {
+        .ww-account-list {
+          > a {
             margin: 20px 0 20px 10px;
             display: block;
             background-color: #F8F8F8;
@@ -736,7 +770,7 @@
             line-height: 36px;
             font-size: 12px;
           }
-          .ww-account-title{
+          .ww-account-title {
             display: table;
             width: 100%;
             background-color: #DDDDDD;
@@ -744,13 +778,13 @@
             height: 38px;
             text-align: center;
             margin-top: 20px;
-            li{
+            li {
               display: table-cell;
               vertical-align: middle;
               width: 20%;
             }
           }
-          .ww-account-ctt{
+          .ww-account-ctt {
             display: table;
             width: 100%;
             background-color: #FFFFFF;
@@ -759,7 +793,7 @@
             border: 1px solid #E2E2E2;
             border-top: none;
             text-align: center;
-            li{
+            li {
               display: table-cell;
               vertical-align: middle;
               word-wrap: break-word;
@@ -771,26 +805,26 @@
         .ww-account-bind {
           width: 830px;
           margin: 30px auto auto auto;
-          .ww-account-form{
+          .ww-account-form {
             width: 400px;
             float: left;
-            .ww-bind-btn{
+            .ww-bind-btn {
               background-color: #FF6865;
               color: #fff
             }
           }
-          .ww-account-cue{
-            p{
+          .ww-account-cue {
+            p {
               height: 36px;
               line-height: 36px;
               margin-bottom: 21px;
               margin-left: 30px;
-              a{
+              a {
                 margin-right: 30px;
               }
             }
           }
-          .error-result-text{
+          .error-result-text {
             margin-left: 102px;
             clear: both;
             font-size: 14px;
@@ -812,7 +846,7 @@
       }
       ul {
         width: 100%;
-        border: 1px solid  #f3f3f3;
+        border: 1px solid #f3f3f3;
         li {
           ul {
             display: table;
@@ -842,7 +876,7 @@
     .modify-pwd {
       margin-top: 20px;
       font-size: 14px;
-      border: 1px solid  #f3f3f3; ;
+      border: 1px solid #f3f3f3;;
       padding-bottom: 20px;
       .modify-pwd-sel {
         > P {

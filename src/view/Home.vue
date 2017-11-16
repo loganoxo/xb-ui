@@ -61,7 +61,7 @@
             <div class="login-in-box" v-if="isLogin && getUserInfoRole　== 0">
               <div>
                 <router-link to="/user/user-home" class="left">
-                  <img class="block ml-20 portrait-img" :src="$store.state.userInfo.portraitPic" alt="">
+                  <img class="block ml-20 portrait-img" :src="userHeadUrl + '!thum54'" alt="">
                 </router-link>
                 <div class="left fs-14 ml-20" style="margin-left: 10px;line-height: 28px;">
                   <router-link to="/user/user-home" :title="decodeURIComponent(getUserInfoPhone)"
@@ -744,12 +744,15 @@
       getUserInfoRole() {
         return this.$store.state.userInfo.role
       },
-      getMemberDeadline: function () {
+      getMemberDeadline() {
         return this.$store.state.userInfo.memberDeadline
       },
-      getMemberLevel: function () {
+      getMemberLevel() {
         return this.$store.state.userInfo.memberLevel
       },
+      userHeadUrl() {
+        return this.$store.getters.getUserHeadUrl
+      }
     },
     mounted: function () {
       this.$nextTick(function () {
