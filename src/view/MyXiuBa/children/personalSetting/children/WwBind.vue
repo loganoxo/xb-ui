@@ -43,12 +43,14 @@
                   <Icon type="information-circled" color="#FF6633"></Icon>
                   <span >审核不通过(查看)</span>
                 </Tooltip>
-                <div v-if="ww.status === 4" style="color:#ff6600;">冻结</div>
+                <Tooltip v-show="ww.status == 4" content="此旺旺已被列入黑名单" placement="top" style="color: #ff6600;">
+                  <span >冻结</span>
+                </Tooltip>
               </li>
               <li>
                 <a v-show=" ww.status == 3 || (ww.status == 2&&switchValueTrue === false&&switchValueFalse === true)|| (switchValueFalse === false&&switchValueTrue === false)" @click="modifyWwBindFunc(ww,index)" class="mr-10">修改</a>
                 <a  @click="deleteWwBindFunc(ww,index)">解绑</a>
-                <a v-show="ww.status == 3 " @click="modifyWwBindFunc(ww,index)">重新提交</a>
+                <!--<a v-show="ww.status == 3 " @click="modifyWwBindFunc(ww,index)">重新提交</a>-->
               </li>
             </ul>
           </div>

@@ -5,6 +5,7 @@ const Home = r => require.ensure([], () => r(require('@/view/Home.vue')), 'Home'
 const QQLogin = r => require.ensure([], () => r(require('@/view/QQLogin.vue')), 'QQLogin');
 const SellerAdv = r => require.ensure([], () => r(require('@/view/SellerAdv.vue')), 'SellerAdv');
 const SellerSpread = r => require.ensure([], () => r(require('@/view/SellerSpread.vue')), 'SellerSpread');
+const SellerGuide = r => require.ensure([], () => r(require('@/view/SellerGuide.vue')), 'SellerGuide');
 const AboutUs = r => require.ensure([], () => r(require('@/view/AboutUs.vue')), 'AboutUs');
 const ShowkerLanding = r => require.ensure([], () => r(require('@/view/ShowkerLanding.vue')), 'ShowkerLanding');
 const SelRole = r => require.ensure([], () => r(require('@/view/SelRole.vue')), 'SelRole');
@@ -117,6 +118,17 @@ export default new Router({
       meta: {
         title: "商家引导",
         logInAuthority: false,
+        topShow: false,
+        bottomShow: false,
+      }
+    },
+    {
+      path: '/seller-guide',
+      name: 'SellerGuide',
+      component: SellerGuide,
+      meta: {
+        title: "商家引导页",
+        logInAuthority: true,
         topShow: false,
         bottomShow: false,
       }
