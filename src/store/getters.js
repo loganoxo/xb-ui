@@ -44,6 +44,16 @@ export default {
 
   //从userInfo中获取用户头像地址
   getUserHeadUrl: state => {
-    return Object.keys(state.userInfo).length > 0 && state.userInfo.portraitPic.indexOf('head-image') >= 0 ? aliCallbackImgUrl + state.userInfo.portraitPic +'!orgi75' : '/static/img/common/tx-default.png';
+    if (Object.keys(state.userInfo).length > 0) {
+      if (state.userInfo.portraitPic.indexOf('head-image') >= 0) {
+        return aliCallbackImgUrl + state.userInfo.portraitPic + '!orgi75'
+      } else if (state.userInfo.portraitPic.indexOf('q.qlogo.cn/qq') >= 0) {
+        return state.userInfo.portraitPic
+      } else {
+        return '/static/img/common/tx-default.png'
+      }
+    } else {
+      return null
+    }
   }
 }
