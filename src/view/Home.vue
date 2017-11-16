@@ -104,7 +104,7 @@
             <div class="login-in-box" v-if="isLogin && getUserInfoRole　== 1">
               <div>
                 <router-link to="/user/user-home" class="left">
-                  <img class=" ml-20 portrait-img block" :src="$store.state.userInfo.portraitPic" alt="">
+                  <img class=" ml-20 portrait-img block" :src="userHeadUrl" alt="">
                 </router-link>
                 <div class="left fs-14 ml-20" style="margin-left: 10px;line-height: 28px;">
                   <router-link to="/user/user-home" :title="decodeURIComponent(getUserInfoPhone)"
