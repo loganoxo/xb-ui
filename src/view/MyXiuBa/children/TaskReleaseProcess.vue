@@ -98,7 +98,7 @@
                 :on-remove="removeMainImage"
                 :on-success="handleSuccess"
                 :format="['jpg','jpeg','png','gif','bmp']"
-                :max-size="300"
+                :max-size="1024"
                 name="task"
                 :on-format-error="handleFormatError"
                 :on-exceeded-size="handleMaxSize"
@@ -107,7 +107,7 @@
                   <Icon type="camera" size="20"></Icon>
                 </div>
               </Upload>
-              <p class="sizeColor pl-60 mt-10">点击或者拖拽自主上传图片，支持jpg \ jpeg \ png \ gif \ bmp格式，最佳尺寸400*400（像素），不超过300K，可与宝贝主图一致</p>
+              <p class="sizeColor pl-60 mt-10">点击或者拖拽自主上传图片，支持jpg \ jpeg \ png \ gif \ bmp格式，最佳尺寸400*400（像素），不超过1M，可与宝贝主图一致</p>
             </div>
             <div class="baby-url ml-45 mt-20">
               <span class="required">宝贝地址：</span>
