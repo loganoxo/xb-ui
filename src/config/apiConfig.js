@@ -735,4 +735,19 @@ export default {
     return fetch('/api/set-merchant-guide.json',params)
   },
 
+
+  /**
+   * 停用旺旺号
+   */
+  disuseWw(params) {
+    return fetch('/api/user/alitm/disable_alitm.json',params)
+  },
+
+  /**
+   * 解停用旺旺号
+   */
+  unDisuseWw(params) {
+    return fetch('/api/user/alitm/un_disable_alitm.json',params)
+  },
+
 }
