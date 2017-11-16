@@ -7,7 +7,7 @@
           <p class="fs-14 user-basic-title">基本信息</p>
           <div class="user-basic-ctt">
             <div class="text-ct left">
-              <img class="block mg-at" :src="userHeadUrl + '!orgi75'" alt="" style="width: 120px; border-radius: 50%;">
+              <img class="block mg-at" :src="userHeadUrl" alt="" style="width: 120px; border-radius: 50%;">
               <a class="fs-14 block mt-10" @click="toggleShow">修改头像</a>
               <picture-upload field="pictureUploadImage"
                               @crop-success="cropSuccess"
@@ -16,7 +16,7 @@
                               :height="120"
                               :max-size="300"
                               :lang-ext="langExt"
-                              img-format="jpg/jpeg/png/gif/bmp">
+                              img-format="png">
               </picture-upload>
             </div>
             <ul v-show="!showModifyAvatar" class="left">
