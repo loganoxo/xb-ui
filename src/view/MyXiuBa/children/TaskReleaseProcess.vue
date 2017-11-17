@@ -13,6 +13,55 @@
       <Icon type="information-circled" color="#FF0100"></Icon>
       <span><b class="sizeColor3">注意：</b> 本站<b class="sizeColor3">不支持拍A发B</b>行为，发货必须按照活动发布指定的宝贝实际发货，否则视为违规，接到秀客投诉将会全额扣除保证金，并强制下线活动！</span>
     </div>
+    <div class="activity-type mt-20">
+      <div class="activity-type-title">选择活动类型：</div>
+      <Poptip trigger="hover" placement="bottom" content="该活动申请率极高，评价效果极好，商家能自主筛选秀客，迅速积攒销量。">
+        <div class="clear text-ct mt-10 mr-10">
+          <div class="left activity-type-box">
+            <p>免费领</p>
+            <p>秀客0元试用</p>
+            <p>高人气活动类型</p>
+            <span class="is-select-gou"></span>
+          </div>
+        </div>
+      </Poptip>
+      <Poptip trigger="hover" placement="bottom" content="该活动申请率较高，评价效果较好，适用于中低客单的走量产品。">
+        <div class="clear text-ct mt-10  mr-10">
+          <div class="left activity-type-box">
+            <p>10元包邮</p>
+            <p>秀客承担10元邮费</p>
+            <p>高人气活动类型</p>
+          </div>
+        </div>
+      </Poptip>
+      <Poptip trigger="hover" placement="bottom" content="秀客拍下付款的是主宝贝（高客单的商品），为主宝贝带来成交转化，但实际发货的是体验装或赠品。该活动可大幅降低活动成本，但要规避秀客在淘宝上晒图。">
+        <div class="clear text-ct mt-10  mr-10">
+          <div class="left activity-type-box">
+            <p>体验专区</p>
+            <p>适用于高客单宝贝</p>
+            <p>解决商品成本过高问题</p>
+          </div>
+        </div>
+      </Poptip>
+      <Poptip trigger="hover" placement="bottom" content="秀客以9.9元、49.9元、99.9元及1折、3折、5折的价格购买宝贝，该活动也可适当降低活动成本，但更重要的是帮助商家真实成交，获得消费者的实际反馈。">
+        <div class="clear text-ct mt-10  mr-10">
+          <div class="left activity-type-box">
+            <p>白菜价</p>
+            <p>帮商家测款定价</p>
+            <p>真实卖货</p>
+          </div>
+        </div>
+      </Poptip>
+      <Poptip trigger="hover" placement="bottom-end" content="商家提供超乎想象的价格，目的不是为了赚取利润，而是尽快把仓库里积压的库存变成现金（比如断码，过季，尾货等），秀客也能真实选购到最最实惠的宝贝。">
+        <div class="clear text-ct mt-10  mr-10">
+          <div class="left activity-type-box">
+            <p>清仓断码</p>
+            <p>帮商家解决最为头疼的</p>
+            <p>库存问题</p>
+          </div>
+        </div>
+      </Poptip>
+    </div>
     <!--判断是否有权限能发布任务-->
     <div v-show="getMemberStatus === 'need_member_for_more_task'||getMemberStatus==='need_member_for_more_audit'" class="text-ct " >
       <div class="mt-80" style="font-size:20px;color: #949494" v-if="getMemberStatus === 'need_member_for_more_task'" >
@@ -31,12 +80,12 @@
       </div>
     </div>
     <!--任务发布相关-->
-    <div v-show="blockOrNone">
+    <div v-show="blockOrNone" class="mt-30">
       <div class="activity-con" v-show="stepName === 'information'">
         <div class="activity-info">
           <div class="activity-info-title">填写活动信息</div>
           <div class="activity-type ml-60 mt-22">
-            <span class="required">活动类型：</span>
+            <span class="required">下单方式：</span>
             <Radio-group v-model="taskRelease.taskType">
               <Radio label="pc_search">
                 <span>PC搜索下单（taobao.com）</span>
@@ -571,6 +620,7 @@
   import Button from 'iview/src/components/button'
   import Radio from 'iview/src/components/radio'
   import Modal from 'iview/src/components/modal'
+  import Poptip from 'iview/src/components/poptip'
   import {Select, Option, OptionGroup} from 'iview/src/components/select'
   import Upload from '@/components/upload'
   import Steps from 'iview/src/components/steps'
@@ -599,7 +649,8 @@
       Step: Steps.Step,
       OptionGroup: OptionGroup,
       Modal: Modal,
-      PayModel: PayModel
+      PayModel: PayModel,
+      Poptip: Poptip,
     },
     data() {
       return {
@@ -1476,6 +1527,45 @@
         position: absolute;
         display: inline-block;
         top: 26px;
+        right: 0;
+        width: 11px;
+        height: 10px;
+        background-image: url("~assets/img/common/select-gou.png");
+        background-repeat: no-repeat;
+      }
+    }
+    .activity-type-title{
+      font-size: 16px;
+      color: #666;
+    }
+    .activity-type-box{
+      width: 146px;
+      height: 72px;
+      background-color: #FFF4F1;
+      color: #FF9675;
+      border: 1px solid #FF9675;
+      cursor: pointer;
+      position: relative;
+      @include transition;
+      P:first-child{
+        font-weight: bold;
+        font-size: 14px;
+        margin-top: 6px;
+      }
+      &:hover{
+        border:2px solid #000;
+        background-color: $mainColor;
+        color: #fff;
+      }
+      &.isSelect{
+        border:2px solid #000;
+        background-color: $mainColor;
+        color: #fff;
+      }
+      .is-select-gou{
+        position: absolute;
+        display: inline-block;
+        bottom: 0;
         right: 0;
         width: 11px;
         height: 10px;
