@@ -376,7 +376,6 @@
           position: absolute;
           top: -7px;
           right: -6px;
-          z-index: 5;
           img{
             display: block;
           }

@@ -383,7 +383,7 @@
               duration: 1,
               onClose: function () {
                 self.$router.go(-1);
-                self.getUserInformation();
+                self.$store.dispatch('getUserInformation');
               }
             });
           } else {
@@ -402,7 +402,7 @@
         }).then((res) => {
           if (res.status) {
             self.myAccountPwdChangeSon('modifyPwd');
-            self.getUserInformation();
+            self.$store.dispatch('getUserInformation');
           } else {
             self.$Message.error({
               content: res.msg,
