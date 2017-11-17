@@ -210,7 +210,7 @@
               type: 'RECORD_USER_INFO',
               info: res.data
             });
-            self.$store.dispatch('getDetectionMerchantGuide');
+//            self.$store.dispatch('getDetectionMerchantGuide');
             self.$Message.success({
               content: '恭喜您，成功注册秀吧！',
               duration: 1,
@@ -261,14 +261,15 @@
               type: 'RECORD_USER_INFO',
               info: res.data
             });
-            self.$store.dispatch('getDetectionMerchantGuide');
+//            self.$store.dispatch('getDetectionMerchantGuide');
             setStorage('weChartPop', 1);
-            self.$router.push({name: 'Home'});
+            if(res.data.role === 1) {
+              self.$router.push({name: 'SellerGuide'});
+            }else {
+              self.$router.push({name: 'Home'});
+            }
           } else {
-            self.$Message.error({
-              content: res.msg,
-              duration: 9
-            });
+            self.$Message.error(res.msg);
           }
         })
       },
@@ -280,22 +281,17 @@
           recommendCode = getCookie('recommendCode');
         }
         api.register({
-          phone: this.loginTrendsCustom.phone,
-          pwd: this.loginTrendsCustom.phone.slice(5),
-          repwd: this.loginTrendsCustom.phone.slice(5),
+          phone: self.loginTrendsCustom.phone,
+          pwd: self.loginTrendsCustom.phone.slice(5),
+          repwd: self.loginTrendsCustom.phone.slice(5),
           nickName: null,
-          smsCode: this.loginTrendsCustom.smsCode,
-          role: this.loginTrendsCustom.role,
-          validateCode: this.loginTrendsCustom.validateCode,
-          purpose:this.loginTrendsCustom.purpose,
+          smsCode: self.loginTrendsCustom.smsCode,
+          role: self.loginTrendsCustom.role,
+          validateCode: self.loginTrendsCustom.validateCode,
+          purpose:self.loginTrendsCustom.purpose,
           recommendCode: recommendCode
         }).then((res) => {
           if (res.status) {
-            self.$store.commit({
-              type: 'RECORD_USER_INFO',
-              info: res.data
-            });
-            self.$store.dispatch('getDetectionMerchantGuide');
             self.$Message.success({
               content: '恭喜您，成功注册秀吧！',
               duration: 1,
@@ -305,10 +301,7 @@
               }
             });
           } else {
-            self.$Message.error({
-              content: res.msg,
-              duration: 9
-            });
+            self.$Message.error(res.msg);
           }
         })
       },

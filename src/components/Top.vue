@@ -132,7 +132,7 @@
         return this.$store.state.login
       },
       getUserInfoRole() {
-        return this.$store.state.userInfo.role
+        return this.$store.getters.getUserRole
       },
     },
     methods: {
@@ -197,12 +197,9 @@
         })
       },
       goKeyEnterFunc(ev){
-        if(ev.keyCode==13){
+        if(ev.keyCode === 13){
           this.goTaskCategory()
         }
-      },
-      setTaskCategoryList(){
-
       },
       goTaskCategory(){
         let self = this;
@@ -217,7 +214,7 @@
     watch: {
       '$route' (to, from) {
         let self = this;
-        if(to.name == 'login'){
+        if(to.name === 'login'){
           self.searchKey = '';
         }
       }

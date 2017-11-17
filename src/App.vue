@@ -57,16 +57,13 @@
       },
       getUserRole () {
         return this.$store.getters.getUserRole
-      },
-      isShowSuspendService() {
-        return this.$store.state.showMerchantGuide
       }
     },
     created() {
       let _this = this;
       let userInfo = getStorage('userInfo');
       if(_this.isLogin){
-        _this.$store.dispatch('getDetectionMerchantGuide');
+//        _this.$store.dispatch('getDetectionMerchantGuide');
       }
       if (!userInfo && _this.logInAuthority) {
         _this.$store.dispatch('loggedOut').then((res) => {
