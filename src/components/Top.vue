@@ -64,12 +64,15 @@
         <div class="home-nav-list">
           <a :class="[$store.state.TaskCategoryActive == 'home' ? 'active' : '']" @click="selTaskCategoryHome">首页</a>
           <a :class="[$store.state.TaskCategoryActive == 'all' ? 'active' : '']" @click="selTaskCategoryAllFunc" >免费领</a>
+          <a :class="[$store.state.TaskCategoryActive == 'all' ? 'active' : '']" @click="selTaskCategoryAllFunc" >10元包邮</a>
+          <a :class="[$store.state.TaskCategoryActive == 'all' ? 'active' : '']" @click="selTaskCategoryAllFunc" >赠品专区</a>
           <a :class="[$store.state.TaskCategoryActive == 'discount' ? 'active' : '']" @click="selDisCountTaskCategoryAllFunc">
             <i>
               <img src="/static/img/common/new.gif" alt="">
             </i>
             白菜价
           </a>
+          <a :class="[$store.state.TaskCategoryActive == 'all' ? 'active' : '']" @click="selTaskCategoryAllFunc" >清仓断码</a>
           <a  @click="buyerShowPop = true">买家秀</a>
           <!--<a :class="[$store.state.TaskCategoryActive == 'all' ? 'active' : '']" @click="selTaskCategoryAllFunc">全部活动</a>-->
           <!--<a v-if="nav.name != '美食/特产' && nav.name != '其它试用'" :class="[$store.state.TaskCategoryActive == nav.id ? 'active' : '']" @click="selTaskCategoryActiveFunc(nav)" v-for="nav in navList" >{{nav.name}}</a>-->
