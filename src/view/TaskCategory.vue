@@ -137,7 +137,9 @@
       <div class="container">
         <div class="task-category-commodity mt-10">
           <div id="historyPage" class="home-commodity-title">
-            <img src="~assets/img/home/home_25.png" alt="">
+            <div class="part-title-img-box">
+              <span class="fs-18">历史活动</span>
+            </div>
             <p class="text-ct fs-14">我型我秀，分享精彩</p>
           </div>
           <div class="task-category-commodity-ctt">
@@ -330,6 +332,7 @@
         self.searchTaskParams.discountTypes = ['discount_0']
       }
       if(cate){
+        self.searchTaskParams.pageIndex = 1;
         self.itemCatalogs = [parseInt(cate)];
         self.getTaskCategoryList(cate);
       }
@@ -549,7 +552,8 @@
       '$route' (to, from) {
         //刷新参数放到这里里面去触发就可以刷新相同界面了
         let self = this;
-        this.searchTaskParams.taskName = '';
+        self.searchTaskParams.taskName = '';
+        self.searchTaskParams.pageIndex = 1;
         let cate = this.$route.query.cate;
         let searchKey = this.$route.query.searchKey;
         let discount = this.$route.query.discount;
@@ -570,6 +574,7 @@
           self.searchTaskParams.discountTypes = ['discount_0'];
         }
         if(cate){
+          self.searchTaskParams.pageIndex = 1;
           self.itemCatalogs = [parseInt(cate)];
           self.getTaskCategoryList(cate);
         }

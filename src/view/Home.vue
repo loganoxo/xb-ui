@@ -478,6 +478,9 @@
   import {mapActions} from 'vuex'
 
   export default {
+    beforeCreate(){
+
+    },
     beforeMount() {
       let self = this;
       if (getStorage('weChartPop') == 1 && self.$store.state.userInfo.role == 0 && !getStorage('setWeChartshower' + self.$store.state.userInfo.phone)) {
@@ -487,6 +490,9 @@
         type: 'SET_SHOW_TOP_CATEGORY_RES',
         result: false,
       });
+//      if (!self.isShowSuspendService && self.isLogin && self.getUserRole === 1){
+//        self.$router.push({path:'/seller-guide'});
+//      }
     },
     name: 'home',
     components: {
@@ -673,6 +679,12 @@
       userHeadUrl() {
         return this.$store.getters.getUserHeadUrl
       },
+      getUserRole () {
+        return this.$store.getters.getUserRole
+      },
+      isShowSuspendService() {
+        return this.$store.state.showMerchantGuide
+      }
     },
     mounted: function () {
       this.$nextTick(function () {
@@ -1309,19 +1321,6 @@
     margin-top: 0;
   }
 
-  .part-title-img-box{
-    width: 270px;
-    height: 30px;
-    background: url('/static/img/common/part-title-img.png') no-repeat;
-    margin: auto;
-    span{
-      font-weight: bold;
-      margin-left: 113px;
-      width: 96px;
-      display: block;
-      text-align: center;
-    }
-  }
   @keyframes sliderTop {
     0% {
       margin-top: 0;

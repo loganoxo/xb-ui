@@ -61,6 +61,19 @@ export default {
   },
 
   /**
+   * 未登录通过发送手机短信验证码重置支付密码
+   */
+  noLoginModifyPayPwdCode(params) {
+    return fetch("/api/user/account/checkApp.json", params)
+  },
+  /**
+   * 未登录通过发送手机短信验证码重置支付密码
+   */
+  noLoginModifyPayPwd(params) {
+    return fetch("/api/user/account/resetAppPwd.json", params)
+  },
+
+  /**
    * 通过上一次的支付密码修改支付密码
    */
   modifyDefaultPayPwd(params) {

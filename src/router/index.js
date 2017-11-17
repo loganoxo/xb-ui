@@ -11,6 +11,8 @@ const ShowkerLanding = r => require.ensure([], () => r(require('@/view/ShowkerLa
 const SelRole = r => require.ensure([], () => r(require('@/view/SelRole.vue')), 'SelRole');
 const TrialReport = r => require.ensure([], () => r(require('@/view/TrialReport.vue')), 'TrialReport');
 const Login = r => require.ensure([], () => r(require('@/view/Login.vue')), 'Login');
+const RevisePassword = r => require.ensure([], () => r(require('@/view/RevisePassword.vue')), 'RevisePassword');
+
 const ThirdPartyLogin = r => require.ensure([], () => r(require('@/view/ThirdPartyLogin.vue')), 'ThirdPartyLogin');
 const Register = r => require.ensure([], () => r(require('@/view/Register.vue')), 'Register');
 const TaskCategory = r => require.ensure([], () => r(require('@/view/TaskCategory.vue')), 'TaskCategory');
@@ -83,6 +85,18 @@ export default new Router({
       component: SelRole,
       meta: {
         title: "注册角色选择",
+        logInAuthority: false,
+        topShow: false,
+        bottomShow: true,
+
+      }
+    },
+    {
+      path: '/revise-password',
+      name: 'RevisePassword',
+      component: RevisePassword,
+      meta: {
+        title: "登录密码修改",
         logInAuthority: false,
         topShow: false,
         bottomShow: true,

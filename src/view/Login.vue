@@ -37,7 +37,7 @@
                       <Checkbox label="记住我(公共电脑建议勿勾选)"></Checkbox>
                     </Checkbox-group>
                   </Form-item>
-                  <!--<a class="right mt-6" href="">忘记密码</a>-->
+                  <router-link :to="{path: '/revise-password', query: {'modifyPwd': 'modifyPwd'}}" class="right" style="margin-top: 9px;">忘记密码</router-link>
                 </div>
                 <iButton style="margin-top: 25px;" type="error" long size="large" :loading="btnState.normalLoginBtn"
                          @click="handleSubmit('loginNormalCustom',setUserInfo)">

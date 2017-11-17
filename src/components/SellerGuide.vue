@@ -1,5 +1,6 @@
 <template>
   <div class="seller-adv">
+
     <div id="pageContain">
       <div class="page page1 current ">
         <div class="contain ">
@@ -29,9 +30,9 @@
         <div class="contain ">
           <div class="clear-both text-ct adv-text1-box ">
             <div class="titleEng">
-              <router-link class="block move-arrow-down" style="margin-top: 80px" :to="{path:'/user/task-release'}" >
+              <a class="block move-arrow-down" style="margin-top: 80px" @click="goRegisterFunc" >
                 <iButton  class="begin-now">立即开始</iButton>
-              </router-link>
+              </a>
             </div>
 
           </div>
@@ -45,10 +46,13 @@
     </ul>
   </div>
 </template>
+
 <script>
 
   import RoleTop from '@/components/RoleTop.vue'
   import  Button from 'iview/src/components/button'
+  import api from '@/config/apiConfig'
+
   export default {
     name: 'SellerGuide',
     components: {
@@ -77,10 +81,22 @@
 
     },
     methods: {
-      goRegisterFunc(e){
-        this.$router.push({path: '/register/seller-register'});
-        e.stopPropagation();
-        e.preventDefault()
+      goRegisterFunc(){
+        let _this = this;
+        _this.$router.push({path: '/user/task-release',query:{sellerGuide:'sellerGuide'}});
+        window.onmousewheel=document.onmousewheel=function(){
+          return true
+        };
+        api.setMerchantGuide().then(res => {
+          if (res.status) {
+            _this.$store.commit({
+              type: 'SHOW_MERCHANT_GUIDE',
+              status: true
+            })
+          } else {
+            _this.$Message.error(res.msg);
+          }
+        })
       },
       colsedAdvBottomFunc(e){
         this.advBottomAgain = false;
@@ -89,6 +105,7 @@
         e.preventDefault()
       }
     },
+
     mounted: function () {
       let self = this;
       self.$nextTick(function () {
@@ -132,9 +149,6 @@
 
 <style lang="scss" scoped>
   @import 'src/css/mixin';
-  .seller-adv{
-    z-index: 10000;
-  }
   .adv-top-part{
     margin-right: 122px;
     margin-top: 55px;
