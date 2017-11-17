@@ -5,7 +5,7 @@
     <!--网站底部信息-->
     <Bottom v-show="isBottomShow"></Bottom>
     <!--商家引导-->
-    <SellerGuide v-if="!isShowSuspendService && isLogin && getUserRole === 1"></SellerGuide>
+    <!--<SellerGuide v-if=" isLogin && getUserRole === 1"></SellerGuide>-->
     <!--侧边栏信息导航-->
     <side-navigation></side-navigation>
     <!--侧边栏固定联系客服图片展示-->
@@ -26,7 +26,6 @@
   import Bottom from "@/components/Bottom.vue"
   import SideNavigation from '@/components/SideNavigation.vue'
   import MerchantGuide from '@/components/MerchantGuide.vue'
-  import SellerGuide from '@/components/SellerGuide.vue'
   import BackTop from "iview/src/components/back-top"
   import {getStorage, getCookie} from '@/config/utils'
   import api from '@/config/apiConfig'
@@ -39,7 +38,6 @@
       BackTop: BackTop,
       SideNavigation: SideNavigation,
       MerchantGuide: MerchantGuide,
-      SellerGuide:SellerGuide,
     },
     data() {
       return {

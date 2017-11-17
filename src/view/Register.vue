@@ -670,7 +670,7 @@
               duration: 1,
               onClose: function () {
                 delCookie('recommendCode');
-                self.setUserInfo(self.formCustom.phone, self.formCustom.pwd);
+                self.setUserInfo(self.formCustom.phone, self.formCustom.pwd,self.formCustom.role);
               }
             });
 
@@ -684,7 +684,7 @@
           self.btnState.registerSellerBtn = false;
         })
       },
-      setUserInfo(phone, pwd) {
+      setUserInfo(phone, pwd,role) {
         let self = this;
         api.login({
           phone: phone,
@@ -696,7 +696,13 @@
               type: 'RECORD_USER_INFO',
               info: res.data
             });
-            self.$router.push({name: 'Home'});
+            if (role === 1){
+              console.log(111);
+              self.$router.push({name: 'SellerGuide'});
+            }else {
+              console.log(222);
+              self.$router.push({name: 'Home'});
+            }
             self.$store.dispatch('getDetectionMerchantGuide');
           } else {
             self.$Message.error({

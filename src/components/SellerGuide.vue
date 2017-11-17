@@ -10,7 +10,6 @@
                 <img src="/static/img/common/big-down.png" alt="">
               </a>
             </div>
-
           </div>
         </div>
       </div>
@@ -81,12 +80,13 @@
 
     },
     methods: {
-      goRegisterFunc(){
+      goRegisterFunc(e){
         let _this = this;
         _this.$router.push({path: '/user/task-release',query:{sellerGuide:'sellerGuide'}});
         window.onmousewheel=document.onmousewheel=function(){
           return true
         };
+        e.stopPropagation();
         api.setMerchantGuide().then(res => {
           if (res.status) {
             _this.$store.commit({
@@ -98,12 +98,6 @@
           }
         })
       },
-      colsedAdvBottomFunc(e){
-        this.advBottomAgain = false;
-        this.advBottomShow = false;
-        e.stopPropagation();
-        e.preventDefault()
-      }
     },
 
     mounted: function () {
@@ -149,6 +143,12 @@
 
 <style lang="scss" scoped>
   @import 'src/css/mixin';
+  /*.seller-adv{*/
+    /*position: absolute;*/
+    /*top: 0;*/
+    /*left: 0;*/
+    /*z-index: 100;*/
+  /*}*/
   .adv-top-part{
     margin-right: 122px;
     margin-top: 55px;
@@ -216,7 +216,8 @@
     background:rgba(0,0,0,.2);
   }
   .begin-now:hover{
-    background-color: #ff6600;
+    background-color: #fff;
+    color: #FF6633;
   }
   .page {
     display: none;
@@ -232,7 +233,7 @@
     height: 100%;
     display: none;
     position: relative;
-    z-index: 0;
+    z-index: 100;
   }
   .current .contain,.slide .contain {
     display: block;
