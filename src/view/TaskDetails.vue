@@ -144,7 +144,7 @@
                 <li v-for="detailsShowker in detailsShowkerList">
                   <div>
                     <router-link class="block" :to="{path:'/trial-report',query:{q:encryptionId(detailsShowker.showkerId)}}">
-                      <img :src="getUserHead(detailsShowker.showkerPortraitPic)" alt="" width="100px">
+                      <img :src="getUserHead(detailsShowker.showkerPortraitPic)" alt="" width="120" height="120" class="border50">
                     </router-link>
 
                     <p>{{detailsShowker.showkerPhone}}</p>
