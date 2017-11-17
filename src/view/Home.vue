@@ -490,9 +490,6 @@
         type: 'SET_SHOW_TOP_CATEGORY_RES',
         result: false,
       });
-//      if (!self.isShowSuspendService && self.isLogin && self.getUserRole === 1){
-//        self.$router.push({path:'/seller-guide'});
-//      }
     },
     name: 'home',
     components: {
