@@ -727,6 +727,7 @@
         this.editTaskId = taskId;
         this.getTaskInfo();
       }
+
     },
     computed: {
       /**
