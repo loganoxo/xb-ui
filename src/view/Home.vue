@@ -693,15 +693,15 @@
         'loggedOut'
       ]),
       getUserHead(src) {
-        if (src.indexOf('head-image') >= 0) {
+        if (src && src.indexOf('head-image') >= 0) {
           return aliCallbackImgUrl + src + '!orgi75'
-        } else if (src.indexOf('q.qlogo.cn/qq') >= 0) {
+        } else if (src && src.indexOf('q.qlogo.cn/qq') >= 0) {
           return src
         } else {
           return '/static/img/common/tx-default.png'
         }
       },
-      getBuyerShowList(){
+      getBuyerShowList() {
         let self = this;
         api.getBuyerShowList().then((res) => {
           if (res.status) {

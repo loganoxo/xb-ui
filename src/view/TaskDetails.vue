@@ -144,7 +144,7 @@
                 <li v-for="detailsShowker in detailsShowkerList">
                   <div>
                     <router-link class="block" :to="{path:'/trial-report',query:{q:encryptionId(detailsShowker.showkerId)}}">
-                      <img :src="getUserHead(detailsShowker.showkerPortraitPic)" alt="" width="120" height="120" class="border50">
+                      <img :src="getUserHead(detailsShowker.showkerPortraitPic)" alt="" width="86" height="86" class="border50">
                     </router-link>
 
                     <p>{{detailsShowker.showkerPhone}}</p>
@@ -178,8 +178,10 @@
             </div>
             <div v-show="graphicInfoSelClass == 'audited'" class="graphic-audited-buyer">
               <router-link :to="{ 'path': '/trial-report','query': {'q': encryptionId(detailsSuccessShowker.showkerId)}}" :key="detailsSuccessShowker.id" v-show="detailsSuccessShowkerList.length > 0 "  v-for="detailsSuccessShowker in detailsSuccessShowkerList">
-                <img :src="getUserHead(detailsSuccessShowker.showkerPortraitPic)" width="68" height="68" alt="">
+                <img :src="getUserHead(detailsSuccessShowker.showkerPortraitPic)" width="68" height="68" alt="" class="user-head">
                 <p class="cl000">{{detailsSuccessShowker.showkerPhone}}</p>
+                <img :src="detailsSuccessShowker.creditLevel" alt="">
+                <p class="cl000"><span>淘气值：{{detailsSuccessShowker.tqz}}</span></p>
               </router-link>
               <p v-show="detailsSuccessShowkerList.length <= 0 " class="text-ct fs-14">
                 暂无已通过的申请秀客
@@ -466,9 +468,9 @@
         return encryption(id);
       },
       getUserHead(src) {
-        if (src.indexOf('head-image') >= 0) {
+        if (src && src.indexOf('head-image') >= 0) {
           return aliCallbackImgUrl + src + '!orgi75'
-        } else if (src.indexOf('q.qlogo.cn/qq') >= 0) {
+        } else if (src && src.indexOf('q.qlogo.cn/qq') >= 0) {
           return src
         } else {
           return '/static/img/common/tx-default.png'
@@ -614,7 +616,7 @@
         self.detailsSuccessShowkerParams.taskId = decode(self.$route.query.q);
         api.getDetailsSuccessShowkerList(self.detailsSuccessShowkerParams).then((res) => {
           if(res.status){
-            self.detailsSuccessShowkerList = res.data.content;
+            self.detailsSuccessShowkerList = res.data;
             this.graphicInfoSels[2].num = res.data.totalElements;
           }
         })
@@ -963,7 +965,7 @@
             margin-right: 66px;
             margin-bottom: 30px;
             float: left;
-            img{
+            img.user-head{
               border-radius: 50%;
             }
           }
