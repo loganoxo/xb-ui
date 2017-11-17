@@ -40,7 +40,7 @@
               type: 'RECORD_USER_INFO',
               info: res.data
             });
-            _this.$store.dispatch('getDetectionMerchantGuide');
+//            _this.$store.dispatch('getDetectionMerchantGuide');
             setStorage('weChartPop', 1);
             if(pg && other){
                let taskId = JSON.parse(other);

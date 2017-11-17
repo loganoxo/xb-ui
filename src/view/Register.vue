@@ -684,7 +684,7 @@
           self.btnState.registerSellerBtn = false;
         })
       },
-      setUserInfo(phone, pwd,role) {
+      setUserInfo(phone, pwd) {
         let self = this;
         api.login({
           phone: phone,
@@ -696,14 +696,12 @@
               type: 'RECORD_USER_INFO',
               info: res.data
             });
-            if (role === 1){
-              console.log(111);
+            if(res.data.role === 1) {
               self.$router.push({name: 'SellerGuide'});
             }else {
-              console.log(222);
               self.$router.push({name: 'Home'});
             }
-            self.$store.dispatch('getDetectionMerchantGuide');
+//            self.$store.dispatch('getDetectionMerchantGuide');
           } else {
             self.$Message.error({
               content: res.msg,

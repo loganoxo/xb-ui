@@ -54,7 +54,7 @@
               type: 'RECORD_USER_INFO',
               info: res.data
             });
-            self.$store.dispatch('getDetectionMerchantGuide');
+//            self.$store.dispatch('getDetectionMerchantGuide');
             setStorage('weChartPop', 1);
             self.$router.push({name: 'Home'});
           } else {

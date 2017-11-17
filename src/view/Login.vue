@@ -261,7 +261,7 @@
               type: 'RECORD_USER_INFO',
               info: res.data
             });
-            self.$store.dispatch('getDetectionMerchantGuide');
+//            self.$store.dispatch('getDetectionMerchantGuide');
             self.rememberAccountFunc();
             self.$Message.success({top: 50, content: '登录成功', duration: 1,});
             self.btnState.normalLoginBtn = false;
@@ -298,9 +298,9 @@
         let self = this;
         self.btnState.trendsLoginBtn = true;
         api.checkFastSignIn({
-          phone: this.loginTrendsCustom.phone,
-          smsCode: this.loginTrendsCustom.smsCode,
-          validateCode: this.loginTrendsCustom.validateCode,
+          phone: self.loginTrendsCustom.phone,
+          smsCode: self.loginTrendsCustom.smsCode,
+          validateCode: self.loginTrendsCustom.validateCode,
           platForm: 'PC'
         }).then((res) => {
           this.rememberPhoneFunc();
@@ -311,13 +311,13 @@
                 info: res.data
               });
               self.$Message.success({top: 50, content: '登录成功', duration: 1,});
-              self.$store.dispatch('getDetectionMerchantGuide');
+//              self.$store.dispatch('getDetectionMerchantGuide');
               self.btnState.trendsLoginBtn = false;
               setStorage('weChartPop', 1);
               self.$router.push({name: 'Home'});
             } else if (res.statusCode === 'need_reg') {
               self.$router.push({
-                path: '/sel-role',
+                name: 'SelRole',
                 query: {
                   phone: self.loginTrendsCustom.phone,
                   validateCode: self.loginTrendsCustom.validateCode,
