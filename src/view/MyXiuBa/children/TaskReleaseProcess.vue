@@ -771,6 +771,12 @@
             buyPrice: 50,
             returnPrice: 9.9,
           },
+          discount_10: {
+            isDiscount: false,
+            disabled: true,
+            buyPrice: 0,
+            returnPrice: 10,
+          },
           discount_49_9: {
             isDiscount: false,
             disabled: true,
