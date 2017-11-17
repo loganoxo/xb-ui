@@ -478,9 +478,6 @@
   import {mapActions} from 'vuex'
 
   export default {
-    beforeCreate(){
-
-    },
     beforeMount() {
       let self = this;
       if (getStorage('weChartPop') == 1 && self.$store.state.userInfo.role == 0 && !getStorage('setWeChartshower' + self.$store.state.userInfo.phone)) {
@@ -679,9 +676,6 @@
       getUserRole () {
         return this.$store.getters.getUserRole
       },
-      isShowSuspendService() {
-        return this.$store.state.showMerchantGuide
-      }
     },
     mounted: function () {
       this.$nextTick(function () {
