@@ -332,6 +332,7 @@
         self.searchTaskParams.discountTypes = ['discount_0']
       }
       if(cate){
+        self.searchTaskParams.pageIndex = 1;
         self.itemCatalogs = [parseInt(cate)];
         self.getTaskCategoryList(cate);
       }
@@ -551,7 +552,8 @@
       '$route' (to, from) {
         //刷新参数放到这里里面去触发就可以刷新相同界面了
         let self = this;
-        this.searchTaskParams.taskName = '';
+        self.searchTaskParams.taskName = '';
+        self.searchTaskParams.pageIndex = 1;
         let cate = this.$route.query.cate;
         let searchKey = this.$route.query.searchKey;
         let discount = this.$route.query.discount;
@@ -572,6 +574,7 @@
           self.searchTaskParams.discountTypes = ['discount_0'];
         }
         if(cate){
+          self.searchTaskParams.pageIndex = 1;
           self.itemCatalogs = [parseInt(cate)];
           self.getTaskCategoryList(cate);
         }
