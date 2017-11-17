@@ -2,125 +2,127 @@
   <div>
     <role-top></role-top>
     <!--修改密码-->
-    <div class="my-account" >
-      <div class="modify-pwd clear" v-show="myAccount.modifyPwd">
-        <div class="modify-pwd-sel clear" style="margin: auto; width: 800px;">
-          <p>修改登录密码</p>
-          <!--<div v-show="myAccountSon.selBox" class="sel-box clear">
-            <p class="left">请选择重置的方式：</p>
-            <div class="left">
-              <div>
-                <div @click="myAccountPwdChangeSon('selDefaultModify')" class="sel-canal">
-                  <p>
-                    我忘记登录密码了
-                    <br>
-                    <span style="color: #999">忘记密码或者密码被锁定了</span>
-                  </p>
-                  <i data-v-5aa11427="" class="ivu-icon ivu-icon-chevron-right"
-                     style="vertical-align: middle;display: table-cell; font-size: 20px;"></i>
-                </div>
-                <div  @click="myAccountPwdChangeSon('selPhoneModify')" class="sel-canal">
-                  <p>
-                    我记得原来的密码
-                  </p>
-                  <i data-v-5aa11427="" class="ivu-icon ivu-icon-chevron-right"
-                     style="vertical-align: middle;display: table-cell; font-size: 20px;"></i>
-                </div>
-                <iButton @click="myAccountPwdChangeFather('userSafe')">
-                  返回上一页
-                </iButton>
-              </div>
-            </div>
-
-          </div>
-          <div v-show="myAccountSon.selPhoneModify" class="sel-default-modify mt-20">
-            <iForm ref="defaultModifyCustom" :model="defaultModifyCustom" :rules="defaultModifyRuleCustom" :label-width="400">
-              <div class="clear form-input-box">
-                <Form-item label="原始密码" class="left" style="width: 650px" prop="oldPwd">
-                  <iInput type="password" size="large" v-model="defaultModifyCustom.oldPwd"></iInput>
-                </Form-item>
-              </div>
-              <div class="clear form-input-box">
-                <Form-item label="新密码" class="left" style="width: 650px" prop="newPwd">
-                  <iInput type="password" size="large" v-model="defaultModifyCustom.newPwd"></iInput>
-                </Form-item>
-              </div>
-              <div class="clear form-input-box">
-                <Form-item label="确认密码" class="left" style="width: 650px" prop="repwd">
-                  <iInput type="password" size="large" v-model="defaultModifyCustom.repwd"></iInput>
-                </Form-item>
-              </div>
-              <div>
-                <Form-item>
-                  <iButton :disabled="defaultModifyBtnState" @click="handleSubmit('defaultModifyCustom',modifyDefaultPwdFunc)">
-                    确定
-                  </iButton>
-                  <iButton @click="myAccountPwdChangeSon('selBox')">
+    <div class="container" style="margin: auto;">
+      <div class="my-account" >
+        <div class="modify-pwd clear" v-show="myAccount.modifyPwd">
+          <div class="modify-pwd-sel clear" >
+            <p>修改登录密码</p>
+            <!--<div v-show="myAccountSon.selBox" class="sel-box clear">
+              <p class="left">请选择重置的方式：</p>
+              <div class="left">
+                <div>
+                  <div @click="myAccountPwdChangeSon('selDefaultModify')" class="sel-canal">
+                    <p>
+                      我忘记登录密码了
+                      <br>
+                      <span style="color: #999">忘记密码或者密码被锁定了</span>
+                    </p>
+                    <i data-v-5aa11427="" class="ivu-icon ivu-icon-chevron-right"
+                       style="vertical-align: middle;display: table-cell; font-size: 20px;"></i>
+                  </div>
+                  <div  @click="myAccountPwdChangeSon('selPhoneModify')" class="sel-canal">
+                    <p>
+                      我记得原来的密码
+                    </p>
+                    <i data-v-5aa11427="" class="ivu-icon ivu-icon-chevron-right"
+                       style="vertical-align: middle;display: table-cell; font-size: 20px;"></i>
+                  </div>
+                  <iButton @click="myAccountPwdChangeFather('userSafe')">
                     返回上一页
                   </iButton>
-                </Form-item>
-              </div>
-            </iForm>
-          </div>-->
-          <div v-show="myAccountSon.selDefaultModify" class="sel-phone-modify mt-20">
-            <iForm ref="payCustom" :model="payCustom" :rules="payRuleCustom" :label-width="400">
-              <div class="clear form-input-box">
-                <Form-item label="绑定手机" prop="phone" class="left" style="width: 650px">
-                  <iInput type="text" size="large" v-model="payCustom.phone"></iInput>
-                </Form-item>
-              </div>
-              <div class="clear form-input-box">
-                <Form-item label="图形验证码"  prop="validateCode" class="left" style="width: 550px">
-                  <iInput type="text" size="large" v-model="payCustom.validateCode"></iInput>
-                </Form-item>
-                <div style="width: 100px; float:left;">
-                  <img :src="imgSrc" width="100%" alt="" @click="getVrcode">
                 </div>
               </div>
-              <div class="clear form-input-box">
-                <Form-item label="短信验证码" class="left pos-rel" style="width: 650px">
-                  <iInput type="text" number size="large" v-model="payCustom.smsCode"></iInput>
-                  <SmsCountdown :on-success="sendCodeSuccess" style="top: 3px;"
-                                :phone="payCustom.phone"
-                                :purpose="payCustom.purpose"
-                                :validateCode="payCustom.validateCode"
-                                :timeout=120
-                  >
-                  </SmsCountdown>
-                </Form-item>
-              </div>
-              <div>
-                <Form-item>
-                  <iButton :disabled="trendsModifyBtnState2" @click="handleSubmit('payCustom',modifyPwdFunc)">
-                    确定
-                  </iButton>
-                  <!--<iButton @click="myAccountPwdChangeSon('selBox')">-->
-                    <!--返回上一页-->
-                  <!--</iButton>-->
-                </Form-item>
-              </div>
-            </iForm>
-          </div>
-          <div v-show="myAccountSon.modifyPwd" class="mt-20">
-            <iForm ref="trendsModifyCustom" :model="trendsModifyCustom" :rules="trendsModifyRuleCustom" :label-width="400">
-              <div class="clear form-input-box">
-                <Form-item label="新密码" prop="pwd" class="left" style="width: 650px" >
-                  <iInput type="password" size="large" v-model="trendsModifyCustom.pwd"></iInput>
-                </Form-item>
-              </div>
-              <div class="clear form-input-box">
-                <Form-item label="确认新密码" class="left" style="width: 650px" prop="repwd">
-                  <iInput type="password" size="large"  v-model="trendsModifyCustom.repwd"></iInput>
-                </Form-item>
-              </div>
-              <div>
-                <Form-item>
-                  <iButton :disabled="trendsModifyBtnState" @click="handleSubmit('payCustom',modifyFinishPwdFunc)">
-                    确定
-                  </iButton>
-                </Form-item>
-              </div>
-            </iForm>
+
+            </div>
+            <div v-show="myAccountSon.selPhoneModify" class="sel-default-modify mt-20">
+              <iForm ref="defaultModifyCustom" :model="defaultModifyCustom" :rules="defaultModifyRuleCustom" :label-width="400">
+                <div class="clear form-input-box">
+                  <Form-item label="原始密码" class="left" style="width: 650px" prop="oldPwd">
+                    <iInput type="password" size="large" v-model="defaultModifyCustom.oldPwd"></iInput>
+                  </Form-item>
+                </div>
+                <div class="clear form-input-box">
+                  <Form-item label="新密码" class="left" style="width: 650px" prop="newPwd">
+                    <iInput type="password" size="large" v-model="defaultModifyCustom.newPwd"></iInput>
+                  </Form-item>
+                </div>
+                <div class="clear form-input-box">
+                  <Form-item label="确认密码" class="left" style="width: 650px" prop="repwd">
+                    <iInput type="password" size="large" v-model="defaultModifyCustom.repwd"></iInput>
+                  </Form-item>
+                </div>
+                <div>
+                  <Form-item>
+                    <iButton :disabled="defaultModifyBtnState" @click="handleSubmit('defaultModifyCustom',modifyDefaultPwdFunc)">
+                      确定
+                    </iButton>
+                    <iButton @click="myAccountPwdChangeSon('selBox')">
+                      返回上一页
+                    </iButton>
+                  </Form-item>
+                </div>
+              </iForm>
+            </div>-->
+            <div v-show="myAccountSon.selDefaultModify" class="sel-phone-modify mt-20">
+              <iForm ref="payCustom" :model="payCustom" :rules="payRuleCustom" :label-width="300">
+                <div class="clear form-input-box">
+                  <Form-item label="绑定手机" prop="phone" class="left">
+                    <iInput type="text" size="large" v-model="payCustom.phone" style="width: 250px"></iInput>
+                  </Form-item>
+                </div>
+                <div class="clear form-input-box">
+                  <Form-item label="图形验证码"  prop="validateCode" class="left">
+                    <iInput type="text" size="large" v-model="payCustom.validateCode" style="width: 150px"></iInput>
+                  </Form-item>
+                  <div style="width: 100px; float:left;">
+                    <img :src="imgSrc" width="100%" alt="" @click="getVrcode">
+                  </div>
+                </div>
+                <div class="clear form-input-box">
+                  <Form-item label="短信验证码" class="left pos-rel" >
+                    <iInput type="text" number size="large" v-model="payCustom.smsCode" style="width: 250px"></iInput>
+                    <SmsCountdown :on-success="sendCodeSuccess" style="top: 3px;"
+                                  :phone="payCustom.phone"
+                                  :purpose="payCustom.purpose"
+                                  :validateCode="payCustom.validateCode"
+                                  :timeout=120
+                    >
+                    </SmsCountdown>
+                  </Form-item>
+                </div>
+                <div>
+                  <Form-item>
+                    <iButton :disabled="trendsModifyBtnState2" @click="handleSubmit('payCustom',modifyPwdFunc)">
+                      确定
+                    </iButton>
+                    <iButton @click="$router.go(-1)">
+                      返回上一页
+                    </iButton>
+                  </Form-item>
+                </div>
+              </iForm>
+            </div>
+            <div v-show="myAccountSon.modifyPwd" class="mt-20">
+              <iForm ref="trendsModifyCustom" :model="trendsModifyCustom" :rules="trendsModifyRuleCustom" :label-width="300">
+                <div class="clear form-input-box">
+                  <Form-item label="新密码" prop="pwd" class="left" >
+                    <iInput type="password" size="large" v-model="trendsModifyCustom.pwd" style="width: 250px"></iInput>
+                  </Form-item>
+                </div>
+                <div class="clear form-input-box">
+                  <Form-item label="确认新密码" class="left"  prop="repwd">
+                    <iInput type="password" size="large"  v-model="trendsModifyCustom.repwd" style="width: 250px"></iInput>
+                  </Form-item>
+                </div>
+                <div>
+                  <Form-item>
+                    <iButton :disabled="trendsModifyBtnState" @click="handleSubmit('payCustom',modifyFinishPwdFunc)">
+                      确定
+                    </iButton>
+                  </Form-item>
+                </div>
+              </iForm>
+            </div>
           </div>
         </div>
       </div>
@@ -426,13 +428,17 @@
   @import 'src/css/mixin';
 
   .my-account {
+    height: 550px;
+    width: 800px;
+    margin: auto;
+    margin-top: 120px;
     .user-safe {
-      margin-top: 20px;
+      margin-top: 80px;
       P {
         padding: 0 20px;
         height: 36px;
         line-height: 36px;
-        /*background-color: #f8f8f8;*/
+        background-color: #f8f8f8;
       }
       ul {
         width: 100%;
@@ -473,7 +479,7 @@
           padding: 0 20px;
           height: 36px;
           line-height: 36px;
-          /*background-color: #f8f8f8;*/
+          background-color: #f8f8f8;
         }
         .sel-box {
           margin-top: 50px;

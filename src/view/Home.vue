@@ -1309,19 +1309,6 @@
     margin-top: 0;
   }
 
-  .part-title-img-box{
-    width: 270px;
-    height: 30px;
-    background: url('/static/img/common/part-title-img.png') no-repeat;
-    margin: auto;
-    span{
-      font-weight: bold;
-      margin-left: 113px;
-      width: 96px;
-      display: block;
-      text-align: center;
-    }
-  }
   @keyframes sliderTop {
     0% {
       margin-top: 0;
