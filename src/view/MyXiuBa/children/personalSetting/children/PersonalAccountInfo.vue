@@ -441,6 +441,9 @@
       let self = this;
       self.getVrcode();
       self.$store.dispatch('getUserInformation');
+      if(self.$route.query.modifyPwd){
+        console.log(self.$route.query.modifyPwd);
+      }
     },
     computed: {
       userAccount() {
