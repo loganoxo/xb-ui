@@ -61,7 +61,7 @@
             <div class="login-in-box" v-if="isLogin && getUserInfoRole　== 0">
               <div>
                 <router-link to="/user/user-home" class="left">
-                  <img class="block ml-20 portrait-img" :src="$store.state.userInfo.portraitPic" alt="">
+                  <img class="block ml-20 portrait-img" :src="userHeadUrl" alt="">
                 </router-link>
                 <div class="left fs-14 ml-20" style="margin-left: 10px;line-height: 28px;">
                   <router-link to="/user/user-home" :title="decodeURIComponent(getUserInfoPhone)"
@@ -104,7 +104,7 @@
             <div class="login-in-box" v-if="isLogin && getUserInfoRole　== 1">
               <div>
                 <router-link to="/user/user-home" class="left">
-                  <img class=" ml-20 portrait-img block" :src="$store.state.userInfo.portraitPic" alt="">
+                  <img class=" ml-20 portrait-img block" :src="userHeadUrl" alt="">
                 </router-link>
                 <div class="left fs-14 ml-20" style="margin-left: 10px;line-height: 28px;">
                   <router-link to="/user/user-home" :title="decodeURIComponent(getUserInfoPhone)"
@@ -204,7 +204,7 @@
                     <a class="des-text" :title="item.trialReportText">{{item.trialReportText}}</a>
                   </p>
                   <div class="clear bottom mt-20">
-                    <router-link :to="{path:'/trial-report',query:{q:encryptionId(item.showkerId)}}"><img class="left" width="48" height="48" :src="item.showkerPortraitPic" alt=""></router-link>
+                    <router-link :to="{path:'/trial-report',query:{q:encryptionId(item.showkerId)}}" class="user-head-box"><img class="left" width="48" height="48" :src="getUserHead(item.showkerPortraitPic)" alt=""></router-link>
                     <div class="left ml-10" style="margin-top: 5px">
                       <p style="color: #000">{{item.showkerPhone}}</p>
                       <img :src="item.creditLevel" alt="">
@@ -625,112 +625,6 @@
         },
         buyerShowList:[],
         getMoreBuyerShow:false,
-        taobaoLevelImgs: [
-          {
-            value: 2,
-            text: 'https://img.alicdn.com/newrank/b_red_2.gif',
-            label: '2心'
-          },
-          {
-            value: 3,
-            text: 'https://img.alicdn.com/newrank/b_red_3.gif',
-            label: '3心'
-          },
-          {
-            value: 4,
-            text: 'https://img.alicdn.com/newrank/b_red_4.gif',
-            label: '4心'
-          },
-          {
-            value: 5,
-            text: 'https://img.alicdn.com/newrank/b_red_5.gif',
-            label: '5心'
-          },
-          {
-            value: 6,
-            text: 'https://img.alicdn.com/newrank/b_blue_1.gif',
-            label: '1钻'
-          },
-          {
-            value: 7,
-            text: 'https://img.alicdn.com/newrank/b_blue_2.gif',
-            label: '2钻'
-          },
-          {
-            value: 8,
-            text: 'https://img.alicdn.com/newrank/b_blue_3.gif',
-            label: '3钻'
-          },
-          {
-            value: 9,
-            text: 'https://img.alicdn.com/newrank/b_blue_4.gif',
-            label: '4钻'
-          },
-          {
-            value: 10,
-            text: 'https://img.alicdn.com/newrank/b_blue_5.gif',
-            label: '5钻'
-          },
-          {
-            value: 11,
-            text: 'https://img.alicdn.com/newrank/s_crown_1.gif',
-            label: '1皇冠'
-          },
-          {
-            value: 12,
-            text: 'https://img.alicdn.com/newrank/s_crown_2.gif',
-            label: '2皇冠'
-          },
-          {
-            value: 13,
-            text: 'https://img.alicdn.com/newrank/s_crown_3.gif',
-            label: '3皇冠'
-          },
-          {
-            value: 14,
-            text: 'https://img.alicdn.com/newrank/s_crown_4.gif',
-            label: '4皇冠'
-          },
-          {
-            value: 15,
-            text: 'https://img.alicdn.com/newrank/s_crown_5.gif',
-            label: '5皇冠'
-          },
-        ],
-        taoqizhiList: [
-          {
-            value: 1,
-            label: '0-199'
-          },
-          {
-            value: 2,
-            label: '200-399'
-          },
-          {
-            value: 3,
-            label: '400-599'
-          },
-          {
-            value: 4,
-            label: '600-799'
-          },
-          {
-            value: 5,
-            label: '800-999'
-          },
-          {
-            value: 6,
-            label: '1000-1999'
-          },
-          {
-            value: 7,
-            label: '2000-2499'
-          },
-          {
-            value: 8,
-            label: '2500以上'
-          },
-        ],
       }
     },
     created() {
@@ -770,11 +664,14 @@
       getUserInfoRole() {
         return this.$store.state.userInfo.role
       },
-      getMemberDeadline: function () {
+      getMemberDeadline() {
         return this.$store.state.userInfo.memberDeadline
       },
-      getMemberLevel: function () {
+      getMemberLevel() {
         return this.$store.state.userInfo.memberLevel
+      },
+      userHeadUrl() {
+        return this.$store.getters.getUserHeadUrl
       },
     },
     mounted: function () {
@@ -792,6 +689,15 @@
       ...mapActions([
         'loggedOut'
       ]),
+      getUserHead(src) {
+        if (src.indexOf('head-image') >= 0) {
+          return aliCallbackImgUrl + src + '!orgi75'
+        } else if (src.indexOf('q.qlogo.cn/qq') >= 0) {
+          return src
+        } else {
+          return '/static/img/common/tx-default.png'
+        }
+      },
       getBuyerShowList(){
         let self = this;
         api.getBuyerShowList().then((res) => {
@@ -904,8 +810,8 @@
       },
       cancelWeiChartFunc() {
         let self = this;
-        if (self.wechartShowAgain != '') {
-          if (self.$store.state.userInfo.role == 1) {
+        if (self.wechartShowAgain !== '') {
+          if (self.$store.state.userInfo.role === 1) {
             api.noWechartAlert().then((res) => {
               if (!res.status) {
                 self.$Message.error(res.msg)
@@ -1187,10 +1093,6 @@
           li {
             overflow: hidden;
             height: 80px;
-            /*padding:  0 0 20px 0;*/
-            /*background-color: blue;*/
-            /*border-top: 1px solid blue;*/
-            /*border-bottom: 1px solid blue;*/
             div.text-box {
               p {
                 font-size: 14px;
@@ -1208,7 +1110,6 @@
     }
     .home-section {
       margin: 10px auto 0 auto;
-      /*overflow: hidden;*/
       .left-ctt {
         background-color: #fff;
         width: 190px;
@@ -1378,6 +1279,15 @@
         }
 
       }
+    }
+  }
+
+  .user-head-box{
+    float: left;
+    width: 48px;
+    height: 48px;
+    img{
+      border-radius: 50%;
     }
   }
 

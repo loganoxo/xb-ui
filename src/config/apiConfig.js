@@ -714,6 +714,7 @@ export default {
   getHomeHistoryList() {
     return fetch('/api/task/index/history.json')
   },
+
   /**
    * PC首页历史活动接口
    */
@@ -734,7 +735,6 @@ export default {
   setMerchantGuide(params) {
     return fetch('/api/set-merchant-guide.json',params)
   },
-
 
   /**
    * 停用旺旺号

@@ -353,6 +353,7 @@ input[type="number"] {
 .fs-24 {
   font-size: 24px;
 }
+
 .bgF1F1F1{
   background-color: #F1F1F1;
 }
@@ -368,6 +369,10 @@ input[type="number"] {
 .container {
   width: 1200px;
   margin: auto;
+}
+
+.border50{
+  border-radius: 50%;
 }
 
 .required:before {
