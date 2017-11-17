@@ -17,7 +17,7 @@
     <div class="activity-type mt-20" v-show="stepName === 'information'">
       <div class="activity-type-title">选择活动类型：</div>
       <div class="clear mt-10">
-        <Poptip placement="bottom" content="该活动申请率极高，评价效果极好，商家能自主筛选秀客，迅速积攒销量。">
+        <Poptip trigger="hover" placement="bottom" content="该活动申请率极高，评价效果极好，商家能自主筛选秀客，迅速积攒销量。">
           <div class="left mr-10 activity-type-box" :class="{isSelect:taskRelease.activityCategory === 'free_get'}" @click="changeSelectActivity('free_get')">
             <p>免费领</p>
             <p>秀客0元试用</p>
@@ -25,7 +25,7 @@
             <span class="is-select-gou" v-show="taskRelease.activityCategory === 'free_get'"></span>
           </div>
         </Poptip>
-        <Poptip placement="bottom" content="该活动申请率较高，评价效果较好，适用于中低客单的走量产品。">
+        <Poptip trigger="hover" placement="bottom" content="该活动申请率较高，评价效果较好，适用于中低客单的走量产品。">
           <div class="left activity-type-box mr-10" :class="{isSelect:taskRelease.activityCategory === 'pinkage_for_10'}" @click="changeSelectActivity('pinkage_for_10')">
             <p>10元包邮</p>
             <p>秀客承担10元邮费</p>
@@ -33,7 +33,7 @@
             <span class="is-select-gou" v-show="taskRelease.activityCategory === 'pinkage_for_10'"></span>
           </div>
         </Poptip>
-        <Poptip placement="bottom" content="秀客拍下付款的是主宝贝（高客单的商品），为主宝贝带来成交转化，但实际发货的是体验装或赠品。该活动可大幅降低活动成本，但要规避秀客在淘宝上晒图。">
+        <Poptip trigger="hover" placement="bottom" content="秀客拍下付款的是主宝贝（高客单的商品），为主宝贝带来成交转化，但实际发货的是体验装或赠品。该活动可大幅降低活动成本，但要规避秀客在淘宝上晒图。">
           <div class="left activity-type-box mr-10" :class="{isSelect:taskRelease.activityCategory === 'present_get'}" @click="changeSelectActivity('present_get')">
             <p>体验专区</p>
             <p>适用于高客单宝贝</p>
@@ -41,7 +41,7 @@
             <span class="is-select-gou" v-show="taskRelease.activityCategory === 'present_get'"></span>
           </div>
         </Poptip>
-        <Poptip placement="bottom" content="秀客以9.9元、49.9元、99.9元及1折、3折、5折的价格购买宝贝，该活动也可适当降低活动成本，但更重要的是帮助商家真实成交，获得消费者的实际反馈。">
+        <Poptip trigger="hover" placement="bottom" content="秀客以9.9元、49.9元、99.9元及1折、3折、5折的价格购买宝贝，该活动也可适当降低活动成本，但更重要的是帮助商家真实成交，获得消费者的实际反馈。">
           <div class="left activity-type-box mr-10" :class="{isSelect:taskRelease.activityCategory === 'price_low'}" @click="changeSelectActivity('price_low')">
             <p>白菜价</p>
             <p>帮商家测款定价</p>
@@ -49,7 +49,7 @@
             <span class="is-select-gou" v-show="taskRelease.activityCategory === 'price_low'"></span>
           </div>
         </Poptip>
-        <Poptip placement="bottom-end" content="商家提供超乎想象的价格，目的不是为了赚取利润，而是尽快把仓库里积压的库存变成现金（比如断码，过季，尾货等），秀客也能真实选购到最最实惠的宝贝。">
+        <Poptip trigger="hover" placement="bottom-end" content="商家提供超乎想象的价格，目的不是为了赚取利润，而是尽快把仓库里积压的库存变成现金（比如断码，过季，尾货等），秀客也能真实选购到最最实惠的宝贝。">
           <div class="left activity-type-box mr-10" :class="{isSelect:taskRelease.activityCategory === 'goods_clearance'}" @click="changeSelectActivity('goods_clearance')">
             <p>清仓断码</p>
             <p>帮商家解决最为头疼的</p>
@@ -534,8 +534,8 @@
             <p>
               活动担保金 = 份数 × 单品活动担保金 =<span>{{taskRelease.taskCount}}</span>×<span>{{oneBond}}</span>= <span>{{(taskRelease.taskCount * oneBond).toFixed(2)}}</span>元
             </p>
-            <p class="mt-6">单品推广费 = 单品活动担保金 × 费率 =<span>{{oneBond}}</span>× <span>6%</span>
-              = <span>{{(oneBond * 0.06).toFixed(2)}}</span>元<span v-if="oneBond * 0.06 > 3">（单品推广费超过平台设定的最高上限3.00元，本次实际收取的单品推广费用为3.00元）</span>
+            <p class="mt-6">单品推广费 = （宝贝单价 + 邮费） × 费率 =<span>（{{taskRelease.itemPrice}} + {{taskRelease.pinkage === 'true' ? 0 : 10}}）</span>× <span>6%</span>
+              = <span>{{onePromotionExpenses}}</span>元<span v-if="onePromotionExpenses > 3">（单品推广费超过平台设定的最高上限3.00元，本次实际收取的单品推广费用为3.00元）</span>
             </p>
             <p class="mt-6">总推广费用 = 单品推广费用 × 份数 =<span>{{onePromotionExpenses}}</span>× <span>{{taskRelease.taskCount}} = <span>{{allPromotionExpenses}}</span></span>元
             </p>
@@ -883,11 +883,12 @@
       },
 
       /**
-       * 计算单品推广费用（单品推广费最高上限3元）
+       * 计算单品推广费用（宝贝单价+ 邮费，单品推广费最高上限3元）
        * @return {number}
        */
       onePromotionExpenses: function () {
-        return this.oneBond * 0.06 > 3 ? 3 : ((this.oneBond * 100).toFixed(2) / 100 * 0.06).toFixed(2) * 1;
+        let price = this.taskRelease.pinkage === 'true' ? this.taskRelease.itemPrice : this.taskRelease.itemPrice + 10;
+        return price * 0.06 > 3 ? 3.00 : (price * 0.06).toFixed(2) * 1;
       },
 
       /**
