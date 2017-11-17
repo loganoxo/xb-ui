@@ -4,8 +4,6 @@
     <router-view></router-view>
     <!--网站底部信息-->
     <Bottom v-show="isBottomShow"></Bottom>
-    <!--商家引导-->
-    <!--<SellerGuide v-if=" isLogin && getUserRole === 1"></SellerGuide>-->
     <!--侧边栏信息导航-->
     <side-navigation></side-navigation>
     <!--侧边栏固定联系客服图片展示-->
