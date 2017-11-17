@@ -306,6 +306,7 @@
       margin-right: 10px;
       img{
         margin-left: 12px;
+        border-radius: 50%;
       }
       p{
         line-height: 25px;
