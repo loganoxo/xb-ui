@@ -89,4 +89,9 @@ export default {
   [types.SET_SHOW_TOP_CATEGORY_RES](state,{result}) {
     state.showTopCategoryRes = result;
   },
+
+  [types.SET_ACTIVITY_CATEGORY](state,{info}) {
+    state.activityCategory = info;
+    setStorage('activityCategory', info);
+  },
 }

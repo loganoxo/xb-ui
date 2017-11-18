@@ -27,7 +27,7 @@
             {{category.name}}
           </router-link>
         </div>
-        <div v-if="$store.state.disCountTaskCategory" class="task-category-sel" >
+        <div v-if="$store.state.TaskCategoryActive == 'price_low' || $store.state.TaskCategoryActive == 'goods_clearance'" class="task-category-sel" >
           折扣类型：
           <a v-for="(k,discountPrice) in $store.state.discountPriceType" :class="[discountTaskCategoryActive == discountPrice ? 'active' : '' ]" @click="selDiscountPriceTypeFunc(k,discountPrice)">{{discountPrice}}试用</a>
         </div>
@@ -301,12 +301,14 @@
           sortOrder: 'desc',
           ifAccess: [],
           discountTypes: ['discount_0'],
+          activityCategory: [],
         },
         historyTaskListParams:{
           pageIndex: 1,
           pageSize: 20,
           itemCatalogs: [],
           sortField: 'endTime',
+          activityCategory: [],
         }
       }
     },
@@ -316,6 +318,9 @@
       let searchKey = self.$route.query.searchKey;
       let discount = self.$route.query.discount;
       self.getNavList();
+      if(self.$route.query.activityCategory){
+        self.searchTaskParams.activityCategory =  [self.$route.query.activityCategory];
+      }
       if(getStorage('disCountTaskCategory')){
         self.$store.commit({
           type: 'SET_DISCOUNT_TASK_CATEGORY',
@@ -331,6 +336,19 @@
       if(!self.$store.state.disCountTaskCategory){
         self.searchTaskParams.discountTypes = ['discount_0']
       }
+      if(getStorage('activityCategory')){
+        self.$store.commit({
+          type: 'SET_ACTIVITY_CATEGORY',
+          info: getStorage('activityCategory'),
+        });
+        self.searchTaskParams.activityCategory =  [getStorage('activityCategory')];
+      }
+      if(self.$route.query.activityCategory){
+        console.log(self.$route.query.activityCategory);
+        self.searchTaskParams.activityCategory =  [self.$route.query.activityCategory];
+        self.getSearchTask();
+        self.getSearchHistoryTask();
+      }
       if(cate){
         self.searchTaskParams.pageIndex = 1;
         self.itemCatalogs = [parseInt(cate)];
@@ -341,10 +359,10 @@
           type: 'SET_DISCOUNT_TASK_CATEGORY',
           result: true
         });
-        self.$store.commit({
-          type: 'TASK_CATEGORY_LIST',
-          info: 'discount'
-        });
+//        self.$store.commit({
+//          type: 'TASK_CATEGORY_LIST',
+//          info: 'discount'
+//        });
         self.itemCatalogs = [];
         self.searchTaskParams.discountTypes = self.$store.state.discountPriceType['不限'].discountTypes;
         self.getSearchTask();
@@ -396,13 +414,6 @@
         this.historyTaskListParams.pageIndex = data;
         this.getSearchHistoryTask();
         document.getElementById('historyPage').scrollIntoView(true);
-      },
-      taskCategoryAllFunc(){
-        let self = this;
-        for(let i = 0; i < self.categoryList.length; i++){
-          self.itemCatalogs[i] = self.categoryList[i].id;
-        }
-        self.getSearchTask();
       },
       selTaskCategoryAllFunc(){
         let self = this;
@@ -476,6 +487,7 @@
           showkerId: showkerId,
           ifAccess: self.searchTaskParams.ifAccess == '' ? '' : true,
           discountTypes: self.searchTaskParams.discountTypes ? JSON.stringify(self.searchTaskParams.discountTypes) : '',
+          activityCategory: self.searchTaskParams.activityCategory ? JSON.stringify(self.searchTaskParams.activityCategory) : '',
         }).then((res) => {
           window.scrollTo(0, 0);
           if(res.status){
@@ -570,6 +582,20 @@
             info: getStorage('TaskCategoryActive'),
           });
         }
+        if(getStorage('activityCategory')){
+          self.$store.commit({
+            type: 'SET_ACTIVITY_CATEGORY',
+            info: getStorage('activityCategory'),
+          });
+          self.searchTaskParams.activityCategory =  [getStorage('activityCategory')];
+        }
+        if(self.$route.query.activityCategory){
+          console.log(self.$route.query.activityCategory);
+          self.searchTaskParams.activityCategory =  [self.$route.query.activityCategory];
+          self.getSearchTask();
+          self.getSearchHistoryTask();
+        }
+
         if(!self.$store.state.disCountTaskCategory){
           self.searchTaskParams.discountTypes = ['discount_0'];
         }
@@ -582,10 +608,6 @@
           self.$store.commit({
             type: 'SET_DISCOUNT_TASK_CATEGORY',
             result: true
-          });
-          self.$store.commit({
-            type: 'TASK_CATEGORY_LIST',
-            info: 'discount'
           });
           self.searchTaskParams.discountTypes = self.$store.state.discountPriceType['不限'].discountTypes;
           self.itemCatalogs = [];

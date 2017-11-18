@@ -27,13 +27,22 @@ const state = {
     'home': {
       text: '首页'
     },
-    'all': {
+    'free_get': {
       text: '免费领'
     },
-    'discount': {
+    'price_low': {
       text: '白菜价'
+    },
+    'pinkage_for_10': {
+      text: '10元包邮'
+    },
+    'present_get': {
+      text: '赠品专区'
+    },
+    'goods_clearance': {
+      text: '清仓断码'
     }
-  },
+  },//导航分类列表
   discountPriceType: {
     '不限': {
       backgroundColor:　'',
@@ -51,7 +60,8 @@ const state = {
       backgroundColor: '#ff3399',
       discountTypes: ['discount_99_9'],
     }
-  }
+  },//白菜价列表
+  activityCategory: '',
 };
 
 export default new Vuex.Store({
