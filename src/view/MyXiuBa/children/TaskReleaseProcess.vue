@@ -272,7 +272,7 @@
             <div class="task-remark ml-45 mt-20 clear">
               <span class="left ml-5">下单备注：</span>
               <div class="left">
-                <iInput class="task-remark-input" type="textarea" :rows="6" placeholder="请在这里输入需要秀客注意的事项，例如：SKU信息等，这里的信息会无条件展示出来。" v-model="taskRelease.remark"></iInput>
+                <iInput class="task-remark-input" type="textarea" :autosize="{minRows: 6,  maxRows: 12}" placeholder="请在这里输入需要秀客注意的事项，例如：SKU信息等，这里的信息会无条件展示出来。" v-model="taskRelease.remark"></iInput>
                 <p class="sizeColor3 mt-10" v-show="taskRelease.activityCategory === 'present_get'">备注中明确说明希望秀客拍下的SKU（否则秀客可能会找不到宝贝）</p>
                 <p class="sizeColor3 mt-6" v-show="taskRelease.activityCategory === 'present_get'">建议商家备注中明确说明：“请勿在淘宝中评价及晒图！”，若未注明，秀客在淘宝中进行评价或晒图后可能会影响主宝贝的评价情况。</p>
               </div>

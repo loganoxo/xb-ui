@@ -105,15 +105,15 @@
             </td>
             <td>
               <p v-if="item.status === 'pass_and_unclaimed' || item.status === 'order_num_error'" class="operation"
-                 @click="changePassOperation('place','',item.id,item.taskType)">去下单</p>
+                 @click="changePassOperation('place','', item.id, item.taskType, item.activityCategory)">去下单</p>
               <p v-if="item.status === 'trial_report_waiting_submit'" class="operation"
                  @click="changePassOperation('report','write',item.id)">制作买家秀</p>
               <p v-if="item.status === 'trial_report_unqualified'" class="operation"
                  @click="changePassOperation('report','amend',item.id)">修改买家秀</p>
               <p v-if="item.status === 'pass_and_unclaimed'" class="operation mt-5"
-                 @click="openAuditOrder(item.id,item.taskType)">填订单号</p>
+                 @click="openAuditOrder(item.id, item.taskType, item.activityCategory)">填订单号</p>
               <p v-if="item.status === 'order_num_error'" class="operation mt-5"
-                 @click="openAuditOrder(item.id,item.taskType)">修改订单号</p>
+                 @click="openAuditOrder(item.id,item.taskType, item.activityCategory)">修改订单号</p>
               <p v-if="item.status === 'trial_report_waiting_confirm' || item.status === 'trial_finished'" class="operation mt-5"
                  @click="lookReportInfo(item.id)">查看买家秀详情</p>
               <p v-if="item.status === 'trial_finished'" class="operation mt-5">
@@ -378,6 +378,7 @@
         orderImg: false,
         orderType: null,
         taskOrderType: null,
+        activityCategory: null,
       }
     },
     mounted() {
@@ -414,11 +415,12 @@
       goTaskDetails(id) {
         this.$router.push({name: 'TaskDetails', query: {q: encryption(id)}})
       },
-      changePassOperation(type, status, id, orderType) {
+      changePassOperation(type, status, id, orderType, activityCategory) {
         let _this = this;
         _this.reportStatus = status;
         _this.itemId = id;
         _this.orderType = orderType;
+        _this.activityCategory = activityCategory;
         if (type === 'report') {
           api.showkerTaskInfo({id: id,}).then(res => {
             if (res.status) {
@@ -500,10 +502,11 @@
       closeAuditOrder() {
         this.showAuditOrderNumber = false;
       },
-      openAuditOrder(id, type) {
+      openAuditOrder(id, type, activityCategory) {
         this.affirmOrderNumber= '';
         this.payMoney = '';
         this.orderType = type;
+        this.activityCategory = activityCategory;
         this.showAuditOrderNumber = true;
         if (id && !this.itemId) {
           this.itemId = id;
@@ -560,6 +563,7 @@
               data.createTime = item.createTime;
               data.orderNumber = item.task.number;
               data.taskType = item.task.taskType;
+              data.activityCategory = item.task.activityCategory;
               if (item.latestShowkerTaskOpLog) {
                 data.auditDescription = item.latestShowkerTaskOpLog.auditDescription;
               } else {
@@ -589,6 +593,10 @@
         }
         if (!isNumber(_this.payMoney)) {
           _this.$Message.error("亲，输入的金额格式有误！");
+          return;
+        }
+        if(_this.activityCategory === 'pinkage_for_10' && _this.payMoney < 10){
+          _this.$Message.error("亲，当前活动是10元包邮活动，订单金额不能低于10元！");
           return;
         }
         api.showkerOrderSave({

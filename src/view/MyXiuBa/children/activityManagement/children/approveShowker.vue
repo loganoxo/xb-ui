@@ -509,13 +509,13 @@
     watch: {},
     computed: {
       getOderPrice: function () {
-        if(this.orderInfo.discountPrice && this.orderInfo.discountPrice >= 0){
+        if(this.orderInfo.discountPrice && this.orderInfo.discountPrice > 0){
          return this.orderInfo.orderPrice - this.orderInfo.discountPrice
-        }
-        if(this.orderInfo.discountRate && this.orderInfo.discountRate > 0){
+        }else if(this.orderInfo.discountRate && this.orderInfo.discountRate > 0){
           return this.orderInfo.orderPrice * (1 - this.orderInfo.discountRate)
+        } else {
+          return this.orderInfo.orderPrice
         }
-//        return this.orderInfo.discountPrice > 0 ? this.orderInfo.orderPrice - this.orderInfo.discountPrice : this.orderInfo.orderPrice
       },
       needReplenishMoney: function () {
         return (this.getOderPrice - this.orderInfo.perMarginNeed).toFixed(2) * 1
