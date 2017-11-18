@@ -14,7 +14,8 @@
       <div class="container" >
         <div class="task-category-sel">
           <span v-show="$store.state.TaskCategoryActive" >{{$store.state.TaskCategoryActiveList[$store.state.TaskCategoryActive].text}}</span>：
-          <a :class="[($store.state.TaskCategoryActive == 'all' || $store.state.TaskCategoryActive == 'discount') &&  !$route.query.cate ? 'active' : '']" @click="selTaskCategoryAllFunc">全部活动</a>
+          <a v-if="$route.query.searchKey != 'all' && $route.query.searchKey" :class="[!$route.query.cate ? 'active' : '']" @click="selCategoryAllFunc">全部活动</a>
+          <a v-else :class="[!$route.query.cate ? 'active' : '']" @click="selTaskCategoryAllFunc">全部活动</a>
           <a v-if="nav.name != '美食/特产' && nav.name != '其它试用'" :class="[$route.query.cate == nav.id ? 'active' : '']" @click="selTaskCategoryActiveFunc(nav)" v-for="nav in navList" >{{nav.name}}</a>
         </div>
         <div v-show="$route.query.searchKey != 'all' && $route.query.searchKey"  class="task-category-sel">
@@ -27,9 +28,13 @@
             {{category.name}}
           </router-link>
         </div>
-        <div v-if="$store.state.TaskCategoryActive == 'price_low' || $store.state.TaskCategoryActive == 'goods_clearance'" class="task-category-sel" >
+        <div v-if="$store.state.TaskCategoryActive == 'price_low'" class="task-category-sel" >
           折扣类型：
           <a v-for="(k,discountPrice) in $store.state.discountPriceType" :class="[discountTaskCategoryActive == discountPrice ? 'active' : '' ]" @click="selDiscountPriceTypeFunc(k,discountPrice)">{{discountPrice}}试用</a>
+        </div>
+        <div v-if=" $store.state.TaskCategoryActive == 'goods_clearance'" class="task-category-sel" >
+          折扣类型：
+          <a v-for="(k,discountPrice) in $store.state.goodsClearanceList" :class="[discountTaskCategoryActive == discountPrice ? 'active' : '' ]" @click="selDiscountPriceTypeFunc(k,discountPrice)">{{discountPrice}}试用</a>
         </div>
       </div>
       <div class="container">
@@ -96,9 +101,14 @@
                 <p v-if="!$store.state.disCountTaskCategory" class="task-category-commodity-text-price">
                   <span class="left">￥{{searchTask.itemPrice/100}}</span>
                   <!--<span class="right">免费活动</span>-->
+                  <span v-if= "searchTask.activityCategory == 'present_get'" style="padding: 0 4px; background: #00cc66; color: #ffffff; margin-left: 10px; display: inline-block;height: 20px;line-height: 20px;">体验专区</span>
+                  <span v-if= "searchTask.activityCategory == 'pinkage_for_10'" style="padding: 0 4px; background: #ff9966; color: #fff; margin-left: 10px; display: inline-block;height: 20px;line-height: 20px;">10元包邮</span>
                 </p>
+
                 <p v-if="$store.state.disCountTaskCategory" class="home-commodity-price">
                   <span class="left" style="text-decoration: line-through; color: #ff6633;">￥{{searchTask.itemPrice/100}}</span>
+                  <span v-if= "searchTask.activityCategory == 'pinkage_for_10'" style="padding: 0 4px; background: #ff9966; color: #fff; margin-left: 10px; display: inline-block;height: 20px;line-height: 20px;">10元包邮</span>
+                  <span v-if= "searchTask.activityCategory == 'present_get'" style="padding: 0 4px; background: #00cc66; color: #ffffff; margin-left: 10px; display: inline-block;height: 20px;line-height: 20px;">体验专区</span>
                   <span v-if="(searchTask.activityCategory == 'price_low' || searchTask.activityCategory == 'goods_clearance') && searchTask.discountPrice" class="left home-discount-price mt-5" :style="{backgroundColor: $store.state.discountPriceType[parseFloat(searchTask.discountPrice/100)].backgroundColor}" >
                     {{searchTask.discountPrice/100}}试用
                   </span>
@@ -162,9 +172,13 @@
                 <p v-if="!$store.state.disCountTaskCategory" class="task-category-commodity-text-price">
                   <span class="left">￥{{historyTask.itemPrice/100}}</span>
                   <!--<span class="right">免费活动</span>-->
+                  <span v-if= "historyTask.activityCategory == 'present_get'" style="padding: 0 4px; background: #00cc66; color: #ffffff; margin-left: 10px; display: inline-block;height: 20px;line-height: 20px;">体验专区</span>
+                  <span v-if= "historyTask.activityCategory == 'pinkage_for_10'" style="padding: 0 4px; background: #ff9966; color: #fff; margin-left: 10px; display: inline-block;height: 20px;line-height: 20px;">10元包邮</span>
                 </p>
                 <p v-if="$store.state.disCountTaskCategory" class="home-commodity-price ">
                   <span class="left" style="text-decoration: line-through; color: #ff6633;">￥{{historyTask.itemPrice/100}}</span>
+                  <span v-if= "historyTask.activityCategory == 'present_get'" style=" padding: 0 4px; background: #00cc66; color: #ffffff; margin-left: 10px; display: inline-block;height: 20px;line-height: 20px;">体验专区</span>
+                  <span v-if= "historyTask.activityCategory == 'pinkage_for_10'" style="padding: 0 4px; background: #ff9966; color: #fff; margin-left: 10px; display: inline-block;height: 20px;line-height: 20px;">10元包邮</span>
                   <span v-if="(historyTask.activityCategory == 'price_low' || historyTask.activityCategory == 'goods_clearance') && historyTask.discountPrice" class="left home-discount-price mt-5" :style="{backgroundColor: $store.state.discountPriceType[parseFloat(historyTask.discountPrice/100)].backgroundColor}" >
                     {{historyTask.discountPrice/100}}试用
                   </span>
@@ -213,7 +227,7 @@
 </template>
 
 <script>
-  import {setStorage, getStorage, encryption} from '@/config/utils'
+  import {setStorage, getStorage, encryption,removeStorage} from '@/config/utils'
   import Icon from 'iview/src/components/icon'
   import Form from 'iview/src/components/form'
   import Input from 'iview/src/components/input'
@@ -418,9 +432,14 @@
         this.getSearchHistoryTask();
         document.getElementById('historyPage').scrollIntoView(true);
       },
+      selCategoryAllFunc(){
+        console.log(1);
+      },
       selTaskCategoryAllFunc(){
         let self = this;
-        self.$router.push({ 'path': '/task-category', 'query': {'searchKey': 'all'}});
+        if(getStorage('activityCategory') && ! self.$route.query.searchKey){
+          self.$router.push({ 'path': '/task-category', 'query': {'activityCategory': getStorage('activityCategory')}});
+        }
       },
       selTaskCategoryActiveFunc(nav){
         let self = this;

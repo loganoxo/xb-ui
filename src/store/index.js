@@ -73,6 +73,24 @@ const state = {
       discountTypes: ['discount_r_50'],
     }
   },//白菜价列表
+  goodsClearanceList: {
+    '不限': {
+      backgroundColor:　'',
+      discountTypes: ['discount_r_10','discount_r_30','discount_r_50'],
+    },
+    '1折': {
+      backgroundColor: '#ff9900',
+      discountTypes: ['discount_r_10'],
+    },
+    '3折': {
+      backgroundColor: '#cc3333',
+      discountTypes: ['discount_r_30'],
+    },
+    '5折': {
+      backgroundColor: '#ff3399',
+      discountTypes: ['discount_r_50'],
+    }
+  },
   activityCategory: '',
 };
 
