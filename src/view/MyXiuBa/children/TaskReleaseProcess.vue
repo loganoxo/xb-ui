@@ -51,7 +51,7 @@
       <div class="pop-tip mt-15">
         <div v-show="taskRelease.activityCategory === 'free_get'">
           <div class="pop-tip-arrow free-get"></div>
-          <div>该活动申请率极高，评价效果极好，商家能自主筛选秀客，迅速积攒销54量。</div>
+          <div>该活动申请率极高，评价效果极好，商家能自主筛选秀客，迅速积攒销量。</div>
         </div>
         <div v-show="taskRelease.activityCategory === 'pinkage_for_10'">
           <div class="pop-tip-arrow pinkage-for-10"></div>
