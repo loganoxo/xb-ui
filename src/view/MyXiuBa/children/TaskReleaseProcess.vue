@@ -17,31 +17,36 @@
     <div class="activity-type mt-20" v-show="stepName === 'information'">
       <div class="activity-type-title">选择活动类型：</div>
       <div class="clear mt-10">
-        <div class="left mr-10 activity-type-box" :class="{isSelect:taskRelease.activityCategory === 'free_get'}" @click="changeSelectActivity('free_get')">
+        <div class="left mr-10 activity-type-box" :class="{isSelect:taskRelease.activityCategory === 'free_get'}"
+             @click="changeSelectActivity('free_get')">
           <p>免费领</p>
           <p>秀客0元试用</p>
           <p>高人气活动类型</p>
           <span class="is-select-gou" v-show="taskRelease.activityCategory === 'free_get'"></span>
         </div>
-        <div class="left activity-type-box mr-10" :class="{isSelect:taskRelease.activityCategory === 'pinkage_for_10'}" @click="changeSelectActivity('pinkage_for_10')">
+        <div class="left activity-type-box mr-10" :class="{isSelect:taskRelease.activityCategory === 'pinkage_for_10'}"
+             @click="changeSelectActivity('pinkage_for_10')">
           <p>10元包邮</p>
           <p>秀客承担10元邮费</p>
           <p>高人气活动类型</p>
           <span class="is-select-gou" v-show="taskRelease.activityCategory === 'pinkage_for_10'"></span>
         </div>
-        <div class="left activity-type-box mr-10" :class="{isSelect:taskRelease.activityCategory === 'present_get'}" @click="changeSelectActivity('present_get')">
+        <div class="left activity-type-box mr-10" :class="{isSelect:taskRelease.activityCategory === 'present_get'}"
+             @click="changeSelectActivity('present_get')">
           <p>体验专区</p>
           <p>适用于高客单宝贝</p>
           <p>解决商品成本过高问题</p>
           <span class="is-select-gou" v-show="taskRelease.activityCategory === 'present_get'"></span>
         </div>
-        <div class="left activity-type-box mr-10" :class="{isSelect:taskRelease.activityCategory === 'price_low'}" @click="changeSelectActivity('price_low')">
+        <div class="left activity-type-box mr-10" :class="{isSelect:taskRelease.activityCategory === 'price_low'}"
+             @click="changeSelectActivity('price_low')">
           <p>白菜价</p>
           <p>帮商家测款定价</p>
           <p>真实卖货</p>
           <span class="is-select-gou" v-show="taskRelease.activityCategory === 'price_low'"></span>
         </div>
-        <div class="left activity-type-box mr-10" :class="{isSelect:taskRelease.activityCategory === 'goods_clearance'}" @click="changeSelectActivity('goods_clearance')">
+        <div class="left activity-type-box mr-10" :class="{isSelect:taskRelease.activityCategory === 'goods_clearance'}"
+             @click="changeSelectActivity('goods_clearance')">
           <p>清仓断码</p>
           <p>帮商家解决最为头疼的</p>
           <p>库存问题</p>
@@ -78,7 +83,8 @@
         <Icon style="font-size: 25px ;transform: translateY(3px)" type="close-circled"></Icon>
         <span><strong>很抱歉，当前你为非会员，购买会员后才能继续发布任务！</strong></span>
       </div>
-      <div class="mt-80 ml-60" style="font-size:20px;color: #949494;text-align: left" v-if="getMemberStatus === 'need_member_for_more_audit'">
+      <div class="mt-80 ml-60" style="font-size:20px;color: #949494;text-align: left"
+           v-if="getMemberStatus === 'need_member_for_more_audit'">
         <Icon class="mr-10" style="font-size: 25px ;transform: translateY(16px)" type="close-circled"></Icon>
         <span>
           <span><strong>很抱歉，当前你为非会员，仅支持免费发布一条活动（目前已存在一条待审核活动，请等待审核结果）。</strong></span><br>
@@ -140,14 +146,18 @@
             <div class="baby-title ml-45 mt-20">
               <span class="required">活动标题：</span>
               <iInput v-model="taskRelease.taskName" placeholder="请输入活动标题" style="width: 296px"></iInput>
-              <span class="ml-20 sizeColor"><Icon v-show="taskNameLength > 35" color="#f60" type="information-circled"></Icon>&nbsp;最多支持35个字符，当前已输入 <span
+              <span class="ml-20 sizeColor"><Icon v-show="taskNameLength > 35" color="#f60"
+                                                  type="information-circled"></Icon>&nbsp;最多支持35个字符，当前已输入 <span
                 class="main-color">{{taskNameLength}}</span> / 35个字符。</span>
             </div>
             <div class="baby-title ml-45 mt-20">
               <span class="required">宝贝类型：</span>
               <iSelect v-model="taskRelease.itemType" style="width:200px">
-                <Option-group v-for="parentItem in itemCatalogList" v-if="parentItem.level == 1" :label="parentItem.name" :key="parentItem.id">
-                  <iOption v-if="item.level == 2 && item.parentItemCatalog && item.parentItemCatalog.id == parentItem.id" v-for="item in itemCatalogList" :value="item.id" :key="item.name">{{ item.name }}
+                <Option-group v-for="parentItem in itemCatalogList" v-if="parentItem.level == 1"
+                              :label="parentItem.name" :key="parentItem.id">
+                  <iOption
+                    v-if="item.level == 2 && item.parentItemCatalog && item.parentItemCatalog.id == parentItem.id"
+                    v-for="item in itemCatalogList" :value="item.id" :key="item.name">{{ item.name }}
                   </iOption>
                 </Option-group>
               </iSelect>
@@ -188,57 +198,77 @@
             </div>
             <div class="baby-price ml-45 mt-20">
               <span class="required">宝贝单价：</span>
-              <iInput v-model.number="taskRelease.itemPrice" @on-change="clearDiscount" placeholder="请输入宝贝单价" style="width: 120px"></iInput>
+              <iInput v-model.number="taskRelease.itemPrice" @on-change="clearDiscount" placeholder="请输入宝贝单价"
+                      style="width: 120px"></iInput>
               <span>元</span>
-              <span v-show="taskRelease.itemPrice && taskRelease.itemPrice < 1" class="main-color ml-20"><Icon color="#f60" type="information-circled"></Icon>&nbsp;每份试用品的价值必须在1元以上</span>
-              <span v-show="taskRelease.itemPrice && taskRelease.itemPrice < 10 && taskRelease.activityCategory === 'pinkage_for_10'" class="main-color ml-20"><Icon color="#f60" type="information-circled"></Icon>&nbsp;10元包邮活动，宝贝最低价格不能低于10元</span>
+              <span v-show="taskRelease.itemPrice && taskRelease.itemPrice < 1" class="main-color ml-20"><Icon
+                color="#f60" type="information-circled"></Icon>&nbsp;每份试用品的价值必须在1元以上</span>
+              <span
+                v-show="taskRelease.itemPrice && taskRelease.itemPrice < 10 && taskRelease.activityCategory === 'pinkage_for_10'"
+                class="main-color ml-20"><Icon color="#f60" type="information-circled"></Icon>&nbsp;10元包邮活动，宝贝最低价格不能低于10元</span>
               <p class="sizeColor pl-60 mt-8">活动活动期间，商家不允许修改下单页商品信息，经核查属实，本平台有权将活动担保金返还已获得资格的秀客，商家账号按相应规则处罚</p>
             </div>
-            <div class="discount ml-40 mt-20" v-show="taskRelease.activityCategory !== 'free_get' && taskRelease.activityCategory !== 'present_get'">
+            <div class="discount ml-40 mt-20"
+                 v-show="taskRelease.activityCategory !== 'free_get' && taskRelease.activityCategory !== 'present_get'">
               <div class="clear" v-show="taskRelease.activityCategory !== 'pinkage_for_10'">
                 <span class="required mt-8 left">折扣/活动：</span>
                 <div class="left">
                   <div class="clear" v-show="taskRelease.activityCategory !== 'goods_clearance'">
-                    <div class="discount-btn left ml-10 discount-9-9" v-show="!discountDisabled.discount_9_9.disabled" :class="{isSelect:taskRelease.discountType === 'discount_9_9'}" @click="changeSelectDiscount('discount_9_9')">
+                    <div class="discount-btn left ml-10 discount-9-9" v-show="!discountDisabled.discount_9_9.disabled"
+                         :class="{isSelect:taskRelease.discountType === 'discount_9_9'}"
+                         @click="changeSelectDiscount('discount_9_9')">
                       <span> 9.9试用</span>
                       <span>（50元以上宝贝可选）</span>
                       <span class="is-select-gou" v-show="taskRelease.discountType === 'discount_9_9'"></span>
                     </div>
-                    <div class="discount-btn left ml-10 discount-9-9 disabled" v-show="discountDisabled.discount_9_9.disabled">
+                    <div class="discount-btn left ml-10 discount-9-9 disabled"
+                         v-show="discountDisabled.discount_9_9.disabled">
                       <span> 9.9试用</span>
                       <span>（50元以上宝贝可选）</span>
                     </div>
-                    <div class="discount-btn left ml-10 discount-49-9" v-show="!discountDisabled.discount_49_9.disabled" :class="{isSelect:taskRelease.discountType === 'discount_49_9'}" @click="changeSelectDiscount('discount_49_9')">
+                    <div class="discount-btn left ml-10 discount-49-9" v-show="!discountDisabled.discount_49_9.disabled"
+                         :class="{isSelect:taskRelease.discountType === 'discount_49_9'}"
+                         @click="changeSelectDiscount('discount_49_9')">
                       <span> 49.9试用</span>
                       <span>（150元以上宝贝可选）</span>
                       <span class="is-select-gou" v-show="taskRelease.discountType === 'discount_49_9'"></span>
                     </div>
-                    <div class="discount-btn left ml-10 discount-49-9 disabled" v-show="discountDisabled.discount_49_9.disabled">
+                    <div class="discount-btn left ml-10 discount-49-9 disabled"
+                         v-show="discountDisabled.discount_49_9.disabled">
                       <span> 49.9试用</span>
                       <span>（150元以上宝贝可选）</span>
                     </div>
-                    <div class="discount-btn left ml-10 discount-999" v-show="!discountDisabled.discount_99_9.disabled" :class="{isSelect:taskRelease.discountType === 'discount_99_9'}" @click="changeSelectDiscount('discount_99_9')">
+                    <div class="discount-btn left ml-10 discount-999" v-show="!discountDisabled.discount_99_9.disabled"
+                         :class="{isSelect:taskRelease.discountType === 'discount_99_9'}"
+                         @click="changeSelectDiscount('discount_99_9')">
                       <span> 99.9试用</span>
                       <span>（250元以上宝贝可选）</span>
                       <span class="is-select-gou" v-show="taskRelease.discountType === 'discount_99_9'"></span>
                     </div>
-                    <div class="discount-btn left ml-10 discount-999 disabled" v-show="discountDisabled.discount_99_9.disabled">
+                    <div class="discount-btn left ml-10 discount-999 disabled"
+                         v-show="discountDisabled.discount_99_9.disabled">
                       <span> 99.9试用</span>
                       <span>（250元以上宝贝可选）</span>
                     </div>
                   </div>
                   <div class="clear mt-10">
-                    <div class="discount-btn left ml-10 discount-9-9" :class="{isSelect:taskRelease.discountType === 'discount_r_10'}" @click="changeSelectDiscount('discount_r_10')">
+                    <div class="discount-btn left ml-10 discount-9-9"
+                         :class="{isSelect:taskRelease.discountType === 'discount_r_10'}"
+                         @click="changeSelectDiscount('discount_r_10')">
                       <span> 1折试用</span>
                       <span>（所有宝贝可选）</span>
                       <span class="is-select-gou" v-show="taskRelease.discountType === 'discount_r_10'"></span>
                     </div>
-                    <div class="discount-btn left ml-10 discount-49-9" :class="{isSelect:taskRelease.discountType === 'discount_r_30'}" @click="changeSelectDiscount('discount_r_30')">
+                    <div class="discount-btn left ml-10 discount-49-9"
+                         :class="{isSelect:taskRelease.discountType === 'discount_r_30'}"
+                         @click="changeSelectDiscount('discount_r_30')">
                       <span> 3折试用</span>
                       <span>（所有宝贝可选）</span>
                       <span class="is-select-gou" v-show="taskRelease.discountType === 'discount_r_30'"></span>
                     </div>
-                    <div class="discount-btn left ml-10 discount-999" :class="{isSelect:taskRelease.discountType === 'discount_r_50'}" @click="changeSelectDiscount('discount_r_50')">
+                    <div class="discount-btn left ml-10 discount-999"
+                         :class="{isSelect:taskRelease.discountType === 'discount_r_50'}"
+                         @click="changeSelectDiscount('discount_r_50')">
                       <span> 5折试用</span>
                       <span>（所有宝贝可选）</span>
                       <span class="is-select-gou" v-show="taskRelease.discountType === 'discount_r_50'"></span>
@@ -246,8 +276,14 @@
                   </div>
                 </div>
               </div>
-              <p class="sizeColor pl-60 mt-20" v-show="taskRelease.itemPrice && taskRelease.discountType && taskRelease.activityCategory !== 'pinkage_for_10'">秀客以<span class="main-color">{{taskRelease.itemPrice}}</span>元价格在淘宝上购买，活动成功后返款<span class="main-color">{{newItemPrice.toFixed(2)}}</span>元给秀客！</p>
-              <p class="sizeColor pl-60" v-show="taskRelease.itemPrice && taskRelease.itemPrice >= 10 && taskRelease.activityCategory === 'pinkage_for_10'">秀客以<span class="main-color">{{taskRelease.itemPrice}}</span>元价格在淘宝上购买，活动成功后返款<span class="main-color">{{taskRelease.itemPrice > 10 ? taskRelease.itemPrice - 10 : 0}}</span>元给秀客！</p>
+              <p class="sizeColor pl-60 mt-20"
+                 v-show="taskRelease.itemPrice && taskRelease.discountType && taskRelease.activityCategory !== 'pinkage_for_10'">
+                秀客以<span class="main-color">{{taskRelease.itemPrice}}</span>元价格在淘宝上购买，活动成功后返款<span
+                class="main-color">{{(newItemPrice/100).toFixed(2)}}</span>元给秀客！</p>
+              <p class="sizeColor pl-60"
+                 v-show="taskRelease.itemPrice && taskRelease.itemPrice >= 10 && taskRelease.activityCategory === 'pinkage_for_10'">
+                秀客以<span class="main-color">{{taskRelease.itemPrice}}</span>元价格在淘宝上购买，活动成功后返款<span
+                class="main-color">{{taskRelease.itemPrice > 10 ? taskRelease.itemPrice - 10 : 0}}</span>元给秀客！</p>
             </div>
             <div class="baby-pinkage ml-45 mt-20">
               <span class="required left">是否包邮：</span>
@@ -272,9 +308,12 @@
             <div class="task-remark ml-45 mt-20 clear">
               <span class="left ml-5">下单备注：</span>
               <div class="left">
-                <iInput class="task-remark-input" type="textarea" :autosize="{minRows: 6,  maxRows: 12}" placeholder="请在这里输入需要秀客注意的事项，例如：SKU信息等，这里的信息会无条件展示出来。" v-model="taskRelease.remark"></iInput>
-                <p class="sizeColor3 mt-10" v-show="taskRelease.activityCategory === 'present_get'">备注中明确说明希望秀客拍下的SKU（否则秀客可能会找不到宝贝）</p>
-                <p class="sizeColor3 mt-6" v-show="taskRelease.activityCategory === 'present_get'">建议商家备注中明确说明：“请勿在淘宝中评价及晒图！”，若未注明，秀客在淘宝中进行评价或晒图后可能会影响主宝贝的评价情况。</p>
+                <iInput class="task-remark-input" type="textarea" :autosize="{minRows: 6,  maxRows: 12}"
+                        placeholder="请在这里输入需要秀客注意的事项，例如：SKU信息等，这里的信息会无条件展示出来。" v-model="taskRelease.remark"></iInput>
+                <p class="sizeColor3 mt-10"
+                   v-show="taskRelease.activityCategory === 'present_get'">备注中明确说明希望秀客拍下的SKU（否则秀客可能会找不到宝贝）</p>
+                <p class="sizeColor3 mt-6"
+                   v-show="taskRelease.activityCategory === 'present_get'">建议商家备注中明确说明：“请勿在淘宝中评价及晒图！”，若未注明，秀客在淘宝中进行评价或晒图后可能会影响主宝贝的评价情况。</p>
               </div>
             </div>
             <div class="product-introduction ml-45 mt-20">
@@ -287,7 +326,8 @@
                             @ready="onEditorReady($event)">
               </quill-editor>
               <form action="" method="post" enctype="multipart/form-data" id="uploadFormMulti">
-                <input style="display: none" :id="uniqueId" type="file" name="avator" multiple accept="image/jpg,image/jpeg,image/png,image/gif" @change="uploadImg">
+                <input style="display: none" :id="uniqueId" type="file" name="avator" multiple
+                       accept="image/jpg,image/jpeg,image/png,image/gif" @change="uploadImg">
               </form>
             </div>
           </div>
@@ -339,7 +379,8 @@
               </div>
               <div class="search-price ml-40 mt-20">
                 <span class="required">展示价格：</span>
-                <iInput v-model.number="PcTaskDetail.searchPagePrice" placeholder="请输入搜索列表页展示价格" style="width: 160px"></iInput>
+                <iInput v-model.number="PcTaskDetail.searchPagePrice" placeholder="请输入搜索列表页展示价格"
+                        style="width: 160px"></iInput>
                 <span class="sizeColor2">（务必亲自搜索，确认价格准确）</span>
               </div>
               <div class="baby-location ml-15 mt-20">
@@ -448,7 +489,8 @@
               </div>
               <div class="search-price ml-40 mt-20">
                 <span class="required">展示价格：</span>
-                <iInput v-model="AppTaskDetail.searchPagePrice" placeholder="请输入搜索列表页展示价格" style="width: 160px"></iInput>
+                <iInput v-model="AppTaskDetail.searchPagePrice" placeholder="请输入搜索列表页展示价格"
+                        style="width: 160px"></iInput>
                 <span class="sizeColor2">（务必亲自搜索，确认价格准确）</span>
               </div>
               <div class="baby-location ml-15 mt-20">
@@ -523,20 +565,35 @@
       <!--存入担保金详情-->
       <div class="deposits-received" v-show="stepName === 'deposit'">
         <div class="deposits-received-title mt-20 mb-20">活动活动信息已成功保存，请您存入本次活动的活动担保金。</div>
-        <div class="deposits-received-info">您现在为 <span class="second-color">{{taskRelease.taskName}}</span> 存入活动担保金<span class="second-color">{{(taskRelease.taskCount * oneBond).toFixed(2)}}</span>元，此笔款项将作为发布活动活动诚信担保的重要工具，待秀客完成活动流程后将返还给每个秀客 <span class="second-color">{{oneBond}}</span> 元.</div>
+        <div class="deposits-received-info">您现在为 <span class="second-color">{{taskRelease.taskName}}</span> 存入活动担保金<span
+          class="second-color">{{(taskRelease.taskCount * oneBond).toFixed(2)}}</span>元，此笔款项将作为发布活动活动诚信担保的重要工具，待秀客完成活动流程后将返还给每个秀客 <span
+          class="second-color">{{oneBond}}</span> 元.
+        </div>
         <div class="description-fees mt-40">
           <h3>费用说明：</h3>
           <div class="description-fees-con mt-10">
-            <p> 活动担保金 = 份数 × 单品活动担保金 =<span>{{taskRelease.taskCount}}</span>× <span>{{oneBond}}</span>= <span>{{(taskRelease.taskCount * oneBond).toFixed(2)}}</span>元</p>
-            <p class="mt-6"> 单品推广费 = （宝贝单价 + 邮费） × 费率 =<span>（{{taskRelease.itemPrice}} + {{taskRelease.pinkage === 'true' ? 0 : 10}}）</span>×<span>6%</span>= <span>{{onePromotionExpenses}}</span>元<span v-if="onePromotionExpenses > 3">（单品推广费超过平台设定的最高上限3.00元，本次实际收取的单品推广费用为3.00元）</span></p>
-            <p class="mt-6">总推广费用 = 单品推广费用 × 份数 =<span>{{onePromotionExpenses}}</span> × <span>{{taskRelease.taskCount}} = <span>{{allPromotionExpenses}}</span></span>元</p>
+            <p>
+              活动担保金 = 份数 × 单品活动担保金 =<span>{{taskRelease.taskCount}}</span>× <span>{{oneBond}}</span>= <span>{{(taskRelease.taskCount * oneBond).toFixed(2)}}</span>元
+            </p>
+            <p class="mt-6">
+              单品推广费 = （宝贝单价 + 邮费） × 费率 =<span>（{{taskRelease.itemPrice}} + {{taskRelease.pinkage === 'true' ? 0 : 10}}）</span>×<span>6%</span>= <span>{{onePromotionExpenses}}</span>元<span
+              v-if="onePromotionExpenses > 3">（单品推广费超过平台设定的最高上限3.00元，本次实际收取的单品推广费用为3.00元）</span></p>
+            <p class="mt-6">总推广费用 = 单品推广费用 × 份数 =<span>{{onePromotionExpenses}}</span> × <span>{{taskRelease.taskCount}} = <span>{{allPromotionExpenses}}</span></span>元
+            </p>
             <p class="mt-6">总费用 = 活动担保金 + 总推广费用 = <span>{{orderMoney}}</span>元</p>
           </div>
         </div>
-        <div class="pay-info mt-40" v-if="isBalance && !priceHasChange">本次总共要支付的金额为：<span class="second-color">{{orderMoney}}</span>&nbsp;元。您的账户的当前余额为：<strong>{{getUserBalance || 0}}</strong>&nbsp;元</div>
-        <div class="pay-info mt-40" v-if="!isBalance && !priceHasChange">本次总共要支付的金额为：<strong>{{orderMoney}}</strong>&nbsp;元。您账户余额为：<strong>{{getUserBalance || 0}}</strong>&nbsp;元，还需充值：<span class="second-color">{{(orderMoney - getUserBalance).toFixed(2)}}</span>&nbsp;元。</div>
-        <div class="pay-info mt-40" v-if="isBalance && priceHasChange">该任务已付担保金 <strong>{{paidDeposit.toFixed(2)}}</strong>元，本次修改需要支付超出部分的金额为：<strong class="main-color">{{replenishMoney}}</strong>元。您账号的当前余额为：<strong>{{getUserBalance || 0}}</strong>&nbsp;元</div>
-        <div class="pay-info mt-40" v-if="!isBalance && priceHasChange">该任务已付担保金 <strong>{{paidDeposit}}</strong>元，本次修改需要支付超出部分的金额为：<strong class="main-color">{{replenishMoney}}</strong>元。您账号的当前余额为：<strong>{{getUserBalance || 0}}</strong>&nbsp;元,还需充值：<span class="second-color">{{(orderMoney - getUserBalance).toFixed(2)}}</span>&nbsp;元。
+        <div class="pay-info mt-40" v-if="isBalance && !priceHasChange">本次总共要支付的金额为：<span class="second-color">{{orderMoney}}</span>&nbsp;元。您的账户的当前余额为：<strong>{{getUserBalance || 0}}</strong>&nbsp;元
+        </div>
+        <div class="pay-info mt-40" v-if="!isBalance && !priceHasChange">本次总共要支付的金额为：<strong>{{orderMoney}}</strong>&nbsp;元。您账户余额为：<strong>{{getUserBalance || 0}}</strong>&nbsp;元，还需充值：<span
+          class="second-color">{{(orderMoney - getUserBalance).toFixed(2)}}</span>&nbsp;元。
+        </div>
+        <div class="pay-info mt-40" v-if="isBalance && priceHasChange">
+          该任务已付担保金 <strong>{{paidDeposit.toFixed(2)}}</strong>元，本次修改需要支付超出部分的金额为：<strong class="main-color">{{replenishMoney}}</strong>元。您账号的当前余额为：<strong>{{getUserBalance || 0}}</strong>&nbsp;元
+        </div>
+        <div class="pay-info mt-40" v-if="!isBalance && priceHasChange">该任务已付担保金 <strong>{{paidDeposit}}</strong>元，本次修改需要支付超出部分的金额为：<strong
+          class="main-color">{{replenishMoney}}</strong>元。您账号的当前余额为：<strong>{{getUserBalance || 0}}</strong>&nbsp;元,还需充值：<span
+          class="second-color">{{(orderMoney - getUserBalance).toFixed(2)}}</span>&nbsp;元。
         </div>
         <div class="description-fees-footer">
           <span class="pay-btn" v-if="isBalance" @click="openRecharge">前去支付</span>
@@ -562,11 +619,14 @@
         <PayModel :orderMoney="!priceHasChange ? orderMoney : replenishMoney" @confirmPayment="confirmPayment">
           <i slot="closeModel" class="close-recharge" @click="closeRecharge">&times;</i>
           <div slot="noBalance" class="title-tip">
-            <span class="sizeColor3"><Icon color="#FF2424" size="18px" type="ios-information"></Icon><span class="ml-10">亲，您的余额不足，请充值。</span></span>还需充值<strong class="sizeColor3">{{(orderMoney - getUserBalance).toFixed(2)}}</strong>元
+            <span class="sizeColor3"><Icon color="#FF2424" size="18px" type="ios-information"></Icon><span
+              class="ml-10">亲，您的余额不足，请充值。</span></span>还需充值<strong
+            class="sizeColor3">{{(orderMoney - getUserBalance).toFixed(2)}}</strong>元
           </div>
           <div slot="isBalance" class="title-tip">
             <Icon color="#FF2424" size="18px" type="ios-information"></Icon>
-            <span class="ml-10">您本次需要支付金额为 <span class="sizeColor3">{{!priceHasChange ? orderMoney : replenishMoney}}</span> 元。</span></div>
+            <span class="ml-10">您本次需要支付金额为 <span
+              class="sizeColor3">{{!priceHasChange ? orderMoney : replenishMoney}}</span> 元。</span></div>
         </PayModel>
       </div>
       <!--用户修改价格比原始价格高需要补差价提示弹框-->
@@ -844,6 +904,7 @@
 
       /**
        * 计算商家需要存入的担保金（当用户勾选折扣试用的时候：宝贝单价 - 对应的折扣价格）
+       * 单位为分
        * @return {number}
        */
       newItemPrice: function () {
@@ -851,7 +912,7 @@
         if (!this.discountDisabled[type].isDiscount) {
           return this.taskRelease.itemPrice - this.discountDisabled[type].returnPrice;
         } else {
-          return this.taskRelease.itemPrice - this.taskRelease.itemPrice * this.discountDisabled[type].returnPrice
+          return Math.ceil(100 * this.taskRelease.itemPrice * (1 - this.discountDisabled[type].returnPrice));
         }
       },
 
@@ -860,7 +921,7 @@
        * @return {number}
        */
       oneBond: function () {
-        return this.taskRelease.pinkage === 'true' ? (this.newItemPrice * 100).toFixed(2) / 100 : ((this.newItemPrice * 100).toFixed(2) / 100 + 10).toFixed(2) * 1;
+        return this.taskRelease.pinkage === 'true' ? (this.newItemPrice / 100).toFixed(2) * 1 : (this.newItemPrice / 100 + 10).toFixed(2) * 1;
       },
 
       /**
