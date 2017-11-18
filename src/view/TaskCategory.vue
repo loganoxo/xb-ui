@@ -343,9 +343,21 @@
         });
         self.searchTaskParams.activityCategory =  [getStorage('activityCategory')];
       }
+      if(discount){
+        self.$store.commit({
+          type: 'SET_DISCOUNT_TASK_CATEGORY',
+          result: true
+        });
+      }
       if(self.$route.query.activityCategory){
         console.log(self.$route.query.activityCategory);
+        self.itemCatalogs = [];
         self.searchTaskParams.activityCategory =  [self.$route.query.activityCategory];
+        if(self.$route.query.activityCategory == 'price_low' || self.$route.query.activityCategory == 'goods_clearance' ){
+          self.searchTaskParams.discountTypes = self.$store.state.discountPriceType['不限'].discountTypes;
+        }else {
+          self.searchTaskParams.discountTypes = ['discount_0']
+        }
         self.getSearchTask();
         self.getSearchHistoryTask();
       }
@@ -354,21 +366,7 @@
         self.itemCatalogs = [parseInt(cate)];
         self.getTaskCategoryList(cate);
       }
-      if(discount){
-        self.$store.commit({
-          type: 'SET_DISCOUNT_TASK_CATEGORY',
-          result: true
-        });
-//        self.$store.commit({
-//          type: 'TASK_CATEGORY_LIST',
-//          info: 'discount'
-//        });
-        self.itemCatalogs = [];
-        self.searchTaskParams.discountTypes = self.$store.state.discountPriceType['不限'].discountTypes;
-        self.getSearchTask();
-      }
       if(searchKey){
-//        self.searchTaskParams.discountTypes = '';
         if(searchKey === 'all'){
           self.searchTaskParams.taskName = '';
           self.itemCatalogs = [];
@@ -376,7 +374,6 @@
             type: 'TASK_CATEGORY_LIST',
             info: 'all'
           });
-
         }else {
           self.searchTaskParams.taskName = searchKey;
         }
@@ -589,9 +586,21 @@
           });
           self.searchTaskParams.activityCategory =  [getStorage('activityCategory')];
         }
+        if(discount){
+          self.$store.commit({
+            type: 'SET_DISCOUNT_TASK_CATEGORY',
+            result: true
+          });
+        }
         if(self.$route.query.activityCategory){
-          console.log(self.$route.query.activityCategory);
+//          console.log(self.$route.query.activityCategory);
+          self.itemCatalogs = [];
           self.searchTaskParams.activityCategory =  [self.$route.query.activityCategory];
+          if(self.$route.query.activityCategory == 'price_low' || self.$route.query.activityCategory == 'goods_clearance' ){
+            self.searchTaskParams.discountTypes = self.$store.state.discountPriceType['不限'].discountTypes;
+          }else {
+            self.searchTaskParams.discountTypes = ['discount_0']
+          }
           self.getSearchTask();
           self.getSearchHistoryTask();
         }
@@ -603,16 +612,6 @@
           self.searchTaskParams.pageIndex = 1;
           self.itemCatalogs = [parseInt(cate)];
           self.getTaskCategoryList(cate);
-        }
-        if(discount){
-          self.$store.commit({
-            type: 'SET_DISCOUNT_TASK_CATEGORY',
-            result: true
-          });
-          self.searchTaskParams.discountTypes = self.$store.state.discountPriceType['不限'].discountTypes;
-          self.itemCatalogs = [];
-          self.getSearchTask();
-          self.getSearchHistoryTask();
         }
         if(searchKey){
           if(searchKey == 'all'){
