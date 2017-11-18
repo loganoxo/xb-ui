@@ -17,51 +17,63 @@
     <div class="activity-type mt-20" v-show="stepName === 'information'">
       <div class="activity-type-title">选择活动类型：</div>
       <div class="clear mt-10">
-        <Poptip trigger="hover" placement="bottom" content="该活动申请率极高，评价效果极好，商家能自主筛选秀客，迅速积攒销量。">
-          <div class="left mr-10 activity-type-box" :class="{isSelect:taskRelease.activityCategory === 'free_get'}" @click="changeSelectActivity('free_get')">
-            <p>免费领</p>
-            <p>秀客0元试用</p>
-            <p>高人气活动类型</p>
-            <span class="is-select-gou" v-show="taskRelease.activityCategory === 'free_get'"></span>
-          </div>
-        </Poptip>
-        <Poptip trigger="hover" placement="bottom" content="该活动申请率较高，评价效果较好，适用于中低客单的走量产品。">
-          <div class="left activity-type-box mr-10" :class="{isSelect:taskRelease.activityCategory === 'pinkage_for_10'}" @click="changeSelectActivity('pinkage_for_10')">
-            <p>10元包邮</p>
-            <p>秀客承担10元邮费</p>
-            <p>高人气活动类型</p>
-            <span class="is-select-gou" v-show="taskRelease.activityCategory === 'pinkage_for_10'"></span>
-          </div>
-        </Poptip>
-        <Poptip trigger="hover" placement="bottom" content="秀客拍下付款的是主宝贝（高客单的商品），为主宝贝带来成交转化，但实际发货的是体验装或赠品。该活动可大幅降低活动成本，但要规避秀客在淘宝上晒图。">
-          <div class="left activity-type-box mr-10" :class="{isSelect:taskRelease.activityCategory === 'present_get'}" @click="changeSelectActivity('present_get')">
-            <p>体验专区</p>
-            <p>适用于高客单宝贝</p>
-            <p>解决商品成本过高问题</p>
-            <span class="is-select-gou" v-show="taskRelease.activityCategory === 'present_get'"></span>
-          </div>
-        </Poptip>
-        <Poptip trigger="hover" placement="bottom" content="秀客以9.9元、49.9元、99.9元及1折、3折、5折的价格购买宝贝，该活动也可适当降低活动成本，但更重要的是帮助商家真实成交，获得消费者的实际反馈。">
-          <div class="left activity-type-box mr-10" :class="{isSelect:taskRelease.activityCategory === 'price_low'}" @click="changeSelectActivity('price_low')">
-            <p>白菜价</p>
-            <p>帮商家测款定价</p>
-            <p>真实卖货</p>
-            <span class="is-select-gou" v-show="taskRelease.activityCategory === 'price_low'"></span>
-          </div>
-        </Poptip>
-        <Poptip trigger="hover" placement="bottom-end" content="商家提供超乎想象的价格，目的不是为了赚取利润，而是尽快把仓库里积压的库存变成现金（比如断码，过季，尾货等），秀客也能真实选购到最最实惠的宝贝。">
-          <div class="left activity-type-box mr-10" :class="{isSelect:taskRelease.activityCategory === 'goods_clearance'}" @click="changeSelectActivity('goods_clearance')">
-            <p>清仓断码</p>
-            <p>帮商家解决最为头疼的</p>
-            <p>库存问题</p>
-            <span class="is-select-gou" v-show="taskRelease.activityCategory === 'goods_clearance'"></span>
-          </div>
-        </Poptip>
-        <div class="pop-tip"></div>
+        <div class="left mr-10 activity-type-box" :class="{isSelect:taskRelease.activityCategory === 'free_get'}" @click="changeSelectActivity('free_get')">
+          <p>免费领</p>
+          <p>秀客0元试用</p>
+          <p>高人气活动类型</p>
+          <span class="is-select-gou" v-show="taskRelease.activityCategory === 'free_get'"></span>
+        </div>
+        <div class="left activity-type-box mr-10" :class="{isSelect:taskRelease.activityCategory === 'pinkage_for_10'}" @click="changeSelectActivity('pinkage_for_10')">
+          <p>10元包邮</p>
+          <p>秀客承担10元邮费</p>
+          <p>高人气活动类型</p>
+          <span class="is-select-gou" v-show="taskRelease.activityCategory === 'pinkage_for_10'"></span>
+        </div>
+        <div class="left activity-type-box mr-10" :class="{isSelect:taskRelease.activityCategory === 'present_get'}" @click="changeSelectActivity('present_get')">
+          <p>体验专区</p>
+          <p>适用于高客单宝贝</p>
+          <p>解决商品成本过高问题</p>
+          <span class="is-select-gou" v-show="taskRelease.activityCategory === 'present_get'"></span>
+        </div>
+        <div class="left activity-type-box mr-10" :class="{isSelect:taskRelease.activityCategory === 'price_low'}" @click="changeSelectActivity('price_low')">
+          <p>白菜价</p>
+          <p>帮商家测款定价</p>
+          <p>真实卖货</p>
+          <span class="is-select-gou" v-show="taskRelease.activityCategory === 'price_low'"></span>
+        </div>
+        <div class="left activity-type-box mr-10" :class="{isSelect:taskRelease.activityCategory === 'goods_clearance'}" @click="changeSelectActivity('goods_clearance')">
+          <p>清仓断码</p>
+          <p>帮商家解决最为头疼的</p>
+          <p>库存问题</p>
+          <span class="is-select-gou" v-show="taskRelease.activityCategory === 'goods_clearance'"></span>
+        </div>
+      </div>
+      <div class="pop-tip mt-15">
+        <div v-show="taskRelease.activityCategory === 'free_get'">
+          <div class="pop-tip-arrow free-get"></div>
+          <div>该活动申请率极高，评价效果极好，商家能自主筛选秀客，迅速积攒销54量。</div>
+        </div>
+        <div v-show="taskRelease.activityCategory === 'pinkage_for_10'">
+          <div class="pop-tip-arrow pinkage-for-10"></div>
+          <div>该活动申请率较高，评价效果较好，适用于中低客单的走量产品。</div>
+        </div>
+        <div v-show="taskRelease.activityCategory === 'present_get'">
+          <div class="pop-tip-arrow present-get"></div>
+          <div>秀客拍下付款的是主宝贝（高客单的商品），为主宝贝带来成交转化，但实际发货的是体验装或赠品。该活动可大幅降低活动成本，但要规避秀客在淘宝上晒图。</div>
+        </div>
+        <div v-show="taskRelease.activityCategory === 'price_low'">
+          <div class="pop-tip-arrow price-low"></div>
+          <div>秀客以9.9元、49.9元、99.9元及1折、3折、5折的价格购买宝贝，该活动也可适当降低活动成本，但更重要的是帮助商家真实成交，获得消费者的实际反馈。</div>
+        </div>
+        <div v-show="taskRelease.activityCategory === 'goods_clearance'">
+          <div class="pop-tip-arrow goods-clearance"></div>
+          <div>商家提供超乎想象的价格，目的不是为了赚取利润，而是尽快把仓库里积压的库存变成现金（比如断码，过季，尾货等），秀客也能真实选购到最最实惠的宝贝。</div>
+        </div>
       </div>
     </div>
     <!--判断是否有权限能发布任务-->
-    <div v-show="getMemberStatus === 'need_member_for_more_task' || getMemberStatus==='need_member_for_more_audit'" class="text-ct ">
+    <div v-show="getMemberStatus === 'need_member_for_more_task' || getMemberStatus==='need_member_for_more_audit'"
+         class="text-ct ">
       <div class="mt-80" style="font-size:20px;color: #949494" v-if="getMemberStatus === 'need_member_for_more_task'">
         <Icon style="font-size: 25px ;transform: translateY(3px)" type="close-circled"></Icon>
         <span><strong>很抱歉，当前你为非会员，购买会员后才能继续发布任务！</strong></span>
@@ -252,13 +264,9 @@
             <div class="baby-payment ml-45 mt-20">
               <span class="required left">付款方式：</span>
               <Radio-group v-model="taskRelease.paymentMethod">
-                <Radio label="all">
-                  <span>无所谓（可以使用花呗、信用卡等付款，也可以不用）</span>
-                </Radio>
+                <Radio label="all"><span>无所谓（可以使用花呗、信用卡等付款，也可以不用）</span></Radio>
                 <p style="height: 10px;"></p>
-                <Radio label="no_hua_and_credit_pay">
-                  <span>禁止使用花呗、信用卡付款</span>
-                </Radio>
+                <Radio label="no_hua_and_credit_pay"><span>禁止使用花呗、信用卡付款</span></Radio>
               </Radio-group>
             </div>
             <div class="task-remark ml-45 mt-20 clear">
@@ -279,8 +287,7 @@
                             @ready="onEditorReady($event)">
               </quill-editor>
               <form action="" method="post" enctype="multipart/form-data" id="uploadFormMulti">
-                <input style="display: none" :id="uniqueId" type="file" name="avator" multiple
-                       accept="image/jpg,image/jpeg,image/png,image/gif" @change="uploadImg">
+                <input style="display: none" :id="uniqueId" type="file" name="avator" multiple accept="image/jpg,image/jpeg,image/png,image/gif" @change="uploadImg">
               </form>
             </div>
           </div>
@@ -332,8 +339,7 @@
               </div>
               <div class="search-price ml-40 mt-20">
                 <span class="required">展示价格：</span>
-                <iInput v-model.number="PcTaskDetail.searchPagePrice" placeholder="请输入搜索列表页展示价格"
-                        style="width: 160px"></iInput>
+                <iInput v-model.number="PcTaskDetail.searchPagePrice" placeholder="请输入搜索列表页展示价格" style="width: 160px"></iInput>
                 <span class="sizeColor2">（务必亲自搜索，确认价格准确）</span>
               </div>
               <div class="baby-location ml-15 mt-20">
@@ -426,8 +432,7 @@
               </div>
               <div class="search-keyword mt-20 ml-28">
                 <span class="required">搜索关键词：</span>
-                <iInput v-model="AppTaskDetail.searchKeyword" placeholder="请输入搜索关键词"
-                        style="width: 260px"></iInput>
+                <iInput v-model="AppTaskDetail.searchKeyword" placeholder="请输入搜索关键词" style="width: 260px"></iInput>
                 <span class="sizeColor2">（APP端请确保在120位以内，若是长尾关键词请不要过量补单）</span>
               </div>
               <div class="sort-by ml-40 mt-20">
@@ -443,8 +448,7 @@
               </div>
               <div class="search-price ml-40 mt-20">
                 <span class="required">展示价格：</span>
-                <iInput v-model="AppTaskDetail.searchPagePrice" placeholder="请输入搜索列表页展示价格"
-                        style="width: 160px"></iInput>
+                <iInput v-model="AppTaskDetail.searchPagePrice" placeholder="请输入搜索列表页展示价格" style="width: 160px"></iInput>
                 <span class="sizeColor2">（务必亲自搜索，确认价格准确）</span>
               </div>
               <div class="baby-location ml-15 mt-20">
@@ -519,35 +523,20 @@
       <!--存入担保金详情-->
       <div class="deposits-received" v-show="stepName === 'deposit'">
         <div class="deposits-received-title mt-20 mb-20">活动活动信息已成功保存，请您存入本次活动的活动担保金。</div>
-        <div class="deposits-received-info">您现在为 <span class="second-color">{{taskRelease.taskName}}</span> 存入活动担保金<span
-          class="second-color">{{(taskRelease.taskCount * oneBond).toFixed(2)}}</span>元，此笔款项将作为发布活动活动诚信担保的重要工具，待秀客完成活动流程后将返还给每个秀客 <span
-          class="second-color">{{oneBond}}</span> 元.
-        </div>
+        <div class="deposits-received-info">您现在为 <span class="second-color">{{taskRelease.taskName}}</span> 存入活动担保金<span class="second-color">{{(taskRelease.taskCount * oneBond).toFixed(2)}}</span>元，此笔款项将作为发布活动活动诚信担保的重要工具，待秀客完成活动流程后将返还给每个秀客 <span class="second-color">{{oneBond}}</span> 元.</div>
         <div class="description-fees mt-40">
           <h3>费用说明：</h3>
           <div class="description-fees-con mt-10">
-            <p>
-              活动担保金 = 份数 × 单品活动担保金 =<span>{{taskRelease.taskCount}}</span> × <span>{{oneBond}}</span>= <span>{{(taskRelease.taskCount * oneBond).toFixed(2)}}</span>元
-            </p>
-            <p class="mt-6">单品推广费 = （宝贝单价 + 邮费） × 费率 =<span>（{{taskRelease.itemPrice}} + {{taskRelease.pinkage === 'true' ? 0 : 10}}）</span>× <span>6%</span>
-              = <span>{{onePromotionExpenses}}</span>元<span v-if="onePromotionExpenses > 3">（单品推广费超过平台设定的最高上限3.00元，本次实际收取的单品推广费用为3.00元）</span>
-            </p>
-            <p class="mt-6">总推广费用 = 单品推广费用 × 份数 =<span>{{onePromotionExpenses}}</span> × <span>{{taskRelease.taskCount}} = <span>{{allPromotionExpenses}}</span></span>元
-            </p>
+            <p> 活动担保金 = 份数 × 单品活动担保金 =<span>{{taskRelease.taskCount}}</span>× <span>{{oneBond}}</span>= <span>{{(taskRelease.taskCount * oneBond).toFixed(2)}}</span>元</p>
+            <p class="mt-6"> 单品推广费 = （宝贝单价 + 邮费） × 费率 =<span>（{{taskRelease.itemPrice}} + {{taskRelease.pinkage === 'true' ? 0 : 10}}）</span>×<span>6%</span>= <span>{{onePromotionExpenses}}</span>元<span v-if="onePromotionExpenses > 3">（单品推广费超过平台设定的最高上限3.00元，本次实际收取的单品推广费用为3.00元）</span></p>
+            <p class="mt-6">总推广费用 = 单品推广费用 × 份数 =<span>{{onePromotionExpenses}}</span> × <span>{{taskRelease.taskCount}} = <span>{{allPromotionExpenses}}</span></span>元</p>
             <p class="mt-6">总费用 = 活动担保金 + 总推广费用 = <span>{{orderMoney}}</span>元</p>
           </div>
         </div>
-        <div class="pay-info mt-40" v-if="isBalance && !priceHasChange">本次总共要支付的金额为：<span class="second-color">{{orderMoney}}</span>&nbsp;元。您的账户的当前余额为：<strong>{{getUserBalance || 0}}</strong>&nbsp;元
-        </div>
-        <div class="pay-info mt-40" v-if="!isBalance && !priceHasChange">本次总共要支付的金额为：<strong>{{orderMoney}}</strong>&nbsp;元。您账户余额为：<strong>{{getUserBalance || 0}}</strong>&nbsp;元，还需充值：<span
-          class="second-color">{{(orderMoney - getUserBalance).toFixed(2)}}</span>&nbsp;元。
-        </div>
-        <div class="pay-info mt-40" v-if="isBalance && priceHasChange">
-          该任务已付担保金 <strong>{{paidDeposit.toFixed(2)}}</strong>元，本次修改需要支付超出部分的金额为：<strong class="main-color">{{replenishMoney}}</strong>元。您账号的当前余额为：<strong>{{getUserBalance || 0}}</strong>&nbsp;元
-        </div>
-        <div class="pay-info mt-40" v-if="!isBalance && priceHasChange">该任务已付担保金 <strong>{{paidDeposit}}</strong>元，本次修改需要支付超出部分的金额为：<strong
-          class="main-color">{{replenishMoney}}</strong>元。您账号的当前余额为：<strong>{{getUserBalance || 0}}</strong>&nbsp;元,还需充值：<span
-          class="second-color">{{(orderMoney - getUserBalance).toFixed(2)}}</span>&nbsp;元。
+        <div class="pay-info mt-40" v-if="isBalance && !priceHasChange">本次总共要支付的金额为：<span class="second-color">{{orderMoney}}</span>&nbsp;元。您的账户的当前余额为：<strong>{{getUserBalance || 0}}</strong>&nbsp;元</div>
+        <div class="pay-info mt-40" v-if="!isBalance && !priceHasChange">本次总共要支付的金额为：<strong>{{orderMoney}}</strong>&nbsp;元。您账户余额为：<strong>{{getUserBalance || 0}}</strong>&nbsp;元，还需充值：<span class="second-color">{{(orderMoney - getUserBalance).toFixed(2)}}</span>&nbsp;元。</div>
+        <div class="pay-info mt-40" v-if="isBalance && priceHasChange">该任务已付担保金 <strong>{{paidDeposit.toFixed(2)}}</strong>元，本次修改需要支付超出部分的金额为：<strong class="main-color">{{replenishMoney}}</strong>元。您账号的当前余额为：<strong>{{getUserBalance || 0}}</strong>&nbsp;元</div>
+        <div class="pay-info mt-40" v-if="!isBalance && priceHasChange">该任务已付担保金 <strong>{{paidDeposit}}</strong>元，本次修改需要支付超出部分的金额为：<strong class="main-color">{{replenishMoney}}</strong>元。您账号的当前余额为：<strong>{{getUserBalance || 0}}</strong>&nbsp;元,还需充值：<span class="second-color">{{(orderMoney - getUserBalance).toFixed(2)}}</span>&nbsp;元。
         </div>
         <div class="description-fees-footer">
           <span class="pay-btn" v-if="isBalance" @click="openRecharge">前去支付</span>
@@ -572,15 +561,12 @@
       <div class="pay-model" v-if="showPayModel">
         <PayModel :orderMoney="!priceHasChange ? orderMoney : replenishMoney" @confirmPayment="confirmPayment">
           <i slot="closeModel" class="close-recharge" @click="closeRecharge">&times;</i>
-          <div slot="noBalance" class="title-tip"><span class="sizeColor3"><Icon color="#FF2424" size="18px"
-                                                                                 type="ios-information"></Icon><span
-            class="ml-10">亲，您的余额不足，请充值。</span></span>还需充值<strong
-            class="sizeColor3">{{(orderMoney - getUserBalance).toFixed(2)}}</strong>元
+          <div slot="noBalance" class="title-tip">
+            <span class="sizeColor3"><Icon color="#FF2424" size="18px" type="ios-information"></Icon><span class="ml-10">亲，您的余额不足，请充值。</span></span>还需充值<strong class="sizeColor3">{{(orderMoney - getUserBalance).toFixed(2)}}</strong>元
           </div>
           <div slot="isBalance" class="title-tip">
             <Icon color="#FF2424" size="18px" type="ios-information"></Icon>
-            <span class="ml-10">您本次需要支付金额为 <span
-              class="sizeColor3">{{!priceHasChange ? orderMoney : replenishMoney}}</span> 元。</span></div>
+            <span class="ml-10">您本次需要支付金额为 <span class="sizeColor3">{{!priceHasChange ? orderMoney : replenishMoney}}</span> 元。</span></div>
         </PayModel>
       </div>
       <!--用户修改价格比原始价格高需要补差价提示弹框-->
@@ -862,11 +848,11 @@
        */
       newItemPrice: function () {
         let type = this.taskRelease.discountType;
-        if(!this.discountDisabled[type].isDiscount) {
-            return this.taskRelease.itemPrice - this.discountDisabled[type].returnPrice;
-          } else {
-            return this.taskRelease.itemPrice - this.taskRelease.itemPrice * this.discountDisabled[type].returnPrice
-          }
+        if (!this.discountDisabled[type].isDiscount) {
+          return this.taskRelease.itemPrice - this.discountDisabled[type].returnPrice;
+        } else {
+          return this.taskRelease.itemPrice - this.taskRelease.itemPrice * this.discountDisabled[type].returnPrice
+        }
       },
 
       /**
@@ -933,10 +919,10 @@
       changeSelectActivity(type) {
         let _this = this;
         _this.taskRelease.activityCategory = type;
-        if(type === 'pinkage_for_10'){
+        if (type === 'pinkage_for_10') {
           _this.taskRelease.discountType = 'discount_10';
-        }else {
-          if(_this.taskRelease.discountType !== 'discount_0'){
+        } else {
+          if (_this.taskRelease.discountType !== 'discount_0') {
             _this.taskRelease.discountType = 'discount_0';
           }
         }
@@ -945,7 +931,7 @@
         let _this = this;
         let itemPrice = _this.taskRelease.itemPrice;
         let type = _this.taskRelease.activityCategory;
-        if(type === 'price_low'){
+        if (type === 'price_low') {
           if (itemPrice < 50 || itemPrice < 150 || itemPrice < 250) {
             if (!_this.discountDisabled.discount_9_9.disabled) {
               _this.discountDisabled.discount_9_9.disabled = true;
@@ -1075,11 +1061,11 @@
           _this.$Message.warning('亲，每份试用品的价值必须在1元以上！');
           return;
         }
-        if (_this.taskRelease.itemPrice < 10 && _this.taskRelease.activityCategory === 'pinkage_for_10' ) {
+        if (_this.taskRelease.itemPrice < 10 && _this.taskRelease.activityCategory === 'pinkage_for_10') {
           _this.$Message.warning('亲，10元包邮活动宝贝最低价格不能低于10元！');
           return;
         }
-        if((_this.taskRelease.activityCategory === 'price_low' || _this.taskRelease.activityCategory === 'goods_clearance') && _this.taskRelease.discountType === 'discount_0'){
+        if ((_this.taskRelease.activityCategory === 'price_low' || _this.taskRelease.activityCategory === 'goods_clearance') && _this.taskRelease.discountType === 'discount_0') {
           _this.$Message.warning('亲，请选择试用折扣！');
           return;
         }
@@ -1624,7 +1610,7 @@
       color: #666;
     }
     .activity-type-box {
-      width: 146px;
+      width: 192px;
       height: 72px;
       background-color: #FFF4F1;
       color: #FF9675;
@@ -1657,6 +1643,51 @@
         height: 10px;
         background-image: url("~assets/img/common/select-gou.png");
         background-repeat: no-repeat;
+      }
+    }
+    .pop-tip {
+      height: 40px;
+      line-height: 40px;
+      background-color: #F8F8F8;
+      font-size: 14px;
+      color: #666;
+      padding-left: 12px;
+      box-shadow: 0 1px 6px rgba(0, 0, 0, 0.2);
+      position: relative;
+    }
+    .pop-tip-arrow {
+      top: -6px;
+      border-width: 0 14px 0 14px;
+      border-bottom-color: #666;
+      margin-left: -5px;
+      position: absolute;
+      &:after {
+        width: 0;
+        height: 0;
+        position: absolute;
+        border-color: transparent;
+        border-style: solid;
+        content: "";
+        border-width: 14px;
+        top: -8px;
+        margin-left: -5px;
+        border-top-width: 0;
+        border-bottom-color: #F8F8F8;
+      }
+      &.free-get {
+        left: 9%;
+      }
+      &.pinkage-for-10 {
+        left: 29%;
+      }
+      &.present-get {
+        left: 49%;
+      }
+      &.price-low {
+        left: 69%;
+      }
+      &.goods-clearance {
+        left: 89%;
       }
     }
   }
