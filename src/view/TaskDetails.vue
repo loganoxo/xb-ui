@@ -6,11 +6,11 @@
           <Breadcrumb >
             <Breadcrumb-item>当前位置：</Breadcrumb-item>
             <Breadcrumb-item>秀吧</Breadcrumb-item>
-            <Breadcrumb-item v-if="commodityData.task.discountPrice">{{$store.state.TaskCategoryActiveList[$store.state.TaskCategoryActive].text}}</Breadcrumb-item>
+            <Breadcrumb-item v-if="commodityData.task.discountPrice">{{$store.state.TaskCategoryActiveList[commodityData.task.activityCategory].text}}</Breadcrumb-item>
             <Breadcrumb-item v-if="!commodityData.task.discountPrice">免费领</Breadcrumb-item>
             <Breadcrumb-item>{{commodityData.task.itemCatalog.parentItemCatalog.name}}</Breadcrumb-item>
             <Breadcrumb-item>{{commodityData.task.itemCatalog.name}}</Breadcrumb-item>
-            <Breadcrumb-item v-if="commodityData.task.discountPrice">{{parseFloat(commodityData.task.discountPrice/100)}}试用</Breadcrumb-item>
+            <Breadcrumb-item v-if="commodityData.task.discountType == 'price_low'">{{parseFloat(commodityData.task.discountPrice/100)}}试用</Breadcrumb-item>
           </Breadcrumb>
         </div>
       </div>
@@ -24,7 +24,7 @@
             <p class="fs-14">
               活动类型：
               <span class="fs-18">{{commodityData.task.taskTypeDesc}}</span>
-              <span v-if="commodityData.task.discountPrice" class="fs-14" style="color: #fff; padding: 2px 5px;" :style="{backgroundColor: $store.state.discountPriceType[parseFloat(commodityData.task.discountPrice/100)].backgroundColor}">{{parseFloat(commodityData.task.discountPrice/100)}}试用</span>
+              <span v-if="commodityData.task.discountType == 'price_low'" class="fs-14" style="color: #fff; padding: 2px 5px;" :style="{backgroundColor: $store.state.discountPriceType[parseFloat(commodityData.task.discountPrice/100)].backgroundColor}">{{parseFloat(commodityData.task.discountPrice/100)}}试用</span>
             </p>
             <p class="fs-14">
               宝贝单价：<span class="fs-18">{{(commodityData.task.itemPrice/100).toFixed(2)}}</span>元
