@@ -53,7 +53,7 @@
           <span class="is-select-gou" v-show="taskRelease.activityCategory === 'goods_clearance'"></span>
         </div>
       </div>
-      <div class="pop-tip mt-15">
+      <div class="pop-tip">
         <div v-show="taskRelease.activityCategory === 'free_get'">
           <div class="pop-tip-arrow free-get"></div>
           <div>该活动申请率极高，评价效果极好，商家能自主筛选秀客，迅速积攒销量。</div>
@@ -1713,28 +1713,16 @@
       font-size: 14px;
       color: #666;
       padding-left: 12px;
-      box-shadow: 0 1px 6px rgba(0, 0, 0, 0.2);
+      border: 1px solid #ddd;
+      margin-top: 18px;
       position: relative;
     }
     .pop-tip-arrow {
-      top: -6px;
-      border-width: 0 14px 0 14px;
-      border-bottom-color: #666;
-      margin-left: -5px;
+      top: -18px;
       position: absolute;
-      &:after {
-        width: 0;
-        height: 0;
-        position: absolute;
-        border-color: transparent;
-        border-style: solid;
-        content: "";
-        border-width: 14px;
-        top: -8px;
-        margin-left: -5px;
-        border-top-width: 0;
-        border-bottom-color: #F8F8F8;
-      }
+      background: url("~assets/img/common/release-jt-iamge.png") no-repeat;
+      width: 20px;
+      height: 18px;
       &.free-get {
         left: 9%;
       }
@@ -1742,13 +1730,13 @@
         left: 29%;
       }
       &.present-get {
-        left: 49%;
+        left: 48%;
       }
       &.price-low {
-        left: 69%;
+        left: 68%;
       }
       &.goods-clearance {
-        left: 89%;
+        left: 88%;
       }
     }
   }
