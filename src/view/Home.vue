@@ -16,7 +16,7 @@
             </ul>
           </div>
           <div class="middle-ctt left">
-            <Carousel autoplay :autoplay-speed="5000">
+            <Carousel autoplay :autoplay-speed="5000" v-model="homeCarousel" loop>
               <!--<Carousel-item>
                 <router-link to="" class="block">
                   <img class="block" src="~assets/img/home/banner_01.jpg" alt="">
@@ -25,17 +25,17 @@
               </Carousel-item>-->
               <Carousel-item>
                 <router-link to="" class="block">
-                  <img  class="block" src="~assets/img/home/banner_02.jpg" alt="">
+                  <img class="block" src="~assets/img/home/banner_02.jpg" alt="">
                 </router-link>
               </Carousel-item>
               <Carousel-item>
                 <router-link to="" class="block">
-                 <img  class="block" src="~assets/img/home/banner_03.jpg" alt="">
+                 <img class="block" src="~assets/img/home/banner_03.jpg" alt="">
                 </router-link>
               </Carousel-item>
               <Carousel-item>
                 <router-link to="" class="block">
-                  <img  class="block" src="~assets/img/home/banner_04.jpg" alt="">
+                  <img class="block" src="~assets/img/home/banner_04.jpg" alt="">
                 </router-link>
               </Carousel-item>
             </Carousel>
@@ -625,6 +625,7 @@
         },
         buyerShowList:[],
         getMoreBuyerShow:false,
+        homeCarousel: 0
       }
     },
     created() {
