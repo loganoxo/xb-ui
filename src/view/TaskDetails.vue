@@ -6,8 +6,8 @@
           <Breadcrumb >
             <Breadcrumb-item>当前位置：</Breadcrumb-item>
             <Breadcrumb-item>秀吧</Breadcrumb-item>
-            <Breadcrumb-item v-if="commodityData.task.discountPrice">{{$store.state.TaskCategoryActiveList[commodityData.task.activityCategory].text}}</Breadcrumb-item>
-            <Breadcrumb-item v-if="!commodityData.task.discountPrice">免费领</Breadcrumb-item>
+            <Breadcrumb-item v-if="commodityData.task.activityCategory">{{$store.state.TaskCategoryActiveList[commodityData.task.activityCategory].text}}</Breadcrumb-item>
+            <!--<Breadcrumb-item v-if="!commodityData.task.discountPrice">免费领</Breadcrumb-item>-->
             <Breadcrumb-item>{{commodityData.task.itemCatalog.parentItemCatalog.name}}</Breadcrumb-item>
             <Breadcrumb-item>{{commodityData.task.itemCatalog.name}}</Breadcrumb-item>
             <Breadcrumb-item v-if="commodityData.task.discountType == 'price_low'">{{parseFloat(commodityData.task.discountPrice/100)}}试用</Breadcrumb-item>
@@ -429,10 +429,6 @@
           type: 'SET_DISCOUNT_TASK_CATEGORY',
           result: true
         });
-        self.$store.commit({
-          type: 'TASK_CATEGORY_LIST',
-          info: 'discount'
-        });
       }else {
         self.$store.commit({
           type: 'SET_DISCOUNT_TASK_CATEGORY',
@@ -646,6 +642,10 @@
                 info: 'discount'
               });
             }
+            self.$store.commit({
+              type: 'SET_ACTIVITY_CATEGORY',
+              info: self.commodityData.task.activityCategory
+            });
             if(self.commodityData.showkerTask){
               api.showkerToProcessOrder({
                 id: self.commodityData.showkerTask.id

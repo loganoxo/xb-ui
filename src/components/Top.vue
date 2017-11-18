@@ -62,17 +62,17 @@
           </ul>
         </div>
         <div class="home-nav-list">
-          <a :class="[$store.state.TaskCategoryActive == 'home' ? 'active' : '']" @click="selTaskCategoryHome">首页</a>
-          <a :class="[$store.state.TaskCategoryActive == 'free_get' ? 'active' : '']" @click="selTaskCategoryFunc('free_get')" >免费领</a>
-          <a :class="[$store.state.TaskCategoryActive == 'pinkage_for_10' ? 'active' : '']" @click="selTaskCategoryFunc('pinkage_for_10')" >10元包邮</a>
-          <a :class="[$store.state.TaskCategoryActive == 'present_get' ? 'active' : '']" @click="selTaskCategoryFunc('present_get')" >赠品专区</a>
-          <a :class="[$store.state.TaskCategoryActive == 'price_low' ? 'active' : '']" @click="selDisCountTaskCategoryAllFunc('price_low')">
+          <a :class="[$store.state.activityCategory == 'home' ? 'active' : '']" @click="selTaskCategoryHome">首页</a>
+          <a :class="[$store.state.activityCategory == 'free_get' ? 'active' : '']" @click="selTaskCategoryFunc('free_get')" >免费领</a>
+          <a :class="[$store.state.activityCategory == 'pinkage_for_10' ? 'active' : '']" @click="selTaskCategoryFunc('pinkage_for_10')" >10元包邮</a>
+          <a :class="[$store.state.activityCategory == 'present_get' ? 'active' : '']" @click="selTaskCategoryFunc('present_get')" >赠品专区</a>
+          <a :class="[$store.state.activityCategory == 'price_low' ? 'active' : '']" @click="selDisCountTaskCategoryAllFunc('price_low')">
             <i>
               <img src="/static/img/common/new.gif" alt="">
             </i>
             白菜价
           </a>
-          <a :class="[$store.state.TaskCategoryActive == 'goods_clearance' ? 'active' : '']" @click="selTaskCategoryFunc('goods_clearance')" >清仓断码</a>
+          <a :class="[$store.state.activityCategory == 'goods_clearance' ? 'active' : '']" @click="selTaskCategoryFunc('goods_clearance')" >清仓断码</a>
           <a  @click="buyerShowPop = true">买家秀</a>
           <!--<a :class="[$store.state.TaskCategoryActive == 'all' ? 'active' : '']" @click="selTaskCategoryAllFunc">全部活动</a>-->
           <!--<a v-if="nav.name != '美食/特产' && nav.name != '其它试用'" :class="[$store.state.TaskCategoryActive == nav.id ? 'active' : '']" @click="selTaskCategoryActiveFunc(nav)" v-for="nav in navList" >{{nav.name}}</a>-->

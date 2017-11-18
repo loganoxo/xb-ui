@@ -46,7 +46,7 @@ const state = {
   discountPriceType: {
     '不限': {
       backgroundColor:　'',
-      discountTypes: ['discount_9_9','discount_49_9', 'discount_99_9'],
+      discountTypes: ['discount_9_9','discount_49_9', 'discount_99_9','discount_r_10','discount_r_30','discount_r_50'],
     },
     9.9: {
       backgroundColor: '#ff9900',
@@ -59,6 +59,18 @@ const state = {
     99.9: {
       backgroundColor: '#ff3399',
       discountTypes: ['discount_99_9'],
+    },
+    '1折': {
+      backgroundColor: '#ff9900',
+      discountTypes: ['discount_r_10'],
+    },
+    '3折': {
+      backgroundColor: '#cc3333',
+      discountTypes: ['discount_r_30'],
+    },
+    '5折': {
+      backgroundColor: '#ff3399',
+      discountTypes: ['discount_r_50'],
     }
   },//白菜价列表
   activityCategory: '',

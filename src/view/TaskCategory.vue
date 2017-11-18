@@ -99,8 +99,11 @@
                 </p>
                 <p v-if="$store.state.disCountTaskCategory" class="home-commodity-price">
                   <span class="left" style="text-decoration: line-through; color: #ff6633;">￥{{searchTask.itemPrice/100}}</span>
-                  <span v-if="searchTask.discountPrice" class="left home-discount-price mt-5" :style="{backgroundColor: $store.state.discountPriceType[parseFloat(searchTask.discountPrice/100)].backgroundColor}" >
+                  <span v-if="(searchTask.activityCategory == 'price_low' || searchTask.activityCategory == 'goods_clearance') && searchTask.discountPrice" class="left home-discount-price mt-5" :style="{backgroundColor: $store.state.discountPriceType[parseFloat(searchTask.discountPrice/100)].backgroundColor}" >
                     {{searchTask.discountPrice/100}}试用
+                  </span>
+                  <span v-if="(searchTask.activityCategory == 'price_low' || searchTask.activityCategory == 'goods_clearance') && searchTask.discountRate " class="left home-discount-price mt-5" :style="{backgroundColor: $store.state.discountPriceType[parseFloat(searchTask.discountRate/10) + '折'].backgroundColor}" >
+                    {{searchTask.discountRate/10}}试用
                   </span>
                 </p>
                 <p class="cl000">
@@ -300,15 +303,14 @@
           sortField: 'upLineTime',
           sortOrder: 'desc',
           ifAccess: [],
-          discountTypes: ['discount_0'],
           activityCategory: [],
+          discountTypes: '',
         },
         historyTaskListParams:{
           pageIndex: 1,
           pageSize: 20,
           itemCatalogs: [],
           sortField: 'endTime',
-          activityCategory: [],
         }
       }
     },
@@ -333,9 +335,9 @@
           info: getStorage('TaskCategoryActive'),
         });
       }
-      if(!self.$store.state.disCountTaskCategory){
-        self.searchTaskParams.discountTypes = ['discount_0']
-      }
+//      if(!self.$store.state.disCountTaskCategory){
+//        self.searchTaskParams.discountTypes = ['discount_0']
+//      }
       if(getStorage('activityCategory')){
         self.$store.commit({
           type: 'SET_ACTIVITY_CATEGORY',
@@ -356,7 +358,7 @@
         if(self.$route.query.activityCategory == 'price_low' || self.$route.query.activityCategory == 'goods_clearance' ){
           self.searchTaskParams.discountTypes = self.$store.state.discountPriceType['不限'].discountTypes;
         }else {
-          self.searchTaskParams.discountTypes = ['discount_0']
+          self.searchTaskParams.discountTypes = ''
         }
         self.getSearchTask();
         self.getSearchHistoryTask();
@@ -507,6 +509,7 @@
           itemCatalogs: JSON.stringify(self.historyTaskListParams.itemCatalogs),
           sortField: 'endTime',
           discountTypes: self.searchTaskParams.discountTypes ? JSON.stringify(self.searchTaskParams.discountTypes) : '',
+          activityCategories: self.searchTaskParams.activityCategory ? JSON.stringify(self.searchTaskParams.activityCategory) : '',
         }).then((res) => {
           if(res.status){
             self.historyTaskList = res.data.content;
@@ -599,15 +602,15 @@
           if(self.$route.query.activityCategory == 'price_low' || self.$route.query.activityCategory == 'goods_clearance' ){
             self.searchTaskParams.discountTypes = self.$store.state.discountPriceType['不限'].discountTypes;
           }else {
-            self.searchTaskParams.discountTypes = ['discount_0']
+            self.searchTaskParams.discountTypes = ''
           }
           self.getSearchTask();
           self.getSearchHistoryTask();
         }
 
-        if(!self.$store.state.disCountTaskCategory){
-          self.searchTaskParams.discountTypes = ['discount_0'];
-        }
+//        if(!self.$store.state.disCountTaskCategory){
+//          self.searchTaskParams.discountTypes = ['discount_0'];
+//        }
         if(cate){
           self.searchTaskParams.pageIndex = 1;
           self.itemCatalogs = [parseInt(cate)];
