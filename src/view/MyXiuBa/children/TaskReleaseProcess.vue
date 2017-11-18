@@ -57,17 +57,16 @@
             <span class="is-select-gou" v-show="taskRelease.activityCategory === 'goods_clearance'"></span>
           </div>
         </Poptip>
+        <div class="pop-tip"></div>
       </div>
     </div>
     <!--判断是否有权限能发布任务-->
-    <div v-show="getMemberStatus === 'need_member_for_more_task'||getMemberStatus==='need_member_for_more_audit'"
-         class="text-ct ">
+    <div v-show="getMemberStatus === 'need_member_for_more_task' || getMemberStatus==='need_member_for_more_audit'" class="text-ct ">
       <div class="mt-80" style="font-size:20px;color: #949494" v-if="getMemberStatus === 'need_member_for_more_task'">
         <Icon style="font-size: 25px ;transform: translateY(3px)" type="close-circled"></Icon>
         <span><strong>很抱歉，当前你为非会员，购买会员后才能继续发布任务！</strong></span>
       </div>
-      <div class="mt-80 ml-60" style="font-size:20px;color: #949494;text-align: left"
-           v-if="getMemberStatus === 'need_member_for_more_audit'">
+      <div class="mt-80 ml-60" style="font-size:20px;color: #949494;text-align: left" v-if="getMemberStatus === 'need_member_for_more_audit'">
         <Icon class="mr-10" style="font-size: 25px ;transform: translateY(16px)" type="close-circled"></Icon>
         <span>
           <span><strong>很抱歉，当前你为非会员，仅支持免费发布一条活动（目前已存在一条待审核活动，请等待审核结果）。</strong></span><br>
@@ -180,16 +179,12 @@
               <iInput v-model.number="taskRelease.itemPrice" @on-change="clearDiscount" placeholder="请输入宝贝单价" style="width: 120px"></iInput>
               <span>元</span>
               <span v-show="taskRelease.itemPrice && taskRelease.itemPrice < 1" class="main-color ml-20"><Icon color="#f60" type="information-circled"></Icon>&nbsp;每份试用品的价值必须在1元以上</span>
+              <span v-show="taskRelease.itemPrice && taskRelease.itemPrice < 10 && taskRelease.activityCategory === 'pinkage_for_10'" class="main-color ml-20"><Icon color="#f60" type="information-circled"></Icon>&nbsp;10元包邮活动，宝贝最低价格不能低于10元</span>
               <p class="sizeColor pl-60 mt-8">活动活动期间，商家不允许修改下单页商品信息，经核查属实，本平台有权将活动担保金返还已获得资格的秀客，商家账号按相应规则处罚</p>
             </div>
             <div class="discount ml-40 mt-20" v-show="taskRelease.activityCategory !== 'free_get' && taskRelease.activityCategory !== 'present_get'">
               <div class="clear" v-show="taskRelease.activityCategory !== 'pinkage_for_10'">
                 <span class="required mt-8 left">折扣/活动：</span>
-               <!-- <div class="discount-btn left ml-5 discount-charge" :class="{isSelect:taskRelease.discountType === 'discount_0'}" @click="changeSelectDiscount('discount_0')">
-                  <span> 免费试用</span>
-                  <span>（所有宝贝可选）</span>
-                  <span class="is-select-gou" v-show="taskRelease.discountType === 'discount_0'"></span>
-                </div>-->
                 <div class="left">
                   <div class="clear" v-show="taskRelease.activityCategory !== 'goods_clearance'">
                     <div class="discount-btn left ml-10 discount-9-9" v-show="!discountDisabled.discount_9_9.disabled" :class="{isSelect:taskRelease.discountType === 'discount_9_9'}" @click="changeSelectDiscount('discount_9_9')">
@@ -240,7 +235,7 @@
                 </div>
               </div>
               <p class="sizeColor pl-60 mt-20" v-show="taskRelease.itemPrice && taskRelease.discountType && taskRelease.activityCategory !== 'pinkage_for_10'">秀客以<span class="main-color">{{taskRelease.itemPrice}}</span>元价格在淘宝上购买，活动成功后返款<span class="main-color">{{newItemPrice.toFixed(2)}}</span>元给秀客！</p>
-              <p class="sizeColor pl-60" v-show="taskRelease.itemPrice && taskRelease.activityCategory === 'pinkage_for_10'">秀客以<span class="main-color">{{taskRelease.itemPrice}}</span>元价格在淘宝上购买，活动成功后返款<span class="main-color">{{taskRelease.itemPrice > 10 ? taskRelease.itemPrice - 10 : 0}}</span>元给秀客！</p>
+              <p class="sizeColor pl-60" v-show="taskRelease.itemPrice && taskRelease.itemPrice >= 10 && taskRelease.activityCategory === 'pinkage_for_10'">秀客以<span class="main-color">{{taskRelease.itemPrice}}</span>元价格在淘宝上购买，活动成功后返款<span class="main-color">{{taskRelease.itemPrice > 10 ? taskRelease.itemPrice - 10 : 0}}</span>元给秀客！</p>
             </div>
             <div class="baby-pinkage ml-45 mt-20">
               <span class="required left">是否包邮：</span>
@@ -961,7 +956,6 @@
             if (!_this.discountDisabled.discount_99_9.disabled) {
               _this.discountDisabled.discount_99_9.disabled = true;
             }
-//            _this.taskRelease.discountType = 'discount_0';
           }
           if (itemPrice >= 50) {
             _this.discountDisabled.discount_9_9.disabled = false;
@@ -1079,6 +1073,10 @@
         }
         if (_this.taskRelease.itemPrice < 1) {
           _this.$Message.warning('亲，每份试用品的价值必须在1元以上！');
+          return;
+        }
+        if (_this.taskRelease.itemPrice < 10 && _this.taskRelease.activityCategory === 'pinkage_for_10' ) {
+          _this.$Message.warning('亲，10元包邮活动宝贝最低价格不能低于10元！');
           return;
         }
         if((_this.taskRelease.activityCategory === 'price_low' || _this.taskRelease.activityCategory === 'goods_clearance') && _this.taskRelease.discountType === 'discount_0'){

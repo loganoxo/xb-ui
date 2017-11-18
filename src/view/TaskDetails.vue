@@ -446,7 +446,6 @@
       self.getTaskDetails();
     },
     mounted () {
-      let self = this;
     },
     computed: {
       isLogin() {
