@@ -92,7 +92,7 @@
                 <span>5</span>
                 <em v-if="!commodityData.task.discountPrice && !commodityData.task.discountRate"> 商家返还{{(parseInt(commodityData.task.itemPrice)/100).toFixed(2)}}元到您的平台账户（可提现），圆满结束 </em>
                 <em v-if="commodityData.task.discountPrice"> 商家返还{{((parseInt(commodityData.task.itemPrice) - parseInt(commodityData.task.discountPrice))/100).toFixed(2)}}元到您的平台账户（可提现），圆满结束 </em>
-                <em v-if="commodityData.task.discountRate"> 商家返还{{((parseInt(commodityData.task.itemPrice) * (1 - parseInt(commodityData.task.discountRate)/100))/100).toFixed(2)}}元到您的平台账户（可提现），圆满结束 </em>
+                <em v-if="!commodityData.task.discountPrice && commodityData.task.discountRate"> 商家返还{{(Math.ceil(commodityData.task.itemPrice * (1 - commodityData.task.discountRate/100))/100).toFixed(2)}}元到您的平台账户（可提现），圆满结束 </em>
               </li>
             </ul>
         </div>
