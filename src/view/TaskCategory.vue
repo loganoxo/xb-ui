@@ -484,7 +484,7 @@
           showkerId: showkerId,
           ifAccess: self.searchTaskParams.ifAccess == '' ? '' : true,
           discountTypes: self.searchTaskParams.discountTypes ? JSON.stringify(self.searchTaskParams.discountTypes) : '',
-          activityCategory: self.searchTaskParams.activityCategory ? JSON.stringify(self.searchTaskParams.activityCategory) : '',
+          activityCategories: self.searchTaskParams.activityCategory ? JSON.stringify(self.searchTaskParams.activityCategory) : '',
         }).then((res) => {
           window.scrollTo(0, 0);
           if(res.status){
