@@ -90,8 +90,9 @@
               </li>
               <li>
                 <span>5</span>
-                <em v-if="!commodityData.task.discountPrice"> 商家返还{{(parseInt(commodityData.task.itemPrice)/100).toFixed(2)}}元到您的平台账户（可提现），圆满结束 </em>
+                <em v-if="!commodityData.task.discountPrice && !commodityData.task.discountRate"> 商家返还{{(parseInt(commodityData.task.itemPrice)/100).toFixed(2)}}元到您的平台账户（可提现），圆满结束 </em>
                 <em v-if="commodityData.task.discountPrice"> 商家返还{{((parseInt(commodityData.task.itemPrice) - parseInt(commodityData.task.discountPrice))/100).toFixed(2)}}元到您的平台账户（可提现），圆满结束 </em>
+                <em v-if="commodityData.task.discountRate"> 商家返还{{((parseInt(commodityData.task.itemPrice) * (1 - parseInt(commodityData.task.discountRate)/100))/100).toFixed(2)}}元到您的平台账户（可提现），圆满结束 </em>
               </li>
             </ul>
         </div>
@@ -177,6 +178,7 @@
               </div>
             </div>
             <div v-show="graphicInfoSelClass == 'audited'" class="graphic-audited-buyer">
+
               <router-link :to="{ 'path': '/trial-report','query': {'q': encryptionId(detailsSuccessShowker.showkerId)}}" :key="detailsSuccessShowker.id" v-show="detailsSuccessShowkerList.length > 0 "  v-for="detailsSuccessShowker in detailsSuccessShowkerList">
                 <img :src="getUserHead(detailsSuccessShowker.showkerPortraitPic)" width="68" height="68" alt="" class="user-head">
                 <p class="cl000">{{detailsSuccessShowker.showkerPhone}}</p>
@@ -443,6 +445,13 @@
     },
     mounted () {
     },
+    destroyed(){
+      let self = this;
+      self.$store.commit({
+        type: 'TASK_CATEGORY_LIST',
+        info: 'home'
+      });
+    },
     computed: {
       isLogin() {
         return this.$store.state.login
@@ -611,7 +620,7 @@
         self.detailsSuccessShowkerParams.taskId = decode(self.$route.query.q);
         api.getDetailsSuccessShowkerList(self.detailsSuccessShowkerParams).then((res) => {
           if(res.status){
-            self.detailsSuccessShowkerList = res.data;
+            self.detailsSuccessShowkerList = res.data.content;
             this.graphicInfoSels[2].num = res.data.totalElements;
           }
         })

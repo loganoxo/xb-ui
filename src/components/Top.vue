@@ -65,7 +65,7 @@
           <a :class="[$store.state.activityCategory == 'home' ? 'active' : '']" @click="selTaskCategoryHome">首页</a>
           <a :class="[$store.state.activityCategory == 'free_get' ? 'active' : '']" @click="selTaskCategoryFunc('free_get')" >免费领</a>
           <a :class="[$store.state.activityCategory == 'pinkage_for_10' ? 'active' : '']" @click="selTaskCategoryFunc('pinkage_for_10')" >10元包邮</a>
-          <a :class="[$store.state.activityCategory == 'present_get' ? 'active' : '']" @click="selTaskCategoryFunc('present_get')" >赠品专区</a>
+          <a :class="[$store.state.activityCategory == 'present_get' ? 'active' : '']" @click="selTaskCategoryFunc('present_get')" >体验专区</a>
           <a :class="[$store.state.activityCategory == 'price_low' ? 'active' : '']" @click="selDisCountTaskCategoryAllFunc('price_low')">
             <i>
               <img src="/static/img/common/new.gif" alt="">
@@ -145,6 +145,10 @@
           type: 'TASK_CATEGORY_LIST',
           info: 'home'
         });
+        self.$store.commit({
+          type: 'SET_ACTIVITY_CATEGORY',
+          info: 'home'
+        });
         self.$router.push({ 'path': '/'});
       },
       selTaskCategoryFunc(activityCategory){
@@ -222,6 +226,10 @@
       },
       goTaskCategory(){
         let self = this;
+        self.$store.commit({
+          type: 'SET_ACTIVITY_CATEGORY',
+          info: 'home'
+        });
         if(self.searchKey){
           self.$router.push({ path: '/task-category', query: { searchKey: self.searchKey }})
         }else {

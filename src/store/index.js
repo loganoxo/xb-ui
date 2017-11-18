@@ -25,7 +25,7 @@ const state = {
   showTopCategoryRes: true, //导航栏左侧列表显示
   TaskCategoryActiveList: {
     'home': {
-      text: '首页'
+      text: '全部活动'
     },
     'free_get': {
       text: '免费领'
@@ -37,7 +37,7 @@ const state = {
       text: '10元包邮'
     },
     'present_get': {
-      text: '赠品专区'
+      text: '体验专区'
     },
     'goods_clearance': {
       text: '清仓断码'

@@ -6,7 +6,7 @@
           <Breadcrumb >
             <Breadcrumb-item>当前位置：</Breadcrumb-item>
             <Breadcrumb-item>秀吧</Breadcrumb-item>
-            <Breadcrumb-item v-if="$store.state.TaskCategoryActive">{{$store.state.TaskCategoryActiveList[$store.state.TaskCategoryActive].text}}</Breadcrumb-item>
+            <Breadcrumb-item v-if="$store.state.activityCategory">{{$store.state.TaskCategoryActiveList[$store.state.activityCategory].text}}</Breadcrumb-item>
             <Breadcrumb-item v-if="$route.query.cate">{{parentItemCatalog.name}}</Breadcrumb-item>
           </Breadcrumb>
         </div>
@@ -103,7 +103,7 @@
                     {{searchTask.discountPrice/100}}试用
                   </span>
                   <span v-if="(searchTask.activityCategory == 'price_low' || searchTask.activityCategory == 'goods_clearance') && searchTask.discountRate " class="left home-discount-price mt-5" :style="{backgroundColor: $store.state.discountPriceType[parseFloat(searchTask.discountRate/10) + '折'].backgroundColor}" >
-                    {{searchTask.discountRate/10}}试用
+                    {{searchTask.discountRate/10}}折试用
                   </span>
                 </p>
                 <p class="cl000">
@@ -165,8 +165,11 @@
                 </p>
                 <p v-if="$store.state.disCountTaskCategory" class="home-commodity-price ">
                   <span class="left" style="text-decoration: line-through; color: #ff6633;">￥{{historyTask.itemPrice/100}}</span>
-                  <span v-if="historyTask.discountPrice" class="left home-discount-price mt-5" :style="{backgroundColor: $store.state.discountPriceType[parseFloat(historyTask.discountPrice/100)].backgroundColor}" >
+                  <span v-if="(historyTask.activityCategory == 'price_low' || historyTask.activityCategory == 'goods_clearance') && historyTask.discountPrice" class="left home-discount-price mt-5" :style="{backgroundColor: $store.state.discountPriceType[parseFloat(historyTask.discountPrice/100)].backgroundColor}" >
                     {{historyTask.discountPrice/100}}试用
+                  </span>
+                  <span v-if="(historyTask.activityCategory == 'price_low' || historyTask.activityCategory == 'goods_clearance') && historyTask.discountRate " class="left home-discount-price mt-5" :style="{backgroundColor: $store.state.discountPriceType[parseFloat(historyTask.discountRate/10) + '折'].backgroundColor}" >
+                    {{historyTask.discountRate/10}}折试用
                   </span>
                 </p>
                 <p class="cl000">
@@ -318,6 +321,7 @@
       let self = this;
       let cate = self.$route.query.cate;
       let searchKey = self.$route.query.searchKey;
+      let activityCategory = self.$route.query.activityCategory;
       let discount = self.$route.query.discount;
       self.getNavList();
       if(self.$route.query.activityCategory){
@@ -335,10 +339,7 @@
           info: getStorage('TaskCategoryActive'),
         });
       }
-//      if(!self.$store.state.disCountTaskCategory){
-//        self.searchTaskParams.discountTypes = ['discount_0']
-//      }
-      if(getStorage('activityCategory')){
+      if(getStorage('activityCategory') && !searchKey){
         self.$store.commit({
           type: 'SET_ACTIVITY_CATEGORY',
           info: getStorage('activityCategory'),
@@ -369,15 +370,18 @@
         self.getTaskCategoryList(cate);
       }
       if(searchKey){
+        self.$store.commit({
+          type: 'SET_ACTIVITY_CATEGORY',
+          info: 'home'
+        });
+        self.itemCatalogs = [];
+        self.searchTaskParams.activityCategory = '';
+        self.searchTaskParams.discountTypes = ''
         if(searchKey === 'all'){
           self.searchTaskParams.taskName = '';
-          self.itemCatalogs = [];
-          self.$store.commit({
-            type: 'TASK_CATEGORY_LIST',
-            info: 'all'
-          });
         }else {
           self.searchTaskParams.taskName = searchKey;
+
         }
         self.getSearchTask();
         self.getSearchHistoryTask();
@@ -420,7 +424,10 @@
       },
       selTaskCategoryActiveFunc(nav){
         let self = this;
-        self.$router.push({ 'path': '/task-category', 'query': {'cate': nav.id}});
+        self.$router.push({ 'path': '/task-category', 'query': {
+          'cate': nav.id,
+
+        }});
       },
       selDiscountPriceTypeFunc(k,discountPrice){
         let self = this;
@@ -582,7 +589,7 @@
             info: getStorage('TaskCategoryActive'),
           });
         }
-        if(getStorage('activityCategory')){
+        if(getStorage('activityCategory') && !searchKey){
           self.$store.commit({
             type: 'SET_ACTIVITY_CATEGORY',
             info: getStorage('activityCategory'),
@@ -608,18 +615,22 @@
           self.getSearchHistoryTask();
         }
 
-//        if(!self.$store.state.disCountTaskCategory){
-//          self.searchTaskParams.discountTypes = ['discount_0'];
-//        }
         if(cate){
           self.searchTaskParams.pageIndex = 1;
           self.itemCatalogs = [parseInt(cate)];
           self.getTaskCategoryList(cate);
         }
         if(searchKey){
+          self.$store.commit({
+            type: 'SET_ACTIVITY_CATEGORY',
+            info: 'home'
+          });
+          self.itemCatalogs = [];
+          self.searchTaskParams.activityCategory = '';
+          self.searchTaskParams.discountTypes = ''
           if(searchKey == 'all'){
             self.searchTaskParams.taskName = '';
-            self.itemCatalogs = [];
+
           }else {
             self.searchTaskParams.taskName = searchKey;
           }
