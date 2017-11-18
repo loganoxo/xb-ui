@@ -509,7 +509,7 @@
     watch: {},
     computed: {
       getOderPrice: function () {
-        if(this.orderInfo.discountPrice && this.orderInfo.discountPrice > 0){
+        if(this.orderInfo.discountPrice && this.orderInfo.discountPrice >= 0){
          return this.orderInfo.orderPrice - this.orderInfo.discountPrice
         }
         if(this.orderInfo.discountRate && this.orderInfo.discountRate > 0){
