@@ -112,7 +112,7 @@
                     {{searchTask.discountPrice/100}}试用
                   </span>
                   <span v-if="(searchTask.activityCategory == 'price_low' || searchTask.activityCategory == 'goods_clearance') && searchTask.discountRate " class="left home-discount-price mt-5" :style="{backgroundColor: $store.state.discountPriceType[parseFloat(searchTask.discountRate/10) + '折'].backgroundColor}" >
-                    {{searchTask.discountRate/10}}折试用
+                    {{searchTask.discountRate/10}}折清仓
                   </span>
                 </p>
                 <p class="cl000">
@@ -176,7 +176,7 @@
                     {{historyTask.discountPrice/100}}试用
                   </span>
                   <span v-if="(historyTask.activityCategory == 'price_low' || historyTask.activityCategory == 'goods_clearance') && historyTask.discountRate " class="left home-discount-price mt-5" :style="{backgroundColor: $store.state.discountPriceType[parseFloat(historyTask.discountRate/10) + '折'].backgroundColor}" >
-                    {{historyTask.discountRate/10}}折试用
+                    {{historyTask.discountRate/10}}折清仓
                   </span>
                 </p>
                 <p class="cl000">
