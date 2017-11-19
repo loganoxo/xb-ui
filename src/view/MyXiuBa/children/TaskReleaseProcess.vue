@@ -279,7 +279,7 @@
               <p class="sizeColor pl-60 mt-20"
                  v-show="taskRelease.itemPrice && taskRelease.discountType && taskRelease.activityCategory !== 'pinkage_for_10'">
                 秀客以<span class="main-color">{{taskRelease.itemPrice}}</span>元价格在淘宝上购买，活动成功后返款<span
-                class="main-color">{{(newItemPrice/100).toFixed(2)}}</span>元给秀客！</p>
+                class="main-color">{{(newItemPrice / 100).toFixed(2)}}</span>元给秀客！</p>
               <p class="sizeColor pl-60"
                  v-show="taskRelease.itemPrice && taskRelease.itemPrice >= 10 && taskRelease.activityCategory === 'pinkage_for_10'">
                 秀客以<span class="main-color">{{taskRelease.itemPrice}}</span>元价格在淘宝上购买，活动成功后返款<span
@@ -573,13 +573,12 @@
           <h3>费用说明：</h3>
           <div class="description-fees-con mt-10">
             <p>
-              活动担保金 = 份数 × 单品活动担保金 =<span>{{taskRelease.taskCount}}</span>× <span>{{oneBond}}</span>= <span>{{(taskRelease.taskCount * oneBond).toFixed(2)}}</span>元
+              活动担保金 = 份数 × 单品活动担保金 =<span>{{taskRelease.taskCount}}</span> × <span>{{oneBond}}</span> = <span>{{(taskRelease.taskCount * oneBond).toFixed(2)}}</span>元
             </p>
             <p class="mt-6">
-              单品推广费 = （宝贝单价 + 邮费） × 费率 =<span>（{{taskRelease.itemPrice}} + {{taskRelease.pinkage === 'true' ? 0 : 10}}）</span>×<span>6%</span>= <span>{{onePromotionExpenses}}</span>元<span
-              v-if="onePromotionExpenses > 3">（单品推广费超过平台设定的最高上限3.00元，本次实际收取的单品推广费用为3.00元）</span></p>
-            <p class="mt-6">总推广费用 = 单品推广费用 × 份数 =<span>{{onePromotionExpenses}}</span> × <span>{{taskRelease.taskCount}} = <span>{{allPromotionExpenses}}</span></span>元
-            </p>
+              单品推广费 = （宝贝单价 + 邮费） × 费率 =<span>（{{taskRelease.itemPrice}} + {{taskRelease.pinkage === 'true' ? 0 : 10}}）</span>×<span>6%</span> = <span>{{onePromotionExpenses}}</span>元<span
+              v-if="isShowExpensesTip">（单品推广费超过平台设定的最高上限3.00元，本次实际收取的单品推广费用为3.00元）</span></p>
+            <p class="mt-6">总推广费用 = 单品推广费用 × 份数 =<span>{{onePromotionExpenses}}</span> × <span>{{taskRelease.taskCount}} = <span>{{allPromotionExpenses}}</span></span>元</p>
             <p class="mt-6">总费用 = 活动担保金 + 总推广费用 = <span>{{orderMoney}}</span>元</p>
           </div>
         </div>
@@ -637,8 +636,8 @@
               <Icon color="#f60" size="32" type="information-circled"></Icon>
             </div>
             <div class="left ml-10">
-              <p style="font-size: 14px;">由于您修改了当前宝贝价格/包邮条件/发放数量等，且修改后的</p>
-              <p style="font-size: 14px;">价格高于原活动担保金，因此需要对超出部分进行支付。</p>
+              <p class="fs-14">由于您修改了当前宝贝价格/包邮条件/发放数量等，且修改后的</p>
+              <p class="fs-14">价格高于原活动担保金，因此需要对超出部分进行支付。</p>
             </div>
           </div>
           <div slot="footer">
@@ -910,7 +909,7 @@
       newItemPrice: function () {
         let type = this.taskRelease.discountType;
         if (!this.discountDisabled[type].isDiscount) {
-          return this.taskRelease.itemPrice - this.discountDisabled[type].returnPrice;
+          return (this.taskRelease.itemPrice - this.discountDisabled[type].returnPrice) * 100;
         } else {
           return Math.ceil(100 * this.taskRelease.itemPrice * (1 - this.discountDisabled[type].returnPrice));
         }
@@ -971,6 +970,15 @@
        */
       taskNameLength: function () {
         return this.taskRelease.taskName ? this.taskRelease.taskName.length : 0;
+      },
+
+      /**
+       * 是否显示单品推广费超过3元的提示
+       * @return {boolean}
+       */
+      isShowExpensesTip: function () {
+        let postage = this.taskRelease.pinkage === 'true' ? 0 : 10;
+        return (this.taskRelease.itemPrice + postage) * 0.06 > 3
       },
     },
     methods: {
