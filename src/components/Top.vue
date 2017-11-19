@@ -67,9 +67,9 @@
           <a :class="[$store.state.activityCategory == 'pinkage_for_10' ? 'active' : '']" @click="selTaskCategoryFunc('pinkage_for_10')" >10元包邮</a>
           <a :class="[$store.state.activityCategory == 'present_get' ? 'active' : '']" @click="selTaskCategoryFunc('present_get')" >体验专区</a>
           <a :class="[$store.state.activityCategory == 'price_low' ? 'active' : '']" @click="selTaskCategoryFunc('price_low')">
-            <i>
-              <img src="/static/img/common/new.gif" alt="">
-            </i>
+            <!--<i>-->
+              <!--<img src="/static/img/common/new.gif" alt="">-->
+            <!--</i>-->
             白菜价
           </a>
           <a :class="[$store.state.activityCategory == 'goods_clearance' ? 'active' : '']" @click="selTaskCategoryFunc('goods_clearance')" >清仓断码</a>

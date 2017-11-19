@@ -338,73 +338,7 @@
     created(){
       let self = this;
       self.searchInit()
-//      self.getTaskCategoryList();
-//      let cate = self.$route.query.cate;
-//      let searchKey = self.$route.query.searchKey;
-//      let activityCategory = self.$route.query.activityCategory;
-//      let discount = self.$route.query.discount;
-//      self.getNavList();
-//      if(self.$route.query.activityCategory){
-//        self.searchTaskParams.activityCategory =  [self.$route.query.activityCategory];
-//      }
-//      if(getStorage('disCountTaskCategory')){
-//        self.$store.commit({
-//          type: 'SET_DISCOUNT_TASK_CATEGORY',
-//          result: getStorage('disCountTaskCategory'),
-//        });
-//      }
-//      if(getStorage('TaskCategoryActive')){
-//        self.$store.commit({
-//          type: 'TASK_CATEGORY_LIST',
-//          info: getStorage('TaskCategoryActive'),
-//        });
-//      }
-//      if(getStorage('activityCategory') && !searchKey){
-//        self.$store.commit({
-//          type: 'SET_ACTIVITY_CATEGORY',
-//          info: getStorage('activityCategory'),
-//        });
-//        self.searchTaskParams.activityCategory =  [getStorage('activityCategory')];
-//      }
-//
-//      if(self.$route.query.activityCategory){
-//        self.$store.commit({
-//          type: 'SET_DISCOUNT_TASK_CATEGORY',
-//          result: true
-//        });
-//        console.log(self.$route.query.activityCategory);
-//        self.itemCatalogs = [];
-//        self.searchTaskParams.activityCategory =  [self.$route.query.activityCategory];
-//        if(self.$route.query.activityCategory == 'price_low' || self.$route.query.activityCategory == 'goods_clearance' ){
-//          self.searchTaskParams.discountTypes = self.$store.state.discountPriceType['不限'].discountTypes;
-//        }else {
-//          self.searchTaskParams.discountTypes = ''
-//        }
-//        self.getSearchTask();
-//        self.getSearchHistoryTask();
-//      }
-//      if(cate){
-//        self.searchTaskParams.pageIndex = 1;
-//        self.itemCatalogs = [parseInt(cate)];
-//        self.getTaskCategoryList(cate);
-//      }
-//      if(searchKey){
-//        self.$store.commit({
-//          type: 'SET_ACTIVITY_CATEGORY',
-//          info: 'home'
-//        });
-//        self.itemCatalogs = [];
-//        self.searchTaskParams.activityCategory = '';
-//        self.searchTaskParams.discountTypes = '';
-//        if(searchKey === 'all'){
-//          self.searchTaskParams.taskName = '';
-//        }else {
-//          self.searchTaskParams.taskName = searchKey;
-//
-//        }
-//        self.getSearchTask();
-//        self.getSearchHistoryTask();
-//      }
+
 
     },
     computed: {
@@ -555,7 +489,6 @@
       },
       getSearchTask(){
         let self = this;
-//        self.searchTaskParams.itemCatalogs = self.itemCatalogs;
         let showkerId = '';
         if(self.$store.state.userInfo && self.$store.state.userInfo.role == 0){
           showkerId = self.$store.state.userInfo.id
@@ -652,72 +585,6 @@
         //刷新参数放到这里里面去触发就可以刷新相同界面了
         let self = this;
         self.searchInit();
-//        self.searchTaskParams.taskName = '';
-//        self.searchTaskParams.pageIndex = 1;
-//        let cate = this.$route.query.cate;
-//        let searchKey = this.$route.query.searchKey;
-//        let discount = this.$route.query.discount;
-//        self.historyTaskListParams.itemCatalogs = [];
-//        if(getStorage('disCountTaskCategory')){
-//          self.$store.commit({
-//            type: 'SET_DISCOUNT_TASK_CATEGORY',
-//            result: getStorage('disCountTaskCategory'),
-//          });
-//        }
-//        if(getStorage('TaskCategoryActive')){
-//          self.$store.commit({
-//            type: 'TASK_CATEGORY_LIST',
-//            info: getStorage('TaskCategoryActive'),
-//          });
-//        }
-//
-//        if(getStorage('activityCategory') && !searchKey){
-//          self.$store.commit({
-//            type: 'SET_ACTIVITY_CATEGORY',
-//            info: getStorage('activityCategory'),
-//          });
-//          self.searchTaskParams.activityCategory =  [getStorage('activityCategory')];
-//        }
-//
-//        if(self.$route.query.activityCategory){
-////          console.log(self.$route.query.activityCategory);
-//          self.$store.commit({
-//            type: 'SET_DISCOUNT_TASK_CATEGORY',
-//            result: true
-//          });
-//          self.itemCatalogs = [];
-//          self.searchTaskParams.activityCategory =  [self.$route.query.activityCategory];
-//          if(self.$route.query.activityCategory == 'price_low' || self.$route.query.activityCategory == 'goods_clearance' ){
-//            self.searchTaskParams.discountTypes = self.$store.state.discountPriceType['不限'].discountTypes;
-//          }else {
-//            self.searchTaskParams.discountTypes = ''
-//          }
-//          self.getSearchTask();
-//          self.getSearchHistoryTask();
-//        }
-//
-//        if(cate){
-//          self.searchTaskParams.pageIndex = 1;
-//          self.itemCatalogs = [parseInt(cate)];
-//          self.getTaskCategoryList(cate);
-//        }
-//        if(searchKey){
-//          self.$store.commit({
-//            type: 'SET_ACTIVITY_CATEGORY',
-//            info: 'home'
-//          });
-//          self.itemCatalogs = [];
-//          self.searchTaskParams.activityCategory = '';
-//          self.searchTaskParams.discountTypes = ''
-//          if(searchKey == 'all'){
-//            self.searchTaskParams.taskName = '';
-//
-//          }else {
-//            self.searchTaskParams.taskName = searchKey;
-//          }
-//          self.getSearchTask();
-//          self.getSearchHistoryTask();
-//        }
       },
       'searchTaskParams'(){
         deep:true;
