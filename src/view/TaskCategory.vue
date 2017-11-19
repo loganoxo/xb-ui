@@ -39,7 +39,7 @@
           </div>
           <div v-if=" $store.state.TaskCategoryActive == 'goods_clearance'" class="task-category-sel" >
             折扣类型：
-            <a v-for="(k,discountPrice) in $store.state.goodsClearanceList" :class="[discountTaskCategoryActive == discountPrice ? 'active' : '' ]" @click="selDiscountPriceTypeFunc(k,discountPrice)">{{discountPrice}}试用</a>
+            <a v-for="(k,discountPrice) in $store.state.goodsClearanceList" :class="[discountTaskCategoryActive == discountPrice ? 'active' : '' ]" @click="selDiscountPriceTypeFunc(k,discountPrice)">{{discountPrice}}清仓</a>
           </div>
         </div>
       </div>
