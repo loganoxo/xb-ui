@@ -52,7 +52,7 @@
           </p>
           <ul class="top-category-list" v-if="$store.state.showTopCategoryRes">
             <li  v-if="nav.name != '美食/特产' && nav.name != '其它试用'" :class="[$store.state.TaskCategoryActive == nav.id ? 'active' : '']" @click="selTaskCategoryActiveFunc(nav)" v-for="nav in navList" >
-              <img width="16" height="16"  :src="nvaImgSrc[nav.id]" alt="">
+              <img width="16" height="16"  :src="nvaImgSrc[nav.id]" alt="" style="vertical-align: -3px;">
               <span class="ml-5">{{nav.name}}</span>
             </li>
             <li :class="[$store.state.TaskCategoryActive == 'all' ? 'active' : '']" @click="selTaskCategoryAllFunc">
@@ -66,7 +66,7 @@
           <a :class="[$store.state.activityCategory == 'free_get' ? 'active' : '']" @click="selTaskCategoryFunc('free_get')" >免费领</a>
           <a :class="[$store.state.activityCategory == 'pinkage_for_10' ? 'active' : '']" @click="selTaskCategoryFunc('pinkage_for_10')" >10元包邮</a>
           <a :class="[$store.state.activityCategory == 'present_get' ? 'active' : '']" @click="selTaskCategoryFunc('present_get')" >体验专区</a>
-          <a :class="[$store.state.activityCategory == 'price_low' ? 'active' : '']" @click="selDisCountTaskCategoryAllFunc('price_low')">
+          <a :class="[$store.state.activityCategory == 'price_low' ? 'active' : '']" @click="selTaskCategoryFunc('price_low')">
             <i>
               <img src="/static/img/common/new.gif" alt="">
             </i>
@@ -94,6 +94,7 @@
 </template>
 
 <script>
+  import {setStorage, getStorage, encryption,removeStorage} from '@/config/utils'
   import TopTip from '@/components/TopTip.vue'
   import api from '@/config/apiConfig'
   import Modal from 'iview/src/components/modal'
@@ -163,33 +164,13 @@
           info: activityCategory
         });
       },
-      selDisCountTaskCategoryAllFunc(activityCategory){
-        let self = this;
-        self.$store.commit({
-          type: 'SET_DISCOUNT_TASK_CATEGORY',
-          result: true
-        });
-        self.$store.commit({
-          type: 'TASK_CATEGORY_LIST',
-          info: activityCategory
-        });
-        self.$store.commit({
-          type: 'SET_ACTIVITY_CATEGORY',
-          info: activityCategory,
-        });
-        self.$router.push({ 'path': '/task-category', 'query': {'discount': 'allDiscount', 'activityCategory' : activityCategory}});
-      },
       selTaskCategoryAllFunc(){
         let self = this;
         self.$store.commit({
           type: 'TASK_CATEGORY_LIST',
           info: 'all'
         });
-        self.$store.commit({
-          type: 'SET_DISCOUNT_TASK_CATEGORY',
-          result: false
-        });
-        self.$router.push({ 'path': '/task-category', 'query': {'searchKey': 'all'}});
+        self.$router.push({ 'path': '/task-category', 'query': {'searchAll': 'yes'}});
       },
       selTaskCategoryActiveFunc(nav){
         let self = this;

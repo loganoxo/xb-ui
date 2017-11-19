@@ -473,7 +473,7 @@
   import Carousel from 'iview/src/components/carousel'
   import SmsCountdown from '@/components/SmsCountdown'
   import api from '@/config/apiConfig'
-  import {setStorage, getStorage, encryption} from '@/config/utils'
+  import {setStorage, getStorage, encryption,removeStorage} from '@/config/utils'
   import {aliCallbackImgUrl} from '@/config/env'
   import {mapActions} from 'vuex'
 
@@ -725,7 +725,7 @@
           type: 'TASK_CATEGORY_LIST',
           info: 'all'
         });
-        self.$router.push({ 'path': '/task-category', 'query': {'searchKey': 'all'}});
+        self.$router.push({ 'path': '/task-category', 'query': {'searchAll': 'yes'}});
       },
       selTaskCategoryActiveFunc(nav){
         let self = this;

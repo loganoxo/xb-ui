@@ -64,7 +64,6 @@ export default {
   //导航列表存入
   [types.TASK_CATEGORY_LIST](state, {info}) {
     state.TaskCategoryActive = info;
-    setStorage('TaskCategoryActive', info);
   },
 
   //商家引导遮罩层
@@ -83,7 +82,6 @@ export default {
 
   [types.SET_DISCOUNT_TASK_CATEGORY](state,{result}) {
     state.disCountTaskCategory = result;
-    setStorage('disCountTaskCategory', result);
   },
 
   [types.SET_SHOW_TOP_CATEGORY_RES](state,{result}) {
@@ -92,6 +90,5 @@ export default {
 
   [types.SET_ACTIVITY_CATEGORY](state,{info}) {
     state.activityCategory = info;
-    setStorage('activityCategory', info);
   },
 }
