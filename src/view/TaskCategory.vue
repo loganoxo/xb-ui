@@ -14,7 +14,7 @@
         </div>
       </div>
       <div class="container" >
-        <div v-show="!$route.query.searchKey"class="task-category-sel">
+        <div v-show="!$route.query.searchKey" class="task-category-sel">
           <span v-if="$route.query.activityCategory">{{$store.state.TaskCategoryActiveList[$store.state.activityCategory].text}}：</span>
           <!--<a v-if="$route.query.searchKey != 'all' && $route.query.searchKey" :class="[!$route.query.cate ? 'active' : '']" @click="selCategoryAllFunc">全部活动</a>-->
           <a :class="[!$route.query.cate ? 'active' : '']" @click="selTaskCategoryAllFunc">全部活动</a>
@@ -32,13 +32,15 @@
             {{category.name}}
           </a>
         </div>
-        <div v-if="$store.state.TaskCategoryActive == 'price_low'" class="task-category-sel" >
-          折扣类型：
-          <a v-for="(k,discountPrice) in $store.state.discountPriceType" :class="[discountTaskCategoryActive == discountPrice ? 'active' : '' ]" @click="selDiscountPriceTypeFunc(k,discountPrice)">{{discountPrice}}试用</a>
-        </div>
-        <div v-if=" $store.state.TaskCategoryActive == 'goods_clearance'" class="task-category-sel" >
-          折扣类型：
-          <a v-for="(k,discountPrice) in $store.state.goodsClearanceList" :class="[discountTaskCategoryActive == discountPrice ? 'active' : '' ]" @click="selDiscountPriceTypeFunc(k,discountPrice)">{{discountPrice}}试用</a>
+        <div v-show="!$route.query.searchKey">
+          <div v-if="$store.state.TaskCategoryActive == 'price_low'" class="task-category-sel" >
+            折扣类型：
+            <a v-for="(k,discountPrice) in $store.state.discountPriceType" :class="[discountTaskCategoryActive == discountPrice ? 'active' : '' ]" @click="selDiscountPriceTypeFunc(k,discountPrice)">{{discountPrice}}试用</a>
+          </div>
+          <div v-if=" $store.state.TaskCategoryActive == 'goods_clearance'" class="task-category-sel" >
+            折扣类型：
+            <a v-for="(k,discountPrice) in $store.state.goodsClearanceList" :class="[discountTaskCategoryActive == discountPrice ? 'active' : '' ]" @click="selDiscountPriceTypeFunc(k,discountPrice)">{{discountPrice}}试用</a>
+          </div>
         </div>
       </div>
       <div class="container">
