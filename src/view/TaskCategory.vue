@@ -443,6 +443,7 @@
         self.historyTaskListParams.pageIndex = 1;
         self.searchTaskParams.itemCatalogs = [];
         self.searchTaskParams.discountTypes = [];
+        self.searchTaskParams.taskName = '';
         if(activityCategory){
           self.searchTaskParams.activityCategories = [activityCategory];
         }else {
