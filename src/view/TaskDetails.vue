@@ -620,8 +620,8 @@
         self.detailsSuccessShowkerParams.taskId = decode(self.$route.query.q);
         api.getDetailsSuccessShowkerList(self.detailsSuccessShowkerParams).then((res) => {
           if(res.status){
-            self.detailsSuccessShowkerList = res.data.content;
-            this.graphicInfoSels[2].num = res.data.totalElements;
+            self.detailsSuccessShowkerList = res.data;
+            this.graphicInfoSels[2].num = res.totalElements;
           }
         })
       },
