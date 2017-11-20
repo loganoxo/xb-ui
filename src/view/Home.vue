@@ -419,21 +419,6 @@
       <div slot="footer">
       </div>
     </Modal>
-   <!-- <Modal v-model="$store.state.wechartShow" width="550" @on-cancel="cancelWeiChartFunc">
-    <div style="text-align: right;margin-right: 11px;position: relative;top: -2px;">
-      <Checkbox-group v-model="wechartShowAgain">
-        <Checkbox label="true">不再提醒</Checkbox>
-      </Checkbox-group>
-      <img v-show="getUserInfoRole == 0" src="/static/img/home/wechart_alert_07.png" alt=""
-           style="width: 100%; margin-top: 20px">
-      &lt;!&ndash;<p v-show="getUserInfoRole == 0" class="ml-10" style="position: absolute;bottom: 90px;left: 21px; height: 30px; line-height: 30px;">&ndash;&gt;
-      &lt;!&ndash;<span class="left fs-14 mr-10" style="color: #ff6633;">特权口令：</span>&ndash;&gt;
-      &lt;!&ndash;<iInput v-model="command"  class="left mr-10" style="width:150px;"></iInput>&ndash;&gt;
-      &lt;!&ndash;<iButton class="left" type="error" @click="setWeChartAlertFunc(0)" >提交</iButton>&ndash;&gt;
-      &lt;!&ndash;</p>&ndash;&gt;
-    </div>
-    <div slot="footer"></div>
-  </Modal>-->
     <div class="confirm-recharge-model" v-show="$store.state.wechartShow">
       <div class="confirm-recharge-con">
         <div class="pos-rel">
@@ -975,7 +960,6 @@
     left: 50%;
     width: 507px;
     margin-left: -254px;
-
   }
   .home-ctt {
     background-color: #F1F1F1;

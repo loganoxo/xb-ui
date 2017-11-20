@@ -132,13 +132,13 @@
   import Checkbox from 'iview/src/components/checkbox'
   import Button from 'iview/src/components/button'
   import Radio from 'iview/src/components/radio'
-  import api from '@/config/apiConfig'
-  import {setStorage, getStorage, decode, encryption} from '@/config/utils'
+  import Carousel from 'iview/src/components/carousel'
   import Modal from 'iview/src/components/modal'
   import Breadcrumb from 'iview/src/components/breadcrumb'
   import Page from 'iview/src/components/page'
+  import api from '@/config/apiConfig'
+  import {setStorage, getStorage, decode, encryption} from '@/config/utils'
   import TimeDown from '@/components/TimeDown'
-  import Carousel from 'iview/src/components/carousel'
   import Zan from '@/components/Zan'
   export default {
 
