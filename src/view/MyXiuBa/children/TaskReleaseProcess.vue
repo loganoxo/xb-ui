@@ -139,7 +139,7 @@
             <div class="activity-info-title">填写活动宝贝信息</div>
             <div class="complimentary-tip mt-20 pl-40" v-show="taskRelease.activityCategory === 'present_get'">
               <p class="sizeColor3">赠品活动发布说明：</p>
-              <p class="sizeColor3 mt-6">1、活动标题、宝贝类型、活动主图、宝贝单价、商品简介填写赠品相关信息；宝贝地址、掌柜旺旺填写淘宝正品（即希望秀客拍下的SKU）相关信息；</p>
+              <p class="sizeColor3 mt-6">1、活动标题、宝贝类型、活动主图、商品简介填写赠品相关信息；宝贝地址、掌柜旺旺、宝贝单价填写淘宝正品（即希望秀客拍下的SKU）相关信息；</p>
               <p class="sizeColor3">2、在备注中明确说明希望秀客拍下的SKU（否则秀客可能会找不到宝贝）。</p>
               <p class="sizeColor3">3、赠品类型必须与正品同属一个类目，重量、体积等相差不大，否则后台审核不给予通过。</p>
             </div>

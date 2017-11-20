@@ -47,7 +47,7 @@
         <iInput v-model="orderNumber" placement="请输入订单号查询" style="width: 160px;margin-right: 8px;"></iInput>
         <span class="ml-10">通过日期：</span>
         <Date-picker format="yyyy-MM-dd" type="daterange" placement="bottom-end" placeholder="请选择日期查询" style="width: 200px" @on-change="handleDataChange"></Date-picker>
-        <iButton type="primary" class="ml-20" :loading="searchLoading" @click="showkerSuccessList">搜索</iButton>
+        <iButton type="primary" class="ml-20" :loading="searchLoading" @click="searchShowkerPassTask">搜索</iButton>
       </div>
       <div class="probation-table mt-20">
         <table>
@@ -309,7 +309,6 @@
   import DatePicker from 'iview/src/components/date-picker'
   import Tooltip from 'iview/src/components/tooltip'
   import Modal from 'iview/src/components/modal'
-//  import Clipboard from 'clipboard';
   import Upload from '@/components/upload'
   import TimeDown from '@/components/TimeDown'
   import PlaceOrderStep from '@/components/PlaceOrderStep'
@@ -505,8 +504,8 @@
         this.showAuditOrderNumber = false;
       },
       openAuditOrder(id, type, activityCategory) {
-        this.affirmOrderNumber= '';
-        this.payMoney = '';
+        this.affirmOrderNumber = null;
+        this.payMoney = null;
         this.orderType = type;
         this.activityCategory = activityCategory;
         this.showAuditOrderNumber = true;
@@ -532,6 +531,10 @@
           title: '超出文件大小限制',
           content: '图片 ' + file.name + ' 太大，不能超过 2M'
         });
+      },
+      searchShowkerPassTask() {
+        this.pageIndex = 1;
+        this.showkerSuccessList();
       },
       showkerSuccessList() {
         let _this = this;

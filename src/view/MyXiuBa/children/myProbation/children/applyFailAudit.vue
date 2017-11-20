@@ -4,7 +4,7 @@
       <iOption v-for="item in SelectList" :value="item.value" :key="item.value">{{ item.label }}</iOption>
     </iSelect>
     <iInput v-model="searchValue" style="width: 160px;margin-right: 8px;"></iInput>
-    <iButton style="width: 69px;" type="primary" :loading="searchLoading" @click="showkerApplyList">搜索</iButton>
+    <iButton style="width: 69px;" type="primary" :loading="searchLoading" @click="searchShowkerFailTask">搜索</iButton>
     <div class="clear ml-45 ivu-select" style="width: 600px;">
       <div class="left mr-10">
         <Checkbox
@@ -133,6 +133,10 @@
       },
       goTaskDetails(id) {
         this.$router.push({name: 'TaskDetails', query: {q: encryption(id)}})
+      },
+      searchShowkerFailTask() {
+        this.pageIndex = 1;
+        this.showkerApplyList();
       },
       showkerApplyList() {
         let _this = this;

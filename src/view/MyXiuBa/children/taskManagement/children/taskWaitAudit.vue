@@ -356,6 +356,7 @@
       },
       searchAuditTask(){
         this.selectId = null;
+        this.pageIndex = 1;
         this.appliesWaitingAuditTask();
       },
       taskWaitToPass(id, status) {

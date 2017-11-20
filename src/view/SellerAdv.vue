@@ -85,39 +85,27 @@
     mounted: function () {
       this.$nextTick(function () {
         let runPage = new FullPage({
-
-          id : 'pageContain',                            // id of contain
-          slideTime : 800,                               // time of slide
-          continuous : false,                            // create an infinite feel with no endpoints
-          effect : {                                     // slide effect
+          id : 'pageContain',
+          slideTime : 800,
+          continuous : false,
+          effect : {
             transform : {
-              translate : 'Y',				   // 'X'|'Y'|'XY'|'none'
-              scale : [.1, 1],				   // [scalefrom, scaleto]
-              rotate : [0, 0]				       // [rotatefrom, rotateto]
+              translate : 'Y',
+              scale : [.1, 1],
+              rotate : [0, 0]
             },
-            opacity : [0, 1]                       // [opacityfrom, opacityto]
+            opacity : [0, 1]
           },
-          mode : 'wheel,touch,nav:navBar',               // mode of fullpage
-          start : 0,                                     // which page will display when install
-          easing : 'fadeInDown',                                   // easing('ease','ease-in','ease-in-out' or use cubic-bezier like [.33, 1.81, 1, 1];
-          //  ,onSwipeStart : function(index, thisPage) {   // callback before pageChange
-          //    return 'stop';
-          //  }
-          //  ,beforeChange : function(index, thisPage) {   // callback before pageChange
-          //    return 'stop';
-          //  }
-          //  ,callback : function(index, thisPage) {       // callback when pageChange
-          //    alert(index);
-          //  };
+          mode : 'wheel,touch,nav:navBar',
+          start : 0,
+          easing : 'fadeInDown',
         });
-
       })
     },
   }
 </script>
 
 <style lang="scss" scoped>
-  @import 'src/css/mixin';
   .seller-bottom{
     background-color: #351E97;
     height: 170px;
@@ -269,8 +257,5 @@
     transform: rotate(360deg) translate(0,-200px) scale(.3);
     opacity: 0;
   }
-
-
-
 </style>
 

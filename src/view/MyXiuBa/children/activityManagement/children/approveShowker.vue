@@ -45,7 +45,7 @@
               {{taoqizhi.label}}
             </iOption>
           </iSelect>
-          <iButton type="primary" :loading="searchLoading" @click="taskApplyList">搜索</iButton>
+          <iButton type="primary" :loading="searchLoading" @click="searchTaskApplyList">搜索</iButton>
           <div class="activity-table mt-20">
             <table>
               <thead>
@@ -96,7 +96,7 @@
           <iInput v-model="searchValue" style="width: 160px;margin-right: 8px;"></iInput>
           <span>订单编号：</span>
           <iInput v-model="orderNum" style="width: 160px;margin-right: 8px;"></iInput>
-          <iButton type="primary" :loading="searchLoading" @click="taskApplyList">搜索</iButton>
+          <iButton type="primary" :loading="searchLoading" @click="searchTaskApplyList">搜索</iButton>
           <div class="clear mt-20">
             <div class="left mr-10" style="margin-top: 2px;">
               <Checkbox
@@ -180,7 +180,7 @@
           <iInput v-model="searchValue" style="width: 160px;margin-right: 8px;"></iInput>
           <span>订单编号：</span>
           <iInput v-model="orderNum" style="width: 160px;margin-right: 8px;"></iInput>
-          <iButton type="primary" :loading="searchLoading" @click="taskApplyList">搜索</iButton>
+          <iButton type="primary" :loading="searchLoading" @click="searchTaskApplyList">搜索</iButton>
           <div class="clear mt-20">
             <div class="left mr-10" style="margin-top: 2px;">
               <Checkbox
@@ -584,6 +584,10 @@
       },
       changeTitle(type) {
         this.showApproveStatus = type;
+        this.taskApplyList();
+      },
+      searchTaskApplyList() {
+        this.pageIndex = 1;
         this.taskApplyList();
       },
       taskApplyList() {

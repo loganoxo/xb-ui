@@ -43,7 +43,7 @@
       <iInput v-model="taskNumber" style="width: 160px;margin-right: 8px;"></iInput>
       <span>订单编号：</span>
       <iInput v-model="orderNum" style="width: 160px;margin-right: 8px;"></iInput>
-      <iButton type="primary" :loading="searchLoading" @click="passesTaskList">搜索</iButton>
+      <iButton type="primary" :loading="searchLoading" @click="searchPassesTask">搜索</iButton>
     </div>
     <div class="mt-12" v-for="(item,index) in taskPassAuditList" :key="item.id" v-if="taskPassAuditList.length > 0">
       <div class="collapse-header clear" @click="collapseToggle(item.id,index)" :class="{noBorderRadius:selectId}">
@@ -266,7 +266,6 @@
         } else {
           return this.orderInfo.orderPrice
         }
-//        return this.orderInfo.discountPrice > 0 ? this.orderInfo.orderPrice - this.orderInfo.discountPrice : this.orderInfo.orderPrice
       },
       needReplenishMoney: function () {
         return (this.getOderPrice - this.orderInfo.perMarginNeed).toFixed(2) * 1
@@ -309,6 +308,10 @@
       },
       pageChange(data) {
         this.pageIndex = data;
+        this.passesTaskList();
+      },
+      searchPassesTask() {
+        this.pageIndex = 1;
         this.passesTaskList();
       },
       passesTaskList() {
