@@ -4,7 +4,7 @@
       <div class="mt-10">
         <div class="trial-right left">
           <div v-show="!showReportDesc">
-            <p class="fs-16 trial-account">{{showkerInfo.phone}}的买家秀</p>
+            <p class="fs-16 trial-account">{{showkerInfo.phone}}的买家秀&nbsp;(共获得<span style="color: #FF6633">{{zanTotalNumbers}}</span>个赞）</p>
             <p class="trial-tag">
               Ta的标签：&nbsp;&nbsp;
               <a  v-for="(value, key) in showkerTag" v-if="value" style="margin-right: 20px;" @click="getTagTrialReports(key)">
@@ -78,6 +78,7 @@
                   </Carousel-item>
                 </Carousel>
               </div>
+              <p class="text-ct mt-20 fs-16">共获得<span style="color: #FF6633">{{showkerReportDesc.other.likeCount}}</span>赞</p>
             </div>
           </div>
         </div>
@@ -134,6 +135,7 @@
     },
     data () {
       return {
+        zanTotalNumbers:1,
         copyHtml: '',
         copyValue: '',
         trialReportPicShow: false,
@@ -199,6 +201,7 @@
           if(res.status){
             self.showkerInfo = res.data.showkerInfo;
             self.showkerTag = res.data.showkerTag;
+            self.zanTotalNumbers = res.data.likeCount;
           } else {
             self.$Message.error({
               content: res.msg,

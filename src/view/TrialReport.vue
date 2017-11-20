@@ -294,9 +294,6 @@
               }
             }
             self.trialReportList = res.data.content;
-            res.data.content.forEach((item) =>{
-              self.zanTotalNumbers += item.other.likeCount
-            });
             self.totalPages = res.data.totalElements;
           } else {
             self.$Message.error({
@@ -317,6 +314,7 @@
             self.lastApplySuccessTime = res.data.lastApplySuccessTime;
             self.creditLevel = res.data.creditLevel;
             self.tqz = res.data.tqz;
+            self.zanTotalNumbers = res.data.likeCount
           } else {
             self.$Message.error({
               content: res.msg,
