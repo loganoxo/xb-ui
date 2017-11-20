@@ -302,7 +302,7 @@
           </div>
         </div>
       </div>
-      <!--折扣专区开始-->
+      <!--白菜价开始-->
       <div class="container" style="margin-top: 10px;">
         <div class="home-commodity">
           <div class="home-commodity-title">
@@ -347,7 +347,7 @@
           </div>
         </div>
       </div>
-      <!--折扣专区结束-->
+      <!--白菜价结束-->
 
       <!--历史活动开始-->
       <div class="container" style="margin-top: 10px;">
