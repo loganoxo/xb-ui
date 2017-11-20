@@ -233,10 +233,10 @@ export const decode = (string) => {
 };
 
 /**
-* 解析url地址参数
-*/
-export const getUrlParams = (url,name) => {
-  if(!url || !name){
+ * 解析url地址参数
+ */
+export const getUrlParams = (url, name) => {
+  if (!url || !name) {
     return
   }
   let reg = new RegExp("(^|&|\\?)" + name + "=([^&]*)(&|$)", "i");
@@ -251,199 +251,71 @@ export const getUrlParams = (url,name) => {
  * 任务流程状态映射
  */
 export const TaskErrorStatusList = (type) => {
-  switch (type) {
-    case "pass_and_unclaimed":
-      return "已通过待下单";
-      break;
-    case "order_num_waiting_audit":
-      return "订单号待审核";
-      break;
-    case "order_num_error":
-      return "订单号有误";
-      break;
-    case "trial_report_waiting_submit":
-      return "已下单待交买家秀";
-      break;
-    case "trial_report_waiting_confirm":
-      return "买家秀待确认";
-      break;
-    case "trial_report_unqualified":
-      return "买家秀不合格";
-      break;
-    case "trial_end":
-      return "任务终止";
-      break;
-    case "trial_finished":
-      return "活动完成";
-      break;
-    case "timeout_auto_close":
-      return "任务超时终止";
-      break;
-    case "buyer_manual_close":
-      return "秀客主动终止";
-      break;
-    case "seller_manual_close":
-      return "商家主动终止";
-      break;
-    case "admin_manual_close":
-      return "管理员终止";
-      break;
-    case 'waiting_audit':
-      return "待审核";
-      break;
-    case 'audit_reject':
-      return "未通过";
-      break;
-    case 'zong_he':
-      return "综合";
-      break;
-    case 'xiao_liang':
-      return "销量";
-      break;
-    case 'ren_qi':
-      return "人气";
-      break;
-    case 'enchashment':
-      return '提现';
-      break;
-    case 'pay_for_task_deposit_seller':
-      return '支付活动担保金';
-      break;
-    case 'task_trad_record_seller':
-      return '商家活动交易记录';
-      break;
-    case 'task_return_seller':
-      return '活动结算返款';
-      break;
-    case 'showker_task_supplementary_seller':
-      return '补充任务担保金';
-      break;
-    case 'task_deposit_pay_shower':
-      return '任务担保金退款';
-      break;
-    case 'task_deposit_return_shower':
-      return '秀客担保金返款';
-      break;
-    case 'task_delete_return_seller':
-      return '关闭活动返款-活动担保金';
-      break;
-    case 'enchashment_audit_ing':
-      return '提现审核中';
-      break;
-    case 'enchashment_audit_success':
-      return '提现审核通过';
-      break;
-    case 'enchashment_audit_defeat':
-      return '提现审核未通过';
-      break;
-    case 'enchashment_record':
-      return '提现交易记录';
-      break;
-    case 'recharge_record':
-      return '充值交易记录';
-      break;
-    case 'recharge':
-      return '充值-其它';
-      break;
-    case 'pay_for_task_deposit_supply_seller':
-      return '补交活动担保金';
-      break;
-    case 'pay_for_task_promotion_expenses':
-      return '支付活动推广费';
-      break;
-    case 'pay_for_task_promotion_expenses_supply_seller':
-      return '补交活动推广费';
-      break;
-    case 'task_delete_return_promotion_expenses_seller':
-      return '关闭活动返款-活动推广费';
-      break;
-    case 'task_return_deposit_seller':
-      return '活动结算担保金返款';
-      break;
-    case 'task_return_promotion_expenses_seller':
-      return '活动结算推广费返款';
-      break;
-    case 'pinkage':
-      return '包邮';
-      break;
-    case 'mobile_exclusive':
-      return '手机专享';
-      break;
-    case 'tao_coin_deduction':
-      return '淘金币抵扣';
-      break;
-    case 'sales_return_7_plus':
-      return '7+天退货';
-      break;
-    case 'global_shopping':
-      return '全球购';
-      break;
-    case 'overseas_goods':
-      return '海外商品';
-      break;
-    case 'consumer_protect':
-      return '消费者保障';
-      break;
-    case 'pay_after_receive':
-      return '货到付款';
-      break;
-    case 'hua_pay_installment':
-      return '花呗分期';
-      break;
-    case 'wangwang_online':
-      return '旺旺在线';
-      break;
-    case 0 :
-      return '活动';
-      break;
-    case 1 :
-      return '充值';
-      break;
-    case 2 :
-      return '提现';
-      break;
-    case 3 :
-      return '会员订购';
-      break;
-    case 4 :
-      return '邀请奖励-秀客';
-      break;
-    case 5 :
-      return '活动提成-秀客';
-      break;
-    case 6 :
-      return '邀请奖励-商家';
-      break;
-    case 7 :
-      return '活动提成-商家';
-      break;
-    case 'waiting_resubmit' :
-      return '待重新提交';
-      break;
-    case 'audit_pass' :
-      return '审核通过';
-      break;
-    case 'deleted' :
-      return '已删除';
-      break;
-    case 'recharge_alipay':
-      return '充值-支付宝';
-      break;
-    case 'invite_seller_success':
-      return '成功邀请商家';
-      break;
-    case 'recharge_wxpay':
-      return '充值-微信';
-      break;
-    case 'invite_showker_success':
-      return '成功邀请秀客';
-      break;
-    case 'seller_task_commission':
-      return '商家活动提成';
-      break;
-    case 'showker_task_commission':
-      return '秀客活动提成';
-      break;
-
-  }
+  const mapList = {
+    'pass_and_unclaimed': '已通过待下单',
+    'order_num_waiting_audit': '订单号待审核',
+    'order_num_error': '订单号有误',
+    'trial_report_waiting_submit': '已下单待交买家秀',
+    'trial_report_waiting_confirm': '买家秀待确认',
+    'trial_report_unqualified': '买家秀不合格',
+    'trial_end': '任务终止',
+    'trial_finished': '活动完成',
+    'timeout_auto_close': '任务超时终止',
+    'buyer_manual_close': '秀客主动终止',
+    'admin_manual_close': '管理员终止',
+    'waiting_audit': '待审核',
+    'audit_reject': '未通过',
+    'zong_he': '综合',
+    'xiao_liang': '销量',
+    'ren_qi': '人气',
+    'enchashment': '提现',
+    'pay_for_task_deposit_seller': '支付活动担保金',
+    'task_trad_record_seller': '商家活动交易记录',
+    'task_return_seller': '活动结算返款',
+    'showker_task_supplementary_seller': '补充任务担保金',
+    'task_deposit_pay_shower': '任务担保金退款',
+    'task_deposit_return_shower': '秀客担保金返款',
+    'showker_task_timeout_supplementary_pay_seller': '超时自动补充保证',
+    'task_delete_return_seller': '关闭活动返款-活动担保金',
+    'enchashment_audit_ing': '提现审核中',
+    'enchashment_audit_success': '提现审核通过',
+    'enchashment_audit_defeat': '提现审核未通过',
+    'enchashment_record': '提现交易记录',
+    'recharge_record': '充值交易记录',
+    'recharge': '充值-其它',
+    'pay_for_task_deposit_supply_seller': '补交活动担保金',
+    'pay_for_task_promotion_expenses': '支付活动推广费',
+    'pay_for_task_promotion_expenses_supply_seller': '补交活动推广费',
+    'task_delete_return_promotion_expenses_seller': '关闭活动返款-活动推广费',
+    'task_return_deposit_seller': '活动结算担保金返款',
+    'task_return_promotion_expenses_seller': '活动结算推广费返款',
+    'pinkage': '包邮',
+    'mobile_exclusive': '手机专享',
+    'tao_coin_deduction': '淘金币抵扣',
+    'sales_return_7_plus': '7+天退货',
+    'global_shopping': '全球购',
+    'overseas_goods': '海外商品',
+    'consumer_protect': '消费者保障',
+    'pay_after_receive': '货到付款',
+    'hua_pay_installment': '花呗分期',
+    'wangwang_online': '旺旺在线',
+    0: '活动',
+    1: '充值',
+    2: '提现',
+    3: '会员订购',
+    4: '邀请奖励-秀客',
+    5: '活动提成-秀客',
+    6: '请奖励-商家',
+    7: '活动提成-商家',
+    'waiting_resubmit': '待重新提交',
+    'audit_pass': '审核通过',
+    'deleted': '已删除',
+    'recharge_alipay': '充值-支付宝',
+    'recharge_wxpay': '充值-微信',
+    'invite_seller_success': '成功邀请商家',
+    'invite_showker_success': '成功邀请秀客',
+    'seller_task_commission': '商家活动提成',
+    'showker_task_commission': '秀客活动提成',
+  };
+  return mapList[type];
 };
