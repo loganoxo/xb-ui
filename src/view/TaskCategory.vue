@@ -613,6 +613,7 @@
   }
   .home-commodity-title{
     overflow: hidden;
+    padding-top: 30px;
     img{
       display: block;
       margin: 28px auto 10px auto;

@@ -1234,7 +1234,7 @@
       background-color: #fff;
       border: 1px solid #E8E8E8;
       .home-commodity-title {
-        margin-top: 30px;
+        padding-top: 30px;
         img {
           display: block;
           margin: 28px auto 10px auto;
