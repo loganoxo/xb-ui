@@ -281,7 +281,6 @@
                 <p class="home-commodity-title">{{homeCommodity.taskName}}</p>
                 <p class="home-commodity-price">
                   <span class="left">￥{{homeCommodity.itemPrice / 100}}</span>
-                  <!--<span class="right">免费活动</span>-->
                 </p>
                 <p class="home-commodity-apply">
                   限量 <span style="color: #ff6600"> {{homeCommodity.taskCount || 0 }} </span> 份，
@@ -296,7 +295,7 @@
               </div>
             </router-link>
             <p class="text-ct">
-              <router-link class="ivu-btn" :to="{ 'path': '/task-category', 'query': {'searchKey': 'all'}}">查看全部活动
+              <router-link class="ivu-btn" :to="{ 'path': '/task-category', 'query': {'searchAll': 'yes'}}">查看全部活动
               </router-link>
             </p>
           </div>
