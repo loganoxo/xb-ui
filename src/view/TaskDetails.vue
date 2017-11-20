@@ -20,7 +20,18 @@
             <img :src="commodityData.task.taskMainImage + '!orgi75'"  alt="" >
           </div>
           <div class="task-details-top-right left">
-            <h3 class="fs-18" >{{commodityData.task.taskName}}</h3>
+            <h3 class="fs-18" >
+              {{commodityData.task.taskName}}
+              <span v-if="commodityData.task.activityCategory == 'price_low' && commodityData.task.discountPrice" class=" clfff home-discount-price mt-5" :style="{backgroundColor: $store.state.discountPriceType[parseFloat(commodityData.task.discountPrice/100)].backgroundColor}" >
+                    {{commodityData.task.discountPrice/100}}试用
+                  </span>
+              <span v-if="commodityData.task.activityCategory == 'price_low' && commodityData.task.discountRate" class=" clfff home-discount-price mt-5" :style="{backgroundColor: $store.state.discountPriceType[parseFloat(commodityData.task.discountRate/10) + '折'].backgroundColor}" >
+                    {{commodityData.task.discountRate/10}}折试用
+                  </span>
+              <span v-if=" commodityData.task.activityCategory == 'goods_clearance' && commodityData.task.discountRate " class=" clfff home-discount-price mt-5" :style="{backgroundColor: $store.state.discountPriceType[parseFloat(commodityData.task.discountRate/10) + '折'].backgroundColor}" >
+                    {{commodityData.task.discountRate/10}}折清仓
+                  </span>
+            </h3>
             <p class="fs-14">
               活动类型：
               <span class="fs-18">{{commodityData.task.taskTypeDesc}}</span>
@@ -783,6 +794,16 @@
 
 <style lang="scss" scoped>
   @import 'src/css/mixin';
+  .home-discount-price{
+    color: #fff;
+    line-height: 20px;
+    height: 20px;
+    padding: 0 5px;
+    margin-right: 15px;
+    margin-left: 5px;
+    font-size: 14px;
+    font-weight: normal;
+  }
   .task-step-explain{
     padding: 30px 50px;
     p.task-step-title{
