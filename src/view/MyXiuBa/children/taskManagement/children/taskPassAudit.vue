@@ -164,8 +164,7 @@
           <iInput v-model="orderNoPassReason" placeholder="请填写不通过理由，如订单号不符或实付金额不符" style="width: 420px"></iInput>
         </div>
         <div class="true-btn" v-show="orderReviewStatus === 'failAudit'" @click="orderNumberAudit">确认</div>
-        <div class="true-btn" v-show="orderReviewStatus === 'passAudit' && orderInfo.perMarginNeed >= getOderPrice"
-             @click="orderNumberAudit">确认</div>
+        <div class="true-btn" v-show="orderReviewStatus === 'passAudit' && orderInfo.perMarginNeed >= getOderPrice" @click="orderNumberAudit">确认</div>
         <PayModel v-show="orderReviewStatus === 'passAudit' && orderInfo.perMarginNeed < getOderPrice"
                   :orderMoney="needReplenishMoney"
                   @confirmPayment="confirmPayment" :payButtonText="payButtonText"
@@ -260,7 +259,14 @@
     },
     computed: {
       getOderPrice: function () {
-        return this.orderInfo.discountPrice > 0 ? this.orderInfo.orderPrice - this.orderInfo.discountPrice : this.orderInfo.orderPrice
+        if(this.orderInfo.discountPrice && this.orderInfo.discountPrice > 0){
+          return this.orderInfo.orderPrice - this.orderInfo.discountPrice
+        }else if(this.orderInfo.discountRate && this.orderInfo.discountRate > 0){
+          return this.orderInfo.orderPrice * (1 - this.orderInfo.discountRate)
+        } else {
+          return this.orderInfo.orderPrice
+        }
+//        return this.orderInfo.discountPrice > 0 ? this.orderInfo.orderPrice - this.orderInfo.discountPrice : this.orderInfo.orderPrice
       },
       needReplenishMoney: function () {
         return (this.getOderPrice - this.orderInfo.perMarginNeed).toFixed(2) * 1
@@ -397,6 +403,7 @@
               id: res.data.id,
               perMarginNeed: res.data.task.perMarginNeed / 100,
               discountPrice: res.data.task.discountPrice / 100,
+              discountRate: res.data.task.discountRate / 100,
             })
           }else{
             _this.$Message.error(res.msg)

@@ -670,7 +670,7 @@
               duration: 1,
               onClose: function () {
                 delCookie('recommendCode');
-                self.setUserInfo(self.formCustom.phone, self.formCustom.pwd);
+                self.setUserInfo(self.formCustom.phone, self.formCustom.pwd,self.formCustom.role);
               }
             });
 
@@ -696,8 +696,12 @@
               type: 'RECORD_USER_INFO',
               info: res.data
             });
-            self.$router.push({name: 'Home'});
-            self.$store.dispatch('getDetectionMerchantGuide');
+            if(res.data.role === 1) {
+              self.$router.push({name: 'SellerGuide'});
+            }else {
+              self.$router.push({name: 'Home'});
+            }
+//            self.$store.dispatch('getDetectionMerchantGuide');
           } else {
             self.$Message.error({
               content: res.msg,

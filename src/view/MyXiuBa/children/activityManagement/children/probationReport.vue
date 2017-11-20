@@ -174,7 +174,13 @@
     watch: {},
     computed: {
       countRefundAmount: function () {
-        return this.showkerTaskInfo.task.discountPrice > 0 ? this.showkerTaskInfo.orderPrice - this.showkerTaskInfo.task.discountPrice : this.showkerTaskInfo.orderPrice
+        if(this.showkerTaskInfo.task.discountPrice && this.showkerTaskInfo.task.discountPrice >= 0){
+          return this.showkerTaskInfo.orderPrice - this.showkerTaskInfo.task.discountPrice
+        }else if(this.showkerTaskInfo.task.discountRate && this.showkerTaskInfo.task.discountRate > 0){
+          return this.showkerTaskInfo.orderPrice * (1 - this.showkerTaskInfo.task.discountRate / 100)
+        } else {
+          return this.showkerTaskInfo.orderPrice
+        }
       },
       isPwdAmend: function () {
         return this.$store.getters.getIsEditPwdAlready

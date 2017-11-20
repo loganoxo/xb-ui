@@ -55,6 +55,7 @@ export default {
   [types.CHANGE_TOP_SHOW_HIDE](state, {status}) {
     state.topShow = status;
   },
+
   //页面底部是否显示
   [types.CHANGE_BOTTOM_SHOW_HIDE](state, {status}) {
     state.bottomShow = status;
@@ -63,16 +64,14 @@ export default {
   //导航列表存入
   [types.TASK_CATEGORY_LIST](state, {info}) {
     state.TaskCategoryActive = info;
-    setStorage('TaskCategoryActive', info);
   },
-
 
   //商家引导遮罩层
   [types.SHOW_MERCHANT_GUIDE](state,{status}) {
     state.showMerchantGuide = status;
   },
 
-  //
+  //秀客登录首页弹出微信弹窗
   [types.SET_WECHART_SHOW](state,{result}) {
     state.wechartShow = result;
   },
@@ -80,11 +79,16 @@ export default {
   [types.SET_WECHART_RES](state,{result}) {
     state.wechartRes = result;
   },
+
   [types.SET_DISCOUNT_TASK_CATEGORY](state,{result}) {
     state.disCountTaskCategory = result;
-    setStorage('disCountTaskCategory', result);
   },
+
   [types.SET_SHOW_TOP_CATEGORY_RES](state,{result}) {
     state.showTopCategoryRes = result;
+  },
+
+  [types.SET_ACTIVITY_CATEGORY](state,{info}) {
+    state.activityCategory = info;
   },
 }

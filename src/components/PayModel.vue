@@ -20,9 +20,9 @@
         <Radio label="ali">
           <span class="ali-logo"></span>
         </Radio>
-        <Radio label="wechat">
-          <span class="wechat-logo"></span>
-        </Radio>
+        <!--<Radio label="wechat">-->
+          <!--<span class="wechat-logo"></span>-->
+        <!--</Radio>-->
       </Radio-group>
     </div>
     <iButton type="primary" v-if="isBalance" :loading="payLoading" @click="confirmPayment" class="recharge-btn">{{payButtonText}}</iButton>

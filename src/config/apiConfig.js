@@ -61,6 +61,19 @@ export default {
   },
 
   /**
+   * 未登录通过发送手机短信验证码重置支付密码
+   */
+  noLoginModifyPayPwdCode(params) {
+    return fetch("/api/user/account/checkApp.json", params)
+  },
+  /**
+   * 未登录通过发送手机短信验证码重置支付密码
+   */
+  noLoginModifyPayPwd(params) {
+    return fetch("/api/user/account/resetAppPwd.json", params)
+  },
+
+  /**
    * 通过上一次的支付密码修改支付密码
    */
   modifyDefaultPayPwd(params) {
@@ -359,6 +372,13 @@ export default {
    */
   orderNumberAudit(params) {
     return fetch("/api/order-number-audit.json", params)
+  },
+
+  /**
+   * 秀客重新提交订单号-获取订单号
+   */
+  getOrderNume(params) {
+    return fetch("/api/task/merchant/getOrderNum.json", params)
   },
 
   /**
@@ -728,6 +748,7 @@ export default {
   getHomeHistoryList() {
     return fetch('/api/task/index/history.json')
   },
+
   /**
    * PC首页历史活动接口
    */
@@ -747,6 +768,20 @@ export default {
    */
   setMerchantGuide(params) {
     return fetch('/api/set-merchant-guide.json',params)
+  },
+
+  /**
+   * 停用旺旺号
+   */
+  disuseWw(params) {
+    return fetch('/api/user/alitm/disable_alitm.json',params)
+  },
+
+  /**
+   * 解停用旺旺号
+   */
+  unDisuseWw(params) {
+    return fetch('/api/user/alitm/un_disable_alitm.json',params)
   },
 
 }

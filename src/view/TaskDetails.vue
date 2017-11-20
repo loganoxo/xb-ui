@@ -6,11 +6,11 @@
           <Breadcrumb >
             <Breadcrumb-item>当前位置：</Breadcrumb-item>
             <Breadcrumb-item>秀吧</Breadcrumb-item>
-            <Breadcrumb-item v-if="commodityData.task.discountPrice">{{$store.state.TaskCategoryActiveList[$store.state.TaskCategoryActive].text}}</Breadcrumb-item>
-            <Breadcrumb-item v-if="!commodityData.task.discountPrice">免费领</Breadcrumb-item>
+            <Breadcrumb-item v-if="commodityData.task.activityCategory">{{$store.state.TaskCategoryActiveList[commodityData.task.activityCategory].text}}</Breadcrumb-item>
+            <!--<Breadcrumb-item v-if="!commodityData.task.discountPrice">免费领</Breadcrumb-item>-->
             <Breadcrumb-item>{{commodityData.task.itemCatalog.parentItemCatalog.name}}</Breadcrumb-item>
             <Breadcrumb-item>{{commodityData.task.itemCatalog.name}}</Breadcrumb-item>
-            <Breadcrumb-item v-if="commodityData.task.discountPrice">{{parseFloat(commodityData.task.discountPrice/100)}}试用</Breadcrumb-item>
+            <Breadcrumb-item v-if="commodityData.task.discountType == 'price_low'">{{parseFloat(commodityData.task.discountPrice/100)}}试用</Breadcrumb-item>
           </Breadcrumb>
         </div>
       </div>
@@ -24,7 +24,7 @@
             <p class="fs-14">
               活动类型：
               <span class="fs-18">{{commodityData.task.taskTypeDesc}}</span>
-              <span v-if="commodityData.task.discountPrice" class="fs-14" style="color: #fff; padding: 2px 5px;" :style="{backgroundColor: $store.state.discountPriceType[parseFloat(commodityData.task.discountPrice/100)].backgroundColor}">{{parseFloat(commodityData.task.discountPrice/100)}}试用</span>
+              <span v-if="commodityData.task.discountType == 'price_low'" class="fs-14" style="color: #fff; padding: 2px 5px;" :style="{backgroundColor: $store.state.discountPriceType[parseFloat(commodityData.task.discountPrice/100)].backgroundColor}">{{parseFloat(commodityData.task.discountPrice/100)}}试用</span>
             </p>
             <p class="fs-14">
               宝贝单价：<span class="fs-18">{{(commodityData.task.itemPrice/100).toFixed(2)}}</span>元
@@ -90,8 +90,9 @@
               </li>
               <li>
                 <span>5</span>
-                <em v-if="!commodityData.task.discountPrice"> 商家返还{{(parseInt(commodityData.task.itemPrice)/100).toFixed(2)}}元到您的平台账户（可提现），圆满结束 </em>
+                <em v-if="!commodityData.task.discountPrice && !commodityData.task.discountRate"> 商家返还{{(parseInt(commodityData.task.itemPrice)/100).toFixed(2)}}元到您的平台账户（可提现），圆满结束 </em>
                 <em v-if="commodityData.task.discountPrice"> 商家返还{{((parseInt(commodityData.task.itemPrice) - parseInt(commodityData.task.discountPrice))/100).toFixed(2)}}元到您的平台账户（可提现），圆满结束 </em>
+                <em v-if="!commodityData.task.discountPrice && commodityData.task.discountRate"> 商家返还{{(Math.ceil(commodityData.task.itemPrice * (1 - commodityData.task.discountRate/100))/100).toFixed(2)}}元到您的平台账户（可提现），圆满结束 </em>
               </li>
             </ul>
         </div>
@@ -144,7 +145,7 @@
                 <li v-for="detailsShowker in detailsShowkerList">
                   <div>
                     <router-link class="block" :to="{path:'/trial-report',query:{q:encryptionId(detailsShowker.showkerId)}}">
-                      <img :src="detailsShowker.showkerPortraitPic" alt="" width="100px">
+                      <img :src="getUserHead(detailsShowker.showkerPortraitPic)" alt="" width="86" height="86" class="border50">
                     </router-link>
 
                     <p>{{detailsShowker.showkerPhone}}</p>
@@ -177,9 +178,12 @@
               </div>
             </div>
             <div v-show="graphicInfoSelClass == 'audited'" class="graphic-audited-buyer">
+
               <router-link :to="{ 'path': '/trial-report','query': {'q': encryptionId(detailsSuccessShowker.showkerId)}}" :key="detailsSuccessShowker.id" v-show="detailsSuccessShowkerList.length > 0 "  v-for="detailsSuccessShowker in detailsSuccessShowkerList">
-                <img :src="detailsSuccessShowker.showkerPortraitPic" width="68px" alt="">
+                <img :src="getUserHead(detailsSuccessShowker.showkerPortraitPic)" width="68" height="68" alt="" class="user-head">
                 <p class="cl000">{{detailsSuccessShowker.showkerPhone}}</p>
+                <img :src="detailsSuccessShowker.creditLevel" alt="">
+                <p class="cl000"><span>淘气值：{{detailsSuccessShowker.tqz}}</span></p>
               </router-link>
               <p v-show="detailsSuccessShowkerList.length <= 0 " class="text-ct fs-14">
                 暂无已通过的申请秀客
@@ -276,17 +280,16 @@
   import Checkbox from 'iview/src/components/checkbox'
   import Button from 'iview/src/components/button'
   import Radio from 'iview/src/components/radio'
+  import Modal from 'iview/src/components/modal'
+  import Page from 'iview/src/components/page'
+  import Breadcrumb from 'iview/src/components/breadcrumb'
+  import Clipboard from 'clipboard';
   import api from '@/config/apiConfig'
   import PlaceOrderStep from '@/components/PlaceOrderStep'
-  import {setStorage, getStorage, decode, encryption} from '@/config/utils'
-  import {TaskErrorStatusList} from '@/config/utils'
-  import Modal from 'iview/src/components/modal'
-  import Breadcrumb from 'iview/src/components/breadcrumb'
-  import Page from 'iview/src/components/page'
+  import {setStorage, getStorage,getSeverTime, decode, encryption, TaskErrorStatusList} from '@/config/utils'
+  import {aliCallbackImgUrl} from '@/config/env'
   import TimeDown from '@/components/TimeDown'
   import TaskApplyBefore from '@/components/TaskApplyBefore'
-  import {getSeverTime} from '@/config/utils'
-  import Clipboard from 'clipboard';
   export default {
     name: 'task-details',
     components: {
@@ -428,10 +431,6 @@
           type: 'SET_DISCOUNT_TASK_CATEGORY',
           result: true
         });
-        self.$store.commit({
-          type: 'TASK_CATEGORY_LIST',
-          info: 'discount'
-        });
       }else {
         self.$store.commit({
           type: 'SET_DISCOUNT_TASK_CATEGORY',
@@ -445,7 +444,13 @@
       self.getTaskDetails();
     },
     mounted () {
+    },
+    destroyed(){
       let self = this;
+      self.$store.commit({
+        type: 'TASK_CATEGORY_LIST',
+        info: 'home'
+      });
     },
     computed: {
       isLogin() {
@@ -454,9 +459,9 @@
       getRole() {
         return this.$store.state.userInfo.role
       },
-      getNeedBrowseCollectAddCart(){
+     /* getNeedBrowseCollectAddCart(){
         return this.needBrowseCollectAddCart
-      },
+      },*/
       getTaskId(){
         return decode(this.$route.query.q)
       },
@@ -466,11 +471,19 @@
       encryptionId(id){
         return encryption(id);
       },
+      getUserHead(src) {
+        if (src && src.indexOf('head-image') >= 0) {
+          return aliCallbackImgUrl + src + '!orgi75'
+        } else if (src && src.indexOf('q.qlogo.cn/qq') >= 0) {
+          return src
+        } else {
+          return '/static/img/common/tx-default.png'
+        }
+      },
       refreshPage(){
         let self = this;
         this.applySuccess = false;
         self.getTaskDetails();
-//        window.location.reload();
       },
       closeMyPop(){
         this.showkerApplyBefore = false;
@@ -607,8 +620,8 @@
         self.detailsSuccessShowkerParams.taskId = decode(self.$route.query.q);
         api.getDetailsSuccessShowkerList(self.detailsSuccessShowkerParams).then((res) => {
           if(res.status){
-            self.detailsSuccessShowkerList = res.data.content;
-            this.graphicInfoSels[2].num = res.data.totalElements;
+            self.detailsSuccessShowkerList = res.data;
+            this.graphicInfoSels[2].num = res.totalElements;
           }
         })
       },
@@ -638,6 +651,10 @@
                 info: 'discount'
               });
             }
+            self.$store.commit({
+              type: 'SET_ACTIVITY_CATEGORY',
+              info: self.commodityData.task.activityCategory
+            });
             if(self.commodityData.showkerTask){
               api.showkerToProcessOrder({
                 id: self.commodityData.showkerTask.id
@@ -956,6 +973,9 @@
             margin-right: 66px;
             margin-bottom: 30px;
             float: left;
+            img.user-head{
+              border-radius: 50%;
+            }
           }
         }
       }

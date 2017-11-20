@@ -4,17 +4,15 @@
     <router-view></router-view>
     <!--网站底部信息-->
     <Bottom v-show="isBottomShow"></Bottom>
-    <!--商家引导-->
-    <merchant-guide v-if="!isShowSuspendService && isLogin && getUserRole === 1"></merchant-guide>
     <!--侧边栏信息导航-->
     <side-navigation></side-navigation>
     <!--侧边栏固定联系客服图片展示-->
     <div class="suspend-service" v-show="showSuspendService" v-if="isLogin">
-      <a href="http://wpa.qq.com/msgrd?v=3&site=qq&menu=yes&uin=800019404" target="_blank" v-if="getUserRole === 1">
+      <a href="http://shang.qq.com/wpa/qunwpa?idkey=c05716ea03d527adb67d4e23d2a9ed942f729dfb0db13ca332e10996805d2b9d" target="_blank" v-if="getUserRole === 1">
         <img src="~assets/img/common/suspend-service.png" alt="">
       </a>
-      <a href="http://wpa.qq.com/msgrd?v=3&site=qq&menu=yes&uin=800061938" target="_blank" v-else>
-        <img src="~assets/img/common/suspend-service.png" alt="">
+      <a href="http://shang.qq.com/wpa/qunwpa?idkey=a5e370e72edddbc2b9edc58d9517719b97d32a6683ef4faa0675c52bf494d9d1" target="_blank" v-else>
+        <img src="~assets/img/common/suspend-service-showker.png" alt="">
       </a>
       <span class="close-suspend-service" @click.stop.self="closeSuspendService">关闭</span>
     </div>
@@ -59,16 +57,13 @@
       },
       getUserRole () {
         return this.$store.getters.getUserRole
-      },
-      isShowSuspendService() {
-        return this.$store.state.showMerchantGuide
       }
     },
     created() {
       let _this = this;
       let userInfo = getStorage('userInfo');
       if(_this.isLogin){
-        _this.$store.dispatch('getDetectionMerchantGuide');
+//        _this.$store.dispatch('getDetectionMerchantGuide');
       }
       if (!userInfo && _this.logInAuthority) {
         _this.$store.dispatch('loggedOut').then((res) => {
@@ -105,7 +100,7 @@
   .suspend-service {
     display: block;
     position: fixed;
-    right: 99px;
+    right: 64px;
     top: 242px;
     cursor: pointer;
   }

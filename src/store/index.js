@@ -25,19 +25,28 @@ const state = {
   showTopCategoryRes: true, //导航栏左侧列表显示
   TaskCategoryActiveList: {
     'home': {
-      text: '首页'
+      text: '全部活动'
     },
-    'all': {
+    'free_get': {
       text: '免费领'
     },
-    'discount': {
+    'price_low': {
       text: '白菜价'
+    },
+    'pinkage_for_10': {
+      text: '10元包邮'
+    },
+    'present_get': {
+      text: '体验专区'
+    },
+    'goods_clearance': {
+      text: '清仓断码'
     }
-  },
+  },//导航分类列表
   discountPriceType: {
     '不限': {
       backgroundColor:　'',
-      discountTypes: ['discount_9_9','discount_49_9', 'discount_99_9'],
+      discountTypes: ['discount_9_9','discount_49_9', 'discount_99_9','discount_r_10','discount_r_30','discount_r_50'],
     },
     9.9: {
       backgroundColor: '#ff9900',
@@ -50,8 +59,39 @@ const state = {
     99.9: {
       backgroundColor: '#ff3399',
       discountTypes: ['discount_99_9'],
+    },
+    '1折': {
+      backgroundColor: '#ff9900',
+      discountTypes: ['discount_r_10'],
+    },
+    '3折': {
+      backgroundColor: '#cc3333',
+      discountTypes: ['discount_r_30'],
+    },
+    '5折': {
+      backgroundColor: '#ff3399',
+      discountTypes: ['discount_r_50'],
     }
-  }
+  },//白菜价列表
+  goodsClearanceList: {
+    '不限': {
+      backgroundColor:　'',
+      discountTypes: ['discount_r_10','discount_r_30','discount_r_50'],
+    },
+    '1折': {
+      backgroundColor: '#ff9900',
+      discountTypes: ['discount_r_10'],
+    },
+    '3折': {
+      backgroundColor: '#cc3333',
+      discountTypes: ['discount_r_30'],
+    },
+    '5折': {
+      backgroundColor: '#ff3399',
+      discountTypes: ['discount_r_50'],
+    }
+  },
+  activityCategory: '',
 };
 
 export default new Vuex.Store({

@@ -17,9 +17,9 @@
             <Radio label="ali">
               <img src="~assets/img/task-release/zfb_logo.png" alt="支付宝" class="vtc-mid">
             </Radio>
-            <Radio label="weiXin">
-              <img src="~assets/img/task-release/wechat_logo.png" class="vtc-mid">
-            </Radio>
+            <!--<Radio label="weiXin">-->
+              <!--<img src="~assets/img/task-release/wechat_logo.png" class="vtc-mid">-->
+            <!--</Radio>-->
           </Radio-group>
         </Form-item>
         <Form-item>

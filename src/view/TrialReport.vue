@@ -3,8 +3,10 @@
       <div class="mt-10 clear">
         <div class="trial-left left">
           <div>
-            <img :src="showkerInfo.portraitPic" alt="" style="width: 160px;">
+            <img class="user-head" :src="getUserHead(showkerInfo.portraitPic)" alt="" width="120" height="120">
             <p class="fs-16 mt-10 mb-10">{{showkerInfo.phone}}</p>
+            <img :src="creditLevel" alt="">
+            <p>淘气值：{{tqz}}</p>
             <p>申请次数：{{applyCount || 0}} 次</p>
             <p>成功申请：{{applySuccessCount || 0}} 次</p>
             <p>上次申请成功：{{lastApplySuccessTime | dateFormat('YYYY-MM-DD') || '-----'}}</p>
@@ -138,6 +140,7 @@
   import {setStorage, getStorage, decode, encryption} from '@/config/utils'
   import TimeDown from '@/components/TimeDown'
   import Zan from '@/components/Zan'
+  import {aliCallbackImgUrl} from '@/config/env'
   export default {
 
     name: 'MyTrialReport',
@@ -196,6 +199,8 @@
         lastApplySuccessTime: null,
         trialReportId:null,
         trialReports:{},
+        creditLevel:'',
+        tqz:'',
       }
     },
     created(){
@@ -268,6 +273,15 @@
         this.trialReportParams.itemCatalogname = key;
         this.getTrialReports();
       },
+      getUserHead(src) {
+        if (src && src.indexOf('head-image') >= 0) {
+          return aliCallbackImgUrl + src + '!orgi75'
+        } else if (src && src.indexOf('q.qlogo.cn/qq') >= 0) {
+          return src
+        } else {
+          return '/static/img/common/tx-default.png'
+        }
+      },
       getTrialReports(){
         let self = this;
         api.getTrialReports(self.trialReportParams).then((res) => {
@@ -299,6 +313,8 @@
             self.showkerInfo = res.data.showkerInfo;
             self.showkerTag = res.data.showkerTag;
             self.lastApplySuccessTime = res.data.lastApplySuccessTime;
+            self.creditLevel = res.data.creditLevel;
+            self.tqz = res.data.tqz;
           } else {
             self.$Message.error({
               content: res.msg,
@@ -366,6 +382,10 @@
       background-color: #f8f8f8;
       border: 1px solid #ddd;
       margin-right: 10px;
+      img.user-head{
+        margin-left: 12px;
+        border-radius: 50%;
+      }
       p{
         line-height: 25px;
       }

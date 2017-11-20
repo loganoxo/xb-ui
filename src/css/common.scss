@@ -294,6 +294,10 @@ input[type="number"] {
   padding-left: 20px;
 }
 
+.pl-40 {
+  padding-left: 40px;
+}
+
 .pl-60 {
   padding-left: 60px;
 }
@@ -353,6 +357,7 @@ input[type="number"] {
 .fs-24 {
   font-size: 24px;
 }
+
 .bgF1F1F1{
   background-color: #F1F1F1;
 }
@@ -368,6 +373,10 @@ input[type="number"] {
 .container {
   width: 1200px;
   margin: auto;
+}
+
+.border50{
+  border-radius: 50%;
 }
 
 .required:before {
@@ -410,7 +419,19 @@ input[type="number"] {
   margin: 10px 0;
   padding: 0 10px;
 }
-
+.part-title-img-box{
+  width: 270px;
+  height: 30px;
+  background: url('/static/img/common/part-title-img.png') no-repeat;
+  margin: auto;
+  span{
+    font-weight: bold;
+    margin-left: 113px;
+    width: 96px;
+    display: block;
+    text-align: center;
+  }
+}
 /*RegionPicker css start*/
 .region-picker{
   width: 482px;

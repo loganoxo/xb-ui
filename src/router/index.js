@@ -5,11 +5,14 @@ const Home = r => require.ensure([], () => r(require('@/view/Home.vue')), 'Home'
 const QQLogin = r => require.ensure([], () => r(require('@/view/QQLogin.vue')), 'QQLogin');
 const SellerAdv = r => require.ensure([], () => r(require('@/view/SellerAdv.vue')), 'SellerAdv');
 const SellerSpread = r => require.ensure([], () => r(require('@/view/SellerSpread.vue')), 'SellerSpread');
+const SellerGuide = r => require.ensure([], () => r(require('@/view/SellerGuide.vue')), 'SellerGuide');
 const AboutUs = r => require.ensure([], () => r(require('@/view/AboutUs.vue')), 'AboutUs');
 const ShowkerLanding = r => require.ensure([], () => r(require('@/view/ShowkerLanding.vue')), 'ShowkerLanding');
 const SelRole = r => require.ensure([], () => r(require('@/view/SelRole.vue')), 'SelRole');
 const TrialReport = r => require.ensure([], () => r(require('@/view/TrialReport.vue')), 'TrialReport');
 const Login = r => require.ensure([], () => r(require('@/view/Login.vue')), 'Login');
+const RevisePassword = r => require.ensure([], () => r(require('@/view/RevisePassword.vue')), 'RevisePassword');
+
 const ThirdPartyLogin = r => require.ensure([], () => r(require('@/view/ThirdPartyLogin.vue')), 'ThirdPartyLogin');
 const Register = r => require.ensure([], () => r(require('@/view/Register.vue')), 'Register');
 const TaskCategory = r => require.ensure([], () => r(require('@/view/TaskCategory.vue')), 'TaskCategory');
@@ -89,6 +92,18 @@ export default new Router({
       }
     },
     {
+      path: '/revise-password',
+      name: 'RevisePassword',
+      component: RevisePassword,
+      meta: {
+        title: "登录密码修改",
+        logInAuthority: false,
+        topShow: false,
+        bottomShow: true,
+
+      }
+    },
+    {
       path: '/qq-login',
       name: 'QQLogin',
       component: QQLogin,
@@ -117,6 +132,17 @@ export default new Router({
       meta: {
         title: "商家引导",
         logInAuthority: false,
+        topShow: false,
+        bottomShow: false,
+      }
+    },
+    {
+      path: '/seller-guide',
+      name: 'SellerGuide',
+      component: SellerGuide,
+      meta: {
+        title: "商家引导页",
+        logInAuthority: true,
         topShow: false,
         bottomShow: false,
       }

@@ -16,7 +16,7 @@
             </ul>
           </div>
           <div class="middle-ctt left">
-            <Carousel autoplay :autoplay-speed="5000">
+            <Carousel autoplay :autoplay-speed="5000" v-model="homeCarousel" loop>
               <!--<Carousel-item>
                 <router-link to="" class="block">
                   <img class="block" src="~assets/img/home/banner_01.jpg" alt="">
@@ -25,17 +25,17 @@
               </Carousel-item>-->
               <Carousel-item>
                 <router-link to="" class="block">
-                  <img  class="block" src="~assets/img/home/banner_02.jpg" alt="">
+                  <img class="block" src="~assets/img/home/banner_02.jpg" alt="">
                 </router-link>
               </Carousel-item>
               <Carousel-item>
                 <router-link to="" class="block">
-                 <img  class="block" src="~assets/img/home/banner_03.jpg" alt="">
+                 <img class="block" src="~assets/img/home/banner_03.jpg" alt="">
                 </router-link>
               </Carousel-item>
               <Carousel-item>
                 <router-link to="" class="block">
-                  <img  class="block" src="~assets/img/home/banner_04.jpg" alt="">
+                  <img class="block" src="~assets/img/home/banner_04.jpg" alt="">
                 </router-link>
               </Carousel-item>
             </Carousel>
@@ -61,7 +61,7 @@
             <div class="login-in-box" v-if="isLogin && getUserInfoRole　== 0">
               <div>
                 <router-link to="/user/user-home" class="left">
-                  <img class="block ml-20 portrait-img" :src="$store.state.userInfo.portraitPic" alt="">
+                  <img class="block ml-20 portrait-img" :src="userHeadUrl" alt="">
                 </router-link>
                 <div class="left fs-14 ml-20" style="margin-left: 10px;line-height: 28px;">
                   <router-link to="/user/user-home" :title="decodeURIComponent(getUserInfoPhone)"
@@ -104,7 +104,7 @@
             <div class="login-in-box" v-if="isLogin && getUserInfoRole　== 1">
               <div>
                 <router-link to="/user/user-home" class="left">
-                  <img class=" ml-20 portrait-img block" :src="$store.state.userInfo.portraitPic" alt="">
+                  <img class=" ml-20 portrait-img block" :src="userHeadUrl" alt="">
                 </router-link>
                 <div class="left fs-14 ml-20" style="margin-left: 10px;line-height: 28px;">
                   <router-link to="/user/user-home" :title="decodeURIComponent(getUserInfoPhone)"
@@ -231,7 +231,7 @@
                         价值<span class="text ml-5">￥{{taskTopLeft.task.itemPrice / 100}}</span> 的宝贝
                       </p>
                       <span style="color: #999;">
-                {{
+                      {{
                         (new Date() - taskTopLeft.createTime) / 1000 < 60 ? 1 :
                           (new Date() - taskTopLeft.createTime) / 1000 / 60 < 60 ? parseInt((new Date() - taskTopLeft.createTime) / 1000 / 60) :
                             (new Date() - taskTopLeft.createTime) / 1000 / 60 / 60 / 24 < 1 ? parseInt((new Date() - taskTopLeft.createTime) / 1000 / 60 / 60) :
@@ -260,7 +260,11 @@
       <div class="container">
         <div class="home-commodity">
           <div class="home-commodity-title">
-            <img src="~assets/img/home/home_15.png" alt="">
+            <div class="home-commodity-img-title">
+              <div class="part-title-img-box">
+                <span class="fs-18">免费领</span>
+              </div>
+            </div>
             <p class="text-ct fs-14">我型我秀，分享精彩</p>
           </div>
           <div class="home-commodity-ctt">
@@ -302,7 +306,11 @@
       <div class="container" style="margin-top: 10px;">
         <div class="home-commodity">
           <div class="home-commodity-title">
-            <img src="/static/img/home/bcj.png" alt="">
+            <div class="home-commodity-img-title">
+              <div class="part-title-img-box">
+                <span class="fs-18">白菜价</span>
+              </div>
+            </div>
             <p class="text-ct fs-14">我型我秀，分享精彩</p>
           </div>
           <div class="home-commodity-ctt">
@@ -342,7 +350,11 @@
       <div class="container" style="margin-top: 10px;">
         <div class="home-commodity">
           <div class="home-commodity-title">
-            <img src="~assets/img/home/home_25.png" alt="">
+            <div class="home-commodity-img-title">
+              <div class="part-title-img-box">
+                <span class="fs-18">历史活动</span>
+              </div>
+            </div>
             <p class="text-ct fs-14">我型我秀，分享精彩</p>
           </div>
           <div class="home-commodity-ctt">
@@ -389,7 +401,6 @@
         <Checkbox-group v-model="wechartShowAgain">
           <Checkbox label="true">不再提醒</Checkbox>
         </Checkbox-group>
-
         <!--<p v-show="getUserInfoRole == 0" class="ml-10" style="position: absolute;bottom: 90px;left: 21px; height: 30px; line-height: 30px;">-->
         <!--<span class="left fs-14 mr-10" style="color: #ff6633;">特权口令：</span>-->
         <!--<iInput v-model="command"  class="left mr-10" style="width:150px;"></iInput>-->
@@ -408,21 +419,20 @@
       <div slot="footer">
       </div>
     </Modal>
-    <Modal v-model="$store.state.wechartShow" width="550" @on-cancel="cancelWeiChartFunc">
-      <div style="text-align: right;margin-right: 11px;position: relative;top: -2px;">
-        <Checkbox-group v-model="wechartShowAgain">
-          <Checkbox label="true">不再提醒</Checkbox>
-        </Checkbox-group>
-        <img v-show="getUserInfoRole == 0" src="/static/img/home/wechart_alert_06.jpg" alt=""
-             style="width: 100%; margin-top: 20px">
-        <!--<p v-show="getUserInfoRole == 0" class="ml-10" style="position: absolute;bottom: 90px;left: 21px; height: 30px; line-height: 30px;">-->
-        <!--<span class="left fs-14 mr-10" style="color: #ff6633;">特权口令：</span>-->
-        <!--<iInput v-model="command"  class="left mr-10" style="width:150px;"></iInput>-->
-        <!--<iButton class="left" type="error" @click="setWeChartAlertFunc(0)" >提交</iButton>-->
-        <!--</p>-->
+    <div class="confirm-recharge-model" v-show="$store.state.wechartShow">
+      <div class="confirm-recharge-con">
+        <div class="pos-rel">
+          <Checkbox-group v-model="wechartShowAgain" style="position: absolute;top:25px;right: 30px;">
+            <Checkbox label="true">不再提醒</Checkbox>
+          </Checkbox-group>
+          <div style="position: absolute;top:27px;right: 15px;cursor: pointer;color: #FF6633" @click="cancelWeiChartFunc">
+            <Icon type="close" ></Icon>
+          </div>
+          <img v-show="getUserInfoRole == 0" src="/static/img/home/wechart_alert_07.png" alt=""
+               style="width: 507px;height: 340px; margin-top: 20px">
+        </div>
       </div>
-      <div slot="footer"></div>
-    </Modal>
+    </div>
     <Modal v-model="getMoreBuyerShow" width="300" >
       <div class="text-ct">
         <div style="height: 20px"></div>
@@ -448,7 +458,7 @@
   import Carousel from 'iview/src/components/carousel'
   import SmsCountdown from '@/components/SmsCountdown'
   import api from '@/config/apiConfig'
-  import {setStorage, getStorage, encryption} from '@/config/utils'
+  import {setStorage, getStorage, encryption,removeStorage} from '@/config/utils'
   import {aliCallbackImgUrl} from '@/config/env'
   import {mapActions} from 'vuex'
 
@@ -481,6 +491,7 @@
     },
     data() {
       return {
+        confirmRechargeModel:true,
         command: '',
         wechartAlertShow: false,
         wechartShowAgain: [],
@@ -599,6 +610,7 @@
         },
         buyerShowList:[],
         getMoreBuyerShow:false,
+        homeCarousel: 0
       }
     },
     created() {
@@ -638,11 +650,17 @@
       getUserInfoRole() {
         return this.$store.state.userInfo.role
       },
-      getMemberDeadline: function () {
+      getMemberDeadline() {
         return this.$store.state.userInfo.memberDeadline
       },
-      getMemberLevel: function () {
+      getMemberLevel() {
         return this.$store.state.userInfo.memberLevel
+      },
+      userHeadUrl() {
+        return this.$store.getters.getUserHeadUrl
+      },
+      getUserRole () {
+        return this.$store.getters.getUserRole
       },
     },
     mounted: function () {
@@ -660,7 +678,16 @@
       ...mapActions([
         'loggedOut'
       ]),
-      getBuyerShowList(){
+      getUserHead(src) {
+        if (src && src.indexOf('head-image') >= 0) {
+          return aliCallbackImgUrl + src + '!orgi75'
+        } else if (src && src.indexOf('q.qlogo.cn/qq') >= 0) {
+          return src
+        } else {
+          return '/static/img/common/tx-default.png'
+        }
+      },
+      getBuyerShowList() {
         let self = this;
         api.getBuyerShowList().then((res) => {
           if (res.status) {
@@ -683,7 +710,7 @@
           type: 'TASK_CATEGORY_LIST',
           info: 'all'
         });
-        self.$router.push({ 'path': '/task-category', 'query': {'searchKey': 'all'}});
+        self.$router.push({ 'path': '/task-category', 'query': {'searchAll': 'yes'}});
       },
       selTaskCategoryActiveFunc(nav){
         let self = this;
@@ -772,8 +799,8 @@
       },
       cancelWeiChartFunc() {
         let self = this;
-        if (self.wechartShowAgain != '') {
-          if (self.$store.state.userInfo.role == 1) {
+        if (self.wechartShowAgain !== '') {
+          if (self.$store.state.userInfo.role === 1) {
             api.noWechartAlert().then((res) => {
               if (!res.status) {
                 self.$Message.error(res.msg)
@@ -783,6 +810,10 @@
             setStorage('setWeChartshower' + self.$store.state.userInfo.phone, '1')
           }
         }
+        self.$store.commit({
+          type: 'SET_WECHART_SHOW',
+          info: false
+        });
       },
       goOut() {
         let _this = this;
@@ -914,7 +945,23 @@
 <style lang="scss" scoped>
 
   @import 'src/css/mixin';
+  .confirm-recharge-model {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 999;
+    background-color: rgba(55, 55, 55, .6);
+  }
+  .confirm-recharge-con {
+    position: absolute;
+    top: 20%;
+    left: 50%;
+    width: 507px;
+    margin-left: -254px;
 
+  }
   .home-ctt {
     background-color: #F1F1F1;
     .user-name {
@@ -1035,10 +1082,6 @@
           li {
             overflow: hidden;
             height: 80px;
-            /*padding:  0 0 20px 0;*/
-            /*background-color: blue;*/
-            /*border-top: 1px solid blue;*/
-            /*border-bottom: 1px solid blue;*/
             div.text-box {
               p {
                 font-size: 14px;
@@ -1056,7 +1099,6 @@
     }
     .home-section {
       margin: 10px auto 0 auto;
-      /*overflow: hidden;*/
       .left-ctt {
         background-color: #fff;
         width: 190px;
@@ -1177,6 +1219,7 @@
       background-color: #fff;
       border: 1px solid #E8E8E8;
       .home-commodity-title {
+        padding-top: 30px;
         img {
           display: block;
           margin: 28px auto 10px auto;
@@ -1225,6 +1268,15 @@
         }
 
       }
+    }
+  }
+
+  .user-head-box{
+    float: left;
+    width: 48px;
+    height: 48px;
+    img{
+      border-radius: 50%;
     }
   }
 

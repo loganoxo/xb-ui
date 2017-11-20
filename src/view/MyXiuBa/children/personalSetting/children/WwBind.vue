@@ -25,15 +25,32 @@
               <li><img :src="ww.wwCreditLevelPicUrl" alt="" style="width: 50px; padding: 10px;"></li>
               <li>
                 <span v-show="ww.status == 1">审核中</span>
-                <span v-show="ww.status == 2">启用中</span>
+                <div v-if="ww.status == 2 ">
+                  <p>{{wwStatusTextOn}}</p>
+                  <iSwitch
+                    v-model="switchTrue"
+                    @on-change="switchTypeTrue(ww.id)">
+                  </iSwitch>
+                </div>
+                <div v-if="ww.status == 5 ">
+                  <p>{{wwStatusTextOff}}</p>
+                  <iSwitch
+                    v-model="switchFalse"
+                    @on-change="switchTypeFalse(ww.id)">
+                  </iSwitch>
+                </div>
                 <Tooltip v-show="ww.status == 3" :content="ww.remarks" placement="top" style="color: #ff6633;">
                   <Icon type="information-circled" color="#FF6633"></Icon>
                   <span >审核不通过(查看)</span>
                 </Tooltip>
+                <Tooltip v-show="ww.status == 4" content="此旺旺已被列入黑名单" placement="top" style="color: #ff6600;">
+                  <span >冻结</span>
+                </Tooltip>
               </li>
               <li>
-                <a v-show="ww.status == 2" @click="deleteWwBindFunc(ww,index)">解绑</a>
-                <a v-show="ww.status == 3" @click="modifyWwBindFunc(ww,index)">重新提交</a>
+                <a v-show=" ww.status == 3 || (ww.status == 2&&switchValueTrue === false&&switchValueFalse === true)|| (switchValueFalse === false&&switchValueTrue === false)" @click="modifyWwBindFunc(ww,index)" class="mr-10">修改</a>
+                <a  @click="deleteWwBindFunc(ww,index)">解绑</a>
+                <!--<a v-show="ww.status == 3 " @click="modifyWwBindFunc(ww,index)">重新提交</a>-->
               </li>
             </ul>
           </div>
@@ -206,6 +223,7 @@
   import Icon from 'iview/src/components/icon'
   import Form from 'iview/src/components/form'
   import Input from 'iview/src/components/input'
+  import Switch from 'iview/src/components/switch'
   import Checkbox from 'iview/src/components/checkbox'
   import {Select, Option, OptionGroup} from 'iview/src/components/select'
   import Button from 'iview/src/components/button'
@@ -229,6 +247,7 @@
     components: {
       Tooltip: Tooltip,
       iInput: Input,
+      iSwitch:Switch,
       iForm: Form,
       FormItem: Form.Item,
       Checkbox: Checkbox,
@@ -271,6 +290,13 @@
         }
       };
       return {
+        alimitId:null,
+        wwStatusTextOn:'启用中',
+        wwStatusTextOff:'停用中',
+        switchTrue:true,
+        switchFalse:false,
+        switchValueTrue:false,
+        switchValueFalse:true,
         modalLoading: false,
         deleteWwModal: false,
         deleteWwId: '',
@@ -452,6 +478,62 @@
       ...mapActions([
         'getUserInformation'
       ]),
+      switchTypeTrue(id){
+        let self = this ;
+        if (!self.switchValueTrue){
+          self.wwStatusTextOn = '停用中';
+          self.switchValueTrue =  true;
+          api.disuseWw({
+            id:id
+          }).then((res)=>{
+            if (res.status){
+              self.$Message.success('已停用！')
+            } else {
+              self.$Message.error(res.msg);
+            }
+          })
+        }else {
+          self.wwStatusTextOn = '启用中';
+          self.switchValueTrue = false;
+          api.unDisuseWw({
+            id:id
+          }).then((res)=>{
+            if (res.status){
+              self.$Message.success('已启用！');
+            }else {
+              self.$Message.error(res.msg);
+            }
+          })
+        }
+      },
+      switchTypeFalse(id){
+        let self = this ;
+        if (!self.switchValueFalse){
+          self.wwStatusTextOff = '停用中';
+          self.switchValueFalse = true;
+          api.disuseWw({
+            id:id
+          }).then((res)=>{
+            if (res.status){
+              self.$Message.success('已停用！')
+            }else {
+              self.$Message.error(res.msg)
+            }
+          })
+        }else {
+          self.wwStatusTextOff = '启用中';
+          self.switchValueFalse = false;
+            api.unDisuseWw({
+              id:id
+            }).then((res)=>{
+              if (res.status){
+                self.$Message.success('已启用！');
+              }else {
+                self.$Message.error(res.msg);
+              }
+            })
+        }
+      },
       regionPickerChange(obj) {
         this.address = obj;
       },

@@ -13,30 +13,95 @@
       <Icon type="information-circled" color="#FF0100"></Icon>
       <span><b class="sizeColor3">注意：</b> 本站<b class="sizeColor3">不支持拍A发B</b>行为，发货必须按照活动发布指定的宝贝实际发货，否则视为违规，接到秀客投诉将会全额扣除保证金，并强制下线活动！</span>
     </div>
+    <!--选择活动类型-->
+    <div class="activity-type mt-20" v-show="stepName === 'information'">
+      <div class="activity-type-title">选择活动类型：</div>
+      <div class="clear mt-10">
+        <div class="left mr-10 activity-type-box" :class="{isSelect:taskRelease.activityCategory === 'free_get'}"
+             @click="changeSelectActivity('free_get')">
+          <p>免费领</p>
+          <p>秀客0元试用</p>
+          <p>高人气活动类型</p>
+          <span class="is-select-gou" v-show="taskRelease.activityCategory === 'free_get'"></span>
+        </div>
+        <div class="left activity-type-box mr-10" :class="{isSelect:taskRelease.activityCategory === 'pinkage_for_10'}"
+             @click="changeSelectActivity('pinkage_for_10')">
+          <p>10元包邮</p>
+          <p>秀客承担10元邮费</p>
+          <p>高人气活动类型</p>
+          <span class="is-select-gou" v-show="taskRelease.activityCategory === 'pinkage_for_10'"></span>
+        </div>
+        <div class="left activity-type-box mr-10" :class="{isSelect:taskRelease.activityCategory === 'present_get'}"
+             @click="changeSelectActivity('present_get')">
+          <p>体验专区</p>
+          <p>适用于高客单宝贝</p>
+          <p>解决商品成本过高问题</p>
+          <span class="is-select-gou" v-show="taskRelease.activityCategory === 'present_get'"></span>
+        </div>
+        <div class="left activity-type-box mr-10" :class="{isSelect:taskRelease.activityCategory === 'price_low'}"
+             @click="changeSelectActivity('price_low')">
+          <p>白菜价</p>
+          <p>帮商家测款定价</p>
+          <p>真实卖货</p>
+          <span class="is-select-gou" v-show="taskRelease.activityCategory === 'price_low'"></span>
+        </div>
+        <div class="left activity-type-box mr-10" :class="{isSelect:taskRelease.activityCategory === 'goods_clearance'}"
+             @click="changeSelectActivity('goods_clearance')">
+          <p>清仓断码</p>
+          <p>帮商家解决最为头疼的</p>
+          <p>库存问题</p>
+          <span class="is-select-gou" v-show="taskRelease.activityCategory === 'goods_clearance'"></span>
+        </div>
+      </div>
+      <div class="pop-tip">
+        <div v-show="taskRelease.activityCategory === 'free_get'">
+          <div class="pop-tip-arrow free-get"></div>
+          <div>该活动申请率极高，评价效果极好，商家能自主筛选秀客，迅速积攒销量。</div>
+        </div>
+        <div v-show="taskRelease.activityCategory === 'pinkage_for_10'">
+          <div class="pop-tip-arrow pinkage-for-10"></div>
+          <div>该活动申请率较高，评价效果较好，适用于中低客单的走量产品。</div>
+        </div>
+        <div v-show="taskRelease.activityCategory === 'present_get'">
+          <div class="pop-tip-arrow present-get"></div>
+          <div>秀客拍下付款的是主宝贝（高客单的商品），为主宝贝带来成交转化，但实际发货的是体验装或赠品。该活动可大幅降低活动成本，但要规避秀客在淘宝上晒图。</div>
+        </div>
+        <div v-show="taskRelease.activityCategory === 'price_low'">
+          <div class="pop-tip-arrow price-low"></div>
+          <div>秀客以9.9元、49.9元、99.9元及1折、3折、5折的价格购买宝贝，该活动也可适当降低活动成本，但更重要的是帮助商家真实成交，获得消费者的实际反馈。</div>
+        </div>
+        <div v-show="taskRelease.activityCategory === 'goods_clearance'">
+          <div class="pop-tip-arrow goods-clearance"></div>
+          <div>商家提供超乎想象的价格，目的不是为了赚取利润，而是尽快把仓库里积压的库存变成现金（比如断码，过季，尾货等），秀客也能真实选购到最最实惠的宝贝。</div>
+        </div>
+      </div>
+    </div>
     <!--判断是否有权限能发布任务-->
-    <div v-show="getMemberStatus === 'need_member_for_more_task'||getMemberStatus==='need_member_for_more_audit'" class="text-ct " >
-      <div class="mt-80" style="font-size:20px;color: #949494" v-if="getMemberStatus === 'need_member_for_more_task'" >
+    <div v-show="getMemberStatus === 'need_member_for_more_task' || getMemberStatus==='need_member_for_more_audit'"
+         class="text-ct ">
+      <div class="mt-80" style="font-size:20px;color: #949494" v-if="getMemberStatus === 'need_member_for_more_task'">
         <Icon style="font-size: 25px ;transform: translateY(3px)" type="close-circled"></Icon>
         <span><strong>很抱歉，当前你为非会员，购买会员后才能继续发布任务！</strong></span>
-      </div >
-      <div class="mt-80 ml-60" style="font-size:20px;color: #949494;text-align: left" v-if="getMemberStatus === 'need_member_for_more_audit'">
+      </div>
+      <div class="mt-80 ml-60" style="font-size:20px;color: #949494;text-align: left"
+           v-if="getMemberStatus === 'need_member_for_more_audit'">
         <Icon class="mr-10" style="font-size: 25px ;transform: translateY(16px)" type="close-circled"></Icon>
-        <span >
+        <span>
           <span><strong>很抱歉，当前你为非会员，仅支持免费发布一条活动（目前已存在一条待审核活动，请等待审核结果）。</strong></span><br>
           <span class="ml-38"><strong>请在购买会员后继续发布更多活动。</strong></span>
         </span>
-      </div >
-      <div class="mt-40 " >
+      </div>
+      <div class="mt-40 ">
         <iButton @click="openMember" class="check-member" type="success" size="large">购买会员</iButton>
       </div>
     </div>
     <!--任务发布相关-->
-    <div v-show="blockOrNone">
+    <div v-show="blockOrNone" class="mt-30">
       <div class="activity-con" v-show="stepName === 'information'">
         <div class="activity-info">
           <div class="activity-info-title">填写活动信息</div>
           <div class="activity-type ml-60 mt-22">
-            <span class="required">活动类型：</span>
+            <span class="required">下单方式：</span>
             <Radio-group v-model="taskRelease.taskType">
               <Radio label="pc_search">
                 <span>PC搜索下单（taobao.com）</span>
@@ -72,16 +137,24 @@
           </div>
           <div class="baby-info mt-22">
             <div class="activity-info-title">填写活动宝贝信息</div>
+            <div class="complimentary-tip mt-20 pl-40" v-show="taskRelease.activityCategory === 'present_get'">
+              <p class="sizeColor3">赠品活动发布说明：</p>
+              <p class="sizeColor3 mt-6">1、活动标题、宝贝类型、活动主图、宝贝单价、商品简介填写赠品相关信息；宝贝地址、掌柜旺旺填写淘宝正品（即希望秀客拍下的SKU）相关信息；</p>
+              <p class="sizeColor3">2、在备注中明确说明希望秀客拍下的SKU（否则秀客可能会找不到宝贝）。</p>
+              <p class="sizeColor3">3、赠品类型必须与正品同属一个类目，重量、体积等相差不大，否则后台审核不给予通过。</p>
+            </div>
             <div class="baby-title ml-45 mt-20">
               <span class="required">活动标题：</span>
               <iInput v-model="taskRelease.taskName" placeholder="请输入活动标题" style="width: 296px"></iInput>
-              <span class="ml-20 sizeColor"><Icon v-show="taskNameLength > 35" color="#f60" type="information-circled"></Icon>&nbsp;最多支持35个字符，当前已输入 <span
+              <span class="ml-20 sizeColor"><Icon v-show="taskNameLength > 35" color="#f60"
+                                                  type="information-circled"></Icon>&nbsp;最多支持35个字符，当前已输入 <span
                 class="main-color">{{taskNameLength}}</span> / 35个字符。</span>
             </div>
             <div class="baby-title ml-45 mt-20">
               <span class="required">宝贝类型：</span>
               <iSelect v-model="taskRelease.itemType" style="width:200px">
-                <Option-group v-for="parentItem in itemCatalogList" v-if="parentItem.level == 1" :label="parentItem.name" :key="parentItem.id">
+                <Option-group v-for="parentItem in itemCatalogList" v-if="parentItem.level == 1"
+                              :label="parentItem.name" :key="parentItem.id">
                   <iOption
                     v-if="item.level == 2 && item.parentItemCatalog && item.parentItemCatalog.id == parentItem.id"
                     v-for="item in itemCatalogList" :value="item.id" :key="item.name">{{ item.name }}
@@ -98,7 +171,7 @@
                 :on-remove="removeMainImage"
                 :on-success="handleSuccess"
                 :format="['jpg','jpeg','png','gif','bmp']"
-                :max-size="300"
+                :max-size="1024"
                 name="task"
                 :on-format-error="handleFormatError"
                 :on-exceeded-size="handleMaxSize"
@@ -107,7 +180,8 @@
                   <Icon type="camera" size="20"></Icon>
                 </div>
               </Upload>
-              <p class="sizeColor pl-60 mt-10">点击或者拖拽自主上传图片，支持jpg \ jpeg \ png \ gif \ bmp格式，最佳尺寸400*400（像素），不超过300K，可与宝贝主图一致</p>
+              <p
+                class="sizeColor pl-60 mt-10">点击或者拖拽自主上传图片，支持jpg \ jpeg \ png \ gif \ bmp格式，最佳尺寸400*400（像素），不超过1M，可与宝贝主图一致</p>
             </div>
             <div class="baby-url ml-45 mt-20">
               <span class="required">宝贝地址：</span>
@@ -124,49 +198,92 @@
             </div>
             <div class="baby-price ml-45 mt-20">
               <span class="required">宝贝单价：</span>
-              <iInput v-model.number="taskRelease.itemPrice" @on-change="clearDiscount" placeholder="请输入宝贝单价" style="width: 120px"></iInput>
+              <iInput v-model.number="taskRelease.itemPrice" @on-change="clearDiscount" placeholder="请输入宝贝单价"
+                      style="width: 120px"></iInput>
               <span>元</span>
               <span v-show="taskRelease.itemPrice && taskRelease.itemPrice < 1" class="main-color ml-20"><Icon
                 color="#f60" type="information-circled"></Icon>&nbsp;每份试用品的价值必须在1元以上</span>
+              <span
+                v-show="taskRelease.itemPrice && taskRelease.itemPrice < 10 && taskRelease.activityCategory === 'pinkage_for_10'"
+                class="main-color ml-20"><Icon color="#f60" type="information-circled"></Icon>&nbsp;10元包邮活动，宝贝最低价格不能低于10元</span>
               <p class="sizeColor pl-60 mt-8">活动活动期间，商家不允许修改下单页商品信息，经核查属实，本平台有权将活动担保金返还已获得资格的秀客，商家账号按相应规则处罚</p>
             </div>
-            <div class="discount ml-40 mt-20">
-              <div class="clear">
+            <div class="discount ml-40 mt-20"
+                 v-show="taskRelease.activityCategory !== 'free_get' && taskRelease.activityCategory !== 'present_get'">
+              <div class="clear" v-show="taskRelease.activityCategory !== 'pinkage_for_10'">
                 <span class="required mt-8 left">折扣/活动：</span>
-                <div class="discount-btn left ml-5 discount-charge" :class="{isSelect:taskRelease.discountType === 'discount_0'}"  @click="changeSelectDiscount('discount_0')">
-                  <span> 免费试用</span>
-                  <span>（所有宝贝可选）</span>
-                  <span class="is-select-gou" v-show="taskRelease.discountType === 'discount_0'"></span>
-                </div>
-                <div class="discount-btn left ml-10 discount-9-9" v-show="!discountDisabled.discount_9_9.disabled" :class="{isSelect:taskRelease.discountType === 'discount_9_9'}" @click="changeSelectDiscount('discount_9_9')">
-                  <span> 9.9试用</span>
-                  <span>（50元以上宝贝可选）</span>
-                  <span class="is-select-gou" v-show="taskRelease.discountType === 'discount_9_9'"></span>
-                </div>
-                <div class="discount-btn left ml-10 discount-9-9 disabled" v-show="discountDisabled.discount_9_9.disabled">
-                  <span> 9.9试用</span>
-                  <span>（50元以上宝贝可选）</span>
-                </div>
-                <div class="discount-btn left ml-10 discount-49-9" v-show="!discountDisabled.discount_49_9.disabled" :class="{isSelect:taskRelease.discountType === 'discount_49_9'}" @click="changeSelectDiscount('discount_49_9')">
-                  <span> 49.9试用</span>
-                  <span>（150元以上宝贝可选）</span>
-                  <span class="is-select-gou" v-show="taskRelease.discountType === 'discount_49_9'"></span>
-                </div>
-                <div class="discount-btn left ml-10 discount-49-9 disabled" v-show="discountDisabled.discount_49_9.disabled">
-                  <span> 49.9试用</span>
-                  <span>（150元以上宝贝可选）</span>
-                </div>
-                <div class="discount-btn left ml-10 discount-999" v-show="!discountDisabled.discount_99_9.disabled" :class="{isSelect:taskRelease.discountType === 'discount_99_9'}" @click="changeSelectDiscount('discount_99_9')">
-                  <span> 99.9试用</span>
-                  <span>（250元以上宝贝可选）</span>
-                  <span class="is-select-gou" v-show="taskRelease.discountType === 'discount_99_9'"></span>
-                </div>
-                <div class="discount-btn left ml-10 discount-999 disabled" v-show="discountDisabled.discount_99_9.disabled">
-                  <span> 99.9试用</span>
-                  <span>（250元以上宝贝可选）</span>
+                <div class="left">
+                  <div class="clear" v-show="taskRelease.activityCategory !== 'goods_clearance'">
+                    <div class="discount-btn left ml-10 discount-9-9" v-show="!discountDisabled.discount_9_9.disabled"
+                         :class="{isSelect:taskRelease.discountType === 'discount_9_9'}"
+                         @click="changeSelectDiscount('discount_9_9')">
+                      <span> 9.9试用</span>
+                      <span>（50元以上宝贝可选）</span>
+                      <span class="is-select-gou" v-show="taskRelease.discountType === 'discount_9_9'"></span>
+                    </div>
+                    <div class="discount-btn left ml-10 discount-9-9 disabled"
+                         v-show="discountDisabled.discount_9_9.disabled">
+                      <span> 9.9试用</span>
+                      <span>（50元以上宝贝可选）</span>
+                    </div>
+                    <div class="discount-btn left ml-10 discount-49-9" v-show="!discountDisabled.discount_49_9.disabled"
+                         :class="{isSelect:taskRelease.discountType === 'discount_49_9'}"
+                         @click="changeSelectDiscount('discount_49_9')">
+                      <span> 49.9试用</span>
+                      <span>（150元以上宝贝可选）</span>
+                      <span class="is-select-gou" v-show="taskRelease.discountType === 'discount_49_9'"></span>
+                    </div>
+                    <div class="discount-btn left ml-10 discount-49-9 disabled"
+                         v-show="discountDisabled.discount_49_9.disabled">
+                      <span> 49.9试用</span>
+                      <span>（150元以上宝贝可选）</span>
+                    </div>
+                    <div class="discount-btn left ml-10 discount-999" v-show="!discountDisabled.discount_99_9.disabled"
+                         :class="{isSelect:taskRelease.discountType === 'discount_99_9'}"
+                         @click="changeSelectDiscount('discount_99_9')">
+                      <span> 99.9试用</span>
+                      <span>（250元以上宝贝可选）</span>
+                      <span class="is-select-gou" v-show="taskRelease.discountType === 'discount_99_9'"></span>
+                    </div>
+                    <div class="discount-btn left ml-10 discount-999 disabled"
+                         v-show="discountDisabled.discount_99_9.disabled">
+                      <span> 99.9试用</span>
+                      <span>（250元以上宝贝可选）</span>
+                    </div>
+                  </div>
+                  <div class="clear mt-10">
+                    <div class="discount-btn left ml-10 discount-9-9"
+                         :class="{isSelect:taskRelease.discountType === 'discount_r_10'}"
+                         @click="changeSelectDiscount('discount_r_10')">
+                      <span> 1折试用</span>
+                      <span>（所有宝贝可选）</span>
+                      <span class="is-select-gou" v-show="taskRelease.discountType === 'discount_r_10'"></span>
+                    </div>
+                    <div class="discount-btn left ml-10 discount-49-9"
+                         :class="{isSelect:taskRelease.discountType === 'discount_r_30'}"
+                         @click="changeSelectDiscount('discount_r_30')">
+                      <span> 3折试用</span>
+                      <span>（所有宝贝可选）</span>
+                      <span class="is-select-gou" v-show="taskRelease.discountType === 'discount_r_30'"></span>
+                    </div>
+                    <div class="discount-btn left ml-10 discount-999"
+                         :class="{isSelect:taskRelease.discountType === 'discount_r_50'}"
+                         @click="changeSelectDiscount('discount_r_50')">
+                      <span> 5折试用</span>
+                      <span>（所有宝贝可选）</span>
+                      <span class="is-select-gou" v-show="taskRelease.discountType === 'discount_r_50'"></span>
+                    </div>
+                  </div>
                 </div>
               </div>
-              <p class="sizeColor pl-60 mt-20" v-show="taskRelease.itemPrice">秀客以<span class="main-color">{{taskRelease.itemPrice}}</span>元价格在淘宝上购买，活动成功后返款<span class="main-color">{{(taskRelease.itemPrice - discountDisabled[taskRelease.discountType].returnPrice).toFixed(2)}}</span>元给秀客！</p>
+              <p class="sizeColor pl-60 mt-20"
+                 v-show="taskRelease.itemPrice && taskRelease.discountType && taskRelease.activityCategory !== 'pinkage_for_10'">
+                秀客以<span class="main-color">{{taskRelease.itemPrice}}</span>元价格在淘宝上购买，活动成功后返款<span
+                class="main-color">{{(newItemPrice / 100).toFixed(2)}}</span>元给秀客！</p>
+              <p class="sizeColor pl-60"
+                 v-show="taskRelease.itemPrice && taskRelease.itemPrice >= 10 && taskRelease.activityCategory === 'pinkage_for_10'">
+                秀客以<span class="main-color">{{taskRelease.itemPrice}}</span>元价格在淘宝上购买，活动成功后返款<span
+                class="main-color">{{taskRelease.itemPrice > 10 ? taskRelease.itemPrice - 10 : 0}}</span>元给秀客！</p>
             </div>
             <div class="baby-pinkage ml-45 mt-20">
               <span class="required left">是否包邮：</span>
@@ -183,18 +300,21 @@
             <div class="baby-payment ml-45 mt-20">
               <span class="required left">付款方式：</span>
               <Radio-group v-model="taskRelease.paymentMethod">
-                <Radio label="all">
-                  <span>无所谓（可以使用花呗、信用卡等付款，也可以不用）</span>
-                </Radio>
+                <Radio label="all"><span>无所谓（可以使用花呗、信用卡等付款，也可以不用）</span></Radio>
                 <p style="height: 10px;"></p>
-                <Radio label="no_hua_and_credit_pay">
-                  <span>禁止使用花呗、信用卡付款</span>
-                </Radio>
+                <Radio label="no_hua_and_credit_pay"><span>禁止使用花呗、信用卡付款</span></Radio>
               </Radio-group>
             </div>
-            <div class="task-remark ml-45 mt-20">
+            <div class="task-remark ml-45 mt-20 clear">
               <span class="left ml-5">下单备注：</span>
-              <iInput class="task-remark-input"  type="textarea" :rows="6" placeholder="请在这里输入需要秀客注意的事项，例如：SKU信息等，这里的信息会无条件展示出来。" v-model="taskRelease.remark"></iInput>
+              <div class="left">
+                <iInput class="task-remark-input" type="textarea" :autosize="{minRows: 6,  maxRows: 12}"
+                        placeholder="请在这里输入需要秀客注意的事项，例如：SKU信息等，这里的信息会无条件展示出来。" v-model="taskRelease.remark"></iInput>
+                <p class="sizeColor3 mt-10"
+                   v-show="taskRelease.activityCategory === 'present_get'">备注中明确说明希望秀客拍下的SKU（否则秀客可能会找不到宝贝）</p>
+                <p class="sizeColor3 mt-6"
+                   v-show="taskRelease.activityCategory === 'present_get'">建议商家备注中明确说明：“请勿在淘宝中评价及晒图！”，若未注明，秀客在淘宝中进行评价或晒图后可能会影响主宝贝的评价情况。</p>
+              </div>
             </div>
             <div class="product-introduction ml-45 mt-20">
               <span class="left ml-5">商品简介：</span>
@@ -206,7 +326,8 @@
                             @ready="onEditorReady($event)">
               </quill-editor>
               <form action="" method="post" enctype="multipart/form-data" id="uploadFormMulti">
-                <input style="display: none" :id="uniqueId" type="file" name="avator" multiple accept="image/jpg,image/jpeg,image/png,image/gif" @change="uploadImg">
+                <input style="display: none" :id="uniqueId" type="file" name="avator" multiple
+                       accept="image/jpg,image/jpeg,image/png,image/gif" @change="uploadImg">
               </form>
             </div>
           </div>
@@ -225,7 +346,7 @@
                   :on-remove="removePcImage"
                   :on-success="pcBabyImgSuccess"
                   :format="['jpg','jpeg','png','gif','bmp']"
-                  :max-size="300"
+                  :max-size="1024"
                   :on-format-error="handleFormatError"
                   :on-exceeded-size="handleMaxSize"
                   type="drag">
@@ -235,7 +356,7 @@
                 </Upload>
                 <p
                   class="sizeColor pl-60 mt-10">
-                  点击或者拖拽自主上传图片，支持jpg \ jpeg \ png \ gif \ bmp格式，最佳尺寸400*400（像素），不超过300K，可与宝贝主图一致</p>
+                  点击或者拖拽自主上传图片，支持jpg \ jpeg \ png \ gif \ bmp格式，最佳尺寸400*400（像素），不超过1M，可与宝贝主图一致</p>
               </div>
               <div class="search-keyword mt-20 ml-28">
                 <span class="required">搜索关键词：</span>
@@ -337,7 +458,7 @@
                   :default-file-list="appDefaultList"
                   :on-remove="removeAppImage"
                   :format="['jpg','jpeg','png','gif','bmp']"
-                  :max-size="300"
+                  :max-size="1024"
                   name="task"
                   :on-format-error="handleFormatError"
                   :on-exceeded-size="handleMaxSize"
@@ -348,12 +469,11 @@
                 </Upload>
                 <p
                   class="sizeColor pl-60 mt-10">
-                  点击或者拖拽自主上传图片，支持jpg \ jpeg \ png \ gif \ bmp格式，最佳尺寸400*400（像素），不超过300K，可与宝贝主图一致</p>
+                  点击或者拖拽自主上传图片，支持jpg \ jpeg \ png \ gif \ bmp格式，最佳尺寸400*400（像素），不超过1M，可与宝贝主图一致</p>
               </div>
               <div class="search-keyword mt-20 ml-28">
                 <span class="required">搜索关键词：</span>
-                <iInput v-model="AppTaskDetail.searchKeyword" placeholder="请输入搜索关键词"
-                        style="width: 260px"></iInput>
+                <iInput v-model="AppTaskDetail.searchKeyword" placeholder="请输入搜索关键词" style="width: 260px"></iInput>
                 <span class="sizeColor2">（APP端请确保在120位以内，若是长尾关键词请不要过量补单）</span>
               </div>
               <div class="sort-by ml-40 mt-20">
@@ -453,13 +573,12 @@
           <h3>费用说明：</h3>
           <div class="description-fees-con mt-10">
             <p>
-              活动担保金 = 份数 × 单品活动担保金 =<span>{{taskRelease.taskCount}}</span>×<span>{{oneBond}}</span>= <span>{{(taskRelease.taskCount * oneBond).toFixed(2)}}</span>元
+              活动担保金 = 份数 × 单品活动担保金 =<span>{{taskRelease.taskCount}}</span> × <span>{{oneBond}}</span> = <span>{{(taskRelease.taskCount * oneBond).toFixed(2)}}</span>元
             </p>
-            <p class="mt-6">单品推广费 = 单品活动担保金 × 费率 =<span>{{oneBond}}</span>× <span>6%</span>
-              = <span>{{(oneBond * 0.06).toFixed(2)}}</span>元<span v-if="oneBond * 0.06 > 3">（单品推广费超过平台设定的最高上限3.00元，本次实际收取的单品推广费用为3.00元）</span>
-            </p>
-            <p class="mt-6">总推广费用 = 单品推广费用 × 份数 =<span>{{onePromotionExpenses}}</span>× <span>{{taskRelease.taskCount}} = <span>{{allPromotionExpenses}}</span></span>元
-            </p>
+            <p class="mt-6">
+              单品推广费 = （宝贝单价 + 邮费） × 费率 =<span>（{{taskRelease.itemPrice}} + {{taskRelease.pinkage === 'true' ? 0 : 10}}）</span>× <span>6%</span> = <span>{{onePromotionExpenses}}</span>元<span
+              v-if="isShowExpensesTip">（单品推广费超过平台设定的最高上限3.00元，本次实际收取的单品推广费用为3.00元）</span></p>
+            <p class="mt-6">总推广费用 = 单品推广费用 × 份数 =<span>{{onePromotionExpenses}}</span> × <span>{{taskRelease.taskCount}} = <span>{{allPromotionExpenses}}</span></span>元</p>
             <p class="mt-6">总费用 = 活动担保金 + 总推广费用 = <span>{{orderMoney}}</span>元</p>
           </div>
         </div>
@@ -498,9 +617,9 @@
       <div class="pay-model" v-if="showPayModel">
         <PayModel :orderMoney="!priceHasChange ? orderMoney : replenishMoney" @confirmPayment="confirmPayment">
           <i slot="closeModel" class="close-recharge" @click="closeRecharge">&times;</i>
-          <div slot="noBalance" class="title-tip"><span class="sizeColor3"><Icon color="#FF2424" size="18px"
-                                                                                  type="ios-information"></Icon><span
-            class="ml-10">亲，您的余额不足，请充值。</span></span>还需充值<strong
+          <div slot="noBalance" class="title-tip">
+            <span class="sizeColor3"><Icon color="#FF2424" size="18px" type="ios-information"></Icon><span
+              class="ml-10">亲，您的余额不足，请充值。</span></span>还需充值<strong
             class="sizeColor3">{{(orderMoney - getUserBalance).toFixed(2)}}</strong>元
           </div>
           <div slot="isBalance" class="title-tip">
@@ -517,8 +636,8 @@
               <Icon color="#f60" size="32" type="information-circled"></Icon>
             </div>
             <div class="left ml-10">
-              <p style="font-size: 14px;">由于您修改了当前宝贝价格/包邮条件/发放数量等，且修改后的</p>
-              <p style="font-size: 14px;">价格高于原活动担保金，因此需要对超出部分进行支付。</p>
+              <p class="fs-14">由于您修改了当前宝贝价格/包邮条件/发放数量等，且修改后的</p>
+              <p class="fs-14">价格高于原活动担保金，因此需要对超出部分进行支付。</p>
             </div>
           </div>
           <div slot="footer">
@@ -546,18 +665,18 @@
         </Modal>
       </div>
       <!--商家发布任务活动总价低于500元提醒弹框-->
-    <!--  <Modal v-model="price500Model" width="360">
-        <p slot="header" style="color:#f60;text-align:center">
-          <Icon type="information-circled"></Icon>
-          <span>温馨提示</span>
-        </p>
-        <div class="text-ct">
-          <p>您发布的活动总价值必须在500元以上</p>
-        </div>
-        <div slot="footer">
-          <iButton type="error" size="large" long @click="price500Model = false">我知道了</iButton>
-        </div>
-      </Modal>-->
+      <!--  <Modal v-model="price500Model" width="360">
+          <p slot="header" style="color:#f60;text-align:center">
+            <Icon type="information-circled"></Icon>
+            <span>温馨提示</span>
+          </p>
+          <div class="text-ct">
+            <p>您发布的活动总价值必须在500元以上</p>
+          </div>
+          <div slot="footer">
+            <iButton type="error" size="large" long @click="price500Model = false">我知道了</iButton>
+          </div>
+        </Modal>-->
     </div>
   </div>
 </template>
@@ -571,6 +690,7 @@
   import Button from 'iview/src/components/button'
   import Radio from 'iview/src/components/radio'
   import Modal from 'iview/src/components/modal'
+  import Poptip from 'iview/src/components/poptip'
   import {Select, Option, OptionGroup} from 'iview/src/components/select'
   import Upload from '@/components/upload'
   import Steps from 'iview/src/components/steps'
@@ -599,11 +719,12 @@
       Step: Steps.Step,
       OptionGroup: OptionGroup,
       Modal: Modal,
-      PayModel: PayModel
+      PayModel: PayModel,
+      Poptip: Poptip,
     },
     data() {
       return {
-        blockOrNone:false,
+        blockOrNone: false,
         name: 'base-example',
         uniqueId: 'uniqueId',
         addImgRange: null,
@@ -669,6 +790,7 @@
           taskCount: null,
           itemPrice: null,
           discountType: 'discount_0',
+          activityCategory: 'free_get',
           pinkage: "true",
           paymentMethod: "all",
           remark: null,
@@ -678,25 +800,50 @@
         },
         discountDisabled: {
           discount_0: {
+            isDiscount: false,
             disabled: false,
             buyPrice: 0,
             returnPrice: 0,
           },
           discount_9_9: {
+            isDiscount: false,
             disabled: true,
             buyPrice: 50,
             returnPrice: 9.9,
           },
+          discount_10: {
+            isDiscount: false,
+            disabled: true,
+            buyPrice: 0,
+            returnPrice: 10,
+          },
           discount_49_9: {
+            isDiscount: false,
             disabled: true,
             buyPrice: 150,
             returnPrice: 49.9,
           },
           discount_99_9: {
+            isDiscount: false,
             disabled: true,
             buyPrice: 250,
             returnPrice: 99.9,
-          }
+          },
+          discount_r_10: {
+            isDiscount: true,
+            discount: 0.1,
+            returnPrice: 0.1,
+          },
+          discount_r_30: {
+            isDiscount: true,
+            discount: 0.3,
+            returnPrice: 0.3,
+          },
+          discount_r_50: {
+            isDiscount: true,
+            discount: 0.5,
+            returnPrice: 0.5,
+          },
         },
         editPriceAfterModel: false,
         editPriceToLowAfterModel: false,
@@ -727,6 +874,7 @@
         this.editTaskId = taskId;
         this.getTaskInfo();
       }
+
     },
     computed: {
       /**
@@ -744,6 +892,7 @@
           return "宝贝链接"
         }
       },
+
       /**
        * 从vuex中获取用户账户余额
        * @return {number}
@@ -754,10 +903,16 @@
 
       /**
        * 计算商家需要存入的担保金（当用户勾选折扣试用的时候：宝贝单价 - 对应的折扣价格）
+       * 单位为分
        * @return {number}
        */
-        newItemPrice: function () {
-        return this.taskRelease.discountType === 'discount_0' ? this.taskRelease.itemPrice : this.taskRelease.itemPrice - this.discountDisabled[this.taskRelease.discountType].returnPrice;
+      newItemPrice: function () {
+        let type = this.taskRelease.discountType;
+        if (!this.discountDisabled[type].isDiscount) {
+          return (this.taskRelease.itemPrice - this.discountDisabled[type].returnPrice) * 100;
+        } else {
+          return Math.ceil(100 * this.taskRelease.itemPrice * (1 - this.discountDisabled[type].returnPrice));
+        }
       },
 
       /**
@@ -765,16 +920,18 @@
        * @return {number}
        */
       oneBond: function () {
-        return this.taskRelease.pinkage === 'true' ? (this.newItemPrice * 100).toFixed(2) / 100 : ((this.newItemPrice * 100).toFixed(2) / 100 + 10).toFixed(2);
+        return this.taskRelease.pinkage === 'true' ? (this.newItemPrice / 100).toFixed(2) * 1 : (this.newItemPrice / 100 + 10).toFixed(2) * 1;
       },
 
       /**
-       * 计算单品推广费用（单品推广费最高上限3元）
+       * 计算单品推广费用（宝贝单价+ 邮费，单品推广费最高上限3元）
        * @return {number}
        */
       onePromotionExpenses: function () {
-        return this.oneBond * 0.06 > 3 ? 3 : ((this.oneBond * 100).toFixed(2) / 100 * 0.06).toFixed(2) * 1;
+        let price = this.taskRelease.pinkage === 'true' ? this.taskRelease.itemPrice : this.taskRelease.itemPrice + 10;
+        return price * 0.06 > 3 ? 3.00 : (price * 0.06).toFixed(2) * 1;
       },
+
       /**
        * 计算总推广费用
        * @return {number}
@@ -782,6 +939,7 @@
       allPromotionExpenses: function () {
         return (this.onePromotionExpenses * this.taskRelease.taskCount).toFixed(2) * 1;
       },
+
       /**
        * 计算订单总金额
        * @return {number}
@@ -789,6 +947,7 @@
       orderMoney: function () {
         return (((this.taskRelease.taskCount * this.oneBond * 100) + this.allPromotionExpenses * 100) / 100).toFixed(2) * 1;
       },
+
       /**
        * 计算修改价格后需要补充的金额
        * @return {number}
@@ -796,6 +955,7 @@
       replenishMoney: function () {
         return this.priceHasChange ? ((this.orderMoney * 100 - this.paidDeposit * 100) / 100).toFixed(2) * 1 : 0;
       },
+
       /**
        * 计算余额是否足够支付订单金额
        * @return {boolean}
@@ -803,6 +963,7 @@
       isBalance: function () {
         return this.orderMoney <= this.getUserBalance
       },
+
       /**
        * 计算活动标题输入字符数
        * @return {number}
@@ -810,34 +971,56 @@
       taskNameLength: function () {
         return this.taskRelease.taskName ? this.taskRelease.taskName.length : 0;
       },
+
+      /**
+       * 是否显示单品推广费超过3元的提示
+       * @return {boolean}
+       */
+      isShowExpensesTip: function () {
+        let postage = this.taskRelease.pinkage === 'true' ? 0 : 10;
+        return (this.taskRelease.itemPrice + postage) * 0.06 > 3
+      },
     },
     methods: {
       changeSelectDiscount(type) {
         this.taskRelease.discountType = type;
       },
+      changeSelectActivity(type) {
+        let _this = this;
+        _this.taskRelease.activityCategory = type;
+        if (type === 'pinkage_for_10') {
+          _this.taskRelease.discountType = 'discount_10';
+        } else {
+          if (_this.taskRelease.discountType !== 'discount_0') {
+            _this.taskRelease.discountType = 'discount_0';
+          }
+        }
+      },
       clearDiscount() {
         let _this = this;
-        let itemPrice =  _this.taskRelease.itemPrice;
-        if(itemPrice < 50 || itemPrice < 150 || itemPrice < 250){
-          if(!_this.discountDisabled.discount_9_9.disabled){
-            _this.discountDisabled.discount_9_9.disabled = true;
+        let itemPrice = _this.taskRelease.itemPrice;
+        let type = _this.taskRelease.activityCategory;
+        if (type === 'price_low') {
+          if (itemPrice < 50 || itemPrice < 150 || itemPrice < 250) {
+            if (!_this.discountDisabled.discount_9_9.disabled) {
+              _this.discountDisabled.discount_9_9.disabled = true;
+            }
+            if (!_this.discountDisabled.discount_49_9.disabled) {
+              _this.discountDisabled.discount_49_9.disabled = true;
+            }
+            if (!_this.discountDisabled.discount_99_9.disabled) {
+              _this.discountDisabled.discount_99_9.disabled = true;
+            }
           }
-          if(!_this.discountDisabled.discount_49_9.disabled){
-            _this.discountDisabled.discount_49_9.disabled = true;
+          if (itemPrice >= 50) {
+            _this.discountDisabled.discount_9_9.disabled = false;
           }
-          if(!_this.discountDisabled.discount_99_9.disabled){
-            _this.discountDisabled.discount_99_9.disabled = true;
+          if (itemPrice >= 150) {
+            _this.discountDisabled.discount_49_9.disabled = false;
           }
-          _this.taskRelease.discountType = 'discount_0';
-        }
-        if(itemPrice >= 50){
-          _this.discountDisabled.discount_9_9.disabled = false;
-        }
-        if(itemPrice >= 150){
-          _this.discountDisabled.discount_49_9.disabled = false;
-        }
-        if(itemPrice >= 250){
-          _this.discountDisabled.discount_99_9.disabled = false;
+          if (itemPrice >= 250) {
+            _this.discountDisabled.discount_99_9.disabled = false;
+          }
         }
       },
       checkMemberForTask() {
@@ -862,7 +1045,7 @@
       },
       handleSuccess(res) {
         this.taskRelease.taskMainImage = aliCallbackImgUrl + res.name;
-  },
+      },
       pcBabyImgSuccess(res) {
         this.PcTaskDetail.itemMainImage = aliCallbackImgUrl + res.name;
       },
@@ -878,7 +1061,7 @@
       handleMaxSize(file) {
         this.$Modal.warning({
           title: '超出文件大小限制',
-          content: '图片 ' + file.name + ' 太大，不能超过 300K'
+          content: '图片 ' + file.name + ' 太大，不能超过 1M'
         });
       },
       stepNext() {
@@ -947,6 +1130,14 @@
           _this.$Message.warning('亲，每份试用品的价值必须在1元以上！');
           return;
         }
+        if (_this.taskRelease.itemPrice < 10 && _this.taskRelease.activityCategory === 'pinkage_for_10') {
+          _this.$Message.warning('亲，10元包邮活动宝贝最低价格不能低于10元！');
+          return;
+        }
+        if ((_this.taskRelease.activityCategory === 'price_low' || _this.taskRelease.activityCategory === 'goods_clearance') && _this.taskRelease.discountType === 'discount_0') {
+          _this.$Message.warning('亲，请选择试用折扣！');
+          return;
+        }
         if (_this.taskRelease.taskType === 'pc_search') {
           if (!_this.PcTaskDetail.itemMainImage) {
             _this.$Message.warning('亲，请上传PC搜索宝贝主图！');
@@ -1011,10 +1202,10 @@
         }
         let status = _this.taskStatus;
         let type = _this.$route.query.type;
-       /* if (_this.taskRelease.taskCount * _this.oneBond < 500) {
-          _this.price500Model = true;
-          return;
-        }*/
+        /* if (_this.taskRelease.taskCount * _this.oneBond < 500) {
+           _this.price500Model = true;
+           return;
+         }*/
         if ((status === 'waiting_modify' || status === 'waiting_pay') && _this.paidDeposit === _this.orderMoney && !type) {
           _this.taskCreate(true);
         } else if ((status === 'waiting_modify' || status === 'waiting_pay') && _this.paidDeposit > _this.orderMoney && !type) {
@@ -1137,13 +1328,13 @@
             } else {
               _this.taskRelease.taskDetail = {};
             }
-            if(_this.taskRelease.itemPrice >= 50){
+            if (_this.taskRelease.itemPrice >= 50) {
               _this.discountDisabled.discount_9_9.disabled = false;
             }
-            if(_this.taskRelease.itemPrice >= 150){
+            if (_this.taskRelease.itemPrice >= 150) {
               _this.discountDisabled.discount_49_9.disabled = false;
             }
-            if(_this.taskRelease.itemPrice >= 250){
+            if (_this.taskRelease.itemPrice >= 250) {
               _this.discountDisabled.discount_99_9.disabled = false;
             }
           }
@@ -1237,7 +1428,7 @@
   @import 'src/css/mixin';
 
   .task-release {
-    [v-cloak]{
+    [v-cloak] {
       display: none
     }
     .check-member {
@@ -1247,7 +1438,7 @@
       background-color: $mainColor;
       border-color: $mainColor;
     }
-    .ml-38{
+    .ml-38 {
       margin-left: 38px;
     }
     .main-color {
@@ -1409,10 +1600,10 @@
       padding-left: 26px;
       font-size: 16px;
     }
-    .task-remark-input{
+    .task-remark-input {
       width: 600px;
     }
-    .activity-tip{
+    .activity-tip {
       height: 36px;
       line-height: 36px;
       border: 1px solid #FFB9B8;
@@ -1422,7 +1613,7 @@
       color: #000;
       font-size: 14px;
     }
-    .discount-btn{
+    .discount-btn {
       display: inline-block;
       width: 140px;
       height: 40px;
@@ -1431,48 +1622,48 @@
       color: #fff;
       cursor: pointer;
       position: relative;
-      span{
+      span {
         display: block;
-        &:first-child{
+        &:first-child {
           font-weight: bold;
         }
       }
-      &.discount-charge{
+      &.discount-charge {
         background-color: #00CD36;
-        border:2px solid #00CD36;
-        &:hover{
-          border-color:#000;
+        border: 2px solid #00CD36;
+        &:hover {
+          border-color: #000;
         }
       }
-      &.discount-9-9{
+      &.discount-9-9 {
         background-color: #FF9900;
-        border:2px solid #FF9900;
-        &:hover{
-          border-color:#000;
+        border: 2px solid #FF9900;
+        &:hover {
+          border-color: #000;
         }
       }
-      &.discount-49-9{
+      &.discount-49-9 {
         background-color: #CD3636;
-        border:2px solid #CD3636;
-        &:hover{
-          border-color:#000;
+        border: 2px solid #CD3636;
+        &:hover {
+          border-color: #000;
         }
       }
-      &.discount-999{
+      &.discount-999 {
         background-color: #FF3699;
-        border:2px solid #FF3699;
-        &:hover{
-          border-color:#000;
+        border: 2px solid #FF3699;
+        &:hover {
+          border-color: #000;
         }
       }
-      &.isSelect{
-        border-color:#000;
+      &.isSelect {
+        border-color: #000;
       }
-      &.disabled{
-       opacity: 0.5;
+      &.disabled {
+        opacity: 0.5;
         cursor: not-allowed;
       }
-      .is-select-gou{
+      .is-select-gou {
         position: absolute;
         display: inline-block;
         top: 26px;
@@ -1481,6 +1672,79 @@
         height: 10px;
         background-image: url("~assets/img/common/select-gou.png");
         background-repeat: no-repeat;
+      }
+    }
+    .activity-type-title {
+      font-size: 16px;
+      color: #666;
+    }
+    .activity-type-box {
+      width: 192px;
+      height: 72px;
+      background-color: #FFF4F1;
+      color: #FF9675;
+      border: 1px solid #FF9675;
+      text-align: center;
+      cursor: pointer;
+      position: relative;
+      @include transition;
+      P:first-child {
+        font-weight: bold;
+        font-size: 16px;
+        margin-top: 6px;
+      }
+      &:hover {
+        border: 2px solid #000;
+        background-color: $mainColor;
+        color: #fff;
+      }
+      &.isSelect {
+        border: 2px solid #000;
+        background-color: $mainColor;
+        color: #fff;
+      }
+      .is-select-gou {
+        position: absolute;
+        display: inline-block;
+        bottom: 0;
+        right: 0;
+        width: 11px;
+        height: 10px;
+        background-image: url("~assets/img/common/select-gou.png");
+        background-repeat: no-repeat;
+      }
+    }
+    .pop-tip {
+      height: 40px;
+      line-height: 40px;
+      background-color: #F8F8F8;
+      font-size: 14px;
+      color: #666;
+      padding-left: 12px;
+      border: 1px solid #ddd;
+      margin-top: 18px;
+      position: relative;
+    }
+    .pop-tip-arrow {
+      top: -18px;
+      position: absolute;
+      background: url("~assets/img/common/release-jt-iamge.png") no-repeat;
+      width: 20px;
+      height: 18px;
+      &.free-get {
+        left: 9%;
+      }
+      &.pinkage-for-10 {
+        left: 29%;
+      }
+      &.present-get {
+        left: 48%;
+      }
+      &.price-low {
+        left: 68%;
+      }
+      &.goods-clearance {
+        left: 88%;
       }
     }
   }

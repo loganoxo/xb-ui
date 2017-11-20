@@ -52,7 +52,7 @@
           </p>
           <ul class="top-category-list" v-if="$store.state.showTopCategoryRes">
             <li  v-if="nav.name != '美食/特产' && nav.name != '其它试用'" :class="[$store.state.TaskCategoryActive == nav.id ? 'active' : '']" @click="selTaskCategoryActiveFunc(nav)" v-for="nav in navList" >
-              <img width="16" height="16"  :src="nvaImgSrc[nav.id]" alt="">
+              <img width="16" height="16"  :src="nvaImgSrc[nav.id]" alt="" style="vertical-align: -3px;">
               <span class="ml-5">{{nav.name}}</span>
             </li>
             <li :class="[$store.state.TaskCategoryActive == 'all' ? 'active' : '']" @click="selTaskCategoryAllFunc">
@@ -62,14 +62,17 @@
           </ul>
         </div>
         <div class="home-nav-list">
-          <a :class="[$store.state.TaskCategoryActive == 'home' ? 'active' : '']" @click="selTaskCategoryHome">首页</a>
-          <a :class="[$store.state.TaskCategoryActive == 'all' ? 'active' : '']" @click="selTaskCategoryAllFunc" >免费领</a>
-          <a :class="[$store.state.TaskCategoryActive == 'discount' ? 'active' : '']" @click="selDisCountTaskCategoryAllFunc">
-            <i>
-              <img src="/static/img/common/new.gif" alt="">
-            </i>
+          <a :class="[$store.state.activityCategory == 'home' ? 'active' : '']" @click="selTaskCategoryHome">首页</a>
+          <a :class="[$store.state.activityCategory == 'free_get' ? 'active' : '']" @click="selTaskCategoryFunc('free_get')" >免费领</a>
+          <a :class="[$store.state.activityCategory == 'pinkage_for_10' ? 'active' : '']" @click="selTaskCategoryFunc('pinkage_for_10')" >10元包邮</a>
+          <a :class="[$store.state.activityCategory == 'present_get' ? 'active' : '']" @click="selTaskCategoryFunc('present_get')" >体验专区</a>
+          <a :class="[$store.state.activityCategory == 'price_low' ? 'active' : '']" @click="selTaskCategoryFunc('price_low')">
+            <!--<i>-->
+              <!--<img src="/static/img/common/new.gif" alt="">-->
+            <!--</i>-->
             白菜价
           </a>
+          <a :class="[$store.state.activityCategory == 'goods_clearance' ? 'active' : '']" @click="selTaskCategoryFunc('goods_clearance')" >清仓断码</a>
           <a  @click="buyerShowPop = true">买家秀</a>
           <!--<a :class="[$store.state.TaskCategoryActive == 'all' ? 'active' : '']" @click="selTaskCategoryAllFunc">全部活动</a>-->
           <!--<a v-if="nav.name != '美食/特产' && nav.name != '其它试用'" :class="[$store.state.TaskCategoryActive == nav.id ? 'active' : '']" @click="selTaskCategoryActiveFunc(nav)" v-for="nav in navList" >{{nav.name}}</a>-->
@@ -91,6 +94,7 @@
 </template>
 
 <script>
+  import {setStorage, getStorage, encryption,removeStorage} from '@/config/utils'
   import TopTip from '@/components/TopTip.vue'
   import api from '@/config/apiConfig'
   import Modal from 'iview/src/components/modal'
@@ -132,7 +136,7 @@
         return this.$store.state.login
       },
       getUserInfoRole() {
-        return this.$store.state.userInfo.role
+        return this.$store.getters.getUserRole
       },
     },
     methods: {
@@ -142,19 +146,23 @@
           type: 'TASK_CATEGORY_LIST',
           info: 'home'
         });
+        self.$store.commit({
+          type: 'SET_ACTIVITY_CATEGORY',
+          info: 'home'
+        });
         self.$router.push({ 'path': '/'});
       },
-      selDisCountTaskCategoryAllFunc(){
+      selTaskCategoryFunc(activityCategory){
         let self = this;
+        self.$router.push({ 'path': '/task-category', 'query': {'activityCategory' : activityCategory}});
         self.$store.commit({
-          type: 'SET_DISCOUNT_TASK_CATEGORY',
-          result: true
+          type: 'SET_ACTIVITY_CATEGORY',
+          info: activityCategory
         });
         self.$store.commit({
           type: 'TASK_CATEGORY_LIST',
-          info: 'discount'
+          info: activityCategory
         });
-        self.$router.push({ 'path': '/task-category', 'query': {'discount': 'allDiscount'}});
       },
       selTaskCategoryAllFunc(){
         let self = this;
@@ -162,11 +170,7 @@
           type: 'TASK_CATEGORY_LIST',
           info: 'all'
         });
-        self.$store.commit({
-          type: 'SET_DISCOUNT_TASK_CATEGORY',
-          result: false
-        });
-        self.$router.push({ 'path': '/task-category', 'query': {'searchKey': 'all'}});
+        self.$router.push({ 'path': '/task-category', 'query': {'searchAll': 'yes'}});
       },
       selTaskCategoryActiveFunc(nav){
         let self = this;
@@ -197,15 +201,16 @@
         })
       },
       goKeyEnterFunc(ev){
-        if(ev.keyCode==13){
+        if(ev.keyCode === 13){
           this.goTaskCategory()
         }
       },
-      setTaskCategoryList(){
-
-      },
       goTaskCategory(){
         let self = this;
+        self.$store.commit({
+          type: 'SET_ACTIVITY_CATEGORY',
+          info: 'home'
+        });
         if(self.searchKey){
           self.$router.push({ path: '/task-category', query: { searchKey: self.searchKey }})
         }else {
@@ -217,7 +222,7 @@
     watch: {
       '$route' (to, from) {
         let self = this;
-        if(to.name == 'login'){
+        if(to.name === 'login'){
           self.searchKey = '';
         }
       }
@@ -362,7 +367,6 @@
     }
     div.home-nav-list {
       background-color: $mainColor;
-      margin-left: 5px;
       float: left;
       a {
         float: left;
@@ -377,7 +381,6 @@
           position: absolute;
           top: -7px;
           right: -6px;
-          z-index: 5;
           img{
             display: block;
           }
@@ -388,6 +391,8 @@
       }
       a.active{
         background-color: #ff9966;
+        border-left: 2px solid $mainColor;
+        border-right:2px solid $mainColor;
       }
     }
   }

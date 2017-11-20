@@ -6,30 +6,41 @@
           <Breadcrumb >
             <Breadcrumb-item>当前位置：</Breadcrumb-item>
             <Breadcrumb-item>秀吧</Breadcrumb-item>
-            <Breadcrumb-item v-if="$store.state.TaskCategoryActive">{{$store.state.TaskCategoryActiveList[$store.state.TaskCategoryActive].text}}</Breadcrumb-item>
+            <Breadcrumb-item v-if="$route.query.searchAll">全部活动</Breadcrumb-item>
+            <Breadcrumb-item v-if="$route.query.searchKey">搜索结果</Breadcrumb-item>
+            <Breadcrumb-item v-if="$route.query.activityCategory">{{$store.state.TaskCategoryActiveList[$store.state.activityCategory].text}}</Breadcrumb-item>
             <Breadcrumb-item v-if="$route.query.cate">{{parentItemCatalog.name}}</Breadcrumb-item>
           </Breadcrumb>
         </div>
       </div>
       <div class="container" >
-        <div class="task-category-sel">
-          <span v-show="$store.state.TaskCategoryActive" >{{$store.state.TaskCategoryActiveList[$store.state.TaskCategoryActive].text}}</span>：
-          <a :class="[($store.state.TaskCategoryActive == 'all' || $store.state.TaskCategoryActive == 'discount') &&  !$route.query.cate ? 'active' : '']" @click="selTaskCategoryAllFunc">全部活动</a>
+        <div v-show="!$route.query.searchKey" class="task-category-sel">
+          <span v-if="$route.query.activityCategory">{{$store.state.TaskCategoryActiveList[$store.state.activityCategory].text}}：</span>
+          <!--<a v-if="$route.query.searchKey != 'all' && $route.query.searchKey" :class="[!$route.query.cate ? 'active' : '']" @click="selCategoryAllFunc">全部活动</a>-->
+          <a :class="[!$route.query.cate ? 'active' : '']" @click="selTaskCategoryAllFunc">全部活动</a>
           <a v-if="nav.name != '美食/特产' && nav.name != '其它试用'" :class="[$route.query.cate == nav.id ? 'active' : '']" @click="selTaskCategoryActiveFunc(nav)" v-for="nav in navList" >{{nav.name}}</a>
         </div>
-        <div v-show="$route.query.searchKey != 'all' && $route.query.searchKey"  class="task-category-sel">
-          全部结果：<span style="color: #ff6633;" v-if="searchTaskParams.taskName">“{{searchTaskParams.taskName}}”</span>
+        <div v-show="$route.query.searchKey">
+          <div   class="task-category-sel">
+            搜索关键词：<span style="color: #ff6633;">“{{$route.query.searchKey}}”</span>
+          </div>
         </div>
         <div v-show="$route.query.cate"  class="task-category-sel">
           {{parentItemCatalog.name}}：
-          <router-link :class="[taskCategoryAll ? 'active' : '' ]" :to="{ 'path': '/task-category', 'query': {'cate': parentItemCatalog.id}}" >全部</router-link>
-          <router-link :class="[category.id == $route.query.cate ? 'active' : 'default']"  v-for="category in categoryList" :key="category.id" :to="{ 'path': '/task-category', 'query': {'cate': category.id}}"  >
+          <a :class="[taskCategoryAll ? 'active' : '' ]"  @click="selTaskCategoryAllChildActiveFunc" >全部</a>
+          <a :class="[category.id == $route.query.cate ? 'active' : 'default']" @click="selTaskCategoryChildActiveFunc(category)"  v-for="category in categoryList" :key="category.id"   >
             {{category.name}}
-          </router-link>
+          </a>
         </div>
-        <div v-if="$store.state.disCountTaskCategory" class="task-category-sel" >
-          折扣类型：
-          <a v-for="(k,discountPrice) in $store.state.discountPriceType" :class="[discountTaskCategoryActive == discountPrice ? 'active' : '' ]" @click="selDiscountPriceTypeFunc(k,discountPrice)">{{discountPrice}}试用</a>
+        <div v-show="!$route.query.searchKey">
+          <div v-if="$store.state.TaskCategoryActive == 'price_low'" class="task-category-sel" >
+            折扣类型：
+            <a v-for="(k,discountPrice) in $store.state.discountPriceType" :class="[discountTaskCategoryActive == discountPrice ? 'active' : '' ]" @click="selDiscountPriceTypeFunc(k,discountPrice)">{{discountPrice}}试用</a>
+          </div>
+          <div v-if=" $store.state.TaskCategoryActive == 'goods_clearance'" class="task-category-sel" >
+            折扣类型：
+            <a v-for="(k,discountPrice) in $store.state.goodsClearanceList" :class="[discountTaskCategoryActive == discountPrice ? 'active' : '' ]" @click="selDiscountPriceTypeFunc(k,discountPrice)">{{discountPrice}}清仓</a>
+          </div>
         </div>
       </div>
       <div class="container">
@@ -93,14 +104,18 @@
               </div>
               <div class="task-category-commodity-text">
                 <p v-html="searchTask.taskName"></p>
-                <p v-if="!$store.state.disCountTaskCategory" class="task-category-commodity-text-price">
-                  <span class="left">￥{{searchTask.itemPrice/100}}</span>
-                  <!--<span class="right">免费活动</span>-->
-                </p>
-                <p v-if="$store.state.disCountTaskCategory" class="home-commodity-price">
+                <p class="home-commodity-price">
                   <span class="left" style="text-decoration: line-through; color: #ff6633;">￥{{searchTask.itemPrice/100}}</span>
-                  <span v-if="searchTask.discountPrice" class="left home-discount-price mt-5" :style="{backgroundColor: $store.state.discountPriceType[parseFloat(searchTask.discountPrice/100)].backgroundColor}" >
+                  <span v-if= "searchTask.activityCategory == 'pinkage_for_10'" style="padding: 0 4px; background: #ff9966; color: #fff; margin-left: 10px; display: inline-block;height: 20px;line-height: 20px;">10元包邮</span>
+                  <span v-if= "searchTask.activityCategory == 'present_get'" style="padding: 0 4px; background: #00cc66; color: #ffffff; margin-left: 10px; display: inline-block;height: 20px;line-height: 20px;">体验专区</span>
+                  <span v-if="searchTask.activityCategory == 'price_low' && searchTask.discountPrice" class="left home-discount-price mt-5" :style="{backgroundColor: $store.state.discountPriceType[parseFloat(searchTask.discountPrice/100)].backgroundColor}" >
                     {{searchTask.discountPrice/100}}试用
+                  </span>
+                  <span v-if="searchTask.activityCategory == 'price_low' && searchTask.discountRate" class="left home-discount-price mt-5" :style="{backgroundColor: $store.state.discountPriceType[parseFloat(searchTask.discountRate/10) + '折'].backgroundColor}" >
+                    {{searchTask.discountRate/10}}折试用
+                  </span>
+                  <span v-if="searchTask.activityCategory == 'goods_clearance' && searchTask.discountRate " class="left home-discount-price mt-5" :style="{backgroundColor: $store.state.discountPriceType[parseFloat(searchTask.discountRate/10) + '折'].backgroundColor}" >
+                    {{searchTask.discountRate/10}}折清仓
                   </span>
                 </p>
                 <p class="cl000">
@@ -137,7 +152,9 @@
       <div class="container">
         <div class="task-category-commodity mt-10">
           <div id="historyPage" class="home-commodity-title">
-            <img src="~assets/img/home/home_25.png" alt="">
+            <div class="part-title-img-box">
+              <span class="fs-18">历史活动</span>
+            </div>
             <p class="text-ct fs-14">我型我秀，分享精彩</p>
           </div>
           <div class="task-category-commodity-ctt">
@@ -154,14 +171,18 @@
               </div>
               <div class="task-category-commodity-text">
                 <p v-html="historyTask.taskName"></p>
-                <p v-if="!$store.state.disCountTaskCategory" class="task-category-commodity-text-price">
-                  <span class="left">￥{{historyTask.itemPrice/100}}</span>
-                  <!--<span class="right">免费活动</span>-->
-                </p>
-                <p v-if="$store.state.disCountTaskCategory" class="home-commodity-price ">
+                <p  class="home-commodity-price ">
                   <span class="left" style="text-decoration: line-through; color: #ff6633;">￥{{historyTask.itemPrice/100}}</span>
-                  <span v-if="historyTask.discountPrice" class="left home-discount-price mt-5" :style="{backgroundColor: $store.state.discountPriceType[parseFloat(historyTask.discountPrice/100)].backgroundColor}" >
+                  <span v-if= "historyTask.activityCategory == 'present_get'" style=" padding: 0 4px; background: #00cc66; color: #ffffff; margin-left: 10px; display: inline-block;height: 20px;line-height: 20px;">体验专区</span>
+                  <span v-if= "historyTask.activityCategory == 'pinkage_for_10'" style="padding: 0 4px; background: #ff9966; color: #fff; margin-left: 10px; display: inline-block;height: 20px;line-height: 20px;">10元包邮</span>
+                  <span v-if="historyTask.activityCategory == 'price_low' && historyTask.discountPrice" class="left home-discount-price mt-5" :style="{backgroundColor: $store.state.discountPriceType[parseFloat(historyTask.discountPrice/100)].backgroundColor}" >
                     {{historyTask.discountPrice/100}}试用
+                  </span>
+                  <span v-if="historyTask.activityCategory == 'price_low' && historyTask.discountRate" class="left home-discount-price mt-5" :style="{backgroundColor: $store.state.discountPriceType[parseFloat(historyTask.discountRate/10) + '折'].backgroundColor}" >
+                    {{historyTask.discountRate/10}}折试用
+                  </span>
+                  <span v-if=" historyTask.activityCategory == 'goods_clearance' && historyTask.discountRate " class="left home-discount-price mt-5" :style="{backgroundColor: $store.state.discountPriceType[parseFloat(historyTask.discountRate/10) + '折'].backgroundColor}" >
+                    {{historyTask.discountRate/10}}折清仓
                   </span>
                 </p>
                 <p class="cl000">
@@ -205,7 +226,7 @@
 </template>
 
 <script>
-  import {setStorage, getStorage, encryption} from '@/config/utils'
+  import {setStorage, getStorage, encryption,removeStorage} from '@/config/utils'
   import Icon from 'iview/src/components/icon'
   import Form from 'iview/src/components/form'
   import Input from 'iview/src/components/input'
@@ -242,6 +263,11 @@
         parentItemCatalog: {
           name: '',
           id: ''
+        },
+        discountType: {
+          'discount_r_10': true,
+          'discount_r_30': true,
+          'discount_r_50': true,
         },
         discountTaskCategoryActive: '不限',
         navList: [],
@@ -298,7 +324,8 @@
           sortField: 'upLineTime',
           sortOrder: 'desc',
           ifAccess: [],
-          discountTypes: ['discount_0'],
+          activityCategories: [],
+          discountTypes: '',
         },
         historyTaskListParams:{
           pageIndex: 1,
@@ -310,58 +337,8 @@
     },
     created(){
       let self = this;
-      let cate = self.$route.query.cate;
-      let searchKey = self.$route.query.searchKey;
-      let discount = self.$route.query.discount;
-      self.getNavList();
-      if(getStorage('disCountTaskCategory')){
-        self.$store.commit({
-          type: 'SET_DISCOUNT_TASK_CATEGORY',
-          result: getStorage('disCountTaskCategory'),
-        });
-      }
-      if(getStorage('TaskCategoryActive')){
-        self.$store.commit({
-          type: 'TASK_CATEGORY_LIST',
-          info: getStorage('TaskCategoryActive'),
-        });
-      }
-      if(!self.$store.state.disCountTaskCategory){
-        self.searchTaskParams.discountTypes = ['discount_0']
-      }
-      if(cate){
-        self.itemCatalogs = [parseInt(cate)];
-        self.getTaskCategoryList(cate);
-      }
-      if(discount){
-        self.$store.commit({
-          type: 'SET_DISCOUNT_TASK_CATEGORY',
-          result: true
-        });
-        self.$store.commit({
-          type: 'TASK_CATEGORY_LIST',
-          info: 'discount'
-        });
-        self.itemCatalogs = [];
-        self.searchTaskParams.discountTypes = self.$store.state.discountPriceType['不限'].discountTypes;
-        self.getSearchTask();
-      }
-      if(searchKey){
-//        self.searchTaskParams.discountTypes = '';
-        if(searchKey === 'all'){
-          self.searchTaskParams.taskName = '';
-          self.itemCatalogs = [];
-          self.$store.commit({
-            type: 'TASK_CATEGORY_LIST',
-            info: 'all'
-          });
+      self.searchInit()
 
-        }else {
-          self.searchTaskParams.taskName = searchKey;
-        }
-        self.getSearchTask();
-        self.getSearchHistoryTask();
-      }
 
     },
     computed: {
@@ -382,9 +359,55 @@
       encryptionId(id){
         return encryption(id)
       },
+      selTaskCategoryAllChildActiveFunc(){
+        let self = this;
+        self.$router.push({ 'path': '/task-category', 'query': {
+          'cate': self.parentItemCatalog.id,
+          'activityCategory': self.$route.query.activityCategory
+        }});
+      },
       searchTaskNameFunc(){
         this.getSearchTask();
       },
+      searchInit(){
+        let self = this;
+        self.selSearchTaskParamsFunc();
+        self.getNavList();
+      },
+      selSearchTaskParamsFunc(){
+        let self = this;
+        let cate = self.$route.query.cate;
+        let searchKey = self.$route.query.searchKey;
+        let activityCategory = self.$route.query.activityCategory;
+        let searchAll = self.$route.query.searchAll;
+        self.$store.commit({
+          type: 'SET_ACTIVITY_CATEGORY',
+          info: self.$route.query.activityCategory,
+        });
+        self.searchTaskParams.pageIndex = 1;
+        self.historyTaskListParams.pageIndex = 1;
+        self.searchTaskParams.itemCatalogs = [];
+        self.searchTaskParams.discountTypes = [];
+        self.searchTaskParams.taskName = '';
+        if(activityCategory){
+          self.searchTaskParams.activityCategories = [activityCategory];
+        }else {
+          self.searchTaskParams.activityCategories = [];
+        }
+        if(cate){
+          self.getTaskCategoryList(cate, self.getSearchTask);
+          return;
+        }
+        if(searchAll){
+          self.searchTaskParams.activityCategories = [];
+        }
+        if(searchKey){
+          self.searchTaskParams.taskName = searchKey;
+        }
+        self.getSearchTask();
+        self.getSearchHistoryTask();
+      },
+
       pageChange(data){
         this.searchTaskParams.pageIndex = data;
         this.getSearchTask();
@@ -394,20 +417,31 @@
         this.getSearchHistoryTask();
         document.getElementById('historyPage').scrollIntoView(true);
       },
-      taskCategoryAllFunc(){
-        let self = this;
-        for(let i = 0; i < self.categoryList.length; i++){
-          self.itemCatalogs[i] = self.categoryList[i].id;
-        }
-        self.getSearchTask();
-      },
       selTaskCategoryAllFunc(){
         let self = this;
-        self.$router.push({ 'path': '/task-category', 'query': {'searchKey': 'all'}});
+        if(self.$route.query.activityCategory){
+          self.$router.push({ 'path': '/task-category', 'query': {
+            'activityCategory': self.$route.query.activityCategory
+          }});
+        }else {
+          self.$router.push({ 'path': '/task-category', 'query': {
+            'searchAll': 'yes',
+          }});
+        }
       },
       selTaskCategoryActiveFunc(nav){
         let self = this;
-        self.$router.push({ 'path': '/task-category', 'query': {'cate': nav.id}});
+        self.$router.push({ 'path': '/task-category', 'query': {
+          'cate': nav.id,
+          'activityCategory': self.$route.query.activityCategory
+        }});
+      },
+      selTaskCategoryChildActiveFunc(category){
+        let self = this;
+        self.$router.push({ 'path': '/task-category', 'query': {
+          'cate': category.id,
+          'activityCategory': self.$route.query.activityCategory
+        }});
       },
       selDiscountPriceTypeFunc(k,discountPrice){
         let self = this;
@@ -455,14 +489,13 @@
       },
       getSearchTask(){
         let self = this;
-        self.searchTaskParams.itemCatalogs = self.itemCatalogs;
         let showkerId = '';
         if(self.$store.state.userInfo && self.$store.state.userInfo.role == 0){
           showkerId = self.$store.state.userInfo.id
         }else {
           showkerId = '';
         }
-        api.getSearchTask({
+        let option = {
           pageIndex: self.searchTaskParams.pageIndex,
           pageSize: self.searchTaskParams.pageSize,
           taskName: self.searchTaskParams.taskName,
@@ -473,7 +506,10 @@
           showkerId: showkerId,
           ifAccess: self.searchTaskParams.ifAccess == '' ? '' : true,
           discountTypes: self.searchTaskParams.discountTypes ? JSON.stringify(self.searchTaskParams.discountTypes) : '',
-        }).then((res) => {
+          activityCategories: self.searchTaskParams.activityCategories ? JSON.stringify(self.searchTaskParams.activityCategories) : '',
+        };
+        console.log(option);
+        api.getSearchTask(option).then((res) => {
           window.scrollTo(0, 0);
           if(res.status){
             self.pageCount = parseInt(res.data.total);
@@ -495,6 +531,7 @@
           itemCatalogs: JSON.stringify(self.historyTaskListParams.itemCatalogs),
           sortField: 'endTime',
           discountTypes: self.searchTaskParams.discountTypes ? JSON.stringify(self.searchTaskParams.discountTypes) : '',
+          activityCategories: self.searchTaskParams.activityCategory ? JSON.stringify(self.searchTaskParams.activityCategory) : '',
         }).then((res) => {
           if(res.status){
             self.historyTaskList = res.data.content;
@@ -508,7 +545,7 @@
           }
         })
       },
-      getTaskCategoryList(cate){
+      getTaskCategoryList(cate, callback){
         let self = this;
         api.getTaskCategoryList({cate:cate}).then((res) => {
           if(res.status){
@@ -516,15 +553,11 @@
             self.categoryList = res.data;
             self.parentItemCatalog.name =  res.data[0].parentItemCatalog.name;
             self.parentItemCatalog.id =  res.data[0].parentItemCatalog.id;
-//            self.$store.commit({
-//              type: 'TASK_CATEGORY_LIST',
-//              info: res.data[0].parentItemCatalog.id,
-//            });
             for(let i = 0; i < self.categoryList.length; i++){
               itemCatalogs.push(self.categoryList[i].id);
               self.historyTaskListParams.itemCatalogs.push(self.categoryList[i].id);
               if(cate == self.categoryList[i].id){
-                self.itemCatalogs = [parseInt(cate)];
+                self.searchTaskParams.itemCatalogs = [parseInt(cate)];
                 self.taskCategoryAll = false;
                 break
               }else {
@@ -532,9 +565,11 @@
               }
             }
             if(self.taskCategoryAll){
-              self.itemCatalogs = itemCatalogs;
+              self.searchTaskParams.itemCatalogs = itemCatalogs;
             }
-            self.getSearchTask();
+            if (typeof callback === 'function' && res) {
+              callback();
+            }
             self.getSearchHistoryTask();
           }else {
             self.$Message.error({
@@ -549,54 +584,7 @@
       '$route' (to, from) {
         //刷新参数放到这里里面去触发就可以刷新相同界面了
         let self = this;
-        this.searchTaskParams.taskName = '';
-        let cate = this.$route.query.cate;
-        let searchKey = this.$route.query.searchKey;
-        let discount = this.$route.query.discount;
-        self.historyTaskListParams.itemCatalogs = [];
-        if(getStorage('disCountTaskCategory')){
-          self.$store.commit({
-            type: 'SET_DISCOUNT_TASK_CATEGORY',
-            result: getStorage('disCountTaskCategory'),
-          });
-        }
-        if(getStorage('TaskCategoryActive')){
-          self.$store.commit({
-            type: 'TASK_CATEGORY_LIST',
-            info: getStorage('TaskCategoryActive'),
-          });
-        }
-        if(!self.$store.state.disCountTaskCategory){
-          self.searchTaskParams.discountTypes = ['discount_0'];
-        }
-        if(cate){
-          self.itemCatalogs = [parseInt(cate)];
-          self.getTaskCategoryList(cate);
-        }
-        if(discount){
-          self.$store.commit({
-            type: 'SET_DISCOUNT_TASK_CATEGORY',
-            result: true
-          });
-          self.$store.commit({
-            type: 'TASK_CATEGORY_LIST',
-            info: 'discount'
-          });
-          self.searchTaskParams.discountTypes = self.$store.state.discountPriceType['不限'].discountTypes;
-          self.itemCatalogs = [];
-          self.getSearchTask();
-          self.getSearchHistoryTask();
-        }
-        if(searchKey){
-          if(searchKey == 'all'){
-            self.searchTaskParams.taskName = '';
-            self.itemCatalogs = [];
-          }else {
-            self.searchTaskParams.taskName = searchKey;
-          }
-          self.getSearchTask();
-          self.getSearchHistoryTask();
-        }
+        self.searchInit();
       },
       'searchTaskParams'(){
         deep:true;
@@ -625,6 +613,7 @@
   }
   .home-commodity-title{
     overflow: hidden;
+    padding-top: 30px;
     img{
       display: block;
       margin: 28px auto 10px auto;
