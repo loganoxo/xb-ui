@@ -66,10 +66,8 @@
           loop: false,
           duration: 500,
           stopPageScroll: true,
-          beforeChange: function (prev, next) {
-          },
-          afterChange: function (prev, next) {
-          }
+          beforeChange: function (prev, next) {},
+          afterChange: function (prev, next) {}
         },
         advBottomShow: true,
         advBottomAgain: true,
@@ -105,31 +103,29 @@
       self.$nextTick(function () {
         self.FullPage  = new FullPage({
 
-          id : 'pageContain',                            // id of contain
-          slideTime : 800,                               // time of slide
-          continuous : true,                            // create an infinite feel with no endpoints
-          effect : {                                     // slide effect
+          id : 'pageContain',
+          slideTime : 800,
+          continuous : true,
+          effect : {
             transform : {
-              translate : 'Y',				   // 'X'|'Y'|'XY'|'none'
-              scale : [.1, 1],				   // [scalefrom, scaleto]
-              rotate : [0, 0]				       // [rotatefrom, rotateto]
+              translate : 'Y',
+              scale : [.1, 1],
+              rotate : [0, 0]
             },
-            opacity : [0, 1]                       // [opacityfrom, opacityto]
+            opacity : [0, 1]
           },
-          mode : 'wheel,touch,nav:navBar',               // mode of fullpage
-          start : 0,                                     // which page will display when install
-          easing : 'fadeInDown',                                   // easing('ease','ease-in','ease-in-out' or use cubic-bezier like [.33, 1.81, 1, 1];
-          onSwipeStart : function(index, thisPage) {   // callback before pageChange
+          mode : 'wheel,touch,nav:navBar',
+          start : 0,
+          easing : 'fadeInDown',
+          onSwipeStart : function(index, thisPage) {
             if(self.advBottomAgain){
               self.advBottomShow = true;
             }
-
-
           },
-          beforeChange : function(index, thisPage) {   // callback before pageChange
+          beforeChange : function(index, thisPage) {
             self.advBottomShow = false;
           },
-          callback : function(index, thisPage) {       // callback when pageChange
+          callback : function(index, thisPage) {
             if(self.advBottomAgain){
               self.advBottomShow = true;
             }
@@ -142,13 +138,6 @@
 </script>
 
 <style lang="scss" scoped>
-  @import 'src/css/mixin';
-  /*.seller-adv{*/
-    /*position: absolute;*/
-    /*top: 0;*/
-    /*left: 0;*/
-    /*z-index: 100;*/
-  /*}*/
   .adv-top-part{
     margin-right: 122px;
     margin-top: 55px;
@@ -438,6 +427,5 @@
       -ms-transform:translateY(0px)
     }
   }
-
 </style>
 

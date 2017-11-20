@@ -204,11 +204,11 @@
                     <a class="des-text" :title="item.trialReportText">{{item.trialReportText}}</a>
                   </p>
                   <div class="clear bottom mt-20">
-                    <router-link :to="{path:'/trial-report',query:{q:encryptionId(item.showkerId)}}" class="user-head-box"><img  width="48" height="48" :src="getUserHead(item.showkerPortraitPic)" alt=""></router-link>
+                    <router-link :to="{path:'/trial-report',query:{q:encryptionId(item.showkerId)}}" class="user-head-box ml-10"><img  width="48" height="48" :src="getUserHead(item.showkerPortraitPic)" alt=""></router-link>
                     <div class="left ml-10" style="margin-top: 5px">
                       <p style="color: #000">{{item.showkerPhone}}</p>
                       <img :src="item.creditLevel" alt="">
-                      <p >淘气值：{{item.tqz}}</p>
+                      <p>淘气值：{{item.tqz}}</p>
                     </div>
                   </div>
                 </li>
@@ -326,8 +326,11 @@
                 <p class="home-commodity-title">{{homeDisCount.taskName}}</p>
                 <p class="home-commodity-price">
                   <span class="left" style="text-decoration: line-through;">￥{{homeDisCount.itemPrice/100}}</span>
-                  <span class="left home-discount-price" :style="{backgroundColor: $store.state.discountPriceType[parseFloat(homeDisCount.discountPrice/100)].backgroundColor}" >
+                  <span v-if="homeDisCount.activityCategory == 'price_low' && homeDisCount.discountPrice" class="left home-discount-price mt-5" :style="{backgroundColor: $store.state.discountPriceType[parseFloat(searchTask.discountPrice/100)].backgroundColor}" >
                     {{homeDisCount.discountPrice/100}}试用
+                  </span>
+                  <span v-if="homeDisCount.activityCategory == 'price_low' && homeDisCount.discountRate" class="left home-discount-price mt-5" :style="{backgroundColor: $store.state.discountPriceType[parseFloat(searchTask.discountRate/10) + '折'].backgroundColor}" >
+                    {{homeDisCount.discountRate/10}}折试用
                   </span>
                 </p>
                 <p class="home-commodity-apply">
@@ -1274,7 +1277,6 @@
     float: left;
     width: 48px;
     height: 48px;
-    margin-left: 10px;
     img{
       border-radius: 50%;
     }
