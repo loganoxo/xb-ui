@@ -257,6 +257,8 @@
           if (res.status){
             if (res.data){
               self.ZanIconType = 'ios-heart';
+            }else {
+              self.ZanIconType = 'ios-heart-outline';
             }
           }else {
             self.$Message.error(res.msg)
@@ -334,6 +336,7 @@
       showReportDescFunc(trialReport){
         let self = this;
         self.showReportDesc = true;
+        self.trialReports= trialReport;
         api.getTrialReport({
           id: trialReport.id
         }).then((res) => {
