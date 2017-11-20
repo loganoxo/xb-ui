@@ -160,7 +160,7 @@
             </div>
             <div class="notice-box">
               <p>
-                <a v-for="notice in noticeList" :class="[noticeActive == notice.active ? 'active' : '']"
+                <a v-show="!(getUserInfoRole == 0 && notice.title == '商家问题')" v-for="notice in noticeList" :class="[noticeActive == notice.active ? 'active' : '']"
                    @click="changeNoticeTab(notice)">{{notice.title}}</a>
               </p>
               <div v-for="(notice,index) in noticeList" v-show="noticeActive == notice.active" :key="index"
@@ -237,18 +237,18 @@
                             (new Date() - taskTopLeft.createTime) / 1000 / 60 / 60 / 24 < 1 ? parseInt((new Date() - taskTopLeft.createTime) / 1000 / 60 / 60) :
                               parseInt((new Date() - taskTopLeft.createTime) / 1000 / 60 / 60 / 24)
                         }}
-              </span>
+                      </span>
                       <span style="color: #999;"
                             v-if="(new Date() -taskTopLeft.createTime)/1000/60 < 60 || (new Date() -taskTopLeft.createTime)/1000 < 60">
-                分钟前
-              </span>
+                        分钟前
+                      </span>
                       <span style="color: #999;"
                             v-if="(new Date() -taskTopLeft.createTime)/1000/60/60/24 < 1 && (new Date() -taskTopLeft.createTime)/1000/60 >= 60">
-                小时前
-              </span>
+                        小时前
+                      </span>
                       <span style="color: #999;" v-if="(new Date() -taskTopLeft.createTime)/1000/60/60/24 >= 1">
-                天前
-              </span>
+                        天前
+                      </span>
                     </div>
                   </router-link>
                 </li>

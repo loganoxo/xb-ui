@@ -1,7 +1,7 @@
 <template>
   <div class="personal-box" :class="[!isLogin ? 'ml-12p' : '']">
     <div class="personal-sel-top">
-      <router-link :to="myInfoSelect.link" :key="myInfoSelect.link" v-for="(myInfoSelect,index) in myInfoSelects" :class="{active:infoSelect == myInfoSelect.isSelect}">
+      <router-link v-if="!(myInfoSelect.isSelect == 'faqSeller' && $store.state.userInfo.role == 0)" :to="myInfoSelect.link" :key="myInfoSelect.link" v-for="(myInfoSelect,index) in myInfoSelects" :class="{active:infoSelect == myInfoSelect.isSelect}">
         {{myInfoSelect.text}}
       </router-link>
     </div>
