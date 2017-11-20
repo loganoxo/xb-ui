@@ -108,13 +108,13 @@
                   <span class="left" style="text-decoration: line-through; color: #ff6633;">￥{{searchTask.itemPrice/100}}</span>
                   <span v-if= "searchTask.activityCategory == 'pinkage_for_10'" style="padding: 0 4px; background: #ff9966; color: #fff; margin-left: 10px; display: inline-block;height: 20px;line-height: 20px;">10元包邮</span>
                   <span v-if= "searchTask.activityCategory == 'present_get'" style="padding: 0 4px; background: #00cc66; color: #ffffff; margin-left: 10px; display: inline-block;height: 20px;line-height: 20px;">体验专区</span>
-                  <span v-if="searchTask.activityCategory == 'price_low' && searchTask.discountPrice" class="left home-discount-price mt-5"  >
+                  <span v-if="searchTask.activityCategory == 'price_low' && searchTask.discountPrice" class="left home-discount-price mt-5" :style="{backgroundColor: $store.state.discountPriceType[parseFloat(searchTask.discountPrice/100)].backgroundColor}" >
                     {{searchTask.discountPrice/100}}试用
                   </span>
-                  <span v-if="searchTask.activityCategory == 'price_low' && searchTask.discountRate" class="left home-discount-price mt-5" >
+                  <span v-if="searchTask.activityCategory == 'price_low' && searchTask.discountRate" class="left home-discount-price mt-5" :style="{backgroundColor: $store.state.discountPriceType[parseFloat(searchTask.discountRate/10) + '折'].backgroundColor}" >
                     {{searchTask.discountRate/10}}折试用
                   </span>
-                  <span v-if="searchTask.activityCategory == 'goods_clearance' && searchTask.discountRate " class="left home-discount-price mt-5"  >
+                  <span v-if="searchTask.activityCategory == 'goods_clearance' && searchTask.discountRate " class="left home-discount-price mt-5" :style="{backgroundColor: $store.state.discountPriceType[parseFloat(searchTask.discountRate/10) + '折'].backgroundColor}" >
                     {{searchTask.discountRate/10}}折清仓
                   </span>
                 </p>
