@@ -326,10 +326,10 @@
                 <p class="home-commodity-title">{{homeDisCount.taskName}}</p>
                 <p class="home-commodity-price">
                   <span class="left" style="text-decoration: line-through;">￥{{homeDisCount.itemPrice/100}}</span>
-                  <span v-if="homeDisCount.activityCategory == 'price_low' && homeDisCount.discountPrice" class="left home-discount-price mt-5" :style="{backgroundColor: $store.state.discountPriceType[parseFloat(searchTask.discountPrice/100)].backgroundColor}" >
+                  <span v-if="homeDisCount.activityCategory == 'price_low' && homeDisCount.discountPrice" class="left home-discount-price mt-5" :style="{backgroundColor: $store.state.discountPriceType[parseFloat(homeDisCount.discountPrice/100)].backgroundColor}" >
                     {{homeDisCount.discountPrice/100}}试用
                   </span>
-                  <span v-if="homeDisCount.activityCategory == 'price_low' && homeDisCount.discountRate" class="left home-discount-price mt-5" :style="{backgroundColor: $store.state.discountPriceType[parseFloat(searchTask.discountRate/10) + '折'].backgroundColor}" >
+                  <span v-if="homeDisCount.activityCategory == 'price_low' && homeDisCount.discountRate" class="left home-discount-price mt-5" :style="{backgroundColor: $store.state.discountPriceType[parseFloat(homeDisCount.discountRate/10) + '折'].backgroundColor}" >
                     {{homeDisCount.discountRate/10}}折试用
                   </span>
                 </p>
