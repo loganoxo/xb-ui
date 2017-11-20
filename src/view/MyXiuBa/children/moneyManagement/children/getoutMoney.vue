@@ -585,7 +585,6 @@
           }
         });
       },
-
       //申请提现
       applyGetoutMoney(types) {
         let _this = this;
