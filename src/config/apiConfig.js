@@ -375,6 +375,13 @@ export default {
   },
 
   /**
+   * 秀客重新提交订单号-获取订单号
+   */
+  getOrderNume(params) {
+    return fetch("/api/task/merchant/getOrderNum.json", params)
+  },
+
+  /**
    * 商家获取秀客订单详情
    */
   orderNumberInfo(params) {
