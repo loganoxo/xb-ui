@@ -465,7 +465,7 @@
   export default {
     beforeMount() {
       let self = this;
-      if (getStorage('weChartPop') == 1 && self.$store.state.userInfo.role == 0 && !getStorage('setWeChartshower' + self.$store.state.userInfo.phone)) {
+      if (getStorage('weChartPop') === 1 && self.$store.state.userInfo.role === 0 && !getStorage('setWeChartshower' + self.$store.state.userInfo.phone)) {
         self.weChartShowkerAlertFunc();
       }
       self.$store.commit({
@@ -655,12 +655,6 @@
       },
       getMemberLevel() {
         return this.$store.state.userInfo.memberLevel
-      },
-      userHeadUrl() {
-        return this.$store.getters.getUserHeadUrl
-      },
-      getUserRole () {
-        return this.$store.getters.getUserRole
       },
     },
     mounted: function () {
@@ -1218,7 +1212,6 @@
       background-color: #fff;
       border: 1px solid #E8E8E8;
       .home-commodity-title {
-        padding-top: 30px;
         img {
           display: block;
           margin: 28px auto 10px auto;
@@ -1267,15 +1260,6 @@
         }
 
       }
-    }
-  }
-
-  .user-head-box{
-    float: left;
-    width: 48px;
-    height: 48px;
-    img{
-      border-radius: 50%;
     }
   }
 
