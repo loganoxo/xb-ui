@@ -119,7 +119,7 @@
               <span v-show="getIfEditPwdAlready"><router-link to="/user/money-management/account-management">忘记支付密码？</router-link></span>
             </Form-item>
             <Form-item>
-              <iButton type="primary" @click="getOutMoneyPopWindow = true,applyGetoutMoney(getoutMoney)" class="ibtns">申请提现</iButton>
+              <iButton type="primary" @click="applyGetoutMoney(getoutMoney)" class="ibtns">申请提现</iButton>
               <Modal
                 v-model="getOutMoneyPopWindow"
                 :styles="{top:'210px',width:'580px'}"
@@ -259,7 +259,7 @@
   import Input from 'iview/src/components/input'
   import api from '@/config/apiConfig'
   import SmsCountdown from '@/components/SmsCountdown'
-  import {TaskErrorStatusList} from '@/config/utils'
+  import {TaskErrorStatusList,isNumber} from '@/config/utils'
   import {mapActions} from 'vuex'
 
   export default {
@@ -282,7 +282,7 @@
     data() {
       //表单验证
       const validatePayNumber = (rule, value, callback) => {
-        if (!(/^[1-9]\d*$/.test(value))) {
+        if (!(/^[0-9]+(.[0-9]{1,2})?$/.test(value))) {
           callback(new Error('金额为数字，请您重新输入'))
         } else {
           callback()
@@ -589,10 +589,11 @@
       //申请提现
       applyGetoutMoney(types) {
         let _this = this;
-        if (!(/^[0-9]+(.[0-9]{1,2})?$/.test(parseInt(types.getoutNumber)))){
-          _this.getOutMoneyPopWindow = false;
+        if (!(isNumber(types.getoutNumber))){
+         _this.$Message.error('金额为数字且仅支持小数点后两位');
           return;
         }
+        _this.getOutMoneyPopWindow = true;
         api.applyGetoutMoney({
           fee: types.getoutNumber * 100,
           bankCardNum: _this.userAccount.bankCardNum,

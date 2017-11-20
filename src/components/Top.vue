@@ -38,7 +38,7 @@
 
           </div>
         </div>
-        <router-link to="/seller-adv" class="seller-guide" v-if="" >
+        <router-link v-if="!($store.state.userInfo.role == 0)" to="/seller-adv" class="seller-guide">
           <img src="/static/img/common/seller-guide.png" alt="">
         </router-link>
       </div>
