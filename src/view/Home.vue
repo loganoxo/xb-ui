@@ -692,7 +692,7 @@
         api.getBuyerShowList().then((res) => {
           if (res.status) {
             self.buyerShowList = res.data;
-            for (let i = 0; i <  self.buyerShowList.length; i++) {
+            for (let i = 0, len = self.buyerShowList.length; i < len; i++) {
               if (JSON.parse(self.buyerShowList[i].trialReportImages)[0][0] !== 'h'){
                 self.buyerShowList[i].trialReportImages = aliCallbackImgUrl + JSON.parse(self.buyerShowList[i].trialReportImages)[0]
               } else {
