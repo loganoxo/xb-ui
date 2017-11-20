@@ -204,13 +204,13 @@
                     <a class="des-text" :title="item.trialReportText">{{item.trialReportText}}</a>
                   </p>
                   <div class="clear bottom mt-20">
-                    <router-link :to="{path:'/trial-report',query:{q:encryptionId(item.showkerId)}}" class="user-head-box"><img class="left" width="48" height="48" :src="getUserHead(item.showkerPortraitPic)" alt=""></router-link>
+                    <router-link :to="{path:'/trial-report',query:{q:encryptionId(item.showkerId)}}" class="user-head-box ml-10"><img  width="48" height="48" :src="getUserHead(item.showkerPortraitPic)" alt=""></router-link>
                     <div class="left ml-10" style="margin-top: 5px">
                       <p style="color: #000">{{item.showkerPhone}}</p>
                       <img :src="item.creditLevel" alt="">
+                      <p>淘气值：{{item.tqz}}</p>
                     </div>
                   </div>
-                  <div class="text-ct"><span>淘气值：{{item.tqz}}</span></div>
                 </li>
               </ul>
             </div>
