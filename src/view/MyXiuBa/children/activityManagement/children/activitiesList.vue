@@ -61,7 +61,7 @@
       </ButtonGroup>
       <iInput v-model="taskNumber" size="small" placeholder="使用活动编号搜索" class="left ml-10" style="width: 280px;"
               @on-enter="getTaskList">
-        <iButton slot="append" icon="ios-search" size="small" :loading="searchLoading" @click="getTaskList"></iButton>
+        <iButton slot="append" icon="ios-search" size="small" :loading="searchLoading" @click="seacrhTaskList"></iButton>
       </iInput>
     </div>
     <!--管理列表-->
@@ -424,6 +424,10 @@
         this.sortList.select = name;
         this.sortList.defaultList[index].sort = sort === 'desc' ? 'asc' : 'desc';
         this.getTaskList(name, this.sortList.defaultList[index].sort);
+      },
+      seacrhTaskList()  {
+        this.pageIndex = 1;
+        this.getTaskList();
       },
       getTaskList(orderBy, sort) {
         let _this = this;

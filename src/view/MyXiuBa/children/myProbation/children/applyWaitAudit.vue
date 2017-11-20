@@ -4,7 +4,7 @@
       <iOption v-for="item in SelectList" :value="item.value" :key="item.value">{{ item.label }}</iOption>
     </iSelect>
     <iInput v-model="searchValue" style="width: 160px;margin-right: 8px;"></iInput>
-    <iButton type="primary" :loading="searchLoading" @click="showkerApplyList">搜索</iButton>
+    <iButton type="primary" :loading="searchLoading" @click="searchShowkerWaitTask">搜索</iButton>
     <div class="probation-table mt-20">
       <table>
         <thead>
@@ -215,6 +215,10 @@
       },
       goTaskDetails(id) {
         this.$router.push({name: 'TaskDetails', query: {q: encryption(id)}})
+      },
+      searchShowkerWaitTask() {
+        this.pageIndex = 1;
+        this.showkerApplyList();
       },
       showkerApplyList() {
         let _this = this;
