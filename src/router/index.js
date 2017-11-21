@@ -2,6 +2,7 @@ import Vue from 'vue'
 import Router from 'vue-router'
 
 const Home = r => require.ensure([], () => r(require('@/view/Home.vue')), 'Home');
+const BuyerShow = r => require.ensure([], () => r(require('@/view/BuyerShow.vue')), 'BuyerShow');
 const QQLogin = r => require.ensure([], () => r(require('@/view/QQLogin.vue')), 'QQLogin');
 const SellerAdv = r => require.ensure([], () => r(require('@/view/SellerAdv.vue')), 'SellerAdv');
 const SellerSpread = r => require.ensure([], () => r(require('@/view/SellerSpread.vue')), 'SellerSpread');
@@ -74,6 +75,17 @@ export default new Router({
       component: Home,
       meta: {
         title: "秀吧-提权重促转化",
+        logInAuthority: false,
+        topShow: true,
+        bottomShow: true,
+      }
+    },
+    {
+      path: '/buyer-show',
+      name: 'BuyerShow',
+      component: BuyerShow,
+      meta: {
+        title: "买家秀",
         logInAuthority: false,
         topShow: true,
         bottomShow: true,

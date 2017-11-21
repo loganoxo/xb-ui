@@ -1018,7 +1018,7 @@
               position: absolute;
               width: 200px;
               top: 230px;
-              left: 0;
+              left: 15px;
               height: 30px;
               line-height: 30px;
               padding: 0px 3px;

@@ -73,7 +73,7 @@
             白菜价
           </a>
           <a :class="[$store.state.activityCategory == 'goods_clearance' ? 'active' : '']" @click="selTaskCategoryFunc('goods_clearance')" >清仓断码</a>
-          <a  @click="buyerShowPop = true">买家秀</a>
+          <a :class="[$store.state.activityCategory == 'buyer_show' ? 'active' : '']" @click="linkToBuyerShow('buyer_show')">买家秀</a>
           <!--<a :class="[$store.state.TaskCategoryActive == 'all' ? 'active' : '']" @click="selTaskCategoryAllFunc">全部活动</a>-->
           <!--<a v-if="nav.name != '美食/特产' && nav.name != '其它试用'" :class="[$store.state.TaskCategoryActive == nav.id ? 'active' : '']" @click="selTaskCategoryActiveFunc(nav)" v-for="nav in navList" >{{nav.name}}</a>-->
         </div>
@@ -140,6 +140,18 @@
       },
     },
     methods: {
+      linkToBuyerShow(activityCategory){
+        let self = this;
+        self.$router.push({ 'path': '/buyer-show'});
+        self.$store.commit({
+          type: 'SET_ACTIVITY_CATEGORY',
+          info: activityCategory
+        });
+        self.$store.commit({
+          type: 'TASK_CATEGORY_LIST',
+          info: activityCategory
+        });
+      },
       selTaskCategoryHome(){
         let self = this;
         self.$store.commit({

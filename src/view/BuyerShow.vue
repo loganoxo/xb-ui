@@ -1,0 +1,993 @@
+<template>
+  <div>
+    <div class="home-ctt">
+      <div class="container">
+        <div class="home-section">
+          <div class="middle-ctt left">
+            <Carousel autoplay :autoplay-speed="5000" v-model="homeCarousel" loop>
+              <Carousel-item>
+                <router-link to="" class="block">
+                  <img class="block" width="900" height="400" src="~assets/img/home/banner_02.jpg" alt="">
+                </router-link>
+              </Carousel-item>
+              <Carousel-item>
+                <router-link to="" class="block">
+                  <img class="block" width="900" height="400" src="~assets/img/home/banner_03.jpg" alt="">
+                </router-link>
+              </Carousel-item>
+              <Carousel-item>
+                <router-link to="" class="block">
+                  <img class="block" width="900" height="400" src="~assets/img/home/banner_04.jpg" alt="">
+                </router-link>
+              </Carousel-item>
+            </Carousel>
+          </div>
+          <div class="right-ctt">
+            <div class="title">
+              <Icon type="trophy" class="cup-icon"></Icon>
+              <span class="ml-5">买家秀排行榜</span>
+            </div>
+            <div class="content clear">
+              <span class="left fs-18">1</span>
+              <img class="left ml-15" width="48px" src="~assets/img/common/home_24.png" alt="">
+              <div class="left ml-10 ">
+                <p class="mt-5 fs-14">13666666666</p>
+                <p><span class="main-color">12</span>篇买家秀，共获得<span class="main-color">100</span>个赞</p>
+              </div>
+            </div>
+            <div class="content clear">
+              <span class="left fs-18">2</span>
+              <img class="left ml-15" width="48px" src="~assets/img/common/home_24.png" alt="">
+              <div class="left ml-10 ">
+                <p class="mt-5 fs-14">13666666666</p>
+                <p><span class="main-color">12</span>篇买家秀，共获得<span class="main-color">100</span>个赞</p>
+              </div>
+            </div>
+            <div class="content clear">
+              <span class="left fs-18">3</span>
+              <img class="left ml-15" width="48px" src="~assets/img/common/home_24.png" alt="">
+              <div class="left ml-10 ">
+                <p class="mt-5 fs-14">13666666666</p>
+                <p><span class="main-color">12</span>篇买家秀，共获得<span class="main-color">100</span>个赞</p>
+              </div>
+            </div>
+            <div class="content clear">
+              <span class="left fs-18">4</span>
+              <img class="left ml-15" width="48px" src="~assets/img/common/home_24.png" alt="">
+              <div class="left ml-10 ">
+                <p class="mt-5 fs-14">13666666666</p>
+                <p><span class="main-color">12</span>篇买家秀，共获得<span class="main-color">100</span>个赞</p>
+              </div>
+            </div>
+            <div class="content clear">
+              <span class="left fs-18">5</span>
+              <img class="left ml-15" width="48px" src="~assets/img/common/home_24.png" alt="">
+              <div class="left ml-10 ">
+                <p class="mt-5 fs-14">13666666666</p>
+                <p><span class="main-color">12</span>篇买家秀，共获得<span class="main-color">100</span>个赞</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="container">
+        <div class="data-information clear">
+          <div class="content left clear">
+            <img class="left" src="~assets/img/buyer-show/des_01.png" alt="">
+            <div class="left  ml-15">
+              <p class="number">8863587位</p>
+              <p class="dsc">真实秀客入驻</p>
+            </div>
+          </div>
+          <div class="content left clear">
+            <img class="left" src="~assets/img/buyer-show/des_02.png" alt="">
+            <div class="left  ml-15">
+              <p class="number">8863587位</p>
+              <p class="dsc">买家秀已发表</p>
+            </div>
+          </div>
+          <div class="content left clear">
+            <img class="left" src="~assets/img/buyer-show/des_03.png" alt="">
+            <div class="left  ml-15">
+              <p class="number">100%</p>
+              <p class="dsc">真实原创</p>
+            </div>
+          </div>
+          <div class="content left clear">
+            <img class="left" src="~assets/img/buyer-show/des_04.png" alt="">
+            <div class="left  ml-15">
+              <p class="number">85%以上</p>
+              <p class="dsc">高质量秀客</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="container">
+        <div class="buyer-xiu clear">
+          <div class="left-ctt left">
+            <div style="overflow: hidden">
+              <div class="title clear">
+                <img  style="vertical-align: middle" src="~assets/img/home/top_mjx.png" alt="">
+                <span class="ml-10" style="font-size: 13px;color: #999;transform: translateY(2px)">给你最精彩</span>
+              </div>
+              <ul class="clear" :class="[leftSlider ? 'slider-top-active-left' : 'slider-top-default-left']"
+                  @mouseover="clearLeftSliderFunc()" @mouseleave="leftSliderFunc()">
+                <li v-for="item in buyerShowList" class="content cursor-p left pos-rel" >
+                  <router-link :to="{path:'/trial-report',query:{q:encryptionId(item.showkerId),showReportDesc:true,id:encryptionId(item.id)}}" :title="item.taskName">
+                    <div style="height: 260px">
+                      <img :src="item.trialReportImages+'!thum200'" alt="" width="200" height="260">
+                    </div>
+                    <!-- <p class=" top-heart clear" >
+                       <img class="left " style="vertical-align: middle " width="15" height="15" src="~assets/img/home/heart.png" alt="">
+                       <span class="left" style="font-size: 14px">赞(12000)</span>
+                     </p>-->
+                    <p class="price clear">
+                      <span class="left ellipsis">{{item.taskName}}</span>
+                      <span class="right pl-10">￥{{item.itemPrice/100}}</span>
+                    </p>
+                  </router-link>
+                  <p class="mt-10 description pos-rel">
+                    <span class="double-question-mark"></span>
+                    <a class="des-text" :title="item.trialReportText">{{item.trialReportText}}</a>
+                  </p>
+                  <div class="clear bottom mt-20">
+                    <router-link :to="{path:'/trial-report',query:{q:encryptionId(item.showkerId)}}" class="user-head-box"><img  width="48" height="48" :src="getUserHead(item.showkerPortraitPic)" alt=""></router-link>
+                    <div class="left ml-10" style="margin-top: 5px">
+                      <p style="color: #000">{{item.showkerPhone}}</p>
+                      <img :src="item.creditLevel" alt="">
+                      <div class="text-ct"><span>淘气值：{{item.tqz}}</span></div>
+                    </div>
+                  </div>
+
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="container">
+        <div class="home-commodity">
+          <div class="home-commodity-title">
+            <div class="home-commodity-img-title">
+              <div class="part-title-img-box">
+                <span class="fs-18">免费领</span>
+              </div>
+            </div>
+            <p class="text-ct fs-14">我型我秀，分享精彩</p>
+          </div>
+          <div class="home-commodity-ctt">
+            <router-link class="home-commodity-details"
+                         v-for="homeCommodity in homeCommodityList"
+                         :title="homeCommodity.taskName"
+                         :key="homeCommodity.id"
+                         :to="{ 'path': '/task-details','query': {'q': encryptionId(homeCommodity.id)}}">
+              <div class="home-commodity-img">
+                <img class="block" v-lazy="homeCommodity.taskMainImage + '!orgi75'" alt=""
+                     style="width: 100%; height: 208px;">
+              </div>
+              <div class="home-commodity-text">
+                <p class="home-commodity-title">{{homeCommodity.taskName}}</p>
+                <p class="home-commodity-price">
+                  <span class="left">￥{{homeCommodity.itemPrice / 100}}</span>
+                  <!--<span class="right">免费活动</span>-->
+                </p>
+                <p class="home-commodity-apply">
+                  限量 <span style="color: #ff6600"> {{homeCommodity.taskCount || 0 }} </span> 份，
+                  <span style="color: #ff6600"> {{homeCommodity.showkerApplyTotalCount || 0}} </span> 人已申请
+                </p>
+                <p class="home-commodity-take">
+                  <router-link :to="{ 'path': '/task-details','query': {'q':encryptionId(homeCommodity.id)}}"
+                               class="ivu-btn ivu-btn-long">
+                    免费领取
+                  </router-link>
+                </p>
+              </div>
+            </router-link>
+            <p class="text-ct">
+              <router-link class="ivu-btn" :to="{ 'path': '/task-category', 'query': {'searchKey': 'all'}}">查看全部活动
+              </router-link>
+            </p>
+          </div>
+        </div>
+      </div>
+      <!--折扣专区开始-->
+      <!--折扣专区结束-->
+      <!--历史活动开始-->
+      <!--历史活动结束-->
+    </div>
+  </div>
+</template>
+
+<script>
+  import Icon from 'iview/src/components/icon'
+  import Form from 'iview/src/components/form'
+  import Input from 'iview/src/components/input'
+  import Checkbox from 'iview/src/components/checkbox'
+  import Button from 'iview/src/components/button'
+  import Radio from 'iview/src/components/radio'
+  import Modal from 'iview/src/components/modal'
+  import Tooltip from 'iview/src/components/tooltip'
+  import Carousel from 'iview/src/components/carousel'
+  import SmsCountdown from '@/components/SmsCountdown'
+  import api from '@/config/apiConfig'
+  import {setStorage, getStorage, encryption,removeStorage} from '@/config/utils'
+  import {aliCallbackImgUrl} from '@/config/env'
+  import {mapActions} from 'vuex'
+
+  export default {
+    beforeMount() {
+      let self = this;
+      if (getStorage('weChartPop') == 1 && self.$store.state.userInfo.role == 0 && !getStorage('setWeChartshower' + self.$store.state.userInfo.phone)) {
+        self.weChartShowkerAlertFunc();
+      }
+      self.$store.commit({
+        type: 'SET_SHOW_TOP_CATEGORY_RES',
+        result: false,
+      });
+    },
+    name: 'home',
+    components: {
+      iInput: Input,
+      iForm: Form,
+      FormItem: Form.Item,
+      Checkbox: Checkbox,
+      CheckboxGroup: Checkbox.Group,
+      iButton: Button,
+      Icon: Icon,
+      SmsCountdown: SmsCountdown,
+      Radio: Radio,
+      Modal: Modal,
+      Carousel: Carousel,
+      CarouselItem: Carousel.Item,
+      Tooltip:Tooltip
+    },
+    data() {
+      return {
+        confirmRechargeModel:true,
+        command: '',
+        wechartAlertShow: false,
+        wechartShowAgain: [],
+        leftTopSliderTimer: '',
+        leftSliderTimer: '',
+        leftTopSlider: false,
+        leftSlider:false,
+        trialCount: {},
+        homeCommodityList: [],
+        homeHistoryList: [],
+        homeDisCountList: [],
+        noticeList:[
+          {
+            title: '常见问题',
+            content: [
+              {
+                url: '/user/help-center/faq',
+                text: '平台有哪些活动？',
+                page: 'common',
+                qusNum: '1'
+              },
+              {
+                url: '/user/help-center/faq',
+                text: '注册秀吧收费么？',
+                page: 'common',
+                qusNum: '1'
+              },
+              {
+                url: '/user/help-center/faq',
+                text: '支持哪几个平台试用活动？',
+                page: 'common',
+                qusNum: '4'
+              },
+              {
+                url: '/user/help-center/faq',
+                text: '平台能提现吗？提现需要手续费吗？',
+                page: 'common',
+                qusNum: '11'
+              },
+            ],
+            active: 'faq'
+          },
+          {
+            title: '秀客问题',
+            content: [
+              {
+                url: '/user/help-center/faq-showker',
+                text: '秀客完整流程？',
+                page: 'special'
+              },
+              {
+                url: '/user/help-center/faq-showker',
+                text: '秀客下单规则？',
+                page: 'common',
+                qusNum: '1'
+              },
+              {
+                url: '/user/help-center/faq-showker',
+                text: '下单需要垫付么？',
+                page: 'common',
+                qusNum: '3'
+              },
+              {
+                url: '/user/help-center/faq-showker',
+                text: '商家如何返款？',
+                page: 'common',
+                qusNum: '7'
+              },
+            ],
+            active: 'buyerRule'
+          },
+          {
+            title: '商家问题',
+            content: [
+              {
+                url: '/user/help-center/faq-seller',
+                text: '商家活动完整流程？',
+                page: 'special'
+              },
+              {
+                url: '/user/help-center/faq-seller',
+                text: '商家活动支持哪几种搜索/下单渠道？',
+                page: 'common',
+                qusNum: '1'
+              },
+              {
+                url: '/user/help-center/faq-seller',
+                text: '商家发布活动如何收费？',
+                page: 'common',
+                qusNum: '5'
+              },
+              {
+                url: '/user/help-center/faq-seller',
+                text: '什么条件下可以申请活动结算？',
+                page: 'common',
+                qusNum: '11'
+              },
+            ],
+            active: 'sellerRule'
+          },
+        ],
+        noticeActive: 'faq',
+        taskTopLeftList: [],
+        navList: [],
+        nvaImgSrc:{
+          100: '/static/img/nav-picture/home_07.png',
+          200: '/static/img/nav-picture/home_09.png',
+          300: '/static/img/nav-picture/home_11.png',
+          400: '/static/img/nav-picture/home_13.png',
+          500: '/static/img/nav-picture/home_15.png',
+          600: '/static/img/nav-picture/home_22.png',
+          700: '/static/img/nav-picture/home_23.png',
+          800: '/static/img/nav-picture/home_24.png',
+          900: '/static/img/nav-picture/home_25.png',
+          1000: '/static/img/nav-picture/home_26.png',
+        },
+        buyerShowList:[],
+        getMoreBuyerShow:false,
+        homeCarousel: 0
+      }
+    },
+    created() {
+      if (this.$store.state.login) {
+        this.weChartAlertFunc();
+      }
+      this.getNavList();
+      this.getHomeTaskList();
+      this.getHomeTaskTopLeftList();
+      this.personalTrialCount();
+      this.getHomeHistoryList();
+      this.getBuyerShowList();
+      this.getHomeDisCountList();
+    },
+    destroyed() {
+      let self = this;
+      self.$store.commit({
+        type: 'SET_WECHART_SHOW',
+        result: false
+      });
+      self.$store.commit({
+        type: 'SET_WECHART_RES',
+        result: false,
+      });
+      self.$store.commit({
+        type: 'SET_SHOW_TOP_CATEGORY_RES',
+        result: true,
+      });
+    },
+    computed: {
+      isLogin() {
+        return this.$store.state.login
+      },
+      getUserInfoPhone() {
+        return this.$store.state.userInfo.nickname
+      },
+      getUserInfoRole() {
+        return this.$store.state.userInfo.role
+      },
+      getMemberDeadline() {
+        return this.$store.state.userInfo.memberDeadline
+      },
+      getMemberLevel() {
+        return this.$store.state.userInfo.memberLevel
+      },
+      userHeadUrl() {
+        return this.$store.getters.getUserHeadUrl
+      },
+      getUserRole () {
+        return this.$store.getters.getUserRole
+      },
+    },
+    mounted: function () {
+      this.$nextTick(function () {
+        let self = this;
+        self.leftSliderFunc();
+      })
+    },
+
+    methods: {
+      ...mapActions([
+        'loggedOut'
+      ]),
+      getUserHead(src) {
+        if (src && src.indexOf('head-image') >= 0) {
+          return aliCallbackImgUrl + src + '!orgi75'
+        } else if (src && src.indexOf('q.qlogo.cn/qq') >= 0) {
+          return src
+        } else {
+          return '/static/img/common/tx-default.png'
+        }
+      },
+      getBuyerShowList() {
+        let self = this;
+        api.getBuyerShowList().then((res) => {
+          if (res.status) {
+            self.buyerShowList = res.data;
+            for (let i = 0; i <  self.buyerShowList.length; i++) {
+              if (JSON.parse(self.buyerShowList[i].trialReportImages)[0][0] !== 'h'){
+                self.buyerShowList[i].trialReportImages = aliCallbackImgUrl + JSON.parse(self.buyerShowList[i].trialReportImages)[0]
+              } else {
+                self.buyerShowList[i].trialReportImages = JSON.parse(self.buyerShowList[i].trialReportImages)[0];
+              }
+            }
+          } else {
+            self.$Message.error(res.msg)
+          }
+        })
+      },
+      selTaskCategoryAllFunc(){
+        let self = this;
+        self.$store.commit({
+          type: 'TASK_CATEGORY_LIST',
+          info: 'all'
+        });
+        self.$router.push({ 'path': '/task-category', 'query': {'searchAll': 'yes'}});
+      },
+      selTaskCategoryActiveFunc(nav){
+        let self = this;
+        self.$router.push({ 'path': '/task-category', 'query': {'cate': nav.id}});
+        self.$store.commit({
+          type: 'SET_DISCOUNT_TASK_CATEGORY',
+          result: false
+        });
+        self.$store.commit({
+          type: 'TASK_CATEGORY_LIST',
+          info: 'all',
+        });
+      },
+      getNavList(){
+        let self = this;
+        api.getNavList().then((res) =>{
+          if(res.status){
+            res.data.sort(function(a,b){
+              return a.sortIndex-b.sortIndex
+            });
+            self.navList = res.data;
+          }else {
+            self.$Message.error({
+              content: res.msg,
+              duration: 9
+            });
+          }
+        })
+      },
+      encryptionId(id) {
+        return encryption(id);
+      },
+      weChartShowkerAlertFunc() {
+        let self = this;
+        self.$store.commit({
+          type: 'SET_WECHART_SHOW',
+          result: true
+        });
+        setStorage('weChartPop', 2);
+      },
+      weChartAlertFunc() {
+        let self = this;
+        api.checkWechartAlert().then((res) => {
+          if (res.status && getStorage('weChartPop') === 1) {
+            self.wechartAlertShow = true;
+            setStorage('weChartPop', 2)
+          } else {
+            self.wechartAlertShow = false;
+          }
+        })
+      },
+
+      setWeChartAlertFunc(role) {
+        let self = this;
+        let commandList = {
+          0: 1788,
+          1: 9188
+        };
+        if (self.command === '') {
+          self.$Message.error('口令不能为空');
+        } else {
+          if (parseInt(self.command) === parseInt(commandList[role])) {
+            self.setWechartAlert()
+          } else {
+            self.$Message.error('口令输入错误');
+          }
+        }
+      },
+      setWechartAlert() {
+        let self = this;
+        api.setWechartAlert({
+          command: self.command,
+        }).then((res) => {
+          if (res.status) {
+            self.wechartAlertShow = false;
+            self.$Message.success({
+              content: '恭喜您成功获得一个月VIP会员',
+              onClose: function () {
+                self.$store.dispatch('getUserInformation');
+              }
+            });
+          } else {
+            self.$Message.error(res.msg);
+          }
+        });
+      },
+      cancelWeiChartFunc() {
+        let self = this;
+        if (self.wechartShowAgain !== '') {
+          if (self.$store.state.userInfo.role === 1) {
+            api.noWechartAlert().then((res) => {
+              if (!res.status) {
+                self.$Message.error(res.msg)
+              }
+            })
+          } else {
+            setStorage('setWeChartshower' + self.$store.state.userInfo.phone, '1')
+          }
+        }
+        self.$store.commit({
+          type: 'SET_WECHART_SHOW',
+          info: false
+        });
+      },
+      goOut() {
+        let _this = this;
+        _this.loggedOut().then(res => {
+          if (res.status) {
+            _this.$router.push({name: 'login'})
+          } else {
+            _this.$Message.error(res.msg)
+          }
+        });
+      },
+      personalTrialCount() {
+        let self = this;
+        if (self.$store.state.login) {
+          if (self.getUserInfoRole === 0) {
+            api.showkerPersonalTrialCount().then((res) => {
+              if (res.status) {
+                self.trialCount = res.data
+              } else {
+                self.$Message.error({
+                  content: res.msg,
+                  duration: 9
+                });
+              }
+            })
+          } else {
+            api.sellerPersonalTrialCount().then((res) => {
+              if (res.status) {
+                self.trialCount = res.data
+              } else {
+                self.$Message.error({
+                  content: res.msg,
+                  duration: 9
+                });
+              }
+            })
+          }
+        }
+      },
+      getHomeTaskTopLeftList() {
+        let self = this;
+        api.getHomeTaskTopLeftList().then((res) => {
+          if (res.status) {
+            self.taskTopLeftList = res.data;
+
+          } else {
+
+          }
+        })
+      },
+      getHomeTaskList() {
+        let self = this;
+        api.getIndexRecommend().then((res) => {
+          if (res.status) {
+            if (res.data) {
+              self.homeCommodityList = res.data;
+            }
+          } else {
+            self.$Message.error({
+              content: res.msg,
+              duration: 9
+            });
+          }
+        })
+      },
+      getHomeHistoryList() {
+        let self = this;
+        api.getHomeHistoryList().then((res) => {
+          if (res.status) {
+            if (res.data) {
+              self.homeHistoryList = res.data;
+            }
+          } else {
+            self.$Message.error({
+              content: res.msg,
+              duration: 9
+            });
+          }
+        })
+      },
+
+      getHomeDisCountList(){
+        let self = this;
+        api.getHomeDisCountList().then((res) => {
+          if(res.status){
+            res.data ? self.homeDisCountList = res.data : self.homeDisCountList = [];
+          }else {
+            self.$Message.error({
+              content: res.msg,
+              duration: 9
+            });
+          }
+        })
+      },
+      leftSliderFunc() {
+        let self = this;
+        self.leftSliderTimer = setInterval(function () {
+          if (self.leftSlider) {
+            let part = self.buyerShowList.splice(0, 1);
+            self.buyerShowList = self.buyerShowList.concat(part);
+          }
+          self.leftSlider = !self.leftSlider;
+        }, 1500)
+      },
+      clearLeftSliderFunc(){
+        let self = this;
+        clearInterval(self.leftSliderTimer);
+      },
+
+    }
+  }
+</script>
+
+<style lang="scss" scoped>
+
+  @import 'src/css/mixin';
+  .confirm-recharge-model {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 999;
+    background-color: rgba(55, 55, 55, .6);
+  }
+  .confirm-recharge-con {
+    position: absolute;
+    top: 20%;
+    left: 50%;
+    width: 507px;
+    margin-left: -254px;
+
+  }
+  .main-color{
+    color: #FF0000;
+  }
+  .home-ctt {
+    background-color: #F1F1F1;
+    .user-name {
+      display: block;
+      max-width: 160px;
+    }
+    .buyer-xiu {
+      margin: 10px auto 10px auto;
+      overflow: hidden;
+      .masterImgBox{
+        width: 200px;
+        height: 260px;
+        overflow: hidden;
+        display:table-cell;
+        vertical-align:middle;
+        text-align: center;
+        background-color:#F1F2F6;
+      }
+      .left-ctt {
+        padding: 0 25px;
+        background-color: #fff;
+        width: 1200px;
+        height: 500px;
+        overflow: hidden;
+        .title{
+          padding: 15px 10px 10px 10px;
+          border-bottom: 1px solid #F6F6F6;
+          img{
+          }
+        }
+        ul{
+          padding: 10px 0;
+          width: 10000px;
+          li{
+            padding: 0px 15px ;
+            width: 230px;
+            margin-bottom: 52px;
+            .top-heart{
+              position: absolute;
+              top: 5px;
+              right: 15px;
+              background-color: #fff;
+              border: 1px solid #fff;
+              border-radius: 3px;
+              color: #FF0000;
+              padding: 0 3px;
+              img{
+                margin-top: 3px;
+              }
+            }
+
+            .price{
+              position: absolute;
+              width: 200px;
+              top: 230px;
+              left: 15px;
+              height: 30px;
+              line-height: 30px;
+              padding: 0px 3px;
+              color: #fff;
+              background-color: rgba(0,0,0,0.5);
+              span:first-child{
+                width: 128px;
+              }
+              span:last-child{
+                color: #FFFF00;
+              }
+            }
+            .description{
+              padding-left: 25px;
+              height: 30px;
+              overflow: hidden;
+              img{
+                position: absolute;
+                left: 0;
+                top: -3px;
+              }
+              .double-question-mark{
+                position: absolute;
+                left: 0;
+                top: -3px;
+                display: inline-block;
+                width: 18px;
+                height: 34px;
+                background:url("~assets/img/home/double_marks.png");
+              }
+              .des-text{
+                max-height: 40px;
+                line-height: 16px;
+                text-overflow: ellipsis;
+                display: -webkit-box;
+                -webkit-line-clamp: 2;
+                -webkit-box-orient: vertical;
+                overflow: hidden;
+                word-wrap: break-word;
+                color: #666;
+              }
+            }
+            .icon-heart{
+              font-size: 16px;
+            }
+            .bottom{
+              font-size: 14px;
+              .click-good{
+                color: #FF0000;
+              }
+            }
+          }
+        }
+      }
+    }
+    .home-section {
+      margin: 10px auto 0 auto;
+      .middle-ctt {
+        width: 900px;
+      }
+      .right-ctt {
+        float: right;
+        width: 290px;
+        height: 400px;
+        padding: 0 10px;
+        background-color: #fff;
+        .title{
+          height: 50px;
+          line-height: 50px;
+          border-bottom: 1px solid #eee;
+          font-size: 18px;
+          color: #ff6600;
+          font-weight: bold;
+          .cup-icon{
+            font-size: 25px;
+            transform: translateY(2px);
+          }
+        }
+        .content{
+          height: 48px;
+          margin-top: 18px;
+          >span{
+            line-height: 48px;
+          }
+        }
+      }
+    }
+    .data-information{
+      height: 135px;
+      background-color: #fff;
+      margin-top: 10px;
+      .content{
+        width: 300px;
+        height: 135px;
+        padding: 23px 0px 0px 28px;
+        >div{
+          margin-top: 18px;
+          .number{
+            font-size: 18px;
+          }
+          .dsc{
+            font-size: 16px;
+            color: #666;
+            margin-top: 5px;
+          }
+        }
+      }
+    }
+    .home-commodity {
+      background-color: #fff;
+      border: 1px solid #E8E8E8;
+      .home-commodity-title {
+        padding-top: 30px;
+        img {
+          display: block;
+          margin: 28px auto 10px auto;
+        }
+        p {
+          color: #999;
+        }
+      }
+      .home-commodity-ctt {
+        padding: 24px;
+        text-align: left;
+        .home-commodity-details {
+          width: 222px;
+          display: inline-block;
+          margin: 0 4px 30px 4px;
+          padding: 0 5px 20px 5px;
+          .home-commodity-img {
+            border: 1px solid #ddd;
+          }
+          .home-commodity-text {
+            background-color: #EEEEEE;
+            padding: 5px 5px 8px 5px;
+            p {
+              line-height: 28px;
+              height: 28px;
+              font-size: 14px;
+              text-overflow: ellipsis;
+              white-space: nowrap;
+              overflow: hidden;
+            }
+            p.home-commodity-title {
+              color: #000;
+              text-align: left;
+            }
+            p.home-commodity-price {
+              color: #FF6633;
+            }
+            p.home-commodity-apply {
+              color: #000;
+            }
+            p.home-commodity-take {
+              height: 40px;
+              line-height: 40px;
+            }
+          }
+        }
+
+      }
+    }
+  }
+
+  .user-head-box{
+    float: left;
+    width: 48px;
+    height: 48px;
+    margin-left: 10px;
+    img{
+      border-radius: 50%;
+    }
+  }
+
+  .home-discount-price{
+    color: #fff;
+    line-height: 20px;
+    height: 20px;
+    padding: 0 5px;
+    margin-right: 15px;
+    margin-top: 3px;
+    margin-left: 5px
+  }
+/*  .slider-top-active{
+    margin-top: -77px;
+    animation: sliderTop 1s;
+  }
+
+  .slider-top-default {
+    margin-top: 0;
+  }
+
+  @keyframes sliderTop {
+    0% {
+      margin-top: 0;
+    }
+    100% {
+      margin-top: -77px;
+    }
+  }*/
+
+/*  .slider-top-active-right {
+    margin-top: -80px;
+    animation: sliderTopRight 1s;
+  }
+
+  .slider-top-default-right {
+    margin-top: 0;
+  }
+
+  @keyframes sliderTopRight {
+    0% {
+      margin-top: 0;
+    }
+    100% {
+      margin-top: -80px;
+    }
+  }*/
+
+  .slider-top-active-left {
+    margin-left: -230px;
+    animation: sliderTopLeft 1s;
+  }
+
+  .slider-top-default-left {
+    margin-left: 0;
+  }
+
+  @keyframes sliderTopLeft {
+    0% {
+      margin-left: 0;
+    }
+    100% {
+      margin-left: -230px;
+    }
+  }
+</style>
