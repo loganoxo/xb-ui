@@ -66,6 +66,16 @@ if (getQueryString('salesFrom') === 'WECHAT') {
   document.cookie = "from_qudao_key=" + '' + cookieAttr;
 }
 
+//百度网盟
+if (getQueryString('qd') === 'bdwm') {
+  document.cookie = "from_qudao=BDWM" + cookieAttr;
+}
+
+//百度信息流
+if (getQueryString('qd') === 'bdxxl') {
+  document.cookie = "from_qudao=BDXXL" + cookieAttr;
+}
+
 //        var path = this.location.pathname;
 //        var host = this.location.host;
 //        // console.info(path);
