@@ -587,12 +587,12 @@
         <div class="pay-info mt-40" v-if="!isBalance && !priceHasChange">本次总共要支付的金额为：<strong>{{orderMoney}}</strong>&nbsp;元。您账户余额为：<strong>{{getUserBalance || 0}}</strong>&nbsp;元，还需充值：<span
           class="second-color">{{(orderMoney - getUserBalance).toFixed(2)}}</span>&nbsp;元。
         </div>
-        <div class="pay-info mt-40" v-if="isBalance && priceHasChange">
+        <div class="pay-info mt-40" v-if="isBalanceReplenish && priceHasChange">
           该任务已付担保金 <strong>{{paidDeposit.toFixed(2)}}</strong>元，本次修改需要支付超出部分的金额为：<strong class="main-color">{{replenishMoney}}</strong>元。您账号的当前余额为：<strong>{{getUserBalance || 0}}</strong>&nbsp;元
         </div>
-        <div class="pay-info mt-40" v-if="!isBalance && priceHasChange">该任务已付担保金 <strong>{{paidDeposit}}</strong>元，本次修改需要支付超出部分的金额为：<strong
+        <div class="pay-info mt-40" v-if="!isBalanceReplenish && priceHasChange">该任务已付担保金 <strong>{{paidDeposit}}</strong>元，本次修改需要支付超出部分的金额为：<strong
           class="main-color">{{replenishMoney}}</strong>元。您账号的当前余额为：<strong>{{getUserBalance || 0}}</strong>&nbsp;元,还需充值：<span
-          class="second-color">{{(orderMoney - getUserBalance).toFixed(2)}}</span>&nbsp;元。
+          class="second-color">{{(replenishMoney - getUserBalance).toFixed(2) }}</span>&nbsp;元。
         </div>
         <div class="description-fees-footer">
           <span class="pay-btn" v-if="isBalance" @click="openRecharge">前去支付</span>
@@ -961,7 +961,15 @@
        * @return {boolean}
        */
       isBalance: function () {
-        return this.orderMoney <= this.getUserBalance
+        return this.orderMoney <= this.getUserBalance;
+      },
+
+      /**
+       * 计算余额是否足够支付需要补充的订单金额
+       * @return {boolean}
+       */
+      isBalanceReplenish: function () {
+        return this.replenishMoney <= this.getUserBalance;
       },
 
       /**
