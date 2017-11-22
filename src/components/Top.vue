@@ -82,12 +82,12 @@
             <!--</i>-->
             白菜价
           </a>
-          <a :class="[$store.state.activityCategory == 'goods_clearance' ? 'active' : '']" @click="selTaskCategoryFunc('goods_clearance')" >
-            <i style="position: absolute; top: -16px; left: 15px;">
-              <img src="/static/img/icon/discount.gif" alt="" >
-            </i>
-            清仓断码
-          </a>
+          <!--<a :class="[$store.state.activityCategory == 'goods_clearance' ? 'active' : '']" @click="selTaskCategoryFunc('goods_clearance')" >-->
+            <!--<i style="position: absolute; top: -16px; left: 15px;">-->
+              <!--<img src="/static/img/icon/discount.gif" alt="" >-->
+            <!--</i>-->
+            <!--清仓断码-->
+          <!--</a>-->
           <a  @click="buyerShowPop = true">买家秀</a>
           <!--<a :class="[$store.state.TaskCategoryActive == 'all' ? 'active' : '']" @click="selTaskCategoryAllFunc">全部活动</a>-->
           <!--<a v-if="nav.name != '美食/特产' && nav.name != '其它试用'" :class="[$store.state.TaskCategoryActive == nav.id ? 'active' : '']" @click="selTaskCategoryActiveFunc(nav)" v-for="nav in navList" >{{nav.name}}</a>-->
