@@ -188,18 +188,29 @@
               <div class="task-category-commodity-text">
                 <p v-html="historyTask.taskName"></p>
                 <p  class="home-commodity-price ">
-                  <span class="left" style="text-decoration: line-through; color: #ff6633;">￥{{historyTask.itemPrice/100}}</span>
-                  <span v-if= "historyTask.activityCategory == 'present_get'" style=" padding: 0 4px; background: #00cc66; color: #ffffff; margin-left: 10px; display: inline-block;height: 20px;line-height: 20px;">体验专区</span>
-                  <span v-if= "historyTask.activityCategory == 'pinkage_for_10'" style="padding: 0 4px; background: #ff9966; color: #fff; margin-left: 10px; display: inline-block;height: 20px;line-height: 20px;">10元包邮</span>
-                  <span v-if="historyTask.activityCategory == 'price_low' && historyTask.discountPrice" class="left home-discount-price mt-5" :style="{backgroundColor: $store.state.discountPriceType[parseFloat(historyTask.discountPrice/100)].backgroundColor}" >
-                    {{historyTask.discountPrice/100}}试用
-                  </span>
-                  <span v-if="historyTask.activityCategory == 'price_low' && historyTask.discountRate" class="left home-discount-price mt-5" :style="{backgroundColor: $store.state.discountPriceType[parseFloat(historyTask.discountRate/10) + '折'].backgroundColor}" >
-                    {{historyTask.discountRate/10}}折试用
-                  </span>
-                  <span v-if=" historyTask.activityCategory == 'goods_clearance' && historyTask.discountRate " class="left home-discount-price mt-5" :style="{backgroundColor: $store.state.discountPriceType[parseFloat(historyTask.discountRate/10) + '折'].backgroundColor}" >
-                    {{historyTask.discountRate/10}}折清仓
-                  </span>
+                  <em style="float: left;" class="price-list">
+                    <span style="color: #666; display: block; text-decoration: line-through;">￥{{historyTask.itemPrice / 100}}</span>
+                    <span style="font-weight: bold; color: #ff6633;" v-if="historyTask.discountPrice">￥{{(historyTask.discountPrice / 100).toFixed(2)}}</span>
+                    <span style="font-weight: bold; color: #ff6633;" v-if="!historyTask.discountPrice && historyTask.discountRate">
+                      ￥{{(Math.floor((historyTask.discountRate/100) * historyTask.itemPrice)/100).toFixed(2)}}
+                    </span>
+                    <span style="font-weight: bold; color: #ff6633;" v-if="!historyTask.discountPrice && !historyTask.discountRate">
+                      ￥0
+                    </span>
+                  </em>
+                  <em  class="price-icon mt-10">
+                    <span v-if= "historyTask.activityCategory == 'pinkage_for_10'" style="padding: 0 4px; background: #ff9966; color: #fff; margin-left: 10px; display: inline-block;height: 20px;line-height: 20px;">10元包邮</span>
+                    <span v-if= "historyTask.activityCategory == 'present_get'" style="padding: 0 4px; background: #00cc66; color: #ffffff; margin-left: 10px; display: inline-block;height: 20px;line-height: 20px;">体验专区</span>
+                    <span v-if="historyTask.activityCategory == 'price_low' && historyTask.discountPrice" class="left home-discount-price mt-5" :style="{backgroundColor: $store.state.discountPriceType[parseFloat(historyTask.discountPrice/100)].backgroundColor}" >
+                      {{historyTask.discountPrice/100}}试用
+                    </span>
+                    <span v-if="historyTask.activityCategory == 'price_low' && historyTask.discountRate" class="left home-discount-price mt-5" :style="{backgroundColor: $store.state.discountPriceType[parseFloat(historyTask.discountRate/10) + '折'].backgroundColor}" >
+                      {{historyTask.discountRate/10}}折试用
+                    </span>
+                    <span v-if="historyTask.activityCategory == 'goods_clearance' && historyTask.discountRate " class="left home-discount-price mt-5" :style="{backgroundColor: $store.state.discountPriceType[parseFloat(historyTask.discountRate/10) + '折'].backgroundColor}" >
+                      {{historyTask.discountRate/10}}折清仓
+                    </span>
+                  </em>
                 </p>
                 <p class="cl000">
                   限量 <span style="color: #ff6600"> {{historyTask.taskCount || 0 }} </span> 份，
