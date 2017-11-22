@@ -26,7 +26,7 @@
         <span>每个用户只能绑定一张银行卡，如需换卡建议修改银行卡信息</span>
       </div>
       <div class="ipt-information">
-        <iForm :model="formItem" :label-width="200" :rules="formRuleItem">
+        <iForm ref="formItem" :model="formItem" :label-width="200" :rules="formRuleItem">
           <Form-item label="开户人姓名:" prop="name">
             <iInput v-model="formItem.name"></iInput>
           </Form-item>
@@ -83,7 +83,7 @@
             </SmsCountdown>
           </Form-item>
           <Form-item>
-            <iButton type="primary" @click=" addBankCardInfo(formItem)">提交</iButton>
+            <iButton type="primary" @click="handleSubmit('formItem',addBankCardInfo)">提交</iButton>
             <iButton type="ghost" style="margin-left: 8px" @click="goBack">取消</iButton>
           </Form-item>
         </iForm>
@@ -100,7 +100,7 @@
           <span class="ml-56">当日12:00-当日18:00间申请提现的，在当日18:00处理，当日18:00-次日12:00间申请提现的，在次日12:00处理</span>
         </div>
         <div class="get-out-do mt-22">
-          <iForm :model="getoutMoney" :label-width="200" :rules="getOutMoneyRule">
+          <iForm ref="getoutMoney" :model="getoutMoney" :label-width="200" :rules="getOutMoneyRule">
             <Form-item label="请输入提现金额:" prop="getoutNumber">
               <iInput v-model="getoutMoney.getoutNumber" class="iInput"></iInput>
               <span>元（最低1元起提）</span>
@@ -507,6 +507,15 @@
 
         }
       },
+      handleSubmit(name, callback) {
+        let res = false;
+        this.$refs[name].validate((valid) => {
+          res = !!valid
+        });
+        if (typeof callback === 'function' && res) {
+          callback();
+        }
+      },
       sendCodeSuccess(res) {
         let self = this;
         if (res.status) {
@@ -572,12 +581,12 @@
       addBankCardInfo(type) {
         let _this = this;
         api.addBankCardInfo({
-          validateCode: type.validateCode,
-          accountName: type.name,
-          bankName: type.select,
-          bankNo: type.bankNumber,
-          bankPart: type.bankBranch,
-          smsCode: type.cord
+          validateCode:  _this.formItem.validateCode,
+          accountName: _this.formItem.name,
+          bankName: _this.formItem.select,
+          bankNo: _this.formItem.bankNumber,
+          bankPart: _this.formItem.bankBranch,
+          smsCode: _this.formItem.cord
         }).then(res => {
           if (res.status) {
             _this.$Message.success(res.msg);
