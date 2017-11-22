@@ -503,9 +503,23 @@
       closeAuditOrder() {
         this.showAuditOrderNumber = false;
       },
+      getOrderNum(id){
+        let self = this;
+        api.getOrderNum({
+          showkerTaskId:id
+        }).then(res =>{
+          if (res.status){
+            this.affirmOrderNumber = res.data.orderNum;
+            this.payMoney = res.data.orderPrice/100;
+          }else {
+            self.$Message.error(res.msg)
+          }
+        })
+      },
       openAuditOrder(id, type, activityCategory) {
         this.affirmOrderNumber = null;
         this.payMoney = null;
+        this.getOrderNum(id);
         this.orderType = type;
         this.activityCategory = activityCategory;
         this.showAuditOrderNumber = true;

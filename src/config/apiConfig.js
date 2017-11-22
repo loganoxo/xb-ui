@@ -377,7 +377,7 @@ export default {
   /**
    * 秀客重新提交订单号-获取订单号
    */
-  getOrderNume(params) {
+  getOrderNum(params) {
     return fetch("/api/task/merchant/getOrderNum.json", params)
   },
 
