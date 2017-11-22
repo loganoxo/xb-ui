@@ -28,11 +28,12 @@
               <span class="ml-5">买家秀排行榜</span>
             </div>
             <div v-for="(item,index) in getShowkerReportList" :key="index" class="content clear">
-              <span class="left fs-18">{{index+1}}</span>
+              <span class="left fs-18">{{index + 1}}</span>
               <img class="left ml-15" width="48px" :src="item.portrait" alt="">
               <div class="left ml-10 ">
                 <p class="mt-5 fs-14">{{item.phone}}</p>
-                <p><span class="main-color">{{item.reportCount}}</span>篇买家秀，共获得<span class="main-color">{{item.likeCount}}</span>个赞</p>
+                <p><span class="main-color">{{item.reportCount}}</span>篇买家秀，共获得<span class="main-color">{{item.likeCount}}</span>个赞
+                </p>
               </div>
             </div>
           </div>
@@ -75,22 +76,23 @@
           <div class="left-ctt left">
             <div style="overflow: hidden">
               <div class="title clear">
-                <img  style="vertical-align: middle" src="~assets/img/home/top_mjx.png" alt="">
+                <img style="vertical-align: middle" src="~assets/img/home/top_mjx.png" alt="">
                 <span class="ml-10" style="font-size: 13px;color: #999;transform: translateY(2px)">给你最精彩</span>
               </div>
               <ul class="clear" :class="[leftSlider ? 'slider-top-active-left' : 'slider-top-default-left']"
                   @mouseover="clearLeftSliderFunc()" @mouseleave="leftSliderFunc()">
-                <li v-for="(item,index) in buyerShowList" :key="index" class="content cursor-p left pos-rel" >
+                <li v-for="(item,index) in buyerShowList" :key="index" class="content cursor-p left pos-rel">
                   <a :title="item.taskName">
                     <div style="height: 260px">
-                      <img :src="item.trialReportImages+'!thum200'" alt="" width="200" height="260" @click="toTrialReport(item.showkerId,item.id)">
+                      <img :src="item.trialReportImages+'!thum200'" alt="" width="200" height="260"
+                           @click="toTrialReport(item.showkerId,item.id)">
                     </div>
-                     <p class=" top-heart clear" @click="clickPraise(item.id,index)">
-                       <Zan :iconType="item.whetherClick" :zanNumber = 'item.likeCount' :fontSize="zanFontSize"></Zan>
-                     </p>
+                    <p class=" top-heart clear" @click="clickPraise(item.id,index)">
+                      <Zan :iconType="item.whetherClick" :zanNumber='item.likeCount' :fontSize="zanFontSize"></Zan>
+                    </p>
                     <p class="price clear">
                       <span class="left ellipsis">{{item.taskName}}</span>
-                      <span class="right pl-10">￥{{item.itemPrice/100}}</span>
+                      <span class="right pl-10">￥{{item.itemPrice / 100}}</span>
                     </p>
                   </a>
                   <p class="mt-10 description pos-rel">
@@ -98,7 +100,10 @@
                     <a class="des-text" :title="item.trialReportText">{{item.trialReportText}}</a>
                   </p>
                   <div class="clear bottom mt-20">
-                    <router-link :to="{path:'/trial-report',query:{q:encryptionId(item.showkerId)}}" class="user-head-box"><img  width="48" height="48" :src="getUserHead(item.showkerPortraitPic)" alt=""></router-link>
+                    <router-link :to="{path:'/trial-report',query:{q:encryptionId(item.showkerId)}}"
+                                 class="user-head-box"><img width="48" height="48"
+                                                            :src="getUserHead(item.showkerPortraitPic)" alt="">
+                    </router-link>
                     <div class="left ml-10" style="margin-top: 5px">
                       <p style="color: #000">{{item.showkerPhone}}</p>
                       <img :src="item.creditLevel" alt="">
@@ -116,21 +121,22 @@
           <div class="left-ctt left">
             <div style="overflow: hidden">
               <div class="title clear">
-                <img  style="vertical-align: middle" src="~assets/img/buyer-show/buyer_show_xdr.png" alt="">
+                <img style="vertical-align: middle" src="~assets/img/buyer-show/buyer_show_xdr.png" alt="">
                 <span class="ml-10" style="font-size: 13px;color: #999;transform: translateY(2px)">给你最精彩</span>
               </div>
               <ul class="clear">
-                <li v-for="(item,index) in buyerShowList" :key="index" class="content cursor-p left pos-rel" >
+                <li v-for="(item,index) in buyerShowList" :key="index" class="content cursor-p left pos-rel">
                   <a :title="item.taskName">
                     <div style="height: 260px">
-                      <img :src="item.trialReportImages+'!thum200'" alt="" width="200" height="260" @click="toTrialReport(item.showkerId,item.id)">
+                      <img :src="item.trialReportImages+'!thum200'" alt="" width="200" height="260"
+                           @click="toTrialReport(item.showkerId,item.id)">
                     </div>
-                    <p class=" top-heart clear" >
+                    <p class=" top-heart clear">
                       共发表(100)篇
                     </p>
                     <p class="price clear">
                       <span class="left ellipsis">{{item.taskName}}</span>
-                      <span class="right pl-10">￥{{item.itemPrice/100}}</span>
+                      <span class="right pl-10">￥{{item.itemPrice / 100}}</span>
                     </p>
                   </a>
                   <p class=" description pos-rel text-ct">
@@ -140,7 +146,10 @@
                     <span class="left mt-10">数码家电</span>
                   </p>
                   <div class="clear bottom mt-10">
-                    <router-link :to="{path:'/trial-report',query:{q:encryptionId(item.showkerId)}}" class="user-head-box"><img class="showker-portrait-pic"  width="48" height="48" :src="getUserHead(item.showkerPortraitPic)" alt=""></router-link>
+                    <router-link :to="{path:'/trial-report',query:{q:encryptionId(item.showkerId)}}"
+                                 class="user-head-box"><img class="showker-portrait-pic" width="48" height="48"
+                                                            :src="getUserHead(item.showkerPortraitPic)" alt="">
+                    </router-link>
                     <div class="left ml-10" style="margin-top: 5px">
                       <p style="color: #000">{{item.showkerPhone}}</p>
                       <img :src="item.creditLevel" alt="">
@@ -155,11 +164,16 @@
       </div>
       <div class="container">
         <div class="buyer-show-all">
-          <div class="title"></div>
+          <div class="title clear">
+            <img style="vertical-align: middle" src="~assets/img/buyer-show/buyer_show_xdr.png" alt="">
+            <span class="ml-10" style="font-size: 13px;color: #999;transform: translateY(2px)">给你最精彩</span>
+          </div>
+          <div class="content">
+
+          </div>
         </div>
       </div>
       <!--折扣专区开始-->
-
       <Modal v-model="selectLogin" width="500">
         <p class="mt-20 mb-40 text-ct fs-22 vtc-mid" style="height: 50px;line-height: 50px">
           <i class="ivu-icon ivu-icon-android-alert " style="color: #FF6600; font-size: 20px;"></i>
@@ -168,8 +182,12 @@
           <span class="fs-12">请先登录后再点赞</span>
         </p>
         <div slot="footer" class="text-ct">
-          <router-link class="ivu-btn ivu-btn-error ivu-btn-large mr-40 ml-40" to="/login" style="color: #fff; width: 102px;">马上登录</router-link>
-          <router-link class="ivu-btn ivu-btn-error ivu-btn-large mr-40" to="/sel-role" style="color: #fff;  width: 102px;">新用户注册</router-link>
+          <router-link class="ivu-btn ivu-btn-error ivu-btn-large mr-40 ml-40" to="/login"
+                       style="color: #fff; width: 102px;">马上登录
+          </router-link>
+          <router-link class="ivu-btn ivu-btn-error ivu-btn-large mr-40" to="/sel-role"
+                       style="color: #fff;  width: 102px;">新用户注册
+          </router-link>
         </div>
       </Modal>
     </div>
@@ -189,7 +207,7 @@
   import SmsCountdown from '@/components/SmsCountdown'
   import Zan from '@/components/Zan'
   import api from '@/config/apiConfig'
-  import {setStorage, getStorage, encryption,removeStorage} from '@/config/utils'
+  import {setStorage, getStorage, encryption, removeStorage} from '@/config/utils'
   import {aliCallbackImgUrl} from '@/config/env'
   import {mapActions} from 'vuex'
 
@@ -218,123 +236,33 @@
       Modal: Modal,
       Carousel: Carousel,
       CarouselItem: Carousel.Item,
-      Tooltip:Tooltip,
-      Zan:Zan,
+      Tooltip: Tooltip,
+      Zan: Zan,
     },
     data() {
       return {
-        ZanIconType:'ios-heart-outline',
-        zanNumber:0,
-        zanFontSize:12,
-        whetherClickData:false,
-        selectLogin:false,
-        getShowkerReportList:[],
-        confirmRechargeModel:true,
+        ZanIconType: 'ios-heart-outline',
+        zanNumber: 0,
+        zanFontSize: 12,
+        whetherClickData: false,
+        selectLogin: false,
+        getShowkerReportList: [],
+        confirmRechargeModel: true,
         command: '',
         wechartAlertShow: false,
         wechartShowAgain: [],
         leftTopSliderTimer: '',
         leftSliderTimer: '',
         leftTopSlider: false,
-        leftSlider:false,
+        leftSlider: false,
         trialCount: {},
         homeCommodityList: [],
         homeHistoryList: [],
         homeDisCountList: [],
-        noticeList:[
-          {
-            title: '常见问题',
-            content: [
-              {
-                url: '/user/help-center/faq',
-                text: '平台有哪些活动？',
-                page: 'common',
-                qusNum: '1'
-              },
-              {
-                url: '/user/help-center/faq',
-                text: '注册秀吧收费么？',
-                page: 'common',
-                qusNum: '1'
-              },
-              {
-                url: '/user/help-center/faq',
-                text: '支持哪几个平台试用活动？',
-                page: 'common',
-                qusNum: '4'
-              },
-              {
-                url: '/user/help-center/faq',
-                text: '平台能提现吗？提现需要手续费吗？',
-                page: 'common',
-                qusNum: '11'
-              },
-            ],
-            active: 'faq'
-          },
-          {
-            title: '秀客问题',
-            content: [
-              {
-                url: '/user/help-center/faq-showker',
-                text: '秀客完整流程？',
-                page: 'special'
-              },
-              {
-                url: '/user/help-center/faq-showker',
-                text: '秀客下单规则？',
-                page: 'common',
-                qusNum: '1'
-              },
-              {
-                url: '/user/help-center/faq-showker',
-                text: '下单需要垫付么？',
-                page: 'common',
-                qusNum: '3'
-              },
-              {
-                url: '/user/help-center/faq-showker',
-                text: '商家如何返款？',
-                page: 'common',
-                qusNum: '7'
-              },
-            ],
-            active: 'buyerRule'
-          },
-          {
-            title: '商家问题',
-            content: [
-              {
-                url: '/user/help-center/faq-seller',
-                text: '商家活动完整流程？',
-                page: 'special'
-              },
-              {
-                url: '/user/help-center/faq-seller',
-                text: '商家活动支持哪几种搜索/下单渠道？',
-                page: 'common',
-                qusNum: '1'
-              },
-              {
-                url: '/user/help-center/faq-seller',
-                text: '商家发布活动如何收费？',
-                page: 'common',
-                qusNum: '5'
-              },
-              {
-                url: '/user/help-center/faq-seller',
-                text: '什么条件下可以申请活动结算？',
-                page: 'common',
-                qusNum: '11'
-              },
-            ],
-            active: 'sellerRule'
-          },
-        ],
         noticeActive: 'faq',
         taskTopLeftList: [],
         navList: [],
-        nvaImgSrc:{
+        nvaImgSrc: {
           100: '/static/img/nav-picture/home_07.png',
           200: '/static/img/nav-picture/home_09.png',
           300: '/static/img/nav-picture/home_11.png',
@@ -346,8 +274,8 @@
           900: '/static/img/nav-picture/home_25.png',
           1000: '/static/img/nav-picture/home_26.png',
         },
-        buyerShowList:[],
-        getMoreBuyerShow:false,
+        buyerShowList: [],
+        getMoreBuyerShow: false,
         homeCarousel: 0
       }
     },
@@ -399,7 +327,7 @@
       userHeadUrl() {
         return this.$store.getters.getUserHeadUrl
       },
-      getUserRole () {
+      getUserRole() {
         return this.$store.getters.getUserRole
       },
     },
@@ -414,13 +342,16 @@
       ...mapActions([
         'loggedOut'
       ]),
-      getShowkerNumber(){
-        let timestamp1 = Date.parse( new Date());
+      getShowkerNumber() {
+        let timestamp1 = Date.parse(new Date());
         console.log(timestamp1)
       },
-      toTrialReport(showkerId,id){
+      toTrialReport(showkerId, id) {
         let self = this;
-        self.$router.push({path:'/trial-report',query:{q:encryption(showkerId),showReportDesc:true,id:encryption(id)}});
+        self.$router.push({
+          path: '/trial-report',
+          query: {q: encryption(showkerId), showReportDesc: true, id: encryption(id)}
+        });
       },
       getUserHead(src) {
         if (src && src.indexOf('head-image') >= 0) {
@@ -431,45 +362,45 @@
           return '/static/img/common/tx-default.png'
         }
       },
-      clickPraise(id,index){
+      clickPraise(id, index) {
         let self = this;
-        if(!self.isLogin){
+        if (!self.isLogin) {
           return self.selectLogin = true;
         }
         api.clickPraise({
-          trialReportId : id
-        }).then((res) =>{
-          if (res.status){
+          trialReportId: id
+        }).then((res) => {
+          if (res.status) {
             self.$Message.success('点赞成功!');
-            self.whetherClickPraise(id,index);
+            self.whetherClickPraise(id, index);
             self.ZanIconType = 'ios-heart-outline';
-          }else {
+          } else {
             self.$Message.error(res.msg)
           }
         })
       },
-      whetherClickPraise(id,index){
+      whetherClickPraise(id, index) {
         let self = this;
         api.whetherClickPraise({
-          trialReportId : id
-        }).then((res) =>{
-          if (res.status){
-            if (res.data){
+          trialReportId: id
+        }).then((res) => {
+          if (res.status) {
+            if (res.data) {
               self.$set(self.buyerShowList[index], 'whetherClick', 'ios-heart');
-            }else {
+            } else {
               self.$set(self.buyerShowList[index], 'whetherClick', 'ios-heart-outline');
             }
-          }else {
+          } else {
             self.$Message.error(res.msg)
           }
         })
       },
-      getShowkerReportRank(){
+      getShowkerReportRank() {
         let self = this;
-        api.getShowkerReportRank().then((res) =>{
-          if (res.status){
+        api.getShowkerReportRank().then((res) => {
+          if (res.status) {
             self.getShowkerReportList = res.data
-          }else {
+          } else {
             self.$Message.error(res.msg)
           }
         })
@@ -480,8 +411,8 @@
           if (res.status) {
             self.buyerShowList = res.data;
             for (let i = 0, len = self.buyerShowList.length; i < len; i++) {
-              self.whetherClickPraise(self.buyerShowList[i].id,i);
-              if (JSON.parse(self.buyerShowList[i].trialReportImages)[0][0] !== 'h'){
+              self.whetherClickPraise(self.buyerShowList[i].id, i);
+              if (JSON.parse(self.buyerShowList[i].trialReportImages)[0][0] !== 'h') {
                 self.buyerShowList[i].trialReportImages = aliCallbackImgUrl + JSON.parse(self.buyerShowList[i].trialReportImages)[0]
               } else {
                 self.buyerShowList[i].trialReportImages = JSON.parse(self.buyerShowList[i].trialReportImages)[0];
@@ -492,17 +423,17 @@
           }
         })
       },
-      selTaskCategoryAllFunc(){
+      selTaskCategoryAllFunc() {
         let self = this;
         self.$store.commit({
           type: 'TASK_CATEGORY_LIST',
           info: 'all'
         });
-        self.$router.push({ 'path': '/task-category', 'query': {'searchAll': 'yes'}});
+        self.$router.push({'path': '/task-category', 'query': {'searchAll': 'yes'}});
       },
-      selTaskCategoryActiveFunc(nav){
+      selTaskCategoryActiveFunc(nav) {
         let self = this;
-        self.$router.push({ 'path': '/task-category', 'query': {'cate': nav.id}});
+        self.$router.push({'path': '/task-category', 'query': {'cate': nav.id}});
         self.$store.commit({
           type: 'SET_DISCOUNT_TASK_CATEGORY',
           result: false
@@ -512,15 +443,15 @@
           info: 'all',
         });
       },
-      getNavList(){
+      getNavList() {
         let self = this;
-        api.getNavList().then((res) =>{
-          if(res.status){
-            res.data.sort(function(a,b){
-              return a.sortIndex-b.sortIndex
+        api.getNavList().then((res) => {
+          if (res.status) {
+            res.data.sort(function (a, b) {
+              return a.sortIndex - b.sortIndex
             });
             self.navList = res.data;
-          }else {
+          } else {
             self.$Message.error({
               content: res.msg,
               duration: 9
@@ -683,12 +614,12 @@
         })
       },
 
-      getHomeDisCountList(){
+      getHomeDisCountList() {
         let self = this;
         api.getHomeDisCountList().then((res) => {
-          if(res.status){
+          if (res.status) {
             res.data ? self.homeDisCountList = res.data : self.homeDisCountList = [];
-          }else {
+          } else {
             self.$Message.error({
               content: res.msg,
               duration: 9
@@ -706,7 +637,7 @@
           self.leftSlider = !self.leftSlider;
         }, 1500)
       },
-      clearLeftSliderFunc(){
+      clearLeftSliderFunc() {
         let self = this;
         clearInterval(self.leftSliderTimer);
       },
@@ -718,6 +649,7 @@
 <style lang="scss" scoped>
 
   @import 'src/css/mixin';
+
   .confirm-recharge-model {
     position: fixed;
     top: 0;
@@ -727,6 +659,7 @@
     z-index: 999;
     background-color: rgba(55, 55, 55, .6);
   }
+
   .confirm-recharge-con {
     position: absolute;
     top: 20%;
@@ -735,9 +668,11 @@
     margin-left: -254px;
 
   }
-  .main-color{
+
+  .main-color {
     color: #FF0000;
   }
+
   .home-ctt {
     background-color: #F1F1F1;
     .user-name {
@@ -747,14 +682,14 @@
     .buyer-xiu {
       margin: 10px auto 10px auto;
       overflow: hidden;
-      .masterImgBox{
+      .masterImgBox {
         width: 200px;
         height: 260px;
         overflow: hidden;
-        display:table-cell;
-        vertical-align:middle;
+        display: table-cell;
+        vertical-align: middle;
         text-align: center;
-        background-color:#F1F2F6;
+        background-color: #F1F2F6;
       }
       .left-ctt {
         padding: 0 25px;
@@ -762,20 +697,20 @@
         width: 1200px;
         height: 500px;
         overflow: hidden;
-        .title{
+        .title {
           padding: 15px 10px 10px 10px;
           border-bottom: 1px solid #F6F6F6;
-          img{
+          img {
           }
         }
-        ul{
+        ul {
           padding: 10px 0;
           width: 10000px;
-          li{
-            padding: 0px 15px ;
+          li {
+            padding: 0px 15px;
             width: 230px;
             margin-bottom: 52px;
-            .top-heart{
+            .top-heart {
               position: absolute;
               z-index: 10;
               top: 5px;
@@ -787,7 +722,7 @@
 
             }
 
-            .price{
+            .price {
               position: absolute;
               width: 200px;
               top: 230px;
@@ -796,33 +731,33 @@
               line-height: 30px;
               padding: 0px 3px;
               color: #fff;
-              background-color: rgba(0,0,0,0.5);
-              span:first-child{
+              background-color: rgba(0, 0, 0, 0.5);
+              span:first-child {
                 width: 128px;
               }
-              span:last-child{
+              span:last-child {
                 color: #FFFF00;
               }
             }
-            .description{
+            .description {
               padding-left: 25px;
               height: 30px;
               overflow: hidden;
-              img{
+              img {
                 position: absolute;
                 left: 0;
                 top: -3px;
               }
-              .double-question-mark{
+              .double-question-mark {
                 position: absolute;
                 left: 0;
                 top: -3px;
                 display: inline-block;
                 width: 18px;
                 height: 34px;
-                background:url("~assets/img/home/double_marks.png");
+                background: url("~assets/img/home/double_marks.png");
               }
-              .des-text{
+              .des-text {
                 max-height: 40px;
                 line-height: 16px;
                 text-overflow: ellipsis;
@@ -834,12 +769,12 @@
                 color: #666;
               }
             }
-            .icon-heart{
+            .icon-heart {
               font-size: 16px;
             }
-            .bottom{
+            .bottom {
               font-size: 14px;
-              .click-good{
+              .click-good {
                 color: #FF0000;
               }
             }
@@ -858,41 +793,41 @@
         height: 400px;
         padding: 0 10px;
         background-color: #fff;
-        .title{
+        .title {
           height: 50px;
           line-height: 50px;
           border-bottom: 1px solid #eee;
           font-size: 18px;
           color: #ff6600;
           font-weight: bold;
-          .cup-icon{
+          .cup-icon {
             font-size: 25px;
             transform: translateY(2px);
           }
         }
-        .content{
+        .content {
           height: 48px;
           margin-top: 18px;
-          >span{
+          > span {
             line-height: 48px;
           }
         }
       }
     }
-    .data-information{
+    .data-information {
       height: 135px;
       background-color: #fff;
       margin-top: 10px;
-      .content{
+      .content {
         width: 300px;
         height: 135px;
         padding: 23px 0px 0px 28px;
-        >div{
+        > div {
           margin-top: 18px;
-          .number{
+          .number {
             font-size: 18px;
           }
-          .dsc{
+          .dsc {
             font-size: 16px;
             color: #666;
             margin-top: 5px;
@@ -903,14 +838,14 @@
     .super-showker {
       margin: 0px auto 10px auto;
       overflow: hidden;
-      .masterImgBox{
+      .masterImgBox {
         width: 200px;
         height: 260px;
         overflow: hidden;
-        display:table-cell;
-        vertical-align:middle;
+        display: table-cell;
+        vertical-align: middle;
         text-align: center;
-        background-color:#F1F2F6;
+        background-color: #F1F2F6;
       }
       .left-ctt {
         padding: 0 25px;
@@ -918,20 +853,20 @@
         width: 1200px;
         height: 500px;
         overflow: hidden;
-        .title{
+        .title {
           padding: 15px 10px 10px 10px;
           border-bottom: 1px solid #F6F6F6;
-          img{
+          img {
           }
         }
-        ul{
+        ul {
           padding: 10px 0;
           width: 10000px;
-          li{
-            padding: 0px 15px ;
+          li {
+            padding: 0px 15px;
             width: 230px;
             margin-bottom: 52px;
-            .top-heart{
+            .top-heart {
               position: absolute;
               top: 5px;
               right: 18px;
@@ -942,7 +877,7 @@
               padding: 0 3px;
 
             }
-            .price{
+            .price {
               position: absolute;
               width: 200px;
               top: 230px;
@@ -951,19 +886,19 @@
               line-height: 30px;
               padding: 0px 3px;
               color: #fff;
-              background-color: rgba(0,0,0,0.5);
-              span:first-child{
+              background-color: rgba(0, 0, 0, 0.5);
+              span:first-child {
                 width: 128px;
               }
-              span:last-child{
+              span:last-child {
                 color: #FFFF00;
               }
             }
-            .description{
+            .description {
               overflow: hidden;
-              padding:0 10px;
+              padding: 0 10px;
               height: 70px;
-              span{
+              span {
                 width: 80px;
                 height: 25px;
                 line-height: 25px;
@@ -971,22 +906,22 @@
                 border: 1px solid #DDDEE1;
                 border-radius: 3px;
               }
-              span:nth-of-type(1){
+              span:nth-of-type(1) {
                 margin-right: 20px;
               }
-              span:nth-of-type(3){
+              span:nth-of-type(3) {
                 margin-right: 20px;
               }
             }
-            .icon-heart{
+            .icon-heart {
               font-size: 16px;
             }
-            .bottom{
+            .bottom {
               font-size: 14px;
-              .click-good{
+              .click-good {
                 color: #FF0000;
               }
-              .showker-portrait-pic{
+              .showker-portrait-pic {
                 transform: translateY(10px);
               }
             }
@@ -994,50 +929,55 @@
         }
       }
     }
-    .buyer-show-all{
-      .title{
+    .buyer-show-all {
+      padding: 0px 20px;
+      width: 1200px;
+      background-color: #fff;
+      .title {
         padding: 15px 10px 10px 10px;
         border-bottom: 1px solid #F6F6F6;
-        img{
-        }
+      }
+      .content{
+        padding: 15px 20px;
+      }
     }
-  }
 
-  .user-head-box{
-    float: left;
-    width: 48px;
-    height: 48px;
-    margin-left: 10px;
-    img{
-      border-radius: 50%;
+    .user-head-box {
+      float: left;
+      width: 48px;
+      height: 48px;
+      margin-left: 10px;
+      img {
+        border-radius: 50%;
+      }
     }
-  }
 
-  .home-discount-price{
-    color: #fff;
-    line-height: 20px;
-    height: 20px;
-    padding: 0 5px;
-    margin-right: 15px;
-    margin-top: 3px;
-    margin-left: 5px
-  }
+    .home-discount-price {
+      color: #fff;
+      line-height: 20px;
+      height: 20px;
+      padding: 0 5px;
+      margin-right: 15px;
+      margin-top: 3px;
+      margin-left: 5px
+    }
 
-  .slider-top-active-left {
-    margin-left: -230px;
-    animation: sliderTopLeft 1s;
-  }
+    .slider-top-active-left {
+      margin-left: -230px;
+      animation: sliderTopLeft 1s;
+    }
 
-  .slider-top-default-left {
-    margin-left: 0;
-  }
-
-  @keyframes sliderTopLeft {
-    0% {
+    .slider-top-default-left {
       margin-left: 0;
     }
-    100% {
-      margin-left: -230px;
+
+    @keyframes sliderTopLeft {
+      0% {
+        margin-left: 0;
+      }
+      100% {
+        margin-left: -230px;
+      }
     }
   }
 </style>
