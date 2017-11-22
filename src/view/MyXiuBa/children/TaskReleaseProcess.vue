@@ -45,13 +45,13 @@
           <p>真实卖货</p>
           <span class="is-select-gou" v-show="taskRelease.activityCategory === 'price_low'"></span>
         </div>
-        <div class="left activity-type-box mr-10" :class="{isSelect:taskRelease.activityCategory === 'goods_clearance'}"
+        <!--<div class="left activity-type-box mr-10" :class="{isSelect:taskRelease.activityCategory === 'goods_clearance'}"
              @click="changeSelectActivity('goods_clearance')">
           <p>清仓断码</p>
           <p>帮商家解决最为头疼的</p>
           <p>库存问题</p>
           <span class="is-select-gou" v-show="taskRelease.activityCategory === 'goods_clearance'"></span>
-        </div>
+        </div>-->
       </div>
       <div class="pop-tip">
         <div v-show="taskRelease.activityCategory === 'free_get'">
