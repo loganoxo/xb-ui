@@ -110,18 +110,29 @@
               <div class="task-category-commodity-text">
                 <p v-html="searchTask.taskName"></p>
                 <p class="home-commodity-price">
-                  <span class="left" style="text-decoration: line-through; color: #ff6633;">￥{{searchTask.itemPrice/100}}</span>
-                  <span v-if= "searchTask.activityCategory == 'pinkage_for_10'" style="padding: 0 4px; background: #ff9966; color: #fff; margin-left: 10px; display: inline-block;height: 20px;line-height: 20px;">10元包邮</span>
-                  <span v-if= "searchTask.activityCategory == 'present_get'" style="padding: 0 4px; background: #00cc66; color: #ffffff; margin-left: 10px; display: inline-block;height: 20px;line-height: 20px;">体验专区</span>
-                  <span v-if="searchTask.activityCategory == 'price_low' && searchTask.discountPrice" class="left home-discount-price mt-5" :style="{backgroundColor: $store.state.discountPriceType[parseFloat(searchTask.discountPrice/100)].backgroundColor}" >
-                    {{searchTask.discountPrice/100}}试用
-                  </span>
-                  <span v-if="searchTask.activityCategory == 'price_low' && searchTask.discountRate" class="left home-discount-price mt-5" :style="{backgroundColor: $store.state.discountPriceType[parseFloat(searchTask.discountRate/10) + '折'].backgroundColor}" >
-                    {{searchTask.discountRate/10}}折试用
-                  </span>
-                  <span v-if="searchTask.activityCategory == 'goods_clearance' && searchTask.discountRate " class="left home-discount-price mt-5" :style="{backgroundColor: $store.state.discountPriceType[parseFloat(searchTask.discountRate/10) + '折'].backgroundColor}" >
-                    {{searchTask.discountRate/10}}折清仓
-                  </span>
+                  <em style="float: left;" class="price-list">
+                    <span style="color: #666; display: block; text-decoration: line-through;">￥{{searchTask.itemPrice / 100}}</span>
+                    <span style="font-weight: bold; color: #ff6633;" v-if="searchTask.discountPrice">￥{{(searchTask.discountPrice / 100).toFixed(2)}}</span>
+                    <span style="font-weight: bold; color: #ff6633;" v-if="!searchTask.discountPrice && searchTask.discountRate">
+                      ￥{{(Math.floor((searchTask.discountRate/100) * searchTask.itemPrice)/100).toFixed(2)}}
+                    </span>
+                    <span style="font-weight: bold; color: #ff6633;" v-if="!searchTask.discountPrice && !searchTask.discountRate">
+                      ￥0
+                    </span>
+                  </em>
+                  <em  class="price-icon mt-10">
+                    <span v-if= "searchTask.activityCategory == 'pinkage_for_10'" style="padding: 0 4px; background: #ff9966; color: #fff; margin-left: 10px; display: inline-block;height: 20px;line-height: 20px;">10元包邮</span>
+                    <span v-if= "searchTask.activityCategory == 'present_get'" style="padding: 0 4px; background: #00cc66; color: #ffffff; margin-left: 10px; display: inline-block;height: 20px;line-height: 20px;">体验专区</span>
+                    <span v-if="searchTask.activityCategory == 'price_low' && searchTask.discountPrice" class="left home-discount-price mt-5" :style="{backgroundColor: $store.state.discountPriceType[parseFloat(searchTask.discountPrice/100)].backgroundColor}" >
+                      {{searchTask.discountPrice/100}}试用
+                    </span>
+                      <span v-if="searchTask.activityCategory == 'price_low' && searchTask.discountRate" class="left home-discount-price mt-5" :style="{backgroundColor: $store.state.discountPriceType[parseFloat(searchTask.discountRate/10) + '折'].backgroundColor}" >
+                      {{searchTask.discountRate/10}}折试用
+                    </span>
+                      <span v-if="searchTask.activityCategory == 'goods_clearance' && searchTask.discountRate " class="left home-discount-price mt-5" :style="{backgroundColor: $store.state.discountPriceType[parseFloat(searchTask.discountRate/10) + '折'].backgroundColor}" >
+                      {{searchTask.discountRate/10}}折清仓
+                    </span>
+                  </em>
                 </p>
                 <p class="cl000">
                   限量 <span style="color: #ff6600"> {{searchTask.taskCount || 0 }} </span> 份，
@@ -631,6 +642,25 @@
     padding: 0 5px;
     margin-right: 15px;
     margin-left: 5px
+  }
+
+  p.home-commodity-price {
+    height: 40px !important;
+    line-height: normal !important;
+    color: #FF6633;
+    em{
+      font-style: normal;
+    }
+    em.price-list{
+      float: left;
+    }
+    em.price-icon{
+
+      span{
+        margin-top: 9px;
+        margin-left: 10px;
+      }
+    }
   }
   .task-category-ctt {
     background-color: #F1F1F1;
