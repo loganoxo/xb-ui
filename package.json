@@ -28,6 +28,7 @@
     "vue-region-picker": "^3.0.1",
     "vue-router": "^2.8.1",
     "vue-social-sharing": "^2.2.5",
+    "vue-waterfall": "^1.0.6",
     "vuex": "^2.5.0"
   },
   "devDependencies": {

@@ -165,10 +165,200 @@
       <div class="container">
         <div class="buyer-show-all">
           <div class="title clear">
-            <img style="vertical-align: middle" src="~assets/img/buyer-show/buyer_show_xdr.png" alt="">
+            <img style="vertical-align: middle" src="~assets/img/buyer-show/buyer-show-allmjx.png" alt="">
             <span class="ml-10" style="font-size: 13px;color: #999;transform: translateY(2px)">给你最精彩</span>
           </div>
-          <div class="content">
+          <div class="mt-10 clear">
+            <div class="content left">
+              <div class="pos-rel">
+                <img width="250" src="~assets/img/home/banner_01.jpg" alt="">
+                <p class="mt-10 description pos-rel">
+                  <span class="double-question-mark "></span>
+                  <a class="des-text ">kldfksdjfldskf</a>
+                </p>
+              </div>
+              <div class="clear bottom mt-20">
+                <a class="user-head-box">
+                  <img class="showker-portrait-pic" width="48" height="48" :src="getUserHead()" alt="">
+                </a>
+                <div class="left ml-10" style="margin-top: 5px">
+                  <p style="color: #000">15000000000</p>
+                  <img src="" alt="">
+                  <div class="text-ct"><span>淘气值：600-800</span></div>
+                </div>
+              </div>
+            </div>
+            <div class="content left">
+              <div class="pos-rel">
+                <img width="250" src="~assets/img/buyer-show/des_01.png" alt="">
+                <p class="mt-10 description pos-rel">
+                  <span class="double-question-mark "></span>
+                  <a class="des-text ">kldfksdjfldskf</a>
+                </p>
+              </div>
+              <div class="clear bottom mt-20">
+                <a class="user-head-box">
+                  <img class="showker-portrait-pic" width="48" height="48" :src="getUserHead()" alt="">
+                </a>
+                <div class="left ml-10" style="margin-top: 5px">
+                  <p style="color: #000">15000000000</p>
+                  <img src="" alt="">
+                  <div class="text-ct"><span>淘气值：600-800</span></div>
+                </div>
+              </div>
+            </div>
+            <div class="content left">
+              <div class="pos-rel">
+                <img width="250" src="~assets/img/home/banner_01.jpg" alt="">
+                <p class="mt-10 description pos-rel">
+                  <span class="double-question-mark "></span>
+                  <a class="des-text ">kldfksdjfldskf</a>
+                </p>
+              </div>
+              <div class="clear bottom mt-20">
+                <a class="user-head-box">
+                  <img class="showker-portrait-pic" width="48" height="48" :src="getUserHead()" alt="">
+                </a>
+                <div class="left ml-10" style="margin-top: 5px">
+                  <p style="color: #000">15000000000</p>
+                  <img src="" alt="">
+                  <div class="text-ct"><span>淘气值：600-800</span></div>
+                </div>
+              </div>
+            </div>
+            <div class="content left">
+              <div class="pos-rel">
+                <img width="250" src="~assets/img/task-details/task_details_03.png" alt="">
+                <p class="mt-10 description pos-rel">
+                  <span class="double-question-mark "></span>
+                  <a class="des-text ">kldfksdjfldskf</a>
+                </p>
+              </div>
+              <div class="clear bottom mt-20">
+                <a class="user-head-box">
+                  <img class="showker-portrait-pic" width="48" height="48" :src="getUserHead()" alt="">
+                </a>
+                <div class="left ml-10" style="margin-top: 5px">
+                  <p style="color: #000">15000000000</p>
+                  <img src="" alt="">
+                  <div class="text-ct"><span>淘气值：600-800</span></div>
+                </div>
+              </div>
+            </div>
+         <!--   <div class="content left">
+              <div class="pos-rel">
+                <img width="250" src="~assets/img/home/banner_01.jpg" alt="">
+                <p class="mt-10 description pos-rel">
+                  <span class="double-question-mark "></span>
+                  <a class="des-text ">kldfksdjfldskf</a>
+                </p>
+              </div>
+              <div class="clear bottom mt-20">
+                <a class="user-head-box">
+                  <img class="showker-portrait-pic" width="48" height="48" :src="getUserHead()" alt="">
+                </a>
+                <div class="left ml-10" style="margin-top: 5px">
+                  <p style="color: #000">15000000000</p>
+                  <img src="" alt="">
+                  <div class="text-ct"><span>淘气值：600-800</span></div>
+                </div>
+              </div>
+            </div>
+            <div class="content left">
+              <div class="pos-rel">
+                <img width="250" src="~assets/img/home/banner_01.jpg" alt="">
+                <p class="mt-10 description pos-rel">
+                  <span class="double-question-mark "></span>
+                  <a class="des-text ">kldfksdjfldskf</a>
+                </p>
+              </div>
+              <div class="clear bottom mt-20">
+                <a class="user-head-box">
+                  <img class="showker-portrait-pic" width="48" height="48" :src="getUserHead()" alt="">
+                </a>
+                <div class="left ml-10" style="margin-top: 5px">
+                  <p style="color: #000">15000000000</p>
+                  <img src="" alt="">
+                  <div class="text-ct"><span>淘气值：600-800</span></div>
+                </div>
+              </div>
+            </div>
+            <div class="content left">
+              <div class="pos-rel">
+                <img width="250" src="~assets/img/home/banner_01.jpg" alt="">
+                <p class="mt-10 description pos-rel">
+                  <span class="double-question-mark "></span>
+                  <a class="des-text ">kldfksdjfldskf</a>
+                </p>
+              </div>
+              <div class="clear bottom mt-20">
+                <a class="user-head-box">
+                  <img class="showker-portrait-pic" width="48" height="48" :src="getUserHead()" alt="">
+                </a>
+                <div class="left ml-10" style="margin-top: 5px">
+                  <p style="color: #000">15000000000</p>
+                  <img src="" alt="">
+                  <div class="text-ct"><span>淘气值：600-800</span></div>
+                </div>
+              </div>
+            </div>
+            <div class="content left">
+              <div class="pos-rel">
+                <img width="250" src="~assets/img/home/banner_01.jpg" alt="">
+                <p class="mt-10 description pos-rel">
+                  <span class="double-question-mark "></span>
+                  <a class="des-text ">kldfksdjfldskf</a>
+                </p>
+              </div>
+              <div class="clear bottom mt-20">
+                <a class="user-head-box">
+                  <img class="showker-portrait-pic" width="48" height="48" :src="getUserHead()" alt="">
+                </a>
+                <div class="left ml-10" style="margin-top: 5px">
+                  <p style="color: #000">15000000000</p>
+                  <img src="" alt="">
+                  <div class="text-ct"><span>淘气值：600-800</span></div>
+                </div>
+              </div>
+            </div>
+            <div class="content left">
+              <div class="pos-rel">
+                <img width="250" src="~assets/img/home/banner_01.jpg" alt="">
+                <p class="mt-10 description pos-rel">
+                  <span class="double-question-mark "></span>
+                  <a class="des-text ">kldfksdjfldskf</a>
+                </p>
+              </div>
+              <div class="clear bottom mt-20">
+                <a class="user-head-box">
+                  <img class="showker-portrait-pic" width="48" height="48" :src="getUserHead()" alt="">
+                </a>
+                <div class="left ml-10" style="margin-top: 5px">
+                  <p style="color: #000">15000000000</p>
+                  <img src="" alt="">
+                  <div class="text-ct"><span>淘气值：600-800</span></div>
+                </div>
+              </div>
+            </div>
+            <div class="content left">
+              <div class="pos-rel">
+                <img width="250" src="~assets/img/home/banner_01.jpg" alt="">
+                <p class="mt-10 description pos-rel">
+                  <span class="double-question-mark "></span>
+                  <a class="des-text ">kldfksdjfldskf</a>
+                </p>
+              </div>
+              <div class="clear bottom mt-20">
+                <a class="user-head-box">
+                  <img class="showker-portrait-pic" width="48" height="48" :src="getUserHead()" alt="">
+                </a>
+                <div class="left ml-10" style="margin-top: 5px">
+                  <p style="color: #000">15000000000</p>
+                  <img src="" alt="">
+                  <div class="text-ct"><span>淘气值：600-800</span></div>
+                </div>
+              </div>
+            </div>-->
 
           </div>
         </div>
@@ -210,6 +400,8 @@
   import {setStorage, getStorage, encryption, removeStorage} from '@/config/utils'
   import {aliCallbackImgUrl} from '@/config/env'
   import {mapActions} from 'vuex'
+  import Waterfall from 'vue-waterfall/lib/waterfall'
+  import WaterfallSlot from 'vue-waterfall/lib/waterfall-slot'
 
   export default {
     beforeMount() {
@@ -238,6 +430,8 @@
       CarouselItem: Carousel.Item,
       Tooltip: Tooltip,
       Zan: Zan,
+      waterfall: Waterfall.waterfall,
+      waterfallSlot: Waterfall.waterfallSlot
     },
     data() {
       return {
@@ -937,8 +1131,34 @@
         padding: 15px 10px 10px 10px;
         border-bottom: 1px solid #F6F6F6;
       }
-      .content{
+      .content {
         padding: 15px 20px;
+        width: 290px;
+        border: 1px solid #666;
+        .double-question-mark {
+          position: absolute;
+          left: 0;
+          top: -3px;
+          display: inline-block;
+          width: 18px;
+          height: 34px;
+          background: url("~assets/img/home/double_marks.png");
+        }
+        .des-text {
+          max-height: 40px;
+          line-height: 16px;
+          text-overflow: ellipsis;
+          display: -webkit-box;
+          -webkit-line-clamp: 2;
+          -webkit-box-orient: vertical;
+          overflow: hidden;
+          word-wrap: break-word;
+          color: #666;
+          margin-left: 26px;
+        }
+        .showker-portrait-pic {
+          transform: translateY(8px);
+        }
       }
     }
 

@@ -1013,12 +1013,11 @@
                 margin-top: 3px;
               }
             }
-
             .price{
               position: absolute;
               width: 200px;
               top: 230px;
-              left: 15px;
+              left: 0px;
               height: 30px;
               line-height: 30px;
               padding: 0px 3px;
