@@ -11,7 +11,7 @@
     </div>
     <div class="activity-tip mb-20">
       <Icon type="information-circled" color="#FF0100"></Icon>
-      <span><b class="sizeColor3">注意：</b> 本站<b class="sizeColor3">不支持拍A发B</b>行为，发货必须按照活动发布指定的宝贝实际发货，否则视为违规，接到秀客投诉将会全额扣除保证金，并强制下线活动！</span>
+      <span><b class="sizeColor3">注意：</b> 本站支持拍A发A（免费领），拍A发B（体验专区），10元包邮，真实卖货（白菜价）等多种任务类型，满足商家的各种需求！</span>
     </div>
     <!--选择活动类型-->
     <div class="activity-type mt-20" v-show="stepName === 'information'">
@@ -33,7 +33,7 @@
         </div>
         <div class="left activity-type-box mr-10" :class="{isSelect:taskRelease.activityCategory === 'present_get'}"
              @click="changeSelectActivity('present_get')">
-          <p>体验专区</p>
+          <p>体验专区（拍A发B）</p>
           <p>适用于高客单宝贝</p>
           <p>解决商品成本过高问题</p>
           <span class="is-select-gou" v-show="taskRelease.activityCategory === 'present_get'"></span>

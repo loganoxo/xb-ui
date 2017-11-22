@@ -60,7 +60,7 @@
           <span class="is-select-gou" v-show="taskRelease.activityCategory === 'pinkage_for_10'"></span>
         </div>
         <div class="left activity-type-box mr-10 disabled" :class="{isSelect:taskRelease.activityCategory === 'present_get'}" @click="changeSelectActivity('present_get')">
-          <p>体验专区</p>
+          <p>体验专区（拍A发B）</p>
           <p>适用于高客单宝贝</p>
           <p>解决商品成本过高问题</p>
           <span class="is-select-gou" v-show="taskRelease.activityCategory === 'present_get'"></span>
