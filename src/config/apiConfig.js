@@ -784,4 +784,11 @@ export default {
     return fetch('/api/user/alitm/un_disable_alitm.json',params)
   },
 
+  /**
+   * 获取买家秀排行榜列表
+   */
+  getShowkerReportRank() {
+    return fetch('/api/task/showker/getShowkerReportRank.json')
+  },
+
 }

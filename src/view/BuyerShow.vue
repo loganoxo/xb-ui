@@ -27,44 +27,12 @@
               <Icon type="trophy" class="cup-icon"></Icon>
               <span class="ml-5">买家秀排行榜</span>
             </div>
-            <div class="content clear">
-              <span class="left fs-18">1</span>
-              <img class="left ml-15" width="48px" src="~assets/img/common/home_24.png" alt="">
+            <div v-for="(item,index) in getShowkerReportList" :key="index" class="content clear">
+              <span class="left fs-18">{{index+1}}</span>
+              <img class="left ml-15" width="48px" :src="item.portrait" alt="">
               <div class="left ml-10 ">
-                <p class="mt-5 fs-14">13666666666</p>
-                <p><span class="main-color">12</span>篇买家秀，共获得<span class="main-color">100</span>个赞</p>
-              </div>
-            </div>
-            <div class="content clear">
-              <span class="left fs-18">2</span>
-              <img class="left ml-15" width="48px" src="~assets/img/common/home_24.png" alt="">
-              <div class="left ml-10 ">
-                <p class="mt-5 fs-14">13666666666</p>
-                <p><span class="main-color">12</span>篇买家秀，共获得<span class="main-color">100</span>个赞</p>
-              </div>
-            </div>
-            <div class="content clear">
-              <span class="left fs-18">3</span>
-              <img class="left ml-15" width="48px" src="~assets/img/common/home_24.png" alt="">
-              <div class="left ml-10 ">
-                <p class="mt-5 fs-14">13666666666</p>
-                <p><span class="main-color">12</span>篇买家秀，共获得<span class="main-color">100</span>个赞</p>
-              </div>
-            </div>
-            <div class="content clear">
-              <span class="left fs-18">4</span>
-              <img class="left ml-15" width="48px" src="~assets/img/common/home_24.png" alt="">
-              <div class="left ml-10 ">
-                <p class="mt-5 fs-14">13666666666</p>
-                <p><span class="main-color">12</span>篇买家秀，共获得<span class="main-color">100</span>个赞</p>
-              </div>
-            </div>
-            <div class="content clear">
-              <span class="left fs-18">5</span>
-              <img class="left ml-15" width="48px" src="~assets/img/common/home_24.png" alt="">
-              <div class="left ml-10 ">
-                <p class="mt-5 fs-14">13666666666</p>
-                <p><span class="main-color">12</span>篇买家秀，共获得<span class="main-color">100</span>个赞</p>
+                <p class="mt-5 fs-14">{{item.phone}}</p>
+                <p><span class="main-color">{{item.reportCount}}</span>篇买家秀，共获得<span class="main-color">{{item.likeCount}}</span>个赞</p>
               </div>
             </div>
           </div>
@@ -112,20 +80,19 @@
               </div>
               <ul class="clear" :class="[leftSlider ? 'slider-top-active-left' : 'slider-top-default-left']"
                   @mouseover="clearLeftSliderFunc()" @mouseleave="leftSliderFunc()">
-                <li v-for="item in buyerShowList" class="content cursor-p left pos-rel" >
-                  <router-link :to="{path:'/trial-report',query:{q:encryptionId(item.showkerId),showReportDesc:true,id:encryptionId(item.id)}}" :title="item.taskName">
+                <li v-for="(item,index) in buyerShowList" :key="index" class="content cursor-p left pos-rel" >
+                  <a :title="item.taskName">
                     <div style="height: 260px">
-                      <img :src="item.trialReportImages+'!thum200'" alt="" width="200" height="260">
+                      <img :src="item.trialReportImages+'!thum200'" alt="" width="200" height="260" @click="toTrialReport(item.showkerId,item.id)">
                     </div>
-                    <!-- <p class=" top-heart clear" >
-                       <img class="left " style="vertical-align: middle " width="15" height="15" src="~assets/img/home/heart.png" alt="">
-                       <span class="left" style="font-size: 14px">赞(12000)</span>
-                     </p>-->
+                     <p class=" top-heart clear" @click="clickPraise(item.id,index)">
+                       <Zan :iconType="item.whetherClick" :zanNumber = 'item.likeCount' :fontSize="zanFontSize"></Zan>
+                     </p>
                     <p class="price clear">
                       <span class="left ellipsis">{{item.taskName}}</span>
                       <span class="right pl-10">￥{{item.itemPrice/100}}</span>
                     </p>
-                  </router-link>
+                  </a>
                   <p class="mt-10 description pos-rel">
                     <span class="double-question-mark"></span>
                     <a class="des-text" :title="item.trialReportText">{{item.trialReportText}}</a>
@@ -138,7 +105,6 @@
                       <div class="text-ct"><span>淘气值：{{item.tqz}}</span></div>
                     </div>
                   </div>
-
                 </li>
               </ul>
             </div>
@@ -146,47 +112,44 @@
         </div>
       </div>
       <div class="container">
-        <div class="home-commodity">
-          <div class="home-commodity-title">
-            <div class="home-commodity-img-title">
-              <div class="part-title-img-box">
-                <span class="fs-18">免费领</span>
+        <div class="super-showker clear">
+          <div class="left-ctt left">
+            <div style="overflow: hidden">
+              <div class="title clear">
+                <img  style="vertical-align: middle" src="~assets/img/buyer-show/buyer_show_xdr.png" alt="">
+                <span class="ml-10" style="font-size: 13px;color: #999;transform: translateY(2px)">给你最精彩</span>
               </div>
+              <ul class="clear">
+                <li v-for="(item,index) in buyerShowList" :key="index" class="content cursor-p left pos-rel" >
+                  <a :title="item.taskName">
+                    <div style="height: 260px">
+                      <img :src="item.trialReportImages+'!thum200'" alt="" width="200" height="260" @click="toTrialReport(item.showkerId,item.id)">
+                    </div>
+                    <p class=" top-heart clear" >
+                      共发表(100)篇
+                    </p>
+                    <p class="price clear">
+                      <span class="left ellipsis">{{item.taskName}}</span>
+                      <span class="right pl-10">￥{{item.itemPrice/100}}</span>
+                    </p>
+                  </a>
+                  <p class=" description pos-rel text-ct">
+                    <span class="left mt-10 ">潮流配饰</span>
+                    <span class="left mt-10">家居日用</span>
+                    <span class="left mt-10">美容护肤</span>
+                    <span class="left mt-10">数码家电</span>
+                  </p>
+                  <div class="clear bottom mt-10">
+                    <router-link :to="{path:'/trial-report',query:{q:encryptionId(item.showkerId)}}" class="user-head-box"><img class="showker-portrait-pic"  width="48" height="48" :src="getUserHead(item.showkerPortraitPic)" alt=""></router-link>
+                    <div class="left ml-10" style="margin-top: 5px">
+                      <p style="color: #000">{{item.showkerPhone}}</p>
+                      <img :src="item.creditLevel" alt="">
+                      <div class="text-ct"><span>淘气值：{{item.tqz}}</span></div>
+                    </div>
+                  </div>
+                </li>
+              </ul>
             </div>
-            <p class="text-ct fs-14">我型我秀，分享精彩</p>
-          </div>
-          <div class="home-commodity-ctt">
-            <router-link class="home-commodity-details"
-                         v-for="homeCommodity in homeCommodityList"
-                         :title="homeCommodity.taskName"
-                         :key="homeCommodity.id"
-                         :to="{ 'path': '/task-details','query': {'q': encryptionId(homeCommodity.id)}}">
-              <div class="home-commodity-img">
-                <img class="block" v-lazy="homeCommodity.taskMainImage + '!orgi75'" alt=""
-                     style="width: 100%; height: 208px;">
-              </div>
-              <div class="home-commodity-text">
-                <p class="home-commodity-title">{{homeCommodity.taskName}}</p>
-                <p class="home-commodity-price">
-                  <span class="left">￥{{homeCommodity.itemPrice / 100}}</span>
-                  <!--<span class="right">免费活动</span>-->
-                </p>
-                <p class="home-commodity-apply">
-                  限量 <span style="color: #ff6600"> {{homeCommodity.taskCount || 0 }} </span> 份，
-                  <span style="color: #ff6600"> {{homeCommodity.showkerApplyTotalCount || 0}} </span> 人已申请
-                </p>
-                <p class="home-commodity-take">
-                  <router-link :to="{ 'path': '/task-details','query': {'q':encryptionId(homeCommodity.id)}}"
-                               class="ivu-btn ivu-btn-long">
-                    免费领取
-                  </router-link>
-                </p>
-              </div>
-            </router-link>
-            <p class="text-ct">
-              <router-link class="ivu-btn" :to="{ 'path': '/task-category', 'query': {'searchKey': 'all'}}">查看全部活动
-              </router-link>
-            </p>
           </div>
         </div>
       </div>
@@ -194,6 +157,18 @@
       <!--折扣专区结束-->
       <!--历史活动开始-->
       <!--历史活动结束-->
+      <Modal v-model="selectLogin" width="500">
+        <p class="mt-20 mb-40 text-ct fs-22 vtc-mid" style="height: 50px;line-height: 50px">
+          <i class="ivu-icon ivu-icon-android-alert " style="color: #FF6600; font-size: 20px;"></i>
+          亲，你还没登录哦~
+          <br>
+          <span class="fs-12">请先登录后再点赞</span>
+        </p>
+        <div slot="footer" class="text-ct">
+          <router-link class="ivu-btn ivu-btn-error ivu-btn-large mr-40 ml-40" to="/login" style="color: #fff; width: 102px;">马上登录</router-link>
+          <router-link class="ivu-btn ivu-btn-error ivu-btn-large mr-40" to="/sel-role" style="color: #fff;  width: 102px;">新用户注册</router-link>
+        </div>
+      </Modal>
     </div>
   </div>
 </template>
@@ -209,6 +184,7 @@
   import Tooltip from 'iview/src/components/tooltip'
   import Carousel from 'iview/src/components/carousel'
   import SmsCountdown from '@/components/SmsCountdown'
+  import Zan from '@/components/Zan'
   import api from '@/config/apiConfig'
   import {setStorage, getStorage, encryption,removeStorage} from '@/config/utils'
   import {aliCallbackImgUrl} from '@/config/env'
@@ -239,10 +215,17 @@
       Modal: Modal,
       Carousel: Carousel,
       CarouselItem: Carousel.Item,
-      Tooltip:Tooltip
+      Tooltip:Tooltip,
+      Zan:Zan,
     },
     data() {
       return {
+        ZanIconType:'ios-heart-outline',
+        zanNumber:0,
+        zanFontSize:12,
+        whetherClickData:false,
+        selectLogin:false,
+        getShowkerReportList:[],
         confirmRechargeModel:true,
         command: '',
         wechartAlertShow: false,
@@ -369,13 +352,15 @@
       if (this.$store.state.login) {
         this.weChartAlertFunc();
       }
+      this.getBuyerShowList();
       this.getNavList();
       this.getHomeTaskList();
       this.getHomeTaskTopLeftList();
       this.personalTrialCount();
       this.getHomeHistoryList();
-      this.getBuyerShowList();
       this.getHomeDisCountList();
+      this.getShowkerReportRank();
+      this.getShowkerNumber();
     },
     destroyed() {
       let self = this;
@@ -426,6 +411,14 @@
       ...mapActions([
         'loggedOut'
       ]),
+      getShowkerNumber(){
+        let timestamp1 = Date.parse( new Date());
+        console.log(timestamp1)
+      },
+      toTrialReport(showkerId,id){
+        let self = this;
+        self.$router.push({path:'/trial-report',query:{q:encryption(showkerId),showReportDesc:true,id:encryption(id)}});
+      },
       getUserHead(src) {
         if (src && src.indexOf('head-image') >= 0) {
           return aliCallbackImgUrl + src + '!orgi75'
@@ -435,12 +428,56 @@
           return '/static/img/common/tx-default.png'
         }
       },
+      clickPraise(id,index){
+        let self = this;
+        if(!self.isLogin){
+          return self.selectLogin = true;
+        }
+        api.clickPraise({
+          trialReportId : id
+        }).then((res) =>{
+          if (res.status){
+            self.$Message.success('点赞成功!');
+            self.whetherClickPraise(id,index);
+            self.ZanIconType = 'ios-heart-outline';
+          }else {
+            self.$Message.error(res.msg)
+          }
+        })
+      },
+      whetherClickPraise(id,index){
+        let self = this;
+        api.whetherClickPraise({
+          trialReportId : id
+        }).then((res) =>{
+          if (res.status){
+            if (res.data){
+              self.$set(self.buyerShowList[index], 'whetherClick', 'ios-heart');
+            }else {
+              self.$set(self.buyerShowList[index], 'whetherClick', 'ios-heart-outline');
+            }
+          }else {
+            self.$Message.error(res.msg)
+          }
+        })
+      },
+      getShowkerReportRank(){
+        let self = this;
+        api.getShowkerReportRank().then((res) =>{
+          if (res.status){
+            self.getShowkerReportList = res.data
+          }else {
+            self.$Message.error(res.msg)
+          }
+        })
+      },
       getBuyerShowList() {
         let self = this;
         api.getBuyerShowList().then((res) => {
           if (res.status) {
             self.buyerShowList = res.data;
-            for (let i = 0; i <  self.buyerShowList.length; i++) {
+            for (let i = 0, len = self.buyerShowList.length; i < len; i++) {
+              self.whetherClickPraise(self.buyerShowList[i].id,i);
               if (JSON.parse(self.buyerShowList[i].trialReportImages)[0][0] !== 'h'){
                 self.buyerShowList[i].trialReportImages = aliCallbackImgUrl + JSON.parse(self.buyerShowList[i].trialReportImages)[0]
               } else {
@@ -737,16 +774,14 @@
             margin-bottom: 52px;
             .top-heart{
               position: absolute;
+              z-index: 10;
               top: 5px;
-              right: 15px;
-              background-color: #fff;
-              border: 1px solid #fff;
+              right: 18px;
+              background-color: #ff6600;
+              border: 1px solid #ff6600;
               border-radius: 3px;
-              color: #FF0000;
               padding: 0 3px;
-              img{
-                margin-top: 3px;
-              }
+
             }
 
             .price{
@@ -862,58 +897,98 @@
         }
       }
     }
-    .home-commodity {
-      background-color: #fff;
-      border: 1px solid #E8E8E8;
-      .home-commodity-title {
-        padding-top: 30px;
-        img {
-          display: block;
-          margin: 28px auto 10px auto;
-        }
-        p {
-          color: #999;
-        }
+    .super-showker {
+      margin: 0px auto 10px auto;
+      overflow: hidden;
+      .masterImgBox{
+        width: 200px;
+        height: 260px;
+        overflow: hidden;
+        display:table-cell;
+        vertical-align:middle;
+        text-align: center;
+        background-color:#F1F2F6;
       }
-      .home-commodity-ctt {
-        padding: 24px;
-        text-align: left;
-        .home-commodity-details {
-          width: 222px;
-          display: inline-block;
-          margin: 0 4px 30px 4px;
-          padding: 0 5px 20px 5px;
-          .home-commodity-img {
-            border: 1px solid #ddd;
+      .left-ctt {
+        padding: 0 25px;
+        background-color: #fff;
+        width: 1200px;
+        height: 500px;
+        overflow: hidden;
+        .title{
+          padding: 15px 10px 10px 10px;
+          border-bottom: 1px solid #F6F6F6;
+          img{
           }
-          .home-commodity-text {
-            background-color: #EEEEEE;
-            padding: 5px 5px 8px 5px;
-            p {
-              line-height: 28px;
-              height: 28px;
-              font-size: 14px;
-              text-overflow: ellipsis;
-              white-space: nowrap;
+        }
+        ul{
+          padding: 10px 0;
+          width: 10000px;
+          li{
+            padding: 0px 15px ;
+            width: 230px;
+            margin-bottom: 52px;
+            .top-heart{
+              position: absolute;
+              top: 5px;
+              right: 18px;
+              background-color: #FF6633;
+              border: 1px solid #FF6633;
+              color: #fff;
+              border-radius: 3px;
+              padding: 0 3px;
+
+            }
+            .price{
+              position: absolute;
+              width: 200px;
+              top: 230px;
+              left: 15px;
+              height: 30px;
+              line-height: 30px;
+              padding: 0px 3px;
+              color: #fff;
+              background-color: rgba(0,0,0,0.5);
+              span:first-child{
+                width: 128px;
+              }
+              span:last-child{
+                color: #FFFF00;
+              }
+            }
+            .description{
               overflow: hidden;
+              padding:0 10px;
+              height: 70px;
+              span{
+                width: 80px;
+                height: 25px;
+                line-height: 25px;
+                background-color: #F7F7F7;
+                border: 1px solid #DDDEE1;
+                border-radius: 3px;
+              }
+              span:nth-of-type(1){
+                margin-right: 20px;
+              }
+              span:nth-of-type(3){
+                margin-right: 20px;
+              }
             }
-            p.home-commodity-title {
-              color: #000;
-              text-align: left;
+            .icon-heart{
+              font-size: 16px;
             }
-            p.home-commodity-price {
-              color: #FF6633;
-            }
-            p.home-commodity-apply {
-              color: #000;
-            }
-            p.home-commodity-take {
-              height: 40px;
-              line-height: 40px;
+            .bottom{
+              font-size: 14px;
+              .click-good{
+                color: #FF0000;
+              }
+              .showker-portrait-pic{
+                transform: translateY(10px);
+              }
             }
           }
         }
-
       }
     }
   }
@@ -937,41 +1012,6 @@
     margin-top: 3px;
     margin-left: 5px
   }
-/*  .slider-top-active{
-    margin-top: -77px;
-    animation: sliderTop 1s;
-  }
-
-  .slider-top-default {
-    margin-top: 0;
-  }
-
-  @keyframes sliderTop {
-    0% {
-      margin-top: 0;
-    }
-    100% {
-      margin-top: -77px;
-    }
-  }*/
-
-/*  .slider-top-active-right {
-    margin-top: -80px;
-    animation: sliderTopRight 1s;
-  }
-
-  .slider-top-default-right {
-    margin-top: 0;
-  }
-
-  @keyframes sliderTopRight {
-    0% {
-      margin-top: 0;
-    }
-    100% {
-      margin-top: -80px;
-    }
-  }*/
 
   .slider-top-active-left {
     margin-left: -230px;
