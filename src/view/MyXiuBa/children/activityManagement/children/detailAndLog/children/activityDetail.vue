@@ -53,17 +53,17 @@
           <p>高人气活动类型</p>
           <span class="is-select-gou" v-show="taskRelease.activityCategory === 'free_get'"></span>
         </div>
+        <div class="left activity-type-box mr-10 disabled" :class="{isSelect:taskRelease.activityCategory === 'present_get'}" @click="changeSelectActivity('present_get')">
+          <p>体验专区（拍A发B）</p>
+          <p>实际发的是赠品或体验装</p>
+          <p>不可跨类目，否则会影响人群标签</p>
+          <span class="is-select-gou" v-show="taskRelease.activityCategory === 'present_get'"></span>
+        </div>
         <div class="left activity-type-box mr-10 disabled" :class="{isSelect:taskRelease.activityCategory === 'pinkage_for_10'}" @click="changeSelectActivity('pinkage_for_10')">
           <p>10元包邮</p>
           <p>秀客承担10元邮费</p>
           <p>高人气活动类型</p>
           <span class="is-select-gou" v-show="taskRelease.activityCategory === 'pinkage_for_10'"></span>
-        </div>
-        <div class="left activity-type-box mr-10 disabled" :class="{isSelect:taskRelease.activityCategory === 'present_get'}" @click="changeSelectActivity('present_get')">
-          <p>体验专区（拍A发B）</p>
-          <p>适用于高客单宝贝</p>
-          <p>解决商品成本过高问题</p>
-          <span class="is-select-gou" v-show="taskRelease.activityCategory === 'present_get'"></span>
         </div>
         <div class="left activity-type-box mr-10 disabled" :class="{isSelect:taskRelease.activityCategory === 'price_low'}" @click="changeSelectActivity('price_low')">
           <p>白菜价</p>
