@@ -48,7 +48,7 @@
       <div class="activity-type-title">选择活动类型：</div>
       <div class="clear mt-10">
         <div class="left mr-10 activity-type-box disabled" :class="{isSelect:taskRelease.activityCategory === 'free_get'}" @click="changeSelectActivity('free_get')">
-          <p>免费领</p>
+          <p>免费领（拍A发A）</p>
           <p>秀客0元试用</p>
           <p>高人气活动类型</p>
           <span class="is-select-gou" v-show="taskRelease.activityCategory === 'free_get'"></span>
