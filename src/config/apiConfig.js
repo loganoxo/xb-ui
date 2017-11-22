@@ -791,4 +791,10 @@ export default {
     return fetch('/api/task/showker/getShowkerReportRank.json')
   },
 
+  /**
+   * 获取真实秀客数量、秀客已发表的买家秀数量、买家达人秀列表
+   */
+  getBuyerShowInfo() {
+    return fetch('/api/get-buyerShow-info.json')
+  },
 }

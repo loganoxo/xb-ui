@@ -456,18 +456,6 @@
         noticeActive: 'faq',
         taskTopLeftList: [],
         navList: [],
-        nvaImgSrc: {
-          100: '/static/img/nav-picture/home_07.png',
-          200: '/static/img/nav-picture/home_09.png',
-          300: '/static/img/nav-picture/home_11.png',
-          400: '/static/img/nav-picture/home_13.png',
-          500: '/static/img/nav-picture/home_15.png',
-          600: '/static/img/nav-picture/home_22.png',
-          700: '/static/img/nav-picture/home_23.png',
-          800: '/static/img/nav-picture/home_24.png',
-          900: '/static/img/nav-picture/home_25.png',
-          1000: '/static/img/nav-picture/home_26.png',
-        },
         buyerShowList: [],
         getMoreBuyerShow: false,
         homeCarousel: 0
@@ -486,6 +474,7 @@
       this.getHomeDisCountList();
       this.getShowkerReportRank();
       this.getShowkerNumber();
+      this.getBuyerShowInformation();
     },
     destroyed() {
       let self = this;
@@ -837,6 +826,11 @@
         let self = this;
         clearInterval(self.leftSliderTimer);
       },
+      getBuyerShowInformation() {
+        api.getBuyerShowInfo().then(res=>{
+
+        })
+      }
 
     }
   }
