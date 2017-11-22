@@ -605,7 +605,9 @@
           if (res.status) {
             self.buyerShowList = res.data;
             for (let i = 0, len = self.buyerShowList.length; i < len; i++) {
-              self.whetherClickPraise(self.buyerShowList[i].id, i);
+              if(self.isLogin){
+                self.whetherClickPraise(self.buyerShowList[i].id, i);
+              }
               if (JSON.parse(self.buyerShowList[i].trialReportImages)[0][0] !== 'h') {
                 self.buyerShowList[i].trialReportImages = aliCallbackImgUrl + JSON.parse(self.buyerShowList[i].trialReportImages)[0]
               } else {
