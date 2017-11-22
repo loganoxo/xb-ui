@@ -657,7 +657,7 @@
     em.price-icon{
 
       span{
-        margin-top: 9px;
+        margin-top: 16px;
         margin-left: 10px;
       }
     }
