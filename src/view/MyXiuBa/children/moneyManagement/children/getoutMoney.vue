@@ -45,7 +45,7 @@
               <iOption value="民生银行">民生银行</iOption>
               <iOption value="光大银行">光大银行</iOption>
               <iOption value="交通银行">交通银行</iOption>
-              <iOption value="中国邮政储蓄银行">中国邮政储蓄银行</iOption>
+              <!--<iOption value="中国邮政储蓄银行">中国邮政储蓄银行</iOption>-->
               <iOption value="北京银行">北京银行</iOption>
               <iOption value="渤海银行">渤海银行</iOption>
               <iOption value="杭州银行">杭州银行</iOption>
@@ -305,7 +305,9 @@
       const validateName = (rule, value, callback) => {
         if (value === '') {
           callback(new Error('请输入姓名'));
-        } else {
+        } else if(value != this.$store.state.userInfo.realName){
+          callback(new Error('为保证资金安全，开户行必须与实名认证姓名一致！'))
+        }else {
           callback()
         }
       };

@@ -64,17 +64,17 @@
         <div class="home-nav-list">
           <a :class="[$store.state.activityCategory == 'home' ? 'active' : '']" @click="selTaskCategoryHome">首页</a>
           <a :class="[$store.state.activityCategory == 'free_get' ? 'active' : '']" @click="selTaskCategoryFunc('free_get')" >免费领</a>
+          <a :class="[$store.state.activityCategory == 'present_get' ? 'active' : '']" @click="selTaskCategoryFunc('present_get')" >
+            <i style="position: absolute; top: -16px; left: 13px;">
+              <img src="/static/img/icon/giveaway.gif" alt="" >
+            </i>
+            体验专区
+          </a>
           <a :class="[$store.state.activityCategory == 'pinkage_for_10' ? 'active' : '']" @click="selTaskCategoryFunc('pinkage_for_10')" >
             <i style="position: absolute; top: -16px; left: 19px;">
               <img src="/static/img/icon/franking.gif" alt="" >
             </i>
             10元包邮
-          </a>
-          <a :class="[$store.state.activityCategory == 'present_get' ? 'active' : '']" @click="selTaskCategoryFunc('present_get')" >
-            <i style="position: absolute; top: -16px; left: 9px;">
-              <img src="/static/img/icon/giveaway.gif" alt="" >
-            </i>
-            体验专区
           </a>
           <a :class="[$store.state.activityCategory == 'price_low' ? 'active' : '']" @click="selTaskCategoryFunc('price_low')">
             <!--<i>-->
