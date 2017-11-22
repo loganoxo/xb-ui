@@ -32,8 +32,10 @@
           <router-link to="/user/vip-member">VIP会员</router-link>
         </li>
         <li :class="{isSelect:isSelect ==='PersonalAccountInfo' || isSelect === 'WwBind' || isSelect === 'Verfied'}">
-          <Icon type="gear-b"></Icon>
-          <router-link to="/user/personal-setting/personal-account-info">个人设置</router-link>
+          <Tooltip content="上传自定义个性头像，可以提高活动申请通过率哦！" placement="right">
+            <Icon type="gear-b"></Icon>
+            <router-link to="/user/personal-setting/personal-account-info">个人设置</router-link>
+          </Tooltip>
         </li>
         <li :class="{isSelect:isSelect === 'faq' || isSelect === 'faqSeller' || isSelect === 'faqShowker'}">
           <Icon type="help-buoy"></Icon>
@@ -68,8 +70,10 @@
           <router-link to="/user/money-management/transaction-record">交易记录</router-link>
         </li>
         <li :class="{isSelect:isSelect ==='PersonalAccountInfo' || isSelect === 'WwBind' || isSelect === 'Verfied'}">
-          <Icon type="gear-b"></Icon>
-          <router-link to="/user/personal-setting/personal-account-info">个人设置</router-link>
+          <Tooltip content="上传自定义个性头像，可以提高活动申请通过率哦！" placement="right">
+            <Icon type="gear-b"></Icon>
+            <router-link to="/user/personal-setting/personal-account-info">个人设置</router-link>
+          </Tooltip>
         </li>
         <li :class="{isSelect:isSelect === 'faq' || isSelect === 'faqSeller' || isSelect === 'faqShowker'}">
           <Icon type="help-buoy"></Icon>
@@ -89,11 +93,13 @@
 
 <script>
   import Icon from 'iview/src/components/icon'
+  import Tooltip from 'iview/src/components/tooltip'
   import api from '@/config/apiConfig'
   export default {
     name: 'MyXiuBa',
     components: {
       Icon: Icon,
+      Tooltip: Tooltip,
     },
     data() {
       return {

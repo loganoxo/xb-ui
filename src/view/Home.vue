@@ -64,8 +64,7 @@
                   <img class="block ml-20 portrait-img" :src="userHeadUrl" alt="">
                 </router-link>
                 <div class="left fs-14 ml-20" style="margin-left: 10px;line-height: 28px;">
-                  <router-link to="/user/user-home" :title="decodeURIComponent(getUserInfoPhone)"
-                               class="ellipsis user-name">
+                  <router-link to="/user/personal-setting/personal-account-info" :title="decodeURIComponent(getUserInfoPhone)" class="ellipsis user-name">
                     Hi~ 秀客 {{decodeURIComponent(getUserInfoPhone)}}
                   </router-link>
                   <router-link to="/user/user-home">个人中心</router-link>
@@ -102,13 +101,12 @@
               </div>
             </div>
             <div class="login-in-box" v-if="isLogin && getUserInfoRole　== 1">
-              <div>
-                <router-link to="/user/user-home" class="left">
-                  <img class=" ml-20 portrait-img block" :src="userHeadUrl" alt="">
-                </router-link>
+              <div class="clear">
+                <Tooltip content="上传自定义个性头像，可以提高活动申请通过率哦，点击修改头像！" placement="bottom" class="left">
+                  <router-link tag="img" to="/user/personal-setting/personal-account-info" width="56" :src="userHeadUrl" class="cursor-p"></router-link>
+                </Tooltip>
                 <div class="left fs-14 ml-20" style="margin-left: 10px;line-height: 28px;">
-                  <router-link to="/user/user-home" :title="decodeURIComponent(getUserInfoPhone)"
-                               class="ellipsis user-name">
+                  <router-link to="/user/user-home" :title="decodeURIComponent(getUserInfoPhone)" class="ellipsis user-name">
                     Hi~ 商家 {{decodeURIComponent(getUserInfoPhone)}}
                   </router-link>
                   <div v-if="getUserInfoRole === 1&& !getMemberLevel" class="fs-12">

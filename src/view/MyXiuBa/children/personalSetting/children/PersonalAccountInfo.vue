@@ -7,8 +7,7 @@
           <p class="fs-14 user-basic-title">基本信息</p>
           <div class="user-basic-ctt clear">
             <div class="text-ct left">
-              <img class="block mg-at" :src="userHeadUrl" alt=""
-                   style="width: 120px; border-radius: 50%;">
+              <img class="block mg-at border50" :src="userHeadUrl" alt="" width="86" height="86">
               <picture-upload field="pictureUploadImage"
                               @crop-success="cropSuccess"
                               v-model="showPictureUpload"
@@ -652,7 +651,7 @@
       .user-basic-ctt {
         padding: 25px 0 0 0;
         > div {
-          width: 20%;
+          width: 12%;
           text-align: center;
         }
         > ul {
@@ -843,7 +842,7 @@
   }
 
   .edit-head {
-    padding-left: 68px;
+    padding-left: 33px;
     margin-top: 12px;
     padding-bottom: 26px;
   }
