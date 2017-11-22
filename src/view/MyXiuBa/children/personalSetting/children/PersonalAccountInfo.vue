@@ -655,8 +655,7 @@
           text-align: center;
         }
         > ul {
-          margin-top: 5px;
-          width: 80%;
+          width: 88%;
           font-size: 14px;
           li {
             line-height: 30px;
