@@ -142,6 +142,7 @@
               <p class="sizeColor3 mt-6">1、活动标题、宝贝类型、活动主图、商品简介填写赠品相关信息；宝贝地址、掌柜旺旺、宝贝单价填写淘宝正品（即希望秀客拍下的SKU）相关信息；</p>
               <p class="sizeColor3">2、在备注中明确说明希望秀客拍下的SKU（否则秀客可能会找不到宝贝）。</p>
               <p class="sizeColor3">3、赠品类型必须与正品同属一个类目，重量、体积等相差不大，否则后台审核不给予通过。</p>
+              <p class="sizeColor3">4、为了不影响人群标签，赠品类型必须与正品同属一个类目，否则后台审核不给予通过。</p>
             </div>
             <div class="baby-title ml-45 mt-20">
               <span class="required">活动标题：</span>
