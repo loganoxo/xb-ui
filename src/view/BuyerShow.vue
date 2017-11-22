@@ -153,10 +153,13 @@
           </div>
         </div>
       </div>
+      <div class="container">
+        <div class="buyer-show-all">
+          <div class="title"></div>
+        </div>
+      </div>
       <!--折扣专区开始-->
-      <!--折扣专区结束-->
-      <!--历史活动开始-->
-      <!--历史活动结束-->
+
       <Modal v-model="selectLogin" width="500">
         <p class="mt-20 mb-40 text-ct fs-22 vtc-mid" style="height: 50px;line-height: 50px">
           <i class="ivu-icon ivu-icon-android-alert " style="color: #FF6600; font-size: 20px;"></i>
@@ -990,6 +993,13 @@
           }
         }
       }
+    }
+    .buyer-show-all{
+      .title{
+        padding: 15px 10px 10px 10px;
+        border-bottom: 1px solid #F6F6F6;
+        img{
+        }
     }
   }
 
