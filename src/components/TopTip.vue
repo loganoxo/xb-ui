@@ -23,11 +23,13 @@
           <img src="~assets/img/common/qq.png" alt="" >
           加入QQ交流群：
           <span >482437157</span>
+          <span style="color: #000">(内幕玩法抢先得)</span>
         </a>
         <a v-if="getUserInfo.role == 0" target="_blank" href="http://shang.qq.com/wpa/qunwpa?idkey=a5e370e72edddbc2b9edc58d9517719b97d32a6683ef4faa0675c52bf494d9d1" class="ml-10 qq-tip">
           <img src="~assets/img/common/qq.png" alt="" >
           加入QQ交流群：
           <span >643014216</span>
+          <span style="color: #000">(第一时间抢便宜)</span>
         </a>
       </p>
       <p v-show="!isLogin" class="left">

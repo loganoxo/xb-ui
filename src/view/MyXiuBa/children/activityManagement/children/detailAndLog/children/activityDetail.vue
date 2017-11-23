@@ -1070,10 +1070,10 @@
       left: 9%;
     }
     &.pinkage-for-10 {
-      left: 29%;
+      left: 49%;
     }
     &.present-get {
-      left: 49%;
+      left: 29%;
     }
     &.price-low {
       left: 69%;

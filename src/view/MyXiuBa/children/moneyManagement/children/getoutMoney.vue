@@ -95,9 +95,12 @@
         <span class="right cursor-p" style="color: blue;" @click="lookGetoutRecord('getoutRecord')">查看提现记录</span>
       </div>
       <div class="content">
-        <div class="warning">
-          <Icon type="information-circled" class="icon ml-20 over-hd"></Icon>
-          <span class="ml-56">当日12:00-当日18:00间申请提现的，在当日18:00处理，当日18:00-次日12:00间申请提现的，在次日12:00处理</span>
+        <div class="warning" style="height: auto; overflow: hidden; padding: 0 20px; line-height: 35px;">
+          <Icon type="information-circled" class="icon ml-20 over-hd left" style="top: 9px;"></Icon>
+          <span class="ml-56 left">
+            中午12点之前申请提现的当天18点前返款；中午12点之后申请提现的是次日返款到账，遇到周末或者节假日往后顺延。 成功提现的订单即表示已经打款成功，具体到账时间以每个银行受理时间为准。
+          </span>
+
         </div>
         <div class="get-out-do mt-22">
           <iForm ref="getoutMoney" :model="getoutMoney" :label-width="200" :rules="getOutMoneyRule">
@@ -128,9 +131,11 @@
                 <p style="text-align: center;font-size: 40px;color: #FF6633;">
                   <Icon :type="iconType"></Icon>
                 </p>
-                <p class="mt-10 text-ct fs-14"><span style="color: #FF6633;">{{applyGetOut}}</span>当日12:00-当日18:00间申请提现的，在当日18:00处理
+                <p class="mt-10 text-ct fs-14"><span style="color: #FF6633;">{{applyGetOut}}</span>
                 </p>
-                <p class="mt-10 text-ct fs-14">当日18:00-次日12:00间申请提现的，在次日12:00处理，你可以在提现记录中查看进度</p>
+                <p class="mt-10 text-ct fs-14">
+                  中午12点之前申请提现的当天18点前返款；中午12点之后申请提现的是次日返款到账，遇到周末或者节假日往后顺延。 成功提现的订单即表示已经打款成功，具体到账时间以每个银行受理时间为准。
+                </p>
               </Modal>
             </Form-item>
           </iForm>
@@ -248,7 +253,7 @@
           <span v-if="$store.state.userInfo.role == 0">免手续费，</span>
           每天提现次数不限
         </p>
-        <p>2、当日12:00-当日18:00间申请提现的，在当日18:00处理，当日18:00-次日12:00间申请提现的，在次日12:00处理。</p>
+        <p>2、中午12点之前申请提现的当天18点前返款；中午12点之后申请提现的是次日返款到账，遇到周末或者节假日往后顺延。 成功提现的订单即表示已经打款成功，具体到账时间以每个银行受理时间为准。</p>
       </div>
     </div>
   </div>
@@ -294,7 +299,7 @@
         }
       };
       const validateBankCard = (rule, value, callback) => {
-        if (!(/^([1-9]{1})(\d{15}|\d{18})$/.test(value))) {
+        if (!(/^([1-9]{1})(\d{15}|\d{18}|\d{17})$/.test(value))) {
           callback(new Error('请输入正确的银行卡号'));
         } else {
           callback()

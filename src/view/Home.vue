@@ -276,9 +276,26 @@
                      style="width: 100%; height: 208px;">
               </div>
               <div class="home-commodity-text">
-                <p class="home-commodity-title">{{homeCommodity.taskName}}</p>
+                <p class="cl000">{{homeCommodity.taskName}}</p>
                 <p class="home-commodity-price">
-                  <span class="left">￥{{homeCommodity.itemPrice / 100}}</span>
+                  <em style="float: left;" class="price-list">
+                    <span style="color: #666; display: block; text-decoration: line-through;">￥{{homeCommodity.itemPrice / 100}}</span>
+                    <span style="font-weight: bold;" v-if="homeCommodity.discountPrice">￥{{homeCommodity.discountPrice / 100}}</span>
+                    <span style="font-weight: bold;" v-if="!homeCommodity.discountPrice && homeCommodity.discountRate">
+                      ￥{{(Math.floor((homeCommodity.discountRate/100) * homeCommodity.itemPrice)/100).toFixed(2)}}
+                    </span>
+                    <span style="font-weight: bold;" v-if="!homeCommodity.discountPrice && !homeCommodity.discountRate">
+                      ￥0
+                    </span>
+                  </em>
+                  <em  class="price-icon mt-10">
+                    <span v-if="homeCommodity.activityCategory == 'price_low' && homeCommodity.discountPrice" class="left home-discount-price mt-5" :style="{backgroundColor: $store.state.discountPriceType[parseFloat(homeCommodity.discountPrice/100)].backgroundColor}" >
+                      {{homeCommodity.discountPrice/100}}试用
+                    </span>
+                    <span v-if="homeCommodity.activityCategory == 'price_low' && homeCommodity.discountRate" class="left home-discount-price mt-5" :style="{backgroundColor: $store.state.discountPriceType[parseFloat(homeCommodity.discountRate/10) + '折'].backgroundColor}" >
+                      {{homeCommodity.discountRate/10}}折试用
+                    </span>
+                  </em>
                 </p>
                 <p class="home-commodity-apply">
                   限量 <span style="color: #ff6600"> {{homeCommodity.taskCount || 0 }} </span> 份，
@@ -320,15 +337,26 @@
                 <img class="block" v-lazy="homeDisCount.taskMainImage + '!orgi75'" alt="" style="width: 100%; height: 208px;">
               </div>
               <div class="home-commodity-text">
-                <p class="home-commodity-title">{{homeDisCount.taskName}}</p>
-                <p class="home-commodity-price">
-                  <span class="left" style="text-decoration: line-through;">￥{{homeDisCount.itemPrice/100}}</span>
-                  <span v-if="homeDisCount.activityCategory == 'price_low' && homeDisCount.discountPrice" class="left home-discount-price mt-5" :style="{backgroundColor: $store.state.discountPriceType[parseFloat(homeDisCount.discountPrice/100)].backgroundColor}" >
-                    {{homeDisCount.discountPrice/100}}试用
-                  </span>
-                  <span v-if="homeDisCount.activityCategory == 'price_low' && homeDisCount.discountRate" class="left home-discount-price mt-5" :style="{backgroundColor: $store.state.discountPriceType[parseFloat(homeDisCount.discountRate/10) + '折'].backgroundColor}" >
-                    {{homeDisCount.discountRate/10}}折试用
-                  </span>
+                <p class="cl000">{{homeDisCount.taskName}}</p>
+                <p class="home-commodity-price" >
+                  <em style="float: left;" class="price-list">
+                    <span style="color: #666; display: block; text-decoration: line-through;">￥{{homeDisCount.itemPrice / 100}}</span>
+                    <span style="font-weight: bold;" v-if="homeDisCount.discountPrice">￥{{homeDisCount.discountPrice / 100}}</span>
+                    <span style="font-weight: bold;" v-if="!homeDisCount.discountPrice && homeDisCount.discountRate">
+                      ￥{{(Math.floor((homeDisCount.discountRate/100) * homeDisCount.itemPrice)/100).toFixed(2)}}
+                    </span>
+                    <span style="font-weight: bold;" v-if="!homeDisCount.discountPrice && !homeDisCount.discountRate">
+                      ￥0
+                    </span>
+                  </em>
+                  <em  class="price-icon mt-10">
+                    <span v-if="homeDisCount.activityCategory == 'price_low' && homeDisCount.discountPrice" class="left home-discount-price mt-5" :style="{backgroundColor: $store.state.discountPriceType[parseFloat(homeDisCount.discountPrice/100)].backgroundColor}" >
+                      {{homeDisCount.discountPrice/100}}试用
+                    </span>
+                    <span v-if="homeDisCount.activityCategory == 'price_low' && homeDisCount.discountRate" class="left home-discount-price mt-5" :style="{backgroundColor: $store.state.discountPriceType[parseFloat(homeDisCount.discountRate/10) + '折'].backgroundColor}" >
+                      {{homeDisCount.discountRate/10}}折试用
+                    </span>
+                  </em>
                 </p>
                 <p class="home-commodity-apply">
                   限量 <span style="color: #ff6600"> {{homeDisCount.taskCount || 0 }} </span> 份，
@@ -368,10 +396,26 @@
                      style="width: 100%; height: 208px;">
               </div>
               <div class="home-commodity-text">
-                <p class="home-commodity-title">{{homeHistory.taskName}}</p>
+                <p class="cl000">{{homeHistory.taskName}}</p>
                 <p class="home-commodity-price">
-                  <span class="left">￥{{homeHistory.itemPrice / 100}}</span>
-                  <!--<span class="right">免费活动</span>-->
+                  <em style="float: left;" class="price-list">
+                    <span style="color: #666; display: block; text-decoration: line-through;">￥{{homeHistory.itemPrice / 100}}</span>
+                    <span style="font-weight: bold;" v-if="homeHistory.discountPrice">￥{{homeHistory.discountPrice / 100}}</span>
+                    <span style="font-weight: bold;" v-if="!homeHistory.discountPrice && homeHistory.discountRate">
+                      ￥{{(Math.floor((homeHistory.discountRate/100) * homeHistory.itemPrice)/100).toFixed(2)}}
+                    </span>
+                    <span style="font-weight: bold;" v-if="!homeHistory.discountPrice && !homeHistory.discountRate">
+                      ￥0
+                    </span>
+                  </em>
+                  <em  class="price-icon mt-10">
+                    <span v-if="homeHistory.activityCategory == 'price_low' && homeHistory.discountPrice" class="left home-discount-price mt-5" :style="{backgroundColor: $store.state.discountPriceType[parseFloat(homeHistory.discountPrice/100)].backgroundColor}" >
+                      {{homeHistory.discountPrice/100}}试用
+                    </span>
+                    <span v-if="homeHistory.activityCategory == 'price_low' && homeHistory.discountRate" class="left home-discount-price mt-5" :style="{backgroundColor: $store.state.discountPriceType[parseFloat(homeHistory.discountRate/10) + '折'].backgroundColor}" >
+                      {{homeHistory.discountRate/10}}折试用
+                    </span>
+                  </em>
                 </p>
                 <p class="home-commodity-apply">
                   限量 <span style="color: #ff6600"> {{homeHistory.taskCount || 0 }} </span> 份，
@@ -1254,6 +1298,20 @@
             }
             p.home-commodity-price {
               color: #FF6633;
+              height: 40px;
+              line-height: normal;
+              em{
+                font-style: normal;
+              }
+              em.price-list{
+                float: left;
+              }
+              em.price-icon{
+                span{
+                  margin-top: 16px;
+                  margin-left: 10px;
+                }
+              }
             }
             p.home-commodity-apply {
               color: #000;

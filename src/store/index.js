@@ -30,22 +30,27 @@ const state = {
     'free_get': {
       text: '免费领',
       desc: '本模块商品，秀客无需支付任何费用，商家任性送！',
+      color: '#99cc33',
     },
     'price_low': {
       text: '白菜价',
       desc: '本模块商品，秀客或以类似9.9元一口价买下商品，或享受1折等极低折扣卖下商品！',
+      color: '#cccc33',
     },
     'pinkage_for_10': {
       text: '10元包邮',
       desc: '本模块商品，秀客仅需承担10元运费，商品就归您！',
+      color: '#66ccff',
     },
     'present_get': {
       text: '体验专区',
       desc: '本模块展示商品，为商家附赠之赠品，在淘宝拍下商品，需按照商家要求来。',
+      color: '#33cc99',
     },
     'goods_clearance': {
       text: '清仓断码',
       desc: '本模块商品为商家清仓断码尾货库存，秀客享极低折扣，但需注意尺码等描述哦！',
+      color: '#cccc33',
     }
   },//导航分类列表
   discountPriceType: {

@@ -15,9 +15,12 @@
       </div>
 
       <div class="container" >
-        <div  class="task-category-sel " v-if="$route.query.activityCategory" style="color: red; font-weight: bold;">
-          <Icon type="information-circled" color="red"></Icon>
-          {{$store.state.TaskCategoryActiveList[$route.query.activityCategory].desc}}
+        <div   v-if="$route.query.activityCategory" class="text-ct mb-10" >
+          <em class="activity-category-tips-left" :style="{borderRightColor: $store.state.TaskCategoryActiveList[$route.query.activityCategory].color }" ></em>
+          <p class="activity-category-tips" :style="{backgroundColor: $store.state.TaskCategoryActiveList[$route.query.activityCategory].color }">
+            {{$store.state.TaskCategoryActiveList[$route.query.activityCategory].desc}}
+          </p>
+          <em class="activity-category-tips-right" :style="{borderLeftColor: $store.state.TaskCategoryActiveList[$route.query.activityCategory].color }" ></em>
         </div>
         <div v-show="!$route.query.searchKey" class="task-category-sel">
           <span v-if="$route.query.activityCategory">{{$store.state.TaskCategoryActiveList[$store.state.activityCategory].text}}：</span>
@@ -110,18 +113,29 @@
               <div class="task-category-commodity-text">
                 <p v-html="searchTask.taskName"></p>
                 <p class="home-commodity-price">
-                  <span class="left" style="text-decoration: line-through; color: #ff6633;">￥{{searchTask.itemPrice/100}}</span>
-                  <span v-if= "searchTask.activityCategory == 'pinkage_for_10'" style="padding: 0 4px; background: #ff9966; color: #fff; margin-left: 10px; display: inline-block;height: 20px;line-height: 20px;">10元包邮</span>
-                  <span v-if= "searchTask.activityCategory == 'present_get'" style="padding: 0 4px; background: #00cc66; color: #ffffff; margin-left: 10px; display: inline-block;height: 20px;line-height: 20px;">体验专区</span>
-                  <span v-if="searchTask.activityCategory == 'price_low' && searchTask.discountPrice" class="left home-discount-price mt-5" :style="{backgroundColor: $store.state.discountPriceType[parseFloat(searchTask.discountPrice/100)].backgroundColor}" >
-                    {{searchTask.discountPrice/100}}试用
-                  </span>
-                  <span v-if="searchTask.activityCategory == 'price_low' && searchTask.discountRate" class="left home-discount-price mt-5" :style="{backgroundColor: $store.state.discountPriceType[parseFloat(searchTask.discountRate/10) + '折'].backgroundColor}" >
-                    {{searchTask.discountRate/10}}折试用
-                  </span>
-                  <span v-if="searchTask.activityCategory == 'goods_clearance' && searchTask.discountRate " class="left home-discount-price mt-5" :style="{backgroundColor: $store.state.discountPriceType[parseFloat(searchTask.discountRate/10) + '折'].backgroundColor}" >
-                    {{searchTask.discountRate/10}}折清仓
-                  </span>
+                  <em style="float: left;" class="price-list">
+                    <span style="color: #666; display: block; text-decoration: line-through;">￥{{searchTask.itemPrice / 100}}</span>
+                    <span style="font-weight: bold; color: #ff6633;" v-if="searchTask.discountPrice">￥{{(searchTask.discountPrice / 100).toFixed(2)}}</span>
+                    <span style="font-weight: bold; color: #ff6633;" v-if="!searchTask.discountPrice && searchTask.discountRate">
+                      ￥{{(Math.floor((searchTask.discountRate/100) * searchTask.itemPrice)/100).toFixed(2)}}
+                    </span>
+                    <span style="font-weight: bold; color: #ff6633;" v-if="!searchTask.discountPrice && !searchTask.discountRate">
+                      ￥0
+                    </span>
+                  </em>
+                  <em  class="price-icon mt-10">
+                    <span v-if= "searchTask.activityCategory == 'pinkage_for_10'" style="padding: 0 4px; background: #ff9966; color: #fff; margin-left: 10px; display: inline-block;height: 20px;line-height: 20px;">10元包邮</span>
+                    <span v-if= "searchTask.activityCategory == 'present_get'" style="padding: 0 4px; background: #00cc66; color: #ffffff; margin-left: 10px; display: inline-block;height: 20px;line-height: 20px;">体验专区</span>
+                    <span v-if="searchTask.activityCategory == 'price_low' && searchTask.discountPrice" class="left home-discount-price mt-5" :style="{backgroundColor: $store.state.discountPriceType[parseFloat(searchTask.discountPrice/100)].backgroundColor}" >
+                      {{searchTask.discountPrice/100}}试用
+                    </span>
+                      <span v-if="searchTask.activityCategory == 'price_low' && searchTask.discountRate" class="left home-discount-price mt-5" :style="{backgroundColor: $store.state.discountPriceType[parseFloat(searchTask.discountRate/10) + '折'].backgroundColor}" >
+                      {{searchTask.discountRate/10}}折试用
+                    </span>
+                      <span v-if="searchTask.activityCategory == 'goods_clearance' && searchTask.discountRate " class="left home-discount-price mt-5" :style="{backgroundColor: $store.state.discountPriceType[parseFloat(searchTask.discountRate/10) + '折'].backgroundColor}" >
+                      {{searchTask.discountRate/10}}折清仓
+                    </span>
+                  </em>
                 </p>
                 <p class="cl000">
                   限量 <span style="color: #ff6600"> {{searchTask.taskCount || 0 }} </span> 份，
@@ -177,18 +191,29 @@
               <div class="task-category-commodity-text">
                 <p v-html="historyTask.taskName"></p>
                 <p  class="home-commodity-price ">
-                  <span class="left" style="text-decoration: line-through; color: #ff6633;">￥{{historyTask.itemPrice/100}}</span>
-                  <span v-if= "historyTask.activityCategory == 'present_get'" style=" padding: 0 4px; background: #00cc66; color: #ffffff; margin-left: 10px; display: inline-block;height: 20px;line-height: 20px;">体验专区</span>
-                  <span v-if= "historyTask.activityCategory == 'pinkage_for_10'" style="padding: 0 4px; background: #ff9966; color: #fff; margin-left: 10px; display: inline-block;height: 20px;line-height: 20px;">10元包邮</span>
-                  <span v-if="historyTask.activityCategory == 'price_low' && historyTask.discountPrice" class="left home-discount-price mt-5" :style="{backgroundColor: $store.state.discountPriceType[parseFloat(historyTask.discountPrice/100)].backgroundColor}" >
-                    {{historyTask.discountPrice/100}}试用
-                  </span>
-                  <span v-if="historyTask.activityCategory == 'price_low' && historyTask.discountRate" class="left home-discount-price mt-5" :style="{backgroundColor: $store.state.discountPriceType[parseFloat(historyTask.discountRate/10) + '折'].backgroundColor}" >
-                    {{historyTask.discountRate/10}}折试用
-                  </span>
-                  <span v-if=" historyTask.activityCategory == 'goods_clearance' && historyTask.discountRate " class="left home-discount-price mt-5" :style="{backgroundColor: $store.state.discountPriceType[parseFloat(historyTask.discountRate/10) + '折'].backgroundColor}" >
-                    {{historyTask.discountRate/10}}折清仓
-                  </span>
+                  <em style="float: left;" class="price-list">
+                    <span style="color: #666; display: block; text-decoration: line-through;">￥{{historyTask.itemPrice / 100}}</span>
+                    <span style="font-weight: bold; color: #ff6633;" v-if="historyTask.discountPrice">￥{{(historyTask.discountPrice / 100).toFixed(2)}}</span>
+                    <span style="font-weight: bold; color: #ff6633;" v-if="!historyTask.discountPrice && historyTask.discountRate">
+                      ￥{{(Math.floor((historyTask.discountRate/100) * historyTask.itemPrice)/100).toFixed(2)}}
+                    </span>
+                    <span style="font-weight: bold; color: #ff6633;" v-if="!historyTask.discountPrice && !historyTask.discountRate">
+                      ￥0
+                    </span>
+                  </em>
+                  <em  class="price-icon mt-10">
+                    <span v-if= "historyTask.activityCategory == 'pinkage_for_10'" style="padding: 0 4px; background: #ff9966; color: #fff; margin-left: 10px; display: inline-block;height: 20px;line-height: 20px;">10元包邮</span>
+                    <span v-if= "historyTask.activityCategory == 'present_get'" style="padding: 0 4px; background: #00cc66; color: #ffffff; margin-left: 10px; display: inline-block;height: 20px;line-height: 20px;">体验专区</span>
+                    <span v-if="historyTask.activityCategory == 'price_low' && historyTask.discountPrice" class="left home-discount-price mt-5" :style="{backgroundColor: $store.state.discountPriceType[parseFloat(historyTask.discountPrice/100)].backgroundColor}" >
+                      {{historyTask.discountPrice/100}}试用
+                    </span>
+                    <span v-if="historyTask.activityCategory == 'price_low' && historyTask.discountRate" class="left home-discount-price mt-5" :style="{backgroundColor: $store.state.discountPriceType[parseFloat(historyTask.discountRate/10) + '折'].backgroundColor}" >
+                      {{historyTask.discountRate/10}}折试用
+                    </span>
+                    <span v-if="historyTask.activityCategory == 'goods_clearance' && historyTask.discountRate " class="left home-discount-price mt-5" :style="{backgroundColor: $store.state.discountPriceType[parseFloat(historyTask.discountRate/10) + '折'].backgroundColor}" >
+                      {{historyTask.discountRate/10}}折清仓
+                    </span>
+                  </em>
                 </p>
                 <p class="cl000">
                   限量 <span style="color: #ff6600"> {{historyTask.taskCount || 0 }} </span> 份，
@@ -624,6 +649,30 @@
       margin: 28px auto 10px auto;
     }
   }
+  .activity-category-tips-left{
+    display: inline-block;
+    width: 0;
+    height: 0;
+    border: 22px solid transparent;
+    vertical-align: -17px;
+    margin-right: -4px;
+  }
+  .activity-category-tips-right{
+    display: inline-block;
+    width: 0;
+    height: 0;
+    border: 22px solid transparent;
+    vertical-align: -17px;
+    margin-left: -4px;
+  }
+  .activity-category-tips{
+    display: inline-block;
+    color: #fff;
+    padding: 8px 20px;
+    font-size: 18px;
+    height: 44px;
+    border-radius: 1px;
+  }
   .home-discount-price{
     color: #fff;
     line-height: 20px;
@@ -631,6 +680,25 @@
     padding: 0 5px;
     margin-right: 15px;
     margin-left: 5px
+  }
+
+  p.home-commodity-price {
+    height: 40px !important;
+    line-height: normal !important;
+    color: #FF6633;
+    em{
+      font-style: normal;
+    }
+    em.price-list{
+      float: left;
+    }
+    em.price-icon{
+
+      span{
+        margin-top: 16px;
+        margin-left: 10px;
+      }
+    }
   }
   .task-category-ctt {
     background-color: #F1F1F1;

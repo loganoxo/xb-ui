@@ -1345,6 +1345,8 @@
             if (_this.taskRelease.itemPrice >= 250) {
               _this.discountDisabled.discount_99_9.disabled = false;
             }
+          } else {
+            _this.$Message.error(res.msg);
           }
         })
       },
@@ -1368,6 +1370,8 @@
         api.itemCatalog().then(res => {
           if (res.status) {
             _this.itemCatalogList = res.data
+          } else {
+            _this.$Message.error(res.msg);
           }
         })
       },
@@ -1421,10 +1425,7 @@
             _this.nextCurrent();
             _this.stepName = 'audit';
           } else {
-            _this.$Message.error({
-              content: res.msg,
-              duration: 6
-            })
+            _this.$Message.error(res.msg);
           }
         })
       },
@@ -1743,10 +1744,10 @@
         left: 9%;
       }
       &.pinkage-for-10 {
-        left: 29%;
+        left: 48%;
       }
       &.present-get {
-        left: 48%;
+        left: 29%;
       }
       &.price-low {
         left: 68%;
