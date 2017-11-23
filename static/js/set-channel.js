@@ -74,6 +74,9 @@ if (getQueryString('salesFrom') === 'WECHAT') {
  * **/
 if (getQueryString('qd')) {
   document.cookie = "from_qudao="+ getQueryString('qd').toUpperCase() + cookieAttr;
+  if(getQueryString('qd') === 'bd'){
+    document.cookie = "from_qudao_key=" + searchKeyWord + cookieAttr;
+  }
   document.cookie = "from_qudao_key=" + '' + cookieAttr;
 }
 
