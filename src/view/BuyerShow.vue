@@ -119,7 +119,7 @@
       <div class="container">
         <div class="super-showker clear">
           <div class="left-ctt left">
-            <div >
+            <div>
               <div class="title clear">
                 <img style="vertical-align: middle" src="~assets/img/buyer-show/buyer_show_xdr.png" alt="">
                 <span class="ml-10" style="font-size: 13px;color: #999;transform: translateY(2px)">给你最精彩</span>
@@ -134,12 +134,14 @@
                       共发表({{item.num}})篇
                     </p>
                   </router-link>
-                  <p class=" description pos-rel text-ct" >
-                    <span v-for="(value,key) in getShowkerTip(item.showkerTagsMap)" v-show="value >0" class="left mt-10 ">{{key}}{{value}}</span>
+                  <p class=" description pos-rel text-ct">
+                    <span v-for="(value,key) in getShowkerTip(item.showkerTagsMap)" v-show="value >0"
+                          class="left mt-10 ">{{key}}{{value}}</span>
                   </p>
                   <div class="clear bottom mt-10">
                     <a class="user-head-box">
-                      <img class="showker-portrait-pic" width="48" height="48" :src="getUserHead(item.portraitPic)" alt="">
+                      <img class="showker-portrait-pic" width="48" height="48" :src="getUserHead(item.portraitPic)"
+                           alt="">
                     </a>
                     <div class="left ml-10" style="margin-top: 5px">
                       <p style="color: #000">{{item.phone}}</p>
@@ -160,84 +162,201 @@
             <span class="ml-10" style="font-size: 13px;color: #999;transform: translateY(2px)">给你最精彩</span>
           </div>
           <div class="mt-10 clear ">
-            <!--<waterfall
-              :align="align"
-              :line-gap="200"
-              :min-line-gap="100"
-              :max-line-gap="220"
-              :single-max-width="300"
-              :watch="items"
-              ref="waterfall"
-            >
-              &lt;!&ndash; each component is wrapped by a waterfall slot &ndash;&gt;
+            <Waterfall :line-gap="290" :watch="getALLTrialReport">
+              <!-- each component is wrapped by a waterfall slot -->
               <waterfall-slot
-                v-for="(item, index) in items"
+                v-for="(item, index) in getALLTrialReport"
                 :width="item.width"
                 :height="item.height"
                 :order="index"
-                :key="item.index"
+                :key="item.id"
               >
-
+                <div class="content ">
+                  <div class="pos-rel">
+                    <img width="250" :src="item.trialReportImages" alt="">
+                    <p class="mt-10 description pos-rel">
+                      <span class="double-question-mark "></span>
+                      <a class="des-text ">{{item.trialReportText}}</a>
+                    </p>
+                  </div>
+                  <div class="clear bottom mt-20">
+                    <a class="user-head-box">
+                      <img class="showker-portrait-pic" width="48" height="48"
+                           :src="getUserHead(item.showkerPortraitPic)" alt="">
+                    </a>
+                    <div class="left ml-10" style="margin-top: 5px">
+                      <p style="color: #000">{{item.showkerPhone}}</p>
+                      <img :src="item.creditLevel" alt="">
+                      <div class="text-ct"><span>淘气值：{{item.tqz}}</span></div>
+                    </div>
+                  </div>
+                </div>
               </waterfall-slot>
-            </waterfall>-->
-
-            <div class="content left ">
+            </Waterfall>
+            <!--<div class="content left" v-for="item in getALLTrialReport ">
               <div class="pos-rel">
-                <img width="250" src="~assets/img/buyer-show/des_01.png" alt="">
+                <img width="250" :src="item.trialReportImages" alt="">
                 <p class="mt-10 description pos-rel">
                   <span class="double-question-mark "></span>
-                  <a class="des-text ">kldfksdjfldskf</a>
+                  <a class="des-text ">{{item.trialReportText}}</a>
                 </p>
               </div>
               <div class="clear bottom mt-20">
                 <a class="user-head-box">
-                  <img class="showker-portrait-pic" width="48" height="48" :src="getUserHead()" alt="">
+                  <img class="showker-portrait-pic" width="48" height="48" :src="getUserHead(item.showkerPortraitPic)" alt="">
                 </a>
                 <div class="left ml-10" style="margin-top: 5px">
-                  <p style="color: #000">15000000000</p>
-                  <img src="" alt="">
-                  <div class="text-ct"><span>淘气值：600-800</span></div>
+                  <p style="color: #000">{{item.showkerPhone}}</p>
+                  <img :src="item.creditLevel" alt="">
+                  <div class="text-ct"><span>淘气值：{{item.tqz}}</span></div>
                 </div>
               </div>
-            </div>
-            <div class="content left ">
-              <div class="pos-rel">
-                <img width="250" src="~assets/img/home/banner_01.jpg" alt="">
-                <p class="mt-10 description pos-rel">
-                  <span class="double-question-mark "></span>
-                  <a class="des-text ">kldfksdjfldskf</a>
-                </p>
-              </div>
-              <div class="clear bottom mt-20">
-                <a class="user-head-box">
-                  <img class="showker-portrait-pic" width="48" height="48" :src="getUserHead()" alt="">
-                </a>
-                <div class="left ml-10" style="margin-top: 5px">
-                  <p style="color: #000">15000000000</p>
-                  <img src="" alt="">
-                  <div class="text-ct"><span>淘气值：600-800</span></div>
-                </div>
-              </div>
-            </div>
-            <div class="content  left">
-              <div class="pos-rel">
-                <img width="250" src="~assets/img/task-details/task_details_03.png" alt="">
-                <p class="mt-10 description pos-rel">
-                  <span class="double-question-mark "></span>
-                  <a class="des-text ">kldfksdjfldskf</a>
-                </p>
-              </div>
-              <div class="clear bottom mt-20">
-                <a class="user-head-box">
-                  <img class="showker-portrait-pic" width="48" height="48" :src="getUserHead()" alt="">
-                </a>
-                <div class="left ml-10" style="margin-top: 5px">
-                  <p style="color: #000">15000000000</p>
-                  <img src="" alt="">
-                  <div class="text-ct"><span>淘气值：600-800</span></div>
-                </div>
-              </div>
-            </div>
+            </div>-->
+            <!-- <div class="content left ">
+               <div class="pos-rel">
+                 <img width="250" src="~assets/img/buyer-show/des_01.png" alt="">
+                 <p class="mt-10 description pos-rel">
+                   <span class="double-question-mark "></span>
+                   <a class="des-text ">kldfksdjfldskf</a>
+                 </p>
+               </div>
+               <div class="clear bottom mt-20">
+                 <a class="user-head-box">
+                   <img class="showker-portrait-pic" width="48" height="48" :src="getUserHead()" alt="">
+                 </a>
+                 <div class="left ml-10" style="margin-top: 5px">
+                   <p style="color: #000">15000000000</p>
+                   <img src="" alt="">
+                   <div class="text-ct"><span>淘气值：600-800</span></div>
+                 </div>
+               </div>
+             </div>
+             <div class="content left ">
+               <div class="pos-rel">
+                 <img width="250" src="~assets/img/home/banner_01.jpg" alt="">
+                 <p class="mt-10 description pos-rel">
+                   <span class="double-question-mark "></span>
+                   <a class="des-text ">kldfksdjfldskf</a>
+                 </p>
+               </div>
+               <div class="clear bottom mt-20">
+                 <a class="user-head-box">
+                   <img class="showker-portrait-pic" width="48" height="48" :src="getUserHead()" alt="">
+                 </a>
+                 <div class="left ml-10" style="margin-top: 5px">
+                   <p style="color: #000">15000000000</p>
+                   <img src="" alt="">
+                   <div class="text-ct"><span>淘气值：600-800</span></div>
+                 </div>
+               </div>
+             </div>
+             <div class="content  left">
+               <div class="pos-rel">
+                 <img width="250" src="~assets/img/task-details/task_details_03.png" alt="">
+                 <p class="mt-10 description pos-rel">
+                   <span class="double-question-mark "></span>
+                   <a class="des-text ">kldfksdjfldskf</a>
+                 </p>
+               </div>
+               <div class="clear bottom mt-20">
+                 <a class="user-head-box">
+                   <img class="showker-portrait-pic" width="48" height="48" :src="getUserHead()" alt="">
+                 </a>
+                 <div class="left ml-10" style="margin-top: 5px">
+                   <p style="color: #000">15000000000</p>
+                   <img src="" alt="">
+                   <div class="text-ct"><span>淘气值：600-800</span></div>
+                 </div>
+               </div>
+             </div>-->
+            <!-- <div class="masonry">
+               <div class="column">
+                 <div class="item">
+                   <div class="item__content">
+                   </div>
+                 </div>
+                 <div class="item">
+                   <div class="item__content item__content&#45;&#45;small">
+                   </div>
+                 </div>
+                 <div class="item">
+                   <div class="item__content item__content&#45;&#45;medium">
+                   </div>
+                 </div>
+                 <div class="item">
+                   <div class="item__content item__content&#45;&#45;small">
+                   </div>
+                 </div>
+               </div>
+               <div class="column">
+                 <div class="item">
+                   <div class="item__content item__content&#45;&#45;medium">
+                   </div>
+                 </div>
+                 <div class="item">
+                   <div class="item__content">
+                   </div>
+                 </div>
+                 <div class="item">
+                   <div class="item__content item__content&#45;&#45;large">
+                   </div>
+                 </div>
+                 <div class="item">
+                   <div class="item__content item__content&#45;&#45;medium">
+                   </div>
+                 </div>
+               </div>
+               <div class="column">
+                 <div class="item">
+                   <div class="item__content item__content&#45;&#45;small">
+                   </div>
+                 </div>
+                 <div class="item">
+                   <div class="item__content">
+                   </div>
+                 </div>
+                 <div class="item">
+                   <div class="item__content item__content&#45;&#45;large">
+                   </div>
+                 </div>
+                 <div class="item">
+                   <div class="item__content">
+                   </div>
+                 </div>
+               </div>
+               <div class="column">
+                 <div class="item">
+                   <div class="item__content item__content&#45;&#45;small">
+                   </div>
+                 </div>
+                 <div class="item">
+                   <div class="item__content item__content&#45;&#45;large">
+                   </div>
+                 </div>
+                 <div class="item">
+                   <div class="item__content item__content&#45;&#45;medium">
+                   </div>
+                 </div>
+               </div>
+               <div class="column">
+                 <div class="item">
+                   <div class="item__content item__content&#45;&#45;small">
+                   </div>
+                 </div>
+                 <div class="item">
+                   <div class="item__content item__content&#45;&#45;medium">
+                   </div>
+                 </div>
+                 <div class="item">
+                   <div class="item__content">
+                   </div>
+                 </div>
+                 <div class="item">
+                   <div class="item__content item__content&#45;&#45;small">
+                   </div>
+                 </div>
+               </div>
+             </div>-->
           </div>
         </div>
       </div>
@@ -308,24 +427,24 @@
       CarouselItem: Carousel.Item,
       Tooltip: Tooltip,
       Zan: Zan,
-      Waterfall:Waterfall,
-      WaterfallSlot:WaterfallSlot,
+      Waterfall: Waterfall,
+      WaterfallSlot: WaterfallSlot,
     },
     data() {
       return {
-        slotWith:'290',
-        slotHeight:'500',
+        slotWith: '290',
+        slotHeight: '500',
         ZanIconType: 'ios-heart-outline',
         zanNumber: 0,
         zanFontSize: 12,
         whetherClickData: false,
         selectLogin: false,
         getShowkerReportList: [],
-        getSuperBuyerShowList:[],
-        reportRankList:[],
-        getALLTrialReport:[],
-        allReportNum:0,
-        allShowerNum:0,
+        getSuperBuyerShowList: [],
+        reportRankList: [],
+        getALLTrialReport: [],
+        allReportNum: 0,
+        allShowerNum: 0,
         confirmRechargeModel: true,
         command: '',
         wechartAlertShow: false,
@@ -407,7 +526,7 @@
     },
 
 
-  methods: {
+    methods: {
       ...mapActions([
         'loggedOut'
       ]),
@@ -455,9 +574,9 @@
         }).then((res) => {
           if (res.status) {
             if (res.data) {
-              self.$set(self.buyerShowList[index], 'whetherClick', 'ios-heart');
+              self.$set(self.reportRankList[index], 'whetherClick', 'ios-heart');
             } else {
-              self.$set(self.buyerShowList[index], 'whetherClick', 'ios-heart-outline');
+              self.$set(self.reportRankList[index], 'whetherClick', 'ios-heart-outline');
             }
           } else {
             self.$Message.error(res.msg)
@@ -665,32 +784,34 @@
       },
       getBuyerShowInformation() {
         let self = this;
-        api.getBuyerShowInfo().then(res=>{
-          if (res.status){
+        api.getBuyerShowInfo().then(res => {
+          if (res.status) {
             self.getSuperBuyerShowList = res.data.showkerList;
             self.allReportNum = res.data.allReportNum;
             self.allShowerNum = res.data.allShowerNum;
-          }else {
+          } else {
             self.$Message.error(res.msg)
           }
         })
       },
-      getShowkerTip(object){
-        let sdic=Object.keys(object).sort(function(a,b){return object[b]-object[a]}).splice(0,4);
-        let newObjetc ={};
-        for( let ki in sdic){
+      getShowkerTip(object) {
+        let sdic = Object.keys(object).sort(function (a, b) {
+          return object[b] - object[a]
+        }).splice(0, 4);
+        let newObjetc = {};
+        for (let ki in sdic) {
           newObjetc[sdic[ki]] = object[sdic[ki]]
         }
         return newObjetc;
       },
-      getReportRankListFun(){
+      getReportRankListFun() {
         let self = this;
-        api.getReportRankList().then(res=>{
-          if (res.status){
+        api.getReportRankList().then(res => {
+          if (res.status) {
             self.reportRankList = res.data;
             for (let i = 0, len = self.reportRankList.length; i < len; i++) {
-              if(self.isLogin){
-                self.whetherClickPraise(self.buyerShowList[i].id, i);
+              if (self.isLogin) {
+                self.whetherClickPraise(self.reportRankList[i].id, i);
               }
               if (JSON.parse(self.reportRankList[i].trialReportImages)[0][0] !== 'h') {
                 self.reportRankList[i].trialReportImages = aliCallbackImgUrl + JSON.parse(self.reportRankList[i].trialReportImages)[0]
@@ -698,17 +819,26 @@
                 self.reportRankList[i].trialReportImages = JSON.parse(self.reportRankList[i].trialReportImages)[0];
               }
             }
-          }else {
+          } else {
             self.$Message.error(res.msg)
           }
         })
       },
-      getALLTrialReportFun(){
+      getALLTrialReportFun() {
         let self = this;
-        api.getALLTrialReport().then(res=>{
-          if (res.status){
-            self.getALLTrialReport = res.data.content
-          }else {
+        api.getALLTrialReport().then(res => {
+          if (res.status) {
+            for (let i = 0; i < res.data.length; i++) {
+              if (JSON.parse(res.data[i].trialReportImages)[0]) {
+                res.data[i].trialReportImages = JSON.parse(res.data[i].trialReportImages)[0]
+              } else {
+                res.data[i].trialReportImages = '';
+              }
+
+            }
+            self.getALLTrialReport = res.data;
+            console.log(self.getALLTrialReport);
+          } else {
             self.$Message.error(res.msg)
           }
         })
