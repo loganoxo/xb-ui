@@ -797,4 +797,18 @@ export default {
   getBuyerShowInfo() {
     return fetch('/api/get-buyerShow-info.json')
   },
+  /**
+   * 获取买家秀轮播列表
+   */
+  getReportRankList() {
+    return fetch('/api/task/showker/getReportRank25.json')
+  },
+
+  /**
+   * 获取所有买家秀
+   */
+  getALLTrialReport() {
+    return fetch('/api/task/showker/getALLTrialReport.json')
+  },
+
 }

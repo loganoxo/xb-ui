@@ -81,7 +81,7 @@
               </div>
               <ul class="clear" :class="[leftSlider ? 'slider-top-active-left' : 'slider-top-default-left']"
                   @mouseover="clearLeftSliderFunc()" @mouseleave="leftSliderFunc()">
-                <li v-for="(item,index) in buyerShowList" :key="index" class="content cursor-p left pos-rel">
+                <li v-for="(item,index) in reportRankList" :key="index" class="content cursor-p left pos-rel">
                   <a :title="item.taskName">
                     <div style="height: 260px">
                       <img :src="item.trialReportImages+'!thum200'" alt="" width="200" height="260"
@@ -119,39 +119,30 @@
       <div class="container">
         <div class="super-showker clear">
           <div class="left-ctt left">
-            <div style="overflow: hidden">
+            <div >
               <div class="title clear">
                 <img style="vertical-align: middle" src="~assets/img/buyer-show/buyer_show_xdr.png" alt="">
                 <span class="ml-10" style="font-size: 13px;color: #999;transform: translateY(2px)">给你最精彩</span>
               </div>
               <ul class="clear">
-                <li v-for="(item,index) in buyerShowList" :key="index" class="content cursor-p left pos-rel">
-                  <a :title="item.taskName">
-                    <div style="height: 260px">
-                      <img :src="item.trialReportImages+'!thum200'" alt="" width="200" height="260"
-                           @click="toTrialReport(item.showkerId,item.id)">
+                <li v-for="(item,index) in getSuperBuyerShowList" :key="index" class="content cursor-p left pos-rel">
+                  <router-link :to="{path:'/trial-report',query:{q:encryptionId(item.showkerId)}}">
+                    <div style="height: 180px" class="text-ct">
+                      <img :src="getUserHead(item.portraitPic)" alt="" width="140">
                     </div>
                     <p class=" top-heart clear">
-                      共发表(100)篇
+                      共发表({{item.num}})篇
                     </p>
-                    <p class="price clear">
-                      <span class="left ellipsis">{{item.taskName}}</span>
-                      <span class="right pl-10">￥{{item.itemPrice / 100}}</span>
-                    </p>
-                  </a>
-                  <p class=" description pos-rel text-ct">
-                    <span class="left mt-10 ">潮流配饰</span>
-                    <span class="left mt-10">家居日用</span>
-                    <span class="left mt-10">美容护肤</span>
-                    <span class="left mt-10">数码家电</span>
+                  </router-link>
+                  <p class=" description pos-rel text-ct" >
+                    <span v-for="(value,key) in getShowkerTip(item.showkerTagsMap)" v-show="value >0" class="left mt-10 ">{{key}}{{value}}</span>
                   </p>
                   <div class="clear bottom mt-10">
-                    <router-link :to="{path:'/trial-report',query:{q:encryptionId(item.showkerId)}}"
-                                 class="user-head-box"><img class="showker-portrait-pic" width="48" height="48"
-                                                            :src="getUserHead(item.showkerPortraitPic)" alt="">
-                    </router-link>
+                    <a class="user-head-box">
+                      <img class="showker-portrait-pic" width="48" height="48" :src="getUserHead(item.portraitPic)" alt="">
+                    </a>
                     <div class="left ml-10" style="margin-top: 5px">
-                      <p style="color: #000">{{item.showkerPhone}}</p>
+                      <p style="color: #000">{{item.phone}}</p>
                       <img :src="item.creditLevel" alt="">
                       <div class="text-ct"><span>淘气值：{{item.tqz}}</span></div>
                     </div>
@@ -168,27 +159,29 @@
             <img style="vertical-align: middle" src="~assets/img/buyer-show/buyer-show-allmjx.png" alt="">
             <span class="ml-10" style="font-size: 13px;color: #999;transform: translateY(2px)">给你最精彩</span>
           </div>
-          <div class="mt-10 clear">
-            <div class="content left">
-              <div class="pos-rel">
-                <img width="250" src="~assets/img/home/banner_01.jpg" alt="">
-                <p class="mt-10 description pos-rel">
-                  <span class="double-question-mark "></span>
-                  <a class="des-text ">kldfksdjfldskf</a>
-                </p>
-              </div>
-              <div class="clear bottom mt-20">
-                <a class="user-head-box">
-                  <img class="showker-portrait-pic" width="48" height="48" :src="getUserHead()" alt="">
-                </a>
-                <div class="left ml-10" style="margin-top: 5px">
-                  <p style="color: #000">15000000000</p>
-                  <img src="" alt="">
-                  <div class="text-ct"><span>淘气值：600-800</span></div>
-                </div>
-              </div>
-            </div>
-            <div class="content left">
+          <div class="mt-10 clear ">
+            <!--<waterfall
+              :align="align"
+              :line-gap="200"
+              :min-line-gap="100"
+              :max-line-gap="220"
+              :single-max-width="300"
+              :watch="items"
+              ref="waterfall"
+            >
+              &lt;!&ndash; each component is wrapped by a waterfall slot &ndash;&gt;
+              <waterfall-slot
+                v-for="(item, index) in items"
+                :width="item.width"
+                :height="item.height"
+                :order="index"
+                :key="item.index"
+              >
+
+              </waterfall-slot>
+            </waterfall>-->
+
+            <div class="content left ">
               <div class="pos-rel">
                 <img width="250" src="~assets/img/buyer-show/des_01.png" alt="">
                 <p class="mt-10 description pos-rel">
@@ -207,7 +200,7 @@
                 </div>
               </div>
             </div>
-            <div class="content left">
+            <div class="content left ">
               <div class="pos-rel">
                 <img width="250" src="~assets/img/home/banner_01.jpg" alt="">
                 <p class="mt-10 description pos-rel">
@@ -226,7 +219,7 @@
                 </div>
               </div>
             </div>
-            <div class="content left">
+            <div class="content  left">
               <div class="pos-rel">
                 <img width="250" src="~assets/img/task-details/task_details_03.png" alt="">
                 <p class="mt-10 description pos-rel">
@@ -245,121 +238,6 @@
                 </div>
               </div>
             </div>
-         <!--   <div class="content left">
-              <div class="pos-rel">
-                <img width="250" src="~assets/img/home/banner_01.jpg" alt="">
-                <p class="mt-10 description pos-rel">
-                  <span class="double-question-mark "></span>
-                  <a class="des-text ">kldfksdjfldskf</a>
-                </p>
-              </div>
-              <div class="clear bottom mt-20">
-                <a class="user-head-box">
-                  <img class="showker-portrait-pic" width="48" height="48" :src="getUserHead()" alt="">
-                </a>
-                <div class="left ml-10" style="margin-top: 5px">
-                  <p style="color: #000">15000000000</p>
-                  <img src="" alt="">
-                  <div class="text-ct"><span>淘气值：600-800</span></div>
-                </div>
-              </div>
-            </div>
-            <div class="content left">
-              <div class="pos-rel">
-                <img width="250" src="~assets/img/home/banner_01.jpg" alt="">
-                <p class="mt-10 description pos-rel">
-                  <span class="double-question-mark "></span>
-                  <a class="des-text ">kldfksdjfldskf</a>
-                </p>
-              </div>
-              <div class="clear bottom mt-20">
-                <a class="user-head-box">
-                  <img class="showker-portrait-pic" width="48" height="48" :src="getUserHead()" alt="">
-                </a>
-                <div class="left ml-10" style="margin-top: 5px">
-                  <p style="color: #000">15000000000</p>
-                  <img src="" alt="">
-                  <div class="text-ct"><span>淘气值：600-800</span></div>
-                </div>
-              </div>
-            </div>
-            <div class="content left">
-              <div class="pos-rel">
-                <img width="250" src="~assets/img/home/banner_01.jpg" alt="">
-                <p class="mt-10 description pos-rel">
-                  <span class="double-question-mark "></span>
-                  <a class="des-text ">kldfksdjfldskf</a>
-                </p>
-              </div>
-              <div class="clear bottom mt-20">
-                <a class="user-head-box">
-                  <img class="showker-portrait-pic" width="48" height="48" :src="getUserHead()" alt="">
-                </a>
-                <div class="left ml-10" style="margin-top: 5px">
-                  <p style="color: #000">15000000000</p>
-                  <img src="" alt="">
-                  <div class="text-ct"><span>淘气值：600-800</span></div>
-                </div>
-              </div>
-            </div>
-            <div class="content left">
-              <div class="pos-rel">
-                <img width="250" src="~assets/img/home/banner_01.jpg" alt="">
-                <p class="mt-10 description pos-rel">
-                  <span class="double-question-mark "></span>
-                  <a class="des-text ">kldfksdjfldskf</a>
-                </p>
-              </div>
-              <div class="clear bottom mt-20">
-                <a class="user-head-box">
-                  <img class="showker-portrait-pic" width="48" height="48" :src="getUserHead()" alt="">
-                </a>
-                <div class="left ml-10" style="margin-top: 5px">
-                  <p style="color: #000">15000000000</p>
-                  <img src="" alt="">
-                  <div class="text-ct"><span>淘气值：600-800</span></div>
-                </div>
-              </div>
-            </div>
-            <div class="content left">
-              <div class="pos-rel">
-                <img width="250" src="~assets/img/home/banner_01.jpg" alt="">
-                <p class="mt-10 description pos-rel">
-                  <span class="double-question-mark "></span>
-                  <a class="des-text ">kldfksdjfldskf</a>
-                </p>
-              </div>
-              <div class="clear bottom mt-20">
-                <a class="user-head-box">
-                  <img class="showker-portrait-pic" width="48" height="48" :src="getUserHead()" alt="">
-                </a>
-                <div class="left ml-10" style="margin-top: 5px">
-                  <p style="color: #000">15000000000</p>
-                  <img src="" alt="">
-                  <div class="text-ct"><span>淘气值：600-800</span></div>
-                </div>
-              </div>
-            </div>
-            <div class="content left">
-              <div class="pos-rel">
-                <img width="250" src="~assets/img/home/banner_01.jpg" alt="">
-                <p class="mt-10 description pos-rel">
-                  <span class="double-question-mark "></span>
-                  <a class="des-text ">kldfksdjfldskf</a>
-                </p>
-              </div>
-              <div class="clear bottom mt-20">
-                <a class="user-head-box">
-                  <img class="showker-portrait-pic" width="48" height="48" :src="getUserHead()" alt="">
-                </a>
-                <div class="left ml-10" style="margin-top: 5px">
-                  <p style="color: #000">15000000000</p>
-                  <img src="" alt="">
-                  <div class="text-ct"><span>淘气值：600-800</span></div>
-                </div>
-              </div>
-            </div>-->
-
           </div>
         </div>
       </div>
@@ -430,17 +308,24 @@
       CarouselItem: Carousel.Item,
       Tooltip: Tooltip,
       Zan: Zan,
-      waterfall: Waterfall.waterfall,
-      waterfallSlot: Waterfall.waterfallSlot
+      Waterfall:Waterfall,
+      WaterfallSlot:WaterfallSlot,
     },
     data() {
       return {
+        slotWith:'290',
+        slotHeight:'500',
         ZanIconType: 'ios-heart-outline',
         zanNumber: 0,
         zanFontSize: 12,
         whetherClickData: false,
         selectLogin: false,
         getShowkerReportList: [],
+        getSuperBuyerShowList:[],
+        reportRankList:[],
+        getALLTrialReport:[],
+        allReportNum:0,
+        allShowerNum:0,
         confirmRechargeModel: true,
         command: '',
         wechartAlertShow: false,
@@ -458,23 +343,23 @@
         navList: [],
         buyerShowList: [],
         getMoreBuyerShow: false,
-        homeCarousel: 0
+        homeCarousel: 0,
+
       }
     },
     created() {
       if (this.$store.state.login) {
         this.weChartAlertFunc();
       }
-      this.getBuyerShowList();
       this.getNavList();
       this.getHomeTaskList();
       this.getHomeTaskTopLeftList();
       this.personalTrialCount();
-      this.getHomeHistoryList();
-      this.getHomeDisCountList();
       this.getShowkerReportRank();
       this.getShowkerNumber();
       this.getBuyerShowInformation();
+      this.getReportRankListFun();
+      this.getALLTrialReportFun();
     },
     destroyed() {
       let self = this;
@@ -521,13 +406,14 @@
       })
     },
 
-    methods: {
+
+  methods: {
       ...mapActions([
         'loggedOut'
       ]),
+
       getShowkerNumber() {
         let timestamp1 = Date.parse(new Date());
-        console.log(timestamp1)
       },
       toTrialReport(showkerId, id) {
         let self = this;
@@ -583,26 +469,6 @@
         api.getShowkerReportRank().then((res) => {
           if (res.status) {
             self.getShowkerReportList = res.data
-          } else {
-            self.$Message.error(res.msg)
-          }
-        })
-      },
-      getBuyerShowList() {
-        let self = this;
-        api.getBuyerShowList().then((res) => {
-          if (res.status) {
-            self.buyerShowList = res.data;
-            for (let i = 0, len = self.buyerShowList.length; i < len; i++) {
-              if(self.isLogin){
-                self.whetherClickPraise(self.buyerShowList[i].id, i);
-              }
-              if (JSON.parse(self.buyerShowList[i].trialReportImages)[0][0] !== 'h') {
-                self.buyerShowList[i].trialReportImages = aliCallbackImgUrl + JSON.parse(self.buyerShowList[i].trialReportImages)[0]
-              } else {
-                self.buyerShowList[i].trialReportImages = JSON.parse(self.buyerShowList[i].trialReportImages)[0];
-              }
-            }
           } else {
             self.$Message.error(res.msg)
           }
@@ -666,7 +532,6 @@
           }
         })
       },
-
       setWeChartAlertFunc(role) {
         let self = this;
         let commandList = {
@@ -783,41 +648,13 @@
           }
         })
       },
-      getHomeHistoryList() {
-        let self = this;
-        api.getHomeHistoryList().then((res) => {
-          if (res.status) {
-            if (res.data) {
-              self.homeHistoryList = res.data;
-            }
-          } else {
-            self.$Message.error({
-              content: res.msg,
-              duration: 9
-            });
-          }
-        })
-      },
 
-      getHomeDisCountList() {
-        let self = this;
-        api.getHomeDisCountList().then((res) => {
-          if (res.status) {
-            res.data ? self.homeDisCountList = res.data : self.homeDisCountList = [];
-          } else {
-            self.$Message.error({
-              content: res.msg,
-              duration: 9
-            });
-          }
-        })
-      },
       leftSliderFunc() {
         let self = this;
         self.leftSliderTimer = setInterval(function () {
           if (self.leftSlider) {
-            let part = self.buyerShowList.splice(0, 1);
-            self.buyerShowList = self.buyerShowList.concat(part);
+            let part = self.reportRankList.splice(0, 1);
+            self.reportRankList = self.reportRankList.concat(part);
           }
           self.leftSlider = !self.leftSlider;
         }, 1500)
@@ -827,10 +664,55 @@
         clearInterval(self.leftSliderTimer);
       },
       getBuyerShowInformation() {
+        let self = this;
         api.getBuyerShowInfo().then(res=>{
-
+          if (res.status){
+            self.getSuperBuyerShowList = res.data.showkerList;
+            self.allReportNum = res.data.allReportNum;
+            self.allShowerNum = res.data.allShowerNum;
+          }else {
+            self.$Message.error(res.msg)
+          }
         })
-      }
+      },
+      getShowkerTip(object){
+        let sdic=Object.keys(object).sort(function(a,b){return object[b]-object[a]}).splice(0,4);
+        let newObjetc ={};
+        for( let ki in sdic){
+          newObjetc[sdic[ki]] = object[sdic[ki]]
+        }
+        return newObjetc;
+      },
+      getReportRankListFun(){
+        let self = this;
+        api.getReportRankList().then(res=>{
+          if (res.status){
+            self.reportRankList = res.data;
+            for (let i = 0, len = self.reportRankList.length; i < len; i++) {
+              if(self.isLogin){
+                self.whetherClickPraise(self.buyerShowList[i].id, i);
+              }
+              if (JSON.parse(self.reportRankList[i].trialReportImages)[0][0] !== 'h') {
+                self.reportRankList[i].trialReportImages = aliCallbackImgUrl + JSON.parse(self.reportRankList[i].trialReportImages)[0]
+              } else {
+                self.reportRankList[i].trialReportImages = JSON.parse(self.reportRankList[i].trialReportImages)[0];
+              }
+            }
+          }else {
+            self.$Message.error(res.msg)
+          }
+        })
+      },
+      getALLTrialReportFun(){
+        let self = this;
+        api.getALLTrialReport().then(res=>{
+          if (res.status){
+            self.getALLTrialReport = res.data.content
+          }else {
+            self.$Message.error(res.msg)
+          }
+        })
+      },
 
     }
   }
@@ -1059,30 +941,13 @@
             .top-heart {
               position: absolute;
               top: 5px;
-              right: 18px;
+              right: 0px;
               background-color: #FF6633;
               border: 1px solid #FF6633;
               color: #fff;
               border-radius: 3px;
               padding: 0 3px;
 
-            }
-            .price {
-              position: absolute;
-              width: 200px;
-              top: 230px;
-              left: 15px;
-              height: 30px;
-              line-height: 30px;
-              padding: 0px 3px;
-              color: #fff;
-              background-color: rgba(0, 0, 0, 0.5);
-              span:first-child {
-                width: 128px;
-              }
-              span:last-child {
-                color: #FFFF00;
-              }
             }
             .description {
               overflow: hidden;
