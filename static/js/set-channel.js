@@ -66,6 +66,28 @@ if (getQueryString('salesFrom') === 'WECHAT') {
   document.cookie = "from_qudao_key=" + '' + cookieAttr;
 }
 
+/**
+ * 1.BDWM 百度网盟
+ * 2.BDXXL 百度信息流
+ * 3.GDT 广点通
+ * **/
+if (getQueryString('qd')) {
+  document.cookie = "from_qudao="+ getQueryString('qd').toUpperCase() + cookieAttr;
+  document.cookie = "from_qudao_key=" + '' + cookieAttr;
+}
+
+
+//销售推广
+/**
+ * 1.TEAMQB
+ * 2.TEAMLF
+ * 3.TEAMAF
+ * */
+if (getQueryString('saler')) {
+  document.cookie = "from_qudao="+ getQueryString('saler').toUpperCase() + cookieAttr;
+  document.cookie = "from_qudao_key=" + '' + cookieAttr;
+}
+
 //        var path = this.location.pathname;
 //        var host = this.location.host;
 //        // console.info(path);

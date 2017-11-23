@@ -26,7 +26,7 @@
         <span>每个用户只能绑定一张银行卡，如需换卡建议修改银行卡信息</span>
       </div>
       <div class="ipt-information">
-        <iForm :model="formItem" :label-width="200" :rules="formRuleItem">
+        <iForm ref="formItem" :model="formItem" :label-width="200" :rules="formRuleItem">
           <Form-item label="开户人姓名:" prop="name">
             <iInput v-model="formItem.name"></iInput>
           </Form-item>
@@ -45,7 +45,7 @@
               <iOption value="民生银行">民生银行</iOption>
               <iOption value="光大银行">光大银行</iOption>
               <iOption value="交通银行">交通银行</iOption>
-              <iOption value="中国邮政储蓄银行">中国邮政储蓄银行</iOption>
+              <!--<iOption value="中国邮政储蓄银行">中国邮政储蓄银行</iOption>-->
               <iOption value="北京银行">北京银行</iOption>
               <iOption value="渤海银行">渤海银行</iOption>
               <iOption value="杭州银行">杭州银行</iOption>
@@ -83,7 +83,7 @@
             </SmsCountdown>
           </Form-item>
           <Form-item>
-            <iButton type="primary" @click=" addBankCardInfo(formItem)">提交</iButton>
+            <iButton type="primary" @click="handleSubmit('formItem',addBankCardInfo)">提交</iButton>
             <iButton type="ghost" style="margin-left: 8px" @click="goBack">取消</iButton>
           </Form-item>
         </iForm>
@@ -100,7 +100,7 @@
           <span class="ml-56">当日12:00-当日18:00间申请提现的，在当日18:00处理，当日18:00-次日12:00间申请提现的，在次日12:00处理</span>
         </div>
         <div class="get-out-do mt-22">
-          <iForm :model="getoutMoney" :label-width="200" :rules="getOutMoneyRule">
+          <iForm ref="getoutMoney" :model="getoutMoney" :label-width="200" :rules="getOutMoneyRule">
             <Form-item label="请输入提现金额:" prop="getoutNumber">
               <iInput v-model="getoutMoney.getoutNumber" class="iInput"></iInput>
               <span>元（最低1元起提）</span>
@@ -242,7 +242,12 @@
       <h2>常见问题</h2>
       <div class="mt-10">
         <p>提现</p>
-        <p>1、最低提现金额1元，手续费0.1%，每天提现次数不限</p>
+        <p>
+          1、最低提现金额1元，
+          <span v-if="$store.state.userInfo.role == 1">手续费0.1%，</span>
+          <span v-if="$store.state.userInfo.role == 0">免手续费，</span>
+          每天提现次数不限
+        </p>
         <p>2、当日12:00-当日18:00间申请提现的，在当日18:00处理，当日18:00-次日12:00间申请提现的，在次日12:00处理。</p>
       </div>
     </div>
@@ -305,7 +310,9 @@
       const validateName = (rule, value, callback) => {
         if (value === '') {
           callback(new Error('请输入姓名'));
-        } else {
+        } else if(value != this.$store.state.userInfo.realName){
+          callback(new Error('为保证资金安全，开户行必须与实名认证姓名一致！'))
+        }else {
           callback()
         }
       };
@@ -500,6 +507,15 @@
 
         }
       },
+      handleSubmit(name, callback) {
+        let res = false;
+        this.$refs[name].validate((valid) => {
+          res = !!valid
+        });
+        if (typeof callback === 'function' && res) {
+          callback();
+        }
+      },
       sendCodeSuccess(res) {
         let self = this;
         if (res.status) {
@@ -565,12 +581,12 @@
       addBankCardInfo(type) {
         let _this = this;
         api.addBankCardInfo({
-          validateCode: type.validateCode,
-          accountName: type.name,
-          bankName: type.select,
-          bankNo: type.bankNumber,
-          bankPart: type.bankBranch,
-          smsCode: type.cord
+          validateCode:  _this.formItem.validateCode,
+          accountName: _this.formItem.name,
+          bankName: _this.formItem.select,
+          bankNo: _this.formItem.bankNumber,
+          bankPart: _this.formItem.bankBranch,
+          smsCode: _this.formItem.cord
         }).then(res => {
           if (res.status) {
             _this.$Message.success(res.msg);

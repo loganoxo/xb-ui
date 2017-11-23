@@ -56,7 +56,7 @@
           <div v-if="showReportDesc && showkerReportDesc.task">
             <div class="fs-16 trial-account">
               {{showkerReportDesc.showkerPhone}}的买家秀
-              <a @click="showReportDesc = false;" class="right fs-14">返回上一页</a>
+              <a @click="showReportDesc = false;" class="right fs-14">查看Ta的全部买家秀</a>
               <div class="right fs-14 mr-40" style="margin-top: -2px;">
                 分享精彩：<div v-html="copyHtml" style="display: inline-block;" ></div>
               </div>

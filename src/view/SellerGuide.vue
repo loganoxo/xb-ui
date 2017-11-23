@@ -106,7 +106,7 @@
         self.FullPage  = new FullPage({
           id : 'pageContain',
           slideTime : 800,
-          continuous : true,
+          continuous : false,
           effect : {
             transform : {
               translate : 'Y',
@@ -200,11 +200,7 @@
   .begin-now{
     width: 150px;
     height:50px;
-    color: #fff;
     font-size: 16px;
-    background:rgba(0,0,0,.2);
-  }
-  .begin-now:hover{
     background-color: #fff;
     color: #FF6633;
   }

@@ -13,7 +13,12 @@
           </Breadcrumb>
         </div>
       </div>
+
       <div class="container" >
+        <div  class="task-category-sel " v-if="$route.query.activityCategory" style="color: red; font-weight: bold;">
+          <Icon type="information-circled" color="red"></Icon>
+          {{$store.state.TaskCategoryActiveList[$route.query.activityCategory].desc}}
+        </div>
         <div v-show="!$route.query.searchKey" class="task-category-sel">
           <span v-if="$route.query.activityCategory">{{$store.state.TaskCategoryActiveList[$store.state.activityCategory].text}}：</span>
           <!--<a v-if="$route.query.searchKey != 'all' && $route.query.searchKey" :class="[!$route.query.cate ? 'active' : '']" @click="selCategoryAllFunc">全部活动</a>-->

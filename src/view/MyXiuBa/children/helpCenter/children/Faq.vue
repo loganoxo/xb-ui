@@ -76,7 +76,10 @@
           <Panel name="11" id="q11" >
             <span>11、提现需要手续费吗？</span>
             <div slot="content">
-              <p>提现时，平台收取0.1%转账手续费。</p>
+              <p>提现时，平台
+                <span v-if="$store.state.userInfo.role == 1">收取0.1%手续费</span>
+                <span v-if="$store.state.userInfo.role == 0">免手续费</span>
+              </p>
             </div>
           </Panel>
           <Panel name="12" id="q12">

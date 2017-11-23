@@ -48,10 +48,16 @@
       <div class="activity-type-title">选择活动类型：</div>
       <div class="clear mt-10">
         <div class="left mr-10 activity-type-box disabled" :class="{isSelect:taskRelease.activityCategory === 'free_get'}" @click="changeSelectActivity('free_get')">
-          <p>免费领</p>
+          <p>免费领（拍A发A）</p>
           <p>秀客0元试用</p>
           <p>高人气活动类型</p>
           <span class="is-select-gou" v-show="taskRelease.activityCategory === 'free_get'"></span>
+        </div>
+        <div class="left activity-type-box mr-10 disabled" :class="{isSelect:taskRelease.activityCategory === 'present_get'}" @click="changeSelectActivity('present_get')">
+          <p>体验专区（拍A发B）</p>
+          <p>实际发的是赠品或体验装</p>
+          <p>不可跨类目，否则会影响人群标签</p>
+          <span class="is-select-gou" v-show="taskRelease.activityCategory === 'present_get'"></span>
         </div>
         <div class="left activity-type-box mr-10 disabled" :class="{isSelect:taskRelease.activityCategory === 'pinkage_for_10'}" @click="changeSelectActivity('pinkage_for_10')">
           <p>10元包邮</p>
@@ -59,24 +65,18 @@
           <p>高人气活动类型</p>
           <span class="is-select-gou" v-show="taskRelease.activityCategory === 'pinkage_for_10'"></span>
         </div>
-        <div class="left activity-type-box mr-10 disabled" :class="{isSelect:taskRelease.activityCategory === 'present_get'}" @click="changeSelectActivity('present_get')">
-          <p>体验专区</p>
-          <p>适用于高客单宝贝</p>
-          <p>解决商品成本过高问题</p>
-          <span class="is-select-gou" v-show="taskRelease.activityCategory === 'present_get'"></span>
-        </div>
         <div class="left activity-type-box mr-10 disabled" :class="{isSelect:taskRelease.activityCategory === 'price_low'}" @click="changeSelectActivity('price_low')">
           <p>白菜价</p>
           <p>帮商家测款定价</p>
           <p>真实卖货</p>
           <span class="is-select-gou" v-show="taskRelease.activityCategory === 'price_low'"></span>
         </div>
-        <div class="left activity-type-box mr-10 disabled" :class="{isSelect:taskRelease.activityCategory === 'goods_clearance'}" @click="changeSelectActivity('goods_clearance')">
+       <!-- <div class="left activity-type-box mr-10 disabled" :class="{isSelect:taskRelease.activityCategory === 'goods_clearance'}" @click="changeSelectActivity('goods_clearance')">
           <p>清仓断码</p>
           <p>帮商家解决最为头疼的</p>
           <p>库存问题</p>
           <span class="is-select-gou" v-show="taskRelease.activityCategory === 'goods_clearance'"></span>
-        </div>
+        </div>-->
       </div>
       <div class="pop-tip mt-15">
         <div v-show="taskRelease.activityCategory === 'free_get'">
@@ -146,7 +146,7 @@
             <p class="size-color3">赠品活动发布说明：</p>
             <p class="size-color3 mt-6">1、活动标题、宝贝类型、活动主图、宝贝单价、商品简介填写赠品相关信息；宝贝地址、掌柜旺旺填写淘宝正品（即希望秀客拍下的SKU）相关信息；</p>
             <p class="size-color3">2、在备注中明确说明希望秀客拍下的SKU（否则秀客可能会找不到宝贝）。</p>
-            <p class="size-color3">3、赠品类型必须与正品同属一个类目，重量、体积等相差不大，否则后台审核不给予通过。</p>
+            <p class="size-color3">3、为了不影响人群标签，赠品类型必须与正品同属一个类目，否则后台审核不给予通过。</p>
           </div>
           <div class="baby-title ml-45 mt-20">
             <span class="required">活动标题：</span>

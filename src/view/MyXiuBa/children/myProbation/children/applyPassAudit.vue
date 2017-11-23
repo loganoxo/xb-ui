@@ -115,7 +115,7 @@
               <p v-if="item.status === 'pass_and_unclaimed'" class="operation mt-5"
                  @click="openAuditOrder(item.id, item.taskType, item.activityCategory)">填订单号</p>
               <p v-if="item.status === 'order_num_error'" class="operation mt-5"
-                 @click="openAuditOrder(item.id,item.taskType, item.activityCategory)">修改订单号</p>
+                 @click="openAuditOrderModify(item.id,item.taskType, item.activityCategory,item.orderNum,item.orderPrice)">修改订单号</p>
               <p v-if="item.status === 'trial_report_waiting_confirm' || item.status === 'trial_finished'" class="operation mt-5"
                  @click="lookReportInfo(item.id)">查看买家秀详情</p>
               <p v-if="item.status === 'trial_finished'" class="operation mt-5">
@@ -464,7 +464,6 @@
           })
         }
       },
-
       pageChange(data) {
         this.pageIndex = data;
         this.showkerSuccessList();
@@ -502,6 +501,17 @@
       },
       closeAuditOrder() {
         this.showAuditOrderNumber = false;
+      },
+      openAuditOrderModify(id, type, activityCategory,orderNum,orderPrice){
+        console.log(orderPrice);
+        this.affirmOrderNumber = orderNum;
+        this.payMoney = orderPrice;
+        this.orderType = type;
+        this.activityCategory = activityCategory;
+        this.showAuditOrderNumber = true;
+        if (id && !this.itemId) {
+          this.itemId = id;
+        }
       },
       openAuditOrder(id, type, activityCategory) {
         this.affirmOrderNumber = null;
