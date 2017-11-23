@@ -130,9 +130,11 @@
                 <p style="text-align: center;font-size: 40px;color: #FF6633;">
                   <Icon :type="iconType"></Icon>
                 </p>
-                <p class="mt-10 text-ct fs-14"><span style="color: #FF6633;">{{applyGetOut}}</span>当日12:00-当日18:00间申请提现的，在当日18:00处理
+                <p class="mt-10 text-ct fs-14"><span style="color: #FF6633;">{{applyGetOut}}</span>
                 </p>
-                <p class="mt-10 text-ct fs-14">当日18:00-次日12:00间申请提现的，在次日12:00处理，你可以在提现记录中查看进度</p>
+                <p class="mt-10 text-ct fs-14">
+                  中午12点之前申请提现的当天18点前返款；中午12点之后申请提现的是次日返款到账，遇到周末或者节假日往后顺延。 成功提现的订单即表示已经打款成功，具体到账时间以每个银行受理时间为准。
+                </p>
               </Modal>
             </Form-item>
           </iForm>
