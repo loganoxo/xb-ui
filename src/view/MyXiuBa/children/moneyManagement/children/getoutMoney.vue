@@ -95,11 +95,12 @@
         <span class="right cursor-p" style="color: blue;" @click="lookGetoutRecord('getoutRecord')">查看提现记录</span>
       </div>
       <div class="content">
-        <div class="warning">
-          <Icon type="information-circled" class="icon ml-20 over-hd"></Icon>
-          <span class="ml-56">
+        <div class="warning" style="height: auto; overflow: hidden; padding: 0 20px; line-height: 35px;">
+          <Icon type="information-circled" class="icon ml-20 over-hd left" style="top: 9px;"></Icon>
+          <span class="ml-56 left">
             中午12点之前申请提现的当天18点前返款；中午12点之后申请提现的是次日返款到账，遇到周末或者节假日往后顺延。 成功提现的订单即表示已经打款成功，具体到账时间以每个银行受理时间为准。
           </span>
+
         </div>
         <div class="get-out-do mt-22">
           <iForm ref="getoutMoney" :model="getoutMoney" :label-width="200" :rules="getOutMoneyRule">
