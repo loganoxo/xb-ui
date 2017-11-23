@@ -161,121 +161,11 @@
             <img style="vertical-align: middle" src="~assets/img/buyer-show/buyer-show-allmjx.png" alt="">
             <span class="ml-10" style="font-size: 13px;color: #999;transform: translateY(2px)">给你最精彩</span>
           </div>
-          <div class="mt-10 clear ">
-            <!--
-                        <Waterfall :line-gap="290" :watch="getALLTrialReport">
-                          &lt;!&ndash; each component is wrapped by a waterfall slot &ndash;&gt;
-                          <waterfall-slot
-                            v-for="(item, index) in getALLTrialReport"
-                            :width="item.width"
-                            :height="item.height"
-                            :order="index"
-                            :key="item.id"
-                          >
-                            <div class="content ">
-                              <div class="pos-rel">
-                                <img width="250" :src="item.trialReportImages" alt="">
-                                <p class="mt-10 description pos-rel">
-                                  <span class="double-question-mark "></span>
-                                  <a class="des-text ">{{item.trialReportText}}</a>
-                                </p>
-                              </div>
-                              <div class="clear bottom mt-20">
-                                <a class="user-head-box">
-                                  <img class="showker-portrait-pic" width="48" height="48"
-                                       :src="getUserHead(item.showkerPortraitPic)" alt="">
-                                </a>
-                                <div class="left ml-10" style="margin-top: 5px">
-                                  <p style="color: #000">{{item.showkerPhone}}</p>
-                                  <img :src="item.creditLevel" alt="">
-                                  <div class="text-ct"><span>淘气值：{{item.tqz}}</span></div>
-                                </div>
-                              </div>
-                            </div>
-                          </waterfall-slot>
-                        </Waterfall>
-            -->
-            <!--<div class="content left" v-for="item in getALLTrialReport ">
-              <div class="pos-rel">
-                <img width="250" :src="item.trialReportImages" alt="">
-                <p class="mt-10 description pos-rel">
-                  <span class="double-question-mark "></span>
-                  <a class="des-text ">{{item.trialReportText}}</a>
-                </p>
-              </div>
-              <div class="clear bottom mt-20">
-                <a class="user-head-box">
-                  <img class="showker-portrait-pic" width="48" height="48" :src="getUserHead(item.showkerPortraitPic)" alt="">
-                </a>
-                <div class="left ml-10" style="margin-top: 5px">
-                  <p style="color: #000">{{item.showkerPhone}}</p>
-                  <img :src="item.creditLevel" alt="">
-                  <div class="text-ct"><span>淘气值：{{item.tqz}}</span></div>
-                </div>
-              </div>
-            </div>-->
-            <!-- <div class="content left ">
-               <div class="pos-rel">
-                 <img width="250" src="~assets/img/buyer-show/des_01.png" alt="">
-                 <p class="mt-10 description pos-rel">
-                   <span class="double-question-mark "></span>
-                   <a class="des-text ">kldfksdjfldskf</a>
-                 </p>
-               </div>
-               <div class="clear bottom mt-20">
-                 <a class="user-head-box">
-                   <img class="showker-portrait-pic" width="48" height="48" :src="getUserHead()" alt="">
-                 </a>
-                 <div class="left ml-10" style="margin-top: 5px">
-                   <p style="color: #000">15000000000</p>
-                   <img src="" alt="">
-                   <div class="text-ct"><span>淘气值：600-800</span></div>
-                 </div>
-               </div>
-             </div>
-             <div class="content left ">
-               <div class="pos-rel">
-                 <img width="250" src="~assets/img/home/banner_01.jpg" alt="">
-                 <p class="mt-10 description pos-rel">
-                   <span class="double-question-mark "></span>
-                   <a class="des-text ">kldfksdjfldskf</a>
-                 </p>
-               </div>
-               <div class="clear bottom mt-20">
-                 <a class="user-head-box">
-                   <img class="showker-portrait-pic" width="48" height="48" :src="getUserHead()" alt="">
-                 </a>
-                 <div class="left ml-10" style="margin-top: 5px">
-                   <p style="color: #000">15000000000</p>
-                   <img src="" alt="">
-                   <div class="text-ct"><span>淘气值：600-800</span></div>
-                 </div>
-               </div>
-             </div>
-             <div class="content  left">
-               <div class="pos-rel">
-                 <img width="250" src="~assets/img/task-details/task_details_03.png" alt="">
-                 <p class="mt-10 description pos-rel">
-                   <span class="double-question-mark "></span>
-                   <a class="des-text ">kldfksdjfldskf</a>
-                 </p>
-               </div>
-               <div class="clear bottom mt-20">
-                 <a class="user-head-box">
-                   <img class="showker-portrait-pic" width="48" height="48" :src="getUserHead()" alt="">
-                 </a>
-                 <div class="left ml-10" style="margin-top: 5px">
-                   <p style="color: #000">15000000000</p>
-                   <img src="" alt="">
-                   <div class="text-ct"><span>淘气值：600-800</span></div>
-                 </div>
-               </div>
-             </div>-->
-
-            <div id="con">
+          <div class="mt-10  ">
+            <div class="con">
               <div class="pic" v-for="item in getALLTrialReport ">
                 <div class="pos-rel">
-                  <img width="250" :src="item.trialReportImages" alt="">
+                  <img width="220" :src="item.trialReportImages" alt="">
                   <p class="mt-10 description pos-rel">
                     <span class="double-question-mark "></span>
                     <a class="des-text " style="margin-left: 26px">{{item.trialReportText}}</a>
@@ -789,7 +679,7 @@
 
   @import 'src/css/mixin';
 
-  #con {
+  .con {
     width: 1160px;
     margin: 60px auto;
     /*padding: 20px;*/
@@ -804,7 +694,7 @@
     -o-column-rule: 0px solid #ff0000;
   }
 
-  #con .pic {
+  .con .pic {
     width: 250px;
     min-height: 100px;
     box-shadow: 2px 2px 6px #b5b5b5;
@@ -813,30 +703,6 @@
     display: inline-block
   }
 
-  #con h3 {
-    border-bottom: 1px solid #ddd;
-    line-height: 30px;
-    text-align: center;
-    padding: 5px 5px;
-  }
-
-  #con h3 a {
-    text-decoration: none;
-    color: #999;
-  }
-
-  #con p {
-    font-size: 12px;
-    color: #666;
-    line-height: 20px;
-    white-space: nowrap;
-    overflow: hidden;
-
-    text-overflow: ellipsis;
-    -o-text-overflow: ellipsis;
-    -moz-text-overflow: ellipsis;
-    -webkit-text-overflow: ellipsis;
-  }
 
   .confirm-recharge-model {
     position: fixed;
