@@ -97,7 +97,9 @@
       <div class="content">
         <div class="warning">
           <Icon type="information-circled" class="icon ml-20 over-hd"></Icon>
-          <span class="ml-56">当日12:00-当日18:00间申请提现的，在当日18:00处理，当日18:00-次日12:00间申请提现的，在次日12:00处理</span>
+          <span class="ml-56">
+            中午12点之前申请提现的当天18点前返款；中午12点之后申请提现的是次日返款到账，遇到周末或者节假日往后顺延。 成功提现的订单即表示已经打款成功，具体到账时间以每个银行受理时间为准。
+          </span>
         </div>
         <div class="get-out-do mt-22">
           <iForm ref="getoutMoney" :model="getoutMoney" :label-width="200" :rules="getOutMoneyRule">
@@ -248,7 +250,7 @@
           <span v-if="$store.state.userInfo.role == 0">免手续费，</span>
           每天提现次数不限
         </p>
-        <p>2、当日12:00-当日18:00间申请提现的，在当日18:00处理，当日18:00-次日12:00间申请提现的，在次日12:00处理。</p>
+        <p>2、中午12点之前申请提现的当天18点前返款；中午12点之后申请提现的是次日返款到账，遇到周末或者节假日往后顺延。 成功提现的订单即表示已经打款成功，具体到账时间以每个银行受理时间为准。</p>
       </div>
     </div>
   </div>

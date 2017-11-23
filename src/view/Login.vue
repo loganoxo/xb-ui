@@ -2,9 +2,9 @@
   <div>
     <role-top></role-top>
     <div class="login-ctt">
-      <div class="container">
+      <div class="container" style="background: url(/static/img/login/login_01.png) no-repeat; height: 560px;">
         <div class="login-lf">
-          <img src="~assets/img/login/login_01.png" alt="">
+          <!--<img src="~assets/img/login/login_01.png" alt="">-->
         </div>
         <div class="login-rt">
           <div class="login-rt-ctt">
@@ -394,14 +394,16 @@
 
   .login-ctt {
     padding: 70px 0 250px 0;
+    background-color: #e93854;
     .login-lf, .login-rt {
       float: left;
     }
     .login-rt {
-      margin: 50px auto auto 100px;
+      margin: 50px auto auto 700px;
       .login-rt-ctt {
         width: 404px;
         border: 1px solid #eee;
+        background-color: #fff;
         > p.login-rt-ctt-top {
           width: 302px;
           margin: 30px auto auto auto;

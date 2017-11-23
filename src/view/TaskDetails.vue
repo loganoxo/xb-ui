@@ -40,7 +40,16 @@
               <span v-if="commodityData.task.discountType == 'price_low'" class="fs-14" style="color: #fff; padding: 2px 5px;" :style="{backgroundColor: $store.state.discountPriceType[parseFloat(commodityData.task.discountPrice/100)].backgroundColor}">{{parseFloat(commodityData.task.discountPrice/100)}}试用</span>
             </p>
             <p class="fs-14">
-              宝贝单价：<span class="fs-18">{{(commodityData.task.itemPrice/100).toFixed(2)}}</span>元
+              宝贝单价：<span class="fs-18" style="text-decoration: line-through;">{{(commodityData.task.itemPrice/100).toFixed(2)}}</span>
+
+              &nbsp;&nbsp;
+              <span style="font-weight: bold; font-size: 20px" v-if="commodityData.task.discountPrice">￥{{commodityData.task.discountPrice / 100}}</span>
+              <span style="font-weight: bold; font-size: 20px" v-if="!commodityData.task.discountPrice && commodityData.task.discountRate">
+                ￥{{(Math.floor((commodityData.task.discountRate/100) * commodityData.task.itemPrice)/100).toFixed(2)}}
+              </span>
+              <span style="font-weight: bold; font-size: 20px" v-if="!commodityData.task.discountPrice && !commodityData.task.discountRate">
+                ￥0
+              </span>元
               &nbsp;&nbsp;&nbsp;&nbsp;
               活动份数：<span class="fs-18"> {{commodityData.task.taskCount}} </span>份
             </p>

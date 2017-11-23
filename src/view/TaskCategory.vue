@@ -15,9 +15,12 @@
       </div>
 
       <div class="container" >
-        <div  class="task-category-sel " v-if="$route.query.activityCategory" style="color: red; font-weight: bold;">
-          <Icon type="information-circled" color="red"></Icon>
-          {{$store.state.TaskCategoryActiveList[$route.query.activityCategory].desc}}
+        <div   v-if="$route.query.activityCategory" class="text-ct mg-20" >
+          <em class="activity-category-tips-left" :style="{borderRightColor: $store.state.TaskCategoryActiveList[$route.query.activityCategory].color }" ></em>
+          <p class="activity-category-tips" :style="{backgroundColor: $store.state.TaskCategoryActiveList[$route.query.activityCategory].color }">
+            {{$store.state.TaskCategoryActiveList[$route.query.activityCategory].desc}}
+          </p>
+          <em class="activity-category-tips-right" :style="{borderLeftColor: $store.state.TaskCategoryActiveList[$route.query.activityCategory].color }" ></em>
         </div>
         <div v-show="!$route.query.searchKey" class="task-category-sel">
           <span v-if="$route.query.activityCategory">{{$store.state.TaskCategoryActiveList[$store.state.activityCategory].text}}：</span>
@@ -645,6 +648,30 @@
       display: block;
       margin: 28px auto 10px auto;
     }
+  }
+  .activity-category-tips-left{
+    display: inline-block;
+    width: 0;
+    height: 0;
+    border: 22px solid transparent;
+    vertical-align: -17px;
+    margin-right: -4px;
+  }
+  .activity-category-tips-right{
+    display: inline-block;
+    width: 0;
+    height: 0;
+    border: 22px solid transparent;
+    vertical-align: -17px;
+    margin-left: -4px;
+  }
+  .activity-category-tips{
+    display: inline-block;
+    color: #fff;
+    padding: 8px 20px;
+    font-size: 18px;
+    height: 44px;
+    border-radius: 1px;
   }
   .home-discount-price{
     color: #fff;
