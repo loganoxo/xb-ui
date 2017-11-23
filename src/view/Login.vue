@@ -393,7 +393,7 @@
   }
 
   .login-ctt {
-    padding: 70px 0 250px 0;
+    padding: 20px 0 50px 0;
     background-color: #e93854;
     .login-lf, .login-rt {
       float: left;
