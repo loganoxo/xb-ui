@@ -445,7 +445,7 @@
             <p>
               <img src="/static/img/icon/price_low_heart.png" alt="">
               <span class="fs-18 f-b clC4C71D">白菜价</span>
-              <span class="fs-12 cl666">秀客或以9.9元等一口价，或享受1折等极低折扣卖下商品！</span>
+              <span class="fs-12 cl666">秀客或以9.9元等一口价，或享受1折等极低折扣买下商品！</span>
               <router-link to="/task-category?activityCategory=price_low" class="cl666 right mr-20">更多></router-link>
             </p>
           </div>

@@ -4,6 +4,8 @@ import Router from 'vue-router'
 const Home = r => require.ensure([], () => r(require('@/view/Home.vue')), 'Home');
 const QQLogin = r => require.ensure([], () => r(require('@/view/QQLogin.vue')), 'QQLogin');
 const SellerAdv = r => require.ensure([], () => r(require('@/view/SellerAdv.vue')), 'SellerAdv');
+const RecommendSpread = r => require.ensure([], () => r(require('@/view/RecommendSpread.vue')), 'RecommendSpread');
+
 const SellerSpread = r => require.ensure([], () => r(require('@/view/SellerSpread.vue')), 'SellerSpread');
 const SellerGuide = r => require.ensure([], () => r(require('@/view/SellerGuide.vue')), 'SellerGuide');
 const AboutUs = r => require.ensure([], () => r(require('@/view/AboutUs.vue')), 'AboutUs');
@@ -126,6 +128,17 @@ export default new Router({
       }
     },
     {
+      path: '/recommend-spread',
+      name: 'RecommendSpread',
+      component: RecommendSpread,
+      meta: {
+        title: "推荐引导",
+        logInAuthority: false,
+        topShow: true,
+        bottomShow: true,
+      }
+    },
+    {
       path: '/seller-spread',
       name: 'sellerSpread',
       component: SellerSpread,
@@ -136,6 +149,7 @@ export default new Router({
         bottomShow: false,
       }
     },
+
     {
       path: '/seller-guide',
       name: 'SellerGuide',
