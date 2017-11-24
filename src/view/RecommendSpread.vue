@@ -204,7 +204,7 @@
 <style lang="scss" scoped>
   @import 'src/css/mixin';
   .spread-part2{
-    background-color: #F2AC02;
+    background-color: #feb312;
   }
   .spread-part2-box{
     background: #F2AC02 url(/static/img/recommend-spread/recommend_spread_03.jpg) no-repeat;
@@ -261,7 +261,7 @@
     }
   }
   .spread-part3{
-    background-color: #F6CB18 ;
+    background-color: #ffd030 ;
   }
   .spread-part3-box{
     background: #F2AC02 url(/static/img/recommend-spread/recommend_spread_09.jpg) no-repeat;
