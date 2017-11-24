@@ -17,28 +17,28 @@
     <div class="activity-type mt-20" v-show="stepName === 'information'">
       <div class="activity-type-title">选择活动类型：</div>
       <div class="clear mt-10">
-        <div class="left mr-10 activity-type-box" :class="{isSelect:taskRelease.activityCategory === 'free_get'}"
+        <div ref="showInsideText" class="left mr-10 activity-type-box" :class="{isSelect:taskRelease.activityCategory === 'free_get'}"
              @click="changeSelectActivity('free_get')">
           <p>免费领（拍A发A）</p>
           <p>秀客0元试用</p>
           <p>高人气活动类型</p>
           <span class="is-select-gou" v-show="taskRelease.activityCategory === 'free_get'"></span>
         </div>
-        <div class="left activity-type-box mr-10" :class="{isSelect:taskRelease.activityCategory === 'present_get'}"
+        <div ref="showInsideText2" class="left activity-type-box mr-10" :class="{isSelect:taskRelease.activityCategory === 'present_get'}"
              @click="changeSelectActivity('present_get')">
           <p>体验专区（拍A发B）</p>
           <p>实际发的是赠品或体验装</p>
           <p>不可跨类目，否则会影响人群标签</p>
           <span class="is-select-gou" v-show="taskRelease.activityCategory === 'present_get'"></span>
         </div>
-        <div class="left activity-type-box mr-10" :class="{isSelect:taskRelease.activityCategory === 'pinkage_for_10'}"
+        <div ref="showInsideText3" class="left activity-type-box mr-10" :class="{isSelect:taskRelease.activityCategory === 'pinkage_for_10'}"
              @click="changeSelectActivity('pinkage_for_10')">
           <p>10元包邮</p>
           <p>秀客承担10元邮费</p>
           <p>高人气活动类型</p>
           <span class="is-select-gou" v-show="taskRelease.activityCategory === 'pinkage_for_10'"></span>
         </div>
-        <div class="left activity-type-box mr-10" :class="{isSelect:taskRelease.activityCategory === 'price_low'}"
+        <div ref="showInsideText4" class="left activity-type-box mr-10" :class="{isSelect:taskRelease.activityCategory === 'price_low'}"
              @click="changeSelectActivity('price_low')">
           <p>白菜价</p>
           <p>帮商家测款定价</p>
@@ -678,6 +678,74 @@
           </div>
         </Modal>-->
     </div>
+
+    <!--引导弹框开始-->
+      <div v-show="showInsideRes" style="position: fixed; padding: 20px; height: 520px; margin-top: -260px; border-radius: 10px; width: 780px; left: 50%; top: 50%; margin-left: -390px; background-color: #F18C6B; z-index: 2;">
+        <p class="text-align-rt">
+          <span @click="closeShowInsideFunc" class="fs-24 right" style="color: #fff; cursor: pointer;">&times;</span>
+          <Checkbox-group class="right mt-6" v-model="showInsideAgainRes">
+            <Checkbox label="true" style="color: #fff;">
+              不再提醒
+            </Checkbox>
+          </Checkbox-group>
+        </p>
+        <p class="fs-24" style="color: #fff; clear: both; padding-left: 10px;">
+          <img src="/static/img/icon/two-face.jpg" alt="" style="vertical-align: -27px;">
+          请选择您要发布的任务类型：
+        </p>
+        <div class="mt-30">
+          <a  @click="selCategoryTaskFunc('showInsideText')" class="block default-text" :class="[showInside.showInsideText ? 'active-text' : 'default-text']" @mouseover="showInsideTextFunc('showInsideText')" @mouseout="showOutsideTextFunc('showInsideText')">
+            <span v-show="!showInside.showInsideText">我想快速促进成交，并且收获高质量的评价~</span>
+            <p v-show="showInside.showInsideText" style="line-height: normal; padding-top: 5px;">
+              <span style="color: #FAF502; font-size: 16px; display: block;" >
+                免费领（拍A发A）:秀客0元试用,高人气活动类型
+              </span>
+              <span class="fs-12" style="color: #fff;">
+                 该活动申请率极高，评价效果极好，商家能自主筛选秀客，迅速积攒销量。
+              </span>
+            </p>
+          </a>
+          <a  @click="selCategoryTaskFunc('showInsideText2')" class="block default-text" :class="[showInside.showInsideText2 ? 'active-text' : 'default-text']" @mouseover="showInsideTextFunc('showInsideText2')" @mouseout="showOutsideTextFunc('showInsideText2')">
+            <span v-show="!showInside.showInsideText2">我的宝贝单价过高，免费送成本太大，想以拍A发B的形势降低成本~</span>
+            <p v-show="showInside.showInsideText2" style="line-height: normal; padding-top: 5px;">
+              <span style="color: #FAF502; font-size: 16px; display: block;" >
+                体验专区（拍A发B）:实际发的是赠品或体验装,不可跨类目，否则会影响人群标签
+              </span>
+              <span class="fs-12" style="color: #fff;">
+                秀客拍下付款的是主宝贝，实际发货的是体验装或赠品。该活动可大幅降低活动成本，但要规避秀客在淘宝上晒图。
+              </span>
+            </p>
+          </a>
+          <a  @click="selCategoryTaskFunc('showInsideText3')" class="block default-text" :class="[showInside.showInsideText3 ? 'active-text' : 'default-text']" @mouseover="showInsideTextFunc('showInsideText3')" @mouseout="showOutsideTextFunc('showInsideText3')">
+            <span v-show="!showInside.showInsideText3"> 我希望秀客能帮忙分担一点，哪怕付个邮费也是可以的~</span>
+            <p v-show="showInside.showInsideText3" style="line-height: normal; padding-top: 5px;">
+              <span style="color: #FAF502; font-size: 16px; display: block;" >
+                10元包邮:秀客承担10元邮费,高人气活动类型
+              </span>
+              <span class="fs-12" style="color: #fff;">
+                该活动申请率较高，评价效果较好，适用于中低客单的走量产品。
+              </span>
+            </p>
+          </a>
+          <a  @click="selCategoryTaskFunc('showInsideText4')" class="block default-text" :class="[showInside.showInsideText4 ? 'active-text' : 'default-text']" @mouseover="showInsideTextFunc('showInsideText4')" @mouseout="showOutsideTextFunc('showInsideText4')">
+            <span v-show="!showInside.showInsideText4"> 我想选择一个合适的价位来推广我的宝贝，即能兼顾成本也能让秀客喜欢~</span>
+            <p v-show="showInside.showInsideText4" style="line-height: normal; padding-top: 5px;">
+              <span style="color: #FAF502; font-size: 16px; display: block;" >
+                白菜价:帮商家测款定价,真实卖货
+              </span>
+              <span class="fs-12" style="color: #fff;">
+               秀客以9.9元\49.9元\99.9元及1折\3折\5折的价格购买，可适当降低成本，更重要的是促进真实成交，获得消费者的实际反馈。
+              </span>
+            </p>
+          </a>
+        </div>
+        <p class="text-ct">
+          <a @click="closeShowInsideFunc" class="ivu-btn ivu-btn-large"> 前往发布 </a>
+        </p>
+
+      </div>
+      <div v-show="showInsideRes" style="position: fixed; left: 0; top: 0; bottom: 0; right: 0; background-color: #000; opacity: 0.5;"></div>
+    <!--引导弹框结束-->
   </div>
 </template>
 
@@ -696,6 +764,7 @@
   import Steps from 'iview/src/components/steps'
   import PayModel from '@/components/PayModel'
   import api from '@/config/apiConfig'
+  import {setStorage, getStorage, encryption,removeStorage} from '@/config/utils'
   import {aliCallbackImgUrl} from '@/config/env'
   import {aliUploadImg, isNumber, isInteger, isAliUrl, randomString, extendDeep, decode} from '@/config/utils'
 
@@ -740,6 +809,14 @@
               ['image']
             ]
           }
+        },
+        showInsideAgainRes: [],
+        showInsideRes: false,
+        showInside:{
+          showInsideText: false,
+          showInsideText2: false,
+          showInsideText3: false,
+          showInsideText4: false,
         },
         showPayModel: false,
         current: 0,
@@ -874,7 +951,11 @@
         this.editTaskId = taskId;
         this.getTaskInfo();
       }
-
+      if(getStorage('showInsideAgainRes')){
+        this.showInsideRes = false;
+      }else {
+        this.showInsideRes = true;
+      }
     },
     computed: {
       /**
@@ -990,6 +1071,27 @@
       },
     },
     methods: {
+      selCategoryTaskFunc(showInside){
+        let self = this;
+        self.$refs[showInside].click();
+        if(self.showInsideAgainRes[0] == 'true'){
+          setStorage('showInsideAgainRes',1);
+        }
+        self.showInsideRes = false;
+      },
+      showInsideTextFunc(showInside){
+        this.showInside[showInside] = true;
+      },
+      showOutsideTextFunc(showInside){
+        this.showInside[showInside] = false;
+      },
+      closeShowInsideFunc(){
+        let  self = this;
+        self.showInsideRes = false;
+        if(self.showInsideAgainRes[0] == 'true'){
+          setStorage('showInsideAgainRes',1);
+        }
+      },
       changeSelectDiscount(type) {
         this.taskRelease.discountType = type;
       },
@@ -1757,6 +1859,22 @@
       }
     }
   }
-
+  .ivu-modal-footer{
+    display: none;
+  }
+  .default-text{
+    background-color: #fff;
+    height: 52px;
+    border-radius: 15px;
+    padding: 0 20px;
+    line-height: 52px;
+    text-align: center;
+    font-size: 18px;
+    color: rgb(241, 140, 107);
+    margin-bottom: 20px;
+  }
+  .active-text{
+    background-color: #000;
+  }
 </style>
 
