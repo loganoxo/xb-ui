@@ -58,7 +58,7 @@
             <p v-for="(ranking, index) in rankingList">
               <span  class="one" :class="[index <= 2 ? 'active' : '' ]">{{index + 1}}</span>
               <span class="two" :class="[index <= 2 ? 'active' : '' ]">{{ranking.phone}}</span>
-              <span class="three" :class="[index <= 2 ? 'active' : '' ]">￥{{ranking.reward || 0}}</span>
+              <span class="three" :class="[index <= 2 ? 'active' : '' ]">￥{{ranking.reward/100 || 0}}</span>
             </p>
           </div>
         </div>
@@ -74,13 +74,13 @@
           <ul class="mt-10">
             <li>
               <span>1</span>
-              通过您的邀请链接成功进行注册，如果是秀客，成功注册并完成首个任务后，即可获得 ￥3 奖励， 且自该秀客注册
-              起一年时间内，该秀客每完成一个任务，您都可以从对应活动的推广费中获得 15% 的提成；
+              通过您的邀请链接成功进行注册，如果是秀客，成功注册并完成首个任务后，即可获得 <b class="clff6633">￥3</b> 奖励， 且自该秀客注册
+              起一年时间内，该秀客每完成一个任务，您都可以从对应活动的推广费中获得 <b class="clff6633"> 15% </b> 的提成；
             </li>
             <li>
               <span>2</span>
-              通过您的邀请链接成功进行注册，如果是商家，秀客完成其首个任务后，即可获得 ￥3 奖励，且自该商家
-              注册起一年时间内， 每个秀客完成该商家的一个任务时，您都可以从对应活动的推广费中获得 10% 的提成
+              通过您的邀请链接成功进行注册，如果是商家，秀客完成其首个任务后，即可获得 <b class="clff6633"> ￥3 </b> 奖励，且自该商家
+              注册起一年时间内， 每个秀客完成该商家的一个任务时，您都可以从对应活动的推广费中获得 <b class="clff6633"> 10% </b> 的提成
             </li>
             <li>
               <span>3</span>
@@ -238,6 +238,7 @@
       margin-right: 140px;
       width: 370px;
       p{
+        line-height: 30px;
         span{
           display: inline-block;
           font-size: 14px;

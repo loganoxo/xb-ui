@@ -38,8 +38,8 @@
 
           </div>
         </div>
-        <router-link v-if="!($store.state.userInfo.role == 0)" to="/seller-adv" class="seller-guide">
-          <img src="/static/img/common/seller-guide.png" alt="">
+        <router-link  to="/recommend-spread" class="seller-guide">
+          <img src="/static/img/common/recommend_spread.gif" alt="">
         </router-link>
       </div>
     </div>
@@ -98,6 +98,9 @@
           <!--</a>-->
           <a  @click="buyerShowPop = true">买家秀</a>
         </div>
+        <router-link class="seller-enter" style="background-color: #E1291E; color: #fff; float: right" to="/seller-adv">
+          商家入驻必读
+        </router-link>
       </div>
     </div>
     <Modal v-model="buyerShowPop" width="300" height="400">
@@ -334,16 +337,24 @@
       }
       a.seller-guide{
         display: inline-block;
-        width: 150px;
-        margin-top: 10px;
-        margin-left: 33px;
+        margin-top: 35px;
+        margin-left: 24px;
         img{
           width: 100%;
         }
       }
     }
   }
-
+  .seller-enter{
+    background: rgb(225, 41, 30) url("/static/img/icon/seller-icon.png") no-repeat 6px 7px;
+    color: rgb(255, 255, 255);
+    float: right;
+    height: 30px;
+    line-height: 30px;
+    padding: 0 20px 0 30px;
+    border-radius: 4px;
+    margin-top: 6px;
+  }
   .home-nav {
     height: 42px;
     clear: both;
