@@ -710,6 +710,12 @@ export default {
   /**
    * 获取推荐链接
    * */
+  getMyRecommend() {
+    return fetch("/api/user/reward/getMyRecommend.json")
+  },
+  /**
+   * 获取推荐链接
+   * */
   getRecommendUrl() {
     return fetch("/api/recommend-url.json")
   },
@@ -719,6 +725,14 @@ export default {
    * */
   getRecommendPage(params) {
     return fetch("/api/user/reward/getRecommendPage.json", params)
+  },
+
+
+  /**
+   * 获取推荐排行版
+   * */
+  getRecommendRankingPage() {
+    return fetch("/api/user/reward/getRecommendRankList.json", )
   },
 
   /**
