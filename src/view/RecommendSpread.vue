@@ -14,7 +14,7 @@
                 一共邀请了
                 <span class="clff6633 f-b">{{myRecommend.count}}</span>
                 位好友，共获得
-                <span class="clff6633 f-b">￥{{myRecommend.reward || 0}}</span>
+                <span class="clff6633 f-b">￥{{myRecommend.reward/100 || 0}}</span>
                 奖励，排名
                 <span class="clff6633 f-b">{{myRecommend.ranking}}</span>
                 位
