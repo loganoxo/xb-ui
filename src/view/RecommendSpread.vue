@@ -145,7 +145,11 @@
       }
       api.getRecommendRankingPage().then((res) =>{
         if(res.status){
-          _this.rankingList = res.data;
+          function sortNumber(a,b)
+          {
+            return -(a.reward - b.reward)
+          }
+          _this.rankingList = res.data.sort(sortNumber);
         }else {
           _this.$Message.error({
             content: res.msg,
