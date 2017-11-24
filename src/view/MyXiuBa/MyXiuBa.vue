@@ -39,8 +39,9 @@
           <Icon type="help-buoy"></Icon>
           <router-link to="/user/help-center/faq">帮助中心</router-link>
         </li>
-        <li :class="{isSelect:isSelect === 'Recommend'}">
+        <li :class="{isSelect:isSelect === 'Recommend'}" style="position: relative">
           <Icon type="share"></Icon>
+          <img src="/static/img/icon/hot.gif" alt="" style="position: absolute;right: 22px;top: -4px;">
           <router-link to="/user/recommend">邀请有礼</router-link>
         </li>
       </ul>
@@ -75,8 +76,9 @@
           <Icon type="help-buoy"></Icon>
           <router-link to="/user/help-center/faq">帮助中心</router-link>
         </li>
-        <li :class="{isSelect:isSelect === 'Recommend'}">
+        <li :class="{isSelect:isSelect === 'Recommend'}" style="position: relative">
           <Icon type="share"></Icon>
+          <img src="/static/img/icon/hot.gif" alt="" style="position: absolute;right: 22px;top: -4px;">
           <router-link to="/user/recommend">邀请有礼</router-link>
         </li>
       </ul>
