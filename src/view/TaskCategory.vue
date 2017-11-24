@@ -15,7 +15,7 @@
       </div>
 
       <div class="container" >
-        <div   v-if="$route.query.activityCategory" class="text-ct mb-10" >
+        <div v-if="$route.query.activityCategory" class="text-ct mb-10" >
           <em class="activity-category-tips-left" :style="{borderRightColor: $store.state.TaskCategoryActiveList[$route.query.activityCategory].color }" ></em>
           <p class="activity-category-tips" :style="{backgroundColor: $store.state.TaskCategoryActiveList[$route.query.activityCategory].color }">
             {{$store.state.TaskCategoryActiveList[$route.query.activityCategory].desc}}
