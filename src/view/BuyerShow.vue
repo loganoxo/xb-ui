@@ -7,17 +7,17 @@
             <Carousel autoplay :autoplay-speed="5000" v-model="homeCarousel" loop>
               <Carousel-item>
                 <router-link to="" class="block">
-                  <img class="block" width="900" height="400" src="~assets/img/home/banner_02.jpg" alt="">
+                  <img class="block" width="900" height="400" src="~assets/img/buyer-show/buyer_show_banner_01.jpg" alt="">
                 </router-link>
               </Carousel-item>
               <Carousel-item>
                 <router-link to="" class="block">
-                  <img class="block" width="900" height="400" src="~assets/img/home/banner_03.jpg" alt="">
+                  <img class="block" width="900" height="400" src="~assets/img/buyer-show/buyer_show_banner_02.jpg" alt="">
                 </router-link>
               </Carousel-item>
               <Carousel-item>
                 <router-link to="" class="block">
-                  <img class="block" width="900" height="400" src="~assets/img/home/banner_04.jpg" alt="">
+                  <img class="block" width="900" height="400" src="~assets/img/buyer-show/buyer_show_banner_03.jpg" alt="">
                 </router-link>
               </Carousel-item>
             </Carousel>
@@ -89,8 +89,12 @@
                       <img :src="item.trialReportImages+'!thum200'" alt="" width="200" height="260"
                            @click="toTrialReport(item.showkerId,item.id)">
                     </div>
-                    <p v-show="item.likeCount !== 0" class=" top-heart clear" @click="clickPraise(item.id,index)">
-                      <Zan :iconType="item.whetherClick" :zanNumber='item.likeCount' :fontSize="zanFontSize"></Zan>
+                    <!--<p v-show="item.likeCount !== 0" class=" top-heart clear" @click="clickPraise(item.id,index)">-->
+                      <!--<Zan :iconType="item.whetherClick" :zanNumber='item.likeCount' :fontSize="zanFontSize"></Zan>-->
+                    <!--</p>-->
+                    <p style="color: #fff" class=" top-heart clear" v-show="item.likeCount !== 0">
+                      <Icon type="heart" class="left" style="font-size: 14px;margin-top: 2px"></Icon>
+                      <span class="left ml-5" >赞({{item.likeCount}})</span>
                     </p>
                     <p class="price clear">
                       <span class="left ellipsis">{{item.taskName}}</span>
@@ -130,7 +134,7 @@
                 <li v-for="(item,index) in getSuperBuyerShowList" :key="index" class="content cursor-p left pos-rel">
                   <router-link :to="{path:'/trial-report',query:{q:encryptionId(item.showkerId)}}">
                     <div style="height: 110px" class="text-ct">
-                      <img :src="getUserHead(item.portraitPic)" alt="" width="96">
+                      <img class="user-head" :src="getUserHead(item.portraitPic)" alt="" width="96">
                     </div>
                     <p class=" top-heart clear">
                       共发表({{item.num}})篇
@@ -175,7 +179,7 @@
                 </div>
                 <div class="clear bottom mt-20">
                   <a class="user-head-box">
-                    <img class="showker-portrait-pic cursor-p" width="48" height="48" :src="getUserHead(item.showkerPortraitPic)"
+                    <img @click="toTrialReportDetails(item.showkerId)" class="showker-portrait-pic cursor-p" width="48" height="48" :src="getUserHead(item.showkerPortraitPic)"
                          alt="">
                   </a>
                   <div class="left ml-10" style="margin-top: 5px">
@@ -232,7 +236,7 @@
         result: false,
       });
     },
-    name: 'home',
+    name: 'BuyerShow',
     components: {
       iButton: Button,
       Icon: Icon,
@@ -781,6 +785,9 @@
         vertical-align: middle;
         text-align: center;
         background-color: #F1F2F6;
+      }
+      .user-head{
+        border-radius: 50%;
       }
       .left-ctt {
         padding: 0 25px;

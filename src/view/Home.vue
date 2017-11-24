@@ -60,13 +60,17 @@
             </div>
             <div class="login-in-box" v-if="isLogin && getUserInfoRole　== 0">
               <div>
-                <router-link to="/user/user-home" class="left">
+                <!--<router-link to="/user/user-home" class="left">
                   <img class="block ml-20 portrait-img" :src="userHeadUrl" alt="">
-                </router-link>
+                </router-link>-->
+                <Tooltip content="上传自定义个性头像，可以提高活动申请通过率哦，点击修改头像！" placement="bottom" class="left">
+                  <router-link tag="img" to="/user/personal-setting/personal-account-info" width="56" :src="userHeadUrl" class="cursor-p"></router-link>
+                </Tooltip>
                 <div class="left fs-14 ml-20" style="margin-left: 10px;line-height: 28px;">
                   <router-link to="/user/personal-setting/personal-account-info" :title="decodeURIComponent(getUserInfoPhone)" class="ellipsis user-name">
                     Hi~ 秀客 {{decodeURIComponent(getUserInfoPhone)}}
                   </router-link>
+
                   <router-link to="/user/user-home">个人中心</router-link>
                   <a @click="goOut">[ 退出登录 ]</a>
                 </div>
@@ -179,7 +183,7 @@
               <div class="title clear">
                 <img  style="vertical-align: middle" src="~assets/img/home/top_mjx.png" alt="">
                 <span class="ml-10" style="font-size: 13px;color: #999;transform: translateY(2px)">给你最精彩</span>
-                <span class="right cursor-p" @click="getMoreBuyerShow = true">更多买家秀...</span>
+                <span class="right cursor-p" @click="toBuyerShow">更多买家秀...</span>
               </div>
               <ul class="clear" :class="[leftSlider ? 'slider-top-active-left' : 'slider-top-default-left']"
                   @mouseover="clearLeftSliderFunc()" @mouseleave="leftSliderFunc()">
@@ -859,6 +863,9 @@
       ...mapActions([
         'loggedOut'
       ]),
+      toBuyerShow(){
+        this.$router.push({path:'buyer-show'})
+      },
       getSearchPinkageFor10Task(){
         let self = this;
         let showkerId = '';

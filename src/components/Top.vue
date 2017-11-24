@@ -96,7 +96,11 @@
             <!--</i>-->
             <!--清仓断码-->
           <!--</a>-->
-          <a :class="[$store.state.activityCategory == 'buyer-show' ? 'active' : '']" @click="linkToBuyerShow('buyer-show')">买家秀</a>
+          <a :class="[$store.state.activityCategory == 'buyer-show' ? 'active' : '']" @click="linkToBuyerShow('buyer-show')">
+            <i style="position: absolute; top: -17px; left: 34px;">
+              <img src="/static/img/common/news.gif" alt="" >
+            </i>
+            买家秀</a>
         </div>
       </div>
     </div>
