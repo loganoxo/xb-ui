@@ -321,7 +321,7 @@
             <p>
               <img src="/static/img/icon/present_get_heart.png" alt="">
               <span class="fs-18 f-b cl57C78D">体验专区</span>
-              <span class="fs-12 cl666">商家附赠之赠品，需按照商家要求来下单。</span>
+              <span class="fs-12 cl666">为商家附赠的赠品，在淘宝上需按照商家要求拍下指定商品。</span>
               <router-link to="/task-category?activityCategory=present_get" class="cl666 right mr-20">更多></router-link>
             </p>
           </div>
@@ -1530,7 +1530,8 @@
         }
       }
       .home-commodity-ctt {
-        text-align: center;
+        text-align: left;
+        padding-left: 15px;
         .home-commodity-details {
           width: 180px;
           display: inline-block;
