@@ -348,11 +348,16 @@
                     </span>
                   </em>
                   <em  class="price-icon mt-10">
+                    <span v-if= "homeCommodity.activityCategory == 'pinkage_for_10'" style="padding: 0 4px; background: #ff9966; color: #fff; margin-left: 10px; display: inline-block;height: 20px;line-height: 20px;">10元包邮</span>
+                    <span v-if= "homeCommodity.activityCategory == 'present_get'" style="padding: 0 4px; background: #00cc66; color: #ffffff; margin-left: 10px; display: inline-block;height: 20px;line-height: 20px;">体验专区</span>
                     <span v-if="homeCommodity.activityCategory == 'price_low' && homeCommodity.discountPrice" class="left home-discount-price mt-5" :style="{backgroundColor: $store.state.discountPriceType[parseFloat(homeCommodity.discountPrice/100)].backgroundColor}" >
                       {{homeCommodity.discountPrice/100}}试用
                     </span>
                     <span v-if="homeCommodity.activityCategory == 'price_low' && homeCommodity.discountRate" class="left home-discount-price mt-5" :style="{backgroundColor: $store.state.discountPriceType[parseFloat(homeCommodity.discountRate/10) + '折'].backgroundColor}" >
                       {{homeCommodity.discountRate/10}}折试用
+                    </span>
+                    <span v-if="homeCommodity.activityCategory == 'goods_clearance' && homeCommodity.discountRate " class="left home-discount-price mt-5" :style="{backgroundColor: $store.state.discountPriceType[parseFloat(homeCommodity.discountRate/10) + '折'].backgroundColor}" >
+                      {{homeCommodity.discountRate/10}}折清仓
                     </span>
                   </em>
                 </p>
@@ -405,11 +410,16 @@
                     </span>
                   </em>
                   <em  class="price-icon mt-10">
+                    <span v-if= "pinkageFor.activityCategory == 'pinkage_for_10'" style="padding: 0 4px; background: #ff9966; color: #fff; margin-left: 10px; display: inline-block;height: 20px;line-height: 20px;">10元包邮</span>
+                    <span v-if= "pinkageFor.activityCategory == 'present_get'" style="padding: 0 4px; background: #00cc66; color: #ffffff; margin-left: 10px; display: inline-block;height: 20px;line-height: 20px;">体验专区</span>
                     <span v-if="pinkageFor.activityCategory == 'price_low' && pinkageFor.discountPrice" class="left home-discount-price mt-5" :style="{backgroundColor: $store.state.discountPriceType[parseFloat(pinkageFor.discountPrice/100)].backgroundColor}" >
                       {{pinkageFor.discountPrice/100}}试用
                     </span>
                     <span v-if="pinkageFor.activityCategory == 'price_low' && pinkageFor.discountRate" class="left home-discount-price mt-5" :style="{backgroundColor: $store.state.discountPriceType[parseFloat(pinkageFor.discountRate/10) + '折'].backgroundColor}" >
                       {{pinkageFor.discountRate/10}}折试用
+                    </span>
+                    <span v-if="pinkageFor.activityCategory == 'goods_clearance' && pinkageFor.discountRate " class="left home-discount-price mt-5" :style="{backgroundColor: $store.state.discountPriceType[parseFloat(pinkageFor.discountRate/10) + '折'].backgroundColor}" >
+                      {{pinkageFor.discountRate/10}}折清仓
                     </span>
                   </em>
                 </p>
