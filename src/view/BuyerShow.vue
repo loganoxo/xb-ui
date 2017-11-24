@@ -171,7 +171,7 @@
             <div class="con">
               <div class="pic" v-for="item in getALLTrialReport ">
                 <div class="pos-rel">
-                  <img width="220" class="cursor-p" v-lazy="item.trialReportImages" alt="" @click="toTrialReport(item.showkerId,item.id)">
+                  <img width="220" v-show="item.trialReportImages !== ''" class="cursor-p" v-lazy="item.trialReportImages" alt="" @click="toTrialReport(item.showkerId,item.id)">
                   <p class="mt-10 description pos-rel">
                     <span class="double-question-mark "></span>
                     <a class="des-text " style="margin-left: 26px;color: #666">{{item.trialReportText}}</a>
