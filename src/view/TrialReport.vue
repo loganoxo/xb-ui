@@ -4,6 +4,7 @@
         <div class="trial-left left">
           <div>
             <img class="user-head" :src="getUserHead(showkerInfo.portraitPic)" alt="" width="120" height="120">
+            <p v-show="showReportDesc === true" class=" fs-14 mt-10"> <a @click="showReportDesc = false;" >查看Ta的全部买家秀</a></p>
             <p class="fs-16 mt-10 mb-10">{{showkerInfo.phone}}</p>
             <img :src="creditLevel" alt="">
             <p>淘气值：{{tqz}}</p>
@@ -56,8 +57,7 @@
           <div v-if="showReportDesc && showkerReportDesc.task">
             <div class="fs-16 trial-account">
               {{showkerReportDesc.showkerPhone}}的买家秀
-              <a @click="showReportDesc = false;" class="right fs-14">查看Ta的全部买家秀</a>
-              <div class="right fs-14 mr-40" style="margin-top: -2px;">
+              <div class="right fs-14 " style="margin-top: -2px;">
                 分享精彩：<div v-html="copyHtml" style="display: inline-block;" ></div>
               </div>
             </div>
@@ -77,6 +77,12 @@
               </p>
               <p class="fs-14 cl000 mb-40">{{showkerReportDesc.trialReportText}}</p>
               <p class="fs-16">买家秀图片：</p>
+              <div class="zan-btn text-ct" @click="clickPraise" style="margin-top: -31px" v-show="showkerReportDesc.trialReportImages.length !== 0">
+                <zan
+                  :iconType="ZanIconType"
+                  :zanNumber = 'zanNumber'>
+                </zan>
+              </div>
               <div class="task-list-img-box">
                 <Carousel v-model="value3"
                           :autoplay="setting.autoplay"
@@ -439,7 +445,9 @@
     text-align: center;
   }
   .zan-btn{
+    width: 150px;
     line-height: 30px;
+    border-radius: 3px;
     background-color: $mainColor;
     margin: 4px auto;
     padding-top: 4px;

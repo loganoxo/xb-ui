@@ -28,8 +28,10 @@
               <span class="ml-5">买家秀排行榜</span>
             </div>
             <div v-for="(item,index) in getShowkerReportList" :key="index" class="content clear">
-              <span class="left fs-18">{{index + 1}}</span>
-              <img class="left ml-15" width="48px" :src="item.portrait" alt="">
+              <span :class="{ranking:index<3}" class="left fs-18 ">{{index + 1}}</span>
+              <div class="left ml-15 cursor-p" style="width: 48px" @click="toTrialReportDetails(item.uid)">
+                <img  width="48px" :src="item.portrait" alt="">
+              </div>
               <div class="left ml-10 ">
                 <p class="mt-5 fs-14">{{item.phone}}</p>
                 <p><span class="main-color">{{item.reportCount}}</span>篇买家秀，共获得<span class="main-color">{{item.likeCount}}</span>个赞
@@ -44,14 +46,14 @@
           <div class="content left clear">
             <img class="left" src="~assets/img/buyer-show/des_01.png" alt="">
             <div class="left  ml-15">
-              <p class="number">8863587位</p>
+              <p class="number">{{allShowerNum*5}}位</p>
               <p class="dsc">真实秀客入驻</p>
             </div>
           </div>
           <div class="content left clear">
             <img class="left" src="~assets/img/buyer-show/des_02.png" alt="">
             <div class="left  ml-15">
-              <p class="number">8863587位</p>
+              <p class="number">{{allReportNum*5}}篇</p>
               <p class="dsc">买家秀已发表</p>
             </div>
           </div>
@@ -87,7 +89,7 @@
                       <img :src="item.trialReportImages+'!thum200'" alt="" width="200" height="260"
                            @click="toTrialReport(item.showkerId,item.id)">
                     </div>
-                    <p class=" top-heart clear" @click="clickPraise(item.id,index)">
+                    <p v-show="item.likeCount !== 0" class=" top-heart clear" @click="clickPraise(item.id,index)">
                       <Zan :iconType="item.whetherClick" :zanNumber='item.likeCount' :fontSize="zanFontSize"></Zan>
                     </p>
                     <p class="price clear">
@@ -101,7 +103,7 @@
                   </p>
                   <div class="clear bottom mt-20">
                     <router-link :to="{path:'/trial-report',query:{q:encryptionId(item.showkerId)}}"
-                                 class="user-head-box"><img width="48" height="48"
+                                 class="user-head-box"><img width="48" height="48" class="showker-portrait-pic"
                                                             :src="getUserHead(item.showkerPortraitPic)" alt="">
                     </router-link>
                     <div class="left ml-10" style="margin-top: 5px">
@@ -127,28 +129,24 @@
               <ul class="clear">
                 <li v-for="(item,index) in getSuperBuyerShowList" :key="index" class="content cursor-p left pos-rel">
                   <router-link :to="{path:'/trial-report',query:{q:encryptionId(item.showkerId)}}">
-                    <div style="height: 180px" class="text-ct">
-                      <img :src="getUserHead(item.portraitPic)" alt="" width="140">
+                    <div style="height: 110px" class="text-ct">
+                      <img :src="getUserHead(item.portraitPic)" alt="" width="96">
                     </div>
                     <p class=" top-heart clear">
                       共发表({{item.num}})篇
                     </p>
                   </router-link>
-                  <p class=" description pos-rel text-ct">
-                    <span v-for="(value,key) in getShowkerTip(item.showkerTagsMap)" v-show="value >0"
-                          class="left mt-10 ">{{key}}{{value}}</span>
-                  </p>
                   <div class="clear bottom mt-10">
-                    <a class="user-head-box">
-                      <img class="showker-portrait-pic" width="48" height="48" :src="getUserHead(item.portraitPic)"
-                           alt="">
-                    </a>
-                    <div class="left ml-10" style="margin-top: 5px">
-                      <p style="color: #000">{{item.phone}}</p>
+                    <div class=" ml-10 text-ct" style="margin-top: 5px">
+                      <p  style="color: #000">{{item.phone}}</p>
                       <img :src="item.creditLevel" alt="">
                       <div class="text-ct"><span>淘气值：{{item.tqz}}</span></div>
                     </div>
                   </div>
+                  <p class=" description pos-rel text-ct">
+                    <span @click="toTrialReportDetails(item.showkerId)"  v-for="(value,key) in getShowkerTip(item.showkerTagsMap)" v-show="value >0"
+                          class="left mt-10 ">{{key}}{{value}}</span>
+                  </p>
                 </li>
               </ul>
             </div>
@@ -158,22 +156,26 @@
       <div class="container">
         <div class="buyer-show-all">
           <div class="title clear">
-            <img style="vertical-align: middle" src="~assets/img/buyer-show/buyer-show-allmjx.png" alt="">
-            <span class="ml-10" style="font-size: 13px;color: #999;transform: translateY(2px)">给你最精彩</span>
+            <img class="left" style="vertical-align: middle" src="~assets/img/buyer-show/buyer-show-allmjx.png" alt="">
+            <span  class="ml-10 left" style="font-size: 13px;color: #999;transform: translateY(2px)">给你最精彩</span>
+            <ul class="right clear">
+              <li @click="getALLTrialReportFun(null)" :class="{active:allReportClassifySelect === null }" class="left report-classify">全部分类</li>
+              <li @click="getALLTrialReportFun(item.name)" :class="{active:item.name === allReportClassifySelect }" class="left report-classify" v-for="item in navList">{{item.name}}</li>
+            </ul>
           </div>
           <div class="mt-10  ">
             <div class="con">
               <div class="pic" v-for="item in getALLTrialReport ">
                 <div class="pos-rel">
-                  <img width="220" :src="item.trialReportImages" alt="">
+                  <img width="220" v-lazy="item.trialReportImages" alt="" @click="toTrialReport(item.showkerId,item.id)">
                   <p class="mt-10 description pos-rel">
                     <span class="double-question-mark "></span>
-                    <a class="des-text " style="margin-left: 26px">{{item.trialReportText}}</a>
+                    <a class="des-text " style="margin-left: 26px;color: #666">{{item.trialReportText}}</a>
                   </p>
                 </div>
                 <div class="clear bottom mt-20">
                   <a class="user-head-box">
-                    <img class="showker-portrait-pic" width="48" height="48" :src="getUserHead(item.showkerPortraitPic)"
+                    <img class="showker-portrait-pic cursor-p" width="48" height="48" :src="getUserHead(item.showkerPortraitPic)"
                          alt="">
                   </a>
                   <div class="left ml-10" style="margin-top: 5px">
@@ -184,6 +186,8 @@
                 </div>
               </div>
             </div>
+            <div class="no-more-list" v-show="pageIndex === totalPages -1">没有更多内容了!</div>
+            <div class="no-more-list" v-show="getALLTrialReport.length === 0">暂无数据!</div>
           </div>
         </div>
       </div>
@@ -210,29 +214,19 @@
 
 <script>
   import Icon from 'iview/src/components/icon'
-  import Form from 'iview/src/components/form'
-  import Input from 'iview/src/components/input'
-  import Checkbox from 'iview/src/components/checkbox'
   import Button from 'iview/src/components/button'
-  import Radio from 'iview/src/components/radio'
   import Modal from 'iview/src/components/modal'
   import Tooltip from 'iview/src/components/tooltip'
   import Carousel from 'iview/src/components/carousel'
-  import SmsCountdown from '@/components/SmsCountdown'
   import Zan from '@/components/Zan'
   import api from '@/config/apiConfig'
-  import {setStorage, getStorage, encryption, removeStorage} from '@/config/utils'
+  import { encryption} from '@/config/utils'
   import {aliCallbackImgUrl} from '@/config/env'
   import {mapActions} from 'vuex'
-  import Waterfall from 'vue-waterfall/lib/waterfall'
-  import WaterfallSlot from 'vue-waterfall/lib/waterfall-slot'
 
   export default {
     beforeMount() {
       let self = this;
-      if (getStorage('weChartPop') == 1 && self.$store.state.userInfo.role == 0 && !getStorage('setWeChartshower' + self.$store.state.userInfo.phone)) {
-        self.weChartShowkerAlertFunc();
-      }
       self.$store.commit({
         type: 'SET_SHOW_TOP_CATEGORY_RES',
         result: false,
@@ -240,27 +234,16 @@
     },
     name: 'home',
     components: {
-      iInput: Input,
-      iForm: Form,
-      FormItem: Form.Item,
-      Checkbox: Checkbox,
-      CheckboxGroup: Checkbox.Group,
       iButton: Button,
       Icon: Icon,
-      SmsCountdown: SmsCountdown,
-      Radio: Radio,
       Modal: Modal,
       Carousel: Carousel,
       CarouselItem: Carousel.Item,
       Tooltip: Tooltip,
       Zan: Zan,
-      Waterfall: Waterfall,
-      WaterfallSlot: WaterfallSlot,
     },
     data() {
       return {
-        slotWith: '290',
-        slotHeight: '500',
         ZanIconType: 'ios-heart-outline',
         zanNumber: 0,
         zanFontSize: 12,
@@ -270,53 +253,30 @@
         getSuperBuyerShowList: [],
         reportRankList: [],
         getALLTrialReport: [],
+        getALLTrialReportLength:21,
         allReportNum: 0,
         allShowerNum: 0,
-        confirmRechargeModel: true,
-        command: '',
-        wechartAlertShow: false,
-        wechartShowAgain: [],
-        leftTopSliderTimer: '',
+        allReportClassifySelect:null,
+        itemCatalogname:'',
+        pageIndex:0,
+        totalPages:0,
         leftSliderTimer: '',
-        leftTopSlider: false,
         leftSlider: false,
-        trialCount: {},
-        homeCommodityList: [],
-        homeHistoryList: [],
-        homeDisCountList: [],
-        noticeActive: 'faq',
-        taskTopLeftList: [],
         navList: [],
         buyerShowList: [],
-        getMoreBuyerShow: false,
         homeCarousel: 0,
-
       }
     },
     created() {
-      if (this.$store.state.login) {
-        this.weChartAlertFunc();
-      }
       this.getNavList();
-      this.getHomeTaskList();
-      this.getHomeTaskTopLeftList();
-      this.personalTrialCount();
       this.getShowkerReportRank();
-      this.getShowkerNumber();
       this.getBuyerShowInformation();
       this.getReportRankListFun();
-      this.getALLTrialReportFun();
+      this.getALLTrialReportFun(null);
+      this.whetherGoToBotton();
     },
     destroyed() {
       let self = this;
-      self.$store.commit({
-        type: 'SET_WECHART_SHOW',
-        result: false
-      });
-      self.$store.commit({
-        type: 'SET_WECHART_RES',
-        result: false,
-      });
       self.$store.commit({
         type: 'SET_SHOW_TOP_CATEGORY_RES',
         result: true,
@@ -332,18 +292,10 @@
       getUserInfoRole() {
         return this.$store.state.userInfo.role
       },
-      getMemberDeadline() {
-        return this.$store.state.userInfo.memberDeadline
-      },
-      getMemberLevel() {
-        return this.$store.state.userInfo.memberLevel
-      },
-      userHeadUrl() {
-        return this.$store.getters.getUserHeadUrl
-      },
       getUserRole() {
         return this.$store.getters.getUserRole
       },
+
     },
     mounted: function () {
       this.$nextTick(function () {
@@ -357,15 +309,61 @@
       ...mapActions([
         'loggedOut'
       ]),
-
-      getShowkerNumber() {
-        let timestamp1 = Date.parse(new Date());
+      whetherGoToBotton(){
+        let self = this;
+        function getScrollTop(){
+          let scrollTop = 0, bodyScrollTop = 0, documentScrollTop = 0;
+          if(document.body){
+            bodyScrollTop = document.body.scrollTop;
+          }
+          if(document.documentElement){
+            documentScrollTop = document.documentElement.scrollTop;
+          }
+          scrollTop = (bodyScrollTop - documentScrollTop > 0) ? bodyScrollTop : documentScrollTop;
+          return scrollTop;
+        }
+        function getScrollHeight(){
+          let scrollHeight = 0, bodyScrollHeight = 0, documentScrollHeight = 0;
+          if(document.body){
+            bodyScrollHeight = document.body.scrollHeight;
+          }
+          if(document.documentElement){
+            documentScrollHeight = document.documentElement.scrollHeight;
+          }
+          scrollHeight = (bodyScrollHeight - documentScrollHeight > 0) ? bodyScrollHeight : documentScrollHeight;
+          return scrollHeight;
+        }
+        function getWindowHeight(){
+          let windowHeight = 0;
+          if(document.compatMode === "CSS1Compat"){
+            windowHeight = document.documentElement.clientHeight;
+          }else{
+            windowHeight = document.body.clientHeight;
+          }
+          return windowHeight;
+        }
+        window.onscroll = function(){
+          if(getScrollTop() + getWindowHeight() === getScrollHeight()){
+            if(self.pageIndex < self.totalPages-1 ){
+              self.pageIndex++;
+              self.allReportClassifySelect = self.itemCatalogname;
+              self.getALLTrialReportFun(self.itemCatalogname);
+            }
+          }
+        };
       },
       toTrialReport(showkerId, id) {
         let self = this;
         self.$router.push({
           path: '/trial-report',
           query: {q: encryption(showkerId), showReportDesc: true, id: encryption(id)}
+        });
+      },
+      toTrialReportDetails(showkerId) {
+        let self = this;
+        self.$router.push({
+          path: '/trial-report',
+          query: {q: encryption(showkerId)}
         });
       },
       getUserHead(src) {
@@ -420,26 +418,6 @@
           }
         })
       },
-      selTaskCategoryAllFunc() {
-        let self = this;
-        self.$store.commit({
-          type: 'TASK_CATEGORY_LIST',
-          info: 'all'
-        });
-        self.$router.push({'path': '/task-category', 'query': {'searchAll': 'yes'}});
-      },
-      selTaskCategoryActiveFunc(nav) {
-        let self = this;
-        self.$router.push({'path': '/task-category', 'query': {'cate': nav.id}});
-        self.$store.commit({
-          type: 'SET_DISCOUNT_TASK_CATEGORY',
-          result: false
-        });
-        self.$store.commit({
-          type: 'TASK_CATEGORY_LIST',
-          info: 'all',
-        });
-      },
       getNavList() {
         let self = this;
         api.getNavList().then((res) => {
@@ -467,134 +445,6 @@
         });
         setStorage('weChartPop', 2);
       },
-      weChartAlertFunc() {
-        let self = this;
-        api.checkWechartAlert().then((res) => {
-          if (res.status && getStorage('weChartPop') === 1) {
-            self.wechartAlertShow = true;
-            setStorage('weChartPop', 2)
-          } else {
-            self.wechartAlertShow = false;
-          }
-        })
-      },
-      setWeChartAlertFunc(role) {
-        let self = this;
-        let commandList = {
-          0: 1788,
-          1: 9188
-        };
-        if (self.command === '') {
-          self.$Message.error('口令不能为空');
-        } else {
-          if (parseInt(self.command) === parseInt(commandList[role])) {
-            self.setWechartAlert()
-          } else {
-            self.$Message.error('口令输入错误');
-          }
-        }
-      },
-      setWechartAlert() {
-        let self = this;
-        api.setWechartAlert({
-          command: self.command,
-        }).then((res) => {
-          if (res.status) {
-            self.wechartAlertShow = false;
-            self.$Message.success({
-              content: '恭喜您成功获得一个月VIP会员',
-              onClose: function () {
-                self.$store.dispatch('getUserInformation');
-              }
-            });
-          } else {
-            self.$Message.error(res.msg);
-          }
-        });
-      },
-      cancelWeiChartFunc() {
-        let self = this;
-        if (self.wechartShowAgain !== '') {
-          if (self.$store.state.userInfo.role === 1) {
-            api.noWechartAlert().then((res) => {
-              if (!res.status) {
-                self.$Message.error(res.msg)
-              }
-            })
-          } else {
-            setStorage('setWeChartshower' + self.$store.state.userInfo.phone, '1')
-          }
-        }
-        self.$store.commit({
-          type: 'SET_WECHART_SHOW',
-          info: false
-        });
-      },
-      goOut() {
-        let _this = this;
-        _this.loggedOut().then(res => {
-          if (res.status) {
-            _this.$router.push({name: 'login'})
-          } else {
-            _this.$Message.error(res.msg)
-          }
-        });
-      },
-      personalTrialCount() {
-        let self = this;
-        if (self.$store.state.login) {
-          if (self.getUserInfoRole === 0) {
-            api.showkerPersonalTrialCount().then((res) => {
-              if (res.status) {
-                self.trialCount = res.data
-              } else {
-                self.$Message.error({
-                  content: res.msg,
-                  duration: 9
-                });
-              }
-            })
-          } else {
-            api.sellerPersonalTrialCount().then((res) => {
-              if (res.status) {
-                self.trialCount = res.data
-              } else {
-                self.$Message.error({
-                  content: res.msg,
-                  duration: 9
-                });
-              }
-            })
-          }
-        }
-      },
-      getHomeTaskTopLeftList() {
-        let self = this;
-        api.getHomeTaskTopLeftList().then((res) => {
-          if (res.status) {
-            self.taskTopLeftList = res.data;
-
-          } else {
-
-          }
-        })
-      },
-      getHomeTaskList() {
-        let self = this;
-        api.getIndexRecommend().then((res) => {
-          if (res.status) {
-            if (res.data) {
-              self.homeCommodityList = res.data;
-            }
-          } else {
-            self.$Message.error({
-              content: res.msg,
-              duration: 9
-            });
-          }
-        })
-      },
-
       leftSliderFunc() {
         let self = this;
         self.leftSliderTimer = setInterval(function () {
@@ -651,9 +501,20 @@
           }
         })
       },
-      getALLTrialReportFun() {
+      getALLTrialReportFun(type) {
         let self = this;
-        api.getALLTrialReport().then(res => {
+        if (self.itemCatalogname !== type){
+          self.pageIndex = 0;
+          self.itemCatalogname = type;
+          self.getALLTrialReport = [];
+          self.getALLTrialReportLength = 0;
+        }
+        self.allReportClassifySelect = type;
+        api.getALLTrialReport({
+          itemCatalogname:self.itemCatalogname||null,
+          page:self.pageIndex,
+          size:16
+      }).then(res => {
           if (res.status) {
             for (let i = 0; i < res.data.length; i++) {
               if (JSON.parse(res.data[i].trialReportImages)[0]) {
@@ -661,10 +522,14 @@
               } else {
                 res.data[i].trialReportImages = '';
               }
-
             }
-            self.getALLTrialReport = res.data;
-            console.log(self.getALLTrialReport);
+            if (self.pageIndex>0){
+              self.getALLTrialReport =self.getALLTrialReport.concat( res.data);
+              self.getALLTrialReportLength  = self.getALLTrialReport.length;
+            }else {
+              self.getALLTrialReport = res.data;
+            }
+            self.totalPages = res.totalPages;
           } else {
             self.$Message.error(res.msg)
           }
@@ -681,7 +546,7 @@
 
   .con {
     width: 1160px;
-    margin: 60px auto;
+    margin: 0px auto;
     /*padding: 20px;*/
     -moz-column-count: 4;
     -moz-column-gap: 30px;
@@ -753,6 +618,9 @@
         vertical-align: middle;
         text-align: center;
         background-color: #F1F2F6;
+      }
+      .showker-portrait-pic {
+        transform: translateY(10px);
       }
       .left-ctt {
         padding: 0 25px;
@@ -873,6 +741,10 @@
           margin-top: 18px;
           > span {
             line-height: 48px;
+            color: #ADADAD;
+          }
+          .ranking{
+            color: #FF7B4E;
           }
         }
       }
@@ -914,7 +786,7 @@
         padding: 0 25px;
         background-color: #fff;
         width: 1200px;
-        height: 500px;
+        height: 350px;
         overflow: hidden;
         .title {
           padding: 15px 10px 10px 10px;
@@ -982,6 +854,26 @@
       .title {
         padding: 15px 10px 10px 10px;
         border-bottom: 1px solid #F6F6F6;
+        .report-classify{
+          padding: 0px 5px;
+          border-right: 1px solid #C6C6C6;
+          font-size: 13px;
+          cursor: pointer;
+          color: #C6C6C6;
+        }
+        .report-classify.active{
+          color: #000;
+        }
+        .report-classify:last-child{
+          border: none;
+        }
+      }
+      .no-more-list{
+        text-align: center;
+        padding: 20px;
+      }
+      .showker-portrait-pic {
+        transform: translateY(8px);
       }
       .content {
         padding: 15px 20px;
@@ -1008,9 +900,7 @@
           color: #666;
           margin-left: 26px;
         }
-        .showker-portrait-pic {
-          transform: translateY(8px);
-        }
+
       }
     }
 

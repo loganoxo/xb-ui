@@ -96,7 +96,7 @@
             <!--</i>-->
             <!--清仓断码-->
           <!--</a>-->
-          <a  @click="buyerShowPop = true">买家秀</a>
+          <a :class="[$store.state.activityCategory == 'buyer-show' ? 'active' : '']" @click="linkToBuyerShow('buyer-show')">买家秀</a>
         </div>
       </div>
     </div>

@@ -807,8 +807,8 @@ export default {
   /**
    * 获取所有买家秀
    */
-  getALLTrialReport() {
-    return fetch('/api/task/showker/getALLTrialReport.json')
+  getALLTrialReport(params) {
+    return fetch('/api/task/showker/getALLTrialReport.json',params)
   },
 
 }

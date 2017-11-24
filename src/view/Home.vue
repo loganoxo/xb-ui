@@ -188,7 +188,7 @@
                     <div style="height: 260px">
                       <img :src="item.trialReportImages+'!thum200'" alt="" width="200" height="260">
                     </div>
-                     <p class=" top-heart clear" >
+                     <p class=" top-heart clear" v-show="item.likeCount !== 0">
                        <Icon type="heart" class="left" style="font-size: 14px;margin-top: 2px"></Icon>
                        <span class="left ml-5" >赞({{item.likeCount}})</span>
                      </p>
