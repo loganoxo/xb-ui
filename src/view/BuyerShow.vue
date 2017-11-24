@@ -7,17 +7,17 @@
             <Carousel autoplay :autoplay-speed="5000" v-model="homeCarousel" loop>
               <Carousel-item>
                 <router-link to="" class="block">
-                  <img class="block" width="900" height="400" src="~assets/img/buyer-show/buyer_show_banner_01.jpg" alt="">
+                  <img class="block"  src="~assets/img/buyer-show/buyer_show_banner_01.jpg" alt="">
                 </router-link>
               </Carousel-item>
               <Carousel-item>
                 <router-link to="" class="block">
-                  <img class="block" width="900" height="400" src="~assets/img/buyer-show/buyer_show_banner_02.jpg" alt="">
+                  <img class="block" src="~assets/img/buyer-show/buyer_show_banner_02.jpg" alt="">
                 </router-link>
               </Carousel-item>
               <Carousel-item>
                 <router-link to="" class="block">
-                  <img class="block" width="900" height="400" src="~assets/img/buyer-show/buyer_show_banner_03.jpg" alt="">
+                  <img class="block" src="~assets/img/buyer-show/buyer_show_banner_03.jpg" alt="">
                 </router-link>
               </Carousel-item>
             </Carousel>
@@ -92,7 +92,7 @@
                     <!--<p v-show="item.likeCount !== 0" class=" top-heart clear" @click="clickPraise(item.id,index)">-->
                       <!--<Zan :iconType="item.whetherClick" :zanNumber='item.likeCount' :fontSize="zanFontSize"></Zan>-->
                     <!--</p>-->
-                    <p style="color: #fff" class=" top-heart clear" v-show="item.likeCount !== 0">
+                    <p style="color: #ff6600;background-color:#fff;border-color: #fff"  class=" top-heart clear" v-show="item.likeCount !== 0">
                       <Icon type="heart" class="left" style="font-size: 14px;margin-top: 2px"></Icon>
                       <span class="left ml-5" >赞({{item.likeCount}})</span>
                     </p>
@@ -720,7 +720,8 @@
     .home-section {
       margin: 10px auto 0 auto;
       .middle-ctt {
-        width: 900px;
+        width: 899px;
+        overflow: hidden;
       }
       .right-ctt {
         float: right;
@@ -811,7 +812,7 @@
             .top-heart {
               position: absolute;
               top: 5px;
-              right: 0px;
+              right: -15px;
               background-color: #FF6633;
               border: 1px solid #FF6633;
               color: #fff;
