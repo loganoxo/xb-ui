@@ -19,7 +19,7 @@
     <Tooltip placement="left" :always="always" :transfer="true" :disabled="disabled" class="mt-10 display-block" v-if="isLogin && getUserRole === 0">
       <div class="side-box side-box-bg qq"></div>
       <div slot="content">
-        <p class="pt-10">产品客服：<a href="http://shang.qq.com/wpa/qunwpa?idkey=a5e370e72edddbc2b9edc58d9517719b97d32a6683ef4faa0675c52bf494d9d1" class="qq-refer-logo" target="_blank"></a></p>
+        <p class="pt-10">产品客服：<a href="http://shang.qq.com/wpa/qunwpa?idkey=c8b3150dbd8821f50cced9a08831de701636de9ae107e707114150d0050df9a4" class="qq-refer-logo" target="_blank"></a></p>
         <p class="mt-20">咨询时间：周一至周五</p>
         <p class="text-align-rt mt-5">9:00 --- 18:00</p>
       </div>

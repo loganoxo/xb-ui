@@ -25,10 +25,10 @@
           <span >482437157</span>
           <span style="color: #000">(内幕玩法抢先得)</span>
         </a>
-        <a v-if="getUserInfo.role == 0" target="_blank" href="http://shang.qq.com/wpa/qunwpa?idkey=a5e370e72edddbc2b9edc58d9517719b97d32a6683ef4faa0675c52bf494d9d1" class="ml-10 qq-tip">
+        <a v-if="getUserInfo.role == 0" target="_blank" href="http://shang.qq.com/wpa/qunwpa?idkey=c8b3150dbd8821f50cced9a08831de701636de9ae107e707114150d0050df9a4" class="ml-10 qq-tip">
           <img src="~assets/img/common/qq.png" alt="" >
           加入QQ交流群：
-          <span >643014216</span>
+          <span >478360486</span>
           <span style="color: #000">(第一时间抢便宜)</span>
         </a>
       </p>
@@ -40,10 +40,6 @@
         <span class="user-name">
           <router-link to="/sel-role">免费注册</router-link>
         </span>
-        <!--<a href="" class="ml-10 qq-tip">-->
-          <!--<img src="~assets/img/common/qq.png" alt="" >-->
-          <!--加入QQ交流群：<span>478732305</span>-->
-        <!--</a>-->
       </p>
       <p class="right">
         <router-link to="/">
