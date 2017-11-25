@@ -758,13 +758,12 @@
   import Button from 'iview/src/components/button'
   import Radio from 'iview/src/components/radio'
   import Modal from 'iview/src/components/modal'
-  import Poptip from 'iview/src/components/poptip'
   import {Select, Option, OptionGroup} from 'iview/src/components/select'
   import Upload from '@/components/upload'
   import Steps from 'iview/src/components/steps'
   import PayModel from '@/components/PayModel'
   import api from '@/config/apiConfig'
-  import {setStorage, getStorage, encryption,removeStorage} from '@/config/utils'
+  import {setStorage, getStorage, encryption, removeStorage} from '@/config/utils'
   import {aliCallbackImgUrl} from '@/config/env'
   import {aliUploadImg, isNumber, isInteger, isAliUrl, randomString, extendDeep, decode} from '@/config/utils'
 
@@ -789,7 +788,6 @@
       OptionGroup: OptionGroup,
       Modal: Modal,
       PayModel: PayModel,
-      Poptip: Poptip,
     },
     data() {
       return {
@@ -951,11 +949,7 @@
         this.editTaskId = taskId;
         this.getTaskInfo();
       }
-      if(getStorage('showInsideAgainRes')){
-        this.showInsideRes = false;
-      }else {
-        this.showInsideRes = true;
-      }
+      this.showInsideRes = !getStorage('showInsideAgainRes');
     },
     computed: {
       /**
@@ -1074,7 +1068,7 @@
       selCategoryTaskFunc(showInside){
         let self = this;
         self.$refs[showInside].click();
-        if(self.showInsideAgainRes[0] == 'true'){
+        if(self.showInsideAgainRes[0] === 'true'){
           setStorage('showInsideAgainRes',1);
         }
         self.showInsideRes = false;
@@ -1088,7 +1082,7 @@
       closeShowInsideFunc(){
         let  self = this;
         self.showInsideRes = false;
-        if(self.showInsideAgainRes[0] == 'true'){
+        if(self.showInsideAgainRes[0] === 'true'){
           setStorage('showInsideAgainRes',1);
         }
       },
