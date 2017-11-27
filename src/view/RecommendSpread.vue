@@ -55,7 +55,7 @@
         </div>
         <div class="right spread-right">
           <div class="mt-10">
-            <p v-for="(ranking, index) in rankingList">
+            <p v-for="(ranking, index) in rankingList" v-show="ranking.reward">
               <span  class="one" :class="[index <= 2 ? 'active' : '' ]">{{index + 1}}</span>
               <span class="two" :class="[index <= 2 ? 'active' : '' ]">{{ranking.phone}}</span>
               <span class="three" :class="[index <= 2 ? 'active' : '' ]">￥{{ranking.reward/100 || 0}}</span>
