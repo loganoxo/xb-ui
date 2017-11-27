@@ -242,7 +242,7 @@
       margin-right: 140px;
       width: 370px;
       p{
-        line-height: 30px;
+        line-height: 25px;
         span{
           display: inline-block;
           font-size: 14px;
