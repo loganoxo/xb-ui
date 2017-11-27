@@ -92,11 +92,14 @@
                   <time-down color='#ff4040' :fontWeight=600 :endTime="item.currentGenerationEndTime"></time-down>
                 </p>
               </div>
-              <div class="mt-5 main-color" v-if="item.status === 'trial_report_unqualified'">
+              <div class="mt-5 main-color cursor-p" v-if="item.status === 'trial_report_unqualified'">
                 <Tooltip :content="item.auditDescription" placement="top">
                   <Icon color="#f60" type="information-circled"></Icon>
                   <span>报告不合格</span>
                 </Tooltip>
+                <p>
+                  <time-down color='#ff4040' :fontWeight=600 :endTime="item.currentGenerationEndTime"></time-down>
+                </p>
               </div>
               <div class="mt-5 main-color cursor-p" v-if="item.status === 'trial_end'">
                 <Tooltip :content="item.trialEndReason === 'admin_manual_close' ? getTaskStatus(item.trialEndReason) +'：'+ item.auditDescription : getTaskStatus(item.trialEndReason)" placement="top">
@@ -115,7 +118,7 @@
               <p v-if="item.status === 'pass_and_unclaimed'" class="operation mt-5"
                  @click="openAuditOrder(item.id, item.taskType, item.activityCategory)">填订单号</p>
               <p v-if="item.status === 'order_num_error'" class="operation mt-5"
-                 @click="openAuditOrderModify(item.id,item.taskType, item.activityCategory,item.orderNum,item.orderPrice)">修改订单号</p>
+                 @click="openAuditOrderModify(item.id, item.taskType, item.activityCategory, item.orderNum, item.orderPrice, item.status, item.statusDesc, item.auditDescription)">修改订单号</p>
               <p v-if="item.status === 'trial_report_waiting_confirm' || item.status === 'trial_finished'" class="operation mt-5"
                  @click="lookReportInfo(item.id)">查看买家秀详情</p>
               <p v-if="item.status === 'trial_finished'" class="operation mt-5">
@@ -143,13 +146,21 @@
         <span class="left">去下单</span>
         <span class="right mr-30" @click="returnUpPage">返回上页</span>
       </div>
-      <div class="commodity-info clear mt-20">
-        <div class="commodity-img left">
-          <img :src="taskPlaceInfo.taskMainImage + '!thum54'" alt="">
+      <div class="commodity-info mt-20">
+        <div class="clear">
+          <div class="commodity-img left">
+            <img :src="taskPlaceInfo.taskMainImage + '!thum54'" alt="">
+          </div>
+          <div class="commodity-text left ml-5">
+            <p>{{taskPlaceInfo.taskName}}</p>
+            <p class="mt-15">总份数<strong>&nbsp;{{taskPlaceInfo.taskCount || 0}}&nbsp;</strong>，宝贝单价<strong>&nbsp;{{taskPlaceInfo.itemPrice / 100 || 0}}&nbsp;</strong>元</p>
+          </div>
         </div>
-        <div class="commodity-text left ml-5">
-          <p>{{taskPlaceInfo.taskName}}</p>
-          <p class="mt-15">总份数<strong>&nbsp;{{taskPlaceInfo.taskCount || 0}}&nbsp;</strong>，宝贝单价<strong>&nbsp;{{taskPlaceInfo.itemPrice / 100 || 0}}&nbsp;</strong>元</p>
+        <div class="mt-10">
+          <strong>当前流程状态：</strong>
+          <Icon v-if="showkerTask.status === 'order_num_error'" type="information-circled" color="#f60"></Icon>
+          <span :class="[showkerTask.status === 'order_num_error' ? 'main-color': '']">{{showkerTask.statusDesc}}</span>
+          <strong class="ml-10" v-if="showkerTask.status === 'order_num_error'">原因：{{showkerTask.latestShowkerTaskOpLog.auditDescription}}</strong>
         </div>
       </div>
       <place-order-step :taskPlaceInfo="taskPlaceInfo" :currentGenerationEndTime="showkerTask.currentGenerationEndTime"></place-order-step>
@@ -187,9 +198,11 @@
           <span>元</span>
         </p>
         <p>
-          <span>订单状态：</span>
-          <span>{{getTaskStatus(showkerTask.status)}}</span>
-          <span class="main-color"><time-down color='#ff4040' :fontWeight=600 :endTime="showkerTask.currentGenerationEndTime"></time-down></span>
+          <strong>当前流程状态：</strong>
+          <Icon v-if="showkerTask.status === 'trial_report_unqualified'" type="information-circled" color="#f60"></Icon>
+          <span :class="[showkerTask.status === 'trial_report_unqualified' ? 'main-color': '']">{{getTaskStatus(showkerTask.status)}}</span>
+          <strong v-if="showkerTask.status === 'trial_report_unqualified'" class="ml-10">原因：{{showkerTask.latestShowkerTaskOpLog.auditDescription}}</strong>
+          <span class="main-color ml-10"><time-down color='#ff4040' :fontWeight=600 :endTime="showkerTask.currentGenerationEndTime"></time-down></span>
         </p>
       </div>
       <div class="precautions-info mt-10" v-if="showkerTask.task.remark">
@@ -209,8 +222,7 @@
       </div>
       <div class="experience mt-22">
         <p class="mb-10">活动过程与体验：</p>
-        <iInput v-model="trialReportText" type="textarea" :autosize="{minRows: 5,maxRows: 5}"
-                placeholder="请填写在试用过程中，对于宝贝的真实使用体会及感受，可以和淘宝上的宝贝评价一致"></iInput>
+        <iInput v-model="trialReportText" type="textarea" :autosize="{minRows: 5,maxRows: 12}" placeholder="请填写在试用过程中，对于宝贝的真实使用体会及感受，可以和淘宝上的宝贝评价一致"></iInput>
       </div>
       <div class="experience-img mt-22">
         <p class="mb-10">买家秀图片：（请上传宝贝试用和体验的相关图片，不是淘宝好评的截图。图片支持jpg、jpeg、png、gif、bmp格式，大小不超过10M）</p>
@@ -258,6 +270,12 @@
         <p class="tip-title mt-20">
           <span>注意：订单号及实付金额提交后商家审核前不能修改，请正确填写！</span>
         </p>
+        <div class="ml-45 mt-15">
+          <strong>当前流程状态：</strong>
+          <Icon v-if="currentOrderStatusInfo.status === 'order_num_error'" type="information-circled" color="#f60"></Icon>
+          <span :class="[currentOrderStatusInfo.status === 'order_num_error' ? 'main-color': '']">{{currentOrderStatusInfo.statusDesc}}</span>
+          <strong class="ml-10" v-if="currentOrderStatusInfo.status === 'order_num_error'">原因：{{currentOrderStatusInfo.auditDescription}}</strong>
+        </div>
         <div class="mt-20 ml-45">
           <span>请输入订单号：</span>
           <iInput v-model="affirmOrderNumber" style="width: 300px;"></iInput>
@@ -380,6 +398,7 @@
         orderType: null,
         taskOrderType: null,
         activityCategory: null,
+        currentOrderStatusInfo: {}
       }
     },
     mounted() {
@@ -502,12 +521,14 @@
       closeAuditOrder() {
         this.showAuditOrderNumber = false;
       },
-      openAuditOrderModify(id, type, activityCategory,orderNum,orderPrice){
-        console.log(orderPrice);
+      openAuditOrderModify(id, type, activityCategory,orderNum,orderPrice,status,statusDesc,auditDescription){
         this.affirmOrderNumber = orderNum;
         this.payMoney = orderPrice;
         this.orderType = type;
         this.activityCategory = activityCategory;
+        this.currentOrderStatusInfo.status = status;
+        this.currentOrderStatusInfo.statusDesc = statusDesc;
+        this.currentOrderStatusInfo.auditDescription = auditDescription;
         this.showAuditOrderNumber = true;
         if (id && !this.itemId) {
           this.itemId = id;
@@ -572,6 +593,7 @@
               data.currentGenerationEndTime = item.currentGenerationEndTime;
               data.orderNum = item.orderNum;
               data.status = item.status;
+              data.statusDesc = item.statusDesc;
               data.trialEndReason = item.trialEndReason;
               data.taskMainImage = item.task.taskMainImage;
               data.taskName = item.task.taskName;

@@ -160,8 +160,6 @@
         }
         let newId = getUrlParams(this.verificationLink, 'id');
         let oldId = getUrlParams(this.taskPlaceInfo.itemUrl, 'id');
-        console.log(newId);
-        console.log(oldId);
         this.verificationLinkStatus = newId === oldId ? 'success' : 'error';
       }
     }

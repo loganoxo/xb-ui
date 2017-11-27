@@ -397,11 +397,9 @@
     methods: {
       beginTimeFun(e){
         this.beginTime = e;
-        console.log('111:'+this.beginTime);
       },
       endTimeFun(e){
         this.endTime = e;
-        console.log('222:'+this.endTime);
       },
       changePageShow(type){
         this.pageIndex = 0 ;

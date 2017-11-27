@@ -51,9 +51,11 @@
       </div>
     </div>
     <div class="list-sort clear">
+      <Select v-model="activityCategory" size="small" style="width:108px" class="left mr-10" placeholder="全部类型活动" @on-change="changeActivityCategory">
+        <Option v-for="item in activityTypeList" :value="item.value" :key="item.value">{{ item.label }}</Option>
+      </Select>
       <ButtonGroup class="left">
-        <iButton :class="[sortList.select === item.sortField ? 'active' : '']" size="small"
-                 v-for="(item,index) in sortList.defaultList" :key="index" @click="sortChange(item.sortField,index)">
+        <iButton :class="[sortList.select === item.sortField ? 'active' : '']" size="small" v-for="(item,index) in sortList.defaultList" :key="index" @click="sortChange(item.sortField,index)">
           <span>{{item.name}}</span>
           <Icon v-show="item.sort == 'desc'" type="arrow-down-c"></Icon>
           <Icon v-show="item.sort == 'asc' " type="arrow-up-c"></Icon>
@@ -61,7 +63,7 @@
       </ButtonGroup>
       <iInput v-model="taskNumber" size="small" placeholder="使用活动编号搜索" class="left ml-10" style="width: 280px;"
               @on-enter="getTaskList">
-        <iButton slot="append" icon="ios-search" size="small" :loading="searchLoading" @click="seacrhTaskList"></iButton>
+        <iButton slot="append" icon="ios-search" size="small" :loading="searchLoading" @click="searchTaskList"></iButton>
       </iInput>
     </div>
     <!--管理列表-->
@@ -305,6 +307,7 @@
   import Button from 'iview/src/components/button'
   import Input from 'iview/src/components/input'
   import Tooltip from 'iview/src/components/tooltip'
+  import {Select, Option} from 'iview/src/components/select'
   import PayModel from '@/components/PayModel'
   import api from '@/config/apiConfig'
   import {TaskErrorStatusList, getSeverTime, encryption, decode} from '@/config/utils'
@@ -321,6 +324,8 @@
       Modal: Modal,
       iInput: Input,
       Tooltip: Tooltip,
+      Select: Select,
+      Option: Option,
       PayModel: PayModel
     },
     data() {
@@ -351,6 +356,33 @@
         taskSettlementDetailInfo: {},
         title: null,
         taskNumber: null,
+        activityCategory: null,
+        activityTypeList: [
+          {
+            value: null,
+            label: '全部类型活动'
+          },
+          {
+            value: 'free_get',
+            label: '免费领'
+          },
+          {
+            value: 'pinkage_for_10',
+            label: '10元包邮'
+          },
+          {
+            value: 'present_get',
+            label: '体验专区'
+          },
+          {
+            value: 'price_low',
+            label: '白菜价'
+          },
+          /*{
+            value: '"goods_clearance',
+            label: '清仓断码'
+          },*/
+        ],
         sortList: {
           select: 'createTime',
           defaultList: [
@@ -425,7 +457,11 @@
         this.sortList.defaultList[index].sort = sort === 'desc' ? 'asc' : 'desc';
         this.getTaskList(name, this.sortList.defaultList[index].sort);
       },
-      seacrhTaskList()  {
+      searchTaskList()  {
+        this.pageIndex = 1;
+        this.getTaskList();
+      },
+      changeActivityCategory() {
         this.pageIndex = 1;
         this.getTaskList();
       },
@@ -444,6 +480,7 @@
           taskNumber: _this.taskNumber,
           orderBy: orderBy ? orderBy : 'createTime',
           sort: sort ? sort : 'desc',
+          activityCategory: _this.activityCategory,
           pageIndex: _this.pageIndex,
           pageSize: _this.pageSize
         }).then(res => {

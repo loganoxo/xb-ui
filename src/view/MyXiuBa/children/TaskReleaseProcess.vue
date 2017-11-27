@@ -393,7 +393,7 @@
                 <p class="sizeColor2 ml-80 mt-6">宝贝参考位置页数差值最大值不大于3页（如果PC端排名在10页以后， 可使用下面的卡条件功能）</p>
               </div>
               <div class="screen-condition ml-45 mt-20 clear">
-                <span class="left">刷选条件：</span>
+                <span class="left">筛选条件：</span>
                 <div class="left ml-5">
                   <Checkbox-group v-model="PcTaskDetail.searchFilter">
                     <Checkbox label="pinkage">
@@ -758,13 +758,12 @@
   import Button from 'iview/src/components/button'
   import Radio from 'iview/src/components/radio'
   import Modal from 'iview/src/components/modal'
-  import Poptip from 'iview/src/components/poptip'
   import {Select, Option, OptionGroup} from 'iview/src/components/select'
   import Upload from '@/components/upload'
   import Steps from 'iview/src/components/steps'
   import PayModel from '@/components/PayModel'
   import api from '@/config/apiConfig'
-  import {setStorage, getStorage, encryption,removeStorage} from '@/config/utils'
+  import {setStorage, getStorage, encryption, removeStorage} from '@/config/utils'
   import {aliCallbackImgUrl} from '@/config/env'
   import {aliUploadImg, isNumber, isInteger, isAliUrl, randomString, extendDeep, decode} from '@/config/utils'
 
@@ -789,7 +788,6 @@
       OptionGroup: OptionGroup,
       Modal: Modal,
       PayModel: PayModel,
-      Poptip: Poptip,
     },
     data() {
       return {
@@ -951,11 +949,7 @@
         this.editTaskId = taskId;
         this.getTaskInfo();
       }
-      if(getStorage('showInsideAgainRes')){
-        this.showInsideRes = false;
-      }else {
-        this.showInsideRes = true;
-      }
+      this.showInsideRes = !getStorage('showInsideAgainRes');
     },
     computed: {
       /**
@@ -1074,7 +1068,7 @@
       selCategoryTaskFunc(showInside){
         let self = this;
         self.$refs[showInside].click();
-        if(self.showInsideAgainRes[0] == 'true'){
+        if(self.showInsideAgainRes[0] === 'true'){
           setStorage('showInsideAgainRes',1);
         }
         self.showInsideRes = false;
@@ -1088,7 +1082,7 @@
       closeShowInsideFunc(){
         let  self = this;
         self.showInsideRes = false;
-        if(self.showInsideAgainRes[0] == 'true'){
+        if(self.showInsideAgainRes[0] === 'true'){
           setStorage('showInsideAgainRes',1);
         }
       },

@@ -534,11 +534,10 @@
           sortField: self.searchTaskParams.sortField,
           sortOrder: self.searchTaskParams.sortOrder,
           showkerId: showkerId,
-          ifAccess: self.searchTaskParams.ifAccess == '' ? '' : true,
+          ifAccess: self.searchTaskParams.ifAccess === '' ? '' : true,
           discountTypes: self.searchTaskParams.discountTypes ? JSON.stringify(self.searchTaskParams.discountTypes) : '',
           activityCategories: self.searchTaskParams.activityCategories ? JSON.stringify(self.searchTaskParams.activityCategories) : '',
         };
-        console.log(option);
         api.getSearchTask(option).then((res) => {
           window.scrollTo(0, 0);
           if(res.status){
