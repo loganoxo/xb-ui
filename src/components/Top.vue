@@ -102,7 +102,7 @@
             </i>
             买家秀</a>
         </div>
-        <router-link  v-if="!($store.state.userInfo.role == 0)" class="seller-enter" style="background-color: #FF3600; color: #fff; float: right" to="/seller-adv">
+        <router-link  v-if="!($store.state.userInfo.role == 0)" class="seller-enter" style="background-color: #FBEF81; color: #B7723E; float: right; font-weight: bold;" to="/seller-adv">
           商家入驻必读
         </router-link>
       </div>
