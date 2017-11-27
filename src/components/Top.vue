@@ -39,7 +39,7 @@
           </div>
         </div>
         <router-link  to="/recommend-spread" class="seller-guide">
-          <!--<img src="/static/img/common/recommend_spread.gif" alt="">-->
+          <img src="/static/img/common/recommend_spread.gif" alt="">
         </router-link>
       </div>
     </div>
