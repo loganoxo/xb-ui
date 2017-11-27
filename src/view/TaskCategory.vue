@@ -534,7 +534,7 @@
           sortField: self.searchTaskParams.sortField,
           sortOrder: self.searchTaskParams.sortOrder,
           showkerId: showkerId,
-          ifAccess: self.searchTaskParams.ifAccess === '' ? '' : true,
+          ifAccess: self.searchTaskParams.ifAccess == '' ? false : true,
           discountTypes: self.searchTaskParams.discountTypes ? JSON.stringify(self.searchTaskParams.discountTypes) : '',
           activityCategories: self.searchTaskParams.activityCategories ? JSON.stringify(self.searchTaskParams.activityCategories) : '',
         };
