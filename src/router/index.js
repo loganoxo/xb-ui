@@ -76,7 +76,7 @@ export default new Router({
       name: 'Home',
       component: Home,
       meta: {
-        title: "秀吧-提权重促转化",
+        title: "",
         logInAuthority: false,
         topShow: true,
         bottomShow: true,
