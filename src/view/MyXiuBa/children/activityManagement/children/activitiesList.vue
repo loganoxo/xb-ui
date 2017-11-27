@@ -51,9 +51,9 @@
       </div>
     </div>
     <div class="list-sort clear">
-      <Select v-model="activityCategory" size="small" style="width:108px" class="left mr-10" placeholder="全部类型活动" @on-change="changeActivityCategory">
-        <Option v-for="item in activityTypeList" :value="item.value" :key="item.value">{{ item.label }}</Option>
-      </Select>
+      <iSelect v-model="activityCategory" size="small" style="width:108px" class="left mr-10" placeholder="全部类型活动" @on-change="changeActivityCategory">
+        <iOption v-for="item in activityTypeList" :value="item.value" :key="item.value">{{ item.label }}</iOption>
+      </iSelect>
       <ButtonGroup class="left">
         <iButton :class="[sortList.select === item.sortField ? 'active' : '']" size="small" v-for="(item,index) in sortList.defaultList" :key="index" @click="sortChange(item.sortField,index)">
           <span>{{item.name}}</span>
@@ -85,6 +85,7 @@
           <td colspan="7">
             <span>活动编号：{{item.number || '------'}}</span>
             <span class="ml-10">创建时间：{{item.createTime | dateFormat('YYYY-MM-DD hh:mm:ss') || '----'}}</span>
+            <span class="ml-10">活动类型：{{item.activityCategoryDesc}}</span>
           </td>
         </tr>
         <tr>
@@ -324,8 +325,8 @@
       Modal: Modal,
       iInput: Input,
       Tooltip: Tooltip,
-      Select: Select,
-      Option: Option,
+      iSelect: Select,
+      iOption: Option,
       PayModel: PayModel
     },
     data() {
@@ -359,7 +360,7 @@
         activityCategory: null,
         activityTypeList: [
           {
-            value: null,
+            value: '',
             label: '全部类型活动'
           },
           {

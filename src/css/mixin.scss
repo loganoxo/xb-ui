@@ -15,7 +15,7 @@ $secondColor: #FF9966;
 }
 
 //弹框内容框
-@mixin fullScreenModelCon($width, $height, $borderColor:#fff, $borderRadius:5px,$backgroundColor:#fff) {
+@mixin fullScreenModelCon($width, $height:100%, $borderColor:#fff, $borderRadius:5px,$backgroundColor:#fff) {
   position: absolute;
   top: 40%;
   left: 50%;

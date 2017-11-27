@@ -267,16 +267,16 @@
     <div class="audit-order-number-model" v-if="showAuditOrderNumber">
       <div class="audit-order-number-con showSweetAlert">
         <i class="close-model right mr-10" @click="closeAuditOrder">&times;</i>
-        <p class="tip-title mt-20">
+        <p class="tip-title mt-10">
           <span>注意：订单号及实付金额提交后商家审核前不能修改，请正确填写！</span>
         </p>
-        <div class="ml-45 mt-15">
+        <div class="ml-45 mt-15 pr-20">
           <strong>当前流程状态：</strong>
           <Icon v-if="currentOrderStatusInfo.status === 'order_num_error'" type="information-circled" color="#f60"></Icon>
           <span :class="[currentOrderStatusInfo.status === 'order_num_error' ? 'main-color': '']">{{currentOrderStatusInfo.statusDesc}}</span>
           <strong class="ml-10" v-if="currentOrderStatusInfo.status === 'order_num_error'">原因：{{currentOrderStatusInfo.auditDescription}}</strong>
         </div>
-        <div class="mt-20 ml-45">
+        <div class="mt-10 ml-45">
           <span>请输入订单号：</span>
           <iInput v-model="affirmOrderNumber" style="width: 300px;"></iInput>
           <iButton @click="orderImg = true">什么是订单号？</iButton>
@@ -297,7 +297,7 @@
           <iInput v-model.number="payMoney" style="width: 120px;"></iInput>
           <span class="ml-5">元</span>
         </p>
-        <div class="submit-btn mt-40" @click="saveOrUpdateOrderNumber">确认提交</div>
+        <div class="submit-btn mt-20" @click="saveOrUpdateOrderNumber">确认提交</div>
       </div>
     </div>
     <!--删除活动确认弹框-->

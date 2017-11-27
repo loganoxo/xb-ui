@@ -195,7 +195,7 @@
     .audit-order-number-model {
       @include fullScreenModel;
       .audit-order-number-con {
-        @include fullScreenModelCon(600px, 308px);
+        @include fullScreenModelCon(600px, 320px);
       }
       i.close-model {
         font-size: 32px;
