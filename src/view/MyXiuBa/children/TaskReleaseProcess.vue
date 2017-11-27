@@ -501,7 +501,7 @@
                 <p class="sizeColor2 ml-80 mt-6">位置统一切换为一列展示后，在数位置。（如果移动端排名在100名以后，可使用下面的卡条件功能）</p>
               </div>
               <div class="screen-condition ml-45 mt-20 clear">
-                <span class="left">刷选条件：</span>
+                <span class="left">筛选条件：</span>
                 <div class="left ml-5">
                   <Checkbox-group v-model="AppTaskDetail.searchFilter">
                     <Checkbox label="pinkage">
