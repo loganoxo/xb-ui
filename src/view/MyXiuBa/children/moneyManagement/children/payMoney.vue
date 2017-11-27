@@ -61,7 +61,7 @@
       </p>
       <div style="text-align:center">
         <p style="height: 10px;"></p>
-        <p class="fs-14">系统正在维护中！</p>
+        <p class="fs-14">支付宝充值系统正在维护中，请稍后再试！</p>
         <p style="height: 10px;"></p>
       </div>
       <div slot="footer">
