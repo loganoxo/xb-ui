@@ -680,7 +680,7 @@
     </div>
 
     <!--引导弹框开始-->
-      <div v-show="showInsideRes" style="position: fixed; padding: 20px; height: 520px; margin-top: -260px; border-radius: 10px; width: 780px; left: 50%; top: 50%; margin-left: -390px; background-color: #F18C6B; z-index: 2;">
+      <div v-show="showInsideRes" style="position: fixed; padding: 20px; height: 520px; margin-top: -260px; border-radius: 10px; width: 780px; left: 50%; top: 50%; margin-left: -390px; background-color: #ff9675; z-index: 2;">
         <p class="text-align-rt">
           <span @click="closeShowInsideFunc" class="fs-24 right" style="color: #fff; cursor: pointer;">&times;</span>
           <Checkbox-group class="right mt-6" v-model="showInsideAgainRes">
