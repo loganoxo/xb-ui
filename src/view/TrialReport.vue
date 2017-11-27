@@ -347,7 +347,9 @@
           if(res.status){
             self.showkerReportDesc = res.data;
             self.zanNumber = res.data.other.likeCount;
-            self.whetherClickPraise();
+            if (self.getWhetherLogin){
+              self.whetherClickPraise();
+            }
             self.showkerReportDesc.trialReportImages = JSON.parse(self.showkerReportDesc.trialReportImages);
             let trialReportImages = null;
             if(self.showkerReportDesc.trialReportImages.length > 0){

@@ -25,6 +25,7 @@ const UserHome = r => require.ensure([], () => r(require('@/view/MyXiuBa/childre
 const VipMember = r => require.ensure([], () => r(require('@/view/MyXiuBa/children/VipMember.vue')), 'VipMember');
 const Recommend = r => require.ensure([], () => r(require('@/view/MyXiuBa/children/Recommend.vue')), 'Recommend');
 const TaskReleaseProcess = r => require.ensure([], () => r(require('@/view/MyXiuBa/children/TaskReleaseProcess.vue')), 'TaskReleaseProcess');
+const rechargeMoney = r => require.ensure([], () => r(require('@/view/MyXiuBa/children/rechargeMoney.vue')), 'rechargeMoney');
 
 const ActivityManagement = r => require.ensure([], () => r(require('@/view/MyXiuBa/children/activityManagement/index.vue')), 'ActivityManagement');
 const ActivitiesList = r => require.ensure([], () => r(require('@/view/MyXiuBa/children/activityManagement/children/activitiesList.vue')), 'ActivityManagement');
@@ -291,6 +292,18 @@ export default new Router({
             bottomShow: true,
           }
         },
+        {
+          path: 'recharge-money',
+          name: 'rechargeMoney',
+          component: rechargeMoney,
+          meta: {
+            title: "充值测试",
+            logInAuthority: true,
+            topShow: true,
+            bottomShow: true,
+          }
+        },
+
         {
           path: 'recommend',
           name: 'Recommend',

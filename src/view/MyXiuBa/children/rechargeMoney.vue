@@ -18,13 +18,12 @@
               <img src="~assets/img/task-release/zfb_logo.png" alt="支付宝" class="vtc-mid">
             </Radio>
             <!--<Radio label="weiXin">-->
-              <!--<img src="~assets/img/task-release/wechat_logo.png" class="vtc-mid">-->
+            <!--<img src="~assets/img/task-release/wechat_logo.png" class="vtc-mid">-->
             <!--</Radio>-->
           </Radio-group>
         </Form-item>
         <Form-item>
-          <!--<iButton class="payMoneyBtn" @click="balanceOrderCreate()">提交</iButton>-->
-          <iButton class="payMoneyBtn" @click="stopRecharge = true">提交</iButton>
+          <iButton class="payMoneyBtn" @click="balanceOrderCreate()">提交</iButton>
           <Modal v-model="payPopWindow" width="360"
                  :styles="{top:'310px',height:'300px'}">
             <div style="text-align:center">
@@ -54,20 +53,6 @@
         </Form-item>
       </iForm>
     </div>
-    <Modal v-model="stopRecharge" width="360">
-      <p slot="header" style="color:#f60;text-align:center">
-        <Icon type="information-circled"></Icon>
-        <span>系统维护</span>
-      </p>
-      <div style="text-align:center">
-        <p style="height: 10px;"></p>
-        <p class="fs-14">系统正在维护中！</p>
-        <p style="height: 10px;"></p>
-      </div>
-      <div slot="footer">
-        <iButton type="error" size="large" long @click="stopRecharge = false" >确定</iButton>
-      </div>
-    </Modal>
     <div class="common-question">
       <h2>常见问题</h2>
       <div class="mt-10">
@@ -90,7 +75,7 @@
   import {aliPayUrl,weiXinPayUrl} from '@/config/env'
 
   export default {
-    name: 'MoneyManagement',
+    name: 'rechargeMoney',
     components: {
       Radio: Radio,
       RadioGroup: Radio.Group,
@@ -115,7 +100,6 @@
         }
       };
       return {
-        stopRecharge:false,
         payMoney: {
           number: '',
           payMode: 'ali',
