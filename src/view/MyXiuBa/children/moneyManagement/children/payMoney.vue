@@ -23,8 +23,8 @@
           </Radio-group>
         </Form-item>
         <Form-item>
-          <!--<iButton class="payMoneyBtn" @click="balanceOrderCreate()">提交</iButton>-->
-          <iButton class="payMoneyBtn" @click="stopRecharge = true">提交</iButton>
+          <iButton class="payMoneyBtn" @click="balanceOrderCreate()">提交</iButton>
+          <!--<iButton class="payMoneyBtn" @click="stopRecharge = true">提交</iButton>-->
           <Modal v-model="payPopWindow" width="360"
                  :styles="{top:'310px',height:'300px'}">
             <div style="text-align:center">
@@ -54,7 +54,7 @@
         </Form-item>
       </iForm>
     </div>
-    <Modal v-model="stopRecharge" width="360">
+    <!--<Modal v-model="stopRecharge" width="360">
       <p slot="header" style="color:#f60;text-align:center">
         <Icon type="information-circled"></Icon>
         <span>系统维护</span>
@@ -67,7 +67,7 @@
       <div slot="footer">
         <iButton type="error" size="large" long @click="stopRecharge = false" >确定</iButton>
       </div>
-    </Modal>
+    </Modal>-->
     <div class="common-question">
       <h2>常见问题</h2>
       <div class="mt-10">

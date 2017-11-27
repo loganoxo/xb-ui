@@ -6,12 +6,13 @@
           <div class="ml-20 mt-10">注意：请<span>务必使用选中的旺旺号完成浏览，收藏，加购</span>,否则资格审核将无法通过</div>
           <Radio-group v-model="selectedWw" class="ml-20 mt-10">
             <Radio v-for="ww in WwNumberLIst " :label="ww.id" :key="ww.id" :disabled="ww.status !==2">
-
               <span :class="[ww.status !=2 ? 'cl999':'']">{{ww.alitmAccount}}</span>
               <span v-if="wwState[ww.status].text" :class="[ww.status !=2 ? 'cl999':'']">({{wwState[ww.status].text}})</span>
             </Radio>
           </Radio-group>
         </div>
+
+
         <PlaceOrderStep :taskPlaceInfo="taskDetail" ></PlaceOrderStep>
         <div class="screen-shot mt-22 clear" >
           <span class="serial-number">3</span>
