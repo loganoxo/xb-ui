@@ -151,7 +151,6 @@
 
     .commodity-info {
       padding: 15px 0 15px 10px;
-      height: 88px;
       background-color: #F8F8F8;
       border: 1px solid #F2F2F2;
     }
