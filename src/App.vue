@@ -8,7 +8,7 @@
     <side-navigation></side-navigation>
     <!--侧边栏固定联系客服图片展示-->
     <div class="suspend-service" v-show="showSuspendService" v-if="isLogin">
-      <a href="http://shang.qq.com/wpa/qunwpa?idkey=c8b3150dbd8821f50cced9a08831de701636de9ae107e707114150d0050df9a4" target="_blank" v-if="getUserRole === 1">
+      <a href="http://shang.qq.com/wpa/qunwpa?idkey=310381a34c0c64a722030d3857865867ac141a57a9a235df3667ef5bcbe58435" target="_blank" v-if="getUserRole === 1">
         <img src="~assets/img/common/suspend-service.png" alt="">
       </a>
       <a href="http://shang.qq.com/wpa/qunwpa?idkey=c8b3150dbd8821f50cced9a08831de701636de9ae107e707114150d0050df9a4" target="_blank" v-else>

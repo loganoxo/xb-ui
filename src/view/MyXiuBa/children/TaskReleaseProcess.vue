@@ -319,7 +319,7 @@
             <div class="evaluation-requirements ml-15 mt-20 clear">
               <span class="left mt-5 required">淘宝评价要求：</span>
               <div class="left">
-                <RadioGroup v-model="taskRelease.itemReviewRequired" :vertical="true">
+                <RadioGroup v-model="taskRelease.itemReviewRequired" :vertical="true" @on-change="changeSelectEvaluation">
                   <Radio label="review_by_showker_self">
                     <span>由秀客自主发挥（秀客自主发挥评价更客观更真实。<span class="main-color">选择此项不可因主观喜好对评价结果有异议。</span>）</span>
                   </Radio>
@@ -1586,7 +1586,13 @@
             index: i,
           });
         }
-      }
+      },
+      changeSelectEvaluation() {
+        this.taskRelease.itemReviewSummary = null;
+        this.itemReviewList.map(item =>{
+          item.value = '';
+        })
+      },
     }
   }
 </script>
