@@ -202,8 +202,8 @@ export default {
   /**
    * 首页推荐
    */
-  getIndexRecommend() {
-    return fetch("/api/task/index/recommend.json")
+  getIndexRecommend(params) {
+    return fetch("/api/task/index/recommend.json", params)
   },
 
   /**
@@ -763,12 +763,6 @@ export default {
     return fetch('/api/task/index/history.json')
   },
 
-  /**
-   * PC首页历史活动接口
-   */
-  getHomeDisCountList() {
-    return fetch('/api/task/index/discount.json')
-  },
 
   /**
    * 检测商家遮罩层是否显示

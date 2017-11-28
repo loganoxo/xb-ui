@@ -48,7 +48,7 @@
         <div class="top-category">
           <p class=" text-ct">
             <Icon type="navicon" style="font-size: 20px;margin-top: 2px"></Icon>
-            <span class="ml-5">活动分类</span>
+            <span class="ml-5">宝贝类目</span>
           </p>
           <ul class="top-category-list" v-if="$store.state.showTopCategoryRes">
             <li  v-if="nav.name != '美食/特产' && nav.name != '其它试用'" :class="[$store.state.TaskCategoryActive == nav.id ? 'active' : '']" @click="selTaskCategoryActiveFunc(nav)" v-for="nav in navList" >

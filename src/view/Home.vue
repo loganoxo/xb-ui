@@ -664,6 +664,7 @@
       return {
         confirmRechargeModel:true,
         command: '',
+        recommendPageSize: 6,
         wechartAlertShow: false,
         wechartShowAgain: [],
         leftTopSliderTimer: '',
@@ -870,59 +871,41 @@
       },
       getSearchPinkageFor10Task(){
         let self = this;
-        let showkerId = '';
-        let option = {
-          pageIndex: self.searchTaskParams.pageIndex,
-          pageSize: self.searchTaskParams.pageSize,
-          taskName: self.searchTaskParams.taskName,
-          taskTypes: JSON.stringify(self.searchTaskParams.taskTypes),
-          itemCatalogs: JSON.stringify(self.searchTaskParams.itemCatalogs),
-          sortField: self.searchTaskParams.sortField,
-          sortOrder: self.searchTaskParams.sortOrder,
-          showkerId: showkerId,
-          ifAccess: self.searchTaskParams.ifAccess == '' ? '' : true,
-          discountTypes: self.searchTaskParams.discountTypes ? JSON.stringify(self.searchTaskParams.discountTypes) : '',
-          activityCategories: JSON.stringify(['pinkage_for_10']),
-        };
-        api.getSearchTask(option).then((res) => {
-          if(res.status){
-            self.pinkageFor10 = res.data;
-            self.$set(self.pinkageFor10);
-          }else {
+        api.getIndexRecommend({
+          count: 6,
+          activityCategory: JSON.stringify(['pinkage_for_10']),
+        }).then((res) => {
+          if (res.status) {
+            if (res.data) {
+              self.pinkageFor10 = res.data;
+              self.$set(self.pinkageFor10);
+            }
+          } else {
             self.$Message.error({
               content: res.msg,
               duration: 9
             });
           }
-        })
+        });
       },
       getSearchPresentGetTask(){
         let self = this;
-        let showkerId = '';
-        let option = {
-          pageIndex: self.searchTaskParams.pageIndex,
-          pageSize: self.searchTaskParams.pageSize,
-          taskName: self.searchTaskParams.taskName,
-          taskTypes: JSON.stringify(self.searchTaskParams.taskTypes),
-          itemCatalogs: JSON.stringify(self.searchTaskParams.itemCatalogs),
-          sortField: self.searchTaskParams.sortField,
-          sortOrder: self.searchTaskParams.sortOrder,
-          showkerId: showkerId,
-          ifAccess: self.searchTaskParams.ifAccess == '' ? '' : true,
-          discountTypes: self.searchTaskParams.discountTypes ? JSON.stringify(self.searchTaskParams.discountTypes) : '',
-          activityCategories: JSON.stringify(['present_get']),
-        };
-        api.getSearchTask(option).then((res) => {
-          if(res.status){
-            self.presentGet = res.data;
-            self.$set(self.presentGet);
-          }else {
+        api.getIndexRecommend({
+          count: 6,
+          activityCategory: JSON.stringify(['present_get']),
+        }).then((res) => {
+          if (res.status) {
+            if (res.data) {
+              self.presentGet = res.data;
+              self.$set(self.presentGet);
+            }
+          } else {
             self.$Message.error({
               content: res.msg,
               duration: 9
             });
           }
-        })
+        });
       },
       getUserHead(src) {
         if (src && src.indexOf('head-image') >= 0) {
@@ -960,7 +943,7 @@
       },
       selTaskCategoryActiveFunc(nav){
         let self = this;
-        self.$router.push({ 'path': '/task-category', 'query': {'cate': nav.id}});
+        self.$router.push({ 'path': '/task-category', 'query': {'cate': nav.id,}});
         self.$store.commit({
           type: 'SET_DISCOUNT_TASK_CATEGORY',
           result: false
@@ -1112,10 +1095,13 @@
       },
       getHomeTaskList() {
         let self = this;
-        api.getIndexRecommend().then((res) => {
+        api.getIndexRecommend({
+          count: 6,
+          activityCategory: '',
+        }).then((res) => {
           if (res.status) {
             if (res.data) {
-              self.homeCommodityList = res.data.splice(0,6);
+              self.homeCommodityList = res.data;
             }
           } else {
             self.$Message.error({
@@ -1152,16 +1138,19 @@
       },
       getHomeDisCountList(){
         let self = this;
-        api.getHomeDisCountList().then((res) => {
-          if(res.status){
-            res.data ? self.homeDisCountList = res.data.splice(0,6) : self.homeDisCountList = [];
-          }else {
+        api.getIndexRecommend({
+          count: 6,
+          activityCategory: JSON.stringify(['price_low']),
+        }).then((res) => {
+          if (res.status) {
+            res.data ? self.homeDisCountList = res.data: self.homeDisCountList = [];
+          } else {
             self.$Message.error({
               content: res.msg,
               duration: 9
             });
           }
-        })
+        });
       },
       leftTopSliderFunc(){
         let self = this;
