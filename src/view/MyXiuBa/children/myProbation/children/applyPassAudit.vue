@@ -350,7 +350,7 @@
   import DatePicker from 'iview/src/components/date-picker'
   import Tooltip from 'iview/src/components/tooltip'
   import Modal from 'iview/src/components/modal'
-  import Clipboard from 'clipboard';
+  import Clipboard from 'clipboard'
   import Upload from '@/components/upload'
   import TimeDown from '@/components/TimeDown'
   import PlaceOrderStep from '@/components/PlaceOrderStep'
