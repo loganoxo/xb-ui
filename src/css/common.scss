@@ -103,6 +103,10 @@ input[type="number"] {
   vertical-align: bottom;
 }
 
+.vtc-sup {
+  vertical-align: super;
+}
+
 .vtc-text-btm {
   vertical-align: text-bottom;
 }
@@ -450,6 +454,7 @@ input[type="number"] {
   margin: 10px 0;
   padding: 0 10px;
 }
+
 .part-title-img-box{
   width: 270px;
   height: 30px;
@@ -463,6 +468,7 @@ input[type="number"] {
     text-align: center;
   }
 }
+
 /*RegionPicker css start*/
 .region-picker{
   width: 482px;

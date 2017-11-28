@@ -1,10 +1,10 @@
 /**
- * Created by ycb on 2017/5/5.
- * 配置开发环境和生产环境之间地址的切换
+ * 配置开发环境和生产环境变量
  * aliTokenUrl: 阿里云请求node临时token接口地址
  * bucket: 阿里云存储域地址
  * aliCallbackImgUrl: 拼接阿里云图片外网链接地址（前缀）
  * aliPayUrl: 支付宝充值地址
+ * weiXinPayUrl: 微信充值地址
  */
 
 const domain = window.location.protocol + '//' + window.location.host;

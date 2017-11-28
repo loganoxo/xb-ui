@@ -193,7 +193,7 @@
             </div>
             <div class="baby-number ml-45 mt-20">
               <span class="required">宝贝数量：</span>
-              <iInput v-model="taskRelease.taskCount" placeholder="请输入宝贝数量" style="width: 120px"></iInput>
+              <iInput v-model="taskRelease.taskCount" placeholder="请输入宝贝数量" style="width: 120px" @on-change="addItemReviewList"></iInput>
               <span>份</span>
             </div>
             <div class="baby-price ml-45 mt-20">
@@ -316,6 +316,29 @@
                    v-show="taskRelease.activityCategory === 'present_get'">建议商家备注中明确说明：“请勿在淘宝中评价及晒图！”，若未注明，秀客在淘宝中进行评价或晒图后可能会影响主宝贝的评价情况。</p>
               </div>
             </div>
+            <div class="evaluation-requirements ml-15 mt-20 clear">
+              <span class="left mt-5 required">淘宝评价要求：</span>
+              <div class="left">
+                <RadioGroup v-model="taskRelease.itemReviewRequired" :vertical="true">
+                  <Radio label="review_by_showker_self">
+                    <span>由秀客自主发挥（秀客自主发挥评价更客观更真实。<span class="main-color">选择此项不可因主观喜好对评价结果有异议。</span>）</span>
+                  </Radio>
+                  <Radio label="offer_review_summary">
+                    <span>有个大概要求（可以写下评价的大概要求，因每个人理解不一样，可能评价结果会与期望有偏差。<span class="main-color">选择此项不可因主观喜好对评价结果有异议。</span>）</span>
+                  </Radio>
+                  <iInput v-if="taskRelease.itemReviewRequired === 'offer_review_summary'" v-model="taskRelease.itemReviewSummary" class="mb-10" type="textarea" :autosize="{minRows: 1,maxRows: 3}" placeholder="请输入你的评价要求，如：需晒图/勿晒图、希望出现的关键词等~"></iInput>
+                  <Radio label="assign_review_detail">
+                    <span>我来提供评价内容（秀客将直接拷贝亲提供的评价内容在淘宝上进行评价，每个名额需要提供一份评价内容。）</span>
+                  </Radio>
+                </RadioGroup>
+                <div class="afford-evaluation-list mt-10" v-if="taskRelease.itemReviewRequired === 'assign_review_detail' && taskRelease.taskCount > 0">
+                  <p v-for="(item,index) in itemReviewList">
+                    <span class="vtc-sup">{{'评价' + item.index}}：</span>
+                    <iInput v-model="item.value" class="mb-10" type="textarea" :autosize="{minRows: 1,maxRows: 3}" placeholder="请输入你的评价内容" style="width: 620px;"></iInput>
+                  </p>
+                </div>
+              </div>
+            </div>
             <div class="product-introduction ml-45 mt-20">
               <span class="left ml-5">商品简介：</span>
               <quill-editor ref="myTextEditor"
@@ -325,9 +348,8 @@
                             @focus="onEditorFocus($event)"
                             @ready="onEditorReady($event)">
               </quill-editor>
-              <form action="" method="post" enctype="multipart/form-data" id="uploadFormMulti">
-                <input style="display: none" :id="uniqueId" type="file" name="avator" multiple
-                       accept="image/jpg,image/jpeg,image/png,image/gif" @change="uploadImg">
+              <form method="post" enctype="multipart/form-data" id="uploadFormMulti">
+                <input style="display: none" :id="uniqueId" type="file" name="avator" multiple accept="image/jpg,image/jpeg,image/png,image/gif" @change="uploadImg">
               </form>
             </div>
           </div>
@@ -354,9 +376,7 @@
                     <Icon type="camera" size="20"></Icon>
                   </div>
                 </Upload>
-                <p
-                  class="sizeColor pl-60 mt-10">
-                  点击或者拖拽自主上传图片，支持jpg \ jpeg \ png \ gif \ bmp格式，最佳尺寸400*400（像素），不超过1M，可与宝贝主图一致</p>
+                <p class="sizeColor pl-60 mt-10">点击或者拖拽自主上传图片，支持jpg \ jpeg \ png \ gif \ bmp格式，最佳尺寸400*400（像素），不超过1M，可与宝贝主图一致</p>
               </div>
               <div class="search-keyword mt-20 ml-28">
                 <span class="required">搜索关键词：</span>
@@ -871,7 +891,10 @@
           remark: null,
           itemDescription: '',
           taskId: null,
-          taskDetail: {}
+          taskDetail: {},
+          itemReviewRequired: 'review_by_showker_self',
+          itemReviewSummary: null,
+          itemReviewAssignString: [],
         },
         discountDisabled: {
           discount_0: {
@@ -928,6 +951,8 @@
         taskStatus: null,
         editTaskId: null,
         getMemberStatus: null,
+        itemReviewList: [],
+        itemReviewPushList: [],
       }
     },
     mounted() {
@@ -1242,6 +1267,21 @@
           _this.$Message.warning('亲，请选择试用折扣！');
           return;
         }
+        if(_this.taskRelease.itemReviewRequired === 'offer_review_summary' && !_this.taskRelease.itemReviewSummary){
+          _this.$Message.warning('亲，请填写你对评价的大概要求！');
+          return;
+        }
+        if(_this.itemReviewList.length > 0){
+          _this.itemReviewList.forEach(item =>{
+            if(item.value !== ''){
+              _this.itemReviewPushList.push(item.value);
+            }
+          })
+        }
+        if(_this.taskRelease.itemReviewRequired === 'assign_review_detail' && _this.itemReviewPushList.length < _this.taskRelease.taskCount){
+          _this.$Message.warning('亲，请填写你要提供的评价内容！');
+          return;
+        }
         if (_this.taskRelease.taskType === 'pc_search') {
           if (!_this.PcTaskDetail.itemMainImage) {
             _this.$Message.warning('亲，请上传PC搜索宝贝主图！');
@@ -1325,6 +1365,7 @@
       },
       taskCreate(type) {
         let _this = this;
+        _this.taskRelease.itemReviewAssignString = JSON.stringify(_this.itemReviewPushList);
         let pcTaskDetail = extendDeep(_this.PcTaskDetail);
         let appTaskDetail = extendDeep(_this.AppTaskDetail);
         switch (_this.taskRelease.taskType) {
@@ -1416,6 +1457,15 @@
                   _this.taskRelease[k] = res.data[i];
                 }
               }
+            }
+            let itemReviewAssignsData = res.data.itemReviewAssigns;
+            if(itemReviewAssignsData){
+              itemReviewAssignsData.forEach((item,index) => {
+                _this.itemReviewList.push({
+                  index: index + 1,
+                  value: item.reviewContent
+                })
+              })
             }
             _this.taskRelease.itemPrice = _this.taskRelease.itemPrice / 100;
             _this.taskRelease.taskDetail = {};
@@ -1525,6 +1575,15 @@
           }
         })
       },
+      addItemReviewList() {
+        this.itemReviewList = [];
+        for(let i =1; i <= this.taskRelease.taskCount; i++){
+          this.itemReviewList.push({
+            value: '',
+            index: i,
+          });
+        }
+      }
     }
   }
 </script>
@@ -1869,6 +1928,10 @@
   }
   .active-text{
     background-color: #000;
+  }
+  .afford-evaluation-list{
+    max-height: 250px;
+    overflow-y: auto;
   }
 </style>
 

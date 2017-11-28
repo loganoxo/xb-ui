@@ -116,7 +116,7 @@
               <p v-if="item.status === 'trial_report_unqualified'" class="operation"
                  @click="changePassOperation('report','amend',item.id)">修改买家秀</p>
               <p v-if="item.status === 'pass_and_unclaimed'" class="operation mt-5"
-                 @click="openAuditOrder(item.id, item.taskType, item.activityCategory)">填订单号</p>
+                 @click="openAuditOrder(item.id, item.taskType, item.activityCategory, item.status, item.statusDesc, item.auditDescription)">填订单号</p>
               <p v-if="item.status === 'order_num_error'" class="operation mt-5"
                  @click="openAuditOrderModify(item.id, item.taskType, item.activityCategory, item.orderNum, item.orderPrice, item.status, item.statusDesc, item.auditDescription)">修改订单号</p>
               <p v-if="item.status === 'trial_report_waiting_confirm' || item.status === 'trial_finished'" class="operation mt-5"
@@ -165,7 +165,7 @@
       </div>
       <place-order-step :taskPlaceInfo="taskPlaceInfo" :currentGenerationEndTime="showkerTask.currentGenerationEndTime"></place-order-step>
       <div class="write-order-number mt-20">
-        <span @click="openAuditOrder(null,orderType)">下单完成，填订单号</span>
+        <span @click="openAuditOrder(null,orderType, null, showkerTask.status, showkerTask.statusDesc, showkerTask.latestShowkerTaskOpLog.auditDescription)">下单完成，填订单号</span>
         <span class="ml-35" @click="returnUpPage">返回上页</span>
       </div>
     </div>
@@ -212,13 +212,36 @@
           <span>{{showkerTask.task.remark}}</span>
         </p>
       </div>
-      <div class="precautions-tip-info mt-20">
+      <div class="precautions-tip-info mt-20" v-if="showkerTask.task.itemReviewRequired === 'review_by_showker_self'">
         <Icon type="information-circled" color="#FF0100"></Icon>
         <span class="sizeColor3">注意：</span>
+        <span>亲收到货后记得</span>
+        <span class="sizeColor3">在淘宝</span>
+        <span>给出好评哦，</span>
         <span>商家若有备注</span>
         <span class="sizeColor3">“勿晒图”</span>
         <span>的，</span>
         <span class="sizeColor3">请勿在淘宝评价中晒图片！</span>
+      </div>
+      <div class="precautions-tip-info mt-20" v-if="showkerTask.task.itemReviewRequired === 'offer_review_summary'">
+        <Icon type="information-circled" color="#FF0100"></Icon>
+        <span class="sizeColor3">注意：</span>
+        <span>商家希望亲</span>
+        <span class="sizeColor3">在淘宝</span>
+        <span>从以下角度进行评价！</span>
+      </div>
+      <div class="evaluation-content-tip" v-if="showkerTask.task.itemReviewRequired === 'offer_review_summary'">{{showkerTask.task.itemReviewSummary}}</div>
+      <div class="precautions-tip-info mt-20" v-if="showkerTask.task.itemReviewRequired === 'assign_review_detail'">
+        <Icon type="information-circled" color="#FF0100"></Icon>
+        <span class="sizeColor3">注意：</span>
+        <span>商家要求</span>
+        <span class="sizeColor3">在淘宝</span>
+        <span>使用下方提供的内容进行评价，为避免纠纷，</span>
+        <span class="sizeColor3">请务必按照要求操作！</span>
+      </div>
+      <div class="evaluation-content-tip-assign mt-10" v-if="showkerTask.task.itemReviewRequired === 'assign_review_detail'">
+        <div id="copyEvaluation">{{showkerTask.other.itemReviewAssign.reviewContent}}</div>
+        <div class="copy-evaluation-tbn mt-10" id="copyEvaluationBtn">复制评价内容</div>
       </div>
       <div class="experience mt-22">
         <p class="mb-10">活动过程与体验：</p>
@@ -327,6 +350,7 @@
   import DatePicker from 'iview/src/components/date-picker'
   import Tooltip from 'iview/src/components/tooltip'
   import Modal from 'iview/src/components/modal'
+  import Clipboard from 'clipboard';
   import Upload from '@/components/upload'
   import TimeDown from '@/components/TimeDown'
   import PlaceOrderStep from '@/components/PlaceOrderStep'
@@ -418,6 +442,19 @@
       } else {
         _this.showkerSuccessList();
       }
+      _this.$nextTick(() => {
+        let clipboard = new Clipboard('#copyEvaluationBtn', {
+          target: () => document.getElementById('copyEvaluation')
+        });
+        clipboard.on('success', () => {
+          _this.$Message.success("复制评价内容成功！");
+          clipboard.destroy();
+        });
+        clipboard.on('error', () => {
+          _this.$Message.error("复制评价内容失败！");
+          clipboard.destroy();
+        });
+      })
     },
     computed: {
       pcOrApp: function () {
@@ -521,7 +558,7 @@
       closeAuditOrder() {
         this.showAuditOrderNumber = false;
       },
-      openAuditOrderModify(id, type, activityCategory,orderNum,orderPrice,status,statusDesc,auditDescription){
+      openAuditOrderModify(id,type,activityCategory,orderNum,orderPrice,status,statusDesc,auditDescription){
         this.affirmOrderNumber = orderNum;
         this.payMoney = orderPrice;
         this.orderType = type;
@@ -534,11 +571,14 @@
           this.itemId = id;
         }
       },
-      openAuditOrder(id, type, activityCategory) {
+      openAuditOrder(id,type,activityCategory,status,statusDesc,auditDescription) {
         this.affirmOrderNumber = null;
         this.payMoney = null;
         this.orderType = type;
         this.activityCategory = activityCategory;
+        this.currentOrderStatusInfo.status = status;
+        this.currentOrderStatusInfo.statusDesc = statusDesc;
+        this.currentOrderStatusInfo.auditDescription = auditDescription;
         this.showAuditOrderNumber = true;
         if (id && !this.itemId) {
           this.itemId = id;

@@ -271,7 +271,6 @@
     }
 
     .precautions-tip-info{
-      width: 520px;
       height: 36px;
       line-height: 36px;
       border: 1px solid #FFB9B8;
@@ -294,6 +293,27 @@
       p {
         font-size: 14px;
       }
+    }
+    .evaluation-content-tip{
+      padding: 15px 10px;
+      background-color: #F8F8F8;
+      border: 1px solid #F2F2F2;
+    }
+    .evaluation-content-tip-assign{
+      background-color: #FFF4F1;
+      border: 1px solid #FFB9B8;
+      padding: 15px 10px;
+    }
+    .copy-evaluation-tbn{
+      width: 112px;
+      height: 22px;
+      line-height: 22px;
+      background-color: #fff;
+      border: 1px solid #f60;
+      color: #f60;
+      border-radius: 5px;
+      cursor: pointer;
+      text-align: center;
     }
   }
 </style>
