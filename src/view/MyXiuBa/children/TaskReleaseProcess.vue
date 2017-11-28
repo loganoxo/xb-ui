@@ -68,7 +68,7 @@
         </div>
         <div v-show="taskRelease.activityCategory === 'price_low'">
           <div class="pop-tip-arrow price-low"></div>
-          <div>秀客以9.9元、49.9元、99.9元及1折、3折、5折的价格购买宝贝，该活动也可适当降低活动成本，但更重要的是帮助商家真实成交，获得消费者的实际反馈。</div>
+          <div>秀客以9.9元、49.9元、99.9元及1折、3折<!--、5折-->的价格购买宝贝，该活动也可适当降低活动成本，但更重要的是帮助商家真实成交，获得消费者的实际反馈。</div>
         </div>
         <div v-show="taskRelease.activityCategory === 'goods_clearance'">
           <div class="pop-tip-arrow goods-clearance"></div>
@@ -266,13 +266,13 @@
                       <span>（所有宝贝可选）</span>
                       <span class="is-select-gou" v-show="taskRelease.discountType === 'discount_r_30'"></span>
                     </div>
-                    <div class="discount-btn left ml-10 discount-999"
+         <!--           <div class="discount-btn left ml-10 discount-999"
                          :class="{isSelect:taskRelease.discountType === 'discount_r_50'}"
                          @click="changeSelectDiscount('discount_r_50')">
                       <span> 5折试用</span>
                       <span>（所有宝贝可选）</span>
                       <span class="is-select-gou" v-show="taskRelease.discountType === 'discount_r_50'"></span>
-                    </div>
+                    </div>-->
                   </div>
                 </div>
               </div>
@@ -390,7 +390,7 @@
                     <span>综合排序</span>
                   </Radio>
                   <Radio label="xiao_liang">
-                    <span>销售排序</span>
+                    <span>销量排序</span>
                   </Radio>
                   <Radio label="ren_qi">
                     <span>人气排序</span>
@@ -503,7 +503,7 @@
                     <span>综合排序</span>
                   </Radio>
                   <Radio label="xiao_liang">
-                    <span>销售排序</span>
+                    <span>销量排序</span>
                   </Radio>
                 </Radio-group>
               </div>
@@ -1457,6 +1457,9 @@
                   _this.taskRelease[k] = res.data[i];
                 }
               }
+            }
+            if(res.data.discountType === 'discount_r_50'){
+              _this.taskRelease.discountType = 'discount_0'
             }
             let itemReviewAssignsData = res.data.itemReviewAssigns;
             if(itemReviewAssignsData){

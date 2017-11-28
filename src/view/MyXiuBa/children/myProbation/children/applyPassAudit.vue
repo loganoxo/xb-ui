@@ -230,7 +230,7 @@
         <span class="sizeColor3">在淘宝</span>
         <span>从以下角度进行评价！</span>
       </div>
-      <div class="evaluation-content-tip" v-if="showkerTask.task.itemReviewRequired === 'offer_review_summary'">{{showkerTask.task.itemReviewSummary}}</div>
+      <div class="evaluation-content-tip mt-10" v-if="showkerTask.task.itemReviewRequired === 'offer_review_summary'">{{showkerTask.task.itemReviewSummary}}</div>
       <div class="precautions-tip-info mt-20" v-if="showkerTask.task.itemReviewRequired === 'assign_review_detail'">
         <Icon type="information-circled" color="#FF0100"></Icon>
         <span class="sizeColor3">注意：</span>
