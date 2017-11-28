@@ -434,6 +434,7 @@
         let activityCategory = self.$route.query.activityCategory;
         let searchAll = self.$route.query.searchAll;
         let category = self.$route.query.category;
+        let categoryId = self.$route.query.categoryId;
         self.$store.commit({
           type: 'SET_ACTIVITY_CATEGORY',
           info: self.$route.query.activityCategory,
@@ -447,6 +448,9 @@
           self.searchTaskParams.activityCategories = [activityCategory];
         }else {
           self.searchTaskParams.activityCategories = [];
+        }
+        if(categoryId){
+          self.category = '';
         }
         if(category){
           self.category = category;
