@@ -1461,6 +1461,7 @@
             if(res.data.discountType === 'discount_r_50'){
               _this.taskRelease.discountType = 'discount_0'
             }
+            _this.itemReviewList = [];
             let itemReviewAssignsData = res.data.itemReviewAssigns;
             if(itemReviewAssignsData){
               itemReviewAssignsData.forEach((item,index) => {
@@ -1588,10 +1589,14 @@
         }
       },
       changeSelectEvaluation() {
-        this.taskRelease.itemReviewSummary = null;
-        this.itemReviewList.map(item =>{
-          item.value = '';
-        })
+        if(this.taskRelease.itemReviewSummary){
+          this.taskRelease.itemReviewSummary = null;
+        }
+        if(this.itemReviewList.length > 0){
+          this.itemReviewList.map(item =>{
+            item.value = '';
+          })
+        }
       },
     }
   }
