@@ -78,7 +78,8 @@
             <div slot="content">
               <p>提现时，平台
                 <span v-if="$store.state.userInfo.role == 1">收取0.1%手续费</span>
-                <span v-if="$store.state.userInfo.role == 0">免手续费</span>
+                <span v-else-if="$store.state.userInfo.role == 0">免手续费</span>
+                <span v-else>商家收取0.1%手续费，秀客免手续费。</span>
               </p>
             </div>
           </Panel>

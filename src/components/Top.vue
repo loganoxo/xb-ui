@@ -212,11 +212,11 @@
           type: 'TASK_CATEGORY_LIST',
           info: 'all'
         });
-        self.$router.push({ 'path': '/task-category', 'query': {'searchAll': 'yes'}});
+        self.$router.push({ 'path': '/task-category', 'query': {'category': 'all', 'categoryId': 'all'}});
       },
       selTaskCategoryActiveFunc(nav){
         let self = this;
-        self.$router.push({ 'path': '/task-category', 'query': {'cate': nav.id}});
+        self.$router.push({ 'path': '/task-category', 'query': {'cate': nav.id, 'categoryId': nav.id}});
         self.$store.commit({
           type: 'SET_DISCOUNT_TASK_CATEGORY',
           result: false

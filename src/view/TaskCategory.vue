@@ -15,18 +15,19 @@
       </div>
 
       <div class="container" >
-        <div v-if="$route.query.activityCategory" class="text-ct mb-10" >
+        <!--<div v-if="$route.query.activityCategory" class="text-ct mb-10" >
           <em class="activity-category-tips-left" :style="{borderRightColor: $store.state.TaskCategoryActiveList[$route.query.activityCategory].color }" ></em>
           <p class="activity-category-tips" :style="{backgroundColor: $store.state.TaskCategoryActiveList[$route.query.activityCategory].color }">
             {{$store.state.TaskCategoryActiveList[$route.query.activityCategory].desc}}
           </p>
           <em class="activity-category-tips-right" :style="{borderLeftColor: $store.state.TaskCategoryActiveList[$route.query.activityCategory].color }" ></em>
-        </div>
+        </div>-->
         <div v-show="!$route.query.searchKey" class="task-category-sel">
           <span v-if="$route.query.activityCategory">{{$store.state.TaskCategoryActiveList[$store.state.activityCategory].text}}：</span>
+          <span v-if="!$route.query.activityCategory">宝贝类型：</span>
           <!--<a v-if="$route.query.searchKey != 'all' && $route.query.searchKey" :class="[!$route.query.cate ? 'active' : '']" @click="selCategoryAllFunc">全部活动</a>-->
           <a :class="[!$route.query.cate ? 'active' : '']" @click="selTaskCategoryAllFunc">全部活动</a>
-          <a v-if="nav.name != '美食/特产' && nav.name != '其它试用'" :class="[$route.query.cate == nav.id ? 'active' : '']" @click="selTaskCategoryActiveFunc(nav)" v-for="nav in navList" >{{nav.name}}</a>
+          <a v-if="nav.name != '美食/特产' && nav.name != '其它试用'" :class="[($route.query.cate == nav.id || parentItemCatalog.id == nav.id) && $route.query.cate ? 'active' : '']" @click="selTaskCategoryActiveFunc(nav)" v-for="nav in navList" >{{nav.name}}</a>
         </div>
         <div v-show="$route.query.searchKey">
           <div   class="task-category-sel">
@@ -49,6 +50,10 @@
             折扣类型：
             <a v-for="(k,discountPrice) in $store.state.goodsClearanceList" :class="[discountTaskCategoryActive == discountPrice ? 'active' : '' ]" @click="selDiscountPriceTypeFunc(k,discountPrice)">{{discountPrice}}清仓</a>
           </div>
+        </div>
+        <div v-if="!$route.query.activityCategory || $route.query.categroyId || $route.query.categroy" class="task-category-sel">
+          <span>活动类型：</span>
+          <a  :class="[category == k ? 'active' : '']"  v-for="(TaskCategoryCate,k) in $store.state.TaskCategoryActiveList" @click="selTaskDefaultFunc(k)">{{TaskCategoryCate.text}}</a>
         </div>
       </div>
       <div class="container">
@@ -294,6 +299,7 @@
           name: '',
           id: ''
         },
+        category: '',
         discountType: {
           'discount_r_10': true,
           'discount_r_30': true,
@@ -368,8 +374,6 @@
     created(){
       let self = this;
       self.searchInit()
-
-
     },
     computed: {
       isLogin() {
@@ -388,6 +392,25 @@
     methods: {
       encryptionId(id){
         return encryption(id)
+      },
+      selTaskDefaultFunc(activityCategory){
+        let self = this;
+        self.category = activityCategory;
+        if(activityCategory === 'home'){
+          self.searchTaskParams.activityCategories = '';
+          self.$router.push({ 'path': '/task-category', 'query': {
+            'cate': self.parentItemCatalog.id,
+            'categoryId': 'all',
+            'category': 'home',
+          }});
+
+        }else {
+          self.$router.push({ 'path': '/task-category', 'query': {
+            'cate': self.parentItemCatalog.id,
+            'categoryId': self.parentItemCatalog.id,
+            'category': self.category,
+          }});
+        }
       },
       selTaskCategoryAllChildActiveFunc(){
         let self = this;
@@ -410,6 +433,7 @@
         let searchKey = self.$route.query.searchKey;
         let activityCategory = self.$route.query.activityCategory;
         let searchAll = self.$route.query.searchAll;
+        let category = self.$route.query.category;
         self.$store.commit({
           type: 'SET_ACTIVITY_CATEGORY',
           info: self.$route.query.activityCategory,
@@ -424,15 +448,24 @@
         }else {
           self.searchTaskParams.activityCategories = [];
         }
-        if(cate){
-          self.getTaskCategoryList(cate, self.getSearchTask);
-          return;
+        if(category){
+          self.category = category;
+          if(category === 'all' || category === 'home'){
+            self.searchTaskParams.activityCategories = [];
+          }else {
+            self.searchTaskParams.activityCategories = [category];
+          }
+
         }
         if(searchAll){
           self.searchTaskParams.activityCategories = [];
         }
         if(searchKey){
           self.searchTaskParams.taskName = searchKey;
+        }
+        if(cate){
+          self.getTaskCategoryList(cate, self.getSearchTask);
+          return;
         }
         self.getSearchTask();
         self.getSearchHistoryTask();
@@ -449,6 +482,12 @@
       },
       selTaskCategoryAllFunc(){
         let self = this;
+        if(self.$route.query.categoryId){
+          self.$router.push({ 'path': '/task-category', 'query': {
+            'category': 'all',
+            'categoryId': 'all'
+          }});
+        }else
         if(self.$route.query.activityCategory){
           self.$router.push({ 'path': '/task-category', 'query': {
             'activityCategory': self.$route.query.activityCategory
@@ -461,17 +500,37 @@
       },
       selTaskCategoryActiveFunc(nav){
         let self = this;
-        self.$router.push({ 'path': '/task-category', 'query': {
-          'cate': nav.id,
-          'activityCategory': self.$route.query.activityCategory
-        }});
+        if(self.$route.query.categoryId){
+          self.$router.push({ 'path': '/task-category', 'query': {
+            'cate': nav.id,
+            'categoryId': nav.id,
+            'category': self.category,
+          }});
+        }else if(self.$route.query.activityCategory){
+          self.$router.push({ 'path': '/task-category', 'query': {
+            'cate': nav.id,
+            'activityCategory': self.$route.query.activityCategory,
+          }});
+        }else {
+          self.$router.push({ 'path': '/task-category', 'query': {
+            'cate': nav.id,
+          }});
+        }
       },
       selTaskCategoryChildActiveFunc(category){
         let self = this;
-        self.$router.push({ 'path': '/task-category', 'query': {
-          'cate': category.id,
-          'activityCategory': self.$route.query.activityCategory
-        }});
+        if(self.$route.query.categoryId){
+          self.$router.push({ 'path': '/task-category', 'query': {
+            'cate': category.id,
+            'categoryId': category.id,
+            'category': self.category,
+          }});
+        }else {
+          self.$router.push({ 'path': '/task-category', 'query': {
+            'cate': category.id,
+            'activityCategory': self.$route.query.activityCategory,
+          }});
+        }
       },
       selDiscountPriceTypeFunc(k,discountPrice){
         let self = this;
