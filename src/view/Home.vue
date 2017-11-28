@@ -329,7 +329,7 @@
           </div>
           <div class="home-commodity-ctt">
             <router-link class="home-commodity-details"
-                         v-for="homeCommodity in presentGet.content"
+                         v-for="homeCommodity in presentGet"
                          :title="homeCommodity.taskName"
                          :key="homeCommodity.id"
                          :to="{ 'path': '/task-details','query': {'q': encryptionId(homeCommodity.id)}}">
@@ -391,7 +391,7 @@
           </div>
           <div class="home-commodity-ctt">
             <router-link class="home-commodity-details"
-                         v-for="pinkageFor in pinkageFor10.content"
+                         v-for="pinkageFor in pinkageFor10"
                          :title="pinkageFor.taskName"
                          :key="pinkageFor.id"
                          :to="{ 'path': '/task-details','query': {'q': encryptionId(pinkageFor.id)}}">
@@ -873,7 +873,7 @@
         let self = this;
         api.getIndexRecommend({
           count: 6,
-          activityCategory: JSON.stringify(['pinkage_for_10']),
+          activityCategory: 'pinkage_for_10',
         }).then((res) => {
           if (res.status) {
             if (res.data) {
@@ -892,7 +892,7 @@
         let self = this;
         api.getIndexRecommend({
           count: 6,
-          activityCategory: JSON.stringify(['present_get']),
+          activityCategory: 'present_get',
         }).then((res) => {
           if (res.status) {
             if (res.data) {
@@ -943,7 +943,7 @@
       },
       selTaskCategoryActiveFunc(nav){
         let self = this;
-        self.$router.push({ 'path': '/task-category', 'query': {'cate': nav.id,}});
+        self.$router.push({ 'path': '/task-category', 'query': {'cate': nav.id, 'categoryId': nav.id}});
         self.$store.commit({
           type: 'SET_DISCOUNT_TASK_CATEGORY',
           result: false
@@ -1140,10 +1140,10 @@
         let self = this;
         api.getIndexRecommend({
           count: 6,
-          activityCategory: JSON.stringify(['price_low']),
+          activityCategory: 'price_low',
         }).then((res) => {
           if (res.status) {
-            res.data ? self.homeDisCountList = res.data: self.homeDisCountList = [];
+            res.data ? self.homeDisCountList = res.data : self.homeDisCountList = [];
           } else {
             self.$Message.error({
               content: res.msg,
