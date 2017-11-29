@@ -76,10 +76,11 @@ export default new Router({
       name: 'Home',
       component: Home,
       meta: {
-        title: "",
+        title: null,
         logInAuthority: false,
         topShow: true,
         bottomShow: true,
+        role: null,
       }
     },
     {
@@ -91,6 +92,7 @@ export default new Router({
         logInAuthority: false,
         topShow: true,
         bottomShow: true,
+        role: null,
       }
     },
     {
@@ -102,7 +104,7 @@ export default new Router({
         logInAuthority: false,
         topShow: false,
         bottomShow: true,
-
+        role: null,
       }
     },
     {
@@ -114,7 +116,7 @@ export default new Router({
         logInAuthority: false,
         topShow: false,
         bottomShow: true,
-
+        role: null,
       }
     },
     {
@@ -126,6 +128,7 @@ export default new Router({
         logInAuthority: false,
         topShow: false,
         bottomShow: true,
+        role: null,
       }
     },
     {
@@ -137,6 +140,7 @@ export default new Router({
         logInAuthority: false,
         topShow: false,
         bottomShow: true,
+        role: null,
       }
     },
     {
@@ -148,6 +152,7 @@ export default new Router({
         logInAuthority: false,
         topShow: true,
         bottomShow: true,
+        role: null,
       }
     },
     {
@@ -159,6 +164,7 @@ export default new Router({
         logInAuthority: false,
         topShow: false,
         bottomShow: false,
+        role: 1,
       }
     },
 
@@ -171,6 +177,7 @@ export default new Router({
         logInAuthority: true,
         topShow: false,
         bottomShow: false,
+        role: 1,
       }
     },
     {
@@ -182,6 +189,7 @@ export default new Router({
         logInAuthority: false,
         topShow: false,
         bottomShow: true,
+        role: 0,
       }
     },
     {
@@ -193,6 +201,7 @@ export default new Router({
         logInAuthority: false,
         topShow: false,
         bottomShow: true,
+        role: null,
       }
     },
     {
@@ -204,6 +213,7 @@ export default new Router({
         logInAuthority: false,
         topShow: false,
         bottomShow: true,
+        role: null,
       }
     },
     {
@@ -215,6 +225,7 @@ export default new Router({
         logInAuthority: false,
         topShow: false,
         bottomShow: true,
+        role: null,
       }
     },
     {
@@ -228,6 +239,9 @@ export default new Router({
           meta: {
             title: "用户注册",
             logInAuthority: false,
+            topShow: false,
+            bottomShow: true,
+            role: null,
           },
         },
         {
@@ -238,6 +252,7 @@ export default new Router({
             logInAuthority: false,
             topShow: false,
             bottomShow: true,
+            role: null,
           },
         },
       ]
@@ -251,6 +266,7 @@ export default new Router({
         logInAuthority: false,
         topShow: true,
         bottomShow: true,
+        role: null,
       }
     },
     {
@@ -262,6 +278,7 @@ export default new Router({
         logInAuthority: false,
         topShow:true,
         bottomShow: true,
+        role: null,
       }
     },
     {
@@ -273,6 +290,7 @@ export default new Router({
         logInAuthority: false,
         topShow: true,
         bottomShow: true,
+        role: null,
       }
     },
     {
@@ -289,6 +307,7 @@ export default new Router({
             logInAuthority: true,
             topShow: true,
             bottomShow: true,
+            role: null,
           }
         },
         {
@@ -300,6 +319,7 @@ export default new Router({
             logInAuthority: true,
             topShow: true,
             bottomShow: true,
+            role: null,
           }
         },
         {
@@ -311,6 +331,7 @@ export default new Router({
             logInAuthority: true,
             topShow: true,
             bottomShow: true,
+            role: 1,
           }
         },
         {
@@ -327,6 +348,7 @@ export default new Router({
                 logInAuthority: true,
                 topShow: true,
                 bottomShow: true,
+                role: 1,
               },
             },
             {
@@ -338,6 +360,7 @@ export default new Router({
                 logInAuthority: true,
                 topShow: true,
                 bottomShow: true,
+                role: 1,
               },
             },
             {
@@ -349,6 +372,7 @@ export default new Router({
                 logInAuthority: true,
                 topShow: true,
                 bottomShow: true,
+                role: 1,
               },
             },
             {
@@ -365,6 +389,7 @@ export default new Router({
                     logInAuthority: true,
                     topShow: true,
                     bottomShow: true,
+                    role: 1,
                   },
                 },
                 {
@@ -376,6 +401,7 @@ export default new Router({
                     logInAuthority: true,
                     topShow: true,
                     bottomShow: true,
+                    role: 1,
                   },
                 },
               ]
@@ -396,6 +422,7 @@ export default new Router({
                 logInAuthority: true,
                 topShow: true,
                 bottomShow: true,
+                role: 1,
               }
             },
             {
@@ -407,6 +434,7 @@ export default new Router({
                 logInAuthority: true,
                 topShow: true,
                 bottomShow: true,
+                role: 1,
               }
             },
             {
@@ -418,6 +446,7 @@ export default new Router({
                 logInAuthority: true,
                 topShow: true,
                 bottomShow: true,
+                role: 1,
               }
             }
           ]
@@ -436,6 +465,7 @@ export default new Router({
                 logInAuthority: true,
                 topShow: true,
                 bottomShow: true,
+                role: 0,
               },
             },
             {
@@ -447,6 +477,7 @@ export default new Router({
                 logInAuthority: true,
                 topShow: true,
                 bottomShow: true,
+                role: 0,
               },
             },
             {
@@ -458,6 +489,7 @@ export default new Router({
                 logInAuthority: true,
                 topShow: true,
                 bottomShow: true,
+                role: 0,
               },
             },
             {
@@ -477,6 +509,7 @@ export default new Router({
             logInAuthority: true,
             topShow: true,
             bottomShow: true,
+            role: 0,
           }
         },
         {
@@ -493,6 +526,7 @@ export default new Router({
                 logInAuthority: true,
                 topShow: true,
                 bottomShow: true,
+                role: null,
               },
             },
             {
@@ -504,6 +538,7 @@ export default new Router({
                 logInAuthority: true,
                 topShow: true,
                 bottomShow: true,
+                role: null,
               },
             },
             {
@@ -515,6 +550,7 @@ export default new Router({
                 logInAuthority: true,
                 topShow: true,
                 bottomShow: true,
+                role: null,
               },
             }
           ]
@@ -533,6 +569,7 @@ export default new Router({
                 logInAuthority: false,
                 topShow: true,
                 bottomShow: true,
+                role: null,
               },
             },
             {
@@ -544,6 +581,7 @@ export default new Router({
                 logInAuthority: false,
                 topShow: true,
                 bottomShow: true,
+                role: 1,
               },
             },
             {
@@ -555,6 +593,7 @@ export default new Router({
                 logInAuthority: false,
                 topShow: true,
                 bottomShow: true,
+                role: 0,
               },
             }
           ]
@@ -573,6 +612,7 @@ export default new Router({
                 logInAuthority: true,
                 topShow: true,
                 bottomShow: true,
+                role: null,
               }
             },
             {
@@ -584,6 +624,7 @@ export default new Router({
                 logInAuthority: true,
                 topShow: true,
                 bottomShow: true,
+                role: null,
               }
             },
             {
@@ -595,6 +636,7 @@ export default new Router({
                 logInAuthority: true,
                 topShow: true,
                 bottomShow: true,
+                role: 1,
               }
             },
             {
@@ -606,6 +648,7 @@ export default new Router({
                 logInAuthority: true,
                 topShow: true,
                 bottomShow: true,
+                role: null,
               }
             },
             {
@@ -617,6 +660,7 @@ export default new Router({
                 logInAuthority: true,
                 topShow: true,
                 bottomShow: true,
+                role: null,
               }
             },
           ]
@@ -630,6 +674,7 @@ export default new Router({
             logInAuthority: true,
             topShow: true,
             bottomShow: true,
+            role: 1,
           }
         }
       ]

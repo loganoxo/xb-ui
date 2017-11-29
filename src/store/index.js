@@ -12,8 +12,9 @@ const state = {
   userInfo: {}, //用户信息
   login: false,//是否登录标识
   topShow: true,//头部切换标识
-  bottomShow: true,//底部标签
-  logInAuthority: true,//用户页面权限标识
+  bottomShow: true,//底部切换标识
+  logInAuthority: true,//用户登陆页面权限控制
+  roleAuthority: null,//用户角色页面权限控制
   severTime: null,//当前服务器时间
   clientTime: null,//当前客户端时间
   taskManagementCountInfo: {},//商家任务管理活动数量信息
@@ -23,6 +24,7 @@ const state = {
   wechartRes: true,
   disCountTaskCategory: false,//是否为白菜价判断
   showTopCategoryRes: true, //导航栏左侧列表显示
+  //导航分类列表
   TaskCategoryActiveList: {
     'home': {
       text: '全部活动'
@@ -52,7 +54,8 @@ const state = {
       desc: '本模块商品为商家清仓断码尾货库存，秀客享极低折扣，但需注意尺码等描述哦！',
       color: '#cccc33',
     }
-  },//导航分类列表
+  },
+  //白菜价列表
   discountPriceType: {
     '不限': {
       backgroundColor:　'',
@@ -82,7 +85,7 @@ const state = {
       backgroundColor: '#ff3399',
       discountTypes: ['discount_r_50'],
     }
-  },//白菜价列表
+  },
   goodsClearanceList: {
     '不限': {
       backgroundColor:　'',

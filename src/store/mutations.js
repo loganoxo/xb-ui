@@ -41,9 +41,14 @@ export default {
     state.clientTime = time.clientTime;
   },
 
-  //存储用户页面权限到vuex
+  //存储用户页面登陆权限到vuex
   [types.LOG_IN_AUTHORITY](state, {logInAuthority}) {
     state.logInAuthority = logInAuthority;
+  },
+
+  //存储用户页面角色权限到vuex
+  [types.ROLE_AUTHORITY](state, {roleAuthority}) {
+    state.roleAuthority = roleAuthority;
   },
 
   //商家任务管理活动数量信息（活动总数量，新增待审批，订单号带审批，买家秀待确认）

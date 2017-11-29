@@ -637,7 +637,7 @@
       if (getStorage('weChartPop') === 1 && self.$store.state.userInfo.role === 0 && !getStorage('setWeChartshower' + self.$store.state.userInfo.phone)) {
         self.weChartShowkerAlertFunc();
       }
-      if(self.$store.state.userInfo.role == 0){
+      if(self.$store.state.userInfo.role === 0){
         document.title = '秀吧-0元购物上秀吧';
       }else {
         document.title = '秀吧-真人试用买家秀';
