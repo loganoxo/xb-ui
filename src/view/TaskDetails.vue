@@ -577,7 +577,6 @@
           }else {
             self.getShowkerCanTrial();
           }
-
         }
       },
       getShowWwList(){

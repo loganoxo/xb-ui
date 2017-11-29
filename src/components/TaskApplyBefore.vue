@@ -11,8 +11,6 @@
             </Radio>
           </Radio-group>
         </div>
-
-
         <PlaceOrderStep :taskPlaceInfo="taskDetail" ></PlaceOrderStep>
         <div class="screen-shot mt-22 clear" >
           <span class="serial-number">3</span>

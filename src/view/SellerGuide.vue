@@ -29,16 +29,27 @@
         <div class="contain ">
           <div class="clear-both text-ct adv-text1-box ">
             <div class="titleEng">
+              <a class="block move-arrow-down" style="margin-top: 80px" @click="FullPage.next()" >
+                <img src="/static/img/common/big-down.png" alt="">
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="page page4">
+        <div class="contain ">
+          <div class="clear-both text-ct adv-text1-box ">
+            <div class="titleEng">
               <a class="block move-arrow-down" style="margin-top: 80px" @click="goRegisterFunc" >
                 <iButton  class="begin-now">立即开始</iButton>
               </a>
             </div>
-
           </div>
         </div>
       </div>
     </div>
     <ul id="navBar">
+      <li></li>
       <li></li>
       <li></li>
       <li></li>
@@ -247,6 +258,10 @@
   }
   .page3 {
     background: url('~assets/img/seller-guide/seller_guide_03.jpg') no-repeat;
+    background-position: bottom center;
+  }
+  .page4 {
+    background: url('~assets/img/seller-guide/seller_guide_04.jpg') no-repeat;
     background-position: bottom center;
   }
   #navBar {
