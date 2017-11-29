@@ -28,7 +28,7 @@
            <Checkbox label="0">活动</Checkbox>
            <Checkbox label="1">充值</Checkbox>
            <Checkbox label="2">提现</Checkbox>
-           <Checkbox label="3">推荐奖励</Checkbox>
+           <Checkbox label="4">推荐奖励</Checkbox>
            <Checkbox label="100">其它</Checkbox>
          </Checkbox-group>
         </div>
@@ -191,7 +191,7 @@
         <Checkbox-group v-model="transactType"  @on-change="checkAllGroupChange" class="checkbox">
           <Checkbox label="0">活动</Checkbox>
           <Checkbox label="2">提现</Checkbox>
-          <Checkbox label="3">推荐奖励</Checkbox>
+          <Checkbox label="4">推荐奖励</Checkbox>
         </Checkbox-group>
       </div>
       <div class="activity-number mt-10">
