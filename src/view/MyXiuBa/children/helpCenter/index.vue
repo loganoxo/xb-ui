@@ -1,7 +1,7 @@
 <template>
   <div class="personal-box" :class="[!isLogin ? 'ml-12p' : '']">
     <div class="personal-sel-top">
-      <router-link v-if="!(myInfoSelect.isSelect == 'faqSeller' && $store.state.userInfo.role == 0)" :to="myInfoSelect.link" :key="myInfoSelect.link" v-for="(myInfoSelect,index) in myInfoSelects" :class="{active:infoSelect == myInfoSelect.isSelect}">
+      <router-link v-if="$store.state.userInfo.role === myInfoSelect.role || myInfoSelect.role === null" :to="myInfoSelect.link" :key="myInfoSelect.link" v-for="(myInfoSelect,index) in myInfoSelects" :class="{active:infoSelect == myInfoSelect.isSelect}">
         {{myInfoSelect.text}}
       </router-link>
     </div>
@@ -52,17 +52,20 @@
           {
             text: '常见问题',
             isSelect: 'faq',
-            link: '/user/help-center/faq'
+            link: '/user/help-center/faq',
+            role: null
           },
           {
             text: '商家中心',
             isSelect: 'faqSeller',
-            link: '/user/help-center/faq-seller'
+            link: '/user/help-center/faq-seller',
+            role: 1
           },
           {
             text: '秀客中心',
             link: '/user/help-center/faq-showker',
             isSelect: 'faqShowker',
+            role: 0
           },
         ],
         infoSelect: '',

@@ -145,9 +145,6 @@
                 <p class="cl000">
                   限量 <span style="color: #ff6600"> {{searchTask.taskCount || 0 }} </span> 份，
                   <span style="color: #ff6600"> {{searchTask.showkerApplyTotalCount || 0}} </span> 人已申请
-                  <!--份数:{{searchTask.taskCount}}-->
-                  <!--&nbsp;&nbsp;&nbsp;&nbsp;-->
-                  <!--申请人数:{{searchTask.showkerApplyTotalCount}}-->
                 </p>
                 <p class="cl000">
                   剩余时间：
@@ -396,21 +393,31 @@
       selTaskDefaultFunc(activityCategory){
         let self = this;
         self.category = activityCategory;
-        if(activityCategory === 'home'){
-          self.searchTaskParams.activityCategories = '';
+        if(self.$route.query.categoryId === 'all'){
+          self.$route.query.cate = '';
+          self.$route.query.category = '';
           self.$router.push({ 'path': '/task-category', 'query': {
-            'cate': self.parentItemCatalog.id,
+            'cate': '',
             'categoryId': 'all',
-            'category': 'home',
-          }});
-
-        }else {
-          self.$router.push({ 'path': '/task-category', 'query': {
-            'cate': self.parentItemCatalog.id,
-            'categoryId': self.parentItemCatalog.id,
             'category': self.category,
           }});
+        }else {
+          if(activityCategory === 'home'){
+            self.searchTaskParams.activityCategories = '';
+            self.$router.push({ 'path': '/task-category', 'query': {
+              'cate': self.parentItemCatalog.id,
+              'categoryId': 'all',
+              'category': 'home',
+            }});
+          }else {
+            self.$router.push({ 'path': '/task-category', 'query': {
+              'cate': self.parentItemCatalog.id,
+              'categoryId': self.parentItemCatalog.id,
+              'category': self.category,
+            }});
+          }
         }
+
       },
       selTaskCategoryAllChildActiveFunc(){
         let self = this;
@@ -491,8 +498,7 @@
             'category': 'all',
             'categoryId': 'all'
           }});
-        }else
-        if(self.$route.query.activityCategory){
+        }else if(self.$route.query.activityCategory){
           self.$router.push({ 'path': '/task-category', 'query': {
             'activityCategory': self.$route.query.activityCategory
           }});
