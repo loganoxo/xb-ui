@@ -227,10 +227,10 @@
                   <!--&nbsp;&nbsp;&nbsp;&nbsp;-->
                   <!--申请人数:{{searchTask.showkerApplyTotalCount}}-->
                 </p>
-                <p class="cl000">
-                  剩余时间：
-                  <time-down  :endTime="historyTask.endTime" ></time-down>&nbsp;
-                </p>
+                <!--<p class="cl000">-->
+                  <!--剩余时间：-->
+                  <!--<time-down  :endTime="historyTask.endTime" ></time-down>&nbsp;-->
+                <!--</p>-->
                 <p >
                   <router-link :to="{ 'path': '/task-details','query': {'q': encryptionId(historyTask.id)}}" class="ivu-btn ivu-btn-long" >
                     查看详情

@@ -1089,6 +1089,11 @@
         return (this.taskRelease.itemPrice + postage) * 0.06 > 3
       },
     },
+    destroyed(){
+      if(getStorage('showInsideAgainRes') == 2){
+        removeStorage('showInsideAgainRes');
+      }
+    },
     methods: {
       selCategoryTaskFunc(showInside){
         let self = this;

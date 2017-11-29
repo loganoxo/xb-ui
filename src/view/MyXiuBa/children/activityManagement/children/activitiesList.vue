@@ -311,7 +311,7 @@
   import {Select, Option} from 'iview/src/components/select'
   import PayModel from '@/components/PayModel'
   import api from '@/config/apiConfig'
-  import {TaskErrorStatusList, getSeverTime, encryption, decode} from '@/config/utils'
+  import {TaskErrorStatusList, getSeverTime, encryption, decode,setStorage, getStorage,} from '@/config/utils'
 
   export default {
     name: 'ActivitiesList',
@@ -438,6 +438,7 @@
         this.$router.push({name: 'TaskReleaseProcess', query: {q: encryption(id)}})
       },
       copyTask(id) {
+        setStorage('showInsideAgainRes',1);
         this.$router.push({name: 'TaskReleaseProcess', query: {q: encryption(id), type: 'copy'}})
       },
       lookTaskDetail(id) {
