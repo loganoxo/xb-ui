@@ -110,14 +110,16 @@ input[type="number"] {
 .vtc-text-btm {
   vertical-align: text-bottom;
 }
-.text-lf{
+
+.text-lf {
   text-align: left;
 }
+
 .text-ct {
   text-align: center;
 }
 
-.text-align-rt{
+.text-align-rt {
   text-align: right;
 }
 
@@ -126,6 +128,7 @@ input[type="number"] {
   text-overflow: ellipsis;
   white-space: nowrap;
 }
+
 [v-cloak] {
   display: none;
 }
@@ -141,7 +144,8 @@ input[type="number"] {
 .mg-at {
   margin: auto;
 }
-.mg-20{
+
+.mg-20 {
   margin: 20px;
 }
 
@@ -220,9 +224,11 @@ input[type="number"] {
 .ml-10 {
   margin-left: 10px;
 }
-.ml-15{
+
+.ml-15 {
   margin-left: 15px;
 }
+
 .ml-20 {
   margin-left: 20px;
 }
@@ -266,9 +272,11 @@ input[type="number"] {
 .mr-10 {
   margin-right: 10px;
 }
-.mr-20{
+
+.mr-20 {
   margin-right: 20px;
 }
+
 .mr-30 {
   margin-right: 30px;
 }
@@ -317,7 +325,7 @@ input[type="number"] {
   padding-left: 94px;
 }
 
-.pr-20{
+.pr-20 {
   padding-right: 20px;
 }
 
@@ -373,13 +381,15 @@ input[type="number"] {
   font-size: 24px;
 }
 
-.bgF1F1F1{
+.bgF1F1F1 {
   background-color: #F1F1F1;
 }
-.bgfff{
+
+.bgfff {
   background-color: #fff;
 }
-.clff6633{
+
+.clff6633 {
   color: #ff6633;
 }
 
@@ -390,27 +400,37 @@ input[type="number"] {
 .cl999 {
   color: #999;
 }
-.cl666{
+
+.cl666 {
   color: #666;
 }
-.cl97C71C{
+
+.cl97C71C {
   color: #97C71C;
 }
-.clC4C71D{
+
+.clC4C71D {
   color: #C4C71D;
 }
-.cl57C78D{
+
+.cl57C78D {
   color: #57C78D;
 }
-.cl75C5FF{
+
+.cl75C5FF {
   color: #75C5FF;
 }
+
+.cl-red {
+  color: red;
+}
+
 .container {
   width: 1200px;
   margin: auto;
 }
 
-.border50{
+.border50 {
   border-radius: 50%;
 }
 
@@ -455,12 +475,12 @@ input[type="number"] {
   padding: 0 10px;
 }
 
-.part-title-img-box{
+.part-title-img-box {
   width: 270px;
   height: 30px;
   background: url('/static/img/common/part-title-img.png') no-repeat;
   margin: auto;
-  span{
+  span {
     font-weight: bold;
     margin-left: 113px;
     width: 96px;
@@ -470,11 +490,11 @@ input[type="number"] {
 }
 
 /*RegionPicker css start*/
-.region-picker{
+.region-picker {
   width: 482px;
   .province-select,
   .city-select,
-  .district-select{
+  .district-select {
     height: 30px;
     line-height: 30px;
     font-size: 12px;
@@ -488,4 +508,5 @@ input[type="number"] {
     outline: none;
   }
 }
+
 /*RegionPicker css end*/

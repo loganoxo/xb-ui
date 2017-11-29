@@ -144,6 +144,29 @@
                     <span>商家备注：</span>
                     <span>{{commodityData.task.remark}}</span>
                   </p>
+                  <p class="mt-10" v-if="!commodityData.showkerTask && commodityData.task.itemReviewRequired !== 'review_by_showker_self'">
+                    <span>评价要求：</span>
+                    <span>商家对淘宝评价有要求，</span>
+                    <span class="cl000">获得活动资格后需按商家要求进行评价！</span>
+                  </p>
+                  <p class="mt-10" v-if="commodityData.task.itemReviewRequired === 'offer_review_summary' && commodityData.showkerTask">
+                    <span>评论要求：</span>
+                    <span class="cl000">商家希望亲</span>
+                    <span class="cl-red">在淘宝</span>
+                    <span class="cl000">从以下角度进行评价！</span>
+                  </p>
+                  <p class="evaluation-content-tip cl666" v-if="commodityData.task.itemReviewRequired === 'offer_review_summary' && commodityData.showkerTask">{{commodityData.task.itemReviewSummary}}</p>
+                  <p class="mt-10" v-if="commodityData.task.itemReviewRequired === 'assign_review_detail' && commodityData.showkerTask">
+                    <span>评论要求：</span>
+                    <span class="cl000">商家要求</span>
+                    <span class="cl-red">在淘宝</span>
+                    <span class="cl000">使用下方提供的内容进行评价，为避免纠纷，</span>
+                    <span>请务必按照要求操作！</span>
+                  </p>
+                  <div class="evaluation-content-tip cl666" v-if="commodityData.task.itemReviewRequired === 'assign_review_detail' && commodityData.showkerTask">
+                    <div id="copyEvaluation" v-if="showkerTask.other && showkerTask.other.itemReviewAssign">{{showkerTask.other.itemReviewAssign.reviewContent}}</div>
+                    <div class="copy-evaluation-tbn mt-10" id="copyEvaluationBtn">复制评价内容</div>
+                  </div>
                 </div>
                 <div v-if="commodityData.cannotShowItemDescriptionOfQualification">
                   <Icon type="information-circled" color="#FF6633" size="30" style="vertical-align: sub;"></Icon> 获得资格后才能看到活动品信息哦~
@@ -1012,6 +1035,7 @@
         }
       }
     }
+
     .precautions{
       background-color: #F1F1F1;
       padding-left: 20px;
@@ -1023,6 +1047,32 @@
         font-size: 18px;
         font-weight: bold;
       }
+    }
+
+    .evaluation-content-tip{
+      padding: 15px 10px;
+      background-color: #F8F8F8;
+      border: 1px solid #F2F2F2;
+      margin-top: 8px;
+    }
+
+    .evaluation-content-tip-assign{
+      background-color: #FFF4F1;
+      border: 1px solid #FFB9B8;
+      padding: 15px 10px;
+      margin-top: 8px;
+    }
+
+    .copy-evaluation-tbn{
+      width: 112px;
+      height: 22px;
+      line-height: 22px;
+      background-color: #fff;
+      border: 1px solid #f60;
+      color: #f60;
+      border-radius: 5px;
+      cursor: pointer;
+      text-align: center;
     }
 
   }

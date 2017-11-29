@@ -66,6 +66,24 @@
         <span>商家备注：</span>
         <span>{{taskPlaceInfo.remark}}</span>
       </p>
+      <p class="mt-10" v-if="taskPlaceInfo.itemReviewRequired === 'offer_review_summary'">
+        <span>评论要求：</span>
+        <span class="cl000">商家希望亲</span>
+        <span class="cl-red">在淘宝</span>
+        <span class="cl000">从以下角度进行评价！</span>
+      </p>
+      <p class="evaluation-content-tip cl666" v-if="taskPlaceInfo.itemReviewRequired === 'offer_review_summary'">{{taskPlaceInfo.itemReviewSummary}}</p>
+      <p class="mt-10" v-if="taskPlaceInfo.itemReviewRequired === 'assign_review_detail'">
+        <span>评论要求：</span>
+        <span class="cl000">商家要求</span>
+        <span class="cl-red">在淘宝</span>
+        <span class="cl000">使用下方提供的内容进行评价，为避免纠纷，</span>
+        <span>请务必按照要求操作！</span>
+      </p>
+      <div class="evaluation-content-tip cl666" v-if="taskPlaceInfo.itemReviewRequired === 'assign_review_detail'">
+        <div id="copyEvaluation" v-if="showkerTask.other && showkerTask.other.itemReviewAssign">{{showkerTask.other.itemReviewAssign.reviewContent}}</div>
+        <div class="copy-evaluation-tbn mt-10" id="copyEvaluationBtn">复制评价内容</div>
+      </div>
     </div>
   </div>
 </template>
@@ -91,6 +109,11 @@
     },
     props: {
       taskPlaceInfo: {
+        required: true,
+        type: Object,
+        default: {}
+      },
+      showkerTask: {
         required: true,
         type: Object,
         default: {}
@@ -125,6 +148,18 @@
         });
         clipboard.on('error', () => {
           _this.$Message.error("复制口令失败！");
+          clipboard.destroy();
+        });
+      });
+      _this.$nextTick(() => {
+        let clipboard = new Clipboard('#copyEvaluationBtn', {
+          target: () => document.getElementById('copyEvaluation')
+        });
+        clipboard.on('success', () => {
+          _this.$Message.success("复制评价内容成功！");
+        });
+        clipboard.on('error', () => {
+          _this.$Message.error("复制评价内容失败！");
           clipboard.destroy();
         });
       })
@@ -255,5 +290,31 @@
       color: $mainColor;
       font-size: 12px;
     }
+  }
+
+  .evaluation-content-tip{
+    padding: 15px 10px;
+    background-color: #F8F8F8;
+    border: 1px solid #F2F2F2;
+    margin-top: 8px;
+  }
+
+  .evaluation-content-tip-assign{
+    background-color: #FFF4F1;
+    border: 1px solid #FFB9B8;
+    padding: 15px 10px;
+    margin-top: 8px;
+  }
+
+  .copy-evaluation-tbn{
+    width: 112px;
+    height: 22px;
+    line-height: 22px;
+    background-color: #fff;
+    border: 1px solid #f60;
+    color: #f60;
+    border-radius: 5px;
+    cursor: pointer;
+    text-align: center;
   }
 </style>

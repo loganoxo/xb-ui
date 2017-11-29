@@ -163,7 +163,7 @@
           <strong class="ml-10" v-if="showkerTask.status === 'order_num_error'">原因：{{showkerTask.latestShowkerTaskOpLog.auditDescription}}</strong>
         </div>
       </div>
-      <place-order-step :taskPlaceInfo="taskPlaceInfo" :currentGenerationEndTime="showkerTask.currentGenerationEndTime"></place-order-step>
+      <place-order-step :taskPlaceInfo="taskPlaceInfo" :showkerTask="showkerTask" :currentGenerationEndTime="showkerTask.currentGenerationEndTime"></place-order-step>
       <div class="write-order-number mt-20">
         <span @click="openAuditOrder(null,orderType, null, showkerTask.status, showkerTask.statusDesc, showkerTask.latestShowkerTaskOpLog.auditDescription)">下单完成，填订单号</span>
         <span class="ml-35" @click="returnUpPage">返回上页</span>
