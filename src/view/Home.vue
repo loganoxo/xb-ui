@@ -24,18 +24,18 @@
 
               </Carousel-item>-->
               <Carousel-item>
-                <router-link to="" class="block">
-                  <img class="block" src="~assets/img/home/banner_02.jpg" alt="">
+                <router-link to="/task-category?activityCategory=free_get" class="block">
+                  <img src="/static/img/home/banner_01.jpg" alt="">
                 </router-link>
               </Carousel-item>
               <Carousel-item>
-                <router-link to="" class="block">
-                 <img class="block" src="~assets/img/home/banner_03.jpg" alt="">
+                <router-link to="/task-category?activityCategory=free_get" class="block">
+                  <img src="/static/img/home/banner_02.jpg" alt="">
                 </router-link>
               </Carousel-item>
               <Carousel-item>
-                <router-link to="" class="block">
-                  <img class="block" src="~assets/img/home/banner_04.jpg" alt="">
+                <router-link to="/buyer-show" class="block">
+                  <img src="/static/img/home/banner_03.jpg" alt="">
                 </router-link>
               </Carousel-item>
             </Carousel>
