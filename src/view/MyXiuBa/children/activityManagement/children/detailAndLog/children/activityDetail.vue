@@ -999,29 +999,29 @@
       }
     }
     &.discount-charge{
-      background-color: #00CD36;
-      border:2px solid #00CD36;
+      background-color: #c4c71d;
+      border:2px solid #c4c71d;
       &:hover{
         border-color:#000;
       }
     }
     &.discount-9-9{
-      background-color: #FF9900;
-      border:2px solid #FF9900;
+      background-color: #c4c71d;
+      border:2px solid #c4c71d;
       &:hover{
         border-color:#000;
       }
     }
     &.discount-49-9{
-      background-color: #CD3636;
-      border:2px solid #CD3636;
+      background-color: #c4c71d;
+      border:2px solid #c4c71d;
       &:hover{
         border-color:#000;
       }
     }
     &.discount-999{
-      background-color: #FF3699;
-      border:2px solid #FF3699;
+      background-color: #c4c71d;
+      border:2px solid #c4c71d;
       &:hover{
         border-color:#000;
       }
