@@ -283,7 +283,6 @@
       getTradList(type) {
         let _this = this;
         if (type === 0 ) {
-          console.log(111);
           type = null;
         }
         if (type === 4){
@@ -298,7 +297,6 @@
         if (type === 3){
           type = JSON.stringify(["2"])
         }
-        console.log(type);
         api.getTradList({
           tradTimeStart: null,
           tradTimeEnd: null,
