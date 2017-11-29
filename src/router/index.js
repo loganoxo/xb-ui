@@ -20,6 +20,7 @@ const ThirdPartyLogin = r => require.ensure([], () => r(require('@/view/ThirdPar
 const Register = r => require.ensure([], () => r(require('@/view/Register.vue')), 'Register');
 const TaskCategory = r => require.ensure([], () => r(require('@/view/TaskCategory.vue')), 'TaskCategory');
 const TaskDetails = r => require.ensure([], () => r(require('@/view/TaskDetails.vue')), 'TaskDetails');
+
 const MyXiuBa = r => require.ensure([], () => r(require('@/view/MyXiuBa/MyXiuBa.vue')), 'MyXiuBa');
 const UserHome = r => require.ensure([], () => r(require('@/view/MyXiuBa/children/UserHome.vue')), 'MyXiuBa');
 const VipMember = r => require.ensure([], () => r(require('@/view/MyXiuBa/children/VipMember.vue')), 'VipMember');
