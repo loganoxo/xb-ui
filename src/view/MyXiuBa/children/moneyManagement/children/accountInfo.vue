@@ -49,14 +49,14 @@
         <li>最近交易记录</li>
         <li v-for="(item ,index) in lis ">
           <a href="javascript:;" :class="{lisColor:iSelect === item.isSelect}"
-             @click="getTradList(index===0?[]:[index-1]),changeLiColor(item.isSelect)">{{item.text}}</a>
+             @click="getTradList(index),changeLiColor(item.isSelect)">{{item.text}}</a>
         </li>
       </ul>
       <ul class="clear" v-if="getUserAccountRole===0">
         <li>最近交易记录</li>
         <li v-for="(item ,index) in lis " v-if="item.isSelect!=='pay'">
           <a href="javascript:;" :class="{lisColor:iSelect === item.isSelect}"
-             @click="getTradList(index===0?[]:[index-1]),changeLiColor(item.isSelect)">{{item.text}}</a>
+             @click=" getTradList(index),changeLiColor(item.isSelect)">{{item.text}}</a>
         </li>
       </ul>
     </div>
@@ -233,7 +233,7 @@
       if(queryString && queryString.trade_status === 'TRADE_SUCCESS'){
         this.$router.push({path:'/user/money-management/account-info'});
       }
-      this.getTradList([]);
+      this.getTradList(0);
       this.$store.dispatch('getUserInformation');
     },
     computed: {
@@ -282,11 +282,23 @@
       },
       getTradList(type) {
         let _this = this;
-        if (type.length === 0 || type.length === 3) {
+        if (type === 0 ) {
+          console.log(111);
           type = null;
-        } else {
-          type = JSON.stringify(type)
         }
+        if (type === 4){
+            type = JSON.stringify(["100"])
+        }
+        if (type === 2){
+            type = JSON.stringify(["1"])
+        }
+        if (type === 1){
+            type = JSON.stringify(["0"])
+        }
+        if (type === 3){
+          type = JSON.stringify(["2"])
+        }
+        console.log(type);
         api.getTradList({
           tradTimeStart: null,
           tradTimeEnd: null,
