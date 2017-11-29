@@ -1597,6 +1597,9 @@
             item.value = '';
           })
         }
+        if(this.taskRelease.taskCount > 0){
+          this.addItemReviewList();
+        }
       },
     }
   }

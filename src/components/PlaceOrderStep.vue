@@ -66,24 +66,6 @@
         <span>商家备注：</span>
         <span>{{taskPlaceInfo.remark}}</span>
       </p>
-      <p class="mt-10" v-if="taskPlaceInfo.itemReviewRequired === 'offer_review_summary'">
-        <span>评论要求：</span>
-        <span class="cl000">商家希望亲</span>
-        <span class="cl-red">在淘宝</span>
-        <span class="cl000">从以下角度进行评价！</span>
-      </p>
-      <p class="evaluation-content-tip cl666" v-if="taskPlaceInfo.itemReviewRequired === 'offer_review_summary'">{{taskPlaceInfo.itemReviewSummary}}</p>
-      <p class="mt-10" v-if="taskPlaceInfo.itemReviewRequired === 'assign_review_detail'">
-        <span>评论要求：</span>
-        <span class="cl000">商家要求</span>
-        <span class="cl-red">在淘宝</span>
-        <span class="cl000">使用下方提供的内容进行评价，为避免纠纷，</span>
-        <span>请务必按照要求操作！</span>
-      </p>
-      <div class="evaluation-content-tip cl666" v-if="taskPlaceInfo.itemReviewRequired === 'assign_review_detail'">
-        <div id="copyEvaluation" v-if="showkerTask.other && showkerTask.other.itemReviewAssign">{{showkerTask.other.itemReviewAssign.reviewContent}}</div>
-        <div class="copy-evaluation-tbn mt-10" id="copyEvaluationBtn">复制评价内容</div>
-      </div>
     </div>
   </div>
 </template>
@@ -109,11 +91,6 @@
     },
     props: {
       taskPlaceInfo: {
-        required: true,
-        type: Object,
-        default: {}
-      },
-      showkerTask: {
         required: true,
         type: Object,
         default: {}

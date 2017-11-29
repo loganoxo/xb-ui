@@ -163,7 +163,38 @@
           <strong class="ml-10" v-if="showkerTask.status === 'order_num_error'">原因：{{showkerTask.latestShowkerTaskOpLog.auditDescription}}</strong>
         </div>
       </div>
-      <place-order-step :taskPlaceInfo="taskPlaceInfo" :showkerTask="showkerTask" :currentGenerationEndTime="showkerTask.currentGenerationEndTime"></place-order-step>
+      <place-order-step :taskPlaceInfo="taskPlaceInfo" :currentGenerationEndTime="showkerTask.currentGenerationEndTime"></place-order-step>
+      <div class="precautions-tip-info mt-20" v-if="showkerTask.task.itemReviewRequired === 'review_by_showker_self'">
+        <Icon type="information-circled" color="#FF0100"></Icon>
+        <span class="sizeColor3">注意：</span>
+        <span>亲收到货后记得</span>
+        <span class="sizeColor3">在淘宝</span>
+        <span>给出好评哦，</span>
+        <span>商家若有备注</span>
+        <span class="sizeColor3">“勿晒图”</span>
+        <span>的，</span>
+        <span class="sizeColor3">请勿在淘宝评价中晒图片！</span>
+      </div>
+      <div class="precautions-tip-info mt-20" v-if="showkerTask.task.itemReviewRequired === 'offer_review_summary'">
+        <Icon type="information-circled" color="#FF0100"></Icon>
+        <span class="sizeColor3">注意：</span>
+        <span>商家希望亲</span>
+        <span class="sizeColor3">在淘宝</span>
+        <span>从以下角度进行评价！</span>
+      </div>
+      <div class="evaluation-content-tip mt-10" v-if="showkerTask.task.itemReviewRequired === 'offer_review_summary'">{{showkerTask.task.itemReviewSummary}}</div>
+      <div class="precautions-tip-info mt-20" v-if="showkerTask.task.itemReviewRequired === 'assign_review_detail'">
+        <Icon type="information-circled" color="#FF0100"></Icon>
+        <span class="sizeColor3">注意：</span>
+        <span>商家要求</span>
+        <span class="sizeColor3">在淘宝</span>
+        <span>使用下方提供的内容进行评价，为避免纠纷，</span>
+        <span class="sizeColor3">请务必按照要求操作！</span>
+      </div>
+      <div class="evaluation-content-tip-assign mt-10" v-if="showkerTask.task.itemReviewRequired === 'assign_review_detail'">
+        <div id="copyEvaluation2">{{showkerTask.other.itemReviewAssign.reviewContent}}</div>
+        <div class="copy-evaluation-tbn mt-10" id="copyEvaluationBtn2">复制评价内容</div>
+      </div>
       <div class="write-order-number mt-20">
         <span @click="openAuditOrder(null,orderType, null, showkerTask.status, showkerTask.statusDesc, showkerTask.latestShowkerTaskOpLog.auditDescription)">下单完成，填订单号</span>
         <span class="ml-35" @click="returnUpPage">返回上页</span>
@@ -445,6 +476,19 @@
       _this.$nextTick(() => {
         let clipboard = new Clipboard('#copyEvaluationBtn', {
           target: () => document.getElementById('copyEvaluation')
+        });
+        clipboard.on('success', () => {
+          _this.$Message.success("复制评价内容成功！");
+          clipboard.destroy();
+        });
+        clipboard.on('error', () => {
+          _this.$Message.error("复制评价内容失败！");
+          clipboard.destroy();
+        });
+      });
+      _this.$nextTick(() => {
+        let clipboard = new Clipboard('#copyEvaluationBtn2', {
+          target: () => document.getElementById('copyEvaluation2')
         });
         clipboard.on('success', () => {
           _this.$Message.success("复制评价内容成功！");
