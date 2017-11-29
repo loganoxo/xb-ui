@@ -469,9 +469,9 @@
         this.checkAll = !this.checkAll;
         if (this.checkAll) {
           if(this.getUserInfoRole === 1){
-            this.transactType = ['0', '1', '2','3','100'];
+            this.transactType = ['0', '1', '2','4','100'];
           }else {
-            this.transactType = ['0', '2','3'];
+            this.transactType = ['0', '2','4'];
           }
         } else {
           this.transactType = [];
