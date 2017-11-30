@@ -105,7 +105,7 @@
         <div class="get-out-do mt-22">
           <iForm ref="getoutMoney" :model="getoutMoney" :label-width="200" :rules="getOutMoneyRule">
             <Form-item label="请输入提现金额:" prop="getoutNumber">
-              <iInput v-model="getoutMoney.getoutNumber" class="iInput"></iInput>
+              <iInput v-model.number="getoutMoney.getoutNumber" class="iInput"></iInput>
               <span>元（最低1元起提）</span>
             </Form-item>
             <Form-item label="提现银行卡号:">
@@ -384,7 +384,7 @@
           ]
         },
         getoutMoney: {
-          getoutNumber: '',
+          getoutNumber:null,
           password: ''
         },
         getOutMoneyRule: {
@@ -613,9 +613,10 @@
          _this.$Message.error('金额为数字且仅支持小数点后两位');
           return;
         }
+        console.log(types.getoutNumber);
         _this.getOutMoneyPopWindow = true;
         api.applyGetoutMoney({
-          fee: types.getoutNumber * 100,
+          fee: (types.getoutNumber * 100).toFixed(),
           bankCardNum: _this.userAccount.bankCardNum,
           payPwd: types.password
         }).then(res => {
