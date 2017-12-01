@@ -56,7 +56,7 @@
             });
 //            self.$store.dispatch('getDetectionMerchantGuide');
             setStorage('weChartPop', 1);
-            self.$router.go(-1);
+            self.$router.go(-2);
           } else {
             if(res.statusCode === 'new_user'){
               self.$router.push({path: '/sel-role',query: {accessToken: self.accessToken.accessToken, qqOpenId: res.msg}});
