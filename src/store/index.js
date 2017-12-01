@@ -42,7 +42,7 @@ const state = {
     'pinkage_for_10': {
       text: '10元包邮',
       desc: '本模块商品，秀客仅需承担10元运费，商品就归您！',
-      color: '#66ccff',
+      color: '#75c5ff',
     },
     'present_get': {
       text: '体验专区',
@@ -62,27 +62,27 @@ const state = {
       discountTypes: ['discount_9_9','discount_49_9', 'discount_99_9','discount_r_10','discount_r_30','discount_r_50'],
     },
     9.9: {
-      backgroundColor: '#ff9900',
+      backgroundColor: '#c4c71d',
       discountTypes: ['discount_9_9'],
     },
     49.9: {
-      backgroundColor: '#cc3333',
+      backgroundColor: '#c4c71d',
       discountTypes: ['discount_49_9'],
     },
     99.9: {
-      backgroundColor: '#ff3399',
+      backgroundColor: '#c4c71d',
       discountTypes: ['discount_99_9'],
     },
     '1折': {
-      backgroundColor: '#ff9900',
+      backgroundColor: '#c4c71d',
       discountTypes: ['discount_r_10'],
     },
     '3折': {
-      backgroundColor: '#cc3333',
+      backgroundColor: '#c4c71d',
       discountTypes: ['discount_r_30'],
     },
     '5折': {
-      backgroundColor: '#ff3399',
+      backgroundColor: '#c4c71d',
       discountTypes: ['discount_r_50'],
     }
   },

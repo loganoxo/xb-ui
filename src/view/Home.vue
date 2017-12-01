@@ -265,7 +265,7 @@
           <div class="home-commodity-title">
             <p>
               <img src="/static/img/icon/free_get_heart.png" alt="">
-              <span class="fs-18 f-b cl97C71C">免费领</span>
+              <span class="fs-18 f-b clf99563">免费领</span>
               <span class="fs-12 cl666">秀客无需支付任何费用，商家任性送！</span>
               <router-link to="/task-category?activityCategory=free_get" class="cl666 right mr-20">更多></router-link>
             </p>
@@ -412,7 +412,7 @@
                     </span>
                   </em>
                   <em  class="price-icon mt-10">
-                    <span v-if= "pinkageFor.activityCategory == 'pinkage_for_10'" style="padding: 0 4px; background: #ff9966; color: #fff; margin-left: 10px; display: inline-block;height: 20px;line-height: 20px;">10元包邮</span>
+                    <span v-if= "pinkageFor.activityCategory == 'pinkage_for_10'" style="padding: 0 4px; background: #75c5ff; color: #fff; margin-left: 10px; display: inline-block;height: 20px;line-height: 20px;">10元包邮</span>
                     <span v-if= "pinkageFor.activityCategory == 'present_get'" style="padding: 0 4px; background: #00cc66; color: #ffffff; margin-left: 10px; display: inline-block;height: 20px;line-height: 20px;">体验专区</span>
                     <span v-if="pinkageFor.activityCategory == 'price_low' && pinkageFor.discountPrice" class="left home-discount-price mt-5" :style="{backgroundColor: $store.state.discountPriceType[parseFloat(pinkageFor.discountPrice/100)].backgroundColor}" >
                       {{pinkageFor.discountPrice/100}}试用
