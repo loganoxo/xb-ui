@@ -174,7 +174,7 @@ export default new Router({
         logInAuthority: false,
         topShow: false,
         bottomShow: false,
-        role: 1,
+        role: null,
       }
     },
 
