@@ -24,7 +24,7 @@
               </Carousel-item>
               <Carousel-item>
                 <router-link to="/task-category?activityCategory=free_get" class="block">
-                  <img src="/static/img/home/banner_01.jpg" alt="" style="margin-left: -1px">
+                  <img src="/static/img/home/banner_01.jpg" alt="" >
                 </router-link>
               </Carousel-item>
               <Carousel-item>
