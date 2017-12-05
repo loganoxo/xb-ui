@@ -1467,6 +1467,7 @@
               _this.taskRelease.discountType = 'discount_0'
             }
             _this.itemReviewList = [];
+            _this.itemReviewPushList = [];
             let itemReviewAssignsData = res.data.itemReviewAssigns;
             if(itemReviewAssignsData){
               itemReviewAssignsData.forEach((item,index) => {
