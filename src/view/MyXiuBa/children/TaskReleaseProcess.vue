@@ -816,7 +816,7 @@
         uniqueId: 'uniqueId',
         addImgRange: null,
         editorOption: {
-          placeholder: "请在这里编辑您的商品简介！",
+          placeholder: "请在这里编辑您的商品简介！（你可以直接复制淘宝的宝贝详情到这里）",
           modules: {
             toolbar: [
               ['bold', 'italic', 'underline', 'strike'],
@@ -1090,7 +1090,7 @@
       },
     },
     destroyed(){
-      if(getStorage('showInsideAgainRes') == 2){
+      if(getStorage('showInsideAgainRes') === 2){
         removeStorage('showInsideAgainRes');
       }
     },
