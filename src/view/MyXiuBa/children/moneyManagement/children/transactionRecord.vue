@@ -366,7 +366,8 @@
         mainColor:true,
         mainColorGreen:false,
         isChange:false,
-
+        tradTimeStart:null,
+        tradTimeEnd:null,
       }
     },
     mounted() {
@@ -396,10 +397,13 @@
     },
     methods: {
       beginTimeFun(e){
-        this.beginTime = e;
+        let self = this;
+        self.beginTime = e;
+        self.tradTimeStart = e;
       },
       endTimeFun(e){
         this.endTime = e;
+        this.tradTimeEnd = e;
       },
       changePageShow(type){
         this.pageIndex = 0 ;
@@ -431,8 +435,8 @@
           type = JSON.stringify(type);
         }
         api.getTradList({
-          tradTimeStart: _this.beginTime,
-          tradTimeEnd: _this.endTime,
+          tradTimeStart: _this.tradTimeStart,
+          tradTimeEnd: _this.tradTimeEnd,
           accountChangeTypeStr: type || null,
           reversePicUrl: null,
           taskSerial: _this.activityNumber,
