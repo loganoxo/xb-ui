@@ -595,7 +595,7 @@
         _this.approveTableList = [];
         _this.searchLoading = true;
         api.getTaskApplyList({
-          taskId: _this.taskId,
+          taskId: _this.taskId || null,
           status: _this.showApproveStatus,
           selectStatus: _this.selectStatus,
           searchValue: _this.searchValue,

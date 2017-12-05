@@ -382,7 +382,7 @@ export default new Router({
                 logInAuthority: true,
                 topShow: true,
                 bottomShow: true,
-                role: 1,
+                role: null,
               },
             },
             {
