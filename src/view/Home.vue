@@ -17,15 +17,14 @@
           </div>
           <div class="middle-ctt left">
             <Carousel autoplay :autoplay-speed="5000" v-model="homeCarousel" loop>
-              <!--<Carousel-item>
-                <router-link to="" class="block">
-                  <img class="block" src="~assets/img/home/banner_01.jpg" alt="">
-                </router-link>
-
-              </Carousel-item>-->
+             <Carousel-item v-if="getUserInfoRole　== 1">
+                <a href="http://wpa.qq.com/msgrd?v=3&site=qq&menu=yes&uin=806998254" target="_blank" class="block">
+                  <img class="block" src="/static/img/home/banner_04.png" alt="">
+                </a>
+              </Carousel-item>
               <Carousel-item>
                 <router-link to="/task-category?activityCategory=free_get" class="block">
-                  <img src="/static/img/home/banner_01.jpg" alt="">
+                  <img src="/static/img/home/banner_01.jpg" alt="" style="margin-left: -1px">
                 </router-link>
               </Carousel-item>
               <Carousel-item>
@@ -907,6 +906,22 @@
           }
         });
       },
+      getHomeDisCountList(){
+        let self = this;
+        api.getIndexRecommend({
+          count: 6,
+          activityCategory: 'price_low',
+        }).then((res) => {
+          if (res.status) {
+            res.data ? self.homeDisCountList = res.data : self.homeDisCountList = [];
+          } else {
+            self.$Message.error({
+              content: res.msg,
+              duration: 9
+            });
+          }
+        });
+      },
       getUserHead(src) {
         if (src && src.indexOf('head-image') >= 0) {
           return aliCallbackImgUrl + src + '!orgi75'
@@ -933,6 +948,68 @@
           }
         })
       },
+      getHomeTaskList() {
+        let self = this;
+        api.getIndexRecommend({
+          count: 6,
+          activityCategory: '',
+        }).then((res) => {
+          if (res.status) {
+            if (res.data) {
+              self.homeCommodityList = res.data;
+            }
+          } else {
+            self.$Message.error({
+              content: res.msg,
+              duration: 9
+            });
+          }
+        })
+      },
+      getNavList(){
+        let self = this;
+        api.getNavList().then((res) =>{
+          if(res.status){
+            res.data.sort(function(a,b){
+              return a.sortIndex-b.sortIndex
+            });
+            self.navList = res.data;
+          }else {
+            self.$Message.error({
+              content: res.msg,
+              duration: 9
+            });
+          }
+        })
+      },
+      getHomeTaskTopLeftList() {
+        let self = this;
+        api.getHomeTaskTopLeftList().then((res) => {
+          if (res.status) {
+            self.taskTopLeftList = res.data;
+          } else {
+            self.$Message.error({
+              content: res.msg,
+              duration: 9
+            });
+          }
+        })
+      },
+      getHomeHistoryList() {
+        let self = this;
+        api.getHomeHistoryList().then((res) => {
+          if (res.status) {
+            if (res.data) {
+              self.homeHistoryList = res.data;
+            }
+          } else {
+            self.$Message.error({
+              content: res.msg,
+              duration: 9
+            });
+          }
+        })
+      },
       selTaskCategoryAllFunc(){
         let self = this;
         self.$store.commit({
@@ -952,22 +1029,6 @@
           type: 'TASK_CATEGORY_LIST',
           info: 'all',
         });
-      },
-      getNavList(){
-        let self = this;
-        api.getNavList().then((res) =>{
-          if(res.status){
-            res.data.sort(function(a,b){
-              return a.sortIndex-b.sortIndex
-            });
-            self.navList = res.data;
-          }else {
-            self.$Message.error({
-              content: res.msg,
-              duration: 9
-            });
-          }
-        })
       },
       encryptionId(id) {
         return encryption(id);
@@ -991,7 +1052,6 @@
           }
         })
       },
-
       setWeChartAlertFunc(role) {
         let self = this;
         let commandList = {
@@ -1082,50 +1142,6 @@
           }
         }
       },
-      getHomeTaskTopLeftList() {
-        let self = this;
-        api.getHomeTaskTopLeftList().then((res) => {
-          if (res.status) {
-            self.taskTopLeftList = res.data;
-
-          } else {
-
-          }
-        })
-      },
-      getHomeTaskList() {
-        let self = this;
-        api.getIndexRecommend({
-          count: 6,
-          activityCategory: '',
-        }).then((res) => {
-          if (res.status) {
-            if (res.data) {
-              self.homeCommodityList = res.data;
-            }
-          } else {
-            self.$Message.error({
-              content: res.msg,
-              duration: 9
-            });
-          }
-        })
-      },
-      getHomeHistoryList() {
-        let self = this;
-        api.getHomeHistoryList().then((res) => {
-          if (res.status) {
-            if (res.data) {
-              self.homeHistoryList = res.data;
-            }
-          } else {
-            self.$Message.error({
-              content: res.msg,
-              duration: 9
-            });
-          }
-        })
-      },
       leftSliderFunc() {
         let self = this;
         self.leftSliderTimer = setInterval(function () {
@@ -1136,22 +1152,7 @@
           self.leftSlider = !self.leftSlider;
         }, 1500)
       },
-      getHomeDisCountList(){
-        let self = this;
-        api.getIndexRecommend({
-          count: 6,
-          activityCategory: 'price_low',
-        }).then((res) => {
-          if (res.status) {
-            res.data ? self.homeDisCountList = res.data : self.homeDisCountList = [];
-          } else {
-            self.$Message.error({
-              content: res.msg,
-              duration: 9
-            });
-          }
-        });
-      },
+
       leftTopSliderFunc(){
         let self = this;
         self.leftTopSliderTimer = setInterval(function () {
@@ -1162,6 +1163,7 @@
           self.leftTopSlider = !self.leftTopSlider;
         }, 1500)
       },
+
       clearLeftTopSliderFunc() {
         let self = this;
         clearInterval(self.leftTopSliderTimer);
@@ -1367,6 +1369,7 @@
       .middle-ctt {
         width: 700px;
         margin: 0 10px;
+        box-sizing: border-box;
       }
       .right-ctt {
         float: right;
