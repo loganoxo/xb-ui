@@ -193,7 +193,7 @@
             </div>
             <div class="baby-number ml-45 mt-20">
               <span class="required">宝贝数量：</span>
-              <iInput v-model="taskRelease.taskCount" placeholder="请输入宝贝数量" style="width: 120px" @on-change="addItemReviewList"></iInput>
+              <iInput v-model.number="taskRelease.taskCount" placeholder="请输入宝贝数量" style="width: 120px" @on-change="addItemReviewList"></iInput>
               <span>份</span>
             </div>
             <div class="baby-price ml-45 mt-20">
@@ -378,93 +378,117 @@
                 </Upload>
                 <p class="sizeColor pl-60 mt-10">点击或者拖拽自主上传图片，支持jpg \ jpeg \ png \ gif \ bmp格式，最佳尺寸400*400（像素），不超过1M，可与宝贝主图一致</p>
               </div>
-              <div class="search-keyword mt-20 ml-28">
-                <span class="required">搜索关键词：</span>
-                <iInput v-model="PcTaskDetail.searchKeyword" placeholder="请输入搜索关键词" style="width: 260px"></iInput>
-                <span class="sizeColor2">（PC端请确保10页以内，若是长尾关键词请不要过量补单）</span>
-              </div>
-              <div class="sort-by ml-40 mt-20">
-                <span class="required">排序方式：</span>
-                <Radio-group v-model="PcTaskDetail.searchSort">
-                  <Radio label="zong_he">
-                    <span>综合排序</span>
-                  </Radio>
-                  <Radio label="xiao_liang">
-                    <span>销量排序</span>
-                  </Radio>
-                  <Radio label="ren_qi">
-                    <span>人气排序</span>
-                  </Radio>
-                </Radio-group>
-              </div>
-              <div class="search-price ml-40 mt-20">
-                <span class="required">展示价格：</span>
-                <iInput v-model.number="PcTaskDetail.searchPagePrice" placeholder="请输入搜索列表页展示价格"
-                        style="width: 160px"></iInput>
-                <span class="sizeColor2">（务必亲自搜索，确认价格准确）</span>
-              </div>
-              <div class="baby-location ml-15 mt-20">
-                <span class="required">宝贝搜索位置：</span>
-                <span>第</span>
-                <iInput v-model.number="PcTaskDetail.searchPagePositionMin" style="width: 40px"></iInput>
-                <span>---</span>
-                <iInput v-model.number="PcTaskDetail.searchPagePositionMax" style="width: 40px"></iInput>
-                <span>页</span>
-                <p class="sizeColor2 ml-80 mt-6">宝贝参考位置页数差值最大值不大于3页（如果PC端排名在10页以后， 可使用下面的卡条件功能）</p>
-              </div>
-              <div class="screen-condition ml-45 mt-20 clear">
-                <span class="left">筛选条件：</span>
-                <div class="left ml-5">
-                  <Checkbox-group v-model="PcTaskDetail.searchFilter">
-                    <Checkbox label="pinkage">
-                      <span>包邮</span>
-                    </Checkbox>
-                    <Checkbox label="mobile_exclusive">
-                      <span>手机专享</span>
-                    </Checkbox>
-                    <Checkbox label="tao_coin_deduction">
-                      <span>淘金币抵扣</span>
-                    </Checkbox>
-                    <Checkbox label="sales_return_7_plus">
-                      <span>7+天退货</span>
-                    </Checkbox>
-                    <Checkbox label="tmall">
-                      <span>天猫</span>
-                    </Checkbox>
-                    <p style="height: 10px;"></p>
-                    <Checkbox label="global_shopping">
-                      <span>全球购</span>
-                    </Checkbox>
-                    <Checkbox label="overseas_goods">
-                      <span>海外商品</span>
-                    </Checkbox>
-                    <Checkbox label="consumer_protect">
-                      <span>消费者保障</span>
-                    </Checkbox>
-                    <Checkbox label="pay_after_receive">
-                      <span>货到付款</span>
-                    </Checkbox>
-                    <Checkbox label="hua_pay_installment">
-                      <span>花呗分期</span>
-                    </Checkbox>
-                    <Checkbox label="wangwang_online">
-                      <span>旺旺在线</span>
-                    </Checkbox>
-                  </Checkbox-group>
+              <div class="more-keyword-scheme ml-40 mt-20">
+                <div>
+                  <div class="inline-block tag" v-for="item in pcTaskDetail" :key="item.index" :class="selectKeywordScheme === item.index ? 'select-tag-bg' : ''">
+                    <span @click="selectChangeScheme(item.index)">关键词方案{{ item.index + 1 }}</span>
+                    <sup class="badge-count" v-show="item.countAssigned > 0">{{item.countAssigned}}</sup>
+                    <span v-if="item.index !==0" class="close-tag" @click="handleClose(item.index)">
+                      <Icon type="ios-close-empty" ></Icon>
+                    </span>
+                  </div>
+                  <iButton class="ml-5" v-show="pcTaskDetail.length < 5" icon="ios-plus-empty" type="dashed" size="small" @click="handleAdd">添加关键词方案</iButton>
                 </div>
+                <div class="mt-10 sizeColor">（请确保提供的关键词能够搜索到宝贝，同时为了避免秀客找不到对应的宝贝，您最多可以添加5组关键词方案）</div>
               </div>
-              <div class="price-select ml-45 mt-20">
-                <span>价格区间：</span>
-                <iInput v-model.number="PcTaskDetail.priceRangeMin" style="width: 40px"></iInput>
-                <span>---</span>
-                <iInput v-model.number="PcTaskDetail.priceRangeMax" style="width: 40px"></iInput>
-                <span>元</span>
-              </div>
-              <div class="deliver-address ml-56 mt-20">
-                <span>发货地：</span>
-                <iInput v-model="PcTaskDetail.deliverAddress" style="width: 120px"></iInput>
-                <span class="sizeColor2 ml-5">出于安全考虑，请勿大量使用</span>
-              </div>
+              <template v-for="item in pcTaskDetail" v-if="item.index === selectKeywordScheme">
+                <Alert show-icon class="tag-alert">
+                  您当前选择的是关键词方案 {{item.index + 1}}
+                  <Icon type="ios-lightbulb-outline" slot="icon" size="18"></Icon>
+                </Alert>
+                <div class="matching-num ml-40 mt-20">
+                  <span>匹配人数：</span>
+                  <iInput v-model.number="item.countAssigned" placeholder="请输入匹配人数" style="width: 160px" key="username-input2"></iInput>
+                  <p class="sizeColor mt-10">（系统会按照审批秀客通过数量以及匹配人数，依次展示对应的关键词。注意：每个关键词的匹配人数之和不能大于宝贝数量）</p>
+                </div>
+                <div class="search-keyword mt-20 ml-28">
+                  <span class="required">搜索关键词：</span>
+                  <iInput v-model="item.searchKeyword" placeholder="请输入搜索关键词" style="width: 260px"></iInput>
+                  <span class="sizeColor2">（PC端请确保10页以内，若是长尾关键词请不要过量补单）</span>
+                </div>
+                <div class="sort-by ml-40 mt-20">
+                  <span class="required">排序方式：</span>
+                  <Radio-group v-model="item.searchSort">
+                    <Radio label="zong_he">
+                      <span>综合排序</span>
+                    </Radio>
+                    <Radio label="xiao_liang">
+                      <span>销量排序</span>
+                    </Radio>
+                    <Radio label="ren_qi">
+                      <span>人气排序</span>
+                    </Radio>
+                  </Radio-group>
+                </div>
+                <div class="search-price ml-40 mt-20">
+                  <span class="required">展示价格：</span>
+                  <iInput v-model.number="item.searchPagePrice" placeholder="请输入搜索列表页展示价格"
+                          style="width: 160px"></iInput>
+                  <span class="sizeColor2">（务必亲自搜索，确认价格准确）</span>
+                </div>
+                <div class="baby-location ml-15 mt-20">
+                  <span class="required">宝贝搜索位置：</span>
+                  <span>第</span>
+                  <iInput v-model.number="item.searchPagePositionMin" style="width: 40px"></iInput>
+                  <span>---</span>
+                  <iInput v-model.number="item.searchPagePositionMax" style="width: 40px"></iInput>
+                  <span>页</span>
+                  <p class="sizeColor2 ml-80 mt-6">宝贝参考位置页数差值最大值不大于3页（如果PC端排名在10页以后， 可使用下面的卡条件功能）</p>
+                </div>
+                <div class="screen-condition ml-45 mt-20 clear">
+                  <span class="left">筛选条件：</span>
+                  <div class="left ml-5">
+                    <Checkbox-group v-model="item.searchFilter">
+                      <Checkbox label="pinkage">
+                        <span>包邮</span>
+                      </Checkbox>
+                      <Checkbox label="mobile_exclusive">
+                        <span>手机专享</span>
+                      </Checkbox>
+                      <Checkbox label="tao_coin_deduction">
+                        <span>淘金币抵扣</span>
+                      </Checkbox>
+                      <Checkbox label="sales_return_7_plus">
+                        <span>7+天退货</span>
+                      </Checkbox>
+                      <Checkbox label="tmall">
+                        <span>天猫</span>
+                      </Checkbox>
+                      <p style="height: 10px;"></p>
+                      <Checkbox label="global_shopping">
+                        <span>全球购</span>
+                      </Checkbox>
+                      <Checkbox label="overseas_goods">
+                        <span>海外商品</span>
+                      </Checkbox>
+                      <Checkbox label="consumer_protect">
+                        <span>消费者保障</span>
+                      </Checkbox>
+                      <Checkbox label="pay_after_receive">
+                        <span>货到付款</span>
+                      </Checkbox>
+                      <Checkbox label="hua_pay_installment">
+                        <span>花呗分期</span>
+                      </Checkbox>
+                      <Checkbox label="wangwang_online">
+                        <span>旺旺在线</span>
+                      </Checkbox>
+                    </Checkbox-group>
+                  </div>
+                </div>
+                <div class="price-select ml-45 mt-20">
+                  <span>价格区间：</span>
+                  <iInput v-model.number="item.priceRangeMin" style="width: 40px"></iInput>
+                  <span>---</span>
+                  <iInput v-model.number="item.priceRangeMax" style="width: 40px"></iInput>
+                  <span>元</span>
+                </div>
+                <div class="deliver-address ml-56 mt-20">
+                  <span>发货地：</span>
+                  <iInput v-model="item.deliverAddress" style="width: 120px"></iInput>
+                  <span class="sizeColor2 ml-5">出于安全考虑，请勿大量使用</span>
+                </div>
+              </template>
             </template>
             <!--APP搜索下单设置-->
             <template v-else-if="taskRelease.taskType === 'app_search'">
@@ -487,95 +511,117 @@
                     <Icon type="camera" size="20"></Icon>
                   </div>
                 </Upload>
-                <p
-                  class="sizeColor pl-60 mt-10">
-                  点击或者拖拽自主上传图片，支持jpg \ jpeg \ png \ gif \ bmp格式，最佳尺寸400*400（像素），不超过1M，可与宝贝主图一致</p>
+                <p class="sizeColor pl-60 mt-10">点击或者拖拽自主上传图片，支持jpg \ jpeg \ png \ gif \ bmp格式，最佳尺寸400*400（像素），不超过1M，可与宝贝主图一致</p>
               </div>
-              <div class="search-keyword mt-20 ml-28">
-                <span class="required">搜索关键词：</span>
-                <iInput v-model="AppTaskDetail.searchKeyword" placeholder="请输入搜索关键词" style="width: 260px"></iInput>
-                <span class="sizeColor2">（APP端请确保在120位以内，若是长尾关键词请不要过量补单）</span>
-              </div>
-              <div class="sort-by ml-40 mt-20">
-                <span class="required">排序方式：</span>
-                <Radio-group v-model="AppTaskDetail.searchSort">
-                  <Radio label="zong_he">
-                    <span>综合排序</span>
-                  </Radio>
-                  <Radio label="xiao_liang">
-                    <span>销量排序</span>
-                  </Radio>
-                </Radio-group>
-              </div>
-              <div class="search-price ml-40 mt-20">
-                <span class="required">展示价格：</span>
-                <iInput v-model="AppTaskDetail.searchPagePrice" placeholder="请输入搜索列表页展示价格"
-                        style="width: 160px"></iInput>
-                <span class="sizeColor2">（务必亲自搜索，确认价格准确）</span>
-              </div>
-              <div class="baby-location ml-15 mt-20">
-                <span class="required">宝贝搜索位置：</span>
-                <span>从上往下数第</span>
-                <iInput v-model="AppTaskDetail.searchRankPosition" style="width: 40px"></iInput>
-                <span>个宝贝左右</span>
-                <p class="sizeColor2 ml-80 mt-6">位置统一切换为一列展示后，在数位置。（如果移动端排名在100名以后，可使用下面的卡条件功能）</p>
-              </div>
-              <div class="screen-condition ml-45 mt-20 clear">
-                <span class="left">筛选条件：</span>
-                <div class="left ml-5">
-                  <Checkbox-group v-model="AppTaskDetail.searchFilter">
-                    <Checkbox label="pinkage">
-                      <span>包邮</span>
-                    </Checkbox>
-                    <Checkbox label="mobile_exclusive">
-                      <span>手机专享</span>
-                    </Checkbox>
-                    <Checkbox label="tao_coin_deduction">
-                      <span>淘金币抵扣</span>
-                    </Checkbox>
-                    <Checkbox label="sales_return_7_plus">
-                      <span>7+天退货</span>
-                    </Checkbox>
-                    <Checkbox label="tmall">
-                      <span>天猫</span>
-                    </Checkbox>
-                    <p style="height: 10px;"></p>
-                    <Checkbox label="global_shopping">
-                      <span>全球购</span>
-                    </Checkbox>
-                    <Checkbox label="overseas_goods">
-                      <span>海外商品</span>
-                    </Checkbox>
-                    <Checkbox label="consumer_protect">
-                      <span>消费者保障</span>
-                    </Checkbox>
-                    <Checkbox label="pay_after_receive">
-                      <span>货到付款</span>
-                    </Checkbox>
-                    <Checkbox label="hua_pay_installment">
-                      <span>花呗分期</span>
-                    </Checkbox>
-                  </Checkbox-group>
+              <div class="more-keyword-scheme ml-40 mt-20">
+                <div>
+                  <div class="inline-block tag" v-for="item in appTaskDetail" :key="item" :class="selectKeywordScheme === item.index ? 'select-tag-bg' : ''">
+                    <span @click="selectChangeScheme(item.index)">关键词方案{{ item.index + 1 }}</span>
+                    <sup class="badge-count" v-show="item.countAssigned > 0">{{item.countAssigned}}</sup>
+                    <span v-if="item.index !==0" class="close-tag" @click="handleClose(item.index)">
+                      <Icon type="ios-close-empty" ></Icon>
+                    </span>
+                  </div>
+                  <iButton v-show="appTaskDetail.length < 5" icon="ios-plus-empty" type="dashed" size="small" @click="handleAdd">添加关键词方案</iButton>
                 </div>
+                <div class="mt-10 sizeColor">（请确保提供的关键词能够搜索到宝贝，同时为了避免秀客找不到对应的宝贝，您最多可以添加5组关键词方案）</div>
               </div>
-              <div class="price-select ml-45 mt-20">
-                <span>价格区间：</span>
-                <iInput v-model.number="AppTaskDetail.priceRangeMin" style="width: 40px"></iInput>
-                <span>---</span>
-                <iInput v-model.number="AppTaskDetail.priceRangeMax" style="width: 40px"></iInput>
-                <span>元</span>
-              </div>
-              <div class="deliver-address ml-56 mt-20">
-                <span>发货地：</span>
-                <iInput v-model="AppTaskDetail.deliverAddress" style="width: 120px"></iInput>
-                <span class="sizeColor2 ml-5">出于安全考虑，请勿大量使用</span>
-              </div>
+              <template v-for="item in appTaskDetail" v-if="item.index === selectKeywordScheme">
+                <Alert show-icon class="tag-alert">
+                  您当前选择的是关键词方案 {{item.index + 1}}
+                  <Icon type="ios-lightbulb-outline" slot="icon" size="18"></Icon>
+                </Alert>
+                <div class="matching-num ml-40 mt-20">
+                  <span>匹配人数：</span>
+                  <iInput v-model.number="item.countAssigned" placeholder="请输入匹配人数" style="width: 160px" key="username-input"></iInput>
+                  <p class="sizeColor mt-10">（系统会按照审批秀客通过数量以及匹配人数，依次展示对应的关键词。注意：每个关键词的匹配人数之和不能大于宝贝数量）</p>
+                </div>
+                <div class="search-keyword mt-20 ml-28">
+                  <span class="required">搜索关键词：</span>
+                  <iInput v-model="item.searchKeyword" placeholder="请输入搜索关键词" style="width: 260px"></iInput>
+                  <span class="sizeColor2">（APP端请确保在120位以内，若是长尾关键词请不要过量补单）</span>
+                </div>
+                <div class="sort-by ml-40 mt-20">
+                  <span class="required">排序方式：</span>
+                  <Radio-group v-model="item.searchSort">
+                    <Radio label="zong_he">
+                      <span>综合排序</span>
+                    </Radio>
+                    <Radio label="xiao_liang">
+                      <span>销量排序</span>
+                    </Radio>
+                  </Radio-group>
+                </div>
+                <div class="search-price ml-40 mt-20">
+                  <span class="required">展示价格：</span>
+                  <iInput v-model="item.searchPagePrice" placeholder="请输入搜索列表页展示价格"
+                          style="width: 160px"></iInput>
+                  <span class="sizeColor2">（务必亲自搜索，确认价格准确）</span>
+                </div>
+                <div class="baby-location ml-15 mt-20">
+                  <span class="required">宝贝搜索位置：</span>
+                  <span>从上往下数第</span>
+                  <iInput v-model="item.searchRankPosition" style="width: 40px"></iInput>
+                  <span>个宝贝左右</span>
+                  <p class="sizeColor2 ml-80 mt-6">位置统一切换为一列展示后，在数位置。（如果移动端排名在100名以后，可使用下面的卡条件功能）</p>
+                </div>
+                <div class="screen-condition ml-45 mt-20 clear">
+                  <span class="left">筛选条件：</span>
+                  <div class="left ml-5">
+                    <Checkbox-group v-model="appTaskDetail.searchFilter">
+                      <Checkbox label="pinkage">
+                        <span>包邮</span>
+                      </Checkbox>
+                      <Checkbox label="mobile_exclusive">
+                        <span>手机专享</span>
+                      </Checkbox>
+                      <Checkbox label="tao_coin_deduction">
+                        <span>淘金币抵扣</span>
+                      </Checkbox>
+                      <Checkbox label="sales_return_7_plus">
+                        <span>7+天退货</span>
+                      </Checkbox>
+                      <Checkbox label="tmall">
+                        <span>天猫</span>
+                      </Checkbox>
+                      <p style="height: 10px;"></p>
+                      <Checkbox label="global_shopping">
+                        <span>全球购</span>
+                      </Checkbox>
+                      <Checkbox label="overseas_goods">
+                        <span>海外商品</span>
+                      </Checkbox>
+                      <Checkbox label="consumer_protect">
+                        <span>消费者保障</span>
+                      </Checkbox>
+                      <Checkbox label="pay_after_receive">
+                        <span>货到付款</span>
+                      </Checkbox>
+                      <Checkbox label="hua_pay_installment">
+                        <span>花呗分期</span>
+                      </Checkbox>
+                    </Checkbox-group>
+                  </div>
+                </div>
+                <div class="price-select ml-45 mt-20">
+                  <span>价格区间：</span>
+                  <iInput v-model.number="item.priceRangeMin" style="width: 40px"></iInput>
+                  <span>---</span>
+                  <iInput v-model.number="item.priceRangeMax" style="width: 40px"></iInput>
+                  <span>元</span>
+                </div>
+                <div class="deliver-address ml-56 mt-20">
+                  <span>发货地：</span>
+                  <iInput v-model="item.deliverAddress" style="width: 120px"></iInput>
+                  <span class="sizeColor2 ml-5">出于安全考虑，请勿大量使用</span>
+                </div>
+              </template>
             </template>
             <!--淘口令下单设置-->
             <template v-else-if="taskRelease.taskType === 'tao_code'">
               <div class="tao_code ml-56 mt-20">
                 <span class="required">淘口令：</span>
-                <iInput v-model="taoCodeTaskDetail.taoCode" placeholder="请输入任务宝贝的淘口令" style="width: 320px"></iInput>
+                <iInput v-model="taoCodeTaskDetail[0].taoCode" placeholder="请输入任务宝贝的淘口令" style="width: 320px"></iInput>
               </div>
             </template>
           </div>
@@ -778,6 +824,7 @@
   import Button from 'iview/src/components/button'
   import Radio from 'iview/src/components/radio'
   import Modal from 'iview/src/components/modal'
+  import Alert from 'iview/src/components/alert'
   import {Select, Option, OptionGroup} from 'iview/src/components/select'
   import Upload from '@/components/upload'
   import Steps from 'iview/src/components/steps'
@@ -807,6 +854,7 @@
       Step: Steps.Step,
       OptionGroup: OptionGroup,
       Modal: Modal,
+      Alert: Alert,
       PayModel: PayModel,
     },
     data() {
@@ -844,33 +892,45 @@
         mainDefaultList: [],
         appDefaultList: [],
         pcDefaultList: [],
-        PcTaskDetail: {
-          itemMainImage: null,
-          searchKeyword: null,
-          searchSort: 'zong_he',
-          searchPagePrice: null,
-          searchPagePositionMin: null,
-          searchPagePositionMax: null,
-          searchFilter: [],
-          priceRangeMin: null,
-          priceRangeMax: null,
-          deliverAddress: null,
-        },
-        AppTaskDetail: {
-          itemMainImage: null,
-          searchKeyword: null,
-          searchSort: 'zong_he',
-          searchPagePrice: null,
-          searchRankPosition: null,
-          searchFilter: [],
-          priceRangeMin: null,
-          priceRangeMax: null,
-          deliverAddress: null,
-        },
-        taoCodeTaskDetail: {
-          taoCode: null,
-          accessDescription: null
-        },
+        pcTaskDetailItemMainImage: null,
+        pcTaskDetail: [
+          {
+            index:0,
+            itemMainImage: null,
+            countAssigned: null,
+            searchKeyword: null,
+            searchSort: 'zong_he',
+            searchPagePrice: null,
+            searchPagePositionMin: null,
+            searchPagePositionMax: null,
+            searchFilter: [],
+            priceRangeMin: null,
+            priceRangeMax: null,
+            deliverAddress: null,
+          }
+        ],
+        appTaskDetailItemMainImage: null,
+        appTaskDetail: [
+          {
+            index:0,
+            itemMainImage: null,
+            countAssigned: null,
+            searchKeyword: null,
+            searchSort: 'zong_he',
+            searchPagePrice: null,
+            searchRankPosition: null,
+            searchFilter: [],
+            priceRangeMin: null,
+            priceRangeMax: null,
+            deliverAddress: null,
+          }
+        ],
+        taoCodeTaskDetail: [
+          {
+            taoCode: null,
+            accessDescription: null
+          }
+        ],
         taskRelease: {
           taskType: 'pc_search',
           taskDaysDuration: null,
@@ -891,7 +951,7 @@
           remark: null,
           itemDescription: '',
           taskId: null,
-          taskDetail: {},
+          taskDetail: [],
           itemReviewRequired: 'review_by_showker_self',
           itemReviewSummary: null,
           itemReviewAssignString: [],
@@ -953,6 +1013,7 @@
         getMemberStatus: null,
         itemReviewList: [],
         itemReviewPushList: [],
+        selectKeywordScheme: 0
       }
     },
     mounted() {
@@ -1181,10 +1242,10 @@
         this.taskRelease.taskMainImage = aliCallbackImgUrl + res.name;
       },
       pcBabyImgSuccess(res) {
-        this.PcTaskDetail.itemMainImage = aliCallbackImgUrl + res.name;
+        this.pcTaskDetailItemMainImage = aliCallbackImgUrl + res.name;
       },
       appBabyImgSuccess(res) {
-        this.AppTaskDetail.itemMainImage = aliCallbackImgUrl + res.name;
+        this.appTaskDetailItemMainImage = aliCallbackImgUrl + res.name;
       },
       handleFormatError(file) {
         this.$Modal.warning({
@@ -1198,7 +1259,7 @@
           content: '图片 ' + file.name + ' 太大，不能超过 1M'
         });
       },
-      stepNext() {
+      stepNext: function () {
         let _this = this;
         if (!_this.taskRelease.taskDaysDuration) {
           _this.$Message.warning('亲，活动时长不能为空！');
@@ -1248,7 +1309,7 @@
           _this.$Message.warning('亲，宝贝数量不能为空！');
           return;
         }
-        if (!isInteger(_this.taskRelease.taskCount)) {
+        if (!isInteger(_this.taskRelease.taskCount * 1)) {
           _this.$Message.warning('亲，宝贝数量必须为数字！');
           return;
         }
@@ -1272,79 +1333,103 @@
           _this.$Message.warning('亲，请选择试用折扣！');
           return;
         }
-        if(_this.taskRelease.itemReviewRequired === 'offer_review_summary' && !_this.taskRelease.itemReviewSummary){
+        if (_this.taskRelease.itemReviewRequired === 'offer_review_summary' && !_this.taskRelease.itemReviewSummary) {
           _this.$Message.warning('亲，请填写你对评价的大概要求！');
           return;
         }
-        if(_this.itemReviewList.length > 0){
-          _this.itemReviewList.forEach(item =>{
-            if(item.value !== ''){
+        if (_this.itemReviewList.length > 0) {
+          _this.itemReviewList.forEach(item => {
+            if (item.value !== '') {
               _this.itemReviewPushList.push(item.value);
             }
           })
         }
-        if(_this.taskRelease.itemReviewRequired === 'assign_review_detail' && _this.itemReviewPushList.length < _this.taskRelease.taskCount){
+        if (_this.taskRelease.itemReviewRequired === 'assign_review_detail' && _this.itemReviewPushList.length < _this.taskRelease.taskCount) {
           _this.$Message.warning('亲，请填写你要提供的评价内容！');
           return;
         }
         if (_this.taskRelease.taskType === 'pc_search') {
-          if (!_this.PcTaskDetail.itemMainImage) {
-            _this.$Message.warning('亲，请上传PC搜索宝贝主图！');
-            return;
+          let countAssigned = 0;
+          for (let i = 0, len = _this.pcTaskDetail.length; i < len; i++) {
+            _this.pcTaskDetail[i].itemMainImage = _this.pcTaskDetailItemMainImage;
+            let index = _this.pcTaskDetail[i].id + 1;
+            countAssigned += _this.pcTaskDetail[i].countAssigned;
+            if (!_this.pcTaskDetail[i].itemMainImage) {
+              _this.$Message.warning('亲，请上传关键词方案' + index + '中的宝贝主图！');
+              return;
+            }
+            if (!_this.pcTaskDetail[i].countAssigned) {
+              _this.$Message.warning('亲，关键词方案'+ index + '中的匹配人数不能为空！');
+              return;
+            }
+            if (!_this.pcTaskDetail[i].searchKeyword) {
+              _this.$Message.warning('亲，关键词方案'+ index + '中的搜索关键词不能空！');
+              return;
+            }
+            if (!_this.pcTaskDetail[i].searchPagePrice) {
+              _this.$Message.warning('亲，关键词方案'+ index + '中的展示价格不能空！');
+              return;
+            }
+            if (!isNumber(_this.pcTaskDetail[i].searchPagePrice)) {
+              _this.$Message.warning('亲，关键词方案'+ index + '中的展示价格必须为数字！');
+              return;
+            }
+            if (!_this.pcTaskDetail[i].searchPagePositionMin) {
+              _this.$Message.warning('亲，关键词方案'+ index + '中的宝贝搜索起始位置不能空！');
+              return;
+            }
+            if (!_this.pcTaskDetail[i].searchPagePositionMax) {
+              _this.$Message.warning('亲，关键词方案'+ index + '中的宝贝搜索结束位置不能空！');
+              return;
+            }
+            if (_this.pcTaskDetail[i].searchPagePositionMax < _this.pcTaskDetail[i].searchPagePositionMin) {
+              _this.$Message.warning('亲，关键词方案'+ index + '中的宝贝搜索位置起始页不能大于结束页！');
+              return;
+            }
+            if (_this.pcTaskDetail[i].searchPagePositionMax - _this.pcTaskDetail[i].searchPagePositionMin > 2) {
+              _this.$Message.warning('亲，关键词方案'+ index + '中的宝贝搜索位置页数差值最大不大于3页！');
+              return;
+            }
           }
-          if (!_this.PcTaskDetail.searchKeyword) {
-            _this.$Message.warning('亲，搜索关键词不能空！');
-            return;
-          }
-          if (!_this.PcTaskDetail.searchPagePrice) {
-            _this.$Message.warning('亲，展示价格不能空！');
-            return;
-          }
-          if (!isNumber(_this.PcTaskDetail.searchPagePrice)) {
-            _this.$Message.warning('亲，展示价格必须为数字！');
-            return;
-          }
-          if (!_this.PcTaskDetail.searchPagePositionMin) {
-            _this.$Message.warning('亲，宝贝搜索起始位置不能空！');
-            return;
-          }
-          if (!_this.PcTaskDetail.searchPagePositionMax) {
-            _this.$Message.warning('亲，宝贝搜索结束位置不能空！');
-            return;
-          }
-          if (_this.PcTaskDetail.searchPagePositionMax < _this.PcTaskDetail.searchPagePositionMin) {
-            _this.$Message.warning('亲，宝贝搜索位置起始页不能大于结束页！');
-            return;
-          }
-          if (_this.PcTaskDetail.searchPagePositionMax - _this.PcTaskDetail.searchPagePositionMin > 2) {
-            _this.$Message.warning('亲，宝贝搜索位置页数差值最大不大于3页！');
+          if(countAssigned !== _this.taskRelease.taskCount){
+            _this.$Message.warning('亲，你分配的人数与宝贝数量不符，请重新分配人数！');
             return;
           }
         }
         if (_this.taskRelease.taskType === 'app_search') {
-          if (!_this.AppTaskDetail.itemMainImage) {
-            _this.$Message.warning('亲，请上传手淘搜索宝贝主图！');
-            return;
+          let countAssigned = 0;
+          for (let i = 0, len = _this.appTaskDetail.length; i < len; i++) {
+            _this.appTaskDetail[i].itemMainImage = _this.appTaskDetailItemMainImage;
+            let index = _this.pcTaskDetail[i].id + 1;
+            countAssigned += _this.appTaskDetail[i].countAssigned;
+            if (!_this.appTaskDetail[i].itemMainImage) {
+              _this.$Message.warning('亲，关键词方案'+ index + '中的请上传手淘搜索宝贝主图！');
+              return;
+            }
+            if (!_this.appTaskDetail[i].searchKeyword) {
+              _this.$Message.warning('亲，关键词方案'+ index + '中的搜索关键词不能空！');
+              return;
+            }
+            if (!_this.appTaskDetail[i].searchPagePrice) {
+              _this.$Message.warning('亲，关键词方案'+ index + '中的展示价格不能空！');
+              return;
+            }
+            if (!isNumber(_this.appTaskDetail[i].searchPagePrice)) {
+              _this.$Message.warning('亲，关键词方案'+ index + '中的展示价格必须为数字！');
+              return;
+            }
+            if (!_this.appTaskDetail[i].searchRankPosition) {
+              _this.$Message.warning('亲，关键词方案'+ index + '中的宝贝搜索位置不能空！');
+              return;
+            }
           }
-          if (!_this.AppTaskDetail.searchKeyword) {
-            _this.$Message.warning('亲，搜索关键词不能空！');
-            return;
-          }
-          if (!_this.AppTaskDetail.searchPagePrice) {
-            _this.$Message.warning('亲，展示价格不能空！');
-            return;
-          }
-          if (!isNumber(_this.AppTaskDetail.searchPagePrice)) {
-            _this.$Message.warning('亲，展示价格必须为数字！');
-            return;
-          }
-          if (!_this.AppTaskDetail.searchRankPosition) {
-            _this.$Message.warning('亲，宝贝搜索位置不能空！');
+          if(countAssigned !== _this.taskRelease.taskCount){
+            _this.$Message.warning('亲，你分配的人数与宝贝数量不符，请重新分配人数！');
             return;
           }
         }
         if (_this.taskRelease.taskType === 'tao_code') {
-          if (!_this.taoCodeTaskDetail.taoCode) {
+          if (!_this.taoCodeTaskDetail[0].taoCode) {
             _this.$Message.warning('亲，任务宝贝淘口令不能为空！');
             return;
           }
@@ -1371,26 +1456,30 @@
       taskCreate(type) {
         let _this = this;
         _this.taskRelease.itemReviewAssignString = JSON.stringify(_this.itemReviewPushList);
-        let pcTaskDetail = extendDeep(_this.PcTaskDetail);
-        let appTaskDetail = extendDeep(_this.AppTaskDetail);
+        let pcTaskDetailClone = extendDeep(_this.pcTaskDetail,[]);
+        let appTaskDetailClone = extendDeep(_this.appTaskDetail,[]);
         switch (_this.taskRelease.taskType) {
           case 'pc_search' :
-            pcTaskDetail.searchPagePrice = (pcTaskDetail.searchPagePrice * 100).toFixed(0) * 1;
-            pcTaskDetail.priceRangeMax = pcTaskDetail.priceRangeMax > 0 ? (pcTaskDetail.priceRangeMax * 100).toFixed(0) * 1 : null;
-            pcTaskDetail.priceRangeMin = pcTaskDetail.priceRangeMin > 0 ? (pcTaskDetail.priceRangeMin * 100).toFixed(0) * 1 : null;
-            _this.taskRelease.taskDetail = JSON.stringify(pcTaskDetail);
+            pcTaskDetailClone.forEach(item => {
+              item.searchPagePrice = (item.searchPagePrice * 100).toFixed(0) * 1;
+              item.priceRangeMax = item.priceRangeMax > 0 ? (item.priceRangeMax * 100).toFixed(0) * 1 : null;
+              item.priceRangeMin = item.priceRangeMin > 0 ? (item.priceRangeMin * 100).toFixed(0) * 1 : null;
+            });
+            _this.taskRelease.taskDetail = JSON.stringify(pcTaskDetailClone);
             break;
           case 'app_search' :
-            appTaskDetail.searchPagePrice = (appTaskDetail.searchPagePrice * 100).toFixed(0) * 1;
-            appTaskDetail.priceRangeMax = appTaskDetail.priceRangeMax > 0 ? (appTaskDetail.priceRangeMax * 100).toFixed(0) * 1 : null;
-            appTaskDetail.priceRangeMin = appTaskDetail.priceRangeMin > 0 ? (appTaskDetail.priceRangeMin * 100).toFixed(0) * 1 : null;
-            _this.taskRelease.taskDetail = JSON.stringify(appTaskDetail);
+            appTaskDetailClone.forEach(item => {
+              item.searchPagePrice = (item.searchPagePrice * 100).toFixed(0) * 1;
+              item.priceRangeMax = item.priceRangeMax > 0 ? (item.priceRangeMax * 100).toFixed(0) * 1 : null;
+              item.priceRangeMin = item.priceRangeMin > 0 ? (item.priceRangeMin * 100).toFixed(0) * 1 : null;
+            });
+            _this.taskRelease.taskDetail = JSON.stringify(appTaskDetailClone);
             break;
           case 'tao_code' :
             _this.taskRelease.taskDetail = JSON.stringify(_this.taoCodeTaskDetail);
             break;
           case 'direct_access' :
-            _this.taskRelease.taskDetail = null;
+            _this.taskRelease.taskDetail = [];
             break;
         }
         api.taskCreate(_this.taskRelease).then(res => {
@@ -1482,12 +1571,12 @@
             if (res.data.taskType === 'tao_code') {
               _this.taoCodeTaskDetail = JSON.parse(res.data.taskDetail);
             } else if (res.data.taskType === 'pc_search') {
-              _this.PcTaskDetail = JSON.parse(res.data.taskDetail);
-              _this.pcDefaultList.push({src: _this.PcTaskDetail.itemMainImage});
+              _this.pcTaskDetail = JSON.parse(res.data.taskDetail);
+              _this.pcDefaultList.push({src: _this.pcTaskDetail[0].itemMainImage});
               _this.conversionPrice('pc_search');
             } else if (res.data.taskType === 'app_search') {
-              _this.AppTaskDetail = JSON.parse(res.data.taskDetail);
-              _this.appDefaultList.push({src: _this.AppTaskDetail.itemMainImage});
+              _this.appTaskDetail = JSON.parse(res.data.taskDetail);
+              _this.appDefaultList.push({src: _this.appTaskDetail[0].itemMainImage});
               _this.conversionPrice('app_search');
             } else {
               _this.taskRelease.taskDetail = {};
@@ -1510,14 +1599,18 @@
         let _this = this;
         switch (type) {
           case 'pc_search' :
-            _this.PcTaskDetail.searchPagePrice = (_this.PcTaskDetail.searchPagePrice / 100).toFixed(2) * 1;
-            _this.PcTaskDetail.priceRangeMax = _this.PcTaskDetail.priceRangeMax > 0 ? (_this.PcTaskDetail.priceRangeMax / 100).toFixed(2) * 1 : null;
-            _this.PcTaskDetail.priceRangeMin = _this.PcTaskDetail.priceRangeMin > 0 ? (_this.PcTaskDetail.priceRangeMin / 100).toFixed(2) * 1 : null;
+            _this.pcTaskDetail.forEach(item => {
+              item.searchPagePrice = (item.searchPagePrice / 100).toFixed(2) * 1;
+              item.priceRangeMax = item.priceRangeMax > 0 ? (item.priceRangeMax / 100).toFixed(2) * 1 : null;
+              item.priceRangeMin = item.priceRangeMin > 0 ? (item.priceRangeMin / 100).toFixed(2) * 1 : null;
+            });
             break;
           case 'app_search' :
-            _this.AppTaskDetail.searchPagePrice = (_this.AppTaskDetail.searchPagePrice / 100).toFixed(2) * 1;
-            _this.AppTaskDetail.priceRangeMax = _this.AppTaskDetail.priceRangeMax > 0 ? (_this.AppTaskDetail.priceRangeMax / 100).toFixed(2) * 1 : null;
-            _this.AppTaskDetail.priceRangeMin = _this.AppTaskDetail.priceRangeMin > 0 ? (_this.AppTaskDetail.priceRangeMin / 100).toFixed(2) * 1 : null;
+            _this.appTaskDetail.forEach(item => {
+              item.searchPagePrice = (item.searchPagePrice / 100).toFixed(2) * 1;
+              item.priceRangeMax = item.priceRangeMax > 0 ? (item.priceRangeMax / 100).toFixed(2) * 1 : null;
+              item.priceRangeMin = item.priceRangeMin > 0 ? (item.priceRangeMin / 100).toFixed(2) * 1 : null;
+            });
             break;
         }
       },
@@ -1552,10 +1645,10 @@
         this.taskRelease.taskMainImage = null;
       },
       removeAppImage() {
-        this.AppTaskDetail.itemMainImage = null;
+        this.appTaskDetail.itemMainImage = null;
       },
       removePcImage() {
-        this.PcTaskDetail.itemMainImage = null;
+        this.pcTaskDetail.itemMainImage = null;
       },
       openRecharge() {
         this.showPayModel = true;
@@ -1607,6 +1700,57 @@
           this.addItemReviewList();
         }
       },
+      handleAdd () {
+        let _this = this;
+          _this.selectKeywordScheme++;
+          if(_this.taskRelease.taskType === 'pc_search'){
+            _this.pcTaskDetail.push({
+              index: _this.selectKeywordScheme,
+              itemMainImage: null,
+              countAssigned: null,
+              searchKeyword: null,
+              searchSort: 'zong_he',
+              searchPagePrice: null,
+              searchPagePositionMin: null,
+              searchPagePositionMax: null,
+              searchFilter: [],
+              priceRangeMin: null,
+              priceRangeMax: null,
+              deliverAddress: null,
+            })
+          }
+          if(_this.taskRelease.taskType === 'app_search'){
+            _this.appTaskDetail.push({
+              index: _this.selectKeywordScheme,
+              itemMainImage: null,
+              countAssigned: null,
+              searchKeyword: null,
+              searchSort: 'zong_he',
+              searchPagePrice: null,
+              searchPagePositionMin: null,
+              searchPagePositionMax: null,
+              searchFilter: [],
+              priceRangeMin: null,
+              priceRangeMax: null,
+              deliverAddress: null,
+            })
+          }
+      },
+      handleClose (name) {
+        let _this = this;
+        if(_this.taskRelease.taskType === 'pc_search'){
+          const index = _this.pcTaskDetail.indexOf(name);
+          _this.pcTaskDetail.splice(index, 1);
+        }
+        if(_this.taskRelease.taskType === 'app_search'){
+          const index = _this.appTaskDetail.indexOf(name);
+          _this.appTaskDetail.splice(index, 1);
+        }
+        _this.selectKeywordScheme = name - 1;
+      },
+      selectChangeScheme(name) {
+        this.selectKeywordScheme = name;
+      }
     }
   }
 </script>
@@ -1934,27 +2078,85 @@
         left: 88%;
       }
     }
+    .ivu-modal-footer{
+      display: none;
+    }
+    .default-text{
+      background-color: #fff;
+      height: 52px;
+      border-radius: 15px;
+      padding: 0 20px;
+      line-height: 52px;
+      text-align: center;
+      font-size: 18px;
+      color: rgb(241, 140, 107);
+      margin-bottom: 20px;
+    }
+    .active-text{
+      background-color: #000;
+    }
+    .afford-evaluation-list{
+      max-height: 250px;
+      overflow-y: auto;
+    }
+
+    .tag{
+      display: inline-block;
+      height: 22px;
+      line-height: 22px;
+      margin: 2px 12px 2px 0;
+      padding: 0 8px;
+      border: 1px solid #e9eaec;
+      border-radius: 3px;
+      background: #f7f7f7;
+      font-size: 12px;
+      vertical-align: middle;
+      opacity: 1;
+      cursor: pointer;
+      position: relative;
+    }
+    .close-tag{
+      display: inline-block;
+      font-size: 14px;
+      transform: scale(1.42857143) rotate(0);
+      cursor: pointer;
+      margin-left: 8px;
+      color: inherit;
+      opacity: .66;
+      position: relative;
+      top: 1px;
+      line-height: 20px;
+    }
+    .select-tag-bg{
+      background-color: $mainColor;
+      color: #fff;
+      border-color: $mainColor;
+    }
+    .tag-alert{
+      width: 586px;
+      margin: 20px 0 0 32px;
+    }
+    .badge-count{
+      position: absolute;
+      transform: translateX(50%);
+      top: -16px;
+      right: 0;
+      height: 20px;
+      border-radius: 10px;
+      min-width: 20px;
+      background: #ed3f14;
+      border: 1px solid transparent;
+      color: #fff;
+      line-height: 18px;
+      text-align: center;
+      padding: 0 6px;
+      font-size: 12px;
+      white-space: nowrap;
+      transform-origin: -10% center;
+      z-index: 10;
+      box-shadow: 0 0 0 1px #fff;
+    }
   }
-  .ivu-modal-footer{
-    display: none;
-  }
-  .default-text{
-    background-color: #fff;
-    height: 52px;
-    border-radius: 15px;
-    padding: 0 20px;
-    line-height: 52px;
-    text-align: center;
-    font-size: 18px;
-    color: rgb(241, 140, 107);
-    margin-bottom: 20px;
-  }
-  .active-text{
-    background-color: #000;
-  }
-  .afford-evaluation-list{
-    max-height: 250px;
-    overflow-y: auto;
-  }
+
 </style>
 

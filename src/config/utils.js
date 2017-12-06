@@ -172,6 +172,8 @@ export const aliUploadImgBuffer = (key, file) => {
 
 /**
  * 深度copy（数组，对象）
+ * obj 要复制的原数据
+ * child 返回的数据类型（默认object）
  */
 export const extendDeep = (obj, child) => {
   let i, proxy;
