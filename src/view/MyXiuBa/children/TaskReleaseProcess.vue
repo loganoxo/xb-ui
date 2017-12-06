@@ -1401,7 +1401,7 @@
           let countAssigned = 0;
           for (let i = 0, len = _this.appTaskDetail.length; i < len; i++) {
             _this.appTaskDetail[i].itemMainImage = _this.appTaskDetailItemMainImage;
-            let index = _this.pcTaskDetail[i].index + 1;
+            let index = _this.appTaskDetail[i].index + 1;
             countAssigned += _this.appTaskDetail[i].countAssigned;
             if (!_this.appTaskDetail[i].itemMainImage) {
               _this.$Message.warning('亲，关键词方案'+ index + '中的请上传手淘搜索宝贝主图！');
