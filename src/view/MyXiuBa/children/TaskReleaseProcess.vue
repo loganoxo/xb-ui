@@ -1573,10 +1573,12 @@
             } else if (res.data.taskType === 'pc_search') {
               _this.pcTaskDetail = JSON.parse(res.data.taskDetail);
               _this.pcDefaultList.push({src: _this.pcTaskDetail[0].itemMainImage});
+              _this.pcTaskDetailItemMainImage = _this.pcTaskDetail[0].itemMainImage;
               _this.conversionPrice('pc_search');
             } else if (res.data.taskType === 'app_search') {
               _this.appTaskDetail = JSON.parse(res.data.taskDetail);
               _this.appDefaultList.push({src: _this.appTaskDetail[0].itemMainImage});
+              _this.appTaskDetailItemMainImage = _this.appTaskDetail[0].itemMainImage;
               _this.conversionPrice('app_search');
             } else {
               _this.taskRelease.taskDetail = {};
