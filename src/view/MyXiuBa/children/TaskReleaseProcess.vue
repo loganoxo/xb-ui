@@ -1352,7 +1352,7 @@
           let countAssigned = 0;
           for (let i = 0, len = _this.pcTaskDetail.length; i < len; i++) {
             _this.pcTaskDetail[i].itemMainImage = _this.pcTaskDetailItemMainImage;
-            let index = _this.pcTaskDetail[i].id + 1;
+            let index = _this.pcTaskDetail[i].index + 1;
             countAssigned += _this.pcTaskDetail[i].countAssigned;
             if (!_this.pcTaskDetail[i].itemMainImage) {
               _this.$Message.warning('亲，请上传关键词方案' + index + '中的宝贝主图！');
@@ -1400,7 +1400,7 @@
           let countAssigned = 0;
           for (let i = 0, len = _this.appTaskDetail.length; i < len; i++) {
             _this.appTaskDetail[i].itemMainImage = _this.appTaskDetailItemMainImage;
-            let index = _this.pcTaskDetail[i].id + 1;
+            let index = _this.pcTaskDetail[i].index + 1;
             countAssigned += _this.appTaskDetail[i].countAssigned;
             if (!_this.appTaskDetail[i].itemMainImage) {
               _this.$Message.warning('亲，关键词方案'+ index + '中的请上传手淘搜索宝贝主图！');
