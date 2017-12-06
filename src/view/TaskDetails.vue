@@ -130,7 +130,7 @@
           <div class="graphic-info-ctt">
             <div v-show="graphicInfoSelClass == 'activity'" class="graphic-info-details" >
               <div v-if="commodityData.showkerTask" class="bgF1F1F1 pd-20 task-step-explain mb-20 mt-20">
-                <place-order-step :taskPlaceInfo="taskPlaceInfo" :currentGenerationEndTime="showkerTask.currentGenerationEndTime" :isShowPrecautions="false"></place-order-step>
+                <place-order-step v-if="Object.keys(taskPlaceInfo).length > 0" :taskPlaceInfo="taskPlaceInfo" :currentGenerationEndTime="showkerTask.currentGenerationEndTime" :isShowPrecautions="false"></place-order-step>
               </div>
               <div class="fs-18 text-ct">
                 <div class="precautions mb-20 pt-10">

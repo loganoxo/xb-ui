@@ -1338,6 +1338,7 @@
           return;
         }
         if (_this.itemReviewList.length > 0) {
+          _this.itemReviewPushList = [];
           _this.itemReviewList.forEach(item => {
             if (item.value !== '') {
               _this.itemReviewPushList.push(item.value);
@@ -1572,11 +1573,13 @@
               _this.taoCodeTaskDetail = JSON.parse(res.data.taskDetail);
             } else if (res.data.taskType === 'pc_search') {
               _this.pcTaskDetail = JSON.parse(res.data.taskDetail);
+              _this.selectKeywordScheme = _this.pcTaskDetail.length - 1;
               _this.pcDefaultList.push({src: _this.pcTaskDetail[0].itemMainImage});
               _this.pcTaskDetailItemMainImage = _this.pcTaskDetail[0].itemMainImage;
               _this.conversionPrice('pc_search');
             } else if (res.data.taskType === 'app_search') {
               _this.appTaskDetail = JSON.parse(res.data.taskDetail);
+              _this.selectKeywordScheme = _this.appTaskDetail.length - 1;
               _this.appDefaultList.push({src: _this.appTaskDetail[0].itemMainImage});
               _this.appTaskDetailItemMainImage = _this.appTaskDetail[0].itemMainImage;
               _this.conversionPrice('app_search');

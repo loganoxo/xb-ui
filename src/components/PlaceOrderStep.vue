@@ -7,27 +7,22 @@
     <div class="place-step mt-22" v-if="taskPlaceInfo.taskType === 'pc_search' || taskPlaceInfo.taskType === 'app_search'">
       <p v-if="taskPlaceInfo.taskType === 'pc_search'">第1步：打开浏览器输入【<span>www.taobao.com</span>】</p>
       <p v-if="taskPlaceInfo.taskType === 'app_search'">第1步：打开【<span>手机淘宝APP</span>】</p>
-      <p v-if="taskPlaceInfo.taskType === 'pc_search'">
-        第2步：搜索框输入关键词【<span>{{taskPlaceInfo.taskDetailObject.searchKeyword}}</span>】</p>
-      <p v-if="taskPlaceInfo.taskType === 'app_search'">
-        第2步：搜索框输入关键词【<span>{{taskPlaceInfo.taskDetailObject.searchKeyword}}</span>】</p>
-      <p>第3步：选择【<span>{{getTaskStatus(taskPlaceInfo.taskDetailObject.searchSort)}}</span>】排序</p>
-      <p v-if="taskPlaceInfo.taskType === 'app_search'">
-        第四步：从上往下数第【<span>{{taskPlaceInfo.taskDetailObject.searchRankPosition}}</span>】个宝贝左右</p>
-      <p v-if="taskPlaceInfo.taskType === 'pc_search'">
-        第4步：在【<span>{{taskPlaceInfo.taskDetailObject.searchPagePositionMin}}-{{taskPlaceInfo.taskDetailObject.searchPagePositionMax}}</span>】页附近找到下图宝贝。（由于千人千面的影响，位置仅供参考）
-      </p>
-      <p v-if="taskPlaceInfo.taskDetailObject.priceRangeMin > 0 || taskPlaceInfo.taskDetailObject.deliverAddress || checkText">第5步：<span class="minor-color" v-if="taskPlaceInfo.taskDetailObject.priceRangeMin > 0">搜索指定价格【<span>{{taskPlaceInfo.taskDetailObject.priceRangeMin / 100}}-{{taskPlaceInfo.taskDetailObject.priceRangeMax / 100}}</span>】，</span><span class="minor-color" v-if="taskPlaceInfo.taskDetailObject.deliverAddress">搜索指定发货地【<span>{{taskPlaceInfo.taskDetailObject.deliverAddress}}</span>】，</span><span class="minor-color" v-if="checkText">勾选【<span>{{checkText}}</span>】</span></p>
-    </div>
+      <p v-if="taskPlaceInfo.taskType === 'pc_search'">第2步：搜索框输入关键词【<span>{{taskDetail.searchKeyword}}</span>】<span class="ml-10 color cursor-p" @click="changeTaskPlaceInfo">找不到宝贝？点击换个关键词试试</span></p>
+      <p v-if="taskPlaceInfo.taskType === 'app_search'">第2步：搜索框输入关键词【<span>{{taskDetail.searchKeyword}}</span>】</p>
+      <p>第3步：选择【<span>{{getTaskStatus(taskDetail.searchSort)}}</span>】排序</p>
+      <p v-if="taskPlaceInfo.taskType === 'app_search'">第四步：从上往下数第【<span>{{taskDetail.searchRankPosition}}</span>】个宝贝左右</p>
+      <p v-if="taskPlaceInfo.taskType === 'pc_search'">第4步：在【<span>{{taskDetail.searchPagePositionMin}}-{{taskDetail.searchPagePositionMax}}</span>】页附近找到下图宝贝。（由于千人千面的影响，位置仅供参考）</p>
+      <p v-if="taskDetail.priceRangeMin > 0 || taskDetail.deliverAddress || checkText">第5步：<span class="minor-color" v-if="taskDetail.priceRangeMin > 0">搜索指定价格【<span>{{taskDetail.priceRangeMin / 100}}-{{taskDetail.priceRangeMax / 100}}</span>】，</span><span class="minor-color" v-if="taskDetail.deliverAddress">搜索指定发货地【<span>{{taskDetail.deliverAddress}}</span>】，</span><span class="minor-color" v-if="checkText">勾选【<span>{{checkText}}</span>】</span></p>
+  </div>
     <div class="tao-code-place-step" v-if="taskPlaceInfo.taskType === 'tao_code'">
-      <p class="mb-10">淘口令【<span id="copyCode">{{taskPlaceInfo.taskDetailObject.taoCode}}</span>】<span id="copyBtn" class="ml-10" @click="sendMessage()"> 点击复制口令</span></p>
+      <p class="mb-10">淘口令【<span id="copyCode">{{taskDetail.taoCode}}</span>】<span id="copyBtn" class="ml-10" @click="sendMessage()"> 点击复制口令</span></p>
       <p>入口说明：【<span>直接在手机端上复制淘口令，打开手淘会自动弹出宝贝链接</span>】</p>
     </div>
     <div class="tao-link-place-step" v-if="taskPlaceInfo.taskType === 'direct_access'">
       <p class="clear"><strong class="left">宝贝链接：</strong><a class="left ml-5" :href="taskPlaceInfo.itemUrl" target="_blank">{{taskPlaceInfo.itemUrl}}</a></p>
     </div>
     <div class="baby-info clear mt-40" v-if="taskPlaceInfo.taskType === 'pc_search' || taskPlaceInfo.taskType === 'app_search'">
-      <img class="left" :src="taskPlaceInfo.taskDetailObject.itemMainImage" alt="">
+      <img class="left" :src="taskDetail.itemMainImage" alt="">
       <div class="left ml-20 mt-20">
         <p>
           <span>掌柜旺旺：</span>
@@ -36,6 +31,9 @@
         <p>
           <span>价格：</span>
           <span>￥{{taskPlaceInfo.itemPrice / 100 || 0}}</span>
+        </p>
+        <p>
+          <router-link to="" class="color">找不到宝贝，怎么办？</router-link>
         </p>
       </div>
     </div>
@@ -93,7 +91,9 @@
       taskPlaceInfo: {
         required: true,
         type: Object,
-        default: {}
+        default: {
+          taskDetailObject:{},
+        }
       },
       currentGenerationEndTime: {
         default: null
@@ -108,7 +108,8 @@
         showGetAppUrlImage: false,
         verificationLink: null,
         verificationLinkStatus: null,
-        copySuccess:0
+        copySuccess:0,
+        taskDetail: {},
       }
     },
     mounted() {
@@ -116,7 +117,8 @@
     },
     created() {
       let _this = this;
-      _this.$nextTick(function () {
+      _this.changeTaskPlaceInfo();
+      _this.$nextTick(()=> {
         let clipboard = new Clipboard('#copyBtn', {
           target: () => document.getElementById('copyCode')
         });
@@ -143,7 +145,7 @@
     },
     computed: {
       checkText() {
-        return this.taskPlaceInfo.taskDetailObject.searchFilterDesc ? this.taskPlaceInfo.taskDetailObject.searchFilterDesc.split(',').join('、') : null;
+        return this.taskDetail.searchFilterDesc ? this.taskDetail.searchFilterDesc.split(',').join('、') : null;
       },
       getStoreName() {
         let length = this.taskPlaceInfo.storeName.length;
@@ -164,7 +166,7 @@
       getTaskStatus(type) {
         return TaskErrorStatusList(type);
       },
-      verificationLinkIsRight() {
+     /* verificationLinkIsRight() {
         if(!this.verificationLink){
           this.verificationLinkStatus = null;
           this.$Message.warning('亲，请输入需要验证的宝贝链接地址！');
@@ -173,7 +175,12 @@
         let newId = getUrlParams(this.verificationLink, 'id');
         let oldId = getUrlParams(this.taskPlaceInfo.itemUrl, 'id');
         this.verificationLinkStatus = newId === oldId ? 'success' : 'error';
-      }
+      },*/
+      changeTaskPlaceInfo() {
+        let len = this.taskPlaceInfo.taskDetailObject.length;
+        let index = Math.floor(Math.random() * len);
+        this.taskDetail = this.taskPlaceInfo.taskDetailObject[index];
+      },
     }
   }
 </script>
@@ -181,6 +188,10 @@
 <style lang="scss" scoped>
   @import 'src/css/mixin';
 
+
+  .color{
+    color: #2b85e4!important;
+  }
   .place-type {
     padding: 28px 0 12px 0;
     border-bottom: 2px solid #F6F6F6;
