@@ -299,7 +299,7 @@
       </p>
       <div >
         <task-apply-before
-          :request="getShowkerApplyBefore"
+          @request="getShowkerApplyBefore"
           :taskDetail="commodityData.task"
           :storeName="storeName"
           :taskTypeDesc="taskTypeDesc"
