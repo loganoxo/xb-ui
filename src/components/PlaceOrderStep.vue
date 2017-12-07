@@ -144,7 +144,8 @@
         return this.taskDetail.searchFilterDesc ? this.taskDetail.searchFilterDesc.split(',').join('、') : null;
       },
       hasCurrentSearchSchemeIndex() {
-        return !!this.showkerTaskInfo.currentSearchSchemeIndex;
+        console.log(this.showkerTaskInfo.currentSearchSchemeIndex);
+        return this.showkerTaskInfo.currentSearchSchemeIndex !== undefined;
       },
       isShowChangeKeyword() {
         return this.hasCurrentSearchSchemeIndex ? this.showkerTaskInfo.task.taskDetailObject.length > 1 : this.showkerTaskInfo.taskDetailObject.length;
@@ -211,6 +212,7 @@
             }
           }
         } else {
+          console.log(789);
           let len = _this.showkerTaskInfo.taskDetailObject.length;
           let index = Math.floor(Math.random() * len);
           _this.taskDetail = _this.showkerTaskInfo.taskDetailObject[index];
