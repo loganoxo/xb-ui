@@ -298,9 +298,9 @@
         </span>
       </p>
       <div >
-        <task-apply-before v-if="Object.keys(commodityData).length > 0"
+        <task-apply-before
           :request="getShowkerApplyBefore"
-          :taskDetail="commodityData"
+          :taskDetail="commodityData.task"
           :storeName="storeName"
           :taskTypeDesc="taskTypeDesc"
           :WwNumberLIst="WwNumberLIst"

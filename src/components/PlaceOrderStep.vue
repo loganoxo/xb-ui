@@ -1,26 +1,26 @@
 <template>
   <div class="place-order-step">
     <div class="place-type">
-      <span>{{showkerTaskInfo.task.taskTypeDesc}}</span>
+      <span>{{hasCurrentSearchSchemeIndex ? showkerTaskInfo.task.taskTypeDesc : showkerTaskInfo.taskTypeDesc}}</span>
       <span v-if="showkerTaskInfo.currentGenerationEndTime" class="ml-20">下单剩余时间<time-down color='#ff4040' :fontWeight=600 :endTime="showkerTaskInfo.currentGenerationEndTime"></time-down>（超时未下单，即未在平台提交订单号，视为主动放弃活动资格）</span>
     </div>
-    <div class="place-step mt-22" v-if="showkerTaskInfo.task.taskType === 'pc_search' || showkerTaskInfo.task.taskType === 'app_search'">
-      <p v-if="showkerTaskInfo.task.taskType === 'pc_search'">第1步：打开浏览器输入【<span>www.taobao.com</span>】</p>
-      <p v-if="showkerTaskInfo.task.taskType === 'app_search'">第1步：打开【<span>手机淘宝APP</span>】</p>
-      <p>第2步：搜索框输入关键词【<span>{{taskDetail.searchKeyword}}</span>】<span class="ml-10 color cursor-p" @click="changeTaskPlaceInfo">找不到宝贝？点击换个关键词试试</span></p>
+    <div class="place-step mt-22" v-if="hasCurrentSearchSchemeIndex ? (showkerTaskInfo.task.taskType === 'pc_search' || showkerTaskInfo.task.taskType === 'app_search') : (showkerTaskInfo.taskType === 'pc_search' || showkerTaskInfo.taskType === 'app_search')">
+      <p v-if="hasCurrentSearchSchemeIndex ? showkerTaskInfo.task.taskType === 'pc_search' : showkerTaskInfo.taskType === 'pc_search'">第1步：打开浏览器输入【<span>www.taobao.com</span>】</p>
+      <p v-if="hasCurrentSearchSchemeIndex ? showkerTaskInfo.task.taskType === 'app_search' : showkerTaskInfo.taskType === 'app_search'">第1步：打开【<span>手机淘宝APP</span>】</p>
+      <p>第2步：搜索框输入关键词【<span>{{taskDetail.searchKeyword}}</span>】<span v-if="!isShowChangeKerword" class="ml-10 color cursor-p" @click="changeTaskPlaceInfo">找不到宝贝？点击换个关键词试试</span></p>
       <p>第3步：选择【<span>{{getTaskStatus(taskDetail.searchSort)}}</span>】排序</p>
-      <p v-if="showkerTaskInfo.task.taskType === 'app_search'">第四步：从上往下数第【<span>{{taskDetail.searchRankPosition}}</span>】个宝贝左右</p>
-      <p v-if="showkerTaskInfo.task.taskType === 'pc_search'">第4步：在【<span>{{taskDetail.searchPagePositionMin}}-{{taskDetail.searchPagePositionMax}}</span>】页附近找到下图宝贝。（由于千人千面的影响，位置仅供参考）</p>
+      <p v-if="hasCurrentSearchSchemeIndex ? showkerTaskInfo.task.taskType === 'app_search' : showkerTaskInfo.taskType === 'app_search'">第四步：从上往下数第【<span>{{taskDetail.searchRankPosition}}</span>】个宝贝左右</p>
+      <p v-if="hasCurrentSearchSchemeIndex ? showkerTaskInfo.task.taskType === 'pc_search' : showkerTaskInfo.taskType === 'pc_search'">第4步：在【<span>{{taskDetail.searchPagePositionMin}}-{{taskDetail.searchPagePositionMax}}</span>】页附近找到下图宝贝。（由于千人千面的影响，位置仅供参考）</p>
       <p v-if="taskDetail.priceRangeMin > 0 || taskDetail.deliverAddress || checkText">第5步：<span class="minor-color" v-if="taskDetail.priceRangeMin > 0">搜索指定价格【<span>{{taskDetail.priceRangeMin / 100}}-{{taskDetail.priceRangeMax / 100}}</span>】，</span><span class="minor-color" v-if="taskDetail.deliverAddress">搜索指定发货地【<span>{{taskDetail.deliverAddress}}</span>】，</span><span class="minor-color" v-if="checkText">勾选【<span>{{checkText}}</span>】</span></p>
   </div>
-    <div class="tao-code-place-step" v-if="showkerTaskInfo.task.taskType === 'tao_code'">
+    <div class="tao-code-place-step" v-if="hasCurrentSearchSchemeIndex ? showkerTaskInfo.task.taskType === 'tao_code' : showkerTaskInfo.taskType === 'tao_code'">
       <p class="mb-10">淘口令【<span id="copyCode">{{taskDetail.taoCode}}</span>】<span id="copyBtn" class="ml-10" @click="sendMessage()"> 点击复制口令</span></p>
       <p>入口说明：【<span>直接在手机端上复制淘口令，打开手淘会自动弹出宝贝链接</span>】</p>
     </div>
-    <div class="tao-link-place-step" v-if="showkerTaskInfo.task.taskType === 'direct_access'">
-      <p class="clear"><strong class="left">宝贝链接：</strong><a class="left ml-5" :href="showkerTaskInfo.task.itemUrl" target="_blank">{{showkerTaskInfo.task.itemUrl}}</a></p>
+    <div class="tao-link-place-step" v-if="hasCurrentSearchSchemeIndex ? showkerTaskInfo.task.taskType === 'direct_access' : showkerTaskInfo.taskType === 'direct_access'">
+      <p class="clear"><strong class="left">宝贝链接：</strong><a class="left ml-5" :href="hasCurrentSearchSchemeIndex ? showkerTaskInfo.task.itemUrl : showkerTaskInfo.itemUrl" target="_blank">{{hasCurrentSearchSchemeIndex ? showkerTaskInfo.task.itemUrl : showkerTaskInfo.itemUrl}}</a></p>
     </div>
-    <div class="baby-info clear mt-40" v-if="showkerTaskInfo.task.taskType === 'pc_search' || showkerTaskInfo.task.taskType === 'app_search'">
+    <div class="baby-info clear mt-40" v-if="hasCurrentSearchSchemeIndex ? (showkerTaskInfo.task.taskType === 'pc_search' || showkerTaskInfo.task.taskType === 'app_search') : (showkerTaskInfo.taskType === 'pc_search' || showkerTaskInfo.taskType === 'app_search')">
       <img class="left" :src="taskDetail.itemMainImage" alt="">
       <div class="left ml-20 mt-20">
         <p>
@@ -29,7 +29,7 @@
         </p>
         <p>
           <span>价格：</span>
-          <span>￥{{showkerTaskInfo.task.itemPrice / 100 || 0}}</span>
+          <span>￥{{hasCurrentSearchSchemeIndex ? (showkerTaskInfo.task.itemPrice / 100).toFixed(2) || 0 : (showkerTaskInfo.itemPrice / 100).toFixed(2) || 0}}</span>
         </p>
         <p>
           <router-link :to="{path:'/user/help-center/faq-showker',query:{page:'common',qusNum:9}}" class="color" target="_blank">找不到宝贝，怎么办？</router-link>
@@ -56,12 +56,12 @@
       <p>注意事项：</p>
       <p class="mt-10">
         <span>付款方式：</span>
-        <span v-if="showkerTaskInfo.task.paymentMethod === 'all'">无所谓（可以使用花呗、信用卡等付款，也可以不用）</span>
+        <span v-if="hasCurrentSearchSchemeIndex ? showkerTaskInfo.task.paymentMethod === 'all' : showkerTaskInfo.paymentMethod === 'all'">无所谓（可以使用花呗、信用卡等付款，也可以不用）</span>
         <span v-else>禁止使用花呗、信用卡付款</span>
       </p>
-      <p class="mt-10 mr-10" v-if="showkerTaskInfo.task.remark">
+      <p class="mt-10 mr-10" v-if="hasCurrentSearchSchemeIndex ? showkerTaskInfo.task.remark : showkerTaskInfo.remark">
         <span>商家备注：</span>
-        <span>{{showkerTaskInfo.task.remark}}</span>
+        <span>{{hasCurrentSearchSchemeIndex ? showkerTaskInfo.task.remark : showkerTaskInfo.remark}}</span>
       </p>
     </div>
   </div>
@@ -143,9 +143,15 @@
       checkText() {
         return this.taskDetail.searchFilterDesc ? this.taskDetail.searchFilterDesc.split(',').join('、') : null;
       },
+      hasCurrentSearchSchemeIndex() {
+        return !!this.showkerTaskInfo.currentSearchSchemeIndex;
+      },
+      isShowChangeKerword() {
+        return this.hasCurrentSearchSchemeIndex ? this.showkerTaskInfo.task.taskDetailObject.length > 1 : this.showkerTaskInfo.taskDetailObject.length;
+      },
       getStoreName() {
-        let length = this.showkerTaskInfo.task.storeName.length;
-        let name = this.showkerTaskInfo.task.storeName;
+        let length = this.hasCurrentSearchSchemeIndex ? this.showkerTaskInfo.task.storeName.length : this.showkerTaskInfo.storeName.length;
+        let name = this.hasCurrentSearchSchemeIndex ? this.showkerTaskInfo.task.storeName : this.showkerTaskInfo.storeName;
         if (length && length > 4) {
           return name.substr(0, 2) + '****' + name.substr(-2);
         } else if (length && length <= 4) {
@@ -174,30 +180,40 @@
       },*/
       changeTaskPlaceInfo() {
         let _this = this;
-        api.getSchemeReassign({
-          showkerTaskId: _this.showkerTaskInfo.id,
-          showkerId: _this.showkerTaskInfo.showkerId
-        }).then(res => {
-          if(res.status){
-            _this.$emit('changeTask');
-           setTimeout(()=>{
-             _this.getNewKeywordInfo();
-           },200)
-          } else {
-            _this.$Message.error(res.msg);
-          }
-        });
+        if(_this.hasCurrentSearchSchemeIndex){
+          api.getSchemeReassign({
+            showkerTaskId: _this.showkerTaskInfo.id,
+            showkerId: _this.showkerTaskInfo.showkerId
+          }).then(res => {
+            if(res.status){
+              _this.$emit('changeTask');
+              setTimeout(()=>{
+                _this.getNewKeywordInfo();
+              },200)
+            } else {
+              _this.$Message.error(res.msg);
+            }
+          });
+        } else {
+          _this.getNewKeywordInfo();
+        }
       },
       getNewKeywordInfo() {
         let _this = this;
-        _this.taskDetail = {};
-        let index = _this.showkerTaskInfo.currentSearchSchemeIndex;
-        let taskDetailObject = _this.showkerTaskInfo.task.taskDetailObject;
-        for(let i = 0, len = taskDetailObject.length; i < len; i++){
-          if(taskDetailObject[i].index === index){
-            _this.taskDetail = taskDetailObject[i];
-            break;
+        if(_this.hasCurrentSearchSchemeIndex){
+          _this.taskDetail = {};
+          let index = _this.showkerTaskInfo.currentSearchSchemeIndex;
+          let taskDetailObject = _this.showkerTaskInfo.task.taskDetailObject;
+          for(let i = 0, len = taskDetailObject.length; i < len; i++){
+            if(taskDetailObject[i].index === index){
+              _this.taskDetail = taskDetailObject[i];
+              break;
+            }
           }
+        } else {
+          let len = _this.showkerTaskInfo.taskDetailObject.length;
+          let index = Math.floor(Math.random() * len);
+          _this.taskDetail = _this.showkerTaskInfo.taskDetailObject[index];
         }
       }
     }
