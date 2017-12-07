@@ -727,7 +727,6 @@ export default {
     return fetch("/api/user/reward/getRecommendPage.json", params)
   },
 
-
   /**
    * 获取推荐排行版
    * */
@@ -818,5 +817,12 @@ export default {
   getALLTrialReport(params) {
     return fetch('/api/task/showker/getALLTrialReport.json',params)
   },
+
+  /**
+   * 秀客获取换新的关键词方案
+   */
+  getSchemeReassign(params) {
+    return fetch('/api/task/showker/scheme/reassign.json',params)
+  }
 
 }

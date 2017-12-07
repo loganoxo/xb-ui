@@ -130,7 +130,7 @@
           <div class="graphic-info-ctt">
             <div v-show="graphicInfoSelClass == 'activity'" class="graphic-info-details" >
               <div v-if="commodityData.showkerTask" class="bgF1F1F1 pd-20 task-step-explain mb-20 mt-20">
-                <place-order-step v-if="Object.keys(taskPlaceInfo).length > 0" :taskPlaceInfo="taskPlaceInfo" :currentGenerationEndTime="showkerTask.currentGenerationEndTime" :isShowPrecautions="false"></place-order-step>
+                <place-order-step v-if="Object.keys(showkerTask).length > 0" :showkerTaskInfo="showkerTask" :isShowPrecautions="false" @changeTask="getShowkerToProcessOrder"></place-order-step>
               </div>
               <div class="fs-18 text-ct">
                 <div class="precautions mb-20 pt-10">
@@ -298,9 +298,9 @@
         </span>
       </p>
       <div >
-        <TaskApplyBefore
-          v-on:request="getShowkerApplyBefore"
-          :taskDetail="taskDetail"
+        <task-apply-before v-if="Object.keys(commodityData).length > 0"
+          :request="getShowkerApplyBefore"
+          :taskDetail="commodityData"
           :storeName="storeName"
           :taskTypeDesc="taskTypeDesc"
           :WwNumberLIst="WwNumberLIst"
@@ -308,7 +308,7 @@
           :taskId="taskId"
           :itemUrl="itemUrl"
           :wwState="wwState"
-        ></TaskApplyBefore>
+        ></task-apply-before>
       </div>
       <p slot="footer"></p>
     </Modal>
@@ -361,8 +361,6 @@
         copyValue: '',
         showkerApplyBefore:false,
         needBrowseCollectAddCart:false,
-        taskDetail:{},
-        taskPlaceInfo: {},
         showkerTask: {},
         storeName:'',
         taskTypeDesc:null,
@@ -669,6 +667,16 @@
           }
         })
       },
+      getShowkerToProcessOrder() {
+        let self = this;
+        api.showkerToProcessOrder({
+          id: self.commodityData.showkerTask.id
+        }).then((res) => {
+          self.showkerTask = res.data.showkerTask;
+          self.storeName = res.data.showkerTask.task.storeName;
+          self.taskTypeDesc = res.data.showkerTask.task.taskTypeDesc;
+        })
+      },
       getTaskDetails(){
         let self = this;
         self.commodityData= {
@@ -687,7 +695,6 @@
             self.commodityData = res.data;
             self.needBrowseCollectAddCart=res.data.task.needBrowseCollectAddCart;
             self.itemUrl = res.data.task.itemUrl;
-            self.taskDetail= res.data.task;
             self.$set(self.commodityData);
             if(self.commodityData.task.discountPrice){
               self.$store.commit({
@@ -700,14 +707,7 @@
               info: self.commodityData.task.activityCategory
             });
             if(self.commodityData.showkerTask){
-              api.showkerToProcessOrder({
-                id: self.commodityData.showkerTask.id
-              }).then((res) => {
-                self.taskPlaceInfo = res.data.taskInfo;
-                self.showkerTask = res.data.showkerTask;
-                self.storeName = res.data.showkerTask.task.storeName;
-                self.taskTypeDesc = res.data.showkerTask.task.taskTypeDesc;
-              })
+              self.getShowkerToProcessOrder();
             }
             parseInt(res.data.task.endTime) - parseInt(getSeverTime()) > 0 ? self.timeEndShow = false : self.timeEndShow = true;
             if(self.timeEndShow || parseInt(self.commodityData.task.taskCount) <= parseInt(self.commodityData.trailDone) || res.data.task.taskStatus === 'finished'){

@@ -163,8 +163,8 @@
           <strong class="ml-10" v-if="showkerTask.status === 'order_num_error'">原因：{{showkerTask.latestShowkerTaskOpLog.auditDescription}}</strong>
         </div>
       </div>
-      <place-order-step :taskPlaceInfo="taskPlaceInfo" :currentGenerationEndTime="showkerTask.currentGenerationEndTime"></place-order-step>
-      <div class="precautions-tip-info mt-20" v-if="showkerTask.task.itemReviewRequired === 'review_by_showker_self'">
+      <place-order-step v-if="Object.keys(showkerTask).length > 0" :showkerTaskInfo="showkerTask" @changeTask="getShowkerToProcessOrder"></place-order-step>
+      <div class="precautions-tip-info mt-20" v-if="showkerTask.task && showkerTask.task.itemReviewRequired === 'review_by_showker_self'">
         <Icon type="information-circled" color="#FF0100"></Icon>
         <span class="sizeColor3">注意：</span>
         <span>亲收到货后记得</span>
@@ -175,15 +175,15 @@
         <span>的，</span>
         <span class="sizeColor3">请勿在淘宝评价中晒图片！</span>
       </div>
-      <div class="precautions-tip-info mt-20" v-if="showkerTask.task.itemReviewRequired === 'offer_review_summary'">
+      <div class="precautions-tip-info mt-20" v-if="showkerTask.task && showkerTask.task.itemReviewRequired === 'offer_review_summary'">
         <Icon type="information-circled" color="#FF0100"></Icon>
         <span class="sizeColor3">注意：</span>
         <span>商家希望亲</span>
         <span class="sizeColor3">在淘宝</span>
         <span>从以下角度进行评价！</span>
       </div>
-      <div class="evaluation-content-tip mt-10" v-if="showkerTask.task.itemReviewRequired === 'offer_review_summary'">{{showkerTask.task.itemReviewSummary}}</div>
-      <div class="precautions-tip-info mt-20" v-if="showkerTask.task.itemReviewRequired === 'assign_review_detail'">
+      <div class="evaluation-content-tip mt-10" v-if="showkerTask.task && showkerTask.task.itemReviewRequired === 'offer_review_summary'">{{showkerTask.task.itemReviewSummary}}</div>
+      <div class="precautions-tip-info mt-20" v-if="showkerTask.task && showkerTask.task.itemReviewRequired === 'assign_review_detail'">
         <Icon type="information-circled" color="#FF0100"></Icon>
         <span class="sizeColor3">注意：</span>
         <span>商家要求</span>
@@ -191,7 +191,7 @@
         <span>使用下方提供的内容进行评价，为避免纠纷，</span>
         <span class="sizeColor3">请务必按照要求操作！</span>
       </div>
-      <div class="evaluation-content-tip-assign mt-10" v-if="showkerTask.task.itemReviewRequired === 'assign_review_detail'">
+      <div class="evaluation-content-tip-assign mt-10" v-if="showkerTask.task && showkerTask.task.itemReviewRequired === 'assign_review_detail'">
         <div id="copyEvaluation2">{{showkerTask.other.itemReviewAssign.reviewContent}}</div>
         <div class="copy-evaluation-tbn mt-10" id="copyEvaluationBtn2">复制评价内容</div>
       </div>
@@ -553,16 +553,20 @@
             }
           });
         } else {
-          api.showkerToProcessOrder({id: id}).then(res => {
-            if (res.status) {
-              _this.showPassOperation = type;
-              _this.taskPlaceInfo = res.data.taskInfo;
-              _this.showkerTask = res.data.showkerTask;
-            } else {
-              _this.$Message.error(res.msg);
-            }
-          })
+          _this.showPassOperation = type;
+         _this.getShowkerToProcessOrder();
         }
+      },
+      getShowkerToProcessOrder() {
+        let _this = this;
+        api.showkerToProcessOrder({id: _this.itemId}).then(res => {
+          if (res.status) {
+            _this.showkerTask = res.data.showkerTask;
+            _this.taskPlaceInfo = res.data.showkerTask.task;
+          } else {
+            _this.$Message.error(res.msg);
+          }
+        })
       },
       pageChange(data) {
         this.pageIndex = data;
