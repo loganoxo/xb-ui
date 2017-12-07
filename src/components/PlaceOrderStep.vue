@@ -7,8 +7,7 @@
     <div class="place-step mt-22" v-if="taskPlaceInfo.taskType === 'pc_search' || taskPlaceInfo.taskType === 'app_search'">
       <p v-if="taskPlaceInfo.taskType === 'pc_search'">第1步：打开浏览器输入【<span>www.taobao.com</span>】</p>
       <p v-if="taskPlaceInfo.taskType === 'app_search'">第1步：打开【<span>手机淘宝APP</span>】</p>
-      <p v-if="taskPlaceInfo.taskType === 'pc_search'">第2步：搜索框输入关键词【<span>{{taskDetail.searchKeyword}}</span>】<span class="ml-10 color cursor-p" @click="changeTaskPlaceInfo">找不到宝贝？点击换个关键词试试</span></p>
-      <p v-if="taskPlaceInfo.taskType === 'app_search'">第2步：搜索框输入关键词【<span>{{taskDetail.searchKeyword}}</span>】</p>
+      <p>第2步：搜索框输入关键词【<span>{{taskDetail.searchKeyword}}</span>】<span class="ml-10 color cursor-p" @click="changeTaskPlaceInfo">找不到宝贝？点击换个关键词试试</span></p>
       <p>第3步：选择【<span>{{getTaskStatus(taskDetail.searchSort)}}</span>】排序</p>
       <p v-if="taskPlaceInfo.taskType === 'app_search'">第四步：从上往下数第【<span>{{taskDetail.searchRankPosition}}</span>】个宝贝左右</p>
       <p v-if="taskPlaceInfo.taskType === 'pc_search'">第4步：在【<span>{{taskDetail.searchPagePositionMin}}-{{taskDetail.searchPagePositionMax}}</span>】页附近找到下图宝贝。（由于千人千面的影响，位置仅供参考）</p>
@@ -33,7 +32,7 @@
           <span>￥{{taskPlaceInfo.itemPrice / 100 || 0}}</span>
         </p>
         <p>
-          <router-link to="" class="color">找不到宝贝，怎么办？</router-link>
+          <router-link :to="{path:'/user/help-center/faq-showker',query:{page:'common',qusNum:9}}" class="color">找不到宝贝，怎么办？</router-link>
         </p>
       </div>
     </div>
