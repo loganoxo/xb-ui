@@ -627,6 +627,7 @@
           refuseOldShowker: false,
           needBrowseCollectAddCart: false,
           taskName: null,
+          remark: null,
           itemType: null,
           taskMainImage: null,
           itemUrl: null,

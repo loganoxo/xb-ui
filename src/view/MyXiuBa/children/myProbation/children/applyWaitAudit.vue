@@ -64,11 +64,11 @@
         <p style="text-indent:25px;font-weight: bold;">您好，为了更好地改善平台试用体验并提高活动的质量，请告诉我们您结束活动的原因：</p>
         <p>
           <RadioGroup v-model="endReason">
-            <Radio label="流程太繁琐了" class="mt-10"></Radio>
-            <Radio label="找不到商家发布的宝贝" class="mt-10"></Radio>
-            <Radio label="没有收到宝贝" class="mt-10"></Radio>
-            <Radio label="我不想做了" class="mt-10"></Radio>
-            <Radio label="其他" class="mt-10">
+            <Radio label="流程太繁琐了" class="mt-20 mr-40"></Radio>
+            <Radio label="找不到商家发布的宝贝" class="mt-20"></Radio>
+            <Radio label="没有收到宝贝" class="mt-20 mr-40"></Radio>
+            <Radio label="我不想做了" class="mt-20"></Radio>
+            <Radio label="其他" class="mt-20">
               <span>其他：</span>
               <iInput v-model="otherReason" style="width: 200px"></iInput>
             </Radio>
