@@ -193,7 +193,7 @@
             </div>
             <div class="baby-number ml-45 mt-20">
               <span class="required">宝贝数量：</span>
-              <iInput v-model.number="taskRelease.taskCount" placeholder="请输入宝贝数量" style="width: 120px" @on-change="addItemReviewList"></iInput>
+              <iInput v-model.number="taskRelease.taskCount" placeholder="请输入宝贝数量" style="width: 120px" @on-blur="addItemReviewList"></iInput>
               <span>份</span>
             </div>
             <div class="baby-price ml-45 mt-20">
@@ -744,6 +744,22 @@
           </div>
         </Modal>-->
     </div>
+    <!--商家改低宝贝数量并且关键词方案大于当前宝贝数量弹框-->
+    <div class="keywordLowerChange">
+      <Modal v-model="keywordLowerChangeModel" :mask-closable="false">
+        <p slot="header" style="color:#f60;text-align:center">
+          <Icon type="information-circled"></Icon>
+          <span>修改确认</span>
+        </p>
+        <div class="ml-10 text-ct">
+          <p style="font-size: 14px;">您当前的宝贝数量发生变更，请重新设定关键词方案</p>
+        </div>
+        <div slot="footer">
+          <iButton type="error" size="large" @click="keywordLowerChange">确定</iButton>
+          <iButton style="margin-left: 35px;"  size="large" @click="keywordLowerChangeModel = false">取消</iButton>
+        </div>
+      </Modal>
+    </div>
 
     <!--引导弹框开始-->
       <div v-show="showInsideRes" style="position: fixed; padding: 20px; height: 520px; margin-top: -260px; border-radius: 10px; width: 780px; left: 50%; top: 50%; margin-left: -390px; background-color: #ff9675; z-index: 2;">
@@ -1005,6 +1021,7 @@
         },
         editPriceAfterModel: false,
         editPriceToLowAfterModel: false,
+        keywordLowerChangeModel: false,
         price500Model: false,
         priceHasChange: false,
         paidDeposit: 0,
@@ -1308,7 +1325,7 @@
           return;
         }
         if (!_this.taskRelease.taskCount) {
-          _this.$Message.warning('亲，宝贝数量不能为空！');
+          _this.$Message.warning('亲，宝贝数量不能为空或者0！');
           return;
         }
         if (!isInteger(_this.taskRelease.taskCount * 1)) {
@@ -1723,12 +1740,18 @@
         })
       },
       addItemReviewList() {
-        this.itemReviewList = [];
-        for(let i =1; i <= this.taskRelease.taskCount; i++){
-          this.itemReviewList.push({
+        let _this = this;
+        let type = _this.taskRelease.taskType;
+        _this.itemReviewList = [];
+        let count =  _this.taskRelease.taskCount;
+        for(let i =1; i <= count; i++){
+          _this.itemReviewList.push({
             value: '',
             index: i,
           });
+        }
+        if(count > 0 && (type === 'pc_search' || type === 'app_search') && (count < _this.pcTaskDetail.length || count < _this.appTaskDetail.length)){
+          _this.keywordLowerChangeModel = true;
         }
       },
       changeSelectEvaluation() {
@@ -1811,6 +1834,46 @@
       },
       selectChangeScheme(name) {
         this.selectKeywordScheme = name;
+      },
+      keywordLowerChange () {
+        let _this = this;
+        let type = _this.taskRelease.taskType;
+        _this.keywordLowerChangeModel = false;
+        if(type === 'pc_search'){
+          _this.pcTaskDetail = [
+            {
+              index:0,
+              itemMainImage: null,
+              countAssigned: null,
+              searchKeyword: null,
+              searchSort: 'zong_he',
+              searchPagePrice: null,
+              searchPagePositionMin: null,
+              searchPagePositionMax: null,
+              searchFilter: [],
+              priceRangeMin: null,
+              priceRangeMax: null,
+              deliverAddress: null,
+            }
+          ]
+        }
+        if(type === "app_search"){
+          _this.appTaskDetail = [
+            {
+              index:0,
+              itemMainImage: null,
+              countAssigned: null,
+              searchKeyword: null,
+              searchSort: 'zong_he',
+              searchPagePrice: null,
+              searchRankPosition: null,
+              searchFilter: [],
+              priceRangeMin: null,
+              priceRangeMax: null,
+              deliverAddress: null,
+            }
+          ]
+        }
       }
     }
   }
