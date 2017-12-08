@@ -534,7 +534,7 @@
                 <div class="matching-num ml-40 mt-20">
                   <span>匹配人数：</span>
                   <iInput v-model.number="item.countAssigned" placeholder="请输入匹配人数" style="width: 160px"></iInput>
-                  <p class="sizeColor mt-10">（系统会按照审批秀客通过数量以及匹配人数，依次展示对应的关键词。注意：每个关键词的匹配人数之和不能大于宝贝数量）</p>
+                  <p class="sizeColor mt-10">（系统会按照审批秀客通过数量以及匹配人数，依次展示对应的关键词。<span class="main-color">注意：每个关键词的匹配人数之和不能大于宝贝数量，并且宝贝数量大于等于关键词方案数量）</span></p>
                 </div>
                 <div class="search-keyword mt-20 ml-28">
                   <span class="required">搜索关键词：</span>
@@ -1612,6 +1612,7 @@
                   item.countAssigned = null;
                 })
               }
+              _this.isCountAssigned = null;
             } else if (res.data.taskType === 'app_search') {
               _this.appTaskDetail = JSON.parse(res.data.taskDetail);
               _this.addKeywordScheme = _this.appTaskDetail.length - 1;
@@ -1623,6 +1624,7 @@
                   item.countAssigned = null;
                 })
               }
+              _this.isCountAssigned = null;
             } else {
               _this.taskRelease.taskDetail = {};
             }
@@ -1712,10 +1714,7 @@
           if (res.status) {
             _this.$store.dispatch('getUserInformation');
             _this.showPayModel = false;
-            _this.$Message.success({
-              content: '支付成功！',
-              duration: 6
-            });
+            _this.$Message.success('恭喜您，支付成功！');
             _this.nextCurrent();
             _this.stepName = 'audit';
           } else {
@@ -1747,7 +1746,13 @@
       },
       handleAdd () {
         let _this = this;
-        _this.addKeywordScheme++;
+        let keywordLen = _this.taskRelease.taskCount;
+        if(keywordLen > _this.addKeywordScheme + 1){
+          _this.addKeywordScheme++;
+        } else {
+          _this.$Message.error('亲，您当前最多只能添加' + keywordLen + '套关键词方案');
+          return;
+        }
         if(_this.taskRelease.taskType === 'pc_search'){
           _this.pcTaskDetail.push({
             index: _this.addKeywordScheme,
@@ -1782,12 +1787,12 @@
         }
         _this.selectKeywordScheme = _this.addKeywordScheme;
       },
-      handleClose (index) {
+      handleClose (name) {
         let _this = this;
         let thisIndex;
         if(_this.taskRelease.taskType === 'pc_search') {
           _this.pcTaskDetail.forEach(item => {
-            if(item.index === index){
+            if(item.index === name){
               thisIndex = _this.pcTaskDetail.indexOf(item);
             }
           });
@@ -1795,7 +1800,7 @@
         }
         if(_this.taskRelease.taskType === 'app_search') {
           _this.appTaskDetail.forEach(item => {
-            if(item.index === index){
+            if(item.index === name){
               thisIndex = _this.appTaskDetail.indexOf(item);
             }
           });
