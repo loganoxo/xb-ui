@@ -383,7 +383,7 @@
                   <div class="inline-block tag" v-for="item in pcTaskDetail" :key="item.index" :class="selectKeywordScheme === item.index ? 'select-tag-bg' : ''">
                     <span @click="selectChangeScheme(item.index)">关键词方案{{ item.index + 1 }}</span>
                     <sup class="badge-count" v-show="item.countAssigned > 0">{{item.countAssigned}}</sup>
-                    <span v-if="item.index !==0" class="close-tag" @click="handleClose(item.index)">
+                    <span v-if="item.index === pcTaskDetail.length - 1 && item.index !== 0" class="close-tag" @click="handleClose(item.index)">
                       <Icon type="ios-close-empty" ></Icon>
                     </span>
                   </div>
@@ -398,7 +398,7 @@
                 </Alert>
                 <div class="matching-num ml-40 mt-20">
                   <span>匹配人数：</span>
-                  <iInput v-model.number="item.countAssigned" placeholder="请输入匹配人数" style="width: 160px" key="username-input2"></iInput>
+                  <iInput v-model.number="item.countAssigned" placeholder="请输入匹配人数" style="width: 160px"></iInput>
                   <p class="sizeColor mt-10">（系统会按照审批秀客通过数量以及匹配人数，依次展示对应的关键词。注意：每个关键词的匹配人数之和不能大于宝贝数量）</p>
                 </div>
                 <div class="search-keyword mt-20 ml-28">
@@ -518,7 +518,7 @@
                   <div class="inline-block tag" v-for="item in appTaskDetail" :key="item" :class="selectKeywordScheme === item.index ? 'select-tag-bg' : ''">
                     <span @click="selectChangeScheme(item.index)">关键词方案{{ item.index + 1 }}</span>
                     <sup class="badge-count" v-show="item.countAssigned > 0">{{item.countAssigned}}</sup>
-                    <span v-if="item.index !==0" class="close-tag" @click="handleClose(item.index)">
+                    <span v-if="item.index === appTaskDetail.length - 1 && item.index !== 0" class="close-tag" @click="handleClose(item.index)">
                       <Icon type="ios-close-empty" ></Icon>
                     </span>
                   </div>
@@ -533,7 +533,7 @@
                 </Alert>
                 <div class="matching-num ml-40 mt-20">
                   <span>匹配人数：</span>
-                  <iInput v-model.number="item.countAssigned" placeholder="请输入匹配人数" style="width: 160px" key="username-input"></iInput>
+                  <iInput v-model.number="item.countAssigned" placeholder="请输入匹配人数" style="width: 160px"></iInput>
                   <p class="sizeColor mt-10">（系统会按照审批秀客通过数量以及匹配人数，依次展示对应的关键词。注意：每个关键词的匹配人数之和不能大于宝贝数量）</p>
                 </div>
                 <div class="search-keyword mt-20 ml-28">
@@ -1014,6 +1014,7 @@
         itemReviewList: [],
         itemReviewPushList: [],
         selectKeywordScheme: 0,
+        addKeywordScheme: 0,
         isCountAssigned: null
       }
     },
@@ -1746,51 +1747,62 @@
       },
       handleAdd () {
         let _this = this;
-          _this.selectKeywordScheme++;
-          if(_this.taskRelease.taskType === 'pc_search'){
-            _this.pcTaskDetail.push({
-              index: _this.selectKeywordScheme,
-              itemMainImage: null,
-              countAssigned: null,
-              searchKeyword: null,
-              searchSort: 'zong_he',
-              searchPagePrice: null,
-              searchPagePositionMin: null,
-              searchPagePositionMax: null,
-              searchFilter: [],
-              priceRangeMin: null,
-              priceRangeMax: null,
-              deliverAddress: null,
-            })
-          }
-          if(_this.taskRelease.taskType === 'app_search'){
-            _this.appTaskDetail.push({
-              index: _this.selectKeywordScheme,
-              itemMainImage: null,
-              countAssigned: null,
-              searchKeyword: null,
-              searchSort: 'zong_he',
-              searchPagePrice: null,
-              searchPagePositionMin: null,
-              searchPagePositionMax: null,
-              searchFilter: [],
-              priceRangeMin: null,
-              priceRangeMax: null,
-              deliverAddress: null,
-            })
-          }
-      },
-      handleClose (name) {
-        let _this = this;
+        _this.addKeywordScheme++;
         if(_this.taskRelease.taskType === 'pc_search'){
-          const index = _this.pcTaskDetail.indexOf(name);
-          _this.pcTaskDetail.splice(index, 1);
+          _this.pcTaskDetail.push({
+            index: _this.addKeywordScheme,
+            itemMainImage: null,
+            countAssigned: null,
+            searchKeyword: null,
+            searchSort: 'zong_he',
+            searchPagePrice: null,
+            searchPagePositionMin: null,
+            searchPagePositionMax: null,
+            searchFilter: [],
+            priceRangeMin: null,
+            priceRangeMax: null,
+            deliverAddress: null,
+          })
         }
         if(_this.taskRelease.taskType === 'app_search'){
-          const index = _this.appTaskDetail.indexOf(name);
-          _this.appTaskDetail.splice(index, 1);
+          _this.appTaskDetail.push({
+            index: _this.addKeywordScheme,
+            itemMainImage: null,
+            countAssigned: null,
+            searchKeyword: null,
+            searchSort: 'zong_he',
+            searchPagePrice: null,
+            searchPagePositionMin: null,
+            searchPagePositionMax: null,
+            searchFilter: [],
+            priceRangeMin: null,
+            priceRangeMax: null,
+            deliverAddress: null,
+          })
         }
-        _this.selectKeywordScheme = name - 1;
+        _this.selectKeywordScheme = _this.addKeywordScheme;
+      },
+      handleClose (index) {
+        let _this = this;
+        let thisIndex;
+        if(_this.taskRelease.taskType === 'pc_search') {
+          _this.pcTaskDetail.forEach(item => {
+            if(item.index === index){
+              thisIndex = _this.pcTaskDetail.indexOf(item);
+            }
+          });
+          _this.pcTaskDetail.splice(thisIndex, 1);
+        }
+        if(_this.taskRelease.taskType === 'app_search') {
+          _this.appTaskDetail.forEach(item => {
+            if(item.index === index){
+              thisIndex = _this.appTaskDetail.indexOf(item);
+            }
+          });
+          _this.appTaskDetail.splice(thisIndex, 1);
+        }
+        _this.addKeywordScheme -= 1;
+        _this.selectKeywordScheme = thisIndex - 1;
       },
       selectChangeScheme(name) {
         this.selectKeywordScheme = name;

@@ -62,7 +62,6 @@ function getQueryString(name) {
  * **/
 if (getQueryString('qd')) {
   document.cookie = "from_qudao="+ getQueryString('qd').toUpperCase() + cookieAttr;
-  console.log(searchKeyWord)
   // if(getQueryString('qd') === 'bd'){
   //   document.cookie = "from_qudao_key=" + searchKeyWord + cookieAttr;
   // }else {

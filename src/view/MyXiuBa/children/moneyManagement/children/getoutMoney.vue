@@ -35,7 +35,7 @@
               <iOption value="中国建设银行">中国建设银行</iOption>
               <iOption value="中国工商银行">中国工商银行</iOption>
               <iOption value="中国农业银行">中国农业银行</iOption>
-              <iOption value="中国招商银行">中国招商银行</iOption>
+              <!--<iOption value="中国招商银行">中国招商银行</iOption>-->
               <iOption value="招商银行">招商银行</iOption>
               <iOption value="中国银行">中国银行</iOption>
               <iOption value="兴业银行">兴业银行</iOption>
@@ -249,8 +249,8 @@
         <p>提现</p>
         <p>
           1、最低提现金额1元，
-          <span v-if="$store.state.userInfo.role == 1">手续费0.1%，</span>
-          <span v-if="$store.state.userInfo.role == 0">免手续费，</span>
+          <span v-if="$store.state.userInfo.role === 1">手续费0.1%，</span>
+          <span v-if="$store.state.userInfo.role === 0">免手续费，</span>
           每天提现次数不限
         </p>
         <p>2、中午12点之前申请提现的当天18点前返款；中午12点之后申请提现的是次日返款到账，遇到周末或者节假日往后顺延。 成功提现的订单即表示已经打款成功，具体到账时间以每个银行受理时间为准。</p>
@@ -613,7 +613,6 @@
          _this.$Message.error('金额为数字且仅支持小数点后两位');
           return;
         }
-        console.log(types.getoutNumber);
         _this.getOutMoneyPopWindow = true;
         api.applyGetoutMoney({
           fee: (types.getoutNumber * 100).toFixed(),

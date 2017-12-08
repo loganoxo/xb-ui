@@ -60,12 +60,24 @@
         <Icon type="information-circled"></Icon>
         <span>结束确认</span>
       </p>
-      <div style="text-align:center">
-        <p>结束试用后将直接终止该活动的试用资格，并不可再次申请。</p>
-        <p>是否确认结束？</p>
+      <div>
+        <p style="text-indent:25px;font-weight: bold;">您好，为了更好地改善平台试用体验并提高活动的质量，请告诉我们您结束活动的原因：</p>
+        <p>
+          <RadioGroup v-model="endReason">
+            <Radio label="流程太繁琐了" class="mt-10"></Radio>
+            <Radio label="找不到商家发布的宝贝" class="mt-10"></Radio>
+            <Radio label="没有收到宝贝" class="mt-10"></Radio>
+            <Radio label="我不想做了" class="mt-10"></Radio>
+            <Radio label="其他" class="mt-10">
+              <span>其他：</span>
+              <iInput v-model="otherReason" style="width: 200px"></iInput>
+            </Radio>
+          </RadioGroup>
+        </p>
       </div>
-      <div slot="footer">
-        <iButton type="error" size="large" long :loading="modalLoading" @click="endTrial">结束</iButton>
+      <div slot="footer" class="text-ct">
+        <iButton class="mr-20" type="error" size="large" :loading="modalLoading" @click="endTrial">确认提交</iButton>
+        <iButton size="large" @click="unSelectSubmit">取消</iButton>
       </div>
     </Modal>
     <!--查看详情弹窗-->
@@ -133,6 +145,7 @@
   import {Select, Option, OptionGroup} from 'iview/src/components/select'
   import Tooltip from 'iview/src/components/tooltip'
   import Page from 'iview/src/components/page'
+  import Radio from 'iview/src/components/radio'
   import Modal from 'iview/src/components/modal'
   import Icon from 'iview/src/components/icon'
   import api from '@/config/apiConfig'
@@ -150,6 +163,8 @@
       Page: Page,
       Modal: Modal,
       Icon: Icon,
+      Radio: Radio,
+      RadioGroup: Radio.Group,
       TimeDown: TimeDown,
       Tooltip: Tooltip
     },
@@ -183,6 +198,8 @@
         reason: null,
         status: null,
         getEndTime: null,
+        endReason: null,
+        otherReason: null,
       }
     },
     mounted() {
@@ -245,22 +262,39 @@
       },
       endTrial() {
         let _this = this;
+        let endReasonContent = null;
+        _this.modalLoading = true;
+        if(!_this.endReason) {
+          _this.$Message.warning('请选择你结束活动的理由！');
+          _this.modalLoading = false;
+          return;
+        }
+        if(_this.endReason === '其他'){
+          if(!_this.otherReason){
+            _this.$Message.warning('请填写你结束活动的理由！');
+            _this.modalLoading = false;
+            return
+          }
+          endReasonContent = _this.otherReason;
+        } else {
+          endReasonContent = _this.endReason;
+        }
         _this.modalLoading = true;
         api.showkerApplyEed({
           id: _this.deleteId
         }).then(res => {
           if (res.status) {
             _this.modalLoading = false;
-            _this.$Message.success({
-              content: '结束活动成功！',
-              duration: 6
-            });
+            _this.$Message.success('结束活动成功！');
             _this.showkerApplyList();
             _this.deleteModal = false;
           } else {
             _this.$Message.error(res.msg);
           }
         })
+      },
+      unSelectSubmit() {
+        this.deleteModal = false;
       },
       getUserScreenShot(id, reason, status, time) {
         let _this = this;

@@ -1,6 +1,7 @@
 <template>
   <div class="place-order-step">
     <div class="place-type">
+      <span v-if="!hasCurrentSearchSchemeIndex" class="serial-number">2</span>
       <span>{{hasCurrentSearchSchemeIndex ? showkerTaskInfo.task.taskTypeDesc : showkerTaskInfo.taskTypeDesc}}</span>
       <span v-if="showkerTaskInfo.currentGenerationEndTime" class="ml-20">下单剩余时间<time-down color='#ff4040' :fontWeight=600 :endTime="showkerTaskInfo.currentGenerationEndTime"></time-down>（超时未下单，即未在平台提交订单号，视为主动放弃活动资格）</span>
     </div>
@@ -52,7 +53,7 @@
         <div slot="footer"></div>
       </Modal>
     </div>-->
-    <div class="precautions mt-20 pt-20" v-if="isShowPrecautions">
+    <div class="precautions mt-20 pt-20" v-if="isShowPrecautions" :class="[!hasCurrentSearchSchemeIndex ? 'precautions-bg' : '']">
       <p>注意事项：</p>
       <p class="mt-10">
         <span>付款方式：</span>
@@ -231,7 +232,7 @@
   .place-type {
     padding: 28px 0 12px 0;
     border-bottom: 2px solid #F6F6F6;
-    span:first-child {
+    span:nth-child(2) {
       font-size: 16px;
       color: #666;
     }
@@ -316,6 +317,12 @@
     }
   }
 
+  .precautions-bg{
+    background-color: #eee;
+    padding-left: 12px;
+    padding-bottom: 26px;
+  }
+
   .evaluation-content-tip{
     padding: 15px 10px;
     background-color: #F8F8F8;
@@ -340,5 +347,17 @@
     border-radius: 5px;
     cursor: pointer;
     text-align: center;
+  }
+
+  .serial-number {
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    border-radius: 10px;
+    background-color: #CCCCCC;
+    text-align: center;
+    line-height: 20px;
+    color: #fff;
+    font-size: 16px;
   }
 </style>

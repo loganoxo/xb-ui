@@ -820,9 +820,14 @@
           return;
         }
         if(_this.endReason === '其他'){
+          if(!_this.otherReason){
+            _this.$Message.warning('请填写你结束活动的理由！');
+            _this.modalLoading = false;
+            return
+          }
           endReasonContent = _this.otherReason;
         } else {
-          endReasonContent = _this.endReason
+          endReasonContent = _this.endReason;
         }
         api.showkerTrialEed({
           id: _this.deleteId,
@@ -830,10 +835,7 @@
         }).then(res => {
           if (res.status) {
             _this.modalLoading = false;
-            _this.$Message.success({
-              content: '结束活动成功！',
-              duration: 6
-            });
+            _this.$Message.success('结束活动成功！');
             this.deleteModal = false;
             _this.showkerSuccessList();
           } else {
