@@ -44,13 +44,9 @@
                 注册时间：{{userList.createTime | dateFormat('YYYY-MM-DD hh:mm:ss')}}
               </li>
             </ul>
-            <!-- <p v-show="showModifyAvatar" class="img-box">
-               <img :src="avatar.src" alt="" @click="modifyPortraitPic(avatar)" :key="avatar.src"
-                    style="width: 68px; cursor: pointer" v-for="avatar in avatars">
-             </p>-->
           </div>
           <div class="edit-head">
-            <a class="fs-14 mt-10" @click="toggleShow">好头像，才有好形象！</a>
+            <a class="fs-14 mt-10" @click="toggleShow">修改头像</a>
             <span>（上传自定义个性头像，可以提高活动申请通过率哦）</span>
           </div>
         </div>
@@ -374,45 +370,6 @@
             {validator: validatePassCheck, trigger: 'blur'},
           ],
         },
-        /* avatars: [
-           {
-             src: "/static/avatar/tx1.png"
-           },
-           {
-             src: "/static/avatar/tx2.png"
-           },
-           {
-             src: "/static/avatar/tx3.png"
-           },
-           {
-             src: "/static/avatar/tx4.png"
-           },
-           {
-             src: "/static/avatar/tx5.png"
-           },
-           {
-             src: "/static/avatar/tx6.png"
-           },
-           {
-             src: "/static/avatar/tx7.png"
-           },
-           {
-             src: "/static/avatar/tx8.png"
-           },
-           {
-             src: "/static/avatar/tx9.png"
-           },
-           {
-             src: "/static/avatar/tx10.png"
-           },
-           {
-             src: "/static/avatar/tx11.png"
-           },
-           {
-             src: "/static/avatar/tx12.png"
-           },
-         ],*/
-//        showModifyAvatar: false,
         userData: {},
         showPictureUpload: false,
         pictureUploadImage: null,
@@ -438,6 +395,10 @@
     },
     created() {
       let self = this;
+      let from = self.$route.query.from;
+      if(from && from === 'userHome'){
+        self.toggleShow();
+      }
       self.getVrcode();
       self.$store.dispatch('getUserInformation');
     },
@@ -490,7 +451,6 @@
           picStr: _this.pictureUploadImage
         }).then((res) => {
           if (res.status) {
-//            _this.showModifyAvatar = false;
             _this.$store.dispatch('getUserInformation');
           } else {
             _this.$Message.error(res.msg);
@@ -598,14 +558,6 @@
           return true;
         }
       },
-      /*myInfoSelectsFunc(myInfoSelect) {
-        this.infoSelect = myInfoSelect.isSelect;
-        myInfoSelect.callback();
-      },
-      //修改头像
-      selPortraitPic() {
-        this.showModifyAvatar = true;
-      },*/
       handleSubmit(name, callback) {
         let res = false;
         this.$refs[name].validate((valid) => {

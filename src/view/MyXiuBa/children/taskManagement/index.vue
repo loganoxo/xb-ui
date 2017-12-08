@@ -240,7 +240,7 @@
       top: 30%;
       padding: 0 32px 26px 32px;
       text-align: center;
-      i {
+      > i {
         font-size: 24px;
         cursor: pointer;
       }

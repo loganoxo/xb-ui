@@ -90,9 +90,10 @@
             <thead>
             <tr>
               <th width="25%">淘宝账号（旺旺号）</th>
-              <th width="25%">状态</th>
+              <th width="20%">状态</th>
               <th width="25%">订单号</th>
-              <th width="25%">操作</th>
+              <th width="10%">实付金额（元）</th>
+              <th width="20%">操作</th>
             </tr>
             </thead>
             <tbody v-for="item in item.passTask" :key="item.id">
@@ -115,6 +116,7 @@
                 </p>
               </td>
               <td>{{item.orderNum || '------'}}</td>
+              <td>{{(item.orderPrice / 100).toFixed(2)}}</td>
               <td>
                 <p class="del-edit">
                   <span v-if="item.status === 'order_num_waiting_audit'" @click="openCheckOrder(item.id)">审核订单号</span>
@@ -147,9 +149,9 @@
           <span class="main-color">{{orderInfo.orderNum}}</span>
         </p>
         <p class="mt-15">
-              <span>秀客实付金额：<span
-                class="main-color">{{orderInfo.orderPrice || 0}}</span>元<span>（当前每单活动担保金<span>{{orderInfo.perMarginNeed}}</span>元）</span></span>
+          <span>秀客实付金额：<span class="main-color">{{orderInfo.orderPrice || 0}}</span>元<span>（当前每单活动担保金<span>{{orderInfo.perMarginNeed}}</span>元）</span></span>
         </p>
+        <p class="cl-red mt-10" v-if="orderInfo.orderPrice < orderInfo.perMarginNeed"><Icon type="information-circled" color="red" size="14" class="mr-5"></Icon>注意：秀客实付金额与活动担保金金额不一致，请仔细审核！</p>
         <div class="mt-22">
           <Radio-group v-model="orderReviewStatus">
             <Radio label="passAudit" style="margin-right: 32px;">

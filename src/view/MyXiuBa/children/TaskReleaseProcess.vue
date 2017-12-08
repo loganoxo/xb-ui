@@ -399,7 +399,7 @@
                 <div class="matching-num ml-40 mt-20">
                   <span>匹配人数：</span>
                   <iInput v-model.number="item.countAssigned" placeholder="请输入匹配人数" style="width: 160px"></iInput>
-                  <p class="sizeColor mt-10">（系统会按照审批秀客通过数量以及匹配人数，依次展示对应的关键词。注意：每个关键词的匹配人数之和不能大于宝贝数量）</p>
+                  <p class="sizeColor mt-10">（系统会按照审批秀客通过数量以及匹配人数，依次展示对应的关键词。<span class="main-color">注意：匹配人数可以不设定，一旦设定则每个关键词方案的匹配人数之和必须等于宝贝数量）</span></p>
                 </div>
                 <div class="search-keyword mt-20 ml-28">
                   <span class="required">搜索关键词：</span>

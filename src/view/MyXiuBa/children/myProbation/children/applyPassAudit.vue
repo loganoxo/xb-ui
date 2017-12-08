@@ -345,7 +345,6 @@
             </div>
           </Modal>
         </div>
-
         <p class="mt-20 ml-35">
           <span>请输入实付金额：</span>
           <iInput v-model.number="payMoney" style="width: 120px;"></iInput>
@@ -748,10 +747,7 @@
           actualPayMoney: _this.payMoney
         }).then(res => {
           if (res.status) {
-            _this.$Message.success({
-              content: '订单号提交成功，请耐心等待商家审核！',
-              duration: 6
-            });
+            _this.$Message.success('订单号提交成功，请耐心等待商家审核！');
             _this.showkerSuccessList();
             _this.showAuditOrderNumber = false;
             _this.returnUpPage();
@@ -794,10 +790,7 @@
             trialReportImages: JSON.stringify(_this.trialReportImages)
           }).then(res => {
             if (res.status) {
-              _this.$Message.success({
-                content: '买家秀修改成功，请耐心等待商家审核！',
-                duration: 6
-              });
+              _this.$Message.success('买家秀修改成功，请耐心等待商家审核！');
               _this.showkerSuccessList();
               _this.returnUpPage();
             } else {

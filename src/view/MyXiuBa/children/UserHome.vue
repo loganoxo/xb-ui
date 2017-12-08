@@ -16,7 +16,7 @@
           <span v-else>实名认证：<Icon type="information-circled" color="#FF6633"></Icon> 未认证 &nbsp;&nbsp;<router-link to="/user/personal-setting/verified">去认证</router-link></span>
         </p>
         <p>
-          <span v-if="getUserInfoRole === 1&& !getMemberLevel">
+          <span v-if="getUserInfoRole === 1 && !getMemberLevel">
             <Icon type="social-vimeo" style="color: gray"></Icon>
             <span>非会员</span>
             <router-link to="/user/vip-member" >马上开通会员</router-link>
@@ -31,6 +31,9 @@
           <span>提现中：{{userData.userAccount.enChashingMoney ? (userData.userAccount.enChashingMoney/100): 0 }} 元  </span>
           <router-link v-if="getUserInfoRole === 1" :to="{path: '/user/money-management/pay-money'}">充值</router-link>
           <router-link :to="{path: '/user/money-management/getout-money'}">提现</router-link>
+        </p>
+        <p>
+          <router-link :to="{path:'/user/personal-setting/personal-account-info',query:{from:'userHome'}}">好头像，才有好形象！</router-link>
         </p>
       </div>
     </div>
