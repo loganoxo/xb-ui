@@ -229,7 +229,7 @@
                 </div>
               </div>
             </div>
-            <p class="sizeColor pl-60 mt-20" v-show="taskRelease.itemPrice && taskRelease.discountType && taskRelease.activityCategory !== 'pinkage_for_10'">秀客以<span class="main-color">{{taskRelease.itemPrice}}</span>元价格在淘宝上购买，活动成功后返款<span class="main-color">{{newItemPrice.toFixed(2)}}</span>元给秀客！</p>
+            <p class="sizeColor pl-60 mt-20" v-show="taskRelease.itemPrice && taskRelease.discountType && taskRelease.activityCategory !== 'pinkage_for_10'">秀客以<span class="main-color">{{taskRelease.itemPrice}}</span>元价格在淘宝上购买，活动成功后返款<span class="main-color">{{(newItemPrice / 100).toFixed(2)}}</span>元给秀客！</p>
             <p class="sizeColor pl-60" v-show="taskRelease.itemPrice && taskRelease.itemPrice >= 10 && taskRelease.activityCategory === 'pinkage_for_10'">秀客以<span class="main-color">{{taskRelease.itemPrice}}</span>元价格在淘宝上购买，活动成功后返款<span class="main-color">{{taskRelease.itemPrice > 10 ? taskRelease.itemPrice - 10 : 0}}</span>元给秀客！</p>
           </div>
           <div class="baby-pinkage ml-45 mt-20">
@@ -732,9 +732,9 @@
       newItemPrice: function () {
         let type = this.taskRelease.discountType;
         if (!this.discountDisabled[type].isDiscount) {
-          return this.taskRelease.itemPrice - this.discountDisabled[type].returnPrice;
+          return (this.taskRelease.itemPrice - this.discountDisabled[type].returnPrice) * 100;
         } else {
-          return this.taskRelease.itemPrice - this.taskRelease.itemPrice * this.discountDisabled[type].returnPrice
+          return Math.ceil(100 * this.taskRelease.itemPrice * (1 - this.discountDisabled[type].returnPrice));
         }
       },
 
@@ -743,7 +743,7 @@
        * @return {number}
        */
       oneBond: function () {
-        return this.taskRelease.pinkage === 'true' ? (this.newItemPrice * 100).toFixed(2) / 100 : ((this.newItemPrice * 100).toFixed(2) / 100 + 10).toFixed(2);
+        return this.taskRelease.pinkage === 'true' ? (this.newItemPrice / 100).toFixed(2) * 1 : (this.newItemPrice / 100 + 10).toFixed(2) * 1;
       },
 
       /**
