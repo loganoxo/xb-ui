@@ -56,7 +56,7 @@
     </div>
     <!--删除活动确认弹框-->
     <Modal v-model="deleteModal" width="360">
-      <p slot="header" style="color:#f60;text-align:center">
+      <p slot="header" class="main-color text-ct">
         <Icon type="information-circled"></Icon>
         <span>结束确认</span>
       </p>

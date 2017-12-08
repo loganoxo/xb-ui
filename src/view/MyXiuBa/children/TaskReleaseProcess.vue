@@ -746,17 +746,16 @@
     </div>
     <!--商家改低宝贝数量并且关键词方案大于当前宝贝数量弹框-->
     <div class="keywordLowerChange">
-      <Modal v-model="keywordLowerChangeModel" :mask-closable="false">
-        <p slot="header" style="color:#f60;text-align:center">
-          <Icon type="information-circled"></Icon>
-          <span>修改确认</span>
+      <Modal v-model="keywordLowerChangeModel" :mask-closable="false" :closable="false" width="368">
+        <p slot="header" class="text-ct">
+          <Icon color="#f60" type="information-circled"></Icon>
+          <span class="main-color">关键词方案修改确认</span>
         </p>
         <div class="ml-10 text-ct">
-          <p style="font-size: 14px;">您当前的宝贝数量发生变更，请重新设定关键词方案</p>
+          <p class="fs-14">您当前的宝贝数量发生变更，请重新设定关键词方案</p>
         </div>
         <div slot="footer">
-          <iButton type="error" size="large" @click="keywordLowerChange">确定</iButton>
-          <iButton style="margin-left: 35px;"  size="large" @click="keywordLowerChangeModel = false">取消</iButton>
+          <iButton type="error" size="large" long @click="keywordLowerChange">确定</iButton>
         </div>
       </Modal>
     </div>
@@ -1769,7 +1768,7 @@
       },
       handleAdd () {
         let _this = this;
-        let keywordLen = _this.taskRelease.taskCount;
+        let keywordLen = _this.taskRelease.taskCount > 0 ? _this.taskRelease.taskCount : 1;
         if(keywordLen > _this.addKeywordScheme + 1){
           _this.addKeywordScheme++;
         } else {
