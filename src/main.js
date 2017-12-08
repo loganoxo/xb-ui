@@ -15,6 +15,10 @@ Vue.config.productionTip = false;
 
 Vue.prototype.$Modal = Modal;
 
+ Message.config({
+  duration: 4
+ });
+
 Vue.prototype.$Message = Message;
 
 /*VueLazyload配置初始化*/

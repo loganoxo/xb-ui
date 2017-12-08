@@ -354,18 +354,30 @@
         <div class="submit-btn mt-20" @click="saveOrUpdateOrderNumber">确认提交</div>
       </div>
     </div>
-    <!--删除活动确认弹框-->
+    <!--结束活动确认弹框-->
     <Modal v-model="deleteModal" width="360">
       <p slot="header" style="color:#f60;text-align:center">
         <Icon type="information-circled"></Icon>
         <span>结束确认</span>
       </p>
-      <div style="text-align:center">
-        <p>结束后将视为放弃活动资格。</p>
-        <p>是否确认结束？</p>
+      <div>
+        <p style="text-indent:25px;font-weight: bold;">您好，为了更好地改善平台试用体验并提高活动的质量，请告诉我们您结束活动的原因：</p>
+        <p>
+          <RadioGroup v-model="endReason">
+            <Radio label="流程太繁琐了" class="mt-10"></Radio>
+            <Radio label="找不到商家发布的宝贝" class="mt-10"></Radio>
+            <Radio label="没有收到宝贝" class="mt-10"></Radio>
+            <Radio label="我不想做了" class="mt-10"></Radio>
+            <Radio label="其他" class="mt-10">
+              <span>其他：</span>
+              <iInput v-model="otherReason" style="width: 200px"></iInput>
+            </Radio>
+          </RadioGroup>
+        </p>
       </div>
-      <div slot="footer">
-        <iButton type="error" size="large" long :loading="modalLoading" @click="endTrial">结束</iButton>
+      <div slot="footer" class="text-ct">
+        <iButton class="mr-20" type="error" size="large" :loading="modalLoading" @click="endTrial">确认提交</iButton>
+        <iButton size="large" @click="unSelectSubmit">取消</iButton>
       </div>
     </Modal>
   </div>
@@ -377,6 +389,7 @@
   import Icon from 'iview/src/components/icon'
   import {Select, Option, OptionGroup} from 'iview/src/components/select'
   import Page from 'iview/src/components/page'
+  import Radio from 'iview/src/components/radio'
   import Checkbox from 'iview/src/components/checkbox'
   import DatePicker from 'iview/src/components/date-picker'
   import Tooltip from 'iview/src/components/tooltip'
@@ -404,6 +417,8 @@
       DatePicker: DatePicker,
       Tooltip: Tooltip,
       Modal: Modal,
+      Radio: Radio,
+      RadioGroup: Radio.Group,
       Upload: Upload,
       TimeDown: TimeDown,
       PlaceOrderStep: PlaceOrderStep,
@@ -453,7 +468,9 @@
         orderType: null,
         taskOrderType: null,
         activityCategory: null,
-        currentOrderStatusInfo: {}
+        currentOrderStatusInfo: {},
+        endReason: null,
+        otherReason: null,
       }
     },
     mounted() {
@@ -795,9 +812,21 @@
       },
       endTrial() {
         let _this = this;
+        let endReasonContent = null;
         _this.modalLoading = true;
+        if(!_this.endReason) {
+          _this.$Message.warning('请选择你结束活动的理由！');
+          _this.modalLoading = false;
+          return;
+        }
+        if(_this.endReason === '其他'){
+          endReasonContent = _this.otherReason;
+        } else {
+          endReasonContent = _this.endReason
+        }
         api.showkerTrialEed({
-          id: _this.deleteId
+          id: _this.deleteId,
+          endReason: endReasonContent
         }).then(res => {
           if (res.status) {
             _this.modalLoading = false;
@@ -811,6 +840,9 @@
             _this.$Message.error(res.msg);
           }
         })
+      },
+      unSelectSubmit() {
+        this.deleteModal = false;
       },
       lookReportInfo(id) {
         this.$router.push({path: '/user/my-probation/report', query: {id: encryption(id), from: 'buyer'}});

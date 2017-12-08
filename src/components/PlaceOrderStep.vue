@@ -144,7 +144,6 @@
         return this.taskDetail.searchFilterDesc ? this.taskDetail.searchFilterDesc.split(',').join('、') : null;
       },
       hasCurrentSearchSchemeIndex() {
-        console.log(this.showkerTaskInfo.currentSearchSchemeIndex);
         return this.showkerTaskInfo.currentSearchSchemeIndex !== undefined;
       },
       isShowChangeKeyword() {

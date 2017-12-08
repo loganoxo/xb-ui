@@ -1013,7 +1013,8 @@
         getMemberStatus: null,
         itemReviewList: [],
         itemReviewPushList: [],
-        selectKeywordScheme: 0
+        selectKeywordScheme: 0,
+        isCountAssigned: null
       }
     },
     mounted() {
@@ -1351,16 +1352,28 @@
         }
         if (_this.taskRelease.taskType === 'pc_search') {
           let countAssigned = 0;
+          _this.isCountAssigned = _this.pcTaskDetail.every(item => {
+            return item.countAssigned > 0;
+          });
+          if(!_this.isCountAssigned) {
+            let len = _this.pcTaskDetail.length;
+            let count = _this.taskRelease.taskCount;
+            let remainder = count % len;
+            let integer = Math.floor(count / len);
+            for (let i = 0, len = _this.pcTaskDetail.length; i < len; i++) {
+              if(i === len - 1) {
+                _this.pcTaskDetail[i].countAssigned = integer + remainder;
+              } else {
+                _this.pcTaskDetail[i].countAssigned = integer;
+              }
+            }
+          }
           for (let i = 0, len = _this.pcTaskDetail.length; i < len; i++) {
             _this.pcTaskDetail[i].itemMainImage = _this.pcTaskDetailItemMainImage;
             let index = _this.pcTaskDetail[i].index + 1;
             countAssigned += _this.pcTaskDetail[i].countAssigned;
             if (!_this.pcTaskDetail[i].itemMainImage) {
               _this.$Message.warning('亲，请上传关键词方案' + index + '中的宝贝主图！');
-              return;
-            }
-            if (!_this.pcTaskDetail[i].countAssigned) {
-              _this.$Message.warning('亲，关键词方案'+ index + '中的匹配人数不能为空！');
               return;
             }
             if (!_this.pcTaskDetail[i].searchKeyword) {
@@ -1392,13 +1405,29 @@
               return;
             }
           }
-          if(countAssigned !== _this.taskRelease.taskCount){
+          if(countAssigned !== _this.taskRelease.taskCount) {
             _this.$Message.warning('亲，你分配的人数与宝贝数量不符，请重新分配人数！');
             return;
           }
         }
         if (_this.taskRelease.taskType === 'app_search') {
           let countAssigned = 0;
+          _this.isCountAssigned = _this.appTaskDetail.every(item => {
+            return item.countAssigned > 0;
+          });
+          if(!_this.isCountAssigned) {
+            let len = _this.appTaskDetail.length;
+            let count = _this.taskRelease.taskCount;
+            let remainder = count % len;
+            let integer = Math.floor(count / len);
+            for (let i = 0, len = _this.appTaskDetail.length; i < len; i++) {
+              if(i === len - 1) {
+                _this.appTaskDetail[i].countAssigned = integer + remainder;
+              } else {
+                _this.appTaskDetail[i].countAssigned = integer;
+              }
+            }
+          }
           for (let i = 0, len = _this.appTaskDetail.length; i < len; i++) {
             _this.appTaskDetail[i].itemMainImage = _this.appTaskDetailItemMainImage;
             let index = _this.appTaskDetail[i].index + 1;
@@ -1577,12 +1606,22 @@
               _this.pcDefaultList.push({src: _this.pcTaskDetail[0].itemMainImage});
               _this.pcTaskDetailItemMainImage = _this.pcTaskDetail[0].itemMainImage;
               _this.conversionPrice('pc_search');
+              if(!_this.isCountAssigned) {
+                _this.pcTaskDetail.forEach(item => {
+                  item.countAssigned = null;
+                })
+              }
             } else if (res.data.taskType === 'app_search') {
               _this.appTaskDetail = JSON.parse(res.data.taskDetail);
               _this.selectKeywordScheme = _this.appTaskDetail.length - 1;
               _this.appDefaultList.push({src: _this.appTaskDetail[0].itemMainImage});
               _this.appTaskDetailItemMainImage = _this.appTaskDetail[0].itemMainImage;
               _this.conversionPrice('app_search');
+              if(!_this.isCountAssigned) {
+                _this.appTaskDetail.forEach(item => {
+                  item.countAssigned = null;
+                })
+              }
             } else {
               _this.taskRelease.taskDetail = {};
             }

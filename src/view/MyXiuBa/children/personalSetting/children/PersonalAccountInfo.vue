@@ -50,7 +50,7 @@
              </p>-->
           </div>
           <div class="edit-head">
-            <a class="fs-14 mt-10" @click="toggleShow">修改头像</a>
+            <a class="fs-14 mt-10" @click="toggleShow">好头像，才有好形象！</a>
             <span>（上传自定义个性头像，可以提高活动申请通过率哦）</span>
           </div>
         </div>
