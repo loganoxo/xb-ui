@@ -1775,7 +1775,7 @@
           _this.$Message.error('亲，您当前最多只能添加' + keywordLen + '套关键词方案');
           return;
         }
-        if(_this.taskRelease.taskType === 'pc_search'){
+        if(_this.taskRelease.taskType === 'pc_search') {
           _this.pcTaskDetail.push({
             index: _this.addKeywordScheme,
             itemMainImage: null,
@@ -1791,7 +1791,7 @@
             deliverAddress: null,
           })
         }
-        if(_this.taskRelease.taskType === 'app_search'){
+        if(_this.taskRelease.taskType === 'app_search') {
           _this.appTaskDetail.push({
             index: _this.addKeywordScheme,
             itemMainImage: null,
@@ -1854,7 +1854,9 @@
               priceRangeMax: null,
               deliverAddress: null,
             }
-          ]
+          ];
+          _this.addKeywordScheme = 0;
+          _this.selectKeywordScheme = 0;
         }
         if(type === "app_search"){
           _this.appTaskDetail = [
@@ -1871,7 +1873,9 @@
               priceRangeMax: null,
               deliverAddress: null,
             }
-          ]
+          ];
+          _this.addKeywordScheme = 0;
+          _this.selectKeywordScheme = 0;
         }
       }
     }
