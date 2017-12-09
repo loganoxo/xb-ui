@@ -206,16 +206,20 @@
         let _this = this;
         if(_this.hasCurrentSearchSchemeIndex){
           _this.taskDetail = {};
-          let index = _this.showkerTaskInfo.currentSearchSchemeIndex;
           let taskDetailObject = _this.showkerTaskInfo.task.taskDetailObject;
-          for(let i = 0, len = taskDetailObject.length; i < len; i++){
-            if(taskDetailObject[i].index === index){
-              _this.taskDetail = taskDetailObject[i];
-              break;
+          if(_this.showkerTaskInfo.task.taskType === 'tao_code'){
+            _this.taskDetail = taskDetailObject[0];
+          } else {
+            let index = _this.showkerTaskInfo.currentSearchSchemeIndex;
+            for(let i = 0, len = taskDetailObject.length; i < len; i++){
+              if(taskDetailObject[i].index === index){
+                _this.taskDetail = taskDetailObject[i];
+                break;
+              }
             }
           }
+
         } else {
-          console.log(789);
           let len = _this.showkerTaskInfo.taskDetailObject.length;
           let index = Math.floor(Math.random() * len);
           _this.taskDetail = _this.showkerTaskInfo.taskDetailObject[index];
