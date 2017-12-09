@@ -35,7 +35,6 @@
               <iOption value="中国建设银行">中国建设银行</iOption>
               <iOption value="中国工商银行">中国工商银行</iOption>
               <iOption value="中国农业银行">中国农业银行</iOption>
-              <!--<iOption value="中国招商银行">中国招商银行</iOption>-->
               <iOption value="招商银行">招商银行</iOption>
               <iOption value="中国银行">中国银行</iOption>
               <iOption value="兴业银行">兴业银行</iOption>
@@ -45,7 +44,6 @@
               <iOption value="民生银行">民生银行</iOption>
               <iOption value="光大银行">光大银行</iOption>
               <iOption value="交通银行">交通银行</iOption>
-              <!--<iOption value="中国邮政储蓄银行">中国邮政储蓄银行</iOption>-->
               <iOption value="北京银行">北京银行</iOption>
               <iOption value="渤海银行">渤海银行</iOption>
               <iOption value="杭州银行">杭州银行</iOption>
