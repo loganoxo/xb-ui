@@ -581,23 +581,15 @@
           font-size: 16px;
           .warning {
             color: #FF6F42;
-            height: 40px;
-            line-height: 40px;
             position: relative;
             width: 1000px;
             background-color: #FFF6F3;
-            margin: 0 auto;
-            margin-top: 20px;
+            margin: 20px auto 0 auto;
+            padding: 18px 0;
             .icon {
               position: absolute;
-              top: 11px;
-            }
-            .icon:before {
-              font-size: 20px;
-            }
-            span {
-              font-size: 16px;
-              font-family: Microsoft YaHei;
+              top: 23px;
+              left: 14px;
             }
           }
           .get-out-do {

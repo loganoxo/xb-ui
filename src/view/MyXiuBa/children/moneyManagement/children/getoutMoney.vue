@@ -95,17 +95,16 @@
         <span class="right cursor-p" style="color: blue;" @click="lookGetoutRecord('getoutRecord')">查看提现记录</span>
       </div>
       <div class="content">
-        <div class="warning" style="height: auto; overflow: hidden; padding: 0 20px; line-height: 35px;">
-          <Icon type="information-circled" class="icon ml-20 over-hd left" style="top: 9px;"></Icon>
-          <span class="ml-56 left">
+        <div class="warning">
+          <Icon type="alert-circled" class="icon" size="32" color="#f60"></Icon>
+          <div class="ml-56">
             中午12点之前申请提现的当天18点前返款；中午12点之后申请提现的是次日返款到账，遇到周末或者节假日往后顺延。 成功提现的订单即表示已经打款成功，具体到账时间以每个银行受理时间为准。
-          </span>
-
+          </div>
         </div>
         <div class="get-out-do mt-22">
           <iForm ref="getoutMoney" :model="getoutMoney" :label-width="200" :rules="getOutMoneyRule">
             <Form-item label="请输入提现金额:" prop="getoutNumber">
-              <iInput v-model.number="getoutMoney.getoutNumber" class="iInput"></iInput>
+              <iInput v-model="getoutMoney.getoutNumber" class="iInput"></iInput>
               <span>元（最低1元起提）</span>
             </Form-item>
             <Form-item label="提现银行卡号:">
@@ -124,7 +123,7 @@
               <span v-show="getIfEditPwdAlready"><router-link to="/user/money-management/account-management">忘记支付密码？</router-link></span>
             </Form-item>
             <Form-item>
-              <iButton type="primary" @click="applyGetoutMoney(getoutMoney)" class="ibtns">申请提现</iButton>
+              <iButton type="primary" @click="applyGetOutMoney()" class="ibtns">申请提现</iButton>
               <Modal
                 v-model="getOutMoneyPopWindow"
                 :styles="{top:'210px',width:'580px'}"
@@ -271,7 +270,7 @@
   import Input from 'iview/src/components/input'
   import api from '@/config/apiConfig'
   import SmsCountdown from '@/components/SmsCountdown'
-  import {TaskErrorStatusList,isNumber} from '@/config/utils'
+  import {TaskErrorStatusList,isNumber, isChinaStr} from '@/config/utils'
   import {mapActions} from 'vuex'
 
   export default {
@@ -294,8 +293,9 @@
     data() {
       //表单验证
       const validatePayNumber = (rule, value, callback) => {
-        if (!(/^[0-9]+(.[0-9]{1,2})?$/.test(value))) {
-          callback(new Error('金额为数字，请您重新输入'))
+        console.log(value);
+        if (!(/^\d+(\.\d{2})?$/g.test(value))) {
+          callback(new Error('输入的提现金额必须为数字且仅支持两位小数，请您重新输入'))
         } else {
           callback()
         }
@@ -317,7 +317,7 @@
       const validateName = (rule, value, callback) => {
         if (value === '') {
           callback(new Error('请输入姓名'));
-        } else if(value != this.$store.state.userInfo.realName){
+        } else if(value !== this.$store.state.userInfo.realName){
           callback(new Error('为保证资金安全，开户行必须与实名认证姓名一致！'))
         }else {
           callback()
@@ -332,7 +332,7 @@
       };
       const validatePass = (rule, value, callback) => {
         if (value === '') {
-          callback(new Error('请输入密码'));
+          callback(new Error('请输入支付密码'));
         } else {
           callback()
         }
@@ -386,8 +386,8 @@
           ]
         },
         getoutMoney: {
-          getoutNumber:null,
-          password: ''
+          getoutNumber: null,
+          password: null
         },
         getOutMoneyRule: {
           getoutNumber: [
@@ -609,28 +609,30 @@
         });
       },
       //申请提现
-      applyGetoutMoney(types) {
+      applyGetOutMoney() {
         let _this = this;
-        if (!(isNumber(types.getoutNumber))){
-         _this.$Message.error('金额为数字且仅支持小数点后两位');
-          return;
-        }
-        _this.getOutMoneyPopWindow = true;
-        api.applyGetoutMoney({
-          fee: (types.getoutNumber * 100).toFixed(),
-          bankCardNum: _this.userAccount.bankCardNum,
-          payPwd: types.password
-        }).then(res => {
-          if (res.status) {
-            _this.iconType = 'checkmark-circled';
-            _this.applyGetOut = res.msg;
-            _this.getoutMoney.getoutNumber = '';
-            _this.getoutMoney.password = '';
-
+        _this.$refs.getoutMoney.validate((valid) => {
+          if (valid) {
+            _this.getOutMoneyPopWindow = true;
+            api.applyGetoutMoney({
+              fee: (_this.getoutMoney.getoutNumber * 100).toFixed(),
+              bankCardNum: _this.userAccount.bankCardNum,
+              payPwd: _this.getoutMoney.password
+            }).then(res => {
+              if (res.status) {
+                _this.iconType = 'checkmark-circled';
+                _this.applyGetOut = res.msg;
+                _this.getoutMoney.getoutNumber = null;
+                _this.getoutMoney.password = null;
+              } else {
+                _this.iconType = 'close-circled';
+                _this.applyGetOut = res.msg;
+                _this.getoutMoney.password = null;
+              }
+            });
           } else {
-            _this.iconType = 'close-circled';
-            _this.applyGetOut = res.msg;
-            _this.getoutMoney.password = '';
+            _this.$Message.error('提现失败，请正确填写提现必要的信息！');
+            // _this.$refs.getoutMoney.resetFields();
           }
         });
       },

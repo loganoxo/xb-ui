@@ -92,6 +92,9 @@ export const randomString = () => {
  * 验证是否是正实数（仅支持验证带2位小数正实数）
  */
 export const isNumber = (number) => {
+  if(!number){
+    return
+  }
   let IS_NUMBER = /^[0-9]+(.[0-9]{1,2})?$/;
   return IS_NUMBER.test(number)
 };
@@ -100,6 +103,9 @@ export const isNumber = (number) => {
  * 验证是否是非0正整数
  */
 export const isInteger = (number) => {
+  if(!number){
+    return
+  }
   let IS_INTEGER = /^\+?[1-9][0-9]*$/;
   return IS_INTEGER.test(number)
 };
