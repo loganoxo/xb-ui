@@ -187,7 +187,6 @@
         if(_this.hasCurrentSearchSchemeIndex){
           api.getSchemeReassign({
             showkerTaskId: _this.showkerTaskInfo.id,
-            showkerId: _this.showkerTaskInfo.showkerId
           }).then(res => {
             if(res.status){
               _this.$emit('changeTask');
