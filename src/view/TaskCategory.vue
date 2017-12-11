@@ -103,9 +103,10 @@
         <div class="task-category-commodity">
           <div class="task-category-commodity-ctt">
             <router-link
+              target="_blank"
               v-show="searchTaskList.length > 0"
               v-for="searchTask in searchTaskList"
-              :title="searchTask.taskName.replace(new RegExp(/<\/font>/g),'').replace(new RegExp(/<font class='search-highlight'>/g),'')"
+              :title="searchTask.taskName.replace(/<\/font>/g,'').replace(/<font class='search-highlight'>/g,'')"
               :key= "searchTask.id"
               :to="{ 'path': '/task-details', 'query': {'q': encryptionId(searchTask.id)}}"
               class="task-category-commodity-details">
@@ -173,9 +174,10 @@
           </div>
           <div class="task-category-commodity-ctt">
             <router-link
+              target="_blank"
               v-show="historyTaskList.length > 0"
               v-for="historyTask in historyTaskList"
-              :title="historyTask.taskName.replace(new RegExp(/<\/font>/g),'').replace(new RegExp(/<font class='search-highlight'>/g),'')"
+              :title="historyTask.taskName.replace(/<\/font>/g,'').replace(/<font class='search-highlight'>/g,'')"
               :key= "historyTask.id"
               :to="{ 'path': '/task-details', 'query': {'q': encryptionId(historyTask.id)}}"
               class="task-category-commodity-details">
@@ -185,7 +187,7 @@
               </div>
               <div class="task-category-commodity-text">
                 <p v-html="historyTask.taskName"></p>
-                <p  class="home-commodity-price ">
+                <p class="home-commodity-price ">
                   <em class="price-list left">
                     <span class="cl666 block text-decoration-through">￥{{historyTask.itemPrice / 100}}</span>
                     <span class="main-color f-b" v-if="historyTask.discountPrice">￥{{(historyTask.discountPrice / 100).toFixed(2)}}</span>

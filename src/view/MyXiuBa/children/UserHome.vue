@@ -105,6 +105,7 @@
     <p v-if="getUserInfoRole === 0" class="clear-both user-home-account">最新秀品宝贝</p>
     <div v-if="getUserInfoRole === 0" class="home-commodity-ctt">
       <router-link
+        target="_blank"
         class="home-commodity-details"
         v-for="homeCommodity in homeCommodityList"
         :title="homeCommodity.taskName"
