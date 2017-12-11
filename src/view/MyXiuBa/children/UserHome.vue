@@ -9,24 +9,31 @@
         <div class="left ml-20 mt-12">
           <p>
             <span>账号：{{userData.phone}} </span>
-            <span v-if="!userData.userAccount.ifEditPwdAlready">支付密码：<Icon type="information-circled" color="#FF6633"></Icon>&nbsp;未设置<router-link :to="{ 'path': '/user/money-management/account-management','query': {'infoSelect': 'accountInfo'}}">&nbsp;&nbsp;设置</router-link></span>
-            <span v-if="userData.userAccount.ifEditPwdAlready">支付密码：<Icon color="#70CF70" type="checkmark-circled"></Icon> 已设置</span>
-            <span v-if="userData.alitmNum <= 0 "><span v-if="userData.alitmNum <= 0 && getUserInfoRole === 0">淘宝账号：<Icon type="information-circled" color="#FF6633"></Icon> 未绑定<router-link to="/user/personal-setting/ww-bind">去绑定</router-link></span></span>
-            <span v-else><span v-if="userData.alitmNum > 0 && getUserInfoRole === 0">淘宝账号：<Icon color="#70CF70" type="checkmark-circled"></Icon> 绑定成功</span></span>
+            <span v-if="!userData.userAccount.ifEditPwdAlready">支付密码：<Icon type="information-circled"
+                                                                           color="#FF6633"></Icon>&nbsp;未设置<router-link
+              :to="{ 'path': '/user/money-management/account-management','query': {'infoSelect': 'accountInfo'}}">&nbsp;&nbsp;设置</router-link></span>
+            <span v-if="userData.userAccount.ifEditPwdAlready">支付密码：<Icon color="#70CF70"
+                                                                          type="checkmark-circled"></Icon> 已设置</span>
+            <span v-if="userData.alitmNum <= 0 "><span v-if="userData.alitmNum <= 0 && getUserInfoRole === 0">淘宝账号：<Icon
+              type="information-circled" color="#FF6633"></Icon> 未绑定<router-link
+              to="/user/personal-setting/ww-bind">去绑定</router-link></span></span>
+            <span v-else><span v-if="userData.alitmNum > 0 && getUserInfoRole === 0">淘宝账号：<Icon color="#70CF70"
+                                                                                                type="checkmark-circled"></Icon> 绑定成功</span></span>
             <span v-if="Boolean(userData.ifCertification)">实名认证：<Icon color="#70CF70" type="checkmark-circled"></Icon> 已认证</span>
-            <span v-else>实名认证：<Icon type="information-circled" color="#FF6633"></Icon> 未认证 &nbsp;&nbsp;<router-link to="/user/personal-setting/verified">去认证</router-link></span>
+            <span v-else>实名认证：<Icon type="information-circled" color="#FF6633"></Icon> 未认证 &nbsp;&nbsp;<router-link
+              to="/user/personal-setting/verified">去认证</router-link></span>
           </p>
           <p>
           <span v-if="getUserInfoRole === 1 && !getMemberLevel">
-            <Icon type="social-vimeo" style="color: gray"></Icon>
+            <Icon type="social-vimeo" class="cl999"></Icon>
             <span>非会员</span>
-            <router-link to="/user/vip-member" >马上开通会员</router-link>
+            <router-link to="/user/vip-member">马上开通会员</router-link>
           </span>
             <span v-if="getUserInfoRole === 1&&getMemberLevel">
-            <Icon type="social-vimeo" style="color: red"></Icon>
+            <Icon type="social-vimeo" class="cl-red"></Icon>
             会员版本：{{levelValue+'版'}}
             <span class="ml-10">到期时间:{{Math.floor((parseInt(getMemberDeadline) -parseInt( (new Date().getTime())))/86400000)}}天</span>
-            <router-link to="/user/vip-member" >续费</router-link>
+            <router-link to="/user/vip-member">续费</router-link>
           </span>
             <span>可用金额：{{getUserBalance}} 元 </span>
             <span>提现中：{{userData.userAccount.enChashingMoney ? (userData.userAccount.enChashingMoney/100): 0 }} 元  </span>
@@ -36,17 +43,29 @@
         </div>
       </div>
       <div class="mt-10">
-        <router-link :to="{path:'/user/personal-setting/personal-account-info',query:{from:'userHome'}}">好头像，才有好形象！</router-link>
+        <router-link :to="{path:'/user/personal-setting/personal-account-info',query:{from:'userHome'}}">好头像，才有好形象！
+        </router-link>
       </div>
     </div>
     <div class="fs-14 pd-tb-20 clear" style="border-bottom: 1px solid #eee;">
       <p v-if="getUserInfoRole === 0">
         活动提醒：待审核
-        <router-link to="/user/my-probation/wait">{{trialCount.waitingAuditTaskApply}}</router-link>个，进行中
-        <router-link to="/user/my-probation/pass">{{trialCount.underWayShowkerTask}}</router-link>个（已通过待下单
-        <router-link :to="{path:'/user/my-probation/pass',query:{status:'pass_and_unclaimed'}}">{{trialCount.passAndUnclaimedShowkerTask}}</router-link>个；已下单待交买家秀
-        <router-link :to="{path:'/user/my-probation/pass',query:{status:'trial_report_waiting_submit'}}">{{trialCount.trialReportWaitingSubmitShowkerTask}}</router-link>个；待修改订单号/买家秀
-        <router-link :to="{path:'/user/my-probation/pass',query:{status:'order_num_error'}}">{{trialCount.orderNumErrorShowkerTask + trialCount.trialReportUnqualifiedShowkerTask}}</router-link>个）。
+        <router-link to="/user/my-probation/wait">{{trialCount.waitingAuditTaskApply}}</router-link>
+        个，进行中
+        <router-link to="/user/my-probation/pass">{{trialCount.underWayShowkerTask}}</router-link>
+        个（已通过待下单
+        <router-link :to="{path:'/user/my-probation/pass',query:{status:'pass_and_unclaimed'}}">
+          {{trialCount.passAndUnclaimedShowkerTask}}
+        </router-link>
+        个；已下单待交买家秀
+        <router-link :to="{path:'/user/my-probation/pass',query:{status:'trial_report_waiting_submit'}}">
+          {{trialCount.trialReportWaitingSubmitShowkerTask}}
+        </router-link>
+        个；待修改订单号/买家秀
+        <router-link :to="{path:'/user/my-probation/pass',query:{status:'order_num_error'}}">
+          {{trialCount.orderNumErrorShowkerTask + trialCount.trialReportUnqualifiedShowkerTask}}
+        </router-link>
+        个）。
         <router-link to="/user/my-probation/wait">进入我的活动</router-link>
       </p>
       <p v-if="getUserInfoRole === 1">
@@ -56,7 +75,9 @@
         </router-link>
         个，
         进行中
-        <router-link :to="{path:'/user/activity-management/list',query:{status:'under_way'}}"> {{trialCount.underWayTask}}</router-link>
+        <router-link :to="{path:'/user/activity-management/list',query:{status:'under_way'}}">
+          {{trialCount.underWayTask}}
+        </router-link>
         个
         （待审批秀客
         <router-link :to="{path:'/user/task-management/wait'}">
@@ -89,23 +110,21 @@
         :title="homeCommodity.taskName"
         :key="homeCommodity.id"
         :to="{ 'path': '/task-details','query': {'q': encryptionId(homeCommodity.id)}}">
-        <div class="home-commodity-img">
-          <img class="block" v-lazy="homeCommodity.taskMainImage + '!orgi75'" alt="" style="width: 100%; height: 208px;">
+        <div class="home-commodity-img pos-rel">
+          <img class="block" v-lazy="homeCommodity.taskMainImage + '!orgi75'" width="210" height="208">
+          <span class="applied"><span class="main-color">{{homeCommodity.showkerApplyTotalCount || 0}}</span> 人已申请</span>
         </div>
         <div class="home-commodity-text">
           <p class="home-commodity-title">{{homeCommodity.taskName}}</p>
           <p class="home-commodity-price">
             <span class="left">￥{{homeCommodity.itemPrice / 100}}</span>
-            <!--<span class="right">免费活动</span>-->
           </p>
           <p class="home-commodity-apply">
-            限量 <span style="color: #ff6600"> {{homeCommodity.taskCount || 0 }} </span> 份，
-                  <span style="color: #ff6600"> {{homeCommodity.showkerApplyTotalCount || 0}} </span> 人已申请
-                </p>
+            限量 <span class="main-color"> {{homeCommodity.taskCount || 0 }} </span> 份，剩余
+            <span class="main-color"> {{homeCommodity.taskCount - homeCommodity.showkerApplySuccessCount || 0}} </span> 份
+          </p>
           <p class="home-commodity-take">
-            <router-link :to="{ 'path': '/task-details','query': {'q': encryptionId(homeCommodity.id)}}" class="ivu-btn ivu-btn-long" >
-              免费领取
-            </router-link>
+            <router-link :to="{ 'path': '/task-details','query': {'q': encryptionId(homeCommodity.id)}}" class="ivu-btn ivu-btn-long">免费领取</router-link>
           </p>
         </div>
       </router-link>
@@ -198,8 +217,8 @@
         },
         trialCount: {},
         homeCommodityList: [],
-        lastTime:null,
-        levelValue:'',
+        lastTime: null,
+        levelValue: '',
       }
     },
     created() {
@@ -218,9 +237,9 @@
       userData() {
         return this.$store.state.userInfo;
       },
-       getMemberDeadline() {
-         return this.$store.state.userInfo.memberDeadline
-       },
+      getMemberDeadline() {
+        return this.$store.state.userInfo.memberDeadline
+      },
       getMemberLevel() {
         return this.$store.state.userInfo.memberLevel
       },
@@ -244,24 +263,16 @@
           }
         });
       },
-      encryptionId(id){
+      encryptionId(id) {
         return encryption(id)
-      },
-      getLastDay(){
-        this.lastTime = (getMemberDeadline - (new Date().getTime()))/86400
       },
       getHomeTaskList() {
         let self = this;
         api.getHomeTaskList().then((res) => {
-          if (res.status) {
-            if (res.data) {
-              self.homeCommodityList = res.data.splice(0,8);
-            }
+          if (res.status && res.data) {
+            self.homeCommodityList = res.data.splice(0, 8);
           } else {
-            self.$Message.error({
-              content: res.msg,
-              duration: 9
-            });
+            self.$Message.error(res.msg);
           }
         })
       },
@@ -272,10 +283,7 @@
             if (res.status) {
               self.trialCount = res.data
             } else {
-              self.$Message.error({
-                content: res.msg,
-                duration: 9
-              });
+              self.$Message.error(res.msg);
             }
           })
         } else {
@@ -283,10 +291,7 @@
             if (res.status) {
               self.trialCount = res.data
             } else {
-              self.$Message.error({
-                content: res.msg,
-                duration: 9
-              });
+              self.$Message.error(res.msg);
             }
           })
         }
@@ -324,8 +329,6 @@
     }
   }
 
-
-
   .user-seller-tips-box {
     margin-top: 20px;
     text-align: center;
@@ -339,7 +342,7 @@
         height: 180px;
         overflow: hidden;
         li {
-          a{
+          a {
             color: #666;
           }
           height: 24px;
@@ -349,54 +352,63 @@
     }
   }
 
+  .applied {
+    position: absolute;
+    top:0;
+    right: 0;
+    background-color: #fff;
+    padding: 0 6px;
+    color: #666;
+  }
 
-    .home-commodity-title{
-      img{
-        display: block;
-        margin: 28px auto 10px auto;
+  .home-commodity-title {
+    img {
+      display: block;
+      margin: 28px auto 10px auto;
+    }
+    p {
+      color: #999;
+    }
+  }
+
+  .home-commodity-ctt {
+    padding: 24px;
+    text-align: left;
+    .home-commodity-details {
+      width: 222px;
+      display: inline-block;
+      margin: 0 4px 30px 4px;
+      padding: 0 5px 20px 5px;
+      .home-commodity-img {
+        border: 1px solid #ddd;
       }
-      p{
-        color: #999;
+      .home-commodity-text {
+        background-color: #EEEEEE;
+        padding: 5px 5px 8px 5px;
+        p {
+          line-height: 28px;
+          height: 28px;
+          font-size: 14px;
+          text-overflow: ellipsis;
+          white-space: nowrap;
+          overflow: hidden;
+        }
+        p.home-commodity-title {
+          color: #000;
+          text-align: left;
+        }
+        p.home-commodity-price {
+          color: #FF6633;
+        }
+        p.home-commodity-apply {
+          color: #000;
+        }
+        p.home-commodity-take {
+          height: 40px;
+          line-height: 40px;
+        }
       }
     }
-    .home-commodity-ctt{
-      padding: 24px;
-      text-align: left;
-      .home-commodity-details{
-        width: 222px;
-        display: inline-block;
-        margin: 0 4px 30px 4px;
-        padding: 0 5px 20px 5px;
-        .home-commodity-img{
-          border: 1px solid #ddd;
-        }
-        .home-commodity-text{
-          background-color: #EEEEEE;
-          padding: 5px 5px 8px 5px;
-          p{
-            line-height: 28px;
-            height: 28px;
-            font-size: 14px;
-            text-overflow: ellipsis;
-            white-space: nowrap;
-            overflow: hidden;
-          }
-          p.home-commodity-title{
-            color: #000;
-            text-align: left;
-          }
-          p.home-commodity-price{
-            color: #FF6633;
-          }
-          p.home-commodity-apply{
-            color: #000;
-          }
-          p.home-commodity-take{
-            height: 40px;
-            line-height: 40px;
-          }
-        }
-      }
 
-    }
+  }
 </style>

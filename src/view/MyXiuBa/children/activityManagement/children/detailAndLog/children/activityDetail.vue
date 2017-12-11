@@ -813,7 +813,7 @@
             _this.taskRelease.itemPrice = _this.taskRelease.itemPrice / 100;
             _this.taskRelease.taskDetail = {};
             if (res.data.taskType === 'tao_code') {
-              _this.taoCodeTaskDetail = JSON.parse(res.data.taskDetail)[0];
+              _this.taoCodeTaskDetail = JSON.parse(res.data.taskDetail);
             } else if (res.data.taskType === 'pc_search') {
               _this.pcTaskDetail = JSON.parse(res.data.taskDetail);
               _this.selectKeywordScheme = _this.pcTaskDetail.length - 1;

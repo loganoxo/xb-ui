@@ -27,11 +27,11 @@
           <span v-if="!$route.query.activityCategory">宝贝类型：</span>
           <!--<a v-if="$route.query.searchKey != 'all' && $route.query.searchKey" :class="[!$route.query.cate ? 'active' : '']" @click="selCategoryAllFunc">全部活动</a>-->
           <a :class="[!$route.query.cate ? 'active' : '']" @click="selTaskCategoryAllFunc">全部活动</a>
-          <a v-if="nav.name != '美食/特产' && nav.name != '其它试用'" :class="[($route.query.cate == nav.id || parentItemCatalog.id == nav.id) && $route.query.cate ? 'active' : '']" @click="selTaskCategoryActiveFunc(nav)" v-for="nav in navList" >{{nav.name}}</a>
+          <a v-if="nav.name !== '美食/特产' && nav.name !== '其它试用'" :class="[($route.query.cate == nav.id || parentItemCatalog.id == nav.id) && $route.query.cate ? 'active' : '']" @click="selTaskCategoryActiveFunc(nav)" v-for="nav in navList" >{{nav.name}}</a>
         </div>
         <div v-show="$route.query.searchKey">
           <div   class="task-category-sel">
-            搜索关键词：<span style="color: #ff6633;">“{{$route.query.searchKey}}”</span>
+            搜索关键词：<span class="main-color">“{{$route.query.searchKey}}”</span>
           </div>
         </div>
         <div v-show="$route.query.cate"  class="task-category-sel">
@@ -42,11 +42,11 @@
           </a>
         </div>
         <div v-show="!$route.query.searchKey">
-          <div v-if="$store.state.TaskCategoryActive == 'price_low'" class="task-category-sel" >
+          <div v-if="$store.state.TaskCategoryActive === 'price_low'" class="task-category-sel" >
             折扣类型：
             <a v-for="(k,discountPrice) in $store.state.discountPriceType" :class="[discountTaskCategoryActive == discountPrice ? 'active' : '' ]" @click="selDiscountPriceTypeFunc(k,discountPrice)">{{discountPrice}}试用</a>
           </div>
-          <div v-if=" $store.state.TaskCategoryActive == 'goods_clearance'" class="task-category-sel" >
+          <div v-if=" $store.state.TaskCategoryActive === 'goods_clearance'" class="task-category-sel" >
             折扣类型：
             <a v-for="(k,discountPrice) in $store.state.goodsClearanceList" :class="[discountTaskCategoryActive == discountPrice ? 'active' : '' ]" @click="selDiscountPriceTypeFunc(k,discountPrice)">{{discountPrice}}清仓</a>
           </div>
@@ -62,8 +62,8 @@
             <Button-group size="small" class="left mt-10">
               <iButton :class="[sortFieldDefault.name == sortField.name ? 'active' : '']" v-for="(sortField,index) in sortFieldList" :key="sortField.name" @click="getSortFieldFunc(sortField, index)">
                 {{sortField.name}}
-                <Icon v-show="sortField.sort == 'desc' " type="arrow-down-c"></Icon>
-                <Icon v-show="sortField.sort == 'asc' " type="arrow-up-c"></Icon>
+                <Icon v-show="sortField.sort === 'desc' " type="arrow-down-c"></Icon>
+                <Icon v-show="sortField.sort === 'asc' " type="arrow-up-c"></Icon>
               </iButton>
             </Button-group>
             <Page class="right"
@@ -110,50 +110,45 @@
               :title="searchTask.taskName.replace(new RegExp(/<\/font>/g),'').replace(new RegExp(/<font class='search-highlight'>/g),'')"
               :key= "searchTask.id"
               :to="{ 'path': '/task-details', 'query': {'q': encryptionId(searchTask.id)}}"
-              class="task-category-commodity-details"
-            >
-              <div class="task-category-commodity-img">
-                <img class="block" v-lazy="searchTask.taskMainImage + '!orgi75'" alt="" style="width: 220px; height: 220px;">
+              class="task-category-commodity-details">
+              <div class="task-category-commodity-img pos-rel">
+                <img class="block" v-lazy="searchTask.taskMainImage + '!orgi75'" height="220" width="220">
+                <span class="applied"><span class="main-color">{{searchTask.showkerApplyTotalCount || 0}}</span> 人已申请</span>
               </div>
               <div class="task-category-commodity-text">
                 <p v-html="searchTask.taskName"></p>
                 <p class="home-commodity-price">
-                  <em style="float: left;" class="price-list">
-                    <span style="color: #666; display: block; text-decoration: line-through;">￥{{searchTask.itemPrice / 100}}</span>
-                    <span style="font-weight: bold; color: #ff6633;" v-if="searchTask.discountPrice">￥{{(searchTask.discountPrice / 100).toFixed(2)}}</span>
-                    <span style="font-weight: bold; color: #ff6633;" v-if="!searchTask.discountPrice && searchTask.discountRate">
+                  <em class="price-list left">
+                    <span class="cl666 block text-decoration-through">￥{{searchTask.itemPrice / 100}}</span>
+                    <span class="f-b main-color" v-if="searchTask.discountPrice">￥{{(searchTask.discountPrice / 100).toFixed(2)}}</span>
+                    <span class="f-b main-color" v-if="!searchTask.discountPrice && searchTask.discountRate">
                       ￥{{(Math.floor((searchTask.discountRate/100) * searchTask.itemPrice)/100).toFixed(2)}}
                     </span>
-                    <span style="font-weight: bold; color: #ff6633;" v-if="!searchTask.discountPrice && !searchTask.discountRate">
+                    <span class="f-b main-color" v-if="!searchTask.discountPrice && !searchTask.discountRate">
                       ￥0
                     </span>
                   </em>
-                  <em  class="price-icon mt-10">
-                    <span v-if= "searchTask.activityCategory == 'pinkage_for_10'" style="padding: 0 4px; background: #75c5ff; color: #fff; margin-left: 10px; display: inline-block;height: 20px;line-height: 20px;">10元包邮</span>
-                    <span v-if= "searchTask.activityCategory == 'present_get'" style="padding: 0 4px; background: #00cc66; color: #ffffff; margin-left: 10px; display: inline-block;height: 20px;line-height: 20px;">体验专区</span>
-                    <span v-if="searchTask.activityCategory == 'price_low' && searchTask.discountPrice" class="left home-discount-price mt-5" :style="{backgroundColor: $store.state.discountPriceType[parseFloat(searchTask.discountPrice/100)].backgroundColor}" >
+                  <em class="price-icon mt-10">
+                    <span v-if= "searchTask.activityCategory === 'pinkage_for_10'" style="padding: 0 4px; background: #75c5ff; color: #fff; margin-left: 10px; display: inline-block;height: 20px;line-height: 20px;">10元包邮</span>
+                    <span v-if= "searchTask.activityCategory === 'present_get'" style="padding: 0 4px; background: #00cc66; color: #ffffff; margin-left: 10px; display: inline-block;height: 20px;line-height: 20px;">体验专区</span>
+                    <span v-if="searchTask.activityCategory === 'price_low' && searchTask.discountPrice" class="left home-discount-price mt-5" :style="{backgroundColor: $store.state.discountPriceType[parseFloat(searchTask.discountPrice/100)].backgroundColor}" >
                       {{searchTask.discountPrice/100}}试用
                     </span>
-                      <span v-if="searchTask.activityCategory == 'price_low' && searchTask.discountRate" class="left home-discount-price mt-5" :style="{backgroundColor: $store.state.discountPriceType[parseFloat(searchTask.discountRate/10) + '折'].backgroundColor}" >
+                      <span v-if="searchTask.activityCategory === 'price_low' && searchTask.discountRate" class="left home-discount-price mt-5" :style="{backgroundColor: $store.state.discountPriceType[parseFloat(searchTask.discountRate/10) + '折'].backgroundColor}" >
                       {{searchTask.discountRate/10}}折试用
                     </span>
-                      <span v-if="searchTask.activityCategory == 'goods_clearance' && searchTask.discountRate " class="left home-discount-price mt-5" :style="{backgroundColor: $store.state.discountPriceType[parseFloat(searchTask.discountRate/10) + '折'].backgroundColor}" >
+                      <span v-if="searchTask.activityCategory === 'goods_clearance' && searchTask.discountRate " class="left home-discount-price mt-5" :style="{backgroundColor: $store.state.discountPriceType[parseFloat(searchTask.discountRate/10) + '折'].backgroundColor}" >
                       {{searchTask.discountRate/10}}折清仓
                     </span>
                   </em>
                 </p>
                 <p class="cl000">
-                  限量 <span style="color: #ff6600"> {{searchTask.taskCount || 0 }} </span> 份，
-                  <span style="color: #ff6600"> {{searchTask.showkerApplyTotalCount || 0}} </span> 人已申请
+                  限量 <span class="main-color"> {{searchTask.taskCount || 0 }} </span> 份，剩余
+                  <span class="main-color"> {{searchTask.taskCount - searchTask.showkerApplySuccessCount || 0}} </span> 份
                 </p>
-                <p class="cl000">
-                  剩余时间：
-                  <time-down  :endTime="searchTask.endTime" ></time-down>&nbsp;
-                </p>
+                <p class="cl000">剩余时间：<time-down  :endTime="searchTask.endTime" ></time-down>&nbsp;</p>
                 <p >
-                  <router-link :to="{ 'path': '/task-details','query': {'q': encryptionId(searchTask.id)}}" class="ivu-btn ivu-btn-long" >
-                    免费领取
-                  </router-link>
+                  <router-link :to="{ 'path': '/task-details','query': {'q': encryptionId(searchTask.id)}}" class="ivu-btn ivu-btn-long" >免费领取</router-link>
                 </p>
               </div>
             </router-link>
@@ -185,49 +180,42 @@
               :title="historyTask.taskName.replace(new RegExp(/<\/font>/g),'').replace(new RegExp(/<font class='search-highlight'>/g),'')"
               :key= "historyTask.id"
               :to="{ 'path': '/task-details', 'query': {'q': encryptionId(historyTask.id)}}"
-              class="task-category-commodity-details"
-            >
-              <div class="task-category-commodity-img">
-                <img class="block" v-lazy="historyTask.taskMainImage + '!orgi75'" alt="" style="width: 220px; height: 220px;">
+              class="task-category-commodity-details">
+              <div class="task-category-commodity-img pos-rel">
+                <img class="block" v-lazy="historyTask.taskMainImage + '!orgi75'" alt="" width="220" height="220">
+                <span class="applied"><span class="main-color">{{historyTask.showkerApplyTotalCount || 0}}</span> 人已申请</span>
               </div>
               <div class="task-category-commodity-text">
                 <p v-html="historyTask.taskName"></p>
                 <p  class="home-commodity-price ">
-                  <em style="float: left;" class="price-list">
-                    <span style="color: #666; display: block; text-decoration: line-through;">￥{{historyTask.itemPrice / 100}}</span>
-                    <span style="font-weight: bold; color: #ff6633;" v-if="historyTask.discountPrice">￥{{(historyTask.discountPrice / 100).toFixed(2)}}</span>
-                    <span style="font-weight: bold; color: #ff6633;" v-if="!historyTask.discountPrice && historyTask.discountRate">
+                  <em class="price-list left">
+                    <span class="cl666 block text-decoration-through">￥{{historyTask.itemPrice / 100}}</span>
+                    <span class="main-color f-b" v-if="historyTask.discountPrice">￥{{(historyTask.discountPrice / 100).toFixed(2)}}</span>
+                    <span class="main-color f-b" v-if="!historyTask.discountPrice && historyTask.discountRate">
                       ￥{{(Math.floor((historyTask.discountRate/100) * historyTask.itemPrice)/100).toFixed(2)}}
                     </span>
-                    <span style="font-weight: bold; color: #ff6633;" v-if="!historyTask.discountPrice && !historyTask.discountRate">
+                    <span class="main-color f-b" v-if="!historyTask.discountPrice && !historyTask.discountRate">
                       ￥0
                     </span>
                   </em>
                   <em  class="price-icon mt-10">
-                    <span v-if= "historyTask.activityCategory == 'pinkage_for_10'" style="padding: 0 4px; background: #75c5ff; color: #fff; margin-left: 10px; display: inline-block;height: 20px;line-height: 20px;">10元包邮</span>
-                    <span v-if= "historyTask.activityCategory == 'present_get'" style="padding: 0 4px; background: #00cc66; color: #ffffff; margin-left: 10px; display: inline-block;height: 20px;line-height: 20px;">体验专区</span>
-                    <span v-if="historyTask.activityCategory == 'price_low' && historyTask.discountPrice" class="left home-discount-price mt-5" :style="{backgroundColor: $store.state.discountPriceType[parseFloat(historyTask.discountPrice/100)].backgroundColor}" >
+                    <span v-if= "historyTask.activityCategory === 'pinkage_for_10'" style="padding: 0 4px; background: #75c5ff; color: #fff; margin-left: 10px; display: inline-block;height: 20px;line-height: 20px;">10元包邮</span>
+                    <span v-if= "historyTask.activityCategory === 'present_get'" style="padding: 0 4px; background: #00cc66; color: #ffffff; margin-left: 10px; display: inline-block;height: 20px;line-height: 20px;">体验专区</span>
+                    <span v-if="historyTask.activityCategory === 'price_low' && historyTask.discountPrice" class="left home-discount-price mt-5" :style="{backgroundColor: $store.state.discountPriceType[parseFloat(historyTask.discountPrice/100)].backgroundColor}" >
                       {{historyTask.discountPrice/100}}试用
                     </span>
-                    <span v-if="historyTask.activityCategory == 'price_low' && historyTask.discountRate" class="left home-discount-price mt-5" :style="{backgroundColor: $store.state.discountPriceType[parseFloat(historyTask.discountRate/10) + '折'].backgroundColor}" >
+                    <span v-if="historyTask.activityCategory === 'price_low' && historyTask.discountRate" class="left home-discount-price mt-5" :style="{backgroundColor: $store.state.discountPriceType[parseFloat(historyTask.discountRate/10) + '折'].backgroundColor}" >
                       {{historyTask.discountRate/10}}折试用
                     </span>
-                    <span v-if="historyTask.activityCategory == 'goods_clearance' && historyTask.discountRate " class="left home-discount-price mt-5" :style="{backgroundColor: $store.state.discountPriceType[parseFloat(historyTask.discountRate/10) + '折'].backgroundColor}" >
+                    <span v-if="historyTask.activityCategory === 'goods_clearance' && historyTask.discountRate " class="left home-discount-price mt-5" :style="{backgroundColor: $store.state.discountPriceType[parseFloat(historyTask.discountRate/10) + '折'].backgroundColor}" >
                       {{historyTask.discountRate/10}}折清仓
                     </span>
                   </em>
                 </p>
                 <p class="cl000">
-                  限量 <span style="color: #ff6600"> {{historyTask.taskCount || 0 }} </span> 份，
-                  <span style="color: #ff6600"> {{historyTask.showkerApplyTotalCount || 0}} </span> 人已申请
-                  <!--份数:{{searchTask.taskCount}}-->
-                  <!--&nbsp;&nbsp;&nbsp;&nbsp;-->
-                  <!--申请人数:{{searchTask.showkerApplyTotalCount}}-->
+                  限量 <span class="main-color"> {{historyTask.taskCount || 0 }} </span> 份，剩余
+                  <span class="main-color"> {{historyTask.taskCount - historyTask.showkerApplySuccessCount || 0}} </span> 份
                 </p>
-                <!--<p class="cl000">-->
-                  <!--剩余时间：-->
-                  <!--<time-down  :endTime="historyTask.endTime" ></time-down>&nbsp;-->
-                <!--</p>-->
                 <p >
                   <router-link :to="{ 'path': '/task-details','query': {'q': encryptionId(historyTask.id)}}" class="ivu-btn ivu-btn-long" >
                     查看详情
@@ -249,8 +237,8 @@
         </div>
       </div>
     </div>
-    <router-link to="/user/task-release" class="baicaijia-dialog" v-show="baicaijiaDialog && $store.state.disCountTaskCategory && getRole == 1 ">
-      <b @click="baicaijiaDialog=false; $event.preventDefault();">&times;</b>
+    <router-link to="/user/task-release" class="baicaijia-dialog" v-show="baicaijiaDialog && $store.state.disCountTaskCategory && getRole === 1 ">
+      <b @click.stop="baicaijiaDialog = false">&times;</b>
     </router-link>
 
   </div>
@@ -589,7 +577,7 @@
       getSearchTask(){
         let self = this;
         let showkerId = '';
-        if(self.$store.state.userInfo && self.$store.state.userInfo.role == 0){
+        if(self.$store.state.userInfo && self.$store.state.userInfo.role === 0){
           showkerId = self.$store.state.userInfo.id
         }else {
           showkerId = '';
@@ -848,13 +836,6 @@
             }
             p.task-category-commodity-text-price{
               color: #FF6633;
-              /*span:last-child{*/
-                /*background-color: #FCE2E4;*/
-                /*padding: 0 10px;*/
-                /*height: 30px;*/
-                /*line-height: 30px;*/
-                /*margin-top: 2px;*/
-              /*}*/
             }
           }
         }
@@ -882,6 +863,12 @@
     }
   }
 
-
-
+  .applied{
+    position: absolute;
+    top:0;
+    right: 0;
+    background-color: #fff;
+    padding: 0 6px;
+    color: #666;
+  }
 </style>

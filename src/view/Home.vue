@@ -114,12 +114,12 @@
                     Hi~ 商家 {{decodeURIComponent(getUserInfoPhone)}}
                   </router-link>
                   <div v-if="getUserInfoRole === 1&& !getMemberLevel" class="fs-12">
-                    <Icon type="social-vimeo" style="color: gray"></Icon>
+                    <Icon type="social-vimeo" class="cl999"></Icon>
                     <span>非会员</span>
                     <router-link to="/user/vip-member">马上开通会员</router-link>
                   </div>
                   <div v-if="getUserInfoRole === 1&&getMemberLevel" class="fs-12">
-                    <Icon type="social-vimeo" style="color: red"></Icon>
+                    <Icon type="social-vimeo" class="cl-red"></Icon>
                     <span>到期时间:{{Math.floor((parseInt(getMemberDeadline) - parseInt((new Date().getTime()))) / 86400000)}}天</span>
                     <router-link to="/user/vip-member">续费</router-link>
                   </div>
@@ -162,10 +162,10 @@
             </div>
             <div class="notice-box">
               <p>
-                <a v-show="!(getUserInfoRole == 0 && notice.title == '商家问题')" v-for="notice in noticeList" :class="[noticeActive == notice.active ? 'active' : '']"
+                <a v-show="!(getUserInfoRole === 0 && notice.title === '商家问题')" v-for="notice in noticeList" :class="[noticeActive === notice.active ? 'active' : '']"
                    @click="changeNoticeTab(notice)">{{notice.title}}</a>
               </p>
-              <div v-for="(notice,index) in noticeList" v-show="noticeActive == notice.active" :key="index"
+              <div v-for="(notice,index) in noticeList" v-show="noticeActive === notice.active" :key="index"
                    class="notice-text animated fadeIn">
                 <router-link v-for="(content,index) in notice.content" :key="index"
                              :to="{path: content.url, query: {page: content.page, qusNum: content.qusNum}}"
@@ -181,19 +181,19 @@
           <div class="left-ctt left">
             <div style="overflow: hidden">
               <div class="title clear">
-                <img  style="vertical-align: middle" src="~assets/img/home/top_mjx.png" alt="">
+                <img class="vtc-mid" src="~assets/img/home/top_mjx.png" alt="">
                 <span class="ml-10" style="font-size: 13px;color: #999;transform: translateY(2px)">给你最精彩</span>
                 <span class="right cursor-p" @click="toBuyerShow">更多买家秀...</span>
               </div>
               <ul class="clear" :class="[leftSlider ? 'slider-top-active-left' : 'slider-top-default-left']"
                   @mouseover="clearLeftSliderFunc()" @mouseleave="leftSliderFunc()">
                 <li v-for="item in buyerShowList" class="content cursor-p left pos-rel" >
-                  <router-link :to="{path:'/trial-report',query:{q:encryptionId(item.showkerId),showReportDesc:true,id:encryptionId(item.id)}}" :title="item.taskName">
+                  <router-link :to="{path:'/trial-report',query:{q:encryptionId(item.showkerId),showReportDesc:true,id:encryptionId(item.id)}}" :title="item.taskName" target="_blank">
                     <div style="height: 260px">
                       <img :src="item.trialReportImages+'!thum200'" alt="" width="200" height="260">
                     </div>
-                     <p class=" top-heart clear" v-show="item.likeCount !== 0">
-                       <Icon type="heart" class="left" style="font-size: 14px;margin-top: 2px"></Icon>
+                     <p class="top-heart clear" v-show="item.likeCount !== 0">
+                       <Icon type="heart" class="left fs-14 mt" style="margin-top: 2px"></Icon>
                        <span class="left ml-5" >赞({{item.likeCount}})</span>
                      </p>
                     <p class="price clear">
@@ -207,8 +207,8 @@
                   </p>
                   <div class="clear bottom mt-20">
                     <router-link :to="{path:'/trial-report',query:{q:encryptionId(item.showkerId)}}" class="user-head-box ml-10"><img  width="48" height="48" :src="getUserHead(item.showkerPortraitPic)" alt=""></router-link>
-                    <div class="left ml-10" style="margin-top: 5px">
-                      <p style="color: #000">{{item.showkerPhone}}</p>
+                    <div class="left ml-10 mt-5">
+                      <p class="cl000">{{item.showkerPhone}}</p>
                       <img :src="item.creditLevel" alt="">
                       <p>淘气值：{{item.tqz}}</p>
                     </div>
@@ -222,8 +222,7 @@
               <ul :class="[leftTopSlider ? 'slider-top-active-right' : 'slider-top-default-right']"
                   @mouseover="clearLeftTopSliderFunc()" @mouseleave="leftTopSliderFunc()">
                 <li v-for="taskTopLeft in taskTopLeftList">
-                  <router-link :to="{path:'/task-details', query:{q: encryptionId(taskTopLeft.task.id)}}"
-                               :title="taskTopLeft.task.taskName" class="block">
+                  <router-link :to="{path:'/task-details', query:{q: encryptionId(taskTopLeft.task.id)}}" :title="taskTopLeft.task.taskName" class="block">
                     <div class="left img-box">
                       <img :src="taskTopLeft.task.taskMainImage + '!thum54'" alt="" width="54" height="54">
                     </div>
@@ -232,25 +231,10 @@
                       <p>
                         价值<span class="text ml-5">￥{{taskTopLeft.task.itemPrice / 100}}</span> 的宝贝
                       </p>
-                      <span style="color: #999;">
-                      {{
-                        (new Date() - taskTopLeft.createTime) / 1000 < 60 ? 1 :
-                          (new Date() - taskTopLeft.createTime) / 1000 / 60 < 60 ? parseInt((new Date() - taskTopLeft.createTime) / 1000 / 60) :
-                            (new Date() - taskTopLeft.createTime) / 1000 / 60 / 60 / 24 < 1 ? parseInt((new Date() - taskTopLeft.createTime) / 1000 / 60 / 60) :
-                              parseInt((new Date() - taskTopLeft.createTime) / 1000 / 60 / 60 / 24)
-                        }}
-                      </span>
-                      <span style="color: #999;"
-                            v-if="(new Date() -taskTopLeft.createTime)/1000/60 < 60 || (new Date() -taskTopLeft.createTime)/1000 < 60">
-                        分钟前
-                      </span>
-                      <span style="color: #999;"
-                            v-if="(new Date() -taskTopLeft.createTime)/1000/60/60/24 < 1 && (new Date() -taskTopLeft.createTime)/1000/60 >= 60">
-                        小时前
-                      </span>
-                      <span style="color: #999;" v-if="(new Date() -taskTopLeft.createTime)/1000/60/60/24 >= 1">
-                        天前
-                      </span>
+                      <span class="cl999">{{getReceiveTime(taskTopLeft.createTime)}}</span>
+                      <span class="cl999" v-if="(new Date() -taskTopLeft.createTime)/1000/60 < 60 || (new Date() -taskTopLeft.createTime)/1000 < 60">分钟前</span>
+                      <span class="cl999" v-if="(new Date() -taskTopLeft.createTime)/1000/60/60/24 < 1 && (new Date() -taskTopLeft.createTime)/1000/60 >= 60">小时前</span>
+                      <span class="cl999" v-if="(new Date() -taskTopLeft.createTime)/1000/60/60/24 >= 1">天前</span>
                     </div>
                   </router-link>
                 </li>
@@ -272,44 +256,39 @@
           </div>
           <div class="home-commodity-ctt">
             <router-link class="home-commodity-details"
+                         target="_blank"
                          v-for="homeCommodity in homeCommodityList"
                          :title="homeCommodity.taskName"
                          :key="homeCommodity.id"
                          :to="{ 'path': '/task-details','query': {'q': encryptionId(homeCommodity.id)}}">
-              <div class="home-commodity-img">
-                <img class="block" v-lazy="homeCommodity.taskMainImage + '!orgi75'" alt="">
+              <div class="home-commodity-img pos-rel">
+                <img class="block" v-lazy="homeCommodity.taskMainImage + '!orgi75'" alt=""/>
+                <span class="applied"><span class="main-color">{{homeCommodity.showkerApplyTotalCount || 0}}</span> 人已申请</span>
               </div>
               <div class="home-commodity-text">
                 <p class="cl000">{{homeCommodity.taskName}}</p>
                 <p class="home-commodity-price">
-                  <em style="float: left;" class="price-list">
-                    <span style="color: #666; display: block; text-decoration: line-through;">￥{{homeCommodity.itemPrice / 100}}</span>
-                    <span style="font-weight: bold;" v-if="homeCommodity.discountPrice">￥{{homeCommodity.discountPrice / 100}}</span>
-                    <span style="font-weight: bold;" v-if="!homeCommodity.discountPrice && homeCommodity.discountRate">
+                  <em class="price-list left">
+                    <span class="cl666 inline-block text-decoration-through">￥{{homeCommodity.itemPrice / 100}}</span>
+                    <span class="f-b" v-if="homeCommodity.discountPrice">￥{{homeCommodity.discountPrice / 100}}</span>
+                    <span class="f-b" v-if="!homeCommodity.discountPrice && homeCommodity.discountRate">
                       ￥{{(Math.floor((homeCommodity.discountRate/100) * homeCommodity.itemPrice)/100).toFixed(2)}}
                     </span>
-                    <span style="font-weight: bold;" v-if="!homeCommodity.discountPrice && !homeCommodity.discountRate">
-                      ￥0
-                    </span>
+                    <span class="f-b" v-if="!homeCommodity.discountPrice && !homeCommodity.discountRate">￥0</span>
                   </em>
                   <em  class="price-icon mt-10">
-                    <span v-if="homeCommodity.activityCategory == 'price_low' && homeCommodity.discountPrice" class="left home-discount-price mt-5" :style="{backgroundColor: $store.state.discountPriceType[parseFloat(homeCommodity.discountPrice/100)].backgroundColor}" >
+                    <span v-if="homeCommodity.activityCategory === 'price_low' && homeCommodity.discountPrice" class="left home-discount-price mt-5" :style="{backgroundColor: $store.state.discountPriceType[parseFloat(homeCommodity.discountPrice/100)].backgroundColor}" >
                       {{homeCommodity.discountPrice/100}}试用
                     </span>
-                    <span v-if="homeCommodity.activityCategory == 'price_low' && homeCommodity.discountRate" class="left home-discount-price mt-5" :style="{backgroundColor: $store.state.discountPriceType[parseFloat(homeCommodity.discountRate/10) + '折'].backgroundColor}" >
+                    <span v-if="homeCommodity.activityCategory === 'price_low' && homeCommodity.discountRate" class="left home-discount-price mt-5" :style="{backgroundColor: $store.state.discountPriceType[parseFloat(homeCommodity.discountRate/10) + '折'].backgroundColor}" >
                       {{homeCommodity.discountRate/10}}折试用
                     </span>
                   </em>
                 </p>
-                <p class="home-commodity-apply">
-                  限量 <span style="color: #ff6600"> {{homeCommodity.taskCount || 0 }} </span> 份，
-                  <span style="color: #ff6600"> {{homeCommodity.showkerApplyTotalCount || 0}} </span> 人已申请
-                </p>
+                <p class="home-commodity-apply">限量 <span class="main-color"> {{homeCommodity.taskCount || 0 }} </span> 份，剩余
+                  <span class="main-color"> {{homeCommodity.taskCount - homeCommodity.showkerApplySuccessCount || 0}} </span> 份
                 <p class="home-commodity-take">
-                  <router-link :to="{ 'path': '/task-details','query': {'q':encryptionId(homeCommodity.id)}}"
-                               class="ivu-btn ivu-btn-long">
-                    免费领取
-                  </router-link>
+                  <router-link :to="{ 'path': '/task-details','query': {'q':encryptionId(homeCommodity.id)}}" class="ivu-btn ivu-btn-long">免费领取</router-link>
                 </p>
               </div>
             </router-link>
@@ -329,43 +308,45 @@
           </div>
           <div class="home-commodity-ctt">
             <router-link class="home-commodity-details"
+                         target="_blank"
                          v-for="homeCommodity in presentGet"
                          :title="homeCommodity.taskName"
                          :key="homeCommodity.id"
                          :to="{ 'path': '/task-details','query': {'q': encryptionId(homeCommodity.id)}}">
-              <div class="home-commodity-img">
+              <div class="home-commodity-img pos-rel">
                 <img class="block" v-lazy="homeCommodity.taskMainImage + '!orgi75'" alt="">
+                <span class="applied"><span class="main-color">{{homeCommodity.showkerApplyTotalCount || 0}}</span> 人已申请</span>
               </div>
               <div class="home-commodity-text">
                 <p class="cl000">{{homeCommodity.taskName}}</p>
                 <p class="home-commodity-price">
-                  <em style="float: left;" class="price-list">
-                    <span style="color: #666; display: block; text-decoration: line-through;">￥{{homeCommodity.itemPrice / 100}}</span>
-                    <span style="font-weight: bold;" v-if="homeCommodity.discountPrice">￥{{homeCommodity.discountPrice / 100}}</span>
-                    <span style="font-weight: bold;" v-if="!homeCommodity.discountPrice && homeCommodity.discountRate">
+                  <em class="price-list left">
+                    <span class="cl666 inline-block text-decoration-through">￥{{homeCommodity.itemPrice / 100}}</span>
+                    <span class="f-b" v-if="homeCommodity.discountPrice">￥{{homeCommodity.discountPrice / 100}}</span>
+                    <span class="f-b" v-if="!homeCommodity.discountPrice && homeCommodity.discountRate">
                       ￥{{(Math.floor((homeCommodity.discountRate/100) * homeCommodity.itemPrice)/100).toFixed(2)}}
                     </span>
-                    <span style="font-weight: bold;" v-if="!homeCommodity.discountPrice && !homeCommodity.discountRate">
+                    <span class="f-b" v-if="!homeCommodity.discountPrice && !homeCommodity.discountRate">
                       ￥0
                     </span>
                   </em>
                   <em  class="price-icon mt-10">
-                    <span v-if= "homeCommodity.activityCategory == 'pinkage_for_10'" style="padding: 0 4px; background: #ff9966; color: #fff; margin-left: 10px; display: inline-block;height: 20px;line-height: 20px;">10元包邮</span>
-                    <span v-if= "homeCommodity.activityCategory == 'present_get'" style="padding: 0 4px; background: #00cc66; color: #ffffff; margin-left: 10px; display: inline-block;height: 20px;line-height: 20px;">体验专区</span>
-                    <span v-if="homeCommodity.activityCategory == 'price_low' && homeCommodity.discountPrice" class="left home-discount-price mt-5" :style="{backgroundColor: $store.state.discountPriceType[parseFloat(homeCommodity.discountPrice/100)].backgroundColor}" >
+                    <span v-if= "homeCommodity.activityCategory === 'pinkage_for_10'" style="padding: 0 4px; background: #ff9966; color: #fff; margin-left: 10px; display: inline-block;height: 20px;line-height: 20px;">10元包邮</span>
+                    <span v-if= "homeCommodity.activityCategory === 'present_get'" style="padding: 0 4px; background: #00cc66; color: #ffffff; margin-left: 10px; display: inline-block;height: 20px;line-height: 20px;">体验专区</span>
+                    <span v-if="homeCommodity.activityCategory === 'price_low' && homeCommodity.discountPrice" class="left home-discount-price mt-5" :style="{backgroundColor: $store.state.discountPriceType[parseFloat(homeCommodity.discountPrice/100)].backgroundColor}" >
                       {{homeCommodity.discountPrice/100}}试用
                     </span>
-                    <span v-if="homeCommodity.activityCategory == 'price_low' && homeCommodity.discountRate" class="left home-discount-price mt-5" :style="{backgroundColor: $store.state.discountPriceType[parseFloat(homeCommodity.discountRate/10) + '折'].backgroundColor}" >
+                    <span v-if="homeCommodity.activityCategory === 'price_low' && homeCommodity.discountRate" class="left home-discount-price mt-5" :style="{backgroundColor: $store.state.discountPriceType[parseFloat(homeCommodity.discountRate/10) + '折'].backgroundColor}" >
                       {{homeCommodity.discountRate/10}}折试用
                     </span>
-                    <span v-if="homeCommodity.activityCategory == 'goods_clearance' && homeCommodity.discountRate " class="left home-discount-price mt-5" :style="{backgroundColor: $store.state.discountPriceType[parseFloat(homeCommodity.discountRate/10) + '折'].backgroundColor}" >
+                    <span v-if="homeCommodity.activityCategory === 'goods_clearance' && homeCommodity.discountRate " class="left home-discount-price mt-5" :style="{backgroundColor: $store.state.discountPriceType[parseFloat(homeCommodity.discountRate/10) + '折'].backgroundColor}" >
                       {{homeCommodity.discountRate/10}}折清仓
                     </span>
                   </em>
                 </p>
                 <p class="home-commodity-apply">
-                  限量 <span style="color: #ff6600"> {{homeCommodity.taskCount || 0 }} </span> 份，
-                  <span style="color: #ff6600"> {{homeCommodity.showkerApplyTotalCount || 0}} </span> 人已申请
+                  限量 <span class="main-color"> {{homeCommodity.taskCount || 0 }} </span> 份，剩余
+                  <span class="main-color"> {{homeCommodity.taskCount - homeCommodity.showkerApplySuccessCount || 0}} </span> 份
                 </p>
                 <p class="home-commodity-take">
                   <router-link :to="{ 'path': '/task-details','query': {'q':encryptionId(homeCommodity.id)}}"
@@ -391,49 +372,48 @@
           </div>
           <div class="home-commodity-ctt">
             <router-link class="home-commodity-details"
+                         target="_blank"
                          v-for="pinkageFor in pinkageFor10"
                          :title="pinkageFor.taskName"
                          :key="pinkageFor.id"
                          :to="{ 'path': '/task-details','query': {'q': encryptionId(pinkageFor.id)}}">
-              <div class="home-commodity-img">
+              <div class="home-commodity-img pos-rel">
                 <img class="block" v-lazy="pinkageFor.taskMainImage + '!orgi75'" alt="">
+                <span class="applied"><span class="main-color">{{pinkageFor.showkerApplyTotalCount || 0}}</span> 人已申请</span>
               </div>
               <div class="home-commodity-text">
                 <p class="cl000">{{pinkageFor.taskName}}</p>
                 <p class="home-commodity-price">
-                  <em style="float: left;" class="price-list">
-                    <span style="color: #666; display: block; text-decoration: line-through;">￥{{pinkageFor.itemPrice / 100}}</span>
-                    <span style="font-weight: bold;" v-if="pinkageFor.discountPrice">￥{{pinkageFor.discountPrice / 100}}</span>
-                    <span style="font-weight: bold;" v-if="!pinkageFor.discountPrice && pinkageFor.discountRate">
+                  <em class="price-list left">
+                    <span class="text-decoration-through inline-block cl666">￥{{pinkageFor.itemPrice / 100}}</span>
+                    <span class="f-b" v-if="pinkageFor.discountPrice">￥{{pinkageFor.discountPrice / 100}}</span>
+                    <span class="f-b" v-if="!pinkageFor.discountPrice && pinkageFor.discountRate">
                       ￥{{(Math.floor((pinkageFor.discountRate/100) * pinkageFor.itemPrice)/100).toFixed(2)}}
                     </span>
-                    <span style="font-weight: bold;" v-if="!pinkageFor.discountPrice && !pinkageFor.discountRate">
+                    <span class="f-b" v-if="!pinkageFor.discountPrice && !pinkageFor.discountRate">
                       ￥0
                     </span>
                   </em>
-                  <em  class="price-icon mt-10">
-                    <span v-if= "pinkageFor.activityCategory == 'pinkage_for_10'" style="padding: 0 4px; background: #75c5ff; color: #fff; margin-left: 10px; display: inline-block;height: 20px;line-height: 20px;">10元包邮</span>
-                    <span v-if= "pinkageFor.activityCategory == 'present_get'" style="padding: 0 4px; background: #00cc66; color: #ffffff; margin-left: 10px; display: inline-block;height: 20px;line-height: 20px;">体验专区</span>
-                    <span v-if="pinkageFor.activityCategory == 'price_low' && pinkageFor.discountPrice" class="left home-discount-price mt-5" :style="{backgroundColor: $store.state.discountPriceType[parseFloat(pinkageFor.discountPrice/100)].backgroundColor}" >
+                  <em class="price-icon mt-10">
+                    <span v-if= "pinkageFor.activityCategory === 'pinkage_for_10'" style="padding: 0 4px; background: #75c5ff; color: #fff; margin-left: 10px; display: inline-block;height: 20px;line-height: 20px;">10元包邮</span>
+                    <span v-if= "pinkageFor.activityCategory === 'present_get'" style="padding: 0 4px; background: #00cc66; color: #ffffff; margin-left: 10px; display: inline-block;height: 20px;line-height: 20px;">体验专区</span>
+                    <span v-if="pinkageFor.activityCategory === 'price_low' && pinkageFor.discountPrice" class="left home-discount-price mt-5" :style="{backgroundColor: $store.state.discountPriceType[parseFloat(pinkageFor.discountPrice/100)].backgroundColor}" >
                       {{pinkageFor.discountPrice/100}}试用
                     </span>
-                    <span v-if="pinkageFor.activityCategory == 'price_low' && pinkageFor.discountRate" class="left home-discount-price mt-5" :style="{backgroundColor: $store.state.discountPriceType[parseFloat(pinkageFor.discountRate/10) + '折'].backgroundColor}" >
+                    <span v-if="pinkageFor.activityCategory === 'price_low' && pinkageFor.discountRate" class="left home-discount-price mt-5" :style="{backgroundColor: $store.state.discountPriceType[parseFloat(pinkageFor.discountRate/10) + '折'].backgroundColor}" >
                       {{pinkageFor.discountRate/10}}折试用
                     </span>
-                    <span v-if="pinkageFor.activityCategory == 'goods_clearance' && pinkageFor.discountRate " class="left home-discount-price mt-5" :style="{backgroundColor: $store.state.discountPriceType[parseFloat(pinkageFor.discountRate/10) + '折'].backgroundColor}" >
+                    <span v-if="pinkageFor.activityCategory === 'goods_clearance' && pinkageFor.discountRate " class="left home-discount-price mt-5" :style="{backgroundColor: $store.state.discountPriceType[parseFloat(pinkageFor.discountRate/10) + '折'].backgroundColor}" >
                       {{pinkageFor.discountRate/10}}折清仓
                     </span>
                   </em>
                 </p>
                 <p class="home-commodity-apply">
-                  限量 <span style="color: #ff6600"> {{pinkageFor.taskCount || 0 }} </span> 份，
-                  <span style="color: #ff6600"> {{pinkageFor.showkerApplyTotalCount || 0}} </span> 人已申请
+                  限量 <span class="main-color"> {{pinkageFor.taskCount || 0 }} </span> 份，剩余
+                  <span class="main-color"> {{pinkageFor.taskCount - pinkageFor.showkerApplySuccessCount || 0}} </span> 份
                 </p>
                 <p class="home-commodity-take">
-                  <router-link :to="{ 'path': '/task-details','query': {'q':encryptionId(pinkageFor.id)}}"
-                               class="ivu-btn ivu-btn-long">
-                    免费领取
-                  </router-link>
+                  <router-link :to="{ 'path': '/task-details','query': {'q':encryptionId(pinkageFor.id)}}" class="ivu-btn ivu-btn-long">免费领取</router-link>
                 </p>
               </div>
             </router-link>
@@ -453,23 +433,25 @@
           </div>
           <div class="home-commodity-ctt">
             <router-link class="home-commodity-details"
+                         target="_blank"
                          v-for="homeDisCount in homeDisCountList"
                          :title="homeDisCount.taskName"
                          :key="homeDisCount.id"
                          :to="{ 'path': '/task-details','query': {'q': encryptionId(homeDisCount.id), 'discount': true,}}">
-              <div class="home-commodity-img">
+              <div class="home-commodity-img pos-rel">
                 <img class="block" v-lazy="homeDisCount.taskMainImage + '!orgi75'"  alt="">
+                <span class="applied"><span class="main-color">{{homeDisCount.showkerApplyTotalCount || 0}}</span> 人已申请</span>
               </div>
               <div class="home-commodity-text">
                 <p class="cl000">{{homeDisCount.taskName}}</p>
                 <p class="home-commodity-price" >
                   <em style="float: left;" class="price-list">
-                    <span style="color: #666; display: block; text-decoration: line-through;">￥{{homeDisCount.itemPrice / 100}}</span>
-                    <span style="font-weight: bold;" v-if="homeDisCount.discountPrice">￥{{homeDisCount.discountPrice / 100}}</span>
-                    <span style="font-weight: bold;" v-if="!homeDisCount.discountPrice && homeDisCount.discountRate">
+                    <span class="text-decoration-through inline-block cl666">￥{{homeDisCount.itemPrice / 100}}</span>
+                    <span class="f-b" v-if="homeDisCount.discountPrice">￥{{homeDisCount.discountPrice / 100}}</span>
+                    <span class="f-b" v-if="!homeDisCount.discountPrice && homeDisCount.discountRate">
                     ￥{{(Math.floor((homeDisCount.discountRate/100) * homeDisCount.itemPrice)/100).toFixed(2)}}
                   </span>
-                    <span style="font-weight: bold;" v-if="!homeDisCount.discountPrice && !homeDisCount.discountRate">
+                    <span class="f-b" v-if="!homeDisCount.discountPrice && !homeDisCount.discountRate">
                     ￥0
                   </span>
                   </em>
@@ -483,13 +465,11 @@
                   </em>
                 </p>
                 <p class="home-commodity-apply">
-                  限量 <span style="color: #ff6600"> {{homeDisCount.taskCount || 0 }} </span> 份，
-                  <span style="color: #ff6600"> {{homeDisCount.showkerApplyTotalCount || 0}} </span> 人已申请
+                  限量 <span class="main-color"> {{homeDisCount.taskCount || 0 }} </span> 份，剩余
+                  <span class="main-color"> {{homeDisCount.taskCount - homeDisCount.showkerApplySuccessCount || 0}} </span> 份
                 </p>
                 <p class="home-commodity-take">
-                  <router-link :to="{ 'path': '/task-details','query': {'q':encryptionId(homeDisCount.id)}}" class="ivu-btn ivu-btn-long" >
-                    免费领取
-                  </router-link>
+                  <router-link :to="{ 'path': '/task-details','query': {'q':encryptionId(homeDisCount.id)}}" class="ivu-btn ivu-btn-long" >免费领取</router-link>
                 </p>
               </div>
             </router-link>
@@ -498,9 +478,8 @@
         <!--白菜价结束-->
       </div>
 
-
       <!--历史活动开始-->
-      <div class="container" style="margin-top: 10px;">
+      <div class="container mt-10">
         <div class="home-commodity">
           <div class="home-commodity-title">
             <div class="home-commodity-img-title">
@@ -512,45 +491,41 @@
           </div>
           <div class="home-commodity-ctt">
             <router-link class="home-commodity-details"
+                         target="_blank"
                          v-for="homeHistory in homeHistoryList"
                          :title="homeHistory.taskName"
                          :key="homeHistory.id"
                          :to="{ 'path': '/task-details','query': {'q': encryptionId(homeHistory.id)}}">
-              <div class="home-commodity-img">
-                <img class="block" v-lazy="homeHistory.taskMainImage + '!orgi75'" alt=""
-                     style="width: 100%; height: 208px;">
+              <div class="home-commodity-img pos-rel">
+                <img class="block" v-lazy="homeHistory.taskMainImage + '!orgi75'" height="208" width="210">
+                <span class="applied"><span class="main-color">{{homeHistory.showkerApplyTotalCount || 0}}</span> 人已申请</span>
               </div>
               <div class="home-commodity-text">
                 <p class="cl000">{{homeHistory.taskName}}</p>
                 <p class="home-commodity-price">
-                  <em style="float: left;" class="price-list">
-                    <span style="color: #666; display: block; text-decoration: line-through;">￥{{homeHistory.itemPrice / 100}}</span>
-                    <span style="font-weight: bold;" v-if="homeHistory.discountPrice">￥{{homeHistory.discountPrice / 100}}</span>
-                    <span style="font-weight: bold;" v-if="!homeHistory.discountPrice && homeHistory.discountRate">
+                  <em class="price-list left">
+                    <span class="cl666 block text-decoration-through">￥{{homeHistory.itemPrice / 100}}</span>
+                    <span class="f-b" v-if="homeHistory.discountPrice">￥{{homeHistory.discountPrice / 100}}</span>
+                    <span class="f-b" v-if="!homeHistory.discountPrice && homeHistory.discountRate">
                       ￥{{(Math.floor((homeHistory.discountRate/100) * homeHistory.itemPrice)/100).toFixed(2)}}
                     </span>
-                    <span style="font-weight: bold;" v-if="!homeHistory.discountPrice && !homeHistory.discountRate">
+                    <span class="f-b" v-if="!homeHistory.discountPrice && !homeHistory.discountRate">
                       ￥0
                     </span>
                   </em>
                   <em  class="price-icon mt-10">
-                    <span v-if="homeHistory.activityCategory == 'price_low' && homeHistory.discountPrice" class="left home-discount-price mt-5" :style="{backgroundColor: $store.state.discountPriceType[parseFloat(homeHistory.discountPrice/100)].backgroundColor}" >
+                    <span v-if="homeHistory.activityCategory === 'price_low' && homeHistory.discountPrice" class="left home-discount-price mt-5" :style="{backgroundColor: $store.state.discountPriceType[parseFloat(homeHistory.discountPrice/100)].backgroundColor}" >
                       {{homeHistory.discountPrice/100}}试用
                     </span>
-                    <span v-if="homeHistory.activityCategory == 'price_low' && homeHistory.discountRate" class="left home-discount-price mt-5" :style="{backgroundColor: $store.state.discountPriceType[parseFloat(homeHistory.discountRate/10) + '折'].backgroundColor}" >
+                    <span v-if="homeHistory.activityCategory === 'price_low' && homeHistory.discountRate" class="left home-discount-price mt-5" :style="{backgroundColor: $store.state.discountPriceType[parseFloat(homeHistory.discountRate/10) + '折'].backgroundColor}" >
                       {{homeHistory.discountRate/10}}折试用
                     </span>
                   </em>
                 </p>
-                <p class="home-commodity-apply">
-                  限量 <span style="color: #ff6600"> {{homeHistory.taskCount || 0 }} </span> 份，
-                  <span style="color: #ff6600"> {{homeHistory.showkerApplyTotalCount || 0}} </span> 人已申请
-                </p>
+                <p class="home-commodity-apply">限量 <span class="main-color"> {{homeHistory.taskCount || 0 }} </span> 份，剩余
+                  <span class="main-color"> {{homeHistory.taskCount - homeHistory.showkerApplySuccessCount || 0}} </span> 份
                 <p class="home-commodity-take">
-                  <router-link :to="{ 'path': '/task-details','query': {'q':encryptionId(homeHistory.id)}}"
-                               class="ivu-btn ivu-btn-long">
-                    查看详情
-                  </router-link>
+                  <router-link :to="{ 'path': '/task-details','query': {'q':encryptionId(homeHistory.id)}}" class="ivu-btn ivu-btn-long">查看详情</router-link>
                 </p>
               </div>
             </router-link>
@@ -560,8 +535,8 @@
       <!--历史活动结束-->
       <div class="container">
         <div class="home-bottom mt-20">
-          <img v-if="!isLogin || getUserInfoRole == 1" class="ml-5" src="~assets/img/home/home_23.png" alt="">
-          <img v-if="isLogin &&　getUserInfoRole == 0" class="ml-5" src="~assets/img/home/home_24.png" alt="">
+          <img v-if="!isLogin || getUserInfoRole === 1" class="ml-5" src="~assets/img/home/home_23.png" alt="">
+          <img v-if="isLogin &&　getUserInfoRole === 0" class="ml-5" src="~assets/img/home/home_24.png" alt="">
         </div>
       </div>
     </div>
@@ -576,9 +551,9 @@
         <!--<iButton class="left" type="error" @click="setWeChartAlertFunc(0)" >提交</iButton>-->
         <!--</p>-->
         <img style="position: absolute;top: 0;" src="/static/img/home/wechart_alert_01.png" alt="">
-        <img v-show="getUserInfoRole == 1" src="/static/img/home/wechart_alert_03.png" alt=""
+        <img v-show="getUserInfoRole === 1" src="/static/img/home/wechart_alert_03.png" alt=""
              style="width: 100%; margin-top: 20px">
-        <p v-show="getUserInfoRole == 1" class="ml-10"
+        <p v-show="getUserInfoRole === 1" class="ml-10"
            style="position: absolute;bottom: 111px;left: 21px; height: 30px; line-height: 30px;">
           <span class="left fs-12 ml-10" style="color: #ff6633;">特权口令：</span>
           <iInput v-model="command" class="left mr-10" style="width:150px;"></iInput>
@@ -597,7 +572,7 @@
           <div style="position: absolute;top:27px;right: 15px;cursor: pointer;color: #FF6633" @click="cancelWeiChartFunc">
             <Icon type="close" ></Icon>
           </div>
-          <img v-show="getUserInfoRole == 0" src="/static/img/home/wechart_alert_07.png" alt=""
+          <img v-show="getUserInfoRole === 0" src="/static/img/home/wechart_alert_07.png" alt=""
                style="width: 507px;height: 340px; margin-top: 20px">
         </div>
       </div>
@@ -627,9 +602,8 @@
   import Carousel from 'iview/src/components/carousel'
   import SmsCountdown from '@/components/SmsCountdown'
   import api from '@/config/apiConfig'
-  import {setStorage, getStorage, encryption,removeStorage} from '@/config/utils'
+  import {setStorage, getStorage, encryption, removeStorage, getSeverTime} from '@/config/utils'
   import {aliCallbackImgUrl} from '@/config/env'
-  import {mapActions} from 'vuex'
 
   export default {
     beforeMount() {
@@ -847,7 +821,7 @@
       userHeadUrl() {
         return this.$store.getters.getUserHeadUrl
       },
-      getUserRole () {
+      getUserRole() {
         return this.$store.getters.getUserRole
       },
     },
@@ -863,11 +837,15 @@
     },
 
     methods: {
-      ...mapActions([
-        'loggedOut'
-      ]),
+      getReceiveTime(createTime) {
+        let nowTime = getSeverTime();
+        return (nowTime - createTime) / 1000 < 60 ? 1 :
+          (nowTime - createTime) / 1000 / 60 < 60 ? parseInt((nowTime - createTime) / 1000 / 60) :
+            (nowTime - createTime) / 1000 / 60 / 60 / 24 < 1 ? parseInt((nowTime - createTime) / 1000 / 60 / 60) :
+              parseInt((nowTime - createTime) / 1000 / 60 / 60 / 24);
+      },
       toBuyerShow(){
-        this.$router.push({path:'buyer-show'})
+        this.$router.push({path:'buyer-show'});
       },
       getSearchPinkageFor10Task(){
         let self = this;
@@ -875,16 +853,11 @@
           count: 6,
           activityCategory: 'pinkage_for_10',
         }).then((res) => {
-          if (res.status) {
-            if (res.data) {
-              self.pinkageFor10 = res.data;
-              self.$set(self.pinkageFor10);
-            }
+          if (res.status && res.data) {
+            self.pinkageFor10 = res.data;
+            self.$set(self.pinkageFor10);
           } else {
-            self.$Message.error({
-              content: res.msg,
-              duration: 9
-            });
+            self.$Message.error(res.msg);
           }
         });
       },
@@ -894,16 +867,11 @@
           count: 6,
           activityCategory: 'present_get',
         }).then((res) => {
-          if (res.status) {
-            if (res.data) {
-              self.presentGet = res.data;
-              self.$set(self.presentGet);
-            }
+          if (res.status && res.data) {
+            self.presentGet = res.data;
+            self.$set(self.presentGet);
           } else {
-            self.$Message.error({
-              content: res.msg,
-              duration: 9
-            });
+            self.$Message.error(res.msg);
           }
         });
       },
@@ -914,12 +882,9 @@
           activityCategory: 'price_low',
         }).then((res) => {
           if (res.status) {
-            res.data ? self.homeDisCountList = res.data : self.homeDisCountList = [];
+            self.homeDisCountList = res.data ? res.data : self.homeDisCountList = [];
           } else {
-            self.$Message.error({
-              content: res.msg,
-              duration: 9
-            });
+            self.$Message.error(res.msg);
           }
         });
       },
@@ -955,31 +920,23 @@
           count: 6,
           activityCategory: '',
         }).then((res) => {
-          if (res.status) {
-            if (res.data) {
-              self.homeCommodityList = res.data;
-            }
+          if (res.status && res.data) {
+            self.homeCommodityList = res.data;
           } else {
-            self.$Message.error({
-              content: res.msg,
-              duration: 9
-            });
+            self.$Message.error(res.msg);
           }
         })
       },
       getNavList(){
         let self = this;
         api.getNavList().then((res) =>{
-          if(res.status){
-            res.data.sort(function(a,b){
-              return a.sortIndex-b.sortIndex
+          if(res.status && res.data){
+            res.data.sort(function(a, b){
+              return a.sortIndex - b.sortIndex
             });
             self.navList = res.data;
           }else {
-            self.$Message.error({
-              content: res.msg,
-              duration: 9
-            });
+            self.$Message.error(res.msg);
           }
         })
       },
@@ -989,10 +946,7 @@
           if (res.status) {
             self.taskTopLeftList = res.data;
           } else {
-            self.$Message.error({
-              content: res.msg,
-              duration: 9
-            });
+            self.$Message.error(res.msg);
           }
         })
       },
@@ -1004,10 +958,7 @@
               self.homeHistoryList = res.data;
             }
           } else {
-            self.$Message.error({
-              content: res.msg,
-              duration: 9
-            });
+            self.$Message.error(res.msg);
           }
         })
       },
@@ -1107,11 +1058,11 @@
       },
       goOut() {
         let _this = this;
-        _this.loggedOut().then(res => {
+        _this.$store.dispatch('loggedOut').then(res => {
           if (res.status) {
             _this.$router.push({name: 'login'})
           } else {
-            _this.$Message.error(res.msg)
+            _this.$Message.error(res.msg);
           }
         });
       },
@@ -1123,10 +1074,7 @@
               if (res.status) {
                 self.trialCount = res.data
               } else {
-                self.$Message.error({
-                  content: res.msg,
-                  duration: 9
-                });
+                self.$Message.error(res.msg);
               }
             })
           } else {
@@ -1134,10 +1082,7 @@
               if (res.status) {
                 self.trialCount = res.data
               } else {
-                self.$Message.error({
-                  content: res.msg,
-                  duration: 9
-                });
+                self.$Message.error(res.msg);
               }
             })
           }
@@ -1233,7 +1178,7 @@
           padding: 10px 10px;
           width: 10000px;
           li{
-            padding: 0px 20px 0 0 ;
+            padding: 0 20px 0 0 ;
             width: 220px;
             margin-bottom: 52px;
             .top-heart{
@@ -1253,10 +1198,10 @@
               position: absolute;
               width: 200px;
               top: 230px;
-              left: 0px;
+              left: 0;
               height: 30px;
               line-height: 30px;
-              padding: 0px 3px;
+              padding: 0 3px;
               color: #fff;
               background-color: rgba(0,0,0,0.5);
               span:first-child{
@@ -1608,6 +1553,15 @@
     img{
       border-radius: 50%;
     }
+  }
+
+  .applied{
+    position: absolute;
+    top:0;
+    right: 0;
+    background-color: #fff;
+    padding: 0 6px;
+    color: #666;
   }
 
   .home-discount-price{
