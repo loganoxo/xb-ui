@@ -81,20 +81,10 @@
       goRegisterFunc(e){
         let _this = this;
         _this.$router.push({path: '/user/task-release',query:{sellerGuide:'sellerGuide'}});
-        window.onmousewheel=document.onmousewheel=function(){
+        window.onmousewheel=document.onmousewheel = function(){
           return true
         };
         e.stopPropagation();
-        api.setMerchantGuide().then(res => {
-          if (res.status) {
-            _this.$store.commit({
-              type: 'SHOW_MERCHANT_GUIDE',
-              status: true
-            })
-          } else {
-            _this.$Message.error(res.msg);
-          }
-        })
       },
     },
 

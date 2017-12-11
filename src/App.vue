@@ -23,19 +23,14 @@
   import Top from "@/components/Top.vue"
   import Bottom from "@/components/Bottom.vue"
   import SideNavigation from '@/components/SideNavigation.vue'
-  import MerchantGuide from '@/components/MerchantGuide.vue'
-  import BackTop from "iview/src/components/back-top"
-  import {getStorage, getCookie} from '@/config/utils'
-  import api from '@/config/apiConfig'
+  import {getStorage} from '@/config/utils'
 
   export default {
     name: 'app',
     components: {
       Top: Top,
       Bottom: Bottom,
-      BackTop: BackTop,
       SideNavigation: SideNavigation,
-      MerchantGuide: MerchantGuide,
     },
     data() {
       return {
@@ -84,7 +79,7 @@
       '$route'(to, from) {
         let self = this;
         //刷新参数放到这里里面去触发就可以刷新相同界面了
-        if (!(self.$route.name == 'TaskCategory' || self.$route.name == 'TaskDetails' || self.$route.name == 'Home' )) {
+        if (!(self.$route.name === 'TaskCategory' || self.$route.name === 'TaskDetails' || self.$route.name === 'Home' )) {
           self.$store.commit({
             type: 'TASK_CATEGORY_LIST',
             info: ''

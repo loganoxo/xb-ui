@@ -18,7 +18,6 @@ const state = {
   severTime: null,//当前服务器时间
   clientTime: null,//当前客户端时间
   taskManagementCountInfo: {},//商家任务管理活动数量信息
-  showMerchantGuide: true,//商家引导遮罩层是否显示标识 true:已读 false:未读
   TaskCategoryActive: '',//导航栏对应选中的选项
   wechartShow: false,//是否弹出微信弹框
   wechartRes: true,

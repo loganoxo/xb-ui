@@ -112,7 +112,7 @@
         :to="{ 'path': '/task-details','query': {'q': encryptionId(homeCommodity.id)}}">
         <div class="home-commodity-img pos-rel">
           <img class="block" v-lazy="homeCommodity.taskMainImage + '!orgi75'" width="210" height="208">
-          <span class="applied"><span class="main-color">{{homeCommodity.showkerApplyTotalCount || 0}}</span> 人已申请</span>
+          <span class="applied"> {{homeCommodity.showkerApplyTotalCount || 0}} 人已申请</span>
         </div>
         <div class="home-commodity-text">
           <p class="home-commodity-title">{{homeCommodity.taskName}}</p>
@@ -356,9 +356,9 @@
     position: absolute;
     top:0;
     right: 0;
-    background-color: #fff;
+    background-color: $mainColor;
     padding: 0 6px;
-    color: #666;
+    color: #fff;
   }
 
   .home-commodity-title {

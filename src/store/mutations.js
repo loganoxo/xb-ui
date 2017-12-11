@@ -71,11 +71,6 @@ export default {
     state.TaskCategoryActive = info;
   },
 
-  //商家引导遮罩层
-  [types.SHOW_MERCHANT_GUIDE](state,{status}) {
-    state.showMerchantGuide = status;
-  },
-
   //秀客登录首页弹出微信弹窗
   [types.SET_WECHART_SHOW](state,{result}) {
     state.wechartShow = result;

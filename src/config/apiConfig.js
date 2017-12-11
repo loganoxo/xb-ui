@@ -713,6 +713,7 @@ export default {
   getMyRecommend() {
     return fetch("/api/user/reward/getMyRecommend.json")
   },
+
   /**
    * 获取推荐链接
    * */
@@ -762,19 +763,18 @@ export default {
     return fetch('/api/task/index/history.json')
   },
 
-
   /**
-   * 检测商家遮罩层是否显示
+   * 检测用户是否已关闭加群提示
    */
-  detectionMerchantGuide() {
-    return fetch('/api/detection-merchant-guide.json')
+  detectionAddGroupTip() {
+    return fetch('/api/detection-add-group-tip.json')
   },
 
   /**
-   * 设置商家遮罩层为已读
+   * 设置用户关闭加群提示，关闭后不在显示（任务详情页面）
    */
-  setMerchantGuide(params) {
-    return fetch('/api/set-merchant-guide.json',params)
+  setAddGroupTip() {
+    return fetch('/api/set-add-group-tip.json')
   },
 
   /**
@@ -804,6 +804,7 @@ export default {
   getBuyerShowInfo() {
     return fetch('/api/get-buyerShow-info.json')
   },
+
   /**
    * 获取买家秀轮播列表
    */

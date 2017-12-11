@@ -18,6 +18,7 @@ export default {
       });
     })
   },
+
   //用户登陆后按需重新获取用户信息
   getUserInformation({commit}) {
     api.getUserAccount().then(res => {
@@ -31,6 +32,7 @@ export default {
       }
     });
   },
+
   //获取商家任务管理活动数量信息
   getPersonalTrialCount({commit}) {
     api.sellerPersonalTrialCount().then(res => {
@@ -44,17 +46,5 @@ export default {
       }
     })
   },
-  //检测商家引导遮罩层是否显示
-  getDetectionMerchantGuide({commit}) {
-    api.detectionMerchantGuide().then(res => {
-      if(res.status){
-        commit({
-          type: types.SHOW_MERCHANT_GUIDE,
-          status: res.data
-        })
-      } else {
-        console.log('获取商家遮罩层是否显示过信息：' + res.msg);
-      }
-    })
-  }
+
 }

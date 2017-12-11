@@ -263,7 +263,7 @@
                          :to="{ 'path': '/task-details','query': {'q': encryptionId(homeCommodity.id)}}">
               <div class="home-commodity-img pos-rel">
                 <img class="block" v-lazy="homeCommodity.taskMainImage + '!orgi75'" alt=""/>
-                <span class="applied"><span class="main-color">{{homeCommodity.showkerApplyTotalCount || 0}}</span> 人已申请</span>
+                <span class="applied"> {{homeCommodity.showkerApplyTotalCount || 0}} 人已申请</span>
               </div>
               <div class="home-commodity-text">
                 <p class="cl000">{{homeCommodity.taskName}}</p>
@@ -315,7 +315,7 @@
                          :to="{ 'path': '/task-details','query': {'q': encryptionId(homeCommodity.id)}}">
               <div class="home-commodity-img pos-rel">
                 <img class="block" v-lazy="homeCommodity.taskMainImage + '!orgi75'" alt="">
-                <span class="applied"><span class="main-color">{{homeCommodity.showkerApplyTotalCount || 0}}</span> 人已申请</span>
+                <span class="applied"> {{homeCommodity.showkerApplyTotalCount || 0}} 人已申请</span>
               </div>
               <div class="home-commodity-text">
                 <p class="cl000">{{homeCommodity.taskName}}</p>
@@ -379,7 +379,7 @@
                          :to="{ 'path': '/task-details','query': {'q': encryptionId(pinkageFor.id)}}">
               <div class="home-commodity-img pos-rel">
                 <img class="block" v-lazy="pinkageFor.taskMainImage + '!orgi75'" alt="">
-                <span class="applied"><span class="main-color">{{pinkageFor.showkerApplyTotalCount || 0}}</span> 人已申请</span>
+                <span class="applied"> {{pinkageFor.showkerApplyTotalCount || 0}} 人已申请</span>
               </div>
               <div class="home-commodity-text">
                 <p class="cl000">{{pinkageFor.taskName}}</p>
@@ -440,7 +440,7 @@
                          :to="{ 'path': '/task-details','query': {'q': encryptionId(homeDisCount.id), 'discount': true,}}">
               <div class="home-commodity-img pos-rel">
                 <img class="block" v-lazy="homeDisCount.taskMainImage + '!orgi75'"  alt="">
-                <span class="applied"><span class="main-color">{{homeDisCount.showkerApplyTotalCount || 0}}</span> 人已申请</span>
+                <span class="applied"> {{homeDisCount.showkerApplyTotalCount || 0}} 人已申请</span>
               </div>
               <div class="home-commodity-text">
                 <p class="cl000">{{homeDisCount.taskName}}</p>
@@ -498,7 +498,7 @@
                          :to="{ 'path': '/task-details','query': {'q': encryptionId(homeHistory.id)}}">
               <div class="home-commodity-img pos-rel">
                 <img class="block" v-lazy="homeHistory.taskMainImage + '!orgi75'" height="208" width="210">
-                <span class="applied"><span class="main-color">{{homeHistory.showkerApplyTotalCount || 0}}</span> 人已申请</span>
+                <span class="applied"> {{homeHistory.showkerApplyTotalCount || 0}} 人已申请</span>
               </div>
               <div class="home-commodity-text">
                 <p class="cl000">{{homeHistory.taskName}}</p>
@@ -1559,9 +1559,9 @@
     position: absolute;
     top:0;
     right: 0;
-    background-color: #fff;
+    background-color: $mainColor;
     padding: 0 6px;
-    color: #666;
+    color: #fff;
   }
 
   .home-discount-price{

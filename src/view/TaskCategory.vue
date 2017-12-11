@@ -75,9 +75,7 @@
                   size="small"
             ></Page>
             <p class="right">
-              共
-              <span class=""> {{pageCount}} </span>件商品&nbsp;&nbsp;&nbsp;
-            </p>
+              共<span class=""> {{pageCount}} </span>件商品&nbsp;&nbsp;&nbsp;</p>
           </div>
         </div>
       </div>
@@ -101,7 +99,7 @@
           </div>
         </div>
       </div>
-      <div class="container" style="background-color: #fff;">
+      <div class="container bgfff">
         <div class="task-category-commodity">
           <div class="task-category-commodity-ctt">
             <router-link
@@ -113,7 +111,7 @@
               class="task-category-commodity-details">
               <div class="task-category-commodity-img pos-rel">
                 <img class="block" v-lazy="searchTask.taskMainImage + '!orgi75'" height="220" width="220">
-                <span class="applied"><span class="main-color">{{searchTask.showkerApplyTotalCount || 0}}</span> 人已申请</span>
+                <span class="applied"> {{searchTask.showkerApplyTotalCount || 0}} 人已申请</span>
               </div>
               <div class="task-category-commodity-text">
                 <p v-html="searchTask.taskName"></p>
@@ -183,7 +181,7 @@
               class="task-category-commodity-details">
               <div class="task-category-commodity-img pos-rel">
                 <img class="block" v-lazy="historyTask.taskMainImage + '!orgi75'" alt="" width="220" height="220">
-                <span class="applied"><span class="main-color">{{historyTask.showkerApplyTotalCount || 0}}</span> 人已申请</span>
+                <span class="applied"> {{historyTask.showkerApplyTotalCount || 0}} 人已申请</span>
               </div>
               <div class="task-category-commodity-text">
                 <p v-html="historyTask.taskName"></p>
@@ -867,8 +865,8 @@
     position: absolute;
     top:0;
     right: 0;
-    background-color: #fff;
+    background-color: $mainColor;
     padding: 0 6px;
-    color: #666;
+    color: #fff;
   }
 </style>

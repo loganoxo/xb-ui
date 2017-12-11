@@ -48,19 +48,7 @@
         this.merchantGuideStep = 0;
         this.showMerchantGuideStep = false;
       },
-      startExperience() {
-        let _this = this;
-        api.setMerchantGuide().then(res => {
-          if (res.status) {
-            _this.$store.commit({
-              type: 'SHOW_MERCHANT_GUIDE',
-              status: true
-            })
-          } else {
-            _this.$Message.error(res.msg);
-          }
-        })
-      }
+      startExperience() {}
     }
   }
 </script>
