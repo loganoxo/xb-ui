@@ -269,7 +269,7 @@
                 <p class="cl000">{{homeCommodity.taskName}}</p>
                 <p class="home-commodity-price">
                   <em class="price-list left">
-                    <span class="cl666 inline-block text-decoration-through">￥{{homeCommodity.itemPrice / 100}}</span>
+                    <span class="cl666 block text-decoration-through">￥{{homeCommodity.itemPrice / 100}}</span>
                     <span class="f-b" v-if="homeCommodity.discountPrice">￥{{homeCommodity.discountPrice / 100}}</span>
                     <span class="f-b" v-if="!homeCommodity.discountPrice && homeCommodity.discountRate">
                       ￥{{(Math.floor((homeCommodity.discountRate/100) * homeCommodity.itemPrice)/100).toFixed(2)}}
@@ -321,7 +321,7 @@
                 <p class="cl000">{{homeCommodity.taskName}}</p>
                 <p class="home-commodity-price">
                   <em class="price-list left">
-                    <span class="cl666 inline-block text-decoration-through">￥{{homeCommodity.itemPrice / 100}}</span>
+                    <span class="cl666 block text-decoration-through">￥{{homeCommodity.itemPrice / 100}}</span>
                     <span class="f-b" v-if="homeCommodity.discountPrice">￥{{homeCommodity.discountPrice / 100}}</span>
                     <span class="f-b" v-if="!homeCommodity.discountPrice && homeCommodity.discountRate">
                       ￥{{(Math.floor((homeCommodity.discountRate/100) * homeCommodity.itemPrice)/100).toFixed(2)}}
@@ -385,7 +385,7 @@
                 <p class="cl000">{{pinkageFor.taskName}}</p>
                 <p class="home-commodity-price">
                   <em class="price-list left">
-                    <span class="text-decoration-through inline-block cl666">￥{{pinkageFor.itemPrice / 100}}</span>
+                    <span class="text-decoration-through block cl666">￥{{pinkageFor.itemPrice / 100}}</span>
                     <span class="f-b" v-if="pinkageFor.discountPrice">￥{{pinkageFor.discountPrice / 100}}</span>
                     <span class="f-b" v-if="!pinkageFor.discountPrice && pinkageFor.discountRate">
                       ￥{{(Math.floor((pinkageFor.discountRate/100) * pinkageFor.itemPrice)/100).toFixed(2)}}
@@ -446,7 +446,7 @@
                 <p class="cl000">{{homeDisCount.taskName}}</p>
                 <p class="home-commodity-price" >
                   <em style="float: left;" class="price-list">
-                    <span class="text-decoration-through inline-block cl666">￥{{homeDisCount.itemPrice / 100}}</span>
+                    <span class="text-decoration-through block cl666">￥{{homeDisCount.itemPrice / 100}}</span>
                     <span class="f-b" v-if="homeDisCount.discountPrice">￥{{homeDisCount.discountPrice / 100}}</span>
                     <span class="f-b" v-if="!homeDisCount.discountPrice && homeDisCount.discountRate">
                     ￥{{(Math.floor((homeDisCount.discountRate/100) * homeDisCount.itemPrice)/100).toFixed(2)}}
@@ -513,7 +513,7 @@
                       ￥0
                     </span>
                   </em>
-                  <em  class="price-icon mt-10">
+                  <em class="price-icon mt-10">
                     <span v-if="homeHistory.activityCategory === 'price_low' && homeHistory.discountPrice" class="left home-discount-price mt-5" :style="{backgroundColor: $store.state.discountPriceType[parseFloat(homeHistory.discountPrice/100)].backgroundColor}" >
                       {{homeHistory.discountPrice/100}}试用
                     </span>
