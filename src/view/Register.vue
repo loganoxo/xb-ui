@@ -63,7 +63,6 @@
                                 :purpose="formCustom.purpose"
                                 :validateCode="formCustom.validateCode">
                   </SmsCountdown>
-                  <!--<SmsCountdown style="position: absolute;top: 3px;"  class="btn btn-default"  @sendCode="sendCode" :phone="formCustom.phone"></SmsCountdown>-->
                 </Form-item>
               </div>
 
@@ -699,7 +698,7 @@
             if(res.data.role === 1) {
               self.$router.push({name: 'SellerGuide'});
             }else {
-              self.$router.push({name: 'Home'});
+              self.$router.push({name: 'WwBind'});
             }
 //            self.$store.dispatch('getDetectionMerchantGuide');
           } else {

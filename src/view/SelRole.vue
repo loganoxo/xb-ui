@@ -32,9 +32,6 @@
       </div>
     </div>
     <div v-show="showQQ">
-      <!--<iForm ref="loginTrendsCustom" :model="loginTrendsCustom" :rules="loginTrendsRuleCustom"-->
-             <!--v-show="!selLogin"-->
-             <!--:class="[selLogin ? 'animated fadeOut' : 'animated fadeIn']">-->
       <iForm  style="width: 300px; margin: 150px auto;" ref="loginTrendsCustom" :model="loginTrendsCustom" :rules="loginTrendsRuleCustom">
         <Form-item prop="phone">
           <iInput placeholder="请输入手机号码" size="large" v-model="loginTrendsCustom.phone"></iInput>
