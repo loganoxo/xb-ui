@@ -46,8 +46,9 @@
           <img src="/static/img/icon/hot.gif" alt="" style="position: absolute;right: 18px;top: -6px;">
           <router-link to="/user/recommend">邀请有礼</router-link>
         </li>
-        <li>
+        <li class="pos-rel">
           <Icon type="document-text"></Icon>
+          <img src="/static/img/icon/importance.gif" alt="" style="position: absolute;right: 22px;top: -12px;">
           <a @click="openClauseModel">服务条款</a>
         </li>
       </ul>
@@ -89,8 +90,9 @@
           <img src="/static/img/icon/hot.gif" alt="" style="position: absolute;right: 22px;top: -4px;">
           <router-link to="/user/recommend">邀请有礼</router-link>
         </li>
-        <li>
+        <li class="pos-rel">
           <Icon type="document-text"></Icon>
+          <img src="/static/img/icon/importance.gif" alt="" style="position: absolute;right: 22px;top: -12px;">
           <a @click="openClauseModel">服务条款</a>
         </li>
       </ul>

@@ -198,11 +198,11 @@
         api.qqRegister({
           accessToken: self.loginTrendsCustom.accessToken,
           qqOpenId: self.loginTrendsCustom.qqOpenId,
-          phone: this.loginTrendsCustom.phone,
-          pwd: this.loginTrendsCustom.phone.slice(5),
-          smsCode: this.loginTrendsCustom.smsCode,
-          role: this.loginTrendsCustom.role,
-          purpose:this.loginTrendsCustom.purpose,
+          phone: self.loginTrendsCustom.phone,
+          pwd: self.loginTrendsCustom.phone.slice(5),
+          smsCode: self.loginTrendsCustom.smsCode,
+          role: self.loginTrendsCustom.role,
+          purpose: self.loginTrendsCustom.purpose,
           recommendCode: recommendCode
         }).then((res) => {
           if (res.status) {
@@ -210,24 +210,19 @@
               type: 'RECORD_USER_INFO',
               info: res.data
             });
-//            self.$store.dispatch('getDetectionMerchantGuide');
-            self.$Message.success({
-              content: '恭喜您，成功注册秀吧！',
-              duration: 1,
-              onClose: function () {
-                self.$router.push({name: 'Home'});
-              }
-            });
+            self.$Message.success('恭喜您，成功注册秀吧！');
+            if(res.data.role === 0){
+              self.$router.push({name: 'WwBind'});
+            } else {
+              self.$router.push({name: 'Home'})
+            }
           } else {
-            self.$Message.error({
-              content: res.msg,
-              duration: 9
-            });
+            self.$Message.error(res.msg);
           }
         })
       },
       getVrcode() {
-        this.imgSrc = "/api/vrcode.json?rand=" + new Date() / 100
+        this.imgSrc = "/api/vrcode.json?rand=" + new Date() / 100;
       },
       checkPhone() {
         this.$refs.loginTrendsCustom.validateField('phone');
@@ -239,7 +234,7 @@
           if(self.showQQFrom){
             self.showQQ = true;
           }else {
-            self.getRegister()
+            self.getRegister();
           }
         }else {
           if(role === 0){
@@ -252,8 +247,8 @@
       setUserInfo() {
         let self = this;
         api.login({
-          phone: this.loginTrendsCustom.phone,
-          passWord: this.loginTrendsCustom.phone.slice(5),
+          phone: self.loginTrendsCustom.phone,
+          passWord: self.loginTrendsCustom.phone.slice(5),
           platForm: 'PC'
         }).then((res) => {
           if (res.status) {
@@ -261,12 +256,11 @@
               type: 'RECORD_USER_INFO',
               info: res.data
             });
-//            self.$store.dispatch('getDetectionMerchantGuide');
             setStorage('weChartPop', 1);
             if(res.data.role === 1) {
               self.$router.push({name: 'SellerGuide'});
             }else {
-              self.$router.push({name: 'Home'});
+              self.$router.push({name: 'WwBind'});
             }
           } else {
             self.$Message.error(res.msg);
@@ -288,7 +282,7 @@
           smsCode: self.loginTrendsCustom.smsCode,
           role: self.loginTrendsCustom.role,
           validateCode: self.loginTrendsCustom.validateCode,
-          purpose:self.loginTrendsCustom.purpose,
+          purpose: self.loginTrendsCustom.purpose,
           recommendCode: recommendCode
         }).then((res) => {
           if (res.status) {

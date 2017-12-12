@@ -261,7 +261,6 @@
               type: 'RECORD_USER_INFO',
               info: res.data
             });
-//            self.$store.dispatch('getDetectionMerchantGuide');
             self.rememberAccountFunc();
             self.$Message.success({top: 50, content: '登录成功', duration: 1,});
             self.btnState.normalLoginBtn = false;
@@ -311,7 +310,6 @@
                 info: res.data
               });
               self.$Message.success({top: 50, content: '登录成功', duration: 1,});
-//              self.$store.dispatch('getDetectionMerchantGuide');
               self.btnState.trendsLoginBtn = false;
               setStorage('weChartPop', 1);
               self.$router.go(-1);
