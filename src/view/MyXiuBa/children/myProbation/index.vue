@@ -315,5 +315,8 @@
       cursor: pointer;
       text-align: center;
     }
+    .user-clause-model{
+      @include fullScreenModel;
+    }
   }
 </style>

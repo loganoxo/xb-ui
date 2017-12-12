@@ -379,6 +379,10 @@
         <iButton size="large" @click="unSelectSubmit">取消</iButton>
       </div>
     </Modal>
+    <!--用户服务条款弹框-->
+    <div v-if="isShowUserClause" class="user-clause-model">
+      <user-clause @closeClauseModel="closeClauseModel" isShowClause="showker"></user-clause>
+    </div>
   </div>
 </template>
 
@@ -397,6 +401,7 @@
   import Upload from '@/components/upload'
   import TimeDown from '@/components/TimeDown'
   import PlaceOrderStep from '@/components/PlaceOrderStep'
+  import UserClause from '@/components/UserClause'
   import api from '@/config/apiConfig'
   import {aliCallbackImgUrl} from '@/config/env'
   import {TaskErrorStatusList, isNumber, encryption} from '@/config/utils'
@@ -421,6 +426,7 @@
       Upload: Upload,
       TimeDown: TimeDown,
       PlaceOrderStep: PlaceOrderStep,
+      UserClause: UserClause,
     },
     data() {
       return {
@@ -470,6 +476,7 @@
         currentOrderStatusInfo: {},
         endReason: null,
         otherReason: null,
+        isShowUserClause: false,
       }
     },
     mounted() {
@@ -514,7 +521,8 @@
           _this.$Message.error("复制评价内容失败！");
           clipboard.destroy();
         });
-      })
+      });
+      _this.getDetectionUserClauseTip();
     },
     computed: {
       pcOrApp: function () {
@@ -842,6 +850,19 @@
       lookReportInfo(id) {
         this.$router.push({path: '/user/my-probation/report', query: {id: encryption(id), from: 'buyer'}});
       },
+      closeClauseModel() {
+        this.isShowUserClause = false;
+      },
+      getDetectionUserClauseTip() {
+        let _this = this;
+        api.detectionUserClauseTip().then(res =>{
+          if(res.status){
+            _this.isShowUserClause = !res.data;
+          } else {
+            _this.$Message.error(res.msg);
+          }
+        })
+      }
     }
   }
 </script>

@@ -1,6 +1,6 @@
 <template>
   <div class="my-xiu-ba container tmy-xiu-ba-con clear">
-    <div class="my-xiu-ba-con-nav left" v-if="isLogin">
+    <div class="my-xiu-ba-con-nav left">
       <!--商家管理导航-->
       <ul v-if="getUserInfoRole === 1">
         <li :class="{isSelect:isSelect ==='UserHome'}">
@@ -41,10 +41,14 @@
           <Icon type="help-buoy"></Icon>
           <router-link to="/user/help-center/faq">帮助中心</router-link>
         </li>
-        <li :class="{isSelect:isSelect === 'Recommend'}" style="position: relative">
+        <li :class="{isSelect:isSelect === 'Recommend'}" class="pos-rel">
           <Icon type="share"></Icon>
-          <img src="/static/img/icon/hot.gif" alt="" style="position: absolute;right: 22px;top: -4px;">
+          <img src="/static/img/icon/hot.gif" alt="" style="position: absolute;right: 18px;top: -6px;">
           <router-link to="/user/recommend">邀请有礼</router-link>
+        </li>
+        <li>
+          <Icon type="document-text"></Icon>
+          <a @click="openClauseModel">服务条款</a>
         </li>
       </ul>
 
@@ -85,10 +89,18 @@
           <img src="/static/img/icon/hot.gif" alt="" style="position: absolute;right: 22px;top: -4px;">
           <router-link to="/user/recommend">邀请有礼</router-link>
         </li>
+        <li>
+          <Icon type="document-text"></Icon>
+          <a @click="openClauseModel">服务条款</a>
+        </li>
       </ul>
     </div>
     <div class="my-xiu-ba-con-right left clear ml-20">
       <router-view></router-view>
+    </div>
+    <!--用户服务条款弹框-->
+    <div v-if="isShowUserClause" class="user-clause-model">
+      <user-clause @closeClauseModel="closeClauseModel" :isShowClause="getUserInfoRole === 0 ? 'showker' : 'merchant'"></user-clause>
     </div>
   </div>
 </template>
@@ -96,16 +108,19 @@
 <script>
   import Icon from 'iview/src/components/icon'
   import Tooltip from 'iview/src/components/tooltip'
+  import UserClause from '@/components/UserClause'
   import api from '@/config/apiConfig'
   export default {
     name: 'MyXiuBa',
     components: {
       Icon: Icon,
       Tooltip: Tooltip,
+      UserClause: UserClause,
     },
     data() {
       return {
         isSelect: "UserHome",
+        isShowUserClause: false,
       }
     },
 
@@ -123,14 +138,16 @@
     },
     computed: {
       getUserInfoRole() {
-        return this.$store.state.userInfo.role;
-      },
-      isLogin() {
-        return this.$store.state.login
-      },
+        return this.$store.getters.getUserRole;
+      }
     },
     methods: {
-
+      closeClauseModel() {
+        this.isShowUserClause = false;
+      },
+      openClauseModel() {
+        this.isShowUserClause = true;
+      }
     }
   }
 </script>
@@ -184,5 +201,9 @@
 
   .my-xiu-ba-con-right {
     width: 86%;
+  }
+
+  .user-clause-model{
+    @include fullScreenModel
   }
 </style>

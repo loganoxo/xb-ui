@@ -778,6 +778,20 @@ export default {
   },
 
   /**
+   * 检测用户是否已关闭服务条款提示
+   */
+  detectionUserClauseTip() {
+    return fetch('/api/detection-add-group-tip.json')
+  },
+
+  /**
+   * 设置用户关闭服务条款提示，关闭后不在显示
+   */
+  setUserClauseTip() {
+    return fetch('/api/set-add-group-tip.json')
+  },
+
+  /**
    * 停用旺旺号
    */
   disuseWw(params) {

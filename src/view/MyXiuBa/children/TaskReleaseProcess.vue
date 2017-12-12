@@ -760,7 +760,7 @@
     </div>
 
     <!--引导弹框开始-->
-      <div v-show="showInsideRes" style="position: fixed; padding: 20px; height: 520px; margin-top: -260px; border-radius: 10px; width: 780px; left: 50%; top: 50%; margin-left: -390px; background-color: #ff9675; z-index: 2;">
+   <!-- <div v-show="showInsideRes" style="position: fixed; padding: 20px; height: 520px; margin-top: -260px; border-radius: 10px; width: 780px; left: 50%; top: 50%; margin-left: -390px; background-color: #ff9675; z-index: 2;">
         <p class="text-align-rt">
           <span @click="closeShowInsideFunc" class="fs-24 right" style="color: #fff; cursor: pointer;">&times;</span>
           <Checkbox-group class="right mt-6" v-model="showInsideAgainRes">
@@ -824,8 +824,11 @@
         </p>
 
       </div>
-      <div v-show="showInsideRes" style="position: fixed; left: 0; top: 0; bottom: 0; right: 0; background-color: #000; opacity: 0.5;"></div>
+    <div v-show="showInsideRes" style="position: fixed; left: 0; top: 0; bottom: 0; right: 0; background-color: #000; opacity: 0.5;"></div>-->
     <!--引导弹框结束-->
+    <div v-if="isShowUserClause" class="user-clause-model">
+      <user-clause @closeClauseModel="closeClauseModel"></user-clause>
+    </div>
   </div>
 </template>
 
@@ -843,6 +846,7 @@
   import Upload from '@/components/upload'
   import Steps from 'iview/src/components/steps'
   import PayModel from '@/components/PayModel'
+  import UserClause from '@/components/UserClause'
   import api from '@/config/apiConfig'
   import {setStorage, getStorage, encryption, removeStorage} from '@/config/utils'
   import {aliCallbackImgUrl} from '@/config/env'
@@ -870,6 +874,7 @@
       Modal: Modal,
       Alert: Alert,
       PayModel: PayModel,
+      UserClause: UserClause,
     },
     data() {
       return {
@@ -1030,7 +1035,8 @@
         itemReviewPushList: [],
         selectKeywordScheme: 0,
         addKeywordScheme: 0,
-        isCountAssigned: null
+        isCountAssigned: null,
+        isShowUserClause: false,
       }
     },
     mounted() {
@@ -1047,6 +1053,7 @@
     created() {
       this.checkMemberForTask();
       this.getItemCatalog();
+      this.getDetectionUserClauseTip();
       let taskId = decode(this.$route.query.q);
       if (taskId) {
         this.editTaskId = taskId;
@@ -1876,7 +1883,20 @@
           _this.addKeywordScheme = 0;
           _this.selectKeywordScheme = 0;
         }
-      }
+      },
+      closeClauseModel() {
+        this.isShowUserClause = false;
+      },
+      getDetectionUserClauseTip() {
+        let _this = this;
+        api.detectionUserClauseTip().then(res =>{
+          if(res.status){
+            _this.isShowUserClause = !res.data;
+          } else {
+            _this.$Message.error(res.msg);
+          }
+        })
+      },
     }
   }
 </script>
@@ -2281,6 +2301,9 @@
       transform-origin: -10% center;
       z-index: 10;
       box-shadow: 0 0 0 1px #fff;
+    }
+    .user-clause-model{
+      @include fullScreenModel;
     }
   }
 
