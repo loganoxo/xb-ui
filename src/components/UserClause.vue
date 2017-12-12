@@ -16,7 +16,7 @@
       </div>
       <div class="user-clause-footer">
         <div class="switch-guide" @click="lookOther('showker')">查看秀客版指引</div>
-        <div class="no-tip" @click="notTip">“我已了解，以后不在提醒！”</div>
+        <div class="no-tip" @click="notTip" v-if="isShowCloseTip">“我已了解，以后不在提醒！”</div>
       </div>
     </template>
     <template v-if="isShowClause === 'showker'">
@@ -25,7 +25,7 @@
         <p class="main-color">亲，感谢您成为秀吧平台的秀客！</p>
         <p class="mt-10 ml-15">本指引非常重要，请您一定认真看完！</p>
         <p class="mt-5 ml-15">在秀吧，秀客接任务领取商品的流程图如下：</p>
-        <img class="mt-20" src="~assets/img/common/showker-clause.jpg" alt="商家用户流程图"/>
+        <img class="mt-20" src="~assets/img/common/showker-clause.jpg" alt="秀客用户流程图"/>
         <p class="mt-10 text-indent">图中您都要在规定时间内完成对应操作！若发生3次超时未完成的情况，平台将有权注销您秀客账号，并扣留您一定的账户余额不予提现！</p>
         <p class="mt-10 text-indent">商家会对秀客下单、淘宝评价以及平台买家秀等作出要求，不按照要求执行的，平台有权不予退还商品货款！</p>
         <p class="mt-10 ml-15">另外，以下情况，将视为秀客重大违规事项：</p>
@@ -37,7 +37,7 @@
       </div>
       <div class="user-clause-footer">
         <div class="switch-guide" @click="lookOther('merchant')">查看商家版版指引</div>
-        <div class="no-tip" @click="notTip">“我已了解，以后不在提醒！”</div>
+        <div class="no-tip" @click="notTip" v-if="isShowCloseTip">“我已了解，以后不在提醒！”</div>
       </div>
     </template>
   </div>
@@ -51,6 +51,10 @@
       isShowClause: {
         type: String,
         default: 'merchant'
+      },
+      isShowCloseTip: {
+        type: Boolean,
+        default: true
       },
     },
     data(){

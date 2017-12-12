@@ -100,7 +100,7 @@
     </div>
     <!--用户服务条款弹框-->
     <div v-if="isShowUserClause" class="user-clause-model">
-      <user-clause @closeClauseModel="closeClauseModel" :isShowClause="getUserInfoRole === 0 ? 'showker' : 'merchant'"></user-clause>
+      <user-clause @closeClauseModel="closeClauseModel" :isShowCloseTip="false" :isShowClause="getUserInfoRole === 0 ? 'showker' : 'merchant'"></user-clause>
     </div>
   </div>
 </template>

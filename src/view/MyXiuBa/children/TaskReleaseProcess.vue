@@ -760,7 +760,7 @@
     </div>
 
     <!--引导弹框开始-->
-   <!-- <div v-show="showInsideRes" style="position: fixed; padding: 20px; height: 520px; margin-top: -260px; border-radius: 10px; width: 780px; left: 50%; top: 50%; margin-left: -390px; background-color: #ff9675; z-index: 2;">
+    <div v-show="showInsideRes && !isShowUserClause" style="position: fixed; padding: 20px; height: 520px; margin-top: -260px; border-radius: 10px; width: 780px; left: 50%; top: 50%; margin-left: -390px; background-color: #ff9675; z-index: 2;">
         <p class="text-align-rt">
           <span @click="closeShowInsideFunc" class="fs-24 right" style="color: #fff; cursor: pointer;">&times;</span>
           <Checkbox-group class="right mt-6" v-model="showInsideAgainRes">
@@ -824,7 +824,7 @@
         </p>
 
       </div>
-    <div v-show="showInsideRes" style="position: fixed; left: 0; top: 0; bottom: 0; right: 0; background-color: #000; opacity: 0.5;"></div>-->
+    <div v-show="showInsideRes && !isShowUserClause" style="position: fixed; left: 0; top: 0; bottom: 0; right: 0; background-color: #000; opacity: 0.5;"></div>
     <!--引导弹框结束-->
     <div v-if="isShowUserClause" class="user-clause-model">
       <user-clause @closeClauseModel="closeClauseModel"></user-clause>
