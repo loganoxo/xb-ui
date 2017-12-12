@@ -24,31 +24,31 @@
               <li>{{ww.applyTime | dateFormat('YYYY-MM-DD hh:mm:ss')}}</li>
               <li><img :src="ww.wwCreditLevelPicUrl" alt="" style="width: 50px; padding: 10px;"></li>
               <li>
-                <span v-show="ww.status == 1">审核中</span>
-                <div v-if="ww.status == 2 ">
+                <span v-show="ww.status === 1">审核中</span>
+                <div v-if="ww.status === 2 ">
                   <p>{{wwStatusTextOn}}</p>
                   <iSwitch
                     v-model="switchTrue"
                     @on-change="switchTypeTrue(ww.id)">
                   </iSwitch>
                 </div>
-                <div v-if="ww.status == 5 ">
+                <div v-if="ww.status === 5 ">
                   <p>{{wwStatusTextOff}}</p>
                   <iSwitch
                     v-model="switchFalse"
                     @on-change="switchTypeFalse(ww.id)">
                   </iSwitch>
                 </div>
-                <Tooltip v-show="ww.status == 3" :content="ww.remarks" placement="top" style="color: #ff6633;">
+                <Tooltip v-show="ww.status === 3" :content="ww.remarks" placement="top" style="color: #ff6633;">
                   <Icon type="information-circled" color="#FF6633"></Icon>
                   <span >审核不通过(查看)</span>
                 </Tooltip>
-                <Tooltip v-show="ww.status == 4" content="此旺旺已被列入黑名单" placement="top" style="color: #ff6600;">
+                <Tooltip v-show="ww.status === 4" content="此旺旺已被列入黑名单" placement="top" style="color: #ff6600;">
                   <span >冻结</span>
                 </Tooltip>
               </li>
               <li>
-                <a v-show=" ww.status == 3 || (ww.status == 2&&switchValueTrue === false&&switchValueFalse === true)|| (switchValueFalse === false&&switchValueTrue === false)" @click="modifyWwBindFunc(ww,index)" class="mr-10">修改</a>
+                <a v-show=" ww.status === 3 || (ww.status === 2 && switchValueTrue === false && switchValueFalse === true)|| (switchValueFalse === false && switchValueTrue === false)" @click="modifyWwBindFunc(ww,index)" class="mr-10">修改</a>
                 <a  @click="deleteWwBindFunc(ww,index)">解绑</a>
                 <!--<a v-show="ww.status == 3 " @click="modifyWwBindFunc(ww,index)">重新提交</a>-->
               </li>
@@ -197,7 +197,7 @@
     </div>
     <!--删除任务弹框-->
     <Modal v-model="deleteWwModal" width="360">
-      <p slot="header" style="color:#f60;text-align:center">
+      <p slot="header" class="main-color text-ct">
         <Icon type="information-circled"></Icon>
         <span>删除确认</span>
       </p>
@@ -210,7 +210,7 @@
       </div>
     </Modal>
     <Modal v-model="demoShow" width="900">
-      <div style="text-align:center">
+      <div class="text-ct">
         <img :src="demoShowPic" alt="" style="width: 100%; margin-top: 20px">
       </div>
       <div slot="footer">
@@ -228,17 +228,16 @@
   import {Select, Option, OptionGroup} from 'iview/src/components/select'
   import Button from 'iview/src/components/button'
   import Radio from 'iview/src/components/radio'
-  import api from '@/config/apiConfig'
   import Upload from '@/components/upload'
-  import {setStorage, getStorage} from '@/config/utils'
-  import {aliCallbackImgUrl} from '@/config/env'
   import Modal from 'iview/src/components/modal'
   import Alert from 'iview/src/components/alert'
+  import Tooltip from 'iview/src/components/tooltip'
   import SmsCountdown from '@/components/SmsCountdown'
-  import {mapActions, mapMutations} from 'vuex'
   import {RegionPicker} from 'vue-region-picker'
   import CHINA_REGION from 'china-area-data'
-  import Tooltip from 'iview/src/components/tooltip'
+  import api from '@/config/apiConfig'
+  import {setStorage, getStorage} from '@/config/utils'
+  import {aliCallbackImgUrl} from '@/config/env'
 
   RegionPicker.region = CHINA_REGION;
   RegionPicker.vueVersion = 2;
@@ -448,9 +447,6 @@
           taoqizhiPicUrl: [
             {required: true, validator: wwName, trigger: 'blur'},
           ],
-//          picUrl: [
-//            { required: true, validator: wwName, trigger: 'blur'},
-//          ],
           address: [
             {required: true, validator: wwRequired, trigger: 'blur'}
           ],
@@ -472,17 +468,16 @@
     created() {
       let self = this;
       self.wwBindList();
-      self.$Notice.info({
-        title: '旺旺号信息绑定',
-        desc: '申请宝贝时，需要首先绑定淘宝旺旺号后才可以进行操作。请先按照页面提示进行旺旺号的绑定，以便于后期活动的申请，感谢您的支持与配合！',
-        duration: 0
+      self.$nextTick(()=>{
+        self.$Notice.info({
+          title: '旺旺号信息绑定',
+          desc: '申请宝贝时，需要首先绑定淘宝旺旺号后才可以进行操作。请先按照页面提示进行旺旺号的绑定，以便于后期活动的申请，感谢您的支持与配合！',
+          duration: 0
+        });
       });
     },
     computed: {},
     methods: {
-      ...mapActions([
-        'getUserInformation'
-      ]),
       switchTypeTrue(id){
         let self = this ;
         if (!self.switchValueTrue){
@@ -701,7 +696,7 @@
                   onClose: function () {
                     self.wwBindList();
                     self.clearWwInfo();
-                    self.getUserInformation();
+                    self.$store.dispatch('getUserInformation');
                     self.showWwBindBox = false;
                   }
                 });
