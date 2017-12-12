@@ -7,6 +7,7 @@ import VueLazyload from 'vue-lazyload'
 import Modal from 'iview/src/components/modal'
 import LoadingBar from 'iview/src/components/loading-bar'
 import Message from 'iview/src/components/message'
+import Notice from 'iview/src/components/notice'
 import '../iview/iview.less'
 import '@/css/common.scss'
 import 'animate.css'
@@ -15,10 +16,14 @@ Vue.config.productionTip = false;
 
 Vue.prototype.$Modal = Modal;
 
+Notice.config({
+  top: 40,
+});
+Vue.prototype.$Notice = Notice;
+
  Message.config({
   duration: 4
  });
-
 Vue.prototype.$Message = Message;
 
 /*VueLazyload配置初始化*/

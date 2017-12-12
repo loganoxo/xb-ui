@@ -472,6 +472,11 @@
     created() {
       let self = this;
       self.wwBindList();
+      self.$Notice.info({
+        title: '旺旺号信息绑定',
+        desc: '申请宝贝时，需要首先绑定淘宝旺旺号后才可以进行操作。请先按照页面提示进行旺旺号的绑定，以便于后期活动的申请，感谢您的支持与配合！',
+        duration: 0
+      });
     },
     computed: {},
     methods: {
