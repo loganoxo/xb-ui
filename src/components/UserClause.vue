@@ -10,8 +10,8 @@
         <img class="mt-20" src="~assets/img/common/merchant-clause.jpg" alt="商家用户流程图"/>
         <p class="mt-10 ml-15">图中给予了您充分时间进行相关审核，若您不能在规定时间内审核完毕，系统将自动通过！</p>
         <p class="mt-10 ml-15 text-indent">在秀吧平台，除了“体验专区”意外，其余板块都要求商家用户拍A发A（秀客在淘宝上拍下是什么商品，商家必须邮寄什么商品！）</p>
-        <p class="mt-10 ml-15">在“体验专区”（拍A发A）中，您也必须向秀客寄送承若的赠品</p>
-        <p class="mt-10 ml-15 text-indent">如果发生没有按照承若寄送是商品的情况，甚至是寄送空包的情况，将被平台判定为重大违规，平台将注销期商家张哈皮，并视情节严重情况，扣留对应活动保证金！</p>
+        <p class="mt-10 ml-15">在“体验专区”（拍A发B）中，您也必须向秀客寄送承若的赠品</p>
+        <p class="mt-10 ml-15 text-indent">如果发生没有按照承若寄送是商品的情况，甚至是寄送空包的情况，将被平台判定为重大违规，平台将注销其商家账号，并视情节严重情况，扣留对应活动保证金！</p>
         <p class="mt-22 ml-15 mb-40">真诚秀吧平台能帮助到您，祝您生意兴隆！</p>
       </div>
       <div class="user-clause-footer">
@@ -36,7 +36,7 @@
         <p class="mt-12 mb-20">希望您在秀吧领到心仪的产品，祝您玩得开心！</p>
       </div>
       <div class="user-clause-footer">
-        <div class="switch-guide" @click="lookOther('merchant')">查看商家版版指引</div>
+        <div class="switch-guide" @click="lookOther('merchant')">查看商家版指引</div>
         <div class="no-tip" @click="notTip" v-if="isShowCloseTip">“我已了解，以后不在提醒！”</div>
       </div>
     </template>
