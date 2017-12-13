@@ -157,11 +157,9 @@
         });
         clipboard.on('success', () => {
           _this.$Message.success("复制链接成功！");
-          clipboard.destroy();
         });
         clipboard.on('error', () => {
           _this.$Message.error("复制链接失败！");
-          clipboard.destroy();
         });
 
       })
