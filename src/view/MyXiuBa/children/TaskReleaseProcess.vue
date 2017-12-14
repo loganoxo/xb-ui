@@ -1533,7 +1533,7 @@
             _this.taskRelease.taskDetail = JSON.stringify(_this.taoCodeTaskDetail);
             break;
           case 'direct_access' :
-            _this.taskRelease.taskDetail = [];
+            _this.taskRelease.taskDetail = JSON.stringify([]);
             break;
         }
         api.taskCreate(_this.taskRelease).then(res => {
