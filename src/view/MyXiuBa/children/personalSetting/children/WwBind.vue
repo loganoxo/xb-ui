@@ -468,13 +468,6 @@
     created() {
       let self = this;
       self.wwBindList();
-      self.$nextTick(()=>{
-        self.$Notice.info({
-          title: '旺旺号信息绑定',
-          desc: '申请宝贝时，需要首先绑定淘宝旺旺号后才可以进行操作。请先按照页面提示进行旺旺号的绑定，以便于后期活动的申请，感谢您的支持与配合！',
-          duration: 0
-        });
-      });
     },
     computed: {},
     methods: {
@@ -622,8 +615,15 @@
         api.wwBindList().then((res) => {
           if (res.status) {
             self.wwBindLists = res.data;
-            if (res.statusCode == 'success_but_not_any_alitm') {
+            if (res.statusCode === 'success_but_not_any_alitm') {
               self.showWwBindBox = true;
+              self.$nextTick(()=>{
+                self.$Notice.info({
+                  title: '旺旺号信息绑定',
+                  desc: '申请宝贝时，需要首先绑定淘宝旺旺号后才可以进行操作。请先按照页面提示进行旺旺号的绑定，以便于后期活动的申请，感谢您的支持与配合！',
+                  duration: 0
+                });
+              });
             }
           } else {
             self.$Message.error({
