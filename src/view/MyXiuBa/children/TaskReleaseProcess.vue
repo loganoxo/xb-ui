@@ -1611,6 +1611,9 @@
             if(res.data.discountType === 'discount_r_50'){
               _this.taskRelease.discountType = 'discount_0'
             }
+            if( _this.taskRelease.onlyShowForQualification){
+              _this.taskRelease.onlyShowForQualification = false;
+            }
             _this.itemReviewList = [];
             _this.itemReviewPushList = [];
             let itemReviewAssignsData = res.data.itemReviewAssigns;
