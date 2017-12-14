@@ -817,15 +817,12 @@
             } else {
               self.graphicInfoSels[2].num = 0;
             }
-            self.$nextTick(function () {
+            self.$nextTick(()=> {
               self.init();
-              self.copyHtml = '<div style="display: inline-block;" data-sites="qzone, qq, weibo" data-title="【秀吧365】' + self.commodityData.task.taskName + '" data-image=' + self.commodityData.task.taskMainImage + ' data-description="活动名称+秀吧365，万千商品每日更新，赶快和我一起来免费试用吧！" class="social-share" data-url=' + self.copyValue + '  ></div>';
+              self.copyHtml = '<div style="display: inline-block" data-sites="qzone, qq, weibo" data-title="【秀吧365】' + self.commodityData.task.taskName + '" data-image=' + self.commodityData.task.taskMainImage + ' data-description= " '+ self.commodityData.task.taskName + ' ' + self.copyValue + '秀吧365，万千商品每日更新，赶快和我一起来免费试用吧！" class="social-share" data-url=' + self.copyValue + '></div>';
             });
           } else {
-            self.$Message.error({
-              content: res.msg,
-              duration: 9
-            });
+            self.$Message.error(res.msg);
           }
 
         })
@@ -857,10 +854,7 @@
               if (res.status) {
                 self.applySuccess = true;
               } else {
-                self.$Message.error({
-                  content: res.msg,
-                  duration: 9
-                });
+                self.$Message.error(res.msg);
               }
             })
           }
