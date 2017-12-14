@@ -327,7 +327,7 @@
                   </Radio>
                   <iInput v-if="taskRelease.itemReviewRequired === 'offer_review_summary'" v-model="taskRelease.itemReviewSummary" class="mb-10" type="textarea" :autosize="{minRows: 1,maxRows: 3}" placeholder="请输入你的评价要求，如：需晒图/勿晒图、希望出现的关键词等~"></iInput>
                   <Radio label="assign_review_detail">
-                    <span>我来提供评价内容（秀客将直接拷贝亲提供的评价内容在淘宝上进行评价，每个名额需要提供一份评价内容。）</span>
+                    <span>我来提供评价内容（秀客将直接拷贝亲提供的评价内容在淘宝上进行评价，每个名额需要提供一份评价内容。<span class="main-color">系统会随机分配一份评价内容给申请成功的秀客，确保评价内容唯一。</span>）</span>
                   </Radio>
                 </RadioGroup>
                 <div class="afford-evaluation-list mt-10" v-if="taskRelease.itemReviewRequired === 'assign_review_detail' && taskRelease.taskCount > 0">

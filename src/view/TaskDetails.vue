@@ -9,10 +9,9 @@
             <Breadcrumb-item v-if="commodityData.task.activityCategory">
               {{$store.state.TaskCategoryActiveList[commodityData.task.activityCategory].text}}
             </Breadcrumb-item>
-            <!--<Breadcrumb-item v-if="!commodityData.task.discountPrice">免费领</Breadcrumb-item>-->
             <Breadcrumb-item>{{commodityData.task.itemCatalog.parentItemCatalog.name}}</Breadcrumb-item>
             <Breadcrumb-item>{{commodityData.task.itemCatalog.name}}</Breadcrumb-item>
-            <Breadcrumb-item v-if="commodityData.task.discountType == 'price_low'">
+            <Breadcrumb-item v-if="commodityData.task.discountType === 'price_low'">
               {{parseFloat(commodityData.task.discountPrice/100)}}试用
             </Breadcrumb-item>
           </Breadcrumb>
@@ -26,21 +25,21 @@
           <div class="task-details-top-right left">
             <h3 class="fs-18">
               {{commodityData.task.taskName}}
-              <span v-if="commodityData.task.activityCategory == 'pinkage_for_10'"
+              <span v-if="commodityData.task.activityCategory === 'pinkage_for_10'"
                     style=" font-size:14px; padding: 0 4px; background: #ff9966; color: #fff; margin-left: 10px; display: inline-block;height: 20px;line-height: 20px;">10元包邮</span>
-              <span v-if="commodityData.task.activityCategory == 'present_get'"
+              <span v-if="commodityData.task.activityCategory === 'present_get'"
                     style="font-size:14px; padding: 0 4px; background: #00cc66; color: #ffffff; margin-left: 10px; display: inline-block;height: 20px;line-height: 20px;">体验专区</span>
-              <span v-if="commodityData.task.activityCategory == 'price_low' && commodityData.task.discountPrice"
+              <span v-if="commodityData.task.activityCategory === 'price_low' && commodityData.task.discountPrice"
                     class=" clfff home-discount-price mt-5"
                     :style="{backgroundColor: $store.state.discountPriceType[parseFloat(commodityData.task.discountPrice/100)].backgroundColor}">
                     {{commodityData.task.discountPrice/100}}试用
                   </span>
-              <span v-if="commodityData.task.activityCategory == 'price_low' && commodityData.task.discountRate"
+              <span v-if="commodityData.task.activityCategory === 'price_low' && commodityData.task.discountRate"
                     class=" clfff home-discount-price mt-5"
                     :style="{backgroundColor: $store.state.discountPriceType[parseFloat(commodityData.task.discountRate/10) + '折'].backgroundColor}">
                     {{commodityData.task.discountRate/10}}折试用
                   </span>
-              <span v-if=" commodityData.task.activityCategory == 'goods_clearance' && commodityData.task.discountRate "
+              <span v-if=" commodityData.task.activityCategory === 'goods_clearance' && commodityData.task.discountRate "
                     class=" clfff home-discount-price mt-5"
                     :style="{backgroundColor: $store.state.discountPriceType[parseFloat(commodityData.task.discountRate/10) + '折'].backgroundColor}">
                     {{commodityData.task.discountRate/10}}折清仓
@@ -49,7 +48,7 @@
             <p class="fs-14">
               活动类型：
               <span class="fs-18">{{commodityData.task.taskTypeDesc}}</span>
-              <span v-if="commodityData.task.discountType == 'price_low'" class="fs-14"
+              <span v-if="commodityData.task.discountType === 'price_low'" class="fs-14"
                     style="color: #fff; padding: 2px 5px;"
                     :style="{backgroundColor: $store.state.discountPriceType[parseFloat(commodityData.task.discountPrice/100)].backgroundColor}">{{parseFloat(commodityData.task.discountPrice/100)}}试用</span>
             </p>
