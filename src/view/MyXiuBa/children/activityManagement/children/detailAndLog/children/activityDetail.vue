@@ -131,11 +131,11 @@
         </div>
         <div class="trial-condition ml-35 mt-20">
           <span class="ml-5">秀客申请条件：</span>
-          <Checkbox v-model="taskRelease.onlyShowForQualification" disabled>只有获得资格的秀客才可以查看活动信息</Checkbox>
-          <p class="pl-94 size-color">勾选后可以避免秀客私下索要资格，避免同行举报。但流量、收藏量、分享量会相对减少</p>
-          <p class="pl-94 mt-8">
+          <!--<Checkbox v-model="taskRelease.onlyShowForQualification" disabled>只有获得资格的秀客才可以查看活动信息</Checkbox>-->
+          <!--<p class="pl-94 size-color">勾选后可以避免秀客私下索要资格，避免同行举报。但流量、收藏量、分享量会相对减少</p>-->
+          <!--<p class="pl-94 mt-8">-->
             <Checkbox v-model="taskRelease.refuseOldShowker" disabled>拒绝已参加过本店活动的秀客再次申请</Checkbox>
-          </p>
+          <!--</p>-->
           <p class="pl-94 mt-8">
             <Checkbox v-model="taskRelease.needBrowseCollectAddCart" disabled>必须先完成浏览、收藏、加购，才可以申请活动资格</Checkbox>
           </p>
@@ -279,6 +279,7 @@
                   <span>我来提供评价内容（秀客将直接拷贝亲提供的评价内容在淘宝上进行评价，每个名额需要提供一份评价内容。）</span>
                 </Radio>
               </RadioGroup>
+              <p v-show="taskRelease.itemReviewRequired === 'assign_review_detail'" class="main-color ml-20">系统会随机分配一份评价内容给申请成功的秀客，确保评价内容唯一。</p>
               <div class="afford-evaluation-list mt-10" v-if="taskRelease.itemReviewRequired === 'assign_review_detail' && taskRelease.taskCount > 0">
                 <p v-for="(item,index) in itemReviewList">
                   <span class="vtc-sup">{{'评价' + item.index}}：</span>
@@ -289,8 +290,7 @@
           </div>
           <div class="product-introduction ml-45 mt-20">
             <span class="left ml-5">商品简介：</span>
-            <quill-editor ref="myTextEditor" v-model="taskRelease.itemDescription" :options="editorOption">
-            </quill-editor>
+            <quill-editor ref="myTextEditor" v-model="taskRelease.itemDescription" :options="editorOption"></quill-editor>
           </div>
         </div>
         <div class="order-set mt-22">
@@ -575,7 +575,7 @@
         name: 'base-example',
         uniqueId: 'uniqueId',
         editorOption: {
-          placeholder: "暂无您的商品简介！",
+          placeholder: "有吸引力的产品介绍，将吸引更多的秀客来申请活动哦！请在这里编辑您的商品简介（可以直接复制淘宝的宝贝详情到这里），但请注意，不要在该简介中，放置任何外链，比如店铺或者商品链接，以免申请的秀客绕过相应的下单条件，造成损失！",
           modules: {
             toolbar: []
           }
