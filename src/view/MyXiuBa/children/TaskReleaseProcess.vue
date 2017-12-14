@@ -1375,6 +1375,10 @@
           _this.$Message.warning('亲，请填写你要提供的评价内容！');
           return;
         }
+        if(!_this.taskRelease.itemDescription){
+          _this.$Message.warning('亲，请填写您要发布宝贝的商品简介！');
+          return;
+        }
         if (_this.taskRelease.taskType === 'pc_search') {
           let countAssigned = 0;
           _this.isCountAssigned = _this.pcTaskDetail.every(item => {
