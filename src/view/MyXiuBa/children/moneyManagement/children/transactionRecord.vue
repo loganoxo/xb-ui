@@ -198,7 +198,7 @@
         活动编号：
         <iInput v-model="activityNumber" style="width: 200px;height: 30px" class="ml-5"></iInput>
       </div>
-      <iButton class="ibtn" @click="getTradListAll(transactType)">筛选</iButton>
+      <iButton class="ibtn" @click="changePageShow(transactType)">筛选</iButton>
       <div class="mt-22 line"></div>
       <div class="transaction-amount">
         <span>收入:<span style="color: #2F962F;">{{accountIncomes / 100|| 0}}</span>元</span>
@@ -279,6 +279,9 @@
           </tbody>
         </table>
       </div>
+      <div class="right mt-22"  v-if="!isChange">
+        <Page :total="totalPages*10" :page-size="pageSize" @on-change="changePages"></Page>
+      </div>
     </div>
   </div>
 </template>
@@ -327,7 +330,7 @@
         showNotice: false,
         beginTime: null,
         endTime: null,
-        timeSelect: 'oneMouth',
+        timeSelect: 'all',
         choiceTime: [
           {
             text: '今天',
@@ -406,6 +409,15 @@
         this.tradTimeEnd = e;
       },
       changePageShow(type){
+        if (this.endTime === ''){
+          this.tradTimeEnd = null
+        }
+        if (this.beginTime === ''){
+          this.tradTimeStart = null
+        }
+        if (this.endTime === '' && this.beginTime === ''){
+          this.timeSelect = 'all'
+        }
         this.pageIndex = 0 ;
         this.isChange = true ;
         this.getTradListAll(type);
@@ -465,7 +477,7 @@
             _this.userListDetails = res;
             _this.showNotice = _this.userListDetails.length === 0;
           } else {
-            console.log("列表数据为空！")
+            console.log("列表数据为空！");
           }
         });
       },
@@ -501,7 +513,7 @@
         }
       },
       changeTimeChoiceStyle(type) {
-        this.timeSelect = type
+        this.timeSelect = type;
       },
       getTargetTime(type) {
         let _this = this;
@@ -524,15 +536,23 @@
         if (type === 0) {
           _this.beginTime = getDateStr(0);
           _this.endTime = getDateStr(1);
+          _this.tradTimeStart = getDateStr(0);
+          _this.tradTimeEnd = getDateStr(1);
         } else if (type === 1) {
           _this.beginTime = getDateStr(-1);
           _this.endTime = getDateStr(0);
+          _this.tradTimeStart = getDateStr(-1);
+          _this.tradTimeEnd = getDateStr(0);
         } else if (type === 2) {
           _this.beginTime = getDateStr(-30);
           _this.endTime = getDateStr(1);
+          _this.tradTimeStart = getDateStr(-30);
+          _this.tradTimeEnd = getDateStr(1);
         } else {
           _this.beginTime = null;
           _this.endTime = null;
+          _this.tradTimeStart = null;
+          _this.tradTimeEnd = null ;
           _this.isChange = true;
           _this.transactType= [];
           _this.getTradListAll();

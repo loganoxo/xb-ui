@@ -3,10 +3,10 @@
     <div class="title">资金管理</div>
     <div class="personal-sel-top mt-20">
       <a v-if="getUserAccountRole===1" v-for="item in myInfoSelectMerchant" :class="{active:infoSelect === item.isSelect}"
-         @click="accountInit(item.isSelect);selectNavigate(item.isSelect)">{{item.text}}
+         @click="accountInit(item.isSelect)">{{item.text}}
       </a>
       <a v-if="getUserAccountRole===0"  v-for="item in myInfoSelectTasker" :class="{active:infoSelect === item.isSelect}"
-         @click="accountInit(item.isSelect);selectNavigate(item.isSelect)">{{item.text}}
+         @click="accountInit(item.isSelect)">{{item.text}}
       </a>
     </div>
     <router-view></router-view>
