@@ -11,7 +11,7 @@
       <a href="http://shang.qq.com/wpa/qunwpa?idkey=310381a34c0c64a722030d3857865867ac141a57a9a235df3667ef5bcbe58435" target="_blank" v-if="getUserRole === 1">
         <img src="~assets/img/common/suspend-service.png" alt="">
       </a>
-      <a href="http://shang.qq.com/wpa/qunwpa?idkey=c8b3150dbd8821f50cced9a08831de701636de9ae107e707114150d0050df9a4" target="_blank" v-else>
+      <a href="https://jq.qq.com/?_wv=1027&k=5ZMH7Iu" target="_blank" v-else>
         <img src="~assets/img/common/suspend-service-showker.png" alt="">
       </a>
       <span class="close-suspend-service" @click.stop.self="closeSuspendService">关闭</span>

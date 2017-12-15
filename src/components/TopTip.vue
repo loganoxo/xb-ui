@@ -25,10 +25,10 @@
           <span >482437157</span>
           <span style="color: #000">(内幕玩法抢先得)</span>
         </a>
-        <a v-if="getUserInfo.role == 0" target="_blank" href="http://shang.qq.com/wpa/qunwpa?idkey=c8b3150dbd8821f50cced9a08831de701636de9ae107e707114150d0050df9a4" class="ml-10 qq-tip">
+        <a v-if="getUserInfo.role == 0" target="_blank" href="https://jq.qq.com/?_wv=1027&k=5ZMH7Iu" class="ml-10 qq-tip">
           <img src="~assets/img/common/qq.png" alt="" >
           加入QQ交流群：
-          <span >478360486</span>
+          <span >672268939</span>
           <span style="color: #000">(第一时间抢便宜)</span>
         </a>
       </p>
@@ -62,7 +62,7 @@
           <i data-v-38a9a25e="" class="ivu-icon ivu-icon-person-stalker vtc-text-btm fs-16"></i>
           联系客服
         </a>
-        <a href="http://shang.qq.com/wpa/qunwpa?idkey=c8b3150dbd8821f50cced9a08831de701636de9ae107e707114150d0050df9a4" target="_blank" v-if="getUserInfo.role === 0">
+        <a href="https://jq.qq.com/?_wv=1027&k=5ZMH7Iu" target="_blank" v-if="getUserInfo.role === 0">
           <i data-v-38a9a25e="" class="ivu-icon ivu-icon-person-stalker vtc-text-btm fs-16"></i>
           联系客服
         </a>
