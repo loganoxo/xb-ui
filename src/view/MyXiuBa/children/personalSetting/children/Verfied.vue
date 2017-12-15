@@ -249,24 +249,32 @@
       verifiedInit(){
         let self = this;
         api.verifiedInit().then((res) => {
-          self.verified = res;
-          self.verifiedState = res.status;
-          if(self.verified.assessReason){
-            self.verifiedValidate.realname = self.verified.realname;
-            self.verifiedValidate.idcard = self.verified.idcard;
-            self.verifiedValidate.picUrl = [
-              {
-                src: res.picUrl
+          if(res.status){
+            if(res.statusCode == 'none realname'){
+              self.verifiedState = self.verifiedStatus.verifiedBeg;
+            }else {
+              self.verified = res;
+              self.verifiedState = res.status;
+              if(self.verified.assessReason){
+                self.verifiedValidate.realname = self.verified.realname;
+                self.verifiedValidate.idcard = self.verified.idcard;
+                self.verifiedValidate.picUrl = [
+                  {
+                    src: res.picUrl
+                  }
+                ];
+                self.verifiedValidate.reversePicUrl =  [
+                  {
+                    src: res.reversePicUrl
+                  }
+                ];
               }
-            ];
-            self.verifiedValidate.reversePicUrl =  [
-              {
-                src: res.reversePicUrl
+              if(!self.verifiedState){
+                self.verifiedState = 10;
               }
-            ];
-          }
-          if(!self.verifiedState){
-            self.verifiedState = 10;
+            }
+          }else {
+            self.$Message.error(res.msg);
           }
         })
       },

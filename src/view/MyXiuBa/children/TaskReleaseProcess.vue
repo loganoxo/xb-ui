@@ -1324,7 +1324,7 @@
           return;
         }
         if (!isAliUrl(_this.taskRelease.itemUrl)) {
-          _this.$Message.warning('亲，只能输入淘宝或者天猫宝贝地址！');
+          _this.$Message.warning('亲，仅支持淘宝、天猫、飞猪链接！');
           return;
         }
         if (!_this.taskRelease.storeName) {
