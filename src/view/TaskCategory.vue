@@ -617,14 +617,16 @@
           activityCategories: self.searchTaskParams.activityCategory ? JSON.stringify(self.searchTaskParams.activityCategory) : '',
         }).then((res) => {
           if(res.status){
-            self.historyTaskList = res.data.content;
-            self.historyTaskListTotal = parseInt(res.data.total);
-            self.$set(self.historyTaskList);
+            if(!self.isLogin){
+              self.historyTaskList = res.data.content.filter(item => {
+                return item.itemCatalog.id !== 1003
+              });
+            } else {
+              self.historyTaskList = res.data.content;
+            }
+            self.historyTaskListTotal = res.data.total;
           }else {
-            self.$Message.error({
-              content: res.msg,
-              duration: 9
-            });
+            self.$Message.error(res.msg);
           }
         })
       },
@@ -655,10 +657,7 @@
             }
             self.getSearchHistoryTask();
           }else {
-            self.$Message.error({
-              content: res.msg,
-              duration: 9
-            });
+            self.$Message.error(res.msg);
           }
         })
       },
