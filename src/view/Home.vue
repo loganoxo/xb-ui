@@ -960,7 +960,7 @@
             if (res.data) {
               if(!self.isLogin){
                 self.homeHistoryList = res.data.filter(item => {
-                  return item.itemCatalog.id !== 1003
+                  return item.itemCatalog.id !== 1003 && item.itemCatalog.id !== 608
                 });
               } else {
                 self.homeHistoryList = res.data.content;
