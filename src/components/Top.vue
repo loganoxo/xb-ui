@@ -1,41 +1,22 @@
 <template>
-  <div>
+  <div class="home">
     <top-tip></top-tip>
     <div class="home-top">
       <div class="container">
         <router-link  to="/" class="left mt-20">
-          <img v-if="!isLogin || getUserInfoRole == 1 " src="~assets/img/common/top_logo.png" alt="" >
-          <img v-if="isLogin &&　getUserInfoRole == 0"  src="~assets/img/common/top_logo_xk.png" alt="" >
+          <img v-if="!isLogin || getUserInfoRole === 1 " src="~assets/img/common/top_logo.png" alt="" >
+          <img v-if="isLogin &&　getUserInfoRole === 0"  src="~assets/img/common/top_logo_xk.png" alt="" >
         </router-link >
         <div class="left">
           <div class="search-box">
             <div class="pos-rel">
               <div>
-                <a href="" class="active">宝贝</a>
-                <!--<a href="">店铺</a>-->
+                <span class="active">宝贝</span>
               </div>
               <i class="ivu-icon ivu-icon-ios-search"></i>
               <input type="text" class="search-btn left" v-model="searchKey" @keydown="goKeyEnterFunc"  autocomplete="off">
-              <!--<i data-v-fae95c8a="" class="ivu-icon ivu-icon-camera"></i>-->
               <a @click="goTaskCategory" class="search left">搜索</a>
             </div>
-
-            <!--<p class="link-text">-->
-              <!--<a class="active" href="">男士内裤</a>-->
-              <!--<a class="active" href="">时尚连衣裙</a>-->
-              <!--<a href="">新款男鞋</a>-->
-              <!--<a href="">时尚跑鞋</a>-->
-              <!--<a href="">T恤</a>-->
-              <!--<a class="active" href="">女士凉鞋</a>-->
-              <!--<a href="">休闲短裤</a>-->
-              <!--<a href="">背带裤</a>-->
-              <!--<a href="">沙发垫</a>-->
-              <!--<a href="">面膜</a>-->
-              <!--<a href="">理发器</a>-->
-              <!--<a href="">装饰画</a>-->
-              <!--<a href="">更多></a>-->
-            <!--</p>-->
-
           </div>
         </div>
         <router-link  to="/recommend-spread" class="seller-guide">
@@ -47,46 +28,49 @@
       <div class="container">
         <div class="top-category">
           <p class=" text-ct">
-            <Icon type="navicon" style="font-size: 20px;margin-top: 2px"></Icon>
+            <Icon type="navicon" size="20" class="mt" style="margin-top: 2px"></Icon>
             <span class="ml-5">宝贝类目</span>
           </p>
           <ul class="top-category-list" v-if="$store.state.showTopCategoryRes">
-            <li  v-if="nav.name != '美食/特产' && nav.name != '其它试用'" :class="[$store.state.TaskCategoryActive == nav.id ? 'active' : '']" @click="selTaskCategoryActiveFunc(nav)" v-for="nav in navList" >
-              <img width="16" height="16"  :src="nvaImgSrc[nav.id]" alt="" style="vertical-align: -3px;">
+            <li v-if="nav.id !== 600 && !isLogin" :class="[TaskCategoryActive === nav.id ? 'active' : '']" @click="selTaskCategoryActiveFunc(nav)" v-for="nav in navList" >
+              <img width="16" height="16" :src="nvaImgSrc[nav.id]" class="vtc-mid"/>
               <span class="ml-5">{{nav.name}}</span>
             </li>
-            <li :class="[$store.state.TaskCategoryActive == 'all' ? 'active' : '']" @click="selTaskCategoryAllFunc">
-              <img width="16" height="16"  src="/static/img/nav-picture/home_26.png" alt="">
+            <li v-if="isLogin" :class="[TaskCategoryActive === nav.id ? 'active' : '']" @click="selTaskCategoryActiveFunc(nav)" v-for="nav in navList" style="padding: 4px 0">
+              <img width="16" height="16" :src="nvaImgSrc[nav.id]" class="vtc-mid"/>
+              <span class="ml-5">{{nav.name}}</span>
+            </li>
+            <li :class="[TaskCategoryActive === 'all' ? 'active' : '']" @click="selTaskCategoryAllFunc">
+              <img width="16" height="16"  src="/static/img/nav-picture/home_26.png" class="vtc-mid"/>
               <span class="ml-5">全部活动</span>
             </li>
           </ul>
         </div>
         <div class="home-nav-list">
-          <a :class="[$store.state.activityCategory == 'home' ? 'active' : '']" @click="selTaskCategoryHome">首页</a>
-          <a :class="[$store.state.activityCategory == 'free_get' ? 'active' : '']" @click="selTaskCategoryFunc('free_get')" >
-            <Tooltip :content="$store.state.TaskCategoryActiveList['free_get'].desc" placement="bottom">
+          <a :class="[activityCategory === 'home' ? 'active' : '']" @click="selTaskCategoryHome">首页</a>
+          <a :class="[activityCategory === 'free_get' ? 'active' : '']" @click="selTaskCategoryFunc('free_get')" >
+            <Tooltip :content="TaskCategoryActiveList['free_get'].desc" placement="bottom">
               免费领
             </Tooltip>
           </a>
-          <a :class="[$store.state.activityCategory == 'present_get' ? 'active' : '']" @click="selTaskCategoryFunc('present_get')" >
+          <a :class="[activityCategory === 'present_get' ? 'active' : '']" @click="selTaskCategoryFunc('present_get')" >
             <i style="position: absolute; top: -16px; left: 13px;">
               <img src="/static/img/icon/giveaway.gif" alt="" >
             </i>
-            <Tooltip :content="$store.state.TaskCategoryActiveList['present_get'].desc" placement="bottom">
+            <Tooltip :content="TaskCategoryActiveList['present_get'].desc" placement="bottom">
               体验专区
             </Tooltip>
           </a>
-          <a :class="[$store.state.activityCategory == 'pinkage_for_10' ? 'active' : '']" @click="selTaskCategoryFunc('pinkage_for_10')" >
+          <a :class="[activityCategory === 'pinkage_for_10' ? 'active' : '']" @click="selTaskCategoryFunc('pinkage_for_10')" >
             <i style="position: absolute; top: -16px; left: 19px;">
               <img src="/static/img/icon/franking.gif" alt="" >
             </i>
-            <Tooltip :content="$store.state.TaskCategoryActiveList['pinkage_for_10'].desc" placement="bottom">
+            <Tooltip :content="TaskCategoryActiveList['pinkage_for_10'].desc" placement="bottom">
               10元包邮
             </Tooltip>
           </a>
-
-          <a :class="[$store.state.activityCategory == 'price_low' ? 'active' : '']" @click="selTaskCategoryFunc('price_low')">
-            <Tooltip :content="$store.state.TaskCategoryActiveList['price_low'].desc" placement="bottom">
+          <a :class="[activityCategory === 'price_low' ? 'active' : '']" @click="selTaskCategoryFunc('price_low')">
+            <Tooltip :content="TaskCategoryActiveList['price_low'].desc" placement="bottom">
               白菜价
             </Tooltip>
           </a>
@@ -96,27 +80,17 @@
             <!--</i>-->
             <!--清仓断码-->
           <!--</a>-->
-          <a :class="[$store.state.activityCategory == 'buyer-show' ? 'active' : '']" @click="linkToBuyerShow('buyer-show')">
+          <a :class="[activityCategory === 'buyer-show' ? 'active' : '']" @click="linkToBuyerShow('buyer-show')">
             <i style="position: absolute; top: -17px; left: 34px;">
               <img src="/static/img/common/news.gif" alt="" >
             </i>
             买家秀</a>
         </div>
-        <router-link  v-if="!($store.state.userInfo.role == 0)" class="seller-enter" style="background-color: #FBEF81; color: #B7723E; float: right; font-weight: bold;" to="/seller-adv">
+        <router-link  v-if="!(getUserInfoRole.role === 0)" class="seller-enter" style="background-color: #FBEF81; color: #B7723E; float: right; font-weight: bold;" to="/seller-adv">
           商家入驻必读
         </router-link>
       </div>
     </div>
-    <Modal v-model="buyerShowPop" width="300" height="400">
-      <div class="text-ct">
-        <div style="height: 20px"></div>
-        Coming soon，敬请期待！
-        <div style="height: 20px"></div>
-      </div>
-      <div slot="footer" class="text-ct">
-        <iButton type="error" long large @click="buyerShowPop = false">确定</iButton>
-      </div>
-    </Modal>
   </div>
 
 </template>
@@ -143,7 +117,6 @@
       return {
         searchKey: '',
         navList: [],
-        buyerShowPop:false,
         nvaImgSrc:{
           100: '/static/img/nav-picture/home_07.png',
           200: '/static/img/nav-picture/home_09.png',
@@ -167,6 +140,15 @@
       },
       getUserInfoRole() {
         return this.$store.getters.getUserRole
+      },
+      TaskCategoryActive() {
+        return this.$store.state.TaskCategoryActive
+      },
+      activityCategory() {
+        return this.$store.state.activityCategory
+      },
+      TaskCategoryActiveList() {
+        return this.$store.state.TaskCategoryActiveList
       },
     },
     methods: {
@@ -310,7 +292,7 @@
             position: absolute;
             top: -24px;
             left: 0;
-            a {
+            span {
               display: inline-block;
               height: 24px;
               width: 48px;
@@ -319,7 +301,7 @@
               color: $mainColor;
               line-height: 24px;
             }
-            a.active {
+            span.active {
               color: #fff;
               background-color: $mainColor;
             }
@@ -403,12 +385,13 @@
         border-top: none;
         height: 411px;
         display: none;
+        padding: 5px 0;
         li{
-          padding: 7px 0;
+          padding: 6px 0;
           text-align: center;
           font-size: 14px;
           cursor: pointer;
-          line-height: 31px;
+          line-height: 28px;
           &:hover{
             background-color: #ffe4dc;
           }

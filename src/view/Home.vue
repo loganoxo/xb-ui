@@ -5,24 +5,24 @@
         <div class="home-section">
           <div class="left-ctt left ">
             <ul>
-              <li  v-if="nav.name != '美食/特产' && nav.name != '其它试用'" :class="[$store.state.TaskCategoryActive == nav.id ? 'active' : '']" @click="selTaskCategoryActiveFunc(nav)" v-for="nav in navList" >
-                <img width="16" height="16"  :src="nvaImgSrc[nav.id]" alt="">
+              <li v-if="nav.id !== 600 && !isLogin" :class="[TaskCategoryActive === nav.id ? 'active' : '']" @click="selTaskCategoryActiveFunc(nav)" v-for="nav in navList" >
+                <img width="16" height="16" :src="nvaImgSrc[nav.id]">
                 <span class="ml-5">{{nav.name}}</span>
               </li>
-              <li :class="[$store.state.TaskCategoryActive == 'all' ? 'active' : '']" @click="selTaskCategoryAllFunc">
-                <img width="16" height="16"  src="/static/img/nav-picture/home_26.png" alt="">
+              <li v-if="isLogin" :class="[TaskCategoryActive === nav.id ? 'active' : '']" @click="selTaskCategoryActiveFunc(nav)" v-for="nav in navList" style="padding: 4px 0">
+                <img width="16" height="16" :src="nvaImgSrc[nav.id]">
+                <span class="ml-5">{{nav.name}}</span>
+              </li>
+              <li :class="[TaskCategoryActive === 'all' ? 'active' : '']" @click="selTaskCategoryAllFunc">
+                <img src="/static/img/nav-picture/home_26.png" width="16" height="16">
                 <span class="ml-5">全部活动</span>
               </li>
             </ul>
           </div>
           <div class="middle-ctt left">
             <Carousel autoplay :autoplay-speed="5000" v-model="homeCarousel" loop>
-             <Carousel-item v-if="getUserInfoRole　== 1">
-                <a
-                  href="http://wpa.qq.com/msgrd?v=3&site=qq&menu=yes&uin=806998254"
-                  target="_blank"
-                  class="block"
-                >
+             <Carousel-item v-if="getUserInfoRole　=== 1">
+                <a href="http://wpa.qq.com/msgrd?v=3&site=qq&menu=yes&uin=806998254" target="_blank" class="block">
                   <img class="block" src="/static/img/home/banner_04.png" alt="">
                 </a>
               </Carousel-item>
@@ -61,7 +61,7 @@
                 </a>
               </div>
             </div>
-            <div class="login-in-box" v-if="isLogin && getUserInfoRole　== 0">
+            <div class="login-in-box" v-if="isLogin && getUserInfoRole　=== 0">
               <div>
                 <Tooltip content="上传自定义个性头像，可以提高活动申请通过率哦，点击修改头像！" placement="bottom" class="left">
                   <router-link  tag="img" to="/user/personal-setting/personal-account-info" width="56" :src="userHeadUrl" style="border-radius: 50%" class="cursor-p"></router-link>
@@ -104,7 +104,7 @@
                 </p>
               </div>
             </div>
-            <div class="login-in-box" v-if="isLogin && getUserInfoRole　== 1">
+            <div class="login-in-box" v-if="isLogin && getUserInfoRole　=== 1">
               <div class="clear">
                 <Tooltip content="上传自定义个性头像，可以提高活动申请通过率哦，点击修改头像！" placement="bottom" class="left">
                   <router-link style="border-radius: 50%" tag="img" to="/user/personal-setting/personal-account-info" width="56" :src="userHeadUrl" class="cursor-p"></router-link>
@@ -824,6 +824,9 @@
       getUserRole() {
         return this.$store.getters.getUserRole
       },
+      TaskCategoryActive() {
+        return this.$store.state.TaskCategoryActive
+      },
     },
     mounted: function () {
       this.$nextTick(function () {
@@ -1285,7 +1288,6 @@
         width: 190px;
         height: 410px;
         margin-top: -10px;
-        padding-top: 10px;
         .left-ctt-top{
           height: 50px;
           line-height: 50px;
@@ -1294,12 +1296,13 @@
           font-size: 16px;
         }
         ul {
+          padding: 5px 0;
           li {
-            padding: 7px 0;
+            padding: 6px 0;
             text-align: center;
             font-size: 14px;
             cursor: pointer;
-            line-height: 30px;
+            line-height: 28px;
             img{
               vertical-align: middle;
             }

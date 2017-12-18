@@ -15,52 +15,48 @@
       </div>
 
       <div class="container" >
-        <!--<div v-if="$route.query.activityCategory" class="text-ct mb-10" >
-          <em class="activity-category-tips-left" :style="{borderRightColor: $store.state.TaskCategoryActiveList[$route.query.activityCategory].color }" ></em>
-          <p class="activity-category-tips" :style="{backgroundColor: $store.state.TaskCategoryActiveList[$route.query.activityCategory].color }">
-            {{$store.state.TaskCategoryActiveList[$route.query.activityCategory].desc}}
-          </p>
-          <em class="activity-category-tips-right" :style="{borderLeftColor: $store.state.TaskCategoryActiveList[$route.query.activityCategory].color }" ></em>
-        </div>-->
         <div v-show="!$route.query.searchKey" class="task-category-sel">
           <span v-if="$route.query.activityCategory">{{$store.state.TaskCategoryActiveList[$store.state.activityCategory].text}}：</span>
           <span v-if="!$route.query.activityCategory">宝贝类型：</span>
-          <!--<a v-if="$route.query.searchKey != 'all' && $route.query.searchKey" :class="[!$route.query.cate ? 'active' : '']" @click="selCategoryAllFunc">全部活动</a>-->
           <a :class="[!$route.query.cate ? 'active' : '']" @click="selTaskCategoryAllFunc">全部活动</a>
-          <a v-if="nav.name !== '美食/特产' && nav.name !== '其它试用'" :class="[($route.query.cate == nav.id || parentItemCatalog.id == nav.id) && $route.query.cate ? 'active' : '']" @click="selTaskCategoryActiveFunc(nav)" v-for="nav in navList" >{{nav.name}}</a>
+          <a v-if="nav.id !== 600 && !isLogin" :class="[($route.query.cate === nav.id || parentItemCatalog.id === nav.id) && $route.query.cate ? 'active' : '']" @click="selTaskCategoryActiveFunc(nav)" v-for="nav in navList" >{{nav.name}}</a>
+          <a v-if="isLogin" :class="[($route.query.cate === nav.id || parentItemCatalog.id === nav.id) && $route.query.cate ? 'active' : '']" @click="selTaskCategoryActiveFunc(nav)" v-for="nav in navList" >{{nav.name}}</a>
         </div>
         <div v-show="$route.query.searchKey">
-          <div   class="task-category-sel">
+          <div class="task-category-sel">
             搜索关键词：<span class="main-color">“{{$route.query.searchKey}}”</span>
           </div>
         </div>
         <div v-show="$route.query.cate"  class="task-category-sel">
           {{parentItemCatalog.name}}：
           <a :class="[taskCategoryAll ? 'active' : '' ]"  @click="selTaskCategoryAllChildActiveFunc" >全部</a>
-          <a :class="[category.id == $route.query.cate ? 'active' : 'default']" @click="selTaskCategoryChildActiveFunc(category)"  v-for="category in categoryList" :key="category.id"   >
+          <a v-if="category.id !== 1003 && !isLogin" :class="[category.id === $route.query.cate ? 'active' : 'default']" @click="selTaskCategoryChildActiveFunc(category)"  v-for="category in categoryList" :key="category.id"   >
+            {{category.name}}
+          </a>
+          <a v-if="isLogin" :class="[category.id === $route.query.cate ? 'active' : 'default']" @click="selTaskCategoryChildActiveFunc(category)"  v-for="category in categoryList" :key="category.id"   >
             {{category.name}}
           </a>
         </div>
         <div v-show="!$route.query.searchKey">
           <div v-if="$store.state.TaskCategoryActive === 'price_low'" class="task-category-sel" >
             折扣类型：
-            <a v-for="(k,discountPrice) in $store.state.discountPriceType" :class="[discountTaskCategoryActive == discountPrice ? 'active' : '' ]" @click="selDiscountPriceTypeFunc(k,discountPrice)">{{discountPrice}}试用</a>
+            <a v-for="(k,discountPrice) in $store.state.discountPriceType" :class="[discountTaskCategoryActive === discountPrice ? 'active' : '' ]" @click="selDiscountPriceTypeFunc(k,discountPrice)">{{discountPrice}}试用</a>
           </div>
           <div v-if=" $store.state.TaskCategoryActive === 'goods_clearance'" class="task-category-sel" >
             折扣类型：
-            <a v-for="(k,discountPrice) in $store.state.goodsClearanceList" :class="[discountTaskCategoryActive == discountPrice ? 'active' : '' ]" @click="selDiscountPriceTypeFunc(k,discountPrice)">{{discountPrice}}清仓</a>
+            <a v-for="(k,discountPrice) in $store.state.goodsClearanceList" :class="[discountTaskCategoryActive === discountPrice ? 'active' : '' ]" @click="selDiscountPriceTypeFunc(k,discountPrice)">{{discountPrice}}清仓</a>
           </div>
         </div>
         <div v-if="!$route.query.activityCategory || $route.query.categroyId || $route.query.categroy" class="task-category-sel">
           <span>活动类型：</span>
-          <a  :class="[category == k ? 'active' : '']"  v-for="(TaskCategoryCate,k) in $store.state.TaskCategoryActiveList" @click="selTaskDefaultFunc(k)">{{TaskCategoryCate.text}}</a>
+          <a :class="[category === k ? 'active' : '']"  v-for="(TaskCategoryCate,k) in $store.state.TaskCategoryActiveList" @click="selTaskDefaultFunc(k)">{{TaskCategoryCate.text}}</a>
         </div>
       </div>
       <div class="container">
         <div class="task-category-sort">
           <div class="clear">
             <Button-group size="small" class="left mt-10">
-              <iButton :class="[sortFieldDefault.name == sortField.name ? 'active' : '']" v-for="(sortField,index) in sortFieldList" :key="sortField.name" @click="getSortFieldFunc(sortField, index)">
+              <iButton :class="[sortFieldDefault.name === sortField.name ? 'active' : '']" v-for="(sortField,index) in sortFieldList" :key="sortField.name" @click="getSortFieldFunc(sortField, index)">
                 {{sortField.name}}
                 <Icon v-show="sortField.sort === 'desc' " type="arrow-down-c"></Icon>
                 <Icon v-show="sortField.sort === 'asc' " type="arrow-up-c"></Icon>

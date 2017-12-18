@@ -160,6 +160,7 @@
                   </iOption>
                 </Option-group>
               </iSelect>
+              <span class="ml-20 main-color" v-if="taskRelease.itemType === 1003">旅行相关活动，仅支持飞猪的宝贝</span>
             </div>
             <div class="baby-img ml-45 mt-20">
               <span class="required left mt-20 mr-5">活动主图：</span>

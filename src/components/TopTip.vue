@@ -1,35 +1,34 @@
 <template>
   <div id="topTip" class="top-tip">
     <div class="container">
-
       <p v-show="isLogin" class="left">
         你好，<span class="user-name">
-        <span  @click="openMember"  v-if="getUserInfo.role == 1&&!getMemberLevel">
+        <span  @click="openMember"  v-if="getUserInfo.role === 1 && !getMemberLevel">
            <Tooltip content="亲当前未开通会员，点击图标马上开通" placement="bottom-start" >
               <span><Icon  type="social-vimeo" color="gray"></Icon></span>
             </Tooltip>
         </span>
-        <span  v-if="getUserInfo.role == 1&&getMemberLevel">
+        <span v-if="getUserInfo.role === 1 && getMemberLevel">
           <Icon  type="social-vimeo" color="red"></Icon>
         </span>
         <router-link to="/user/user-home">
-          <span v-if="getUserInfo.role == 1"> 商家 </span>
-          <span v-if="getUserInfo.role == 0"> 秀客 </span>
+          <span v-if="getUserInfo.role === 1"> 商家 </span>
+          <span v-if="getUserInfo.role === 0"> 秀客 </span>
           {{decodeURIComponent(getUserInfo.nickname)}}
         </router-link>
         </span>
         <span @click="goOut">[ 退出登录 ]</span>
-        <a v-if="getUserInfo.role == 1" target="_blank" href="http://shang.qq.com/wpa/qunwpa?idkey=c05716ea03d527adb67d4e23d2a9ed942f729dfb0db13ca332e10996805d2b9d" class="ml-10 qq-tip">
+        <a v-if="getUserInfo.role === 1" target="_blank" href="http://shang.qq.com/wpa/qunwpa?idkey=c05716ea03d527adb67d4e23d2a9ed942f729dfb0db13ca332e10996805d2b9d" class="ml-10 qq-tip">
           <img src="~assets/img/common/qq.png" alt="" >
           加入QQ交流群：
           <span >482437157</span>
-          <span style="color: #000">(内幕玩法抢先得)</span>
+          <span class="cl000">(内幕玩法抢先得)</span>
         </a>
-        <a v-if="getUserInfo.role == 0" target="_blank" href="https://jq.qq.com/?_wv=1027&k=5ZMH7Iu" class="ml-10 qq-tip">
+        <a v-if="getUserInfo.role === 0" target="_blank" href="https://jq.qq.com/?_wv=1027&k=5ZMH7Iu" class="ml-10 qq-tip">
           <img src="~assets/img/common/qq.png" alt="" >
           加入QQ交流群：
           <span >672268939</span>
-          <span style="color: #000">(第一时间抢便宜)</span>
+          <span class="cl000">(第一时间抢便宜)</span>
         </a>
       </p>
       <p v-show="!isLogin" class="left">
@@ -72,7 +71,6 @@
             收藏本站
          </Tooltip>
         </a>
-
       </p>
     </div>
   </div>
@@ -99,13 +97,11 @@
       getUserInfo() {
         return this.$store.state.userInfo
       },
-      getMemberLevel:function () {
+      getMemberLevel() {
         return this.$store.state.userInfo.memberLevel
       }
     },
-    created() {
-
-    },
+    created() {},
     data() {
       return {}
     },
@@ -113,7 +109,7 @@
       ...mapActions([
         'loggedOut'
       ]),
-      openMember(){
+      openMember() {
         this.$router.push({name:'VipMember'})
       },
       goOut() {
@@ -121,7 +117,7 @@
         _this.loggedOut().then(res => {
           if (res.status) {
             _this.$router.push({name: 'login'})
-          }else{
+          } else {
             _this.$Message.error(res.msg)
           }
         })
