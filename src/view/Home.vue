@@ -958,7 +958,13 @@
         api.getHomeHistoryList().then((res) => {
           if (res.status) {
             if (res.data) {
-              self.homeHistoryList = res.data;
+              if(!self.isLogin){
+                self.homeHistoryList = res.data.filter(item => {
+                  return item.itemCatalog.id !== 1003
+                });
+              } else {
+                self.homeHistoryList = res.data.content;
+              }
             }
           } else {
             self.$Message.error(res.msg);
