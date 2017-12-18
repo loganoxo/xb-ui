@@ -592,16 +592,17 @@
           activityCategories: self.searchTaskParams.activityCategories ? JSON.stringify(self.searchTaskParams.activityCategories) : '',
         };
         api.getSearchTask(option).then((res) => {
-          window.scrollTo(0, 0);
           if(res.status){
-            self.pageCount = parseInt(res.data.total);
-            self.searchTaskList = res.data.content;
-            self.$set(self.searchTaskList);
+            self.pageCount = res.data.total;
+            if(!self.isLogin){
+              self.searchTaskList = res.data.content.filter(item => {
+                return item.itemCatalog.id !== 1003
+              });
+            } else {
+              self.searchTaskList = res.data.content;
+            }
           }else {
-            self.$Message.error({
-              content: res.msg,
-              duration: 9
-            });
+            self.$Message.error(res.msg);
           }
         })
       },
@@ -638,7 +639,7 @@
             for(let i = 0; i < self.categoryList.length; i++){
               itemCatalogs.push(self.categoryList[i].id);
               self.historyTaskListParams.itemCatalogs.push(self.categoryList[i].id);
-              if(cate == self.categoryList[i].id){
+              if(cate === self.categoryList[i].id){
                 self.searchTaskParams.itemCatalogs = [parseInt(cate)];
                 self.taskCategoryAll = false;
                 break
