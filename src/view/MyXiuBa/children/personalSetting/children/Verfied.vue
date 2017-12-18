@@ -253,19 +253,19 @@
             if(res.statusCode == 'none realname'){
               self.verifiedState = self.verifiedStatus.verifiedBeg;
             }else {
-              self.verified = res;
-              self.verifiedState = res.status;
+              self.verified = res.data;
+              self.verifiedState = res.data.status;
               if(self.verified.assessReason){
                 self.verifiedValidate.realname = self.verified.realname;
                 self.verifiedValidate.idcard = self.verified.idcard;
                 self.verifiedValidate.picUrl = [
                   {
-                    src: res.picUrl
+                    src: res.data.picUrl
                   }
                 ];
                 self.verifiedValidate.reversePicUrl =  [
                   {
-                    src: res.reversePicUrl
+                    src: res.data.reversePicUrl
                   }
                 ];
               }
