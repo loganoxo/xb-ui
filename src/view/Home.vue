@@ -752,7 +752,7 @@
           700: '/static/img/nav-picture/home_23.png',
           800: '/static/img/nav-picture/home_24.png',
           900: '/static/img/nav-picture/home_25.png',
-          1000: '/static/img/nav-picture/home_26.png',
+          1000: '/static/img/nav-picture/home_27.png',
         },
         buyerShowList:[],
         getMoreBuyerShow:false,
