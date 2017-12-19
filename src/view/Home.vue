@@ -190,7 +190,7 @@
                 <li v-for="item in buyerShowList" class="content cursor-p left pos-rel" >
                   <router-link :to="{path:'/trial-report',query:{q:encryptionId(item.showkerId),showReportDesc:true,id:encryptionId(item.id)}}" :title="item.taskName" target="_blank">
                     <div style="height: 260px">
-                      <img :src="item.trialReportImages+'!thum200'" alt="" width="200" height="260">
+                      <img :src="item.trialReportImages+'!thum400'" alt="" width="200" height="260">
                     </div>
                      <p class="top-heart clear" v-show="item.likeCount !== 0">
                        <Icon type="heart" class="left fs-14 mt" style="margin-top: 2px"></Icon>
@@ -262,7 +262,7 @@
                          :key="homeCommodity.id"
                          :to="{ 'path': '/task-details','query': {'q': encryptionId(homeCommodity.id)}}">
               <div class="home-commodity-img pos-rel">
-                <img class="block" v-lazy="homeCommodity.taskMainImage + '!orgi75'" alt=""/>
+                <img class="block" v-lazy="homeCommodity.taskMainImage +'!thum400'" alt=""/>
                 <span class="applied"> {{homeCommodity.showkerApplyTotalCount || 0}} 人已申请</span>
               </div>
               <div class="home-commodity-text">
@@ -314,7 +314,7 @@
                          :key="homeCommodity.id"
                          :to="{ 'path': '/task-details','query': {'q': encryptionId(homeCommodity.id)}}">
               <div class="home-commodity-img pos-rel">
-                <img class="block" v-lazy="homeCommodity.taskMainImage + '!orgi75'" alt="">
+                <img class="block" v-lazy="homeCommodity.taskMainImage +'!thum400'" alt="">
                 <span class="applied"> {{homeCommodity.showkerApplyTotalCount || 0}} 人已申请</span>
               </div>
               <div class="home-commodity-text">
@@ -378,7 +378,7 @@
                          :key="pinkageFor.id"
                          :to="{ 'path': '/task-details','query': {'q': encryptionId(pinkageFor.id)}}">
               <div class="home-commodity-img pos-rel">
-                <img class="block" v-lazy="pinkageFor.taskMainImage + '!orgi75'" alt="">
+                <img class="block" v-lazy="pinkageFor.taskMainImage +'!thum400'" alt="">
                 <span class="applied"> {{pinkageFor.showkerApplyTotalCount || 0}} 人已申请</span>
               </div>
               <div class="home-commodity-text">
@@ -439,7 +439,7 @@
                          :key="homeDisCount.id"
                          :to="{ 'path': '/task-details','query': {'q': encryptionId(homeDisCount.id), 'discount': true,}}">
               <div class="home-commodity-img pos-rel">
-                <img class="block" v-lazy="homeDisCount.taskMainImage + '!orgi75'"  alt="">
+                <img class="block" v-lazy="homeDisCount.taskMainImage +'!thum400'"  alt="">
                 <span class="applied"> {{homeDisCount.showkerApplyTotalCount || 0}} 人已申请</span>
               </div>
               <div class="home-commodity-text">
@@ -497,7 +497,7 @@
                          :key="homeHistory.id"
                          :to="{ 'path': '/task-details','query': {'q': encryptionId(homeHistory.id)}}">
               <div class="home-commodity-img pos-rel">
-                <img class="block" v-lazy="homeHistory.taskMainImage + '!orgi75'" height="208" width="210">
+                <img class="block" v-lazy="homeHistory.taskMainImage +'!thum400'" height="208" width="210">
                 <span class="applied"> {{homeHistory.showkerApplyTotalCount || 0}} 人已申请</span>
               </div>
               <div class="home-commodity-text">

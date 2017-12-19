@@ -107,7 +107,7 @@
               :to="{ 'path': '/task-details', 'query': {'q': encryptionId(searchTask.id)}}"
               class="task-category-commodity-details">
               <div class="task-category-commodity-img pos-rel">
-                <img class="block" v-lazy="searchTask.taskMainImage + '!orgi75'" height="220" width="220">
+                <img class="block" v-lazy="searchTask.taskMainImage +'!thum400'" height="220" width="220">
                 <span class="applied"> {{searchTask.showkerApplyTotalCount || 0}} 人已申请</span>
               </div>
               <div class="task-category-commodity-text">
@@ -178,7 +178,7 @@
               :to="{ 'path': '/task-details', 'query': {'q': encryptionId(historyTask.id)}}"
               class="task-category-commodity-details">
               <div class="task-category-commodity-img pos-rel">
-                <img class="block" v-lazy="historyTask.taskMainImage + '!orgi75'" alt="" width="220" height="220">
+                <img class="block" v-lazy="historyTask.taskMainImage +'!thum400'" alt="" width="220" height="220">
                 <span class="applied"> {{historyTask.showkerApplyTotalCount || 0}} 人已申请</span>
               </div>
               <div class="task-category-commodity-text">
