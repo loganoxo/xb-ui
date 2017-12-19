@@ -83,7 +83,7 @@
   import Button from 'iview/src/components/button'
   import Radio from 'iview/src/components/radio'
   import api from '@/config/apiConfig'
-  import {getCookie,setCookie,delCookie,setStorage, getStorage,removeStorage} from '@/config/utils'
+  import {getCookie,setCookie,delCookie,setStorage, getStorage,removeStorage, browserRedirect} from '@/config/utils'
   import SmsCountdown from '@/components/SmsCountdown'
   import Modal from 'iview/src/components/modal'
   import RoleTop from '@/components/RoleTop.vue'
@@ -161,28 +161,33 @@
     },
     created(){
       let self = this;
-      self.animateStart.complete = true;
-      //快速注册参数
-      if(self.$route.query.phone){
-        self.showRegister = true;
-        self.loginTrendsCustom.phone = self.$route.query.phone;
-        self.loginTrendsCustom.pwd = self.$route.query.phone.slice(5);
-        self.loginTrendsCustom.repwd = self.$route.query.phone.slice(5);
-        self.loginTrendsCustom.smsCode = self.$route.query.smsCode;
-        self.loginTrendsCustom.validateCode = self.$route.query.validateCode;
-      }
-      //推荐链接推广参数
-      if(!getCookie('recommendCode') && self.$route.query.recommendCode){
-        setCookie('recommendCode', self.$route.query.recommendCode, 30);
-      }
-      //qq快速注册参数
-      if(self.$route.query.accessToken && self.$route.query.qqOpenId){
-        self.showRegister = true;
-        self.showQQFrom = true;
-        self.getVrcode();
-        self.loginTrendsCustom.purpose = 'qq_bind';
-        self.loginTrendsCustom.accessToken = self.$route.query.accessToken;
-        self.loginTrendsCustom.qqOpenId = self.$route.query.qqOpenId;
+      let device = '';
+      if(browserRedirect(device) == 'phone' && self.$route.query.recommendCode){
+        window.location.href = 'http://localhost:8082/sel-role?recommendCode=' + self.$route.query.recommendCode;
+      }else {
+        self.animateStart.complete = true;
+        //快速注册参数
+        if(self.$route.query.phone){
+          self.showRegister = true;
+          self.loginTrendsCustom.phone = self.$route.query.phone;
+          self.loginTrendsCustom.pwd = self.$route.query.phone.slice(5);
+          self.loginTrendsCustom.repwd = self.$route.query.phone.slice(5);
+          self.loginTrendsCustom.smsCode = self.$route.query.smsCode;
+          self.loginTrendsCustom.validateCode = self.$route.query.validateCode;
+        }
+        //推荐链接推广参数
+        if(!getCookie('recommendCode') && self.$route.query.recommendCode){
+          setCookie('recommendCode', self.$route.query.recommendCode, 30);
+        }
+        //qq快速注册参数
+        if(self.$route.query.accessToken && self.$route.query.qqOpenId){
+          self.showRegister = true;
+          self.showQQFrom = true;
+          self.getVrcode();
+          self.loginTrendsCustom.purpose = 'qq_bind';
+          self.loginTrendsCustom.accessToken = self.$route.query.accessToken;
+          self.loginTrendsCustom.qqOpenId = self.$route.query.qqOpenId;
+        }
       }
     },
     methods: {
