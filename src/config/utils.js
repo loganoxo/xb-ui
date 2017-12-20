@@ -55,6 +55,14 @@ export const removeStorage = (name) => {
   window.localStorage.removeItem(name);
 };
 
+/**
+ * 配置环境
+ */
+export const nodeEnv = () => {
+  let env = process.env.NODE_ENV || 'development';
+  env = env.toLowerCase();
+  return env
+};
 
 /**
  * 获取cookie
