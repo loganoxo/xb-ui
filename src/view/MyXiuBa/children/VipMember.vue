@@ -5,7 +5,7 @@
         <img class="vipImg" src="~assets/img/screen-shot/vip_member_title.jpg" alt="">
       </div>
       <div class="explanation ">
-        <p class="tip">如果您在平台上持续发布活动，即可获赠一定时间的VIP时间，具体可联系客服咨询并获取赠送！</p>
+        <p class="tip">如果您在平台上持续发布活动，即可获赠一定时间的VIP，具体可联系客服咨询并获取赠送！</p>
         <p class="mt-10"><strong>VIP会员服务说明</strong></p>
         <p class="mt-5">1、可在服务期内免费使用秀吧所有服务功能；可免费发布秀吧PC、APP所有活动类型；</p>
         <p class="mt-5">2、会员开通后，费用不退还；</p>

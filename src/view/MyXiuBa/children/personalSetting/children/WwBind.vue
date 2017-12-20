@@ -104,7 +104,7 @@
               </Form-item>
               <div>
                 <a class="look-image" @click="changeDemoPicFunc(demoUrl.wwLevelApp)">[查看手淘示例截图]</a>
-                <p class="look-image-tip-text"> 截图位置：打开手淘并登陆后，点击“我的淘宝”，在“必备工具”中选择“我的评价”即可在顶部看到当前旺旺信用等级</p>
+                <p class="look-image-tip-text"> 截图位置：打开手淘并登录后，点击“我的淘宝”，在“必备工具”中选择“我的评价”即可在顶部看到当前旺旺信用等级</p>
                 <a class="look-image mt-6 inline-block" @click="changeDemoPicFunc(demoUrl.wwLevelPc)">[查看PC示例截图]</a>
                 <p class="look-image-tip-text"> 截图位置：打开淘宝首页并登录后，点击顶部“我的淘宝”，然后在左侧菜单列表中点击“评价管理”，即可查看当前旺旺信用等级</p>
               </div>
@@ -160,7 +160,7 @@
               </Form-item>
               <div>
                 <a class="look-image" @click="changeDemoPicFunc(demoUrl.taoqiApp)">[查看手淘示例截图]</a>
-                <p class="look-image-tip-text"> 截图位置：打开手淘并登陆后，点击“我的淘宝”，即可查看到当前账号的淘气值</p>
+                <p class="look-image-tip-text"> 截图位置：打开手淘并登录后，点击“我的淘宝”，即可查看到当前账号的淘气值</p>
                 <a class="look-image mt-6 inline-block" @click="changeDemoPicFunc(demoUrl.taoqiPc)">[查看PC示例截图]</a>
                 <p class="look-image-tip-text">截图位置：打开淘宝首页，将鼠标移至左上角自己的淘宝账户，即可看到自己的淘气值</p>
               </div>
