@@ -963,7 +963,7 @@
                   return item.itemCatalog.id !== 1003 && item.itemCatalog.id !== 608
                 });
               } else {
-                self.homeHistoryList = res.data.content;
+                self.homeHistoryList = res.data;
               }
             }
           } else {
