@@ -163,7 +163,22 @@
       let self = this;
       let device = '';
       if(browserRedirect(device) == 'phone' && self.$route.query.recommendCode){
-        window.location.href = 'http://localhost:8082/sel-role?recommendCode=' + self.$route.query.recommendCode;
+        let recommendUrlObj =  {
+          'development':{
+            urlPc: 'http://localhost:9090/sel-role?recommendCode=',
+            urlPhone: 'http://localhost:8082/sel-role?recommendCode=',
+          },
+          'testing': {
+            urlPc: 'http://192.168.1.142:9080/sel-role?recommendCode=',
+            urlPhone: 'http://192.168.1.142:9088/sel-role?recommendCode=',
+          },
+          'production': {
+            urlPc: 'https://www.xiuba365.com/sel-role?recommendCode=',
+            urlPhone: 'https://m.xiuba365.com/sel-role?recommendCode=',
+          }
+        };
+        let env = nodeEnv();
+        window.location.href = recommendUrlObj[env] + self.$route.query.recommendCode;
       }else {
         self.animateStart.complete = true;
         //快速注册参数
