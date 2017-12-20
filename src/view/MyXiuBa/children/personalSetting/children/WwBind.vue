@@ -101,11 +101,13 @@
                     <Icon type="camera" size="20"></Icon>
                   </div>
                 </Upload>
-                <a class="left ml-35" @click="changeDemoPicFunc(demoUrl.wwLevel)">[查看示例截图]</a>
               </Form-item>
-              <Form-item>
-                截图位置：打开淘宝首页并登录后，点击顶部“我的淘宝”，然后在左侧菜单列表中点击“评价管理”，即可查看当前旺旺信用等级
-              </Form-item>
+              <div>
+                <a class="look-image" @click="changeDemoPicFunc(demoUrl.wwLevelApp)">[查看手淘示例截图]</a>
+                <p class="look-image-tip-text"> 截图位置：打开手淘并登陆后，点击“我的淘宝”，在“必备工具”中选择“我的评价”即可在顶部看到当前旺旺信用等级</p>
+                <a class="look-image mt-6 inline-block" @click="changeDemoPicFunc(demoUrl.wwLevelPc)">[查看PC示例截图]</a>
+                <p class="look-image-tip-text"> 截图位置：打开淘宝首页并登录后，点击顶部“我的淘宝”，然后在左侧菜单列表中点击“评价管理”，即可查看当前旺旺信用等级</p>
+              </div>
               <!--<Form-item label="账号信息截图："  prop="picUrl" class="ww-info-img">
                 <Upload
                   ref="upload"
@@ -128,7 +130,7 @@
               <Form-item>
                 截图位置：我的淘宝->账户设置->安全设置
               </Form-item>-->
-              <Form-item label="淘气值：" prop="taoqizhi">
+              <Form-item label="淘气值：" prop="taoqizhi" class="mt-12">
                 <iSelect v-model="wwFormValidate.taoqizhi">
                   <iOption v-for="taoqizhi in taoqizhiList" :label='taoqizhi.label' :value="taoqizhi.value"
                            :key="taoqizhi.value">
@@ -155,12 +157,14 @@
                     <Icon type="camera" size="20"></Icon>
                   </div>
                 </Upload>
-                <a class="ml-35 left" @click="changeDemoPicFunc(demoUrl.taoqi)">[查看示例截图]</a>
               </Form-item>
-              <Form-item>
-                截图位置：打开淘宝首页，将鼠标移至左上角自己的淘宝账户，即可看到自己的淘气值
-              </Form-item>
-              <Form-item label="收货地址：" prop="address">
+              <div>
+                <a class="look-image" @click="changeDemoPicFunc(demoUrl.taoqiApp)">[查看手淘示例截图]</a>
+                <p class="look-image-tip-text"> 截图位置：打开手淘并登陆后，点击“我的淘宝”，即可查看到当前账号的淘气值</p>
+                <a class="look-image mt-6 inline-block" @click="changeDemoPicFunc(demoUrl.taoqiPc)">[查看PC示例截图]</a>
+                <p class="look-image-tip-text">截图位置：打开淘宝首页，将鼠标移至左上角自己的淘宝账户，即可看到自己的淘气值</p>
+              </div>
+              <Form-item label="收货地址：" prop="address" class="mt-12">
                 <region-picker
                   :auto="true"
                   :placeholder="{province: '选择省份', city: '选择市', district: '选择地区'}"
@@ -411,8 +415,10 @@
         demoUrl: {
           wwAccount: '/static/img/demo/ww-bind/taobao-account-demo.jpg',
           wwAccountInfo: '/static/img/demo/ww-bind/taobao-account-info.png',
-          taoqi: '/static/img/demo/ww-bind/taoqi_demo.png',
-          wwLevel: '/static/img/demo/ww-bind/ww_level_demo.png'
+          taoqiPc: '/static/img/demo/ww-bind/taoqi_demo.png',
+          taoqiApp: '/static/img/demo/ww-bind/taoqi_demo_app.png',
+          wwLevelPc: '/static/img/demo/ww-bind/ww_level_demo.png',
+          wwLevelApp: '/static/img/demo/ww-bind/ww_level_demo_app.png'
         },
         btnState: {
           wwBindBtn: false,
@@ -1003,7 +1009,14 @@
 
     }
   }
-
+  .look-image{
+    margin-left: 150px;
+  }
+  .look-image-tip-text{
+    margin-left: 150px;
+    margin-top: 4px;
+    width: 392px;
+  }
   .my-account {
     .user-safe {
       margin-top: 20px;
