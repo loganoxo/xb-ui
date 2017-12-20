@@ -178,6 +178,7 @@
           }
         };
         let env = nodeEnv();
+        console.log(env);
         window.location.href = recommendUrlObj[env].urlPhone + self.$route.query.recommendCode;
       }else {
         self.animateStart.complete = true;
