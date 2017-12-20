@@ -1016,6 +1016,7 @@
     margin-left: 150px;
     margin-top: 4px;
     width: 392px;
+    line-height: 24px;
   }
   .my-account {
     .user-safe {
