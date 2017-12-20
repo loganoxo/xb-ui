@@ -173,8 +173,10 @@
             urlPhone: 'http://192.168.1.142:9088/sel-role?recommendCode=',
           },
           'production': {
-            urlPc: 'https://www.xiuba365.com/sel-role?recommendCode=',
-            urlPhone: 'https://m.xiuba365.com/sel-role?recommendCode=',
+            // urlPc: 'https://www.xiuba365.com/sel-role?recommendCode=',
+            // urlPhone: 'https://m.xiuba365.com/sel-role?recommendCode=',
+            urlPc: 'http://192.168.1.142:9080/sel-role?recommendCode=',
+            urlPhone: 'http://192.168.1.142:9088/sel-role?recommendCode=',
           }
         };
         let env = nodeEnv();
