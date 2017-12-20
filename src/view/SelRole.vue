@@ -178,7 +178,7 @@
           }
         };
         let env = nodeEnv();
-        window.location.href = recommendUrlObj[env] + self.$route.query.recommendCode;
+        window.location.href = recommendUrlObj[env].urlPhone + self.$route.query.recommendCode;
       }else {
         self.animateStart.complete = true;
         //快速注册参数
