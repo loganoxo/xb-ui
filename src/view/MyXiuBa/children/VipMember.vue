@@ -5,7 +5,8 @@
         <img class="vipImg" src="~assets/img/screen-shot/vip_member_title.jpg" alt="">
       </div>
       <div class="explanation ">
-        <p><strong>VIP会员服务说明</strong></p>
+        <p class="tip">如果您在平台上持续发布活动，即可获赠一定时间的VIP时间，具体可联系客服咨询并获取赠送！</p>
+        <p class="mt-10"><strong>VIP会员服务说明</strong></p>
         <p class="mt-5">1、可在服务期内免费使用秀吧所有服务功能；可免费发布秀吧PC、APP所有活动类型；</p>
         <p class="mt-5">2、会员开通后，费用不退还；</p>
         <p class="mt-5">3、会员周期仅支持向上扩展，不支持向下扩展。譬如：当前会员周期为半年版，在该会员周期到期前不支持购买季度时长的版本。</p>
@@ -350,6 +351,16 @@
       .we-do {
         color: #999999;
       }
+    }
+    .tip{
+      height: 36px;
+      line-height: 36px;
+      border: 1px solid #FFB9B8;
+      border-radius: 5px;
+      background-color: #FFF4F1;
+      text-align: center;
+      color: $mainColor;
+      font-size: 14px;
     }
   }
 

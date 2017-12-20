@@ -120,8 +120,9 @@
                   </div>
                   <div v-if="getUserInfoRole === 1&&getMemberLevel" class="fs-12">
                     <Icon type="social-vimeo" class="cl-red"></Icon>
-                    <span>到期时间:{{Math.floor((parseInt(getMemberDeadline) - parseInt((new Date().getTime()))) / 86400000)}}天</span>
-                    <router-link to="/user/vip-member">续费</router-link>
+                    <span class="cl-red">您已是VIP，发布活动免费无上限</span>
+                   <!-- <span>到期时间:{{Math.floor((parseInt(getMemberDeadline) - parseInt((new Date().getTime()))) / 86400000)}}天</span>
+                    <router-link to="/user/vip-member">续费</router-link>-->
                   </div>
                 </div>
                 <p class="clear-both fs-14 mt-10 left ml-20">当前进行的活动：
@@ -1364,8 +1365,7 @@
         }
         .login-in-box {
           background-color: #fff;
-          padding: 15px;
-          height: 205px;
+          padding: 15px 8px;
           margin-bottom: 10px;
           img.portrait-img {
             width: 56px;

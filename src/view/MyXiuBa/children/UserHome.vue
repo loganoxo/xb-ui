@@ -31,9 +31,10 @@
           </span>
             <span v-if="getUserInfoRole === 1&&getMemberLevel">
             <Icon type="social-vimeo" class="cl-red"></Icon>
-            会员版本：{{levelValue+'版'}}
+            <span class="cl-red">您已是VIP用户，发布活动免费无上限。</span>
+            <!--会员版本：{{levelValue+'版'}}
             <span class="ml-10">到期时间:{{Math.floor((parseInt(getMemberDeadline) -parseInt( (new Date().getTime())))/86400000)}}天</span>
-            <router-link to="/user/vip-member">续费</router-link>
+            <router-link to="/user/vip-member">续费</router-link>-->
           </span>
             <span>可用金额：{{getUserBalance}} 元 </span>
             <span>提现中：{{userData.userAccount.enChashingMoney ? (userData.userAccount.enChashingMoney/100): 0 }} 元  </span>

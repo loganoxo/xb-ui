@@ -38,7 +38,7 @@
               <iOption value="招商银行">招商银行</iOption>
               <iOption value="中国银行">中国银行</iOption>
               <iOption value="兴业银行">兴业银行</iOption>
-              <iOption value="浦发银行">浦发银行</iOption>
+              <iOption value="浦发银行">上海浦东发展银行</iOption>
               <iOption value="中信银行">中信银行</iOption>
               <iOption value="广发银行">广发银行</iOption>
               <iOption value="民生银行">民生银行</iOption>

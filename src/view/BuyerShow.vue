@@ -233,7 +233,7 @@
       let self = this;
       self.$store.commit({
         type: 'SET_SHOW_TOP_CATEGORY_RES',
-        result: false,
+        result: true,
       });
     },
     name: 'BuyerShow',
