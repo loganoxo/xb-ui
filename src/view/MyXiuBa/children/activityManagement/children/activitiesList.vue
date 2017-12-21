@@ -61,7 +61,7 @@
           <Icon v-show="item.sort == 'asc' " type="arrow-up-c"></Icon>
         </iButton>
       </ButtonGroup>
-      <iInput v-model="taskNumber" size="small" placeholder="使用活动编号搜索" class="left ml-10" style="width: 280px;"
+      <iInput v-model="taskNumber" size="small" placeholder="使用活动编号或者订单号搜索" class="left ml-10" style="width: 280px;"
               @on-enter="getTaskList">
         <iButton slot="append" icon="ios-search" size="small" :loading="searchLoading" @click="searchTaskList"></iButton>
       </iInput>
