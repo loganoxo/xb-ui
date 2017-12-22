@@ -45,7 +45,8 @@
       setUserInfo() {
         let _this = this;
         api.QQLoginFunc({
-          accessToken: _this.accessToken.accessToken
+          accessToken: _this.accessToken.accessToken,
+          platForm: 'PC',
         }).then(res => {
           if (res.status) {
             _this.$store.commit({
