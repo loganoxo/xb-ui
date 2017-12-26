@@ -857,9 +857,11 @@
           count: 6,
           activityCategory: 'pinkage_for_10',
         }).then((res) => {
-          if (res.status && res.data) {
-            self.pinkageFor10 = res.data;
-            self.$set(self.pinkageFor10);
+          if (res.status) {
+            if(res.data){
+              self.pinkageFor10 = res.data;
+              // self.$set(self.pinkageFor10);
+            }
           } else {
             self.$Message.error(res.msg);
           }
@@ -871,9 +873,11 @@
           count: 6,
           activityCategory: 'present_get',
         }).then((res) => {
-          if (res.status && res.data) {
-            self.presentGet = res.data;
-            self.$set(self.presentGet);
+          if (res.status) {
+            if(res.data){
+              self.presentGet = res.data;
+              // self.$set(self.presentGet);
+            }
           } else {
             self.$Message.error(res.msg);
           }
@@ -924,8 +928,10 @@
           count: 6,
           activityCategory: '',
         }).then((res) => {
-          if (res.status && res.data) {
-            self.homeCommodityList = res.data;
+          if (res.status) {
+            if(res.data){
+              self.homeCommodityList = res.data;
+            }
           } else {
             self.$Message.error(res.msg);
           }
@@ -934,11 +940,13 @@
       getNavList(){
         let self = this;
         api.getNavList().then((res) =>{
-          if(res.status && res.data){
-            res.data.sort(function(a, b){
-              return a.sortIndex - b.sortIndex
-            });
-            self.navList = res.data;
+          if(res.status){
+            if(res.data){
+              res.data.sort(function(a, b){
+                return a.sortIndex - b.sortIndex
+              });
+              self.navList = res.data;
+            }
           }else {
             self.$Message.error(res.msg);
           }
@@ -948,7 +956,9 @@
         let self = this;
         api.getHomeTaskTopLeftList().then((res) => {
           if (res.status) {
-            self.taskTopLeftList = res.data;
+            if(res.data){
+              self.taskTopLeftList = res.data;
+            }
           } else {
             self.$Message.error(res.msg);
           }
