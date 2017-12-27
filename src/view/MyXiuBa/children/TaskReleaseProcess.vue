@@ -122,7 +122,7 @@
             <iInput v-model.number="taskRelease.taskDaysDuration" placeholder="请输入活动时长" style="width: 120px"></iInput>
             <span>天</span>
             <span class="main-color ml-10">请于活动结束后48小时内审批完成所有秀客资格，逾期系统将自动为您审批。</span>
-            <p class="mt-6 pl-60">（单期活动时间为3-30天。）</p>
+            <p class="mt-6 pl-68">（单期活动时间为3-30天。）</p>
           </div>
           <div class="trial-condition ml-35 mt-20">
             <span class="ml-5">秀客申请条件：</span>
@@ -131,10 +131,11 @@
             <!--<p class="pl-94 mt-8">-->
               <Checkbox v-model="taskRelease.refuseOldShowker">拒绝已参加过本店活动的秀客再次申请</Checkbox>
             <!--</p>-->
-            <p class="pl-94 mt-8">
-              <Checkbox :disabled="true" v-model="taskRelease.needBrowseCollectAddCart">必须先完成浏览、收藏、加购，才可以申请活动资格</Checkbox>
-              <span class="main-color">（收藏加购正在调整升级中，暂不可操作）</span>
-            </p>
+          </div>
+          <div class="trial-condition ml-60 mt-20">
+            <span class="ml-4"> 收藏加购：</span>
+            <Checkbox v-model="taskRelease.needBrowseCollectAddCart">需要</Checkbox>
+            <span class="sizeColor">（系统会随机让部分秀客完成对宝贝的收藏加购，活动上线后您可以在生意参谋后台查看收藏加购有无增加）</span>
           </div>
           <div class="baby-info mt-22">
             <div class="activity-info-title">填写活动宝贝信息</div>
@@ -1616,9 +1617,6 @@
             }
             if(res.data.discountType === 'discount_r_50'){
               _this.taskRelease.discountType = 'discount_0'
-            }
-            if(res.data.needBrowseCollectAddCart){
-              _this.taskRelease.needBrowseCollectAddCart = false;
             }
             if( _this.taskRelease.onlyShowForQualification){
               _this.taskRelease.onlyShowForQualification = false;
