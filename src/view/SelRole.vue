@@ -223,7 +223,8 @@
           smsCode: self.loginTrendsCustom.smsCode,
           role: self.loginTrendsCustom.role,
           purpose: self.loginTrendsCustom.purpose,
-          recommendCode: recommendCode
+          recommendCode: recommendCode,
+          platForm: 'PC',
         }).then((res) => {
           if (res.status) {
             self.$store.commit({
@@ -303,7 +304,8 @@
           role: self.loginTrendsCustom.role,
           validateCode: self.loginTrendsCustom.validateCode,
           purpose: self.loginTrendsCustom.purpose,
-          recommendCode: recommendCode
+          recommendCode: recommendCode,
+          platForm: 'PC',
         }).then((res) => {
           if (res.status) {
             self.$Message.success({

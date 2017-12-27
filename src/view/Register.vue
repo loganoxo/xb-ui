@@ -623,7 +623,8 @@
           validateCode: self.formCustom.validateCode,
           role: self.formCustom.role,
           purpose: 'reg',
-          recommendCode: recommendCode
+          recommendCode: recommendCode,
+          platForm: 'PC',
         }).then((res) => {
           if (res.status) {
             self.$Message.success({
@@ -661,7 +662,8 @@
           validateCode: self.formCustom.validateCode,
           role: self.formCustom.role,
           purpose: 'reg',
-          recommendCode: recommendCode
+          recommendCode: recommendCode,
+          platForm: 'PC',
         }).then((res) => {
           if (res.status) {
             self.$Message.success({
