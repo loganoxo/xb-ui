@@ -136,9 +136,11 @@
           <!--<p class="pl-94 mt-8">-->
             <Checkbox v-model="taskRelease.refuseOldShowker" disabled>拒绝已参加过本店活动的秀客再次申请</Checkbox>
           <!--</p>-->
-          <p class="pl-94 mt-8">
-            <Checkbox v-model="taskRelease.needBrowseCollectAddCart" disabled>必须先完成浏览、收藏、加购，才可以申请活动资格</Checkbox>
-          </p>
+        </div>
+        <div class="trial-condition ml-60 mt-20">
+          <span class="ml-4"> 收藏加购：</span>
+          <Checkbox v-model="taskRelease.needBrowseCollectAddCart" disabled>需要</Checkbox>
+          <span class="size-color">（系统会随机让部分秀客完成对宝贝的收藏加购，活动上线后您可以在生意参谋后台查看收藏加购有无增加）</span>
         </div>
         <div class="baby-info mt-22">
           <div class="activity-info-title">填写活动宝贝信息</div>
@@ -155,8 +157,8 @@
           <div class="baby-title ml-45 mt-20">
             <span class="required">宝贝类型：</span>
             <iSelect v-model="taskRelease.itemType" disabled style="width:200px">
-              <Option-group v-for="parentItem in itemCatalogList" v-if="parentItem.level == 1" :label="parentItem.name" :key="parentItem.id">
-                <iOption v-if="item.level == 2 && item.parentItemCatalog && item.parentItemCatalog.id == parentItem.id" v-for="item in itemCatalogList" :value="item.id" :key="item.id">{{ item.name }}
+              <Option-group v-for="parentItem in itemCatalogList" v-if="parentItem.level === 1" :label="parentItem.name" :key="parentItem.id">
+                <iOption v-if="item.level === 2 && item.parentItemCatalog && item.parentItemCatalog.id === parentItem.id" v-for="item in itemCatalogList" :value="item.id" :key="item.id">{{ item.name }}
                 </iOption>
               </Option-group>
             </iSelect>
