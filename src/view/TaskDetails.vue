@@ -316,14 +316,13 @@
       </div>
     </div>
     <Modal
-      v-model="selWw" class-name="vertical-center-modal" ok-text="确定" cancel-text="" @on-ok="selWwFunc(wwList)">
+      v-model="selWwModel" class-name="vertical-center-modal" ok-text="确定" cancel-text="" @on-ok="selWwFunc()">
       <p class="fs-18 fb mt-20" style="color: #FF6600">请选择活动旺旺号:</p>
       <p class="fs-14 mt-10">注意：请 <span style="color: #FF6600">务必使用选的旺旺号下单购买</span>，否则订单审核将无法通过！</p>
       <Radio-group class="mt-20" v-model="selectedWw">
         <Radio v-for="ww in wwList" :label="ww.id" :key="ww.id" :disabled="wwState[ww.status].disabled">
-          <span :class="[ww.status !=2 ? 'cl999':'']">{{ww.alitmAccount}}</span>
-          <span v-if="wwState[ww.status].text"
-                :class="[ww.status !=2 ? 'cl999':'']">({{wwState[ww.status].text}})</span>
+          <span :class="[ww.status !== 2 ? 'cl999':'']">{{ww.alitmAccount}}</span>
+          <span v-if="wwState[ww.status].text" :class="[ww.status !== 2 ? 'cl999':'']">({{wwState[ww.status].text}})</span>
         </Radio>
       </Radio-group>
       <span v-if="!canUseWw" style="color: #FF6600">（无可用旺旺号）</span>
@@ -370,7 +369,7 @@
         <div><p class="fs-20 f-b">亲，你还没绑定旺旺号 </p><br> <span class="fs-12">请先绑定旺旺号在申请活动!</span></div>
       </div>
     </Modal>
-    <Modal
+  <!--  <Modal
       v-if="needBrowseCollectAddCart"
       v-model="showkerApplyBefore"
       :closable="false"
@@ -397,7 +396,7 @@
         ></task-apply-before>
       </div>
       <p slot="footer"></p>
-    </Modal>
+    </Modal>-->
   </div>
 
 </template>
@@ -446,7 +445,7 @@
       return {
         copyHtml: '',
         copyValue: '',
-        showkerApplyBefore: false,
+        // showkerApplyBefore: false,
         needBrowseCollectAddCart: false,
         showkerTask: {},
         storeName: '',
@@ -463,7 +462,7 @@
         selectLogin: false,
         trialReportPicShow: false,
         trialReportPic: '',
-        selWw: false,
+        selWwModel: false,
         selectedWw: '',
         wwList: {},
         tryImgShow: false,
@@ -615,15 +614,15 @@
         this.applySuccess = false;
         self.getTaskDetails();
       },
-      closeMyPop() {
-        this.showkerApplyBefore = false;
+     /* closeMyPop() {
+          this.showkerApplyBefore = false;
         if (this.$route.query.resubmit) {
           this.$router.push({name: 'ApplyWaitAudit'});
         }
       },
       getShowkerApplyBefore(payPopWindow) {
         if (payPopWindow === null) {
-          this.showkerApplyBefore = false;
+            this.showkerApplyBefore = false;
           if (this.$route.query.resubmit) {
             this.$router.push({name: 'ApplyWaitAudit'});
           }
@@ -646,7 +645,7 @@
       },
       changeNameType(type) {
         return TaskErrorStatusList(type);
-      },
+      },*/
       applyForTrialFunc() {
         let self = this;
         if (!self.$store.state.login) {
@@ -657,14 +656,15 @@
             }
           });
         } else {
-          if (self.needBrowseCollectAddCart) {
+          self.getShowkerCanTrial();
+          /*if (self.needBrowseCollectAddCart) {
             self.getShowWwList();
           } else {
             self.getShowkerCanTrial();
-          }
+          }*/
         }
       },
-      getShowWwList() {
+/*      getShowWwList() {
         let self = this;
         self.taskId = self.getTaskId;
         api.getShowkerCanTrial({
@@ -692,21 +692,21 @@
             }
           }
         })
-      },
+      },*/
       getShowkerCanTrial() {
         let self = this;
         self.taskApplyLoading = true;
-        api.getShowkerCanTrial({
+        api.showkerCanTrial({
           taskId: decode(self.$route.query.q)
         }).then((res) => {
           self.taskApplyLoading = false;
           if (res.status) {
-            self.selWw = true;
-            let selRes = false;
+            self.selWwModel = true;
+            // let selRes = false;
             self.wwList = res.data.alitmList;
             for (let i = 0, j = res.data.alitmList.length; i < j; i++) {
               if (res.data.alitmList[i].status === 2) {
-                selRes = true;
+                // selRes = true;
                 self.canUseWw = true;
                 break;
               }
@@ -827,22 +827,20 @@
 
         })
       },
-      selWwFunc(alitms) {
+      selWwFunc() {
         let self = this;
         let selRes = false;
-        for (let i = 0, j = alitms.length; i < j; i++) {
-          if (alitms[i].status == 2) {
+        for (let i = 0, j = self.wwList.length; i < j; i++) {
+          if (self.wwList[i].status === 2) {
             selRes = true;
             break;
           }
         }
         if (selRes) {
-          if (self.selectedWw == '') {
-            this.$Message.info({
-              content: '请选择旺旺号',
-            });
+          if (self.selectedWw === '') {
+            self.$Message.info('请选择旺旺号');
           } else {
-            api.ShowkerApplySelWwId({
+            api.showkerApplySelWwId({
               wangwangId: self.selectedWw,
               taskId: decode(self.$route.query.q),
               searchCondition: null,

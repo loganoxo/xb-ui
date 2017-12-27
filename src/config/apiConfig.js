@@ -549,14 +549,14 @@ export default {
   /**
    * 秀客能否申请活动
    */
-  getShowkerCanTrial(params) {
+  showkerCanTrial(params) {
     return fetch("/api/task/showker/qualification/check.json", params)
   },
 
   /**
    * 秀客申请活动任务
    */
-  ShowkerApplySelWwId(params) {
+  showkerApplySelWwId(params) {
     return fetch("/api/task/showker/apply.json", params)
   },
 

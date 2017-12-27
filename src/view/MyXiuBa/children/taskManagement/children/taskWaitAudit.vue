@@ -53,8 +53,8 @@
                 <iButton :class="[sortList.select === item.sortField ? 'ww-active' : '']" size="small"
                          v-for="(item,index) in sortList.defaultList" :key="index" @click="sortChange(item.sortField,index)">
                   <span>{{item.name}}</span>
-                  <Icon v-show="item.sort == 'desc'" type="arrow-down-c"></Icon>
-                  <Icon v-show="item.sort == 'asc' " type="arrow-up-c"></Icon>
+                  <Icon v-show="item.sort === 'desc'" type="arrow-down-c"></Icon>
+                  <Icon v-show="item.sort === 'asc' " type="arrow-up-c"></Icon>
                 </iButton>
               </th>
               <th width="20%">申请时间</th>
@@ -73,8 +73,7 @@
               </td>
               <td>{{allTask.applyTime | dateFormat('YYYY-MM-DD hh:mm:ss')}}</td>
               <td class="registration">
-                <router-link :to="{ 'path': '/trial-report','query': {'q': encryptionId(allTask.showkerId)}}">查看
-                </router-link>
+                <router-link :to="{ 'path': '/trial-report','query': {'q': encryptionId(allTask.showkerId)}}">查看</router-link>
               </td>
               <td>
                 <Tooltip v-if="allTask.reason && allTask.status === 'waiting_resubmit'" :content="allTask.reason"
@@ -86,9 +85,9 @@
               </td>
               <td>
                 <p class="del-edit">
-                  <span v-if="item.needBrowseCollectAddCart"
-                        @click="taskWaitToAudit(allTask.id,allTask.alitmAccount,allTask.screenshot,item.endTime,allTaskIndex)">审批</span>
-                  <span class="ml-5" @click="taskWaitToPass(allTask.id, 'true',allTaskIndex)">通过</span>
+                 <!-- <span v-if="item.needBrowseCollectAddCart"
+                        @click="taskWaitToAudit(allTask.id,allTask.alitmAccount,allTask.screenshot,item.endTime,allTaskIndex)">审批</span>-->
+                  <span class="ml-5" @click="taskWaitToPass(allTask.id, 'true')">通过</span>
                   <span v-if="allTask.newest" class="ml-5" @click="markRead(item.id,allTask.id)">设为已读</span>
                 </p>
               </td>
@@ -111,7 +110,7 @@
       <Page :total="totalElements" :page-size="pageSize" :current="pageIndex" @on-change="pageChange"></Page>
     </div>
     <!--审核秀客图片-->
-    <template v-if="showApprovalPop">
+  <!--  <template v-if="showApprovalPop">
       <Modal v-model="approvalPopInfo.approvalPop" :transfer="false" width="600">
         <AuditShowker
           :applyName="approvalPopInfo.applyName"
@@ -122,7 +121,7 @@
         </AuditShowker>
         <div slot="footer" style="padding: 0px ; border: none"></div>
       </Modal>
-    </template>
+    </template>-->
   </div>
 </template>
 
@@ -137,7 +136,6 @@
   import Tooltip from 'iview/src/components/tooltip'
   import Modal from 'iview/src/components/modal'
   import CollapseTransition from 'iview/src/components/base/collapse-transition'
-  import AuditShowker from '@/components/AuditShowker'
   import api from '@/config/apiConfig'
   import {TaskErrorStatusList, encryption} from '@/config/utils'
 
@@ -156,7 +154,6 @@
       Icon: Icon,
       Tooltip: Tooltip,
       Modal: Modal,
-      AuditShowker: AuditShowker,
       CollapseTransition: CollapseTransition
     },
     data() {
@@ -319,8 +316,8 @@
             },
           ]
         },
-        sortD:null,
-        orderBy:null,
+        sortD: null,
+        orderBy: null,
       }
     },
     mounted() {
@@ -338,7 +335,7 @@
         this.sortList.defaultList[index].sort = sort === 'desc' ? 'asc' : 'desc';
         this.sortD = sort === 'desc' ? 'asc' : 'desc';
         this.orderBy = name;
-        this.appliesWaitingAuditAll(this.selectId,this.index)
+        this.appliesWaitingAuditAll(this.selectId, this.index)
       },
       encryptionId(id) {
         return encryption(id)
@@ -406,7 +403,7 @@
           }
         })
       },
-      appliesWaitingAuditAll(taskId, index,orderBy,sortD) {
+      appliesWaitingAuditAll(taskId, index) {
         let _this = this;
         _this.operateTaskId = taskId;
         _this.operateIndex = index;
@@ -415,8 +412,8 @@
           pageIndex: _this.taskPageIndex,
           tqz: _this.wwFormValidate.tqz,
           creditLevel: _this.wwFormValidate.creditLevel,
-          orderBy:_this.orderBy||null,
-          sortD:_this.sortD||null,
+          orderBy: _this.orderBy,
+          sortD: _this.sortD,
         }).then(res => {
           if (res.status) {
             if (res.data.content.length > 0) {

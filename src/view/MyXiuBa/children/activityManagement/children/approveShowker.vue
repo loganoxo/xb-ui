@@ -73,8 +73,7 @@
                 <td>{{getTaskStatus(item.status)}}</td>
                 <td>
                   <p class="del-edit">
-                    <span class="mr-40" v-show="approveTaskInfo.needBrowseCollectAddCart"
-                          @click="getUserScreenShot(item.id,item.alitmAccount)">审核</span>
+                    <!--<span class="mr-40" v-show="approveTaskInfo.needBrowseCollectAddCart" @click="getUserScreenShot(item.id,item.alitmAccount)">审核</span>-->
                     <span @click="showkerPassAudit(item.id, 'true')">通过</span>
                   </p>
                 </td>
@@ -159,8 +158,7 @@
                 <td>
                   <p class="del-edit">
                     <span v-if="item.status === 'order_num_waiting_audit'" @click="openCheckOrder(item.id)">审核订单号</span>
-                    <span v-else-if="item.status === 'trial_report_waiting_confirm'"
-                          @click="goProbationReport(item.id)">审核买家秀</span>
+                    <span v-else-if="item.status === 'trial_report_waiting_confirm'" @click="goProbationReport(item.id)">审核买家秀</span>
                     <span v-else>------</span>
                   </p>
                 </td>
@@ -168,7 +166,7 @@
               </tbody>
               <tbody v-if="approveTableList.length === 0">
               <tr>
-                <td colspan="4" width="100%">暂无数据</td>
+                <td colspan="5" width="100%">暂无数据</td>
               </tr>
               </tbody>
             </table>
@@ -289,7 +287,7 @@
         </div>
       </div>
       <!--审核图片弹窗-->
-      <Modal v-model="approvalPop" :transfer="false" width="600">
+     <!-- <Modal v-model="approvalPop" :transfer="false" width="600">
         <AuditShowker
           :applyName="applyName"
           :userScreenShotImg="userScreenShotImg"
@@ -298,7 +296,7 @@
           @request="auditSuccess">
         </AuditShowker>
         <div slot="footer" style="padding: 0px ; border: none"></div>
-      </Modal>
+      </Modal>-->
     </div>
   </div>
 </template>
@@ -314,7 +312,6 @@
   import Radio from 'iview/src/components/radio'
   import PayModel from '@/components/PayModel'
   import TimeDown from '@/components/TimeDown'
-  import AuditShowker from '@/components/AuditShowker'
   import api from '@/config/apiConfig'
   import {TaskErrorStatusList, encryption, decode} from '@/config/utils'
   export default {
@@ -334,7 +331,6 @@
       RadioGroup: Radio.Group,
       TimeDown: TimeDown,
       PayModel: PayModel,
-      AuditShowker: AuditShowker,
     },
     data() {
       return {
@@ -676,16 +672,10 @@
           if (res.status) {
             _this.$store.dispatch('getUserInformation');
             _this.showCheckOrder = false;
-            _this.$Message.success({
-              content: '支付成功！',
-              duration: 6
-            });
+            _this.$Message.success('支付成功！');
             _this.taskApplyList();
           } else {
-            _this.$Message.error({
-              content: res.msg,
-              duration: 6
-            })
+            _this.$Message.error(res.msg)
           }
         })
       },
@@ -704,23 +694,17 @@
           msg: _this.orderNoPassReason
         }).then(res => {
           if (res.status) {
-            _this.$Message.success({
-              content: '订单号审核成功！',
-              duration: 4
-            });
+            _this.$Message.success('订单号审核成功！');
             _this.$store.dispatch('getUserInformation');
             _this.taskApplyList();
             _this.closeCheckOrder();
           } else {
-            _this.$Message.error({
-              content: res.msg,
-              duration: 4
-            });
+            _this.$Message.error(res.msg);
             _this.closeCheckOrder();
           }
         })
       },
-      getUserScreenShot(id, name) {
+    /*  getUserScreenShot(id, name) {
         let _this = this;
         _this.passId = id;
         _this.applyName = name;
@@ -734,7 +718,7 @@
             _this.$Message.error(res.msg)
           }
         })
-      }
+      }*/
     },
   }
 </script>
