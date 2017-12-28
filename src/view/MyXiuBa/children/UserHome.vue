@@ -24,12 +24,12 @@
               to="/user/personal-setting/verified">去认证</router-link></span>
           </p>
           <p>
-          <span v-if="getUserInfoRole === 1 && !getMemberLevel">
+          <span v-if="getUserInfoRole === 1 && membershipIsExpire">
             <Icon type="social-vimeo" class="cl999"></Icon>
             <span>非会员</span>
             <router-link to="/user/vip-member">马上开通会员</router-link>
           </span>
-            <span v-if="getUserInfoRole === 1&&getMemberLevel">
+            <span v-if="getUserInfoRole === 1 && !membershipIsExpire">
             <Icon type="social-vimeo" class="cl-red"></Icon>
             <span class="cl-red">您已是VIP用户，发布活动免费无上限。</span>
             <!--会员版本：{{levelValue+'版'}}
@@ -227,7 +227,6 @@
       this.getHomeTaskList();
       this.personalTrialCount();
       this.$store.dispatch('getUserInformation');
-      this.getUserMemberLevelInfo();
     },
     computed: {
       getUserInfoRole() {
@@ -242,8 +241,8 @@
       getMemberDeadline() {
         return this.$store.state.userInfo.memberDeadline
       },
-      getMemberLevel() {
-        return this.$store.state.userInfo.memberLevel
+      membershipIsExpire() {
+        return this.$store.getters.getMembershipIsExpire
       },
       userHeadUrl() {
         return this.$store.getters.getUserHeadUrl

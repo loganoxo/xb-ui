@@ -18,29 +18,28 @@
                    @click="changeStyle(index,item.validDays,item.validDaysDesc,item.finalFee,item.level,item.id)"
                    :disabled=" memberLevelInfo.validDays >item.validDays">
             <p class="price">￥{{item.finalFee / 100}}元</p>
-            <p class="mt-10">会员时长 <span
-              style="font-size: 20px">{{item.validDaysDesc}}</span><span>({{item.validDays}}天)</span></p>
+            <p class="mt-10">会员时长 <span class="fs-20">{{item.validDaysDesc}}</span><span>({{item.validDays}}天)</span></p>
           </iButton>
         </div>
         <div class="mt-30 member-time">
-          <p class="mb-10" v-if="getMemberLevel === null">您当前为：非会员</p>
-          <p class="mb-10" v-if="getMemberLevel !== null">
+          <p class="mb-10" v-if="membershipIsExpire">您当前为：非会员</p>
+          <p class="mb-10" v-if="!membershipIsExpire">
             您当前的会员版本为&nbsp;<span class="my-color">{{memberLevelInfo.validDaysDesc+'版'}}</span> ，到期时间：{{getMemberDeadline | dateFormat('YYYY-MM-DD')}}</p>
-          <p v-if="getMemberLevel !== memberLevel && getMemberLevel !== null" style="font-size: 14px">您已选择<span
+          <p v-if="getMemberLevel !== memberLevel && !membershipIsExpire" class="fs-14">您已选择<span
             class="my-color">升级</span> <strong>{{year}}会员</strong>，有效期至
             <span style="color: #FC9F84">{{endTime | dateFormat('YYYY-MM-DD ')}}</span>
             <span>根据您现在的会员版本可折价抵扣：<strong>{{moneyRemaining/100}}元</strong>,成功升级后现有版本将失效</span>
           </p>
-          <p v-if="getMemberLevel === memberLevel" style="font-size: 14px">您已选择 <span class="my-color">续费</span>
+          <p v-if="getMemberLevel === memberLevel && !membershipIsExpire" class="fs-14">您已选择 <span class="my-color">续费</span>
             <strong>{{year}}</strong>会员，有效期至
             <span class="my-color">{{endTime | dateFormat('YYYY-MM-DD ')}}</span>
           </p>
-          <p v-if="getMemberLevel === null" style="font-size: 14px">
+          <p v-if="membershipIsExpire || !getMemberLevel" class="fs-14">
             您已选择<strong>{{year}}会员</strong>，有效期至
             <span style="color: #FC9F84">{{endTime | dateFormat('YYYY-MM-DD ')}}</span>
           </p>
           <p class="mt-10">本次总共要支付的金额为：<strong>{{rechargeSum > 0 ? rechargeSum : 0}}</strong>元,您的账户余额为：<strong>{{getUserBalance}}</strong>元 <span
-            v-if="needRecharge>0">，还需要充值：<strong>{{needRecharge}}</strong>元。</span></p>
+            v-if="needRecharge>0">，还需要充值：<strong>{{(needRecharge).toFixed(2)}}</strong>元。</span></p>
         </div>
         <div v-if="needRecharge > 0" class="text-ct mt-20">
           <iButton class="btn-recharge" @click="recharge = true">前去充值</iButton>
@@ -153,49 +152,39 @@
       getMemberLevel: function () {
         return this.$store.state.userInfo.memberLevel
       },
+      membershipIsExpire() {
+        return this.$store.getters.getMembershipIsExpire
+      },
       getMemberDeadline: function () {
         return this.$store.state.userInfo.memberDeadline
       }
     },
     watch: {},
     methods: {
-      getMemberLevelDes(getMemberLevel){
-        if (getMemberLevel === 100){
-          return '季度版'
-        }
-        if (getMemberLevel === 200){
-          return '半年版'
-        }
-        if (getMemberLevel === 300){
-          return '一年版'
-        }
-        if (getMemberLevel === 400){
-          return '两年版'
-        }
-      },
       changeStyle(select, day, year, recharge, level, id) {
-        this.isSelect = select;
-        this.year = year;
-        this.memberLevel = level;
-        this.memberId = id;
-        let stopTime;
-        if (level === this.getMemberLevel) {
-          stopTime = new Date().getTime() + parseInt(day) * 24 * 3600 * 1000 + this.timeRemaining * 24 * 3600 * 1000;
-          this.endTime = stopTime;
-          this.rechargeSum =(recharge / 100).toFixed(2);
-          if (this.rechargeSum - this.getUserBalance < 0) {
-            this.needRecharge = 0
+        let _this = this;
+        let stopTime = null;
+        _this.isSelect = select;
+        _this.year = year;
+        _this.memberLevel = level;
+        _this.memberId = id;
+        if (level === _this.getMemberLevel) {
+          stopTime = new Date().getTime() + parseInt(day) * 24 * 3600 * 1000 + _this.timeRemaining * 24 * 3600 * 1000;
+          _this.endTime = stopTime;
+          _this.rechargeSum =(recharge / 100).toFixed(2);
+          if (_this.rechargeSum - _this.getUserBalance < 0) {
+            _this.needRecharge = 0
           } else {
-            this.needRecharge = this.rechargeSum - this.getUserBalance
+            _this.needRecharge = _this.rechargeSum - _this.getUserBalance
           }
         } else {
           stopTime = new Date().getTime() + parseInt(day) * 24 * 3600 * 1000;
-          this.endTime = stopTime;
-          this.rechargeSum = (recharge / 100 - this.moneyRemaining/100).toFixed(2);
-          if (this.rechargeSum - this.getUserBalance < 0) {
-            this.needRecharge = 0
+          _this.endTime = stopTime;
+          _this.rechargeSum = (recharge / 100 - _this.moneyRemaining/100).toFixed(2);
+          if (_this.rechargeSum - _this.getUserBalance < 0) {
+            _this.needRecharge = 0
           } else {
-            this.needRecharge = this.rechargeSum - this.getUserBalance
+            _this.needRecharge = _this.rechargeSum - _this.getUserBalance
           }
         }
       },
@@ -225,8 +214,8 @@
           level: _this.getMemberLevel
         }).then(res => {
           if (res.status) {
-            _this.memberLevelInfo = res.data;
             let timeRemainings = _this.getMemberDeadline - new Date().getTime();
+            _this.memberLevelInfo = res.data;
             _this.timeRemaining = Math.floor(timeRemainings / (24 * 60 * 60 * 1000));
             _this.moneyRemaining = Math.floor((parseInt(_this.memberLevelInfo.finalFee) /parseInt(_this.memberLevelInfo.validDays))*parseInt(_this.timeRemaining) );
             _this.getUserMemberAll();
@@ -243,10 +232,7 @@
         }).then(res => {
           if (res.status) {
             _this.recharge = false;
-            _this.$Message.success({
-              content: '支付成功！',
-              duration: 2,
-            });
+            _this.$Message.success('支付成功！');
             _this.$store.dispatch('getUserInformation');
             setTimeout(function () {
               _this.$router.go(0)

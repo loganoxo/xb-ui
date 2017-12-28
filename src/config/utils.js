@@ -19,10 +19,8 @@ export const  browserRedirect = (device) =>{
   let bIsCE = sUserAgent.match(/windows ce/i) == "windows ce";
   let bIsWM = sUserAgent.match(/windows mobile/i) == "windows mobile";
   if (bIsIpad || bIsIphoneOs || bIsMidp || bIsUc7 || bIsUc || bIsAndroid || bIsCE || bIsWM) {
-    //document.writeln("phone");
     device = 'phone';
   } else {
-    //document.writeln("pc");
     device = 'PC';
   }
   return device;
@@ -56,7 +54,7 @@ export const removeStorage = (name) => {
 };
 
 /**
- * 配置环境
+ * 获取当前环境变量
  */
 export const nodeEnv = () => {
   let env = process.env.NODE_ENV || 'development';

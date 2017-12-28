@@ -55,5 +55,10 @@ export default {
     } else {
       return null
     }
+  },
+
+  //计算用户会员截止时间是否已到期（true：过期 false：未过期）* 判断用户是否是会员也应使用此变量
+  getMembershipIsExpire: state => {
+    return state.userInfo.memberDeadline ? state.userInfo.memberDeadline < state.severTime + new Date().getTime() - state.clientTime : true;
   }
 }

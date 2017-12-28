@@ -3,12 +3,12 @@
     <div class="container">
       <p v-show="isLogin" class="left">
         你好，<span class="user-name">
-        <span  @click="openMember"  v-if="getUserInfo.role === 1 && !getMemberLevel">
+        <span  @click="openMember"  v-if="getUserInfo.role === 1 && membershipIsExpire">
            <Tooltip content="亲当前未开通会员，点击图标马上开通" placement="bottom-start" >
               <span><Icon  type="social-vimeo" color="gray"></Icon></span>
             </Tooltip>
         </span>
-        <span v-if="getUserInfo.role === 1 && getMemberLevel">
+        <span v-if="getUserInfo.role === 1 && !membershipIsExpire">
           <Icon  type="social-vimeo" color="red"></Icon>
         </span>
         <router-link to="/user/user-home">
@@ -97,9 +97,9 @@
       getUserInfo() {
         return this.$store.state.userInfo
       },
-      getMemberLevel() {
-        return this.$store.state.userInfo.memberLevel
-      }
+      membershipIsExpire() {
+        return this.$store.getters.getMembershipIsExpire
+      },
     },
     created() {},
     data() {
