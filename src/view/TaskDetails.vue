@@ -248,7 +248,7 @@
                 </div>
               </div>
 
-              <div class="text-ct mt-20" v-show="!commodityData.cannotShowItemDescriptionOfQualification">
+              <div class="text-ct mt-20 graphic-info-itemDescription" v-show="!commodityData.cannotShowItemDescriptionOfQualification">
                 <div v-html="commodityData.task.itemDescription"></div>
               </div>
             </div>
@@ -1046,6 +1046,7 @@
     .graphic-info {
       background-color: #fff;
       margin-bottom: 60px;
+
       .graphic-info-sel {
         height: 60px;
         line-height: 60px;
@@ -1065,6 +1066,9 @@
       .graphic-info-ctt {
         .graphic-info-details {
           padding: 20px 20px 40px 20px;
+          .graphic-info-itemDescription img{
+            width: 80%;
+          }
           ul {
             line-height: 36px;
           }
