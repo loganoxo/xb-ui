@@ -510,7 +510,9 @@ input[type="number"] {
     text-align: center;
   }
 }
-
+.graphic-info-itemDescription p img{
+  max-width: 800px !important;
+}
 /*RegionPicker css start*/
 .region-picker {
   width: 482px;
