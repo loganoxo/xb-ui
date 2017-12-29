@@ -1067,7 +1067,7 @@
         .graphic-info-details {
           padding: 20px 20px 40px 20px;
           .graphic-info-itemDescription img{
-            width: 80%;
+            max-width: 1000px;
           }
           ul {
             line-height: 36px;
