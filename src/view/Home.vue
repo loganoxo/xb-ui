@@ -64,7 +64,7 @@
             <div class="login-in-box" v-if="isLogin && getUserInfoRole　=== 0">
               <div>
                 <Tooltip content="上传自定义个性头像，可以提高活动申请通过率哦，点击修改头像！" placement="bottom" class="left">
-                  <router-link  tag="img" to="/user/personal-setting/personal-account-info" width="56" :src="userHeadUrl" style="border-radius: 50%" class="cursor-p"></router-link>
+                  <router-link tag="img" to="/user/personal-setting/personal-account-info" :src="userHeadUrl" class="cursor-p heard-img"></router-link>
                 </Tooltip>
                 <div class="left fs-14 ml-20" style="margin-left: 10px;line-height: 28px;">
                   <router-link to="/user/personal-setting/personal-account-info" :title="decodeURIComponent(getUserInfoPhone)" class="ellipsis user-name">
@@ -1599,6 +1599,12 @@
 
   .slider-top-default {
     margin-top: 0;
+  }
+
+  .heard-img{
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
   }
 
   @keyframes sliderTop {
