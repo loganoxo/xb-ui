@@ -96,7 +96,9 @@
   .personal-box {
     .payMoneyBtn{
       color: #fff;
-      width: 120px;padding: 10px 10px;background-color: #FF6600;
+      width: 120px;
+      padding: 10px 10px;
+      background-color: #FF6600;
     }
     .iWantPay {
       color: #71B6FF;
@@ -149,7 +151,6 @@
         line-height: 36px;
         width: 144px;
         text-align: center;
-        border-bottom: 1px solid $mainColor;
       }
       a.active {
         background-color: $mainColor;

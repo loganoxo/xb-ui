@@ -13,7 +13,7 @@
         </div>
         <div class="choice-time left">
           <span class="cursor-p" v-for="item in choiceTime" :class="{active:timeSelect === item.isSelect} "
-                @click="changeTimeChoiceStyle(item.isSelect),getTargetTime(item.id)">{{item.text}}</span>
+                @click="getTargetTime(item.id,item.isSelect)">{{item.text}}</span>
         </div>
       </div>
       <div class="transact-type  ">
@@ -180,7 +180,7 @@
         </div>
         <div class="choice-time left">
           <span class="cursor-p" v-for="item in choiceTime" :class="{active:timeSelect === item.isSelect} "
-                @click="changeTimeChoiceStyle(item.isSelect),getTargetTime(item.id)">{{item.text}}</span>
+                @click="getTargetTime(item.id,item.isSelect)">{{item.text}}</span>
         </div>
       </div>
       <div class="transact-type  ">
@@ -512,11 +512,9 @@
           }
         }
       },
-      changeTimeChoiceStyle(type) {
-        this.timeSelect = type;
-      },
-      getTargetTime(type) {
+      getTargetTime(type,select) {
         let _this = this;
+        _this.timeSelect = select;
         function getDateStr(time) {
           let date = new Date();
           date.setDate(date.getDate() + time);
