@@ -90,7 +90,7 @@
                            @click="toTrialReport(item.showkerId,item.id)">
                     </div>
                     <p class="top-heart clear" v-show="item.likeCount !== 0">
-                      <Icon type="heart" class="left" style="font-size: 14px;margin-top: 2px"></Icon>
+                      <Icon type="heart" class="left fs-14" style="margin-top: 2px"></Icon>
                       <span class="left ml-5">赞({{item.likeCount}})</span>
                     </p>
                     <p class="price clear">
@@ -161,7 +161,7 @@
             <img class="left vtc-mid" src="~assets/img/buyer-show/buyer-show-allmjx.png" alt="">
             <span class="ml-10 left" style="font-size: 13px;color: #999;transform: translateY(2px)">给你最精彩</span>
             <ul class="right clear">
-              <li @click="getALLTrialReportFun(null)" :class="{active:allReportClassifySelect === null }"
+              <li @click="getALLTrialReportFun()" :class="{active:allReportClassifySelect === null }"
                   class="left report-classify">全部分类
               </li>
               <li @click="getALLTrialReportFun(item.name)" :class="{active:item.name === allReportClassifySelect }"
@@ -183,10 +183,9 @@
                 <div class="clear bottom mt-20">
                   <a class="user-head-box">
                     <img @click="toTrialReportDetails(item.showkerId)" class="showker-portrait-pic cursor-p" width="48"
-                         height="48" :src="getUserHead(item.showkerPortraitPic)"
-                         alt="">
+                         height="48" :src="getUserHead(item.showkerPortraitPic)" alt="">
                   </a>
-                  <div class="left ml-10" style="margin-top: 5px">
+                  <div class="left ml-10 mt-5">
                     <p class="cl000">{{item.showkerPhone}}</p>
                     <img :src="item.creditLevel" alt="">
                     <div class="text-ct"><span>淘气值：{{item.tqz}}</span></div>
@@ -194,7 +193,7 @@
                 </div>
               </div>
             </div>
-            <div class="no-more-list" v-show="pageIndex === totalPages -1">没有更多内容了!</div>
+            <div class="no-more-list" v-show="pageIndex === totalPages - 1">没有更多内容了!</div>
             <div class="no-more-list" v-show="getALLTrialReport.length === 0">暂无数据!</div>
           </div>
         </div>
@@ -279,7 +278,7 @@
       this.getShowkerReportRank();
       this.getBuyerShowInformation();
       this.getReportRankListFun();
-      this.getALLTrialReportFun(null);
+      this.getALLTrialReportFun();
       this.whetherGoToBotton();
     },
     destroyed() {
@@ -477,7 +476,7 @@
           }
         })
       },
-      getALLTrialReportFun(type) {
+      getALLTrialReportFun(type = null) {
         let self = this;
         if (self.itemCatalogname !== type) {
           self.pageIndex = 0;
@@ -624,7 +623,7 @@
               border: 1px solid #fff;
               border-radius: 3px;
               padding: 0 3px;
-              color: $mainColor;
+              color: #fff;
             }
 
             .price {
