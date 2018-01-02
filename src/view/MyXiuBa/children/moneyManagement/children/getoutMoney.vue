@@ -291,7 +291,6 @@
     data() {
       //表单验证
       const validatePayNumber = (rule, value, callback) => {
-        console.log(value);
         if (!(/^\d+(\.\d{1,2})?$/.test(value))) {
           callback(new Error('输入的提现金额必须为数字且仅支持两位小数，请您重新输入'))
         } else {
@@ -306,7 +305,7 @@
         }
       };
       const validateBankName = (rule, value, callback) => {
-        if (value === '') {
+        if (!value) {
           callback(new Error('请选择所属银行'));
         } else {
           callback()
