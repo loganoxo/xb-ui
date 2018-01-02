@@ -7,7 +7,7 @@
             <Carousel autoplay :autoplay-speed="5000" v-model="homeCarousel" loop>
               <Carousel-item>
                 <router-link to="" class="block">
-                  <img class="block"  src="~assets/img/buyer-show/buyer_show_banner_01.jpg" alt="">
+                  <img class="block" src="~assets/img/buyer-show/buyer_show_banner_01.jpg" alt="">
                 </router-link>
               </Carousel-item>
               <Carousel-item>
@@ -91,7 +91,7 @@
                     </div>
                     <p class="top-heart clear" v-show="item.likeCount !== 0">
                       <Icon type="heart" class="left" style="font-size: 14px;margin-top: 2px"></Icon>
-                      <span class="left ml-5" >赞({{item.likeCount}})</span>
+                      <span class="left ml-5">赞({{item.likeCount}})</span>
                     </p>
                     <p class="price clear">
                       <span class="left ellipsis">{{item.taskName}}</span>
@@ -145,7 +145,9 @@
                     </div>
                   </div>
                   <p class=" description pos-rel text-ct">
-                    <span @click="toTrialReportDetails(item.showkerId)"  v-for="(value,key) in getShowkerTip(item.showkerTagsMap)" v-show="value > 0" class="left mt-10 ">{{key}}{{value}}</span>
+                    <span @click="toTrialReportDetails(item.showkerId)"
+                          v-for="(value,key) in getShowkerTip(item.showkerTagsMap)" v-show="value > 0"
+                          class="left mt-10 ">{{key}}{{value}}</span>
                   </p>
                 </li>
               </ul>
@@ -157,17 +159,22 @@
         <div class="buyer-show-all">
           <div class="title clear">
             <img class="left vtc-mid" src="~assets/img/buyer-show/buyer-show-allmjx.png" alt="">
-            <span  class="ml-10 left" style="font-size: 13px;color: #999;transform: translateY(2px)">给你最精彩</span>
+            <span class="ml-10 left" style="font-size: 13px;color: #999;transform: translateY(2px)">给你最精彩</span>
             <ul class="right clear">
-              <li @click="getALLTrialReportFun(null)" :class="{active:allReportClassifySelect === null }" class="left report-classify">全部分类</li>
-              <li @click="getALLTrialReportFun(item.name)" :class="{active:item.name === allReportClassifySelect }" class="left report-classify" v-for="item in navList">{{item.name}}</li>
+              <li @click="getALLTrialReportFun(null)" :class="{active:allReportClassifySelect === null }"
+                  class="left report-classify">全部分类
+              </li>
+              <li @click="getALLTrialReportFun(item.name)" :class="{active:item.name === allReportClassifySelect }"
+                  class="left report-classify" v-for="item in navList">{{item.name}}
+              </li>
             </ul>
           </div>
           <div class="mt-10  ">
             <div class="con">
               <div class="pic" v-for="item in getALLTrialReport" :key="item.id">
                 <div class="pos-rel" @click="toTrialReport(item.showkerId,item.id)">
-                  <img width="220" v-show="item.trialReportImages !== ''" class="cursor-p" v-lazy="item.trialReportImages" alt="" >
+                  <img width="220" v-show="item.trialReportImages !== ''" class="cursor-p"
+                       v-lazy="item.trialReportImages" alt="">
                   <p class="mt-10 description pos-rel">
                     <span class="double-question-mark "></span>
                     <a class="des-text " style="margin-left: 26px;color: #666">{{item.trialReportText}}</a>
@@ -175,7 +182,8 @@
                 </div>
                 <div class="clear bottom mt-20">
                   <a class="user-head-box">
-                    <img @click="toTrialReportDetails(item.showkerId)" class="showker-portrait-pic cursor-p" width="48" height="48" :src="getUserHead(item.showkerPortraitPic)"
+                    <img @click="toTrialReportDetails(item.showkerId)" class="showker-portrait-pic cursor-p" width="48"
+                         height="48" :src="getUserHead(item.showkerPortraitPic)"
                          alt="">
                   </a>
                   <div class="left ml-10" style="margin-top: 5px">
@@ -220,7 +228,7 @@
   import Carousel from 'iview/src/components/carousel'
   import Zan from '@/components/Zan'
   import api from '@/config/apiConfig'
-  import { encryption} from '@/config/utils'
+  import {encryption} from '@/config/utils'
   import {aliCallbackImgUrl} from '@/config/env'
 
   export default {
@@ -252,13 +260,13 @@
         getSuperBuyerShowList: [],
         reportRankList: [],
         getALLTrialReport: [],
-        getALLTrialReportLength:21,
+        getALLTrialReportLength: 21,
         allReportNum: 0,
         allShowerNum: 0,
-        allReportClassifySelect:null,
-        itemCatalogname:'',
-        pageIndex:0,
-        totalPages:0,
+        allReportClassifySelect: null,
+        itemCatalogname: null,
+        pageIndex: 0,
+        totalPages: 0,
         leftSliderTimer: '',
         leftSlider: false,
         navList: [],
@@ -281,16 +289,6 @@
       isLogin() {
         return this.$store.state.login
       },
-      getUserInfoPhone() {
-        return this.$store.state.userInfo.nickname
-      },
-      getUserInfoRole() {
-        return this.$store.state.userInfo.role
-      },
-      getUserRole() {
-        return this.$store.getters.getUserRole
-      },
-
     },
     mounted: function () {
       this.$nextTick(function () {
@@ -298,45 +296,45 @@
         self.leftSliderFunc();
       })
     },
-
-    destroyed (){
-      this.whetherGoToBotton = {}
-    },
     methods: {
-      whetherGoToBotton(){
+      whetherGoToBotton() {
         let self = this;
-        function getScrollTop(){
+
+        function getScrollTop() {
           let bodyScrollTop = 0, documentScrollTop = 0;
-          if(document.body){
+          if (document.body) {
             bodyScrollTop = document.body.scrollTop;
           }
-          if(document.documentElement){
+          if (document.documentElement) {
             documentScrollTop = document.documentElement.scrollTop;
           }
-           return (bodyScrollTop - documentScrollTop > 0) ? bodyScrollTop : documentScrollTop;
+          return (bodyScrollTop - documentScrollTop > 0) ? bodyScrollTop : documentScrollTop;
         }
-        function getScrollHeight(){
+
+        function getScrollHeight() {
           let bodyScrollHeight = 0, documentScrollHeight = 0;
-          if(document.body){
+          if (document.body) {
             bodyScrollHeight = document.body.scrollHeight;
           }
-          if(document.documentElement){
+          if (document.documentElement) {
             documentScrollHeight = document.documentElement.scrollHeight;
           }
           return (bodyScrollHeight - documentScrollHeight > 0) ? bodyScrollHeight : documentScrollHeight;
         }
-        function getWindowHeight(){
+
+        function getWindowHeight() {
           let windowHeight = 0;
-          if(document.compatMode === "CSS1Compat"){
+          if (document.compatMode === "CSS1Compat") {
             windowHeight = document.documentElement.clientHeight;
-          }else{
+          } else {
             windowHeight = document.body.clientHeight;
           }
           return windowHeight;
         }
-        window.onscroll = function(){
-          if(getScrollTop() + getWindowHeight() === getScrollHeight()){
-            if(self.pageIndex < self.totalPages-1 ){
+
+        window.onscroll = function () {
+          if (getScrollTop() + getWindowHeight() === getScrollHeight()) {
+            if (self.pageIndex < self.totalPages - 1) {
               self.pageIndex++;
               self.allReportClassifySelect = self.itemCatalogname;
               self.getALLTrialReportFun(self.itemCatalogname);
@@ -429,14 +427,6 @@
       encryptionId(id) {
         return encryption(id);
       },
-      weChartShowkerAlertFunc() {
-        let self = this;
-        self.$store.commit({
-          type: 'SET_WECHART_SHOW',
-          result: true
-        });
-        setStorage('weChartPop', 2);
-      },
       leftSliderFunc() {
         let self = this;
         self.leftSliderTimer = setInterval(function () {
@@ -495,7 +485,7 @@
       },
       getALLTrialReportFun(type) {
         let self = this;
-        if (self.itemCatalogname !== type){
+        if (self.itemCatalogname !== type) {
           self.pageIndex = 0;
           self.itemCatalogname = type;
           self.getALLTrialReport = [];
@@ -503,10 +493,10 @@
         }
         self.allReportClassifySelect = type;
         api.getALLTrialReport({
-          itemCatalogname:self.itemCatalogname||null,
-          page:self.pageIndex,
-          size:16
-      }).then(res => {
+          itemCatalogname: self.itemCatalogname,
+          page: self.pageIndex,
+          size: 16
+        }).then(res => {
           if (res.status) {
             for (let i = 0; i < res.data.length; i++) {
               if (JSON.parse(res.data[i].trialReportImages)[0]) {
@@ -515,10 +505,10 @@
                 res.data[i].trialReportImages = '';
               }
             }
-            if (self.pageIndex>0){
-              self.getALLTrialReport =self.getALLTrialReport.concat( res.data);
-              self.getALLTrialReportLength  = self.getALLTrialReport.length;
-            }else {
+            if (self.pageIndex > 0) {
+              self.getALLTrialReport = self.getALLTrialReport.concat(res.data);
+              self.getALLTrialReportLength = self.getALLTrialReport.length;
+            } else {
               self.getALLTrialReport = res.data;
             }
             self.totalPages = res.totalPages;
@@ -558,7 +548,6 @@
     margin: 10px;
     display: inline-block
   }
-
 
   .confirm-recharge-model {
     position: fixed;
@@ -735,7 +724,7 @@
             line-height: 48px;
             color: #ADADAD;
           }
-          .ranking{
+          .ranking {
             color: #FF7B4E;
           }
         }
@@ -774,7 +763,7 @@
         text-align: center;
         background-color: #F1F2F6;
       }
-      .user-head{
+      .user-head {
         border-radius: 50%;
       }
       .left-ctt {
@@ -849,21 +838,21 @@
       .title {
         padding: 15px 10px 10px 10px;
         border-bottom: 1px solid #F6F6F6;
-        .report-classify{
+        .report-classify {
           padding: 0px 5px;
           border-right: 1px solid #C6C6C6;
           font-size: 13px;
           cursor: pointer;
           color: #C6C6C6;
         }
-        .report-classify.active{
+        .report-classify.active {
           color: #000;
         }
-        .report-classify:last-child{
+        .report-classify:last-child {
           border: none;
         }
       }
-      .no-more-list{
+      .no-more-list {
         text-align: center;
         padding: 20px;
       }
