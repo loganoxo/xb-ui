@@ -283,6 +283,7 @@
       this.whetherGoToBotton();
     },
     destroyed() {
+      this.clearLeftSliderFunc();
       window.onscroll = null;
     },
     computed: {
@@ -413,10 +414,7 @@
             });
             self.navList = res.data;
           } else {
-            self.$Message.error({
-              content: res.msg,
-              duration: 9
-            });
+            self.$Message.error(res.msg);
           }
         })
       },
@@ -524,16 +522,16 @@
 
   .con {
     width: 1160px;
-    margin: 0px auto;
+    margin: 0 auto;
     -moz-column-count: 4;
     -moz-column-gap: 30px;
-    -moz-column-rule: 0px solid #ff0000;
+    -moz-column-rule: 0 solid #ff0000;
     -webkit-column-count: 4;
     -webkit-column-gap: 30px;
-    -webkit-column-rule: 0px solid #ff0000;
+    -webkit-column-rule: 0 solid #ff0000;
     -o-column-count: 4;
     -o-column-gap: 30px;
-    -o-column-rule: 0px solid #ff0000;
+    -o-column-rule: 0 solid #ff0000;
   }
 
   .con .pic {
@@ -614,7 +612,7 @@
           padding: 10px 0;
           width: 10000px;
           li {
-            padding: 0px 15px;
+            padding: 0 15px;
             width: 230px;
             margin-bottom: 52px;
             .top-heart {
@@ -622,11 +620,11 @@
               z-index: 10;
               top: 5px;
               right: 18px;
-              background-color: #ff6600;
+              background-color: $mainColor;
               border: 1px solid #fff;
               border-radius: 3px;
               padding: 0 3px;
-              color: #ff6600;
+              color: $mainColor;
             }
 
             .price {
@@ -636,7 +634,7 @@
               left: 15px;
               height: 30px;
               line-height: 30px;
-              padding: 0px 3px;
+              padding: 0 3px;
               color: #fff;
               background-color: rgba(0, 0, 0, 0.5);
               span:first-child {
@@ -706,7 +704,7 @@
           line-height: 50px;
           border-bottom: 1px solid #eee;
           font-size: 18px;
-          color: #ff6600;
+          color: $mainColor;
           font-weight: bold;
           .cup-icon {
             font-size: 25px;
@@ -748,7 +746,7 @@
       }
     }
     .super-showker {
-      margin: 0px auto 10px auto;
+      margin: 0 auto 10px auto;
       overflow: hidden;
       .masterImgBox {
         width: 200px;
@@ -785,8 +783,8 @@
               position: absolute;
               top: 5px;
               right: -15px;
-              background-color: #FF6633;
-              border: 1px solid #FF6633;
+              background-color: $mainColor;
+              border: 1px solid $mainColor;
               color: #fff;
               border-radius: 3px;
               padding: 0 3px;
