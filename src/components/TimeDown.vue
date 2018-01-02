@@ -42,17 +42,18 @@
     methods: {
       timeDown() {
         const nowTime = getSeverTime();
-        let leftTime = parseInt((this.endTime - nowTime) / 1000);
+        let _this = this;
+        let leftTime = parseInt((_this.endTime - nowTime) / 1000);
         let d = parseInt(leftTime / (24 * 60 * 60));
-        let h = this.format(parseInt(leftTime / (60 * 60) % 24));
-        let m = this.format(parseInt(leftTime / 60 % 60));
-        let s = this.format(parseInt(leftTime % 60));
+        let h = _this.format(parseInt(leftTime / (60 * 60) % 24));
+        let m = _this.format(parseInt(leftTime / 60 % 60));
+        let s = _this.format(parseInt(leftTime % 60));
         if (leftTime <= 0) {
-          this.flag = true;
-          this.$emit('timeEnd');
-          this.time = `<span class="fs-14">已结束</span>`;
+          _this.flag = true;
+          _this.$emit('timeEnd');
+          _this.time = `<span class="fs-14">已结束</span>`;
         } else {
-          this.time = `${d}天${h}小时${m}分${s}秒`
+          _this.time = `${d}天${h}小时${m}分${s}秒`
         }
       },
       format(time) {
