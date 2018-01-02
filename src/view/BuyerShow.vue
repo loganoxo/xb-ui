@@ -281,6 +281,7 @@
         type: 'SET_SHOW_TOP_CATEGORY_RES',
         result: true,
       });
+      window.onscroll = null;
     },
     computed: {
       isLogin() {
@@ -314,26 +315,24 @@
       whetherGoToBotton(){
         let self = this;
         function getScrollTop(){
-          let scrollTop = 0, bodyScrollTop = 0, documentScrollTop = 0;
+          let bodyScrollTop = 0, documentScrollTop = 0;
           if(document.body){
             bodyScrollTop = document.body.scrollTop;
           }
           if(document.documentElement){
             documentScrollTop = document.documentElement.scrollTop;
           }
-          scrollTop = (bodyScrollTop - documentScrollTop > 0) ? bodyScrollTop : documentScrollTop;
-          return scrollTop;
+           return (bodyScrollTop - documentScrollTop > 0) ? bodyScrollTop : documentScrollTop;
         }
         function getScrollHeight(){
-          let scrollHeight = 0, bodyScrollHeight = 0, documentScrollHeight = 0;
+          let bodyScrollHeight = 0, documentScrollHeight = 0;
           if(document.body){
             bodyScrollHeight = document.body.scrollHeight;
           }
           if(document.documentElement){
             documentScrollHeight = document.documentElement.scrollHeight;
           }
-          scrollHeight = (bodyScrollHeight - documentScrollHeight > 0) ? bodyScrollHeight : documentScrollHeight;
-          return scrollHeight;
+          return (bodyScrollHeight - documentScrollHeight > 0) ? bodyScrollHeight : documentScrollHeight;
         }
         function getWindowHeight(){
           let windowHeight = 0;
@@ -538,7 +537,7 @@
         })
       },
 
-    }
+    },
   }
 </script>
 
@@ -549,7 +548,6 @@
   .con {
     width: 1160px;
     margin: 0px auto;
-    /*padding: 20px;*/
     -moz-column-count: 4;
     -moz-column-gap: 30px;
     -moz-column-rule: 0px solid #ff0000;
