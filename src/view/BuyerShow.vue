@@ -222,7 +222,6 @@
   import api from '@/config/apiConfig'
   import { encryption} from '@/config/utils'
   import {aliCallbackImgUrl} from '@/config/env'
-  import {mapActions} from 'vuex'
 
   export default {
     beforeMount() {
@@ -276,11 +275,6 @@
       this.whetherGoToBotton();
     },
     destroyed() {
-      let self = this;
-      self.$store.commit({
-        type: 'SET_SHOW_TOP_CATEGORY_RES',
-        result: true,
-      });
       window.onscroll = null;
     },
     computed: {
@@ -309,9 +303,6 @@
       this.whetherGoToBotton = {}
     },
     methods: {
-      ...mapActions([
-        'loggedOut'
-      ]),
       whetherGoToBotton(){
         let self = this;
         function getScrollTop(){
