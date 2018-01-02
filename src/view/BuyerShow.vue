@@ -169,7 +169,7 @@
           </div>
           <div class="mt-10  ">
             <div class="con">
-              <div class="pic" v-for="item in getALLTrialReport ">
+              <div class="pic" v-for="item in getALLTrialReport" :key="item.id">
                 <div class="pos-rel" @click="toTrialReport(item.showkerId,item.id)">
                   <img width="220" v-show="item.trialReportImages !== ''" class="cursor-p" v-lazy="item.trialReportImages" alt="" >
                   <p class="mt-10 description pos-rel">
