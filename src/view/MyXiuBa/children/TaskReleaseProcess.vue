@@ -682,71 +682,71 @@
           <span class="ml-20">有问题？联系客服</span>
         </div>
       </div>
-      <!--担保金支付弹框-->
-      <div class="pay-model" v-if="showPayModel">
-        <PayModel :orderMoney="!priceHasChange ? orderMoney : replenishMoney" @confirmPayment="confirmPayment">
-          <i slot="closeModel" class="close-recharge" @click="closeRecharge">&times;</i>
-          <div slot="noBalance" class="title-tip">
+    </div>
+    <!--担保金支付弹框-->
+    <div class="pay-model" v-if="showPayModel">
+      <PayModel :orderMoney="!priceHasChange ? orderMoney : replenishMoney" @confirmPayment="confirmPayment">
+        <i slot="closeModel" class="close-recharge" @click="closeRecharge">&times;</i>
+        <div slot="noBalance" class="title-tip">
             <span class="sizeColor3"><Icon color="#FF2424" size="18px" type="ios-information"></Icon><span
               class="ml-10">亲，您的余额不足，请充值。</span></span>还需充值<strong
-            class="sizeColor3">{{(orderMoney - getUserBalance).toFixed(2)}}</strong>元
-          </div>
-          <div slot="isBalance" class="title-tip">
-            <Icon color="#FF2424" size="18px" type="ios-information"></Icon>
-            <span class="ml-10">您本次需要支付金额为 <span
-              class="sizeColor3">{{!priceHasChange ? orderMoney : replenishMoney}}</span> 元。</span></div>
-        </PayModel>
-      </div>
-      <!--用户修改价格比原始价格高需要补差价提示弹框-->
-      <div class="editPriceModel">
-        <Modal v-model="editPriceAfterModel">
-          <div class="clear mt-40">
-            <div class="left mt-5">
-              <Icon color="#f60" size="32" type="information-circled"></Icon>
-            </div>
-            <div class="left ml-10">
-              <p class="fs-14">由于您修改了当前宝贝价格/包邮条件/发放数量等，且修改后的</p>
-              <p class="fs-14">价格高于原活动担保金，因此需要对超出部分进行支付。</p>
-            </div>
-          </div>
-          <div slot="footer">
-            <iButton type="error" size="large" @click="continueNextStep">我已了解，继续下一步</iButton>
-            <iButton style="margin-left: 35px;" type="error" size="large" @click="IThink">我再想想</iButton>
-          </div>
-        </Modal>
-      </div>
-      <!--用户修改价格比原始价格低提示弹框-->
-      <div class="editPriceToLow">
-        <Modal v-model="editPriceToLowAfterModel">
-          <div class="clear mt-40">
-            <div class="left mt-5">
-              <Icon color="#f60" size="32" type="information-circled"></Icon>
-            </div>
-            <div class="left ml-10">
-              <p style="font-size: 14px;">由于您修改了当前宝贝价格/包邮条件/发放数量等，且修改后的</p>
-              <p style="font-size: 14px;">价格低于原价格，对于超出部分的费用将在活动结算时返还给您。</p>
-            </div>
-          </div>
-          <div slot="footer">
-            <iButton type="error" size="large" @click="toLowContinueNextStep">我已了解，继续下一步</iButton>
-            <iButton style="margin-left: 35px;" type="error" size="large" @click="IThink">我再想想</iButton>
-          </div>
-        </Modal>
-      </div>
-      <!--商家发布任务活动总价低于500元提醒弹框-->
-      <!--  <Modal v-model="price500Model" width="360">
-          <p slot="header" style="color:#f60;text-align:center">
-            <Icon type="information-circled"></Icon>
-            <span>温馨提示</span>
-          </p>
-          <div class="text-ct">
-            <p>您发布的活动总价值必须在500元以上</p>
-          </div>
-          <div slot="footer">
-            <iButton type="error" size="large" long @click="price500Model = false">我知道了</iButton>
-          </div>
-        </Modal>-->
+          class="sizeColor3">{{(orderMoney - getUserBalance).toFixed(2)}}</strong>元
+        </div>
+        <div slot="isBalance" class="title-tip">
+          <Icon color="#FF2424" size="18px" type="ios-information"></Icon>
+          <span class="ml-10">您本次需要支付金额为 <span
+            class="sizeColor3">{{!priceHasChange ? orderMoney : replenishMoney}}</span> 元。</span></div>
+      </PayModel>
     </div>
+    <!--用户修改价格比原始价格高需要补差价提示弹框-->
+    <div class="editPriceModel">
+      <Modal v-model="editPriceAfterModel">
+        <div class="clear mt-40">
+          <div class="left mt-5">
+            <Icon color="#f60" size="32" type="information-circled"></Icon>
+          </div>
+          <div class="left ml-10">
+            <p class="fs-14">由于您修改了当前宝贝价格/包邮条件/发放数量等，且修改后的</p>
+            <p class="fs-14">价格高于原活动担保金，因此需要对超出部分进行支付。</p>
+          </div>
+        </div>
+        <div slot="footer">
+          <iButton type="error" size="large" @click="continueNextStep">我已了解，继续下一步</iButton>
+          <iButton style="margin-left: 35px;" type="error" size="large" @click="IThink">我再想想</iButton>
+        </div>
+      </Modal>
+    </div>
+    <!--用户修改价格比原始价格低提示弹框-->
+    <div class="editPriceToLow">
+      <Modal v-model="editPriceToLowAfterModel">
+        <div class="clear mt-40">
+          <div class="left mt-5">
+            <Icon color="#f60" size="32" type="information-circled"></Icon>
+          </div>
+          <div class="left ml-10">
+            <p style="font-size: 14px;">由于您修改了当前宝贝价格/包邮条件/发放数量等，且修改后的</p>
+            <p style="font-size: 14px;">价格低于原价格，对于超出部分的费用将在活动结算时返还给您。</p>
+          </div>
+        </div>
+        <div slot="footer">
+          <iButton type="error" size="large" @click="toLowContinueNextStep">我已了解，继续下一步</iButton>
+          <iButton style="margin-left: 35px;" type="error" size="large" @click="IThink">我再想想</iButton>
+        </div>
+      </Modal>
+    </div>
+    <!--商家发布任务活动总价低于500元提醒弹框-->
+    <!--  <Modal v-model="price500Model" width="360">
+        <p slot="header" style="color:#f60;text-align:center">
+          <Icon type="information-circled"></Icon>
+          <span>温馨提示</span>
+        </p>
+        <div class="text-ct">
+          <p>您发布的活动总价值必须在500元以上</p>
+        </div>
+        <div slot="footer">
+          <iButton type="error" size="large" long @click="price500Model = false">我知道了</iButton>
+        </div>
+      </Modal>-->
     <!--商家改低宝贝数量并且关键词方案大于当前宝贝数量弹框-->
     <div class="keywordLowerChange">
       <Modal v-model="keywordLowerChangeModel" :mask-closable="false" :closable="false" width="368">
@@ -762,8 +762,7 @@
         </div>
       </Modal>
     </div>
-
-    <!--引导弹框开始-->
+    <!--任务发布引导弹框-->
     <div v-show="showInsideRes && !isShowUserClauseNode" style="position: fixed; padding: 20px; height: 520px; margin-top: -260px; border-radius: 10px; width: 780px; left: 50%; top: 50%; margin-left: -390px; background-color: #ff9675; z-index: 2;">
         <p class="text-align-rt">
           <span @click="closeShowInsideFunc" class="fs-24 right" style="color: #fff; cursor: pointer;">&times;</span>
@@ -829,7 +828,7 @@
 
       </div>
     <div v-show="showInsideRes && !isShowUserClauseNode" style="position: fixed; left: 0; top: 0; bottom: 0; right: 0; background-color: #000; opacity: 0.5;"></div>
-    <!--引导弹框结束-->
+    <!--服务条款弹框-->
     <div v-if="isShowUserClause" class="user-clause-model">
       <user-clause @closeClauseModel="closeClauseModel"></user-clause>
     </div>
