@@ -150,13 +150,13 @@
         <span>流水号：</span>
         <iInput style="width: 150px" v-model="getoutRecord.serialNumber"></iInput>
         <span class="ml-10">申请时间：</span>
-        <Date-picker type="datetime" placeholder="选择日期" style="width: 200px" v-model="getoutRecord.applyFrom"
+        <Date-picker type="datetime" placeholder="选择日期" style="width: 200px"
                      format="yyyy-MM-dd HH:mm:ss"
-                     @on-change="getoutRecord.applyFrom=$event"></Date-picker>
+                     @on-change="getBeginTimeFun"></Date-picker>
         <span>-</span>
-        <Date-picker type="datetime" placeholder="选择日期" style="width: 200px" v-model="getoutRecord.applyTo"
+        <Date-picker type="datetime" placeholder="选择日期" style="width: 200px"
                      format="yyyy-MM-dd HH:mm:ss"
-                     @on-change="getoutRecord.applyTo=$event"></Date-picker>
+                     @on-change="getEndTimeFun"></Date-picker>
         <iButton class="ibtn1" @click="getWithDrawList">搜索</iButton>
       </div>
       <div class="content-select clear">
@@ -476,7 +476,12 @@
       ...mapActions([
         'getUserInformation'
       ]),
-
+      getBeginTimeFun(e){
+       this.getoutRecord.applyFrom = e
+      },
+      getEndTimeFun(e){
+        this.getoutRecord.applyTo = e
+      },
       //实现实名认证，添加银行卡，提现等模块的显示隐藏
       showDifffentModel(type) {
         for (let k in  this.changeBankIdCardShow) {
