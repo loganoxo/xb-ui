@@ -151,16 +151,16 @@
         <iInput style="width: 150px" v-model="getoutRecord.serialNumber"></iInput>
         <span class="ml-10">申请时间：</span>
         <Date-picker type="datetime" placeholder="选择日期" style="width: 200px" v-model="getoutRecord.applyFrom"
-                     format="yyyy-MM-dd HH:mm:ss" :key="getoutRecord.applyFrom"
+                     format="yyyy-MM-dd HH:mm:ss"
                      @on-change="getoutRecord.applyFrom=$event"></Date-picker>
         <span>-</span>
         <Date-picker type="datetime" placeholder="选择日期" style="width: 200px" v-model="getoutRecord.applyTo"
-                     format="yyyy-MM-dd HH:mm:ss" :key="getoutRecord.applyTo"
+                     format="yyyy-MM-dd HH:mm:ss"
                      @on-change="getoutRecord.applyTo=$event"></Date-picker>
-        <iButton class="ibtn1" @click="getWithDrawList(getoutRecord)">搜索</iButton>
+        <iButton class="ibtn1" @click="getWithDrawList">搜索</iButton>
       </div>
       <div class="content-select clear">
-        <span class="left" v-for="item in getOutStatus" :class="{actives:getOutSelect===item.isSelect}"
+        <span class="left" v-for="(item,index)  in getOutStatus" :key="index" :class="{actives:getOutSelect===item.isSelect}"
               @click="getoutStatusFun(item.isSelect,item.state)">{{item.text}}</span>
       </div>
       <div class="personal-list-table mt-10">
@@ -175,7 +175,7 @@
             <th style="width:10%;">操作</th>
           </tr>
           </thead>
-          <tbody v-for="item in getOutResList">
+          <tbody v-for="(item,index) in getOutResList" :key="index">
           <tr>
             <td>
               {{item.applyTime | dateFormat('YYYY-MM-DD ')}}<br/>
@@ -313,37 +313,38 @@
         }
       };
       const validateName = (rule, value, callback) => {
-        if (value === '') {
+        let self = this;
+        if (!value) {
           callback(new Error('请输入姓名'));
-        } else if(value !== this.$store.state.userInfo.realName){
+        } else if(value != self.$store.state.userInfo.realName){
           callback(new Error('为保证资金安全，开户行必须与实名认证姓名一致！'))
         }else {
           callback()
         }
       };
       const validateBankBranch = (rule, value, callback) => {
-        if (value === '') {
+        if (!value ) {
           callback(new Error('请输入所属银行支行'));
         } else {
           callback()
         }
       };
       const validatePass = (rule, value, callback) => {
-        if (value === '') {
+        if (!value ) {
           callback(new Error('请输入支付密码'));
         } else {
           callback()
         }
       };
       const validateCode = (rule, value, callback) => {
-        if (value === '') {
+        if (!value ) {
           callback(new Error('请输入图片验证码'));
         } else {
           callback()
         }
       };
       const validateSmsCode = (rule, value, callback) => {
-        if (value === '') {
+        if (!value ) {
           callback(new Error('请输入动态码'));
         } else {
           callback()
@@ -453,7 +454,7 @@
         this.changeBankIdcardShowFun();
       }
       this.getVrcode();
-      this.getWithDrawList(this.titleStatus);
+      this.getWithDrawList();
     },
     computed: {
       getUserBalance: function () {

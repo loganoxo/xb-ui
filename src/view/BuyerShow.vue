@@ -304,7 +304,9 @@
       })
     },
 
-
+    destroyed (){
+      this.whetherGoToBotton = {}
+    },
     methods: {
       ...mapActions([
         'loggedOut'
