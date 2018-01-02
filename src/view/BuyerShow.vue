@@ -30,7 +30,7 @@
             <div v-for="(item,index) in getShowkerReportList" :key="index" class="content clear">
               <span :class="{ranking:index<3}" class="left fs-18 ">{{index + 1}}</span>
               <div class="left ml-15 cursor-p" style="width: 48px" @click="toTrialReportDetails(item.uid)">
-                <img style="border-radius: 50%" width="48px" :src="getUserHead(item.portrait)" alt="">
+                <img class="border50" width="48px" :src="getUserHead(item.portrait)" alt="">
               </div>
               <div class="left ml-10 ">
                 <p class="mt-5 fs-14">{{item.phone}}</p>
@@ -78,7 +78,7 @@
           <div class="left-ctt left">
             <div style="overflow: hidden">
               <div class="title clear">
-                <img style="vertical-align: middle" src="~assets/img/home/top_mjx.png" alt="">
+                <img class="vtc-mid" src="~assets/img/home/top_mjx.png" alt="">
                 <span class="ml-10" style="font-size: 13px;color: #999;transform: translateY(2px)">给你最精彩</span>
               </div>
               <ul class="clear" :class="[leftSlider ? 'slider-top-active-left' : 'slider-top-default-left']"
@@ -89,10 +89,7 @@
                       <img :src="item.trialReportImages+'!thum200'" alt="" width="200" height="260"
                            @click="toTrialReport(item.showkerId,item.id)">
                     </div>
-                    <!--<p v-show="item.likeCount !== 0" class=" top-heart clear" @click="clickPraise(item.id,index)">-->
-                      <!--<Zan :iconType="item.whetherClick" :zanNumber='item.likeCount' :fontSize="zanFontSize"></Zan>-->
-                    <!--</p>-->
-                    <p style="color: #ff6600;background-color:#fff;border-color: #fff"  class=" top-heart clear" v-show="item.likeCount !== 0">
+                    <p class="top-heart clear" v-show="item.likeCount !== 0">
                       <Icon type="heart" class="left" style="font-size: 14px;margin-top: 2px"></Icon>
                       <span class="left ml-5" >赞({{item.likeCount}})</span>
                     </p>
@@ -110,8 +107,8 @@
                                  class="user-head-box"><img width="48" height="48" class="showker-portrait-pic"
                                                             :src="getUserHead(item.showkerPortraitPic)" alt="">
                     </router-link>
-                    <div class="left ml-10" style="margin-top: 5px">
-                      <p style="color: #000">{{item.showkerPhone}}</p>
+                    <div class="left ml-10 mt-5">
+                      <p class="cl000">{{item.showkerPhone}}</p>
                       <img :src="item.creditLevel" alt="">
                       <div class="text-ct"><span>淘气值：{{item.tqz}}</span></div>
                     </div>
@@ -127,7 +124,7 @@
           <div class="left-ctt left">
             <div>
               <div class="title clear">
-                <img style="vertical-align: middle" src="~assets/img/buyer-show/buyer_show_xdr.png" alt="">
+                <img class="vtc-mid" src="~assets/img/buyer-show/buyer_show_xdr.png" alt="">
                 <span class="ml-10" style="font-size: 13px;color: #999;transform: translateY(2px)">给你最精彩</span>
               </div>
               <ul class="clear">
@@ -136,20 +133,19 @@
                     <div style="height: 110px" class="text-ct">
                       <img class="user-head" :src="getUserHead(item.portraitPic)" alt="" width="96">
                     </div>
-                    <p class=" top-heart clear">
+                    <p class="top-heart clear">
                       共发表({{item.num}})篇
                     </p>
                   </router-link>
                   <div class="clear bottom mt-10">
                     <div class=" ml-10 text-ct" style="margin-top: 5px">
-                      <p  style="color: #000">{{item.phone}}</p>
+                      <p class="cl000">{{item.phone}}</p>
                       <img :src="item.creditLevel" alt="">
                       <div class="text-ct"><span>淘气值：{{item.tqz}}</span></div>
                     </div>
                   </div>
                   <p class=" description pos-rel text-ct">
-                    <span @click="toTrialReportDetails(item.showkerId)"  v-for="(value,key) in getShowkerTip(item.showkerTagsMap)" v-show="value >0"
-                          class="left mt-10 ">{{key}}{{value}}</span>
+                    <span @click="toTrialReportDetails(item.showkerId)"  v-for="(value,key) in getShowkerTip(item.showkerTagsMap)" v-show="value > 0" class="left mt-10 ">{{key}}{{value}}</span>
                   </p>
                 </li>
               </ul>
@@ -160,7 +156,7 @@
       <div class="container">
         <div class="buyer-show-all">
           <div class="title clear">
-            <img class="left" style="vertical-align: middle" src="~assets/img/buyer-show/buyer-show-allmjx.png" alt="">
+            <img class="left vtc-mid" src="~assets/img/buyer-show/buyer-show-allmjx.png" alt="">
             <span  class="ml-10 left" style="font-size: 13px;color: #999;transform: translateY(2px)">给你最精彩</span>
             <ul class="right clear">
               <li @click="getALLTrialReportFun(null)" :class="{active:allReportClassifySelect === null }" class="left report-classify">全部分类</li>
@@ -183,7 +179,7 @@
                          alt="">
                   </a>
                   <div class="left ml-10" style="margin-top: 5px">
-                    <p style="color: #000">{{item.showkerPhone}}</p>
+                    <p class="cl000">{{item.showkerPhone}}</p>
                     <img :src="item.creditLevel" alt="">
                     <div class="text-ct"><span>淘气值：{{item.tqz}}</span></div>
                   </div>
@@ -651,10 +647,10 @@
               top: 5px;
               right: 18px;
               background-color: #ff6600;
-              border: 1px solid #ff6600;
+              border: 1px solid #fff;
               border-radius: 3px;
               padding: 0 3px;
-
+              color: #ff6600;
             }
 
             .price {
