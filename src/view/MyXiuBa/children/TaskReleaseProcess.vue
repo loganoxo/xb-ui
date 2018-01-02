@@ -887,7 +887,7 @@
         uniqueId: 'uniqueId',
         addImgRange: null,
         editorOption: {
-          placeholder: "有吸引力的产品介绍，将吸引更多的秀客来申请活动哦！请在这里编辑您的商品简介（可以直接复制淘宝的宝贝详情到这里），但请注意，不要在该简介中，放置任何外链，比如店铺或者商品链接，以免申请的秀客绕过相应的下单条件，造成损失！",
+          placeholder: "有吸引力的产品介绍，将吸引更多的秀客来申请活动哦！请在这里编辑您的商品简介（商品简介中至少包含一张图片，可以直接复制淘宝的宝贝详情到这里），但请注意，不要在该简介中，放置任何外链，比如店铺或者商品链接，以免申请的秀客绕过相应的下单条件，造成损失！",
           modules: {
             toolbar: [
               ['bold', 'italic', 'underline', 'strike'],
@@ -1382,6 +1382,11 @@
           _this.$Message.warning('亲，请填写您要发布宝贝的商品简介！');
           return;
         }
+        const IMG_TAG = /<img[^>]+>/g;
+        if(!IMG_TAG.test(_this.taskRelease.itemDescription)){
+          _this.$Message.warning('亲，商品简介中至少需要包含一张图片！');
+          return;
+        }
         if (_this.taskRelease.taskType === 'pc_search') {
           let countAssigned = 0;
           _this.isCountAssigned = _this.pcTaskDetail.every(item => {
@@ -1496,7 +1501,10 @@
             return;
           }
         }
-        _this.taskRelease.itemDescription = _this.taskRelease.itemDescription.replace(/(href|target)=["|'].*?["|']/g,'');
+        const IMG_HREF_ATTRIBUTE = /(href|target)=["|'].*?["|']/g;
+        if(IMG_HREF_ATTRIBUTE.test(_this.taskRelease.itemDescription)){
+          _this.taskRelease.itemDescription = _this.taskRelease.itemDescription.replace(IMG_HREF_ATTRIBUTE,'');
+        }
         let status = _this.taskStatus;
         let type = _this.$route.query.type;
         /* if (_this.taskRelease.taskCount * _this.oneBond < 500) {
