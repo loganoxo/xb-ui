@@ -297,43 +297,39 @@
       })
     },
     methods: {
+      getScrollTop() {
+        let bodyScrollTop = 0, documentScrollTop = 0;
+        if (document.body) {
+          bodyScrollTop = document.body.scrollTop;
+        }
+        if (document.documentElement) {
+          documentScrollTop = document.documentElement.scrollTop;
+        }
+        return (bodyScrollTop - documentScrollTop > 0) ? bodyScrollTop : documentScrollTop;
+      },
+      getScrollHeight() {
+        let bodyScrollHeight = 0, documentScrollHeight = 0;
+        if (document.body) {
+          bodyScrollHeight = document.body.scrollHeight;
+        }
+        if (document.documentElement) {
+          documentScrollHeight = document.documentElement.scrollHeight;
+        }
+        return (bodyScrollHeight - documentScrollHeight > 0) ? bodyScrollHeight : documentScrollHeight;
+      },
+      getWindowHeight() {
+        let windowHeight = 0;
+        if (document.compatMode === "CSS1Compat") {
+          windowHeight = document.documentElement.clientHeight;
+        } else {
+          windowHeight = document.body.clientHeight;
+        }
+        return windowHeight;
+      },
       whetherGoToBotton() {
         let self = this;
-
-        function getScrollTop() {
-          let bodyScrollTop = 0, documentScrollTop = 0;
-          if (document.body) {
-            bodyScrollTop = document.body.scrollTop;
-          }
-          if (document.documentElement) {
-            documentScrollTop = document.documentElement.scrollTop;
-          }
-          return (bodyScrollTop - documentScrollTop > 0) ? bodyScrollTop : documentScrollTop;
-        }
-
-        function getScrollHeight() {
-          let bodyScrollHeight = 0, documentScrollHeight = 0;
-          if (document.body) {
-            bodyScrollHeight = document.body.scrollHeight;
-          }
-          if (document.documentElement) {
-            documentScrollHeight = document.documentElement.scrollHeight;
-          }
-          return (bodyScrollHeight - documentScrollHeight > 0) ? bodyScrollHeight : documentScrollHeight;
-        }
-
-        function getWindowHeight() {
-          let windowHeight = 0;
-          if (document.compatMode === "CSS1Compat") {
-            windowHeight = document.documentElement.clientHeight;
-          } else {
-            windowHeight = document.body.clientHeight;
-          }
-          return windowHeight;
-        }
-
         window.onscroll = function () {
-          if (getScrollTop() + getWindowHeight() === getScrollHeight()) {
+          if (self.getScrollTop() + self.getWindowHeight() === self.getScrollHeight()) {
             if (self.pageIndex < self.totalPages - 1) {
               self.pageIndex++;
               self.allReportClassifySelect = self.itemCatalogname;
