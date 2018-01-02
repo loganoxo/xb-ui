@@ -165,7 +165,7 @@
                   class="left report-classify">全部分类
               </li>
               <li @click="getALLTrialReportFun(item.name)" :class="{active:item.name === allReportClassifySelect }"
-                  class="left report-classify" v-for="item in navList">{{item.name}}
+                  class="left report-classify" v-for="(item,index) in navList" :key="index">{{item.name}}
               </li>
             </ul>
           </div>
@@ -194,6 +194,7 @@
               </div>
             </div>
             <div class="no-more-list" v-show="pageIndex === totalPages - 1">没有更多内容了!</div>
+            <div class="no-more-list" v-show="listLoading">加载中...</div>
             <div class="no-more-list" v-show="getALLTrialReport.length === 0">暂无数据!</div>
           </div>
         </div>
@@ -271,6 +272,7 @@
         navList: [],
         buyerShowList: [],
         homeCarousel: 0,
+        listLoading:false,
       }
     },
     created() {
@@ -485,6 +487,7 @@
           self.getALLTrialReportLength = 0;
         }
         self.allReportClassifySelect = type;
+        self.listLoading = true;
         api.getALLTrialReport({
           itemCatalogname: self.itemCatalogname,
           page: self.pageIndex,
@@ -505,6 +508,7 @@
               self.getALLTrialReport = res.data;
             }
             self.totalPages = res.totalPages;
+            self.listLoading = false;
           } else {
             self.$Message.error(res.msg)
           }
