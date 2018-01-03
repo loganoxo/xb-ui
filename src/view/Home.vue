@@ -21,11 +21,6 @@
           </div>
           <div class="middle-ctt left">
             <Carousel autoplay :autoplay-speed="5000" v-model="homeCarousel" loop>
-             <Carousel-item v-if="getUserInfoRole　=== 1">
-                <a href="http://wpa.qq.com/msgrd?v=3&site=qq&menu=yes&uin=806998254" target="_blank" class="block">
-                  <img class="block" src="/static/img/home/banner_04.png" alt="">
-                </a>
-              </Carousel-item>
               <Carousel-item>
                 <router-link to="/task-category?activityCategory=free_get" class="block">
                   <img src="/static/img/home/banner_01.jpg" alt="" >

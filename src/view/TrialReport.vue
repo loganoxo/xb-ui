@@ -4,7 +4,7 @@
         <div class="trial-left left">
           <div>
             <img class="user-head" :src="getUserHead(showkerInfo.portraitPic)" alt="" width="120" height="120">
-            <p v-show="showReportDesc === true" class=" fs-14 mt-10"> <a @click="showReportDesc = false;" >查看Ta的全部买家秀</a></p>
+            <p v-show="showReportDesc === true" class=" fs-14 mt-10"> <a @click="showReportDesc = false" >查看Ta的全部买家秀</a></p>
             <p class="fs-16 mt-10 mb-10">{{showkerInfo.phone}}</p>
             <img :src="creditLevel" alt="">
             <p>淘气值：{{tqz}}</p>
