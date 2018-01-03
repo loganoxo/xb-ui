@@ -172,14 +172,14 @@
           <div class="mt-10  ">
             <div class="con">
               <div class="pic" v-for="item in getALLTrialReport" :key="item.id">
-                <div class="pos-rel" @click="toTrialReport(item.showkerId,item.id)">
+                <router-link :to="{'path':'/trial-report','query':{q: encryptionId(item.showkerId), showReportDesc: true, id: encryptionId(item.id)}}" class="pos-rel" target="_blank">
                   <img width="220" v-show="item.trialReportImages !== ''" class="cursor-p"
                        v-lazy="item.trialReportImages" alt="">
                   <p class="mt-10 description pos-rel">
                     <span class="double-question-mark "></span>
                     <a class="des-text " style="margin-left: 26px;color: #666">{{item.trialReportText}}</a>
                   </p>
-                </div>
+                </router-link>
                 <div class="clear bottom mt-20">
                   <a class="user-head-box">
                     <img @click="toTrialReportDetails(item.showkerId)" class="showker-portrait-pic cursor-p" width="48"
@@ -299,6 +299,9 @@
       })
     },
     methods: {
+      encryptionId(id) {
+        return encryption(id);
+      },
       getScrollTop() {
         let bodyScrollTop = 0, documentScrollTop = 0;
         if (document.body) {
