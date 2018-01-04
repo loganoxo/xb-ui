@@ -12,16 +12,16 @@
       <div class="side-box side-box-bg qq"></div>
       <div slot="content">
         <p class="pt-10">产品客服：<a href="http://shang.qq.com/wpa/qunwpa?idkey=c05716ea03d527adb67d4e23d2a9ed942f729dfb0db13ca332e10996805d2b9d" class="qq-refer-logo" target="_blank"></a></p>
-        <p class="mt-20">咨询时间：周一至周五</p>
-        <p class="text-align-rt mt-5">9:00 --- 18:00</p>
+        <p class="mt-20">咨询时间：周一至周五 9:00 - 21:00</p>
+        <p class="text-align-rt mt-5">周六周日 9:00 - 18:00</p>
       </div>
     </Tooltip>
     <Tooltip placement="left" :always="always" :transfer="true" :disabled="disabled" class="mt-10 display-block" v-if="isLogin && getUserRole === 0">
       <div class="side-box side-box-bg qq"></div>
       <div slot="content">
         <p class="pt-10">产品客服：<a href="http://shang.qq.com/wpa/qunwpa?idkey=c8b3150dbd8821f50cced9a08831de701636de9ae107e707114150d0050df9a4" class="qq-refer-logo" target="_blank"></a></p>
-        <p class="mt-20">咨询时间：周一至周五</p>
-        <p class="text-align-rt mt-5">9:00 --- 18:00</p>
+        <p class="mt-20">咨询时间：周一至周五 9:00 - 21:00</p>
+        <p class="text-align-rt mt-5">周六周日 9:00 - 18:00</p>
       </div>
     </Tooltip>
     <Tooltip placement="left" :transfer="true" class="mt-10 display-block" v-if="isLogin && getUserRole === 1">
