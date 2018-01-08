@@ -31,7 +31,7 @@
           <p>不可跨类目，否则会影响人群标签</p>
           <span class="is-select-gou" v-show="taskRelease.activityCategory === 'present_get'"></span>
         </div>
-        <div ref="showInsideText3" class="left activity-type-box mr-10" :class="{isSelect:taskRelease.activityCategory === 'pinkage_for_10'}"
+       <!-- <div ref="showInsideText3" class="left activity-type-box mr-10" :class="{isSelect:taskRelease.activityCategory === 'pinkage_for_10'}"
              @click="changeSelectActivity('pinkage_for_10')">
           <p>10元包邮</p>
           <p>秀客承担10元邮费</p>
@@ -44,7 +44,7 @@
           <p>帮商家测款定价</p>
           <p>真实卖货</p>
           <span class="is-select-gou" v-show="taskRelease.activityCategory === 'price_low'"></span>
-        </div>
+        </div>-->
         <!--<div class="left activity-type-box mr-10" :class="{isSelect:taskRelease.activityCategory === 'goods_clearance'}"
              @click="changeSelectActivity('goods_clearance')">
           <p>清仓断码</p>
@@ -763,7 +763,7 @@
       </Modal>
     </div>
     <!--任务发布引导弹框-->
-    <div v-show="showInsideRes && !isShowUserClauseNode" style="position: fixed; padding: 20px; height: 520px; margin-top: -260px; border-radius: 10px; width: 780px; left: 50%; top: 50%; margin-left: -390px; background-color: #ff9675; z-index: 2;">
+    <!--<div v-show="showInsideRes && !isShowUserClauseNode" style="position: fixed; padding: 20px; height: 520px; margin-top: -260px; border-radius: 10px; width: 780px; left: 50%; top: 50%; margin-left: -390px; background-color: #ff9675; z-index: 2;">
         <p class="text-align-rt">
           <span @click="closeShowInsideFunc" class="fs-24 right" style="color: #fff; cursor: pointer;">&times;</span>
           <Checkbox-group class="right mt-6" v-model="showInsideAgainRes">
@@ -827,7 +827,7 @@
         </p>
 
       </div>
-    <div v-show="showInsideRes && !isShowUserClauseNode" style="position: fixed; left: 0; top: 0; bottom: 0; right: 0; background-color: #000; opacity: 0.5;"></div>
+    <div v-show="showInsideRes && !isShowUserClauseNode" style="position: fixed; left: 0; top: 0; bottom: 0; right: 0; background-color: #000; opacity: 0.5;"></div>-->
     <!--服务条款弹框-->
     <div v-if="isShowUserClause" class="user-clause-model">
       <user-clause @closeClauseModel="closeClauseModel"></user-clause>
@@ -1622,9 +1622,13 @@
                 }
               }
             }
-            if(res.data.discountType === 'discount_r_50'){
-              _this.taskRelease.discountType = 'discount_0'
+            //start 临时处理 10元包邮，白菜价活动下线复制历史活动
+            const activityCategory = res.data.activityCategory;
+            if(activityCategory === 'pinkage_for_10' || activityCategory === 'price_low'){
+              _this.taskRelease.discountType = 'discount_0';
+              _this.taskRelease.activityCategory = 'free_get';
             }
+            //end
             if( _this.taskRelease.onlyShowForQualification){
               _this.taskRelease.onlyShowForQualification = false;
             }
