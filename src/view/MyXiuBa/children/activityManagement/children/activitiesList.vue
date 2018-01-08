@@ -367,18 +367,18 @@
             value: 'free_get',
             label: '免费领'
           },
-          {
-            value: 'pinkage_for_10',
-            label: '10元包邮'
-          },
+          // {
+          //   value: 'pinkage_for_10',
+          //   label: '10元包邮'
+          // },
           {
             value: 'present_get',
             label: '体验专区'
           },
-          {
-            value: 'price_low',
-            label: '白菜价'
-          },
+          // {
+          //   value: 'price_low',
+          //   label: '白菜价'
+          // },
           /*{
             value: '"goods_clearance',
             label: '清仓断码'
