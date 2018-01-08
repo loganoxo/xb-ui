@@ -61,7 +61,8 @@
               体验专区
             </Tooltip>
           </a>
-          <a :class="[activityCategory === 'pinkage_for_10' ? 'active' : '']" @click="selTaskCategoryFunc('pinkage_for_10')" >
+          <a :class="[activityCategory === 'pinkage_for_10' ? 'active' : '']" >
+            <!--@click="selTaskCategoryFunc('pinkage_for_10')"-->
             <i style="position: absolute; top: -16px; left: 19px;">
               <img src="/static/img/icon/franking.gif" alt="" >
             </i>
@@ -69,7 +70,8 @@
               10元包邮
             </Tooltip>
           </a>
-          <a :class="[activityCategory === 'price_low' ? 'active' : '']" @click="selTaskCategoryFunc('price_low')">
+          <a :class="[activityCategory === 'price_low' ? 'active' : '']" >
+            <!--@click="selTaskCategoryFunc('price_low')"-->
             <Tooltip :content="TaskCategoryActiveList['price_low'].desc" placement="bottom">
               白菜价
             </Tooltip>

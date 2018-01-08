@@ -357,7 +357,7 @@
         <!--体验专区结束-->
 
         <!--10元包邮开始-->
-        <div class="home-commodity-half mr-10">
+        <!--<div class="home-commodity-half mr-10">
           <div class="home-commodity-title">
             <p>
               <img src="/static/img/icon/pinkage_for_10_heart.png" alt="">
@@ -414,11 +414,11 @@
               </div>
             </router-link>
           </div>
-        </div>
+        </div>-->
         <!--10元包邮结束-->
 
         <!--白菜价开始-->
-        <div class="home-commodity-half">
+        <!--<div class="home-commodity-half">
           <div class="home-commodity-title">
             <p>
               <img src="/static/img/icon/price_low_heart.png" alt="">
@@ -470,7 +470,7 @@
               </div>
             </router-link>
           </div>
-        </div>
+        </div>-->
         <!--白菜价结束-->
       </div>
 
