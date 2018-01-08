@@ -11,7 +11,7 @@
     </div>
     <div class="activity-tip mb-20">
       <Icon type="information-circled" color="#FF0100"></Icon>
-      <span><b class="sizeColor3">注意：</b> 本站支持拍A发A（免费领），拍A发B（体验专区），10元包邮，真实卖货（白菜价）等多种任务类型，满足商家的各种需求！</span>
+      <span><b class="sizeColor3">注意：</b> 本站支持拍A发A（免费领），拍A发B（体验专区），满足商家的各种需求！</span>
     </div>
     <!--选择活动类型-->
     <div class="activity-type mt-20" v-show="stepName === 'information'">
