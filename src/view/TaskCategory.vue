@@ -49,7 +49,7 @@
         </div>
         <div v-if="!$route.query.activityCategory || $route.query.categroyId || $route.query.categroy" class="task-category-sel">
           <span>活动类型：</span>
-          <a :class="[category === k ? 'active' : '']"  v-for="(TaskCategoryCate,k) in $store.state.TaskCategoryActiveList" @click="selTaskDefaultFunc(k)">{{TaskCategoryCate.text}}</a>
+          <a :class="[category === k ? 'active' : '']"  v-for="(TaskCategoryCate,k) in $store.state.TaskCategoryActiveList" v-if="k != 'pinkage_for_10' && k != 'price_low'" @click="selTaskDefaultFunc(k)">{{TaskCategoryCate.text}}</a>
         </div>
       </div>
       <div class="container">
