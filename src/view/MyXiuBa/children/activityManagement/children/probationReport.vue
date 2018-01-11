@@ -41,9 +41,13 @@
         </p>
       </div>
       <div class="trial-experience mt-20">
-        <div class="trial-experience-title">活动过程与体验：</div>
+        <div class="trial-experience-title">1.淘宝评价截图（商家返款凭证）</div>
+        <div @click="isShowImgModel = true">
+         <img :src="showkerReportInfo.taobaoCommentImage + '!thum80'" width="80" height="80">
+        </div>
+        <div class="trial-experience-title">2.活动过程与体验：（秀吧平台展示）</div>
         <div class="trial-experience-con mt-22">{{showkerReportInfo.trialReportText || ''}}</div>
-        <div class="trial-experience-title mt-22">买家秀图片：</div>
+        <div class="trial-experience-title mt-22">3.买家秀图片：（秀吧平台展示）</div>
         <div class="trial-img-info" v-if="trialReportImages.length > 0">
           <div class="trial-img" style="min-height: 400px">
             <img :src="showNowImageSrc">
@@ -118,6 +122,9 @@
         </div>
       </div>
     </div>
+    <Modal title="图片查看器" v-model="isShowImgModel">
+      <img :src="showkerReportInfo.taobaoCommentImage + '!orgi75'" style="width: 100%">
+    </Modal>
   </div>
 </template>
 
@@ -126,6 +133,7 @@
   import Button from 'iview/src/components/button'
   import Input from 'iview/src/components/input'
   import Radio from 'iview/src/components/radio'
+  import Modal from 'iview/src/components/modal'
   import TimeDown from '@/components/TimeDown'
   import api from '@/config/apiConfig'
   import {aliCallbackImgUrl} from '@/config/env'
@@ -139,12 +147,14 @@
       Radio: Radio,
       RadioGroup: Radio.Group,
       iInput: Input,
-      TimeDown: TimeDown
+      TimeDown: TimeDown,
+      Modal: Modal,
     },
     data() {
       return {
         trialCheckStatus: 'pass',
         showRefundModel: false,
+        isShowImgModel: false,
         refundPayPwd: null,
         showkerReportInfo: {},
         showkerTaskInfo: {
@@ -299,7 +309,10 @@
             })
           }
         })
-      }
+      },
+      lookBigImage() {
+        this.isShowImgModel = true
+      },
     },
   }
 </script>
