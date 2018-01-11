@@ -310,9 +310,6 @@
           }
         })
       },
-      lookBigImage() {
-        this.isShowImgModel = true
-      },
     },
   }
 </script>
