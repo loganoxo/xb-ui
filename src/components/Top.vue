@@ -19,9 +19,9 @@
             </div>
           </div>
         </div>
-        <router-link  to="/recommend-spread" class="seller-guide">
+       <!-- <router-link  to="/recommend-spread" class="seller-guide">
           <img src="/static/img/common/recommend_spread.gif" alt="">
-        </router-link>
+        </router-link>-->
       </div>
     </div>
     <div class="home-nav">

@@ -66,10 +66,10 @@
           <div class="select-check">
             <Radio-group v-model="trialCheckStatus">
               <Radio label="pass" style="margin-right: 32px;">
-                <span style="font-size: 16px;">通过</span>
+                <span class="fs-16">通过</span>
               </Radio>
               <Radio label="no_pass">
-                <span style="font-size: 16px;">不通过</span>
+                <span class="fs-16">不通过</span>
               </Radio>
             </Radio-group>
           </div>
@@ -183,7 +183,7 @@
     },
     watch: {},
     computed: {
-      countRefundAmount: function () {
+      countRefundAmount() {
         if(this.showkerTaskInfo.task.discountPrice && this.showkerTaskInfo.task.discountPrice >= 0){
           return this.showkerTaskInfo.orderPrice - this.showkerTaskInfo.task.discountPrice
         }else if(this.showkerTaskInfo.task.discountRate && this.showkerTaskInfo.task.discountRate > 0){
@@ -192,7 +192,7 @@
           return this.showkerTaskInfo.orderPrice
         }
       },
-      isPwdAmend: function () {
+      isPwdAmend() {
         return this.$store.getters.getIsEditPwdAlready
       },
     },
