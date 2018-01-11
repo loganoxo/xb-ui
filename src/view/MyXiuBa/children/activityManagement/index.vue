@@ -187,6 +187,8 @@
       color: #000;
       font-weight: 600;
       line-height: 24px;
+      background-color: #F8F8F8;
+      padding: 10px;
     }
     .trial-img-info {
       width: 884px;

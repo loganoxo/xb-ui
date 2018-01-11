@@ -41,13 +41,13 @@
         </p>
       </div>
       <div class="trial-experience mt-20">
-        <div class="trial-experience-title">1.淘宝评价截图（商家返款凭证）</div>
-        <div @click="isShowImgModel = true">
+        <div class="trial-experience-title f-b">1.淘宝评价截图，点击可查看原图（商家返款凭证）</div>
+        <div class="mt-5" @click="isShowImgModel = true">
          <img :src="showkerReportInfo.taobaoCommentImage + '!thum80'" width="80" height="80">
         </div>
-        <div class="trial-experience-title">2.活动过程与体验：（秀吧平台展示）</div>
+        <div class="trial-experience-title mt-20 f-b">2.活动过程与体验：（秀吧平台展示）</div>
         <div class="trial-experience-con mt-22">{{showkerReportInfo.trialReportText || ''}}</div>
-        <div class="trial-experience-title mt-22">3.买家秀图片：（秀吧平台展示）</div>
+        <div class="trial-experience-title mt-22 f-b">3.买家秀图片：（秀吧平台展示）</div>
         <div class="trial-img-info" v-if="trialReportImages.length > 0">
           <div class="trial-img" style="min-height: 400px">
             <img :src="showNowImageSrc">
