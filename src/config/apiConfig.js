@@ -181,8 +181,8 @@ export default {
   /**
    *获取用户、账户、旺旺账号
    */
-  getUserAccount() {
-    return fetch("/api/get-user-account.json")
+  getUserAccount(params) {
+    return fetch("/api/get-user-account.json", params)
   },
 
   /**

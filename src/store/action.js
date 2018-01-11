@@ -1,7 +1,6 @@
 /**
  * Created by ycb on 2017/7/17.
  */
-import * as types from './mutation-types'
 import api from '@/config/apiConfig'
 
 export default {
@@ -21,10 +20,12 @@ export default {
 
   //用户登陆后按需重新获取用户信息
   getUserInformation({commit}) {
-    api.getUserAccount().then(res => {
+    api.getUserAccount({
+      platForm: 'PC'
+    }).then(res => {
       if (res.status) {
         commit({
-          type: types.RECORD_USER_INFO,
+          type: 'RECORD_USER_INFO',
           info: res.data
         })
       } else {
@@ -38,7 +39,7 @@ export default {
     api.sellerPersonalTrialCount().then(res => {
       if (res.status) {
         commit({
-          type: types.TASK_MANAGEMENT_COUNT_INFO,
+          type: 'TASK_MANAGEMENT_COUNT_INFO',
           countInfo: res.data
         })
       } else {
