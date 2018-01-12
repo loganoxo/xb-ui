@@ -73,7 +73,6 @@
                 <td>{{getTaskStatus(item.status)}}</td>
                 <td>
                   <p class="del-edit">
-                    <!--<span class="mr-40" v-show="approveTaskInfo.needBrowseCollectAddCart" @click="getUserScreenShot(item.id,item.alitmAccount)">审核</span>-->
                     <span @click="showkerPassAudit(item.id, 'true')">通过</span>
                   </p>
                 </td>
@@ -157,9 +156,10 @@
                 <td>{{(item.orderPrice / 100).toFixed(2)}}</td>
                 <td>
                   <p class="del-edit">
-                    <span v-if="item.status === 'order_num_waiting_audit'" @click="openCheckOrder(item.id)">审核订单号</span>
-                    <span v-else-if="item.status === 'trial_report_waiting_confirm'" @click="goProbationReport(item.id)">审核买家秀</span>
-                    <span v-else>------</span>
+                    <span v-if="item.status === 'order_num_waiting_audit'" @click="openCheckOrder(item.id,item.screenshot,item.needBrowseCollectAddCart)">审核订单号</span>
+                    <span class="ml-10" v-if="item.needBrowseCollectAddCart && item.status === 'order_num_waiting_audit'" @click="checkScreenshot(item.screenshot,item.needBrowseCollectAddCart)">查看收藏加购截图</span>
+                    <span v-if="item.status === 'trial_report_waiting_confirm'" @click="goProbationReport(item.id)">审核买家秀</span>
+                    <span v-if="item.status !== 'order_num_waiting_audit' && item.status !== 'trial_report_waiting_confirm'">------</span>
                   </p>
                 </td>
               </tr>
@@ -242,7 +242,8 @@
       <div class="check-order-model" v-if="showCheckOrder">
         <div class="check-order-con">
           <i class="right" @click="closeCheckOrder">&times;</i>
-          <p class="mt-40">为了防止不良秀客冒领担保金，请您仔细核对下面的订单号是否与你店铺宝贝的交易订单号一致！</p>
+          <p class="mt-28 fs-14 text-lf" v-if="needBrowseCollectAddCart">1.请首先点击右侧链接按钮查看秀客提交的收藏加购截图：<a class="fs-14" @click="isShowCheckScreenshotModel = true">查看收藏加购截图</a></p>
+          <p class="text-lf" :class="[needBrowseCollectAddCart ? 'mt-20' : 'mt-40']"><span v-if="needBrowseCollectAddCart">2.</span>为了防止不良秀客冒领担保金，请您仔细核对下面的订单号是否与你店铺宝贝的交易订单号一致！</p>
           <p class="mt-22">
             <span>订单号：</span>
             <span class="main-color">{{orderInfo.orderNum}}</span>
@@ -254,10 +255,10 @@
           <div class="mt-22">
             <Radio-group v-model="orderReviewStatus">
               <Radio label="passAudit" style="margin-right: 32px;">
-                <span style="font-size: 16px;">通过</span>
+                <span class="fs-16">通过</span>
               </Radio>
               <Radio label="failAudit">
-                <span style="font-size: 16px;">不通过</span>
+                <span class="fs-16">不通过</span>
               </Radio>
             </Radio-group>
           </div>
@@ -270,7 +271,7 @@
           <PayModel v-show="orderReviewStatus === 'passAudit' && orderInfo.perMarginNeed < getOderPrice"
                     :orderMoney="needReplenishMoney"
                     @confirmPayment="confirmPayment" :payButtonText="payButtonText"
-                    :rechargeButtonText="rechargeButtonText" style="margin-top: 120px;">
+                    :rechargeButtonText="rechargeButtonText" style="margin-top: 120px;width: 652px;margin-left: -326px;" :style="{top:needBrowseCollectAddCart ? 45+'%' : 30 +'%'}">
             <div slot="isBalance" class="title-tip">
                 <span class="size-color3">
                 <Icon color="#FF2424" size="18" type="ios-information"></Icon>
@@ -286,17 +287,17 @@
           </PayModel>
         </div>
       </div>
-      <!--审核图片弹窗-->
-     <!-- <Modal v-model="approvalPop" :transfer="false" width="600">
-        <AuditShowker
-          :applyName="applyName"
-          :userScreenShotImg="userScreenShotImg"
-          :passId="passId"
-          :activeEndTime="activeEndTime"
-          @request="auditSuccess">
-        </AuditShowker>
-        <div slot="footer" style="padding: 0px ; border: none"></div>
-      </Modal>-->
+      <!--收藏加购物截图查看-->
+      <modal title="收藏加购截图查看器" v-model="isShowCheckScreenshotModel">
+        <carousel v-if="isShowCheckScreenshotModel" v-model="carouselValue" :height="600" :loop="true">
+          <carousel-item>
+            <img :src="checkScreenshotList.addToCart" width="100%" height="100%">
+          </carousel-item>
+          <carousel-item>
+            <img :src="checkScreenshotList.enshrine"  width="100%" height="100%">
+          </carousel-item>
+        </carousel>
+      </modal>
     </div>
   </div>
 </template>
@@ -307,6 +308,7 @@
   import Modal from 'iview/src/components/modal'
   import Icon from 'iview/src/components/icon'
   import Button from 'iview/src/components/button'
+  import Carousel from 'iview/src/components/carousel'
   import Input from 'iview/src/components/input'
   import {Select, Option, OptionGroup} from 'iview/src/components/select'
   import Radio from 'iview/src/components/radio'
@@ -322,6 +324,8 @@
       Page: Page,
       Modal: Modal,
       iButton: Button,
+      Carousel: Carousel,
+      CarouselItem: Carousel.Item,
       Icon: Icon,
       iInput: Input,
       iSelect: Select,
@@ -334,6 +338,9 @@
     },
     data() {
       return {
+        isShowCheckScreenshotModel: false,
+        needBrowseCollectAddCart: false,
+        checkScreenshotList: [],
         wwFormValidate: {
           creditLevel: null,
           tqz: null,
@@ -457,11 +464,7 @@
         viewScreenShotUrl: null,
         viewScreenShot: false,
         passOrNoPass: 'true',
-        passId: null,
         reason: null,
-        approvalPop: false,
-        activeEndTime: null,
-        userScreenShotImg: {},
         showApproveStatus: 'toAudit',
         taskId: null,
         checkAllByPass: false,
@@ -502,7 +505,6 @@
       this.taskId = decode(this.$route.query.q);
       this.showApproveStatus = "toAudit";
       this.taskApplyList();
-      this.activeEndTime = parseInt(this.$route.query.endTime) + 24 * 2 * 60 * 60 * 1000;
     },
     watch: {},
     computed: {
@@ -522,10 +524,6 @@
     methods: {
       encryptionId(id){
         return encryption(id)
-      },
-      auditSuccess() {
-        this.approvalPop = false;
-        this.taskApplyList();
       },
       viewScreenShotFun(type) {
         this.viewScreenShotUrl = type;
@@ -643,8 +641,10 @@
       closeCheckOrder() {
         this.showCheckOrder = false;
       },
-      openCheckOrder(id) {
+      openCheckOrder(id,screenshot,needBrowseCollectAddCart) {
         let _this = this;
+        _this.checkScreenshotList = screenshot;
+        _this.needBrowseCollectAddCart = needBrowseCollectAddCart;
         _this.showCheckOrder = true;
         api.orderNumberInfo({
           id: id
@@ -704,21 +704,11 @@
           }
         })
       },
-    /*  getUserScreenShot(id, name) {
-        let _this = this;
-        _this.passId = id;
-        _this.applyName = name;
-        api.getUserScreenShot({
-          id: id
-        }).then(res => {
-          if (res.status) {
-            _this.approvalPop = true;
-            _this.userScreenShotImg = res.data;
-          } else {
-            _this.$Message.error(res.msg)
-          }
-        })
-      }*/
+      checkScreenshot(item, needBrowseCollectAddCart) {
+        this.isShowCheckScreenshotModel = true;
+        this.checkScreenshotList = item;
+        this.needBrowseCollectAddCart = needBrowseCollectAddCart;
+      },
     },
   }
 </script>

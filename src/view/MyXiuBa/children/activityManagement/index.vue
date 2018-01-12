@@ -300,13 +300,13 @@
     }
     .check-order-con {
       position: absolute;
-      width: 600px;
+      width: 652px;
       background-color: #fff;
       border-radius: 5px;
       left: 50%;
       margin-left: -300px;
       top: 30%;
-      padding: 0 32px 26px 32px;
+      padding: 0 18px 26px 18px;
       text-align: center;
       i {
         font-size: 24px;

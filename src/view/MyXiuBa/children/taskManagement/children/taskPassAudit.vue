@@ -119,8 +119,8 @@
               <td>{{(item.orderPrice / 100).toFixed(2)}}</td>
               <td>
                 <p class="del-edit">
-                  <span v-if="item.status === 'order_num_waiting_audit'" @click="openCheckOrder(item.id,item.screenshot)">审核订单号</span>
-                  <span class="ml-10" v-if="item.needBrowseCollectAddCart && item.status === 'order_num_waiting_audit'" @click="checkScreenshot(item.screenshot)">查看收藏加购截图</span>
+                  <span v-if="item.status === 'order_num_waiting_audit'" @click="openCheckOrder(item.id,item.screenshot, item.needBrowseCollectAddCart)">审核订单号</span>
+                  <span class="ml-10" v-if="item.needBrowseCollectAddCart && item.status === 'order_num_waiting_audit'" @click="checkScreenshot(item.screenshot, item.needBrowseCollectAddCart)">查看收藏加购截图</span>
                   <span v-if="item.status === 'trial_report_waiting_confirm'" @click="goProbationReport(item.id)">审核买家秀</span>
                   <span v-if="item.status !== 'order_num_waiting_audit' && item.status !== 'trial_report_waiting_confirm'">------</span>
                 </p>
@@ -144,8 +144,8 @@
     <div class="check-order-model" v-if="showCheckOrder">
       <div class="check-order-con">
         <i class="right" @click="showCheckOrder = false">&times;</i>
-        <p class="mt-28 fs-14 text-lf">1.请首先点击右侧链接按钮审核秀客提交的收藏加购截图：<a class="fs-14" @click="isShowCheckScreenshotModel = true">查看收藏加购截图</a></p>
-        <p class="mt-20 text-lf">2.为了防止不良秀客冒领担保金，请您仔细核对下面的订单号是否与你店铺宝贝的交易订单号一致！</p>
+        <p class="mt-28 fs-14 text-lf" v-if="needBrowseCollectAddCart">1.请首先点击右侧链接按钮查看秀客提交的收藏加购截图：<a class="fs-14" @click="isShowCheckScreenshotModel = true">查看收藏加购截图</a></p>
+        <p class="text-lf" :class="[needBrowseCollectAddCart ? 'mt-20' : 'mt-40']"><span v-if="needBrowseCollectAddCart">2.</span>为了防止不良秀客冒领担保金，请您仔细核对下面的订单号是否与你店铺宝贝的交易订单号一致！</p>
         <p class="mt-22 text-ct">
           <span>订单号：</span>
           <span class="main-color">{{orderInfo.orderNum}}</span>
@@ -172,7 +172,7 @@
         <PayModel v-show="orderReviewStatus === 'passAudit' && orderInfo.perMarginNeed < getOderPrice"
                   :orderMoney="needReplenishMoney"
                   @confirmPayment="confirmPayment" :payButtonText="payButtonText"
-                  :rechargeButtonText="rechargeButtonText" style="margin-top: 120px;top:45%;width: 652px;margin-left: -326px;">
+                  :rechargeButtonText="rechargeButtonText" style="margin-top: 120px;width: 652px;margin-left: -326px;" :style="{top:needBrowseCollectAddCart ? 45+'%' : 30 +'%'}">
           <div slot="isBalance" class="title-tip">
                 <span class="size-color3">
                 <Icon color="#FF2424" size="18" type="ios-information"></Icon>
@@ -189,17 +189,18 @@
       </div>
     </div>
     <!--收藏加购物截图查看-->
-    <Modal title="收藏加购物截图查看器" v-model="isShowCheckScreenshotModel">
-      <Carousel v-model="carouselValue" loop :height="600">
-        <CarouselItem>
-          <img :src="checkScreenshotList.addToCart">
-        </CarouselItem>
-        <CarouselItem>
-          <img :src="checkScreenshotList.enshrine">
-        </CarouselItem>
-      </Carousel>
-    </Modal>
+    <modal title="收藏加购截图查看器" v-model="isShowCheckScreenshotModel">
+       <carousel v-if="isShowCheckScreenshotModel" v-model="carouselValue" :height="600" :loop="true">
+         <carousel-item>
+           <img :src="checkScreenshotList.addToCart" width="100%" height="100%">
+         </carousel-item>
+         <carousel-item>
+           <img :src="checkScreenshotList.enshrine"  width="100%" height="100%">
+         </carousel-item>
+       </carousel>
+    </modal>
   </div>
+
 </template>
 
 <script>
@@ -241,6 +242,7 @@
       return {
         isShowCheckScreenshotModel: false,
         checkScreenshotList: [],
+        needBrowseCollectAddCart: false,
         carouselValue: 0,
         searchLoading: false,
         alitmAccount: null,
@@ -281,7 +283,7 @@
       }
     },
     computed: {
-      getOderPrice: function () {
+      getOderPrice() {
         if(this.orderInfo.discountPrice && this.orderInfo.discountPrice > 0){
           return this.orderInfo.orderPrice - this.orderInfo.discountPrice
         }else if(this.orderInfo.discountRate && this.orderInfo.discountRate > 0){
@@ -290,7 +292,7 @@
           return this.orderInfo.orderPrice
         }
       },
-      needReplenishMoney: function () {
+      needReplenishMoney() {
         return (this.getOderPrice - this.orderInfo.perMarginNeed).toFixed(2) * 1
       }
     },
@@ -417,9 +419,10 @@
           }
         })
       },
-      openCheckOrder(id,screenshot) {
+      openCheckOrder(id,screenshot,needBrowseCollectAddCart) {
         let _this = this;
         _this.checkScreenshotList = screenshot;
+        _this.needBrowseCollectAddCart = needBrowseCollectAddCart;
         _this.showCheckOrder = true;
         _this.orderNoPassReason = '';
         api.orderNumberInfo({id: id}).then(res => {
@@ -477,9 +480,10 @@
           this.passesShowkerTask(id, index);
         }
       },
-      checkScreenshot(item) {
+      checkScreenshot(item,needBrowseCollectAddCart) {
         this.isShowCheckScreenshotModel = true;
-        this.checkScreenshotList = item
+        this.checkScreenshotList = item;
+        this.needBrowseCollectAddCart = needBrowseCollectAddCart;
       }
     }
   }
