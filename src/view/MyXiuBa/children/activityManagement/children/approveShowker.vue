@@ -296,6 +296,12 @@
           <carousel-item>
             <img :src="checkScreenshotList.enshrine + '!orgi75'"  width="100%" height="100%">
           </carousel-item>
+          <carousel-item v-if="checkScreenshotList.itemLocation">
+            <img :src="checkScreenshotList.itemLocation + '!orgi75'"  width="100%" height="100%">
+          </carousel-item>
+          <carousel-item v-if="checkScreenshotList.searchCondition">
+            <img :src="checkScreenshotList.searchCondition + '!orgi75'"  width="100%" height="100%">
+          </carousel-item>
         </carousel>
       </modal>
     </div>
