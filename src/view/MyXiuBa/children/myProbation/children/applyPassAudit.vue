@@ -527,22 +527,43 @@
         <img width="400" src="~assets/img/screen-shot/taobao-screenShot.jpg" alt="">
       </div>
     </Modal>
-    <Modal v-model="pcSearch" title="照片查看器" width="500" :styles="{top:'20px'}">
+    <Modal v-model="pcSearch" title="照片查看器" width="800"  :styles="{top:'20px'}">
       <div v-if="pcSearchSelect.one && taskType === 'pc_search'"  class="text-ct">
-        <img width="400" src="~assets/img/screen-shot/select_type.jpg" alt="">
+        <img width="700" src="~assets/img/screen-shot/select_type.jpg" alt="">
       </div>
       <div v-if="pcSearchSelect.two"  class="text-ct">
-        <img width="400" v-if="taskType === 'pc_search'" src="~assets/img/screen-shot/position_pc.jpg" alt="">
+        <img width="700" v-if="taskType === 'pc_search'" src="~assets/img/screen-shot/position_pc.jpg" alt="">
         <img width="400" v-if="taskType === 'app_search'" src="~assets/img/screen-shot/position_app.png" alt="">
       </div>
       <div v-if="pcSearchSelect.four"  class="text-ct">
-        <img width="400" v-if="taskType ==='direct_access'|| taskType=== 'pc_search'"
+        <img width="700" v-if="taskType ==='direct_access'|| taskType=== 'pc_search'"
              src="~assets/img/screen-shot/collect_pc.jpg" alt="">
         <img width="400" v-if="taskType ==='app_search'|| taskType=== 'tao_code'"
              src="~assets/img/screen-shot/collect_app.png" alt="">
       </div>
       <div v-if="pcSearchSelect.five" class="text-ct">
-        <img width="400" v-if="taskType ==='direct_access'|| taskType=== 'pc_search'"
+        <img width="700" v-if="taskType ==='direct_access'|| taskType=== 'pc_search'"
+             src="~assets/img/screen-shot/shop_car_pc.jpg" alt="">
+        <img width="400" v-if="taskType ==='app_search'|| taskType=== 'tao_code'"
+             src="~assets/img/screen-shot/shop_car_app.png" alt="">
+      </div>
+    </Modal>
+    <Modal v-model="appSearch" title="照片查看器" width="500"  :styles="{top:'20px'}">
+      <div v-if="pcSearchSelect.one && taskType === 'pc_search'"  class="text-ct">
+        <img width="700" src="~assets/img/screen-shot/select_type.jpg" alt="">
+      </div>
+      <div v-if="pcSearchSelect.two"  class="text-ct">
+        <img width="700" v-if="taskType === 'pc_search'" src="~assets/img/screen-shot/position_pc.jpg" alt="">
+        <img width="400" v-if="taskType === 'app_search'" src="~assets/img/screen-shot/position_app.png" alt="">
+      </div>
+      <div v-if="pcSearchSelect.four"  class="text-ct">
+        <img width="700" v-if="taskType ==='direct_access'|| taskType=== 'pc_search'"
+             src="~assets/img/screen-shot/collect_pc.jpg" alt="">
+        <img width="400" v-if="taskType ==='app_search'|| taskType=== 'tao_code'"
+             src="~assets/img/screen-shot/collect_app.png" alt="">
+      </div>
+      <div v-if="pcSearchSelect.five" class="text-ct">
+        <img width="700" v-if="taskType ==='direct_access'|| taskType=== 'pc_search'"
              src="~assets/img/screen-shot/shop_car_pc.jpg" alt="">
         <img width="400" v-if="taskType ==='app_search'|| taskType=== 'tao_code'"
              src="~assets/img/screen-shot/shop_car_app.png" alt="">
@@ -599,6 +620,7 @@
     },
     data() {
       return {
+        appSearch:false,
         downloadButton: false,
         showPassOperation: '',
         showAuditOrderNumber: false,
@@ -723,11 +745,17 @@
       }
     },
     methods: {
+
       watchExamplePic() {
         this.watchExample = true;
       },
       pcSearchSelectFun(type) {
-        this.pcSearch = true;
+        if (this.taskType === 'pc_search'|| this.taskType === 'direct_access'){
+          console.log(111);
+          this.pcSearch = true;
+        }else {
+          this.appSearch = true;
+        }
         for (let k in this.pcSearchSelect) {
           k === type ? this.pcSearchSelect[k] = true : this.pcSearchSelect[k] = false;
         }
