@@ -274,18 +274,42 @@
         <div id="copyEvaluation">{{showkerTask.other.itemReviewAssign.reviewContent}}</div>
         <div class="copy-evaluation-tbn mt-10" id="copyEvaluationBtn">复制评价内容</div>
       </div>
+      <div class="mt-20">
+        <p class="fs-14"><span class="des-text">1.淘宝评价截图</span><span class="cl666">（商家返款凭证）</span></p>
+        <Upload
+          class="mt-10"
+          ref="upload"
+          :show-upload-list="false"
+          :default-file-list="defaultImageList"
+          :on-success="uploadTaobaoImgSuccess"
+          :on-remove="removeImage"
+          :format="['jpg','jpeg','png','gif','bmp']"
+          :max-size="10240"
+          name="report"
+          :uploadLength="1"
+          :on-format-error="handleFormatError"
+          :on-exceeded-size="handleMaxSize"
+          type="drag">
+          <div style="width: 58px;height:58px;line-height: 58px;">
+            <Icon type="camera" size="20"></Icon>
+          </div>
+        </Upload>
+      </div>
       <div class="experience mt-22">
-        <p class="mb-10">活动过程与体验：</p>
+        <p class="mb-10"><span class="des-text">2.说说体验</span><span class="cl666">（秀吧平台要求）</span></p>
         <iInput v-model="trialReportText" type="textarea" :autosize="{minRows: 5,maxRows: 12}" placeholder="请填写在试用过程中，对于宝贝的真实使用体会及感受，可以和淘宝上的宝贝评价一致"></iInput>
       </div>
       <div class="experience-img mt-22">
-        <p class="mb-10">买家秀图片：（请上传宝贝试用和体验的相关图片，不是淘宝好评的截图。图片支持jpg、jpeg、png、gif、bmp格式，大小不超过10M）</p>
+        <div class="mb-10">
+          <p><span class="des-text">3.买家秀图片</span><span class="cl666">（秀吧平台要求）</span></p>
+          <p class="cl666">请上传宝贝试用和体验的相关图片，不是淘宝好评的截图。图片支持jpg、jpeg、png、gif、bmp格式，大小不超过10M,该组图片将会在秀吧平台展示哦，多多晒图，更有利于商家选中你哦</p>
+        </div>
         <Upload
           ref="upload"
           :show-upload-list="false"
           :default-file-list="defaultImageList"
           :on-success="uploadImgSuccess"
-          :on-remove="removeImage"
+          :on-remove="removeTaobaoImg"
           :format="['jpg','jpeg','png','gif','bmp']"
           :max-size="10240"
           name="report"
@@ -330,7 +354,96 @@
           <span :class="[currentOrderStatusInfo.status === 'order_num_error' ? 'main-color': '']">{{currentOrderStatusInfo.statusDesc}}</span>
           <strong class="ml-10" v-if="currentOrderStatusInfo.status === 'order_num_error'">原因：{{currentOrderStatusInfo.auditDescription}}</strong>
         </div>
+        <div v-if="needBrowseCollectAddCart" class="mt-20 ml-45 des-text">1.收藏、加入购物车，提交相关截图</div>
+        <div v-if="needBrowseCollectAddCart" class="clear text-ct ml-45 mt-20">
+          <div class="left ml-10 " v-if="taskType === 'pc_search'">
+            <Upload
+              class="ml-5"
+              ref="upload"
+              :show-upload-list="false"
+              :default-file-list="defaultImageSearchCondition"
+              :on-remove="removeMainImage"
+              :on-success="searchConditionImageFun"
+              :format="['jpg','jpeg','png','gif','bmp']"
+              :max-size="10240"
+              name="task"
+              :on-format-error="handleFormatError"
+              :on-exceeded-size="handleMaxSize"
+              type="drag">
+              <div style="width: 58px;height:58px;line-height: 58px;">
+                <Icon type="camera" size="20"></Icon>
+              </div>
+            </Upload>
+            <p class="mt-8">搜索条件截图</p>
+            <p class="mt-8 cursor-p example" @click="pcSearchSelectFun('one')">查看示例图</p>
+          </div>
+          <div class="left ml-20" v-if="taskType === 'pc_search'|| taskType === 'app_search'">
+            <Upload
+              class="ml-5"
+              ref="upload"
+              :show-upload-list="false"
+              :default-file-list="defaultImageItemLocation"
+              :on-remove="removeMainImage"
+              :on-success="itemLocationImageFun"
+              :format="['jpg','jpeg','png','gif','bmp']"
+              :max-size="10240"
+              name="task"
+              :on-format-error="handleFormatError"
+              :on-exceeded-size="handleMaxSize"
+              type="drag">
+              <div style="width: 58px;height:58px;line-height: 58px;">
+                <Icon type="camera" size="20"></Icon>
+              </div>
+            </Upload>
+            <p class="mt-8">所在位置截图</p>
+            <p class="mt-8 cursor-p example" @click="pcSearchSelectFun('two')">查看示例图</p>
+          </div>
+          <div class="left ml-20">
+            <Upload
+              class="ml-5"
+              ref="upload"
+              :show-upload-list="false"
+              :default-file-list="defaultImageEnshrine"
+              :on-remove="removeMainImage"
+              :on-success="enshrineImageFun"
+              :format="['jpg','jpeg','png','gif','bmp']"
+              :max-size="10240"
+              name="task"
+              :on-format-error="handleFormatError"
+              :on-exceeded-size="handleMaxSize"
+              type="drag">
+              <div style="width: 58px;height:58px;line-height: 58px;">
+                <Icon type="camera" size="20"></Icon>
+              </div>
+            </Upload>
+            <p class="mt-8">宝贝加入收藏夹</p>
+            <p class="mt-8 cursor-p example" @click="pcSearchSelectFun('four')">查看示例图</p>
+          </div>
+          <div class="left ml-20">
+            <Upload
+              class="ml-5"
+              ref="upload"
+              :show-upload-list="false"
+              :default-file-list="defaultImageAddToCart"
+              :on-remove="removeMainImage"
+              :on-success="addToCartImageFun"
+              :format="['jpg','jpeg','png','gif','bmp']"
+              :max-size="10240"
+              name="task"
+              :on-format-error="handleFormatError"
+              :on-exceeded-size="handleMaxSize"
+              type="drag">
+              <div style="width: 58px;height:58px;line-height: 58px;">
+                <Icon type="camera" size="20"></Icon>
+              </div>
+            </Upload>
+            <p class="mt-8">宝贝加入购物车</p>
+            <p class="mt-8 cursor-p example" @click="pcSearchSelectFun('five')">查看示例图</p>
+          </div>
+        </div>
         <div class="mt-10 ml-45">
+          <p class="mt-20 mb-20 des-text" v-if="needBrowseCollectAddCart">2.填写下单信息</p>
+          <p class="mt-20 mb-20 des-text" v-if="!needBrowseCollectAddCart">填写下单信息</p>
           <span>请输入订单号：</span>
           <iInput v-model="affirmOrderNumber" style="width: 300px;"></iInput>
           <iButton @click="orderImg = true">什么是订单号？</iButton>
@@ -377,6 +490,26 @@
       <div slot="footer" class="text-ct">
         <iButton class="mr-20" type="error" size="large" :loading="modalLoading" @click="endTrial">确认提交</iButton>
         <iButton size="large" @click="unSelectSubmit">取消</iButton>
+      </div>
+    </Modal>
+    <Modal v-model="pcSearch" title="照片查看器" width="1000" :styles="{top:'20px'}">
+      <div v-if="pcSearchSelect.one && taskType === 'pc_search'">
+        <img width="900" src="~assets/img/screen-shot/select_type.jpg" alt="">
+      </div>
+      <div v-if="pcSearchSelect.two">
+        <img width="900" v-if="taskType === 'pc_search'" src="~assets/img/screen-shot/position_pc.jpg" alt="">
+        <img width="900" v-if="taskType === 'app_search'" src="~assets/img/screen-shot/position_app.png" alt="">
+      </div>
+      <!--<div v-if="pcSearchSelect.three">-->
+        <!--<img width="900" src="~assets/img/screen-shot/under_pc.jpg" alt="">-->
+      <!--</div>-->
+      <div v-if="pcSearchSelect.four">
+        <img width="900" v-if="taskType ==='direct_access'|| taskType=== 'pc_search'" src="~assets/img/screen-shot/collect_pc.jpg" alt="">
+        <img width="900" v-if="taskType ==='app_search'|| taskType=== 'tao_code'" src="~assets/img/screen-shot/collect_app.png" alt="">
+      </div>
+      <div v-if="pcSearchSelect.five">
+        <img width="900" v-if="taskType ==='direct_access'|| taskType=== 'pc_search'" src="~assets/img/screen-shot/shop_car_pc.jpg" alt="">
+        <img width="900" v-if="taskType ==='app_search'|| taskType=== 'tao_code'" src="~assets/img/screen-shot/shop_car_app.png" alt="">
       </div>
     </Modal>
     <!--用户服务条款弹框-->
@@ -465,7 +598,6 @@
         auditTimeEnd: '',
         trialReportImages: [],
         trialReportText: null,
-        defaultImageList: [],
         modalLoading: false,
         deleteModal: false,
         deleteId: null,
@@ -477,6 +609,30 @@
         endReason: null,
         otherReason: null,
         isShowUserClause: false,
+        taobaoScreenShotImg:[],
+        needBrowseCollectAddCart:false,
+        upLoadImageUrl: {
+          searchConditionImage: null,
+          itemLocationImage: null,
+          browseToBottomImage: null,
+          enshrineImage: null,
+          addToCartImage: null
+        },
+        pcSearch:false,
+        pcSearchSelect: {
+          one: false,
+          two: false,
+          three: false,
+          four: false,
+          five: false
+        },
+        taskType:'',
+        screenShot:{},
+        defaultImageList: [],
+        defaultImageAddToCart:[],
+        defaultImageEnshrine:[],
+        defaultImageItemLocation:[],
+        defaultImageSearchCondition:[],
       }
     },
     mounted() {
@@ -531,6 +687,35 @@
       }
     },
     methods: {
+      pcSearchSelectFun(type) {
+        this.pcSearch = true;
+        for (let k in this.pcSearchSelect) {
+          k === type ? this.pcSearchSelect[k] = true : this.pcSearchSelect[k] = false;
+        }
+      },
+      removeMainImage() {
+
+      },
+      //获搜索条件截图片地址
+      searchConditionImageFun(res) {
+        this.upLoadImageUrl.searchConditionImage = aliCallbackImgUrl + res.name
+      },
+      //宝贝所在位置截图
+      itemLocationImageFun(res) {
+        this.upLoadImageUrl.itemLocationImage = aliCallbackImgUrl + res.name
+      },
+      //浏览见底截图
+      browseToBottomImageFun(res) {
+        this.upLoadImageUrl.browseToBottomImage = aliCallbackImgUrl + res.name
+      },
+      //收藏截图
+      enshrineImageFun(res) {
+        this.upLoadImageUrl.enshrineImage = aliCallbackImgUrl + res.name
+      },
+      //加入购物车截图
+      addToCartImageFun(res) {
+        this.upLoadImageUrl.addToCartImage = aliCallbackImgUrl + res.name
+      },
       encryptionId(id){
         return encryption(id)
       },
@@ -587,6 +772,13 @@
           if (res.status) {
             _this.showkerTask = res.data.showkerTask;
             _this.taskPlaceInfo = res.data.showkerTask.task;
+            _this.needBrowseCollectAddCart = res.data.taskInfo.needBrowseCollectAddCart;
+            _this.taskType = res.data.taskInfo.taskType;
+            _this.screenShot = JSON.parse(res.data.taskApply.screenshot);
+            _this.defaultImageAddToCart = _this.screenShot.addToCart?[{src:_this.screenShot.addToCart}]:[];
+            _this.defaultImageEnshrine = _this.screenShot.enshrine?[{src:_this.screenShot.enshrine}]:[];
+            _this.defaultImageItemLocation = _this.screenShot.itemLocation?[{src:_this.screenShot.itemLocation}]:[];
+            _this.defaultImageSearchCondition = _this.screenShot.searchCondition?[{src:_this.screenShot.searchCondition}]:[];
           } else {
             _this.$Message.error(res.msg);
           }
@@ -641,6 +833,7 @@
         this.showAuditOrderNumber = true;
         if (id && !this.itemId) {
           this.itemId = id;
+          this.getShowkerToProcessOrder();
         }
       },
       openAuditOrder(id,type,activityCategory,status,statusDesc,auditDescription) {
@@ -654,10 +847,18 @@
         this.showAuditOrderNumber = true;
         if (id && !this.itemId) {
           this.itemId = id;
+          this.getShowkerToProcessOrder();
         }
+      },
+      uploadTaobaoImgSuccess(res){
+        this.taobaoScreenShotImg.push(aliCallbackImgUrl + res.name);
       },
       uploadImgSuccess(res) {
         this.trialReportImages.push(aliCallbackImgUrl + res.name);
+      },
+      removeTaobaoImg(file){
+        let index = this.taobaoScreenShotImg.indexOf(file.src);
+        this.taobaoScreenShotImg.splice(index, 1);
       },
       removeImage(file) {
         let index = this.trialReportImages.indexOf(file.src);
@@ -672,7 +873,7 @@
       handleMaxSize(file) {
         this.$Modal.warning({
           title: '超出文件大小限制',
-          content: '图片 ' + file.name + ' 太大，不能超过 2M'
+          content: '图片 ' + file.name + ' 太大，不能超过 10M'
         });
       },
       searchShowkerPassTask() {
@@ -752,7 +953,11 @@
         api.showkerOrderSave({
           id: _this.itemId,
           orderNum: _this.affirmOrderNumber,
-          actualPayMoney: _this.payMoney
+          actualPayMoney: _this.payMoney,
+          searchCondition: _this.upLoadImageUrl.searchConditionImage || null,
+          itemLocation: _this.upLoadImageUrl.itemLocationImage || null,
+          enshrine: _this.upLoadImageUrl.enshrineImage || null,
+          addToCart: _this.upLoadImageUrl.addToCartImage || null,
         }).then(res => {
           if (res.status) {
             _this.$Message.success('订单号提交成功，请耐心等待商家审核！');
@@ -766,6 +971,10 @@
       },
       submitReport() {
         let _this = this;
+        if (_this.taobaoScreenShotImg.length <1) {
+          _this.$Message.error("亲，请上传淘宝截图！");
+          return;
+        }
         if (!_this.trialReportText) {
           _this.$Message.error("亲，请描述您的活动过程与体验！");
           return;
@@ -778,7 +987,8 @@
           api.showkerSaveReport({
             id: _this.itemId,
             trialReportText: _this.trialReportText,
-            trialReportImages: JSON.stringify(_this.trialReportImages)
+            trialReportImages: JSON.stringify(_this.trialReportImages),
+            taoBaoCommentImage:_this.taobaoScreenShotImg[0]
           }).then(res => {
             if (res.status) {
               _this.$Message.success({
@@ -795,7 +1005,8 @@
           api.showkerModifyReport({
             id: _this.itemId,
             trialReportText: _this.trialReportText,
-            trialReportImages: JSON.stringify(_this.trialReportImages)
+            trialReportImages: JSON.stringify(_this.trialReportImages),
+            taoBaoCommentImage:_this.taobaoScreenShotImg[0]
           }).then(res => {
             if (res.status) {
               _this.$Message.success('买家秀修改成功，请耐心等待商家审核！');

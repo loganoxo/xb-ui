@@ -41,6 +41,10 @@
     .main-color {
       color: $mainColor;
     }
+    .des-text{
+      font-weight: bold;
+      color: #696969;
+    }
     .minor-color {
       color: #999!important;
     }
@@ -195,7 +199,7 @@
     .audit-order-number-model {
       @include fullScreenModel;
       .audit-order-number-con {
-        @include fullScreenModelCon(600px, 320px);
+        @include fullScreenModelCon(600px, 500px);
       }
       i.close-model {
         font-size: 32px;
@@ -286,7 +290,6 @@
     .experience-img {
       p {
         font-size: 14px;
-        color: #666;
       }
     }
     .experience-video{

@@ -13,9 +13,11 @@
         <span v-if="!hasCurrentSearchSchemeIndex && isShowChangeKeyword" class="ml-10 color cursor-p" @click="changeTaskPlaceInfo">找不到宝贝？点击换个关键词试试</span>
       </p>
       <p>第3步：选择【<span>{{getTaskStatus(taskDetail.searchSort)}}</span>】排序</p>
-      <p v-if="hasCurrentSearchSchemeIndex ? showkerTaskInfo.task.taskType === 'app_search' : showkerTaskInfo.taskType === 'app_search'">第四步：从上往下数第【<span>{{taskDetail.searchRankPosition}}</span>】个宝贝左右</p>
+      <p v-if="hasCurrentSearchSchemeIndex ? showkerTaskInfo.task.taskType === 'app_search' : showkerTaskInfo.taskType === 'app_search'">第4步：从上往下数第【<span>{{taskDetail.searchRankPosition}}</span>】个宝贝左右</p>
       <p v-if="hasCurrentSearchSchemeIndex ? showkerTaskInfo.task.taskType === 'pc_search' : showkerTaskInfo.taskType === 'pc_search'">第4步：在【<span>{{taskDetail.searchPagePositionMin}}-{{taskDetail.searchPagePositionMax}}</span>】页附近找到下图宝贝。（由于千人千面的影响，位置仅供参考）</p>
       <p v-if="taskDetail.priceRangeMin > 0 || taskDetail.deliverAddress || checkText">第5步：<span class="minor-color" v-if="taskDetail.priceRangeMin > 0">搜索指定价格【<span>{{taskDetail.priceRangeMin / 100}}-{{taskDetail.priceRangeMax / 100}}</span>】，</span><span class="minor-color" v-if="taskDetail.deliverAddress">搜索指定发货地【<span>{{taskDetail.deliverAddress}}</span>】，</span><span class="minor-color" v-if="checkText">勾选【<span>{{checkText}}</span>】</span></p>
+      <p v-if="showkerTaskInfo.task.needBrowseCollectAddCart && !(taskDetail.priceRangeMin > 0) && !taskDetail.deliverAddress && !checkText">第5步：请收藏宝贝，并加入购物车。</p>
+      <p v-if="showkerTaskInfo.task.needBrowseCollectAddCart && (taskDetail.priceRangeMin > 0) && taskDetail.deliverAddress && checkText">第6步：请收藏宝贝，并加入购物车。</p>
   </div>
     <div class="tao-code-place-step" v-if="hasCurrentSearchSchemeIndex ? showkerTaskInfo.task.taskType === 'tao_code' : showkerTaskInfo.taskType === 'tao_code'">
       <p class="mb-10">淘口令【<span id="copyCode">{{taskDetail.taoCode}}</span>】<span id="copyBtn" class="ml-10" @click="sendMessage()"> 点击复制口令</span></p>
