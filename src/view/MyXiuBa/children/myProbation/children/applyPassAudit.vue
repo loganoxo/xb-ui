@@ -308,7 +308,7 @@
           :show-upload-list="false"
           :default-file-list="defaultImageList"
           :on-success="uploadTaobaoImgSuccess"
-          :on-remove="removeImage"
+          :on-remove="removeTaobaoImg"
           :format="['jpg','jpeg','png','gif','bmp']"
           :max-size="10240"
           name="report"
@@ -339,7 +339,7 @@
           :show-upload-list="false"
           :default-file-list="defaultImageList"
           :on-success="uploadImgSuccess"
-          :on-remove="removeTaobaoImg"
+          :on-remove="removeImage"
           :format="['jpg','jpeg','png','gif','bmp']"
           :max-size="10240"
           name="report"
@@ -936,9 +936,8 @@
       uploadImgSuccess(res) {
         this.trialReportImages.push(aliCallbackImgUrl + res.name);
       },
-      removeTaobaoImg(file) {
-        let index = this.taobaoScreenShotImg.indexOf(file.src);
-        this.taobaoScreenShotImg.splice(index, 1);
+      removeTaobaoImg() {
+        this.taobaoScreenShotImg = [];
       },
       removeImage(file) {
         let index = this.trialReportImages.indexOf(file.src);
