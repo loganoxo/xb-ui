@@ -120,8 +120,9 @@
               <td>
                 <p class="del-edit">
                   <span v-if="item.status === 'order_num_waiting_audit'" @click="openCheckOrder(item.id)">审核订单号</span>
-                  <span v-else-if="item.status === 'trial_report_waiting_confirm'" @click="goProbationReport(item.id)">审核买家秀</span>
-                  <span v-else>------</span>
+                  <!--<span class="ml-10" v-if="item.needBrowseCollectAddCart && item.status === 'order_num_waiting_audit'" @click="checkScreenshot">查看收藏加购截图</span>-->
+                  <span v-if="item.status === 'trial_report_waiting_confirm'" @click="goProbationReport(item.id)">审核买家秀</span>
+                  <span v-if="item.status !== 'order_num_waiting_audit' && item.status !== 'trial_report_waiting_confirm'">------</span>
                 </p>
               </td>
             </tr>
@@ -186,6 +187,10 @@
         </PayModel>
       </div>
     </div>
+    <!--收藏加购物截图查看-->
+    <Modal title="收藏加购物截图查看器" v-model="isShowCheckScreenshotModel">
+      <img  style="width: 100%">
+    </Modal>
   </div>
 </template>
 
@@ -194,6 +199,8 @@
   import Page from 'iview/src/components/page'
   import Icon from 'iview/src/components/icon'
   import Button from 'iview/src/components/button'
+  import Modal from 'iview/src/components/modal'
+  import Carousel from 'iview/src/components/carousel'
   import Input from 'iview/src/components/input'
   import Radio from 'iview/src/components/radio'
   import Tooltip from 'iview/src/components/tooltip'
@@ -210,6 +217,9 @@
       Checkbox: Checkbox,
       CheckboxGroup: Checkbox.Group,
       Page: Page,
+      Modal: Modal,
+      Carousel: Carousel,
+      CarouselItem: Carousel.Item,
       iButton: Button,
       iInput: Input,
       Tooltip: Tooltip,
@@ -221,6 +231,7 @@
     },
     data() {
       return {
+        isShowCheckScreenshotModel: false,
         searchLoading: false,
         alitmAccount: null,
         orderNum: null,
@@ -455,6 +466,9 @@
           this.passesShowkerTask(id, index);
         }
       },
+      checkScreenshot() {
+
+      }
     }
   }
 </script>
