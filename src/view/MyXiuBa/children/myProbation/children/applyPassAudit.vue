@@ -1006,10 +1006,10 @@
           id: _this.itemId,
           orderNum: _this.affirmOrderNumber,
           actualPayMoney: _this.payMoney,
-          searchCondition: _this.upLoadImageUrl.searchConditionImage || null,
-          itemLocation: _this.upLoadImageUrl.itemLocationImage || null,
-          enshrine: _this.upLoadImageUrl.enshrineImage || null,
-          addToCart: _this.upLoadImageUrl.addToCartImage || null,
+          searchCondition: _this.upLoadImageUrl.searchConditionImage,
+          itemLocation: _this.upLoadImageUrl.itemLocationImage,
+          enshrine: _this.upLoadImageUrl.enshrineImage,
+          addToCart: _this.upLoadImageUrl.addToCartImage,
         }).then(res => {
           if (res.status) {
             _this.$Message.success('订单号提交成功，请耐心等待商家审核！');
