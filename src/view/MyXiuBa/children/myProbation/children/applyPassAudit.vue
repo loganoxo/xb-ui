@@ -306,7 +306,7 @@
           class="mt-10 cursor-p"
           ref="uploadScreenShot"
           :show-upload-list="false"
-          :default-file-list="taobaoScreenShotImg"
+          :default-file-list="defaultTaobaoScreenShotImg"
           :on-success="uploadTaobaoImgSuccess"
           :on-remove="removeTaobaoImg"
           :format="['jpg','jpeg','png','gif','bmp']"
@@ -527,15 +527,15 @@
         <img width="400" src="~assets/img/screen-shot/taobao-screenShot.jpg" alt="">
       </div>
     </Modal>
-    <Modal v-model="pcSearch" title="照片查看器" width="800"  :styles="{top:'20px'}">
-      <div v-if="pcSearchSelect.one && taskType === 'pc_search'"  class="text-ct">
+    <Modal v-model="pcSearch" title="照片查看器" width="800" :styles="{top:'20px'}">
+      <div v-if="pcSearchSelect.one && taskType === 'pc_search'" class="text-ct">
         <img width="700" src="~assets/img/screen-shot/select_type.jpg" alt="">
       </div>
-      <div v-if="pcSearchSelect.two"  class="text-ct">
+      <div v-if="pcSearchSelect.two" class="text-ct">
         <img width="700" v-if="taskType === 'pc_search'" src="~assets/img/screen-shot/position_pc.jpg" alt="">
         <img width="400" v-if="taskType === 'app_search'" src="~assets/img/screen-shot/position_app.png" alt="">
       </div>
-      <div v-if="pcSearchSelect.four"  class="text-ct">
+      <div v-if="pcSearchSelect.four" class="text-ct">
         <img width="700" v-if="taskType ==='direct_access'|| taskType=== 'pc_search'"
              src="~assets/img/screen-shot/collect_pc.jpg" alt="">
         <img width="400" v-if="taskType ==='app_search'|| taskType=== 'tao_code'"
@@ -548,15 +548,15 @@
              src="~assets/img/screen-shot/shop_car_app.png" alt="">
       </div>
     </Modal>
-    <Modal v-model="appSearch" title="照片查看器" width="500"  :styles="{top:'20px'}">
-      <div v-if="pcSearchSelect.one && taskType === 'pc_search'"  class="text-ct">
+    <Modal v-model="appSearch" title="照片查看器" width="500" :styles="{top:'20px'}">
+      <div v-if="pcSearchSelect.one && taskType === 'pc_search'" class="text-ct">
         <img width="700" src="~assets/img/screen-shot/select_type.jpg" alt="">
       </div>
-      <div v-if="pcSearchSelect.two"  class="text-ct">
+      <div v-if="pcSearchSelect.two" class="text-ct">
         <img width="700" v-if="taskType === 'pc_search'" src="~assets/img/screen-shot/position_pc.jpg" alt="">
         <img width="400" v-if="taskType === 'app_search'" src="~assets/img/screen-shot/position_app.png" alt="">
       </div>
-      <div v-if="pcSearchSelect.four"  class="text-ct">
+      <div v-if="pcSearchSelect.four" class="text-ct">
         <img width="700" v-if="taskType ==='direct_access'|| taskType=== 'pc_search'"
              src="~assets/img/screen-shot/collect_pc.jpg" alt="">
         <img width="400" v-if="taskType ==='app_search'|| taskType=== 'tao_code'"
@@ -620,7 +620,7 @@
     },
     data() {
       return {
-        appSearch:false,
+        appSearch: false,
         downloadButton: false,
         showPassOperation: '',
         showAuditOrderNumber: false,
@@ -667,7 +667,8 @@
         endReason: null,
         otherReason: null,
         isShowUserClause: false,
-        taobaoScreenShotImg: [],
+        taobaoScreenShotImg: null,
+        defaultTaobaoScreenShotImg: [],
         needBrowseCollectAddCart: false,
         upLoadImageUrl: {
           searchConditionImage: null,
@@ -750,10 +751,10 @@
         this.watchExample = true;
       },
       pcSearchSelectFun(type) {
-        if (this.taskType === 'pc_search'|| this.taskType === 'direct_access'){
+        if (this.taskType === 'pc_search' || this.taskType === 'direct_access') {
           console.log(111);
           this.pcSearch = true;
-        }else {
+        } else {
           this.appSearch = true;
         }
         for (let k in this.pcSearchSelect) {
@@ -819,7 +820,10 @@
                 api.showkerTaskReport({id: id,}).then(res => {
                   if (res.status) {
                     _this.trialReportImages = [];
-                    _this.taobaoScreenShotImg.push({src:res.data.taobaoCommentImage});
+                    _this.defaultTaobaoScreenShotImg = [];
+                    _this.taobaoScreenShotImg = [];
+                    _this.taobaoScreenShotImg = res.data.taobaoCommentImage;
+                    _this.defaultTaobaoScreenShotImg.push({src: res.data.taobaoCommentImage});
                     let ImageList = JSON.parse(res.data.trialReportImages);
                     for (let i = 0, len = ImageList.length; i < len; i++) {
                       ImageList[i] = ImageList[i].indexOf('aliyuncs') > 0 ? ImageList[i] : aliCallbackImgUrl + ImageList[i];
@@ -852,13 +856,13 @@
             _this.needBrowseCollectAddCart = res.data.taskInfo.needBrowseCollectAddCart;
             _this.taskType = res.data.taskInfo.taskType;
             let screenShot = JSON.parse(res.data.taskApply.screenshot);
-            _this.defaultImageAddToCart = screenShot.addToCart ? [{src: screenShot.addToCart }] : [];
+            _this.defaultImageAddToCart = screenShot.addToCart ? [{src: screenShot.addToCart}] : [];
             _this.upLoadImageUrl.addToCartImage = screenShot.addToCart ? screenShot.addToCart : null;
-            _this.defaultImageEnshrine = screenShot.enshrine ? [{src: screenShot.enshrine }] : [];
+            _this.defaultImageEnshrine = screenShot.enshrine ? [{src: screenShot.enshrine}] : [];
             _this.upLoadImageUrl.enshrineImage = screenShot.enshrine ? screenShot.enshrine : null;
-            _this.defaultImageItemLocation = screenShot.itemLocation ? [{src: screenShot.itemLocation }] : [];
-            _this.upLoadImageUrl.itemLocationImage = screenShot.itemLocation ? screenShot.itemLocation  : null;
-            _this.defaultImageSearchCondition = screenShot.searchCondition ? [{src: screenShot.searchCondition }] : [];
+            _this.defaultImageItemLocation = screenShot.itemLocation ? [{src: screenShot.itemLocation}] : [];
+            _this.upLoadImageUrl.itemLocationImage = screenShot.itemLocation ? screenShot.itemLocation : null;
+            _this.defaultImageSearchCondition = screenShot.searchCondition ? [{src: screenShot.searchCondition}] : [];
             _this.upLoadImageUrl.searchConditionImage = screenShot.searchCondition ? screenShot.searchCondition : null;
           } else {
             _this.$Message.error(res.msg);
@@ -938,7 +942,7 @@
         this.trialReportImages.push(aliCallbackImgUrl + res.name);
       },
       removeTaobaoImg() {
-        this.taobaoScreenShotImg = [];
+        this.taobaoScreenShotImg = null;
       },
       removeImage(file) {
         let index = this.trialReportImages.indexOf(file.src);
@@ -1051,7 +1055,7 @@
       },
       submitReport() {
         let _this = this;
-        if (_this.taobaoScreenShotImg.length < 1) {
+        if (!_this.taobaoScreenShotImg) {
           _this.$Message.error("亲，请上传淘宝截图！");
           return;
         }
@@ -1068,7 +1072,7 @@
             id: _this.itemId,
             trialReportText: _this.trialReportText,
             trialReportImages: JSON.stringify(_this.trialReportImages),
-            taoBaoCommentImage: _this.taobaoScreenShotImg[0]
+            taoBaoCommentImage: _this.taobaoScreenShotImg
           }).then(res => {
             if (res.status) {
               _this.$Message.success({
@@ -1086,7 +1090,7 @@
             id: _this.itemId,
             trialReportText: _this.trialReportText,
             trialReportImages: JSON.stringify(_this.trialReportImages),
-            taoBaoCommentImage: _this.taobaoScreenShotImg[0]
+            taoBaoCommentImage: _this.taobaoScreenShotImg
           }).then(res => {
             if (res.status) {
               _this.$Message.success('买家秀修改成功，请耐心等待商家审核！');
