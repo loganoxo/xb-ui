@@ -276,5 +276,9 @@
       background-color: #FFF6F3;
       font-size: 14px;
     }
+    .carousel{
+      width: 800px;
+      height: 800px;
+    }
   }
 </style>
