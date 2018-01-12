@@ -274,10 +274,10 @@
         <div id="copyEvaluation">{{showkerTask.other.itemReviewAssign.reviewContent}}</div>
         <div class="copy-evaluation-tbn mt-10" id="copyEvaluationBtn">复制评价内容</div>
       </div>
-      <div class="mt-20">
+      <div class="mt-20 pos-rel">
         <p class="fs-14"><span class="des-text">1.淘宝评价截图</span><span class="cl666">（商家返款凭证）</span></p>
         <Upload
-          class="mt-10"
+          class="mt-10 cursor-p"
           ref="upload"
           :show-upload-list="false"
           :default-file-list="defaultImageList"
@@ -294,6 +294,7 @@
             <Icon type="camera" size="20"></Icon>
           </div>
         </Upload>
+        <div class="watch-example-pic"><p>该截图将作为商家审核返款的凭证哦，请根据要求评价！</p><p class="mt-5">查看<span class="example-pic" @click="watchExamplePic">示例图</span></p></div>
       </div>
       <div class="experience mt-22">
         <p class="mb-10"><span class="des-text">2.说说体验</span><span class="cl666">（秀吧平台要求）</span></p>
@@ -492,6 +493,11 @@
         <iButton size="large" @click="unSelectSubmit">取消</iButton>
       </div>
     </Modal>
+    <Modal v-model="watchExample" width="1000" title="照片查看器">
+      <div>
+        <img src="~assets/img/screen-shot/taobao-screenShot.jpg" alt="">
+      </div>
+    </Modal>
     <Modal v-model="pcSearch" title="照片查看器" width="1000" :styles="{top:'20px'}">
       <div v-if="pcSearchSelect.one && taskType === 'pc_search'">
         <img width="900" src="~assets/img/screen-shot/select_type.jpg" alt="">
@@ -633,6 +639,7 @@
         defaultImageEnshrine:[],
         defaultImageItemLocation:[],
         defaultImageSearchCondition:[],
+        watchExample:false,
       }
     },
     mounted() {
@@ -687,6 +694,9 @@
       }
     },
     methods: {
+      watchExamplePic(){
+        this.watchExample = true;
+      },
       pcSearchSelectFun(type) {
         this.pcSearch = true;
         for (let k in this.pcSearchSelect) {

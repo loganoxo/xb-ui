@@ -41,6 +41,11 @@
     .main-color {
       color: $mainColor;
     }
+    .example-pic{
+      text-decoration:underline;
+      color: #1B1BFE;
+      cursor:  pointer;
+    }
     .des-text{
       font-weight: bold;
       color: #696969;
@@ -50,6 +55,11 @@
     }
     .sizeColor3{
       color: #FF0100;
+    }
+    .watch-example-pic{
+      position: absolute;
+      left: 70px;
+      top: 38px;
     }
     .my-probation-title {
       height: 52px;
