@@ -228,7 +228,7 @@
       }
       p {
         span:first-child {
-          color: #000;
+          color: #666;
         }
       }
 

@@ -278,7 +278,7 @@
         <p class="fs-14"><span class="des-text">1.淘宝评价截图</span><span class="cl666">（商家返款凭证）</span></p>
         <Upload
           class="mt-10 cursor-p"
-          ref="upload"
+          ref="uploadScreenShot"
           :show-upload-list="false"
           :default-file-list="defaultImageList"
           :on-success="uploadTaobaoImgSuccess"
@@ -343,14 +343,14 @@
       </div>
     </div>
     <!--填写订单号弹窗-->
-    <div class="audit-order-number-model" v-if="showAuditOrderNumber">
-      <div class="audit-order-number-con showSweetAlert">
+    <div class="audit-order-number-model"  v-if="showAuditOrderNumber">
+      <div class="audit-order-number-con showSweetAlert" :style="{height:needBrowseCollectAddCart?600+'px':290+'px'}">
         <i class="close-model right mr-10" @click="closeAuditOrder">&times;</i>
         <p class="tip-title mt-10">
           <span>注意：订单号及实付金额提交后商家审核前不能修改，请正确填写！</span>
         </p>
         <div class="ml-45 mt-15 pr-20">
-          <strong>当前流程状态：</strong>
+          <strong class="cl000">当前流程状态：</strong>
           <Icon v-if="currentOrderStatusInfo.status === 'order_num_error'" type="information-circled" color="#f60"></Icon>
           <span :class="[currentOrderStatusInfo.status === 'order_num_error' ? 'main-color': '']">{{currentOrderStatusInfo.statusDesc}}</span>
           <strong class="ml-10" v-if="currentOrderStatusInfo.status === 'order_num_error'">原因：{{currentOrderStatusInfo.auditDescription}}</strong>
@@ -360,7 +360,7 @@
           <div class="left ml-10 " v-if="taskType === 'pc_search'">
             <Upload
               class="ml-5"
-              ref="upload"
+              ref="uploadCondition"
               :show-upload-list="false"
               :default-file-list="defaultImageSearchCondition"
               :on-remove="removeMainImage"
@@ -381,7 +381,7 @@
           <div class="left ml-20" v-if="taskType === 'pc_search'|| taskType === 'app_search'">
             <Upload
               class="ml-5"
-              ref="upload"
+              ref="uploadItemLocation"
               :show-upload-list="false"
               :default-file-list="defaultImageItemLocation"
               :on-remove="removeMainImage"
@@ -402,7 +402,7 @@
           <div class="left ml-20">
             <Upload
               class="ml-5"
-              ref="upload"
+              ref="uploadEnshrine"
               :show-upload-list="false"
               :default-file-list="defaultImageEnshrine"
               :on-remove="removeMainImage"
@@ -423,7 +423,7 @@
           <div class="left ml-20">
             <Upload
               class="ml-5"
-              ref="upload"
+              ref="uploadAddToCart"
               :show-upload-list="false"
               :default-file-list="defaultImageAddToCart"
               :on-remove="removeMainImage"
@@ -444,7 +444,6 @@
         </div>
         <div class="mt-10 ml-45">
           <p class="mt-20 mb-20 des-text" v-if="needBrowseCollectAddCart">2.填写下单信息</p>
-          <p class="mt-20 mb-20 des-text" v-if="!needBrowseCollectAddCart">填写下单信息</p>
           <span>请输入订单号：</span>
           <iInput v-model="affirmOrderNumber" style="width: 300px;"></iInput>
           <iButton @click="orderImg = true">什么是订单号？</iButton>
