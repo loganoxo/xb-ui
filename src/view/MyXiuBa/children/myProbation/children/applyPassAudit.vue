@@ -306,7 +306,7 @@
           class="mt-10 cursor-p"
           ref="uploadScreenShot"
           :show-upload-list="false"
-          :default-file-list="defaultImageList"
+          :default-file-list="taobaoScreenShotImg"
           :on-success="uploadTaobaoImgSuccess"
           :on-remove="removeTaobaoImg"
           :format="['jpg','jpeg','png','gif','bmp']"
@@ -819,6 +819,7 @@
                 api.showkerTaskReport({id: id,}).then(res => {
                   if (res.status) {
                     _this.trialReportImages = [];
+                    _this.taobaoScreenShotImg.push({src:res.data.taobaoCommentImage});
                     let ImageList = JSON.parse(res.data.trialReportImages);
                     for (let i = 0, len = ImageList.length; i < len; i++) {
                       ImageList[i] = ImageList[i].indexOf('aliyuncs') > 0 ? ImageList[i] : aliCallbackImgUrl + ImageList[i];
