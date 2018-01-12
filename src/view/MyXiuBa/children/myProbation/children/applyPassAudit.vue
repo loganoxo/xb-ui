@@ -936,7 +936,7 @@
         }
       },
       uploadTaobaoImgSuccess(res) {
-        this.taobaoScreenShotImg.push(aliCallbackImgUrl + res.name);
+        this.taobaoScreenShotImg = aliCallbackImgUrl + res.name;
       },
       uploadImgSuccess(res) {
         this.trialReportImages.push(aliCallbackImgUrl + res.name);
