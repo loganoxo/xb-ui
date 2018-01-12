@@ -59,7 +59,7 @@
           <p>不可跨类目，否则会影响人群标签</p>
           <span class="is-select-gou" v-show="taskRelease.activityCategory === 'present_get'"></span>
         </div>
-        <div class="left activity-type-box mr-10 disabled" :class="{isSelect:taskRelease.activityCategory === 'pinkage_for_10'}" @click="changeSelectActivity('pinkage_for_10')">
+       <!-- <div class="left activity-type-box mr-10 disabled" :class="{isSelect:taskRelease.activityCategory === 'pinkage_for_10'}" @click="changeSelectActivity('pinkage_for_10')">
           <p>10元包邮</p>
           <p>秀客承担10元邮费</p>
           <p>高人气活动类型</p>
@@ -71,7 +71,7 @@
           <p>真实卖货</p>
           <span class="is-select-gou" v-show="taskRelease.activityCategory === 'price_low'"></span>
         </div>
-       <!-- <div class="left activity-type-box mr-10 disabled" :class="{isSelect:taskRelease.activityCategory === 'goods_clearance'}" @click="changeSelectActivity('goods_clearance')">
+        <div class="left activity-type-box mr-10 disabled" :class="{isSelect:taskRelease.activityCategory === 'goods_clearance'}" @click="changeSelectActivity('goods_clearance')">
           <p>清仓断码</p>
           <p>帮商家解决最为头疼的</p>
           <p>库存问题</p>
@@ -191,7 +191,7 @@
             <span>元</span>
             <p class="size-color pl-60 mt-8">活动活动期间，商家不允许修改下单页商品信息，经核查属实，本平台有权将活动担保金返还已获得资格的秀客，商家账号按相应规则处罚</p>
           </div>
-          <div class="discount ml-40 mt-20" v-show="taskRelease.activityCategory !== 'free_get' && taskRelease.activityCategory !== 'present_get'">
+<!--          <div class="discount ml-40 mt-20" v-show="taskRelease.activityCategory !== 'free_get' && taskRelease.activityCategory !== 'present_get'">
             <div class="clear" v-show="taskRelease.activityCategory !== 'pinkage_for_10'">
               <span class="required mt-8 left">折扣/活动：</span>
               <div class="left">
@@ -233,7 +233,7 @@
             </div>
             <p class="sizeColor pl-60 mt-20" v-show="taskRelease.itemPrice && taskRelease.discountType && taskRelease.activityCategory !== 'pinkage_for_10'">秀客以<span class="main-color">{{taskRelease.itemPrice}}</span>元价格在淘宝上购买，活动成功后返款<span class="main-color">{{(newItemPrice / 100).toFixed(2)}}</span>元给秀客！</p>
             <p class="sizeColor pl-60" v-show="taskRelease.itemPrice && taskRelease.itemPrice >= 10 && taskRelease.activityCategory === 'pinkage_for_10'">秀客以<span class="main-color">{{taskRelease.itemPrice}}</span>元价格在淘宝上购买，活动成功后返款<span class="main-color">{{taskRelease.itemPrice > 10 ? taskRelease.itemPrice - 10 : 0}}</span>元给秀客！</p>
-          </div>
+          </div>-->
           <div class="baby-pinkage ml-45 mt-20">
             <span class="required left">是否包邮：</span>
             <Radio-group v-model="taskRelease.pinkage">
@@ -281,9 +281,9 @@
                   <span>我来提供评价内容（秀客将直接拷贝亲提供的评价内容在淘宝上进行评价，每个名额需要提供一份评价内容。）</span>
                 </Radio>
               </RadioGroup>
-              <p v-show="taskRelease.itemReviewRequired === 'assign_review_detail'" class="main-color ml-20">系统会随机分配一份评价内容给申请成功的秀客，确保评价内容唯一。</p>
+              <p v-show="taskRelease.itemReviewRequired === 'assign_review_detail'" class="main-color ml-20">可自定义的评价数跟您发布宝贝数量相同，系统会随机分配给申请通过的秀客每人一条评论，以保证评价内容的唯一性。</p>
               <div class="afford-evaluation-list mt-10" v-if="taskRelease.itemReviewRequired === 'assign_review_detail' && taskRelease.taskCount > 0">
-                <p v-for="(item,index) in itemReviewList">
+                <p v-for="item in itemReviewList">
                   <span class="vtc-sup">{{'评价' + item.index}}：</span>
                   <iInput v-model="item.value" class="mb-10" type="textarea" :autosize="{minRows: 1,maxRows: 3}" :disabled="true" placeholder="请输入你的评价内容" style="width: 620px;"></iInput>
                 </p>
@@ -535,7 +535,7 @@
       <h3>费用说明：</h3>
       <div class="description-fees-con mt-10">
         <p>活动担保金 = 份数 × 单品活动担保金 =<span>{{taskRelease.taskCount}}</span>×<span>{{oneBond}}</span>= <span>{{(taskRelease.taskCount * oneBond).toFixed(2)}}</span>元</p>
-        <p class="mt-6">单品推广费 = （宝贝单价 + 邮费） × 费率 =<span>（{{taskRelease.itemPrice}} + {{taskRelease.pinkage === 'true' ? 0 : 10}}）</span>×<span>6%</span>= <span>{{onePromotionExpenses}}</span>元<span v-if="onePromotionExpenses > 3">（单品推广费超过平台设定的最高上限3.00元，本次实际收取的单品推广费用为3.00元）</span></p>
+        <!--<p class="mt-6">单品推广费 = （宝贝单价 + 邮费） × 费率 =<span>（{{taskRelease.itemPrice}} + {{taskRelease.pinkage === 'true' ? 0 : 10}}）</span>×<span>6%</span>= <span>{{onePromotionExpenses}}</span>元<span v-if="onePromotionExpenses > 3">（单品推广费超过平台设定的最高上限3.00元，本次实际收取的单品推广费用为3.00元）</span></p>-->
         <p class="mt-6">总推广费用 = 单品推广费用 × 份数 =<span>{{onePromotionExpenses}}</span>× <span>{{taskRelease.taskCount}} = <span>{{allPromotionExpenses}}</span></span>元</p>
         <p class="mt-6">总费用 = 活动担保金 + 总推广费用 = <span>{{orderMoney}}</span>元</p>
       </div>
@@ -800,9 +800,13 @@
                 }
               }
             }
-            if(res.data.discountType === 'discount_r_50'){
-              _this.taskRelease.discountType = 'discount_0'
+            //start 临时处理 10元包邮，白菜价活动下线复制历史活动
+            const activityCategory = res.data.activityCategory;
+            if(activityCategory === 'pinkage_for_10' || activityCategory === 'price_low'){
+              _this.taskRelease.discountType = 'discount_0';
+              _this.taskRelease.activityCategory = 'free_get';
             }
+            //end
             let itemReviewAssignsData = res.data.itemReviewAssigns;
             if(itemReviewAssignsData){
               itemReviewAssignsData.forEach((item,index) => {

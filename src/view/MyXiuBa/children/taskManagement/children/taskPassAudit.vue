@@ -120,7 +120,7 @@
               <td>
                 <p class="del-edit">
                   <span v-if="item.status === 'order_num_waiting_audit'" @click="openCheckOrder(item.id)">审核订单号</span>
-                  <!--<span class="ml-10" v-if="item.needBrowseCollectAddCart && item.status === 'order_num_waiting_audit'" @click="checkScreenshot">查看收藏加购截图</span>-->
+                  <span class="ml-10" v-if="item.needBrowseCollectAddCart && item.status === 'order_num_waiting_audit'" @click="checkScreenshot(item.screenshot)">查看收藏加购截图</span>
                   <span v-if="item.status === 'trial_report_waiting_confirm'" @click="goProbationReport(item.id)">审核买家秀</span>
                   <span v-if="item.status !== 'order_num_waiting_audit' && item.status !== 'trial_report_waiting_confirm'">------</span>
                 </p>
@@ -189,7 +189,14 @@
     </div>
     <!--收藏加购物截图查看-->
     <Modal title="收藏加购物截图查看器" v-model="isShowCheckScreenshotModel">
-      <img  style="width: 100%">
+      <Carousel v-model="carouselValue" loop>
+        <CarouselItem>
+          <img :src="checkScreenshotList.addToCart" width="100%" alt="">
+        </CarouselItem>
+        <CarouselItem>
+          <img :src="checkScreenshotList.enshrine" width="100%" alt="">
+        </CarouselItem>
+      </Carousel>
     </Modal>
   </div>
 </template>
@@ -232,6 +239,8 @@
     data() {
       return {
         isShowCheckScreenshotModel: false,
+        checkScreenshotList: [],
+        carouselValue: 0,
         searchLoading: false,
         alitmAccount: null,
         orderNum: null,
@@ -466,8 +475,9 @@
           this.passesShowkerTask(id, index);
         }
       },
-      checkScreenshot() {
-
+      checkScreenshot(item) {
+        this.isShowCheckScreenshotModel = true;
+        this.checkScreenshotList = item
       }
     }
   }
