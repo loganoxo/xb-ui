@@ -301,7 +301,7 @@
         <div class="copy-evaluation-tbn mt-10" id="copyEvaluationBtn">复制评价内容</div>
       </div>
       <div class="mt-20 pos-rel">
-        <p class="fs-14"><span class="des-text">1.淘宝评价截图</span><span class="cl666">（商家返款凭证）</span></p>
+        <p class="fs-14"><span class="des-text">1.淘宝评价截图</span><span class="cl666">（商家返款凭证，必传）</span></p>
         <Upload
           class="mt-10 cursor-p"
           ref="uploadScreenShot"
@@ -321,10 +321,10 @@
           </div>
         </Upload>
         <div class="watch-example-pic"><p>该截图将作为商家审核返款的凭证哦，请根据要求评价！</p>
-          <p class="mt-5">查看<span class="example-pic" @click="watchExamplePic">示例图</span></p></div>
+          <p class="mt-5"><span class="example-pic" @click="watchExamplePic">查看示例图</span></p></div>
       </div>
       <div class="experience mt-22">
-        <p class="mb-10"><span class="des-text">2.说说体验</span><span class="cl666">（秀吧平台要求）</span></p>
+        <p class="mb-10"><span class="des-text">2.说说体验</span><span class="cl666">（秀吧平台要求，必填）</span></p>
         <iInput v-model="trialReportText" type="textarea" :autosize="{minRows: 5,maxRows: 12}"
                 placeholder="请填写在试用过程中，对于宝贝的真实使用体会及感受，可以和淘宝上的宝贝评价一致"></iInput>
       </div>
@@ -406,7 +406,7 @@
               </div>
             </Upload>
             <p class="mt-8">搜索条件截图</p>
-            <p class="mt-8 cursor-p example" @click="pcSearchSelectFun('one')">查看示例图</p>
+            <p class="mt-8 cursor-p example-pic" @click="pcSearchSelectFun('one')">查看示例图</p>
           </div>
           <div class="left ml-20" v-if="taskType === 'pc_search'|| taskType === 'app_search'">
             <Upload
@@ -427,7 +427,7 @@
               </div>
             </Upload>
             <p class="mt-8">所在位置截图</p>
-            <p class="mt-8 cursor-p example" @click="pcSearchSelectFun('two')">查看示例图</p>
+            <p class="mt-8 cursor-p example-pic" @click="pcSearchSelectFun('two')">查看示例图</p>
           </div>
           <div class="left ml-20">
             <Upload
@@ -448,7 +448,7 @@
               </div>
             </Upload>
             <p class="mt-8">宝贝加入收藏夹</p>
-            <p class="mt-8 cursor-p example" @click="pcSearchSelectFun('four')">查看示例图</p>
+            <p class="mt-8 cursor-p example-pic" @click="pcSearchSelectFun('four')">查看示例图</p>
           </div>
           <div class="left ml-20">
             <Upload
@@ -469,7 +469,7 @@
               </div>
             </Upload>
             <p class="mt-8">宝贝加入购物车</p>
-            <p class="mt-8 cursor-p example" @click="pcSearchSelectFun('five')">查看示例图</p>
+            <p class="mt-8 cursor-p example-pic" @click="pcSearchSelectFun('five')">查看示例图</p>
           </div>
         </div>
         <div class="mt-10 ml-45">
@@ -522,32 +522,29 @@
         <iButton size="large" @click="unSelectSubmit">取消</iButton>
       </div>
     </Modal>
-    <Modal v-model="watchExample" width="1000" title="照片查看器">
-      <div>
-        <img src="~assets/img/screen-shot/taobao-screenShot.jpg" alt="">
+    <Modal v-model="watchExample" width="500" title="照片查看器">
+      <div class="text-ct">
+        <img width="400" src="~assets/img/screen-shot/taobao-screenShot.jpg" alt="">
       </div>
     </Modal>
-    <Modal v-model="pcSearch" title="照片查看器" width="1000" :styles="{top:'20px'}">
-      <div v-if="pcSearchSelect.one && taskType === 'pc_search'">
-        <img width="900" src="~assets/img/screen-shot/select_type.jpg" alt="">
+    <Modal v-model="pcSearch" title="照片查看器" width="500" :styles="{top:'20px'}">
+      <div v-if="pcSearchSelect.one && taskType === 'pc_search'"  class="text-ct">
+        <img width="400" src="~assets/img/screen-shot/select_type.jpg" alt="">
       </div>
-      <div v-if="pcSearchSelect.two">
-        <img width="900" v-if="taskType === 'pc_search'" src="~assets/img/screen-shot/position_pc.jpg" alt="">
-        <img width="900" v-if="taskType === 'app_search'" src="~assets/img/screen-shot/position_app.png" alt="">
+      <div v-if="pcSearchSelect.two"  class="text-ct">
+        <img width="400" v-if="taskType === 'pc_search'" src="~assets/img/screen-shot/position_pc.jpg" alt="">
+        <img width="400" v-if="taskType === 'app_search'" src="~assets/img/screen-shot/position_app.png" alt="">
       </div>
-      <!--<div v-if="pcSearchSelect.three">-->
-      <!--<img width="900" src="~assets/img/screen-shot/under_pc.jpg" alt="">-->
-      <!--</div>-->
-      <div v-if="pcSearchSelect.four">
-        <img width="900" v-if="taskType ==='direct_access'|| taskType=== 'pc_search'"
+      <div v-if="pcSearchSelect.four"  class="text-ct">
+        <img width="400" v-if="taskType ==='direct_access'|| taskType=== 'pc_search'"
              src="~assets/img/screen-shot/collect_pc.jpg" alt="">
-        <img width="900" v-if="taskType ==='app_search'|| taskType=== 'tao_code'"
+        <img width="400" v-if="taskType ==='app_search'|| taskType=== 'tao_code'"
              src="~assets/img/screen-shot/collect_app.png" alt="">
       </div>
-      <div v-if="pcSearchSelect.five">
-        <img width="900" v-if="taskType ==='direct_access'|| taskType=== 'pc_search'"
+      <div v-if="pcSearchSelect.five" class="text-ct">
+        <img width="400" v-if="taskType ==='direct_access'|| taskType=== 'pc_search'"
              src="~assets/img/screen-shot/shop_car_pc.jpg" alt="">
-        <img width="900" v-if="taskType ==='app_search'|| taskType=== 'tao_code'"
+        <img width="400" v-if="taskType ==='app_search'|| taskType=== 'tao_code'"
              src="~assets/img/screen-shot/shop_car_app.png" alt="">
       </div>
     </Modal>
@@ -827,10 +824,10 @@
             _this.needBrowseCollectAddCart = res.data.taskInfo.needBrowseCollectAddCart;
             _this.taskType = res.data.taskInfo.taskType;
             _this.screenShot = JSON.parse(res.data.taskApply.screenshot);
-            _this.defaultImageAddToCart = _this.screenShot.addToCart ? [{src: _this.screenShot.addToCart + '!thum200'}] : [];
-            _this.defaultImageEnshrine = _this.screenShot.enshrine ? [{src: _this.screenShot.enshrine + '!thum200'}] : [];
-            _this.defaultImageItemLocation = _this.screenShot.itemLocation ? [{src: _this.screenShot.itemLocation + '!thum200'}] : [];
-            _this.defaultImageSearchCondition = _this.screenShot.searchCondition ? [{src: _this.screenShot.searchCondition + '!thum200'}] : [];
+            _this.defaultImageAddToCart = _this.screenShot.addToCart ? [{src: _this.screenShot.addToCart }] : [];
+            _this.defaultImageEnshrine = _this.screenShot.enshrine ? [{src: _this.screenShot.enshrine }] : [];
+            _this.defaultImageItemLocation = _this.screenShot.itemLocation ? [{src: _this.screenShot.itemLocation }] : [];
+            _this.defaultImageSearchCondition = _this.screenShot.searchCondition ? [{src: _this.screenShot.searchCondition }] : [];
           } else {
             _this.$Message.error(res.msg);
           }
