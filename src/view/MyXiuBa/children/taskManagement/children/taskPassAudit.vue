@@ -191,14 +191,10 @@
     <Modal title="收藏加购物截图查看器" v-model="isShowCheckScreenshotModel">
       <Carousel v-model="carouselValue" loop>
         <CarouselItem>
-         <div class="carousel">
-           <img :src="checkScreenshotList.addToCart">
-         </div>
+          <img :src="checkScreenshotList.addToCart">
         </CarouselItem>
         <CarouselItem>
-          <div class="carousel">
-            <img :src="checkScreenshotList.enshrine">
-          </div>
+          <img :src="checkScreenshotList.enshrine">
         </CarouselItem>
       </Carousel>
     </Modal>
