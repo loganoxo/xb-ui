@@ -663,7 +663,6 @@
           five: false
         },
         taskType: '',
-        screenShot: {},
         defaultImageList: [],
         defaultImageAddToCart: [],
         defaultImageEnshrine: [],
@@ -823,11 +822,15 @@
             _this.taskPlaceInfo = res.data.showkerTask.task;
             _this.needBrowseCollectAddCart = res.data.taskInfo.needBrowseCollectAddCart;
             _this.taskType = res.data.taskInfo.taskType;
-            _this.screenShot = JSON.parse(res.data.taskApply.screenshot);
-            _this.defaultImageAddToCart = _this.screenShot.addToCart ? [{src: _this.screenShot.addToCart }] : [];
-            _this.defaultImageEnshrine = _this.screenShot.enshrine ? [{src: _this.screenShot.enshrine }] : [];
-            _this.defaultImageItemLocation = _this.screenShot.itemLocation ? [{src: _this.screenShot.itemLocation }] : [];
-            _this.defaultImageSearchCondition = _this.screenShot.searchCondition ? [{src: _this.screenShot.searchCondition }] : [];
+            let screenShot = JSON.parse(res.data.taskApply.screenshot);
+            _this.defaultImageAddToCart = screenShot.addToCart ? [{src: screenShot.addToCart }] : [];
+            _this.upLoadImageUrl.addToCartImage = screenShot.addToCart ? screenShot.addToCart : null;
+            _this.defaultImageEnshrine = screenShot.enshrine ? [{src: screenShot.enshrine }] : [];
+            _this.upLoadImageUrl.enshrineImage = screenShot.enshrine ? screenShot.enshrine : null;
+            _this.defaultImageItemLocation = screenShot.itemLocation ? [{src: screenShot.itemLocation }] : [];
+            _this.upLoadImageUrl.itemLocationImage = screenShot.itemLocation ? screenShot.itemLocation  : null;
+            _this.defaultImageSearchCondition = screenShot.searchCondition ? [{src: screenShot.searchCondition }] : [];
+            _this.upLoadImageUrl.searchConditionImage = screenShot.searchCondition ? screenShot.searchCondition : null;
           } else {
             _this.$Message.error(res.msg);
           }
