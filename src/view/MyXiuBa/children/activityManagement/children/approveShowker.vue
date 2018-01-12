@@ -291,10 +291,10 @@
       <modal title="收藏加购截图查看器" v-model="isShowCheckScreenshotModel">
         <carousel v-if="isShowCheckScreenshotModel" v-model="carouselValue" :height="600" :loop="true">
           <carousel-item>
-            <img :src="checkScreenshotList.addToCart" width="100%" height="100%">
+            <img :src="checkScreenshotList.addToCart + '!orgi75'" width="100%" height="100%">
           </carousel-item>
           <carousel-item>
-            <img :src="checkScreenshotList.enshrine"  width="100%" height="100%">
+            <img :src="checkScreenshotList.enshrine + '!orgi75'"  width="100%" height="100%">
           </carousel-item>
         </carousel>
       </modal>
