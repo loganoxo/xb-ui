@@ -373,7 +373,7 @@
     </div>
     <!--填写订单号弹窗-->
     <div class="audit-order-number-model" v-if="showAuditOrderNumber">
-      <div class="audit-order-number-con showSweetAlert" :style="{height:needBrowseCollectAddCart?600+'px':290+'px'}">
+      <div class="audit-order-number-con showSweetAlert" :style="{height:needBrowseCollectAddCart?520+'px':290+'px'}">
         <i class="close-model right mr-10" @click="closeAuditOrder">&times;</i>
         <p class="tip-title mt-10">
           <span>注意：订单号及实付金额提交后商家审核前不能修改，请正确填写！</span>
