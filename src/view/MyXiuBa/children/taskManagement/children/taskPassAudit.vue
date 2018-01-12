@@ -119,7 +119,7 @@
               <td>{{(item.orderPrice / 100).toFixed(2)}}</td>
               <td>
                 <p class="del-edit">
-                  <span v-if="item.status === 'order_num_waiting_audit'" @click="openCheckOrder(item.id)">审核订单号</span>
+                  <span v-if="item.status === 'order_num_waiting_audit'" @click="openCheckOrder(item.id,item.screenshot)">审核订单号</span>
                   <span class="ml-10" v-if="item.needBrowseCollectAddCart && item.status === 'order_num_waiting_audit'" @click="checkScreenshot(item.screenshot)">查看收藏加购截图</span>
                   <span v-if="item.status === 'trial_report_waiting_confirm'" @click="goProbationReport(item.id)">审核买家秀</span>
                   <span v-if="item.status !== 'order_num_waiting_audit' && item.status !== 'trial_report_waiting_confirm'">------</span>
@@ -144,26 +144,27 @@
     <div class="check-order-model" v-if="showCheckOrder">
       <div class="check-order-con">
         <i class="right" @click="showCheckOrder = false">&times;</i>
-        <p class="mt-40">为了防止不良秀客冒领担保金，请您仔细核对下面的订单号是否与你店铺宝贝的交易订单号一致！</p>
-        <p class="mt-22">
+        <p class="mt-28 fs-14 text-lf">1.请首先点击右侧链接按钮审核秀客提交的收藏加购截图：<a class="fs-14" @click="isShowCheckScreenshotModel = true">查看收藏加购截图</a></p>
+        <p class="mt-20 text-lf">2.为了防止不良秀客冒领担保金，请您仔细核对下面的订单号是否与你店铺宝贝的交易订单号一致！</p>
+        <p class="mt-22 text-ct">
           <span>订单号：</span>
           <span class="main-color">{{orderInfo.orderNum}}</span>
         </p>
-        <p class="mt-15">
+        <p class="mt-15 text-ct">
           <span>秀客实付金额：<span class="main-color">{{orderInfo.orderPrice || 0}}</span>元<span>（当前每单活动担保金<span>{{orderInfo.perMarginNeed}}</span>元）</span></span>
         </p>
-        <p class="cl-red mt-10" v-if="orderInfo.orderPrice < orderInfo.perMarginNeed"><Icon type="information-circled" color="red" size="14" class="mr-5"></Icon>注意：秀客实付金额与活动担保金金额不一致，请仔细审核！</p>
-        <div class="mt-22">
+        <p class="cl-red mt-10 text-ct" v-if="orderInfo.orderPrice < orderInfo.perMarginNeed"><Icon type="information-circled" color="red" size="14" class="mr-5"></Icon>注意：秀客实付金额与活动担保金金额不一致，请仔细审核！</p>
+        <div class="mt-22 text-ct">
           <Radio-group v-model="orderReviewStatus">
             <Radio label="passAudit" style="margin-right: 32px;">
-              <span style="font-size: 16px;">通过</span>
+              <span class="fs-16">通过</span>
             </Radio>
             <Radio label="failAudit">
-              <span style="font-size: 16px;">不通过</span>
+              <span class="fs-16">不通过</span>
             </Radio>
           </Radio-group>
         </div>
-        <div class="no-pass-reason mt-22" v-show="orderReviewStatus === 'failAudit'">
+        <div class="no-pass-reason mt-22 text-ct" v-show="orderReviewStatus === 'failAudit'">
           <iInput v-model="orderNoPassReason" placeholder="请填写不通过理由，如订单号不符或实付金额不符" style="width: 420px"></iInput>
         </div>
         <div class="true-btn" v-show="orderReviewStatus === 'failAudit'" @click="orderNumberAudit">确认</div>
@@ -171,7 +172,7 @@
         <PayModel v-show="orderReviewStatus === 'passAudit' && orderInfo.perMarginNeed < getOderPrice"
                   :orderMoney="needReplenishMoney"
                   @confirmPayment="confirmPayment" :payButtonText="payButtonText"
-                  :rechargeButtonText="rechargeButtonText" style="margin-top: 120px;">
+                  :rechargeButtonText="rechargeButtonText" style="margin-top: 120px;top:45%;width: 652px;margin-left: -326px;">
           <div slot="isBalance" class="title-tip">
                 <span class="size-color3">
                 <Icon color="#FF2424" size="18" type="ios-information"></Icon>
@@ -189,7 +190,7 @@
     </div>
     <!--收藏加购物截图查看-->
     <Modal title="收藏加购物截图查看器" v-model="isShowCheckScreenshotModel">
-      <Carousel v-model="carouselValue" loop>
+      <Carousel v-model="carouselValue" loop :height="600">
         <CarouselItem>
           <img :src="checkScreenshotList.addToCart">
         </CarouselItem>
@@ -416,8 +417,9 @@
           }
         })
       },
-      openCheckOrder(id) {
+      openCheckOrder(id,screenshot) {
         let _this = this;
+        _this.checkScreenshotList = screenshot;
         _this.showCheckOrder = true;
         _this.orderNoPassReason = '';
         api.orderNumberInfo({id: id}).then(res => {
