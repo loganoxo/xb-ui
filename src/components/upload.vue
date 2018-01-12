@@ -333,12 +333,12 @@
 
         this.onError(err, response, file);
       },
-      handleRemove(file) {
+      handleRemove(file){
         const fileList = this.fileList;
         fileList.splice(fileList.indexOf(file), 1);
         this.onRemove(file, fileList);
       },
-      handlePreview(file) {
+      handlePreview(file){
         if (file.status === 'finished') {
           this.onPreview(file);
         }
