@@ -63,11 +63,6 @@
    * **/
   if (getQueryString('qd')) {
     document.cookie = "from_qudao="+ getQueryString('qd').toUpperCase() + cookieAttr;
-    // if(getQueryString('qd') === 'bd'){
-    //   document.cookie = "from_qudao_key=" + searchKeyWord + cookieAttr;
-    // }else {
-    //   document.cookie = "from_qudao_key=" + '' + cookieAttr;
-    // }
   }
 
 //营销qq
@@ -81,51 +76,5 @@
     document.cookie = "from_qudao=WECHAT" + cookieAttr;
     document.cookie = "from_qudao_key=" + '' + cookieAttr;
   }
-
-//销售推广
-  /**
-   * 1.TEAMQB
-   * 2.TEAMLF
-   * 3.TEAMAF
-   * */
-  if (getQueryString('saler')) {
-    document.cookie = "from_qudao="+ getQueryString('saler').toUpperCase() + cookieAttr;
-    document.cookie = "from_qudao_key=" + '' + cookieAttr;
-  }
-
-//        var path = this.location.pathname;
-//        var host = this.location.host;
-//        // console.info(path);
-//        //销售推广
-//        if (path && path.indexOf("/s/") !== -1) {
-//          var salerId = this.location.pathname.replace("/s/", "");
-//          document.cookie = "from_qudao=saler_dev" + cookieAttr;
-//          document.cookie = "reg_user_from_saler_id=" + salerId + cookieAttr;
-//        }
-//        //百度
-//        if (path && path.indexOf("/bd") !== -1 && path.length <= 4) {
-//          document.cookie = "from_qudao=baidu" + cookieAttr;
-//        }
-//        //百度知道
-//        if (path && path.indexOf("/zd") !== -1 && path.length <= 4) {
-//          document.cookie = "from_qudao=bdzd" + cookieAttr;
-//        }
-//        //百度网盟
-//        if (path && path.indexOf("/bdwm") !== -1 && path.length <= 6) {
-//          document.cookie = "from_qudao=bdwm" + cookieAttr;
-//        }
-//        //360
-//        if (path && path.indexOf("/qh") !== -1 && path.length <= 4) {
-//          document.cookie = "from_qudao=qh360" + cookieAttr;
-//        }
-//        //搜狗
-//        if (path && path.indexOf("/sg") !== -1 && path.length <= 4) {
-//          document.cookie = "from_qudao=sogou" + cookieAttr;
-//        }
-//        if (path && path.indexOf("uref") >= 0) {
-//          var user_ref_code = path.match(/uref.*/)[0];
-//          document.cookie = "user_refer_code=" + user_ref_code.substr(4, user_ref_code.length) + cookieAttr;
-//          document.cookie = "from_qudao=user_recommend" + cookieAttr;
-//        }
 
 })();
