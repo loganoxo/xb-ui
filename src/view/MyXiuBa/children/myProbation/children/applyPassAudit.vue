@@ -213,7 +213,7 @@
       <div class="evaluation-content-tip-assign mt-10"
            v-if="showkerTask.task && showkerTask.task.itemReviewRequired === 'assign_review_detail'">
         <div>{{showkerTask.other.itemReviewAssign.reviewContent}}</div>
-        <button class="copy-evaluation-tbn mt-10 copy-btn2" :data-clipboard-text="showkerTask.other.itemReviewAssign.reviewContent">复制评价内容</button>
+        <button class="copy-evaluation-tbn mt-10 copy-btn" @click="copyEvaluate" :data-clipboard-text="showkerTask.other.itemReviewAssign.reviewContent">复制评价内容</button>
       </div>
       <div class="write-order-number mt-20">
         <span
@@ -298,7 +298,7 @@
       <div class="evaluation-content-tip-assign mt-10"
            v-if="showkerTask.task.itemReviewRequired === 'assign_review_detail'">
         <div>{{showkerTask.other.itemReviewAssign.reviewContent}}</div>
-        <div class="copy-evaluation-tbn mt-10 copy-btn" :data-clipboard-text="showkerTask.other.itemReviewAssign.reviewContent">复制评价内容</div>
+        <button class="copy-evaluation-tbn mt-10 copy-btn" @click="copyEvaluate" :data-clipboard-text="showkerTask.other.itemReviewAssign.reviewContent">复制评价内容</button>
       </div>
       <div class="mt-20 pos-rel">
         <p class="fs-14"><span class="des-text">1.淘宝评价截图</span><span class="cl666">（商家返款凭证，必传）</span></p>
@@ -698,27 +698,8 @@
       } else {
         _this.showkerSuccessList();
       }
-      _this.$nextTick(() => {
-        let clipboard = new Clipboard('.copy-btn');
-        clipboard.on('success', () => {
-          _this.$Message.success("复制评价内容成功！");
-        });
-        clipboard.on('error', () => {
-          _this.$Message.error("复制评价内容失败！");
-          clipboard.destroy();
-        });
-      });
-      _this.$nextTick(() => {
-        let clipboard = new Clipboard('.copy-btn2');
-        clipboard.on('success', () => {
-          _this.$Message.success("复制评价内容成功！");
-        });
-        clipboard.on('error', () => {
-          _this.$Message.error("复制评价内容失败！");
-          clipboard.destroy();
-        });
-      });
       _this.getDetectionUserClauseTip();
+      _this.copyEvaluate();
     },
     computed: {
       pcOrApp: function () {
@@ -727,7 +708,20 @@
       }
     },
     methods: {
-
+      copyEvaluate(){
+        let _this = this;
+        _this.$nextTick(() => {
+          let clipboard = new Clipboard('.copy-btn');
+          clipboard.on('success', () => {
+            _this.$Message.success("复制评价内容成功！");
+            clipboard.destroy();
+          });
+          clipboard.on('error', () => {
+            _this.$Message.error("复制评价内容失败！");
+            clipboard.destroy();
+          });
+        });
+      },
       watchExamplePic() {
         this.watchExample = true;
       },
