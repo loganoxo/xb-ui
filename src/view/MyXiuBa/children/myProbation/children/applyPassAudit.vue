@@ -213,7 +213,7 @@
       <div class="evaluation-content-tip-assign mt-10"
            v-if="showkerTask.task && showkerTask.task.itemReviewRequired === 'assign_review_detail'">
         <div>{{showkerTask.other.itemReviewAssign.reviewContent}}</div>
-        <div class="copy-evaluation-tbn mt-10 copy-btn" :data-clipboard-text="showkerTask.other.itemReviewAssign.reviewContent">复制评价内容</div>
+        <button class="copy-evaluation-tbn mt-10 copy-btn2" :data-clipboard-text="showkerTask.other.itemReviewAssign.reviewContent">复制评价内容</button>
       </div>
       <div class="write-order-number mt-20">
         <span
@@ -700,6 +700,16 @@
       }
       _this.$nextTick(() => {
         let clipboard = new Clipboard('.copy-btn');
+        clipboard.on('success', () => {
+          _this.$Message.success("复制评价内容成功！");
+        });
+        clipboard.on('error', () => {
+          _this.$Message.error("复制评价内容失败！");
+          clipboard.destroy();
+        });
+      });
+      _this.$nextTick(() => {
+        let clipboard = new Clipboard('.copy-btn2');
         clipboard.on('success', () => {
           _this.$Message.success("复制评价内容成功！");
         });
