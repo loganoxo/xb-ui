@@ -54,6 +54,7 @@ const HelpCenter = r => require.ensure([], () => r(require('@/view/MyXiuBa/child
 const Faq = r => require.ensure([], () => r(require('@/view/MyXiuBa/children/helpCenter/children/Faq.vue')), 'helpCenter');
 const FaqSeller = r => require.ensure([], () => r(require('@/view/MyXiuBa/children/helpCenter/children/FaqSeller.vue')), 'helpCenter');
 const FaqShowker = r => require.ensure([], () => r(require('@/view/MyXiuBa/children/helpCenter/children/FaqShowker.vue')), 'helpCenter');
+const SellerTest = r => require.ensure([], () => r(require('@/view/SellerTest.vue')), 'SellerTest');
 
 const MyTrialReport = r => require.ensure([], () => r(require('@/view/MyXiuBa/children/MyTrialReport.vue')), 'MyTrialReport');
 
@@ -187,6 +188,18 @@ export default new Router({
         logInAuthority: true,
         topShow: false,
         bottomShow: false,
+        role: 1,
+      }
+    },
+    {
+      path: '/seller-test',
+      name: 'SellerTest',
+      component: SellerTest,
+      meta: {
+        title: "商家宣导页",
+        logInAuthority: true,
+        topShow: true,
+        bottomShow: true,
         role: 1,
       }
     },
