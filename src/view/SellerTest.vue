@@ -170,7 +170,11 @@
     },
     computed: {},
     created() {
-
+      api.checkSellerTest().then((res) => {
+        if (res.status) {
+          self.$router.go(-1);
+        }
+      })
     },
     methods: {
       changeTestState(state){
