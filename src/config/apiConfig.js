@@ -263,13 +263,6 @@ export default {
   },
 
   /**
-   * 获取用户余额
-   */
-  getAccountBalance() {
-    return fetch("/api/get-account-balance.json")
-  },
-
-  /**
    * 用户余额支付
    */
   payByBalance(params) {
@@ -360,8 +353,6 @@ export default {
     return fetch('/api/user/quiz/done.json',)
   },
 
-
-
   /**
    * 任务数据获取
    */
@@ -388,13 +379,6 @@ export default {
    */
   orderNumberAudit(params) {
     return fetch("/api/order-number-audit.json", params)
-  },
-
-  /**
-   * 秀客重新提交订单号-获取订单号
-   */
-  getOrderNum(params) {
-    return fetch("/api/task/merchant/getOrderNum.json", params)
   },
 
   /**
@@ -633,24 +617,10 @@ export default {
   },
 
   /**
-   * 通过旺旺名获取旺旺号等级和淘气值信息
-   */
-  getAlitmByAccount(params) {
-    return fetch("/api/user/alitm/getAlitmByAccount.json", params)
-  },
-
-  /**
    * 商家进入秀客任务管理页任务列表（所有待审核活动）
    */
   appliesWaitingAuditTask(params) {
     return fetch("/api/applies/waiting/audit/task.json", params)
-  },
-
-  /**
-   * 商家进入秀客任务管理页任务详情（待审核新增）
-   */
-  appliesWaitingAuditNewest(params) {
-    return fetch("/api/applies/waiting/audit/newest.json", params)
   },
 
   /**
@@ -693,13 +663,6 @@ export default {
    */
   appliesEndShowkerTask(params) {
     return fetch("/api/applies/end/showker/task.json", params)
-  },
-
-  /**
-   * 商家进入秀客任务管理页任务列表（未通过审核的人数）
-   */
-  appliesEndShowkerTaskCount(params) {
-    return fetch("/api/passes/end/showker/task/count.json", params)
   },
 
   /**
