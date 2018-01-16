@@ -70,7 +70,7 @@
 </template>
 
 <script>
-
+  import api from '@/config/apiConfig'
   export default {
     name: 'SellerTest',
     components: {},
@@ -213,7 +213,7 @@
           self.answerIndex += 1;
         }else {
           self.endShow = true;
-          api.giveSellerVip().then(res =>{
+          api.giveSellerVip().then(res => {
             console.log(res);
           })
         }
