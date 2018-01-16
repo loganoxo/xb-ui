@@ -998,19 +998,19 @@
       _this.$refs.myTextEditor.quill.getModule("toolbar").addHandler("image", imgHandler);
     },
     created() {
-      let self = this;
+      let _this = this;
       api.checkSellerTest().then((res) => {
         if (!res.status) {
           self.$router.push({name: 'SellerTest'});
         }
       });
-      this.checkMemberForTask();
-      this.getItemCatalog();
-      this.getDetectionUserClauseTip();
-      let taskId = decode(this.$route.query.q);
+      _this.checkMemberForTask();
+      _this.getItemCatalog();
+      _this.getDetectionUserClauseTip();
+      let taskId = decode(_this.$route.query.q);
       if (taskId) {
-        this.editTaskId = taskId;
-        this.getTaskInfo();
+        _this.editTaskId = taskId;
+        _this.getTaskInfo();
       }
     },
     computed: {
