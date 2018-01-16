@@ -798,7 +798,7 @@
   import UserClause from '@/components/UserClause'
   import api from '@/config/apiConfig'
   import {aliCallbackImgUrl} from '@/config/env'
-  import {aliUploadImg, isNumber, isInteger, isAliUrl, randomString, extendDeep, decode} from '@/config/utils'
+  import {aliUploadImg, isNumber, isInteger, isAliUrl, randomString, extendDeep, decode, setStorage, getStorage} from '@/config/utils'
 
   export default {
     name: 'TaskReleaseProcess',
@@ -999,11 +999,7 @@
     },
     created() {
       let _this = this;
-      api.checkSellerTest().then((res) => {
-        if (!res.status) {
-          self.$router.push({name: 'SellerTest'});
-        }
-      });
+      _this.getCheckSellerTest();
       _this.checkMemberForTask();
       _this.getItemCatalog();
       _this.getDetectionUserClauseTip();
@@ -1166,6 +1162,14 @@
             _this.discountDisabled.discount_99_9.disabled = false;
           }
         }
+      },
+      getCheckSellerTest() {
+        let _this = this;
+        api.checkSellerTest().then((res) => {
+          if (!res.status) {
+            _this.$router.push({name: 'SellerTest'});
+          }
+        });
       },
       checkMemberForTask() {
         let _this = this;
@@ -1630,13 +1634,20 @@
       },
       getItemCatalog() {
         let _this = this;
-        api.itemCatalog().then(res => {
-          if (res.status) {
-            _this.itemCatalogList = res.data
-          } else {
-            _this.$Message.error(res.msg);
-          }
-        })
+        let itemCatalog = getStorage('itemCatalog');
+        if(!itemCatalog){
+          api.itemCatalog().then(res => {
+            if (res.status) {
+              _this.itemCatalogList = res.data;
+              setStorage('itemCatalog', _this.itemCatalogList);
+            } else {
+              _this.$Message.error(res.msg);
+            }
+          })
+        }else {
+          _this.itemCatalogList = itemCatalog;
+        }
+
       },
       uploadImg(e) {
         let _this = this;

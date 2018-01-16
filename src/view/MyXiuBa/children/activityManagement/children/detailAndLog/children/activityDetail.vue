@@ -553,7 +553,7 @@
   import Alert from 'iview/src/components/alert'
   import Radio from 'iview/src/components/radio'
   import {Select, Option, OptionGroup} from 'iview/src/components/select'
-  import {decode} from '@/config/utils'
+  import {decode, getStorage} from '@/config/utils'
   import api from '@/config/apiConfig'
 
   export default {
@@ -856,12 +856,7 @@
         }
       },
       getItemCatalog() {
-        let _this = this;
-        api.itemCatalog().then(res => {
-          if (res.status) {
-            _this.itemCatalogList = res.data
-          }
-        })
+        this.itemCatalogList = getStorage('itemCatalog');
       },
       addItemReviewList() {
         this.itemReviewList = [];
