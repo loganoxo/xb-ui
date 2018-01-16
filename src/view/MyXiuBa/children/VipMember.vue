@@ -46,6 +46,7 @@
         </div>
         <div v-else  class="text-ct mt-20">
           <iButton class="btn-recharge" @click="recharge = true">马上购买</iButton>
+          <router-link v-show="checkSellerTestRes" to="/seller-test" class="inline-block ml-20">答题免费领vip</router-link>
         </div>
       </div>
     </div>
@@ -135,11 +136,13 @@
         memberLevel: null,
         memberId: null,
         recharge: false,
+        checkSellerTestRes: false,
       }
     },
     mounted() {
     },
     created() {
+      this.checkSellerTest();
       this.getUserMemberLevelInfo();
     },
     computed: {
@@ -161,6 +164,14 @@
     },
     watch: {},
     methods: {
+      checkSellerTest(){
+        let self = this;
+        api.checkSellerTest().then((res) => {
+          if (!res.status) {
+            self.checkSellerTestRes = true;
+          }
+        })
+      },
       changeStyle(select, day, year, recharge, level, id) {
         let _this = this;
         let stopTime = null;
