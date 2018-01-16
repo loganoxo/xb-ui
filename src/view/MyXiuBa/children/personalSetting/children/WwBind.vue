@@ -1,203 +1,195 @@
 <template>
-  <div class="personal-box">
-    <div class="personal-sel-box">
-      <router-view></router-view>
-      <!--旺旺号绑定beg-->
-      <div class="ww-account-box animated fadeIn">
-        <div v-show="!showWwBindBox" class="ww-account-list">
-          <a @click=addWwBindFunc>添加新旺旺号</a>
-          <ul class="ww-account-title">
-            <li>已绑定旺旺号</li>
-            <li>绑定时间</li>
-            <li>信用等级截图</li>
-            <li>绑定状态</li>
-            <li>操作</li>
-          </ul>
-          <div>
-            <ul class="ww-account-ctt" v-for="(ww, index) in wwBindLists">
-              <li>
-                <p>{{ww.alitmAccount}}</p>
-                <p v-if="ww.creditLevel"><img :src="taobaoLevelImgs[parseInt(ww.creditLevel) - 2]['text']" alt=""
-                                              style="width: auto;height: auto;"></p>
-                <p v-if="ww.tqz">淘气值：{{taoqizhiList[parseInt(ww.tqz) -                         1]['label']}}</p>
-              </li>
-              <li>{{ww.applyTime | dateFormat('YYYY-MM-DD hh:mm:ss')}}</li>
-              <li><img :src="ww.wwCreditLevelPicUrl" alt="" style="width: 50px; padding: 10px;"></li>
-              <li>
-                <span v-show="ww.status === 1">审核中</span>
-                <div v-if="ww.status === 2 ">
-                  <p>{{wwStatusTextOn}}</p>
-                  <iSwitch
-                    v-model="switchTrue"
-                    @on-change="switchTypeTrue(ww.id)">
-                  </iSwitch>
-                </div>
-                <div v-if="ww.status === 5 ">
-                  <p>{{wwStatusTextOff}}</p>
-                  <iSwitch
-                    v-model="switchFalse"
-                    @on-change="switchTypeFalse(ww.id)">
-                  </iSwitch>
-                </div>
-                <Tooltip v-show="ww.status === 3" :content="ww.remarks" placement="top" style="color: #ff6633;">
-                  <Icon type="information-circled" color="#FF6633"></Icon>
-                  <span >审核不通过(查看)</span>
-                </Tooltip>
-                <Tooltip v-show="ww.status === 4" content="此旺旺已被列入黑名单" placement="top" style="color: #ff6600;">
-                  <span >冻结</span>
-                </Tooltip>
-              </li>
-              <li>
-                <a v-show=" ww.status === 3 || (ww.status === 2 && switchValueTrue === false && switchValueFalse === true)|| (switchValueFalse === false && switchValueTrue === false)" @click="modifyWwBindFunc(ww,index)" class="mr-10">修改</a>
-                <a  @click="deleteWwBindFunc(ww,index)">解绑</a>
-                <!--<a v-show="ww.status == 3 " @click="modifyWwBindFunc(ww,index)">重新提交</a>-->
-              </li>
-            </ul>
-          </div>
-        </div>
-        <div class="ww-account-bind" v-if="showWwBindBox">
-          <Alert v-show="remarks.text" type="warning" show-icon>
-            审核不通过： {{remarks.text}},请重新提交（{{remarks.auditTime | dateFormat('YYYY-MM-DD hh:mm:ss')}}）
-          </Alert>
-          <div class="ww-account-form mt-20">
-            <iForm ref="wwFormValidate" :model="wwFormValidate" :rules="wwFormRuleCustom" label-position="right"
-                   :label-width="150">
-              <Form-item label="旺旺ID：" prop="alitmAccount">
-                <iInput v-model="wwFormValidate.alitmAccount"></iInput>
-              </Form-item>
-              <Form-item label="性别：" prop="alitmAccount">
-                <Radio-group v-model="wwFormValidate.sex">
-                  <Radio label="0">
-                    男
-                  </Radio>
-                  <Radio label="1">
-                    女
-                  </Radio>
-                </Radio-group>
-              </Form-item>
-              <Form-item label="旺旺号信用等级：" prop="alitmLevel">
-                <iSelect v-model="wwFormValidate.alitmLevel">
-                  <iOption v-for="taobaoLevelImg in taobaoLevelImgs" :label='taobaoLevelImg.label'
-                           :value="taobaoLevelImg.value" :key="taobaoLevelImg.value">
-                    <img :src="taobaoLevelImg.text" alt="">
-                  </iOption>
-                </iSelect>
-              </Form-item>
-              <Form-item label="旺旺信用等级截图：" prop="alitmLevelPicUrl" class="ww-info-img clear">
-                <Upload class="left"
-                        ref="uploadAlitmLevelPicUrl"
-                        :show-upload-list="false"
-                        :on-success="handlewwBindAlitmLevelPicUrlSuccess"
-                        :format="['jpg','jpeg','png','gif','bmp']"
-                        :max-size="10240"
-                        :default-file-list="wwFormValidate.alitmLevelPicUrl"
-                        name="wwBind"
-                        :on-remove="removewwBindAlitmLevelPicUrl"
-                        :on-format-error="handleFormatError"
-                        :on-exceeded-size="handleMaxSize"
-                        :before-upload="handleBeforeUpload"
-                        type="drag">
-                  <div style="width: 58px;height:58px;line-height: 58px;">
-                    <Icon type="camera" size="20"></Icon>
-                  </div>
-                </Upload>
-              </Form-item>
-              <div>
-                <a class="look-image" @click="changeDemoPicFunc(demoUrl.wwLevelApp)">[查看手淘示例截图]</a>
-                <p class="look-image-tip-text"> 截图位置：打开手淘并登录后，点击“我的淘宝”，在“必备工具”中选择“我的评价”即可在顶部看到当前旺旺信用等级</p>
-                <a class="look-image mt-6 inline-block" @click="changeDemoPicFunc(demoUrl.wwLevelPc)">[查看PC示例截图]</a>
-                <p class="look-image-tip-text"> 截图位置：打开淘宝首页并登录后，点击顶部“我的淘宝”，然后在左侧菜单列表中点击“评价管理”，即可查看当前旺旺信用等级</p>
-              </div>
-              <!--<Form-item label="账号信息截图："  prop="picUrl" class="ww-info-img">
-                <Upload
-                  ref="upload"
-                  :show-upload-list="false"
-                  :on-success="handlewwBindPicUrlSuccess"
-                  :format="['jpg','jpeg','png','gif','bmp']"
-                  :max-size="2000"
-                  :default-file-list="wwFormValidate.picUrl"
-                  name="wwBind"
-                  :on-remove = "removewwBindPicUrl"
-                  :on-format-error="handleFormatError"
-                  :on-exceeded-size="handleMaxSize"
-                  :before-upload="handleBeforeUpload"
-                  type="drag">
-                  <div style="width: 58px;height:58px;line-height: 58px;">
-                    <Icon type="camera" size="20"></Icon>
-                  </div>
-                </Upload>
-              </Form-item>
-              <Form-item>
-                截图位置：我的淘宝->账户设置->安全设置
-              </Form-item>-->
-              <Form-item label="淘气值：" prop="taoqizhi" class="mt-12">
-                <iSelect v-model="wwFormValidate.taoqizhi">
-                  <iOption v-for="taoqizhi in taoqizhiList" :label='taoqizhi.label' :value="taoqizhi.value"
-                           :key="taoqizhi.value">
-                    {{taoqizhi.label}}
-                  </iOption>
-                </iSelect>
-              </Form-item>
-              <Form-item label="淘气值截图：" prop="taoqizhiPicUrl" class="ww-info-img clear">
-                <Upload
-                  class="left"
-                  ref="uploadTaoqizhiPicUrl"
-                  :show-upload-list="false"
-                  :on-success="handlewwBindtaoqizhiPicUrlSuccess"
-                  :format="['jpg','jpeg','png','gif','bmp']"
-                  :max-size="10240"
-                  :default-file-list="wwFormValidate.taoqizhiPicUrl"
-                  name="wwBind"
-                  :on-remove="removewwBindtaoqizhiPicUrl"
-                  :on-format-error="handleFormatError"
-                  :on-exceeded-size="handleMaxSize"
-                  :before-upload="handleBeforeUpload"
-                  type="drag">
-                  <div style="width: 58px;height:58px;line-height: 58px;">
-                    <Icon type="camera" size="20"></Icon>
-                  </div>
-                </Upload>
-              </Form-item>
-              <div>
-                <a class="look-image" @click="changeDemoPicFunc(demoUrl.taoqiApp)">[查看手淘示例截图]</a>
-                <p class="look-image-tip-text"> 截图位置：打开手淘并登录后，点击“我的淘宝”，即可查看到当前账号的淘气值</p>
-                <a class="look-image mt-6 inline-block" @click="changeDemoPicFunc(demoUrl.taoqiPc)">[查看PC示例截图]</a>
-                <p class="look-image-tip-text">截图位置：打开淘宝首页，将鼠标移至左上角自己的淘宝账户，即可看到自己的淘气值</p>
-              </div>
-              <Form-item label="收货地址：" prop="address" class="mt-12">
-                <region-picker
-                  :auto="true"
-                  :placeholder="{province: '选择省份', city: '选择市', district: '选择地区'}"
-                  :province="region.province"
-                  :city="region.city"
-                  :district="region.district"
-                  @onchange="regionPickerChange">
-                </region-picker>
-              </Form-item>
-              <Form-item prop="detailAddress">
-                <iInput v-model="wwFormValidate.detailAddress"></iInput>
-              </Form-item>
-              <Form-item>
-                <iButton :class="[btnState.wwBindBtn ? '': 'ww-bind-btn']" :disabled="btnState.wwBindBtn"
-                         @click="handleSubmit('wwFormValidate',wwBindFunc)">提交
-                </iButton>
-                <iButton type="ghost" @click="handleReset('wwFormValidate',clearWwInfo)">重置</iButton>
-              </Form-item>
-              <p class="tip clear"
-                 style="margin-left: 102px;width: 600px;line-height: 30px;font-size: 14px;color: #999;padding-bottom: 30px;">
-                1.支持jpg/jpeg/gif/bmp/png格式，最大不超过10M
-              </p>
-            </iForm>
-
-          </div>
-          <div class="left ww-account-cue mt-20">
-            <p>
-              <a @click="changeDemoPicFunc(demoUrl.wwAccount);">什么是旺旺ID号？</a>
-            </p>
-          </div>
-        </div>
+  <div class="ww-account-box">
+    <div v-show="!showWwBindBox" class="ww-account-list">
+      <a @click=addWwBindFunc>添加新旺旺号</a>
+      <ul class="ww-account-title">
+        <li>已绑定旺旺号</li>
+        <li>绑定时间</li>
+        <li>信用等级截图</li>
+        <li>绑定状态</li>
+        <li>操作</li>
+      </ul>
+      <div>
+        <ul class="ww-account-ctt" v-for="(ww, index) in wwBindLists">
+          <li>
+            <p>{{ww.alitmAccount}}</p>
+            <p v-if="ww.creditLevel"><img :src="taobaoLevelImgs[parseInt(ww.creditLevel) - 2]['text']" style="width: auto;height: auto;"></p>
+            <p v-if="ww.tqz">淘气值：{{taoqizhiList[parseInt(ww.tqz) - 1]['label']}}</p>
+          </li>
+          <li>{{ww.applyTime | dateFormat('YYYY-MM-DD hh:mm:ss')}}</li>
+          <li><img :src="ww.wwCreditLevelPicUrl" alt="" style="width: 50px; padding: 10px;"></li>
+          <li>
+            <span v-show="ww.status === 1">审核中</span>
+            <div v-if="ww.status === 2 ">
+              <p>{{wwStatusTextOn}}</p>
+              <iSwitch
+                v-model="switchTrue"
+                @on-change="switchTypeTrue(ww.id)">
+              </iSwitch>
+            </div>
+            <div v-if="ww.status === 5 ">
+              <p>{{wwStatusTextOff}}</p>
+              <iSwitch
+                v-model="switchFalse"
+                @on-change="switchTypeFalse(ww.id)">
+              </iSwitch>
+            </div>
+            <Tooltip v-show="ww.status === 3" :content="ww.remarks" placement="top" style="color: #ff6633;">
+              <Icon type="information-circled" color="#FF6633"></Icon>
+              <span>审核不通过(查看)</span>
+            </Tooltip>
+            <Tooltip v-show="ww.status === 4" content="此旺旺已被列入黑名单" placement="top" style="color: #ff6600;">
+              <span>冻结</span>
+            </Tooltip>
+          </li>
+          <li>
+            <a v-show=" ww.status === 3 || (ww.status === 2 && !switchValueTrue && switchValueFalse)|| (!switchValueFalse && !switchValueTrue)"
+              @click="modifyWwBindFunc(ww)" class="mr-10">修改</a>
+            <a @click="deleteWwBindFunc(ww)">解绑</a>
+            <!--<a v-show="ww.status == 3 " @click="modifyWwBindFunc(ww,index)">重新提交</a>-->
+          </li>
+        </ul>
       </div>
-      <!--旺旺号绑定end-->
+    </div>
+    <div class="ww-account-bind" v-if="showWwBindBox">
+      <Alert v-show="remarks.text" type="warning" show-icon>
+        审核不通过： {{remarks.text}},请重新提交（{{remarks.auditTime | dateFormat('YYYY-MM-DD hh:mm:ss')}}）
+      </Alert>
+      <div class="ww-account-form mt-20">
+        <iForm ref="wwFormValidate" :model="wwFormValidate" :rules="wwFormRuleCustom" label-position="right"
+               :label-width="150">
+          <Form-item label="旺旺ID：" prop="alitmAccount">
+            <iInput v-model="wwFormValidate.alitmAccount"></iInput>
+          </Form-item>
+          <Form-item label="性别：" prop="alitmAccount">
+            <Radio-group v-model="wwFormValidate.sex">
+              <Radio label="0">
+                男
+              </Radio>
+              <Radio label="1">
+                女
+              </Radio>
+            </Radio-group>
+          </Form-item>
+          <Form-item label="旺旺号信用等级：" prop="alitmLevel">
+            <iSelect v-model="wwFormValidate.alitmLevel">
+              <iOption v-for="taobaoLevelImg in taobaoLevelImgs" :label='taobaoLevelImg.label'
+                       :value="taobaoLevelImg.value" :key="taobaoLevelImg.value">
+                <img :src="taobaoLevelImg.text" alt="">
+              </iOption>
+            </iSelect>
+          </Form-item>
+          <Form-item label="旺旺信用等级截图：" prop="alitmLevelPicUrl" class="ww-info-img clear">
+            <Upload class="left"
+                    ref="uploadAlitmLevelPicUrl"
+                    :show-upload-list="false"
+                    :on-success="handlewwBindAlitmLevelPicUrlSuccess"
+                    :format="['jpg','jpeg','png','gif','bmp']"
+                    :max-size="10240"
+                    :default-file-list="wwFormValidate.alitmLevelPicUrl"
+                    name="wwBind"
+                    :on-remove="removewwBindAlitmLevelPicUrl"
+                    :on-format-error="handleFormatError"
+                    :on-exceeded-size="handleMaxSize"
+                    :before-upload="handleBeforeUpload"
+                    type="drag">
+              <div style="width: 58px;height:58px;line-height: 58px;">
+                <Icon type="camera" size="20"></Icon>
+              </div>
+            </Upload>
+          </Form-item>
+          <div>
+            <a class="look-image" @click="changeDemoPicFunc(demoUrl.wwLevelApp)">[查看手淘示例截图]</a>
+            <p class="look-image-tip-text"> 截图位置：打开手淘并登录后，点击“我的淘宝”，在“必备工具”中选择“我的评价”即可在顶部看到当前旺旺信用等级</p>
+            <a class="look-image mt-6 inline-block" @click="changeDemoPicFunc(demoUrl.wwLevelPc)">[查看PC示例截图]</a>
+            <p class="look-image-tip-text"> 截图位置：打开淘宝首页并登录后，点击顶部“我的淘宝”，然后在左侧菜单列表中点击“评价管理”，即可查看当前旺旺信用等级</p>
+          </div>
+          <!--<Form-item label="账号信息截图："  prop="picUrl" class="ww-info-img">
+            <Upload
+              ref="upload"
+              :show-upload-list="false"
+              :on-success="handlewwBindPicUrlSuccess"
+              :format="['jpg','jpeg','png','gif','bmp']"
+              :max-size="2000"
+              :default-file-list="wwFormValidate.picUrl"
+              name="wwBind"
+              :on-remove = "removewwBindPicUrl"
+              :on-format-error="handleFormatError"
+              :on-exceeded-size="handleMaxSize"
+              :before-upload="handleBeforeUpload"
+              type="drag">
+              <div style="width: 58px;height:58px;line-height: 58px;">
+                <Icon type="camera" size="20"></Icon>
+              </div>
+            </Upload>
+          </Form-item>
+          <Form-item>
+            截图位置：我的淘宝->账户设置->安全设置
+          </Form-item>-->
+          <Form-item label="淘气值：" prop="taoqizhi" class="mt-12">
+            <iSelect v-model="wwFormValidate.taoqizhi">
+              <iOption v-for="taoqizhi in taoqizhiList" :label='taoqizhi.label' :value="taoqizhi.value"
+                       :key="taoqizhi.value">
+                {{taoqizhi.label}}
+              </iOption>
+            </iSelect>
+          </Form-item>
+          <Form-item label="淘气值截图：" prop="taoqizhiPicUrl" class="ww-info-img clear">
+            <Upload
+              class="left"
+              ref="uploadTaoqizhiPicUrl"
+              :show-upload-list="false"
+              :on-success="handlewwBindtaoqizhiPicUrlSuccess"
+              :format="['jpg','jpeg','png','gif','bmp']"
+              :max-size="10240"
+              :default-file-list="wwFormValidate.taoqizhiPicUrl"
+              name="wwBind"
+              :on-remove="removewwBindtaoqizhiPicUrl"
+              :on-format-error="handleFormatError"
+              :on-exceeded-size="handleMaxSize"
+              :before-upload="handleBeforeUpload"
+              type="drag">
+              <div style="width: 58px;height:58px;line-height: 58px;">
+                <Icon type="camera" size="20"></Icon>
+              </div>
+            </Upload>
+          </Form-item>
+          <div>
+            <a class="look-image" @click="changeDemoPicFunc(demoUrl.taoqiApp)">[查看手淘示例截图]</a>
+            <p class="look-image-tip-text"> 截图位置：打开手淘并登录后，点击“我的淘宝”，即可查看到当前账号的淘气值</p>
+            <a class="look-image mt-6 inline-block" @click="changeDemoPicFunc(demoUrl.taoqiPc)">[查看PC示例截图]</a>
+            <p class="look-image-tip-text">截图位置：打开淘宝首页，将鼠标移至左上角自己的淘宝账户，即可看到自己的淘气值</p>
+          </div>
+          <Form-item label="收货地址：" prop="address" class="mt-12">
+            <region-picker
+              :auto="true"
+              :placeholder="{province: '选择省份', city: '选择市', district: '选择地区'}"
+              :province="region.province"
+              :city="region.city"
+              :district="region.district"
+              @onchange="regionPickerChange">
+            </region-picker>
+          </Form-item>
+          <Form-item prop="detailAddress">
+            <iInput v-model="wwFormValidate.detailAddress"></iInput>
+          </Form-item>
+          <Form-item>
+            <iButton :class="[btnState.wwBindBtn ? '': 'ww-bind-btn']" :disabled="btnState.wwBindBtn"
+                     @click="handleSubmit('wwFormValidate',wwBindFunc)">提交
+            </iButton>
+            <iButton type="ghost" @click="handleReset('wwFormValidate',clearWwInfo)">重置</iButton>
+          </Form-item>
+          <p class="ww-tip">
+            1.支持jpg/jpeg/gif/bmp/png格式，最大不超过10M
+          </p>
+        </iForm>
+
+      </div>
+      <div class="left ww-account-cue mt-20">
+        <p>
+          <a @click="changeDemoPicFunc(demoUrl.wwAccount)">什么是旺旺ID号？</a>
+        </p>
+      </div>
     </div>
     <!--删除任务弹框-->
     <Modal v-model="deleteWwModal" width="360">
@@ -228,19 +220,16 @@
   import Form from 'iview/src/components/form'
   import Input from 'iview/src/components/input'
   import Switch from 'iview/src/components/switch'
-  import Checkbox from 'iview/src/components/checkbox'
   import {Select, Option, OptionGroup} from 'iview/src/components/select'
   import Button from 'iview/src/components/button'
   import Radio from 'iview/src/components/radio'
-  import Upload from '@/components/upload'
   import Modal from 'iview/src/components/modal'
   import Alert from 'iview/src/components/alert'
   import Tooltip from 'iview/src/components/tooltip'
-  import SmsCountdown from '@/components/SmsCountdown'
   import {RegionPicker} from 'vue-region-picker'
   import CHINA_REGION from 'china-area-data'
+  import Upload from '@/components/upload'
   import api from '@/config/apiConfig'
-  import {setStorage, getStorage} from '@/config/utils'
   import {aliCallbackImgUrl} from '@/config/env'
 
   RegionPicker.region = CHINA_REGION;
@@ -250,11 +239,9 @@
     components: {
       Tooltip: Tooltip,
       iInput: Input,
-      iSwitch:Switch,
+      iSwitch: Switch,
       iForm: Form,
       FormItem: Form.Item,
-      Checkbox: Checkbox,
-      CheckboxGroup: Checkbox.Group,
       iButton: Button,
       Icon: Icon,
       Radio: Radio,
@@ -264,7 +251,6 @@
       Alert: Alert,
       iSelect: Select,
       iOption: Option,
-      SmsCountdown: SmsCountdown,
       RegionPicker: RegionPicker,
     },
     data() {
@@ -293,13 +279,13 @@
         }
       };
       return {
-        alimitId:null,
-        wwStatusTextOn:'启用中',
-        wwStatusTextOff:'停用中',
-        switchTrue:true,
-        switchFalse:false,
-        switchValueTrue:false,
-        switchValueFalse:true,
+        alimitId: null,
+        wwStatusTextOn: '启用中',
+        wwStatusTextOff: '停用中',
+        switchTrue: true,
+        switchFalse: false,
+        switchValueTrue: false,
+        switchValueFalse: true,
         modalLoading: false,
         deleteWwModal: false,
         deleteWwId: '',
@@ -477,66 +463,66 @@
     },
     computed: {},
     methods: {
-      switchTypeTrue(id){
-        let self = this ;
-        if (!self.switchValueTrue){
+      switchTypeTrue(id) {
+        let self = this;
+        if (!self.switchValueTrue) {
           self.wwStatusTextOn = '停用中';
-          self.switchValueTrue =  true;
+          self.switchValueTrue = true;
           api.disuseWw({
-            id:id
-          }).then((res)=>{
-            if (res.status){
+            id: id
+          }).then((res) => {
+            if (res.status) {
               self.$Message.success('已停用！')
             } else {
               self.$Message.error(res.msg);
             }
           })
-        }else {
+        } else {
           self.wwStatusTextOn = '启用中';
           self.switchValueTrue = false;
           api.unDisuseWw({
-            id:id
-          }).then((res)=>{
-            if (res.status){
+            id: id
+          }).then((res) => {
+            if (res.status) {
               self.$Message.success('已启用！');
-            }else {
+            } else {
               self.$Message.error(res.msg);
             }
           })
         }
       },
-      switchTypeFalse(id){
-        let self = this ;
-        if (!self.switchValueFalse){
+      switchTypeFalse(id) {
+        let self = this;
+        if (!self.switchValueFalse) {
           self.wwStatusTextOff = '停用中';
           self.switchValueFalse = true;
           api.disuseWw({
-            id:id
-          }).then((res)=>{
-            if (res.status){
+            id: id
+          }).then((res) => {
+            if (res.status) {
               self.$Message.success('已停用！')
-            }else {
+            } else {
               self.$Message.error(res.msg)
             }
           })
-        }else {
+        } else {
           self.wwStatusTextOff = '启用中';
           self.switchValueFalse = false;
-            api.unDisuseWw({
-              id:id
-            }).then((res)=>{
-              if (res.status){
-                self.$Message.success('已启用！');
-              }else {
-                self.$Message.error(res.msg);
-              }
-            })
+          api.unDisuseWw({
+            id: id
+          }).then((res) => {
+            if (res.status) {
+              self.$Message.success('已启用！');
+            } else {
+              self.$Message.error(res.msg);
+            }
+          })
         }
       },
       regionPickerChange(obj) {
         this.address = obj;
       },
-      deleteWwBindFunc(ww, index) {
+      deleteWwBindFunc(ww) {
         let self = this;
         self.deleteWwId = ww.id;
         self.deleteWwModal = true;
@@ -569,45 +555,47 @@
           self.deleteWwModal = false;
         })
       },
-      modifyWwBindFunc(ww, index) {
-        this.showWwBindBox = true;
-        this.wwFormValidate.id = ww.id;
-        this.wwFormValidate.alitmAccount = ww.alitmAccount;
-        this.wwFormValidate.alitmLevel = ww.creditLevel;
-        this.wwFormValidate.taoqizhi = ww.tqz;
-        this.address.province = ww.takeProvince;
-        this.address.city = ww.takeCity;
-        this.address.district = ww.takeDistrict;
-        this.region.province = ww.takeProvince;
-        this.region.city = ww.takeCity;
-        this.region.district = ww.district;
-        this.wwFormValidate.sex = ww.alitmRole;
-        this.wwFormValidate.detailAddress = ww.takeDetail;
-        this.wwFormValidate.alitmLevelPicUrl = [{
+      modifyWwBindFunc(ww) {
+        let _this = this;
+        _this.showWwBindBox = true;
+        _this.wwFormValidate.id = ww.id;
+        _this.wwFormValidate.alitmAccount = ww.alitmAccount;
+        _this.wwFormValidate.alitmLevel = ww.creditLevel;
+        _this.wwFormValidate.taoqizhi = ww.tqz;
+        _this.address.province = ww.takeProvince;
+        _this.address.city = ww.takeCity;
+        _this.address.district = ww.takeDistrict;
+        _this.region.province = ww.takeProvince;
+        _this.region.city = ww.takeCity;
+        _this.region.district = ww.district;
+        _this.wwFormValidate.sex = ww.alitmRole;
+        _this.wwFormValidate.detailAddress = ww.takeDetail;
+        _this.wwFormValidate.alitmLevelPicUrl = [{
           src: ww.wwCreditLevelPic,
         }];
-        this.wwFormValidate.taoqizhiPicUrl = [{
+        _this.wwFormValidate.taoqizhiPicUrl = [{
           src: ww.tqzPic,
         }];
-        this.remarks.text = ww.remarks;
-        this.remarks.auditTime = ww.auditTime;
-        this.modifyWw = true;
-        this.$set(this.wwFormValidate);
+        _this.remarks.text = ww.remarks;
+        _this.remarks.auditTime = ww.auditTime;
+        _this.modifyWw = true;
+        _this.$set(_this.wwFormValidate);
       },
       addWwBindFunc() {
-        if ((this.wwBindLists && this.wwBindLists.length < 1) || !this.wwBindLists) {
-          this.showWwBindBox = true;
-          this.wwFormValidate.id = '';
-          this.wwFormValidate.alitmAccount = '';
-          this.wwFormValidate.alitmLevel = '';
-          this.wwFormValidate.taoqizhi = '';
-//          this.wwFormValidate.picUrl = [];
-          this.wwFormValidate.alitmLevelPicUrl = [];
-          this.wwFormValidate.taoqizhiPicUrl = [];
-          this.remarks.text = '';
-          this.modifyWw = false;
+        let _this = this;
+        if ((_this.wwBindLists && _this.wwBindLists.length < 1) || !_this.wwBindLists) {
+          _this.showWwBindBox = true;
+          _this.wwFormValidate.id = '';
+          _this.wwFormValidate.alitmAccount = '';
+          _this.wwFormValidate.alitmLevel = '';
+          _this.wwFormValidate.taoqizhi = '';
+//          _this.wwFormValidate.picUrl = [];
+          _this.wwFormValidate.alitmLevelPicUrl = [];
+          _this.wwFormValidate.taoqizhiPicUrl = [];
+          _this.remarks.text = '';
+          _this.modifyWw = false;
         } else {
-          this.$Modal.warning({
+          _this.$Modal.warning({
             content: "亲, 最多只能绑定1个旺旺号"
           });
         }
@@ -623,7 +611,7 @@
             self.wwBindLists = res.data;
             if (res.statusCode === 'success_but_not_any_alitm') {
               self.showWwBindBox = true;
-              self.$nextTick(()=>{
+              self.$nextTick(() => {
                 self.$Notice.info({
                   title: '旺旺号信息绑定',
                   desc: '申请宝贝时，需要首先绑定淘宝旺旺号后才可以进行操作。请先按照页面提示进行旺旺号的绑定，以便于后期活动的申请，感谢您的支持与配合！',
@@ -632,17 +620,14 @@
               });
             }
           } else {
-            self.$Message.error({
-              content: res.msg,
-              duration: 9
-            });
+            self.$Message.error(res.msg);
           }
         });
       },
       wwBindFunc() {
         let self = this;
-        if (!(self.wwFormValidate.taoqizhiPicUrl == '' || self.wwFormValidate.alitmLevelPicUrl == '')) {
-          if(!self.address.province){
+        if (!self.wwFormValidate.taoqizhiPicUrl || !self.wwFormValidate.alitmLevelPicUrl) {
+          if (!self.address.province) {
             self.$Message.error('请选择省');
             return
           }
@@ -674,10 +659,7 @@
                   }
                 });
               } else {
-                self.$Message.error({
-                  content: res.msg,
-                  duration: 9
-                });
+                self.$Message.error(res.msg);
               }
               self.btnState.wwBindBtn = false;
             })
@@ -707,17 +689,13 @@
                   }
                 });
               } else {
-
-                this.$Message.error({
-                  content: res.msg,
-                  duration: 9
-                });
+                self.$Message.error(res.msg);
               }
               self.btnState.wwBindBtn = false;
             })
           }
         } else {
-          this.$Modal.warning({
+          self.$Modal.warning({
             content: '请上传必需图片'
           });
         }
@@ -754,12 +732,12 @@
 //          src: aliCallbackImgUrl + res.name
 //        }];
 //      },
-      handlewwBindtaoqizhiPicUrlSuccess(res, file) {
+      handlewwBindtaoqizhiPicUrlSuccess(res) {
         this.wwFormValidate.taoqizhiPicUrl = [{
           src: aliCallbackImgUrl + res.name
         }];
       },
-      handlewwBindAlitmLevelPicUrlSuccess(res, file) {
+      handlewwBindAlitmLevelPicUrlSuccess(res) {
         this.wwFormValidate.alitmLevelPicUrl = [{
           src: aliCallbackImgUrl + res.name
         }];
@@ -788,312 +766,3 @@
     }
   }
 </script>
-
-<style lang="scss" scoped>
-  @import 'src/css/mixin';
-
-  .user-info-box {
-    margin-top: 20px;
-    .ivu-form-item-content > .myAddress > .province > .province-select {
-      height: 50px;
-      width: 200px;
-      border: none;
-    }
-    .china-address {
-      height: 200px;
-    }
-    .user-basic {
-      border: 1px solid #EEEEEE;
-      overflow: hidden;
-      P.user-basic-title {
-        padding: 0 20px;
-        height: 36px;
-        line-height: 36px;
-        background-color: #f8f8f8;
-      }
-      p.img-box {
-        width: 800px;
-        img {
-          margin: 0 10px 5px 10px;
-        }
-      }
-      .user-basic-ctt {
-        padding: 25px 0;
-        overflow: hidden;
-        > div {
-          width: 20%;
-          text-align: center;
-        }
-        > ul {
-          margin-top: 5px;
-          width: 80%;
-          line-height: 30px;
-          height: 30px;
-          font-size: 14px;
-        }
-      }
-    }
-    .user-safe {
-      margin-top: 20px;
-      P {
-        padding: 0 20px;
-        height: 36px;
-        line-height: 36px;
-        background-color: #f8f8f8;
-      }
-      ul {
-        width: 100%;
-        li {
-          ul {
-            display: table;
-            height: 60px;
-            font-size: 14px;
-            li {
-              display: table-cell;
-              vertical-align: middle;
-              text-align: center;
-            }
-            li.one {
-              width: 30%;
-            }
-            li.two {
-              width: 50%;
-              text-align: left;
-            }
-            li.three {
-              width: 20%;
-            }
-          }
-        }
-      }
-    }
-  }
-
-  .personal-box {
-    .personal-sel-top {
-      border-bottom: 1px solid #FF845B;
-      a {
-        background-color: #fff;
-        color: #666;
-        display: inline-block;
-        font-size: 16px;
-        height: 36px;
-        line-height: 36px;
-        width: 144px;
-        text-align: center;
-      }
-      a.active {
-        background-color: #FF845B;
-        color: #fff;
-      }
-    }
-    .personal-sel-box {
-      .verified-box {
-        width: 830px;
-        margin: 30px auto auto auto;
-        .verified-form {
-          margin-top: 20px;
-          width: 400px;
-          float: left;
-          .verified-btn {
-            background-color: #FF6865;
-            color: #fff;
-          }
-        }
-        .verified-cue {
-          p {
-            height: 36px;
-            line-height: 36px;
-            margin-bottom: 21px;
-            margin-left: 30px;
-            a {
-              margin-right: 30px;
-            }
-          }
-        }
-        .error-result-text {
-          margin-left: 116px;
-          clear: both;
-          font-size: 14px;
-        }
-        .verified-result {
-          p:first-child {
-            font-size: 30pt;
-            margin: auto;
-            width: 500px;
-            color: #666;
-          }
-          p:last-child {
-            font-size: 14px;
-            margin: 60px auto;
-            width: 600px;
-            color: #999;
-          }
-        }
-      }
-      .ww-account-box {
-        .ww-account-list {
-          > a {
-            margin: 20px 0 20px 10px;
-            display: block;
-            background-color: #F8F8F8;
-            border: 1px solid #E8E8E8;
-            color: #666;
-            width: 120px;
-            text-align: center;
-            height: 36px;
-            line-height: 36px;
-            font-size: 12px;
-          }
-          .ww-account-title {
-            display: table;
-            width: 100%;
-            background-color: #DDDDDD;
-            color: #000;
-            height: 38px;
-            text-align: center;
-            margin-top: 20px;
-            li {
-              display: table-cell;
-              vertical-align: middle;
-              width: 20%;
-            }
-          }
-          .ww-account-ctt {
-            display: table;
-            width: 100%;
-            background-color: #FFFFFF;
-            color: #999;
-            height: 38px;
-            border: 1px solid #E2E2E2;
-            border-top: none;
-            text-align: center;
-            li {
-              display: table-cell;
-              vertical-align: middle;
-              word-wrap: break-word;
-              word-break: break-all;
-              width: 20%;
-            }
-          }
-        }
-        .ww-account-bind {
-          width: 830px;
-          margin: 30px auto auto auto;
-          .ww-account-form {
-            width: 400px;
-            float: left;
-            .ww-bind-btn {
-              background-color: #FF6865;
-              color: #fff
-            }
-          }
-          .ww-account-cue {
-            p {
-              height: 36px;
-              line-height: 36px;
-              margin-bottom: 21px;
-              margin-left: 30px;
-              a {
-                margin-right: 30px;
-              }
-            }
-          }
-          .error-result-text {
-            margin-left: 102px;
-            clear: both;
-            font-size: 14px;
-          }
-        }
-      }
-
-    }
-  }
-  .look-image{
-    margin-left: 150px;
-  }
-  .look-image-tip-text{
-    margin-left: 150px;
-    margin-top: 4px;
-    width: 392px;
-    line-height: 24px;
-  }
-  .my-account {
-    .user-safe {
-      margin-top: 20px;
-      P {
-        padding: 0 20px;
-        height: 36px;
-        line-height: 36px;
-        background-color: #f8f8f8;
-      }
-      ul {
-        width: 100%;
-        border: 1px solid #f3f3f3;
-        li {
-          ul {
-            display: table;
-            height: 60px;
-            font-size: 14px;
-            li {
-              display: table-cell;
-              vertical-align: middle;
-              text-align: center;
-            }
-            li.one {
-              width: 30%;
-              text-align: left;
-              padding-left: 20px;
-            }
-            li.two {
-              width: 50%;
-              text-align: left;
-            }
-            li.three {
-              width: 20%;
-            }
-          }
-        }
-      }
-    }
-    .modify-pwd {
-      margin-top: 20px;
-      font-size: 14px;
-      border: 1px solid #f3f3f3;;
-      padding-bottom: 20px;
-      .modify-pwd-sel {
-        > P {
-          padding: 0 20px;
-          height: 36px;
-          line-height: 36px;
-          background-color: #f8f8f8;
-        }
-        .sel-box {
-          margin-top: 50px;
-          > p {
-            width: 20%;
-            text-align: center;
-          }
-          > div {
-            width: 80%;
-            .sel-canal {
-              border: 1px solid #E8E8E8;
-              width: 500px;
-              height: 70px;
-              display: table;
-              margin-bottom: 15px;
-              padding-left: 20px;
-              cursor: pointer;
-              p {
-                display: table-cell;
-                vertical-align: middle;
-                width: 95%;
-              }
-            }
-
-          }
-        }
-      }
-    }
-  }
-</style>

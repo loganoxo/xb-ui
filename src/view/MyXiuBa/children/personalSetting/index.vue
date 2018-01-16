@@ -1,7 +1,7 @@
 <template>
-  <div class="personal-box">
+  <div class="personal-setting">
     <div class="personal-sel-top">
-      <router-link :to="myInfoSelect.link" :key="myInfoSelect.link" v-for="(myInfoSelect,index) in myInfoSelects" :class="{active:infoSelect == myInfoSelect.isSelect}" v-if="myInfoFunc(index)">
+      <router-link :to="myInfoSelect.link" :key="myInfoSelect.link" v-for="(myInfoSelect,index) in myInfoSelects" :class="{active:infoSelect === myInfoSelect.isSelect}" v-if="myInfoFunc(index)">
         {{myInfoSelect.text}}
       </router-link>
     </div>
@@ -12,36 +12,9 @@
 </template>
 
 <script>
-  import Icon from 'iview/src/components/icon'
-  import Form from 'iview/src/components/form'
-  import Input from 'iview/src/components/input'
-  import Checkbox from 'iview/src/components/checkbox'
-  import Button from 'iview/src/components/button'
-  import Radio from 'iview/src/components/radio'
-  import api from '@/config/apiConfig'
-  import Upload from '@/components/upload'
-  import {setStorage, getStorage} from '@/config/utils'
-  import {aliCallbackImgUrl} from '@/config/env'
-  import Modal from 'iview/src/components/modal'
-  import Alert from 'iview/src/components/alert'
-  import SmsCountdown from '@/components/SmsCountdown'
   export default {
-    name: 'TaskReleaseProcess',
-    components: {
-      iInput: Input,
-      iForm: Form,
-      FormItem: Form.Item,
-      Checkbox: Checkbox,
-      CheckboxGroup: Checkbox.Group,
-      iButton: Button,
-      Icon: Icon,
-      Radio: Radio,
-      RadioGroup: Radio.Group,
-      Upload: Upload,
-      Modal: Modal,
-      Alert: Alert,
-      SmsCountdown: SmsCountdown,
-    },
+    name: 'personalSetting',
+    components: {},
     data() {
       return {
         userData: {},
@@ -90,77 +63,8 @@
   }
 </script>
 
-<style lang="scss" scoped>
-  @import 'src/css/mixin';
-  .user-info-box{
-    margin-top: 20px;
-    .user-basic{
-      border: 1px solid #EEEEEE;
-      overflow: hidden;
-      P.user-basic-title{
-        padding: 0 20px;
-        height: 36px;
-        line-height: 36px;
-        background-color: #f8f8f8;
-      }
-      p.img-box{
-        width: 800px;
-        img{
-          margin: 0 10px 5px 10px;
-        }
-      }
-      .user-basic-ctt{
-        padding: 25px 0;
-        overflow: hidden;
-        >div{
-          width: 20%;
-          text-align: center;
-        }
-        >ul{
-          margin-top: 5px;
-          width: 80%;
-          line-height: 30px;
-          height: 30px;
-          font-size: 14px;
-        }
-      }
-    }
-    .user-safe{
-      margin-top: 20px;
-      P{
-        padding: 0 20px;
-        height: 36px;
-        line-height: 36px;
-        background-color: #f8f8f8;
-      }
-      ul{
-        width: 100%;
-        li{
-          ul{
-            display: table;
-            height: 60px;
-            font-size: 14px;
-            li{
-              display: table-cell;
-              vertical-align: middle;
-              text-align: center;
-            }
-            li.one{
-              width: 30%;
-            }
-            li.two{
-              width: 50%;
-              text-align: left;
-            }
-            li.three{
-              width: 20%;
-            }
-          }
-        }
-      }
-    }
-  }
-  .personal-box {
+<style lang="scss">
+  .personal-setting{
     .personal-sel-top {
       border-bottom: 1px solid #FF845B;
       a {
@@ -178,205 +82,263 @@
         color: #fff;
       }
     }
-    .personal-sel-box {
-      .verified-box{
-        width: 830px;
-        margin: 30px auto auto auto;
-        .verified-form{
-          margin-top: 20px;
-          width: 400px;
-          float: left;
-          .verified-btn{
-            background-color: #FF6865;
-            color: #fff;
-          }
-        }
-        .verified-cue{
-          p{
-            height: 36px;
-            line-height: 36px;
-            margin-bottom: 21px;
-            margin-left: 30px;
-            a{
-              margin-right: 30px;
-            }
-          }
-        }
-        .error-result-text{
-          margin-left: 116px;
-          clear: both;
-          font-size: 14px;
-        }
-        .verified-result{
-          p:first-child{
-            font-size: 30pt;
-            margin: auto;
-            width: 500px;
-            color: #666;
-          }
-          p:last-child{
-            font-size: 14px;
-            margin: 60px auto;
-            width: 600px;
-            color: #999;
-          }
-        }
-      }
-      .ww-account-box{
-        .ww-account-list{
-          >a{
-            margin: 20px 0 20px 10px;
-            display: block;
-            background-color: #F8F8F8;
-            border: 1px solid #E8E8E8;
-            color: #666;
-            width: 120px;
-            text-align: center;
-            height: 36px;
-            line-height: 36px;
-            font-size: 12px;
-          }
-          .ww-account-title{
-            display: table;
-            width: 100%;
-            background-color: #DDDDDD;
-            color: #000;
-            height: 38px;
-            text-align: center;
-            margin-top: 20px;
-            li{
-              display: table-cell;
-              vertical-align: middle;
-              width: 20%;
-            }
-          }
-          .ww-account-ctt{
-            display: table;
-            width: 100%;
-            background-color: #FFFFFF;
-            color: #999;
-            height: 38px;
-            border: 1px solid #E2E2E2;
-            border-top: none;
-            text-align: center;
-            li{
-              display: table-cell;
-              vertical-align: middle;
-              word-wrap: break-word;
-              word-break: break-all;
-              width: 20%;
-            }
-          }
-        }
-        .ww-account-bind {
-          width: 830px;
-          margin: 30px auto auto auto;
-          .ww-account-form{
-            width: 400px;
-            float: left;
-            .ww-bind-btn{
-              background-color: #FF6865;
-              color: #fff
-            }
-          }
-          .ww-account-cue{
-            p{
-              height: 36px;
-              line-height: 36px;
-              margin-bottom: 21px;
-              margin-left: 30px;
-              a{
-                margin-right: 30px;
-              }
-            }
-          }
-          .error-result-text{
-            margin-left: 102px;
-            clear: both;
-            font-size: 14px;
-          }
-        }
-      }
 
-    }
-  }
-
-  .my-account {
-    .user-safe {
+    .user-info-box {
       margin-top: 20px;
-      P {
-        padding: 0 20px;
-        height: 36px;
-        line-height: 36px;
-        background-color: #f8f8f8;
-      }
-      ul {
-        width: 100%;
-        border: 1px solid  #f3f3f3;
-        li {
-          ul {
-            display: table;
-            height: 60px;
-            font-size: 14px;
-            li {
-              display: table-cell;
-              vertical-align: middle;
-              text-align: center;
-            }
-            li.one {
-              width: 30%;
-              text-align: left;
-              padding-left: 20px;
-            }
-            li.two {
-              width: 50%;
-              text-align: left;
-            }
-            li.three {
-              width: 20%;
-            }
-          }
-        }
-      }
-    }
-    .modify-pwd {
-      margin-top: 20px;
-      font-size: 14px;
-      border: 1px solid  #f3f3f3; ;
-      padding-bottom: 20px;
-      .modify-pwd-sel {
-        > P {
+      .user-basic {
+        border: 1px solid #EEEEEE;
+        overflow: hidden;
+        P.user-basic-title {
           padding: 0 20px;
           height: 36px;
           line-height: 36px;
           background-color: #f8f8f8;
         }
-        .sel-box {
-          margin-top: 50px;
-          > p {
-            width: 20%;
-            text-align: center;
+        p.img-box {
+          width: 800px;
+          img {
+            margin: 0 10px 5px 10px;
           }
+        }
+        .user-basic-ctt {
+          padding: 25px 0;
           > div {
+            width: 13%;
+          }
+          > ul {
+            margin-top: 5px;
             width: 80%;
-            .sel-canal {
-              border: 1px solid #E8E8E8;
-              width: 500px;
-              height: 70px;
+            line-height: 30px;
+            font-size: 14px;
+          }
+        }
+        .edit-head {
+          padding-left: 33px;
+          margin-top: 12px;
+          padding-bottom: 26px;
+        }
+      }
+      .user-safe {
+        margin-top: 20px;
+        P {
+          padding: 0 20px;
+          height: 36px;
+          line-height: 36px;
+          background-color: #f8f8f8;
+        }
+        ul {
+          width: 100%;
+          li {
+            ul {
               display: table;
-              margin-bottom: 15px;
-              padding-left: 20px;
-              cursor: pointer;
-              p {
+              height: 60px;
+              font-size: 14px;
+              li {
                 display: table-cell;
                 vertical-align: middle;
-                width: 95%;
+                text-align: center;
+              }
+              li.one {
+                width: 30%;
+              }
+              li.two {
+                width: 50%;
+                text-align: left;
+              }
+              li.three {
+                width: 20%;
               }
             }
-
+          }
+        }
+      }
+      .my-account {
+        .modify-pwd {
+          margin-top: 20px;
+          font-size: 14px;
+          border: 1px solid #f3f3f3;;
+          padding-bottom: 20px;
+          .modify-pwd-sel {
+            > P {
+              padding: 0 20px;
+              height: 36px;
+              line-height: 36px;
+              background-color: #f8f8f8;
+            }
+            .sel-box {
+              margin-top: 50px;
+              > p {
+                width: 20%;
+                text-align: center;
+              }
+              > div {
+                width: 80%;
+                .sel-canal {
+                  border: 1px solid #E8E8E8;
+                  width: 500px;
+                  height: 70px;
+                  display: table;
+                  margin-bottom: 15px;
+                  padding-left: 20px;
+                  cursor: pointer;
+                  p {
+                    display: table-cell;
+                    vertical-align: middle;
+                    width: 95%;
+                  }
+                }
+              }
+            }
           }
         }
       }
     }
+
+    .verified-box {
+      width: 830px;
+      margin: 30px auto auto auto;
+      .verified-form {
+        margin-top: 20px;
+        width: 400px;
+        float: left;
+        .verified-btn {
+          background-color: #FF6865;
+          color: #fff;
+        }
+      }
+      .verified-cue {
+        p {
+          height: 36px;
+          line-height: 36px;
+          margin-bottom: 21px;
+          margin-left: 30px;
+          a {
+            margin-right: 30px;
+          }
+        }
+      }
+      .error-result-text {
+        margin-left: 116px;
+        clear: both;
+        font-size: 14px;
+      }
+      .verified-result {
+        p:first-child {
+          font-size: 30pt;
+          margin: auto;
+          width: 500px;
+          color: #666;
+        }
+        p:last-child {
+          font-size: 14px;
+          margin: 60px auto;
+          width: 600px;
+          color: #999;
+        }
+      }
+      .ver-tip {
+        margin-left: 116px;
+        width: 600px;
+        line-height: 30px;
+        font-size: 14px;
+        color: #999;
+        padding-bottom: 30px;
+      }
+    }
+
+    .ww-account-box {
+      .ww-account-list {
+        > a {
+          margin: 20px 0 20px 10px;
+          display: block;
+          background-color: #F8F8F8;
+          border: 1px solid #E8E8E8;
+          color: #666;
+          width: 120px;
+          text-align: center;
+          height: 36px;
+          line-height: 36px;
+          font-size: 12px;
+        }
+        .ww-account-title {
+          display: table;
+          width: 100%;
+          background-color: #DDDDDD;
+          color: #000;
+          height: 38px;
+          text-align: center;
+          margin-top: 20px;
+          li {
+            display: table-cell;
+            vertical-align: middle;
+            width: 20%;
+          }
+        }
+        .ww-account-ctt {
+          display: table;
+          width: 100%;
+          background-color: #FFFFFF;
+          color: #999;
+          height: 38px;
+          border: 1px solid #E2E2E2;
+          border-top: none;
+          text-align: center;
+          li {
+            display: table-cell;
+            vertical-align: middle;
+            word-wrap: break-word;
+            word-break: break-all;
+            width: 20%;
+          }
+        }
+      }
+      .ww-account-bind {
+        width: 830px;
+        margin: 30px auto auto auto;
+        .ww-account-form {
+          width: 400px;
+          float: left;
+          .ww-bind-btn {
+            background-color: #FF6865;
+            color: #fff
+          }
+        }
+        .ww-account-cue {
+          p {
+            height: 36px;
+            line-height: 36px;
+            margin-bottom: 21px;
+            margin-left: 30px;
+            a {
+              margin-right: 30px;
+            }
+          }
+        }
+        .error-result-text {
+          margin-left: 102px;
+          clear: both;
+          font-size: 14px;
+        }
+      }
+      .ww-tip{
+        margin-left: 102px;
+        width: 600px;
+        line-height: 30px;
+        font-size: 14px;
+        color: #999;
+        padding-bottom: 30px;
+      }
+      .look-image {
+        margin-left: 150px;
+      }
+
+      .look-image-tip-text {
+        margin-left: 150px;
+        margin-top: 4px;
+        width: 392px;
+        line-height: 24px;
+      }
+    }
+
   }
 </style>

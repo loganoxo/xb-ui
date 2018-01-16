@@ -435,11 +435,9 @@
     },
     methods: {
       editTask(id) {
-        setStorage('showInsideAgainRes',2);
         this.$router.push({name: 'TaskReleaseProcess', query: {q: encryption(id)}})
       },
       copyTask(id) {
-        setStorage('showInsideAgainRes',2);
         this.$router.push({name: 'TaskReleaseProcess', query: {q: encryption(id), type: 'copy'}})
       },
       lookTaskDetail(id) {

@@ -111,7 +111,6 @@
   import Icon from 'iview/src/components/icon'
   import Tooltip from 'iview/src/components/tooltip'
   import UserClause from '@/components/UserClause'
-  import api from '@/config/apiConfig'
   export default {
     name: 'MyXiuBa',
     components: {

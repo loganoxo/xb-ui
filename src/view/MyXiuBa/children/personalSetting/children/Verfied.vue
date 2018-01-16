@@ -1,12 +1,7 @@
 <template>
-  <div class="personal-box">
-    <div class="personal-sel-box">
-      <router-view></router-view>
-      <!--实名认证beg-->
-      <div  class="verified-box animated fadeIn">
-        <div v-if="verifiedState == verifiedStatus.verifiedBeg || verifiedState == verifiedStatus.verifiedFailed">
-          <!--<Alert v-show="verifiedState == verifiedStatus.verifiedFailed" type="warning" show-icon>审核不通过：</Alert>-->
-          <Alert  v-show="verifiedState == verifiedStatus.verifiedFailed"  type="warning" show-icon>
+      <div  class="verified-box">
+        <div v-if="verifiedState === verifiedStatus.verifiedBeg || verifiedState === verifiedStatus.verifiedFailed">
+          <Alert  v-show="verifiedState === verifiedStatus.verifiedFailed"  type="warning" show-icon>
             审核不通过： {{verified.assessReason}},请重新提交！({{verified.auditTime |  dateFormat('YYYY-MM-DD hh:mm:ss')}})
           </Alert>
           <div class="verified-form">
@@ -55,7 +50,7 @@
                   </div>
                 </Upload>
               </Form-item>
-              <p class="tip clear" style="margin-left: 116px;width: 600px;line-height: 30px;font-size: 14px;color: #999;padding-bottom: 30px;">
+              <p class="ver-tip">
                 1.需身份证本人手持证件，照片需免冠，建议未化妆
                 <br>
                 2.照片需五官清晰可见
@@ -77,20 +72,15 @@
           </div>
           <div class="left mt-20 verified-cue">
             <p>
-            </p>
-            <p>
-            </p>
-            <p>
               <a @click="demoShow = true, imgDemoUrl.taobaoAccountDemo = false,imgDemoUrl.taobaoAccountInfo = false,imgDemoUrl.picUrl = true,imgDemoUrl.reversePicUrl = false;">[查看示例截图]</a>
             </p>
             <p>
               <a @click="demoShow = true, imgDemoUrl.taobaoAccountDemo = false,imgDemoUrl.taobaoAccountInfo = false,imgDemoUrl.picUrl = false,imgDemoUrl.reversePicUrl = true;">[查看示例截图]</a>
             </p>
           </div>
-          <!--<p class="error-result-text clear" >审核不通过：{{verified.assessReason}}</p>-->
 
         </div>
-        <div class="verified-result mt-80" v-if="verifiedState == verifiedStatus.verifiedIng">
+        <div class="verified-result mt-80" v-if="verifiedState === verifiedStatus.verifiedIng">
           <p class="text-ct">
             <img src="~assets/img/common/right_64.png" alt="" class="vtc-btm">
             实名认证已提交
@@ -98,26 +88,22 @@
           <p  class="text-ct">亲当前的实名认证已提交，工作人员会在一个工作日内审核你的活动，敬请关注！</p>
 
         </div>
-        <div class="verified-result mt-80" v-if=" verifiedState == verifiedStatus.verifiedSuccess">
+        <div class="verified-result mt-80" v-if=" verifiedState === verifiedStatus.verifiedSuccess">
           <p class="text-ct">
             <img src="~assets/img/common/right_64.png" alt="" class="vtc-btm">
             实名已认证
           </p>
           <p  class="text-ct">亲当前已是实名认证用户了~</p>
         </div>
+        <Modal v-model="demoShow" width="900">
+          <div class="text-ct">
+            <img v-show="imgDemoUrl.picUrl" src="~assets/img/case-demo/sfza.jpg" alt="" style="width: 100%;margin-top: 20px;">
+            <img v-show="imgDemoUrl.reversePicUrl" src="~assets/img/case-demo/sfzb.jpg" alt="" style="width: 100%;margin-top: 20px;">
+          </div>
+          <div slot="footer">
+          </div>
+        </Modal>
       </div>
-      <!--实名认证end-->
-    </div>
-
-    <Modal v-model="demoShow" width="900">
-      <div style="text-align:center">
-        <img v-show="imgDemoUrl.picUrl" src="~assets/img/case-demo/sfza.jpg" alt="" style="width: 100%;margin-top: 20px;">
-        <img v-show="imgDemoUrl.reversePicUrl" src="~assets/img/case-demo/sfzb.jpg" alt="" style="width: 100%;margin-top: 20px;">
-      </div>
-      <div slot="footer">
-      </div>
-    </Modal>
-  </div>
 </template>
 
 <script>
@@ -240,9 +226,6 @@
     },
     computed: {},
     methods: {
-      ...mapActions([
-        'getUserInformation'
-      ]),
       getVrcode() {
         this.imgSrc = "/api/vrcode.json?rand=" + new Date() / 100
       },
@@ -250,7 +233,7 @@
         let self = this;
         api.verifiedInit().then((res) => {
           if(res.status){
-            if(res.statusCode == 'none realname'){
+            if(res.statusCode === 'none realname'){
               self.verifiedState = self.verifiedStatus.verifiedBeg;
             }else {
               self.verified = res.data;
@@ -292,7 +275,7 @@
       },
       verifiedFunc(){
         let self = this;
-        if(!(self.verifiedValidate.picUrl == '') && !(self.verifiedValidate.reversePicUrl == '')){
+        if(!self.verifiedValidate.picUrl && !self.verifiedValidate.reversePicUrl){
           self.btnState.verifiedBtn = true;
           api.verifiedSubmit({
             realname: self.verifiedValidate.realname,
@@ -332,17 +315,12 @@
           callback();
         }
       },
-      handlewwBindPicUrlSuccess(res, file){
-        this.wwFormValidate.picUrl = [{
-          src: aliCallbackImgUrl + res.name
-        }];
-      },
-      handlePicUrlSuccess(res, file) {
+      handlePicUrlSuccess(res) {
         this.verifiedValidate.picUrl.push({
           src: aliCallbackImgUrl + res.name
         });
       },
-      handleReversePicUrlSuccess(res,file){
+      handleReversePicUrlSuccess(res){
         this.verifiedValidate.reversePicUrl.push({
           src: aliCallbackImgUrl + res.name
         });
@@ -371,294 +349,3 @@
     }
   }
 </script>
-
-<style lang="scss" scoped>
-  @import 'src/css/mixin';
-  .user-info-box{
-    margin-top: 20px;
-    .user-basic{
-      border: 1px solid #EEEEEE;
-      overflow: hidden;
-      P.user-basic-title{
-        padding: 0 20px;
-        height: 36px;
-        line-height: 36px;
-        background-color: #f8f8f8;
-      }
-      p.img-box{
-        width: 800px;
-        img{
-          margin: 0 10px 5px 10px;
-        }
-      }
-      .user-basic-ctt{
-        padding: 25px 0;
-        overflow: hidden;
-        >div{
-          width: 20%;
-          text-align: center;
-        }
-        >ul{
-          margin-top: 5px;
-          width: 80%;
-          line-height: 30px;
-          height: 30px;
-          font-size: 14px;
-        }
-      }
-    }
-    .user-safe{
-      margin-top: 20px;
-      P{
-        padding: 0 20px;
-        height: 36px;
-        line-height: 36px;
-        background-color: #f8f8f8;
-      }
-      ul{
-        width: 100%;
-        li{
-          ul{
-            display: table;
-            height: 60px;
-            font-size: 14px;
-            li{
-              display: table-cell;
-              vertical-align: middle;
-              text-align: center;
-            }
-            li.one{
-              width: 30%;
-            }
-            li.two{
-              width: 50%;
-              text-align: left;
-            }
-            li.three{
-              width: 20%;
-            }
-          }
-        }
-      }
-    }
-  }
-  .personal-box {
-    .personal-sel-top {
-      border-bottom: 1px solid #FF845B;
-      a {
-        background-color: #fff;
-        color: #666;
-        display: inline-block;
-        font-size: 16px;
-        height: 36px;
-        line-height: 36px;
-        width: 144px;
-        text-align: center;
-      }
-      a.active {
-        background-color: #FF845B;
-        color: #fff;
-      }
-    }
-    .personal-sel-box {
-      .verified-box{
-        width: 830px;
-        margin: 30px auto auto auto;
-        .verified-form{
-          margin-top: 20px;
-          width: 400px;
-          float: left;
-          .verified-btn{
-            background-color: #FF6865;
-            color: #fff;
-          }
-        }
-        .verified-cue{
-          p{
-            height: 36px;
-            line-height: 36px;
-            margin-bottom: 21px;
-            margin-left: 30px;
-            a{
-              margin-right: 30px;
-            }
-          }
-        }
-        .error-result-text{
-          margin-left: 116px;
-          clear: both;
-          font-size: 14px;
-        }
-        .verified-result{
-          p:first-child{
-            font-size: 30pt;
-            margin: auto;
-            width: 500px;
-            color: #666;
-          }
-          p:last-child{
-            font-size: 14px;
-            margin: 60px auto;
-            width: 600px;
-            color: #999;
-          }
-        }
-      }
-      .ww-account-box{
-        .ww-account-list{
-          >a{
-            margin: 20px 0 20px 10px;
-            display: block;
-            background-color: #F8F8F8;
-            border: 1px solid #E8E8E8;
-            color: #666;
-            width: 120px;
-            text-align: center;
-            height: 36px;
-            line-height: 36px;
-            font-size: 12px;
-          }
-          .ww-account-title{
-            display: table;
-            width: 100%;
-            background-color: #DDDDDD;
-            color: #000;
-            height: 38px;
-            text-align: center;
-            margin-top: 20px;
-            li{
-              display: table-cell;
-              vertical-align: middle;
-              width: 20%;
-            }
-          }
-          .ww-account-ctt{
-            display: table;
-            width: 100%;
-            background-color: #FFFFFF;
-            color: #999;
-            height: 38px;
-            border: 1px solid #E2E2E2;
-            border-top: none;
-            text-align: center;
-            li{
-              display: table-cell;
-              vertical-align: middle;
-              word-wrap: break-word;
-              word-break: break-all;
-              width: 20%;
-            }
-          }
-        }
-        .ww-account-bind {
-          width: 830px;
-          margin: 30px auto auto auto;
-          .ww-account-form{
-            width: 400px;
-            float: left;
-            .ww-bind-btn{
-              background-color: #FF6865;
-              color: #fff
-            }
-          }
-          .ww-account-cue{
-            p{
-              height: 36px;
-              line-height: 36px;
-              margin-bottom: 21px;
-              margin-left: 30px;
-              a{
-                margin-right: 30px;
-              }
-            }
-          }
-          .error-result-text{
-            margin-left: 102px;
-            clear: both;
-            font-size: 14px;
-          }
-        }
-      }
-
-    }
-  }
-
-  .my-account {
-    .user-safe {
-      margin-top: 20px;
-      P {
-        padding: 0 20px;
-        height: 36px;
-        line-height: 36px;
-        background-color: #f8f8f8;
-      }
-      ul {
-        width: 100%;
-        border: 1px solid  #f3f3f3;
-        li {
-          ul {
-            display: table;
-            height: 60px;
-            font-size: 14px;
-            li {
-              display: table-cell;
-              vertical-align: middle;
-              text-align: center;
-            }
-            li.one {
-              width: 30%;
-              text-align: left;
-              padding-left: 20px;
-            }
-            li.two {
-              width: 50%;
-              text-align: left;
-            }
-            li.three {
-              width: 20%;
-            }
-          }
-        }
-      }
-    }
-    .modify-pwd {
-      margin-top: 20px;
-      font-size: 14px;
-      border: 1px solid  #f3f3f3; ;
-      padding-bottom: 20px;
-      .modify-pwd-sel {
-        > P {
-          padding: 0 20px;
-          height: 36px;
-          line-height: 36px;
-          background-color: #f8f8f8;
-        }
-        .sel-box {
-          margin-top: 50px;
-          > p {
-            width: 20%;
-            text-align: center;
-          }
-          > div {
-            width: 80%;
-            .sel-canal {
-              border: 1px solid #E8E8E8;
-              width: 500px;
-              height: 70px;
-              display: table;
-              margin-bottom: 15px;
-              padding-left: 20px;
-              cursor: pointer;
-              p {
-                display: table-cell;
-                vertical-align: middle;
-                width: 95%;
-              }
-            }
-
-          }
-        }
-      }
-    }
-  }
-</style>
