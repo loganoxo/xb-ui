@@ -998,6 +998,7 @@
       _this.$refs.myTextEditor.quill.getModule("toolbar").addHandler("image", imgHandler);
     },
     created() {
+      let self = this;
       api.checkSellerTest().then((res) => {
         if (!res.status) {
           self.$router.push({name: 'SellerTest'});
