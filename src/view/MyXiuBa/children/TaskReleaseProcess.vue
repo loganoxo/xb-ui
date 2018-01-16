@@ -138,7 +138,7 @@
             <Checkbox v-model="taskRelease.needBrowseCollectAddCart">需要</Checkbox>
             <span class="sizeColor">（系统会随机让部分秀客完成对宝贝的收藏加购，活动上线后您可以在生意参谋后台查看收藏加购有无增加）</span>
           </div>
-          <div class="answer ml-60 mt-20">
+     <!--     <div class="answer ml-60 mt-20">
             <span class="ml-4"> 浏览答题：</span>
             <Checkbox v-model="taskRelease.needBrowseCollectAddCart">需要</Checkbox>
             <span class="sizeColor">（保证秀客充分浏览详情首页，减少秒拍情况发生，最多可添加3个）</span>
@@ -148,7 +148,7 @@
               <i-button class="ml-10" type="dashed" icon="minus-round" @click="deleteAnswer" v-show="browseAnswer > 1">删除</i-button>
             </p>
             <p class="mt-6 pl-68 sizeColor">请在手机详情页面中挑选一段文案，建议5-10字左右，输入文本框内，秀客将提供本文案所在位置截图</p>
-          </div>
+          </div>-->
           <div class="baby-info mt-22">
             <div class="activity-info-title">填写活动宝贝信息</div>
             <div class="complimentary-tip mt-20 pl-40" v-show="taskRelease.activityCategory === 'present_get'">

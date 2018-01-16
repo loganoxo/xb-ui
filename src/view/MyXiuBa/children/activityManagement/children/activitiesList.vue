@@ -426,10 +426,10 @@
       }
     },
     computed: {
-      getUserBalance: function () {
+      getUserBalance() {
         return this.$store.getters.getUserBalance;
       },
-      orderMoney: function () {
+      orderMoney() {
         return this.hasDeposited > 0 ? (this.needDepositMoney - this.hasDeposited).toFixed(2) * 1 : this.needDepositMoney;
       }
     },
@@ -607,19 +607,13 @@
         }).then(res => {
           if (res.status) {
             _this.showPayModel = false;
-            _this.$Message.success({
-              content: '支付成功！',
-              duration: 4
-            });
+            _this.$Message.success('支付成功！');
             _this.$store.dispatch('getUserInformation');
             setTimeout(function () {
               _this.getTaskList();
             }, 400);
           } else {
-            _this.$Message.error({
-              content: res.msg,
-              duration: 6
-            })
+            _this.$Message.error(res.msg)
           }
         })
       },

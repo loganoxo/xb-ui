@@ -213,9 +213,7 @@
           self.answerIndex += 1;
         }else {
           self.endShow = true;
-          api.giveSellerVip().then(res => {
-            console.log(res);
-          })
+          api.giveSellerVip().then(res => {})
         }
 
       }
