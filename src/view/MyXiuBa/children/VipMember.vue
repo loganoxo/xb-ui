@@ -43,6 +43,7 @@
         </div>
         <div v-if="needRecharge > 0" class="text-ct mt-20">
           <iButton class="btn-recharge" @click="recharge = true">前去充值</iButton>
+          <router-link v-show="checkSellerTestRes" to="/seller-test" class="inline-block ml-20">答题免费领vip</router-link>
         </div>
         <div v-else  class="text-ct mt-20">
           <iButton class="btn-recharge" @click="recharge = true">马上购买</iButton>
