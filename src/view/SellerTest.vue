@@ -29,7 +29,7 @@
               <p class="mt-10 pos-rel" v-for="answer in questionList[answerIndex].answer" @click="getAnswerFunc(answer)" :class="[answer.state === 'error' ? 'cle60012' : '']">
                 <img class="selected" :src="questionSelectedUrl[answer.state]" alt=""  >
                 {{answer.text}}
-                <a class="big-tips fs-14 " v-if="answer.key != questionList[answerIndex].key" >
+                <a class="big-tips fs-14 " v-if="answer.key !== questionList[answerIndex].key" >
                   <em style="font-style: normal;" class="inline-block cl000">
                     {{answer.desc}}
                   </em>
@@ -58,7 +58,7 @@
         <div class="answer-tip-box" :style="{background: 'url(' + tipImgList[answerIndex] + ') no-repeat'}" >
         </div>
         <p class="text-align-rt ">
-          <a class="next-box inline-block" @click="showTip=false;">
+          <a class="next-box inline-block" @click="showTip=false">
             <img src="/static/img/seller-test/back.png" alt="">
           </a>
         </p>
@@ -70,33 +70,10 @@
 </template>
 
 <script>
-  import Icon from 'iview/src/components/icon'
-  import Form from 'iview/src/components/form'
-  import Input from 'iview/src/components/input'
-  import Checkbox from 'iview/src/components/checkbox'
-  import Button from 'iview/src/components/button'
-  import Radio from 'iview/src/components/radio'
-  import api from '@/config/apiConfig'
-  import {setStorage, getStorage, removeStorage} from '@/config/utils'
-  import SmsCountdown from '@/components/SmsCountdown'
-  import Modal from 'iview/src/components/modal'
-  import RoleTop from '@/components/RoleTop.vue'
 
   export default {
     name: 'SellerTest',
-    components: {
-      iInput: Input,
-      iForm: Form,
-      FormItem: Form.Item,
-      Checkbox: Checkbox,
-      CheckboxGroup: Checkbox.Group,
-      iButton: Button,
-      Icon: Icon,
-      SmsCountdown: SmsCountdown,
-      Radio: Radio,
-      Modal: Modal,
-      RoleTop: RoleTop,
-    },
+    components: {},
     data() {
       return {
         testState: 1,
@@ -205,7 +182,7 @@
         for(let i=0, j=self.questionList[self.answerIndex].answer.length; i < j; i++){
           self.questionList[self.answerIndex].answer[i].state = 'unselected';
         }
-        if(answer.state != 'unselected'){
+        if(answer.state !== 'unselected'){
           answer.state = 'unselected';
         }else {
           if(answer.key === self.questionList[self.answerIndex].key){
@@ -238,7 +215,6 @@
 </script>
 
 <style lang="scss" scoped>
-  @import 'src/css/mixin';
   .begin-test{
     height: 730px;
     margin: auto;

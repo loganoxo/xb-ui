@@ -81,6 +81,7 @@
               <!--<img src="/static/img/icon/discount.gif" alt="" >-->
             <!--</i>-->
             <!--清仓断码-->
+
           <!--</a>-->
           <a :class="[activityCategory === 'buyer-show' ? 'active' : '']" @click="linkToBuyerShow('buyer-show')">
             <i style="position: absolute; top: -17px; left: 34px;">
