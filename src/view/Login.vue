@@ -173,6 +173,7 @@
         imgSrc: null,
         modal1: true,
         isBeginImgCode: false,
+        trialCount: {},
         formValidate: {
           gender: '',
         },
@@ -265,7 +266,19 @@
             self.$Message.success({top: 50, content: '登录成功', duration: 1,});
             self.btnState.normalLoginBtn = false;
             setStorage('weChartPop', 1);
-            self.$router.go(-1);
+            if(self.$store.state.userInfo.role === 1){
+              api.checkSellerTest().then((res) => {
+                if (!res.status) {
+                  self.$router.push({name: 'SellerTest'});
+                } else {
+                  self.$router.go(-1);
+                }
+              })
+            }else {
+              self.$router.go(-1);
+            }
+
+
           } else {
             self.instance('error', '', res.msg);
             self.btnState.normalLoginBtn = false;

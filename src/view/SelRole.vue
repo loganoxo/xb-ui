@@ -141,7 +141,7 @@
         loginTrendsCustom: {
           phone: null,
           validateCode: '',
-          purpose:'fast',
+          purpose: 'fast',
           smsCode: '',
           role: 0,
         },
@@ -235,7 +235,7 @@
             if(res.data.role === 0){
               self.$router.push({name: 'WwBind'});
             } else {
-              self.$router.push({name: 'Home'})
+              self.$router.push({name: 'SellerTest'})
             }
           } else {
             self.$Message.error(res.msg);
@@ -279,7 +279,7 @@
             });
             setStorage('weChartPop', 1);
             if(res.data.role === 1) {
-              self.$router.push({name: 'SellerGuide'});
+              self.$router.push({name: 'SellerTest'});
             }else {
               self.$router.push({name: 'WwBind'});
             }

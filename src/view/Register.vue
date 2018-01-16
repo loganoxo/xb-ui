@@ -698,7 +698,7 @@
               info: res.data
             });
             if(res.data.role === 1) {
-              self.$router.push({name: 'SellerGuide'});
+              self.$router.push({name: 'SellerTest'});
             }else {
               self.$router.push({name: 'WwBind'});
             }
@@ -715,7 +715,7 @@
         let self = this;
         if (res.status) {
           self.$Message.success({
-            content: "短信验证码发送成功！",
+            content:  "短信验证码发送成功！",
             duration: 1,
           });
         } else {

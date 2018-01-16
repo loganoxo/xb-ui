@@ -347,6 +347,22 @@ export default {
   },
 
   /**
+   * 判断商家是否答题
+   */
+  checkSellerTest() {
+    return fetch('/api/user/quiz/check.json',)
+  },
+
+  /**
+   * 赠送vip
+   * **/
+  giveSellerVip() {
+    return fetch('/api/user/quiz/done.json',)
+  },
+
+
+
+  /**
    * 任务数据获取
    */
   getTaskInfo(params) {

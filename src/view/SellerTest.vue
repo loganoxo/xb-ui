@@ -4,7 +4,7 @@
       <div v-show="!endShow">
         <div v-show="testState === 1" class="container begin-test text-ct">
           <p class="text-align-rt link-other">
-            <router-link to="/" class="inline-block fs-22 f-b">跳过</router-link>
+            <!--<router-link to="/" class="inline-block fs-22 f-b">跳过</router-link>-->
           </p>
           <p class="fs-16 cl9c4040 f-b text-ct begin-text">
             您目前的会员等级：普通会员（仅能发一次任务）
@@ -203,10 +203,14 @@
       },
       nextQuestionFunc(){
         let self = this;
+        self.questionKey = '';
         if(self.answerIndex  < self.questionList.length-1 ){
           self.answerIndex += 1;
         }else {
           self.endShow = true;
+          api.giveSellerVip().then(res =>{
+            console.log(res);
+          })
         }
 
       }
@@ -220,7 +224,7 @@
     margin: auto;
     background: #ffb850 url("/static/img/seller-test/begin-test.jpg") center no-repeat;
     .begin-text{
-      margin-top: 189px;
+      margin-top: 290px;
     }
     .begin-btn{
       display: inline-block;
