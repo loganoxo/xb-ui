@@ -170,6 +170,7 @@
     },
     computed: {},
     created() {
+      let self = this;
       api.checkSellerTest().then((res) => {
         if (res.status) {
           self.$router.go(-1);
