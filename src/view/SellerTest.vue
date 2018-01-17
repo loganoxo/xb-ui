@@ -30,7 +30,7 @@
                 <img class="selected" :src="questionSelectedUrl[answer.state]" alt=""  >
                 {{answer.text}}
                 <a class="big-tips fs-14 " v-if="answer.key !== questionList[answerIndex].key" >
-                  <em style="font-style: normal;" class="inline-block cl000">
+                  <em style="font-style: normal;" class="inline-block cl000 answer-desc">
                     {{answer.desc}}
                   </em>
                 </a>
@@ -324,6 +324,11 @@
             box-orient: vertical;
             line-clamp: 5;
             overflow: hidden;
+          }
+          em.answer-desc{
+            position:relative;
+            height: 95px;
+            overflow:hidden;
           }
         }
       }
