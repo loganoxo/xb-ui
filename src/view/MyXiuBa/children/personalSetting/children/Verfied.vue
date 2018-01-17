@@ -275,7 +275,7 @@
       },
       verifiedFunc(){
         let self = this;
-        if(!self.verifiedValidate.picUrl && !self.verifiedValidate.reversePicUrl){
+        if(self.verifiedValidate.picUrl && self.verifiedValidate.reversePicUrl){
           self.btnState.verifiedBtn = true;
           api.verifiedSubmit({
             realname: self.verifiedValidate.realname,
