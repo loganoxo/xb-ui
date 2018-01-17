@@ -626,7 +626,7 @@
       },
       wwBindFunc() {
         let self = this;
-        if (!self.wwFormValidate.taoqizhiPicUrl || !self.wwFormValidate.alitmLevelPicUrl) {
+        if (self.wwFormValidate.taoqizhiPicUrl && self.wwFormValidate.alitmLevelPicUrl) {
           if (!self.address.province) {
             self.$Message.error('请选择省');
             return
