@@ -144,7 +144,7 @@
     <div class="check-order-model" v-if="showCheckOrder">
       <div class="check-order-con">
         <i class="right" @click="showCheckOrder = false">&times;</i>
-        <div class="f-b fs-14 main-color mt-28" v-if="needBrowseCollectAddCart">1.请查看秀客提交的截图信息</div>
+        <div class="f-b fs-14 main-color mt-28" v-if="needBrowseCollectAddCart || needIssue">1.请查看秀客提交的截图信息</div>
         <div class="clear">
           <div class="left" v-if="needBrowseCollectAddCart">
             <div class="mt-5 cl00 fs-12 f-b">A.查看秀客提交的收藏加购截图</div>
@@ -166,7 +166,7 @@
             </div>
           </div>
         </div>
-        <div class="f-b fs-14 main-color mt-10">2.请仔细核对订单号与交易金额</div>
+        <div class="f-b fs-14 main-color mt-10"><span v-if="needBrowseCollectAddCart || needIssue">2.</span>请仔细核对订单号与交易金额</div>
         <div class="order-info-con text-lf mt-5">
           <p>
             <span class="f-b">订单号：</span>
