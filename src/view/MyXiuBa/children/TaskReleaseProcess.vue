@@ -138,17 +138,18 @@
             <Checkbox v-model="taskRelease.needBrowseCollectAddCart">需要</Checkbox>
             <span class="sizeColor">（系统会随机让部分秀客完成对宝贝的收藏加购，活动上线后您可以在生意参谋后台查看收藏加购有无增加）</span>
           </div>
-     <!--     <div class="answer ml-60 mt-20">
+          <div class="answer ml-60 mt-20">
             <span class="ml-4"> 浏览答题：</span>
-            <Checkbox v-model="taskRelease.needBrowseCollectAddCart">需要</Checkbox>
+            <Checkbox v-model="needBrowseAnswer" @on-change="needBrowseAnswerChange">需要</Checkbox>
             <span class="sizeColor">（保证秀客充分浏览详情首页，减少秒拍情况发生，最多可添加3个）</span>
-            <p class="mt-10 pl-68">
-              <i-input class="mr-5" v-for="(item,index) in browseAnswer" :key="index" type="text" placeholder="请输入浏览答题文案" style="width: 200px;"></i-input>
-              <i-button class="ml-10" type="dashed" icon="plus-round" @click="addAnswer" v-show="browseAnswer < 3">添加</i-button>
-              <i-button class="ml-10" type="dashed" icon="minus-round" @click="deleteAnswer" v-show="browseAnswer > 1">删除</i-button>
+            <p class="mt-10 pl-68" v-show="needBrowseAnswer">
+              <i-input class="mr-5" v-for="(item,index) in browseAnswer" :key="index" type="text" v-model="item.answerContent" @on-change="testAnswerTextNumber" placeholder="请输入浏览答题文案" style="width: 116px;"></i-input>
+              <i-button class="ml-10" type="dashed" icon="plus-round" @click="addAnswer" v-show="browseAnswer.length < 3">添加</i-button>
+              <i-button class="ml-10" type="dashed" icon="minus-round" @click="deleteAnswer" v-show="browseAnswer.length > 1">删除</i-button>
+              <span v-show="isShowAnswerTip" class="ml-20 main-color"><Icon color="#f60" type="information-circled" class="mr-5"></Icon>浏览答题文案字数不能超过8个字</span>
             </p>
-            <p class="mt-6 pl-68 sizeColor">请在手机详情页面中挑选一段文案，建议5-10字左右，输入文本框内，秀客将提供本文案所在位置截图</p>
-          </div>-->
+            <p class="mt-6 pl-68 sizeColor" v-show="needBrowseAnswer">请在手机详情页面中挑选一段文案，输入文本框内的文案最长不能超过8个字（建议3-8字）秀客将提供本文案所在位置截图</p>
+          </div>
           <div class="baby-info mt-22">
             <div class="activity-info-title">填写活动宝贝信息</div>
             <div class="complimentary-tip mt-20 pl-40" v-show="taskRelease.activityCategory === 'present_get'">
@@ -160,9 +161,7 @@
             <div class="baby-title ml-45 mt-20">
               <span class="required">活动标题：</span>
               <iInput v-model="taskRelease.taskName" placeholder="请输入活动标题" style="width: 296px"></iInput>
-              <span class="ml-20 sizeColor"><Icon v-show="taskNameLength > 35" color="#f60"
-                                                  type="information-circled"></Icon>&nbsp;最多支持35个字符，当前已输入 <span
-                class="main-color">{{taskNameLength}}</span> / 35个字符。</span>
+              <span class="ml-20 sizeColor"><Icon v-show="taskNameLength > 35" color="#f60" type="information-circled"></Icon>&nbsp;最多支持35个字符，当前已输入 <span class="main-color">{{taskNameLength}}</span> / 35个字符。</span>
             </div>
             <div class="baby-title ml-45 mt-20">
               <span class="required">宝贝类型：</span>
@@ -194,8 +193,7 @@
                   <Icon type="camera" size="20"></Icon>
                 </div>
               </Upload>
-              <p
-                class="sizeColor pl-60 mt-10">点击或者拖拽自主上传图片，支持jpg \ jpeg \ png \ gif \ bmp格式，最佳尺寸400*400（像素），不超过1M，可与宝贝主图一致</p>
+              <p class="sizeColor pl-60 mt-10">点击或者拖拽自主上传图片，支持jpg \ jpeg \ png \ gif \ bmp格式，最佳尺寸400*400（像素），不超过1M，可与宝贝主图一致</p>
             </div>
             <div class="baby-url ml-45 mt-20">
               <span class="required">宝贝地址：</span>
@@ -530,7 +528,7 @@
               </div>
               <div class="more-keyword-scheme ml-40 mt-20">
                 <div>
-                  <div class="inline-block tag" v-for="item in appTaskDetail" :key="item" :class="selectKeywordScheme === item.index ? 'select-tag-bg' : ''">
+                  <div class="inline-block tag" v-for="item in appTaskDetail" :key="item.index" :class="selectKeywordScheme === item.index ? 'select-tag-bg' : ''">
                     <span @click="selectChangeScheme(item.index)">关键词方案{{ item.index + 1 }}</span>
                     <sup class="badge-count" v-show="item.countAssigned > 0">{{item.countAssigned}}</sup>
                     <span v-if="item.index === appTaskDetail.length - 1 && item.index !== 0" class="close-tag" @click="handleClose(item.index)">
@@ -902,6 +900,7 @@
           onlyShowForQualification: false,
           refuseOldShowker: false,
           needBrowseCollectAddCart: false,
+          itemIssue: [],
           taskName: null,
           itemType: null,
           taskMainImage: null,
@@ -983,7 +982,9 @@
         addKeywordScheme: 0,
         isCountAssigned: null,
         isShowUserClause: false,
-        browseAnswer: 1,
+        browseAnswer: [{answerContent: null}],
+        needBrowseAnswer: false,
+        isShowAnswerTip: false,
       }
     },
     mounted() {
@@ -1230,6 +1231,17 @@
           _this.$Message.warning('亲，活动时长最长为30天！');
           return;
         }
+        let allAnswerIsOk = _this.browseAnswer.some(item =>{
+          return !!item.answerContent
+        });
+        if(!allAnswerIsOk){
+          _this.$Message.warning('亲，请填写浏览答题文案！');
+          return;
+        }
+        if(_this.isShowAnswerTip){
+          _this.$Message.warning('亲，浏览答题文案字数不能超过8个字！');
+          return;
+        }
         if (!_this.taskRelease.taskName) {
           _this.$Message.warning('亲，活动标题不能为空！');
           return;
@@ -1310,6 +1322,17 @@
         if(!IMG_TAG.test(_this.taskRelease.itemDescription)){
           _this.$Message.warning('亲，商品简介中至少需要包含一张图片！');
           return;
+        }
+        if(_this.needBrowseAnswer){
+          let itemIssueList = [];
+          _this.browseAnswer.forEach(item =>{
+            if(item.answerContent){
+              itemIssueList.push(item.answerContent);
+            }
+          });
+          _this.taskRelease.itemIssue = JSON.stringify(itemIssueList);
+        } else {
+          _this.taskRelease.itemIssue = JSON.stringify([]);
         }
         if (_this.taskRelease.taskType === 'pc_search') {
           let countAssigned = 0;
@@ -1569,6 +1592,16 @@
               })
             }
             _this.taskRelease.itemPrice = _this.taskRelease.itemPrice / 100;
+            let itemIssue = JSON.parse(res.data.itemIssue);
+            if(itemIssue.length > 0) {
+              _this.needBrowseAnswer = true;
+              _this.browseAnswer = [];
+              itemIssue.forEach(item => {
+                _this.browseAnswer.push({
+                  answerContent: item
+                })
+              })
+            }
             _this.taskRelease.taskDetail = {};
             if (res.data.taskType === 'tao_code') {
               _this.taoCodeTaskDetail = JSON.parse(res.data.taskDetail);
@@ -1855,15 +1888,29 @@
       },
       addAnswer() {
         let _this = this;
-        if(_this.browseAnswer < 3) {
-          _this.browseAnswer++;
+        if(_this.browseAnswer.length < 3) {
+          _this.browseAnswer.push({
+            answerContent: null
+          });
         }
       },
       deleteAnswer() {
         let _this = this;
-        if(_this.browseAnswer > 1) {
-          _this.browseAnswer--;
+        let len = _this.browseAnswer.length;
+        if(len > 1) {
+          _this.browseAnswer.splice(len - 1, 1);
         }
+      },
+      needBrowseAnswerChange(value) {
+        if(!value){
+          this.browseAnswer = [{answerContent: null}]
+        }
+      },
+      testAnswerTextNumber() {
+        let _this = this;
+        _this.isShowAnswerTip = _this.browseAnswer.some(item =>{
+          return item.answerContent.length > 8
+        })
       },
     }
   }

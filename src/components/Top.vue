@@ -4,8 +4,8 @@
     <div class="home-top">
       <div class="container">
         <router-link  to="/" class="left mt-20">
-          <img v-if="!isLogin || getUserInfoRole === 1 " src="~assets/img/common/top_logo.png" alt="" >
-          <img v-if="isLogin &&　getUserInfoRole === 0"  src="~assets/img/common/top_logo_xk.png" alt="" >
+          <img v-if="!isLogin || getUserInfoRole === 1" src="~assets/img/common/top_logo.png" alt="" >
+          <img v-if="isLogin && getUserInfoRole === 0" src="~assets/img/common/top_logo_xk.png" alt="" >
         </router-link >
         <div class="left">
           <div class="search-box">

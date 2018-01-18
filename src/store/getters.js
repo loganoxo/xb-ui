@@ -47,7 +47,7 @@ export default {
     if (Object.keys(state.userInfo).length > 0) {
       if (state.userInfo.portraitPic.indexOf('head-image') >= 0) {
         return aliCallbackImgUrl + state.userInfo.portraitPic + '!orgi75'
-      } else if (state.userInfo.portraitPic.indexOf('q.qlogo.cn/qq') >= 0) {
+      } else if (state.userInfo.portraitPic.indexOf('q.qlogo.cn/qq') >= 0 || state.userInfo.portraitPic.indexOf('wx.qlogo.cn') >= 0) {
         return state.userInfo.portraitPic
       } else {
         return '/static/img/common/tx-default.png'
