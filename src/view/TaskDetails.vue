@@ -316,7 +316,7 @@
       </div>
     </div>
     <Modal
-      v-model="selWwModel" class-name="vertical-center-modal" ok-text="确定" cancel-text="" @on-ok="selWwFunc()">
+      v-model="selWwModel" class-name="vertical-center-modal" ok-text="确定" cancel-text="" @on-ok="selWwFunc()" :loading="true">
       <p class="fs-18 fb mt-20" style="color: #FF6600">请选择活动旺旺号:</p>
       <p class="fs-14 mt-10">注意：请 <span style="color: #FF6600">务必使用选的旺旺号下单购买</span>，否则订单审核将无法通过！</p>
       <Radio-group class="mt-20" v-model="selectedWw">
@@ -326,6 +326,19 @@
         </Radio>
       </Radio-group>
       <span v-if="!canUseWw" style="color: #FF6600">（无可用旺旺号）</span>
+      <p class="mt-10">本次申请将消耗 <span class="clff6633"> “1次” </span> 申请次数，当前您的剩余次数为 <span class="clff6633"> “{{residue}}次” </span> </p>
+      <div class="mt-10">
+        <a class="pos-rel apply-num">
+          想要更多申请次数
+          <i class="up-icon"></i>
+          <p
+          >
+            每个秀客每天都有5次申请活动的机会，扫描以下二维码，关注秀吧公众号并分享宝贝，获取更多申请次数！
+
+            <img style="width: 200px" src="/static/img/common/qr-code365.png" alt="" class="mt-10 block">
+          </p>
+        </a>
+      </div>
     </Modal>
     <Modal v-model="applySuccess" width="500">
       <p class="mt-20 mb-20 text-ct fs-22" style="height: 50px;line-height: 50px">
@@ -463,6 +476,7 @@
         trialReportPicShow: false,
         trialReportPic: '',
         selWwModel: false,
+        residue: '',
         selectedWw: '',
         wwList: {},
         tryImgShow: false,
@@ -569,6 +583,9 @@
           info: 'all'
         });
       }
+      if(self.$store.state.login){
+        self.getShowkerApplyCountLeft()
+      }
       self.getTaskDetails();
       self.getDetectionAddGroupTip();
     },
@@ -614,38 +631,6 @@
         this.applySuccess = false;
         self.getTaskDetails();
       },
-     /* closeMyPop() {
-          this.showkerApplyBefore = false;
-        if (this.$route.query.resubmit) {
-          this.$router.push({name: 'ApplyWaitAudit'});
-        }
-      },
-      getShowkerApplyBefore(payPopWindow) {
-        if (payPopWindow === null) {
-            this.showkerApplyBefore = false;
-          if (this.$route.query.resubmit) {
-            this.$router.push({name: 'ApplyWaitAudit'});
-          }
-        } else {
-          this.showkerApplyBefore = payPopWindow;
-          this.applySuccess = true;
-        }
-      },
-      hiddenText(type) {
-        let arr = type.split("");
-        let newArr = [];
-        for (let i = 0; i < arr.length; i++) {
-          if (i === 0 || i === arr.length - 1) {
-            newArr.push(arr[i])
-          } else {
-            newArr.push('*');
-          }
-        }
-        return newArr.join("");
-      },
-      changeNameType(type) {
-        return TaskErrorStatusList(type);
-      },*/
       applyForTrialFunc() {
         let self = this;
         if (!self.$store.state.login) {
@@ -657,42 +642,16 @@
           });
         } else {
           self.getShowkerCanTrial();
-          /*if (self.needBrowseCollectAddCart) {
-            self.getShowWwList();
-          } else {
-            self.getShowkerCanTrial();
-          }*/
         }
       },
-/*      getShowWwList() {
+      getShowkerApplyCountLeft(){
         let self = this;
-        self.taskId = self.getTaskId;
-        api.getShowkerCanTrial({
-          taskId: decode(self.$route.query.q)
-        }).then((res) => {
-          if (res.status) {
-            self.showkerApplyBefore = true;
-            self.WwNumberLIst = res.data.alitmList;
-            self.taskType = res.data.taskType;
-            let selRes = false;
-            for (let i = 0, j = res.data.alitmList.length; i < j; i++) {
-              if (res.data.alitmList[i].status === 2) {
-                selRes = true;
-                self.canUseWw = true;
-                break;
-              }
-            }
-          } else {
-            if (res.statusCode === 'alitm_null') {
-              self.alitNumSuccess = true;
-            } else {
-              self.$Modal.warning({
-                content: '<p class="fs-14">' + res.msg + '</span>',
-              });
-            }
+        api.getShowkerApplyCountLeft().then(res =>{
+          if(res.status){
+            self.residue = res.data;
           }
         })
-      },*/
+      },
       getShowkerCanTrial() {
         let self = this;
         self.taskApplyLoading = true;
@@ -828,39 +787,43 @@
         })
       },
       selWwFunc() {
+
         let self = this;
         let selRes = false;
-        for (let i = 0, j = self.wwList.length; i < j; i++) {
-          if (self.wwList[i].status === 2) {
-            selRes = true;
-            break;
+        if(self.residue > 0){
+          for (let i = 0, j = self.wwList.length; i < j; i++) {
+            if (self.wwList[i].status === 2) {
+              selRes = true;
+              break;
+            }
           }
-        }
-        if (selRes) {
-          if (self.selectedWw === '') {
-            self.$Message.info('请选择旺旺号');
+          if (selRes) {
+            if (self.selectedWw === '') {
+              self.$Message.info('请选择旺旺号');
+            } else {
+              api.showkerApplySelWwId({
+                wangwangId: self.selectedWw,
+                taskId: decode(self.$route.query.q),
+                searchCondition: null,
+                itemLocation: null,
+                browseToBottom: null,
+                enshrine: null,
+                addToCart: null
+              }).then((res) => {
+                if (res.status) {
+                  self.applySuccess = true;
+                } else {
+                  self.$Message.error(res.msg);
+                }
+              })
+            }
+
           } else {
-            api.showkerApplySelWwId({
-              wangwangId: self.selectedWw,
-              taskId: decode(self.$route.query.q),
-              searchCondition: null,
-              itemLocation: null,
-              browseToBottom: null,
-              enshrine: null,
-              addToCart: null
-            }).then((res) => {
-              if (res.status) {
-                self.applySuccess = true;
-              } else {
-                self.$Message.error(res.msg);
-              }
-            })
+            self.$Message.info('无可用旺旺号');
           }
-
-        } else {
-          self.$Message.info('无可用旺旺号');
+        }else {
+          self.$Message.warning('亲，申请次数已用完');
         }
-
       },
       graphicSelFunc(graphicSel) {
         this.graphicInfoSelClass = graphicSel.isClass;
@@ -1198,5 +1161,30 @@
     position: relative;
     top: 1px;
     line-height: 20px;
+  }
+
+  .apply-num{
+    &:hover p, &:hover i{
+      display: block;
+    }
+    p{
+      display: none;
+      position: absolute;
+      top: 19px;
+      right: -66px;
+      background-color: rgba(70, 76, 91, 0.9);
+      color: rgb(255, 255, 255);
+      padding: 10px;
+    }
+    .up-icon{
+      width: 0;
+      height: 0;
+      border: 9px solid transparent;
+      border-bottom-color: rgba(70, 76, 91, 0.9);
+      position: absolute;
+      bottom: -5px;
+      left: 39px;
+      display: none;
+    }
   }
 </style>
