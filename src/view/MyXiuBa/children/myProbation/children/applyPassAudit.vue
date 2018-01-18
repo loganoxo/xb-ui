@@ -940,6 +940,13 @@
             _this.upLoadImageUrl.itemLocationImage = screenShot.itemLocation ? screenShot.itemLocation : null;
             _this.defaultImageSearchCondition = screenShot.searchCondition ? [{src: screenShot.searchCondition}] : [];
             _this.upLoadImageUrl.searchConditionImage = screenShot.searchCondition ? screenShot.searchCondition : null;
+            let issueAnswerScreenshot = res.data.showkerTask.issueAnswerScreenshot?JSON.parse(res.data.showkerTask.issueAnswerScreenshot):[];
+            _this.copyWriteOneImg = issueAnswerScreenshot[0]?issueAnswerScreenshot[0]:null;
+            _this.copyWriteTwoImg = issueAnswerScreenshot[1]?issueAnswerScreenshot[1]:null;
+            _this.copyWriteThreeImg = issueAnswerScreenshot[2]?issueAnswerScreenshot[2]:null;
+            _this.defaultImageCwOne = _this.copyWriteOneImg?[{src: issueAnswerScreenshot[0]}]:[];
+            _this.defaultImageCwTwo = _this.copyWriteTwoImg?[{src: issueAnswerScreenshot[1]}]:[];
+            _this.defaultImageCwThree = _this.copyWriteThreeImg?[{src: issueAnswerScreenshot[2]}]:[];
           } else {
             _this.$Message.error(res.msg);
           }
@@ -1090,6 +1097,18 @@
       },
       saveOrUpdateOrderNumber() {
         let _this = this;
+        if (_this.needIssueAnswer.length > 0 && !_this.copyWriteOneImg) {
+          _this.$Message.error("亲，请上传第一张答题截图！");
+          return;
+        }
+        if (_this.needIssueAnswer.length > 1 && !_this.copyWriteTwoImg) {
+          _this.$Message.error("亲，请上传第二张答题截图！");
+          return;
+        }
+        if (_this.needIssueAnswer.length > 2 && !_this.copyWriteThreeImg) {
+          _this.$Message.error("亲，请上传第三张答题截图！");
+          return;
+        }
         _this.issueAnswerScreenshot = [];
         if (_this.copyWriteOneImg){
           _this.issueAnswerScreenshot.push(_this.copyWriteOneImg)
