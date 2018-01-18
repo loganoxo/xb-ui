@@ -817,6 +817,12 @@ export default {
    */
   getSchemeReassign(params) {
     return fetch('/api/task/showker/scheme/reassign.json',params)
-  }
+  },
 
+  /**
+   * 获取秀客可申请活动的次数
+   */
+  getShowkerApplyCountLeft() {
+    return fetch("/api/task/showker-apply-count-left.json")
+  },
 }
