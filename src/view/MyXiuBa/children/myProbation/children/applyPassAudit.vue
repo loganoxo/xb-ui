@@ -1090,6 +1090,7 @@
       },
       saveOrUpdateOrderNumber() {
         let _this = this;
+        _this.issueAnswerScreenshot = [];
         if (_this.copyWriteOneImg){
           _this.issueAnswerScreenshot.push(_this.copyWriteOneImg)
         }
