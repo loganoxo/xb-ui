@@ -45,7 +45,7 @@
           <li>
             <a v-show=" ww.status === 3 || (ww.status === 2 && !switchValueTrue && switchValueFalse)|| (!switchValueFalse && !switchValueTrue)"
               @click="modifyWwBindFunc(ww)" class="mr-10">修改</a>
-            <a @click="deleteWwBindFunc(ww)">解绑</a>
+            <a v-show="ww.status !== 4" @click="deleteWwBindFunc(ww)">解绑</a>
             <!--<a v-show="ww.status == 3 " @click="modifyWwBindFunc(ww,index)">重新提交</a>-->
           </li>
         </ul>

@@ -298,7 +298,6 @@
             content: '请上传所有图片'
           });
         }
-
       },
       handleSubmit (name, callback) {
         let res = false;

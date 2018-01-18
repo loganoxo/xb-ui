@@ -41,20 +41,22 @@
     .main-color {
       color: $mainColor;
     }
-    .example-pic{
-      text-decoration:underline;
-      color: #1B1BFE;
-      cursor:  pointer;
-    }
     .des-text{
       font-weight: bold;
       color: #696969;
+    }
+    .clff3300{
+      color: #ff3300;
     }
     .minor-color {
       color: #999!important;
     }
     .sizeColor3{
       color: #FF0100;
+    }
+    .copy-write-img{
+      width: 58px;
+      height: 58px;
     }
     .watch-example-pic{
       position: absolute;

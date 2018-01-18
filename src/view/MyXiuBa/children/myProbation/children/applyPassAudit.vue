@@ -175,6 +175,12 @@
           <strong class="ml-10" v-if="showkerTask.status === 'order_num_error'">原因：{{showkerTask.latestShowkerTaskOpLog.auditDescription}}</strong>
         </div>
       </div>
+      <div class="mt-10 pt-10 pb-10 pl-10 bgF1F1F1">
+        <p>1.禁止秒拍</p>
+        <p class="mt-5 cl666">请确保足够时间的浏览后再下单哦<span class="clff3300">（至少5-10分钟）</span>，请按要求操作，否则将失去试用资格，若造成商家<span class="clff3300">投诉</span>，平台有<span class="clff3300">权冻</span>结您的秀客账号！</p>
+        <p class="mt-10">2. 核对订单！</p>
+        <p class="mt-5 cl666">请正确填写订单号与实付金额，以免影响返款！若您发现淘宝该宝贝的实付金额高于秀吧平台显示的商品金额，请勿下单，请结束任务！</p>
+      </div>
       <place-order-step v-if="Object.keys(showkerTask).length > 0" :showkerTaskInfo="showkerTask"
                         @changeTask="getShowkerToProcessOrder"></place-order-step>
       <div class="precautions-tip-info mt-20"
@@ -373,7 +379,7 @@
     </div>
     <!--填写订单号弹窗-->
     <div class="audit-order-number-model" v-if="showAuditOrderNumber">
-      <div class="audit-order-number-con showSweetAlert" :style="{height:needBrowseCollectAddCart?520+'px':290+'px'}">
+      <div class="audit-order-number-con showSweetAlert" :style="{height:needBrowseCollectAddCart?(needIssueAnswer.length > 0?660+'px': 520+ 'px'):(needIssueAnswer.length > 0?430+'px':290+'px')}">
         <i class="close-model right mr-10" @click="closeAuditOrder">&times;</i>
         <p class="tip-title mt-10">
           <span>注意：订单号及实付金额提交后商家审核前不能修改，请正确填写！</span>
@@ -387,9 +393,9 @@
         </div>
         <div v-if="needBrowseCollectAddCart" class="mt-20 ml-45 des-text">1.收藏、加入购物车，提交相关截图</div>
         <div v-if="needBrowseCollectAddCart" class="clear text-ct ml-45 mt-20">
-          <div class="left ml-10 " v-if="taskType === 'pc_search'">
+          <div class="left mr-20" v-if="taskType === 'pc_search'">
             <Upload
-              class="ml-5"
+              class="copy-write-img mg-at"
               ref="uploadCondition"
               :show-upload-list="false"
               :default-file-list="defaultImageSearchCondition"
@@ -408,9 +414,9 @@
             <p class="mt-8">搜索条件截图</p>
             <p class="mt-8 cursor-p example-pic" @click="pcSearchSelectFun('one')">查看示例图</p>
           </div>
-          <div class="left ml-20" v-if="taskType === 'pc_search'|| taskType === 'app_search'">
+          <div class="left mr-20" v-if="taskType === 'pc_search'|| taskType === 'app_search'">
             <Upload
-              class="ml-5"
+              class="copy-write-img mg-at"
               ref="uploadItemLocation"
               :show-upload-list="false"
               :default-file-list="defaultImageItemLocation"
@@ -429,9 +435,9 @@
             <p class="mt-8">所在位置截图</p>
             <p class="mt-8 cursor-p example-pic" @click="pcSearchSelectFun('two')">查看示例图</p>
           </div>
-          <div class="left ml-20">
+          <div class="left mr-20">
             <Upload
-              class="ml-5"
+              class="copy-write-img mg-at"
               ref="uploadEnshrine"
               :show-upload-list="false"
               :default-file-list="defaultImageEnshrine"
@@ -450,9 +456,9 @@
             <p class="mt-8">宝贝加入收藏夹</p>
             <p class="mt-8 cursor-p example-pic" @click="pcSearchSelectFun('four')">查看示例图</p>
           </div>
-          <div class="left ml-20">
+          <div class="left ">
             <Upload
-              class="ml-5"
+              class="copy-write-img mg-at"
               ref="uploadAddToCart"
               :show-upload-list="false"
               :default-file-list="defaultImageAddToCart"
@@ -469,7 +475,70 @@
               </div>
             </Upload>
             <p class="mt-8">宝贝加入购物车</p>
-            <p class="mt-8 cursor-p example-pic" @click="pcSearchSelectFun('five')">查看示例图</p>
+            <p class="mt-8 example-pic" @click="pcSearchSelectFun('five')">查看示例图</p>
+          </div>
+        </div>
+        <div class="clear ml-45 mr-40 mt-20" v-if="needIssueAnswer.length > 0">
+          <div style="border-top: 1px solid #eee" class="pt-10 pb-10">在详情页找到如下文案，并提供所在位置截图<p @click="watchAnswerImg = true" class="example-pic inline-block ml-10">查看示例图</p></div>
+          <div class="left mr-20 text-ct" v-if="needIssueAnswer[0]">
+            <Upload
+              class="mg-at copy-write-img"
+              ref="uploadCopyWriteOne"
+              :show-upload-list="false"
+              :default-file-list="defaultImageCwOne"
+              :on-remove="removeMainImageCwOne"
+              :on-success="copyWriteOneImageFun"
+              :format="['jpg','jpeg','png','gif','bmp']"
+              :max-size="10240"
+              name="task"
+              :on-format-error="handleFormatError"
+              :on-exceeded-size="handleMaxSize"
+              type="drag">
+              <div style="width: 58px;height:58px;line-height: 58px;">
+                <Icon type="camera" size="20"></Icon>
+              </div>
+            </Upload>
+            <p class="mt-8">{{needIssueAnswer[0]}}</p>
+          </div>
+          <div class="left mr-20 text-ct" v-if="needIssueAnswer[1]">
+            <Upload
+              class="mg-at copy-write-img"
+              ref="uploadCopyWriteTwo"
+              :show-upload-list="false"
+              :default-file-list="defaultImageCwTwo"
+              :on-remove="removeMainImageCwTwo"
+              :on-success="copyWriteTwoImageFun"
+              :format="['jpg','jpeg','png','gif','bmp']"
+              :max-size="10240"
+              name="task"
+              :on-format-error="handleFormatError"
+              :on-exceeded-size="handleMaxSize"
+              type="drag">
+              <div style="width: 58px;height:58px;line-height: 58px;">
+                <Icon type="camera" size="20"></Icon>
+              </div>
+            </Upload>
+            <p class="mt-8">{{needIssueAnswer[1]}}</p>
+          </div>
+          <div class="left text-ct" v-if="needIssueAnswer[2]">
+            <Upload
+              class="mg-at copy-write-img"
+              ref="uploadCopyWriteThree"
+              :show-upload-list="false"
+              :default-file-list="defaultImageCwThree"
+              :on-remove="removeMainImageCwThree"
+              :on-success="copyWriteThreeImageFun"
+              :format="['jpg','jpeg','png','gif','bmp']"
+              :max-size="10240"
+              name="task"
+              :on-format-error="handleFormatError"
+              :on-exceeded-size="handleMaxSize"
+              type="drag">
+              <div style="width: 58px;height:58px;line-height: 58px;">
+                <Icon type="camera" size="20"></Icon>
+              </div>
+            </Upload>
+            <p class="mt-8">{{needIssueAnswer[2]}}</p>
           </div>
         </div>
         <div class="mt-10 ml-45">
@@ -525,6 +594,11 @@
     <Modal v-model="watchExample" width="500" title="照片查看器">
       <div class="text-ct">
         <img width="400" src="~assets/img/screen-shot/taobao-screenShot.jpg" alt="">
+      </div>
+    </Modal>
+    <Modal v-model="watchAnswerImg" width="500" title="照片查看器">
+      <div class="text-ct">
+        <img width="400" src="~assets/img/screen-shot/answer_question_img.png" alt="">
       </div>
     </Modal>
     <Modal v-model="pcSearch" title="照片查看器" width="800" :styles="{top:'20px'}">
@@ -678,7 +752,16 @@
         defaultImageEnshrine: [],
         defaultImageItemLocation: [],
         defaultImageSearchCondition: [],
+        defaultImageCwOne:[],
+        defaultImageCwTwo:[],
+        defaultImageCwThree:[],
+        copyWriteOneImg:null,
+        copyWriteTwoImg:null,
+        copyWriteThreeImg:null,
         watchExample: false,
+        watchAnswerImg:false,
+        needIssueAnswer:[],
+        issueAnswerScreenshot:[]
       }
     },
     mounted() {
@@ -727,7 +810,6 @@
       },
       pcSearchSelectFun(type) {
         if (this.taskType === 'pc_search' || this.taskType === 'direct_access') {
-          console.log(111);
           this.pcSearch = true;
         } else {
           this.appSearch = true;
@@ -767,6 +849,24 @@
       //加入购物车截图
       addToCartImageFun(res) {
         this.upLoadImageUrl.addToCartImage = aliCallbackImgUrl + res.name
+      },
+      copyWriteOneImageFun(res){
+        this.copyWriteOneImg = aliCallbackImgUrl + res.name
+      },
+      copyWriteTwoImageFun(res){
+        this.copyWriteTwoImg = aliCallbackImgUrl + res.name
+      },
+      copyWriteThreeImageFun(res){
+        this.copyWriteThreeImg = aliCallbackImgUrl + res.name
+      },
+      removeMainImageCwOne(){
+        this.copyWriteOneImg = null
+      },
+      removeMainImageCwTwo(){
+        this.copyWriteTwoImg = null
+      },
+      removeMainImageCwThree(){
+        this.copyWriteThreeImg = null
       },
       encryptionId(id) {
         return encryption(id)
@@ -830,6 +930,7 @@
             _this.taskPlaceInfo = res.data.showkerTask.task;
             _this.needBrowseCollectAddCart = res.data.taskInfo.needBrowseCollectAddCart;
             _this.taskType = res.data.taskInfo.taskType;
+            _this.needIssueAnswer = res.data.taskApply.task.itemIssue? JSON.parse(res.data.taskApply.task.itemIssue):[];
             let screenShot = JSON.parse(res.data.taskApply.screenshot);
             _this.defaultImageAddToCart = screenShot.addToCart ? [{src: screenShot.addToCart}] : [];
             _this.upLoadImageUrl.addToCartImage = screenShot.addToCart ? screenShot.addToCart : null;
@@ -989,6 +1090,15 @@
       },
       saveOrUpdateOrderNumber() {
         let _this = this;
+        if (_this.copyWriteOneImg){
+          _this.issueAnswerScreenshot.push(_this.copyWriteOneImg)
+        }
+        if (_this.copyWriteTwoImg){
+          _this.issueAnswerScreenshot.push(_this.copyWriteTwoImg)
+        }
+        if (_this.copyWriteThreeImg){
+          _this.issueAnswerScreenshot.push(_this.copyWriteThreeImg)
+        }
         if (!_this.affirmOrderNumber) {
           _this.$Message.error("亲，请输入订单号！");
           return;
@@ -1017,6 +1127,7 @@
           itemLocation: _this.upLoadImageUrl.itemLocationImage,
           enshrine: _this.upLoadImageUrl.enshrineImage,
           addToCart: _this.upLoadImageUrl.addToCartImage,
+          issueAnswerScreenshot: JSON.stringify(_this.issueAnswerScreenshot)
         }).then(res => {
           if (res.status) {
             _this.$Message.success('订单号提交成功，请耐心等待商家审核！');
