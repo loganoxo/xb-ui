@@ -109,20 +109,20 @@
                   <time-down color='#ff4040' :fontWeight=600 :endTime="item.currentGenerationEndTime"></time-down>
                 </p>
                 <p v-if="item.status === 'trial_end'">
-                  <Tooltip :content="item.trialEndReason === 'admin_manual_close' ? getTaskStatus(item.trialEndReason) +'：'+ item.auditDescription : getTaskStatus(item.trialEndReason)" placement="top" class="cursor-p">
+                  <Tooltip
+                    :content="item.trialEndReason === 'admin_manual_close' ? getTaskStatus(item.trialEndReason) +'：'+ item.auditDescription : getTaskStatus(item.trialEndReason)"
+                    placement="top" class="cursor-p">
                     <Icon color="#f60" type="information-circled"></Icon>
                     <span class="main-color">{{getTaskStatus(item.status)}}</span>
                   </Tooltip>
                 </p>
               </td>
               <td>{{item.orderNum || '------'}}</td>
-              <td>{{(item.orderPrice / 100).toFixed(2)}}</td>
+              <td>{{(item.orderPrice).toFixed(2)}}</td>
               <td>
                 <p class="del-edit">
-                  <span v-if="item.status === 'order_num_waiting_audit'" @click="openCheckOrder(item.id,item.screenshot, item.needBrowseCollectAddCart)">审核订单号</span>
-                  <span class="ml-10" v-if="item.needBrowseCollectAddCart && item.status === 'order_num_waiting_audit'" @click="checkScreenshot(item.screenshot, item.needBrowseCollectAddCart)">查看收藏加购截图</span>
-                  <span v-if="item.status === 'trial_report_waiting_confirm'" @click="goProbationReport(item.id)">审核买家秀</span>
-                  <span v-if="item.status !== 'order_num_waiting_audit' && item.status !== 'trial_report_waiting_confirm'">------</span>
+                  <span v-if="item.status === 'order_num_waiting_audit'" @click="openCheckOrder(item.id, item.needBrowseCollectAddCart, item.itemIssue)">审核订单号</span>
+                  <span v-if="item.status === 'trial_report_waiting_confirm'" @click="goProbationReport(item.id)">审核买家秀</span><span v-if="item.status !== 'order_num_waiting_audit' && item.status !== 'trial_report_waiting_confirm'">------</span>
                 </p>
               </td>
             </tr>
@@ -144,35 +144,65 @@
     <div class="check-order-model" v-if="showCheckOrder">
       <div class="check-order-con">
         <i class="right" @click="showCheckOrder = false">&times;</i>
-        <p class="mt-28 fs-14 text-lf" v-if="needBrowseCollectAddCart">1.请首先点击右侧链接按钮查看秀客提交的收藏加购截图：<a class="fs-14" @click="isShowCheckScreenshotModel = true">查看收藏加购截图</a></p>
-        <p class="text-lf" :class="[needBrowseCollectAddCart ? 'mt-20' : 'mt-40']"><span v-if="needBrowseCollectAddCart">2.</span>为了防止不良秀客冒领担保金，请您仔细核对下面的订单号是否与你店铺宝贝的交易订单号一致！</p>
-        <p class="mt-22 text-ct">
-          <span>订单号：</span>
-          <span class="main-color">{{orderInfo.orderNum}}</span>
-        </p>
-        <p class="mt-15 text-ct">
-          <span>秀客实付金额：<span class="main-color">{{orderInfo.orderPrice || 0}}</span>元<span>（当前每单活动担保金<span>{{orderInfo.perMarginNeed}}</span>元）</span></span>
-        </p>
+        <div class="f-b fs-14 main-color mt-28" v-if="needBrowseCollectAddCart">1.请查看秀客提交的截图信息</div>
+        <div class="clear">
+          <div class="left" v-if="needBrowseCollectAddCart">
+            <div class="mt-5 cl00 fs-12 f-b">A.查看秀客提交的收藏加购截图</div>
+            <div class="order-info-screenshot mt-5" v-for="(value, key) in orderInfo.screenshot" :key="key" v-if="value">
+              <img :src="value + '!thum54'" alt="收藏加购截图">
+              <div class="order-info-screenshot-cover">
+                <Icon type="ios-eye-outline" @click.native="handleView(value,key)"></Icon>
+              </div>
+            </div>
+          </div>
+          <div class="left parting-line" v-if="needBrowseCollectAddCart"></div>
+          <div class="left ml-20" v-if="needIssue">
+            <div class="mt-5 cl00 fs-12 f-b"><span>{{needIssue ? 'B.' : 'A.'}}</span>查看秀客提交的浏览答题截图</div>
+            <div class="order-info-screenshot mt-5" v-for="(item, index) in orderInfo.issueAnswerScreenshot" :key="index" v-if="item">
+              <img :src="item.screenshotSrc + '!thum54'" alt="浏览答题截图">
+              <div class="order-info-screenshot-cover">
+                <Icon type="ios-eye-outline" @click.native="handleViewIssue(item.screenshotSrc,item.issueText)"></Icon>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="f-b fs-14 main-color mt-10">2.请仔细核对订单号与交易金额</div>
+        <div class="order-info-con text-lf mt-5">
+          <p>
+            <span class="f-b">订单号：</span>
+            <span class="main-color">{{orderInfo.orderNum}}</span>
+          </p>
+          <p class="mt-10">
+            <span><span class="f-b">秀客实付金额：</span><span class="main-color">{{orderInfo.orderPrice || 0}}</span>元<span>（当前每单活动担保金<span>{{orderInfo.perMarginNeed}}</span>元）</span></span>
+          </p>
+        </div>
         <p class="cl-red mt-10 text-ct" v-if="orderInfo.orderPrice < orderInfo.perMarginNeed"><Icon type="information-circled" color="red" size="14" class="mr-5"></Icon>注意：秀客实付金额与活动担保金金额不一致，请仔细审核！</p>
+        <p class="cl-red mt-10 text-ct" v-else><Icon type="information-circled" color="red" size="14" class="mr-5"></Icon>注意：为了防止不良秀客冒领担保金，请您仔细审核交易订单信息，确认不误再作提交！</p>
         <div class="mt-22 text-ct">
           <Radio-group v-model="orderReviewStatus">
-            <Radio label="passAudit" style="margin-right: 32px;">
+            <Radio class="mr-30" label="passAudit">
               <span class="fs-16">通过</span>
             </Radio>
             <Radio label="failAudit">
               <span class="fs-16">不通过</span>
             </Radio>
           </Radio-group>
+          <div class="no-pass-reason text-ct inline-block" v-show="orderReviewStatus === 'failAudit'">
+            <i-select v-model="orderNoPassReason" style="width:140px" placeholder="请选择不通过原因">
+              <i-option value="收藏加购截图不合格">收藏加购截图不合格</i-option>
+              <i-option value="浏览答题截图不合格">浏览答题截图不合格</i-option>
+              <i-option value="订单号有误">订单号有误</i-option>
+              <i-option value="实付金额有误">实付金额有误</i-option>
+            </i-select>
+          </div>
         </div>
-        <div class="no-pass-reason mt-22 text-ct" v-show="orderReviewStatus === 'failAudit'">
-          <iInput v-model="orderNoPassReason" placeholder="请填写不通过理由，如订单号不符或实付金额不符" style="width: 420px"></iInput>
-        </div>
-        <div class="true-btn" v-show="orderReviewStatus === 'failAudit'" @click="orderNumberAudit">确认</div>
-        <div class="true-btn" v-show="orderReviewStatus === 'passAudit' && orderInfo.perMarginNeed >= getOderPrice" @click="orderNumberAudit">确认</div>
+        <div class="true-btn" v-show="orderReviewStatus === 'failAudit'" @click="orderNumberAudit">确认提交</div>
+        <div class="true-btn" v-show="orderReviewStatus === 'passAudit' && orderInfo.perMarginNeed >= getOderPrice" @click="orderNumberAudit">确认提交</div>
         <PayModel v-show="orderReviewStatus === 'passAudit' && orderInfo.perMarginNeed < getOderPrice"
                   :orderMoney="needReplenishMoney"
                   @confirmPayment="confirmPayment" :payButtonText="payButtonText"
-                  :rechargeButtonText="rechargeButtonText" style="margin-top: 120px;width: 652px;margin-left: -326px;" :style="{top:needBrowseCollectAddCart ? 45+'%' : 30 +'%'}">
+                  :rechargeButtonText="rechargeButtonText" style="margin-top: 120px;width: 652px;margin-left: -326px;"
+                  :style="{top:needBrowseCollectAddCart ? 45+'%' : 30 +'%'}">
           <div slot="isBalance" class="title-tip">
                 <span class="size-color3">
                 <Icon color="#FF2424" size="18" type="ios-information"></Icon>
@@ -189,21 +219,8 @@
       </div>
     </div>
     <!--收藏加购物截图查看-->
-    <modal title="收藏加购截图查看器" v-model="isShowCheckScreenshotModel">
-       <carousel v-if="isShowCheckScreenshotModel" v-model="carouselValue" :height="600" :loop="true">
-         <carousel-item>
-           <img :src="checkScreenshotList.addToCart + '!orgi75'" width="100%" height="100%">
-         </carousel-item>
-         <carousel-item>
-           <img :src="checkScreenshotList.enshrine + '!orgi75'"  width="100%" height="100%">
-         </carousel-item>
-         <carousel-item v-if="checkScreenshotList.itemLocation">
-           <img :src="checkScreenshotList.itemLocation + '!orgi75'"  width="100%" height="100%">
-         </carousel-item>
-         <carousel-item v-if="checkScreenshotList.searchCondition">
-           <img :src="checkScreenshotList.searchCondition + '!orgi75'"  width="100%" height="100%">
-         </carousel-item>
-       </carousel>
+    <modal :title="checkScreenshotModleTitle" v-model="isShowCheckScreenshotModel">
+      <img :src="checkScreenshotSrc + '!orgi75'" style="width: 100%">
     </modal>
   </div>
 
@@ -215,6 +232,7 @@
   import Icon from 'iview/src/components/icon'
   import Button from 'iview/src/components/button'
   import Modal from 'iview/src/components/modal'
+  import {Select, Option} from 'iview/src/components/select'
   import Carousel from 'iview/src/components/carousel'
   import Input from 'iview/src/components/input'
   import Radio from 'iview/src/components/radio'
@@ -233,6 +251,8 @@
       CheckboxGroup: Checkbox.Group,
       Page: Page,
       Modal: Modal,
+      iSelect: Select,
+      iOption: Option,
       Carousel: Carousel,
       CarouselItem: Carousel.Item,
       iButton: Button,
@@ -247,8 +267,9 @@
     data() {
       return {
         isShowCheckScreenshotModel: false,
-        checkScreenshotList: [],
+        checkScreenshotSrc: null,
         needBrowseCollectAddCart: false,
+        needIssue: false,
         carouselValue: 0,
         searchLoading: false,
         alitmAccount: null,
@@ -269,6 +290,7 @@
         orderInfo: {},
         orderReviewStatus: 'passAudit',
         orderNoPassReason: null,
+        checkScreenshotModleTitle: null,
       }
     },
     mounted() {
@@ -290,12 +312,13 @@
     },
     computed: {
       getOderPrice() {
-        if(this.orderInfo.discountPrice && this.orderInfo.discountPrice > 0){
-          return this.orderInfo.orderPrice - this.orderInfo.discountPrice
-        }else if(this.orderInfo.discountRate && this.orderInfo.discountRate > 0){
-          return this.orderInfo.orderPrice * (1 - this.orderInfo.discountRate)
+        let _this = this;
+        if (_this.orderInfo.discountPrice && _this.orderInfo.discountPrice > 0) {
+          return _this.orderInfo.orderPrice - _this.orderInfo.discountPrice
+        } else if (_this.orderInfo.discountRate && _this.orderInfo.discountRate > 0) {
+          return _this.orderInfo.orderPrice * (1 - _this.orderInfo.discountRate)
         } else {
-          return this.orderInfo.orderPrice
+          return _this.orderInfo.orderPrice
         }
       },
       needReplenishMoney() {
@@ -425,23 +448,16 @@
           }
         })
       },
-      openCheckOrder(id,screenshot,needBrowseCollectAddCart) {
+      openCheckOrder(id, needBrowseCollectAddCart,itemIssue) {
         let _this = this;
-        _this.checkScreenshotList = screenshot;
         _this.needBrowseCollectAddCart = needBrowseCollectAddCart;
+        _this.needIssue = itemIssue;
         _this.showCheckOrder = true;
         _this.orderNoPassReason = '';
         api.orderNumberInfo({id: id}).then(res => {
           if (res.status) {
-            _this.orderInfo = Object.assign({}, _this.orderInfo, {
-              orderPrice: res.data.orderPrice / 100,
-              orderNum: res.data.orderNum,
-              id: res.data.id,
-              perMarginNeed: res.data.task.perMarginNeed / 100,
-              discountPrice: res.data.task.discountPrice / 100,
-              discountRate: res.data.task.discountRate / 100,
-            })
-          }else{
+            _this.orderInfo = res.orderInfo;
+          } else {
             _this.$Message.error(res.msg)
           }
         })
@@ -454,6 +470,9 @@
         if (_this.orderReviewStatus === 'failAudit' && !_this.orderNoPassReason) {
           _this.$Message.error("亲，请填写不通过的理由！");
           return;
+        }
+        if(_this.orderReviewStatus === 'passAudit' && _this.orderNoPassReason) {
+          _this.orderNoPassReason = null;
         }
         api.orderNumberAudit({
           id: _this.orderInfo.id,
@@ -470,10 +489,7 @@
             _this.showCheckOrder = false;
             _this.passesShowkerTask(_this.operateTaskId, _this.operateIndex);
           } else {
-            _this.$Message.error({
-              content: res.msg,
-              duration: 4
-            });
+            _this.$Message.error(res.msg);
             _this.closeCheckOrder();
           }
         })
@@ -486,10 +502,31 @@
           this.passesShowkerTask(id, index);
         }
       },
-      checkScreenshot(item,needBrowseCollectAddCart) {
-        this.isShowCheckScreenshotModel = true;
-        this.checkScreenshotList = item;
-        this.needBrowseCollectAddCart = needBrowseCollectAddCart;
+      handleViewIssue(value, key) {
+        let _this = this;
+        _this.isShowCheckScreenshotModel = true;
+        _this.checkScreenshotSrc = value;
+        _this.checkScreenshotModleTitle = '浏览答题截图：（'+ key + '）';
+      },
+      handleView(value, key) {
+        let _this = this;
+        _this.isShowCheckScreenshotModel = true;
+        _this.checkScreenshotSrc = value;
+        switch (key) {
+          case 'addToCart':
+            _this.checkScreenshotModleTitle = '加入购物车截图';
+            break;
+          case 'enshrine':
+            _this.checkScreenshotModleTitle = '加入收藏夹截图';
+            break;
+          case 'itemLocation':
+            _this.checkScreenshotModleTitle = '宝贝所在位置截图';
+            break;
+          case 'searchCondition':
+            _this.checkScreenshotModleTitle = '宝贝搜索条件置截图';
+            break;
+
+        }
       }
     }
   }

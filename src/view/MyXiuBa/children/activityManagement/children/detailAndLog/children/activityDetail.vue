@@ -142,6 +142,15 @@
           <Checkbox v-model="taskRelease.needBrowseCollectAddCart" disabled>需要</Checkbox>
           <span class="size-color">（系统会随机让部分秀客完成对宝贝的收藏加购，活动上线后您可以在生意参谋后台查看收藏加购有无增加）</span>
         </div>
+        <div class="answer ml-60 mt-20">
+          <span class="ml-4"> 浏览答题：</span>
+          <Checkbox v-model="needBrowseAnswer" :disabled="true">需要</Checkbox>
+          <span class="sizeColor">（保证秀客充分浏览详情首页，减少秒拍情况发生，最多可添加3个）</span>
+          <p class="mt-10 pl-68" v-show="needBrowseAnswer">
+            <i-input class="mr-5" v-for="(item,index) in browseAnswer" :key="index" type="text" v-model="item.answerContent" :disabled="true" placeholder="请输入浏览答题文案" style="width: 124px;"></i-input>
+          </p>
+          <p class="mt-6 pl-68 sizeColor" v-show="needBrowseAnswer">请在手机详情页面中挑选一段文案，输入文本框内的文案最长不能超过8个字（建议3-8字）秀客将提供本文案所在位置截图</p>
+        </div>
         <div class="baby-info mt-22">
           <div class="activity-info-title">填写活动宝贝信息</div>
           <div class="complimentary-tip mt-20 pl-40" v-show="taskRelease.activityCategory === 'present_get'">
@@ -537,7 +546,7 @@
         <p>活动担保金 = 份数 × 单品活动担保金 =<span>{{taskRelease.taskCount}}</span>×<span>{{oneBond}}</span>= <span>{{(taskRelease.taskCount * oneBond).toFixed(2)}}</span>元</p>
         <!--<p class="mt-6">单品推广费 = （宝贝单价 + 邮费） × 费率 =<span>（{{taskRelease.itemPrice}} + {{taskRelease.pinkage === 'true' ? 0 : 10}}）</span>×<span>6%</span>= <span>{{onePromotionExpenses}}</span>元<span v-if="onePromotionExpenses > 3">（单品推广费超过平台设定的最高上限3.00元，本次实际收取的单品推广费用为3.00元）</span></p>-->
         <p class="mt-6">总推广费用 = 单品推广费用 × 份数 =<span>{{onePromotionExpenses}}</span>× <span>{{taskRelease.taskCount}} = <span>{{allPromotionExpenses}}</span></span>元</p>
-        <p class="mt-6">总费用 = 活动担保金 + 总推广费用 = <span>{{orderMoney}}</span>元</p>
+        <p class="mt-6">总费用 = 活动担保金 + 总推广费用 = <span>{{(orderMoney.toFixed(2))}}</span>元</p>
       </div>
     </div>
     <router-link class="footer-btn" tag="div" to="/user/activity-management/list">返回上一页</router-link>
@@ -699,10 +708,11 @@
         itemReviewPushList: [],
         selectKeywordScheme: 0,
         addKeywordScheme: 0,
+        browseAnswer: [{answerContent: null}],
+        needBrowseAnswer: false,
       }
     },
-    mounted() {
-    },
+    mounted() {},
     created() {
       this.getItemCatalog();
       let taskId = decode(this.$route.query.q);
@@ -716,7 +726,7 @@
        * 活动类型名称
        * @return {string}
        */
-      getSetType: function () {
+      getSetType() {
         if (this.taskRelease.taskType === "pc_search") {
           return "PC搜索"
         } else if (this.taskRelease.taskType === "app_search") {
@@ -731,7 +741,7 @@
        * 计算商家需要存入的担保金（当用户勾选折扣试用的时候：宝贝单价 - 对应的折扣价格）
        * @return {number}
        */
-      newItemPrice: function () {
+      newItemPrice() {
         let type = this.taskRelease.discountType;
         if (!this.discountDisabled[type].isDiscount) {
           return (this.taskRelease.itemPrice - this.discountDisabled[type].returnPrice) * 100;
@@ -744,7 +754,7 @@
        * 计算最终商家发布单品活动担保金（商家需要存入的担保金 + 是否包邮）
        * @return {number}
        */
-      oneBond: function () {
+      oneBond() {
         return this.taskRelease.pinkage === 'true' ? (this.newItemPrice / 100).toFixed(2) * 1 : (this.newItemPrice / 100 + 10).toFixed(2) * 1;
       },
 
@@ -752,16 +762,17 @@
        * 计算单品推广费用（宝贝单价+ 邮费，单品推广费最高上限3元）
        * @return {number}
        */
-      onePromotionExpenses: function () {
-        let price = this.taskRelease.pinkage === 'true' ? this.taskRelease.itemPrice : this.taskRelease.itemPrice + 10;
-        return price * 0.06 > 3 ? 3.00 : (price * 0.06).toFixed(2) * 1;
+      onePromotionExpenses() {
+       /* let price = this.taskRelease.pinkage === 'true' ? this.taskRelease.itemPrice : this.taskRelease.itemPrice + 10;
+        return price * 0.06 > 3 ? 3.00 : (price * 0.06).toFixed(2) * 1;*/
+       return 0
       },
 
       /**
        * 计算总推广费用
        * @return {number}
        */
-      allPromotionExpenses: function () {
+      allPromotionExpenses() {
         return (this.onePromotionExpenses * this.taskRelease.taskCount).toFixed(2) * 1;
       },
 
@@ -769,7 +780,7 @@
        * 计算订单总金额
        * @return {number}
        */
-      orderMoney: function () {
+      orderMoney() {
         return (((this.taskRelease.taskCount * this.oneBond * 100) + this.allPromotionExpenses * 100) / 100).toFixed(2) * 1;
       },
     },
@@ -807,6 +818,16 @@
               _this.taskRelease.activityCategory = 'free_get';
             }
             //end
+            let itemIssue = JSON.parse(res.data.itemIssue);
+            if(itemIssue.length > 0) {
+              _this.needBrowseAnswer = true;
+              _this.browseAnswer = [];
+              itemIssue.forEach(item => {
+                _this.browseAnswer.push({
+                  answerContent: item
+                })
+              })
+            }
             let itemReviewAssignsData = res.data.itemReviewAssigns;
             if(itemReviewAssignsData){
               itemReviewAssignsData.forEach((item,index) => {

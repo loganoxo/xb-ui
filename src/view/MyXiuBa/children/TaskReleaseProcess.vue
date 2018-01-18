@@ -143,7 +143,7 @@
             <Checkbox v-model="needBrowseAnswer" @on-change="needBrowseAnswerChange">需要</Checkbox>
             <span class="sizeColor">（保证秀客充分浏览详情首页，减少秒拍情况发生，最多可添加3个）</span>
             <p class="mt-10 pl-68" v-show="needBrowseAnswer">
-              <i-input class="mr-5" v-for="(item,index) in browseAnswer" :key="index" type="text" v-model="item.answerContent" @on-change="testAnswerTextNumber" placeholder="请输入浏览答题文案" style="width: 116px;"></i-input>
+              <i-input class="mr-5" v-for="(item,index) in browseAnswer" :key="index" type="text" v-model="item.answerContent" @on-change="testAnswerTextNumber" placeholder="请输入浏览答题文案" style="width: 124px;"></i-input>
               <i-button class="ml-10" type="dashed" icon="plus-round" @click="addAnswer" v-show="browseAnswer.length < 3">添加</i-button>
               <i-button class="ml-10" type="dashed" icon="minus-round" @click="deleteAnswer" v-show="browseAnswer.length > 1">删除</i-button>
               <span v-show="isShowAnswerTip" class="ml-20 main-color"><Icon color="#f60" type="information-circled" class="mr-5"></Icon>浏览答题文案字数不能超过8个字</span>
@@ -1015,7 +1015,7 @@
        * 活动类型名称
        * @return {string}
        */
-      getSetType: function () {
+      getSetType() {
         if (this.taskRelease.taskType === "pc_search") {
           return "PC搜索"
         } else if (this.taskRelease.taskType === "app_search") {
@@ -1031,7 +1031,7 @@
        * 从vuex中获取用户账户余额
        * @return {number}
        */
-      getUserBalance: function () {
+      getUserBalance() {
         return this.$store.getters.getUserBalance;
       },
 
@@ -1040,7 +1040,7 @@
        * 单位为分
        * @return {number}
        */
-      newItemPrice: function () {
+      newItemPrice() {
         let type = this.taskRelease.discountType;
         if (!this.discountDisabled[type].isDiscount) {
           return (this.taskRelease.itemPrice - this.discountDisabled[type].returnPrice) * 100;
@@ -1053,7 +1053,7 @@
        * 计算最终商家发布单品活动担保金（商家需要存入的担保金 + 是否包邮）
        * @return {number}
        */
-      oneBond: function () {
+      oneBond() {
         return this.taskRelease.pinkage === 'true' ? (this.newItemPrice / 100).toFixed(2) * 1 : (this.newItemPrice / 100 + 10).toFixed(2) * 1;
       },
 
@@ -1061,7 +1061,7 @@
        * 计算单品推广费用（宝贝单价+ 邮费，单品推广费最高上限3元）
        * @return {number}
        */
-      onePromotionExpenses: function () {
+      onePromotionExpenses() {
        /* let price = this.taskRelease.pinkage === 'true' ? this.taskRelease.itemPrice : this.taskRelease.itemPrice + 10;
         return price * 0.06 > 3 ? 3.00 : (price * 0.06).toFixed(2) * 1;*/
        return 0
@@ -1071,7 +1071,7 @@
        * 计算总推广费用
        * @return {number}
        */
-      allPromotionExpenses: function () {
+      allPromotionExpenses() {
         return (this.onePromotionExpenses * this.taskRelease.taskCount).toFixed(2) * 1;
       },
 
@@ -1079,7 +1079,7 @@
        * 计算订单总金额
        * @return {number}
        */
-      orderMoney: function () {
+      orderMoney() {
         return (((this.taskRelease.taskCount * this.oneBond * 100) + this.allPromotionExpenses * 100) / 100).toFixed(2) * 1;
       },
 
@@ -1087,7 +1087,7 @@
        * 计算修改价格后需要补充的金额
        * @return {number}
        */
-      replenishMoney: function () {
+      replenishMoney() {
         return this.priceHasChange ? ((this.orderMoney * 100 - this.paidDeposit * 100) / 100).toFixed(2) * 1 : 0;
       },
 
@@ -1095,7 +1095,7 @@
        * 计算余额是否足够支付订单金额
        * @return {boolean}
        */
-      isBalance: function () {
+      isBalance() {
         return this.orderMoney <= this.getUserBalance;
       },
 
@@ -1103,7 +1103,7 @@
        * 计算余额是否足够支付需要补充的订单金额
        * @return {boolean}
        */
-      isBalanceReplenish: function () {
+      isBalanceReplenish() {
         return this.replenishMoney <= this.getUserBalance;
       },
 
@@ -1111,7 +1111,8 @@
        * 计算活动标题输入字符数
        * @return {number}
        */
-      taskNameLength: function () {
+
+      taskNameLength() {
         return this.taskRelease.taskName ? this.taskRelease.taskName.length : 0;
       },
 
@@ -1119,12 +1120,11 @@
        * 是否显示单品推广费超过3元的提示
        * @return {boolean}
        */
-      isShowExpensesTip: function () {
+      isShowExpensesTip() {
         let postage = this.taskRelease.pinkage === 'true' ? 0 : 10;
         return (this.taskRelease.itemPrice + postage) * 0.06 > 3
       },
     },
-    destroyed(){},
     methods: {
       changeSelectActivity(type) {
         let _this = this;
@@ -1889,9 +1889,7 @@
       addAnswer() {
         let _this = this;
         if(_this.browseAnswer.length < 3) {
-          _this.browseAnswer.push({
-            answerContent: null
-          });
+          _this.browseAnswer.push({answerContent: null});
         }
       },
       deleteAnswer() {

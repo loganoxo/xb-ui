@@ -57,8 +57,8 @@
       <ButtonGroup class="left">
         <iButton :class="[sortList.select === item.sortField ? 'active' : '']" size="small" v-for="(item,index) in sortList.defaultList" :key="index" @click="sortChange(item.sortField,index)">
           <span>{{item.name}}</span>
-          <Icon v-show="item.sort == 'desc'" type="arrow-down-c"></Icon>
-          <Icon v-show="item.sort == 'asc' " type="arrow-up-c"></Icon>
+          <Icon v-show="item.sort === 'desc'" type="arrow-down-c"></Icon>
+          <Icon v-show="item.sort === 'asc' " type="arrow-up-c"></Icon>
         </iButton>
       </ButtonGroup>
       <iInput v-model="taskNumber" size="small" placeholder="使用活动编号或者订单号搜索" class="left ml-10" style="width: 280px;"
@@ -123,7 +123,7 @@
           </td>
           <td v-else-if="item.taskStatus === 'waiting_modify'">
             <p class="del-edit">
-              <span class="mr-10" @click="editTask(item.id,item.taskStatus)">编辑</span>
+              <span class="mr-10" @click="editTask(item.id)">编辑</span>
               <span @click="closeTask(item.id)">关闭</span>
             </p>
             <p class="copy mt-6">
@@ -139,7 +139,7 @@
             </p>
           </td>
           <td v-else-if="item.settlementStatus === 'waiting_settlement' && (item.taskStatus === 'finished' || item.taskStatus === 'under_way')">
-            <p class="bond mt-6" v-if="isApproveExpire(item.endTime) && (item.taskCount - item.showkerApplySuccessCount) != 0">
+            <p class="bond mt-6" v-if="isApproveExpire(item.endTime) && (item.taskCount - item.showkerApplySuccessCount) !== 0">
               <span @click="approveShowker(item.id)">审批秀客</span>
             </p>
             <p class="bond mt-6">
@@ -153,7 +153,7 @@
             </p>
           </td>
           <td v-else-if="item.settlementStatus === 'cannot_settlement' && item.taskStatus === 'finished'">
-            <p class="bond mt-6" v-if="isApproveExpire(item.endTime) && (item.taskCount - item.showkerApplySuccessCount) != 0">
+            <p class="bond mt-6" v-if="isApproveExpire(item.endTime) && (item.taskCount - item.showkerApplySuccessCount) !== 0">
               <span @click="approveShowker(item.id)">审批秀客</span>
             </p>
             <p class="copy mt-6">
@@ -367,19 +367,19 @@
             value: 'free_get',
             label: '免费领'
           },
-          // {
-          //   value: 'pinkage_for_10',
-          //   label: '10元包邮'
-          // },
+          /*{
+            value: 'pinkage_for_10',
+            label: '10元包邮'
+          },*/
           {
             value: 'present_get',
             label: '体验专区'
           },
-          // {
-          //   value: 'price_low',
-          //   label: '白菜价'
-          // },
           /*{
+            value: 'price_low',
+            label: '白菜价'
+          },
+          {
             value: '"goods_clearance',
             label: '清仓断码'
           },*/
@@ -420,7 +420,7 @@
           _this.getTaskList();
         }
       } else {
-        setTimeout(function () {
+        setTimeout(()=> {
           _this.getTaskList();
         }, 400)
       }
@@ -453,10 +453,11 @@
         this.$router.push({name: 'TaskDetails', query: {q: encryption(id)}})
       },
       sortChange(name, index) {
-        let sort = this.sortList.defaultList[index].sort;
-        this.sortList.select = name;
-        this.sortList.defaultList[index].sort = sort === 'desc' ? 'asc' : 'desc';
-        this.getTaskList(name, this.sortList.defaultList[index].sort);
+        let _this = this;
+        let sort = _this.sortList.defaultList[index].sort;
+        _this.sortList.select = name;
+        _this.sortList.defaultList[index].sort = sort === 'desc' ? 'asc' : 'desc';
+        _this.getTaskList(name, _this.sortList.defaultList[index].sort);
       },
       searchTaskList()  {
         this.pageIndex = 1;
@@ -513,7 +514,7 @@
           taskId: _this.taskId
         }).then(res => {
           if (res.status) {
-            setTimeout(function () {
+            setTimeout(()=> {
               _this.$Message.success('任务关闭成功！');
             }, 500);
             _this.$store.dispatch('getUserInformation');
@@ -569,33 +570,36 @@
         this.getTaskList();
       },
       handleCheckAll() {
-        this.checkAll = !this.checkAll;
-        if (this.checkAll) {
-          this.taskStatusList = ['waiting_pay', 'waiting_audit', 'waiting_modify', 'under_way', 'finished', 'closed'];
-          this.settlementStatusList = ['waiting_settlement', 'waiting_audit', 'settlement_finished', 'cannot_settlement'];
+        let _this = this;
+        _this.checkAll = !_this.checkAll;
+        if (_this.checkAll) {
+          _this.taskStatusList = ['waiting_pay', 'waiting_audit', 'waiting_modify', 'under_way', 'finished', 'closed'];
+          _this.settlementStatusList = ['waiting_settlement', 'waiting_audit', 'settlement_finished', 'cannot_settlement'];
         } else {
-          this.taskStatusList = [];
-          this.settlementStatusList = [];
+          _this.taskStatusList = [];
+          _this.settlementStatusList = [];
         }
-        this.pageIndex = 1;
-        this.getTaskList();
+        _this.pageIndex = 1;
+        _this.getTaskList();
       },
       checkAllGroupChange() {
-        if (this.settlementStatusList.length === 4 && this.taskStatusList.length === 6) {
-          this.checkAll = true;
-        } else if (this.settlementStatusList.length > 0 || this.taskStatusList.length > 0) {
-          this.checkAll = false;
+        let _this = this;
+        if (_this.settlementStatusList.length === 4 && _this.taskStatusList.length === 6) {
+          _this.checkAll = true;
+        } else if (_this.settlementStatusList.length > 0 || _this.taskStatusList.length > 0) {
+          _this.checkAll = false;
         } else {
-          this.checkAll = false;
+          _this.checkAll = false;
         }
-        this.pageIndex = 1;
-        this.getTaskList();
+        _this.pageIndex = 1;
+        _this.getTaskList();
       },
       depositMoney(money, id, deposited) {
-        this.needDepositMoney = money / 100 || 0;
-        this.hasDeposited = deposited / 100 || 0;
-        this.taskPayId = id;
-        this.showPayModel = true;
+        let _this = this;
+        _this.needDepositMoney = money / 100 || 0;
+        _this.hasDeposited = deposited / 100 || 0;
+        _this.taskPayId = id;
+        _this.showPayModel = true;
       },
       confirmPayment(pwd) {
         let _this = this;
@@ -609,7 +613,7 @@
             _this.showPayModel = false;
             _this.$Message.success('支付成功！');
             _this.$store.dispatch('getUserInformation');
-            setTimeout(function () {
+            setTimeout(()=> {
               _this.getTaskList();
             }, 400);
           } else {
