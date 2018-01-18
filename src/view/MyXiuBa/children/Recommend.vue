@@ -53,16 +53,16 @@
                     <th class="">
                       <div class="ivu-table-cell"><span>类型</span> </div>
                     </th>
-                    <th class="main-color">
+                    <th class="main-color" v-if="getUserInfoRole === 0">
                       <div class="ivu-table-cell">
-                        <span style="color: #495060;">今日奖励</span>
+                        <span style="color: #495060;">获得奖励</span>
                       </div>
                     </th>
-                    <th class="main-color">
-                      <div class="ivu-table-cell">
-                        <span style="color: #495060;">累计奖励</span>
-                      </div>
-                    </th>
+                    <!--<th class="main-color">-->
+                      <!--<div class="ivu-table-cell">-->
+                        <!--<span style="color: #495060;">累计奖励</span>-->
+                      <!--</div>-->
+                    <!--</th>-->
                   </tr>
                   </thead>
                 </table>
@@ -83,12 +83,15 @@
                           <span v-if="recommend.inviteeRole == 1">商家</span>
                         </div>
                       </td>
-                      <td class="main-color">
-                        <div class="ivu-table-cell"> <span>￥{{recommend.todayReward/100}}</span> </div>
+                      <td class="main-color" v-if="getUserInfoRole === 0">
+                        <div class="ivu-table-cell"> <span>￥{{recommend.singleReward/100}}</span> </div>
                       </td>
-                      <td class="main-color">
-                        <div class="ivu-table-cell"> <span>￥{{recommend.accumulativeReward/100}}</span> </div>
-                      </td>
+                      <!--<td class="main-color">-->
+                        <!--<div class="ivu-table-cell"> <span>￥{{recommend.todayReward/100}}</span> </div>-->
+                      <!--</td>-->
+                      <!--<td class="main-color">-->
+                        <!--<div class="ivu-table-cell"> <span>￥{{recommend.accumulativeReward/100}}</span> </div>-->
+                      <!--</td>-->
                     </tr>
                   </tbody>
                 </table>
