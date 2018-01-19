@@ -394,8 +394,9 @@
         <div v-if="needBrowseCollectAddCart" class="mt-20 ml-45 des-text">1.收藏、加入购物车，提交相关截图</div>
         <div v-if="needBrowseCollectAddCart" class="clear text-ct ml-45 mt-20">
           <div class="left mr-20" v-if="taskType === 'pc_search'">
+            <p>搜索条件截图</p>
             <Upload
-              class="copy-write-img mg-at"
+              class="copy-write-img"
               ref="uploadCondition"
               :show-upload-list="false"
               :default-file-list="defaultImageSearchCondition"
@@ -411,12 +412,12 @@
                 <Icon type="camera" size="20"></Icon>
               </div>
             </Upload>
-            <p class="mt-8">搜索条件截图</p>
             <p class="mt-8 cursor-p example-pic" @click="pcSearchSelectFun('one')">查看示例图</p>
           </div>
           <div class="left mr-20" v-if="taskType === 'pc_search'|| taskType === 'app_search'">
+            <p>所在位置截图</p>
             <Upload
-              class="copy-write-img mg-at"
+              class="copy-write-img"
               ref="uploadItemLocation"
               :show-upload-list="false"
               :default-file-list="defaultImageItemLocation"
@@ -432,12 +433,12 @@
                 <Icon type="camera" size="20"></Icon>
               </div>
             </Upload>
-            <p class="mt-8">所在位置截图</p>
             <p class="mt-8 cursor-p example-pic" @click="pcSearchSelectFun('two')">查看示例图</p>
           </div>
           <div class="left mr-20">
+            <p>宝贝加入收藏夹</p>
             <Upload
-              class="copy-write-img mg-at"
+              class="copy-write-img"
               ref="uploadEnshrine"
               :show-upload-list="false"
               :default-file-list="defaultImageEnshrine"
@@ -453,12 +454,12 @@
                 <Icon type="camera" size="20"></Icon>
               </div>
             </Upload>
-            <p class="mt-8">宝贝加入收藏夹</p>
             <p class="mt-8 cursor-p example-pic" @click="pcSearchSelectFun('four')">查看示例图</p>
           </div>
           <div class="left ">
+            <p>宝贝加入购物车</p>
             <Upload
-              class="copy-write-img mg-at"
+              class="copy-write-img"
               ref="uploadAddToCart"
               :show-upload-list="false"
               :default-file-list="defaultImageAddToCart"
@@ -474,15 +475,15 @@
                 <Icon type="camera" size="20"></Icon>
               </div>
             </Upload>
-            <p class="mt-8">宝贝加入购物车</p>
             <p class="mt-8 example-pic" @click="pcSearchSelectFun('five')">查看示例图</p>
           </div>
         </div>
         <div class="clear ml-45 mr-40 mt-20" v-if="needIssueAnswer.length > 0">
           <div style="border-top: 1px solid #eee" class="pt-10 pb-10">在详情页找到如下文案，并提供所在位置截图<p @click="watchAnswerImg = true" class="example-pic inline-block ml-10">查看示例图</p></div>
           <div class="left mr-20 text-ct" v-if="needIssueAnswer[0]">
+            <p class="pd-3 bgFDF5E0 cl000">{{needIssueAnswer[0]}}</p>
             <Upload
-              class="mg-at copy-write-img"
+              class="copy-write-img"
               ref="uploadCopyWriteOne"
               :show-upload-list="false"
               :default-file-list="defaultImageCwOne"
@@ -498,11 +499,11 @@
                 <Icon type="camera" size="20"></Icon>
               </div>
             </Upload>
-            <p class="mt-8">{{needIssueAnswer[0]}}</p>
           </div>
           <div class="left mr-20 text-ct" v-if="needIssueAnswer[1]">
+            <p class="pd-3 bgFDF5E0 cl000">{{needIssueAnswer[1]}}</p>
             <Upload
-              class="mg-at copy-write-img"
+              class="copy-write-img"
               ref="uploadCopyWriteTwo"
               :show-upload-list="false"
               :default-file-list="defaultImageCwTwo"
@@ -518,9 +519,9 @@
                 <Icon type="camera" size="20"></Icon>
               </div>
             </Upload>
-            <p class="mt-8">{{needIssueAnswer[1]}}</p>
           </div>
           <div class="left text-ct" v-if="needIssueAnswer[2]">
+            <p class="pd-3 bgFDF5E0 cl000">{{needIssueAnswer[2]}}</p>
             <Upload
               class="mg-at copy-write-img"
               ref="uploadCopyWriteThree"
@@ -538,7 +539,6 @@
                 <Icon type="camera" size="20"></Icon>
               </div>
             </Upload>
-            <p class="mt-8">{{needIssueAnswer[2]}}</p>
           </div>
         </div>
         <div class="mt-10 ml-45">

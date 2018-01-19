@@ -41,6 +41,12 @@
     .main-color {
       color: $mainColor;
     }
+    .bgFDF5E0{
+      background-color: #FDF5E0;
+    }
+    .pd-3{
+      padding: 3px;
+    }
     .des-text{
       font-weight: bold;
       color: #696969;
@@ -57,6 +63,7 @@
     .copy-write-img{
       width: 58px;
       height: 58px;
+      margin: 10px auto;
     }
     .watch-example-pic{
       position: absolute;

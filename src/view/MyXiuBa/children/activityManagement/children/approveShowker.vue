@@ -156,7 +156,7 @@
                 <td>{{(item.orderPrice / 100).toFixed(2)}}</td>
                 <td>
                   <p class="del-edit">
-                    <span v-if="item.status === 'order_num_waiting_audit'" @click="openCheckOrder(item.id,item.screenshot,item.needBrowseCollectAddCart)">审核订单号</span>
+                    <span v-if="item.status === 'order_num_waiting_audit'" @click="openCheckOrder(item.id,item.screenshot,item.needBrowseCollectAddCart)">审核订单信息</span>
                     <span class="ml-10" v-if="item.needBrowseCollectAddCart && item.status === 'order_num_waiting_audit'" @click="checkScreenshot(item.screenshot,item.needBrowseCollectAddCart)">查看收藏加购截图</span>
                     <span v-if="item.status === 'trial_report_waiting_confirm'" @click="goProbationReport(item.id)">审核买家秀</span>
                     <span v-if="item.status !== 'order_num_waiting_audit' && item.status !== 'trial_report_waiting_confirm'">------</span>
