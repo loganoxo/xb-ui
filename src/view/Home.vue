@@ -651,7 +651,6 @@
       if(self.$store.state.userInfo.role === 0){
         self.getAvailableBoardByAdTypeList('showker_pc_home_page_slide_show')
       }else {
-        debugger
         self.getAvailableBoardByAdTypeList('seller_pc_home_page_slide_show')
       }
 
