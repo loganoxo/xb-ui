@@ -252,7 +252,7 @@
                 </div>
               </div>
             </div>
-            <div class="left parting-line" v-if="needBrowseCollectAddCart"></div>
+            <div class="left parting-line" v-if="needIssue"></div>
             <div class="left ml-20" v-if="needIssue">
               <div class="mt-5 cl00 fs-12 f-b"><span>{{needIssue ? 'B.' : 'A.'}}</span>查看秀客提交的浏览答题截图</div>
               <div class="order-info-screenshot mt-5" v-for="(item, index) in orderInfo.issueAnswerScreenshot" :key="index" v-if="item">
