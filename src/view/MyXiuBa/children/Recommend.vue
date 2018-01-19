@@ -26,15 +26,19 @@
         </ul>
         <ul v-if="getUserInfoRole === 1">
           <li>
-            通过您的邀请链接成功进行注册，无论是秀客还是商家，只要满30人，即可获赠“一个月VIP时长”
+            通过您的邀请链接成功进行注册，无论是秀客还是商家，只要满30人，即可获赠 <span class="clff6633">“一个月VIP时长”</span>
           </li>
         </ul>
       </div>
       <div class="mt-30">
         <div class="fs-18">
           <span >我邀请的好友：</span>
-          <p class="fs-14 cl000 " style="display: inline-block;">
+          <p class="fs-14 cl000 " style="display: inline-block;" v-if="getUserInfoRole==0">
             一共邀请了 <span style="color: #ff6600"> {{count}} </span> 位好友，共获得 <span style="color: #ff6600"> ￥{{reward/100}} </span> 奖励
+          </p>
+          <p class="fs-14 cl000 " style="display: inline-block;" v-if="getUserInfoRole==1">
+            一共邀请了 <span style="color: #ff6600"> {{count}} </span> 位好友，
+            共获赠<span style="color: #ff6600"> {{Math.floor(count/30)}} </span> 月VIP时长。
           </p>
         </div>
         <div class="mt-20 clear-both">

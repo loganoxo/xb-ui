@@ -41,11 +41,15 @@
             <router-link v-if="getUserInfoRole === 1" :to="{path: '/user/money-management/pay-money'}">充值</router-link>
             <router-link :to="{path: '/user/money-management/getout-money'}">提现</router-link>
             剩余申请次数
-            <a class="pos-rel apply-num">
+            <a >
               {{residue}}
+            </a>
+            <a class="pos-rel apply-num">
+              <Icon type="help-circled"
+                    color="#FF6633"></Icon>
               <i class="up-icon"></i>
               <em>
-                每个秀客每天都有5次申请活动的机会，扫描以下二维码，关注秀吧公众号并分享宝贝，获取更多申请次数！
+                每个秀客每天都有{{showkerApplyTotal}}次申请活动的机会，扫描以下二维码，关注秀吧公众号并分享宝贝，获取更多申请次数！
                 <img style="width: 200px" src="/static/img/common/qr-code365.png" alt="" class="mt-10 block">
               </em>
             </a>
@@ -230,7 +234,8 @@
         homeCommodityList: [],
         lastTime: null,
         levelValue: '',
-        residue: '',
+        residue: null,
+        showkerApplyTotal: null,
       }
     },
     created() {
@@ -282,7 +287,8 @@
         let self = this;
         api.getShowkerApplyCount().then(res =>{
           if(res.status){
-            self.residue = res.data.base + res.data.shareGet;
+            self.showkerApplyTotal = res.data.base + res.data.shareGet;
+            self.residue = res.data.left;
           }else {
             self.$Message.error({
               content: res.msg,
@@ -447,7 +453,7 @@
     em{
       display: none;
       position: absolute;
-      top: 30px;
+      top: 23px;
       right: -66px;
       background-color: rgba(70, 76, 91, 0.9);
       color: rgb(255, 255, 255);
@@ -463,7 +469,8 @@
       border-bottom-color: rgba(70, 76, 91, 0.9);
       position: absolute;
       bottom: 0;
-      left: -4px;
+      top: 5px;
+      left: -3px;
       display: none;
 
     }

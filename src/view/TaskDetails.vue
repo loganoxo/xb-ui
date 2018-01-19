@@ -332,7 +332,7 @@
           想要更多申请次数
           <i class="up-icon"></i>
           <p>
-            每个秀客每天都有5次申请活动的机会，扫描以下二维码，关注秀吧公众号并分享宝贝，获取更多申请次数！
+            每个秀客每天都有{{showkerApplyTotal}}次申请活动的机会，扫描以下二维码，关注秀吧公众号并分享宝贝，获取更多申请次数！
             <img style="width: 200px" src="/static/img/common/qr-code365.png" alt="" class="mt-10 block">
           </p>
         </a>
@@ -474,7 +474,8 @@
         trialReportPicShow: false,
         trialReportPic: '',
         selWwModel: false,
-        residue: '',
+        residue: null,
+        showkerApplyTotal: null,
         selectedWw: '',
         wwList: {},
         tryImgShow: false,
@@ -646,7 +647,8 @@
         let self = this;
         api.getShowkerApplyCount().then(res =>{
           if(res.status){
-            self.residue = res.data.base + res.data.shareGet;
+            self.residue = res.data.left;
+            self.showkerApplyTotal = res.data.base + res.data.shareGet;
           }else {
             self.$Message.error({
               content: res.msg,
