@@ -12,11 +12,11 @@
             <div v-show="myRecommend.count" class="desc fs-14  text-ct">
               <p style="padding-top: 23px;">
                 一共邀请了
-                <span class="clff6633 f-b">{{myRecommend.count}}</span>
+                <span class="main-color f-b">{{myRecommend.count}}</span>
                 位好友，共获得
-                <span class="clff6633 f-b">￥{{myRecommend.reward/100 || 0}}</span>
+                <span class="main-color f-b">￥{{myRecommend.reward/100 || 0}}</span>
                 奖励，排名
-                <span class="clff6633 f-b">{{myRecommend.ranking}}</span>
+                <span class="main-color f-b">{{myRecommend.ranking}}</span>
                 位
               </p>
               <router-link to="/user/recommend" class="inline-block desc-recommend mt-10" >
@@ -74,13 +74,13 @@
           <ul class="mt-10">
             <li>
               <span>1</span>
-              通过您的邀请链接成功进行注册，如果是秀客，成功注册并完成首个任务后，即可获得 <b class="clff6633">￥3</b> 奖励， 且自该秀客注册
-              起一年时间内，该秀客每完成一个任务，您都可以从对应活动的推广费中获得 <b class="clff6633"> 15% </b> 的提成；
+              通过您的邀请链接成功进行注册，如果是秀客，成功注册并完成首个任务后，即可获得 <b class="main-color">￥3</b> 奖励， 且自该秀客注册
+              起一年时间内，该秀客每完成一个任务，您都可以从对应活动的推广费中获得 <b class="main-color"> 15% </b> 的提成；
             </li>
             <li>
               <span>2</span>
-              通过您的邀请链接成功进行注册，如果是商家，秀客完成其首个任务后，即可获得 <b class="clff6633"> ￥3 </b> 奖励，且自该商家
-              注册起一年时间内， 每个秀客完成该商家的一个任务时，您都可以从对应活动的推广费中获得 <b class="clff6633"> 10% </b> 的提成
+              通过您的邀请链接成功进行注册，如果是商家，秀客完成其首个任务后，即可获得 <b class="main-color"> ￥3 </b> 奖励，且自该商家
+              注册起一年时间内， 每个秀客完成该商家的一个任务时，您都可以从对应活动的推广费中获得 <b class="main-color"> 10% </b> 的提成
             </li>
             <li>
               <span>3</span>

@@ -10,7 +10,7 @@
             您目前的会员等级：普通会员（仅能发一次任务）
           </p>
           <p class="fs-16 cl9c4040 f-b text-ct">
-             <span class="clff6633">1199</span> 元 / 季度，成为VIP会员（所有功能无限制）
+             <span class="main-color">1199</span> 元 / 季度，成为VIP会员（所有功能无限制）
           </p>
           <p style="margin-top: 230px;">
             <a class="begin-btn" @click="changeTestState(2)"></a>

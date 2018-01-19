@@ -147,6 +147,7 @@
               <i-button class="ml-10" type="dashed" icon="plus-round" @click="addAnswer" v-show="browseAnswer.length < 3">添加</i-button>
               <i-button class="ml-10" type="dashed" icon="minus-round" @click="deleteAnswer" v-show="browseAnswer.length > 1">删除</i-button>
               <span v-show="isShowAnswerTip" class="ml-20 main-color"><Icon color="#f60" type="information-circled" class="mr-5"></Icon>浏览答题文案字数不能超过8个字</span>
+              <span class="blue cursor-p ml-5" @click="isShowBrowseAnswerModel = true">示例图</span>
             </p>
             <p class="mt-6 pl-68 sizeColor" v-show="needBrowseAnswer">请在手机详情页中挑选一段文案，建议3-8字，输入文本框内，秀客将提供本文案所在位置截图</p>
           </div>
@@ -776,6 +777,10 @@
     <div v-if="isShowUserClause" class="user-clause-model">
       <user-clause @closeClauseModel="closeClauseModel"></user-clause>
     </div>
+    <!--收藏加购物和浏览答题截图查看-->
+    <modal title="浏览答题示例图片查看" v-model="isShowBrowseAnswerModel">
+      <img src="~assets/img/common/browse-answer-image.png" style="width: 100%">
+    </modal>
   </div>
 </template>
 
@@ -985,6 +990,7 @@
         browseAnswer: [{answerContent: null}],
         needBrowseAnswer: false,
         isShowAnswerTip: false,
+        isShowBrowseAnswerModel: false,
       }
     },
     mounted() {
@@ -1234,7 +1240,7 @@
         let allAnswerIsOk = _this.browseAnswer.some(item =>{
           return !!item.answerContent
         });
-        if(!allAnswerIsOk){
+        if(_this.needBrowseAnswer && !allAnswerIsOk){
           _this.$Message.warning('亲，请填写浏览答题文案！');
           return;
         }
