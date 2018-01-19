@@ -556,46 +556,50 @@
         this.taskApplyList();
       },
       handleCheckPassAll() {
-        this.checkAllByPass = !this.checkAllByPass;
-        if (this.checkAllByPass) {
-          this.auditStatusList = ['pass_and_unclaimed', 'order_num_waiting_audit', 'trial_report_waiting_submit', 'trial_report_waiting_confirm', 'trial_finished', 'order_num_error', 'trial_report_unqualified'];
+        let _this = this;
+        _this.checkAllByPass = !_this.checkAllByPass;
+        if (_this.checkAllByPass) {
+          _this.auditStatusList = ['pass_and_unclaimed', 'order_num_waiting_audit', 'trial_report_waiting_submit', 'trial_report_waiting_confirm', 'trial_finished', 'order_num_error', 'trial_report_unqualified'];
         } else {
-          this.auditStatusList = [];
+          _this.auditStatusList = [];
         }
-        this.pageIndex = 1;
-        this.taskApplyList();
+        _this.pageIndex = 1;
+        _this.taskApplyList();
       },
       handleCheckFailAll() {
-        this.checkAllByFail = !this.checkAllByFail;
-        if (this.checkAllByFail) {
-          this.endReasonList = ['timeout_auto_close', 'buyer_manual_close', 'seller_manual_close'];
+        let _this = this;
+        _this.checkAllByFail = !_this.checkAllByFail;
+        if (_this.checkAllByFail) {
+          _this.endReasonList = ['timeout_auto_close', 'buyer_manual_close', 'seller_manual_close'];
         } else {
-          this.endReasonList = [];
+          _this.endReasonList = [];
         }
-        this.pageIndex = 1;
-        this.taskApplyList();
+        _this.pageIndex = 1;
+        _this.taskApplyList();
       },
       checkPassChange() {
-        if (this.auditStatusList.length === 7) {
-          this.checkAllByPass = true;
-        } else if (this.auditStatusList.length > 0) {
-          this.checkAllByPass = false;
+        let _this = this;
+        if (_this.auditStatusList.length === 7) {
+          _this.checkAllByPass = true;
+        } else if (_this.auditStatusList.length > 0) {
+          _this.checkAllByPass = false;
         } else {
-          this.checkAllByPass = false;
+          _this.checkAllByPass = false;
         }
-        this.pageIndex = 1;
-        this.taskApplyList();
+        _this.pageIndex = 1;
+        _this.taskApplyList();
       },
       checkFailChange() {
-        if (this.endReasonList.length === 3) {
-          this.checkAllByFail = true;
-        } else if (this.endReasonList.length > 0) {
-          this.checkAllByFail = false;
+        let _this = this;
+        if (_this.endReasonList.length === 3) {
+          _this.checkAllByFail = true;
+        } else if (_this.endReasonList.length > 0) {
+          _this.checkAllByFail = false;
         } else {
-          this.checkAllByFail = false;
+          _this.checkAllByFail = false;
         }
-        this.pageIndex = 1;
-        this.taskApplyList();
+        _this.pageIndex = 1;
+        _this.taskApplyList();
       },
       changeTitle(type) {
         this.showApproveStatus = type;
@@ -739,7 +743,6 @@
           case 'searchCondition':
             _this.checkScreenshotModleTitle = '宝贝搜索条件置截图';
             break;
-
         }
       }
     },
