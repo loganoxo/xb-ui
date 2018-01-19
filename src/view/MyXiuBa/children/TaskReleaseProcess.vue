@@ -141,14 +141,14 @@
           <div class="answer ml-60 mt-20">
             <span class="ml-4"> 浏览答题：</span>
             <Checkbox v-model="needBrowseAnswer" @on-change="needBrowseAnswerChange">需要</Checkbox>
-            <span class="sizeColor">（保证秀客充分浏览详情首页，减少秒拍情况发生，最多可添加3个）</span>
+            <span class="sizeColor">（保证秀客充分浏览详情页，减少秒拍情况发生，最多可添加3个）</span>
             <p class="mt-10 pl-68" v-show="needBrowseAnswer">
               <i-input class="mr-5" v-for="(item,index) in browseAnswer" :key="index" type="text" v-model="item.answerContent" @on-change="testAnswerTextNumber" placeholder="请输入浏览答题文案" style="width: 124px;"></i-input>
               <i-button class="ml-10" type="dashed" icon="plus-round" @click="addAnswer" v-show="browseAnswer.length < 3">添加</i-button>
               <i-button class="ml-10" type="dashed" icon="minus-round" @click="deleteAnswer" v-show="browseAnswer.length > 1">删除</i-button>
               <span v-show="isShowAnswerTip" class="ml-20 main-color"><Icon color="#f60" type="information-circled" class="mr-5"></Icon>浏览答题文案字数不能超过8个字</span>
             </p>
-            <p class="mt-6 pl-68 sizeColor" v-show="needBrowseAnswer">请在手机详情页面中挑选一段文案，输入文本框内的文案最长不能超过8个字（建议3-8字）秀客将提供本文案所在位置截图</p>
+            <p class="mt-6 pl-68 sizeColor" v-show="needBrowseAnswer">请在手机详情页中挑选一段文案，建议3-8字，输入文本框内，秀客将提供本文案所在位置截图</p>
           </div>
           <div class="baby-info mt-22">
             <div class="activity-info-title">填写活动宝贝信息</div>

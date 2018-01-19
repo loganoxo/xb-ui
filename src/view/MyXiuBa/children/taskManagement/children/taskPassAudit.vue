@@ -121,8 +121,9 @@
               <td>{{(item.orderPrice).toFixed(2)}}</td>
               <td>
                 <p class="del-edit">
-                  <span v-if="item.status === 'order_num_waiting_audit'" @click="openCheckOrder(item.id, item.needBrowseCollectAddCart, item.itemIssue)">审核订单号</span>
-                  <span v-if="item.status === 'trial_report_waiting_confirm'" @click="goProbationReport(item.id)">审核买家秀</span><span v-if="item.status !== 'order_num_waiting_audit' && item.status !== 'trial_report_waiting_confirm'">------</span>
+                  <span v-if="item.status === 'order_num_waiting_audit'" @click="openCheckOrder(item.id, item.needBrowseCollectAddCart, item.itemIssue)">审核订单信息</span>
+                  <span v-if="item.status === 'trial_report_waiting_confirm'" @click="goProbationReport(item.id)">审核买家秀</span>
+                  <span v-if="item.status !== 'order_num_waiting_audit' && item.status !== 'trial_report_waiting_confirm'">------</span>
                 </p>
               </td>
             </tr>
@@ -167,7 +168,7 @@
           </div>
         </div>
         <div class="f-b fs-14 main-color mt-10"><span v-if="needBrowseCollectAddCart || needIssue">2.</span>请仔细核对订单号与交易金额</div>
-        <div class="order-info-con text-lf mt-5">
+        <div class="order-info-con text-lf mt-10">
           <p>
             <span class="f-b">订单号：</span>
             <span class="main-color">{{orderInfo.orderNum}}</span>
@@ -202,7 +203,7 @@
                   :orderMoney="needReplenishMoney"
                   @confirmPayment="confirmPayment" :payButtonText="payButtonText"
                   :rechargeButtonText="rechargeButtonText" style="margin-top: 120px;width: 652px;margin-left: -326px;"
-                  :style="{top:needBrowseCollectAddCart ? 45+'%' : 30 +'%'}">
+                  :style="{top:needBrowseCollectAddCart ? 45+'%' : 20 +'%'}">
           <div slot="isBalance" class="title-tip">
                 <span class="size-color3">
                 <Icon color="#FF2424" size="18" type="ios-information"></Icon>
@@ -218,7 +219,7 @@
         </PayModel>
       </div>
     </div>
-    <!--收藏加购物截图查看-->
+    <!--收藏加购物和浏览答题截图查看-->
     <modal :title="checkScreenshotModleTitle" v-model="isShowCheckScreenshotModel">
       <img :src="checkScreenshotSrc + '!orgi75'" style="width: 100%">
     </modal>
@@ -233,7 +234,6 @@
   import Button from 'iview/src/components/button'
   import Modal from 'iview/src/components/modal'
   import {Select, Option} from 'iview/src/components/select'
-  import Carousel from 'iview/src/components/carousel'
   import Input from 'iview/src/components/input'
   import Radio from 'iview/src/components/radio'
   import Tooltip from 'iview/src/components/tooltip'
@@ -253,8 +253,6 @@
       Modal: Modal,
       iSelect: Select,
       iOption: Option,
-      Carousel: Carousel,
-      CarouselItem: Carousel.Item,
       iButton: Button,
       iInput: Input,
       Tooltip: Tooltip,
@@ -268,6 +266,7 @@
       return {
         isShowCheckScreenshotModel: false,
         checkScreenshotSrc: null,
+        checkScreenshotModleTitle: null,
         needBrowseCollectAddCart: false,
         needIssue: false,
         carouselValue: 0,
@@ -290,7 +289,6 @@
         orderInfo: {},
         orderReviewStatus: 'passAudit',
         orderNoPassReason: null,
-        checkScreenshotModleTitle: null,
       }
     },
     mounted() {

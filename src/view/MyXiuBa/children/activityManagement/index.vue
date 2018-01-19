@@ -21,9 +21,6 @@
 <style lang="scss">
   @import 'src/css/mixin';
   .activity-management {
-    .main-color {
-      color: $mainColor;
-    }
     .prompt{
       height: 36px;
       line-height: 36px;
@@ -307,7 +304,6 @@
       margin-left: -300px;
       top: 30%;
       padding: 0 18px 26px 18px;
-      text-align: center;
       i {
         font-size: 24px;
         cursor: pointer;
@@ -343,6 +339,54 @@
         background-color: $mainColor;
         color: #fff;
       }
+    }
+    .order-info-screenshot{
+      display: inline-block;
+      width: 60px;
+      height: 60px;
+      text-align: center;
+      line-height: 60px;
+      border: 1px solid transparent;
+      border-radius: 4px;
+      overflow: hidden;
+      background: #fff;
+      position: relative;
+      box-shadow: 0 1px 1px rgba(0, 0, 0, .2);
+      margin-right: 4px;
+      &:hover .order-info-screenshot-cover {
+        display: block;
+      }
+      img{
+        width: 100%;
+        height: 100%;
+      }
+    }
+    .order-info-screenshot-cover {
+      display: none;
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: rgba(0, 0, 0, .6);
+    }
+
+    .order-info-screenshot-cover i {
+      color: #fff;
+      font-size: 20px;
+      cursor: pointer;
+      margin: 0 2px;
+    }
+    .parting-line{
+      border-left: 1px dashed #999;
+      height: 60px;
+      margin-top: 28px;
+      margin-left: 14px;
+    }
+    .order-info-con{
+      border: 1px dashed #999;
+      border-radius: 5px;
+      padding: 10px;
     }
   }
 
