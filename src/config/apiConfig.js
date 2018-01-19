@@ -825,4 +825,11 @@ export default {
   getShowkerApplyCount() {
     return fetch("/api/task/showker-apply-count.json")
   },
+
+  /**
+   * 获取首页轮播图信息
+   */
+  getAvailableBoardByAdTypeList(params) {
+    return fetch('/api/user/get-available-board-by-adType.json', params)
+  },
 }

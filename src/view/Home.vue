@@ -21,19 +21,9 @@
           </div>
           <div class="middle-ctt left">
             <Carousel autoplay :autoplay-speed="5000" v-model="homeCarousel" loop>
-              <Carousel-item>
-                <router-link to="/task-category?activityCategory=free_get" class="block">
-                  <img src="/static/img/home/banner_01.jpg" alt="" >
-                </router-link>
-              </Carousel-item>
-              <Carousel-item>
-                <router-link to="/task-category?activityCategory=free_get" class="block">
-                  <img src="/static/img/home/banner_02.jpg" alt="">
-                </router-link>
-              </Carousel-item>
-              <Carousel-item>
-                <router-link to="/buyer-show" class="block">
-                  <img src="/static/img/home/banner_03.jpg" alt="">
+              <Carousel-item v-for="swipeItem in swipeItemList" :key="swipeItem.src">
+                <router-link :to="swipeItem.adUrl" class="block">
+                  <img :src="getSwipeHead(swipeItem.adImg)" alt="" >
                 </router-link>
               </Carousel-item>
             </Carousel>
@@ -354,124 +344,7 @@
             </router-link>
           </div>
         </div>
-        <!--体验专区结束-->
 
-        <!--10元包邮开始-->
-        <!--<div class="home-commodity-half mr-10">
-          <div class="home-commodity-title">
-            <p>
-              <img src="/static/img/icon/pinkage_for_10_heart.png" alt="">
-              <span class="fs-18 f-b cl75C5FF">10元包邮</span>
-              <span class="fs-12 cl666">秀客仅需承担10元运费，商品就归您！</span>
-              <router-link to="/task-category?activityCategory=pinkage_for_10" class="cl666 right mr-20">更多></router-link>
-            </p>
-          </div>
-          <div class="home-commodity-ctt">
-            <router-link class="home-commodity-details"
-                         target="_blank"
-                         v-for="pinkageFor in pinkageFor10"
-                         :title="pinkageFor.taskName"
-                         :key="pinkageFor.id"
-                         :to="{ 'path': '/task-details','query': {'q': encryptionId(pinkageFor.id)}}">
-              <div class="home-commodity-img pos-rel">
-                <img class="block" v-lazy="pinkageFor.taskMainImage +'!thum400'" alt="">
-                <span class="applied"> {{pinkageFor.showkerApplyTotalCount || 0}} 人已申请</span>
-              </div>
-              <div class="home-commodity-text">
-                <p class="cl000">{{pinkageFor.taskName}}</p>
-                <p class="home-commodity-price">
-                  <em class="price-list left">
-                    <span class="text-decoration-through block cl666">￥{{pinkageFor.itemPrice / 100}}</span>
-                    <span class="f-b" v-if="pinkageFor.discountPrice">￥{{pinkageFor.discountPrice / 100}}</span>
-                    <span class="f-b" v-if="!pinkageFor.discountPrice && pinkageFor.discountRate">
-                      ￥{{(Math.floor((pinkageFor.discountRate/100) * pinkageFor.itemPrice)/100).toFixed(2)}}
-                    </span>
-                    <span class="f-b" v-if="!pinkageFor.discountPrice && !pinkageFor.discountRate">
-                      ￥0
-                    </span>
-                  </em>
-                  <em class="price-icon mt-10">
-                    <span v-if= "pinkageFor.activityCategory === 'pinkage_for_10'" style="padding: 0 4px; background: #75c5ff; color: #fff; margin-left: 10px; display: inline-block;height: 20px;line-height: 20px;">10元包邮</span>
-                    <span v-if= "pinkageFor.activityCategory === 'present_get'" style="padding: 0 4px; background: #00cc66; color: #ffffff; margin-left: 10px; display: inline-block;height: 20px;line-height: 20px;">体验专区</span>
-                    <span v-if="pinkageFor.activityCategory === 'price_low' && pinkageFor.discountPrice" class="left home-discount-price mt-5" :style="{backgroundColor: $store.state.discountPriceType[parseFloat(pinkageFor.discountPrice/100)].backgroundColor}" >
-                      {{pinkageFor.discountPrice/100}}试用
-                    </span>
-                    <span v-if="pinkageFor.activityCategory === 'price_low' && pinkageFor.discountRate" class="left home-discount-price mt-5" :style="{backgroundColor: $store.state.discountPriceType[parseFloat(pinkageFor.discountRate/10) + '折'].backgroundColor}" >
-                      {{pinkageFor.discountRate/10}}折试用
-                    </span>
-                    <span v-if="pinkageFor.activityCategory === 'goods_clearance' && pinkageFor.discountRate " class="left home-discount-price mt-5" :style="{backgroundColor: $store.state.discountPriceType[parseFloat(pinkageFor.discountRate/10) + '折'].backgroundColor}" >
-                      {{pinkageFor.discountRate/10}}折清仓
-                    </span>
-                  </em>
-                </p>
-                <p class="home-commodity-apply">
-                  限量 <span class="main-color"> {{pinkageFor.taskCount || 0 }} </span> 份，剩余
-                  <span class="main-color"> {{pinkageFor.taskCount - pinkageFor.showkerApplySuccessCount || 0}} </span> 份
-                </p>
-                <p class="home-commodity-take">
-                  <router-link :to="{ 'path': '/task-details','query': {'q':encryptionId(pinkageFor.id)}}" class="ivu-btn ivu-btn-long">免费领取</router-link>
-                </p>
-              </div>
-            </router-link>
-          </div>
-        </div>-->
-        <!--10元包邮结束-->
-
-        <!--白菜价开始-->
-        <!--<div class="home-commodity-half">
-          <div class="home-commodity-title">
-            <p>
-              <img src="/static/img/icon/price_low_heart.png" alt="">
-              <span class="fs-18 f-b clC4C71D">白菜价</span>
-              <span class="fs-12 cl666">秀客或以9.9元等一口价，或享受1折等极低折扣买下商品！</span>
-              <router-link to="/task-category?activityCategory=price_low" class="cl666 right mr-20">更多></router-link>
-            </p>
-          </div>
-          <div class="home-commodity-ctt">
-            <router-link class="home-commodity-details"
-                         target="_blank"
-                         v-for="homeDisCount in homeDisCountList"
-                         :title="homeDisCount.taskName"
-                         :key="homeDisCount.id"
-                         :to="{ 'path': '/task-details','query': {'q': encryptionId(homeDisCount.id), 'discount': true,}}">
-              <div class="home-commodity-img pos-rel">
-                <img class="block" v-lazy="homeDisCount.taskMainImage +'!thum400'"  alt="">
-                <span class="applied"> {{homeDisCount.showkerApplyTotalCount || 0}} 人已申请</span>
-              </div>
-              <div class="home-commodity-text">
-                <p class="cl000">{{homeDisCount.taskName}}</p>
-                <p class="home-commodity-price" >
-                  <em style="float: left;" class="price-list">
-                    <span class="text-decoration-through block cl666">￥{{homeDisCount.itemPrice / 100}}</span>
-                    <span class="f-b" v-if="homeDisCount.discountPrice">￥{{homeDisCount.discountPrice / 100}}</span>
-                    <span class="f-b" v-if="!homeDisCount.discountPrice && homeDisCount.discountRate">
-                    ￥{{(Math.floor((homeDisCount.discountRate/100) * homeDisCount.itemPrice)/100).toFixed(2)}}
-                  </span>
-                    <span class="f-b" v-if="!homeDisCount.discountPrice && !homeDisCount.discountRate">
-                    ￥0
-                  </span>
-                  </em>
-                  <em  class="price-icon mt-10">
-                  <span v-if="homeDisCount.activityCategory == 'price_low' && homeDisCount.discountPrice" class="left home-discount-price mt-5" :style="{backgroundColor: $store.state.discountPriceType[parseFloat(homeDisCount.discountPrice/100)].backgroundColor}" >
-                    {{homeDisCount.discountPrice/100}}试用
-                  </span>
-                    <span v-if="homeDisCount.activityCategory == 'price_low' && homeDisCount.discountRate" class="left home-discount-price mt-5" :style="{backgroundColor: $store.state.discountPriceType[parseFloat(homeDisCount.discountRate/10) + '折'].backgroundColor}" >
-                    {{homeDisCount.discountRate/10}}折试用
-                  </span>
-                  </em>
-                </p>
-                <p class="home-commodity-apply">
-                  限量 <span class="main-color"> {{homeDisCount.taskCount || 0 }} </span> 份，剩余
-                  <span class="main-color"> {{homeDisCount.taskCount - homeDisCount.showkerApplySuccessCount || 0}} </span> 份
-                </p>
-                <p class="home-commodity-take">
-                  <router-link :to="{ 'path': '/task-details','query': {'q':encryptionId(homeDisCount.id)}}" class="ivu-btn ivu-btn-long" >免费领取</router-link>
-                </p>
-              </div>
-            </router-link>
-          </div>
-        </div>-->
-        <!--白菜价结束-->
       </div>
 
       <!--历史活动开始-->
@@ -628,10 +501,11 @@
       Modal: Modal,
       Carousel: Carousel,
       CarouselItem: Carousel.Item,
-      Tooltip:Tooltip
+      Tooltip:Tooltip,
     },
     data() {
       return {
+        swipeItemList: [],
         confirmRechargeModel:true,
         command: '',
         recommendPageSize: 6,
@@ -770,18 +644,27 @@
       }
     },
     created() {
-      if (this.$store.state.login) {
-        this.weChartAlertFunc();
+      let self = this;
+      if (self.$store.state.login) {
+        self.weChartAlertFunc();
       }
-      this.getSearchPinkageFor10Task();
-      this.getSearchPresentGetTask();
-      this.getNavList();
-      this.getHomeTaskList();
-      this.getHomeTaskTopLeftList();
-      this.personalTrialCount();
-      this.getHomeHistoryList();
-      this.getBuyerShowList();
-      this.getHomeDisCountList();
+      if(self.$store.state.userInfo.role === 0){
+        self.getAvailableBoardByAdTypeList('showker_pc_home_page_slide_show')
+      }else {
+        debugger
+        self.getAvailableBoardByAdTypeList('seller_pc_home_page_slide_show')
+      }
+
+      self.getSearchPinkageFor10Task();
+      self.getSearchPresentGetTask();
+      self.getNavList();
+      self.getHomeTaskList();
+      self.getHomeTaskTopLeftList();
+      self.personalTrialCount();
+      self.getHomeHistoryList();
+      self.getBuyerShowList();
+      self.getHomeDisCountList();
+
     },
     destroyed() {
       let self = this;
@@ -845,6 +728,15 @@
       },
       toBuyerShow(){
         this.$router.push({path:'buyer-show'});
+      },
+      getSwipeHead(src) {
+        return aliCallbackImgUrl + src
+      },
+      getAvailableBoardByAdTypeList(advertType) {
+        let self = this;
+        api.getAvailableBoardByAdTypeList({advertType: advertType}).then((res) => {
+          self.swipeItemList = res;
+        })
       },
       getSearchPinkageFor10Task(){
         let self = this;
