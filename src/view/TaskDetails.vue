@@ -316,7 +316,7 @@
       </div>
     </div>
     <Modal
-      v-model="selWwModel" class-name="vertical-center-modal" ok-text="确定" cancel-text="" @on-ok="selWwFunc()" :loading="true">
+      v-model="selWwModel" class-name="vertical-center-modal" ok-text="确定" cancel-text="" @on-ok="selWwFunc()" >
       <p class="fs-18 fb mt-20" style="color: #FF6600">请选择活动旺旺号:</p>
       <p class="fs-14 mt-10">注意：请 <span style="color: #FF6600">务必使用选的旺旺号下单购买</span>，否则订单审核将无法通过！</p>
       <Radio-group class="mt-20" v-model="selectedWw">
@@ -331,10 +331,8 @@
         <a class="pos-rel apply-num">
           想要更多申请次数
           <i class="up-icon"></i>
-          <p
-          >
+          <p>
             每个秀客每天都有5次申请活动的机会，扫描以下二维码，关注秀吧公众号并分享宝贝，获取更多申请次数！
-
             <img style="width: 200px" src="/static/img/common/qr-code365.png" alt="" class="mt-10 block">
           </p>
         </a>
@@ -584,7 +582,7 @@
         });
       }
       if(self.$store.state.login){
-        self.getShowkerApplyCountLeft()
+        self.getShowkerApplyCount()
       }
       self.getTaskDetails();
       self.getDetectionAddGroupTip();
@@ -644,11 +642,16 @@
           self.getShowkerCanTrial();
         }
       },
-      getShowkerApplyCountLeft(){
+      getShowkerApplyCount(){
         let self = this;
-        api.getShowkerApplyCountLeft().then(res =>{
+        api.getShowkerApplyCount().then(res =>{
           if(res.status){
-            self.residue = res.data;
+            self.residue = res.data.base + res.data.shareGet;
+          }else {
+            self.$Message.error({
+              content: res.msg,
+              duration: 9
+            });
           }
         })
       },

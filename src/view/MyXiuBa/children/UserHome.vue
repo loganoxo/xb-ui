@@ -40,6 +40,15 @@
             <span>提现中：{{userData.userAccount.enChashingMoney ? (userData.userAccount.enChashingMoney/100): 0 }} 元  </span>
             <router-link v-if="getUserInfoRole === 1" :to="{path: '/user/money-management/pay-money'}">充值</router-link>
             <router-link :to="{path: '/user/money-management/getout-money'}">提现</router-link>
+            剩余申请次数
+            <a class="pos-rel apply-num">
+              {{residue}}
+              <i class="up-icon"></i>
+              <em>
+                每个秀客每天都有5次申请活动的机会，扫描以下二维码，关注秀吧公众号并分享宝贝，获取更多申请次数！
+                <img style="width: 200px" src="/static/img/common/qr-code365.png" alt="" class="mt-10 block">
+              </em>
+            </a>
           </p>
         </div>
       </div>
@@ -215,18 +224,23 @@
           autoplaySpeed: 2000,
           dots: 'none',
           trigger: 'click',
-          arrow: 'hover'
+          arrow: 'hover',
         },
         trialCount: {},
         homeCommodityList: [],
         lastTime: null,
         levelValue: '',
+        residue: '',
       }
     },
     created() {
       this.getHomeTaskList();
       this.personalTrialCount();
+      if(this.$store.state.login){
+        this.getShowkerApplyCount()
+      }
       this.$store.dispatch('getUserInformation');
+
     },
     computed: {
       getUserInfoRole() {
@@ -263,6 +277,19 @@
             _this.$Message.error(res.msg);
           }
         });
+      },
+      getShowkerApplyCount(){
+        let self = this;
+        api.getShowkerApplyCount().then(res =>{
+          if(res.status){
+            self.residue = res.data.base + res.data.shareGet;
+          }else {
+            self.$Message.error({
+              content: res.msg,
+              duration: 9
+            });
+          }
+        })
       },
       encryptionId(id) {
         return encryption(id)
@@ -314,7 +341,7 @@
     }
     .user-info-box {
       padding: 40px 0 20px 0;
-      overflow: hidden;
+      /*overflow: hidden;*/
       border-bottom: 1px solid #EEEEEE;
       p {
         line-height: 30px;
@@ -411,5 +438,34 @@
       }
     }
 
+  }
+
+  .apply-num{
+    &:hover em, &:hover i{
+      display: block;
+    }
+    em{
+      display: none;
+      position: absolute;
+      top: 30px;
+      right: -66px;
+      background-color: rgba(70, 76, 91, 0.9);
+      color: rgb(255, 255, 255);
+      padding: 10px;
+      font-style: normal;
+      font-size: 12px;
+      z-index: 2;
+    }
+    .up-icon{
+      width: 0;
+      height: 0;
+      border: 9px solid transparent;
+      border-bottom-color: rgba(70, 76, 91, 0.9);
+      position: absolute;
+      bottom: 0;
+      left: -4px;
+      display: none;
+
+    }
   }
 </style>

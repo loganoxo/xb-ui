@@ -822,7 +822,7 @@ export default {
   /**
    * 获取秀客可申请活动的次数
    */
-  getShowkerApplyCountLeft() {
-    return fetch("/api/task/showker-apply-count-left.json")
+  getShowkerApplyCount() {
+    return fetch("/api/task/showker-apply-count.json")
   },
 }
