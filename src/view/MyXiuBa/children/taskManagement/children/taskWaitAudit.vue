@@ -78,7 +78,7 @@
               <td>
                 <Tooltip v-if="allTask.reason && allTask.status === 'waiting_resubmit'" :content="allTask.reason"
                          placement="top" class="cursor-p">
-                  <Icon color="#f60" type="information-circled"></Icon>
+                  <Icon color="#f9284f" type="information-circled"></Icon>
                   <span class="main-color">{{getStatusInfo(allTask.status)}}</span>
                 </Tooltip>
                 <span v-else>{{getStatusInfo(allTask.status)}}</span>

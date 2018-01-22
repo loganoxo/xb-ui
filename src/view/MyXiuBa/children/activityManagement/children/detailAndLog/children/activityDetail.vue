@@ -30,7 +30,7 @@
           </td>
           <td class="cursor-p main-color" v-else>
             <Tooltip :content="itemCatalog.auditLogs[itemCatalog.auditLogs.length - 1].resultMsg" placement="top">
-              <Icon color="#f60" type="information-circled"></Icon>&nbsp;待修改
+              <Icon color="#f9284f" type="information-circled"></Icon>&nbsp;待修改
             </Tooltip>
           </td>
           <td class="registration">

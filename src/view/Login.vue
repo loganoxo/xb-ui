@@ -37,7 +37,7 @@
                   </Form-item>
                   <router-link :to="{path: '/revise-password', query: {'modifyPwd': 'modifyPwd'}}" class="right" style="margin-top: 9px;">忘记密码</router-link>
                 </div>
-                <iButton style="margin-top: 25px;" type="error" long size="large" :loading="btnState.normalLoginBtn"
+                <iButton style="margin-top: 25px;" type="primary" long size="large" :loading="btnState.normalLoginBtn"
                          @click="handleSubmit('loginNormalCustom',setUserInfo)">
                   登录
                 </iButton>
@@ -77,7 +77,7 @@
                     </Checkbox-group>
                   </Form-item>
                 </div>
-                <iButton size="large" style="margin-top: 15px;" type="error" long :loading="btnState.trendsLoginBtn"
+                <iButton size="large"  class="mt-15" type="primary" long :loading="btnState.trendsLoginBtn"
                          @click="handleSubmit('loginTrendsCustom',checkRole)">
                   登录
                 </iButton>

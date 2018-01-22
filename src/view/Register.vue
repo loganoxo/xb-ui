@@ -21,7 +21,7 @@
             <a :class="[selLogin.buyer ? 'buyActive' : '']" @click="selLoginFunc(0)">
               <img v-show="selLogin.buyer" src="~assets/img/register/register_01.png" alt="">
               <img v-show="!selLogin.buyer" src="~assets/img/register/register_03.png" alt="">
-              秀客注册
+              拿手注册
             </a>
             <a :class="[selLogin.seller ? 'sellerActive' : '']" @click="selLoginFunc(1)">
               <img v-show="selLogin.seller" src="~assets/img/register/register_04.png" alt="">
@@ -101,7 +101,7 @@
       </div>
     </div>
     <Modal v-model="agreementShow" width="900">
-      <p slot="header" style="color:#f60;text-align:center;">
+      <p slot="header" class="main-color text-ct">
         <span class="cl000 fs-18">白拿拿服务协议</span>
       </p>
       <div style="text-align:center">

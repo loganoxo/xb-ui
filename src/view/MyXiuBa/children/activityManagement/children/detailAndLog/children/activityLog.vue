@@ -28,7 +28,7 @@
           <td v-if="itemCatalog.taskStatus !== 'waiting_modify'">{{itemCatalog.taskStatusDesc}}<br/>{{itemCatalog.settlementStatusDesc}}</td>
           <td class="cursor-p main-color" v-else>
             <Tooltip :content="itemCatalog.auditLogs[itemCatalog.auditLogs.length - 1].resultMsg" placement="top">
-              <Icon color="#f60" type="information-circled"></Icon>&nbsp;待修改
+              <Icon color="#f9284f" type="information-circled"></Icon>&nbsp;待修改
             </Tooltip>
           </td>
           <td class="registration">{{itemCatalog.showkerApplyTotalCount || 0}} / {{itemCatalog.showkerApplySuccessCount || 0}}（人）</td>

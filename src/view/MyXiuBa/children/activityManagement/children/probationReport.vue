@@ -80,7 +80,7 @@
           <div class="true-btn" v-show="trialCheckStatus === 'pass'" @click="openRefundModel">确认</div>
           <div class="remind mt-22 clear">
             <div class="left mr-10">
-              <Icon type="alert-circled" color='#f60' size="36"></Icon>
+              <Icon type="alert-circled" color='#f9284f' size="36"></Icon>
             </div>
             <div class="left remind-con">
               <p>通过买家秀需要支付秀客秀客，不通过则会退回，交给秀客重新修改！</p>

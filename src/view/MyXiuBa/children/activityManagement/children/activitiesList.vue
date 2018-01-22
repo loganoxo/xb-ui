@@ -100,7 +100,7 @@
           <td v-if="item.taskStatus !== 'waiting_modify'">{{item.taskStatusDesc}}<br/>{{item.settlementStatusDesc}}</td>
           <td class="cursor-p main-color" v-else>
             <Tooltip :content="item.auditLogs[item.auditLogs.length - 1].resultMsg" placement="top">
-              <Icon color="#f60" type="information-circled"></Icon>&nbsp;待修改
+              <Icon color="#f9284f" type="information-circled"></Icon>&nbsp;待修改
             </Tooltip>
           </td>
           <td>{{item.showkerApplyTotalCount || 0}} / {{item.showkerApplyPassedCount || 0}}（人）</td>
@@ -214,7 +214,7 @@
     </div>
     <!--关闭任务弹框-->
     <Modal v-model="closeModal" width="360">
-      <p slot="header" style="color:#f60;text-align:center">
+      <p slot="header" class="main-color text-ct">
         <Icon type="information-circled"></Icon>
         <span>关闭确认</span>
       </p>
@@ -229,7 +229,7 @@
     </Modal>
     <!--删除任务弹框-->
     <Modal v-model="deleteModal" width="360">
-      <p slot="header" style="color:#f60;text-align:center">
+      <p slot="header" class="text-ct main-color">
         <Icon type="information-circled"></Icon>
         <span>删除确认</span>
       </p>
@@ -242,7 +242,7 @@
     </Modal>
     <!--结算成功弹框-直接结算-->
     <Modal v-model="directSettlementSuccess" width="360">
-      <p slot="header" style="color:#f60;text-align:center">
+      <p slot="header" class="main-color text-ct">
         <Icon type="checkmark-circled"></Icon>
         <span>结算成功</span>
       </p>
@@ -256,7 +256,7 @@
     </Modal>
     <!--结算成功弹框-结算有返款-->
     <Modal v-model="auditSettlementSuccess" width="360">
-      <p slot="header" style="color:#f60;text-align:center">
+      <p slot="header" class="main-color text-ct">
         <Icon type="checkmark-circled"></Icon>
         <span>结算成功</span>
       </p>
@@ -270,7 +270,7 @@
     </Modal>
     <!--结算详情弹框-->
     <Modal v-model="billDetailsModel" width="420">
-      <p slot="header" style="color:#f60;text-align:center">
+      <p slot="header" style="color:#f9284f;text-align:center">
         <span>结算详情</span>
       </p>
       <div>

@@ -350,8 +350,8 @@
     height: 22px;
     line-height: 22px;
     background-color: #fff;
-    border: 1px solid #f60;
-    color: #f60;
+    border: 1px solid $mainColor;
+    color: $mainColor;
     border-radius: 5px;
     cursor: pointer;
     text-align: center;

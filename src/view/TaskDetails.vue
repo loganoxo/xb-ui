@@ -119,7 +119,7 @@
                          style="width: 200px;">商家号不可以参加活动
                 </iButton>
                 <div v-if="applyBtnShow === 'noLogin'">
-                  <a class="ivu-btn ivu-btn-error ivu-btn-large" @click="selectLogin = true" style="width: 150px;">
+                  <a class="ivu-btn ivu-btn-primary ivu-btn-large" @click="selectLogin = true" style="width: 150px;">
                     申请活动
                   </a>
                   <span
@@ -238,7 +238,7 @@
                     <iButton v-show="commodityData.taskApply" disabled size="large" class="fs-16 default-btn" long>已申请
                     </iButton>
                   </div>
-                  <a v-if="applyBtnShow === 'noLogin'" class="ivu-btn ivu-btn-error ivu-btn-small"
+                  <a v-if="applyBtnShow === 'noLogin'" class="ivu-btn ivu-btn-primary ivu-btn-small"
                      @click="selectLogin = true" style="width: 100px;">
                     申请活动
                   </a>
@@ -344,24 +344,24 @@
         提交申请成功，请耐心等待商家审核
       </p>
       <div slot="footer" class="text-ct">
-        <router-link class="ivu-btn ivu-btn-error ivu-btn-large mr-40" to="/user/my-probation/wait" style="color: #fff">
+        <router-link class="ivu-btn ivu-btn-primary ivu-btn-large mr-40" to="/user/my-probation/wait" style="color: #fff">
           看看我申请的宝贝
         </router-link>
-        <span @click="refreshPage" class="ivu-btn ivu-btn-error ivu-btn-large" style="color: #fff">好的，明白了</span>
+        <span @click="refreshPage" class="ivu-btn ivu-btn-primary ivu-btn-large cl-fff">好的，明白了</span>
       </div>
     </Modal>
     <Modal v-model="selectLogin" width="500">
       <p class="mt-20 mb-40 text-ct fs-22 vtc-mid" style="height: 50px;line-height: 50px">
-        <i class="ivu-icon ivu-icon-android-alert " style="color: #FF6600; font-size: 20px;"></i>
+        <Icon type="android-alert" size="20" color="#f9284f"></Icon>
         亲，你还没登录哦~
         <br>
         <span class="fs-12">请先登录后再申请免费活动</span>
       </p>
       <div slot="footer" class="text-ct">
-        <router-link class="ivu-btn ivu-btn-error ivu-btn-large mr-40 ml-40" to="/login"
+        <router-link class="ivu-btn ivu-btn-primary ivu-btn-large mr-40 ml-40" to="/login"
                      style="color: #fff; width: 102px;">马上登录
         </router-link>
-        <router-link class="ivu-btn ivu-btn-error ivu-btn-large mr-40" to="/sel-role"
+        <router-link class="ivu-btn ivu-btn-primary ivu-btn-large mr-40" to="/sel-role"
                      style="color: #fff;  width: 102px;">新用户注册
         </router-link>
       </div>
@@ -386,7 +386,7 @@
       :closable="false"
       :mask-closable="false"
       width="700">
-      <p slot="header" class="my-pop text-ct" style="color:#f60 ;position: relative">
+      <p slot="header" class="my-pop text-ct" style="color:#f9284f ;position: relative">
         <Icon type="information-circled"></Icon>
         <span>该活动需要先浏览、收藏、加购后方可申请</span>
         <span class="cursor-p" style="position: absolute;right: 10px;color: gray" @click="closeMyPop">
@@ -990,7 +990,7 @@
             height: 38px;
             line-height: 38px;
             border-radius: 50%;
-            background-color: #FFB299;
+            background-color: #fd5474;
             text-align: center;
             color: #fff;
             font-size: 16px;
@@ -1131,8 +1131,8 @@
       height: 22px;
       line-height: 22px;
       background-color: #fff;
-      border: 1px solid #f60;
-      color: #f60;
+      border: 1px solid $mainColor;
+      color: $mainColor;
       border-radius: 5px;
       cursor: pointer;
       text-align: center;

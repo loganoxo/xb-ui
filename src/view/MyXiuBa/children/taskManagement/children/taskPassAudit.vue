@@ -112,7 +112,7 @@
                   <Tooltip
                     :content="item.trialEndReason === 'admin_manual_close' ? getTaskStatus(item.trialEndReason) +'：'+ item.auditDescription : getTaskStatus(item.trialEndReason)"
                     placement="top" class="cursor-p">
-                    <Icon color="#f60" type="information-circled"></Icon>
+                    <Icon color="#f9284f" type="information-circled"></Icon>
                     <span class="main-color">{{getTaskStatus(item.status)}}</span>
                   </Tooltip>
                 </p>

@@ -146,7 +146,7 @@
               <i-input class="mr-5" v-for="(item,index) in browseAnswer" :key="index" type="text" v-model="item.answerContent" @on-change="testAnswerTextNumber" placeholder="请输入浏览答题文案" style="width: 124px;"></i-input>
               <i-button class="ml-10" type="dashed" icon="plus-round" @click="addAnswer" v-show="browseAnswer.length < 3">添加</i-button>
               <i-button class="ml-10" type="dashed" icon="minus-round" @click="deleteAnswer" v-show="browseAnswer.length > 1">删除</i-button>
-              <span v-show="isShowAnswerTip" class="ml-20 main-color"><Icon color="#f60" type="information-circled" class="mr-5"></Icon>浏览答题文案字数不能超过8个字</span>
+              <span v-show="isShowAnswerTip" class="ml-20 main-color"><Icon color="#f9284f" type="information-circled" class="mr-5"></Icon>浏览答题文案字数不能超过8个字</span>
               <span class="blue cursor-p ml-5" @click="isShowBrowseAnswerModel = true">示例图</span>
             </p>
             <p class="mt-6 pl-68 sizeColor" v-show="needBrowseAnswer">请在手机详情页中挑选一段文案，建议3-8字，输入文本框内，秀客将提供本文案所在位置截图</p>
@@ -162,7 +162,7 @@
             <div class="baby-title ml-45 mt-20">
               <span class="required">活动标题：</span>
               <iInput v-model="taskRelease.taskName" placeholder="请输入活动标题" style="width: 296px"></iInput>
-              <span class="ml-20 sizeColor"><Icon v-show="taskNameLength > 35" color="#f60" type="information-circled"></Icon>&nbsp;最多支持35个字符，当前已输入 <span class="main-color">{{taskNameLength}}</span> / 35个字符。</span>
+              <span class="ml-20 sizeColor"><Icon v-show="taskNameLength > 35" color="#f9284f" type="information-circled"></Icon>&nbsp;最多支持35个字符，当前已输入 <span class="main-color">{{taskNameLength}}</span> / 35个字符。</span>
             </div>
             <div class="baby-title ml-45 mt-20">
               <span class="required">宝贝类型：</span>
@@ -215,10 +215,10 @@
                       style="width: 120px"></iInput>
               <span>元</span>
               <span v-show="taskRelease.itemPrice && taskRelease.itemPrice < 1" class="main-color ml-20"><Icon
-                color="#f60" type="information-circled"></Icon>&nbsp;每份试用品的价值必须在1元以上</span>
+                color="#f9284f" type="information-circled"></Icon>&nbsp;每份试用品的价值必须在1元以上</span>
               <span
                 v-show="taskRelease.itemPrice && taskRelease.itemPrice < 10 && taskRelease.activityCategory === 'pinkage_for_10'"
-                class="main-color ml-20"><Icon color="#f60" type="information-circled"></Icon>&nbsp;10元包邮活动，宝贝最低价格不能低于10元</span>
+                class="main-color ml-20"><Icon color="#f9284f" type="information-circled"></Icon>&nbsp;10元包邮活动，宝贝最低价格不能低于10元</span>
               <p class="sizeColor pl-60 mt-8">活动活动期间，商家不允许修改下单页商品信息，经核查属实，本平台有权将活动担保金返还已获得资格的秀客，商家账号按相应规则处罚</p>
             </div>
 <!--            <div class="discount ml-40 mt-20"
@@ -714,7 +714,7 @@
       <Modal v-model="editPriceAfterModel">
         <div class="clear mt-40">
           <div class="left mt-5">
-            <Icon color="#f60" size="32" type="information-circled"></Icon>
+            <Icon color="#f9284f" size="32" type="information-circled"></Icon>
           </div>
           <div class="left ml-10">
             <p class="fs-14">由于您修改了当前宝贝价格/包邮条件/发放数量等，且修改后的</p>
@@ -732,7 +732,7 @@
       <Modal v-model="editPriceToLowAfterModel">
         <div class="clear mt-40">
           <div class="left mt-5">
-            <Icon color="#f60" size="32" type="information-circled"></Icon>
+            <Icon color="#f9284f" size="32" type="information-circled"></Icon>
           </div>
           <div class="left ml-10">
             <p style="font-size: 14px;">由于您修改了当前宝贝价格/包邮条件/发放数量等，且修改后的</p>
@@ -747,7 +747,7 @@
     </div>
     <!--商家发布任务活动总价低于500元提醒弹框-->
     <!--  <Modal v-model="price500Model" width="360">
-        <p slot="header" style="color:#f60;text-align:center">
+        <p slot="header" style="color:#f9284f;text-align:center">
           <Icon type="information-circled"></Icon>
           <span>温馨提示</span>
         </p>
@@ -762,7 +762,7 @@
     <div class="keywordLowerChange">
       <Modal v-model="keywordLowerChangeModel" :mask-closable="false" :closable="false" width="368">
         <p slot="header" class="text-ct">
-          <Icon color="#f60" type="information-circled"></Icon>
+          <Icon color="#f9284f" type="information-circled"></Icon>
           <span class="main-color">关键词方案修改确认</span>
         </p>
         <div class="ml-10 text-ct">

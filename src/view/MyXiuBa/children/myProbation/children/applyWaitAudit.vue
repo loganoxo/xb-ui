@@ -32,7 +32,7 @@
           <td>{{item.task.perMarginNeed / 100}}</td>
           <td>
             <Tooltip :content="item.rejectToResubmitReason || item.reason" placement="top" v-if="item.reason && item.status === 'waiting_resubmit'">
-              <Icon color="#f60" type="information-circled"></Icon>
+              <Icon color="#f9284f" type="information-circled"></Icon>
               <span class="main-color">{{getTaskStatus(item.status)}}</span>
             </Tooltip>
             <span v-else> {{getTaskStatus(item.status)}}</span>
@@ -85,7 +85,7 @@
       <Modal v-model="approvalPop"
              width="600"
              :transfer="false">
-        <p slot="header" style="color:#f60;text-align:center">
+        <p slot="header" class="main-color text-ct">
           <Icon type="information-circled"></Icon>
           <span>已提交的活动截图</span>
         </p>

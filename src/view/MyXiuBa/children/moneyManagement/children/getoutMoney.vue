@@ -94,7 +94,7 @@
       </div>
       <div class="content">
         <div class="warning">
-          <Icon type="alert-circled" class="icon" size="32" color="#f60"></Icon>
+          <Icon type="alert-circled" class="icon" size="32" color="#f9284f"></Icon>
           <div class="ml-56">
             中午12点之前申请提现的当天18点前返款；中午12点之后申请提现的是次日返款到账，遇到周末或者节假日往后顺延。 成功提现的订单即表示已经打款成功，具体到账时间以每个银行受理时间为准。
           </div>

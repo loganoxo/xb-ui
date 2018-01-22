@@ -288,7 +288,7 @@
         }
         strong {
           font-size: 16px;
-          color: #f60;
+          color: $mainColor;
         }
       }
     }

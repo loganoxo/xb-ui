@@ -27,7 +27,7 @@
       },
       color: {
         type: String,
-        default: '#f60'
+        default: '#f9284f'
       },
       size: {
         type: String,

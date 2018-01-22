@@ -55,7 +55,7 @@
       </iForm>
     </div>
     <!--<Modal v-model="stopRecharge" width="360">
-      <p slot="header" style="color:#f60;text-align:center">
+      <p slot="header" style="color:#f9284f;text-align:center">
         <Icon type="information-circled"></Icon>
         <span>系统维护</span>
       </p>

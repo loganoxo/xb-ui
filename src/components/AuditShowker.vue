@@ -139,7 +139,7 @@
 
   .content {
     .header {
-      color: #f60;
+      color: $mainColor;
       text-align: center;
     }
   }

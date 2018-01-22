@@ -89,7 +89,7 @@
               </div>
               <div class="mt-5 main-color cursor-p" v-if="item.status === 'order_num_error'">
                 <Tooltip :content="item.auditDescription" placement="top">
-                  <Icon color="#f60" type="information-circled"></Icon>
+                  <Icon color="#f9284f" type="information-circled"></Icon>
                   <span>订单号有误</span>
                 </Tooltip>
                 <p>
@@ -98,7 +98,7 @@
               </div>
               <div class="mt-5 main-color cursor-p" v-if="item.status === 'trial_report_unqualified'">
                 <Tooltip :content="item.auditDescription" placement="top">
-                  <Icon color="#f60" type="information-circled"></Icon>
+                  <Icon color="#f9284f" type="information-circled"></Icon>
                   <span>报告不合格</span>
                 </Tooltip>
                 <p>
@@ -109,7 +109,7 @@
                 <Tooltip
                   :content="item.trialEndReason === 'admin_manual_close' ? getTaskStatus(item.trialEndReason) +'：'+ item.auditDescription : getTaskStatus(item.trialEndReason)"
                   placement="top">
-                  <Icon color="#f60" type="information-circled"></Icon>
+                  <Icon color="#f9284f" type="information-circled"></Icon>
                   <span>活动终止</span>
                 </Tooltip>
               </div>
@@ -170,7 +170,7 @@
         </div>
         <div class="mt-10">
           <strong>当前流程状态：</strong>
-          <Icon v-if="showkerTask.status === 'order_num_error'" type="information-circled" color="#f60"></Icon>
+          <Icon v-if="showkerTask.status === 'order_num_error'" type="information-circled" color="#f9284f"></Icon>
           <span :class="[showkerTask.status === 'order_num_error' ? 'main-color': '']">{{showkerTask.statusDesc}}</span>
           <strong class="ml-10" v-if="showkerTask.status === 'order_num_error'">原因：{{showkerTask.latestShowkerTaskOpLog.auditDescription}}</strong>
         </div>
@@ -258,7 +258,7 @@
         </p>
         <p>
           <strong>当前流程状态：</strong>
-          <Icon v-if="showkerTask.status === 'trial_report_unqualified'" type="information-circled" color="#f60"></Icon>
+          <Icon v-if="showkerTask.status === 'trial_report_unqualified'" type="information-circled" color="#f9284f"></Icon>
           <span :class="[showkerTask.status === 'trial_report_unqualified' ? 'main-color': '']">{{getTaskStatus(showkerTask.status)}}</span>
           <strong v-if="showkerTask.status === 'trial_report_unqualified'" class="ml-10">原因：{{showkerTask.latestShowkerTaskOpLog.auditDescription}}</strong>
           <span class="main-color ml-10"><time-down color='#ff4040' :fontWeight=600
@@ -387,7 +387,7 @@
         <div class="ml-45 mt-15 pr-20">
           <strong class="cl000">当前流程状态：</strong>
           <Icon v-if="currentOrderStatusInfo.status === 'order_num_error'" type="information-circled"
-                color="#f60"></Icon>
+                color="#f9284f"></Icon>
           <span :class="[currentOrderStatusInfo.status === 'order_num_error' ? 'main-color': '']">{{currentOrderStatusInfo.statusDesc}}</span>
           <strong class="ml-10" v-if="currentOrderStatusInfo.status === 'order_num_error'">原因：{{currentOrderStatusInfo.auditDescription}}</strong>
         </div>
@@ -567,7 +567,7 @@
     </div>
     <!--结束活动确认弹框-->
     <Modal v-model="deleteModal" width="360">
-      <p slot="header" style="color:#f60;text-align:center">
+      <p slot="header" class="text-ct main-color">
         <Icon type="information-circled"></Icon>
         <span>结束确认</span>
       </p>
