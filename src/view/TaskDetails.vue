@@ -105,7 +105,7 @@
                 <div v-if="applyBtnShow === 'buyerTasking'">
                   <div>
                     <iButton style="width: 150px;" v-show="!commodityData.taskApply" :disabled="taskApplyLoading"
-                             size="large" class="fs-16 default-btn" long type="error" @click="applyForTrialFunc">申请活动
+                             size="large" class="fs-16 default-btn" long type="primary" @click="applyForTrialFunc">申请活动
                     </iButton>
                     <span
                       v-show="!commodityData.taskApply && (commodityData.task.taskCount - commodityData.task.showkerApplySuccessCount <= 0) "

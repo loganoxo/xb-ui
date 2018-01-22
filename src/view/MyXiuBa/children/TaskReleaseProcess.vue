@@ -2178,8 +2178,8 @@
       width: 192px;
       height: 72px;
       background-color: #FFF4F1;
-      color: #FF9675;
-      border: 1px solid #FF9675;
+      color: #fd5474;
+      border: 1px solid #fd5474;
       text-align: center;
       cursor: pointer;
       position: relative;
