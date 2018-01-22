@@ -64,9 +64,10 @@
 </script>
 
 <style lang="scss">
+  @import 'src/css/mixin';
   .personal-setting{
     .personal-sel-top {
-      border-bottom: 1px solid #FF845B;
+      border-bottom: 1px solid $mainColor;
       a {
         background-color: #fff;
         color: #666;
@@ -78,7 +79,7 @@
         text-align: center;
       }
       a.active {
-        background-color: #FF845B;
+        background-color: $mainColor;
         color: #fff;
       }
     }

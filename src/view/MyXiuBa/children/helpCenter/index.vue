@@ -101,7 +101,7 @@
   @import 'src/css/mixin';
   .personal-box {
     .personal-sel-top {
-      border-bottom: 1px solid #FF845B;
+      border-bottom: 1px solid $mainColor;
       margin: auto;
       a {
         background-color: #fff;
@@ -114,7 +114,7 @@
         text-align: center;
       }
       a.active {
-        background-color: #FF845B;
+        background-color: $mainColor;
         color: #fff;
       }
     }
@@ -127,7 +127,7 @@
           width: 400px;
           float: left;
           .verified-btn{
-            background-color: #FF6865;
+            background-color: $mainColor;
             color: #fff;
           }
         }

@@ -396,7 +396,7 @@
           cursor: pointer;
           line-height: 28px;
           &:hover{
-            background-color: #ffe4dc;
+            background-color: #fdebee;
           }
         }
       }
@@ -422,11 +422,11 @@
           }
         }
         &:hover{
-          background-color: #ff9966;
+          background-color: #fd5474;
         }
       }
       a.active{
-        background-color: #ff9966;
+        background-color: #fd5474;
         border-left: 2px solid $mainColor;
         border-right:2px solid $mainColor;
       }

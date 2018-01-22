@@ -89,7 +89,7 @@
               <Checkbox label="tao_code">淘口令下单（APP）</Checkbox>
               <Checkbox label="direct_access">宝贝链接下单（taobao.com）</Checkbox>
             </Checkbox-group>
-            <Checkbox-group v-if="isLogin && getRole == 0" class="left ml-20" v-model="searchTaskParams.ifAccess">
+            <Checkbox-group v-if="isLogin && getRole === 0" class="left ml-20" v-model="searchTaskParams.ifAccess">
               <Checkbox label="true">仅显示可接</Checkbox>
             </Checkbox-group>
           </div>
@@ -588,7 +588,7 @@
           sortField: self.searchTaskParams.sortField,
           sortOrder: self.searchTaskParams.sortOrder,
           showkerId: showkerId,
-          ifAccess: self.searchTaskParams.ifAccess == '' ? false : true,
+          ifAccess: self.searchTaskParams.ifAccess.length > 0,
           discountTypes: self.searchTaskParams.discountTypes ? JSON.stringify(self.searchTaskParams.discountTypes) : '',
           activityCategories: self.searchTaskParams.activityCategories ? JSON.stringify(self.searchTaskParams.activityCategories) : '',
           countLeft0ToEnd: self.searchTaskParams.countLeft0ToEnd,
@@ -598,7 +598,7 @@
             self.pageCount = res.data.total;
             if(!self.isLogin){
               self.searchTaskList = res.data.content.filter(item => {
-                return item.itemCatalog.id !== 1003 && item.parentItemCatalog.id !== 600;
+                return item.itemCatalog.id !== 1003 && item.itemCatalog.parentItemCatalog.id !== 600;
               });
             } else {
               self.searchTaskList = res.data.content;
@@ -621,7 +621,7 @@
           if(res.status){
             if(!self.isLogin){
               self.historyTaskList = res.data.content.filter(item => {
-                return item.itemCatalog.id !== 1003 && item.parentItemCatalog.id !== 600;
+                return item.itemCatalog.id !== 1003 && item.itemCatalog.parentItemCatalog.id !== 600;
               });
             } else {
               self.historyTaskList = res.data.content;
