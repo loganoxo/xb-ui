@@ -364,7 +364,7 @@
       position: relative;
       width: 190px;
       float: left;
-      background-color: #FF3600;
+      background-color: $mainColor;
       &:hover .top-category-list{
         display: block;
       }
