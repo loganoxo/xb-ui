@@ -13,7 +13,7 @@
         </span>
         <router-link to="/user/user-home">
           <span v-if="getUserInfo.role === 1"> 商家 </span>
-          <span v-if="getUserInfo.role === 0"> 秀客 </span>
+          <span v-if="getUserInfo.role === 0"> 拿手 </span>
           {{decodeURIComponent(getUserInfo.nickname)}}
         </router-link>
         </span>
@@ -32,9 +32,9 @@
         </a>
       </p>
       <p v-show="!isLogin" class="left">
-        你好，欢迎来到秀吧！
+        你好，欢迎来到白拿拿！
         <span class="user-name">
-          <router-link to="/login">登录秀吧</router-link>
+          <router-link to="/login">登录白拿拿</router-link>
         </span>
         <span class="user-name">
           <router-link to="/sel-role">免费注册</router-link>
@@ -43,7 +43,7 @@
       <p class="right">
         <router-link to="/">
           <i data-v-38a9a25e="" class="ivu-icon ivu-icon-home vtc-text-btm fs-16"></i>
-          秀吧首页
+          白拿拿首页
         </router-link>
         <router-link to="/user/user-home">
           <i data-v-38a9a25e="" class="ivu-icon ivu-icon-person vtc-text-btm fs-16"></i>

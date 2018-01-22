@@ -49,7 +49,7 @@
                     color="#FF6633"></Icon>
               <i class="up-icon"></i>
               <em>
-                每个秀客每天都有{{showkerApplyTotal}}次申请活动的机会，扫描以下二维码，关注秀吧公众号并分享宝贝，获取更多申请次数！
+                每个秀客每天都有{{showkerApplyTotal}}次申请活动的机会，扫描以下二维码，关注白拿拿公众号并分享宝贝，获取更多申请次数！
                 <img style="width: 200px" src="/static/img/common/qr-code365.png" alt="" class="mt-10 block">
               </em>
             </a>

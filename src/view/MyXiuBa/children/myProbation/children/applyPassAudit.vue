@@ -179,7 +179,7 @@
         <p>1.禁止秒拍</p>
         <p class="mt-5 cl666">请确保足够时间的浏览后再下单哦<span class="clff3300">（至少5-10分钟）</span>，请按要求操作，否则将失去试用资格，若造成商家<span class="clff3300">投诉</span>，平台有<span class="clff3300">权冻</span>结您的秀客账号！</p>
         <p class="mt-10">2. 核对订单！</p>
-        <p class="mt-5 cl666">请正确填写订单号与实付金额，以免影响返款！若您发现淘宝该宝贝的实付金额高于秀吧平台显示的商品金额，请勿下单，请结束任务！</p>
+        <p class="mt-5 cl666">请正确填写订单号与实付金额，以免影响返款！若您发现淘宝该宝贝的实付金额高于白拿拿平台显示的商品金额，请勿下单，请结束任务！</p>
       </div>
       <place-order-step v-if="Object.keys(showkerTask).length > 0" :showkerTaskInfo="showkerTask"
                         @changeTask="getShowkerToProcessOrder"></place-order-step>
@@ -330,15 +330,15 @@
           <p class="mt-5"><span class="example-pic" @click="watchExamplePic">查看示例图</span></p></div>
       </div>
       <div class="experience mt-22">
-        <p class="mb-10"><span class="des-text">2.说说体验</span><span class="cl666">（秀吧平台要求，必填）</span></p>
+        <p class="mb-10"><span class="des-text">2.说说体验</span><span class="cl666">（白拿拿平台要求，必填）</span></p>
         <iInput v-model="trialReportText" type="textarea" :autosize="{minRows: 5,maxRows: 12}"
                 placeholder="请填写在试用过程中，对于宝贝的真实使用体会及感受，可以和淘宝上的宝贝评价一致"></iInput>
       </div>
       <div class="experience-img mt-22">
         <div class="mb-10">
-          <p><span class="des-text">3.买家秀图片</span><span class="cl666">（秀吧平台要求）</span></p>
+          <p><span class="des-text">3.买家秀图片</span><span class="cl666">（白拿拿平台要求）</span></p>
           <p class="cl666">
-            请上传宝贝试用和体验的相关图片，不是淘宝好评的截图。图片支持jpg、jpeg、png、gif、bmp格式，大小不超过10M,该组图片将会在秀吧平台展示哦，多多晒图，更有利于商家选中你哦</p>
+            请上传宝贝试用和体验的相关图片，不是淘宝好评的截图。图片支持jpg、jpeg、png、gif、bmp格式，大小不超过10M,该组图片将会在白拿拿平台展示哦，多多晒图，更有利于商家选中你哦</p>
         </div>
         <Upload
           ref="upload"

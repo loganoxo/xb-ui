@@ -70,7 +70,7 @@ router.beforeEach((to, from, next) => {
 
 /*根据路由改变后处理业务逻辑*/
 router.afterEach(to => {
-  document.title = to.meta.title;
+  document.title = '白拿拿'+ to.meta.title;
   LoadingBar.finish();
 });
 

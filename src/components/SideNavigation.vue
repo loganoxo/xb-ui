@@ -27,14 +27,14 @@
     <Tooltip placement="left" :transfer="true" class="mt-10 display-block" v-if="isLogin && getUserRole === 1">
       <div class="side-box side-box-bg wechat"></div>
       <div slot="content" class="text-ct">
-        <p>秀吧365，提权重，促转化</p>
+        <p>白拿拿，提权重，促转化</p>
         <img src="~assets/img/common/merchant_wechat.png" alt="" height="140" width="140" class="mt-5">
       </div>
     </Tooltip>
     <Tooltip placement="left" :transfer="true" class="mt-10 display-block" v-if="isLogin && getUserRole === 0">
       <div class="side-box side-box-bg wechat"></div>
       <div slot="content" class="text-ct">
-        <p>秀吧365，为你精挑细选每一天</p>
+        <p>白拿拿，为你精挑细选每一天</p>
         <img src="~assets/img/common/showker_wechat.png" alt="" height="140" width="140" class="mt-5">
       </div>
     </Tooltip>

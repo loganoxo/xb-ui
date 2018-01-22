@@ -1,8 +1,8 @@
 <template>
-  <div id="top" class="">
+  <div class="role-top">
     <div class="container">
       <router-link to="/" class="logo-link">
-        <img src="~assets/img/common/top_logo.png"  alt="">
+        <img src="~assets/img/common/top-logo-sj.png"  alt="">
       </router-link>
       <div class="right top-rt">
         <router-link to="/">首页</router-link>
@@ -28,9 +28,6 @@
       return {}
     },
     computed: {
-      getUserInfoRole() {
-        return this.$store.state.userInfo.role;
-      },
       isLogin() {
         return this.$store.state.login
       },
@@ -39,9 +36,8 @@
 </script>
 
 <style lang="scss" scoped>
-  @import 'src/css/mixin';
 
-  #top {
+  .role-top {
     background-color: #F8F8F8;
     > div {
       background-color: #F8F8F8;

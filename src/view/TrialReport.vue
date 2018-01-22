@@ -360,7 +360,7 @@
             self.$nextTick(function () {
               self.init();
               self.copyValue =  window.location.href;
-              self.copyHtml = '<div style="display: inline-block;" data-sites="qzone, qq, weibo" data-title="秀吧365，精彩秀出每一天" data-image=' + trialReportImages + ' data-description="我在秀吧365上查看了'+ self.showkerReportDesc.task.taskName +'精彩买家秀，心动不如行动，赶快和我一起加入，只要分享自己真实的使用体会，即可免费获得万千商品！" class="social-share" data-url=' + self.copyValue + '  ></div>';
+              self.copyHtml = '<div style="display: inline-block;" data-sites="qzone, qq, weibo" data-title="白拿拿365，精彩秀出每一天" data-image=' + trialReportImages + ' data-description="我在白拿拿365上查看了'+ self.showkerReportDesc.task.taskName +'精彩买家秀，心动不如行动，赶快和我一起加入，只要分享自己真实的使用体会，即可免费获得万千商品！" class="social-share" data-url=' + self.copyValue + '  ></div>';
             });
           }else {
             self.$Message.error({

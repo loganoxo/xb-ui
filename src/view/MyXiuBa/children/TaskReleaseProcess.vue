@@ -1240,11 +1240,11 @@
         let allAnswerIsOk = _this.browseAnswer.some(item =>{
           return !!item.answerContent
         });
-        if(_this.needBrowseAnswer && !allAnswerIsOk){
+        if(_this.needBrowseAnswer && !allAnswerIsOk) {
           _this.$Message.warning('亲，请填写浏览答题文案！');
           return;
         }
-        if(_this.isShowAnswerTip){
+        if(_this.isShowAnswerTip) {
           _this.$Message.warning('亲，浏览答题文案字数不能超过8个字！');
           return;
         }

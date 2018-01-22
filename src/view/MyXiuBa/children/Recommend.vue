@@ -15,7 +15,7 @@
         <p class="fs-18">奖励说明：</p>
         <ul v-if="getUserInfoRole === 0">
           <li>
-            1.通过您的邀请链接成功进行注册，如果是秀客，成功注册并完成首个任务后，即可获得 <span style="color: #ff6600">￥2</span> 奖励;
+            1.通过您的邀请链接成功进行注册，如果是拿手，成功注册并完成首个任务后，即可获得 <span style="color: #ff6600">￥2</span> 奖励;
           </li>
           <li>
             2.通过您的邀请链接成功进行注册，如果是商家，那么当商家成功发布一个活动后，即可获得 <span style="color: #ff6600">￥2</span> 奖励;
@@ -26,7 +26,7 @@
         </ul>
         <ul v-if="getUserInfoRole === 1">
           <li>
-            通过您的邀请链接成功进行注册，无论是秀客还是商家，只要满30人，即可获赠 <span class="main-color">“一个月VIP时长”</span>
+            通过您的邀请链接成功进行注册，无论是拿手还是商家，只要满30人，即可获赠 <span class="main-color">“一个月VIP时长”</span>
           </li>
         </ul>
       </div>
@@ -83,8 +83,8 @@
                       </td>
                       <td class="">
                         <div class="ivu-table-cell">
-                          <span v-if="recommend.inviteeRole == 0">秀客</span>
-                          <span v-if="recommend.inviteeRole == 1">商家</span>
+                          <span v-if="recommend.inviteeRole === 0">拿手</span>
+                          <span v-if="recommend.inviteeRole === 1">商家</span>
                         </div>
                       </td>
                       <td class="main-color" v-if="getUserInfoRole === 0">
@@ -183,7 +183,7 @@
       api.getRecommendUrl().then((res) => {
         _this.init();
         _this.copyValue = res;
-        _this.copyHtml = '<div style="display: inline-block;" data-sites="qzone, qq, weibo" data-title="秀吧，邀你共享好礼，秀出精彩！" data-image="https://www.xiuba365.com/static/avatar/xiuba-icon.png" data-description="秀出精彩，畅享好礼！我已经在秀吧了，你还在等什么呢！" class="social-share" data-url=' + _this.copyValue + '  ></div>';
+        _this.copyHtml = '<div style="display: inline-block;" data-sites="qzone, qq, weibo" data-title="白拿拿，邀你共享好礼，秀出精彩！" data-image="https://www.51bainana.com/static/avatar/xiuba-icon.png" data-description="秀出精彩，畅享好礼！我已经在白拿拿了，你还在等什么呢！" class="social-share" data-url=' + _this.copyValue + '  ></div>';
 
       });
     },

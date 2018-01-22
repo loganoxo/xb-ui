@@ -5,7 +5,7 @@
         <div class="breadcrumb">
           <Breadcrumb >
             <Breadcrumb-item>当前位置：</Breadcrumb-item>
-            <Breadcrumb-item>秀吧</Breadcrumb-item>
+            <Breadcrumb-item>白拿拿</Breadcrumb-item>
             <Breadcrumb-item v-if="$route.query.searchAll">全部活动</Breadcrumb-item>
             <Breadcrumb-item v-if="$route.query.searchKey">搜索结果</Breadcrumb-item>
             <Breadcrumb-item v-if="$route.query.activityCategory">{{$store.state.TaskCategoryActiveList[$store.state.activityCategory].text}}</Breadcrumb-item>
@@ -598,7 +598,7 @@
             self.pageCount = res.data.total;
             if(!self.isLogin){
               self.searchTaskList = res.data.content.filter(item => {
-                return item.itemCatalog.id !== 1003 && item.itemCatalog.id !== 608
+                return item.itemCatalog.id !== 1003 &&  item.parentItemCatalog.id !== 600
               });
             } else {
               self.searchTaskList = res.data.content;
@@ -621,7 +621,7 @@
           if(res.status){
             if(!self.isLogin){
               self.historyTaskList = res.data.content.filter(item => {
-                return item.itemCatalog.id !== 1003 && item.itemCatalog.id !== 608
+                return item.itemCatalog.id !== 1003 &&  item.parentItemCatalog.id !== 600
               });
             } else {
               self.historyTaskList = res.data.content;

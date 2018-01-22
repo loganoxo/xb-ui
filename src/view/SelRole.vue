@@ -5,7 +5,7 @@
     <div v-show="!showQQ" class="container">
       <p v-if="showRegister" class="fs-24  fast-register-tip">
         <Icon type="information-circled" color="#FF6633"></Icon>
-        亲是第一次登录秀吧，请选择您的角色！
+        亲是第一次登录白拿拿，请选择您的角色！
       </p>
       <div class="login-box">
         <div class="buyer-login-box animated fadeInLeft">
@@ -13,7 +13,7 @@
             <img src="~assets/img/sel-role/sel_role_01.png" alt="">
           </a>
           <p>
-            我爱生活、爱体验、想要免费活动，并从中享受更多快乐。 加入秀吧会让我有用不完的免费宝贝，只需要分享自己的使用心得，秀吧365，秀出每一天！
+            我爱生活、爱体验、想要免费活动，并从中享受更多快乐。 加入白拿拿会让我有用不完的免费宝贝，只需要分享自己的使用心得，白拿拿，秀出每一天！
           </p>
         </div>
         <div class="middle-icon-box fadeInDown">
@@ -26,7 +26,7 @@
             <img src="~assets/img/sel-role/sel_role_02.png" alt="">
           </a>
           <p>
-            我想要推广商品、提升宝贝权重、收集新品市场反馈、 积累口碑和基础销量。加入秀吧肯定会让我的生意越来越好，同时成本极低。一般人不知道的捷径！
+            我想要推广商品、提升宝贝权重、收集新品市场反馈、 积累口碑和基础销量。加入白拿拿肯定会让我的生意越来越好，同时成本极低。一般人不知道的捷径！
           </p>
         </div>
       </div>
@@ -231,7 +231,7 @@
               type: 'RECORD_USER_INFO',
               info: res.data
             });
-            self.$Message.success('恭喜您，成功注册秀吧！');
+            self.$Message.success('恭喜您，成功注册白拿拿！');
             if(res.data.role === 0){
               self.$router.push({name: 'WwBind'});
             } else {
@@ -309,7 +309,7 @@
         }).then((res) => {
           if (res.status) {
             self.$Message.success({
-              content: '恭喜您，成功注册秀吧！',
+              content: '恭喜您，成功注册白拿拿！',
               duration: 1,
               onClose: function () {
                 delCookie('recommendCode');

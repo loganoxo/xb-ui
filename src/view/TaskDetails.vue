@@ -5,7 +5,7 @@
         <div class="breadcrumb">
           <Breadcrumb>
             <Breadcrumb-item>当前位置：</Breadcrumb-item>
-            <Breadcrumb-item>秀吧</Breadcrumb-item>
+            <Breadcrumb-item>白拿拿</Breadcrumb-item>
             <Breadcrumb-item v-if="commodityData.task.activityCategory">
               {{$store.state.TaskCategoryActiveList[commodityData.task.activityCategory].text}}
             </Breadcrumb-item>
@@ -133,7 +133,7 @@
       </div>
       <div class="container">
         <div class="task-details-step">
-          <div class="left title"> 秀吧流程<span></span></div>
+          <div class="left title"> 白拿拿流程<span></span></div>
           <ul class="left ctt">
             <li>
               <span>1</span>
@@ -332,7 +332,7 @@
           想要更多申请次数
           <i class="up-icon"></i>
           <p>
-            每个秀客每天都有{{showkerApplyTotal}}次申请活动的机会，扫描以下二维码，关注秀吧公众号并分享宝贝，获取更多申请次数！
+            每个秀客每天都有{{showkerApplyTotal}}次申请活动的机会，扫描以下二维码，关注白拿拿公众号并分享宝贝，获取更多申请次数！
             <img style="width: 200px" src="/static/img/common/qr-code365.png" alt="" class="mt-10 block">
           </p>
         </a>
@@ -783,7 +783,7 @@
             }
             self.$nextTick(()=> {
               self.init();
-              self.copyHtml = '<div style="display: inline-block" data-sites="qzone, qq, weibo" data-title="【秀吧365】' + self.commodityData.task.taskName + '" data-image=' + self.commodityData.task.taskMainImage + ' data-description= " '+ self.commodityData.task.taskName + ' ' + self.copyValue + '秀吧365，万千商品每日更新，赶快和我一起来免费试用吧！" class="social-share" data-url=' + self.copyValue + '></div>';
+              self.copyHtml = '<div style="display: inline-block" data-sites="qzone, qq, weibo" data-title="【白拿拿365】' + self.commodityData.task.taskName + '" data-image=' + self.commodityData.task.taskMainImage + ' data-description= " '+ self.commodityData.task.taskName + ' ' + self.copyValue + '白拿拿365，万千商品每日更新，赶快和我一起来免费试用吧！" class="social-share" data-url=' + self.copyValue + '></div>';
             });
           } else {
             self.$Message.error(res.msg);

@@ -42,7 +42,7 @@
                 <a
                   href="https://graph.qq.com/oauth/show?which=ConfirmPage&display=pc&client_id=101432052&response_type=token&scope=all&redirect_uri=https%3A%2F%2Fwww.xiuba365.com%2Fqq-login">
                   <img style="vertical-align: -7px;" src="~assets/img/common/qq_logo.png" alt="">
-                  使用QQ登录秀吧
+                  使用QQ登录白拿拿
                 </a>
               </div>
             </div>
@@ -53,7 +53,7 @@
                 </Tooltip>
                 <div class="left fs-14 ml-20" style="margin-left: 10px;line-height: 28px;">
                   <router-link to="/user/personal-setting/personal-account-info" :title="decodeURIComponent(getUserInfoPhone)" class="ellipsis user-name">
-                    Hi~ 秀客 {{decodeURIComponent(getUserInfoPhone)}}
+                    Hi~ 拿手 {{decodeURIComponent(getUserInfoPhone)}}
                   </router-link>
 
                   <router-link to="/user/user-home">个人中心</router-link>
@@ -130,7 +130,7 @@
                   </router-link>
                 </div>
                 <div class="left clear-both mt-5" style="width: 100%;">
-                  <span class="left text-ct" style="width: 33.33%;">待审秀客</span>
+                  <span class="left text-ct" style="width: 33.33%;">待审拿手</span>
                   <span class="left text-ct" style="width: 33.33%;">待审订单</span>
                   <span class="left text-ct" style="width: 33.33%;">待审买家秀</span>
                 </div>
@@ -213,7 +213,7 @@
                       <img :src="taskTopLeft.task.taskMainImage + '!thum54'" alt="" width="54" height="54">
                     </div>
                     <div class="left text-box ml-10">
-                      <p>秀客{{taskTopLeft.showkerPhone}}免费领取了</p>
+                      <p>拿手{{taskTopLeft.showkerPhone}}免费领取了</p>
                       <p>
                         价值<span class="text ml-5">￥{{taskTopLeft.task.itemPrice / 100}}</span> 的宝贝
                       </p>
@@ -236,7 +236,7 @@
             <p>
               <img src="/static/img/icon/free_get_heart.png" alt="">
               <span class="fs-18 f-b clf99563">免费领</span>
-              <span class="fs-12 cl666">秀客无需支付任何费用，商家任性送！</span>
+              <span class="fs-12 cl666">拿手无需支付任何费用，商家任性送！</span>
               <router-link to="/task-category?activityCategory=free_get" class="cl666 right mr-20">更多></router-link>
             </p>
           </div>
@@ -446,16 +446,6 @@
         </div>
       </div>
     </div>
-    <Modal v-model="getMoreBuyerShow" width="300" >
-      <div class="text-ct">
-        <div style="height: 20px"></div>
-        Coming soon，敬请期待！
-        <div style="height: 20px"></div>
-      </div>
-      <div slot="footer" class="text-ct">
-        <iButton type="error" long large @click="getMoreBuyerShow = false">确定</iButton>
-      </div>
-    </Modal>
   </div>
 </template>
 
@@ -481,9 +471,9 @@
         self.weChartShowkerAlertFunc();
       }
       if(self.$store.state.userInfo.role === 0){
-        document.title = '秀吧-0元购物上秀吧';
+        document.title = '白拿拿-不拿白不拿';
       }else {
-        document.title = '秀吧-真人试用买家秀';
+        document.title = '白拿拿-真人试用买家秀';
       }
 
     },
@@ -531,7 +521,7 @@
               },
               {
                 url: '/user/help-center/faq',
-                text: '注册秀吧收费么？',
+                text: '注册白拿拿收费么？',
                 page: 'common',
                 qusNum: '1'
               },
@@ -551,16 +541,16 @@
             active: 'faq'
           },
           {
-            title: '秀客问题',
+            title: '拿手问题',
             content: [
               {
                 url: '/user/help-center/faq-showker',
-                text: '秀客完整流程？',
+                text: '拿手完整流程？',
                 page: 'special'
               },
               {
                 url: '/user/help-center/faq-showker',
-                text: '秀客下单规则？',
+                text: '拿手下单规则？',
                 page: 'common',
                 qusNum: '1'
               },
@@ -625,7 +615,6 @@
           1000: '/static/img/nav-picture/home_27.png',
         },
         buyerShowList:[],
-        getMoreBuyerShow:false,
         homeCarousel: 0,
         searchTaskParams:{
           pageIndex: 1,
@@ -857,7 +846,7 @@
             if (res.data) {
               if(!self.isLogin){
                 self.homeHistoryList = res.data.filter(item => {
-                  return item.itemCatalog.id !== 1003 && item.itemCatalog.id !== 608
+                  return item.itemCatalog.id !== 1003 &&  item.parentItemCatalog.id !== 600
                 });
               } else {
                 self.homeHistoryList = res.data;

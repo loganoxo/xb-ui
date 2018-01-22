@@ -1,7 +1,7 @@
 <template>
   <div id="bottom" class="">
     <div class="container">
-      Copyright  2017-2018 <router-link to="/"> www.xiuba365.com </router-link> 备案/许可证编号为: 浙ICP备17043547号-1 杭州秀客科技有限公司
+      Copyright  2017-2018 <router-link to="/"> www.51banana.com </router-link> 备案/许可证编号为: 浙ICP备17043547号-1 杭州秀客科技有限公司
     </div>
   </div>
 </template>

@@ -3,7 +3,7 @@
     <role-top></role-top>
     <div class="third-party-login fs-22">
       <Spin class="spin"></Spin>
-      <p class="mt-10">秀吧登录中....</p>
+      <p class="mt-10">白拿拿登录中....</p>
     </div>
   </div>
 </template>

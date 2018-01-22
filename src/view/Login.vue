@@ -2,10 +2,8 @@
   <div>
     <role-top></role-top>
     <div class="login-ctt">
-      <div class="container" style="background: url(/static/img/login/login_01.png) no-repeat; height: 560px;">
-        <div class="login-lf">
-          <!--<img src="~assets/img/login/login_01.png" alt="">-->
-        </div>
+      <div class="container login-ctt-con">
+        <div class="login-lf"></div>
         <div class="login-rt">
           <div class="login-rt-ctt">
             <p class="login-rt-ctt-top">
@@ -338,7 +336,7 @@
               });
             }
           } else {
-            this.instance('error', '', res.msg);
+            self.instance('error', '', res.msg);
             self.getVrcode();
             self.btnState.trendsLoginBtn = false;
           }
@@ -403,9 +401,15 @@
     }
   }
 
+
   .login-ctt {
     padding: 20px 0 50px 0;
     background-color: #e93854;
+    .login-ctt-con {
+      height: 560px;
+      background-image: url('/static/img/login/login_01.jpg');
+      background-repeat: no-repeat;
+    }
     .login-lf, .login-rt {
       float: left;
     }

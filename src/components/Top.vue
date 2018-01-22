@@ -4,8 +4,8 @@
     <div class="home-top">
       <div class="container">
         <router-link  to="/" class="left mt-20">
-          <img v-if="!isLogin || getUserInfoRole === 1" src="~assets/img/common/top_logo.png" alt="" >
-          <img v-if="isLogin && getUserInfoRole === 0" src="~assets/img/common/top_logo_xk.png" alt="" >
+          <img v-if="!isLogin || getUserInfoRole === 1" src="~assets/img/common/top-logo-sj.png" alt="" >
+          <img v-if="isLogin && getUserInfoRole === 0" src="~assets/img/common/top-logo-xk.png" alt="" >
         </router-link >
         <div class="left">
           <div class="search-box">
@@ -14,7 +14,7 @@
                 <span class="active">宝贝</span>
               </div>
               <i class="ivu-icon ivu-icon-ios-search"></i>
-              <input type="text" class="search-btn left" v-model="searchKey" @keydown="goKeyEnterFunc"  autocomplete="off">
+              <input type="text" class="search-btn left" v-model="searchKey" @keydown="goKeyEnterFunc" autocomplete="off">
               <a @click="goTaskCategory" class="search left">搜索</a>
             </div>
           </div>
