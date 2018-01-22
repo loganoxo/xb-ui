@@ -21,6 +21,9 @@
 <style lang="scss">
   @import 'src/css/mixin';
   .activity-management {
+    .clff3300{
+      color: #ff3300;
+    }
     .prompt{
       height: 36px;
       line-height: 36px;

@@ -58,6 +58,7 @@
         <div slot="footer"></div>
       </Modal>
     </div>-->
+    <p class="pt-20 clff3300">禁止从淘宝客等其他任何返利途径下单，一旦发现系统将扣除产生的淘客佣金，情节严重者直接扣除所有返款并冻结账号！如有疑问请及时联系客服。</p>
     <div class="precautions mt-20 pt-20" v-if="isShowPrecautions" :class="[!hasCurrentSearchSchemeIndex ? 'precautions-bg' : '']">
       <p>注意事项：</p>
       <p class="mt-10">
@@ -249,7 +250,9 @@
       font-size: 14px;
     }
   }
-
+  .clff3300{
+    color: #ff3300;
+  }
   .place-step,
   .tao-code-place-step,
   .tao-link-place-step {

@@ -78,6 +78,7 @@
           </div>
           <div class="true-btn" v-show="trialCheckStatus === 'no_pass'" @click="confirmReport">确认</div>
           <div class="true-btn" v-show="trialCheckStatus === 'pass'" @click="openRefundModel">确认</div>
+          <p class="pt-20 clff3300">请在“审核买家秀”环节确定拿手是否有走淘宝客等其他任何返利途径下单的，一旦发现，请拒绝通过买家秀，并写上拒绝通过买家秀的原因！如有疑问请及时联系客服。</p>
           <div class="remind mt-22 clear">
             <div class="left mr-10">
               <Icon type="alert-circled" color='#f9284f' size="36"></Icon>
