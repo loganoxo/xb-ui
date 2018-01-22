@@ -846,7 +846,7 @@
             if (res.data) {
               if(!self.isLogin){
                 self.homeHistoryList = res.data.filter(item => {
-                  return item.itemCatalog.id !== 1003 &&  item.parentItemCatalog.id !== 600
+                  return item.itemCatalog.id !== 1003 && item.parentItemCatalog.id !== 600;
                 });
               } else {
                 self.homeHistoryList = res.data;
