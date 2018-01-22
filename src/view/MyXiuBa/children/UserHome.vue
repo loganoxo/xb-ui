@@ -41,15 +41,15 @@
             <router-link v-if="getUserInfoRole === 1" :to="{path: '/user/money-management/pay-money'}">充值</router-link>
             <router-link :to="{path: '/user/money-management/getout-money'}">提现</router-link>
             剩余申请次数
-            <a  v-if="showkerApplyLimit">
+            <a >
               {{residue}}
             </a>
-            <a class="pos-rel apply-num" v-if="showkerApplyLimit">
+            <a class="pos-rel apply-num">
               <Icon type="help-circled"
                     color="#FF6633"></Icon>
               <i class="up-icon"></i>
               <em>
-                每个秀客每天都有{{showkerApplyTotal}}次申请活动的机会，扫描以下二维码，关注白拿拿公众号并分享宝贝，获取更多申请次数！
+                每个秀客每天都有{{showkerApplyTotal}}次申请活动的机会，扫描以下二维码，关注秀吧公众号并分享宝贝，获取更多申请次数！
                 <img style="width: 200px" src="/static/img/common/qr-code365.png" alt="" class="mt-10 block">
               </em>
             </a>
@@ -232,7 +232,6 @@
         },
         trialCount: {},
         homeCommodityList: [],
-        showkerApplyLimit: false,
         lastTime: null,
         levelValue: '',
         residue: null,
@@ -288,7 +287,6 @@
         let self = this;
         api.getShowkerApplyCount().then(res =>{
           if(res.status){
-            self.showkerApplyLimit = res.data.limit;
             self.showkerApplyTotal = res.data.base + res.data.shareGet;
             self.residue = res.data.left;
           }else {
@@ -471,7 +469,7 @@
       border-bottom-color: rgba(70, 76, 91, 0.9);
       position: absolute;
       bottom: 0;
-      top: 5px;
+      top: -2px;
       left: -3px;
       display: none;
 
