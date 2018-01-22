@@ -1,6 +1,5 @@
 <template>
   <div class="seller-adv">
-
     <div id="pageContain">
       <div class="page page1 current ">
         <div class="contain ">
@@ -61,7 +60,6 @@
 
   import RoleTop from '@/components/RoleTop.vue'
   import  Button from 'iview/src/components/button'
-  import api from '@/config/apiConfig'
 
   export default {
     name: 'SellerGuide',

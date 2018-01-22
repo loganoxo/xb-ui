@@ -928,10 +928,10 @@
           if (res.status) {
             _this.showkerTask = res.data.showkerTask;
             _this.taskPlaceInfo = res.data.showkerTask.task;
-            _this.needBrowseCollectAddCart = res.data.taskInfo.needBrowseCollectAddCart;
-            _this.taskType = res.data.taskInfo.taskType;
-            _this.needIssueAnswer = res.data.taskApply.task.itemIssue? JSON.parse(res.data.taskApply.task.itemIssue):[];
-            let screenShot = JSON.parse(res.data.taskApply.screenshot);
+            _this.needBrowseCollectAddCart = res.data.needBrowseCollectAddCart;
+            _this.taskType = res.data.taskType;
+            _this.needIssueAnswer = res.data.itemIssue;
+            let screenShot = res.data.screenshot;
             _this.defaultImageAddToCart = screenShot.addToCart ? [{src: screenShot.addToCart}] : [];
             _this.upLoadImageUrl.addToCartImage = screenShot.addToCart ? screenShot.addToCart : null;
             _this.defaultImageEnshrine = screenShot.enshrine ? [{src: screenShot.enshrine}] : [];
@@ -940,7 +940,7 @@
             _this.upLoadImageUrl.itemLocationImage = screenShot.itemLocation ? screenShot.itemLocation : null;
             _this.defaultImageSearchCondition = screenShot.searchCondition ? [{src: screenShot.searchCondition}] : [];
             _this.upLoadImageUrl.searchConditionImage = screenShot.searchCondition ? screenShot.searchCondition : null;
-            let issueAnswerScreenshot = res.data.showkerTask.issueAnswerScreenshot?JSON.parse(res.data.showkerTask.issueAnswerScreenshot):[];
+            let issueAnswerScreenshot = res.data.issueAnswerScreenshot;
             _this.copyWriteOneImg = issueAnswerScreenshot[0]?issueAnswerScreenshot[0]:null;
             _this.copyWriteTwoImg = issueAnswerScreenshot[1]?issueAnswerScreenshot[1]:null;
             _this.copyWriteThreeImg = issueAnswerScreenshot[2]?issueAnswerScreenshot[2]:null;
