@@ -41,10 +41,10 @@
             <router-link v-if="getUserInfoRole === 1" :to="{path: '/user/money-management/pay-money'}">充值</router-link>
             <router-link :to="{path: '/user/money-management/getout-money'}">提现</router-link>
             剩余申请次数
-            <a >
+            <a  v-if="showkerApplyLimit">
               {{residue}}
             </a>
-            <a class="pos-rel apply-num">
+            <a class="pos-rel apply-num" v-if="showkerApplyLimit">
               <Icon type="help-circled"
                     color="#FF6633"></Icon>
               <i class="up-icon"></i>
@@ -232,6 +232,7 @@
         },
         trialCount: {},
         homeCommodityList: [],
+        showkerApplyLimit: false,
         lastTime: null,
         levelValue: '',
         residue: null,
@@ -287,6 +288,7 @@
         let self = this;
         api.getShowkerApplyCount().then(res =>{
           if(res.status){
+            self.showkerApplyLimit = res.data.limit;
             self.showkerApplyTotal = res.data.base + res.data.shareGet;
             self.residue = res.data.left;
           }else {

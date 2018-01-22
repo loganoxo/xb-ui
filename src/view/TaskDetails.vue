@@ -39,9 +39,10 @@
                     :style="{backgroundColor: $store.state.discountPriceType[parseFloat(commodityData.task.discountRate/10) + '折'].backgroundColor}">
                     {{commodityData.task.discountRate/10}}折试用
                   </span>
-              <span v-if=" commodityData.task.activityCategory === 'goods_clearance' && commodityData.task.discountRate "
-                    class=" clfff home-discount-price mt-5"
-                    :style="{backgroundColor: $store.state.discountPriceType[parseFloat(commodityData.task.discountRate/10) + '折'].backgroundColor}">
+              <span
+                v-if=" commodityData.task.activityCategory === 'goods_clearance' && commodityData.task.discountRate "
+                class=" clfff home-discount-price mt-5"
+                :style="{backgroundColor: $store.state.discountPriceType[parseFloat(commodityData.task.discountRate/10) + '折'].backgroundColor}">
                     {{commodityData.task.discountRate/10}}折清仓
                   </span>
             </h3>
@@ -248,7 +249,8 @@
                 </div>
               </div>
 
-              <div class="text-ct mt-20 graphic-info-itemDescription" v-show="!commodityData.cannotShowItemDescriptionOfQualification">
+              <div class="text-ct mt-20 graphic-info-itemDescription"
+                   v-show="!commodityData.cannotShowItemDescriptionOfQualification">
                 <div v-html="commodityData.task.itemDescription"></div>
               </div>
             </div>
@@ -316,18 +318,20 @@
       </div>
     </div>
     <Modal
-      v-model="selWwModel" class-name="vertical-center-modal" ok-text="确定" cancel-text="" @on-ok="selWwFunc()" >
+      v-model="selWwModel" class-name="vertical-center-modal" ok-text="确定" cancel-text="" @on-ok="selWwFunc()">
       <p class="fs-18 fb mt-20" style="color: #FF6600">请选择活动旺旺号:</p>
       <p class="fs-14 mt-10">注意：请 <span style="color: #FF6600">务必使用选的旺旺号下单购买</span>，否则订单审核将无法通过！</p>
       <Radio-group class="mt-20" v-model="selectedWw">
         <Radio v-for="ww in wwList" :label="ww.id" :key="ww.id" :disabled="wwState[ww.status].disabled">
           <span :class="[ww.status !== 2 ? 'cl999':'']">{{ww.alitmAccount}}</span>
-          <span v-if="wwState[ww.status].text" :class="[ww.status !== 2 ? 'cl999':'']">({{wwState[ww.status].text}})</span>
+          <span v-if="wwState[ww.status].text"
+                :class="[ww.status !== 2 ? 'cl999':'']">({{wwState[ww.status].text}})</span>
         </Radio>
       </Radio-group>
       <span v-if="!canUseWw" style="color: #FF6600">（无可用旺旺号）</span>
-      <p class="mt-10">本次申请将消耗 <span class="main-color"> “1次” </span> 申请次数，当前您的剩余次数为 <span class="clff6633"> “{{residue}}次” </span> </p>
-      <div class="mt-10">
+      <p v-if="applyLimit" class="mt-10">本次申请将消耗 <span class="main-color"> “1次” </span> 申请次数，当前您的剩余次数为 <span
+        class="clff6633"> “{{residue}}次” </span></p>
+      <div class="mt-10" v-if="applyLimit">
         <a class="pos-rel apply-num">
           想要更多申请次数
           <i class="up-icon"></i>
@@ -380,34 +384,34 @@
         <div><p class="fs-20 f-b">亲，你还没绑定旺旺号 </p><br> <span class="fs-12">请先绑定旺旺号在申请活动!</span></div>
       </div>
     </Modal>
-  <!--  <Modal
-      v-if="needBrowseCollectAddCart"
-      v-model="showkerApplyBefore"
-      :closable="false"
-      :mask-closable="false"
-      width="700">
-      <p slot="header" class="my-pop text-ct" style="color:#f60 ;position: relative">
-        <Icon type="information-circled"></Icon>
-        <span>该活动需要先浏览、收藏、加购后方可申请</span>
-        <span class="cursor-p" style="position: absolute;right: 10px;color: gray" @click="closeMyPop">
-           <Icon type="close" class="close-my-pop"></Icon>
-        </span>
-      </p>
-      <div>
-        <task-apply-before
-          @request="getShowkerApplyBefore"
-          :taskDetail="commodityData.task"
-          :storeName="storeName"
-          :taskTypeDesc="taskTypeDesc"
-          :WwNumberLIst="WwNumberLIst"
-          :taskType="taskType"
-          :taskId="taskId"
-          :itemUrl="itemUrl"
-          :wwState="wwState"
-        ></task-apply-before>
-      </div>
-      <p slot="footer"></p>
-    </Modal>-->
+    <!--  <Modal
+        v-if="needBrowseCollectAddCart"
+        v-model="showkerApplyBefore"
+        :closable="false"
+        :mask-closable="false"
+        width="700">
+        <p slot="header" class="my-pop text-ct" style="color:#f60 ;position: relative">
+          <Icon type="information-circled"></Icon>
+          <span>该活动需要先浏览、收藏、加购后方可申请</span>
+          <span class="cursor-p" style="position: absolute;right: 10px;color: gray" @click="closeMyPop">
+             <Icon type="close" class="close-my-pop"></Icon>
+          </span>
+        </p>
+        <div>
+          <task-apply-before
+            @request="getShowkerApplyBefore"
+            :taskDetail="commodityData.task"
+            :storeName="storeName"
+            :taskTypeDesc="taskTypeDesc"
+            :WwNumberLIst="WwNumberLIst"
+            :taskType="taskType"
+            :taskId="taskId"
+            :itemUrl="itemUrl"
+            :wwState="wwState"
+          ></task-apply-before>
+        </div>
+        <p slot="footer"></p>
+      </Modal>-->
   </div>
 
 </template>
@@ -468,6 +472,7 @@
         disabled: false,
         timeEndShow: false,
         applyBtnShow: '',
+        applyLimit: false,
         taskApplyLoading: false,
         alitNumSuccess: false,
         selectLogin: false,
@@ -582,7 +587,7 @@
           info: 'all'
         });
       }
-      if(self.$store.state.login){
+      if (self.$store.state.login) {
         self.getShowkerApplyCount()
       }
       self.getTaskDetails();
@@ -643,13 +648,13 @@
           self.getShowkerCanTrial();
         }
       },
-      getShowkerApplyCount(){
+      getShowkerApplyCount() {
         let self = this;
-        api.getShowkerApplyCount().then(res =>{
-          if(res.status){
+        api.getShowkerApplyCount().then(res => {
+          if (res.status) {
             self.residue = res.data.left;
             self.showkerApplyTotal = res.data.base + res.data.shareGet;
-          }else {
+          } else {
             self.$Message.error({
               content: res.msg,
               duration: 9
@@ -668,6 +673,7 @@
             self.selWwModel = true;
             // let selRes = false;
             self.wwList = res.data.alitmList;
+            self.applyLimit = res.data.applyLimit;
             for (let i = 0, j = res.data.alitmList.length; i < j; i++) {
               if (res.data.alitmList[i].status === 2) {
                 // selRes = true;
@@ -781,9 +787,9 @@
             } else {
               self.graphicInfoSels[2].num = 0;
             }
-            self.$nextTick(()=> {
+            self.$nextTick(() => {
               self.init();
-              self.copyHtml = '<div style="display: inline-block" data-sites="qzone, qq, weibo" data-title="【白拿拿365】' + self.commodityData.task.taskName + '" data-image=' + self.commodityData.task.taskMainImage + ' data-description= " '+ self.commodityData.task.taskName + ' ' + self.copyValue + '白拿拿365，万千商品每日更新，赶快和我一起来免费试用吧！" class="social-share" data-url=' + self.copyValue + '></div>';
+              self.copyHtml = '<div style="display: inline-block" data-sites="qzone, qq, weibo" data-title="【白拿拿365】' + self.commodityData.task.taskName + '" data-image=' + self.commodityData.task.taskMainImage + ' data-description= " ' + self.commodityData.task.taskName + ' ' + self.copyValue + '白拿拿365，万千商品每日更新，赶快和我一起来免费试用吧！" class="social-share" data-url=' + self.copyValue + '></div>';
             });
           } else {
             self.$Message.error(res.msg);
@@ -795,17 +801,17 @@
 
         let self = this;
         let selRes = false;
-        if(self.residue > 0){
-          for (let i = 0, j = self.wwList.length; i < j; i++) {
-            if (self.wwList[i].status === 2) {
-              selRes = true;
-              break;
-            }
+        for (let i = 0, j = self.wwList.length; i < j; i++) {
+          if (self.wwList[i].status === 2) {
+            selRes = true;
+            break;
           }
-          if (selRes) {
-            if (self.selectedWw === '') {
-              self.$Message.info('请选择旺旺号');
-            } else {
+        }
+        if (selRes) {
+          if (self.selectedWw === '') {
+            self.$Message.info('请选择旺旺号');
+          } else {
+            if (!self.applyLimit) {
               api.showkerApplySelWwId({
                 wangwangId: self.selectedWw,
                 taskId: decode(self.$route.query.q),
@@ -821,14 +827,33 @@
                   self.$Message.error(res.msg);
                 }
               })
+            } else {
+              if (self.residue > 0) {
+                api.showkerApplySelWwId({
+                  wangwangId: self.selectedWw,
+                  taskId: decode(self.$route.query.q),
+                  searchCondition: null,
+                  itemLocation: null,
+                  browseToBottom: null,
+                  enshrine: null,
+                  addToCart: null
+                }).then((res) => {
+                  if (res.status) {
+                    self.applySuccess = true;
+                  } else {
+                    self.$Message.error(res.msg);
+                  }
+                })
+              } else {
+                self.$Message.warning('亲，申请次数已用完');
+              }
             }
 
-          } else {
-            self.$Message.info('无可用旺旺号');
+
           }
-        }else {
-          self.$Message.warning('亲，申请次数已用完');
+
         }
+
       },
       graphicSelFunc(graphicSel) {
         this.graphicInfoSelClass = graphicSel.isClass;
@@ -1034,7 +1059,7 @@
       .graphic-info-ctt {
         .graphic-info-details {
           padding: 20px 20px 40px 20px;
-          .graphic-info-itemDescription p img{
+          .graphic-info-itemDescription p img {
             max-width: 800px !important;
           }
           ul {
@@ -1168,11 +1193,11 @@
     line-height: 20px;
   }
 
-  .apply-num{
-    &:hover p, &:hover i{
+  .apply-num {
+    &:hover p, &:hover i {
       display: block;
     }
-    p{
+    p {
       display: none;
       position: absolute;
       top: 19px;
@@ -1181,7 +1206,7 @@
       color: rgb(255, 255, 255);
       padding: 10px;
     }
-    .up-icon{
+    .up-icon {
       width: 0;
       height: 0;
       border: 9px solid transparent;
