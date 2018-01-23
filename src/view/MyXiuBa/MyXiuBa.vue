@@ -53,7 +53,7 @@
         </li>
       </ul>
 
-      <!--秀客管理导航-->
+      <!--拿手管理导航-->
       <ul v-else-if="getUserInfoRole === 0">
         <li :class="{isSelect:isSelect ==='UserHome'}">
           <Icon type="person-stalker"></Icon>

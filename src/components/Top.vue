@@ -89,9 +89,9 @@
             </i>
             买家秀</a>
         </div>
-        <router-link  v-if="!(getUserInfoRole.role === 0)" class="seller-enter" style="background-color: #FBEF81; color: #B7723E; float: right; font-weight: bold;" to="/seller-adv">
+        <!--<router-link  v-if="!(getUserInfoRole.role === 0)" class="seller-enter" style="background-color: #FBEF81; color: #B7723E; float: right; font-weight: bold;" to="/seller-adv">
           商家入驻必读
-        </router-link>
+        </router-link>-->
       </div>
     </div>
   </div>

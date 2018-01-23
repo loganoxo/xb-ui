@@ -62,7 +62,7 @@
             role: 1
           },
           {
-            text: '秀客中心',
+            text: '拿手中心',
             link: '/user/help-center/faq-showker',
             isSelect: 'faqShowker',
             role: 0

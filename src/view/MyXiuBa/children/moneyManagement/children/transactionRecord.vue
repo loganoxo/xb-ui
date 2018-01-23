@@ -47,7 +47,7 @@
         v-model="amountPopWindow"
         :styles="{top:'200px',width:'800px'}"
         class-name ="pop-up-window">
-        <div slot="header">活动编号：<span style="color: red;">{{taskNumber || '无'}}&nbsp;,&nbsp;</span>共返还秀客担保金：<span style="color: red;">{{(totalPay / 100).toFixed(2)}}</span>&nbsp;元</div>
+        <div slot="header">活动编号：<span style="color: red;">{{taskNumber || '无'}}&nbsp;,&nbsp;</span>共返还拿手担保金：<span style="color: red;">{{(totalPay / 100).toFixed(2)}}</span>&nbsp;元</div>
         <div>
           <table class="alert-table-list"
                  style="width: 100%;border: 1px solid #F3F3F3;background-color:#F8F8F8;text-align: center">
@@ -143,7 +143,7 @@
                       <td colspan="4">
                         <Button
                           @click="amountPopWindow = true;taskNumber = tbodyDetails.taskSerialNum ;getDepositReturnList(tbodyDetails.taskId)"
-                          class="theSpecialBtn">查看秀客担保金支出明细
+                          class="theSpecialBtn">查看拿手担保金支出明细
                         </Button>
                       </td>
                     </tr>

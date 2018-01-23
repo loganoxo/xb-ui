@@ -37,7 +37,7 @@ export default {
     return Object.keys(state.userInfo).length > 0 ? state.userInfo.userAccount.ifEditPwdAlready : false;
   },
 
-  //从userInfo中获取用户类型（1：商家，0秀客）
+  //从userInfo中获取用户类型（1：商家，0拿手）
   getUserRole: state => {
     return Object.keys(state.userInfo).length > 0 ? state.userInfo.role : 0;
   },

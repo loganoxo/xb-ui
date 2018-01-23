@@ -49,7 +49,7 @@
       <div class="clear mt-10">
         <div class="left mr-10 activity-type-box disabled" :class="{isSelect:taskRelease.activityCategory === 'free_get'}" @click="changeSelectActivity('free_get')">
           <p>免费领（拍A发A）</p>
-          <p>秀客0元试用</p>
+          <p>拿手0元试用</p>
           <p>高人气活动类型</p>
           <span class="is-select-gou" v-show="taskRelease.activityCategory === 'free_get'"></span>
         </div>
@@ -61,7 +61,7 @@
         </div>
        <!-- <div class="left activity-type-box mr-10 disabled" :class="{isSelect:taskRelease.activityCategory === 'pinkage_for_10'}" @click="changeSelectActivity('pinkage_for_10')">
           <p>10元包邮</p>
-          <p>秀客承担10元邮费</p>
+          <p>拿手承担10元邮费</p>
           <p>高人气活动类型</p>
           <span class="is-select-gou" v-show="taskRelease.activityCategory === 'pinkage_for_10'"></span>
         </div>
@@ -81,7 +81,7 @@
       <div class="pop-tip mt-15">
         <div v-show="taskRelease.activityCategory === 'free_get'">
           <div class="pop-tip-arrow free-get"></div>
-          <div>该活动申请率极高，评价效果极好，商家能自主筛选秀客，迅速积攒销54量。</div>
+          <div>该活动申请率极高，评价效果极好，商家能自主筛选拿手，迅速积攒销54量。</div>
         </div>
         <div v-show="taskRelease.activityCategory === 'pinkage_for_10'">
           <div class="pop-tip-arrow pinkage-for-10"></div>
@@ -89,15 +89,15 @@
         </div>
         <div v-show="taskRelease.activityCategory === 'present_get'">
           <div class="pop-tip-arrow present-get"></div>
-          <div>秀客拍下付款的是主宝贝（高客单的商品），为主宝贝带来成交转化，但实际发货的是体验装或赠品。该活动可大幅降低活动成本，但要规避秀客在淘宝上晒图。</div>
+          <div>拿手拍下付款的是主宝贝（高客单的商品），为主宝贝带来成交转化，但实际发货的是体验装或赠品。该活动可大幅降低活动成本，但要规避拿手在淘宝上晒图。</div>
         </div>
         <div v-show="taskRelease.activityCategory === 'price_low'">
           <div class="pop-tip-arrow price-low"></div>
-          <div>秀客以9.9元、49.9元、99.9元及1折、3折、5折的价格购买宝贝，该活动也可适当降低活动成本，但更重要的是帮助商家真实成交，获得消费者的实际反馈。</div>
+          <div>拿手以9.9元、49.9元、99.9元及1折、3折、5折的价格购买宝贝，该活动也可适当降低活动成本，但更重要的是帮助商家真实成交，获得消费者的实际反馈。</div>
         </div>
         <div v-show="taskRelease.activityCategory === 'goods_clearance'">
           <div class="pop-tip-arrow goods-clearance"></div>
-          <div>商家提供超乎想象的价格，目的不是为了赚取利润，而是尽快把仓库里积压的库存变成现金（比如断码，过季，尾货等），秀客也能真实选购到最最实惠的宝贝。</div>
+          <div>商家提供超乎想象的价格，目的不是为了赚取利润，而是尽快把仓库里积压的库存变成现金（比如断码，过季，尾货等），拿手也能真实选购到最最实惠的宝贝。</div>
         </div>
       </div>
     </div>
@@ -126,37 +126,37 @@
           <iInput v-model="taskRelease.taskDaysDuration" placeholder="请输入活动时长" :disabled="true"
                   style="width: 120px"></iInput>
           <span>天</span>
-          <span class="second-color ml-10">请于活动结束后48小时内审批完成所有秀客资格，逾期系统将自动为您审批。</span>
+          <span class="second-color ml-10">请于活动结束后48小时内审批完成所有拿手资格，逾期系统将自动为您审批。</span>
           <p class="mt-6 pl-60">（单期活动时间为3-30天。）</p>
         </div>
         <div class="trial-condition ml-35 mt-20">
-          <span class="ml-5">秀客申请条件：</span>
-          <!--<Checkbox v-model="taskRelease.onlyShowForQualification" disabled>只有获得资格的秀客才可以查看活动信息</Checkbox>-->
-          <!--<p class="pl-94 size-color">勾选后可以避免秀客私下索要资格，避免同行举报。但流量、收藏量、分享量会相对减少</p>-->
+          <span class="ml-5">拿手申请条件：</span>
+          <!--<Checkbox v-model="taskRelease.onlyShowForQualification" disabled>只有获得资格的拿手才可以查看活动信息</Checkbox>-->
+          <!--<p class="pl-94 size-color">勾选后可以避免拿手私下索要资格，避免同行举报。但流量、收藏量、分享量会相对减少</p>-->
           <!--<p class="pl-94 mt-8">-->
-            <Checkbox v-model="taskRelease.refuseOldShowker" disabled>拒绝已参加过本店活动的秀客再次申请</Checkbox>
+            <Checkbox v-model="taskRelease.refuseOldShowker" disabled>拒绝已参加过本店活动的拿手再次申请</Checkbox>
           <!--</p>-->
         </div>
         <div class="trial-condition ml-60 mt-20">
           <span class="ml-4"> 收藏加购：</span>
           <Checkbox v-model="taskRelease.needBrowseCollectAddCart" disabled>需要</Checkbox>
-          <span class="size-color">（系统会随机让部分秀客完成对宝贝的收藏加购，活动上线后您可以在生意参谋后台查看收藏加购有无增加）</span>
+          <span class="size-color">（系统会随机让部分拿手完成对宝贝的收藏加购，活动上线后您可以在生意参谋后台查看收藏加购有无增加）</span>
         </div>
         <div class="answer ml-60 mt-20">
           <span class="ml-4"> 浏览答题：</span>
           <Checkbox v-model="needBrowseAnswer" :disabled="true">需要</Checkbox>
-          <span class="sizeColor">（保证秀客充分浏览详情首页，减少秒拍情况发生，最多可添加3个）</span>
+          <span class="sizeColor">（保证拿手充分浏览详情首页，减少秒拍情况发生，最多可添加3个）</span>
           <p class="mt-10 pl-68" v-show="needBrowseAnswer">
             <i-input class="mr-5" v-for="(item,index) in browseAnswer" :key="index" type="text" v-model="item.answerContent" :disabled="true" placeholder="请输入浏览答题文案" style="width: 124px;"></i-input>
           </p>
-          <p class="mt-6 pl-68 sizeColor" v-show="needBrowseAnswer">请在手机详情页面中挑选一段文案，输入文本框内的文案最长不能超过8个字（建议3-8字）秀客将提供本文案所在位置截图</p>
+          <p class="mt-6 pl-68 sizeColor" v-show="needBrowseAnswer">请在手机详情页面中挑选一段文案，输入文本框内的文案最长不能超过8个字（建议3-8字）拿手将提供本文案所在位置截图</p>
         </div>
         <div class="baby-info mt-22">
           <div class="activity-info-title">填写活动宝贝信息</div>
           <div class="complimentary-tip mt-20 pl-40" v-show="taskRelease.activityCategory === 'present_get'">
             <p class="size-color3">赠品活动发布说明：</p>
-            <p class="size-color3 mt-6">1、活动标题、宝贝类型、活动主图、宝贝单价、商品简介填写赠品相关信息；宝贝地址、掌柜旺旺填写淘宝正品（即希望秀客拍下的SKU）相关信息；</p>
-            <p class="size-color3">2、在备注中明确说明希望秀客拍下的SKU（否则秀客可能会找不到宝贝）。</p>
+            <p class="size-color3 mt-6">1、活动标题、宝贝类型、活动主图、宝贝单价、商品简介填写赠品相关信息；宝贝地址、掌柜旺旺填写淘宝正品（即希望拿手拍下的SKU）相关信息；</p>
+            <p class="size-color3">2、在备注中明确说明希望拿手拍下的SKU（否则拿手可能会找不到宝贝）。</p>
             <p class="size-color3">3、为了不影响人群标签，赠品类型必须与正品同属一个类目，否则后台审核不给予通过。</p>
           </div>
           <div class="baby-title ml-45 mt-20">
@@ -198,7 +198,7 @@
             <iInput v-model="taskRelease.itemPrice" placeholder="请输入宝贝单价" :disabled="true"
                     style="width: 120px"></iInput>
             <span>元</span>
-            <p class="size-color pl-60 mt-8">活动活动期间，商家不允许修改下单页商品信息，经核查属实，本平台有权将活动担保金返还已获得资格的秀客，商家账号按相应规则处罚</p>
+            <p class="size-color pl-60 mt-8">活动活动期间，商家不允许修改下单页商品信息，经核查属实，本平台有权将活动担保金返还已获得资格的拿手，商家账号按相应规则处罚</p>
           </div>
 <!--          <div class="discount ml-40 mt-20" v-show="taskRelease.activityCategory !== 'free_get' && taskRelease.activityCategory !== 'present_get'">
             <div class="clear" v-show="taskRelease.activityCategory !== 'pinkage_for_10'">
@@ -240,8 +240,8 @@
                 </div>
               </div>
             </div>
-            <p class="sizeColor pl-60 mt-20" v-show="taskRelease.itemPrice && taskRelease.discountType && taskRelease.activityCategory !== 'pinkage_for_10'">秀客以<span class="main-color">{{taskRelease.itemPrice}}</span>元价格在淘宝上购买，活动成功后返款<span class="main-color">{{(newItemPrice / 100).toFixed(2)}}</span>元给秀客！</p>
-            <p class="sizeColor pl-60" v-show="taskRelease.itemPrice && taskRelease.itemPrice >= 10 && taskRelease.activityCategory === 'pinkage_for_10'">秀客以<span class="main-color">{{taskRelease.itemPrice}}</span>元价格在淘宝上购买，活动成功后返款<span class="main-color">{{taskRelease.itemPrice > 10 ? taskRelease.itemPrice - 10 : 0}}</span>元给秀客！</p>
+            <p class="sizeColor pl-60 mt-20" v-show="taskRelease.itemPrice && taskRelease.discountType && taskRelease.activityCategory !== 'pinkage_for_10'">拿手以<span class="main-color">{{taskRelease.itemPrice}}</span>元价格在淘宝上购买，活动成功后返款<span class="main-color">{{(newItemPrice / 100).toFixed(2)}}</span>元给拿手！</p>
+            <p class="sizeColor pl-60" v-show="taskRelease.itemPrice && taskRelease.itemPrice >= 10 && taskRelease.activityCategory === 'pinkage_for_10'">拿手以<span class="main-color">{{taskRelease.itemPrice}}</span>元价格在淘宝上购买，活动成功后返款<span class="main-color">{{taskRelease.itemPrice > 10 ? taskRelease.itemPrice - 10 : 0}}</span>元给拿手！</p>
           </div>-->
           <div class="baby-pinkage ml-45 mt-20">
             <span class="required left">是否包邮：</span>
@@ -270,9 +270,9 @@
           <div class="task-remark ml-45 mt-20 clear">
             <span class="left ml-5">下单备注：</span>
             <div class="left">
-              <iInput class="task-remark-input" type="textarea" :autosize="{minRows: 6,  maxRows: 12}" :disabled="true" placeholder="请在这里输入需要秀客注意的事项，例如：SKU信息等，这里的信息会无条件展示出来。" v-model="taskRelease.remark"></iInput>
-              <p class="size-color3 mt-10" v-show="taskRelease.activityCategory === 'present_get'">备注中明确说明希望秀客拍下的SKU（否则秀客可能会找不到宝贝）</p>
-              <p class="size-color3 mt-6" v-show="taskRelease.activityCategory === 'present_get'">建议商家备注中明确说明：“请勿在淘宝中评价及晒图！”，若未注明，秀客在淘宝中进行评价或晒图后可能会影响主宝贝的评价情况。</p>
+              <iInput class="task-remark-input" type="textarea" :autosize="{minRows: 6,  maxRows: 12}" :disabled="true" placeholder="请在这里输入需要拿手注意的事项，例如：SKU信息等，这里的信息会无条件展示出来。" v-model="taskRelease.remark"></iInput>
+              <p class="size-color3 mt-10" v-show="taskRelease.activityCategory === 'present_get'">备注中明确说明希望拿手拍下的SKU（否则拿手可能会找不到宝贝）</p>
+              <p class="size-color3 mt-6" v-show="taskRelease.activityCategory === 'present_get'">建议商家备注中明确说明：“请勿在淘宝中评价及晒图！”，若未注明，拿手在淘宝中进行评价或晒图后可能会影响主宝贝的评价情况。</p>
             </div>
           </div>
           <div class="evaluation-requirements ml-15 mt-20 clear">
@@ -280,17 +280,17 @@
             <div class="left">
               <RadioGroup v-model="taskRelease.itemReviewRequired" :vertical="true">
                 <Radio label="review_by_showker_self" :disabled="true">
-                  <span>由秀客自主发挥（秀客自主发挥评价更客观更真实。<span class="main-color">选择此项不可因主观喜好对评价结果有异议。</span>）</span>
+                  <span>由拿手自主发挥（拿手自主发挥评价更客观更真实。<span class="main-color">选择此项不可因主观喜好对评价结果有异议。</span>）</span>
                 </Radio>
                 <Radio label="offer_review_summary" :disabled="true">
                   <span>有个大概要求（可以写下评价的大概要求，因每个人理解不一样，可能评价结果会与期望有偏差。<span class="main-color">选择此项不可因主观喜好对评价结果有异议。</span>）</span>
                 </Radio>
                 <iInput :disabled="true" v-if="taskRelease.itemReviewRequired === 'offer_review_summary'" v-model="taskRelease.itemReviewSummary" class="mb-10" type="textarea" :autosize="{minRows: 1,maxRows: 3}" placeholder="请输入你的评价要求，如：需晒图/勿晒图、希望出现的关键词等~"></iInput>
                 <Radio label="assign_review_detail" :disabled="true">
-                  <span>我来提供评价内容（秀客将直接拷贝亲提供的评价内容在淘宝上进行评价，每个名额需要提供一份评价内容。）</span>
+                  <span>我来提供评价内容（拿手将直接拷贝亲提供的评价内容在淘宝上进行评价，每个名额需要提供一份评价内容。）</span>
                 </Radio>
               </RadioGroup>
-              <p v-show="taskRelease.itemReviewRequired === 'assign_review_detail'" class="main-color ml-20">可自定义的评价数跟您发布宝贝数量相同，系统会随机分配给申请通过的秀客每人一条评论，以保证评价内容的唯一性。</p>
+              <p v-show="taskRelease.itemReviewRequired === 'assign_review_detail'" class="main-color ml-20">可自定义的评价数跟您发布宝贝数量相同，系统会随机分配给申请通过的拿手每人一条评论，以保证评价内容的唯一性。</p>
               <div class="afford-evaluation-list mt-10" v-if="taskRelease.itemReviewRequired === 'assign_review_detail' && taskRelease.taskCount > 0">
                 <p v-for="item in itemReviewList">
                   <span class="vtc-sup">{{'评价' + item.index}}：</span>
@@ -321,7 +321,7 @@
                   <sup class="badge-count" v-show="item.countAssigned > 0">{{item.countAssigned}}</sup>
                 </div>
               </div>
-              <div class="mt-10 sizeColor">（请确保提供的关键词能够搜索到宝贝，同时为了避免秀客找不到对应的宝贝，您最多可以添加5组关键词方案）</div>
+              <div class="mt-10 sizeColor">（请确保提供的关键词能够搜索到宝贝，同时为了避免拿手找不到对应的宝贝，您最多可以添加5组关键词方案）</div>
             </div>
             <template v-for="item in pcTaskDetail" v-if="item.index === selectKeywordScheme">
               <Alert show-icon class="tag-alert">
@@ -331,7 +331,7 @@
               <div class="matching-num ml-40 mt-20">
                 <span>匹配人数：</span>
                 <iInput v-model.number="item.countAssigned" placeholder="请输入匹配人数" style="width: 160px" :disabled="true"></iInput>
-                <p class="sizeColor mt-10">（系统会按照审批秀客通过数量以及匹配人数，依次展示对应的关键词。注意：每个关键词的匹配人数之和不能大于宝贝数量）</p>
+                <p class="sizeColor mt-10">（系统会按照审批拿手通过数量以及匹配人数，依次展示对应的关键词。注意：每个关键词的匹配人数之和不能大于宝贝数量）</p>
               </div>
               <div class="search-keyword mt-20 ml-28">
                 <span class="required">搜索关键词：</span>
@@ -437,7 +437,7 @@
                   <sup class="badge-count" v-show="item.countAssigned > 0">{{item.countAssigned}}</sup>
                 </div>
               </div>
-              <div class="mt-10 sizeColor">（请确保提供的关键词能够搜索到宝贝，同时为了避免秀客找不到对应的宝贝，您最多可以添加5组关键词方案）</div>
+              <div class="mt-10 sizeColor">（请确保提供的关键词能够搜索到宝贝，同时为了避免拿手找不到对应的宝贝，您最多可以添加5组关键词方案）</div>
             </div>
             <template v-for="item in appTaskDetail" v-if="item.index === selectKeywordScheme">
               <Alert show-icon class="tag-alert">
@@ -447,7 +447,7 @@
               <div class="matching-num ml-40 mt-20">
                 <span>匹配人数：</span>
                 <iInput v-model.number="item.countAssigned" placeholder="请输入匹配人数" style="width: 160px" :disabled="true"></iInput>
-                <p class="sizeColor mt-10">（系统会按照审批秀客通过数量以及匹配人数，依次展示对应的关键词。注意：每个关键词的匹配人数之和不能大于宝贝数量）</p>
+                <p class="sizeColor mt-10">（系统会按照审批拿手通过数量以及匹配人数，依次展示对应的关键词。注意：每个关键词的匹配人数之和不能大于宝贝数量）</p>
               </div>
               <div class="search-keyword mt-20 ml-28">
                 <span class="required">搜索关键词：</span>
@@ -586,7 +586,7 @@
         name: 'base-example',
         uniqueId: 'uniqueId',
         editorOption: {
-          placeholder: "有吸引力的产品介绍，将吸引更多的秀客来申请活动哦！请在这里编辑您的商品简介（可以直接复制淘宝的宝贝详情到这里），但请注意，不要在该简介中，放置任何外链，比如店铺或者商品链接，以免申请的秀客绕过相应的下单条件，造成损失！",
+          placeholder: "有吸引力的产品介绍，将吸引更多的拿手来申请活动哦！请在这里编辑您的商品简介（可以直接复制淘宝的宝贝详情到这里），但请注意，不要在该简介中，放置任何外链，比如店铺或者商品链接，以免申请的拿手绕过相应的下单条件，造成损失！",
           modules: {
             toolbar: []
           }

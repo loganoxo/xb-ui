@@ -38,7 +38,7 @@
       </Radio-group>
     </div>
     <div v-show="passOrNoPass ==='false'" class="mt-20 text-ct">
-      <iInput style="width: 80%" placeholder="请填写截图不正确的地方，以便秀客修改" v-model="reason"></iInput>
+      <iInput style="width: 80%" placeholder="请填写截图不正确的地方，以便拿手修改" v-model="reason"></iInput>
     </div>
     <div class="text-ct mt-20">
       <iButton type="success" style="width: 110px;" @click="showkerPassAudit(passId,passOrNoPass,reason)">确定</iButton>
@@ -48,7 +48,7 @@
         <Icon type="alert-circled"></Icon>
       </div>
       <div class="left ml-20" style="text-align: left">
-        <p>“通过”秀客直接获得活动资格，“希望重新提交”将通知秀客重新修改截图！</p>
+        <p>“通过”拿手直接获得活动资格，“希望重新提交”将通知拿手重新修改截图！</p>
         <p> 您还有<time-down :endTime="activeEndTime"></time-down>进行审核，若该时间内未审核，系统将随机审核通过！</p>
       </div>
     </div>
@@ -125,7 +125,7 @@
           reason: reason || null
         }).then(res => {
           if (res.status) {
-            _this.$Message.success("审核秀客成功！");
+            _this.$Message.success("审核拿手成功！");
             _this.$emit('request', false, _this.passOrNoPass);
           } else {
             _this.$Message.error(res.msg)

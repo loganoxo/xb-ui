@@ -361,28 +361,28 @@ export default {
   },
 
   /**
-   * 商家获取已申请任务的秀客列表
+   * 商家获取已申请任务的拿手列表
    */
   getTaskApplyList(params) {
     return fetch("/api/get-task-apply-list.json", params)
   },
 
   /**
-   * 商家审核秀客是否通过
+   * 商家审核拿手是否通过
    */
   setTaskShowkerAudit(params) {
     return fetch("/api/set-task-showker-audit.json", params)
   },
 
   /**
-   * 商家审核秀客订单号
+   * 商家审核拿手订单号
    */
   orderNumberAudit(params) {
     return fetch("/api/order-number-audit.json", params)
   },
 
   /**
-   * 商家获取秀客订单详情
+   * 商家获取拿手订单详情
    */
   orderNumberInfo(params) {
     return fetch("/api/order-number-info.json", params)
@@ -431,7 +431,7 @@ export default {
   },
 
   /**
-   * 秀客申请列表
+   * 拿手申请列表
    * 待审核和未通过的
    */
   showkerApplyList(params) {
@@ -439,7 +439,7 @@ export default {
   },
 
   /**
-   * 秀客申请列表
+   * 拿手申请列表
    * 审核通过的
    */
   showkerSuccessList(params) {
@@ -447,85 +447,85 @@ export default {
   },
 
   /**
-   * 秀客终止活动（针对申请成功的任务）
+   * 拿手终止活动（针对申请成功的任务）
    */
   showkerTrialEed(params) {
     return fetch("/api/showker-trial-end.json", params)
   },
 
   /**
-   * 秀客终止活动（针对申请还没有审核结果的任务）
+   * 拿手终止活动（针对申请还没有审核结果的任务）
    */
   showkerApplyEed(params) {
     return fetch("/api/showker-apply-end.json", params)
   },
 
   /**
-   * 秀客删除未审核通过的记录
+   * 拿手删除未审核通过的记录
    */
   applyDelete(params) {
     return fetch("/api/showker-apply-delete.json", params)
   },
 
   /**
-   * 秀客去下单
+   * 拿手去下单
    */
   showkerToProcessOrder(params) {
     return fetch("/api/showker-to-process-order.json", params)
   },
 
   /**
-   * 秀客保存订单号
+   * 拿手保存订单号
    */
   showkerOrderSave(params) {
     return fetch("/api/showker-order-save.json", params)
   },
 
   /**
-   * 秀客保存买家秀
+   * 拿手保存买家秀
    */
   showkerSaveReport(params) {
     return fetch("/api/showker-save-report.json", params)
   },
 
   /**
-   *详情页秀客报告列表
+   *详情页拿手报告列表
    */
   getDetailsShowkerList(params) {
     return fetch("/api/task/trial/report.json", params)
   },
 
   /**
-   *详情页已审核秀客列表
+   *详情页已审核拿手列表
    */
   getDetailsSuccessShowkerList(params) {
     return fetch("/api/task/success.json", params)
   },
 
   /**
-   * 秀客修改买家秀
+   * 拿手修改买家秀
    */
   showkerModifyReport(params) {
     return fetch("/api/showker-modify-report.json", params)
   },
 
   /**
-   * 秀客的买家秀（针对获取买家秀列表，分页查询）
+   * 拿手的买家秀（针对获取买家秀列表，分页查询）
    */
   getTrialReports(params) {
     return fetch("/api/task/showker/trial/reports.json", params)
   },
 
   /**
-   * 秀客的活动详情（针对获取秀客活动详情）
+   * 拿手的活动详情（针对获取拿手活动详情）
    */
   getTrialDetail(params) {
     return fetch("/api/task/showker/trial/detail.json", params)
   },
 
   /**
-   * 根据秀客任务ID获取秀客任务，用户ID兼容秀客角色和商家角色
-   * 当uid为秀客的uid时，获取属于该秀客的任务
+   * 根据拿手任务ID获取拿手任务，用户ID兼容拿手角色和商家角色
+   * 当uid为拿手的uid时，获取属于该拿手的任务
    * 当uid为商家的uid时，获取属于该商家活动的任务
    */
   showkerTaskInfo(params) {
@@ -533,7 +533,7 @@ export default {
   },
 
   /**
-   * 根据秀客任务ID获取试用报告
+   * 根据拿手任务ID获取试用报告
    */
   showkerTaskReport(params) {
     return fetch("/api/showker-task-report.json", params)
@@ -547,14 +547,14 @@ export default {
   },
 
   /**
-   * 秀客能否申请活动
+   * 拿手能否申请活动
    */
   showkerCanTrial(params) {
     return fetch("/api/task/showker/qualification/check.json", params)
   },
 
   /**
-   * 秀客申请活动任务
+   * 拿手申请活动任务
    */
   showkerApplySelWwId(params) {
     return fetch("/api/task/showker/apply.json", params)
@@ -596,7 +596,7 @@ export default {
   },
 
   /**
-   * 秀客个人主页活动提醒
+   * 拿手个人主页活动提醒
    */
   showkerPersonalTrialCount(params) {
     return fetch("/api/task/showker-personal-trial-count.json", params)
@@ -617,49 +617,49 @@ export default {
   },
 
   /**
-   * 商家进入秀客任务管理页任务列表（所有待审核活动）
+   * 商家进入拿手任务管理页任务列表（所有待审核活动）
    */
   appliesWaitingAuditTask(params) {
     return fetch("/api/applies/waiting/audit/task.json", params)
   },
 
   /**
-   * 商家进入秀客任务管理页任务详情（待审核全部）
+   * 商家进入拿手任务管理页任务详情（待审核全部）
    */
   appliesWaitingAuditAll(params) {
     return fetch("/api/applies/waiting/audit/all.json", params)
   },
 
   /**
-   * 商家进入秀客任务管理页任务详情（所有已通过核活动）
+   * 商家进入拿手任务管理页任务详情（所有已通过核活动）
    */
   passesTask(params) {
     return fetch("/api/passes/task.json", params)
   },
 
   /**
-   * 商家进入秀客任务管理页任务列表（单号待审核数，买家秀待审核数）
+   * 商家进入拿手任务管理页任务列表（单号待审核数，买家秀待审核数）
    */
   passesShowkerTaskCountsInfo(params) {
     return fetch("/api/passes/showker/task/counts/info.json", params)
   },
 
   /**
-   * 商家进入秀客任务管理页任务列表（单号待审核数，买家秀待审核数）
+   * 商家进入拿手任务管理页任务列表（单号待审核数，买家秀待审核数）
    */
   passesShowkerTask(params) {
     return fetch("/api/passes/showker/task.json", params)
   },
 
   /**
-   * 商家进入秀客任务管理页任务列表（所有未通过审核的活动）
+   * 商家进入拿手任务管理页任务列表（所有未通过审核的活动）
    */
   appliesEndTask(params) {
     return fetch("/api/applies/end/task.json", params)
   },
 
   /**
-   * 商家进入秀客任务管理页任务列表（所有未通过审核的任务）
+   * 商家进入拿手任务管理页任务列表（所有未通过审核的任务）
    */
   appliesEndShowkerTask(params) {
     return fetch("/api/applies/end/showker/task.json", params)
@@ -673,14 +673,14 @@ export default {
   },
 
   /**
-   * 商家进入秀客任务管理页任务列表（设置新增待审核为已读）
+   * 商家进入拿手任务管理页任务列表（设置新增待审核为已读）
    */
   waitingAuditNewestMarkRead(params) {
     return fetch("/api/applies/waiting/audit/newest/clear/one.json", params)
   },
 
   /**
-   * 获取秀客活动进程任务日志
+   * 获取拿手活动进程任务日志
    */
   getShowkerLog(params) {
     return fetch("/api/task-detail-log.json", params)
@@ -792,7 +792,7 @@ export default {
   },
 
   /**
-   * 获取真实秀客数量、秀客已发表的买家秀数量、买家达人秀列表
+   * 获取真实拿手数量、拿手已发表的买家秀数量、买家达人秀列表
    */
   getBuyerShowInfo() {
     return fetch('/api/get-buyerShow-info.json')
@@ -813,14 +813,14 @@ export default {
   },
 
   /**
-   * 秀客获取换新的关键词方案
+   * 拿手获取换新的关键词方案
    */
   getSchemeReassign(params) {
     return fetch('/api/task/showker/scheme/reassign.json',params)
   },
 
   /**
-   * 获取秀客可申请活动的次数
+   * 获取拿手可申请活动的次数
    */
   getShowkerApplyCount() {
     return fetch("/api/task/showker-apply-count.json")

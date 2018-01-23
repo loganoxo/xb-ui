@@ -2,7 +2,7 @@
   <div class="mt-20">
     <div class="prompt">
       <Icon type="information-circled"></Icon>
-      <span> 亲，请记得在活动结束前审批秀客哦，如果活动结束后48小时内仍未审批满，系统将自动按申请时间审批剩余名额！</span>
+      <span> 亲，请记得在活动结束前审批拿手哦，如果活动结束后48小时内仍未审批满，系统将自动按申请时间审批剩余名额！</span>
     </div>
     <div class="search-list">
       <span>淘宝会员名：</span>
@@ -58,7 +58,7 @@
                 </iButton>
               </th>
               <th width="20%">申请时间</th>
-              <th width="20%">秀客的买家秀记录</th>
+              <th width="20%">拿手的买家秀记录</th>
               <th width="20%">流程状态</th>
               <th width="20%">操作</th>
             </tr>
@@ -109,7 +109,7 @@
     <div class="activity-page mt-20 right mr-10" v-if="taskWaitAuditList && taskWaitAuditList.length > 0">
       <Page :total="totalElements" :page-size="pageSize" :current="pageIndex" @on-change="pageChange"></Page>
     </div>
-    <!--审核秀客图片-->
+    <!--审核拿手图片-->
   <!--  <template v-if="showApprovalPop">
       <Modal v-model="approvalPopInfo.approvalPop" :transfer="false" width="600">
         <AuditShowker
@@ -364,7 +364,7 @@
           reason: null
         }).then(res => {
           if (res.status) {
-            _this.$Message.success("审核秀客成功！");
+            _this.$Message.success("审核拿手成功！");
             _this.$store.dispatch('getPersonalTrialCount');
             _this.appliesWaitingAuditAll(_this.operateTaskId, _this.operateIndex);
             if (_this.taskWaitAuditList[_this.operateIndex].newestTaskApplyCount > 0) {

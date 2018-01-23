@@ -4,7 +4,7 @@
       <img class="img" src="/static/img/showker-landing/showker01.jpg" alt=""  >
       <img @click="toLogin('buyer')" src="/static/img/showker-landing/showker_btn.png" alt="" class="showker-btn" >
       <div class="ibtnBox">
-        <iButton @click="toLogin('buyer')" class="ibtn-showker mr-30">秀客注册</iButton>
+        <iButton @click="toLogin('buyer')" class="ibtn-showker mr-30">拿手注册</iButton>
         <iButton  @click="toLogin('seller')" class="ibtn-sell">商家注册</iButton>
       </div>
     </div>

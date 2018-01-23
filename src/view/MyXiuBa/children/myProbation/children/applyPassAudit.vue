@@ -177,7 +177,7 @@
       </div>
       <div class="mt-10 pt-10 pb-10 pl-10 bgF1F1F1">
         <p>1.禁止秒拍</p>
-        <p class="mt-5 cl666">请确保足够时间的浏览后再下单哦<span class="clff3300">（至少5-10分钟）</span>，请按要求操作，否则将失去试用资格，若造成商家<span class="clff3300">投诉</span>，平台有<span class="clff3300">权冻</span>结您的秀客账号！</p>
+        <p class="mt-5 cl666">请确保足够时间的浏览后再下单哦<span class="clff3300">（至少5-10分钟）</span>，请按要求操作，否则将失去试用资格，若造成商家<span class="clff3300">投诉</span>，平台有<span class="clff3300">权冻</span>结您的拿手账号！</p>
         <p class="mt-10">2. 核对订单！</p>
         <p class="mt-5 cl666">请正确填写订单号与实付金额，以免影响返款！若您发现淘宝该宝贝的实付金额高于白拿拿平台显示的商品金额，请勿下单，请结束任务！</p>
       </div>

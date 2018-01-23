@@ -142,7 +142,7 @@
             </li>
             <li>
               <span>2</span>
-              <em>商家审核，通过后即可获得秀客资格 </em>
+              <em>商家审核，通过后即可获得拿手资格 </em>
               <i class="ivu-icon ivu-icon-chevron-right"></i>
             </li>
             <li>
@@ -308,7 +308,7 @@
                 <p class="cl000"><span>淘气值：{{detailsSuccessShowker.tqz}}</span></p>
               </router-link>
               <p v-show="detailsSuccessShowkerList.length <= 0 " class="text-ct fs-14">
-                暂无已通过的申请秀客
+                暂无已通过的申请拿手
               </p>
             </div>
           </div>
@@ -332,7 +332,7 @@
           想要更多申请次数
           <i class="up-icon"></i>
           <p>
-            每个秀客每天都有{{showkerApplyTotal}}次申请活动的机会，扫描以下二维码，关注秀吧公众号并分享宝贝，获取更多申请次数！
+            每个拿手每天都有{{showkerApplyTotal}}次申请活动的机会，扫描以下二维码，关注秀吧公众号并分享宝贝，获取更多申请次数！
             <img style="width: 200px" src="/static/img/common/qr-code365.png" alt="" class="mt-10 block">
           </p>
         </a>
@@ -504,7 +504,7 @@
             callback: this.getDetailsShowkerList
           },
           {
-            text: '已审批秀客',
+            text: '已审批拿手',
             num: '',
             isClass: 'audited',
             callback: this.getDetailsSuccessShowkerList

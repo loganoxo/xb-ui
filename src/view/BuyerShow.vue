@@ -46,7 +46,7 @@
             <img class="left" src="~assets/img/buyer-show/des_01.png" alt="">
             <div class="left  ml-15">
               <p class="number">{{allShowerNum*5}}位</p>
-              <p class="dsc">真实秀客入驻</p>
+              <p class="dsc">真实拿手入驻</p>
             </div>
           </div>
           <div class="content left clear">
@@ -67,7 +67,7 @@
             <img class="left" src="~assets/img/buyer-show/des_04.png" alt="">
             <div class="left  ml-15">
               <p class="number">85%以上</p>
-              <p class="dsc">高质量秀客</p>
+              <p class="dsc">高质量拿手</p>
             </div>
           </div>
         </div>

@@ -18,7 +18,7 @@
             <span>系统终止</span>
           </Checkbox>
           <Checkbox label="showker_give_up">
-            <span>秀客放弃</span>
+            <span>拿手放弃</span>
           </Checkbox>
         </Checkbox-group>
       </div>

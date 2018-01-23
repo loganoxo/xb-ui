@@ -10,9 +10,9 @@
         <router-link to="/login" v-if="!isLogin">登录</router-link>
         <span v-if="!isLogin">|</span>
         <router-link to="/register/seller-register">注册</router-link>
-        <span>|</span>
+        <!--<span>|</span>
         <router-link to="/seller-adv">商家入驻必读</router-link>
-        <span>|</span>
+        <span>|</span>-->
         <router-link to="/about-us">关于我们</router-link>
         <span>|</span>
         <router-link to="/user/help-center/faq">帮助中心</router-link>

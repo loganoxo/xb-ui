@@ -145,10 +145,10 @@
     <div class="check-order-model" v-if="showCheckOrder">
       <div class="check-order-con">
         <i class="right" @click="showCheckOrder = false">&times;</i>
-        <div class="f-b fs-14 main-color mt-28" v-if="needBrowseCollectAddCart || needIssue">1.请查看秀客提交的截图信息</div>
+        <div class="f-b fs-14 main-color mt-28" v-if="needBrowseCollectAddCart || needIssue">1.请查看拿手提交的截图信息</div>
         <div class="clear">
           <div class="left" v-if="needBrowseCollectAddCart">
-            <div class="mt-5 cl00 fs-12 f-b">A.查看秀客提交的收藏加购截图</div>
+            <div class="mt-5 cl00 fs-12 f-b">A.查看拿手提交的收藏加购截图</div>
             <div class="order-info-screenshot mt-5" v-for="(value, key) in orderInfo.screenshot" :key="key" v-if="value">
               <img :src="value + '!thum54'" alt="收藏加购截图">
               <div class="order-info-screenshot-cover">
@@ -158,7 +158,7 @@
           </div>
           <div class="left parting-line" v-if="needIssue"></div>
           <div class="left ml-20" v-if="needIssue">
-            <div class="mt-5 cl00 fs-12 f-b"><span>{{needIssue ? 'B.' : 'A.'}}</span>查看秀客提交的浏览答题截图</div>
+            <div class="mt-5 cl00 fs-12 f-b"><span>{{needIssue ? 'B.' : 'A.'}}</span>查看拿手提交的浏览答题截图</div>
             <div class="order-info-screenshot mt-5" v-for="(item, index) in orderInfo.issueAnswerScreenshot" :key="index" v-if="item">
               <img :src="item.screenshotSrc + '!thum54'" alt="浏览答题截图">
               <div class="order-info-screenshot-cover">
@@ -174,11 +174,11 @@
             <span class="main-color">{{orderInfo.orderNum}}</span>
           </p>
           <p class="mt-10">
-            <span><span class="f-b">秀客实付金额：</span><span class="main-color">{{orderInfo.orderPrice || 0}}</span>元<span>（当前每单活动担保金<span>{{orderInfo.perMarginNeed}}</span>元）</span></span>
+            <span><span class="f-b">拿手实付金额：</span><span class="main-color">{{orderInfo.orderPrice || 0}}</span>元<span>（当前每单活动担保金<span>{{orderInfo.perMarginNeed}}</span>元）</span></span>
           </p>
         </div>
-        <p class="cl-red mt-10 text-ct" v-if="orderInfo.orderPrice < orderInfo.perMarginNeed"><Icon type="information-circled" color="red" size="14" class="mr-5"></Icon>注意：秀客实付金额与活动担保金金额不一致，请仔细审核！</p>
-        <p class="cl-red mt-10 text-ct" v-else><Icon type="information-circled" color="red" size="14" class="mr-5"></Icon>注意：为了防止不良秀客冒领担保金，请您仔细审核交易订单信息，确认不误再作提交！</p>
+        <p class="cl-red mt-10 text-ct" v-if="orderInfo.orderPrice < orderInfo.perMarginNeed"><Icon type="information-circled" color="red" size="14" class="mr-5"></Icon>注意：拿手实付金额与活动担保金金额不一致，请仔细审核！</p>
+        <p class="cl-red mt-10 text-ct" v-else><Icon type="information-circled" color="red" size="14" class="mr-5"></Icon>注意：为了防止不良拿手冒领担保金，请您仔细审核交易订单信息，确认不误再作提交！</p>
         <div class="mt-22 text-ct">
           <Radio-group v-model="orderReviewStatus">
             <Radio class="mr-30" label="passAudit">
@@ -207,13 +207,13 @@
           <div slot="isBalance" class="title-tip">
                 <span class="size-color3">
                 <Icon color="#FF2424" size="18" type="ios-information"></Icon>
-                <span class="ml-10">注意：该秀客实付金额大于活动担保金，</span></span>需要补充担保金<strong
+                <span class="ml-10">注意：该拿手实付金额大于活动担保金，</span></span>需要补充担保金<strong
             class="main-color">{{needReplenishMoney}}</strong>元
           </div>
           <div slot="noBalance" class="title-tip">
                 <span class="size-color3">
                 <Icon color="#FF2424" size="18" type="ios-information"></Icon>
-                <span class="ml-10">注意：该秀客实付金额大于活动担保金，</span></span>需要补充担保金<strong
+                <span class="ml-10">注意：该拿手实付金额大于活动担保金，</span></span>需要补充担保金<strong
             class="main-color">{{needReplenishMoney}}</strong>元,请充值！
           </div>
         </PayModel>

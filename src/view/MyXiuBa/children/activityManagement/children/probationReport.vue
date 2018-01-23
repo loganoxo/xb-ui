@@ -74,7 +74,7 @@
             </Radio-group>
           </div>
           <div class="no-pass-reason mt-22" v-show="trialCheckStatus === 'no_pass'">
-            <iInput v-model="noPassReason" placeholder="请填写买家秀不通过的理由，以便秀客修改" style="width: 420px"></iInput>
+            <iInput v-model="noPassReason" placeholder="请填写买家秀不通过的理由，以便拿手修改" style="width: 420px"></iInput>
           </div>
           <div class="true-btn" v-show="trialCheckStatus === 'no_pass'" @click="confirmReport">确认</div>
           <div class="true-btn" v-show="trialCheckStatus === 'pass'" @click="openRefundModel">确认</div>
@@ -84,22 +84,22 @@
               <Icon type="alert-circled" color='#f9284f' size="36"></Icon>
             </div>
             <div class="left remind-con">
-              <p>通过买家秀需要支付秀客秀客，不通过则会退回，交给秀客重新修改！</p>
+              <p>通过买家秀需要支付拿手拿手，不通过则会退回，交给拿手重新修改！</p>
               <p>您还有&nbsp;
-                <time-down color='#ff4040' :fontWeight=600 :endTime="showkerTaskInfo.currentGenerationEndTime"></time-down>&nbsp;进行审核，若该时间内未审核，系统将默认审核通过，开始给秀客返款！
+                <time-down color='#ff4040' :fontWeight=600 :endTime="showkerTaskInfo.currentGenerationEndTime"></time-down>&nbsp;进行审核，若该时间内未审核，系统将默认审核通过，开始给拿手返款！
               </p>
             </div>
           </div>
         </div>
       </div>
     </div>
-    <!--商家通过试用报告返款给秀客弹框-->
+    <!--商家通过试用报告返款给拿手弹框-->
     <div class="confirm-refund-model" v-if="showRefundModel">
       <div class="confirm-refund-con fadeIn">
         <i class="right mr-10" @click="closeRefundModel">&times;</i>
         <div class="confirm-refund-info mt-20">
           <p>
-            <span>秀客返款：</span>
+            <span>拿手返款：</span>
             <span>{{showkerTaskInfo.task.taskName}}</span>
           </p>
           <p class="mt-8">
@@ -298,7 +298,7 @@
         }).then(res => {
           if (res.status) {
             _this.$Message.success({
-              content: '已向秀客返款成功！',
+              content: '已向拿手返款成功！',
               duration: 4
             });
             _this.showRefundModel = false;
