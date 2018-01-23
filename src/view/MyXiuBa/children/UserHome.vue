@@ -42,7 +42,7 @@
             <router-link :to="{path: '/user/money-management/getout-money'}">提现</router-link>
 
             <a v-if="getUserInfoRole === 0">
-              剩余申请次数 {{residue}}
+              <span style="color: #495060;">剩余申请次数</span>{{residue}}
             </a>
             <a class="pos-rel apply-num" v-if="getUserInfoRole === 0">
               <Icon type="help-circled"
@@ -469,8 +469,8 @@
       border-bottom-color: rgba(70, 76, 91, 0.9);
       position: absolute;
       bottom: 0;
-      top: -2px;
-      left: -3px;
+      top: 5px;
+      left: -2px;
       display: none;
 
     }
