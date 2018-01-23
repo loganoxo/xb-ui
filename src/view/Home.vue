@@ -140,7 +140,7 @@
                     免费发布活动
                   </router-link>
                   <router-link v-if="parseInt(trialCount.finishedTaskCount) + parseInt(trialCount.underWayTask) > 0 "
-                               to="/user/task-release" class="ivu-btn ivu-btn-error ivu-btn-long">
+                               to="/user/task-release" class="ivu-btn ivu-btn-primary ivu-btn-long">
                     继续发布活动
                   </router-link>
                 </p>
