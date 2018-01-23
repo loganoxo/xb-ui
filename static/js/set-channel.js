@@ -56,10 +56,7 @@
   }
 
   /**
-   * 1.BDWM 百度网盟
-   * 2.BDXXL 百度信息流
-   * 3.GDT 广点通
-   * 4.BD 百度
+   * 新增渠道的Key为qd
    * **/
   if (getQueryString('qd')) {
     document.cookie = "from_qudao="+ getQueryString('qd').toUpperCase() + cookieAttr;
