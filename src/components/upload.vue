@@ -12,9 +12,8 @@
         <iProgress v-if="item.showProgress" :percent="item.percentage" hide-info></iProgress>
       </template>
     </div>
-    <div ref="upload"  class="left" :class="[prefixCls]" v-show="showUpload">
-      <div
-        :class="classes"
+    <div ref="upload" class="left" :class="[prefixCls]" v-show="showUpload">
+      <div :class="classes"
         @click="handleClick"
         @drop.prevent="onDrop"
         @dragover.prevent="dragOver = true"
@@ -83,7 +82,7 @@
       },
       showUploadList: {
         type: Boolean,
-        default: true
+        default: false
       },
       type: {
         type: String,

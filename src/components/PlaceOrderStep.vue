@@ -22,6 +22,17 @@
     <div class="tao-code-place-step" v-if="hasCurrentSearchSchemeIndex ? showkerTaskInfo.task.taskType === 'tao_code' : showkerTaskInfo.taskType === 'tao_code'">
       <p class="mb-10">淘口令【<span id="copyCode">{{taskDetail.taoCode}}</span>】<span id="copyBtn" class="ml-10" @click="sendMessage()"> 点击复制口令</span></p>
       <p>入口说明：【<span>直接在手机端上复制淘口令，打开手淘会自动弹出宝贝链接</span>】</p>
+      <div class="clear mt-10" v-if="taskDetail.homePageLockItemImage">
+        <span class="left mt-28 mr-5 cl999">卡首屏宝贝主图：</span>
+        <div class="tao-code-image mt-5 inline-block left">
+          <img :src="taskDetail.homePageLockItemImage" alt="卡首屏宝贝主图">
+          <div class="tao-code-image-cover" @click="isShowTaoCodeModel = true">
+            <Icon type="ios-eye-outline"></Icon>
+          </div>
+        </div>
+        <span class="main-color ml-5 mt-28 left">点击缩略图可查看原图</span>
+      </div>
+      <p v-if="taskDetail.homePageLockItemPrice">卡首屏宝贝价格：<span>{{(taskDetail.homePageLockItemPrice / 100).toFixed(2) + '元'}}</span></p>
     </div>
     <div class="tao-link-place-step" v-if="hasCurrentSearchSchemeIndex ? showkerTaskInfo.task.taskType === 'direct_access' : showkerTaskInfo.taskType === 'direct_access'">
       <p class="clear"><strong class="left">宝贝链接：</strong><a class="left ml-5" :href="hasCurrentSearchSchemeIndex ? showkerTaskInfo.task.itemUrl : showkerTaskInfo.itemUrl" target="_blank">{{hasCurrentSearchSchemeIndex ? showkerTaskInfo.task.itemUrl : showkerTaskInfo.itemUrl}}</a></p>
@@ -42,23 +53,7 @@
         </p>
       </div>
     </div>
-   <!-- <div class="verification-link mt-20 pt-20" v-if="showkerTaskInfo.task.taskType === 'pc_search' || showkerTaskInfo.task.taskType === 'app_search'">
-      <span>宝贝链接验证：</span>
-      <iInput v-model="verificationLink" style="width: 300px;" placeholder="请输入宝贝链接地址"></iInput>
-      <iButton type="primary" @click="verificationLinkIsRight">验证</iButton>
-      <span class="link-right ml-5" v-show="verificationLinkStatus === 'success'"><Icon type="checkmark-circled" color="#69B045"></Icon>&nbsp;恭喜，找对啦！</span>
-      <span class="link-error ml-5" v-show="verificationLinkStatus === 'error'"><Icon type="close-circled" color="red"></Icon>&nbsp;糟糕，不是这家哦~</span>
-    </div>
-    <div class="mt-10 ml-88" v-if="showkerTaskInfo.task.taskType === 'app_search'">
-      <a @click="showGetAppUrlImage = true">手淘宝贝如何获取链接地址？</a>
-      <Modal class="pos-rel" style="z-index: 2000" v-model="showGetAppUrlImage" :width="600">
-        <div class="text-ct">
-          <img src="~assets/img/common/get-app-url-image.png" alt="">
-        </div>
-        <div slot="footer"></div>
-      </Modal>
-    </div>-->
-    <p class="pt-20 clff3300">禁止从淘宝客等其他任何返利途径下单，一旦发现系统将扣除产生的淘客佣金，情节严重者直接扣除所有返款并冻结账号！如有疑问请及时联系客服。</p>
+    <p class="pt-20 main-color">禁止从淘宝客等其他任何返利途径下单，一旦发现系统将扣除产生的淘客佣金，情节严重者直接扣除所有返款并冻结账号！如有疑问请及时联系客服。</p>
     <div class="precautions mt-20 pt-20" v-if="isShowPrecautions" :class="[!hasCurrentSearchSchemeIndex ? 'precautions-bg' : '']">
       <p>注意事项：</p>
       <p class="mt-10">
@@ -71,6 +66,10 @@
         <span>{{hasCurrentSearchSchemeIndex ? showkerTaskInfo.task.remark : showkerTaskInfo.remark}}</span>
       </p>
     </div>
+    <!--卡首屏宝贝主图截图查看-->
+    <modal title="卡首屏宝贝主图截图查看" v-model="isShowTaoCodeModel">
+      <img :src="taskDetail.homePageLockItemImage + '!orgi75'" style="width: 100%">
+    </modal>
   </div>
 </template>
 
@@ -108,11 +107,9 @@
     },
     data() {
       return {
-        showGetAppUrlImage: false,
-        verificationLink: null,
-        verificationLinkStatus: null,
         copySuccess:0,
         taskDetail: {},
+        isShowTaoCodeModel: false,
       }
     },
     mounted() {
@@ -175,16 +172,6 @@
       getTaskStatus(type) {
         return TaskErrorStatusList(type);
       },
-     /* verificationLinkIsRight() {
-        if(!this.verificationLink){
-          this.verificationLinkStatus = null;
-          this.$Message.warning('亲，请输入需要验证的宝贝链接地址！');
-          return;
-        }
-        let newId = getUrlParams(this.verificationLink, 'id');
-        let oldId = getUrlParams(this.showkerTaskInfo.task.itemUrl, 'id');
-        this.verificationLinkStatus = newId === oldId ? 'success' : 'error';
-      },*/
       changeTaskPlaceInfo() {
         let _this = this;
         if(_this.hasCurrentSearchSchemeIndex){
@@ -226,7 +213,7 @@
           let index = Math.floor(Math.random() * len);
           _this.taskDetail = _this.showkerTaskInfo.taskDetailObject[index];
         }
-      }
+      },
     }
   }
 </script>
@@ -250,9 +237,7 @@
       font-size: 14px;
     }
   }
-  .clff3300{
-    color: #ff3300;
-  }
+
   .place-step,
   .tao-code-place-step,
   .tao-link-place-step {
@@ -370,5 +355,43 @@
     line-height: 20px;
     color: #fff;
     font-size: 16px;
+  }
+
+  .tao-code-image{
+    display: inline-block;
+    width: 60px;
+    height: 60px;
+    text-align: center;
+    line-height: 60px;
+    border: 1px solid transparent;
+    border-radius: 4px;
+    overflow: hidden;
+    background: #fff;
+    position: relative;
+    box-shadow: 0 1px 1px rgba(0, 0, 0, .2);
+    margin-right: 4px;
+    &:hover .tao-code-image-cover {
+      display: block;
+    }
+    img{
+      width: 100%;
+      height: 100%;
+    }
+  }
+  .tao-code-image-cover {
+    display: none;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: rgba(0, 0, 0, .6);
+  }
+
+  .tao-code-image-cover i {
+    color: #fff;
+    font-size: 20px;
+    cursor: pointer;
+    margin: 0 2px;
   }
 </style>

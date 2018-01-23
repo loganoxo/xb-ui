@@ -164,8 +164,7 @@
           </div>
           <div class="commodity-text left ml-5">
             <p>{{taskPlaceInfo.taskName}}</p>
-            <p class="mt-15">总份数<strong>&nbsp;{{taskPlaceInfo.taskCount || 0}}&nbsp;</strong>，宝贝单价<strong>&nbsp;{{taskPlaceInfo.itemPrice
-              / 100 || 0}}&nbsp;</strong>元</p>
+            <p class="mt-15">总份数<strong>&nbsp;{{taskPlaceInfo.taskCount || 0}}&nbsp;</strong>，宝贝单价<strong>&nbsp;{{taskPlaceInfo.itemPrice / 100 || 0}}&nbsp;</strong>元</p>
           </div>
         </div>
         <div class="mt-10">
@@ -177,14 +176,12 @@
       </div>
       <div class="mt-10 pt-10 pb-10 pl-10 bgF1F1F1">
         <p>1.禁止秒拍</p>
-        <p class="mt-5 cl666">请确保足够时间的浏览后再下单哦<span class="clff3300">（至少5-10分钟）</span>，请按要求操作，否则将失去试用资格，若造成商家<span class="clff3300">投诉</span>，平台有<span class="clff3300">权冻</span>结您的拿手账号！</p>
+        <p class="mt-5 cl666">请确保足够时间的浏览后再下单哦<span class="main-color">（至少5-10分钟）</span>，请按要求操作，否则将失去试用资格，若造成商家<span class="main-color">投诉</span>，平台有权<span class="main-color">冻结</span>您的拿手账号！</p>
         <p class="mt-10">2. 核对订单！</p>
         <p class="mt-5 cl666">请正确填写订单号与实付金额，以免影响返款！若您发现淘宝该宝贝的实付金额高于白拿拿平台显示的商品金额，请勿下单，请结束任务！</p>
       </div>
-      <place-order-step v-if="Object.keys(showkerTask).length > 0" :showkerTaskInfo="showkerTask"
-                        @changeTask="getShowkerToProcessOrder"></place-order-step>
-      <div class="precautions-tip-info mt-20"
-           v-if="showkerTask.task && showkerTask.task.itemReviewRequired === 'review_by_showker_self'">
+      <place-order-step v-if="Object.keys(showkerTask).length > 0" :showkerTaskInfo="showkerTask" @changeTask="getShowkerToProcessOrder"></place-order-step>
+      <div class="precautions-tip-info mt-20" v-if="showkerTask.task && showkerTask.task.itemReviewRequired === 'review_by_showker_self'">
         <Icon type="information-circled" color="#FF0100"></Icon>
         <span class="sizeColor3">注意：</span>
         <span>亲收到货后记得</span>
@@ -310,8 +307,6 @@
         <p class="fs-14"><span class="des-text">1.淘宝评价截图</span><span class="cl666">（商家返款凭证，必传）</span></p>
         <Upload
           class="mt-10 cursor-p"
-          ref="uploadScreenShot"
-          :show-upload-list="false"
           :default-file-list="defaultTaobaoScreenShotImg"
           :on-success="uploadTaobaoImgSuccess"
           :on-remove="removeTaobaoImg"
@@ -341,8 +336,6 @@
             请上传宝贝试用和体验的相关图片，不是淘宝好评的截图。图片支持jpg、jpeg、png、gif、bmp格式，大小不超过10M,该组图片将会在白拿拿平台展示哦，多多晒图，更有利于商家选中你哦</p>
         </div>
         <Upload
-          ref="upload"
-          :show-upload-list="false"
           :default-file-list="defaultImageList"
           :on-success="uploadImgSuccess"
           :on-remove="removeImage"
@@ -397,8 +390,6 @@
             <p>搜索条件截图</p>
             <Upload
               class="copy-write-img"
-              ref="uploadCondition"
-              :show-upload-list="false"
               :default-file-list="defaultImageSearchCondition"
               :on-remove="removeMainImageCondition"
               :on-success="searchConditionImageFun"
@@ -418,8 +409,6 @@
             <p>所在位置截图</p>
             <Upload
               class="copy-write-img"
-              ref="uploadItemLocation"
-              :show-upload-list="false"
               :default-file-list="defaultImageItemLocation"
               :on-remove="removeMainImageLocation"
               :on-success="itemLocationImageFun"
@@ -439,8 +428,6 @@
             <p>宝贝加入收藏夹</p>
             <Upload
               class="copy-write-img"
-              ref="uploadEnshrine"
-              :show-upload-list="false"
               :default-file-list="defaultImageEnshrine"
               :on-remove="removeMainImageEnshrineImage"
               :on-success="enshrineImageFun"
@@ -460,8 +447,6 @@
             <p>宝贝加入购物车</p>
             <Upload
               class="copy-write-img"
-              ref="uploadAddToCart"
-              :show-upload-list="false"
               :default-file-list="defaultImageAddToCart"
               :on-remove="removeMainImageAddToCart"
               :on-success="addToCartImageFun"
@@ -484,8 +469,6 @@
             <p class="pd-3 bgFDF5E0 cl000">{{needIssueAnswer[0]}}</p>
             <Upload
               class="copy-write-img"
-              ref="uploadCopyWriteOne"
-              :show-upload-list="false"
               :default-file-list="defaultImageCwOne"
               :on-remove="removeMainImageCwOne"
               :on-success="copyWriteOneImageFun"
@@ -504,8 +487,6 @@
             <p class="pd-3 bgFDF5E0 cl000">{{needIssueAnswer[1]}}</p>
             <Upload
               class="copy-write-img"
-              ref="uploadCopyWriteTwo"
-              :show-upload-list="false"
               :default-file-list="defaultImageCwTwo"
               :on-remove="removeMainImageCwTwo"
               :on-success="copyWriteTwoImageFun"
@@ -524,8 +505,6 @@
             <p class="pd-3 bgFDF5E0 cl000">{{needIssueAnswer[2]}}</p>
             <Upload
               class="mg-at copy-write-img"
-              ref="uploadCopyWriteThree"
-              :show-upload-list="false"
               :default-file-list="defaultImageCwThree"
               :on-remove="removeMainImageCwThree"
               :on-success="copyWriteThreeImageFun"

@@ -176,11 +176,9 @@
               </iSelect>
               <span class="ml-20 main-color" v-if="taskRelease.itemType === 1003">旅行相关活动，仅支持飞猪的宝贝</span>
             </div>
-            <div class="baby-img ml-45 mt-20">
+            <div class="baby-img ml-45 mt-20 clear">
               <span class="required left mt-20 mr-5">活动主图：</span>
-              <Upload
-                ref="upload"
-                :show-upload-list="false"
+              <Upload class="left ml-4"
                 :default-file-list="mainDefaultList"
                 :on-remove="removeMainImage"
                 :on-success="handleSuccess"
@@ -194,7 +192,7 @@
                   <Icon type="camera" size="20"></Icon>
                 </div>
               </Upload>
-              <p class="sizeColor pl-60 mt-10">点击或者拖拽自主上传图片，支持jpg \ jpeg \ png \ gif \ bmp格式，最佳尺寸400*400（像素），不超过1M，可与宝贝主图一致</p>
+              <p class="sizeColor left ml-15 mt-20">点击或者拖拽自主上传图片，支持jpg \ jpeg \ png \ gif \ bmp格式，最佳尺寸400*400（像素），不超过1M，可与宝贝主图一致</p>
             </div>
             <div class="baby-url ml-45 mt-20">
               <span class="required">宝贝地址：</span>
@@ -371,13 +369,10 @@
             <div class="activity-info-title" v-if="taskRelease.taskType !== 'direct_access'">{{getSetType}}下单条件设置</div>
             <!--PC搜索下单设置-->
             <template v-if="taskRelease.taskType === 'pc_search'">
-              <div class="baby-main-img ml-40 mt-20">
+              <div class="baby-main-img ml-40 mt-20 clear">
                 <span class="required left mr-5 mt-20">宝贝主图：</span>
-                <Upload
-                  key="pc-upload"
-                  ref="upload"
+                <Upload class="left ml-4"
                   name="task"
-                  :show-upload-list="false"
                   :default-file-list="pcDefaultList"
                   :on-remove="removePcImage"
                   :on-success="pcBabyImgSuccess"
@@ -390,7 +385,7 @@
                     <Icon type="camera" size="20"></Icon>
                   </div>
                 </Upload>
-                <p class="sizeColor pl-60 mt-10">点击或者拖拽自主上传图片，支持jpg \ jpeg \ png \ gif \ bmp格式，最佳尺寸400*400（像素），不超过1M，可与宝贝主图一致</p>
+                <p class="sizeColor left mt-20 ml-15">点击或者拖拽自主上传图片，支持jpg \ jpeg \ png \ gif \ bmp格式，最佳尺寸400*400（像素），不超过1M，可与宝贝主图一致</p>
               </div>
               <div class="more-keyword-scheme ml-40 mt-20">
                 <div>
@@ -506,12 +501,9 @@
             </template>
             <!--APP搜索下单设置-->
             <template v-else-if="taskRelease.taskType === 'app_search'">
-              <div class="baby-main-img ml-40 mt-20">
+              <div class="baby-main-img ml-40 mt-20 clear">
                 <span class="required left mr-5 mt-20">宝贝主图：</span>
-                <Upload
-                  ref="upload"
-                  key="app-upload"
-                  :show-upload-list="false"
+                <Upload class="left ml-4"
                   :on-success="appBabyImgSuccess"
                   :default-file-list="appDefaultList"
                   :on-remove="removeAppImage"
@@ -525,7 +517,7 @@
                     <Icon type="camera" size="20"></Icon>
                   </div>
                 </Upload>
-                <p class="sizeColor pl-60 mt-10">点击或者拖拽自主上传图片，支持jpg \ jpeg \ png \ gif \ bmp格式，最佳尺寸400*400（像素），不超过1M，可与宝贝主图一致</p>
+                <p class="sizeColor left ml-15 mt-20">点击或者拖拽自主上传图片，支持jpg \ jpeg \ png \ gif \ bmp格式，最佳尺寸400*400（像素），不超过1M，可与宝贝主图一致</p>
               </div>
               <div class="more-keyword-scheme ml-40 mt-20">
                 <div>
@@ -636,6 +628,29 @@
               <div class="tao-code ml-56 mt-20">
                 <span class="required">淘口令：</span>
                 <iInput v-model="taoCodeTaskDetail[0].taoCode" placeholder="请输入任务宝贝的淘口令" style="width: 320px"></iInput>
+              </div>
+              <div class="tao-code mt-20 clear">
+                <span class="left ml-15 mt-20">卡首屏宝贝主图：</span>
+                <Upload class="left ml-4"
+                  :on-success="taoCodeImgSuccess"
+                  :default-file-list="taoCodeDefaultList"
+                  :on-remove="removeTaoCodeImage"
+                  :format="['jpg','jpeg','png','gif','bmp']"
+                  :max-size="1024"
+                  name="task"
+                  :on-format-error="handleFormatError"
+                  :on-exceeded-size="handleMaxSize"
+                  type="drag">
+                  <div style="width: 58px;height:58px;line-height: 58px;">
+                    <Icon type="camera" size="20"></Icon>
+                  </div>
+                </Upload>
+                <span class="sizeColor left ml-15 mt-20">点击或者拖拽自主上传图片，支持jpg \ jpeg \ png \ gif \ bmp格式，最佳尺寸400*400（像素），不超过1M，可与宝贝主图一致</span>
+              </div>
+              <div class="tao-code ml-15 mt-20">
+                <span>卡首屏宝贝价格：</span>
+                <iInput v-model.number="taoCodeTaskDetail[0].homePageLockItemPrice" placeholder="请输入卡首屏宝贝价格" style="width: 140px"></iInput>
+                <span>元</span>
               </div>
             </template>
           </div>
@@ -858,8 +873,9 @@
         taskPayId: null,
         itemCatalogList: [],
         mainDefaultList: [],
-        appDefaultList: [],
         pcDefaultList: [],
+        appDefaultList: [],
+        taoCodeDefaultList: [],
         pcTaskDetailItemMainImage: null,
         pcTaskDetail: [
           {
@@ -893,10 +909,13 @@
             deliverAddress: null,
           }
         ],
+        taoCodeTaskDetailItemMainImage: null,
         taoCodeTaskDetail: [
           {
             taoCode: null,
-            accessDescription: null
+            accessDescription: null,
+            homePageLockItemImage: null,
+            homePageLockItemPrice: null,
           }
         ],
         taskRelease: {
@@ -1117,7 +1136,6 @@
        * 计算活动标题输入字符数
        * @return {number}
        */
-
       taskNameLength() {
         return this.taskRelease.taskName ? this.taskRelease.taskName.length : 0;
       },
@@ -1206,6 +1224,9 @@
       },
       appBabyImgSuccess(res) {
         this.appTaskDetailItemMainImage = aliCallbackImgUrl + res.name;
+      },
+      taoCodeImgSuccess(res) {
+        this.taoCodeTaskDetailItemMainImage = aliCallbackImgUrl + res.name;
       },
       handleFormatError(file) {
         this.$Modal.warning({
@@ -1453,6 +1474,7 @@
             _this.$Message.warning('亲，任务宝贝淘口令不能为空！');
             return;
           }
+          _this.taoCodeTaskDetail[0].homePageLockItemImage = _this.taoCodeTaskDetailItemMainImage;
         }
         const IMG_HREF_ATTRIBUTE = /(href|target)=["|'].*?["|']/g;
         if(IMG_HREF_ATTRIBUTE.test(_this.taskRelease.itemDescription)){
@@ -1482,6 +1504,7 @@
         _this.taskRelease.itemReviewAssignString = JSON.stringify(_this.itemReviewPushList);
         let pcTaskDetailClone = extendDeep(_this.pcTaskDetail,[]);
         let appTaskDetailClone = extendDeep(_this.appTaskDetail,[]);
+        let taoCodeTaskDetailClone = extendDeep(_this.taoCodeTaskDetail,[]);
         switch (_this.taskRelease.taskType) {
           case 'pc_search' :
             pcTaskDetailClone.forEach(item => {
@@ -1500,7 +1523,10 @@
             _this.taskRelease.taskDetail = JSON.stringify(appTaskDetailClone);
             break;
           case 'tao_code' :
-            _this.taskRelease.taskDetail = JSON.stringify(_this.taoCodeTaskDetail);
+            taoCodeTaskDetailClone.forEach(item =>{
+              item.homePageLockItemPrice = item.homePageLockItemPrice > 0 ? (item.homePageLockItemPrice * 100).toFixed(0) * 1 : null;
+            });
+            _this.taskRelease.taskDetail = JSON.stringify(taoCodeTaskDetailClone);
             break;
           case 'direct_access' :
             _this.taskRelease.taskDetail = JSON.stringify([]);
@@ -1561,6 +1587,7 @@
             _this.mainDefaultList = [];
             _this.pcDefaultList = [];
             _this.appDefaultList = [];
+            _this.taoCodeDefaultList = [];
             if (!type) {
               _this.taskRelease.taskId = res.data.id;
             }
@@ -1599,7 +1626,7 @@
             }
             _this.taskRelease.itemPrice = _this.taskRelease.itemPrice / 100;
             let itemIssue = JSON.parse(res.data.itemIssue);
-            if(itemIssue.length > 0) {
+            if(itemIssue && itemIssue.length > 0) {
               _this.needBrowseAnswer = true;
               _this.browseAnswer = [];
               itemIssue.forEach(item => {
@@ -1611,6 +1638,10 @@
             _this.taskRelease.taskDetail = {};
             if (res.data.taskType === 'tao_code') {
               _this.taoCodeTaskDetail = JSON.parse(res.data.taskDetail);
+              const image = _this.taoCodeTaskDetail[0].homePageLockItemImage;
+              image && _this.taoCodeDefaultList.push({src: image});
+              _this.taoCodeTaskDetailItemMainImage = image;
+              _this.conversionPrice('tao_code');
             } else if (res.data.taskType === 'pc_search') {
               _this.pcTaskDetail = JSON.parse(res.data.taskDetail);
               _this.addKeywordScheme = _this.pcTaskDetail.length - 1;
@@ -1657,18 +1688,22 @@
         switch (type) {
           case 'pc_search' :
             _this.pcTaskDetail.forEach(item => {
-              item.searchPagePrice = (item.searchPagePrice / 100).toFixed(2) * 1;
-              item.priceRangeMax = item.priceRangeMax > 0 ? (item.priceRangeMax / 100).toFixed(2) * 1 : null;
-              item.priceRangeMin = item.priceRangeMin > 0 ? (item.priceRangeMin / 100).toFixed(2) * 1 : null;
+              item.searchPagePrice = (item.searchPagePrice / 100).toFixed(0) * 1;
+              item.priceRangeMax = item.priceRangeMax > 0 ? (item.priceRangeMax / 100).toFixed(0) * 1 : null;
+              item.priceRangeMin = item.priceRangeMin > 0 ? (item.priceRangeMin / 100).toFixed(0) * 1 : null;
             });
             break;
           case 'app_search' :
             _this.appTaskDetail.forEach(item => {
               item.searchPagePrice = (item.searchPagePrice / 100).toFixed(2) * 1;
-              item.priceRangeMax = item.priceRangeMax > 0 ? (item.priceRangeMax / 100).toFixed(2) * 1 : null;
-              item.priceRangeMin = item.priceRangeMin > 0 ? (item.priceRangeMin / 100).toFixed(2) * 1 : null;
+              item.priceRangeMax = item.priceRangeMax > 0 ? (item.priceRangeMax / 100).toFixed(0) * 1 : null;
+              item.priceRangeMin = item.priceRangeMin > 0 ? (item.priceRangeMin / 100).toFixed(0) * 1 : null;
             });
             break;
+          case 'tao_code':
+            _this.taoCodeTaskDetail.forEach(item => {
+              item.homePageLockItemPrice = item.homePageLockItemPrice > 0 ? (item.homePageLockItemPrice / 100).toFixed(0) * 1 : null;
+            })
         }
       },
       getItemCatalog() {
@@ -1701,6 +1736,7 @@
             _this.$Message.success('亲，图片上传成功！');
           }
         }).catch(err => {
+          console.log(err);
           document.getElementById(_this.uniqueId).value = '';
           _this.$Message.warning('亲，图片上传失败！');
         })
@@ -1709,10 +1745,13 @@
         this.taskRelease.taskMainImage = null;
       },
       removeAppImage() {
-        this.appTaskDetail.itemMainImage = null;
+        this.appTaskDetailItemMainImage = null;
       },
       removePcImage() {
-        this.pcTaskDetail.itemMainImage = null;
+        this.pcTaskDetailItemMainImage = null;
+      },
+      removeTaoCodeImage() {
+        this.taoCodeTaskDetailItemMainImage = null;
       },
       openRecharge() {
         this.showPayModel = true;

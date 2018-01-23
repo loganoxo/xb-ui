@@ -179,9 +179,8 @@
           </div>
           <div class="graphic-info-ctt">
             <div v-show="graphicInfoSelClass == 'activity'" class="graphic-info-details">
-              <div v-if="commodityData.showkerTask" class="bgF1F1F1 pd-20 task-step-explain mb-20 mt-20">
-                <place-order-step v-if="Object.keys(showkerTask).length > 0" :showkerTaskInfo="showkerTask"
-                                  :isShowPrecautions="false" @changeTask="getShowkerToProcessOrder"></place-order-step>
+              <div v-if="commodityData.showkerTask" class="bgF1F1F1 pd-20 task-step-explain mb-20">
+                <place-order-step v-if="Object.keys(showkerTask).length > 0" :showkerTaskInfo="showkerTask" :isShowPrecautions="false" @changeTask="getShowkerToProcessOrder"></place-order-step>
               </div>
               <div class="fs-18 text-ct">
                 <div class="precautions mb-20 pt-10">
@@ -897,7 +896,7 @@
   }
 
   .task-step-explain {
-    padding: 30px 50px;
+    padding: 2px 50px 30px 50px;
     p.task-step-title {
       font-size: 24px;
       color: #666;
