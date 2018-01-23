@@ -40,9 +40,9 @@
             <span>提现中：{{userData.userAccount.enChashingMoney ? (userData.userAccount.enChashingMoney/100): 0 }} 元  </span>
             <router-link v-if="getUserInfoRole === 1" :to="{path: '/user/money-management/pay-money'}">充值</router-link>
             <router-link :to="{path: '/user/money-management/getout-money'}">提现</router-link>
-            剩余申请次数
+
             <a v-if="getUserInfoRole === 0">
-              {{residue}}
+              剩余申请次数 {{residue}}
             </a>
             <a class="pos-rel apply-num" v-if="getUserInfoRole === 0">
               <Icon type="help-circled"
