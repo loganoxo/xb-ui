@@ -133,7 +133,7 @@
       </div>
       <div class="container">
         <div class="task-details-step">
-          <div class="left title"> 秀吧流程<span></span></div>
+          <div class="left title">平台流程<span></span></div>
           <ul class="left ctt">
             <li>
               <span>1</span>
