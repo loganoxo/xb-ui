@@ -1,6 +1,6 @@
 <template>
   <div class="my-xiu-ba container tmy-xiu-ba-con clear">
-    <div class="my-xiu-ba-con-nav left">
+    <div v-if="isLogin" class="my-xiu-ba-con-nav left">
       <!--商家管理导航-->
       <ul v-if="getUserInfoRole === 1">
         <li :class="{isSelect:isSelect ==='UserHome'}">
@@ -140,7 +140,10 @@
     computed: {
       getUserInfoRole() {
         return this.$store.getters.getUserRole;
-      }
+      },
+      isLogin () {
+        return this.$store.state.login
+      },
     },
     methods: {
       closeClauseModel() {
