@@ -56,8 +56,8 @@
   }
 
   /**
-   * 新增渠道的Key为qd
-   * **/
+   * 新增渠道的key统一为qd
+   */
   if (getQueryString('qd')) {
     document.cookie = "from_qudao="+ getQueryString('qd').toUpperCase() + cookieAttr;
   }
