@@ -1,5 +1,4 @@
 <template>
-  <div>
     <div class="home-ctt">
       <div class="container">
         <div class="home-section">
@@ -217,7 +216,6 @@
         </div>
       </Modal>
     </div>
-  </div>
 </template>
 
 <script>
