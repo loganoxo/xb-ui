@@ -41,10 +41,10 @@
             <router-link v-if="getUserInfoRole === 1" :to="{path: '/user/money-management/pay-money'}">充值</router-link>
             <router-link :to="{path: '/user/money-management/getout-money'}">提现</router-link>
             剩余申请次数
-            <a >
+            <a v-if="getUserInfoRole === 0">
               {{residue}}
             </a>
-            <a class="pos-rel apply-num">
+            <a class="pos-rel apply-num" v-if="getUserInfoRole === 0">
               <Icon type="help-circled"
                     color="#FF6633"></Icon>
               <i class="up-icon"></i>
