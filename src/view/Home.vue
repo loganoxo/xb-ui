@@ -40,7 +40,7 @@
               </div>
               <div class="text-ct mt-10">
                 <a
-                  href="https://graph.qq.com/oauth/show?which=ConfirmPage&display=pc&client_id=101432052&response_type=token&scope=all&redirect_uri=https%3A%2F%2Fwww.xiuba365.com%2Fqq-login">
+                  href="https://graph.qq.com/oauth/show?which=ConfirmPage&display=pc&client_id=101432052&response_type=token&scope=all&redirect_uri=https%3A%2F%2Fwww.51bainana.com%2Fqq-login">
                   <img style="vertical-align: -7px;" src="~assets/img/common/qq_logo.png" alt="">
                   使用QQ登录白拿拿
                 </a>

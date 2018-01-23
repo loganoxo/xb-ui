@@ -88,7 +88,7 @@
               </div>
             </iForm>
             <p class="fs-14 text-ct vtc-mid">
-              <a href="" v-if="false">
+              <a v-if="false">
                 <img class="vtc-mid" src="~assets/img/common/qq_logo.png" alt="">
                 QQ账号登录
               </a>
