@@ -96,7 +96,6 @@
 </template>
 
 <script>
-  import 'social-share.js/dist/css/share.min.css'
   import Icon from 'iview/src/components/icon'
   import Alert from 'iview/src/components/alert'
   import Form from 'iview/src/components/form'
@@ -188,10 +187,7 @@
             self.trialReportList = res.data.content;
             self.totalPages = res.data.totalElements;
           } else {
-            self.$Message.error({
-              content: res.msg,
-              duration: 9
-            });
+            self.$Message.error(res.msg);
           }
         })
       },
@@ -203,10 +199,7 @@
             self.showkerTag = res.data.showkerTag;
             self.zanTotalNumbers = res.data.likeCount;
           } else {
-            self.$Message.error({
-              content: res.msg,
-              duration: 9
-            });
+            self.$Message.error(res.msg);
           }
         })
       },
@@ -228,7 +221,8 @@
               self.showkerReportDesc = res.data;
               self.showkerReportDesc.trialReportImages = JSON.parse(self.showkerReportDesc.trialReportImages);
               self.$nextTick(function () {
-                self.init();
+                self.initJS();
+                self.initCss();
                 self.copyValue =  window.location.href;
                 let trialReportImages = null;
                 if(self.showkerReportDesc.trialReportImages.length > 0){
@@ -240,19 +234,24 @@
               });
 
             }else {
-              self.$Message.error({
-                content: res.msg,
-                duration: 9
-              });
+              self.$Message.error(res.msg);
             }
 
          })
       },
-      init: function () {
-        let url = '/static/js/social-share.min.js';
-        let script = document.createElement('script');
+      initJS() {
+        const url = 'https://cdn.bootcss.com/social-share.js/1.0.16/js/social-share.min.js';
+        const script = document.createElement('script');
         script.setAttribute('src', url);
         document.getElementsByTagName('head')[0].appendChild(script)
+      },
+      initCss() {
+        const url = 'https://cdn.bootcss.com/social-share.js/1.0.16/css/share.min.css';
+        const link = document.createElement('link');
+        link.setAttribute('href', url);
+        link.setAttribute('rel', 'stylesheet');
+        link.setAttribute('type', 'text/css');
+        document.getElementsByTagName('head')[0].appendChild(link)
       },
     },
     watch: {
@@ -261,7 +260,6 @@
 </script>
 
 <style lang="scss" scoped>
-  @import 'src/css/mixin';
   .trial-left{
     >div{
       border-radius: 3px;

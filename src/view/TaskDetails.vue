@@ -379,40 +379,11 @@
         <div><p class="fs-20 f-b">亲，你还没绑定旺旺号 </p><br> <span class="fs-12">请先绑定旺旺号在申请活动!</span></div>
       </div>
     </Modal>
-  <!--  <Modal
-      v-if="needBrowseCollectAddCart"
-      v-model="showkerApplyBefore"
-      :closable="false"
-      :mask-closable="false"
-      width="700">
-      <p slot="header" class="my-pop text-ct" style="color:#f9284f ;position: relative">
-        <Icon type="information-circled"></Icon>
-        <span>该活动需要先浏览、收藏、加购后方可申请</span>
-        <span class="cursor-p" style="position: absolute;right: 10px;color: gray" @click="closeMyPop">
-           <Icon type="close" class="close-my-pop"></Icon>
-        </span>
-      </p>
-      <div>
-        <task-apply-before
-          @request="getShowkerApplyBefore"
-          :taskDetail="commodityData.task"
-          :storeName="storeName"
-          :taskTypeDesc="taskTypeDesc"
-          :WwNumberLIst="WwNumberLIst"
-          :taskType="taskType"
-          :taskId="taskId"
-          :itemUrl="itemUrl"
-          :wwState="wwState"
-        ></task-apply-before>
-      </div>
-      <p slot="footer"></p>
-    </Modal>-->
   </div>
 
 </template>
 
 <script>
-  import 'social-share.js/dist/css/share.min.css'
   import Icon from 'iview/src/components/icon'
   import Alert from 'iview/src/components/alert'
   import Form from 'iview/src/components/form'
@@ -455,15 +426,7 @@
       return {
         copyHtml: '',
         copyValue: '',
-        // showkerApplyBefore: false,
-        needBrowseCollectAddCart: false,
         showkerTask: {},
-        storeName: '',
-        taskTypeDesc: null,
-        taskType: null,
-        taskId: null,
-        itemUrl: null,
-        WwNumberLIst: {},
         disabled: false,
         timeEndShow: false,
         applyBtnShow: '',
@@ -603,13 +566,6 @@
       getRole() {
         return this.$store.state.userInfo.role
       },
-      /* getNeedBrowseCollectAddCart(){
-         return this.needBrowseCollectAddCart
-       },*/
-      getTaskId() {
-        return decode(this.$route.query.q)
-      },
-
     },
     methods: {
       encryptionId(id) {
@@ -649,10 +605,7 @@
             self.residue = res.data.left;
             self.showkerApplyTotal = res.data.base + res.data.shareGet;
           }else {
-            self.$Message.error({
-              content: res.msg,
-              duration: 9
-            });
+            self.$Message.error(res.msg);
           }
         })
       },
@@ -700,10 +653,7 @@
             self.totalElements = res.data.totalElements;
             self.graphicInfoSels[1].num = res.data.totalElements;
           } else {
-            self.$Message.error({
-              content: res.msg,
-              duration: 9
-            });
+            self.$Message.error(res.msg);
           }
         })
       },
@@ -723,8 +673,6 @@
           id: self.commodityData.showkerTask.id
         }).then((res) => {
           self.showkerTask = res.data.showkerTask;
-          self.storeName = res.data.showkerTask.task.storeName;
-          self.taskTypeDesc = res.data.showkerTask.task.taskTypeDesc;
         })
       },
       getTaskDetails() {
@@ -741,8 +689,6 @@
         api.getTaskDetails({taskId: decode(self.$route.query.q)}).then((res) => {
           if (res.status) {
             self.commodityData = res.data;
-            self.needBrowseCollectAddCart = res.data.task.needBrowseCollectAddCart;
-            self.itemUrl = res.data.task.itemUrl;
             self.$set(self.commodityData);
             if (self.commodityData.task.discountPrice) {
               self.$store.commit({
@@ -781,7 +727,8 @@
               self.graphicInfoSels[2].num = 0;
             }
             self.$nextTick(()=> {
-              self.init();
+              self.initJS();
+              self.initCss();
               self.copyHtml = '<div style="display: inline-block" data-sites="qzone, qq, weibo" data-title="【秀吧365】' + self.commodityData.task.taskName + '" data-image=' + self.commodityData.task.taskMainImage + ' data-description= " '+ self.commodityData.task.taskName + ' ' + self.copyValue + '秀吧365，万千商品每日更新，赶快和我一起来免费试用吧！" class="social-share" data-url=' + self.copyValue + '></div>';
             });
           } else {
@@ -791,7 +738,6 @@
         })
       },
       selWwFunc() {
-
         let self = this;
         let selRes = false;
         if(self.residue > 0){
@@ -843,11 +789,19 @@
         this.trialReportPicShow = true;
         this.trialReportPic = trialReportImage;
       },
-      init() {
-        let url = '/static/js/social-share.min.js';
-        let script = document.createElement('script');
+      initJS() {
+        const url = 'https://cdn..bootcsscom/social-share.js/1.0.16/js/social-share.min.js';
+        const script = document.createElement('script');
         script.setAttribute('src', url);
         document.getElementsByTagName('head')[0].appendChild(script)
+      },
+      initCss() {
+        const url = 'https://cdn.bootcss.com/social-share.js/1.0.16/css/share.min.css';
+        const link = document.createElement('link');
+        link.setAttribute('href', url);
+        link.setAttribute('rel', 'stylesheet');
+        link.setAttribute('type','text/css');
+        document.getElementsByTagName('head')[0].appendChild(link)
       },
       handleCloseTag() {
         let _this = this;

@@ -81,7 +81,7 @@
   import TimeDown from '@/components/TimeDown'
   import Clipboard from 'clipboard';
   import api from '@/config/apiConfig'
-  import {TaskErrorStatusList, getUrlParams} from '@/config/utils'
+  import {TaskErrorStatusList} from '@/config/utils'
 
   export default {
     name: 'PlaceOrderStep',

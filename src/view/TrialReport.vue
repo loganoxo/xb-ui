@@ -130,7 +130,6 @@
 </template>
 
 <script>
-  import 'social-share.js/dist/css/share.min.css'
   import Icon from 'iview/src/components/icon'
   import Alert from 'iview/src/components/alert'
   import Form from 'iview/src/components/form'
@@ -358,7 +357,8 @@
               trialReportImages = "http://" + window.location.host + "/static/img/common/logo.png";
             }
             self.$nextTick(function () {
-              self.init();
+              self.initJS();
+              self.initCss();
               self.copyValue =  window.location.href;
               self.copyHtml = '<div style="display: inline-block;" data-sites="qzone, qq, weibo" data-title="白拿拿365，精彩秀出每一天" data-image=' + trialReportImages + ' data-description="我在白拿拿365上查看了'+ self.showkerReportDesc.task.taskName +'精彩买家秀，心动不如行动，赶快和我一起加入，只要分享自己真实的使用体会，即可免费获得万千商品！" class="social-share" data-url=' + self.copyValue + '  ></div>';
             });
@@ -370,11 +370,19 @@
           }
         })
       },
-      init: function () {
-        let url = '/static/js/social-share.min.js';
-        let script = document.createElement('script');
+      initJS() {
+        const url = 'https://cdn.bootcss.com/social-share.js/1.0.16/js/social-share.min.js';
+        const script = document.createElement('script');
         script.setAttribute('src', url);
         document.getElementsByTagName('head')[0].appendChild(script)
+      },
+      initCss() {
+        const url = 'https://cdn.bootcss.com/social-share.js/1.0.16/css/share.min.css';
+        const link = document.createElement('link');
+        link.setAttribute('href', url);
+        link.setAttribute('rel', 'stylesheet');
+        link.setAttribute('type','text/css');
+        document.getElementsByTagName('head')[0].appendChild(link)
       },
     },
     watch: {

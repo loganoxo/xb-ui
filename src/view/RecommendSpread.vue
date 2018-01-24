@@ -101,7 +101,6 @@
   import Button from 'iview/src/components/button'
   import api from '@/config/apiConfig'
   import Clipboard from 'clipboard';
-  import 'social-share.js/dist/css/share.min.css'
   export default {
     name: 'RecommendSpread',
     components: {
@@ -110,7 +109,7 @@
     },
     data() {
       return {
-        copyValue: '1234',
+        copyValue: '',
         copyHtml: '',
         rankingList: [],
         myRecommend: {},
@@ -136,10 +135,7 @@
           if(res.status){
             _this.myRecommend = res.data;
           }else {
-            _this.$Message.error({
-              content: res.msg,
-              duration: 6
-            });
+            _this.$Message.error(res.msg);
           }
         });
       }
@@ -151,20 +147,25 @@
           }
           _this.rankingList = res.data.sort(sortNumber);
         }else {
-          _this.$Message.error({
-            content: res.msg,
-            duration: 6
-          });
+          _this.$Message.error(res.msg);
         }
       })
     },
     methods: {
-      init: function () {
-        let url = '/static/js/social-share.min.js';
-        let script = document.createElement('script');
+      initJS() {
+        const url = 'https://cdn.bootcss.com/social-share.js/1.0.16/js/social-share.min.js';
+        const script = document.createElement('script');
         script.setAttribute('src', url);
         document.getElementsByTagName('head')[0].appendChild(script)
-      }
+      },
+      initCss() {
+        const url = 'https://cdn.bootcss.com/social-share.js/1.0.16/css/share.min.css';
+        const link = document.createElement('link');
+        link.setAttribute('href', url);
+        link.setAttribute('rel', 'stylesheet');
+        link.setAttribute('type', 'text/css');
+        document.getElementsByTagName('head')[0].appendChild(link)
+      },
     },
     computed: {
       isLogin() {
@@ -194,10 +195,10 @@
       if(_this.$store.state.login){
         _this.$nextTick(function () {
           api.getRecommendUrl().then((res) => {
-            _this.init();
+            _this.initJS();
+            _this.initCss();
             _this.copyValue = res;
             _this.copyHtml = '<div style="display: inline-block;" data-sites="qzone, qq, weibo" data-title="白拿拿，邀你共享好礼，秀出精彩！" data-image="https://www.xiuba365.com/static/avatar/xiuba-icon.png" data-description="秀出精彩，畅享好礼！我已经在白拿拿了，你还在等什么呢！" class="social-share" data-url=' + _this.copyValue + '  ></div>';
-
           });
         })
       }
@@ -206,7 +207,6 @@
 </script>
 
 <style lang="scss" scoped>
-  @import 'src/css/mixin';
   .spread-part2{
     background-color: #feb312;
   }

@@ -32,9 +32,10 @@
       </div>
       <div class="mt-30">
         <div class="fs-18">
-          <span >我邀请的好友：</span>
+          <span>我邀请的好友：</span>
           <p class="fs-14 cl000 " style="display: inline-block;" v-if="getUserInfoRole===0">
-            一共邀请了 <span style="color: #ff6600"> {{count}} </span> 位好友，共获得 <span style="color: #ff6600"> ￥{{reward/100}} </span> 奖励
+            一共邀请了 <span style="color: #ff6600"> {{count}} </span> 位好友，共获得 <span
+            style="color: #ff6600"> ￥{{reward/100}} </span> 奖励
           </p>
           <p class="fs-14 cl000 " style="display: inline-block;" v-if="getUserInfoRole===1">
             一共邀请了 <span style="color: #ff6600"> {{count}} </span> 位好友，
@@ -55,7 +56,7 @@
                       <div class="ivu-table-cell"><span>注册时间</span></div>
                     </th>
                     <th class="">
-                      <div class="ivu-table-cell"><span>类型</span> </div>
+                      <div class="ivu-table-cell"><span>类型</span></div>
                     </th>
                     <th class="main-color" v-if="getUserInfoRole === 0">
                       <div class="ivu-table-cell">
@@ -63,9 +64,9 @@
                       </div>
                     </th>
                     <!--<th class="main-color">-->
-                      <!--<div class="ivu-table-cell">-->
-                        <!--<span style="color: #495060;">累计奖励</span>-->
-                      <!--</div>-->
+                    <!--<div class="ivu-table-cell">-->
+                    <!--<span style="color: #495060;">累计奖励</span>-->
+                    <!--</div>-->
                     <!--</th>-->
                   </tr>
                   </thead>
@@ -74,29 +75,30 @@
               <div class="ivu-table-body">
                 <table cellspacing="0" cellpadding="0" border="0" style="width: 1031px;" v-show="recommendData.length">
                   <tbody class="ivu-table-tbody">
-                    <tr class="ivu-table-row" v-for="recommend in recommendData">
-                      <td class="">
-                        <div class="ivu-table-cell"> <span>{{recommend.inviteePhone}}</span> </div>
-                      </td>
-                      <td class="">
-                        <div class="ivu-table-cell"><span>{{recommend.inviteeRegisterTime | dateFormat('YYYY-MM-DD hh:mm:ss')}}</span> </div>
-                      </td>
-                      <td class="">
-                        <div class="ivu-table-cell">
-                          <span v-if="recommend.inviteeRole === 0">拿手</span>
-                          <span v-if="recommend.inviteeRole === 1">商家</span>
-                        </div>
-                      </td>
-                      <td class="main-color" v-if="getUserInfoRole === 0">
-                        <div class="ivu-table-cell"> <span>￥{{recommend.singleReward/100}}</span> </div>
-                      </td>
-                      <!--<td class="main-color">-->
-                        <!--<div class="ivu-table-cell"> <span>￥{{recommend.todayReward/100}}</span> </div>-->
-                      <!--</td>-->
-                      <!--<td class="main-color">-->
-                        <!--<div class="ivu-table-cell"> <span>￥{{recommend.accumulativeReward/100}}</span> </div>-->
-                      <!--</td>-->
-                    </tr>
+                  <tr class="ivu-table-row" v-for="recommend in recommendData">
+                    <td class="">
+                      <div class="ivu-table-cell"><span>{{recommend.inviteePhone}}</span></div>
+                    </td>
+                    <td class="">
+                      <div class="ivu-table-cell"><span>{{recommend.inviteeRegisterTime | dateFormat('YYYY-MM-DD hh:mm:ss')}}</span>
+                      </div>
+                    </td>
+                    <td class="">
+                      <div class="ivu-table-cell">
+                        <span v-if="recommend.inviteeRole === 0">拿手</span>
+                        <span v-if="recommend.inviteeRole === 1">商家</span>
+                      </div>
+                    </td>
+                    <td class="main-color" v-if="getUserInfoRole === 0">
+                      <div class="ivu-table-cell"><span>￥{{recommend.singleReward/100}}</span></div>
+                    </td>
+                    <!--<td class="main-color">-->
+                    <!--<div class="ivu-table-cell"> <span>￥{{recommend.todayReward/100}}</span> </div>-->
+                    <!--</td>-->
+                    <!--<td class="main-color">-->
+                    <!--<div class="ivu-table-cell"> <span>￥{{recommend.accumulativeReward/100}}</span> </div>-->
+                    <!--</td>-->
+                  </tr>
                   </tbody>
                 </table>
               </div>
@@ -122,7 +124,6 @@
 </template>
 
 <script>
-  import 'social-share.js/dist/css/share.min.css'
   import Icon from 'iview/src/components/icon'
   import api from '@/config/apiConfig'
   import Modal from 'iview/src/components/modal'
@@ -131,6 +132,7 @@
   import Carousel from 'iview/src/components/carousel'
   import Table from 'iview/src/components/table'
   import Clipboard from 'clipboard';
+
   export default {
 
     name: 'Recommend',
@@ -178,39 +180,48 @@
         return this.$store.state.userInfo.role
       },
     },
-    mounted () {
+    mounted() {
       let _this = this;
       api.getRecommendUrl().then((res) => {
-        _this.init();
+        _this.initJS();
+        _this.initCss();
         _this.copyValue = res;
         _this.copyHtml = '<div style="display: inline-block;" data-sites="qzone, qq, weibo" data-title="白拿拿，邀你共享好礼，秀出精彩！" data-image="https://www.51bainana.com/static/avatar/xiuba-icon.png" data-description="秀出精彩，畅享好礼！我已经在白拿拿了，你还在等什么呢！" class="social-share" data-url=' + _this.copyValue + '  ></div>';
 
       });
     },
     methods: {
-      getRecommendPage(){
+      getRecommendPage() {
         let self = this;
         api.getRecommendPage({
           page: self.page,
           size: self.size,
         }).then((res) => {
-          if(res.status){
-              self.count = res.data.count;
-              self.reward = res.data.reward;
-              self.recommendData = res.data.page.content;
+          if (res.status) {
+            self.count = res.data.count;
+            self.reward = res.data.reward;
+            self.recommendData = res.data.page.content;
           }
         })
       },
       pageChange(data) {
-        this.page = data -1;
+        this.page = data - 1;
         this.getRecommendPage();
       },
-      init: function () {
-        let url = '/static/js/social-share.min.js';
-        let script = document.createElement('script');
+      initJS() {
+        const url = 'https://cdn.bootcss.com/social-share.js/1.0.16/js/social-share.min.js';
+        const script = document.createElement('script');
         script.setAttribute('src', url);
         document.getElementsByTagName('head')[0].appendChild(script)
-      }
+      },
+      initCss() {
+        const url = 'https://cdn.bootcss.com/social-share.js/1.0.16/css/share.min.css';
+        const link = document.createElement('link');
+        link.setAttribute('href', url);
+        link.setAttribute('rel', 'stylesheet');
+        link.setAttribute('type', 'text/css');
+        document.getElementsByTagName('head')[0].appendChild(link)
+      },
     },
 
   }
@@ -218,7 +229,6 @@
 </script>
 
 <style lang="scss" scoped>
-  @import 'src/css/mixin';
 
   .user-home {
     .user-home-account {

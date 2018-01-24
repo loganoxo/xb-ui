@@ -8,7 +8,7 @@ import store from '@/store'
  * 判断用户设备
  * */
 
-export const  browserRedirect = (device) =>{
+export const browserRedirect = (device) => {
   let sUserAgent = navigator.userAgent.toLowerCase();
   let bIsIpad = sUserAgent.match(/ipad/i) == "ipad";
   let bIsIphoneOs = sUserAgent.match(/iphone os/i) == "iphone os";
@@ -122,7 +122,7 @@ export const randomString = () => {
  * 验证是否是正实数（仅支持验证带2位小数正实数）
  */
 export const isNumber = (number) => {
-  if(!number){
+  if (!number) {
     return
   }
   let IS_NUMBER = /^[0-9]+(.[0-9]{1,2})?$/;
@@ -133,7 +133,7 @@ export const isNumber = (number) => {
  * 验证是否是非0正整数
  */
 export const isInteger = (number) => {
-  if(!number){
+  if (!number) {
     return
   }
   let IS_INTEGER = /^\+?[1-9][0-9]*$/;
