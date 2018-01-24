@@ -14,10 +14,10 @@
       <a href="https://jq.qq.com/?_wv=1027&k=5ZMH7Iu" target="_blank" class="pos-rel block" v-else>
         <img src="~assets/img/common/suspend-service-showker.png" alt="">
         <div style="position: absolute; top: 126px; width: 100%;" class="text-ct">
-          <p class="text-ct main-color"  style="font-size: 13px; line-height: 20px;">群里都免费领到了</p>
-          <p class="text-ct main-color" style="font-size: 13px;  line-height: 20px;">还不快加？</p>
+          <p class="text-ct main-color" style="font-size: 13px; line-height: 20px;">打开微信扫一扫</p>
+          <p class="text-ct main-color" style="font-size: 13px;  line-height: 20px;">马上关注服务号</p>
           <img src="/static/img/common/qr_code_bainana.png" alt="" width="120px">
-          <p class="text-ct main-color" style="font-size: 13px;  line-height: 20px;">打开微信扫一扫</p>
+          <p class="text-ct main-color" style="font-size: 13px;  line-height: 20px;">领取免费商品</p>
         </div>
       </a>
       <span class="close-suspend-service" @click.stop.self="closeSuspendService">关闭</span>

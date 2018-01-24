@@ -34,7 +34,7 @@
     <Tooltip placement="left" :transfer="true" class="mt-10 display-block" v-if="isLogin && getUserRole === 0">
       <div class="side-box side-box-bg wechat"></div>
       <div slot="content" class="text-ct">
-        <p>白拿拿，为你精挑细选每一天</p>
+        <p>打开微信扫一扫 关注服务号</p>
         <img src="~assets/img/common/showker_wechat.png" alt="" height="140" width="140" class="mt-5">
       </div>
     </Tooltip>
