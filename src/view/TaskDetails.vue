@@ -787,7 +787,7 @@
         this.trialReportPic = trialReportImage;
       },
       initJS() {
-        const url = 'https://cdn..bootcsscom/social-share.js/1.0.16/js/social-share.min.js';
+        const url = 'https://cdn.bootcss.com/social-share.js/1.0.16/js/social-share.min.js';
         const script = document.createElement('script');
         script.setAttribute('src', url);
         document.getElementsByTagName('head')[0].appendChild(script)
