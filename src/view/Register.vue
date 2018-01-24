@@ -702,7 +702,6 @@
             }else {
               self.$router.push({name: 'WwBind'});
             }
-//            self.$store.dispatch('getDetectionMerchantGuide');
           } else {
             self.$Message.error({
               content: res.msg,

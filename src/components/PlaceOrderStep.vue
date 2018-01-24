@@ -6,21 +6,36 @@
       <span v-if="showkerTaskInfo.currentGenerationEndTime" class="ml-20">下单剩余时间<time-down color='#ff4040' :fontWeight=600 :endTime="showkerTaskInfo.currentGenerationEndTime"></time-down>（超时未下单，即未在平台提交订单号，视为主动放弃活动资格）</span>
     </div>
     <div class="place-step mt-22" v-if="hasCurrentSearchSchemeIndex ? (showkerTaskInfo.task.taskType === 'pc_search' || showkerTaskInfo.task.taskType === 'app_search') : (showkerTaskInfo.taskType === 'pc_search' || showkerTaskInfo.taskType === 'app_search')">
-      <p v-if="hasCurrentSearchSchemeIndex ? showkerTaskInfo.task.taskType === 'pc_search' : showkerTaskInfo.taskType === 'pc_search'">第1步：打开浏览器输入【<span>www.taobao.com</span>】</p>
-      <p v-if="hasCurrentSearchSchemeIndex ? showkerTaskInfo.task.taskType === 'app_search' : showkerTaskInfo.taskType === 'app_search'">第1步：打开【<span>手机淘宝APP</span>】</p>
+      <p v-if="hasCurrentSearchSchemeIndex ? showkerTaskInfo.task.taskType === 'pc_search' : showkerTaskInfo.taskType === 'pc_search'">
+        第1步：打开浏览器输入【<span>www.taobao.com</span>】</p>
+      <p
+        v-if="hasCurrentSearchSchemeIndex ? showkerTaskInfo.task.taskType === 'app_search' : showkerTaskInfo.taskType === 'app_search'">
+        第1步：打开【<span>手机淘宝APP</span>】</p>
       <p>第2步：搜索框输入关键词【<span>{{taskDetail.searchKeyword}}</span>】
         <span v-if="hasCurrentSearchSchemeIndex && isShowChangeKeyword && showkerTaskInfo.status !== 'trial_end'" class="ml-10 color cursor-p" @click="changeTaskPlaceInfo">找不到宝贝？点击换个关键词试试</span>
         <span v-if="!hasCurrentSearchSchemeIndex && isShowChangeKeyword" class="ml-10 color cursor-p" @click="changeTaskPlaceInfo">找不到宝贝？点击换个关键词试试</span>
       </p>
       <p>第3步：选择【<span>{{getTaskStatus(taskDetail.searchSort)}}</span>】排序</p>
-      <p v-if="hasCurrentSearchSchemeIndex ? showkerTaskInfo.task.taskType === 'app_search' : showkerTaskInfo.taskType === 'app_search'">第4步：从上往下数第【<span>{{taskDetail.searchRankPosition}}</span>】个宝贝左右</p>
-      <p v-if="hasCurrentSearchSchemeIndex ? showkerTaskInfo.task.taskType === 'pc_search' : showkerTaskInfo.taskType === 'pc_search'">第4步：在【<span>{{taskDetail.searchPagePositionMin}}-{{taskDetail.searchPagePositionMax}}</span>】页附近找到下图宝贝。（由于千人千面的影响，位置仅供参考）</p>
-      <p v-if="taskDetail.priceRangeMin > 0 || taskDetail.deliverAddress || checkText">第5步：<span class="minor-color" v-if="taskDetail.priceRangeMin > 0">搜索指定价格【<span>{{taskDetail.priceRangeMin / 100}}-{{taskDetail.priceRangeMax / 100}}</span>】，</span><span class="minor-color" v-if="taskDetail.deliverAddress">搜索指定发货地【<span>{{taskDetail.deliverAddress}}</span>】，</span><span class="minor-color" v-if="checkText">勾选【<span>{{checkText}}</span>】</span></p>
-      <p v-if="showkerTaskInfo.task.needBrowseCollectAddCart && !(taskDetail.priceRangeMin > 0) && !taskDetail.deliverAddress && !checkText">第5步：请收藏宝贝，并加入购物车。</p>
-      <p v-if="showkerTaskInfo.task.needBrowseCollectAddCart && (taskDetail.priceRangeMin > 0) && taskDetail.deliverAddress && checkText">第6步：请收藏宝贝，并加入购物车。</p>
-  </div>
+      <p
+        v-if="hasCurrentSearchSchemeIndex ? showkerTaskInfo.task.taskType === 'app_search' : showkerTaskInfo.taskType === 'app_search'">
+        第4步：从上往下数第【<span>{{taskDetail.searchRankPosition}}</span>】个宝贝左右</p>
+      <p
+        v-if="hasCurrentSearchSchemeIndex ? showkerTaskInfo.task.taskType === 'pc_search' : showkerTaskInfo.taskType === 'pc_search'">
+        第4步：在【<span>{{taskDetail.searchPagePositionMin}}-{{taskDetail.searchPagePositionMax}}</span>】页附近找到下图宝贝。（由于千人千面的影响，位置仅供参考）
+      </p>
+      <p v-if="taskDetail.priceRangeMin > 0 || taskDetail.deliverAddress || checkText">第5步：<span class="minor-color" v-if="taskDetail.priceRangeMin > 0">搜索指定价格【<span>{{taskDetail.priceRangeMin / 100}}-{{taskDetail.priceRangeMax / 100}}</span>】，</span><span
+        class="minor-color" v-if="taskDetail.deliverAddress">搜索指定发货地【<span>{{taskDetail.deliverAddress}}</span>】，</span><span
+        class="minor-color" v-if="checkText">勾选【<span>{{checkText}}</span>】</span></p>
+      <p
+        v-if="showkerTaskInfo.task.needBrowseCollectAddCart && !(taskDetail.priceRangeMin > 0) && !taskDetail.deliverAddress && !checkText">
+        第5步：请收藏宝贝，并加入购物车。</p>
+      <p
+        v-if="showkerTaskInfo.task.needBrowseCollectAddCart && (taskDetail.priceRangeMin > 0) && taskDetail.deliverAddress && checkText">
+        第6步：请收藏宝贝，并加入购物车。</p>
+    </div>
     <div class="tao-code-place-step" v-if="hasCurrentSearchSchemeIndex ? showkerTaskInfo.task.taskType === 'tao_code' : showkerTaskInfo.taskType === 'tao_code'">
-      <p class="mb-10">淘口令【<span id="copyCode">{{taskDetail.taoCode}}</span>】<span id="copyBtn" class="ml-10" @click="sendMessage()"> 点击复制口令</span></p>
+      <p class="mb-10">淘口令【<span>{{taskDetail.taoCode}}</span>】<span class="ml-10 copy-btn" :data-clipboard-text="taskDetail.taoCode"> 点击复制口令</span>
+      </p>
       <p>入口说明：【<span>直接在手机端上复制淘口令，打开手淘会自动弹出宝贝链接</span>】</p>
       <div class="clear mt-10" v-if="taskDetail.homePageLockItemImage">
         <span class="left mt-28 mr-5 cl999">卡首屏宝贝主图：</span>
@@ -32,12 +47,16 @@
         </div>
         <span class="main-color ml-5 mt-28 left">点击缩略图可查看原图</span>
       </div>
-      <p v-if="taskDetail.homePageLockItemPrice">卡首屏宝贝价格：<span>{{(taskDetail.homePageLockItemPrice / 100).toFixed(2) + '元'}}</span></p>
+      <p v-if="taskDetail.homePageLockItemPrice">卡首屏宝贝价格：<span>{{(taskDetail.homePageLockItemPrice / 100).toFixed(2) + '元'}}</span>
+      </p>
     </div>
-    <div class="tao-link-place-step" v-if="hasCurrentSearchSchemeIndex ? showkerTaskInfo.task.taskType === 'direct_access' : showkerTaskInfo.taskType === 'direct_access'">
-      <p class="clear"><strong class="left">宝贝链接：</strong><a class="left ml-5" :href="hasCurrentSearchSchemeIndex ? showkerTaskInfo.task.itemUrl : showkerTaskInfo.itemUrl" target="_blank">{{hasCurrentSearchSchemeIndex ? showkerTaskInfo.task.itemUrl : showkerTaskInfo.itemUrl}}</a></p>
+    <div class="tao-link-place-step"
+         v-if="hasCurrentSearchSchemeIndex ? showkerTaskInfo.task.taskType === 'direct_access' : showkerTaskInfo.taskType === 'direct_access'">
+      <p class="clear"><strong class="left">宝贝链接：</strong><a class="left ml-5" :href="hasCurrentSearchSchemeIndex ? showkerTaskInfo.task.itemUrl : showkerTaskInfo.itemUrl" target="_blank">{{hasCurrentSearchSchemeIndex ?
+        showkerTaskInfo.task.itemUrl : showkerTaskInfo.itemUrl}}</a></p>
     </div>
-    <div class="baby-info clear mt-40" v-if="hasCurrentSearchSchemeIndex ? (showkerTaskInfo.task.taskType === 'pc_search' || showkerTaskInfo.task.taskType === 'app_search') : (showkerTaskInfo.taskType === 'pc_search' || showkerTaskInfo.taskType === 'app_search')">
+    <div class="baby-info clear mt-40"
+         v-if="hasCurrentSearchSchemeIndex ? (showkerTaskInfo.task.taskType === 'pc_search' || showkerTaskInfo.task.taskType === 'app_search') : (showkerTaskInfo.taskType === 'pc_search' || showkerTaskInfo.taskType === 'app_search')">
       <img class="left" :src="taskDetail.itemMainImage" alt="">
       <div class="left ml-20 mt-20">
         <p>
@@ -49,16 +68,20 @@
           <span>￥{{hasCurrentSearchSchemeIndex ? (showkerTaskInfo.task.itemPrice / 100).toFixed(2) || 0 : (showkerTaskInfo.itemPrice / 100).toFixed(2) || 0}}</span>
         </p>
         <p>
-          <router-link :to="{path:'/user/help-center/faq-showker',query:{page:'common',qusNum:9}}" class="color" target="_blank">找不到宝贝，怎么办？</router-link>
+          <router-link :to="{path:'/user/help-center/faq-showker',query:{page:'common',qusNum:9}}" class="color"
+                       target="_blank">找不到宝贝，怎么办？
+          </router-link>
         </p>
       </div>
     </div>
     <p class="pt-20 main-color">禁止从淘宝客等其他任何返利途径下单，一旦发现系统将扣除产生的淘客佣金，情节严重者直接扣除所有返款并冻结账号！如有疑问请及时联系客服。</p>
-    <div class="precautions mt-20 pt-20" v-if="isShowPrecautions" :class="[!hasCurrentSearchSchemeIndex ? 'precautions-bg' : '']">
+    <div class="precautions mt-20 pt-20" v-if="isShowPrecautions"
+         :class="[!hasCurrentSearchSchemeIndex ? 'precautions-bg' : '']">
       <p>注意事项：</p>
       <p class="mt-10">
         <span>付款方式：</span>
-        <span v-if="hasCurrentSearchSchemeIndex ? showkerTaskInfo.task.paymentMethod === 'all' : showkerTaskInfo.paymentMethod === 'all'">无所谓（可以使用花呗、信用卡等付款，也可以不用）</span>
+        <span
+          v-if="hasCurrentSearchSchemeIndex ? showkerTaskInfo.task.paymentMethod === 'all' : showkerTaskInfo.paymentMethod === 'all'">无所谓（可以使用花呗、信用卡等付款，也可以不用）</span>
         <span v-else>禁止使用花呗、信用卡付款</span>
       </p>
       <p class="mt-10 mr-10" v-if="hasCurrentSearchSchemeIndex ? showkerTaskInfo.task.remark : showkerTaskInfo.remark">
@@ -96,7 +119,7 @@
       showkerTaskInfo: {
         required: true,
         type: Object,
-        default(){
+        default() {
           return {}
         }
       },
@@ -107,7 +130,6 @@
     },
     data() {
       return {
-        copySuccess:0,
         taskDetail: {},
         isShowTaoCodeModel: false,
       }
@@ -118,30 +140,16 @@
     created() {
       let _this = this;
       _this.getNewKeywordInfo();
-      _this.$nextTick(()=> {
-        let clipboard = new Clipboard('#copyBtn', {
-          target: () => document.getElementById('copyCode')
-        });
+      _this.$nextTick(() => {
+        let clipboard = new Clipboard('.copy-btn');
         clipboard.on('success', () => {
-          _this.copySuccess++;
+          _this.$Message.success("复制成功！");
         });
         clipboard.on('error', () => {
-          _this.$Message.error("复制口令失败！");
+          _this.$Message.error("复制失败！");
           clipboard.destroy();
         });
       });
-      _this.$nextTick(() => {
-        let clipboard = new Clipboard('#copyEvaluationBtn', {
-          target: () => document.getElementById('copyEvaluation')
-        });
-        clipboard.on('success', () => {
-          _this.$Message.success("复制评价内容成功！");
-        });
-        clipboard.on('error', () => {
-          _this.$Message.error("复制评价内容失败！");
-          clipboard.destroy();
-        });
-      })
     },
     computed: {
       checkText() {
@@ -166,23 +174,20 @@
       },
     },
     methods: {
-      sendMessage(){
-        this.$Message.success("复制口令成功！");
-      },
       getTaskStatus(type) {
         return TaskErrorStatusList(type);
       },
       changeTaskPlaceInfo() {
         let _this = this;
-        if(_this.hasCurrentSearchSchemeIndex){
+        if (_this.hasCurrentSearchSchemeIndex) {
           api.getSchemeReassign({
             showkerTaskId: _this.showkerTaskInfo.id,
           }).then(res => {
-            if(res.status){
+            if (res.status) {
               _this.$emit('changeTask');
-              setTimeout(()=>{
+              setTimeout(() => {
                 _this.getNewKeywordInfo();
-              },200)
+              }, 200)
             } else {
               _this.$Message.error(res.msg);
             }
@@ -193,15 +198,15 @@
       },
       getNewKeywordInfo() {
         let _this = this;
-        if(_this.hasCurrentSearchSchemeIndex){
+        if (_this.hasCurrentSearchSchemeIndex) {
           _this.taskDetail = {};
           let taskDetailObject = _this.showkerTaskInfo.task.taskDetailObject;
-          if(_this.showkerTaskInfo.task.taskType === 'tao_code'){
+          if (_this.showkerTaskInfo.task.taskType === 'tao_code') {
             _this.taskDetail = taskDetailObject[0];
           } else {
             let index = _this.showkerTaskInfo.currentSearchSchemeIndex;
-            for(let i = 0, len = taskDetailObject.length; i < len; i++){
-              if(taskDetailObject[i].index === index){
+            for (let i = 0, len = taskDetailObject.length; i < len; i++) {
+              if (taskDetailObject[i].index === index) {
                 _this.taskDetail = taskDetailObject[i];
                 break;
               }
@@ -221,10 +226,10 @@
 <style lang="scss" scoped>
   @import 'src/css/mixin';
 
-
-  .color{
-    color: #2b85e4!important;
+  .color {
+    color: #2b85e4 !important;
   }
+
   .place-type {
     padding: 28px 0 12px 0;
     border-bottom: 2px solid #F6F6F6;
@@ -299,41 +304,41 @@
     }
   }
 
-  .precautions{
+  .precautions {
     border-top: 2px solid #F6F6F6;
-    p:first-child{
+    p:first-child {
       color: $mainColor;
       font-size: 18px;
       font-weight: bold;
     }
     P:nth-child(2),
-    P:nth-child(3){
+    P:nth-child(3) {
       color: $mainColor;
       font-size: 12px;
     }
   }
 
-  .precautions-bg{
+  .precautions-bg {
     background-color: #eee;
     padding-left: 12px;
     padding-bottom: 26px;
   }
 
-  .evaluation-content-tip{
+  .evaluation-content-tip {
     padding: 15px 10px;
     background-color: #F8F8F8;
     border: 1px solid #F2F2F2;
     margin-top: 8px;
   }
 
-  .evaluation-content-tip-assign{
+  .evaluation-content-tip-assign {
     background-color: #FFF4F1;
     border: 1px solid #FFB9B8;
     padding: 15px 10px;
     margin-top: 8px;
   }
 
-  .copy-evaluation-tbn{
+  .copy-evaluation-tbn {
     width: 112px;
     height: 22px;
     line-height: 22px;
@@ -357,7 +362,7 @@
     font-size: 16px;
   }
 
-  .tao-code-image{
+  .tao-code-image {
     display: inline-block;
     width: 60px;
     height: 60px;
@@ -373,11 +378,12 @@
     &:hover .tao-code-image-cover {
       display: block;
     }
-    img{
+    img {
       width: 100%;
       height: 100%;
     }
   }
+
   .tao-code-image-cover {
     display: none;
     position: absolute;

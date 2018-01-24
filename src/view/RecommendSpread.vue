@@ -32,8 +32,8 @@
             </div>
             <div class="mt-10 text-ct">
               <p class="fs-14 cl666 text-lf">赶紧将下方的邀请链接发送给你的好友吧~</p>
-              <input  type="text" class="ivu-input block mt-5"  readonly="readonly" v-model="copyValue" id="copyCode"/>
-              <a class="copy-link" id="copyBtn">复制链接</a>
+              <input  type="text" class="ivu-input block mt-5"  readonly="readonly" v-model="copyValue"/>
+              <a class="copy-link copy-btn" :data-clipboard-text="copyValue">复制链接</a>
             </div>
             <div class="text-ct mt-10">
               一键分享：<div class="inline-block" v-html="copyHtml"></div>
@@ -100,6 +100,7 @@
   import RoleTop from '@/components/RoleTop.vue'
   import Button from 'iview/src/components/button'
   import api from '@/config/apiConfig'
+  import {domain} from '@/config/env'
   import Clipboard from 'clipboard';
   export default {
     name: 'RecommendSpread',
@@ -118,9 +119,7 @@
     created() {
       let _this = this;
       _this.$nextTick(function () {
-        let clipboard = new Clipboard('#copyBtn', {
-          target: () => document.getElementById('copyCode')
-        });
+        let clipboard = new Clipboard('.copy-btn');
         clipboard.on('success', () => {
           _this.$Message.success("复制链接成功！");
           clipboard.destroy();
@@ -194,11 +193,15 @@
       let _this = this;
       if(_this.$store.state.login){
         _this.$nextTick(function () {
-          api.getRecommendUrl().then((res) => {
-            _this.initJS();
-            _this.initCss();
-            _this.copyValue = res;
-            _this.copyHtml = '<div style="display: inline-block;" data-sites="qzone, qq, weibo" data-title="白拿拿，邀你共享好礼，秀出精彩！" data-image="https://www.xiuba365.com/static/avatar/xiuba-icon.png" data-description="秀出精彩，畅享好礼！我已经在白拿拿了，你还在等什么呢！" class="social-share" data-url=' + _this.copyValue + '  ></div>';
+          api.getRecommendUrl().then(res => {
+            if(res.status){
+              _this.initJS();
+              _this.initCss();
+              _this.copyValue = domain + '/sel-role?recommendCode='+ res.recommendCode;
+              _this.copyHtml = '<div style="display: inline-block;" data-sites="qzone, qq, weibo" data-title="白拿拿，邀你共享好礼，秀出精彩！" data-image="https://www.xiuba365.com/static/avatar/xiuba-icon.png" data-description="秀出精彩，畅享好礼！我已经在白拿拿了，你还在等什么呢！" class="social-share" data-url=' + _this.copyValue + '  ></div>';
+            } else {
+              _this.$Message.error(res.msg)
+            }
           });
         })
       }

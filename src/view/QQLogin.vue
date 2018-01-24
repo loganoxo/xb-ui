@@ -53,7 +53,6 @@
               type: 'RECORD_USER_INFO',
               info: res.data
             });
-//            _this.$store.dispatch('getDetectionMerchantGuide');
             setStorage('weChartPop', 1);
             _this.$router.push('Home');
           } else {

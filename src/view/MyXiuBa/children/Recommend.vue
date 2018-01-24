@@ -4,8 +4,8 @@
     <div>
       <p class="mt-20">
         <span class="fs-18">我的邀请链接：</span>
-        <input type="text" class="ivu-input" style="width: 30%" readonly="readonly" v-model="copyValue" id="copyCode"/>
-        <a class="ivu-btn ivu-btn-button ivu-btn-primary" id="copyBtn">复制链接</a>
+        <input type="text" class="ivu-input" style="width: 30%" readonly="readonly" v-model="copyValue"/>
+        <a class="ivu-btn ivu-btn-button ivu-btn-primary copy-btn" :data-clipboard-text="copyValue">复制链接</a>
       </p>
       <div class="mt-20 fs-18">
         <span>一键分享：</span>
@@ -116,7 +116,7 @@
         </div>
       </div>
       <div class="mt-20 right">
-        <Page :total="count" :page-size="size" :current="page + 1" @on-change="pageChange"></Page>
+        <Page :total="count" :page-size="size" :current="page" @on-change="pageChange"></Page>
       </div>
 
     </div>
@@ -125,13 +125,14 @@
 
 <script>
   import Icon from 'iview/src/components/icon'
-  import api from '@/config/apiConfig'
   import Modal from 'iview/src/components/modal'
   import Breadcrumb from 'iview/src/components/breadcrumb'
   import Page from 'iview/src/components/page'
   import Carousel from 'iview/src/components/carousel'
   import Table from 'iview/src/components/table'
   import Clipboard from 'clipboard';
+  import {domain} from '@/config/env'
+  import api from '@/config/apiConfig'
 
   export default {
 
@@ -155,7 +156,7 @@
         recommendData: [],
         count: 0,
         reward: 0,
-        page: 0,
+        page: 1,
         size: 10,
       }
     },
@@ -163,14 +164,13 @@
       let _this = this;
       _this.getRecommendPage();
       _this.$nextTick(function () {
-        let clipboard = new Clipboard('#copyBtn', {
-          target: () => document.getElementById('copyCode')
-        });
+        let clipboard = new Clipboard('.copy-btn');
         clipboard.on('success', () => {
           _this.$Message.success("复制链接成功！");
         });
         clipboard.on('error', () => {
           _this.$Message.error("复制链接失败！");
+          clipboard.destroy();
         });
 
       })
@@ -182,12 +182,15 @@
     },
     mounted() {
       let _this = this;
-      api.getRecommendUrl().then((res) => {
-        _this.initJS();
-        _this.initCss();
-        _this.copyValue = res;
-        _this.copyHtml = '<div style="display: inline-block;" data-sites="qzone, qq, weibo" data-title="白拿拿，邀你共享好礼，秀出精彩！" data-image="https://www.51bainana.com/static/avatar/xiuba-icon.png" data-description="秀出精彩，畅享好礼！我已经在白拿拿了，你还在等什么呢！" class="social-share" data-url=' + _this.copyValue + '  ></div>';
-
+      api.getRecommendUrl().then(res => {
+        if(res.status){
+          _this.initJS();
+          _this.initCss();
+          _this.copyValue = domain + '/sel-role?recommendCode='+ res.recommendCode;
+          _this.copyHtml = '<div style="display: inline-block;" data-sites="qzone, qq, weibo" data-title="白拿拿，邀你共享好礼，秀出精彩！" data-image="https://www.xiuba365.com/static/avatar/xiuba-icon.png" data-description="秀出精彩，畅享好礼！我已经在白拿拿了，你还在等什么呢！" class="social-share" data-url=' + _this.copyValue + '  ></div>';
+        } else {
+          _this.$Message.error(res.msg)
+        }
       });
     },
     methods: {

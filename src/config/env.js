@@ -19,4 +19,4 @@ if (process.env.NODE_ENV === 'development') {
   aliCallbackImgUrl = 'https://xiuba-dev.oss-cn-hangzhou.aliyuncs.com/';
 }
 
-export {bucket, aliCallbackImgUrl, aliTokenUrl, aliPayUrl, weiXinPayUrl}
+export {bucket, aliCallbackImgUrl, aliTokenUrl, aliPayUrl, weiXinPayUrl, domain}

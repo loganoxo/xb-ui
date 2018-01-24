@@ -11,7 +11,7 @@
       <a href="http://wpa.qq.com/msgrd?v=3&site=qq&menu=yes&uin=1624363653" target="_blank" v-if="getUserRole === 1">
         <img src="~assets/img/common/suspend-service.png" alt="">
       </a>
-      <a href="https://jq.qq.com/?_wv=1027&k=5ZMH7Iu" target="_blank" v-else class="pos-rel block">
+      <a href="https://jq.qq.com/?_wv=1027&k=5ZMH7Iu" target="_blank" class="pos-rel block" v-else>
         <img src="~assets/img/common/suspend-service-showker.png" alt="">
         <div style="position: absolute; top: 126px; width: 100%;" class="text-ct">
           <p class="text-ct main-color"  style="font-size: 13px; line-height: 20px;">群里都免费领到了</p>
@@ -63,9 +63,6 @@
     created() {
       let _this = this;
       let userInfo = getStorage('userInfo');
-      if(_this.isLogin){
-//        _this.$store.dispatch('getDetectionMerchantGuide');
-      }
       if (!userInfo && _this.logInAuthority) {
         _this.$store.dispatch('loggedOut').then((res) => {
           if (res.status) {

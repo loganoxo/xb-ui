@@ -220,10 +220,8 @@
                   </p>
                   <div class="evaluation-content-tip cl666"
                        v-if="commodityData.task.itemReviewRequired === 'assign_review_detail' && commodityData.showkerTask">
-                    <div id="copyEvaluation" v-if="showkerTask.other && showkerTask.other.itemReviewAssign">
-                      {{showkerTask.other.itemReviewAssign.reviewContent}}
-                    </div>
-                    <div class="copy-evaluation-tbn mt-10" id="copyEvaluationBtn">复制评价内容</div>
+                    <div v-if="showkerTask.other && showkerTask.other.itemReviewAssign">{{showkerTask.other.itemReviewAssign.reviewContent}}</div>
+                    <!--<div class="copy-evaluation-tbn mt-10 copy-btn" :data-clipboard-text="showkerTask.other.itemReviewAssign.reviewContent">复制评价内容</div>-->
                   </div>
                 </div>
                 <div v-if="commodityData.cannotShowItemDescriptionOfQualification">
@@ -295,7 +293,6 @@
               </div>
             </div>
             <div v-show="graphicInfoSelClass == 'audited'" class="graphic-audited-buyer">
-
               <router-link
                 :to="{ 'path': '/trial-report','query': {'q': encryptionId(detailsSuccessShowker.showkerId)}}"
                 :key="detailsSuccessShowker.id" v-show="detailsSuccessShowkerList.length > 0 "

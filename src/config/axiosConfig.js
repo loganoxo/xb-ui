@@ -16,6 +16,7 @@ axios.interceptors.request.use((config) => {
     config.data = qs.stringify(config.data);
     LoadingBar.start();
   }
+  config.headers.platForm = 'PC';
   return config;
 }, (error) => {
   LoadingBar.error();

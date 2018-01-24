@@ -697,7 +697,7 @@ export default {
    * 获取推荐链接
    * */
   getRecommendUrl() {
-    return fetch("/api/recommend-url.json")
+    return fetch("/api/recommend-code.json")
   },
 
   /**
