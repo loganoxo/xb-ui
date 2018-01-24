@@ -432,6 +432,7 @@
       <div slot="footer">
       </div>
     </Modal>
+
     <div class="confirm-recharge-model" v-show="$store.state.wechartShow">
       <div class="confirm-recharge-con">
         <div class="pos-rel">
@@ -441,8 +442,24 @@
           <div style="position: absolute;top:27px;right: 15px;cursor: pointer;color: #FF6633" @click="cancelWeiChartFunc">
             <Icon type="close" ></Icon>
           </div>
-          <img v-show="getUserInfoRole === 0" src="/static/img/home/wechart_alert_07.png" alt=""
-               style="width: 507px;height: 340px; margin-top: 20px">
+          <div v-if="getUserInfoRole === 0">
+            <img  src="/static/img/home/wechart_alert_07.png" alt=""
+                 style="width: 507px;height: 340px; margin-top: 20px">
+            <img  src="/static/img/common/qr_code_bainana.png" alt=""
+                 style="position: absolute;
+                      bottom: 55px;
+                      left: 307px;
+                      width: 150px;"
+            >
+            <p  class="text-ct"
+               style="position: absolute;
+                    bottom: 26px;
+                    right: 67px;
+                    font-size: 16px;
+                    color: #ff6633;"
+            >打开微信扫一扫</p>
+          </div>
+
         </div>
       </div>
     </div>

@@ -241,7 +241,7 @@
         if(self.searchKey){
           self.$router.push({ path: '/task-category', query: { searchKey: self.searchKey }})
         }else {
-          self.$Message.info('搜索词不能为空');
+          self.$router.push({ 'path': '/task-category', 'query': {'category': 'all', 'categoryId': 'all'}});
         }
 
       }

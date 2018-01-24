@@ -11,8 +11,14 @@
       <a href="http://wpa.qq.com/msgrd?v=3&site=qq&menu=yes&uin=1624363653" target="_blank" v-if="getUserRole === 1">
         <img src="~assets/img/common/suspend-service.png" alt="">
       </a>
-      <a href="https://jq.qq.com/?_wv=1027&k=5ZMH7Iu" target="_blank" v-else>
+      <a href="https://jq.qq.com/?_wv=1027&k=5ZMH7Iu" target="_blank" v-else class="pos-rel block">
         <img src="~assets/img/common/suspend-service-showker.png" alt="">
+        <div style="position: absolute; top: 126px; width: 100%;" class="text-ct">
+          <p class="text-ct main-color"  style="font-size: 13px; line-height: 20px;">群里都免费领到了</p>
+          <p class="text-ct main-color" style="font-size: 13px;  line-height: 20px;">还不快加？</p>
+          <img src="/static/img/common/qr_code_bainana.png" alt="" width="120px">
+          <p class="text-ct main-color" style="font-size: 13px;  line-height: 20px;">打开微信扫一扫</p>
+        </div>
       </a>
       <span class="close-suspend-service" @click.stop.self="closeSuspendService">关闭</span>
     </div>
