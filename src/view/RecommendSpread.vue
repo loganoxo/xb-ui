@@ -9,7 +9,7 @@
       <div class="container spread-part2-box">
         <div class="left spread-left ">
           <div v-show="isLogin" style="width: 370px">
-            <div v-show="myRecommend.count" class="desc fs-14  text-ct">
+            <div v-if="myRecommend.count > 0" class="desc fs-14  text-ct">
               <p style="padding-top: 23px;">
                 一共邀请了
                 <span class="main-color f-b">{{myRecommend.count}}</span>
@@ -23,7 +23,7 @@
                 查看邀请详情
               </router-link>
             </div>
-            <div v-show="!myRecommend.count">
+            <div v-if="myRecommend.count === 0">
               <p class="fs-16 text-ct">
                 您当前还
                 <span class=" f-b">未邀请任何用户~~~</span>
