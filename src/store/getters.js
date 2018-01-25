@@ -23,7 +23,8 @@ export default {
       realName: state.userInfo.realName,
       role: state.userInfo.role,
       salt: state.userInfo.salt,
-      status: state.userInfo.status
+      status: state.userInfo.status,
+      extension:state.userInfo.extension,
     } : {}
   },
 

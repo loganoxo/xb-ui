@@ -41,7 +41,7 @@
         </div>
         <div>绑定手机：{{userList.phone}}</div>
         <div>注册时间：{{userList.createTime | dateFormat('YYYY-MM-DD hh:mm:ss')}}</div>
-        <p>上次登录时间：{{userList.lastLoginTime | dateFormat('YYYY-MM-DD hh:mm:ss')}}</p>
+        <p>上次登录时间：{{userList.extension.lastLoginTimePc | dateFormat('YYYY-MM-DD hh:mm:ss')}}</p>
       </div>
     </div>
     <div class="trading-record ">
