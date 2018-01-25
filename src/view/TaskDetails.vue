@@ -322,16 +322,18 @@
         </Radio>
       </Radio-group>
       <span v-if="!canUseWw" style="color: #FF6600">（无可用旺旺号）</span>
-      <p class="mt-10">本次申请将消耗 <span class="clff6633"> “1次” </span> 申请次数，当前您的剩余次数为 <span class="clff6633"> “{{residue}}次” </span> </p>
-      <div class="mt-10">
-        <a class="pos-rel apply-num">
-          想要更多申请次数
-          <i class="up-icon"></i>
-          <p>
-            每个拿手每天都有{{showkerApplyTotal}}次申请活动的机会，扫描以下二维码，关注秀吧公众号并分享宝贝，获取更多申请次数！
-            <img style="width: 200px" src="/static/img/common/qr-code365.png" alt="" class="mt-10 block">
-          </p>
-        </a>
+      <div v-if="c">
+        <p class="mt-10">本次申请将消耗 <span class="clff6633"> “1次” </span> 申请次数，当前您的剩余次数为 <span class="clff6633"> “{{residue}}次” </span> </p>
+        <div class="mt-10">
+          <a class="pos-rel apply-num">
+            想要更多申请次数
+            <i class="up-icon"></i>
+            <p>
+              每个拿手每天都有{{showkerApplyTotal}}次申请活动的机会，扫描以下二维码，关注秀吧公众号并分享宝贝，获取更多申请次数！
+              <img style="width: 200px" src="/static/img/common/qr-code365.png" alt="" class="mt-10 block">
+            </p>
+          </a>
+        </div>
       </div>
     </Modal>
     <Modal v-model="applySuccess" width="500">
@@ -469,7 +471,7 @@
             callback: this.getDetailsSuccessShowkerList
           }
         ],
-        graphicInfoSelClass: 'activity',
+        graphicInfoSelClass:  'activity',
         detailsShowkerParams: {
           taskId: '',
           pageIndex: 1
@@ -514,6 +516,7 @@
         ],
         canUseWw: false,
         isShowAddGroupTip: true,
+        limit: false,
       }
     },
     created() {
@@ -599,8 +602,9 @@
         let self = this;
         api.getShowkerApplyCount().then(res =>{
           if(res.status){
+            self.limit = res.data.limit;
             self.residue = res.data.left;
-            self.showkerApplyTotal = res.data.base + res.data.shareGet;
+            self.showkerApplyTotal = res.data.baseShareGet;
           }else {
             self.$Message.error(res.msg);
           }

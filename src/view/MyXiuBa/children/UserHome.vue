@@ -23,7 +23,7 @@
             <span v-else>实名认证：<Icon type="information-circled" color="#f9284f"></Icon> 未认证 &nbsp;&nbsp;<router-link
               to="/user/personal-setting/verified">去认证</router-link></span>
           </p>
-          <p>
+          <div>
           <span v-if="getUserInfoRole === 1 && membershipIsExpire">
             <Icon type="social-vimeo" class="cl999"></Icon>
             <span>非会员</span>
@@ -40,20 +40,21 @@
             <span>提现中：{{userData.userAccount.enChashingMoney ? (userData.userAccount.enChashingMoney/100): 0 }} 元  </span>
             <router-link v-if="getUserInfoRole === 1" :to="{path: '/user/money-management/pay-money'}">充值</router-link>
             <router-link :to="{path: '/user/money-management/getout-money'}">提现</router-link>
-
-            <a v-if="getUserInfoRole === 0">
-              <span style="color: #495060;">剩余申请次数</span>{{residue}}
-            </a>
-            <a class="pos-rel apply-num" v-if="getUserInfoRole === 0">
-              <Icon type="help-circled"
-                    color="#f9284f"></Icon>
-              <i class="up-icon"></i>
-              <em>
-                每个拿手每天都有{{showkerApplyTotal}}次申请活动的机会，扫描以下二维码，关注秀吧公众号并分享宝贝，获取更多申请次数！
-                <img style="width: 200px" src="/static/img/common/qr-code365.png" alt="" class="mt-10 block">
-              </em>
-            </a>
-          </p>
+            <div v-if="limit" class="inline-block ml-20">
+              <a v-if="getUserInfoRole === 0">
+                <span style="color: #495060;">剩余申请次数</span>{{residue}}
+              </a>
+              <a class="pos-rel apply-num" v-if="getUserInfoRole === 0">
+                <Icon type="help-circled"
+                      color="#f9284f"></Icon>
+                <i class="up-icon"></i>
+                <em>
+                  每个拿手每天都有{{showkerApplyTotal}}次申请活动的机会，扫描以下二维码，关注秀吧公众号并分享宝贝，获取更多申请次数！
+                  <img style="width: 200px" src="/static/img/common/qr-code365.png" alt="" class="mt-10 block">
+                </em>
+              </a>
+            </div>
+          </div>
         </div>
       </div>
       <div class="mt-10">
@@ -236,6 +237,7 @@
         levelValue: '',
         residue: null,
         showkerApplyTotal: null,
+        limit: true,
       }
     },
     created() {
@@ -287,8 +289,9 @@
         let self = this;
         api.getShowkerApplyCount().then(res =>{
           if(res.status){
-            self.showkerApplyTotal = res.data.base + res.data.shareGet;
+            self.showkerApplyTotal = res.data.baseShareGet;
             self.residue = res.data.left;
+            self.limit = res.data.limit;
           }else {
             self.$Message.error({
               content: res.msg,
@@ -456,7 +459,7 @@
       top: 23px;
       right: -66px;
       background-color: rgba(70, 76, 91, 0.9);
-      color: rgb(255, 255, 255);
+      color:  rgb(255, 255, 255);
       padding: 10px;
       font-style: normal;
       font-size: 12px;
