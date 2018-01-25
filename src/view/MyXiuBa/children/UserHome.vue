@@ -40,11 +40,11 @@
             <span>提现中：{{userData.userAccount.enChashingMoney ? (userData.userAccount.enChashingMoney/100): 0 }} 元  </span>
             <router-link v-if="getUserInfoRole === 1" :to="{path: '/user/money-management/pay-money'}">充值</router-link>
             <router-link :to="{path: '/user/money-management/getout-money'}">提现</router-link>
-            <div v-if="limit" class="inline-block ml-20">
-              <a v-if="getUserInfoRole === 0">
+            <div v-if="limit" class="inline-block ml-20 pos-rel" style="top: 5px;">
+              <a v-if="getUserInfoRole === 0" class="left">
                 <span style="color: #495060;">剩余申请次数</span>{{residue}}
               </a>
-              <a class="pos-rel apply-num" v-if="getUserInfoRole === 0">
+              <a class="pos-rel apply-num left" v-if="getUserInfoRole === 0">
                 <Icon type="help-circled"
                       color="#f9284f"></Icon>
                 <i class="up-icon"></i>
@@ -450,6 +450,8 @@
   }
 
   .apply-num{
+    display: block;
+    margin-left: 5px;
     &:hover em, &:hover i{
       display: block;
     }

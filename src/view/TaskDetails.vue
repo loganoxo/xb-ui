@@ -322,7 +322,7 @@
         </Radio>
       </Radio-group>
       <span v-if="!canUseWw" style="color: #FF6600">（无可用旺旺号）</span>
-      <div v-if="c">
+      <div v-if="limit">
         <p class="mt-10">本次申请将消耗 <span class="clff6633"> “1次” </span> 申请次数，当前您的剩余次数为 <span class="clff6633"> “{{residue}}次” </span> </p>
         <div class="mt-10">
           <a class="pos-rel apply-num">
