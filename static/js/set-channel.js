@@ -55,11 +55,15 @@
     return null;
   }
 
-  /**
-   * 新增渠道的key统一为qd
-   */
   if (getQueryString('qd')) {
     document.cookie = "from_qudao="+ getQueryString('qd').toUpperCase() + cookieAttr;
+  }
+
+  /**
+   * 新增渠道的Key为from_qudao
+   */
+  if (getQueryString('from_qudao')) {
+    document.cookie = "from_qudao=" + getQueryString('from_qudao').toUpperCase() + cookieAttr;
   }
 
 //营销qq
