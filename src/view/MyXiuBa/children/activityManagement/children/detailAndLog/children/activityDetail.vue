@@ -534,7 +534,7 @@
           <template v-else-if="taskRelease.taskType === 'tao_code'">
             <div class="tao_code ml-56 mt-20">
               <span class="required">淘口令：</span>
-              <iInput v-model="taoCodeTaskDetail.taoCode" placeholder="请输入任务宝贝的淘口令" :disabled="true" style="width: 320px"></iInput>
+              <iInput v-model="taoCodeTaskDetail[0].taoCode" placeholder="请输入任务宝贝的淘口令" :disabled="true" style="width: 320px"></iInput>
             </div>
             <div class="tao-code mt-20 clear" v-if="taoCodeDefaultList">
               <span class="left ml-15 mt-20">卡首屏宝贝主图：</span>
