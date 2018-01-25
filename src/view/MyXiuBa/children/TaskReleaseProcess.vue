@@ -1703,7 +1703,8 @@
           case 'tao_code':
             _this.taoCodeTaskDetail.forEach(item => {
               item.homePageLockItemPrice = item.homePageLockItemPrice > 0 ? (item.homePageLockItemPrice / 100).toFixed(0) * 1 : null;
-            })
+            });
+            break;
         }
       },
       getItemCatalog() {

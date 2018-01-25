@@ -25,15 +25,20 @@
             <p>{{itemCatalog.upLineTime | dateFormat('YYYY-MM-DD hh:mm:ss') || '----'}}</p>
             <p class="mt-10">{{itemCatalog.endTime | dateFormat('YYYY-MM-DD hh:mm:ss') || '----'}}</p>
           </td>
-          <td v-if="itemCatalog.taskStatus !== 'waiting_modify'">{{itemCatalog.taskStatusDesc}}<br/>{{itemCatalog.settlementStatusDesc}}</td>
+          <td v-if="itemCatalog.taskStatus !== 'waiting_modify'">{{itemCatalog.taskStatusDesc}}<br/>{{itemCatalog.settlementStatusDesc}}
+          </td>
           <td class="cursor-p main-color" v-else>
             <Tooltip :content="itemCatalog.auditLogs[itemCatalog.auditLogs.length - 1].resultMsg" placement="top">
               <Icon color="#f9284f" type="information-circled"></Icon>&nbsp;待修改
             </Tooltip>
           </td>
-          <td class="registration">{{itemCatalog.showkerApplyTotalCount || 0}} / {{itemCatalog.showkerApplySuccessCount || 0}}（人）</td>
-          <td>{{itemCatalog.taskCount  - itemCatalog.showkerApplySuccessCount}}</td>
-          <td>{{itemCatalog.totalMarginNeed / 100}} / {{itemCatalog.promotionExpensesNeed / 100}} / {{(itemCatalog.marginPaid + itemCatalog.promotionExpensesPaid) / 100 || 0}}</td>
+          <td class="registration">{{itemCatalog.showkerApplyTotalCount || 0}} / {{itemCatalog.showkerApplySuccessCount
+            || 0}}（人）
+          </td>
+          <td>{{itemCatalog.taskCount - itemCatalog.showkerApplySuccessCount}}</td>
+          <td>{{itemCatalog.totalMarginNeed / 100}} / {{itemCatalog.promotionExpensesNeed / 100}} /
+            {{(itemCatalog.marginPaid + itemCatalog.promotionExpensesPaid) / 100 || 0}}
+          </td>
         </tr>
         </tbody>
       </table>
@@ -54,8 +59,8 @@
               </span>
               <div v-if="log.opType === 'under_way' && showkerLogList.length > 0" class="shower-log-box">
                 <Collapse>
-                  <Panel v-for="(showkerLog, index) in showkerLogList"  :key="showkerLog.id">
-                    <span style="width: 98%;display: inline-block;"  @click="getShowkerLog(showkerLog, index)"> 拿手 {{showkerLog.showkerPhone}} 任务进程</span>
+                  <Panel v-for="(showkerLog, index) in showkerLogList" :key="showkerLog.id">
+                    <span style="width: 98%;display: inline-block;" @click="getShowkerLog(showkerLog, index)"> 拿手 {{showkerLog.showkerPhone}} 任务进程</span>
                     <div slot="content" class="shower-log-details">
                       <p v-for="details in showkerLog.detailsAarrayList">
                         {{details.opTime | dateFormat('YYYY-MM-DD hh:mm:ss')}}
@@ -79,14 +84,14 @@
   import Collapse from 'iview/src/components/collapse'
   import {decode} from '@/config/utils'
   import api from '@/config/apiConfig'
+
   export default {
     components: {
       Icon: Icon,
       Collapse: Collapse,
       Panel: Collapse.Panel,
-
     },
-    data () {
+    data() {
       return {
         taskId: '',
         itemCatalog: [],
@@ -117,58 +122,52 @@
         }).then(res => {
           if (res.status) {
             _this.itemCatalog = res.data
-          }else {
+          } else {
             _this.$Message.error({
               content: res.msg
             })
           }
         })
       },
-      getLogList(){
-        let self  = this;
+      getLogList() {
+        let self = this;
         api.getLogList({
           taskId: self.taskId
         }).then((res) => {
-          if(res.status){
+          if (res.status) {
             self.logList = res.data;
-            for(let i = 0, j = self.logList.length; i < j; i++){
-              if(self.logList[i].showkerTaskId){
+            for (let i = 0, j = self.logList.length; i < j; i++) {
+              if (self.logList[i].showkerTaskId) {
                 self.logList[i].detailsAarrayList = [];
-                let part = self.logList.slice(i,i+1);
+                let part = self.logList.slice(i, i + 1);
                 self.collapseIndex.push(i);
                 self.showkerLogList.push(part[0]);
                 self.deleteIndex.push(i);
               }
             }
-//            for(let z = 0, g = self.deleteIndex.length; z < g; z++){
-//              self.logList.splice(self.deleteIndex[z],1);
-//            }
-          }else {
+          } else {
             self.$Message.error({
               content: res.msg,
             })
           }
         })
       },
-      getShowkerLog(showkerLog, index){
+      getShowkerLog(showkerLog, index) {
         let self = this;
-        if(showkerLog.detailsAarrayList != ''){
-            return
-        }else {
+        if (showkerLog.detailsAarrayList.length === 0) {
           api.getShowkerLog({
             showkerTaskId: showkerLog.showkerTaskId
           }).then((res) => {
-            if(res.status){
+            if (res.status) {
               self.showkerLogList[index].detailsAarrayList = res.data;
-              self.$set(self.showkerLogList,index, self.showkerLogList[index]);
-            }else {
+              self.$set(self.showkerLogList, index, self.showkerLogList[index]);
+            } else {
               self.$Message.error({
                 content: res.msg,
               })
             }
           })
         }
-
       }
     }
   }
@@ -176,36 +175,43 @@
 
 <style lang="scss" scoped>
   @import 'src/css/mixin';
+
   .activity-table table {
     width: 100%;
     border: 1px solid #dddee1;
     border-bottom: 0;
     border-right: 0;
   }
+
   .activity-table table td,
   .activity-table table th {
     border-right: 1px solid #e9eaec;
     border-bottom: 1px solid #e9eaec;
     text-align: center;
   }
+
   .activity-table table tr.task-number td {
     text-align: left;
-    padding:6px 0 6px 10px;
+    padding: 6px 0 6px 10px;
   }
+
   .activity-table table th {
     height: 40px;
     white-space: nowrap;
     overflow: hidden;
     background-color: #f8f8f9;
   }
+
   .activity-table table td {
     padding-top: 15px;
     padding-bottom: 15px;
   }
+
   .activity-table table td img {
     width: 54px;
     height: 54px;
   }
+
   .activity-table table td .img-title {
     display: inline-block;
     width: 132px;
@@ -213,9 +219,7 @@
     padding-left: 10px;
     text-align: left;
   }
-  /*.activity-table table td.registration {*/
-    /*color: #2b85e4;*/
-  /*}*/
+
   .activity-table table td .del-edit span {
     color: #2b85e4;
     cursor: pointer;
@@ -224,6 +228,7 @@
       color: darken(#2b85e4, 10%);
     }
   }
+
   .activity-table table td .del-edit span:last-child {
     color: #2b85e4;
     @include transition;
@@ -231,6 +236,7 @@
       color: darken(#2b85e4, 10%);
     }
   }
+
   .log-box {
     div.seller-log-box {
       margin-top: 20px;
@@ -242,7 +248,7 @@
       }
     }
     div.shower-log-box {
-      .shower-log-details{
+      .shower-log-details {
         p {
           line-height: 30px;
           padding-left: 24px;

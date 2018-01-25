@@ -536,6 +536,17 @@
               <span class="required">淘口令：</span>
               <iInput v-model="taoCodeTaskDetail.taoCode" placeholder="请输入任务宝贝的淘口令" :disabled="true" style="width: 320px"></iInput>
             </div>
+            <div class="tao-code mt-20 clear" v-if="taoCodeDefaultList">
+              <span class="left ml-15 mt-20">卡首屏宝贝主图：</span>
+              <div class="demo-upload-list">
+                <img :src="taoCodeDefaultList + '!thum54'" alt="">
+              </div>
+            </div>
+            <div class="tao-code ml-15 mt-20" v-if="taoCodeTaskDetail[0].homePageLockItemPrice">
+              <span>卡首屏宝贝价格：</span>
+              <iInput v-model.number="taoCodeTaskDetail[0].homePageLockItemPrice" placeholder="请输入卡首屏宝贝价格" style="width: 140px" :disabled="true"></iInput>
+              <span>元</span>
+            </div>
           </template>
         </div>
       </div>
@@ -596,6 +607,7 @@
         mainDefaultList: null,
         appDefaultList: null,
         pcDefaultList: null,
+        taoCodeDefaultList: null,
         pcTaskDetail: [
           {
             index:0,
@@ -627,10 +639,14 @@
             deliverAddress: null,
           }
         ],
-        taoCodeTaskDetail: {
-          taoCode: null,
-          accessDescription: null
-        },
+        taoCodeTaskDetail: [
+          {
+            taoCode: null,
+            accessDescription: null,
+            homePageLockItemImage: null,
+            homePageLockItemPrice: null,
+          }
+        ],
         taskRelease: {
           taskType: 'pc_search',
           taskDaysDuration: null,
@@ -819,7 +835,7 @@
             }
             //end
             let itemIssue = JSON.parse(res.data.itemIssue);
-            if(itemIssue.length > 0) {
+            if(itemIssue && itemIssue.length > 0) {
               _this.needBrowseAnswer = true;
               _this.browseAnswer = [];
               itemIssue.forEach(item => {
@@ -841,6 +857,11 @@
             _this.taskRelease.taskDetail = {};
             if (res.data.taskType === 'tao_code') {
               _this.taoCodeTaskDetail = JSON.parse(res.data.taskDetail);
+              const image = _this.taoCodeTaskDetail[0].homePageLockItemImage;
+              if(image){
+                _this.taoCodeDefaultList = image;
+              }
+              _this.conversionPrice('tao_code');
             } else if (res.data.taskType === 'pc_search') {
               _this.pcTaskDetail = JSON.parse(res.data.taskDetail);
               _this.selectKeywordScheme = _this.pcTaskDetail.length - 1;
@@ -874,6 +895,11 @@
               item.priceRangeMin = item.priceRangeMin > 0 ? (item.priceRangeMin / 100).toFixed(2) * 1 : null;
             });
             break;
+          case 'tao_code':
+            _this.taoCodeTaskDetail.forEach(item => {
+              item.homePageLockItemPrice = item.homePageLockItemPrice > 0 ? (item.homePageLockItemPrice / 100).toFixed(0) * 1 : null;
+            });
+            break
         }
       },
       getItemCatalog() {
