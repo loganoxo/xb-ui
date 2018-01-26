@@ -40,8 +40,7 @@
       </div>
       <div class="order-query">
         <iSelect v-model="selectStatus" style="width: 120px;margin-right: 12px;">
-          <iOption placeholder="请选择类型查询" v-for="item in SelectList" :value="item.value" :key="item.value">{{
-            item.label}}
+          <iOption placeholder="请选择类型查询" v-for="item in SelectList" :value="item.value" :key="item.value">{{item.label}}
           </iOption>
         </iSelect>
         <iInput v-model="searchValue" style="width: 160px;margin-right: 8px;"></iInput>
@@ -866,6 +865,7 @@
           api.showkerTaskInfo({id: id,}).then(res => {
             if (res.status) {
               _this.showPassOperation = type;
+              _this.showkerTask = {};
               _this.showkerTask = res.data;
               if (status === 'write') {
                 _this.trialReportImages = [];
@@ -905,6 +905,7 @@
         let _this = this;
         api.showkerToProcessOrder({id: _this.itemId}).then(res => {
           if (res.status) {
+            _this.showkerTask ={};
             _this.showkerTask = res.data.showkerTask;
             _this.taskPlaceInfo = res.data.showkerTask.task;
             _this.needBrowseCollectAddCart = res.data.needBrowseCollectAddCart;

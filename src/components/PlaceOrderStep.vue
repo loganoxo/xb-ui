@@ -6,7 +6,8 @@
       <span v-if="showkerTaskInfo.currentGenerationEndTime" class="ml-20">下单剩余时间<time-down color='#ff4040' :fontWeight=600 :endTime="showkerTaskInfo.currentGenerationEndTime"></time-down>（超时未下单，即未在平台提交订单号，视为主动放弃活动资格）</span>
     </div>
     <div class="place-step mt-22" v-if="hasCurrentSearchSchemeIndex ? (showkerTaskInfo.task.taskType === 'pc_search' || showkerTaskInfo.task.taskType === 'app_search') : (showkerTaskInfo.taskType === 'pc_search' || showkerTaskInfo.taskType === 'app_search')">
-      <p v-if="hasCurrentSearchSchemeIndex ? showkerTaskInfo.task.taskType === 'pc_search' : showkerTaskInfo.taskType === 'pc_search'">
+      <p
+        v-if="hasCurrentSearchSchemeIndex ? showkerTaskInfo.task.taskType === 'pc_search' : showkerTaskInfo.taskType === 'pc_search'">
         第1步：打开浏览器输入【<span>www.taobao.com</span>】</p>
       <p
         v-if="hasCurrentSearchSchemeIndex ? showkerTaskInfo.task.taskType === 'app_search' : showkerTaskInfo.taskType === 'app_search'">
@@ -16,14 +17,14 @@
         <span v-if="!hasCurrentSearchSchemeIndex && isShowChangeKeyword" class="ml-10 color cursor-p" @click="changeTaskPlaceInfo">找不到宝贝？点击换个关键词试试</span>
       </p>
       <p>第3步：选择【<span>{{getTaskStatus(taskDetail.searchSort)}}</span>】排序</p>
-      <p
-        v-if="hasCurrentSearchSchemeIndex ? showkerTaskInfo.task.taskType === 'app_search' : showkerTaskInfo.taskType === 'app_search'">
+      <p v-if="hasCurrentSearchSchemeIndex ? showkerTaskInfo.task.taskType === 'app_search' : showkerTaskInfo.taskType === 'app_search'">
         第4步：从上往下数第【<span>{{taskDetail.searchRankPosition}}</span>】个宝贝左右</p>
       <p
         v-if="hasCurrentSearchSchemeIndex ? showkerTaskInfo.task.taskType === 'pc_search' : showkerTaskInfo.taskType === 'pc_search'">
         第4步：在【<span>{{taskDetail.searchPagePositionMin}}-{{taskDetail.searchPagePositionMax}}</span>】页附近找到下图宝贝。（由于千人千面的影响，位置仅供参考）
       </p>
-      <p v-if="taskDetail.priceRangeMin > 0 || taskDetail.deliverAddress || checkText">第5步：<span class="minor-color" v-if="taskDetail.priceRangeMin > 0">搜索指定价格【<span>{{taskDetail.priceRangeMin / 100}}-{{taskDetail.priceRangeMax / 100}}</span>】，</span><span
+      <p v-if="taskDetail.priceRangeMin > 0 || taskDetail.deliverAddress || checkText">第5步：<span class="minor-color"
+                                                                                                 v-if="taskDetail.priceRangeMin > 0">搜索指定价格【<span>{{taskDetail.priceRangeMin / 100}}-{{taskDetail.priceRangeMax / 100}}</span>】，</span><span
         class="minor-color" v-if="taskDetail.deliverAddress">搜索指定发货地【<span>{{taskDetail.deliverAddress}}</span>】，</span><span
         class="minor-color" v-if="checkText">勾选【<span>{{checkText}}</span>】</span></p>
       <p
@@ -50,8 +51,7 @@
       <p v-if="taskDetail.homePageLockItemPrice">卡首屏宝贝价格：<span>{{(taskDetail.homePageLockItemPrice / 100).toFixed(2) + '元'}}</span>
       </p>
     </div>
-    <div class="tao-link-place-step"
-         v-if="hasCurrentSearchSchemeIndex ? showkerTaskInfo.task.taskType === 'direct_access' : showkerTaskInfo.taskType === 'direct_access'">
+    <div class="tao-link-place-step" v-if="hasCurrentSearchSchemeIndex ? showkerTaskInfo.task.taskType === 'direct_access' : showkerTaskInfo.taskType === 'direct_access'">
       <p class="clear"><strong class="left">宝贝链接：</strong><a class="left ml-5" :href="hasCurrentSearchSchemeIndex ? showkerTaskInfo.task.itemUrl : showkerTaskInfo.itemUrl" target="_blank">{{hasCurrentSearchSchemeIndex ?
         showkerTaskInfo.task.itemUrl : showkerTaskInfo.itemUrl}}</a></p>
     </div>
@@ -130,7 +130,6 @@
     },
     data() {
       return {
-        taskDetail: {},
         isShowTaoCodeModel: false,
       }
     },
@@ -139,7 +138,6 @@
     },
     created() {
       let _this = this;
-      _this.getNewKeywordInfo();
       _this.$nextTick(() => {
         let clipboard = new Clipboard('.copy-btn');
         clipboard.on('success', () => {
@@ -152,6 +150,27 @@
       });
     },
     computed: {
+      taskDetail() {
+        let _this = this;
+        if (_this.hasCurrentSearchSchemeIndex) {
+          let taskDetailObject = _this.showkerTaskInfo.task.taskDetailObject;
+          if (_this.showkerTaskInfo.task.taskType === 'tao_code') {
+            return taskDetailObject[0];
+          } else {
+            let index = _this.showkerTaskInfo.currentSearchSchemeIndex;
+            for (let i = 0, len = taskDetailObject.length; i < len; i++) {
+              if (taskDetailObject[i].index === index) {
+                return taskDetailObject[i];
+              }
+            }
+          }
+
+        } else {
+          let len = _this.showkerTaskInfo.taskDetailObject.length;
+          let index = Math.floor(Math.random() * len);
+          return _this.showkerTaskInfo.taskDetailObject[index];
+        }
+      },
       checkText() {
         return this.taskDetail.searchFilterDesc ? this.taskDetail.searchFilterDesc.split(',').join('、') : null;
       },
@@ -185,38 +204,10 @@
           }).then(res => {
             if (res.status) {
               _this.$emit('changeTask');
-              setTimeout(() => {
-                _this.getNewKeywordInfo();
-              }, 200)
             } else {
               _this.$Message.error(res.msg);
             }
           });
-        } else {
-          _this.getNewKeywordInfo();
-        }
-      },
-      getNewKeywordInfo() {
-        let _this = this;
-        if (_this.hasCurrentSearchSchemeIndex) {
-          _this.taskDetail = {};
-          let taskDetailObject = _this.showkerTaskInfo.task.taskDetailObject;
-          if (_this.showkerTaskInfo.task.taskType === 'tao_code') {
-            _this.taskDetail = taskDetailObject[0];
-          } else {
-            let index = _this.showkerTaskInfo.currentSearchSchemeIndex;
-            for (let i = 0, len = taskDetailObject.length; i < len; i++) {
-              if (taskDetailObject[i].index === index) {
-                _this.taskDetail = taskDetailObject[i];
-                break;
-              }
-            }
-          }
-
-        } else {
-          let len = _this.showkerTaskInfo.taskDetailObject.length;
-          let index = Math.floor(Math.random() * len);
-          _this.taskDetail = _this.showkerTaskInfo.taskDetailObject[index];
         }
       },
     }
