@@ -329,8 +329,8 @@
             想要更多申请次数
             <i class="up-icon"></i>
             <p>
-              每个拿手每天都有{{showkerApplyTotal}}次申请活动的机会，扫描以下二维码，关注秀吧公众号并分享宝贝，获取更多申请次数！
-              <img style="width: 200px" src="/static/img/common/qr-code365.png" alt="" class="mt-10 block">
+              每个拿手每天都有{{showkerApplyTotal}}次申请活动的机会，扫描以下二维码，关注51白拿拿公众号并分享宝贝，获取更多申请次数！
+              <img style="width: 200px" src="/static/img/common/qr_code_bainana.png" alt="" class="mt-10 block">
             </p>
           </a>
         </div>
