@@ -14,7 +14,7 @@
         第1步：打开【<span>手机淘宝APP</span>】</p>
       <p>第2步：搜索框输入关键词【<span>{{taskDetail.searchKeyword}}</span>】
         <span v-if="hasCurrentSearchSchemeIndex && isShowChangeKeyword && showkerTaskInfo.status !== 'trial_end'" class="ml-10 color cursor-p" @click="changeTaskPlaceInfo">找不到宝贝？点击换个关键词试试</span>
-        <span v-if="!hasCurrentSearchSchemeIndex && isShowChangeKeyword" class="ml-10 color cursor-p" @click="changeTaskPlaceInfo">找不到宝贝？点击换个关键词试试</span>
+        <!--<span v-if="!hasCurrentSearchSchemeIndex && isShowChangeKeyword" class="ml-10 color cursor-p" @click="changeTaskPlaceInfo">找不到宝贝？点击换个关键词试试</span>-->
       </p>
       <p>第3步：选择【<span>{{getTaskStatus(taskDetail.searchSort)}}</span>】排序</p>
       <p v-if="hasCurrentSearchSchemeIndex ? showkerTaskInfo.task.taskType === 'app_search' : showkerTaskInfo.taskType === 'app_search'">
@@ -164,7 +164,6 @@
               }
             }
           }
-
         } else {
           let len = _this.showkerTaskInfo.taskDetailObject.length;
           let index = Math.floor(Math.random() * len);
