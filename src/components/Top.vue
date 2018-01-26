@@ -61,21 +61,21 @@
               体验专区
             </Tooltip>
           </a>
-          <a :class="[activityCategory === 'pinkage_for_10' ? 'active' : '']" >
-            <!--@click="selTaskCategoryFunc('pinkage_for_10')"-->
-            <i style="position: absolute; top: -16px; left: 19px;">
-              <img src="/static/img/icon/franking.gif" alt="" >
-            </i>
-            <Tooltip :content="TaskCategoryActiveList['pinkage_for_10'].desc" placement="bottom">
-              10元包邮
-            </Tooltip>
-          </a>
-          <a :class="[activityCategory === 'price_low' ? 'active' : '']" >
-            <!--@click="selTaskCategoryFunc('price_low')"-->
-            <Tooltip :content="TaskCategoryActiveList['price_low'].desc" placement="bottom">
-              白菜价
-            </Tooltip>
-          </a>
+          <!--<a :class="[activityCategory === 'pinkage_for_10' ? 'active' : '']" >-->
+            <!--&lt;!&ndash;@click="selTaskCategoryFunc('pinkage_for_10')"&ndash;&gt;-->
+            <!--<i style="position: absolute; top: -16px; left: 19px;">-->
+              <!--<img src="/static/img/icon/franking.gif" alt="" >-->
+            <!--</i>-->
+            <!--<Tooltip :content="TaskCategoryActiveList['pinkage_for_10'].desc" placement="bottom">-->
+              <!--10元包邮-->
+            <!--</Tooltip>-->
+          <!--</a>-->
+          <!--<a :class="[activityCategory === 'price_low' ? 'active' : '']" >-->
+            <!--&lt;!&ndash;@click="selTaskCategoryFunc('price_low')"&ndash;&gt;-->
+            <!--<Tooltip :content="TaskCategoryActiveList['price_low'].desc" placement="bottom">-->
+              <!--白菜价-->
+            <!--</Tooltip>-->
+          <!--</a>-->
           <!--<a :class="[$store.state.activityCategory == 'goods_clearance' ? 'active' : '']" @click="selTaskCategoryFunc('goods_clearance')" >-->
             <!--<i style="position: absolute; top: -16px; left: 15px;">-->
               <!--<img src="/static/img/icon/discount.gif" alt="" >-->
