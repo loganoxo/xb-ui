@@ -9,6 +9,7 @@ const RecommendSpread = r => require.ensure([], () => r(require('@/view/Recommen
 
 const SellerSpread = r => require.ensure([], () => r(require('@/view/SellerSpread.vue')), 'SellerSpread');
 const SellerGuide = r => require.ensure([], () => r(require('@/view/SellerGuide.vue')), 'SellerGuide');
+const PhoneGuide = r => require.ensure([], () => r(require('@/view/PhoneGuide.vue')), 'PhoneGuide');
 const AboutUs = r => require.ensure([], () => r(require('@/view/AboutUs.vue')), 'AboutUs');
 const ShowkerLanding = r => require.ensure([], () => r(require('@/view/ShowkerLanding.vue')), 'ShowkerLanding');
 const SelRole = r => require.ensure([], () => r(require('@/view/SelRole.vue')), 'SelRole');
@@ -189,6 +190,18 @@ export default new Router({
         topShow: false,
         bottomShow: false,
         role: 1,
+      }
+    },
+    {
+      path: '/phone-guide',
+      name: 'PhoneGuide',
+      component: PhoneGuide,
+      meta: {
+        title: "手机端引导",
+        logInAuthority: false,
+        topShow: false,
+        bottomShow: false,
+        role: null,
       }
     },
     {

@@ -92,6 +92,9 @@
         <!--<router-link  v-if="!(getUserInfoRole.role === 0)" class="seller-enter" style="background-color: #FBEF81; color: #B7723E; float: right; font-weight: bold;" to="/seller-adv">
           商家入驻必读
         </router-link>-->
+        <router-link  class="phone-enter" style="background-color: #FBEF81; color: #B7723E; float: right; font-weight: bold;" to="/phone-guide">
+          手机版
+        </router-link>
       </div>
     </div>
   </div>
@@ -348,6 +351,11 @@
   }
   .seller-enter{
     background: rgb(225, 41, 30) url("/static/img/icon/seller-icon.png") no-repeat 6px 7px;
+  }
+  .phone-enter{
+    background: rgb(225, 41, 30) url("/static/img/icon/phone-icon.png") no-repeat 6px 7px;
+  }
+  .seller-enter,.phone-enter{
     color: rgb(255, 255, 255);
     float: right;
     height: 30px;
