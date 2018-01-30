@@ -23,6 +23,7 @@ const state = {
   wechartRes: true,
   disCountTaskCategory: false,//是否为白菜价判断
   showTopCategoryRes: true, //导航栏左侧列表显示
+  sysConfigInfo:{},//系统配置信息
   //导航分类列表
   TaskCategoryActiveList: {
     'home': {

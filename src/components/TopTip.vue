@@ -1,5 +1,6 @@
 <template>
-  <div id="topTip" class="top-tip">
+  <div id="topTip" class="top-tip bg-f8f8f8">
+    <div class="notice text-ct bg-FFFDD6 cl000">公告：要放假了，不要提需求了...</div>
     <div class="container">
       <p v-show="isLogin" class="left">
         你好，<span class="user-name">
@@ -128,11 +129,16 @@
 
 <style lang="scss" scoped>
   @import 'src/css/mixin';
-
-  .top-tip {
+  .bg-f8f8f8{
     background-color: #F8F8F8;
+  }
+  .bg-FFFDD6{
+    background-color: #FFFDD6;
+  }
+  .top-tip {
+    /*background-color: #F8F8F8;*/
     > div {
-      background-color: #F8F8F8;
+      /*background-color: #F8F8F8;*/
       height: 30px;
       line-height: 30px;
       span.user-name {

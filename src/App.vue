@@ -26,6 +26,7 @@
 </template>
 
 <script>
+  import api from '@/config/apiConfig'
   import Top from "@/components/Top.vue"
   import Bottom from "@/components/Bottom.vue"
   import SideNavigation from '@/components/SideNavigation.vue'
@@ -72,11 +73,26 @@
           }
         });
       }
+      _this.getSysConfigInfo();
     },
     methods: {
       closeSuspendService() {
         this.showSuspendService = false;
-      }
+      },
+      getSysConfigInfo(){
+        let self = this;
+        api.getSysConfigInfo(
+        ).then((res) => {
+          if (res){
+            self.$store.commit({
+              type: 'SYSTEM_CONFIG_INFORMATION',
+              result: res
+            });
+          }else {
+            alert(res)
+          }
+        })
+      },
     },
     watch: {
       '$route'(to, from) {

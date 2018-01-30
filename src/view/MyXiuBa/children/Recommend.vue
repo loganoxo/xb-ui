@@ -15,10 +15,10 @@
         <p class="fs-18">奖励说明：</p>
         <ul v-if="getUserInfoRole === 0">
           <li>
-            1.通过您的邀请链接成功进行注册，如果是拿手，成功注册并完成首个任务后，即可获得 <span style="color: #ff6600">￥2</span> 奖励;
+            1.通过您的邀请链接成功进行注册，如果是拿手，成功注册并完成首个任务后，即可获得 <span style="color: #ff6600">￥{{$store.state.sysConfigInfo.showkerInviteShowkerFee/100}}</span> 奖励;
           </li>
           <li>
-            2.通过您的邀请链接成功进行注册，如果是商家，那么当商家成功发布一个活动后，即可获得 <span style="color: #ff6600">￥2</span> 奖励;
+            2.通过您的邀请链接成功进行注册，如果是商家，那么当商家成功发布一个活动后，即可获得 <span style="color: #ff6600">￥{{$store.state.sysConfigInfo.showkerInviteSellerFee/100}}</span> 奖励;
           </li>
           <li>
             3.奖励的金额将直接充值到您的账户余额中，您可以用来提现；

@@ -832,4 +832,11 @@ export default {
   getAvailableBoardByAdTypeList(params) {
     return fetch('/api/user/get-available-board-by-adType.json', params)
   },
+
+  /**
+   * 获取系统配置信息
+   */
+  getSysConfigInfo(){
+    return fetch("/api/user/getSysConfig/0.json")
+  }
 }

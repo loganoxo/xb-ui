@@ -91,4 +91,9 @@ export default {
   [types.SET_ACTIVITY_CATEGORY](state,{info}) {
     state.activityCategory = info;
   },
+
+  //系统配置信息
+  [types.SYSTEM_CONFIG_INFORMATION](state, {result}) {
+    state.sysConfigInfo = result;
+  },
 }

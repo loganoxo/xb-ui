@@ -48,4 +48,19 @@ export default {
     })
   },
 
+  //获取系统配置信息
+  getSysConfigInfo(){
+    let self = this;
+    api.getSysConfigInfo(
+    ).then((res) => {
+      if (res){
+        self.$store.commit({
+          type: 'SYSTEM_CONFIG_INFORMATION',
+          result: res
+        });
+      }else {
+        alert(res)
+      }
+    })
+  },
 }
