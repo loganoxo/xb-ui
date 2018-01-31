@@ -173,11 +173,11 @@
         return this.showkerTaskInfo.currentSearchSchemeIndex !== undefined && this.showkerTaskInfo.currentSearchSchemeIndex !== null;
       },
       isShowChangeKeyword() {
-        return this.hasCurrentSearchSchemeIndex ? this.showkerTaskInfo.task.taskDetailObject.length > 1 : this.showkerTaskInfo.taskDetailObject.length;
+        return this.showkerTaskInfo.task.taskDetailObject.length > 1;
       },
       getStoreName() {
-        let length = this.hasCurrentSearchSchemeIndex ? this.showkerTaskInfo.task.storeName.length : this.showkerTaskInfo.storeName.length;
-        let name = this.hasCurrentSearchSchemeIndex ? this.showkerTaskInfo.task.storeName : this.showkerTaskInfo.storeName;
+        let length = this.showkerTaskInfo.task.storeName.length;
+        let name = this.showkerTaskInfo.task.storeName;
         if (length && length > 4) {
           return name.substr(0, 2) + '****' + name.substr(-2);
         } else if (length && length <= 4) {
