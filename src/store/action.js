@@ -49,17 +49,16 @@ export default {
   },
 
   //获取系统配置信息
-  getSysConfigInfo(){
-    let self = this;
+  getSysConfigInfo({commit}){
     api.getSysConfigInfo(
     ).then((res) => {
       if (res){
-        self.$store.commit({
+        commit({
           type: 'SYSTEM_CONFIG_INFORMATION',
           result: res
         });
       }else {
-        alert(res)
+        alert('获取系统配置信息' + res)
       }
     })
   },

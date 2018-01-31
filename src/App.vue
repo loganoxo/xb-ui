@@ -74,24 +74,11 @@
         });
       }
       _this.getSysConfigInfo();
+      _this.$store.dispatch('getSysConfigInfo')
     },
     methods: {
       closeSuspendService() {
         this.showSuspendService = false;
-      },
-      getSysConfigInfo(){
-        let self = this;
-        api.getSysConfigInfo(
-        ).then((res) => {
-          if (res){
-            self.$store.commit({
-              type: 'SYSTEM_CONFIG_INFORMATION',
-              result: res
-            });
-          }else {
-            alert(res)
-          }
-        })
       },
     },
     watch: {

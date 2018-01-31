@@ -1,6 +1,6 @@
 <template>
   <div id="topTip" class="top-tip bg-f8f8f8">
-    <div class="notice text-ct bg-FFFDD6 cl000">公告：要放假了，不要提需求了...</div>
+    <!--<div class="notice text-ct bg-FFFDD6 cl000">2018年春节假期安排通知：要放假了，关于秀客申请问题须知...</div>-->
     <div class="container">
       <p v-show="isLogin" class="left">
         你好，<span class="user-name">
