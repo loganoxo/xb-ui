@@ -73,7 +73,6 @@
           }
         });
       }
-      _this.getSysConfigInfo();
       _this.$store.dispatch('getSysConfigInfo')
     },
     methods: {
