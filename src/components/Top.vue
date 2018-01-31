@@ -92,9 +92,9 @@
         <!--<router-link  v-if="!(getUserInfoRole.role === 0)" class="seller-enter" style="background-color: #FBEF81; color: #B7723E; float: right; font-weight: bold;" to="/seller-adv">
           商家入驻必读
         </router-link>-->
-        <router-link  class="phone-enter" style="background-color: #FBEF81; color: #B7723E; float: right; font-weight: bold;" to="/phone-guide">
+        <!--<router-link  class="phone-enter" style="background-color: #FBEF81; color: #B7723E; float: right; font-weight: bold;" to="/phone-guide">
           手机版
-        </router-link>
+        </router-link>-->
       </div>
     </div>
   </div>
