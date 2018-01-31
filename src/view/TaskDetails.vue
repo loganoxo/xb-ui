@@ -178,7 +178,7 @@
             </a>
           </div>
           <div class="graphic-info-ctt">
-            <div v-show="graphicInfoSelClass == 'activity'" class="graphic-info-details">
+            <div v-show="graphicInfoSelClass === 'activity'" class="graphic-info-details">
               <div v-if="commodityData.showkerTask" class="bgF1F1F1 pd-20 task-step-explain mb-20">
                 <place-order-step v-if="Object.keys(showkerTask).length > 0" :showkerTaskInfo="showkerTask" :isShowPrecautions="false" @changeTask="getShowkerToProcessOrder"></place-order-step>
               </div>
@@ -292,7 +292,7 @@
                 ></Page>
               </div>
             </div>
-            <div v-show="graphicInfoSelClass == 'audited'" class="graphic-audited-buyer">
+            <div v-show="graphicInfoSelClass === 'audited'" class="graphic-audited-buyer">
               <router-link
                 :to="{ 'path': '/trial-report','query': {'q': encryptionId(detailsSuccessShowker.showkerId)}}"
                 :key="detailsSuccessShowker.id" v-show="detailsSuccessShowkerList.length > 0 "
