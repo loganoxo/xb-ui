@@ -215,7 +215,7 @@
       <div class="evaluation-content-tip-assign mt-10"
            v-if="showkerTask.task && showkerTask.task.itemReviewRequired === 'assign_review_detail'">
         <div>{{showkerTask.other.itemReviewAssign.reviewContent}}</div>
-        <button class="copy-evaluation-tbn mt-10 copy-btn" @click="copyEvaluate" :data-clipboard-text="showkerTask.other.itemReviewAssign.reviewContent">复制评价内容</button>
+        <button class="copy-evaluation-tbn mt-10 copy-btn" :data-clipboard-text="showkerTask.other.itemReviewAssign.reviewContent">复制评价内容</button>
       </div>
       <div class="write-order-number mt-20">
         <span
@@ -257,8 +257,7 @@
           <Icon v-if="showkerTask.status === 'trial_report_unqualified'" type="information-circled" color="#f9284f"></Icon>
           <span :class="[showkerTask.status === 'trial_report_unqualified' ? 'main-color': '']">{{getTaskStatus(showkerTask.status)}}</span>
           <strong v-if="showkerTask.status === 'trial_report_unqualified'" class="ml-10">原因：{{showkerTask.latestShowkerTaskOpLog.auditDescription}}</strong>
-          <span class="main-color ml-10"><time-down color='#ff4040' :fontWeight=600
-                                                    :endTime="showkerTask.currentGenerationEndTime"></time-down></span>
+          <span class="main-color ml-10"><time-down color='#ff4040' :fontWeight=600 :endTime="showkerTask.currentGenerationEndTime"></time-down></span>
         </p>
       </div>
       <div class="precautions-info mt-10" v-if="showkerTask.task.remark">
