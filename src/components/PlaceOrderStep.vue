@@ -3,9 +3,12 @@
     <div class="place-type">
       <span v-if="!hasCurrentSearchSchemeIndex" class="serial-number">2</span>
       <span>{{hasCurrentSearchSchemeIndex ? showkerTaskInfo.task.taskTypeDesc : showkerTaskInfo.taskTypeDesc}}</span>
-      <span v-if="showkerTaskInfo.currentGenerationEndTime" class="ml-20">下单剩余时间<time-down color='#ff4040' :fontWeight=600 :endTime="showkerTaskInfo.currentGenerationEndTime"></time-down>（超时未下单，即未在平台提交订单号，视为主动放弃活动资格）</span>
+      <span v-if="showkerTaskInfo.currentGenerationEndTime" class="ml-20">下单剩余时间<time-down color='#ff4040'
+                                                                                           :fontWeight=600
+                                                                                           :endTime="showkerTaskInfo.currentGenerationEndTime"></time-down>（超时未下单，即未在平台提交订单号，视为主动放弃活动资格）</span>
     </div>
-    <div class="place-step mt-22" v-if="hasCurrentSearchSchemeIndex ? (showkerTaskInfo.task.taskType === 'pc_search' || showkerTaskInfo.task.taskType === 'app_search') : (showkerTaskInfo.taskType === 'pc_search' || showkerTaskInfo.taskType === 'app_search')">
+    <div class="place-step mt-22"
+         v-if="hasCurrentSearchSchemeIndex ? (showkerTaskInfo.task.taskType === 'pc_search' || showkerTaskInfo.task.taskType === 'app_search') : (showkerTaskInfo.taskType === 'pc_search' || showkerTaskInfo.taskType === 'app_search')">
       <p
         v-if="hasCurrentSearchSchemeIndex ? showkerTaskInfo.task.taskType === 'pc_search' : showkerTaskInfo.taskType === 'pc_search'">
         第1步：打开浏览器输入【<span>www.taobao.com</span>】</p>
@@ -13,11 +16,13 @@
         v-if="hasCurrentSearchSchemeIndex ? showkerTaskInfo.task.taskType === 'app_search' : showkerTaskInfo.taskType === 'app_search'">
         第1步：打开【<span>手机淘宝APP</span>】</p>
       <p>第2步：搜索框输入关键词【<span>{{taskDetail.searchKeyword}}</span>】
-        <span v-if="hasCurrentSearchSchemeIndex && isShowChangeKeyword && showkerTaskInfo.status !== 'trial_end'" class="ml-10 color cursor-p" @click="changeTaskPlaceInfo">找不到宝贝？点击换个关键词试试</span>
+        <span v-if="hasCurrentSearchSchemeIndex && isShowChangeKeyword && showkerTaskInfo.status !== 'trial_end'"
+              class="ml-10 color cursor-p" @click="changeTaskPlaceInfo">找不到宝贝？点击换个关键词试试</span>
         <!--<span v-if="!hasCurrentSearchSchemeIndex && isShowChangeKeyword" class="ml-10 color cursor-p" @click="changeTaskPlaceInfo">找不到宝贝？点击换个关键词试试</span>-->
       </p>
       <p>第3步：选择【<span>{{getTaskStatus(taskDetail.searchSort)}}</span>】排序</p>
-      <p v-if="hasCurrentSearchSchemeIndex ? showkerTaskInfo.task.taskType === 'app_search' : showkerTaskInfo.taskType === 'app_search'">
+      <p
+        v-if="hasCurrentSearchSchemeIndex ? showkerTaskInfo.task.taskType === 'app_search' : showkerTaskInfo.taskType === 'app_search'">
         第4步：从上往下数第【<span>{{taskDetail.searchRankPosition}}</span>】个宝贝左右</p>
       <p
         v-if="hasCurrentSearchSchemeIndex ? showkerTaskInfo.task.taskType === 'pc_search' : showkerTaskInfo.taskType === 'pc_search'">
@@ -34,8 +39,10 @@
         v-if="showkerTaskInfo.task.needBrowseCollectAddCart && (taskDetail.priceRangeMin > 0) && taskDetail.deliverAddress && checkText">
         第6步：请收藏宝贝，并加入购物车。</p>
     </div>
-    <div class="tao-code-place-step" v-if="hasCurrentSearchSchemeIndex ? showkerTaskInfo.task.taskType === 'tao_code' : showkerTaskInfo.taskType === 'tao_code'">
-      <p class="mb-10">淘口令【<span>{{taskDetail.taoCode}}</span>】<span class="ml-10 copy-btn" :data-clipboard-text="taskDetail.taoCode"> 点击复制口令</span>
+    <div class="tao-code-place-step"
+         v-if="hasCurrentSearchSchemeIndex ? showkerTaskInfo.task.taskType === 'tao_code' : showkerTaskInfo.taskType === 'tao_code'">
+      <p class="mb-10">淘口令【<span>{{taskDetail.taoCode}}</span>】<span class="ml-10 copy-btn"
+                                                                     :data-clipboard-text="taskDetail.taoCode"> 点击复制口令</span>
       </p>
       <p>入口说明：【<span>直接在手机端上复制淘口令，打开手淘会自动弹出宝贝链接</span>】</p>
       <div class="clear mt-10" v-if="taskDetail.homePageLockItemImage">
@@ -51,8 +58,11 @@
       <p v-if="taskDetail.homePageLockItemPrice">卡首屏宝贝价格：<span>{{(taskDetail.homePageLockItemPrice / 100).toFixed(2) + '元'}}</span>
       </p>
     </div>
-    <div class="tao-link-place-step" v-if="hasCurrentSearchSchemeIndex ? showkerTaskInfo.task.taskType === 'direct_access' : showkerTaskInfo.taskType === 'direct_access'">
-      <p class="clear"><strong class="left">宝贝链接：</strong><a class="left ml-5" :href="hasCurrentSearchSchemeIndex ? showkerTaskInfo.task.itemUrl : showkerTaskInfo.itemUrl" target="_blank">{{hasCurrentSearchSchemeIndex ?
+    <div class="tao-link-place-step"
+         v-if="hasCurrentSearchSchemeIndex ? showkerTaskInfo.task.taskType === 'direct_access' : showkerTaskInfo.taskType === 'direct_access'">
+      <p class="clear"><strong class="left">宝贝链接：</strong><a class="left ml-5"
+                                                             :href="hasCurrentSearchSchemeIndex ? showkerTaskInfo.task.itemUrl : showkerTaskInfo.itemUrl"
+                                                             target="_blank">{{hasCurrentSearchSchemeIndex ?
         showkerTaskInfo.task.itemUrl : showkerTaskInfo.itemUrl}}</a></p>
     </div>
     <div class="baby-info clear mt-40"
@@ -152,22 +162,22 @@
     computed: {
       taskDetail() {
         let _this = this;
+        let taskDetailObject = _this.showkerTaskInfo.task.taskDetailObject;
         if (_this.hasCurrentSearchSchemeIndex) {
-          let taskDetailObject = _this.showkerTaskInfo.task.taskDetailObject;
-          if (_this.showkerTaskInfo.task.taskType === 'tao_code') {
-            return taskDetailObject[0];
-          } else {
-            let index = _this.showkerTaskInfo.currentSearchSchemeIndex;
-            for (let i = 0, len = taskDetailObject.length; i < len; i++) {
-              if (taskDetailObject[i].index === index) {
-                return taskDetailObject[i];
-              }
+          let index = _this.showkerTaskInfo.currentSearchSchemeIndex;
+          for (let i = 0, len = taskDetailObject.length; i < len; i++) {
+            if (taskDetailObject[i].index === index) {
+              return taskDetailObject[i];
             }
           }
         } else {
-          let len = _this.showkerTaskInfo.taskDetailObject.length;
-          let index = Math.floor(Math.random() * len);
-          return _this.showkerTaskInfo.taskDetailObject[index];
+          if (_this.showkerTaskInfo.task.taskType === 'tao_code') {
+            return taskDetailObject[0];
+          } else {
+            let len = _this.showkerTaskInfo.taskDetailObject.length;
+            let index = Math.floor(Math.random() * len);
+            return _this.showkerTaskInfo.taskDetailObject[index];
+          }
         }
       },
       checkText() {
