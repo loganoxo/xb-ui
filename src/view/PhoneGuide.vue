@@ -10,7 +10,7 @@
               关于我们
             </router-link>
             <span class="inline-block fs-22 cl-fff">|</span>
-            <router-link  to="/seller-adv" class="inline-block fs-22 cl-fff ml-20">
+            <router-link  to="/register/seller-register" class="inline-block fs-22 cl-fff ml-20">
               <img src="/static/img/icon/shop-icon.png" class="inline-block" alt=""  style="width: 20px; vertical-align: -3px;">
               商家入驻
             </router-link>
