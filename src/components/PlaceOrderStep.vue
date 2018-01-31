@@ -1,14 +1,11 @@
 <template>
   <div class="place-order-step">
     <div class="place-type">
-      <span v-if="!hasCurrentSearchSchemeIndex" class="serial-number">2</span>
-      <span>{{hasCurrentSearchSchemeIndex ? showkerTaskInfo.task.taskTypeDesc : showkerTaskInfo.taskTypeDesc}}</span>
-      <span v-if="showkerTaskInfo.currentGenerationEndTime" class="ml-20">下单剩余时间<time-down color='#ff4040'
-                                                                                           :fontWeight=600
-                                                                                           :endTime="showkerTaskInfo.currentGenerationEndTime"></time-down>（超时未下单，即未在平台提交订单号，视为主动放弃活动资格）</span>
+      <span v-if="hasCurrentSearchSchemeIndex" class="serial-number">2</span>
+      <span>{{!hasCurrentSearchSchemeIndex ? showkerTaskInfo.task.taskTypeDesc : showkerTaskInfo.taskTypeDesc}}</span>
+      <span v-if="showkerTaskInfo.currentGenerationEndTime" class="ml-20">下单剩余时间<time-down color='#ff4040' :fontWeight=600 :endTime="showkerTaskInfo.currentGenerationEndTime"></time-down>（超时未下单，即未在平台提交订单号，视为主动放弃活动资格）</span>
     </div>
-    <div class="place-step mt-22"
-         v-if="hasCurrentSearchSchemeIndex ? (showkerTaskInfo.task.taskType === 'pc_search' || showkerTaskInfo.task.taskType === 'app_search') : (showkerTaskInfo.taskType === 'pc_search' || showkerTaskInfo.taskType === 'app_search')">
+    <div class="place-step mt-22" v-if="hasCurrentSearchSchemeIndex ? (showkerTaskInfo.task.taskType === 'pc_search' || showkerTaskInfo.task.taskType === 'app_search') : (showkerTaskInfo.taskType === 'pc_search' || showkerTaskInfo.taskType === 'app_search')">
       <p
         v-if="hasCurrentSearchSchemeIndex ? showkerTaskInfo.task.taskType === 'pc_search' : showkerTaskInfo.taskType === 'pc_search'">
         第1步：打开浏览器输入【<span>www.taobao.com</span>】</p>
@@ -39,11 +36,8 @@
         v-if="showkerTaskInfo.task.needBrowseCollectAddCart && (taskDetail.priceRangeMin > 0) && taskDetail.deliverAddress && checkText">
         第6步：请收藏宝贝，并加入购物车。</p>
     </div>
-    <div class="tao-code-place-step"
-         v-if="hasCurrentSearchSchemeIndex ? showkerTaskInfo.task.taskType === 'tao_code' : showkerTaskInfo.taskType === 'tao_code'">
-      <p class="mb-10">淘口令【<span>{{taskDetail.taoCode}}</span>】<span class="ml-10 copy-btn"
-                                                                     :data-clipboard-text="taskDetail.taoCode"> 点击复制口令</span>
-      </p>
+    <div class="tao-code-place-step" v-if="hasCurrentSearchSchemeIndex ? showkerTaskInfo.task.taskType === 'tao_code' : showkerTaskInfo.taskType === 'tao_code'">
+      <p class="mb-10">淘口令【<span>{{taskDetail.taoCode}}</span>】<span class="ml-10 copy-btn" :data-clipboard-text="taskDetail.taoCode"> 点击复制口令</span></p>
       <p>入口说明：【<span>直接在手机端上复制淘口令，打开手淘会自动弹出宝贝链接</span>】</p>
       <div class="clear mt-10" v-if="taskDetail.homePageLockItemImage">
         <span class="left mt-28 mr-5 cl999">卡首屏宝贝主图：</span>
@@ -58,15 +52,10 @@
       <p v-if="taskDetail.homePageLockItemPrice">卡首屏宝贝价格：<span>{{(taskDetail.homePageLockItemPrice / 100).toFixed(2) + '元'}}</span>
       </p>
     </div>
-    <div class="tao-link-place-step"
-         v-if="hasCurrentSearchSchemeIndex ? showkerTaskInfo.task.taskType === 'direct_access' : showkerTaskInfo.taskType === 'direct_access'">
-      <p class="clear"><strong class="left">宝贝链接：</strong><a class="left ml-5"
-                                                             :href="hasCurrentSearchSchemeIndex ? showkerTaskInfo.task.itemUrl : showkerTaskInfo.itemUrl"
-                                                             target="_blank">{{hasCurrentSearchSchemeIndex ?
-        showkerTaskInfo.task.itemUrl : showkerTaskInfo.itemUrl}}</a></p>
+    <div class="tao-link-place-step" v-if="!hasCurrentSearchSchemeIndex ? showkerTaskInfo.task.taskType === 'direct_access' : showkerTaskInfo.taskType === 'direct_access'">
+      <p class="clear"><strong class="left">宝贝链接：</strong><a class="left ml-5" :href="hasCurrentSearchSchemeIndex ? showkerTaskInfo.task.itemUrl : showkerTaskInfo.itemUrl" target="_blank">{{!hasCurrentSearchSchemeIndex ? showkerTaskInfo.task.itemUrl : showkerTaskInfo.itemUrl}}</a></p>
     </div>
-    <div class="baby-info clear mt-40"
-         v-if="hasCurrentSearchSchemeIndex ? (showkerTaskInfo.task.taskType === 'pc_search' || showkerTaskInfo.task.taskType === 'app_search') : (showkerTaskInfo.taskType === 'pc_search' || showkerTaskInfo.taskType === 'app_search')">
+    <div class="baby-info clear mt-40" v-if="hasCurrentSearchSchemeIndex ? (showkerTaskInfo.task.taskType === 'pc_search' || showkerTaskInfo.task.taskType === 'app_search') : (showkerTaskInfo.taskType === 'pc_search' || showkerTaskInfo.taskType === 'app_search')">
       <img class="left" :src="taskDetail.itemMainImage" alt="">
       <div class="left ml-20 mt-20">
         <p>
@@ -78,20 +67,16 @@
           <span>￥{{hasCurrentSearchSchemeIndex ? (showkerTaskInfo.task.itemPrice / 100).toFixed(2) || 0 : (showkerTaskInfo.itemPrice / 100).toFixed(2) || 0}}</span>
         </p>
         <p>
-          <router-link :to="{path:'/user/help-center/faq-showker',query:{page:'common',qusNum:9}}" class="color"
-                       target="_blank">找不到宝贝，怎么办？
-          </router-link>
+          <router-link :to="{path:'/user/help-center/faq-showker',query:{page:'common',qusNum:9}}" class="color" target="_blank">找不到宝贝，怎么办？</router-link>
         </p>
       </div>
     </div>
     <p class="pt-20 main-color">禁止从淘宝客等其他任何返利途径下单，一旦发现系统将扣除产生的淘客佣金，情节严重者直接扣除所有返款并冻结账号！如有疑问请及时联系客服。</p>
-    <div class="precautions mt-20 pt-20" v-if="isShowPrecautions"
-         :class="[!hasCurrentSearchSchemeIndex ? 'precautions-bg' : '']">
+    <div class="precautions mt-20 pt-20" v-if="isShowPrecautions" :class="[!hasCurrentSearchSchemeIndex ? 'precautions-bg' : '']">
       <p>注意事项：</p>
       <p class="mt-10">
         <span>付款方式：</span>
-        <span
-          v-if="hasCurrentSearchSchemeIndex ? showkerTaskInfo.task.paymentMethod === 'all' : showkerTaskInfo.paymentMethod === 'all'">无所谓（可以使用花呗、信用卡等付款，也可以不用）</span>
+        <span v-if="hasCurrentSearchSchemeIndex ? showkerTaskInfo.task.paymentMethod === 'all' : showkerTaskInfo.paymentMethod === 'all'">无所谓（可以使用花呗、信用卡等付款，也可以不用）</span>
         <span v-else>禁止使用花呗、信用卡付款</span>
       </p>
       <p class="mt-10 mr-10" v-if="hasCurrentSearchSchemeIndex ? showkerTaskInfo.task.remark : showkerTaskInfo.remark">
@@ -173,6 +158,8 @@
         } else {
           if (_this.showkerTaskInfo.task.taskType === 'tao_code') {
             return taskDetailObject[0];
+          } else if(_this.showkerTaskInfo.task.taskType === 'direct_access'){
+            return {}
           } else {
             let len = _this.showkerTaskInfo.taskDetailObject.length;
             let index = Math.floor(Math.random() * len);
@@ -184,7 +171,7 @@
         return this.taskDetail.searchFilterDesc ? this.taskDetail.searchFilterDesc.split(',').join('、') : null;
       },
       hasCurrentSearchSchemeIndex() {
-        return this.showkerTaskInfo.currentSearchSchemeIndex !== undefined;
+        return this.showkerTaskInfo.currentSearchSchemeIndex !== undefined && this.showkerTaskInfo.currentSearchSchemeIndex !== null;
       },
       isShowChangeKeyword() {
         return this.hasCurrentSearchSchemeIndex ? this.showkerTaskInfo.task.taskDetailObject.length > 1 : this.showkerTaskInfo.taskDetailObject.length;
