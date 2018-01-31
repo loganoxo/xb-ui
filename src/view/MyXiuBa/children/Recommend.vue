@@ -156,7 +156,7 @@
         recommendData: [],
         count: 0,
         reward: 0,
-        page: 1,
+        page: 0,
         size: 10,
       }
     },
