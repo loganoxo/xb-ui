@@ -332,6 +332,7 @@
         },
         taskTypes: [],
         itemCatalogs: [],
+        disableCategoryList: [601,602,603,604,605,606,607,608,609,610,699,1003],
         searchTaskParams:{
           pageIndex: 1,
           pageSize: 20,
@@ -344,6 +345,7 @@
           activityCategories: [],
           discountTypes: '',
           countLeft0ToEnd: true,
+          itemCatalogFilters: [],
         },
         historyTaskListParams:{
           pageIndex: 1,
@@ -578,6 +580,11 @@
           showkerId = self.$store.state.userInfo.id
         }else {
           showkerId = '';
+        }
+        if(self.$store.state.login){
+          self.searchTaskParams.itemCatalogFilters = [];
+        }else {
+          self.searchTaskParams.itemCatalogFilters = self.disableCategoryList;
         }
         let option = {
           pageIndex: self.searchTaskParams.pageIndex,
