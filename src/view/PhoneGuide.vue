@@ -3,7 +3,8 @@
     <div id="pageContain">
       <div class="page page1 current ">
         <div class="contain">
-          <img src="/static/img/seller-adv/phone-guide.jpg" class="contain-bg-img" alt="">
+          <img src="/static/img/seller-adv/phone-guide.png" class="contain-bg-img" alt="">
+          <!--<img src="/static/img/seller-adv/phone-guide-qrcode.jpg" class="contain-qrcode-img" alt="">-->
           <p class="text-align-rt cl-fff pos-rel mr-30 pt-20 page-text" style="z-index: 2;">
             <router-link to="/about-us" class="inline-block fs-22 cl-fff mr-20">
               <i class="ivu-icon ivu-icon-person-stalker vtc-text-btm fs-24"></i>
@@ -60,25 +61,6 @@
     },
     mounted: function () {
       let self = this;
-      self.$nextTick(function () {
-        self.FullPage  = new FullPage({
-
-          id : 'pageContain',
-          slideTime : 800,
-          continuous : true,
-          effect : {
-            transform : {
-              translate : 'Y',
-              scale : [.1, 1],
-              rotate : [0, 0]
-            },
-            opacity : [0, 1]
-          },
-          mode : 'wheel,touch,nav:navBar',
-          start : 0,
-          easing : 'fadeInDown',
-        });
-      })
     },
   }
 </script>
@@ -123,6 +105,13 @@
     top: 0;
     left: 0;
     width: 100%;
+  }
+  .contain-qrcode-img{
+    width: 14%;
+    position: absolute;
+    top: 22.3rem;
+    left: 14.1%;
+    z-index: 2;
   }
 </style>
 
