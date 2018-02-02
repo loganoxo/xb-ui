@@ -1,6 +1,6 @@
 <template>
   <div id="topTip" class="top-tip bg-f8f8f8">
-    <div class="notice text-ct bg-FFFDD6 main-color">{{noticeTitle}}
+    <div class="notice text-ct bg-FFFDD6 main-color" v-if="whetherShowNotice">{{noticeTitle}}
       <router-link to="/notice" class="main-color">【阅读全文】</router-link>
     </div>
     <div class="container">
@@ -110,6 +110,7 @@
     data() {
       return {
         noticeTitle:null,
+        whetherShowNotice:false,
       }
     },
     methods: {
@@ -136,6 +137,7 @@
         }).then( res => {
           if (res && res.length>0){
             self.noticeTitle = res[0].title;
+            self.whetherShowNotice = true;
           }
         })
       }
