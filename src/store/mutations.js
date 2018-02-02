@@ -5,14 +5,14 @@ import * as types from './mutation-types'
 import {setStorage, getStorage, removeStorage} from '@/config/utils'
 
 export default {
-  //退出登录后变更登陆状态和清除localStorage用户信息
+  //退出登录后变更登录状态和清除localStorage用户信息
   [types.OUT_LOGIN](state) {
     state.login = false;
     state.userInfo = {};
     removeStorage("userInfo");
   },
 
-  //登陆成功后存储用户信息到localStorage和vuex
+  //登录成功后存储用户信息到localStorage和vuex
   [types.RECORD_USER_INFO](state, {info}) {
     state.userInfo = info;
     state.login = true;
@@ -41,7 +41,7 @@ export default {
     state.clientTime = time.clientTime;
   },
 
-  //存储用户页面登陆权限到vuex
+  //存储用户页面登录权限到vuex
   [types.LOG_IN_AUTHORITY](state, {logInAuthority}) {
     state.logInAuthority = logInAuthority;
   },

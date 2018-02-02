@@ -5,21 +5,21 @@ import {fetch} from '../config/axiosConfig'
 
 export default {
   /**
-   * 用户普通登陆
+   * 用户普通登录
    */
   login(params) {
     return fetch("/api/login.json", params)
   },
 
   /**
-   * 第三方平台登陆
+   * 第三方平台登录
    */
   thirdPartyLogin(params) {
     return fetch("/api/user/sign-in-sync.json", params)
   },
 
   /**
-   * 用户退出登陆
+   * 用户退出登录
    */
   loggedOut() {
     return fetch("/api/logged-out.json")
@@ -81,7 +81,7 @@ export default {
   },
 
   /**
-   * 用户快速登陆
+   * 用户快速登录
    */
   checkFastSignIn(params) {
     return fetch("/api/check-fast-sign-in.json", params)

@@ -71,7 +71,7 @@ Vue.use(Router);
 /**
  * 路由元信息参数说明
  * title 页面标题
- * logInAuthority 页面登陆访问权限控制 （true：需要登陆访问 false：无需登陆即可访问）
+ * logInAuthority 页面登录访问权限控制 （true：需要登录访问 false：无需登录即可访问）
  * role 页面角色访问权限控制 （null：所有角色可访问 1：仅限商家角色可以访问 0：仅限拿手角色可访问）
  * topShow 顶部导航栏显示（true：显示 false 不显示）
  * bottomShow 底部导航栏显示（true：显示 false 不显示）
@@ -245,7 +245,7 @@ export default new Router({
       name: 'ThirdPartyLogin',
       component: ThirdPartyLogin,
       meta: {
-        title: "用户登陆",
+        title: "用户登录",
         logInAuthority: false,
         topShow: false,
         bottomShow: true,
@@ -257,7 +257,7 @@ export default new Router({
       name: 'login',
       component: Login,
       meta: {
-        title: "用户登陆",
+        title: "用户登录",
         logInAuthority: false,
         topShow: false,
         bottomShow: true,

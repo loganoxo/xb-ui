@@ -589,7 +589,7 @@
         let self = this;
         if (!self.$store.state.login) {
           self.$Modal.warning({
-            content: '亲，先登陆哦！',
+            content: '亲，先登录哦！',
             onOk: function () {
               self.$router.push({name: 'login'});
             }

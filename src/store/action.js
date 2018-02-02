@@ -4,7 +4,7 @@
 import api from '@/config/apiConfig'
 
 export default {
-  //用户退出登陆
+  //用户退出登录
   loggedOut({commit}) {
     return new Promise((resolve, reject) => {
       api.loggedOut().then(res => {
@@ -18,7 +18,7 @@ export default {
     })
   },
 
-  //用户登陆后按需重新获取用户信息
+  //用户登录后按需重新获取用户信息
   getUserInformation({commit}) {
     api.getUserAccount({
       platForm: 'PC'

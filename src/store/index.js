@@ -13,7 +13,7 @@ const state = {
   login: false,//是否登录标识
   topShow: true,//头部切换标识
   bottomShow: true,//底部切换标识
-  logInAuthority: true,//用户登陆页面权限控制
+  logInAuthority: true,//用户登录页面权限控制
   roleAuthority: null,//用户角色页面权限控制
   severTime: null,//当前服务器时间
   clientTime: null,//当前客户端时间
