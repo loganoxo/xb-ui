@@ -200,6 +200,12 @@
             <span>元</span>
             <p class="size-color pl-60 mt-8">活动活动期间，商家不允许修改下单页商品信息，经核查属实，本平台有权将活动担保金返还已获得资格的拿手，商家账号按相应规则处罚</p>
           </div>
+          <div class="baby-price ml-45 mt-20" v-show="taskRelease.activityCategory === 'present_get'">
+            <span class="required">赠品价格：</span>
+            <iInput v-model.number="taskRelease.presentPrice" :disabled="true" placeholder="请输入赠品价格" style="width: 120px"></iInput>
+            <span>元</span>
+            <span class="sizeColor2 ml-10">（为保证活动质量和效果，赠品的价格需要在10元以上）</span>
+          </div>
 <!--          <div class="discount ml-40 mt-20" v-show="taskRelease.activityCategory !== 'free_get' && taskRelease.activityCategory !== 'present_get'">
             <div class="clear" v-show="taskRelease.activityCategory !== 'pinkage_for_10'">
               <span class="required mt-8 left">折扣/活动：</span>
@@ -661,6 +667,7 @@
           storeName: null,
           taskCount: null,
           itemPrice: null,
+          presentPrice: null,
           discountType: 'discount_0',
           activityCategory: 'free_get',
           pinkage: "true",
@@ -854,6 +861,7 @@
               })
             }
             _this.taskRelease.itemPrice = _this.taskRelease.itemPrice / 100;
+            _this.taskRelease.presentPrice = _this.taskRelease.presentPrice / 100;
             _this.taskRelease.taskDetail = {};
             if (res.data.taskType === 'tao_code') {
               _this.taoCodeTaskDetail = JSON.parse(res.data.taskDetail);

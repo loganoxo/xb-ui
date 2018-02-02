@@ -122,13 +122,12 @@
             <span class="required">活动时长：</span>
             <iInput v-model.number="taskRelease.taskDaysDuration" placeholder="请输入活动时长" style="width: 120px"></iInput>
             <span>天</span>
-            <span class="main-color ml-10">请于活动结束后48小时内审批完成所有拿手资格，逾期系统将自动为您审批。</span>
-            <p class="mt-6 pl-68">（单期活动时间为3-30天。）</p>
+            <span class="main-color ml-10">（注意：单期活动时间为3-30天，请于活动结束后48小时内审批完成所有拿手资格，逾期系统将自动为您审批）</span>
           </div>
           <div class="trial-condition ml-35 mt-20">
             <span class="ml-5">拿手申请条件：</span>
             <!--<Checkbox v-model="taskRelease.onlyShowForQualification">只有获得资格的拿手才可以查看活动信息</Checkbox>-->
-            <!--<p class="pl-94 sizeColor mt-5">勾选后可以避免拿手私下索要资格，避免同行举报。但流量、收藏量、分享量会相对减少</p>-->
+            <!--<p class="pl-94 sizeColor2 mt-5">勾选后可以避免拿手私下索要资格，避免同行举报。但流量、收藏量、分享量会相对减少</p>-->
             <!--<p class="pl-94 mt-8">-->
               <Checkbox v-model="taskRelease.refuseOldShowker">拒绝已参加过本店活动的拿手再次申请</Checkbox>
             <!--</p>-->
@@ -136,12 +135,12 @@
           <div class="trial-condition ml-60 mt-20">
             <span class="ml-4"> 收藏加购：</span>
             <Checkbox v-model="taskRelease.needBrowseCollectAddCart">需要</Checkbox>
-            <span class="sizeColor">（系统会随机让部分拿手完成对宝贝的收藏加购，活动上线后您可以在生意参谋后台查看收藏加购有无增加）</span>
+            <span class="sizeColor2">（系统会随机让部分拿手完成对宝贝的收藏加购，活动上线后您可以在生意参谋后台查看收藏加购有无增加）</span>
           </div>
           <div class="answer ml-60 mt-20">
             <span class="ml-4"> 浏览答题：</span>
             <Checkbox v-model="needBrowseAnswer" @on-change="needBrowseAnswerChange">需要</Checkbox>
-            <span class="sizeColor">（保证拿手充分浏览详情页，减少秒拍情况发生，最多可添加3个）</span>
+            <span class="sizeColor2">（保证拿手充分浏览详情页，减少秒拍情况发生，最多可添加3个）</span>
             <p class="mt-10 pl-68" v-show="needBrowseAnswer">
               <i-input class="mr-5" v-for="(item,index) in browseAnswer" :key="index" type="text" v-model="item.answerContent" @on-change="testAnswerTextNumber" placeholder="请输入浏览答题文案" style="width: 124px;"></i-input>
               <i-button class="ml-10" type="dashed" icon="plus-round" @click="addAnswer" v-show="browseAnswer.length < 3">添加</i-button>
@@ -149,7 +148,7 @@
               <span v-show="isShowAnswerTip" class="ml-20 main-color"><Icon color="#f9284f" type="information-circled" class="mr-5"></Icon>浏览答题文案字数不能超过8个字</span>
               <span class="blue cursor-p ml-5" @click="isShowBrowseAnswerModel = true">示例图</span>
             </p>
-            <p class="mt-6 pl-68 sizeColor" v-show="needBrowseAnswer">请在手机详情页中挑选一段文案，建议3-8字，输入文本框内，拿手将提供本文案所在位置截图</p>
+            <p class="mt-6 pl-68 sizeColor2" v-show="needBrowseAnswer">请在手机详情页中挑选一段文案，建议3-8字，输入文本框内，拿手将提供本文案所在位置截图</p>
           </div>
           <div class="baby-info mt-22">
             <div class="activity-info-title">填写活动宝贝信息</div>
@@ -162,7 +161,7 @@
             <div class="baby-title ml-45 mt-20">
               <span class="required">活动标题：</span>
               <iInput v-model="taskRelease.taskName" placeholder="请输入活动标题" style="width: 296px"></iInput>
-              <span class="ml-20 sizeColor"><Icon v-show="taskNameLength > 35" color="#f9284f" type="information-circled"></Icon>&nbsp;最多支持35个字符，当前已输入 <span class="main-color">{{taskNameLength}}</span> / 35个字符。</span>
+              <span class="ml-20 sizeColor2"><Icon v-show="taskNameLength > 35" color="#f9284f" type="information-circled"></Icon>&nbsp;最多支持35个字符，当前已输入 <span class="main-color">{{taskNameLength}}</span> / 35个字符。</span>
             </div>
             <div class="baby-title ml-45 mt-20">
               <span class="required">宝贝类型：</span>
@@ -192,7 +191,7 @@
                   <Icon type="camera" size="20"></Icon>
                 </div>
               </Upload>
-              <p class="sizeColor left ml-15 mt-20">点击或者拖拽自主上传图片，支持jpg \ jpeg \ png \ gif \ bmp格式，最佳尺寸400*400（像素），不超过1M，可与宝贝主图一致</p>
+              <p class="sizeColor2 left ml-15 mt-20">（点击或者拖拽自主上传图片，支持jpg \ jpeg \ png \ gif \ bmp格式，最佳尺寸400*400（像素），不超过1M，可与宝贝主图一致）</p>
             </div>
             <div class="baby-url ml-45 mt-20">
               <span class="required">宝贝地址：</span>
@@ -209,15 +208,18 @@
             </div>
             <div class="baby-price ml-45 mt-20">
               <span class="required">宝贝单价：</span>
-              <iInput v-model.number="taskRelease.itemPrice" @on-change="clearDiscount" placeholder="请输入宝贝单价"
-                      style="width: 120px"></iInput>
+              <!--<iInput v-model.number="taskRelease.itemPrice" @on-change="clearDiscount" placeholder="请输入宝贝单价" style="width: 120px"></iInput>-->
+              <iInput v-model.number="taskRelease.itemPrice" placeholder="请输入宝贝单价" style="width: 120px"></iInput>
               <span>元</span>
-              <span v-show="taskRelease.itemPrice && taskRelease.itemPrice < 1" class="main-color ml-20"><Icon
-                color="#f9284f" type="information-circled"></Icon>&nbsp;每份试用品的价值必须在1元以上</span>
-              <span
-                v-show="taskRelease.itemPrice && taskRelease.itemPrice < 10 && taskRelease.activityCategory === 'pinkage_for_10'"
-                class="main-color ml-20"><Icon color="#f9284f" type="information-circled"></Icon>&nbsp;10元包邮活动，宝贝最低价格不能低于10元</span>
-              <p class="sizeColor pl-60 mt-8">活动活动期间，商家不允许修改下单页商品信息，经核查属实，本平台有权将活动担保金返还已获得资格的拿手，商家账号按相应规则处罚</p>
+              <span v-show="taskRelease.itemPrice && taskRelease.itemPrice < 1" class="main-color ml-15"><Icon color="#f9284f" type="information-circled"></Icon>&nbsp;每份试用品的价值必须在1元以上</span>
+              <span v-show="taskRelease.itemPrice && taskRelease.itemPrice < 10 && taskRelease.activityCategory === 'pinkage_for_10'" class="main-color ml-20"><Icon color="#f9284f" type="information-circled"></Icon>&nbsp;10元包邮活动，宝贝最低价格不能低于10元</span>
+              <span class="sizeColor2 ml-10" v-show="!taskRelease.itemPrice || taskRelease.itemPrice > 1">（活动活动期间，商家不允许修改下单页商品信息，经核查属实，本平台有权将活动担保金返还已获得资格的拿手，商家账号按相应规则处罚）</span>
+            </div>
+            <div class="baby-price ml-45 mt-20" v-show="taskRelease.activityCategory === 'present_get'">
+              <span class="required">赠品价格：</span>
+              <iInput v-model.number="taskRelease.presentPrice" placeholder="请输入赠品价格" style="width: 120px"></iInput>
+              <span>元</span>
+              <span class="sizeColor2 ml-10">（为保证活动质量和效果，赠品的价格需要在10元以上）</span>
             </div>
 <!--            <div class="discount ml-40 mt-20"
                  v-show="taskRelease.activityCategory !== 'free_get' && taskRelease.activityCategory !== 'present_get'">
@@ -287,11 +289,11 @@
                   </div>
                 </div>
               </div>
-              <p class="sizeColor pl-60 mt-20"
+              <p class="sizeColor2 pl-60 mt-20"
                  v-show="taskRelease.itemPrice && taskRelease.discountType && taskRelease.activityCategory !== 'pinkage_for_10'">
                 拿手以<span class="main-color">{{taskRelease.itemPrice}}</span>元价格在淘宝上购买，活动成功后返款<span
                 class="main-color">{{(newItemPrice / 100).toFixed(2)}}</span>元给拿手！</p>
-              <p class="sizeColor pl-60"
+              <p class="sizeColor2 pl-60"
                  v-show="taskRelease.itemPrice && taskRelease.itemPrice >= 10 && taskRelease.activityCategory === 'pinkage_for_10'">
                 拿手以<span class="main-color">{{taskRelease.itemPrice}}</span>元价格在淘宝上购买，活动成功后返款<span
                 class="main-color">{{taskRelease.itemPrice > 10 ? taskRelease.itemPrice - 10 : 0}}</span>元给拿手！</p>
@@ -385,7 +387,7 @@
                     <Icon type="camera" size="20"></Icon>
                   </div>
                 </Upload>
-                <p class="sizeColor left mt-20 ml-15">点击或者拖拽自主上传图片，支持jpg \ jpeg \ png \ gif \ bmp格式，最佳尺寸400*400（像素），不超过1M，可与宝贝主图一致</p>
+                <p class="sizeColor2 left mt-20 ml-15">（点击或者拖拽自主上传图片，支持jpg \ jpeg \ png \ gif \ bmp格式，最佳尺寸400*400（像素），不超过1M，可与宝贝主图一致）</p>
               </div>
               <div class="more-keyword-scheme ml-40 mt-20">
                 <div>
@@ -398,7 +400,7 @@
                   </div>
                   <iButton class="ml-5" v-show="pcTaskDetail.length < 5" icon="ios-plus-empty" type="dashed" size="small" @click="handleAdd">添加关键词方案</iButton>
                 </div>
-                <div class="mt-10 sizeColor">（请确保提供的关键词能够搜索到宝贝，同时为了避免拿手找不到对应的宝贝，您最多可以添加5组关键词方案）</div>
+                <div class="mt-10 sizeColor2">（请确保提供的关键词能够搜索到宝贝，同时为了避免拿手找不到对应的宝贝，您最多可以添加5组关键词方案）</div>
               </div>
               <template v-for="item in pcTaskDetail" v-if="item.index === selectKeywordScheme">
                 <Alert show-icon class="tag-alert">
@@ -408,7 +410,7 @@
                 <div class="matching-num ml-40 mt-20">
                   <span>匹配人数：</span>
                   <iInput v-model.number="item.countAssigned" placeholder="请输入匹配人数" style="width: 160px"></iInput>
-                  <p class="sizeColor mt-10">（系统会按照审批拿手通过数量以及匹配人数，依次展示对应的关键词。<span class="main-color">注意：匹配人数可以不设定，一旦设定则每个关键词方案的匹配人数之和必须等于宝贝数量）</span></p>
+                  <p class="sizeColor2 mt-10">（系统会按照审批拿手通过数量以及匹配人数，依次展示对应的关键词。<span class="main-color">注意：匹配人数可以不设定，一旦设定则每个关键词方案的匹配人数之和必须等于宝贝数量）</span></p>
                 </div>
                 <div class="search-keyword mt-20 ml-28">
                   <span class="required">搜索关键词：</span>
@@ -442,7 +444,7 @@
                   <span>---</span>
                   <iInput v-model.number="item.searchPagePositionMax" style="width: 40px"></iInput>
                   <span>页</span>
-                  <p class="sizeColor2 ml-80 mt-6">宝贝参考位置页数差值最大值不大于3页（如果PC端排名在10页以后， 可使用下面的卡条件功能）</p>
+                  <span class="sizeColor2 ml-15">（宝贝参考位置页数差值最大值不大于3页，如果PC端排名在10页以后， 可使用下面的卡条件功能）</span>
                 </div>
                 <div class="screen-condition ml-45 mt-20 clear">
                   <span class="left">筛选条件：</span>
@@ -495,7 +497,7 @@
                 <div class="deliver-address ml-56 mt-20">
                   <span>发货地：</span>
                   <iInput v-model="item.deliverAddress" style="width: 120px"></iInput>
-                  <span class="sizeColor2 ml-5">出于安全考虑，请勿大量使用</span>
+                  <span class="sizeColor2 ml-5">（出于安全考虑，请勿大量使用）</span>
                 </div>
               </template>
             </template>
@@ -517,7 +519,7 @@
                     <Icon type="camera" size="20"></Icon>
                   </div>
                 </Upload>
-                <p class="sizeColor left ml-15 mt-20">点击或者拖拽自主上传图片，支持jpg \ jpeg \ png \ gif \ bmp格式，最佳尺寸400*400（像素），不超过1M，可与宝贝主图一致</p>
+                <p class="sizeColor2 left ml-15 mt-20">（点击或者拖拽自主上传图片，支持jpg \ jpeg \ png \ gif \ bmp格式，最佳尺寸400*400（像素），不超过1M，可与宝贝主图一致）</p>
               </div>
               <div class="more-keyword-scheme ml-40 mt-20">
                 <div>
@@ -530,7 +532,7 @@
                   </div>
                   <iButton v-show="appTaskDetail.length < 5" icon="ios-plus-empty" type="dashed" size="small" @click="handleAdd">添加关键词方案</iButton>
                 </div>
-                <div class="mt-10 sizeColor">（请确保提供的关键词能够搜索到宝贝，同时为了避免拿手找不到对应的宝贝，您最多可以添加5组关键词方案）</div>
+                <div class="mt-10 sizeColor2">（请确保提供的关键词能够搜索到宝贝，同时为了避免拿手找不到对应的宝贝，您最多可以添加5组关键词方案）</div>
               </div>
               <template v-for="item in appTaskDetail" v-if="item.index === selectKeywordScheme">
                 <Alert show-icon class="tag-alert">
@@ -540,7 +542,7 @@
                 <div class="matching-num ml-40 mt-20">
                   <span>匹配人数：</span>
                   <iInput v-model.number="item.countAssigned" placeholder="请输入匹配人数" style="width: 160px"></iInput>
-                  <p class="sizeColor mt-10">（系统会按照审批拿手通过数量以及匹配人数，依次展示对应的关键词。<span class="main-color">注意：每个关键词的匹配人数之和不能大于宝贝数量，并且宝贝数量大于等于关键词方案数量）</span></p>
+                  <p class="sizeColor2 mt-10">（系统会按照审批拿手通过数量以及匹配人数，依次展示对应的关键词。<span class="main-color">注意：每个关键词的匹配人数之和不能大于宝贝数量，并且宝贝数量大于等于关键词方案数量）</span></p>
                 </div>
                 <div class="search-keyword mt-20 ml-28">
                   <span class="required">搜索关键词：</span>
@@ -645,7 +647,7 @@
                     <Icon type="camera" size="20"></Icon>
                   </div>
                 </Upload>
-                <span class="sizeColor left ml-15 mt-20">点击或者拖拽自主上传图片，支持jpg \ jpeg \ png \ gif \ bmp格式，最佳尺寸400*400（像素），不超过1M，可与宝贝主图一致</span>
+                <span class="sizeColor2 left ml-15 mt-20">（点击或者拖拽自主上传图片，支持jpg \ jpeg \ png \ gif \ bmp格式，最佳尺寸400*400（像素），不超过1M，可与宝贝主图一致）</span>
               </div>
               <div class="tao-code ml-15 mt-20">
                 <span>卡首屏宝贝价格：</span>
@@ -932,6 +934,7 @@
           storeName: null,
           taskCount: null,
           itemPrice: null,
+          presentPrice: null,
           discountType: 'discount_0',
           activityCategory: 'free_get',
           pinkage: "true",
@@ -1161,7 +1164,7 @@
           }
         }
       },
-      clearDiscount() {
+    /*  clearDiscount() {
         let _this = this;
         let itemPrice = _this.taskRelease.itemPrice;
         let type = _this.taskRelease.activityCategory;
@@ -1187,7 +1190,7 @@
             _this.discountDisabled.discount_99_9.disabled = false;
           }
         }
-      },
+      },*/
       getCheckSellerTest() {
         let _this = this;
         api.checkSellerTest().then((res) => {
@@ -1316,6 +1319,20 @@
         if (_this.taskRelease.itemPrice < 1) {
           _this.$Message.warning('亲，每份试用品的价值必须在1元以上！');
           return;
+        }
+        if(_this.taskRelease.activityCategory === 'present_get'){
+          if (!_this.taskRelease.presentPrice) {
+            _this.$Message.warning('亲，赠品价格不能为空！');
+            return;
+          }
+          if (!isNumber(_this.taskRelease.presentPrice)) {
+            _this.$Message.warning('亲，赠品价格必须为数字！');
+            return;
+          }
+          if(_this.taskRelease.presentPrice < 10){
+            _this.$Message.warning('亲，为保证活动质量和效果，赠品的价格需要在10元以上！');
+            return;
+          }
         }
         if (_this.taskRelease.itemPrice < 10 && _this.taskRelease.activityCategory === 'pinkage_for_10') {
           _this.$Message.warning('亲，10元包邮活动宝贝最低价格不能低于10元！');
@@ -1609,7 +1626,7 @@
               _this.taskRelease.discountType = 'discount_0';
               _this.taskRelease.activityCategory = 'free_get';
             }
-            //end
+            //end 临时处理 10元包邮，白菜价活动下线复制历史活动
             if( _this.taskRelease.onlyShowForQualification){
               _this.taskRelease.onlyShowForQualification = false;
             }
@@ -1624,6 +1641,7 @@
                 })
               })
             }
+            _this.taskRelease.presentPrice = _this.taskRelease.presentPrice / 100;
             _this.taskRelease.itemPrice = _this.taskRelease.itemPrice / 100;
             let itemIssue = JSON.parse(res.data.itemIssue);
             if(itemIssue && itemIssue.length > 0) {
