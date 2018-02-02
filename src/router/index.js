@@ -88,7 +88,7 @@ export default new Router({
       name: 'Home',
       component: Home,
       meta: {
-        title: "白拿拿-海量优质商品,免费试用！",
+        title: "白拿拿 - 海量优质商品 免费试用",
         logInAuthority: false,
         topShow: true,
         bottomShow: true,

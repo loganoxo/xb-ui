@@ -487,11 +487,11 @@
       if (getStorage('weChartPop') === 1 && self.$store.state.userInfo.role === 0 && !getStorage('setWeChartshower' + self.$store.state.userInfo.phone)) {
         self.weChartShowkerAlertFunc();
       }
-      if(self.$store.state.userInfo.role === 0){
+     /* if(self.$store.state.userInfo.role === 0){
         document.title = '白拿拿-不拿白不拿';
       }else {
         document.title = '白拿拿-真人试用买家秀';
-      }
+      }*/
 
     },
     name: 'home',
