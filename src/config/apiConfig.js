@@ -838,5 +838,12 @@ export default {
    */
   getSysConfigInfo(){
     return fetch("/api/user/getSysConfig/0.json")
-  }
+  },
+
+  /**
+   * 获取公告信息
+   */
+  getUserGetAnnouncement(params){
+    return fetch("/api/user-getAnnouncement.json",params)
+  },
 }

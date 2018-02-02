@@ -6,6 +6,7 @@ const BuyerShow = r => require.ensure([], () => r(require('@/view/BuyerShow.vue'
 const QQLogin = r => require.ensure([], () => r(require('@/view/QQLogin.vue')), 'QQLogin');
 const SellerAdv = r => require.ensure([], () => r(require('@/view/SellerAdv.vue')), 'SellerAdv');
 const RecommendSpread = r => require.ensure([], () => r(require('@/view/RecommendSpread.vue')), 'RecommendSpread');
+const Notice = r => require.ensure([], () => r(require('@/view/Notice.vue')), 'Notice');
 
 const SellerSpread = r => require.ensure([], () => r(require('@/view/SellerSpread.vue')), 'SellerSpread');
 const SellerGuide = r => require.ensure([], () => r(require('@/view/SellerGuide.vue')), 'SellerGuide');
@@ -101,6 +102,18 @@ export default new Router({
       component: BuyerShow,
       meta: {
         title: "买家秀",
+        logInAuthority: false,
+        topShow: true,
+        bottomShow: true,
+        role: null,
+      }
+    },
+    {
+      path: '/notice',
+      name: 'Notice',
+      component: Notice,
+      meta: {
+        title: "公告",
         logInAuthority: false,
         topShow: true,
         bottomShow: true,

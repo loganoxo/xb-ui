@@ -1,6 +1,8 @@
 <template>
   <div id="topTip" class="top-tip bg-f8f8f8">
-    <!--<div class="notice text-ct bg-FFFDD6 cl000">2018年春节假期安排通知：要放假了，关于秀客申请问题须知...</div>-->
+    <div class="notice text-ct bg-FFFDD6 main-color">{{noticeTitle}}
+      <router-link to="/notice" class="main-color">【阅读全文】</router-link>
+    </div>
     <div class="container">
       <p v-show="isLogin" class="left">
         你好，<span class="user-name">
@@ -102,9 +104,13 @@
         return this.$store.getters.getMembershipIsExpire
       },
     },
-    created() {},
+    created() {
+      this.getUserGetAnnouncement();
+    },
     data() {
-      return {}
+      return {
+        noticeTitle:null,
+      }
     },
     methods: {
       ...mapActions([
@@ -120,6 +126,16 @@
             _this.$router.push({name: 'login'})
           } else {
             _this.$Message.error(res.msg)
+          }
+        })
+      },
+      getUserGetAnnouncement(){
+        let self = this;
+        api.getUserGetAnnouncement({
+          type:'all'
+        }).then( res => {
+          if (res && res.length>0){
+            self.noticeTitle = res[0].title;
           }
         })
       }
