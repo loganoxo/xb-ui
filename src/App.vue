@@ -1,5 +1,5 @@
 <template>
-  <div id="app">
+  <div id="app" class="xiu-ba-pc">
     <Top v-show="isTopShow"></Top>
     <router-view></router-view>
     <!--网站底部信息-->
@@ -48,16 +48,16 @@
       isTopShow() {
         return this.$store.state.topShow
       },
-      isBottomShow(){
+      isBottomShow() {
         return this.$store.state.bottomShow
       },
       logInAuthority() {
         return this.$store.state.logInAuthority
       },
-      isLogin () {
+      isLogin() {
         return this.$store.state.login
       },
-      getUserRole () {
+      getUserRole() {
         return this.$store.getters.getUserRole
       }
     },
@@ -84,7 +84,7 @@
       '$route'(to, from) {
         let self = this;
         //刷新参数放到这里里面去触发就可以刷新相同界面了
-        if (!(self.$route.name === 'TaskCategory' || self.$route.name === 'TaskDetails' || self.$route.name === 'Home' )) {
+        if (!(self.$route.name === 'TaskCategory' || self.$route.name === 'TaskDetails' || self.$route.name === 'Home')) {
           self.$store.commit({
             type: 'TASK_CATEGORY_LIST',
             info: ''
@@ -96,6 +96,10 @@
 </script>
 <style lang="scss" scoped>
   @import 'src/css/mixin';
+
+  .xiu-ba-pc {
+    min-width: 1200px;
+  }
 
   .suspend-service {
     display: block;
