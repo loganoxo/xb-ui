@@ -156,7 +156,7 @@
         recommendData: [],
         count: 0,
         reward: 0,
-        page: 0,
+        page: 1,
         size: 10,
       }
     },
@@ -208,7 +208,7 @@
         })
       },
       pageChange(data) {
-        this.page = data - 1;
+        this.page = data;
         this.getRecommendPage();
       },
       initJS() {
