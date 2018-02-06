@@ -22,9 +22,9 @@
           <div class="middle-ctt left">
             <Carousel autoplay :autoplay-speed="5000" v-model="homeCarousel" loop>
               <Carousel-item v-for="swipeItem in swipeItemList" :key="swipeItem.src">
-                <router-link :to="swipeItem.adUrl" class="block">
+                <a :href="swipeItem.adUrl" class="block">
                   <img :src="getSwipeHead(swipeItem.adImg)" alt="" >
-                </router-link>
+                </a>
               </Carousel-item>
             </Carousel>
           </div>
