@@ -212,8 +212,8 @@ export default new Router({
       meta: {
         title: "手机端引导",
         logInAuthority: false,
-        topShow: false,
-        bottomShow: false,
+        topShow: true,
+        bottomShow: true,
         role: null,
       }
     },

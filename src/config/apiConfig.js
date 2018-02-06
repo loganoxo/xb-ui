@@ -846,4 +846,12 @@ export default {
   getUserGetAnnouncement(params){
     return fetch("/api/user-getAnnouncement.json",params)
   },
+
+  /**
+   * 获取二维码信息
+   */
+  getQrcodeQudaoInfo(params){
+    return fetch("/api/user/getQRcode.json",params)
+  },
+
 }

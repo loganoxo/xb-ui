@@ -1,30 +1,32 @@
 <template>
   <div class="seller-adv">
-    <div id="pageContain">
-      <div class="page page1 current ">
-        <div class="contain">
-          <img src="/static/img/seller-adv/phone-guide.png" class="contain-bg-img" alt="">
-          <!--<img src="/static/img/seller-adv/phone-guide-qrcode.jpg" class="contain-qrcode-img" alt="">-->
-          <p class="text-align-rt cl-fff pos-rel mr-30 pt-20 page-text" style="z-index: 2;">
-            <router-link to="/about-us" class="inline-block fs-22 cl-fff mr-20">
-              <i class="ivu-icon ivu-icon-person-stalker vtc-text-btm fs-24"></i>
-              关于我们
-            </router-link>
-            <span class="inline-block fs-22 cl-fff">|</span>
-            <router-link  to="/register/seller-register" class="inline-block fs-22 cl-fff ml-20">
-              <img src="/static/img/icon/shop-icon.png" class="inline-block" alt=""  style="width: 20px; vertical-align: -3px;">
-              商家入驻
-            </router-link>
-          </p>
-        </div>
+    <div style="background-color: #f93357; height: 760px">
+      <div class="container pos-rel">
+        <img src="/static/img/seller-adv/phone-guide_01.jpg" alt="" class="block">
+        <img class="qr-code" :src="qrCodeSrc" alt="">
       </div>
-
+    </div>
+    <div class="bgfff" style="padding-top: 80px;">
+      <div class="container">
+        <img src="/static/img/seller-adv/phone-guide_02.jpg" alt="" class="block">
+      </div>
+    </div>
+    <div class="bgfff">
+      <div class="container">
+        <img src="/static/img/seller-adv/phone-guide_03.jpg" alt="" class="block">
+      </div>
+    </div>
+    <div class="bgfff">
+      <div class="container">
+        <img src="/static/img/seller-adv/phone-guide_04.jpg" alt="" class="block">
+      </div>
     </div>
   </div>
 </template>
 
 <script>
   import Icon from 'iview/src/components/icon'
+  import api from '@/config/apiConfig'
   export default {
     name: 'SellerAdv',
     components: {
@@ -32,24 +34,12 @@
     },
     data() {
       return {
-        opts: {
-          start: 0,
-          dir: 'v',
-          loop: false,
-          duration: 500,
-          stopPageScroll: true,
-          beforeChange: function (prev, next) {
-          },
-          afterChange: function (prev, next) {
-          }
-        },
-        advBottomShow: true,
-        advBottomAgain: true,
-        FullPage: null,
+        qrCodeSrc: null,
       }
     },
     created() {
-
+      let self = this;
+      self.getQrcodeQudaoInfo()
     },
     methods: {
       goRegisterFunc(e){
@@ -57,7 +47,13 @@
         e.stopPropagation();
         e.preventDefault()
       },
+      getQrcodeQudaoInfo(){
+        let self = this;
+        api.getQrcodeQudaoInfo({qrCode: self.$route.query.from_qudao.toUpperCase()}).then(res => {
+            self.qrCodeSrc = res;
+        })
 
+      }
     },
     mounted: function () {
       let self = this;
@@ -67,51 +63,11 @@
 
 <style lang="scss" scoped>
 
-  #pageContain {
-    overflow: hidden;
-  }
-  .page {
-    display: none;
-    width: 100%;
-    height: 100%;
-    overflow: hidden;
+  .qr-code{
     position: absolute;
-    top: 0;
-    left: 0;
-  }
-  .page-text{
-    a{
-      &:hover{
-        color: #fff;
-      }
-    }
-  }
-  .contain {
-    width: 100%;
-    height: 100%;
-    display: none;
-    position: relative;
-    z-index: 0;
-  }
-  .current .contain,.slide .contain {
-    display: block;
-  }
-  .current {
-    display: block;
-    z-index: 1;
-  }
-  .contain-bg-img{
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-  }
-  .contain-qrcode-img{
-    width: 14%;
-    position: absolute;
-    top: 22.3rem;
-    left: 14.1%;
-    z-index: 2;
+    top: 432px;
+    left: 586px;
+    width: 150px;
   }
 </style>
 
