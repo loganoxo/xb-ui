@@ -1,8 +1,8 @@
 <template>
   <div class="seller-adv">
-    <div style="background-color: #f93357; height: 760px">
+    <div class="seller-top-bg">
       <div class="container pos-rel">
-        <img src="/static/img/seller-adv/phone-guide_01.jpg" alt="" class="block">
+        <img src="/static/img/seller-adv/phone-guide_01.png" alt="" class="block">
         <img class="qr-code" :src="qrCodeSrc" alt="">
       </div>
     </div>
@@ -62,7 +62,10 @@
 </script>
 
 <style lang="scss" scoped>
-
+  .seller-top-bg{
+    background: url("/static/img/seller-adv/phone-guide-bg.jpg") no-repeat;
+    height: 760px
+  }
   .qr-code{
     position: absolute;
     top: 432px;
