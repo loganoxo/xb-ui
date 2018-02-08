@@ -146,7 +146,7 @@
               <i-button class="ml-10" type="dashed" icon="plus-round" @click="addAnswer" v-show="browseAnswer.length < 3">添加</i-button>
               <i-button class="ml-10" type="dashed" icon="minus-round" @click="deleteAnswer" v-show="browseAnswer.length > 1">删除</i-button>
               <span v-show="isShowAnswerTip" class="ml-20 main-color"><Icon color="#f9284f" type="information-circled" class="mr-5"></Icon>浏览答题文案字数不能超过8个字</span>
-              <span class="blue cursor-p ml-5" @click="isShowBrowseAnswerModel = true">示例图</span>
+              <span class="blue cursor-p ml-5" @click="changeExampleImageUrl('answer')">【查看示例图】</span>
             </p>
             <p class="mt-6 pl-68 sizeColor2" v-show="needBrowseAnswer">请在手机详情页中挑选一段文案，建议3-8字，输入文本框内，拿手将提供本文案所在位置截图</p>
           </div>
@@ -175,23 +175,27 @@
               </iSelect>
               <span class="ml-20 main-color" v-if="taskRelease.itemType === 1003">旅行相关活动，仅支持飞猪的宝贝</span>
             </div>
-            <div class="baby-img ml-45 mt-20 clear">
-              <span class="required left mt-20 mr-5">活动主图：</span>
-              <Upload class="left ml-4"
-                :default-file-list="mainDefaultList"
-                :on-remove="removeMainImage"
-                :on-success="handleSuccess"
-                :format="['jpg','jpeg','png','gif','bmp']"
-                :max-size="1024"
-                name="task"
-                :on-format-error="handleFormatError"
-                :on-exceeded-size="handleMaxSize"
-                type="drag">
-                <div style="width: 58px;height:58px;line-height: 58px;">
-                  <Icon type="camera" size="20"></Icon>
+            <div class="baby-img ml-45 mt-20">
+              <div class="clear">
+                  <span class="required left mt-20 mr-5">活动主图：</span>
+                  <Upload class="left ml-4"
+                          :default-file-list="mainDefaultList"
+                          :on-remove="removeMainImage"
+                          :on-success="handleSuccess"
+                          :format="['jpg','jpeg','png','gif','bmp']"
+                          :max-size="1024"
+                          name="task"
+                          :on-format-error="handleFormatError"
+                          :on-exceeded-size="handleMaxSize"
+                          type="drag">
+                    <div style="width: 58px;height:58px;line-height: 58px;">
+                      <Icon type="camera" size="20"></Icon>
+                    </div>
+                  </Upload>
+                <span class="blue left mt-20 ml-10 cursor-p" @click="changeExampleImageUrl('main')">【查看示例图】</span>
                 </div>
-              </Upload>
-              <p class="sizeColor2 left ml-15 mt-20">（点击或者拖拽自主上传图片，支持jpg \ jpeg \ png \ gif \ bmp格式，最佳尺寸400*400（像素），不超过1M，可与宝贝主图一致）</p>
+              <p class="sizeColor2 ml-70 mt-20">（点击或者拖拽自主上传图片，支持jpg \ jpeg \ png \ gif \ bmp格式，最佳尺寸400*400（像素），不超过1M，可与宝贝主图一致）</p>
+              <p class="ml-70 mt-5 sizeColor3">主图要求：活动主图必须清晰，必须是所送的商品，且不能出现图片拼接、水印、logo及其它文字</p>
             </div>
             <div class="baby-url ml-45 mt-20">
               <span class="required">宝贝地址：</span>
@@ -795,8 +799,8 @@
       <user-clause @closeClauseModel="closeClauseModel"></user-clause>
     </div>
     <!--收藏加购物和浏览答题截图查看-->
-    <modal title="浏览答题示例图片查看" v-model="isShowBrowseAnswerModel">
-      <img src="~assets/img/common/browse-answer-image.png" style="width: 100%">
+    <modal title="浏览答题示例图片查看" v-model="isShowExampleImageModel">
+      <img :src="exampleImageUrl" style="width: 100%">
     </modal>
   </div>
 </template>
@@ -1012,7 +1016,8 @@
         browseAnswer: [{answerContent: null}],
         needBrowseAnswer: false,
         isShowAnswerTip: false,
-        isShowBrowseAnswerModel: false,
+        isShowExampleImageModel: false,
+        exampleImageUrl: null,
       }
     },
     mounted() {
@@ -1209,6 +1214,15 @@
             _this.$Message.error(res.msg)
           }
         });
+      },
+      changeExampleImageUrl(type) {
+        let _this = this;
+        _this.isShowExampleImageModel = true;
+        if(type === 'main'){
+          _this.exampleImageUrl = '/static/img/demo/taskRelease/task-main-image.png'
+        } else {
+          _this.exampleImageUrl = '/static/img/demo/taskRelease/browse-answer-image.png'
+        }
       },
       openMember() {
         this.$router.push({name: 'VipMember'})
