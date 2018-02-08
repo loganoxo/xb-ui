@@ -194,7 +194,7 @@
                   </Upload>
                 <span class="blue left mt-20 ml-10 cursor-p" @click="changeExampleImageUrl('main')">【查看示例图】</span>
                 </div>
-              <p class="sizeColor2 ml-70 mt-20">上传的活动主图将在平台上展示，支持jpg \ jpeg \ png \ gif \ bmp格式，最佳尺寸400*400（像素），不超过1M</p>
+              <p class="sizeColor2 ml-70 mt-10">上传的活动主图将在平台上展示，支持jpg \ jpeg \ png \ gif \ bmp格式，最佳尺寸400*400（像素），不超过1M</p>
               <p class="ml-70 mt-5 sizeColor3">主图要求：活动主图必须清晰，必须是所送的商品，且不能出现图片拼接、水印、logo及其它文字</p>
             </div>
             <div class="baby-url ml-45 mt-20">
