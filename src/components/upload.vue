@@ -1,6 +1,6 @@
 <template>
   <div class="clear">
-    <div class="demo-upload-list left" v-for="(item ,index) in fileList" v-if="uploadType === 'image'">
+    <div class="demo-upload-list left" v-for="item in fileList" v-if="uploadType === 'image'">
       <template v-if="item.status === 'finished'">
         <img :src="item.src + '!thum54'">
         <div class="demo-upload-list-cover">
@@ -34,7 +34,7 @@
         @on-file-remove="handleRemove"
         @on-file-preview="handlePreview"></upload-list>
     </div>
-    <div v-show="visible" style="z-index: 2000">
+    <div v-show="visible" style="z-index: 3000">
       <Modal title="图片查看器" v-model="visible">
         <img :src="uploadSrc + '!orgi75'" v-if="visible" style="width: 100%">
       </Modal>

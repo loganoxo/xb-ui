@@ -5,7 +5,7 @@
       <div>
         <span>提交时间：</span>
         <Date-picker type="datetime" placeholder="选择日期" style="width: 200px" v-model="beginTime"
-                     format="yyyy-MM-dd HH:mm:ss"  @on-change="beginTimeFun"></Date-picker>
+                     format="yyyy-MM-dd HH:mm:ss" @on-change="beginTimeFun"></Date-picker>
         <span>-</span>
         <Date-picker type="datetime" placeholder="选择日期" style="width: 200px" v-model="endTime"
                      format="yyyy-MM-dd HH:mm:ss" @on-change="endTimeFun"></Date-picker>
@@ -21,38 +21,40 @@
         <i-button class="appeal-button ml-10" @click="getUserAppealList">查询</i-button>
       </div>
       <div class="transact-type  ">
-        <span >状态类型：</span>
+        <span>状态类型：</span>
         <Checkbox :value="checkAll" @click.prevent.native="handleCheckAll">
           全部
         </Checkbox>
-        <Checkbox-group v-model="transactType"  @on-change="checkAllGroupChange" class="checkbox" >
+        <Checkbox-group v-model="transactType" @on-change="checkAllGroupChange" class="checkbox">
           <Checkbox label="waiting_handle">待处理</Checkbox>
           <Checkbox label="in_hand">处理中</Checkbox>
           <Checkbox label="handled">已处理</Checkbox>
         </Checkbox-group>
       </div>
-      <div><i-button class="appeal-button" @click="submitNewAppeal = true">+提交新申诉</i-button></div>
+      <div>
+        <i-button class="appeal-button" @click="submitNewAppeal = true">+提交新申诉</i-button>
+      </div>
     </div>
     <div class="appeal-list">
       <table class="appeal-table">
-       <thead>
-       <tr>
-         <th style="width: 20%">提交时间</th>
-         <th style="width: 20%">问题分类</th>
-         <th style="width: 30%">申诉标题</th>
-         <th style="width: 20%">处理状态</th>
-         <th style="width: 10%">操作</th>
-       </tr>
-       </thead>
-       <tbody v-for="(item,index) in appealList" :key="index">
-       <tr>
-         <td>{{item.createTime | dateFormat('YYYY-MM-DD hh:mm:ss')}}</td>
-         <td>{{getAppealCategorization(item.categorization)}}</td>
-         <td>{{item.title}}</td>
-         <td>{{getAppealCategorization(item.status)}}</td>
-         <td class="blue cursor-p" @click="getAppealDetails(item)">详情</td>
-       </tr>
-       </tbody>
+        <thead>
+        <tr>
+          <th style="width: 20%">提交时间</th>
+          <th style="width: 20%">问题分类</th>
+          <th style="width: 30%">申诉标题</th>
+          <th style="width: 20%">处理状态</th>
+          <th style="width: 10%">操作</th>
+        </tr>
+        </thead>
+        <tbody v-for="(item,index) in appealList" :key="index">
+        <tr>
+          <td>{{item.createTime | dateFormat('YYYY-MM-DD hh:mm:ss')}}</td>
+          <td>{{getAppealCategorization(item.categorization)}}</td>
+          <td>{{item.title}}</td>
+          <td>{{getAppealCategorization(item.status)}}</td>
+          <td class="blue cursor-p" @click="getAppealDetails(item)">详情</td>
+        </tr>
+        </tbody>
         <tbody v-if="appealList.length === 0">
         <tr>
           <td colspan="5" style="text-align: center" class="main-color">
@@ -62,14 +64,20 @@
         </tbody>
       </table>
     </div>
-    <div class="right mt-22"  v-if="!isChange">
+    <div class="right mt-22" v-if="!isChange">
       <Page :total="totalPages*10" :page-size="pageSize" @on-change="changePages"></Page>
     </div>
     <Modal
       v-model="submitNewAppeal"
       :styles="{top:'200px',width:'700px'}"
-      title="提交新申诉"
-    >
+      :mask-closable="false"
+      :closable="false">
+      <div slot="header" class="clear">
+        <div class="right" @click="cancelFun">
+          <Icon type="close" class="cursor-p fs-16"></Icon>
+        </div>
+        <span>提交新申诉</span>
+      </div>
       <div class="appeal-content">
         <div>
           <span class="main-color">*</span><span>问题分类：</span>
@@ -88,11 +96,13 @@
         </div>
         <div class="mt-20">
           <span class="main-color">*</span><span>问题描述：</span>
-          <i-input v-model="appealDes" style="width: 600px" type="textarea" placeholder="请描述相关的问题，如果是活动任务相关的问题，请提供对应的活动编号，最多不超过500字"></i-input>
+          <i-input v-model="appealDes" style="width: 600px" type="textarea"
+                   placeholder="请描述相关的问题，如果是活动任务相关的问题，请提供对应的活动编号，最多不超过500字"></i-input>
         </div>
         <div class="mt-20 clear img-pop">
           <span class="left ml-8">相关截图：</span>
           <Upload
+            ref="screenshotsUpload"
             class="left"
             :default-file-list="defaultImage"
             :on-remove="removeMainImage"
@@ -122,6 +132,7 @@
         v-model="appealDetailsPop"
         :styles="{top:'200px',width:'700px'}"
         title="查看申诉详情"
+        :mask-closable="false"
       >
         <div class="appeal-content">
           <div class="clear">
@@ -137,7 +148,7 @@
           </div>
           <div class="mt-20">
             <span class="main-color">*</span><span>申诉标题：</span>
-            <i-input style="width: 200px" placeholder="请输入申诉标题"  v-model="appealDetailsObj.title" disabled></i-input>
+            <i-input style="width: 200px" placeholder="请输入申诉标题" v-model="appealDetailsObj.title" disabled></i-input>
           </div>
           <div class="mt-20">
             <span class="main-color">*</span><span>问题描述：</span>
@@ -145,12 +156,15 @@
           </div>
           <div class="mt-20 clear screen-shot">
             <span class="left">相关截图：</span>
-            <img @click="lookImgFun(item)" v-if="appealDetailsObj.screenshotsJson" v-for="item in appealDetailsObj.screenshotsJson" :src="item" alt="" width="58" height="58" class="ml-8">
+            <img @click="lookImgFun(item)" v-if="appealDetailsObj.screenshotsJson"
+                 v-for="item in appealDetailsObj.screenshotsJson" :src="item" alt="" width="58" height="58"
+                 class="ml-8">
             <span class="ml-5" v-if="!appealDetailsObj.screenshotsJson">暂无截图！</span>
           </div>
           <div class="mt-20 ">
             <span>处理意见：</span>
-            <i-input v-model="appealDetailsObj.suggestion" style="width: 600px" type="textarea" disabled placeholder="客服人员处理后会显示相关内容"></i-input>
+            <i-input v-model="appealDetailsObj.suggestion" style="width: 600px" type="textarea" disabled
+                     placeholder="客服人员处理后会显示相关内容"></i-input>
           </div>
         </div>
         <div slot="footer" class="text-ct">
@@ -160,8 +174,8 @@
     </div>
     <div v-if="lookImgPop" class="img-pop">
       <Modal v-model="lookImgPop" title="照片查看器" width="566" :styles="{top:'20px'}">
-        <div>
-          <img :src="imgSrc" alt="">
+        <div class="text-ct">
+          <img :src="imgSrc" alt="" width="500" class="cursor-p">
         </div>
       </Modal>
     </div>
@@ -172,7 +186,7 @@
   import api from '@/config/apiConfig'
   import {aliCallbackImgUrl, domain} from '@/config/env'
   import Upload from '@/components/upload'
-  import {encryption,AppealCategorization} from '@/config/utils'
+  import {encryption, AppealCategorization} from '@/config/utils'
   import DatePicker from 'iview/src/components/date-picker'
   import {Select, Option, OptionGroup} from 'iview/src/components/select'
   import Checkbox from 'iview/src/components/checkbox'
@@ -200,28 +214,28 @@
     },
     data() {
       return {
-        appealList:[],
+        appealList: [],
         beginTime: null,
         endTime: null,
-        tradTimeStart:null,
-        tradTimeEnd:null,
-        appealReason:null,
+        tradTimeStart: null,
+        tradTimeEnd: null,
+        appealReason: null,
         checkAll: false,
         transactType: [],
-        isChange:false,
+        isChange: false,
         totalPages: 1,
         pageSize: 10,
         pageIndex: 0,
-        submitNewAppeal:false,
-        categorization:null,
-        defaultImage:[],
-        appealImage:[],
+        submitNewAppeal: false,
+        categorization: null,
+        defaultImage: [],
+        appealImage: [],
         appealTitle: null,
-        appealDes:null,
-        appealDetailsPop:false,
-        appealDetailsObj:null,
-        imgSrc:null,
-        lookImgPop:false,
+        appealDes: null,
+        appealDetailsPop: false,
+        appealDetailsObj: null,
+        imgSrc: null,
+        lookImgPop: false,
       }
     },
     created() {
@@ -240,81 +254,83 @@
 
     },
     methods: {
-      lookImgFun(src){
-        console.log(111);
+      cancelFun() {
+        let self = this;
+        self.submitNewAppeal = false;
+        self.categorization = null;
+        self.appealTitle = null;
+        self.appealDes = null;
+        self.$refs.screenshotsUpload.clearFiles();
+      },
+      lookImgFun(src) {
         this.lookImgPop = true;
         this.imgSrc = src;
       },
-      getAppealDetails(appealDetails){
+      getAppealDetails(appealDetails) {
         let self = this;
         self.appealDetailsPop = true;
         self.appealDetailsObj = appealDetails;
       },
-      beginTimeFun(e){
+      beginTimeFun(e) {
         let self = this;
         self.beginTime = e;
         self.tradTimeStart = e;
       },
-      endTimeFun(e){
+      endTimeFun(e) {
         this.endTime = e;
         this.tradTimeEnd = e;
       },
       handleCheckAll() {
         this.checkAll = !this.checkAll;
         if (this.checkAll) {
-          this.transactType = ['waiting_handle','in_hand','handled'];
+          this.transactType = ['waiting_handle', 'in_hand', 'handled'];
         } else {
           this.transactType = [];
         }
       },
       checkAllGroupChange() {
-        if(this.transactType.length === 3) {
-          this.checkAll = true;
-        } else{
-          this.checkAll = false;
-        }
+        this.checkAll = this.transactType.length === 3;
         this.getUserAppealList();
       },
-      getUserAppealList(){
+      getUserAppealList() {
         let self = this;
-        if (self.appealReason === 'all'){
+        if (self.appealReason === 'all') {
           self.appealReason = ''
         }
-        let statusListJsonStr = self.transactType.length>0?JSON.stringify(self.transactType):'';
-        console.log(self.transactType);
+        let statusListJsonStr = self.transactType.length > 0 ? JSON.stringify(self.transactType) : '';
         api.getUserAppealList({
-          sort:'createTime,desc',
+          sort: 'createTime,desc',
           categorization: self.appealReason || null,
-          statusListJsonStr:statusListJsonStr,
+          statusListJsonStr: statusListJsonStr,
           createTimeStart: self.tradTimeStart || null,
           createTimeEnd: self.tradTimeEnd || null,
-          page:self.pageIndex,
-          size:self.pageSize,
+          page: self.pageIndex,
+          size: self.pageSize,
         }).then((res) => {
-          if (res.status){
+          if (res.status) {
             self.appealList = res.data.content;
             self.totalPages = res.data.totalPages
-          }else {
-           self.$Message.error(res.msg);
+          } else {
+            self.$Message.error(res.msg);
           }
         })
       },
-      getAppealCategorization(type){
+      getAppealCategorization(type) {
         return AppealCategorization(type)
       },
       changePages(data) {
         this.pageIndex = data - 1;
         this.getUserAppealList();
       },
-      removeMainImage(file){
+      removeMainImage(file) {
         let self = this;
-        self.appealImage.forEach( (item,index)=>{
-          if (item === file.src){
-            self.appealImage.splice(index,1)
+        self.appealImage.forEach((item, index) => {
+          if (item === file.src) {
+            self.appealImage.splice(index, 1)
           }
         });
       },
-      uploadSuccess(res){
+      uploadSuccess(res) {
         this.appealImage.push(aliCallbackImgUrl + res.name)
       },
       handleFormatError(file) {
@@ -329,21 +345,21 @@
           content: '图片 ' + file.name + ' 太大，不能超过 10M'
         });
       },
-      userComplaintCreate(){
+      userComplaintCreate() {
         let self = this;
-        if (!self.categorization){
+        if (!self.categorization) {
           self.$Message.error('请选择申诉类型！');
           return
         }
-        if (!self.appealTitle){
+        if (!self.appealTitle) {
           self.$Message.error('请输入申诉标题！');
           return
         }
-        if (self.appealTitle && self.appealTitle.length > 35){
+        if (self.appealTitle && self.appealTitle.length > 35) {
           self.$Message.error('标题最多输入35个字！');
           return
         }
-        if (!self.appealDes){
+        if (!self.appealDes) {
           self.$Message.error('请输入详细描述！');
           return
         }
@@ -351,17 +367,17 @@
           categorization: self.categorization,
           title: self.appealTitle,
           description: self.appealDes,
-          screenshots: self.appealImage.length>0?JSON.stringify(self.appealImage):null,
+          screenshots: self.appealImage.length > 0 ? JSON.stringify(self.appealImage) : null,
         }).then((res) => {
-          if (res.status){
+          if (res.status) {
             self.$Message.success('提交成功');
             self.getUserAppealList();
             self.submitNewAppeal = false;
             self.categorization = null;
             self.appealTitle = null;
             self.appealDes = null;
-            self.appealImage = [];
-          }else {
+            self.$refs.screenshotsUpload.clearFiles();
+          } else {
             self.$Message.error(res.msg);
           }
         })
@@ -372,11 +388,12 @@
 
 <style lang="scss" scoped>
   @import 'src/css/mixin';
-  .my-appeal{
-    .my-appeal-title{
+
+  .my-appeal {
+    .my-appeal-title {
       border-bottom: 1px solid #eee;
     }
-    .under-dispose{
+    .under-dispose {
       font-weight: bold;
       font-style: italic;
     }
@@ -384,37 +401,37 @@
       padding: 15px;
       border-bottom: 1px solid #F6F6F6;
     }
-    .img-pop{
+    .img-pop {
       z-index: 2000;
     }
     .transact-type {
       margin: 0 auto;
       padding: 15px 0;
-      .checkbox{
+      .checkbox {
         display: inline-block;
       }
     }
-    .appeal-button{
+    .appeal-button {
       background-color: $mainColor;
       color: #fff;
     }
-    .appeal-list{
+    .appeal-list {
       padding: 15px;
       width: 100%;
-      .appeal-table{
+      .appeal-table {
         width: 100%;
-        th,td{
+        th, td {
           text-align: left;
           padding: 10px 20px 10px 0;
         }
       }
     }
-    .appeal-content{
-      .appeal-img{
+    .appeal-content {
+      .appeal-img {
         margin-right: 8px;
       }
     }
-    .des{
+    .des {
       margin-left: 70px;
     }
   }
