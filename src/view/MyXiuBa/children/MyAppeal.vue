@@ -69,7 +69,7 @@
     </div>
     <Modal
       v-model="submitNewAppeal"
-      :styles="{top:'200px',width:'700px'}"
+      :styles="{top:'200px',width:'700px',zIndex:'1000'}"
       :mask-closable="false"
       :closable="false">
       <div slot="header" class="clear">
@@ -158,7 +158,7 @@
             <span class="left">相关截图：</span>
             <img @click="lookImgFun(item)" v-if="appealDetailsObj.screenshotsJson"
                  v-for="item in appealDetailsObj.screenshotsJson" :src="item" alt="" width="58" height="58"
-                 class="ml-8">
+                 class="ml-8 cursor-p">
             <span class="ml-5" v-if="!appealDetailsObj.screenshotsJson">暂无截图！</span>
           </div>
           <div class="mt-20 ">
@@ -175,7 +175,7 @@
     <div v-if="lookImgPop" class="img-pop">
       <Modal v-model="lookImgPop" title="照片查看器" width="566" :styles="{top:'20px'}">
         <div class="text-ct">
-          <img :src="imgSrc" alt="" width="500" class="cursor-p">
+          <img :src="imgSrc + '!thum800'" alt="" width="500">
         </div>
       </Modal>
     </div>

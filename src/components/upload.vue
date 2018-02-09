@@ -34,7 +34,7 @@
         @on-file-remove="handleRemove"
         @on-file-preview="handlePreview"></upload-list>
     </div>
-    <div v-show="visible" style="z-index: 3000">
+    <div v-if="visible" style="z-index: 3000" class="text">
       <Modal title="图片查看器" v-model="visible">
         <img :src="uploadSrc + '!orgi75'" v-if="visible" style="width: 100%">
       </Modal>
