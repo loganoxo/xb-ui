@@ -357,3 +357,20 @@ export const TaskErrorStatusList = (type) => {
   };
   return mapList[type];
 };
+
+/**
+ * 投诉类型和投诉处理状态映射
+ */
+export const AppealCategorization = (type) => {
+  const mapList = {
+    'task_flow_related': '活动流程相关',
+    'good_logistics_related': '商品物流相关',
+    'payment_amount_related': '款项金额相关',
+    'platform_suggest_related': '平台建议相关',
+    'other': '其它',
+    'waiting_handle': '待处理',
+    'in_hand': '处理中',
+    'handled': '已处理',
+  };
+  return mapList[type];
+};

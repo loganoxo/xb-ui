@@ -59,6 +59,7 @@ const FaqShowker = r => require.ensure([], () => r(require('@/view/MyXiuBa/child
 const SellerTest = r => require.ensure([], () => r(require('@/view/SellerTest.vue')), 'SellerTest');
 
 const MyTrialReport = r => require.ensure([], () => r(require('@/view/MyXiuBa/children/MyTrialReport.vue')), 'MyTrialReport');
+const MyAppeal = r => require.ensure([], () => r(require('@/view/MyXiuBa/children/MyAppeal.vue')), 'MyAppeal');
 
 const MoneyManagement = r => require.ensure([], () => r(require('@/view/MyXiuBa/children/moneyManagement/index.vue')), 'MoneyManagement');
 const AccountInfo = r => require.ensure([], () => r(require('@/view/MyXiuBa/children/moneyManagement/children/accountInfo.vue')), 'MoneyManagement');
@@ -559,6 +560,18 @@ export default new Router({
             topShow: true,
             bottomShow: true,
             role: 0,
+          }
+        },
+        {
+          path: 'my-appeal',
+          name: 'MyAppeal',
+          component: MyAppeal,
+          meta: {
+            title: "我的申诉",
+            logInAuthority: true,
+            topShow: true,
+            bottomShow: true,
+            role: null,
           }
         },
         {

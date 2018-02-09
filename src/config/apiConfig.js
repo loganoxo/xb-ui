@@ -854,4 +854,17 @@ export default {
     return fetch("/api/user/getQRcode.json",params)
   },
 
+  /**
+   * 用户提交投诉接口
+   */
+  userComplaintCreate(params){
+    return fetch("/api/user-complaint-create.json",params)
+  },
+
+  /**
+   * 获取用户投诉列表
+   */
+  getUserAppealList(params){
+    return fetch("/api/user-complaint-getComplaintsByUid.json",params)
+  },
 }

@@ -229,6 +229,10 @@ input[type="number"] {
   margin-left: 5px;
 }
 
+.ml-8{
+  margin-left: 8px;
+}
+
 .ml-10 {
   margin-left: 10px;
 }
@@ -266,6 +270,10 @@ input[type="number"] {
 }
 
 .ml-70 {
+  margin-left: 70px;
+}
+
+.ml-70{
   margin-left: 70px;
 }
 
@@ -401,12 +409,19 @@ input[type="number"] {
   font-size: 24px;
 }
 
+.fs-italic{
+  font-style: italic;
+}
 .bgF1F1F1 {
   background-color: #F1F1F1;
 }
 
 .bgfff {
   background-color: #fff;
+}
+
+.bg-main-color{
+  background-color: #f9284f;
 }
 
 .clf99563 {

@@ -51,6 +51,10 @@
           <img src="/static/img/icon/importance.gif" alt="" style="position: absolute;right: 22px;top: -12px;">
           <a @click="openClauseModel">服务条款</a>
         </li>
+        <li :class="{isSelect:isSelect === 'MyAppeal'}" class="pos-rel">
+          <Icon type="information-circled"></Icon>
+          <router-link to="/user/my-appeal">我的申诉</router-link>
+        </li>
       </ul>
 
       <!--拿手管理导航-->
@@ -94,6 +98,10 @@
           <Icon type="document-text"></Icon>
           <img src="/static/img/icon/importance.gif" alt="" style="position: absolute;right: 22px;top: -12px;">
           <a @click="openClauseModel">服务条款</a>
+        </li>
+        <li :class="{isSelect:isSelect === 'MyAppeal'}" class="pos-rel">
+          <Icon type="information-circled"></Icon>
+          <router-link to="/user/my-appeal">我的申诉</router-link>
         </li>
       </ul>
     </div>
