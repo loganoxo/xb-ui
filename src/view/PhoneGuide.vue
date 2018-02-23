@@ -6,7 +6,7 @@
         <img class="qr-code" :src="qrCodeSrc" alt="">
       </div>
     </div>
-    <div class="bgfff" style="padding-top: 80px;">
+    <div class="bgF8F6F7" style="padding-top: 80px;">
       <div class="container">
         <img src="/static/img/seller-adv/phone-guide_02.jpg" alt="" class="block">
       </div>
@@ -16,7 +16,7 @@
         <img src="/static/img/seller-adv/phone-guide_03.jpg" alt="" class="block">
       </div>
     </div>
-    <div class="bgfff">
+    <div class="bgF8F6F7">
       <div class="container">
         <img src="/static/img/seller-adv/phone-guide_04.jpg" alt="" class="block">
       </div>
