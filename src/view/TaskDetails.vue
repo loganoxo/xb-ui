@@ -71,7 +71,7 @@
             </p>
             <p class="fs-14">（商家已存入总活动担保金&nbsp;{{commodityData.task.totalMarginNeed/100}}&nbsp;元，请放心申请）</p>
             <p class="fs-14">{{commodityData.task.showkerApplyTotalCount}} 人申请，{{parseInt(commodityData.trailOn) ?
-              commodityData.. : 0}} 人正在参与活动，{{parseInt(commodityData.trailDone) ? commodityData.trailDone : 0}}
+              commodityData.trailOn: 0}} 人正在参与活动，{{parseInt(commodityData.trailDone) ? commodityData.trailDone : 0}}
               人完成活动， 剩余 {{commodityData.task.taskCount - commodityData.task.showkerApplySuccessCount || 0}} 份
               <span class="inline-block tag" v-if="getRole === 0 && isShowAddGroupTip">
               <a
