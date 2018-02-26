@@ -83,18 +83,12 @@
             <!--清仓断码-->
 
           <!--</a>-->
-          <a :class="[activityCategory === 'buyer-show' ? 'active' : '']" @click="linkToBuyerShow('buyer-show')">
+          <!--<a :class="[activityCategory === 'buyer-show' ? 'active' : '']" @click="linkToBuyerShow('buyer-show')">
             <i style="position: absolute; top: -17px; left: 34px;">
               <img src="/static/img/common/news.gif" alt="" >
             </i>
-            买家秀</a>
+            买家秀</a>-->
         </div>
-        <!--<router-link  v-if="!(getUserInfoRole.role === 0)" class="seller-enter" style="background-color: #FBEF81; color: #B7723E; float: right; font-weight: bold;" to="/seller-adv">
-          商家入驻必读
-        </router-link>-->
-        <!--<router-link  class="phone-enter" style="background-color: #FBEF81; color: #B7723E; float: right; font-weight: bold;" to="/phone-guide">
-          手机版
-        </router-link>-->
       </div>
     </div>
   </div>
