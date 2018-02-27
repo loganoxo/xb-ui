@@ -382,7 +382,7 @@
           <span :class="[currentOrderStatusInfo.status === 'order_num_error' ? 'main-color': '']">{{currentOrderStatusInfo.statusDesc}}</span>
           <strong class="ml-10" v-if="currentOrderStatusInfo.status === 'order_num_error'">原因：{{currentOrderStatusInfo.auditDescription}}</strong>
         </div>
-        <div v-if="needBrowseCollectAddCart" class="mt-20 ml-45 des-text">1.收藏、加入购物车，提交相关截图</div>
+       <!-- <div v-if="needBrowseCollectAddCart" class="mt-20 ml-45 des-text">1.收藏、加入购物车，提交相关截图</div>
         <div v-if="needBrowseCollectAddCart" class="clear text-ct ml-45 mt-20">
           <div class="left mr-20" v-if="taskType === 'pc_search'">
             <p>搜索条件截图</p>
@@ -460,7 +460,7 @@
             </Upload>
             <p class="mt-8 example-pic" @click="pcSearchSelectFun('five')">查看示例图</p>
           </div>
-        </div>
+        </div>-->
         <div class="clear ml-45 mr-40 mt-20" v-if="needIssueAnswer.length > 0">
           <div style="border-top: 1px solid #eee" class="pt-10 pb-10">在详情页找到如下文案，并提供所在位置截图<p @click="watchAnswerImg = true" class="example-pic inline-block ml-10">查看示例图</p></div>
           <div class="left mr-20 text-ct" v-if="needIssueAnswer[0]">
@@ -519,7 +519,7 @@
           </div>
         </div>
         <div class="mt-10 ml-45">
-          <p class="mt-20 mb-20 des-text" v-if="needBrowseCollectAddCart">2.填写下单信息</p>
+          <p class="mt-20 mb-20 des-text" v-if="needBrowseCollectAddCart">填写下单信息</p>
           <span>请输入订单号：</span>
           <iInput v-model="affirmOrderNumber" style="width: 300px;"></iInput>
           <iButton @click="orderImg = true">什么是订单号？</iButton>
@@ -907,7 +907,8 @@
             _this.showkerTask ={};
             _this.showkerTask = res.data.showkerTask;
             _this.taskPlaceInfo = res.data.showkerTask.task;
-            _this.needBrowseCollectAddCart = res.data.needBrowseCollectAddCart;
+            // _this.needBrowseCollectAddCart = res.data.needBrowseCollectAddCart;
+            _this.needBrowseCollectAddCart = false;
             _this.taskType = res.data.taskType;
             _this.needIssueAnswer = res.data.itemIssue;
             let screenShot = res.data.screenshot;
@@ -1122,10 +1123,10 @@
           id: _this.itemId,
           orderNum: _this.affirmOrderNumber,
           actualPayMoney: _this.payMoney,
-          searchCondition: _this.upLoadImageUrl.searchConditionImage,
-          itemLocation: _this.upLoadImageUrl.itemLocationImage,
-          enshrine: _this.upLoadImageUrl.enshrineImage,
-          addToCart: _this.upLoadImageUrl.addToCartImage,
+          searchCondition: _this.upLoadImageUrl.searchConditionImage || null,
+          itemLocation: _this.upLoadImageUrl.itemLocationImage || null,
+          enshrine: _this.upLoadImageUrl.enshrineImage || null,
+          addToCart: _this.upLoadImageUrl.addToCartImage || null,
           issueAnswerScreenshot: JSON.stringify(_this.issueAnswerScreenshot)
         }).then(res => {
           if (res.status) {

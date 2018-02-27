@@ -667,7 +667,8 @@
       openCheckOrder(id, needBrowseCollectAddCart, itemIssue) {
         let _this = this;
         _this.needIssue = itemIssue;
-        _this.needBrowseCollectAddCart = needBrowseCollectAddCart;
+        // _this.needBrowseCollectAddCart = needBrowseCollectAddCart;
+        _this.needBrowseCollectAddCart = false;
         _this.showCheckOrder = true;
         api.orderNumberInfo({
           id: id
