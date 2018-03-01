@@ -84,7 +84,7 @@
             {{typeChang(item.amountChange / 100) || 0}}
           </td>
           <td>
-            <p style="color:blue;" class="details" @click="detailsInit(item.id)">详情
+            <p class="details blue" @click="detailsInit(item.id)">详情
               <Icon :type="detailSelect===item.id?'arrow-up-b':'arrow-down-b'" class="ml-5 "></Icon>
             </p>
           </td>
