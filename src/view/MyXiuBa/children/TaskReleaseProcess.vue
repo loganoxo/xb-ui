@@ -1415,7 +1415,7 @@
             let index = _this.pcTaskDetail[i].index + 1;
             countAssigned += _this.pcTaskDetail[i].countAssigned;
             if (!_this.pcTaskDetail[i].itemMainImage) {
-              _this.$Message.warning('亲，请上传关键词方案' + index + '中的宝贝主图！');
+              _this.$Message.warning('亲，请上传关键词方案' + index + '中的PC搜索宝贝主图！');
               return;
             }
             if (!_this.pcTaskDetail[i].searchKeyword) {
@@ -1475,7 +1475,7 @@
             let index = _this.appTaskDetail[i].index + 1;
             countAssigned += _this.appTaskDetail[i].countAssigned;
             if (!_this.appTaskDetail[i].itemMainImage) {
-              _this.$Message.warning('亲，关键词方案'+ index + '中的请上传手淘搜索宝贝主图！');
+              _this.$Message.warning('亲，请上传关键词方案'+ index + '中的手淘搜索宝贝主图！');
               return;
             }
             if (!_this.appTaskDetail[i].searchKeyword) {
