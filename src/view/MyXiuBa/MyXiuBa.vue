@@ -41,11 +41,11 @@
           <span class="help-center icon-size"></span>
           <router-link to="/user/help-center/faq">帮助中心</router-link>
         </li>
-        <li :class="{isSelect:isSelect === 'Recommend'}" class="pos-rel">
+       <!-- <li :class="{isSelect:isSelect === 'Recommend'}" class="pos-rel">
           <span class="recommend icon-size"></span>
           <img src="/static/img/icon/hot.gif" alt="" style="position: absolute;right: 18px;top: -6px;">
           <router-link to="/user/recommend">邀请有礼</router-link>
-        </li>
+        </li>-->
         <li class="pos-rel">
           <span class="service-clause icon-size"></span>
           <img src="/static/img/icon/importance.gif" alt="" style="position: absolute;right: 22px;top: -12px;">
@@ -89,11 +89,11 @@
           <span class="help-center icon-size"></span>
           <router-link to="/user/help-center/faq">帮助中心</router-link>
         </li>
-        <li class="pos-rel" :class="{isSelect:isSelect === 'Recommend'}">
+       <!-- <li class="pos-rel" :class="{isSelect:isSelect === 'Recommend'}">
           <span class="recommend icon-size"></span>
           <img src="/static/img/icon/hot.gif" alt="" style="position: absolute;right: 22px;top: -4px;">
           <router-link to="/user/recommend">邀请有礼</router-link>
-        </li>
+        </li>-->
         <li class="pos-rel">
           <span class="service-clause icon-size"></span>
           <img src="/static/img/icon/importance.gif" alt="" style="position: absolute;right: 22px;top: -12px;">
