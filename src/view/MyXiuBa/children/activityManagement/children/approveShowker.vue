@@ -243,7 +243,7 @@
           <i class="right" @click="showCheckOrder = false">&times;</i>
           <div class="f-b fs-14 main-color mt-28" v-if="needBrowseCollectAddCart || needIssue">1.请查看拿手提交的截图信息</div>
           <div class="clear">
-            <div class="left" v-if="needBrowseCollectAddCart">
+            <!--<div class="left" v-if="needBrowseCollectAddCart">
               <div class="mt-5 cl00 fs-12 f-b">A.查看拿手提交的收藏加购截图</div>
               <div class="order-info-screenshot mt-5" v-for="(value, key) in orderInfo.screenshot" :key="key" v-if="value">
                 <img :src="value + '!thum54'" alt="收藏加购截图">
@@ -251,10 +251,10 @@
                   <Icon type="ios-eye-outline" @click.native="handleView(value,key)"></Icon>
                 </div>
               </div>
-            </div>
-            <div class="left parting-line" v-if="needIssue"></div>
-            <div class="left ml-20" v-if="needIssue">
-              <div class="mt-5 cl00 fs-12 f-b"><span>{{needIssue ? 'B.' : 'A.'}}</span>查看拿手提交的浏览答题截图</div>
+            </div>-->
+            <!--<div class="left parting-line" v-if="needIssue"></div>-->
+            <div class="left ml-10" v-if="needIssue">
+              <div class="mt-5 cl00 fs-12 f-b"><!--<span>{{needIssue ? 'B.' : 'A.'}}</span>-->查看拿手提交的浏览答题截图</div>
               <div class="order-info-screenshot mt-5" v-for="(item, index) in orderInfo.issueAnswerScreenshot" :key="index" v-if="item">
                 <img :src="item.screenshotSrc + '!thum54'" alt="浏览答题截图">
                 <div class="order-info-screenshot-cover">
