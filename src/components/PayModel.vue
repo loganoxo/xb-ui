@@ -25,8 +25,8 @@
         <!--</Radio>-->
       </Radio-group>
     </div>
-    <iButton type="primary" v-if="isBalance" :loading="payLoading" @click="confirmPayment" class="recharge-btn">{{payButtonText}}</iButton>
-    <iButton type="primary" v-else :loading="payLoading" @click="confirmRecharge" class="recharge-btn">{{rechargeButtonText}}</iButton>
+    <iButton type="primary" v-if="isBalance" @click="confirmPayment" :loading="payLoading" class="recharge-btn">{{payButtonText}}</iButton>
+    <iButton type="primary" v-else @click="confirmRecharge" :loading="payLoading" class="recharge-btn">{{rechargeButtonText}}</iButton>
     <div class="confirm-recharge-model" v-if="confirmRechargeModel">
       <div class="confirm-recharge-con">
         <h4>请前往充值界面进行充值！</h4>
@@ -112,6 +112,7 @@
     },
     methods: {
       confirmPayment() {
+        this.payLoading = true;
         this.$emit('confirmPayment',this.payPassword);
       },
       pressEnterLoginNormal(event) {
@@ -129,10 +130,10 @@
             orderPlatform: 'PC',
             payChannel: 1
           }).then(res => {
+            _this.payLoading = false;
             if (res.status) {
               _this.confirmRechargeModel = true;
               newWindowUrl.location.href = aliPayUrl + 'orderSerial=' + res.data.orderSerial;
-              _this.payLoading = false;
             }else {
               _this.$Message.error(res.msg);
             }

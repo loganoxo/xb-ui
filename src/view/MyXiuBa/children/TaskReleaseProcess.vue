@@ -717,7 +717,7 @@
     </div>
     <!--担保金支付弹框-->
     <div class="pay-model" v-if="showPayModel">
-      <PayModel :orderMoney="!priceHasChange ? orderMoney : replenishMoney" @confirmPayment="confirmPayment">
+      <PayModel ref="payModelRef" :orderMoney="!priceHasChange ? orderMoney : replenishMoney" @confirmPayment="confirmPayment">
         <i slot="closeModel" class="close-recharge" @click="closeRecharge">&times;</i>
         <div slot="noBalance" class="title-tip">
             <span class="sizeColor3"><Icon color="#FF2424" size="18px" type="ios-information"></Icon><span
@@ -1800,6 +1800,7 @@
           taskId: _this.taskPayId,
           type: _this.priceHasChange ? 'supply_pay' : 'first_pay'
         }).then(res => {
+          _this.$refs.payModelRef.payLoading = false;
           if (res.status) {
             _this.$store.dispatch('getUserInformation');
             _this.showPayModel = false;
