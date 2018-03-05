@@ -162,7 +162,7 @@
           </div>
         </div>
       </div>
-      <!--<div class="container">
+      <div class="container">
         <div class="buyer-xiu clear">
           <div class="left-ctt left">
             <div style="overflow: hidden">
@@ -228,7 +228,7 @@
             </div>
           </div>
         </div>
-      </div>-->
+      </div>
       <div class="container mt-5">
         <!--免费领开始-->
         <div class="home-commodity-half mr-10">
