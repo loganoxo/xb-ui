@@ -1356,6 +1356,10 @@
           _this.$Message.warning('亲，请选择试用折扣！');
           return;
         }
+        if(_this.taskRelease.remark && _this.taskRelease.remark.length > 300) {
+          _this.$Message.warning('亲，下单备注说明不能超过300个字！');
+          return;
+        }
         if (_this.taskRelease.itemReviewRequired === 'offer_review_summary' && !_this.taskRelease.itemReviewSummary) {
           _this.$Message.warning('亲，请填写你对评价的大概要求！');
           return;
