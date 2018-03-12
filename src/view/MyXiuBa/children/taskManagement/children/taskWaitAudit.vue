@@ -69,7 +69,8 @@
                 <p>{{allTask.alitmAccount}}</p>
                 <p v-if="allTask.creditLevel"><img :src="allTask.creditLevel" alt="" style="width: auto;height: auto;">
                 </p>
-                <p v-if="allTask.tqz">淘气值：{{allTask.tqz}}</p>
+                <p v-cloak>申请次数：{{allTask.applyCount || 0}}</p>
+                <p v-cloak>成功次数：{{allTask.applySuccessCount || 0}}</p>
               </td>
               <td>{{allTask.applyTime | dateFormat('YYYY-MM-DD hh:mm:ss')}}</td>
               <td class="registration">
@@ -417,11 +418,24 @@
         }).then(res => {
           if (res.status) {
             if (res.data.content.length > 0) {
-              if (!_this.taskWaitAuditList[index].applyAllTask) {
-                _this.$set(_this.taskWaitAuditList[index], 'applyAllTask', []);
-              }
-              _this.taskWaitAuditList[index].applyAllTask = res.data.content;
+              _this.$set(_this.taskWaitAuditList[index], 'applyAllTask', res.data.content);
               _this.taskTotalElements = res.data.totalElements;
+              for(let i = 0, j = _this.taskWaitAuditList[index].applyAllTask.length; i < j; i++){
+                api.getTrialDetail({
+                  showkerId: _this.taskWaitAuditList[index].applyAllTask[i].showkerId,
+                  pageIndex: 1,
+                  pageSize: 1,
+                  itemCatalogname: '',
+                }).then( res => {
+                  if(res.status){
+                    _this.$set(_this.taskWaitAuditList[index].applyAllTask[i], 'applyCount', res.data.applyCount);
+                    _this.$set(_this.taskWaitAuditList[index].applyAllTask[i], 'applySuccessCount', res.data.applySuccessCount);
+                  }else {
+                    _this.$Message.error(res.msg);
+                  }
+                })
+              }
+              // _this.$set(_this.taskWaitAuditList[index].applyAllTask);
             } else {
               _this.taskWaitAuditList[index].applyAllTask = [];
             }
@@ -448,42 +462,10 @@
           }
         })
       },
-      taskWaitToAudit(id, account, screenshot, time, index) {
-        this.showApprovalPop = true;
-        this.approvalPopInfo.approvalPop = true;
-        this.approvalPopInfo.passId = id;
-        this.approvalPopInfo.applyName = account;
-        this.approvalPopInfo.userScreenShotImg = JSON.parse(screenshot);
-        this.approvalPopInfo.activeEndTime = time;
-        this.approvalPopInfo.index = index;
-      },
-      auditSuccess(closePop, type) {
-        let _this = this;
-        _this.approvalPopInfo.approvalPop = closePop;
-        _this.$store.dispatch('getPersonalTrialCount');
-        _this.appliesWaitingAuditAll(_this.operateTaskId, _this.operateIndex);
-        if (type === 'true') {
-          if (_this.taskWaitAuditList[_this.operateIndex].newestTaskApplyCount > 0) {
-            _this.taskWaitAuditList[_this.operateIndex].newestTaskApplyCount -= 1;
-          }
-          if (_this.taskWaitAuditList[_this.operateIndex].totalTaskApplyCount > 0) {
-            _this.taskWaitAuditList[_this.operateIndex].totalTaskApplyCount -= 1;
-          }
-          if (_this.taskWaitAuditList[_this.operateIndex].residueCount > 0) {
-            _this.taskWaitAuditList[_this.operateIndex].residueCount -= 1;
-          }
-          _this.taskWaitAuditList[_this.operateIndex].trailOn += 1;
-        }
-      },
       collapseToggle(id, index) {
         this.taskPageIndex = 1;
         if (this.selectId === id) {
           this.selectId = null;
-          this.taskWaitAuditList.forEach(item => {
-            if (item.applyAllTask) {
-              item.applyAllTask = [];
-            }
-          });
         } else {
           this.selectId = id;
           this.index = index;

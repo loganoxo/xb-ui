@@ -9,7 +9,9 @@ table {
 body {
   overflow-y: scroll;
 }
-
+ul{
+  list-style: none;
+}
 .showSweetAlert {
   -webkit-animation: showSweetAlert 0.3s;
   animation: showSweetAlert 0.3s;
