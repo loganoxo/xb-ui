@@ -420,22 +420,6 @@
             if (res.data.content.length > 0) {
               _this.$set(_this.taskWaitAuditList[index], 'applyAllTask', res.data.content);
               _this.taskTotalElements = res.data.totalElements;
-              for(let i = 0, j = _this.taskWaitAuditList[index].applyAllTask.length; i < j; i++){
-                api.getTrialDetail({
-                  showkerId: _this.taskWaitAuditList[index].applyAllTask[i].showkerId,
-                  pageIndex: 1,
-                  pageSize: 1,
-                  itemCatalogname: '',
-                }).then( res => {
-                  if(res.status){
-                    _this.$set(_this.taskWaitAuditList[index].applyAllTask[i], 'applyCount', res.data.applyCount);
-                    _this.$set(_this.taskWaitAuditList[index].applyAllTask[i], 'applySuccessCount', res.data.applySuccessCount);
-                  }else {
-                    _this.$Message.error(res.msg);
-                  }
-                })
-              }
-              // _this.$set(_this.taskWaitAuditList[index].applyAllTask);
             } else {
               _this.taskWaitAuditList[index].applyAllTask = [];
             }

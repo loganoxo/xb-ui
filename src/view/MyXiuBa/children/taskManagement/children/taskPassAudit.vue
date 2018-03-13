@@ -102,6 +102,8 @@
                 <p>{{item.alitmAccount}}</p>
                 <p><img :src="item.creditLevel" alt="" style="width: auto;height: auto;"></p>
                 <p v-if="item.tqz">淘气值：{{item.tqz}}</p>
+                <p v-cloak>申请次数：{{item.applyCount || 0}}</p>
+                <p v-cloak>成功次数：{{item.applySuccessCount || 0}}</p>
               </td>
               <td>
                 <p v-if="item.status !== 'trial_end'">{{getTaskStatus(item.status)}}</p>
