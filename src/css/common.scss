@@ -582,4 +582,32 @@ input[type="number"] {
   }
 }
 
+.show-buyer-popup  .ivu-modal{
+  .ivu-modal-close .ivu-icon-ios-close-empty{
+    color: #fff;
+
+  }
+  .ivu-modal-body{
+    padding: 0;
+  }
+  .ivu-modal-footer{
+    display: none;
+  }
+  .show-buyer-popup-body{
+    height: 750px;
+    background: url('/static/img/home/shower_buyer_popup_01.jpg') no-repeat;
+    padding: 0;
+    a{
+      display: inline-block;
+      background-color: transparent;
+      width: 368px;
+      height: 125px;
+      margin: 543px auto auto 168px;
+    }
+  }
+  .ivu-modal-content{
+    border-radius: 10px;
+    overflow: hidden;
+  }
+}
 /*RegionPicker css end*/
