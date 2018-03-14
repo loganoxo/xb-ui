@@ -209,7 +209,7 @@
     data() {
       //表单验证
       const validatePhone = (rule, value, callback) => {
-        if (!(/^1[34578]\d{9}$/.test(value))) {
+        if (!(/^1\d{10}$/.test(value))) {
           callback(new Error('请输入正确手机号'));
         } else {
           callback()

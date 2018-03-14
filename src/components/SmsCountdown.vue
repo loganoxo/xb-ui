@@ -44,7 +44,7 @@
     methods: {
       run() {
         let _this = this;
-        if (/^1[34578]\d{9}$/.test(_this.phone)) {
+        if (/^1\d{10}$/.test(_this.phone)) {
           api.getCode({
             phone: _this.phone,
             purpose: _this.purpose,
