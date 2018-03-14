@@ -43,11 +43,11 @@
         </div>
         <div v-if="needRecharge > 0" class="text-ct mt-20">
           <iButton class="btn-recharge" @click="recharge = true">前去充值</iButton>
-          <router-link v-show="checkSellerTestRes" to="/seller-test" class="inline-block ml-20">答题免费领vip</router-link>
+          <a @click="showSellerVipPopup=true;" v-show="checkSellerTestRes" class="inline-block ml-20">添加客服QQ免费领VIP</a>
         </div>
         <div v-else  class="text-ct mt-20">
           <iButton class="btn-recharge" @click="recharge = true">马上购买</iButton>
-          <router-link v-show="checkSellerTestRes" to="/seller-test" class="inline-block ml-20">答题免费领vip</router-link>
+          <a @click="showSellerVipPopup=true;" v-show="checkSellerTestRes"  class="inline-block ml-20">添加客服QQ免费领VIP</a>
         </div>
       </div>
     </div>
@@ -102,6 +102,11 @@
         </div>
       </PayModel>
     </div>
+    <Modal v-model="showSellerVipPopup" width="700" class="show-buyer-popup" >
+      <div class="show-buyer-popup-body" >
+        <a href="http://wpa.qq.com/msgrd?v=3&site=qq&menu=yes&uin=2012364029" target="_blank" @click="showSellerVipPopup=false;"></a>
+      </div>
+    </Modal>
   </div>
 </template>
 <script>
@@ -138,13 +143,21 @@
         memberId: null,
         recharge: false,
         checkSellerTestRes: false,
+        showSellerVipPopup: false,
       }
     },
     mounted() {
     },
     created() {
-      this.checkSellerTest();
-      this.getUserMemberLevelInfo();
+      let self = this;
+      self.getUserMemberLevelInfo();
+      if(self.$store.state.userInfo.role === 1){
+        if(self.$store.state.userInfo.memberOK){
+          self.checkSellerTestRes = false;
+        }else {
+          self.checkSellerTestRes = true;
+        }
+      }
     },
     computed: {
       getUserAccountRole: function () {
@@ -165,14 +178,6 @@
     },
     watch: {},
     methods: {
-      checkSellerTest(){
-        let self = this;
-        api.checkSellerTest().then((res) => {
-          if (!res.status) {
-            self.checkSellerTestRes = true;
-          }
-        })
-      },
       changeStyle(select, day, year, recharge, level, id) {
         let _this = this;
         let stopTime = null;

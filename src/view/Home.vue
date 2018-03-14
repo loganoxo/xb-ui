@@ -409,29 +409,7 @@
         </div>
       </div>
     </div>
-    <Modal v-model="wechartAlertShow" width="550" @on-cancel="cancelWeiChartFunc">
-      <div style="text-align: right;margin-right: 11px;position: relative;top: -2px;">
-        <Checkbox-group v-model="wechartShowAgain">
-          <Checkbox label="true">不再提醒</Checkbox>
-        </Checkbox-group>
-        <!--<p v-show="getUserInfoRole == 0" class="ml-10" style="position: absolute;bottom: 90px;left: 21px; height: 30px; line-height: 30px;">-->
-        <!--<span class="left fs-14 mr-10" style="color: #ff6633;">特权口令：</span>-->
-        <!--<iInput v-model="command"  class="left mr-10" style="width:150px;"></iInput>-->
-        <!--<iButton class="left" type="error" @click="setWeChartAlertFunc(0)" >提交</iButton>-->
-        <!--</p>-->
-        <img style="position: absolute;top: 0;" src="/static/img/home/wechart_alert_01.png" alt="">
-        <img v-show="getUserInfoRole === 1" src="/static/img/home/wechart_alert_03.png" alt=""
-             style="width: 100%; margin-top: 20px">
-        <p v-show="getUserInfoRole === 1" class="ml-10"
-           style="position: absolute;bottom: 111px;left: 21px; height: 30px; line-height: 30px;">
-          <span class="left fs-12 ml-10" style="color: #ff6633;">特权口令：</span>
-          <iInput v-model="command" class="left mr-10" style="width:150px;"></iInput>
-          <iButton class="left" type="error" @click="setWeChartAlertFunc(1)">提交</iButton>
-        </p>
-      </div>
-      <div slot="footer">
-      </div>
-    </Modal>
+
 
     <div class="confirm-recharge-model" v-show="$store.state.wechartShow">
       <div class="confirm-recharge-con">
@@ -465,7 +443,7 @@
     </div>
     <Modal v-model="showSellerVipPopup" width="700" class="show-buyer-popup" >
       <div class="show-buyer-popup-body" >
-        <a href="http://wpa.qq.com/msgrd?v=3&site=qq&menu=yes&uin=2012364029" target="_blank"></a>
+        <a href="http://wpa.qq.com/msgrd?v=3&site=qq&menu=yes&uin=2012364029" target="_blank" @click="showSellerVipPopup=false;"></a>
       </div>
     </Modal>
   </div>
@@ -650,7 +628,7 @@
           activityCategories: [],
           discountTypes: '',
         },
-        showSellerVipPopup: true,
+        showSellerVipPopup: false,
         pinkageFor10: [],
         presentGet: [],
       }
