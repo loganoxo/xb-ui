@@ -210,13 +210,13 @@
                <span class="required">宝贝数量：</span>
                <iInput v-model.number="taskRelease.taskCount" placeholder="请输入宝贝数量" style="width: 120px" @on-blur="addItemReviewList"></iInput>
                <span>份</span>
-               <span class="sizeColor3 ml-5">（平台会按照1/5的比例进行计算，部分中奖名额将会由系统进行推荐）</span>
+               <!--<span class="sizeColor3 ml-5">（平台会按照1/5的比例进行计算，部分中奖名额将会由系统进行推荐）</span>-->
              </p>
-              <p class="mt-10 ml-70" v-show="systemApprovalTaskNumber > 0">
+            <!--  <p class="mt-10 ml-70" v-show="systemApprovalTaskNumber > 0">
                 <Icon color="#f9284f" type="information-circled"></Icon>
                 <span class="sizeColor3">商家审批份数：{{taskRelease.taskCount - systemApprovalTaskNumber || 0}} 份</span>
                 <span class="sizeColor3 ml-10">平台审批份数：{{systemApprovalTaskNumber || 0}} 份</span>
-              </p>
+              </p>-->
             </div>
             <div class="baby-price ml-45 mt-20">
               <span class="required">宝贝单价：</span>
@@ -1164,6 +1164,7 @@
         let postage = this.taskRelease.pinkage === 'true' ? 0 : 10;
         return (this.taskRelease.itemPrice + postage) * 0.06 > 3
       },
+
       /**
        * 计算商家分布任务份数中系统需要审批的份数
        * @return {number}
