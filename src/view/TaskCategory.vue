@@ -346,6 +346,7 @@
           discountTypes: '',
           countLeft0ToEnd: true,
           itemCatalogFilters: [],
+          zoneFilters: ['certainly_hit','freshman_hit'],
         },
         historyTaskListParams:{
           pageIndex: 1,
@@ -599,6 +600,7 @@
           discountTypes: self.searchTaskParams.discountTypes ? JSON.stringify(self.searchTaskParams.discountTypes) : '',
           activityCategories: self.searchTaskParams.activityCategories ? JSON.stringify(self.searchTaskParams.activityCategories) : '',
           countLeft0ToEnd: self.searchTaskParams.countLeft0ToEnd,
+          zoneFilters: self.searchTaskParams.zoneFilters,
         };
         api.getSearchTask(option).then((res) => {
           if(res.status){
