@@ -600,7 +600,7 @@
           discountTypes: self.searchTaskParams.discountTypes ? JSON.stringify(self.searchTaskParams.discountTypes) : '',
           activityCategories: self.searchTaskParams.activityCategories ? JSON.stringify(self.searchTaskParams.activityCategories) : '',
           countLeft0ToEnd: self.searchTaskParams.countLeft0ToEnd,
-          zoneFilters: self.searchTaskParams.zoneFilters,
+          zoneFilters: self.searchTaskParams.zoneFilters ? JSON.stringify(self.searchTaskParams.zoneFilters) : ''
         };
         api.getSearchTask(option).then((res) => {
           if(res.status){
