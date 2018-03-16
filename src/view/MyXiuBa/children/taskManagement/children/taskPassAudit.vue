@@ -52,7 +52,10 @@
         </div>
         <div class="manage-text left ml-5 inline-block">
           <p>
-            <span>活动编号：{{item.number}}</span>
+            <span>
+              活动编号：{{item.number}}
+            </span>
+            <span v-if="item.zone === 'certainly_hit'" class="certainly-hit-tip">推荐必中</span>
             <span class="ml-5">（{{item.taskStatusDesc}} / {{item.settlementStatusDesc}}）</span>
           </p>
           <p>活动名称：{{item.taskName}}</p>
@@ -532,3 +535,16 @@
     }
   }
 </script>
+<style lang="scss" scoped>
+  .certainly-hit-tip{
+    display: inline-block;
+    background-color: #f9284f;
+    color: #fff;
+    padding: 0 5px;
+    line-height: 22px;
+    height: 21px;
+    border-radius: 5px;
+    margin-left: 10px;
+  }
+
+</style>

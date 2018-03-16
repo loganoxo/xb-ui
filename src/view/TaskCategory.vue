@@ -346,7 +346,7 @@
           discountTypes: '',
           countLeft0ToEnd: true,
           itemCatalogFilters: [],
-          zoneFilters: ['certainly_hit','freshman_hit'],
+          zoneFilters: ['freshman_hit'],
         },
         historyTaskListParams:{
           pageIndex: 1,

@@ -30,7 +30,10 @@
           <img :src="item.taskMainImage + '!thum54'" alt="">
         </div>
         <div class="manage-text left ml-5 inline-block">
-          <p>活动编号：{{item.number}}</p>
+          <p>
+            活动编号：{{item.number}}
+            <span v-if="item.zone === 'certainly_hit'" class="certainly-hit-tip">推荐必中</span>
+          </p>
           <p>活动名称：{{item.taskName}}</p>
           <p>参与概况：总份数<span class="main-color">{{item.taskCount || 0}}</span>，
             <span class="main-color">{{item.trailOn || 0}}</span>人正在参与活动，<span
@@ -66,7 +69,10 @@
             <tbody v-for="(allTask,allTaskIndex) in item.applyAllTask" :key="allTask.id">
             <tr :class="{readBackground:allTask.newest}">
               <td>
-                <p>{{allTask.alitmAccount}}</p>
+                <p>
+                  {{allTask.alitmAccount}}
+
+                </p>
                 <p v-if="allTask.creditLevel"><img :src="allTask.creditLevel" alt="" style="width: auto;height: auto;">
                 </p>
                 <p v-cloak>申请次数：{{allTask.applyCount || 0}}</p>
@@ -459,4 +465,16 @@
     }
   }
 </script>
+<style lang="scss" scoped>
+  .certainly-hit-tip{
+    display: inline-block;
+    background-color: #f9284f;
+    color: #fff;
+    padding: 0 5px;
+    line-height: 22px;
+    height: 21px;
+    border-radius: 5px;
+    margin-left: 10px;
+  }
 
+</style>
