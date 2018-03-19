@@ -730,7 +730,24 @@
       getAvailableBoardByAdTypeList(advertType) {
         let self = this;
         api.getAvailableBoardByAdTypeList({advertType: advertType}).then((res) => {
-          self.swipeItemList = res;
+          let data = res;
+          let z = 0;
+          if(self.$store.state.login){
+            for(let i = 0, j = data.length; i < j; i++){
+              if(data[i].showMode != 'logout'){
+                self.$set(self.swipeItemList, z, data[i]);
+                z++;
+              }
+            }
+          }else if(!self.$store.state.login){
+            for(let i = 0, j = data.length; i < j; i++){
+              if(data[i].showMode != 'login'){
+                self.$set(self.swipeItemList, z, data[i])
+                z++;
+              }
+            }
+          }
+
         })
       },
       getSearchPinkageFor10Task(){

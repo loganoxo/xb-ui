@@ -830,7 +830,7 @@
   import UserClause from '@/components/UserClause'
   import api from '@/config/apiConfig'
   import {aliCallbackImgUrl} from '@/config/env'
-  import {aliUploadImg, isNumber, isInteger, isAliUrl, randomString, extendDeep, decode, setStorage, getStorage} from '@/config/utils'
+  import {aliUploadImg, isPositiveInteger, isNumber, isInteger, isAliUrl, randomString, extendDeep, decode, setStorage, getStorage} from '@/config/utils'
 
   export default {
     name: 'TaskReleaseProcess',
@@ -1457,6 +1457,10 @@
             if (!_this.pcTaskDetail[i].searchPagePositionMax) {
               _this.$Message.warning('亲，关键词方案'+ index + '中的宝贝搜索结束位置不能空！');
               return;
+            }else if(!isInteger(_this.pcTaskDetail[i].searchRankPosition)){
+              _this.$Message.warning('亲，关键词方案'+ index + '中的宝贝搜索位置需为正整数！');
+
+              return;
             }
             if (_this.pcTaskDetail[i].searchPagePositionMax < _this.pcTaskDetail[i].searchPagePositionMin) {
               _this.$Message.warning('亲，关键词方案'+ index + '中的宝贝搜索位置起始页不能大于结束页！');
@@ -1465,6 +1469,18 @@
             if (_this.pcTaskDetail[i].searchPagePositionMax - _this.pcTaskDetail[i].searchPagePositionMin > 2) {
               _this.$Message.warning('亲，关键词方案'+ index + '中的宝贝搜索位置页数差值最大不大于3页！');
               return;
+            }
+            if(_this.pcTaskDetail[i].priceRangeMin){
+              if(!isInteger(_this.pcTaskDetail[i].priceRangeMin)){
+                _this.$Message.warning('亲，关键词方案中的价格区间位置需为正整数！');
+                return;
+              }
+            }
+            if(_this.pcTaskDetail[i].priceRangeMax){
+              if(!isInteger(_this.pcTaskDetail[i].priceRangeMax)){
+                _this.$Message.warning('亲，关键词方案中的价格区间位置需为正整数！');
+                return;
+              }
             }
           }
           if(countAssigned !== _this.taskRelease.taskCount) {
@@ -1512,7 +1528,24 @@
             }
             if (!_this.appTaskDetail[i].searchRankPosition) {
               _this.$Message.warning('亲，关键词方案'+ index + '中的宝贝搜索位置不能空！');
+
               return;
+            }else if(!isInteger(_this.appTaskDetail[i].searchRankPosition)){
+              _this.$Message.warning('亲，关键词方案'+ index + '中的宝贝搜索位置需为正整数！');
+
+              return;
+            }
+            if(_this.appTaskDetail[i].priceRangeMin){
+              if(!isInteger(_this.appTaskDetail[i].priceRangeMin)){
+                _this.$Message.warning('亲，关键词方案中的价格区间位置需为正整数！');
+                return;
+              }
+            }
+            if(_this.appTaskDetail[i].priceRangeMax){
+              if(!isInteger(_this.appTaskDetail[i].priceRangeMax)){
+                _this.$Message.warning('亲，关键词方案中的价格区间位置需为正整数！');
+                return;
+              }
             }
           }
           if(countAssigned !== _this.taskRelease.taskCount){
