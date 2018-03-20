@@ -1457,9 +1457,13 @@
             if (!_this.pcTaskDetail[i].searchPagePositionMax) {
               _this.$Message.warning('亲，关键词方案'+ index + '中的宝贝搜索结束位置不能空！');
               return;
-            }else if(!isInteger(_this.pcTaskDetail[i].searchRankPosition)){
-              _this.$Message.warning('亲，关键词方案'+ index + '中的宝贝搜索位置需为正整数！');
-
+            }
+            if(!isInteger(_this.pcTaskDetail[i].searchPagePositionMin)){
+              _this.$Message.warning('亲，关键词方案'+ index + '中的宝贝搜索起始位置必须为正整数！');
+              return;
+            }
+            if(!isInteger(_this.pcTaskDetail[i].searchPagePositionMax)){
+              _this.$Message.warning('亲，关键词方案'+ index + '中的宝贝搜索结束位置必须为正整数！');
               return;
             }
             if (_this.pcTaskDetail[i].searchPagePositionMax < _this.pcTaskDetail[i].searchPagePositionMin) {
@@ -1528,11 +1532,10 @@
             }
             if (!_this.appTaskDetail[i].searchRankPosition) {
               _this.$Message.warning('亲，关键词方案'+ index + '中的宝贝搜索位置不能空！');
-
               return;
-            }else if(!isInteger(_this.appTaskDetail[i].searchRankPosition)){
+            }
+            if(!isInteger(_this.appTaskDetail[i].searchRankPosition)){
               _this.$Message.warning('亲，关键词方案'+ index + '中的宝贝搜索位置需为正整数！');
-
               return;
             }
             if(_this.appTaskDetail[i].priceRangeMin){
