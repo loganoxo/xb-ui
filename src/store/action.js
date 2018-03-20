@@ -52,10 +52,10 @@ export default {
   getSysConfigInfo({commit}){
     api.getSysConfigInfo(
     ).then((res) => {
-      if (res){
+      if (res.status && res.data){
         commit({
           type: 'SYSTEM_CONFIG_INFORMATION',
-          result: res
+          result: res.data
         });
       }else {
         alert('获取系统配置信息' + res)

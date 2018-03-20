@@ -30,15 +30,18 @@
           <img :src="item.taskMainImage + '!thum54'" alt="">
         </div>
         <div class="manage-text left ml-5 inline-block">
-          <p>
-            活动编号：{{item.number}}
-            <span v-if="item.zone === 'certainly_hit'" class="certainly-hit-tip">推荐必中</span>
-          </p>
-          <p>活动名称：{{item.taskName}}</p>
-          <p>参与概况：总份数<span class="main-color">{{item.taskCount || 0}}</span>，
-            <span class="main-color">{{item.trailOn || 0}}</span>人正在参与活动，<span
-            class="main-color">{{item.trailDone || 0}}</span>人完成活动，剩余名额<span class="main-color">{{item.residueCount || 0}}</span>个
-          </p>
+          <div>
+            <p>
+              活动编号：{{item.number}}
+              <span v-if="item.zone === 'certainly_hit'" class="certainly-hit-tip">推荐必中</span>
+            </p>
+            <p>活动名称：{{item.taskName}}</p>
+            <p>参与概况：总份数<span class="main-color">{{item.taskCount || 0}}</span>，
+              <span class="main-color">{{item.trailOn || 0}}</span>人正在参与活动，<span
+                class="main-color">{{item.trailDone || 0}}</span>人完成活动，剩余名额<span class="main-color">{{item.residueCount || 0}}</span>个
+            </p>
+          </div>
+
         </div>
         <Icon :class="{showTableStyles:selectId === item.id}" class="right mr-30 mt-28" type="arrow-right-b"></Icon>
         <div class="waiting-task-number mt-10">
@@ -69,14 +72,20 @@
             <tbody v-for="(allTask,allTaskIndex) in item.applyAllTask" :key="allTask.id">
             <tr :class="{readBackground:allTask.newest}">
               <td>
-                <p>
-                  {{allTask.alitmAccount}}
-
-                </p>
-                <p v-if="allTask.creditLevel"><img :src="allTask.creditLevel" alt="" style="width: auto;height: auto;">
-                </p>
-                <p v-cloak>申请次数：{{allTask.applyCount || 0}}</p>
-                <p v-cloak>成功次数：{{allTask.applySuccessCount || 0}}</p>
+                <div v-if="allTask.freshmanCheck" class="inline-block new-man-tip" style="width: 50px;">
+                  <Tooltip content="多给新人一点机会吧，他们可是很认真的 ^_^" placement="top">
+                    <img src="/static/img/icon/newman.png" alt="" >
+                  </Tooltip>
+                </div>
+                <div class="inline-block account-info" >
+                  <p>
+                    {{allTask.alitmAccount}}
+                  </p>
+                  <p v-if="allTask.creditLevel"><img :src="allTask.creditLevel" alt="" style="width: auto;height: auto;">
+                  </p>
+                  <p v-cloak>申请次数：{{allTask.applyCount || 0}}</p>
+                  <p v-cloak>成功次数：{{allTask.applySuccessCount || 0}}</p>
+                </div>
               </td>
               <td>{{allTask.applyTime | dateFormat('YYYY-MM-DD hh:mm:ss')}}</td>
               <td class="registration">
@@ -475,6 +484,12 @@
     height: 21px;
     border-radius: 5px;
     margin-left: 10px;
+  }
+  .new-man-tip{
+    width: 50px;
+  }
+  .account-info{
+    width: 120px;
   }
 
 </style>

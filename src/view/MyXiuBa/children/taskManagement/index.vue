@@ -196,7 +196,7 @@
       padding-top: 15px;
       padding-bottom: 15px;
     }
-    .task-table table td img {
+    .task-table table td img.level {
       width: 54px;
       height: 54px;
     }

@@ -837,7 +837,7 @@ export default {
    * 获取系统配置信息
    */
   getSysConfigInfo(){
-    return fetch("/api/user/getSysConfig/0.json")
+    return fetch("/api/user/config/sys.json")
   },
 
   /**

@@ -127,7 +127,7 @@
                   style="width: 120px"></iInput>
           <span>天</span>
           <span class="second-color ml-10">请于活动结束后48小时内审批完成所有拿手资格，逾期系统将自动为您审批。</span>
-          <p class="mt-6 pl-60">（单期活动时间为3-30天。）</p>
+          <p class="mt-6 pl-60">（单期活动时间为3-10天。）</p>
         </div>
         <div class="trial-condition ml-35 mt-20">
           <span class="ml-5">拿手申请条件：</span>

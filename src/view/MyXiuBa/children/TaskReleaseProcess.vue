@@ -122,7 +122,7 @@
             <span class="required">活动时长：</span>
             <iInput v-model.number="taskRelease.taskDaysDuration" placeholder="请输入活动时长" style="width: 120px"></iInput>
             <span>天</span>
-            <span class="main-color ml-10">（注意：单期活动时间为3-30天，请于活动结束后48小时内审批完成所有拿手资格，逾期系统将自动为您审批）</span>
+            <span class="main-color ml-10">（注意：单期活动时间为3-10天，请于活动结束后48小时内审批完成所有拿手资格，逾期系统将自动为您审批）</span>
           </div>
           <div class="trial-condition ml-35 mt-20">
             <span class="ml-5">拿手申请条件：</span>
