@@ -114,7 +114,7 @@
                 <p v-html="searchTask.taskName"></p>
                 <p class="home-commodity-price">
                   <em class="price-list left">
-                    <span class="cl666 block text-decoration-through">￥{{searchTask.itemPrice / 100}}</span>
+                    <span class="cl666 block text-decoration-through">￥{{searchTask.itemPrice }}</span>
                     <span class="f-b main-color" v-if="searchTask.discountPrice">￥{{(searchTask.discountPrice / 100).toFixed(2)}}</span>
                     <span class="f-b main-color" v-if="!searchTask.discountPrice && searchTask.discountRate">
                       ￥{{(Math.floor((searchTask.discountRate/100) * searchTask.itemPrice)/100).toFixed(2)}}
@@ -126,15 +126,6 @@
                   <em class="price-icon mt-10">
                     <span v-if= "searchTask.activityCategory === 'pinkage_for_10'" style="padding: 0 4px; background: #75c5ff; color: #fff; margin-left: 10px; display: inline-block;height: 20px;line-height: 20px;">10元包邮</span>
                     <span v-if= "searchTask.activityCategory === 'present_get'" style="padding: 0 4px; background: #00cc66; color: #ffffff; margin-left: 10px; display: inline-block;height: 20px;line-height: 20px;">体验专区</span>
-                    <span v-if="searchTask.activityCategory === 'price_low' && searchTask.discountPrice" class="left home-discount-price mt-5" :style="{backgroundColor: $store.state.discountPriceType[parseFloat(searchTask.discountPrice/100)].backgroundColor}" >
-                      {{searchTask.discountPrice/100}}试用
-                    </span>
-                      <span v-if="searchTask.activityCategory === 'price_low' && searchTask.discountRate" class="left home-discount-price mt-5" :style="{backgroundColor: $store.state.discountPriceType[parseFloat(searchTask.discountRate/10) + '折'].backgroundColor}" >
-                      {{searchTask.discountRate/10}}折试用
-                    </span>
-                      <span v-if="searchTask.activityCategory === 'goods_clearance' && searchTask.discountRate " class="left home-discount-price mt-5" :style="{backgroundColor: $store.state.discountPriceType[parseFloat(searchTask.discountRate/10) + '折'].backgroundColor}" >
-                      {{searchTask.discountRate/10}}折清仓
-                    </span>
                   </em>
                 </p>
                 <p class="cl000">
