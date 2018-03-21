@@ -298,7 +298,7 @@
         }
       };
       const validateBankCard = (rule, value, callback) => {
-        if (!(/^([1-9]{1})(\d{15}|\d{18}|\d{17})$/.test(value))) {
+        if (!(/^([1-9]{1})(\d{15}|\d{18}|\d{17}|d{16})$/.test(value))) {
           callback(new Error('请输入正确的银行卡号'));
         } else {
           callback()
