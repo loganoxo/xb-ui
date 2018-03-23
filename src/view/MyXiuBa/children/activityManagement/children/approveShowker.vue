@@ -290,6 +290,7 @@
                 <i-option value="浏览答题截图不合格">浏览答题截图不合格</i-option>
                 <i-option value="订单号有误">订单号有误</i-option>
                 <i-option value="实付金额有误">实付金额有误</i-option>
+                <i-option value="下单旺旺和平台绑定旺旺不一致">下单旺旺和平台绑定旺旺不一致</i-option>
               </i-select>
             </div>
           </div>

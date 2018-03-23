@@ -441,7 +441,8 @@
         this.$router.push({name: 'TaskReleaseProcess', query: {q: encryption(id), type: 'copy'}})
       },
       lookTaskDetail(id) {
-        this.$router.push({name: 'ActivityDetail', query: {q: encryption(id)}})
+        // this.$router.push({name: 'ActivityDetail', query: {q: encryption(id)}})
+        window.open('/user/activity-management/detail-log/detail?q=' + encryption(id));
       },
       approveShowker(id, time) {
         this.$router.push({name: 'ApproveShowker', query: {q: encryption(id), endTime: time}})

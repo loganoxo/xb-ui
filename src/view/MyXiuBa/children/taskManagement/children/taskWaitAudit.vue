@@ -89,7 +89,8 @@
               </td>
               <td>{{allTask.applyTime | dateFormat('YYYY-MM-DD hh:mm:ss')}}</td>
               <td class="registration">
-                <router-link :to="{ 'path': '/trial-report','query': {'q': encryptionId(allTask.showkerId)}}">查看</router-link>
+                <a @click="openNewTrialReportFunc(encryptionId(allTask.showkerId))">查看</a>
+                <!--<router-link :to="{ 'path': '/trial-report','query': {'q': encryptionId(allTask.showkerId)}}">查看</router-link>-->
               </td>
               <td>
                 <Tooltip v-if="allTask.reason && allTask.status === 'waiting_resubmit'" :content="allTask.reason"
@@ -345,6 +346,9 @@
     },
     computed: {},
     methods: {
+      openNewTrialReportFunc(id){
+        window.open('/trial-report?q='+ id);
+      },
       sortChange(name, index) {
         let sort = this.sortList.defaultList[index].sort;
         this.sortList.select = name;
