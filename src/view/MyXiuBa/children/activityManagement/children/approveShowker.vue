@@ -66,9 +66,10 @@
                 </td>
                 <td>{{item.applyTime | dateFormat('YYYY-MM-DD hh:mm:ss')}}</td>
                 <td class="registration">
-                  <router-link :to="{ 'path': '/trial-report','query': {'q': encryptionId(item.showkerId)}}">
-                    查看
-                  </router-link>
+                  <a @click="openNewTrialReportFunc(encryptionId(item.showkerId))">查看</a>
+                  <!--<router-link :to="{ 'path': '/trial-report','query': {'q': encryptionId(item.showkerId)}}">-->
+                    <!--查看-->
+                  <!--</router-link>-->
                 </td>
                 <td>{{getTaskStatus(item.status)}}</td>
                 <td>
@@ -542,6 +543,9 @@
       }
     },
     methods: {
+      openNewTrialReportFunc(id){
+        window.open('/trial-report?q='+ id);
+      },
       encryptionId(id){
         return encryption(id)
       },
