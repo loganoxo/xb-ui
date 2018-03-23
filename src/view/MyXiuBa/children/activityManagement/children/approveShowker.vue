@@ -286,7 +286,7 @@
               </Radio>
             </Radio-group>
             <div class="no-pass-reason text-ct inline-block" v-show="orderReviewStatus === 'failAudit'">
-              <i-select v-model="orderNoPassReason" style="width:140px" placeholder="请选择不通过原因">
+              <i-select v-model="orderNoPassReason" style="width:160px" placeholder="请选择不通过原因">
                 <!--<i-option value="收藏加购截图不合格">收藏加购截图不合格</i-option>-->
                 <i-option value="浏览答题截图不合格">浏览答题截图不合格</i-option>
                 <i-option value="订单号有误">订单号有误</i-option>
