@@ -16,7 +16,7 @@
           <iButton class="member-price cursor-p  mr-10" v-for="(item,index) in memberInformation" :key="index"
                    :class="{active:isSelect === index,hover:memberLevelInfo.validDays <= item.validDays} "
                    @click="changeStyle(index,item.validDays,item.validDaysDesc,item.finalFee,item.level,item.id)"
-                   :disabled=" memberLevelInfo.validDays >item.validDays">
+                     :disabled=" memberLevelInfo.validDays >item.validDays && !membershipIsExpire">
             <p class="price">￥{{item.finalFee / 100}}元</p>
             <p class="mt-10">会员时长 <span class="fs-20">{{item.validDaysDesc}}</span><span>({{item.validDays}}天)</span></p>
           </iButton>
@@ -147,6 +147,7 @@
       }
     },
     mounted() {
+
     },
     created() {
       let self = this;
@@ -210,6 +211,7 @@
         api.getUserMemberAll().then(res => {
           if (res.status) {
             _this.memberInformation = res.data.reverse();
+            console.log(_this.memberInformation);
             _this.changeStyle(0,
               _this.memberInformation[0].validDays,
               _this.memberInformation[0].validDaysDesc,
@@ -233,6 +235,7 @@
           if (res.status) {
             let timeRemainings = _this.getMemberDeadline - new Date().getTime();
             _this.memberLevelInfo = res.data;
+            console.log(_this.memberLevelInfo.validays);
             _this.timeRemaining = Math.floor(timeRemainings / (24 * 60 * 60 * 1000));
             _this.moneyRemaining = Math.floor((parseInt(_this.memberLevelInfo.finalFee) /parseInt(_this.memberLevelInfo.validDays))*parseInt(_this.timeRemaining) );
             _this.getUserMemberAll();
