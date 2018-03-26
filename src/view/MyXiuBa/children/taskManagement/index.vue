@@ -210,7 +210,7 @@
     .task-table table td.registration {
       color: #2b85e4;
     }
-    .task-table table td .del-edit > span {
+    .task-table table td .del-edit span {
       color: #2b85e4;
       cursor: pointer;
       @include transition;

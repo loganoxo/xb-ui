@@ -55,6 +55,10 @@
           <span class="icon-size my-appeal-nav"></span>
           <router-link to="/user/my-appeal">我的申诉</router-link>
         </li>
+        <li :class="{isSelect:isSelect === 'BlackListManagement'}" class="pos-rel">
+          <span class="icon-size black-management"></span>
+          <router-link to="/user/black-list-management">黑名单管理</router-link>
+        </li>
       </ul>
 
       <!--拿手管理导航-->
@@ -260,6 +264,11 @@
             background-image: url("~assets/img/userhome-showker/my-buyerShow-on.png");
           }
         }
+        &:hover{
+          .black-management{
+            background-image: url("~assets/img/userhome-merchant/black-management-on.png");
+          }
+        }
 
       }
       a {
@@ -408,6 +417,16 @@
       background-image: url("~assets/img/userhome-showker/my-buyerShow-on.png");
     }
   }
+
+  .black-management{
+    background-image: url("~assets/img/userhome-merchant/black-management-off.png");
+  }
+  .isSelect{
+    .black-management{
+      background-image: url("~assets/img/userhome-merchant/black-management-on.png");
+    }
+  }
+
   .isSelect {
     color: $mainColor !important;
     background-color: #fff;

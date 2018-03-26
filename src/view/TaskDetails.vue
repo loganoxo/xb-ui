@@ -379,6 +379,12 @@
         <div><p class="fs-20 f-b">亲，你还没绑定旺旺号 </p><br> <span class="fs-12">请先绑定旺旺号在申请活动!</span></div>
       </div>
     </Modal>
+    <Modal v-model="inBlackListPop" class="text-ct">
+      <div class="fs-20 f-b mt-30"><Icon type="information-circled" class="main-color mr-5"></Icon><span>糟糕，出事儿了~</span></div>
+      <div class="mt-20 mb-20">你的旺旺号已被此商家拉黑，无权申请该活动~</div>
+      <div slot="footer" class="text-ct">
+      </div>
+    </Modal>
   </div>
 
 </template>
@@ -424,6 +430,7 @@
     },
     data() {
       return {
+        inBlackListPop:false,
         copyHtml: '',
         copyValue: '',
         showkerTask: {},
@@ -765,7 +772,11 @@
                 if (res.status) {
                   self.applySuccess = true;
                 } else {
-                  self.$Message.error(res.msg);
+                  if (res.msg === '你的旺旺号已被此商家拉黑,无权申请该活动'){
+                    self.inBlackListPop = true;
+                  }else {
+                    self.$Message.error(res.msg);
+                  }
                 }
               })
             }
@@ -850,7 +861,9 @@
     font-size: 14px;
     font-weight: normal;
   }
-
+  .ivu-modal-footer{
+    border: none;
+  }
   .task-step-explain {
     padding: 2px 50px 30px 50px;
     p.task-step-title {

@@ -106,6 +106,7 @@
                         @click="taskWaitToAudit(allTask.id,allTask.alitmAccount,allTask.screenshot,item.endTime,allTaskIndex)">审批</span>-->
                   <span class="ml-5" @click="taskWaitToPass(allTask.id, 'true')">通过</span>
                   <span v-if="allTask.newest" class="ml-5" @click="markRead(item.id,allTask.id)">设为已读</span>
+                  <Tooltip placement="top" content="加入黑名单后该用户将无法申请你发布的活动"><span class="ml-5" @click="addToBlackListFun(allTask.alitmAccount)">加入黑名单</span></Tooltip>
                 </p>
               </td>
             </tr>
@@ -139,12 +140,28 @@
         <div slot="footer" style="padding: 0px ; border: none"></div>
       </Modal>
     </template>-->
+    <Modal v-model="addToBlackListPop" title="添加黑名单" class="black-list-pop">
+      <div><span class="inline-block title">淘宝账号（旺旺ID）：</span><iInput class="ww-name" v-model="wwName"></iInput></div>
+      <div class="mt-20">
+        <span class="inline-block title">拉黑原因：</span>
+        <iSelect v-model="addToBlackListReason" style="width:300px">
+          <iOption v-for="(item ,index) in reasonList" :value="item" :key="index">{{item}}</iOption>
+        </iSelect>
+      </div>
+      <div class="mt-20" v-show="addToBlackListReason === '自定义'">
+        <span class="inline-block title">填写原因：</span>
+        <iInput type="textarea" v-model="addToBlackOtherReason" style="width:300px"></iInput>
+      </div>
+      <div slot="footer" class="text-ct">
+        <iButton type="error" size="large" class="button" @click="addShowkerToBlackList">确定</iButton>
+      </div>
+    </Modal>
   </div>
 </template>
 
 <script>
   import Form from 'iview/src/components/form'
-  import {Select, Option, OptionGroup} from 'iview/src/components/select'
+  import {Select, Option} from 'iview/src/components/select'
   import Checkbox from 'iview/src/components/checkbox'
   import Page from 'iview/src/components/page'
   import Icon from 'iview/src/components/icon'
@@ -175,6 +192,17 @@
     },
     data() {
       return {
+        addToBlackOtherReason:null,
+        addToBlackListReason:'我是商家我任性',
+        reasonList:[
+          '我是商家我任性',
+          '不按要求操作',
+          '此号不安全',
+          '有退货行为',
+          '自定义'
+        ],
+        addToBlackListPop:false,
+        wwName:null,
         index:0,
         wwFormValidate: {
           creditLevel: null,
@@ -349,6 +377,36 @@
       openNewTrialReportFunc(id){
         window.open('/trial-report?q='+ id);
       },
+      addShowkerToBlackList(){
+        let self = this;
+        if(self.addToBlackListReason === '自定义'){
+          self.addToBlackListReason = self.addToBlackOtherReason;
+        }
+        if (!self.wwName){
+          self.$Message.error("请填写要拉黑的旺旺号！");
+          return
+        }
+        if (!self.addToBlackListReason){
+          self.$Message.error("请填写拉黑原因！");
+          return
+        }
+        api.addShowkerToBlackList({
+          alitmAccount:self.wwName,
+          reason:self.addToBlackListReason,
+        }).then( res => {
+          if (res.status){
+            self.addToBlackListPop = false;
+            self.$Message.success("添加黑名单成功！");
+          }else {
+            self.$Message.error(res.msg);
+          }
+        })
+      },
+      addToBlackListFun(wwName){
+        this.addToBlackListReason = '我是商家我任性';
+        this.addToBlackListPop = true;
+        this.wwName = wwName;
+      },
       sortChange(name, index) {
         let sort = this.sortList.defaultList[index].sort;
         this.sortList.select = name;
@@ -494,6 +552,20 @@
   }
   .account-info{
     width: 120px;
+  }
+  .black-list-pop{
+    .ww-name{
+      width: 200px;
+      margin-left: 3px;
+    }
+    .title{
+      width: 120px;
+      text-align: right;
+    }
+    .button{
+      padding-left: 30px;
+      padding-right: 30px;
+    }
   }
 
 </style>

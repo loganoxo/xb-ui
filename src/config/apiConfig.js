@@ -867,4 +867,25 @@ export default {
   getUserAppealList(params){
     return fetch("/api/user-complaint-getComplaintsByUid.json",params)
   },
+
+  /**
+   * 商家将秀客加入黑名单
+   */
+  addShowkerToBlackList(params){
+    return fetch("/api/task/apply/black/addToBlackList.json",params)
+  },
+
+  /**
+   * 获取黑名单列表
+   */
+  getBlackList(params){
+    return fetch("/api/task/apply/black/getAlitmBlackListByUid.json",params)
+  },
+
+  /**
+   * 移除黑名单列表
+   */
+  removeFromBlackList(params){
+    return fetch("/api/task/apply/black/removeFromBlackList.json",params)
+  },
 }

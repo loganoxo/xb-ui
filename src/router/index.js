@@ -59,6 +59,7 @@ const SellerTest = r => require.ensure([], () => r(require('@/view/SellerTest.vu
 
 const MyTrialReport = r => require.ensure([], () => r(require('@/view/MyXiuBa/children/MyTrialReport.vue')), 'MyTrialReport');
 const MyAppeal = r => require.ensure([], () => r(require('@/view/MyXiuBa/children/MyAppeal.vue')), 'MyAppeal');
+const BlackListManagement = r => require.ensure([], () => r(require('@/view/MyXiuBa/children/BlackListManagement.vue')), 'BlackListManagement');
 
 const MoneyManagement = r => require.ensure([], () => r(require('@/view/MyXiuBa/children/moneyManagement/index.vue')), 'MoneyManagement');
 const AccountInfo = r => require.ensure([], () => r(require('@/view/MyXiuBa/children/moneyManagement/children/accountInfo.vue')), 'MoneyManagement');
@@ -559,6 +560,18 @@ export default new Router({
             topShow: true,
             bottomShow: true,
             role: null,
+          }
+        },
+        {
+          path: 'black-list-management',
+          name: 'BlackListManagement',
+          component: BlackListManagement,
+          meta: {
+            title: "黑名单管理",
+            logInAuthority: true,
+            topShow: true,
+            bottomShow: true,
+            role: 1,
           }
         },
         {
