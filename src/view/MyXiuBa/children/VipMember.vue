@@ -147,7 +147,6 @@
       }
     },
     mounted() {
-
     },
     created() {
       let self = this;
@@ -211,7 +210,6 @@
         api.getUserMemberAll().then(res => {
           if (res.status) {
             _this.memberInformation = res.data.reverse();
-            console.log(_this.memberInformation);
             _this.changeStyle(0,
               _this.memberInformation[0].validDays,
               _this.memberInformation[0].validDaysDesc,
@@ -235,7 +233,6 @@
           if (res.status) {
             let timeRemainings = _this.getMemberDeadline - new Date().getTime();
             _this.memberLevelInfo = res.data;
-            console.log(_this.memberLevelInfo.validays);
             _this.timeRemaining = Math.floor(timeRemainings / (24 * 60 * 60 * 1000));
             _this.moneyRemaining = Math.floor((parseInt(_this.memberLevelInfo.finalFee) /parseInt(_this.memberLevelInfo.validDays))*parseInt(_this.timeRemaining) );
             _this.getUserMemberAll();
