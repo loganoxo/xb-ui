@@ -582,7 +582,7 @@
       getUserHead(src) {
         if (src && src.indexOf('head-image') >= 0) {
           return aliCallbackImgUrl + src + '!orgi75'
-        } else if (src && src.indexOf('q.qlogo.cn/qq') >= 0) {
+        } else if (src && (src.indexOf('wx.qlogo.cn') >= 0 || src.indexOf('q.qlogo.cn') >= 0)) {
           return src
         } else {
           return '/static/img/common/tx-default.png'
