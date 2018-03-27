@@ -17,12 +17,15 @@
         <div class="trial-right left">
           <div v-if="!showReportDesc">
             <p class="fs-16 trial-account">{{showkerInfo.phone}}的买家秀&nbsp;(共获得<span style="color: #FF6633">{{zanTotalNumbers}}</span>个赞）</p>
-            <p class="trial-tag">
-              Ta的标签：&nbsp;&nbsp;
-              <a v-for="(value, key) in showkerTag" v-if="value" style="margin-right: 20px;" @click="getTagTrialReports(key)">
-              <iButton size="small" v-if=" value > 0" >{{key}}({{value}})</iButton>
-            </a>
-            </p>
+            <div class="trial-tag clear pb-10">
+              <div class="mt-10 left" style="width:60px;">
+                Ta的标签:
+              </div>
+              <div style="margin-left:70px;">
+                <a v-for="(value, key) in showkerTag" v-if="value" style="margin-right: 20px;" @click="getTagTrialReports(key)">
+                  <iButton size="small" v-if=" value > 0" class="mt-10" >{{key}}({{value}})</iButton></a>
+              </div>
+            </div>
             <div  class="graphic-info-report">
               <ul v-if="trialReportList.length > 0">
                 <li v-for="trialReport in trialReportList">
@@ -282,8 +285,8 @@
       },
       getUserHead(src) {
         if (src && src.indexOf('head-image') >= 0) {
-          return aliCallbackImgUrl + src + '!thum80'
-        } else if (src && (src.indexOf('q.qlogo.cn/qq') >= 0 || src.indexOf('wx.qlogo.cn') >= 0)) {
+          return aliCallbackImgUrl + src + '!orgi75'
+        } else if (src && (src.indexOf('wx.qlogo.cn') >= 0 || src.indexOf('q.qlogo.cn') >= 0)) {
           return src
         } else {
           return '/static/img/common/tx-default.png'
@@ -419,7 +422,6 @@
       border: 1px solid #EEEEEE;
       border-left: none;
       border-right: none;
-      line-height: 50px;
     }
     .trial-account-details{
       background-color: #f8f8f8;
