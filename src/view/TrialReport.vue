@@ -18,11 +18,11 @@
           <div v-if="!showReportDesc">
             <p class="fs-16 trial-account">{{showkerInfo.phone}}的买家秀&nbsp;(共获得<span style="color: #FF6633">{{zanTotalNumbers}}</span>个赞）</p>
             <div class="trial-tag clear pb-10">
-              <div class="mt-10 left" style="width:60px;">
+              <div class="mt-10 left tag-title">
                 Ta的标签:
               </div>
-              <div style="margin-left:70px;">
-                <a v-for="(value, key) in showkerTag" v-if="value" style="margin-right: 20px;" @click="getTagTrialReports(key)">
+              <div class="tag-box">
+                <a v-for="(value, key) in showkerTag" v-if="value" class="mr-20" @click="getTagTrialReports(key)">
                   <iButton size="small" v-if=" value > 0" class="mt-10" >{{key}}({{value}})</iButton></a>
               </div>
             </div>
@@ -422,6 +422,12 @@
       border: 1px solid #EEEEEE;
       border-left: none;
       border-right: none;
+      .tag-title{
+        width:60px;
+      }
+      .tag-box{
+        margin-left:70px;
+      }
     }
     .trial-account-details{
       background-color: #f8f8f8;
