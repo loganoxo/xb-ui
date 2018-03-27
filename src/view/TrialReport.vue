@@ -282,8 +282,8 @@
       },
       getUserHead(src) {
         if (src && src.indexOf('head-image') >= 0) {
-          return aliCallbackImgUrl + src + '!orgi75'
-        } else if (src && src.indexOf('q.qlogo.cn/qq') >= 0) {
+          return aliCallbackImgUrl + src + '!thum80'
+        } else if (src && (src.indexOf('q.qlogo.cn/qq') >= 0 || src.indexOf('wx.qlogo.cn') >= 0)) {
           return src
         } else {
           return '/static/img/common/tx-default.png'
@@ -420,7 +420,6 @@
       border-left: none;
       border-right: none;
       line-height: 50px;
-      height: 50px;
     }
     .trial-account-details{
       background-color: #f8f8f8;

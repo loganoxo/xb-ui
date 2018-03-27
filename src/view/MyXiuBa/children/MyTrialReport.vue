@@ -284,7 +284,6 @@
       border-left: none;
       border-right: none;
       line-height: 50px;
-      height: 50px;
     }
     .trial-account-details{
       background-color: #f8f8f8;
