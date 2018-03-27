@@ -888,4 +888,11 @@ export default {
   removeFromBlackList(params){
     return fetch("/api/task/apply/black/removeFromBlackList.json",params)
   },
+
+  /**
+   * 给拿手进行评价
+   */
+  evaluateFormSellerToShowker(params){
+    return fetch("/api/task/apply/black/evaluateFormSellerToShowker.json",params)
+  },
 }

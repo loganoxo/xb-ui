@@ -131,23 +131,59 @@
     <Modal title="图片查看器" v-model="isShowImgModel">
       <img :src="showkerReportInfo.taobaoCommentImage + '!orgi75'" style="width: 100%">
     </Modal>
-    <!--<Modal v-model="evaluateShowker">
+    <Modal v-model="evaluateShowker" class="evaluate-showker-pop" @on-visible-change="changeEvaluatePop">
       <div class="pl-20 pr-20 mt-30">
-        <div>请对拿手<span class="main-color">秦贺</span>进行评价<span>(你的评价将决定该拿手的整体评分)：</span></div>
-        <div>
-          <span>买号质量：<RadioGroup v-model="selectEvaluate" class="mt-10">
-          <Radio label="5" disabled>东西棒棒哒</Radio>
-          <Radio label="3" disabled>还阔以</Radio>
-          <Radio label="1" disabled>质量太差了</Radio>
-        </RadioGroup></span>
+        <div class="cl000">请对拿手<span class="main-color">秦贺</span>进行评价<span class="cl666">(你的评价将决定该拿手的整体评分)：</span></div>
+        <div class="pt-10 pb-10 evaluate-showker-pop-box mt-20">
+          <p class="title">
+            <Tooltip content="你感该拿手的淘号质量如何？" placement="top">
+              <Icon type="help-circled"></Icon>
+            </Tooltip>
+            <span class="cl000">买号质量：</span>
+          </p>
+          <RadioGroup v-model="wwQuality">
+            <Radio label="hao_ping"><img class="vtc-mid img" src="~assets/img/common/haoping.png" alt=""><span class="ml-5">好评</span></Radio>
+            <Radio label="zhong_ping"><img class="vtc-mid img" src="~assets/img/common/zhongping.png" alt=""><span class="ml-5">中评</span></Radio>
+            <Radio label="cha_ping"><img class="vtc-mid img" src="~assets/img/common/chaping.png" alt=""><span class="ml-5">差评</span></Radio>
+          </RadioGroup>
+        </div>
+        <div class="pt-10 pb-10 evaluate-showker-pop-box mt-10">
+          <p class="title">
+            <Tooltip content="该拿手有没有完全按照您的要求执行任务？" placement="top">
+              <Icon type="help-circled"></Icon>
+            </Tooltip>
+            <span class="cl000">下单配合度：</span>
+          </p>
+          <RadioGroup v-model="fillOrderCooperate">
+            <Radio label="hao_ping"><img class="vtc-mid img" src="~assets/img/common/haoping.png" alt=""><span class="ml-5">好评</span></Radio>
+            <Radio label="zhong_ping"><img class="vtc-mid img" src="~assets/img/common/zhongping.png" alt=""><span class="ml-5">中评</span></Radio>
+            <Radio label="cha_ping"><img class="vtc-mid img" src="~assets/img/common/chaping.png" alt=""><span class="ml-5">差评</span></Radio>
+          </RadioGroup>
+        </div>
+        <div class="pt-10 pb-10 evaluate-showker-pop-box mt-10">
+          <p class="title">
+            <Tooltip content="该拿手提供的淘宝评价和晒图，是否满足您的要求？" placement="top">
+              <Icon type="help-circled"></Icon>
+            </Tooltip>
+            <span class="cl000">买家秀质量：</span>
+          </p>
+          <RadioGroup v-model="buyerShowQuality">
+            <Radio label="hao_ping"><img class="vtc-mid img" src="~assets/img/common/haoping.png" alt=""><span class="ml-5">好评</span></Radio>
+            <Radio label="zhong_ping"><img class="vtc-mid img" src="~assets/img/common/zhongping.png" alt=""><span class="ml-5">中评</span></Radio>
+            <Radio label="cha_ping"><img class="vtc-mid img" src="~assets/img/common/chaping.png" alt=""><span class="ml-5">差评</span></Radio>
+          </RadioGroup>
         </div>
       </div>
-    </Modal>-->
+      <div slot="footer" class="text-ct pb-20">
+        <iButton class="pl-20 pr-20 btn" type="error" size="large" :loading="loading" @click="evaluateShowkerFun">确定提交</iButton>
+      </div>
+    </Modal>
   </div>
 </template>
 
 <script>
   import Icon from 'iview/src/components/icon'
+  import Tooltip from 'iview/src/components/tooltip'
   import Button from 'iview/src/components/button'
   import Input from 'iview/src/components/input'
   import Radio from 'iview/src/components/radio'
@@ -167,11 +203,15 @@
       iInput: Input,
       TimeDown: TimeDown,
       Modal: Modal,
+      Tooltip:Tooltip,
     },
     data() {
       return {
-        evaluateShowker:true,
         selectEvaluate:'5',
+        evaluateShowker:false,
+        wwQuality:'hao_ping',
+        fillOrderCooperate:'hao_ping',
+        buyerShowQuality:'hao_ping',
         trialCheckStatus: 'pass',
         showRefundModel: false,
         isShowImgModel: false,
@@ -186,6 +226,7 @@
         reportImagesIndex: 0,
         showType: null,
         from: null,
+        loading:false
       }
     },
     mounted() {},
@@ -217,6 +258,31 @@
       },
     },
     methods: {
+      changeEvaluatePop(status){
+        if (!status){
+          this.returnUpPage();
+        }
+      },
+      evaluateShowkerFun(){
+        let self = this;
+        api.evaluateFormSellerToShowker({
+          showkerId: self.showkerReportInfo.showkerId,
+          showkerAlitmAccount: self.showkerTaskInfo.alitm.alitmAccount,
+          taskId: self.showkerReportInfo.task.id,
+          taskNum: self.showkerReportInfo.task.number,
+          buyerQuality: self.buyerShowQuality,
+          orderTone: self.fillOrderCooperate,
+          trialReportQuality: self.wwQuality,
+          showkerTaskId: self.showkerReportInfo.showkerTaskId
+        }).then( res => {
+          if (res.status){
+            self.evaluateShowker = false;
+            self.$Message.success('评价成功！')
+          }else {
+            self.$Message.error(res.msg)
+          }
+        })
+      },
       returnUpPage() {
         this.$router.push({name: 'ApproveShowker', query: {q: encryption(this.showkerTaskInfo.task.id)}})
       },
@@ -321,7 +387,7 @@
               duration: 4
             });
             _this.showRefundModel = false;
-            _this.returnUpPage();
+            _this.evaluateShowker = true;
           } else {
             _this.$Message.error({
               content: res.msg,
@@ -333,3 +399,23 @@
     },
   }
 </script>
+<style lang="scss" scoped>
+  @import 'src/css/mixin';
+  .evaluate-showker-pop{
+    .evaluate-showker-pop-box{
+      border: 1px solid #eee;
+      background-color: #F8F8F8;
+    }
+    .title{
+      display: inline-block;
+      width: 120px;
+      text-align: right;
+    }
+    .img {
+      transform: translateY(-1px);
+    }
+    .btn{
+      width: 200px;
+    }
+  }
+</style>
