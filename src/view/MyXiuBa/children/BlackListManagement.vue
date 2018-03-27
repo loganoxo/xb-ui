@@ -47,7 +47,7 @@
       </div>
       <div class="mt-20" v-show="addToBlackListReason === '自定义'">
         <span class="inline-block title">填写原因：</span>
-        <iInput type="textarea" v-model="addToBlackOtherReason" style="width:300px"></iInput>
+        <iInput type="textarea" v-model="addToBlackOtherReason" placeholder="100字以内" style="width:300px"></iInput>
       </div>
       <div slot="footer" class="text-ct">
         <iButton type="error" size="large" class="button" @click="addShowkerToBlackList">确认</iButton>
