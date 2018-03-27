@@ -24,7 +24,7 @@
         <a v-if="getUserInfo.role === 1" target="_blank" href="http://shang.qq.com/wpa/qunwpa?idkey=c05716ea03d527adb67d4e23d2a9ed942f729dfb0db13ca332e10996805d2b9d" class="ml-10 qq-tip">
           <img src="~assets/img/common/qq.png" alt="" >
           加入QQ交流群：
-          <span >482437157</span>
+          <span >693148394</span>
           <span class="cl000">(内幕玩法抢先得)</span>
         </a>
         <a v-if="getUserInfo.role === 0" target="_blank" href="https://jq.qq.com/?_wv=1027&k=5ZMH7Iu" class="ml-10 qq-tip">
