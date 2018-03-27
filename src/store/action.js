@@ -58,7 +58,7 @@ export default {
           result: res.data
         });
       }else {
-        alert('获取系统配置信息错误：',res.msg)
+        console.log('获取系统配置信息错误：',res.msg)
       }
     })
   },
