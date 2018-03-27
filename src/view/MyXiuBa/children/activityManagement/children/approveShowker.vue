@@ -148,7 +148,7 @@
                   <p v-if="item.tqz">淘气值：{{item.tqz}}</p>
                 </td>
                 <td>
-                  <p>{{getTaskStatus(item.status)}}</p>
+                  <p>{{item.status === 'order_num_error'?item.auditDescription:getTaskStatus(item.status)}}</p>
                   <p v-if="item.status !== 'trial_end' && item.status !== 'trial_finished'">
                     <time-down color='#ff4040' :fontWeight=600 :endTime="item.currentGenerationEndTime"></time-down>
                   </p>
