@@ -49,7 +49,7 @@
                       color="#f9284f"></Icon>
                 <i class="up-icon"></i>
                 <em>
-                  您今天有{{residue}}次申请活动的机会，扫描以下二维码，关注51白拿拿公众号并分享宝贝，获取更多申请次数！
+                  您今天有{{getUserApplyCount}}次申请活动的机会，扫描以下二维码，关注51白拿拿公众号并分享宝贝，获取更多申请次数！
                   <img style="width: 200px" src="/static/img/common/qr_code_bainana.png" alt="" class="mt-10 block">
                 </em>
               </a>
@@ -238,6 +238,7 @@
         residue: null,
         showkerApplyTotal: null,
         limit: true,
+        freshman:null,
       }
     },
     created() {
@@ -267,6 +268,9 @@
       },
       userHeadUrl() {
         return this.$store.getters.getUserHeadUrl
+      },
+      getUserApplyCount(){
+        return this.freshman? this.$store.state.sysConfigInfo.task_apply_base_count_freshman.configValue:this.$store.state.sysConfigInfo.task_apply_base_count_oldman.configValue
       }
     },
     methods: {
@@ -292,6 +296,7 @@
             self.showkerApplyTotal = res.data.baseShareGet;
             self.residue = res.data.left;
             self.limit = res.data.limit;
+            self.freshman = res.data.freshman;
           }else {
             self.$Message.error({
               content: res.msg,

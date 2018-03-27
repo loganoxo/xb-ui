@@ -109,7 +109,7 @@
                 <p v-cloak>成功次数：{{item.applySuccessCount || 0}}</p>
               </td>
               <td>
-                <p v-if="item.status !== 'trial_end'">{{getTaskStatus(item.status)}}</p>
+                <p v-if="item.status !== 'trial_end'">{{item.status === 'order_num_error'?item.auditDescription: getTaskStatus(item.status)}}</p>
                 <p v-if="item.status !== 'trial_end' && item.status !== 'trial_finished'">
                   <time-down color='#ff4040' :fontWeight=600 :endTime="item.currentGenerationEndTime"></time-down>
                 </p>
