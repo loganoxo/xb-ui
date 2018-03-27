@@ -323,7 +323,12 @@
           <p class="mt-5"><span class="example-pic" @click="watchExamplePic">查看示例图</span></p></div>
       </div>
       <div class="experience mt-22">
-        <p class="mb-10"><span class="des-text">2.说说体验</span><span class="cl666">（白拿拿平台要求，必填）</span></p>
+        <p class="mb-10"><span class="des-text">2.拿手活动过程与体验评价：</span><span class="cl666">（白拿拿平台展示）</span></p>
+        <RadioGroup v-model="selectEvaluate" class="mb-10">
+          <Radio label="5">东西棒棒哒</Radio>
+          <Radio label="3">还阔以</Radio>
+          <Radio label="1">质量太差了</Radio>
+        </RadioGroup>
         <iInput v-model="trialReportText" type="textarea" :autosize="{minRows: 5,maxRows: 12}"
                 placeholder="请填写在试用过程中，对于宝贝的真实使用体会及感受，可以和淘宝上的宝贝评价一致"></iInput>
       </div>
@@ -658,6 +663,7 @@
     },
     data() {
       return {
+        selectEvaluate:'5',
         appSearch: false,
         downloadButton: false,
         showPassOperation: '',
@@ -1158,7 +1164,8 @@
             id: _this.itemId,
             trialReportText: _this.trialReportText,
             trialReportImages: JSON.stringify(_this.trialReportImages),
-            taoBaoCommentImage: _this.taobaoScreenShotImg
+            taoBaoCommentImage: _this.taobaoScreenShotImg,
+            itemStars:_this.selectEvaluate,
           }).then(res => {
             if (res.status) {
               _this.$Message.success({
@@ -1176,7 +1183,8 @@
             id: _this.itemId,
             trialReportText: _this.trialReportText,
             trialReportImages: JSON.stringify(_this.trialReportImages),
-            taoBaoCommentImage: _this.taobaoScreenShotImg
+            taoBaoCommentImage: _this.taobaoScreenShotImg,
+            itemStars:_this.selectEvaluate,
           }).then(res => {
             if (res.status) {
               _this.$Message.success('买家秀修改成功，请耐心等待商家审核！');

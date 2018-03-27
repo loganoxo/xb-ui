@@ -45,7 +45,12 @@
         <div class="mt-5" @click="isShowImgModel = true">
          <img :src="showkerReportInfo.taobaoCommentImage + '!thum80'" width="80" height="80">
         </div>
-        <div class="trial-experience-title mt-20 f-b">2.活动过程与体验：（白拿拿平台展示）</div>
+        <div class="trial-experience-title mt-20 f-b">2.拿手活动过程与体验评价：（白拿拿平台展示）</div>
+        <RadioGroup v-model="selectEvaluate" class="mt-10">
+          <Radio label="5" disabled>东西棒棒哒</Radio>
+          <Radio label="3" disabled>还阔以</Radio>
+          <Radio label="1" disabled>质量太差了</Radio>
+        </RadioGroup>
         <div class="trial-experience-con mt-22">{{showkerReportInfo.trialReportText || ''}}</div>
         <div class="trial-experience-title mt-22 f-b">3.买家秀图片：（白拿拿平台展示）</div>
         <div class="trial-img-info" v-if="trialReportImages.length > 0">
@@ -126,6 +131,18 @@
     <Modal title="图片查看器" v-model="isShowImgModel">
       <img :src="showkerReportInfo.taobaoCommentImage + '!orgi75'" style="width: 100%">
     </Modal>
+    <!--<Modal v-model="evaluateShowker">
+      <div class="pl-20 pr-20 mt-30">
+        <div>请对拿手<span class="main-color">秦贺</span>进行评价<span>(你的评价将决定该拿手的整体评分)：</span></div>
+        <div>
+          <span>买号质量：<RadioGroup v-model="selectEvaluate" class="mt-10">
+          <Radio label="5" disabled>东西棒棒哒</Radio>
+          <Radio label="3" disabled>还阔以</Radio>
+          <Radio label="1" disabled>质量太差了</Radio>
+        </RadioGroup></span>
+        </div>
+      </div>
+    </Modal>-->
   </div>
 </template>
 
@@ -153,6 +170,8 @@
     },
     data() {
       return {
+        evaluateShowker:true,
+        selectEvaluate:'5',
         trialCheckStatus: 'pass',
         showRefundModel: false,
         isShowImgModel: false,
