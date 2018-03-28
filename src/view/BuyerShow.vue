@@ -138,7 +138,7 @@
                   </router-link>
                   <div class="clear bottom mt-10">
                     <div class=" ml-10 text-ct" style="margin-top: 5px">
-                      <p class="cl000">{{item.nickName}}</p>
+                      <p class="cl000">{{item.nickName?item.nickName:item.phone}}</p>
                       <img :src="item.creditLevel" alt="">
                       <div class="text-ct"><span>淘气值：{{item.tqz}}</span></div>
                     </div>
