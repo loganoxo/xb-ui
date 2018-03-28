@@ -11,15 +11,18 @@
           <span class="issue-activity icon-size"></span>
           <router-link to="/user/task-release">发布活动</router-link>
         </li>
-        <li :class="{isSelect:isSelect === 'ActivitiesList' || isSelect === 'ApproveShowker' || isSelect === 'ActivityDetail' || isSelect === 'ActivityLog'}">
+        <li
+          :class="{isSelect:isSelect === 'ActivitiesList' || isSelect === 'ApproveShowker' || isSelect === 'ActivityDetail' || isSelect === 'ActivityLog'}">
           <span class="activity-management-nav icon-size"></span>
           <router-link to="/user/activity-management/list">活动管理</router-link>
         </li>
-        <li :class="{isSelect:isSelect === 'TaskWaitAudit' || isSelect === 'TaskPassAudit' || isSelect === 'TaskFailAudit' || isSelect === 'ProbationReport'}">
+        <li
+          :class="{isSelect:isSelect === 'TaskWaitAudit' || isSelect === 'TaskPassAudit' || isSelect === 'TaskFailAudit' || isSelect === 'ProbationReport'}">
           <span class="task-management-nav icon-size"></span>
           <router-link to="/user/task-management/wait">任务管理</router-link>
         </li>
-        <li :class="{isSelect:isSelect ==='AccountInfo' || isSelect === 'PayMoney' || isSelect === 'GetoutMoney' || isSelect === 'AccountManagement'}">
+        <li
+          :class="{isSelect:isSelect ==='AccountInfo' || isSelect === 'PayMoney' || isSelect === 'GetoutMoney' || isSelect === 'AccountManagement'}">
           <span class="money-management-nav icon-size"></span>
           <router-link to="/user/money-management/account-info">资金管理</router-link>
         </li>
@@ -41,11 +44,11 @@
           <span class="help-center icon-size"></span>
           <router-link to="/user/help-center/faq">帮助中心</router-link>
         </li>
-       <!-- <li :class="{isSelect:isSelect === 'Recommend'}" class="pos-rel">
-          <span class="recommend icon-size"></span>
-          <img src="/static/img/icon/hot.gif" alt="" style="position: absolute;right: 18px;top: -6px;">
-          <router-link to="/user/recommend">邀请有礼</router-link>
-        </li>-->
+        <!-- <li :class="{isSelect:isSelect === 'Recommend'}" class="pos-rel">
+           <span class="recommend icon-size"></span>
+           <img src="/static/img/icon/hot.gif" alt="" style="position: absolute;right: 18px;top: -6px;">
+           <router-link to="/user/recommend">邀请有礼</router-link>
+         </li>-->
         <li class="pos-rel">
           <span class="service-clause icon-size"></span>
           <img src="/static/img/icon/importance.gif" alt="" style="position: absolute;right: 22px;top: -12px;">
@@ -67,7 +70,8 @@
           <span class="home-page icon-size"></span>
           <router-link to="/user/user-home">我的主页</router-link>
         </li>
-        <li :class="{isSelect:isSelect === 'ApplyWaitAudit' || isSelect === 'ApplyPassAudit' || isSelect === 'ApplyFailAudit'}">
+        <li
+          :class="{isSelect:isSelect === 'ApplyWaitAudit' || isSelect === 'ApplyPassAudit' || isSelect === 'ApplyFailAudit'}">
           <span class="my-activity icon-size"></span>
           <router-link to="/user/my-probation/pass">我的活动</router-link>
         </li>
@@ -75,7 +79,8 @@
           <span class="my-buyershow-nav icon-size"></span>
           <router-link to="/user/my-trial-report">我的买家秀</router-link>
         </li>
-        <li :class="{isSelect:isSelect ==='AccountInfo' || isSelect === 'PayMoney' || isSelect === 'GetoutMoney' || isSelect === 'AccountManagement'}">
+        <li
+          :class="{isSelect:isSelect ==='AccountInfo' || isSelect === 'PayMoney' || isSelect === 'GetoutMoney' || isSelect === 'AccountManagement'}">
           <span class="money-management-nav icon-size"></span>
           <router-link to="/user/money-management/account-info">资金管理</router-link>
         </li>
@@ -93,11 +98,11 @@
           <span class="help-center icon-size"></span>
           <router-link to="/user/help-center/faq">帮助中心</router-link>
         </li>
-       <!-- <li class="pos-rel" :class="{isSelect:isSelect === 'Recommend'}">
-          <span class="recommend icon-size"></span>
-          <img src="/static/img/icon/hot.gif" alt="" style="position: absolute;right: 22px;top: -4px;">
-          <router-link to="/user/recommend">邀请有礼</router-link>
-        </li>-->
+        <!-- <li class="pos-rel" :class="{isSelect:isSelect === 'Recommend'}">
+           <span class="recommend icon-size"></span>
+           <img src="/static/img/icon/hot.gif" alt="" style="position: absolute;right: 22px;top: -4px;">
+           <router-link to="/user/recommend">邀请有礼</router-link>
+         </li>-->
         <li class="pos-rel">
           <span class="service-clause icon-size"></span>
           <img src="/static/img/icon/importance.gif" alt="" style="position: absolute;right: 22px;top: -12px;">
@@ -114,7 +119,8 @@
     </div>
     <!--用户服务条款弹框-->
     <div v-if="isShowUserClause" class="user-clause-model">
-      <user-clause @closeClauseModel="closeClauseModel" :isShowCloseTip="false" :isShowClause="getUserInfoRole === 0 ? 'showker' : 'merchant'"></user-clause>
+      <user-clause @closeClauseModel="closeClauseModel" :isShowCloseTip="false"
+                   :isShowClause="getUserInfoRole === 0 ? 'showker' : 'merchant'"></user-clause>
     </div>
   </div>
 </template>
@@ -123,6 +129,7 @@
   import Icon from 'iview/src/components/icon'
   import Tooltip from 'iview/src/components/tooltip'
   import UserClause from '@/components/UserClause'
+
   export default {
     name: 'MyXiuBa',
     components: {
@@ -153,7 +160,7 @@
       getUserInfoRole() {
         return this.$store.getters.getUserRole;
       },
-      isLogin () {
+      isLogin() {
         return this.$store.state.login
       },
     },
@@ -194,79 +201,79 @@
           border-top: 1px solid #F4F4F4;
           border-bottom: 1px solid #F4F4F4;
         }
-        &:hover{
-          .home-page{
+        &:hover {
+          .home-page {
             background-image: url("~assets/img/userhome-merchant/my-homepage-on.png");
           }
         }
-        &:hover{
-          .help-center{
+        &:hover {
+          .help-center {
             background-image: url("~assets/img/userhome-merchant/help-center-on.png");
           }
         }
-        &:hover{
-          .issue-activity{
+        &:hover {
+          .issue-activity {
             background-image: url("~assets/img/userhome-merchant/issue-activity-on.png");
           }
         }
-        &:hover{
-          .activity-management-nav{
+        &:hover {
+          .activity-management-nav {
             background-image: url("~assets/img/userhome-merchant/activity-management-on.png");
           }
         }
-        &:hover{
-          .task-management-nav{
+        &:hover {
+          .task-management-nav {
             background-image: url("~assets/img/userhome-merchant/task-management-on.png");
           }
         }
-        &:hover{
-          .money-management-nav{
+        &:hover {
+          .money-management-nav {
             background-image: url("~assets/img/userhome-merchant/money-management-on.png");
           }
         }
-        &:hover{
-          .transaction-record{
+        &:hover {
+          .transaction-record {
             background-image: url("~assets/img/userhome-merchant/transaction-record-on.png");
           }
         }
-        &:hover{
-          .vip-member-nav{
+        &:hover {
+          .vip-member-nav {
             background-image: url("~assets/img/userhome-merchant/vip-member-on.png");
           }
         }
-        &:hover{
-          .personage-set-nav{
+        &:hover {
+          .personage-set-nav {
             background-image: url("~assets/img/userhome-merchant/personage-set-on.png");
           }
-         }
-        &:hover{
-          .recommend{
+        }
+        &:hover {
+          .recommend {
             background-image: url("~assets/img/userhome-merchant/invite-on.png");
           }
         }
-        &:hover{
-          .service-clause{
+        &:hover {
+          .service-clause {
             background-image: url("~assets/img/userhome-merchant/service-clause-on.png");
           }
         }
-        &:hover{
-          .my-appeal-nav{
+        &:hover {
+          .my-appeal-nav {
             background-image: url("~assets/img/userhome-merchant/my-appeal-on.png");
           }
         }
-        &:hover{
-          .my-activity{
+        &:hover {
+          .my-activity {
             background-image: url("~assets/img/userhome-showker/my-activity-on.png");
           }
         }
-        &:hover{
-          .my-buyershow-nav{
+        &:hover {
+          .my-buyershow-nav {
             background-image: url("~assets/img/userhome-showker/my-buyerShow-on.png");
           }
         }
-        &:hover{
-          .black-management{
-            background-image: url("~assets/img/userhome-merchant/black-management-on.png");
+        &:hover {
+          .black-management {
+            background-image: url("~assets/img/userhome-merchant/black-management-off.png");
           }
         }
 
@@ -283,147 +290,164 @@
       }
     }
   }
-  .icon-size{
+
+  .icon-size {
     display: inline-block;
     width: 13px;
     height: 13px;
-    background-size:13px 13px;
+    background-size: 13px 13px;
     background-repeat: no-repeat;
     margin-right: 5px;
     transform: translateY(1px);
   }
 
-  .home-page{
+  .home-page {
     background-image: url("~assets/img/userhome-merchant/my-homepage-off.png");
   }
-  .isSelect{
-    .home-page{
+
+  .isSelect {
+    .home-page {
       background-image: url("~assets/img/userhome-merchant/my-homepage-on.png");
     }
   }
 
-  .issue-activity{
+  .issue-activity {
     background-image: url("~assets/img/userhome-merchant/issue-activity-off.png");
   }
-  .isSelect{
-    .issue-activity{
+
+  .isSelect {
+    .issue-activity {
       background-image: url("~assets/img/userhome-merchant/issue-activity-on.png");
     }
   }
 
-  .activity-management-nav{
+  .activity-management-nav {
     background-image: url("~assets/img/userhome-merchant/activity-management-off.png");
   }
-  .isSelect{
-    .activity-management-nav{
+
+  .isSelect {
+    .activity-management-nav {
       background-image: url("~assets/img/userhome-merchant/activity-management-on.png");
     }
   }
 
-  .task-management-nav{
+  .task-management-nav {
     background-image: url("~assets/img/userhome-merchant/task-management-off.png");
   }
-  .isSelect{
-    .task-management-nav{
+
+  .isSelect {
+    .task-management-nav {
       background-image: url("~assets/img/userhome-merchant/task-management-on.png");
     }
   }
 
-  .money-management-nav{
+  .money-management-nav {
     background-image: url("~assets/img/userhome-merchant/money-management-off.png");
   }
-  .isSelect{
-    .money-management-nav{
+
+  .isSelect {
+    .money-management-nav {
       background-image: url("~assets/img/userhome-merchant/money-management-on.png");
     }
   }
 
-  .transaction-record{
+  .transaction-record {
     background-image: url("~assets/img/userhome-merchant/transaction-record-off.png");
   }
-  .isSelect{
-    .transaction-record{
+
+  .isSelect {
+    .transaction-record {
       background-image: url("~assets/img/userhome-merchant/transaction-record-on.png");
     }
   }
 
-  .vip-member-nav{
-      background-image: url("~assets/img/userhome-merchant/vip-member-off.png");
-    }
-  .isSelect{
-    .vip-member-nav{
+  .vip-member-nav {
+    background-image: url("~assets/img/userhome-merchant/vip-member-off.png");
+  }
+
+  .isSelect {
+    .vip-member-nav {
       background-image: url("~assets/img/userhome-merchant/vip-member-on.png");
     }
   }
 
-  .personage-set-nav{
-      background-image: url("~assets/img/userhome-merchant/personage-set-off.png");
-    }
-  .isSelect{
-    .personage-set-nav{
+  .personage-set-nav {
+    background-image: url("~assets/img/userhome-merchant/personage-set-off.png");
+  }
+
+  .isSelect {
+    .personage-set-nav {
       background-image: url("~assets/img/userhome-merchant/personage-set-on.png");
     }
   }
 
-  .recommend{
+  .recommend {
     background-image: url("~assets/img/userhome-merchant/invite-off.png");
   }
+
   .isSelect {
-    .recommend{
+    .recommend {
       background-image: url("~assets/img/userhome-merchant/invite-on.png");
     }
   }
 
-  .help-center{
+  .help-center {
     background-image: url("~assets/img/userhome-merchant/help-center-off.png");
   }
+
   .isSelect {
-    .help-center{
+    .help-center {
       background-image: url("~assets/img/userhome-merchant/help-center-on.png");
     }
   }
 
-  .service-clause{
+  .service-clause {
     background-image: url("~assets/img/userhome-merchant/service-clause-off.png");
   }
+
   .isSelect {
-    .service-clause{
+    .service-clause {
       background-image: url("~assets/img/userhome-merchant/service-clause-on.png");
     }
   }
 
-  .my-appeal-nav{
+  .my-appeal-nav {
     background-image: url("~assets/img/userhome-merchant/my-appeal-off.png");
   }
+
   .isSelect {
-    .my-appeal-nav{
+    .my-appeal-nav {
       background-image: url("~assets/img/userhome-merchant/my-appeal-on.png");
     }
   }
-  .my-activity{
+
+  .my-activity {
     background-image: url("~assets/img/userhome-showker/my-activity-off.png");
   }
+
   .isSelect {
-    .my-activity{
+    .my-activity {
       background-image: url("~assets/img/userhome-showker/my-activity-on.png");
     }
   }
 
-  .my-buyershow-nav{
+  .my-buyershow-nav {
     background-image: url("~assets/img/userhome-showker/my-buyerShow-off.png");
   }
+
   .isSelect {
-    .my-buyershow-nav{
+    .my-buyershow-nav {
       background-image: url("~assets/img/userhome-showker/my-buyerShow-on.png");
     }
   }
 
-  .black-management{
-    background-image: url("~assets/img/userhome-merchant/black-management-off.png");
+  .black-management {
+    background-image: url("~assets/img/userhome-merchant/black-management-on.png");
   }
-  .isSelect{
-    .black-management{
-      background-image: url("~assets/img/userhome-merchant/black-management-on.png");
+
+  .isSelect {
+    .black-management {
+      background-image: url("~assets/img/userhome-merchant/black-management-off.png");
     }
   }
 
@@ -433,11 +457,12 @@
     border-top: 1px solid #F4F4F4;
     border-bottom: 1px solid #F4F4F4;
   }
+
   .my-xiu-ba-con-right {
     width: 86%;
   }
 
-  .user-clause-model{
+  .user-clause-model {
     @include fullScreenModel
   }
 </style>
