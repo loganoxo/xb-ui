@@ -151,7 +151,7 @@
         </div>
       </collapse-transition>
     </div>
-    <div class="text-ct mt-40" v-if="taskPassAuditList.length === 0">暂无已通过数据</div>
+    <div class="text-ct mt-40">{{dataStatusTip}}</div>
     <div class="activity-page mt-20 right mr-10" v-if="taskPassAuditList && taskPassAuditList.length > 0">
       <Page :total="totalElements" :page-size="pageSize" :current="pageIndex" @on-change="pageChange"></Page>
     </div>
@@ -359,6 +359,7 @@
         loading:false,
         showkerReportInfo:{},
         evaluateShowkerAlitmAccount:null,
+        dataStatusTip:''
       }
     },
     mounted() {
@@ -474,6 +475,7 @@
       passesTaskList() {
         let _this = this;
         _this.searchLoading = true;
+        _this.dataStatusTip = '数据加载中';
         let showkerTaskStatusList = JSON.stringify(_this.showkerTaskStatusList);
         if (_this.taskNumber || _this.alitmAccount || _this.orderNum) {
           showkerTaskStatusList = [];
@@ -504,6 +506,7 @@
               })
             });
             _this.searchLoading = false;
+            _this.dataStatusTip = _this.taskPassAuditList.length === 0? '暂无已通过数据':'';
           } else {
             _this.$Message.error(res.msg);
           }

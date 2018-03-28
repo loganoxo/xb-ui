@@ -123,7 +123,7 @@
         </div>
       </collapse-transition>
     </div>
-    <div class="mt-40 text-ct" v-if="taskWaitAuditList.length === 0">暂无待审批数据</div>
+    <div class="mt-40 text-ct">{{dataStatusTip}}</div>
     <div class="activity-page mt-20 right mr-10" v-if="taskWaitAuditList && taskWaitAuditList.length > 0">
       <Page :total="totalElements" :page-size="pageSize" :current="pageIndex" @on-change="pageChange"></Page>
     </div>
@@ -363,6 +363,7 @@
         },
         sortD: null,
         orderBy: null,
+        dataStatusTip:''
       }
     },
     mounted() {
@@ -463,6 +464,7 @@
       appliesWaitingAuditTask() {
         let _this = this;
         _this.searchLoading = true;
+        _this.dataStatusTip = '数据加载中';
         api.appliesWaitingAuditTask({
           pageIndex: _this.pageIndex,
           pageSize: _this.pageSize,
@@ -473,6 +475,7 @@
         }).then(res => {
           if (res.status) {
             _this.taskWaitAuditList = res.data.content;
+            _this.dataStatusTip = _this.taskWaitAuditList.length === 0? '暂无待审批数据':'';
             _this.totalElements = res.data.totalElements;
             _this.searchLoading = false;
           } else {

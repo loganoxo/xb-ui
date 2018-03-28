@@ -194,7 +194,7 @@
                   <div class="clear bottom mt-20">
                     <router-link :to="{path:'/trial-report',query:{q:encryptionId(item.showkerId)}}" class="user-head-box ml-10"><img  width="48" height="48" :src="getUserHead(item.showkerPortraitPic)" alt=""></router-link>
                     <div class="left ml-10 mt-5">
-                      <p class="cl000">{{item.showkerPhone}}</p>
+                      <p class="cl000">{{item.nickName}}</p>
                       <img :src="item.creditLevel" alt="">
                       <p>淘气值：{{item.tqz}}</p>
                     </div>
@@ -213,7 +213,7 @@
                       <img :src="taskTopLeft.task.taskMainImage + '!thum54'" alt="" width="54" height="54">
                     </div>
                     <div class="left text-box ml-10">
-                      <p>拿手{{taskTopLeft.showkerPhone}}免费领取了</p>
+                      <p>拿手 {{taskTopLeft.other.nickname}} 免费领取了</p>
                       <p>
                         价值<span class="text ml-5">￥{{taskTopLeft.task.itemPrice / 100}}</span> 的宝贝
                       </p>
