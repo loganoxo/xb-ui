@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="task-category-ctt">
-      <div class="container">
+      <div class="container" id="historyPosition">
         <div class="breadcrumb">
           <Breadcrumb >
             <Breadcrumb-item>当前位置：</Breadcrumb-item>
@@ -153,7 +153,7 @@
       </div>
       <div class="container">
         <div class="task-category-commodity mt-10">
-          <div id="historyPage" class="home-commodity-title">
+          <div  class="home-commodity-title">
             <div class="part-title-img-box">
               <span class="fs-18">历史活动</span>
             </div>
@@ -468,7 +468,7 @@
       historyPageChange(data){
         this.historyTaskListParams.pageIndex = data;
         this.getSearchHistoryTask();
-        document.getElementById('historyPage').scrollIntoView(true);
+        document.getElementById('historyPosition').scrollIntoView(true);
       },
       selTaskCategoryAllFunc(){
         let self = this;

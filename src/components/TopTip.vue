@@ -3,7 +3,7 @@
     <div class="notice text-ct bg-FFFDD6 main-color" v-if="whetherShowNotice">{{noticeTitle}}
       <router-link to="/notice" class="main-color">【阅读全文】</router-link>
     </div>
-    <div class="container">
+    <div class="container" id="historyPage">
       <p v-show="isLogin" class="left">
         你好，<span class="user-name">
         <span  @click="openMember"  v-if="getUserInfo.role === 1 && membershipIsExpire">

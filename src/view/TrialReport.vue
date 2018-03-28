@@ -1,11 +1,11 @@
 <template>
-    <div class="container">
+    <div class="container" >
       <div class="mt-10 clear">
         <div class="trial-left left">
           <div>
             <img class="user-head" :src="getUserHead(showkerInfo.portraitPic)" alt="" width="120" height="120">
             <p v-show="showReportDesc === true" class=" fs-14 mt-10"> <a @click="showReportDesc = false" >查看Ta的全部买家秀</a></p>
-            <p class="fs-16 mt-10 mb-10">{{showkerInfo.phone}}</p>
+            <p class="fs-16 mt-10 mb-10">{{showkerInfo.nickname}}</p>
             <img :src="creditLevel" alt="">
             <p>淘气值：{{tqz}}</p>
             <p>申请次数：{{applyCount || 0}} 次</p>
@@ -16,7 +16,7 @@
         </div>
         <div class="trial-right left">
           <div v-if="!showReportDesc">
-            <p class="fs-16 trial-account">{{showkerInfo.phone}}的买家秀&nbsp;(共获得<span style="color: #FF6633">{{zanTotalNumbers}}</span>个赞）</p>
+            <p class="fs-16 trial-account">{{showkerInfo.nickname}}的买家秀&nbsp;(共获得<span style="color: #FF6633">{{zanTotalNumbers}}</span>个赞）</p>
             <div class="trial-tag clear pb-10">
               <div class="mt-10 left tag-title">
                 Ta的标签:
@@ -59,7 +59,7 @@
           </div>
           <div v-if="showReportDesc && showkerReportDesc.task">
             <div class="fs-16 trial-account">
-              {{showkerReportDesc.showkerPhone}}的买家秀
+              {{showkerReportDesc.other.nickname}}的买家秀
               <div class="right fs-14 " style="margin-top: -2px;">
                 分享精彩：<div v-html="copyHtml" style="display: inline-block;" ></div>
               </div>
@@ -322,7 +322,7 @@
             self.lastApplySuccessTime = res.data.lastApplySuccessTime;
             self.creditLevel = res.data.creditLevel;
             self.tqz = res.data.tqz;
-            self.zanTotalNumbers = res.data.likeCount
+            self.zanTotalNumbers = res.data.likeCount;
           } else {
             self.$Message.error({
               content: res.msg,
@@ -338,6 +338,7 @@
       pageChange(data){
         this.trialReportParams.pageIndex = data;
         this.getTrialReports();
+        document.getElementById('historyPage').scrollIntoView(true);
       },
       showReportDescFunc(trialReport){
         let self = this;

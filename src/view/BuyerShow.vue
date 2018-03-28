@@ -32,7 +32,7 @@
                 <img class="border50" width="48" height="48" :src="getUserHead(item.portrait)" alt="">
               </div>
               <div class="left ml-10 ">
-                <p class="mt-5 fs-14">{{item.phone}}</p>
+                <p class="mt-5 fs-14">{{item.nickname}}</p>
                 <p><span class="main-color">{{item.reportCount}}</span>篇买家秀，共获得<span class="main-color">{{item.likeCount}}</span>个赞
                 </p>
               </div>
@@ -82,7 +82,7 @@
               </div>
               <ul class="clear" :class="[leftSlider ? 'slider-top-active-left' : 'slider-top-default-left']"
                   @mouseover="clearLeftSliderFunc()" @mouseleave="leftSliderFunc()">
-                <li v-for="(item,index) in reportRankList" :key="index" class="content cursor-p left pos-rel">
+                  <li v-for="(item,index) in reportRankList" :key="index" class="content cursor-p left pos-rel">
                   <a :title="item.taskName">
                     <div style="height: 260px">
                       <img :src="item.trialReportImages+'!thum200'" alt="" width="200" height="260"
@@ -107,7 +107,7 @@
                                                             :src="getUserHead(item.showkerPortraitPic)" alt="">
                     </router-link>
                     <div class="left ml-10 mt-5">
-                      <p class="cl000">{{item.showkerPhone}}</p>
+                      <p class="cl000">{{item.nickName}}</p>
                       <img :src="item.creditLevel" alt="">
                       <div class="text-ct"><span>淘气值：{{item.tqz}}</span></div>
                     </div>
@@ -138,7 +138,7 @@
                   </router-link>
                   <div class="clear bottom mt-10">
                     <div class=" ml-10 text-ct" style="margin-top: 5px">
-                      <p class="cl000">{{item.phone}}</p>
+                      <p class="cl000">{{item.nickName}}</p>
                       <img :src="item.creditLevel" alt="">
                       <div class="text-ct"><span>淘气值：{{item.tqz}}</span></div>
                     </div>
@@ -185,7 +185,7 @@
                          height="48" :src="getUserHead(item.showkerPortraitPic)" alt="">
                   </a>
                   <div class="left ml-10 mt-5">
-                    <p class="cl000">{{item.showkerPhone}}</p>
+                    <p class="cl000">{{item.nickName}}</p>
                     <img :src="item.creditLevel" alt="">
                     <div class="text-ct"><span>淘气值：{{item.tqz}}</span></div>
                   </div>
@@ -401,7 +401,7 @@
         let self = this;
         api.getShowkerReportRank().then((res) => {
           if (res.status) {
-            self.getShowkerReportList = res.data
+            self.getShowkerReportList = res.data;
           } else {
             self.$Message.error(res.msg)
           }
