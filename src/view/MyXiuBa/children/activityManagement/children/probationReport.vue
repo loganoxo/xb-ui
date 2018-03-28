@@ -133,7 +133,7 @@
     </Modal>
     <Modal v-model="evaluateShowker" class="evaluate-showker-pop" @on-visible-change="changeEvaluatePop">
       <div class="pl-20 pr-20 mt-30">
-        <div class="cl000">请对拿手<span class="main-color">秦贺</span>进行评价<span class="cl666">(你的评价将决定该拿手的整体评分)：</span></div>
+        <div class="cl000">请对拿手<span class="main-color">{{showkerTaskInfo.alitm.alitmAccount}}</span>进行评价<span class="cl666">(你的评价将决定该拿手的整体评分)：</span></div>
         <div class="pt-10 pb-10 evaluate-showker-pop-box mt-20">
           <p class="title">
             <Tooltip content="你感该拿手的淘号质量如何？" placement="top">
