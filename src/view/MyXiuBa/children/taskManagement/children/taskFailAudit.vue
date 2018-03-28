@@ -76,7 +76,7 @@
         </div>
       </collapse-transition>
     </div>
-    <div class="mt-40 text-ct" v-if="taskFailAuditList.length === 0">暂无已终止数据</div>
+    <div class="mt-40 text-ct">{{dataStatusTip}}</div>
     <div class="activity-page mt-20 right mr-10" v-if="taskFailAuditList && taskFailAuditList.length > 0">
       <Page :total="totalElements" :page-size="pageSize" :current="pageIndex" @on-change="pageChange"></Page>
     </div>
@@ -121,6 +121,7 @@
         taskFailAuditList: [],
         totalElements: 0,
         selectId: null,
+        dataStatusTip:''
       }
     },
     mounted() {
@@ -169,6 +170,7 @@
         let _this = this;
         _this.taskFailAuditList = [];
         _this.searchLoading = true;
+        _this.dataStatusTip = '数据加载中';
         let rejectReasonList = JSON.stringify(_this.rejectReasonList);
         if (_this.taskNumber || _this.alitmAccount) {
           rejectReasonList = [];
@@ -184,6 +186,7 @@
             _this.taskFailAuditList = res.data.content;
             _this.totalElements = res.data.totalElements;
             _this.searchLoading = false;
+            _this.dataStatusTip = _this.taskFailAuditList.length === 0? '暂无已终止数据':'';
           } else {
             _this.$Message.error(res.msg);
             _this.searchLoading = false;
