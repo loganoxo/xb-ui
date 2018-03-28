@@ -338,7 +338,7 @@
       pageChange(data){
         this.trialReportParams.pageIndex = data;
         this.getTrialReports();
-        document.getElementById('historyPage').scrollIntoView(true);
+        document.getElementById('buyershowPosition').scrollIntoView(true);
       },
       showReportDescFunc(trialReport){
         let self = this;

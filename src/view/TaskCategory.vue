@@ -151,7 +151,7 @@
           </div>
         </div>
       </div>
-      <div class="container">
+      <div class="container" id="historyActivity">
         <div class="task-category-commodity mt-10">
           <div  class="home-commodity-title">
             <div class="part-title-img-box">
@@ -464,11 +464,13 @@
       pageChange(data){
         this.searchTaskParams.pageIndex = data;
         this.getSearchTask();
+        document.getElementById('historyPosition').scrollIntoView(true);
       },
       historyPageChange(data){
         this.historyTaskListParams.pageIndex = data;
         this.getSearchHistoryTask();
-        document.getElementById('historyPosition').scrollIntoView(true);
+        document.getElementById('historyActivity').scrollIntoView(true);
+
       },
       selTaskCategoryAllFunc(){
         let self = this;
