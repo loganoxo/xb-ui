@@ -339,7 +339,7 @@
   }
   .end-box{
     height: 730px;
-    background: #ffb74d url("/static/img/seller-test/end.jpg") no-repeat center;
+    background: #ffb74d url("/static/img/seller-test/end_01.jpg") no-repeat center;
     .go-task{
       display: inline-block;
       width: 240px;
