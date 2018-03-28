@@ -159,8 +159,8 @@
                   <p class="del-edit">
                     <span v-if="item.status === 'order_num_waiting_audit'" @click="openCheckOrder(item.id, item.needBrowseCollectAddCart, item.itemIssue)">审核订单信息</span>
                     <span v-if="item.status === 'trial_report_waiting_confirm'" @click="goProbationReport(item.id)">审核买家秀</span>
-                    <span v-if="item.status === 'trial_finished'" >评价拿手</span>
-                    <span v-if="item.status !== 'order_num_waiting_audit' && item.status !== 'trial_report_waiting_confirm'">------</span>
+                    <span v-if="item.status === 'trial_finished' && !item.ifEvaluated" >评价拿手</span>
+                    <span v-if="item.status !== 'order_num_waiting_audit' && item.status !== 'trial_report_waiting_confirm' && !(item.status === 'trial_finished' && !item.ifEvaluated)">------</span>
                   </p>
                 </td>
               </tr>
