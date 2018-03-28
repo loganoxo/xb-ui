@@ -167,7 +167,7 @@
                   <p class="del-edit">
                     <span v-if="item.status === 'order_num_waiting_audit'" @click="openCheckOrder(item.id, item.needBrowseCollectAddCart, item.itemIssue)">审核订单信息</span>
                     <span v-if="item.status === 'trial_report_waiting_confirm'" @click="goProbationReport(item.id)">审核买家秀</span>
-                    <span v-if="item.status === 'trial_finished' && !item.ifEvaluated" >评价拿手</span>
+                    <span v-if="item.status === 'trial_finished' && !item.ifEvaluated" @click="getShowkerReportInfo(item.id,item.alitmAccount)">评价拿手</span>
                     <span v-if="item.status !== 'order_num_waiting_audit' && item.status !== 'trial_report_waiting_confirm' && !(item.status === 'trial_finished' && !item.ifEvaluated)">------</span>
                   </p>
                 </td>
@@ -330,6 +330,54 @@
       <modal :title="checkScreenshotModleTitle" v-model="isShowCheckScreenshotModel">
         <img :src="checkScreenshotSrc + '!orgi75'" style="width: 100%">
       </modal>
+      <!--评价秀客弹窗-->
+      <Modal v-model="evaluateShowker" class="evaluate-showker-pop">
+        <div class="pl-20 pr-20 mt-30">
+          <div class="cl000">请对拿手<span class="main-color">秦贺</span>进行评价<span class="cl666">(你的评价将决定该拿手的整体评分)：</span></div>
+          <div class="pt-10 pb-10 evaluate-showker-pop-box mt-20">
+            <p class="title">
+              <Tooltip content="你感该拿手的淘号质量如何？" placement="top">
+                <Icon type="help-circled"></Icon>
+              </Tooltip>
+              <span class="cl000">买号质量：</span>
+            </p>
+            <RadioGroup v-model="wwQuality">
+              <Radio label="hao_ping"><img class="vtc-mid img" src="~assets/img/common/haoping.png" alt=""><span class="ml-5">好评</span></Radio>
+              <Radio label="zhong_ping"><img class="vtc-mid img" src="~assets/img/common/zhongping.png" alt=""><span class="ml-5">中评</span></Radio>
+              <Radio label="cha_ping"><img class="vtc-mid img" src="~assets/img/common/chaping.png" alt=""><span class="ml-5">差评</span></Radio>
+            </RadioGroup>
+          </div>
+          <div class="pt-10 pb-10 evaluate-showker-pop-box mt-10">
+            <p class="title">
+              <Tooltip content="该拿手有没有完全按照您的要求执行任务？" placement="top">
+                <Icon type="help-circled"></Icon>
+              </Tooltip>
+              <span class="cl000">下单配合度：</span>
+            </p>
+            <RadioGroup v-model="fillOrderCooperate">
+              <Radio label="hao_ping"><img class="vtc-mid img" src="~assets/img/common/haoping.png" alt=""><span class="ml-5">好评</span></Radio>
+              <Radio label="zhong_ping"><img class="vtc-mid img" src="~assets/img/common/zhongping.png" alt=""><span class="ml-5">中评</span></Radio>
+              <Radio label="cha_ping"><img class="vtc-mid img" src="~assets/img/common/chaping.png" alt=""><span class="ml-5">差评</span></Radio>
+            </RadioGroup>
+          </div>
+          <div class="pt-10 pb-10 evaluate-showker-pop-box mt-10">
+            <p class="title">
+              <Tooltip content="该拿手提供的淘宝评价和晒图，是否满足您的要求？" placement="top">
+                <Icon type="help-circled"></Icon>
+              </Tooltip>
+              <span class="cl000">买家秀质量：</span>
+            </p>
+            <RadioGroup v-model="buyerShowQuality">
+              <Radio label="hao_ping"><img class="vtc-mid img" src="~assets/img/common/haoping.png" alt=""><span class="ml-5">好评</span></Radio>
+              <Radio label="zhong_ping"><img class="vtc-mid img" src="~assets/img/common/zhongping.png" alt=""><span class="ml-5">中评</span></Radio>
+              <Radio label="cha_ping"><img class="vtc-mid img" src="~assets/img/common/chaping.png" alt=""><span class="ml-5">差评</span></Radio>
+            </RadioGroup>
+          </div>
+        </div>
+        <div slot="footer" class="text-ct pb-20">
+          <iButton class="pl-20 pr-20 btn" type="error" size="large" :loading="loading" @click="evaluateShowkerFun">确定提交</iButton>
+        </div>
+      </Modal>
     </div>
   </div>
 </template>
@@ -369,6 +417,10 @@
     },
     data() {
       return {
+        evaluateShowker:false,
+        wwQuality:'hao_ping',
+        fillOrderCooperate:'hao_ping',
+        buyerShowQuality:'hao_ping',
         isShowCheckScreenshotModel: false,
         checkScreenshotSrc: null,
         checkScreenshotModleTitle: null,
@@ -529,7 +581,10 @@
         orderInfo: {},
         payButtonText: '确认支付并通过',
         rechargeButtonText: '前去充值',
-        searchLoading: false
+        searchLoading: false,
+        loading:false,
+        showkerReportInfo:{},
+        evaluateShowkerAlitmAccount:null,
       }
     },
     created() {
@@ -554,6 +609,41 @@
       }
     },
     methods: {
+      getShowkerReportInfo(id,alitmAccount){
+        let self = this;
+        self.evaluateShowker = true;
+        self.evaluateShowkerAlitmAccount = alitmAccount;
+        api.showkerTaskReport({id: id}).then(res => {
+          if (res.status) {
+            self.showkerReportInfo = res.data
+          } else {
+            self.$Message.error(res.msg);
+          }
+        });
+      },
+      evaluateShowkerFun(){
+        let self = this;
+        self.loading = true;
+        api.evaluateFormSellerToShowker({
+          showkerId: self.showkerReportInfo.showkerId,
+          showkerAlitmAccount: self.evaluateShowkerAlitmAccount,
+          taskId: self.showkerReportInfo.task.id,
+          taskNum: self.showkerReportInfo.task.number,
+          buyerQuality: self.buyerShowQuality,
+          orderTone: self.fillOrderCooperate,
+          trialReportQuality: self.wwQuality,
+          showkerTaskId: self.showkerReportInfo.showkerTaskId
+        }).then( res => {
+          if (res.status){
+            self.evaluateShowker = false;
+            self.$Message.success('评价成功！');
+            self.loading = false;
+            self.taskApplyList();
+          }else {
+            self.$Message.error(res.msg)
+          }
+        })
+      },
       openNewTrialReportFunc(id){
         window.open('/trial-report?q='+ id);
       },
@@ -765,3 +855,22 @@
     },
   }
 </script>
+<style lang="scss" scoped>
+  .evaluate-showker-pop{
+    .evaluate-showker-pop-box{
+      border: 1px solid #eee;
+      background-color: #F8F8F8;
+    }
+    .title{
+      display: inline-block;
+      width: 120px;
+      text-align: right;
+    }
+    .img {
+      transform: translateY(-1px);
+    }
+    .btn{
+      width: 200px;
+    }
+  }
+</style>

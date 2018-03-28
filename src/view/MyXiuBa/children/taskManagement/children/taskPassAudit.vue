@@ -136,7 +136,7 @@
                 <p class="del-edit">
                   <span v-if="item.status === 'order_num_waiting_audit'" @click="openCheckOrder(item.id, item.needBrowseCollectAddCart, item.itemIssue)">审核订单信息</span>
                   <span v-if="item.status === 'trial_report_waiting_confirm'" @click="goProbationReport(item.id)">审核买家秀</span>
-                  <span v-if="item.status === 'trial_finished' && !item.ifEvaluated" @click="evaluateShowker = true">评价拿手</span>
+                  <span v-if="item.status === 'trial_finished' && !item.ifEvaluated" @click="getShowkerReportInfo(item.id,item.alitmAccount)">评价拿手</span>
                   <span v-if="item.status !== 'order_num_waiting_audit' && item.status !== 'trial_report_waiting_confirm' && !(item.status === 'trial_finished' && !item.ifEvaluated)">------</span>
                 </p>
               </td>
@@ -239,7 +239,7 @@
       <img :src="checkScreenshotSrc + '!orgi75'" style="width: 100%">
     </modal>
     <!--评价秀客弹窗-->
-    <Modal v-model="evaluateShowker" class="evaluate-showker-pop" @on-visible-change="changeEvaluatePop">
+    <Modal v-model="evaluateShowker" class="evaluate-showker-pop">
       <div class="pl-20 pr-20 mt-30">
         <div class="cl000">请对拿手<span class="main-color">秦贺</span>进行评价<span class="cl666">(你的评价将决定该拿手的整体评分)：</span></div>
         <div class="pt-10 pb-10 evaluate-showker-pop-box mt-20">
@@ -283,7 +283,7 @@
         </div>
       </div>
       <div slot="footer" class="text-ct pb-20">
-        <iButton class="pl-20 pr-20 btn" type="error" size="large" :loading="loading">确定提交</iButton>
+        <iButton class="pl-20 pr-20 btn" type="error" size="large" :loading="loading" @click="evaluateShowkerFun">确定提交</iButton>
       </div>
     </Modal>
   </div>
@@ -327,7 +327,7 @@
     },
     data() {
       return {
-        evaluateShowker:true,
+        evaluateShowker:false,
         wwQuality:'hao_ping',
         fillOrderCooperate:'hao_ping',
         buyerShowQuality:'hao_ping',
@@ -356,6 +356,9 @@
         orderInfo: {},
         orderReviewStatus: 'passAudit',
         orderNoPassReason: null,
+        loading:false,
+        showkerReportInfo:{},
+        evaluateShowkerAlitmAccount:null,
       }
     },
     mounted() {
@@ -391,11 +394,24 @@
       }
     },
     methods: {
-      /*evaluateShowkerFun(){
+      getShowkerReportInfo(id,alitmAccount){
         let self = this;
+        self.evaluateShowker = true;
+        self.evaluateShowkerAlitmAccount = alitmAccount;
+        api.showkerTaskReport({id: id}).then(res => {
+          if (res.status) {
+            self.showkerReportInfo = res.data
+          } else {
+            self.$Message.error(res.msg);
+          }
+        });
+      },
+      evaluateShowkerFun(){
+        let self = this;
+        self.loading = true;
         api.evaluateFormSellerToShowker({
           showkerId: self.showkerReportInfo.showkerId,
-          showkerAlitmAccount: self.showkerTaskInfo.alitm.alitmAccount,
+          showkerAlitmAccount: self.evaluateShowkerAlitmAccount,
           taskId: self.showkerReportInfo.task.id,
           taskNum: self.showkerReportInfo.task.number,
           buyerQuality: self.buyerShowQuality,
@@ -405,12 +421,14 @@
         }).then( res => {
           if (res.status){
             self.evaluateShowker = false;
-            self.$Message.success('评价成功！')
+            self.$Message.success('评价成功！');
+            self.loading = false;
+            self.passesShowkerTask(self.showkerReportInfo.task.id,self.operateIndex)
           }else {
             self.$Message.error(res.msg)
           }
         })
-      },*/
+      },
       oneOf(value, validList) {
         for (let i = 0; i < validList.length; i++) {
           if (value === validList[i]) {
