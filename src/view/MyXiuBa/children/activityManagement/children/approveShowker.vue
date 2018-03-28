@@ -148,7 +148,15 @@
                   <p v-if="item.tqz">淘气值：{{item.tqz}}</p>
                 </td>
                 <td>
-                  <p>{{item.status === 'order_num_error'?item.auditDescription:getTaskStatus(item.status)}}</p>
+                  <p v-if="item.status === 'order_num_error'">
+                    <Tooltip
+                      :content="item.auditDescription"
+                      placement="top" class="cursor-p">
+                      <Icon color="#f9284f" type="information-circled"></Icon>
+                      <span class="main-color">{{getTaskStatus(item.status)}}</span>
+                    </Tooltip>
+                  </p>
+                  <p v-if="item.status !== 'order_num_error'">{{getTaskStatus(item.status)}}</p>
                   <p v-if="item.status !== 'trial_end' && item.status !== 'trial_finished'">
                     <time-down color='#ff4040' :fontWeight=600 :endTime="item.currentGenerationEndTime"></time-down>
                   </p>
@@ -332,6 +340,7 @@
   import Icon from 'iview/src/components/icon'
   import Button from 'iview/src/components/button'
   import Input from 'iview/src/components/input'
+  import Tooltip from 'iview/src/components/tooltip'
   import {Select, Option, OptionGroup} from 'iview/src/components/select'
   import Radio from 'iview/src/components/radio'
   import PayModel from '@/components/PayModel'
@@ -355,6 +364,7 @@
       RadioGroup: Radio.Group,
       TimeDown: TimeDown,
       PayModel: PayModel,
+      Tooltip:Tooltip,
     },
     data() {
       return {
