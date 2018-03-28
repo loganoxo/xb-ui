@@ -148,7 +148,7 @@
                   <p v-if="item.tqz">淘气值：{{item.tqz}}</p>
                 </td>
                 <td>
-                  <p v-if="item.status === 'order_num_error'">
+                  <p v-if="item.status === 'order_num_error' || item.status === 'trial_report_unqualified'">
                     <Tooltip
                       :content="item.auditDescription"
                       placement="top" class="cursor-p">
@@ -156,7 +156,7 @@
                       <span class="main-color">{{getTaskStatus(item.status)}}</span>
                     </Tooltip>
                   </p>
-                  <p v-if="item.status !== 'order_num_error'">{{getTaskStatus(item.status)}}</p>
+                  <p v-if="item.status !== 'order_num_error' && item.status !== 'trial_report_unqualified'">{{getTaskStatus(item.status)}}</p>
                   <p v-if="item.status !== 'trial_end' && item.status !== 'trial_finished'">
                     <time-down color='#ff4040' :fontWeight=600 :endTime="item.currentGenerationEndTime"></time-down>
                   </p>
