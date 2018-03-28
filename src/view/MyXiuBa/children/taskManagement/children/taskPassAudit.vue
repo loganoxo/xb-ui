@@ -109,7 +109,15 @@
                 <p v-cloak>成功次数：{{item.applySuccessCount || 0}}</p>
               </td>
               <td>
-                <p v-if="item.status !== 'trial_end'">{{getTaskStatus(item.status)}}</p>
+                <p v-if="item.status === 'order_num_error'|| item.status === 'trial_report_unqualified'">
+                  <Tooltip
+                    :content="item.auditDescription"
+                    placement="top" class="cursor-p">
+                    <Icon color="#f9284f" type="information-circled"></Icon>
+                    <span class="main-color">{{getTaskStatus(item.status)}}</span>
+                  </Tooltip>
+                </p>
+                <p v-if="item.status !== 'order_num_error' && item.status !== 'trial_end' && item.status !== 'trial_report_unqualified'">{{getTaskStatus(item.status)}}</p>
                 <p v-if="item.status !== 'trial_end' && item.status !== 'trial_finished'">
                   <time-down color='#ff4040' :fontWeight=600 :endTime="item.currentGenerationEndTime"></time-down>
                 </p>

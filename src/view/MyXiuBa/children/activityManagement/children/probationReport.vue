@@ -313,6 +313,7 @@
         api.showkerTaskReport({id: id}).then(res => {
           if (res.status) {
             _this.showkerReportInfo = res.data;
+            _this.selectEvaluate = res.data.other.itemStars.toString();
             _this.trialReportImages = _this.showkerReportInfo.trialReportImages ? JSON.parse(_this.showkerReportInfo.trialReportImages) : [];
             for(let i =0, len = _this.trialReportImages.length; i < len; i++){
               _this.trialReportImages[i] =  _this.trialReportImages[i].indexOf('aliyuncs') > 0 ? _this.trialReportImages[i] : aliCallbackImgUrl + _this.trialReportImages[i];
