@@ -260,7 +260,7 @@
                            class="border50">
                     </router-link>
 
-                    <p>{{detailsShowker.showkerPhone}}</p>
+                    <p>{{detailsShowker.other.nickname}}</p>
                   </div>
                   <div>
                     <p>发表于{{detailsShowker.createTime | dateFormat('YYYY-MM-DD hh:mm:ss')}}</p>
@@ -300,7 +300,7 @@
                 v-for="detailsSuccessShowker in detailsSuccessShowkerList">
                 <img :src="getUserHead(detailsSuccessShowker.showkerPortraitPic)" width="68" height="68" alt=""
                      class="user-head">
-                <p class="cl000">{{detailsSuccessShowker.showkerPhone}}</p>
+                <p class="cl000">{{detailsSuccessShowker.showkerNickName}}</p>
                 <img :src="detailsSuccessShowker.creditLevel" alt="">
                 <p class="cl000"><span>淘气值：{{detailsSuccessShowker.tqz}}</span></p>
               </router-link>
