@@ -225,7 +225,7 @@
   .begin-test{
     height: 730px;
     margin: auto;
-    background: #ffb850 url("/static/img/seller-test/begin-test.jpg") center no-repeat;
+    background: #ffb850 url("/static/img/seller-test/begin-test_01.jpg") center no-repeat;
     .begin-text{
       margin-top: 290px;
     }

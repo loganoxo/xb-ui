@@ -99,7 +99,7 @@
               <th width="20%">操作</th>
             </tr>
             </thead>
-            <tbody v-for="item in item.passTask" :key="item.id">
+            <tbody v-for="item in item.passTask" :key="item.applyId">
             <tr>
               <td>
                 <p>{{item.alitmAccount}}</p>
@@ -142,6 +142,12 @@
               </td>
             </tr>
             </tbody>
+            <tr>
+              <td colspan="5">
+                <Page :total="taskTotalElements" :page-size="taskPageSize" :current="taskPageIndex"
+                      @on-change="TaskPageChange"></Page>
+              </td>
+            </tr>
             <tbody v-if=" taskPassAuditList[index].passTask && taskPassAuditList[index].passTask.length === 0">
             <tr>
               <td colspan="4" width="100%">暂无数据</td>
@@ -359,7 +365,10 @@
         loading:false,
         showkerReportInfo:{},
         evaluateShowkerAlitmAccount:null,
-        dataStatusTip:''
+        dataStatusTip:'',
+        taskTotalElements: 0,
+        taskPageIndex: 1,
+        taskPageSize: 5,
       }
     },
     mounted() {
@@ -512,7 +521,7 @@
           }
         })
       },
-      passesShowkerTask(taskId, index) {
+      passesShowkerTask(taskId, index, pageIndex) {
         let _this = this;
         _this.operateTaskId = taskId;
         _this.operateIndex = index;
@@ -521,12 +530,15 @@
           alitmAccount: _this.alitmAccount,
           orderNum: _this.orderNum,
           showkerTaskStatusList: JSON.stringify(_this.showkerTaskStatusList),
+          pageIndex: pageIndex ? pageIndex : 1,
+          pageSize: _this.taskPageSize,
         }).then(res => {
           if (res.status) {
             _this.$set(_this.taskPassAuditList[index], 'passTask', []);
             res.data.content.forEach(item => {
               _this.taskPassAuditList[index].passTask.push(item);
             });
+            _this.taskTotalElements = res.data.totalElements;
           } else {
             _this.$Message.error(res.msg);
           }
@@ -602,11 +614,12 @@
         })
       },
       collapseToggle(id, index) {
+        this.taskPageIndex = 1;
         if (this.selectId === id) {
           this.selectId = null;
         } else {
           this.selectId = id;
-          this.passesShowkerTask(id, index);
+          this.passesShowkerTask(id, index, self.taskPageIndex);
         }
       },
       handleViewIssue(value, key) {
@@ -634,7 +647,12 @@
             break;
 
         }
-      }
+      },
+      TaskPageChange(data) {
+        let self = this;
+        self.taskPageIndex = data;
+        self.passesShowkerTask(self.operateTaskId, self.operateIndex, self.taskPageIndex);
+      },
     }
   }
 </script>

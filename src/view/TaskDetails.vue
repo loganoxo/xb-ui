@@ -66,6 +66,7 @@
                     v-if="!commodityData.task.discountPrice && !commodityData.task.discountRate">
                 ￥0
               </span>元
+              <span class="cl999">（需垫付约{{(commodityData.task.perMarginNeed/100).toFixed(2)}}）</span>
               &nbsp;&nbsp;&nbsp;&nbsp;
               活动份数：<span class="fs-18"> {{commodityData.task.taskCount}} </span>份
             </p>

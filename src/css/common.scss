@@ -143,6 +143,69 @@ input[type="number"] {
   left: 0 !important;
 }
 
+
+//高度开始
+
+.ht80 {
+  height: 80px;
+}
+
+.ht58 {
+  height: 58px;
+}
+
+.ht50 {
+  height: 50px;
+}
+
+.ht48 {
+  height: 48px;
+}
+
+.lht48 {
+  line-height: 48px;
+}
+
+
+.ht40 {
+  height: 40px;
+}
+
+.ht30 {
+  height: 30px;
+}
+
+.ht28 {
+  height: 28px;
+}
+
+.ht44 {
+  height: 44px !important;
+}
+
+.lht44 {
+  line-height: 44px !important;
+}
+.lht40{
+  line-height: 40px;
+}
+
+.lht30 {
+  line-height: 30px;
+}
+
+.lht20 {
+  line-height: 20px;
+}
+
+.lht28 {
+  line-height: 28px;
+}
+
+.lht20 {
+  line-height: 20px;
+}
+
 .mg-at {
   margin: auto;
 }
@@ -326,7 +389,9 @@ input[type="number"] {
 .pd-tb-20 {
   padding: 20px 0;
 }
-
+.pl-5 {
+  padding-left: 5px;
+}
 .pl-10 {
   padding-left: 10px;
 }
@@ -350,7 +415,12 @@ input[type="number"] {
 .pl-94 {
   padding-left: 94px;
 }
-
+.pr-5{
+  padding-right: 5px;
+}
+.pr-10{
+  padding-right: 10px;
+}
 .pr-20 {
   padding-right: 20px;
 }
@@ -366,7 +436,9 @@ input[type="number"] {
 .pb-10 {
   padding-bottom: 10px;
 }
-
+.pb-5{
+  padding-bottom: 5px;
+}
 .pt-20 {
   padding-top: 20px;
 }
@@ -421,7 +493,9 @@ input[type="number"] {
 .bgfff {
   background-color: #fff;
 }
-
+.bgddd{
+  background-color: #ddd;
+}
 .bg-main-color{
   background-color: #f9284f;
 }
