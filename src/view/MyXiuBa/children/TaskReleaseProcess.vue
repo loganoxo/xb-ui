@@ -32,27 +32,6 @@
           <p>不可跨类目，否则会影响人群标签</p>
           <span class="is-select-gou" v-show="taskRelease.activityCategory === 'present_get'"></span>
         </div>
-       <!-- <div ref="showInsideText3" class="left activity-type-box mr-10" :class="{isSelect:taskRelease.activityCategory === 'pinkage_for_10'}"
-             @click="changeSelectActivity('pinkage_for_10')">
-          <p>10元包邮</p>
-          <p>拿手承担10元邮费</p>
-          <p>高人气活动类型</p>
-          <span class="is-select-gou" v-show="taskRelease.activityCategory === 'pinkage_for_10'"></span>
-        </div>
-        <div ref="showInsideText4" class="left activity-type-box mr-10" :class="{isSelect:taskRelease.activityCategory === 'price_low'}"
-             @click="changeSelectActivity('price_low')">
-          <p>白菜价</p>
-          <p>帮商家测款定价</p>
-          <p>真实卖货</p>
-          <span class="is-select-gou" v-show="taskRelease.activityCategory === 'price_low'"></span>
-        </div>
-        <div class="left activity-type-box mr-10" :class="{isSelect:taskRelease.activityCategory === 'goods_clearance'}"
-             @click="changeSelectActivity('goods_clearance')">
-          <p>清仓断码</p>
-          <p>帮商家解决最为头疼的</p>
-          <p>库存问题</p>
-          <span class="is-select-gou" v-show="taskRelease.activityCategory === 'goods_clearance'"></span>
-        </div>-->
       </div>
       <div class="pop-tip">
         <div v-show="taskRelease.activityCategory === 'free_get'">
@@ -205,100 +184,16 @@
                <span class="required">宝贝数量：</span>
                <iInput v-model.number="taskRelease.taskCount" placeholder="请输入宝贝数量" style="width: 120px" @on-blur="addItemReviewList"></iInput>
                <span>份</span>
-               <!--<span class="sizeColor3 ml-5">（平台会按照1/5的比例进行计算，部分中奖名额将会由系统进行推荐）</span>-->
              </p>
-            <!--  <p class="mt-10 ml-70" v-show="systemApprovalTaskNumber > 0">
-                <Icon color="#f9284f" type="information-circled"></Icon>
-                <span class="sizeColor3">商家审批份数：{{taskRelease.taskCount - systemApprovalTaskNumber || 0}} 份</span>
-                <span class="sizeColor3 ml-10">平台审批份数：{{systemApprovalTaskNumber || 0}} 份</span>
-              </p>-->
             </div>
             <div class="baby-price ml-45 mt-20">
               <span class="required">宝贝单价：</span>
-              <!--<iInput v-model.number="taskRelease.itemPrice" @on-change="clearDiscount" placeholder="请输入宝贝单价" style="width: 120px"></iInput>-->
               <iInput v-model.number="taskRelease.itemPrice" placeholder="请输入宝贝单价" style="width: 120px"></iInput>
               <span>元</span>
               <span v-show="taskRelease.itemPrice && taskRelease.itemPrice < 1" class="main-color ml-15"><Icon color="#f9284f" type="information-circled"></Icon>&nbsp;每份试用品的价值必须在1元以上</span>
               <span v-show="taskRelease.itemPrice && taskRelease.itemPrice < 10 && taskRelease.activityCategory === 'pinkage_for_10'" class="main-color ml-20"><Icon color="#f9284f" type="information-circled"></Icon>&nbsp;10元包邮活动，宝贝最低价格不能低于10元</span>
               <span class="sizeColor2 ml-5" v-show="!taskRelease.itemPrice || taskRelease.itemPrice > 1">（活动活动期间，商家不允许修改下单页商品信息，经核查属实，本平台有权将活动担保金返还已获得资格的拿手，商家账号按相应规则处罚）</span>
             </div>
-<!--            <div class="discount ml-40 mt-20"
-                 v-show="taskRelease.activityCategory !== 'free_get' && taskRelease.activityCategory !== 'present_get'">
-              <div class="clear" v-show="taskRelease.activityCategory !== 'pinkage_for_10'">
-                <span class="required mt-8 left">折扣/活动：</span>
-                <div class="left">
-                  <div class="clear" v-show="taskRelease.activityCategory !== 'goods_clearance'">
-                    <div class="discount-btn left ml-10 discount-9-9" v-show="!discountDisabled.discount_9_9.disabled"
-                         :class="{isSelect:taskRelease.discountType === 'discount_9_9'}"
-                         @click="changeSelectDiscount('discount_9_9')">
-                      <span> 9.9试用</span>
-                      <span>（50元以上宝贝可选）</span>
-                      <span class="is-select-gou" v-show="taskRelease.discountType === 'discount_9_9'"></span>
-                    </div>
-                    <div class="discount-btn left ml-10 discount-9-9 disabled"
-                         v-show="discountDisabled.discount_9_9.disabled">
-                      <span> 9.9试用</span>
-                      <span>（50元以上宝贝可选）</span>
-                    </div>
-                    <div class="discount-btn left ml-10 discount-49-9" v-show="!discountDisabled.discount_49_9.disabled"
-                         :class="{isSelect:taskRelease.discountType === 'discount_49_9'}"
-                         @click="changeSelectDiscount('discount_49_9')">
-                      <span> 49.9试用</span>
-                      <span>（150元以上宝贝可选）</span>
-                      <span class="is-select-gou" v-show="taskRelease.discountType === 'discount_49_9'"></span>
-                    </div>
-                    <div class="discount-btn left ml-10 discount-49-9 disabled"
-                         v-show="discountDisabled.discount_49_9.disabled">
-                      <span> 49.9试用</span>
-                      <span>（150元以上宝贝可选）</span>
-                    </div>
-                    <div class="discount-btn left ml-10 discount-999" v-show="!discountDisabled.discount_99_9.disabled"
-                         :class="{isSelect:taskRelease.discountType === 'discount_99_9'}"
-                         @click="changeSelectDiscount('discount_99_9')">
-                      <span> 99.9试用</span>
-                      <span>（250元以上宝贝可选）</span>
-                      <span class="is-select-gou" v-show="taskRelease.discountType === 'discount_99_9'"></span>
-                    </div>
-                    <div class="discount-btn left ml-10 discount-999 disabled"
-                         v-show="discountDisabled.discount_99_9.disabled">
-                      <span> 99.9试用</span>
-                      <span>（250元以上宝贝可选）</span>
-                    </div>
-                  </div>
-                  <div class="clear mt-10">
-                    <div class="discount-btn left ml-10 discount-9-9"
-                         :class="{isSelect:taskRelease.discountType === 'discount_r_10'}"
-                         @click="changeSelectDiscount('discount_r_10')">
-                      <span> 1折试用</span>
-                      <span>（所有宝贝可选）</span>
-                      <span class="is-select-gou" v-show="taskRelease.discountType === 'discount_r_10'"></span>
-                    </div>
-                    <div class="discount-btn left ml-10 discount-49-9"
-                         :class="{isSelect:taskRelease.discountType === 'discount_r_30'}"
-                         @click="changeSelectDiscount('discount_r_30')">
-                      <span> 3折试用</span>
-                      <span>（所有宝贝可选）</span>
-                      <span class="is-select-gou" v-show="taskRelease.discountType === 'discount_r_30'"></span>
-                    </div>
-         &lt;!&ndash;           <div class="discount-btn left ml-10 discount-999"
-                         :class="{isSelect:taskRelease.discountType === 'discount_r_50'}"
-                         @click="changeSelectDiscount('discount_r_50')">
-                      <span> 5折试用</span>
-                      <span>（所有宝贝可选）</span>
-                      <span class="is-select-gou" v-show="taskRelease.discountType === 'discount_r_50'"></span>
-                    </div>&ndash;&gt;
-                  </div>
-                </div>
-              </div>
-              <p class="sizeColor2 pl-60 mt-20"
-                 v-show="taskRelease.itemPrice && taskRelease.discountType && taskRelease.activityCategory !== 'pinkage_for_10'">
-                拿手以<span class="main-color">{{taskRelease.itemPrice}}</span>元价格在淘宝上购买，活动成功后返款<span
-                class="main-color">{{(newItemPrice / 100).toFixed(2)}}</span>元给拿手！</p>
-              <p class="sizeColor2 pl-60"
-                 v-show="taskRelease.itemPrice && taskRelease.itemPrice >= 10 && taskRelease.activityCategory === 'pinkage_for_10'">
-                拿手以<span class="main-color">{{taskRelease.itemPrice}}</span>元价格在淘宝上购买，活动成功后返款<span
-                class="main-color">{{taskRelease.itemPrice > 10 ? taskRelease.itemPrice - 10 : 0}}</span>元给拿手！</p>
-            </div>-->
             <div class="baby-pinkage ml-45 mt-20">
               <span class="required left">是否包邮：</span>
               <Radio-group v-model="taskRelease.pinkage">
@@ -1623,6 +1518,7 @@
     methods: {
       changeSelectActivity(type) {
         let _this = this;
+        _this.initTaskReleaseFunc();
         _this.taskRelease.activityCategory = type;
         if (type === 'pinkage_for_10') {
           _this.taskRelease.discountType = 'discount_10';
@@ -1631,6 +1527,37 @@
             _this.taskRelease.discountType = 'discount_0';
           }
         }
+      },
+      initTaskReleaseFunc(){
+        let self = this;
+        self.taskRelease =  {
+            taskType: 'pc_search',
+            taskDaysDuration: null,
+            onlyShowForQualification: false,
+            refuseOldShowker: false,
+            needBrowseCollectAddCart: false,
+            itemIssue: [],
+            taskName: null,
+            itemType: null,
+            taskMainImage: null,
+            itemUrl: null,
+            storeName: null,
+            taskCount: null,
+            itemPrice: null,
+            presentPrice: null,
+            discountType: 'discount_0',
+            activityCategory: 'free_get',
+            pinkage: "true",
+            paymentMethod: "all",
+            remark: null,
+            itemDescription: '',
+            taskId: null,
+            taskDetail: [],
+            itemReviewRequired: 'review_by_showker_self',
+            itemReviewSummary: null,
+            itemReviewAssignString: [],
+        };
+
       },
     /*  clearDiscount() {
         let _this = this;
