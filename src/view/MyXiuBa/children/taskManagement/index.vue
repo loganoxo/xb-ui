@@ -129,6 +129,7 @@
       width: 54px;
       float: left;
       margin-left: 20px;
+      position: relative;
       img{
         width: 100%;
         height: 100%;

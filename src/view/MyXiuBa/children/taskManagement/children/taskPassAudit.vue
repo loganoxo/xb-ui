@@ -49,13 +49,13 @@
       <div class="collapse-header clear" @click="collapseToggle(item.id,index)" :class="{noBorderRadius:selectId}">
         <div class="manage-img inline-block">
           <img :src="item.taskMainImage + '!thum54'" alt="">
+          <span v-if="item.zone === 'certainly_hit'" class="certainly-hit-tip">推荐必中</span>
         </div>
         <div class="manage-text left ml-5 inline-block">
           <p>
             <span>
               活动编号：{{item.number}}
             </span>
-            <span v-if="item.zone === 'certainly_hit'" class="certainly-hit-tip">推荐必中</span>
             <span class="ml-5">（{{item.taskStatusDesc}} / {{item.settlementStatusDesc}}）</span>
           </p>
           <p>活动名称：{{item.taskName}}</p>
@@ -117,7 +117,9 @@
                     <span class="main-color">{{getTaskStatus(item.status)}}</span>
                   </Tooltip>
                 </p>
-                <p v-if="item.status !== 'order_num_error' && item.status !== 'trial_end' && item.status !== 'trial_report_unqualified'">{{getTaskStatus(item.status)}}</p>
+                <p
+                  v-if="item.status !== 'order_num_error' && item.status !== 'trial_end' && item.status !== 'trial_report_unqualified'">
+                  {{getTaskStatus(item.status)}}</p>
                 <p v-if="item.status !== 'trial_end' && item.status !== 'trial_finished'">
                   <time-down color='#ff4040' :fontWeight=600 :endTime="item.currentGenerationEndTime"></time-down>
                 </p>
@@ -134,10 +136,14 @@
               <td>{{(item.orderPrice).toFixed(2)}}</td>
               <td>
                 <p class="del-edit">
-                  <span v-if="item.status === 'order_num_waiting_audit'" @click="openCheckOrder(item.id, item.needBrowseCollectAddCart, item.itemIssue)">审核订单信息</span>
-                  <span v-if="item.status === 'trial_report_waiting_confirm'" @click="goProbationReport(item.id)">审核买家秀</span>
-                  <span v-if="item.status === 'trial_finished' && !item.ifEvaluated" @click="getShowkerReportInfo(item.id,item.alitmAccount)">评价拿手</span>
-                  <span v-if="item.status !== 'order_num_waiting_audit' && item.status !== 'trial_report_waiting_confirm' && !(item.status === 'trial_finished' && !item.ifEvaluated)">------</span>
+                  <span v-if="item.status === 'order_num_waiting_audit'"
+                        @click="openCheckOrder(item.id, item.needBrowseCollectAddCart, item.itemIssue)">审核订单信息</span>
+                  <span v-if="item.status === 'trial_report_waiting_confirm'"
+                        @click="goProbationReport(item.id)">审核买家秀</span>
+                  <span v-if="item.status === 'trial_finished' && !item.ifEvaluated"
+                        @click="getShowkerReportInfo(item.id,item.alitmAccount)">评价拿手</span>
+                  <span
+                    v-if="item.status !== 'order_num_waiting_audit' && item.status !== 'trial_report_waiting_confirm' && !(item.status === 'trial_finished' && !item.ifEvaluated)">------</span>
                 </p>
               </td>
             </tr>
@@ -179,7 +185,8 @@
           <!--<div class="left parting-line" v-if="needIssue"></div>-->
           <div class="left ml-10" v-if="needIssue">
             <div class="mt-5 cl00 fs-12 f-b"><!--<span>{{needIssue ? 'B.' : 'A.'}}</span>-->查看拿手提交的浏览答题截图</div>
-            <div class="order-info-screenshot mt-5" v-for="(item, index) in orderInfo.issueAnswerScreenshot" :key="index" v-if="item">
+            <div class="order-info-screenshot mt-5" v-for="(item, index) in orderInfo.issueAnswerScreenshot"
+                 :key="index" v-if="item">
               <img :src="item.screenshotSrc + '!thum54'" alt="浏览答题截图">
               <div class="order-info-screenshot-cover">
                 <Icon type="ios-eye-outline" @click.native="handleViewIssue(item.screenshotSrc,item.issueText)"></Icon>
@@ -187,7 +194,8 @@
             </div>
           </div>
         </div>
-        <div class="f-b fs-14 main-color mt-10"><span v-if="needBrowseCollectAddCart || needIssue">2.</span>请仔细核对订单号与交易金额</div>
+        <div class="f-b fs-14 main-color mt-10"><span v-if="needBrowseCollectAddCart || needIssue">2.</span>请仔细核对订单号与交易金额
+        </div>
         <div class="order-info-con text-lf mt-10">
           <p>
             <span class="f-b">订单号：</span>
@@ -197,8 +205,14 @@
             <span><span class="f-b">拿手实付金额：</span><span class="main-color">{{orderInfo.orderPrice || 0}}</span>元<span>（当前每单活动担保金<span>{{orderInfo.perMarginNeed}}</span>元）</span></span>
           </p>
         </div>
-        <p class="cl-red mt-10 text-ct" v-if="orderInfo.orderPrice < orderInfo.perMarginNeed"><Icon type="information-circled" color="red" size="14" class="mr-5"></Icon>注意：拿手实付金额与活动担保金金额不一致，请仔细审核！</p>
-        <p class="cl-red mt-10 text-ct" v-else><Icon type="information-circled" color="red" size="14" class="mr-5"></Icon>注意：为了防止不良拿手冒领担保金，请您仔细审核交易订单信息，确认不误再作提交！</p>
+        <p class="cl-red mt-10 text-ct" v-if="orderInfo.orderPrice < orderInfo.perMarginNeed">
+          <Icon type="information-circled" color="red" size="14" class="mr-5"></Icon>
+          注意：拿手实付金额与活动担保金金额不一致，请仔细审核！
+        </p>
+        <p class="cl-red mt-10 text-ct" v-else>
+          <Icon type="information-circled" color="red" size="14" class="mr-5"></Icon>
+          注意：为了防止不良拿手冒领担保金，请您仔细审核交易订单信息，确认不误再作提交！
+        </p>
         <div class="mt-22 text-ct">
           <Radio-group v-model="orderReviewStatus">
             <Radio class="mr-30" label="passAudit">
@@ -219,7 +233,9 @@
           </div>
         </div>
         <div class="true-btn" v-show="orderReviewStatus === 'failAudit'" @click="orderNumberAudit">确认提交</div>
-        <div class="true-btn" v-show="orderReviewStatus === 'passAudit' && orderInfo.perMarginNeed >= getOderPrice" @click="orderNumberAudit">确认提交</div>
+        <div class="true-btn" v-show="orderReviewStatus === 'passAudit' && orderInfo.perMarginNeed >= getOderPrice"
+             @click="orderNumberAudit">确认提交
+        </div>
         <PayModel v-show="orderReviewStatus === 'passAudit' && orderInfo.perMarginNeed < getOderPrice"
                   :orderMoney="needReplenishMoney"
                   @confirmPayment="confirmPayment" :payButtonText="payButtonText"
@@ -247,7 +263,8 @@
     <!--评价秀客弹窗-->
     <Modal v-model="evaluateShowker" class="evaluate-showker-pop">
       <div class="pl-20 pr-20 mt-30">
-        <div class="cl000">请对拿手<span class="main-color">{{evaluateShowkerAlitmAccount}}</span>进行评价<span class="cl666">(你的评价将决定该拿手的整体评分)：</span></div>
+        <div class="cl000">请对拿手<span class="main-color">{{evaluateShowkerAlitmAccount}}</span>进行评价<span class="cl666">(你的评价将决定该拿手的整体评分)：</span>
+        </div>
         <div class="pt-10 pb-10 evaluate-showker-pop-box mt-20">
           <p class="title">
             <Tooltip content="你感该拿手的淘号质量如何？" placement="top">
@@ -256,9 +273,12 @@
             <span class="cl000">买号质量：</span>
           </p>
           <RadioGroup v-model="wwQuality">
-            <Radio label="hao_ping"><img class="vtc-mid img" src="~assets/img/common/haoping.png" alt=""><span class="ml-5">好评</span></Radio>
-            <Radio label="zhong_ping"><img class="vtc-mid img" src="~assets/img/common/zhongping.png" alt=""><span class="ml-5">中评</span></Radio>
-            <Radio label="cha_ping"><img class="vtc-mid img" src="~assets/img/common/chaping.png" alt=""><span class="ml-5">差评</span></Radio>
+            <Radio label="hao_ping"><img class="vtc-mid img" src="~assets/img/common/haoping.png" alt=""><span
+              class="ml-5">好评</span></Radio>
+            <Radio label="zhong_ping"><img class="vtc-mid img" src="~assets/img/common/zhongping.png" alt=""><span
+              class="ml-5">中评</span></Radio>
+            <Radio label="cha_ping"><img class="vtc-mid img" src="~assets/img/common/chaping.png" alt=""><span
+              class="ml-5">差评</span></Radio>
           </RadioGroup>
         </div>
         <div class="pt-10 pb-10 evaluate-showker-pop-box mt-10">
@@ -269,9 +289,12 @@
             <span class="cl000">下单配合度：</span>
           </p>
           <RadioGroup v-model="fillOrderCooperate">
-            <Radio label="hao_ping"><img class="vtc-mid img" src="~assets/img/common/haoping.png" alt=""><span class="ml-5">好评</span></Radio>
-            <Radio label="zhong_ping"><img class="vtc-mid img" src="~assets/img/common/zhongping.png" alt=""><span class="ml-5">中评</span></Radio>
-            <Radio label="cha_ping"><img class="vtc-mid img" src="~assets/img/common/chaping.png" alt=""><span class="ml-5">差评</span></Radio>
+            <Radio label="hao_ping"><img class="vtc-mid img" src="~assets/img/common/haoping.png" alt=""><span
+              class="ml-5">好评</span></Radio>
+            <Radio label="zhong_ping"><img class="vtc-mid img" src="~assets/img/common/zhongping.png" alt=""><span
+              class="ml-5">中评</span></Radio>
+            <Radio label="cha_ping"><img class="vtc-mid img" src="~assets/img/common/chaping.png" alt=""><span
+              class="ml-5">差评</span></Radio>
           </RadioGroup>
         </div>
         <div class="pt-10 pb-10 evaluate-showker-pop-box mt-10">
@@ -282,14 +305,18 @@
             <span class="cl000">买家秀质量：</span>
           </p>
           <RadioGroup v-model="buyerShowQuality">
-            <Radio label="hao_ping"><img class="vtc-mid img" src="~assets/img/common/haoping.png" alt=""><span class="ml-5">好评</span></Radio>
-            <Radio label="zhong_ping"><img class="vtc-mid img" src="~assets/img/common/zhongping.png" alt=""><span class="ml-5">中评</span></Radio>
-            <Radio label="cha_ping"><img class="vtc-mid img" src="~assets/img/common/chaping.png" alt=""><span class="ml-5">差评</span></Radio>
+            <Radio label="hao_ping"><img class="vtc-mid img" src="~assets/img/common/haoping.png" alt=""><span
+              class="ml-5">好评</span></Radio>
+            <Radio label="zhong_ping"><img class="vtc-mid img" src="~assets/img/common/zhongping.png" alt=""><span
+              class="ml-5">中评</span></Radio>
+            <Radio label="cha_ping"><img class="vtc-mid img" src="~assets/img/common/chaping.png" alt=""><span
+              class="ml-5">差评</span></Radio>
           </RadioGroup>
         </div>
       </div>
       <div slot="footer" class="text-ct pb-20">
-        <iButton class="pl-20 pr-20 btn" type="error" size="large" :loading="loading" @click="evaluateShowkerFun">确定提交</iButton>
+        <iButton class="pl-20 pr-20 btn" type="error" size="large" :loading="loading" @click="evaluateShowkerFun">确定提交
+        </iButton>
       </div>
     </Modal>
   </div>
@@ -333,10 +360,10 @@
     },
     data() {
       return {
-        evaluateShowker:false,
-        wwQuality:'hao_ping',
-        fillOrderCooperate:'hao_ping',
-        buyerShowQuality:'hao_ping',
+        evaluateShowker: false,
+        wwQuality: 'hao_ping',
+        fillOrderCooperate: 'hao_ping',
+        buyerShowQuality: 'hao_ping',
         isShowCheckScreenshotModel: false,
         checkScreenshotSrc: null,
         checkScreenshotModleTitle: null,
@@ -362,6 +389,10 @@
         orderInfo: {},
         orderReviewStatus: 'passAudit',
         orderNoPassReason: null,
+        loading: false,
+        showkerReportInfo: {},
+        evaluateShowkerAlitmAccount: null,
+        dataStatusTip: ''
         loading:false,
         showkerReportInfo:{},
         evaluateShowkerAlitmAccount:null,
@@ -404,7 +435,7 @@
       }
     },
     methods: {
-      getShowkerReportInfo(id,alitmAccount){
+      getShowkerReportInfo(id, alitmAccount) {
         let self = this;
         self.evaluateShowkerAlitmAccount = alitmAccount;
         self.evaluateShowker = true;
@@ -416,7 +447,7 @@
           }
         });
       },
-      evaluateShowkerFun(){
+      evaluateShowkerFun() {
         let self = this;
         self.loading = true;
         api.evaluateFormSellerToShowker({
@@ -428,13 +459,13 @@
           orderTone: self.fillOrderCooperate,
           trialReportQuality: self.wwQuality,
           showkerTaskId: self.showkerReportInfo.showkerTaskId
-        }).then( res => {
-          if (res.status){
+        }).then(res => {
+          if (res.status) {
             self.evaluateShowker = false;
             self.$Message.success('评价成功！');
             self.loading = false;
-            self.passesShowkerTask(self.showkerReportInfo.task.id,self.operateIndex)
-          }else {
+            self.passesShowkerTask(self.showkerReportInfo.task.id, self.operateIndex)
+          } else {
             self.$Message.error(res.msg)
           }
         })
@@ -515,7 +546,7 @@
               })
             });
             _this.searchLoading = false;
-            _this.dataStatusTip = _this.taskPassAuditList.length === 0? '暂无已通过数据':'';
+            _this.dataStatusTip = _this.taskPassAuditList.length === 0 ? '暂无已通过数据' : '';
           } else {
             _this.$Message.error(res.msg);
           }
@@ -566,7 +597,7 @@
           }
         })
       },
-      openCheckOrder(id, needBrowseCollectAddCart,itemIssue) {
+      openCheckOrder(id, needBrowseCollectAddCart, itemIssue) {
         let _this = this;
         // _this.needBrowseCollectAddCart = needBrowseCollectAddCart;
         _this.needBrowseCollectAddCart = false;
@@ -590,7 +621,7 @@
           _this.$Message.error("亲，请填写不通过的理由！");
           return;
         }
-        if(_this.orderReviewStatus === 'passAudit' && _this.orderNoPassReason) {
+        if (_this.orderReviewStatus === 'passAudit' && _this.orderNoPassReason) {
           _this.orderNoPassReason = null;
         }
         api.orderNumberAudit({
@@ -626,7 +657,7 @@
         let _this = this;
         _this.isShowCheckScreenshotModel = true;
         _this.checkScreenshotSrc = value;
-        _this.checkScreenshotModleTitle = '浏览答题截图：（'+ key + '）';
+        _this.checkScreenshotModleTitle = '浏览答题截图：（' + key + '）';
       },
       handleView(value, key) {
         let _this = this;
@@ -657,22 +688,25 @@
   }
 </script>
 <style lang="scss" scoped>
-  .certainly-hit-tip{
-    display: inline-block;
+  .certainly-hit-tip {
+    position: absolute;
     background-color: #f9284f;
     color: #fff;
-    padding: 0 5px;
-    line-height: 22px;
-    height: 21px;
-    border-radius: 5px;
-    margin-left: 10px;
+    line-height: 14px;
+    height: 14px;
+    width: 54px;
+    text-align: center;
+    left: 0;
+    bottom: -4px;
+    font-size: 12px !important;
   }
-  .evaluate-showker-pop{
-    .evaluate-showker-pop-box{
+
+  .evaluate-showker-pop {
+    .evaluate-showker-pop-box {
       border: 1px solid #eee;
       background-color: #F8F8F8;
     }
-    .title{
+    .title {
       display: inline-block;
       width: 120px;
       text-align: right;
@@ -680,7 +714,7 @@
     .img {
       transform: translateY(-1px);
     }
-    .btn{
+    .btn {
       width: 200px;
     }
   }
