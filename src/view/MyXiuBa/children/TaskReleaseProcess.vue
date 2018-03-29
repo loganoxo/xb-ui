@@ -154,13 +154,13 @@
             <div class="activity-info-title">填写活动宝贝信息</div>
             <div class="complimentary-tip mt-20 pl-40" v-show="taskRelease.activityCategory === 'present_get'">
               <p class="sizeColor3">赠品活动发布说明：</p>
-              <p class="sizeColor3 mt-6">1、活动标题、宝贝类型、宝贝主图、商品简介填写赠品相关信息；宝贝地址、掌柜旺旺、宝贝单价填写淘宝正品（即希望拿手拍下的SKU）相关信息；</p>
+              <p class="sizeColor3 mt-6">1、宝贝标题、宝贝类型、宝贝主图、商品简介填写赠品相关信息；宝贝地址、掌柜旺旺、宝贝单价填写淘宝正品（即希望拿手拍下的SKU）相关信息；</p>
               <p class="sizeColor3">2、在下单要求中明确说明希望拿手拍下的SKU（否则拿手可能会找不到宝贝）。</p>
               <p class="sizeColor3">3、为了不影响人群标签，赠品类型必须与正品同属一个类目，否则后台审核不给予通过。</p>
             </div>
             <div class="baby-title ml-45 mt-20">
-              <span class="required">活动标题：</span>
-              <iInput v-model="taskRelease.taskName" placeholder="请输入活动标题" style="width: 296px"></iInput>
+              <span class="required">宝贝标题：</span>
+              <iInput v-model="taskRelease.taskName" placeholder="请输入宝贝标题" style="width: 296px"></iInput>
               <span class="ml-20 sizeColor2"><Icon v-show="taskNameLength > 35" color="#f9284f" type="information-circled"></Icon>&nbsp;此处填宝贝名称，突出宝贝特点，勿填无关内容，最多支持35个字符，当前已输入  <span class="main-color">{{taskNameLength}}</span> / 35个字符。</span>
             </div>
             <div class="baby-title ml-45 mt-20">
@@ -1303,11 +1303,11 @@
           return;
         }
         if (!_this.taskRelease.taskName) {
-          _this.$Message.warning('亲，活动标题不能为空！');
+          _this.$Message.warning('亲，宝贝标题不能为空！');
           return;
         }
         if (_this.taskRelease.taskName.length > 35) {
-          _this.$Message.warning('亲，活动标题最多35个字符！');
+          _this.$Message.warning('亲，宝贝标题最多35个字符！');
           return;
         }
         if (!_this.taskRelease.itemType) {
