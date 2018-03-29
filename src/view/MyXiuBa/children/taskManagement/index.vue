@@ -162,7 +162,7 @@
       }
       p.task-pass{
         text-align: right;
-        width: 438px;
+        width: 400px;
       }
       p.task-pass.lineHeight{
         line-height: 21px;
