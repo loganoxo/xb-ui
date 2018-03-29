@@ -318,9 +318,9 @@
                 <p style="height: 10px;"></p>
                 <Radio  label="no_hua_and_credit_pay"><span>禁止使用花呗和信用卡付款</span></Radio>
                 <p style="height: 10px;"></p>
-                <Radio   label=""><span>禁止使用花呗付款</span></Radio>
+                <Radio   label="no_hua_pay"><span>禁止使用花呗付款</span></Radio>
                 <p style="height: 10px;"></p>
-                <Radio  label=""><span>禁止使用信用卡付款</span></Radio>
+                <Radio  label="no_credit_pay"><span>禁止使用信用卡付款</span></Radio>
               </Radio-group>
             </div>
             <div class="task-remark ml-45 mt-20 clear">
@@ -770,9 +770,9 @@
                       <p style="height: 10px;"></p>
                       <Radio  label="no_hua_and_credit_pay"><span>禁止使用花呗和信用卡付款</span></Radio>
                       <p style="height: 10px;"></p>
-                      <Radio   label=""><span>禁止使用花呗付款</span></Radio>
+                      <Radio   label="no_hua_pay"><span>禁止使用花呗付款</span></Radio>
                       <p style="height: 10px;"></p>
-                      <Radio  label=""><span>禁止使用信用卡付款</span></Radio>
+                      <Radio  label="no_credit_pay"><span>禁止使用信用卡付款</span></Radio>
                     </Radio-group>
                   </div>
                   <div class="task-remark ml-45 mt-20 clear">
