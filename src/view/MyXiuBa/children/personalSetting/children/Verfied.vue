@@ -12,7 +12,7 @@
               <Form-item label="身份证号"  class="ww-info-img" prop="idcard">
                 <iInput v-model="verifiedValidate.idcard"></iInput>
               </Form-item>
-              <Form-item label="手持身份证正面照" prop="frontagePic"  class="ww-info-img" >
+              <Form-item label="身份证正面照" prop="frontagePic"  class="ww-info-img" >
                 <Upload
                   ref="upload"
                   :show-upload-list="false"
@@ -31,7 +31,7 @@
                   </div>
                 </Upload>
               </Form-item>
-              <Form-item label="手持身份证反面照" prop="reverseSidePic" class="ww-info-img">
+              <Form-item label="身份证反面照" prop="reverseSidePic" class="ww-info-img">
                 <Upload
                   ref="upload2"
                   name="reversePicUrl"
@@ -51,15 +51,11 @@
                 </Upload>
               </Form-item>
               <p class="ver-tip">
-                1.需身份证本人手持证件，照片需免冠，建议未化妆
+                1.身份证上的信息需无遮挡，且清晰可见
                 <br>
-                2.照片需五官清晰可见
+                2.照片请勿进行任何软件处理
                 <br>
-                3.身份证上的信息需无遮挡，且清晰可见
-                <br>
-                4.照片需露出手臂，照片请勿进行任何软件处理
-                <br>
-                5.支持jpg/jpeg/gif/bmp/png格式，最大不超过2M
+                3.支持jpg/jpeg/gif/bmp/png格式，最大不超过2M
                 <br>
               </p>
               <Form-item>
@@ -97,8 +93,8 @@
         </div>
         <Modal v-model="demoShow" width="900">
           <div class="text-ct">
-            <img v-show="imgDemoUrl.picUrl" src="~assets/img/case-demo/sfza.jpg" alt="" style="width: 100%;margin-top: 20px;">
-            <img v-show="imgDemoUrl.reversePicUrl" src="~assets/img/case-demo/sfzb.jpg" alt="" style="width: 100%;margin-top: 20px;">
+            <img v-show="imgDemoUrl.picUrl" src="~assets/img/case-demo/sfz01.png" alt="" style="width: 100%;margin-top: 20px;">
+            <img v-show="imgDemoUrl.reversePicUrl" src="~assets/img/case-demo/sfz02.png" alt="" style="width: 100%;margin-top: 20px;">
           </div>
           <div slot="footer">
           </div>
