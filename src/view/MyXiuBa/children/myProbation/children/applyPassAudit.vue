@@ -163,7 +163,7 @@
           </div>
           <div class="commodity-text left ml-5">
             <p>{{taskPlaceInfo.taskName}}</p>
-            <p class="mt-15">总份数<strong>&nbsp;{{taskPlaceInfo.taskCount || 0}}&nbsp;</strong>，宝贝单价<strong>&nbsp;{{taskPlaceInfo.itemPrice / 100 || 0}}&nbsp;</strong>元</p>
+            <p class="mt-15">总份数<strong>&nbsp;{{taskPlaceInfo.taskCount || 0}}&nbsp;</strong>，需垫付约：<strong>&nbsp;{{taskPlaceInfo.perMarginNeed / 100 || 0}}&nbsp;</strong>元</p>
           </div>
         </div>
         <div class="mt-10">
