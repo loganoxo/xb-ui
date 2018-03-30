@@ -107,6 +107,7 @@ const state = {
     }
   },
   activityCategory: '',
+  isBuyVipPopup: false,
 };
 
 export default new Vuex.Store({

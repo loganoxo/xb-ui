@@ -96,4 +96,10 @@ export default {
   [types.SYSTEM_CONFIG_INFORMATION](state, {result}) {
     state.sysConfigInfo = result;
   },
+
+  //export const CHANGE_IS_VIP = 'CHANGE_IS_VIP';
+  //系统配置信息
+  [types.CHANGE_IS_VIP_POPUP](state, {result}) {
+    state.isBuyVipPopup = result;
+  },
 }

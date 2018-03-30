@@ -441,11 +441,11 @@
         </div>
       </div>
     </div>
-    <Modal v-model="showSellerVipPopup" width="700" class="show-buyer-popup" >
-      <div class="show-buyer-popup-body" >
-        <a href="http://wpa.qq.com/msgrd?v=3&site=qq&menu=yes&uin=2012364029" target="_blank" @click="showSellerVipPopup=false;"></a>
-      </div>
-    </Modal>
+    <!--<Modal v-model="showSellerVipPopup" width="700" class="show-buyer-popup" >-->
+      <!--<div class="show-buyer-popup-body" >-->
+        <!--<a href="http://wpa.qq.com/msgrd?v=3&site=qq&menu=yes&uin=2012364029" target="_blank" @click="showSellerVipPopup=false;"></a>-->
+      <!--</div>-->
+    <!--</Modal>-->
   </div>
 </template>
 
@@ -628,7 +628,7 @@
           activityCategories: [],
           discountTypes: '',
         },
-        showSellerVipPopup: false,
+        // showSellerVipPopup: false,
         pinkageFor10: [],
         presentGet: [],
       }
@@ -642,11 +642,11 @@
         self.getAvailableBoardByAdTypeList('showker_pc_home_page_slide_show');
       }else if(self.$store.state.userInfo.role === 1){
         self.getAvailableBoardByAdTypeList('seller_pc_home_page_slide_show');
-        if(self.$store.state.userInfo.memberOK){
-          self.showSellerVipPopup = false;
-        }else {
-          self.showSellerVipPopup = true;
-        }
+        // if(self.$store.state.userInfo.memberOK){
+        //   self.showSellerVipPopup = false;
+        // }else {
+        //   self.showSellerVipPopup = true;
+        // }
       }else {
         self.getAvailableBoardByAdTypeList('seller_pc_home_page_slide_show');
       }
