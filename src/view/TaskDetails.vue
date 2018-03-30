@@ -187,6 +187,13 @@
               <div class="fs-18 text-ct">
                 <div class="precautions mb-20 pt-10">
                   <p>注意事项：</p>
+                  <p class="mt-10" v-if="commodityData.task.showkerOrderTimeLimit">
+                    <span>下单速度：</span>
+                    <span>{{commodityData.task.showkerOrderTimeLimit}}小时</span>
+                    <Tooltip content="通过审批后需要指定时间内完成淘宝下单并在本平台提交订单号，否则资格自动过期" placement="top">
+                      <Icon class="fs-14 ml-5" type="help-circled"></Icon>
+                    </Tooltip>
+                  </p>
                   <p class="mt-10">
                     <span>付款方式：</span>
                     <span v-if="commodityData.task.paymentMethod === 'all'">无所谓（可以使用花呗、信用卡等付款，也可以不用）</span>
@@ -391,6 +398,7 @@
 </template>
 
 <script>
+  import Tooltip from 'iview/src/components/tooltip';
   import Icon from 'iview/src/components/icon'
   import Alert from 'iview/src/components/alert'
   import Form from 'iview/src/components/form'
@@ -427,7 +435,8 @@
       TimeDown: TimeDown,
       PlaceOrderStep: PlaceOrderStep,
       Alert: Alert,
-      TaskApplyBefore: TaskApplyBefore
+      TaskApplyBefore: TaskApplyBefore,
+      Tooltip: Tooltip,
     },
     data() {
       return {
