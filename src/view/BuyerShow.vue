@@ -1,221 +1,224 @@
 <template>
-    <div class="home-ctt">
-      <div class="container">
-        <div class="home-section">
-          <div class="middle-ctt left">
-            <Carousel autoplay :autoplay-speed="5000" v-model="homeCarousel" loop>
-              <Carousel-item>
-                <router-link to="" class="block">
-                  <img class="block" src="~assets/img/buyer-show/buyer_show_banner_01.jpg" alt="">
-                </router-link>
-              </Carousel-item>
-              <Carousel-item>
-                <router-link to="" class="block">
-                  <img class="block" src="~assets/img/buyer-show/buyer_show_banner_02.jpg" alt="">
-                </router-link>
-              </Carousel-item>
-              <Carousel-item>
-                <router-link to="" class="block">
-                  <img class="block" src="~assets/img/buyer-show/buyer_show_banner_03.jpg" alt="">
-                </router-link>
-              </Carousel-item>
-            </Carousel>
+  <div class="home-ctt">
+    <div class="container">
+      <div class="home-section">
+        <div class="middle-ctt left">
+          <Carousel autoplay :autoplay-speed="5000" v-model="homeCarousel" loop>
+            <Carousel-item>
+              <router-link to="" class="block">
+                <img class="block" src="~assets/img/buyer-show/buyer_show_banner_01.jpg" alt="">
+              </router-link>
+            </Carousel-item>
+            <Carousel-item>
+              <router-link to="" class="block">
+                <img class="block" src="~assets/img/buyer-show/buyer_show_banner_02.jpg" alt="">
+              </router-link>
+            </Carousel-item>
+            <Carousel-item>
+              <router-link to="" class="block">
+                <img class="block" src="~assets/img/buyer-show/buyer_show_banner_03.jpg" alt="">
+              </router-link>
+            </Carousel-item>
+          </Carousel>
+        </div>
+        <div class="right-ctt">
+          <div class="title">
+            <Icon type="trophy" class="cup-icon"></Icon>
+            <span class="ml-5">买家秀排行榜</span>
           </div>
-          <div class="right-ctt">
-            <div class="title">
-              <Icon type="trophy" class="cup-icon"></Icon>
-              <span class="ml-5">买家秀排行榜</span>
+          <div v-for="(item,index) in getShowkerReportList" :key="index" class="content clear">
+            <span :class="{ranking:index<3}" class="left fs-18 ">{{index + 1}}</span>
+            <div class="left ml-15 cursor-p head-img" @click="toTrialReportDetails(item.uid)">
+              <img class="border50" width="48" height="48" :src="getUserHead(item.portrait)" alt="">
             </div>
-            <div v-for="(item,index) in getShowkerReportList" :key="index" class="content clear">
-              <span :class="{ranking:index<3}" class="left fs-18 ">{{index + 1}}</span>
-              <div class="left ml-15 cursor-p head-img" @click="toTrialReportDetails(item.uid)">
-                <img class="border50" width="48" height="48" :src="getUserHead(item.portrait)" alt="">
-              </div>
-              <div class="left ml-10 ">
-                <p class="mt-5 fs-14">{{item.nickname}}</p>
-                <p><span class="main-color">{{item.reportCount}}</span>篇买家秀，共获得<span class="main-color">{{item.likeCount}}</span>个赞
+            <div class="left ml-10 ">
+              <p class="mt-5 fs-14">{{item.nickname}}</p>
+              <p><span class="main-color">{{item.reportCount}}</span>篇买家秀，共获得<span
+                class="main-color">{{item.likeCount}}</span>个赞
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="container">
+      <div class="data-information clear">
+        <div class="content left clear">
+          <img class="left" src="~assets/img/buyer-show/des_01.png" alt="">
+          <div class="left  ml-15">
+            <p class="number">{{allShowerNum*5}}位</p>
+            <p class="dsc">真实拿手入驻</p>
+          </div>
+        </div>
+        <div class="content left clear">
+          <img class="left" src="~assets/img/buyer-show/des_02.png" alt="">
+          <div class="left  ml-15">
+            <p class="number">{{allReportNum*5}}篇</p>
+            <p class="dsc">买家秀已发表</p>
+          </div>
+        </div>
+        <div class="content left clear">
+          <img class="left" src="~assets/img/buyer-show/des_03.png" alt="">
+          <div class="left  ml-15">
+            <p class="number">100%</p>
+            <p class="dsc">真实原创</p>
+          </div>
+        </div>
+        <div class="content left clear">
+          <img class="left" src="~assets/img/buyer-show/des_04.png" alt="">
+          <div class="left  ml-15">
+            <p class="number">85%以上</p>
+            <p class="dsc">高质量拿手</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="container">
+      <div class="buyer-xiu clear">
+        <div class="left-ctt left">
+          <div style="overflow: hidden">
+            <div class="title clear">
+              <img class="vtc-mid" src="~assets/img/home/top_mjx.png" alt="">
+              <span class="ml-10" style="font-size: 13px;color: #999;transform: translateY(2px)">给你最精彩</span>
+            </div>
+            <ul class="clear" :class="[leftSlider ? 'slider-top-active-left' : 'slider-top-default-left']"
+                @mouseover="clearLeftSliderFunc()" @mouseleave="leftSliderFunc()">
+              <li v-for="(item,index) in reportRankList" :key="index" class="content cursor-p left pos-rel">
+                <a :title="item.taskName">
+                  <div style="height: 260px">
+                    <img :src="item.trialReportImages+'!thum200'" alt="" width="200" height="260"
+                         @click="toTrialReport(item.showkerId,item.id)">
+                  </div>
+                  <p class="top-heart clear" v-show="item.likeCount !== 0">
+                    <Icon type="heart" class="left fs-14" style="margin-top: 2px"></Icon>
+                    <span class="left ml-5">赞({{item.likeCount}})</span>
+                  </p>
+                  <p class="price clear">
+                    <span class="left ellipsis">{{item.taskName}}</span>
+                    <span class="right pl-10">￥{{item.itemPrice / 100}}</span>
+                  </p>
+                </a>
+                <p class="mt-10 description pos-rel">
+                  <span class="double-question-mark"></span>
+                  <a class="des-text" :title="item.trialReportText">{{item.trialReportText}}</a>
                 </p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="container">
-        <div class="data-information clear">
-          <div class="content left clear">
-            <img class="left" src="~assets/img/buyer-show/des_01.png" alt="">
-            <div class="left  ml-15">
-              <p class="number">{{allShowerNum*5}}位</p>
-              <p class="dsc">真实拿手入驻</p>
-            </div>
-          </div>
-          <div class="content left clear">
-            <img class="left" src="~assets/img/buyer-show/des_02.png" alt="">
-            <div class="left  ml-15">
-              <p class="number">{{allReportNum*5}}篇</p>
-              <p class="dsc">买家秀已发表</p>
-            </div>
-          </div>
-          <div class="content left clear">
-            <img class="left" src="~assets/img/buyer-show/des_03.png" alt="">
-            <div class="left  ml-15">
-              <p class="number">100%</p>
-              <p class="dsc">真实原创</p>
-            </div>
-          </div>
-          <div class="content left clear">
-            <img class="left" src="~assets/img/buyer-show/des_04.png" alt="">
-            <div class="left  ml-15">
-              <p class="number">85%以上</p>
-              <p class="dsc">高质量拿手</p>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="container">
-        <div class="buyer-xiu clear">
-          <div class="left-ctt left">
-            <div style="overflow: hidden">
-              <div class="title clear">
-                <img class="vtc-mid" src="~assets/img/home/top_mjx.png" alt="">
-                <span class="ml-10" style="font-size: 13px;color: #999;transform: translateY(2px)">给你最精彩</span>
-              </div>
-              <ul class="clear" :class="[leftSlider ? 'slider-top-active-left' : 'slider-top-default-left']"
-                  @mouseover="clearLeftSliderFunc()" @mouseleave="leftSliderFunc()">
-                  <li v-for="(item,index) in reportRankList" :key="index" class="content cursor-p left pos-rel">
-                  <a :title="item.taskName">
-                    <div style="height: 260px">
-                      <img :src="item.trialReportImages+'!thum200'" alt="" width="200" height="260"
-                           @click="toTrialReport(item.showkerId,item.id)">
-                    </div>
-                    <p class="top-heart clear" v-show="item.likeCount !== 0">
-                      <Icon type="heart" class="left fs-14" style="margin-top: 2px"></Icon>
-                      <span class="left ml-5">赞({{item.likeCount}})</span>
-                    </p>
-                    <p class="price clear">
-                      <span class="left ellipsis">{{item.taskName}}</span>
-                      <span class="right pl-10">￥{{item.itemPrice / 100}}</span>
-                    </p>
-                  </a>
-                  <p class="mt-10 description pos-rel">
-                    <span class="double-question-mark"></span>
-                    <a class="des-text" :title="item.trialReportText">{{item.trialReportText}}</a>
-                  </p>
-                  <div class="clear bottom mt-20">
-                    <router-link :to="{path:'/trial-report',query:{q:encryptionId(item.showkerId)}}"
-                                 class="user-head-box"><img width="48" height="48" class="showker-portrait-pic"
-                                                            :src="getUserHead(item.showkerPortraitPic)" alt="">
-                    </router-link>
-                    <div class="left ml-10 mt-5">
-                      <p class="cl000">{{item.nickName}}</p>
-                      <img :src="item.creditLevel" alt="">
-                      <div class="text-ct"><span>淘气值：{{item.tqz}}</span></div>
-                    </div>
-                  </div>
-                </li>
-              </ul>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="container">
-        <div class="super-showker clear">
-          <div class="left-ctt left">
-            <div>
-              <div class="title clear">
-                <img class="vtc-mid" src="~assets/img/buyer-show/buyer_show_xdr.png" alt="">
-                <span class="ml-10" style="font-size: 13px;color: #999;transform: translateY(2px)">给你最精彩</span>
-              </div>
-              <ul class="clear">
-                <li v-for="(item,index) in getSuperBuyerShowList" :key="index" class="content cursor-p left pos-rel">
-                  <router-link :to="{path:'/trial-report',query:{q:encryptionId(item.showkerId)}}">
-                    <div style="height: 110px" class="text-ct">
-                      <img class="user-head" :src="getUserHead(item.portraitPic)" alt="" width="96">
-                    </div>
-                    <p class="top-heart clear">
-                      共发表({{item.num}})篇
-                    </p>
-                  </router-link>
-                  <div class="clear bottom mt-10">
-                    <div class=" ml-10 text-ct" style="margin-top: 5px">
-                      <p class="cl000">{{item.nickName?item.nickName:item.phone}}</p>
-                      <img :src="item.creditLevel" alt="">
-                      <div class="text-ct"><span>淘气值：{{item.tqz}}</span></div>
-                    </div>
-                  </div>
-                  <p class=" description pos-rel text-ct">
-                    <span @click="toTrialReportDetails(item.showkerId)"
-                          v-for="(value,key) in getShowkerTip(item.showkerTagsMap)" v-show="value > 0"
-                          class="left mt-10 ">{{key}}{{value}}</span>
-                  </p>
-                </li>
-              </ul>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="container">
-        <div class="buyer-show-all">
-          <div class="title clear">
-            <img class="left vtc-mid" src="~assets/img/buyer-show/buyer-show-allmjx.png" alt="">
-            <span class="ml-10 left" style="font-size: 13px;color: #999;transform: translateY(2px)">给你最精彩</span>
-            <ul class="right clear">
-              <li @click="getALLTrialReportFun()" :class="{active:allReportClassifySelect === null }"
-                  class="left report-classify">全部分类
-              </li>
-              <li @click="getALLTrialReportFun(item.name)" :class="{active:item.name === allReportClassifySelect }"
-                  class="left report-classify" v-for="(item,index) in navList" :key="index">{{item.name}}
-              </li>
-            </ul>
-          </div>
-          <div class="mt-10  ">
-            <div class="con">
-              <div class="pic" v-for="item in getALLTrialReport" :key="item.id">
-                <router-link :to="{'path':'/trial-report','query':{q: encryptionId(item.showkerId), showReportDesc: true, id: encryptionId(item.id)}}" class="pos-rel" target="_blank">
-                  <img width="220" v-show="item.trialReportImages !== ''" class="cursor-p"
-                       v-lazy="item.trialReportImages" alt="">
-                  <p class="mt-10 description pos-rel">
-                    <span class="double-question-mark "></span>
-                    <a class="des-text " style="margin-left: 26px;color: #666">{{item.trialReportText}}</a>
-                  </p>
-                </router-link>
                 <div class="clear bottom mt-20">
-                  <a class="user-head-box">
-                    <img @click="toTrialReportDetails(item.showkerId)" class="showker-portrait-pic cursor-p" width="48"
-                         height="48" :src="getUserHead(item.showkerPortraitPic)" alt="">
-                  </a>
+                  <router-link :to="{path:'/trial-report',query:{q:encryptionId(item.showkerId)}}"
+                               class="user-head-box"><img width="48" height="48" class="showker-portrait-pic"
+                                                          :src="getUserHead(item.showkerPortraitPic)" alt="">
+                  </router-link>
                   <div class="left ml-10 mt-5">
                     <p class="cl000">{{item.nickName}}</p>
                     <img :src="item.creditLevel" alt="">
                     <div class="text-ct"><span>淘气值：{{item.tqz}}</span></div>
                   </div>
                 </div>
-              </div>
-            </div>
-            <div class="no-more-list" v-show="pageIndex === totalPages - 1">没有更多内容了!</div>
-            <div class="no-more-list" v-show="listLoading">加载中...</div>
-            <div class="no-more-list" v-show="getALLTrialReport.length === 0">暂无数据!</div>
+              </li>
+            </ul>
           </div>
         </div>
       </div>
-      <!--折扣专区开始-->
-      <Modal v-model="selectLogin" width="500">
-        <p class="mt-20 mb-40 text-ct fs-22 vtc-mid" style="height: 50px;line-height: 50px">
-          <i class="ivu-icon ivu-icon-android-alert " style="color: #FF6600; font-size: 20px;"></i>
-          亲，你还没登录哦~
-          <br>
-          <span class="fs-12">请先登录后再点赞</span>
-        </p>
-        <div slot="footer" class="text-ct">
-          <router-link class="ivu-btn ivu-btn-error ivu-btn-large mr-40 ml-40" to="/login"
-                       style="color: #fff; width: 102px;">马上登录
-          </router-link>
-          <router-link class="ivu-btn ivu-btn-error ivu-btn-large mr-40" to="/sel-role"
-                       style="color: #fff;  width: 102px;">新用户注册
-          </router-link>
-        </div>
-      </Modal>
     </div>
+    <div class="container">
+      <div class="super-showker clear">
+        <div class="left-ctt left">
+          <div>
+            <div class="title clear">
+              <img class="vtc-mid" src="~assets/img/buyer-show/buyer_show_xdr.png" alt="">
+              <span class="ml-10" style="font-size: 13px;color: #999;transform: translateY(2px)">给你最精彩</span>
+            </div>
+            <ul class="clear">
+              <li v-for="(item,index) in getSuperBuyerShowList" :key="index" class="content cursor-p left pos-rel">
+                <router-link :to="{path:'/trial-report',query:{q:encryptionId(item.showkerId)}}">
+                  <div style="height: 110px" class="text-ct">
+                    <img class="user-head" :src="getUserHead(item.portraitPic)" alt="" width="96">
+                  </div>
+                  <p class="top-heart clear">
+                    共发表({{item.num}})篇
+                  </p>
+                </router-link>
+                <div class="clear bottom mt-10">
+                  <div class=" ml-10 text-ct" style="margin-top: 5px">
+                    <p class="cl000">{{item.nickName?item.nickName:item.phone}}</p>
+                    <img :src="item.creditLevel" alt="">
+                    <div class="text-ct"><span>淘气值：{{item.tqz}}</span></div>
+                  </div>
+                </div>
+                <p class=" description pos-rel text-ct">
+                    <span @click="toTrialReportDetails(item.showkerId)"
+                          v-for="(value,key) in getShowkerTip(item.showkerTagsMap)" v-show="value > 0"
+                          class="left mt-10 ">{{key}}{{value}}</span>
+                </p>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="container">
+      <div class="buyer-show-all">
+        <div class="title clear">
+          <img class="left vtc-mid" src="~assets/img/buyer-show/buyer-show-allmjx.png" alt="">
+          <span class="ml-10 left" style="font-size: 13px;color: #999;transform: translateY(2px)">给你最精彩</span>
+          <ul class="right clear">
+            <li @click="getALLTrialReportFun()" :class="{active:allReportClassifySelect === null }"
+                class="left report-classify">全部分类
+            </li>
+            <li @click="getALLTrialReportFun(item.name)" :class="{active:item.name === allReportClassifySelect }"
+                class="left report-classify" v-for="(item,index) in navList" :key="index">{{item.name}}
+            </li>
+          </ul>
+        </div>
+        <div class="mt-10  ">
+          <div class="con">
+            <div class="pic" v-for="item in getALLTrialReport" :key="item.id">
+              <router-link
+                :to="{'path':'/trial-report','query':{q: encryptionId(item.showkerId), showReportDesc: true, id: encryptionId(item.id)}}"
+                class="pos-rel" target="_blank">
+                <img width="220" v-show="item.trialReportImages !== ''" class="cursor-p"
+                     v-lazy="item.trialReportImages" alt="">
+                <p class="mt-10 description pos-rel">
+                  <span class="double-question-mark "></span>
+                  <a class="des-text " style="margin-left: 26px;color: #666">{{item.trialReportText}}</a>
+                </p>
+              </router-link>
+              <div class="clear bottom mt-20">
+                <a class="user-head-box">
+                  <img @click="toTrialReportDetails(item.showkerId)" class="showker-portrait-pic cursor-p" width="48"
+                       height="48" :src="getUserHead(item.showkerPortraitPic)" alt="">
+                </a>
+                <div class="left ml-10 mt-5">
+                  <p class="cl000">{{item.nickName}}</p>
+                  <img :src="item.creditLevel" alt="">
+                  <div class="text-ct"><span>淘气值：{{item.tqz}}</span></div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="no-more-list" v-show="pageIndex === totalPages - 1">没有更多内容了!</div>
+          <div class="no-more-list" v-show="listLoading">加载中...</div>
+          <div class="no-more-list" v-show="getALLTrialReport.length === 0">暂无数据!</div>
+        </div>
+      </div>
+    </div>
+    <!--折扣专区开始-->
+    <Modal v-model="selectLogin" width="500">
+      <p class="mt-20 mb-40 text-ct fs-22 vtc-mid" style="height: 50px;line-height: 50px">
+        <i class="ivu-icon ivu-icon-android-alert " style="color: #FF6600; font-size: 20px;"></i>
+        亲，你还没登录哦~
+        <br>
+        <span class="fs-12">请先登录后再点赞</span>
+      </p>
+      <div slot="footer" class="text-ct">
+        <router-link class="ivu-btn ivu-btn-error ivu-btn-large mr-40 ml-40" to="/login"
+                     style="color: #fff; width: 102px;">马上登录
+        </router-link>
+        <router-link class="ivu-btn ivu-btn-error ivu-btn-large mr-40" to="/sel-role"
+                     style="color: #fff;  width: 102px;">新用户注册
+        </router-link>
+      </div>
+    </Modal>
+  </div>
 </template>
 
 <script>
@@ -270,7 +273,7 @@
         navList: [],
         buyerShowList: [],
         homeCarousel: 0,
-        listLoading:false,
+        listLoading: false,
       }
     },
     created() {
@@ -544,7 +547,9 @@
     box-shadow: 2px 2px 6px #b5b5b5;
     padding: 20px 15px;
     margin: 10px;
-    display: inline-block
+    display: inline-block;
+    /*float:left;*/
+    break-inside: avoid;
   }
 
   .confirm-recharge-model {
@@ -896,7 +901,7 @@
       }
     }
 
-    .head-img{
+    .head-img {
       width: 48px;
       height: 48px;
     }
