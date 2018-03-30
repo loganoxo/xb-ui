@@ -194,13 +194,15 @@
           </div>
           <div class="store-name ml-45 mt-20">
             <span class="required">掌柜旺旺：</span>
-            <iInput v-model="taskRelease.storeName" placeholder="请输入掌柜旺旺" :disabled="true"
-                    style="width: 296px"></iInput>
+            <iInput v-model="taskRelease.storeName" placeholder="请输入掌柜旺旺" :disabled="true" style="width: 296px"></iInput>
+          </div>
+          <div class="store-name ml-45 mt-20">
+            <span class="required">店铺名称：</span>
+            <iInput v-model="taskRelease.realStoreName" placeholder="请输入店铺名称" :disabled="true" style="width: 296px"></iInput>
           </div>
           <div class="baby-number ml-45 mt-20">
             <span class="required">宝贝数量：</span>
-            <iInput v-model="taskRelease.taskCount" placeholder="请输入宝贝数量" :disabled="true"
-                    style="width: 120px"></iInput>
+            <iInput v-model="taskRelease.taskCount" placeholder="请输入宝贝数量" :disabled="true" style="width: 120px"></iInput>
             <span>份</span>
           </div>
           <div class="baby-price ml-45 mt-20">
@@ -687,6 +689,7 @@
           taskMainImage: null,
           itemUrl: null,
           storeName: null,
+          realStoreName: null,
           taskCount: null,
           itemPrice: null,
           presentPrice: null,

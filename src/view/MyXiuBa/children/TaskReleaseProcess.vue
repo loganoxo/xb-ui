@@ -1362,6 +1362,10 @@
           _this.$Message.warning('亲，掌柜旺旺不能为空！');
           return;
         }
+        if (!_this.taskRelease.realStoreName) {
+          _this.$Message.warning('亲，店铺名称不能为空！');
+          return;
+        }
         if (!_this.taskRelease.taskCount) {
           _this.$Message.warning('亲，宝贝数量不能为空或者0！');
           return;
