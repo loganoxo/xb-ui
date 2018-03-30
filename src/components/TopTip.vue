@@ -21,7 +21,7 @@
         </router-link>
         </span>
         <span @click="goOut">[ 退出登录 ]</span>
-        <a v-if="getUserInfo.role === 1" target="_blank" href="http//shang.qq.com/wpa/qunwpa?idkey=bfd86013c0abb1c8e0b68e8e97c67255a75aea6f99bead8a6502e59b81df7ce7" class="ml-10 qq-tip">
+        <a v-if="getUserInfo.role === 1" target="_blank" href="http://shang.qq.com/wpa/qunwpa?idkey=bfd86013c0abb1c8e0b68e8e97c67255a75aea6f99bead8a6502e59b81df7ce7" class="ml-10 qq-tip">
           <img src="~assets/img/common/qq.png" alt="" >
           加入QQ交流群：
           <span >693148394</span>
