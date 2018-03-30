@@ -28,12 +28,12 @@
       <div class="collapse-header clear" @click="collapseToggle(item.id,index)" :class="{noBorderRadius:selectId}">
         <div class="manage-img inline-block">
           <img :src="item.taskMainImage + '!thum54'" alt="">
+          <span v-if="item.zone === 'certainly_hit'" class="certainly-hit-tip">推荐必中</span>
         </div>
         <div class="manage-text left ml-5 inline-block">
           <div>
             <p>
               活动编号：{{item.number}}
-              <span v-if="item.zone === 'certainly_hit'" class="certainly-hit-tip">推荐必中</span>
             </p>
             <p>活动名称：{{item.taskName}}</p>
             <p>参与概况：总份数<span class="main-color">{{item.taskCount || 0}}</span>，
@@ -540,15 +540,17 @@
   }
 </script>
 <style lang="scss" scoped>
-  .certainly-hit-tip{
-    display: inline-block;
+  .certainly-hit-tip {
+    position: absolute;
     background-color: #f9284f;
     color: #fff;
-    padding: 0 5px;
-    line-height: 22px;
-    height: 21px;
-    border-radius: 5px;
-    margin-left: 10px;
+    line-height: 14px;
+    height: 14px;
+    width: 54px;
+    text-align: center;
+    left: 0;
+    bottom: -4px;
+    font-size: 12px !important;
   }
   .new-man-tip{
     width: 50px;
