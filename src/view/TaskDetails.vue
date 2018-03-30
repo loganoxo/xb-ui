@@ -40,9 +40,10 @@
                     :style="{backgroundColor: $store.state.discountPriceType[parseFloat(commodityData.task.discountRate/10) + '折'].backgroundColor}">
                     {{commodityData.task.discountRate/10}}折试用
                   </span>
-              <span v-if=" commodityData.task.activityCategory === 'goods_clearance' && commodityData.task.discountRate "
-                    class=" clfff home-discount-price mt-5"
-                    :style="{backgroundColor: $store.state.discountPriceType[parseFloat(commodityData.task.discountRate/10) + '折'].backgroundColor}">
+              <span
+                v-if=" commodityData.task.activityCategory === 'goods_clearance' && commodityData.task.discountRate "
+                class=" clfff home-discount-price mt-5"
+                :style="{backgroundColor: $store.state.discountPriceType[parseFloat(commodityData.task.discountRate/10) + '折'].backgroundColor}">
                     {{commodityData.task.discountRate/10}}折清仓
                   </span>
             </h3>
@@ -73,7 +74,8 @@
             <p class="fs-14">（商家已存入总活动担保金&nbsp;{{commodityData.task.totalMarginNeed/100}}&nbsp;元，请放心申请）</p>
             <p class="fs-14">{{commodityData.task.showkerApplyTotalCount}} 人申请，{{parseInt(commodityData.trailOn) ?
               commodityData.trailOn: 0}} 人正在参与活动，{{parseInt(commodityData.trailDone) ? commodityData.trailDone : 0}}
-              人完成活动， 剩余 {{commodityData.task.taskCount - commodityData.task.showkerApplySuccessCount >= 0 ? commodityData.task.taskCount - commodityData.task.showkerApplySuccessCount : 0}} 份
+              人完成活动， 剩余 {{commodityData.task.taskCount - commodityData.task.showkerApplySuccessCount >= 0 ?
+              commodityData.task.taskCount - commodityData.task.showkerApplySuccessCount : 0}} 份
               <span class="inline-block tag" v-if="getRole === 0 && isShowAddGroupTip">
               <a
                 href="http://shang.qq.com/wpa/qunwpa?idkey=c8b3150dbd8821f50cced9a08831de701636de9ae107e707114150d0050df9a4"
@@ -182,7 +184,8 @@
           <div class="graphic-info-ctt">
             <div v-show="graphicInfoSelClass === 'activity'" class="graphic-info-details">
               <div v-if="commodityData.showkerTask" class="bgF1F1F1 pd-20 task-step-explain mb-20">
-                <place-order-step v-if="Object.keys(showkerTask).length > 0" :showkerTaskInfo="showkerTask" :isShowPrecautions="false" @changeTask="getShowkerToProcessOrder"></place-order-step>
+                <place-order-step v-if="Object.keys(showkerTask).length > 0" :showkerTaskInfo="showkerTask"
+                                  :isShowPrecautions="false" @changeTask="getShowkerToProcessOrder"></place-order-step>
               </div>
               <div class="fs-18 text-ct">
                 <div class="precautions mb-20 pt-10">
@@ -197,7 +200,9 @@
                   <p class="mt-10">
                     <span>付款方式：</span>
                     <span v-if="commodityData.task.paymentMethod === 'all'">无所谓（可以使用花呗、信用卡等付款，也可以不用）</span>
-                    <span v-else>禁止使用花呗、信用卡付款</span>
+                    <span v-else-if="commodityData.task.paymentMethod === 'no_hua_and_credit_pay'">禁止使用花呗、信用卡付款</span>
+                    <span v-else-if="commodityData.task.paymentMethod === 'no_hua_pay'">禁止使用花呗付款</span>
+                    <span v-else-if="commodityData.task.paymentMethod === 'no_credit_pay'">禁止使用信用卡付款</span>
                   </p>
                   <p class="mt-10 mr-10" v-if="commodityData.task.remark && commodityData.showkerTask">
                     <span>商家备注：</span>
@@ -229,7 +234,9 @@
                   </p>
                   <div class="evaluation-content-tip cl666"
                        v-if="commodityData.task.itemReviewRequired === 'assign_review_detail' && commodityData.showkerTask">
-                    <div v-if="showkerTask.other && showkerTask.other.itemReviewAssign">{{showkerTask.other.itemReviewAssign.reviewContent}}</div>
+                    <div v-if="showkerTask.other && showkerTask.other.itemReviewAssign">
+                      {{showkerTask.other.itemReviewAssign.reviewContent}}
+                    </div>
                     <!--<div class="copy-evaluation-tbn mt-10 copy-btn" :data-clipboard-text="showkerTask.other.itemReviewAssign.reviewContent">复制评价内容</div>-->
                   </div>
                 </div>
@@ -254,7 +261,8 @@
                 </div>
               </div>
 
-              <div class="text-ct mt-20 graphic-info-itemDescription" v-show="!commodityData.cannotShowItemDescriptionOfQualification">
+              <div class="text-ct mt-20 graphic-info-itemDescription"
+                   v-show="!commodityData.cannotShowItemDescriptionOfQualification">
                 <div v-html="commodityData.task.itemDescription"></div>
               </div>
             </div>
@@ -321,18 +329,20 @@
       </div>
     </div>
     <Modal
-      v-model="selWwModel" class-name="vertical-center-modal" ok-text="确定" cancel-text="" @on-ok="selWwFunc()" >
+      v-model="selWwModel" class-name="vertical-center-modal" ok-text="确定" cancel-text="" @on-ok="selWwFunc()">
       <p class="fs-18 fb mt-20" style="color: #FF6600">请选择活动旺旺号:</p>
       <p class="fs-14 mt-10">注意：请 <span style="color: #FF6600">务必使用选择的旺旺号下单购买</span>，否则订单审核将无法通过！</p>
       <Radio-group class="mt-20" v-model="selectedWw">
         <Radio v-for="ww in wwList" :label="ww.id" :key="ww.id" :disabled="wwState[ww.status].disabled">
           <span :class="[ww.status !== 2 ? 'cl999':'']">{{ww.alitmAccount}}</span>
-          <span v-if="wwState[ww.status].text" :class="[ww.status !== 2 ? 'cl999':'']">({{wwState[ww.status].text}})</span>
+          <span v-if="wwState[ww.status].text"
+                :class="[ww.status !== 2 ? 'cl999':'']">({{wwState[ww.status].text}})</span>
         </Radio>
       </Radio-group>
       <span v-if="!canUseWw" style="color: #FF6600">（无可用旺旺号）</span>
       <div v-if="limit">
-        <p class="mt-10">本次申请将消耗 <span class="clff6633"> “1次” </span> 申请次数，当前您的剩余次数为 <span class="clff6633"> “{{residue}}次” </span> </p>
+        <p class="mt-10">本次申请将消耗 <span class="clff6633"> “1次” </span> 申请次数，当前您的剩余次数为 <span class="clff6633"> “{{residue}}次” </span>
+        </p>
         <div class="mt-10">
           <a class="pos-rel apply-num">
             想要更多申请次数
@@ -351,7 +361,8 @@
         提交申请成功，请耐心等待商家审核
       </p>
       <div slot="footer" class="text-ct">
-        <router-link class="ivu-btn ivu-btn-primary ivu-btn-large mr-40" to="/user/my-probation/wait" style="color: #fff">
+        <router-link class="ivu-btn ivu-btn-primary ivu-btn-large mr-40" to="/user/my-probation/wait"
+                     style="color: #fff">
           看看我申请的宝贝
         </router-link>
         <span @click="refreshPage" class="ivu-btn ivu-btn-primary ivu-btn-large cl-fff">好的，明白了</span>
@@ -388,7 +399,9 @@
       </div>
     </Modal>
     <Modal v-model="inBlackListPop" class="text-ct">
-      <div class="fs-20 f-b mt-30"><Icon type="information-circled" class="main-color mr-5"></Icon><span>糟糕，出事儿了~</span></div>
+      <div class="fs-20 f-b mt-30">
+        <Icon type="information-circled" class="main-color mr-5"></Icon>
+        <span>糟糕，出事儿了~</span></div>
       <div class="mt-20 mb-20">你的旺旺号已被此商家拉黑，无权申请该活动~</div>
       <div slot="footer" class="text-ct">
       </div>
@@ -440,7 +453,7 @@
     },
     data() {
       return {
-        inBlackListPop:false,
+        inBlackListPop: false,
         copyHtml: '',
         copyValue: '',
         showkerTask: {},
@@ -489,7 +502,7 @@
             callback: this.getDetailsSuccessShowkerList
           }
         ],
-        graphicInfoSelClass:  'activity',
+        graphicInfoSelClass: 'activity',
         detailsShowkerParams: {
           taskId: '',
           pageIndex: 1
@@ -562,7 +575,7 @@
           info: 'all'
         });
       }
-      if(self.$store.state.login){
+      if (self.$store.state.login) {
         self.getShowkerApplyCount()
       }
       self.getTaskDetails();
@@ -616,14 +629,14 @@
           self.getShowkerCanTrial();
         }
       },
-      getShowkerApplyCount(){
+      getShowkerApplyCount() {
         let self = this;
-        api.getShowkerApplyCount().then(res =>{
-          if(res.status){
+        api.getShowkerApplyCount().then(res => {
+          if (res.status) {
             self.limit = res.data.limit;
             self.residue = res.data.left;
             self.showkerApplyTotal = res.data.baseShareGet;
-          }else {
+          } else {
             self.$Message.error(res.msg);
           }
         })
@@ -745,10 +758,10 @@
             } else {
               self.graphicInfoSels[2].num = 0;
             }
-            self.$nextTick(()=> {
+            self.$nextTick(() => {
               self.initJS();
               self.initCss();
-              self.copyHtml = '<div style="display: inline-block" data-sites="qzone, qq, weibo" data-title="【秀吧365】' + self.commodityData.task.taskName + '" data-image=' + self.commodityData.task.taskMainImage + ' data-description= " '+ self.commodityData.task.taskName + ' ' + self.copyValue + '秀吧365，万千商品每日更新，赶快和我一起来免费试用吧！" class="social-share" data-url=' + self.copyValue + '></div>';
+              self.copyHtml = '<div style="display: inline-block" data-sites="qzone, qq, weibo" data-title="【秀吧365】' + self.commodityData.task.taskName + '" data-image=' + self.commodityData.task.taskMainImage + ' data-description= " ' + self.commodityData.task.taskName + ' ' + self.copyValue + '秀吧365，万千商品每日更新，赶快和我一起来免费试用吧！" class="social-share" data-url=' + self.copyValue + '></div>';
             });
           } else {
             self.$Message.error(res.msg);
@@ -759,7 +772,7 @@
       selWwFunc() {
         let self = this;
         let selRes = false;
-        if(self.residue > 0){
+        if (self.residue > 0) {
           for (let i = 0, j = self.wwList.length; i < j; i++) {
             if (self.wwList[i].status === 2) {
               selRes = true;
@@ -782,9 +795,9 @@
                 if (res.status) {
                   self.applySuccess = true;
                 } else {
-                  if (res.msg === '你的旺旺号已被此商家拉黑,无权申请该活动'){
+                  if (res.msg === '你的旺旺号已被此商家拉黑,无权申请该活动') {
                     self.inBlackListPop = true;
-                  }else {
+                  } else {
                     self.$Message.error(res.msg);
                   }
                 }
@@ -794,7 +807,7 @@
           } else {
             self.$Message.info('无可用旺旺号');
           }
-        }else {
+        } else {
           self.$Message.warning('亲，申请次数已用完');
         }
       },
@@ -823,7 +836,7 @@
         const link = document.createElement('link');
         link.setAttribute('href', url);
         link.setAttribute('rel', 'stylesheet');
-        link.setAttribute('type','text/css');
+        link.setAttribute('type', 'text/css');
         document.getElementsByTagName('head')[0].appendChild(link)
       },
       handleCloseTag() {
@@ -871,9 +884,11 @@
     font-size: 14px;
     font-weight: normal;
   }
-  .ivu-modal-footer{
+
+  .ivu-modal-footer {
     border: none;
   }
+
   .task-step-explain {
     padding: 2px 50px 30px 50px;
     p.task-step-title {
@@ -1012,7 +1027,7 @@
       .graphic-info-ctt {
         .graphic-info-details {
           padding: 20px 20px 40px 20px;
-          .graphic-info-itemDescription p img{
+          .graphic-info-itemDescription p img {
             max-width: 800px !important;
           }
           ul {
@@ -1146,11 +1161,11 @@
     line-height: 20px;
   }
 
-  .apply-num{
-    &:hover p, &:hover i{
+  .apply-num {
+    &:hover p, &:hover i {
       display: block;
     }
-    p{
+    p {
       display: none;
       position: absolute;
       top: 19px;
@@ -1159,7 +1174,7 @@
       color: rgb(255, 255, 255);
       padding: 10px;
     }
-    .up-icon{
+    .up-icon {
       width: 0;
       height: 0;
       border: 9px solid transparent;

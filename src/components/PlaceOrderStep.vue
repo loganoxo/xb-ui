@@ -73,10 +73,19 @@
     <p class="pt-20 main-color">禁止从淘宝客等其他任何返利途径下单，一旦发现系统将扣除产生的淘客佣金，情节严重者直接扣除所有返款并冻结账号！如有疑问请及时联系客服。</p>
     <div class="precautions mt-20 pt-20" v-if="isShowPrecautions" :class="[!hasCurrentSearchSchemeIndex ? 'precautions-bg' : '']">
       <p>注意事项：</p>
+      <p class="mt-10" v-if="showkerTaskInfo.task.showkerOrderTimeLimit">
+        <span>下单速度：</span>
+        <span>{{showkerTaskInfo.task.showkerOrderTimeLimit}}小时</span>
+        <Tooltip content="通过审批后需要指定时间内完成淘宝下单并在本平台提交订单号，否则资格自动过期" placement="top">
+          <Icon class="fs-14 ml-5" type="help-circled"></Icon>
+        </Tooltip>
+      </p>
       <p class="mt-10">
         <span>付款方式：</span>
         <span v-if="showkerTaskInfo.task.paymentMethod === 'all'">无所谓（可以使用花呗、信用卡等付款，也可以不用）</span>
-        <span v-else>禁止使用花呗、信用卡付款</span>
+        <span v-else-if="showkerTaskInfo.task.paymentMethod === 'no_hua_and_credit_pay'">禁止使用花呗、信用卡付款</span>
+        <span v-else-if="showkerTaskInfo.task.paymentMethod === 'no_hua_pay'">禁止使用花呗付款</span>
+        <span v-else-if="showkerTaskInfo.task.paymentMethod === 'no_credit_pay'">禁止使用信用卡付款</span>
       </p>
       <p class="mt-10 mr-10" v-if="showkerTaskInfo.task.remark">
         <span>商家备注：</span>
