@@ -775,11 +775,11 @@
     height:40px;
     line-height: 40px;
     text-align: center;
-    border:1px solid #000;
     border-radius: 5px;
     /*margin:0 auto;*/
     font-size:16px;
-    color:#000;
+    color:#fff;
+    background: #f9284f;
   }
 </style>
 
