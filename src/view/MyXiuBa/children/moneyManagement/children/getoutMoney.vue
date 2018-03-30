@@ -255,6 +255,15 @@
         <p>2、中午12点之前申请提现的当天18点前返款；中午12点之后申请提现的是次日返款到账，遇到周末或者节假日往后顺延。 成功提现的订单即表示已经打款成功，具体到账时间以每个银行受理时间为准。</p>
       </div>
     </div>
+    <!--需要实名认证的提示框-->
+    <Modal v-model="ifVerifiedTip" width="400" :styles="{top:'30%'}">
+      <div style="text-align:center">
+        <h3 class="mt-20">单笔提现金额100元以上或者累计提现金额1000元以上的，为保障资金安全，需要进行实名认证！</h3>
+      </div>
+      <div slot="footer">
+        <router-link to="/user/personal-setting/verified" class="verify-btn">立即申请实名认证</router-link>
+      </div>
+    </Modal>
   </div>
 </template>
 <script>
@@ -440,6 +449,7 @@
         pageIndex:1,
         pageSize: 10,
         isChange: false,
+        ifVerifiedTip:false
       }
     },
     mounted() {
@@ -560,21 +570,32 @@
       },
 
       //控制提现模块每个部分是否显示，根据账户信息
-      changeBankIdcardShowFun() {
-        if (this.userList.ifCertification === false) {
-          this.changeBankIdCardShow.isCertification = true;
-          this.changeBankIdCardShow.isBondBankCard = false;
-        } else if (this.userList.ifCertification === true) {
-          if (this.userList.ifBandingBankCard === null) {
-            this.changeBankIdCardShow.iScertification = false;
-            this.changeBankIdCardShow.isBondBankCard = true;
-          } else {
-            for (let k in  this.changeBankIdCardShow) {
-              this.changeBankIdCardShow[k] = k === 'getoutMoney';
-            }
+      // changeBankIdcardShowFun() {
+      //   if (this.userList.ifCertification === false) {
+      //     this.changeBankIdCardShow.isCertification = true;
+      //     this.changeBankIdCardShow.isBondBankCard = false;
+      //   } else if (this.userList.ifCertification === true) {
+      //     if (this.userList.ifBandingBankCard === null) {
+      //       this.changeBankIdCardShow.iScertification = false;
+      //       this.changeBankIdCardShow.isBondBankCard = true;
+      //     } else {
+      //       for (let k in  this.changeBankIdCardShow) {
+      //         this.changeBankIdCardShow[k] = k === 'getoutMoney';
+      //       }
+      //     }
+      //   }
+      // },
+      //控制提现模块每个部分是否显示，根据账户信息(不用实名认证版本)
+      changeBankIdcardShowFun(){
+        if(this.userList.ifBandingBankCard){
+          for (let k in  this.changeBankIdCardShow) {
+            this.changeBankIdCardShow[k] = k === 'getoutMoney';
           }
+        }else{
+          this.changeBankIdCardShow.isBondBankCard = true;
         }
       },
+
 
       //点击绑定银行卡，其它模块隐藏，绑定银行卡模块显示
       addBankCard() {
@@ -612,32 +633,100 @@
         });
       },
       //申请提现
+      // applyGetOutMoney() {
+      //   let _this = this;
+      //   _this.$refs.getoutMoney.validate((valid) => {
+      //     if (valid) {
+      //       _this.getOutMoneyPopWindow = true;
+      //       api.applyGetoutMoney({
+      //         fee: (_this.getoutMoney.getoutNumber * 100).toFixed(),
+      //         bankCardNum: _this.userAccount.bankCardNum,
+      //         payPwd: _this.getoutMoney.password
+      //       }).then(res => {
+      //         if (res.status) {
+      //           _this.iconType = 'checkmark-circled';
+      //           _this.applyGetOut = res.msg;
+      //           _this.getoutMoney.getoutNumber = null;
+      //           _this.getoutMoney.password = null;
+      //         } else {
+      //           _this.iconType = 'close-circled';
+      //           _this.applyGetOut = res.msg;
+      //           _this.getoutMoney.password = null;
+      //         }
+      //       });
+      //     } else {
+      //       _this.$Message.error('提现失败，请正确填写提现必要的信息！');
+      //       // _this.$refs.getoutMoney.resetFields();
+      //     }
+      //   });
+      // },
+
+      //申请提现（根据提现金额判断是否需要实名认证）
       applyGetOutMoney() {
         let _this = this;
-        _this.$refs.getoutMoney.validate((valid) => {
-          if (valid) {
-            _this.getOutMoneyPopWindow = true;
-            api.applyGetoutMoney({
-              fee: (_this.getoutMoney.getoutNumber * 100).toFixed(),
-              bankCardNum: _this.userAccount.bankCardNum,
-              payPwd: _this.getoutMoney.password
-            }).then(res => {
-              if (res.status) {
-                _this.iconType = 'checkmark-circled';
-                _this.applyGetOut = res.msg;
-                _this.getoutMoney.getoutNumber = null;
-                _this.getoutMoney.password = null;
+        console.log(_this.userList);
+        if(_this.userList.ifCertification){
+          //如果认证过，走从前的就好
+          _this.$refs.getoutMoney.validate((valid) => {
+            if (valid) {
+              _this.getOutMoneyPopWindow = true;
+              api.applyGetoutMoney({
+                fee: (_this.getoutMoney.getoutNumber * 100).toFixed(),
+                bankCardNum: _this.userAccount.bankCardNum,
+                payPwd: _this.getoutMoney.password
+              }).then(res => {
+                if (res.status) {
+                  _this.iconType = 'checkmark-circled';
+                  _this.applyGetOut = res.msg;
+                  _this.getoutMoney.getoutNumber = null;
+                  _this.getoutMoney.password = null;
+                } else {
+                  _this.iconType = 'close-circled';
+                  _this.applyGetOut = res.msg;
+                  _this.getoutMoney.password = null;
+                }
+              });
+            } else {
+              _this.$Message.error('提现失败，请正确填写提现必要的信息！');
+              // _this.$refs.getoutMoney.resetFields();
+            }
+          });
+        }else{
+          //如果没认证过，就根据金额判断是否需要认证
+          if(_this.getoutMoney.getoutNumber < 100){
+            //如果100以内，下一步就好
+            _this.$refs.getoutMoney.validate((valid) => {
+              if (valid) {
+                _this.getOutMoneyPopWindow = true;
+                api.applyGetoutMoney({
+                  fee: (_this.getoutMoney.getoutNumber * 100).toFixed(),
+                  bankCardNum: _this.userAccount.bankCardNum,
+                  payPwd: _this.getoutMoney.password
+                }).then(res => {
+                  if (res.status) {
+                    _this.iconType = 'checkmark-circled';
+                    _this.applyGetOut = res.msg;
+                    _this.getoutMoney.getoutNumber = null;
+                    _this.getoutMoney.password = null;
+                  } else {
+                    _this.iconType = 'close-circled';
+                    _this.applyGetOut = res.msg;
+                    _this.getoutMoney.password = null;
+                  }
+                });
               } else {
-                _this.iconType = 'close-circled';
-                _this.applyGetOut = res.msg;
-                _this.getoutMoney.password = null;
+                _this.$Message.error('提现失败，请正确填写提现必要的信息！');
+                // _this.$refs.getoutMoney.resetFields();
               }
             });
-          } else {
-            _this.$Message.error('提现失败，请正确填写提现必要的信息！');
-            // _this.$refs.getoutMoney.resetFields();
+          }else{
+            //如果大于100，先实名认证
+            _this.ifVerifiedTip = true;
+            // _this.changeBankIdCardShow.getoutMoney = false;
+            // _this.changeBankIdCardShow.isCertification = true;
           }
-        });
+        }
+
       },
       //获取提现信息
       getWithDrawList() {
@@ -687,5 +776,20 @@
     }
   }
 </script>
+<style scoped>
+  .verify-btn{
+    width:100%;
+    display: inline-block;
+    height:40px;
+    line-height: 40px;
+    text-align: center;
+    border:1px solid #000;
+    border-radius: 5px;
+    /*margin:0 auto;*/
+    font-size:16px;
+    color:#000;
+  }
+</style>
+
 
 

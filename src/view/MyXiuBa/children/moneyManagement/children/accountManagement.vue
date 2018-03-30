@@ -354,12 +354,17 @@
       ...mapActions([
         'getUserInformation'
       ]),
+      // bandCard() {
+      //   if (!this.userList.ifCertification) {
+      //     this.$Message.error('您还未实名认证，请您前往个人中心实名认证后再绑定银行卡')
+      //   } else {
+      //     this.$router.push({name: 'GetoutMoney', query: {bandCard: 'bandCard'}});
+      //   }
+      // },
+
+      //绑定银行卡前无需实名认证
       bandCard() {
-        if (!this.userList.ifCertification) {
-          this.$Message.error('您还未实名认证，请您前往个人中心实名认证后再绑定银行卡')
-        } else {
-          this.$router.push({name: 'GetoutMoney', query: {bandCard: 'bandCard'}});
-        }
+        this.$router.push({name: 'GetoutMoney', query: {bandCard: 'bandCard'}});
       },
       handleSubmit(name, callback) {
         let res = false;
