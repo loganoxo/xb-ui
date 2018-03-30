@@ -324,9 +324,11 @@
         let self = this;
         if (!value) {
           callback(new Error('请输入姓名'));
-        } else if(value !== self.$store.state.userInfo.realName){
-          callback(new Error('为保证资金安全，开户行必须与实名认证姓名一致！'))
-        }else {
+        }
+        // else if(value !== self.$store.state.userInfo.realName){
+        //   callback(new Error('为保证资金安全，开户行必须与实名认证姓名一致！'))
+        // }
+        else {
           callback()
         }
       };
