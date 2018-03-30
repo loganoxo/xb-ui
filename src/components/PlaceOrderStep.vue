@@ -56,10 +56,14 @@
     </div>
     <div class="baby-info clear mt-40" v-if="showkerTaskInfo.task.taskType === 'pc_search' || showkerTaskInfo.task.taskType === 'app_search'">
       <img class="left" :src="taskDetail.itemMainImage" alt="">
-      <div class="left ml-20 mt-20">
+      <div class="left ml-20 mt-5">
         <p>
           <span>掌柜旺旺：</span>
           <span>{{getStoreName}}</span>
+        </p>
+        <p>
+          <span>店铺名称：</span>
+          <span>{{getRealStoreName}}</span>
         </p>
         <p>
           <span>价格：</span>
@@ -83,9 +87,9 @@
       <p class="mt-10">
         <span>付款方式：</span>
         <span v-if="showkerTaskInfo.task.paymentMethod === 'all'">无所谓（可以使用花呗、信用卡等付款，也可以不用）</span>
-        <span v-else-if="showkerTaskInfo.task.paymentMethod === 'no_hua_and_credit_pay'">禁止使用花呗、信用卡付款</span>
-        <span v-else-if="showkerTaskInfo.task.paymentMethod === 'no_hua_pay'">禁止使用花呗付款</span>
-        <span v-else-if="showkerTaskInfo.task.paymentMethod === 'no_credit_pay'">禁止使用信用卡付款</span>
+        <span v-if="showkerTaskInfo.task.paymentMethod === 'no_hua_and_credit_pay'">禁止使用花呗和信用卡付款</span>
+        <span v-if="showkerTaskInfo.task.paymentMethod === 'no_hua_pay'">禁止使用花呗付款</span>
+        <span v-if="showkerTaskInfo.task.paymentMethod === 'no_credit_pay'">禁止使用信用卡付款</span>
       </p>
       <p class="mt-10 mr-10" v-if="showkerTaskInfo.task.remark">
         <span>商家备注：</span>
@@ -104,6 +108,7 @@
   import Input from 'iview/src/components/input'
   import Icon from 'iview/src/components/icon'
   import Modal from 'iview/src/components/modal'
+  import Tooltip from 'iview/src/components/tooltip'
   import TimeDown from '@/components/TimeDown'
   import Clipboard from 'clipboard';
   import api from '@/config/apiConfig'
@@ -117,6 +122,7 @@
       iInput: Input,
       Modal: Modal,
       TimeDown: TimeDown,
+      Tooltip: Tooltip,
     },
     props: {
       showkerTaskInfo: {
@@ -135,9 +141,6 @@
       return {
         isShowTaoCodeModel: false,
       }
-    },
-    mounted() {
-
     },
     created() {
       let _this = this;
@@ -184,15 +187,26 @@
       isShowChangeKeyword() {
         return this.showkerTaskInfo.task.taskDetailObject.length > 1;
       },
+      getRealStoreName() {
+        let length = this.showkerTaskInfo.task.realStoreName ? this.showkerTaskInfo.task.realStoreName.length : 0;
+        let name = this.showkerTaskInfo.task.realStoreName;
+        if (length && length > 4) {
+          return name.substr(0, 2) + '****' + name.substr(-2);
+        } else if (length && length <= 4) {
+          return name.substr(0, 1) + '****' + name.substr(-1);
+        } else {
+          return '******'
+        }
+      },
       getStoreName() {
-        let length = this.showkerTaskInfo.task.storeName.length;
+        let length = this.showkerTaskInfo.task.storeName ? this.showkerTaskInfo.task.storeName.length : 0;
         let name = this.showkerTaskInfo.task.storeName;
         if (length && length > 4) {
           return name.substr(0, 2) + '****' + name.substr(-2);
         } else if (length && length <= 4) {
           return name.substr(0, 1) + '****' + name.substr(-1);
         } else {
-          return '****'
+          return '******'
         }
       },
     },
