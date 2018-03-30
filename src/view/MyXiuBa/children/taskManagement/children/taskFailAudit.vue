@@ -32,6 +32,7 @@
       <div class="collapse-header clear" @click="collapseToggle(item.id,index)" :class="{noBorderRadius:selectId}">
         <div class="manage-img inline-block">
           <img :src="item.taskMainImage + '!thum54'" alt="">
+          <span v-if="item.zone === 'certainly_hit'" class="certainly-hit-tip">推荐必中</span>
         </div>
         <div class="manage-text left ml-5 inline-block">
           <p>活动编号：{{item.number}}</p>
@@ -220,4 +221,18 @@
     }
   }
 </script>
+<style scoped>
+  .certainly-hit-tip {
+    position: absolute;
+    background-color: #f9284f;
+    color: #fff;
+    line-height: 14px;
+    height: 14px;
+    width: 54px;
+    text-align: center;
+    left: 0;
+    bottom: -4px;
+    font-size: 12px !important;
+  }
+</style>
 
