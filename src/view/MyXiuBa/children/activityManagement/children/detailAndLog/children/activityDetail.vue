@@ -81,7 +81,7 @@
       <div class="pop-tip mt-15">
         <div v-show="taskRelease.activityCategory === 'free_get'">
           <div class="pop-tip-arrow free-get"></div>
-          <div>该活动申请率极高，评价效果极好，商家能自主筛选拿手，迅速积攒销54量。</div>
+          <div>该活动申请率极高，评价效果极好，商家能自主筛选拿手，迅速积攒销量。</div>
         </div>
         <div v-show="taskRelease.activityCategory === 'pinkage_for_10'">
           <div class="pop-tip-arrow pinkage-for-10"></div>
@@ -136,6 +136,16 @@
           <!--<p class="pl-94 mt-8">-->
             <Checkbox v-model="taskRelease.refuseOldShowker" disabled>拒绝已参加过本店活动的拿手再次申请</Checkbox>
           <!--</p>-->
+        </div>
+        <div class="order-speed ml-35 mt-20">
+          <span class="ml-5">拿手下单速度：</span>
+          <radio-group v-model="taskRelease.showkerOrderTimeLimit">
+            <Radio :label="24" disabled><span>24小时内</span></Radio>
+            <Radio :label="12" disabled><span>12小时内</span></Radio>
+            <Radio :label="6" disabled><span>6小时内</span></Radio>
+            <Radio :label="3" disabled><span>3小时内</span></Radio>
+          </radio-group>
+          <span class="sizeColor2">（拿手通过审批后需要指定时间内完成淘宝下单并在本平台提交订单号，否则资格自动过期）</span>
         </div>
         <div class="trial-condition ml-60 mt-20">
           <span class="ml-4"> 收藏加购：</span>
@@ -264,13 +274,13 @@
           <div class="baby-payment ml-45 mt-20">
             <span class="required left">付款方式：</span>
             <Radio-group v-model="taskRelease.paymentMethod">
-              <Radio label="all" disabled>
-                <span>无所谓（可以使用花呗、信用卡等付款，也可以不用）</span>
-              </Radio>
-              <p style="height: 10px;"></p>
-              <Radio label="no_hua_and_credit_pay" disabled>
-                <span>禁止使用花呗、信用卡付款</span>
-              </Radio>
+              <Radio label="all" class="mb-10" disabled><span>无所谓（可以使用花呗、信用卡等付款，也可以不用）</span></Radio>
+              <br/>
+              <Radio label="no_hua_and_credit_pay" class="mb-10" disabled><span>禁止使用花呗和信用卡付款</span></Radio>
+              <br/>
+              <Radio label="no_hua_pay" class="mb-10" disabled><span>禁止使用花呗</span></Radio>
+              <br/>
+              <Radio label="no_credit_pay" disabled><span>禁止使信用卡付款</span></Radio>
             </Radio-group>
           </div>
           <div class="task-remark ml-45 mt-20 clear">
@@ -280,6 +290,17 @@
               <p class="size-color3 mt-10" v-show="taskRelease.activityCategory === 'present_get'">备注中明确说明希望拿手拍下的SKU（否则拿手可能会找不到宝贝）</p>
               <p class="size-color3 mt-6" v-show="taskRelease.activityCategory === 'present_get'">建议商家备注中明确说明：“请勿在淘宝中评价及晒图！”，若未注明，拿手在淘宝中进行评价或晒图后可能会影响主宝贝的评价情况。</p>
             </div>
+          </div>
+          <div class="donotPostPhoto ml-15 mt-20 clear" v-show="taskRelease.activityCategory === 'present_get'">
+            <span class="left required">是否在淘宝评价中晒图：</span>
+            <Radio-group v-model="taskRelease.donotPostPhoto">
+              <Radio label="true" disabled>
+                <span>请勿晒图</span>
+              </Radio>
+              <Radio label="false" disabled>
+                <span>无所谓（拿手可能晒出B宝贝图片）</span>
+              </Radio>
+            </Radio-group>
           </div>
           <div class="evaluation-requirements ml-15 mt-20 clear">
             <span class="left mt-5 required">淘宝评价要求：</span>
@@ -658,6 +679,7 @@
           taskDaysDuration: null,
           onlyShowForQualification: false,
           refuseOldShowker: false,
+          showkerOrderTimeLimit: 24,
           needBrowseCollectAddCart: false,
           taskName: null,
           remark: null,
@@ -671,6 +693,7 @@
           discountType: 'discount_0',
           activityCategory: 'free_get',
           pinkage: "true",
+          donotPostPhoto: "true",
           paymentMethod: "all",
           itemDescription: '',
           taskId: null,
@@ -825,7 +848,6 @@
             _this.paidDeposit = (res.data.marginPaid + res.data.promotionExpensesPaid) / 100 || 0;
             _this.taskStatus = res.data.taskStatus;
             _this.mainDefaultList = res.data.taskMainImage;
-            res.data.pinkage = res.data.pinkage.toString();
             _this.taskRelease.itemType = res.data.itemCatalog.id;
             for (let k in _this.taskRelease) {
               for (let i in res.data) {
@@ -834,6 +856,8 @@
                 }
               }
             }
+            _this.taskRelease.pinkage =  _this.taskRelease.pinkage.toString();
+            _this.taskRelease.donotPostPhoto = _this.taskRelease.donotPostPhoto.toString();
             //start 临时处理 10元包邮，白菜价活动下线复制历史活动
             const activityCategory = res.data.activityCategory;
             if(activityCategory === 'pinkage_for_10' || activityCategory === 'price_low'){

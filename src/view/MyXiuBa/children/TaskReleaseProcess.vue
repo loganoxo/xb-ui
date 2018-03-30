@@ -132,6 +132,16 @@
               <Checkbox v-model="taskRelease.refuseOldShowker">拒绝已参加过本店活动的拿手再次申请</Checkbox>
             <!--</p>-->
           </div>
+          <div class="order-speed ml-35 mt-20">
+            <span class="ml-5">拿手下单速度：</span>
+            <radio-group v-model="taskRelease.showkerOrderTimeLimit">
+              <Radio :label="24"><span>24小时内</span></Radio>
+              <Radio :label="12"><span>12小时内</span></Radio>
+              <Radio :label="6"><span>6小时内</span></Radio>
+              <Radio :label="3"><span>3小时内</span></Radio>
+            </radio-group>
+            <span class="sizeColor2">（拿手通过审批后需要指定时间内完成淘宝下单并在本平台提交订单号，否则资格自动过期）</span>
+          </div>
           <div class="trial-condition ml-60 mt-20">
             <span class="ml-4"> 收藏加购：</span>
             <Checkbox v-model="taskRelease.needBrowseCollectAddCart">需要</Checkbox>
@@ -204,6 +214,10 @@
             <div class="store-name ml-45 mt-20">
               <span class="required">掌柜旺旺：</span>
               <iInput v-model="taskRelease.storeName" placeholder="请输入掌柜旺旺" style="width: 296px"></iInput>
+            </div>
+            <div class="store-name ml-45 mt-20">
+              <span class="required">店铺名称：</span>
+              <iInput v-model="taskRelease.realStoreName" placeholder="请输入店铺名称" style="width: 296px"></iInput>
             </div>
             <div class="baby-number ml-45 mt-20">
              <p>
@@ -316,8 +330,8 @@
                 <Radio label="true">
                   <span>宝贝包邮，无需修改运费</span>
                 </Radio>
-                <p style="height: 10px;"></p>
-                <Radio label="false">
+                <br>
+                <Radio class="mt-10" label="false">
                   <span>宝贝不包邮，需要额外多垫付10元邮费，随货款一起对买手实行多退少补返还！</span>
                 </Radio>
               </Radio-group>
@@ -325,9 +339,13 @@
             <div class="baby-payment ml-45 mt-20">
               <span class="required left">付款方式：</span>
               <Radio-group v-model="taskRelease.paymentMethod">
-                <Radio label="all"><span>无所谓（可以使用花呗、信用卡等付款，也可以不用）</span></Radio>
-                <p style="height: 10px;"></p>
-                <Radio label="no_hua_and_credit_pay"><span>禁止使用花呗、信用卡付款</span></Radio>
+                <Radio label="all" class="mb-10"><span>无所谓（可以使用花呗、信用卡等付款，也可以不用）</span></Radio>
+                <br/>
+                <Radio label="no_hua_and_credit_pay" class="mb-10"><span>禁止使用花呗和信用卡付款</span></Radio>
+                <br/>
+                <Radio label="no_hua_pay" class="mb-10"><span>禁止使用花呗</span></Radio>
+                <br/>
+                <Radio label="no_credit_pay"><span>禁止使信用卡付款</span></Radio>
               </Radio-group>
             </div>
             <div class="task-remark ml-45 mt-20 clear">
@@ -341,7 +359,18 @@
                    v-show="taskRelease.activityCategory === 'present_get'">建议商家下单要求中明确说明：“请勿在淘宝中评价及晒图！”，若未注明，拿手在淘宝中进行评价或晒图后可能会影响主宝贝的评价情况。</p>
               </div>
             </div>
-            <div class="evaluation-requirements ml-15 mt-20 clear">
+            <div class="donotPostPhoto ml-15 mt-20 clear" v-show="taskRelease.activityCategory === 'present_get'">
+              <span class="left required">是否在淘宝评价中晒图：</span>
+              <Radio-group v-model="taskRelease.donotPostPhoto">
+                <Radio label="true">
+                  <span>请勿晒图</span>
+                </Radio>
+                <Radio label="false">
+                  <span>无所谓（拿手可能晒出B宝贝图片）</span>
+                </Radio>
+              </Radio-group>
+            </div>
+            <div class="evaluation-requirements ml-15 mt-10 clear">
               <span class="left mt-5 required">淘宝评价要求：</span>
               <div class="left">
                 <RadioGroup v-model="taskRelease.itemReviewRequired" :vertical="true" @on-change="changeSelectEvaluation">
@@ -365,7 +394,7 @@
                 </div>
               </div>
             </div>
-            <div class="product-introduction ml-45 mt-20">
+            <div class="product-introduction ml-28 mt-20">
               <span class="left ml-5 required">商品简介：</span>
               <quill-editor ref="myTextEditor"
                             v-model="taskRelease.itemDescription"
@@ -936,6 +965,7 @@
           taskType: 'pc_search',
           taskDaysDuration: null,
           onlyShowForQualification: false,
+          showkerOrderTimeLimit: 24,
           refuseOldShowker: false,
           needBrowseCollectAddCart: false,
           itemIssue: [],
@@ -944,12 +974,14 @@
           taskMainImage: null,
           itemUrl: null,
           storeName: null,
+          realStoreName: null,
           taskCount: null,
           itemPrice: null,
           presentPrice: null,
           discountType: 'discount_0',
           activityCategory: 'free_get',
           pinkage: "true",
+          donotPostPhoto: "true",
           paymentMethod: "all",
           remark: null,
           itemDescription: '',
@@ -1681,7 +1713,6 @@
             _this.paidDeposit = (res.data.marginPaid + res.data.promotionExpensesPaid) / 100 || 0;
             _this.taskStatus = res.data.taskStatus;
             _this.mainDefaultList.push({src: res.data.taskMainImage});
-            res.data.pinkage = res.data.pinkage.toString();
             _this.taskRelease.itemType = res.data.itemCatalog.id;
             for (let k in _this.taskRelease) {
               for (let i in res.data) {
@@ -1690,6 +1721,8 @@
                 }
               }
             }
+            _this.taskRelease.pinkage =  _this.taskRelease.pinkage.toString();
+            _this.taskRelease.donotPostPhoto = _this.taskRelease.donotPostPhoto.toString();
             //start 临时处理 10元包邮，白菜价活动下线复制历史活动
             const activityCategory = res.data.activityCategory;
             if(activityCategory === 'pinkage_for_10' || activityCategory === 'price_low'){

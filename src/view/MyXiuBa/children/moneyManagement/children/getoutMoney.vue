@@ -664,7 +664,6 @@
       //申请提现（根据提现金额判断是否需要实名认证）
       applyGetOutMoney() {
         let _this = this;
-        console.log(_this.userList);
         if(_this.userList.ifCertification){
           //如果认证过，走从前的就好
           _this.$refs.getoutMoney.validate((valid) => {
@@ -693,38 +692,31 @@
           });
         }else{
           //如果没认证过，就根据金额判断是否需要认证
-          if(_this.getoutMoney.getoutNumber < 100){
-            //如果100以内，下一步就好
-            _this.$refs.getoutMoney.validate((valid) => {
-              if (valid) {
-                _this.getOutMoneyPopWindow = true;
-                api.applyGetoutMoney({
-                  fee: (_this.getoutMoney.getoutNumber * 100).toFixed(),
-                  bankCardNum: _this.userAccount.bankCardNum,
-                  payPwd: _this.getoutMoney.password
-                }).then(res => {
-                  if (res.status) {
-                    _this.iconType = 'checkmark-circled';
-                    _this.applyGetOut = res.msg;
-                    _this.getoutMoney.getoutNumber = null;
-                    _this.getoutMoney.password = null;
-                  } else {
-                    _this.iconType = 'close-circled';
-                    _this.applyGetOut = res.msg;
-                    _this.getoutMoney.password = null;
-                  }
-                });
-              } else {
-                _this.$Message.error('提现失败，请正确填写提现必要的信息！');
-                // _this.$refs.getoutMoney.resetFields();
-              }
-            });
-          }else{
-            //如果大于100，先实名认证
-            _this.ifVerifiedTip = true;
-            // _this.changeBankIdCardShow.getoutMoney = false;
-            // _this.changeBankIdCardShow.isCertification = true;
-          }
+          _this.$refs.getoutMoney.validate((valid) => {
+            if (valid) {
+              api.applyGetoutMoney({
+                fee: (_this.getoutMoney.getoutNumber * 100).toFixed(),
+                bankCardNum: _this.userAccount.bankCardNum,
+                payPwd: _this.getoutMoney.password
+              }).then(res => {
+                if (res.status===false && res.statusCode === 'not_certification') {
+                  _this.ifVerifiedTip = true;
+                  _this.getoutMoney.password = null;
+                  // _this.iconType = 'close-circled';
+                  // _this.applyGetOut = res.msg;
+                } else {
+                  _this.getOutMoneyPopWindow = true;
+                  _this.iconType = 'checkmark-circled';
+                  _this.applyGetOut = res.msg;
+                  _this.getoutMoney.getoutNumber = null;
+                  _this.getoutMoney.password = null;
+                }
+              });
+            } else {
+              _this.$Message.error('提现失败，请正确填写提现必要的信息！');
+              // _this.$refs.getoutMoney.resetFields();
+            }
+          });
         }
 
       },

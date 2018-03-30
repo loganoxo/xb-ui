@@ -40,10 +40,9 @@
                     :style="{backgroundColor: $store.state.discountPriceType[parseFloat(commodityData.task.discountRate/10) + '折'].backgroundColor}">
                     {{commodityData.task.discountRate/10}}折试用
                   </span>
-              <span
-                v-if=" commodityData.task.activityCategory === 'goods_clearance' && commodityData.task.discountRate "
-                class=" clfff home-discount-price mt-5"
-                :style="{backgroundColor: $store.state.discountPriceType[parseFloat(commodityData.task.discountRate/10) + '折'].backgroundColor}">
+              <span v-if=" commodityData.task.activityCategory === 'goods_clearance' && commodityData.task.discountRate "
+                    class=" clfff home-discount-price mt-5"
+                    :style="{backgroundColor: $store.state.discountPriceType[parseFloat(commodityData.task.discountRate/10) + '折'].backgroundColor}">
                     {{commodityData.task.discountRate/10}}折清仓
                   </span>
             </h3>
@@ -74,8 +73,7 @@
             <p class="fs-14">（商家已存入总活动担保金&nbsp;{{commodityData.task.totalMarginNeed/100}}&nbsp;元，请放心申请）</p>
             <p class="fs-14">{{commodityData.task.showkerApplyTotalCount}} 人申请，{{parseInt(commodityData.trailOn) ?
               commodityData.trailOn: 0}} 人正在参与活动，{{parseInt(commodityData.trailDone) ? commodityData.trailDone : 0}}
-              人完成活动， 剩余 {{commodityData.task.taskCount - commodityData.task.showkerApplySuccessCount >= 0 ?
-              commodityData.task.taskCount - commodityData.task.showkerApplySuccessCount : 0}} 份
+              人完成活动， 剩余 {{commodityData.task.taskCount - commodityData.task.showkerApplySuccessCount >= 0 ? commodityData.task.taskCount - commodityData.task.showkerApplySuccessCount : 0}} 份
               <span class="inline-block tag" v-if="getRole === 0 && isShowAddGroupTip">
               <a
                 href="http://shang.qq.com/wpa/qunwpa?idkey=c8b3150dbd8821f50cced9a08831de701636de9ae107e707114150d0050df9a4"
@@ -84,7 +82,7 @@
             </span>
               <span class="inline-block tag" v-if="getRole === 1 && isShowAddGroupTip">
               <a
-                href="http//shang.qq.com/wpa/qunwpa?idkey=bfd86013c0abb1c8e0b68e8e97c67255a75aea6f99bead8a6502e59b81df7ce7"
+                href="http://shang.qq.com/wpa/qunwpa?idkey=bfd86013c0abb1c8e0b68e8e97c67255a75aea6f99bead8a6502e59b81df7ce7"
                 target="_blank">加入商家QQ群：693148394 ，学习怎样有效放单！</a>
               <span class="close-tag" @click="handleCloseTag()"><Icon type="ios-close-empty"></Icon></span>
             </span>
@@ -184,8 +182,7 @@
           <div class="graphic-info-ctt">
             <div v-show="graphicInfoSelClass === 'activity'" class="graphic-info-details">
               <div v-if="commodityData.showkerTask" class="bgF1F1F1 pd-20 task-step-explain mb-20">
-                <place-order-step v-if="Object.keys(showkerTask).length > 0" :showkerTaskInfo="showkerTask"
-                                  :isShowPrecautions="false" @changeTask="getShowkerToProcessOrder"></place-order-step>
+                <place-order-step v-if="Object.keys(showkerTask).length > 0" :showkerTaskInfo="showkerTask" :isShowPrecautions="false" @changeTask="getShowkerToProcessOrder"></place-order-step>
               </div>
               <div class="fs-18 text-ct">
                 <div class="precautions mb-20 pt-10">
@@ -200,9 +197,9 @@
                   <p class="mt-10">
                     <span>付款方式：</span>
                     <span v-if="commodityData.task.paymentMethod === 'all'">无所谓（可以使用花呗、信用卡等付款，也可以不用）</span>
-                    <span v-else-if="commodityData.task.paymentMethod === 'no_hua_and_credit_pay'">禁止使用花呗、信用卡付款</span>
-                    <span v-else-if="commodityData.task.paymentMethod === 'no_hua_pay'">禁止使用花呗付款</span>
-                    <span v-else-if="commodityData.task.paymentMethod === 'no_credit_pay'">禁止使用信用卡付款</span>
+                    <span v-if="commodityData.task.paymentMethod === 'no_hua_and_credit_pay'">禁止使用花呗和信用卡付款</span>
+                    <span v-if="commodityData.task.paymentMethod === 'no_hua_pay'">禁止使用花呗付款</span>
+                    <span v-if="commodityData.task.paymentMethod === 'no_credit_pay'">禁止使用信用卡付款</span>
                   </p>
                   <p class="mt-10 mr-10" v-if="commodityData.task.remark && commodityData.showkerTask">
                     <span>商家备注：</span>
@@ -234,9 +231,7 @@
                   </p>
                   <div class="evaluation-content-tip cl666"
                        v-if="commodityData.task.itemReviewRequired === 'assign_review_detail' && commodityData.showkerTask">
-                    <div v-if="showkerTask.other && showkerTask.other.itemReviewAssign">
-                      {{showkerTask.other.itemReviewAssign.reviewContent}}
-                    </div>
+                    <div v-if="showkerTask.other && showkerTask.other.itemReviewAssign">{{showkerTask.other.itemReviewAssign.reviewContent}}</div>
                     <!--<div class="copy-evaluation-tbn mt-10 copy-btn" :data-clipboard-text="showkerTask.other.itemReviewAssign.reviewContent">复制评价内容</div>-->
                   </div>
                 </div>
@@ -261,8 +256,7 @@
                 </div>
               </div>
 
-              <div class="text-ct mt-20 graphic-info-itemDescription"
-                   v-show="!commodityData.cannotShowItemDescriptionOfQualification">
+              <div class="text-ct mt-20 graphic-info-itemDescription" v-show="!commodityData.cannotShowItemDescriptionOfQualification">
                 <div v-html="commodityData.task.itemDescription"></div>
               </div>
             </div>
@@ -335,14 +329,12 @@
       <Radio-group class="mt-20" v-model="selectedWw">
         <Radio v-for="ww in wwList" :label="ww.id" :key="ww.id" :disabled="wwState[ww.status].disabled">
           <span :class="[ww.status !== 2 ? 'cl999':'']">{{ww.alitmAccount}}</span>
-          <span v-if="wwState[ww.status].text"
-                :class="[ww.status !== 2 ? 'cl999':'']">({{wwState[ww.status].text}})</span>
+          <span v-if="wwState[ww.status].text" :class="[ww.status !== 2 ? 'cl999':'']">({{wwState[ww.status].text}})</span>
         </Radio>
       </Radio-group>
       <span v-if="!canUseWw" style="color: #FF6600">（无可用旺旺号）</span>
       <div v-if="limit">
-        <p class="mt-10">本次申请将消耗 <span class="clff6633"> “1次” </span> 申请次数，当前您的剩余次数为 <span class="clff6633"> “{{residue}}次” </span>
-        </p>
+        <p class="mt-10">本次申请将消耗 <span class="clff6633"> “1次” </span> 申请次数，当前您的剩余次数为 <span class="clff6633"> “{{residue}}次” </span> </p>
         <div class="mt-10">
           <a class="pos-rel apply-num">
             想要更多申请次数
@@ -361,8 +353,7 @@
         提交申请成功，请耐心等待商家审核
       </p>
       <div slot="footer" class="text-ct">
-        <router-link class="ivu-btn ivu-btn-primary ivu-btn-large mr-40" to="/user/my-probation/wait"
-                     style="color: #fff">
+        <router-link class="ivu-btn ivu-btn-primary ivu-btn-large mr-40" to="/user/my-probation/wait" style="color: #fff">
           看看我申请的宝贝
         </router-link>
         <span @click="refreshPage" class="ivu-btn ivu-btn-primary ivu-btn-large cl-fff">好的，明白了</span>
@@ -399,9 +390,7 @@
       </div>
     </Modal>
     <Modal v-model="inBlackListPop" class="text-ct">
-      <div class="fs-20 f-b mt-30">
-        <Icon type="information-circled" class="main-color mr-5"></Icon>
-        <span>糟糕，出事儿了~</span></div>
+      <div class="fs-20 f-b mt-30"><Icon type="information-circled" class="main-color mr-5"></Icon><span>糟糕，出事儿了~</span></div>
       <div class="mt-20 mb-20">你的旺旺号已被此商家拉黑，无权申请该活动~</div>
       <div slot="footer" class="text-ct">
       </div>
