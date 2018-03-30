@@ -1041,7 +1041,7 @@
     },
     created() {
       let _this = this;
-      _this.getCheckSellerTest();
+      // _this.getCheckSellerTest();
       _this.checkMemberForTask();
       _this.getItemCatalog();
       _this.getDetectionUserClauseTip();
@@ -1212,14 +1212,14 @@
           }
         }
       },*/
-      getCheckSellerTest() {
-        let _this = this;
-        api.checkSellerTest().then((res) => {
-          if (!res.status) {
-            _this.$router.push({name: 'SellerTest'});
-          }
-        });
-      },
+      // getCheckSellerTest() {
+      //   let _this = this;
+      //   api.checkSellerTest().then((res) => {
+      //     if (!res.status) {
+      //       _this.$router.push({name: 'SellerTest'});
+      //     }
+      //   });
+      // },
       checkMemberForTask() {
         let _this = this;
         api.checkMemberForTask().then(res => {

@@ -218,18 +218,18 @@ export default new Router({
         role: null,
       }
     },
-    {
-      path: '/seller-test',
-      name: 'SellerTest',
-      component: SellerTest,
-      meta: {
-        title: "商家宣导页",
-        logInAuthority: true,
-        topShow: true,
-        bottomShow: true,
-        role: 1,
-      }
-    },
+    // {
+    //   path: '/seller-test',
+    //   name: 'SellerTest',
+    //   component: SellerTest,
+    //   meta: {
+    //     title: "商家宣导页",
+    //     logInAuthority: true,
+    //     topShow: true,
+    //     bottomShow: true,
+    //     role: 1,
+    //   }
+    // },
     {
       path: '/showker-landing',
       name: 'ShowkerLanding',
