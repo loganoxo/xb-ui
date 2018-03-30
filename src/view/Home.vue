@@ -135,7 +135,7 @@
                   <span class="left text-ct" style="width: 33.33%;">待审买家秀</span>
                 </div>
                 <p class="clear-both pt-10">
-                  <a @click="showSellerVipPopup=true;" v-if="parseInt(trialCount.finishedTaskCount) + parseInt(trialCount.underWayTask) <= 0 "
+                  <a @click="changeIsBuyVipPopupFunc" v-if="parseInt(trialCount.finishedTaskCount) + parseInt(trialCount.underWayTask) <= 0 "
                                 class="ivu-btn ivu-btn-success ivu-btn-long">
                     免费发布活动
                   </a>
@@ -714,6 +714,17 @@
     },
 
     methods: {
+      changeIsBuyVipPopupFunc(){
+        let self = this;
+        if(self.$store.getters.getMembershipIsExpire){
+          self.$store.commit({
+            type: "CHANGE_IS_VIP_POPUP",
+            result: true,
+          });
+        }else {
+          self.$router.push({name: 'TaskReleaseProcess'});
+        }
+      },
       getReceiveTime(createTime) {
         let nowTime = getSeverTime();
         return (nowTime - createTime) / 1000 < 60 ? 1 :
