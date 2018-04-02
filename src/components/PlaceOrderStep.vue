@@ -86,7 +86,7 @@
       </p>
       <p class="mt-10" v-if="showkerTaskInfo.task.orderQuantity">
         <span>拍下件数：</span>
-        <span>{{showkerTaskInfo.task.orderQuantity}}</span>
+        <span>{{showkerTaskInfo.task.orderQuantity || 1}}</span>
       </p>
       <p class="mt-10">
         <span>付款方式：</span>

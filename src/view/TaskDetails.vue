@@ -196,7 +196,7 @@
                   </p>
                   <p class="mt-10" v-if="commodityData.task.orderQuantity">
                     <span>拍下件数：</span>
-                    <span>{{commodityData.task.orderQuantity}}</span>
+                    <span>{{commodityData.task.orderQuantity || 1}}</span>
                   </p>
                   <p class="mt-10">
                     <span>付款方式：</span>
