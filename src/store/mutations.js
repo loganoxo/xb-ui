@@ -102,4 +102,10 @@ export default {
   [types.CHANGE_IS_VIP_POPUP](state, {result}) {
     state.isBuyVipPopup = result;
   },
+
+  //商家任务信息
+  [types.SELLER_TASK_INFO](state, {result}) {
+    state.sellerTaskInfo = result;
+  },
+
 }

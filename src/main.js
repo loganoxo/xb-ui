@@ -11,6 +11,7 @@ import Notice from 'iview/src/components/notice'
 import '../iview/iview.less'
 import '@/css/common.scss'
 import 'animate.css'
+import api from '@/config/apiConfig'
 
 Vue.config.productionTip = false;
 
@@ -58,15 +59,18 @@ router.beforeEach((to, from, next) => {
     logInAuthority: to.meta.logInAuthority
   });
   if(to.name === 'TaskReleaseProcess' ){
-    if(store.state.login &&  store.state.userInfo.role ===1){
-      if(store.getters.getMembershipIsExpire){//非VIP用户
-        store.commit({
-          type: "CHANGE_IS_VIP_POPUP",
-          result: true,
-        });
-        router.push({name: 'Home'});
+    store.dispatch('getSellerTaskInfo').then( res => {
+      if(store.state.login &&  store.state.userInfo.role ===1 ){
+        if(store.getters.getMembershipIsExpire && (parseInt(store.state.sellerTaskInfo.taskTotalCount) > 0)){//非VIP用户且发单数大于0
+          store.commit({
+            type: "CHANGE_IS_VIP_POPUP",
+            result: true,
+          });
+          router.push({name: 'Home'});
+        }
       }
-    }
+    });
+
   }
   if (to.meta.logInAuthority && !store.state.login) {
     next('/login');

@@ -33,7 +33,17 @@ export default {
       }
     });
   },
-
+  //获取商家发布任务情况
+  getSellerTaskInfo({commit}) {
+    return new Promise((resolve, reject) => {
+      api.sellerPersonalTrialCount().then(res => {
+        commit('SELLER_TASK_INFO',{result: res.data});
+        resolve(res);
+      }).catch(err => {
+        reject(err);
+      })
+    })
+  },
   //获取商家任务管理活动数量信息
   getPersonalTrialCount({commit}) {
     api.sellerPersonalTrialCount().then(res => {

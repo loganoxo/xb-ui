@@ -5,11 +5,13 @@
         <div class="home-section">
           <div class="left-ctt left ">
             <ul>
-              <li v-if="nav.id !== 600 && !isLogin" :class="[TaskCategoryActive === nav.id ? 'active' : '']" @click="selTaskCategoryActiveFunc(nav)" v-for="nav in navList" >
+              <li v-if="nav.id !== 600 && !isLogin" :class="[TaskCategoryActive === nav.id ? 'active' : '']"
+                  @click="selTaskCategoryActiveFunc(nav)" v-for="nav in navList">
                 <img width="16" height="16" :src="nvaImgSrc[nav.id]">
                 <span class="ml-5">{{nav.name}}</span>
               </li>
-              <li v-if="isLogin" :class="[TaskCategoryActive === nav.id ? 'active' : '']" @click="selTaskCategoryActiveFunc(nav)" v-for="nav in navList" style="padding: 4px 0">
+              <li v-if="isLogin" :class="[TaskCategoryActive === nav.id ? 'active' : '']"
+                  @click="selTaskCategoryActiveFunc(nav)" v-for="nav in navList" style="padding: 4px 0">
                 <img width="16" height="16" :src="nvaImgSrc[nav.id]">
                 <span class="ml-5">{{nav.name}}</span>
               </li>
@@ -23,7 +25,7 @@
             <Carousel autoplay :autoplay-speed="5000" v-model="homeCarousel" loop>
               <Carousel-item v-for="swipeItem in swipeItemList" :key="swipeItem.src">
                 <a :href="swipeItem.adUrl" class="block">
-                  <img :src="getSwipeHead(swipeItem.adImg)" alt="" >
+                  <img :src="getSwipeHead(swipeItem.adImg)" alt="">
                 </a>
               </Carousel-item>
             </Carousel>
@@ -49,10 +51,12 @@
             <div class="login-in-box" v-if="isLogin && getUserInfoRole　=== 0">
               <div>
                 <Tooltip content="上传自定义个性头像，可以提高活动申请通过率哦，点击修改头像！" placement="bottom" class="left">
-                  <router-link tag="img" to="/user/personal-setting/personal-account-info" :src="userHeadUrl" class="cursor-p heard-img"></router-link>
+                  <router-link tag="img" to="/user/personal-setting/personal-account-info" :src="userHeadUrl"
+                               class="cursor-p heard-img"></router-link>
                 </Tooltip>
                 <div class="left fs-14 ml-20" style="margin-left: 10px;line-height: 28px;">
-                  <router-link to="/user/personal-setting/personal-account-info" :title="decodeURIComponent(getUserInfoPhone)" class="ellipsis user-name">
+                  <router-link to="/user/personal-setting/personal-account-info"
+                               :title="decodeURIComponent(getUserInfoPhone)" class="ellipsis user-name">
                     Hi~ 拿手 {{decodeURIComponent(getUserInfoPhone)}}
                   </router-link>
 
@@ -92,10 +96,12 @@
             <div class="login-in-box" v-if="isLogin && getUserInfoRole　=== 1">
               <div class="clear">
                 <Tooltip content="上传自定义个性头像，可以提高活动申请通过率哦，点击修改头像！" placement="bottom" class="left">
-                  <router-link style="border-radius: 50%" tag="img" to="/user/personal-setting/personal-account-info" width="56" :src="userHeadUrl" class="cursor-p"></router-link>
+                  <router-link style="border-radius: 50%" tag="img" to="/user/personal-setting/personal-account-info"
+                               width="56" :src="userHeadUrl" class="cursor-p"></router-link>
                 </Tooltip>
                 <div class="left fs-14 ml-20" style="margin-left: 10px;line-height: 28px;">
-                  <router-link to="/user/user-home" :title="decodeURIComponent(getUserInfoPhone)" class="ellipsis user-name">
+                  <router-link to="/user/user-home" :title="decodeURIComponent(getUserInfoPhone)"
+                               class="ellipsis user-name">
                     Hi~ 商家 {{decodeURIComponent(getUserInfoPhone)}}
                   </router-link>
                   <div v-if="getUserInfoRole === 1 && membershipIsExpire" class="fs-12">
@@ -106,8 +112,8 @@
                   <div v-if="getUserInfoRole === 1 && !membershipIsExpire" class="fs-12">
                     <Icon type="social-vimeo" class="cl-red"></Icon>
                     <span class="cl-red">您已是VIP，发布活动免费无上限</span>
-                   <!-- <span>到期时间:{{Math.floor((parseInt(getMemberDeadline) - parseInt((new Date().getTime()))) / 86400000)}}天</span>
-                    <router-link to="/user/vip-member">续费</router-link>-->
+                    <!-- <span>到期时间:{{Math.floor((parseInt(getMemberDeadline) - parseInt((new Date().getTime()))) / 86400000)}}天</span>
+                     <router-link to="/user/vip-member">续费</router-link>-->
                   </div>
                 </div>
                 <p class="clear-both fs-14 mt-10 left ml-20">当前进行的活动：
@@ -135,20 +141,23 @@
                   <span class="left text-ct" style="width: 33.33%;">待审买家秀</span>
                 </div>
                 <p class="clear-both pt-10">
-                  <a @click="changeIsBuyVipPopupFunc" v-if="parseInt(trialCount.finishedTaskCount) + parseInt(trialCount.underWayTask) <= 0 "
-                                class="ivu-btn ivu-btn-success ivu-btn-long">
+                  <router-link to="/user/task-release"
+                               v-if="parseInt(trialCount.finishedTaskCount) + parseInt(trialCount.underWayTask) <= 0 "
+                               class="ivu-btn ivu-btn-success ivu-btn-long">
                     免费发布活动
-                  </a>
-                  <router-link v-if="parseInt(trialCount.finishedTaskCount) + parseInt(trialCount.underWayTask) > 0 "
-                               to="/user/task-release" class="ivu-btn ivu-btn-primary ivu-btn-long">
-                    继续发布活动
                   </router-link>
+                  <a @click="changeIsBuyVipPopupFunc"
+                     v-if="parseInt(trialCount.finishedTaskCount) + parseInt(trialCount.underWayTask) > 0 "
+                     class="ivu-btn ivu-btn-primary ivu-btn-long">
+                    继续发布活动
+                  </a>
                 </p>
               </div>
             </div>
             <div class="notice-box">
               <p>
-                <a v-show="!(getUserInfoRole === 0 && notice.title === '商家问题')" v-for="notice in noticeList" :class="[noticeActive === notice.active ? 'active' : '']"
+                <a v-show="!(getUserInfoRole === 0 && notice.title === '商家问题')" v-for="notice in noticeList"
+                   :class="[noticeActive === notice.active ? 'active' : '']"
                    @click="changeNoticeTab(notice)">{{notice.title}}</a>
               </p>
               <div v-for="(notice,index) in noticeList" v-show="noticeActive === notice.active" :key="index"
@@ -173,15 +182,17 @@
               </div>
               <ul class="clear" :class="[leftSlider ? 'slider-top-active-left' : 'slider-top-default-left']"
                   @mouseover="clearLeftSliderFunc()" @mouseleave="leftSliderFunc()">
-                <li v-for="item in buyerShowList" class="content cursor-p left pos-rel" >
-                  <router-link :to="{path:'/trial-report',query:{q:encryptionId(item.showkerId),showReportDesc:true,id:encryptionId(item.id)}}" :title="item.taskName" target="_blank">
+                <li v-for="item in buyerShowList" class="content cursor-p left pos-rel">
+                  <router-link
+                    :to="{path:'/trial-report',query:{q:encryptionId(item.showkerId),showReportDesc:true,id:encryptionId(item.id)}}"
+                    :title="item.taskName" target="_blank">
                     <div style="height: 260px">
                       <img :src="item.trialReportImages+'!thum400'" alt="" width="200" height="260">
                     </div>
-                     <p class="top-heart clear" v-show="item.likeCount !== 0">
-                       <Icon type="heart" class="left fs-14 mt" style="margin-top: 2px"></Icon>
-                       <span class="left ml-5" >赞({{item.likeCount}})</span>
-                     </p>
+                    <p class="top-heart clear" v-show="item.likeCount !== 0">
+                      <Icon type="heart" class="left fs-14 mt" style="margin-top: 2px"></Icon>
+                      <span class="left ml-5">赞({{item.likeCount}})</span>
+                    </p>
                     <p class="price clear">
                       <span class="left ellipsis">{{item.taskName}}</span>
                       <span class="right pl-10">￥{{item.itemPrice/100}}</span>
@@ -192,7 +203,10 @@
                     <a class="des-text" :title="item.trialReportText">{{item.trialReportText}}</a>
                   </p>
                   <div class="clear bottom mt-20">
-                    <router-link :to="{path:'/trial-report',query:{q:encryptionId(item.showkerId)}}" class="user-head-box ml-10"><img  width="48" height="48" :src="getUserHead(item.showkerPortraitPic)" alt=""></router-link>
+                    <router-link :to="{path:'/trial-report',query:{q:encryptionId(item.showkerId)}}"
+                                 class="user-head-box ml-10"><img width="48" height="48"
+                                                                  :src="getUserHead(item.showkerPortraitPic)" alt="">
+                    </router-link>
                     <div class="left ml-10 mt-5">
                       <p class="cl000">{{item.nickName}}</p>
                       <img :src="item.creditLevel" alt="">
@@ -208,7 +222,8 @@
               <ul :class="[leftTopSlider ? 'slider-top-active-right' : 'slider-top-default-right']"
                   @mouseover="clearLeftTopSliderFunc()" @mouseleave="leftTopSliderFunc()">
                 <li v-for="taskTopLeft in taskTopLeftList">
-                  <router-link :to="{path:'/task-details', query:{q: encryptionId(taskTopLeft.task.id)}}" :title="taskTopLeft.task.taskName" class="block">
+                  <router-link :to="{path:'/task-details', query:{q: encryptionId(taskTopLeft.task.id)}}"
+                               :title="taskTopLeft.task.taskName" class="block">
                     <div class="left img-box">
                       <img :src="taskTopLeft.task.taskMainImage + '!thum54'" alt="" width="54" height="54">
                     </div>
@@ -218,8 +233,10 @@
                         价值<span class="text ml-5">￥{{taskTopLeft.task.itemPrice / 100}}</span> 的宝贝
                       </p>
                       <span class="cl999">{{getReceiveTime(taskTopLeft.createTime)}}</span>
-                      <span class="cl999" v-if="(new Date() -taskTopLeft.createTime)/1000/60 < 60 || (new Date() -taskTopLeft.createTime)/1000 < 60">分钟前</span>
-                      <span class="cl999" v-if="(new Date() -taskTopLeft.createTime)/1000/60/60/24 < 1 && (new Date() -taskTopLeft.createTime)/1000/60 >= 60">小时前</span>
+                      <span class="cl999"
+                            v-if="(new Date() -taskTopLeft.createTime)/1000/60 < 60 || (new Date() -taskTopLeft.createTime)/1000 < 60">分钟前</span>
+                      <span class="cl999"
+                            v-if="(new Date() -taskTopLeft.createTime)/1000/60/60/24 < 1 && (new Date() -taskTopLeft.createTime)/1000/60 >= 60">小时前</span>
                       <span class="cl999" v-if="(new Date() -taskTopLeft.createTime)/1000/60/60/24 >= 1">天前</span>
                     </div>
                   </router-link>
@@ -262,19 +279,28 @@
                     </span>
                     <span class="f-b" v-if="!homeCommodity.discountPrice && !homeCommodity.discountRate">￥0</span>
                   </em>
-                  <em  class="price-icon mt-10">
-                    <span v-if="homeCommodity.activityCategory === 'price_low' && homeCommodity.discountPrice" class="left home-discount-price mt-5" :style="{backgroundColor: $store.state.discountPriceType[parseFloat(homeCommodity.discountPrice/100)].backgroundColor}" >
+                  <em class="price-icon mt-10">
+                    <span v-if="homeCommodity.activityCategory === 'price_low' && homeCommodity.discountPrice"
+                          class="left home-discount-price mt-5"
+                          :style="{backgroundColor: $store.state.discountPriceType[parseFloat(homeCommodity.discountPrice/100)].backgroundColor}">
                       {{homeCommodity.discountPrice/100}}试用
                     </span>
-                    <span v-if="homeCommodity.activityCategory === 'price_low' && homeCommodity.discountRate" class="left home-discount-price mt-5" :style="{backgroundColor: $store.state.discountPriceType[parseFloat(homeCommodity.discountRate/10) + '折'].backgroundColor}" >
+                    <span v-if="homeCommodity.activityCategory === 'price_low' && homeCommodity.discountRate"
+                          class="left home-discount-price mt-5"
+                          :style="{backgroundColor: $store.state.discountPriceType[parseFloat(homeCommodity.discountRate/10) + '折'].backgroundColor}">
                       {{homeCommodity.discountRate/10}}折试用
                     </span>
                   </em>
                 </p>
-                <p class="home-commodity-apply">限量 <span class="main-color"> {{homeCommodity.taskCount || 0 }} </span> 份，剩余
-                  <span class="main-color"> {{homeCommodity.taskCount - homeCommodity.showkerApplySuccessCount || 0}} </span> 份
+                <p class="home-commodity-apply">限量 <span class="main-color"> {{homeCommodity.taskCount || 0 }} </span>
+                  份，剩余
+                  <span
+                    class="main-color"> {{homeCommodity.taskCount - homeCommodity.showkerApplySuccessCount || 0}} </span>
+                  份
                 <p class="home-commodity-take">
-                  <router-link :to="{ 'path': '/task-details','query': {'q':encryptionId(homeCommodity.id)}}" class="ivu-btn ivu-btn-long">免费领取</router-link>
+                  <router-link :to="{ 'path': '/task-details','query': {'q':encryptionId(homeCommodity.id)}}"
+                               class="ivu-btn ivu-btn-long">免费领取
+                  </router-link>
                 </p>
               </div>
             </router-link>
@@ -316,23 +342,33 @@
                       ￥0
                     </span>
                   </em>
-                  <em  class="price-icon mt-10">
-                    <span v-if= "homeCommodity.activityCategory === 'pinkage_for_10'" style="padding: 0 4px; background: #ff9966; color: #fff; margin-left: 10px; display: inline-block;height: 20px;line-height: 20px;">10元包邮</span>
-                    <span v-if= "homeCommodity.activityCategory === 'present_get'" style="padding: 0 4px; background: #00cc66; color: #ffffff; margin-left: 10px; display: inline-block;height: 20px;line-height: 20px;">体验专区</span>
-                    <span v-if="homeCommodity.activityCategory === 'price_low' && homeCommodity.discountPrice" class="left home-discount-price mt-5" :style="{backgroundColor: $store.state.discountPriceType[parseFloat(homeCommodity.discountPrice/100)].backgroundColor}" >
+                  <em class="price-icon mt-10">
+                    <span v-if="homeCommodity.activityCategory === 'pinkage_for_10'"
+                          style="padding: 0 4px; background: #ff9966; color: #fff; margin-left: 10px; display: inline-block;height: 20px;line-height: 20px;">10元包邮</span>
+                    <span v-if="homeCommodity.activityCategory === 'present_get'"
+                          style="padding: 0 4px; background: #00cc66; color: #ffffff; margin-left: 10px; display: inline-block;height: 20px;line-height: 20px;">体验专区</span>
+                    <span v-if="homeCommodity.activityCategory === 'price_low' && homeCommodity.discountPrice"
+                          class="left home-discount-price mt-5"
+                          :style="{backgroundColor: $store.state.discountPriceType[parseFloat(homeCommodity.discountPrice/100)].backgroundColor}">
                       {{homeCommodity.discountPrice/100}}试用
                     </span>
-                    <span v-if="homeCommodity.activityCategory === 'price_low' && homeCommodity.discountRate" class="left home-discount-price mt-5" :style="{backgroundColor: $store.state.discountPriceType[parseFloat(homeCommodity.discountRate/10) + '折'].backgroundColor}" >
+                    <span v-if="homeCommodity.activityCategory === 'price_low' && homeCommodity.discountRate"
+                          class="left home-discount-price mt-5"
+                          :style="{backgroundColor: $store.state.discountPriceType[parseFloat(homeCommodity.discountRate/10) + '折'].backgroundColor}">
                       {{homeCommodity.discountRate/10}}折试用
                     </span>
-                    <span v-if="homeCommodity.activityCategory === 'goods_clearance' && homeCommodity.discountRate " class="left home-discount-price mt-5" :style="{backgroundColor: $store.state.discountPriceType[parseFloat(homeCommodity.discountRate/10) + '折'].backgroundColor}" >
+                    <span v-if="homeCommodity.activityCategory === 'goods_clearance' && homeCommodity.discountRate "
+                          class="left home-discount-price mt-5"
+                          :style="{backgroundColor: $store.state.discountPriceType[parseFloat(homeCommodity.discountRate/10) + '折'].backgroundColor}">
                       {{homeCommodity.discountRate/10}}折清仓
                     </span>
                   </em>
                 </p>
                 <p class="home-commodity-apply">
                   限量 <span class="main-color"> {{homeCommodity.taskCount || 0 }} </span> 份，剩余
-                  <span class="main-color"> {{homeCommodity.taskCount - homeCommodity.showkerApplySuccessCount || 0}} </span> 份
+                  <span
+                    class="main-color"> {{homeCommodity.taskCount - homeCommodity.showkerApplySuccessCount || 0}} </span>
+                  份
                 </p>
                 <p class="home-commodity-take">
                   <router-link :to="{ 'path': '/task-details','query': {'q':encryptionId(homeCommodity.id)}}"
@@ -383,18 +419,26 @@
                     </span>
                   </em>
                   <em class="price-icon mt-10">
-                    <span v-if="homeHistory.activityCategory === 'price_low' && homeHistory.discountPrice" class="left home-discount-price mt-5" :style="{backgroundColor: $store.state.discountPriceType[parseFloat(homeHistory.discountPrice/100)].backgroundColor}" >
+                    <span v-if="homeHistory.activityCategory === 'price_low' && homeHistory.discountPrice"
+                          class="left home-discount-price mt-5"
+                          :style="{backgroundColor: $store.state.discountPriceType[parseFloat(homeHistory.discountPrice/100)].backgroundColor}">
                       {{homeHistory.discountPrice/100}}试用
                     </span>
-                    <span v-if="homeHistory.activityCategory === 'price_low' && homeHistory.discountRate" class="left home-discount-price mt-5" :style="{backgroundColor: $store.state.discountPriceType[parseFloat(homeHistory.discountRate/10) + '折'].backgroundColor}" >
+                    <span v-if="homeHistory.activityCategory === 'price_low' && homeHistory.discountRate"
+                          class="left home-discount-price mt-5"
+                          :style="{backgroundColor: $store.state.discountPriceType[parseFloat(homeHistory.discountRate/10) + '折'].backgroundColor}">
                       {{homeHistory.discountRate/10}}折试用
                     </span>
                   </em>
                 </p>
-                <p class="home-commodity-apply">限量 <span class="main-color"> {{homeHistory.taskCount || 0 }} </span> 份，剩余
-                  <span class="main-color"> {{homeHistory.taskCount - homeHistory.showkerApplySuccessCount || 0}} </span> 份
+                <p class="home-commodity-apply">限量 <span class="main-color"> {{homeHistory.taskCount || 0 }} </span>
+                  份，剩余
+                  <span
+                    class="main-color"> {{homeHistory.taskCount - homeHistory.showkerApplySuccessCount || 0}} </span> 份
                 <p class="home-commodity-take">
-                  <router-link :to="{ 'path': '/task-details','query': {'q':encryptionId(homeHistory.id)}}" class="ivu-btn ivu-btn-long">查看详情</router-link>
+                  <router-link :to="{ 'path': '/task-details','query': {'q':encryptionId(homeHistory.id)}}"
+                               class="ivu-btn ivu-btn-long">查看详情
+                  </router-link>
                 </p>
               </div>
             </router-link>
@@ -417,19 +461,20 @@
           <Checkbox-group v-model="wechartShowAgain" style="position: absolute;top:25px;right: 30px;">
             <Checkbox label="true">不再提醒</Checkbox>
           </Checkbox-group>
-          <div style="position: absolute;top:27px;right: 15px;cursor: pointer;color: #FF6633" @click="cancelWeiChartFunc">
-            <Icon type="close" ></Icon>
+          <div style="position: absolute;top:27px;right: 15px;cursor: pointer;color: #FF6633"
+               @click="cancelWeiChartFunc">
+            <Icon type="close"></Icon>
           </div>
           <div v-if="getUserInfoRole === 0">
-            <img  src="/static/img/home/wechart_alert_07.png" alt=""
+            <img src="/static/img/home/wechart_alert_07.png" alt=""
                  style="width: 507px;height: 340px; margin-top: 20px">
-            <img  src="/static/img/common/qr_code_bainana.png" alt=""
+            <img src="/static/img/common/qr_code_bainana.png" alt=""
                  style="position: absolute;
                       bottom: 55px;
                       left: 307px;
                       width: 150px;"
             >
-            <p  class="text-ct"
+            <p class="text-ct"
                style="position: absolute;
                     bottom: 26px;
                     right: 67px;
@@ -442,9 +487,9 @@
       </div>
     </div>
     <!--<Modal v-model="showSellerVipPopup" width="700" class="show-buyer-popup" >-->
-      <!--<div class="show-buyer-popup-body" >-->
-        <!--<a href="http://wpa.qq.com/msgrd?v=3&site=qq&menu=yes&uin=2012364029" target="_blank" @click="showSellerVipPopup=false;"></a>-->
-      <!--</div>-->
+    <!--<div class="show-buyer-popup-body" >-->
+    <!--<a href="http://wpa.qq.com/msgrd?v=3&site=qq&menu=yes&uin=2012364029" target="_blank" @click="showSellerVipPopup=false;"></a>-->
+    <!--</div>-->
     <!--</Modal>-->
   </div>
 </template>
@@ -470,11 +515,11 @@
       if (getStorage('weChartPop') === 1 && self.$store.state.userInfo.role === 0 && !getStorage('setWeChartshower' + self.$store.state.userInfo.phone)) {
         self.weChartShowkerAlertFunc();
       }
-     /* if(self.$store.state.userInfo.role === 0){
-        document.title = '白拿拿-不拿白不拿';
-      }else {
-        document.title = '白拿拿-真人试用买家秀';
-      }*/
+      /* if(self.$store.state.userInfo.role === 0){
+         document.title = '白拿拿-不拿白不拿';
+       }else {
+         document.title = '白拿拿-真人试用买家秀';
+       }*/
 
     },
     name: 'home',
@@ -491,12 +536,12 @@
       Modal: Modal,
       Carousel: Carousel,
       CarouselItem: Carousel.Item,
-      Tooltip:Tooltip,
+      Tooltip: Tooltip,
     },
     data() {
       return {
         swipeItemList: [],
-        confirmRechargeModel:true,
+        confirmRechargeModel: true,
         command: '',
         recommendPageSize: 6,
         wechartAlertShow: false,
@@ -504,12 +549,12 @@
         leftTopSliderTimer: '',
         leftSliderTimer: '',
         leftTopSlider: false,
-        leftSlider:false,
+        leftSlider: false,
         trialCount: {},
         homeCommodityList: [],
         homeHistoryList: [],
         homeDisCountList: [],
-        noticeList:[
+        noticeList: [
           {
             title: '常见问题',
             content: [
@@ -602,7 +647,7 @@
         noticeActive: 'faq',
         taskTopLeftList: [],
         navList: [],
-        nvaImgSrc:{
+        nvaImgSrc: {
           100: '/static/img/nav-picture/home_07.png',
           200: '/static/img/nav-picture/home_09.png',
           300: '/static/img/nav-picture/home_11.png',
@@ -614,9 +659,9 @@
           900: '/static/img/nav-picture/home_25.png',
           1000: '/static/img/nav-picture/home_27.png',
         },
-        buyerShowList:[],
+        buyerShowList: [],
         homeCarousel: 0,
-        searchTaskParams:{
+        searchTaskParams: {
           pageIndex: 1,
           pageSize: 6,
           taskName: '',
@@ -638,16 +683,16 @@
       if (self.$store.state.login) {
         self.weChartAlertFunc();
       }
-      if(self.$store.state.userInfo.role === 0){
+      if (self.$store.state.userInfo.role === 0) {
         self.getAvailableBoardByAdTypeList('showker_pc_home_page_slide_show');
-      }else if(self.$store.state.userInfo.role === 1){
+      } else if (self.$store.state.userInfo.role === 1) {
         self.getAvailableBoardByAdTypeList('seller_pc_home_page_slide_show');
         // if(self.$store.state.userInfo.memberOK){
         //   self.showSellerVipPopup = false;
         // }else {
         //   self.showSellerVipPopup = true;
         // }
-      }else {
+      } else {
         self.getAvailableBoardByAdTypeList('seller_pc_home_page_slide_show');
       }
       self.getSearchPinkageFor10Task();
@@ -707,21 +752,21 @@
         let self = this;
         self.leftTopSliderFunc();
       });
-        this.$nextTick(function () {
+      this.$nextTick(function () {
         let self = this;
         self.leftSliderFunc();
       })
     },
 
     methods: {
-      changeIsBuyVipPopupFunc(){
+      changeIsBuyVipPopupFunc() {
         let self = this;
-        if(self.$store.getters.getMembershipIsExpire){
+        if (self.$store.getters.getMembershipIsExpire && (parseInt(self.trialCount.finishedTaskCount) + parseInt(self.trialCount.underWayTask)) > 0) {//非VIP用户且发布任务大于0
           self.$store.commit({
             type: "CHANGE_IS_VIP_POPUP",
             result: true,
           });
-        }else {
+        } else {
           self.$router.push({name: 'TaskReleaseProcess'});
         }
       },
@@ -732,8 +777,8 @@
             (nowTime - createTime) / 1000 / 60 / 60 / 24 < 1 ? parseInt((nowTime - createTime) / 1000 / 60 / 60) :
               parseInt((nowTime - createTime) / 1000 / 60 / 60 / 24);
       },
-      toBuyerShow(){
-        this.$router.push({path:'buyer-show'});
+      toBuyerShow() {
+        this.$router.push({path: 'buyer-show'});
       },
       getSwipeHead(src) {
         return aliCallbackImgUrl + src
@@ -743,16 +788,16 @@
         api.getAvailableBoardByAdTypeList({advertType: advertType}).then((res) => {
           let data = res;
           let z = 0;
-          if(self.$store.state.login){
-            for(let i = 0, j = data.length; i < j; i++){
-              if(data[i].showMode != 'logout'){
+          if (self.$store.state.login) {
+            for (let i = 0, j = data.length; i < j; i++) {
+              if (data[i].showMode != 'logout') {
                 self.$set(self.swipeItemList, z, data[i]);
                 z++;
               }
             }
-          }else if(!self.$store.state.login){
-            for(let i = 0, j = data.length; i < j; i++){
-              if(data[i].showMode != 'login'){
+          } else if (!self.$store.state.login) {
+            for (let i = 0, j = data.length; i < j; i++) {
+              if (data[i].showMode != 'login') {
                 self.$set(self.swipeItemList, z, data[i])
                 z++;
               }
@@ -761,14 +806,14 @@
 
         })
       },
-      getSearchPinkageFor10Task(){
+      getSearchPinkageFor10Task() {
         let self = this;
         api.getIndexRecommend({
           count: 6,
           activityCategory: 'pinkage_for_10',
         }).then((res) => {
           if (res.status) {
-            if(res.data){
+            if (res.data) {
               self.pinkageFor10 = res.data;
               // self.$set(self.pinkageFor10);
             }
@@ -777,14 +822,14 @@
           }
         });
       },
-      getSearchPresentGetTask(){
+      getSearchPresentGetTask() {
         let self = this;
         api.getIndexRecommend({
           count: 6,
           activityCategory: 'present_get',
         }).then((res) => {
           if (res.status) {
-            if(res.data){
+            if (res.data) {
               self.presentGet = res.data;
               // self.$set(self.presentGet);
             }
@@ -793,7 +838,7 @@
           }
         });
       },
-      getHomeDisCountList(){
+      getHomeDisCountList() {
         let self = this;
         api.getIndexRecommend({
           count: 6,
@@ -821,7 +866,7 @@
           if (res.status) {
             self.buyerShowList = res.data;
             for (let i = 0, len = self.buyerShowList.length; i < len; i++) {
-              if (JSON.parse(self.buyerShowList[i].trialReportImages)[0][0] !== 'h'){
+              if (JSON.parse(self.buyerShowList[i].trialReportImages)[0][0] !== 'h') {
                 self.buyerShowList[i].trialReportImages = aliCallbackImgUrl + JSON.parse(self.buyerShowList[i].trialReportImages)[0]
               } else {
                 self.buyerShowList[i].trialReportImages = JSON.parse(self.buyerShowList[i].trialReportImages)[0];
@@ -839,7 +884,7 @@
           activityCategory: '',
         }).then((res) => {
           if (res.status) {
-            if(res.data){
+            if (res.data) {
               self.homeCommodityList = res.data;
             }
           } else {
@@ -847,17 +892,17 @@
           }
         })
       },
-      getNavList(){
+      getNavList() {
         let self = this;
-        api.getNavList().then((res) =>{
-          if(res.status){
-            if(res.data){
-              res.data.sort(function(a, b){
+        api.getNavList().then((res) => {
+          if (res.status) {
+            if (res.data) {
+              res.data.sort(function (a, b) {
                 return a.sortIndex - b.sortIndex
               });
               self.navList = res.data;
             }
-          }else {
+          } else {
             self.$Message.error(res.msg);
           }
         })
@@ -866,7 +911,7 @@
         let self = this;
         api.getHomeTaskTopLeftList().then((res) => {
           if (res.status) {
-            if(res.data){
+            if (res.data) {
               self.taskTopLeftList = res.data;
             }
           } else {
@@ -879,7 +924,7 @@
         api.getHomeHistoryList().then((res) => {
           if (res.status) {
             if (res.data) {
-              if(!self.isLogin){
+              if (!self.isLogin) {
                 self.homeHistoryList = res.data.filter(item => {
                   return item.itemCatalog.id !== 1003 && item.itemCatalog.parentItemCatalog.id !== 600;
                 });
@@ -892,17 +937,17 @@
           }
         })
       },
-      selTaskCategoryAllFunc(){
+      selTaskCategoryAllFunc() {
         let self = this;
         self.$store.commit({
           type: 'TASK_CATEGORY_LIST',
           info: 'all'
         });
-        self.$router.push({ 'path': '/task-category', 'query': {'category': 'all', 'categoryId': 'all'}});
+        self.$router.push({'path': '/task-category', 'query': {'category': 'all', 'categoryId': 'all'}});
       },
-      selTaskCategoryActiveFunc(nav){
+      selTaskCategoryActiveFunc(nav) {
         let self = this;
-        self.$router.push({ 'path': '/task-category', 'query': {'cate': nav.id, 'categoryId': nav.id}});
+        self.$router.push({'path': '/task-category', 'query': {'cate': nav.id, 'categoryId': nav.id}});
         self.$store.commit({
           type: 'SET_DISCOUNT_TASK_CATEGORY',
           result: false
@@ -1029,7 +1074,7 @@
         }, 1500)
       },
 
-      leftTopSliderFunc(){
+      leftTopSliderFunc() {
         let self = this;
         self.leftTopSliderTimer = setInterval(function () {
           if (self.leftTopSlider) {
@@ -1044,7 +1089,7 @@
         let self = this;
         clearInterval(self.leftTopSliderTimer);
       },
-      clearLeftSliderFunc(){
+      clearLeftSliderFunc() {
         let self = this;
         clearInterval(self.leftSliderTimer);
       },
@@ -1058,6 +1103,7 @@
 <style lang="scss" scoped>
 
   @import 'src/css/mixin';
+
   .confirm-recharge-model {
     position: fixed;
     top: 0;
@@ -1067,6 +1113,7 @@
     z-index: 999;
     background-color: rgba(55, 55, 55, .6);
   }
+
   .confirm-recharge-con {
     position: absolute;
     top: 20%;
@@ -1074,6 +1121,7 @@
     width: 507px;
     margin-left: -254px;
   }
+
   .home-ctt {
     background-color: #F1F1F1;
     .user-name {
@@ -1083,14 +1131,14 @@
     .buyer-xiu {
       margin: 10px auto 10px auto;
       overflow: hidden;
-      .masterImgBox{
+      .masterImgBox {
         width: 200px;
         height: 260px;
         overflow: hidden;
-        display:table-cell;
-        vertical-align:middle;
+        display: table-cell;
+        vertical-align: middle;
         text-align: center;
-        background-color:#F1F2F6;
+        background-color: #F1F2F6;
       }
       .left-ctt {
         padding: 0 10px;
@@ -1098,20 +1146,20 @@
         width: 900px;
         height: 500px;
         overflow: hidden;
-        .title{
+        .title {
           padding: 15px 10px 10px 10px;
           border-bottom: 1px solid #F6F6F6;
-          img{
+          img {
           }
         }
-        ul{
+        ul {
           padding: 10px 10px;
           width: 10000px;
-          li{
-            padding: 0 20px 0 0 ;
+          li {
+            padding: 0 20px 0 0;
             width: 220px;
             margin-bottom: 52px;
-            .top-heart{
+            .top-heart {
               position: absolute;
               top: 5px;
               right: 22px;
@@ -1120,11 +1168,11 @@
               border-radius: 3px;
               color: #FF0000;
               padding: 0 3px;
-              img{
+              img {
                 margin-top: 3px;
               }
             }
-            .price{
+            .price {
               position: absolute;
               width: 200px;
               top: 230px;
@@ -1133,33 +1181,33 @@
               line-height: 30px;
               padding: 0 3px;
               color: #fff;
-              background-color: rgba(0,0,0,0.5);
-              span:first-child{
+              background-color: rgba(0, 0, 0, 0.5);
+              span:first-child {
                 width: 128px;
               }
-              span:last-child{
+              span:last-child {
                 color: #FFFF00;
               }
             }
-            .description{
+            .description {
               padding-left: 25px;
               height: 30px;
               overflow: hidden;
-              img{
+              img {
                 position: absolute;
                 left: 0;
                 top: -3px;
               }
-              .double-question-mark{
+              .double-question-mark {
                 position: absolute;
                 left: 0;
                 top: -3px;
                 display: inline-block;
                 width: 18px;
                 height: 34px;
-                background:url("~assets/img/home/double_marks.png");
+                background: url("~assets/img/home/double_marks.png");
               }
-              .des-text{
+              .des-text {
                 max-height: 40px;
                 line-height: 16px;
                 text-overflow: ellipsis;
@@ -1171,12 +1219,12 @@
                 color: #666;
               }
             }
-            .icon-heart{
+            .icon-heart {
               font-size: 16px;
             }
-            .bottom{
+            .bottom {
               font-size: 14px;
-              .click-good{
+              .click-good {
                 color: #FF0000;
               }
             }
@@ -1215,7 +1263,7 @@
         width: 190px;
         height: 410px;
         margin-top: -10px;
-        .left-ctt-top{
+        .left-ctt-top {
           height: 50px;
           line-height: 50px;
           background-color: $mainColor;
@@ -1230,14 +1278,14 @@
             font-size: 14px;
             cursor: pointer;
             line-height: 28px;
-            img{
+            img {
               vertical-align: middle;
             }
           }
-          li.active{
+          li.active {
             color: $mainColor;
           }
-          li:hover{
+          li:hover {
             background-color: #fdebee;
           }
         }
@@ -1369,14 +1417,14 @@
               color: #FF6633;
               height: 40px;
               line-height: normal;
-              em{
+              em {
                 font-style: normal;
               }
-              em.price-list{
+              em.price-list {
                 float: left;
               }
-              em.price-icon{
-                span{
+              em.price-icon {
+                span {
                   margin-top: 16px;
                   margin-left: 10px;
                 }
@@ -1404,9 +1452,9 @@
         height: 60px;
         line-height: 60px;
         margin-bottom: 10px;
-        p{
+        p {
           padding-left: 20px;
-          img{
+          img {
             vertical-align: -4px;
             margin-left: 5px;
           }
@@ -1423,7 +1471,7 @@
           text-align: left;
           .home-commodity-img {
             border: 1px solid #ddd;
-            img{
+            img {
               width: 168px;
               height: 168px;
             }
@@ -1448,14 +1496,14 @@
               color: #FF6633;
               height: 40px;
               line-height: normal;
-              em{
+              em {
                 font-style: normal;
               }
-              em.price-list{
+              em.price-list {
                 float: left;
               }
-              em.price-icon{
-                span{
+              em.price-icon {
+                span {
                   margin-top: 16px;
                   margin-left: 10px;
                 }
@@ -1475,25 +1523,25 @@
     }
   }
 
-  .user-head-box{
+  .user-head-box {
     float: left;
     width: 48px;
     height: 48px;
-    img{
+    img {
       border-radius: 50%;
     }
   }
 
-  .applied{
+  .applied {
     position: absolute;
-    top:0;
+    top: 0;
     right: 0;
     background-color: $mainColor;
     padding: 0 6px;
     color: #fff;
   }
 
-  .home-discount-price{
+  .home-discount-price {
     color: #fff;
     line-height: 20px;
     height: 20px;
@@ -1502,7 +1550,8 @@
     margin-top: 3px;
     margin-left: 5px
   }
-  .slider-top-active{
+
+  .slider-top-active {
     margin-top: -77px;
     animation: sliderTop 1s;
   }
@@ -1511,7 +1560,7 @@
     margin-top: 0;
   }
 
-  .heard-img{
+  .heard-img {
     width: 56px;
     height: 56px;
     border-radius: 50%;
