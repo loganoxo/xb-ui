@@ -506,6 +506,7 @@
       },
       searchPassesTask() {
         this.pageIndex = 1;
+        this.selectId = null;
         this.passesTaskList();
       },
       passesTaskList() {
@@ -626,10 +627,7 @@
           msg: _this.orderNoPassReason
         }).then(res => {
           if (res.status) {
-            _this.$Message.success({
-              content: '订单号审核成功！',
-              duration: 4
-            });
+            _this.$Message.success('订单号审核成功！');
             _this.$store.dispatch('getPersonalTrialCount');
             _this.$store.dispatch('getUserInformation');
             _this.showCheckOrder = false;
