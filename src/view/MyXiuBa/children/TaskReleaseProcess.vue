@@ -88,7 +88,7 @@
            v-if="getMemberStatus === 'need_member_for_more_audit'">
         <Icon class="mr-10" style="font-size: 25px ;transform: translateY(16px)" type="close-circled"></Icon>
         <span>
-          <span><strong>很抱歉，当前你为非会员，仅支持免费发布一条活动。</strong></span><br>
+          <span><strong>很抱歉，当前你为非会员，仅支持免费发布一条活动（目前已存在一条待审核活动，请等待审核结果）。</strong></span><br>
           <span class="ml-38"><strong>请在购买会员后继续发布更多活动。</strong></span>
         </span>
       </div>
