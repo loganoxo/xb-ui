@@ -177,9 +177,14 @@
                 class="pos-rel" target="_blank">
                 <img width="220" v-show="item.trialReportImages !== ''" class="cursor-p"
                      v-lazy="item.trialReportImages" alt="">
+                <!--<div class="pic-box" style="width:220px;height:220px;color:#ccc;">-->
+                  <!--<img width="220" v-show="item.trialReportImages !== ''" class="cursor-p"-->
+                       <!--v-lazy="item.trialReportImages" alt="" style="width:100%;height:100%">-->
+                <!--</div>-->
                 <p class="mt-10 description pos-rel">
+                <!--<p class="mt-10 description pos-rel" style="height:16px;line-height: 16px;overflow: hidden;text-overflow: ellipsis;white-space: nowrap;">-->
                   <span class="double-question-mark "></span>
-                  <a class="des-text " style="margin-left: 26px;color: #666">{{item.trialReportText}}</a>
+                  <a class="des-text " style="margin-left: 26px;color: #666;">{{item.trialReportText}}</a>
                 </p>
               </router-link>
               <div class="clear bottom mt-20">
@@ -539,6 +544,10 @@
     -o-column-count: 4;
     -o-column-gap: 30px;
     -o-column-rule: 0 solid #ff0000;
+
+    /*display:flex;*/
+    /*flex-direction: row;*/
+    /*flex-wrap: wrap;*/
   }
 
   .con .pic {
@@ -548,9 +557,22 @@
     padding: 20px 15px;
     margin: 10px;
     display: inline-block;
-    /*float:left;*/
     break-inside: avoid;
+
+    /*width:250px;*/
+    /*min-height: 100px;*/
+    /*box-shadow: 2px 2px 6px #b5b5b5;*/
+    /*padding: 20px 15px;*/
+    /*margin: 10px;*/
+    /*flex:1;*/
   }
+  /*.con .pic img{*/
+    /*opacity: 0;*/
+    /*transition: opacity 4s;*/
+  /*}*/
+  /*.con .pic img[src]{*/
+    /*opacity: 1;*/
+  /*}*/
 
   .confirm-recharge-model {
     position: fixed;
@@ -886,6 +908,12 @@
           word-wrap: break-word;
           color: #666;
           margin-left: 26px;
+
+          /*white-space:nowrap;*/
+          /*display: inline-block;*/
+          /*width:100%;*/
+          /*height:16px;*/
+          /*color:red;*/
         }
 
       }
