@@ -1,16 +1,16 @@
 <template>
   <div class="my-getoutmoney">
-    <div class="not-certification" v-show="changeBankIdCardShow.isCertification">
-      <h2>
-        <Icon type="close-circled" class="mr-10 vtc-mid icon"></Icon>
-        很抱歉，您未进行实名认证，无法提现
-      </h2>
-      <div class="how-todo"><span>你现在可以：</span>
-        <router-link to="/user/personal-setting/verified" class="ml-10">立即申请实名认证</router-link>
-        <span class="ml-10 mr-10">|</span>
-        <router-link class="ml-10" :to="{'path': '/user/help-center/faq', 'query': {'page': 'common', 'qusNum': '9'}}">查看如何进行实名认证</router-link>
-      </div>
-    </div>
+    <!--<div class="not-certification" v-show="changeBankIdCardShow.isCertification">-->
+      <!--<h2>-->
+        <!--<Icon type="close-circled" class="mr-10 vtc-mid icon"></Icon>-->
+        <!--很抱歉，您未进行实名认证，无法提现-->
+      <!--</h2>-->
+      <!--<div class="how-todo"><span>你现在可以：</span>-->
+        <!--<router-link to="/user/personal-setting/verified" class="ml-10">立即申请实名认证</router-link>-->
+        <!--<span class="ml-10 mr-10">|</span>-->
+        <!--<router-link class="ml-10" :to="{'path': '/user/help-center/faq', 'query': {'page': 'common', 'qusNum': '9'}}">查看如何进行实名认证</router-link>-->
+      <!--</div>-->
+    <!--</div>-->
     <div class="bound-bankcard" v-show="changeBankIdCardShow.isBondBankCard">
       <div class="bankcard-title">
         <Icon class="icon vtc-btm" type="information-circled"></Icon>
