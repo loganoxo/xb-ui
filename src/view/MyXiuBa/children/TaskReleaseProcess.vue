@@ -858,13 +858,11 @@
         <div class="description-fees mt-40">
           <h3>费用说明：</h3>
           <div class="description-fees-con mt-10">
-            <p>
-              活动担保金 = 份数 × 单品活动担保金 =<span>{{taskRelease.taskCount}}</span> × <span>{{oneBond}}</span> = <span>{{(taskRelease.taskCount * oneBond).toFixed(2)}}</span>元
-            </p>
+            <p>活动担保金 = 份数 × 单品活动担保金 = <span>{{taskRelease.taskCount}}</span> × <span>{{oneBond}}</span> = <span>{{(taskRelease.taskCount * oneBond).toFixed(2)}}</span>元</p>
             <!--<p class="mt-6">
               单品推广费 = （宝贝单价 + 邮费） × 费率 =<span>（{{taskRelease.itemPrice}} + {{taskRelease.pinkage === 'true' ? 0 : 10}}）</span>× <span>6%</span> = <span>{{onePromotionExpenses}}</span>元<span
               v-if="isShowExpensesTip">（单品推广费超过平台设定的最高上限3.00元，本次实际收取的单品推广费用为3.00元）</span></p>-->
-            <p class="mt-6">总推广费用 = 单品推广费用 × 份数 =<span>{{onePromotionExpenses}}</span> × <span>{{taskRelease.taskCount}} = <span>{{allPromotionExpenses}}</span></span>元</p>
+            <p class="mt-6">总推广费用 = 单品推广费用 × 份数 = <span>{{onePromotionExpenses}}</span> × <span>{{taskRelease.taskCount}} = <span>{{allPromotionExpenses}}</span></span>元</p>
             <p class="mt-6">总费用 = 活动担保金 + 总推广费用 = <span>{{orderMoney}}</span>元</p>
           </div>
         </div>
@@ -1282,11 +1280,19 @@
       },
 
       /**
-       * 计算最终商家发布单品活动担保金（商家需要存入的担保金 + 是否包邮）
+       * 计算拍A发A最终商家发布单品活动担保金（商家需要存入的担保金 + 邮费）
        * @return {number}
        */
       oneBond() {
         return this.taskRelease.pinkage === 'true' ? (this.newItemPrice / 100).toFixed(2) * 1 : (this.newItemPrice / 100 + 10).toFixed(2) * 1;
+      },
+
+      /**
+       * 计算拍A发B最终商家发布单品活动担保金（（A宝贝单价x拍下数量 + 邮费）* B宝贝数量）
+       * @return {number}
+       */
+      oneBondAToB() {
+        return this.taskRelease.pinkage === 'true' ? this.taskRelease.itemPrice * this.taskRelease.orderQuantity * 100 : this.taskRelease.itemPrice * this.taskRelease.orderQuantity * 100 + 1000;
       },
 
       /**
@@ -1312,7 +1318,12 @@
        * @return {number}
        */
       orderMoney() {
-        return (((this.taskRelease.taskCount * this.oneBond * 100) + this.allPromotionExpenses * 100) / 100).toFixed(2) * 1;
+        if(this.taskRelease.activityCategory === 'free_get') {
+          return (((this.taskRelease.taskCount * this.oneBond * 100) + this.allPromotionExpenses * 100) / 100).toFixed(2) * 1;
+        }
+        if(this.taskRelease.activityCategory === 'present_get') {
+          return (((this.taskRelease.taskCount * this.oneBondAToB) + this.allPromotionExpenses * 100) / 100).toFixed(2) * 1;
+        }
       },
 
       /**
