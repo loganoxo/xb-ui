@@ -115,7 +115,7 @@
   import {TaskErrorStatusList} from '@/config/utils'
 
   export default {
-    name: 'PlaceOrderStep',
+    name: 'place-order-step',
     components: {
       iButton: Button,
       Icon: Icon,
