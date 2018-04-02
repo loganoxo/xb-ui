@@ -5,6 +5,7 @@ const Home = r => require.ensure([], () => r(require('@/view/Home.vue')), 'Home'
 const BuyerShow = r => require.ensure([], () => r(require('@/view/BuyerShow.vue')), 'BuyerShow');
 const QQLogin = r => require.ensure([], () => r(require('@/view/QQLogin.vue')), 'QQLogin');
 const SellerAdv = r => require.ensure([], () => r(require('@/view/SellerAdv.vue')), 'SellerAdv');
+const Recommend = r => require.ensure([], () => r(require('@/view/MyXiuBa/children/Recommend.vue')), 'Recommend');
 const RecommendSpread = r => require.ensure([], () => r(require('@/view/RecommendSpread.vue')), 'RecommendSpread');
 const Notice = r => require.ensure([], () => r(require('@/view/Notice.vue')), 'Notice');
 
@@ -373,6 +374,18 @@ export default new Router({
           }
         },
         {
+          path: 'recommend',
+          name: 'Recommend',
+          component: Recommend,
+          meta: {
+            title: "推荐有礼",
+            logInAuthority: true,
+            topShow: true,
+            bottomShow: true,
+            role: null,
+          }
+        },
+        {
           path: 'activity-management',
           name: 'ActivityManagement',
           component: ActivityManagement,
@@ -738,7 +751,8 @@ export default new Router({
             bottomShow: true,
             role: 1,
           }
-        }
+        },
+
       ]
     }
   ],
