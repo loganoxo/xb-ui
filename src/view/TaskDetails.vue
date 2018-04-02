@@ -194,6 +194,10 @@
                       <Icon class="fs-14 ml-5" type="help-circled"></Icon>
                     </Tooltip>
                   </p>
+                  <p class="mt-10" v-if="commodityData.task.orderQuantity">
+                    <span>拍下件数：</span>
+                    <span>{{commodityData.task.orderQuantity}}</span>
+                  </p>
                   <p class="mt-10">
                     <span>付款方式：</span>
                     <span v-if="commodityData.task.paymentMethod === 'all'">无所谓（可以使用花呗、信用卡等付款，也可以不用）</span>
