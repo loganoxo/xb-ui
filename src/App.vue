@@ -23,7 +23,7 @@
       <span class="close-suspend-service" @click.stop.self="closeSuspendService">关闭</span>
       <Modal v-model="$store.state.isBuyVipPopup" width="700" class="show-buyer-popup" >
         <div class="show-buyer-popup-body" >
-          <a href="http://wpa.qq.com/msgrd?v=3&site=qq&menu=yes&uin=2012364029" target="_blank" @click="closeSuspendService"></a>
+          <a href="http://wpa.qq.com/msgrd?v=3&site=qq&menu=yes&uin=2012364029" target="_blank" @click="closeVipPopup"></a>
         </div>
       </Modal>
     </div>
@@ -83,11 +83,14 @@
       _this.$store.dispatch('getSysConfigInfo')
     },
     methods: {
-      closeSuspendService() {
-        self.$store.commit({
+      closeVipPopup() {
+        this.$store.commit({
           type: "CHANGE_IS_VIP_POPUP",
           result: false,
         });
+      },
+      closeSuspendService() {
+        this.showSuspendService = false;
       },
     },
     watch: {
