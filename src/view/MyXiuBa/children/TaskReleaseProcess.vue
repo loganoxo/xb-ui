@@ -399,12 +399,18 @@
                   <span class="required">掌柜旺旺：</span>
                   <iInput v-model="taskRelease.storeName" placeholder="请输入掌柜旺旺" style="width: 296px"></iInput>
                 </div>
-                <div class="baby-price ml-10 mt-20 mb-20">
+                <div class="baby-price ml-10 mt-20">
                   <span class="required">宝贝单价：</span>
                   <iInput v-model.number="taskRelease.itemPrice" placeholder="请输入宝贝单价" style="width: 120px"></iInput>
                   <span>元</span>
                   <span v-show="taskRelease.itemPrice && taskRelease.itemPrice < 1" class="main-color ml-15"><Icon color="#f9284f" type="information-circled"></Icon>&nbsp;每份试用品的价值必须在1元以上</span>
-                  <span class="sizeColor2 ml-5" v-show="!taskRelease.itemPrice || taskRelease.itemPrice > 1">（活动活动期间，商家不允许修改下单页商品信息，经核查属实，本平台有权将活动担保金返还已获得资格的拿手，商家账号按相应规则处罚）</span>
+                  <span class="sizeColor2 ml-4" v-show="!taskRelease.itemPrice || taskRelease.itemPrice > 1">（活动活动期间，商家不允许修改下单页商品信息，经核查属实，本平台有权将活动担保金返还已获得资格的拿手，商家账号按相应规则处罚）</span>
+                </div>
+                <div class="order-quantity  ml-10 mt-20 mb-20">
+                  <span class="required">拍下数量：</span>
+                  <iInput v-model.number="taskRelease.orderQuantity" placeholder="请输入拍下数量" style="width: 120px"></iInput>
+                  <span>份</span>
+                  <span class="sizeColor2 ml-4">（每单需要拍下的件数）</span>
                 </div>
               </div>
               <div class="baby-info-present-title mt-20">B宝贝信息（实际发货的宝贝）</div>
@@ -1106,6 +1112,7 @@
           realStoreName: null,
           taskCount: null,
           itemPrice: null,
+          orderQuantity: null,
           presentPrice: null,
           discountType: 'discount_0',
           activityCategory: 'free_get',
@@ -1528,6 +1535,10 @@
           return;
         }
         if(_this.taskRelease.activityCategory === 'present_get'){
+          if (!_this.taskRelease.orderQuantity) {
+            _this.$Message.warning('亲，拍下数量不能为空！');
+            return;
+          }
           if (!_this.taskRelease.presentPrice) {
             _this.$Message.warning('亲，赠品价格不能为空！');
             return;
