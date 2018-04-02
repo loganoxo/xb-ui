@@ -465,6 +465,14 @@
                   <span>元</span>
                   <span class="sizeColor2 ml-10">（为保证活动质量和效果，赠品的价格需要在10元以上）</span>
                 </div>
+                <div class="baby-number ml-10 mt-20">
+                  <p>
+                    <span class="required">宝贝数量：</span>
+                    <iInput v-model.number="taskRelease.taskCount" placeholder="请输入宝贝数量" style="width: 120px" @on-blur="addItemReviewList"></iInput>
+                    <span>份</span>
+                    <!--<span class="sizeColor3 ml-5">（平台会按照1/5的比例进行计算，部分中奖名额将会由系统进行推荐）</span>-->
+                  </p>
+                </div>
                 <div class="baby-pinkage ml-10 mt-20">
                   <span class="required left">是否包邮：</span>
                   <Radio-group v-model="taskRelease.pinkage">
