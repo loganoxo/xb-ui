@@ -400,6 +400,10 @@
                   <span class="required">掌柜旺旺：</span>
                   <iInput v-model="taskRelease.storeName" placeholder="请输入掌柜旺旺" style="width: 296px"></iInput>
                 </div>
+                <div class="store-name ml-10 mt-20">
+                  <span class="required">店铺名称：</span>
+                  <iInput v-model="taskRelease.realStoreName" placeholder="请输入店铺名称" style="width: 296px"></iInput>
+                </div>
                 <div class="baby-price ml-10 mt-20">
                   <span class="required">宝贝单价：</span>
                   <iInput v-model.number="taskRelease.itemPrice" placeholder="请输入宝贝单价" style="width: 120px"></iInput>
