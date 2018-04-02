@@ -94,6 +94,7 @@
       </div>
       <div class="mt-40 ">
         <iButton @click="openMember" class="check-member" type="success" size="large">购买会员</iButton>
+        <a class="inline-block ml-10" @click="isVipPopupFunc">添加客服QQ免费领VIP</a>
       </div>
     </div>
     <!--任务发布相关-->
@@ -1211,7 +1212,7 @@
         _this.editTaskId = taskId;
         _this.getTaskInfo();
       }
-      _this.isVipPopupFunc();
+      // _this.isVipPopupFunc();
     },
     computed: {
       /**
@@ -1338,14 +1339,10 @@
     methods: {
       isVipPopupFunc(){
         let _this = this;
-        _this.$store.dispatch('getSellerTaskInfo').then( res => {
-          if(parseInt(_this.$store.state.sellerTaskInfo.taskTotalCount) <= 0){
-            _this.$store.commit({
-              type: "CHANGE_IS_VIP_POPUP",
-              result: true,
-            });
-          }
-        })
+        _this.$store.commit({
+          type: "CHANGE_IS_VIP_POPUP",
+          result: true,
+        });
       },
       changeSelectActivity(type) {
         let _this = this;

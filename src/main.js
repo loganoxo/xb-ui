@@ -58,20 +58,19 @@ router.beforeEach((to, from, next) => {
     type: "LOG_IN_AUTHORITY",
     logInAuthority: to.meta.logInAuthority
   });
-  if(to.name === 'TaskReleaseProcess' ){
-    store.dispatch('getSellerTaskInfo').then( res => {
-      if(store.state.login &&  store.state.userInfo.role ===1 ){
-        if(store.getters.getMembershipIsExpire && (parseInt(store.state.sellerTaskInfo.taskTotalCount) > 0)){//非VIP用户且发单数大于0
-          store.commit({
-            type: "CHANGE_IS_VIP_POPUP",
-            result: true,
-          });
-          router.push({name: 'Home'});
-        }
-      }
-    });
-
-  }
+  // if(to.name === 'TaskReleaseProcess' ){
+    // store.dispatch('getSellerTaskInfo').then( res => {
+    //   if(store.state.login &&  store.state.userInfo.role ===1 ){
+    //     if(store.getters.getMembershipIsExpire && (parseInt(store.state.sellerTaskInfo.taskTotalCount) > 0)){//非VIP用户且发单数大于0
+    //       store.commit({
+    //         type: "CHANGE_IS_VIP_POPUP",
+    //         result: true,
+    //       });
+    //       router.push({name: 'Home'});
+    //     }
+    //   }
+    // });
+  // }
   if (to.meta.logInAuthority && !store.state.login) {
     next('/login');
   } else if (to.meta.role !== null && to.meta.role !== store.getters.getUserRole) {
