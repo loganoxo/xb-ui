@@ -97,8 +97,7 @@ export default {
     state.sysConfigInfo = result;
   },
 
-  //export const CHANGE_IS_VIP = 'CHANGE_IS_VIP';
-  //系统配置信息
+  //是否显示购买VIP弹框
   [types.CHANGE_IS_VIP_POPUP](state, {result}) {
     state.isBuyVipPopup = result;
   },
