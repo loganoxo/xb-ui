@@ -22,9 +22,9 @@ Notice.config({
 });
 Vue.prototype.$Notice = Notice;
 
- Message.config({
+Message.config({
   duration: 4
- });
+});
 Vue.prototype.$Message = Message;
 
 /*VueLazyload配置初始化*/
@@ -58,15 +58,15 @@ router.beforeEach((to, from, next) => {
     type: "LOG_IN_AUTHORITY",
     logInAuthority: to.meta.logInAuthority
   });
-  if(to.name === 'TaskReleaseProcess' ){
-    if(store.state.login &&  store.state.userInfo.role ===1 ){
-      store.dispatch('getSellerTaskInfo').then( res => {
-        if(store.getters.getMembershipIsExpire && (parseInt(store.state.sellerTaskInfo.taskTotalCount) === 0)){//非VIP用户且发单数大于0
+  if (to.name === 'TaskReleaseProcess') {
+    if (store.state.login && store.state.userInfo.role === 1) {
+      store.dispatch('getSellerTaskInfo').then(() => {
+        //非VIP用户且发单数大于0
+        if (store.getters.getMembershipIsExpire && (parseInt(store.state.sellerTaskInfo.taskTotalCount) === 0)) {
           store.commit({
             type: "CHANGE_IS_VIP_POPUP",
             result: true,
           });
-          // router.push({name: 'Home'});
         }
       });
     }

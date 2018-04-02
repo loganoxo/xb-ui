@@ -475,7 +475,7 @@
         }).then(res => {
           if (res.status) {
             _this.taskWaitAuditList = res.data.content;
-            _this.dataStatusTip = _this.taskWaitAuditList.length === 0? '暂无待审批数据':'';
+            _this.dataStatusTip = _this.taskWaitAuditList.length === 0 ? '暂无待审批数据' : '';
             _this.totalElements = res.data.totalElements;
             _this.searchLoading = false;
           } else {
@@ -490,6 +490,7 @@
         _this.operateIndex = index;
         api.appliesWaitingAuditAll({
           taskId: taskId,
+          alitmAccount: _this.alitmAccount,
           pageIndex: _this.taskPageIndex,
           tqz: _this.wwFormValidate.tqz,
           creditLevel: _this.wwFormValidate.creditLevel,

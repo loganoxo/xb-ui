@@ -369,16 +369,16 @@
             </div>
             <div class="product-introduction ml-28 mt-20">
               <span class="left ml-5 required">商品简介：</span>
-              <quill-editor ref="myTextEditor"
+              <quill-editor ref="myTextEditorFree"
                             v-model="taskRelease.itemDescription"
                             :options="editorOption"
                             @blur="onEditorBlur($event)"
                             @focus="onEditorFocus($event)"
                             @ready="onEditorReady($event)">
               </quill-editor>
-              <form method="post" enctype="multipart/form-data" id="uploadFormMulti">
-                <input v-show="false" :id="uniqueId" type="file" name="avator" multiple accept="image/jpg,image/jpeg,image/png,image/gif" @change="uploadImg">
-              </form>
+              <!--<form method="post" enctype="multipart/form-data" id="uploadFormMulti">-->
+                <input v-show="false" id="freeGet" type="file" name="avator" multiple accept="image/jpg,image/jpeg,image/png,image/gif" @change="uploadImgFreeGet">
+              <!--</form>-->
             </div>
           </div>
           <div class="baby-info mt-22" v-show="taskRelease.activityCategory === 'present_get'">
@@ -542,16 +542,16 @@
                 </div>
                 <div class="product-introduction ml-10 mt-20">
                   <span class="left ml-5 required">商品简介：</span>
-                  <quill-editor ref="myTextEditor"
+                  <quill-editor ref="myTextEditorPresent"
                                 v-model="taskRelease.itemDescription"
                                 :options="editorOption"
                                 @blur="onEditorBlur($event)"
                                 @focus="onEditorFocus($event)"
                                 @ready="onEditorReady($event)">
                   </quill-editor>
-                  <form method="post" enctype="multipart/form-data" id="uploadFormMulti">
-                    <input v-show="false" :id="uniqueId" type="file" name="avator" multiple accept="image/jpg,image/jpeg,image/png,image/gif" @change="uploadImg">
-                  </form>
+                  <!--<form method="post" enctype="multipart/form-data" id="uploadFormMulti">-->
+                    <input v-show="false" id="presentGet" type="file" name="avator" multiple accept="image/jpg,image/jpeg,image/png,image/gif" @change="uploadImgPresentGet">
+                  <!--</form>-->
                 </div>
               </div>
             </div>
@@ -1038,7 +1038,8 @@
         blockOrNone: false,
         name: 'base-example',
         uniqueId: 'uniqueId',
-        addImgRange: null,
+        addImgRangeFreeGet: null,
+        addImgRangePresentGet: null,
         editorOption: {
           placeholder: "有吸引力的产品介绍，将吸引更多的拿手来申请活动哦！请在这里编辑您的商品简介（商品简介中至少包含一张图片，可以直接复制淘宝的宝贝详情到这里），但请注意，不要在该简介中，放置任何外链，比如店铺或者商品链接，以免申请的拿手绕过相应的下单条件，造成损失！",
           modules: {
@@ -1211,14 +1212,22 @@
     },
     mounted() {
       let _this = this;
-      let imgHandler = async function (image) {
-        _this.addImgRange = _this.$refs.myTextEditor.quill.getSelection();
+      let imgHandlerFreeGet = async function (image) {
+        _this.addImgRangeFreeGet = _this.$refs.myTextEditorFree.quill.getSelection();
         if (image) {
-          let fileInput = document.getElementById(_this.uniqueId);
+          let fileInput = document.getElementById('freeGet');
           fileInput.click()
         }
       };
-      _this.$refs.myTextEditor.quill.getModule("toolbar").addHandler("image", imgHandler);
+      let imgHandlerPresentGet = async function (image) {
+        _this.addImgRangePresentGet = _this.$refs.myTextEditorPresent.quill.getSelection();
+        if (image) {
+          let fileInput = document.getElementById('presentGet');
+          fileInput.click()
+        }
+      };
+      _this.$refs.myTextEditorFree.quill.getModule("toolbar").addHandler("image", imgHandlerFreeGet);
+      _this.$refs.myTextEditorPresent.quill.getModule("toolbar").addHandler("image", imgHandlerPresentGet);
     },
     created() {
       let _this = this;
@@ -2010,21 +2019,39 @@
         }
 
       },
-      uploadImg(e) {
+      uploadImgFreeGet(e) {
         let _this = this;
         let file = e.target.files[0];
         let key = 'task' + '/' + randomString();
         aliUploadImg(key, file).then(res => {
           if (res) {
             let value = aliCallbackImgUrl + res.name + '!orgi75';
-            _this.addImgRange = _this.$refs.myTextEditor.quill.getSelection();
-            _this.$refs.myTextEditor.quill.insertEmbed(_this.addImgRange !== null ? _this.addImgRange.index : 0, 'image', value, Quill.sources.USER);
-            document.getElementById(_this.uniqueId).value = '';
+            _this.addImgRangeFreeGet = _this.$refs.myTextEditorFree.quill.getSelection();
+            _this.$refs.myTextEditorFree.quill.insertEmbed(_this.addImgRangeFreeGet !== null ? _this.addImgRangeFreeGet.index : 0, 'image', value, Quill.sources.USER);
+            document.getElementById('freeGet').value = '';
             _this.$Message.success('亲，图片上传成功！');
           }
         }).catch(err => {
           console.log(err);
-          document.getElementById(_this.uniqueId).value = '';
+          document.getElementById('freeGet').value = '';
+          _this.$Message.warning('亲，图片上传失败！');
+        })
+      },
+      uploadImgPresentGet(e) {
+        let _this = this;
+        let file = e.target.files[0];
+        let key = 'task' + '/' + randomString();
+        aliUploadImg(key, file).then(res => {
+          if (res) {
+            let value = aliCallbackImgUrl + res.name + '!orgi75';
+            _this.addImgRangePresentGet = _this.$refs.myTextEditorPresent.quill.getSelection();
+            _this.$refs.myTextEditorPresent.quill.insertEmbed(_this.addImgRangePresentGet !== null ? _this.addImgRangePresentGet.index : 0, 'image', value, Quill.sources.USER);
+            document.getElementById('presentGet').value = '';
+            _this.$Message.success('亲，图片上传成功！');
+          }
+        }).catch(err => {
+          console.log(err);
+          document.getElementById('presentGet').value = '';
           _this.$Message.warning('亲，图片上传失败！');
         })
       },
