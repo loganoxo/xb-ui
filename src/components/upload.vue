@@ -191,6 +191,8 @@
           item.percentage = 100;
           return item;
         });
+      } else {
+        this.fileList = this.defaultFileList;
       }
     },
     methods: {
@@ -364,6 +366,8 @@
               item.percentage = 100;
               return item;
             });
+          } else {
+            this.fileList = this.defaultFileList;
           }
         },
       }

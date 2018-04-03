@@ -764,7 +764,7 @@
                 <div class="screen-condition ml-45 mt-20 clear">
                   <span class="left">筛选条件：</span>
                   <div class="left ml-5">
-                    <Checkbox-group v-model="appTaskDetail.searchFilter">
+                    <Checkbox-group v-model="item.searchFilter">
                       <Checkbox label="pinkage">
                         <span>包邮</span>
                       </Checkbox>
@@ -1377,7 +1377,7 @@
        */
       systemApprovalTaskNumber() {
         return Math.round(this.taskRelease.taskCount * 0.2)
-      }
+      },
     },
     methods: {
       isVipPopupFunc(){
@@ -1912,13 +1912,15 @@
             }
             _this.taskRelease.pinkage =  _this.taskRelease.pinkage.toString();
             _this.taskRelease.donotPostPhoto = _this.taskRelease.donotPostPhoto.toString();
+
             //start 临时处理 10元包邮，白菜价活动下线复制历史活动
             const activityCategory = res.data.activityCategory;
             if(activityCategory === 'pinkage_for_10' || activityCategory === 'price_low'){
               _this.taskRelease.discountType = 'discount_0';
               _this.taskRelease.activityCategory = 'free_get';
             }
-            //end 临时处理 10元包邮，白菜价活动下线复制历史活动
+            //end
+
             if( _this.taskRelease.onlyShowForQualification){
               _this.taskRelease.onlyShowForQualification = false;
             }
@@ -1947,13 +1949,13 @@
             }
             _this.taskRelease.taskDetail = {};
             if (res.data.taskType === 'tao_code') {
-              _this.taoCodeTaskDetail = JSON.parse(res.data.taskDetail);
+              _this.taoCodeTaskDetail = res.data.taskDetailObject;
               const image = _this.taoCodeTaskDetail[0].homePageLockItemImage;
               image && _this.taoCodeDefaultList.push({src: image});
               _this.taoCodeTaskDetailItemMainImage = image;
               _this.conversionPrice('tao_code');
             } else if (res.data.taskType === 'pc_search') {
-              _this.pcTaskDetail = JSON.parse(res.data.taskDetail);
+              _this.pcTaskDetail = res.data.taskDetailObject;
               _this.addKeywordScheme = _this.pcTaskDetail.length - 1;
               _this.pcDefaultList.push({src: _this.pcTaskDetail[0].itemMainImage});
               _this.pcTaskDetailItemMainImage = _this.pcTaskDetail[0].itemMainImage;
@@ -1965,7 +1967,7 @@
               }
               _this.isCountAssigned = null;
             } else if (res.data.taskType === 'app_search') {
-              _this.appTaskDetail = JSON.parse(res.data.taskDetail);
+              _this.appTaskDetail = res.data.taskDetailObject;
               _this.addKeywordScheme = _this.appTaskDetail.length - 1;
               _this.appDefaultList.push({src: _this.appTaskDetail[0].itemMainImage});
               _this.appTaskDetailItemMainImage = _this.appTaskDetail[0].itemMainImage;
@@ -2712,4 +2714,3 @@
   }
 
 </style>
-
