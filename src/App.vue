@@ -1,5 +1,5 @@
 <template>
-  <div id="app" class="xiu-ba-pc">
+  <div class="xiu-ba-pc">
     <Top v-show="isTopShow"></Top>
     <router-view></router-view>
     <!--网站底部信息-->
@@ -23,7 +23,7 @@
       <span class="close-suspend-service" @click.stop.self="closeSuspendService">关闭</span>
       <Modal v-model="$store.state.isBuyVipPopup" width="700" class="show-buyer-popup" >
         <div class="show-buyer-popup-body" >
-          <a href="http://wpa.qq.com/msgrd?v=3&site=qq&menu=yes&uin=2012364029" target="_blank" @click="closeVipPopup"></a>
+          <a href="http://wpa.qq.com/msgrd?v=3&site=qq&menu=yes&uin=2012364029" target="_blank" @click="closeSuspendService"></a>
         </div>
       </Modal>
     </div>
@@ -31,7 +31,6 @@
 </template>
 
 <script>
-  import api from '@/config/apiConfig'
   import Modal from 'iview/src/components/modal'
   import Top from "@/components/Top.vue"
   import Bottom from "@/components/Bottom.vue"
@@ -83,12 +82,6 @@
       _this.$store.dispatch('getSysConfigInfo')
     },
     methods: {
-      closeVipPopup() {
-        this.$store.commit({
-          type: "CHANGE_IS_VIP_POPUP",
-          result: false,
-        });
-      },
       closeSuspendService() {
         this.showSuspendService = false;
       },

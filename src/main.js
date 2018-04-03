@@ -11,7 +11,6 @@ import Notice from 'iview/src/components/notice'
 import '../iview/iview.less'
 import '@/css/common.scss'
 import 'animate.css'
-import api from '@/config/apiConfig'
 
 Vue.config.productionTip = false;
 

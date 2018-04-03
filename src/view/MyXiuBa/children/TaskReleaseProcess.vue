@@ -502,7 +502,6 @@
                   <div class="left">
                     <iInput class="task-remark-input" type="textarea" :autosize="{minRows: 6,  maxRows: 12}" placeholder="请在这里输入需要拿手注意的事项，例如：SKU信息等，这里的信息会无条件展示出来。" v-model="taskRelease.remark"></iInput>
                     <p class="sizeColor3 mt-10">下单要求中明确说明希望拿手拍下的SKU（否则拿手可能会找不到宝贝）</p>
-                    <p class="sizeColor3 mt-6">建议商家下单要求中明确说明：“请勿在淘宝中评价及晒图！”，若未注明，拿手在淘宝中进行评价或晒图后可能会影响主宝贝的评价情况。</p>
                   </div>
                 </div>
                 <div class="donotPostPhoto ml-15 mt-20 clear">
@@ -765,7 +764,7 @@
                 <div class="screen-condition ml-45 mt-20 clear">
                   <span class="left">筛选条件：</span>
                   <div class="left ml-5">
-                    <Checkbox-group v-model="appTaskDetail.searchFilter">
+                    <Checkbox-group v-model="item.searchFilter">
                       <Checkbox label="pinkage">
                         <span>包邮</span>
                       </Checkbox>
@@ -851,26 +850,29 @@
       <!--存入担保金详情-->
       <div class="deposits-received" v-show="stepName === 'deposit'">
         <div class="deposits-received-title mt-20 mb-20">活动活动信息已成功保存，请您存入本次活动的活动担保金。</div>
-        <div class="deposits-received-info">您现在为 <span class="second-color">{{taskRelease.taskName}}</span> 存入活动担保金<span
-          class="second-color">{{(taskRelease.taskCount * oneBond).toFixed(2)}}</span>元，此笔款项将作为发布活动活动诚信担保的重要工具，待拿手完成活动流程后将返还给每个拿手 <span
-          class="second-color">{{oneBond}}</span> 元.
+        <div class="deposits-received-info">您现在为 <span class="second-color">{{taskRelease.taskName}}</span> 存入活动担保金
+          <span v-if="taskRelease.activityCategory === 'free_get'" class="second-color">{{(taskRelease.taskCount * oneBond).toFixed(2)}}</span>
+          <span v-if="taskRelease.activityCategory === 'present_get'" class="second-color">{{(taskRelease.taskCount * oneBondAToB / 100).toFixed(2)}}</span>
+          元，此笔款项将作为发布活动活动诚信担保的重要工具，待拿手完成活动流程后将返还给每个拿手
+          <span v-if="taskRelease.activityCategory === 'free_get'" class="second-color">{{(oneBond).toFixed(2)}}</span>
+          <span v-if="taskRelease.activityCategory === 'present_get'" class="second-color">{{(oneBondAToB / 100).toFixed(2)}}</span>
+          元.
         </div>
         <div class="description-fees mt-40">
           <h3>费用说明：</h3>
           <div class="description-fees-con mt-10">
-            <p>
-              活动担保金 = 份数 × 单品活动担保金 =<span>{{taskRelease.taskCount}}</span> × <span>{{oneBond}}</span> = <span>{{(taskRelease.taskCount * oneBond).toFixed(2)}}</span>元
-            </p>
+            <p v-if="taskRelease.activityCategory === 'free_get'">活动担保金 = 份数 × 单品活动担保金 = <span>{{taskRelease.taskCount}}</span> × <span>{{oneBond}}</span> = <span>{{(taskRelease.taskCount * oneBond).toFixed(2)}}</span> 元</p>
+            <p v-if="taskRelease.activityCategory === 'present_get'">活动担保金 = 份数 × 单品活动担保金 = <span>{{taskRelease.taskCount}}</span> × <span>{{oneBondAToB / 100}}</span> = <span>{{(taskRelease.taskCount * oneBondAToB / 100).toFixed(2)}}</span> 元</p>
             <!--<p class="mt-6">
               单品推广费 = （宝贝单价 + 邮费） × 费率 =<span>（{{taskRelease.itemPrice}} + {{taskRelease.pinkage === 'true' ? 0 : 10}}）</span>× <span>6%</span> = <span>{{onePromotionExpenses}}</span>元<span
               v-if="isShowExpensesTip">（单品推广费超过平台设定的最高上限3.00元，本次实际收取的单品推广费用为3.00元）</span></p>-->
-            <p class="mt-6">总推广费用 = 单品推广费用 × 份数 =<span>{{onePromotionExpenses}}</span> × <span>{{taskRelease.taskCount}} = <span>{{allPromotionExpenses}}</span></span>元</p>
-            <p class="mt-6">总费用 = 活动担保金 + 总推广费用 = <span>{{orderMoney}}</span>元</p>
+            <p class="mt-6">总推广费用 = 单品推广费用 × 份数 = <span>{{onePromotionExpenses}}</span> × <span>{{taskRelease.taskCount}} = <span>{{allPromotionExpenses}}</span></span> 元</p>
+            <p class="mt-6">总费用 = 活动担保金 + 总推广费用 = <span>{{(orderMoney).toFixed(2)}}</span> 元</p>
           </div>
         </div>
-        <div class="pay-info mt-40" v-if="isBalance && !priceHasChange">本次总共要支付的金额为：<span class="second-color">{{orderMoney}}</span>&nbsp;元。您的账户的当前余额为：<strong>{{getUserBalance || 0}}</strong>&nbsp;元
+        <div class="pay-info mt-40" v-if="isBalance && !priceHasChange">本次总共要支付的金额为：<span class="second-color">{{(orderMoney).toFixed(2)}}</span>&nbsp;元。您的账户的当前余额为：<strong>{{getUserBalance || 0}}</strong>&nbsp;元
         </div>
-        <div class="pay-info mt-40" v-if="!isBalance && !priceHasChange">本次总共要支付的金额为：<strong>{{orderMoney}}</strong>&nbsp;元。您账户余额为：<strong>{{getUserBalance || 0}}</strong>&nbsp;元，还需充值：<span
+        <div class="pay-info mt-40" v-if="!isBalance && !priceHasChange">本次总共要支付的金额为：<strong>{{(orderMoney).toFixed(2)}}</strong>&nbsp;元。您账户余额为：<strong>{{getUserBalance || 0}}</strong>&nbsp;元，还需充值：<span
           class="second-color">{{(orderMoney - getUserBalance).toFixed(2)}}</span>&nbsp;元。
         </div>
         <div class="pay-info mt-40" v-if="isBalanceReplenish && priceHasChange">
@@ -1268,7 +1270,7 @@
       },
 
       /**
-       * 计算商家需要存入的担保金（当用户勾选折扣试用的时候：宝贝单价 - 对应的折扣价格）
+       * 计算商家需要存入的单品担保金（当用户勾选折扣试用的时候：宝贝单价 - 对应的折扣价格）
        * 单位为分
        * @return {number}
        */
@@ -1282,11 +1284,19 @@
       },
 
       /**
-       * 计算最终商家发布单品活动担保金（商家需要存入的担保金 + 是否包邮）
+       * 计算拍A发A最终商家发布单品活动担保金（商家需要存入的单品担保金 + 邮费）
        * @return {number}
        */
       oneBond() {
         return this.taskRelease.pinkage === 'true' ? (this.newItemPrice / 100).toFixed(2) * 1 : (this.newItemPrice / 100 + 10).toFixed(2) * 1;
+      },
+
+      /**
+       * 计算拍A发B最终商家发布单品活动担保金（A宝贝单价 * 拍下数量 + 邮费）
+       * @return {number}
+       */
+      oneBondAToB() {
+        return this.taskRelease.pinkage === 'true' ? this.taskRelease.itemPrice * this.taskRelease.orderQuantity * 100 : this.taskRelease.itemPrice * this.taskRelease.orderQuantity * 100 + 1000;
       },
 
       /**
@@ -1312,7 +1322,12 @@
        * @return {number}
        */
       orderMoney() {
-        return (((this.taskRelease.taskCount * this.oneBond * 100) + this.allPromotionExpenses * 100) / 100).toFixed(2) * 1;
+        if(this.taskRelease.activityCategory === 'free_get') {
+          return (((this.taskRelease.taskCount * this.oneBond * 100) + this.allPromotionExpenses * 100) / 100).toFixed(2) * 1;
+        }
+        if(this.taskRelease.activityCategory === 'present_get') {
+          return (((this.taskRelease.taskCount * this.oneBondAToB) + this.allPromotionExpenses * 100) / 100).toFixed(2) * 1;
+        }
       },
 
       /**
@@ -1362,7 +1377,7 @@
        */
       systemApprovalTaskNumber() {
         return Math.round(this.taskRelease.taskCount * 0.2)
-      }
+      },
     },
     methods: {
       isVipPopupFunc(){
@@ -1897,13 +1912,15 @@
             }
             _this.taskRelease.pinkage =  _this.taskRelease.pinkage.toString();
             _this.taskRelease.donotPostPhoto = _this.taskRelease.donotPostPhoto.toString();
+
             //start 临时处理 10元包邮，白菜价活动下线复制历史活动
             const activityCategory = res.data.activityCategory;
             if(activityCategory === 'pinkage_for_10' || activityCategory === 'price_low'){
               _this.taskRelease.discountType = 'discount_0';
               _this.taskRelease.activityCategory = 'free_get';
             }
-            //end 临时处理 10元包邮，白菜价活动下线复制历史活动
+            //end
+
             if( _this.taskRelease.onlyShowForQualification){
               _this.taskRelease.onlyShowForQualification = false;
             }
@@ -1932,13 +1949,13 @@
             }
             _this.taskRelease.taskDetail = {};
             if (res.data.taskType === 'tao_code') {
-              _this.taoCodeTaskDetail = JSON.parse(res.data.taskDetail);
+              _this.taoCodeTaskDetail = res.data.taskDetailObject;
               const image = _this.taoCodeTaskDetail[0].homePageLockItemImage;
               image && _this.taoCodeDefaultList.push({src: image});
               _this.taoCodeTaskDetailItemMainImage = image;
               _this.conversionPrice('tao_code');
             } else if (res.data.taskType === 'pc_search') {
-              _this.pcTaskDetail = JSON.parse(res.data.taskDetail);
+              _this.pcTaskDetail = res.data.taskDetailObject;
               _this.addKeywordScheme = _this.pcTaskDetail.length - 1;
               _this.pcDefaultList.push({src: _this.pcTaskDetail[0].itemMainImage});
               _this.pcTaskDetailItemMainImage = _this.pcTaskDetail[0].itemMainImage;
@@ -1950,7 +1967,7 @@
               }
               _this.isCountAssigned = null;
             } else if (res.data.taskType === 'app_search') {
-              _this.appTaskDetail = JSON.parse(res.data.taskDetail);
+              _this.appTaskDetail = res.data.taskDetailObject;
               _this.addKeywordScheme = _this.appTaskDetail.length - 1;
               _this.appDefaultList.push({src: _this.appTaskDetail[0].itemMainImage});
               _this.appTaskDetailItemMainImage = _this.appTaskDetail[0].itemMainImage;
@@ -2697,4 +2714,3 @@
   }
 
 </style>
-
