@@ -205,32 +205,40 @@
             <span><span class="f-b">拿手实付金额：</span><span class="main-color">{{orderInfo.orderPrice || 0}}</span>元<span>（当前每单活动担保金<span>{{orderInfo.perMarginNeed}}</span>元）</span></span>
           </p>
         </div>
-        <p class="cl-red mt-10 text-ct" v-if="orderInfo.orderPrice < orderInfo.perMarginNeed">
+        <p class="cl-red mt-10 text-lf" v-if="orderInfo.orderPrice < orderInfo.perMarginNeed">
           <Icon type="information-circled" color="red" size="14" class="mr-5"></Icon>
           注意：拿手实付金额与活动担保金金额不一致，请仔细审核！
         </p>
-        <p class="cl-red mt-10 text-ct" v-else>
+        <p class="cl-red mt-10 text-lf" v-else>
           <Icon type="information-circled" color="red" size="14" class="mr-5"></Icon>
           注意：为了防止不良拿手冒领担保金，请您仔细审核交易订单信息，确认不误再作提交！
         </p>
-        <div class="mt-22 text-ct">
+        <div class="mt-22 text-lf">
           <Radio-group v-model="orderReviewStatus">
             <Radio class="mr-30" label="passAudit">
-              <span class="fs-16">通过</span>
+              <span class="fs-14">通过</span>
             </Radio>
             <Radio label="failAudit">
-              <span class="fs-16">不通过</span>
+              <span class="fs-14">不通过</span>
             </Radio>
           </Radio-group>
-          <div class="no-pass-reason text-ct inline-block" v-show="orderReviewStatus === 'failAudit'">
+          <div class="no-pass-reason text-ct inline-block fs-14" v-show="orderReviewStatus === 'failAudit'">
             <i-select v-model="orderNoPassReason" style="width:200px" placeholder="请选择不通过原因">
               <!--<i-option value="收藏加购截图不合格">收藏加购截图不合格</i-option>-->
               <i-option value="浏览答题截图不合格">浏览答题截图不合格</i-option>
               <i-option value="订单号有误">订单号有误</i-option>
               <i-option value="实付金额有误">实付金额有误</i-option>
               <i-option value="下单旺旺和平台绑定旺旺不一致">下单旺旺和平台绑定旺旺不一致</i-option>
+              <i-option value="自定义">自定义</i-option>
             </i-select>
           </div>
+          <div class="mt-20 text-lf" v-show="orderNoPassReason === '自定义'">
+            <iInput @change="limitOrderNoPassReasonFunc" placeholder="自定义内容,字数不超过50个字" v-model="orderNoPassReasonDiy"></iInput>
+          </div>
+          <p  class="cl-red mt-10 text-lf" v-show="orderNoPassReasonDiy && orderNoPassReasonDiy.length > 50" >
+            <Icon type="information-circled" color="red" size="14" class="mr-5"></Icon>
+            注意：自定义字数不能超过50个字
+          </p>
         </div>
         <div class="true-btn" v-show="orderReviewStatus === 'failAudit'" @click="orderNumberAudit">确认提交</div>
         <div class="true-btn" v-show="orderReviewStatus === 'passAudit' && orderInfo.perMarginNeed >= getOderPrice"
@@ -360,6 +368,7 @@
     },
     data() {
       return {
+        orderNoPassReasonDiy: null,
         evaluateShowker: false,
         wwQuality: 'hao_ping',
         fillOrderCooperate: 'hao_ping',
@@ -442,6 +451,9 @@
             self.$Message.error(res.msg);
           }
         });
+      },
+      limitOrderNoPassReasonFunc(){
+        let self = this;
       },
       evaluateShowkerFun() {
         let self = this;
@@ -600,7 +612,7 @@
         _this.needBrowseCollectAddCart = false;
         _this.needIssue = itemIssue;
         _this.showCheckOrder = true;
-        _this.orderNoPassReason = '';
+        _this.orderNoPassReason = null;
         api.orderNumberInfo({id: id}).then(res => {
           if (res.status) {
             _this.orderInfo = res.orderInfo;
@@ -614,10 +626,29 @@
       },
       orderNumberAudit() {
         let _this = this;
-        if (_this.orderReviewStatus === 'failAudit' && !_this.orderNoPassReason) {
-          _this.$Message.error("亲，请填写不通过的理由！");
-          return;
+        if(_this.orderReviewStatus === 'failAudit'){
+          if (!_this.orderNoPassReason) {
+            _this.$Message.error("亲，请填写不通过的理由！");
+            return;
+          }else {
+            if(_this.orderNoPassReason === '自定义'){
+              if(!_this.orderNoPassReasonDiy){
+                _this.$Message.error("亲，请填写不通过自定义原因！");
+                return;
+              }else {
+                if(_this.orderNoPassReasonDiy.length > 50){
+                  _this.$Message.error("亲，自定义原因字数不超过50个字！");
+                  return;
+                }else {
+                  _this.orderNoPassReason = _this.orderNoPassReasonDiy;
+                }
+              }
+            }else {
+              _this.orderNoPassReasonDiy = '';
+            }
+          }
         }
+
         if (_this.orderReviewStatus === 'passAudit' && _this.orderNoPassReason) {
           _this.orderNoPassReason = null;
         }

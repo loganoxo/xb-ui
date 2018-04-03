@@ -139,9 +139,9 @@
             </p>
           </td>
           <td v-else-if="item.settlementStatus === 'waiting_settlement' && (item.taskStatus === 'finished' || item.taskStatus === 'under_way')">
-            <p class="bond mt-6" v-if="isApproveExpire(item.endTime) && (item.taskCount - item.showkerApplySuccessCount) !== 0">
-              <span @click="approveShowker(item.id)">审批拿手</span>
-            </p>
+            <!--<p class="bond mt-6" v-if="isApproveExpire(item.endTime) && (item.taskCount - item.showkerApplySuccessCount) !== 0">-->
+              <!--<span @click="approveShowker(item.id)">审批拿手</span>-->
+            <!--</p>-->
             <p class="bond mt-6">
               <span @click="settlementTask(item.id, item.number)">申请结算</span>
             </p>
@@ -153,9 +153,9 @@
             </p>
           </td>
           <td v-else-if="item.settlementStatus === 'cannot_settlement' && item.taskStatus === 'finished'">
-            <p class="bond mt-6" v-if="isApproveExpire(item.endTime) && (item.taskCount - item.showkerApplySuccessCount) !== 0">
-              <span @click="approveShowker(item.id)">审批拿手</span>
-            </p>
+            <!--<p class="bond mt-6" v-if="isApproveExpire(item.endTime) && (item.taskCount - item.showkerApplySuccessCount) !== 0">-->
+              <!--<span @click="approveShowker(item.id)">审批拿手</span>-->
+            <!--</p>-->
             <p class="copy mt-6">
               <span @click="lookTaskDetail(item.id)">查看详情</span>
             </p>
@@ -189,9 +189,9 @@
             </p>
           </td>
           <td v-else>
-            <p class="bond mt-6">
-              <span @click="approveShowker(item.id,item.endTime)">审批拿手</span>
-            </p>
+            <!--<p class="bond mt-6">-->
+              <!--<span @click="approveShowker(item.id,item.endTime)">审批拿手</span>-->
+            <!--</p>-->
             <p class="copy mt-6">
               <span @click="lookTaskDetail(item.id)">查看详情</span>
             </p>
