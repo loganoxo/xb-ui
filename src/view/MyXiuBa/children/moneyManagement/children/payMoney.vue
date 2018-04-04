@@ -18,7 +18,7 @@
               <img src="~assets/img/task-release/zfb_logo.png" alt="支付宝" class="vtc-mid">
             </Radio>
             <!--<Radio label="weiXin">-->
-              <!--<img src="~assets/img/task-release/wechat_logo.png" class="vtc-mid">-->
+            <!--<img src="~assets/img/task-release/wechat_logo.png" class="vtc-mid">-->
             <!--</Radio>-->
           </Radio-group>
         </Form-item>
@@ -87,7 +87,7 @@
   import Button from 'iview/src/components/button'
   import Modal from 'iview/src/components/modal'
   import {isNumber} from '@/config/utils'
-  import {aliPayUrl,weiXinPayUrl} from '@/config/env'
+  import {aliPayUrl, weiXinPayUrl} from '@/config/env'
 
   export default {
     name: 'MoneyManagement',
@@ -104,20 +104,20 @@
     },
     data() {
       const validatePayNumber = (rule, value, callback) => {
-        if (!(/^[0-9]+(.[0-9]{1,2})?$/.test(value))) {
-          callback(new Error('金额为数字，请您重新输入'))
-        }
-//        else if (value < 1) {
-//          callback(new Error('最低一元起充,请您重新输入'))
-//        }
-        else {
+        if(!value) {
+          callback(new Error('请输入需要充值的金额'))
+        }else if (value && !(/^[0-9]+(.[0-9]{1,2})?$/.test(value))) {
+          callback(new Error('金额必须为正数，请您重新输入'))
+        } else if (value < 1) {
+          callback(new Error('最低一元起充,请您重新输入'))
+        } else {
           callback()
         }
       };
       return {
-        stopRecharge:false,
+        stopRecharge: false,
         payMoney: {
-          number: '',
+          number: null,
           payMode: 'ali',
         },
         payMoneyRule: {
@@ -144,7 +144,7 @@
         this.$store.dispatch('getUserInformation');
         this.payPopWindow = false;
         this.payPopWindowWX = false;
-        this.payMoney.number = '';
+        this.payMoney.number = null;
       },
       error() {
         this.payPopWindow = false;
@@ -152,42 +152,42 @@
       },
       balanceOrderCreate() {
         let _this = this;
-        if (_this.payMoney.number === '') {
-          _this.$Message.error('您未输入充值金额，请您重新输入');
+        if (!_this.payMoney.number) {
           return;
         }
-        if (!(/^[0-9]+(.[0-9]{1,2})?$/.test(parseInt(_this.payMoney.number)))) {
+        if (!(/^[0-9]+(.[0-9]{1,2})?$/.test(_this.payMoney.number))) {
           return;
         }
-//        if (parseInt(_this.payMoney.number) < 1) {
-//          return;
-//        }
-
-        if(_this.payMoney.payMode === 'ali'){
+        if (_this.payMoney.number < 1) {
+          return;
+        }
+        if (_this.payMoney.payMode === 'ali') {
           const newWindowUrl = window.open('about:blank');
           api.balanceOrderCreate({
-            finalFee: (_this.payMoney.number * 100).toFixed(),
+            feeToAccount: (_this.payMoney.number * 100).toFixed() * 1,
+            finalFee: (_this.payMoney.number * 100 * 1.006).toFixed() * 1,
             orderPlatform: 'PC',
             payChannel: 1
           }).then(res => {
             if (res.status) {
               _this.payPopWindow = true;
               newWindowUrl.location.href = aliPayUrl + 'orderSerial=' + res.data.orderSerial;
-              _this.payMoney.number = '';
+              _this.payMoney.number = null;
             } else {
               _this.$Message.error(res.msg);
             }
           });
-        }else{
+        } else {
           api.balanceOrderCreate({
-            finalFee: (_this.payMoney.number * 100).toFixed(),
+            feeToAccount: (_this.payMoney.number * 100).toFixed() * 1,
+            finalFee: (_this.payMoney.number * 100 * 1.006).toFixed() * 1,
             orderPlatform: 'PC',
             payChannel: 1
           }).then(res => {
             if (res.status) {
               _this.payPopWindowWX = true;
               _this.imgSrc = weiXinPayUrl + 'orderSerial=' + res.data.orderSerial + '&userId=' + res.data.uid;
-              _this.payMoney.number = '';
+              _this.payMoney.number = null;
             } else {
               _this.$Message.error(res.msg);
             }

@@ -97,17 +97,17 @@
     created() {
     },
     computed: {
-      userBalance: function () {
+      userBalance() {
         return this.$store.getters.getUserBalance;
       },
-      isPwdAmend: function () {
+      isPwdAmend() {
         return this.$store.getters.getIsEditPwdAlready;
       },
-      isBalance: function () {
+      isBalance() {
         return this.orderMoney <= this.userBalance;
       },
-      payMoney: function () {
-        return this.isBalance ? 0 : ((this.orderMoney - this.userBalance) * 100).toFixed(2) * 1;
+      payMoney() {
+        return this.isBalance ? 0 : this.orderMoney - this.userBalance;
       }
     },
     methods: {
@@ -126,7 +126,8 @@
         if (_this.payType === 'ali'){
           const newWindowUrl = window.open('about:blank');
           api.balanceOrderCreate({
-            finalFee: this.payMoney,
+            feeToAccount: (_this.payMoney * 100).toFixed() * 1,
+            finalFee: (_this.payMoney * 100 * 1.006).toFixed() * 1,
             orderPlatform: 'PC',
             payChannel: 1
           }).then(res => {
@@ -140,7 +141,8 @@
           });
         }else {
           api.balanceOrderCreate({
-            finalFee: this.payMoney,
+            feeToAccount: (_this.payMoney * 100).toFixed() * 1,
+            finalFee: (_this.payMoney * 100 * 1.006).toFixed() * 1,
             orderPlatform: 'PC',
             payChannel: 1
           }).then(res => {
