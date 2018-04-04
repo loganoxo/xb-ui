@@ -397,7 +397,6 @@
         }
       }
       .pay-tip{
-        width: 660px;
         margin-left: 100px;
         margin-bottom: 20px;
         color: #666;

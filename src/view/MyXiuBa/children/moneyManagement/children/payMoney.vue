@@ -24,7 +24,7 @@
         </Form-item>
         <div class="pay-tip">
           <Icon color="#f9284f" size="16" type="alert-circled"></Icon>
-          <span class="fs-14">使用支付宝充值支付，支付宝会收取0.6%的手续费，该笔费用需要商家承担，后续如有返款 / 退款，手续费不予退还，敬请谅解！<a @click="isShowAliPayTip = true">查看支付宝官方说明</a></span>
+          <span class="fs-14">使用支付宝充值支付，支付宝会收取0.6%的手续费，该笔费用需要商家承担，手续费不予退还，敬请谅解！<a @click="isShowAliPayTip = true">查看支付宝官方说明</a></span>
         </div>
         <Form-item>
           <iButton class="payMoneyBtn" @click="balanceOrderCreate()">提交</iButton>
@@ -57,7 +57,7 @@
         </div>
       </Modal>
       <modal v-model="isShowAliPayTip">
-        <img src="~assets/img/common/ali-pay-tip.png" style="width: 100%">
+        <img src="~assets/img/common/ali-pay-tip.jpg">
       </modal>
     </div>
     <!--<Modal v-model="stopRecharge" width="360">
