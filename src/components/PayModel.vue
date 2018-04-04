@@ -42,8 +42,8 @@
         <img :src="wxPayImgSrc" alt="">
       </div>
       <div slot="footer" class="text-ct">
-        <iButton type="success" style="width: 120px;padding: 10px 10px;background-color: #FF6600;border: none" @click="finishRecharge">充值成功</iButton>
-        <iButton type="error" style="width: 120px;padding: 10px 10px;margin-left: 50px;background-color: #3FC0C5;border: none" @click="hasProblem" >充值失败</iButton>
+        <iButton class="success-btn" type="success" @click="finishRecharge">充值成功</iButton>
+        <iButton class="error-btn" type="error" @click="hasProblem" >充值失败</iButton>
       </div>
     </Modal>
   </div>
@@ -272,6 +272,21 @@
     .default-pwd {
       font-size: 14px;
       color: #666;
+    }
+
+    .success-btn{
+      width: 120px;
+      padding: 10px 10px;
+      background-color: #FF6600;
+      border: none
+    }
+
+    .error-btn {
+      width: 120px;
+      padding: 10px 10px;
+      margin-left: 50px;
+      background-color: #3FC0C5;
+      border: none
     }
   }
 </style>

@@ -22,37 +22,43 @@
             <!--</Radio>-->
           </Radio-group>
         </Form-item>
+        <div class="pay-tip">
+          <Icon color="#f9284f" size="16" type="alert-circled"></Icon>
+          <span class="fs-14">使用支付宝充值支付，支付宝会收取0.6%的手续费，该笔费用需要商家承担，后续如有返款 / 退款，手续费不予退还，敬请谅解！<a @click="isShowAliPayTip = true">查看支付宝官方说明</a></span>
+        </div>
         <Form-item>
           <iButton class="payMoneyBtn" @click="balanceOrderCreate()">提交</iButton>
           <!--<iButton class="payMoneyBtn" @click="stopRecharge = true">提交</iButton>-->
-          <Modal v-model="payPopWindow" width="360"
-                 :styles="{top:'310px',height:'300px'}">
-            <div style="text-align:center">
-              <p>请前往充值页面进行充值</p>
-            </div>
-            <div slot="footer">
-              <iButton type="success" style="width: 150px;" @click="success">已完成充值</iButton>
-              <iButton type="error" style="width: 150px;" @click="error">充值遇到问题</iButton>
-            </div>
-          </Modal>
-          <Modal v-model="payPopWindowWX"
-                 :styles="{top:'310px'}">
-            <div slot="header" class="text-ct">微信支付二维码</div>
-            <div class="text-ct">
-              <img :src="imgSrc" alt="">
-            </div>
-            <div slot="footer" class="text-ct">
-              <iButton type="success" style="width: 120px;padding: 10px 10px;background-color: #FF6600;border: none"
-                       @click="success">充值成功
-              </iButton>
-              <iButton type="error"
-                       style="width: 120px;padding: 10px 10px;margin-left: 50px;background-color: #3FC0C5;border: none"
-                       @click="error">充值失败
-              </iButton>
-            </div>
-          </Modal>
         </Form-item>
       </iForm>
+      <Modal v-model="payPopWindow" width="360" :styles="{top:'310px',height:'300px'}">
+        <div class="text-ct">
+          <p>请前往充值页面进行充值</p>
+        </div>
+        <div slot="footer">
+          <iButton type="success" style="width: 150px;" @click="success">已完成充值</iButton>
+          <iButton type="error" style="width: 150px;" @click="error">充值遇到问题</iButton>
+        </div>
+      </Modal>
+      <Modal v-model="payPopWindowWX"
+             :styles="{top:'310px'}">
+        <div slot="header" class="text-ct">微信支付二维码</div>
+        <div class="text-ct">
+          <img :src="imgSrc" alt="">
+        </div>
+        <div slot="footer" class="text-ct">
+          <iButton type="success" style="width: 120px;padding: 10px 10px;background-color: #FF6600;border: none"
+                   @click="success">充值成功
+          </iButton>
+          <iButton type="error"
+                   style="width: 120px;padding: 10px 10px;margin-left: 50px;background-color: #3FC0C5;border: none"
+                   @click="error">充值失败
+          </iButton>
+        </div>
+      </Modal>
+      <modal v-model="isShowAliPayTip">
+        <img src="~assets/img/common/ali-pay-tip.png" style="width: 100%">
+      </modal>
     </div>
     <!--<Modal v-model="stopRecharge" width="360">
       <p slot="header" style="color:#f9284f;text-align:center">
@@ -128,6 +134,7 @@
         imgSrc: null,
         payPopWindow: false,
         payPopWindowWX: false,
+        isShowAliPayTip: false,
       }
     },
     mounted() {

@@ -868,6 +868,7 @@
               v-if="isShowExpensesTip">（单品推广费超过平台设定的最高上限3.00元，本次实际收取的单品推广费用为3.00元）</span></p>-->
             <p class="mt-6">总推广费用 = 单品推广费用 × 份数 = <span>{{onePromotionExpenses}}</span> × <span>{{taskRelease.taskCount}} = <span>{{allPromotionExpenses}}</span></span> 元</p>
             <p class="mt-6">总费用 = 活动担保金 + 总推广费用 = <span>{{(orderMoney).toFixed(2)}}</span> 元</p>
+            <p class="mt-6">手续费说明： 使用支付宝充值支付，支付宝会收取0.6%的手续费，该笔费用需要商家承担，后续如有返款 / 退款，手续费不予退还，敬请谅解！<a @click="isShowAliPayTip = true">查看支付宝官方说明</a></p>
           </div>
         </div>
         <div class="pay-info mt-40" v-if="isBalance && !priceHasChange">本次总共要支付的金额为：<span class="second-color">{{(orderMoney).toFixed(2)}}</span>&nbsp;元。您的账户的当前余额为：<strong>{{getUserBalance || 0}}</strong>&nbsp;元
@@ -988,6 +989,10 @@
     <!--收藏加购物和浏览答题截图查看-->
     <modal title="浏览答题示例图片查看" v-model="isShowExampleImageModel">
       <img :src="exampleImageUrl" style="width: 100%">
+    </modal>
+    <!--支付宝手续费说明弹框-->
+    <modal v-model="isShowAliPayTip">
+      <img src="~assets/img/common/ali-pay-tip.png" style="width: 100%">
     </modal>
   </div>
 </template>
@@ -1210,6 +1215,7 @@
         isShowAnswerTip: false,
         isShowExampleImageModel: false,
         exampleImageUrl: null,
+        isShowAliPayTip: false
       }
     },
     mounted() {

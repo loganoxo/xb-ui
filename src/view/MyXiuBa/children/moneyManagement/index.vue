@@ -380,8 +380,7 @@
         border-bottom: 1px solid #f4f4f4;
       }
       .my-pay-desc {
-        padding: 80px 0px 0px 100px;
-        font-size: 16px;
+        padding: 80px 0 0 100px;
         .iinput {
           width: 150px;
           height: 30px;
@@ -397,6 +396,12 @@
           vertical-align: middle;
         }
       }
+      .pay-tip{
+        width: 660px;
+        margin-left: 100px;
+        margin-bottom: 20px;
+        color: #666;
+      }
       .btn > button {
         width: 150px;
         background-color: $mainColor;
@@ -406,7 +411,7 @@
         font-size: 14px;
         outline: none;
         cursor: pointer;
-        margin: 30px 0px 0px 230px;
+        margin: 30px 0 0 230px;
       }
     }
     .my-transact {
