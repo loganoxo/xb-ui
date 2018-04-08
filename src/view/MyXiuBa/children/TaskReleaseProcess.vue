@@ -193,7 +193,7 @@
                           :on-format-error="handleFormatError"
                           :on-exceeded-size="handleMaxSize"
                           type="drag">
-                    <div style="width: 58px;height:58px;line-height: 58px;">
+                    <div class="camera">
                       <Icon type="camera" size="20"></Icon>
                     </div>
                   </Upload>
@@ -450,7 +450,7 @@
                             :on-format-error="handleFormatError"
                             :on-exceeded-size="handleMaxSize"
                             type="drag">
-                      <div style="width: 58px;height:58px;line-height: 58px;">
+                      <div class="camera">
                         <Icon type="camera" size="20"></Icon>
                       </div>
                     </Upload>
@@ -571,7 +571,7 @@
                   :on-format-error="handleFormatError"
                   :on-exceeded-size="handleMaxSize"
                   type="drag">
-                  <div style="width: 58px;height:58px;line-height: 58px;">
+                  <div class="camera">
                     <Icon type="camera" size="20"></Icon>
                   </div>
                 </Upload>
@@ -703,7 +703,7 @@
                   :on-format-error="handleFormatError"
                   :on-exceeded-size="handleMaxSize"
                   type="drag">
-                  <div style="width: 58px;height:58px;line-height: 58px;">
+                  <div class="camera">
                     <Icon type="camera" size="20"></Icon>
                   </div>
                 </Upload>
@@ -831,7 +831,7 @@
                   :on-format-error="handleFormatError"
                   :on-exceeded-size="handleMaxSize"
                   type="drag">
-                  <div style="width: 58px;height:58px;line-height: 58px;">
+                  <div class="camera">
                     <Icon type="camera" size="20"></Icon>
                   </div>
                 </Upload>
@@ -1927,6 +1927,12 @@
             }
             //end
 
+            //start 临时处理拍A发A淘宝评价要求重置为false
+            if(res.data.donotPostPhoto && activityCategory === 'free_get') {
+              _this.taskRelease.donotPostPhoto = 'false';
+            }
+            //end
+
             if( _this.taskRelease.onlyShowForQualification){
               _this.taskRelease.onlyShowForQualification = false;
             }
@@ -2700,6 +2706,12 @@
     }
     .user-clause-model{
       @include fullScreenModel;
+    }
+
+    .camera{
+      width: 58px;
+      height:58px;
+      line-height: 58px;
     }
 
     .baby-info-present {
