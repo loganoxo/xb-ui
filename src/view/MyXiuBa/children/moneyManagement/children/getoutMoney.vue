@@ -60,9 +60,9 @@
           <Form-item label="银行卡号:" prop="bankNumber">
             <iInput v-model="formItem.bankNumber"></iInput>
           </Form-item>
-          <Form-item label="开户支行:" prop="bankBranch">
+          <!--<Form-item label="开户支行:" prop="bankBranch">
             <iInput v-model="formItem.bankBranch"></iInput>
-          </Form-item>
+          </Form-item>-->
           <Form-item label="手机号:">
             {{getUserPhone}}
           </Form-item>
@@ -332,13 +332,13 @@
           callback()
         }
       };
-      const validateBankBranch = (rule, value, callback) => {
+      /*const validateBankBranch = (rule, value, callback) => {
         if (!value ) {
           callback(new Error('请输入所属银行支行'));
         } else {
           callback()
         }
-      };
+      };*/
       const validatePass = (rule, value, callback) => {
         if (!value ) {
           callback(new Error('请输入支付密码'));
@@ -390,9 +390,9 @@
           name: [
             {validator: validateName, trigger: 'blur'}
           ],
-          bankBranch: [
+          /*bankBranch: [
             {validator: validateBankBranch, trigger: 'blur'}
-          ]
+          ]*/
         },
         getoutMoney: {
           getoutNumber: null,
@@ -751,7 +751,7 @@
             _this.formItem.name= res.accountName;
             _this.formItem.select= res.bankName;
             _this.formItem.bankNumber= res.bankNo;
-            _this.formItem.bankBranch= res.bankPart;
+            // _this.formItem.bankBranch= res.bankPart;
           }
         })
       },
