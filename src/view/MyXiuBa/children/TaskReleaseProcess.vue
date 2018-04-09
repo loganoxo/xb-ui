@@ -1929,6 +1929,7 @@
             _this.pcDefaultList = [];
             _this.appDefaultList = [];
             _this.taoCodeDefaultList = [];
+            _this.answerDefaultList = [];
             if (!type) {
               _this.taskRelease.taskId = res.data.id;
             }
@@ -1979,7 +1980,12 @@
             let itemIssue = JSON.parse(res.data.itemIssue);
             if(itemIssue && itemIssue.length > 0) {
               _this.needBrowseAnswer = true;
-              _this.taskRelease.itemIssue = itemIssue;
+              _this.browseAnswer = itemIssue;
+              _this.browseAnswer.forEach(item =>{
+                let answerDefault = [];
+                answerDefault.push({src: item.image});
+                _this.answerDefaultList.push(answerDefault);
+              });
             }
             _this.taskRelease.taskDetail = {};
             if (res.data.taskType === 'tao_code') {
@@ -2109,8 +2115,8 @@
       removeAnswerImage(file) {
         this.browseAnswer.forEach((item, index) =>{
           if(item.image === file.src) {
-            this.taskRelease.itemIssue[index].image = null;
-            this.browseAnswer.splice(index,1);
+            this.browseAnswer.splice(index, 1);
+            this.answerDefaultList.splice(index, 1);
           }
         })
       },
@@ -2315,6 +2321,7 @@
       },
       deleteAnswer(index) {
         this.browseAnswer.splice(index, 1);
+        this.answerDefaultList.splice(index, 1);
       },
       needBrowseAnswerChange(value) {
         if(!value){
