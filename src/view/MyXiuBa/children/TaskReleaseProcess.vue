@@ -1540,8 +1540,8 @@
           _this.$Message.warning('亲，活动时长最长为30天！');
           return;
         }
+        let allAnswerIsOk = null;
         if(_this.needBrowseAnswer) {
-          let allAnswerIsOk = null;
           _this.browseAnswer.forEach(items =>{
             allAnswerIsOk = !!items.issue && !!items.image;
           });
