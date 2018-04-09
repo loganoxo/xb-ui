@@ -775,6 +775,7 @@
                   _this.applyGetOut = res.msg;
                   _this.getoutMoney.getoutNumber = null;
                   _this.getoutMoney.password = null;
+                  _this.someAccountOrMoneyJudgement();
                 } else {
                   _this.iconType = 'close-circled';
                   _this.applyGetOut = res.msg;
@@ -806,6 +807,7 @@
                   _this.applyGetOut = res.msg;
                   _this.getoutMoney.getoutNumber = null;
                   _this.getoutMoney.password = null;
+                  _this.someAccountOrMoneyJudgement();
                 }
               });
             } else {
