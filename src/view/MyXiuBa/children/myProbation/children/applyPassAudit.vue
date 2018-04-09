@@ -468,8 +468,8 @@
         </div>-->
         <div class="clear ml-45 mr-40 mt-20" v-if="needIssueAnswer.length > 0">
           <div style="border-top: 1px solid #eee" class="pt-10 pb-10">在详情页找到如下文案，并提供所在位置截图<p @click="watchAnswerImg = true" class="example-pic inline-block ml-10">查看示例图</p></div>
-          <div class="left mr-20 text-ct" v-if="needIssueAnswer[0]">
-            <p class="pd-3 bgFDF5E0 cl000">{{needIssueAnswer[0]}}</p>
+          <div class="left mr-20 text-ct" v-if="needIssueAnswer[0].issue">
+            <p class="pd-3 bgFDF5E0 cl000">{{needIssueAnswer[0].issue}}</p>
             <Upload
               class="copy-write-img"
               :default-file-list="defaultImageCwOne"
@@ -486,8 +486,8 @@
               </div>
             </Upload>
           </div>
-          <div class="left mr-20 text-ct" v-if="needIssueAnswer[1]">
-            <p class="pd-3 bgFDF5E0 cl000">{{needIssueAnswer[1]}}</p>
+          <div class="left mr-20 text-ct" v-if="needIssueAnswer[1].issue">
+            <p class="pd-3 bgFDF5E0 cl000">{{needIssueAnswer[1].issue}}</p>
             <Upload
               class="copy-write-img"
               :default-file-list="defaultImageCwTwo"
@@ -504,8 +504,8 @@
               </div>
             </Upload>
           </div>
-          <div class="left text-ct" v-if="needIssueAnswer[2]">
-            <p class="pd-3 bgFDF5E0 cl000">{{needIssueAnswer[2]}}</p>
+          <div class="left text-ct" v-if="needIssueAnswer[2].issue">
+            <p class="pd-3 bgFDF5E0 cl000">{{needIssueAnswer[2].issue}}</p>
             <Upload
               class="mg-at copy-write-img"
               :default-file-list="defaultImageCwThree"
