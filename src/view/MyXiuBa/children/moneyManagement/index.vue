@@ -10,28 +10,10 @@
       </a>
     </div>
     <router-view></router-view>
-    <Modal v-model="withdrawalCommandPop" class="withdrawal-command-pop">
-      <p slot="header" style="border: none">
-        <span class="main-color">请输入提现验证口令：</span>
-      </p>
-      <div>
-        <p class="pl-10 pt-10 pb-10 pr-10" style="background-color: #eee;">为保证资金安全，首次申请提现需要进行提现口令验证，成功后不再需要！</p>
-        <div class="verify-box pl-10 pr-10 pt-10 pb-10 clear">
-          <img src="~assets/img/common/contact-dabai.png" alt="" width="220" height="220" class="left">
-          <div class="left ml-20" style="width: 220px;">
-            <p class="lht20 mt-30">请长按识别下方的二维码或者直接搜索添加<span class="main-color">"xiubaxiaoba888"</span>为好友，查看朋友圈封面获取验证口令！</p>
-            <iInput type="number" v-model.number="command" placeholder="请输入验证口令" class="text-ct mt-20"></iInput>
-            <div class="text-ct"><iButton class="mt-20"  type="error" @click="verifyCommand">确定</iButton></div>
-          </div>
-        </div>
-      </div>
-      <div slot="footer">
-      </div>
-    </Modal>
   </div>
 </template>
 <script>
-  import api from '@/config/apiConfig'
+  // import api from '@/config/apiConfig'
   import Button from 'iview/src/components/button'
   import Modal from 'iview/src/components/modal'
   import Input from 'iview/src/components/input'
@@ -86,9 +68,6 @@
           }
         ],
         infoSelect: 'AccountInfo',
-        ifFirstWithDraw:null,
-        withdrawalCommandPop:false,
-        command:null,
       }
     },
     mounted() {
@@ -96,7 +75,6 @@
     created() {
       let name = this.$route.name;
       this.selectNavigate(name);
-      this.someAccountOrMoneyJudgement();
     },
     computed: {
       getUserAccountRole:function () {
@@ -109,37 +87,9 @@
       }
     },
     methods: {
-      verifyCommand(){
-        let self = this;
-        if (!self.command){
-          self.$Message.error('请输入验证口令！');
-          return;
-        }
-        if (self.command !== 6188){
-          self.$Message.error('验证口令错误！');
-          self.command = null;
-          return
-        }
-        if (self.command === 6188){
-          self.$Message.success('验证口令成功！');
-          setStorage('ifVerifyCommand',true);
-          self.withdrawalCommandPop = false;
-          self.$router.replace({name: 'GetoutMoney'})
-        }
-      },
-      someAccountOrMoneyJudgement(){
-        let self = this;
-        api.someAccountOrMoneyJudgement().then( res=>{
-          if (res.status){
-            self.ifFirstWithDraw = res.data.ifFirstWithDraw;
-          }else {
-            self.$Message.error(res.msg);
-          }
-        })
-      },
       accountInit(name) {
         let self = this;
-        if(name === 'GetoutMoney'){
+        /*if(name === 'GetoutMoney'){
           let ifVerifyCommand = getStorage('ifVerifyCommand')?getStorage('ifVerifyCommand'):false;
           if (self.ifFirstWithDraw && !ifVerifyCommand){
             self.withdrawalCommandPop = true;
@@ -147,8 +97,9 @@
             self.$router.push({name: 'GetoutMoney'});
           }
         }else {
-          self.$router.push({name: name});
-        }
+
+        }*/
+        self.$router.push({name: name});
       },
       selectNavigate(type) {
         this.infoSelect = type;

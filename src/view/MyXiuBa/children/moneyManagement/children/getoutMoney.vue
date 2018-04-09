@@ -101,8 +101,28 @@
         </div>
         <div class="get-out-do mt-22">
           <iForm ref="getoutMoney" :model="getoutMoney" :label-width="200" :rules="getOutMoneyRule">
+            <Form-item label="请输入提现验证口令:" prop="getoutCommand" v-if="ifFirstWithDraw">
+              <iInput type="number" v-model.number="getoutMoney.getoutCommand" class="iInput"></iInput>
+              <!--<span @click="withdrawalCommandPop = true" class="blue cursor-p">查看如何获取验证口令</span>-->
+              <Tooltip placement="bottom">
+                <span class="blue cursor-p">查看如何获取验证口令</span>
+                <div slot="content" style="width: 300px;" class="text-ct">
+                  <div class="lht20">
+                    <p>为保证资金安全，首次</p>
+                    <p>申请提现需要进行提现口令验证,成功后不再需要！</p>
+                  </div>
+                  <div class="lht20 mt-10">
+                    <p>请扫描下方的二维码或者直接搜索添</p>
+                    <p>加<span class="main-color">"xiubaxiaoba888"</span>为好友,查看朋友圈封面获取验证口令！</p>
+                  </div>
+                  <div class="pl-10 pr-10 pt-10 pb-10 text-ct">
+                    <img src="~assets/img/common/contact-dabai.png" alt="" width="220" height="220">
+                  </div>
+                </div>
+              </Tooltip>
+            </Form-item>
             <Form-item label="请输入提现金额:" prop="getoutNumber">
-              <iInput v-model="getoutMoney.getoutNumber" class="iInput"></iInput>
+              <iInput v-model.number="getoutMoney.getoutNumber" class="iInput"></iInput>
               <span>元（最低1元起提）</span>
             </Form-item>
             <Form-item label="提现银行卡号:">
@@ -115,13 +135,13 @@
                       @on-click="seyPassword"></iInput>
               <p>
                 <span v-show="!getIfEditPwdAlready">初始密码为<span class="f-b cl-red">888888</span>，为了你的账号安全，建议您
-                <router-link :to="{'path':'/user/money-management/account-management','query':{'type':'resetPwd'}}">重置支付密码。</router-link>
+                <router-link :to="{'path':'/user/money-management/account-management','query':{'type':'resetPwd'}}" class="blue">重置支付密码。</router-link>
               </span>
               </p>
               <span v-show="getIfEditPwdAlready"><router-link to="/user/money-management/account-management">忘记支付密码？</router-link></span>
             </Form-item>
             <Form-item>
-              <iButton type="primary" @click="applyGetOutMoney()" class="ibtns">申请提现</iButton>
+              <iButton type="primary" @click="applyGetOutMoney" class="ibtns">申请提现</iButton>
               <Modal
                 v-model="getOutMoneyPopWindow"
                 :styles="{top:'210px',width:'580px'}"
@@ -264,6 +284,25 @@
         <router-link to="/user/personal-setting/verified" class="verify-btn">立即申请实名认证</router-link>
       </div>
     </Modal>
+    <Modal v-model="withdrawalCommandPop" class="withdrawal-command-pop">
+      <p slot="header" style="border: none;text-align: center">
+        <span class="main-color">获取提现验证口令：</span>
+      </p>
+      <div>
+        <p class="pl-10 pt-10 pb-10 pr-10" style="background-color: #eee;">为保证资金安全，首次申请提现需要进行提现口令验证，成功后不再需要！</p>
+        <p class="lht20 mt-30">请长按识别下方的二维码或者直接搜索添加<span class="main-color">"xiubaxiaoba888"</span>为好友，查看朋友圈封面获取验证口令！</p>
+        <div class="verify-box pl-10 pr-10 pt-10 pb-10 text-ct">
+          <img src="~assets/img/common/contact-dabai.png" alt="" width="220" height="220">
+          <!--<div class="left ml-20" style="width: 220px;">
+            <p class="lht20 mt-30">请长按识别下方的二维码或者直接搜索添加<span class="main-color">"xiubaxiaoba888"</span>为好友，查看朋友圈封面获取验证口令！</p>
+            <iInput type="number" v-model.number="command" placeholder="请输入验证口令" class="text-ct mt-20"></iInput>
+            <div class="text-ct"><iButton class="mt-20"  type="error" @click="verifyCommand">确定</iButton></div>
+          </div>-->
+        </div>
+      </div>
+      <div slot="footer">
+      </div>
+    </Modal>
   </div>
 </template>
 <script>
@@ -273,6 +312,7 @@
   import Button from 'iview/src/components/button'
   import Modal from 'iview/src/components/modal'
   import DatePicker from 'iview/src/components/date-picker'
+  import Tooltip  from 'iview/src/components/tooltip'
   import {Select, Option, OptionGroup} from 'iview/src/components/select'
   import Input from 'iview/src/components/input'
   import api from '@/config/apiConfig'
@@ -295,7 +335,8 @@
       ButtonGroup: Button.Group,
       Icon: Icon,
       Modal: Modal,
-      SmsCountdown: SmsCountdown
+      SmsCountdown: SmsCountdown,
+      Tooltip:Tooltip,
     },
     data() {
       //表单验证
@@ -316,6 +357,13 @@
       const validateBankName = (rule, value, callback) => {
         if (!value) {
           callback(new Error('请选择所属银行'));
+        } else {
+          callback()
+        }
+      };
+      const validateCommand = (rule, value, callback) => {
+        if (!value) {
+          callback(new Error('请输入验证口令'));
         } else {
           callback()
         }
@@ -395,10 +443,14 @@
           ]*/
         },
         getoutMoney: {
+          getoutCommand:null,
           getoutNumber: null,
           password: null
         },
         getOutMoneyRule: {
+          getoutCommand: [
+            {validator: validateCommand, trigger: 'blur'}
+          ],
           getoutNumber: [
             {validator: validatePayNumber, trigger: 'blur'}
           ],
@@ -451,7 +503,10 @@
         pageIndex:1,
         pageSize: 10,
         isChange: false,
-        ifVerifiedTip:false
+        ifVerifiedTip:false,
+        ifFirstWithDraw:null,
+        withdrawalCommandPop:false,
+        command:null,
       }
     },
     mounted() {
@@ -466,6 +521,7 @@
       }
       this.getVrcode();
       this.getWithDrawList();
+      this.someAccountOrMoneyJudgement();
     },
     computed: {
       getUserBalance: function () {
@@ -488,6 +544,34 @@
       ...mapActions([
         'getUserInformation'
       ]),
+      verifyCommand(){
+        let self = this;
+        if (!self.command){
+          self.$Message.error('请输入验证口令！');
+          return;
+        }
+        if (self.command !== 6188){
+          self.$Message.error('验证口令错误！');
+          self.command = null;
+          return
+        }
+        if (self.command === 6188){
+          self.$Message.success('验证口令成功！');
+          setStorage('ifVerifyCommand',true);
+          self.withdrawalCommandPop = false;
+          self.$router.replace({name: 'GetoutMoney'})
+        }
+      },
+      someAccountOrMoneyJudgement(){
+        let self = this;
+        api.someAccountOrMoneyJudgement().then( res=>{
+          if (res.status){
+            self.ifFirstWithDraw = res.data.ifFirstWithDraw;
+          }else {
+            self.$Message.error(res.msg);
+          }
+        })
+      },
       getBeginTimeFun(e){
        this.getoutRecord.applyFrom = e
       },
@@ -666,6 +750,16 @@
       //申请提现（根据提现金额判断是否需要实名认证）
       applyGetOutMoney() {
         let _this = this;
+        if (_this.ifFirstWithDraw){
+          if (!_this.getoutMoney.getoutCommand){
+            _this.$Message.error('请输入提现验证口令');
+            return;
+          }
+          if (_this.getoutMoney.getoutCommand !== 6188){
+            _this.$Message.error('提现验证口令错误');
+            return;
+          }
+        }
         if(_this.userList.ifCertification){
           //如果认证过，走从前的就好
           _this.$refs.getoutMoney.validate((valid) => {
