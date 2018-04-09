@@ -2108,7 +2108,10 @@
             this.browseAnswer.splice(index, 1);
             this.answerDefaultList.splice(index, 1);
           }
-        })
+        });
+        if(this.browseAnswer.length === 0) {
+          this.needBrowseAnswer = false;
+        }
       },
       removeMainImage() {
         this.taskRelease.taskMainImage = null;
@@ -2314,13 +2317,8 @@
         this.answerDefaultList.splice(index, 1);
       },
       needBrowseAnswerChange(value) {
-        if(!value){
-          this.browseAnswer = [
-            {
-              image: null,
-              issue: null
-            }
-          ];
+        if(value){
+          this.browseAnswer = [{image: null, issue: null}];
           this.answerDefaultList = [];
         }
       },
