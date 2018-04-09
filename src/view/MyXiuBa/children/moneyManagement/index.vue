@@ -15,11 +15,6 @@
 <script>
   export default {
     name: 'MoneyManagement',
-    components:{
-      Modal: Modal,
-      iButton: Button,
-      iInput: Input,
-    },
     data() {
       return {
         myInfoSelectMerchant: [
