@@ -170,6 +170,7 @@
                     <Icon type="camera" size="20"></Icon>
                   </div>
                 </upload>
+                <span class="left mt-20 ml-5 sizeColor2">（请上传文案所在位置截图）</span>
                 <i-button :disabled="browseAnswer.length > 2" class="ml-20 left mt-12" type="dashed" icon="plus-round" @click="addAnswer" v-show="index === 0">添加</i-button>
                 <i-button class="ml-20 left mt-12" type="dashed" icon="minus-round" @click="deleteAnswer(index)" v-show="index > 0">删除</i-button>
                 <!--<span v-show="isShowAnswerTip" class="ml-20 main-color"><Icon color="#f9284f" type="information-circled" class="mr-5"></Icon>浏览答题文案字数不能超过8个字</span>-->
