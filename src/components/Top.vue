@@ -97,20 +97,14 @@
 </template>
 
 <script>
-  import {setStorage, getStorage, encryption,removeStorage} from '@/config/utils'
-  import Tooltip from 'iview/src/components/tooltip'
+  import {Tooltip, Button, Icon} from 'iview'
   import TopTip from '@/components/TopTip.vue'
   import api from '@/config/apiConfig'
-  import Modal from 'iview/src/components/modal'
-  import Button from 'iview/src/components/button'
-  import Icon from 'iview/src/components/icon'
   export default {
-    name: 'home',
+    name: 'Home',
     components: {
       TopTip: TopTip,
-      api: api,
-      Modal:Modal,
-      iButton:Button,
+      iButton: Button,
       Icon: Icon,
       Tooltip: Tooltip,
     },

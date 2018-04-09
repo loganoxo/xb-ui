@@ -57,15 +57,8 @@
 </template>
 
 <script>
+  import {Select, Option, Button, Icon, Page, Modal, Input} from 'iview'
   import api from '@/config/apiConfig'
-  import {aliCallbackImgUrl, domain} from '@/config/env'
-  import {encryption, AppealCategorization} from '@/config/utils'
-  import {Select, Option} from 'iview/src/components/select'
-  import Button from 'iview/src/components/button'
-  import Icon from 'iview/src/components/icon'
-  import Page from 'iview/src/components/page'
-  import Modal from 'iview/src/components/modal'
-  import Input from 'iview/src/components/input'
 
   export default {
     name: 'BlackListManagement',

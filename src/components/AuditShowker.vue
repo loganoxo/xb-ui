@@ -62,14 +62,9 @@
 
 </template>
 <script>
-  import Button from 'iview/src/components/button'
-  import Modal from 'iview/src/components/modal'
-  import Radio from 'iview/src/components/radio'
-  import Icon from 'iview/src/components/icon'
+  import {Button, Modal, Radio, Icon, Input} from 'iview'
   import api from '@/config/apiConfig'
   import TimeDown from '@/components/TimeDown'
-  import Input from 'iview/src/components/input'
-
 
   export default {
     name: 'AuditShowker',

@@ -163,14 +163,13 @@
   </div>
 </template>
 <script>
-  import Icon from 'iview/src/components/icon'
-  import Button from 'iview/src/components/button'
+  import {Icon, Button} from 'iview'
   import api from '@/config/apiConfig'
   import {TaskErrorStatusList} from '@/config/utils'
   import CollapseTransition from 'iview/src/components/base/collapse-transition'
 
   export default {
-    name: 'MoneyManagement',
+    name: 'AccountInfo',
     components: {
       iButton: Button,
       ButtonGroup: Button.Group,

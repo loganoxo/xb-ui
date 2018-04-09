@@ -156,9 +156,12 @@
           <span class="ml-4"> 浏览答题：</span>
           <Checkbox v-model="needBrowseAnswer" :disabled="true">需要</Checkbox>
           <span class="sizeColor">（保证拿手充分浏览详情首页，减少秒拍情况发生，最多可添加3个）</span>
-          <p class="mt-10 pl-68" v-show="needBrowseAnswer">
-            <i-input class="mr-5" v-for="(item,index) in browseAnswer" :key="index" type="text" v-model="item.answerContent" :disabled="true" placeholder="请输入浏览答题文案" style="width: 124px;"></i-input>
-          </p>
+          <div class="mt-20 mt-10 pl-68 clear" v-if="needBrowseAnswer" v-for="(item, index) in browseAnswer" :key="index">
+            <i-input class="mr-5 left mt-12 mr-20" type="text" v-model="item.issue" :disabled="true" placeholder="请输入浏览答题文案" style="width: 124px;"></i-input>
+            <div class="demo-upload-list left">
+              <img :src="item.image + '!thum54'" alt="">
+            </div>
+          </div>
           <p class="mt-6 pl-68 sizeColor" v-show="needBrowseAnswer">请在手机详情页面中挑选一段文案，输入文本框内的文案最长不能超过8个字（建议3-8字）拿手将提供本文案所在位置截图</p>
         </div>
         <div class="baby-info mt-22" v-if="taskRelease.activityCategory === 'free_get'">
@@ -537,7 +540,7 @@
             </div>
             <div class="more-keyword-scheme ml-40 mt-20">
               <div>
-                <div class="inline-block tag" v-for="item in appTaskDetail" :key="item" :class="selectKeywordScheme === item.index ? 'select-tag-bg' : ''">
+                <div class="inline-block tag" v-for="item in appTaskDetail" :key="item.index" :class="selectKeywordScheme === item.index ? 'select-tag-bg' : ''">
                   <span @click="selectChangeScheme(item.index)">关键词方案{{ item.index + 1 }}</span>
                   <sup class="badge-count" v-show="item.countAssigned > 0">{{item.countAssigned}}</sup>
                 </div>
@@ -670,13 +673,7 @@
 </template>
 
 <script>
-  import Icon from 'iview/src/components/icon'
-  import Input from 'iview/src/components/input'
-  import Checkbox from 'iview/src/components/checkbox'
-  import Button from 'iview/src/components/button'
-  import Alert from 'iview/src/components/alert'
-  import Radio from 'iview/src/components/radio'
-  import {Select, Option, OptionGroup} from 'iview/src/components/select'
+  import {Icon, Input, Checkbox, Button, Alert, Radio, Select, Option, OptionGroup} from 'iview'
   import {decode, getStorage} from '@/config/utils'
   import api from '@/config/apiConfig'
 
@@ -938,12 +935,7 @@
             let itemIssue = JSON.parse(res.data.itemIssue);
             if(itemIssue && itemIssue.length > 0) {
               _this.needBrowseAnswer = true;
-              _this.browseAnswer = [];
-              itemIssue.forEach(item => {
-                _this.browseAnswer.push({
-                  answerContent: item
-                })
-              })
+              _this.browseAnswer =  itemIssue;
             }
             let itemReviewAssignsData = res.data.itemReviewAssigns;
             if(itemReviewAssignsData){

@@ -80,15 +80,12 @@
 </template>
 
 <script>
-  import Icon from 'iview/src/components/icon'
-  import Tooltip from 'iview/src/components/tooltip'
+  import {Icon, Tooltip} from 'iview'
   import api from '@/config/apiConfig'
-  import {setStorage, getStorage, removeStorage} from '../config/utils'
   import {mapActions} from 'vuex'
 
   export default {
-    name: 'topTip',
-
+    name: 'TopTip',
     components: {
       Icon: Icon,
       Tooltip: Tooltip,

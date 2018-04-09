@@ -383,15 +383,7 @@
 </template>
 
 <script>
-  import Checkbox from 'iview/src/components/checkbox'
-  import Page from 'iview/src/components/page'
-  import Modal from 'iview/src/components/modal'
-  import Icon from 'iview/src/components/icon'
-  import Button from 'iview/src/components/button'
-  import Input from 'iview/src/components/input'
-  import Tooltip from 'iview/src/components/tooltip'
-  import {Select, Option, OptionGroup} from 'iview/src/components/select'
-  import Radio from 'iview/src/components/radio'
+  import {Checkbox, Page, Modal, Icon, Button, Input, Tooltip, Select, Option, OptionGroup, Radio} from 'iview'
   import PayModel from '@/components/PayModel'
   import TimeDown from '@/components/TimeDown'
   import api from '@/config/apiConfig'

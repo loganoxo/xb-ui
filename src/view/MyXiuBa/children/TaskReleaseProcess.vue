@@ -152,7 +152,7 @@
             <span class="ml-4"> 浏览答题：</span>
             <Checkbox v-model="needBrowseAnswer" @on-change="needBrowseAnswerChange">需要</Checkbox>
             <span class="sizeColor2">（保证拿手充分浏览详情页，减少秒拍情况发生，最多可添加3个）</span>
-            <div class="mt-10 pl-68 clear" v-show="needBrowseAnswer">
+            <div class="mt-10 pl-68 clear" v-if="needBrowseAnswer">
               <div class="clear mt-10" v-for="(item,index) in browseAnswer" :key="index">
                 <span class="left mt-20 fs-14">{{index + 1}}.</span>
                 <i-input class="mr-5 mt-12 ml-10 left" type="text" @on-change="answerInputChange(index)" v-model="item.issue" placeholder="请输入浏览答题文案" style="width: 124px;"></i-input>
@@ -187,7 +187,7 @@
             </div>
             <div class="baby-title ml-45 mt-20">
               <span class="required">宝贝类型：</span>
-              <iSelect v-model="taskRelease.itemType" style="width:200px">
+              <iSelect v-model="taskRelease.itemType" style="width:200px" v-once>
                 <Option-group v-for="parentItem in itemCatalogList" v-if="parentItem.level === 1" :label="parentItem.name" :key="parentItem.id">
                   <iOption
                     v-if="item.level === 2 && item.parentItemCatalog && item.parentItemCatalog.id === parentItem.id"
@@ -393,9 +393,7 @@
                             @focus="onEditorFocus($event)"
                             @ready="onEditorReady($event)">
               </quill-editor>
-              <!--<form method="post" enctype="multipart/form-data" id="uploadFormMulti">-->
-                <input v-show="false" id="freeGet" type="file" name="avator" multiple accept="image/jpg,image/jpeg,image/png,image/gif" @change="uploadImgFreeGet">
-              <!--</form>-->
+              <input v-show="false" id="freeGet" type="file" name="avator" multiple accept="image/jpg,image/jpeg,image/png,image/gif" @change="uploadImgFreeGet">
             </div>
           </div>
           <div class="baby-info mt-22" v-show="taskRelease.activityCategory === 'present_get'">
@@ -1015,18 +1013,9 @@
 </template>
 
 <script>
+  import {Icon, Form, Input, Checkbox, Button, Radio, Modal, Alert, Select, Option, OptionGroup, Steps} from 'iview'
   import {Quill, quillEditor} from 'vue-quill-editor'
-  import Icon from 'iview/src/components/icon'
-  import Form from 'iview/src/components/form'
-  import Input from 'iview/src/components/input'
-  import Checkbox from 'iview/src/components/checkbox'
-  import Button from 'iview/src/components/button'
-  import Radio from 'iview/src/components/radio'
-  import Modal from 'iview/src/components/modal'
-  import Alert from 'iview/src/components/alert'
-  import {Select, Option, OptionGroup} from 'iview/src/components/select'
   import Upload from '@/components/upload'
-  import Steps from 'iview/src/components/steps'
   import PayModel from '@/components/PayModel'
   import UserClause from '@/components/UserClause'
   import api from '@/config/apiConfig'
@@ -2325,7 +2314,13 @@
       },
       needBrowseAnswerChange(value) {
         if(!value){
-          this.browseAnswer = [{answerContent: null}]
+          this.browseAnswer = [
+            {
+              image: null,
+              issue: null
+            }
+          ];
+          this.answerDefaultList = [];
         }
       },
       testAnswerTextNumber() {

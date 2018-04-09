@@ -124,18 +124,12 @@
 </template>
 
 <script>
-  import Icon from 'iview/src/components/icon'
-  import Modal from 'iview/src/components/modal'
-  import Breadcrumb from 'iview/src/components/breadcrumb'
-  import Page from 'iview/src/components/page'
-  import Carousel from 'iview/src/components/carousel'
-  import Table from 'iview/src/components/table'
-  import Clipboard from 'clipboard';
+  import {Icon, Modal, Breadcrumb, Page, Carousel, Table} from 'iview'
+  import Clipboard from 'clipboard'
   import {domain} from '@/config/env'
   import api from '@/config/apiConfig'
 
   export default {
-
     name: 'Recommend',
     components: {
       Icon: Icon,

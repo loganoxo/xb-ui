@@ -404,18 +404,7 @@
 </template>
 
 <script>
-  import Tooltip from 'iview/src/components/tooltip';
-  import Icon from 'iview/src/components/icon'
-  import Alert from 'iview/src/components/alert'
-  import Form from 'iview/src/components/form'
-  import Input from 'iview/src/components/input'
-  import Checkbox from 'iview/src/components/checkbox'
-  import Button from 'iview/src/components/button'
-  import Radio from 'iview/src/components/radio'
-  import Modal from 'iview/src/components/modal'
-  import Page from 'iview/src/components/page'
-  import Breadcrumb from 'iview/src/components/breadcrumb'
-  import Clipboard from 'clipboard';
+  import {Tooltip, Icon, Alert, Form, Input, Button, Radio, Modal, Page, Breadcrumb} from 'iview'
   import api from '@/config/apiConfig'
   import PlaceOrderStep from '@/components/PlaceOrderStep'
   import {setStorage, getStorage, getSeverTime, decode, encryption, TaskErrorStatusList} from '@/config/utils'
@@ -424,7 +413,7 @@
   import TaskApplyBefore from '@/components/TaskApplyBefore'
 
   export default {
-    name: 'task-details',
+    name: 'TaskDetails',
     components: {
       iInput: Input,
       iForm: Form,

@@ -9,17 +9,10 @@
 </template>
 
 <script>
-
   import api from '@/config/apiConfig'
-  import {setStorage, getStorage, encryption, removeStorage, getSeverTime} from '@/config/utils'
-  import {aliCallbackImgUrl} from '@/config/env'
 
   export default {
-    beforeMount() {
-
-    },
     name: 'Notice',
-    components: {},
     data() {
       return {
         userGetAnnouncement:{}
@@ -28,13 +21,7 @@
     created() {
       this.getUserGetAnnouncement();
     },
-    destroyed() {
-    },
     computed: {},
-    mounted: function () {
-
-    },
-
     methods: {
       getUserGetAnnouncement(){
         let self = this;

@@ -495,44 +495,21 @@
 </template>
 
 <script>
-  import Icon from 'iview/src/components/icon'
-  import Form from 'iview/src/components/form'
-  import Input from 'iview/src/components/input'
-  import Checkbox from 'iview/src/components/checkbox'
-  import Button from 'iview/src/components/button'
-  import Radio from 'iview/src/components/radio'
-  import Modal from 'iview/src/components/modal'
-  import Tooltip from 'iview/src/components/tooltip'
-  import Carousel from 'iview/src/components/carousel'
+  import {Icon, Input, Checkbox, Button, Modal, Tooltip, Carousel} from 'iview'
   import SmsCountdown from '@/components/SmsCountdown'
   import api from '@/config/apiConfig'
   import {setStorage, getStorage, encryption, removeStorage, getSeverTime} from '@/config/utils'
   import {aliCallbackImgUrl} from '@/config/env'
 
   export default {
-    beforeMount() {
-      let self = this;
-      if (getStorage('weChartPop') === 1 && self.$store.state.userInfo.role === 0 && !getStorage('setWeChartshower' + self.$store.state.userInfo.phone)) {
-        self.weChartShowkerAlertFunc();
-      }
-      /* if(self.$store.state.userInfo.role === 0){
-         document.title = '白拿拿-不拿白不拿';
-       }else {
-         document.title = '白拿拿-真人试用买家秀';
-       }*/
-
-    },
     name: 'home',
     components: {
       iInput: Input,
-      iForm: Form,
-      FormItem: Form.Item,
       Checkbox: Checkbox,
       CheckboxGroup: Checkbox.Group,
       iButton: Button,
       Icon: Icon,
       SmsCountdown: SmsCountdown,
-      Radio: Radio,
       Modal: Modal,
       Carousel: Carousel,
       CarouselItem: Carousel.Item,
@@ -676,6 +653,12 @@
         // showSellerVipPopup: false,
         pinkageFor10: [],
         presentGet: [],
+      }
+    },
+    beforeMount() {
+      let self = this;
+      if (getStorage('weChartPop') === 1 && self.$store.state.userInfo.role === 0 && !getStorage('setWeChartshower' + self.$store.state.userInfo.phone)) {
+        self.weChartShowkerAlertFunc();
       }
     },
     created() {

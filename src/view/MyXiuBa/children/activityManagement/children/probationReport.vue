@@ -182,12 +182,7 @@
 </template>
 
 <script>
-  import Icon from 'iview/src/components/icon'
-  import Tooltip from 'iview/src/components/tooltip'
-  import Button from 'iview/src/components/button'
-  import Input from 'iview/src/components/input'
-  import Radio from 'iview/src/components/radio'
-  import Modal from 'iview/src/components/modal'
+  import {Icon, Tooltip, Button, Input, Radio, Modal} from 'iview'
   import TimeDown from '@/components/TimeDown'
   import api from '@/config/apiConfig'
   import {aliCallbackImgUrl} from '@/config/env'

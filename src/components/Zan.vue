@@ -8,10 +8,10 @@
 </template>
 
 <script>
-  import Icon from 'iview/src/components/icon'
+  import {Icon} from 'iview'
 
   export default {
-    name: 'zan',
+    name: 'Zan',
     components: {
       Icon: Icon
     },

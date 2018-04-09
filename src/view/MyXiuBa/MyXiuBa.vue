@@ -126,14 +126,12 @@
 </template>
 
 <script>
-  import Icon from 'iview/src/components/icon'
-  import Tooltip from 'iview/src/components/tooltip'
+  import {Tooltip} from 'iview'
   import UserClause from '@/components/UserClause'
 
   export default {
     name: 'MyXiuBa',
     components: {
-      Icon: Icon,
       Tooltip: Tooltip,
       UserClause: UserClause,
     },

@@ -45,8 +45,7 @@
 </template>
 
 <script>
-  import Tooltip from 'iview/src/components/tooltip'
-  import Icon from 'iview/src/components/icon'
+  import {Tooltip, Icon} from 'iview'
   import {scrollTop} from 'iview/src/utils/assist'
 
   export default {
@@ -61,9 +60,6 @@
         always: false,
         showCloseBtn: true,
       }
-    },
-    mounted() {
-
     },
     created() {},
     computed: {

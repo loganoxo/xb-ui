@@ -227,11 +227,7 @@
 </template>
 
 <script>
-  import Icon from 'iview/src/components/icon'
-  import Button from 'iview/src/components/button'
-  import Modal from 'iview/src/components/modal'
-  import Tooltip from 'iview/src/components/tooltip'
-  import Carousel from 'iview/src/components/carousel'
+  import {Icon, Button, Modal, Tooltip, Carousel} from 'iview'
   import Zan from '@/components/Zan'
   import api from '@/config/apiConfig'
   import {encryption} from '@/config/utils'

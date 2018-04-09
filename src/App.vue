@@ -31,14 +31,14 @@
 </template>
 
 <script>
-  import Modal from 'iview/src/components/modal'
+  import {Modal} from 'iview'
   import Top from "@/components/Top.vue"
   import Bottom from "@/components/Bottom.vue"
   import SideNavigation from '@/components/SideNavigation.vue'
   import {getStorage} from '@/config/utils'
 
   export default {
-    name: 'app',
+    name: 'MyApp',
     components: {
       Top: Top,
       Bottom: Bottom,

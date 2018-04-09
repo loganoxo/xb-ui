@@ -183,18 +183,11 @@
 </template>
 
 <script>
+  import {DatePicker, Select, Option, OptionGroup, Checkbox, Button, Icon, Page, Modal, Input} from 'iview'
   import api from '@/config/apiConfig'
-  import {aliCallbackImgUrl, domain} from '@/config/env'
   import Upload from '@/components/upload'
+  import {aliCallbackImgUrl, domain} from '@/config/env'
   import {encryption, AppealCategorization} from '@/config/utils'
-  import DatePicker from 'iview/src/components/date-picker'
-  import {Select, Option, OptionGroup} from 'iview/src/components/select'
-  import Checkbox from 'iview/src/components/checkbox'
-  import Button from 'iview/src/components/button'
-  import Icon from 'iview/src/components/icon'
-  import Page from 'iview/src/components/page'
-  import Modal from 'iview/src/components/modal'
-  import Input from 'iview/src/components/input'
 
   export default {
     name: 'MyAppeal',

@@ -28,11 +28,6 @@
         <slot></slot>
       </div>
       <slot name="tip"></slot>
-      <upload-list
-        v-if="showUploadList"
-        :files="fileList"
-        @on-file-remove="handleRemove"
-        @on-file-preview="handlePreview"></upload-list>
     </div>
     <div v-if="visible" style="z-index: 3000" class="text">
       <Modal title="图片查看器" v-model="visible">
@@ -42,10 +37,7 @@
   </div>
 </template>
 <script>
-  import UploadList from 'iview/src/components/upload/upload-list.vue'
-  import Icon from 'iview/src/components/icon'
-  import Modal from 'iview/src/components/modal'
-  import Progress from 'iview/src/components/progress'
+  import {Icon, Modal, Progress} from 'iview'
   import {oneOf} from 'iview/src/utils/assist'
   import Emitter from 'iview/src/mixins/emitter'
   import {bucket, aliCallbackImgUrl} from '@/config/env'
@@ -57,7 +49,6 @@
     name: 'Upload',
     mixins: [Emitter],
     components: {
-      UploadList: UploadList,
       Icon: Icon,
       Modal: Modal,
       iProgress: Progress,
@@ -79,10 +70,6 @@
         default: 'image'
       },
       withCredentials: {
-        type: Boolean,
-        default: false
-      },
-      showUploadList: {
         type: Boolean,
         default: false
       },

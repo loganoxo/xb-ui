@@ -46,7 +46,7 @@
 <script>
   import api from '@/config/apiConfig'
   export default {
-    name: "userClause",
+    name: "UserClause",
     props:{
       isShowClause: {
         type: String,

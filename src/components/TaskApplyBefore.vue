@@ -410,10 +410,7 @@
   </div>
 </template>
 <script>
-  import Button from 'iview/src/components/button'
-  import Modal from 'iview/src/components/modal'
-  import Radio from 'iview/src/components/radio'
-  import Icon from 'iview/src/components/icon'
+  import {Button, Modal, Radio, Icon} from 'iview'
   import Upload from '@/components/upload'
   import PlaceOrderStep from '@/components/PlaceOrderStep'
   import {TaskErrorStatusList} from '@/config/utils'

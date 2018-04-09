@@ -15,8 +15,7 @@
 </template>
 
 <script>
-  import Button from 'iview/src/components/button'
-  import Modal from 'iview/src/components/modal'
+  import {Button, Modal} from 'iview'
   import {mapActions} from 'vuex'
 
   export default {

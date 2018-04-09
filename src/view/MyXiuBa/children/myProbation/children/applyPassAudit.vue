@@ -620,16 +620,7 @@
 </template>
 
 <script>
-  import Button from 'iview/src/components/button'
-  import Input from 'iview/src/components/input'
-  import Icon from 'iview/src/components/icon'
-  import {Select, Option, OptionGroup} from 'iview/src/components/select'
-  import Page from 'iview/src/components/page'
-  import Radio from 'iview/src/components/radio'
-  import Checkbox from 'iview/src/components/checkbox'
-  import DatePicker from 'iview/src/components/date-picker'
-  import Tooltip from 'iview/src/components/tooltip'
-  import Modal from 'iview/src/components/modal'
+  import {Button, Input, Icon, Select, Option, OptionGroup, Page, Radio, Checkbox, DatePicker, Tooltip, Modal} from 'iview'
   import Clipboard from 'clipboard'
   import Upload from '@/components/upload'
   import TimeDown from '@/components/TimeDown'

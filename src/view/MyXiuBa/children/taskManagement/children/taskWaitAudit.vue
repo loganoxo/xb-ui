@@ -161,18 +161,10 @@
 </template>
 
 <script>
-  import Form from 'iview/src/components/form'
-  import {Select, Option} from 'iview/src/components/select'
-  import Checkbox from 'iview/src/components/checkbox'
-  import Page from 'iview/src/components/page'
-  import Icon from 'iview/src/components/icon'
-  import Button from 'iview/src/components/button'
-  import Input from 'iview/src/components/input'
-  import Tooltip from 'iview/src/components/tooltip'
-  import Modal from 'iview/src/components/modal'
+  import {Form, Select, Option, Checkbox, Page, Icon, Button, Input, Tooltip, Modal} from 'iview'
   import CollapseTransition from 'iview/src/components/base/collapse-transition'
-  import api from '@/config/apiConfig'
   import {TaskErrorStatusList, encryption} from '@/config/utils'
+  import api from '@/config/apiConfig'
 
   export default {
     name: 'TaskWaitAudit',

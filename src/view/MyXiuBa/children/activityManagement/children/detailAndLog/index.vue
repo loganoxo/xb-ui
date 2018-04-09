@@ -20,7 +20,6 @@
 </template>
 
 <script>
-  import api from '@/config/apiConfig'
   export default {
     name: 'DetailAndLog',
     data() {

@@ -110,12 +110,9 @@
   </div>
 </template>
 <script>
+  import {Button, Modal, Input, Icon} from 'iview'
   import api from '@/config/apiConfig'
-  import Button from 'iview/src/components/button'
-  import Modal from 'iview/src/components/modal'
-  import Input from 'iview/src/components/input'
   import PayModel from '@/components/PayModel'
-  import Icon from 'iview/src/components/icon'
 
   export default {
     name: 'VipMember',

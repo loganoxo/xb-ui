@@ -5,7 +5,7 @@ import axios from 'axios'
 import qs from 'qs'
 import router from '@/router'
 import store from '@/store'
-import LoadingBar from 'iview/src/components/loading-bar'
+import {LoadingBar} from 'iview'
 
 axios.defaults.timeout = 100000;//配置请求响应时间
 axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded;charset=UTF-8';//配置post请求头类型

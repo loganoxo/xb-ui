@@ -85,16 +85,10 @@
 </template>
 
 <script>
-  import Collapse from 'iview/src/components/collapse'
-  import Checkbox from 'iview/src/components/checkbox'
-  import Page from 'iview/src/components/page'
-  import Icon from 'iview/src/components/icon'
-  import Button from 'iview/src/components/button'
-  import Input from 'iview/src/components/input'
+  import {Collapse, Checkbox, Page, Icon, Button, Input} from 'iview'
   import CollapseTransition from 'iview/src/components/base/collapse-transition'
-  import api from '@/config/apiConfig'
   import {TaskErrorStatusList} from '@/config/utils'
-  import TimeDown from '@/components/TimeDown'
+  import api from '@/config/apiConfig'
 
   export default {
     name: 'TaskPassAudit',

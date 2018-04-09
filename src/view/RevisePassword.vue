@@ -132,20 +132,14 @@
 </template>
 
 <script>
-  import Icon from 'iview/src/components/icon'
-  import Form from 'iview/src/components/form'
-  import Input from 'iview/src/components/input'
-  import Checkbox from 'iview/src/components/checkbox'
-  import Button from 'iview/src/components/button'
-  import Radio from 'iview/src/components/radio'
+  import {Icon, Form, Input, Checkbox, Button, Radio, Modal} from 'iview'
   import api from '@/config/apiConfig'
   import {setStorage, getStorage, removeStorage} from '@/config/utils'
   import SmsCountdown from '@/components/SmsCountdown'
-  import Modal from 'iview/src/components/modal'
   import RoleTop from '@/components/RoleTop.vue'
   import {mapActions,mapMutations} from 'vuex'
   export default {
-    name: 'login',
+    name: 'RevisePassword',
     components: {
       iInput: Input,
       iForm: Form,

@@ -9,7 +9,7 @@
 </template>
 
 <script>
-  import Spin from 'iview/src/components/spin'
+  import {Spin} from 'iview'
   import api from '@/config/apiConfig'
   import {setStorage} from '@/config/utils'
 

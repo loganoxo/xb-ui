@@ -185,17 +185,12 @@
 
 </template>
 <script>
+  import {Icon, Form, Button, Modal, Input} from 'iview'
   import api from '@/config/apiConfig'
-  import Icon from 'iview/src/components/icon'
-  import Form from 'iview/src/components/form'
-  import Button from 'iview/src/components/button'
-  import Modal from 'iview/src/components/modal'
-  import Input from 'iview/src/components/input'
   import SmsCountdown from '@/components/SmsCountdown'
-  import {mapActions} from 'vuex'
 
   export default {
-    name: 'MoneyManagement',
+    name: 'AccountManagement',
     components: {
       iInput: Input,
       iForm: Form,
@@ -351,18 +346,6 @@
 
     },
     methods: {
-      ...mapActions([
-        'getUserInformation'
-      ]),
-      // bandCard() {
-      //   if (!this.userList.ifCertification) {
-      //     this.$Message.error('您还未实名认证，请您前往个人中心实名认证后再绑定银行卡')
-      //   } else {
-      //     this.$router.push({name: 'GetoutMoney', query: {bandCard: 'bandCard'}});
-      //   }
-      // },
-
-      //绑定银行卡前无需实名认证
       bandCard() {
         this.$router.push({name: 'GetoutMoney', query: {bandCard: 'bandCard'}});
       },
@@ -431,7 +414,7 @@
               duration: 1,
               onClose: function () {
                 self.$router.go(-1);
-                self.getUserInformation();
+                self.$store.dispatch('getUserInformation');
               }
             });
           } else {

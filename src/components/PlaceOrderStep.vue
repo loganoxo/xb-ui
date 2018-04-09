@@ -108,18 +108,14 @@
 </template>
 
 <script>
-  import Button from 'iview/src/components/button'
-  import Input from 'iview/src/components/input'
-  import Icon from 'iview/src/components/icon'
-  import Modal from 'iview/src/components/modal'
-  import Tooltip from 'iview/src/components/tooltip'
+  import {Button, Input, Icon, Modal, Tooltip} from 'iview'
   import TimeDown from '@/components/TimeDown'
   import Clipboard from 'clipboard';
   import api from '@/config/apiConfig'
   import {TaskErrorStatusList} from '@/config/utils'
 
   export default {
-    name: 'place-order-step',
+    name: 'PlaceOrderStep',
     components: {
       iButton: Button,
       Icon: Icon,

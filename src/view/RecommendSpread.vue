@@ -96,9 +96,7 @@
 </template>
 
 <script>
-
   import RoleTop from '@/components/RoleTop.vue'
-  import Button from 'iview/src/components/button'
   import api from '@/config/apiConfig'
   import {domain} from '@/config/env'
   import Clipboard from 'clipboard';
@@ -106,7 +104,6 @@
     name: 'RecommendSpread',
     components: {
       RoleTop: RoleTop,
-      iButton: Button,
     },
     data() {
       return {
@@ -169,24 +166,6 @@
     computed: {
       isLogin() {
         return this.$store.state.login
-      },
-      getUserInfoPhone() {
-        return this.$store.state.userInfo.nickname
-      },
-      getUserInfoRole() {
-        return this.$store.state.userInfo.role
-      },
-      getMemberDeadline() {
-        return this.$store.state.userInfo.memberDeadline
-      },
-      getMemberLevel() {
-        return this.$store.state.userInfo.memberLevel
-      },
-      userHeadUrl() {
-        return this.$store.getters.getUserHeadUrl
-      },
-      getUserRole () {
-        return this.$store.getters.getUserRole
       },
     },
     mounted () {

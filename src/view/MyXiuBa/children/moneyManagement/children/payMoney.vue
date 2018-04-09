@@ -85,18 +85,13 @@
   </div>
 </template>
 <script>
+  import {Icon, Form, Input, Radio, Button, Modal} from 'iview'
   import api from '@/config/apiConfig'
-  import Icon from 'iview/src/components/icon'
-  import Form from 'iview/src/components/form'
-  import Input from 'iview/src/components/input'
-  import Radio from 'iview/src/components/radio'
-  import Button from 'iview/src/components/button'
-  import Modal from 'iview/src/components/modal'
   import {isNumber} from '@/config/utils'
   import {aliPayUrl, weiXinPayUrl} from '@/config/env'
 
   export default {
-    name: 'MoneyManagement',
+    name: 'PayMoney',
     components: {
       Radio: Radio,
       RadioGroup: Radio.Group,

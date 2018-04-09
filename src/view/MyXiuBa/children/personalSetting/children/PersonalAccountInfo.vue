@@ -224,14 +224,7 @@
 </template>
 
 <script>
-  import Icon from 'iview/src/components/icon'
-  import Form from 'iview/src/components/form'
-  import Input from 'iview/src/components/input'
-  import Checkbox from 'iview/src/components/checkbox'
-  import Button from 'iview/src/components/button'
-  import Radio from 'iview/src/components/radio'
-  import Modal from 'iview/src/components/modal'
-  import Alert from 'iview/src/components/alert'
+  import {Icon, Form, Input, Checkbox, Button, Radio, Modal, Alert} from 'iview'
   import pictureUpload from 'vue-image-crop-upload';
   import api from '@/config/apiConfig'
   import Upload from '@/components/upload'
@@ -240,7 +233,7 @@
   import SmsCountdown from '@/components/SmsCountdown'
 
   export default {
-    name: 'personalAccountInfo',
+    name: 'PersonalAccountInfo',
     components: {
       iInput: Input,
       iForm: Form,

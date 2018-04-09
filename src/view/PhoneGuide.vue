@@ -25,13 +25,9 @@
 </template>
 
 <script>
-  import Icon from 'iview/src/components/icon'
   import api from '@/config/apiConfig'
   export default {
     name: 'SellerAdv',
-    components: {
-      vanIcon: Icon,
-    },
     data() {
       return {
         qrCodeSrc: null,

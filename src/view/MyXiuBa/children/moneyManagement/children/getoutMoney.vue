@@ -306,22 +306,13 @@
   </div>
 </template>
 <script>
-  import Icon from 'iview/src/components/icon'
-  import Form from 'iview/src/components/form'
-  import Page from 'iview/src/components/page'
-  import Button from 'iview/src/components/button'
-  import Modal from 'iview/src/components/modal'
-  import DatePicker from 'iview/src/components/date-picker'
-  import Tooltip  from 'iview/src/components/tooltip'
-  import {Select, Option, OptionGroup} from 'iview/src/components/select'
-  import Input from 'iview/src/components/input'
+  import {Icon, Form, Page, Button, Modal, DatePicker, Select, Option, OptionGroup, Input, Tooltip} from 'iview'
   import api from '@/config/apiConfig'
   import SmsCountdown from '@/components/SmsCountdown'
   import {TaskErrorStatusList,isNumber, isChinaStr} from '@/config/utils'
-  import {mapActions} from 'vuex'
 
   export default {
-    name: 'MoneyManagement',
+    name: 'getOutMoney',
     components: {
       iInput: Input,
       iSelect: Select,
@@ -336,7 +327,7 @@
       Icon: Icon,
       Modal: Modal,
       SmsCountdown: SmsCountdown,
-      Tooltip:Tooltip,
+      Tooltip: Tooltip,
     },
     data() {
       //表单验证
@@ -503,10 +494,10 @@
         pageIndex:1,
         pageSize: 10,
         isChange: false,
-        ifVerifiedTip:false,
-        ifFirstWithDraw:null,
-        withdrawalCommandPop:false,
-        command:null,
+        ifVerifiedTip: false,
+        ifFirstWithDraw: null,
+        withdrawalCommandPop: false,
+        command: null,
       }
     },
     mounted() {
@@ -541,9 +532,6 @@
       }
     },
     methods: {
-      ...mapActions([
-        'getUserInformation'
-      ]),
       verifyCommand(){
         let self = this;
         if (!self.command){
@@ -602,7 +590,7 @@
         }
       },
       success() {
-        this.getUserInformation();
+        this.$store.dispatch('getUserInformation');
       },
       goBack() {
         if (this.$route.query.bandCard === 'bandCard') {
@@ -710,7 +698,7 @@
             _this.formItem.validateCode = '';
             _this.formItem.cord = '';
             _this.showDifffentModel('getoutMoney');
-            _this.getUserInformation();
+            _this.$store.dispatch('getUserInformation');
             _this.getVrcode();
           } else {
             _this.getVrcode();

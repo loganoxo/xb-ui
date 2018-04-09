@@ -80,8 +80,7 @@
 </template>
 
 <script>
-  import Icon from 'iview/src/components/icon'
-  import Collapse from 'iview/src/components/collapse'
+  import {Icon, Collapse} from 'iview'
   import {decode} from '@/config/utils'
   import api from '@/config/apiConfig'
 

@@ -76,12 +76,7 @@
 </template>
 
 <script>
-  import Icon from 'iview/src/components/icon'
-  import Form from 'iview/src/components/form'
-  import Input from 'iview/src/components/input'
-  import Checkbox from 'iview/src/components/checkbox'
-  import Button from 'iview/src/components/button'
-  import Radio from 'iview/src/components/radio'
+  import {Icon, Form, Input, Checkbox, Button, Radio} from 'iview'
   import api from '@/config/apiConfig'
   import {getCookie,setCookie,delCookie,setStorage, getStorage,removeStorage, browserRedirect,nodeEnv} from '@/config/utils'
   import SmsCountdown from '@/components/SmsCountdown'

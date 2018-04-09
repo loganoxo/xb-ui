@@ -43,7 +43,6 @@
 </template>
 
 <script>
-
   import RoleTop from '@/components/RoleTop.vue'
   export default {
     name: 'SellerAdv',

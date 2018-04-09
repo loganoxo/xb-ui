@@ -140,14 +140,7 @@
 </template>
 
 <script>
-  import Button from 'iview/src/components/button'
-  import Input from 'iview/src/components/input'
-  import {Select, Option, OptionGroup} from 'iview/src/components/select'
-  import Tooltip from 'iview/src/components/tooltip'
-  import Page from 'iview/src/components/page'
-  import Radio from 'iview/src/components/radio'
-  import Modal from 'iview/src/components/modal'
-  import Icon from 'iview/src/components/icon'
+  import {Button, Input, Select, Option, OptionGroup, Tooltip, Page, Radio, Modal, Icon} from 'iview'
   import api from '@/config/apiConfig'
   import {TaskErrorStatusList, encryption} from '@/config/utils'
   import TimeDown from '@/components/TimeDown'

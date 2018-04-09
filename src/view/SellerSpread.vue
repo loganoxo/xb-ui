@@ -1,6 +1,5 @@
 <template>
   <div class="seller-adv">
-
     <div id="pageContain">
       <div class="page page1 current ">
         <div class="contain">
@@ -131,10 +130,9 @@
 </template>
 
 <script>
-
   import RoleTop from '@/components/RoleTop.vue'
   export default {
-    name: 'SellerAdv',
+    name: 'SellerSpread',
     components: {
       RoleTop: RoleTop,
     },

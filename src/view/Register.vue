@@ -446,18 +446,13 @@
 </template>
 
 <script>
-  import Icon from 'iview/src/components/icon'
-  import Form from 'iview/src/components/form'
-  import Input from 'iview/src/components/input'
-  import Button from 'iview/src/components/button'
-  import Checkbox from 'iview/src/components/checkbox'
+  import {Icon, Form, Input, Button, Checkbox, Modal} from 'iview'
   import api from '@/config/apiConfig'
   import SmsCountdown from '@/components/SmsCountdown'
   import RoleTop from '@/components/RoleTop.vue'
-  import Modal from 'iview/src/components/modal'
-  import {getCookie,setCookie,delCookie,setStorage, getStorage,removeStorage} from '@/config/utils'
+  import {getCookie, setCookie, delCookie, setStorage, getStorage, removeStorage} from '@/config/utils'
   export default {
-    name: 'register',
+    name: 'Register',
     components: {
       iInput: Input,
       iForm: Form,

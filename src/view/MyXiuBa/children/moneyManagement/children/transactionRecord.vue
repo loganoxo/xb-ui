@@ -216,7 +216,7 @@
             <th style="width: 20%">操作</th>
           </tr>
           </thead>
-          <tbody v-for="(item,index) in myTableDetailsAll">
+          <tbody v-for="item in myTableDetailsAll">
           <tr>
             <td>
               <p>{{item.tradTime | dateFormat('YYYY-MM-DD ')}}</p>
@@ -286,26 +286,14 @@
   </div>
 </template>
 <script>
+  import {Icon, DatePicker, Input, Checkbox, Button, Page, Radio, Modal} from 'iview'
   import api from '@/config/apiConfig'
-  import Icon from 'iview/src/components/icon'
-  import DatePicker from 'iview/src/components/date-picker'
-  import Table from 'iview/src/components/table'
-  import Input from 'iview/src/components/input'
-  import Checkbox from 'iview/src/components/checkbox'
-  import Button from 'iview/src/components/button'
-  import Page from 'iview/src/components/page'
-  import Modal from 'iview/src/components/modal'
-  import Radio from 'iview/src/components/radio'
-  import Form from 'iview/src/components/form'
   import {TaskErrorStatusList} from '@/config/utils'
   import CollapseTransition from 'iview/src/components/base/collapse-transition'
   export default {
-    name: 'MoneyManagement',
+    name: 'TransactionRecord',
     components: {
-      iForm: Form,
-      FormItem: Form.Item,
       DatePicker: DatePicker,
-      iTable: Table,
       iInput: Input,
       Checkbox: Checkbox,
       CheckboxGroup: Checkbox.Group,

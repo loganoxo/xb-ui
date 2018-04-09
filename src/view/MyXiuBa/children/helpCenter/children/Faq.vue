@@ -1,12 +1,11 @@
 <template>
   <div>
-    <p class="mt-20">
+    <div class="mt-20">
       <ButtonGroup shape="circle">
         <iButton :ref="faqSel.ref" v-for="(faqSel,index) in faqSelList" :type="faqSel.type" :key="index" @click="selQuestion(faqSel,index)">{{faqSel.text}}</iButton>
       </ButtonGroup>
-    </p>
-    <div>
-      <div v-show="selFaq == 'common'" class="faq-que-ans animated fadeIn " >
+    </div>
+    <div v-show="selFaq === 'common'" class="faq-que-ans animated fadeIn " >
         <a ref="anchor" href="javascript:void(0)" ></a>
         <Collapse class="mt-20" v-model="selectedFaq">
           <Panel name="1" id="q1">
@@ -94,7 +93,7 @@
           </Panel>
         </Collapse>
       </div>
-      <div v-show="selFaq == 'special'" class="faq-special-explain animated fadeIn ml-5">
+    <div v-show="selFaq === 'special'" class="faq-special-explain animated fadeIn ml-5">
         <p>特色活动说明：</p>
         <ul class="faq-special-ctt">
           <li>
@@ -215,16 +214,12 @@
 
       </div>
     </div>
-  </div>
 </template>
 
 <script>
-  import Button from 'iview/src/components/button'
-  import Icon from 'iview/src/components/icon'
-  import Collapse from 'iview/src/components/collapse'
-  import api from '@/config/apiConfig'
+  import {Button, Icon, Collapse} from 'iview'
   export default {
-    name: '',
+    name: 'Faq',
     components: {
       iButton: Button,
       ButtonGroup: Button.Group,
@@ -261,7 +256,6 @@
         let qusNum = self.$route.query.qusNum;
         let child = self.$refs;
         if(page){
-
           child[page][0].$el.click()
         }
         if(qusNum){
@@ -276,39 +270,17 @@
         }
       })
     },
-    created() {
-    },
-    computed: {
-      getUserRole() {
-        return this.$store.state.userInfo.role
-      },
-      userAccount: function () {
-        return this.$store.getters.getUserAccountInfo || {};
-      },
-      userList: function () {
-        return this.$store.getters.getPersonalInfo || {};
-      },
-      userBalance: function () {
-        return this.$store.getters.getUserBalance;
-      },
-      isEditPwdAlready: function () {
-        return this.$store.getters.getIsEditPwdAlready;
-      },
-
-    },
+    created() {},
+    computed: {},
     methods: {
       selQuestion(faqSel,index){
         let self = this;
-        if(faqSel.type == 'primary'){
-          return
-        }else {
+        if(faqSel.type !== 'primary'){
           for(let i = 0, j = self.faqSelList.length; i < j; i++){
-            if(i == index){
-              continue;
-            }else {
+            if(i !== index){
               self.faqSelList[i].type = 'ghost';
+              break;
             }
-
           }
           self.faqSelList[index].type = 'primary';
           self.selFaq = faqSel.selFaq

@@ -185,23 +185,12 @@
 </template>
 
 <script>
-  import Icon from 'iview/src/components/icon'
-  import Alert from 'iview/src/components/alert'
-  import Form from 'iview/src/components/form'
-  import Input from 'iview/src/components/input'
-  import Checkbox from 'iview/src/components/checkbox'
-  import Button from 'iview/src/components/button'
-  import Radio from 'iview/src/components/radio'
+  import {Icon, Alert, Form, Input, Checkbox, Button, Radio, Modal, Breadcrumb, Page, Carousel} from 'iview'
+  import TimeDown from '@/components/TimeDown'
   import api from '@/config/apiConfig'
   import {setStorage, getStorage, getSeverTime, encryption} from '@/config/utils'
-  import Modal from 'iview/src/components/modal'
-  import Breadcrumb from 'iview/src/components/breadcrumb'
-  import Page from 'iview/src/components/page'
-  import TimeDown from '@/components/TimeDown'
-  import Carousel from 'iview/src/components/carousel'
 
   export default {
-
     name: 'UserHome',
     components: {
       iInput: Input,

@@ -233,20 +233,13 @@
 </template>
 
 <script>
-  import {setStorage, getStorage, encryption,removeStorage} from '@/config/utils'
-  import Icon from 'iview/src/components/icon'
-  import Form from 'iview/src/components/form'
-  import Input from 'iview/src/components/input'
-  import Checkbox from 'iview/src/components/checkbox'
-  import Button from 'iview/src/components/button'
-  import Radio from 'iview/src/components/radio'
+  import {Icon, Form, Input, Checkbox, Button, Radio, Modal, Breadcrumb} from 'iview'
+  import {setStorage, getStorage, encryption, removeStorage} from '@/config/utils'
   import api from '@/config/apiConfig'
-  import Modal from 'iview/src/components/modal'
-  import Breadcrumb from 'iview/src/components/breadcrumb'
   import Page from 'iview/src/components/page'
   import TimeDown from '@/components/TimeDown'
   export default {
-    name: 'task-category',
+    name: 'TaskCategory',
     components: {
       iInput: Input,
       iForm: Form,

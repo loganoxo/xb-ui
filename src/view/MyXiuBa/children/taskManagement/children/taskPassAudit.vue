@@ -332,15 +332,7 @@
 </template>
 
 <script>
-  import Checkbox from 'iview/src/components/checkbox'
-  import Page from 'iview/src/components/page'
-  import Icon from 'iview/src/components/icon'
-  import Button from 'iview/src/components/button'
-  import Modal from 'iview/src/components/modal'
-  import {Select, Option} from 'iview/src/components/select'
-  import Input from 'iview/src/components/input'
-  import Radio from 'iview/src/components/radio'
-  import Tooltip from 'iview/src/components/tooltip'
+  import {Checkbox, Page, Icon, Button, Modal, Select, Option, Input, Radio, Tooltip} from 'iview'
   import CollapseTransition from 'iview/src/components/base/collapse-transition'
   import api from '@/config/apiConfig'
   import {TaskErrorStatusList, encryption} from '@/config/utils'

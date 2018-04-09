@@ -216,16 +216,7 @@
 </template>
 
 <script>
-  import Icon from 'iview/src/components/icon'
-  import Form from 'iview/src/components/form'
-  import Input from 'iview/src/components/input'
-  import Switch from 'iview/src/components/switch'
-  import {Select, Option, OptionGroup} from 'iview/src/components/select'
-  import Button from 'iview/src/components/button'
-  import Radio from 'iview/src/components/radio'
-  import Modal from 'iview/src/components/modal'
-  import Alert from 'iview/src/components/alert'
-  import Tooltip from 'iview/src/components/tooltip'
+  import {Icon, Form, Input, Switch, Select, Option, Button, Radio, Modal, Alert, Tooltip} from 'iview'
   import {RegionPicker} from 'vue-region-picker'
   import CHINA_REGION from 'china-area-data'
   import Upload from '@/components/upload'
@@ -235,7 +226,7 @@
   RegionPicker.region = CHINA_REGION;
   RegionPicker.vueVersion = 2;
   export default {
-    name: 'wwBind',
+    name: 'WwBind',
     components: {
       Tooltip: Tooltip,
       iInput: Input,

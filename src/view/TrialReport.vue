@@ -133,25 +133,15 @@
 </template>
 
 <script>
-  import Icon from 'iview/src/components/icon'
-  import Alert from 'iview/src/components/alert'
-  import Form from 'iview/src/components/form'
-  import Input from 'iview/src/components/input'
-  import Checkbox from 'iview/src/components/checkbox'
-  import Button from 'iview/src/components/button'
-  import Radio from 'iview/src/components/radio'
-  import Carousel from 'iview/src/components/carousel'
-  import Modal from 'iview/src/components/modal'
-  import Breadcrumb from 'iview/src/components/breadcrumb'
-  import Page from 'iview/src/components/page'
+  import {Icon, Alert, Form, Input, Checkbox, Button, Radio, Carousel, Modal, Breadcrumb, Page} from 'iview'
   import api from '@/config/apiConfig'
   import {setStorage, getStorage, decode, encryption} from '@/config/utils'
   import TimeDown from '@/components/TimeDown'
   import Zan from '@/components/Zan'
   import {aliCallbackImgUrl} from '@/config/env'
-  export default {
 
-    name: 'MyTrialReport',
+  export default {
+    name: 'TrialReport',
     components: {
       iInput: Input,
       iForm: Form,

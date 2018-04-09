@@ -57,15 +57,14 @@
 </template>
 
 <script>
-
+  import {Button} from 'iview'
   import RoleTop from '@/components/RoleTop.vue'
-  import  Button from 'iview/src/components/button'
 
   export default {
     name: 'SellerGuide',
     components: {
       RoleTop: RoleTop,
-      iButton:Button
+      iButton: Button
     },
     data() {
       return {

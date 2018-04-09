@@ -51,10 +51,7 @@
 </template>
 
 <script>
-  import Input from 'iview/src/components/input'
-  import Radio from 'iview/src/components/radio'
-  import Button from 'iview/src/components/button'
-  import Modal from 'iview/src/components/modal'
+  import {Input, Radio, Button, Modal} from 'iview'
   import api from '@/config/apiConfig'
   import {aliPayUrl, weiXinPayUrl} from '@/config/env'
 

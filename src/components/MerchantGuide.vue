@@ -23,7 +23,6 @@
 </template>
 
 <script>
-  import api from '@/config/apiConfig'
 
   export default {
     data() {

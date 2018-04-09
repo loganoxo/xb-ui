@@ -26,21 +26,15 @@
 <script>
 
   import RoleTop from '@/components/RoleTop.vue'
-  import Button from 'iview/src/components/button'
   export default {
     name: 'AboutUs',
     components: {
       RoleTop: RoleTop,
-      iButton : Button
     },
     data() {
-      //表单验证
-
       return {}
     },
-    created() {
-
-    },
+    created() {},
     methods: {
       register(){
         this.$router.push({name:'SelRole'})

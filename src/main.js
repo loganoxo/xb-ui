@@ -4,13 +4,10 @@ import router from './router'
 import store from './store'
 import * as filters from './filter/custom'
 import VueLazyload from 'vue-lazyload'
-import Modal from 'iview/src/components/modal'
-import LoadingBar from 'iview/src/components/loading-bar'
-import Message from 'iview/src/components/message'
-import Notice from 'iview/src/components/notice'
+import {Modal, LoadingBar, Message, Notice} from 'iview'
 import '../iview/iview.less'
 import '@/css/common.scss'
-import 'animate.css'
+// import 'animate.css'
 
 Vue.config.productionTip = false;
 

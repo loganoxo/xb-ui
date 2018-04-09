@@ -1,14 +1,13 @@
 <template>
   <div>
-    <p class="mt-20">
+    <div class="mt-20">
       <ButtonGroup shape="circle">
         <iButton :ref="faqSel.ref" v-for="(faqSel,index) in faqSelList" :key="index" :type="faqSel.type" @click="selQuestion(faqSel,index)">
           {{faqSel.text}}
         </iButton>
       </ButtonGroup>
-    </p>
-    <div>
-      <div v-show="selFaq == 'common'" class="faq-que-ans animated fadeIn ">
+    </div>
+    <div v-show="selFaq === 'common'" class="faq-que-ans animated fadeIn ">
         <a ref="anchor" href="javascript:void(0)" ></a>
         <Collapse class="mt-20" v-model="selectedFaq">
           <Panel name="1" id="q1">
@@ -102,7 +101,7 @@
 
 
       </div>
-      <div v-show="selFaq == 'special'" class="faq-special-explain animated fadeIn ml-5">
+    <div v-show="selFaq === 'special'" class="faq-special-explain animated fadeIn ml-5">
         <p>商家完整流程：1、注册账号 > 2、发布活动宝贝并存入担保金/推广费 > 3、审批拿手 > 4、审核订单号并发货 > 5、审核试用报告并返款 > 6、活动结算</p>
         <ul class="faq-special-ctt">
           <li>
@@ -241,17 +240,13 @@
           </li>
         </ul>
       </div>
-    </div>
   </div>
 </template>
 
 <script>
-  import Button from 'iview/src/components/button'
-  import Icon from 'iview/src/components/icon'
-  import Collapse from 'iview/src/components/collapse'
-  import api from '@/config/apiConfig'
+  import {Button, Icon, Collapse} from 'iview'
   export default {
-    name: '',
+    name: 'FaqSeller',
     components: {
       iButton: Button,
       ButtonGroup: Button.Group,
@@ -303,42 +298,20 @@
 
       })
     },
-    created() {
-
-    },
-    computed: {
-      getUserRole() {
-        return this.$store.state.userInfo.role
-      },
-      userAccount: function () {
-        return this.$store.getters.getUserAccountInfo || {};
-      },
-      userList: function () {
-        return this.$store.getters.getPersonalInfo || {};
-      },
-      userBalance: function () {
-        return this.$store.getters.getUserBalance;
-      },
-      isEditPwdAlready: function () {
-        return this.$store.getters.getIsEditPwdAlready;
-      }
-    },
+    created() {},
+    computed: {},
     methods: {
       goAnchor(questionId) {
         document.getElementById(questionId).scrollIntoView();
       },
       selQuestion(faqSel, index){
         let self = this;
-        if (faqSel.type == 'primary') {
-          return
-        } else {
-          for (let i = 0, j = self.faqSelList.length; i < j; i++) {
-            if (i == index) {
-              continue;
-            } else {
+        if(faqSel.type !== 'primary'){
+          for(let i = 0, j = self.faqSelList.length; i < j; i++){
+            if(i !== index){
               self.faqSelList[i].type = 'ghost';
+              break;
             }
-
           }
           self.faqSelList[index].type = 'primary';
           self.selFaq = faqSel.selFaq

@@ -68,16 +68,7 @@
 </template>
 
 <script>
-  import Button from 'iview/src/components/button'
-  import Input from 'iview/src/components/input'
-  import Icon from 'iview/src/components/icon'
-  import {Select, Option, OptionGroup} from 'iview/src/components/select'
-  import Page from 'iview/src/components/page'
-  import Checkbox from 'iview/src/components/checkbox'
-  import DatePicker from 'iview/src/components/date-picker'
-  import Tooltip from 'iview/src/components/tooltip'
-  import Upload from '@/components/upload'
-  import TimeDown from '@/components/TimeDown'
+  import {Button, Input, Select, Option, OptionGroup, Page, Checkbox} from 'iview'
   import api from '@/config/apiConfig'
   import {aliCallbackImgUrl} from '@/config/env'
   import {TaskErrorStatusList, encryption} from '@/config/utils'

@@ -9,10 +9,10 @@
 </template>
 
 <script>
-  import Spin from 'iview/src/components/spin'
-  import api from '@/config/apiConfig'
+  import {Spin} from 'iview'
   import RoleTop from '@/components/RoleTop.vue'
-  import {setStorage, getStorage, removeStorage,encryption} from '@/config/utils'
+  import api from '@/config/apiConfig'
+  import {setStorage, encryption} from '@/config/utils'
   export default {
     name: 'ThirdPartyLogin',
     components: {

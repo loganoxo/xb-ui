@@ -13,11 +13,6 @@
   </div>
 </template>
 <script>
-  // import api from '@/config/apiConfig'
-  import Button from 'iview/src/components/button'
-  import Modal from 'iview/src/components/modal'
-  import Input from 'iview/src/components/input'
-  import {getStorage,setStorage} from  '@/config/utils'
   export default {
     name: 'MoneyManagement',
     components:{
@@ -88,18 +83,7 @@
     },
     methods: {
       accountInit(name) {
-        let self = this;
-        /*if(name === 'GetoutMoney'){
-          let ifVerifyCommand = getStorage('ifVerifyCommand')?getStorage('ifVerifyCommand'):false;
-          if (self.ifFirstWithDraw && !ifVerifyCommand){
-            self.withdrawalCommandPop = true;
-          }else {
-            self.$router.push({name: 'GetoutMoney'});
-          }
-        }else {
-
-        }*/
-        self.$router.push({name: name});
+        this.$router.push({name: name});
       },
       selectNavigate(type) {
         this.infoSelect = type;

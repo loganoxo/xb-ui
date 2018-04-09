@@ -47,10 +47,8 @@
 </template>
 
 <script>
-
   import RoleTop from '@/components/RoleTop.vue'
-  import  Button from 'iview/src/components/button'
-  import api from '@/config/apiConfig'
+  import {Button} from 'iview'
 
   export default {
     name: 'SellerGuide',

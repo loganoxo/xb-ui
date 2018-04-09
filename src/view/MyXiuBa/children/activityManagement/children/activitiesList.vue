@@ -301,16 +301,9 @@
 </template>
 
 <script>
-  import Checkbox from 'iview/src/components/checkbox'
-  import Page from 'iview/src/components/page'
-  import Modal from 'iview/src/components/modal'
-  import Icon from 'iview/src/components/icon'
-  import Button from 'iview/src/components/button'
-  import Input from 'iview/src/components/input'
-  import Tooltip from 'iview/src/components/tooltip'
-  import {Select, Option} from 'iview/src/components/select'
-  import PayModel from '@/components/PayModel'
+  import {Checkbox, Page, Modal, Icon, Button, Input, Tooltip, Select, Option} from 'iview'
   import api from '@/config/apiConfig'
+  import PayModel from '@/components/PayModel'
   import {TaskErrorStatusList, getSeverTime, encryption, decode,setStorage, getStorage,} from '@/config/utils'
 
   export default {
