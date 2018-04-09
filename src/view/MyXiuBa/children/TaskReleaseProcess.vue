@@ -1831,11 +1831,14 @@
         }
       },
       taskCreate(type) {
-        let _this = this;
+        const _this = this;
         _this.taskRelease.itemReviewAssignString = JSON.stringify(_this.itemReviewPushList);
         let pcTaskDetailClone = extendDeep(_this.pcTaskDetail,[]);
         let appTaskDetailClone = extendDeep(_this.appTaskDetail,[]);
         let taoCodeTaskDetailClone = extendDeep(_this.taoCodeTaskDetail,[]);
+        if(_this.taskRelease.activityCategory === 'free_get') {
+          _this.taskRelease.donotPostPhoto = 'false'
+        }
         switch (_this.taskRelease.taskType) {
           case 'pc_search' :
             pcTaskDetailClone.forEach(item => {
