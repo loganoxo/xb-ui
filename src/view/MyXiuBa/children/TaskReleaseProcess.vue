@@ -152,14 +152,31 @@
             <span class="ml-4"> 浏览答题：</span>
             <Checkbox v-model="needBrowseAnswer" @on-change="needBrowseAnswerChange">需要</Checkbox>
             <span class="sizeColor2">（保证拿手充分浏览详情页，减少秒拍情况发生，最多可添加3个）</span>
-            <p class="mt-10 pl-68" v-show="needBrowseAnswer">
-              <i-input class="mr-5" v-for="(item,index) in browseAnswer" :key="index" type="text" v-model="item.answerContent" @on-change="testAnswerTextNumber" placeholder="请输入浏览答题文案" style="width: 124px;"></i-input>
-              <i-button class="ml-10" type="dashed" icon="plus-round" @click="addAnswer" v-show="browseAnswer.length < 3">添加</i-button>
-              <i-button class="ml-10" type="dashed" icon="minus-round" @click="deleteAnswer" v-show="browseAnswer.length > 1">删除</i-button>
-              <span v-show="isShowAnswerTip" class="ml-20 main-color"><Icon color="#f9284f" type="information-circled" class="mr-5"></Icon>浏览答题文案字数不能超过8个字</span>
-              <span class="blue cursor-p ml-5" @click="changeExampleImageUrl('answer')">【查看示例图】</span>
-            </p>
-            <p class="mt-6 pl-68 sizeColor2" v-show="needBrowseAnswer">请在手机详情页中挑选一段文案，建议3-8字，输入文本框内，拿手将提供本文案所在位置截图</p>
+            <div class="mt-10 pl-68 clear" v-show="needBrowseAnswer">
+              <div class="clear mt-10" v-for="(item,index) in browseAnswer" :key="index">
+                <span class="left mt-20 fs-14">{{index + 1}}.</span>
+                <i-input class="mr-5 mt-12 ml-10 left" type="text" @on-change="answerInputChange(index)" v-model="item.issue" placeholder="请输入浏览答题文案" style="width: 124px;"></i-input>
+                <upload class="ml-20 left"
+                        :default-file-list="answerDefaultList[index]"
+                        :on-remove="removeAnswerImage"
+                        :on-success="answerImageSuccess"
+                        :format="['jpg','jpeg','png','gif','bmp']"
+                        :max-size="1024"
+                        name="task"
+                        :on-format-error="handleFormatError"
+                        :on-exceeded-size="handleMaxSize"
+                        type="drag">
+                  <div class="camera">
+                    <Icon type="camera" size="20"></Icon>
+                  </div>
+                </upload>
+                <i-button :disabled="browseAnswer.length > 2" class="ml-20 left mt-12" type="dashed" icon="plus-round" @click="addAnswer" v-show="index === 0">添加</i-button>
+                <i-button class="ml-20 left mt-12" type="dashed" icon="minus-round" @click="deleteAnswer(index)" v-show="index > 0">删除</i-button>
+                <!--<span v-show="isShowAnswerTip" class="ml-20 main-color"><Icon color="#f9284f" type="information-circled" class="mr-5"></Icon>浏览答题文案字数不能超过8个字</span>-->
+                <span class="blue cursor-p ml-5 left mt-17" @click="changeExampleImageUrl('answer')">【查看示例图】</span>
+              </div>
+            </div>
+            <div class="mt-12 pl-68 sizeColor2" v-show="needBrowseAnswer">请在手机详情页中挑选一段文案，建议3-8字，输入文本框内，拿手将提供本文案所在位置截图</div>
           </div>
           <div class="baby-info mt-22" v-show="taskRelease.activityCategory === 'free_get'">
             <div class="activity-info-title">填写活动宝贝信息</div>
@@ -1071,6 +1088,7 @@
         stepName: 'information',
         taskPayId: null,
         itemCatalogList: [],
+        answerDefaultList: [],
         mainDefaultList: [],
         pcDefaultList: [],
         appDefaultList: [],
@@ -1210,12 +1228,18 @@
         addKeywordScheme: 0,
         isCountAssigned: null,
         isShowUserClause: false,
-        browseAnswer: [{answerContent: null}],
+        browseAnswer: [
+          {
+            issue: null,
+            image: null
+          }
+        ],
         needBrowseAnswer: false,
         isShowAnswerTip: false,
         isShowExampleImageModel: false,
         exampleImageUrl: null,
-        isShowAliPayTip: false
+        isShowAliPayTip: false,
+        selectAnswerIndex: 0
       }
     },
     mounted() {
@@ -1468,6 +1492,12 @@
       },
       onEditorReady(editor) {
       },
+      answerInputChange(index) {
+        this.selectAnswerIndex = index;
+      },
+      answerImageSuccess(res) {
+        this.browseAnswer[this.selectAnswerIndex].image = aliCallbackImgUrl + res.name;
+      },
       handleSuccess(res) {
         this.taskRelease.taskMainImage = aliCallbackImgUrl + res.name;
       },
@@ -1492,7 +1522,7 @@
           content: '图片 ' + file.name + ' 太大，不能超过 1M'
         });
       },
-      stepNext: function () {
+      stepNext() {
         let _this = this;
         if (!_this.taskRelease.taskDaysDuration) {
           _this.$Message.warning('亲，活动时长不能为空！');
@@ -1510,11 +1540,14 @@
           _this.$Message.warning('亲，活动时长最长为30天！');
           return;
         }
-        let allAnswerIsOk = _this.browseAnswer.some(item =>{
-          return !!item.answerContent
-        });
+        if(_this.needBrowseAnswer) {
+          let allAnswerIsOk = null;
+          _this.browseAnswer.forEach(items =>{
+            allAnswerIsOk = !!items.issue && !!items.image;
+          });
+        }
         if(_this.needBrowseAnswer && !allAnswerIsOk) {
-          _this.$Message.warning('亲，请填写浏览答题文案！');
+          _this.$Message.warning('亲，请填写浏览答题文案或者上传对应图片！');
           return;
         }
         if(_this.isShowAnswerTip) {
@@ -1629,13 +1662,7 @@
           return;
         }
         if(_this.needBrowseAnswer){
-          let itemIssueList = [];
-          _this.browseAnswer.forEach(item =>{
-            if(item.answerContent){
-              itemIssueList.push(item.answerContent);
-            }
-          });
-          _this.taskRelease.itemIssue = JSON.stringify(itemIssueList);
+          _this.taskRelease.itemIssue = JSON.stringify(_this.browseAnswer);
         } else {
           _this.taskRelease.itemIssue = JSON.stringify([]);
         }
@@ -1952,12 +1979,7 @@
             let itemIssue = JSON.parse(res.data.itemIssue);
             if(itemIssue && itemIssue.length > 0) {
               _this.needBrowseAnswer = true;
-              _this.browseAnswer = [];
-              itemIssue.forEach(item => {
-                _this.browseAnswer.push({
-                  answerContent: item
-                })
-              })
+              _this.taskRelease.itemIssue = itemIssue;
             }
             _this.taskRelease.taskDetail = {};
             if (res.data.taskType === 'tao_code') {
@@ -2082,6 +2104,14 @@
           console.log(err);
           document.getElementById('presentGet').value = '';
           _this.$Message.warning('亲，图片上传失败！');
+        })
+      },
+      removeAnswerImage(file) {
+        this.browseAnswer.forEach((item, index) =>{
+          if(item.image === file.src) {
+            this.taskRelease.itemIssue[index].image = null;
+            this.browseAnswer.splice(index,1);
+          }
         })
       },
       removeMainImage() {
@@ -2276,17 +2306,15 @@
         })
       },
       addAnswer() {
-        let _this = this;
-        if(_this.browseAnswer.length < 3) {
-          _this.browseAnswer.push({answerContent: null});
+        if(this.browseAnswer.length < 3) {
+          this.browseAnswer.push({
+            issue: null,
+            image: null,
+          });
         }
       },
-      deleteAnswer() {
-        let _this = this;
-        let len = _this.browseAnswer.length;
-        if(len > 1) {
-          _this.browseAnswer.splice(len - 1, 1);
-        }
+      deleteAnswer(index) {
+        this.browseAnswer.splice(index, 1);
       },
       needBrowseAnswerChange(value) {
         if(!value){
