@@ -82,7 +82,7 @@
                     {{allTask.alitmAccount}}
                   </p>
                   <p v-if="allTask.creditLevel"><img :src="allTask.creditLevel" alt="" style="width: auto;height: auto;">
-                  <p v-if="allTask.tqz">{{allTask.tqz}}
+                  <p v-if="allTask.tqz">淘气值：{{allTask.tqz}}
                   </p>
                   <p v-cloak>申请次数：{{allTask.applyCount || 0}}</p>
                   <p v-cloak>成功次数：{{allTask.applySuccessCount || 0}}</p>
