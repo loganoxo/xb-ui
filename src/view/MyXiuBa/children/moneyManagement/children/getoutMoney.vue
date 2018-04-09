@@ -284,25 +284,6 @@
         <router-link to="/user/personal-setting/verified" class="verify-btn">立即申请实名认证</router-link>
       </div>
     </Modal>
-    <Modal v-model="withdrawalCommandPop" class="withdrawal-command-pop">
-      <p slot="header" style="border: none;text-align: center">
-        <span class="main-color">获取提现验证口令：</span>
-      </p>
-      <div>
-        <p class="pl-10 pt-10 pb-10 pr-10" style="background-color: #eee;">为保证资金安全，首次申请提现需要进行提现口令验证，成功后不再需要！</p>
-        <p class="lht20 mt-30">请长按识别下方的二维码或者直接搜索添加<span class="main-color">"xiubaxiaoba888"</span>为好友，查看朋友圈封面获取验证口令！</p>
-        <div class="verify-box pl-10 pr-10 pt-10 pb-10 text-ct">
-          <img src="~assets/img/common/contact-dabai.png" alt="" width="220" height="220">
-          <!--<div class="left ml-20" style="width: 220px;">
-            <p class="lht20 mt-30">请长按识别下方的二维码或者直接搜索添加<span class="main-color">"xiubaxiaoba888"</span>为好友，查看朋友圈封面获取验证口令！</p>
-            <iInput type="number" v-model.number="command" placeholder="请输入验证口令" class="text-ct mt-20"></iInput>
-            <div class="text-ct"><iButton class="mt-20"  type="error" @click="verifyCommand">确定</iButton></div>
-          </div>-->
-        </div>
-      </div>
-      <div slot="footer">
-      </div>
-    </Modal>
   </div>
 </template>
 <script>
@@ -496,8 +477,6 @@
         isChange: false,
         ifVerifiedTip: false,
         ifFirstWithDraw: null,
-        withdrawalCommandPop: false,
-        command: null,
       }
     },
     mounted() {
@@ -532,24 +511,6 @@
       }
     },
     methods: {
-      verifyCommand(){
-        let self = this;
-        if (!self.command){
-          self.$Message.error('请输入验证口令！');
-          return;
-        }
-        if (self.command !== 6188){
-          self.$Message.error('验证口令错误！');
-          self.command = null;
-          return
-        }
-        if (self.command === 6188){
-          self.$Message.success('验证口令成功！');
-          setStorage('ifVerifyCommand',true);
-          self.withdrawalCommandPop = false;
-          self.$router.replace({name: 'GetoutMoney'})
-        }
-      },
       someAccountOrMoneyJudgement(){
         let self = this;
         api.someAccountOrMoneyJudgement().then( res=>{
