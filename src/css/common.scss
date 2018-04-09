@@ -693,6 +693,23 @@ input[type="number"] {
     border: none;
     padding: 0;
   }
-
+}
+.withdrawal-command-pop{
+  .ivu-modal-footer{
+    border: none;
+    padding-bottom: 10px;
+  }
+  .ivu-input{
+    text-align: center;
+  }
+  .ivu-modal-header{
+    border: none;
+  }
+  .ivu-modal-body{
+    padding: 0 16px 16px 16px;
+  }
+  .ivu-btn-error{
+    width: 82px;
+  }
 }
 /*RegionPicker css end*/

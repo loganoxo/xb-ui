@@ -895,4 +895,11 @@ export default {
   evaluateFormSellerToShowker(params){
     return fetch("/api/task/apply/black/evaluateFormSellerToShowker.json",params)
   },
+
+  /**
+   *判断秀客是否是第一次提现
+   * */
+  someAccountOrMoneyJudgement(){
+    return fetch('/api/user/account/someAccountOrMoneyJudgement.json');
+  },
 }
