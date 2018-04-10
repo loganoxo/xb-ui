@@ -188,7 +188,7 @@
             </div>
             <div class="baby-title ml-45 mt-20">
               <span class="required">宝贝类型：</span>
-              <iSelect v-model="taskRelease.itemType" style="width:200px" v-once>
+              <iSelect v-model="taskRelease.itemType" style="width:200px">
                 <Option-group v-for="parentItem in itemCatalogList" v-if="parentItem.level === 1" :label="parentItem.name" :key="parentItem.id">
                   <iOption
                     v-if="item.level === 2 && item.parentItemCatalog && item.parentItemCatalog.id === parentItem.id"
