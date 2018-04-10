@@ -168,7 +168,7 @@
                         :on-exceeded-size="handleMaxSize"
                         type="drag">
                   <div class="camera">
-                    <Icon type="camera" size="20"></Icon>
+                    <Icon :class="{'disabled-fs-color':!item.issue}" type="camera" size="20"></Icon>
                   </div>
                 </upload>
                 <span class="left mt-20 ml-5 sizeColor2">（请上传文案所在位置截图）</span>
