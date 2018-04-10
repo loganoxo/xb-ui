@@ -171,7 +171,7 @@
                   </div>
                 </upload>
                 <span class="left mt-20 ml-5 sizeColor2">（请上传文案所在位置截图）</span>
-                <i-button :disabled="browseAnswer.length > 2" class="ml-20 left mt-12" type="dashed" icon="plus-round" @click="addAnswer" v-show="index === 0">添加</i-button>
+                <i-button :disabled="browseAnswer.length > 2 || !allAnswerIsOk" class="ml-20 left mt-12" type="dashed" icon="plus-round" @click="addAnswer" v-show="index === 0">添加</i-button>
                 <i-button class="ml-20 left mt-12" type="dashed" icon="minus-round" @click="deleteAnswer(index)" v-show="index > 0">删除</i-button>
                 <!--<span v-show="isShowAnswerTip" class="ml-20 main-color"><Icon color="#f9284f" type="information-circled" class="mr-5"></Icon>浏览答题文案字数不能超过8个字</span>-->
                 <span class="blue cursor-p ml-5 left mt-17" @click="changeExampleImageUrl('answer')">【查看示例图】</span>
@@ -1401,6 +1401,17 @@
       systemApprovalTaskNumber() {
         return Math.round(this.taskRelease.taskCount * 0.2)
       },
+
+      /**
+       * 计算商家选填浏览答题后，是否答题和图片都已输入
+       * @return {number}
+       */
+      allAnswerIsOk() {
+        return this.browseAnswer.every(item =>{
+          return !!item.issue && !!item.image;
+        });
+      }
+
     },
     methods: {
       isVipPopupFunc(){
@@ -1525,13 +1536,13 @@
           _this.$Message.warning('亲，活动时长最长为30天！');
           return;
         }
-        let allAnswerIsOk = null;
+       /* let allAnswerIsOk = null;
         if(_this.needBrowseAnswer) {
           _this.browseAnswer.forEach(items =>{
             allAnswerIsOk = !!items.issue && !!items.image;
           });
-        }
-        if(_this.needBrowseAnswer && !allAnswerIsOk) {
+        }*/
+        if(_this.needBrowseAnswer && !_this.allAnswerIsOk) {
           _this.$Message.warning('亲，请填写浏览答题文案或者上传对应图片！');
           return;
         }
