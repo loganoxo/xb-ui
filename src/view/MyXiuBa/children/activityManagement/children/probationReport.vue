@@ -89,7 +89,7 @@
               <Icon type="alert-circled" color='#f9284f' size="36"></Icon>
             </div>
             <div class="left remind-con">
-              <p>通过买家秀需要支付拿手拿手，不通过则会退回，交给拿手重新修改！</p>
+              <p>通过买家秀后会从担保金中返款给拿手，不通过则会退回，交给拿手重新修改！</p>
               <p>您还有&nbsp;
                 <time-down color='#ff4040' :fontWeight=600 :endTime="showkerTaskInfo.currentGenerationEndTime"></time-down>&nbsp;进行审核，若该时间内未审核，系统将默认审核通过，开始给拿手返款！
               </p>

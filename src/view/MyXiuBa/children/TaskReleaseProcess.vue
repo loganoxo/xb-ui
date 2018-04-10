@@ -862,7 +862,9 @@
           </div>
         </div>
       </div>
-      <div class="footer-btn" v-show="stepName === 'information'" @click="stepNext">下一步</div>
+     <div class="text-ct mt-20">
+       <i-button class="fs-18" type="primary" long :loading="taskLoading" v-show="stepName === 'information'" @click="stepNext">下一步</i-button>
+     </div>
       <!--存入担保金详情-->
       <div class="deposits-received" v-show="stepName === 'deposit'">
         <div class="deposits-received-title mt-20 mb-20">活动活动信息已成功保存，请您存入本次活动的活动担保金。</div>
@@ -1076,6 +1078,7 @@
         showPayModel: false,
         current: 0,
         stepName: 'information',
+        taskLoading: false,
         taskPayId: null,
         itemCatalogList: [],
         answerDefaultList: [],
@@ -1445,14 +1448,6 @@
           }
         }
       },*/
-      // getCheckSellerTest() {
-      //   let _this = this;
-      //   api.checkSellerTest().then((res) => {
-      //     if (!res.status) {
-      //       _this.$router.push({name: 'SellerTest'});
-      //     }
-      //   });
-      // },
       checkMemberForTask() {
         let _this = this;
         api.checkMemberForTask().then(res => {
@@ -1832,6 +1827,7 @@
       },
       taskCreate(type) {
         const _this = this;
+        _this.taskLoading = true;
         _this.taskRelease.itemReviewAssignString = JSON.stringify(_this.itemReviewPushList);
         let pcTaskDetailClone = extendDeep(_this.pcTaskDetail,[]);
         let appTaskDetailClone = extendDeep(_this.appTaskDetail,[]);
@@ -1881,6 +1877,7 @@
           } else {
             _this.$Message.error(res.msg);
           }
+          _this.taskLoading = false;
         });
       },
       returnUpStep() {
