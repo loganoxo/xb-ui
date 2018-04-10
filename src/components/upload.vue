@@ -13,12 +13,13 @@
       </template>
     </div>
     <div ref="upload" class="left" :class="[prefixCls]" v-show="showUpload">
-      <div :class="classes"
+      <div :class="[classes,{disabled:disabled}]"
         @click="handleClick"
         @drop.prevent="onDrop"
         @dragover.prevent="dragOver = true"
         @dragleave.prevent="dragOver = false">
         <input
+          :disabled="disabled"
           ref="input"
           type="file"
           :class="[prefixCls + '-input']"
@@ -55,6 +56,10 @@
     },
     props: {
       multiple: {
+        type: Boolean,
+        default: false
+      },
+      disabled: {
         type: Boolean,
         default: false
       },
@@ -396,5 +401,13 @@
     font-size: 20px;
     cursor: pointer;
     margin: 0 2px;
+  }
+
+  .disabled{
+    background-color: #f7f7f7;
+    cursor: not-allowed;
+    &:hover{
+      border-color: #dddee1;
+    }
   }
 </style>

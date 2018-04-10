@@ -157,6 +157,7 @@
                 <span class="left mt-20 fs-14">{{index + 1}}.</span>
                 <i-input class="mr-5 mt-12 ml-10 left" type="text" @on-change="answerInputChange(index)" v-model="item.issue" placeholder="请输入浏览答题文案" style="width: 124px;"></i-input>
                 <upload class="ml-20 left"
+                        :disabled="!item.issue"
                         :default-file-list="answerDefaultList[index]"
                         :on-remove="removeAnswerImage"
                         :on-success="answerImageSuccess"
