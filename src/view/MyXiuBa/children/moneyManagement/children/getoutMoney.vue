@@ -108,8 +108,8 @@
                 <span class="blue cursor-p">查看如何获取验证口令</span>
                 <div slot="content" style="width: 300px;" class="text-ct">
                   <div class="lht20">
-                    <p>为保证资金安全，首次</p>
-                    <p>申请提现需要进行提现口令验证,成功后不再需要！</p>
+                    <p>为保证资金安全申请</p>
+                    <p>提现需要进行提现口令验证,成功后不再需要！</p>
                   </div>
                   <div class="lht20 mt-10">
                     <p>请扫描下方的二维码或者直接搜索添</p>
@@ -491,7 +491,8 @@
       }
       this.getVrcode();
       this.getWithDrawList();
-      this.someAccountOrMoneyJudgement();
+      // this.someAccountOrMoneyJudgement();
+      this.getFirstWithdrawalCommand();
     },
     computed: {
       getUserBalance: function () {
@@ -511,7 +512,27 @@
       }
     },
     methods: {
-      someAccountOrMoneyJudgement(){
+      getFirstWithdrawalCommand(){
+        let self = this;
+        api.getFirstWithdrawalCommand().then( res=>{
+          if (res.status){
+            self.ifFirstWithDraw = res.data
+          }else {
+            self.$Message.error(res.msg);
+          }
+        })
+      },
+      setFirstWithdrawalCommand(){
+        let self = this;
+        api.setFirstWithdrawalCommand().then( res=>{
+          if (res.status){
+            self.getFirstWithdrawalCommand();
+          }else {
+            self.$Message.error(res.msg);
+          }
+        })
+      },
+     /* someAccountOrMoneyJudgement(){
         let self = this;
         api.someAccountOrMoneyJudgement().then( res=>{
           if (res.status){
@@ -520,7 +541,7 @@
             self.$Message.error(res.msg);
           }
         })
-      },
+      },*/
       getBeginTimeFun(e){
        this.getoutRecord.applyFrom = e
       },
@@ -720,11 +741,12 @@
                 payPwd: _this.getoutMoney.password
               }).then(res => {
                 if (res.status) {
+                  console.log(333);
                   _this.iconType = 'checkmark-circled';
                   _this.applyGetOut = res.msg;
                   _this.getoutMoney.getoutNumber = null;
                   _this.getoutMoney.password = null;
-                  _this.someAccountOrMoneyJudgement();
+                  _this.setFirstWithdrawalCommand();
                 } else {
                   _this.iconType = 'close-circled';
                   _this.applyGetOut = res.msg;
@@ -751,12 +773,14 @@
                   // _this.iconType = 'close-circled';
                   // _this.applyGetOut = res.msg;
                 } else {
+                  if (res.status){
+                    _this.setFirstWithdrawalCommand();
+                  }
                   _this.getOutMoneyPopWindow = true;
                   _this.iconType = 'checkmark-circled';
                   _this.applyGetOut = res.msg;
                   _this.getoutMoney.getoutNumber = null;
                   _this.getoutMoney.password = null;
-                  _this.someAccountOrMoneyJudgement();
                 }
               });
             } else {

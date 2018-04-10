@@ -902,4 +902,18 @@ export default {
   someAccountOrMoneyJudgement(){
     return fetch('/api/user/account/someAccountOrMoneyJudgement.json');
   },
+
+  /**
+   * 设置第一次验证提现口令
+   */
+  setFirstWithdrawalCommand(){
+    return fetch('/api/set-first-fill-withdrawal-command.json')
+  },
+
+  /**
+   * 获取是否是第一次验证提现口令
+   */
+  getFirstWithdrawalCommand(){
+    return fetch('/api/detection-first-fill-withdrawal-command.json')
+  }
 }
