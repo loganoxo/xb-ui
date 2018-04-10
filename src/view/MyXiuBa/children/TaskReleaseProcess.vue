@@ -1493,6 +1493,7 @@
       },
       answerImageSuccess(res) {
         this.browseAnswer[this.selectAnswerIndex].image = aliCallbackImgUrl + res.name;
+        this.answerDefaultList.push([{src: aliCallbackImgUrl + res.name}]);
       },
       handleSuccess(res) {
         this.taskRelease.taskMainImage = aliCallbackImgUrl + res.name;
