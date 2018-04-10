@@ -59,11 +59,11 @@
       <div class="left ml-20 mt-5">
         <p>
           <span>掌柜旺旺：</span>
-          <span>{{getStoreName}}</span>
+          <span>{{getRealStoreName(showkerTaskInfo.task.storeName)}}</span>
         </p>
         <p>
           <span>店铺名称：</span>
-          <span>{{getRealStoreName}}</span>
+          <span>{{getRealStoreName(showkerTaskInfo.task.realStoreName)}}</span>
         </p>
         <p>
           <span>价格：</span>
@@ -187,30 +187,15 @@
       isShowChangeKeyword() {
         return this.showkerTaskInfo.task.taskDetailObject.length > 1;
       },
-      getRealStoreName() {
-        let length = this.showkerTaskInfo.task.realStoreName ? this.showkerTaskInfo.task.realStoreName.length : 0;
-        let name = this.showkerTaskInfo.task.realStoreName;
-        if (length && length > 4) {
-          return name.substr(0, 2) + '****' + name.substr(-2);
-        } else if (length && length <= 4) {
-          return name.substr(0, 1) + '****' + name.substr(-1);
-        } else {
-          return '******'
-        }
-      },
-      getStoreName() {
-        let length = this.showkerTaskInfo.task.storeName ? this.showkerTaskInfo.task.storeName.length : 0;
-        let name = this.showkerTaskInfo.task.storeName;
-        if (length && length > 4) {
-          return name.substr(0, 2) + '****' + name.substr(-2);
-        } else if (length && length <= 4) {
-          return name.substr(0, 1) + '****' + name.substr(-1);
-        } else {
-          return '******'
-        }
-      },
     },
     methods: {
+      getRealStoreName(name) {
+        if (name) {
+          return name.substr(0, 1) + '****' + name.substr(-1);
+        }else {
+          return '******'
+        }
+      },
       getTaskStatus(type) {
         return TaskErrorStatusList(type);
       },
