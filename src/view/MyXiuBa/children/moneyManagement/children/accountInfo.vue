@@ -1,62 +1,50 @@
 <template>
   <div class="my-count mt-10">
     <div class="my-money clear">
-      <div class="my-money-left left">
-        <div class="moneyInfoLeft left">
+      <div class="money-info-left left">
           <div>可用余额（元）</div>
           <div class="number mt-5 ">{{userBalance}}</div>
           <p>收入金额（元）：{{userAccount.amountIncomes / 100 || 0}}</p>
           <p>支出金额（元）：{{userAccount.amountPayment / 100 || 0}}</p>
-          <div class="view-details mt-10">
-            <a v-if="getUserAccountRole===1" class="iWantPay" href="javascript:;"
-               @click="accountInit('PayMoney')">我要充值</a>
-            <router-link v-if="getUserAccountRole===1"
-                         :to="{'path':'/user/money-management/transaction-record',query:{'activeType':1}}">充值记录
-            </router-link>
+          <div class="view-details mt-10"  v-if="userRole ===1">
+            <span class="iWantPay blue" @click="accountInit('PayMoney')">我要充值</span>
+            <router-link :to="{path:'/user/money-management/transaction-record',query:{activeType:1}}">充值记录</router-link>
           </div>
         </div>
-        <div class="moneyInfoRight right">
+      <div v-if="userRole === 0" class="money-info-right left">
           <div>提现中（元）</div>
           <div class="number1 mt-5 ">{{userAccount.enChashingMoney / 100 || 0}}</div>
-          <div class="clear">
+          <div class="clear pt-10 pb-10">
             <span class="sp left">提现帐号：{{getIfBandingBankCard(userList.ifBandingBankCard)}}</span>
             <a class="sa right" v-show="userList.ifBandingBankCard === null" @click="bandCard">添加</a>
-            <a class="sa right" v-show="userList.ifBandingBankCard !== null" @click="bandCard">修改</a>
+            <a class="sa left ml-20" v-show="userList.ifBandingBankCard !== null" @click="bandCard">修改</a>
           </div>
           <div class="view-details ">
             <a class="iWantPay" href="javascript:;" @click="accountInit('GetoutMoney')">我要提现</a>
             <router-link
-              :to="{'path':'/user/money-management/getout-money',query:{'getOutMoneyRecord':'getOutRecord'}}">提现记录
+              :to="{path:'/user/money-management/getout-money',query:{getOutMoneyRecord:'getOutRecord'}}">提现记录
             </router-link>
           </div>
         </div>
-      </div>
-      <div class="my-money-right  right">
-        <div>账户名：{{userList.phone}}</div>
-        <div>真实姓名：{{userList.realName}}</div>
-        <div>
-          <span>实名认证：{{getIfCertification(userList.ifCertification)}}</span>&nbsp;&nbsp;&nbsp;&nbsp;<router-link
-          to="/user/personal-setting/verified" v-show="userList.ifCertification===false">去认证
-        </router-link>
+      <div class="my-money-right left">
+          <div>账户名：{{userList.phone}}</div>
+          <div>真实姓名：{{userList.realName}}</div>
+          <div>
+            <span>实名认证：{{getIfCertification(userList.ifCertification)}}</span>&nbsp;&nbsp;&nbsp;&nbsp;<router-link
+            to="/user/personal-setting/verified" v-show="userList.ifCertification===false">去认证
+          </router-link>
+          </div>
+          <div>绑定手机：{{userList.phone}}</div>
+          <div>注册时间：{{userList.createTime | dateFormat('YYYY-MM-DD hh:mm:ss')}}</div>
+          <p>上次登录时间：{{userList.extension.lastLoginTimePc | dateFormat('YYYY-MM-DD hh:mm:ss')}}</p>
         </div>
-        <div>绑定手机：{{userList.phone}}</div>
-        <div>注册时间：{{userList.createTime | dateFormat('YYYY-MM-DD hh:mm:ss')}}</div>
-        <p>上次登录时间：{{userList.extension.lastLoginTimePc | dateFormat('YYYY-MM-DD hh:mm:ss')}}</p>
-      </div>
     </div>
     <div class="trading-record ">
-      <ul class="clear" v-if="getUserAccountRole===1">
+      <ul class="clear">
         <li>最近交易记录</li>
-        <li v-for="(item ,index) in lis ">
+        <li v-for="(item ,index) in lis" v-if="item.disabledRole !== userRole">
           <a href="javascript:;" :class="{lisColor:iSelect === item.isSelect}"
-             @click="getTradList(index),changeLiColor(item.isSelect)">{{item.text}}</a>
-        </li>
-      </ul>
-      <ul class="clear" v-if="getUserAccountRole===0">
-        <li>最近交易记录</li>
-        <li v-for="(item ,index) in lis " v-if="item.isSelect!=='pay'">
-          <a href="javascript:;" :class="{lisColor:iSelect === item.isSelect}"
-             @click=" getTradList(index),changeLiColor(item.isSelect)">{{item.text}}</a>
+             @click="getTradList(item.type, item.isSelect)">{{item.text}}</a>
         </li>
       </ul>
     </div>
@@ -141,7 +129,7 @@
     </div>
     <div class="common-question">
       <h2>常见问题</h2>
-      <div class="mt-10" v-if="getUserAccountRole === 1">
+      <div class="mt-10" v-if="userRole === 1">
         <h3>充值多久后到账？</h3>
         <p>充值成功后，如果账户显示的余额不变，请您不要惊慌，我们的系统是有缓冲时间的，您只需要耐心稍等即可。</p>
       </div>
@@ -202,23 +190,33 @@
         lis: [
           {
             text: '全部',
-            isSelect: 'all'
+            isSelect: 'all',
+            type: '',
+            disabledRole: null,
           },
           {
             text: '活动记录',
-            isSelect: 'activity'
+            isSelect: 'activity',
+            type: '0',
+            disabledRole: null,
           },
           {
             text: '充值记录',
-            isSelect: 'pay'
+            isSelect: 'pay',
+            type: '1',
+            disabledRole: 0,
           },
           {
             text: '提现记录',
-            isSelect: 'getout'
+            isSelect: 'getout',
+            type: '2',
+            disabledRole: 1,
           },
           {
             text: '其它',
-            isSelect: 'other'
+            isSelect: 'other',
+            type: '100',
+            disabledRole: null,
           }
         ],
         iSelect: 'all',
@@ -236,17 +234,17 @@
       this.$store.dispatch('getUserInformation');
     },
     computed: {
-      userAccount: function () {
+      userAccount() {
         return this.$store.getters.getUserAccountInfo || {};
       },
-      userList: function () {
+      userList() {
         return this.$store.getters.getPersonalInfo || {};
       },
-      userBalance: function () {
+      userBalance() {
         return this.$store.getters.getUserBalance;
       },
-      getUserAccountRole: function () {
-        return this.$store.getters.getUserAccountInfo.role
+      userRole() {
+        return this.$store.getters.getUserRole
       }
     },
     methods: {
@@ -268,9 +266,6 @@
         }
         return num
       },
-      changeLiColor(type) {
-        this.iSelect = type
-      },
       detailsInit(type) {
         if (this.detailSelect === type) {
           this.detailSelect = 'none';
@@ -280,27 +275,15 @@
           this.getTradListDetails(type);
         }
       },
-      getTradList(type) {
+      getTradList(type, select) {
         let _this = this;
-        if (type === 0 ) {
-          type = null;
-        }
-        if (type === 4){
-            type = JSON.stringify(["100"])
-        }
-        if (type === 2){
-            type = JSON.stringify(["1"])
-        }
-        if (type === 1){
-            type = JSON.stringify(["0"])
-        }
-        if (type === 3){
-          type = JSON.stringify(["2"])
+        if(select) {
+          _this.iSelect = select;
         }
         api.getTradList({
           tradTimeStart: null,
           tradTimeEnd: null,
-          accountChangeTypeStr: type,
+          accountChangeTypeStr: type ? JSON.stringify([type]): type,
           reversePicUrl: null,
           taskSerial: null,
           page: 0,

@@ -37,9 +37,9 @@
             <router-link to="/user/vip-member">续费</router-link>-->
           </span>
             <span>可用金额：{{getUserBalance}} 元 </span>
-            <span>提现中：{{userData.userAccount.enChashingMoney ? (userData.userAccount.enChashingMoney/100): 0 }} 元  </span>
+            <span v-if="getUserInfoRole === 0">提现中：{{userData.userAccount.enChashingMoney ? (userData.userAccount.enChashingMoney/100): 0 }} 元  </span>
             <router-link v-if="getUserInfoRole === 1" :to="{path: '/user/money-management/pay-money'}">充值</router-link>
-            <router-link :to="{path: '/user/money-management/getout-money'}">提现</router-link>
+            <router-link v-if="getUserInfoRole === 0" :to="{path: '/user/money-management/getout-money'}">提现</router-link>
             <div v-if="limit" class="inline-block ml-20 pos-rel" style="top: 5px;">
               <a v-if="getUserInfoRole === 0" class="left">
                 <span style="color: #495060;">剩余申请次数</span>{{residue}}
@@ -125,7 +125,7 @@
         v-for="homeCommodity in homeCommodityList"
         :title="homeCommodity.taskName"
         :key="homeCommodity.id"
-        :to="{ 'path': '/task-details','query': {'q': encryptionId(homeCommodity.id)}}">
+        :to="{path: '/task-details',query: {q: encryptionId(homeCommodity.id)}}">
         <div class="home-commodity-img pos-rel">
           <img class="block" v-lazy="homeCommodity.taskMainImage + '!orgi75'" width="210" height="208">
           <span class="applied"> {{homeCommodity.showkerApplyTotalCount || 0}} 人已申请</span>
@@ -140,7 +140,7 @@
             <span class="main-color"> {{homeCommodity.taskCount - homeCommodity.showkerApplySuccessCount || 0}} </span> 份
           </p>
           <p class="home-commodity-take">
-            <router-link :to="{ 'path': '/task-details','query': {'q': encryptionId(homeCommodity.id)}}" class="ivu-btn ivu-btn-long">免费领取</router-link>
+            <router-link :to="{path: '/task-details',query: {q: encryptionId(homeCommodity.id)}}" class="ivu-btn ivu-btn-long">免费领取</router-link>
           </p>
         </div>
       </router-link>
@@ -150,22 +150,22 @@
         <p class="fs-16 mb-10">商家常见问题</p>
         <ul>
           <li>
-            <router-link :to="{path: '/user/help-center/faq-seller', query: {'page': 'special'}}">
+            <router-link :to="{path: '/user/help-center/faq-seller', query: {pag: 'special'}}">
               商家活动完整流程？
             </router-link>
           </li>
           <li>
-            <router-link :to="{path: '/user/help-center/faq-seller', query: {'page': 'common', qusNum : '1'}}">
+            <router-link :to="{path: '/user/help-center/faq-seller', query: {page: 'common', qusNum : '1'}}">
               商家活动支持哪几种搜索/下单渠道？
             </router-link>
           </li>
           <li>
-            <router-link :to="{path: '/user/help-center/faq-seller', query: {'page': 'common', qusNum : '2'}}">
+            <router-link :to="{path: '/user/help-center/faq-seller', query: {page: 'common', qusNum : '2'}}">
               商家发布活动如何收费？
             </router-link>
           </li>
           <li>
-            <router-link :to="{path: '/user/help-center/faq-seller', query: {'page': 'common', qusNum : '11'}}">
+            <router-link :to="{path: '/user/help-center/faq-seller', query: {page: 'common', qusNum : '11'}}">
               什么条件下可以申请活动结算？
             </router-link>
           </li>

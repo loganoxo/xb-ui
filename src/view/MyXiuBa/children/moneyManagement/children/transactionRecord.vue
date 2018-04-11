@@ -26,8 +26,8 @@
         <div class="checkbox">
          <Checkbox-group v-model="transactType"  @on-change="checkAllGroupChange">
            <Checkbox label="0">活动</Checkbox>
-           <Checkbox label="1">充值</Checkbox>
-           <Checkbox label="2">提现</Checkbox>
+           <Checkbox v-if="getUserInfoRole === 1" label="1">充值</Checkbox>
+           <Checkbox v-if="getUserInfoRole === 0" label="2">提现</Checkbox>
            <Checkbox label="4">推荐奖励</Checkbox>
            <Checkbox label="100">其它</Checkbox>
          </Checkbox-group>
@@ -202,7 +202,7 @@
       <div class="mt-22 line"></div>
       <div class="transaction-amount">
         <span>收入:<span style="color: #2F962F;">{{accountIncomes / 100|| 0}}</span>元</span>
-        <span class="ml-20">支出：<span style="color: #FF0E0E;">
+        <span class="ml-20">支出：<span class="main-color">
           {{Math.abs(accountPayout / 100) || 0}}
         </span>元</span>
       </div>
@@ -379,11 +379,11 @@
       }
     },
     computed: {
-      getUserBalance: function () {
+      getUserBalance() {
         return this.$store.getters.getUserBalance;
       },
       getUserInfoRole() {
-        return this.$store.state.userInfo.role;
+        return this.$store.getters.getUserRole;
       }
     },
     methods: {
@@ -397,13 +397,13 @@
         this.tradTimeEnd = e;
       },
       changePageShow(type){
-        if (this.endTime === ''){
+        if (!this.endTime){
           this.tradTimeEnd = null
         }
-        if (this.beginTime === ''){
+        if (!this.beginTime){
           this.tradTimeStart = null
         }
-        if (this.endTime === '' && this.beginTime === ''){
+        if (!this.endTime && !this.beginTime){
           this.timeSelect = 'all'
         }
         this.pageIndex = 0 ;

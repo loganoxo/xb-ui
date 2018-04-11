@@ -20,30 +20,37 @@ export default {
 
   //用户登录后按需重新获取用户信息
   getUserInformation({commit}) {
-    api.getUserAccount({
-      platForm: 'PC'
-    }).then(res => {
-      if (res.status) {
-        commit({
-          type: 'RECORD_USER_INFO',
-          info: res.data
-        })
-      } else {
-        console.log('获取用户信息：', res.msg);
-      }
+    return new Promise((resolve, reject) => {
+      api.getUserAccount({
+        platForm: 'PC'
+      }).then(res => {
+        if (res.status) {
+          commit({
+            type: 'RECORD_USER_INFO',
+            info: res.data
+          })
+        } else {
+          console.log('获取用户信息：', res.msg);
+        }
+        resolve(res);
+      }).catch(err => {
+        reject(err);
+      });
     });
   },
+
   //获取商家发布任务情况
   getSellerTaskInfo({commit}) {
     return new Promise((resolve, reject) => {
       api.sellerPersonalTrialCount().then(res => {
-        commit('SELLER_TASK_INFO',{result: res.data});
+        commit('SELLER_TASK_INFO', {result: res.data});
         resolve(res);
       }).catch(err => {
         reject(err);
       })
     })
   },
+
   //获取商家任务管理活动数量信息
   getPersonalTrialCount({commit}) {
     api.sellerPersonalTrialCount().then(res => {
@@ -59,16 +66,15 @@ export default {
   },
 
   //获取系统配置信息
-  getSysConfigInfo({commit}){
-    api.getSysConfigInfo(
-    ).then((res) => {
-      if (res.status && res.data){
+  getSysConfigInfo({commit}) {
+    api.getSysConfigInfo().then((res) => {
+      if (res.status && res.data) {
         commit({
           type: 'SYSTEM_CONFIG_INFORMATION',
           result: res.data
         });
-      }else {
-        console.log('获取系统配置信息错误：',res.msg)
+      } else {
+        console.log('获取系统配置信息错误：', res.msg)
       }
     })
   },

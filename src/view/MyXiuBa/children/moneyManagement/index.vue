@@ -2,12 +2,7 @@
   <div class="personal-box">
     <div class="title">资金管理</div>
     <div class="personal-sel-top mt-20">
-      <a v-if="getUserAccountRole===1" v-for="item in myInfoSelectMerchant" :class="{active:infoSelect === item.isSelect}"
-         @click="accountInit(item.isSelect)">{{item.text}}
-      </a>
-      <a v-if="getUserAccountRole===0"  v-for="item in myInfoSelectTasker" :class="{active:infoSelect === item.isSelect}"
-         @click="accountInit(item.isSelect)">{{item.text}}
-      </a>
+      <span v-if="getUserAccountRole !== item.disabledRole" v-for="item in infoSelectList" :class="{active:infoSelect === item.isSelect}" @click="accountInit(item.isSelect)">{{item.text}}</span>
     </div>
     <router-view></router-view>
   </div>
@@ -17,44 +12,31 @@
     name: 'MoneyManagement',
     data() {
       return {
-        myInfoSelectMerchant: [
+        infoSelectList: [
           {
             text: '账号信息',
             isSelect: 'AccountInfo',
+            disabledRole: null,
           },
           {
             text: '充值',
-            isSelect: 'PayMoney'
+            isSelect: 'PayMoney',
+            disabledRole: 0,
           },
           {
             text: '提现',
-            isSelect: 'GetoutMoney'
+            isSelect: 'GetoutMoney',
+            disabledRole: 1,
           },
           {
             text: '交易记录',
-            isSelect: 'TransactionRecord'
+            isSelect: 'TransactionRecord',
+            disabledRole: null,
           },
           {
             text: '账户管理',
-            isSelect: 'AccountManagement'
-          }
-        ],
-        myInfoSelectTasker: [
-          {
-            text: '账号信息',
-            isSelect: 'AccountInfo',
-          },
-          {
-            text: '提现',
-            isSelect: 'GetoutMoney'
-          },
-          {
-            text: '交易记录',
-            isSelect: 'TransactionRecord'
-          },
-          {
-            text: '账户管理',
-            isSelect: 'AccountManagement'
+            isSelect: 'AccountManagement',
+            disabledRole: null,
           }
         ],
         infoSelect: 'AccountInfo',
@@ -67,8 +49,8 @@
       this.selectNavigate(name);
     },
     computed: {
-      getUserAccountRole:function () {
-        return this.$store.getters.getUserAccountInfo.role
+      getUserAccountRole() {
+        return this.$store.getters.getUserRole
       }
     },
     watch: {
@@ -138,7 +120,7 @@
     }
     .personal-sel-top {
       border-bottom: 1px solid $mainColor;
-      a {
+      span {
         background-color: #fff;
         color: #666;
         display: inline-block;
@@ -147,8 +129,9 @@
         line-height: 36px;
         width: 144px;
         text-align: center;
+        cursor: pointer;
       }
-      a.active {
+      span.active {
         background-color: $mainColor;
         color: #fff;
       }
@@ -158,11 +141,13 @@
         border: 1px solid #f9f9f9;
         background-color: #f9f9f9;
         width: 100%;
+        height: 180px;
+        padding: 5px;
         .my-money-left {
           width: 60%;
         }
         .my-money-right {
-          width: 40%;
+          width: 33.33%;
           padding: 10px;
           div {
             padding-bottom: 8px;
@@ -172,11 +157,11 @@
           }
         }
       }
-      .moneyInfoLeft, .moneyInfoRight {
+      .money-info-left, .money-info-right {
         height: 100%;
         border-right: 1px solid #F2F2F2;
         padding: 10px;
-        width: 50%;
+        width: 33.33%;
         text-align: center;
 
         p {

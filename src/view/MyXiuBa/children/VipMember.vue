@@ -6,7 +6,7 @@
       </div>
       <div class="explanation ">
         <p class="tip">如果您在平台上持续发布活动，即可获赠一定时间的VIP，具体可联系客服咨询并获取赠送！</p>
-        <p class="mt-10"><strong>VIP会员服务说明</strong></p>
+        <p class="mt-10"><strong>VIP会员服务说明：</strong></p>
         <p class="mt-5">1、可在服务期内免费使用白拿拿所有服务功能；可免费发布白拿拿PC、APP所有活动类型；</p>
         <p class="mt-5">2、会员开通后，费用不退还；</p>
         <p class="mt-5">3、会员周期仅支持向上扩展，不支持向下扩展。譬如：当前会员周期为半年版，在该会员周期到期前不支持购买季度时长的版本。</p>
@@ -16,7 +16,7 @@
           <iButton class="member-price cursor-p  mr-10" v-for="(item,index) in memberInformation" :key="index"
                    :class="{active:isSelect === index,hover:memberLevelInfo.validDays <= item.validDays} "
                    @click="changeStyle(index,item.validDays,item.validDaysDesc,item.finalFee,item.level,item.id)"
-                     :disabled=" memberLevelInfo.validDays >item.validDays && !membershipIsExpire">
+                   :disabled=" memberLevelInfo.validDays >item.validDays && !membershipIsExpire">
             <p class="price">￥{{item.finalFee / 100}}元</p>
             <p class="mt-10">会员时长 <span class="fs-20">{{item.validDaysDesc}}</span><span>({{item.validDays}}天)</span></p>
           </iButton>
@@ -27,8 +27,8 @@
             您当前的会员版本为&nbsp;<span class="my-color">{{memberLevelInfo.validDaysDesc+'版'}}</span> ，到期时间：{{getMemberDeadline | dateFormat('YYYY-MM-DD')}}</p>
           <p v-if="getMemberLevel !== memberLevel && !membershipIsExpire" class="fs-14">您已选择<span
             class="my-color">升级</span> <strong>{{year}}会员</strong>，有效期至
-            <span style="color: #FC9F84">{{endTime | dateFormat('YYYY-MM-DD ')}}</span>
-            <span>根据您现在的会员版本可折价抵扣：<strong>{{moneyRemaining/100}}元</strong>,成功升级后现有版本将失效</span>
+            <span class="my-color">{{endTime | dateFormat('YYYY-MM-DD ')}}</span>
+            <span>根据您现在的会员版本可折价抵扣：<strong>{{(moneyRemaining/100).toFixed(2)}}元</strong> , 成功升级后现有版本将失效</span>
           </p>
           <p v-if="getMemberLevel === memberLevel && !membershipIsExpire" class="fs-14">您已选择 <span class="my-color">续费</span>
             <strong>{{year}}</strong>会员，有效期至
@@ -36,7 +36,7 @@
           </p>
           <p v-if="membershipIsExpire || !getMemberLevel" class="fs-14">
             您已选择<strong>{{year}}会员</strong>，有效期至
-            <span style="color: #FC9F84">{{endTime | dateFormat('YYYY-MM-DD ')}}</span>
+            <span class="my-color">{{endTime | dateFormat('YYYY-MM-DD ')}}</span>
           </p>
           <p class="mt-10">本次总共要支付的金额为：<strong>{{rechargeSum > 0 ? rechargeSum : 0}}</strong>元,您的账户余额为：<strong>{{getUserBalance}}</strong>元 <span
             v-if="needRecharge>0">，还需要充值：<strong>{{(needRecharge).toFixed(2)}}</strong>元。</span></p>
@@ -47,13 +47,13 @@
         </div>
         <div v-else  class="text-ct mt-20">
           <iButton class="btn-recharge" @click="recharge = true">马上购买</iButton>
-          <a @click="showSellerVipPopup=true" v-show="checkSellerTestRes"  class="inline-block ml-20">添加客服QQ免费领VIP</a>
+          <a @click="showSellerVipPopup = true" v-show="checkSellerTestRes"  class="inline-block ml-20">添加客服QQ免费领VIP</a>
         </div>
       </div>
     </div>
     <div class="footer ">
       <div class="title">
-        <Icon type="android-walk" style="font-size: 25px"></Icon>
+        <Icon type="android-walk" size="25"></Icon>
         <strong class="ml-10">他们在奔跑，你呢...</strong></div>
       <div class="ml-20 mt-20">
         <h3>Q：我们是谁？</h3>
@@ -61,11 +61,11 @@
       </div>
       <div class="ml-20 mt-30">
         <h3>Q：我们是怎么做到的？</h3>
-        <p class="mt-10" style="color:#666;">A：1. 我们是如何提高权重的？</p>
+        <p class="mt-10 cl666">A：1. 我们是如何提高权重的？</p>
         <p class="ml-22 mt-5 we-do">1.1 从点击浏览，到收藏加购，再到下单转化，加上买家秀，实现一站式全链路的排名提升！</p>
         <p class="ml-22 mt-5 we-do">1.2 多种任务类型（搜索，预售，复购，问大家，淘口令等等），充分匹配各大流量入口！</p>
         <p class="ml-22 mt-5 we-do">1.3 真实消费者，真实交易，永远不会担心降权被罚，在阳光下享受流量猛增的快感！</p>
-        <p class="mt-20 ml-22" style="color:#666;">2. 我们是如何促进转化的？</p>
+        <p class="mt-20 ml-22 cl666">2. 我们是如何促进转化的？</p>
         <p class="ml-22 mt-5 we-do">2.1 精准人群，带来精准标签，远非刷单可比</p>
         <p class="ml-22 mt-5 we-do">2.2 优质买家秀带来疯狂转化，文字，图片，短视频三管齐下，顺应内容营销的风口</p>
         <p class="ml-22 mt-5 we-do">2.3 飙升的收藏和加购数，充分反映了消费者对于该宝贝的兴趣和信任，有利于真实成交</p>
@@ -89,7 +89,7 @@
     </div>
     <!--支付弹窗-->
     <div class="pay-model" v-if="recharge">
-      <PayModel :orderMoney="rechargeSum" @confirmPayment="confirmPayment">
+      <PayModel :orderMoney="rechargeSum" :orderType="1" :memberId="memberId" @orderVipSuccess="orderVipSuccess">
         <i slot="closeModel" class="close-recharge" @click="recharge = false">&times;</i>
         <div slot="noBalance" class="title-tip">
           <span class="size-color3"><Icon color="#FF2424" size="18" type="ios-information"></Icon>
@@ -149,27 +149,23 @@
       let self = this;
       self.getUserMemberLevelInfo();
       if(self.$store.state.userInfo.role === 1){
-        if(self.$store.state.userInfo.memberOK){
-          self.checkSellerTestRes = false;
-        }else {
-          self.checkSellerTestRes = true;
-        }
+        self.checkSellerTestRes = !self.$store.state.userInfo.memberOK;
       }
     },
     computed: {
-      getUserAccountRole: function () {
+      getUserAccountRole() {
         return this.$store.getters.getUserAccountInfo.role
       },
-      getUserBalance: function () {
+      getUserBalance() {
         return this.$store.getters.getUserBalance
       },
-      getMemberLevel: function () {
+      getMemberLevel() {
         return this.$store.state.userInfo.memberLevel
       },
       membershipIsExpire() {
         return this.$store.getters.getMembershipIsExpire
       },
-      getMemberDeadline: function () {
+      getMemberDeadline() {
         return this.$store.state.userInfo.memberDeadline
       }
     },
@@ -238,7 +234,10 @@
           }
         });
       },
-      confirmPayment(pwd) {
+      orderVipSuccess() {
+        _this.getUserMemberLevelInfo();
+      },
+   /*   confirmPayment(pwd) {
         let _this = this;
         api.memberPurchase({
           memberId: _this.memberId,
@@ -247,15 +246,16 @@
           if (res.status) {
             _this.recharge = false;
             _this.$Message.success('支付成功！');
-            _this.$store.dispatch('getUserInformation');
-            setTimeout(function () {
-              _this.$router.go(0)
-            }, 2000)
+            _this.$store.dispatch('getUserInformation').then(res => {
+              if(res.status){
+                _this.getUserMemberLevelInfo();
+              }
+            });
           } else {
             _this.$Message.error(res.msg);
           }
         });
-      }
+      }*/
 
     }
   }

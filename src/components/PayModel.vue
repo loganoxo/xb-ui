@@ -12,7 +12,11 @@
       <iInput v-model="payPassword" type="password" style="width: 200px" @on-keypress="pressEnterLoginNormal"></iInput>
       <span class="ml-10" v-if="isPwdAmend"><router-link
         :to="{path:'/user/money-management/account-management',query:{type:'findPwd'}}">忘记支付密码？</router-link></span>
-      <p class="mt-20 default-pwd" v-else>初始密码为：888888，为了您的账号安全，建议您<router-link :to="{path:'/user/money-management/account-management',query:{type:'resetPwd'}}">重置支付密码</router-link>！</p>
+      <p class="mt-20 default-pwd" v-else>初始密码为：888888，为了您的账号安全，建议您
+        <router-link :to="{path:'/user/money-management/account-management',query:{type:'resetPwd'}}">重置支付密码
+        </router-link>
+        ！
+      </p>
     </div>
     <div class="select-pay-type ml-56 clear" v-else>
       <span class="left mt-8">请选择支付方式：</span>
@@ -21,12 +25,16 @@
           <span class="ali-logo"></span>
         </Radio>
         <!--<Radio label="wechat">-->
-          <!--<span class="wechat-logo"></span>-->
+        <!--<span class="wechat-logo"></span>-->
         <!--</Radio>-->
       </Radio-group>
     </div>
-    <iButton type="primary" v-if="isBalance" @click="confirmPayment" :loading="payLoading" class="recharge-btn">{{payButtonText}}</iButton>
-    <iButton type="primary" v-else @click="confirmRecharge" :loading="payLoading" class="recharge-btn">{{rechargeButtonText}}</iButton>
+    <iButton type="primary" v-if="isBalance" @click="confirmPayment" :loading="payLoading" class="recharge-btn">
+      {{payButtonText}}
+    </iButton>
+    <iButton type="primary" v-else @click="confirmRecharge" :loading="payLoading" class="recharge-btn">
+      {{rechargeButtonText}}
+    </iButton>
     <div class="confirm-recharge-model" v-if="confirmRechargeModel">
       <div class="confirm-recharge-con">
         <h4>请前往充值界面进行充值！</h4>
@@ -43,7 +51,7 @@
       </div>
       <div slot="footer" class="text-ct">
         <iButton class="success-btn" type="success" @click="finishRecharge">充值成功</iButton>
-        <iButton class="error-btn" type="error" @click="hasProblem" >充值失败</iButton>
+        <iButton class="error-btn" type="error" @click="hasProblem">充值失败</iButton>
       </div>
     </Modal>
   </div>
@@ -68,6 +76,14 @@
       orderMoney: {
         type: [Number, String],
         required: true,
+        default: 0
+      },
+      memberId: {
+        type: [Number, String],
+        default: null
+      },
+      orderType: {
+        type: Number,
         default: 0
       },
       payButtonText: {
@@ -110,7 +126,7 @@
     methods: {
       confirmPayment() {
         this.payLoading = true;
-        this.$emit('confirmPayment',this.payPassword);
+        this.$emit('confirmPayment', this.payPassword);
       },
       pressEnterLoginNormal(event) {
         if (event.keyCode === 13) {
@@ -118,36 +134,38 @@
         }
       },
       confirmRecharge() {
-        let _this = this;
+        const _this = this;
         _this.payLoading = true;
-        if (_this.payType === 'ali'){
+        if (_this.payType === 'ali') {
           const newWindowUrl = window.open('about:blank');
           api.balanceOrderCreate({
             feeToAccount: (_this.payMoney * 100).toFixed() * 1,
             finalFee: (_this.payMoney * 100 * 1.006).toFixed() * 1,
             orderPlatform: 'PC',
-            payChannel: 1
+            payChannel: 1,
+            memberId: _this.memberId,
+            orderType: _this.orderType
           }).then(res => {
             _this.payLoading = false;
             if (res.status) {
               _this.confirmRechargeModel = true;
               newWindowUrl.location.href = aliPayUrl + 'orderSerial=' + res.data.orderSerial;
-            }else {
+            } else {
               _this.$Message.error(res.msg);
             }
           });
-        }else {
+        } else {
           api.balanceOrderCreate({
             feeToAccount: (_this.payMoney * 100).toFixed() * 1,
             finalFee: (_this.payMoney * 100 * 1.006).toFixed() * 1,
             orderPlatform: 'PC',
-            payChannel: 1
+            payChannel: 2
           }).then(res => {
             if (res.status) {
               this.payPopWindowWX = true;
-              _this.wxPayImgSrc = weiXinPayUrl + 'orderSerial=' + res.data.orderSerial+'&userId='+res.data.uid;
+              _this.wxPayImgSrc = weiXinPayUrl + 'orderSerial=' + res.data.orderSerial + '&userId=' + res.data.uid;
               _this.payLoading = false;
-            }else {
+            } else {
               _this.$Message.error(res.msg);
             }
           });
@@ -156,7 +174,11 @@
       finishRecharge() {
         this.confirmRechargeModel = false;
         this.payPopWindowWX = false;
-        this.$store.dispatch('getUserInformation');
+        this.$store.dispatch('getUserInformation').then(res => {
+          if(res.status && this.orderType === 1) {
+            this.$emit('orderVipSuccess');
+          }
+        });
       },
       hasProblem() {
         this.confirmRechargeModel = false;
@@ -271,7 +293,7 @@
       color: #666;
     }
 
-    .success-btn{
+    .success-btn {
       width: 120px;
       padding: 10px 10px;
       background-color: #FF6600;
