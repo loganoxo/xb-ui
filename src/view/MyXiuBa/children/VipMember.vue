@@ -236,27 +236,7 @@
       },
       orderVipSuccess() {
         _this.getUserMemberLevelInfo();
-      },
-   /*   confirmPayment(pwd) {
-        let _this = this;
-        api.memberPurchase({
-          memberId: _this.memberId,
-          payPwd: pwd
-        }).then(res => {
-          if (res.status) {
-            _this.recharge = false;
-            _this.$Message.success('支付成功！');
-            _this.$store.dispatch('getUserInformation').then(res => {
-              if(res.status){
-                _this.getUserMemberLevelInfo();
-              }
-            });
-          } else {
-            _this.$Message.error(res.msg);
-          }
-        });
-      }*/
-
+      }
     }
   }
 </script>
