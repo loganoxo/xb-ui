@@ -21,10 +21,10 @@
         </router-link>
         </span>
         <span @click="goOut">[ 退出登录 ]</span>
-        <a v-if="getUserInfo.role === 1" target="_blank" href="https://shang.qq.com/wpa/qunwpa?idkey=2c6fa31bed457a83ac862ecd1ff1c89c39262145dba32bb060c2196a7cd7c4e4" class="ml-10 qq-tip">
+        <a v-if="getUserInfo.role === 1" target="_blank" :href="pcMerchantQqGroup.remark" class="ml-10 qq-tip">
           <img src="~assets/img/common/qq.png" alt="" >
           加入QQ交流群：
-          <span >742101228</span>
+          <span >{{pcMerchantQqGroup.configValue}}</span>
           <span class="cl000">(内幕玩法抢先得)</span>
         </a>
         <a v-if="getUserInfo.role === 0" target="_blank" href="https://jq.qq.com/?_wv=1027&k=5ZMH7Iu" class="ml-10 qq-tip">
@@ -99,6 +99,9 @@
       },
       membershipIsExpire() {
         return this.$store.getters.getMembershipIsExpire
+      },
+      pcMerchantQqGroup() {
+        return this.$store.getters.getPcMerchantQqGroup
       },
     },
     created() {

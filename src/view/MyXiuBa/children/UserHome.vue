@@ -259,7 +259,7 @@
         return this.$store.getters.getUserHeadUrl
       },
       getUserApplyCount(){
-        return this.freshman? this.$store.state.sysConfigInfo.task_apply_base_count_freshman.configValue:this.$store.state.sysConfigInfo.task_apply_base_count_oldman.configValue
+        return this.freshman ? this.$store.getters.getTaskApplyBaseCountFreshman.configValue : this.$store.getters.getTaskApplyBaseCountOldman.configValue
       }
     },
     methods: {

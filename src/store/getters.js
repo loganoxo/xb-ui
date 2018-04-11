@@ -61,5 +61,30 @@ export default {
   //计算用户会员截止时间是否已到期（true：过期 false：未过期）* 判断用户是否是会员也应使用此变量
   getMembershipIsExpire: state => {
     return state.userInfo.memberDeadline ? state.userInfo.memberDeadline < state.severTime + new Date().getTime() - state.clientTime : true;
+  },
+
+  //从sysConfigInfo中获取pcMerchantQqGroup信息
+  getPcMerchantQqGroup: state => {
+    return Object.keys(state.sysConfigInfo).length > 0 ? state.sysConfigInfo.pcMerchantQqGroup : {};
+  },
+
+  //从sysConfigInfo中获取taskApplyBaseCountFreshman信息
+  getTaskApplyBaseCountFreshman: state => {
+    return Object.keys(state.sysConfigInfo).length > 0 ? state.sysConfigInfo.taskApplyBaseCountFreshman : {};
+  },
+
+  //从sysConfigInfo中获取taskApplyBaseCountOldman信息
+  getTaskApplyBaseCountOldman: state => {
+    return Object.keys(state.sysConfigInfo).length > 0 ? state.sysConfigInfo.taskApplyBaseCountOldman : {};
+  },
+
+  //从sysConfigInfo中获取showkerInviteShowkerFee信息
+  getShowkerInviteShowkerFee: state => {
+    return Object.keys(state.sysConfigInfo).length > 0 ? state.sysConfigInfo.showkerInviteShowkerFee : {};
+  },
+
+  //从sysConfigInfo中获取showkerInviteSellerFee信息
+  getShowkerInviteSellerFee: state => {
+    return Object.keys(state.sysConfigInfo).length > 0 ? state.sysConfigInfo.showkerInviteSellerFee : {};
   }
 }

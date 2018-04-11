@@ -75,15 +75,13 @@
               commodityData.trailOn: 0}} 人正在参与活动，{{parseInt(commodityData.trailDone) ? commodityData.trailDone : 0}}
               人完成活动， 剩余 {{commodityData.task.taskCount - commodityData.task.showkerApplySuccessCount >= 0 ? commodityData.task.taskCount - commodityData.task.showkerApplySuccessCount : 0}} 份
               <span class="inline-block tag" v-if="getRole === 0 && isShowAddGroupTip">
-              <a
-                href="http://shang.qq.com/wpa/qunwpa?idkey=c8b3150dbd8821f50cced9a08831de701636de9ae107e707114150d0050df9a4"
+              <a href="http://shang.qq.com/wpa/qunwpa?idkey=c8b3150dbd8821f50cced9a08831de701636de9ae107e707114150d0050df9a4"
                 target="_blank">内部QQ群：478360486 ，据说里面的人都抢到了！</a>
               <span class="close-tag" @click="handleCloseTag()"><Icon type="ios-close-empty"></Icon></span>
             </span>
               <span class="inline-block tag" v-if="getRole === 1 && isShowAddGroupTip">
-              <a
-                href="http://shang.qq.com/wpa/qunwpa?idkey=2c6fa31bed457a83ac862ecd1ff1c89c39262145dba32bb060c2196a7cd7c4e4"
-                target="_blank">加入商家QQ群：742101228 ，学习怎样有效放单！</a>
+              <a :href="pcMerchantQqGroup.remark"
+                target="_blank">加入商家QQ群：{{pcMerchantQqGroup.configValue}} ，学习怎样有效放单！</a>
               <span class="close-tag" @click="handleCloseTag()"><Icon type="ios-close-empty"></Icon></span>
             </span>
             </p>
@@ -578,6 +576,9 @@
       },
       getRole() {
         return this.$store.state.userInfo.role
+      },
+      pcMerchantQqGroup() {
+        return this.$store.getters.getPcMerchantQqGroup
       },
     },
     methods: {
