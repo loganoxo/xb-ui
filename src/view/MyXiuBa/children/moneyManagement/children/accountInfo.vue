@@ -230,7 +230,7 @@
       if(queryString && queryString.trade_status === 'TRADE_SUCCESS'){
         this.$router.push({path:'/user/money-management/account-info'});
       }
-      this.getTradList(0);
+      this.getTradList();
       this.$store.dispatch('getUserInformation');
     },
     computed: {
@@ -283,7 +283,7 @@
         api.getTradList({
           tradTimeStart: null,
           tradTimeEnd: null,
-          accountChangeTypeStr: type ? JSON.stringify([type]): type,
+          accountChangeTypeStr: type ? JSON.stringify([type]): '',
           reversePicUrl: null,
           taskSerial: null,
           page: 0,
