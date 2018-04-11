@@ -82,8 +82,8 @@
             </span>
               <span class="inline-block tag" v-if="getRole === 1 && isShowAddGroupTip">
               <a
-                href="http://shang.qq.com/wpa/qunwpa?idkey=bfd86013c0abb1c8e0b68e8e97c67255a75aea6f99bead8a6502e59b81df7ce7"
-                target="_blank">加入商家QQ群：693148394 ，学习怎样有效放单！</a>
+                href="http://shang.qq.com/wpa/qunwpa?idkey=2c6fa31bed457a83ac862ecd1ff1c89c39262145dba32bb060c2196a7cd7c4e4"
+                target="_blank">加入商家QQ群：742101228 ，学习怎样有效放单！</a>
               <span class="close-tag" @click="handleCloseTag()"><Icon type="ios-close-empty"></Icon></span>
             </span>
             </p>
