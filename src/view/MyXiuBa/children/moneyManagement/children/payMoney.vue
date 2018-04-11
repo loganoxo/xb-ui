@@ -169,7 +169,9 @@
             feeToAccount: (_this.payMoney.number * 100).toFixed() * 1,
             finalFee: (_this.payMoney.number * 100 * 1.006).toFixed() * 1,
             orderPlatform: 'PC',
-            payChannel: 1
+            payChannel: 1,
+            memberId: null,
+            orderType: 0
           }).then(res => {
             if (res.status) {
               _this.payPopWindow = true;
@@ -184,7 +186,9 @@
             feeToAccount: (_this.payMoney.number * 100).toFixed() * 1,
             finalFee: (_this.payMoney.number * 100 * 1.006).toFixed() * 1,
             orderPlatform: 'PC',
-            payChannel: 1
+            payChannel: 2,
+            memberId: null,
+            orderType: 0
           }).then(res => {
             if (res.status) {
               _this.payPopWindowWX = true;
