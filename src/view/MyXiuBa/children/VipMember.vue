@@ -43,11 +43,11 @@
         </div>
         <div v-if="needRecharge > 0" class="text-ct mt-20">
           <iButton class="btn-recharge" @click="recharge = true">前去充值</iButton>
-          <a @click="showSellerVipPopup=true;" v-show="checkSellerTestRes" class="inline-block ml-20">添加客服QQ免费领VIP</a>
+          <a @click="showSellerVipPopup=true" v-show="checkSellerTestRes" class="inline-block ml-20">添加客服QQ免费领VIP</a>
         </div>
         <div v-else  class="text-ct mt-20">
           <iButton class="btn-recharge" @click="recharge = true">马上购买</iButton>
-          <a @click="showSellerVipPopup=true;" v-show="checkSellerTestRes"  class="inline-block ml-20">添加客服QQ免费领VIP</a>
+          <a @click="showSellerVipPopup=true" v-show="checkSellerTestRes"  class="inline-block ml-20">添加客服QQ免费领VIP</a>
         </div>
       </div>
     </div>
@@ -104,7 +104,7 @@
     </div>
     <Modal v-model="showSellerVipPopup" width="700" class="show-buyer-popup" >
       <div class="show-buyer-popup-body" >
-        <a href="http://wpa.qq.com/msgrd?v=3&site=qq&menu=yes&uin=2012364029" target="_blank" @click="showSellerVipPopup=false;"></a>
+        <a href="http://wpa.qq.com/msgrd?v=3&site=qq&menu=yes&uin=2012364029" target="_blank" @click="showSellerVipPopup=false"></a>
       </div>
     </Modal>
   </div>

@@ -725,7 +725,7 @@
             _this.$Message.error('请输入提现验证口令');
             return;
           }
-          if (_this.getoutMoney.getoutCommand !== 6188){
+          if (_this.getoutMoney.getoutCommand !== 6088){
             _this.$Message.error('提现验证口令错误');
             return;
           }
@@ -741,7 +741,6 @@
                 payPwd: _this.getoutMoney.password
               }).then(res => {
                 if (res.status) {
-                  console.log(333);
                   _this.iconType = 'checkmark-circled';
                   _this.applyGetOut = res.msg;
                   _this.getoutMoney.getoutNumber = null;
