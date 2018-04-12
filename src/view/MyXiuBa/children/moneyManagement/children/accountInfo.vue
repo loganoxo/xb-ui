@@ -36,13 +36,13 @@
           </div>
           <div>绑定手机：{{userList.phone}}</div>
           <div>注册时间：{{userList.createTime | dateFormat('YYYY-MM-DD hh:mm:ss')}}</div>
-          <p v-if="userList.extension">上次登录时间：{{userList.extension.lastLoginTimePc | dateFormat('YYYY-MM-DD hh:mm:ss')}}</p>
+          <p v-if="Object.keys(userList.extension).length > 0">上次登录时间：{{userList.extension.lastLoginTimePc | dateFormat('YYYY-MM-DD hh:mm:ss')}}</p>
         </div>
     </div>
     <div class="trading-record ">
       <ul class="clear">
         <li>最近交易记录</li>
-        <li v-for="(item ,index) in lis" v-if="item.disabledRole !== userRole">
+        <li v-for="item in lis" v-if="item.disabledRole !== userRole">
           <a href="javascript:;" :class="{lisColor:iSelect === item.isSelect}"
              @click="getTradList(item.type, item.isSelect)">{{item.text}}</a>
         </li>
@@ -91,7 +91,7 @@
                   </tr>
                   </thead>
                   <tbody>
-                  <tr v-for="(item,index) in userListDetails">
+                  <tr v-for="item in userListDetails">
                     <td>
                       <p>{{item.tradTime | dateFormat('YYYY-MM-DD ')}}</p>
                       <p>{{item.tradTime | dateFormat('hh:mm:ss ')}}</p>
