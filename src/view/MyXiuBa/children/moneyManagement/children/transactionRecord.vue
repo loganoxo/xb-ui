@@ -35,10 +35,10 @@
     </div>
     <iButton class="ibtn" @click="changePageShow(transactType)">筛选</iButton>
     <div class="mt-22 line"></div>
-   <!-- <div class="transaction-amount">
+    <div class="transaction-amount">
       <span>收入：<span style="color: #2F962F;">{{(userAccount.amountIncomes / 100).toFixed(2) || 0}}</span>元</span>
       <span class="ml-20">支出：<span style="color: #FF0E0E;">{{(userAccount.amountPayment / 100).toFixed(2) || 0}}</span>元</span>
-    </div>-->
+    </div>
     <div class="personal-list-table mt-10">
       <table class="list-table">
         <thead>
