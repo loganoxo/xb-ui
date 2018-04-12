@@ -37,7 +37,7 @@
             <router-link to="/user/vip-member">续费</router-link>-->
           </span>
             <span>可用金额：{{getUserBalance}} 元 </span>
-            <span v-if="getUserInfoRole === 0">提现中：{{userData.userAccount.enChashingMoney ? (userData.userAccount.enChashingMoney/100): 0 }} 元  </span>
+            <span v-if="getUserInfoRole === 0">提现中：{{userData.userAccount.enChashingMoney ? (userData.userAccount.enChashingMoney/100).toFixed(2): 0 }} 元  </span>
             <router-link v-if="getUserInfoRole === 1" :to="{path: '/user/money-management/pay-money'}">充值</router-link>
             <router-link v-if="getUserInfoRole === 0" :to="{path: '/user/money-management/getout-money'}">提现</router-link>
             <div v-if="limit" class="inline-block ml-20 pos-rel" style="top: 5px;">

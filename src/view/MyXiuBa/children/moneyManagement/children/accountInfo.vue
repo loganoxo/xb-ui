@@ -4,8 +4,8 @@
       <div class="money-info-left left">
           <div>可用余额（元）</div>
           <div class="number mt-5 ">{{userBalance}}</div>
-          <p>收入金额（元）：{{userAccount.amountIncomes / 100 || 0}}</p>
-          <p>支出金额（元）：{{userAccount.amountPayment / 100 || 0}}</p>
+          <p>收入金额（元）：{{(userAccount.amountIncomes / 100).toFixed(2) || 0}}</p>
+          <p>支出金额（元）：{{(userAccount.amountPayment / 100).toFixed(2) || 0}}</p>
           <div class="view-details mt-10"  v-if="userRole ===1">
             <span class="iWantPay blue" @click="accountInit('PayMoney')">我要充值</span>
             <router-link :to="{path:'/user/money-management/transaction-record',query:{activeType:1}}">充值记录</router-link>

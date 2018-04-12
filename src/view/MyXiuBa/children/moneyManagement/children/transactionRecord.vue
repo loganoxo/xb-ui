@@ -4,8 +4,7 @@
       <div class="clear date-picker">
         <div class="left">
           <span>起止日期：</span>
-          <Date-picker type="datetime" placeholder="选择日期" style="width: 200px" v-model="beginTime"
-                       format="yyyy-MM-dd HH:mm:ss"  @on-change="beginTimeFun">
+          <Date-picker type="datetime" placeholder="选择日期" style="width: 200px" v-model="beginTime" format="yyyy-MM-dd HH:mm:ss"  @on-change="beginTimeFun">
           </Date-picker>
           <span>-</span>
           <Date-picker type="datetime" placeholder="选择日期" style="width: 200px" v-model="endTime"
@@ -16,9 +15,9 @@
                 @click="getTargetTime(item.id,item.isSelect)">{{item.text}}</span>
         </div>
       </div>
-      <div class="transact-type  ">
+      <div class="transact-type">
         <span >交易类型：</span>
-        <div class="checkbox" >
+        <div class="checkbox">
           <Checkbox :value="checkAll" @click.prevent.native="handleCheckAll">
             全部
           </Checkbox>
@@ -40,8 +39,8 @@
       <iButton class="ibtn" @click="changePageShow(transactType)">筛选</iButton>
       <div class="mt-22 line"></div>
       <div class="transaction-amount">
-        <span>收入：<span style="color: #2F962F;">{{accountIncomes / 100 || 0}}</span>元</span>
-        <span class="ml-20">支出：<span style="color: #FF0E0E;">{{Math.abs(accountPayout / 100) || 0}}</span>元</span>
+        <span>收入：<span style="color: #2F962F;">{{(userAccount.amountIncomes / 100).toFixed(2) || 0}}</span>元</span>
+        <span class="ml-20">支出：<span style="color: #FF0E0E;">{{(userAccount.amountPayment / 100).toFixed(2) || 0}}</span>元</span>
       </div>
       <Modal
         v-model="amountPopWindow"
@@ -379,6 +378,9 @@
       }
     },
     computed: {
+      userAccount() {
+        return this.$store.getters.getUserAccountInfo || {};
+      },
       getUserBalance() {
         return this.$store.getters.getUserBalance;
       },
