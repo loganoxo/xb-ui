@@ -57,8 +57,7 @@
           </td>
           <td>
             <p>{{getTradType(tbodyDetails.accountChangeType)}}</p>
-            <p v-if="tbodyDetails.accountChangeType !== 3 && tbodyDetails.accountChangeType !== 1">
-              活动编号：{{tbodyDetails.taskSerialNum}}</p>
+            <p v-if="tbodyDetails.accountChangeType !== 3 && tbodyDetails.accountChangeType !== 1 && tbodyDetails.accountChangeType !== 2">活动编号：{{tbodyDetails.taskSerialNum}}</p>
           </td>
           <td :class="{tdColor:tbodyDetails.amountChange<0 , tdColorGreen:tbodyDetails.amountChange>0}">
             {{typeChang(tbodyDetails.amountChange / 100) || 0}}
@@ -169,121 +168,6 @@
       </div>
     </Modal>
   </div>
-  <!--    <div v-if="getUserInfoRole===0" class="my-transact">
-        <div class="clear date-picker">
-          <div class="left">
-            <span>起止日期：</span>
-            <Date-picker type="datetime" placeholder="选择日期" style="width: 200px" v-model="beginTime"
-                         format="yyyy-MM-dd HH:mm:ss"  @on-change="beginTimeFun"></Date-picker>
-            <span>-</span>
-            <Date-picker type="datetime" placeholder="选择日期" style="width: 200px" v-model="endTime"
-                         format="yyyy-MM-dd HH:mm:ss" @on-change="endTimeFun"></Date-picker>
-          </div>
-          <div class="choice-time left">
-            <span class="cursor-p" v-for="item in choiceTime" :class="{active:timeSelect === item.isSelect} "
-                  @click="getTargetTime(item.id,item.isSelect)">{{item.text}}</span>
-          </div>
-        </div>
-        <div class="transact-type  ">
-          <span >交易类型：</span>
-          <Checkbox :value="checkAll" @click.prevent.native="handleCheckAll">
-            全部
-          </Checkbox>
-          <Checkbox-group v-model="transactType"  @on-change="checkAllGroupChange" class="checkbox">
-            <Checkbox label="0">活动</Checkbox>
-            <Checkbox label="2">提现</Checkbox>
-            <Checkbox label="4">推荐奖励</Checkbox>
-          </Checkbox-group>
-        </div>
-        <div class="activity-number mt-10">
-          活动编号：
-          <iInput v-model="activityNumber" style="width: 200px;height: 30px" class="ml-5"></iInput>
-        </div>
-        <iButton class="ibtn" @click="changePageShow(transactType)">筛选</iButton>
-        <div class="mt-22 line"></div>
-        <div class="transaction-amount">
-          <span>收入:<span style="color: #2F962F;">{{accountIncomes / 100|| 0}}</span>元</span>
-          <span class="ml-20">支出：<span class="main-color">
-            {{Math.abs(accountPayout / 100) || 0}}
-          </span>元</span>
-        </div>
-        <div class="personal-list-table mt-10">
-          <table class="list-table">
-            <thead>
-            <tr>
-              <th style="width: 20%">交易时间</th>
-              <th style="width: 40%">交易类型</th>
-              <th style="width: 20%">交易金额（元）</th>
-              <th style="width: 20%">操作</th>
-            </tr>
-            </thead>
-            <tbody v-for="item in myTableDetailsAll">
-            <tr>
-              <td>
-                <p>{{item.tradTime | dateFormat('YYYY-MM-DD ')}}</p>
-                <p>{{item.tradTime | dateFormat('hh:mm:ss ')}}</p>
-              </td>
-              <td>
-                <p>{{getTradType(item.accountChangeType)}}</p>
-                <p>活动编号：{{item.taskSerialNum}}</p>
-              </td>
-              <td :class="{tdColor:item.amountChange<0 , tdColorGreen:item.amountChange>0}">{{typeChang(item.amountChange / 100) || 0}}</td>
-              <td>
-                <p style="color:blue;" class="details" @click="detailsInit(item.id)">详情
-                  <Icon :type="detailSelect===item.id?'arrow-up-b':'arrow-down-b'" class="ml-5 "></Icon>
-                </p>
-              </td>
-            </tr>
-            <tr>
-              <td colspan="4" style="padding: 0px;border: none">
-                <collapse-transition>
-                  <div v-show="detailSelect===item.id">
-                    <table class="small-table" style="background-color: #f9f9f9;">
-                      <thead>
-                      <tr>
-                        <th style="width:20%;">交易时间</th>
-                        <th style="width:30%;">流水号</th>
-                        <th style="width:30%;">交易明细</th>
-                        <th style="width:10%;">交易金额（元）</th>
-                      </tr>
-                      </thead>
-                      <tbody>
-                      <tr v-for="(item,index) in userListDetails">
-                        <td>
-                          <p>{{item.tradTime | dateFormat('YYYY-MM-DD ')}}</p>
-                          <p>{{item.tradTime | dateFormat('hh:mm:ss ')}}</p>
-                        </td>
-                        <td>
-                          {{item.serialNumber}}
-                        </td>
-                        <td>
-                          <p>{{getTradType(item.tradName)}}</p>
-                        </td>
-                        <td :class="{tdColor:item.tradAmount<0 , tdColorGreen:item.tradAmount>0}">
-                          {{typeChang(item.tradAmount / 100) || 0}}
-                        </td>
-                      </tr>
-                      <tr v-show="showNotice">
-                        <td colspan="4">暂无数据！</td>
-                      </tr>
-                      </tbody>
-                    </table>
-                  </div>
-                </collapse-transition>
-              </td>
-            </tr>
-            </tbody>
-            <tbody>
-            <tr v-show="showBigNoticeAll">
-              <td colspan="4">暂无数据！</td>
-            </tr>
-            </tbody>
-          </table>
-        </div>
-        <div class="right mt-22"  v-if="!isChange">
-          <Page :total="totalPages*10" :page-size="pageSize" @on-change="changePages"></Page>
-        </div>
-      </div>-->
 </template>
 <script>
   import {Icon, DatePicker, Input, Checkbox, Button, Page, Radio, Modal} from 'iview'
