@@ -199,6 +199,7 @@
       width: 830px;
       margin: 30px auto auto auto;
       .verified-form {
+        position:relative;
         margin-top: 20px;
         width: 400px;
         float: left;
@@ -208,6 +209,9 @@
         }
       }
       .verified-cue {
+        position: absolute;
+        top:120px;
+        right:-25px;
         p {
           height: 36px;
           line-height: 36px;
@@ -216,6 +220,9 @@
           a {
             margin-right: 30px;
           }
+        }
+        p:last-of-type{
+          margin-top:45px;
         }
       }
       .error-result-text {
