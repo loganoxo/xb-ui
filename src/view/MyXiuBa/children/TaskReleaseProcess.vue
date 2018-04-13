@@ -578,7 +578,7 @@
             <template v-if="taskRelease.taskType === 'pc_search'">
               <div class="baby-main-img ml-40 mt-20 clear">
                 <span class="required left mr-5 mt-20">宝贝主图：</span>
-                <Upload class="left ml-4"
+                <Upload key="pcDefaultList" class="left ml-4"
                   name="task"
                   :default-file-list="pcDefaultList"
                   :on-remove="removePcImage"
@@ -710,7 +710,7 @@
             <template v-else-if="taskRelease.taskType === 'app_search'">
               <div class="baby-main-img ml-40 mt-20 clear">
                 <span class="required left mr-5 mt-20">宝贝主图：</span>
-                <Upload class="left ml-4"
+                <Upload key="appDefaultList" class="left ml-4"
                   :on-success="appBabyImgSuccess"
                   :default-file-list="appDefaultList"
                   :on-remove="removeAppImage"
