@@ -2258,10 +2258,10 @@
       selectChangeScheme(name) {
         this.selectKeywordScheme = name;
       },
-      keywordLowerChange () {
+  /*    keywordLowerChange () {
         let _this = this;
         let type = _this.taskRelease.taskType;
-        // _this.keywordLowerChangeModel = false;
+        _this.keywordLowerChangeModel = false;
         if(type === 'pc_search'){
           _this.pcTaskDetail = [
             {
@@ -2301,7 +2301,7 @@
           _this.addKeywordScheme = 0;
           _this.selectKeywordScheme = 0;
         }
-      },
+      },*/
       closeClauseModel() {
         this.isShowUserClause = false;
       },
