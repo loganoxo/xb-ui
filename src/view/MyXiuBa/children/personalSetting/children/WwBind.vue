@@ -251,6 +251,8 @@
           callback(new Error('不能为空'));
         } else if (value.length > 50) {
           callback(new Error('旺旺ID过长'))
+        }else if (value !== this.oldAlitmAccount) {
+          callback(new Error('旺旺名禁止修改'))
         } else {
           callback()
         }
@@ -443,6 +445,7 @@
         },
         region: {},
         address: {},
+        oldAlitmAccount:null,
       }
     },
     mounted() {
@@ -551,6 +554,7 @@
         _this.showWwBindBox = true;
         _this.wwFormValidate.id = ww.id;
         _this.wwFormValidate.alitmAccount = ww.alitmAccount;
+        _this.oldAlitmAccount = ww.alitmAccount;
         _this.wwFormValidate.alitmLevel = ww.creditLevel;
         _this.wwFormValidate.taoqizhi = ww.tqz;
         _this.address.province = ww.takeProvince;
@@ -624,6 +628,10 @@
           }
           self.btnState.wwBindBtn = true;
           if (self.modifyWw) {
+            if (self.wwFormValidate.alitmAccount !== self.oldAlitmAccount){
+              self.$Message.error('旺旺名禁止修改！');
+              return
+            }
             api.wwModify({
               alitmAccount: self.wwFormValidate.alitmAccount,
 //              wwInfoPic: this.wwFormValidate.picUrl[0].src,
