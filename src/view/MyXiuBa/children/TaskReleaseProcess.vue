@@ -180,7 +180,7 @@
             </div>
             <div class="mt-12 pl-68 sizeColor2" v-show="needBrowseAnswer">请在手机详情页中挑选一段文案，建议3-8字，输入文本框内，拿手将提供本文案所在位置截图</div>
           </div>
-          <div class="baby-info mt-22" v-show="taskRelease.activityCategory === 'free_get'">
+          <div class="baby-info mt-22" v-if="taskRelease.activityCategory === 'free_get'">
             <div class="activity-info-title">填写活动宝贝信息</div>
             <div class="baby-title ml-45 mt-20">
               <span class="required">宝贝标题：</span>
@@ -398,7 +398,7 @@
               <input v-show="false" id="freeGet" type="file" name="avator" multiple accept="image/jpg,image/jpeg,image/png,image/gif" @change="uploadImgFreeGet">
             </div>
           </div>
-          <div class="baby-info mt-22" v-show="taskRelease.activityCategory === 'present_get'">
+          <div class="baby-info mt-22" v-if="taskRelease.activityCategory === 'present_get'">
             <div class="activity-info-title">填写活动宝贝信息</div>
             <div class="complimentary-tip mt-20 pl-15">
               <p class="sizeColor3">赠品活动发布说明：</p>
@@ -598,7 +598,7 @@
                 <div>
                   <div class="inline-block tag" v-for="item in pcTaskDetail" :key="item.index" :class="selectKeywordScheme === item.index ? 'select-tag-bg' : ''">
                     <span @click="selectChangeScheme(item.index)">关键词方案{{ item.index + 1 }}</span>
-                    <sup class="badge-count" v-show="item.countAssigned > 0">{{item.countAssigned}}</sup>
+                    <!--<sup class="badge-count" v-show="item.countAssigned > 0">{{item.countAssigned}}</sup>-->
                     <span v-if="item.index === pcTaskDetail.length - 1 && item.index !== 0" class="close-tag" @click="handleClose(item.index)">
                       <Icon type="ios-close-empty" ></Icon>
                     </span>
@@ -612,11 +612,11 @@
                   您当前选择的是关键词方案 {{item.index + 1}}
                   <Icon type="ios-lightbulb-outline" slot="icon" size="18"></Icon>
                 </Alert>
-                <div class="matching-num ml-40 mt-20">
+              <!--  <div class="matching-num ml-40 mt-20">
                   <span>匹配人数：</span>
                   <iInput v-model.number="item.countAssigned" placeholder="请输入匹配人数" style="width: 160px"></iInput>
                   <p class="sizeColor2 mt-10">（系统会按照审批拿手通过数量以及匹配人数，依次展示对应的关键词。<span class="main-color">注意：匹配人数可以不设定，一旦设定则每个关键词方案的匹配人数之和必须等于宝贝数量）</span></p>
-                </div>
+                </div>-->
                 <div class="search-keyword mt-20 ml-28">
                   <span class="required">搜索关键词：</span>
                   <iInput v-model="item.searchKeyword" placeholder="请输入搜索关键词" style="width: 260px"></iInput>
@@ -730,7 +730,7 @@
                 <div>
                   <div class="inline-block tag" v-for="item in appTaskDetail" :key="item.index" :class="selectKeywordScheme === item.index ? 'select-tag-bg' : ''">
                     <span @click="selectChangeScheme(item.index)">关键词方案{{ item.index + 1 }}</span>
-                    <sup class="badge-count" v-show="item.countAssigned > 0">{{item.countAssigned}}</sup>
+                    <!--<sup class="badge-count" v-show="item.countAssigned > 0">{{item.countAssigned}}</sup>-->
                     <span v-if="item.index === appTaskDetail.length - 1 && item.index !== 0" class="close-tag" @click="handleClose(item.index)">
                       <Icon type="ios-close-empty" ></Icon>
                     </span>
@@ -744,11 +744,11 @@
                   您当前选择的是关键词方案 {{item.index + 1}}
                   <Icon type="ios-lightbulb-outline" slot="icon" size="18"></Icon>
                 </Alert>
-                <div class="matching-num ml-40 mt-20">
+               <!-- <div class="matching-num ml-40 mt-20">
                   <span>匹配人数：</span>
                   <iInput v-model.number="item.countAssigned" placeholder="请输入匹配人数" style="width: 160px"></iInput>
                   <p class="sizeColor2 mt-10">（系统会按照审批拿手通过数量以及匹配人数，依次展示对应的关键词。<span class="main-color">注意：每个关键词的匹配人数之和不能大于宝贝数量，并且宝贝数量大于等于关键词方案数量）</span></p>
-                </div>
+                </div>-->
                 <div class="search-keyword mt-20 ml-28">
                   <span class="required">搜索关键词：</span>
                   <iInput v-model="item.searchKeyword" placeholder="请输入搜索关键词" style="width: 260px"></iInput>
@@ -1237,23 +1237,27 @@
       }
     },
     mounted() {
-      let _this = this;
-      let imgHandlerFreeGet = async function (image) {
-        _this.addImgRangeFreeGet = _this.$refs.myTextEditorFree.quill.getSelection();
-        if (image) {
-          let fileInput = document.getElementById('freeGet');
-          fileInput.click()
-        }
-      };
-      let imgHandlerPresentGet = async function (image) {
-        _this.addImgRangePresentGet = _this.$refs.myTextEditorPresent.quill.getSelection();
-        if (image) {
-          let fileInput = document.getElementById('presentGet');
-          fileInput.click()
-        }
-      };
-      _this.$refs.myTextEditorFree.quill.getModule("toolbar").addHandler("image", imgHandlerFreeGet);
-      _this.$refs.myTextEditorPresent.quill.getModule("toolbar").addHandler("image", imgHandlerPresentGet);
+      const _this = this;
+      if(_this.taskRelease.activityCategory === 'free_get') {
+        const imgHandlerFreeGet = async function (image) {
+          _this.addImgRangeFreeGet = _this.$refs.myTextEditorFree.quill.getSelection();
+          if (image) {
+            let fileInput = document.getElementById('freeGet');
+            fileInput.click()
+          }
+        };
+        _this.$refs.myTextEditorFree.quill.getModule("toolbar").addHandler("image", imgHandlerFreeGet);
+      }
+      if(_this.taskRelease.activityCategory === 'present_get') {
+        const imgHandlerPresentGet = async function (image) {
+          _this.addImgRangePresentGet = _this.$refs.myTextEditorPresent.quill.getSelection();
+          if (image) {
+            let fileInput = document.getElementById('presentGet');
+            fileInput.click()
+          }
+        };
+        _this.$refs.myTextEditorPresent.quill.getModule("toolbar").addHandler("image", imgHandlerPresentGet);
+      }
     },
     created() {
       let _this = this;
@@ -1659,7 +1663,7 @@
           _this.taskRelease.itemIssue = JSON.stringify([]);
         }
         if (_this.taskRelease.taskType === 'pc_search') {
-          let countAssigned = 0;
+         /* let countAssigned = 0;
           _this.isCountAssigned = _this.pcTaskDetail.every(item => {
             return item.countAssigned > 0;
           });
@@ -1675,11 +1679,11 @@
                 _this.pcTaskDetail[i].countAssigned = integer;
               }
             }
-          }
+          }*/
           for (let i = 0, len = _this.pcTaskDetail.length; i < len; i++) {
             _this.pcTaskDetail[i].itemMainImage = _this.pcTaskDetailItemMainImage;
             let index = _this.pcTaskDetail[i].index + 1;
-            countAssigned += _this.pcTaskDetail[i].countAssigned;
+            // countAssigned += _this.pcTaskDetail[i].countAssigned;
             if (!_this.pcTaskDetail[i].itemMainImage) {
               _this.$Message.warning('亲，请上传关键词方案' + index + '中的PC搜索宝贝主图！');
               return;
@@ -1733,13 +1737,13 @@
               }
             }
           }
-          if(countAssigned !== _this.taskRelease.taskCount) {
+         /* if(countAssigned !== _this.taskRelease.taskCount) {
             _this.$Message.warning('亲，你分配的人数与宝贝数量不符，请重新分配人数！');
             return;
-          }
+          }*/
         }
         if (_this.taskRelease.taskType === 'app_search') {
-          let countAssigned = 0;
+         /* let countAssigned = 0;
           _this.isCountAssigned = _this.appTaskDetail.every(item => {
             return item.countAssigned > 0;
           });
@@ -1755,11 +1759,11 @@
                 _this.appTaskDetail[i].countAssigned = integer;
               }
             }
-          }
+          }*/
           for (let i = 0, len = _this.appTaskDetail.length; i < len; i++) {
             _this.appTaskDetail[i].itemMainImage = _this.appTaskDetailItemMainImage;
             let index = _this.appTaskDetail[i].index + 1;
-            countAssigned += _this.appTaskDetail[i].countAssigned;
+            // countAssigned += _this.appTaskDetail[i].countAssigned;
             if (!_this.appTaskDetail[i].itemMainImage) {
               _this.$Message.warning('亲，请上传关键词方案'+ index + '中的手淘搜索宝贝主图！');
               return;
@@ -1797,10 +1801,10 @@
               }
             }
           }
-          if(countAssigned !== _this.taskRelease.taskCount){
+         /* if(countAssigned !== _this.taskRelease.taskCount){
             _this.$Message.warning('亲，你分配的人数与宝贝数量不符，请重新分配人数！');
             return;
-          }
+          }*/
         }
         if (_this.taskRelease.taskType === 'tao_code') {
           if (!_this.taoCodeTaskDetail[0].taoCode) {
@@ -2057,8 +2061,8 @@
         }
       },
       getItemCatalog() {
-        let _this = this;
-        let itemCatalog = getStorage('itemCatalog');
+        const _this = this;
+        const itemCatalog = getStorage('itemCatalog');
         if(!itemCatalog){
           api.itemCatalog().then(res => {
             if (res.status) {
@@ -2071,12 +2075,11 @@
         }else {
           _this.itemCatalogList = itemCatalog;
         }
-
       },
       uploadImgFreeGet(e) {
-        let _this = this;
-        let file = e.target.files[0];
-        let key = 'task' + '/' + randomString();
+        const _this = this;
+        const file = e.target.files[0];
+        const key = 'task' + '/' + randomString();
         aliUploadImg(key, file).then(res => {
           if (res) {
             let value = aliCallbackImgUrl + res.name + '!orgi75';
@@ -2092,9 +2095,9 @@
         })
       },
       uploadImgPresentGet(e) {
-        let _this = this;
-        let file = e.target.files[0];
-        let key = 'task' + '/' + randomString();
+        const _this = this;
+        const file = e.target.files[0];
+        const key = 'task' + '/' + randomString();
         aliUploadImg(key, file).then(res => {
           if (res) {
             let value = aliCallbackImgUrl + res.name + '!orgi75';
@@ -2188,13 +2191,14 @@
       },
       handleAdd () {
         let _this = this;
-        let keywordLen = _this.taskRelease.taskCount > 0 ? _this.taskRelease.taskCount : 1;
+        _this.addKeywordScheme++;
+       /* let keywordLen = _this.taskRelease.taskCount > 0 ? _this.taskRelease.taskCount : 1;
         if(keywordLen > _this.addKeywordScheme + 1){
           _this.addKeywordScheme++;
         } else {
           _this.$Message.error('亲，您当前最多只能添加' + keywordLen + '套关键词方案');
           return;
-        }
+        }*/
         if(_this.taskRelease.taskType === 'pc_search') {
           _this.pcTaskDetail.push({
             index: _this.addKeywordScheme,
@@ -2720,7 +2724,7 @@
       width: 586px;
       margin: 20px 0 0 32px;
     }
-    .badge-count{
+  /*  .badge-count{
       position: absolute;
       transform: translateX(50%);
       top: -16px;
@@ -2739,7 +2743,7 @@
       transform-origin: -10% center;
       z-index: 10;
       box-shadow: 0 0 0 1px #fff;
-    }
+    }*/
     .user-clause-model{
       @include fullScreenModel;
     }
