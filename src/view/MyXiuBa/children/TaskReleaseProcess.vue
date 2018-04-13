@@ -1022,6 +1022,7 @@
   import Upload from '@/components/upload'
   import PayModel from '@/components/PayModel'
   import UserClause from '@/components/UserClause'
+  import {scrollTop} from 'iview/src/utils/assist'
   import api from '@/config/apiConfig'
   import {aliCallbackImgUrl} from '@/config/env'
   import {aliUploadImg, isPositiveInteger, isNumber, isInteger, isAliUrl, randomString, extendDeep, decode, setStorage, getStorage} from '@/config/utils'
@@ -1427,7 +1428,7 @@
         });
       },
       changeSelectActivity(type) {
-        let _this = this;
+        const _this = this;
         _this.taskRelease.activityCategory = type;
         if (type === 'pinkage_for_10') {
           _this.taskRelease.discountType = 'discount_10';
@@ -1436,6 +1437,11 @@
             _this.taskRelease.discountType = 'discount_0';
           }
         }
+        // _this.returnTop();
+      },
+      returnTop() {
+        const sTop = document.documentElement.scrollTop || document.body.scrollTop;
+        scrollTop(window, sTop, 0, 1000);
       },
     /*  clearDiscount() {
         let _this = this;
@@ -1496,6 +1502,15 @@
           this.addKeywordScheme = this.appTaskDetail.length - 1;
           this.selectKeywordScheme = 0;
         }
+        if(this.pcTaskDetail[0].itemMainImage){
+          this.pcDefaultList = [];
+          this.pcDefaultList.push({src: this.pcTaskDetail[0].itemMainImage})
+        }
+        if(this.appTaskDetail[0].itemMainImage) {
+          this.appDefaultList = [];
+          this.appDefaultList.push({src: this.appTaskDetail[0].itemMainImage})
+        }
+        // this.returnTop();
       },
       onEditorBlur(editor) {
       },
