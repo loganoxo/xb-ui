@@ -987,7 +987,7 @@
         </div>
       </Modal>-->
     <!--商家改低宝贝数量并且关键词方案大于当前宝贝数量弹框-->
-    <div class="keywordLowerChange">
+ <!--   <div class="keywordLowerChange">
       <Modal v-model="keywordLowerChangeModel" :mask-closable="false" :closable="false" width="368">
         <p slot="header" class="text-ct">
           <Icon color="#f9284f" type="information-circled"></Icon>
@@ -1000,7 +1000,7 @@
           <iButton type="error" size="large" long @click="keywordLowerChange">确定</iButton>
         </div>
       </Modal>
-    </div>
+    </div>-->
     <!--服务条款弹框-->
     <div v-if="isShowUserClause" class="user-clause-model">
       <user-clause @closeClauseModel="closeClauseModel"></user-clause>
@@ -1209,7 +1209,7 @@
         },
         editPriceAfterModel: false,
         editPriceToLowAfterModel: false,
-        keywordLowerChangeModel: false,
+        // keywordLowerChangeModel: false,
         price500Model: false,
         priceHasChange: false,
         paidDeposit: 0,
@@ -2163,7 +2163,7 @@
       },
       addItemReviewList() {
         let _this = this;
-        let type = _this.taskRelease.taskType;
+        // let type = _this.taskRelease.taskType;
         _this.itemReviewList = [];
         let count =  _this.taskRelease.taskCount;
         for(let i =1; i <= count; i++){
@@ -2172,9 +2172,9 @@
             index: i,
           });
         }
-        if(count > 0 && (type === 'pc_search' || type === 'app_search') && (count < _this.pcTaskDetail.length || count < _this.appTaskDetail.length)){
+       /* if(count > 0 && (type === 'pc_search' || type === 'app_search') && (count < _this.pcTaskDetail.length || count < _this.appTaskDetail.length)){
           _this.keywordLowerChangeModel = true;
-        }
+        }*/
       },
       changeSelectEvaluation() {
         if(this.taskRelease.itemReviewSummary){
@@ -2261,7 +2261,7 @@
       keywordLowerChange () {
         let _this = this;
         let type = _this.taskRelease.taskType;
-        _this.keywordLowerChangeModel = false;
+        // _this.keywordLowerChangeModel = false;
         if(type === 'pc_search'){
           _this.pcTaskDetail = [
             {
