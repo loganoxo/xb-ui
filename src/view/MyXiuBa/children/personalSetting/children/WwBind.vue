@@ -61,7 +61,7 @@
           <Form-item label="旺旺ID：" prop="alitmAccount">
             <iInput v-model="wwFormValidate.alitmAccount"></iInput>
           </Form-item>
-          <Form-item label="性别：" prop="alitmAccount">
+          <Form-item label="性别：" prop="sex">
             <Radio-group v-model="wwFormValidate.sex">
               <Radio label="0">
                 男
@@ -271,6 +271,20 @@
           callback()
         }
       };
+      const sex = (rule, value, callback) => {
+        if (value === '') {
+          callback(new Error('请选择性别'));
+        } else {
+          callback()
+        }
+      };
+      const tqzUrl = (rule, value, callback) => {
+        if (value === '') {
+          callback(new Error('请上传淘气值图片'));
+        } else {
+          callback()
+        }
+      };
       return {
         alimitId: null,
         wwStatusTextOn: '启用中',
@@ -429,15 +443,21 @@
           taoqizhi: [
             {required: true, validator: wwRequired, trigger: 'change'},
           ],
-          taoqizhiPicUrl: [
+         /* taoqizhiPicUrl: [
             {required: true, validator: wwName, trigger: 'blur'},
-          ],
+          ],*/
           address: [
             {required: true, validator: wwRequired, trigger: 'blur'}
           ],
           detailAddress: [
             {required: true, validator: addAddress, trigger: 'blur'},
-          ]
+          ],
+          sex: [
+            {required: true, validator: sex, trigger: 'blur'},
+          ],
+          taoqizhiPicUrl: [
+            {required: true, validator: tqzUrl, trigger: 'blur'},
+          ],
         },
         remarks: {
           text: '',
