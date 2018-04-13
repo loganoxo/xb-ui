@@ -104,7 +104,7 @@
           <div class="activity-info-title">填写活动信息</div>
           <div class="activity-type ml-60 mt-22">
             <span class="required">下单方式：</span>
-            <Radio-group v-model="taskRelease.taskType">
+            <Radio-group v-model="taskRelease.taskType" @on-change="taskTypeChange">
               <Radio label="pc_search">
                 <span>PC搜索下单（taobao.com）</span>
               </Radio>
@@ -1486,6 +1486,16 @@
       },
       openMember() {
         this.$router.push({name: 'VipMember'})
+      },
+      taskTypeChange(type) {
+        if(type === 'pc_search') {
+          this. addKeywordScheme = this.pcTaskDetail.length - 1;
+          this.selectKeywordScheme = 0;
+         }
+        if(type === 'app_search') {
+          this. addKeywordScheme = this.appTaskDetail.length - 1;
+          this.selectKeywordScheme = 0;
+        }
       },
       onEditorBlur(editor) {
       },
