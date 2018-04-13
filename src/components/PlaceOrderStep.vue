@@ -70,7 +70,8 @@
           <span>￥{{(showkerTaskInfo.task.itemPrice / 100).toFixed(2) || 0}}</span>
         </p>
         <p>
-          <router-link :to="{path:'/user/help-center/faq-showker',query:{page:'common',qusNum:9}}" class="color" target="_blank">找不到宝贝，怎么办？</router-link>
+          <!--<router-link :to="{path:'/user/help-center/faq-showker',query:{page:'common',qusNum:9}}" class="color" target="_blank">找不到宝贝，怎么办？</router-link>-->
+          <span class="color cursor-p" @click="showQrCodeModel = !showQrCodeModel">关键词找不到宝贝？点我！</span>
         </p>
       </div>
     </div>
@@ -104,6 +105,19 @@
     <modal title="卡首屏宝贝主图截图查看" v-model="isShowTaoCodeModel">
       <img :src="taskDetail.homePageLockItemImage + '!orgi75'" style="width: 100%">
     </modal>
+    <!--二维码弹窗-->
+    <div class="shade" v-if='showQrCodeModel' @click="showQrCodeModel = false"></div>
+    <div class="shade-content" v-if="showQrCodeModel">
+      <p class="clear pt-10 pb-10 qr-code-title">
+        <span class="left f-b fs-16">二维码关键词</span>
+        <span class="right f-b fs-16 cursor-p" @click="showQrCodeModel = false">X</span>
+      </p>
+      <p class="qr-code-tip fs-16 pt-20 pb-20">如果所有关键词都找不到宝贝，请使用淘宝客户端扫描下方二维码，即可找到商家要求下单的宝贝！</p>
+      <div class="qr-code-box text-ct">
+        <img src="" alt="">
+      </div>
+      <div class="qr-code-btn text-ct fs-18 cursor-p" @click="showQrCodeModel = false">我知道了</div>
+    </div>
   </div>
 </template>
 
@@ -140,6 +154,7 @@
     data() {
       return {
         isShowTaoCodeModel: false,
+        showQrCodeModel:false
       }
     },
     created() {
@@ -393,5 +408,45 @@
     font-size: 20px;
     cursor: pointer;
     margin: 0 2px;
+  }
+
+  .shade {
+    width:100%;
+    height:100%;
+    position:fixed;
+    top:0;
+    left:0;
+    background: rgba(0,0,0,.4);
+    z-index:1;
+  }
+  .shade-content {
+    width:50%;
+    height:60%;
+    padding:5px 20px 20px 20px;
+    background:#fff;
+    border:1px solid #ccc;
+    position:fixed;
+    z-index:2;
+    top:50%;
+    left:50%;
+    -webkit-transform: translate(-50%,-50%);
+    -moz-transform: translate(-50%,-50%);
+    -ms-transform: translate(-50%,-50%);
+    -o-transform: translate(-50%,-50%);
+    transform: translate(-50%,-50%);
+    .qr-code-title{
+      border-bottom:1px solid #eee;
+    }
+    .qr-code-tip{
+
+    }
+    .qr-code-btn{
+      width:240px;
+      padding:10px 0;
+      border-radius: 5px;
+      color:#fff;
+      background:$mainColor;
+      margin: 20px auto;
+    }
   }
 </style>
