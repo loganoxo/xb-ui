@@ -1489,11 +1489,11 @@
       },
       taskTypeChange(type) {
         if(type === 'pc_search') {
-          this. addKeywordScheme = this.pcTaskDetail.length - 1;
+          this.addKeywordScheme = this.pcTaskDetail.length - 1;
           this.selectKeywordScheme = 0;
          }
         if(type === 'app_search') {
-          this. addKeywordScheme = this.appTaskDetail.length - 1;
+          this.addKeywordScheme = this.appTaskDetail.length - 1;
           this.selectKeywordScheme = 0;
         }
       },
