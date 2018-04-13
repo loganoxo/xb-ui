@@ -581,7 +581,7 @@
         _this.region.province = ww.takeProvince;
         _this.region.city = ww.takeCity;
         _this.region.district = ww.district;
-        _this.wwFormValidate.sex = ww.alitmRole.toString();
+        _this.wwFormValidate.sex =ww.alitmRole?ww.alitmRole.toString():null;
         _this.wwFormValidate.detailAddress = ww.takeDetail;
         _this.wwFormValidate.alitmLevelPicUrl = [{
           src: ww.wwCreditLevelPic,
