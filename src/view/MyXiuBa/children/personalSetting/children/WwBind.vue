@@ -59,7 +59,7 @@
         <iForm ref="wwFormValidate" :model="wwFormValidate" :rules="wwFormRuleCustom" label-position="right"
                :label-width="150">
           <Form-item label="旺旺ID：" prop="alitmAccount">
-            <iInput v-model="wwFormValidate.alitmAccount"></iInput>
+            <iInput v-model="wwFormValidate.alitmAccount" :disabled="modifyWw"></iInput>
           </Form-item>
           <Form-item label="性别：" prop="sex">
             <Radio-group v-model="wwFormValidate.sex">
@@ -251,8 +251,6 @@
           callback(new Error('不能为空'));
         } else if (value.length > 50) {
           callback(new Error('旺旺ID过长'))
-        }else if (value !== this.oldAlitmAccount) {
-          callback(new Error('旺旺名禁止修改'))
         } else {
           callback()
         }
@@ -583,7 +581,7 @@
         _this.region.province = ww.takeProvince;
         _this.region.city = ww.takeCity;
         _this.region.district = ww.district;
-        _this.wwFormValidate.sex = ww.alitmRole;
+        _this.wwFormValidate.sex = ww.alitmRole.toString();
         _this.wwFormValidate.detailAddress = ww.takeDetail;
         _this.wwFormValidate.alitmLevelPicUrl = [{
           src: ww.wwCreditLevelPic,
@@ -648,10 +646,6 @@
           }
           self.btnState.wwBindBtn = true;
           if (self.modifyWw) {
-            if (self.wwFormValidate.alitmAccount !== self.oldAlitmAccount){
-              self.$Message.error('旺旺名禁止修改！');
-              return
-            }
             api.wwModify({
               alitmAccount: self.wwFormValidate.alitmAccount,
 //              wwInfoPic: this.wwFormValidate.picUrl[0].src,
