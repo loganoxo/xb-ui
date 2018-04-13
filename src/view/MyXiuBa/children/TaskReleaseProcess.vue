@@ -1220,7 +1220,7 @@
         itemReviewPushList: [],
         selectKeywordScheme: 0,
         addKeywordScheme: 0,
-        isCountAssigned: null,
+        // isCountAssigned: null,
         isShowUserClause: false,
         browseAnswer: [
           {
@@ -2001,24 +2001,24 @@
               _this.pcDefaultList.push({src: _this.pcTaskDetail[0].itemMainImage});
               _this.pcTaskDetailItemMainImage = _this.pcTaskDetail[0].itemMainImage;
               _this.conversionPrice('pc_search');
-              if(!_this.isCountAssigned) {
+              /*if(!_this.isCountAssigned) {
                 _this.pcTaskDetail.forEach(item => {
                   item.countAssigned = null;
                 })
               }
-              _this.isCountAssigned = null;
+              _this.isCountAssigned = null;*/
             } else if (res.data.taskType === 'app_search') {
               _this.appTaskDetail = res.data.taskDetailObject;
               _this.addKeywordScheme = _this.appTaskDetail.length - 1;
               _this.appDefaultList.push({src: _this.appTaskDetail[0].itemMainImage});
               _this.appTaskDetailItemMainImage = _this.appTaskDetail[0].itemMainImage;
               _this.conversionPrice('app_search');
-              if(!_this.isCountAssigned) {
+             /* if(!_this.isCountAssigned) {
                 _this.appTaskDetail.forEach(item => {
                   item.countAssigned = null;
                 })
               }
-              _this.isCountAssigned = null;
+              _this.isCountAssigned = null;*/
             } else {
               _this.taskRelease.taskDetail = {};
             }
