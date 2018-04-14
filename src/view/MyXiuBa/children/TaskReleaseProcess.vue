@@ -180,7 +180,7 @@
             </div>
             <div class="mt-12 pl-68 sizeColor2" v-show="needBrowseAnswer">请在手机详情页中挑选一段文案，建议3-8字，输入文本框内，拿手将提供本文案所在位置截图</div>
           </div>
-          <div class="baby-info mt-22" v-if="taskRelease.activityCategory === 'free_get'">
+          <div class="baby-info mt-22" v-show="taskRelease.activityCategory === 'free_get'">
             <div class="activity-info-title">填写活动宝贝信息</div>
             <div class="baby-title ml-45 mt-20">
               <span class="required">宝贝标题：</span>
@@ -398,7 +398,7 @@
               <input v-show="false" id="freeGet" type="file" name="avator" multiple accept="image/jpg,image/jpeg,image/png,image/gif" @change="uploadImgFreeGet">
             </div>
           </div>
-          <div class="baby-info mt-22" v-if="taskRelease.activityCategory === 'present_get'">
+          <div class="baby-info mt-22" v-show="taskRelease.activityCategory === 'present_get'">
             <div class="activity-info-title">填写活动宝贝信息</div>
             <div class="complimentary-tip mt-20 pl-15">
               <p class="sizeColor3">赠品活动发布说明：</p>
@@ -1239,7 +1239,6 @@
     },
     mounted() {
       const _this = this;
-      if(_this.taskRelease.activityCategory === 'free_get') {
         const imgHandlerFreeGet = async function (image) {
           _this.addImgRangeFreeGet = _this.$refs.myTextEditorFree.quill.getSelection();
           if (image) {
@@ -1248,8 +1247,6 @@
           }
         };
         _this.$refs.myTextEditorFree.quill.getModule("toolbar").addHandler("image", imgHandlerFreeGet);
-      }
-      if(_this.taskRelease.activityCategory === 'present_get') {
         const imgHandlerPresentGet = async function (image) {
           _this.addImgRangePresentGet = _this.$refs.myTextEditorPresent.quill.getSelection();
           if (image) {
@@ -1258,7 +1255,6 @@
           }
         };
         _this.$refs.myTextEditorPresent.quill.getModule("toolbar").addHandler("image", imgHandlerPresentGet);
-      }
     },
     created() {
       let _this = this;
