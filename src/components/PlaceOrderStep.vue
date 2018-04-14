@@ -120,7 +120,7 @@
   import TimeDown from '@/components/TimeDown'
   import Clipboard from 'clipboard';
   import api from '@/config/apiConfig'
-  import {TaskErrorStatusList} from '@/config/utils'
+  import {TaskErrorStatusList, getUrlParams} from '@/config/utils'
 
   export default {
     name: 'PlaceOrderStep',
@@ -197,15 +197,14 @@
         return this.showkerTaskInfo.task.taskDetailObject.length > 1;
       },
       getCodeUrl() {
-        const re = /[\&|\?]id=[1-9]+[0-9]*]*/;
-        const id = this.showkerTaskInfo.task.itemUrl.match(re)[0].replace("&id=", '').replace("?id=", '');
+        const id = getUrlParams(this.showkerTaskInfo.task.itemUrl, 'id');
         return `/api/get-qr-image.json?id=${id}&keyWord=${this.showkerTaskInfo.task.taskDetailObject[0].searchKeyword}`;
       }
     },
     methods: {
       getRealStoreName(name) {
         if (name) {
-          return name.substr(0, 1) + '****' + name.substr(-1);
+          return `${name.substr(0, 1)}****${ name.substr(-1)}`;
         }else {
           return '******'
         }

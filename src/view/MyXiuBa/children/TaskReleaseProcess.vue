@@ -2170,7 +2170,6 @@
           taskId: _this.taskPayId,
           type: _this.priceHasChange ? 'supply_pay' : 'first_pay'
         }).then(res => {
-          _this.$refs.payModelRef.payLoading = false;
           if (res.status) {
             _this.$store.dispatch('getUserInformation');
             _this.showPayModel = false;
@@ -2180,6 +2179,7 @@
           } else {
             _this.$Message.error(res.msg);
           }
+          _this.$refs.payModelRef.payLoading = false;
         })
       },
       addItemReviewList() {

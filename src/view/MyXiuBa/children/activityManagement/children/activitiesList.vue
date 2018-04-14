@@ -284,7 +284,7 @@
     </Modal>
     <!--支付保证金弹框-->
     <div class="pay-model" v-if="showPayModel">
-      <PayModel :orderMoney="orderMoney" @confirmPayment="confirmPayment">
+      <PayModel ref="payModelRef" :orderMoney="orderMoney" @confirmPayment="confirmPayment">
         <i slot="closeModel" class="close-recharge" @click="showPayModel = false">&times;</i>
         <div slot="noBalance" class="title-tip">
           <span class="size-color3"><Icon color="#FF2424" size="18" type="ios-information"></Icon>
@@ -613,6 +613,7 @@
           } else {
             _this.$Message.error(res.msg)
           }
+          _this.$refs.payModelRef.payLoading = false;
         })
       },
       lookBill() {
