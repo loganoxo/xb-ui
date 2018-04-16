@@ -26,7 +26,7 @@
             </li>
           </ul>
         </li>
-        <li>
+        <li v-if="userRole === 0">
           <ul>
             <li class="one">
               提现账号
@@ -342,8 +342,10 @@
       },
       bankCardNumber:function () {
         return this.$store.getters.getUserAccountInfo.bankCardNum
+      },
+      userRole() {
+        return this.$store.getters.getUserRole
       }
-
     },
     methods: {
       bandCard() {

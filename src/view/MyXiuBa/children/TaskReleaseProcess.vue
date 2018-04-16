@@ -881,7 +881,7 @@
           <h3>费用说明：</h3>
           <div class="description-fees-con mt-10">
             <p v-if="taskRelease.activityCategory === 'free_get'">活动担保金 = 份数 × 单品活动担保金 = <span>{{taskRelease.taskCount}}</span> × <span>{{oneBond}}</span> = <span>{{(taskRelease.taskCount * oneBond).toFixed(2)}}</span> 元</p>
-            <p v-if="taskRelease.activityCategory === 'present_get'">活动担保金 = 份数 × 单品活动担保金 = <span>{{taskRelease.taskCount}}</span> × <span>{{oneBondAToB / 100}}</span> = <span>{{(taskRelease.taskCount * oneBondAToB / 100).toFixed(2)}}</span> 元</p>
+            <p v-if="taskRelease.activityCategory === 'present_get'">活动担保金 = 份数 × 单品活动担保金 = <span>{{taskRelease.taskCount}}</span> × <span>{{(oneBondAToB / 100).toFixed(2)}}</span> = <span>{{(taskRelease.taskCount * oneBondAToB / 100).toFixed(2)}}</span> 元</p>
             <!--<p class="mt-6">
               单品推广费 = （宝贝单价 + 邮费） × 费率 =<span>（{{taskRelease.itemPrice}} + {{taskRelease.pinkage === 'true' ? 0 : 10}}）</span>× <span>6%</span> = <span>{{onePromotionExpenses}}</span>元<span
               v-if="isShowExpensesTip">（单品推广费超过平台设定的最高上限3.00元，本次实际收取的单品推广费用为3.00元）</span></p>-->
