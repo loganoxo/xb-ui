@@ -38,8 +38,7 @@
             您已选择<strong>{{year}}会员</strong>，有效期至
             <span class="my-color">{{endTime | dateFormat('YYYY-MM-DD ')}}</span>
           </p>
-          <p class="mt-10">本次总共要支付的金额为：<strong>{{rechargeSum > 0 ? rechargeSum : 0}}</strong>元,您的账户余额为：<strong>{{getUserBalance}}</strong>元 <span
-            v-if="needRecharge>0">，还需要充值：<strong>{{(needRecharge).toFixed(2)}}</strong>元。</span></p>
+          <p class="mt-10">本次总共要支付的金额为：<strong>{{rechargeSum > 0 ? rechargeSum : 0}}</strong>元,您的账户余额为：<strong>{{getUserBalance}}</strong>元 <span v-if="needRecharge>0">，还需要充值：<strong>{{(needRecharge).toFixed(2)}}</strong>元。</span></p>
         </div>
         <div v-if="needRecharge > 0" class="text-ct mt-20">
           <iButton class="btn-recharge" @click="recharge = true">前去充值</iButton>
