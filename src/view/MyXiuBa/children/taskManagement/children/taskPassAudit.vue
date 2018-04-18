@@ -189,7 +189,7 @@
                  :key="index" v-if="item">
               <img :src="item.screenshotSrc + '!thum54'" alt="浏览答题截图">
               <div class="order-info-screenshot-cover">
-                <Icon type="ios-eye-outline" @click.native="handleViewIssue(item.screenshotSrc,item.issueText)"></Icon>
+                <Icon type="ios-eye-outline" @click.native="handleViewIssue(item.screenshotSrc,item.issueText.issue)"></Icon>
               </div>
             </div>
           </div>
