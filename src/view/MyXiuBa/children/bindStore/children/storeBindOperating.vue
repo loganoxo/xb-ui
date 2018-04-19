@@ -1,9 +1,10 @@
 <template>
   <div class="store-bind-operating">
-    <div v-show="protocol">
+    <div v-show="protocol" class="pos-rel">
+      <a class="backToCommodityLink" @click="protocol=false">返回上一页</a>
       <p class="main-color operating-tip">注意：店铺一旦绑定成功后，将无法修改和解绑，请慎重操作！</p>
       <div class="form-box">
-        <p class="main-color choose-type-tip">请手动选择店铺类型</p>
+        <p class="main-color choose-type-tip">请核对店铺信息</p>
         <iForm ref="storeBindForm" :v-model="storeBindForm" label-position="right" :label-width="150">
           <Form-item label="店铺类型" prop="storeType" required>
             <RadioGroup v-model="storeBindForm.storeType">
@@ -34,7 +35,8 @@
         <div slot="footer"></div>
       </Modal>
     </div>
-    <div v-show="!protocol" class="mt-20">
+    <div v-show="!protocol" class="mt-20 pos-rel" >
+      <router-link to="/user/bind-store/store-bind-rules" class="backwards">返回上一页</router-link>
       <span class="required"></span>
       <span class="mr-10">需要您提供店铺内任意商品链接</span>
       <iInput type="text" size="large" class="commodity-input" v-model="commodityLink"></iInput>
@@ -210,6 +212,16 @@
       background: #FF6865;
       width: 240px;
       color: #fff;
+    }
+    .backwards{
+      position: absolute;
+      top:-60px;
+      right:0;
+    }
+    .backToCommodityLink{
+      position: absolute;
+      top:-40px;
+      right:0;
     }
   }
 
