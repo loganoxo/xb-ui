@@ -7,6 +7,10 @@
           <span class="home-page icon-size"></span>
           <router-link to="/user/user-home">我的主页</router-link>
         </li>
+        <li :class="{isSelect:isSelect ==='StoreBindRules' || isSelect === 'StoreBindOperating'}">
+          <span class="bind-store icon-size"></span>
+          <router-link to="/user/bind-store/store-bind-rules">店铺绑定</router-link>
+        </li>
         <li :class="{isSelect:isSelect ==='TaskReleaseProcess'}">
           <span class="issue-activity icon-size"></span>
           <router-link to="/user/task-release">发布活动</router-link>
@@ -205,6 +209,11 @@
           }
         }
         &:hover {
+          .bind-store {
+            background-image: url("~assets/img/userhome-merchant/store-bind-on.png");
+          }
+        }
+        &:hover {
           .help-center {
             background-image: url("~assets/img/userhome-merchant/help-center-on.png");
           }
@@ -306,6 +315,16 @@
   .isSelect {
     .home-page {
       background-image: url("~assets/img/userhome-merchant/my-homepage-on.png");
+    }
+  }
+
+  .bind-store {
+    background-image:url("~assets/img/userhome-merchant/store-bind-off.png") ;
+  }
+
+  .isSelect {
+    .bind-store {
+      background-image: url("~assets/img/userhome-merchant/store-bind-on.png");
     }
   }
 

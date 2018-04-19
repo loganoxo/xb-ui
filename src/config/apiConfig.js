@@ -915,5 +915,25 @@ export default {
    */
   getFirstWithdrawalCommand(){
     return fetch('/api/detection-first-fill-withdrawal-command.json')
+  },
+
+  /**
+   * 获取商家绑定的店铺列表
+   */
+  getStoreBindInfo(){
+    return fetch("/api/store/get.json")
+  },
+
+  /**
+   * 根据商品链接获取店铺名称和店铺旺旺
+   */
+  getStoreInfo(params){
+    return fetch("/api/get-store-info.json",params)
+  },
+  /**
+   * 绑定店铺
+   */
+  bindStore(params){
+    return fetch("/api/store/bind.json",params)
   }
 }

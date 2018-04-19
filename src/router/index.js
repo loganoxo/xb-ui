@@ -69,6 +69,11 @@ const PayMoney = r => require.ensure([], () => r(require('@/view/MyXiuBa/childre
 const GetoutMoney = r => require.ensure([], () => r(require('@/view/MyXiuBa/children/moneyManagement/children/getoutMoney.vue')), 'MoneyManagement');
 const TransactionRecord = r => require.ensure([], () => r(require('@/view/MyXiuBa/children/moneyManagement/children/transactionRecord.vue')), 'MoneyManagement');
 
+const BindStore = r => require.ensure([], () => r(require('@/view/MyXiuBa/children/bindStore/index.vue')), 'BindStore');
+const StoreBindRules = r => require.ensure([], () => r(require('@/view/MyXiuBa/children/bindStore/children/storeBindRules.vue')), 'StoreBindRules');
+const StoreBindOperating = r => require.ensure([], () => r(require('@/view/MyXiuBa/children/bindStore/children/storeBindOperating.vue')), 'StoreBindOperating');
+
+
 Vue.use(Router);
 
 /**
@@ -348,6 +353,37 @@ export default new Router({
             bottomShow: true,
             role: null,
           }
+        },
+        {
+          path: 'bind-store',
+          name: 'BindStore',
+          component: BindStore,
+          children:[
+            {
+              path:'store-bind-rules',
+              name:'StoreBindRules',
+              component:StoreBindRules,
+              meta:{
+                title:"店铺绑定说明",
+                logInAuthority: true,
+                topShow: true,
+                bottomShow: true,
+                role: 1,
+              }
+            },
+            {
+              path:'store-bind-operating',
+              name:'StoreBindOperating',
+              component:StoreBindOperating,
+              meta:{
+                title:'店铺绑定操作',
+                logInAuthority: true,
+                topShow: true,
+                bottomShow: true,
+                role: 1,
+              }
+            }
+          ],
         },
         {
           path: 'task-release',
