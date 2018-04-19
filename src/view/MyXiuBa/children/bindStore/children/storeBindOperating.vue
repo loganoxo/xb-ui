@@ -79,6 +79,45 @@
     created() {
     },
     methods: {
+      //根据商品链接判断店铺类型
+      getStoreType(){
+        const _this = this;
+        let taobaoUrl = /(((item|detail).(taobao)).*?)/;
+        let tmallUrl = /((tmall.com).*?)/;
+        if(taobaoUrl.test(_this.commodityLink)){
+          _this.storeBindForm.storeType = 'taobao';
+        } else if(tmallUrl.test(_this.commodityLink)){
+          _this.storeBindForm.storeType = 'tmall';
+        }
+      },
+      //根据商品链接获取店铺信息
+      getStoreInfoByLink() {
+        const _this = this;
+        if (!_this.commodityLink) {
+          _this.$Message.warning('亲，店铺链接不能为空！');
+          return
+        }
+        let URL_REG = /(((item|detail|).(tmall|taobao)).*?)/;
+        if(!URL_REG.test(_this.commodityLink)){
+          _this.$Message.warning('亲，请输入天猫或淘宝店铺的商品链接！');
+          return
+        }
+        _this.getStoreType();
+        _this.confirmBtnLoading = true;
+        let commodityId = getUrlParams(_this.commodityLink, 'id');
+        api.getStoreInfo({commodityId: commodityId}).then(res => {
+          _this.confirmBtnLoading = false;
+          if (res.status) {
+            let tempData = res.data;
+            _this.storeBindForm.storeName = tempData.store.name;
+            _this.storeBindForm.storeWw = tempData.store.wangwangId;
+            _this.storeBindForm.storeLink = _this.commodityLink;
+            _this.protocol = true;
+          } else {
+            _this.$Message.error(res.msg);
+          }
+        })
+      },
       //验证并绑定店铺
       verifiedAndBindFunc() {
         let _this = this;
@@ -94,10 +133,10 @@
           _this.$Message.warning('亲，店铺旺旺名不能为空！');
           return
         }
-        if (!_this.storeBindForm.storeLink) {
-          _this.$Message.warning('亲，店铺链接不能为空！');
-          return
-        }
+        // if (!_this.storeBindForm.storeLink) {
+        //   _this.$Message.warning('亲，店铺链接不能为空！');
+        //   return
+        // }
         if (_this.storeBindForm.storeType === 'taobao') {
           let URL_REG = /(((item|detail).(taobao)).*?)/;
           if (!URL_REG.test(_this.commodityLink)) {
@@ -118,42 +157,19 @@
           storeName: _this.storeBindForm.storeName,
           storeAlitm: _this.storeBindForm.storeWw
         }).then(res => {
+          _this.bindBtnLoading = false;
           if (res.status) {
-            _this.bindBtnLoading = false;
-            console.log(res.data);
+            _this.$Message.success({
+              content:'店铺绑定成功！',
+              duration:1
+            });
+            _this.$router.replace({name:'StoreBindRules'});
           } else {
             _this.$Message.error(res.msg);
           }
         })
       },
-      //根据商品链接获取店铺信息
-      getStoreInfoByLink() {
-        const _this = this;
-        if (!_this.commodityLink) {
-          _this.$Message.warning('亲，店铺链接不能为空！');
-          return
-        }
-        let URL_REG = /(((item|detail|).(tmall|taobao)).*?)/;
-        if(!URL_REG.test(_this.commodityLink)){
-          _this.$Message.warning('亲，请输入天猫或淘宝店铺的商品链接！');
-          return
-        }
-        _this.confirmBtnLoading = true;
-        let commodityId = getUrlParams(_this.commodityLink, 'id');
-        api.getStoreInfo({commodityId: commodityId}).then(res => {
-          if (res.status) {
-            _this.confirmBtnLoading = false;
-            let tempData = res.data;
-            _this.storeBindForm.storeName = tempData.store.name;
-            _this.storeBindForm.storeWw = tempData.store.wangwangId;
-            _this.storeBindForm.storeLink = _this.commodityLink;
-            _this.protocol = true;
-            console.log(res.data);
-          } else {
-            _this.$Message.error(res.msg);
-          }
-        })
-      }
+
     }
 
   }

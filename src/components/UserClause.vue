@@ -2,7 +2,7 @@
   <div class="user-clause">
     <em class="close-model" @click="closeClauseModel">&times;</em>
     <template v-if="isShowClause === 'merchant'">
-      <h2 class="text-ct mt-46">白拿拿-商家平台服务条款</h2>
+      <h2 class="text-ct mt-28">白拿拿-商家平台服务条款</h2>
       <div class="user-clause-con mt-20">
         <p class="main-color">亲，感谢您成为白拿拿商家用户！</p>
         <p class="mt-10 ml-15">本指引非常重要，请您一定认真看完！</p>
@@ -12,7 +12,7 @@
         <p class="mt-10 ml-15 text-indent">在白拿拿平台，除了“体验专区”以外，其余板块都要求商家用户拍A发A（拿手在淘宝上拍下是什么商品，商家必须邮寄什么商品！）</p>
         <p class="mt-10 ml-15">在“体验专区”（拍A发B）中，您也必须向拿手寄送承若的赠品</p>
         <p class="mt-10 ml-15 text-indent">如果发生没有按照承若寄送商品的情况，甚至是寄送空包的情况，将被平台判定为重大违规，平台将注销其商家账号，并视情节严重情况，扣留对应活动保证金！</p>
-        <p class="mt-22 ml-15 mb-40">真诚希望白拿拿平台能帮助到您，祝您生意兴隆！</p>
+        <p class="mt-22 ml-15 mb-20">真诚希望白拿拿平台能帮助到您，祝您生意兴隆！</p>
       </div>
       <div class="user-clause-footer">
         <div class="switch-guide" @click="lookOther('showker')">查看拿手版指引</div>
@@ -20,7 +20,7 @@
       </div>
     </template>
     <template v-if="isShowClause === 'showker'">
-      <h2 class="text-ct mt-46">白拿拿-拿手平台服务条款</h2>
+      <h2 class="text-ct mt-28">白拿拿-拿手平台服务条款</h2>
       <div class="user-clause-con mt-20">
         <p class="main-color">亲，感谢您成为白拿拿平台的拿手！</p>
         <p class="mt-10 ml-15">本指引非常重要，请您一定认真看完！</p>
@@ -89,7 +89,6 @@
 
   .user-clause {
     width: 754px;
-    height: 706px;
     background-color: #fff;
     @include center;
     padding: 0 16px;
@@ -108,7 +107,7 @@
     background-color: $mainColor;
     font-size: 18px;
     padding: 2px 0;
-    margin: 26px auto 10px auto;
+    margin: 18px auto 18px auto;
     @include transition;
     &:hover {
       background-color: darken($mainColor, 10%);;
