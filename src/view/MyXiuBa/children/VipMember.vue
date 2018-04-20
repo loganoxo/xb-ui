@@ -12,7 +12,7 @@
         <p class="mt-5">3、会员周期仅支持向上扩展，不支持向下扩展。譬如：当前会员周期为半年版，在该会员周期到期前不支持购买季度时长的版本。</p>
         <p class="mt-5">4、会员升级时，将现有会员剩余时间按天进行折算，剩余价格将抵扣到新版本的费用中（若折算出的价格有溢出，将不退回）。</p>
         <p class="mt-20 mb-20"><strong>请您选择您的会员周期：</strong></p>
-        <div class="member-cycle text-ct ">
+        <div class="member-cycle">
           <iButton class="member-price cursor-p  mr-10" v-for="(item,index) in memberInformation" :key="index"
                    :class="{active:isSelect === index,hover:memberLevelInfo.validDays <= item.validDays} "
                    @click="changeStyle(index,item.validDays,item.validDaysDesc,item.finalFee,item.level,item.id)"
@@ -88,7 +88,7 @@
     </div>
     <!--支付弹窗-->
     <div class="pay-model" v-if="recharge">
-      <PayModel :orderMoney="rechargeSum" :orderType="1" :memberId="memberId" @orderVipSuccess="orderVipSuccess">
+      <PayModel ref="orderPayModel" :orderMoney="rechargeSum" :orderType="1" :memberId="memberId" @orderVipSuccess="orderVipSuccess" @confirmPayment="confirmPayment">
         <i slot="closeModel" class="close-recharge" @click="recharge = false">&times;</i>
         <div slot="noBalance" class="title-tip">
           <span class="size-color3"><Icon color="#FF2424" size="18" type="ios-information"></Icon>
@@ -235,6 +235,28 @@
       },
       orderVipSuccess() {
         _this.getUserMemberLevelInfo();
+      },
+      confirmPayment(pwd) {
+        const _this = this;
+        api.memberPurchase({
+          memberId: _this.memberId,
+          payPwd: pwd
+        }).then(res => {
+          if (res.status) {
+            _this.recharge = false;
+            _this.$Message.success('支付成功！');
+            _this.$store.dispatch('getUserInformation').then(res => {
+              if(res.status) {
+                _this.getUserMemberLevelInfo();
+              } else {
+                _this.$Message.error(res.msg);
+              }
+            });
+          } else {
+            _this.$Message.error(res.msg);
+          }
+          _this.$refs.orderPayModel.payLoading = false;
+        });
       }
     }
   }
