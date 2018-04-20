@@ -1537,6 +1537,7 @@
             _this.storeBindInfoList = res.data;
             _this.isBindStore = res.data.length === 0;
             _this.selectStoreInfo.storeName = res.data[0].storeName;
+            _this.selectStoreInfo.storeAlitm = res.data[0].storeAlitm;
           } else {
             _this.$Message.error(res.msg)
           }

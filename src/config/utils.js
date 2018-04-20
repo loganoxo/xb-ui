@@ -133,7 +133,8 @@ export const aliUploadImg = (key, file) => {
   return new Promise((resolve, reject) => {
     OSS.urllib.request(aliTokenUrl, {method: 'GET'}, function (err, response) {
       if (err) {
-        return alert(err);
+        console.log(err);
+        return alert('上传图片失败，请重新上传！');
       }
       const result = JSON.parse(response);
       const client = new OSS.Wrapper({
