@@ -45,33 +45,48 @@
       </table>
     </div>
     <div class="activity-type mt-20">
-      <div class="activity-type-title">选择活动类型：</div>
+      <!--选择绑定的店铺-->
+      <div class="activity-type mt-20">
+        <div class="activity-type-title">请选择店铺：</div>
+        <div class="clear mt-10" v-if="storeBindInfoList.length > 0">
+          <div :class="{isSelect: selectStoreInfo.storeName === item.storeName}" v-for="item in storeBindInfoList" class="select-store text-ct left mr-10 disabled" @click="selectStoreChange(item.storeName, item.storeAlitm)">
+            <img v-if="item.storeType === 'taobao'" src="~assets/img/common/taobao-logo.png" alt="淘宝LOGO">
+            <img v-if="item.storeType === 'tmall'" src="~assets/img/common/tmall-logo.png" alt="天猫LOGO">
+            <p class="fs-14 f-b">{{item.storeName}}</p>
+            <p class="mt-4">
+              <span>店铺旺旺：</span>
+              <span class="f-b">{{item.storeAlitm}}</span>
+            </p>
+          </div>
+        </div>
+      </div>
+      <div class="activity-type-title mt-20">请选择活动类型：</div>
       <div class="clear mt-10">
-        <div class="left mr-10 activity-type-box disabled" :class="{isSelect:taskRelease.activityCategory === 'free_get'}" @click="changeSelectActivity('free_get')">
+        <div class="left mr-10 activity-type-box disabled" :class="{isSelect:taskRelease.activityCategory === 'free_get'}">
           <p>免费领（拍A发A）</p>
           <p>拿手0元试用</p>
           <p>高人气活动类型</p>
           <span class="is-select-gou" v-show="taskRelease.activityCategory === 'free_get'"></span>
         </div>
-        <div class="left activity-type-box mr-10 disabled" :class="{isSelect:taskRelease.activityCategory === 'present_get'}" @click="changeSelectActivity('present_get')">
+        <div class="left activity-type-box mr-10 disabled" :class="{isSelect:taskRelease.activityCategory === 'present_get'}">
           <p>体验专区（拍A发B）</p>
           <p>实际发的是赠品或体验装</p>
           <p>不可跨类目，否则会影响人群标签</p>
           <span class="is-select-gou" v-show="taskRelease.activityCategory === 'present_get'"></span>
         </div>
-       <!-- <div class="left activity-type-box mr-10 disabled" :class="{isSelect:taskRelease.activityCategory === 'pinkage_for_10'}" @click="changeSelectActivity('pinkage_for_10')">
+       <!-- <div class="left activity-type-box mr-10 disabled" :class="{isSelect:taskRelease.activityCategory === 'pinkage_for_10'}">
           <p>10元包邮</p>
           <p>拿手承担10元邮费</p>
           <p>高人气活动类型</p>
           <span class="is-select-gou" v-show="taskRelease.activityCategory === 'pinkage_for_10'"></span>
         </div>
-        <div class="left activity-type-box mr-10 disabled" :class="{isSelect:taskRelease.activityCategory === 'price_low'}" @click="changeSelectActivity('price_low')">
+        <div class="left activity-type-box mr-10 disabled" :class="{isSelect:taskRelease.activityCategory === 'price_low'}">
           <p>白菜价</p>
           <p>帮商家测款定价</p>
           <p>真实卖货</p>
           <span class="is-select-gou" v-show="taskRelease.activityCategory === 'price_low'"></span>
         </div>
-        <div class="left activity-type-box mr-10 disabled" :class="{isSelect:taskRelease.activityCategory === 'goods_clearance'}" @click="changeSelectActivity('goods_clearance')">
+        <div class="left activity-type-box mr-10 disabled" :class="{isSelect:taskRelease.activityCategory === 'goods_clearance'}">
           <p>清仓断码</p>
           <p>帮商家解决最为头疼的</p>
           <p>库存问题</p>
@@ -189,14 +204,14 @@
             <span class="required">宝贝地址：</span>
             <iInput v-model="taskRelease.itemUrl" placeholder="请输入宝贝地址" :disabled="true" style="width: 296px"></iInput>
           </div>
-          <div class="store-name ml-45 mt-20">
+      <!--    <div class="store-name ml-45 mt-20">
             <span class="required">掌柜旺旺：</span>
             <iInput v-model="taskRelease.storeName" placeholder="请输入掌柜旺旺" :disabled="true" style="width: 296px"></iInput>
           </div>
           <div class="store-name ml-45 mt-20">
             <span class="required">店铺名称：</span>
             <iInput v-model="taskRelease.realStoreName" placeholder="请输入店铺名称" :disabled="true" style="width: 296px"></iInput>
-          </div>
+          </div>-->
           <div class="baby-number ml-45 mt-20">
             <span class="required">宝贝数量：</span>
             <iInput v-model="taskRelease.taskCount" placeholder="请输入宝贝数量" :disabled="true" style="width: 120px"></iInput>
@@ -283,14 +298,14 @@
                 <span class="required">宝贝地址：</span>
                 <iInput v-model="taskRelease.itemUrl" disabled placeholder="请输入宝贝地址" style="width: 296px"></iInput>
               </div>
-              <div class="store-name ml-10 mt-20">
+           <!--   <div class="store-name ml-10 mt-20">
                 <span class="required">掌柜旺旺：</span>
                 <iInput v-model="taskRelease.storeName" disabled placeholder="请输入掌柜旺旺" style="width: 296px"></iInput>
               </div>
               <div class="store-name ml-10 mt-20">
                 <span class="required">店铺名称：</span>
                 <iInput v-model="taskRelease.realStoreName" disabled placeholder="请输入店铺名称" style="width: 296px"></iInput>
-              </div>
+              </div>-->
               <div class="baby-price ml-10 mt-20">
                 <span class="required">宝贝单价：</span>
                 <iInput v-model.number="taskRelease.itemPrice" disabled placeholder="请输入宝贝单价" style="width: 120px"></iInput>
@@ -823,11 +838,14 @@
         addKeywordScheme: 0,
         browseAnswer: [{answerContent: null}],
         needBrowseAnswer: false,
+        storeBindInfoList: [],
+        selectStoreInfo: {},
       }
     },
     mounted() {},
     created() {
       this.getItemCatalog();
+      this.getStoreBindInfoList();
       let taskId = decode(this.$route.query.q);
       if (taskId) {
         this.editTaskId = taskId;
@@ -898,6 +916,18 @@
       },
     },
     methods: {
+      getStoreBindInfoList() {
+        const _this = this;
+        api.getStoreBindInfo().then(res =>{
+          if(res.status) {
+            _this.storeBindInfoList = res.data;
+            _this.isBindStore = res.data.length === 0;
+            _this.selectStoreInfo.storeName = res.data[0].storeName;
+          } else {
+            _this.$Message.error(res.msg)
+          }
+        })
+      },
       getTaskInfo() {
         let _this = this;
         let type = _this.$route.query.type;
@@ -1245,14 +1275,14 @@
     color: #666;
   }
   .activity-type-box {
-    width: 192px;
-    height: 72px;
     background-color: #FFF4F1;
-    color: #fd5474;
-    border: 1px solid #fd5474;
+    color: $mainColor;
     text-align: center;
     cursor: pointer;
     position: relative;
+    border-radius: 2px;
+    padding: 10px;
+    border: 2px solid transparent;
     @include transition;
     P:first-child {
       font-weight: bold;
@@ -1260,9 +1290,7 @@
       margin-top: 6px;
     }
     &.isSelect {
-      border: 2px solid #000;
-      background-color: $mainColor;
-      color: #fff;
+      border-color: $mainColor;
     }
     &.disabled{
       opacity: 0.5;
@@ -1370,7 +1398,6 @@
     border: 1px solid #eee;
   }
 
-
   .baby-info-present {
     width: 97%;
     margin: 20px auto;
@@ -1384,6 +1411,27 @@
     }
     .baby-info-present-con{
       border: 2px solid #ddd;
+    }
+  }
+
+  .select-store {
+    background-color: #FFF4F1;
+    color: $mainColor;
+    cursor: pointer;
+    padding: 10px;
+    border: 2px solid transparent;
+    position: relative;
+    border-radius: 2px;
+    @include transition;
+    &:hover {
+      border-color: $mainColor;
+    }
+    &.isSelect {
+      border-color: $mainColor;
+    }
+    &.disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
     }
   }
 

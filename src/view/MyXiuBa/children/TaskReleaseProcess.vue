@@ -17,7 +17,7 @@
     <!--选择绑定的店铺-->
     <div class="activity-type mt-20" v-show="stepName === 'information'">
       <div class="activity-type-title">请选择店铺：</div>
-      <div class="clear mt-10">
+      <div class="clear mt-10" v-if="storeBindInfoList.length > 0">
         <div :class="{isSelect: selectStoreInfo.storeName === item.storeName}" v-for="item in storeBindInfoList" class="select-store text-ct left mr-10" @click="selectStoreChange(item.storeName, item.storeAlitm)">
           <img v-if="item.storeType === 'taobao'" src="~assets/img/common/taobao-logo.png" alt="淘宝LOGO">
           <img v-if="item.storeType === 'tmall'" src="~assets/img/common/tmall-logo.png" alt="天猫LOGO">
@@ -2090,6 +2090,9 @@
             }
             _this.taskRelease.pinkage =  _this.taskRelease.pinkage.toString();
             _this.taskRelease.donotPostPhoto = _this.taskRelease.donotPostPhoto.toString();
+            _this.selectStoreInfo = {};
+            _this.selectStoreInfo.storeName = _this.taskRelease.storeName;
+            _this.selectStoreInfo.storeAlitm = _this.taskRelease.realStoreName;
 
             //start 临时处理 10元包邮，白菜价活动下线复制历史活动
             const activityCategory = res.data.activityCategory;
