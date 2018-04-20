@@ -1976,16 +1976,21 @@
         try {
           const detectionStoreInfo = await _this.getStoreInfo();
           _this.isShowStoreInfoLoading = false;
-          if(detectionStoreInfo.status) {
-            if (detectionStoreInfo.data.store.wangwangId !== _this.selectStoreInfo.storeAlitm) {
-              _this.isSelectStoreUrl = true;
+          if (detectionStoreInfo.status) {
+            if (detectionStoreInfo.data) {
+              if (detectionStoreInfo.data.store.wangwangId !== _this.selectStoreInfo.storeAlitm) {
+                _this.isSelectStoreUrl = true;
+                _this.taskLoading = false;
+                return;
+              } else {
+                _this.isSelectStoreUrl = false;
+              }
+            } else {
+              _this.isGetStoreInfoError = true;
               _this.taskLoading = false;
               return;
-            } else {
-              _this.isSelectStoreUrl = false;
             }
           } else {
-            _this.isGetStoreInfoError = true;
             _this.$Message.error(detectionStoreInfo.msg);
             return;
           }
