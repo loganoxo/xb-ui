@@ -71,7 +71,7 @@
         </p>
         <p>
           <!--<router-link :to="{path:'/user/help-center/faq-showker',query:{page:'common',qusNum:9}}" class="color" target="_blank">找不到宝贝，怎么办？</router-link>-->
-          <span class="color cursor-p" @click="showQrCodeModel = !showQrCodeModel">关键词找不到宝贝？点我！</span>
+          <span class="color cursor-p" @click="showQrCodeModel = !showQrCodeModel" v-if="showkerTaskInfo.task.taskType === 'app_search'">关键词找不到宝贝？点我！</span>
         </p>
       </div>
     </div>
