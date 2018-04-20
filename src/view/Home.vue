@@ -33,7 +33,7 @@
           <div class="right-ctt">
             <div class="login-up-box" v-if="!isLogin">
               <div class="portrait-box">
-                <img src="~assets/img/common/home_24.png" alt="">
+                <img src="/static/img/common/xiuba-icon.png" alt="">
                 <p>hi，你还没登录哦~</p>
               </div>
               <div class="mt-20 default-login">
@@ -446,12 +446,12 @@
         </div>
       </div>
       <!--历史活动结束-->
-      <div class="container">
+     <!-- <div class="container">
         <div class="home-bottom mt-20">
           <img v-if="!isLogin || getUserInfoRole === 1" class="ml-5" src="~assets/img/home/home_23.png" alt="">
           <img v-if="isLogin &&　getUserInfoRole === 0" class="ml-5" src="~assets/img/home/home_24.png" alt="">
         </div>
-      </div>
+      </div>-->
     </div>
 
 

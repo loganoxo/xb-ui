@@ -14,32 +14,47 @@
       <Icon type="information-circled" color="#FF0100"></Icon>
       <span><b class="sizeColor3">注意：</b> 本站支持拍A发A（免费领），拍A发B（体验专区），满足商家的各种需求！</span>
     </div>
+    <!--选择绑定的店铺-->
+    <div class="activity-type mt-20" v-show="stepName === 'information'">
+      <div class="activity-type-title">请选择店铺：</div>
+      <div class="clear mt-10">
+        <div :class="{isSelect: selectStoreInfo.storeName === item.storeName}" v-for="item in storeBindInfoList" class="select-store text-ct left mr-10" @click="selectStoreChange(item.storeName, item.storeAlitm)">
+          <img v-if="item.storeType === 'taobao'" src="~assets/img/common/taobao-logo.png" alt="淘宝LOGO">
+          <img v-if="item.storeType === 'tmall'" src="~assets/img/common/tmall-logo.png" alt="天猫LOGO">
+          <p class="fs-14 f-b">{{item.storeName}}</p>
+          <p class="mt-4">
+            <span>店铺旺旺：</span>
+            <span class="f-b">{{item.storeAlitm}}</span>
+          </p>
+        </div>
+      </div>
+    </div>
     <!--选择活动类型-->
     <div class="activity-type mt-20" v-show="stepName === 'information'">
-      <div class="activity-type-title">选择活动类型：</div>
+      <div class="activity-type-title">请选择活动类型：</div>
       <div class="clear mt-10">
-        <div ref="showInsideText" class="left mr-10 activity-type-box" :class="{isSelect:taskRelease.activityCategory === 'free_get'}"
+        <div class="left mr-10 activity-type-box" :class="{isSelect:taskRelease.activityCategory === 'free_get'}"
              @click="changeSelectActivity('free_get')">
           <p>免费领（拍A发A）</p>
           <p>拿手0元试用</p>
           <p>高人气活动类型</p>
           <span class="is-select-gou" v-show="taskRelease.activityCategory === 'free_get'"></span>
         </div>
-        <div ref="showInsideText2" class="left activity-type-box mr-10" :class="{isSelect:taskRelease.activityCategory === 'present_get'}"
+        <div class="left activity-type-box mr-10" :class="{isSelect:taskRelease.activityCategory === 'present_get'}"
              @click="changeSelectActivity('present_get')">
           <p>体验专区（拍A发B）</p>
           <p>实际发的是赠品或体验装</p>
           <p>不可跨类目，否则会影响人群标签</p>
           <span class="is-select-gou" v-show="taskRelease.activityCategory === 'present_get'"></span>
         </div>
-       <!-- <div ref="showInsideText3" class="left activity-type-box mr-10" :class="{isSelect:taskRelease.activityCategory === 'pinkage_for_10'}"
+       <!-- <div class="left activity-type-box mr-10" :class="{isSelect:taskRelease.activityCategory === 'pinkage_for_10'}"
              @click="changeSelectActivity('pinkage_for_10')">
           <p>10元包邮</p>
           <p>拿手承担10元邮费</p>
           <p>高人气活动类型</p>
           <span class="is-select-gou" v-show="taskRelease.activityCategory === 'pinkage_for_10'"></span>
         </div>
-        <div ref="showInsideText4" class="left activity-type-box mr-10" :class="{isSelect:taskRelease.activityCategory === 'price_low'}"
+        <div class="left activity-type-box mr-10" :class="{isSelect:taskRelease.activityCategory === 'price_low'}"
              @click="changeSelectActivity('price_low')">
           <p>白菜价</p>
           <p>帮商家测款定价</p>
@@ -77,28 +92,26 @@
         </div>-->
       </div>
     </div>
-    <!--判断是否有权限能发布任务-->
-    <div v-show="getMemberStatus === 'need_member_for_more_task' || getMemberStatus==='need_member_for_more_audit'"
-         class="text-ct ">
+    <!--用户没有发布任务权限提示-->
+    <div v-if="getMemberStatus === 'need_member_for_more_task' || getMemberStatus === 'need_member_for_more_audit'" class="text-ct ">
       <div class="mt-80" style="font-size:20px;color: #949494" v-if="getMemberStatus === 'need_member_for_more_task'">
         <Icon style="font-size: 25px ;transform: translateY(3px)" type="close-circled"></Icon>
         <span><strong>很抱歉，当前你为非会员，购买会员后才能继续发布任务！</strong></span>
       </div>
-      <div class="mt-80 ml-60" style="font-size:20px;color: #949494;text-align: left"
-           v-if="getMemberStatus === 'need_member_for_more_audit'">
+      <div class="mt-80 ml-60" style="font-size:20px;color: #949494;text-align: left" v-if="getMemberStatus === 'need_member_for_more_audit'">
         <Icon class="mr-10" style="font-size: 25px ;transform: translateY(16px)" type="close-circled"></Icon>
         <span>
           <span><strong>很抱歉，当前你为非会员，仅支持免费发布一条活动（目前已存在一条待审核活动，请等待审核结果）。</strong></span><br>
           <span class="ml-38"><strong>请在购买会员后继续发布更多活动。</strong></span>
         </span>
       </div>
-      <div class="mt-40 ">
+      <div class="mt-40">
         <iButton @click="openMember" class="check-member" type="success" size="large">购买会员</iButton>
         <a class="inline-block ml-10" @click="isVipPopupFunc">添加客服QQ免费领VIP</a>
       </div>
     </div>
-    <!--任务发布相关-->
-    <div v-show="blockOrNone" class="mt-30">
+    <!--活动发布相关-->
+    <div v-if="getMemberStatus !== 'need_member_for_more_task' && getMemberStatus !== 'need_member_for_more_audit'" class="mt-30">
       <div class="activity-con" v-show="stepName === 'information'">
         <div class="activity-info">
           <div class="activity-info-title">填写活动信息</div>
@@ -225,26 +238,26 @@
               <span class="required">宝贝地址：</span>
               <iInput v-model="taskRelease.itemUrl" placeholder="请输入宝贝地址" style="width: 296px"></iInput>
             </div>
-            <div class="store-name ml-45 mt-20">
+           <!-- <div class="store-name ml-45 mt-20">
               <span class="required">掌柜旺旺：</span>
               <iInput v-model="taskRelease.storeName" placeholder="请输入掌柜旺旺" style="width: 296px"></iInput>
             </div>
             <div class="store-name ml-45 mt-20">
               <span class="required">店铺名称：</span>
               <iInput v-model="taskRelease.realStoreName" placeholder="请输入店铺名称" style="width: 296px"></iInput>
-            </div>
+            </div>-->
             <div class="baby-number ml-45 mt-20">
              <p>
                <span class="required">宝贝数量：</span>
                <iInput v-model.number="taskRelease.taskCount" placeholder="请输入宝贝数量" style="width: 120px" @on-blur="addItemReviewList"></iInput>
                <span>份</span>
-               <!--<span class="sizeColor3 ml-5">（平台会按照1/5的比例进行计算，部分中奖名额将会由系统进行推荐）</span>-->
+               <span class="sizeColor3 ml-5">（平台会按照1/5的比例进行计算，部分中奖名额将会由系统进行推荐）</span>
              </p>
-            <!--  <p class="mt-10 ml-70" v-show="systemApprovalTaskNumber > 0">
+              <p class="mt-10 ml-70" v-show="systemApprovalTaskNumber > 0">
                 <Icon color="#f9284f" type="information-circled"></Icon>
                 <span class="sizeColor3">商家审批份数：{{taskRelease.taskCount - systemApprovalTaskNumber || 0}} 份</span>
                 <span class="sizeColor3 ml-10">平台审批份数：{{systemApprovalTaskNumber || 0}} 份</span>
-              </p>-->
+              </p>
             </div>
             <div class="baby-price ml-45 mt-20">
               <span class="required">宝贝单价：</span>
@@ -413,14 +426,14 @@
                   <span class="required">宝贝地址：</span>
                   <iInput v-model="taskRelease.itemUrl" placeholder="请输入宝贝地址" style="width: 296px"></iInput>
                 </div>
-                <div class="store-name ml-10 mt-20">
+               <!-- <div class="store-name ml-10 mt-20">
                   <span class="required">掌柜旺旺：</span>
                   <iInput v-model="taskRelease.storeName" placeholder="请输入掌柜旺旺" style="width: 296px"></iInput>
                 </div>
                 <div class="store-name ml-10 mt-20">
                   <span class="required">店铺名称：</span>
                   <iInput v-model="taskRelease.realStoreName" placeholder="请输入店铺名称" style="width: 296px"></iInput>
-                </div>
+                </div>-->
                 <div class="baby-price ml-10 mt-20">
                   <span class="required">宝贝单价：</span>
                   <iInput v-model.number="taskRelease.itemPrice" placeholder="请输入宝贝单价" style="width: 120px"></iInput>
@@ -922,7 +935,7 @@
         </div>
       </div>
     </div>
-    <!--担保金支付弹框-->
+    <!--活动担保金支付弹框-->
     <div class="pay-model" v-if="showPayModel">
       <PayModel ref="payModelRef" :orderMoney="!priceHasChange ? orderMoney : replenishMoney" @confirmPayment="confirmPayment">
         <i slot="closeModel" class="close-recharge" @click="closeRecharge">&times;</i>
@@ -987,7 +1000,7 @@
         </div>
       </Modal>-->
     <!--商家改低宝贝数量并且关键词方案大于当前宝贝数量弹框-->
- <!--   <div class="keywordLowerChange">
+    <!--   <div class="keywordLowerChange">
       <Modal v-model="keywordLowerChangeModel" :mask-closable="false" :closable="false" width="368">
         <p slot="header" class="text-ct">
           <Icon color="#f9284f" type="information-circled"></Icon>
@@ -1013,6 +1026,47 @@
     <modal v-model="isShowAliPayTip">
       <img src="~assets/img/common/ali-pay-tip.jpg">
     </modal>
+    <!--店铺信息检测loading弹框-->
+    <modal v-model="isShowStoreInfoLoading" :closable="false" :mask-closable="false" width="360">
+      <div slot="header"></div>
+      <div class="loading">
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+      </div>
+      <div class="text-ct mt-46 fs-16">店铺信息校验中，请稍后...</div>
+      <div slot="footer"></div>
+    </modal>
+    <!--宝贝地址不属于绑定店铺提示弹框-->
+    <Modal v-model="isSelectStoreUrl" :closable="false" :mask-closable="false" width="360">
+      <p slot="header" class="text-ct">
+        <Icon color="#f9284f" type="information-circled"></Icon>
+        <span class="main-color">温馨提示</span>
+      </p>
+      <div class="text-ct">
+        <p>您发布的宝贝链接不属于您当前绑定的店铺</p>
+        <p>请核实宝贝链接后重新尝试发布</p>
+      </div>
+      <div slot="footer">
+        <iButton type="error" size="large" long @click="isSelectStoreUrl = false">我知道了</iButton>
+      </div>
+    </Modal>
+    <!--爬虫抓取宝贝地址对应的店铺信息失败提示弹框-->
+    <Modal v-model="isGetStoreInfoError" :closable="false" :mask-closable="false" width="360">
+      <p slot="header" class="text-ct">
+        <Icon color="#f9284f" type="information-circled"></Icon>
+        <span class="main-color">温馨提示</span>
+      </p>
+      <div class="text-ct">
+        <p>宝贝地址对应的店铺信息获取失败</p>
+        <p>请核实宝贝链接的完整性或者稍后重试</p>
+      </div>
+      <div slot="footer">
+        <iButton type="error" size="large" long @click="isGetStoreInfoError = false">我知道了</iButton>
+      </div>
+    </Modal>
   </div>
 </template>
 
@@ -1022,10 +1076,9 @@
   import Upload from '@/components/upload'
   import PayModel from '@/components/PayModel'
   import UserClause from '@/components/UserClause'
-  import {scrollTop} from 'iview/src/utils/assist'
   import api from '@/config/apiConfig'
   import {aliCallbackImgUrl} from '@/config/env'
-  import {aliUploadImg, isPositiveInteger, isNumber, isInteger, isAliUrl, randomString, extendDeep, decode, setStorage, getStorage} from '@/config/utils'
+  import {aliUploadImg, isPositiveInteger, isNumber, isInteger, isAliUrl, randomString, extendDeep, decode, setStorage, getStorage, getUrlParams} from '@/config/utils'
 
   export default {
     name: 'TaskReleaseProcess',
@@ -1053,7 +1106,6 @@
     },
     data() {
       return {
-        blockOrNone: false,
         name: 'base-example',
         uniqueId: 'uniqueId',
         addImgRangeFreeGet: null,
@@ -1070,12 +1122,6 @@
               ['image']
             ]
           }
-        },
-        showInside:{
-          showInsideText: false,
-          showInsideText2: false,
-          showInsideText3: false,
-          showInsideText4: false,
         },
         showPayModel: false,
         current: 0,
@@ -1234,7 +1280,13 @@
         isShowExampleImageModel: false,
         exampleImageUrl: null,
         isShowAliPayTip: false,
-        selectAnswerIndex: 0
+        selectAnswerIndex: 0,
+        selectStoreInfo: {},
+        storeBindInfoList: [],
+        isRightItemUrl: true,
+        isShowStoreInfoLoading: false,
+        isSelectStoreUrl: false,
+        isGetStoreInfoError: false,
       }
     },
     mounted() {
@@ -1262,6 +1314,7 @@
       _this.checkMemberForTask();
       _this.getItemCatalog();
       _this.getDetectionUserClauseTip();
+      _this.getStoreBindInfoList();
       let taskId = decode(_this.$route.query.q);
       if (taskId) {
         _this.editTaskId = taskId;
@@ -1433,11 +1486,35 @@
             _this.taskRelease.discountType = 'discount_0';
           }
         }
-        // _this.returnTop();
       },
-      returnTop() {
-        const sTop = document.documentElement.scrollTop || document.body.scrollTop;
-        scrollTop(window, sTop, 0, 1000);
+      getStoreBindInfoList() {
+        const _this = this;
+        api.getStoreBindInfo().then(res =>{
+          if(res.status) {
+            _this.storeBindInfoList = res.data;
+            _this.selectStoreInfo.storeName = res.data[0].storeName;
+          } else {
+            _this.$Message.error(res.msg)
+          }
+        })
+      },
+      getStoreInfo() {
+        const _this = this;
+        const id = getUrlParams(_this.taskRelease.itemUrl, 'id');
+        _this.isShowStoreInfoLoading = true;
+        return new Promise((resolve, reject) => {
+          api.getStoreInfo({
+            commodityId: id
+          }).then(res => {
+            resolve(res)
+          }).catch(err => {
+            reject(err)
+          })
+        })
+      },
+      selectStoreChange(storeName, alitm) {
+        this.selectStoreInfo.storeName = storeName;
+        this.selectStoreInfo.storeAlitm = alitm;
       },
     /*  clearDiscount() {
         let _this = this;
@@ -1471,7 +1548,6 @@
         api.checkMemberForTask().then(res => {
           if (res) {
             _this.getMemberStatus = res.statusCode;
-            _this.blockOrNone = res.statusCode !== 'need_member_for_more_task' && res.statusCode !== 'need_member_for_more_audit';
           } else {
             _this.$Message.error(res.msg)
           }
@@ -1506,7 +1582,6 @@
           this.appDefaultList = [];
           this.appDefaultList.push({src: this.appTaskDetail[0].itemMainImage})
         }
-        // this.returnTop();
       },
       onEditorBlur(editor) {
       },
@@ -1595,14 +1670,14 @@
           _this.$Message.warning('亲，仅支持淘宝、天猫、飞猪链接！');
           return;
         }
-        if (!_this.taskRelease.storeName) {
+      /*  if (!_this.taskRelease.storeName) {
           _this.$Message.warning('亲，掌柜旺旺不能为空！');
           return;
         }
         if (!_this.taskRelease.realStoreName) {
           _this.$Message.warning('亲，店铺名称不能为空！');
           return;
-        }
+        }*/
         if (!_this.taskRelease.taskCount) {
           _this.$Message.warning('亲，宝贝数量不能为空或者0！');
           return;
@@ -1857,14 +1932,35 @@
           _this.taskCreate(false);
         }
       },
-      taskCreate(type) {
+      taskCreate: async function (type) {
         const _this = this;
         _this.taskLoading = true;
+        try {
+          const detectionStoreInfo = await _this.getStoreInfo();
+          _this.isShowStoreInfoLoading = false;
+          if(detectionStoreInfo.status) {
+            if (detectionStoreInfo.data.store.wangwangId !== _this.selectStoreInfo.storeAlitm) {
+              _this.isSelectStoreUrl = true;
+              return;
+            } else {
+              _this.isSelectStoreUrl = false;
+            }
+          } else {
+            _this.isGetStoreInfoError = true;
+            _this.$Message.error(detectionStoreInfo.msg);
+            return;
+          }
+        } catch (err) {
+          console.error(err);
+          return;
+        }
+        _this.taskRelease.storeName = _this.selectStoreInfo.storeName;
+        _this.taskRelease.realStoreName = _this.selectStoreInfo.storeAlitm;
         _this.taskRelease.itemReviewAssignString = JSON.stringify(_this.itemReviewPushList);
-        let pcTaskDetailClone = extendDeep(_this.pcTaskDetail,[]);
-        let appTaskDetailClone = extendDeep(_this.appTaskDetail,[]);
-        let taoCodeTaskDetailClone = extendDeep(_this.taoCodeTaskDetail,[]);
-        if(_this.taskRelease.activityCategory === 'free_get') {
+        let pcTaskDetailClone = extendDeep(_this.pcTaskDetail, []);
+        let appTaskDetailClone = extendDeep(_this.appTaskDetail, []);
+        let taoCodeTaskDetailClone = extendDeep(_this.taoCodeTaskDetail, []);
+        if (_this.taskRelease.activityCategory === 'free_get') {
           _this.taskRelease.donotPostPhoto = 'false'
         }
         switch (_this.taskRelease.taskType) {
@@ -1885,7 +1981,7 @@
             _this.taskRelease.taskDetail = JSON.stringify(appTaskDetailClone);
             break;
           case 'tao_code' :
-            taoCodeTaskDetailClone.forEach(item =>{
+            taoCodeTaskDetailClone.forEach(item => {
               item.homePageLockItemPrice = item.homePageLockItemPrice > 0 ? (item.homePageLockItemPrice * 100).toFixed(0) * 1 : null;
             });
             _this.taskRelease.taskDetail = JSON.stringify(taoCodeTaskDetailClone);
@@ -2603,30 +2699,20 @@
         opacity: 0.5;
         cursor: not-allowed;
       }
-      .is-select-gou {
-        position: absolute;
-        display: inline-block;
-        top: 26px;
-        right: 0;
-        width: 11px;
-        height: 10px;
-        background-image: url("~assets/img/common/select-gou.png");
-        background-repeat: no-repeat;
-      }
     }
     .activity-type-title {
       font-size: 16px;
       color: #666;
     }
     .activity-type-box {
-      width: 192px;
-      height: 72px;
       background-color: #FFF4F1;
-      color: #fd5474;
-      border: 1px solid #fd5474;
+      color: $mainColor;
       text-align: center;
       cursor: pointer;
       position: relative;
+      border-radius: 2px;
+      padding: 10px;
+      border: 2px solid transparent;
       @include transition;
       P:first-child {
         font-weight: bold;
@@ -2634,24 +2720,10 @@
         margin-top: 6px;
       }
       &:hover {
-        border: 2px solid #000;
-        background-color: $mainColor;
-        color: #fff;
+        border-color: $mainColor;
       }
       &.isSelect {
-        border: 2px solid #000;
-        background-color: $mainColor;
-        color: #fff;
-      }
-      .is-select-gou {
-        position: absolute;
-        display: inline-block;
-        bottom: 0;
-        right: 0;
-        width: 11px;
-        height: 10px;
-        background-image: url("~assets/img/common/select-gou.png");
-        background-repeat: no-repeat;
+        border-color: $mainColor;
       }
     }
     .pop-tip {
@@ -2789,6 +2861,24 @@
       .baby-info-present-con{
         border: 2px solid #ddd;
       }
+    }
+
+    .select-store {
+      background-color: #FFF4F1;
+      color: $mainColor;
+      cursor: pointer;
+      padding: 10px;
+      border: 2px solid transparent;
+      position: relative;
+      border-radius: 2px;
+      @include transition;
+      &:hover {
+        border-color: $mainColor;
+      }
+      &.isSelect {
+        border-color: $mainColor;
+      }
+
     }
   }
 

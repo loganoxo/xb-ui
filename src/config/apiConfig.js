@@ -66,6 +66,7 @@ export default {
   noLoginModifyPayPwdCode(params) {
     return fetch("/api/user/account/checkApp.json", params)
   },
+
   /**
    * 未登录通过发送手机短信验证码重置支付密码
    */
@@ -158,7 +159,7 @@ export default {
   },
 
   /**
-   *通过上一次的密码修改支付密码
+   * 通过上一次的密码修改支付密码
    */
   findPwdOrigin(params) {
     return fetch("/api/find-pwd-by-origin.json", params)
@@ -179,7 +180,7 @@ export default {
   },
 
   /**
-   *获取用户、账户、旺旺账号
+   * 获取用户、账户、旺旺账号
    */
   getUserAccount(params) {
     return fetch("/api/get-user-account.json", params)
@@ -921,19 +922,20 @@ export default {
    * 获取商家绑定的店铺列表
    */
   getStoreBindInfo(){
-    return fetch("/api/store/get.json")
+    return fetch('/api/store/get.json')
   },
 
   /**
    * 根据商品链接获取店铺名称和店铺旺旺
    */
   getStoreInfo(params){
-    return fetch("/api/get-store-info.json",params)
+    return fetch('/api/get-store-info.json', params)
   },
+
   /**
    * 绑定店铺
    */
   bindStore(params){
-    return fetch("/api/store/bind.json",params)
+    return fetch('/api/store/bind.json', params)
   }
 }

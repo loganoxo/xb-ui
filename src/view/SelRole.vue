@@ -36,13 +36,13 @@
         <Form-item prop="phone">
           <iInput placeholder="请输入手机号码" size="large" v-model="loginTrendsCustom.phone"></iInput>
         </Form-item>
-        <div class="mt-10 over-hd ">
-          <div style="width: 200px; float: left">
+        <div class="mt-10 clear">
+          <div class="left" style="width: 200px;">
             <Form-item size="large" prop="validateCode">
               <iInput placeholder="图片验证码" size="large" v-model="loginTrendsCustom.validateCode"></iInput>
             </Form-item>
           </div>
-          <div style="width: 100px; float:left;">
+          <div class="left" style="width: 100px;">
             <img :src="imgSrc" width="100%" alt="" @click="getVrcode">
           </div>
         </div>
@@ -56,7 +56,7 @@
                         :validateCode="loginTrendsCustom.validateCode">
           </SmsCountdown>
         </div>
-        <iButton size="large" style="margin-top: 15px;" type="error" long :loading="btnState.trendsLoginBtn"
+        <iButton class="mt-15" size="large" type="error" long :loading="btnState.trendsLoginBtn"
                  @click="handleSubmit('loginTrendsCustom',qqLoginFunc)">
           登录
         </iButton>
@@ -156,28 +156,6 @@
     },
     created(){
       let self = this;
-      let device = '';
-      if(browserRedirect(device) == 'phone' && self.$route.query.recommendCode){
-        let recommendUrlObj =  {
-          'development':{
-            urlPc: 'http://localhost:9090/sel-role?recommendCode=',
-            urlPhone: 'http://localhost:8082/sel-role?recommendCode=',
-          },
-          'testing': {
-            urlPc: 'http://192.168.1.142:9080/sel-role?recommendCode=',
-            urlPhone: 'http://192.168.1.142:9088/sel-role?recommendCode=',
-          },
-          'production': {
-            // urlPc: 'https://www.xiuba365.com/sel-role?recommendCode=',
-            // urlPhone: 'https://m.xiuba365.com/sel-role?recommendCode=',
-            urlPc: 'http://192.168.1.142:9080/sel-role?recommendCode=',
-            urlPhone: 'http://192.168.1.142:9088/sel-role?recommendCode=',
-          }
-        };
-        let env = nodeEnv();
-        console.log(env);
-        window.location.href = recommendUrlObj[env].urlPhone + self.$route.query.recommendCode;
-      }else {
         self.animateStart.complete = true;
         //快速注册参数
         if(self.$route.query.phone){
@@ -201,7 +179,6 @@
           self.loginTrendsCustom.accessToken = self.$route.query.accessToken;
           self.loginTrendsCustom.qqOpenId = self.$route.query.qqOpenId;
         }
-      }
     },
     methods: {
       qqLoginFunc(){

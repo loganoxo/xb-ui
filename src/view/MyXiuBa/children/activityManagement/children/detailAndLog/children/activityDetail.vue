@@ -1236,16 +1236,6 @@
       opacity: 0.5;
       cursor: not-allowed;
     }
-    .is-select-gou{
-      position: absolute;
-      display: inline-block;
-      top: 28px;
-      right: -2px;
-      width: 11px;
-      height: 10px;
-      background-image: url("~assets/img/common/select-gou.png");
-      background-repeat: no-repeat;
-    }
   }
   .task-remark-input {
     width: 600px;
@@ -1277,16 +1267,6 @@
     &.disabled{
       opacity: 0.5;
       cursor: not-allowed;
-    }
-    .is-select-gou {
-      position: absolute;
-      display: inline-block;
-      bottom: 0;
-      right: 0;
-      width: 11px;
-      height: 10px;
-      background-image: url("~assets/img/common/select-gou.png");
-      background-repeat: no-repeat;
     }
   }
   .pop-tip {
