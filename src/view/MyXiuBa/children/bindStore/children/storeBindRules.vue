@@ -66,11 +66,12 @@
       toStoreBindOperating(){
         const _this = this;
         if(_this.storeInfoLists.length >= 1){
-          if(_this.isMember && !_this.memberIsExpire){
-            this.$router.push({name:'StoreBindOperating'});
-          }else{
-            this.$router.push({name:'VipMember'});
-          }
+          _this.$Message.warning('亲，目前只可以绑定一个店铺，你的可绑定数量已达上限！')
+          // if(_this.isMember && !_this.memberIsExpire){
+          //   this.$router.push({name:'StoreBindOperating'});
+          // }else{
+          //   this.$router.push({name:'VipMember'});
+          // }
         } else {
           this.$router.push({name:'StoreBindOperating'});
         }
