@@ -1067,6 +1067,20 @@
         <iButton type="error" size="large" long @click="isGetStoreInfoError = false">我知道了</iButton>
       </div>
     </Modal>
+    <!--用户没有绑定任何店铺弹框提示-->
+    <Modal v-model="isBindStore" :closable="false" :mask-closable="false" width="360">
+      <p slot="header" class="text-ct">
+        <Icon color="#f9284f" type="information-circled"></Icon>
+        <span class="main-color">温馨提示</span>
+      </p>
+      <div class="text-ct">
+        <p>亲，你当前未绑定任何店铺信息</p>
+        <p>请先绑定店铺后在发布活动</p>
+      </div>
+      <div slot="footer">
+        <iButton type="error" size="large" long @click="goStoreBind">前去绑定店铺</iButton>
+      </div>
+    </Modal>
   </div>
 </template>
 
@@ -1287,6 +1301,7 @@
         isShowStoreInfoLoading: false,
         isSelectStoreUrl: false,
         isGetStoreInfoError: false,
+        isBindStore: false
       }
     },
     mounted() {
@@ -1487,11 +1502,15 @@
           }
         }
       },
+      goStoreBind() {
+        this.$router.push({path: '/user/bind-store/store-bind-rules'})
+      },
       getStoreBindInfoList() {
         const _this = this;
         api.getStoreBindInfo().then(res =>{
           if(res.status) {
             _this.storeBindInfoList = res.data;
+            _this.isBindStore = res.data.length === 0;
             _this.selectStoreInfo.storeName = res.data[0].storeName;
           } else {
             _this.$Message.error(res.msg)
@@ -1513,6 +1532,7 @@
         })
       },
       selectStoreChange(storeName, alitm) {
+        this.selectStoreInfo = {};
         this.selectStoreInfo.storeName = storeName;
         this.selectStoreInfo.storeAlitm = alitm;
       },
@@ -1941,6 +1961,7 @@
           if(detectionStoreInfo.status) {
             if (detectionStoreInfo.data.store.wangwangId !== _this.selectStoreInfo.storeAlitm) {
               _this.isSelectStoreUrl = true;
+              _this.taskLoading = false;
               return;
             } else {
               _this.isSelectStoreUrl = false;

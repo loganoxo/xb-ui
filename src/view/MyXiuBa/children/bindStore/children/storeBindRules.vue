@@ -16,7 +16,7 @@
         <p class="store-name mt-15 f-b fs-16">{{storeInfo.storeName}}</p>
         <p class="store-ww mt-15">店铺旺旺：<span>{{storeInfo.storeAlitm}}</span></p>
       </li>
-      <li class="left" @click="toStoreBindOperating()">
+      <li class="left cursor-p" @click="toStoreBindOperating">
         <p class="mt-20"><Icon type="plus" size="50" color="#999"></Icon></p>
         <p class="bind-new-store f-b fs-16 mt-10">绑定新店铺</p>
       </li>
