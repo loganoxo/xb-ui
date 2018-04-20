@@ -21,10 +21,12 @@
             <a class="viewStoreWw" @click="showDemo = true">【如何查看店铺旺旺】</a>
           </Form-item>
           <!--<Form-item label="店铺内任意商品链接" prop="storeLink" required>-->
-            <!--<iInput type="text" placeholder="请输入你绑定店铺内的任意商品链接" v-model="storeBindForm.storeLink"></iInput>-->
+          <!--<iInput type="text" placeholder="请输入你绑定店铺内的任意商品链接" v-model="storeBindForm.storeLink"></iInput>-->
           <!--</Form-item>-->
           <Form-item>
-            <iButton class="verified-btn" size="large" :loading="bindBtnLoading" @click="verifiedAndBindFunc()">验证并绑定店铺</iButton>
+            <iButton class="verified-btn" size="large" :loading="bindBtnLoading" @click="verifiedAndBindFunc()">
+              验证并绑定店铺
+            </iButton>
           </Form-item>
         </iForm>
       </div>
@@ -35,7 +37,7 @@
         <div slot="footer"></div>
       </Modal>
     </div>
-    <div v-show="!protocol" class="mt-20 pos-rel" >
+    <div v-show="!protocol" class="mt-20 pos-rel">
       <router-link to="/user/bind-store/store-bind-rules" class="backwards">返回上一页</router-link>
       <span class="required"></span>
       <span class="mr-10">需要您提供店铺内任意商品链接</span>
@@ -49,7 +51,7 @@
 
 <script>
   import {Form, Input, Radio, Button, Modal} from 'iview';
-  import {getUrlParams} from '@/config/utils'
+  import {getUrlParams, delHtmlTag} from '@/config/utils'
   import api from '@/config/apiConfig'
 
   export default {
@@ -75,20 +77,21 @@
         showDemo: false,
         protocol: false,
         confirmBtnLoading: false,
-        bindBtnLoading:false
+        bindBtnLoading: false,
       }
     },
     created() {
+
     },
     methods: {
       //根据商品链接判断店铺类型
-      getStoreType(){
+      getStoreType() {
         const _this = this;
         let taobaoUrl = /(((item|detail).(taobao)).*?)/;
         let tmallUrl = /((tmall.com).*?)/;
-        if(taobaoUrl.test(_this.commodityLink)){
+        if (taobaoUrl.test(_this.commodityLink)) {
           _this.storeBindForm.storeType = 'taobao';
-        } else if(tmallUrl.test(_this.commodityLink)){
+        } else if (tmallUrl.test(_this.commodityLink)) {
           _this.storeBindForm.storeType = 'tmall';
         }
       },
@@ -100,7 +103,7 @@
           return
         }
         let URL_REG = /(((item|detail|).(tmall|taobao)).*?)/;
-        if(!URL_REG.test(_this.commodityLink)){
+        if (!URL_REG.test(_this.commodityLink)) {
           _this.$Message.warning('亲，请输入天猫或淘宝店铺的商品链接！');
           return
         }
@@ -123,7 +126,7 @@
       //验证并绑定店铺
       verifiedAndBindFunc() {
         let _this = this;
-        if(!_this.storeBindForm.storeType){
+        if (!_this.storeBindForm.storeType) {
           _this.$Message.warning('亲，店铺类型不能为空！');
           return
         }
@@ -162,10 +165,10 @@
           _this.bindBtnLoading = false;
           if (res.status) {
             _this.$Message.success({
-              content:'店铺绑定成功！',
-              duration:1
+              content: '店铺绑定成功！',
+              duration: 1
             });
-            _this.$router.replace({name:'StoreBindRules'});
+            _this.$router.replace({name: 'StoreBindRules'});
           } else {
             _this.$Message.error(res.msg);
           }
@@ -213,15 +216,15 @@
       width: 240px;
       color: #fff;
     }
-    .backwards{
+    .backwards {
       position: absolute;
-      top:-60px;
-      right:0;
+      top: -60px;
+      right: 0;
     }
-    .backToCommodityLink{
+    .backToCommodityLink {
       position: absolute;
-      top:-40px;
-      right:0;
+      top: -40px;
+      right: 0;
     }
   }
 
