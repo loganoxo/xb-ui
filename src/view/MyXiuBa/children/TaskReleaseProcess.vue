@@ -111,7 +111,7 @@
       </div>
     </div>
     <!--活动发布相关-->
-    <div v-once v-if="getMemberStatus !== 'need_member_for_more_task' && getMemberStatus !== 'need_member_for_more_audit'" class="mt-30">
+    <div v-if="getMemberStatus !== 'need_member_for_more_task' && getMemberStatus !== 'need_member_for_more_audit'" class="mt-30">
       <div class="activity-con" v-show="stepName === 'information'">
         <div class="activity-info">
           <div class="activity-info-title">填写活动信息</div>
