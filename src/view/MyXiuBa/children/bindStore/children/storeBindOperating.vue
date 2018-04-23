@@ -114,7 +114,7 @@
           _this.confirmBtnLoading = false;
           if (res.status) {
             let tempData = res.data;
-            _this.storeBindForm.storeName = tempData.store.name;
+            _this.storeBindForm.storeName = delHtmlTag(tempData.store.name);
             _this.storeBindForm.storeWw = tempData.store.wangwangId;
             _this.storeBindForm.storeLink = _this.commodityLink;
             _this.protocol = true;

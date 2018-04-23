@@ -86,5 +86,10 @@ export default {
   //从sysConfigInfo中获取showkerInviteSellerFee信息
   getShowkerInviteSellerFee: state => {
     return Object.keys(state.sysConfigInfo).length > 0 ? state.sysConfigInfo.showkerInviteSellerFee : {};
+  },
+
+  //从sysConfigInfo中获取taskSystemHoldPercent信息
+  getTaskSystemHoldPercent: state => {
+    return Object.keys(state.sysConfigInfo).length > 0 ? state.sysConfigInfo.taskSystemHoldPercent : {};
   }
 }

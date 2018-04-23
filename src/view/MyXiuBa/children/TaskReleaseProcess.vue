@@ -1076,7 +1076,7 @@
     <Modal v-model="isShowBusinessTip" width="700" :closable="false">
       <p class="mt-20">亲，即日起，平台将上线 “分享必中” 活动，鼓励拿手们积极分享您的宝贝给朋友，分享最多的拿手，将获得宝贝必中资格！</p>
       <p class="mt-20">您的宝贝将在白拿拿平台上获得更多的曝光，点击和申请，也将获得更多的访客和收藏加购！</p>
-      <p class="mt-20 mb-20">该活动，最多涉及您单次发布任务中，宝贝份数的1/5，请知晓！</p>
+      <p class="mt-20 mb-20">该活动，最多涉及您单次发布任务中，宝贝份数的{{taskSystemHoldPercent.configValue+'%'}}，请知晓！</p>
       <p slot="footer">
         <Checkbox v-model="noMoreTip" class="mr-20">不再提示</Checkbox>
         <iButton type="error" size="large"  @click="noMoreTipFunc">我知道了</iButton>
@@ -1505,7 +1505,7 @@
        * @return {number}
        */
       taskSystemHoldPercent() {
-        return this.$store.state.sysConfigInfo.taskSystemHoldPercent.configValue;
+        return this.$store.getters.getTaskSystemHoldPercent;
       }
     },
     methods: {

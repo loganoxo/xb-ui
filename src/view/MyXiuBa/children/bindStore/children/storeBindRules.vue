@@ -14,7 +14,7 @@
         <img src="~assets/img/common/taobao-logo.png" v-if="storeInfo.storeType === 'taobao'">
         <img src="~assets/img/common/tmall-logo.png" v-if="storeInfo.storeType === 'tmall'">
         <p class="store-name mt-15 f-b fs-16">{{storeInfo.storeName}}</p>
-        <p class="store-ww mt-15">店铺旺旺：<span>{{storeInfo.storeAlitm}}</span></p>
+        <p class="store-ww mt-15">店铺旺旺：<span>{{decodeURI(storeInfo.storeAlitm)}}</span></p>
       </li>
       <li class="left cursor-p" @click="toStoreBindOperating">
         <p class="mt-20"><Icon type="plus" size="50" color="#999"></Icon></p>
