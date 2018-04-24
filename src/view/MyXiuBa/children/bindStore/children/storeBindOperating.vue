@@ -103,20 +103,36 @@
         }
         _this.getStoreType();
         _this.confirmBtnLoading = true;
-        let commodityId = getUrlParams(_this.commodityLink, 'id');
-        api.getStoreInfo({commodityId: commodityId}).then(res => {
+        // let commodityId = getUrlParams(_this.commodityLink, 'id');
+        // api.getStoreInfo({commodityId: commodityId}).then(res => {
+        //   _this.confirmBtnLoading = false;
+        //   if (res.status) {
+        //     let tempData = res.data;
+        //     let decodeStoreName = decodeURI(tempData.store.name);
+        //     _this.storeBindForm.storeName = delHtmlTag(decodeStoreName);
+        //     let decodeStoreWw = decodeURI(tempData.store.wangwangId);
+        //     _this.storeBindForm.storeWw = delHtmlTag(decodeStoreWw);
+        //     _this.storeBindForm.storeLink = _this.commodityLink;
+        //     _this.storeBindForm.shopId = tempData.store.shopId;
+        //     _this.storeBindForm.sellerId = tempData.store.sellerId;
+        //     _this.protocol = true;
+        //   } else {
+        //     _this.$Message.error(res.msg);
+        //   }
+        // })
+        api.getStoreInfoByLink({link:_this.commodityLink}).then(res=>{
           _this.confirmBtnLoading = false;
-          if (res.status) {
+          if(res.status){
             let tempData = res.data;
-            let decodeStoreName = decodeURI(tempData.store.name);
+            let decodeStoreName = decodeURI(tempData.name);
             _this.storeBindForm.storeName = delHtmlTag(decodeStoreName);
-            let decodeStoreWw = decodeURI(tempData.store.wangwangId);
+            let decodeStoreWw = decodeURI(tempData.wangwangId);
             _this.storeBindForm.storeWw = delHtmlTag(decodeStoreWw);
             _this.storeBindForm.storeLink = _this.commodityLink;
-            _this.storeBindForm.shopId = tempData.store.shopId;
-            _this.storeBindForm.sellerId = tempData.store.sellerId;
+            _this.storeBindForm.shopId = tempData.shopId;
+            _this.storeBindForm.sellerId = tempData.sellerId;
             _this.protocol = true;
-          } else {
+          }else {
             _this.$Message.error(res.msg);
           }
         })

@@ -926,10 +926,17 @@ export default {
   },
 
   /**
-   * 根据商品链接获取店铺名称和店铺旺旺
+   * 根据商品链接获取店铺名称和店铺旺旺(by-Id)
    */
-  getStoreInfo(params){
-    return fetch('/api/get-store-info.json', params)
+  getStoreInfoById(params){
+    return fetch('/api/get-store-info-by-id.json', params)
+  },
+
+  /**
+   * 根据商品链接获取店铺名称和店铺旺旺(by-link)
+   */
+  getStoreInfoByLink(params){
+    return fetch('/api/get-store-info-by-link.json', params)
   },
 
   /**
