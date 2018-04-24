@@ -114,8 +114,10 @@
           _this.confirmBtnLoading = false;
           if (res.status) {
             let tempData = res.data;
-            _this.storeBindForm.storeName = delHtmlTag(tempData.store.name);
-            _this.storeBindForm.storeWw = tempData.store.wangwangId;
+            let decodeStoreName = decodeURI(tempData.store.name);
+            _this.storeBindForm.storeName = delHtmlTag(decodeStoreName);
+            let decodeStoreWw = decodeURI(tempData.store.wangwangId);
+            _this.storeBindForm.storeWw = delHtmlTag(decodeStoreWw);
             _this.storeBindForm.storeLink = _this.commodityLink;
             _this.protocol = true;
           } else {
@@ -195,12 +197,12 @@
       .viewStoreName {
         position: absolute;
         bottom: 0;
-        right: -150px;
+        right: -170px;
       }
       .viewStoreWw {
         position: absolute;
         bottom: 0;
-        right: -150px;
+        right: -170px;
       }
       .verified-btn {
         background-color: #FF6865;
