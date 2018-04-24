@@ -63,7 +63,9 @@
           storeType: '',
           storeName: '',
           storeWw: '',
-          storeLink: ''
+          storeLink: '',
+          shopId:'',
+          sellerId:''
         },
         commodityLink: '',
         showDemo: false,
@@ -111,6 +113,8 @@
             let decodeStoreWw = decodeURI(tempData.store.wangwangId);
             _this.storeBindForm.storeWw = delHtmlTag(decodeStoreWw);
             _this.storeBindForm.storeLink = _this.commodityLink;
+            _this.storeBindForm.shopId = tempData.store.shopId;
+            _this.storeBindForm.sellerId = tempData.store.sellerId;
             _this.protocol = true;
           } else {
             _this.$Message.error(res.msg);
@@ -154,7 +158,9 @@
         api.bindStore({
           storeType: _this.storeBindForm.storeType,
           storeName: _this.storeBindForm.storeName,
-          storeAlitm: _this.storeBindForm.storeWw
+          storeAlitm: _this.storeBindForm.storeWw,
+          shopId: _this.storeBindForm.shopId,
+          sellerId:_this.storeBindForm.sellerId
         }).then(res => {
           _this.bindBtnLoading = false;
           if (res.status) {
