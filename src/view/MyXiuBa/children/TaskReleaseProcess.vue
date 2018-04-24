@@ -1536,8 +1536,8 @@
           if (res.status) {
             _this.storeBindInfoList = res.data;
             _this.isBindStore = res.data.length === 0;
-            _this.selectStoreInfo.storeName = res.data[0].storeName;
-            _this.selectStoreInfo.storeAlitm = res.data[0].storeAlitm;
+            _this.selectStoreInfo.storeName =  res.data.length > 0 ? res.data[0].storeName : null;
+            _this.selectStoreInfo.storeAlitm = res.data.length > 0 ? res.data[0].storeAlitm : null;
           } else {
             _this.$Message.error(res.msg)
           }
@@ -2006,8 +2006,8 @@
           console.error(err);
           return;
         }
-        _this.taskRelease.storeName = _this.selectStoreInfo.storeName;
-        _this.taskRelease.realStoreName = _this.selectStoreInfo.storeAlitm;
+        _this.taskRelease.storeName = _this.selectStoreInfo.storeAlitm;
+        _this.taskRelease.realStoreName = _this.selectStoreInfo.storeName;
         _this.taskRelease.itemReviewAssignString = JSON.stringify(_this.itemReviewPushList);
         let pcTaskDetailClone = extendDeep(_this.pcTaskDetail, []);
         let appTaskDetailClone = extendDeep(_this.appTaskDetail, []);
