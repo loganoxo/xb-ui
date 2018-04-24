@@ -102,8 +102,9 @@
       </PayModel>
     </div>
     <Modal v-model="showSellerVipPopup" width="700" class="show-buyer-popup" >
-      <div class="show-buyer-popup-body" >
+      <div class="show-buyer-popup-body pos-rel" >
         <a href="http://wpa.qq.com/msgrd?v=3&site=qq&menu=yes&uin=2012364029" target="_blank" @click="showSellerVipPopup=false"></a>
+        <div class="dynamicQQ">{{getSellerCustomerQq.configValue}}</div>
       </div>
     </Modal>
   </div>
@@ -166,6 +167,9 @@
       },
       getMemberDeadline() {
         return this.$store.state.userInfo.memberDeadline
+      },
+      getSellerCustomerQq() {
+        return this.$store.getters.getSellerCustomerQq
       }
     },
     watch: {},
@@ -377,6 +381,7 @@
       color: $mainColor;
       font-size: 14px;
     }
+
   }
 
 

@@ -733,7 +733,7 @@ input[type="number"] {
   }
   .show-buyer-popup-body {
     height: 750px;
-    background: url('/static/img/home/shower_buyer_popup.jpg?20180424') no-repeat;
+    background: url('/static/img/home/shower_buyer_popup.png?20180424') no-repeat;
     padding: 0;
     a {
       display: inline-block;
@@ -741,6 +741,18 @@ input[type="number"] {
       width: 368px;
       height: 125px;
       margin: 543px auto auto 168px;
+    }
+    .dynamicQQ{
+      position: absolute;
+      bottom:142px;
+      right:190px;
+      width:135px;
+      height:30px;
+      line-height: 30px;
+      text-align: center;
+      font-size:20px;
+      color:#fff;
+      font-weight:700;
     }
   }
   .ivu-modal-content {

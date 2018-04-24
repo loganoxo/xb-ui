@@ -81,7 +81,7 @@
       //根据商品链接判断店铺类型
       getStoreType() {
         const _this = this;
-        let taobaoUrl = /(((item|detail).(taobao)).*?)/;
+        let taobaoUrl = /((taobao.com).*?)/;
         let tmallUrl = /((tmall.com).*?)/;
         if (taobaoUrl.test(_this.commodityLink)) {
           _this.storeBindForm.storeType = 'taobao';

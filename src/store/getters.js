@@ -91,5 +91,10 @@ export default {
   //从sysConfigInfo中获取taskSystemHoldPercent信息
   getTaskSystemHoldPercent: state => {
     return Object.keys(state.sysConfigInfo).length > 0 ? state.sysConfigInfo.taskSystemHoldPercent : {};
+  },
+
+  //从sysConfigInfo中获取客服QQ信息
+  getSellerCustomerQq: state => {
+    return Object.keys(state.sysConfigInfo).length > 0 ? state.sysConfigInfo.sellerCustomerQq : {};
   }
 }
