@@ -1546,11 +1546,10 @@
       },
       getStoreInfo() {
         const _this = this;
-        const id = getUrlParams(_this.taskRelease.itemUrl, 'id');
         _this.isShowStoreInfoLoading = true;
         return new Promise((resolve, reject) => {
-          api.getStoreInfo({
-            commodityId: id
+          api.getStoreInfoByLink({
+            link: _this.taskRelease.itemUrl
           }).then(res => {
             resolve(res)
           }).catch(err => {
@@ -1983,7 +1982,10 @@
         const _this = this;
         _this.taskLoading = true;
         try {
-          const detectionStoreInfo = await _this.getStoreInfo();
+          const detectionStoreInfo = await _this.getStoreInfo().catch(err => {
+            _this.taskLoading = false;
+            consle.error(err);
+          });
           _this.isShowStoreInfoLoading = false;
           if (detectionStoreInfo.status) {
             if (detectionStoreInfo.data) {
