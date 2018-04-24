@@ -2117,8 +2117,8 @@
             _this.taskRelease.pinkage = _this.taskRelease.pinkage.toString();
             _this.taskRelease.donotPostPhoto = _this.taskRelease.donotPostPhoto.toString();
             _this.selectStoreInfo = {};
-            _this.selectStoreInfo.storeName = _this.taskRelease.storeName;
-            _this.selectStoreInfo.storeAlitm = _this.taskRelease.realStoreName;
+            _this.selectStoreInfo.storeName = _this.taskRelease.realStoreName;
+            _this.selectStoreInfo.storeAlitm = _this.taskRelease.storeName;
 
             //start 临时处理 10元包邮，白菜价活动下线复制历史活动
             const activityCategory = res.data.activityCategory;
