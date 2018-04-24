@@ -1986,7 +1986,7 @@
           _this.isShowStoreInfoLoading = false;
           if (detectionStoreInfo.status) {
             if (detectionStoreInfo.data) {
-              if (detectionStoreInfo.data.store.wangwangId !== _this.selectStoreInfo.storeAlitm) {
+              if (decodeURI(detectionStoreInfo.data.store.wangwangId) !== _this.selectStoreInfo.storeAlitm) {
                 _this.isSelectStoreUrl = true;
                 _this.taskLoading = false;
                 return;
