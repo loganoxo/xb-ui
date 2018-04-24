@@ -21,10 +21,10 @@
         <div :class="{isSelect: selectStoreInfo.storeName === item.storeName}" v-for="item in storeBindInfoList" class="select-store text-ct left mr-10" @click="selectStoreChange(item.storeName, item.storeAlitm)">
           <img v-if="item.storeType === 'taobao'" src="~assets/img/common/taobao-logo.png" alt="淘宝LOGO">
           <img v-if="item.storeType === 'tmall'" src="~assets/img/common/tmall-logo.png" alt="天猫LOGO">
-          <p class="fs-14 f-b">{{item.storeName}}</p>
+          <p class="fs-14 f-b">{{decodeURI(item.storeName)}}</p>
           <p class="mt-4">
             <span>店铺旺旺：</span>
-            <span class="f-b">{{item.storeAlitm}}</span>
+            <span class="f-b">{{decodeURI(item.storeAlitm)}}</span>
           </p>
         </div>
       </div>
