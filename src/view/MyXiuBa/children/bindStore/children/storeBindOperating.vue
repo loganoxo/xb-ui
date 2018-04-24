@@ -14,11 +14,9 @@
           </Form-item>
           <Form-item label="店铺名称" prop="storeName" class="pos-rel" required>
             <iInput type="text" placeholder="请输入店铺名称" v-model="storeBindForm.storeName" disabled></iInput>
-            <a class="viewStoreName" @click="showDemo = true">【如何查看店铺名称】</a>
           </Form-item>
           <Form-item label="店铺旺旺" prop="storeWw" class="pos-rel" required>
             <iInput type="text" placeholder="请输入店铺旺旺" v-model="storeBindForm.storeWw" disabled></iInput>
-            <a class="viewStoreWw" @click="showDemo = true">【如何查看店铺旺旺】</a>
           </Form-item>
           <!--<Form-item label="店铺内任意商品链接" prop="storeLink" required>-->
           <!--<iInput type="text" placeholder="请输入你绑定店铺内的任意商品链接" v-model="storeBindForm.storeLink"></iInput>-->
@@ -30,12 +28,6 @@
           </Form-item>
         </iForm>
       </div>
-      <Modal v-model="showDemo" width="900">
-        <div class="demo-content">
-          <img src="~assets/img/case-demo/store-bind-demo.png">
-        </div>
-        <div slot="footer"></div>
-      </Modal>
     </div>
     <div v-show="!protocol" class="mt-20 pos-rel">
       <router-link to="/user/bind-store/store-bind-rules" class="backwards">返回上一页</router-link>
