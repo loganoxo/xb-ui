@@ -1347,11 +1347,6 @@
       _this.getItemCatalog();
       _this.getDetectionUserClauseTip();
       _this.getStoreBindInfoList();
-      let taskId = decode(_this.$route.query.q);
-      if (taskId) {
-        _this.editTaskId = taskId;
-        // _this.getTaskInfo();
-      }
       _this.isShowBusinessTip = !getStorage('noMorePopup');
       // _this.isVipPopupFunc();
     },
@@ -1541,7 +1536,11 @@
           } else {
             _this.$Message.error(res.msg)
           }
-          _this.getTaskInfo();
+          const taskId = decode(_this.$route.query.q);
+          if (taskId) {
+            _this.editTaskId = taskId;
+            _this.getTaskInfo();
+          }
         })
       },
       getStoreInfo() {
