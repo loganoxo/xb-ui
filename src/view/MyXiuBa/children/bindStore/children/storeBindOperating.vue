@@ -157,14 +157,14 @@
         //   return
         // }
         if (_this.storeBindForm.storeType === 'taobao') {
-          let URL_REG = /(((item|detail).(taobao)).*?)/;
+          let URL_REG = /(((item|detail).(taobao.com)).*?)/;
           if (!URL_REG.test(_this.commodityLink)) {
             _this.$Message.warning('亲，店铺链接需要与所选的店铺类型保持一致！');
             return
           }
         }
         if (_this.storeBindForm.storeType === 'tmall') {
-          let URL_REG = /((tmall.com).*?)/;
+          let URL_REG = /(((item|detail).(tmall.com)).*?)/;
           if (!URL_REG.test(_this.commodityLink)) {
             _this.$Message.warning('亲，店铺链接需要与所选的店铺类型保持一致！');
             return
