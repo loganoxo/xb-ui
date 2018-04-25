@@ -1072,16 +1072,6 @@
         <iButton type="error" size="large" long @click="isGetStoreInfoError = false">我知道了</iButton>
       </div>
     </Modal>
-    <!--商家进入发布活动页面后对商家说明的弹框-->
-    <!--<Modal v-model="isShowBusinessTip" width="700" :closable="false">-->
-      <!--<p class="mt-20">亲，即日起，平台将上线 “分享必中” 活动，鼓励拿手们积极分享您的宝贝给朋友，分享最多的拿手，将获得宝贝必中资格！</p>-->
-      <!--<p class="mt-20">您的宝贝将在白拿拿平台上获得更多的曝光，点击和申请，也将获得更多的访客和收藏加购！</p>-->
-      <!--<p class="mt-20 mb-20">该活动，最多涉及您单次发布任务中，宝贝份数的{{taskSystemHoldPercent.configValue+'%'}}，请知晓！</p>-->
-      <!--<p slot="footer">-->
-        <!--<Checkbox v-model="noMoreTip" class="mr-20">不再提示</Checkbox>-->
-        <!--<iButton type="error" size="large"  @click="noMoreTipFunc">我知道了</iButton>-->
-      <!--</p>-->
-    <!--</Modal>-->
     <!--用户没有绑定任何店铺弹框提示-->
     <Modal v-model="isBindStore" :closable="false" :mask-closable="false" width="360">
       <p slot="header" class="text-ct">
@@ -1317,8 +1307,6 @@
         isSelectStoreUrl: false,
         isGetStoreInfoError: false,
         isBindStore: false,
-        isShowBusinessTip: true,
-        noMoreTip: false
       }
     },
     mounted() {
@@ -1347,7 +1335,6 @@
       _this.getItemCatalog();
       _this.getDetectionUserClauseTip();
       _this.getStoreBindInfoList();
-      _this.isShowBusinessTip = !getStorage('noMorePopup');
       // _this.isVipPopupFunc();
     },
     computed: {
@@ -2534,12 +2521,6 @@
           return item.answerContent.length > 8
         })
       },
-      //不再显示商家通知弹框
-      // noMoreTipFunc() {
-      //   const _this = this;
-      //   _this.isShowBusinessTip = false;
-      //   setStorage('noMorePopup', _this.noMoreTip);
-      // },
     }
   }
 </script>
