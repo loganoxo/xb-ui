@@ -2,28 +2,31 @@
   <div class="store-bind-operating">
     <div v-show="protocol" class="pos-rel">
       <a class="backToCommodityLink" @click="protocol=false">返回上一页</a>
-      <p class="main-color operating-tip">注意：店铺一旦绑定成功后，将无法修改和解绑，请慎重操作！</p>
+      <p class="main-color operating-tip">注意：店铺一旦绑定成功后，将无法修改和解绑，请核对店铺信息，慎重操作！</p>
       <div class="form-box">
-        <p class="main-color choose-type-tip">请核对店铺信息</p>
-        <iForm ref="storeBindForm" :v-model="storeBindForm" label-position="right" :label-width="150">
-          <Form-item label="店铺类型" prop="storeType" required>
-            <RadioGroup v-model="storeBindForm.storeType">
-              <Radio label="taobao">淘宝</Radio>
-              <Radio label="tmall">天猫</Radio>
-            </RadioGroup>
-          </Form-item>
-          <Form-item label="店铺名称" prop="storeName" class="pos-rel" required>
-            <iInput type="text" placeholder="请输入店铺名称" v-model="storeBindForm.storeName" disabled></iInput>
-          </Form-item>
-          <Form-item label="店铺旺旺" prop="storeWw" class="pos-rel" required>
-            <iInput type="text" placeholder="请输入店铺旺旺" v-model="storeBindForm.storeWw" disabled></iInput>
-          </Form-item>
-          <Form-item>
-            <iButton class="verified-btn" size="large" :loading="bindBtnLoading" @click="verifiedAndBindFunc">
-              验证并绑定店铺
-            </iButton>
-          </Form-item>
-        </iForm>
+        <div>
+          <i class="required mr-5"></i>
+          <span class="f-b mr-20">店铺类型:</span>
+          <RadioGroup v-model="storeBindForm.storeType">
+            <Radio label="taobao">淘宝</Radio>
+            <Radio label="tmall">天猫</Radio>
+          </RadioGroup>
+        </div>
+        <div class="mt-10">
+          <i class="required mr-5"></i>
+          <span class="f-b mr-20">店铺名称:</span>
+          {{storeBindForm.storeName}}
+        </div>
+        <div class="mt-10">
+          <i class="required mr-5"></i>
+          <span class="f-b mr-20">店铺旺旺:</span>
+          {{storeBindForm.storeWw}}
+        </div>
+        <div class="mt-10">
+          <iButton class="verified-btn" size="large" :loading="bindBtnLoading" @click="verifiedAndBindFunc">
+            验证并绑定店铺
+          </iButton>
+        </div>
       </div>
     </div>
     <div v-show="!protocol" class="mt-20 pos-rel">
@@ -61,8 +64,8 @@
           storeName: '',
           storeWw: '',
           storeLink: '',
-          shopId:'',
-          sellerId:''
+          shopId: '',
+          sellerId: ''
         },
         commodityLink: '',
         showDemo: false,
@@ -100,9 +103,26 @@
         }
         _this.getStoreType();
         _this.confirmBtnLoading = true;
-        api.getStoreInfoByLink({link:_this.commodityLink}).then(res=>{
+        // let commodityId = getUrlParams(_this.commodityLink, 'id');
+        // api.getStoreInfo({commodityId: commodityId}).then(res => {
+        //   _this.confirmBtnLoading = false;
+        //   if (res.status) {
+        //     let tempData = res.data;
+        //     let decodeStoreName = decodeURI(tempData.store.name);
+        //     _this.storeBindForm.storeName = delHtmlTag(decodeStoreName);
+        //     let decodeStoreWw = decodeURI(tempData.store.wangwangId);
+        //     _this.storeBindForm.storeWw = delHtmlTag(decodeStoreWw);
+        //     _this.storeBindForm.storeLink = _this.commodityLink;
+        //     _this.storeBindForm.shopId = tempData.store.shopId;
+        //     _this.storeBindForm.sellerId = tempData.store.sellerId;
+        //     _this.protocol = true;
+        //   } else {
+        //     _this.$Message.error(res.msg);
+        //   }
+        // })
+        api.getStoreInfoByLink({link: _this.commodityLink}).then(res => {
           _this.confirmBtnLoading = false;
-          if(res.status){
+          if (res.status) {
             let tempData = res.data;
             let decodeStoreName = decodeURI(tempData.name);
             _this.storeBindForm.storeName = delHtmlTag(decodeStoreName);
@@ -120,31 +140,15 @@
       //验证并绑定店铺
       verifiedAndBindFunc() {
         let _this = this;
-        if (!_this.storeBindForm.storeType) {
-          _this.$Message.warning('亲，店铺类型不能为空！');
-          return
-        }
-        if (!_this.storeBindForm.storeName) {
-          _this.$Message.warning('亲，店铺名称不能为空！');
-          return
-        }
-        if (!_this.storeBindForm.storeWw) {
-          _this.$Message.warning('亲，店铺旺旺名不能为空！');
-          return
-        }
-        // if (!_this.storeBindForm.storeLink) {
-        //   _this.$Message.warning('亲，店铺链接不能为空！');
-        //   return
-        // }
         if (_this.storeBindForm.storeType === 'taobao') {
-          let URL_REG = /(((item|detail).(taobao.com)).*?)/;
+          let URL_REG = /((taobao.com).*?)/;
           if (!URL_REG.test(_this.commodityLink)) {
             _this.$Message.warning('亲，店铺链接需要与所选的店铺类型保持一致！');
             return
           }
         }
         if (_this.storeBindForm.storeType === 'tmall') {
-          let URL_REG = /(((item|detail).(tmall.com)).*?)/;
+          let URL_REG = /((tmall.com).*?)/;
           if (!URL_REG.test(_this.commodityLink)) {
             _this.$Message.warning('亲，店铺链接需要与所选的店铺类型保持一致！');
             return
@@ -156,7 +160,7 @@
           storeName: _this.storeBindForm.storeName,
           storeAlitm: _this.storeBindForm.storeWw,
           shopId: _this.storeBindForm.shopId,
-          sellerId:_this.storeBindForm.sellerId
+          sellerId: _this.storeBindForm.sellerId
         }).then(res => {
           _this.bindBtnLoading = false;
           if (res.status) {
@@ -170,7 +174,6 @@
           }
         })
       },
-
     }
 
   }
@@ -181,23 +184,11 @@
 
   .store-bind-operating {
     .operating-tip {
-      padding: 10px 0 10px 90px;
+      padding: 20px 0 10px 90px;
     }
     .form-box {
       width: 600px;
-      .choose-type-tip {
-        padding-left: 125px;
-      }
-      .viewStoreName {
-        position: absolute;
-        bottom: 0;
-        right: -170px;
-      }
-      .viewStoreWw {
-        position: absolute;
-        bottom: 0;
-        right: -170px;
-      }
+      padding-left: 90px;
       .verified-btn {
         background-color: #FF6865;
         color: #fff;
