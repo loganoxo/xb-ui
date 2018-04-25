@@ -18,7 +18,7 @@
     <div class="activity-type mt-20" v-show="stepName === 'information'">
       <div class="activity-type-title">请选择店铺：</div>
       <div class="clear mt-10" v-if="storeBindInfoList.length > 0">
-        <div :class="{isSelect: selectStoreInfo.storeName === item.storeName}" v-for="item in storeBindInfoList" class="select-store text-ct left mr-10" @click="selectStoreChange(item.storeName, item.storeAlitm)">
+        <div :class="{isSelect: selectStoreInfo.storeName === item.storeName}" v-for="item in storeBindInfoList" class="select-store text-ct left mr-10" @click="selectStoreChange(item.storeName, item.storeAlitm, item.shopId, item.sellerId)">
           <img v-if="item.storeType === 'taobao'" src="~assets/img/common/taobao-logo.png" alt="淘宝LOGO">
           <img v-if="item.storeType === 'tmall'" src="~assets/img/common/tmall-logo.png" alt="天猫LOGO">
           <p class="fs-14 f-b">{{decodeURI(item.storeName)}}</p>
@@ -1533,6 +1533,8 @@
             _this.isBindStore = res.data.length === 0;
             _this.selectStoreInfo.storeName =  res.data.length > 0 ? decodeURI(res.data[0].storeName) : null;
             _this.selectStoreInfo.storeAlitm = res.data.length > 0 ? decodeURI(res.data[0].storeAlitm) : null;
+            _this.selectStoreInfo.sellerId = res.data.length > 0 ? res.data[0].sellerId : null;
+            _this.selectStoreInfo.shopId = res.data.length > 0 ? res.data[0].shopId : null;
           } else {
             _this.$Message.error(res.msg)
           }
@@ -1556,10 +1558,12 @@
           })
         })
       },
-      selectStoreChange(storeName, alitm) {
+      selectStoreChange(storeName, alitm, sellerId, shopId) {
         this.selectStoreInfo = {};
         this.selectStoreInfo.storeName = storeName;
         this.selectStoreInfo.storeAlitm = alitm;
+        this.selectStoreInfo.sellerId = sellerId;
+        this.selectStoreInfo.shopId = shopId;
       },
     /*  clearDiscount() {
         let _this = this;
@@ -1988,7 +1992,7 @@
           _this.isShowStoreInfoLoading = false;
           if (detectionStoreInfo.status) {
             if (detectionStoreInfo.data) {
-              if (decodeURI(detectionStoreInfo.data.wangwangId) !== _this.selectStoreInfo.storeAlitm) {
+              if (detectionStoreInfo.data.sellerId.toString() !== _this.selectStoreInfo.sellerId && detectionStoreInfo.data.shopId.toString() !== _this.selectStoreInfo.shopId) {
                 _this.isSelectStoreUrl = true;
                 _this.taskLoading = false;
                 return;
@@ -2122,33 +2126,40 @@
             //复制老活动的时候如果掌柜旺旺信息不能匹配到绑定店铺的旺旺名则默认自动选择第一个店铺，反之取接口实时数据
             _this.selectStoreInfo = {};
             const hasStoreBind = _this.storeBindInfoList.every(item => {
-             return decodeURI(item.storeAlitm) !==  _this.taskRelease.storeName
+              return decodeURI(item.storeAlitm) !==  _this.taskRelease.storeName && decodeURI(item.storeName !== _this.taskRelease.realStoreName)
             });
             if (hasStoreBind) {
               _this.selectStoreInfo.storeName = _this.storeBindInfoList[0].storeName;
               _this.selectStoreInfo.storeAlitm = _this.storeBindInfoList[0].storeAlitm;
+              _this.selectStoreInfo.sellerId = _this.storeBindInfoList[0].sellerId;
+              _this.selectStoreInfo.shopId = _this.storeBindInfoList[0].shopId;
             } else {
               _this.selectStoreInfo.storeName = _this.taskRelease.realStoreName;
               _this.selectStoreInfo.storeAlitm = _this.taskRelease.storeName;
+              _this.storeBindInfoList.forEach(item => {
+                if (item.storeName === _this.taskRelease.realStoreName && item.storeAlitm === _this.taskRelease.storeName) {
+                  _this.selectStoreInfo.sellerId = item.sellerId;
+                  _this.selectStoreInfo.shopId = item.shopId;
+                }
+              })
             }
 
-            //start 临时处理 10元包邮，白菜价活动下线复制历史活动
+            // 临时处理 10元包邮，白菜价活动下线复制历史活动
             const activityCategory = res.data.activityCategory;
             if (activityCategory === 'pinkage_for_10' || activityCategory === 'price_low') {
               _this.taskRelease.discountType = 'discount_0';
               _this.taskRelease.activityCategory = 'free_get';
             }
-            //end
 
-            //start 临时处理拍A发A淘宝评价要求重置为false
+            //临时处理拍A发A淘宝评价要求重置为false
             if (res.data.donotPostPhoto && activityCategory === 'free_get') {
               _this.taskRelease.donotPostPhoto = 'false';
             }
-            //end
 
             if (_this.taskRelease.onlyShowForQualification) {
               _this.taskRelease.onlyShowForQualification = false;
             }
+
             _this.itemReviewList = [];
             _this.itemReviewPushList = [];
             let itemReviewAssignsData = res.data.itemReviewAssigns;

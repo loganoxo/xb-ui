@@ -18,11 +18,8 @@
           <Form-item label="店铺旺旺" prop="storeWw" class="pos-rel" required>
             <iInput type="text" placeholder="请输入店铺旺旺" v-model="storeBindForm.storeWw" disabled></iInput>
           </Form-item>
-          <!--<Form-item label="店铺内任意商品链接" prop="storeLink" required>-->
-          <!--<iInput type="text" placeholder="请输入你绑定店铺内的任意商品链接" v-model="storeBindForm.storeLink"></iInput>-->
-          <!--</Form-item>-->
           <Form-item>
-            <iButton class="verified-btn" size="large" :loading="bindBtnLoading" @click="verifiedAndBindFunc()">
+            <iButton class="verified-btn" size="large" :loading="bindBtnLoading" @click="verifiedAndBindFunc">
               验证并绑定店铺
             </iButton>
           </Form-item>
@@ -35,7 +32,7 @@
       <span class="mr-10">需要您提供店铺内任意商品链接</span>
       <iInput type="text" size="large" class="commodity-input" v-model="commodityLink"></iInput>
       <div class="text-ct mt-30">
-        <iButton class="confirm-link-btn" :loading="confirmBtnLoading" @click="getStoreInfoByLink()">确认</iButton>
+        <iButton class="confirm-link-btn" :loading="confirmBtnLoading" @click="getStoreInfoByLink">确认</iButton>
       </div>
     </div>
   </div>
@@ -103,23 +100,6 @@
         }
         _this.getStoreType();
         _this.confirmBtnLoading = true;
-        // let commodityId = getUrlParams(_this.commodityLink, 'id');
-        // api.getStoreInfo({commodityId: commodityId}).then(res => {
-        //   _this.confirmBtnLoading = false;
-        //   if (res.status) {
-        //     let tempData = res.data;
-        //     let decodeStoreName = decodeURI(tempData.store.name);
-        //     _this.storeBindForm.storeName = delHtmlTag(decodeStoreName);
-        //     let decodeStoreWw = decodeURI(tempData.store.wangwangId);
-        //     _this.storeBindForm.storeWw = delHtmlTag(decodeStoreWw);
-        //     _this.storeBindForm.storeLink = _this.commodityLink;
-        //     _this.storeBindForm.shopId = tempData.store.shopId;
-        //     _this.storeBindForm.sellerId = tempData.store.sellerId;
-        //     _this.protocol = true;
-        //   } else {
-        //     _this.$Message.error(res.msg);
-        //   }
-        // })
         api.getStoreInfoByLink({link:_this.commodityLink}).then(res=>{
           _this.confirmBtnLoading = false;
           if(res.status){
@@ -132,7 +112,7 @@
             _this.storeBindForm.shopId = tempData.shopId;
             _this.storeBindForm.sellerId = tempData.sellerId;
             _this.protocol = true;
-          }else {
+          } else {
             _this.$Message.error(res.msg);
           }
         })
