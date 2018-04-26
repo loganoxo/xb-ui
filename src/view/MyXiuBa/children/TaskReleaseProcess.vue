@@ -18,7 +18,7 @@
     <div class="activity-type mt-20" v-show="stepName === 'information'">
       <div class="activity-type-title">请选择店铺：</div>
       <div class="clear mt-10" v-if="storeBindInfoList.length > 0">
-        <div :class="{isSelect: selectStoreInfo.storeName === item.storeName}" v-for="item in storeBindInfoList" class="select-store text-ct left mr-10" @click="selectStoreChange(item.storeName, item.storeAlitm, item.shopId, item.sellerId)">
+        <div :class="{isSelect: selectStoreInfo.storeName === item.storeName}" v-for="item in storeBindInfoList" :key="item.id" class="select-store text-ct left mr-10" @click="selectStoreChange(item.storeName, item.storeAlitm, item.shopId, item.sellerId)">
           <img v-if="item.storeType === 'taobao'" src="~assets/img/common/taobao-logo.png" alt="淘宝LOGO">
           <img v-if="item.storeType === 'tmall'" src="~assets/img/common/tmall-logo.png" alt="天猫LOGO">
           <p class="fs-14 f-b">{{decodeURI(item.storeName)}}</p>
@@ -1545,12 +1545,12 @@
           })
         })
       },
-      selectStoreChange(storeName, alitm, sellerId, shopId) {
+      selectStoreChange(storeName, alitm, shopId, sellerId) {
         this.selectStoreInfo = {};
         this.selectStoreInfo.storeName = storeName;
         this.selectStoreInfo.storeAlitm = alitm;
-        this.selectStoreInfo.sellerId = sellerId;
         this.selectStoreInfo.shopId = shopId;
+        this.selectStoreInfo.sellerId = sellerId;
       },
     /*  clearDiscount() {
         let _this = this;

@@ -241,26 +241,22 @@
         }
       },
       post(file) {
-        if (this.format.length) {
+        const _this = this;
+        if (_this.format.length) {
           const _file_format = file.name.split('.').pop().toLocaleLowerCase();
-          const checked = this.format.some(item => item.toLocaleLowerCase() === _file_format);
+          const checked = _this.format.some(item => item.toLocaleLowerCase() === _file_format);
           if (!checked) {
-            this.onFormatError(file, this.fileList);
+            _this.onFormatError(file, this.fileList);
             return false;
           }
         }
-
-        if (this.maxSize) {
-          if (file.size > this.maxSize * 1024) {
-            this.onExceededSize(file, this.fileList);
+        if (_this.maxSize) {
+          if (file.size > _this.maxSize * 1024) {
+            _this.onExceededSize(file, _this.fileList);
             return false;
           }
         }
-
-        this.handleStart(file);
-        let formData = new FormData();
-        formData.append(this.name, file);
-        let _this = this;
+        _this.handleStart(file);
         _this.handleProgress(file);
         let key = _this.name + '/' + randomString();
         aliUploadImg(key, file).then(res => {
@@ -269,6 +265,7 @@
           }
         }).catch(err => {
           console.log(err);
+          alert('图片上传错误，请刷新页面或者稍后重试！');
           _this.handleError(err, file);
         })
       },
