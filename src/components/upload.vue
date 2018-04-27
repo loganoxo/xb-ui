@@ -305,8 +305,6 @@
         if (_file) {
           _file.status = 'finished';
           _file.src = aliCallbackImgUrl + res.name;
-
-//          this.dispatch('FormItem', 'on-form-change', _file);
           this.onSuccess(res, _file, this.fileList);
           setTimeout(() => {
             _file.showProgress = false;

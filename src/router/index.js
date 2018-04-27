@@ -747,7 +747,7 @@ export default new Router({
                 logInAuthority: true,
                 topShow: true,
                 bottomShow: true,
-                role: 0,
+                role: null,
               }
             },
             {
