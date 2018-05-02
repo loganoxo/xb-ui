@@ -331,6 +331,8 @@
           countLeft0ToEnd: true,
           itemCatalogFilters: [],
           zoneFilters: ['freshman_hit'],
+          onlyAvailableCertainlyHit:false,
+
         },
         historyTaskListParams:{
           pageIndex: 1,
@@ -586,7 +588,8 @@
           discountTypes: self.searchTaskParams.discountTypes ? JSON.stringify(self.searchTaskParams.discountTypes) : '',
           activityCategories: self.searchTaskParams.activityCategories ? JSON.stringify(self.searchTaskParams.activityCategories) : '',
           countLeft0ToEnd: self.searchTaskParams.countLeft0ToEnd,
-          zoneFilters: self.searchTaskParams.zoneFilters ? JSON.stringify(self.searchTaskParams.zoneFilters) : ''
+          zoneFilters: self.searchTaskParams.zoneFilters ? JSON.stringify(self.searchTaskParams.zoneFilters) : '',
+          onlyAvailableCertainlyHit:self.searchTaskParams.onlyAvailableCertainlyHit
         };
         api.getSearchTask(option).then((res) => {
           if(res.status){
