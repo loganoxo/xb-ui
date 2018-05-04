@@ -38,7 +38,8 @@
               <iOption value="招商银行">招商银行</iOption>
               <iOption value="中国银行">中国银行</iOption>
               <iOption value="兴业银行">兴业银行</iOption>
-              <iOption value="浦发银行">上海浦东发展银行</iOption>
+              <iOption value="上海浦东发展银行">上海浦东发展银行</iOption>
+              <iOption value="中国邮政储蓄银行">中国邮政储蓄银行</iOption>
               <iOption value="中信银行">中信银行</iOption>
               <iOption value="广发银行">广发银行</iOption>
               <iOption value="民生银行">民生银行</iOption>
@@ -56,6 +57,7 @@
               <iOption value="渣打银行">渣打银行</iOption>
               <iOption value="平安银行">平安银行</iOption>
             </iSelect>
+            <div class="main-color bank-tip" v-if="formItem.select === '中国邮政储蓄银行'">注：中国邮政储蓄银行提现到账时间会滞后两到三天，请耐心等待！</div>
           </Form-item>
           <Form-item label="银行卡号:" prop="bankNumber">
             <iInput v-model="formItem.bankNumber"></iInput>
@@ -68,7 +70,7 @@
           </Form-item>
           <Form-item label="图形验证码:" class="formPosition" prop="validateCode" style="width: 380px">
             <iInput v-model="formItem.validateCode"></iInput>
-            <div style="width: 100px; " class="ibtn">
+            <div style="width: 100px;" class="ibtn">
               <img :src="imgSrc" width="100%" alt="" @click="getVrcode">
             </div>
           </Form-item>
@@ -850,6 +852,11 @@
     font-size:16px;
     color:#fff;
     background: #f9284f;
+  }
+
+  .bank-tip {
+    width: 400px;
+    margin-top: 4px;
   }
 </style>
 
