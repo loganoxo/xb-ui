@@ -27,8 +27,9 @@
       </div>
       <div class="ipt-information">
         <iForm ref="formItem" :model="formItem" :label-width="200" :rules="formRuleItem">
-          <Form-item label="开户人姓名:" prop="name">
-            <iInput v-model="formItem.name"></iInput>
+          <Form-item label="开户人姓名:" prop="name" class="clear">
+            <iInput v-model="formItem.name" class="left width-300"></iInput>
+            <span class="left main-color ml-10">开户人姓名必须与填写的银行卡开户名一致！</span>
           </Form-item>
           <Form-item label="选择银行" prop="select">
             <iSelect v-model="formItem.select" :filterable="true" style="width:300px;height: 32px">
@@ -60,7 +61,7 @@
             <div class="main-color bank-tip" v-if="formItem.select === '中国邮政储蓄银行'">注：中国邮政储蓄银行提现到账时间会滞后两到三天，请耐心等待！</div>
           </Form-item>
           <Form-item label="银行卡号:" prop="bankNumber">
-            <iInput v-model="formItem.bankNumber"></iInput>
+            <iInput v-model="formItem.bankNumber" class="width-300"></iInput>
           </Form-item>
           <!--<Form-item label="开户支行:" prop="bankBranch">
             <iInput v-model="formItem.bankBranch"></iInput>
@@ -346,6 +347,8 @@
         let self = this;
         if (!value) {
           callback(new Error('请输入姓名'));
+        }else if (!(/^[\u4E00-\u9FA5]{1,10}$/.test(value))){
+          callback(new Error('姓名需为汉字，且不超过10个汉字！'));
         }
         // else if(value !== self.$store.state.userInfo.realName){
         //   callback(new Error('为保证资金安全，开户行必须与实名认证姓名一致！'))

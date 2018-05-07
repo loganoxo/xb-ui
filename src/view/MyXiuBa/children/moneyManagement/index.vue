@@ -534,7 +534,10 @@
         .ipt-information {
           margin-left: 96px;
           margin-top: 36px;
-          width: 500px;
+          /*width: 500px;*/
+          .width-300{
+            width: 300px;
+          }
           select {
             box-sizing: border-box;
             width: 300px;
