@@ -75,7 +75,7 @@
             </li>
           </ul>
         </li>
-        <li>
+        <li v-if="getRole === 0">
           <ul>
             <li class="one">
               提现账号
@@ -406,6 +406,9 @@
       },
       userHeadUrl() {
         return this.$store.getters.getUserHeadUrl
+      },
+      getRole() {
+        return this.$store.getters.getPersonalInfo.role
       }
     },
     methods: {
