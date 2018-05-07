@@ -27,9 +27,9 @@
       </div>
       <div class="ipt-information">
         <iForm ref="formItem" :model="formItem" :label-width="200" :rules="formRuleItem">
-          <Form-item label="开户人姓名:" prop="name" class="clear">
-            <iInput v-model="formItem.name" class="left width-300"></iInput>
-            <span class="left main-color ml-10">开户人姓名必须与填写的银行卡开户名一致！</span>
+          <Form-item label="开户人姓名:" prop="name">
+            <iInput v-model="formItem.name" class="width-300"></iInput>
+            <span class="main-color ml-10">开户人姓名必须与填写的银行卡开户名一致！</span>
           </Form-item>
           <Form-item label="选择银行" prop="select">
             <iSelect v-model="formItem.select" :filterable="true" style="width:300px;height: 32px">
