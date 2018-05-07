@@ -172,28 +172,19 @@
         return this.$store.getters.getSellerCustomerQq
       }
     },
-    watch: {},
     methods: {
       changeStyle(select, day, year, recharge, level, id) {
         let _this = this;
         let stopTime = null;
-        console.log(level);
-        console.log(recharge);
         _this.isSelect = select;
         _this.year = year;
         _this.memberLevel = level;
         _this.memberId = id;
         _this.rechargeSum = 0;
-        console.log(_this.rechargeSum);
         if (level === _this.getMemberLevel) {
           stopTime = new Date().getTime() + parseInt(day) * 24 * 3600 * 1000 + _this.timeRemaining * 24 * 3600 * 1000;
           _this.endTime = stopTime;
           _this.rechargeSum =(recharge / 100).toFixed(2);
-          console.log('-------------');
-          console.log(111);
-          console.log(recharge);
-          console.log(_this.rechargeSum);
-          console.log('------------');
           if (_this.rechargeSum - _this.getUserBalance < 0) {
             _this.needRecharge = 0
           } else {
@@ -202,12 +193,7 @@
         } else {
           stopTime = new Date().getTime() + parseInt(day) * 24 * 3600 * 1000;
           _this.endTime = stopTime;
-          console.log(recharge);
-          console.log(_this.moneyRemaining);
           _this.rechargeSum = (recharge / 100 - _this.moneyRemaining/100).toFixed(2);
-          console.log(222);
-          console.log(_this.rechargeSum);
-          console.log(333);
           if (_this.rechargeSum - _this.getUserBalance < 0) {
             _this.needRecharge = 0
           } else {
