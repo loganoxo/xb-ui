@@ -36,7 +36,7 @@
         </li>
         <li :class="{isSelect:isSelect ==='VipMember'}">
           <span class="vip-member-nav icon-size"></span>
-          <router-link to="/user/vip-member">VIP会员</router-link>
+          <router-link to="/user/vip-member/order">VIP会员</router-link>
         </li>
         <li :class="{isSelect:isSelect ==='PersonalAccountInfo' || isSelect === 'WwBind' || isSelect === 'Verfied'}">
           <Tooltip content="上传自定义个性头像，可以提高活动申请通过率哦！" placement="right">

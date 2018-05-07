@@ -25,7 +25,7 @@ const TaskDetails = r => require.ensure([], () => r(require('@/view/TaskDetails.
 
 const MyXiuBa = r => require.ensure([], () => r(require('@/view/personalCenter/Index.vue')), 'personalCenter');
 const UserHome = r => require.ensure([], () => r(require('@/view/personalCenter/children/UserHome.vue')), 'personalCenter');
-const VipMember = r => require.ensure([], () => r(require('@/view/personalCenter/children/VipMember.vue')), 'VipMember');
+// const VipMember = r => require.ensure([], () => r(require('@/view/personalCenter/children/VipMember.vue')), 'VipMember');
 const TaskReleaseProcess = r => require.ensure([], () => r(require('@/view/personalCenter/children/TaskReleaseProcess.vue')), 'TaskReleaseProcess');
 
 const ActivityManagement = r => require.ensure([], () => r(require('@/view/personalCenter/children/activityManagement/index.vue')), 'ActivityManagement');
@@ -73,6 +73,12 @@ const Recommend = r => require.ensure([], () => r(require('@/view/personalCenter
 const BindStore = r => require.ensure([], () => r(require('@/view/personalCenter/children/bindStore/index.vue')), 'BindStore');
 const StoreBindRules = r => require.ensure([], () => r(require('@/view/personalCenter/children/bindStore/children/storeBindRules.vue')), 'StoreBindRules');
 const StoreBindOperating = r => require.ensure([], () => r(require('@/view/personalCenter/children/bindStore/children/storeBindOperating.vue')), 'StoreBindOperating');
+
+const VipMember = r => require.ensure([], () => r(require('@/view/personalCenter/children/vipMember/index.vue')), 'VipMember');
+const VipInstructions = r => require.ensure([], () => r(require('@/view/personalCenter/children/VipMember/children/Instructions.vue')), 'VipMember');
+const VipOrder = r => require.ensure([], () => r(require('@/view/personalCenter/children/VipMember/children/Order.vue')), 'VipMember');
+
+
 
 
 Vue.use(Router);
@@ -769,13 +775,39 @@ export default new Router({
           path: 'vip-member',
           name: 'VipMember',
           component: VipMember,
-          meta: {
-            title: "VIP会员",
-            logInAuthority: true,
-            topShow: true,
-            bottomShow: true,
-            role: 1,
-          }
+          children:[
+            {
+              path:'order',
+              name:'Order',
+              component:VipOrder,
+              meta:{
+                title: "VIP会员购买",
+                  logInAuthority: true,
+                  topShow: true,
+                  bottomShow: true,
+                  role: 1,
+              }
+            },
+            {
+              path:'instructions',
+              name:'Instructions',
+              component:VipInstructions,
+              meta:{
+                title: "VIP会员说明",
+                logInAuthority: true,
+                topShow: true,
+                bottomShow: true,
+                role: 1,
+              }
+            },
+          ]
+          // meta: {
+          //   title: "VIP会员",
+          //   logInAuthority: true,
+          //   topShow: true,
+          //   bottomShow: true,
+          //   role: 1,
+          // }
         },
 
       ]

@@ -1,10 +1,12 @@
 <template>
-
+ <div>
+   order5646
+ </div>
 </template>
 
 <script>
     export default {
-        name: "instructions"
+        name: "vip-member-order"
     }
 </script>
 
