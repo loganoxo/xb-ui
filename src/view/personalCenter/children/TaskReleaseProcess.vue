@@ -1102,7 +1102,7 @@
 <script>
   import {Icon, Form, Input, Checkbox, Button, Radio, Modal, Alert, Select, Option, OptionGroup, Steps} from 'iview'
   import {Quill, quillEditor} from 'vue-quill-editor'
-  import Upload from '@/components/upload'
+  import Upload from '@/components/Upload'
   import PayModel from '@/components/PayModel'
   import UserClause from '@/components/UserClause'
   import api from '@/config/apiConfig'

@@ -15,7 +15,7 @@
           </Form-item>
           <Form-item label="身份证正面照" prop="frontagePic" class="ww-info-img">
             <Upload
-              ref="upload"
+              ref="Upload"
               :show-upload-list="false"
               :on-success="handlePicUrlSuccess"
               :format="['jpg','jpeg','png','gif','bmp']"
@@ -109,7 +109,7 @@
 <script>
   import {Icon, Form, Input, Checkbox, Button, Radio, Modal, Alert} from 'iview'
   import api from '@/config/apiConfig'
-  import Upload from '@/components/upload'
+  import Upload from '@/components/Upload'
   import {setStorage, getStorage} from '@/config/utils'
   import {aliCallbackImgUrl} from '@/config/env'
   import SmsCountdown from '@/components/SmsCountdown'
@@ -262,7 +262,7 @@
       clearVerified() {
         this.verifiedValidate.realname = '';
         this.verifiedValidate.idcard = '';
-        this.$refs.upload.handleRemove();
+        this.$refs.Upload.handleRemove();
         this.$refs.upload2.handleRemove();
       },
       verifiedFunc() {

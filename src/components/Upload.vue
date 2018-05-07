@@ -12,7 +12,7 @@
         <iProgress v-if="item.showProgress" :percent="item.percentage" hide-info></iProgress>
       </template>
     </div>
-    <div ref="upload" class="left" :class="[prefixCls]" v-show="showUpload">
+    <div ref="Upload" class="left" :class="[prefixCls]" v-show="showUpload">
       <div :class="[classes,{disabled:disabled}]"
         @click="handleClick"
         @drop.prevent="onDrop"
@@ -191,8 +191,8 @@
         this.visible = true;
       },
       handleRemove(file) {
-        const fileList = this.$refs.upload.fileList;
-        this.$refs.upload.fileList.splice(fileList.indexOf(file), 1);
+        const fileList = this.$refs.Upload.fileList;
+        this.$refs.Upload.fileList.splice(fileList.indexOf(file), 1);
       },
       handleClick() {
         this.$refs.input.click();
@@ -217,7 +217,7 @@
         if (postFiles.length === 0) return;
 
         postFiles.forEach(file => {
-          this.upload(file);
+          this.Upload(file);
         });
       },
       upload(file) {

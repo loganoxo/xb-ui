@@ -5,7 +5,6 @@ const Home = r => require.ensure([], () => r(require('@/view/Home.vue')), 'Home'
 const BuyerShow = r => require.ensure([], () => r(require('@/view/BuyerShow.vue')), 'BuyerShow');
 const QQLogin = r => require.ensure([], () => r(require('@/view/QQLogin.vue')), 'QQLogin');
 const SellerAdv = r => require.ensure([], () => r(require('@/view/SellerAdv.vue')), 'SellerAdv');
-const Recommend = r => require.ensure([], () => r(require('@/view/MyXiuBa/children/Recommend.vue')), 'Recommend');
 const RecommendSpread = r => require.ensure([], () => r(require('@/view/RecommendSpread.vue')), 'RecommendSpread');
 const Notice = r => require.ensure([], () => r(require('@/view/Notice.vue')), 'Notice');
 
@@ -24,54 +23,56 @@ const Register = r => require.ensure([], () => r(require('@/view/Register.vue'))
 const TaskCategory = r => require.ensure([], () => r(require('@/view/TaskCategory.vue')), 'TaskCategory');
 const TaskDetails = r => require.ensure([], () => r(require('@/view/TaskDetails.vue')), 'TaskDetails');
 
-const MyXiuBa = r => require.ensure([], () => r(require('@/view/MyXiuBa/MyXiuBa.vue')), 'MyXiuBa');
-const UserHome = r => require.ensure([], () => r(require('@/view/MyXiuBa/children/UserHome.vue')), 'MyXiuBa');
-const VipMember = r => require.ensure([], () => r(require('@/view/MyXiuBa/children/VipMember.vue')), 'VipMember');
-const TaskReleaseProcess = r => require.ensure([], () => r(require('@/view/MyXiuBa/children/TaskReleaseProcess.vue')), 'TaskReleaseProcess');
+const MyXiuBa = r => require.ensure([], () => r(require('@/view/personalCenter/Index.vue')), 'personalCenter');
+const UserHome = r => require.ensure([], () => r(require('@/view/personalCenter/children/UserHome.vue')), 'personalCenter');
+const VipMember = r => require.ensure([], () => r(require('@/view/personalCenter/children/VipMember.vue')), 'VipMember');
+const TaskReleaseProcess = r => require.ensure([], () => r(require('@/view/personalCenter/children/TaskReleaseProcess.vue')), 'TaskReleaseProcess');
 
-const ActivityManagement = r => require.ensure([], () => r(require('@/view/MyXiuBa/children/activityManagement/index.vue')), 'ActivityManagement');
-const ActivitiesList = r => require.ensure([], () => r(require('@/view/MyXiuBa/children/activityManagement/children/activitiesList.vue')), 'ActivityManagement');
-const ApproveShowker = r => require.ensure([], () => r(require('@/view/MyXiuBa/children/activityManagement/children/approveShowker.vue')), 'ActivityManagement');
-const ProbationReport = r => require.ensure([], () => r(require('@/view/MyXiuBa/children/activityManagement/children/probationReport.vue')), 'ActivityManagement');
-const DetailAndLog = r => require.ensure([], () => r(require('@/view/MyXiuBa/children/activityManagement/children/detailAndLog/index.vue')), 'ActivityManagement');
-const ActivityDetail = r => require.ensure([], () => r(require('@/view/MyXiuBa/children/activityManagement/children/detailAndLog/children/activityDetail.vue')), 'ActivityManagement');
-const ActivityLog = r => require.ensure([], () => r(require('@/view/MyXiuBa/children/activityManagement/children/detailAndLog/children/activityLog.vue')), 'ActivityManagement');
+const ActivityManagement = r => require.ensure([], () => r(require('@/view/personalCenter/children/activityManagement/index.vue')), 'ActivityManagement');
+const ActivitiesList = r => require.ensure([], () => r(require('@/view/personalCenter/children/activityManagement/children/activitiesList.vue')), 'ActivityManagement');
+const ApproveShowker = r => require.ensure([], () => r(require('@/view/personalCenter/children/activityManagement/children/approveShowker.vue')), 'ActivityManagement');
+const ProbationReport = r => require.ensure([], () => r(require('@/view/personalCenter/children/activityManagement/children/probationReport.vue')), 'ActivityManagement');
+const DetailAndLog = r => require.ensure([], () => r(require('@/view/personalCenter/children/activityManagement/children/detailAndLog/index.vue')), 'ActivityManagement');
+const ActivityDetail = r => require.ensure([], () => r(require('@/view/personalCenter/children/activityManagement/children/detailAndLog/children/activityDetail.vue')), 'ActivityManagement');
+const ActivityLog = r => require.ensure([], () => r(require('@/view/personalCenter/children/activityManagement/children/detailAndLog/children/activityLog.vue')), 'ActivityManagement');
 
-const MyProbation = r => require.ensure([], () => r(require('@/view/MyXiuBa/children/myProbation/index.vue')), 'MyProbation');
-const ApplyWaitAudit = r => require.ensure([], () => r(require('@/view/MyXiuBa/children/myProbation/children/applyWaitAudit.vue')), 'MyProbation');
-const ApplyPassAudit = r => require.ensure([], () => r(require('@/view/MyXiuBa/children/myProbation/children/applyPassAudit.vue')), 'MyProbation');
-const ApplyFailAudit = r => require.ensure([], () => r(require('@/view/MyXiuBa/children/myProbation/children/applyFailAudit.vue')), 'MyProbation');
+const MyProbation = r => require.ensure([], () => r(require('@/view/personalCenter/children/myProbation/index.vue')), 'MyProbation');
+const ApplyWaitAudit = r => require.ensure([], () => r(require('@/view/personalCenter/children/myProbation/children/applyWaitAudit.vue')), 'MyProbation');
+const ApplyPassAudit = r => require.ensure([], () => r(require('@/view/personalCenter/children/myProbation/children/applyPassAudit.vue')), 'MyProbation');
+const ApplyFailAudit = r => require.ensure([], () => r(require('@/view/personalCenter/children/myProbation/children/applyFailAudit.vue')), 'MyProbation');
 
-const TaskManagement = r => require.ensure([], () => r(require('@/view/MyXiuBa/children/taskManagement/index.vue')), 'TaskManagement');
-const TaskWaitAudit = r => require.ensure([], () => r(require('@/view/MyXiuBa/children/taskManagement/children/taskWaitAudit.vue')), 'TaskManagement');
-const TaskPassAudit = r => require.ensure([], () => r(require('@/view/MyXiuBa/children/taskManagement/children/taskPassAudit.vue')), 'TaskManagement');
-const TaskFailAudit = r => require.ensure([], () => r(require('@/view/MyXiuBa/children/taskManagement/children/taskFailAudit.vue')), 'TaskManagement');
+const TaskManagement = r => require.ensure([], () => r(require('@/view/personalCenter/children/taskManagement/index.vue')), 'TaskManagement');
+const TaskWaitAudit = r => require.ensure([], () => r(require('@/view/personalCenter/children/taskManagement/children/taskWaitAudit.vue')), 'TaskManagement');
+const TaskPassAudit = r => require.ensure([], () => r(require('@/view/personalCenter/children/taskManagement/children/taskPassAudit.vue')), 'TaskManagement');
+const TaskFailAudit = r => require.ensure([], () => r(require('@/view/personalCenter/children/taskManagement/children/taskFailAudit.vue')), 'TaskManagement');
 
-const PersonalSetting = r => require.ensure([], () => r(require('@/view/MyXiuBa/children/personalSetting/index.vue')), 'PersonalSetting');
-const PersonalAccountInfo = r => require.ensure([], () => r(require('@/view/MyXiuBa/children/personalSetting/children/PersonalAccountInfo.vue')), 'PersonalSetting');
-const WwBind = r => require.ensure([], () => r(require('@/view/MyXiuBa/children/personalSetting/children/WwBind.vue')), 'PersonalSetting');
-const Verfied = r => require.ensure([], () => r(require('@/view/MyXiuBa/children/personalSetting/children/Verfied.vue')), 'PersonalSetting');
+const PersonalSetting = r => require.ensure([], () => r(require('@/view/personalCenter/children/personalSetting/index.vue')), 'PersonalSetting');
+const PersonalAccountInfo = r => require.ensure([], () => r(require('@/view/personalCenter/children/personalSetting/children/PersonalAccountInfo.vue')), 'PersonalSetting');
+const WwBind = r => require.ensure([], () => r(require('@/view/personalCenter/children/personalSetting/children/WwBind.vue')), 'PersonalSetting');
+const Verfied = r => require.ensure([], () => r(require('@/view/personalCenter/children/personalSetting/children/Verfied.vue')), 'PersonalSetting');
 
-const HelpCenter = r => require.ensure([], () => r(require('@/view/MyXiuBa/children/helpCenter/index.vue')), 'helpCenter');
-const Faq = r => require.ensure([], () => r(require('@/view/MyXiuBa/children/helpCenter/children/Faq.vue')), 'helpCenter');
-const FaqSeller = r => require.ensure([], () => r(require('@/view/MyXiuBa/children/helpCenter/children/FaqSeller.vue')), 'helpCenter');
-const FaqShowker = r => require.ensure([], () => r(require('@/view/MyXiuBa/children/helpCenter/children/FaqShowker.vue')), 'helpCenter');
+const HelpCenter = r => require.ensure([], () => r(require('@/view/personalCenter/children/helpCenter/index.vue')), 'helpCenter');
+const Faq = r => require.ensure([], () => r(require('@/view/personalCenter/children/helpCenter/children/Faq.vue')), 'helpCenter');
+const FaqSeller = r => require.ensure([], () => r(require('@/view/personalCenter/children/helpCenter/children/FaqSeller.vue')), 'helpCenter');
+const FaqShowker = r => require.ensure([], () => r(require('@/view/personalCenter/children/helpCenter/children/FaqShowker.vue')), 'helpCenter');
 const SellerTest = r => require.ensure([], () => r(require('@/view/SellerTest.vue')), 'SellerTest');
 
-const MyTrialReport = r => require.ensure([], () => r(require('@/view/MyXiuBa/children/MyTrialReport.vue')), 'MyTrialReport');
-const MyAppeal = r => require.ensure([], () => r(require('@/view/MyXiuBa/children/MyAppeal.vue')), 'MyAppeal');
-const BlackListManagement = r => require.ensure([], () => r(require('@/view/MyXiuBa/children/BlackListManagement.vue')), 'BlackListManagement');
+const MyTrialReport = r => require.ensure([], () => r(require('@/view/personalCenter/children/MyTrialReport.vue')), 'MyTrialReport');
+const MyAppeal = r => require.ensure([], () => r(require('@/view/personalCenter/children/MyAppeal.vue')), 'MyAppeal');
+const BlackListManagement = r => require.ensure([], () => r(require('@/view/personalCenter/children/BlackListManagement.vue')), 'BlackListManagement');
 
-const MoneyManagement = r => require.ensure([], () => r(require('@/view/MyXiuBa/children/moneyManagement/index.vue')), 'MoneyManagement');
-const AccountInfo = r => require.ensure([], () => r(require('@/view/MyXiuBa/children/moneyManagement/children/accountInfo.vue')), 'MoneyManagement');
-const AccountManagement = r => require.ensure([], () => r(require('@/view/MyXiuBa/children/moneyManagement/children/accountManagement.vue')), 'MoneyManagement');
-const PayMoney = r => require.ensure([], () => r(require('@/view/MyXiuBa/children/moneyManagement/children/payMoney.vue')), 'MoneyManagement');
-const GetoutMoney = r => require.ensure([], () => r(require('@/view/MyXiuBa/children/moneyManagement/children/getoutMoney.vue')), 'MoneyManagement');
-const TransactionRecord = r => require.ensure([], () => r(require('@/view/MyXiuBa/children/moneyManagement/children/transactionRecord.vue')), 'MoneyManagement');
+const MoneyManagement = r => require.ensure([], () => r(require('@/view/personalCenter/children/moneyManagement/index.vue')), 'MoneyManagement');
+const AccountInfo = r => require.ensure([], () => r(require('@/view/personalCenter/children/moneyManagement/children/accountInfo.vue')), 'MoneyManagement');
+const AccountManagement = r => require.ensure([], () => r(require('@/view/personalCenter/children/moneyManagement/children/accountManagement.vue')), 'MoneyManagement');
+const PayMoney = r => require.ensure([], () => r(require('@/view/personalCenter/children/moneyManagement/children/payMoney.vue')), 'MoneyManagement');
+const GetoutMoney = r => require.ensure([], () => r(require('@/view/personalCenter/children/moneyManagement/children/getoutMoney.vue')), 'MoneyManagement');
+const TransactionRecord = r => require.ensure([], () => r(require('@/view/personalCenter/children/moneyManagement/children/transactionRecord.vue')), 'MoneyManagement');
 
-const BindStore = r => require.ensure([], () => r(require('@/view/MyXiuBa/children/bindStore/index.vue')), 'BindStore');
-const StoreBindRules = r => require.ensure([], () => r(require('@/view/MyXiuBa/children/bindStore/children/storeBindRules.vue')), 'StoreBindRules');
-const StoreBindOperating = r => require.ensure([], () => r(require('@/view/MyXiuBa/children/bindStore/children/storeBindOperating.vue')), 'StoreBindOperating');
+const Recommend = r => require.ensure([], () => r(require('@/view/personalCenter/children/Recommend.vue')), 'Recommend');
+
+const BindStore = r => require.ensure([], () => r(require('@/view/personalCenter/children/bindStore/index.vue')), 'BindStore');
+const StoreBindRules = r => require.ensure([], () => r(require('@/view/personalCenter/children/bindStore/children/storeBindRules.vue')), 'StoreBindRules');
+const StoreBindOperating = r => require.ensure([], () => r(require('@/view/personalCenter/children/bindStore/children/storeBindOperating.vue')), 'StoreBindOperating');
 
 
 Vue.use(Router);

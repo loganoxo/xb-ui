@@ -185,7 +185,7 @@
 <script>
   import {DatePicker, Select, Option, OptionGroup, Checkbox, Button, Icon, Page, Modal, Input} from 'iview'
   import api from '@/config/apiConfig'
-  import Upload from '@/components/upload'
+  import Upload from '@/components/Upload'
   import {aliCallbackImgUrl, domain} from '@/config/env'
   import {encryption, AppealCategorization} from '@/config/utils'
 

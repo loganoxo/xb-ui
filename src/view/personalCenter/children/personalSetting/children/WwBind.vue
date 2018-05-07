@@ -219,7 +219,7 @@
   import {Icon, Form, Input, Switch, Select, Option, Button, Radio, Modal, Alert, Tooltip} from 'iview'
   import {RegionPicker} from 'vue-region-picker'
   import CHINA_REGION from 'china-area-data'
-  import Upload from '@/components/upload'
+  import Upload from '@/components/Upload'
   import api from '@/config/apiConfig'
   import {aliCallbackImgUrl} from '@/config/env'
 

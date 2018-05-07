@@ -622,7 +622,7 @@
 <script>
   import {Button, Input, Icon, Select, Option, OptionGroup, Page, Radio, Checkbox, DatePicker, Tooltip, Modal} from 'iview'
   import Clipboard from 'clipboard'
-  import Upload from '@/components/upload'
+  import Upload from '@/components/Upload'
   import TimeDown from '@/components/TimeDown'
   import PlaceOrderStep from '@/components/PlaceOrderStep'
   import UserClause from '@/components/UserClause'

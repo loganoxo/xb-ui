@@ -227,7 +227,7 @@
   import {Icon, Form, Input, Checkbox, Button, Radio, Modal, Alert} from 'iview'
   import pictureUpload from 'vue-image-crop-upload';
   import api from '@/config/apiConfig'
-  import Upload from '@/components/upload'
+  import Upload from '@/components/Upload'
   import {setStorage, getStorage, aliUploadImgBuffer, randomString} from '@/config/utils'
   import {aliCallbackImgUrl} from '@/config/env'
   import SmsCountdown from '@/components/SmsCountdown'
