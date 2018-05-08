@@ -5,7 +5,7 @@
     </div>
     <div class="content-box pt-20 pb-20">
       <div class="tabs-box">
-        <span v-if="getUserAccountRole === item.disabledRole" v-for="item in infoSelectList" :class="{active:infoSelect === item.isSelect}" @click="accountInit(item.isSelect)">{{item.text}}</span>
+        <span v-if="getUserAccountRole === item.disabledRole" v-for="item in infoSelectList" :class="{active:infoSelect === item.isSelect}" @click="switchTab(item.isSelect)">{{item.text}}</span>
       </div>
       <router-view></router-view>
     </div>
@@ -36,7 +36,7 @@
     },
     computed: {
       getUserAccountRole() {
-        return this.$store.getters.getUserRole
+        return this.$store.getters.getUserRole;
       }
     },
     watch: {
@@ -45,7 +45,7 @@
       }
     },
     methods: {
-      accountInit(name) {
+      switchTab(name) {
         this.$router.push({name: name});
       },
       // selectNavigate(type) {

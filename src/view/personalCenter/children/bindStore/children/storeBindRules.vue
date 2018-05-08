@@ -3,12 +3,12 @@
     <div class="rules-box">
       <p class="rules-title">店铺绑定说明:</p>
       <ul>
-        <li>1、每个商家可以绑定一个店铺，无论是淘宝或者天猫，如果需要绑定更多，则需要付费成为会员。</li>
+        <li>1、免费商家可绑定1个店铺，VIP商家可绑定4个店铺，SVIP商家可绑定8个店铺。</li>
         <li>2、店铺绑定成功后无法解绑和修改，请慎重操作！</li>
         <li>3、发布活动的宝贝必须是所绑定店铺内的宝贝，否则活动无法发布！</li>
       </ul>
     </div>
-    <p class="has-bind-title fs-16">我已绑定的店铺</p>
+    <p class="has-bind-title fs-16">我已绑定的店铺 <span class="main-color">（根据你的会员版本，最多可绑定n个店铺。）</span> </p>
     <ul class="has-bind-box clear">
       <li class="left" v-for="storeInfo in storeInfoLists" :key="storeInfo.id">
         <img src="~assets/img/common/taobao-logo.png" v-if="storeInfo.storeType === 'taobao'">
@@ -18,7 +18,7 @@
       </li>
       <li class="left cursor-p" @click="toStoreBindOperating">
         <p class="mt-20"><Icon type="plus" size="50" color="#999"></Icon></p>
-        <p class="bind-new-store f-b fs-16 mt-10">绑定新店铺</p>
+        <p class="bind-new-store mt-10">升级VIP绑定更多店铺</p>
       </li>
     </ul>
   </div>
@@ -105,6 +105,14 @@
         margin-bottom:20px;
         width:236px;
       }
+    }
+    .bind-new-store{
+      padding:0 5px;
+      border:1px solid $mainColor;
+      background-color: #F6E363;
+      border-radius: 5px;
+      color:$mainColor;
+      display: inline-block;
     }
   }
 

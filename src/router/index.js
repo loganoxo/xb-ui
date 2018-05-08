@@ -25,7 +25,6 @@ const TaskDetails = r => require.ensure([], () => r(require('@/view/TaskDetails.
 
 const MyXiuBa = r => require.ensure([], () => r(require('@/view/personalCenter/Index.vue')), 'personalCenter');
 const UserHome = r => require.ensure([], () => r(require('@/view/personalCenter/children/UserHome.vue')), 'personalCenter');
-// const VipMember = r => require.ensure([], () => r(require('@/view/personalCenter/children/VipMember.vue')), 'VipMember');
 const TaskReleaseProcess = r => require.ensure([], () => r(require('@/view/personalCenter/children/TaskReleaseProcess.vue')), 'TaskReleaseProcess');
 
 const ActivityManagement = r => require.ensure([], () => r(require('@/view/personalCenter/children/activityManagement/index.vue')), 'ActivityManagement');
@@ -801,13 +800,6 @@ export default new Router({
               }
             },
           ]
-          // meta: {
-          //   title: "VIP会员",
-          //   logInAuthority: true,
-          //   topShow: true,
-          //   bottomShow: true,
-          //   role: 1,
-          // }
         },
 
       ]

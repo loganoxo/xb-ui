@@ -418,6 +418,13 @@ export default {
   },
 
   /**
+   * 获取会员版本说明信息
+   */
+  getMemberInstructionsInfo() {
+    return fetch("/api/get-member-instructions-info.json")
+  },
+
+  /**
    * 判断是否可以发布活动
    */
   checkMemberForTask() {

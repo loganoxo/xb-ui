@@ -4,59 +4,59 @@
       <li class="t-head clear first">
         <div class="t-catalog left c-white function">功能说明</div>
         <div class="left c-d-grey">
-          <p>免费会员</p>
-          <p class="mt-10">（0元/年）</p>
+          <p>{{freeMemberInfo.memberName}}</p>
+          <p class="mt-10">{{freeMemberInfo.memberDesc}}</p>
         </div>
         <div class="left c-d-blue">
-          <p>VIP会员</p>
-          <p class="mt-10">（2999/年）</p>
+          <p>{{vipMemberInfo.memberName}}</p>
+          <p class="mt-10">{{vipMemberInfo.memberDesc}}</p>
         </div>
         <div class="left c-d-orange">
-          <p>SVIP会员</p>
-          <p class="mt-10">（8999/年）</p>
+          <p>{{svipMemberInfo.memberName}}</p>
+          <p class="mt-10">{{svipMemberInfo.memberDesc}}</p>
         </div>
       </li>
       <li class="clear second">
         <div class="t-catalog c-white">推广费（每单）</div>
-        <div class="c-l-grey">宝贝单价*4%，5元封顶</div>
-        <div class="c-l-blue">宝贝单价*2%，3元封顶</div>
-        <div class="c-l-orange">免</div>
+        <div class="c-l-grey" v-if="freeMemberInfo.promotionFee">宝贝单价*{{freeMemberInfo.promotionFee.percent}}%，{{freeMemberInfo.promotionFee.limit/100}}元封顶</div>
+        <div class="c-l-blue" v-if="vipMemberInfo.promotionFee">宝贝单价*{{vipMemberInfo.promotionFee.percent}}%，{{vipMemberInfo.promotionFee.limit/100}}元封顶</div>
+        <div class="c-l-orange">{{svipMemberInfo.promotionFee}}</div>
       </li>
       <li class="clear third">
         <div class="t-catalog c-white">充值手续费</div>
-        <div class="c-l-grey">6%。（支付宝验收）</div>
-        <div class="c-l-blue">免</div>
-        <div class="c-l-orange">免</div>
+        <div class="c-l-grey" v-if="freeMemberInfo.rechargeCommission">{{freeMemberInfo.rechargeCommission.percent}}‰（支付宝验收）</div>
+        <div class="c-l-blue">{{vipMemberInfo.rechargeCommission}}</div>
+        <div class="c-l-orange">{{svipMemberInfo.rechargeCommission}}</div>
       </li>
       <li class="clear forth">
         <div class="t-catalog c-white">活动审核</div>
-        <div class="c-l-grey">排队审核</div>
-        <div class="c-l-blue">优先审核（20分钟内审核）</div>
-        <div class="c-l-orange">优先审核（20分钟内审核）</div>
+        <div class="c-l-grey">{{freeMemberInfo.taskAudit}}</div>
+        <div class="c-l-blue">{{vipMemberInfo.taskAudit}}</div>
+        <div class="c-l-orange">{{svipMemberInfo.taskAudit}}</div>
       </li>
       <li class="clear fifth">
         <div class="t-catalog c-white lh-80">活动置顶显示，开发中...</div>
-        <div class="c-l-grey lh-80">无</div>
+        <div class="c-l-grey lh-80">{{freeMemberInfo.taskStickUp}}</div>
         <div class="c-l-blue check-box">
           <p>每日上新页置顶<span class="check-text cursor-p" @click="showDemo('demo-1')">（查看）</span></p>
-          <p class="mt-5">每天2次，每次20分钟</p>
+          <p class="mt-5" v-if="vipMemberInfo.taskStickUp">每天{{vipMemberInfo.taskStickUp.frequency}}次，每次{{vipMemberInfo.taskStickUp.time}}分钟</p>
         </div>
         <div class="c-l-orange check-box">
           <p>首页最新活动置顶<span class="check-text cursor-p" @click="showDemo('demo-2')">（查看）</span></p>
-          <p class="mt-5">每天2次，每次20分钟</p>
+          <p class="mt-5" v-if="svipMemberInfo.taskStickUp">每天{{svipMemberInfo.taskStickUp.frequency}}次，每次{{svipMemberInfo.taskStickUp.time}}分钟</p>
         </div>
       </li>
       <li class="clear sixth">
         <div class="t-catalog c-white">同一宝贝每日发布活动次数</div>
-        <div class="c-l-grey">1次</div>
-        <div class="c-l-blue">2次</div>
-        <div class="c-l-orange">3次</div>
+        <div class="c-l-grey" v-if="freeMemberInfo.itemReleaseTaskOneDayLimit">{{freeMemberInfo.itemReleaseTaskOneDayLimit.frequency}}次</div>
+        <div class="c-l-blue" v-if="vipMemberInfo.itemReleaseTaskOneDayLimit">{{vipMemberInfo.itemReleaseTaskOneDayLimit.frequency}}次</div>
+        <div class="c-l-orange" v-if="svipMemberInfo.itemReleaseTaskOneDayLimit">{{svipMemberInfo.itemReleaseTaskOneDayLimit.frequency}}次</div>
       </li>
       <li class="clear seventh">
         <div class="t-catalog c-white">店铺绑定数量</div>
-        <div class="c-l-grey">1个</div>
-        <div class="c-l-blue">4个</div>
-        <div class="c-l-orange">8个</div>
+        <div class="c-l-grey" v-if="freeMemberInfo.storeBindingLimit">{{freeMemberInfo.storeBindingLimit.number}}个</div>
+        <div class="c-l-blue" v-if="vipMemberInfo.storeBindingLimit">{{vipMemberInfo.storeBindingLimit.number}}个</div>
+        <div class="c-l-orange" v-if="svipMemberInfo.storeBindingLimit">{{svipMemberInfo.storeBindingLimit.number}}个</div>
       </li>
     </ul>
     <p class="to-be-continue">更多权益正在添加中，敬请期待...</p>
@@ -69,7 +69,8 @@
 </template>
 
 <script>
-  import {Modal} from 'iview';
+  import {Modal} from 'iview'
+  import api from '@/config/apiConfig'
 
   export default {
     name: "vip-member-instructions",
@@ -78,6 +79,9 @@
     },
     data() {
       return {
+        freeMemberInfo:{},
+        vipMemberInfo:{},
+        svipMemberInfo:{},
         isShowDemo: false,
         demo1: false,
         demo2: false
@@ -85,9 +89,31 @@
     },
     computed: {},
     created() {
-
+      this.getVersionInfo();
     },
     methods: {
+      getVersionInfo(){
+        let _this = this;
+        api.getMemberInstructionsInfo().then(res=>{
+          let tempData = [];
+          if(res.status){
+            tempData = res.data;
+            tempData.forEach(item=>{
+              item.memberDesc = item.memberDesc.split(',')[1];
+              item.promotionFee = item.promotionFee.length>1?JSON.parse(item.promotionFee):item.promotionFee;
+              item.taskStickUp = item.taskStickUp.length>1?JSON.parse(item.taskStickUp):item.taskStickUp;
+              item.rechargeCommission = item.rechargeCommission.length>1?JSON.parse(item.rechargeCommission):item.rechargeCommission;
+              item.itemReleaseTaskOneDayLimit = JSON.parse(item.itemReleaseTaskOneDayLimit);
+              item.storeBindingLimit = JSON.parse(item.storeBindingLimit);
+            });
+            _this.freeMemberInfo = tempData[0];
+            _this.vipMemberInfo = tempData[1];
+            _this.svipMemberInfo = tempData[2];
+          }else{
+            _this.$Message.error(res.msg);
+          }
+        })
+      },
       showDemo(demo) {
         let _this = this;
         if (demo === 'demo-1') {
@@ -203,6 +229,9 @@
         border-bottom: 1px solid #ccc;
         border-right: 1px solid #ccc;
         height: 80px;
+      }
+      .t-catalog{
+        color:#ccc;
       }
       .lh-80 {
         height: 80px;
