@@ -64,7 +64,7 @@
   import {aliPayUrl, weiXinPayUrl} from '@/config/env'
 
   export default {
-    name: 'PayModel',
+    name: 'pay-model',
     components: {
       iInput: Input,
       Radio: Radio,
@@ -78,7 +78,11 @@
         required: true,
         default: 0
       },
-      memberId: {
+      memberLevel: {
+        type: [Number, String],
+        default: null
+      },
+      timeLevel: {
         type: [Number, String],
         default: null
       },
@@ -143,7 +147,8 @@
             finalFee: (_this.payMoney * 100 * 1.006).toFixed() * 1,
             orderPlatform: 'PC',
             payChannel: 1,
-            memberId: _this.memberId,
+            memberLevel: _this.memberLevel,
+            timeLevel : _this.timeLevel,
             orderType: _this.orderType
           }).then(res => {
             _this.payLoading = false;

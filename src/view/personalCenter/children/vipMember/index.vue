@@ -22,16 +22,16 @@
         infoSelectList: [
           {
             text: '会员订购',
-            isSelect: 'Order',
+            isSelect: 'VipMemberOrder',
             disabledRole: 1,
           },
           {
             text: '版本说明',
-            isSelect: 'Instructions',
+            isSelect: 'VipMemberInstructions',
             disabledRole: 1,
           },
         ],
-        infoSelect: 'Order',
+        infoSelect: 'VipMemberOrder',
       }
     },
     computed: {

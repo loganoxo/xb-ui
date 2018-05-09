@@ -744,7 +744,7 @@
     methods: {
       changeIsBuyVipPopupFunc() {
         let self = this;
-        if (self.$store.getters.getMembershipIsExpire && (parseInt(self.trialCount.finishedTaskCount) + parseInt(self.trialCount.underWayTask)) > 0) {//非VIP用户且发布任务大于0
+        if (self.$store.getters.isMemberOk && (parseInt(self.trialCount.finishedTaskCount) + parseInt(self.trialCount.underWayTask)) > 0) {//非VIP用户且发布任务大于0
           self.$store.commit({
             type: "CHANGE_IS_VIP_POPUP",
             result: true,

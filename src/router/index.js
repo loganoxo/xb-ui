@@ -23,7 +23,7 @@ const Register = r => require.ensure([], () => r(require('@/view/Register.vue'))
 const TaskCategory = r => require.ensure([], () => r(require('@/view/TaskCategory.vue')), 'TaskCategory');
 const TaskDetails = r => require.ensure([], () => r(require('@/view/TaskDetails.vue')), 'TaskDetails');
 
-const MyXiuBa = r => require.ensure([], () => r(require('@/view/personalCenter/Index.vue')), 'personalCenter');
+const MyXiuBa = r => require.ensure([], () => r(require('@/view/personalCenter/index.vue')), 'personalCenter');
 const UserHome = r => require.ensure([], () => r(require('@/view/personalCenter/children/UserHome.vue')), 'personalCenter');
 const TaskReleaseProcess = r => require.ensure([], () => r(require('@/view/personalCenter/children/TaskReleaseProcess.vue')), 'TaskReleaseProcess');
 
@@ -76,9 +76,6 @@ const StoreBindOperating = r => require.ensure([], () => r(require('@/view/perso
 const VipMember = r => require.ensure([], () => r(require('@/view/personalCenter/children/vipMember/index.vue')), 'VipMember');
 const VipInstructions = r => require.ensure([], () => r(require('@/view/personalCenter/children/VipMember/children/Instructions.vue')), 'VipMember');
 const VipOrder = r => require.ensure([], () => r(require('@/view/personalCenter/children/VipMember/children/Order.vue')), 'VipMember');
-
-
-
 
 Vue.use(Router);
 
@@ -777,7 +774,7 @@ export default new Router({
           children:[
             {
               path:'order',
-              name:'Order',
+              name:'VipMemberOrder',
               component:VipOrder,
               meta:{
                 title: "VIP会员购买",
@@ -789,7 +786,7 @@ export default new Router({
             },
             {
               path:'instructions',
-              name:'Instructions',
+              name:'VipMemberInstructions',
               component:VipInstructions,
               meta:{
                 title: "VIP会员说明",

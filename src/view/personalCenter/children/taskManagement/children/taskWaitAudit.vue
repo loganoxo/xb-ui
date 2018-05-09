@@ -72,12 +72,12 @@
             <tbody v-for="(allTask,allTaskIndex) in item.applyAllTask" :key="allTask.id">
             <tr :class="{readBackground:allTask.newest}">
               <td>
-                <div v-if="allTask.freshmanCheck" class="inline-block new-man-tip" style="width: 50px;">
+                <div v-if="allTask.freshmanCheck" class="inline-block new-man-tip">
                   <Tooltip content="多给新人一点机会吧，他们可是很认真的 ^_^" placement="top">
                     <img src="/static/img/icon/newman.png" alt="" >
                   </Tooltip>
                 </div>
-                <div class="inline-block account-info" >
+                <div class="inline-block account-info">
                   <p>
                     {{allTask.alitmAccount}}
                   </p>

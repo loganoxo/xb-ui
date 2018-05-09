@@ -253,7 +253,7 @@
         return this.$store.state.userInfo.memberDeadline
       },
       membershipIsExpire() {
-        return this.$store.getters.getMembershipIsExpire
+        return this.$store.getters.isMemberOk
       },
       userHeadUrl() {
         return this.$store.getters.getUserHeadUrl

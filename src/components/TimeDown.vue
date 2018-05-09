@@ -36,6 +36,10 @@
       fontWeight: {
         type: Number,
         default: 500
+      },
+      timeEndText: {
+        type: String,
+        default: ''
       }
     },
     computed: {},
@@ -51,7 +55,7 @@
         if (leftTime <= 0) {
           _this.flag = true;
           _this.$emit('timeEnd');
-          _this.time = `<span class="fs-14">已结束</span>`;
+          _this.time = _this.timeEndText;
         } else {
           _this.time = `${d}天${h}小时${m}分${s}秒`
         }

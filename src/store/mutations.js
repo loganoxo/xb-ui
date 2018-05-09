@@ -14,6 +14,7 @@ export default {
 
   //登录成功后存储用户信息到localStorage和vuex
   [types.RECORD_USER_INFO](state, {info}) {
+    state.userInfo = {};
     state.userInfo = info;
     state.login = true;
     let userInfo = getStorage("userInfo");

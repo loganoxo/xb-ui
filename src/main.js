@@ -4,7 +4,7 @@ import router from './router'
 import store from './store'
 import * as filters from './filter/custom'
 import VueLazyload from 'vue-lazyload'
-import {Modal, LoadingBar, Message, Notice} from 'iview'
+import {Modal, Message, Notice} from 'iview'
 import '../iview/iview.less'
 import '@/css/common.scss'
 // import 'animate.css'
@@ -41,7 +41,6 @@ store.commit('INIT_USER_INFO');
 
 /*根据路由改变前处理业务逻辑*/
 router.beforeEach((to, from, next) => {
-  LoadingBar.start();
   store.commit({
     type: "CHANGE_TOP_SHOW_HIDE",
     status: to.meta.topShow
@@ -58,7 +57,7 @@ router.beforeEach((to, from, next) => {
     if (store.state.login && store.state.userInfo.role === 1) {
       store.dispatch('getSellerTaskInfo').then(() => {
         //非VIP用户且发单数大于0
-        if (store.getters.getMembershipIsExpire && (parseInt(store.state.sellerTaskInfo.taskTotalCount) === 0)) {
+        if (store.getters.isMemberOk && (parseInt(store.state.sellerTaskInfo.taskTotalCount) === 0)) {
           store.commit({
             type: "CHANGE_IS_VIP_POPUP",
             result: true,
@@ -81,7 +80,6 @@ router.beforeEach((to, from, next) => {
 /*根据路由改变后处理业务逻辑*/
 router.afterEach(to => {
   document.title = to.meta.title;
-  LoadingBar.finish();
 });
 
 new Vue({

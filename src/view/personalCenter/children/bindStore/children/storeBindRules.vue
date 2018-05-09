@@ -42,9 +42,6 @@
       isMember(){
         return this.$store.state.userInfo.memberOK;
       },
-      memberIsExpire(){
-        return this.$store.getters.getMembershipIsExpire;
-      }
     },
     created(){
       this.getStoreBindInfo();

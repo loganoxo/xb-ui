@@ -98,7 +98,7 @@
         return this.$store.state.userInfo
       },
       membershipIsExpire() {
-        return this.$store.getters.getMembershipIsExpire
+        return this.$store.getters.isMemberOk
       },
       pcMerchantQqGroup() {
         return this.$store.getters.getPcMerchantQqGroup

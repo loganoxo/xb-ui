@@ -152,7 +152,7 @@ export default {
   },
 
   /**
-   * 余额充值
+   * 通过支付宝充值并支付金额
    */
   balanceOrderCreate(params) {
     return fetch("/api/balance-order-create.json", params)
@@ -411,6 +411,13 @@ export default {
   },
 
   /**
+   * 获取所有会员版本周期列表
+   */
+  getMemberVersionPeriodList() {
+    return fetch("/api/get-member-version-period-list.json")
+  },
+
+  /**
    * 获取会员等级详细信息
    */
   getUserMemberLevelInfo(params) {
@@ -432,7 +439,7 @@ export default {
   },
 
   /**
-   * 充值会员
+   * 通过账户余额购买会员
    */
   memberPurchase(params) {
     return fetch("/api/user-member-purchase.json", params)

@@ -115,7 +115,7 @@
         })
       },
       showDemo(demo) {
-        let _this = this;
+        const _this = this;
         if (demo === 'demo-1') {
           _this.demo1 = true;
           _this.demo2 = false;
