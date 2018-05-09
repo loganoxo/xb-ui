@@ -6,17 +6,13 @@
     <div class="container" id="buyershowPosition">
       <p v-show="isLogin" class="left">
         你好，<span class="user-name">
-        <span  @click="openMember"  v-if="getUserInfo.role === 1 && !isMember">
-           <Tooltip content="亲当前未开通会员，点击图标马上开通" placement="bottom-start" >
-              <span><Icon  type="social-vimeo" color="gray"></Icon></span>
-            </Tooltip>
+        <span v-if="getUserInfo.role === 1 && isMember" class="mr-5">
+          <img v-if="getUserInfo.memberLevel === 200" src="~assets/img/common/vip.png" alt="vipLogo">
+          <img v-if="getUserInfo.memberLevel === 300" src="~assets/img/common/svip.png" alt="svipLogo">
         </span>
-        <span v-if="getUserInfo.role === 1 && isMember">
-          <Icon  type="social-vimeo" color="red"></Icon>
-        </span>
-        <router-link to="/user/user-home">
-          <span v-if="getUserInfo.role === 1"> 商家 </span>
-          <span v-if="getUserInfo.role === 0"> 拿手 </span>
+        <router-link class="blue" tag="span" to="/user/user-home">
+          <span class="main-color" v-if="getUserInfo.role === 1"> 商家 </span>
+          <span class="main-color" v-if="getUserInfo.role === 0"> 拿手 </span>
           {{decodeURIComponent(getUserInfo.nickname)}}
         </router-link>
         </span>
