@@ -31,7 +31,7 @@
         <span class="main-color">{{orderValidityTime | dateFormat('YYYY-MM-DD') || '------'}}</span><span
           v-if="isMember && isVersionUpgrade">，根据您现在的会员版本可折价抵扣：{{deductionPrice}}元，成功升级后现有版本将失效。</span>
       </p>
-      <p class="fs-16 mt-10">本次总共需要支付的金额为：<span class="f-b">{{buyOrderPrice}}</span> 元。您账户余额为： <span class="f-b">{{getUserBalance || 0}}</span>
+      <p class="fs-16 mt-10">本次总共需要支付的金额为：<span class="f-b">{{buyOrderPrice}}</span> 元。您账户余额为： <span class="f-b">{{(getUserBalance).toFixed(2) || 0}}</span>
         元<span v-if="!hasBalance">，还需要充值：<span class="f-b">{{payPrice}}</span> 元</span>
       </p>
     </div>
@@ -216,7 +216,11 @@
           if (item.level === this.isSelectVersionPeriodInfo.level && item.timeLevel === this.isSelectVersionPeriodInfo.timeLevel) {
             this.buyOrderPrice = this.isMember && this.isVersionUpgrade ? ((item.fee - this.deductionPrice * 100) / 100).toFixed(2) : (item.fee / 100).toFixed(2);
             if (this.isMember) {
-              this.orderValidityTime = this.orderSurplusTime > 0 ? getSeverTime() + this.orderSurplusTime + item.validDays * 1000 * 3600 * 24 : getSeverTime() + item.validDays * 1000 * 3600 * 24;
+              if(this.isVersionUpgrade) {
+                this.orderValidityTime = this.orderSurplusTime > 0 ? getSeverTime() + this.orderSurplusTime + item.validDays * 1000 * 3600 * 24 : getSeverTime() + item.validDays * 1000 * 3600 * 24;
+              } else {
+                this.orderValidityTime = getSeverTime() + item.validDays * 1000 * 3600 * 24;
+              }
             } else {
               this.orderValidityTime = getSeverTime() + item.validDays * 1000 * 3600 * 24;
             }
