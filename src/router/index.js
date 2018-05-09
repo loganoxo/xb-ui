@@ -74,8 +74,8 @@ const StoreBindRules = r => require.ensure([], () => r(require('@/view/personalC
 const StoreBindOperating = r => require.ensure([], () => r(require('@/view/personalCenter/children/bindStore/children/storeBindOperating.vue')), 'StoreBindOperating');
 
 const VipMember = r => require.ensure([], () => r(require('@/view/personalCenter/children/vipMember/index.vue')), 'VipMember');
-const VipInstructions = r => require.ensure([], () => r(require('@/view/personalCenter/children/VipMember/children/Instructions.vue')), 'VipMember');
-const VipOrder = r => require.ensure([], () => r(require('@/view/personalCenter/children/VipMember/children/Order.vue')), 'VipMember');
+const VipMemberInstructions = r => require.ensure([], () => r(require('@/view/personalCenter/children/vipMember/children/Instructions.vue')), 'VipMember');
+const VipMemberOrder = r => require.ensure([], () => r(require('@/view/personalCenter/children/vipMember/children/Order.vue')), 'VipMember');
 
 Vue.use(Router);
 
@@ -323,7 +323,7 @@ export default new Router({
       meta: {
         title: "任务详情页",
         logInAuthority: false,
-        topShow:true,
+        topShow: true,
         bottomShow: true,
         role: null,
       }
@@ -361,13 +361,13 @@ export default new Router({
           path: 'bind-store',
           name: 'BindStore',
           component: BindStore,
-          children:[
+          children: [
             {
-              path:'store-bind-rules',
-              name:'StoreBindRules',
-              component:StoreBindRules,
-              meta:{
-                title:"店铺绑定说明",
+              path: 'store-bind-rules',
+              name: 'StoreBindRules',
+              component: StoreBindRules,
+              meta: {
+                title: "店铺绑定说明",
                 logInAuthority: true,
                 topShow: true,
                 bottomShow: true,
@@ -375,11 +375,11 @@ export default new Router({
               }
             },
             {
-              path:'store-bind-operating',
-              name:'StoreBindOperating',
-              component:StoreBindOperating,
-              meta:{
-                title:'店铺绑定操作',
+              path: 'store-bind-operating',
+              name: 'StoreBindOperating',
+              component: StoreBindOperating,
+              meta: {
+                title: '店铺绑定操作',
                 logInAuthority: true,
                 topShow: true,
                 bottomShow: true,
@@ -771,24 +771,24 @@ export default new Router({
           path: 'vip-member',
           name: 'VipMember',
           component: VipMember,
-          children:[
+          children: [
             {
-              path:'order',
-              name:'VipMemberOrder',
-              component:VipOrder,
-              meta:{
+              path: 'order',
+              name: 'VipMemberOrder',
+              component: VipMemberOrder,
+              meta: {
                 title: "VIP会员购买",
-                  logInAuthority: true,
-                  topShow: true,
-                  bottomShow: true,
-                  role: 1,
+                logInAuthority: true,
+                topShow: true,
+                bottomShow: true,
+                role: 1,
               }
             },
             {
-              path:'instructions',
-              name:'VipMemberInstructions',
-              component:VipInstructions,
-              meta:{
+              path: 'instructions',
+              name: 'VipMemberInstructions',
+              component: VipMemberInstructions,
+              meta: {
                 title: "VIP会员说明",
                 logInAuthority: true,
                 topShow: true,
