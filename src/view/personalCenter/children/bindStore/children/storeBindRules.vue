@@ -8,7 +8,8 @@
         <li>3、发布活动的宝贝必须是所绑定店铺内的宝贝，否则活动无法发布！</li>
       </ul>
     </div>
-    <p class="has-bind-title fs-16">我已绑定的店铺 <span class="main-color">（根据你的会员版本，最多可绑定n个店铺。）</span> </p>
+    <!--<p class="has-bind-title fs-16">我已绑定的店铺 <span class="main-color">（根据你的会员版本，最多可绑定{{memberLevel===100?1:(memberLevel===200?4:8)}}个店铺。）</span> </p>-->
+    <p class="has-bind-title fs-16">我已绑定的店铺 <span class="main-color">（根据你的会员版本，最多可绑定<span v-if="memberLevel===100">1</span><span v-if="memberLevel===200">4</span><span v-if="memberLevel===300">8</span>个店铺。）</span> </p>
     <ul class="has-bind-box clear">
       <li class="left" v-for="storeInfo in storeInfoLists" :key="storeInfo.id">
         <img src="~assets/img/common/taobao-logo.png" v-if="storeInfo.storeType === 'taobao'">
@@ -16,7 +17,7 @@
         <p class="store-name mt-15 f-b fs-16">{{storeInfo.storeName}}</p>
         <p class="store-ww mt-15">店铺旺旺：<span>{{storeInfo.storeAlitm}}</span></p>
       </li>
-      <li class="left cursor-p" @click="toStoreBindOperating">
+      <li v-if="isShowBindBtn" class="left cursor-p" @click="toStoreBindOperating">
         <p class="mt-20"><Icon type="plus" size="50" color="#999"></Icon></p>
         <p class="bind-new-store mt-10">升级VIP绑定更多店铺</p>
       </li>
@@ -36,12 +37,16 @@
     data(){
       return {
         storeInfoLists:[],
+        isShowBindBtn:true,
       }
     },
     computed:{
       isMember(){
         return this.$store.state.userInfo.memberOK;
       },
+      memberLevel(){
+        return this.$store.state.userInfo.memberLevel;
+      }
     },
     created(){
       this.getStoreBindInfo();
@@ -55,6 +60,9 @@
             if(res.data.length > 0){
               _this.storeInfoLists = res.data;
             }
+            if(res.data.length >= 8){
+              _this.isShowBindBtn = false;
+            }
           }else{
             Toast(res.msg);
           }
@@ -63,15 +71,18 @@
       //去往绑定新店铺页面（需要判断）
       toStoreBindOperating(){
         const _this = this;
-        if(_this.storeInfoLists.length >= 1){
-          _this.$Message.warning('亲，目前只可以绑定一个店铺，你的可绑定数量已达上限！')
-          // if(_this.isMember && !_this.memberIsExpire){
-          //   this.$router.push({name:'StoreBindOperating'});
-          // }else{
-          //   this.$router.push({name:'VipMember'});
-          // }
-        } else {
+        if((_this.memberLevel ===100 || _this.memberLevel === null) && _this.storeInfoLists.length >= 1){
+          _this.$router.push({path:'/user/vip-member/order'});
+          console.log('level1');
+        } else if (_this.memberLevel === 200 && _this.storeInfoLists.length >= 4) {
+          _this.$router.push({path:'/user/vip-member/order'});
+          console.log('level2');
+        } else if (_this.memberLevel === 300 && _this.storeInfoLists.length >= 8) {
+          _this.isShowBindBtn = false;
+          console.log('level3');
+        }else {
           this.$router.push({name:'StoreBindOperating'});
+          console.log('toBindOperating');
         }
       }
     }

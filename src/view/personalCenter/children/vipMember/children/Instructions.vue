@@ -20,13 +20,16 @@
         <div class="t-catalog c-white">推广费（每单）</div>
         <div class="c-l-grey" v-if="freeMemberInfo.promotionFee">宝贝单价*{{freeMemberInfo.promotionFee.percent}}%，{{freeMemberInfo.promotionFee.limit/100}}元封顶</div>
         <div class="c-l-blue" v-if="vipMemberInfo.promotionFee">宝贝单价*{{vipMemberInfo.promotionFee.percent}}%，{{vipMemberInfo.promotionFee.limit/100}}元封顶</div>
-        <div class="c-l-orange">{{svipMemberInfo.promotionFee}}</div>
+        <div class="c-l-orange" v-if="svipMemberInfo.promotionFee && svipMemberInfo.promotionFee.percent === 0">免</div>
+        <div class="c-l-orange" v-if="svipMemberInfo.promotionFee &&!svipMemberInfo.promotionFee.percent === 0">宝贝单价*{{svipMemberInfo.promotionFee.percent}}%，{{svipMemberInfo.promotionFee.limit/100}}元封顶</div>
       </li>
       <li class="clear third">
         <div class="t-catalog c-white">充值手续费</div>
         <div class="c-l-grey" v-if="freeMemberInfo.rechargeCommission">{{freeMemberInfo.rechargeCommission.percent}}‰（支付宝验收）</div>
-        <div class="c-l-blue">{{vipMemberInfo.rechargeCommission}}</div>
-        <div class="c-l-orange">{{svipMemberInfo.rechargeCommission}}</div>
+        <div class="c-l-blue" v-if="vipMemberInfo.rechargeCommission && vipMemberInfo.rechargeCommission.percent===0">免</div>
+        <div class="c-l-blue" v-if="vipMemberInfo.rechargeCommission &&!vipMemberInfo.rechargeCommission.percent===0">{{vipMemberInfo.rechargeCommission.percent}}‰（支付宝验收）</div>
+        <div class="c-l-orange" v-if="svipMemberInfo.rechargeCommission && svipMemberInfo.rechargeCommission.percent===0">免</div>
+        <div class="c-l-orange" v-if="svipMemberInfo.rechargeCommission &&!svipMemberInfo.rechargeCommission.percent===0">{{svipMemberInfo.rechargeCommission.percent}}‰（支付宝验收）</div>
       </li>
       <li class="clear forth">
         <div class="t-catalog c-white">活动审核</div>
@@ -100,9 +103,9 @@
             tempData = res.data;
             tempData.forEach(item=>{
               item.memberDesc = item.memberDesc.split(',')[1];
-              item.promotionFee = item.promotionFee.length>1?JSON.parse(item.promotionFee):item.promotionFee;
+              item.promotionFee = JSON.parse(item.promotionFee);
+              item.rechargeCommission = JSON.parse(item.rechargeCommission);
               item.taskStickUp = item.taskStickUp.length>1?JSON.parse(item.taskStickUp):item.taskStickUp;
-              item.rechargeCommission = item.rechargeCommission.length>1?JSON.parse(item.rechargeCommission):item.rechargeCommission;
               item.itemReleaseTaskOneDayLimit = JSON.parse(item.itemReleaseTaskOneDayLimit);
               item.storeBindingLimit = JSON.parse(item.storeBindingLimit);
             });
