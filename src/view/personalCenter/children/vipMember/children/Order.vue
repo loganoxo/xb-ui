@@ -216,7 +216,7 @@
           if (item.level === this.isSelectVersionPeriodInfo.level && item.timeLevel === this.isSelectVersionPeriodInfo.timeLevel) {
             this.buyOrderPrice = this.isMember && this.isVersionUpgrade ? ((item.fee - this.deductionPrice * 100) / 100).toFixed(2) : (item.fee / 100).toFixed(2);
             if (this.isMember) {
-              if(this.isVersionUpgrade) {
+              if(!this.isVersionUpgrade) {
                 this.orderValidityTime = this.orderSurplusTime > 0 ? getSeverTime() + this.orderSurplusTime + item.validDays * 1000 * 3600 * 24 : getSeverTime() + item.validDays * 1000 * 3600 * 24;
               } else {
                 this.orderValidityTime = getSeverTime() + item.validDays * 1000 * 3600 * 24;
