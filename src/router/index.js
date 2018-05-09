@@ -23,8 +23,8 @@ const Register = r => require.ensure([], () => r(require('@/view/Register.vue'))
 const TaskCategory = r => require.ensure([], () => r(require('@/view/TaskCategory.vue')), 'TaskCategory');
 const TaskDetails = r => require.ensure([], () => r(require('@/view/TaskDetails.vue')), 'TaskDetails');
 
-const MyXiuBa = r => require.ensure([], () => r(require('@/view/personalCenter/index.vue')), 'personalCenter');
-const UserHome = r => require.ensure([], () => r(require('@/view/personalCenter/children/UserHome.vue')), 'personalCenter');
+const PersonalCenter = r => require.ensure([], () => r(require('@/view/personalCenter/index.vue')), 'PersonalCenter');
+const UserHome = r => require.ensure([], () => r(require('@/view/personalCenter/children/UserHome.vue')), 'PersonalCenter');
 const TaskReleaseProcess = r => require.ensure([], () => r(require('@/view/personalCenter/children/TaskReleaseProcess.vue')), 'TaskReleaseProcess');
 
 const ActivityManagement = r => require.ensure([], () => r(require('@/view/personalCenter/children/activityManagement/index.vue')), 'ActivityManagement');
