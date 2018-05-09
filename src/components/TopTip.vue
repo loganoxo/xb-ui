@@ -6,12 +6,12 @@
     <div class="container" id="buyershowPosition">
       <p v-show="isLogin" class="left">
         你好，<span class="user-name">
-        <span  @click="openMember"  v-if="getUserInfo.role === 1 && membershipIsExpire">
+        <span  @click="openMember"  v-if="getUserInfo.role === 1 && !isMember">
            <Tooltip content="亲当前未开通会员，点击图标马上开通" placement="bottom-start" >
               <span><Icon  type="social-vimeo" color="gray"></Icon></span>
             </Tooltip>
         </span>
-        <span v-if="getUserInfo.role === 1 && !membershipIsExpire">
+        <span v-if="getUserInfo.role === 1 && isMember">
           <Icon  type="social-vimeo" color="red"></Icon>
         </span>
         <router-link to="/user/user-home">
@@ -97,7 +97,7 @@
       getUserInfo() {
         return this.$store.state.userInfo
       },
-      membershipIsExpire() {
+      isMember() {
         return this.$store.getters.isMemberOk
       },
       pcMerchantQqGroup() {

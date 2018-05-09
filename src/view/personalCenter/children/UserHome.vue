@@ -24,12 +24,12 @@
               to="/user/personal-setting/verified">去认证</router-link></span>
           </p>
           <div>
-          <span v-if="getUserInfoRole === 1 && membershipIsExpire">
+          <span v-if="getUserInfoRole === 1 && !isMember">
             <Icon type="social-vimeo" class="cl999"></Icon>
             <span>非会员</span>
             <router-link to="/user/vip-member">马上开通会员</router-link>
           </span>
-            <span v-if="getUserInfoRole === 1 && !membershipIsExpire">
+            <span v-if="getUserInfoRole === 1 && isMember">
             <Icon type="social-vimeo" class="cl-red"></Icon>
             <span class="cl-red">您已是VIP用户，发布活动免费无上限。</span>
             <!--会员版本：{{levelValue+'版'}}
@@ -252,7 +252,7 @@
       getMemberDeadline() {
         return this.$store.state.userInfo.memberDeadline
       },
-      membershipIsExpire() {
+      isMember() {
         return this.$store.getters.isMemberOk
       },
       userHeadUrl() {

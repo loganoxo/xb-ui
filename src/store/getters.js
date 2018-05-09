@@ -65,7 +65,7 @@ export default {
 
   //从userInfo中获取用户会员状态（是否是会员 true: 是 false: 否）
   isMemberOk: state => {
-    return state.userInfo.memberOk
+    return state.userInfo.memberOK
   },
 
   //从sysConfigInfo中获取pcMerchantQqGroup信息

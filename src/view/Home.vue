@@ -104,12 +104,12 @@
                                class="ellipsis user-name">
                     Hi~ 商家 {{decodeURIComponent(getUserInfoPhone)}}
                   </router-link>
-                  <div v-if="getUserInfoRole === 1 && membershipIsExpire" class="fs-12">
+                  <div v-if="getUserInfoRole === 1 && !isMember" class="fs-12">
                     <Icon type="social-vimeo" class="cl999"></Icon>
                     <span>非会员</span>
                     <router-link to="/user/vip-member">马上开通会员</router-link>
                   </div>
-                  <div v-if="getUserInfoRole === 1 && !membershipIsExpire" class="fs-12">
+                  <div v-if="getUserInfoRole === 1 && isMember" class="fs-12">
                     <Icon type="social-vimeo" class="cl-red"></Icon>
                     <span class="cl-red">您已是VIP，发布活动免费无上限</span>
                     <!-- <span>到期时间:{{Math.floor((parseInt(getMemberDeadline) - parseInt((new Date().getTime()))) / 86400000)}}天</span>
@@ -717,8 +717,8 @@
       getMemberDeadline() {
         return this.$store.state.userInfo.memberDeadline
       },
-      membershipIsExpire() {
-        return this.$store.getters.getMembershipIsExpire
+      isMember() {
+        return this.$store.getters.isMemberOk
       },
       userHeadUrl() {
         return this.$store.getters.getUserHeadUrl
