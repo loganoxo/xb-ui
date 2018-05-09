@@ -342,8 +342,8 @@ export default new Router({
     },
     {
       path: '/user',
-      name: 'MyXiuBa',
-      component: MyXiuBa,
+      name: 'PersonalCenter',
+      component: PersonalCenter,
       children: [
         {
           path: 'user-home',
