@@ -1,7 +1,7 @@
 <template>
   <div class="vip-member-order">
     <p class="mt-10"><strong>VIP会员服务说明：</strong></p>
-    <p class="mt-5">1、可在服务期内免费使用白拿拿免费使用对应版本的服务功能，会员成功开通后，费用不退还。</p>
+    <p class="mt-5">1、可在服务期内使用对应版本的服务功能，VIP及SVIP购买成功后费用不退还。</p>
     <p class="mt-5">2、会员版本仅支持向上扩展。譬如：当前版本为SVIP版本，在该版本到期前不支持购买VIP版本。</p>
     <p class="mt-5">3、时间周期在当前版本中叠加购买。譬如：当前为VIP半年版，再购买VIP季度则在原到期时间上延长一季度。</p>
     <p class="mt-5">4、会员版本升级时，将现有会员剩余时间按天进行折算，剩余价格将抵扣到新版本的费用中（若折算出的价格有溢出，将不退回）。</p>
@@ -29,7 +29,7 @@
       <p class="mt-10 fs-14">您已选择 <span class="main-color">{{selectOrderStatusMap[selectOrderStatus]}}</span> <span
         class="cl000 f-b">{{selectVersionPeriodStatus || '--'}}</span>，有效期至
         <span class="main-color">{{orderValidityTime | dateFormat('YYYY-MM-DD') || '------'}}</span><span
-          v-if="isMember && selectOrderStatus === 'upgrade'">，根据您现在的会员版本可折价抵扣：{{deductionPrice}}元，成功升级后现有版本将失效。</span>
+          v-if="isMember && isVersionUpgrade">，根据您现在的会员版本可折价抵扣：{{deductionPrice}}元，成功升级后现有版本将失效。</span>
       </p>
       <p class="fs-16 mt-10">本次总共需要支付的金额为：<span class="f-b">{{buyOrderPrice}}</span> 元。您账户余额为： <span class="f-b">{{getUserBalance || 0}}</span>
         元<span v-if="!hasBalance">，还需要充值：<span class="f-b">{{payPrice}}</span> 元</span>
@@ -143,7 +143,8 @@
        * @return {string}
        */
       selectOrderStatus() {
-        if ((this.isSelectVersionPeriodInfo.timeLevel === this.getMemberPeriodLevel && this.isSelectVersionPeriodInfo.level === this.getMemberVersionLevel) && this.isMember) {
+        if ((this.isSelectVersionPeriodInfo.timeLevel === this.getMemberPeriodLevel || this.isSelectVersionPeriodInfo.timeLevel < this.getMemberPeriodLevel)
+          && this.isSelectVersionPeriodInfo.level === this.getMemberVersionLevel && this.isMember) {
           return 'renewal'
         } else if ((this.isSelectVersionPeriodInfo.timeLevel !== this.getMemberPeriodLevel || this.isSelectVersionPeriodInfo.level !== this.getMemberVersionLevel) && this.isMember) {
           return 'upgrade'
@@ -185,6 +186,13 @@
        */
       lastNeedPayPrice() {
         return this.hasBalance ? this.buyOrderPrice * 1 : this.payPrice * 1
+      },
+
+      /** 计算用户当前选择是否是版本升级
+       * @return {Number}
+       */
+      isVersionUpgrade() {
+        return this.getMemberVersionLevel < this.isSelectVersionPeriodInfo.level && this.selectOrderStatus === 'upgrade'
       }
     },
     methods: {
@@ -202,18 +210,18 @@
         this.getBuyOrderPrice();
       },
 
-      // 计算选择需要购买会员类型的最终价格、有效期、选择升级后的折扣价格
+      // 计算选择需要购买会员类型的最终价格、有效期、选择版本升级后的折扣价格
       getBuyOrderPrice() {
         this.memberVersionPeriodList.forEach(item => {
           if (item.level === this.isSelectVersionPeriodInfo.level && item.timeLevel === this.isSelectVersionPeriodInfo.timeLevel) {
-            this.buyOrderPrice = this.isMember && this.selectOrderStatus === 'upgrade' ? ((item.fee - this.deductionPrice * 100) / 100).toFixed(2) : (item.fee / 100).toFixed(2);
+            this.buyOrderPrice = this.isMember && this.isVersionUpgrade ? ((item.fee - this.deductionPrice * 100) / 100).toFixed(2) : (item.fee / 100).toFixed(2);
             if (this.isMember) {
               this.orderValidityTime = this.orderSurplusTime > 0 ? getSeverTime() + this.orderSurplusTime + item.validDays * 1000 * 3600 * 24 : getSeverTime() + item.validDays * 1000 * 3600 * 24;
             } else {
               this.orderValidityTime = getSeverTime() + item.validDays * 1000 * 3600 * 24;
             }
           }
-          if(item.timeLevel === this.getMemberPeriodLevel && item.level === this.getMemberVersionLevel && this.isMember && this.selectOrderStatus === 'upgrade') {
+          if(item.timeLevel === this.getMemberPeriodLevel && item.level === this.getMemberVersionLevel && this.isMember && this.isVersionUpgrade) {
             this.deductionPrice =  ((item.fee / item.validDays * parseInt(this.orderSurplusTime / 1000 / 3600 / 24)) / 100).toFixed(2);
           }
         });
