@@ -24,7 +24,7 @@
       </i-button>
     </div>
     <div class="mt-28">
-      <p class="fs-14">您当前为：{{isMember ? 'VIP会员' : '非会员'}}<span v-if="isMember">，到期时间：{{getMemberDeadline | dateFormat('YYYY-MM-DD') || '------'}}</span>
+      <p class="fs-14">您当前为：{{nowVersionName}}<span v-if="isMember">，到期时间：{{getMemberDeadline | dateFormat('YYYY-MM-DD') || '------'}}</span>
       </p>
       <p class="mt-10 fs-14">您已选择 <span class="main-color">{{selectOrderStatusMap[selectOrderStatus]}}</span> <span
         class="cl000 f-b">{{selectVersionPeriodStatus || '--'}}</span>，有效期至
@@ -90,6 +90,7 @@
         memberPeriodList: [],
         memberVersionPeriodList: [],
         isNeedRecharge: false,
+        nowVersionName: null,
       }
     },
     created() {
@@ -292,7 +293,7 @@
         const _this = this;
         if (_this.getMemberPeriodLevel && _this.isMember) {
           _this.isSelectVersionPeriodInfo.timeLevel = _this.getMemberPeriodLevel;
-          _this.memberPeriodList.forEach(item => {
+          _this.memberPeriodList.map(item => {
             if (item.timeLevel === _this.getMemberPeriodLevel) {
               _this.isSelectVersionPeriodInfo.timeLevelText = item.timeLevelText;
             }
@@ -302,8 +303,20 @@
         }
         if (_this.getMemberVersionLevel && _this.isMember) {
           _this.isSelectVersionPeriodInfo.level = _this.getMemberVersionLevel;
+          _this.memberVersionList.map(item => {
+            if(item.level === _this.getMemberVersionLevel) {
+              _this.isSelectVersionPeriodInfo.levelText = item.levelText
+            }
+          })
         } else {
           _this.isSelectVersionPeriodInfo.level = _this.memberVersionPeriodList[0].level;
+        }
+        if(_this.isMember && _this.getMemberVersionLevel === 200){
+          this.nowVersionName = 'VIP会员'
+        } else if(_this.isMember && _this.getMemberVersionLevel === 300) {
+          this.nowVersionName = 'SVIP会员'
+        } else {
+          this.nowVersionName = '非会员'
         }
         _this.getBuyOrderPrice();
       },
