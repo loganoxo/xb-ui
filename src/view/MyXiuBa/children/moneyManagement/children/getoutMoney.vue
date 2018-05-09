@@ -83,7 +83,6 @@
           <iForm ref="getoutMoney" :model="getoutMoney" :label-width="200" :rules="getOutMoneyRule">
             <Form-item label="请输入提现验证口令:" prop="getoutCommand" v-if="ifFirstWithDraw">
               <iInput type="number" v-model.number="getoutMoney.getoutCommand" class="iInput"></iInput>
-              <!--<span @click="withdrawalCommandPop = true" class="blue cursor-p">查看如何获取验证口令</span>-->
               <Tooltip placement="bottom">
                 <span class="blue cursor-p">查看如何获取验证口令</span>
                 <div slot="content" style="width: 300px;" class="text-ct">
