@@ -105,15 +105,14 @@
                     Hi~ 商家 {{decodeURIComponent(getUserInfoPhone)}}
                   </router-link>
                   <div v-if="getUserInfoRole === 1 && !isMember" class="fs-12">
-                    <Icon type="social-vimeo" class="cl999"></Icon>
                     <span>非会员</span>
                     <router-link to="/user/vip-member/order">马上开通会员</router-link>
                   </div>
                   <div v-if="getUserInfoRole === 1 && isMember" class="fs-12">
-                    <Icon type="social-vimeo" class="cl-red"></Icon>
-                    <span class="cl-red">您已是VIP，发布活动免费无上限</span>
-                    <!-- <span>到期时间:{{Math.floor((parseInt(getMemberDeadline) - parseInt((new Date().getTime()))) / 86400000)}}天</span>
-                     <router-link to="/user/vip-member">续费</router-link>-->
+                    <img v-if="getMemberVersionLevel === 200" src="~assets/img/common/vip.png" alt="vipLogo">
+                    <img v-if="getMemberVersionLevel === 300" src="~assets/img/common/svip.png" alt="svipLogo">
+                    <span class="cl-red" v-if="getMemberVersionLevel === 200">您已是VIP，<router-link to="/user/vip-member/instructions">查看我的权限</router-link></span>
+                    <span class="cl-red" v-if="getMemberVersionLevel === 300">您已是SVIP，<router-link to="/user/vip-member/instructions">查看我的权限</router-link></span>
                   </div>
                 </div>
                 <p class="clear-both fs-14 mt-10 left ml-20">当前进行的活动：
@@ -716,6 +715,9 @@
       },
       getMemberDeadline() {
         return this.$store.state.userInfo.memberDeadline
+      },
+      getMemberVersionLevel() {
+        return this.$store.state.userInfo.memberLevel
       },
       isMember() {
         return this.$store.getters.isMemberOk

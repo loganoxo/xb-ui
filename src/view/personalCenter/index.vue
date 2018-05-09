@@ -34,7 +34,7 @@
           <span class="transaction-record icon-size"></span>
           <router-link to="/user/money-management/transaction-record">交易记录</router-link>
         </li>
-        <li :class="{isSelect:isSelect ==='VipMember'}">
+        <li :class="{isSelect:isSelect ==='VipMemberOrder' || isSelect ==='VipMemberInstructions'}">
           <span class="vip-member-nav icon-size"></span>
           <router-link to="/user/vip-member/order">VIP会员</router-link>
         </li>

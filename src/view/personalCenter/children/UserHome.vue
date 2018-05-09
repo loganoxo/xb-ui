@@ -25,21 +25,20 @@
           </p>
           <div>
           <span v-if="getUserInfoRole === 1 && !isMember">
-            <Icon type="social-vimeo" class="cl999"></Icon>
             <span>非会员</span>
             <router-link to="/user/vip-member">马上开通会员</router-link>
           </span>
-            <span v-if="getUserInfoRole === 1 && isMember">
-            <Icon type="social-vimeo" class="cl-red"></Icon>
-            <span class="cl-red">您已是VIP用户，发布活动免费无上限。</span>
-            <!--会员版本：{{levelValue+'版'}}
-            <span class="ml-10">到期时间:{{Math.floor((parseInt(getMemberDeadline) -parseInt( (new Date().getTime())))/86400000)}}天</span>
-            <router-link to="/user/vip-member">续费</router-link>-->
-          </span>
+            <span v-if="getUserInfoRole === 1 && isMember" class="mr-5">
+              <img v-if="getMemberVersionLevel === 200" src="~assets/img/common/vip.png" alt="vipLogo">
+              <img v-if="getMemberVersionLevel === 300" src="~assets/img/common/svip.png" alt="svipLogo">
+              <span class="cl-red" v-if="getMemberVersionLevel === 200">您已是VIP，<router-link to="/user/vip-member/instructions">查看我的权限</router-link></span>
+              <span class="cl-red" v-if="getMemberVersionLevel === 300">您已是SVIP，<router-link to="/user/vip-member/instructions">查看我的权限</router-link></span>
+            </span>
             <span>可用金额：{{getUserBalance}} 元 </span>
             <span v-if="getUserInfoRole === 0">提现中：{{userData.userAccount.enChashingMoney ? (userData.userAccount.enChashingMoney/100).toFixed(2): 0 }} 元  </span>
             <router-link v-if="getUserInfoRole === 1" :to="{path: '/user/money-management/pay-money'}">充值</router-link>
-            <router-link v-if="getUserInfoRole === 0" :to="{path: '/user/money-management/getout-money'}">提现</router-link>
+            <router-link v-if="getUserInfoRole === 0" :to="{path: '/user/money-management/getout-money'}">提现
+            </router-link>
             <div v-if="limit" class="inline-block ml-20 pos-rel" style="top: 5px;">
               <a v-if="getUserInfoRole === 0" class="left">
                 <span style="color: #495060;">剩余申请次数</span>{{residue}}
@@ -137,10 +136,13 @@
           </p>
           <p class="home-commodity-apply">
             限量 <span class="main-color"> {{homeCommodity.taskCount || 0 }} </span> 份，剩余
-            <span class="main-color"> {{homeCommodity.taskCount - homeCommodity.showkerApplySuccessCount || 0}} </span> 份
+            <span class="main-color"> {{homeCommodity.taskCount - homeCommodity.showkerApplySuccessCount || 0}} </span>
+            份
           </p>
           <p class="home-commodity-take">
-            <router-link :to="{path: '/task-details',query: {q: encryptionId(homeCommodity.id)}}" class="ivu-btn ivu-btn-long">免费领取</router-link>
+            <router-link :to="{path: '/task-details',query: {q: encryptionId(homeCommodity.id)}}"
+                         class="ivu-btn ivu-btn-long">免费领取
+            </router-link>
           </p>
         </div>
       </router-link>
@@ -227,13 +229,13 @@
         residue: null,
         showkerApplyTotal: null,
         limit: true,
-        freshman:null,
+        freshman: null,
       }
     },
     created() {
       this.getHomeTaskList();
       this.personalTrialCount();
-      if(this.$store.state.login){
+      if (this.$store.state.login) {
         this.getShowkerApplyCount()
       }
       this.$store.dispatch('getUserInformation');
@@ -249,6 +251,9 @@
       userData() {
         return this.$store.state.userInfo;
       },
+      getMemberVersionLevel() {
+        return this.$store.state.userInfo.memberLevel
+      },
       getMemberDeadline() {
         return this.$store.state.userInfo.memberDeadline
       },
@@ -258,7 +263,7 @@
       userHeadUrl() {
         return this.$store.getters.getUserHeadUrl
       },
-      getUserApplyCount(){
+      getUserApplyCount() {
         return this.freshman ? this.$store.getters.getTaskApplyBaseCountFreshman.configValue : this.$store.getters.getTaskApplyBaseCountOldman.configValue
       }
     },
@@ -278,15 +283,15 @@
           }
         });
       },
-      getShowkerApplyCount(){
+      getShowkerApplyCount() {
         let self = this;
-        api.getShowkerApplyCount().then(res =>{
-          if(res.status){
+        api.getShowkerApplyCount().then(res => {
+          if (res.status) {
             self.showkerApplyTotal = res.data.baseShareGet;
             self.residue = res.data.left;
             self.limit = res.data.limit;
             self.freshman = res.data.freshman;
-          }else {
+          } else {
             self.$Message.error({
               content: res.msg,
               duration: 9
@@ -385,7 +390,7 @@
 
   .applied {
     position: absolute;
-    top:0;
+    top: 0;
     right: 0;
     background-color: $mainColor;
     padding: 0 6px;
@@ -443,25 +448,25 @@
 
   }
 
-  .apply-num{
+  .apply-num {
     display: block;
     margin-left: 5px;
-    &:hover em, &:hover i{
+    &:hover em, &:hover i {
       display: block;
     }
-    em{
+    em {
       display: none;
       position: absolute;
       top: 23px;
       right: -66px;
       background-color: rgba(70, 76, 91, 0.9);
-      color:  rgb(255, 255, 255);
+      color: rgb(255, 255, 255);
       padding: 10px;
       font-style: normal;
       font-size: 12px;
       z-index: 2;
     }
-    .up-icon{
+    .up-icon {
       width: 0;
       height: 0;
       border: 9px solid transparent;
