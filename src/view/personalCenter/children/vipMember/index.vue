@@ -42,7 +42,10 @@
     watch: {
       $route(to) {
         this.infoSelect = to.name;
-      }
+      },
+    },
+    created(){
+      this.infoSelect = this.$route.query?this.$route.query.q:this.infoSelect;
     },
     methods: {
       switchTab(name) {
@@ -51,7 +54,8 @@
       // selectNavigate(type) {
       //   this.infoSelect = type;
       // },
-    }
+    },
+
 
   }
 </script>
