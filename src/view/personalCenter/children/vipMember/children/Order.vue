@@ -310,19 +310,11 @@
         const _this = this;
         if (_this.getMemberPeriodLevel && _this.isMember) {
           _this.isSelectVersionPeriodInfo.timeLevel = _this.getMemberPeriodLevel;
-          _this.memberPeriodList.map(item => {
-            if (item.timeLevel === _this.getMemberPeriodLevel) {
-              _this.isSelectVersionPeriodInfo.timeLevelText = _this.memberPeriodNameMap[item.timeLevel]
-            }
-          })
+          _this.isSelectVersionPeriodInfo.timeLevelText = _this.memberPeriodNameMap[_this.getMemberPeriodLevel];
         }
-        if (_this.getMemberVersionLevel && _this.getMemberVersionLevel !== 100 && _this.isMember) {
+        if (_this.getMemberVersionLevel && _this.isMember) {
           _this.isSelectVersionPeriodInfo.level = _this.getMemberVersionLevel;
-          _this.memberVersionList.map(item => {
-            if (item.level === _this.getMemberVersionLevel) {
-              _this.isSelectVersionPeriodInfo.levelText = _this.memberVersionNameMap[item.level]
-            }
-          })
+          _this.isSelectVersionPeriodInfo.levelText = _this.memberVersionNameMap[_this.getMemberVersionLevel]
         }
         if (_this.isMember && _this.getMemberVersionLevel === 200) {
           this.nowVersionName = 'VIP会员'
