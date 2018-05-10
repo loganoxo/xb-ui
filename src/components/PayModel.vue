@@ -62,6 +62,7 @@
         <iButton class="error-btn" type="error" @click="hasProblem">充值失败</iButton>
       </div>
     </Modal>
+    <ArtificialRechargeModel v-if="showFreePayModel" @colseFreePayModal="showFreePayModel=false"></ArtificialRechargeModel>
   </div>
 
 </template>
@@ -70,6 +71,7 @@
   import {Input, Radio, Button, Modal} from 'iview'
   import api from '@/config/apiConfig'
   import {aliPayUrl, weiXinPayUrl} from '@/config/env'
+  import ArtificialRechargeModel from '@/components/ArtificialRechargeModel';
 
   export default {
     name: 'pay-model',
@@ -79,6 +81,7 @@
       RadioGroup: Radio.Group,
       iButton: Button,
       Modal: Modal,
+      ArtificialRechargeModel:ArtificialRechargeModel
     },
     props: {
       orderMoney: {
@@ -115,6 +118,7 @@
         confirmRechargeModel: false,
         payPopWindowWX: false,
         payLoading: false,
+        showFreePayModel:false
       }
     },
     mounted() {

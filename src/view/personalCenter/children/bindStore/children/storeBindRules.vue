@@ -52,7 +52,7 @@
       },
       memberLevel(){
         return this.$store.state.userInfo.memberLevel;
-      }
+      },
     },
     created(){
       this.getVersionInfo();

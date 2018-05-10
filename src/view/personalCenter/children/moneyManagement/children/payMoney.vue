@@ -25,9 +25,12 @@
         <div class="pay-tip">
           <Icon color="#f9284f" size="16" type="alert-circled"></Icon>
           <span class="fs-14">使用支付宝充值支付，支付宝会收取0.6%的手续费，该笔费用需要商家承担，手续费不予退还，敬请谅解！<a @click="isShowAliPayTip = true">查看支付宝官方说明</a></span>
+          <router-link v-if="memberLevel===100 || memberLevel===null" class="upgroup-btn mt-10" to="/user/vip-member/order">升级VIP免除手续费</router-link>
         </div>
         <Form-item>
           <iButton class="payMoneyBtn" @click="balanceOrderCreate()">提交</iButton>
+          <iButton v-if="memberLevel===200||memberLevel===300" class="vipRecharge ml-20" @click="showFreePayModel=true"><span v-if="memberLevel===300">S</span>VIP<span class="freeRecharge">免手续费充值</span>点击这里</iButton>
+
           <!--<iButton class="payMoneyBtn" @click="stopRecharge = true">提交</iButton>-->
         </Form-item>
       </iForm>
@@ -81,7 +84,10 @@
         <p>答：充值成功后，如果账户显示的余额不变，请您不要惊慌，我们的系统是有缓冲时间的，您只需要耐心稍等即可。</p>
       </div>
     </div>
-
+    <!--<div v-if="showFreePayModel">-->
+      <!--<ArtificialRechargeModel></ArtificialRechargeModel>-->
+    <!--</div>-->
+    <ArtificialRechargeModel v-if="showFreePayModel" @colseFreePayModal="showFreePayModel=false"></ArtificialRechargeModel>
   </div>
 </template>
 <script>
@@ -89,6 +95,7 @@
   import api from '@/config/apiConfig'
   import {isNumber} from '@/config/utils'
   import {aliPayUrl, weiXinPayUrl} from '@/config/env'
+  import ArtificialRechargeModel from '@/components/ArtificialRechargeModel';
 
   export default {
     name: 'PayMoney',
@@ -102,6 +109,7 @@
       ButtonGroup: Button.Group,
       Icon: Icon,
       Modal: Modal,
+      ArtificialRechargeModel:ArtificialRechargeModel
     },
     data() {
       const validatePayNumber = (rule, value, callback) => {
@@ -130,6 +138,7 @@
         payPopWindow: false,
         payPopWindowWX: false,
         isShowAliPayTip: false,
+        showFreePayModel:false
       }
     },
     mounted() {
@@ -140,6 +149,9 @@
       getUserBalance: function () {
         return this.$store.getters.getUserBalance;
       },
+      memberLevel(){
+        return this.$store.state.userInfo.memberLevel;
+      }
     },
     methods: {
       success() {
@@ -203,6 +215,26 @@
     }
   }
 </script>
+<style lang="scss" scoped>
+  @import 'src/css/mixin';
+  .upgroup-btn{
+    display: inline-block;
+    padding:0 10px;
+    border-radius: 5px;
+    border:1px solid $mainColor;
+    color:$mainColor;
+    background: #ffd700;
+  }
+  .vipRecharge{
+    color:#fff;
+    background: #25b2f0;
+    padding:10px 20px;
+    .freeRecharge{
+      color: #f7fc08;
+    }
+
+  }
+</style>
 
 
 
