@@ -2079,7 +2079,7 @@
       },
       taskCreate: async function (type) {
         const _this = this;
-     /*   _this.taskLoading = true;
+        _this.taskLoading = true;
         try {
           const detectionStoreInfo = await _this.getStoreInfo().catch(err => {
             _this.taskLoading = false;
@@ -2107,7 +2107,7 @@
         } catch (err) {
           console.error(err);
           return;
-        }*/
+        }
         _this.taskRelease.storeName = _this.selectStoreInfo.storeAlitm;
         _this.taskRelease.realStoreName = _this.selectStoreInfo.storeName;
         _this.taskRelease.itemReviewAssignString = JSON.stringify(_this.itemReviewPushList);
