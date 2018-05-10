@@ -900,7 +900,9 @@
           <div class="description-fees-con mt-10">
             <p>活动担保金 = 份数 × 单品活动担保金 = <span>{{oneBondMarginText}}</span> 元</p>
             <p class="mt-6">单品推广费 = 单品试用担保金 × 费率 =<span>{{onePromotionExpensesBeforeText}}</span> 元<span>{{onePromotionExpensesTipText}}</span></p>
-            <p class="mt-6">总推广费用 = 单品推广费用 × 份数 = <span>{{onePromotionExpenses}}</span> × <span>{{taskRelease.taskCount}} = <span>{{allPromotionExpenses}}</span></span> 元</p>
+            <p class="mt-6">总推广费用 = 单品推广费用 × 份数 = <span>{{onePromotionExpenses}}</span> × <span>{{taskRelease.taskCount}} = <span>{{allPromotionExpenses}}</span></span> 元
+              <span v-if="getMemberVersionLevel !== 300" class="ml-10 svip-upgrade" @click="upgradeSvip">升级SVIP免除推广费</span>
+            </p>
             <p class="mt-6">总费用 = 活动担保金 + 总推广费用 = <span>{{(orderMoney).toFixed(2)}}</span> 元</p>
             <p class="mt-6">手续费说明： 使用支付宝充值支付，支付宝会收取0.6%的手续费，该笔费用需要商家承担，手续费不予退还，敬请谅解！<a @click="isShowAliPayTip = true">查看支付宝官方说明</a></p>
           </div>
@@ -1400,7 +1402,6 @@
         return this.taskRelease.pinkage === 'true' ? this.taskRelease.itemPrice * this.taskRelease.orderQuantity * 100 : this.taskRelease.itemPrice * this.taskRelease.orderQuantity * 100 + 1000;
       },
 
-
       /** 获取用户会员版本等级（100：普通用户， 200：VIP， 300：SVIP）
        * @return {Number}
        */
@@ -1620,6 +1621,9 @@
       },
       goStoreBind() {
         this.$router.push({path: '/user/bind-store/store-bind-rules'})
+      },
+      upgradeSvip() {
+        this.$router.push({path: '/user/vip-member/order'})
       },
       getStoreBindInfoList() {
         const _this = this;
@@ -3059,6 +3063,17 @@
         border-color: $mainColor;
       }
 
+    }
+
+    .svip-upgrade {
+      display: inline-block;
+      border-radius: 5px;
+      border:1px solid #FFCD00;
+      text-align: center;
+      padding: 2px 8px;
+      color: #FF8C2B;
+      background-color: #FFFC00;
+      cursor: pointer;
     }
   }
 
