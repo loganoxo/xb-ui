@@ -7,20 +7,23 @@
     <p class="mt-5">4、会员版本升级时，将现有会员剩余时间按天进行折算，剩余价格将抵扣到新版本的费用中（若折算出的价格有溢出，将不退回）。</p>
     <div class="mt-30">
       <span class="f-b">请选择您的会员版本：</span>
-      <i-button class="select-version fs-16" :class="{'is-active': isSelectVersionPeriodInfo.level === item.level}"
+      <i-button class="select-version fs-16" :class="{'is-active': isSelectVersionPeriodInfo.level === item}"
                 v-for="item in memberVersionList" :key="item.id"
-                :disabled="getMemberVersionLevel > item.level && isMember"
-                @click="selectVersion(item.level, item.levelText)">
-        {{item.levelText}}
+                :disabled="getMemberVersionLevel > item && isMember"
+                @click="selectVersion(item, memberVersionNameMap[item])">
+        {{memberVersionNameMap[item]}}
       </i-button>
     </div>
     <div class="mt-28">
       <span class="f-b">请选择您的时间周期：</span>
       <i-button :class="{'is-active': isSelectVersionPeriodInfo.timeLevel === item.timeLevel}" class="select-period"
                 v-for="item in memberPeriodList" :key="item.id"
-                @click="selectPeriod(item.timeLevel, item.timeLevelText)">
-        <span class="fs-16">{{item.timeLevelText}}</span>
-        <span class="fs-12">({{item.validDays || 0}}天)</span>
+                @click="selectPeriod(item.timeLevel, memberPeriodNameMap[item.timeLevel])">
+        <div>
+          <span class="fs-16">{{memberPeriodNameMap[item.timeLevel]}}</span>
+          <span class="fs-12">({{item.validDays || 0}}天)</span>
+        </div>
+        <div>￥{{(item.fee / 100).toFixed(2) || 0}}</div>
       </i-button>
     </div>
     <div class="mt-28">
@@ -29,9 +32,10 @@
       <p class="mt-10 fs-14">您已选择 <span class="main-color">{{selectOrderStatusMap[selectOrderStatus]}}</span> <span
         class="cl000 f-b">{{selectVersionPeriodStatus || '--'}}</span>，有效期至
         <span class="main-color">{{orderValidityTime | dateFormat('YYYY-MM-DD') || '------'}}</span><span
-          v-if="isMember && isVersionUpgrade">，根据您现在的会员版本可折价抵扣：{{deductionPrice}}元，成功升级后现有版本将失效。</span>
+          v-if="isMember && isVersionUpgrade">，根据您现在的会员版本可折价抵扣：{{(deductionPrice / 100).toFixed(2)}}元，成功升级后现有版本将失效。</span>
       </p>
-      <p class="fs-16 mt-10">本次总共需要支付的金额为：<span class="f-b">{{buyOrderPrice > 0 ? buyOrderPrice : 0.00}}</span> 元。您账户余额为： <span class="f-b">{{(getUserBalance).toFixed(2) || 0}}</span>
+      <p class="fs-16 mt-10">本次总共需要支付的金额为：<span class="f-b">{{buyOrderPrice > 0 ? buyOrderPrice : 0.00}}</span>
+        元。您账户余额为： <span class="f-b">{{(getUserBalance).toFixed(2) || 0}}</span>
         元<span v-if="!hasBalance">，还需要充值：<span class="f-b">{{payPrice}}</span> 元</span>
       </p>
     </div>
@@ -39,18 +43,22 @@
     <i-button v-if="!hasBalance" class="pay-btn" @click="isNeedRecharge = true">前去充值</i-button>
     <!--支付弹窗-->
     <div class="pay-model" v-if="isNeedRecharge">
-      <PayModel ref="orderPayModel" :orderMoney="lastNeedPayPrice" :orderType="1"
+      <PayModel ref="orderPayModel" :orderMoney="needPayPriceAfter" :orderType="1"
                 :memberLevel="isSelectVersionPeriodInfo.level" :timeLevel="isSelectVersionPeriodInfo.timeLevel"
                 @orderVipSuccess="orderVipSuccess" @confirmPayment="confirmPayment">
         <i slot="closeModel" class="close-recharge" @click="isNeedRecharge = false">&times;</i>
         <div slot="noBalance" class="title-tip">
-          <span class="size-color3"><Icon color="#FF2424" size="18" type="ios-information"></Icon>
-            <span class="ml-10">亲，您的余额不足，请充值。</span>
-          </span>还需充值<strong class="size-color3">{{lastNeedPayPrice}}</strong>元
+          <span class="size-color3">
+            <Icon color="#FF2424" size="16" type="ios-information"></Icon>
+            <span class="">亲，您的余额不足，请充值。</span>
+          </span>还需充值
+          <strong class="size-color3">{{needPayPriceAfterText}}</strong> 元。
+          <span>【<span class="blue cursor-p">支付宝手续费</span>】</span>
         </div>
         <div slot="isBalance" class="title-tip">
           <Icon color="#FF2424" size="18px" type="ios-information"></Icon>
-          <span class="ml-10">您本次需要支付金额为 <span class="size-color3">{{(lastNeedPayPrice).toFixed(2)}}</span> 元。</span>
+          <span class="ml-10">您本次需要支付金额为 <span
+            class="size-color3">{{(needPayPriceAfter / 100).toFixed(2)}}</span> 元。</span>
         </div>
       </PayModel>
     </div>
@@ -83,6 +91,15 @@
           'upgrade': '升级',
           'buy': '购买',
         },
+        memberPeriodNameMap: {
+          100: '季度',
+          200: '半年',
+          300: '1年',
+        },
+        memberVersionNameMap: {
+          200: 'VIP',
+          300: 'SVIP',
+        },
         orderValidityTime: null,
         buyOrderPrice: '0.00',
         deductionPrice: '0.00',
@@ -95,6 +112,7 @@
     },
     created() {
       this.getMemberVersionPeriodList();
+      this.getMemberSurplusFee();
     },
     computed: {
       /** 获取用户账户余额
@@ -132,7 +150,7 @@
         return this.$store.state.userInfo.memberDeadline
       },
 
-      /** 获取客服QQ号码
+      /** 获取售后客服QQ号码
        * @return {Number}
        */
       getSellerCustomerQq() {
@@ -143,10 +161,9 @@
        * @return {string}
        */
       selectOrderStatus() {
-        if ((this.isSelectVersionPeriodInfo.timeLevel === this.getMemberPeriodLevel || this.isSelectVersionPeriodInfo.timeLevel < this.getMemberPeriodLevel)
-          && this.isSelectVersionPeriodInfo.level === this.getMemberVersionLevel && this.isMember) {
+        if (this.isSelectVersionPeriodInfo.level === this.getMemberVersionLevel && this.isMember) {
           return 'renewal'
-        } else if ((this.isSelectVersionPeriodInfo.timeLevel !== this.getMemberPeriodLevel || this.isSelectVersionPeriodInfo.level !== this.getMemberVersionLevel) && this.isMember) {
+        } else if (this.isSelectVersionPeriodInfo.level !== this.getMemberVersionLevel && this.isMember) {
           return 'upgrade'
         } else {
           return 'buy'
@@ -181,11 +198,18 @@
         return !this.hasBalance ? (Math.abs(this.getUserBalance * 100 - this.buyOrderPrice * 100) / 100).toFixed(2) : 0
       },
 
-      /** 计算用户最终需要传给后端支付的金额
+      /** 计算用户最终需要充值的金额（包含支付宝充值手续费: 非会员需要收取千分之六的充值手续费，会员免手续费）
        * @return {Number}
        */
-      lastNeedPayPrice() {
-        return this.hasBalance ? this.buyOrderPrice * 1 : this.payPrice * 1
+      needPayPriceAfter() {
+        return this.$store.getters.isMemberOk ? this.payPrice : (Math.ceil(this.payPrice * 100 / 0.994))
+      },
+
+      /** 充值界面上的金额显示（会员显示原始充值价格，非会员需要加上支付宝充值手续费显示）
+       * @return {String}
+       */
+      needPayPriceAfterText() {
+        return this.isMember ? `${this.payPrice}` : `${this.payPrice} + ${(((Math.ceil(this.payPrice * 100 / 0.994)) - this.payPrice * 100) / 100).toFixed(2)}`
       },
 
       /** 计算用户当前选择是否是版本升级
@@ -200,6 +224,12 @@
       selectVersion(level, text) {
         this.isSelectVersionPeriodInfo.level = level;
         this.isSelectVersionPeriodInfo.levelText = text;
+        this.memberPeriodList = [];
+        this.memberVersionPeriodList.forEach(item => {
+          if (item.level === level) {
+            this.memberPeriodList.push(item)
+          }
+        });
         this.getBuyOrderPrice();
       },
 
@@ -210,13 +240,13 @@
         this.getBuyOrderPrice();
       },
 
-      // 计算选择需要购买会员类型的最终价格、有效期（版本升级后有效期以当前时间为节点重置，否则以到期时间为节点叠加）、选择版本升级后的折扣价格
+      // 计算选择需要购买会员类型的最终价格、有效期（不同版本升级有效期以当前时间为节点重置，同版本下周期变更以到期时间为节点叠加）
       getBuyOrderPrice() {
         this.memberVersionPeriodList.forEach(item => {
           if (item.level === this.isSelectVersionPeriodInfo.level && item.timeLevel === this.isSelectVersionPeriodInfo.timeLevel) {
-            this.buyOrderPrice = this.isMember && this.isVersionUpgrade ? ((item.fee - this.deductionPrice * 100) / 100).toFixed(2) : (item.fee / 100).toFixed(2);
+            this.buyOrderPrice = this.isMember && this.isVersionUpgrade ? ((item.fee - this.deductionPrice) / 100).toFixed(2) : (item.fee / 100).toFixed(2);
             if (this.isMember) {
-              if(!this.isVersionUpgrade) {
+              if (!this.isVersionUpgrade) {
                 this.orderValidityTime = this.orderSurplusTime > 0 ? getSeverTime() + this.orderSurplusTime + item.validDays * 1000 * 3600 * 24 : getSeverTime() + item.validDays * 1000 * 3600 * 24;
               } else {
                 this.orderValidityTime = getSeverTime() + item.validDays * 1000 * 3600 * 24;
@@ -225,75 +255,30 @@
               this.orderValidityTime = getSeverTime() + item.validDays * 1000 * 3600 * 24;
             }
           }
-          if(item.timeLevel === this.getMemberPeriodLevel && item.level === this.getMemberVersionLevel && this.isMember && this.isVersionUpgrade) {
-            this.deductionPrice =  ((item.fee / item.validDays * parseInt(this.orderSurplusTime / 1000 / 3600 / 24)) / 100).toFixed(2);
-          }
-        });
+        })
       },
 
       // 获取所有会员版本周期列表
       getMemberVersionPeriodList() {
         const _this = this;
         let memberVersionList = [];
-        let memberPeriodList = [];
         api.getMemberVersionPeriodList().then(res => {
           if (res.status) {
             res.data.forEach(item => {
               if (item.level) {
                 memberVersionList.push(item.level)
               }
-              if (item.timeLevel) {
-                memberPeriodList.push(item.timeLevel)
-              }
             });
-            memberVersionList = [...new Set(memberVersionList)];
-            memberPeriodList = [...new Set(memberPeriodList)];
-            memberVersionList.forEach(item => {
-              if (item === 200) {
-                _this.memberVersionList.push({
-                  id: 1,
-                  level: item,
-                  levelText: 'VIP'
-                })
-              }
-              if (item === 300) {
-                _this.memberVersionList.push({
-                  id: 2,
-                  level: item,
-                  levelText: 'SVIP'
-                })
-              }
-            });
-            memberPeriodList.forEach(item => {
-              if (item === 100) {
-                _this.memberPeriodList.push({
-                  id: 1,
-                  timeLevel: item,
-                  timeLevelText: '季度'
-                })
-              }
-              if (item === 200) {
-                _this.memberPeriodList.push({
-                  id: 2,
-                  timeLevel: item,
-                  timeLevelText: '半年'
-                })
-              }
-              if (item === 300) {
-                _this.memberPeriodList.push({
-                  id: 3,
-                  timeLevel: item,
-                  timeLevelText: '1年'
-                })
-              }
-            });
+            _this.memberVersionList = [...new Set(memberVersionList)];
             _this.memberVersionPeriodList = res.data;
-            _this.memberPeriodList.forEach(i => {
-              _this.memberVersionPeriodList.forEach(j => {
-                if (i.timeLevel === j.timeLevel) {
-                  i.validDays = j.validDays
+            _this.memberVersionPeriodList.forEach(item => {
+              if (_this.getMemberVersionLevel && item.level === _this.getMemberVersionLevel) {
+                _this.memberPeriodList.push(item)
+              } else {
+                if (item.level === 200) {
+                  _this.memberPeriodList.push(item)
                 }
-              })
+              }
             });
             _this.initStatus();
           } else {
@@ -301,40 +286,54 @@
           }
         })
       },
+
+      // 获取用户当前版本折扣价格
+      getMemberSurplusFee() {
+        const _this = this;
+        api.getMemberSurplusFee().then(res => {
+          if (res.status) {
+            _this.deductionPrice = res.data
+          } else {
+            _this.$Message.error(res.msg)
+          }
+        })
+      },
+
+      // 初始化购买信息状态
       initStatus() {
         const _this = this;
         if (_this.getMemberPeriodLevel && _this.isMember) {
           _this.isSelectVersionPeriodInfo.timeLevel = _this.getMemberPeriodLevel;
           _this.memberPeriodList.map(item => {
             if (item.timeLevel === _this.getMemberPeriodLevel) {
-              _this.isSelectVersionPeriodInfo.timeLevelText = item.timeLevelText;
+              _this.isSelectVersionPeriodInfo.timeLevelText = _this.memberPeriodNameMap[item.timeLevel]
             }
           })
-        } else {
-          _this.isSelectVersionPeriodInfo.timeLevel = _this.memberVersionPeriodList[0].timeLevel;
         }
         if (_this.getMemberVersionLevel && _this.isMember) {
           _this.isSelectVersionPeriodInfo.level = _this.getMemberVersionLevel;
           _this.memberVersionList.map(item => {
-            if(item.level === _this.getMemberVersionLevel) {
-              _this.isSelectVersionPeriodInfo.levelText = item.levelText
+            if (item.level === _this.getMemberVersionLevel) {
+              _this.isSelectVersionPeriodInfo.levelText = _this.memberVersionNameMap[item.level]
             }
           })
-        } else {
-          _this.isSelectVersionPeriodInfo.level = _this.memberVersionPeriodList[0].level;
         }
-        if(_this.isMember && _this.getMemberVersionLevel === 200){
+        if (_this.isMember && _this.getMemberVersionLevel === 200) {
           this.nowVersionName = 'VIP会员'
-        } else if(_this.isMember && _this.getMemberVersionLevel === 300) {
+        } else if (_this.isMember && _this.getMemberVersionLevel === 300) {
           this.nowVersionName = 'SVIP会员'
         } else {
           this.nowVersionName = '非会员'
         }
         _this.getBuyOrderPrice();
       },
+
+      // 购买会员成功后的回调
       orderVipSuccess() {
         _this.initStatus();
       },
+
+      // 支付宝支付成功后的回调
       confirmPayment(pwd) {
         const _this = this;
         api.memberPurchase({

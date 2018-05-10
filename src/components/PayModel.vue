@@ -123,7 +123,7 @@
       isBalance() {
         return this.orderMoney <= this.userBalance;
       },
-      payMoney() {
+      lastPayMoney() {
         return this.isBalance ? 0 : this.orderMoney - this.userBalance;
       }
     },
@@ -143,7 +143,7 @@
         if (_this.payType === 'ali') {
           const newWindowUrl = window.open('about:blank');
           api.balanceOrderCreate({
-            finalFee: (_this.payMoney * 100 * 1.006).toFixed() * 1,
+            finalFee: _this.lastPayMoney,
             orderPlatform: 'PC',
             payChannel: 1,
             memberLevel: _this.memberLevel,

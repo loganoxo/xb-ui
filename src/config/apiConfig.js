@@ -418,6 +418,13 @@ export default {
   },
 
   /**
+   * 获取当前会员版本折扣
+   */
+  getMemberSurplusFee() {
+    return fetch("/api/get-member-surplus-fee.json")
+  },
+
+  /**
    * 获取会员等级详细信息
    */
   getUserMemberLevelInfo(params) {
