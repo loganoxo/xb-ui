@@ -33,7 +33,7 @@
           </Form-item>
           <Form-item label="选择银行" prop="select">
             <iSelect v-model="formItem.select" :filterable="true" style="width:300px;height: 32px">
-              <iOption v-for="item in bankList" :value="item">{{item}}</iOption>
+              <iOption v-for="(item,index) in bankList" :key="index" :value="item">{{item}}</iOption>
             </iSelect>
             <div class="main-color bank-tip" v-if="formItem.select === '中国邮政储蓄银行'">注：中国邮政储蓄银行提现到账时间会滞后两到三天，请耐心等待！</div>
           </Form-item>
