@@ -43,7 +43,7 @@
     <i-button v-if="!hasBalance" class="pay-btn" @click="isNeedRecharge = true">前去充值</i-button>
     <!--支付弹窗-->
     <div class="pay-model" v-if="isNeedRecharge">
-      <PayModel ref="orderPayModel" :orderMoney="needPayPriceAfter" :orderType="1"
+      <pay-model ref="orderPayModel" :orderMoney="needPayPriceAfter" :orderType="1"
                 :memberLevel="isSelectVersionPeriodInfo.level" :timeLevel="isSelectVersionPeriodInfo.timeLevel"
                 @orderVipSuccess="orderVipSuccess" @confirmPayment="confirmPayment">
         <i slot="closeModel" class="close-recharge" @click="isNeedRecharge = false">&times;</i>
@@ -53,20 +53,23 @@
             <span class="">亲，您的余额不足，请充值。</span>
           </span>还需充值
           <strong class="size-color3">{{needPayPriceAfterText}}</strong> 元。
-          <span>【<span class="blue cursor-p">支付宝手续费</span>】</span>
+          <span @click="isShowAliPayTip = true">【<span class="blue cursor-p">支付宝手续费</span>】</span>
         </div>
         <div slot="isBalance" class="title-tip">
           <Icon color="#FF2424" size="18px" type="ios-information"></Icon>
           <span class="ml-10">您本次需要支付金额为 <span
-            class="size-color3">{{(needPayPriceAfter / 100).toFixed(2)}}</span> 元。</span>
+            class="size-color3">{{needPayPriceAfter}}</span> 元。</span>
         </div>
-      </PayModel>
+      </pay-model>
     </div>
+    <modal v-model="isShowAliPayTip">
+      <img src="~assets/img/common/ali-pay-tip.jpg">
+    </modal>
   </div>
 </template>
 
 <script>
-  import {Button, Icon} from 'iview'
+  import {Button, Icon, Modal} from 'iview'
   import PayModel from '@/components/PayModel'
   import {getSeverTime} from '@/config/utils'
   import api from '@/config/apiConfig'
@@ -76,6 +79,7 @@
     components: {
       IButton: Button,
       Icon: Icon,
+      Modal: Modal,
       PayModel: PayModel,
     },
     data() {
@@ -108,6 +112,7 @@
         memberVersionPeriodList: [],
         isNeedRecharge: false,
         nowVersionName: null,
+        isShowAliPayTip: false,
       }
     },
     created() {
@@ -121,7 +126,7 @@
         return this.$store.getters.getUserBalance
       },
 
-      /** 获取用户会员版本等级（200：VIP， 300：SVIP）
+      /** 获取用户会员版本等级（100：普通用户， 200：VIP， 300：SVIP）
        * @return {Number}
        */
       getMemberVersionLevel() {
@@ -194,21 +199,21 @@
        * @return {Number}
        */
       payPrice() {
-        return !this.hasBalance ? (Math.abs(this.getUserBalance * 100 - this.buyOrderPrice * 100) / 100).toFixed(2) : 0
+        return !this.hasBalance ? (Math.abs(this.getUserBalance * 100 - this.buyOrderPrice * 100) / 100).toFixed(2) : this.buyOrderPrice
       },
 
       /** 计算用户最终需要充值的金额（包含支付宝充值手续费: 非会员需要收取千分之六的充值手续费，会员免手续费）
        * @return {Number}
        */
       needPayPriceAfter() {
-        return this.$store.getters.isMemberOk ? this.payPrice : (Math.ceil(this.payPrice * 100 / 0.994))
+        return this.$store.getters.isMemberOk ? this.payPrice * 1 : ((Math.ceil(this.payPrice * 100 / 0.994)) / 100).toFixed(2) * 1
       },
 
-      /** 充值界面上的金额显示（会员显示原始充值价格，非会员需要加上支付宝充值手续费显示）
+      /** 计算充值界面上的金额文本显示
        * @return {String}
        */
       needPayPriceAfterText() {
-        return this.isMember ? `${this.payPrice}` : `${this.payPrice} + ${(((Math.ceil(this.payPrice * 100 / 0.994)) - this.payPrice * 100) / 100).toFixed(2)}`
+        return `${this.payPrice} + ${(((Math.ceil(this.payPrice * 100 / 0.994)) - this.payPrice * 100) / 100).toFixed(2)}`
       },
 
       /** 计算用户当前选择是否是版本升级

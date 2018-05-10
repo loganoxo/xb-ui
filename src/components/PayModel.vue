@@ -29,12 +29,20 @@
         <!--</Radio>-->
       </Radio-group>
     </div>
-    <iButton type="primary" v-if="isBalance" @click="confirmPayment" :loading="payLoading" class="recharge-btn">
-      {{payButtonText}}
-    </iButton>
-    <iButton type="primary" v-else @click="confirmRecharge" :loading="payLoading" class="recharge-btn">
-      {{rechargeButtonText}}
-    </iButton>
+    <div class="clear ml-88">
+      <iButton type="primary" v-if="isBalance" @click="confirmPayment" :loading="payLoading" class="recharge-btn left">
+        {{payButtonText}}
+      </iButton>
+      <iButton type="primary" v-else @click="confirmRecharge" :loading="payLoading" class="recharge-btn left">
+        {{rechargeButtonText}}
+      </iButton>
+      <span class="vip-pay-btn left">
+      <span>VIP</span>
+      <span>免手续费充值</span>
+      <span>点击这里</span>
+    </span>
+    </div>
+
     <div class="confirm-recharge-model" v-if="confirmRechargeModel">
       <div class="confirm-recharge-con">
         <h4>请前往充值界面进行充值！</h4>
@@ -310,6 +318,24 @@
       margin-left: 50px;
       background-color: #3FC0C5;
       border: none
+    }
+
+    .vip-pay-btn {
+      display: inline-block;
+      height: 30px;
+      line-height: 30px;
+      color: #fff;
+      text-align: center;
+      padding: 0 12px;
+      border-radius: 5px;
+      background-color: #24B3F1;
+      margin-top: 30px;
+      margin-left: 20px;
+      cursor: pointer;
+      @include transition;
+      &:hover {
+        background-color: darken(#24B3F1, 10%);
+      }
     }
   }
 </style>
