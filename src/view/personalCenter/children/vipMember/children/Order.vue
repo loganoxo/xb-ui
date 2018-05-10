@@ -32,7 +32,7 @@
       <p class="mt-10 fs-14">您已选择 <span class="main-color">{{selectOrderStatusMap[selectOrderStatus]}}</span> <span
         class="cl000 f-b">{{selectVersionPeriodStatus || '--'}}</span>，有效期至
         <span class="main-color">{{orderValidityTime | dateFormat('YYYY-MM-DD') || '------'}}</span><span
-          v-if="isMember && isVersionUpgrade">，根据您现在的会员版本可折价抵扣：{{(deductionPrice / 100).toFixed(2)}}元，成功升级后现有版本将失效。</span>
+          v-if="isMember && isVersionUpgrade">，根据您现在的会员版本可折价抵扣：{{(deductionPrice / 100).toFixed(2) || 0.00}}元，成功升级后现有版本将失效。</span>
       </p>
       <p class="fs-16 mt-10">本次总共需要支付的金额为：<span class="f-b">{{buyOrderPrice > 0 ? buyOrderPrice : 0.00}}</span>
         元。您账户余额为： <span class="f-b">{{(getUserBalance).toFixed(2) || 0}}</span>
@@ -102,7 +102,7 @@
         },
         orderValidityTime: null,
         buyOrderPrice: '0.00',
-        deductionPrice: '0.00',
+        deductionPrice: 0,
         memberVersionList: [],
         memberPeriodList: [],
         memberVersionPeriodList: [],
@@ -112,7 +112,6 @@
     },
     created() {
       this.getMemberVersionPeriodList();
-      this.getMemberSurplusFee();
     },
     computed: {
       /** 获取用户账户余额
@@ -231,6 +230,7 @@
           }
         });
         this.getBuyOrderPrice();
+        this.getMemberSurplusFee();
       },
 
       // 选择购买会员周期
@@ -279,7 +279,6 @@
               });
             } else {
               _this.memberVersionPeriodList.forEach(item => {
-                console.log(item.level);
                 if (item.level === 200) {
                   _this.memberPeriodList.push(item)
                 }
