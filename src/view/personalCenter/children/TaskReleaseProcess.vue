@@ -93,7 +93,7 @@
       </div>
     </div>
     <!--用户没有发布任务权限提示-->
-    <div v-if="getMemberStatus === 'need_member_for_more_task' || getMemberStatus === 'need_member_for_more_audit'" class="text-ct ">
+<!--    <div v-if="getMemberStatus === 'need_member_for_more_task' || getMemberStatus === 'need_member_for_more_audit'" class="text-ct ">
       <div class="mt-80" style="font-size:20px;color: #949494" v-if="getMemberStatus === 'need_member_for_more_task'">
         <Icon style="font-size: 25px ;transform: translateY(3px)" type="close-circled"></Icon>
         <span><strong>很抱歉，当前你为非会员，购买会员后才能继续发布任务！</strong></span>
@@ -109,9 +109,9 @@
         <iButton @click="openMember" class="check-member" type="success" size="large">购买会员</iButton>
         <a class="inline-block ml-10" @click="isVipPopupFunc">添加客服QQ免费领VIP</a>
       </div>
-    </div>
+    </div>-->
     <!--活动发布相关-->
-    <div v-if="getMemberStatus !== 'need_member_for_more_task' && getMemberStatus !== 'need_member_for_more_audit'" class="mt-30">
+    <div class="mt-30">
       <div class="activity-con" v-show="stepName === 'information'">
         <div class="activity-info">
           <div class="activity-info-title">填写活动信息</div>
@@ -898,11 +898,8 @@
         <div class="description-fees mt-40">
           <h3>费用说明：</h3>
           <div class="description-fees-con mt-10">
-            <p v-if="taskRelease.activityCategory === 'free_get'">活动担保金 = 份数 × 单品活动担保金 = <span>{{taskRelease.taskCount}}</span> × <span>{{oneBond}}</span> = <span>{{(taskRelease.taskCount * oneBond).toFixed(2)}}</span> 元</p>
-            <p v-if="taskRelease.activityCategory === 'present_get'">活动担保金 = 份数 × 单品活动担保金 = <span>{{taskRelease.taskCount}}</span> × <span>{{(oneBondAToB / 100).toFixed(2)}}</span> = <span>{{(taskRelease.taskCount * oneBondAToB / 100).toFixed(2)}}</span> 元</p>
-            <!--<p class="mt-6">
-              单品推广费 = （宝贝单价 + 邮费） × 费率 =<span>（{{taskRelease.itemPrice}} + {{taskRelease.pinkage === 'true' ? 0 : 10}}）</span>× <span>6%</span> = <span>{{onePromotionExpenses}}</span>元<span
-              v-if="isShowExpensesTip">（单品推广费超过平台设定的最高上限3.00元，本次实际收取的单品推广费用为3.00元）</span></p>-->
+            <p>活动担保金 = 份数 × 单品活动担保金 = <span>{{oneBondMarginText}}</span> 元</p>
+            <p class="mt-6">单品推广费 = 单品试用担保金 × 费率 =<span>{{onePromotionExpensesBeforeText}}</span> 元<span>{{onePromotionExpensesTipText}}</span></p>
             <p class="mt-6">总推广费用 = 单品推广费用 × 份数 = <span>{{onePromotionExpenses}}</span> × <span>{{taskRelease.taskCount}} = <span>{{allPromotionExpenses}}</span></span> 元</p>
             <p class="mt-6">总费用 = 活动担保金 + 总推广费用 = <span>{{(orderMoney).toFixed(2)}}</span> 元</p>
             <p class="mt-6">手续费说明： 使用支付宝充值支付，支付宝会收取0.6%的手续费，该笔费用需要商家承担，手续费不予退还，敬请谅解！<a @click="isShowAliPayTip = true">查看支付宝官方说明</a></p>
@@ -911,14 +908,14 @@
         <div class="pay-info mt-40" v-if="isBalance && !priceHasChange">本次总共要支付的金额为：<span class="second-color">{{(orderMoney).toFixed(2)}}</span>&nbsp;元。您的账户的当前余额为：<strong>{{getUserBalance || 0}}</strong>&nbsp;元
         </div>
         <div class="pay-info mt-40" v-if="!isBalance && !priceHasChange">本次总共要支付的金额为：<strong>{{(orderMoney).toFixed(2)}}</strong>&nbsp;元。您账户余额为：<strong>{{getUserBalance || 0}}</strong>&nbsp;元，还需充值：<span
-          class="second-color">{{(orderMoney - getUserBalance).toFixed(2)}}</span>&nbsp;元。
+          class="second-color">{{(needPayMoneyBefore).toFixed(2)}}</span>&nbsp;元。
         </div>
         <div class="pay-info mt-40" v-if="isBalanceReplenish && priceHasChange">
           该任务已付担保金 <strong>{{paidDeposit.toFixed(2)}}</strong>元，本次修改需要支付超出部分的金额为：<strong class="main-color">{{replenishMoney}}</strong>元。您账号的当前余额为：<strong>{{getUserBalance || 0}}</strong>&nbsp;元
         </div>
         <div class="pay-info mt-40" v-if="!isBalanceReplenish && priceHasChange">该任务已付担保金 <strong>{{paidDeposit}}</strong>元，本次修改需要支付超出部分的金额为：<strong
           class="main-color">{{replenishMoney}}</strong>元。您账号的当前余额为：<strong>{{getUserBalance || 0}}</strong>&nbsp;元,还需充值：<span
-          class="second-color">{{(replenishMoney - getUserBalance).toFixed(2) }}</span>&nbsp;元。
+          class="second-color">{{(needPayMoneyBefore).toFixed(2) }}</span>&nbsp;元。
         </div>
         <div class="description-fees-footer">
           <span class="pay-btn" v-if="isBalance" @click="openRecharge">前去支付</span>
@@ -942,22 +939,20 @@
     </div>
     <!--活动担保金支付弹框-->
     <div class="pay-model" v-if="showPayModel">
-      <PayModel ref="payModelRef" :orderMoney="!priceHasChange ? orderMoney : replenishMoney" @confirmPayment="confirmPayment">
+      <PayModel ref="payModelRef" :orderMoney="needPayMoneyBefore" @confirmPayment="confirmPayment">
         <i slot="closeModel" class="close-recharge" @click="closeRecharge">&times;</i>
         <div slot="noBalance" class="title-tip">
-            <span class="sizeColor3"><Icon color="#FF2424" size="18px" type="ios-information"></Icon><span
-              class="ml-10">亲，您的余额不足，请充值。</span></span>还需充值<strong
-          class="sizeColor3">{{(orderMoney - getUserBalance).toFixed(2)}}</strong>元
+          <span class="sizeColor3"><Icon color="#FF2424" size="18px" type="ios-information"></Icon><span class="ml-10">亲，您的余额不足，请充值。</span></span>还需充值<strong
+          class="sizeColor3">{{needPayMoneyAfterText}}</strong>元
         </div>
         <div slot="isBalance" class="title-tip">
           <Icon color="#FF2424" size="18px" type="ios-information"></Icon>
-          <span class="ml-10">您本次需要支付金额为 <span
-            class="sizeColor3">{{!priceHasChange ? orderMoney : replenishMoney}}</span> 元。</span></div>
+          <span class="ml-10">您本次需要支付金额为 <span class="sizeColor3">{{!priceHasChange ? (orderMoney).toFixed(2) : (replenishMoney).toFixed(2)}}</span> 元。</span></div>
       </PayModel>
     </div>
     <!--用户修改价格比原始价格高需要补差价提示弹框-->
     <div class="editPriceModel">
-      <Modal v-model="editPriceAfterModel">
+      <Modal v-model="editPriceAfterModel">.
         <div class="clear mt-40">
           <div class="left mt-5">
             <Icon color="#f9284f" size="32" type="information-circled"></Icon>
@@ -1405,16 +1400,97 @@
         return this.taskRelease.pinkage === 'true' ? this.taskRelease.itemPrice * this.taskRelease.orderQuantity * 100 : this.taskRelease.itemPrice * this.taskRelease.orderQuantity * 100 + 1000;
       },
 
+
+      /** 获取用户会员版本等级（100：普通用户， 200：VIP， 300：SVIP）
+       * @return {Number}
+       */
+      getMemberVersionLevel() {
+        return this.$store.state.userInfo.memberLevel
+      },
+
       /**
-       * 计算单品推广费用（宝贝单价+ 邮费，单品推广费最高上限3元）
+       * 计算单品活动保证金公式文本
+       * @return {String}
+       */
+      oneBondMarginText() {
+        if(this.taskRelease.activityCategory === 'free_get') {
+          return `${this.taskRelease.taskCount} × ${(this.oneBond).toFixed(2)} = ${(this.taskRelease.taskCount * this.oneBond).toFixed(2)}`
+        }
+        if(this.taskRelease.activityCategory === 'present_get') {
+          return `${this.taskRelease.taskCount} × ${(this.oneBondAToB / 100).toFixed(2)} = ${(this.taskRelease.taskCount * this.oneBondAToB * 100).toFixed(2)}`
+        }
+      },
+
+      /**
+       * 计算原始单品推广费用公式文本
+       * @return {String}
+       */
+      onePromotionExpensesBeforeText() {
+        if(this.taskRelease.activityCategory === 'free_get') {
+          if(this.getMemberVersionLevel === 100) {
+            return `${(this.oneBond).toFixed(2)} × 4% = ${(this.oneBond * 0.04).toFixed(2)}`
+          }
+          if(this.getMemberVersionLevel === 200) {
+            return `${(this.oneBond).toFixed(2)} × 2% = ${(this.oneBond * 0.02).toFixed(2)}`
+          }
+          if(this.getMemberVersionLevel === 300) {
+            return `${(this.oneBond).toFixed(2)} × 0 = 0`
+          }
+        }
+        if(this.taskRelease.activityCategory === 'present_get') {
+          if(this.getMemberVersionLevel === 100) {
+            return `${(this.oneBondAToB).toFixed(2)} × 4% = ${(this.oneBondAToB * 0.04).toFixed(2)}`
+          }
+          if(this.getMemberVersionLevel === 200) {
+            return `${(this.oneBondAToB).toFixed(2)} × 4% = ${(this.oneBondAToB * 0.02).toFixed(2)}`
+          }
+          if(this.getMemberVersionLevel === 300) {
+            return `${(this.oneBondAToB).toFixed(2)} × 0 = 0`
+          }
+        }
+      },
+
+      /**
+       * 计算最终单品推广费用
        * @return {number}
        */
       onePromotionExpenses() {
-       /* let price = this.taskRelease.pinkage === 'true' ? this.taskRelease.itemPrice : this.taskRelease.itemPrice + 10;
-        return price * 0.06 > 3 ? 3.00 : (price * 0.06).toFixed(2) * 1;*/
-       return 0
+        if(this.taskRelease.activityCategory === 'free_get') {
+          if(this.getMemberVersionLevel === 100) {
+            return this.oneBond * 0.04 >= 5 ? 5 : (this.oneBond * 0.04).toFixed(2) * 1;
+          }
+          if(this.getMemberVersionLevel === 200) {
+            return this.oneBond * 0.02 >= 3 ? 3 : (this.oneBond * 0.02).toFixed(2) * 1;
+          }
+          if(this.getMemberVersionLevel === 300) {
+            return 0
+          }
+        }
+        if(this.taskRelease.activityCategory === 'present_get') {
+          if(this.getMemberVersionLevel === 100) {
+            return this.oneBondAToB * 0.04 >= 5 ? 5.00 : (this.oneBondAToB * 0.04).toFixed(2) * 1;
+          }
+          if(this.getMemberVersionLevel === 200) {
+            return this.oneBondAToB * 0.02 >= 3 ? 3.00 : (this.oneBondAToB * 0.02).toFixed(2) * 1;
+          }
+          if(this.getMemberVersionLevel === 300) {
+            return 0
+          }
+        }
       },
 
+      /**
+       * 计算单品推广费用文本说明
+       * @return {String}
+       */
+      onePromotionExpensesTipText() {
+        if(this.getMemberVersionLevel === 100) {
+          return this.onePromotionExpenses >= 5 ? `（单品推广费用超过平台设定的最高上限5.00元，本次实际收取的单品推广费用为5元）` : ''
+        }
+        if(this.getMemberVersionLevel === 200) {
+          return this.onePromotionExpenses >= 3 ? `（单品推广费用超过平台设定的最高上限3.00元，本次实际收取的单品推广费用为3元）` : ''
+        }
+      },
       /**
        * 计算总推广费用
        * @return {number}
@@ -1458,6 +1534,26 @@
        */
       isBalanceReplenish() {
         return this.replenishMoney <= this.getUserBalance;
+      },
+
+      /**
+       * 计算当用户账户余额不足以支付活动所需金额要额外充值的金额
+       * @return {number}
+       */
+      needPayMoneyBefore() {
+        if(!this.isBalance && !this.priceHasChange) {
+          return this.orderMoney - this.getUserBalance
+        }
+        if(!this.isBalanceReplenish && this.priceHasChange) {
+          return this.replenishMoney - this.getUserBalance
+        }
+      },
+
+      /** 计算充值界面上的金额文本显示
+       * @return {String}
+       */
+      needPayMoneyAfterText() {
+        return !this.isBalance ? `${(this.needPayMoneyBefore).toFixed(2)} + ${(((Math.ceil(this.needPayMoneyBefore * 100 / 0.994)) - this.needPayMoneyBefore * 100) / 100).toFixed(2)}` : ''
       },
 
       /**

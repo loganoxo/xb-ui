@@ -36,14 +36,14 @@
       </p>
       <p class="fs-16 mt-10">本次总共需要支付的金额为：<span class="f-b">{{buyOrderPrice > 0 ? buyOrderPrice : 0.00}}</span>
         元。您账户余额为： <span class="f-b">{{(getUserBalance).toFixed(2) || 0}}</span>
-        元<span v-if="!hasBalance">，还需要充值：<span class="f-b">{{payPrice}}</span> 元</span>
+        元<span v-if="!hasBalance">，还需要充值：<span class="f-b">{{needPayMoneyBefore}}</span> 元</span>
       </p>
     </div>
     <i-button v-if="hasBalance" class="pay-btn" @click="isNeedRecharge = true">立即购买</i-button>
     <i-button v-if="!hasBalance" class="pay-btn" @click="isNeedRecharge = true">前去充值</i-button>
     <!--支付弹窗-->
     <div class="pay-model" v-if="isNeedRecharge">
-      <pay-model ref="orderPayModel" :orderMoney="needPayPriceAfter" :orderType="1"
+      <pay-model ref="orderPayModel" :orderMoney="needPayMoneyBefore" :orderType="1"
                 :memberLevel="isSelectVersionPeriodInfo.level" :timeLevel="isSelectVersionPeriodInfo.timeLevel"
                 @orderVipSuccess="orderVipSuccess" @confirmPayment="confirmPayment">
         <i slot="closeModel" class="close-recharge" @click="isNeedRecharge = false">&times;</i>
@@ -58,7 +58,7 @@
         <div slot="isBalance" class="title-tip">
           <Icon color="#FF2424" size="18px" type="ios-information"></Icon>
           <span class="ml-10">您本次需要支付金额为 <span
-            class="size-color3">{{needPayPriceAfter}}</span> 元。</span>
+            class="size-color3">{{buyOrderPrice}}</span> 元。</span>
         </div>
       </pay-model>
     </div>
@@ -198,22 +198,15 @@
       /** 计算当用户账户余额不足以支付选购的会员版本价格的需要额外充值的金额
        * @return {Number}
        */
-      payPrice() {
-        return !this.hasBalance ? (Math.abs(this.getUserBalance * 100 - this.buyOrderPrice * 100) / 100).toFixed(2) : this.buyOrderPrice
-      },
-
-      /** 计算用户最终需要充值的金额（包含支付宝充值手续费: 非会员需要收取千分之六的充值手续费，会员免手续费）
-       * @return {Number}
-       */
-      needPayPriceAfter() {
-        return this.$store.getters.isMemberOk ? this.payPrice * 1 : ((Math.ceil(this.payPrice * 100 / 0.994)) / 100).toFixed(2) * 1
+      needPayMoneyBefore() {
+        return !this.hasBalance ? (Math.abs(this.getUserBalance * 100 - this.buyOrderPrice * 100) / 100).toFixed(2) : 0
       },
 
       /** 计算充值界面上的金额文本显示
        * @return {String}
        */
       needPayPriceAfterText() {
-        return `${this.payPrice} + ${(((Math.ceil(this.payPrice * 100 / 0.994)) - this.payPrice * 100) / 100).toFixed(2)}`
+        return `${this.needPayMoneyBefore} + ${(((Math.ceil(this.needPayMoneyBefore * 100 / 0.994)) - this.needPayMoneyBefore * 100) / 100).toFixed(2)}`
       },
 
       /** 计算用户当前选择是否是版本升级
@@ -234,8 +227,9 @@
             this.memberPeriodList.push(item)
           }
         });
-        this.getBuyOrderPrice();
-        this.getMemberSurplusFee();
+        this.getMemberSurplusFee().then(() => {
+          this.getBuyOrderPrice();
+        });
       },
 
       // 选择购买会员周期
@@ -289,7 +283,6 @@
                 }
               });
             }
-
             _this.initStatus();
           } else {
             _this.$Message.error(res.msg)
@@ -298,15 +291,20 @@
       },
 
       // 获取用户当前版本折扣价格
-      getMemberSurplusFee() {
+      getMemberSurplusFee () {
         const _this = this;
-        api.getMemberSurplusFee().then(res => {
-          if (res.status) {
-            _this.deductionPrice = res.data
-          } else {
-            _this.$Message.error(res.msg)
-          }
-        })
+        return new Promise((resolve, reject) => {
+          api.getMemberSurplusFee().then(res => {
+            if (res.status) {
+              _this.deductionPrice = res.data;
+            } else {
+              _this.$Message.error(res.msg)
+            }
+            resolve();
+          }).catch(err => {
+            reject(err);
+          })
+        });
       },
 
       // 初始化购买信息状态

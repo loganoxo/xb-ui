@@ -46,7 +46,7 @@
   import {getStorage} from '@/config/utils'
 
   export default {
-    name: 'MyApp',
+    name: 'my-app',
     components: {
       Top: Top,
       Bottom: Bottom,

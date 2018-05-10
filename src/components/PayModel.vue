@@ -36,7 +36,7 @@
       <iButton type="primary" v-else @click="confirmRecharge" :loading="payLoading" class="recharge-btn left">
         {{rechargeButtonText}}
       </iButton>
-      <span class="vip-pay-btn left">
+      <span v-if="!isBalance" class="vip-pay-btn left">
       <span>VIP</span>
       <span>免手续费充值</span>
       <span>点击这里</span>
@@ -127,16 +127,23 @@
     },
     computed: {
       userBalance() {
-        return this.$store.getters.getUserBalance;
+        return this.$store.getters.getUserBalance
       },
       isPwdAmend() {
-        return this.$store.getters.getIsEditPwdAlready;
+        return this.$store.getters.getIsEditPwdAlready
       },
       isBalance() {
-        return this.orderMoney <= this.userBalance;
+        return this.orderMoney <= this.userBalance
       },
+      isMember() {
+        return this.$store.getters.isMemberOk
+      },
+
+      /** 计算用户最终需要充值的金额（包含支付宝充值手续费: 非会员需要收取千分之六的充值手续费，会员免手续费）
+       * @return {Number}
+       */
       lastPayMoney() {
-        return this.isBalance ? 0 : this.orderMoney - this.userBalance;
+        return this.isMember ? this.orderMoney * 100 : (Math.ceil(this.orderMoney * 100 / 0.994)).toFixed(2) * 1
       }
     },
     methods: {
@@ -155,6 +162,7 @@
         if (_this.payType === 'ali') {
           const newWindowUrl = window.open('about:blank');
           api.balanceOrderCreate({
+            feeToAccount: _this.orderMoney * 100,
             finalFee: _this.lastPayMoney,
             orderPlatform: 'PC',
             payChannel: 1,
@@ -172,8 +180,8 @@
           });
         } else {
           api.balanceOrderCreate({
-            feeToAccount: (_this.payMoney * 100).toFixed() * 1,
-            finalFee: (_this.payMoney * 100 * 1.006).toFixed() * 1,
+            feeToAccount: (_this.orderMoney * 100).toFixed() * 1,
+            finalFee: (_this.orderMoney * 100 * 1.006).toFixed() * 1,
             orderPlatform: 'PC',
             payChannel: 2
           }).then(res => {

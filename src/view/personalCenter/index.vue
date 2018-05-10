@@ -134,7 +134,7 @@
   import UserClause from '@/components/UserClause'
 
   export default {
-    name: 'MyXiuBa',
+    name: 'personal-center',
     components: {
       Tooltip: Tooltip,
       UserClause: UserClause,

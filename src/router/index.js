@@ -202,7 +202,6 @@ export default new Router({
         role: null,
       }
     },
-
     {
       path: '/seller-guide',
       name: 'SellerGuide',
