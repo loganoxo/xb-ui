@@ -20,7 +20,7 @@
       <li v-if="isShowBindBtn" class="left cursor-p" @click="toStoreBindOperating">
         <p class="mt-20"><Icon type="plus" size="50" color="#999"></Icon></p>
         <p class="bind-new-store mt-10 fs-16 f-b" v-if="showBindStoreText">绑定新店铺</p>
-        <p class="upgrade-vip mt-10" v-if="showUpgradeText">升级VIP绑定更多店铺</p>
+        <p class="upgrade-vip mt-10" v-if="showUpgradeText">升级<span v-if="memberLevel===200">S</span>VIP绑定更多店铺</p>
       </li>
     </ul>
   </div>
