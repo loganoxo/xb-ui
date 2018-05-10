@@ -170,7 +170,7 @@
         }
       },
 
-      /** 计算用户选择会员版本周期状态
+      /** 计算用户当前选择会员版本周期状态
        * @return {string}
        */
       selectVersionPeriodStatus() {
@@ -271,15 +271,21 @@
             });
             _this.memberVersionList = [...new Set(memberVersionList)];
             _this.memberVersionPeriodList = res.data;
-            _this.memberVersionPeriodList.forEach(item => {
-              if (_this.getMemberVersionLevel && item.level === _this.getMemberVersionLevel) {
-                _this.memberPeriodList.push(item)
-              } else {
+            if(_this.getMemberVersionLevel && _this.getMemberVersionLevel !== 100) {
+              _this.memberVersionPeriodList.forEach(item => {
+                if (item.level === _this.getMemberVersionLevel) {
+                  _this.memberPeriodList.push(item)
+                }
+              });
+            } else {
+              _this.memberVersionPeriodList.forEach(item => {
+                console.log(item.level);
                 if (item.level === 200) {
                   _this.memberPeriodList.push(item)
                 }
-              }
-            });
+              });
+            }
+
             _this.initStatus();
           } else {
             _this.$Message.error(res.msg)
@@ -310,7 +316,7 @@
             }
           })
         }
-        if (_this.getMemberVersionLevel && _this.isMember) {
+        if (_this.getMemberVersionLevel && _this.getMemberVersionLevel !== 100 && _this.isMember) {
           _this.isSelectVersionPeriodInfo.level = _this.getMemberVersionLevel;
           _this.memberVersionList.map(item => {
             if (item.level === _this.getMemberVersionLevel) {
