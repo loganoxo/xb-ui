@@ -36,11 +36,11 @@
       <iButton type="primary" v-else @click="confirmRecharge" :loading="payLoading" class="recharge-btn left">
         {{rechargeButtonText}}
       </iButton>
-      <span v-if="!isBalance" class="vip-pay-btn left">
-      <span>VIP</span>
-      <span>免手续费充值</span>
-      <span>点击这里</span>
-    </span>
+      <span v-if="!isBalance" class="vip-pay-btn left" @click="showFreePayModel = true">
+        <span>VIP</span>
+        <span>免手续费充值</span>
+        <span>点击这里</span>
+      </span>
     </div>
 
     <div class="confirm-recharge-model" v-if="confirmRechargeModel">
@@ -62,7 +62,7 @@
         <iButton class="error-btn" type="error" @click="hasProblem">充值失败</iButton>
       </div>
     </Modal>
-    <ArtificialRechargeModel v-if="showFreePayModel" @colseFreePayModal="showFreePayModel=false"></ArtificialRechargeModel>
+    <artificial-recharge-model v-if="showFreePayModel" @colseFreePayModal="showFreePayModel = false"></artificial-recharge-model>
   </div>
 
 </template>
@@ -81,7 +81,7 @@
       RadioGroup: Radio.Group,
       iButton: Button,
       Modal: Modal,
-      ArtificialRechargeModel:ArtificialRechargeModel
+      ArtificialRechargeModel: ArtificialRechargeModel
     },
     props: {
       orderMoney: {
@@ -118,7 +118,7 @@
         confirmRechargeModel: false,
         payPopWindowWX: false,
         payLoading: false,
-        showFreePayModel:false
+        showFreePayModel: false
       }
     },
     mounted() {
