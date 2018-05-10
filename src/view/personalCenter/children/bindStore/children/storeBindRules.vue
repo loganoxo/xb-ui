@@ -9,7 +9,7 @@
       </ul>
     </div>
     <!--<p class="has-bind-title fs-16">我已绑定的店铺 <span class="main-color">（根据你的会员版本，最多可绑定{{memberLevel===100?1:(memberLevel===200?4:8)}}个店铺。）</span> </p>-->
-    <p class="has-bind-title fs-16">我已绑定的店铺 <span class="main-color">（根据你的会员版本，最多可绑定<span v-if="memberLevel===100">{{freeStoreBindNum}}</span><span v-if="memberLevel===200">{{vipStoreBindNum}}</span><span v-if="memberLevel===300">{{svipStoreBindNum}}</span>个店铺。）</span> </p>
+    <p class="has-bind-title fs-16">我已绑定的店铺 <span class="main-color">（根据你的会员版本，最多可绑定<span v-if="memberLevel===100||memberLevel===null">{{freeStoreBindNum}}</span><span v-if="memberLevel===200">{{vipStoreBindNum}}</span><span v-if="memberLevel===300">{{svipStoreBindNum}}</span>个店铺。）</span> </p>
     <ul class="has-bind-box clear">
       <li class="left" v-for="storeInfo in storeInfoLists" :key="storeInfo.id">
         <img src="~assets/img/common/taobao-logo.png" v-if="storeInfo.storeType === 'taobao'">

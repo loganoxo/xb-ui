@@ -45,8 +45,9 @@
       },
     },
     created(){
-      this.infoSelect = this.$route.query?this.$route.query.q:this.infoSelect;
+      this.infoSelect = this.$route.query.q?this.$route.query.q:this.infoSelect;
     },
+
     methods: {
       switchTab(name) {
         this.$router.push({name: name});

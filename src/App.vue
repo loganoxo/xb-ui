@@ -8,9 +8,16 @@
     <side-navigation></side-navigation>
     <!--侧边栏固定联系客服图片展示-->
     <div class="suspend-service" v-show="showSuspendService" v-if="isLogin">
-      <a href="http://wpa.qq.com/msgrd?v=3&site=qq&menu=yes&uin=1624363653" target="_blank" v-if="getUserRole === 1">
-        <img src="~assets/img/common/suspend-service.png" alt="">
-      </a>
+      <!--<a href="http://wpa.qq.com/msgrd?v=3&site=qq&menu=yes&uin=1624363653" target="_blank" v-if="getUserRole === 1">-->
+        <!--<img src="~assets/img/common/suspend-service.png" alt="">-->
+      <!--</a>-->
+      <div v-if="getUserRole === 1" class="pos-rel">
+        <img src="~assets/img/common/suspend-service-merchant.png" alt="">
+        <a href="http://wpa.qq.com/msgrd?v=3&site=qq&menu=yes&uin=2331878513" target="_blank"  class="service service1"></a>
+        <a href="http://wpa.qq.com/msgrd?v=3&site=qq&menu=yes&uin=1873512513" target="_blank"  class="service service2"></a>
+        <a href="http://wpa.qq.com/msgrd?v=3&site=qq&menu=yes&uin=2012364029" target="_blank"  class="service service3"></a>
+        <a href="http://wpa.qq.com/msgrd?v=3&site=qq&menu=yes&uin=1624363653" target="_blank"  class="service service4"></a>
+      </div>
       <a href="https://jq.qq.com/?_wv=1027&k=5ZMH7Iu" target="_blank" class="pos-rel block" v-else>
         <img src="~assets/img/common/suspend-service-showker.png" alt="">
         <div style="position: absolute; top: 126px; width: 100%;" class="text-ct">
@@ -117,6 +124,23 @@
     right: 64px;
     top: 242px;
     cursor: pointer;
+    .service{
+      position: absolute;
+      width:100%;
+      height:25px;
+    }
+    .service1{
+      top:173px;
+    }
+    .service2{
+      top:200px;
+    }
+    .service3{
+      top:227px;
+    }
+    .service4{
+      bottom:15px;
+    }
   }
 
   .close-suspend-service {
