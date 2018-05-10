@@ -19,7 +19,8 @@
       </li>
       <li v-if="isShowBindBtn" class="left cursor-p" @click="toStoreBindOperating">
         <p class="mt-20"><Icon type="plus" size="50" color="#999"></Icon></p>
-        <p class="bind-new-store mt-10">升级VIP绑定更多店铺</p>
+        <p class="bind-new-store mt-10 fs-16 f-b" v-if="showBindStoreText">绑定新店铺</p>
+        <p class="upgrade-vip mt-10" v-if="showUpgradeText">升级VIP绑定更多店铺</p>
       </li>
     </ul>
   </div>
@@ -41,6 +42,8 @@
         freeStoreBindNum:0,
         vipStoreBindNum:0,
         svipStoreBindNum:0,
+        showBindStoreText:true,
+        showUpgradeText:false
       }
     },
     computed:{
@@ -53,38 +56,9 @@
     },
     created(){
       this.getVersionInfo();
-      this.getStoreBindInfo();
+      // this.getStoreBindInfo();
     },
     methods:{
-      //获取商家绑定的店铺列表
-      getStoreBindInfo(){
-        const _this = this;
-        api.getStoreBindInfo({}).then(res=>{
-          if(res.status){
-            if(res.data.length > 0){
-              _this.storeInfoLists = res.data;
-            }
-            if(res.data.length >= 8){
-              _this.isShowBindBtn = false;
-            }
-          }else{
-            Toast(res.msg);
-          }
-        })
-      },
-      //去往绑定新店铺页面（需要判断）
-      toStoreBindOperating(){
-        const _this = this;
-        if((_this.memberLevel ===100 || _this.memberLevel === null) && _this.storeInfoLists.length >= _this.freeStoreBindNum){
-          _this.$router.push({path:'/user/vip-member/order'});
-        } else if (_this.memberLevel === 200 && _this.storeInfoLists.length >= _this.vipStoreBindNum) {
-          _this.$router.push({path:'/user/vip-member/order'});
-        } else if (_this.memberLevel === 300 && _this.storeInfoLists.length >= _this.svipStoreBindNum) {
-          _this.isShowBindBtn = false;
-        }else {
-          this.$router.push({name:'StoreBindOperating'});
-        }
-      },
       //获取会员版本说明（主要是可绑定店铺数量）
       getVersionInfo(){
         let _this = this;
@@ -98,10 +72,58 @@
             _this.freeStoreBindNum = tempData[0].storeBindingLimit.number;
             _this.vipStoreBindNum = tempData[1].storeBindingLimit.number;
             _this.svipStoreBindNum = tempData[2].storeBindingLimit.number;
+            _this.getStoreBindInfo();
           }else{
             _this.$Message.error(res.msg);
           }
         })
+      },
+      //获取商家绑定的店铺列表
+      getStoreBindInfo(){
+        const _this = this;
+        api.getStoreBindInfo({}).then(res=>{
+          if(res.status){
+            if(res.data.length > 0){
+              _this.storeInfoLists = res.data;
+              _this.bindBtnText();
+            }
+          }else{
+            Toast(res.msg);
+          }
+        })
+      },
+      //根据会员等级和已绑定店铺数量页面绑定按钮显示不同
+      bindBtnText(){
+        let _this = this;
+        if(_this.memberLevel === 100 || _this.memberLevel === null && _this.storeInfoLists.length >=_this.freeStoreBindNum ){
+          _this.showBindStoreText = false;
+          _this.showUpgradeText = true;
+        }
+        if(_this.memberLevel === 200 && _this.storeInfoLists.length >= _this.vipStoreBindNum){
+          _this.showBindStoreText = false;
+          _this.showUpgradeText = true;
+        }
+        if(_this.memberLevel === 300){
+          _this.showBindStoreText = true;
+          _this.showUpgradeText = false;
+          if(_this.storeInfoLists.length >= _this.svipStoreBindNum){
+            _this.isShowBindBtn = false;
+          }
+        }
+
+      },
+      //绑店铺还是买会员（需要判断）
+      toStoreBindOperating(){
+        const _this = this;
+        if((_this.memberLevel ===100 || _this.memberLevel === null) && _this.storeInfoLists.length >= _this.freeStoreBindNum){
+          _this.$router.push({path:'/user/vip-member/order'});
+        } else if (_this.memberLevel === 200 && _this.storeInfoLists.length >= _this.vipStoreBindNum) {
+          _this.$router.push({path:'/user/vip-member/order'});
+        } else if (_this.memberLevel === 300 && _this.storeInfoLists.length >= _this.svipStoreBindNum) {
+          _this.isShowBindBtn = false;
+        }else {
+          this.$router.push({name:'StoreBindOperating'});
+        }
       },
     }
   }
@@ -132,7 +154,7 @@
         width:236px;
       }
     }
-    .bind-new-store{
+    .upgrade-vip{
       padding:0 5px;
       border:1px solid $mainColor;
       background-color: #F6E363;
