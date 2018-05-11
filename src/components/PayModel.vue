@@ -29,18 +29,19 @@
         <!--</Radio>-->
       </Radio-group>
     </div>
-    <div class="clear ml-88">
-      <iButton type="primary" v-if="isBalance" @click="confirmPayment" :loading="payLoading" class="recharge-btn left">
+    <div class="text-ct mt-20">
+      <iButton type="primary" v-if="isBalance" @click="confirmPayment" :loading="payLoading" class="recharge-btn">
         {{payButtonText}}
       </iButton>
-      <iButton type="primary" v-else @click="confirmRecharge" :loading="payLoading" class="recharge-btn left">
+      <iButton type="primary" v-else @click="confirmRecharge" :loading="payLoading" class="recharge-btn">
         {{rechargeButtonText}}
       </iButton>
-      <span v-if="!isBalance" class="vip-pay-btn left" @click="showFreePayModel = true">
+      <iButton v-if="getMemberVersionLevel !== 100" class="vip-pay-btn" @click="showFreePayModel = true">
         <span>VIP</span>
         <span>免手续费充值</span>
         <span>点击这里</span>
-      </span>
+      </iButton>
+      <iButton v-if="getMemberVersionLevel === 100 && isShowUpgradeVIP === true" class="svip-upgrade" @click="upgradeSvip">升级VIP免除手续费</iButton>
     </div>
 
     <div class="confirm-recharge-model" v-if="confirmRechargeModel">
@@ -97,7 +98,10 @@
         type: [Number, String],
         default: null
       },
-      orderType: {
+      isShowUpgradeVIP: {
+        type: Boolean,
+        default: false
+      }, orderType: {
         type: Number,
         default: 0
       },
@@ -135,6 +139,9 @@
       isBalance() {
         return this.orderMoney <= this.userBalance
       },
+      getMemberVersionLevel() {
+        return this.$store.state.userInfo.memberLevel
+      },
       isMember() {
         return this.$store.getters.isMemberOk
       },
@@ -155,6 +162,9 @@
         if (event.keyCode === 13) {
           this.confirmPayment()
         }
+      },
+      upgradeSvip() {
+        this.$router.push({path: '/user/vip-member/order'})
       },
       confirmRecharge() {
         const _this = this;
@@ -253,7 +263,6 @@
       line-height: 24px;
       @include sc(16px, #fff);
       text-align: center;
-      margin: 28px auto 0 auto;
       @include transition;
       border-radius: 5px;
       cursor: pointer;
@@ -333,20 +342,23 @@
     }
 
     .vip-pay-btn {
-      display: inline-block;
-      height: 30px;
-      line-height: 30px;
       color: #fff;
-      text-align: center;
-      padding: 0 12px;
-      border-radius: 5px;
       background-color: #24B3F1;
-      margin-top: 30px;
       margin-left: 20px;
-      cursor: pointer;
       @include transition;
       &:hover {
         background-color: darken(#24B3F1, 10%);
+      }
+    }
+
+    .svip-upgrade {
+      border:1px solid #FFCD00;
+      color: #FF8C2B;
+      margin-left: 20px;
+      background-color: #FFFC00;
+      @include transition;
+      &:hover {
+        background-color: darken(#FFFC00, 2%);
       }
     }
   }

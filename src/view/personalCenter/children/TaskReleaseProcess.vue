@@ -955,11 +955,12 @@
     </div>
     <!--活动担保金支付弹框-->
     <div class="pay-model" v-if="showPayModel">
-      <PayModel ref="payModelRef" :orderMoney="needPayMoneyBefore" @confirmPayment="confirmPayment">
+      <PayModel ref="payModelRef" :orderMoney="needPayMoneyBefore" @confirmPayment="confirmPayment" :isShowUpgradeVIP="true">
         <i slot="closeModel" class="close-recharge" @click="closeRecharge">&times;</i>
         <div slot="noBalance" class="title-tip">
           <span class="sizeColor3"><Icon color="#FF2424" size="18px" type="ios-information"></Icon><span class="ml-10">亲，您的余额不足，请充值。</span></span>还需充值<strong
           class="sizeColor3">{{needPayMoneyAfterText}}</strong>元
+          <span @click="isShowAliPayTip = true">【<span class="blue cursor-p">支付宝手续费</span>】</span>
         </div>
         <div slot="isBalance" class="title-tip">
           <Icon color="#FF2424" size="18px" type="ios-information"></Icon>
@@ -1330,7 +1331,7 @@
         isGetStoreInfoError: false,
         isBindStore: false,
         isShowBusinessTip: true,
-        noMoreTip: false
+        noMoreTip: false,
       }
     },
     mounted() {
@@ -1355,7 +1356,7 @@
     created() {
       let _this = this;
       // _this.getCheckSellerTest();
-      _this.checkMemberForTask();
+      // _this.checkMemberForTask();
       _this.getItemCatalog();
       _this.getDetectionUserClauseTip();
       _this.getStoreBindInfoList();
