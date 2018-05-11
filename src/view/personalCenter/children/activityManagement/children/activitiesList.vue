@@ -284,12 +284,12 @@
     </Modal>
     <!--支付保证金弹框-->
     <div class="pay-model" v-if="showPayModel">
-      <PayModel ref="payModelRef" :orderMoney="orderMoney" @confirmPayment="confirmPayment" :isShowUpgradeVIP="true" :isBalance="isBalance">
+      <PayModel ref="payModelRef" :orderMoney="needPayMoney" @confirmPayment="confirmPayment" :isShowUpgradeVIP="true" :isBalance="isBalance">
         <i slot="closeModel" class="close-recharge" @click="showPayModel = false">&times;</i>
         <div slot="noBalance" class="title-tip">
           <span class="size-color3"><Icon color="#FF2424" size="18" type="ios-information"></Icon>
             <span class="ml-10">亲，您的余额不足，请充值。</span>
-          </span>还需充值<strong class="size-color3">{{(orderMoney - getUserBalance).toFixed(2)}}</strong>元
+          </span>还需充值<strong class="size-color3">{{needPayMoneyText}}</strong>元
         </div>
         <div slot="isBalance" class="title-tip">
           <Icon color="#FF2424" size="18px" type="ios-information"></Icon>
@@ -425,8 +425,14 @@
       orderMoney() {
         return this.hasDeposited > 0 ? (this.needDepositMoney - this.hasDeposited).toFixed(2) * 1 : this.needDepositMoney;
       },
-       isBalance() {
+      isBalance() {
         return this.orderMoney <= this.getUserBalance
+      },
+      needPayMoney() {
+        return !this.hasBalance ? (Math.abs(this.getUserBalance * 100 - this.orderMoney * 100) / 100).toFixed(2) : 0
+      },
+      needPayMoneyText() {
+        return `${this.needPayMoney} + ${(((Math.ceil(this.needPayMoney * 100 / 0.994)) - this.needPayMoney * 100) / 100).toFixed(2)}`
       },
     },
     methods: {

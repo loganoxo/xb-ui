@@ -35,7 +35,8 @@
         {{rechargeButtonText}}
       </iButton>
       <iButton v-if="getMemberVersionLevel !== 100 && !isBalance" class="vip-pay-btn" @click="showFreePayModel = true">
-        <span>VIP</span>
+        <span v-if="getMemberVersionLevel === 200">VIP</span>
+        <span v-if="getMemberVersionLevel === 300">SVIP</span>
         <span>免手续费充值</span>
         <span>点击这里</span>
       </iButton>

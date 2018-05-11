@@ -233,7 +233,7 @@
             </i-select>
           </div>
           <div class="mt-20 text-lf" v-show="orderNoPassReason === '自定义'">
-            <iInput @change="limitOrderNoPassReasonFunc" placeholder="自定义内容,字数不超过50个字" v-model="orderNoPassReasonDiy"></iInput>
+            <iInput placeholder="自定义内容,字数不超过50个字" v-model="orderNoPassReasonDiy"></iInput>
           </div>
           <p  class="cl-red mt-10 text-lf" v-show="orderNoPassReasonDiy && orderNoPassReasonDiy.length > 50" >
             <Icon type="information-circled" color="red" size="14" class="mr-5"></Icon>
@@ -259,7 +259,7 @@
                 <span class="size-color3">
                 <Icon color="#FF2424" size="18" type="ios-information"></Icon>
                 <span class="ml-10">注意：该拿手实付金额大于活动担保金，</span></span>需要补充担保金<strong
-            class="main-color">{{needReplenishMoney}}</strong>元,请充值！
+            class="main-color">{{needReplenishMoneyText}}</strong>元,请充值！
           </div>
         </PayModel>
       </div>
@@ -435,7 +435,10 @@
       },
       isBalance() {
         return this.needReplenishMoney <= this.getUserBalance
-      }
+      },
+      needReplenishMoneyText() {
+        return `${this.needReplenishMoney} + ${(((Math.ceil(this.needReplenishMoney * 100 / 0.994)) - this.needReplenishMoney * 100) / 100).toFixed(2)}`
+      },
     },
     methods: {
       getShowkerReportInfo(id, alitmAccount) {
@@ -449,9 +452,6 @@
             self.$Message.error(res.msg);
           }
         });
-      },
-      limitOrderNoPassReasonFunc(){
-        let self = this;
       },
       evaluateShowkerFun() {
         let self = this;

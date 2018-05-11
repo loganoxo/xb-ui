@@ -36,14 +36,14 @@
       </p>
       <p class="fs-16 mt-10">本次总共需要支付的金额为：<span class="f-b">{{buyOrderPrice > 0 ? buyOrderPrice : 0.00}}</span>
         元。您账户余额为： <span class="f-b">{{(getUserBalance).toFixed(2) || 0}}</span>
-        元<span v-if="!hasBalance">，还需要充值：<span class="f-b">{{needPayMoneyBefore}}</span> 元</span>
+        元<span v-if="!hasBalance">，还需要充值：<span class="f-b">{{needPayMoney}}</span> 元</span>
       </p>
     </div>
     <i-button v-if="hasBalance" class="pay-btn" @click="isNeedRecharge = true">立即购买</i-button>
     <i-button v-if="!hasBalance" class="pay-btn" @click="isNeedRecharge = true">前去充值</i-button>
     <!--支付弹窗-->
     <div class="pay-model" v-if="isNeedRecharge">
-      <pay-model ref="orderPayModel" :orderMoney="needPayMoneyBefore" :orderType="1" :isBalance="hasBalance"
+      <pay-model ref="orderPayModel" :orderMoney="needPayMoney" :orderType="1" :isBalance="hasBalance"
                 :memberLevel="isSelectVersionPeriodInfo.level" :timeLevel="isSelectVersionPeriodInfo.timeLevel"
                 @orderVipSuccess="orderVipSuccess" @confirmPayment="confirmPayment">
         <i slot="closeModel" class="close-recharge" @click="isNeedRecharge = false">&times;</i>
@@ -52,7 +52,7 @@
             <Icon color="#FF2424" size="16" type="ios-information"></Icon>
             <span class="">亲，您的余额不足，请充值。</span>
           </span>还需充值
-          <strong class="size-color3">{{needPayPriceAfterText}}</strong> 元。
+          <strong class="size-color3">{{needPayMoneyText}}</strong> 元。
           <span @click="isShowAliPayTip = true">【<span class="blue cursor-p">支付宝手续费</span>】</span>
         </div>
         <div slot="isBalance" class="title-tip">
@@ -198,15 +198,15 @@
       /** 计算当用户账户余额不足以支付选购的会员版本价格的需要额外充值的金额
        * @return {Number}
        */
-      needPayMoneyBefore() {
+      needPayMoney() {
         return !this.hasBalance ? (Math.abs(this.getUserBalance * 100 - this.buyOrderPrice * 100) / 100).toFixed(2) : 0
       },
 
       /** 计算充值界面上的金额文本显示
        * @return {String}
        */
-      needPayPriceAfterText() {
-        return `${this.needPayMoneyBefore} + ${(((Math.ceil(this.needPayMoneyBefore * 100 / 0.994)) - this.needPayMoneyBefore * 100) / 100).toFixed(2)}`
+      needPayMoneyText() {
+        return `${this.needPayMoney} + ${(((Math.ceil(this.needPayMoney * 100 / 0.994)) - this.needPayMoney * 100) / 100).toFixed(2)}`
       },
 
       /** 计算用户当前选择是否是版本升级
