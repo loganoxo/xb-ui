@@ -87,7 +87,7 @@
     <!--<div v-if="showFreePayModel">-->
       <!--<ArtificialRechargeModel></ArtificialRechargeModel>-->
     <!--</div>-->
-    <ArtificialRechargeModel v-if="showFreePayModel" @colseFreePayModal="showFreePayModel=false"></ArtificialRechargeModel>
+    <artificial-recharge-model v-if="showFreePayModel" @colseFreePayModal="showFreePayModel=false"></artificial-recharge-model>
   </div>
 </template>
 <script>
