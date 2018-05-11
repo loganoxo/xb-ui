@@ -93,23 +93,6 @@
       </div>
     </div>
     <!--用户没有发布任务权限提示-->
-<!--    <div v-if="getMemberStatus === 'need_member_for_more_task' || getMemberStatus === 'need_member_for_more_audit'" class="text-ct ">
-      <div class="mt-80" style="font-size:20px;color: #949494" v-if="getMemberStatus === 'need_member_for_more_task'">
-        <Icon style="font-size: 25px ;transform: translateY(3px)" type="close-circled"></Icon>
-        <span><strong>很抱歉，当前你为非会员，购买会员后才能继续发布任务！</strong></span>
-      </div>
-      <div class="mt-80 ml-60" style="font-size:20px;color: #949494;text-align: left" v-if="getMemberStatus === 'need_member_for_more_audit'">
-        <Icon class="mr-10" style="font-size: 25px ;transform: translateY(16px)" type="close-circled"></Icon>
-        <span>
-          <span><strong>很抱歉，当前你为非会员，仅支持免费发布一条活动（目前已存在一条待审核活动，请等待审核结果）。</strong></span><br>
-          <span class="ml-38"><strong>请在购买会员后继续发布更多活动。</strong></span>
-        </span>
-      </div>
-      <div class="mt-40">
-        <iButton @click="openMember" class="check-member" type="success" size="large">购买会员</iButton>
-        <a class="inline-block ml-10" @click="isVipPopupFunc">添加客服QQ免费领VIP</a>
-      </div>
-    </div>-->
     <!--活动发布相关-->
     <div class="mt-30">
       <div class="activity-con" v-show="stepName === 'information'">
@@ -245,14 +228,6 @@
                 <Icon class="cursor-p" size="16" type="help-circled"></Icon>
               </Tooltip>
             </div>
-           <!-- <div class="store-name ml-45 mt-20">
-              <span class="required">掌柜旺旺：</span>
-              <iInput v-model="taskRelease.storeName" placeholder="请输入掌柜旺旺" style="width: 296px"></iInput>
-            </div>
-            <div class="store-name ml-45 mt-20">
-              <span class="required">店铺名称：</span>
-              <iInput v-model="taskRelease.realStoreName" placeholder="请输入店铺名称" style="width: 296px"></iInput>
-            </div>-->
             <div class="baby-number ml-45 mt-20">
              <p>
                <span class="required">宝贝数量：</span>
@@ -440,14 +415,6 @@
                     <Icon class="cursor-p" size="16" type="help-circled"></Icon>
                   </Tooltip>
                 </div>
-               <!-- <div class="store-name ml-10 mt-20">
-                  <span class="required">掌柜旺旺：</span>
-                  <iInput v-model="taskRelease.storeName" placeholder="请输入掌柜旺旺" style="width: 296px"></iInput>
-                </div>
-                <div class="store-name ml-10 mt-20">
-                  <span class="required">店铺名称：</span>
-                  <iInput v-model="taskRelease.realStoreName" placeholder="请输入店铺名称" style="width: 296px"></iInput>
-                </div>-->
                 <div class="baby-price ml-10 mt-20">
                   <span class="required">宝贝单价：</span>
                   <iInput v-model.number="taskRelease.itemPrice" placeholder="请输入宝贝单价" style="width: 120px"></iInput>
@@ -597,9 +564,7 @@
                                 @focus="onEditorFocus($event)"
                                 @ready="onEditorReady($event)">
                   </quill-editor>
-                  <!--<form method="post" enctype="multipart/form-data" id="uploadFormMulti">-->
-                    <input v-show="false" id="presentGet" type="file" name="avator" multiple accept="image/jpg,image/jpeg,image/png,image/gif" @change="uploadImgPresentGet">
-                  <!--</form>-->
+                  <input v-show="false" id="presentGet" type="file" name="avator" multiple accept="image/jpg,image/jpeg,image/png,image/gif" @change="uploadImgPresentGet">
                 </div>
               </div>
             </div>
@@ -937,7 +902,7 @@
           <span class="pay-btn" v-if="isBalance" @click="openRecharge">前去支付</span>
           <span class="pay-btn" v-else @click="openRecharge">前去充值</span>
           <span class="return" @click="returnUpStep">返回上一步</span>
-          <router-link to="/user/activity-management/list">秀品活动管理</router-link>
+          <router-link to="/user/activity-management/list">查看活动管理</router-link>
         </div>
       </div>
       <!--活动提交成功提示-->
@@ -1304,7 +1269,6 @@
         paidDeposit: 0,
         taskStatus: null,
         editTaskId: null,
-        getMemberStatus: null,
         itemReviewList: [],
         itemReviewPushList: [],
         selectKeywordScheme: 0,
@@ -1354,14 +1318,11 @@
       _this.$refs.myTextEditorPresent.quill.getModule("toolbar").addHandler("image", imgHandlerPresentGet);
     },
     created() {
-      let _this = this;
-      // _this.getCheckSellerTest();
-      // _this.checkMemberForTask();
-      _this.getItemCatalog();
-      _this.getDetectionUserClauseTip();
-      _this.getStoreBindInfoList();
-      _this.isShowBusinessTip = !getStorage('noMorePopup');
-      // _this.isVipPopupFunc();
+      // this.getCheckSellerTest();
+      this.getItemCatalog();
+      this.getDetectionUserClauseTip();
+      this.getStoreBindInfoList();
+      this.isShowBusinessTip = !getStorage('noMorePopup');
     },
     computed: {
       /**
@@ -1618,13 +1579,6 @@
       }
     },
     methods: {
-      isVipPopupFunc() {
-        let _this = this;
-        _this.$store.commit({
-          type: "CHANGE_IS_VIP_POPUP",
-          result: true,
-        });
-      },
       changeSelectActivity(type) {
         const _this = this;
         _this.taskRelease.activityCategory = type;
@@ -1709,16 +1663,6 @@
           }
         }
       },*/
-      checkMemberForTask() {
-        let _this = this;
-        api.checkMemberForTask().then(res => {
-          if (res) {
-            _this.getMemberStatus = res.statusCode;
-          } else {
-            _this.$Message.error(res.msg)
-          }
-        });
-      },
       changeExampleImageUrl(type) {
         let _this = this;
         _this.isShowExampleImageModel = true;
