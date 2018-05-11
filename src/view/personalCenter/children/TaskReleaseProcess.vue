@@ -237,6 +237,13 @@
             <div class="baby-url ml-45 mt-20">
               <span class="required">宝贝地址：</span>
               <iInput v-model="taskRelease.itemUrl" placeholder="请输入宝贝地址" style="width: 296px"></iInput>
+              <span class="sizeColor2" v-if="getMemberVersionLevel === 200">（根据你的会员版本，每天同一宝贝仅能发布2次）</span>
+              <span class="sizeColor2" v-else-if="getMemberVersionLevel === 300">（根据你的会员版本，每天同一宝贝仅能发布3次）</span>
+              <span class="sizeColor2" v-else>（根据你的会员版本，每天同一宝贝仅能发布1次）</span>
+              <span v-if="getMemberVersionLevel !==300" class="svip-upgrade ml-10 mr-5" @click="upgradeSvip">不够用？+1次</span>
+              <Tooltip content="同一宝贝每日发布活动次数：免费商家1次，VIP商家2次，SVIP商家3次" placement="top">
+                <Icon class="cursor-p" size="16" type="help-circled"></Icon>
+              </Tooltip>
             </div>
            <!-- <div class="store-name ml-45 mt-20">
               <span class="required">掌柜旺旺：</span>
@@ -425,6 +432,13 @@
                 <div class="baby-url ml-10 mt-20">
                   <span class="required">宝贝地址：</span>
                   <iInput v-model="taskRelease.itemUrl" placeholder="请输入宝贝地址" style="width: 296px"></iInput>
+                  <span class="sizeColor2" v-if="getMemberVersionLevel === 200">（根据你的会员版本，每天同一宝贝仅能发布2次）</span>
+                  <span class="sizeColor2" v-else-if="getMemberVersionLevel === 300">（根据你的会员版本，每天同一宝贝仅能发布3次）</span>
+                  <span class="sizeColor2" v-else>（根据你的会员版本，每天同一宝贝仅能发布1次）</span>
+                  <span v-if="getMemberVersionLevel !==300" class="svip-upgrade ml-10 mr-5" @click="upgradeSvip">不够用？+1次</span>
+                  <Tooltip content="同一宝贝每日发布活动次数：免费商家1次，VIP商家2次，SVIP商家3次" placement="top">
+                    <Icon class="cursor-p" size="16" type="help-circled"></Icon>
+                  </Tooltip>
                 </div>
                <!-- <div class="store-name ml-10 mt-20">
                   <span class="required">掌柜旺旺：</span>
@@ -1097,7 +1111,7 @@
 </template>
 
 <script>
-  import {Icon, Form, Input, Checkbox, Button, Radio, Modal, Alert, Select, Option, OptionGroup, Steps} from 'iview'
+  import {Icon, Form, Input, Checkbox, Button, Radio, Modal, Alert, Select, Option, OptionGroup, Steps, Tooltip} from 'iview'
   import {Quill, quillEditor} from 'vue-quill-editor'
   import Upload from '@/components/Upload'
   import PayModel from '@/components/PayModel'
@@ -1127,6 +1141,7 @@
       OptionGroup: OptionGroup,
       Modal: Modal,
       Alert: Alert,
+      Tooltip: Tooltip,
       PayModel: PayModel,
       UserClause: UserClause,
     },
