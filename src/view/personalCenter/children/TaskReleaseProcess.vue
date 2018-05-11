@@ -220,9 +220,9 @@
             <div class="baby-url ml-45 mt-20">
               <span class="required">宝贝地址：</span>
               <iInput v-model="taskRelease.itemUrl" placeholder="请输入宝贝地址" style="width: 296px"></iInput>
-              <span class="sizeColor2" v-if="getMemberVersionLevel === 200">（根据你的会员版本，每天同一宝贝仅能发布2次）</span>
-              <span class="sizeColor2" v-else-if="getMemberVersionLevel === 300">（根据你的会员版本，每天同一宝贝仅能发布3次）</span>
-              <span class="sizeColor2" v-else>（根据你的会员版本，每天同一宝贝仅能发布1次）</span>
+              <span class="sizeColor2" v-if="getMemberVersionLevel === 200">（根据你的会员版本，每天同一宝贝可以发布2次）</span>
+              <span class="sizeColor2" v-else-if="getMemberVersionLevel === 300">（根据你的会员版本，每天同一宝贝可以发布3次）</span>
+              <span class="sizeColor2" v-else>（根据你的会员版本，每天同一宝贝可以发布1次）</span>
               <span v-if="getMemberVersionLevel !==300" class="svip-upgrade ml-10 mr-5" @click="upgradeSvip">不够用？+1次</span>
               <Tooltip content="同一宝贝每日发布活动次数：免费商家1次，VIP商家2次，SVIP商家3次" placement="top">
                 <Icon class="cursor-p" size="16" type="help-circled"></Icon>
@@ -407,9 +407,9 @@
                 <div class="baby-url ml-10 mt-20">
                   <span class="required">宝贝地址：</span>
                   <iInput v-model="taskRelease.itemUrl" placeholder="请输入宝贝地址" style="width: 296px"></iInput>
-                  <span class="sizeColor2" v-if="getMemberVersionLevel === 200">（根据你的会员版本，每天同一宝贝仅能发布2次）</span>
-                  <span class="sizeColor2" v-else-if="getMemberVersionLevel === 300">（根据你的会员版本，每天同一宝贝仅能发布3次）</span>
-                  <span class="sizeColor2" v-else>（根据你的会员版本，每天同一宝贝仅能发布1次）</span>
+                  <span class="sizeColor2" v-if="getMemberVersionLevel === 200">（根据你的会员版本，每天同一宝贝可以发布2次）</span>
+                  <span class="sizeColor2" v-else-if="getMemberVersionLevel === 300">（根据你的会员版本，每天同一宝贝可以发布3次）</span>
+                  <span class="sizeColor2" v-else>（根据你的会员版本，每天同一宝贝可以发布1次）</span>
                   <span v-if="getMemberVersionLevel !==300" class="svip-upgrade ml-10 mr-5" @click="upgradeSvip">不够用？+1次</span>
                   <Tooltip content="同一宝贝每日发布活动次数：免费商家1次，VIP商家2次，SVIP商家3次" placement="top">
                     <Icon class="cursor-p" size="16" type="help-circled"></Icon>
@@ -1395,7 +1395,7 @@
           return `${this.taskRelease.taskCount} × ${(this.oneBond).toFixed(2)} = ${(this.taskRelease.taskCount * this.oneBond).toFixed(2)}`
         }
         if(this.taskRelease.activityCategory === 'present_get') {
-          return `${this.taskRelease.taskCount} × ${(this.oneBondAToB / 100).toFixed(2)} = ${(this.taskRelease.taskCount * this.oneBondAToB * 100).toFixed(2)}`
+          return `${this.taskRelease.taskCount} × ${(this.oneBondAToB / 100).toFixed(2)} = ${((this.taskRelease.taskCount * this.oneBondAToB) / 100).toFixed(2)}`
         }
       },
 
@@ -1417,13 +1417,13 @@
         }
         if(this.taskRelease.activityCategory === 'present_get') {
           if(this.getMemberVersionLevel === 100) {
-            return `${(this.oneBondAToB).toFixed(2)} × 4% = ${(this.oneBondAToB * 0.04).toFixed(2)}`
+            return `${(this.oneBondAToB / 100).toFixed(2)} × 4% = ${(this.oneBondAToB * 0.04).toFixed(2)}`
           }
           if(this.getMemberVersionLevel === 200) {
-            return `${(this.oneBondAToB).toFixed(2)} × 4% = ${(this.oneBondAToB * 0.02).toFixed(2)}`
+            return `${(this.oneBondAToB / 100).toFixed(2)} × 4% = ${(this.oneBondAToB * 0.02).toFixed(2)}`
           }
           if(this.getMemberVersionLevel === 300) {
-            return `${(this.oneBondAToB).toFixed(2)} × 0 = 0`
+            return `${(this.oneBondAToB / 100).toFixed(2)} × 0 = 0`
           }
         }
       },

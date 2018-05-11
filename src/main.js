@@ -53,19 +53,6 @@ router.beforeEach((to, from, next) => {
     type: "LOG_IN_AUTHORITY",
     logInAuthority: to.meta.logInAuthority
   });
-  if (to.name === 'TaskReleaseProcess') {
-    if (store.state.login && store.state.userInfo.role === 1) {
-      store.dispatch('getSellerTaskInfo').then(() => {
-        //非VIP用户且发单数大于0
-        if (store.getters.isMemberOk && (parseInt(store.state.sellerTaskInfo.taskTotalCount) === 0)) {
-          store.commit({
-            type: "CHANGE_IS_VIP_POPUP",
-            result: true,
-          });
-        }
-      });
-    }
-  }
   if (to.meta.logInAuthority && !store.state.login) {
     next('/login');
   } else if (to.meta.role !== null && to.meta.role !== store.getters.getUserRole) {

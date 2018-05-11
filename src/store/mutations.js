@@ -98,11 +98,6 @@ export default {
     state.sysConfigInfo = result;
   },
 
-  //是否显示购买VIP弹框
-  [types.CHANGE_IS_VIP_POPUP](state, {result}) {
-    state.isBuyVipPopup = result;
-  },
-
   //商家任务信息
   [types.SELLER_TASK_INFO](state, {result}) {
     state.sellerTaskInfo = result;

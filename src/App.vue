@@ -28,12 +28,6 @@
         </div>
       </a>
       <span class="close-suspend-service" @click.stop.self="closeSuspendService">关闭</span>
-      <Modal v-model="$store.state.isBuyVipPopup" width="700" class="show-buyer-popup" >
-        <div class="show-buyer-popup-body pos-rel" >
-          <a href="http://wpa.qq.com/msgrd?v=3&site=qq&menu=yes&uin=2012364029" target="_blank" @click="closeSuspendService"></a>
-          <div class="dynamicQQ">{{getSellerCustomerQq.configValue}}</div>
-        </div>
-      </Modal>
     </div>
   </div>
 </template>
