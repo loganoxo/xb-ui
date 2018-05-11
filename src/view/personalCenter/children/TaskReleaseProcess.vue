@@ -2779,7 +2779,7 @@
       color: #000;
       background-color: #FFF6F3;
       padding-left: 26px;
-      font-size: 16px;
+      font-size: 14px;
     }
     .task-remark-input {
       width: 600px;
