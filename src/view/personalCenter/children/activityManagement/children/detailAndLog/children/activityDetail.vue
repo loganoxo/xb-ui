@@ -204,14 +204,6 @@
             <span class="required">宝贝地址：</span>
             <iInput v-model="taskRelease.itemUrl" placeholder="请输入宝贝地址" :disabled="true" style="width: 296px"></iInput>
           </div>
-      <!--    <div class="store-name ml-45 mt-20">
-            <span class="required">掌柜旺旺：</span>
-            <iInput v-model="taskRelease.storeName" placeholder="请输入掌柜旺旺" :disabled="true" style="width: 296px"></iInput>
-          </div>
-          <div class="store-name ml-45 mt-20">
-            <span class="required">店铺名称：</span>
-            <iInput v-model="taskRelease.realStoreName" placeholder="请输入店铺名称" :disabled="true" style="width: 296px"></iInput>
-          </div>-->
           <div class="baby-number ml-45 mt-20">
             <span class="required">宝贝数量：</span>
             <iInput v-model="taskRelease.taskCount" placeholder="请输入宝贝数量" :disabled="true" style="width: 120px"></iInput>
@@ -298,14 +290,6 @@
                 <span class="required">宝贝地址：</span>
                 <iInput v-model="taskRelease.itemUrl" disabled placeholder="请输入宝贝地址" style="width: 296px"></iInput>
               </div>
-           <!--   <div class="store-name ml-10 mt-20">
-                <span class="required">掌柜旺旺：</span>
-                <iInput v-model="taskRelease.storeName" disabled placeholder="请输入掌柜旺旺" style="width: 296px"></iInput>
-              </div>
-              <div class="store-name ml-10 mt-20">
-                <span class="required">店铺名称：</span>
-                <iInput v-model="taskRelease.realStoreName" disabled placeholder="请输入店铺名称" style="width: 296px"></iInput>
-              </div>-->
               <div class="baby-price ml-10 mt-20">
                 <span class="required">宝贝单价：</span>
                 <iInput v-model.number="taskRelease.itemPrice" disabled placeholder="请输入宝贝单价" style="width: 120px"></iInput>
@@ -422,7 +406,7 @@
                   <span class="required">宝贝数量：</span>
                   <iInput v-model.number="taskRelease.taskCount" disabled placeholder="请输入宝贝数量" style="width: 120px" @on-blur="addItemReviewList"></iInput>
                   <span>份</span>
-                  <!--<span class="sizeColor3 ml-5">（平台会按照1/5的比例进行计算，部分中奖名额将会由系统进行推荐）</span>-->
+                  <span class="sizeColor3 ml-5">（平台会按照1/5的比例进行计算，部分中奖名额将会由系统进行推荐）</span>
                 </p>
               </div>
               <div class="product-introduction ml-10 mt-20 clear">
@@ -677,10 +661,10 @@
     <div class="description-fees mt-40">
       <h3>费用说明：</h3>
       <div class="description-fees-con mt-10">
-        <p>活动担保金 = 份数 × 单品活动担保金 =<span>{{taskRelease.taskCount}}</span>×<span>{{oneBond}}</span>= <span>{{(taskRelease.taskCount * oneBond).toFixed(2)}}</span>元</p>
-        <!--<p class="mt-6">单品推广费 = （宝贝单价 + 邮费） × 费率 =<span>（{{taskRelease.itemPrice}} + {{taskRelease.pinkage === 'true' ? 0 : 10}}）</span>×<span>6%</span>= <span>{{onePromotionExpenses}}</span>元<span v-if="onePromotionExpenses > 3">（单品推广费超过平台设定的最高上限3.00元，本次实际收取的单品推广费用为3.00元）</span></p>-->
-        <p class="mt-6">总推广费用 = 单品推广费用 × 份数 =<span>{{onePromotionExpenses}}</span>× <span>{{taskRelease.taskCount}} = <span>{{allPromotionExpenses}}</span></span>元</p>
-        <p class="mt-6">总费用 = 活动担保金 + 总推广费用 = <span>{{(orderMoney.toFixed(2))}}</span>元</p>
+        <p>活动担保金 = 份数 × 单品活动担保金 = <span>{{oneBondMarginText}}</span> 元</p>
+        <p class="mt-6">单品推广费 = 单品试用担保金 × 费率 =<span>{{onePromotionExpensesBeforeText}}</span> 元<span>{{onePromotionExpensesTipText}}</span></p>
+        <p class="mt-6">总推广费用 = 单品推广费用 × 份数 = <span>{{onePromotionExpenses}}</span> × <span>{{taskRelease.taskCount}} = <span>{{allPromotionExpenses}}</span></span> 元</p>
+        <p class="mt-6">总费用 = 活动担保金 + 总推广费用 = <span>{{(orderMoney).toFixed(2)}}</span> 元</p>
       </div>
     </div>
     <router-link class="footer-btn" tag="div" to="/user/activity-management/list">返回上一页</router-link>
@@ -897,6 +881,98 @@
        /* let price = this.taskRelease.pinkage === 'true' ? this.taskRelease.itemPrice : this.taskRelease.itemPrice + 10;
         return price * 0.06 > 3 ? 3.00 : (price * 0.06).toFixed(2) * 1;*/
        return 0
+      },
+
+      /**
+       * 计算单品活动保证金公式文本
+       * @return {String}
+       */
+      oneBondMarginText() {
+        if(this.taskRelease.activityCategory === 'free_get') {
+          return `${this.taskRelease.taskCount} × ${(this.oneBond).toFixed(2)} = ${(this.taskRelease.taskCount * this.oneBond).toFixed(2)}`
+        }
+        if(this.taskRelease.activityCategory === 'present_get') {
+          return `${this.taskRelease.taskCount} × ${(this.oneBondAToB / 100).toFixed(2)} = ${(this.taskRelease.taskCount * this.oneBondAToB * 100).toFixed(2)}`
+        }
+      },
+
+
+      /** 获取用户会员版本等级（100：普通用户， 200：VIP， 300：SVIP）
+       * @return {Number}
+       */
+      getMemberVersionLevel() {
+        return this.$store.state.userInfo.memberLevel
+      },
+
+      /**
+       * 计算原始单品推广费用公式文本
+       * @return {String}
+       */
+      onePromotionExpensesBeforeText() {
+        if(this.taskRelease.activityCategory === 'free_get') {
+          if(this.getMemberVersionLevel === 100) {
+            return `${(this.oneBond).toFixed(2)} × 4% = ${(this.oneBond * 0.04).toFixed(2)}`
+          }
+          if(this.getMemberVersionLevel === 200) {
+            return `${(this.oneBond).toFixed(2)} × 2% = ${(this.oneBond * 0.02).toFixed(2)}`
+          }
+          if(this.getMemberVersionLevel === 300) {
+            return `${(this.oneBond).toFixed(2)} × 0 = 0`
+          }
+        }
+        if(this.taskRelease.activityCategory === 'present_get') {
+          if(this.getMemberVersionLevel === 100) {
+            return `${(this.oneBondAToB).toFixed(2)} × 4% = ${(this.oneBondAToB * 0.04).toFixed(2)}`
+          }
+          if(this.getMemberVersionLevel === 200) {
+            return `${(this.oneBondAToB).toFixed(2)} × 4% = ${(this.oneBondAToB * 0.02).toFixed(2)}`
+          }
+          if(this.getMemberVersionLevel === 300) {
+            return `${(this.oneBondAToB).toFixed(2)} × 0 = 0`
+          }
+        }
+      },
+
+      /**
+       * 计算最终单品推广费用
+       * @return {number}
+       */
+      onePromotionExpenses() {
+        if(this.taskRelease.activityCategory === 'free_get') {
+          if(this.getMemberVersionLevel === 100) {
+            return this.oneBond * 0.04 >= 5 ? 5 : (this.oneBond * 0.04).toFixed(2) * 1;
+          }
+          if(this.getMemberVersionLevel === 200) {
+            return this.oneBond * 0.02 >= 3 ? 3 : (this.oneBond * 0.02).toFixed(2) * 1;
+          }
+          if(this.getMemberVersionLevel === 300) {
+            return 0
+          }
+        }
+        if(this.taskRelease.activityCategory === 'present_get') {
+          if(this.getMemberVersionLevel === 100) {
+            return this.oneBondAToB * 0.04 >= 5 ? 5.00 : (this.oneBondAToB * 0.04).toFixed(2) * 1;
+          }
+          if(this.getMemberVersionLevel === 200) {
+            return this.oneBondAToB * 0.02 >= 3 ? 3.00 : (this.oneBondAToB * 0.02).toFixed(2) * 1;
+          }
+          if(this.getMemberVersionLevel === 300) {
+            return 0
+          }
+        }
+      },
+
+      /**
+       * 计算单品推广费用文本说明
+       * @return {String}
+       */
+      onePromotionExpensesTipText() {
+        if(this.getMemberVersionLevel === 100) {
+          return this.onePromotionExpenses >= 5 ? `（单品推广费用超过平台设定的最高上限5.00元，本次实际收取的单品推广费用为5元）` : ''
+        }
+        if(this.getMemberVersionLevel === 200) {
+          return this.onePromotionExpenses >= 3 ? `（单品推广费用超过平台设定的最高上限3.00元，本次实际收取的单品推广费用为3元）` : ''
+        }
       },
 
       /**

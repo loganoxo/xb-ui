@@ -1508,6 +1508,7 @@
           return this.onePromotionExpenses >= 3 ? `（单品推广费用超过平台设定的最高上限3.00元，本次实际收取的单品推广费用为3元）` : ''
         }
       },
+
       /**
        * 计算总推广费用
        * @return {number}
