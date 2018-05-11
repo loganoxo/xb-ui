@@ -36,12 +36,12 @@
       <iButton type="primary" v-else @click="confirmRecharge" :loading="payLoading" class="recharge-btn">
         {{rechargeButtonText}}
       </iButton>
-      <iButton v-if="getMemberVersionLevel !== 100" class="vip-pay-btn" @click="showFreePayModel = true">
+      <iButton v-if="getMemberVersionLevel !== 100 && !isBalance" class="vip-pay-btn" @click="showFreePayModel = true">
         <span>VIP</span>
         <span>免手续费充值</span>
         <span>点击这里</span>
       </iButton>
-      <iButton v-if="getMemberVersionLevel === 100 && isShowUpgradeVIP === true" class="svip-upgrade" @click="upgradeSvip">升级VIP免除手续费</iButton>
+      <iButton v-if="getMemberVersionLevel === 100 && !isBalance && isShowUpgradeVIP === true" class="svip-upgrade" @click="upgradeSvip">升级VIP免除手续费</iButton>
     </div>
 
     <div class="confirm-recharge-model" v-if="confirmRechargeModel">
