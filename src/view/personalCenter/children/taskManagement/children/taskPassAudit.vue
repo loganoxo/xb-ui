@@ -245,7 +245,7 @@
              @click="orderNumberAudit">确认提交
         </div>
         <PayModel v-show="orderReviewStatus === 'passAudit' && orderInfo.perMarginNeed < getOderPrice"
-                  :orderMoney="needReplenishMoney"
+                  :orderMoney="needReplenishMoney" :isShowUpgradeVIP="true" :isBalance="isBalance"
                   @confirmPayment="confirmPayment" :payButtonText="payButtonText"
                   :rechargeButtonText="rechargeButtonText" style="margin-top: 120px;width: 652px;margin-left: -326px;"
                   :style="{top:needBrowseCollectAddCart ? 45+'%' : 20 +'%'}">
@@ -429,6 +429,12 @@
       },
       needReplenishMoney() {
         return (this.getOderPrice - this.orderInfo.perMarginNeed).toFixed(2) * 1
+      },
+      getUserBalance() {
+        return this.$store.getters.getUserBalance
+      },
+      isBalance() {
+        return this.needReplenishMoney <= this.getUserBalance
       }
     },
     methods: {

@@ -43,7 +43,7 @@
     <i-button v-if="!hasBalance" class="pay-btn" @click="isNeedRecharge = true">前去充值</i-button>
     <!--支付弹窗-->
     <div class="pay-model" v-if="isNeedRecharge">
-      <pay-model ref="orderPayModel" :orderMoney="needPayMoneyBefore" :orderType="1"
+      <pay-model ref="orderPayModel" :orderMoney="needPayMoneyBefore" :orderType="1" :isBalance="hasBalance"
                 :memberLevel="isSelectVersionPeriodInfo.level" :timeLevel="isSelectVersionPeriodInfo.timeLevel"
                 @orderVipSuccess="orderVipSuccess" @confirmPayment="confirmPayment">
         <i slot="closeModel" class="close-recharge" @click="isNeedRecharge = false">&times;</i>
@@ -192,7 +192,7 @@
        * @return {boolean}
        */
       hasBalance() {
-        return this.getUserBalance * 100 - this.buyOrderPrice * 100 > 0
+        return this.getUserBalance * 100 - this.buyOrderPrice * 100 >= 0
       },
 
       /** 计算当用户账户余额不足以支付选购的会员版本价格的需要额外充值的金额

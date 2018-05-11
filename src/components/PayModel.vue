@@ -13,9 +13,7 @@
       <span class="ml-10" v-if="isPwdAmend"><router-link
         :to="{path:'/user/money-management/account-management',query:{type:'findPwd'}}">忘记支付密码？</router-link></span>
       <p class="mt-20 default-pwd" v-else>初始密码为：888888，为了您的账号安全，建议您
-        <router-link :to="{path:'/user/money-management/account-management',query:{type:'resetPwd'}}">重置支付密码
-        </router-link>
-        ！
+        <router-link :to="{path:'/user/money-management/account-management',query:{type:'resetPwd'}}">重置支付密码</router-link>！
       </p>
     </div>
     <div class="select-pay-type ml-56 clear" v-else>
@@ -87,8 +85,7 @@
     props: {
       orderMoney: {
         type: [Number, String],
-        required: true,
-        default: 0
+        required: true
       },
       memberLevel: {
         type: [Number, String],
@@ -101,7 +98,12 @@
       isShowUpgradeVIP: {
         type: Boolean,
         default: false
-      }, orderType: {
+      },
+      isBalance: {
+        type: Boolean,
+        required: true
+      },
+      orderType: {
         type: Number,
         default: 0
       },
@@ -130,18 +132,15 @@
     created() {
     },
     computed: {
-      userBalance() {
-        return this.$store.getters.getUserBalance
-      },
+
       isPwdAmend() {
         return this.$store.getters.getIsEditPwdAlready
       },
-      isBalance() {
-        return this.orderMoney <= this.userBalance
-      },
+
       getMemberVersionLevel() {
         return this.$store.state.userInfo.memberLevel
       },
+
       isMember() {
         return this.$store.getters.isMemberOk
       },

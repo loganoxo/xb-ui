@@ -284,7 +284,7 @@
     </Modal>
     <!--支付保证金弹框-->
     <div class="pay-model" v-if="showPayModel">
-      <PayModel ref="payModelRef" :orderMoney="orderMoney" @confirmPayment="confirmPayment">
+      <PayModel ref="payModelRef" :orderMoney="orderMoney" @confirmPayment="confirmPayment" :isShowUpgradeVIP="true" :isBalance="isBalance">
         <i slot="closeModel" class="close-recharge" @click="showPayModel = false">&times;</i>
         <div slot="noBalance" class="title-tip">
           <span class="size-color3"><Icon color="#FF2424" size="18" type="ios-information"></Icon>
@@ -424,7 +424,10 @@
       },
       orderMoney() {
         return this.hasDeposited > 0 ? (this.needDepositMoney - this.hasDeposited).toFixed(2) * 1 : this.needDepositMoney;
-      }
+      },
+       isBalance() {
+        return this.orderMoney <= this.getUserBalance
+      },
     },
     methods: {
       editTask(id) {
