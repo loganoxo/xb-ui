@@ -866,12 +866,21 @@
       },
 
       /**
-       * 计算最终商家发布单品活动担保金（商家需要存入的担保金 + 是否包邮）
+       * 计算拍A发A最终商家发布单品活动担保金（商家需要存入的单品担保金 + 邮费）
        * @return {number}
        */
       oneBond() {
         return this.taskRelease.pinkage === 'true' ? (this.newItemPrice / 100).toFixed(2) * 1 : (this.newItemPrice / 100 + 10).toFixed(2) * 1;
       },
+
+      /**
+       * 计算拍A发B最终商家发布单品活动担保金（A宝贝单价 * 拍下数量 + 邮费）
+       * @return {number}
+       */
+      oneBondAToB() {
+        return this.taskRelease.pinkage === 'true' ? this.taskRelease.itemPrice * this.taskRelease.orderQuantity * 100 : this.taskRelease.itemPrice * this.taskRelease.orderQuantity * 100 + 1000;
+      },
+
 
       /**
        * 计算单品推广费用（宝贝单价+ 邮费，单品推广费最高上限3元）
@@ -892,10 +901,9 @@
           return `${this.taskRelease.taskCount} × ${(this.oneBond).toFixed(2)} = ${(this.taskRelease.taskCount * this.oneBond).toFixed(2)}`
         }
         if(this.taskRelease.activityCategory === 'present_get') {
-          return `${this.taskRelease.taskCount} × ${(this.oneBondAToB / 100).toFixed(2)} = ${(this.taskRelease.taskCount * this.oneBondAToB * 100).toFixed(2)}`
+          return `${this.taskRelease.taskCount} × ${(this.oneBondAToB / 100).toFixed(2)} = ${((this.taskRelease.taskCount * this.oneBondAToB) / 100).toFixed(2)}`
         }
       },
-
 
       /** 获取用户会员版本等级（100：普通用户， 200：VIP， 300：SVIP）
        * @return {Number}
@@ -922,16 +930,17 @@
         }
         if(this.taskRelease.activityCategory === 'present_get') {
           if(this.getMemberVersionLevel === 100) {
-            return `${(this.oneBondAToB).toFixed(2)} × 4% = ${(this.oneBondAToB * 0.04).toFixed(2)}`
+            return `${(this.oneBondAToB / 100).toFixed(2)} × 4% = ${(this.oneBondAToB * 0.04).toFixed(2)}`
           }
           if(this.getMemberVersionLevel === 200) {
-            return `${(this.oneBondAToB).toFixed(2)} × 4% = ${(this.oneBondAToB * 0.02).toFixed(2)}`
+            return `${(this.oneBondAToB / 100).toFixed(2)} × 4% = ${(this.oneBondAToB * 0.02).toFixed(2)}`
           }
           if(this.getMemberVersionLevel === 300) {
-            return `${(this.oneBondAToB).toFixed(2)} × 0 = 0`
+            return `${(this.oneBondAToB / 100).toFixed(2)} × 0 = 0`
           }
         }
       },
+
 
       /**
        * 计算最终单品推广费用
