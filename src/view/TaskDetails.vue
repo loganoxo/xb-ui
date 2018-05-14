@@ -115,9 +115,10 @@
                            class="fs-16 default-btn" long>已申请
                   </iButton>
                 </div>
-                <iButton v-if="!commodityData.task.online" size="large" disabled class="fs-16 default-btn"
-                         style="width: 150px;">已下线
-                </iButton>
+                <div v-if="!commodityData.task.online">
+                  <iButton size="large" v-if="commodityData.taskApply" disabled class="fs-16 default-btn" style="width: 150px;">已申请</iButton>
+                  <iButton size="large" v-if="!commodityData.taskApply" disabled class="fs-16 default-btn" style="width: 150px;">已下线</iButton>
+                </div>
                 <iButton v-if="applyBtnShow === 'sellerTasking'" size="large" class="fs-16 default-btn" type="warning"
                          style="width: 200px;">商家号不可以参加活动
                 </iButton>
