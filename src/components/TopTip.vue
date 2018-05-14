@@ -40,15 +40,15 @@
         </span>
       </p>
       <p class="right">
-        <router-link to="/">
+        <router-link to="/" @click.native="selTaskCategoryHome">
           <i data-v-38a9a25e="" class="ivu-icon ivu-icon-home vtc-text-btm fs-16"></i>
           白拿拿首页
         </router-link>
-        <router-link to="/user/user-home">
+        <router-link to="/user/user-home" @click.native="cancelActivityCategory">
           <i data-v-38a9a25e="" class="ivu-icon ivu-icon-person vtc-text-btm fs-16"></i>
           个人中心
         </router-link>
-        <router-link to="/user/help-center/faq">
+        <router-link to="/user/help-center/faq" @click.native="cancelActivityCategory">
           <i data-v-38a9a25e="" class="ivu-icon ivu-icon-help-buoy vtc-text-btm fs-16"></i>
           帮助中心
         </router-link>
@@ -136,6 +136,28 @@
             self.whetherShowNotice = true;
           }
         })
+      },
+      selTaskCategoryHome(){
+        let self = this;
+        self.$store.commit({
+          type: 'TASK_CATEGORY_LIST',
+          info: 'home'
+        });
+        self.$store.commit({
+          type: 'SET_ACTIVITY_CATEGORY',
+          info: 'home'
+        });
+      },
+      cancelActivityCategory(){
+        let self = this;
+        // self.$store.commit({
+        //   type: 'TASK_CATEGORY_LIST',
+        //   info: ''
+        // });
+        self.$store.commit({
+          type: 'SET_ACTIVITY_CATEGORY',
+          info: ''
+        });
       }
     }
   }

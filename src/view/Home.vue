@@ -431,8 +431,8 @@
                   </em>
                 </p>
                 <P class="rewards-fee">
-                  <span v-if="homeHistory.activityCategory === 'free_get'" class="main-color">打赏1.5元</span>
-                  <span v-if="homeHistory.activityCategory === 'present_get'" class="main-color">打赏3元</span>
+                  <span v-if="homeHistory.activityCategory === 'free_get'" class="main-color">打赏1元</span>
+                  <span v-if="homeHistory.activityCategory === 'present_get'" class="main-color">打赏2元</span>
                   <span v-if="homeHistory.activityCategory !== 'free_get' && homeHistory.activityCategory !== 'present_get'" class="main-color">打赏0元</span>
                   <Tooltip content="完成该任务可额外获得打赏费" placement="top-start">
                     <Icon type="help-circled" color="#000"></Icon>

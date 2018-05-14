@@ -17,11 +17,23 @@
         </div>
       </li>
       <li class="clear second">
-        <div class="t-catalog c-white">推广费（每单）</div>
-        <div class="c-l-grey" v-if="freeMemberInfo.promotionFee">宝贝单价*{{freeMemberInfo.promotionFee.percent}}%，{{freeMemberInfo.promotionFee.limit/100}}元封顶</div>
-        <div class="c-l-blue" v-if="vipMemberInfo.promotionFee">宝贝单价*{{vipMemberInfo.promotionFee.percent}}%，{{vipMemberInfo.promotionFee.limit/100}}元封顶</div>
-        <div class="c-l-orange" v-if="svipMemberInfo.promotionFee && svipMemberInfo.promotionFee.percent === 0">免</div>
-        <div class="c-l-orange" v-if="svipMemberInfo.promotionFee &&!svipMemberInfo.promotionFee.percent === 0">宝贝单价*{{svipMemberInfo.promotionFee.percent}}%，{{svipMemberInfo.promotionFee.limit/100}}元封顶</div>
+        <!--<div class="t-catalog c-white">推广费（每单）</div>-->
+        <!--<div class="c-l-grey" v-if="freeMemberInfo.promotionFee">宝贝单价*{{freeMemberInfo.promotionFee.percent}}%，{{freeMemberInfo.promotionFee.limit/100}}元封顶</div>-->
+        <!--<div class="c-l-blue" v-if="vipMemberInfo.promotionFee">宝贝单价*{{vipMemberInfo.promotionFee.percent}}%，{{vipMemberInfo.promotionFee.limit/100}}元封顶</div>-->
+        <!--<div class="c-l-orange" v-if="svipMemberInfo.promotionFee && svipMemberInfo.promotionFee.percent === 0">免</div>-->
+        <!--<div class="c-l-orange" v-if="svipMemberInfo.promotionFee &&!svipMemberInfo.promotionFee.percent === 0">宝贝单价*{{svipMemberInfo.promotionFee.percent}}%，{{svipMemberInfo.promotionFee.limit/100}}元封顶</div>-->
+        <div class="t-catalog c-white lh-48">打赏费（每单）</div>
+        <div class="c-l-grey">
+          <p class="mt-5">拍A发A：3元/单</p>
+          <p>拍A发B：6元/单</p>
+        </div>
+        <div class="c-l-blue">
+          <p class="mt-5">拍A发A：0元/单</p>
+          <p>拍A发B：3元/单</p>
+        </div>
+        <div class="c-l-orange lh-48">
+          免
+        </div>
       </li>
       <li class="clear third">
         <div class="t-catalog c-white">充值手续费</div>
@@ -204,9 +216,11 @@
       }
     }
     .second {
-      height: 48px;
-      line-height: 48px;
+      .lh-48{
+        line-height: 48px;
+      }
       div {
+        height: 48px;
         border-bottom: 1px solid #ccc;
         border-right: 1px solid #ccc;
       }
