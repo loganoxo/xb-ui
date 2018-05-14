@@ -34,7 +34,7 @@
         <span class="main-color">{{orderValidityTime | dateFormat('YYYY-MM-DD') || '------'}}</span><span
           v-if="isMember && isVersionUpgrade">，根据您现在的会员版本可折价抵扣：{{(deductionPrice / 100).toFixed(2) || 0.00}}元，成功升级后现有版本将失效。</span>
       </p>
-      <p class="fs-16 mt-10">本次总共需要支付的金额为：<span class="f-b">{{buyOrderPrice > 0 ? buyOrderPrice : 0.00}}</span>
+      <p class="fs-16 mt-10">本次总共需要支付的金额为：<span class="f-b">{{buyOrderPrice > 0 ? buyOrderPrice : 0}}</span>
         元。您账户余额为： <span class="f-b">{{(getUserBalance).toFixed(2) || 0}}</span>
         元<span v-if="!hasBalance">，还需要充值：<span class="f-b">{{needPayMoney}}</span> 元</span>
       </p>
@@ -58,7 +58,7 @@
         <div slot="isBalance" class="title-tip">
           <Icon color="#FF2424" size="18px" type="ios-information"></Icon>
           <span class="ml-10">您本次需要支付金额为 <span
-            class="size-color3">{{buyOrderPrice}}</span> 元。</span>
+            class="size-color3">{{buyOrderPrice > 0 ? buyOrderPrice : 0}}</span> 元。</span>
         </div>
       </pay-model>
     </div>
@@ -116,7 +116,7 @@
       }
     },
     created() {
-      this.getMemberVersionPeriodList();
+      this.getMemberVersionPeriodList()
     },
     computed: {
       /** 获取用户账户余额
@@ -161,7 +161,7 @@
         return this.$store.getters.getSellerCustomerQq
       },
 
-      /** 计算用户选择会员订购状态
+      /** 计算用户选择会员订购状态（renewal：续费，upgrade：升级， buy： 购买）
        * @return {string}
        */
       selectOrderStatus() {
