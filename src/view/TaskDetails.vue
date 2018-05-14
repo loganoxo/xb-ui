@@ -102,7 +102,7 @@
                        style="width: 150px;">已结束
               </iButton>
               <div>
-                <div v-if="applyBtnShow === 'buyerTasking'">
+                <div v-if="applyBtnShow === 'buyerTasking'&& commodityData.task.online">
                   <div>
                     <iButton style="width: 150px;" v-show="!commodityData.taskApply" :disabled="taskApplyLoading"
                              size="large" class="fs-16 default-btn" long type="primary" @click="applyForTrialFunc">申请活动
@@ -115,6 +115,9 @@
                            class="fs-16 default-btn" long>已申请
                   </iButton>
                 </div>
+                <iButton v-if="!commodityData.task.online" size="large" disabled class="fs-16 default-btn"
+                         style="width: 150px;">已下线
+                </iButton>
                 <iButton v-if="applyBtnShow === 'sellerTasking'" size="large" class="fs-16 default-btn" type="warning"
                          style="width: 200px;">商家号不可以参加活动
                 </iButton>
