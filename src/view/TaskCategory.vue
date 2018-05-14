@@ -128,6 +128,14 @@
                     <span v-if= "searchTask.activityCategory === 'present_get'" style="padding: 0 4px; background: #00cc66; color: #ffffff; margin-left: 10px; display: inline-block;height: 20px;line-height: 20px;">体验专区</span>
                   </em>
                 </p>
+                <p class="rewards-fee">
+                  <span v-if="searchTask.activityCategory === 'free_get'" class="main-color">打赏1.5元</span>
+                  <span v-if="searchTask.activityCategory === 'present_get'" class="main-color">打赏3元</span>
+                  <span v-if="searchTask.activityCategory !== 'present_get' && searchTask.activityCategory !== 'free_get'" class="main-color">打赏0元</span>
+                  <Tooltip content="完成该任务可额外获得打赏费" placement="top-start">
+                    <Icon type="help-circled"></Icon>
+                  </Tooltip>
+                </p>
                 <p class="cl000">
                   限量 <span class="main-color"> {{searchTask.taskCount || 0 }} </span> 份，剩余
                   <span class="main-color"> {{searchTask.taskCount - searchTask.showkerApplySuccessCount || 0}} </span> 份
@@ -199,6 +207,14 @@
                     </span>
                   </em>
                 </p>
+                <p class="rewards-fee">
+                  <span v-if="historyTask.activityCategory === 'free_get'" class="main-color">打赏1.5元</span>
+                  <span v-if="historyTask.activityCategory === 'present_get'" class="main-color">打赏3元</span>
+                  <span v-if="historyTask.activityCategory !== 'free_get' && historyTask.activityCategory !== 'present_get'" class="main-color">打赏0元</span>
+                  <Tooltip content="完成该任务可额外获得打赏费" placement="top-start">
+                    <Icon type="help-circled"></Icon>
+                  </Tooltip>
+                </p>
                 <p class="cl000">
                   限量 <span class="main-color"> {{historyTask.taskCount || 0 }} </span> 份，剩余
                   <span class="main-color"> {{historyTask.taskCount - historyTask.showkerApplySuccessCount || 0}} </span> 份
@@ -233,7 +249,7 @@
 </template>
 
 <script>
-  import {Icon, Form, Input, Checkbox, Button, Radio, Modal, Breadcrumb} from 'iview'
+  import {Icon, Form, Input, Checkbox, Button, Radio, Modal, Breadcrumb, Tooltip} from 'iview'
   import {setStorage, getStorage, encryption, removeStorage} from '@/config/utils'
   import api from '@/config/apiConfig'
   import Page from 'iview/src/components/page'
@@ -255,6 +271,7 @@
       BreadcrumbItem: Breadcrumb.Item,
       Page: Page,
       TimeDown: TimeDown,
+      Tooltip:Tooltip
     },
     data () {
       return {

@@ -310,7 +310,7 @@ export const TaskErrorStatusList = (type) => {
     'recharge_record': '充值交易记录',
     'recharge': '充值-其它',
     'pay_for_task_deposit_supply_seller': '补交活动担保金',
-    'pay_for_task_promotion_expenses': '支付活动推广费',
+    'pay_for_task_promotion_expenses': '支付活动打赏费',
     'pay_for_task_promotion_expenses_supply_seller': '补交活动推广费',
     'task_delete_return_promotion_expenses_seller': '关闭活动返款-活动推广费',
     'task_return_deposit_seller': '活动结算担保金返款',
