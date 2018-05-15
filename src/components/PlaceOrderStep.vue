@@ -177,7 +177,8 @@
           }
         } else {
           if (_this.showkerTaskInfo.task.taskType === 'tao_code') {
-            return taskDetailObject[0];
+            // return taskDetailObject[0];
+            return taskDetailObject?taskDetailObject[0]:{};
           } else if(_this.showkerTaskInfo.task.taskType === 'direct_access'){
             return {}
           } else {
@@ -198,7 +199,10 @@
       },
       getCodeUrl() {
         const id = getUrlParams(this.showkerTaskInfo.task.itemUrl, 'id');
-        return `/api/get-qr-image.json?id=${id}&keyWord=${this.showkerTaskInfo.task.taskDetailObject[0].searchKeyword}`;
+        if(this.showkerTaskInfo.task.taskDetailObject){
+          return `/api/get-qr-image.json?id=${id}&keyWord=${this.showkerTaskInfo.task.taskDetailObject[0].searchKeyword}`;
+        }
+        // return `/api/get-qr-image.json?id=${id}&keyWord=${this.showkerTaskInfo.task.taskDetailObject[0].searchKeyword}`;
       }
     },
     methods: {
