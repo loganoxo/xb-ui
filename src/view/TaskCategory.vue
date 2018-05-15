@@ -206,7 +206,7 @@
                     </span>
                   </em>
                 </p>
-                <p class="rewards-fee">
+                <p class="rewards-fee"  v-if="getUserRole === 0 && isLogin === true">
                   <span v-if="historyTask.activityCategory === 'free_get'" class="main-color">打赏1元</span>
                   <span v-if="historyTask.activityCategory === 'present_get'" class="main-color">打赏2元</span>
                   <span v-if="historyTask.activityCategory !== 'free_get' && historyTask.activityCategory !== 'present_get'" class="main-color">打赏0元</span>
