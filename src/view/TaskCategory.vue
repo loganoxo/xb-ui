@@ -127,9 +127,9 @@
                     <span v-if= "searchTask.activityCategory === 'present_get'" style="padding: 0 4px; background: #00cc66; color: #ffffff; margin-left: 10px; display: inline-block;height: 20px;line-height: 20px;">体验专区</span>
                   </em>
                 </p>
-                <p class="rewards-fee">
-                  <span v-if="searchTask.activityCategory === 'free_get'" class="main-color">打赏1.5元</span>
-                  <span v-if="searchTask.activityCategory === 'present_get'" class="main-color">打赏3元</span>
+                <p class="rewards-fee" v-if="getUserRole === 0 && isLogin === true">
+                  <span v-if="searchTask.activityCategory === 'free_get'" class="main-color">打赏1元</span>
+                  <span v-if="searchTask.activityCategory === 'present_get'" class="main-color">打赏2元</span>
                   <span v-if="searchTask.activityCategory !== 'present_get' && searchTask.activityCategory !== 'free_get'" class="main-color">打赏0元</span>
                   <Tooltip content="完成该任务可额外获得打赏费" placement="top-start">
                     <Icon type="help-circled"></Icon>
@@ -207,8 +207,8 @@
                   </em>
                 </p>
                 <p class="rewards-fee">
-                  <span v-if="historyTask.activityCategory === 'free_get'" class="main-color">打赏1.5元</span>
-                  <span v-if="historyTask.activityCategory === 'present_get'" class="main-color">打赏3元</span>
+                  <span v-if="historyTask.activityCategory === 'free_get'" class="main-color">打赏1元</span>
+                  <span v-if="historyTask.activityCategory === 'present_get'" class="main-color">打赏2元</span>
                   <span v-if="historyTask.activityCategory !== 'free_get' && historyTask.activityCategory !== 'present_get'" class="main-color">打赏0元</span>
                   <Tooltip content="完成该任务可额外获得打赏费" placement="top-start">
                     <Icon type="help-circled"></Icon>
@@ -371,7 +371,10 @@
       },
       getUserInfo() {
         return this.$store.state.userInfo
-      }
+      },
+      getUserRole() {
+        return this.$store.getters.getUserRole
+      },
     },
     mounted: function () {
 
