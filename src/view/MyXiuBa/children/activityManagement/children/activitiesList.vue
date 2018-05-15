@@ -474,6 +474,9 @@
         let taskStatusList = JSON.stringify(_this.taskStatusList);
         let settlementStatusList = JSON.stringify(_this.settlementStatusList);
         let online = _this.taskOnline.length >0?false:null;
+        if (_this.taskOnline.length >0){
+          taskStatusList = JSON.stringify(['under_way']);
+        }
         _this.searchLoading = true;
         if (_this.taskNumber) {
           taskStatusList = [];
