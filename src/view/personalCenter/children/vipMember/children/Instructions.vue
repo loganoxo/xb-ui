@@ -24,12 +24,12 @@
         <!--<div class="c-l-orange" v-if="svipMemberInfo.promotionFee &&!svipMemberInfo.promotionFee.percent === 0">宝贝单价*{{svipMemberInfo.promotionFee.percent}}%，{{svipMemberInfo.promotionFee.limit/100}}元封顶</div>-->
         <div class="t-catalog c-white lh-48">打赏费（每单）</div>
         <div class="c-l-grey">
-          <p class="mt-5">拍A发A：3元/单</p>
-          <p>拍A发B：6元/单</p>
+          <p class="mt-5" v-if="freeMemberInfo.rewardFee">拍A发A：{{freeMemberInfo.rewardFee.AA.floor/100}}元/单</p>
+          <p v-if="freeMemberInfo.rewardFee">拍A发B：{{freeMemberInfo.rewardFee.AB.floor/100}}元/单</p>
         </div>
         <div class="c-l-blue">
-          <p class="mt-5">拍A发A：0元/单</p>
-          <p>拍A发B：3元/单</p>
+          <p class="mt-5" v-if="vipMemberInfo.rewardFee">拍A发A：{{vipMemberInfo.rewardFee.AA.floor/100}}元/单</p>
+          <p v-if="vipMemberInfo.rewardFee">拍A发B：{{vipMemberInfo.rewardFee.AB.floor/100}}元/单</p>
         </div>
         <div class="c-l-orange lh-48">
           免
@@ -115,6 +115,7 @@
             tempData = res.data;
             tempData.forEach(item=>{
               item.memberDesc = item.memberDesc.split(',')[1];
+              item.rewardFee = JSON.parse(item.rewardFee);
               item.promotionFee = JSON.parse(item.promotionFee);
               item.rechargeCommission = JSON.parse(item.rechargeCommission);
               item.taskStickUp = item.taskStickUp.length>1?JSON.parse(item.taskStickUp):item.taskStickUp;

@@ -70,6 +70,7 @@
               &nbsp;&nbsp;&nbsp;&nbsp;
               活动份数：<span class="fs-18"> {{commodityData.task.taskCount}} </span>份
             </p>
+            <p class="f-b cl000">完成该活动可额外获得打赏费<span v-if="commodityData.task.activityCategory === 'free_get'">1</span><span v-else-if="commodityData.task.activityCategory === 'present_get'">2</span>元</p>
             <p class="fs-14">（商家已存入总活动担保金&nbsp;{{commodityData.task.totalMarginNeed/100}}&nbsp;元，请放心申请）</p>
             <p class="fs-14">{{commodityData.task.showkerApplyTotalCount}} 人申请，{{parseInt(commodityData.trailOn) ?
               commodityData.trailOn: 0}} 人正在参与活动，{{parseInt(commodityData.trailDone) ? commodityData.trailDone : 0}}
