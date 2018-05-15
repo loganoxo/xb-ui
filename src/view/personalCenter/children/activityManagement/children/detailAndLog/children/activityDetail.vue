@@ -670,18 +670,14 @@
           <span v-if="getMemberVersionLevel !== 300" class="ml-10 svip-upgrade" @click="upgradeSvip">升级SVIP免除打赏费</span>
         </p>
         <p class="mt-6">总费用 = 活动担保金 + 总打赏费 = <span>{{(orderMoney).toFixed(2)}}</span> 元</p>
-        <p class="mt-6">手续费说明： 使用支付宝充值支付，支付宝会收取0.6%的手续费，该笔费用需要商家承担，手续费不予退还，敬请谅解！<a @click="isShowAliPayTip = true">查看支付宝官方说明</a></p>
       </div>
     </div>
     <router-link class="footer-btn" tag="div" to="/user/activity-management/list">返回上一页</router-link>
-    <modal v-model="isShowAliPayTip">
-      <img src="~assets/img/common/ali-pay-tip.jpg">
-    </modal>
   </div>
 </template>
 
 <script>
-  import {Icon, Input, Checkbox, Button, Alert, Radio, Select, Option, OptionGroup, Tooltip, Modal} from 'iview'
+  import {Icon, Input, Checkbox, Button, Alert, Radio, Select, Option, OptionGroup, Tooltip} from 'iview'
   import {decode, getStorage} from '@/config/utils'
   import api from '@/config/apiConfig'
 
