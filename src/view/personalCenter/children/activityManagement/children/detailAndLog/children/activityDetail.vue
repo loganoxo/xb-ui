@@ -662,17 +662,26 @@
       <h3>费用说明：</h3>
       <div class="description-fees-con mt-10">
         <p>活动担保金 = 份数 × 单品活动担保金 = <span>{{oneBondMarginText}}</span> 元</p>
-        <p class="mt-6">单品推广费 = 单品试用担保金 × 费率 =<span>{{onePromotionExpensesBeforeText}}</span> 元<span>{{onePromotionExpensesTipText}}</span></p>
-        <p class="mt-6">总推广费用 = 单品推广费用 × 份数 = <span>{{onePromotionExpenses}}</span> × <span>{{taskRelease.taskCount}} = <span>{{allPromotionExpenses}}</span></span> 元</p>
-        <p class="mt-6">总费用 = 活动担保金 + 总推广费用 = <span>{{(orderMoney).toFixed(2)}}</span> 元</p>
+        <!--<p class="mt-6">单品推广费 = 单品试用担保金 × 费率 =<span>{{onePromotionExpensesBeforeText}}</span> 元<span>{{onePromotionExpensesTipText}}</span></p>-->
+        <p class="mt-6">总打赏费 = 单品打赏费用 × 份数 = <span>{{onePromotionExpenses}}</span> × <span>{{taskRelease.taskCount}} = <span>{{allPromotionExpenses}}</span></span> 元
+          <tooltip placement="top" content="为提高平台拿手活跃度，平台将原推广费改为打赏费，该笔费用用于对完成活动的拿手进行打赏">
+            <a>什么是打赏费？</a>
+          </tooltip>
+          <span v-if="getMemberVersionLevel !== 300" class="ml-10 svip-upgrade" @click="upgradeSvip">升级SVIP免除打赏费</span>
+        </p>
+        <p class="mt-6">总费用 = 活动担保金 + 总打赏费 = <span>{{(orderMoney).toFixed(2)}}</span> 元</p>
+        <p class="mt-6">手续费说明： 使用支付宝充值支付，支付宝会收取0.6%的手续费，该笔费用需要商家承担，手续费不予退还，敬请谅解！<a @click="isShowAliPayTip = true">查看支付宝官方说明</a></p>
       </div>
     </div>
     <router-link class="footer-btn" tag="div" to="/user/activity-management/list">返回上一页</router-link>
+    <modal v-model="isShowAliPayTip">
+      <img src="~assets/img/common/ali-pay-tip.jpg">
+    </modal>
   </div>
 </template>
 
 <script>
-  import {Icon, Input, Checkbox, Button, Alert, Radio, Select, Option, OptionGroup} from 'iview'
+  import {Icon, Input, Checkbox, Button, Alert, Radio, Select, Option, OptionGroup, Tooltip, Modal} from 'iview'
   import {decode, getStorage} from '@/config/utils'
   import api from '@/config/apiConfig'
 
@@ -690,6 +699,8 @@
       iOption: Option,
       OptionGroup: OptionGroup,
       Alert: Alert,
+      Tooltip: Tooltip,
+      Modal: Modal,
     },
     data() {
       return {
@@ -852,6 +863,7 @@
           return "宝贝链接"
         }
       },
+
       /**
        * 计算商家需要存入的担保金（当用户勾选折扣试用的时候：宝贝单价 - 对应的折扣价格）
        * @return {number}
@@ -880,7 +892,6 @@
       oneBondAToB() {
         return this.taskRelease.pinkage === 'true' ? this.taskRelease.itemPrice * this.taskRelease.orderQuantity * 100 : this.taskRelease.itemPrice * this.taskRelease.orderQuantity * 100 + 1000;
       },
-
 
       /**
        * 计算单品推广费用（宝贝单价+ 邮费，单品推广费最高上限3元）
@@ -943,16 +954,16 @@
 
 
       /**
-       * 计算最终单品推广费用
+       * 计算最终单品推广费用（打赏费）
        * @return {number}
        */
       onePromotionExpenses() {
         if(this.taskRelease.activityCategory === 'free_get') {
           if(this.getMemberVersionLevel === 100) {
-            return this.oneBond * 0.04 >= 5 ? 5 : (this.oneBond * 0.04).toFixed(2) * 1;
+            return 3
           }
           if(this.getMemberVersionLevel === 200) {
-            return this.oneBond * 0.02 >= 3 ? 3 : (this.oneBond * 0.02).toFixed(2) * 1;
+            return 0
           }
           if(this.getMemberVersionLevel === 300) {
             return 0
@@ -960,10 +971,10 @@
         }
         if(this.taskRelease.activityCategory === 'present_get') {
           if(this.getMemberVersionLevel === 100) {
-            return this.oneBondAToB * 0.04 >= 5 ? 5.00 : (this.oneBondAToB * 0.04).toFixed(2) * 1;
+            return 6
           }
           if(this.getMemberVersionLevel === 200) {
-            return this.oneBondAToB * 0.02 >= 3 ? 3.00 : (this.oneBondAToB * 0.02).toFixed(2) * 1;
+            return 3
           }
           if(this.getMemberVersionLevel === 300) {
             return 0

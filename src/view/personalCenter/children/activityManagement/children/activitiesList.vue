@@ -262,7 +262,7 @@
       </p>
       <div class="text-ct">
         <p>结算说明：活动剩余资格{{taskCountLeft}}，返还担保金共{{marginRefund}}元</p>
-        <p>返还推广费{{promotionRefund}}元。</p>
+        <p>返还打赏费{{promotionRefund}}元。</p>
       </div>
       <div slot="footer" class="text-ct">
         <iButton type="error" size="large" long @click="auditSettlementSuccess = false">确认</iButton>
@@ -276,7 +276,7 @@
       <div>
         <p>活动标题：{{taskSettlementDetailInfo.storeName}}</p>
         <p>结算时间：{{taskSettlementDetailInfo.settlementTime | dateFormat('YYYY-MM-DD hh:mm:ss')}}</p>
-        <p>结算备注：活动剩余资格{{taskSettlementDetailInfo.taskCountLeft}}，返还担保金共{{taskSettlementDetailInfo.marginRefund}}元，返还推广费{{taskSettlementDetailInfo.promotionRefund}}元。</p>
+        <p>结算备注：活动剩余资格{{taskSettlementDetailInfo.taskCountLeft}}，返还担保金共{{taskSettlementDetailInfo.marginRefund}}元，返还打赏费{{taskSettlementDetailInfo.promotionRefund}}元。</p>
       </div>
       <div slot="footer" class="text-ct">
         <iButton type="error" size="large" long @click="billDetailsModel = false">确认</iButton>
