@@ -260,7 +260,6 @@
             <router-link class="home-commodity-details"
                          target="_blank"
                          v-for="homeCommodity in homeCommodityList"
-                         :title="homeCommodity.taskName"
                          :key="homeCommodity.id"
                          :to="{ 'path': '/task-details','query': {'q': encryptionId(homeCommodity.id)}}">
               <div class="home-commodity-img pos-rel">
@@ -321,7 +320,6 @@
             <router-link class="home-commodity-details"
                          target="_blank"
                          v-for="homeCommodity in presentGet"
-                         :title="homeCommodity.taskName"
                          :key="homeCommodity.id"
                          :to="{ 'path': '/task-details','query': {'q': encryptionId(homeCommodity.id)}}">
               <div class="home-commodity-img pos-rel">
@@ -397,7 +395,6 @@
             <router-link class="home-commodity-details"
                          target="_blank"
                          v-for="homeHistory in homeHistoryList"
-                         :title="homeHistory.taskName"
                          :key="homeHistory.id"
                          :to="{ 'path': '/task-details','query': {'q': encryptionId(homeHistory.id)}}">
               <div class="home-commodity-img pos-rel">

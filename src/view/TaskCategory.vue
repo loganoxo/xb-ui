@@ -102,7 +102,6 @@
               target="_blank"
               v-show="searchTaskList.length > 0"
               v-for="searchTask in searchTaskList"
-              :title="searchTask.taskName.replace(/<\/font>/g,'').replace(/<font class='search-highlight'>/g,'')"
               :key= "searchTask.id"
               :to="{ 'path': '/task-details', 'query': {'q': encryptionId(searchTask.id)}}"
               class="task-category-commodity-details">
