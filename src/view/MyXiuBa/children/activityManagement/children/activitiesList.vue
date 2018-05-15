@@ -34,13 +34,6 @@
         </Checkbox-group>
       </div>
       <div class="left">
-        <Checkbox-group v-model="taskOnline" @on-change="checkAllGroupChange">
-          <Checkbox label="online">
-            <span>已下线</span>
-          </Checkbox>
-        </Checkbox-group>
-      </div>
-      <div class="left">
         <Checkbox-group v-model="settlementStatusList" @on-change="checkAllGroupChange">
           <Checkbox label="cannot_settlement">
             <span>不可申请结算</span>
@@ -53,6 +46,13 @@
           </Checkbox>-->
           <Checkbox label="settlement_finished">
             <span>已结算</span>
+          </Checkbox>
+        </Checkbox-group>
+      </div>
+      <div class="left">
+        <Checkbox-group v-model="taskOnline" @on-change="checkAllGroupChange">
+          <Checkbox label="online">
+            <span>已下线</span>
           </Checkbox>
         </Checkbox-group>
       </div>
