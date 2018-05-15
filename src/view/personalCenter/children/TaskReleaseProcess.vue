@@ -878,11 +878,11 @@
           <h3>费用说明：</h3>
           <div class="description-fees-con mt-10">
             <p>活动担保金 = 份数 × 单品活动担保金 = <span>{{oneBondMarginText}}</span> 元</p>
-            <p class="mt-6">单品推广费 = 单品试用担保金 × 费率 =<span>{{onePromotionExpensesBeforeText}}</span> 元<span>{{onePromotionExpensesTipText}}</span></p>
-            <p class="mt-6">总推广费用 = 单品推广费用 × 份数 = <span>{{onePromotionExpenses}}</span> × <span>{{taskRelease.taskCount}} = <span>{{allPromotionExpenses}}</span></span> 元
-              <span v-if="getMemberVersionLevel !== 300" class="ml-10 svip-upgrade" @click="upgradeSvip">升级SVIP免除推广费</span>
+            <!--<p class="mt-6">单品打赏费 = 单品试用担保金 × 费率 =<span>{{onePromotionExpensesBeforeText}}</span> 元<span>{{onePromotionExpensesTipText}}</span></p>-->
+            <p class="mt-6">总打赏费 = 单品打赏费 × 份数 = <span>{{onePromotionExpenses}}</span> × <span>{{taskRelease.taskCount}} = <span>{{allPromotionExpenses}}</span></span> 元
+              <span v-if="getMemberVersionLevel !== 300" class="ml-10 svip-upgrade" @click="upgradeSvip">升级SVIP免除打赏费</span>
             </p>
-            <p class="mt-6">总费用 = 活动担保金 + 总推广费用 = <span>{{(orderMoney).toFixed(2)}}</span> 元</p>
+            <p class="mt-6">总费用 = 活动担保金 + 总打赏费 = <span>{{(orderMoney).toFixed(2)}}</span> 元</p>
             <p class="mt-6">手续费说明： 使用支付宝充值支付，支付宝会收取0.6%的手续费，该笔费用需要商家承担，手续费不予退还，敬请谅解！<a @click="isShowAliPayTip = true">查看支付宝官方说明</a></p>
           </div>
         </div>
@@ -933,8 +933,7 @@
       </PayModel>
     </div>
     <!--用户修改价格比原始价格高需要补差价提示弹框-->
-    <div class="editPriceModel">
-      <Modal v-model="editPriceAfterModel">.
+    <Modal v-model="editPriceAfterModel">.
         <div class="clear mt-40">
           <div class="left mt-5">
             <Icon color="#f9284f" size="32" type="information-circled"></Icon>
@@ -949,10 +948,8 @@
           <iButton style="margin-left: 35px;" type="error" size="large" @click="IThink">我再想想</iButton>
         </div>
       </Modal>
-    </div>
     <!--用户修改价格比原始价格低提示弹框-->
-    <div class="editPriceToLow">
-      <Modal v-model="editPriceToLowAfterModel">
+    <Modal v-model="editPriceToLowAfterModel">
         <div class="clear mt-40">
           <div class="left mt-5">
             <Icon color="#f9284f" size="32" type="information-circled"></Icon>
@@ -967,7 +964,6 @@
           <iButton class="ml-35" type="error" size="large" @click="IThink">我再想想</iButton>
         </div>
       </Modal>
-    </div>
     <!--商家发布任务活动总价低于500元提醒弹框-->
     <!--  <Modal v-model="price500Model" width="360">
         <p slot="header" style="color:#f9284f;text-align:center">
@@ -1349,6 +1345,13 @@
         return this.$store.getters.getUserBalance;
       },
 
+      /** 获取用户会员版本等级（100：普通用户， 200：VIP， 300：SVIP）
+       * @return {Number}
+       */
+      getMemberVersionLevel() {
+        return this.$store.state.userInfo.memberLevel
+      },
+
       /**
        * 计算商家需要存入的单品担保金（当用户勾选折扣试用的时候：宝贝单价 - 对应的折扣价格）
        * 单位为分
@@ -1364,7 +1367,7 @@
       },
 
       /**
-       * 计算拍A发A最终商家发布单品活动担保金（商家需要存入的单品担保金 + 邮费）
+       * 计算拍A发A最终商家发布单品活动担保金（宝贝单价 + 邮费）
        * @return {number}
        */
       oneBond() {
@@ -1379,11 +1382,33 @@
         return this.taskRelease.pinkage === 'true' ? this.taskRelease.itemPrice * this.taskRelease.orderQuantity * 100 : this.taskRelease.itemPrice * this.taskRelease.orderQuantity * 100 + 1000;
       },
 
-      /** 获取用户会员版本等级（100：普通用户， 200：VIP， 300：SVIP）
-       * @return {Number}
+      /**
+       * 计算最终单品推广费用（打赏费）
+       * @return {number}
        */
-      getMemberVersionLevel() {
-        return this.$store.state.userInfo.memberLevel
+      onePromotionExpenses() {
+        if(this.taskRelease.activityCategory === 'free_get') {
+          if(this.getMemberVersionLevel === 100) {
+            return 3
+          }
+          if(this.getMemberVersionLevel === 200) {
+            return 0
+          }
+          if(this.getMemberVersionLevel === 300) {
+            return 0
+          }
+        }
+        if(this.taskRelease.activityCategory === 'present_get') {
+          if(this.getMemberVersionLevel === 100) {
+            return 6
+          }
+          if(this.getMemberVersionLevel === 200) {
+            return 3
+          }
+          if(this.getMemberVersionLevel === 300) {
+            return 0
+          }
+        }
       },
 
       /**
@@ -1424,35 +1449,6 @@
           }
           if(this.getMemberVersionLevel === 300) {
             return `${(this.oneBondAToB / 100).toFixed(2)} × 0 = 0`
-          }
-        }
-      },
-
-      /**
-       * 计算最终单品推广费用
-       * @return {number}
-       */
-      onePromotionExpenses() {
-        if(this.taskRelease.activityCategory === 'free_get') {
-          if(this.getMemberVersionLevel === 100) {
-            return this.oneBond * 0.04 >= 5 ? 5 : (this.oneBond * 0.04).toFixed(2) * 1;
-          }
-          if(this.getMemberVersionLevel === 200) {
-            return this.oneBond * 0.02 >= 3 ? 3 : (this.oneBond * 0.02).toFixed(2) * 1;
-          }
-          if(this.getMemberVersionLevel === 300) {
-            return 0
-          }
-        }
-        if(this.taskRelease.activityCategory === 'present_get') {
-          if(this.getMemberVersionLevel === 100) {
-            return this.oneBondAToB * 0.04 >= 5 ? 5.00 : (this.oneBondAToB * 0.04).toFixed(2) * 1;
-          }
-          if(this.getMemberVersionLevel === 200) {
-            return this.oneBondAToB * 0.02 >= 3 ? 3.00 : (this.oneBondAToB * 0.02).toFixed(2) * 1;
-          }
-          if(this.getMemberVersionLevel === 300) {
-            return 0
           }
         }
       },
