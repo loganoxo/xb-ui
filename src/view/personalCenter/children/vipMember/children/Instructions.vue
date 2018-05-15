@@ -37,11 +37,21 @@
       </li>
       <li class="clear third">
         <div class="t-catalog c-white">充值手续费</div>
-        <div class="c-l-grey" v-if="freeMemberInfo.rechargeCommission">{{freeMemberInfo.rechargeCommission.percent}}‰（支付宝验收）</div>
-        <div class="c-l-blue" v-if="vipMemberInfo.rechargeCommission && vipMemberInfo.rechargeCommission.percent===0">免</div>
-        <div class="c-l-blue" v-if="vipMemberInfo.rechargeCommission &&!vipMemberInfo.rechargeCommission.percent===0">{{vipMemberInfo.rechargeCommission.percent}}‰（支付宝验收）</div>
-        <div class="c-l-orange" v-if="svipMemberInfo.rechargeCommission && svipMemberInfo.rechargeCommission.percent===0">免</div>
-        <div class="c-l-orange" v-if="svipMemberInfo.rechargeCommission &&!svipMemberInfo.rechargeCommission.percent===0">{{svipMemberInfo.rechargeCommission.percent}}‰（支付宝验收）</div>
+        <div class="c-l-grey" v-if="freeMemberInfo.rechargeCommission">
+          {{freeMemberInfo.rechargeCommission.percent}}‰（支付宝验收）
+        </div>
+        <div class="c-l-blue" v-if="vipMemberInfo.rechargeCommission && vipMemberInfo.rechargeCommission.percent === 0">
+          免
+        </div>
+        <div class="c-l-blue" v-if="vipMemberInfo.rechargeCommission &&!vipMemberInfo.rechargeCommission.percent === 0">
+          {{vipMemberInfo.rechargeCommission.percent}}‰（支付宝验收）
+        </div>
+        <div class="c-l-orange"
+             v-if="svipMemberInfo.rechargeCommission && svipMemberInfo.rechargeCommission.percent === 0">免
+        </div>
+        <div class="c-l-orange" v-if="svipMemberInfo.rechargeCommission &&!svipMemberInfo.rechargeCommission.percent === 0">
+          {{svipMemberInfo.rechargeCommission.percent}}‰（支付宝验收）
+        </div>
       </li>
       <li class="clear forth">
         <div class="t-catalog c-white">活动审核</div>
@@ -54,30 +64,39 @@
         <div class="c-l-grey lh-80">{{freeMemberInfo.taskStickUp}}</div>
         <div class="c-l-blue check-box">
           <p>每日上新页置顶<span class="check-text cursor-p" @click="showDemo('demo-1')">（查看）</span></p>
-          <p class="mt-5" v-if="vipMemberInfo.taskStickUp">每天{{vipMemberInfo.taskStickUp.frequency}}次，每次{{vipMemberInfo.taskStickUp.time}}分钟</p>
+          <p class="mt-5" v-if="vipMemberInfo.taskStickUp">
+            每天{{vipMemberInfo.taskStickUp.frequency}}次，每次{{vipMemberInfo.taskStickUp.time}}分钟</p>
         </div>
         <div class="c-l-orange check-box">
           <p>首页最新活动置顶<span class="check-text cursor-p" @click="showDemo('demo-2')">（查看）</span></p>
-          <p class="mt-5" v-if="svipMemberInfo.taskStickUp">每天{{svipMemberInfo.taskStickUp.frequency}}次，每次{{svipMemberInfo.taskStickUp.time}}分钟</p>
+          <p class="mt-5" v-if="svipMemberInfo.taskStickUp">
+            每天{{svipMemberInfo.taskStickUp.frequency}}次，每次{{svipMemberInfo.taskStickUp.time}}分钟</p>
         </div>
       </li>
       <li class="clear sixth">
         <div class="t-catalog c-white">同一宝贝每日发布活动次数</div>
-        <div class="c-l-grey" v-if="freeMemberInfo.itemReleaseTaskOneDayLimit">{{freeMemberInfo.itemReleaseTaskOneDayLimit.frequency}}次</div>
-        <div class="c-l-blue" v-if="vipMemberInfo.itemReleaseTaskOneDayLimit">{{vipMemberInfo.itemReleaseTaskOneDayLimit.frequency}}次</div>
-        <div class="c-l-orange" v-if="svipMemberInfo.itemReleaseTaskOneDayLimit">{{svipMemberInfo.itemReleaseTaskOneDayLimit.frequency}}次</div>
+        <div class="c-l-grey" v-if="freeMemberInfo.itemReleaseTaskOneDayLimit">
+          {{freeMemberInfo.itemReleaseTaskOneDayLimit.frequency}}次
+        </div>
+        <div class="c-l-blue" v-if="vipMemberInfo.itemReleaseTaskOneDayLimit">
+          {{vipMemberInfo.itemReleaseTaskOneDayLimit.frequency}}次
+        </div>
+        <div class="c-l-orange" v-if="svipMemberInfo.itemReleaseTaskOneDayLimit">
+          {{svipMemberInfo.itemReleaseTaskOneDayLimit.frequency}}次
+        </div>
       </li>
       <li class="clear seventh">
         <div class="t-catalog c-white">店铺绑定数量</div>
         <div class="c-l-grey" v-if="freeMemberInfo.storeBindingLimit">{{freeMemberInfo.storeBindingLimit.number}}个</div>
         <div class="c-l-blue" v-if="vipMemberInfo.storeBindingLimit">{{vipMemberInfo.storeBindingLimit.number}}个</div>
-        <div class="c-l-orange" v-if="svipMemberInfo.storeBindingLimit">{{svipMemberInfo.storeBindingLimit.number}}个</div>
+        <div class="c-l-orange" v-if="svipMemberInfo.storeBindingLimit">{{svipMemberInfo.storeBindingLimit.number}}个
+        </div>
       </li>
     </ul>
     <p class="to-be-continue">更多权益正在添加中，敬请期待...</p>
     <Modal v-model="isShowDemo" class="text-ct pt-40" width="700">
-      <img v-if="demo1" class="mt-20" src="~assets/img/vip-member/vip-demo-01.png">
-      <img v-if="demo2" class="mt-20" src="~assets/img/vip-member/vip-demo-02.png">
+      <img v-if="dailyNewDemo" class="mt-20" src="~assets/img/vip-member/vip-demo-01.png">
+      <img v-if="homeNewDemo" class="mt-20" src="~assets/img/vip-member/vip-demo-02.png">
       <div slot="footer"></div>
     </Modal>
   </div>
@@ -94,12 +113,12 @@
     },
     data() {
       return {
-        freeMemberInfo:{},
-        vipMemberInfo:{},
-        svipMemberInfo:{},
+        freeMemberInfo: {},
+        vipMemberInfo: {},
+        svipMemberInfo: {},
         isShowDemo: false,
-        demo1: false,
-        demo2: false
+        dailyNewDemo: false,
+        homeNewDemo: false
       }
     },
     computed: {},
@@ -107,25 +126,25 @@
       this.getVersionInfo();
     },
     methods: {
-      getVersionInfo(){
+      getVersionInfo() {
         let _this = this;
-        api.getMemberInstructionsInfo().then(res=>{
+        api.getMemberInstructionsInfo().then(res => {
           let tempData = [];
-          if(res.status){
+          if (res.status) {
             tempData = res.data;
-            tempData.forEach(item=>{
+            tempData.forEach(item => {
               item.memberDesc = item.memberDesc.split(',')[1];
               item.rewardFee = JSON.parse(item.rewardFee);
               item.promotionFee = JSON.parse(item.promotionFee);
               item.rechargeCommission = JSON.parse(item.rechargeCommission);
-              item.taskStickUp = item.taskStickUp.length>1?JSON.parse(item.taskStickUp):item.taskStickUp;
+              item.taskStickUp = item.taskStickUp.length > 1 ? JSON.parse(item.taskStickUp) : item.taskStickUp;
               item.itemReleaseTaskOneDayLimit = JSON.parse(item.itemReleaseTaskOneDayLimit);
               item.storeBindingLimit = JSON.parse(item.storeBindingLimit);
             });
             _this.freeMemberInfo = tempData[0];
             _this.vipMemberInfo = tempData[1];
             _this.svipMemberInfo = tempData[2];
-          }else{
+          } else {
             _this.$Message.error(res.msg);
           }
         })
@@ -133,12 +152,12 @@
       showDemo(demo) {
         const _this = this;
         if (demo === 'demo-1') {
-          _this.demo1 = true;
-          _this.demo2 = false;
+          _this.dailyNewDemo = true;
+          _this.homeNewDemo = false;
         }
         if (demo === 'demo-2') {
-          _this.demo1 = false;
-          _this.demo2 = true;
+          _this.dailyNewDemo = false;
+          _this.homeNewDemo = true;
         }
         _this.isShowDemo = true;
       }
@@ -217,7 +236,7 @@
       }
     }
     .second {
-      .lh-48{
+      .lh-48 {
         line-height: 48px;
       }
       div {
@@ -248,8 +267,8 @@
         border-right: 1px solid #ccc;
         height: 80px;
       }
-      .t-catalog{
-        color:#ccc;
+      .t-catalog {
+        color: #ccc;
       }
       .lh-80 {
         height: 80px;

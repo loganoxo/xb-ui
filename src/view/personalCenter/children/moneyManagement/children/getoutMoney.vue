@@ -211,7 +211,7 @@
               {{item.poundage / 100}}
             </td>
             <td class="main-color">
-              {{getTradType(item.state)}}<span v-if="item.state==='enchashment_audit_defeat' && item.refuseReason!==null" class="cl666">:{{item.refuseReason}}</span>
+              {{getTradType(item.state)}}<span v-if="item.state === 'enchashment_audit_defeat' && item.refuseReason !== null" class="cl666">:{{item.refuseReason}}</span>
             </td>
             <td>
               <p style="color:blue;" class="detailsSpc" @click="getMoneyShowDetailsFun(item.id)">
