@@ -122,7 +122,7 @@
                 <iButton v-if="applyBtnShow === 'sellerTasking'" size="large" class="fs-16 default-btn" type="warning"
                          style="width: 200px;">商家号不可以参加活动
                 </iButton>
-                <div v-if="applyBtnShow === 'noLogin'">
+                <div v-if="applyBtnShow === 'noLogin' && commodityData.task.online">
                   <a class="ivu-btn ivu-btn-primary ivu-btn-large" @click="selectLogin = true" style="width: 150px;">
                     申请活动
                   </a>
