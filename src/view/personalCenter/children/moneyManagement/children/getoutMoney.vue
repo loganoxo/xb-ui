@@ -192,8 +192,8 @@
             <th style="width:20%;">申请时间</th>
             <th style="width:30%;">流水号</th>
             <th style="width:10%;">提现金额（元）</th>
-            <th style="width:20%;">代收手续费（元）</th>
-            <th style="width:10%;">状态</th>
+            <th style="width:10%;">代收手续费（元）</th>
+            <th style="width:20%;">状态</th>
             <th style="width:10%;">操作</th>
           </tr>
           </thead>
@@ -211,7 +211,7 @@
               {{item.poundage / 100}}
             </td>
             <td class="main-color">
-              {{getTradType(item.state)}}
+              {{getTradType(item.state)}}<span v-if="item.state==='enchashment_audit_defeat' && item.refuseReason!==null" class="cl666">:{{item.refuseReason}}</span>
             </td>
             <td>
               <p style="color:blue;" class="detailsSpc" @click="getMoneyShowDetailsFun(item.id)">
@@ -857,6 +857,9 @@
   .bank-tip {
     width: 400px;
     margin-top: 4px;
+  }
+  .list-table td{
+    word-break: break-all;
   }
 </style>
 
