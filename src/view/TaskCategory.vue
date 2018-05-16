@@ -135,6 +135,12 @@
                     <Icon type="help-circled"></Icon>
                   </Tooltip>
                 </p>
+                <p class="rewards-fee" v-else>
+                  <span class="main-color">打赏0元</span>
+                  <Tooltip content="完成该任务可额外获得打赏费" placement="top-start">
+                    <Icon type="help-circled" color="#000"></Icon>
+                  </Tooltip>
+                </p>
                 <p class="cl000">
                   限量 <span class="main-color"> {{searchTask.taskCount || 0 }} </span> 份，剩余
                   <span class="main-color"> {{searchTask.taskCount - searchTask.showkerApplySuccessCount || 0}} </span> 份
@@ -211,6 +217,12 @@
                   <span v-if="historyTask.activityCategory !== 'free_get' && historyTask.activityCategory !== 'present_get'" class="main-color">打赏0元</span>
                   <Tooltip content="完成该任务可额外获得打赏费" placement="top-start">
                     <Icon type="help-circled"></Icon>
+                  </Tooltip>
+                </p>
+                <p class="rewards-fee" v-else>
+                  <span class="main-color">打赏0元</span>
+                  <Tooltip content="完成该任务可额外获得打赏费" placement="top-start">
+                    <Icon type="help-circled" color="#000"></Icon>
                   </Tooltip>
                 </p>
                 <p class="cl000">
