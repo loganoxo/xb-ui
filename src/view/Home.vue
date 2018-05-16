@@ -260,7 +260,6 @@
             <router-link class="home-commodity-details"
                          target="_blank"
                          v-for="homeCommodity in homeCommodityList"
-                         :title="homeCommodity.taskName"
                          :key="homeCommodity.id"
                          :to="{ 'path': '/task-details','query': {'q': encryptionId(homeCommodity.id)}}">
               <div class="home-commodity-img pos-rel">
@@ -290,6 +289,14 @@
                       {{homeCommodity.discountRate/10}}折试用
                     </span>
                   </em>
+                </p>
+                <p class="rewards-fee" v-if="homeCommodity.createTime>=1526464800000">
+                  <span v-if="homeCommodity.activityCategory === 'free_get'" class="main-color">打赏1元</span>
+                  <span v-if="homeCommodity.activityCategory === 'present_get'" class="main-color">打赏2元</span>
+                  <span v-if="homeCommodity.activityCategory !== 'free_get' && homeCommodity.activityCategory !== 'present_get'" class="main-color">打赏0元</span>
+                  <Tooltip content="完成该任务可额外获得打赏费" placement="top-start">
+                    <Icon type="help-circled" color="#000"></Icon>
+                  </Tooltip>
                 </p>
                 <p class="home-commodity-apply">限量 <span class="main-color"> {{homeCommodity.taskCount || 0 }} </span>
                   份，剩余
@@ -321,7 +328,6 @@
             <router-link class="home-commodity-details"
                          target="_blank"
                          v-for="homeCommodity in presentGet"
-                         :title="homeCommodity.taskName"
                          :key="homeCommodity.id"
                          :to="{ 'path': '/task-details','query': {'q': encryptionId(homeCommodity.id)}}">
               <div class="home-commodity-img pos-rel">
@@ -363,6 +369,14 @@
                     </span>
                   </em>
                 </p>
+                <p class="rewards-fee" v-if="homeCommodity.createTime>=1526464800000">
+                  <span v-if="homeCommodity.activityCategory === 'free_get'" class="main-color">打赏1元</span>
+                  <span v-if="homeCommodity.activityCategory === 'present_get'" class="main-color">打赏2元</span>
+                  <span v-if="homeCommodity.activityCategory !== 'free_get' && homeCommodity.activityCategory !== 'present_get'" class="main-color">打赏0元</span>
+                  <Tooltip content="完成该任务可额外获得打赏费" placement="top-start">
+                    <Icon type="help-circled" color="#000"></Icon>
+                  </Tooltip>
+                </p>
                 <p class="home-commodity-apply">
                   限量 <span class="main-color"> {{homeCommodity.taskCount || 0 }} </span> 份，剩余
                   <span
@@ -397,7 +411,6 @@
             <router-link class="home-commodity-details"
                          target="_blank"
                          v-for="homeHistory in homeHistoryList"
-                         :title="homeHistory.taskName"
                          :key="homeHistory.id"
                          :to="{ 'path': '/task-details','query': {'q': encryptionId(homeHistory.id)}}">
               <div class="home-commodity-img pos-rel">
@@ -429,6 +442,14 @@
                       {{homeHistory.discountRate/10}}折试用
                     </span>
                   </em>
+                </p>
+                <p class="rewards-fee" v-if="homeHistory.createTime>=1526464800000">
+                  <span v-if="homeHistory.activityCategory === 'free_get'" class="main-color">打赏1元</span>
+                  <span v-if="homeHistory.activityCategory === 'present_get'" class="main-color">打赏2元</span>
+                  <span v-if="homeHistory.activityCategory !== 'free_get' && homeHistory.activityCategory !== 'present_get'" class="main-color">打赏0元</span>
+                  <Tooltip content="完成该任务可额外获得打赏费" placement="top-start">
+                    <Icon type="help-circled" color="#000"></Icon>
+                  </Tooltip>
                 </p>
                 <p class="home-commodity-apply">限量 <span class="main-color"> {{homeHistory.taskCount || 0 }} </span>
                   份，剩余
