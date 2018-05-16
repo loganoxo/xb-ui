@@ -319,11 +319,11 @@
           _this.isSelectVersionPeriodInfo.levelText = _this.memberVersionNameMap[_this.getMemberVersionLevel]
         }
         if (_this.isMember && _this.getMemberVersionLevel === 200) {
-          this.nowVersionName = 'VIP会员'
+          _this.nowVersionName = 'VIP会员'
         } else if (_this.isMember && _this.getMemberVersionLevel === 300) {
-          this.nowVersionName = 'SVIP会员'
+          _this.nowVersionName = 'SVIP会员'
         } else {
-          this.nowVersionName = '非会员'
+          _this.nowVersionName = '非会员'
         }
         _this.getBuyOrderPrice();
       },
