@@ -424,19 +424,6 @@ export default {
     return axiosConfig.post("/api/get-member-surplus-fee.json")
   },
 
-  /**
-   * 获取所有会员版本周期列表
-   */
-  getMemberVersionPeriodList() {
-    return fetch("/api/get-member-version-period-list.json")
-  },
-
-  /**
-   * 获取当前会员版本折扣
-   */
-  getMemberSurplusFee() {
-    return fetch("/api/get-member-surplus-fee.json")
-  },
 
   /**
    * 获取会员等级详细信息
@@ -450,13 +437,6 @@ export default {
    */
   getMemberInstructionsInfo() {
     return axiosConfig.post("/api/get-member-instructions-info.json")
-  },
-
-  /**
-   * 获取会员版本说明信息
-   */
-  getMemberInstructionsInfo() {
-    return fetch("/api/get-member-instructions-info.json")
   },
 
   /**
@@ -731,28 +711,28 @@ export default {
 
   /**
    * 获取推荐链接
-   * */
+   */
   getMyRecommend() {
     return axiosConfig.post("/api/user/reward/getMyRecommend.json")
   },
 
   /**
    * 获取推荐链接
-   * */
+   */
   getRecommendUrl() {
     return axiosConfig.post("/api/recommend-code.json")
   },
 
   /**
    * 获取推荐列表
-   * */
+   */
   getRecommendPage(params) {
     return axiosConfig.post("/api/user/reward/getRecommendPage.json", params)
   },
 
   /**
    * 获取推荐排行版
-   * */
+   */
   getRecommendRankingPage() {
     return axiosConfig.post("/api/user/reward/getRecommendRankList.json",)
   },
@@ -940,8 +920,8 @@ export default {
   },
 
   /**
-   *判断秀客是否是第一次提现
-   * */
+   * 判断秀客是否是第一次提现
+   */
   someAccountOrMoneyJudgement() {
     return axiosConfig.post('/api/user/account/someAccountOrMoneyJudgement.json');
   },
