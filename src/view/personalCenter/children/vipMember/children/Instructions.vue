@@ -40,17 +40,11 @@
         <div class="c-l-grey" v-if="freeMemberInfo.rechargeCommission">
           {{freeMemberInfo.rechargeCommission.percent}}‰（支付宝验收）
         </div>
-        <div class="c-l-blue" v-if="vipMemberInfo.rechargeCommission && vipMemberInfo.rechargeCommission.percent === 0">
+        <div class="c-l-blue">
           免
         </div>
-        <div class="c-l-blue" v-if="vipMemberInfo.rechargeCommission &&!vipMemberInfo.rechargeCommission.percent === 0">
-          {{vipMemberInfo.rechargeCommission.percent}}‰（支付宝验收）
-        </div>
-        <div class="c-l-orange"
-             v-if="svipMemberInfo.rechargeCommission && svipMemberInfo.rechargeCommission.percent === 0">免
-        </div>
-        <div class="c-l-orange" v-if="svipMemberInfo.rechargeCommission &&!svipMemberInfo.rechargeCommission.percent === 0">
-          {{svipMemberInfo.rechargeCommission.percent}}‰（支付宝验收）
+        <div class="c-l-orange">
+          免
         </div>
       </li>
       <li class="clear forth">
