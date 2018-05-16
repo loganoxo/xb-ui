@@ -485,7 +485,7 @@
         let online = _this.taskOnline.length >0?false:null;
         _this.taskStatusList.forEach(item => {
           if (item === 'under_way'){
-            online = !_this.taskOnline.length >0;
+            online = _this.taskOnline.length >0?null:true;
           }
         });
         if (_this.taskOnline.length >0){
