@@ -49,6 +49,13 @@
           </Checkbox>
         </Checkbox-group>
       </div>
+      <div class="left">
+        <Checkbox-group v-model="taskOnline" @on-change="checkAllGroupChange">
+          <Checkbox label="online">
+            <span>已下线</span>
+          </Checkbox>
+        </Checkbox-group>
+      </div>
     </div>
     <div class="list-sort clear">
       <iSelect v-model="activityCategory" size="small" style="width:108px" class="left mr-10" placeholder="全部类型活动" @on-change="changeActivityCategory">
@@ -97,7 +104,7 @@
             <p>{{item.upLineTime | dateFormat('YYYY-MM-DD hh:mm:ss') || '----'}}</p>
             <p class="mt-10">{{item.endTime | dateFormat('YYYY-MM-DD hh:mm:ss') || '----'}}</p>
           </td>
-          <td v-if="item.taskStatus !== 'waiting_modify'">{{item.taskStatusDesc}}<br/>{{item.settlementStatusDesc}}</td>
+          <td v-if="item.taskStatus !== 'waiting_modify'"><span v-if="item.taskStatus === 'under_way' && !item.online">已下线</span><span v-else>{{item.taskStatusDesc}}</span><br/>{{item.settlementStatusDesc}}</td>
           <td class="cursor-p main-color" v-else>
             <Tooltip :content="item.auditLogs[item.auditLogs.length - 1].resultMsg" placement="top">
               <Icon color="#f9284f" type="information-circled"></Icon>&nbsp;待修改
@@ -330,6 +337,7 @@
         closeModal: false,
         modalLoading: false,
         taskStatusList: [],
+        taskOnline:[],
         settlementStatusList: [],
         taskData: {},
         totalElements: null,
@@ -474,6 +482,21 @@
         let _this = this;
         let taskStatusList = JSON.stringify(_this.taskStatusList);
         let settlementStatusList = JSON.stringify(_this.settlementStatusList);
+        let online = null;
+        if (_this.taskStatusList.length === 0){
+          if (_this.taskOnline.length >0){
+            taskStatusList = JSON.stringify(['under_way']);
+            online = false;
+          }else {
+            online = null;
+          }
+        }else {
+          _this.taskStatusList.forEach(item => {
+            if (item === 'under_way'){
+              online = _this.taskOnline.length >0?null:true;
+            }
+          });
+        }
         _this.searchLoading = true;
         if (_this.taskNumber) {
           taskStatusList = [];
@@ -487,7 +510,8 @@
           sort: sort ? sort : 'desc',
           activityCategory: _this.activityCategory,
           pageIndex: _this.pageIndex,
-          pageSize: _this.pageSize
+          pageSize: _this.pageSize,
+          online: online,
         }).then(res => {
           if (res.status) {
             _this.taskData = res.data;
@@ -578,18 +602,20 @@
         if (_this.checkAll) {
           _this.taskStatusList = ['waiting_pay', 'waiting_audit', 'waiting_modify', 'under_way', 'finished', 'closed'];
           _this.settlementStatusList = ['waiting_settlement', 'waiting_audit', 'settlement_finished', 'cannot_settlement'];
+          _this.taskOnline = ['online'];
         } else {
           _this.taskStatusList = [];
           _this.settlementStatusList = [];
+          _this.taskOnline = [];
         }
         _this.pageIndex = 1;
         _this.getTaskList();
       },
       checkAllGroupChange() {
         let _this = this;
-        if (_this.settlementStatusList.length === 4 && _this.taskStatusList.length === 6) {
+        if (_this.settlementStatusList.length === 4 && _this.taskStatusList.length === 6 && _this.taskOnline.length === 1) {
           _this.checkAll = true;
-        } else if (_this.settlementStatusList.length > 0 || _this.taskStatusList.length > 0) {
+        } else if (_this.settlementStatusList.length > 0 || _this.taskStatusList.length > 0 || _this.taskOnline.length > 0) {
           _this.checkAll = false;
         } else {
           _this.checkAll = false;

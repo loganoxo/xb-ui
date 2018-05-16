@@ -425,6 +425,20 @@ export default {
   },
 
   /**
+   * 获取所有会员版本周期列表
+   */
+  getMemberVersionPeriodList() {
+    return fetch("/api/get-member-version-period-list.json")
+  },
+
+  /**
+   * 获取当前会员版本折扣
+   */
+  getMemberSurplusFee() {
+    return fetch("/api/get-member-surplus-fee.json")
+  },
+
+  /**
    * 获取会员等级详细信息
    */
   getUserMemberLevelInfo(params) {
@@ -436,6 +450,13 @@ export default {
    */
   getMemberInstructionsInfo() {
     return axiosConfig.post("/api/get-member-instructions-info.json")
+  },
+
+  /**
+   * 获取会员版本说明信息
+   */
+  getMemberInstructionsInfo() {
+    return fetch("/api/get-member-instructions-info.json")
   },
 
   /**

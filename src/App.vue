@@ -13,9 +13,9 @@
       <!--</a>-->
       <div v-if="getUserRole === 1" class="pos-rel">
         <img src="~assets/img/common/suspend-service-merchant.png" alt="">
-        <a href="http://wpa.qq.com/msgrd?v=3&site=qq&menu=yes&uin=2331878513" target="_blank"  class="service service1"></a>
+        <a href="http://wpa.qq.com/msgrd?v=3&site=qq&menu=yes&uin=2012364029" target="_blank"  class="service service1"></a>
         <a href="http://wpa.qq.com/msgrd?v=3&site=qq&menu=yes&uin=1873512513" target="_blank"  class="service service2"></a>
-        <a href="http://wpa.qq.com/msgrd?v=3&site=qq&menu=yes&uin=2012364029" target="_blank"  class="service service3"></a>
+        <a href="http://wpa.qq.com/msgrd?v=3&site=qq&menu=yes&uin=2331878513" target="_blank"  class="service service3"></a>
         <a href="http://wpa.qq.com/msgrd?v=3&site=qq&menu=yes&uin=1624363653" target="_blank"  class="service service4"></a>
       </div>
       <a href="https://jq.qq.com/?_wv=1027&k=5ZMH7Iu" target="_blank" class="pos-rel block" v-else>
@@ -28,6 +28,12 @@
         </div>
       </a>
       <span class="close-suspend-service" @click.stop.self="closeSuspendService">关闭</span>
+      <Modal v-model="$store.state.isBuyVipPopup" width="700" class="show-buyer-popup" >
+        <div class="show-buyer-popup-body pos-rel" >
+          <a href="http://wpa.qq.com/msgrd?v=3&site=qq&menu=yes&uin=2012364029" target="_blank" @click="closeSuspendService"></a>
+          <div class="dynamicQQ">{{getSellerCustomerQq.configValue}}</div>
+        </div>
+      </Modal>
     </div>
   </div>
 </template>

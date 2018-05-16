@@ -105,7 +105,7 @@
                     Hi~ 商家 {{decodeURIComponent(getUserInfoPhone)}}
                   </router-link>
                   <div v-if="getUserInfoRole === 1 && !isMember" class="fs-12">
-                    <span>非会员</span>
+                    <span>免费会员</span>
                     <router-link to="/user/vip-member/order">马上开通会员</router-link>
                   </div>
                   <div v-if="getUserInfoRole === 1 && isMember" class="fs-12">

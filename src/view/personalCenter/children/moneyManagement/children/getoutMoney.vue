@@ -32,30 +32,7 @@
           </Form-item>
           <Form-item label="选择银行" prop="select">
             <iSelect v-model="formItem.select" :filterable="true" style="width:300px;height: 32px">
-              <iOption value="中国建设银行">中国建设银行</iOption>
-              <iOption value="中国工商银行">中国工商银行</iOption>
-              <iOption value="中国农业银行">中国农业银行</iOption>
-              <iOption value="招商银行">招商银行</iOption>
-              <iOption value="中国银行">中国银行</iOption>
-              <iOption value="兴业银行">兴业银行</iOption>
-              <iOption value="上海浦东发展银行">上海浦东发展银行</iOption>
-              <iOption value="中国邮政储蓄银行">中国邮政储蓄银行</iOption>
-              <iOption value="中信银行">中信银行</iOption>
-              <iOption value="广发银行">广发银行</iOption>
-              <iOption value="民生银行">民生银行</iOption>
-              <iOption value="光大银行">光大银行</iOption>
-              <iOption value="交通银行">交通银行</iOption>
-              <iOption value="北京银行">北京银行</iOption>
-              <iOption value="渤海银行">渤海银行</iOption>
-              <iOption value="杭州银行">杭州银行</iOption>
-              <iOption value="华夏银行">华夏银行</iOption>
-              <iOption value="汇丰银行">汇丰银行</iOption>
-              <iOption value="恒生银行">恒生银行</iOption>
-              <iOption value="花旗银行">花旗银行</iOption>
-              <iOption value="江苏银行">江苏银行</iOption>
-              <iOption value="浙商银行">浙商银行</iOption>
-              <iOption value="渣打银行">渣打银行</iOption>
-              <iOption value="平安银行">平安银行</iOption>
+              <iOption v-for="(item,index) in bankList" :key="index" :value="item">{{item}}</iOption>
             </iSelect>
             <div class="main-color bank-tip" v-if="formItem.select === '中国邮政储蓄银行'">注：中国邮政储蓄银行提现到账时间会滞后两到三天，请耐心等待！</div>
           </Form-item>
@@ -299,6 +276,7 @@
   import api from '@/config/apiConfig'
   import SmsCountdown from '@/components/SmsCountdown'
   import {TaskErrorStatusList,isNumber, isChinaStr} from '@/config/utils'
+  import {bankList} from '../../../../../../bankNameList/bankNameList';
 
   export default {
     name: 'getOutMoney',
@@ -485,6 +463,7 @@
         isChange: false,
         ifVerifiedTip: false,
         ifFirstWithDraw: null,
+        bankList:bankList,
       }
     },
     mounted() {
