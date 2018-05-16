@@ -105,13 +105,14 @@
                     Hi~ 商家 {{decodeURIComponent(getUserInfoPhone)}}
                   </router-link>
                   <div v-if="getUserInfoRole === 1 && !isMember" class="fs-12">
-                    <span>非会员</span>
+                    <span>免费会员</span>
                     <router-link to="/user/vip-member/order">马上开通会员</router-link>
                   </div>
                   <div v-if="getUserInfoRole === 1 && isMember" class="fs-12">
                     <img v-if="getMemberVersionLevel === 200" src="~assets/img/common/vip.png" alt="vipLogo">
                     <img v-if="getMemberVersionLevel === 300" src="~assets/img/common/svip.png" alt="svipLogo">
-                    <span class="cl-red">您已是VIP，发布活动免费无上限</span>
+                    <span class="cl-red" v-if="getMemberVersionLevel === 200">您已是VIP，<router-link to="/user/vip-member/instructions?q=VipMemberInstructions">查看我的权限</router-link></span>
+                    <span class="cl-red" v-if="getMemberVersionLevel === 300">您已是SVIP，<router-link to="/user/vip-member/instructions?q=VipMemberInstructions">查看我的权限</router-link></span>
                   </div>
                 </div>
                 <p class="clear-both fs-14 mt-10 left ml-20">当前进行的活动：
