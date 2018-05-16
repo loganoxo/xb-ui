@@ -482,11 +482,14 @@
         let _this = this;
         let taskStatusList = JSON.stringify(_this.taskStatusList);
         let settlementStatusList = JSON.stringify(_this.settlementStatusList);
-        // let online = _this.taskOnline.length >0?false:null;
         let online = null;
         if (_this.taskStatusList.length === 0){
-          online = _this.taskOnline.length >0?false:null;
-          taskStatusList = JSON.stringify(['under_way']);
+          if (_this.taskOnline.length >0){
+            taskStatusList = JSON.stringify(['under_way']);
+            online = false;
+          }else {
+            online = null;
+          }
         }else {
           _this.taskStatusList.forEach(item => {
             if (item === 'under_way'){
@@ -494,9 +497,6 @@
             }
           });
         }
-       /* if (_this.taskOnline.length >0 && this.taskStatusList.length === 0){
-          taskStatusList = JSON.stringify(['under_way']);
-        }*/
         _this.searchLoading = true;
         if (_this.taskNumber) {
           taskStatusList = [];
