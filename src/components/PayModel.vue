@@ -128,10 +128,6 @@
         showFreePayModel: false
       }
     },
-    mounted() {
-    },
-    created() {
-    },
     computed: {
 
       isPwdAmend() {
