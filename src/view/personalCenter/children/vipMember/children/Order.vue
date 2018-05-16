@@ -96,6 +96,9 @@
           'buy': '购买',
         },
         memberPeriodNameMap: {
+          7 : '7天',
+          15 : '15天',
+          30 : '1月',
           100: '季度',
           200: '半年',
           300: '1年',
@@ -321,10 +324,13 @@
           _this.isSelectVersionPeriodInfo.timeLevel = _this.getMemberPeriodLevel;
           _this.isSelectVersionPeriodInfo.timeLevelText = _this.memberPeriodNameMap[_this.getMemberPeriodLevel];
         }
-        if (_this.getMemberVersionLevel && _this.isMember) {
+       /* if (_this.getMemberVersionLevel && _this.isMember) {
           _this.isSelectVersionPeriodInfo.level = _this.getMemberVersionLevel;
           _this.isSelectVersionPeriodInfo.levelText = _this.memberVersionNameMap[_this.getMemberVersionLevel]
-        }
+        }*/
+       // 默认选择一年的周期（不考虑用户当前版本）
+        _this.isSelectVersionPeriodInfo.timeLevel = 300;
+        _this.isSelectVersionPeriodInfo.timeLevelText = '1年';
         if (_this.isMember && _this.getMemberVersionLevel === 200) {
           _this.nowVersionName = 'VIP会员'
         } else if (_this.isMember && _this.getMemberVersionLevel === 300) {
