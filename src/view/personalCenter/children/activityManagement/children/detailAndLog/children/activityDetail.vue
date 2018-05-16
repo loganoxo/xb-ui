@@ -663,12 +663,7 @@
       <div class="description-fees-con mt-10">
         <p>活动担保金 = 份数 × 单品活动担保金 = <span>{{oneBondMarginText}}</span> 元</p>
         <!--<p class="mt-6">单品推广费 = 单品试用担保金 × 费率 =<span>{{onePromotionExpensesBeforeText}}</span> 元<span>{{onePromotionExpensesTipText}}</span></p>-->
-        <p class="mt-6">总打赏费 = 单品打赏费用 × 份数 = <span>{{onePromotionExpenses}}</span> × <span>{{taskRelease.taskCount}} = <span>{{allPromotionExpenses}}</span></span> 元
-          <tooltip placement="top" content="为提高平台拿手活跃度，平台将原推广费改为打赏费，该笔费用用于对完成活动的拿手进行打赏">
-            <a>什么是打赏费？</a>
-          </tooltip>
-          <span v-if="getMemberVersionLevel !== 300" class="ml-10 svip-upgrade" @click="upgradeSvip">升级SVIP免除打赏费</span>
-        </p>
+        <p class="mt-6">总打赏费 = 单品打赏费用 × 份数 = <span>{{onePromotionExpenses}}</span> × <span>{{taskRelease.taskCount}} = <span>{{allPromotionExpenses}}</span></span> 元</p>
         <p class="mt-6">总费用 = 活动担保金 + 总打赏费 = <span>{{(orderMoney).toFixed(2)}}</span> 元</p>
       </div>
     </div>
@@ -677,7 +672,7 @@
 </template>
 
 <script>
-  import {Icon, Input, Checkbox, Button, Alert, Radio, Select, Option, OptionGroup, Tooltip} from 'iview'
+  import {Icon, Input, Checkbox, Button, Alert, Radio, Select, Option, OptionGroup} from 'iview'
   import {decode, getStorage} from '@/config/utils'
   import api from '@/config/apiConfig'
 
@@ -695,7 +690,6 @@
       iOption: Option,
       OptionGroup: OptionGroup,
       Alert: Alert,
-      Tooltip: Tooltip,
     },
     data() {
       return {
