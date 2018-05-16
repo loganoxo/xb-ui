@@ -696,7 +696,6 @@
       OptionGroup: OptionGroup,
       Alert: Alert,
       Tooltip: Tooltip,
-      Modal: Modal,
     },
     data() {
       return {
