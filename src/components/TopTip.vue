@@ -6,17 +6,13 @@
     <div class="container" id="buyershowPosition">
       <p v-show="isLogin" class="left">
         你好，<span class="user-name">
-        <span  @click="openMember"  v-if="getUserInfo.role === 1 && membershipIsExpire">
-           <Tooltip content="亲当前未开通会员，点击图标马上开通" placement="bottom-start" >
-              <span><Icon  type="social-vimeo" color="gray"></Icon></span>
-            </Tooltip>
+        <span v-if="getUserInfo.role === 1 && isMember" class="mr-5">
+          <img v-if="getUserInfo.memberLevel === 200" src="~assets/img/common/vip.png" alt="vipLogo">
+          <img v-if="getUserInfo.memberLevel === 300" src="~assets/img/common/svip.png" alt="svipLogo">
         </span>
-        <span v-if="getUserInfo.role === 1 && !membershipIsExpire">
-          <Icon  type="social-vimeo" color="red"></Icon>
-        </span>
-        <router-link to="/user/user-home">
-          <span v-if="getUserInfo.role === 1"> 商家 </span>
-          <span v-if="getUserInfo.role === 0"> 拿手 </span>
+        <router-link class="blue" tag="span" to="/user/user-home">
+          <span class="main-color" v-if="getUserInfo.role === 1"> 商家 </span>
+          <span class="main-color" v-if="getUserInfo.role === 0"> 拿手 </span>
           {{decodeURIComponent(getUserInfo.nickname)}}
         </router-link>
         </span>
@@ -44,15 +40,15 @@
         </span>
       </p>
       <p class="right">
-        <router-link to="/">
+        <router-link to="/" @click.native="selTaskCategoryHome">
           <i data-v-38a9a25e="" class="ivu-icon ivu-icon-home vtc-text-btm fs-16"></i>
           白拿拿首页
         </router-link>
-        <router-link to="/user/user-home">
+        <router-link to="/user/user-home" @click.native="cancelActivityCategory">
           <i data-v-38a9a25e="" class="ivu-icon ivu-icon-person vtc-text-btm fs-16"></i>
           个人中心
         </router-link>
-        <router-link to="/user/help-center/faq">
+        <router-link to="/user/help-center/faq" @click.native="cancelActivityCategory">
           <i data-v-38a9a25e="" class="ivu-icon ivu-icon-help-buoy vtc-text-btm fs-16"></i>
           帮助中心
         </router-link>
@@ -97,8 +93,8 @@
       getUserInfo() {
         return this.$store.state.userInfo
       },
-      membershipIsExpire() {
-        return this.$store.getters.getMembershipIsExpire
+      isMember() {
+        return this.$store.getters.isMemberOk
       },
       pcMerchantQqGroup() {
         return this.$store.getters.getPcMerchantQqGroup
@@ -140,6 +136,28 @@
             self.whetherShowNotice = true;
           }
         })
+      },
+      selTaskCategoryHome(){
+        let self = this;
+        self.$store.commit({
+          type: 'TASK_CATEGORY_LIST',
+          info: 'home'
+        });
+        self.$store.commit({
+          type: 'SET_ACTIVITY_CATEGORY',
+          info: 'home'
+        });
+      },
+      cancelActivityCategory(){
+        let self = this;
+        // self.$store.commit({
+        //   type: 'TASK_CATEGORY_LIST',
+        //   info: ''
+        // });
+        self.$store.commit({
+          type: 'SET_ACTIVITY_CATEGORY',
+          info: ''
+        });
       }
     }
   }

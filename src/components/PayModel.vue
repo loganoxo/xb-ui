@@ -13,9 +13,7 @@
       <span class="ml-10" v-if="isPwdAmend"><router-link
         :to="{path:'/user/money-management/account-management',query:{type:'findPwd'}}">忘记支付密码？</router-link></span>
       <p class="mt-20 default-pwd" v-else>初始密码为：888888，为了您的账号安全，建议您
-        <router-link :to="{path:'/user/money-management/account-management',query:{type:'resetPwd'}}">重置支付密码
-        </router-link>
-        ！
+        <router-link :to="{path:'/user/money-management/account-management',query:{type:'resetPwd'}}">重置支付密码</router-link>！
       </p>
     </div>
     <div class="select-pay-type ml-56 clear" v-else>
@@ -29,12 +27,22 @@
         <!--</Radio>-->
       </Radio-group>
     </div>
-    <iButton type="primary" v-if="isBalance" @click="confirmPayment" :loading="payLoading" class="recharge-btn">
-      {{payButtonText}}
-    </iButton>
-    <iButton type="primary" v-else @click="confirmRecharge" :loading="payLoading" class="recharge-btn">
-      {{rechargeButtonText}}
-    </iButton>
+    <div class="text-ct mt-20">
+      <iButton type="primary" v-if="isBalance" @click="confirmPayment" :loading="payLoading" class="recharge-btn">
+        {{payButtonText}}
+      </iButton>
+      <iButton type="primary" v-else @click="confirmRecharge" :loading="payLoading" class="recharge-btn">
+        {{rechargeButtonText}}
+      </iButton>
+      <iButton v-if="getMemberVersionLevel !== 100 && !isBalance" class="vip-pay-btn" @click="showFreePayModel = true">
+        <span v-if="getMemberVersionLevel === 200">VIP</span>
+        <span v-if="getMemberVersionLevel === 300">SVIP</span>
+        <span>免手续费充值</span>
+        <span>点击这里</span>
+      </iButton>
+      <iButton v-if="getMemberVersionLevel === 100 && !isBalance && isShowUpgradeVIP === true" class="svip-upgrade" @click="upgradeSvip">升级VIP免除手续费</iButton>
+    </div>
+
     <div class="confirm-recharge-model" v-if="confirmRechargeModel">
       <div class="confirm-recharge-con">
         <h4>请前往充值界面进行充值！</h4>
@@ -54,6 +62,7 @@
         <iButton class="error-btn" type="error" @click="hasProblem">充值失败</iButton>
       </div>
     </Modal>
+    <artificial-recharge-model v-if="showFreePayModel" @colseFreePayModal="showFreePayModel = false"></artificial-recharge-model>
   </div>
 
 </template>
@@ -62,25 +71,38 @@
   import {Input, Radio, Button, Modal} from 'iview'
   import api from '@/config/apiConfig'
   import {aliPayUrl, weiXinPayUrl} from '@/config/env'
+  import ArtificialRechargeModel from '@/components/ArtificialRechargeModel';
 
   export default {
-    name: 'PayModel',
+    name: 'pay-model',
     components: {
       iInput: Input,
       Radio: Radio,
       RadioGroup: Radio.Group,
       iButton: Button,
       Modal: Modal,
+      ArtificialRechargeModel: ArtificialRechargeModel
     },
     props: {
       orderMoney: {
         type: [Number, String],
-        required: true,
-        default: 0
+        required: true
       },
-      memberId: {
+      memberLevel: {
         type: [Number, String],
         default: null
+      },
+      timeLevel: {
+        type: [Number, String],
+        default: null
+      },
+      isShowUpgradeVIP: {
+        type: Boolean,
+        default: false
+      },
+      isBalance: {
+        type: Boolean,
+        required: true
       },
       orderType: {
         type: Number,
@@ -103,6 +125,7 @@
         confirmRechargeModel: false,
         payPopWindowWX: false,
         payLoading: false,
+        showFreePayModel: false
       }
     },
     mounted() {
@@ -110,17 +133,24 @@
     created() {
     },
     computed: {
-      userBalance() {
-        return this.$store.getters.getUserBalance;
-      },
+
       isPwdAmend() {
-        return this.$store.getters.getIsEditPwdAlready;
+        return this.$store.getters.getIsEditPwdAlready
       },
-      isBalance() {
-        return this.orderMoney <= this.userBalance;
+
+      getMemberVersionLevel() {
+        return this.$store.state.userInfo.memberLevel
       },
-      payMoney() {
-        return this.isBalance ? 0 : this.orderMoney - this.userBalance;
+
+      isMember() {
+        return this.$store.getters.isMemberOk
+      },
+
+      /** 计算用户最终需要充值的金额（包含支付宝充值手续费: 非会员需要收取千分之六的充值手续费，会员免手续费）
+       * @return {Number}
+       */
+      lastPayMoney() {
+        return this.isMember ? this.orderMoney * 100 : (Math.ceil(this.orderMoney * 100 / 0.994)).toFixed(2) * 1
       }
     },
     methods: {
@@ -133,17 +163,21 @@
           this.confirmPayment()
         }
       },
+      upgradeSvip() {
+        this.$router.push({path: '/user/vip-member/order'})
+      },
       confirmRecharge() {
         const _this = this;
         _this.payLoading = true;
         if (_this.payType === 'ali') {
           const newWindowUrl = window.open('about:blank');
           api.balanceOrderCreate({
-            feeToAccount: (_this.payMoney * 100).toFixed() * 1,
-            finalFee: (_this.payMoney * 100 * 1.006).toFixed() * 1,
+            feeToAccount: _this.orderMoney * 100,
+            finalFee: _this.lastPayMoney,
             orderPlatform: 'PC',
             payChannel: 1,
-            memberId: _this.memberId,
+            memberLevel: _this.memberLevel,
+            timeLevel : _this.timeLevel,
             orderType: _this.orderType
           }).then(res => {
             _this.payLoading = false;
@@ -156,8 +190,8 @@
           });
         } else {
           api.balanceOrderCreate({
-            feeToAccount: (_this.payMoney * 100).toFixed() * 1,
-            finalFee: (_this.payMoney * 100 * 1.006).toFixed() * 1,
+            feeToAccount: (_this.orderMoney * 100).toFixed() * 1,
+            finalFee: (_this.orderMoney * 100 * 1.006).toFixed() * 1,
             orderPlatform: 'PC',
             payChannel: 2
           }).then(res => {
@@ -229,7 +263,6 @@
       line-height: 24px;
       @include sc(16px, #fff);
       text-align: center;
-      margin: 28px auto 0 auto;
       @include transition;
       border-radius: 5px;
       cursor: pointer;
@@ -306,6 +339,27 @@
       margin-left: 50px;
       background-color: #3FC0C5;
       border: none
+    }
+
+    .vip-pay-btn {
+      color: #fff;
+      background-color: #24B3F1;
+      margin-left: 20px;
+      @include transition;
+      &:hover {
+        background-color: darken(#24B3F1, 10%);
+      }
+    }
+
+    .svip-upgrade {
+      border:1px solid #FFCD00;
+      color: #FF8C2B;
+      margin-left: 20px;
+      background-color: #FFFC00;
+      @include transition;
+      &:hover {
+        background-color: darken(#FFFC00, 2%);
+      }
     }
   }
 </style>

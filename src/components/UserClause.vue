@@ -91,7 +91,8 @@
     width: 754px;
     background-color: #fff;
     @include center;
-    padding: 0 16px;
+    padding: 0 16px 20px 16px;
+    border-radius: 5px;
   }
 
   .user-clause-con {

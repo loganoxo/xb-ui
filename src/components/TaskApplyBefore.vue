@@ -21,7 +21,7 @@
         <div class="left ml-10 ">
           <Upload
             class="ml-5"
-            ref="upload"
+            ref="Upload"
             :show-upload-list="false"
             :default-file-list="mainDefaultList"
             :on-remove="removeMainImage"
@@ -42,7 +42,7 @@
         <div class="left ml-20">
           <Upload
             class="ml-5"
-            ref="upload"
+            ref="Upload"
             :show-upload-list="false"
             :default-file-list="mainDefaultList"
             :on-remove="removeMainImage"
@@ -63,7 +63,7 @@
         <div class="left ml-20">
           <Upload
             class="ml-5"
-            ref="upload"
+            ref="Upload"
             :show-upload-list="false"
             :default-file-list="mainDefaultList"
             :on-remove="removeMainImage"
@@ -84,7 +84,7 @@
         <div class="left ml-20">
           <Upload
             class="ml-5"
-            ref="upload"
+            ref="Upload"
             :show-upload-list="false"
             :default-file-list="mainDefaultList"
             :on-remove="removeMainImage"
@@ -105,7 +105,7 @@
         <div class="left ml-20">
           <Upload
             class="ml-5"
-            ref="upload"
+            ref="Upload"
             :show-upload-list="false"
             :default-file-list="mainDefaultList"
             :on-remove="removeMainImage"
@@ -128,7 +128,7 @@
         <div class="left ml-10">
           <Upload
             class="ml-5"
-            ref="upload"
+            ref="Upload"
             :show-upload-list="false"
             :default-file-list="mainDefaultList"
             :on-remove="removeMainImage"
@@ -149,7 +149,7 @@
         <div class="left ml-35">
           <Upload
             class="ml-5"
-            ref="upload"
+            ref="Upload"
             :show-upload-list="false"
             :default-file-list="mainDefaultList"
             :on-remove="removeMainImage"
@@ -170,7 +170,7 @@
         <div class="left ml-35">
           <Upload
             class="ml-5"
-            ref="upload"
+            ref="Upload"
             :show-upload-list="false"
             :default-file-list="mainDefaultList"
             :on-remove="removeMainImage"
@@ -191,7 +191,7 @@
         <div class="left ml-35">
           <Upload
             class="ml-5"
-            ref="upload"
+            ref="Upload"
             :show-upload-list="false"
             :default-file-list="mainDefaultList"
             :on-remove="removeMainImage"
@@ -214,7 +214,7 @@
         <div class="left ml-10">
           <Upload
             class="ml-5"
-            ref="upload"
+            ref="Upload"
             :show-upload-list="false"
             :default-file-list="mainDefaultList"
             :on-remove="removeMainImage"
@@ -235,7 +235,7 @@
         <div class="left ml-35">
           <Upload
             class="ml-5"
-            ref="upload"
+            ref="Upload"
             :show-upload-list="false"
             :default-file-list="mainDefaultList"
             :on-remove="removeMainImage"
@@ -256,7 +256,7 @@
         <div class="left ml-35">
           <Upload
             class="ml-5"
-            ref="upload"
+            ref="Upload"
             :show-upload-list="false"
             :default-file-list="mainDefaultList"
             :on-remove="removeMainImage"
@@ -279,7 +279,7 @@
         <div class="left ml-10">
           <Upload
             class="ml-5"
-            ref="upload"
+            ref="Upload"
             :show-upload-list="false"
             :default-file-list="mainDefaultList"
             :on-remove="removeMainImage"
@@ -300,7 +300,7 @@
         <div class="left ml-35">
           <Upload
             class="ml-5"
-            ref="upload"
+            ref="Upload"
             :show-upload-list="false"
             :default-file-list="mainDefaultList"
             :on-remove="removeMainImage"
@@ -321,7 +321,7 @@
         <div class="left ml-35">
           <Upload
             class="ml-5"
-            ref="upload"
+            ref="Upload"
             :show-upload-list="false"
             :default-file-list="mainDefaultList"
             :on-remove="removeMainImage"
@@ -411,7 +411,7 @@
 </template>
 <script>
   import {Button, Modal, Radio, Icon} from 'iview'
-  import Upload from '@/components/upload'
+  import Upload from '@/components/Upload'
   import PlaceOrderStep from '@/components/PlaceOrderStep'
   import {TaskErrorStatusList} from '@/config/utils'
   import {aliCallbackImgUrl} from '@/config/env'
