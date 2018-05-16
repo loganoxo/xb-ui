@@ -25,7 +25,7 @@
           </p>
           <div>
           <span v-if="getUserInfoRole === 1 && !isMember">
-            <span>非会员</span>
+            <span>免费会员</span>
             <router-link to="/user/vip-member/order">马上开通会员</router-link>
           </span>
             <span v-if="getUserInfoRole === 1 && isMember" class="mr-5">

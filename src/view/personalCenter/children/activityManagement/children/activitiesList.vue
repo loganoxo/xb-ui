@@ -117,12 +117,11 @@
           </td>
           <td v-if="item.taskStatus === 'waiting_pay'">
             <p class="del-edit">
-              <span class="mr-10" @click="editTask(item.id,item.taskStatus)">编辑</span>
+              <span class="mr-10" @click="editTask(item.id, item.createTime)">编辑</span>
               <span @click="closeTask(item.id)">关闭</span>
             </p>
             <p class="bond mt-6">
-              <span
-                @click="depositMoney((item.totalMarginNeed + item.promotionExpensesNeed),item.id,item.marginPaid + item.promotionExpensesPaid)">存担保金</span>
+              <span @click="depositMoney((item.totalMarginNeed + item.promotionExpensesNeed),item.id,item.marginPaid + item.promotionExpensesPaid, item.createTime)">存担保金</span>
             </p>
             <p class="copy mt-6">
               <span @click="copyTask(item.id)">复制活动</span>
@@ -130,7 +129,7 @@
           </td>
           <td v-else-if="item.taskStatus === 'waiting_modify'">
             <p class="del-edit">
-              <span class="mr-10" @click="editTask(item.id)">编辑</span>
+              <span class="mr-10" @click="editTask(item.id, item.createTime)">编辑</span>
               <span @click="closeTask(item.id)">关闭</span>
             </p>
             <p class="copy mt-6">
@@ -220,7 +219,7 @@
       <Page :total="totalElements" :page-size="pageSize" :current="pageIndex" @on-change="pageChange"></Page>
     </div>
     <!--关闭任务弹框-->
-    <Modal v-model="closeModal" width="360">
+    <modal v-model="closeModal" width="360">
       <p slot="header" class="main-color text-ct">
         <Icon type="information-circled"></Icon>
         <span>关闭确认</span>
@@ -233,9 +232,9 @@
       <div slot="footer">
         <iButton type="error" size="large" long :loading="modalLoading" @click="confirmClose">关闭</iButton>
       </div>
-    </Modal>
+    </modal>
     <!--删除任务弹框-->
-    <Modal v-model="deleteModal" width="360">
+    <modal v-model="deleteModal" width="360">
       <p slot="header" class="text-ct main-color">
         <Icon type="information-circled"></Icon>
         <span>删除确认</span>
@@ -246,9 +245,9 @@
       <div slot="footer">
         <iButton type="error" size="large" long :loading="modalLoading" @click="confirmDelete">删除</iButton>
       </div>
-    </Modal>
+    </modal>
     <!--结算成功弹框-直接结算-->
-    <Modal v-model="directSettlementSuccess" width="360">
+    <modal v-model="directSettlementSuccess" width="360">
       <p slot="header" class="main-color text-ct">
         <Icon type="checkmark-circled"></Icon>
         <span>结算成功</span>
@@ -260,9 +259,9 @@
         <iButton class="left ml-28" type="error" size="large" @click="lookBill">查看活动账单</iButton>
         <iButton class="right mr-30" type="error" size="large" @click="directSettlementSuccess = false">我知道了</iButton>
       </div>
-    </Modal>
+    </modal>
     <!--结算成功弹框-结算有返款-->
-    <Modal v-model="auditSettlementSuccess" width="360">
+    <modal v-model="auditSettlementSuccess" width="360">
       <p slot="header" class="main-color text-ct">
         <Icon type="checkmark-circled"></Icon>
         <span>结算成功</span>
@@ -274,11 +273,11 @@
       <div slot="footer" class="text-ct">
         <iButton type="error" size="large" long @click="auditSettlementSuccess = false">确认</iButton>
       </div>
-    </Modal>
+    </modal>
     <!--结算详情弹框-->
-    <Modal v-model="billDetailsModel" width="420">
-      <p slot="header" style="color:#f9284f;text-align:center">
-        <span>结算详情</span>
+    <modal v-model="billDetailsModel" width="420">
+      <p slot="header" class="text-ct">
+        <span class="main-color">结算详情</span>
       </p>
       <div>
         <p>活动标题：{{taskSettlementDetailInfo.storeName}}</p>
@@ -288,7 +287,20 @@
       <div slot="footer" class="text-ct">
         <iButton type="error" size="large" long @click="billDetailsModel = false">确认</iButton>
       </div>
-    </Modal>
+    </modal>
+    <!--活动失效提示弹框-->
+    <modal v-model="isTaskOverdueModel" width="420" :mask-closable="false" :closable="false">
+      <p slot="header" class="text-ct">
+        <Icon color="#f9284f" type="information-circled"></Icon>
+        <span class="main-color">活动失效</span>
+      </p>
+      <div class="text-ct">
+        <p class="fs-14">该活动已失效，请关闭！</p>
+      </div>
+      <div slot="footer" class="text-ct">
+        <iButton type="error" size="large" long :loading="taskOverdueLoading" @click="isTaskOverdueClose">关闭活动</iButton>
+      </div>
+    </modal>
     <!--支付保证金弹框-->
     <div class="pay-model" v-if="showPayModel">
       <PayModel ref="payModelRef" :orderMoney="needPayMoney" @confirmPayment="confirmPayment" :isShowUpgradeVIP="true" :isBalance="isBalance">
@@ -359,6 +371,8 @@
         title: null,
         taskNumber: null,
         activityCategory: null,
+        isTaskOverdueModel: false,
+        taskOverdueLoading: false,
         activityTypeList: [
           {
             value: '',
@@ -368,22 +382,10 @@
             value: 'free_get',
             label: '免费领'
           },
-          /*{
-            value: 'pinkage_for_10',
-            label: '10元包邮'
-          },*/
           {
             value: 'present_get',
             label: '体验专区'
           },
-          /*{
-            value: 'price_low',
-            label: '白菜价'
-          },
-          {
-            value: '"goods_clearance',
-            label: '清仓断码'
-          },*/
         ],
         sortList: {
           select: 'createTime',
@@ -406,8 +408,6 @@
           ]
         }
       }
-    },
-    mounted() {
     },
     created() {
       let _this = this;
@@ -444,15 +444,19 @@
       },
     },
     methods: {
-      editTask(id) {
-        this.$router.push({name: 'TaskReleaseProcess', query: {q: encryption(id)}})
+      editTask(id, createTime) {
+        if(createTime <= 1526457600000) {
+          this.isTaskOverdueModel = true;
+          this.taskId = id;
+        } else {
+          this.$router.push({name: 'TaskReleaseProcess', query: {q: encryption(id)}})
+        }
       },
       copyTask(id) {
         this.$router.push({name: 'TaskReleaseProcess', query: {q: encryption(id), type: 'copy'}})
       },
       lookTaskDetail(id) {
         this.$router.push({name: 'ActivityDetail', query: {q: encryption(id)}})
-        // window.open('/user/activity-management/detail-log/detail?q=' + encryption(id));
       },
       approveShowker(id, time) {
         this.$router.push({name: 'ApproveShowker', query: {q: encryption(id), endTime: time}})
@@ -537,6 +541,7 @@
       confirmClose() {
         let _this = this;
         _this.modalLoading = true;
+        _this.taskOverdueLoading = true;
         api.closeTask({
           taskId: _this.taskId
         }).then(res => {
@@ -550,7 +555,9 @@
             _this.$Message.error(res.msg);
           }
           _this.closeModal = false;
+          _this.isTaskOverdueModel = false;
           _this.modalLoading = false;
+          _this.taskOverdueLoading = false;
         })
       },
       confirmDelete() {
@@ -623,12 +630,20 @@
         _this.pageIndex = 1;
         _this.getTaskList();
       },
-      depositMoney(money, id, deposited) {
+      isTaskOverdueClose() {
+        this.confirmClose()
+      },
+      depositMoney(money, id, deposited, createTime) {
         let _this = this;
-        _this.needDepositMoney = money / 100 || 0;
-        _this.hasDeposited = deposited / 100 || 0;
-        _this.taskPayId = id;
-        _this.showPayModel = true;
+        if(createTime <= 1526457600000) {
+          _this.isTaskOverdueModel = true;
+          _this.taskId = id;
+        } else {
+          _this.needDepositMoney = money / 100 || 0;
+          _this.hasDeposited = deposited / 100 || 0;
+          _this.taskPayId = id;
+          _this.showPayModel = true;
+        }
       },
       confirmPayment(pwd) {
         let _this = this;
