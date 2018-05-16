@@ -45,8 +45,8 @@
 <style lang="scss">
   @import 'src/css/mixin';
 
-  .task-management{
-    .prompt{
+  .task-management {
+    .prompt {
       height: 36px;
       line-height: 36px;
       border: 1px solid #FFB9B8;
@@ -56,11 +56,11 @@
       color: red;
       font-size: 14px;
     }
-    .ww-active{
+    .ww-active {
       background-color: $mainColor;
       color: #fff;
     }
-    .readBackground{
+    .readBackground {
       background-color: #FDF2E9;
     }
     .task-management-title {
@@ -103,11 +103,12 @@
         color: $mainColor;
       }
     }
-    .search-list{
+    .search-list {
       border-top: 1px solid #F7F7F7;
+      border-bottom: 1px solid #F7F7F7;
       padding: 20px 0;
     }
-    .collapse-header{
+    .collapse-header {
       line-height: 62px;
       padding: 10px 0;
       color: #666;
@@ -121,7 +122,7 @@
         transition: transform .2s ease-in-out ;
       }
     }
-    .noBorderRadius{
+    .noBorderRadius {
       border-radius: 5px 5px 0 0;
     }
     .manage-img {
@@ -130,61 +131,61 @@
       float: left;
       margin-left: 20px;
       position: relative;
-      img{
+      img {
         width: 100%;
         height: 100%;
       }
     }
-    .manage-text{
+    .manage-text {
       float: left;
       margin-left: 10px;
-      p{
+      p {
         height: 21px;
         line-height: 21px;
       }
     }
-    .new-add-wait{
+    .new-add-wait {
       float: right;
       height: 42px;
       line-height: 42px;
       color: $mainColor;
       margin-right: 28px;
     }
-    .waiting-task-number{
+    .waiting-task-number {
       float: right;
       height: 42px;
       line-height: 42px;
       color: #666;
       margin-right: 20px;
-      p.task-wait-fail{
+      p.task-wait-fail {
         height: 21px;
         line-height: 21px;
         text-align: right;
       }
-      p.task-pass{
+      p.task-pass {
         text-align: right;
         width: 400px;
       }
-      p.task-pass.lineHeight{
+      p.task-pass.line-height {
         line-height: 21px;
       }
     }
-    .task-table table{
+    .task-table table {
       width: 100%;
       border-left: 1px solid #dddee1;
       border-right: 1px solid #dddee1;
       border-bottom: 1px solid #dddee1;
     }
     .task-table table td,
-    .task-table table th{
+    .task-table table th {
       border-right: 1px solid #e9eaec;
       text-align: center;
     }
-    .task-table table td{
+    .task-table table td {
       border-top: 1px solid #e9eaec;
     }
     .task-table table td:last-child,
-    .task-table table th:last-child{
+    .task-table table th:last-child {
       border-right: 0;
     }
     .task-table table th {
@@ -219,7 +220,7 @@
         color: darken(#2b85e4, 10%);
       }
     }
-    .task-table table td span.look_record{
+    .task-table table td span.look_record {
       color: #2b85e4;
       &:hover {
         color: darken(#2b85e4, 10%);
@@ -273,11 +274,11 @@
       background-color: #FFF6F3;
       font-size: 14px;
     }
-    .carousel{
+    .carousel {
       width: 800px;
       height: 800px;
     }
-    .order-info-screenshot{
+    .order-info-screenshot {
       display: inline-block;
       width: 60px;
       height: 60px;
@@ -293,7 +294,7 @@
       &:hover .order-info-screenshot-cover {
         display: block;
       }
-      img{
+      img {
         width: 100%;
         height: 100%;
       }
@@ -314,13 +315,13 @@
       cursor: pointer;
       margin: 0 2px;
     }
-    .parting-line{
+    .parting-line {
       border-left: 1px dashed #999;
       height: 60px;
       margin-top: 28px;
       margin-left: 14px;
     }
-    .order-info-con{
+    .order-info-con {
       border: 1px dashed #999;
       border-radius: 5px;
       padding: 10px;

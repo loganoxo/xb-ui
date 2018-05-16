@@ -45,6 +45,10 @@
       <iInput v-model="orderNum" style="width: 160px;margin-right: 8px;"></iInput>
       <iButton type="primary" :loading="searchLoading" @click="searchPassesTask">搜索</iButton>
     </div>
+    <div class="text-align-rt mt-10">
+      <i-button size="large" class="mr-10" :disabled="batchPassCount <= 0" @click="batchPassModel = true"><Icon type="android-done-all"></Icon>批量通过所有待审核订单</i-button>
+      <i-button size="large" @click="getExportOrderNumberAll"><Icon type="ios-download-outline"></Icon> 批量导出以下所有订单号</i-button>
+    </div>
     <div class="mt-12" v-for="(item,index) in taskPassAuditList" :key="item.id" v-if="taskPassAuditList.length > 0">
       <div class="collapse-header clear" @click="collapseToggle(item.id,index)" :class="{noBorderRadius:selectId}">
         <div class="manage-img inline-block">
@@ -63,7 +67,7 @@
         <Icon :class="{showTableStyles:selectId === item.id}" class="right mr-10 mt-15" type="arrow-right-b"></Icon>
         <div class="waiting-task-number">
           <p class="task-pass"
-             :class="{lineHeight:showkerTaskStatusList.length === 0 || showkerTaskStatusList.length === 8 || showkerTaskStatusList.length > 4}">
+             :class="{'line-height':showkerTaskStatusList.length === 0 || showkerTaskStatusList.length === 8 || showkerTaskStatusList.length > 4}">
             <span v-show="showkerTaskStatusList.length === 0 || showkerTaskStatusList.length === 8">全部<span
               class="main-color">({{item.allTaskNum || 0}})</span></span>
             <span v-show="showkerTaskStatusList.length === 0 || oneOf('pass_and_unclaimed',showkerTaskStatusList)"
@@ -269,13 +273,13 @@
       <img :src="checkScreenshotSrc + '!orgi75'" style="width: 100%">
     </modal>
     <!--评价秀客弹窗-->
-    <Modal v-model="evaluateShowker" class="evaluate-showker-pop">
+    <modal v-model="evaluateShowker" class="evaluate-showker-pop">
       <div class="pl-20 pr-20 mt-30">
         <div class="cl000">请对拿手<span class="main-color">{{evaluateShowkerAlitmAccount}}</span>进行评价<span class="cl666">(你的评价将决定该拿手的整体评分)：</span>
         </div>
         <div class="pt-10 pb-10 evaluate-showker-pop-box mt-20">
           <p class="title">
-            <Tooltip content="你感该拿手的淘号质量如何？" placement="top">
+            <Tooltip content="你感觉该拿手的淘号质量如何？" placement="top">
               <Icon type="help-circled"></Icon>
             </Tooltip>
             <span class="cl000">买号质量：</span>
@@ -323,10 +327,22 @@
         </div>
       </div>
       <div slot="footer" class="text-ct pb-20">
-        <iButton class="pl-20 pr-20 btn" type="error" size="large" :loading="loading" @click="evaluateShowkerFun">确定提交
-        </iButton>
+        <i-button class="pl-20 pr-20 btn" type="error" size="large" :loading="loading" @click="evaluateShowkerFun">确定提交</i-button>
       </div>
-    </Modal>
+    </modal>
+    <modal v-model="batchPassModel" :closable="false" :mask-closable="false">
+      <div v-show="batchPassStep === 'ready'" class="mt-20 text-ct fs-14">共有"<span class="main-color">订单号待审核</span>"任务<span class="main-color"> {{batchPassCount}} </span>条，是否对此进行批量通过操作？</div>
+      <div v-show="batchPassStep === 'start'" class="mt-20 text-ct">
+        <div class="fs-14">正在处理第 1 条，共 {{batchPassCount}} 条...</div>
+        <i-progress :progressBarWidth="400" :progressWidth="progressWidth" class="mt-10"></i-progress>
+      </div>
+      <div v-show="batchPassStep === 'end'" class="text-ct fs-14 mt-20"><icon color="#2DAB2D" class="mr-5" type="checkmark-circled"></icon>恭喜，已成功处理 36 条任务，失败 0 条</div>
+      <div slot="footer" class="text-ct">
+        <i-button type="error" size="large" class="mr-60 pl-20 pr-20" v-show="batchPassStep === 'ready'" @click="startBatchPass">执行批量通过</i-button>
+        <i-button class="ml-35 pl-40 pr-40" size="large" @click="batchPassModel = false" v-show="batchPassStep === 'ready'">取消</i-button>
+        <i-button type="error" size="large" class="pl-60 pr-60" @click="endBatchPass" v-show="batchPassStep === 'end'">确定</i-button>
+      </div>
+    </modal>
   </div>
 
 </template>
@@ -334,13 +350,16 @@
 <script>
   import {Checkbox, Page, Icon, Button, Modal, Select, Option, Input, Radio, Tooltip} from 'iview'
   import CollapseTransition from 'iview/src/components/base/collapse-transition'
-  import api from '@/config/apiConfig'
-  import {TaskErrorStatusList, encryption} from '@/config/utils'
+  import Csv from '@/csv/csv';
+  import ExportCsv from '@/csv/export-csv';
+  import Progress from '@/components/Progress'
   import TimeDown from '@/components/TimeDown'
   import PayModel from '@/components/PayModel'
+  import api from '@/config/apiConfig'
+  import {TaskErrorStatusList, encryption} from '@/config/utils'
 
   export default {
-    name: 'TaskFailAudit',
+    name: 'task-fail-audit',
     components: {
       Icon: Icon,
       Checkbox: Checkbox,
@@ -356,6 +375,7 @@
       RadioGroup: Radio.Group,
       TimeDown: TimeDown,
       PayModel: PayModel,
+      iProgress: Progress,
       CollapseTransition: CollapseTransition,
     },
     data() {
@@ -397,9 +417,11 @@
         taskTotalElements: 0,
         taskPageIndex: 1,
         taskPageSize: 5,
+        batchPassModel: false,
+        batchPassStep: 'ready',
+        progressWidth: 0,
+        batchPassCount: 0,
       }
-    },
-    mounted() {
     },
     created() {
       let _this = this;
@@ -415,6 +437,7 @@
       } else {
         this.passesTaskList();
       }
+      _this.readyBatchPass();
     },
     computed: {
       getOderPrice() {
@@ -467,13 +490,13 @@
           showkerTaskId: self.showkerReportInfo.showkerTaskId
         }).then(res => {
           if (res.status) {
-            self.evaluateShowker = false;
             self.$Message.success('评价成功！');
             self.loading = false;
             self.passesShowkerTask(self.showkerReportInfo.task.id, self.operateIndex)
           } else {
             self.$Message.error(res.msg)
           }
+          self.evaluateShowker = false;
         })
       },
       oneOf(value, validList) {
@@ -707,6 +730,56 @@
         self.taskPageIndex = data;
         self.passesShowkerTask(self.operateTaskId, self.operateIndex, self.taskPageIndex);
       },
+      readyBatchPass() {
+        const _this = this;
+        api.getMerchantCountPassOrder().then(res => {
+            if(res.status) {
+              _this.batchPassCount = res.data
+            } else {
+              _this.$Message.error(res.msg)
+            }
+        })
+      },
+      startBatchPass() {
+        const _this = this;
+        _this.batchPassStep = 'start';
+        let num = 400 / _this.batchPassCount;
+        const progress = setInterval(()=> {
+          if(_this.progressWidth < 400) {
+            _this.progressWidth += num
+          } else {
+            _this.progressWidth = 400;
+            clearInterval(progress)
+          }
+        }, 500);
+        api.merchantBatchPassOrder().then(res => {
+          if(res.status) {
+            _this.batchPassStep = 'end';
+          } else {
+            _this.$Message.error(res.msg);
+            _this.batchPassModel = false;
+          }
+        })
+      },
+      endBatchPass () {
+        this.batchPassModel = false;
+        this.batchPassStep = 'ready';
+      },
+      getExportOrderNumberAll() {
+        const _this = this;
+        api.getMerchantExportOrderNumber().then(res => {
+          if(res.status) {
+            let rowData = [];
+            res.data.forEach(item => {
+              rowData.push({'订单号': item})
+            });
+            const downloadData = Csv([{key: '订单号'}], rowData);
+            ExportCsv.download('2018-05-15.csv', downloadData);
+          } else {
+            _this.$Message.error(res.msg);
+          }
+        })
+      }
     }
   }
 </script>
