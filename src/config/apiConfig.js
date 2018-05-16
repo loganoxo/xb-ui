@@ -1,455 +1,455 @@
 /**
  * Created by ycb on 2017/4/26.
  */
-import {post, get} from '@/config/axiosConfig'
+import axiosConfig from '@/config/axiosConfig'
 
 export default {
   /**
    * 用户普通登录
    */
   login(params) {
-    return post("/api/login.json", params)
+    return axiosConfig.post("/api/login.json", params)
   },
 
   /**
    * 第三方平台登录
    */
   thirdPartyLogin(params) {
-    return post("/api/user/sign-in-sync.json", params)
+    return axiosConfig.post("/api/user/sign-in-sync.json", params)
   },
 
   /**
    * 用户退出登录
    */
   loggedOut() {
-    return post("/api/logged-out.json")
+    return axiosConfig.post("/api/logged-out.json")
   },
 
   /**
    * 获取短信验证码
    */
   getCode(params) {
-    return post("/api/send-verify-code.json", params)
+    return axiosConfig.post("/api/send-verify-code.json", params)
   },
 
   /**
    * 获取银行卡信息
    */
   getBankCardInformation() {
-    return post("/api/get-bank-card-information.json")
+    return axiosConfig.post("/api/get-bank-card-information.json")
   },
 
   /**
    * 获取用户截图
    */
   getUserScreenShot(params) {
-    return post("/api/get-user-screen-shot.json", params)
+    return axiosConfig.post("/api/get-user-screen-shot.json", params)
   },
 
   /**
    * 验证重置密码短信
    */
   validatePaySmscode(params) {
-    return post("/api/user/account/check-phone-message-before-reset-pwd.json", params)
+    return axiosConfig.post("/api/user/account/check-phone-message-before-reset-pwd.json", params)
   },
 
   /**
    * 通过手机短信验证码重置支付密码
    */
   modifyPayPwd(params) {
-    return post("/api/user/account/reset-pay-pwd-by-smscode.json", params)
+    return axiosConfig.post("/api/user/account/reset-pay-pwd-by-smscode.json", params)
   },
 
   /**
    * 未登录通过发送手机短信验证码重置支付密码
    */
   noLoginModifyPayPwdCode(params) {
-    return post("/api/user/account/checkApp.json", params)
+    return axiosConfig.post("/api/user/account/checkApp.json", params)
   },
 
   /**
    * 未登录通过发送手机短信验证码重置支付密码
    */
   noLoginModifyPayPwd(params) {
-    return post("/api/user/account/resetAppPwd.json", params)
+    return axiosConfig.post("/api/user/account/resetAppPwd.json", params)
   },
 
   /**
    * 通过上一次的支付密码修改支付密码
    */
   modifyDefaultPayPwd(params) {
-    return post('/api/user/account/reset-pay-pwd-by-originPwd.json', params)
+    return axiosConfig.post('/api/user/account/reset-pay-pwd-by-originPwd.json', params)
   },
 
   /**
    * 用户快速登录
    */
   checkFastSignIn(params) {
-    return post("/api/check-fast-sign-in.json", params)
+    return axiosConfig.post("/api/check-fast-sign-in.json", params)
   },
 
   /**
    * QQ快速登录
    */
   QQLoginFunc(params) {
-    return post("/api/user/qq/sign-in.json", params)
+    return axiosConfig.post("/api/user/qq/sign-in.json", params)
   },
 
   /**
    * 用户注册
    */
   register(params) {
-    return post("/api/sign-up.json", params)
+    return axiosConfig.post("/api/sign-up.json", params)
   },
 
   /**
    * qq快速注册
    */
   qqRegister(params) {
-    return post("/api/user/qq/data-complete.json", params)
+    return axiosConfig.post("/api/user/qq/data-complete.json", params)
   },
 
   /**
    *获取用户交易列表
    */
   getTradList(params) {
-    return post("/api/get-trad-list.json", params)
+    return axiosConfig.post("/api/get-trad-list.json", params)
   },
 
   /**
    * 添加银行卡
    */
   addBankCardInfo(params) {
-    return post("/api/add-bank-card.json", params)
+    return axiosConfig.post("/api/add-bank-card.json", params)
   },
 
   /**
    * 申请提现
    */
   applyGetoutMoney(params) {
-    return post("/api/with-draw-apply.json", params)
+    return axiosConfig.post("/api/with-draw-apply.json", params)
   },
 
   /**
    * 显示提现列表
    */
   getWithDrawList(params) {
-    return post("/api/get-with-draw-list.json", params)
+    return axiosConfig.post("/api/get-with-draw-list.json", params)
   },
 
   /**
    * 获取交易明细列表
    */
   getTradListDetails(params) {
-    return post("/api/get-trad-detail-list.json", params)
+    return axiosConfig.post("/api/get-trad-detail-list.json", params)
   },
 
   /**
    * 获取某个活动的任务担保金返款列表
    */
   getDepositReturnList(params) {
-    return post("/api/get-deposit-return-list.json", params)
+    return axiosConfig.post("/api/get-deposit-return-list.json", params)
   },
 
   /**
    * 通过支付宝充值并支付金额
    */
   balanceOrderCreate(params) {
-    return post("/api/balance-order-create.json", params)
+    return axiosConfig.post("/api/balance-order-create.json", params)
   },
 
   /**
    * 通过上一次的密码修改支付密码
    */
   findPwdOrigin(params) {
-    return post("/api/find-pwd-by-origin.json", params)
+    return axiosConfig.post("/api/find-pwd-by-origin.json", params)
   },
 
   /**
    * 通过上一次的登录密码修改登录密码
    */
   modifyDefaultPwd(params) {
-    return post('/api/user/account/reset-login-pwd-by-originPwd.json', params)
+    return axiosConfig.post('/api/user/account/reset-login-pwd-by-originPwd.json', params)
   },
 
   /**
    * 通过手机短信验证码重置登录密码
    */
   modifyTrendsPwd(params) {
-    return post('/api/user/account/reset-login-pwd-by-smscode.json', params)
+    return axiosConfig.post('/api/user/account/reset-login-pwd-by-smscode.json', params)
   },
 
   /**
    * 获取用户、账户、旺旺账号
    */
   getUserAccount(params) {
-    return post("/api/get-user-account.json", params)
+    return axiosConfig.post("/api/get-user-account.json", params)
   },
 
   /**
    * 首页导航列表
    */
   getNavList() {
-    return post("/api/task/item/catalog/main.json")
+    return axiosConfig.post("/api/task/item/catalog/main.json")
   },
 
   /**
    * 首页活动任务展示接口
    */
   getHomeTaskList() {
-    return post("/api/task/index/newest.json")
+    return axiosConfig.post("/api/task/index/newest.json")
   },
 
   /**
    * 首页推荐
    */
   getIndexRecommend(params) {
-    return post("/api/task/index/recommend.json", params)
+    return axiosConfig.post("/api/task/index/recommend.json", params)
   },
 
   /**
    * 首页左上角类表接口
    */
   getHomeTaskTopLeftList() {
-    return post("/api/task/showker-newest.json")
+    return axiosConfig.post("/api/task/showker-newest.json")
   },
 
   /**
    * 分类页面请求
    */
   getTaskCategory(params) {
-    return post("/api/task/get/item/catalog/parent.json", params)
+    return axiosConfig.post("/api/task/get/item/catalog/parent.json", params)
   },
 
   /**
    * 分类页面下的小类
    */
   getTaskCategoryList(params) {
-    return post('/api/task/item/catalog/child.json', params)
+    return axiosConfig.post('/api/task/item/catalog/child.json', params)
   },
 
   /**
    * 分类页面任务详情请求
    */
   getSearchTask(params) {
-    return post("/api/search/task/s.json", params)
+    return axiosConfig.post("/api/search/task/s.json", params)
   },
 
   /**
    * 分类页面历史活动任务详情请求
    */
   getSearchHistoryTask(params) {
-    return post('/api/search/task/his.json', params)
+    return axiosConfig.post('/api/search/task/his.json', params)
   },
 
   /**
    * 详情页页面
    */
   getTaskDetails(params) {
-    return post('/api/task/detail.json', params)
+    return axiosConfig.post('/api/task/detail.json', params)
   },
 
   /**
    * 用户任务发布
    */
   taskCreate(params) {
-    return post("/api/task-create.json", params)
+    return axiosConfig.post("/api/task-create.json", params)
   },
 
   /**
    * 获取商品类型
    */
   itemCatalog() {
-    return post("/api/item-catalog.json")
+    return axiosConfig.post("/api/item-catalog.json")
   },
 
   /**
    * 用户余额支付
    */
   payByBalance(params) {
-    return post("/api/pay-by-balance.json", params)
+    return axiosConfig.post("/api/pay-by-balance.json", params)
   },
 
   /**
    * 实名认证初始化
    */
   verifiedInit() {
-    return post("/api/identity-index.json")
+    return axiosConfig.post("/api/identity-index.json")
   },
 
   /**
    * 实名认证提交
    */
   verifiedSubmit(params) {
-    return post("/api/user/identity/saveidentity.json", params)
+    return axiosConfig.post("/api/user/identity/saveidentity.json", params)
   },
 
   /**
    * 绑定旺旺号
    */
   wwBind(params) {
-    return post("/api/alitm-bunding.json", params)
+    return axiosConfig.post("/api/alitm-bunding.json", params)
   },
 
   /**
    * 获取旺旺信息列表
    */
   wwBindList() {
-    return post("/api/get-alitm-info-list.json")
+    return axiosConfig.post("/api/get-alitm-info-list.json")
   },
 
   /**
    * 解绑旺旺号
    */
   wwUnbind(params) {
-    return post("/api/alitm-unBunding.json", params)
+    return axiosConfig.post("/api/alitm-unBunding.json", params)
   },
 
   /**
    * 修改旺旺号
    */
   wwModify(params) {
-    return post("/api/alitm/resubmit.json", params)
+    return axiosConfig.post("/api/alitm/resubmit.json", params)
   },
 
   /**
    * 获取活动活动管理列表
    */
   getTaskList(params) {
-    return post("/api/task-list.json", params)
+    return axiosConfig.post("/api/task-list.json", params)
   },
 
   /**
    * 商家活动活动管理任务关闭
    */
   closeTask(params) {
-    return post("/api/close-task.json", params)
+    return axiosConfig.post("/api/close-task.json", params)
   },
 
   /**
    * 商家活动活动管理任务删除
    */
   deleteTask(params) {
-    return post("/api/delete-task.json", params)
+    return axiosConfig.post("/api/delete-task.json", params)
   },
 
   /**
    * 商家申请任务结算
    */
   settlementTask(params) {
-    return post("/api/task-settlement.json", params)
+    return axiosConfig.post("/api/task-settlement.json", params)
   },
 
   /**
    * 判断商家是否答题
    */
   checkSellerTest() {
-    return post('/api/user/quiz/check.json',)
+    return axiosConfig.post('/api/user/quiz/check.json',)
   },
 
   /**
    * 赠送vip
    * **/
   giveSellerVip() {
-    return post('/api/user/quiz/done.json',)
+    return axiosConfig.post('/api/user/quiz/done.json',)
   },
 
   /**
    * 任务数据获取
    */
   getTaskInfo(params) {
-    return post("/api/get-task.json", params)
+    return axiosConfig.post("/api/get-task.json", params)
   },
 
   /**
    * 商家获取已申请任务的拿手列表
    */
   getTaskApplyList(params) {
-    return post("/api/get-task-apply-list.json", params)
+    return axiosConfig.post("/api/get-task-apply-list.json", params)
   },
 
   /**
    * 商家审核拿手是否通过
    */
   setTaskShowkerAudit(params) {
-    return post("/api/set-task-showker-audit.json", params)
+    return axiosConfig.post("/api/set-task-showker-audit.json", params)
   },
 
   /**
    * 商家审核拿手订单号
    */
   orderNumberAudit(params) {
-    return post("/api/order-number-audit.json", params)
+    return axiosConfig.post("/api/order-number-audit.json", params)
   },
 
   /**
    * 商家获取拿手订单详情
    */
   orderNumberInfo(params) {
-    return post("/api/order-number-info.json", params)
+    return axiosConfig.post("/api/order-number-info.json", params)
   },
 
   /**
    * 商家对任务补充担保金
    */
   depositSupplement(params) {
-    return post("/api/deposit-supplement.json", params)
+    return axiosConfig.post("/api/deposit-supplement.json", params)
   },
 
   /**
    * 商家审核买家秀
    */
   taskReportAudit(params) {
-    return post("/api/task-report-audit.json", params)
+    return axiosConfig.post("/api/task-report-audit.json", params)
   },
 
   /**
    * 获取会员活动信息
    */
   getUserMemberAll() {
-    return post("/api/get-user-member-all.json")
+    return axiosConfig.post("/api/get-user-member-all.json")
   },
 
   /**
    * 获取所有会员版本周期列表
    */
   getMemberVersionPeriodList() {
-    return post("/api/get-member-version-period-list.json")
+    return axiosConfig.post("/api/get-member-version-period-list.json")
   },
 
   /**
    * 获取当前会员版本折扣
    */
   getMemberSurplusFee() {
-    return post("/api/get-member-surplus-fee.json")
+    return axiosConfig.post("/api/get-member-surplus-fee.json")
   },
 
   /**
    * 获取会员等级详细信息
    */
   getUserMemberLevelInfo(params) {
-    return post("/api/get-user-member-level-info.json", params)
+    return axiosConfig.post("/api/get-user-member-level-info.json", params)
   },
 
   /**
    * 获取会员版本说明信息
    */
   getMemberInstructionsInfo() {
-    return post("/api/get-member-instructions-info.json")
+    return axiosConfig.post("/api/get-member-instructions-info.json")
   },
 
   /**
    * 判断是否可以发布活动
    */
   checkMemberForTask() {
-    return post("/api/get-check-Member-for-task.json")
+    return axiosConfig.post("/api/get-check-Member-for-task.json")
   },
 
   /**
    * 通过账户余额购买会员
    */
   memberPurchase(params) {
-    return post("/api/user-member-purchase.json", params)
+    return axiosConfig.post("/api/user-member-purchase.json", params)
   },
 
   /**
@@ -457,7 +457,7 @@ export default {
    * 待审核和未通过的
    */
   showkerApplyList(params) {
-    return post("/api/showker-apply-list.json", params)
+    return axiosConfig.post("/api/showker-apply-list.json", params)
   },
 
   /**
@@ -465,84 +465,84 @@ export default {
    * 审核通过的
    */
   showkerSuccessList(params) {
-    return post("/api/showker-success-list.json", params)
+    return axiosConfig.post("/api/showker-success-list.json", params)
   },
 
   /**
    * 拿手终止活动（针对申请成功的任务）
    */
   showkerTrialEed(params) {
-    return post("/api/showker-trial-end.json", params)
+    return axiosConfig.post("/api/showker-trial-end.json", params)
   },
 
   /**
    * 拿手终止活动（针对申请还没有审核结果的任务）
    */
   showkerApplyEed(params) {
-    return post("/api/showker-apply-end.json", params)
+    return axiosConfig.post("/api/showker-apply-end.json", params)
   },
 
   /**
    * 拿手删除未审核通过的记录
    */
   applyDelete(params) {
-    return post("/api/showker-apply-delete.json", params)
+    return axiosConfig.post("/api/showker-apply-delete.json", params)
   },
 
   /**
    * 拿手去下单
    */
   showkerToProcessOrder(params) {
-    return post("/api/showker-to-process-order.json", params)
+    return axiosConfig.post("/api/showker-to-process-order.json", params)
   },
 
   /**
    * 拿手保存订单号
    */
   showkerOrderSave(params) {
-    return post("/api/showker-order-save.json", params)
+    return axiosConfig.post("/api/showker-order-save.json", params)
   },
 
   /**
    * 拿手保存买家秀
    */
   showkerSaveReport(params) {
-    return post("/api/showker-save-report.json", params)
+    return axiosConfig.post("/api/showker-save-report.json", params)
   },
 
   /**
    *详情页拿手报告列表
    */
   getDetailsShowkerList(params) {
-    return post("/api/task/trial/report.json", params)
+    return axiosConfig.post("/api/task/trial/report.json", params)
   },
 
   /**
    *详情页已审核拿手列表
    */
   getDetailsSuccessShowkerList(params) {
-    return post("/api/task/success.json", params)
+    return axiosConfig.post("/api/task/success.json", params)
   },
 
   /**
    * 拿手修改买家秀
    */
   showkerModifyReport(params) {
-    return post("/api/showker-modify-report.json", params)
+    return axiosConfig.post("/api/showker-modify-report.json", params)
   },
 
   /**
    * 拿手的买家秀（针对获取买家秀列表，分页查询）
    */
   getTrialReports(params) {
-    return post("/api/task/showker/trial/reports.json", params)
+    return axiosConfig.post("/api/task/showker/trial/reports.json", params)
   },
 
   /**
    * 拿手的活动详情（针对获取拿手活动详情）
    */
   getTrialDetail(params) {
-    return post("/api/task/showker/trial/detail.json", params)
+    return axiosConfig.post("/api/task/showker/trial/detail.json", params)
   },
 
   /**
@@ -551,441 +551,441 @@ export default {
    * 当uid为商家的uid时，获取属于该商家活动的任务
    */
   showkerTaskInfo(params) {
-    return post("/api/showker-task-info.json", params)
+    return axiosConfig.post("/api/showker-task-info.json", params)
   },
 
   /**
    * 根据拿手任务ID获取试用报告
    */
   showkerTaskReport(params) {
-    return post("/api/showker-task-report.json", params)
+    return axiosConfig.post("/api/showker-task-report.json", params)
   },
 
   /**
    * 根据试用报告ID获取试用报告
    */
   getTrialReport(params) {
-    return post("/api/trial-report.json", params)
+    return axiosConfig.post("/api/trial-report.json", params)
   },
 
   /**
    * 拿手能否申请活动
    */
   showkerCanTrial(params) {
-    return post("/api/task/showker/qualification/check.json", params)
+    return axiosConfig.post("/api/task/showker/qualification/check.json", params)
   },
 
   /**
    * 拿手申请活动任务
    */
   showkerApplySelWwId(params) {
-    return post("/api/task/showker/apply.json", params)
+    return axiosConfig.post("/api/task/showker/apply.json", params)
   },
 
   /**
    * 修改用户头像
    */
   modifyPortraitPic(params) {
-    return post("/api/user/edit-portrait-pic.json", params)
+    return axiosConfig.post("/api/user/edit-portrait-pic.json", params)
   },
 
   /**
    * 获取买家秀列表
    */
   getBuyerShowList() {
-    return post("/api/task/showker/index/report.json")
+    return axiosConfig.post("/api/task/showker/index/report.json")
   },
 
   /**
    * 点赞接口
    */
   clickPraise(params) {
-    return post("/api/task/showker/like/report.json", params)
+    return axiosConfig.post("/api/task/showker/like/report.json", params)
   },
 
   /**
    * 判断是否已经点赞接口
    */
   whetherClickPraise(params) {
-    return post("/api/task/showker/liked/report.json", params)
+    return axiosConfig.post("/api/task/showker/liked/report.json", params)
   },
 
   /**
    * 商家个人主页活动提醒
    */
   sellerPersonalTrialCount() {
-    return post("/api/task/seller-personal-trial-count.json")
+    return axiosConfig.post("/api/task/seller-personal-trial-count.json")
   },
 
   /**
    * 拿手个人主页活动提醒
    */
   showkerPersonalTrialCount(params) {
-    return post("/api/task/showker-personal-trial-count.json", params)
+    return axiosConfig.post("/api/task/showker-personal-trial-count.json", params)
   },
 
   /**
    * 商家通过买家秀并返款
    */
   showkerDepositReturn(params) {
-    return post("/api/showker-deposit-return.json", params)
+    return axiosConfig.post("/api/showker-deposit-return.json", params)
   },
 
   /**
    * 商家查看活动结算详情
    */
   taskSettlementDetail(params) {
-    return post("/api/task-settlement-detail.json", params)
+    return axiosConfig.post("/api/task-settlement-detail.json", params)
   },
 
   /**
    * 商家进入拿手任务管理页任务列表（所有待审核活动）
    */
   appliesWaitingAuditTask(params) {
-    return post("/api/applies/waiting/audit/task.json", params)
+    return axiosConfig.post("/api/applies/waiting/audit/task.json", params)
   },
 
   /**
    * 商家进入拿手任务管理页任务详情（待审核全部）
    */
   appliesWaitingAuditAll(params) {
-    return post("/api/applies/waiting/audit/all.json", params)
+    return axiosConfig.post("/api/applies/waiting/audit/all.json", params)
   },
 
   /**
    * 商家进入拿手任务管理页任务详情（所有已通过核活动）
    */
   passesTask(params) {
-    return post("/api/passes/task.json", params)
+    return axiosConfig.post("/api/passes/task.json", params)
   },
 
   /**
    * 商家进入拿手任务管理页任务列表（单号待审核数，买家秀待审核数）
    */
   passesShowkerTaskCountsInfo(params) {
-    return post("/api/passes/showker/task/counts/info.json", params)
+    return axiosConfig.post("/api/passes/showker/task/counts/info.json", params)
   },
 
   /**
    * 商家进入拿手任务管理页任务列表（单号待审核数，买家秀待审核数）
    */
   passesShowkerTask(params) {
-    return post("/api/passes/showker/task.json", params)
+    return axiosConfig.post("/api/passes/showker/task.json", params)
   },
 
   /**
    * 商家进入拿手任务管理页任务列表（所有未通过审核的活动）
    */
   appliesEndTask(params) {
-    return post("/api/applies/end/task.json", params)
+    return axiosConfig.post("/api/applies/end/task.json", params)
   },
 
   /**
    * 商家进入拿手任务管理页任务列表（所有未通过审核的任务）
    */
   appliesEndShowkerTask(params) {
-    return post("/api/applies/end/showker/task.json", params)
+    return axiosConfig.post("/api/applies/end/showker/task.json", params)
   },
 
   /**
    * 获取活动任务日志
    */
   getLogList(params) {
-    return post("/api/task-log.json", params)
+    return axiosConfig.post("/api/task-log.json", params)
   },
 
   /**
    * 商家进入拿手任务管理页任务列表（设置新增待审核为已读）
    */
   waitingAuditNewestMarkRead(params) {
-    return post("/api/applies/waiting/audit/newest/clear/one.json", params)
+    return axiosConfig.post("/api/applies/waiting/audit/newest/clear/one.json", params)
   },
 
   /**
    * 获取拿手活动进程任务日志
    */
   getShowkerLog(params) {
-    return post("/api/task-detail-log.json", params)
+    return axiosConfig.post("/api/task-detail-log.json", params)
   },
 
   /**
    * 获取推荐链接
    * */
   getMyRecommend() {
-    return post("/api/user/reward/getMyRecommend.json")
+    return axiosConfig.post("/api/user/reward/getMyRecommend.json")
   },
 
   /**
    * 获取推荐链接
    * */
   getRecommendUrl() {
-    return post("/api/recommend-code.json")
+    return axiosConfig.post("/api/recommend-code.json")
   },
 
   /**
    * 获取推荐列表
    * */
   getRecommendPage(params) {
-    return post("/api/user/reward/getRecommendPage.json", params)
+    return axiosConfig.post("/api/user/reward/getRecommendPage.json", params)
   },
 
   /**
    * 获取推荐排行版
    * */
   getRecommendRankingPage() {
-    return post("/api/user/reward/getRecommendRankList.json",)
+    return axiosConfig.post("/api/user/reward/getRecommendRankList.json",)
   },
 
   /**
    * 判断是否弹出微信弹框
    */
   checkWechartAlert() {
-    return post('/api/user/verify/check.json')
+    return axiosConfig.post('/api/user/verify/check.json')
   },
 
   /**
    * 设置微信弹框
    */
   setWechartAlert(params) {
-    return post('/api/user/verify/set.json', params)
+    return axiosConfig.post('/api/user/verify/set.json', params)
   },
 
   /**
    * 微信弹框不再提示
    */
   noWechartAlert() {
-    return post('/api/user/verify/stop.json')
+    return axiosConfig.post('/api/user/verify/stop.json')
   },
 
   /**
    * PC首页历史活动接口
    */
   getHomeHistoryList() {
-    return post('/api/task/index/history.json')
+    return axiosConfig.post('/api/task/index/history.json')
   },
 
   /**
    * 检测用户是否已关闭加群提示
    */
   detectionAddGroupTip() {
-    return post('/api/detection-add-group-tip.json')
+    return axiosConfig.post('/api/detection-add-group-tip.json')
   },
 
   /**
    * 设置用户关闭加群提示，关闭后不在显示（任务详情页面）
    */
   setAddGroupTip() {
-    return post('/api/set-add-group-tip.json')
+    return axiosConfig.post('/api/set-add-group-tip.json')
   },
 
   /**
    * 检测用户是否已关闭服务条款提示
    */
   detectionUserClauseTip() {
-    return post('/api/detection-user-clause-tip.json')
+    return axiosConfig.post('/api/detection-user-clause-tip.json')
   },
 
   /**
    * 设置用户关闭服务条款提示，关闭后不在显示
    */
   setUserClauseTip() {
-    return post('/api/set-user-clause-tip.json')
+    return axiosConfig.post('/api/set-user-clause-tip.json')
   },
 
   /**
    * 停用旺旺号
    */
   disuseWw(params) {
-    return post('/api/user/alitm/disable_alitm.json', params)
+    return axiosConfig.post('/api/user/alitm/disable_alitm.json', params)
   },
 
   /**
    * 解停用旺旺号
    */
   unDisuseWw(params) {
-    return post('/api/user/alitm/un_disable_alitm.json', params)
+    return axiosConfig.post('/api/user/alitm/un_disable_alitm.json', params)
   },
 
   /**
    * 获取买家秀排行榜列表
    */
   getShowkerReportRank() {
-    return post('/api/task/showker/getShowkerReportRank.json')
+    return axiosConfig.post('/api/task/showker/getShowkerReportRank.json')
   },
 
   /**
    * 获取真实拿手数量、拿手已发表的买家秀数量、买家达人秀列表
    */
   getBuyerShowInfo() {
-    return post('/api/get-buyerShow-info.json')
+    return axiosConfig.post('/api/get-buyerShow-info.json')
   },
 
   /**
    * 获取买家秀轮播列表
    */
   getReportRankList() {
-    return post('/api/task/showker/getReportRank25.json')
+    return axiosConfig.post('/api/task/showker/getReportRank25.json')
   },
 
   /**
    * 获取所有买家秀
    */
   getALLTrialReport(params) {
-    return post('/api/task/showker/getALLTrialReport.json', params)
+    return axiosConfig.post('/api/task/showker/getALLTrialReport.json', params)
   },
 
   /**
    * 拿手获取换新的关键词方案
    */
   getSchemeReassign(params) {
-    return post('/api/task/showker/scheme/reassign.json', params)
+    return axiosConfig.post('/api/task/showker/scheme/reassign.json', params)
   },
 
   /**
    * 获取拿手可申请活动的次数
    */
   getShowkerApplyCount() {
-    return post("/api/task/showker-apply-count.json")
+    return axiosConfig.post("/api/task/showker-apply-count.json")
   },
 
   /**
    * 获取首页轮播图信息
    */
   getAvailableBoardByAdTypeList(params) {
-    return post('/api/user/get-available-board-by-adType.json', params)
+    return axiosConfig.post('/api/user/get-available-board-by-adType.json', params)
   },
 
   /**
    * 获取系统配置信息
    */
   getSysConfigInfo() {
-    return post("/api/user/config/sys.json")
+    return axiosConfig.post("/api/user/config/sys.json")
   },
 
   /**
    * 获取公告信息
    */
   getUserGetAnnouncement(params) {
-    return post("/api/user-getAnnouncement.json", params)
+    return axiosConfig.post("/api/user-getAnnouncement.json", params)
   },
 
   /**
    * 获取二维码信息
    */
   getQrcodeQudaoInfo(params) {
-    return post("/api/user/getQRcode.json", params)
+    return axiosConfig.post("/api/user/getQRcode.json", params)
   },
 
   /**
    * 用户提交投诉接口
    */
   userComplaintCreate(params) {
-    return post("/api/user-complaint-create.json", params)
+    return axiosConfig.post("/api/user-complaint-create.json", params)
   },
 
   /**
    * 获取用户投诉列表
    */
   getUserAppealList(params) {
-    return post("/api/user-complaint-getComplaintsByUid.json", params)
+    return axiosConfig.post("/api/user-complaint-getComplaintsByUid.json", params)
   },
 
   /**
    * 商家将秀客加入黑名单
    */
   addShowkerToBlackList(params) {
-    return post("/api/task/apply/black/addToBlackList.json", params)
+    return axiosConfig.post("/api/task/apply/black/addToBlackList.json", params)
   },
 
   /**
    * 获取黑名单列表
    */
   getBlackList(params) {
-    return post("/api/task/apply/black/getAlitmBlackListByUid.json", params)
+    return axiosConfig.post("/api/task/apply/black/getAlitmBlackListByUid.json", params)
   },
 
   /**
    * 移除黑名单列表
    */
   removeFromBlackList(params) {
-    return post("/api/task/apply/black/removeFromBlackList.json", params)
+    return axiosConfig.post("/api/task/apply/black/removeFromBlackList.json", params)
   },
 
   /**
    * 给拿手进行评价
    */
   evaluateFormSellerToShowker(params) {
-    return post("/api/task/apply/black/evaluateFormSellerToShowker.json", params)
+    return axiosConfig.post("/api/task/apply/black/evaluateFormSellerToShowker.json", params)
   },
 
   /**
    *判断秀客是否是第一次提现
    * */
   someAccountOrMoneyJudgement() {
-    return post('/api/user/account/someAccountOrMoneyJudgement.json');
+    return axiosConfig.post('/api/user/account/someAccountOrMoneyJudgement.json');
   },
 
   /**
    * 设置第一次验证提现口令
    */
   setFirstWithdrawalCommand() {
-    return post('/api/set-first-fill-withdrawal-command.json')
+    return axiosConfig.post('/api/set-first-fill-withdrawal-command.json')
   },
 
   /**
    * 获取是否是第一次验证提现口令
    */
   getFirstWithdrawalCommand() {
-    return post('/api/detection-first-fill-withdrawal-command.json')
+    return axiosConfig.post('/api/detection-first-fill-withdrawal-command.json')
   },
 
   /**
    * 获取商家绑定的店铺列表
    */
   getStoreBindInfo() {
-    return post('/api/store/get.json')
+    return axiosConfig.post('/api/store/get.json')
   },
 
   /**
    * 根据商品链接获取店铺信息(by-Id)
    */
   getItemInfoById(params) {
-    return post('/api/get-item-info-by-id.json', params)
+    return axiosConfig.post('/api/get-item-info-by-id.json', params)
   },
 
   /**
    * 根据商品链接获取店铺名称和店铺旺旺(by-link)
    */
   getStoreInfoByLink(params) {
-    return post('/api/get-store-info-by-link.json', params)
+    return axiosConfig.post('/api/get-store-info-by-link.json', params)
   },
 
   /**
    * 绑定店铺
    */
   bindStore(params) {
-    return post('/api/store/bind.json', params)
+    return axiosConfig.post('/api/store/bind.json', params)
   },
 
   /**
    * 获取商家订单号待审核数量
    */
   getMerchantCountPassOrder() {
-    return get('/api/merchant/count/pass/order.json')
+    return axiosConfig.get('/api/merchant/count/pass/order.json')
   },
 
   /**
    * 批量通过待审核订单
    */
   merchantBatchPassOrder() {
-    return post('/api/merchant/batch/pass/order.json')
+    return axiosConfig.post('/api/merchant/batch/pass/order.json')
   },
 
   /**
    * 获取批量导出订单的订单号
    */
   getMerchantExportOrderNumber() {
-    return get('/api/merchant/export/order.json')
+    return axiosConfig.get('/api/merchant/export/order.json')
   },
 
 }

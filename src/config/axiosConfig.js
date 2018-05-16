@@ -77,5 +77,10 @@ const get = (url, params = {}) => {
   })
 };
 
-export {post, get}
+const axiosConfig = {
+  get: get,
+  post: post
+};
+
+export default axiosConfig
 
