@@ -488,7 +488,7 @@
             online = _this.taskOnline.length >0?null:true;
           }
         });
-        if (_this.taskOnline.length >0){
+        if (_this.taskOnline.length >0 && this.taskStatusList.length === 0){
           taskStatusList = JSON.stringify(['under_way']);
         }
         _this.searchLoading = true;
@@ -596,18 +596,20 @@
         if (_this.checkAll) {
           _this.taskStatusList = ['waiting_pay', 'waiting_audit', 'waiting_modify', 'under_way', 'finished', 'closed'];
           _this.settlementStatusList = ['waiting_settlement', 'waiting_audit', 'settlement_finished', 'cannot_settlement'];
+          _this.taskOnline = ['online'];
         } else {
           _this.taskStatusList = [];
           _this.settlementStatusList = [];
+          _this.taskOnline = [];
         }
         _this.pageIndex = 1;
         _this.getTaskList();
       },
       checkAllGroupChange() {
         let _this = this;
-        if (_this.settlementStatusList.length === 4 && _this.taskStatusList.length === 6) {
+        if (_this.settlementStatusList.length === 4 && _this.taskStatusList.length === 6 && _this.taskOnline.length === 1) {
           _this.checkAll = true;
-        } else if (_this.settlementStatusList.length > 0 || _this.taskStatusList.length > 0) {
+        } else if (_this.settlementStatusList.length > 0 || _this.taskStatusList.length > 0 || _this.taskOnline.length > 0) {
           _this.checkAll = false;
         } else {
           _this.checkAll = false;
