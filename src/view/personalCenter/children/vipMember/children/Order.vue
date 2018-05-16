@@ -263,13 +263,16 @@
         let memberVersionList = [];
         api.getMemberVersionPeriodList().then(res => {
           if (res.status) {
-            res.data.forEach(item => {
+            let filterData = res.data.filter(item => {
+              return item.validDays >= 91
+            });
+            filterData.map(item => {
               if (item.level) {
                 memberVersionList.push(item.level)
               }
             });
             _this.memberVersionList = [...new Set(memberVersionList)];
-            _this.memberVersionPeriodList = res.data;
+            _this.memberVersionPeriodList = filterData;
             if(_this.getMemberVersionLevel && _this.getMemberVersionLevel !== 100) {
               _this.memberVersionPeriodList.forEach(item => {
                 if (item.level === _this.getMemberVersionLevel) {
