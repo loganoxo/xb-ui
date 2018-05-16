@@ -336,7 +336,7 @@
         <div class="fs-14">正在处理第 {{startToProcessNum}} 条，共 {{batchPassCount}} 条...</div>
         <i-progress :progressBarWidth="400" :progressWidth="progressWidth" class="mt-10"></i-progress>
       </div>
-      <div v-show="batchPassStep === 'end'" class="text-ct fs-14 mt-20"><icon color="#2DAB2D" class="mr-5" type="checkmark-circled"></icon>恭喜，已成功处理 36 条任务，失败 0 条</div>
+      <div v-show="batchPassStep === 'end'" class="text-ct fs-14 mt-20"><icon color="#2DAB2D" class="mr-5" type="checkmark-circled"></icon>恭喜，已成功处理 {{successToProcessNum}} 条任务，失败 {{errorToProcessNum}} 条</div>
       <div slot="footer" class="text-ct">
         <i-button type="error" size="large" class="mr-60 pl-20 pr-20" v-show="batchPassStep === 'ready'" @click="startBatchPass">执行批量通过</i-button>
         <i-button class="ml-35 pl-40 pr-40" size="large" @click="batchPassModel = false" v-show="batchPassStep === 'ready'">取消</i-button>
@@ -422,6 +422,8 @@
         progressWidth: 0,
         batchPassCount: 0,
         startToProcessNum: 1,
+        successToProcessNum: 0,
+        errorToProcessNum: 0,
       }
     },
     created() {
@@ -759,6 +761,8 @@
               isAllEnd = true;
             }
             if(res.status && isEnd) {
+              _this.successToProcessNum = res.data.success;
+              _this.errorToProcessNum = res.data.fail;
               _this.batchPassStep = 'end';
             } else {
               _this.$Message.error(res.msg);
