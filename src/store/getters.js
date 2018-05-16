@@ -63,6 +63,11 @@ export default {
     return state.userInfo.memberDeadline ? state.userInfo.memberDeadline < state.severTime + new Date().getTime() - state.clientTime : true;
   },
 
+  //从userInfo中获取用户会员状态（是否是会员 true: 是 false: 否）
+  isMemberOk: state => {
+    return state.userInfo.memberOK
+  },
+
   //从sysConfigInfo中获取pcMerchantQqGroup信息
   getPcMerchantQqGroup: state => {
     return Object.keys(state.sysConfigInfo).length > 0 ? state.sysConfigInfo.pcMerchantQqGroup : {};
