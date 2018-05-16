@@ -38,7 +38,7 @@
       <li class="clear third">
         <div class="t-catalog c-white">充值手续费</div>
         <div class="c-l-grey" v-if="freeMemberInfo.rechargeCommission">
-          {{freeMemberInfo.rechargeCommission.percent}}‰（支付宝验收）
+          {{freeMemberInfo.rechargeCommission.percent}}‰（支付宝收取）
         </div>
         <div class="c-l-blue">
           免
