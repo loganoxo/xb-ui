@@ -39,6 +39,7 @@
     text-align: center;
     line-height: 10px;
     font-size: 0.8em;
+    overflow: hidden;
   }
 
   .progress {

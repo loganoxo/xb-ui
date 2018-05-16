@@ -333,7 +333,7 @@
     <modal v-model="batchPassModel" :closable="false" :mask-closable="false">
       <div v-show="batchPassStep === 'ready'" class="mt-20 text-ct fs-14">共有"<span class="main-color">订单号待审核</span>"任务<span class="main-color"> {{batchPassCount}} </span>条，是否对此进行批量通过操作？</div>
       <div v-show="batchPassStep === 'start'" class="mt-20 text-ct">
-        <div class="fs-14">正在处理第 1 条，共 {{batchPassCount}} 条...</div>
+        <div class="fs-14">正在处理第 {{startToProcessNum}} 条，共 {{batchPassCount}} 条...</div>
         <i-progress :progressBarWidth="400" :progressWidth="progressWidth" class="mt-10"></i-progress>
       </div>
       <div v-show="batchPassStep === 'end'" class="text-ct fs-14 mt-20"><icon color="#2DAB2D" class="mr-5" type="checkmark-circled"></icon>恭喜，已成功处理 36 条任务，失败 0 条</div>
@@ -421,6 +421,7 @@
         batchPassStep: 'ready',
         progressWidth: 0,
         batchPassCount: 0,
+        startToProcessNum: 1,
       }
     },
     created() {
@@ -742,23 +743,28 @@
       },
       startBatchPass() {
         const _this = this;
+        let isAllEnd = false;
         _this.batchPassStep = 'start';
         let num = 400 / _this.batchPassCount;
-        const progress = setInterval(()=> {
-          if(_this.progressWidth < 400) {
-            _this.progressWidth += num
-          } else {
-            _this.progressWidth = 400;
-            clearInterval(progress)
-          }
-        }, 500);
         api.merchantBatchPassOrder().then(res => {
-          if(res.status) {
-            _this.batchPassStep = 'end';
-          } else {
-            _this.$Message.error(res.msg);
-            _this.batchPassModel = false;
-          }
+          const progress = setInterval(()=> {
+            if(_this.startToProcessNum < _this.batchPassCount) {
+              _this.startToProcessNum++;
+            }
+            if(_this.progressWidth < 400) {
+              _this.progressWidth += num
+            } else {
+              _this.progressWidth = 400;
+              clearInterval(progress);
+              isAllEnd = true;
+            }
+            if(res.status && isEnd) {
+              _this.batchPassStep = 'end';
+            } else {
+              _this.$Message.error(res.msg);
+              _this.batchPassModel = false;
+            }
+          }, 500);
         })
       },
       endBatchPass () {
