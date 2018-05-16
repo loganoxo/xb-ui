@@ -88,7 +88,7 @@
           level: 200,
           levelText: 'VIP',
           timeLevel: 300,
-          timeLevelText: '一年',
+          timeLevelText: '1年',
         },
         selectOrderStatusMap: {
           'renewal': '续费',
@@ -227,6 +227,10 @@
             this.memberPeriodList.push(item)
           }
         });
+        if(level === 300) {
+          this.isSelectVersionPeriodInfo.timeLevel = 300;
+          this.isSelectVersionPeriodInfo.timeLevelText = '1年';
+        }
         this.getMemberSurplusFee().then(() => {
           this.getBuyOrderPrice();
         });
@@ -333,7 +337,7 @@
 
       // 购买会员成功后的回调
       orderVipSuccess() {
-        _this.initStatus();
+        this.initStatus();
       },
 
       // 支付宝支付成功后的回调
