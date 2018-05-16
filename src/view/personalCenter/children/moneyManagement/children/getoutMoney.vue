@@ -210,8 +210,14 @@
             <td>
               {{item.poundage / 100}}
             </td>
-            <td class="main-color">
-              {{getTradType(item.state)}}<span v-if="item.state === 'enchashment_audit_defeat' && item.refuseReason !== null" class="cl666">:{{item.refuseReason}}</span>
+            <td class="main-color cursor-p"  v-if="item.state === 'enchashment_audit_defeat' && item.refuseReason !== null">
+              <Tooltip :content="item.refuseReason" placement="top">
+                <Icon type="information-circled" color="main-color"></Icon>
+                {{getTradType(item.state)}}
+              </Tooltip>
+            </td>
+            <td class="main-color cursor-p" v-else>
+                {{getTradType(item.state)}}
             </td>
             <td>
               <p style="color:blue;" class="detailsSpc" @click="getMoneyShowDetailsFun(item.id)">
