@@ -217,7 +217,7 @@
         if (postFiles.length === 0) return;
 
         postFiles.forEach(file => {
-          this.Upload(file);
+          this.upload(file);
         });
       },
       upload(file) {
