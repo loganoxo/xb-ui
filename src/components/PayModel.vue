@@ -142,11 +142,11 @@
         return this.$store.getters.isMemberOk
       },
 
-      /** 计算用户最终需要充值的金额（包含支付宝充值手续费: 非会员需要收取千分之六的充值手续费，会员免手续费）
+      /** 计算用户最终需要充值的金额（包含支付宝充值手续费: 需要收取千分之六的充值手续费）
        * @return {Number}
        */
       lastPayMoney() {
-        return this.isMember ? this.orderMoney * 100 : (Math.ceil(this.orderMoney * 100 / 0.994)).toFixed(2) * 1
+        return Math.ceil(this.orderMoney * 100 / 0.994).toFixed(2) * 1
       }
     },
     methods: {

@@ -1540,7 +1540,7 @@
        * @return {number}
        */
       taskNameLength() {
-        return this.taskRelease.taskName ? this.taskRelease.taskName.length : 0;
+        return this.taskRelease.taskName ? this.taskRelease.taskName.length : 0
       },
 
       /**
