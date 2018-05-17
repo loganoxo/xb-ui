@@ -330,11 +330,20 @@
           _this.isSelectVersionPeriodInfo.levelText = _this.memberVersionNameMap[_this.getMemberVersionLevel]
         }
         _this.memberPeriodList = [];
-        _this.memberVersionPeriodList.forEach(item => {
-          if (item.level === _this.getMemberVersionLevel) {
-            _this.memberPeriodList.push(item)
-          }
-        });
+        if(_this.getMemberVersionLevel !== 100) {
+          _this.memberVersionPeriodList.forEach(item => {
+            if (item.level === _this.getMemberVersionLevel) {
+              _this.memberPeriodList.push(item)
+            }
+          });
+        } else {
+          _this.memberVersionPeriodList.forEach(item => {
+            if (item.level === 200) {
+              _this.memberPeriodList.push(item)
+            }
+          });
+        }
+
        // 默认选择一年的周期（不考虑用户当前版本周期）
         _this.isSelectVersionPeriodInfo.timeLevel = 300;
         _this.isSelectVersionPeriodInfo.timeLevelText = '1年';
