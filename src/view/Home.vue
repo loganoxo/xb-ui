@@ -49,7 +49,7 @@
               </div>
             </div>
             <div class="login-in-box" v-if="isLogin && getUserInfoRole　=== 0">
-              <div>
+              <div  @click="cancelActivityCategory">
                 <Tooltip content="上传自定义个性头像，可以提高活动申请通过率哦，点击修改头像！" placement="bottom" class="left">
                   <router-link tag="img" to="/user/personal-setting/personal-account-info" :src="userHeadUrl"
                                class="cursor-p heard-img"></router-link>
@@ -94,7 +94,7 @@
               </div>
             </div>
             <div class="login-in-box" v-if="isLogin && getUserInfoRole　=== 1">
-              <div class="clear">
+              <div class="clear" @click="cancelActivityCategory">
                 <Tooltip content="上传自定义个性头像，可以提高活动申请通过率哦，点击修改头像！" placement="bottom" class="left">
                   <router-link style="border-radius: 50%" tag="img" to="/user/personal-setting/personal-account-info"
                                width="56" :src="userHeadUrl" class="cursor-p"></router-link>
@@ -1117,6 +1117,17 @@
       },
       changeNoticeTab(notice) {
         this.noticeActive = notice.active;
+      },
+      cancelActivityCategory(){
+        let self = this;
+        // self.$store.commit({
+        //   type: 'TASK_CATEGORY_LIST',
+        //   info: ''
+        // });
+        self.$store.commit({
+          type: 'SET_ACTIVITY_CATEGORY',
+          info: ''
+        });
       }
     }
   }
