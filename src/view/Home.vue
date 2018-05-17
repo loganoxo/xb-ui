@@ -290,22 +290,23 @@
                     </span>
                   </em>
                 </p>
-                <div v-if="getUserRole === 0 && isLogin === true">
-                  <p class="rewards-fee" v-if="homeCommodity.createTime>=1526464800000">
-                    <span v-if="homeCommodity.activityCategory === 'free_get'" class="main-color">打赏1元</span>
-                    <span v-if="homeCommodity.activityCategory === 'present_get'" class="main-color">打赏2元</span>
-                    <span v-if="homeCommodity.activityCategory !== 'free_get' && homeCommodity.activityCategory !== 'present_get'" class="main-color">打赏0元</span>
-                    <Tooltip content="完成该任务可额外获得打赏费" placement="top-start">
-                      <Icon type="help-circled" color="#000"></Icon>
-                    </Tooltip>
-                  </p>
-                  <p class="rewards-fee" v-else>
-                    <span class="main-color">打赏0元</span>
-                    <Tooltip content="完成该任务可额外获得打赏费" placement="top-start">
-                      <Icon type="help-circled" color="#000"></Icon>
-                    </Tooltip>
-                  </p>
-                </div>
+                <!--打赏费，勿删-->
+                <!--<div v-if="getUserRole === 0 && isLogin === true">-->
+                  <!--<p class="rewards-fee" v-if="homeCommodity.createTime>=1526464800000">-->
+                    <!--<span v-if="homeCommodity.activityCategory === 'free_get'" class="main-color">打赏1元</span>-->
+                    <!--<span v-if="homeCommodity.activityCategory === 'present_get'" class="main-color">打赏2元</span>-->
+                    <!--<span v-if="homeCommodity.activityCategory !== 'free_get' && homeCommodity.activityCategory !== 'present_get'" class="main-color">打赏0元</span>-->
+                    <!--<Tooltip content="完成该任务可额外获得打赏费" placement="top-start">-->
+                      <!--<Icon type="help-circled" color="#000"></Icon>-->
+                    <!--</Tooltip>-->
+                  <!--</p>-->
+                  <!--<p class="rewards-fee" v-else>-->
+                    <!--<span class="main-color">打赏0元</span>-->
+                    <!--<Tooltip content="完成该任务可额外获得打赏费" placement="top-start">-->
+                      <!--<Icon type="help-circled" color="#000"></Icon>-->
+                    <!--</Tooltip>-->
+                  <!--</p>-->
+                <!--</div>-->
                 <p class="home-commodity-apply">限量 <span class="main-color"> {{homeCommodity.taskCount || 0 }} </span>
                   份，剩余
                   <span
@@ -377,22 +378,23 @@
                     </span>
                   </em>
                 </p>
-                <div  v-if="getUserRole === 0 && isLogin === true">
-                  <p class="rewards-fee" v-if="homeCommodity.createTime>=1526464800000">
-                    <span v-if="homeCommodity.activityCategory === 'free_get'" class="main-color">打赏1元</span>
-                    <span v-if="homeCommodity.activityCategory === 'present_get'" class="main-color">打赏2元</span>
-                    <span v-if="homeCommodity.activityCategory !== 'free_get' && homeCommodity.activityCategory !== 'present_get'" class="main-color">打赏0元</span>
-                    <Tooltip content="完成该任务可额外获得打赏费" placement="top-start">
-                      <Icon type="help-circled" color="#000"></Icon>
-                    </Tooltip>
-                  </p>
-                  <p class="rewards-fee" v-else>
-                    <span class="main-color">打赏0元</span>
-                    <Tooltip content="完成该任务可额外获得打赏费" placement="top-start">
-                      <Icon type="help-circled" color="#000"></Icon>
-                    </Tooltip>
-                  </p>
-                </div>
+                <!--打赏费，勿删-->
+                <!--<div  v-if="getUserRole === 0 && isLogin === true">-->
+                  <!--<p class="rewards-fee" v-if="homeCommodity.createTime>=1526464800000">-->
+                    <!--<span v-if="homeCommodity.activityCategory === 'free_get'" class="main-color">打赏1元</span>-->
+                    <!--<span v-if="homeCommodity.activityCategory === 'present_get'" class="main-color">打赏2元</span>-->
+                    <!--<span v-if="homeCommodity.activityCategory !== 'free_get' && homeCommodity.activityCategory !== 'present_get'" class="main-color">打赏0元</span>-->
+                    <!--<Tooltip content="完成该任务可额外获得打赏费" placement="top-start">-->
+                      <!--<Icon type="help-circled" color="#000"></Icon>-->
+                    <!--</Tooltip>-->
+                  <!--</p>-->
+                  <!--<p class="rewards-fee" v-else>-->
+                    <!--<span class="main-color">打赏0元</span>-->
+                    <!--<Tooltip content="完成该任务可额外获得打赏费" placement="top-start">-->
+                      <!--<Icon type="help-circled" color="#000"></Icon>-->
+                    <!--</Tooltip>-->
+                  <!--</p>-->
+                <!--</div>-->
                 <p class="home-commodity-apply">
                   限量 <span class="main-color"> {{homeCommodity.taskCount || 0 }} </span> 份，剩余
                   <span
@@ -459,22 +461,23 @@
                     </span>
                   </em>
                 </p>
-                <div v-if="getUserRole === 0 && isLogin === true">
-                  <p class="rewards-fee" v-if="homeHistory.createTime>=1526464800000">
-                    <span v-if="homeHistory.activityCategory === 'free_get'" class="main-color">打赏1元</span>
-                    <span v-if="homeHistory.activityCategory === 'present_get'" class="main-color">打赏2元</span>
-                    <span v-if="homeHistory.activityCategory !== 'free_get' && homeHistory.activityCategory !== 'present_get'" class="main-color">打赏0元</span>
-                    <Tooltip content="完成该任务可额外获得打赏费" placement="top-start">
-                      <Icon type="help-circled" color="#000"></Icon>
-                    </Tooltip>
-                  </p>
-                  <p class="rewards-fee" v-else>
-                    <span class="main-color">打赏0元</span>
-                    <Tooltip content="完成该任务可额外获得打赏费" placement="top-start">
-                      <Icon type="help-circled" color="#000"></Icon>
-                    </Tooltip>
-                  </p>
-                </div>
+                <!--打赏费，勿删-->
+                <!--<div v-if="getUserRole === 0 && isLogin === true">-->
+                  <!--<p class="rewards-fee" v-if="homeHistory.createTime>=1526464800000">-->
+                    <!--<span v-if="homeHistory.activityCategory === 'free_get'" class="main-color">打赏1元</span>-->
+                    <!--<span v-if="homeHistory.activityCategory === 'present_get'" class="main-color">打赏2元</span>-->
+                    <!--<span v-if="homeHistory.activityCategory !== 'free_get' && homeHistory.activityCategory !== 'present_get'" class="main-color">打赏0元</span>-->
+                    <!--<Tooltip content="完成该任务可额外获得打赏费" placement="top-start">-->
+                      <!--<Icon type="help-circled" color="#000"></Icon>-->
+                    <!--</Tooltip>-->
+                  <!--</p>-->
+                  <!--<p class="rewards-fee" v-else>-->
+                    <!--<span class="main-color">打赏0元</span>-->
+                    <!--<Tooltip content="完成该任务可额外获得打赏费" placement="top-start">-->
+                      <!--<Icon type="help-circled" color="#000"></Icon>-->
+                    <!--</Tooltip>-->
+                  <!--</p>-->
+                <!--</div>-->
                 <p class="home-commodity-apply">限量 <span class="main-color"> {{homeHistory.taskCount || 0 }} </span>
                   份，剩余
                   <span
