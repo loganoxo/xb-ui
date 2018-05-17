@@ -81,7 +81,7 @@
         <div class="get-out-do mt-22">
           <iForm ref="getoutMoney" :model="getoutMoney" :label-width="200" :rules="getOutMoneyRule">
             <Form-item label="请输入提现验证口令:" prop="getoutCommand" v-if="ifFirstWithDraw">
-              <iInput type="number" v-model.number="getoutMoney.getoutCommand" class="iInput"></iInput>
+              <iInput v-model.number="getoutMoney.getoutCommand" class="iInput"></iInput>
               <!--<span @click="withdrawalCommandPop = true" class="blue cursor-p">查看如何获取验证口令</span>-->
               <Tooltip placement="bottom">
                 <span class="blue cursor-p">查看如何获取验证口令</span>
@@ -92,10 +92,10 @@
                   </div>
                   <div class="lht20 mt-10">
                     <p>请扫描下方的二维码或者直接搜索添</p>
-                    <p>加<span class="main-color">"xiubaxiaoba888"</span>为好友,查看朋友圈封面获取验证口令！</p>
+                    <p>加<span class="main-color">"nanajiangyo"</span>为好友,查看朋友圈封面获取验证口令！</p>
                   </div>
                   <div class="pl-10 pr-10 pt-10 pb-10 text-ct">
-                    <img src="~assets/img/common/contact-dabai.png" alt="" width="220" height="220">
+                    <img src="~assets/img/common/contact-nanajiangyo.png" alt="" width="220" height="220">
                   </div>
                 </div>
               </Tooltip>

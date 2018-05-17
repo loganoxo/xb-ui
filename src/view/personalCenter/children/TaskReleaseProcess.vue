@@ -891,14 +891,14 @@
         <div class="pay-info mt-40" v-if="isBalance && !priceHasChange">本次总共要支付的金额为：<span class="second-color">{{(orderMoney).toFixed(2)}}</span>&nbsp;元。您的账户的当前余额为：<strong>{{getUserBalance || 0}}</strong>&nbsp;元
         </div>
         <div class="pay-info mt-40" v-if="!isBalance && !priceHasChange">本次总共要支付的金额为：<strong>{{(orderMoney).toFixed(2)}}</strong>&nbsp;元。您账户余额为：<strong>{{getUserBalance || 0}}</strong>&nbsp;元，还需充值：<span
-          class="second-color">{{(needPayMoneyBefore).toFixed(2)}}</span>&nbsp;元。
+          class="second-color">{{needPayMoneyBefore}}</span>&nbsp;元。
         </div>
         <div class="pay-info mt-40" v-if="isBalanceReplenish && priceHasChange">
           该任务已付担保金 <strong>{{paidDeposit.toFixed(2)}}</strong>元，本次修改需要支付超出部分的金额为：<strong class="main-color">{{replenishMoney}}</strong>元。您账号的当前余额为：<strong>{{getUserBalance || 0}}</strong>&nbsp;元
         </div>
         <div class="pay-info mt-40" v-if="!isBalanceReplenish && priceHasChange">该任务已付担保金 <strong>{{paidDeposit}}</strong>元，本次修改需要支付超出部分的金额为：<strong
           class="main-color">{{replenishMoney}}</strong>元。您账号的当前余额为：<strong>{{getUserBalance || 0}}</strong>&nbsp;元,还需充值：<span
-          class="second-color">{{(needPayMoneyBefore).toFixed(2) }}</span>&nbsp;元。
+          class="second-color">{{needPayMoneyBefore}}</span>&nbsp;元。
         </div>
         <div class="description-fees-footer">
           <span class="pay-btn" v-if="isBalance" @click="openRecharge">前去支付</span>
@@ -922,7 +922,7 @@
     </div>
     <!--活动担保金支付弹框-->
     <div class="pay-model" v-if="showPayModel">
-      <PayModel ref="payModelRef" :orderMoney="(needPayMoneyBefore).toFixed(2)" @confirmPayment="confirmPayment" :isShowUpgradeVIP="true" :isBalance="isBalance">
+      <PayModel ref="payModelRef" :orderMoney="needPayMoneyBefore" @confirmPayment="confirmPayment" :isShowUpgradeVIP="true" :isBalance="isBalance">
         <i slot="closeModel" class="close-recharge" @click="closeRecharge">&times;</i>
         <div slot="noBalance" class="title-tip">
           <span class="sizeColor3"><Icon color="#FF2424" size="18px" type="ios-information"></Icon><span class="ml-10">亲，您的余额不足，请充值。</span></span>还需充值<strong
@@ -936,7 +936,7 @@
     </div>
     <!--用户修改价格比原始价格高需要补差价提示弹框-->
     <Modal v-model="editPriceAfterModel">.
-        <div class="clear mt-40">
+        <div class="clear mt-10">
           <div class="left mt-5">
             <Icon color="#f9284f" size="32" type="information-circled"></Icon>
           </div>
@@ -1519,10 +1519,12 @@
        */
       needPayMoneyBefore() {
         if(!this.isBalance && !this.priceHasChange) {
-          return this.orderMoney - this.getUserBalance
+          let money = this.orderMoney - this.getUserBalance;
+          return money > 0 ? money.toFixed(2) : 0
         }
         if(!this.isBalanceReplenish && this.priceHasChange) {
-          return this.replenishMoney - this.getUserBalance
+          let money = this.replenishMoney - this.getUserBalance;
+          return money > 0 ? money.toFixed(2) : 0
         }
       },
 
@@ -1530,7 +1532,7 @@
        * @return {String}
        */
       needPayMoneyAfterText() {
-        return !this.isBalance ? `${(this.needPayMoneyBefore).toFixed(2)} + ${(((Math.ceil(this.needPayMoneyBefore * 100 / 0.994)) - this.needPayMoneyBefore * 100) / 100).toFixed(2)}` : ''
+        return !this.isBalance ? `${this.needPayMoneyBefore} + ${(((Math.ceil(this.needPayMoneyBefore * 100 / 0.994)) - this.needPayMoneyBefore * 100) / 100).toFixed(2)}` : ''
       },
 
       /**
@@ -1539,15 +1541,6 @@
        */
       taskNameLength() {
         return this.taskRelease.taskName ? this.taskRelease.taskName.length : 0;
-      },
-
-      /**
-       * 是否显示单品推广费超过3元的提示
-       * @return {boolean}
-       */
-      isShowExpensesTip() {
-        let postage = this.taskRelease.pinkage === 'true' ? 0 : 10;
-        return (this.taskRelease.itemPrice + postage) * 0.06 > 3
       },
 
       /**
@@ -1669,9 +1662,6 @@
         } else {
           _this.exampleImageUrl = '/static/img/demo/taskRelease/browse-answer-image.png'
         }
-      },
-      openMember() {
-        this.$router.push({name: 'VipMember'})
       },
       taskTypeChange(type) {
         if (type === 'pc_search') {
