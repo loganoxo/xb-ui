@@ -329,6 +329,12 @@
           _this.isSelectVersionPeriodInfo.level = _this.getMemberVersionLevel;
           _this.isSelectVersionPeriodInfo.levelText = _this.memberVersionNameMap[_this.getMemberVersionLevel]
         }
+        _this.memberPeriodList = [];
+        _this.memberVersionPeriodList.forEach(item => {
+          if (item.level === _this.getMemberVersionLevel) {
+            _this.memberPeriodList.push(item)
+          }
+        });
        // 默认选择一年的周期（不考虑用户当前版本周期）
         _this.isSelectVersionPeriodInfo.timeLevel = 300;
         _this.isSelectVersionPeriodInfo.timeLevelText = '1年';
@@ -345,6 +351,7 @@
       // 购买会员成功后的回调
       orderVipSuccess() {
         this.initStatus();
+        this.isNeedRecharge = false;
       },
 
       // 支付宝支付成功后的回调
