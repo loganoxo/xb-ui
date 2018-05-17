@@ -1545,15 +1545,6 @@
       },
 
       /**
-       * 是否显示单品推广费超过3元的提示
-       * @return {boolean}
-       */
-      isShowExpensesTip() {
-        let postage = this.taskRelease.pinkage === 'true' ? 0 : 10;
-        return (this.taskRelease.itemPrice + postage) * 0.06 > 3
-      },
-
-      /**
        * 计算商家分布任务份数中系统需要审批的份数
        * @return {number}
        */
@@ -1672,9 +1663,6 @@
         } else {
           _this.exampleImageUrl = '/static/img/demo/taskRelease/browse-answer-image.png'
         }
-      },
-      openMember() {
-        this.$router.push({name: 'VipMember'})
       },
       taskTypeChange(type) {
         if (type === 'pc_search') {
