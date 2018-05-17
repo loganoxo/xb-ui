@@ -328,7 +328,7 @@
           _this.isSelectVersionPeriodInfo.level = _this.getMemberVersionLevel;
           _this.isSelectVersionPeriodInfo.levelText = _this.memberVersionNameMap[_this.getMemberVersionLevel]
         }
-       // 默认选择一年的周期（不考虑用户当前版本）
+       // 默认选择一年的周期（不考虑用户当前版本周期）
         _this.isSelectVersionPeriodInfo.timeLevel = 300;
         _this.isSelectVersionPeriodInfo.timeLevelText = '1年';
         if (_this.isMember && _this.getMemberVersionLevel === 200) {
