@@ -146,7 +146,7 @@
        * @return {Number}
        */
       lastPayMoney() {
-        return Math.ceil(this.orderMoney * 100 / 0.994).toFixed(2) * 1
+        return Math.ceil(this.orderMoney * 100 / 0.994).toFixed(2)
       }
     },
     methods: {
