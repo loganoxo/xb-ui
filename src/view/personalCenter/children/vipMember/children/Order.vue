@@ -34,9 +34,9 @@
         <span class="main-color">{{orderValidityTime | dateFormat('YYYY-MM-DD') || '------'}}</span><span
           v-if="isMember && isVersionUpgrade">，根据您现在的会员版本可折价抵扣：{{(deductionPrice / 100).toFixed(2) || 0.00}}元，成功升级后现有版本将失效。</span>
       </p>
-      <p class="fs-16 mt-10">本次总共需要支付的金额为：<span class="f-b">{{buyOrderPrice > 0 ? buyOrderPrice : 0}}</span>
+      <p class="fs-16 mt-10">本次总共需要支付的金额为：<span class="f-b">{{buyOrderPrice > 0 ? (buyOrderPrice / 100).toFixed(2) : 0}}</span>
         元。您账户余额为： <span class="f-b">{{(getUserBalance).toFixed(2) || 0}}</span>
-        元<span v-if="!hasBalance">，还需要充值：<span class="f-b">{{needPayMoney}}</span> 元</span>
+        元<span v-if="!hasBalance">，还需要充值：<span class="f-b">{{(needPayMoney / 100).toFixed(2)}}</span> 元</span>
       </p>
     </div>
     <i-button v-if="hasBalance" class="pay-btn" @click="isNeedRecharge = true">立即购买</i-button>
@@ -53,12 +53,13 @@
             <span class="">亲，您的余额不足，请充值。</span>
           </span>还需充值
           <strong class="size-color3">{{needPayMoneyText}}</strong> 元。
+          <!--<strong class="size-color3">{{(needPayMoney / 100).toFixed(2)}}</strong> 元。-->
           <span @click="isShowAliPayTip = true">【<span class="blue cursor-p">支付宝手续费</span>】</span>
         </div>
         <div slot="isBalance" class="title-tip">
           <Icon color="#FF2424" size="18px" type="ios-information"></Icon>
           <span class="ml-10">您本次需要支付金额为 <span
-            class="size-color3">{{buyOrderPrice > 0 ? buyOrderPrice : 0}}</span> 元。</span>
+            class="size-color3">{{buyOrderPrice > 0 ? (buyOrderPrice / 100).toFixed(2) : 0}}</span> 元。</span>
         </div>
       </pay-model>
     </div>
@@ -108,7 +109,7 @@
           300: 'SVIP',
         },
         orderValidityTime: null,
-        buyOrderPrice: '0.00',
+        buyOrderPrice: 0,
         deductionPrice: 0,
         memberVersionList: [],
         memberPeriodList: [],
@@ -195,21 +196,21 @@
        * @return {boolean}
        */
       hasBalance() {
-        return this.getUserBalance * 100 - this.buyOrderPrice * 100 >= 0
+        return this.getUserBalance * 100 - this.buyOrderPrice >= 0
       },
 
       /** 计算当用户账户余额不足以支付选购的会员版本价格的需要额外充值的金额
        * @return {Number}
        */
       needPayMoney() {
-        return !this.hasBalance ? (Math.abs(this.getUserBalance * 100 - this.buyOrderPrice * 100) / 100).toFixed(2) : 0
+        return !this.hasBalance ? Math.abs(this.getUserBalance * 100 - this.buyOrderPrice) : 0
       },
 
       /** 计算充值界面上的金额文本显示
        * @return {String}
        */
       needPayMoneyText() {
-        return `${this.needPayMoney} + ${(((Math.ceil(this.needPayMoney * 100 / 0.994)) - this.needPayMoney * 100) / 100).toFixed(2)}`
+        return `${(this.needPayMoney / 100).toFixed(2)} + ${(((Math.ceil(this.needPayMoney / 0.994)) - this.needPayMoney) / 100).toFixed(2)}`
       },
 
       /** 计算用户当前选择是否是版本升级
@@ -250,7 +251,7 @@
       getBuyOrderPrice() {
         this.memberVersionPeriodList.forEach(item => {
           if (item.level === this.isSelectVersionPeriodInfo.level && item.timeLevel === this.isSelectVersionPeriodInfo.timeLevel) {
-            this.buyOrderPrice = this.isMember && this.isVersionUpgrade ? ((item.fee - this.deductionPrice) / 100).toFixed(2) : (item.fee / 100).toFixed(2);
+            this.buyOrderPrice = this.isMember && this.isVersionUpgrade ? item.fee - this.deductionPrice : item.fee;
             if (this.isMember) {
               if (!this.isVersionUpgrade) {
                 this.orderValidityTime = this.orderSurplusTime > 0 ? getSeverTime() + this.orderSurplusTime + item.validDays * 1000 * 3600 * 24 : getSeverTime() + item.validDays * 1000 * 3600 * 24;

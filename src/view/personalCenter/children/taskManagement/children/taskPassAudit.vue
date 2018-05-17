@@ -253,7 +253,7 @@
                 <span class="size-color3">
                 <Icon color="#FF2424" size="18" type="ios-information"></Icon>
                 <span class="ml-10">注意：该拿手实付金额大于活动担保金，</span></span>需要补充担保金<strong
-            class="main-color">{{needReplenishMoney}}</strong>元
+            class="main-color">{{(needReplenishMoney / 100).toFixed(2)}}</strong>元
           </div>
           <div slot="noBalance" class="title-tip">
                 <span class="size-color3">
@@ -428,7 +428,7 @@
         }
       },
       needReplenishMoney() {
-        return (this.getOderPrice - this.orderInfo.perMarginNeed).toFixed(2) * 1
+        return (this.getOderPrice - this.orderInfo.perMarginNeed) * 100
       },
       getUserBalance() {
         return this.$store.getters.getUserBalance
@@ -437,7 +437,7 @@
         return this.needReplenishMoney <= this.getUserBalance
       },
       needReplenishMoneyText() {
-        return `${this.needReplenishMoney} + ${(((Math.ceil(this.needReplenishMoney * 100 / 0.994)) - this.needReplenishMoney * 100) / 100).toFixed(2)}`
+        return `${(this.needReplenishMoney / 100).toFixed(2)} + ${(((Math.ceil(this.needReplenishMoney / 0.994)) - this.needReplenishMoney) / 100).toFixed(2)}`
       },
     },
     methods: {

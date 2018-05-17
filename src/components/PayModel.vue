@@ -146,7 +146,12 @@
        * @return {Number}
        */
       lastPayMoney() {
-        return Math.ceil(this.orderMoney * 100 / 0.994).toFixed(2)
+        return Math.ceil(Math.ceil(this.orderMoney) / 0.994)
+       /* if(this.orderType === 1) {
+          return Math.ceil(Math.ceil(this.orderMoney) / 0.994)
+        } else {
+          return Math.ceil(this.orderMoney)
+        }*/
       }
     },
     methods: {
@@ -168,7 +173,7 @@
         if (_this.payType === 'ali') {
           const newWindowUrl = window.open('about:blank');
           api.balanceOrderCreate({
-            feeToAccount: (_this.orderMoney * 100).toFixed(0),
+            feeToAccount: Math.ceil(_this.orderMoney),
             finalFee: _this.lastPayMoney,
             orderPlatform: 'PC',
             payChannel: 1,

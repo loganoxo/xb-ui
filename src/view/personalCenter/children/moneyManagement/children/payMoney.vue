@@ -178,8 +178,8 @@
         if (_this.payMoney.payMode === 'ali') {
           const newWindowUrl = window.open('about:blank');
           api.balanceOrderCreate({
-            feeToAccount: (_this.payMoney.number * 100).toFixed() * 1,
-            finalFee: (Math.ceil(_this.payMoney.number * 100 / 0.994)).toFixed(2) * 1,
+            feeToAccount: Math.ceil(_this.payMoney.number * 100),
+            finalFee: (Math.ceil(Math.ceil(_this.payMoney.number * 100) / 0.994)),
             orderPlatform: 'PC',
             payChannel: 1,
             orderType: 0
