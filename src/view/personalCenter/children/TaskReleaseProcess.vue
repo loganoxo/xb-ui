@@ -892,14 +892,14 @@
         <div class="pay-info mt-40" v-if="isBalance && !priceHasChange">本次总共要支付的金额为：<span class="second-color">{{(orderMoney).toFixed(2)}}</span>&nbsp;元。您的账户的当前余额为：<strong>{{getUserBalance || 0}}</strong>&nbsp;元
         </div>
         <div class="pay-info mt-40" v-if="!isBalance && !priceHasChange">本次总共要支付的金额为：<strong>{{(orderMoney).toFixed(2)}}</strong>&nbsp;元。您账户余额为：<strong>{{getUserBalance || 0}}</strong>&nbsp;元，还需充值：<span
-          class="second-color">{{(needPayMoneyBefore).toFixed(2)}}</span>&nbsp;元。
+          class="second-color">{{needPayMoneyBefore}}</span>&nbsp;元。
         </div>
         <div class="pay-info mt-40" v-if="isBalanceReplenish && priceHasChange">
           该任务已付担保金 <strong>{{paidDeposit.toFixed(2)}}</strong>元，本次修改需要支付超出部分的金额为：<strong class="main-color">{{replenishMoney}}</strong>元。您账号的当前余额为：<strong>{{getUserBalance || 0}}</strong>&nbsp;元
         </div>
         <div class="pay-info mt-40" v-if="!isBalanceReplenish && priceHasChange">该任务已付担保金 <strong>{{paidDeposit}}</strong>元，本次修改需要支付超出部分的金额为：<strong
           class="main-color">{{replenishMoney}}</strong>元。您账号的当前余额为：<strong>{{getUserBalance || 0}}</strong>&nbsp;元,还需充值：<span
-          class="second-color">{{(needPayMoneyBefore).toFixed(2) }}</span>&nbsp;元。
+          class="second-color">{{needPayMoneyBefore}}</span>&nbsp;元。
         </div>
         <div class="description-fees-footer">
           <span class="pay-btn" v-if="isBalance" @click="openRecharge">前去支付</span>
@@ -923,7 +923,7 @@
     </div>
     <!--活动担保金支付弹框-->
     <div class="pay-model" v-if="showPayModel">
-      <PayModel ref="payModelRef" :orderMoney="(needPayMoneyBefore).toFixed(2)" @confirmPayment="confirmPayment" :isShowUpgradeVIP="true" :isBalance="isBalance">
+      <PayModel ref="payModelRef" :orderMoney="needPayMoneyBefore" @confirmPayment="confirmPayment" :isShowUpgradeVIP="true" :isBalance="isBalance">
         <i slot="closeModel" class="close-recharge" @click="closeRecharge">&times;</i>
         <div slot="noBalance" class="title-tip">
           <span class="sizeColor3"><Icon color="#FF2424" size="18px" type="ios-information"></Icon><span class="ml-10">亲，您的余额不足，请充值。</span></span>还需充值<strong
@@ -1520,10 +1520,12 @@
        */
       needPayMoneyBefore() {
         if(!this.isBalance && !this.priceHasChange) {
-          return this.orderMoney - this.getUserBalance
+          let money = this.orderMoney - this.getUserBalance;
+          return money > 0 ? money.toFixed(2) : 0
         }
         if(!this.isBalanceReplenish && this.priceHasChange) {
-          return this.replenishMoney - this.getUserBalance
+          let money = this.replenishMoney - this.getUserBalance;
+          return money > 0 ? money.toFixed(2) : 0
         }
       },
 
@@ -1531,7 +1533,7 @@
        * @return {String}
        */
       needPayMoneyAfterText() {
-        return !this.isBalance ? `${(this.needPayMoneyBefore).toFixed(2)} + ${(((Math.ceil(this.needPayMoneyBefore * 100 / 0.994)) - this.needPayMoneyBefore * 100) / 100).toFixed(2)}` : ''
+        return !this.isBalance ? `${this.needPayMoneyBefore} + ${(((Math.ceil(this.needPayMoneyBefore * 100 / 0.994)) - this.needPayMoneyBefore * 100) / 100).toFixed(2)}` : ''
       },
 
       /**
