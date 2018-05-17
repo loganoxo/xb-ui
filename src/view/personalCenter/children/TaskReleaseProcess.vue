@@ -1482,10 +1482,10 @@
        */
       orderMoney() {
         if (this.taskRelease.activityCategory === 'free_get') {
-          return (this.taskRelease.taskCount * this.oneBond) + this.allPromotionExpenses
+          return (this.taskRelease.taskCount * this.oneBond) + this.allPromotionExpenses * 100
         }
         if (this.taskRelease.activityCategory === 'present_get') {
-          return (this.taskRelease.taskCount * this.oneBondAToB) + this.allPromotionExpenses
+          return (this.taskRelease.taskCount * this.oneBondAToB) + this.allPromotionExpenses * 100
         }
       },
 
