@@ -127,14 +127,22 @@
                     <span v-if= "searchTask.activityCategory === 'present_get'" style="padding: 0 4px; background: #00cc66; color: #ffffff; margin-left: 10px; display: inline-block;height: 20px;line-height: 20px;">体验专区</span>
                   </em>
                 </p>
-                <p class="rewards-fee" v-if="getUserRole === 0 && isLogin === true">
-                  <span v-if="searchTask.activityCategory === 'free_get'" class="main-color">打赏1元</span>
-                  <span v-if="searchTask.activityCategory === 'present_get'" class="main-color">打赏2元</span>
-                  <span v-if="searchTask.activityCategory !== 'present_get' && searchTask.activityCategory !== 'free_get'" class="main-color">打赏0元</span>
-                  <Tooltip content="完成该任务可额外获得打赏费" placement="top-start">
-                    <Icon type="help-circled"></Icon>
-                  </Tooltip>
-                </p>
+                <div v-if="getUserRole === 0 && isLogin === true">
+                  <p class="rewards-fee" v-if="searchTask.createTime>=1526464800000">
+                    <span v-if="searchTask.activityCategory === 'free_get'" class="main-color">打赏1元</span>
+                    <span v-if="searchTask.activityCategory === 'present_get'" class="main-color">打赏2元</span>
+                    <span v-if="searchTask.activityCategory !== 'free_get' && searchTask.activityCategory !== 'present_get'" class="main-color">打赏0元</span>
+                    <Tooltip content="完成该任务可额外获得打赏费" placement="top-start">
+                      <Icon type="help-circled"></Icon>
+                    </Tooltip>
+                  </p>
+                  <p class="rewards-fee" v-else>
+                    <span class="main-color">打赏0元</span>
+                    <Tooltip content="完成该任务可额外获得打赏费" placement="top-start">
+                      <Icon type="help-circled" color="#000"></Icon>
+                    </Tooltip>
+                  </p>
+                </div>
                 <p class="cl000">
                   限量 <span class="main-color"> {{searchTask.taskCount || 0 }} </span> 份，剩余
                   <span class="main-color"> {{searchTask.taskCount - searchTask.showkerApplySuccessCount || 0}} </span> 份
@@ -171,7 +179,6 @@
               target="_blank"
               v-show="historyTaskList.length > 0"
               v-for="historyTask in historyTaskList"
-              :title="historyTask.taskName.replace(/<\/font>/g,'').replace(/<font class='search-highlight'>/g,'')"
               :key= "historyTask.id"
               :to="{ 'path': '/task-details', 'query': {'q': encryptionId(historyTask.id)}}"
               class="task-category-commodity-details">
@@ -206,14 +213,22 @@
                     </span>
                   </em>
                 </p>
-                <p class="rewards-fee"  v-if="getUserRole === 0 && isLogin === true">
-                  <span v-if="historyTask.activityCategory === 'free_get'" class="main-color">打赏1元</span>
-                  <span v-if="historyTask.activityCategory === 'present_get'" class="main-color">打赏2元</span>
-                  <span v-if="historyTask.activityCategory !== 'free_get' && historyTask.activityCategory !== 'present_get'" class="main-color">打赏0元</span>
-                  <Tooltip content="完成该任务可额外获得打赏费" placement="top-start">
-                    <Icon type="help-circled"></Icon>
-                  </Tooltip>
-                </p>
+                <div v-if="getUserRole === 0 && isLogin === true">
+                  <p class="rewards-fee" v-if="historyTask.createTime>=1526464800000">
+                    <span v-if="historyTask.activityCategory === 'free_get'" class="main-color">打赏1元</span>
+                    <span v-if="historyTask.activityCategory === 'present_get'" class="main-color">打赏2元</span>
+                    <span v-if="historyTask.activityCategory !== 'free_get' && historyTask.activityCategory !== 'present_get'" class="main-color">打赏0元</span>
+                    <Tooltip content="完成该任务可额外获得打赏费" placement="top-start">
+                      <Icon type="help-circled"></Icon>
+                    </Tooltip>
+                  </p>
+                  <p class="rewards-fee" v-else>
+                    <span class="main-color">打赏0元</span>
+                    <Tooltip content="完成该任务可额外获得打赏费" placement="top-start">
+                      <Icon type="help-circled" color="#000"></Icon>
+                    </Tooltip>
+                  </p>
+                </div>
                 <p class="cl000">
                   限量 <span class="main-color"> {{historyTask.taskCount || 0 }} </span> 份，剩余
                   <span class="main-color"> {{historyTask.taskCount - historyTask.showkerApplySuccessCount || 0}} </span> 份
@@ -270,7 +285,7 @@
       BreadcrumbItem: Breadcrumb.Item,
       Page: Page,
       TimeDown: TimeDown,
-      Tooltip:Tooltip
+      Tooltip: Tooltip
     },
     data () {
       return {
@@ -374,7 +389,7 @@
       },
       getUserRole() {
         return this.$store.getters.getUserRole
-      },
+      }
     },
     mounted: function () {
 

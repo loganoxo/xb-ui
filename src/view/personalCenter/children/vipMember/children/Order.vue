@@ -3,7 +3,7 @@
     <p class="mt-10"><strong>VIP会员服务说明：</strong></p>
     <p class="mt-5">1、可在服务期内使用对应版本的服务功能，VIP及SVIP购买成功后费用不退还。</p>
     <p class="mt-5">2、会员版本仅支持向上扩展。譬如：当前版本为SVIP版本，在该版本到期前不支持购买VIP版本。</p>
-    <p class="mt-5">3、时间周期在当前版本中叠加购买。譬如：当前为VIP半年版，再购买VIP季度则在原到期时间上延长一季度。</p>
+    <p class="mt-5">3、时间周期在当前版本中叠加购买。譬如：当前为VIP年版，再购买VIP半年则在原到期时间上延长半年 。</p>
     <p class="mt-5">4、会员版本升级时，将现有会员剩余时间按天进行折算，剩余价格将抵扣到新版本的费用中（若折算出的价格有溢出，将不退回）。</p>
     <div class="mt-30">
       <span class="f-b">请选择您的会员版本：</span>
@@ -87,8 +87,8 @@
         isSelectVersionPeriodInfo: {
           level: 200,
           levelText: 'VIP',
-          timeLevel: 100,
-          timeLevelText: '季度',
+          timeLevel: 300,
+          timeLevelText: '1年',
         },
         selectOrderStatusMap: {
           'renewal': '续费',
@@ -96,6 +96,9 @@
           'buy': '购买',
         },
         memberPeriodNameMap: {
+          7: '7天',
+          15: '15天',
+          30: '1月',
           100: '季度',
           200: '半年',
           300: '1年',
@@ -227,6 +230,10 @@
             this.memberPeriodList.push(item)
           }
         });
+        if(level === 300) {
+          this.isSelectVersionPeriodInfo.timeLevel = 300;
+          this.isSelectVersionPeriodInfo.timeLevelText = '1年';
+        }
         this.getMemberSurplusFee().then(() => {
           this.getBuyOrderPrice();
         });
@@ -313,27 +320,30 @@
       // 初始化购买信息状态
       initStatus() {
         const _this = this;
-        if (_this.getMemberPeriodLevel && _this.isMember) {
+        /*if (_this.getMemberPeriodLevel && _this.isMember) {
           _this.isSelectVersionPeriodInfo.timeLevel = _this.getMemberPeriodLevel;
           _this.isSelectVersionPeriodInfo.timeLevelText = _this.memberPeriodNameMap[_this.getMemberPeriodLevel];
-        }
+        }*/
         if (_this.getMemberVersionLevel && _this.isMember) {
           _this.isSelectVersionPeriodInfo.level = _this.getMemberVersionLevel;
           _this.isSelectVersionPeriodInfo.levelText = _this.memberVersionNameMap[_this.getMemberVersionLevel]
         }
+       // 默认选择一年的周期（不考虑用户当前版本周期）
+        _this.isSelectVersionPeriodInfo.timeLevel = 300;
+        _this.isSelectVersionPeriodInfo.timeLevelText = '1年';
         if (_this.isMember && _this.getMemberVersionLevel === 200) {
           _this.nowVersionName = 'VIP会员'
         } else if (_this.isMember && _this.getMemberVersionLevel === 300) {
           _this.nowVersionName = 'SVIP会员'
         } else {
-          _this.nowVersionName = '非会员'
+          _this.nowVersionName = '免费会员'
         }
         _this.getBuyOrderPrice();
       },
 
       // 购买会员成功后的回调
       orderVipSuccess() {
-        _this.initStatus();
+        this.initStatus();
       },
 
       // 支付宝支付成功后的回调

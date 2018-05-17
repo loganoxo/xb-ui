@@ -179,10 +179,9 @@
           const newWindowUrl = window.open('about:blank');
           api.balanceOrderCreate({
             feeToAccount: (_this.payMoney.number * 100).toFixed() * 1,
-            finalFee: (_this.payMoney.number * 100 * 1.006).toFixed() * 1,
+            finalFee: (Math.ceil(_this.payMoney.number * 100 / 0.994)).toFixed(2) * 1,
             orderPlatform: 'PC',
             payChannel: 1,
-            memberId: null,
             orderType: 0
           }).then(res => {
             if (res.status) {

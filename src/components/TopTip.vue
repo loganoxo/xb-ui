@@ -10,7 +10,7 @@
           <img v-if="getUserInfo.memberLevel === 200" src="~assets/img/common/vip.png" alt="vipLogo">
           <img v-if="getUserInfo.memberLevel === 300" src="~assets/img/common/svip.png" alt="svipLogo">
         </span>
-        <router-link class="blue" tag="span" to="/user/user-home">
+        <router-link class="blue" tag="span" to="/user/user-home" @click.native="cancelActivityCategory">
           <span class="main-color" v-if="getUserInfo.role === 1"> 商家 </span>
           <span class="main-color" v-if="getUserInfo.role === 0"> 拿手 </span>
           {{decodeURIComponent(getUserInfo.nickname)}}
