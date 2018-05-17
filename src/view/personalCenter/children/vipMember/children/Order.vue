@@ -325,9 +325,12 @@
           _this.isSelectVersionPeriodInfo.timeLevel = _this.getMemberPeriodLevel;
           _this.isSelectVersionPeriodInfo.timeLevelText = _this.memberPeriodNameMap[_this.getMemberPeriodLevel];
         }*/
-        if (_this.getMemberVersionLevel && _this.isMember) {
+        if (_this.getMemberVersionLevel !==100) {
           _this.isSelectVersionPeriodInfo.level = _this.getMemberVersionLevel;
           _this.isSelectVersionPeriodInfo.levelText = _this.memberVersionNameMap[_this.getMemberVersionLevel]
+        } else {
+          _this.isSelectVersionPeriodInfo.level = 200;
+          _this.isSelectVersionPeriodInfo.levelText = _this.memberVersionNameMap[200]
         }
         _this.memberPeriodList = [];
         if(_this.getMemberVersionLevel !== 100) {
