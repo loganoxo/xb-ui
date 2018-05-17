@@ -210,7 +210,7 @@
        * @return {String}
        */
       needPayMoneyText() {
-        return `${(this.needPayMoney / 100).toFixed(2)} + ${(((Math.ceil(this.needPayMoney / 0.994)) - this.needPayMoney) / 100).toFixed(2)}`
+        return !this.hasBalance ? `${(this.needPayMoney / 100).toFixed(2)} + ${(((Math.ceil(this.needPayMoney / 0.994)) - this.needPayMoney) / 100).toFixed(2)}` : ''
       },
 
       /** 计算用户当前选择是否是版本升级

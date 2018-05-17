@@ -896,8 +896,8 @@
         <div class="pay-info mt-40" v-if="isBalanceReplenish && priceHasChange">
           该任务已付担保金 <strong>{{paidDeposit.toFixed(2)}}</strong>元，本次修改需要支付超出部分的金额为：<strong class="main-color">{{(replenishMoney / 100).toFixed(2)}}</strong>元。您账号的当前余额为：<strong>{{getUserBalance || 0}}</strong>&nbsp;元
         </div>
-        <div class="pay-info mt-40" v-if="!isBalanceReplenish && priceHasChange">该任务已付担保金 <strong>{{paidDeposit}}</strong>元，本次修改需要支付超出部分的金额为：<strong
-          class="main-color">{{replenishMoney / 100}}</strong>元。您账号的当前余额为：<strong>{{getUserBalance || 0}}</strong>&nbsp;元,还需充值：<span
+        <div class="pay-info mt-40" v-if="!isBalanceReplenish && priceHasChange">该任务已付担保金 <strong>{{(paidDeposit).toFixed(2)}}</strong>元，本次修改需要支付超出部分的金额为：<strong
+          class="main-color">{{(replenishMoney / 100).toFixed(2)}}</strong>元。您账号的当前余额为：<strong>{{(getUserBalance).toFixed(2) || 0}}</strong>&nbsp;元,还需充值：<span
           class="second-color">{{(needPayMoneyBefore / 100).toFixed(2)}}</span>&nbsp;元。
         </div>
         <div class="description-fees-footer">
@@ -1519,10 +1519,10 @@
        */
       needPayMoneyBefore() {
         if(!this.isBalance && !this.priceHasChange) {
-          let money = this.orderMoney - this.getUserBalance;
+          let money = this.orderMoney - this.getUserBalance * 100;
           return money > 0 ? money : 0
         } else if(!this.isBalanceReplenish && this.priceHasChange) {
-          let money = this.replenishMoney - this.getUserBalance;
+          let money = this.replenishMoney - this.getUserBalance * 100;
           return money > 0 ? money : 0
         } else {
           return 0
