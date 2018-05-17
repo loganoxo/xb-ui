@@ -894,7 +894,7 @@
           class="second-color">{{(needPayMoneyBefore / 100).toFixed(2)}}</span>&nbsp;元。
         </div>
         <div class="pay-info mt-40" v-if="isBalanceReplenish && priceHasChange">
-          该任务已付担保金 <strong>{{paidDeposit.toFixed(2)}}</strong>元，本次修改需要支付超出部分的金额为：<strong class="main-color">{{(replenishMoney / 100).toFixed(2)}}</strong>元。您账号的当前余额为：<strong>{{getUserBalance || 0}}</strong>&nbsp;元
+          该任务已付担保金 <strong>{{paidDeposit.toFixed(2)}}</strong>元，本次修改需要支付超出部分的金额为：<strong class="main-color">{{(replenishMoney / 100).toFixed(2)}}</strong>元。您账号的当前余额为：<strong>{{(getUserBalance).toFixed(2) || 0}}</strong>&nbsp;元
         </div>
         <div class="pay-info mt-40" v-if="!isBalanceReplenish && priceHasChange">该任务已付担保金 <strong>{{(paidDeposit).toFixed(2)}}</strong>元，本次修改需要支付超出部分的金额为：<strong
           class="main-color">{{(replenishMoney / 100).toFixed(2)}}</strong>元。您账号的当前余额为：<strong>{{(getUserBalance).toFixed(2) || 0}}</strong>&nbsp;元,还需充值：<span
@@ -1515,6 +1515,20 @@
        */
       isBalanceReplenish() {
         return this.replenishMoney <= this.getUserBalance * 100;
+      },
+
+      /**
+       * 计算当用户账户余额足以支付活动所需金额要额外充值的金额
+       * @return {number}
+       */
+      needPayMoneyAfter() {
+        if(this.isBalance && !this.priceHasChange) {
+          return this.orderMoney
+        } else if(this.isBalance && this.priceHasChange) {
+          return this.replenishMoney
+        } else {
+          return 0
+        }
       },
 
       /**
@@ -2393,7 +2407,7 @@
       confirmPayment(pwd) {
         let _this = this;
         api.payByBalance({
-          fee: _this.orderMoney,
+          fee: _this.needPayMoneyAfter,
           payPassword: pwd,
           taskId: _this.taskPayId,
           type: _this.priceHasChange ? 'supply_pay' : 'first_pay'
