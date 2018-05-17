@@ -119,13 +119,16 @@
                            class="fs-16 default-btn" long>已申请
                   </iButton>
                 </div>
-                <div v-if="!commodityData.task.online">
+                <div v-if="applyBtnShow === 'buyerTasking'&& !commodityData.task.online">
                   <iButton size="large" v-if="commodityData.taskApply" disabled class="fs-16 default-btn" style="width: 150px;">已申请</iButton>
                   <iButton size="large" v-if="!commodityData.taskApply" disabled class="fs-16 default-btn" style="width: 150px;">已下线</iButton>
                 </div>
-                <iButton v-if="applyBtnShow === 'sellerTasking'" size="large" class="fs-16 default-btn" type="warning"
-                         style="width: 200px;">商家号不可以参加活动
-                </iButton>
+                <div v-if="applyBtnShow === 'sellerTasking'">
+                  <iButton size="large" v-if="!commodityData.task.online" disabled class="fs-16 default-btn" style="width: 150px;">已下线</iButton>
+                  <iButton v-else size="large" class="fs-16 default-btn" type="warning"
+                           style="width: 200px;">商家号不可以参加活动
+                  </iButton>
+                </div>
                 <div v-if="applyBtnShow === 'noLogin' && commodityData.task.online">
                   <a class="ivu-btn ivu-btn-primary ivu-btn-large" @click="selectLogin = true" style="width: 150px;">
                     申请活动
