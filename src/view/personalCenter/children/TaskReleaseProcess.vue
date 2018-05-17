@@ -220,11 +220,11 @@
             <div class="baby-url ml-45 mt-20">
               <span class="required">宝贝地址：</span>
               <iInput v-model="taskRelease.itemUrl" placeholder="请输入宝贝地址" style="width: 296px"></iInput>
-              <span class="sizeColor2" v-if="getMemberVersionLevel === 200">（根据你的会员版本，每天同一宝贝可以发布2次）</span>
-              <span class="sizeColor2" v-else-if="getMemberVersionLevel === 300">（每天同一宝贝可以发布3次）</span>
-              <span class="sizeColor2" v-else>（根据你的会员版本，每天同一宝贝可以发布1次）</span>
+              <span class="sizeColor2" v-if="getMemberVersionLevel === 200">（根据你的会员版本，每天同一宝贝可以发布5次）</span>
+              <span class="sizeColor2" v-else-if="getMemberVersionLevel === 300">（每天同一宝贝可以发布10次）</span>
+              <span class="sizeColor2" v-else>（根据你的会员版本，每天同一宝贝可以发布2次）</span>
               <span v-if="getMemberVersionLevel !==300" class="svip-upgrade ml-10 mr-5" @click="upgradeSvip">不够用？+1次</span>
-              <Tooltip content="同一宝贝每日发布活动次数：免费商家1次，VIP商家2次，SVIP商家3次" placement="top">
+              <Tooltip content="同一宝贝每日发布活动次数：免费商家2次，VIP商家5次，SVIP商家10次" placement="top">
                 <Icon class="cursor-p" size="16" type="help-circled"></Icon>
               </Tooltip>
             </div>
@@ -2036,7 +2036,7 @@
            _this.price500Model = true;
            return;
          }*/
-        if ((status === 'waiting_modify' || status === 'waiting_pay') && _this.paidDeposit === _this.orderMoney && !type) {
+        if ((status === 'waiting_modify' || status === 'waiting_pay') && _this.paidDeposit * 100 >= _this.orderMoney && !type) {
           _this.taskCreate(true);
         } else if ((status === 'waiting_modify' || status === 'waiting_pay') && _this.paidDeposit > _this.orderMoney && !type) {
           this.editPriceToLowAfterModel = true;
