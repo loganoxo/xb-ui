@@ -356,7 +356,7 @@
   import TimeDown from '@/components/TimeDown'
   import PayModel from '@/components/PayModel'
   import api from '@/config/apiConfig'
-  import {TaskErrorStatusList, encryption} from '@/config/utils'
+  import {TaskErrorStatusList, encryption, timeToDate} from '@/config/utils'
 
   export default {
     name: 'task-fail-audit',
@@ -422,8 +422,7 @@
         progressWidth: 0,
         batchPassCount: 0,
         startToProcessNum: 1,
-        successToProcessNum: 0,
-        errorToProcessNum: 0,
+        batchPassResult: null,
       }
     },
     created() {
@@ -465,6 +464,12 @@
       needReplenishMoneyText() {
         return `${this.needReplenishMoney} + ${(((Math.ceil(this.needReplenishMoney * 100 / 0.994)) - this.needReplenishMoney * 100) / 100).toFixed(2)}`
       },
+      successToProcessNum() {
+        return this.batchPassResult ? this.batchPassResult.data.success : 0
+      },
+      errorToProcessNum() {
+        return this.batchPassResult ? this.batchPassResult.data.fail : 0
+      }
     },
     methods: {
       getShowkerReportInfo(id, alitmAccount) {
@@ -745,30 +750,35 @@
       },
       startBatchPass() {
         const _this = this;
-        let isAllEnd = false;
+        _this.batchPassResult = null;
         _this.batchPassStep = 'start';
-        let num = 400 / _this.batchPassCount;
-        api.merchantBatchPassOrder().then(res => {
-          const progress = setInterval(()=> {
-            if(_this.startToProcessNum < _this.batchPassCount) {
-              _this.startToProcessNum++;
-            }
-            if(_this.progressWidth < 400) {
-              _this.progressWidth += num
-            } else {
-              _this.progressWidth = 400;
+        let num = parseInt(400 / _this.batchPassCount);
+
+        // 自动模拟批量处理待审核订单进度
+        const progress = setInterval(()=> {
+          if(_this.startToProcessNum < _this.batchPassCount) {
+            _this.startToProcessNum++
+          } else {
+            _this.startToProcessNum = _this.batchPassCount
+          }
+          if(_this.progressWidth < 400 ) {
+            _this.progressWidth += num
+          } else {
+            _this.progressWidth = 400;
+            if(_this.batchPassResult && _this.batchPassResult.status) {
               clearInterval(progress);
-              isAllEnd = true;
-            }
-            if(res.status && isEnd) {
-              _this.successToProcessNum = res.data.success;
-              _this.errorToProcessNum = res.data.fail;
               _this.batchPassStep = 'end';
-            } else {
-              _this.$Message.error(res.msg);
-              _this.batchPassModel = false;
             }
-          }, 500);
+          }
+        }, 500);
+
+        api.merchantBatchPassOrder().then(res => {
+          if(res.status) {
+            _this.batchPassResult = res;
+          } else {
+            _this.$Message.error(res.msg);
+            _this.batchPassModel = false;
+          }
         })
       },
       endBatchPass () {
@@ -783,8 +793,9 @@
             res.data.forEach(item => {
               rowData.push({'订单号': item})
             });
+            // 批量导出订单号
             const downloadData = Csv([{key: '订单号'}], rowData);
-            ExportCsv.download('2018-05-15.csv', downloadData);
+            ExportCsv.download(`${timeToDate()}.csv`, downloadData);
           } else {
             _this.$Message.error(res.msg);
           }

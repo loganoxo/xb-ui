@@ -46,7 +46,7 @@ axios.interceptors.response.use((res) => {
 });
 
 //返回一个Promise(发送post请求)
-const post = (url, params = {}) => {
+const axiosPost = (url, params = {}) => {
   return new Promise((resolve, reject) => {
     axios.post(url, params)
       .then(response => {
@@ -61,7 +61,7 @@ const post = (url, params = {}) => {
 };
 
 //返回一个Promise(发送get请求)
-const get = (url, params = {}) => {
+const axiosGet = (url, params = {}) => {
   return new Promise((resolve, reject) => {
     axios.get(url, {
       params: params
@@ -78,9 +78,8 @@ const get = (url, params = {}) => {
 };
 
 const axiosConfig = {
-  get: get,
-  post: post
+  get: axiosGet,
+  post: axiosPost
 };
 
 export default axiosConfig
-
