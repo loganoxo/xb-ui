@@ -1533,7 +1533,7 @@
        * @return {String}
        */
       needPayMoneyAfterText() {
-        return !this.isBalance ? `${(this.needPayMoneyBefore).toFixed(2)} + ${(((Math.ceil(this.needPayMoneyBefore / 0.994)) - this.needPayMoneyBefore * 100) / 100).toFixed(2)}` : ''
+        return !this.isBalance ? `${(this.needPayMoneyBefore / 100).toFixed(2)} + ${(((Math.ceil(this.needPayMoneyBefore / 0.994)) - this.needPayMoneyBefore * 100) / 100).toFixed(2)}` : ''
       },
 
       /**
