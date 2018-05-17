@@ -937,7 +937,7 @@
     </div>
     <!--用户修改价格比原始价格高需要补差价提示弹框-->
     <Modal v-model="editPriceAfterModel">.
-        <div class="clear mt-40">
+        <div class="clear mt-10">
           <div class="left mt-5">
             <Icon color="#f9284f" size="32" type="information-circled"></Icon>
           </div>
