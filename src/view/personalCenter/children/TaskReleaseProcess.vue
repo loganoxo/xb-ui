@@ -1502,7 +1502,11 @@
        * @return {boolean}
        */
       isBalance() {
-        return this.orderMoney <= this.getUserBalance * 100;
+        if(this.priceHasChange) {
+          return this.replenishMoney <= this.getUserBalance * 100
+        } else {
+          return this.orderMoney <= this.getUserBalance * 100
+        }
       },
 
       /**
