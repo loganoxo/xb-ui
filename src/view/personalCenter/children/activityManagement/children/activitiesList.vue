@@ -437,10 +437,10 @@
         return this.orderMoney <= this.getUserBalance * 100
       },
       needPayMoney() {
-        return !this.hasBalance ? Math.abs(this.getUserBalance * 100 - this.orderMoney) / 100 : 0
+        return !this.hasBalance ? Math.abs(this.getUserBalance * 100 - this.orderMoney) : 0
       },
       needPayMoneyText() {
-        return `${(this.needPayMoney).toFixed(2)} + ${(((Math.ceil(this.needPayMoney / 0.994)) - this.needPayMoney) / 100).toFixed(2)}`
+        return `${(this.needPayMoney / 100).toFixed(2)} + ${(((Math.ceil(this.needPayMoney / 0.994)) - this.needPayMoney) / 100).toFixed(2)}`
       },
     },
     methods: {
