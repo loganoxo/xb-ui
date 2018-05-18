@@ -46,7 +46,7 @@
       <iButton type="primary" :loading="searchLoading" @click="searchPassesTask">搜索</iButton>
     </div>
     <div class="text-align-rt mt-10" v-if="taskPassAuditList.length > 0">
-      <i-button size="large" class="mr-10" :disabled="batchPassCount <= 0" @click="batchPassModel = true"><Icon type="android-done-all"></Icon>批量通过所有待审核订单</i-button>
+      <i-button size="large" class="mr-10" @click="batchPassModel = true"><Icon type="android-done-all"></Icon>批量通过所有待审核订单</i-button>
       <i-button size="large" @click="batchExportModel = true"><Icon type="ios-download-outline"></Icon> 批量导出以下所有订单号</i-button>
     </div>
     <div class="mt-12" v-for="(item,index) in taskPassAuditList" :key="item.id" v-if="taskPassAuditList.length > 0">
