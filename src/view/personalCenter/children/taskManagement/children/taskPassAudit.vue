@@ -753,16 +753,7 @@
       readyBatchPass() {
         const _this = this;
         _this.batchPassLoading = true;
-        let showkerTaskStatusList = JSON.stringify(_this.showkerTaskStatusList);
-        if (_this.taskNumber || _this.alitmAccount || _this.orderNum) {
-          showkerTaskStatusList = [];
-        }
-        api.getMerchantCountPassOrder({
-          taskNumber: _this.taskNumber,
-          alitmAccount: _this.alitmAccount,
-          orderNum: _this.orderNum,
-          showkerTaskStatusList: showkerTaskStatusList,
-        }).then(res => {
+        api.getMerchantCountPassOrder().then(res => {
           if(res.status) {
             _this.batchPassModel = true;
             _this.batchPassCount = res.data
@@ -775,10 +766,6 @@
       startBatchPass() {
         const _this = this;
         _this.batchExportLoading = true;
-        let showkerTaskStatusList = JSON.stringify(_this.showkerTaskStatusList);
-        if (_this.taskNumber || _this.alitmAccount || _this.orderNum) {
-          showkerTaskStatusList = [];
-        }
         _this.batchPassResult = null;
         _this.batchPassStep = 'start';
         let num = parseInt(400 / _this.batchPassCount);
@@ -803,12 +790,7 @@
         }, 500);
 
         // 开始发起批量处理待审核订单请求
-        api.merchantBatchPassOrder({
-          taskNumber: _this.taskNumber,
-          alitmAccount: _this.alitmAccount,
-          orderNum: _this.orderNum,
-          showkerTaskStatusList: showkerTaskStatusList,
-        }).then(res => {
+        api.merchantBatchPassOrder().then(res => {
           if(res.status) {
             _this.batchPassResult = res;
           } else {
