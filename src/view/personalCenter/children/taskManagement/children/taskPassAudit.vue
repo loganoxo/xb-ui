@@ -47,7 +47,7 @@
     </div>
     <div class="text-align-rt mt-10" v-if="taskPassAuditList.length > 0">
       <i-button size="large" class="mr-10" :disabled="batchPassCount <= 0" @click="batchPassModel = true"><Icon type="android-done-all"></Icon>批量通过所有待审核订单</i-button>
-      <i-button size="large" @click="getExportOrderNumberAll"><Icon type="ios-download-outline"></Icon> 批量导出以下所有订单号</i-button>
+      <i-button size="large" @click="batchExportModel = true"><Icon type="ios-download-outline"></Icon> 批量导出以下所有订单号</i-button>
     </div>
     <div class="mt-12" v-for="(item,index) in taskPassAuditList" :key="item.id" v-if="taskPassAuditList.length > 0">
       <div class="collapse-header clear" @click="collapseToggle(item.id,index)" :class="{noBorderRadius:selectId}">
@@ -330,6 +330,7 @@
         <i-button class="pl-20 pr-20 btn" type="error" size="large" :loading="loading" @click="evaluateShowkerFun">确定提交</i-button>
       </div>
     </modal>
+    <!--批量审核订单-->
     <modal v-model="batchPassModel" :closable="false" :mask-closable="false">
       <div v-show="batchPassStep === 'ready'" class="mt-20 text-ct fs-14">共有"<span class="main-color">订单号待审核</span>"任务<span class="main-color"> {{batchPassCount}} </span>条，是否对此进行批量通过操作？</div>
       <div v-show="batchPassStep === 'start'" class="mt-20 text-ct">
@@ -341,6 +342,18 @@
         <i-button type="error" size="large" class="mr-60 pl-20 pr-20" v-show="batchPassStep === 'ready'" @click="startBatchPass">执行批量通过</i-button>
         <i-button class="ml-35 pl-40 pr-40" size="large" @click="batchPassModel = false" v-show="batchPassStep === 'ready'">取消</i-button>
         <i-button type="error" size="large" class="pl-60 pr-60" @click="endBatchPass" v-show="batchPassStep === 'end'">确定</i-button>
+      </div>
+    </modal>
+    <!--批量导出订单号-->
+    <modal v-model="batchExportModel">
+      <div slot="header" class="text-ct mt-10">
+        <Icon color="#f9284f" type="information-circled"></Icon>
+        <span class="main-color fs-14">温馨提示</span>
+      </div>
+      <div class="text-ct fs-14">您确定要批量导出以下所有订单号吗？</div>
+      <div slot="footer" class="text-ct">
+        <i-button class="pl-40 pr-40 mr-40" size="large" @click="batchExportModel = false">我在考虑下</i-button>
+        <i-button class="pl-40 pr-40" type="error" size="large" @click="getExportOrderNumberAll">开始批量导出</i-button>
       </div>
     </modal>
   </div>
@@ -418,6 +431,7 @@
         taskPageIndex: 1,
         taskPageSize: 5,
         batchPassModel: false,
+        batchExportModel: false,
         batchPassStep: 'ready',
         progressWidth: 0,
         batchPassCount: 0,
@@ -775,11 +789,22 @@
             }
           }
         }, 500);
+
         let showkerTaskStatusList = JSON.stringify(_this.showkerTaskStatusList);
         if (_this.taskNumber || _this.alitmAccount || _this.orderNum) {
           showkerTaskStatusList = [];
         }
-        await _this.readyBatchPass(_this.taskNumber, _this.alitmAccount, _this.orderNum, showkerTaskStatusList);
+
+        // 捕获 readyBatchPass 方法处理异常
+        try {
+          await _this.readyBatchPass(_this.taskNumber, _this.alitmAccount, _this.orderNum, showkerTaskStatusList);
+        } catch (err) {
+          console.error(err);
+          _this.$Message.error('批量通过所有待审核订单失败！');
+          return;
+        }
+
+        // 开始发起批量处理待审核订单请求
         api.merchantBatchPassOrder({
           taskNumber: _this.taskNumber,
           alitmAccount: _this.alitmAccount,
@@ -800,6 +825,7 @@
       },
       getExportOrderNumberAll() {
         const _this = this;
+        _this.batchExportModel = false;
         let showkerTaskStatusList = JSON.stringify(_this.showkerTaskStatusList);
         if (_this.taskNumber || _this.alitmAccount || _this.orderNum) {
           showkerTaskStatusList = [];
@@ -815,9 +841,12 @@
             res.data.forEach(item => {
               rowData.push({'订单号': item})
             });
-            // 批量导出订单号
+
+            // 开始执行批量导出订单号
             const downloadData = Csv([{key: '订单号'}], rowData);
-            ExportCsv.download(`${timeToDate()}.csv`, downloadData);
+            ExportCsv.download(`${timeToDate()}.csv`, downloadData, () => {
+              _this.$Message.success('批量导出订单成功！')
+            });
           } else {
             _this.$Message.error(res.msg);
           }

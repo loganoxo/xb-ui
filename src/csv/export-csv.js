@@ -57,7 +57,8 @@ const csv = {
     }
   },
 
-  download(filename, text) {
+
+  download(filename, text, callBack) {
     if (has('ie') && has('ie') < 10) {
       // has module unable identify ie11 and Edge
       const oWin = window.top.open('about:blank', '_blank');
@@ -77,6 +78,9 @@ const csv = {
       document.body.appendChild(link);
       link.click();
       document.body.removeChild(link);
+      if(typeof callBack === 'function') {
+        callBack();
+      }
     }
   }
 };

@@ -54,7 +54,6 @@
           </span>还需充值
           <!--<strong class="size-color3">{{needPayMoneyText}}</strong> 元。-->
           <strong class="size-color3">{{(needPayMoney / 100).toFixed(2)}}</strong> 元。
-          <span @click="isShowAliPayTip = true">【<span class="blue cursor-p">支付宝手续费</span>】</span>
         </div>
         <div slot="isBalance" class="title-tip">
           <Icon color="#FF2424" size="18px" type="ios-information"></Icon>
@@ -63,9 +62,6 @@
         </div>
       </pay-model>
     </div>
-    <modal v-model="isShowAliPayTip">
-      <img src="~assets/img/common/ali-pay-tip.jpg">
-    </modal>
   </div>
 </template>
 
@@ -116,7 +112,6 @@
         memberVersionPeriodList: [],
         isNeedRecharge: false,
         nowVersionName: null,
-        isShowAliPayTip: false,
       }
     },
     created() {

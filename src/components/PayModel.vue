@@ -40,7 +40,7 @@
         <span>免手续费充值</span>
         <span>点击这里</span>
       </iButton>
-      <iButton v-if="getMemberVersionLevel === 100 && !isBalance && isShowUpgradeVIP === true" class="svip-upgrade" @click="upgradeSvip">升级VIP免除手续费</iButton>
+      <iButton v-if="getMemberVersionLevel === 100 && !isBalance && isShowUpgradeVIP" class="svip-upgrade" @click="upgradeSvip">升级VIP免除手续费</iButton>
     </div>
 
     <div class="confirm-recharge-model" v-if="confirmRechargeModel">
