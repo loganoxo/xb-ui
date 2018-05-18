@@ -27,14 +27,14 @@
         <!--</Radio>-->
       </Radio-group>
     </div>
-    <div class="text-ct mt-20">
+    <div class="text-ct mt-30">
       <iButton type="primary" v-if="isBalance" @click="confirmPayment" :loading="payLoading" class="recharge-btn">
         {{payButtonText}}
       </iButton>
       <iButton type="primary" v-else @click="confirmRecharge" :loading="payLoading" class="recharge-btn">
         {{rechargeButtonText}}
       </iButton>
-      <iButton v-if="getMemberVersionLevel !== 100 && !isBalance" class="vip-pay-btn" @click="showFreePayModel = true">
+      <iButton v-if="getMemberVersionLevel !== 100 && !isBalance && orderType !== 1" class="vip-pay-btn" @click="showFreePayModel = true">
         <span v-if="getMemberVersionLevel === 200">VIP</span>
         <span v-if="getMemberVersionLevel === 300">SVIP</span>
         <span>免手续费充值</span>
@@ -267,6 +267,8 @@
       @include transition;
       border-radius: 5px;
       cursor: pointer;
+      padding-left: 40px;
+      padding-right: 40px;
       background-color: $mainColor;
       &:hover {
         background-color: darken($mainColor, 10%);
