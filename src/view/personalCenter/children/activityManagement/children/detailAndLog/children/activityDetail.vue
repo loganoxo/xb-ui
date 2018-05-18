@@ -9,7 +9,7 @@
           <th width="10%">活动状态</th>
           <th width="12%">报名 / 已通过</th>
           <th width="8%">可审批名额</th>
-          <th width="24%">活动所需担保金 / 活动所需打赏费 / 已存入</th>
+          <th width="24%">活动所需担保金 / 活动所需推广费 / 已存入</th>
         </tr>
         </thead>
         <tbody>
@@ -663,8 +663,8 @@
       <div class="description-fees-con mt-10">
         <p>活动担保金 = 份数 × 单品活动担保金 = <span>{{oneBondMarginText}}</span> 元</p>
         <!--<p class="mt-6">单品推广费 = 单品试用担保金 × 费率 =<span>{{onePromotionExpensesBeforeText}}</span> 元<span>{{onePromotionExpensesTipText}}</span></p>-->
-        <p class="mt-6">总打赏费 = 单品打赏费用 × 份数 = <span>{{onePromotionExpenses}}</span> × <span>{{taskRelease.taskCount}} = <span>{{allPromotionExpenses}}</span></span> 元</p>
-        <p class="mt-6">总费用 = 活动担保金 + 总打赏费 = <span>{{(orderMoney).toFixed(2)}}</span> 元</p>
+        <p class="mt-6">总推广费 = 单品推广费用 × 份数 = <span>{{onePromotionExpenses}}</span> × <span>{{taskRelease.taskCount}} = <span>{{allPromotionExpenses}}</span></span> 元</p>
+        <p class="mt-6">总费用 = 活动担保金 + 总推广费 = <span>{{(orderMoney).toFixed(2)}}</span> 元</p>
       </div>
     </div>
     <router-link class="footer-btn" tag="div" to="/user/activity-management/list">返回上一页</router-link>

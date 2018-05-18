@@ -22,7 +22,7 @@
         <!--<div class="c-l-blue" v-if="vipMemberInfo.promotionFee">宝贝单价*{{vipMemberInfo.promotionFee.percent}}%，{{vipMemberInfo.promotionFee.limit/100}}元封顶</div>-->
         <!--<div class="c-l-orange" v-if="svipMemberInfo.promotionFee && svipMemberInfo.promotionFee.percent === 0">免</div>-->
         <!--<div class="c-l-orange" v-if="svipMemberInfo.promotionFee &&!svipMemberInfo.promotionFee.percent === 0">宝贝单价*{{svipMemberInfo.promotionFee.percent}}%，{{svipMemberInfo.promotionFee.limit/100}}元封顶</div>-->
-        <div class="t-catalog c-white lh-48">打赏费（每单）</div>
+        <div class="t-catalog c-white lh-48">推广费（每单）</div>
         <div class="c-l-grey">
           <p class="mt-5" v-if="freeMemberInfo.rewardFee">拍A发A：{{freeMemberInfo.rewardFee.AA.floor/100}}元/单</p>
           <p v-if="freeMemberInfo.rewardFee">拍A发B：{{freeMemberInfo.rewardFee.AB.floor/100}}元/单</p>

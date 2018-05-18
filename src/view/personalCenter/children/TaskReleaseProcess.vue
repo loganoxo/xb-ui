@@ -878,13 +878,13 @@
           <div class="description-fees-con mt-10">
             <p>活动担保金 = 份数 × 单品活动担保金 = <span>{{oneBondMarginText}}</span> 元</p>
             <!--<p class="mt-6">单品打赏费 = 单品试用担保金 × 费率 =<span>{{onePromotionExpensesBeforeText}}</span> 元<span>{{onePromotionExpensesTipText}}</span></p>-->
-            <p class="mt-6">总打赏费 = 单品打赏费 × 份数 = <span>{{onePromotionExpenses}}</span> × <span>{{taskRelease.taskCount}} = <span>{{(allPromotionExpenses).toFixed(2)}}</span></span> 元 &nbsp;&nbsp;
-              <tooltip placement="top" content="为提高平台拿手活跃度，鼓励拿手创作更优质的买家秀内容，原平台推广费将改为打赏费，用于拿手打赏！">
-                <a>什么是打赏费？</a>
-              </tooltip>
-              <span v-if="getMemberVersionLevel !== 300" class="ml-10 svip-upgrade" @click="upgradeSvip">升级SVIP免除打赏费</span>
+            <p class="mt-6">总推广费 = 单品推广费 × 份数 = <span>{{onePromotionExpenses}}</span> × <span>{{taskRelease.taskCount}} = <span>{{(allPromotionExpenses).toFixed(2)}}</span></span> 元 &nbsp;&nbsp;
+              <!--<tooltip placement="top" content="为提高平台拿手活跃度，鼓励拿手创作更优质的买家秀内容，原平台推广费将改为打赏费，用于拿手打赏！">-->
+                <!--<a>什么是打赏费？</a>-->
+              <!--</tooltip>-->
+              <span v-if="getMemberVersionLevel !== 300" class="ml-10 svip-upgrade" @click="upgradeSvip">升级SVIP免除推广费</span>
             </p>
-            <p class="mt-6">总费用 = 活动担保金 + 总打赏费 = <span>{{(orderMoney / 100).toFixed(2)}}</span> 元</p>
+            <p class="mt-6">总费用 = 活动担保金 + 总推广费 = <span>{{(orderMoney / 100).toFixed(2)}}</span> 元</p>
             <p class="mt-6" v-if="!isBalance">手续费说明： 使用支付宝充值支付，支付宝会收取0.6%的手续费，该笔费用需要商家承担，手续费不予退还，敬请谅解！<a @click="isShowAliPayTip = true">查看支付宝官方说明</a></p>
           </div>
         </div>

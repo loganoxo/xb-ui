@@ -134,14 +134,15 @@
           <p class="home-commodity-price">
             <span class="left">￥{{homeCommodity.itemPrice / 100}}</span>
           </p>
-          <P class="rewards-fee">
-            <span v-if="homeCommodity.activityCategory === 'free_get'" class="main-color">打赏1元</span>
-            <span v-if="homeCommodity.activityCategory === 'present_get'" class="main-color">打赏2元</span>
-            <span v-if="homeCommodity.activityCategory !== 'free_get' && homeCommodity.activityCategory !== 'present_get'" class="main-color">打赏0元</span>
-            <Tooltip content="完成该任务可额外获得打赏费" placement="top-start">
-              <Icon type="help-circled" color="#000"></Icon>
-            </Tooltip>
-          </P>
+          <!--打赏费-->
+          <!--<P class="rewards-fee">-->
+            <!--<span v-if="homeCommodity.activityCategory === 'free_get'" class="main-color">打赏1元</span>-->
+            <!--<span v-if="homeCommodity.activityCategory === 'present_get'" class="main-color">打赏2元</span>-->
+            <!--<span v-if="homeCommodity.activityCategory !== 'free_get' && homeCommodity.activityCategory !== 'present_get'" class="main-color">打赏0元</span>-->
+            <!--<Tooltip content="完成该任务可额外获得打赏费" placement="top-start">-->
+              <!--<Icon type="help-circled" color="#000"></Icon>-->
+            <!--</Tooltip>-->
+          <!--</P>-->
           <p class="home-commodity-apply">
             限量 <span class="main-color"> {{homeCommodity.taskCount || 0 }} </span> 份，剩余
             <span class="main-color"> {{homeCommodity.taskCount - homeCommodity.showkerApplySuccessCount || 0}} </span>
