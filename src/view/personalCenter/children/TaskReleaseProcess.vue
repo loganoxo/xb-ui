@@ -219,11 +219,11 @@
             <div class="baby-url ml-45 mt-20">
               <span class="required">宝贝地址：</span>
               <iInput v-model="taskRelease.itemUrl" placeholder="请输入宝贝地址" style="width: 296px"></iInput>
-              <span class="sizeColor2" v-if="getMemberVersionLevel === 200">（根据你的会员版本，每天同一宝贝可以发布2次）</span>
-              <span class="sizeColor2" v-else-if="getMemberVersionLevel === 300">（每天同一宝贝可以发布3次）</span>
-              <span class="sizeColor2" v-else>（根据你的会员版本，每天同一宝贝可以发布1次）</span>
+              <span class="sizeColor2" v-if="getMemberVersionLevel === 200">（根据你的会员版本，每天同一宝贝可以发布5次）</span>
+              <span class="sizeColor2" v-else-if="getMemberVersionLevel === 300">（每天同一宝贝可以发布10次）</span>
+              <span class="sizeColor2" v-else>（根据你的会员版本，每天同一宝贝可以发布2次）</span>
               <span v-if="getMemberVersionLevel !==300" class="svip-upgrade ml-10 mr-5" @click="upgradeSvip">不够用？+1次</span>
-              <Tooltip content="同一宝贝每日发布活动次数：免费商家1次，VIP商家2次，SVIP商家3次" placement="top">
+              <Tooltip content="同一宝贝每日发布活动次数：免费商家2次，VIP商家5次，SVIP商家10次" placement="top">
                 <Icon class="cursor-p" size="16" type="help-circled"></Icon>
               </Tooltip>
             </div>
@@ -406,11 +406,11 @@
                 <div class="baby-url ml-10 mt-20">
                   <span class="required">宝贝地址：</span>
                   <iInput v-model="taskRelease.itemUrl" placeholder="请输入宝贝地址" style="width: 296px"></iInput>
-                  <span class="sizeColor2" v-if="getMemberVersionLevel === 200">（根据你的会员版本，每天同一宝贝可以发布2次）</span>
-                  <span class="sizeColor2" v-else-if="getMemberVersionLevel === 300">（每天同一宝贝可以发布3次）</span>
-                  <span class="sizeColor2" v-else>（根据你的会员版本，每天同一宝贝可以发布1次）</span>
+                  <span class="sizeColor2" v-if="getMemberVersionLevel === 200">（根据你的会员版本，每天同一宝贝可以发布5次）</span>
+                  <span class="sizeColor2" v-else-if="getMemberVersionLevel === 300">（每天同一宝贝可以发布10次）</span>
+                  <span class="sizeColor2" v-else>（根据你的会员版本，每天同一宝贝可以发布2次）</span>
                   <span v-if="getMemberVersionLevel !==300" class="svip-upgrade ml-10 mr-5" @click="upgradeSvip">不够用？+1次</span>
-                  <Tooltip content="同一宝贝每日发布活动次数：免费商家1次，VIP商家2次，SVIP商家3次" placement="top">
+                  <Tooltip content="同一宝贝每日发布活动次数：免费商家2次，VIP商家5次，SVIP商家10次" placement="top">
                     <Icon class="cursor-p" size="16" type="help-circled"></Icon>
                   </Tooltip>
                 </div>
@@ -866,10 +866,9 @@
       <div class="deposits-received" v-show="stepName === 'deposit'">
         <div class="deposits-received-title mt-20 mb-20">活动活动信息已成功保存，请您存入本次活动的活动担保金。</div>
         <div class="deposits-received-info">您现在为 <span class="second-color">{{taskRelease.taskName}}</span> 存入活动担保金
-          <span v-if="taskRelease.activityCategory === 'free_get'" class="second-color">{{(taskRelease.taskCount * oneBond).toFixed(2)}}</span>
-          <span v-if="taskRelease.activityCategory === 'present_get'" class="second-color">{{(taskRelease.taskCount * oneBondAToB / 100).toFixed(2)}}</span>
+          <span class="second-color">{{(orderMoney / 100).toFixed(2)}}</span>
           元，此笔款项将作为发布活动活动诚信担保的重要工具，待拿手完成活动流程后将返还给每个拿手
-          <span v-if="taskRelease.activityCategory === 'free_get'" class="second-color">{{(oneBond).toFixed(2)}}</span>
+          <span v-if="taskRelease.activityCategory === 'free_get'" class="second-color">{{(oneBond / 100).toFixed(2)}}</span>
           <span v-if="taskRelease.activityCategory === 'present_get'" class="second-color">{{(oneBondAToB / 100).toFixed(2)}}</span>
           元.
         </div>
@@ -878,27 +877,27 @@
           <div class="description-fees-con mt-10">
             <p>活动担保金 = 份数 × 单品活动担保金 = <span>{{oneBondMarginText}}</span> 元</p>
             <!--<p class="mt-6">单品打赏费 = 单品试用担保金 × 费率 =<span>{{onePromotionExpensesBeforeText}}</span> 元<span>{{onePromotionExpensesTipText}}</span></p>-->
-            <p class="mt-6">总打赏费 = 单品打赏费 × 份数 = <span>{{onePromotionExpenses}}</span> × <span>{{taskRelease.taskCount}} = <span>{{allPromotionExpenses}}</span></span> 元 &nbsp;&nbsp;
+            <p class="mt-6">总打赏费 = 单品打赏费 × 份数 = <span>{{onePromotionExpenses}}</span> × <span>{{taskRelease.taskCount}} = <span>{{(allPromotionExpenses).toFixed(2)}}</span></span> 元 &nbsp;&nbsp;
               <tooltip placement="top" content="为提高平台拿手活跃度，鼓励拿手创作更优质的买家秀内容，原平台推广费将改为打赏费，用于拿手打赏！">
                 <a>什么是打赏费？</a>
               </tooltip>
               <span v-if="getMemberVersionLevel !== 300" class="ml-10 svip-upgrade" @click="upgradeSvip">升级SVIP免除打赏费</span>
             </p>
-            <p class="mt-6">总费用 = 活动担保金 + 总打赏费 = <span>{{(orderMoney).toFixed(2)}}</span> 元</p>
+            <p class="mt-6">总费用 = 活动担保金 + 总打赏费 = <span>{{(orderMoney / 100).toFixed(2)}}</span> 元</p>
             <p class="mt-6" v-if="!isBalance">手续费说明： 使用支付宝充值支付，支付宝会收取0.6%的手续费，该笔费用需要商家承担，手续费不予退还，敬请谅解！<a @click="isShowAliPayTip = true">查看支付宝官方说明</a></p>
           </div>
         </div>
-        <div class="pay-info mt-40" v-if="isBalance && !priceHasChange">本次总共要支付的金额为：<span class="second-color">{{(orderMoney).toFixed(2)}}</span>&nbsp;元。您的账户的当前余额为：<strong>{{getUserBalance || 0}}</strong>&nbsp;元
+        <div class="pay-info mt-40" v-if="isBalance && !priceHasChange">本次总共要支付的金额为：<span class="second-color">{{(orderMoney / 100).toFixed(2)}}</span>&nbsp;元。您的账户的当前余额为：<strong>{{getUserBalance || 0}}</strong>&nbsp;元
         </div>
-        <div class="pay-info mt-40" v-if="!isBalance && !priceHasChange">本次总共要支付的金额为：<strong>{{(orderMoney).toFixed(2)}}</strong>&nbsp;元。您账户余额为：<strong>{{getUserBalance || 0}}</strong>&nbsp;元，还需充值：<span
-          class="second-color">{{needPayMoneyBefore}}</span>&nbsp;元。
+        <div class="pay-info mt-40" v-if="!isBalance && !priceHasChange">本次总共要支付的金额为：<strong>{{(orderMoney / 100).toFixed(2)}}</strong>&nbsp;元。您账户余额为：<strong>{{getUserBalance || 0}}</strong>&nbsp;元，还需充值：<span
+          class="second-color">{{(needPayMoneyBefore / 100).toFixed(2)}}</span>&nbsp;元。
         </div>
         <div class="pay-info mt-40" v-if="isBalanceReplenish && priceHasChange">
-          该任务已付担保金 <strong>{{paidDeposit.toFixed(2)}}</strong>元，本次修改需要支付超出部分的金额为：<strong class="main-color">{{replenishMoney}}</strong>元。您账号的当前余额为：<strong>{{getUserBalance || 0}}</strong>&nbsp;元
+          该任务已付担保金 <strong>{{paidDeposit.toFixed(2)}}</strong>元，本次修改需要支付超出部分的金额为：<strong class="main-color">{{(replenishMoney / 100).toFixed(2)}}</strong>元。您账号的当前余额为：<strong>{{(getUserBalance).toFixed(2) || 0}}</strong>&nbsp;元
         </div>
-        <div class="pay-info mt-40" v-if="!isBalanceReplenish && priceHasChange">该任务已付担保金 <strong>{{paidDeposit}}</strong>元，本次修改需要支付超出部分的金额为：<strong
-          class="main-color">{{replenishMoney}}</strong>元。您账号的当前余额为：<strong>{{getUserBalance || 0}}</strong>&nbsp;元,还需充值：<span
-          class="second-color">{{needPayMoneyBefore}}</span>&nbsp;元。
+        <div class="pay-info mt-40" v-if="!isBalanceReplenish && priceHasChange">该任务已付担保金 <strong>{{(paidDeposit).toFixed(2)}}</strong>元，本次修改需要支付超出部分的金额为：<strong
+          class="main-color">{{(replenishMoney / 100).toFixed(2)}}</strong>元。您账号的当前余额为：<strong>{{(getUserBalance).toFixed(2) || 0}}</strong>&nbsp;元,还需充值：<span
+          class="second-color">{{(needPayMoneyBefore / 100).toFixed(2)}}</span>&nbsp;元。
         </div>
         <div class="description-fees-footer">
           <span class="pay-btn" v-if="isBalance" @click="openRecharge">前去支付</span>
@@ -931,11 +930,11 @@
         </div>
         <div slot="isBalance" class="title-tip">
           <Icon color="#FF2424" size="18px" type="ios-information"></Icon>
-          <span class="ml-10">您本次需要支付金额为 <span class="sizeColor3">{{!priceHasChange ? (orderMoney).toFixed(2) : (replenishMoney).toFixed(2)}}</span> 元。</span></div>
+          <span class="ml-10">您本次需要支付金额为 <span class="sizeColor3">{{!priceHasChange ? (orderMoney / 100).toFixed(2) : (replenishMoney / 100).toFixed(2)}}</span> 元。</span></div>
       </PayModel>
     </div>
     <!--用户修改价格比原始价格高需要补差价提示弹框-->
-    <Modal v-model="editPriceAfterModel">.
+    <modal v-model="editPriceAfterModel">.
         <div class="clear mt-10">
           <div class="left mt-5">
             <Icon color="#f9284f" size="32" type="information-circled"></Icon>
@@ -949,9 +948,9 @@
           <iButton type="error" size="large" @click="continueNextStep">我已了解，继续下一步</iButton>
           <iButton style="margin-left: 35px;" type="error" size="large" @click="IThink">我再想想</iButton>
         </div>
-      </Modal>
+      </modal>
     <!--用户修改价格比原始价格低提示弹框-->
-    <Modal v-model="editPriceToLowAfterModel">
+    <modal v-model="editPriceToLowAfterModel">
         <div class="clear mt-40">
           <div class="left mt-5">
             <Icon color="#f9284f" size="32" type="information-circled"></Icon>
@@ -965,20 +964,7 @@
           <iButton type="error" size="large" @click="toLowContinueNextStep">我已了解，继续下一步</iButton>
           <iButton class="ml-35" type="error" size="large" @click="IThink">我再想想</iButton>
         </div>
-      </Modal>
-    <!--商家发布任务活动总价低于500元提醒弹框-->
-    <!--  <Modal v-model="price500Model" width="360">
-        <p slot="header" style="color:#f9284f;text-align:center">
-          <Icon type="information-circled"></Icon>
-          <span>温馨提示</span>
-        </p>
-        <div class="text-ct">
-          <p>您发布的活动总价值必须在500元以上</p>
-        </div>
-        <div slot="footer">
-          <iButton type="error" size="large" long @click="price500Model = false">我知道了</iButton>
-        </div>
-      </Modal>-->
+      </modal>
     <!--商家改低宝贝数量并且关键词方案大于当前宝贝数量弹框-->
     <!--   <div class="keywordLowerChange">
       <Modal v-model="keywordLowerChangeModel" :mask-closable="false" :closable="false" width="368">
@@ -1020,7 +1006,7 @@
       <div slot="footer"></div>
     </modal>
     <!--宝贝地址不属于绑定店铺提示弹框-->
-    <Modal v-model="isSelectStoreUrl" :closable="false" :mask-closable="false" width="360">
+    <modal v-model="isSelectStoreUrl" :closable="false" :mask-closable="false" width="360">
       <p slot="header" class="text-ct">
         <Icon color="#f9284f" type="information-circled"></Icon>
         <span class="main-color">温馨提示</span>
@@ -1032,9 +1018,9 @@
       <div slot="footer">
         <iButton type="error" size="large" long @click="isSelectStoreUrl = false">我知道了</iButton>
       </div>
-    </Modal>
+    </modal>
     <!--爬虫抓取宝贝地址对应的店铺信息失败提示弹框-->
-    <Modal v-model="isGetStoreInfoError" :closable="false" :mask-closable="false" width="360">
+    <modal v-model="isGetStoreInfoError" :closable="false" :mask-closable="false" width="360">
       <p slot="header" class="text-ct">
         <Icon color="#f9284f" type="information-circled"></Icon>
         <span class="main-color">温馨提示</span>
@@ -1046,9 +1032,9 @@
       <div slot="footer">
         <iButton type="error" size="large" long @click="isGetStoreInfoError = false">我知道了</iButton>
       </div>
-    </Modal>
+    </modal>
     <!--商家进入发布活动页面后对商家说明的弹框-->
-    <Modal v-model="isShowBusinessTip" width="700" :closable="false">
+    <modal v-model="isShowBusinessTip" width="700" :closable="false">
       <p class="mt-20">亲，即日起，平台将上线 “分享必中” 活动，鼓励拿手们积极分享您的宝贝给朋友，分享最多的拿手，将获得宝贝必中资格！</p>
       <p class="mt-20">您的宝贝将在白拿拿平台上获得更多的曝光，点击和申请，也将获得更多的访客和收藏加购！</p>
       <p class="mt-20 mb-20">该活动，最多涉及您单次发布任务中，宝贝份数的{{taskSystemHoldPercent.configValue+'%'}}，请知晓！</p>
@@ -1056,9 +1042,9 @@
         <Checkbox v-model="noMoreTip" class="mr-20">不再提示</Checkbox>
         <iButton type="error" size="large"  @click="noMoreTipFunc">我知道了</iButton>
       </p>
-    </Modal>
+    </modal>
     <!--用户没有绑定任何店铺弹框提示-->
-    <Modal v-model="isBindStore" :closable="false" :mask-closable="false" width="360">
+    <modal v-model="isBindStore" :closable="false" :mask-closable="false" width="360">
       <p slot="header" class="text-ct">
         <Icon color="#f9284f" type="information-circled"></Icon>
         <span class="main-color">温馨提示</span>
@@ -1070,7 +1056,7 @@
       <div slot="footer">
         <iButton type="error" size="large" long @click="goStoreBind">前去绑定店铺</iButton>
       </div>
-    </Modal>
+    </modal>
   </div>
 </template>
 
@@ -1262,7 +1248,6 @@
         editPriceAfterModel: false,
         editPriceToLowAfterModel: false,
         // keywordLowerChangeModel: false,
-        price500Model: false,
         priceHasChange: false,
         paidDeposit: 0,
         taskStatus: null,
@@ -1373,7 +1358,7 @@
        * @return {number}
        */
       oneBond() {
-        return this.taskRelease.pinkage === 'true' ? (this.newItemPrice / 100).toFixed(2) * 1 : (this.newItemPrice / 100 + 10).toFixed(2) * 1;
+        return this.taskRelease.pinkage === 'true' ? this.newItemPrice : this.newItemPrice + 1000;
       },
 
       /**
@@ -1419,7 +1404,7 @@
        */
       oneBondMarginText() {
         if(this.taskRelease.activityCategory === 'free_get') {
-          return `${this.taskRelease.taskCount} × ${(this.oneBond).toFixed(2)} = ${(this.taskRelease.taskCount * this.oneBond).toFixed(2)}`
+          return `${this.taskRelease.taskCount} × ${(this.oneBond / 100).toFixed(2)} = ${((this.taskRelease.taskCount * this.oneBond) / 100).toFixed(2)}`
         }
         if(this.taskRelease.activityCategory === 'present_get') {
           return `${this.taskRelease.taskCount} × ${(this.oneBondAToB / 100).toFixed(2)} = ${((this.taskRelease.taskCount * this.oneBondAToB) / 100).toFixed(2)}`
@@ -1433,13 +1418,13 @@
       onePromotionExpensesBeforeText() {
         if(this.taskRelease.activityCategory === 'free_get') {
           if(this.getMemberVersionLevel === 100) {
-            return `${(this.oneBond).toFixed(2)} × 4% = ${(this.oneBond * 0.04).toFixed(2)}`
+            return `${(this.oneBond / 100).toFixed(2)} × 4% = ${(this.oneBond * 0.04).toFixed(2)}`
           }
           if(this.getMemberVersionLevel === 200) {
-            return `${(this.oneBond).toFixed(2)} × 2% = ${(this.oneBond * 0.02).toFixed(2)}`
+            return `${(this.oneBond / 100).toFixed(2)} × 2% = ${(this.oneBond * 0.02).toFixed(2)}`
           }
           if(this.getMemberVersionLevel === 300) {
-            return `${(this.oneBond).toFixed(2)} × 0 = 0`
+            return `${(this.oneBond / 100).toFixed(2)} × 0 = 0`
           }
         }
         if(this.taskRelease.activityCategory === 'present_get') {
@@ -1473,7 +1458,7 @@
        * @return {number}
        */
       allPromotionExpenses() {
-        return (this.onePromotionExpenses * this.taskRelease.taskCount).toFixed(2) * 1;
+        return this.onePromotionExpenses * this.taskRelease.taskCount;
       },
 
       /**
@@ -1482,10 +1467,10 @@
        */
       orderMoney() {
         if (this.taskRelease.activityCategory === 'free_get') {
-          return (((this.taskRelease.taskCount * this.oneBond * 100) + this.allPromotionExpenses * 100) / 100).toFixed(2) * 1;
+          return (this.taskRelease.taskCount * this.oneBond) + this.allPromotionExpenses * 100
         }
         if (this.taskRelease.activityCategory === 'present_get') {
-          return (((this.taskRelease.taskCount * this.oneBondAToB) + this.allPromotionExpenses * 100) / 100).toFixed(2) * 1;
+          return (this.taskRelease.taskCount * this.oneBondAToB) + this.allPromotionExpenses * 100
         }
       },
 
@@ -1494,7 +1479,7 @@
        * @return {number}
        */
       replenishMoney() {
-        return this.priceHasChange ? ((this.orderMoney * 100 - this.paidDeposit * 100) / 100).toFixed(2) * 1 : 0;
+        return this.priceHasChange ? this.orderMoney - this.paidDeposit * 100 : 0;
       },
 
       /**
@@ -1502,7 +1487,11 @@
        * @return {boolean}
        */
       isBalance() {
-        return this.orderMoney <= this.getUserBalance;
+        if(this.priceHasChange) {
+          return this.replenishMoney <= this.getUserBalance * 100
+        } else {
+          return this.orderMoney <= this.getUserBalance * 100
+        }
       },
 
       /**
@@ -1510,7 +1499,21 @@
        * @return {boolean}
        */
       isBalanceReplenish() {
-        return this.replenishMoney <= this.getUserBalance;
+        return this.replenishMoney <= this.getUserBalance * 100;
+      },
+
+      /**
+       * 计算当用户账户余额足以支付活动所需金额要额外充值的金额
+       * @return {number}
+       */
+      needPayMoneyAfter() {
+        if(this.isBalance && !this.priceHasChange) {
+          return this.orderMoney
+        } else if(this.isBalance && this.priceHasChange) {
+          return this.replenishMoney
+        } else {
+          return 0
+        }
       },
 
       /**
@@ -1519,12 +1522,13 @@
        */
       needPayMoneyBefore() {
         if(!this.isBalance && !this.priceHasChange) {
-          let money = this.orderMoney - this.getUserBalance;
-          return money > 0 ? money.toFixed(2) : 0
-        }
-        if(!this.isBalanceReplenish && this.priceHasChange) {
-          let money = this.replenishMoney - this.getUserBalance;
-          return money > 0 ? money.toFixed(2) : 0
+          let money = this.orderMoney - this.getUserBalance * 100;
+          return money > 0 ? money : 0
+        } else if(!this.isBalanceReplenish && this.priceHasChange) {
+          let money = this.replenishMoney - this.getUserBalance * 100;
+          return money > 0 ? money : 0
+        } else {
+          return 0
         }
       },
 
@@ -1532,7 +1536,7 @@
        * @return {String}
        */
       needPayMoneyAfterText() {
-        return !this.isBalance ? `${this.needPayMoneyBefore} + ${(((Math.ceil(this.needPayMoneyBefore * 100 / 0.994)) - this.needPayMoneyBefore * 100) / 100).toFixed(2)}` : ''
+        return !this.isBalance ? `${(this.needPayMoneyBefore / 100).toFixed(2)} + ${(((Math.ceil(this.needPayMoneyBefore / 0.994)) - this.needPayMoneyBefore) / 100).toFixed(2)}` : ''
       },
 
       /**
@@ -2013,11 +2017,7 @@
         }
         let status = _this.taskStatus;
         let type = _this.$route.query.type;
-        /* if (_this.taskRelease.taskCount * _this.oneBond < 500) {
-           _this.price500Model = true;
-           return;
-         }*/
-        if ((status === 'waiting_modify' || status === 'waiting_pay') && _this.paidDeposit === _this.orderMoney && !type) {
+        if ((status === 'waiting_modify' || status === 'waiting_pay') && _this.paidDeposit * 100 >= _this.orderMoney && !type) {
           _this.taskCreate(true);
         } else if ((status === 'waiting_modify' || status === 'waiting_pay') && _this.paidDeposit > _this.orderMoney && !type) {
           this.editPriceToLowAfterModel = true;
@@ -2388,7 +2388,7 @@
       confirmPayment(pwd) {
         let _this = this;
         api.payByBalance({
-          fee: _this.orderMoney,
+          fee: _this.needPayMoneyAfter,
           payPassword: pwd,
           taskId: _this.taskPayId,
           type: _this.priceHasChange ? 'supply_pay' : 'first_pay'

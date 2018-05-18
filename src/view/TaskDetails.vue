@@ -70,10 +70,11 @@
               &nbsp;&nbsp;&nbsp;&nbsp;
               活动份数：<span class="fs-18"> {{commodityData.task.taskCount}} </span>份
             </p>
-            <div v-if="getUserRole === 0 && isLogin === true">
-              <p class="f-b cl000 fs-14" v-if="commodityData.task.createTime>=1526464800000">完成该活动可额外获得打赏费<span v-if="commodityData.task.activityCategory === 'free_get'">1</span><span v-else-if="commodityData.task.activityCategory === 'present_get'">2</span>元</p>
-              <p class="f-b cl000 fs-14" v-else>完成该活动可额外获得打赏费0元</p>
-            </div>
+            <!--打赏费，勿删-->
+            <!--<div v-if="getUserRole === 0 && isLogin === true">-->
+              <!--<p class="f-b cl000 fs-14" v-if="commodityData.task.createTime>=1526464800000">完成该活动可额外获得打赏费<span v-if="commodityData.task.activityCategory === 'free_get'">1</span><span v-else-if="commodityData.task.activityCategory === 'present_get'">2</span>元</p>-->
+              <!--<p class="f-b cl000 fs-14" v-else>完成该活动可额外获得打赏费0元</p>-->
+            <!--</div>-->
             <p class="fs-14">（商家已存入总活动担保金&nbsp;{{commodityData.task.totalMarginNeed/100}}&nbsp;元，请放心申请）</p>
             <p class="fs-14">{{commodityData.task.showkerApplyTotalCount}} 人申请，{{parseInt(commodityData.trailOn) ?
               commodityData.trailOn: 0}} 人正在参与活动，{{parseInt(commodityData.trailDone) ? commodityData.trailDone : 0}}
@@ -119,13 +120,16 @@
                            class="fs-16 default-btn" long>已申请
                   </iButton>
                 </div>
-                <div v-if="!commodityData.task.online">
+                <div v-if="applyBtnShow === 'buyerTasking'&& !commodityData.task.online">
                   <iButton size="large" v-if="commodityData.taskApply" disabled class="fs-16 default-btn" style="width: 150px;">已申请</iButton>
                   <iButton size="large" v-if="!commodityData.taskApply" disabled class="fs-16 default-btn" style="width: 150px;">已下线</iButton>
                 </div>
-                <iButton v-if="applyBtnShow === 'sellerTasking'" size="large" class="fs-16 default-btn" type="warning"
-                         style="width: 200px;">商家号不可以参加活动
-                </iButton>
+                <div v-if="applyBtnShow === 'sellerTasking'">
+                  <iButton size="large" v-if="!commodityData.task.online" disabled class="fs-16 default-btn" style="width: 150px;">已下线</iButton>
+                  <iButton v-else size="large" class="fs-16 default-btn" type="warning"
+                           style="width: 200px;">商家号不可以参加活动
+                  </iButton>
+                </div>
                 <div v-if="applyBtnShow === 'noLogin' && commodityData.task.online">
                   <a class="ivu-btn ivu-btn-primary ivu-btn-large" @click="selectLogin = true" style="width: 150px;">
                     申请活动

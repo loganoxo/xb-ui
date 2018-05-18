@@ -312,7 +312,7 @@
         </div>
         <div slot="isBalance" class="title-tip">
           <Icon color="#FF2424" size="18px" type="ios-information"></Icon>
-          <span class="ml-10">您本次需要支付金额为 <span class="size-color3">{{orderMoney}}</span> 元。</span>
+          <span class="ml-10">您本次需要支付金额为 <span class="size-color3">{{(orderMoney / 100).toFixed(2)}}</span> 元。</span>
         </div>
       </PayModel>
     </div>
@@ -431,16 +431,16 @@
         return this.$store.getters.getUserBalance;
       },
       orderMoney() {
-        return this.hasDeposited > 0 ? (this.needDepositMoney - this.hasDeposited).toFixed(2) * 1 : this.needDepositMoney;
+        return this.hasDeposited > 0 ? this.needDepositMoney - this.hasDeposited : this.needDepositMoney;
       },
       isBalance() {
-        return this.orderMoney <= this.getUserBalance
+        return this.orderMoney <= this.getUserBalance * 100
       },
       needPayMoney() {
-        return !this.hasBalance ? (Math.abs(this.getUserBalance * 100 - this.orderMoney * 100) / 100).toFixed(2) : 0
+        return !this.hasBalance ? Math.abs(this.getUserBalance * 100 - this.orderMoney) : 0
       },
       needPayMoneyText() {
-        return `${this.needPayMoney} + ${(((Math.ceil(this.needPayMoney * 100 / 0.994)) - this.needPayMoney * 100) / 100).toFixed(2)}`
+        return `${(this.needPayMoney / 100).toFixed(2)} + ${(((Math.ceil(this.needPayMoney / 0.994)) - this.needPayMoney) / 100).toFixed(2)}`
       },
     },
     methods: {
@@ -639,8 +639,8 @@
           _this.isTaskOverdueModel = true;
           _this.taskId = id;
         } else {
-          _this.needDepositMoney = money / 100 || 0;
-          _this.hasDeposited = deposited / 100 || 0;
+          _this.needDepositMoney = money || 0;
+          _this.hasDeposited = deposited || 0;
           _this.taskPayId = id;
           _this.showPayModel = true;
         }
