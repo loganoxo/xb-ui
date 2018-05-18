@@ -158,13 +158,6 @@
         return this.$store.state.userInfo.memberDeadline
       },
 
-      /** 获取售后客服QQ号码
-       * @return {Number}
-       */
-      getSellerCustomerQq() {
-        return this.$store.getters.getSellerCustomerQq
-      },
-
       /** 计算用户选择会员订购状态（renewal：续费，upgrade：升级， buy： 购买）
        * @return {string}
        */
