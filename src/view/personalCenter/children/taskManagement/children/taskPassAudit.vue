@@ -46,7 +46,7 @@
       <iButton type="primary" :loading="searchLoading" @click="searchPassesTask">搜索</iButton>
     </div>
     <div class="text-align-rt mt-10" v-if="taskPassAuditList.length > 0">
-      <i-button size="large" class="mr-10" @click="batchPassModel = true"><Icon type="android-done-all"></Icon>批量通过所有待审核订单</i-button>
+      <i-button size="large" class="mr-10" :loading="batchPassLoading" @click="readyBatchPass"><Icon type="android-done-all"></Icon>批量通过所有待审核订单</i-button>
       <i-button size="large" @click="batchExportModel = true"><Icon type="ios-download-outline"></Icon> 批量导出以下所有订单号</i-button>
     </div>
     <div class="mt-12" v-for="(item,index) in taskPassAuditList" :key="item.id" v-if="taskPassAuditList.length > 0">
@@ -152,17 +152,18 @@
               </td>
             </tr>
             </tbody>
+            <thead v-if="taskPassAuditList[index].passTask && taskPassAuditList[index].passTask.length > 0">
             <tr>
               <td colspan="5">
-                <Page :total="taskTotalElements" :page-size="taskPageSize" :current="taskPageIndex"
-                      @on-change="TaskPageChange"></Page>
+                <page :total="taskTotalElements" :page-size="taskPageSize" :current="taskPageIndex" @on-change="TaskPageChange"></page>
               </td>
             </tr>
-            <tbody v-if=" taskPassAuditList[index].passTask && taskPassAuditList[index].passTask.length === 0">
+            </thead>
+            <thead v-if="taskPassAuditList[index].passTask && taskPassAuditList[index].passTask.length === 0">
             <tr>
-              <td colspan="4" width="100%">暂无数据</td>
+              <td colspan="5" width="100%">暂无数据</td>
             </tr>
-            </tbody>
+            </thead>
           </table>
         </div>
       </collapse-transition>
@@ -339,7 +340,7 @@
       </div>
       <div v-show="batchPassStep === 'end'" class="text-ct fs-14 mt-20"><icon color="#2DAB2D" class="mr-5" type="checkmark-circled"></icon>恭喜，已成功处理 {{successToProcessNum}} 条任务，失败 {{errorToProcessNum}} 条</div>
       <div slot="footer" class="text-ct">
-        <i-button type="error" size="large" class="mr-60 pl-20 pr-20" v-show="batchPassStep === 'ready'" @click="startBatchPass">执行批量通过</i-button>
+        <i-button type="error" size="large" class="mr-60 pl-20 pr-20" :disabled="batchPassCount === 0" v-show="batchPassStep === 'ready'" @click="startBatchPass">执行批量通过</i-button>
         <i-button class="ml-35 pl-40 pr-40" size="large" @click="batchPassModel = false" v-show="batchPassStep === 'ready'">取消</i-button>
         <i-button type="error" size="large" class="pl-60 pr-60" @click="endBatchPass" v-show="batchPassStep === 'end'">确定</i-button>
       </div>
@@ -353,7 +354,7 @@
       <div class="text-ct fs-14">您确定要批量导出以下所有订单号吗？</div>
       <div slot="footer" class="text-ct">
         <i-button class="pl-40 pr-40 mr-40" size="large" @click="batchExportModel = false">我在考虑下</i-button>
-        <i-button class="pl-40 pr-40" type="error" size="large" @click="getExportOrderNumberAll">开始批量导出</i-button>
+        <i-button class="pl-40 pr-40" type="error" size="large" :loading="batchExportLoading" @click="getExportOrderNumberAll">开始批量导出</i-button>
       </div>
     </modal>
   </div>
@@ -431,7 +432,9 @@
         taskPageIndex: 1,
         taskPageSize: 5,
         batchPassModel: false,
+        batchPassLoading: false,
         batchExportModel: false,
+        batchExportLoading: false,
         batchPassStep: 'ready',
         progressWidth: 0,
         batchPassCount: 0,
@@ -747,23 +750,35 @@
         self.taskPageIndex = data;
         self.passesShowkerTask(self.operateTaskId, self.operateIndex, self.taskPageIndex);
       },
-      readyBatchPass(taskNumber, alitmAccount, orderNum, showkerTaskStatusList) {
+      readyBatchPass() {
         const _this = this;
+        _this.batchPassLoading = true;
+        let showkerTaskStatusList = JSON.stringify(_this.showkerTaskStatusList);
+        if (_this.taskNumber || _this.alitmAccount || _this.orderNum) {
+          showkerTaskStatusList = [];
+        }
         api.getMerchantCountPassOrder({
-          taskNumber: taskNumber,
-          alitmAccount: alitmAccount,
-          orderNum: orderNum,
+          taskNumber: _this.taskNumber,
+          alitmAccount: _this.alitmAccount,
+          orderNum: _this.orderNum,
           showkerTaskStatusList: showkerTaskStatusList,
         }).then(res => {
-            if(res.status) {
-              _this.batchPassCount = res.data
-            } else {
-              _this.$Message.error(res.msg)
-            }
+          if(res.status) {
+            _this.batchPassModel = true;
+            _this.batchPassCount = res.data
+          } else {
+            _this.$Message.error(res.msg)
+          }
+          _this.batchPassLoading = false;
         })
       },
-      startBatchPass: async function() {
+      startBatchPass() {
         const _this = this;
+        _this.batchExportLoading = true;
+        let showkerTaskStatusList = JSON.stringify(_this.showkerTaskStatusList);
+        if (_this.taskNumber || _this.alitmAccount || _this.orderNum) {
+          showkerTaskStatusList = [];
+        }
         _this.batchPassResult = null;
         _this.batchPassStep = 'start';
         let num = parseInt(400 / _this.batchPassCount);
@@ -782,23 +797,10 @@
             if(_this.batchPassResult && _this.batchPassResult.status) {
               clearInterval(progress);
               _this.batchPassStep = 'end';
+              _this.batchExportLoading = false;
             }
           }
         }, 500);
-
-        let showkerTaskStatusList = JSON.stringify(_this.showkerTaskStatusList);
-        if (_this.taskNumber || _this.alitmAccount || _this.orderNum) {
-          showkerTaskStatusList = [];
-        }
-
-        // 捕获 readyBatchPass 方法处理异常
-        try {
-          await _this.readyBatchPass(_this.taskNumber, _this.alitmAccount, _this.orderNum, showkerTaskStatusList);
-        } catch (err) {
-          console.error(err);
-          _this.$Message.error('批量通过所有待审核订单失败！');
-          return;
-        }
 
         // 开始发起批量处理待审核订单请求
         api.merchantBatchPassOrder({
