@@ -167,7 +167,7 @@
   import api from '@/config/apiConfig'
 
   export default {
-    name: 'TaskWaitAudit',
+    name: 'task-wait-audit',
     components: {
       iForm: Form,
       iSelect: Select,

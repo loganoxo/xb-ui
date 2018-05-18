@@ -107,9 +107,7 @@ const state = {
     }
   },
   activityCategory: '',
-  isBuyVipPopup: false,//是否弹加qq获取免费vip弹框
   sellerTaskInfo: {},
-
 };
 
 export default new Vuex.Store({

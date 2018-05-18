@@ -52,9 +52,8 @@
             <Icon color="#FF2424" size="16" type="ios-information"></Icon>
             <span class="">亲，您的余额不足，请充值。</span>
           </span>还需充值
-          <strong class="size-color3">{{needPayMoneyText}}</strong> 元。
-          <!--<strong class="size-color3">{{(needPayMoney / 100).toFixed(2)}}</strong> 元。-->
-          <span @click="isShowAliPayTip = true">【<span class="blue cursor-p">支付宝手续费</span>】</span>
+          <!--<strong class="size-color3">{{needPayMoneyText}}</strong> 元。-->
+          <strong class="size-color3">{{(needPayMoney / 100).toFixed(2)}}</strong> 元。
         </div>
         <div slot="isBalance" class="title-tip">
           <Icon color="#FF2424" size="18px" type="ios-information"></Icon>
@@ -63,9 +62,6 @@
         </div>
       </pay-model>
     </div>
-    <modal v-model="isShowAliPayTip">
-      <img src="~assets/img/common/ali-pay-tip.jpg">
-    </modal>
   </div>
 </template>
 
@@ -116,7 +112,6 @@
         memberVersionPeriodList: [],
         isNeedRecharge: false,
         nowVersionName: null,
-        isShowAliPayTip: false,
       }
     },
     created() {
@@ -156,13 +151,6 @@
        */
       getMemberDeadline() {
         return this.$store.state.userInfo.memberDeadline
-      },
-
-      /** 获取售后客服QQ号码
-       * @return {Number}
-       */
-      getSellerCustomerQq() {
-        return this.$store.getters.getSellerCustomerQq
       },
 
       /** 计算用户选择会员订购状态（renewal：续费，upgrade：升级， buy： 购买）
@@ -274,7 +262,7 @@
             let filterData = res.data.filter(item => {
               return item.validDays >= 91
             });
-            filterData.forEach(item => {
+            filterData.map(item => {
               if (item.level) {
                 memberVersionList.push(item.level)
               }

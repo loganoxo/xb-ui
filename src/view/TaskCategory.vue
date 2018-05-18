@@ -287,7 +287,7 @@
       BreadcrumbItem: Breadcrumb.Item,
       Page: Page,
       TimeDown: TimeDown,
-      Tooltip:Tooltip
+      Tooltip: Tooltip
     },
     data () {
       return {

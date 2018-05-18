@@ -92,7 +92,6 @@
         </div>-->
       </div>
     </div>
-    <!--用户没有发布任务权限提示-->
     <!--活动发布相关-->
     <div class="mt-30">
       <div class="activity-con" v-show="stepName === 'information'">

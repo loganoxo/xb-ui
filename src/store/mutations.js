@@ -14,6 +14,7 @@ export default {
 
   //登录成功后存储用户信息到localStorage和vuex
   [types.RECORD_USER_INFO](state, {info}) {
+    state.userInfo = {};
     state.userInfo = info;
     state.login = true;
     let userInfo = getStorage("userInfo");
@@ -95,11 +96,6 @@ export default {
   //系统配置信息
   [types.SYSTEM_CONFIG_INFORMATION](state, {result}) {
     state.sysConfigInfo = result;
-  },
-
-  //是否显示购买VIP弹框
-  [types.CHANGE_IS_VIP_POPUP](state, {result}) {
-    state.isBuyVipPopup = result;
   },
 
   //商家任务信息
