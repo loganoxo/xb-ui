@@ -141,7 +141,7 @@
               <td>
                 <p class="del-edit">
                   <span v-if="item.status === 'order_num_waiting_audit'"
-                        @click="openCheckOrder(item.id, item.needBrowseCollectAddCart, item.itemIssue)">审核订单信息</span>
+                        @click="openCheckOrder(item.id, item.needBrowseCollectAddCart, item.itemIssue, index)">审核订单信息</span>
                   <span v-if="item.status === 'trial_report_waiting_confirm'"
                         @click="goProbationReport(item.id)">审核买家秀</span>
                   <span v-if="item.status === 'trial_finished' && !item.ifEvaluated"
@@ -635,29 +635,25 @@
           if (res.status) {
             _this.$store.dispatch('getUserInformation');
             _this.showCheckOrder = false;
-            _this.$Message.success({
-              content: '支付成功！',
-              duration: 6
-            });
+            _this.$Message.success('支付成功！');
             _this.passesShowkerTask(_this.operateTaskId, _this.operateIndex);
           } else {
-            _this.$Message.error({
-              content: res.msg,
-              duration: 6
-            })
+            _this.$Message.error(res.msg)
           }
         })
       },
-      openCheckOrder(id, needBrowseCollectAddCart, itemIssue) {
+      openCheckOrder(id, needBrowseCollectAddCart, itemIssue, index) {
         let _this = this;
         // _this.needBrowseCollectAddCart = needBrowseCollectAddCart;
-        _this.needBrowseCollectAddCart = false;
         _this.needIssue = itemIssue;
         _this.showCheckOrder = true;
         _this.orderNoPassReason = null;
         api.orderNumberInfo({id: id}).then(res => {
           if (res.status) {
             _this.orderInfo = res.orderInfo;
+            if(_this.taskPassAuditList[index].order_num_waiting_audit > 0) {
+              _this.taskPassAuditList[index].order_num_waiting_audit -=1;
+            }
           } else {
             _this.$Message.error(res.msg)
           }

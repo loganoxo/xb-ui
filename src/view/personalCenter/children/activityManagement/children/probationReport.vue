@@ -378,17 +378,11 @@
           platform: "pc"
         }).then(res => {
           if (res.status) {
-            _this.$Message.success({
-              content: '已向拿手返款成功！',
-              duration: 4
-            });
+            _this.$Message.success('已向拿手返款成功！');
             _this.showRefundModel = false;
             _this.evaluateShowker = true;
           } else {
-            _this.$Message.error({
-              content: res.msg,
-              duration: 4
-            })
+            _this.$Message.error(res.msg)
           }
         })
       },
