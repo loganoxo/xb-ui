@@ -92,10 +92,10 @@
                   </div>
                   <div class="lht20 mt-10">
                     <p>请扫描下方的二维码或者直接搜索添</p>
-                    <p>加<span class="main-color">"nanajiangyo"</span>为好友,查看朋友圈封面获取验证口令！</p>
+                    <p>加<span class="main-color">"think-little888"</span>为好友,查看朋友圈封面获取验证口令！</p>
                   </div>
                   <div class="pl-10 pr-10 pt-10 pb-10 text-ct">
-                    <img src="~assets/img/common/contact-nanajiangyo.png" alt="" width="220" height="220">
+                    <img src="~assets/img/common/contact-command.jpg" alt="" width="220" height="220">
                   </div>
                 </div>
               </Tooltip>
