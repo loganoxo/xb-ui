@@ -439,7 +439,6 @@
       } else {
         this.passesTaskList();
       }
-      _this.readyBatchPass();
     },
     computed: {
       getOderPrice() {
@@ -738,9 +737,14 @@
         self.taskPageIndex = data;
         self.passesShowkerTask(self.operateTaskId, self.operateIndex, self.taskPageIndex);
       },
-      readyBatchPass() {
+      readyBatchPass(taskNumber, alitmAccount, orderNum, showkerTaskStatusList) {
         const _this = this;
-        api.getMerchantCountPassOrder().then(res => {
+        api.getMerchantCountPassOrder({
+          taskNumber: taskNumber,
+          alitmAccount: alitmAccount,
+          orderNum: orderNum,
+          showkerTaskStatusList: showkerTaskStatusList,
+        }).then(res => {
             if(res.status) {
               _this.batchPassCount = res.data
             } else {
@@ -748,7 +752,7 @@
             }
         })
       },
-      startBatchPass() {
+      startBatchPass: async function() {
         const _this = this;
         _this.batchPassResult = null;
         _this.batchPassStep = 'start';
@@ -771,8 +775,17 @@
             }
           }
         }, 500);
-
-        api.merchantBatchPassOrder().then(res => {
+        let showkerTaskStatusList = JSON.stringify(_this.showkerTaskStatusList);
+        if (_this.taskNumber || _this.alitmAccount || _this.orderNum) {
+          showkerTaskStatusList = [];
+        }
+        await _this.readyBatchPass(_this.taskNumber, _this.alitmAccount, _this.orderNum, showkerTaskStatusList);
+        api.merchantBatchPassOrder({
+          taskNumber: _this.taskNumber,
+          alitmAccount: _this.alitmAccount,
+          orderNum: _this.orderNum,
+          showkerTaskStatusList: showkerTaskStatusList,
+        }).then(res => {
           if(res.status) {
             _this.batchPassResult = res;
           } else {
@@ -787,7 +800,16 @@
       },
       getExportOrderNumberAll() {
         const _this = this;
-        api.getMerchantExportOrderNumber().then(res => {
+        let showkerTaskStatusList = JSON.stringify(_this.showkerTaskStatusList);
+        if (_this.taskNumber || _this.alitmAccount || _this.orderNum) {
+          showkerTaskStatusList = [];
+        }
+        api.getMerchantExportOrderNumber({
+          taskNumber: _this.taskNumber,
+          alitmAccount: _this.alitmAccount,
+          orderNum: _this.orderNum,
+          showkerTaskStatusList: showkerTaskStatusList,
+        }).then(res => {
           if(res.status) {
             let rowData = [];
             res.data.forEach(item => {

@@ -985,8 +985,8 @@ export default {
   /**
    * 获取批量导出订单的订单号
    */
-  getMerchantExportOrderNumber() {
-    return axiosConfig.get('/api/merchant/export/order.json')
+  getMerchantExportOrderNumber(params) {
+    return axiosConfig.post('/api/merchant/export/order.json',params)
   },
 
 }
