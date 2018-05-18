@@ -272,7 +272,9 @@
         }).then( res => {
           if (res.status){
             self.evaluateShowker = false;
-            self.$Message.success('评价成功！')
+            self.$Message.success('评价成功！');
+            self.$store.state.activityStatus = 'passAudit'
+            self.returnUpPage();
           }else {
             self.$Message.error(res.msg)
           }

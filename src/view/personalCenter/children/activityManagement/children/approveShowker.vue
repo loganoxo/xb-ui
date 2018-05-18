@@ -581,7 +581,8 @@
     },
     created() {
       this.taskId = decode(this.$route.query.q);
-      this.showApproveStatus = "toAudit";
+      this.showApproveStatus = this.ActivityStatus ? this.ActivityStatus : this.showApproveStatus;
+      // this.showApproveStatus = "toAudit";
       this.taskApplyList();
     },
     watch: {},
@@ -604,6 +605,9 @@
       },
       isBalance() {
         return this.needReplenishMoney <= this.getUserBalance
+      },
+      ActivityStatus() {
+        return this.$store.state.activityStatus
       }
     },
     methods: {

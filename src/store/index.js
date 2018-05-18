@@ -108,6 +108,7 @@ const state = {
   },
   activityCategory: '',
   sellerTaskInfo: {},
+  activityStatus:'' //活动管理的状态（待审批，已通过，未通过）
 };
 
 export default new Vuex.Store({
