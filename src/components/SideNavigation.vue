@@ -11,7 +11,7 @@
     <Tooltip placement="left" :always="always" :transfer="true" :disabled="disabled" class="display-block" v-if="isLogin && getUserRole === 1">
       <div class="side-box side-box-bg qq"></div>
       <div slot="content">
-        <p class="pt-10">产品客服：<a href="http://wpa.qq.com/msgrd?v=3&site=qq&menu=yes&uin=1624363653" class="qq-refer-logo" target="_blank"></a></p>
+        <p class="pt-10">产品客服：<a href="http://wpa.qq.com/msgrd?v=3&site=qq&menu=yes&uin=2012364029" class="qq-refer-logo" target="_blank"></a></p>
         <p class="mt-20">咨询时间：周一至周五 9:00 - 21:00</p>
         <p class="text-align-rt mt-5">周六周日 9:00 - 18:00</p>
       </div>

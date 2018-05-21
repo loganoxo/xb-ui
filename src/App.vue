@@ -17,6 +17,7 @@
         <a href="http://wpa.qq.com/msgrd?v=3&site=qq&menu=yes&uin=1873512513" target="_blank"  class="service service2"></a>
         <a href="http://wpa.qq.com/msgrd?v=3&site=qq&menu=yes&uin=2331878513" target="_blank"  class="service service3"></a>
         <a href="http://wpa.qq.com/msgrd?v=3&site=qq&menu=yes&uin=1624363653" target="_blank"  class="service service4"></a>
+        <div class="hide-box" v-if="memberLevel === 100 || memberLevel === null"></div>
       </div>
       <a href="https://jq.qq.com/?_wv=1027&k=5ZMH7Iu" target="_blank" class="pos-rel block" v-else>
         <img src="~assets/img/common/suspend-service-showker.png" alt="">
@@ -76,6 +77,9 @@
       },
       getSellerCustomerQq() {
         return this.$store.getters.getSellerCustomerQq
+      },
+      memberLevel() {
+        return this.$store.state.userInfo.memberLevel
       }
     },
     created() {
@@ -140,6 +144,15 @@
     }
     .service4{
       bottom:15px;
+    }
+    .hide-box{
+      width:84%;
+      height:50px;
+      background-color: #fff;
+      position: absolute;
+      bottom:12px;
+      left:10px;
+
     }
   }
 
