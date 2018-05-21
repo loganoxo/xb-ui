@@ -989,4 +989,10 @@ export default {
     return axiosConfig.post('/api/merchant/export/order.json',params)
   },
 
+  /**
+   * 统计用户点击会员购买按钮
+   */
+  clickBuyMemberCallback() {
+    return axiosConfig.post('/api/user/member/clickBuyMember.json')
+  }
 }
