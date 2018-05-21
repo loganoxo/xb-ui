@@ -1301,7 +1301,6 @@
       _this.$refs.myTextEditorPresent.quill.getModule("toolbar").addHandler("image", imgHandlerPresentGet);
     },
     created() {
-      // this.getCheckSellerTest();
       this.getItemCatalog();
       this.getDetectionUserClauseTip();
       this.getStoreBindInfoList();
@@ -2161,14 +2160,8 @@
             _this.paidDeposit = (res.data.marginPaid + res.data.promotionExpensesPaid) / 100 || 0;
             _this.taskStatus = res.data.taskStatus;
             _this.mainDefaultList.push({src: res.data.taskMainImage});
+            _this.taskRelease = {...res.data};
             _this.taskRelease.itemType = res.data.itemCatalog.id;
-            for (let k in _this.taskRelease) {
-              for (let i in res.data) {
-                if (k === i) {
-                  _this.taskRelease[k] = res.data[i]
-                }
-              }
-            }
             _this.taskRelease.pinkage = _this.taskRelease.pinkage.toString();
             _this.taskRelease.donotPostPhoto = _this.taskRelease.donotPostPhoto.toString();
 
