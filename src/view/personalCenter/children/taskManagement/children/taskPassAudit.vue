@@ -8,46 +8,46 @@
         </Checkbox>
       </div>
       <div class="left">
-        <Checkbox-group v-model="showkerTaskStatusList" @on-change="checkPassChange">
-          <Checkbox label="pass_and_unclaimed">
+        <checkbox-group v-model="showkerTaskStatusList" @on-change="checkPassChange">
+          <checkbox label="pass_and_unclaimed">
             <span>已通过待下单</span>
-          </Checkbox>
-          <Checkbox label="order_num_waiting_audit">
+          </checkbox>
+          <checkbox label="order_num_waiting_audit">
             <span>订单号待审核</span>
-          </Checkbox>
-          <Checkbox label="trial_report_waiting_submit">
+          </checkbox>
+          <checkbox label="trial_report_waiting_submit">
             <span>已下订单待交买家秀</span>
-          </Checkbox>
-          <Checkbox label="trial_report_waiting_confirm">
+          </checkbox>
+          <checkbox label="trial_report_waiting_confirm">
             <span>买家秀待确认</span>
-          </Checkbox>
-          <Checkbox label="trial_finished">
+          </checkbox>
+          <checkbox label="trial_finished">
             <span>活动完成</span>
-          </Checkbox>
-          <Checkbox label="order_num_error">
+          </checkbox>
+          <checkbox label="order_num_error">
             <span>订单号有误</span>
-          </Checkbox>
-          <Checkbox label="trial_report_unqualified">
+          </checkbox>
+          <checkbox label="trial_report_unqualified">
             <span>买家秀不合格</span>
-          </Checkbox>
-          <Checkbox label="trial_end">
+          </checkbox>
+          <checkbox label="trial_end">
             <span>任务终止</span>
-          </Checkbox>
-        </Checkbox-group>
+          </checkbox>
+        </checkbox-group>
       </div>
     </div>
     <div class="mt-20 search-list">
       <span>淘宝会员名：</span>
-      <iInput v-model="alitmAccount" style="width: 160px;margin-right: 8px;"></iInput>
+      <i-input v-model="alitmAccount" style="width: 160px;margin-right: 8px;"></i-input>
       <span>活动编号：</span>
-      <iInput v-model="taskNumber" style="width: 160px;margin-right: 8px;"></iInput>
+      <i-input v-model="taskNumber" style="width: 160px;margin-right: 8px;"></i-input>
       <span>订单编号：</span>
-      <iInput v-model="orderNum" style="width: 160px;margin-right: 8px;"></iInput>
-      <iButton type="primary" :loading="searchLoading" @click="searchPassesTask">搜索</iButton>
+      <i-input v-model="orderNum" style="width: 160px;margin-right: 8px;"></i-input>
+      <i-button type="primary" :loading="searchLoading" @click="searchPassesTask">搜索</i-button>
     </div>
     <div class="text-align-rt mt-10" v-if="taskPassAuditList.length > 0">
-      <i-button size="large" class="mr-10" :loading="batchPassLoading" @click="readyBatchPass"><Icon type="android-done-all"></Icon>批量通过所有待审核订单</i-button>
-      <i-button size="large" @click="batchExportModel = true"><Icon type="ios-download-outline"></Icon> 批量导出以下所有订单号</i-button>
+      <i-button size="large" class="mr-10" :loading="batchPassLoading" @click="readyBatchPass"><icon type="android-done-all"></icon>批量通过所有待审核订单</i-button>
+      <i-button size="large" @click="batchExportModel = true"><icon type="ios-download-outline"></icon> 批量导出以下所有订单号</i-button>
     </div>
     <div class="mt-12" v-for="(item,index) in taskPassAuditList" :key="item.id" v-if="taskPassAuditList.length > 0">
       <div class="collapse-header clear" @click="collapseToggle(item.id,index)" :class="{noBorderRadius:selectId}">
@@ -64,7 +64,7 @@
           </p>
           <p>活动名称：{{item.taskName}}</p>
         </div>
-        <Icon :class="{showTableStyles:selectId === item.id}" class="right mr-10 mt-15" type="arrow-right-b"></Icon>
+        <icon :class="{showTableStyles:selectId === item.id}" class="right mr-10 mt-15" type="arrow-right-b"></icon>
         <div class="waiting-task-number">
           <p class="task-pass"
              :class="{'line-height':showkerTaskStatusList.length === 0 || showkerTaskStatusList.length === 8 || showkerTaskStatusList.length > 4}">
@@ -354,12 +354,12 @@
     <!--批量导出订单号-->
     <modal v-model="batchExportModel">
       <div slot="header" class="text-ct mt-10">
-        <Icon color="#f9284f" type="information-circled"></Icon>
+        <icon color="#f9284f" type="information-circled"></icon>
         <span class="main-color fs-14">温馨提示</span>
       </div>
       <div class="text-ct fs-14">您确定要批量导出以下所有订单号吗？</div>
       <div slot="footer" class="text-ct">
-        <i-button class="pl-40 pr-40 mr-40" size="large" @click="batchExportModel = false">我在考虑下</i-button>
+        <i-button class="pl-40 pr-40 mr-40" size="large" @click="batchExportModel = false">我再考虑下</i-button>
         <i-button class="pl-40 pr-40" type="error" size="large" :loading="batchExportLoading" @click="getExportOrderNumberAll">开始批量导出</i-button>
       </div>
     </modal>

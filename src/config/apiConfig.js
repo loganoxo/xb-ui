@@ -990,6 +990,12 @@ export default {
   },
 
   /**
+   * 统计用户点击会员购买按钮
+   */
+  clickBuyMemberCallback() {
+    return axiosConfig.post('/api/user/member/clickBuyMember.json')
+  },
+  /**
    * 获取商家评价拿手时的违规标签
    */
   getViolationTag(params) {

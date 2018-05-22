@@ -39,8 +39,8 @@
         元<span v-if="!hasBalance">，还需要充值：<span class="f-b">{{(needPayMoney / 100).toFixed(2)}}</span> 元</span>
       </p>
     </div>
-    <i-button v-if="hasBalance" class="pay-btn" @click="isNeedRecharge = true">立即购买</i-button>
-    <i-button v-if="!hasBalance" class="pay-btn" @click="isNeedRecharge = true">前去充值</i-button>
+    <i-button v-if="hasBalance" class="pay-btn" @click="buyNow">立即购买</i-button>
+    <i-button v-if="!hasBalance" class="pay-btn" @click="buyNow">前去充值</i-button>
     <!--支付弹窗-->
     <div class="pay-model" v-if="isNeedRecharge">
       <pay-model ref="orderPayModel" :orderMoney="needPayMoney" :orderType="1" :isBalance="hasBalance"
@@ -346,6 +346,12 @@
           _this.nowVersionName = '免费会员'
         }
         _this.getBuyOrderPrice();
+      },
+
+      // 触发打开立即购买和立即充值弹框
+      buyNow() {
+        this.isNeedRecharge = true;
+        api.clickBuyMemberCallback();
       },
 
       // 购买会员成功后的回调

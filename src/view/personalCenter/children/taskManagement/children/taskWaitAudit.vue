@@ -1,28 +1,28 @@
 <template>
   <div class="mt-20">
     <div class="prompt">
-      <Icon type="information-circled"></Icon>
+      <icon type="information-circled"></icon>
       <span> 亲，请记得在活动结束前审批拿手哦，如果活动结束后48小时内仍未审批满，系统将自动按申请时间审批剩余名额！</span>
     </div>
     <div class="search-list">
       <span>淘宝会员名：</span>
-      <iInput v-model="alitmAccount" style="width: 100px;margin-right: 8px;"></iInput>
+      <i-input v-model="alitmAccount" style="width: 100px;margin-right: 8px;"></i-input>
       <span class="ml-10">活动编号：</span>
-      <iInput v-model="taskNumber" style="width: 140px;margin-right: 8px;"></iInput>
+      <i-input v-model="taskNumber" style="width: 140px;margin-right: 8px;"></i-input>
       <span class="ml-10">旺旺号信用等级大于等于：</span>
-      <iSelect v-model="wwFormValidate.creditLevel" style="width: 130px;">
-        <iOption v-for="(taobaoLevelImg,index) in taobaoLevelImgs" :label='taobaoLevelImg.label' :value="taobaoLevelImg.value" :key="taobaoLevelImg.value">
+      <i-select v-model="wwFormValidate.creditLevel" style="width: 130px;">
+        <i-option v-for="(taobaoLevelImg,index) in taobaoLevelImgs" :label='taobaoLevelImg.label' :value="taobaoLevelImg.value" :key="taobaoLevelImg.value">
           <span v-show="index === 0">{{taobaoLevelImg.text}}</span>
           <img v-show="index !== 0" :src="taobaoLevelImg.text" alt="">
-        </iOption>
-      </iSelect>
+        </i-option>
+      </i-select>
       <span class="ml-10">淘气值范围：</span>
-      <iSelect v-model="wwFormValidate.tqz" style="width: 120px;">
-        <iOption v-for="taoqizhi in taoqizhiList" :label='taoqizhi.label' :value="taoqizhi.value" :key="taoqizhi.value">
+      <i-select v-model="wwFormValidate.tqz" style="width: 120px;">
+        <i-option v-for="taoqizhi in taoqizhiList" :label='taoqizhi.label' :value="taoqizhi.value" :key="taoqizhi.value">
           {{taoqizhi.label}}
-        </iOption>
-      </iSelect>
-      <iButton class="ml-10" type="primary" :loading="searchLoading" @click="searchAuditTask">搜索</iButton>
+        </i-option>
+      </i-select>
+      <i-button class="ml-10" type="primary" :loading="searchLoading" @click="searchAuditTask">搜索</i-button>
     </div>
     <div class="mt-12" v-for="(item,index) in taskWaitAuditList" :key="item.id" v-if="taskWaitAuditList.length > 0">
       <div class="collapse-header clear" @click="collapseToggle(item.id,index)" :class="{noBorderRadius:selectId}">
@@ -43,7 +43,7 @@
           </div>
 
         </div>
-        <Icon :class="{showTableStyles:selectId === item.id}" class="right mr-30 mt-28" type="arrow-right-b"></Icon>
+        <icon :class="{showTableStyles:selectId === item.id}" class="right mr-30 mt-28" type="arrow-right-b"></icon>
         <div class="waiting-task-number mt-10">
           <p class="task-wait-fail">新增待审批<span>{{item.newestTaskApplyCount || 0}}</span>人</p>
           <p class="task-wait-fail">共有待审批<span>{{item.totalTaskApplyCount || 0}}</span>人</p>
@@ -56,12 +56,12 @@
             <tr height="70px">
               <th width="20%" >
                 <p style="margin-bottom: 5px">淘宝账号（旺旺号）</p>
-                <iButton :class="[sortList.select === item.sortField ? 'ww-active' : '']" size="small"
+                <i-button :class="[sortList.select === item.sortField ? 'ww-active' : '']" size="small"
                          v-for="(item,index) in sortList.defaultList" :key="index" @click="sortChange(item.sortField,index)">
                   <span>{{item.name}}</span>
-                  <Icon v-show="item.sort === 'desc'" type="arrow-down-c"></Icon>
+                  <icon v-show="item.sort === 'desc'" type="arrow-down-c"></icon>
                   <Icon v-show="item.sort === 'asc' " type="arrow-up-c"></Icon>
-                </iButton>
+                </i-button>
               </th>
               <th width="20%">申请时间</th>
               <th width="20%">拿手的买家秀记录</th>
@@ -69,13 +69,13 @@
               <th width="20%">操作</th>
             </tr>
             </thead>
-            <tbody v-for="(allTask,allTaskIndex) in item.applyAllTask" :key="allTask.id">
+            <tbody v-for="allTask in item.applyAllTask" :key="allTask.id">
             <tr :class="{readBackground:allTask.newest}">
               <td>
-                <div v-if="allTask.freshmanCheck" class="inline-block new-man-tip">
-                  <Tooltip content="多给新人一点机会吧，他们可是很认真的 ^_^" placement="top">
-                    <img src="/static/img/icon/newman.png" alt="" >
-                  </Tooltip>
+                <div v-if="allTask.applySuccessCount === 0" class="inline-block new-man-tip">
+                  <tooltip content="多给新人一点机会吧，他们可是很认真的 ^_^" placement="top">
+                    <img src="/static/img/icon/newman.png">
+                  </tooltip>
                 </div>
                 <div class="inline-block account-info">
                   <p>
@@ -91,14 +91,13 @@
               <td>{{allTask.applyTime | dateFormat('YYYY-MM-DD hh:mm:ss')}}</td>
               <td class="registration">
                 <a @click="openNewTrialReportFunc(encryptionId(allTask.showkerId))">查看</a>
-                <!--<router-link :to="{ 'path': '/trial-report','query': {'q': encryptionId(allTask.showkerId)}}">查看</router-link>-->
               </td>
               <td>
-                <Tooltip v-if="allTask.reason && allTask.status === 'waiting_resubmit'" :content="allTask.reason"
+                <tooltip v-if="allTask.reason && allTask.status === 'waiting_resubmit'" :content="allTask.reason"
                          placement="top" class="cursor-p">
-                  <Icon color="#f9284f" type="information-circled"></Icon>
+                  <icon color="#f9284f" type="information-circled"></icon>
                   <span class="main-color">{{getStatusInfo(allTask.status)}}</span>
-                </Tooltip>
+                </tooltip>
                 <span v-else>{{getStatusInfo(allTask.status)}}</span>
               </td>
               <td>
@@ -115,8 +114,7 @@
             <tbody>
             <tr>
               <td colspan="5">
-                <Page :total="taskTotalElements" :page-size="taskPageSize" :current="taskPageIndex"
-                      @on-change="TaskPageChange"></Page>
+                <page :total="taskTotalElements" :page-size="taskPageSize" :current="taskPageIndex" @on-change="TaskPageChange"></page>
               </td>
             </tr>
             </tbody>
@@ -126,7 +124,7 @@
     </div>
     <div class="mt-40 text-ct">{{dataStatusTip}}</div>
     <div class="activity-page mt-20 right mr-10" v-if="taskWaitAuditList && taskWaitAuditList.length > 0">
-      <Page :total="totalElements" :page-size="pageSize" :current="pageIndex" @on-change="pageChange"></Page>
+      <page :total="totalElements" :page-size="pageSize" :current="pageIndex" @on-change="pageChange"></page>
     </div>
     <!--审核拿手图片-->
   <!--  <template v-if="showApprovalPop">
@@ -141,8 +139,8 @@
         <div slot="footer" style="padding: 0px ; border: none"></div>
       </Modal>
     </template>-->
-    <Modal v-model="addToBlackListPop" title="添加黑名单" class="black-list-pop">
-      <div><span class="inline-block title">淘宝账号（旺旺ID）：</span><iInput class="ww-name" v-model="wwName"></iInput></div>
+    <modal v-model="addToBlackListPop" title="添加黑名单" class="black-list-pop">
+      <div><span class="inline-block title">淘宝账号（旺旺ID）：</span><i-input class="ww-name" v-model="wwName"></i-input></div>
       <div class="mt-20">
         <span class="inline-block title">拉黑原因：</span>
         <iSelect v-model="addToBlackListReason" style="width:300px">
@@ -151,12 +149,12 @@
       </div>
       <div class="mt-20" v-show="addToBlackListReason === '自定义'">
         <span class="inline-block title">填写原因：</span>
-        <iInput type="textarea" v-model="addToBlackOtherReason" placeholder="100字以内" style="width:300px"></iInput>
+        <i-input type="textarea" v-model="addToBlackOtherReason" placeholder="100字以内" style="width:300px"></i-input>
       </div>
       <div slot="footer" class="text-ct">
         <iButton type="error" size="large" class="button" @click="addShowkerToBlackList">确定</iButton>
       </div>
-    </Modal>
+    </modal>
   </div>
 </template>
 
