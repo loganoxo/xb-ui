@@ -95,828 +95,822 @@
       </div>
     </div>
     <!--活动发布相关-->
-    <div class="mt-30">
-      <div class="activity-con" v-show="stepName === 'information'">
-        <div class="activity-info">
-          <div class="activity-info-title">填写活动信息</div>
-          <div class="activity-type ml-60 mt-22">
-            <span class="required">下单方式：</span>
-            <Radio-group v-model="taskRelease.taskType" @on-change="taskTypeChange">
-              <Radio label="pc_search">
-                <span>PC搜索下单（taobao.com）</span>
+    <div class="activity-con" v-show="stepName === 'information'">
+      <div class="activity-info">
+        <div class="activity-info-title">填写活动信息</div>
+        <div class="activity-type ml-60 mt-22">
+          <span class="required">下单方式：</span>
+          <radio-group v-model="taskRelease.taskType" @on-change="taskTypeChange">
+            <radio label="pc_search">
+              <span>PC搜索下单（taobao.com）</span>
+            </radio>
+            <radio label="app_search">
+              <span>手淘搜索下单（APP）</span>
+            </radio>
+            <radio label="tao_code">
+              <span>淘口令下单（APP）</span>
+            </radio>
+            <radio label="direct_access">
+              <span>宝贝链接下单（taobao.com）</span>
+            </radio>
+          </radio-group>
+        </div>
+        <div class="activity-time ml-60 mt-20">
+          <span class="required">活动时长：</span>
+          <i-input v-model.number="taskRelease.taskDaysDuration" placeholder="请输入活动时长" style="width: 120px"></i-input>
+          <span>天</span>
+          <span class="main-color ml-10"> <i class="ivu-icon ivu-icon-information-circled cle60012"></i>（注意：单期活动时间为3-10天，请于活动结束后48小时内审批完成所有拿手资格，逾期系统将自动为您审批）</span>
+        </div>
+        <div class="trial-condition ml-35 mt-20">
+          <span class="ml-5">拿手申请条件：</span>
+          <checkbox v-model="taskRelease.refuseOldShowker">拒绝已参加过本店活动的拿手再次申请</checkbox>
+        </div>
+        <div class="order-speed ml-35 mt-20">
+          <span class="ml-5">拿手下单速度：</span>
+          <radio-group v-model="taskRelease.showkerOrderTimeLimit">
+            <radio :label="24"><span>24小时内</span></radio>
+            <radio :label="12"><span>12小时内</span></radio>
+            <radio :label="6"><span>6小时内</span></radio>
+            <radio :label="3"><span>3小时内</span></radio>
+          </radio-group>
+          <span class="sizeColor2">（拿手通过审批后需要指定时间内完成淘宝下单并在本平台提交订单号，否则资格自动过期）</span>
+        </div>
+        <div class="trial-condition ml-60 mt-20">
+          <span class="ml-4"> 收藏加购：</span>
+          <checkbox v-model="taskRelease.needBrowseCollectAddCart">需要</checkbox>
+          <span class="sizeColor2">（系统会随机让部分拿手完成对宝贝的收藏加购，活动上线后您可以在生意参谋后台查看收藏加购有无增加）</span>
+        </div>
+        <div class="answer ml-60 mt-20">
+          <span class="ml-4"> 浏览答题：</span>
+          <checkbox v-model="needBrowseAnswer" @on-change="needBrowseAnswerChange">需要</checkbox>
+          <span class="sizeColor2">（保证拿手充分浏览详情页，减少秒拍情况发生，最多可添加3个）</span>
+          <div class="mt-10 pl-68 clear" v-if="needBrowseAnswer">
+            <div class="clear mt-10" v-for="(item,index) in browseAnswer" :key="index">
+              <span class="left mt-20 fs-14">{{index + 1}}.</span>
+              <i-input class="mr-5 mt-12 ml-10 left" type="text" @on-change="answerInputChange(index)"
+                       v-model="item.issue" placeholder="请输入浏览答题文案" style="width: 124px;"></i-input>
+              <upload class="ml-20 left"
+                      :disabled="!item.issue"
+                      :default-file-list="answerDefaultList[index]"
+                      :on-remove="removeAnswerImage"
+                      :on-success="answerImageSuccess"
+                      :format="['jpg','jpeg','png','gif','bmp']"
+                      :max-size="1024"
+                      name="task"
+                      :on-format-error="handleFormatError"
+                      :on-exceeded-size="handleMaxSize"
+                      type="drag">
+                <div class="camera">
+                  <Icon :class="{'disabled-fs-color':!item.issue}" type="camera" size="20"></Icon>
+                </div>
+              </upload>
+              <span class="left mt-20 ml-5 sizeColor2">（请上传文案所在位置截图）</span>
+              <i-button :disabled="browseAnswer.length > 2 || !allAnswerIsOk" class="ml-20 left mt-12" type="dashed"
+                        icon="plus-round" @click="addAnswer" v-show="index === 0">添加
+              </i-button>
+              <i-button class="ml-20 left mt-12" type="dashed" icon="minus-round" @click="deleteAnswer(index)"
+                        v-show="index > 0">删除
+              </i-button>
+              <!--<span v-show="isShowAnswerTip" class="ml-20 main-color"><Icon color="#f9284f" type="information-circled" class="mr-5"></Icon>浏览答题文案字数不能超过8个字</span>-->
+              <span class="blue cursor-p ml-5 left mt-17" @click="changeExampleImageUrl('answer')">【查看示例图】</span>
+            </div>
+          </div>
+          <div class="mt-12 pl-68 sizeColor2" v-show="needBrowseAnswer">请在手机详情页中挑选一段文案，建议3-8字，输入文本框内，拿手将提供本文案所在位置截图
+          </div>
+        </div>
+  <!--      <div class="task-speed-up ml-60 mt-20">
+          <span class="ml-4"> 一键加速：</span>
+          <checkbox v-model="taskRelease.speedUp">需要</checkbox>
+          <span class="sizeColor2">（选择后，该活动所有名额的审批由系统推荐和控制，适合需要快速消化单量的商家）</span>
+        </div>-->
+        <div class="baby-info mt-22" v-show="taskRelease.activityCategory === 'free_get'">
+          <div class="activity-info-title">填写活动宝贝信息</div>
+          <div class="baby-title ml-45 mt-20">
+            <span class="required">宝贝标题：</span>
+            <i-input v-model="taskRelease.taskName" placeholder="请输入宝贝标题" style="width: 296px"></i-input>
+            <span class="ml-20 sizeColor2"><Icon v-show="taskNameLength > 35" color="#f9284f"
+                                                 type="information-circled"></Icon>&nbsp;此处填宝贝名称，突出宝贝特点，勿填无关内容，最多支持35个字符，当前已输入  <span
+              class="main-color">{{taskNameLength}}</span> / 35个字符。</span>
+          </div>
+          <div class="baby-title ml-45 mt-20">
+            <span class="required">宝贝类型：</span>
+            <i-select v-model="taskRelease.itemType" style="width:200px">
+              <option-group v-for="parentItem in itemCatalogList" v-if="parentItem.level === 1"
+                            :label="parentItem.name" :key="parentItem.id">
+                <i-option
+                  v-if="item.level === 2 && item.parentItemCatalog && item.parentItemCatalog.id === parentItem.id"
+                  v-for="item in itemCatalogList" :value="item.id" :key="item.name">{{ item.name }}
+                </i-option>
+              </option-group>
+            </i-select>
+            <span class="ml-20 main-color" v-if="taskRelease.itemType === 1003">旅行相关活动，仅支持飞猪的宝贝</span>
+          </div>
+          <div class="baby-img ml-45 mt-20">
+            <div class="clear">
+              <span class="required left mt-20 mr-5">宝贝主图：</span>
+              <upload class="left ml-4"
+                      :default-file-list="mainDefaultList"
+                      :on-remove="removeMainImage"
+                      :on-success="handleSuccess"
+                      :format="['jpg','jpeg','png','gif','bmp']"
+                      :max-size="1024"
+                      name="task"
+                      :on-format-error="handleFormatError"
+                      :on-exceeded-size="handleMaxSize"
+                      type="drag">
+                <div class="camera">
+                  <Icon type="camera" size="20"></Icon>
+                </div>
+              </upload>
+              <span class="blue left mt-20 ml-10 cursor-p" @click="changeExampleImageUrl('main')">【查看示例图】</span>
+            </div>
+            <p class="sizeColor2 ml-70 mt-10">上传的宝贝主图将在平台上展示，支持jpg \ jpeg \ png \ gif \
+              bmp格式，最佳尺寸400*400（像素），不超过1M</p>
+            <p class="ml-70 mt-5 sizeColor3">主图要求：白底背景，主图必须清晰，必须是所送的商品，且不能出现图片拼接、水印、logo及其它文字</p>
+          </div>
+          <div class="baby-url ml-45 mt-20">
+            <span class="required">宝贝地址：</span>
+            <i-input v-model="taskRelease.itemUrl" placeholder="请输入宝贝地址" style="width: 296px"></i-input>
+            <span class="sizeColor2" v-if="getMemberVersionLevel === 200">（根据你的会员版本，每天同一宝贝可以发布5次）</span>
+            <span class="sizeColor2" v-else-if="getMemberVersionLevel === 300">（每天同一宝贝可以发布10次）</span>
+            <span class="sizeColor2" v-else>（根据你的会员版本，每天同一宝贝可以发布2次）</span>
+            <span v-if="getMemberVersionLevel !==300" class="svip-upgrade ml-10 mr-5"
+                  @click="upgradeSvip">不够用？+1次</span>
+            <Tooltip content="同一宝贝每日发布活动次数：免费商家2次，VIP商家5次，SVIP商家10次" placement="top">
+              <Icon class="cursor-p" size="16" type="help-circled"></Icon>
+            </Tooltip>
+          </div>
+          <div class="baby-number ml-45 mt-20">
+            <p>
+              <span class="required">宝贝数量：</span>
+              <i-input v-model.number="taskRelease.taskCount" placeholder="请输入宝贝数量" style="width: 120px"
+                      @on-blur="addItemReviewList"></i-input>
+              <span>份</span>
+              <span class="sizeColor3 ml-5">（平台会按照1/5的比例进行计算，部分中奖名额将会由系统进行推荐）</span>
+            </p>
+            <p class="mt-10 ml-70" v-show="systemApprovalTaskNumber > 0">
+              <Icon color="#f9284f" type="information-circled"></Icon>
+              <span class="sizeColor3">商家审批份数：{{taskRelease.taskCount - systemApprovalTaskNumber || 0}} 份</span>
+              <span class="sizeColor3 ml-10">平台审批份数：{{systemApprovalTaskNumber || 0}} 份</span>
+            </p>
+          </div>
+          <div class="baby-price ml-45 mt-20">
+            <span class="required">宝贝单价：</span>
+            <!--<i-input v-model.number="taskRelease.itemPrice" @on-change="clearDiscount" placeholder="请输入宝贝单价" style="width: 120px"></i-input>-->
+            <i-input v-model.number="taskRelease.itemPrice" placeholder="请输入宝贝单价" style="width: 120px"></i-input>
+            <span>元</span>
+            <span v-show="taskRelease.itemPrice && taskRelease.itemPrice < 1" class="main-color ml-15"><Icon
+              color="#f9284f" type="information-circled"></Icon>&nbsp;每份试用品的价值必须在1元以上</span>
+            <!--<span v-show="taskRelease.itemPrice && taskRelease.itemPrice < 10 && taskRelease.activityCategory === 'pinkage_for_10'" class="main-color ml-20"><Icon color="#f9284f" type="information-circled"></Icon>&nbsp;10元包邮活动，宝贝最低价格不能低于10元</span>-->
+            <span class="sizeColor2 ml-5" v-show="!taskRelease.itemPrice || taskRelease.itemPrice > 1">（活动活动期间，商家不允许修改下单页商品信息，经核查属实，本平台有权将活动担保金返还已获得资格的拿手，商家账号按相应规则处罚）</span>
+          </div>
+          <!--            <div class="discount ml-40 mt-20"
+                           v-show="taskRelease.activityCategory !== 'free_get' && taskRelease.activityCategory !== 'present_get'">
+                        <div class="clear" v-show="taskRelease.activityCategory !== 'pinkage_for_10'">
+                          <span class="required mt-8 left">折扣/活动：</span>
+                          <div class="left">
+                            <div class="clear" v-show="taskRelease.activityCategory !== 'goods_clearance'">
+                              <div class="discount-btn left ml-10 discount-9-9" v-show="!discountDisabled.discount_9_9.disabled"
+                                   :class="{isSelect:taskRelease.discountType === 'discount_9_9'}"
+                                   @click="changeSelectDiscount('discount_9_9')">
+                                <span> 9.9试用</span>
+                                <span>（50元以上宝贝可选）</span>
+                                <span class="is-select-gou" v-show="taskRelease.discountType === 'discount_9_9'"></span>
+                              </div>
+                              <div class="discount-btn left ml-10 discount-9-9 disabled"
+                                   v-show="discountDisabled.discount_9_9.disabled">
+                                <span> 9.9试用</span>
+                                <span>（50元以上宝贝可选）</span>
+                              </div>
+                              <div class="discount-btn left ml-10 discount-49-9" v-show="!discountDisabled.discount_49_9.disabled"
+                                   :class="{isSelect:taskRelease.discountType === 'discount_49_9'}"
+                                   @click="changeSelectDiscount('discount_49_9')">
+                                <span> 49.9试用</span>
+                                <span>（150元以上宝贝可选）</span>
+                                <span class="is-select-gou" v-show="taskRelease.discountType === 'discount_49_9'"></span>
+                              </div>
+                              <div class="discount-btn left ml-10 discount-49-9 disabled"
+                                   v-show="discountDisabled.discount_49_9.disabled">
+                                <span> 49.9试用</span>
+                                <span>（150元以上宝贝可选）</span>
+                              </div>
+                              <div class="discount-btn left ml-10 discount-999" v-show="!discountDisabled.discount_99_9.disabled"
+                                   :class="{isSelect:taskRelease.discountType === 'discount_99_9'}"
+                                   @click="changeSelectDiscount('discount_99_9')">
+                                <span> 99.9试用</span>
+                                <span>（250元以上宝贝可选）</span>
+                                <span class="is-select-gou" v-show="taskRelease.discountType === 'discount_99_9'"></span>
+                              </div>
+                              <div class="discount-btn left ml-10 discount-999 disabled"
+                                   v-show="discountDisabled.discount_99_9.disabled">
+                                <span> 99.9试用</span>
+                                <span>（250元以上宝贝可选）</span>
+                              </div>
+                            </div>
+                            <div class="clear mt-10">
+                              <div class="discount-btn left ml-10 discount-9-9"
+                                   :class="{isSelect:taskRelease.discountType === 'discount_r_10'}"
+                                   @click="changeSelectDiscount('discount_r_10')">
+                                <span> 1折试用</span>
+                                <span>（所有宝贝可选）</span>
+                                <span class="is-select-gou" v-show="taskRelease.discountType === 'discount_r_10'"></span>
+                              </div>
+                              <div class="discount-btn left ml-10 discount-49-9"
+                                   :class="{isSelect:taskRelease.discountType === 'discount_r_30'}"
+                                   @click="changeSelectDiscount('discount_r_30')">
+                                <span> 3折试用</span>
+                                <span>（所有宝贝可选）</span>
+                                <span class="is-select-gou" v-show="taskRelease.discountType === 'discount_r_30'"></span>
+                              </div>
+                   &lt;!&ndash;           <div class="discount-btn left ml-10 discount-999"
+                                   :class="{isSelect:taskRelease.discountType === 'discount_r_50'}"
+                                   @click="changeSelectDiscount('discount_r_50')">
+                                <span> 5折试用</span>
+                                <span>（所有宝贝可选）</span>
+                                <span class="is-select-gou" v-show="taskRelease.discountType === 'discount_r_50'"></span>
+                              </div>&ndash;&gt;
+                            </div>
+                          </div>
+                        </div>
+                        <p class="sizeColor2 pl-60 mt-20"
+                           v-show="taskRelease.itemPrice && taskRelease.discountType && taskRelease.activityCategory !== 'pinkage_for_10'">
+                          拿手以<span class="main-color">{{taskRelease.itemPrice}}</span>元价格在淘宝上购买，活动成功后返款<span
+                          class="main-color">{{(newItemPrice / 100).toFixed(2)}}</span>元给拿手！</p>
+                        <p class="sizeColor2 pl-60"
+                           v-show="taskRelease.itemPrice && taskRelease.itemPrice >= 10 && taskRelease.activityCategory === 'pinkage_for_10'">
+                          拿手以<span class="main-color">{{taskRelease.itemPrice}}</span>元价格在淘宝上购买，活动成功后返款<span
+                          class="main-color">{{taskRelease.itemPrice > 10 ? taskRelease.itemPrice - 10 : 0}}</span>元给拿手！</p>
+                      </div>-->
+          <div class="baby-pinkage ml-45 mt-20">
+            <span class="required left">是否包邮：</span>
+            <Radio-group v-model="taskRelease.pinkage">
+              <Radio label="true">
+                <span>宝贝包邮，无需修改运费</span>
               </Radio>
-              <Radio label="app_search">
-                <span>手淘搜索下单（APP）</span>
-              </Radio>
-              <Radio label="tao_code">
-                <span>淘口令下单（APP）</span>
-              </Radio>
-              <Radio label="direct_access">
-                <span>宝贝链接下单（taobao.com）</span>
+              <br>
+              <Radio class="mt-10" label="false">
+                <span>宝贝不包邮，需要额外多垫付10元邮费，随货款一起对买手实行多退少补返还！</span>
               </Radio>
             </Radio-group>
           </div>
-          <div class="activity-time ml-60 mt-20">
-            <span class="required">活动时长：</span>
-            <iInput v-model.number="taskRelease.taskDaysDuration" placeholder="请输入活动时长" style="width: 120px"></iInput>
-            <span>天</span>
-            <span class="main-color ml-10"> <i class="ivu-icon ivu-icon-information-circled cle60012"></i>（注意：单期活动时间为3-10天，请于活动结束后48小时内审批完成所有拿手资格，逾期系统将自动为您审批）</span>
+          <div class="baby-payment ml-45 mt-20">
+            <span class="required left">付款方式：</span>
+            <Radio-group v-model="taskRelease.paymentMethod">
+              <Radio label="all" class="mb-10"><span>无所谓（可以使用花呗、信用卡等付款，也可以不用）</span></Radio>
+              <br/>
+              <Radio label="no_hua_and_credit_pay" class="mb-10"><span>禁止使用花呗和信用卡付款</span></Radio>
+              <br/>
+              <Radio label="no_hua_pay" class="mb-10"><span>禁止使用花呗</span></Radio>
+              <br/>
+              <Radio label="no_credit_pay"><span>禁止使信用卡付款</span></Radio>
+            </Radio-group>
           </div>
-          <div class="trial-condition ml-35 mt-20">
-            <span class="ml-5">拿手申请条件：</span>
-            <!--<Checkbox v-model="taskRelease.onlyShowForQualification">只有获得资格的拿手才可以查看活动信息</Checkbox>-->
-            <!--<p class="pl-94 sizeColor2 mt-5">勾选后可以避免拿手私下索要资格，避免同行举报。但流量、收藏量、分享量会相对减少</p>-->
-            <!--<p class="pl-94 mt-8">-->
-            <Checkbox v-model="taskRelease.refuseOldShowker">拒绝已参加过本店活动的拿手再次申请</Checkbox>
-            <!--</p>-->
-          </div>
-          <div class="order-speed ml-35 mt-20">
-            <span class="ml-5">拿手下单速度：</span>
-            <radio-group v-model="taskRelease.showkerOrderTimeLimit">
-              <Radio :label="24"><span>24小时内</span></Radio>
-              <Radio :label="12"><span>12小时内</span></Radio>
-              <Radio :label="6"><span>6小时内</span></Radio>
-              <Radio :label="3"><span>3小时内</span></Radio>
-            </radio-group>
-            <span class="sizeColor2">（拿手通过审批后需要指定时间内完成淘宝下单并在本平台提交订单号，否则资格自动过期）</span>
-          </div>
-          <div class="trial-condition ml-60 mt-20">
-            <span class="ml-4"> 收藏加购：</span>
-            <Checkbox v-model="taskRelease.needBrowseCollectAddCart">需要</Checkbox>
-            <span class="sizeColor2">（系统会随机让部分拿手完成对宝贝的收藏加购，活动上线后您可以在生意参谋后台查看收藏加购有无增加）</span>
-          </div>
-          <div class="answer ml-60 mt-20">
-            <span class="ml-4"> 浏览答题：</span>
-            <Checkbox v-model="needBrowseAnswer" @on-change="needBrowseAnswerChange">需要</Checkbox>
-            <span class="sizeColor2">（保证拿手充分浏览详情页，减少秒拍情况发生，最多可添加3个）</span>
-            <div class="mt-10 pl-68 clear" v-if="needBrowseAnswer">
-              <div class="clear mt-10" v-for="(item,index) in browseAnswer" :key="index">
-                <span class="left mt-20 fs-14">{{index + 1}}.</span>
-                <i-input class="mr-5 mt-12 ml-10 left" type="text" @on-change="answerInputChange(index)"
-                         v-model="item.issue" placeholder="请输入浏览答题文案" style="width: 124px;"></i-input>
-                <upload class="ml-20 left"
-                        :disabled="!item.issue"
-                        :default-file-list="answerDefaultList[index]"
-                        :on-remove="removeAnswerImage"
-                        :on-success="answerImageSuccess"
-                        :format="['jpg','jpeg','png','gif','bmp']"
-                        :max-size="1024"
-                        name="task"
-                        :on-format-error="handleFormatError"
-                        :on-exceeded-size="handleMaxSize"
-                        type="drag">
-                  <div class="camera">
-                    <Icon :class="{'disabled-fs-color':!item.issue}" type="camera" size="20"></Icon>
-                  </div>
-                </upload>
-                <span class="left mt-20 ml-5 sizeColor2">（请上传文案所在位置截图）</span>
-                <i-button :disabled="browseAnswer.length > 2 || !allAnswerIsOk" class="ml-20 left mt-12" type="dashed"
-                          icon="plus-round" @click="addAnswer" v-show="index === 0">添加
-                </i-button>
-                <i-button class="ml-20 left mt-12" type="dashed" icon="minus-round" @click="deleteAnswer(index)"
-                          v-show="index > 0">删除
-                </i-button>
-                <!--<span v-show="isShowAnswerTip" class="ml-20 main-color"><Icon color="#f9284f" type="information-circled" class="mr-5"></Icon>浏览答题文案字数不能超过8个字</span>-->
-                <span class="blue cursor-p ml-5 left mt-17" @click="changeExampleImageUrl('answer')">【查看示例图】</span>
-              </div>
-            </div>
-            <div class="mt-12 pl-68 sizeColor2" v-show="needBrowseAnswer">请在手机详情页中挑选一段文案，建议3-8字，输入文本框内，拿手将提供本文案所在位置截图
+          <div class="task-remark ml-45 mt-20 clear">
+            <span class="left ml-5">下单要求：</span>
+            <div class="left">
+              <i-input class="task-remark-input" type="textarea" :autosize="{minRows: 6,  maxRows: 12}"
+                      placeholder="请在这里输入需要拿手注意的事项，例如：SKU信息等，这里的信息会无条件展示出来。" v-model="taskRelease.remark"></i-input>
             </div>
           </div>
-          <div class="baby-info mt-22" v-show="taskRelease.activityCategory === 'free_get'">
-            <div class="activity-info-title">填写活动宝贝信息</div>
-            <div class="baby-title ml-45 mt-20">
-              <span class="required">宝贝标题：</span>
-              <iInput v-model="taskRelease.taskName" placeholder="请输入宝贝标题" style="width: 296px"></iInput>
-              <span class="ml-20 sizeColor2"><Icon v-show="taskNameLength > 35" color="#f9284f"
-                                                   type="information-circled"></Icon>&nbsp;此处填宝贝名称，突出宝贝特点，勿填无关内容，最多支持35个字符，当前已输入  <span
-                class="main-color">{{taskNameLength}}</span> / 35个字符。</span>
-            </div>
-            <div class="baby-title ml-45 mt-20">
-              <span class="required">宝贝类型：</span>
-              <iSelect v-model="taskRelease.itemType" style="width:200px">
-                <Option-group v-for="parentItem in itemCatalogList" v-if="parentItem.level === 1"
-                              :label="parentItem.name" :key="parentItem.id">
-                  <iOption
-                    v-if="item.level === 2 && item.parentItemCatalog && item.parentItemCatalog.id === parentItem.id"
-                    v-for="item in itemCatalogList" :value="item.id" :key="item.name">{{ item.name }}
-                  </iOption>
-                </Option-group>
-              </iSelect>
-              <span class="ml-20 main-color" v-if="taskRelease.itemType === 1003">旅行相关活动，仅支持飞猪的宝贝</span>
-            </div>
-            <div class="baby-img ml-45 mt-20">
-              <div class="clear">
-                <span class="required left mt-20 mr-5">宝贝主图：</span>
-                <Upload class="left ml-4"
-                        :default-file-list="mainDefaultList"
-                        :on-remove="removeMainImage"
-                        :on-success="handleSuccess"
-                        :format="['jpg','jpeg','png','gif','bmp']"
-                        :max-size="1024"
-                        name="task"
-                        :on-format-error="handleFormatError"
-                        :on-exceeded-size="handleMaxSize"
-                        type="drag">
-                  <div class="camera">
-                    <Icon type="camera" size="20"></Icon>
-                  </div>
-                </Upload>
-                <span class="blue left mt-20 ml-10 cursor-p" @click="changeExampleImageUrl('main')">【查看示例图】</span>
-              </div>
-              <p class="sizeColor2 ml-70 mt-10">上传的宝贝主图将在平台上展示，支持jpg \ jpeg \ png \ gif \
-                bmp格式，最佳尺寸400*400（像素），不超过1M</p>
-              <p class="ml-70 mt-5 sizeColor3">主图要求：白底背景，主图必须清晰，必须是所送的商品，且不能出现图片拼接、水印、logo及其它文字</p>
-            </div>
-            <div class="baby-url ml-45 mt-20">
-              <span class="required">宝贝地址：</span>
-              <iInput v-model="taskRelease.itemUrl" placeholder="请输入宝贝地址" style="width: 296px"></iInput>
-              <span class="sizeColor2" v-if="getMemberVersionLevel === 200">（根据你的会员版本，每天同一宝贝可以发布5次）</span>
-              <span class="sizeColor2" v-else-if="getMemberVersionLevel === 300">（每天同一宝贝可以发布10次）</span>
-              <span class="sizeColor2" v-else>（根据你的会员版本，每天同一宝贝可以发布2次）</span>
-              <span v-if="getMemberVersionLevel !==300" class="svip-upgrade ml-10 mr-5"
-                    @click="upgradeSvip">不够用？+1次</span>
-              <Tooltip content="同一宝贝每日发布活动次数：免费商家2次，VIP商家5次，SVIP商家10次" placement="top">
-                <Icon class="cursor-p" size="16" type="help-circled"></Icon>
-              </Tooltip>
-            </div>
-            <div class="baby-number ml-45 mt-20">
-              <p>
-                <span class="required">宝贝数量：</span>
-                <iInput v-model.number="taskRelease.taskCount" placeholder="请输入宝贝数量" style="width: 120px"
-                        @on-blur="addItemReviewList"></iInput>
-                <span>份</span>
-                <span class="sizeColor3 ml-5">（平台会按照1/5的比例进行计算，部分中奖名额将会由系统进行推荐）</span>
-              </p>
-              <p class="mt-10 ml-70" v-show="systemApprovalTaskNumber > 0">
-                <Icon color="#f9284f" type="information-circled"></Icon>
-                <span class="sizeColor3">商家审批份数：{{taskRelease.taskCount - systemApprovalTaskNumber || 0}} 份</span>
-                <span class="sizeColor3 ml-10">平台审批份数：{{systemApprovalTaskNumber || 0}} 份</span>
-              </p>
-            </div>
-            <div class="baby-price ml-45 mt-20">
-              <span class="required">宝贝单价：</span>
-              <!--<iInput v-model.number="taskRelease.itemPrice" @on-change="clearDiscount" placeholder="请输入宝贝单价" style="width: 120px"></iInput>-->
-              <iInput v-model.number="taskRelease.itemPrice" placeholder="请输入宝贝单价" style="width: 120px"></iInput>
-              <span>元</span>
-              <span v-show="taskRelease.itemPrice && taskRelease.itemPrice < 1" class="main-color ml-15"><Icon
-                color="#f9284f" type="information-circled"></Icon>&nbsp;每份试用品的价值必须在1元以上</span>
-              <!--<span v-show="taskRelease.itemPrice && taskRelease.itemPrice < 10 && taskRelease.activityCategory === 'pinkage_for_10'" class="main-color ml-20"><Icon color="#f9284f" type="information-circled"></Icon>&nbsp;10元包邮活动，宝贝最低价格不能低于10元</span>-->
-              <span class="sizeColor2 ml-5" v-show="!taskRelease.itemPrice || taskRelease.itemPrice > 1">（活动活动期间，商家不允许修改下单页商品信息，经核查属实，本平台有权将活动担保金返还已获得资格的拿手，商家账号按相应规则处罚）</span>
-            </div>
-            <!--            <div class="discount ml-40 mt-20"
-                             v-show="taskRelease.activityCategory !== 'free_get' && taskRelease.activityCategory !== 'present_get'">
-                          <div class="clear" v-show="taskRelease.activityCategory !== 'pinkage_for_10'">
-                            <span class="required mt-8 left">折扣/活动：</span>
-                            <div class="left">
-                              <div class="clear" v-show="taskRelease.activityCategory !== 'goods_clearance'">
-                                <div class="discount-btn left ml-10 discount-9-9" v-show="!discountDisabled.discount_9_9.disabled"
-                                     :class="{isSelect:taskRelease.discountType === 'discount_9_9'}"
-                                     @click="changeSelectDiscount('discount_9_9')">
-                                  <span> 9.9试用</span>
-                                  <span>（50元以上宝贝可选）</span>
-                                  <span class="is-select-gou" v-show="taskRelease.discountType === 'discount_9_9'"></span>
-                                </div>
-                                <div class="discount-btn left ml-10 discount-9-9 disabled"
-                                     v-show="discountDisabled.discount_9_9.disabled">
-                                  <span> 9.9试用</span>
-                                  <span>（50元以上宝贝可选）</span>
-                                </div>
-                                <div class="discount-btn left ml-10 discount-49-9" v-show="!discountDisabled.discount_49_9.disabled"
-                                     :class="{isSelect:taskRelease.discountType === 'discount_49_9'}"
-                                     @click="changeSelectDiscount('discount_49_9')">
-                                  <span> 49.9试用</span>
-                                  <span>（150元以上宝贝可选）</span>
-                                  <span class="is-select-gou" v-show="taskRelease.discountType === 'discount_49_9'"></span>
-                                </div>
-                                <div class="discount-btn left ml-10 discount-49-9 disabled"
-                                     v-show="discountDisabled.discount_49_9.disabled">
-                                  <span> 49.9试用</span>
-                                  <span>（150元以上宝贝可选）</span>
-                                </div>
-                                <div class="discount-btn left ml-10 discount-999" v-show="!discountDisabled.discount_99_9.disabled"
-                                     :class="{isSelect:taskRelease.discountType === 'discount_99_9'}"
-                                     @click="changeSelectDiscount('discount_99_9')">
-                                  <span> 99.9试用</span>
-                                  <span>（250元以上宝贝可选）</span>
-                                  <span class="is-select-gou" v-show="taskRelease.discountType === 'discount_99_9'"></span>
-                                </div>
-                                <div class="discount-btn left ml-10 discount-999 disabled"
-                                     v-show="discountDisabled.discount_99_9.disabled">
-                                  <span> 99.9试用</span>
-                                  <span>（250元以上宝贝可选）</span>
-                                </div>
-                              </div>
-                              <div class="clear mt-10">
-                                <div class="discount-btn left ml-10 discount-9-9"
-                                     :class="{isSelect:taskRelease.discountType === 'discount_r_10'}"
-                                     @click="changeSelectDiscount('discount_r_10')">
-                                  <span> 1折试用</span>
-                                  <span>（所有宝贝可选）</span>
-                                  <span class="is-select-gou" v-show="taskRelease.discountType === 'discount_r_10'"></span>
-                                </div>
-                                <div class="discount-btn left ml-10 discount-49-9"
-                                     :class="{isSelect:taskRelease.discountType === 'discount_r_30'}"
-                                     @click="changeSelectDiscount('discount_r_30')">
-                                  <span> 3折试用</span>
-                                  <span>（所有宝贝可选）</span>
-                                  <span class="is-select-gou" v-show="taskRelease.discountType === 'discount_r_30'"></span>
-                                </div>
-                     &lt;!&ndash;           <div class="discount-btn left ml-10 discount-999"
-                                     :class="{isSelect:taskRelease.discountType === 'discount_r_50'}"
-                                     @click="changeSelectDiscount('discount_r_50')">
-                                  <span> 5折试用</span>
-                                  <span>（所有宝贝可选）</span>
-                                  <span class="is-select-gou" v-show="taskRelease.discountType === 'discount_r_50'"></span>
-                                </div>&ndash;&gt;
-                              </div>
-                            </div>
-                          </div>
-                          <p class="sizeColor2 pl-60 mt-20"
-                             v-show="taskRelease.itemPrice && taskRelease.discountType && taskRelease.activityCategory !== 'pinkage_for_10'">
-                            拿手以<span class="main-color">{{taskRelease.itemPrice}}</span>元价格在淘宝上购买，活动成功后返款<span
-                            class="main-color">{{(newItemPrice / 100).toFixed(2)}}</span>元给拿手！</p>
-                          <p class="sizeColor2 pl-60"
-                             v-show="taskRelease.itemPrice && taskRelease.itemPrice >= 10 && taskRelease.activityCategory === 'pinkage_for_10'">
-                            拿手以<span class="main-color">{{taskRelease.itemPrice}}</span>元价格在淘宝上购买，活动成功后返款<span
-                            class="main-color">{{taskRelease.itemPrice > 10 ? taskRelease.itemPrice - 10 : 0}}</span>元给拿手！</p>
-                        </div>-->
-            <div class="baby-pinkage ml-45 mt-20">
-              <span class="required left">是否包邮：</span>
-              <Radio-group v-model="taskRelease.pinkage">
-                <Radio label="true">
-                  <span>宝贝包邮，无需修改运费</span>
+          <div class="evaluation-requirements ml-15 mt-10 clear">
+            <span class="left mt-5 required">淘宝评价要求：</span>
+            <div class="left">
+              <RadioGroup v-model="taskRelease.itemReviewRequired" :vertical="true"
+                          @on-change="changeSelectEvaluation">
+                <Radio label="review_by_showker_self">
+                  <span>由拿手自主发挥（拿手自主发挥评价更客观更真实。<span class="main-color">选择此项不可因主观喜好对评价结果有异议。</span>）</span>
                 </Radio>
-                <br>
-                <Radio class="mt-10" label="false">
-                  <span>宝贝不包邮，需要额外多垫付10元邮费，随货款一起对买手实行多退少补返还！</span>
-                </Radio>
-              </Radio-group>
-            </div>
-            <div class="baby-payment ml-45 mt-20">
-              <span class="required left">付款方式：</span>
-              <Radio-group v-model="taskRelease.paymentMethod">
-                <Radio label="all" class="mb-10"><span>无所谓（可以使用花呗、信用卡等付款，也可以不用）</span></Radio>
-                <br/>
-                <Radio label="no_hua_and_credit_pay" class="mb-10"><span>禁止使用花呗和信用卡付款</span></Radio>
-                <br/>
-                <Radio label="no_hua_pay" class="mb-10"><span>禁止使用花呗</span></Radio>
-                <br/>
-                <Radio label="no_credit_pay"><span>禁止使信用卡付款</span></Radio>
-              </Radio-group>
-            </div>
-            <div class="task-remark ml-45 mt-20 clear">
-              <span class="left ml-5">下单要求：</span>
-              <div class="left">
-                <iInput class="task-remark-input" type="textarea" :autosize="{minRows: 6,  maxRows: 12}"
-                        placeholder="请在这里输入需要拿手注意的事项，例如：SKU信息等，这里的信息会无条件展示出来。" v-model="taskRelease.remark"></iInput>
-              </div>
-            </div>
-            <div class="evaluation-requirements ml-15 mt-10 clear">
-              <span class="left mt-5 required">淘宝评价要求：</span>
-              <div class="left">
-                <RadioGroup v-model="taskRelease.itemReviewRequired" :vertical="true"
-                            @on-change="changeSelectEvaluation">
-                  <Radio label="review_by_showker_self">
-                    <span>由拿手自主发挥（拿手自主发挥评价更客观更真实。<span class="main-color">选择此项不可因主观喜好对评价结果有异议。</span>）</span>
-                  </Radio>
-                  <Radio label="offer_review_summary">
+                <Radio label="offer_review_summary">
                     <span>有个大概要求（可以写下评价的大概要求，因每个人理解不一样，可能评价结果会与期望有偏差。<span
                       class="main-color">选择此项不可因主观喜好对评价结果有异议。</span>）</span>
-                  </Radio>
-                  <iInput v-if="taskRelease.itemReviewRequired === 'offer_review_summary'"
-                          v-model="taskRelease.itemReviewSummary" class="mb-10" type="textarea"
-                          :autosize="{minRows: 1,maxRows: 3}" placeholder="请输入你的评价要求，如：需晒图/勿晒图、希望出现的关键词等~"></iInput>
-                  <Radio label="assign_review_detail">
-                    <span>我来提供评价内容（拿手将直接拷贝亲提供的评价内容在淘宝上进行评价，每个名额需要提供一份评价内容。）</span>
-                  </Radio>
-                </RadioGroup>
-                <p v-show="taskRelease.itemReviewRequired === 'assign_review_detail'" class="main-color ml-20">
-                  可自定义的评价数跟您发布宝贝数量相同，系统会随机分配给申请通过的拿手每人一条评论，以保证评价内容的唯一性。</p>
-                <div class="afford-evaluation-list mt-10"
-                     v-if="taskRelease.itemReviewRequired === 'assign_review_detail' && taskRelease.taskCount > 0">
-                  <p v-for="item in itemReviewList">
-                    <span class="vtc-sup">{{'评价' + item.index}}：</span>
-                    <iInput v-model="item.value" class="mb-10" type="textarea" :autosize="{minRows: 1,maxRows: 3}"
-                            placeholder="请输入你的评价内容" style="width: 620px;"></iInput>
-                  </p>
-                </div>
-              </div>
-            </div>
-            <div class="product-introduction ml-28 mt-20">
-              <span class="left ml-5 required">商品简介：</span>
-              <quill-editor ref="myTextEditorFree"
-                            v-model="taskRelease.itemDescription"
-                            :options="editorOption"
-                            @blur="onEditorBlur($event)"
-                            @focus="onEditorFocus($event)"
-                            @ready="onEditorReady($event)">
-              </quill-editor>
-              <input v-show="false" id="freeGet" type="file" name="avator" multiple
-                     accept="image/jpg,image/jpeg,image/png,image/gif" @change="uploadImgFreeGet">
-            </div>
-          </div>
-          <div class="baby-info mt-22" v-show="taskRelease.activityCategory === 'present_get'">
-            <div class="activity-info-title">填写活动宝贝信息</div>
-            <div class="complimentary-tip mt-20 pl-15">
-              <p class="sizeColor3">赠品活动发布说明：</p>
-              <p class="sizeColor3 mt-6">1、宝贝标题、宝贝类型、宝贝主图、商品简介填写赠品相关信息；宝贝地址、掌柜旺旺、宝贝单价填写淘宝正品（即希望拿手拍下的SKU）相关信息；</p>
-              <p class="sizeColor3">2、在下单要求中明确说明希望拿手拍下的SKU（否则拿手可能会找不到宝贝）。</p>
-              <p class="sizeColor3">3、为了不影响人群标签，赠品类型必须与正品同属一个类目，否则后台审核不给予通过。</p>
-            </div>
-            <div class="baby-info-present">
-              <div class="baby-info-present-title">A宝贝信息（用户在淘宝拍下的宝贝）</div>
-              <div class="baby-info-present-con pb-20">
-                <div class="baby-url ml-10 mt-20">
-                  <span class="required">宝贝地址：</span>
-                  <iInput v-model="taskRelease.itemUrl" placeholder="请输入宝贝地址" style="width: 296px"></iInput>
-                  <span class="sizeColor2" v-if="getMemberVersionLevel === 200">（根据你的会员版本，每天同一宝贝可以发布5次）</span>
-                  <span class="sizeColor2" v-else-if="getMemberVersionLevel === 300">（每天同一宝贝可以发布10次）</span>
-                  <span class="sizeColor2" v-else>（根据你的会员版本，每天同一宝贝可以发布2次）</span>
-                  <span v-if="getMemberVersionLevel !==300" class="svip-upgrade ml-10 mr-5"
-                        @click="upgradeSvip">不够用？+1次</span>
-                  <Tooltip content="同一宝贝每日发布活动次数：免费商家2次，VIP商家5次，SVIP商家10次" placement="top">
-                    <Icon class="cursor-p" size="16" type="help-circled"></Icon>
-                  </Tooltip>
-                </div>
-                <div class="baby-price ml-10 mt-20">
-                  <span class="required">宝贝单价：</span>
-                  <iInput v-model.number="taskRelease.itemPrice" placeholder="请输入宝贝单价" style="width: 120px"></iInput>
-                  <span>元</span>
-                  <span v-show="taskRelease.itemPrice && taskRelease.itemPrice < 1" class="main-color ml-15"><Icon
-                    color="#f9284f" type="information-circled"></Icon>&nbsp;每份试用品的价值必须在1元以上</span>
-                  <span class="sizeColor2 ml-4" v-show="!taskRelease.itemPrice || taskRelease.itemPrice > 1">（活动活动期间，商家不允许修改下单页商品信息，经核查属实，本平台有权将活动担保金返还已获得资格的拿手，商家账号按相应规则处罚）</span>
-                </div>
-                <div class="order-quantity  ml-10 mt-20 mb-20">
-                  <span class="required">拍下数量：</span>
-                  <iInput v-model.number="taskRelease.orderQuantity" placeholder="请输入拍下数量"
-                          style="width: 120px"></iInput>
-                  <span>份</span>
-                  <span class="sizeColor2 ml-4">（每单需要拍下的件数）</span>
-                </div>
-                <div class="baby-pinkage ml-10 mt-20">
-                  <span class="required left">是否包邮：</span>
-                  <Radio-group v-model="taskRelease.pinkage">
-                    <Radio label="true">
-                      <span>宝贝包邮，无需修改运费</span>
-                    </Radio>
-                    <br>
-                    <Radio class="mt-10" label="false">
-                      <span>宝贝不包邮，需要额外多垫付10元邮费，随货款一起对买手实行多退少补返还！</span>
-                    </Radio>
-                  </Radio-group>
-                </div>
-                <div class="baby-payment ml-10 mt-20">
-                  <span class="required left">付款方式：</span>
-                  <Radio-group v-model="taskRelease.paymentMethod">
-                    <Radio label="all" class="mb-10"><span>无所谓（可以使用花呗、信用卡等付款，也可以不用）</span></Radio>
-                    <br/>
-                    <Radio label="no_hua_and_credit_pay" class="mb-10"><span>禁止使用花呗和信用卡付款</span></Radio>
-                    <br/>
-                    <Radio label="no_hua_pay" class="mb-10"><span>禁止使用花呗</span></Radio>
-                    <br/>
-                    <Radio label="no_credit_pay"><span>禁止使信用卡付款</span></Radio>
-                  </Radio-group>
-                </div>
-                <div class="task-remark ml-10 mt-20 clear">
-                  <span class="left ml-5">下单要求：</span>
-                  <div class="left">
-                    <iInput class="task-remark-input" type="textarea" :autosize="{minRows: 6,  maxRows: 12}"
-                            placeholder="请在这里输入需要拿手注意的事项，例如：SKU信息等，这里的信息会无条件展示出来。"
-                            v-model="taskRelease.remark"></iInput>
-                    <p class="sizeColor3 mt-10">下单要求中明确说明希望拿手拍下的SKU（否则拿手可能会找不到宝贝）</p>
-                  </div>
-                </div>
-                <div class="donotPostPhoto ml-15 mt-20 clear">
-                  <span class="left required">是否在淘宝评价中晒图：</span>
-                  <Radio-group v-model="taskRelease.donotPostPhoto">
-                    <Radio label="true">
-                      <span>请勿晒图</span>
-                    </Radio>
-                    <Radio label="false">
-                      <span>无所谓（拿手可能晒出B宝贝图片）</span>
-                    </Radio>
-                  </Radio-group>
-                </div>
-                <div class="evaluation-requirements ml-15 mt-10 clear">
-                  <span class="left mt-5 required">淘宝评价要求：</span>
-                  <div class="left">
-                    <RadioGroup v-model="taskRelease.itemReviewRequired" :vertical="true"
-                                @on-change="changeSelectEvaluation">
-                      <Radio label="review_by_showker_self">
-                        <span>由拿手自主发挥（拿手自主发挥评价更客观更真实。<span class="main-color">选择此项不可因主观喜好对评价结果有异议。</span>）</span>
-                      </Radio>
-                      <Radio label="offer_review_summary">
-                        <span>有个大概要求（可以写下评价的大概要求，因每个人理解不一样，可能评价结果会与期望有偏差。<span
-                          class="main-color">选择此项不可因主观喜好对评价结果有异议。</span>）</span>
-                      </Radio>
-                      <iInput v-if="taskRelease.itemReviewRequired === 'offer_review_summary'"
-                              v-model="taskRelease.itemReviewSummary" class="mb-10" type="textarea"
-                              :autosize="{minRows: 1,maxRows: 3}" placeholder="请输入你的评价要求，如：需晒图/勿晒图、希望出现的关键词等~"></iInput>
-                      <Radio label="assign_review_detail">
-                        <span>我来提供评价内容（拿手将直接拷贝亲提供的评价内容在淘宝上进行评价，每个名额需要提供一份评价内容。）</span>
-                      </Radio>
-                    </RadioGroup>
-                    <p v-show="taskRelease.itemReviewRequired === 'assign_review_detail'" class="main-color ml-20">
-                      可自定义的评价数跟您发布宝贝数量相同，系统会随机分配给申请通过的拿手每人一条评论，以保证评价内容的唯一性。</p>
-                    <div class="afford-evaluation-list mt-10"
-                         v-if="taskRelease.itemReviewRequired === 'assign_review_detail' && taskRelease.taskCount > 0">
-                      <p v-for="item in itemReviewList">
-                        <span class="vtc-sup">{{'评价' + item.index}}：</span>
-                        <iInput v-model="item.value" class="mb-10" type="textarea" :autosize="{minRows: 1,maxRows: 3}"
-                                placeholder="请输入你的评价内容" style="width: 620px;"></iInput>
-                      </p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div class="baby-info-present-title mt-20">B宝贝信息（实际发货的宝贝）</div>
-              <div class="baby-info-present-con pb-20">
-                <div class="baby-title ml-10 mt-20">
-                  <span class="required">宝贝标题：</span>
-                  <iInput v-model="taskRelease.taskName" placeholder="请输入宝贝标题" style="width: 296px"></iInput>
-                  <span class="ml-20 sizeColor2"><Icon v-show="taskNameLength > 35" color="#f9284f"
-                                                       type="information-circled"></Icon>&nbsp;此处填宝贝名称，突出宝贝特点，勿填无关内容，最多支持35个字符，当前已输入  <span
-                    class="main-color">{{taskNameLength}}</span> / 35个字符。</span>
-                </div>
-                <div class="baby-title ml-10 mt-20">
-                  <span class="required">宝贝类型：</span>
-                  <iSelect v-model="taskRelease.itemType" style="width:200px">
-                    <Option-group v-for="parentItem in itemCatalogList" v-if="parentItem.level === 1"
-                                  :label="parentItem.name" :key="parentItem.id">
-                      <iOption
-                        v-if="item.level === 2 && item.parentItemCatalog && item.parentItemCatalog.id === parentItem.id"
-                        v-for="item in itemCatalogList" :value="item.id" :key="item.name">{{ item.name }}
-                      </iOption>
-                    </Option-group>
-                  </iSelect>
-                  <span class="ml-20 main-color" v-if="taskRelease.itemType === 1003">旅行相关活动，仅支持飞猪的宝贝</span>
-                </div>
-                <div class="baby-img ml-10 mt-20">
-                  <div class="clear">
-                    <span class="required left mt-20 mr-5">宝贝主图：</span>
-                    <Upload class="left ml-4"
-                            :default-file-list="mainDefaultList"
-                            :on-remove="removeMainImage"
-                            :on-success="handleSuccess"
-                            :format="['jpg','jpeg','png','gif','bmp']"
-                            :max-size="1024"
-                            name="task"
-                            :on-format-error="handleFormatError"
-                            :on-exceeded-size="handleMaxSize"
-                            type="drag">
-                      <div class="camera">
-                        <Icon type="camera" size="20"></Icon>
-                      </div>
-                    </Upload>
-                    <span class="blue left mt-20 ml-10 cursor-p" @click="changeExampleImageUrl('main')">【查看示例图】</span>
-                  </div>
-                  <p class="sizeColor2 ml-70 mt-10">上传的宝贝主图将在平台上展示，支持jpg \ jpeg \ png \ gif \
-                    bmp格式，最佳尺寸400*400（像素），不超过1M</p>
-                  <p class="ml-70 mt-5 sizeColor3">主图要求：白底背景，主图必须清晰，必须是所送的商品，且不能出现图片拼接、水印、logo及其它文字</p>
-                </div>
-                <div class="baby-price ml-10 mt-20">
-                  <span class="required">赠品价格：</span>
-                  <iInput v-model.number="taskRelease.presentPrice" placeholder="请输入赠品价格" style="width: 120px"></iInput>
-                  <span>元</span>
-                  <span class="sizeColor2 ml-10">（为保证活动质量和效果，赠品的价格需要在10元以上）</span>
-                </div>
-                <div class="baby-number ml-10 mt-20">
-                  <p>
-                    <span class="required">宝贝数量：</span>
-                    <iInput v-model.number="taskRelease.taskCount" placeholder="请输入宝贝数量" style="width: 120px"
-                            @on-blur="addItemReviewList"></iInput>
-                    <span>份</span>
-                    <span class="sizeColor3 ml-5">（平台会按照1/5的比例进行计算，部分中奖名额将会由系统进行推荐）</span>
-                  </p>
-                  <p class="mt-10 ml-70" v-show="systemApprovalTaskNumber > 0">
-                    <Icon color="#f9284f" type="information-circled"></Icon>
-                    <span class="sizeColor3">商家审批份数：{{taskRelease.taskCount - systemApprovalTaskNumber || 0}} 份</span>
-                    <span class="sizeColor3 ml-10">平台审批份数：{{systemApprovalTaskNumber || 0}} 份</span>
-                  </p>
-                </div>
-                <div class="product-introduction ml-10 mt-20">
-                  <span class="left ml-5 required">商品简介：</span>
-                  <quill-editor ref="myTextEditorPresent"
-                                v-model="taskRelease.itemDescription"
-                                :options="editorOption"
-                                @blur="onEditorBlur($event)"
-                                @focus="onEditorFocus($event)"
-                                @ready="onEditorReady($event)">
-                  </quill-editor>
-                  <input v-show="false" id="presentGet" type="file" name="avator" multiple
-                         accept="image/jpg,image/jpeg,image/png,image/gif" @change="uploadImgPresentGet">
-                </div>
+                </Radio>
+                <i-input v-if="taskRelease.itemReviewRequired === 'offer_review_summary'"
+                        v-model="taskRelease.itemReviewSummary" class="mb-10" type="textarea"
+                        :autosize="{minRows: 1,maxRows: 3}" placeholder="请输入你的评价要求，如：需晒图/勿晒图、希望出现的关键词等~"></i-input>
+                <Radio label="assign_review_detail">
+                  <span>我来提供评价内容（拿手将直接拷贝亲提供的评价内容在淘宝上进行评价，每个名额需要提供一份评价内容。）</span>
+                </Radio>
+              </RadioGroup>
+              <p v-show="taskRelease.itemReviewRequired === 'assign_review_detail'" class="main-color ml-20">
+                可自定义的评价数跟您发布宝贝数量相同，系统会随机分配给申请通过的拿手每人一条评论，以保证评价内容的唯一性。</p>
+              <div class="afford-evaluation-list mt-10"
+                   v-if="taskRelease.itemReviewRequired === 'assign_review_detail' && taskRelease.taskCount > 0">
+                <p v-for="item in itemReviewList">
+                  <span class="vtc-sup">{{'评价' + item.index}}：</span>
+                  <i-input v-model="item.value" class="mb-10" type="textarea" :autosize="{minRows: 1,maxRows: 3}"
+                          placeholder="请输入你的评价内容" style="width: 620px;"></i-input>
+                </p>
               </div>
             </div>
           </div>
-          <div class="order-set mt-22">
-            <div class="activity-info-title" v-if="taskRelease.taskType !== 'direct_access'">{{getSetType}}下单条件设置 <span
-              class="ml-15 fs-14" v-if="taskRelease.activityCategory === 'present_get'">A宝贝信息（用户在淘宝拍下的宝贝）</span></div>
-            <!--PC搜索下单设置-->
-            <template v-if="taskRelease.taskType === 'pc_search'">
-              <div class="baby-main-img ml-40 mt-20 clear">
-                <span class="required left mr-5 mt-20">宝贝主图：</span>
-                <Upload key="pcDefaultList" class="left ml-4"
-                        name="task"
-                        :default-file-list="pcDefaultList"
-                        :on-remove="removePcImage"
-                        :on-success="pcBabyImgSuccess"
-                        :format="['jpg','jpeg','png','gif','bmp']"
-                        :max-size="1024"
-                        :on-format-error="handleFormatError"
-                        :on-exceeded-size="handleMaxSize"
-                        type="drag">
-                  <div class="camera">
-                    <Icon type="camera" size="20"></Icon>
-                  </div>
-                </Upload>
-                <p class="sizeColor2 left mt-20 ml-15">（点击或者拖拽自主上传图片，支持jpg \ jpeg \ png \ gif \
-                  bmp格式，最佳尺寸400*400（像素），不超过1M，可与宝贝主图一致）</p>
-              </div>
-              <div class="more-keyword-scheme ml-40 mt-20">
-                <div>
-                  <div class="inline-block tag" v-for="item in pcTaskDetail" :key="item.index"
-                       :class="selectKeywordScheme === item.index ? 'select-tag-bg' : ''">
-                    <span @click="selectChangeScheme(item.index)">关键词方案{{ item.index + 1 }}</span>
-                    <!--<sup class="badge-count" v-show="item.countAssigned > 0">{{item.countAssigned}}</sup>-->
-                    <span v-if="item.index === pcTaskDetail.length - 1 && item.index !== 0" class="close-tag"
-                          @click="handleClose(item.index)">
-                      <Icon type="ios-close-empty"></Icon>
-                    </span>
-                  </div>
-                  <iButton class="ml-5" v-show="pcTaskDetail.length < 5" icon="ios-plus-empty" type="dashed"
-                           size="small" @click="handleAdd">添加关键词方案
-                  </iButton>
-                </div>
-                <div class="mt-10 sizeColor2">（请确保提供的关键词能够搜索到宝贝，同时为了避免拿手找不到对应的宝贝，您最多可以添加5组关键词方案）</div>
-              </div>
-              <template v-for="item in pcTaskDetail" v-if="item.index === selectKeywordScheme">
-                <Alert show-icon class="tag-alert">
-                  您当前选择的是关键词方案 {{item.index + 1}}
-                  <Icon type="ios-lightbulb-outline" slot="icon" size="18"></Icon>
-                </Alert>
-                <!--  <div class="matching-num ml-40 mt-20">
-                    <span>匹配人数：</span>
-                    <iInput v-model.number="item.countAssigned" placeholder="请输入匹配人数" style="width: 160px"></iInput>
-                    <p class="sizeColor2 mt-10">（系统会按照审批拿手通过数量以及匹配人数，依次展示对应的关键词。<span class="main-color">注意：匹配人数可以不设定，一旦设定则每个关键词方案的匹配人数之和必须等于宝贝数量）</span></p>
-                  </div>-->
-                <div class="search-keyword mt-20 ml-28">
-                  <span class="required">搜索关键词：</span>
-                  <iInput v-model="item.searchKeyword" placeholder="请输入搜索关键词" style="width: 260px"></iInput>
-                  <span class="sizeColor2">（PC端请确保10页以内，若是长尾关键词请不要过量补单）</span>
-                </div>
-                <div class="sort-by ml-40 mt-20">
-                  <span class="required">排序方式：</span>
-                  <Radio-group v-model="item.searchSort">
-                    <Radio label="zong_he">
-                      <span>综合排序</span>
-                    </Radio>
-                    <Radio label="xiao_liang">
-                      <span>销量排序</span>
-                    </Radio>
-                    <Radio label="ren_qi">
-                      <span>人气排序</span>
-                    </Radio>
-                  </Radio-group>
-                </div>
-                <div class="search-price ml-40 mt-20">
-                  <span class="required">展示价格：</span>
-                  <iInput v-model.number="item.searchPagePrice" placeholder="请输入搜索列表页展示价格"
-                          style="width: 160px"></iInput>
-                  <span class="sizeColor2">（务必亲自搜索，确认价格准确）</span>
-                </div>
-                <div class="baby-location ml-15 mt-20">
-                  <span class="required">宝贝搜索位置：</span>
-                  <span>第</span>
-                  <iInput v-model.number="item.searchPagePositionMin" style="width: 40px"></iInput>
-                  <span>---</span>
-                  <iInput v-model.number="item.searchPagePositionMax" style="width: 40px"></iInput>
-                  <span>页</span>
-                  <span class="sizeColor2 ml-15">（宝贝参考位置页数差值最大值不大于3页，如果PC端排名在10页以后， 可使用下面的卡条件功能）</span>
-                </div>
-                <div class="screen-condition ml-45 mt-20 clear">
-                  <span class="left">筛选条件：</span>
-                  <div class="left ml-5">
-                    <Checkbox-group v-model="item.searchFilter">
-                      <Checkbox label="pinkage">
-                        <span>包邮</span>
-                      </Checkbox>
-                      <Checkbox label="mobile_exclusive">
-                        <span>手机专享</span>
-                      </Checkbox>
-                      <Checkbox label="tao_coin_deduction">
-                        <span>淘金币抵扣</span>
-                      </Checkbox>
-                      <Checkbox label="sales_return_7_plus">
-                        <span>7+天退货</span>
-                      </Checkbox>
-                      <Checkbox label="tmall">
-                        <span>天猫</span>
-                      </Checkbox>
-                      <p style="height: 10px;"></p>
-                      <Checkbox label="global_shopping">
-                        <span>全球购</span>
-                      </Checkbox>
-                      <Checkbox label="overseas_goods">
-                        <span>海外商品</span>
-                      </Checkbox>
-                      <Checkbox label="consumer_protect">
-                        <span>消费者保障</span>
-                      </Checkbox>
-                      <Checkbox label="pay_after_receive">
-                        <span>货到付款</span>
-                      </Checkbox>
-                      <Checkbox label="hua_pay_installment">
-                        <span>花呗分期</span>
-                      </Checkbox>
-                      <Checkbox label="wangwang_online">
-                        <span>旺旺在线</span>
-                      </Checkbox>
-                    </Checkbox-group>
-                  </div>
-                </div>
-                <div class="price-select ml-45 mt-20">
-                  <span>价格区间：</span>
-                  <iInput v-model.number="item.priceRangeMin" style="width: 40px"></iInput>
-                  <span>---</span>
-                  <iInput v-model.number="item.priceRangeMax" style="width: 40px"></iInput>
-                  <span>元</span>
-                </div>
-                <div class="deliver-address ml-56 mt-20">
-                  <span>发货地：</span>
-                  <iInput v-model="item.deliverAddress" style="width: 120px"></iInput>
-                  <span class="sizeColor2 ml-5">（出于安全考虑，请勿大量使用）</span>
-                </div>
-              </template>
-            </template>
-            <!--APP搜索下单设置-->
-            <template v-else-if="taskRelease.taskType === 'app_search'">
-              <div class="baby-main-img ml-40 mt-20 clear">
-                <span class="required left mr-5 mt-20">宝贝主图：</span>
-                <Upload key="appDefaultList" class="left ml-4"
-                        :on-success="appBabyImgSuccess"
-                        :default-file-list="appDefaultList"
-                        :on-remove="removeAppImage"
-                        :format="['jpg','jpeg','png','gif','bmp']"
-                        :max-size="1024"
-                        name="task"
-                        :on-format-error="handleFormatError"
-                        :on-exceeded-size="handleMaxSize"
-                        type="drag">
-                  <div class="camera">
-                    <Icon type="camera" size="20"></Icon>
-                  </div>
-                </Upload>
-                <p class="sizeColor2 left ml-15 mt-20">（点击或者拖拽自主上传图片，支持jpg \ jpeg \ png \ gif \
-                  bmp格式，最佳尺寸400*400（像素），不超过1M，可与宝贝主图一致）</p>
-              </div>
-              <div class="more-keyword-scheme ml-40 mt-20">
-                <div>
-                  <div class="inline-block tag" v-for="item in appTaskDetail" :key="item.index"
-                       :class="selectKeywordScheme === item.index ? 'select-tag-bg' : ''">
-                    <span @click="selectChangeScheme(item.index)">关键词方案{{ item.index + 1 }}</span>
-                    <!--<sup class="badge-count" v-show="item.countAssigned > 0">{{item.countAssigned}}</sup>-->
-                    <span v-if="item.index === appTaskDetail.length - 1 && item.index !== 0" class="close-tag"
-                          @click="handleClose(item.index)">
-                      <Icon type="ios-close-empty"></Icon>
-                    </span>
-                  </div>
-                  <iButton v-show="appTaskDetail.length < 5" icon="ios-plus-empty" type="dashed" size="small"
-                           @click="handleAdd">添加关键词方案
-                  </iButton>
-                </div>
-                <div class="mt-10 sizeColor2">（请确保提供的关键词能够搜索到宝贝，同时为了避免拿手找不到对应的宝贝，您最多可以添加5组关键词方案）</div>
-              </div>
-              <template v-for="item in appTaskDetail" v-if="item.index === selectKeywordScheme">
-                <Alert show-icon class="tag-alert">
-                  您当前选择的是关键词方案 {{item.index + 1}}
-                  <Icon type="ios-lightbulb-outline" slot="icon" size="18"></Icon>
-                </Alert>
-                <!-- <div class="matching-num ml-40 mt-20">
-                   <span>匹配人数：</span>
-                   <iInput v-model.number="item.countAssigned" placeholder="请输入匹配人数" style="width: 160px"></iInput>
-                   <p class="sizeColor2 mt-10">（系统会按照审批拿手通过数量以及匹配人数，依次展示对应的关键词。<span class="main-color">注意：每个关键词的匹配人数之和不能大于宝贝数量，并且宝贝数量大于等于关键词方案数量）</span></p>
-                 </div>-->
-                <div class="search-keyword mt-20 ml-28">
-                  <span class="required">搜索关键词：</span>
-                  <iInput v-model="item.searchKeyword" placeholder="请输入搜索关键词" style="width: 260px"></iInput>
-                  <span class="sizeColor2">（APP端请确保在120位以内，若是长尾关键词请不要过量补单）</span>
-                </div>
-                <div class="sort-by ml-40 mt-20">
-                  <span class="required">排序方式：</span>
-                  <Radio-group v-model="item.searchSort">
-                    <Radio label="zong_he">
-                      <span>综合排序</span>
-                    </Radio>
-                    <Radio label="xiao_liang">
-                      <span>销量排序</span>
-                    </Radio>
-                  </Radio-group>
-                </div>
-                <div class="search-price ml-40 mt-20">
-                  <span class="required">展示价格：</span>
-                  <iInput v-model="item.searchPagePrice" placeholder="请输入搜索列表页展示价格"
-                          style="width: 160px"></iInput>
-                  <span class="sizeColor2">（务必亲自搜索，确认价格准确）</span>
-                </div>
-                <div class="baby-location ml-15 mt-20">
-                  <span class="required">宝贝搜索位置：</span>
-                  <span>从上往下数第</span>
-                  <iInput v-model="item.searchRankPosition" style="width: 40px"></iInput>
-                  <span>个宝贝左右</span>
-                  <p class="sizeColor2 ml-80 mt-6">位置统一切换为一列展示后，在数位置。（如果移动端排名在100名以后，可使用下面的卡条件功能）</p>
-                </div>
-                <div class="screen-condition ml-45 mt-20 clear">
-                  <span class="left">筛选条件：</span>
-                  <div class="left ml-5">
-                    <Checkbox-group v-model="item.searchFilter">
-                      <Checkbox label="pinkage">
-                        <span>包邮</span>
-                      </Checkbox>
-                      <Checkbox label="mobile_exclusive">
-                        <span>手机专享</span>
-                      </Checkbox>
-                      <Checkbox label="tao_coin_deduction">
-                        <span>淘金币抵扣</span>
-                      </Checkbox>
-                      <Checkbox label="sales_return_7_plus">
-                        <span>7+天退货</span>
-                      </Checkbox>
-                      <Checkbox label="tmall">
-                        <span>天猫</span>
-                      </Checkbox>
-                      <p style="height: 10px;"></p>
-                      <Checkbox label="global_shopping">
-                        <span>全球购</span>
-                      </Checkbox>
-                      <Checkbox label="overseas_goods">
-                        <span>海外商品</span>
-                      </Checkbox>
-                      <Checkbox label="consumer_protect">
-                        <span>消费者保障</span>
-                      </Checkbox>
-                      <Checkbox label="pay_after_receive">
-                        <span>货到付款</span>
-                      </Checkbox>
-                      <Checkbox label="hua_pay_installment">
-                        <span>花呗分期</span>
-                      </Checkbox>
-                    </Checkbox-group>
-                  </div>
-                </div>
-                <div class="price-select ml-45 mt-20">
-                  <span>价格区间：</span>
-                  <iInput v-model.number="item.priceRangeMin" style="width: 40px"></iInput>
-                  <span>---</span>
-                  <iInput v-model.number="item.priceRangeMax" style="width: 40px"></iInput>
-                  <span>元</span>
-                </div>
-                <div class="deliver-address ml-56 mt-20">
-                  <span>发货地：</span>
-                  <iInput v-model="item.deliverAddress" style="width: 120px"></iInput>
-                  <span class="sizeColor2 ml-5">出于安全考虑，请勿大量使用</span>
-                </div>
-              </template>
-            </template>
-            <!--淘口令下单设置-->
-            <template v-else-if="taskRelease.taskType === 'tao_code'">
-              <div class="tao-code ml-56 mt-20">
-                <span class="required">淘口令：</span>
-                <iInput v-model="taoCodeTaskDetail[0].taoCode" placeholder="请输入任务宝贝的淘口令" style="width: 320px"></iInput>
-              </div>
-              <div class="tao-code mt-20 clear">
-                <span class="left ml-15 mt-20">卡首屏宝贝主图：</span>
-                <Upload class="left ml-4"
-                        :on-success="taoCodeImgSuccess"
-                        :default-file-list="taoCodeDefaultList"
-                        :on-remove="removeTaoCodeImage"
-                        :format="['jpg','jpeg','png','gif','bmp']"
-                        :max-size="1024"
-                        name="task"
-                        :on-format-error="handleFormatError"
-                        :on-exceeded-size="handleMaxSize"
-                        type="drag">
-                  <div class="camera">
-                    <Icon type="camera" size="20"></Icon>
-                  </div>
-                </Upload>
-                <span class="sizeColor2 left ml-15 mt-20">（点击或者拖拽自主上传图片，支持jpg \ jpeg \ png \ gif \ bmp格式，最佳尺寸400*400（像素），不超过1M，可与宝贝主图一致）</span>
-              </div>
-              <div class="tao-code ml-15 mt-20">
-                <span>卡首屏宝贝价格：</span>
-                <iInput v-model.number="taoCodeTaskDetail[0].homePageLockItemPrice" placeholder="请输入卡首屏宝贝价格"
-                        style="width: 140px"></iInput>
-                <span>元</span>
-              </div>
-            </template>
+          <div class="product-introduction ml-28 mt-20">
+            <span class="left ml-5 required">商品简介：</span>
+            <quill-editor ref="myTextEditorFree"
+                          v-model="taskRelease.itemDescription"
+                          :options="editorOption"
+                          @blur="onEditorBlur($event)"
+                          @focus="onEditorFocus($event)"
+                          @ready="onEditorReady($event)">
+            </quill-editor>
+            <input v-show="false" id="freeGet" type="file" name="avator" multiple
+                   accept="image/jpg,image/jpeg,image/png,image/gif" @change="uploadImgFreeGet">
           </div>
         </div>
-      </div>
-      <div class="text-ct mt-20">
-        <i-button class="fs-18" type="primary" long :loading="taskLoading" v-show="stepName === 'information'"
-                  @click="stepNext">下一步
-        </i-button>
+        <div class="baby-info mt-22" v-show="taskRelease.activityCategory === 'present_get'">
+          <div class="activity-info-title">填写活动宝贝信息</div>
+          <div class="complimentary-tip mt-20 pl-15">
+            <p class="sizeColor3">赠品活动发布说明：</p>
+            <p class="sizeColor3 mt-6">1、宝贝标题、宝贝类型、宝贝主图、商品简介填写赠品相关信息；宝贝地址、掌柜旺旺、宝贝单价填写淘宝正品（即希望拿手拍下的SKU）相关信息；</p>
+            <p class="sizeColor3">2、在下单要求中明确说明希望拿手拍下的SKU（否则拿手可能会找不到宝贝）。</p>
+            <p class="sizeColor3">3、为了不影响人群标签，赠品类型必须与正品同属一个类目，否则后台审核不给予通过。</p>
+          </div>
+          <div class="baby-info-present">
+            <div class="baby-info-present-title">A宝贝信息（用户在淘宝拍下的宝贝）</div>
+            <div class="baby-info-present-con pb-20">
+              <div class="baby-url ml-10 mt-20">
+                <span class="required">宝贝地址：</span>
+                <i-input v-model="taskRelease.itemUrl" placeholder="请输入宝贝地址" style="width: 296px"></i-input>
+                <span class="sizeColor2" v-if="getMemberVersionLevel === 200">（根据你的会员版本，每天同一宝贝可以发布5次）</span>
+                <span class="sizeColor2" v-else-if="getMemberVersionLevel === 300">（每天同一宝贝可以发布10次）</span>
+                <span class="sizeColor2" v-else>（根据你的会员版本，每天同一宝贝可以发布2次）</span>
+                <span v-if="getMemberVersionLevel !==300" class="svip-upgrade ml-10 mr-5"
+                      @click="upgradeSvip">不够用？+1次</span>
+                <Tooltip content="同一宝贝每日发布活动次数：免费商家2次，VIP商家5次，SVIP商家10次" placement="top">
+                  <Icon class="cursor-p" size="16" type="help-circled"></Icon>
+                </Tooltip>
+              </div>
+              <div class="baby-price ml-10 mt-20">
+                <span class="required">宝贝单价：</span>
+                <i-input v-model.number="taskRelease.itemPrice" placeholder="请输入宝贝单价" style="width: 120px"></i-input>
+                <span>元</span>
+                <span v-show="taskRelease.itemPrice && taskRelease.itemPrice < 1" class="main-color ml-15"><Icon
+                  color="#f9284f" type="information-circled"></Icon>&nbsp;每份试用品的价值必须在1元以上</span>
+                <span class="sizeColor2 ml-4" v-show="!taskRelease.itemPrice || taskRelease.itemPrice > 1">（活动活动期间，商家不允许修改下单页商品信息，经核查属实，本平台有权将活动担保金返还已获得资格的拿手，商家账号按相应规则处罚）</span>
+              </div>
+              <div class="order-quantity  ml-10 mt-20 mb-20">
+                <span class="required">拍下数量：</span>
+                <i-input v-model.number="taskRelease.orderQuantity" placeholder="请输入拍下数量"
+                        style="width: 120px"></i-input>
+                <span>份</span>
+                <span class="sizeColor2 ml-4">（每单需要拍下的件数）</span>
+              </div>
+              <div class="baby-pinkage ml-10 mt-20">
+                <span class="required left">是否包邮：</span>
+                <Radio-group v-model="taskRelease.pinkage">
+                  <Radio label="true">
+                    <span>宝贝包邮，无需修改运费</span>
+                  </Radio>
+                  <br>
+                  <Radio class="mt-10" label="false">
+                    <span>宝贝不包邮，需要额外多垫付10元邮费，随货款一起对买手实行多退少补返还！</span>
+                  </Radio>
+                </Radio-group>
+              </div>
+              <div class="baby-payment ml-10 mt-20">
+                <span class="required left">付款方式：</span>
+                <Radio-group v-model="taskRelease.paymentMethod">
+                  <Radio label="all" class="mb-10"><span>无所谓（可以使用花呗、信用卡等付款，也可以不用）</span></Radio>
+                  <br/>
+                  <Radio label="no_hua_and_credit_pay" class="mb-10"><span>禁止使用花呗和信用卡付款</span></Radio>
+                  <br/>
+                  <Radio label="no_hua_pay" class="mb-10"><span>禁止使用花呗</span></Radio>
+                  <br/>
+                  <Radio label="no_credit_pay"><span>禁止使信用卡付款</span></Radio>
+                </Radio-group>
+              </div>
+              <div class="task-remark ml-10 mt-20 clear">
+                <span class="left ml-5">下单要求：</span>
+                <div class="left">
+                  <i-input class="task-remark-input" type="textarea" :autosize="{minRows: 6,  maxRows: 12}"
+                          placeholder="请在这里输入需要拿手注意的事项，例如：SKU信息等，这里的信息会无条件展示出来。"
+                          v-model="taskRelease.remark"></i-input>
+                  <p class="sizeColor3 mt-10">下单要求中明确说明希望拿手拍下的SKU（否则拿手可能会找不到宝贝）</p>
+                </div>
+              </div>
+              <div class="donotPostPhoto ml-15 mt-20 clear">
+                <span class="left required">是否在淘宝评价中晒图：</span>
+                <Radio-group v-model="taskRelease.donotPostPhoto">
+                  <Radio label="true">
+                    <span>请勿晒图</span>
+                  </Radio>
+                  <Radio label="false">
+                    <span>无所谓（拿手可能晒出B宝贝图片）</span>
+                  </Radio>
+                </Radio-group>
+              </div>
+              <div class="evaluation-requirements ml-15 mt-10 clear">
+                <span class="left mt-5 required">淘宝评价要求：</span>
+                <div class="left">
+                  <RadioGroup v-model="taskRelease.itemReviewRequired" :vertical="true"
+                              @on-change="changeSelectEvaluation">
+                    <Radio label="review_by_showker_self">
+                      <span>由拿手自主发挥（拿手自主发挥评价更客观更真实。<span class="main-color">选择此项不可因主观喜好对评价结果有异议。</span>）</span>
+                    </Radio>
+                    <Radio label="offer_review_summary">
+                        <span>有个大概要求（可以写下评价的大概要求，因每个人理解不一样，可能评价结果会与期望有偏差。<span
+                          class="main-color">选择此项不可因主观喜好对评价结果有异议。</span>）</span>
+                    </Radio>
+                    <i-input v-if="taskRelease.itemReviewRequired === 'offer_review_summary'"
+                            v-model="taskRelease.itemReviewSummary" class="mb-10" type="textarea"
+                            :autosize="{minRows: 1,maxRows: 3}" placeholder="请输入你的评价要求，如：需晒图/勿晒图、希望出现的关键词等~"></i-input>
+                    <Radio label="assign_review_detail">
+                      <span>我来提供评价内容（拿手将直接拷贝亲提供的评价内容在淘宝上进行评价，每个名额需要提供一份评价内容。）</span>
+                    </Radio>
+                  </RadioGroup>
+                  <p v-show="taskRelease.itemReviewRequired === 'assign_review_detail'" class="main-color ml-20">
+                    可自定义的评价数跟您发布宝贝数量相同，系统会随机分配给申请通过的拿手每人一条评论，以保证评价内容的唯一性。</p>
+                  <div class="afford-evaluation-list mt-10"
+                       v-if="taskRelease.itemReviewRequired === 'assign_review_detail' && taskRelease.taskCount > 0">
+                    <p v-for="item in itemReviewList">
+                      <span class="vtc-sup">{{'评价' + item.index}}：</span>
+                      <i-input v-model="item.value" class="mb-10" type="textarea" :autosize="{minRows: 1,maxRows: 3}"
+                              placeholder="请输入你的评价内容" style="width: 620px;"></i-input>
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="baby-info-present-title mt-20">B宝贝信息（实际发货的宝贝）</div>
+            <div class="baby-info-present-con pb-20">
+              <div class="baby-title ml-10 mt-20">
+                <span class="required">宝贝标题：</span>
+                <i-input v-model="taskRelease.taskName" placeholder="请输入宝贝标题" style="width: 296px"></i-input>
+                <span class="ml-20 sizeColor2"><Icon v-show="taskNameLength > 35" color="#f9284f"
+                                                     type="information-circled"></Icon>&nbsp;此处填宝贝名称，突出宝贝特点，勿填无关内容，最多支持35个字符，当前已输入  <span
+                  class="main-color">{{taskNameLength}}</span> / 35个字符。</span>
+              </div>
+              <div class="baby-title ml-10 mt-20">
+                <span class="required">宝贝类型：</span>
+                <i-select v-model="taskRelease.itemType" style="width:200px">
+                  <option-group v-for="parentItem in itemCatalogList" v-if="parentItem.level === 1"
+                                :label="parentItem.name" :key="parentItem.id">
+                    <i-option
+                      v-if="item.level === 2 && item.parentItemCatalog && item.parentItemCatalog.id === parentItem.id"
+                      v-for="item in itemCatalogList" :value="item.id" :key="item.name">{{ item.name }}
+                    </i-option>
+                  </option-group>
+                </i-select>
+                <span class="ml-20 main-color" v-if="taskRelease.itemType === 1003">旅行相关活动，仅支持飞猪的宝贝</span>
+              </div>
+              <div class="baby-img ml-10 mt-20">
+                <div class="clear">
+                  <span class="required left mt-20 mr-5">宝贝主图：</span>
+                  <upload class="left ml-4"
+                          :default-file-list="mainDefaultList"
+                          :on-remove="removeMainImage"
+                          :on-success="handleSuccess"
+                          :format="['jpg','jpeg','png','gif','bmp']"
+                          :max-size="1024"
+                          name="task"
+                          :on-format-error="handleFormatError"
+                          :on-exceeded-size="handleMaxSize"
+                          type="drag">
+                    <div class="camera">
+                      <Icon type="camera" size="20"></Icon>
+                    </div>
+                  </upload>
+                  <span class="blue left mt-20 ml-10 cursor-p" @click="changeExampleImageUrl('main')">【查看示例图】</span>
+                </div>
+                <p class="sizeColor2 ml-70 mt-10">上传的宝贝主图将在平台上展示，支持jpg \ jpeg \ png \ gif \
+                  bmp格式，最佳尺寸400*400（像素），不超过1M</p>
+                <p class="ml-70 mt-5 sizeColor3">主图要求：白底背景，主图必须清晰，必须是所送的商品，且不能出现图片拼接、水印、logo及其它文字</p>
+              </div>
+              <div class="baby-price ml-10 mt-20">
+                <span class="required">赠品价格：</span>
+                <i-input v-model.number="taskRelease.presentPrice" placeholder="请输入赠品价格" style="width: 120px"></i-input>
+                <span>元</span>
+                <span class="sizeColor2 ml-10">（为保证活动质量和效果，赠品的价格需要在10元以上）</span>
+              </div>
+              <div class="baby-number ml-10 mt-20">
+                <p>
+                  <span class="required">宝贝数量：</span>
+                  <i-input v-model.number="taskRelease.taskCount" placeholder="请输入宝贝数量" style="width: 120px"
+                          @on-blur="addItemReviewList"></i-input>
+                  <span>份</span>
+                  <span class="sizeColor3 ml-5">（平台会按照1/5的比例进行计算，部分中奖名额将会由系统进行推荐）</span>
+                </p>
+                <p class="mt-10 ml-70" v-show="systemApprovalTaskNumber > 0">
+                  <Icon color="#f9284f" type="information-circled"></Icon>
+                  <span class="sizeColor3">商家审批份数：{{taskRelease.taskCount - systemApprovalTaskNumber || 0}} 份</span>
+                  <span class="sizeColor3 ml-10">平台审批份数：{{systemApprovalTaskNumber || 0}} 份</span>
+                </p>
+              </div>
+              <div class="product-introduction ml-10 mt-20">
+                <span class="left ml-5 required">商品简介：</span>
+                <quill-editor ref="myTextEditorPresent"
+                              v-model="taskRelease.itemDescription"
+                              :options="editorOption"
+                              @blur="onEditorBlur($event)"
+                              @focus="onEditorFocus($event)"
+                              @ready="onEditorReady($event)">
+                </quill-editor>
+                <input v-show="false" id="presentGet" type="file" name="avator" multiple
+                       accept="image/jpg,image/jpeg,image/png,image/gif" @change="uploadImgPresentGet">
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="order-set mt-22">
+          <div class="activity-info-title" v-if="taskRelease.taskType !== 'direct_access'">{{getSetType}}下单条件设置 <span
+            class="ml-15 fs-14" v-if="taskRelease.activityCategory === 'present_get'">A宝贝信息（用户在淘宝拍下的宝贝）</span></div>
+          <!--PC搜索下单设置-->
+          <template v-if="taskRelease.taskType === 'pc_search'">
+            <div class="baby-main-img ml-40 mt-20 clear">
+              <span class="required left mr-5 mt-20">宝贝主图：</span>
+              <Upload key="pcDefaultList" class="left ml-4"
+                      name="task"
+                      :default-file-list="pcDefaultList"
+                      :on-remove="removePcImage"
+                      :on-success="pcBabyImgSuccess"
+                      :format="['jpg','jpeg','png','gif','bmp']"
+                      :max-size="1024"
+                      :on-format-error="handleFormatError"
+                      :on-exceeded-size="handleMaxSize"
+                      type="drag">
+                <div class="camera">
+                  <Icon type="camera" size="20"></Icon>
+                </div>
+              </Upload>
+              <p class="sizeColor2 left mt-20 ml-15">（点击或者拖拽自主上传图片，支持jpg \ jpeg \ png \ gif \
+                bmp格式，最佳尺寸400*400（像素），不超过1M，可与宝贝主图一致）</p>
+            </div>
+            <div class="more-keyword-scheme ml-40 mt-20">
+              <div>
+                <div class="inline-block tag" v-for="item in pcTaskDetail" :key="item.index"
+                     :class="selectKeywordScheme === item.index ? 'select-tag-bg' : ''">
+                  <span @click="selectChangeScheme(item.index)">关键词方案{{ item.index + 1 }}</span>
+                  <!--<sup class="badge-count" v-show="item.countAssigned > 0">{{item.countAssigned}}</sup>-->
+                  <span v-if="item.index === pcTaskDetail.length - 1 && item.index !== 0" class="close-tag"
+                        @click="handleClose(item.index)">
+                      <Icon type="ios-close-empty"></Icon>
+                    </span>
+                </div>
+                <iButton class="ml-5" v-show="pcTaskDetail.length < 5" icon="ios-plus-empty" type="dashed"
+                         size="small" @click="handleAdd">添加关键词方案
+                </iButton>
+              </div>
+              <div class="mt-10 sizeColor2">（请确保提供的关键词能够搜索到宝贝，同时为了避免拿手找不到对应的宝贝，您最多可以添加5组关键词方案）</div>
+            </div>
+            <template v-for="item in pcTaskDetail" v-if="item.index === selectKeywordScheme">
+              <Alert show-icon class="tag-alert">
+                您当前选择的是关键词方案 {{item.index + 1}}
+                <Icon type="ios-lightbulb-outline" slot="icon" size="18"></Icon>
+              </Alert>
+              <!--  <div class="matching-num ml-40 mt-20">
+                  <span>匹配人数：</span>
+                  <i-input v-model.number="item.countAssigned" placeholder="请输入匹配人数" style="width: 160px"></i-input>
+                  <p class="sizeColor2 mt-10">（系统会按照审批拿手通过数量以及匹配人数，依次展示对应的关键词。<span class="main-color">注意：匹配人数可以不设定，一旦设定则每个关键词方案的匹配人数之和必须等于宝贝数量）</span></p>
+                </div>-->
+              <div class="search-keyword mt-20 ml-28">
+                <span class="required">搜索关键词：</span>
+                <i-input v-model="item.searchKeyword" placeholder="请输入搜索关键词" style="width: 260px"></i-input>
+                <span class="sizeColor2">（PC端请确保10页以内，若是长尾关键词请不要过量补单）</span>
+              </div>
+              <div class="sort-by ml-40 mt-20">
+                <span class="required">排序方式：</span>
+                <Radio-group v-model="item.searchSort">
+                  <Radio label="zong_he">
+                    <span>综合排序</span>
+                  </Radio>
+                  <Radio label="xiao_liang">
+                    <span>销量排序</span>
+                  </Radio>
+                  <Radio label="ren_qi">
+                    <span>人气排序</span>
+                  </Radio>
+                </Radio-group>
+              </div>
+              <div class="search-price ml-40 mt-20">
+                <span class="required">展示价格：</span>
+                <i-input v-model.number="item.searchPagePrice" placeholder="请输入搜索列表页展示价格"
+                        style="width: 160px"></i-input>
+                <span class="sizeColor2">（务必亲自搜索，确认价格准确）</span>
+              </div>
+              <div class="baby-location ml-15 mt-20">
+                <span class="required">宝贝搜索位置：</span>
+                <span>第</span>
+                <i-input v-model.number="item.searchPagePositionMin" style="width: 40px"></i-input>
+                <span>---</span>
+                <i-input v-model.number="item.searchPagePositionMax" style="width: 40px"></i-input>
+                <span>页</span>
+                <span class="sizeColor2 ml-15">（宝贝参考位置页数差值最大值不大于3页，如果PC端排名在10页以后， 可使用下面的卡条件功能）</span>
+              </div>
+              <div class="screen-condition ml-45 mt-20 clear">
+                <span class="left">筛选条件：</span>
+                <div class="left ml-5">
+                  <checkbox-group v-model="item.searchFilter">
+                    <checkbox label="pinkage">
+                      <span>包邮</span>
+                    </checkbox>
+                    <checkbox label="mobile_exclusive">
+                      <span>手机专享</span>
+                    </checkbox>
+                    <checkbox label="tao_coin_deduction">
+                      <span>淘金币抵扣</span>
+                    </checkbox>
+                    <checkbox label="sales_return_7_plus">
+                      <span>7+天退货</span>
+                    </checkbox>
+                    <checkbox label="tmall">
+                      <span>天猫</span>
+                    </checkbox>
+                    <p style="height: 10px;"></p>
+                    <checkbox label="global_shopping">
+                      <span>全球购</span>
+                    </checkbox>
+                    <checkbox label="overseas_goods">
+                      <span>海外商品</span>
+                    </checkbox>
+                    <checkbox label="consumer_protect">
+                      <span>消费者保障</span>
+                    </checkbox>
+                    <checkbox label="pay_after_receive">
+                      <span>货到付款</span>
+                    </checkbox>
+                    <checkbox label="hua_pay_installment">
+                      <span>花呗分期</span>
+                    </checkbox>
+                    <checkbox label="wangwang_online">
+                      <span>旺旺在线</span>
+                    </checkbox>
+                  </checkbox-group>
+                </div>
+              </div>
+              <div class="price-select ml-45 mt-20">
+                <span>价格区间：</span>
+                <i-input v-model.number="item.priceRangeMin" style="width: 40px"></i-input>
+                <span>---</span>
+                <i-input v-model.number="item.priceRangeMax" style="width: 40px"></i-input>
+                <span>元</span>
+              </div>
+              <div class="deliver-address ml-56 mt-20">
+                <span>发货地：</span>
+                <i-input v-model="item.deliverAddress" style="width: 120px"></i-input>
+                <span class="sizeColor2 ml-5">（出于安全考虑，请勿大量使用）</span>
+              </div>
+            </template>
+          </template>
+          <!--APP搜索下单设置-->
+          <template v-else-if="taskRelease.taskType === 'app_search'">
+            <div class="baby-main-img ml-40 mt-20 clear">
+              <span class="required left mr-5 mt-20">宝贝主图：</span>
+              <Upload key="appDefaultList" class="left ml-4"
+                      :on-success="appBabyImgSuccess"
+                      :default-file-list="appDefaultList"
+                      :on-remove="removeAppImage"
+                      :format="['jpg','jpeg','png','gif','bmp']"
+                      :max-size="1024"
+                      name="task"
+                      :on-format-error="handleFormatError"
+                      :on-exceeded-size="handleMaxSize"
+                      type="drag">
+                <div class="camera">
+                  <Icon type="camera" size="20"></Icon>
+                </div>
+              </Upload>
+              <p class="sizeColor2 left ml-15 mt-20">（点击或者拖拽自主上传图片，支持jpg \ jpeg \ png \ gif \
+                bmp格式，最佳尺寸400*400（像素），不超过1M，可与宝贝主图一致）</p>
+            </div>
+            <div class="more-keyword-scheme ml-40 mt-20">
+              <div>
+                <div class="inline-block tag" v-for="item in appTaskDetail" :key="item.index"
+                     :class="selectKeywordScheme === item.index ? 'select-tag-bg' : ''">
+                  <span @click="selectChangeScheme(item.index)">关键词方案{{ item.index + 1 }}</span>
+                  <!--<sup class="badge-count" v-show="item.countAssigned > 0">{{item.countAssigned}}</sup>-->
+                  <span v-if="item.index === appTaskDetail.length - 1 && item.index !== 0" class="close-tag"
+                        @click="handleClose(item.index)">
+                      <Icon type="ios-close-empty"></Icon>
+                    </span>
+                </div>
+                <iButton v-show="appTaskDetail.length < 5" icon="ios-plus-empty" type="dashed" size="small"
+                         @click="handleAdd">添加关键词方案
+                </iButton>
+              </div>
+              <div class="mt-10 sizeColor2">（请确保提供的关键词能够搜索到宝贝，同时为了避免拿手找不到对应的宝贝，您最多可以添加5组关键词方案）</div>
+            </div>
+            <template v-for="item in appTaskDetail" v-if="item.index === selectKeywordScheme">
+              <Alert show-icon class="tag-alert">
+                您当前选择的是关键词方案 {{item.index + 1}}
+                <Icon type="ios-lightbulb-outline" slot="icon" size="18"></Icon>
+              </Alert>
+              <!-- <div class="matching-num ml-40 mt-20">
+                 <span>匹配人数：</span>
+                 <i-input v-model.number="item.countAssigned" placeholder="请输入匹配人数" style="width: 160px"></i-input>
+                 <p class="sizeColor2 mt-10">（系统会按照审批拿手通过数量以及匹配人数，依次展示对应的关键词。<span class="main-color">注意：每个关键词的匹配人数之和不能大于宝贝数量，并且宝贝数量大于等于关键词方案数量）</span></p>
+               </div>-->
+              <div class="search-keyword mt-20 ml-28">
+                <span class="required">搜索关键词：</span>
+                <i-input v-model="item.searchKeyword" placeholder="请输入搜索关键词" style="width: 260px"></i-input>
+                <span class="sizeColor2">（APP端请确保在120位以内，若是长尾关键词请不要过量补单）</span>
+              </div>
+              <div class="sort-by ml-40 mt-20">
+                <span class="required">排序方式：</span>
+                <Radio-group v-model="item.searchSort">
+                  <Radio label="zong_he">
+                    <span>综合排序</span>
+                  </Radio>
+                  <Radio label="xiao_liang">
+                    <span>销量排序</span>
+                  </Radio>
+                </Radio-group>
+              </div>
+              <div class="search-price ml-40 mt-20">
+                <span class="required">展示价格：</span>
+                <i-input v-model="item.searchPagePrice" placeholder="请输入搜索列表页展示价格"
+                        style="width: 160px"></i-input>
+                <span class="sizeColor2">（务必亲自搜索，确认价格准确）</span>
+              </div>
+              <div class="baby-location ml-15 mt-20">
+                <span class="required">宝贝搜索位置：</span>
+                <span>从上往下数第</span>
+                <i-input v-model="item.searchRankPosition" style="width: 40px"></i-input>
+                <span>个宝贝左右</span>
+                <p class="sizeColor2 ml-80 mt-6">位置统一切换为一列展示后，在数位置。（如果移动端排名在100名以后，可使用下面的卡条件功能）</p>
+              </div>
+              <div class="screen-condition ml-45 mt-20 clear">
+                <span class="left">筛选条件：</span>
+                <div class="left ml-5">
+                  <checkbox-group v-model="item.searchFilter">
+                    <checkbox label="pinkage">
+                      <span>包邮</span>
+                    </checkbox>
+                    <checkbox label="mobile_exclusive">
+                      <span>手机专享</span>
+                    </checkbox>
+                    <checkbox label="tao_coin_deduction">
+                      <span>淘金币抵扣</span>
+                    </checkbox>
+                    <checkbox label="sales_return_7_plus">
+                      <span>7+天退货</span>
+                    </checkbox>
+                    <checkbox label="tmall">
+                      <span>天猫</span>
+                    </checkbox>
+                    <p style="height: 10px;"></p>
+                    <checkbox label="global_shopping">
+                      <span>全球购</span>
+                    </checkbox>
+                    <checkbox label="overseas_goods">
+                      <span>海外商品</span>
+                    </checkbox>
+                    <checkbox label="consumer_protect">
+                      <span>消费者保障</span>
+                    </checkbox>
+                    <checkbox label="pay_after_receive">
+                      <span>货到付款</span>
+                    </checkbox>
+                    <checkbox label="hua_pay_installment">
+                      <span>花呗分期</span>
+                    </checkbox>
+                  </checkbox-group>
+                </div>
+              </div>
+              <div class="price-select ml-45 mt-20">
+                <span>价格区间：</span>
+                <i-input v-model.number="item.priceRangeMin" style="width: 40px"></i-input>
+                <span>---</span>
+                <i-input v-model.number="item.priceRangeMax" style="width: 40px"></i-input>
+                <span>元</span>
+              </div>
+              <div class="deliver-address ml-56 mt-20">
+                <span>发货地：</span>
+                <i-input v-model="item.deliverAddress" style="width: 120px"></i-input>
+                <span class="sizeColor2 ml-5">出于安全考虑，请勿大量使用</span>
+              </div>
+            </template>
+          </template>
+          <!--淘口令下单设置-->
+          <template v-else-if="taskRelease.taskType === 'tao_code'">
+            <div class="tao-code ml-56 mt-20">
+              <span class="required">淘口令：</span>
+              <i-input v-model="taoCodeTaskDetail[0].taoCode" placeholder="请输入任务宝贝的淘口令" style="width: 320px"></i-input>
+            </div>
+            <div class="tao-code mt-20 clear">
+              <span class="left ml-15 mt-20">卡首屏宝贝主图：</span>
+              <upload class="left ml-4"
+                      :on-success="taoCodeImgSuccess"
+                      :default-file-list="taoCodeDefaultList"
+                      :on-remove="removeTaoCodeImage"
+                      :format="['jpg','jpeg','png','gif','bmp']"
+                      :max-size="1024"
+                      name="task"
+                      :on-format-error="handleFormatError"
+                      :on-exceeded-size="handleMaxSize"
+                      type="drag">
+                <div class="camera">
+                  <Icon type="camera" size="20"></Icon>
+                </div>
+              </upload>
+              <span class="sizeColor2 left ml-15 mt-20">（点击或者拖拽自主上传图片，支持jpg \ jpeg \ png \ gif \ bmp格式，最佳尺寸400*400（像素），不超过1M，可与宝贝主图一致）</span>
+            </div>
+            <div class="tao-code ml-15 mt-20">
+              <span>卡首屏宝贝价格：</span>
+              <i-input v-model.number="taoCodeTaskDetail[0].homePageLockItemPrice" placeholder="请输入卡首屏宝贝价格" style="width: 140px"></i-input>
+              <span>元</span>
+            </div>
+          </template>
+        </div>
+        <i-button class="fs-18 mt-20" type="primary" long :loading="taskLoading" v-show="stepName === 'information'" @click="stepNext">下一步</i-button>
       </div>
       <!--存入担保金详情-->
       <div class="deposits-received" v-show="stepName === 'deposit'">
@@ -1105,7 +1099,7 @@
       <p class="mt-20">您的宝贝将在白拿拿平台上获得更多的曝光，点击和申请，也将获得更多的访客和收藏加购！</p>
       <p class="mt-20 mb-20">该活动，最多涉及您单次发布任务中，宝贝份数的{{taskSystemHoldPercent.configValue+'%'}}，请知晓！</p>
       <p slot="footer">
-        <Checkbox v-model="noMoreTip" class="mr-20">不再提示</Checkbox>
+        <checkbox v-model="noMoreTip" class="mr-20">不再提示</checkbox>
         <iButton type="error" size="large" @click="noMoreTipFunc">我知道了</iButton>
       </p>
     </modal>
@@ -1266,6 +1260,7 @@
           showkerOrderTimeLimit: 24,
           refuseOldShowker: false,
           needBrowseCollectAddCart: false,
+          speedUp: false,
           itemIssue: [],
           taskName: null,
           itemType: null,
