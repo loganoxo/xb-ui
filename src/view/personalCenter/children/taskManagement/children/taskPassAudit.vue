@@ -46,8 +46,8 @@
       <i-button type="primary" :loading="searchLoading" @click="searchPassesTask">搜索</i-button>
     </div>
     <div class="text-align-rt mt-10" v-if="taskPassAuditList.length > 0">
-      <i-button size="large" class="mr-10" :loading="batchPassLoading" @click="readyBatchPass"><Icon type="android-done-all"></Icon>批量通过所有待审核订单</i-button>
-      <i-button size="large" @click="batchExportModel = true"><Icon type="ios-download-outline"></Icon> 批量导出以下所有订单号</i-button>
+      <i-button size="large" class="mr-10" :loading="batchPassLoading" @click="readyBatchPass"><icon type="android-done-all"></icon>批量通过所有待审核订单</i-button>
+      <i-button size="large" @click="batchExportModel = true"><icon type="ios-download-outline"></icon> 批量导出以下所有订单号</i-button>
     </div>
     <div class="mt-12" v-for="(item,index) in taskPassAuditList" :key="item.id" v-if="taskPassAuditList.length > 0">
       <div class="collapse-header clear" @click="collapseToggle(item.id,index)" :class="{noBorderRadius:selectId}">
@@ -348,12 +348,12 @@
     <!--批量导出订单号-->
     <modal v-model="batchExportModel">
       <div slot="header" class="text-ct mt-10">
-        <Icon color="#f9284f" type="information-circled"></Icon>
+        <icon color="#f9284f" type="information-circled"></icon>
         <span class="main-color fs-14">温馨提示</span>
       </div>
       <div class="text-ct fs-14">您确定要批量导出以下所有订单号吗？</div>
       <div slot="footer" class="text-ct">
-        <i-button class="pl-40 pr-40 mr-40" size="large" @click="batchExportModel = false">我在考虑下</i-button>
+        <i-button class="pl-40 pr-40 mr-40" size="large" @click="batchExportModel = false">我再考虑下</i-button>
         <i-button class="pl-40 pr-40" type="error" size="large" :loading="batchExportLoading" @click="getExportOrderNumberAll">开始批量导出</i-button>
       </div>
     </modal>
