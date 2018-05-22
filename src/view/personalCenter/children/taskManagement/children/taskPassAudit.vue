@@ -330,7 +330,7 @@
       <div class="pl-20 pr-20 mt-30 violation-labels">
         <div class="cl000">TA是否有以下违规行为（没有可不选）</div>
         <div class="mt-10">
-          <span v-for="(label,index) in violationTabelList" :key="index" :class="[label.selected ? 'selectActive' : '']" @click="selectLabel(label,index)">{{label.text}}</span>
+          <span v-for="(label,index) in violationLabelList" :key="index" :class="[label.selected ? 'selectActive' : '']" @click="selectLabel(label,index)">{{label.description}}</span>
         </div>
       </div>
       <div slot="footer" class="text-ct pb-20">
@@ -401,7 +401,7 @@
     data() {
       return {
         orderNoPassReasonDiy: null,
-        evaluateShowker: true,
+        evaluateShowker: false,
         wwQuality: 'hao_ping',
         fillOrderCooperate: 'hao_ping',
         buyerShowQuality: 'hao_ping',
@@ -446,40 +446,7 @@
         batchPassCount: 0,
         startToProcessNum: 1,
         batchPassResult: null,
-        violationTabelList:[
-          {
-            text:'秒拍',
-            selected:false
-          },
-          {
-            text:'走淘宝客',
-            selected:false
-          },
-          {
-            text:'被删除评价',
-            selected:false
-          },
-          {
-            text:'未写评价',
-            selected:false
-          },
-          {
-            text:'未按要求评价',
-            selected:false
-          },
-          {
-            text:'恶意退款',
-            selected:false
-          },
-          {
-            text:'违规使用花呗或信用卡',
-            selected:false
-          },
-          {
-            text:'收货后自己损坏还让商家补发',
-            selected:false
-          }
-        ],
+        violationLabelList:[],
         selectedLabelList:[]
       }
     },
@@ -497,6 +464,7 @@
       } else {
         this.passesTaskList();
       }
+      _this.getViolationTag();
     },
     computed: {
       getOderPrice() {
@@ -552,7 +520,8 @@
           buyerQuality: self.buyerShowQuality,
           orderTone: self.fillOrderCooperate,
           trialReportQuality: self.wwQuality,
-          showkerTaskId: self.showkerReportInfo.showkerTaskId
+          showkerTaskId: self.showkerReportInfo.showkerTaskId,
+          tagGradeJson:JSON.stringify(self.selectedLabelList)
         }).then(res => {
           if (res.status) {
             self.$Message.success('评价成功！');
@@ -876,17 +845,35 @@
       // 选择违规标签
       selectLabel(label,index) {
         const _this = this;
-        let isSelected = _this.violationTabelList[index].selected;
-        _this.violationTabelList[index].selected = !isSelected;
+        let isSelected = _this.violationLabelList[index].selected;
+        _this.violationLabelList[index].selected = !isSelected;
         if (isSelected) {
           let tempIndex = _this.selectedLabelList.findIndex( item => {
-            return item === label.text;
+            return item === label.tagGrade;
           });
           _this.selectedLabelList.splice(tempIndex,1);
         } else {
-          _this.selectedLabelList.push(label.text);
+          _this.selectedLabelList.push(label.tagGrade);
         }
-        console.log(_this.selectedLabelList);
+      },
+      // 获取违规标签
+      getViolationTag() {
+        const _this = this;
+        api.getViolationTag({
+          state:true
+        }).then(res => {
+          if (res.status) {
+            let tempDate = res.data;
+            let tempList = [];
+            tempDate.forEach(item => {
+              item.selected = false;
+              tempList.push(item);
+            });
+            _this.violationLabelList = tempList;
+          } else {
+            _this.$Message.error(res.msg);
+          }
+        })
       }
     }
   }

@@ -989,4 +989,11 @@ export default {
     return axiosConfig.post('/api/merchant/export/order.json',params)
   },
 
+  /**
+   * 获取商家评价拿手时的违规标签
+   */
+  getViolationTag(params) {
+    return axiosConfig.post('/api/get-violation-tag.json',params)
+  }
+
 }
