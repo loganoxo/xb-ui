@@ -878,7 +878,7 @@
           _this.selectedLabelList.push(label.tagGrade);
         }
       },
-      // 获取违规标签
+      //获取违规标签
       getViolationTag() {
         const _this = this;
         api.getViolationTag({
