@@ -592,7 +592,7 @@
       this.showApproveStatus = this.ActivityStatus ? this.ActivityStatus : this.showApproveStatus;
       // this.showApproveStatus = "toAudit";
       this.taskApplyList();
-      this.getViolationTag
+      this.getViolationTag();
     },
     watch: {},
     computed: {
@@ -650,6 +650,9 @@
             self.evaluateShowker = false;
             self.$Message.success('评价成功！');
             self.loading = false;
+            self.wwQuality= 'hao_ping';
+            self.fillOrderCooperate = 'hao_ping';
+            self.buyerShowQuality = 'hao_ping';
             self.violationLabelList.map(item=>{
               return item.selected = false
             });

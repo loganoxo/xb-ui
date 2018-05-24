@@ -283,6 +283,9 @@
           if (res.status){
             self.evaluateShowker = false;
             self.$Message.success('评价成功！');
+            self.wwQuality= 'hao_ping';
+            self.fillOrderCooperate = 'hao_ping';
+            self.buyerShowQuality = 'hao_ping';
             self.$store.state.activityStatus = 'passAudit';
             self.violationLabelList.map(item=>{
               return item.selected = false
