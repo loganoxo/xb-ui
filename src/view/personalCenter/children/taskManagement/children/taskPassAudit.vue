@@ -526,6 +526,13 @@
           if (res.status) {
             self.$Message.success('评价成功！');
             self.loading = false;
+            self.wwQuality= 'hao_ping';
+            self.fillOrderCooperate = 'hao_ping';
+            self.buyerShowQuality = 'hao_ping';
+            self.selectedLabelList = [];
+            self.violationLabelList.map(item=>{
+              return item.selected = false
+            });
             self.passesShowkerTask(self.showkerReportInfo.task.id, self.operateIndex)
           } else {
             self.$Message.error(res.msg)

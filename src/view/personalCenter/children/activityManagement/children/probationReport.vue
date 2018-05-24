@@ -283,7 +283,10 @@
           if (res.status){
             self.evaluateShowker = false;
             self.$Message.success('评价成功！');
-            self.$store.state.activityStatus = 'passAudit'
+            self.$store.state.activityStatus = 'passAudit';
+            self.violationLabelList.map(item=>{
+              return item.selected = false
+            });
             self.returnUpPage();
           }else {
             self.$Message.error(res.msg)

@@ -650,6 +650,9 @@
             self.evaluateShowker = false;
             self.$Message.success('评价成功！');
             self.loading = false;
+            self.violationLabelList.map(item=>{
+              return item.selected = false
+            });
             self.taskApplyList();
           }else {
             self.$Message.error(res.msg)
