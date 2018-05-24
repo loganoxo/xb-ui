@@ -94,9 +94,9 @@
          </div>-->
       </div>
     </div>
-    <!--活动发布相关-->
-    <div class="activity-con" v-show="stepName === 'information'">
-      <div class="activity-info">
+    <div class="activity-con mt-20">
+      <!--填写活动信息详情-->
+      <div class="activity-info" v-show="stepName === 'information'">
         <div class="activity-info-title">填写活动信息</div>
         <div class="activity-type ml-60 mt-22">
           <span class="required">下单方式：</span>
@@ -910,7 +910,6 @@
             </div>
           </template>
         </div>
-        <i-button class="fs-18 mt-20" type="primary" long :loading="taskLoading" v-show="stepName === 'information'" @click="stepNext">下一步</i-button>
       </div>
       <!--存入担保金详情-->
       <div class="deposits-received" v-show="stepName === 'deposit'">
@@ -977,6 +976,8 @@
         </div>
       </div>
     </div>
+    <!--填写完成活动信息下一步按钮-->
+    <i-button class="fs-18 mt-20" type="primary" long :loading="taskLoading" v-show="stepName === 'information'" @click="stepNext">下一步</i-button>
     <!--活动担保金支付弹框-->
     <div class="pay-model" v-if="showPayModel">
       <PayModel ref="payModelRef" :orderMoney="needPayMoneyBefore" @confirmPayment="confirmPayment"
@@ -2122,7 +2123,7 @@
         try {
           const detectionStoreInfo = await _this.getStoreInfo().catch(err => {
             _this.taskLoading = false;
-            consle.error(err);
+            console.error(err);
           });
           _this.isShowStoreInfoLoading = false;
           if (detectionStoreInfo.status) {
@@ -2137,6 +2138,7 @@
             } else {
               _this.isGetStoreInfoError = true;
               _this.taskLoading = false;
+              return;
             }
           } else {
             _this.$Message.error(detectionStoreInfo.msg);
