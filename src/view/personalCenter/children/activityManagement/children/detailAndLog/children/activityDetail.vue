@@ -1007,7 +1007,7 @@
           if(res.status) {
             _this.storeBindInfoList = res.data;
             _this.isBindStore = res.data.length === 0;
-            _this.selectStoreInfo.storeName = res.data[0].storeName;
+            // _this.selectStoreInfo.storeName = res.data[0].storeName;
           } else {
             _this.$Message.error(res.msg)
           }
@@ -1021,6 +1021,7 @@
         }).then(res => {
           if (res.status) {
             _this.itemCatalog = res.data;
+            _this.selectStoreInfo.storeName = res.data.realStoreName;
             _this.mainDefaultList = null;
             _this.pcDefaultList = null;
             _this.appDefaultList = null;
