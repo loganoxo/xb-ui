@@ -16,7 +16,7 @@
       </div>
       <div class="user-clause-footer">
         <div class="switch-guide" @click="lookOther('showker')">查看拿手版指引</div>
-        <div class="no-tip" @click="notTip" v-if="isShowCloseTip">“我已了解，以后不在提醒！”</div>
+        <!--<div class="no-tip" @click="notTip" v-if="isShowCloseTip">“我已了解，以后不在提醒！”</div>-->
       </div>
     </template>
     <template v-if="isShowClause === 'showker'">
@@ -37,7 +37,7 @@
       </div>
       <div class="user-clause-footer">
         <div class="switch-guide" @click="lookOther('merchant')">查看商家版指引</div>
-        <div class="no-tip" @click="notTip" v-if="isShowCloseTip">“我已了解，以后不在提醒！”</div>
+        <!--<div class="no-tip" @click="notTip" v-if="isShowCloseTip">“我已了解，以后不在提醒！”</div>-->
       </div>
     </template>
   </div>
@@ -47,19 +47,20 @@
   import api from '@/config/apiConfig'
   export default {
     name: "UserClause",
-    props:{
-      isShowClause: {
-        type: String,
-        default: 'merchant'
-      },
-      isShowCloseTip: {
-        type: Boolean,
-        default: true
-      },
-    },
+    // 所有的注释都是临时处理，勿删
+    // props:{
+    //   isShowClause: {
+    //     type: String,
+    //     default: 'merchant'
+    //   },
+    //   // isShowCloseTip: {
+    //   //   type: Boolean,
+    //   //   default: true
+    //   // },
+    // },
     data(){
       return{
-
+        isShowClause:'merchant'
       }
     },
     methods:{
@@ -69,17 +70,17 @@
       lookOther(type) {
         this.isShowClause = type;
       },
-      notTip(){
-        let _this = this;
-        api.setUserClauseTip().then(res =>{
-          if(res.status){
-            _this.$Message.success('关闭成功！');
-            _this.$emit('closeClauseModel');
-          } else {
-            _this.$Message.error(res.msg);
-          }
-        })
-      }
+      // notTip(){
+      //   let _this = this;
+      //   api.setUserClauseTip().then(res =>{
+      //     if(res.status){
+      //       _this.$Message.success('关闭成功！');
+      //       _this.$emit('closeClauseModel');
+      //     } else {
+      //       _this.$Message.error(res.msg);
+      //     }
+      //   })
+      // }
     }
   }
 </script>

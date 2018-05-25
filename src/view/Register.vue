@@ -719,7 +719,7 @@
           });
           self.getRegVrcode();
         }
-      }
+      },
     }
   }
 </script>
