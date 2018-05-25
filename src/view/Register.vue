@@ -562,8 +562,7 @@
           agreeStrip: [
             {validator: validateAgreeStrip, trigger: 'blur'}
           ]
-
-        }
+        },
       }
     },
     created() {

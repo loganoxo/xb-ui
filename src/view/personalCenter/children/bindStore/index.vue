@@ -18,7 +18,7 @@
 
     },
     computed: {},
-    methods: {}
+    methods: {},
   }
 </script>
 

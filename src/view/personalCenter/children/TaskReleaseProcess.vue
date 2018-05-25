@@ -1676,7 +1676,7 @@
         }
       },
       goStoreBind() {
-        this.$router.push({path: '/user/bind-store/store-bind-rules'})
+        this.$router.push({path: '/user/bind-store/store-bind-rules?from=taskRelease'})
       },
       upgradeSvip() {
         this.$router.push({path: '/user/vip-member/order'})
@@ -2680,7 +2680,7 @@
       //   _this.isShowBusinessTip = false;
       //   setStorage('noMorePopup', _this.noMoreTip);
       // },
-    }
+    },
   }
 </script>
 

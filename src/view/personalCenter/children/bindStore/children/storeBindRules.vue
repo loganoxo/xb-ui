@@ -125,10 +125,15 @@
         } else if (_this.memberLevel === 300 && _this.storeInfoList.length >= _this.svipStoreBindNum) {
           _this.isShowBindBtn = false;
         }else {
-          this.$router.push({name:'StoreBindOperating'});
+          let query = _this.$route.query.from;
+          if (query) {
+            this.$router.push({path:`/user/bind-store/store-bind-operating?from=${query}`});
+          } else {
+            this.$router.push({path:`/user/bind-store/store-bind-operating`});
+          }
         }
       },
-    }
+    },
   }
 </script>
 
