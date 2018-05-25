@@ -153,7 +153,7 @@
 <script>
   import {Icon, Button} from 'iview'
   import api from '@/config/apiConfig'
-  import {TaskErrorStatusList} from '@/config/utils'
+  import {taskErrorStatusList} from '@/config/utils'
   import CollapseTransition from 'iview/src/components/base/collapse-transition'
 
   export default {
@@ -312,7 +312,7 @@
         });
       },
       getTradType(type) {
-        return TaskErrorStatusList(type)
+        return taskErrorStatusList(type)
       },
       getIfCertification(type) {
         return type === false ? '未认证' : '已认证';

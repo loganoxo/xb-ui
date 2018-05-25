@@ -142,7 +142,7 @@
 <script>
   import {Button, Input, Select, Option, OptionGroup, Tooltip, Page, Radio, Modal, Icon} from 'iview'
   import api from '@/config/apiConfig'
-  import {TaskErrorStatusList, encryption} from '@/config/utils'
+  import {taskErrorStatusList, encryption} from '@/config/utils'
   import TimeDown from '@/components/TimeDown'
 
   export default {
@@ -217,7 +217,7 @@
         this.$router.push({name: 'TaskDetails', query: {q: encryption(id), resubmit: 'resubmit'}})
       },
       getTaskStatus(type) {
-        return TaskErrorStatusList(type);
+        return taskErrorStatusList(type);
       },
       pageChange(data) {
         this.pageIndex = data;

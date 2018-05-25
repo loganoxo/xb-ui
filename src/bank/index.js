@@ -1,4 +1,4 @@
-export  var bankList = [
+export const bankList = [
   "安徽农村信用社",
   "鞍山市商业银行",
   "澳新银行",
@@ -227,5 +227,5 @@ export  var bankList = [
   "珠海华润银行",
   "珠海南通银行",
   "自贡市商业银行"
-]
+];
 

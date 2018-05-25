@@ -28,26 +28,29 @@
       <span v-show="eyesStatus === 'off'" class="fire-eye-off" @click="changeEyesStatus('on')"><icon type="eye-disabled" size="16"></icon>&nbsp;火眼金睛</span>
       <span v-show="eyesStatus === 'off'" class="ml-10 cl999">打开火眼金睛，拿手数据一目了然！</span>
       <span v-show="eyesStatus === 'on'" class="fire-eye-on" @click="changeEyesStatus('off')"><icon type="eye" size="16"></icon>&nbsp;火眼金睛</span>
-      <span v-show="eyesStatus === 'on' && getMemberVersionLevel === 100" class="ml-10 cl999">距离服务结束还有<time-down :endTime="valueAddedServiceStatusInfo.vasBlackListDeadlineTime" timeEndText="服务已到期"></time-down></span>
+      <span v-show="eyesStatus === 'on' && getMemberVersionLevel === 100" class="ml-10 cl999">距离服务结束还有&nbsp;<time-down v-if="valueAddedServiceStatusInfo.vasBlackListDeadlineTime" :endTime="valueAddedServiceStatusInfo.vasBlackListDeadlineTime" timeEndText="服务已到期"></time-down></span>
+      <span v-show="eyesStatus === 'on' && getMemberVersionLevel === 100" class="blue text-decoration-underline ml-10 cursor-p" @click="renewalEyes">续费</span>
       <span v-show="eyesStatus === 'on' && getMemberVersionLevel !== 100" class="ml-10 cl999">VIP及SVIP免费使用火眼金睛功能 ^_^  </span>
     </div>
     <div class="mt-12" v-for="(item,index) in taskWaitAuditList" :key="item.id">
-      <div class="collapse-header clear" @click="collapseToggle(item.id,index)" :class="{noBorderRadius:selectId}">
+      <div class="collapse-header clear" @click.self="collapseToggle(item.id,index)" :class="{noBorderRadius:selectId}">
         <div class="manage-img inline-block">
           <img :src="item.taskMainImage + '!thum54'" alt="">
           <span v-if="item.zone === 'certainly_hit'" class="certainly-hit-tip">推荐必中</span>
         </div>
-        <div class="manage-text left ml-5 inline-block">
-          <div>
-            <p>活动编号：{{item.number}}</p>
-            <p>活动名称：{{item.taskName}}</p>
-            <p>参与概况：总份数<span class="main-color">{{item.taskCount || 0}}</span>，
-              <span class="main-color">{{item.trailOn || 0}}</span>人正在参与活动，<span class="main-color">{{item.trailDone || 0}}</span>人完成活动，剩余名额<span
-                class="main-color">{{item.residueCount || 0}}</span>个
-            </p>
-          </div>
+        <div class="manage-text ml-5 inline-block">
+          <p>活动编号：{{item.number}}</p>
+          <p>活动名称：{{item.taskName}}</p>
+          <p>参与概况：总份数<span class="main-color">{{item.taskCount || 0}}</span>，
+            <span class="main-color">{{item.trailOn || 0}}</span>人正在参与活动，<span class="main-color">{{item.trailDone || 0}}</span>人完成活动，剩余名额<span
+              class="main-color">{{item.residueCount || 0}}</span>个
+          </p>
         </div>
-        <icon :class="{showTableStyles:selectId === item.id}" class="right mr-30 mt-28" type="arrow-right-b"></icon>
+        <i-button type="error" class="pr-20 pl-20 mr-5 ml-60" @click.stop="openSpeedUp(item.id, item.userId)">一键加速</i-button>
+        <tooltip class="vtc-mid" style="line-height: 0" content="启用后，系统会匹配拿手进行审核，无需商家干预" placement="top">
+          <icon type="help-circled" size="18" color="#999"></icon>
+        </tooltip>
+        <icon :class="{'show-table-styles':selectId === item.id}" class="right mr-30 mt-28" type="arrow-right-b"></icon>
         <div class="waiting-task-number mt-10">
           <p class="task-wait-fail">新增待审批<span>{{item.newestTaskApplyCount || 0}}</span>人</p>
           <p class="task-wait-fail">共有待审批<span>{{item.totalTaskApplyCount || 0}}</span>人</p>
@@ -57,8 +60,8 @@
         <div class="task-table" v-show="selectId === item.id">
           <table>
             <thead>
-            <tr height="70px">
-              <th width="20%">
+            <tr>
+              <th width="20%" class="pt-10 pb-10">
                 <p class="mb-5">淘宝账号（旺旺号）</p>
                 <i-button :class="[sortList.select === item.sortField ? 'ww-active' : '']" size="small" v-for="(item,index) in sortList.defaultList" :key="index" @click="sortChange(item.sortField,index)">
                   <span>{{item.name}}</span>
@@ -200,19 +203,17 @@
       <div class="text-ct">
         <i-button v-if="hasBalance" type="error" class="pl-40 pr-40 mt-20 fs-14" @click="eyesPayModel = true">立即购买</i-button>
         <i-button v-else type="error" class="pl-40 pr-40 mt-20 fs-14" @click="eyesPayModel = true">立即充值</i-button>
+        <i-button v-if="hasTrialQualification" class="pl-40 pr-40 mt-20 fs-14 ml-20" @click="openTheTrial">开通一天试用</i-button>
       </div>
       <div slot="footer">
-        <div class="text-lf text-indent f-b"><span class="main-color">火眼金睛</span>是平台增值服务功能，激活该功能后可查看平台拿手旺旺号的私密数据，如被商家拉黑的次数及原因，完成活动后收到的商家评价和打标，旺旺号姓别、年龄、地址、购物标签等（功能陆续开发添加中...），使用火眼金睛让你对拿手审核一百个放心！
-        </div>
+        <div class="text-lf text-indent f-b"><span class="main-color">火眼金睛</span>是平台增值服务功能，激活该功能后可查看平台拿手旺旺号的私密数据，如被商家拉黑的次数及原因，完成活动后收到的商家评价和打标，旺旺号姓别、年龄、地址、购物标签等（功能陆续开发添加中...），使用火眼金睛让你对拿手审核一百个放心！</div>
         <div class="text-ct mt-10 clear">
           <div class="left ml-120" @click="changeLookScreenShot(1)">
-            <img class="border-radius-5 border-ddd cursor-p" src="~assets/img/task-management/eyes-demo-01.png"
-                 alt="火眼金睛功能截图1" width="92" height="92">
+            <img class="border-radius-5 border-ddd cursor-p" src="~assets/img/task-management/eyes-demo-01.png" alt="火眼金睛功能截图1" width="92" height="92">
             <p>功能截图1</p>
           </div>
           <div class="left ml-20" @click="changeLookScreenShot(2)">
-            <img class="border-radius-5 border-ddd cursor-p" src="~assets/img/task-management/eyes-demo-02.png"
-                 alt="火眼金睛功能截图2" width="92" height="92">
+            <img class="border-radius-5 border-ddd cursor-p" src="~assets/img/task-management/eyes-demo-02.png" alt="火眼金睛功能截图2" width="92" height="92">
             <p>功能截图2</p>
           </div>
         </div>
@@ -241,6 +242,19 @@
       <img v-if="lookScreenShot === 1" class="border-radius-5 border-ddd cursor-p" src="~assets/img/task-management/eyes-demo-01.png" width="100%" alt="火眼金睛功能截图1">
       <img v-if="lookScreenShot === 2" class="border-radius-5 border-ddd cursor-p" src="~assets/img/task-management/eyes-demo-02.png" width="100%" alt="火眼金睛功能截图2">
     </modal>
+    <!--开启一键加速功能确认弹框-->
+    <modal v-model="speedUpModal" width="360">
+      <p slot="header" class="text-ct">
+        <icon color="#f9284f" type="information-circled"></icon>
+        <span class="main-color">一键加速</span>
+      </p>
+      <div class="text-ct">
+        <p>启用后，该活动剩余名额将全部由系统进行匹配和审核，且无法修改，适合于需要快速消化单量的商家！</p>
+      </div>
+      <div slot="footer">
+        <iButton type="error" size="large" long :loading="speedUpLoading" @click="speedUp">确认开启</iButton>
+      </div>
+    </modal>
   </div>
 </template>
 
@@ -249,7 +263,7 @@
   import CollapseTransition from 'iview/src/components/base/collapse-transition'
   import PayModel from '@/components/PayModel'
   import TimeDown from '@/components/TimeDown'
-  import {TaskErrorStatusList, encryption} from '@/config/utils'
+  import {taskErrorStatusList, encryption} from '@/config/utils'
   import {aliCallbackImgUrl} from '@/config/env'
   import api from '@/config/apiConfig'
 
@@ -471,6 +485,10 @@
           fee: 100
         },
         blackListInfo: [],
+        speedUpInfo: {},
+        speedUpModal: false,
+        speedUpLoading: false,
+        hasTrialQualification: false,
       }
     },
     created() {
@@ -560,7 +578,7 @@
         return encryption(id)
       },
       getStatusInfo(status) {
-        return TaskErrorStatusList(status)
+        return taskErrorStatusList(status)
       },
       pageChange(data) {
         this.pageIndex = data;
@@ -678,11 +696,19 @@
       changeEyesStatus(status) {
         if(!this.valueAddedServiceStatusInfo.vasBlackListDeadlineTime && this.getMemberVersionLevel === 100) {
           if(this.eyesPeriodList.length === 0) {
-            this.getValueAddedServicePeriod()
+            this.getValueAddedServicePeriod();
           }
+          this.getEyeTrialQualification();
           this.orderEyesModel = true;
         } else {
-          this.eyesStatus = status
+          this.eyesStatus = status;
+        }
+      },
+      renewalEyes() {
+        if(this.eyesPeriodList.length === 0) {
+          this.getValueAddedServicePeriod()
+        } else {
+          this.orderEyesModel = true;
         }
       },
       getValueAddedServiceStatus() {
@@ -769,7 +795,57 @@
         } else {
           return '/static/img/common/tx-default.png'
         }
-      }
+      },
+      getEyeTrialQualification() {
+        const _this = this;
+        api.eyeTrialQualification({
+          species: 1
+        }).then(res => {
+          if(res.status) {
+            _this.hasTrialQualification = res.data.showTrial;
+          } else {
+            _this.$Message.error(res.msg)
+          }
+        })
+      },
+      openTheTrial() {
+        const _this = this;
+        api.buyEyeTrialOneDay({
+          species: 1,
+          provision: 'interval',
+          days: 1,
+        }).then(res => {
+          if(res.status) {
+            _this.getValueAddedServiceStatus();
+            _this.$Message.success('购买成功!');
+            _this.orderEyesModel = false;
+          } else {
+            _this.$Message.error(res.msg)
+          }
+        })
+      },
+      openSpeedUp(taskId, userId) {
+        this.speedUpModal = true;
+        this.speedUpInfo.taskId = taskId;
+        this.speedUpInfo.userId = userId;
+      },
+      speedUp() {
+        const _this = this;
+        _this.speedUpLoading = true;
+        api.taskSpeedUp({
+          taskId: _this.speedUpInfo.taskId,
+          userId: _this.speedUpInfo.userId
+        }).then(res => {
+          if(res.status) {
+            _this.appliesWaitingAuditTask();
+            _this.$Message.success('一键加速开启成功！');
+          } else {
+            _this.$Message.error(res.msg)
+          }
+          _this.speedUpModal = false;
+          _this.speedUpLoading = false;
+        })
+      },
     }
   }
 </script>

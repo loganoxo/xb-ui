@@ -374,7 +374,7 @@
   import TimeDown from '@/components/TimeDown'
   import PayModel from '@/components/PayModel'
   import api from '@/config/apiConfig'
-  import {TaskErrorStatusList, encryption, timeToDate} from '@/config/utils'
+  import {taskErrorStatusList, encryption, timeToDate} from '@/config/utils'
 
   export default {
     name: 'task-fail-audit',
@@ -547,7 +547,7 @@
         return false;
       },
       getTaskStatus(type) {
-        return TaskErrorStatusList(type);
+        return taskErrorStatusList(type);
       },
       handleCheckPassAll() {
         this.checkAllByPass = !this.checkAllByPass;

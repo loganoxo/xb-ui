@@ -172,7 +172,7 @@
 <script>
   import {Icon, DatePicker, Input, Checkbox, Button, Page, Radio, Modal} from 'iview'
   import api from '@/config/apiConfig'
-  import {TaskErrorStatusList} from '@/config/utils'
+  import {taskErrorStatusList} from '@/config/utils'
   import CollapseTransition from 'iview/src/components/base/collapse-transition'
 
   export default {
@@ -434,7 +434,7 @@
         }
       },
       getTradType(type) {
-        return TaskErrorStatusList(type);
+        return taskErrorStatusList(type);
       },
       getDepositReturnList(type) {
         let _this = this;

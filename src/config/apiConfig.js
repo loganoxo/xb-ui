@@ -995,6 +995,7 @@ export default {
   clickBuyMemberCallback() {
     return axiosConfig.post('/api/user/member/clickBuyMember.json')
   },
+
   /**
    * 获取商家评价拿手时的违规标签
    */
@@ -1035,6 +1036,27 @@ export default {
    */
   appraiseSituationByMerchant(params) {
     return axiosConfig.get('/api/appraise-situation-by-merchant.json', params)
+  },
+
+  /**
+   * 商家开启活动一键加速功能
+   */
+  taskSpeedUp(params) {
+    return axiosConfig.post('/api/task-speed-up.json', params)
+  },
+
+  /**
+   * 获取用户是否有火眼金睛功能试用资格（每个用户仅有一次试用机会）
+   */
+  eyeTrialQualification(params) {
+    return axiosConfig.get('/api/eye-trial-qualification.json', params)
+  },
+
+  /**
+   * 购买火眼金睛功能一天试用资格
+   */
+  buyEyeTrialOneDay(params) {
+    return axiosConfig.post('/api/buy-eye-trial-one-day.json', params)
   },
 
 }

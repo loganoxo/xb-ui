@@ -84,7 +84,7 @@
 <script>
   import {Collapse, Checkbox, Page, Icon, Button, Input} from 'iview'
   import CollapseTransition from 'iview/src/components/base/collapse-transition'
-  import {TaskErrorStatusList} from '@/config/utils'
+  import {taskErrorStatusList} from '@/config/utils'
   import api from '@/config/apiConfig'
 
   export default {
@@ -122,7 +122,7 @@
     computed: {},
     methods: {
       getTaskStatus(type) {
-        return TaskErrorStatusList(type);
+        return taskErrorStatusList(type);
       },
       handleCheckFailAll() {
         this.checkAllByFail = !this.checkAllByFail;

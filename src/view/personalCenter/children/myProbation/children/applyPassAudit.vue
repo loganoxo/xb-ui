@@ -628,7 +628,7 @@
   import UserClause from '@/components/UserClause'
   import api from '@/config/apiConfig'
   import {aliCallbackImgUrl} from '@/config/env'
-  import {TaskErrorStatusList, isNumber, encryption} from '@/config/utils'
+  import {taskErrorStatusList, isNumber, encryption} from '@/config/utils'
 
   export default {
     name: 'ApplyPassAudit',
@@ -846,7 +846,7 @@
         return encryption(id)
       },
       getTaskStatus(type) {
-        return TaskErrorStatusList(type);
+        return taskErrorStatusList(type);
       },
       goTaskDetails(id) {
         this.$router.push({name: 'TaskDetails', query: {q: encryption(id)}})

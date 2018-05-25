@@ -417,7 +417,7 @@
   import {Tooltip, Icon, Alert, Form, Input, Button, Radio, Modal, Page, Breadcrumb} from 'iview'
   import api from '@/config/apiConfig'
   import PlaceOrderStep from '@/components/PlaceOrderStep'
-  import {setStorage, getStorage, getSeverTime, decode, encryption, TaskErrorStatusList} from '@/config/utils'
+  import {setStorage, getStorage, getSeverTime, decode, encryption, taskErrorStatusList} from '@/config/utils'
   import {aliCallbackImgUrl} from '@/config/env'
   import TimeDown from '@/components/TimeDown'
   import TaskApplyBefore from '@/components/TaskApplyBefore'
