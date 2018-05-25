@@ -49,7 +49,7 @@
       <div class="activity-type mt-20">
         <div class="activity-type-title">请选择店铺：</div>
         <div class="clear mt-10" v-if="storeBindInfoList.length > 0">
-          <div :class="{isSelect: selectStoreInfo.storeName === item.storeName}" v-for="item in storeBindInfoList" class="select-store text-ct left mr-10 disabled" @click="selectStoreChange(item.storeName, item.storeAlitm)">
+          <div :class="{isSelect: selectStoreInfo.storeName === item.storeName}" v-for="item in storeBindInfoList" class="select-store text-ct left mr-10 disabled">
             <img v-if="item.storeType === 'taobao'" src="~assets/img/common/taobao-logo.png" alt="淘宝LOGO">
             <img v-if="item.storeType === 'tmall'" src="~assets/img/common/tmall-logo.png" alt="天猫LOGO">
             <p class="fs-14 f-b">{{item.storeName}}</p>
@@ -1007,7 +1007,7 @@
           if(res.status) {
             _this.storeBindInfoList = res.data;
             _this.isBindStore = res.data.length === 0;
-            _this.selectStoreInfo.storeName = res.data[0].storeName;
+            // _this.selectStoreInfo.storeName = res.data[0].storeName;
           } else {
             _this.$Message.error(res.msg)
           }
@@ -1021,6 +1021,7 @@
         }).then(res => {
           if (res.status) {
             _this.itemCatalog = res.data;
+            _this.selectStoreInfo.storeName = res.data.realStoreName;
             _this.mainDefaultList = null;
             _this.pcDefaultList = null;
             _this.appDefaultList = null;

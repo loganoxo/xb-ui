@@ -325,6 +325,12 @@
           </RadioGroup>
         </div>
       </div>
+      <div class="pl-20 pr-20 mt-30 violation-labels">
+        <div class="cl000">TA是否有以下违规行为（没有可不选）</div>
+        <div class="mt-10">
+          <span v-for="(label,index) in violationLabelList" :key="index" :class="[label.selected ? 'selectActive' : '']" @click="selectLabel(label,index)">{{label.description}}</span>
+        </div>
+      </div>
       <div slot="footer" class="text-ct pb-20">
         <i-button class="pl-20 pr-20 btn" type="error" size="large" :loading="loading" @click="evaluateShowkerFun">确定提交</i-button>
       </div>
@@ -438,6 +444,8 @@
         batchPassCount: 0,
         startToProcessNum: 1,
         batchPassResult: null,
+        violationLabelList:[],
+        selectedLabelList:[]
       }
     },
     created() {
@@ -454,6 +462,7 @@
       } else {
         this.passesTaskList();
       }
+      _this.getViolationTag();
     },
     computed: {
       getOderPrice() {
@@ -509,11 +518,19 @@
           buyerQuality: self.buyerShowQuality,
           orderTone: self.fillOrderCooperate,
           trialReportQuality: self.wwQuality,
-          showkerTaskId: self.showkerReportInfo.showkerTaskId
+          showkerTaskId: self.showkerReportInfo.showkerTaskId,
+          tagGradeJson:JSON.stringify(self.selectedLabelList)
         }).then(res => {
           if (res.status) {
             self.$Message.success('评价成功！');
             self.loading = false;
+            self.wwQuality= 'hao_ping';
+            self.fillOrderCooperate = 'hao_ping';
+            self.buyerShowQuality = 'hao_ping';
+            self.selectedLabelList = [];
+            self.violationLabelList.map(item=>{
+              return item.selected = false
+            });
             self.passesShowkerTask(self.showkerReportInfo.task.id, self.operateIndex)
           } else {
             self.$Message.error(res.msg)
@@ -829,11 +846,45 @@
             _this.$Message.error(res.msg);
           }
         })
+      },
+      // 选择违规标签
+      selectLabel(label,index) {
+        const _this = this;
+        let isSelected = _this.violationLabelList[index].selected;
+        _this.violationLabelList[index].selected = !isSelected;
+        if (isSelected) {
+          let tempIndex = _this.selectedLabelList.findIndex( item => {
+            return item === label.tagGrade;
+          });
+          _this.selectedLabelList.splice(tempIndex,1);
+        } else {
+          _this.selectedLabelList.push(label.tagGrade);
+        }
+      },
+      // 获取违规标签
+      getViolationTag() {
+        const _this = this;
+        api.getViolationTag({
+          state:true
+        }).then(res => {
+          if (res.status) {
+            let tempDate = res.data;
+            let tempList = [];
+            tempDate.forEach(item => {
+              item.selected = false;
+              tempList.push(item);
+            });
+            _this.violationLabelList = tempList;
+          } else {
+            _this.$Message.error(res.msg);
+          }
+        })
       }
     }
   }
 </script>
 <style lang="scss" scoped>
+  @import 'src/css/mixin';
   .certainly-hit-tip {
     position: absolute;
     background-color: #f9284f;
@@ -862,6 +913,26 @@
     }
     .btn {
       width: 200px;
+    }
+    .violation-labels {
+      span{
+        margin-top:10px;
+        margin-right:10px;
+        display: inline-block;
+        padding:5px 10px;
+        border:1px solid #dddee1;
+        border-radius: 5px;
+        background-color: #f7f7f7;
+        cursor: pointer;
+        &:hover{
+          color:$mainColor;
+          border-color:$mainColor;
+        }
+      }
+      .selectActive {
+        color:$mainColor;
+        border-color:$mainColor;
+      }
     }
   }
 </style>

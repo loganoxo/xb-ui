@@ -5,7 +5,7 @@
         <div class="contain">
           <div>
             <router-link to="/" class="left">
-              <img src="/static/img/common/logo-adv.png" alt="" class="block mt-30 ml-40">
+              <img src="/static/img/common/logo-adv-1.png" alt="" class="block mt-30 ml-40">
             </router-link>
             <p class="right adv-top-part">
               <router-link to="/login" class="adv-login-btn">登录</router-link>
@@ -33,7 +33,7 @@
         <div class="contain">
           <div>
             <router-link to="/" class="left">
-              <img src="/static/img/common/logo-adv.png" alt="" class="block mt-30 ml-40">
+              <img src="/static/img/common/logo-adv-1.png" alt="" class="block mt-30 ml-40">
             </router-link>
             <p class="right adv-top-part">
               <router-link to="/login" class="adv-login-btn">登录</router-link>
@@ -61,7 +61,7 @@
         <div class="contain">
           <div>
             <router-link to="/" class="left">
-              <img src="/static/img/common/logo-adv.png" alt="" class="block mt-30 ml-40">
+              <img src="/static/img/common/logo-adv-1.png" alt="" class="block mt-30 ml-40">
             </router-link>
             <p class="right adv-top-part">
               <router-link to="/login" class="adv-login-btn">登录</router-link>
@@ -73,7 +73,7 @@
           </div>
           <div class="clear-both text-ct adv-text1-box ">
             <p class="title">
-              <img class="adv-text-img" src="/static/img/seller-adv/seller-adv-text3.png" alt="">
+              <img class="adv-text-img" src="/static/img/seller-adv/seller-adv-text5.png" alt="">
             </p>
             <div class="titleEng">
               <router-link to="/register/seller-register" class="adv-login-register ">立即注册</router-link>
@@ -89,7 +89,7 @@
         <div class="contain">
           <div>
             <router-link to="/" class="left">
-              <img src="/static/img/common/logo-adv.png" alt="" class="block mt-30 ml-40">
+              <img src="/static/img/common/logo-adv-1.png" alt="" class="block mt-30 ml-40">
             </router-link>
             <p class="right adv-top-part">
               <router-link to="/login" class="adv-login-btn">登录</router-link>
