@@ -57,7 +57,7 @@
           </td>
           <td>
             <p>{{getTradType(tbodyDetails.accountChangeType)}}</p>
-            <p v-if="tbodyDetails.accountChangeType !== 3 && tbodyDetails.accountChangeType !== 1 && tbodyDetails.accountChangeType !== 2">活动编号：{{tbodyDetails.taskSerialNum}}</p>
+            <p v-if="tbodyDetails.accountChangeType !== 1 && tbodyDetails.accountChangeType !== 2 && tbodyDetails.accountChangeType !== 3 && tbodyDetails.accountChangeType !== 10 && tbodyDetails.accountChangeType !== 11">活动编号：{{tbodyDetails.taskSerialNum}}</p>
           </td>
           <td :class="{tdColor:tbodyDetails.amountChange<0 , tdColorGreen:tbodyDetails.amountChange>0}">
             {{typeChang(tbodyDetails.amountChange / 100) || 0}}
