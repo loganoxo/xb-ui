@@ -999,7 +999,7 @@ export default {
    * 获取商家评价拿手时的违规标签
    */
   getViolationTag(params) {
-    return axiosConfig.post('/api/get-violation-tag.json',params)
+    return axiosConfig.post('/api/get-violation-tag.json', params)
   },
 
   /**

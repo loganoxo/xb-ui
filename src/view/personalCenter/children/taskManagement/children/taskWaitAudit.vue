@@ -671,6 +671,7 @@
         if (this.selectId === id) {
           this.selectId = null;
         } else {
+          this.selectId = id;
           this.appliesWaitingAuditAll(id, index)
         }
       },
