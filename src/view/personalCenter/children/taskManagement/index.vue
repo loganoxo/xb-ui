@@ -172,11 +172,13 @@
     }
 
     .waiting-task-number {
-      float: right;
+      display: inline-block;
       height: 42px;
       line-height: 42px;
       color: #666;
-      margin-right: 20px;
+      margin-right: 10px;
+      margin-left: 324px;
+      vertical-align: middle;
       p.task-wait-fail {
         height: 21px;
         line-height: 21px;

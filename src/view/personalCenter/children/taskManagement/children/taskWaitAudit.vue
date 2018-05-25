@@ -32,7 +32,7 @@
       <span v-show="eyesStatus === 'on' && getMemberVersionLevel === 100" class="blue text-decoration-underline ml-10 cursor-p" @click="renewalEyes">续费</span>
       <span v-show="eyesStatus === 'on' && getMemberVersionLevel !== 100" class="ml-10 cl999">VIP及SVIP免费使用火眼金睛功能 ^_^  </span>
     </div>
-    <div class="mt-12" v-for="(item,index) in taskWaitAuditList" :key="item.id">
+    <div class="mt-12 pos-rel" v-for="(item,index) in taskWaitAuditList" :key="item.id">
       <div class="collapse-header clear" @click.self="collapseToggle(item.id,index)" :class="{noBorderRadius:selectId}">
         <div class="manage-img inline-block">
           <img :src="item.taskMainImage + '!thum54'" alt="">
@@ -46,15 +46,16 @@
               class="main-color">{{item.residueCount || 0}}</span>个
           </p>
         </div>
-        <i-button type="error" class="pr-20 pl-20 mr-5 ml-60" @click.stop="openSpeedUp(item.id, item.userId)">一键加速</i-button>
-        <tooltip class="vtc-mid" style="line-height: 0" content="启用后，系统会匹配拿手进行审核，无需商家干预" placement="top">
-          <icon type="help-circled" size="18" color="#999"></icon>
-        </tooltip>
-        <icon :class="{'show-table-styles':selectId === item.id}" class="right mr-30 mt-28" type="arrow-right-b"></icon>
-        <div class="waiting-task-number mt-10">
+        <div class="waiting-task-number">
           <p class="task-wait-fail">新增待审批<span>{{item.newestTaskApplyCount || 0}}</span>人</p>
           <p class="task-wait-fail">共有待审批<span>{{item.totalTaskApplyCount || 0}}</span>人</p>
         </div>
+        <i-button type="error" @click.stop="openSpeedUp(item.id, item.userId)"><span class="mr-5">一键加速</span>
+          <tooltip class="vtc-text-btm" style="line-height: 0" content="启用后，系统会匹配拿手进行审核，无需商家干预" placement="top">
+            <icon type="help-circled" size="14" color="#fff"></icon>
+          </tooltip>
+        </i-button>
+        <icon :class="{'show-table-styles':selectId === item.id}" class="right mr-30 mt-28" type="arrow-right-b"></icon>
       </div>
       <collapse-transition>
         <div class="task-table" v-show="selectId === item.id">

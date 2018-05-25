@@ -207,7 +207,7 @@
             <tooltip v-if="!item.speedUp" class="mt-6" content="启用后，系统会匹配拿手进行审核，无需商家干预" placement="top">
               <span class="cursor-p main-color" @click="openSpeedUp(item.id, item.userId)">一键加速</span>
             </tooltip>
-            <p v-else class="cl-red mt-6">已开启加速</p>
+            <p v-else class="cl-red mt-6">已加速</p>
             <p class="copy mt-6">
               <span @click="copyTask(item.id)">复制活动</span>
             </p>
