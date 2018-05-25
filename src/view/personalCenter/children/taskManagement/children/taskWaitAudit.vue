@@ -817,7 +817,8 @@
         }).then(res => {
           if(res.status) {
             _this.getValueAddedServiceStatus();
-            _this.$Message.success('购买成功!');
+            _this.getEyeTrialQualification();
+            _this.$Message.success('开通试用成功!');
             _this.orderEyesModel = false;
           } else {
             _this.$Message.error(res.msg)
