@@ -178,6 +178,33 @@
     to   { transform: rotate(360deg);}
   }
 
+
+  .pay-model {
+    @include fullScreenModel
+  }
+
+  .title-tip {
+    height: 36px;
+    line-height: 36px;
+    margin: 56px auto 20px auto;
+    color: #000;
+    background-color: #FFF6F3;
+    font-size: 14px;
+  }
+
+  .open-vip-btn {
+    display: inline-block;
+    background-color: #FFFC00;
+    border-radius: 5px;
+    border: 1px solid $mainColor;
+    text-align: center;
+    color: $mainColor;
+    padding: 0 20px;
+    cursor: pointer;
+    height: 30px;
+    line-height: 30px;
+  }
+
 </style>
 
 

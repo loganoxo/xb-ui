@@ -507,7 +507,7 @@
           <div class="left text-ct" v-if="needIssueAnswer[2]">
             <p class="pd-3 bgFDF5E0 cl000">{{needIssueAnswer[2].issue}}</p>
             <Upload
-              class="mg-at copy-write-img"
+              class="margin-auto copy-write-img"
               :default-file-list="defaultImageCwThree"
               :on-remove="removeMainImageCwThree"
               :on-success="copyWriteThreeImageFun"

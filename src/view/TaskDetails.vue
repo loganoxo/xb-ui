@@ -281,7 +281,7 @@
                     <router-link class="block"
                                  :to="{path:'/trial-report',query:{q:encryptionId(detailsShowker.showkerId)}}">
                       <img :src="getUserHead(detailsShowker.showkerPortraitPic)" alt="" width="86" height="86"
-                           class="border50">
+                           class="border-radius-50">
                     </router-link>
 
                     <p>{{detailsShowker.other.nickname}}</p>

@@ -52,14 +52,12 @@
     <div class="mt-12" v-for="(item,index) in taskPassAuditList" :key="item.id" v-if="taskPassAuditList.length > 0">
       <div class="collapse-header clear" @click="collapseToggle(item.id,index)" :class="{noBorderRadius:selectId}">
         <div class="manage-img inline-block">
-          <img :src="item.taskMainImage + '!thum54'" alt="">
+          <img :src="item.taskMainImage + '!thum54'" width="54" height="54" alt="活动宝贝主图">
           <span v-if="item.zone === 'certainly_hit'" class="certainly-hit-tip">推荐必中</span>
         </div>
-        <div class="manage-text left ml-5 inline-block">
+        <div class="manage-text left ml-5 inline-block mt-8">
           <p>
-            <span>
-              活动编号：{{item.number}}
-            </span>
+            <span>活动编号：{{item.number}}</span>
             <span class="ml-5">（{{item.taskStatusDesc}} / {{item.settlementStatusDesc}}）</span>
           </p>
           <p>活动名称：{{item.taskName}}</p>

@@ -24,7 +24,14 @@
       </i-select>
       <i-button class="ml-10" type="primary" :loading="searchLoading" @click="searchAuditTask">搜索</i-button>
     </div>
-    <div class="mt-12" v-for="(item,index) in taskWaitAuditList" :key="item.id" v-if="taskWaitAuditList.length > 0">
+    <div class="mt-10 mb-10" v-if="taskWaitAuditList.length > 0">
+      <span v-show="eyesStatus === 'off'" class="fire-eye-off" @click="changeEyesStatus('on')"><icon type="eye-disabled" size="16"></icon>&nbsp;火眼金睛</span>
+      <span v-show="eyesStatus === 'off'" class="ml-10 cl999">打开火眼金睛，拿手数据一目了然！</span>
+      <span v-show="eyesStatus === 'on'" class="fire-eye-on" @click="changeEyesStatus('off')"><icon type="eye" size="16"></icon>&nbsp;火眼金睛</span>
+      <span v-show="eyesStatus === 'on' && getMemberVersionLevel === 100" class="ml-10 cl999">距离服务结束还有<time-down :endTime="valueAddedServiceStatusInfo.vasBlackListDeadlineTime" timeEndText="服务已到期"></time-down></span>
+      <span v-show="eyesStatus === 'on' && getMemberVersionLevel !== 100" class="ml-10 cl999">VIP及SVIP免费使用火眼金睛功能 ^_^  </span>
+    </div>
+    <div class="mt-12" v-for="(item,index) in taskWaitAuditList" :key="item.id">
       <div class="collapse-header clear" @click="collapseToggle(item.id,index)" :class="{noBorderRadius:selectId}">
         <div class="manage-img inline-block">
           <img :src="item.taskMainImage + '!thum54'" alt="">
@@ -32,16 +39,13 @@
         </div>
         <div class="manage-text left ml-5 inline-block">
           <div>
-            <p>
-              活动编号：{{item.number}}
-            </p>
+            <p>活动编号：{{item.number}}</p>
             <p>活动名称：{{item.taskName}}</p>
             <p>参与概况：总份数<span class="main-color">{{item.taskCount || 0}}</span>，
-              <span class="main-color">{{item.trailOn || 0}}</span>人正在参与活动，<span
-                class="main-color">{{item.trailDone || 0}}</span>人完成活动，剩余名额<span class="main-color">{{item.residueCount || 0}}</span>个
+              <span class="main-color">{{item.trailOn || 0}}</span>人正在参与活动，<span class="main-color">{{item.trailDone || 0}}</span>人完成活动，剩余名额<span
+                class="main-color">{{item.residueCount || 0}}</span>个
             </p>
           </div>
-
         </div>
         <icon :class="{showTableStyles:selectId === item.id}" class="right mr-30 mt-28" type="arrow-right-b"></icon>
         <div class="waiting-task-number mt-10">
@@ -54,10 +58,9 @@
           <table>
             <thead>
             <tr height="70px">
-              <th width="20%" >
-                <p style="margin-bottom: 5px">淘宝账号（旺旺号）</p>
-                <i-button :class="[sortList.select === item.sortField ? 'ww-active' : '']" size="small"
-                         v-for="(item,index) in sortList.defaultList" :key="index" @click="sortChange(item.sortField,index)">
+              <th width="20%">
+                <p class="mb-5">淘宝账号（旺旺号）</p>
+                <i-button :class="[sortList.select === item.sortField ? 'ww-active' : '']" size="small" v-for="(item,index) in sortList.defaultList" :key="index" @click="sortChange(item.sortField,index)">
                   <span>{{item.name}}</span>
                   <icon v-show="item.sort === 'desc'" type="arrow-down-c"></icon>
                   <Icon v-show="item.sort === 'asc' " type="arrow-up-c"></Icon>
@@ -72,20 +75,27 @@
             <tbody v-for="allTask in item.applyAllTask" :key="allTask.id">
             <tr :class="{readBackground:allTask.newest}">
               <td>
-                <div v-if="allTask.applySuccessCount === 0" class="inline-block new-man-tip">
-                  <tooltip content="多给新人一点机会吧，他们可是很认真的 ^_^" placement="top">
-                    <img src="/static/img/icon/newman.png">
-                  </tooltip>
-                </div>
+                <tooltip v-if="allTask.applySuccessCount === 0" content="多给新人一点机会吧，他们可是很认真的 ^_^" placement="top">
+                  <img src="/static/img/icon/newman.png">
+                </tooltip>
                 <div class="inline-block account-info">
-                  <p>
-                    {{allTask.alitmAccount}}
-                  </p>
-                  <p v-if="allTask.creditLevel"><img :src="allTask.creditLevel" alt="" style="width: auto;height: auto;">
-                  <p v-if="allTask.tqz">淘气值：{{allTask.tqz}}
-                  </p>
-                  <p v-cloak>申请次数：{{allTask.applyCount || 0}}</p>
+                  <p>{{allTask.alitmAccount}}</p>
+                  <img :src="allTask.creditLevel" alt="淘宝等级LOGO">
+                  <p>淘气值：{{allTask.tqz}}</p>
+                  <p class="mt-5" v-cloak>申请次数：{{allTask.applyCount || 0}}</p>
                   <p v-cloak>成功次数：{{allTask.applySuccessCount || 0}}</p>
+                  <div class="value-added-info" v-if="eyesStatus === 'on'">
+                    <p>
+                      <span>被平台商家拉黑：</span>
+                      <span v-if="allTask.blackCount === 0" class="blue text-decoration-underline">0</span>
+                      <span v-else class="blue text-decoration-underline cursor-p" @click="lookBlackListInfo(allTask.alitmAccount, allTask.showkerId, allTask.creditLevel, allTask.tqz)">{{allTask.blackCount || 0}}</span>
+                    </p>
+                   <!-- <p class="mt-5">
+                      <span>被平台商家打标：</span>
+                      <span v-if="allTask.tagCount === 0" class="blue text-decoration-underline">0</span>
+                      <span v-else class="blue text-decoration-underline cursor-p">{{allTask.tagCount || 0}}</span>
+                    </p>-->
+                  </div>
                 </div>
               </td>
               <td>{{allTask.applyTime | dateFormat('YYYY-MM-DD hh:mm:ss')}}</td>
@@ -93,8 +103,7 @@
                 <a @click="openNewTrialReportFunc(encryptionId(allTask.showkerId))">查看</a>
               </td>
               <td>
-                <tooltip v-if="allTask.reason && allTask.status === 'waiting_resubmit'" :content="allTask.reason"
-                         placement="top" class="cursor-p">
+                <tooltip v-if="allTask.reason && allTask.status === 'waiting_resubmit'" :content="allTask.reason" placement="top" class="cursor-p">
                   <icon color="#f9284f" type="information-circled"></icon>
                   <span class="main-color">{{getStatusInfo(allTask.status)}}</span>
                 </tooltip>
@@ -102,11 +111,11 @@
               </td>
               <td>
                 <p class="del-edit">
-                 <!-- <span v-if="item.needBrowseCollectAddCart"
-                        @click="taskWaitToAudit(allTask.id,allTask.alitmAccount,allTask.screenshot,item.endTime,allTaskIndex)">审批</span>-->
                   <span class="ml-5" @click="taskWaitToPass(allTask.id, 'true')">通过</span>
                   <span v-if="allTask.newest" class="ml-5" @click="markRead(item.id,allTask.id)">设为已读</span>
-                  <Tooltip placement="top" content="加入黑名单后该用户将无法申请你发布的活动"><span class="ml-5" @click="addToBlackListFun(allTask.alitmAccount)">加入黑名单</span></Tooltip>
+                  <tooltip placement="top" content="加入黑名单后该用户将无法申请你发布的活动">
+                    <span class="ml-5" @click="addToBlackListFun(allTask.alitmAccount)">加入黑名单</span>
+                  </tooltip>
                 </p>
               </td>
             </tr>
@@ -114,7 +123,7 @@
             <tbody>
             <tr>
               <td colspan="5">
-                <page :total="taskTotalElements" :page-size="taskPageSize" :current="taskPageIndex" @on-change="TaskPageChange"></page>
+                <page :total="taskTotalElements" :page-size="taskPageSize" :current="taskPageIndex" @on-change="taskPageChange"></page>
               </td>
             </tr>
             </tbody>
@@ -126,75 +135,169 @@
     <div class="activity-page mt-20 right mr-10" v-if="taskWaitAuditList && taskWaitAuditList.length > 0">
       <page :total="totalElements" :page-size="pageSize" :current="pageIndex" @on-change="pageChange"></page>
     </div>
-    <!--审核拿手图片-->
-  <!--  <template v-if="showApprovalPop">
-      <Modal v-model="approvalPopInfo.approvalPop" :transfer="false" width="600">
-        <AuditShowker
-          :applyName="approvalPopInfo.applyName"
-          :userScreenShotImg="approvalPopInfo.userScreenShotImg"
-          :passId="approvalPopInfo.passId"
-          :activeEndTime="approvalPopInfo.activeEndTime"
-          @request="auditSuccess">
-        </AuditShowker>
-        <div slot="footer" style="padding: 0px ; border: none"></div>
-      </Modal>
-    </template>-->
+    <!--添加黑名单弹框-->
     <modal v-model="addToBlackListPop" title="添加黑名单" class="black-list-pop">
-      <div><span class="inline-block title">淘宝账号（旺旺ID）：</span><i-input class="ww-name" v-model="wwName"></i-input></div>
+      <div>
+        <span class="inline-block title">淘宝账号（旺旺ID）：</span>
+        <i-input class="ww-name" v-model="wwName" style="width: 120px;"></i-input>
+      </div>
       <div class="mt-20">
         <span class="inline-block title">拉黑原因：</span>
-        <iSelect v-model="addToBlackListReason" style="width:300px">
-          <iOption v-for="(item ,index) in reasonList" :value="item" :key="index">{{item}}</iOption>
-        </iSelect>
+        <i-select v-model="addToBlackListReason" style="width:200px">
+          <i-option v-for="(item ,index) in reasonList" :value="item.reasonStatus" :key="index">{{item.reasonDec}}</i-option>
+        </i-select>
       </div>
-      <div class="mt-20" v-show="addToBlackListReason === '自定义'">
+      <div class="mt-20" v-show="addToBlackListReason === 'other_reason'">
         <span class="inline-block title">填写原因：</span>
         <i-input type="textarea" v-model="addToBlackOtherReason" placeholder="100字以内" style="width:300px"></i-input>
       </div>
       <div slot="footer" class="text-ct">
-        <iButton type="error" size="large" class="button" @click="addShowkerToBlackList">确定</iButton>
+        <i-button type="error" size="large" class="pl-40 pr-40" @click="addShowkerToBlackList">确定</i-button>
       </div>
+    </modal>
+    <!--拉黑详情列表弹框-->
+    <modal v-model="blackListInfoModel">
+      <div class="mt-20 clear">
+        <img v-if="blackListInfo.portraitPic" class="left border-radius-50 mr-10" width="48" height="48" :src="getUserHeardUrl(blackListInfo.portraitPic)" alt="用户头像">
+        <div class="left">
+          <p>{{blackListInfo.nickname}}</p>
+          <img :src="blackListInfo.creditLevel" alt="淘宝LOGO">
+          <p>淘气值：{{blackListInfo.tqz}}</p>
+        </div>
+      </div>
+      <table class="width-ptc-100 text-ct lht30 mt-10 border-ddd">
+        <thead class="bg-ddd">
+        <tr>
+          <th>拉黑原因</th>
+          <th>拉黑次数</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr v-for="(item, index) in blackListInfo.list" :key="index">
+          <td class="border-ddd">{{item.name}}</td>
+          <td class="border-ddd">{{item.count}}</td>
+        </tr>
+        </tbody>
+      </table>
+      <div slot="footer"></div>
+    </modal>
+    <!--订购火眼金睛功能弹框-->
+    <modal v-model="orderEyesModel">
+      <div class="text-ct" slot="header">
+        <icon type="ios-cart" color="#f9284f" size="20"></icon>
+        <span class="ml-5 fs-14 main-color">订购火眼金睛</span></div>
+      <div class="mt-10">
+        <span>订购方式一：</span>
+        <span class="open-vip-btn">开通VIP或者SVIP免费使用该功能</span>
+      </div>
+      <div class="mt-20">
+        <span>订购方式二：</span>
+        <i-button class="mr-20 select-period" v-for="item in eyesPeriodList" :key="item.id" @click="changeSelectPeriod(item.id, item.intervalFee)" :class="{'is-select': selectEyesPeriodInfo.id === item.id}">
+          <div>{{item.frontDisplay}}</div>
+          <div>￥ {{(item.intervalFee / 100).toFixed(2) || 0}} 元</div>
+        </i-button>
+      </div>
+      <div class="text-ct">
+        <i-button v-if="hasBalance" type="error" class="pl-40 pr-40 mt-20 fs-14" @click="eyesPayModel = true">立即购买</i-button>
+        <i-button v-else type="error" class="pl-40 pr-40 mt-20 fs-14" @click="eyesPayModel = true">立即充值</i-button>
+      </div>
+      <div slot="footer">
+        <div class="text-lf text-indent f-b"><span class="main-color">火眼金睛</span>是平台增值服务功能，激活该功能后可查看平台拿手旺旺号的私密数据，如被商家拉黑的次数及原因，完成活动后收到的商家评价和打标，旺旺号姓别、年龄、地址、购物标签等（功能陆续开发添加中...），使用火眼金睛让你对拿手审核一百个放心！
+        </div>
+        <div class="text-ct mt-10 clear">
+          <div class="left ml-120" @click="changeLookScreenShot(1)">
+            <img class="border-radius-5 border-ddd cursor-p" src="~assets/img/task-management/eyes-demo-01.png"
+                 alt="火眼金睛功能截图1" width="92" height="92">
+            <p>功能截图1</p>
+          </div>
+          <div class="left ml-20" @click="changeLookScreenShot(2)">
+            <img class="border-radius-5 border-ddd cursor-p" src="~assets/img/task-management/eyes-demo-02.png"
+                 alt="火眼金睛功能截图2" width="92" height="92">
+            <p>功能截图2</p>
+          </div>
+        </div>
+      </div>
+    </modal>
+    <!--支付弹框-->
+    <div class="pay-model" v-if="eyesPayModel">
+      <pay-model ref="orderPayModel" :orderMoney="selectEyesPeriodInfo.fee" :orderType="2" :vasFeeId="selectEyesPeriodInfo.id" :isBalance="hasBalance" @orderVipSuccess="orderVipSuccess" @confirmPayment="confirmPayment">
+        <i slot="closeModel" class="close-recharge" @click="eyesPayModel = false">&times;</i>
+        <div slot="noBalance" class="title-tip">
+          <span class="size-color3">
+            <icon color="#FF2424" size="16" type="ios-information"></icon>
+            <span class="">亲，您的余额不足，请充值。</span>
+          </span>还需充值
+          <strong class="size-color3">{{(needRechargeMoney / 100).toFixed(2)}}</strong> 元。
+        </div>
+        <div slot="isBalance" class="title-tip">
+          <icon color="#FF2424" size="18px" type="ios-information"></icon>
+          <span class="ml-10">您本次需要支付金额为 <span
+            class="size-color3">{{(selectEyesPeriodInfo.fee / 100).toFixed(2)}}</span> 元。</span>
+        </div>
+      </pay-model>
+    </div>
+    <!--查看火眼金睛功能截图弹框-->
+    <modal v-model="lookScreenShotModel" :closable="false">
+      <img v-if="lookScreenShot === 1" class="border-radius-5 border-ddd cursor-p" src="~assets/img/task-management/eyes-demo-01.png" width="100%" alt="火眼金睛功能截图1">
+      <img v-if="lookScreenShot === 2" class="border-radius-5 border-ddd cursor-p" src="~assets/img/task-management/eyes-demo-02.png" width="100%" alt="火眼金睛功能截图2">
     </modal>
   </div>
 </template>
 
 <script>
-  import {Form, Select, Option, Checkbox, Page, Icon, Button, Input, Tooltip, Modal} from 'iview'
+  import {Select, Option, Checkbox, Page, Icon, Button, Input, Tooltip, Modal} from 'iview'
   import CollapseTransition from 'iview/src/components/base/collapse-transition'
+  import PayModel from '@/components/PayModel'
+  import TimeDown from '@/components/TimeDown'
   import {TaskErrorStatusList, encryption} from '@/config/utils'
+  import {aliCallbackImgUrl} from '@/config/env'
   import api from '@/config/apiConfig'
 
   export default {
     name: 'task-wait-audit',
     components: {
-      iForm: Form,
       iSelect: Select,
       iOption: Option,
       Checkbox: Checkbox,
       CheckboxGroup: Checkbox.Group,
-      FormItem: Form.Item,
       Page: Page,
       iButton: Button,
       iInput: Input,
       Icon: Icon,
       Tooltip: Tooltip,
       Modal: Modal,
-      CollapseTransition: CollapseTransition
+      CollapseTransition: CollapseTransition,
+      PayModel: PayModel,
+      TimeDown: TimeDown,
     },
     data() {
       return {
-        addToBlackOtherReason:null,
-        addToBlackListReason:'我是商家我任性',
-        reasonList:[
-          '我是商家我任性',
-          '不按要求操作',
-          '此号不安全',
-          '有退货行为',
-          '自定义'
+        addToBlackOtherReason: null,
+        addToBlackListReason: 'none_reason',
+        reasonList: [
+          {
+            reasonStatus: 'none_reason',
+            reasonDec: '无理由'
+          },
+          {
+            reasonStatus: 'illegal_operation',
+            reasonDec: '不按要求操作'
+          },
+          {
+            reasonStatus: 'danger_account',
+            reasonDec: '此号不安全'
+          },
+          {
+            reasonStatus: 'sales_return',
+            reasonDec: '有退货行为'
+          },
+          {
+            reasonStatus: 'other_reason',
+            reasonDec: '其他'
+          },
         ],
-        addToBlackListPop:false,
-        wwName:null,
-        index:0,
+        addToBlackListPop: false,
+        wwName: null,
         wwFormValidate: {
           creditLevel: null,
           tqz: null,
@@ -354,48 +457,94 @@
         },
         sortD: null,
         orderBy: null,
-        dataStatusTip:''
+        dataStatusTip: '',
+        eyesStatus: 'off',
+        eyesPayModel: false,
+        blackListInfoModel: false,
+        lookScreenShotModel: false,
+        orderEyesModel: false,
+        lookScreenShot: 2,
+        eyesPeriodList: [],
+        valueAddedServiceStatusInfo: {},
+        selectEyesPeriodInfo: {
+          id: 100,
+          fee: 100
+        },
+        blackListInfo: [],
       }
-    },
-    mounted() {
-
     },
     created() {
       this.appliesWaitingAuditTask();
       this.$store.dispatch('getPersonalTrialCount');
+      this.getValueAddedServiceStatus();
     },
-    computed: {},
-    methods: {
-      openNewTrialReportFunc(id){
-        window.open('/trial-report?q='+ id);
+    computed: {
+      /** 获取用户账户余额
+       * @return {Number}
+       */
+      getUserBalance() {
+        return this.$store.getters.getUserBalance
       },
-      addShowkerToBlackList(){
-        let self = this;
-        if(self.addToBlackListReason === '自定义'){
-          self.addToBlackListReason = self.addToBlackOtherReason;
-        }
-        if (!self.wwName){
-          self.$Message.error("请填写要拉黑的旺旺号！");
+
+      /** 获取用户会员版本等级（100：普通用户， 200：VIP， 300：SVIP）
+       * @return {Number}
+       */
+      getMemberVersionLevel() {
+        return this.$store.state.userInfo.memberLevel
+      },
+
+      /** 计算用户账户余额是否足够支付选购的增值服务版本价格（true: 余额足够， false: 余额不足）
+       * @return {boolean}
+       */
+      hasBalance() {
+        return this.getUserBalance * 100 >= this.selectEyesPeriodInfo.fee
+      },
+
+      /** 计算当用户账户余额不够的时候需要充值的金额
+       * @return {Number}
+       */
+      needRechargeMoney() {
+        let money = this.selectEyesPeriodInfo.fee - this.getUserBalance * 100;
+        return money > 0 ? money : 0;
+      },
+    },
+    methods: {
+      changeLookScreenShot(num) {
+        this.lookScreenShotModel = true;
+        this.lookScreenShot = num
+      },
+      openNewTrialReportFunc(id) {
+        window.open('/trial-report?q=' + id);
+      },
+      addShowkerToBlackList() {
+        const _this = this;
+        if (!_this.wwName) {
+          _this.$Message.error("请填写要拉黑的旺旺号！");
           return
         }
-        if (!self.addToBlackListReason){
-          self.$Message.error("请填写拉黑原因！");
+        if (!_this.addToBlackListReason) {
+          _this.$Message.error("请填写拉黑原因！");
           return
+        }
+        if (_this.addToBlackListReason === 'other_reason') {
+          _this.addToBlackListReason = _this.addToBlackOtherReason;
         }
         api.addShowkerToBlackList({
-          alitmAccount:self.wwName,
-          reason:self.addToBlackListReason,
-        }).then( res => {
-          if (res.status){
-            self.addToBlackListPop = false;
-            self.$Message.success("添加黑名单成功！");
-          }else {
-            self.$Message.error(res.msg);
+          alitmAccount: _this.wwName,
+          reasonCode: _this.addToBlackListReason,
+          reasonText: _this.addToBlackOtherReason || '',
+        }).then(res => {
+          if (res.status) {
+            _this.addToBlackListPop = false;
+            _this.$Message.success("添加黑名单成功！");
+            _this.appliesWaitingAuditAll(_this.operateTaskId, _this.operateIndex);
+          } else {
+            _this.$Message.error(res.msg);
           }
         })
       },
-      addToBlackListFun(wwName){
-        this.addToBlackListReason = '我是商家我任性';
+      addToBlackListFun(wwName) {
+        this.addToBlackListReason = 'none_reason';
         this.addToBlackListPop = true;
         this.wwName = wwName;
       },
@@ -405,7 +554,7 @@
         this.sortList.defaultList[index].sort = sort === 'desc' ? 'asc' : 'desc';
         this.sortD = sort === 'desc' ? 'asc' : 'desc';
         this.orderBy = name;
-        this.appliesWaitingAuditAll(this.selectId, this.index)
+        this.appliesWaitingAuditAll(this.operateTaskId, this.operateIndex);
       },
       encryptionId(id) {
         return encryption(id)
@@ -417,17 +566,17 @@
         this.pageIndex = data;
         this.appliesWaitingAuditTask();
       },
-      TaskPageChange(data) {
+      taskPageChange(data) {
         this.taskPageIndex = data;
         this.appliesWaitingAuditAll(this.operateTaskId, this.operateIndex);
       },
-      searchAuditTask(){
+      searchAuditTask() {
         this.selectId = null;
         this.pageIndex = 1;
         this.appliesWaitingAuditTask();
       },
       taskWaitToPass(id, status) {
-        let _this = this;
+        const _this = this;
         api.setTaskShowkerAudit({
           id: id,
           status: status,
@@ -453,7 +602,7 @@
         })
       },
       appliesWaitingAuditTask() {
-        let _this = this;
+        const _this = this;
         _this.searchLoading = true;
         _this.dataStatusTip = '数据加载中';
         api.appliesWaitingAuditTask({
@@ -468,15 +617,14 @@
             _this.taskWaitAuditList = res.data.content;
             _this.dataStatusTip = _this.taskWaitAuditList.length === 0 ? '暂无待审批数据' : '';
             _this.totalElements = res.data.totalElements;
-            _this.searchLoading = false;
           } else {
             _this.$Message.error(res.msg);
-            _this.searchLoading = false;
           }
+          _this.searchLoading = false;
         })
       },
       appliesWaitingAuditAll(taskId, index) {
-        let _this = this;
+        const _this = this;
         _this.operateTaskId = taskId;
         _this.operateIndex = index;
         api.appliesWaitingAuditAll({
@@ -501,7 +649,7 @@
         })
       },
       markRead(taskId, taskApplyId) {
-        let _this = this;
+        const _this = this;
         api.waitingAuditNewestMarkRead({
           taskId: taskId,
           taskApplyId: taskApplyId
@@ -523,46 +671,121 @@
         if (this.selectId === id) {
           this.selectId = null;
         } else {
-          this.selectId = id;
-          this.index = index;
           this.appliesWaitingAuditAll(id, index)
         }
       },
+      changeEyesStatus(status) {
+        if(!this.valueAddedServiceStatusInfo.vasBlackListDeadlineTime && this.getMemberVersionLevel === 100) {
+          if(this.eyesPeriodList.length === 0) {
+            this.getValueAddedServicePeriod()
+          }
+          this.orderEyesModel = true;
+        } else {
+          this.eyesStatus = status
+        }
+      },
+      getValueAddedServiceStatus() {
+        const _this = this;
+        api.valueAddedServiceStatus().then(res => {
+          if(res.status) {
+            _this.valueAddedServiceStatusInfo = res.data;
+            if((this.getMemberVersionLevel === 100 && this.valueAddedServiceStatusInfo.vasBlackListDeadlineTime) || this.getMemberVersionLevel !== 100) {
+              _this.eyesStatus = 'on'
+            } else {
+              _this.eyesStatus = 'off'
+            }
+          } else {
+            _this.$Message.error(res.msg)
+          }
+        })
+      },
+      getValueAddedServicePeriod() {
+        const _this = this;
+        api.valueAddedServicePeriodQuery({
+          species: 1,
+          provision: 'interval'
+        }).then(res => {
+          if(res.status) {
+            _this.eyesPeriodList = res.data;
+            _this.$nextTick(()=> {
+              _this.orderEyesModel = true;
+            });
+          } else {
+            _this.$Message.error(res.msg)
+          }
+        })
+      },
+      changeSelectPeriod(id,fee) {
+        this.selectEyesPeriodInfo.id = id;
+        this.selectEyesPeriodInfo.fee = fee;
+      },
+      confirmPayment(pwd) {
+        const _this = this;
+        api.buyValueAddedService({
+          vasFeeId: _this.selectEyesPeriodInfo.id,
+          payPwd: pwd,
+          platform: 'pc'
+        }).then(res => {
+          if(res.status) {
+            _this.$Message.success('支付成功！');
+            _this.$store.dispatch('getUserInformation');
+            _this.getValueAddedServiceStatus();
+          } else {
+            _this.$Message.error(res.msg);
+          }
+          _this.orderEyesModel = false;
+          _this.eyesPayModel = false;
+          _this.$refs.orderPayModel.payLoading = false;
+        })
+      },
+      orderVipSuccess() {
+        this.orderEyesModel = false;
+        this.eyesPayModel = false;
+        this.getValueAddedServiceStatus();
+      },
+      lookBlackListInfo(alitmAccount, userId, creditLevel, tqz) {
+        const _this = this;
+        _this.blackListInfoModel = true;
+        api.blackListByAlitmAccount({
+          alitmAccount: alitmAccount,
+          userId: userId
+        }).then(res => {
+          if(res.status) {
+            _this.blackListInfo = [];
+            _this.blackListInfo = res.data;
+            _this.blackListInfo.creditLevel = creditLevel;
+            _this.blackListInfo.tqz = tqz;
+          } else {
+            _this.$Message.error(res.msg)
+          }
+        })
+      },
+      getUserHeardUrl(url) {
+        if (url.indexOf('head-image') >= 0) {
+          return aliCallbackImgUrl + url + '!orgi75'
+        } else if (url.indexOf('q.qlogo.cn') >= 0 || url.indexOf('wx.qlogo.cn') >= 0) {
+          return url
+        } else {
+          return '/static/img/common/tx-default.png'
+        }
+      }
     }
   }
 </script>
+
 <style lang="scss" scoped>
-  .certainly-hit-tip {
-    position: absolute;
-    background-color: #f9284f;
-    color: #fff;
-    line-height: 14px;
-    height: 14px;
-    width: 54px;
-    text-align: center;
-    left: 0;
-    bottom: -4px;
-    font-size: 12px !important;
-  }
-  .new-man-tip{
-    width: 50px;
-  }
-  .account-info{
-    width: 120px;
-  }
-  .black-list-pop{
-    .ww-name{
-      width: 200px;
-      margin-left: 3px;
-    }
-    .title{
-      width: 120px;
-      text-align: right;
-    }
-    .button{
-      padding-left: 30px;
-      padding-right: 30px;
+  @import 'src/css/mixin';
+  .select-period {
+    &:hover:not(:disabled) {
+      border-color: $mainColor;
+      background-color: #FFF4F1;
+      color: $mainColor;
     }
   }
 
+  .is-select {
+    border-color: $mainColor;
+    background-color: #FFF4F1;
+    color: $mainColor;
+  }
 </style>

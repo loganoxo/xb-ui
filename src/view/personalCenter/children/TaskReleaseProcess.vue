@@ -2839,18 +2839,6 @@
     .ivu-steps-item {
       line-height: 26px;
     }
-    .pay-model {
-      @include fullScreenModel
-    }
-    .title-tip {
-      height: 36px;
-      line-height: 36px;
-      margin: 52px auto 28px auto;
-      color: #000;
-      background-color: #FFF6F3;
-      padding-left: 26px;
-      font-size: 14px;
-    }
     .task-remark-input {
       width: 600px;
     }

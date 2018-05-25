@@ -986,7 +986,7 @@ export default {
    * 获取批量导出订单的订单号
    */
   getMerchantExportOrderNumber(params) {
-    return axiosConfig.post('/api/merchant/export/order.json',params)
+    return axiosConfig.post('/api/merchant/export/order.json', params)
   },
 
   /**
@@ -994,5 +994,41 @@ export default {
    */
   clickBuyMemberCallback() {
     return axiosConfig.post('/api/user/member/clickBuyMember.json')
-  }
+  },
+
+  /**
+   * 增值业务订购周期列表查询
+   */
+  valueAddedServicePeriodQuery(params) {
+    return axiosConfig.get('/api/value-added-service-period-query.json', params)
+  },
+
+  /**
+   * 购买增值业务
+   */
+  buyValueAddedService(params) {
+    return axiosConfig.post('/api/buy-value-added-service.json', params)
+  },
+
+  /**
+   * 获取当前用户增值服务使用状态
+   */
+  valueAddedServiceStatus() {
+    return axiosConfig.get('/api/value-added-service-status.json')
+  },
+
+  /**
+   * 获取拿手被商家拉黑情况
+   */
+  blackListByAlitmAccount(params) {
+    return axiosConfig.get('/api/black-list-by-alitm-account.json', params)
+  },
+
+  /**
+   * 获取拿手被商家打标情况
+   */
+  appraiseSituationByMerchant(params) {
+    return axiosConfig.get('/api/appraise-situation-by-merchant.json', params)
+  },
+
 }

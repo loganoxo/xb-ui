@@ -1,5 +1,5 @@
 <template>
-  <div class="personal-box" :class="[!isLogin ? 'ml-12p' : '']">
+  <div class="personal-box" :class="[!isLogin ? 'ml-ptc-12' : '']">
     <div class="personal-sel-top">
       <router-link v-if="$store.state.userInfo.role === myInfoSelect.role || myInfoSelect.role === null" :to="myInfoSelect.link" :key="myInfoSelect.link" v-for="(myInfoSelect,index) in myInfoSelects" :class="{active:infoSelect == myInfoSelect.isSelect}">
         {{myInfoSelect.text}}

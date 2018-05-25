@@ -95,7 +95,7 @@
           </div>
         </div>
       </div>
-      <div class="container bgfff">
+      <div class="container bg-fff">
         <div class="task-category-commodity">
           <div class="task-category-commodity-ctt">
             <router-link

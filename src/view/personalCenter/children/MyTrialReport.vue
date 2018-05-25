@@ -74,7 +74,7 @@
                           :trigger="setting.trigger"
                           :arrow="setting.arrow">
                    <Carousel-item v-for="trialReportImage in showkerReportDesc.trialReportImages" :key="trialReportImage">
-                     <img class="block mg-at" :src="trialReportImage + '!orgi75'" alt="" width="700px">
+                     <img class="block margin-auto" :src="trialReportImage + '!orgi75'" alt="" width="700px">
                   </Carousel-item>
                 </Carousel>
               </div>

@@ -11,7 +11,7 @@
         <img src="/static/img/seller-adv/phone-guide_02.jpg" alt="" class="block">
       </div>
     </div>
-    <div class="bgfff">
+    <div class="bg-fff">
       <div class="container">
         <img src="/static/img/seller-adv/phone-guide_03.jpg" alt="" class="block">
       </div>
