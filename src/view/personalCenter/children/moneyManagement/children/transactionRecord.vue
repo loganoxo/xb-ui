@@ -37,7 +37,7 @@
     <div class="mt-22 line"></div>
     <div class="transaction-amount">
       <span>收入：<span style="color: #2F962F;">{{(userAccount.amountIncomes / 100).toFixed(2) || 0}}</span>元</span>
-      <span class="ml-20">支出：<span style="color: #FF0E0E;">{{(userAccount.amountPayment / 100).toFixed(2) || 0}}</span>元</span>
+      <span class="ml-20">支出：<span class="main-color">{{(userAccount.amountPayment / 100).toFixed(2) || 0}}</span>元</span>
     </div>
     <div class="personal-list-table mt-10">
       <table class="list-table">
@@ -63,7 +63,7 @@
             {{typeChang(tbodyDetails.amountChange / 100) || 0}}
           </td>
           <td>
-            <p style="color:blue;" class="details" @click="detailsInit(tbodyDetails.id)">详情
+            <p class="details blue" @click="detailsInit(tbodyDetails.id)">详情
               <Icon :type="detailSelect===tbodyDetails.id?'arrow-up-b':'arrow-down-b'" class="ml-5 "></Icon>
             </p>
           </td>
