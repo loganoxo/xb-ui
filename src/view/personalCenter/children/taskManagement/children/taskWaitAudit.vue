@@ -24,7 +24,7 @@
       </i-select>
       <i-button class="ml-10" type="primary" :loading="searchLoading" @click="searchAuditTask">搜索</i-button>
     </div>
-    <div class="mt-10 mb-10" v-if="taskWaitAuditList.length > 0">
+    <div class="mt-10 mb-10">
       <span v-show="eyesStatus === 'off'" class="fire-eye-off" @click="changeEyesStatus('on')"><icon type="eye-disabled" size="16"></icon>&nbsp;火眼金睛</span>
       <span v-show="eyesStatus === 'off'" class="ml-10 cl999">打开火眼金睛，拿手数据一目了然！</span>
       <span v-show="eyesStatus === 'on'" class="fire-eye-on" @click="changeEyesStatus('off')"><icon type="eye" size="16"></icon>&nbsp;火眼金睛</span>
