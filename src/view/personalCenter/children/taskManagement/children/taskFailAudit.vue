@@ -35,9 +35,9 @@
           <p>活动编号：{{item.number}}</p>
           <p>活动名称：{{item.taskName}}</p>
         </div>
-        <icon :class="{showTableStyles:selectId === item.id}" class="right mr-30 mt-15" type="arrow-right-b"></icon>
-        <div class="waiting-task-number">
-          <p class="mt-12 task-wait-fail">共{{item.count}}人</p>
+        <icon :class="{'show-table-styles':selectId === item.id}" class="mt-22 right mr-20 vtc-text-btm" type="arrow-right-b"></icon>
+        <div class="waiting-task-number-fail">
+          <p class="task-wait-fail">共{{item.count}}人</p>
         </div>
       </div>
       <collapse-transition>

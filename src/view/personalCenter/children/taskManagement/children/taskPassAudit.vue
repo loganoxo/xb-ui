@@ -55,15 +55,14 @@
           <img :src="item.taskMainImage + '!thum54'" width="54" height="54" alt="活动宝贝主图">
           <span v-if="item.zone === 'certainly_hit'" class="certainly-hit-tip">推荐必中</span>
         </div>
-        <div class="manage-text left ml-5 inline-block mt-8">
+        <div class="manage-text left ml-5 inline-block mt-8" @click.stop>
           <p>
             <span>活动编号：{{item.number}}</span>
             <span class="ml-5">（{{item.taskStatusDesc}} / {{item.settlementStatusDesc}}）</span>
           </p>
           <p>活动名称：{{item.taskName}}</p>
         </div>
-        <icon :class="{showTableStyles:selectId === item.id}" class="right mr-10 mt-15" type="arrow-right-b"></icon>
-        <div class="waiting-task-number">
+        <div class="waiting-task-number-pass">
           <p class="task-pass"
              :class="{'line-height':showkerTaskStatusList.length === 0 || showkerTaskStatusList.length === 8 || showkerTaskStatusList.length > 4}">
             <span v-show="showkerTaskStatusList.length === 0 || showkerTaskStatusList.length === 8">全部<span
@@ -88,6 +87,7 @@
               class="main-color">({{item.trial_end || 0}})</span></span>
           </p>
         </div>
+        <icon :class="{'show-table-styles' : selectId === item.id}" class="mt-15" type="arrow-right-b"></icon>
       </div>
       <collapse-transition>
         <div class="task-table" v-show="selectId === item.id">

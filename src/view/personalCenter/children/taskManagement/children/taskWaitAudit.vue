@@ -11,34 +11,42 @@
       <i-input v-model="taskNumber" style="width: 140px;margin-right: 8px;"></i-input>
       <span class="ml-10">旺旺号信用等级大于等于：</span>
       <i-select v-model="wwFormValidate.creditLevel" style="width: 130px;">
-        <i-option v-for="(taobaoLevelImg,index) in taobaoLevelImgs" :label='taobaoLevelImg.label' :value="taobaoLevelImg.value" :key="taobaoLevelImg.value">
+        <i-option v-for="(taobaoLevelImg,index) in taobaoLevelImgs" :label='taobaoLevelImg.label'
+                  :value="taobaoLevelImg.value" :key="taobaoLevelImg.value">
           <span v-show="index === 0">{{taobaoLevelImg.text}}</span>
           <img v-show="index !== 0" :src="taobaoLevelImg.text" alt="">
         </i-option>
       </i-select>
       <span class="ml-10">淘气值范围：</span>
       <i-select v-model="wwFormValidate.tqz" style="width: 120px;">
-        <i-option v-for="taoqizhi in taoqizhiList" :label='taoqizhi.label' :value="taoqizhi.value" :key="taoqizhi.value">
+        <i-option v-for="taoqizhi in taoqizhiList" :label='taoqizhi.label' :value="taoqizhi.value"
+                  :key="taoqizhi.value">
           {{taoqizhi.label}}
         </i-option>
       </i-select>
       <i-button class="ml-10" type="primary" :loading="searchLoading" @click="searchAuditTask">搜索</i-button>
     </div>
     <div class="mt-10 mb-10">
-      <span v-show="eyesStatus === 'off'" class="fire-eye-off" @click="changeEyesStatus('on')"><icon type="eye-disabled" size="16"></icon>&nbsp;火眼金睛</span>
+      <span v-show="eyesStatus === 'off'" class="fire-eye-off" @click="changeEyesStatus('on')"><icon type="eye-disabled"
+                                                                                                     size="16"></icon>&nbsp;火眼金睛</span>
       <span v-show="eyesStatus === 'off'" class="ml-10 cl999">打开火眼金睛，拿手数据一目了然！</span>
-      <span v-show="eyesStatus === 'on'" class="fire-eye-on" @click="changeEyesStatus('off')"><icon type="eye" size="16"></icon>&nbsp;火眼金睛</span>
-      <span v-show="eyesStatus === 'on' && getMemberVersionLevel === 100" class="ml-10 cl999">距离服务结束还有&nbsp;<time-down v-if="valueAddedServiceStatusInfo.vasBlackListDeadlineTime" :endTime="valueAddedServiceStatusInfo.vasBlackListDeadlineTime" timeEndText="服务已到期"></time-down></span>
-      <span v-show="eyesStatus === 'on' && getMemberVersionLevel === 100" class="blue text-decoration-underline ml-10 cursor-p" @click="renewalEyes">续费</span>
-      <span v-show="eyesStatus === 'on' && getMemberVersionLevel !== 100" class="ml-10 cl999">VIP及SVIP免费使用火眼金睛功能 ^_^  </span>
+      <span v-show="eyesStatus === 'on'" class="fire-eye-on" @click="changeEyesStatus('off')"><icon type="eye"
+                                                                                                    size="16"></icon>&nbsp;火眼金睛</span>
+      <span v-show="eyesStatus === 'on' && getMemberVersionLevel === 100" class="ml-10 cl999">距离服务结束还有&nbsp;<time-down
+        v-if="valueAddedServiceStatusInfo.vasBlackListDeadlineTime"
+        :endTime="valueAddedServiceStatusInfo.vasBlackListDeadlineTime" timeEndText="服务已到期"></time-down></span>
+      <span v-show="eyesStatus === 'on' && getMemberVersionLevel === 100"
+            class="blue text-decoration-underline ml-10 cursor-p" @click="renewalEyes">续费</span>
+      <span v-show="eyesStatus === 'on' && getMemberVersionLevel !== 100"
+            class="ml-10 cl999">VIP及SVIP免费使用火眼金睛功能 ^_^  </span>
     </div>
     <div class="mt-12 pos-rel" v-for="(item,index) in taskWaitAuditList" :key="item.id">
-      <div class="collapse-header clear" @click.self="collapseToggle(item.id,index)" :class="{noBorderRadius:selectId}">
+      <div class="collapse-header clear" @click="collapseToggle(item.id,index)" :class="{noBorderRadius:selectId}">
         <div class="manage-img inline-block">
-          <img :src="item.taskMainImage + '!thum54'" alt="">
+          <img :src="item.taskMainImage + '!thum54'" alt="活动主图">
           <span v-if="item.zone === 'certainly_hit'" class="certainly-hit-tip">推荐必中</span>
         </div>
-        <div class="manage-text ml-5 inline-block">
+        <div class="manage-text ml-5 inline-block" @click.stop>
           <p>活动编号：{{item.number}}</p>
           <p>活动名称：{{item.taskName}}</p>
           <p>参与概况：总份数<span class="main-color">{{item.taskCount || 0}}</span>，
@@ -46,16 +54,18 @@
               class="main-color">{{item.residueCount || 0}}</span>个
           </p>
         </div>
-        <div class="waiting-task-number">
-          <p class="task-wait-fail">新增待审批<span>{{item.newestTaskApplyCount || 0}}</span>人</p>
-          <p class="task-wait-fail">共有待审批<span>{{item.totalTaskApplyCount || 0}}</span>人</p>
+        <div class="right mr-10">
+          <div class="waiting-task-number-wait">
+            <p class="task-wait-fail">新增待审批<span>{{item.newestTaskApplyCount || 0}}</span>人</p>
+            <p class="task-wait-fail">共有待审批<span>{{item.totalTaskApplyCount || 0}}</span>人</p>
+          </div>
+          <i-button type="error" @click.stop="openSpeedUp(item.id, item.userId)"><span class="mr-5">一键加速</span>
+            <tooltip class="vtc-text-btm" style="line-height: 0" content="启用后，系统会匹配拿手进行审核，无需商家干预" placement="top">
+              <icon type="help-circled" size="14" color="#fff"></icon>
+            </tooltip>
+          </i-button>
+          <icon :class="{'show-table-styles' : selectId === item.id}" class="ml-10 mt-28" type="arrow-right-b"></icon>
         </div>
-        <i-button type="error" @click.stop="openSpeedUp(item.id, item.userId)"><span class="mr-5">一键加速</span>
-          <tooltip class="vtc-text-btm" style="line-height: 0" content="启用后，系统会匹配拿手进行审核，无需商家干预" placement="top">
-            <icon type="help-circled" size="14" color="#fff"></icon>
-          </tooltip>
-        </i-button>
-        <icon :class="{'show-table-styles':selectId === item.id}" class="right mr-30 mt-28" type="arrow-right-b"></icon>
       </div>
       <collapse-transition>
         <div class="task-table" v-show="selectId === item.id">
@@ -64,7 +74,9 @@
             <tr>
               <th width="20%" class="pt-10 pb-10">
                 <p class="mb-5">淘宝账号（旺旺号）</p>
-                <i-button :class="[sortList.select === item.sortField ? 'ww-active' : '']" size="small" v-for="(item,index) in sortList.defaultList" :key="index" @click="sortChange(item.sortField,index)">
+                <i-button :class="[sortList.select === item.sortField ? 'ww-active' : '']" size="small"
+                          v-for="(item,index) in sortList.defaultList" :key="index"
+                          @click="sortChange(item.sortField,index)">
                   <span>{{item.name}}</span>
                   <icon v-show="item.sort === 'desc'" type="arrow-down-c"></icon>
                   <Icon v-show="item.sort === 'asc' " type="arrow-up-c"></Icon>
@@ -92,13 +104,14 @@
                     <p>
                       <span>被平台商家拉黑：</span>
                       <span v-if="allTask.blackCount === 0" class="blue text-decoration-underline">0</span>
-                      <span v-else class="blue text-decoration-underline cursor-p" @click="lookBlackListInfo(allTask.alitmAccount, allTask.showkerId, allTask.creditLevel, allTask.tqz)">{{allTask.blackCount || 0}}</span>
+                      <span v-else class="blue text-decoration-underline cursor-p"
+                            @click="lookBlackListInfo(allTask.alitmAccount, allTask.showkerId, allTask.creditLevel, allTask.tqz)">{{allTask.blackCount || 0}}</span>
                     </p>
-                   <!-- <p class="mt-5">
-                      <span>被平台商家打标：</span>
-                      <span v-if="allTask.tagCount === 0" class="blue text-decoration-underline">0</span>
-                      <span v-else class="blue text-decoration-underline cursor-p">{{allTask.tagCount || 0}}</span>
-                    </p>-->
+                    <!-- <p class="mt-5">
+                       <span>被平台商家打标：</span>
+                       <span v-if="allTask.tagCount === 0" class="blue text-decoration-underline">0</span>
+                       <span v-else class="blue text-decoration-underline cursor-p">{{allTask.tagCount || 0}}</span>
+                     </p>-->
                   </div>
                 </div>
               </td>
@@ -107,7 +120,8 @@
                 <a @click="openNewTrialReportFunc(encryptionId(allTask.showkerId))">查看</a>
               </td>
               <td>
-                <tooltip v-if="allTask.reason && allTask.status === 'waiting_resubmit'" :content="allTask.reason" placement="top" class="cursor-p">
+                <tooltip v-if="allTask.reason && allTask.status === 'waiting_resubmit'" :content="allTask.reason"
+                         placement="top" class="cursor-p">
                   <icon color="#f9284f" type="information-circled"></icon>
                   <span class="main-color">{{getStatusInfo(allTask.status)}}</span>
                 </tooltip>
@@ -127,7 +141,8 @@
             <tbody>
             <tr>
               <td colspan="5">
-                <page :total="taskTotalElements" :page-size="taskPageSize" :current="taskPageIndex" @on-change="taskPageChange"></page>
+                <page :total="taskTotalElements" :page-size="taskPageSize" :current="taskPageIndex"
+                      @on-change="taskPageChange"></page>
               </td>
             </tr>
             </tbody>
@@ -148,7 +163,8 @@
       <div class="mt-20">
         <span class="inline-block title">拉黑原因：</span>
         <i-select v-model="addToBlackListReason" style="width:200px">
-          <i-option v-for="(item ,index) in reasonList" :value="item.reasonStatus" :key="index">{{item.reasonDec}}</i-option>
+          <i-option v-for="(item ,index) in reasonList" :value="item.reasonStatus" :key="index">{{item.reasonDec}}
+          </i-option>
         </i-select>
       </div>
       <div class="mt-20" v-show="addToBlackListReason === 'other_reason'">
@@ -162,7 +178,8 @@
     <!--拉黑详情列表弹框-->
     <modal v-model="blackListInfoModel">
       <div class="mt-20 clear">
-        <img v-if="blackListInfo.portraitPic" class="left border-radius-50 mr-10" width="48" height="48" :src="getUserHeardUrl(blackListInfo.portraitPic)" alt="用户头像">
+        <img v-if="blackListInfo.portraitPic" class="left border-radius-50 mr-10" width="48" height="48"
+             :src="getUserHeardUrl(blackListInfo.portraitPic)" alt="用户头像">
         <div class="left">
           <p>{{blackListInfo.nickname}}</p>
           <img :src="blackListInfo.creditLevel" alt="淘宝LOGO">
@@ -196,25 +213,32 @@
       </div>
       <div class="mt-20">
         <span>订购方式二：</span>
-        <i-button class="mr-20 select-period" v-for="item in eyesPeriodList" :key="item.id" @click="changeSelectPeriod(item.id, item.intervalFee)" :class="{'is-select': selectEyesPeriodInfo.id === item.id}">
+        <i-button class="mr-20 select-period" v-for="item in eyesPeriodList" :key="item.id"
+                  @click="changeSelectPeriod(item.id, item.intervalFee)"
+                  :class="{'is-select': selectEyesPeriodInfo.id === item.id}">
           <div>{{item.frontDisplay}}</div>
           <div>￥ {{(item.intervalFee / 100).toFixed(2) || 0}} 元</div>
         </i-button>
       </div>
       <div class="text-ct">
-        <i-button v-if="hasBalance" type="error" class="pl-40 pr-40 mt-20 fs-14" @click="eyesPayModel = true">立即购买</i-button>
+        <i-button v-if="hasBalance" type="error" class="pl-40 pr-40 mt-20 fs-14" @click="eyesPayModel = true">立即购买
+        </i-button>
         <i-button v-else type="error" class="pl-40 pr-40 mt-20 fs-14" @click="eyesPayModel = true">立即充值</i-button>
-        <i-button v-if="hasTrialQualification" class="pl-40 pr-40 mt-20 fs-14 ml-20" @click="openTheTrial">开通一天试用</i-button>
+        <i-button v-if="hasTrialQualification" class="pl-40 pr-40 mt-20 fs-14 ml-20" @click="openTheTrial">开通一天试用
+        </i-button>
       </div>
       <div slot="footer">
-        <div class="text-lf text-indent f-b"><span class="main-color">火眼金睛</span>是平台增值服务功能，激活该功能后可查看平台拿手旺旺号的私密数据，如被商家拉黑的次数及原因，完成活动后收到的商家评价和打标，旺旺号姓别、年龄、地址、购物标签等（功能陆续开发添加中...），使用火眼金睛让你对拿手审核一百个放心！</div>
+        <div class="text-lf text-indent f-b"><span class="main-color">火眼金睛</span>是平台增值服务功能，激活该功能后可查看平台拿手旺旺号的私密数据，如被商家拉黑的次数及原因，完成活动后收到的商家评价和打标，旺旺号姓别、年龄、地址、购物标签等（功能陆续开发添加中...），使用火眼金睛让你对拿手审核一百个放心！
+        </div>
         <div class="text-ct mt-10 clear">
           <div class="left ml-120" @click="changeLookScreenShot(1)">
-            <img class="border-radius-5 border-ddd cursor-p" src="~assets/img/task-management/eyes-demo-01.png" alt="火眼金睛功能截图1" width="92" height="92">
+            <img class="border-radius-5 border-ddd cursor-p" src="~assets/img/task-management/eyes-demo-01.png"
+                 alt="火眼金睛功能截图1" width="92" height="92">
             <p>功能截图1</p>
           </div>
           <div class="left ml-20" @click="changeLookScreenShot(2)">
-            <img class="border-radius-5 border-ddd cursor-p" src="~assets/img/task-management/eyes-demo-02.png" alt="火眼金睛功能截图2" width="92" height="92">
+            <img class="border-radius-5 border-ddd cursor-p" src="~assets/img/task-management/eyes-demo-02.png"
+                 alt="火眼金睛功能截图2" width="92" height="92">
             <p>功能截图2</p>
           </div>
         </div>
@@ -222,7 +246,9 @@
     </modal>
     <!--支付弹框-->
     <div class="pay-model" v-if="eyesPayModel">
-      <pay-model ref="orderPayModel" :orderMoney="selectEyesPeriodInfo.fee" :orderType="2" :vasFeeId="selectEyesPeriodInfo.id" :isBalance="hasBalance" @orderVipSuccess="orderVipSuccess" @confirmPayment="confirmPayment">
+      <pay-model ref="orderPayModel" :orderMoney="selectEyesPeriodInfo.fee" :orderType="2"
+                 :vasFeeId="selectEyesPeriodInfo.id" :isBalance="hasBalance" @orderVipSuccess="orderVipSuccess"
+                 @confirmPayment="confirmPayment">
         <i slot="closeModel" class="close-recharge" @click="eyesPayModel = false">&times;</i>
         <div slot="noBalance" class="title-tip">
           <span class="size-color3">
@@ -240,8 +266,10 @@
     </div>
     <!--查看火眼金睛功能截图弹框-->
     <modal v-model="lookScreenShotModel" :closable="false">
-      <img v-if="lookScreenShot === 1" class="border-radius-5 border-ddd cursor-p" src="~assets/img/task-management/eyes-demo-01.png" width="100%" alt="火眼金睛功能截图1">
-      <img v-if="lookScreenShot === 2" class="border-radius-5 border-ddd cursor-p" src="~assets/img/task-management/eyes-demo-02.png" width="100%" alt="火眼金睛功能截图2">
+      <img v-if="lookScreenShot === 1" class="border-radius-5 border-ddd cursor-p"
+           src="~assets/img/task-management/eyes-demo-01.png" width="100%" alt="火眼金睛功能截图1">
+      <img v-if="lookScreenShot === 2" class="border-radius-5 border-ddd cursor-p"
+           src="~assets/img/task-management/eyes-demo-02.png" width="100%" alt="火眼金睛功能截图2">
     </modal>
     <!--开启一键加速功能确认弹框-->
     <modal v-model="speedUpModal" width="360">
@@ -695,8 +723,8 @@
         }
       },
       changeEyesStatus(status) {
-        if(!this.valueAddedServiceStatusInfo.vasBlackListDeadlineTime && this.getMemberVersionLevel === 100) {
-          if(this.eyesPeriodList.length === 0) {
+        if (!this.valueAddedServiceStatusInfo.vasBlackListDeadlineTime && this.getMemberVersionLevel === 100) {
+          if (this.eyesPeriodList.length === 0) {
             this.getValueAddedServicePeriod();
           }
           this.getEyeTrialQualification();
@@ -706,7 +734,7 @@
         }
       },
       renewalEyes() {
-        if(this.eyesPeriodList.length === 0) {
+        if (this.eyesPeriodList.length === 0) {
           this.getValueAddedServicePeriod()
         } else {
           this.orderEyesModel = true;
@@ -715,9 +743,9 @@
       getValueAddedServiceStatus() {
         const _this = this;
         api.valueAddedServiceStatus().then(res => {
-          if(res.status) {
+          if (res.status) {
             _this.valueAddedServiceStatusInfo = res.data;
-            if((this.getMemberVersionLevel === 100 && this.valueAddedServiceStatusInfo.vasBlackListDeadlineTime) || this.getMemberVersionLevel !== 100) {
+            if ((this.getMemberVersionLevel === 100 && this.valueAddedServiceStatusInfo.vasBlackListDeadlineTime) || this.getMemberVersionLevel !== 100) {
               _this.eyesStatus = 'on'
             } else {
               _this.eyesStatus = 'off'
@@ -733,9 +761,9 @@
           species: 1,
           provision: 'interval'
         }).then(res => {
-          if(res.status) {
+          if (res.status) {
             _this.eyesPeriodList = res.data;
-            _this.$nextTick(()=> {
+            _this.$nextTick(() => {
               _this.orderEyesModel = true;
             });
           } else {
@@ -743,7 +771,7 @@
           }
         })
       },
-      changeSelectPeriod(id,fee) {
+      changeSelectPeriod(id, fee) {
         this.selectEyesPeriodInfo.id = id;
         this.selectEyesPeriodInfo.fee = fee;
       },
@@ -754,7 +782,7 @@
           payPwd: pwd,
           platform: 'pc'
         }).then(res => {
-          if(res.status) {
+          if (res.status) {
             _this.$Message.success('支付成功！');
             _this.$store.dispatch('getUserInformation');
             _this.getValueAddedServiceStatus();
@@ -778,7 +806,7 @@
           alitmAccount: alitmAccount,
           userId: userId
         }).then(res => {
-          if(res.status) {
+          if (res.status) {
             _this.blackListInfo = [];
             _this.blackListInfo = res.data;
             _this.blackListInfo.creditLevel = creditLevel;
@@ -802,7 +830,7 @@
         api.eyeTrialQualification({
           species: 1
         }).then(res => {
-          if(res.status) {
+          if (res.status) {
             _this.hasTrialQualification = res.data.showTrial;
           } else {
             _this.$Message.error(res.msg)
@@ -816,7 +844,7 @@
           provision: 'interval',
           days: 1,
         }).then(res => {
-          if(res.status) {
+          if (res.status) {
             _this.getValueAddedServiceStatus();
             _this.getEyeTrialQualification();
             _this.$Message.success('开通试用成功!');
@@ -838,7 +866,7 @@
           taskId: _this.speedUpInfo.taskId,
           userId: _this.speedUpInfo.userId
         }).then(res => {
-          if(res.status) {
+          if (res.status) {
             _this.appliesWaitingAuditTask();
             _this.$Message.success('一键加速开启成功！');
           } else {
@@ -854,6 +882,7 @@
 
 <style lang="scss" scoped>
   @import 'src/css/mixin';
+
   .select-period {
     &:hover:not(:disabled) {
       border-color: $mainColor;

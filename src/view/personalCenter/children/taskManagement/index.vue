@@ -131,7 +131,7 @@
       background-color: #F7F7F7;
       border: 1px solid #dddee1;
       border-radius: 5px;
-      > i.show-table-styles {
+       i.show-table-styles {
         transform: rotate(90deg);
         transition: transform .2s ease-in-out;
       }
@@ -171,13 +171,12 @@
       margin-right: 28px;
     }
 
-    .waiting-task-number {
+    .waiting-task-number-wait {
       display: inline-block;
       height: 42px;
       line-height: 42px;
       color: #666;
       margin-right: 10px;
-      margin-left: 324px;
       vertical-align: middle;
       p.task-wait-fail {
         height: 21px;
@@ -190,6 +189,41 @@
       }
       p.task-pass.line-height {
         line-height: 21px;
+      }
+    }
+
+    .waiting-task-number-pass {
+      display: inline-block;
+      height: 42px;
+      line-height: 42px;
+      color: #666;
+      margin-right: 10px;
+      vertical-align: middle;
+      margin-left: 80px;
+      p.task-wait-fail {
+        height: 21px;
+        line-height: 21px;
+        text-align: right;
+      }
+      p.task-pass {
+        text-align: right;
+        width: 400px;
+      }
+      p.task-pass.line-height {
+        line-height: 21px;
+      }
+    }
+
+    .waiting-task-number-fail {
+      display: inline-block;
+      float: right;
+      color: #666;
+      margin-right: 10px;
+      margin-top: 18px;
+      p.task-wait-fail {
+        height: 21px;
+        line-height: 21px;
+        text-align: right;
       }
     }
 
