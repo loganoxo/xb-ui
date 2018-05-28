@@ -796,7 +796,7 @@
         this.orderEyesModel = false;
         this.eyesPayModel = false;
         this.getValueAddedServiceStatus();
-        _this.getEyeTrialQualification();
+        this.getEyeTrialQualification();
       },
       lookBlackListInfo(alitmAccount, userId, creditLevel, tqz) {
         const _this = this;
