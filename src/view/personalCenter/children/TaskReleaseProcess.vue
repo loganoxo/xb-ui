@@ -1121,40 +1121,14 @@
 </template>
 
 <script>
-  import {
-    Icon,
-    Form,
-    Input,
-    Checkbox,
-    Button,
-    Radio,
-    Modal,
-    Alert,
-    Select,
-    Option,
-    OptionGroup,
-    Steps,
-    Tooltip
-  } from 'iview'
+  import {Icon, Form, Input, Checkbox, Button, Radio, Modal, Alert, Select, Option, OptionGroup, Steps, Tooltip} from 'iview'
   import {Quill, quillEditor} from 'vue-quill-editor'
   import Upload from '@/components/Upload'
   import PayModel from '@/components/PayModel'
   import UserClause from '@/components/UserClause'
   import api from '@/config/apiConfig'
   import {aliCallbackImgUrl} from '@/config/env'
-  import {
-    aliUploadImg,
-    isPositiveInteger,
-    isNumber,
-    isInteger,
-    isAliUrl,
-    randomString,
-    extendDeep,
-    decode,
-    setStorage,
-    getStorage,
-    getUrlParams
-  } from '@/config/utils'
+  import {aliUploadImg, isPositiveInteger, isNumber, isInteger, isAliUrl, randomString, extendDeep, decode, setStorage, getStorage, getUrlParams} from '@/config/utils'
 
   export default {
     name: 'TaskReleaseProcess',
