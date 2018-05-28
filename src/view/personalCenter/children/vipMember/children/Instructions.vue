@@ -86,6 +86,12 @@
         <div class="c-l-orange" v-if="svipMemberInfo.storeBindingLimit">{{svipMemberInfo.storeBindingLimit.number}}个
         </div>
       </li>
+      <li class="clear eight">
+        <div class="t-catalog c-white">火眼金睛（拿手数据查询）</div>
+        <div class="c-l-grey">单独购买</div>
+        <div class="c-l-blue">免费使用</div>
+        <div class="c-l-orange">免费使用</div>
+      </li>
     </ul>
     <p class="to-be-continue">更多权益正在添加中，敬请期待...</p>
     <Modal v-model="isShowDemo" class="text-ct pt-40" width="700">
@@ -284,6 +290,14 @@
       }
     }
     .seventh {
+      height: 48px;
+      line-height: 48px;
+      div {
+        border-bottom: 1px solid #ccc;
+        border-right: 1px solid #ccc;
+      }
+    }
+    .eight {
       height: 48px;
       line-height: 48px;
       div {
