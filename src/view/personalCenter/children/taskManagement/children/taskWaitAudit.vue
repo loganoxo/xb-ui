@@ -246,7 +246,7 @@
     </modal>
     <!--支付弹框-->
     <div class="pay-model" v-if="eyesPayModel">
-      <pay-model ref="orderPayModel" :orderMoney="selectEyesPeriodInfo.fee" :orderType="2"
+      <pay-model ref="orderPayModel" :orderMoney="needRechargeMoney" :orderType="2"
                  :vasFeeId="selectEyesPeriodInfo.id" :isBalance="hasBalance" @orderVipSuccess="orderVipSuccess"
                  @confirmPayment="confirmPayment">
         <i slot="closeModel" class="close-recharge" @click="eyesPayModel = false">&times;</i>
@@ -558,10 +558,10 @@
     methods: {
       changeLookScreenShot(num) {
         this.lookScreenShotModel = true;
-        this.lookScreenShot = num
+        this.lookScreenShot = num;
       },
       openNewTrialReportFunc(id) {
-        window.open('/trial-report?q=' + id);
+        window.open('/trial-report?q=' + id)
       },
       addShowkerToBlackList() {
         const _this = this;
