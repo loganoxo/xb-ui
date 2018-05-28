@@ -393,7 +393,7 @@
   import PayModel from '@/components/PayModel'
   import TimeDown from '@/components/TimeDown'
   import api from '@/config/apiConfig'
-  import {TaskErrorStatusList, encryption, decode} from '@/config/utils'
+  import {taskErrorStatusList, encryption, decode} from '@/config/utils'
   export default {
     name: 'ApproveShowker',
     components: {
@@ -673,7 +673,7 @@
         this.viewScreenShot = true;
       },
       getTaskStatus(type) {
-        return TaskErrorStatusList(type);
+        return taskErrorStatusList(type);
       },
       pageChange(data) {
         this.pageIndex = data;

@@ -104,7 +104,10 @@
             <p>{{item.upLineTime | dateFormat('YYYY-MM-DD hh:mm:ss') || '----'}}</p>
             <p class="mt-10">{{item.endTime | dateFormat('YYYY-MM-DD hh:mm:ss') || '----'}}</p>
           </td>
-          <td v-if="item.taskStatus !== 'waiting_modify'"><span v-if="item.taskStatus === 'under_way' && !item.online">已下线</span><span v-else>{{item.taskStatusDesc}}</span><br/>{{item.settlementStatusDesc}}</td>
+          <td v-if="item.taskStatus !== 'waiting_modify'">
+            <span v-if="item.taskStatus === 'under_way' && !item.online">已下线</span>
+            <span v-else>{{item.taskStatusDesc}}</span><br/>{{item.settlementStatusDesc}}
+          </td>
           <td class="cursor-p main-color" v-else>
             <Tooltip :content="item.auditLogs[item.auditLogs.length - 1].resultMsg" placement="top">
               <Icon color="#f9284f" type="information-circled"></Icon>&nbsp;待修改
@@ -201,6 +204,10 @@
             <p class="copy mt-6">
               <span @click="lookTaskDetail(item.id)">查看详情</span>
             </p>
+            <tooltip v-if="!item.speedUp" class="mt-6" content="启用后，系统会匹配拿手进行审核，无需商家干预" placement="top">
+              <span class="cursor-p main-color" @click="openSpeedUp(item.id, item.userId)">一键加速</span>
+            </tooltip>
+            <p v-else class="cl-red mt-6">已加速</p>
             <p class="copy mt-6">
               <span @click="copyTask(item.id)">复制活动</span>
             </p>
@@ -235,15 +242,28 @@
     </modal>
     <!--删除任务弹框-->
     <modal v-model="deleteModal" width="360">
-      <p slot="header" class="text-ct main-color">
-        <Icon type="information-circled"></Icon>
-        <span>删除确认</span>
+      <p slot="header" class="text-ct">
+        <icon color="#f9284f" type="information-circled"></icon>
+        <span class="main-color">删除确认</span>
       </p>
       <div class="text-ct">
         <p>是否彻底删除该活动？</p>
       </div>
       <div slot="footer">
         <iButton type="error" size="large" long :loading="modalLoading" @click="confirmDelete">删除</iButton>
+      </div>
+    </modal>
+    <!--开启一键加速功能确认弹框-->
+    <modal v-model="speedUpModal" width="360">
+      <p slot="header" class="text-ct">
+        <icon color="#f9284f" type="information-circled"></icon>
+        <span class="main-color">一键加速</span>
+      </p>
+      <div class="text-ct">
+        <p>启用后，该活动剩余名额将全部由系统进行匹配和审核，且无法修改，适合于需要快速消化单量的商家！</p>
+      </div>
+      <div slot="footer">
+        <iButton type="error" size="large" long :loading="speedUpLoading" @click="speedUp">确认开启</iButton>
       </div>
     </modal>
     <!--结算成功弹框-直接结算-->
@@ -323,7 +343,7 @@
   import {Checkbox, Page, Modal, Icon, Button, Input, Tooltip, Select, Option} from 'iview'
   import api from '@/config/apiConfig'
   import PayModel from '@/components/PayModel'
-  import {TaskErrorStatusList, getSeverTime, encryption, decode,setStorage, getStorage,} from '@/config/utils'
+  import {taskErrorStatusList, getSeverTime, encryption, decode,setStorage, getStorage,} from '@/config/utils'
 
   export default {
     name: 'ActivitiesList',
@@ -372,7 +392,10 @@
         taskNumber: null,
         activityCategory: null,
         isTaskOverdueModel: false,
+        speedUpModal: false,
         taskOverdueLoading: false,
+        speedUpLoading: false,
+        speedUpInfo: {},
         activityTypeList: [
           {
             value: '',
@@ -455,6 +478,28 @@
       copyTask(id) {
         this.$router.push({name: 'TaskReleaseProcess', query: {q: encryption(id), type: 'copy'}})
       },
+      openSpeedUp(taskId, userId) {
+        this.speedUpModal = true;
+        this.speedUpInfo.taskId = taskId;
+        this.speedUpInfo.userId = userId;
+      },
+      speedUp() {
+        const _this = this;
+        _this.speedUpLoading = true;
+        api.taskSpeedUp({
+          taskId: _this.speedUpInfo.taskId,
+          userId: _this.speedUpInfo.userId
+        }).then(res => {
+          if(res.status) {
+            _this.$Message.success('一键加速开启成功！');
+            _this.getTaskList();
+          } else {
+            _this.$Message.error(res.msg)
+          }
+          _this.speedUpModal = false;
+          _this.speedUpLoading = false;
+        })
+      },
       lookTaskDetail(id) {
         this.$router.push({name: 'ActivityDetail', query: {q: encryption(id)}})
       },
@@ -528,7 +573,7 @@
         })
       },
       getTaskStatus(type) {
-        return TaskErrorStatusList(type);
+        return taskErrorStatusList(type);
       },
       closeTask(id) {
         this.closeModal = true;

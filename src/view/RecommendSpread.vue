@@ -28,7 +28,7 @@
                 您当前还
                 <span class=" f-b">未邀请任何用户~~~</span>
               </p>
-              <img  src="/static/img/recommend-spread/recommend_spread_10.jpg" class="block mg-at" alt="">
+              <img  src="/static/img/recommend-spread/recommend_spread_10.jpg" class="block margin-auto" alt="">
             </div>
             <div class="mt-10 text-ct">
               <p class="fs-14 cl666 text-lf">赶紧将下方的邀请链接发送给你的好友吧~</p>

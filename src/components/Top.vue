@@ -101,7 +101,7 @@
   import TopTip from '@/components/TopTip.vue'
   import api from '@/config/apiConfig'
   export default {
-    name: 'Home',
+    name: 'home',
     components: {
       TopTip: TopTip,
       iButton: Button,

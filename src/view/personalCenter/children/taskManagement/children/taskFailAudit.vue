@@ -1,32 +1,29 @@
 <template>
   <div class="mt-20">
     <div class="clear mt-20 mb-20">
-      <div class="left mr-10" style="margin-top: 2px;">
-        <Checkbox
-          :value="checkAllByFail"
-          @click.prevent.native="handleCheckFailAll">全部
-        </Checkbox>
+      <div class="left mr-10 mt-4">
+        <checkbox :value="checkAllByFail" @click.prevent.native="handleCheckFailAll">全部</checkbox>
       </div>
       <div class="left">
-        <Checkbox-group v-model="rejectReasonList" @on-change="checkFailChange">
-          <Checkbox label="system_reject">
+        <checkbox-group v-model="rejectReasonList" @on-change="checkFailChange">
+          <checkbox label="system_reject">
             <span>系统终止</span>
-          </Checkbox>
-          <Checkbox label="showker_give_up">
+          </checkbox>
+          <checkbox label="showker_give_up">
             <span>拿手放弃</span>
-          </Checkbox>
-          <Checkbox label="merchant_reject">
+          </checkbox>
+          <checkbox label="merchant_reject">
             <span>商家终止</span>
-          </Checkbox>
-        </Checkbox-group>
+          </checkbox>
+        </checkbox-group>
       </div>
     </div>
     <div class="search-list">
       <span>淘宝会员名：</span>
-      <iInput v-model="alitmAccount" style="width: 160px;margin-right: 8px;"></iInput>
+      <i-input v-model="alitmAccount" style="width: 160px;margin-right: 8px;"></i-input>
       <span>活动编号：</span>
-      <iInput v-model="taskNumber" style="width: 160px;margin-right: 8px;"></iInput>
-      <iButton type="primary" :loading="searchLoading" @click="searchFailTask">搜索</iButton>
+      <i-input v-model="taskNumber" style="width: 160px;margin-right: 8px;"></i-input>
+      <i-button type="primary" :loading="searchLoading" @click="searchFailTask">搜索</i-button>
     </div>
     <div class="mt-12" v-for="(item,index) in taskFailAuditList" :key="item.id" v-if="taskFailAuditList.length > 0">
       <div class="collapse-header clear" @click="collapseToggle(item.id,index)" :class="{noBorderRadius:selectId}">
@@ -34,13 +31,13 @@
           <img :src="item.taskMainImage + '!thum54'" alt="">
           <span v-if="item.zone === 'certainly_hit'" class="certainly-hit-tip">推荐必中</span>
         </div>
-        <div class="manage-text left ml-5 inline-block">
+        <div class="manage-text left ml-5 inline-block mt-8">
           <p>活动编号：{{item.number}}</p>
           <p>活动名称：{{item.taskName}}</p>
         </div>
-        <Icon :class="{showTableStyles:selectId === item.id}" class="right mr-30 mt-15" type="arrow-right-b"></Icon>
-        <div class="waiting-task-number">
-          <p class="mt-12 task-wait-fail">共{{item.count}}人</p>
+        <icon :class="{'show-table-styles':selectId === item.id}" class="mt-22 right mr-20 vtc-text-btm" type="arrow-right-b"></icon>
+        <div class="waiting-task-number-fail">
+          <p class="task-wait-fail">共{{item.count}}人</p>
         </div>
       </div>
       <collapse-transition>
@@ -58,8 +55,8 @@
             <tr>
               <td>
                 <p>{{item.alitmAccount}}</p>
-                <p><img :src="item.creditLevel" alt="" style="width: auto; height: auto;"></p>
-                <p v-if="item.tqz">淘气值：{{item.tqz}}</p>
+                <img :src="item.creditLevel" alt="淘宝等级LOGO">
+                <p>淘气值：{{item.tqz}}</p>
                 <p v-cloak>申请次数：{{item.applyCount || 0}}</p>
                 <p v-cloak>成功次数：{{item.applySuccessCount || 0}}</p>
               </td>
@@ -87,7 +84,7 @@
 <script>
   import {Collapse, Checkbox, Page, Icon, Button, Input} from 'iview'
   import CollapseTransition from 'iview/src/components/base/collapse-transition'
-  import {TaskErrorStatusList} from '@/config/utils'
+  import {taskErrorStatusList} from '@/config/utils'
   import api from '@/config/apiConfig'
 
   export default {
@@ -116,11 +113,8 @@
         taskFailAuditList: [],
         totalElements: 0,
         selectId: null,
-        dataStatusTip:''
+        dataStatusTip: ''
       }
-    },
-    mounted() {
-
     },
     created() {
       this.appliesEndTask();
@@ -128,7 +122,7 @@
     computed: {},
     methods: {
       getTaskStatus(type) {
-        return TaskErrorStatusList(type);
+        return taskErrorStatusList(type);
       },
       handleCheckFailAll() {
         this.checkAllByFail = !this.checkAllByFail;

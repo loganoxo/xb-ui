@@ -5,7 +5,7 @@
       <p class="fs-14 user-basic-title">基本信息</p>
       <div class="user-basic-ctt clear">
         <div class="text-ct left" :style="{marginTop:userList.role === 0 ? 20 +'px' : 8 + 'px'}">
-          <img class="block mg-at border50" :src="userHeadUrl" alt="" width="86" height="86">
+          <img class="block margin-auto border-radius-50" :src="userHeadUrl" alt="" width="86" height="86">
           <picture-upload field="pictureUploadImage"
                           @crop-success="cropSuccess"
                           v-model="showPictureUpload"

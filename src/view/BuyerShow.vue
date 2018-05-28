@@ -29,7 +29,7 @@
           <div v-for="(item,index) in getShowkerReportList" :key="index" class="content clear">
             <span :class="{ranking:index<3}" class="left fs-18 ">{{index + 1}}</span>
             <div class="left ml-15 cursor-p head-img" @click="toTrialReportDetails(item.uid)">
-              <img class="border50" width="48" height="48" :src="getUserHead(item.portrait)" alt="">
+              <img class="border-radius-50" width="48" height="48" :src="getUserHead(item.portrait)" alt="">
             </div>
             <div class="left ml-10 ">
               <p class="mt-5 fs-14">{{item.nickname}}</p>

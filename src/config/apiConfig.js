@@ -986,7 +986,7 @@ export default {
    * 获取批量导出订单的订单号
    */
   getMerchantExportOrderNumber(params) {
-    return axiosConfig.post('/api/merchant/export/order.json',params)
+    return axiosConfig.post('/api/merchant/export/order.json', params)
   },
 
   /**
@@ -995,11 +995,68 @@ export default {
   clickBuyMemberCallback() {
     return axiosConfig.post('/api/user/member/clickBuyMember.json')
   },
+
   /**
    * 获取商家评价拿手时的违规标签
    */
   getViolationTag(params) {
-    return axiosConfig.post('/api/get-violation-tag.json',params)
-  }
+    return axiosConfig.post('/api/get-violation-tag.json', params)
+  },
+
+  /**
+   * 增值业务订购周期列表查询
+   */
+  valueAddedServicePeriodQuery(params) {
+    return axiosConfig.get('/api/value-added-service-period-query.json', params)
+  },
+
+  /**
+   * 购买增值业务
+   */
+  buyValueAddedService(params) {
+    return axiosConfig.post('/api/buy-value-added-service.json', params)
+  },
+
+  /**
+   * 获取当前用户增值服务使用状态
+   */
+  valueAddedServiceStatus() {
+    return axiosConfig.get('/api/value-added-service-status.json')
+  },
+
+  /**
+   * 获取拿手被商家拉黑情况
+   */
+  blackListByAlitmAccount(params) {
+    return axiosConfig.get('/api/black-list-by-alitm-account.json', params)
+  },
+
+  /**
+   * 获取拿手被商家打标情况
+   */
+  appraiseSituationByMerchant(params) {
+    return axiosConfig.get('/api/appraise-situation-by-merchant.json', params)
+  },
+
+  /**
+   * 商家开启活动一键加速功能
+   */
+  taskSpeedUp(params) {
+    return axiosConfig.post('/api/task-speed-up.json', params)
+  },
+
+  /**
+   * 获取用户是否有火眼金睛功能试用资格（每个用户仅有一次试用机会）
+   */
+  eyeTrialQualification(params) {
+    return axiosConfig.get('/api/eye-trial-qualification.json', params)
+  },
+
+  /**
+   * 购买火眼金睛功能一天试用资格
+   */
+  buyEyeTrialOneDay(params) {
+    return axiosConfig.post('/api/buy-eye-trial-one-day.json', params)
+  },
 
 }

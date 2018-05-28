@@ -71,7 +71,7 @@
   import {Button, Input, Select, Option, OptionGroup, Page, Checkbox} from 'iview'
   import api from '@/config/apiConfig'
   import {aliCallbackImgUrl} from '@/config/env'
-  import {TaskErrorStatusList, encryption} from '@/config/utils'
+  import {taskErrorStatusList, encryption} from '@/config/utils'
 
   export default {
     name: 'ApplyFailAudit',
@@ -116,7 +116,7 @@
     computed: {},
     methods: {
       getTaskStatus(type) {
-        return TaskErrorStatusList(type);
+        return taskErrorStatusList(type);
       },
       pageChange(data) {
         this.pageIndex = data;

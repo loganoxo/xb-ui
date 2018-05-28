@@ -187,7 +187,7 @@
   import api from '@/config/apiConfig'
   import Upload from '@/components/Upload'
   import {aliCallbackImgUrl, domain} from '@/config/env'
-  import {encryption, AppealCategorization} from '@/config/utils'
+  import {encryption, appealCategorization} from '@/config/utils'
 
   export default {
     name: 'MyAppeal',
@@ -309,7 +309,7 @@
         })
       },
       getAppealCategorization(type) {
-        return AppealCategorization(type)
+        return appealCategorization(type)
       },
       changePages(data) {
         this.pageIndex = data - 1;

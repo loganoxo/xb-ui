@@ -276,7 +276,7 @@ export const delHtmlTag = str => {
 /**
  * 任务流程状态映射
  */
-export const TaskErrorStatusList = (type) => {
+export const taskErrorStatusList = (type) => {
   const mapList = {
     'pass_and_unclaimed': '已通过待下单',
     'order_num_waiting_audit': '订单号待审核',
@@ -326,15 +326,17 @@ export const TaskErrorStatusList = (type) => {
     'pay_after_receive': '货到付款',
     'hua_pay_installment': '花呗分期',
     'wangwang_online': '旺旺在线',
-    0: '活动',
-    1: '充值',
-    2: '提现',
-    3: '会员订购',
-    4: '邀请奖励-拿手',
-    5: '活动提成-拿手',
-    6: '邀请奖励-商家',
-    7: '活动提成-商家',
-    9: '打赏费',
+    '0': '活动',
+    '1': '充值',
+    '2': '提现',
+    '3': '会员订购',
+    '4': '邀请奖励-拿手',
+    '5': '活动提成-拿手',
+    '6': '邀请奖励-商家',
+    '7': '活动提成-商家',
+    '9': '打赏费',
+    '10': 'VIP会员赠送交易记录',
+    '11': '增值业务交易记录',
     'waiting_resubmit': '待重新提交',
     'audit_pass': '审核通过',
     'deleted': '已删除',
@@ -351,7 +353,7 @@ export const TaskErrorStatusList = (type) => {
 /**
  * 投诉类型和投诉处理状态映射
  */
-export const AppealCategorization = (type) => {
+export const appealCategorization = (type) => {
   const mapList = {
     'task_flow_related': '活动流程相关',
     'good_logistics_related': '商品物流相关',
