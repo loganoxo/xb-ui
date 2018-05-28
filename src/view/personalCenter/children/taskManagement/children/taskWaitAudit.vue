@@ -783,6 +783,7 @@
             _this.$Message.success('支付成功！');
             _this.$store.dispatch('getUserInformation');
             _this.getValueAddedServiceStatus();
+            _this.getEyeTrialQualification();
           } else {
             _this.$Message.error(res.msg);
           }
@@ -795,6 +796,7 @@
         this.orderEyesModel = false;
         this.eyesPayModel = false;
         this.getValueAddedServiceStatus();
+        _this.getEyeTrialQualification();
       },
       lookBlackListInfo(alitmAccount, userId, creditLevel, tqz) {
         const _this = this;
