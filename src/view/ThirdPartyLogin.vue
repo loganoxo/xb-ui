@@ -22,17 +22,14 @@
     data() {
       return {}
     },
-    mounted() {
-
-    },
     created() {
-      let _this = this;
+      const _this = this;
       let queryString = _this.$route.query.p;
       let pg = _this.$route.query.pg;
       let other = _this.$route.query.other;
       if(queryString){
         api.thirdPartyLogin({
-          queryString:encodeURI(queryString),
+          queryString: encodeURI(queryString),
           platForm: 'PC'
         }).then(res =>{
           if(res.status){
@@ -43,12 +40,12 @@
             setStorage('weChartPop', 1);
             if(pg && other){
                let taskId = JSON.parse(other);
-              _this.$router.push({path: pg, 'query':{'q': encryption(taskId.p)}});
-            }else {
+              _this.$router.push({path: pg, query:{q: encryption(taskId.p)}});
+            } else {
               _this.$router.push({name: 'Home'});
             }
 
-          }else{
+          } else {
             _this.$Message.error(res.msg)
           }
         })

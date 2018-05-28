@@ -801,7 +801,6 @@
       },
       lookBlackListInfo(alitmAccount, userId, creditLevel, tqz) {
         const _this = this;
-        _this.blackListInfoModel = true;
         api.blackListByAlitmAccount({
           alitmAccount: alitmAccount,
           userId: userId
@@ -811,6 +810,9 @@
             _this.blackListInfo = res.data;
             _this.blackListInfo.creditLevel = creditLevel;
             _this.blackListInfo.tqz = tqz;
+            _this.$nextTick(() => {
+              _this.blackListInfoModel = true;
+            });
           } else {
             _this.$Message.error(res.msg)
           }
