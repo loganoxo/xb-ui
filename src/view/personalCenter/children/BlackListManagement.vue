@@ -179,6 +179,9 @@
           if (res.status){
             self.addToBlackListPop = false;
             self.$Message.success("添加黑名单成功！");
+            self.wwName = '';
+            self.addToBlackListReason = '';
+            self.addToBlackOtherReason = '';
             self.page = 0;
             self.getBlackList();
           }else {
