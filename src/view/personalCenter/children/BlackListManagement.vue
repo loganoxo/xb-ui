@@ -73,8 +73,8 @@
     },
     data() {
       return {
-        addToBlackOtherReason:null,
-        addToBlackListReason:null,
+        addToBlackOtherReason: null,
+        addToBlackListReason: null,
         reasonList: [
           {
             reasonStatus: 'none_reason',
@@ -171,13 +171,10 @@
           self.$Message.error("请填写拉黑原因！");
           return
         }
-        if(self.addToBlackListReason === 'other_reason'){
-          self.addToBlackListReason = self.addToBlackOtherReason;
-        }
         api.addShowkerToBlackList({
           alitmAccount: self.wwName,
           reasonCode: self.addToBlackListReason,
-          reasonText: self.addToBlackOtherReason || '',
+          reasonText: self.addToBlackOtherReason,
         }).then( res => {
           if (res.status){
             self.addToBlackListPop = false;

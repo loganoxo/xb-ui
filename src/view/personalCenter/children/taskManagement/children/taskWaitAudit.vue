@@ -573,13 +573,10 @@
           _this.$Message.error("请填写拉黑原因！");
           return
         }
-        if (_this.addToBlackListReason === 'other_reason') {
-          _this.addToBlackListReason = _this.addToBlackOtherReason;
-        }
         api.addShowkerToBlackList({
           alitmAccount: _this.wwName,
           reasonCode: _this.addToBlackListReason,
-          reasonText: _this.addToBlackOtherReason || '',
+          reasonText: _this.addToBlackOtherReason,
         }).then(res => {
           if (res.status) {
             _this.addToBlackListPop = false;
