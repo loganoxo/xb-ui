@@ -209,7 +209,7 @@
         <span class="ml-5 fs-14 main-color">订购火眼金睛</span></div>
       <div class="mt-10">
         <span>订购方式一：</span>
-        <span class="open-vip-btn">开通VIP或者SVIP免费使用该功能</span>
+        <span class="open-vip-btn" @click="openVipOrSvip">开通VIP或者SVIP免费使用该功能</span>
       </div>
       <div class="mt-20">
         <span>订购方式二：</span>
@@ -814,6 +814,9 @@
             _this.$Message.error(res.msg)
           }
         })
+      },
+      openVipOrSvip() {
+        this.$router.push({name: 'VipMemberOrder'})
       },
       getUserHeardUrl(url) {
         if (url.indexOf('head-image') >= 0) {
