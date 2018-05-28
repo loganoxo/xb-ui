@@ -183,6 +183,9 @@
             self.addToBlackListReason = '';
             self.addToBlackOtherReason = '';
             self.page = 0;
+            self.wwName = '';
+            self.addToBlackListReason = '';
+            self.addToBlackOtherReason = '';
             self.getBlackList();
           }else {
             self.$Message.error(res.msg);

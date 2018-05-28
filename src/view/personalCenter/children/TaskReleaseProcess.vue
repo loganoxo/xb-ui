@@ -14,6 +14,9 @@
       <Icon type="information-circled" color="#FF0100"></Icon>
       <span><b class="sizeColor3">注意：</b> 本站支持拍A发A（免费领），拍A发B（体验专区），满足商家的各种需求！</span>
     </div>
+    <div class="service-statement cl666 text-ct">
+      声明：为避免纠纷，发布活动前请先阅读本平台的服务条款，凡成功提交活动申请皆默认亲已仔细阅读并同意平台的<span class="blue cursor-p" @click="isShowUserClause = true">服务条款</span> ！
+    </div>
     <!--选择绑定的店铺-->
     <div class="activity-type mt-20" v-show="stepName === 'information'">
       <div class="activity-type-title">请选择店铺：</div>
@@ -1094,15 +1097,15 @@
       </div>
     </modal>
     <!--商家进入发布活动页面后对商家说明的弹框-->
-    <modal v-model="isShowBusinessTip" width="700" :closable="false">
-      <p class="mt-20">亲，即日起，平台将上线 “分享必中” 活动，鼓励拿手们积极分享您的宝贝给朋友，分享最多的拿手，将获得宝贝必中资格！</p>
-      <p class="mt-20">您的宝贝将在白拿拿平台上获得更多的曝光，点击和申请，也将获得更多的访客和收藏加购！</p>
-      <p class="mt-20 mb-20">该活动，最多涉及您单次发布任务中，宝贝份数的{{taskSystemHoldPercent.configValue+'%'}}，请知晓！</p>
-      <p slot="footer">
-        <checkbox v-model="noMoreTip" class="mr-20">不再提示</checkbox>
-        <iButton type="error" size="large" @click="noMoreTipFunc">我知道了</iButton>
-      </p>
-    </modal>
+    <!--<modal v-model="isShowBusinessTip" width="700" :closable="false">-->
+      <!--<p class="mt-20">亲，即日起，平台将上线 “分享必中” 活动，鼓励拿手们积极分享您的宝贝给朋友，分享最多的拿手，将获得宝贝必中资格！</p>-->
+      <!--<p class="mt-20">您的宝贝将在白拿拿平台上获得更多的曝光，点击和申请，也将获得更多的访客和收藏加购！</p>-->
+      <!--<p class="mt-20 mb-20">该活动，最多涉及您单次发布任务中，宝贝份数的{{taskSystemHoldPercent.configValue+'%'}}，请知晓！</p>-->
+      <!--<p slot="footer">-->
+        <!--<checkbox v-model="noMoreTip" class="mr-20">不再提示</checkbox>-->
+        <!--<iButton type="error" size="large" @click="noMoreTipFunc">我知道了</iButton>-->
+      <!--</p>-->
+    <!--</modal>-->
     <!--用户没有绑定任何店铺弹框提示-->
     <modal v-model="isBindStore" :closable="false" :mask-closable="false" width="360">
       <p slot="header" class="text-ct">
@@ -1338,7 +1341,7 @@
         isSelectStoreUrl: false,
         isGetStoreInfoError: false,
         isBindStore: false,
-        isShowBusinessTip: true,
+        // isShowBusinessTip: true,
         noMoreTip: false,
       }
     },
@@ -1363,9 +1366,9 @@
     },
     created() {
       this.getItemCatalog();
-      this.getDetectionUserClauseTip();
+      // this.getDetectionUserClauseTip();
       this.getStoreBindInfoList();
-      this.isShowBusinessTip = !getStorage('noMorePopup');
+      // this.isShowBusinessTip = !getStorage('noMorePopup');
     },
     computed: {
       /**
@@ -1646,7 +1649,8 @@
         }
       },
       goStoreBind() {
-        this.$router.push({path: '/user/bind-store/store-bind-rules'})
+        // this.$router.push({path: '/user/bind-store/store-bind-rules?from=taskRelease'})
+        this.$router.push({name:'StoreBindRules',query:{from:'taskRelease'}});
       },
       upgradeSvip() {
         this.$router.push({path: '/user/vip-member/order'})
@@ -2609,16 +2613,17 @@
       closeClauseModel() {
         this.isShowUserClause = false;
       },
-      getDetectionUserClauseTip() {
-        let _this = this;
-        api.detectionUserClauseTip().then(res => {
-          if (res.status) {
-            _this.isShowUserClause = !res.data;
-          } else {
-            _this.$Message.error(res.msg);
-          }
-        })
-      },
+      // 服务条款弹窗的改动，勿删
+      // getDetectionUserClauseTip() {
+      //   let _this = this;
+      //   api.detectionUserClauseTip().then(res => {
+      //     if (res.status) {
+      //       _this.isShowUserClause = !res.data;
+      //     } else {
+      //       _this.$Message.error(res.msg);
+      //     }
+      //   })
+      // },
       addAnswer() {
         if (this.browseAnswer.length < 3) {
           this.browseAnswer.push({
@@ -2644,12 +2649,12 @@
         })
       },
       //不再显示商家通知弹框
-      noMoreTipFunc() {
-        const _this = this;
-        _this.isShowBusinessTip = false;
-        setStorage('noMorePopup', _this.noMoreTip);
-      },
-    }
+      // noMoreTipFunc() {
+      //   const _this = this;
+      //   _this.isShowBusinessTip = false;
+      //   setStorage('noMorePopup', _this.noMoreTip);
+      // },
+    },
   }
 </script>
 

@@ -562,8 +562,7 @@
           agreeStrip: [
             {validator: validateAgreeStrip, trigger: 'blur'}
           ]
-
-        }
+        },
       }
     },
     created() {
@@ -719,7 +718,7 @@
           });
           self.getRegVrcode();
         }
-      }
+      },
     }
   }
 </script>

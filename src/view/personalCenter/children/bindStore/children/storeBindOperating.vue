@@ -72,10 +72,11 @@
         protocol: false,
         confirmBtnLoading: false,
         bindBtnLoading: false,
+        query:''
       }
     },
     created() {
-
+      this.query = this.$route.query.from;
     },
     methods: {
       //根据商品链接判断店铺类型
@@ -168,7 +169,11 @@
               content: '店铺绑定成功！',
               duration: 1
             });
-            _this.$router.replace({name: 'StoreBindRules'});
+            if (this.query) {
+              _this.$router.replace({path: '/user/task-release'});
+            } else {
+              _this.$router.replace({name: 'StoreBindRules'});
+            }
           } else {
             _this.$Message.error(res.msg);
           }
