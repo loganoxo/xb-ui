@@ -127,9 +127,11 @@
         }else {
           let query = _this.$route.query.from;
           if (query) {
-            this.$router.push({path:`/user/bind-store/store-bind-operating?from=${query}`});
+            // this.$router.push({path:`/user/bind-store/store-bind-operating?from=${query}`});
+            this.$router.push({name:'StoreBindOperating',query:{from:query}});
           } else {
-            this.$router.push({path:`/user/bind-store/store-bind-operating`});
+            // this.$router.push({path:`/user/bind-store/store-bind-operating`});
+            this.$router.push({name:'StoreBindOperating'});
           }
         }
       },

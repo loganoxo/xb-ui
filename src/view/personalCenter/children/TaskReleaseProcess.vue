@@ -1676,7 +1676,8 @@
         }
       },
       goStoreBind() {
-        this.$router.push({path: '/user/bind-store/store-bind-rules?from=taskRelease'})
+        // this.$router.push({path: '/user/bind-store/store-bind-rules?from=taskRelease'})
+        this.$router.push({name:'StoreBindRules',query:{from:'taskRelease'}});
       },
       upgradeSvip() {
         this.$router.push({path: '/user/vip-member/order'})
