@@ -364,10 +364,10 @@
           countLeft0ToEnd: true,
           itemCatalogFilters: [],
           zoneFilters: ['freshman_hit'],
-          onlyAvailableCertainlyHit:false,
-
+          onlyAvailableCertainlyHit: false,
+          donotShowSpeedUp: true
         },
-        historyTaskListParams:{
+        historyTaskListParams: {
           pageIndex: 1,
           pageSize: 20,
           itemCatalogs: [],
@@ -392,9 +392,6 @@
       getUserRole() {
         return this.$store.getters.getUserRole
       }
-    },
-    mounted: function () {
-
     },
     methods: {
       encryptionId(id){
@@ -625,7 +622,8 @@
           activityCategories: self.searchTaskParams.activityCategories ? JSON.stringify(self.searchTaskParams.activityCategories) : '',
           countLeft0ToEnd: self.searchTaskParams.countLeft0ToEnd,
           zoneFilters: self.searchTaskParams.zoneFilters ? JSON.stringify(self.searchTaskParams.zoneFilters) : '',
-          onlyAvailableCertainlyHit:self.searchTaskParams.onlyAvailableCertainlyHit
+          onlyAvailableCertainlyHit: self.searchTaskParams.onlyAvailableCertainlyHit,
+          donotShowSpeedUp: self.searchTaskParams.donotShowSpeedUp,
         };
         api.getSearchTask(option).then((res) => {
           if(res.status){
