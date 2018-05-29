@@ -212,6 +212,14 @@
         <span>使用下方提供的内容进行评价，为避免纠纷，</span>
         <span class="sizeColor3">请务必按照要求操作！</span>
       </div>
+      <!--活动截图上传-->
+      <activity-screenshots-upload></activity-screenshots-upload>
+      <!--<div class="upload-image-title pt-20 pb-10">活动截图上传</div>-->
+      <!--<div class="upload-image-area">-->
+        <!--<div class="shop-compare">-->
+          <!--<p class="compare-title">货比3家（宝贝1）</p>-->
+        <!--</div>-->
+      <!--</div>-->
       <div class="evaluation-content-tip-assign mt-10"
            v-if="showkerTask.task && showkerTask.task.itemReviewRequired === 'assign_review_detail'">
         <div>{{showkerTask.other.itemReviewAssign.reviewContent}}</div>
@@ -626,6 +634,7 @@
   import TimeDown from '@/components/TimeDown'
   import PlaceOrderStep from '@/components/PlaceOrderStep'
   import UserClause from '@/components/UserClause'
+  import ActivityScreenshotsUpload from '@/components/ActivityScreenshotsUpload'
   import api from '@/config/apiConfig'
   import {aliCallbackImgUrl} from '@/config/env'
   import {TaskErrorStatusList, isNumber, encryption} from '@/config/utils'
@@ -651,6 +660,7 @@
       TimeDown: TimeDown,
       PlaceOrderStep: PlaceOrderStep,
       UserClause: UserClause,
+      ActivityScreenshotsUpload:ActivityScreenshotsUpload
     },
     data() {
       return {
@@ -1246,3 +1256,9 @@
     }
   }
 </script>
+<style lang="scss" scoped>
+  @import 'src/css/mixin';
+  .upload-image-title {
+    border-bottom:2px solid #F6F6F6
+  }
+</style>
