@@ -175,7 +175,7 @@
         <img v-if="blackListInfo.portraitPic" class="left border-radius-50 mr-10" width="48" height="48"
              :src="getUserHeardUrl(blackListInfo.portraitPic)" alt="用户头像">
         <div class="left">
-          <p>{{blackListInfo.nickname}}</p>
+          <p>{{blackListInfo.alitmAccount}}</p>
           <img :src="blackListInfo.creditLevel" alt="淘宝LOGO">
           <p>淘气值：{{blackListInfo.tqz}}</p>
         </div>
@@ -803,6 +803,7 @@
           if (res.status) {
             _this.blackListInfo = [];
             _this.blackListInfo = res.data;
+            _this.blackListInfo.alitmAccount = alitmAccount;
             _this.blackListInfo.creditLevel = creditLevel;
             _this.blackListInfo.tqz = tqz;
             _this.$nextTick(() => {
