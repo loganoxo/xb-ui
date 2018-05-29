@@ -736,6 +736,7 @@
         const _this = this;
         api.valueAddedServiceStatus().then(res => {
           if (res.status) {
+            _this.valueAddedServiceStatusInfo = {};
             _this.valueAddedServiceStatusInfo = res.data;
             if ((_this.valueAddedServiceStatusInfo.isMemberOK) || (!this.valueAddedServiceStatusInfo.isMemberOK && _this.valueAddedServiceStatusInfo.vasBlackListDeadlineTime)) {
               _this.eyesStatus = 'on'
