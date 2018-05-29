@@ -55,6 +55,10 @@
       iProgress: Progress,
     },
     props: {
+      index:{
+        type:Number,
+        default:1
+      },
       multiple: {
         type: Boolean,
         default: false
@@ -305,7 +309,7 @@
         if (_file) {
           _file.status = 'finished';
           _file.src = aliCallbackImgUrl + res.name;
-          this.onSuccess(res, _file, this.fileList);
+          this.onSuccess(res, this.index, _file, this.fileList);
           setTimeout(() => {
             _file.showProgress = false;
           }, 1000);

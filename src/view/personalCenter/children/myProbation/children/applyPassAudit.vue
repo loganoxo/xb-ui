@@ -213,7 +213,7 @@
         <span class="sizeColor3">请务必按照要求操作！</span>
       </div>
       <!--活动截图上传-->
-      <activity-screenshots-upload></activity-screenshots-upload>
+      <activity-screenshots-upload @sendImageData="getImageData"></activity-screenshots-upload>
       <!--<div class="upload-image-title pt-20 pb-10">活动截图上传</div>-->
       <!--<div class="upload-image-area">-->
         <!--<div class="shop-compare">-->
@@ -745,7 +745,8 @@
         watchExample: false,
         watchAnswerImg:false,
         needIssueAnswer:[],
-        issueAnswerScreenshot:[]
+        issueAnswerScreenshot:[],
+        screenShotsData:{}
       }
     },
     mounted() {
@@ -1252,6 +1253,10 @@
             _this.$Message.error(res.msg);
           }
         })
+      },
+      getImageData(data) {
+        this.screenShotsData = data;
+        console.log(this.screenShotsData);
       }
     }
   }

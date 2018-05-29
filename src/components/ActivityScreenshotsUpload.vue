@@ -2,13 +2,56 @@
     <div class="image-upload">
       <div class="image-upload-title f-b">活动截图上传</div>
       <div class="image-upload-area">
-        <div class="shop-compare clear" v-for="(item,index) in shopCompareList" :key="index">
-          <p class="upload-type-title">货比3家（宝贝{{index}}）<span>搜索过程中随意点击其他店铺的宝贝进行浏览，并上传浏览截图</span></p>
-          <div class="upload-area left" v-for="(item,index) in tempList" :key="index">
+        <div class="shop-compare clear">
+          <p class="upload-type-title">货比3家（宝贝1）<span>搜索过程中随意点击其他店铺的宝贝进行浏览，并上传浏览截图</span></p>
+          <div class="upload-area left" v-for="(item,index) in screenshotsData.shopOneImageList" :key="index">
             <upload key="otherShopImageList" class="upload"
-                    :on-success="otherShopImgSuccess"
-                    :default-file-list="screenshotsData.otherShopImageList"
-                    :on-remove="removeOtherShopImg"
+                    :on-success="shopOneImgSuccess"
+                    :default-file-list="screenshotsData.defaultImageList"
+                    :on-remove="removeShopOneImg"
+                    :format="['jpg','jpeg','png','gif','bmp']"
+                    :max-size="1024"
+                    name="task"
+                    :on-format-error="handleFormatError"
+                    :on-exceeded-size="handleMaxSize"
+                    :index="index"
+                    type="drag">
+              <div class="camera">
+                <Icon type="camera" size="20"></Icon>
+              </div>
+            </upload>
+            <div class="pt-10 pb-5">{{item.title}}</div>
+            <div class="review-image cursor-p" @click="previewImage()">查看示例图</div>
+          </div>
+        </div>
+        <div class="shop-compare clear">
+          <p class="upload-type-title">货比3家（宝贝2）<span>搜索过程中随意点击其他店铺的宝贝进行浏览，并上传浏览截图</span></p>
+          <div class="upload-area left">
+            <upload key="otherShopImageList" class="upload"
+                    :on-success="shopTwoImgSuccess"
+                    :default-file-list="screenshotsData.shopTwoImageList"
+                    :on-remove="removeShopTwoImg"
+                    :format="['jpg','jpeg','png','gif','bmp']"
+                    :max-size="1024"
+                    name="task"
+                    :on-format-error="handleFormatError"
+                    :on-exceeded-size="handleMaxSize"
+                    type="drag">
+              <div class="camera">
+                <Icon type="camera" size="20"></Icon>
+              </div>
+            </upload>
+            <div class="pt-10 pb-5">宝贝浏览见底</div>
+            <div class="review-image">查看示例图</div>
+          </div>
+        </div>
+        <div class="shop-compare clear">
+          <p class="upload-type-title">货比3家（宝贝3）<span>搜索过程中随意点击其他店铺的宝贝进行浏览，并上传浏览截图</span></p>
+          <div class="upload-area left">
+            <upload key="otherShopImageList" class="upload"
+                    :on-success="shopThreeImgSuccess"
+                    :default-file-list="screenshotsData.shopThreeImageList"
+                    :on-remove="removeShopThreeImg"
                     :format="['jpg','jpeg','png','gif','bmp']"
                     :max-size="1024"
                     name="task"
@@ -61,15 +104,20 @@
                 <Icon type="camera" size="20"></Icon>
               </div>
             </upload>
-
           </div>
         </div>
+      </div>
+      <div v-if="visible" style="z-index: 3000" class="text">
+        <Modal title="图片查看器" v-model="visible">
+          <!--<img :src="uploadSrc + '!orgi75'" v-if="visible" style="width: 100%">-->
+          <div>图片预览</div>
+        </Modal>
       </div>
     </div>
 </template>
 
 <script>
-  import {Icon} from 'iview'
+  import {Icon, Modal} from 'iview'
   import Upload from '@/components/Upload'
   import {aliCallbackImgUrl} from '@/config/env'
   export default {
@@ -77,20 +125,48 @@
     components:{
       Icon:Icon,
       Upload:Upload,
+      Modal:Modal
     },
     data() {
       return {
+        visible:false,
         shopCompareList:[{},{},{}],
-        tempList:[{},{},{},{},{},{}],
         screenshotsData:{
-          otherShopImageList:[],
+          shopOneImageList:[
+            {
+              title:'宝贝浏览见底'
+            },
+            {
+              title:'浏览评价'
+            },
+            {
+              title:'加入购物车'
+            },
+            {
+              title:'问大家浏览'
+            },
+            {
+              title:'旺旺聊天'
+            },
+            {
+              title:'收藏店铺'
+            }
+          ],
+          shopTwoImageList:[],
+          shopThreeImageList:[],
           mainBabyImageList:[],
-          mainBabyAnswerList:[]
+          mainBabyAnswerList:[],
+          defaultImageList:[]
         }
       }
     },
     props:{
-
+      // sendImageData:{
+      //   type:Function,
+      //   default() {
+      //     return {}
+      //   }
+      // }
     },
     computed:{
 
@@ -111,39 +187,75 @@
           content: `图片 ${file.name} 太大，不能超过 1M`
         })
       },
-      otherShopImgSuccess(res) {
+      shopOneImgSuccess(res,index) {
         let _this = this;
-        _this.screenshotsData.otherShopImageList.push(aliCallbackImgUrl + res.name);
+        _this.screenshotsData.shopOneImageList[index].src = aliCallbackImgUrl + res.name;
+        _this.$emit('sendImageData',_this.screenshotsData);
       },
-      removeOtherShopImg(res) {
+      removeShopOneImg(res) {
         let _this = this;
-        let sliceIndex = _this.screenshotsData.otherShopImageList.findIndex( item => {
-          return item === res.src;
+        let sliceIndex = _this.screenshotsData.shopOneImageList.findIndex( item => {
+          return item.src === res.src;
         });
-        _this.screenshotsData.otherShopImageList.splice(sliceIndex,1);
+        _this.screenshotsData.shopOneImageList[sliceIndex].src = '';
+        _this.$emit('sendImageData',_this.screenshotsData);
+      },
+      shopTwoImgSuccess(res) {
+        let _this = this;
+        _this.screenshotsData.shopTwoImageList[index].src = aliCallbackImgUrl + res.name;
+        _this.$emit('sendImageData',_this.screenshotsData);
+      },
+      removeShopTwoImg(res) {
+        let _this = this;
+        let sliceIndex = _this.screenshotsData.shopTwoImageList.findIndex( item => {
+          return item.src === res.src;
+        });
+        _this.screenshotsData.shopTwoImageList[sliceIndex].src = '';
+        _this.$emit('sendImageData',_this.screenshotsData);
+      },
+      shopThreeImgSuccess(res) {
+        let _this = this;
+        _this.screenshotsData.shopThreeImageList[index].src = aliCallbackImgUrl + res.name;
+        _this.$emit('sendImageData',_this.screenshotsData);
+      },
+      removeShopThreeImg(res) {
+        let _this = this;
+        let sliceIndex = _this.screenshotsData.shopThreeImageList.findIndex( item => {
+          return item.src === res.src;
+        });
+        _this.screenshotsData.shopThreeImageList[sliceIndex].src = '';
+        _this.$emit('sendImageData',_this.screenshotsData);
       },
       mainBabyImgSuccess(res) {
         let _this = this;
-        _this.screenshotsData.mainBabyImageList.push(aliCallbackImgUrl + res.name);
+        _this.screenshotsData.mainBabyImageList[index].src = aliCallbackImgUrl + res.name;
+        _this.$emit('sendImageData',_this.screenshotsData);
       },
       removeMainBabyImage(res) {
         let _this = this;
         let sliceIndex = _this.screenshotsData.mainBabyImageList.findIndex( item => {
-          return item === res.src;
+          return item.src === res.src;
         });
-        _this.screenshotsData.mainBabyImageList.splice(sliceIndex,1);
+        _this.screenshotsData.mainBabyImageList[sliceIndex].src = '';
+        _this.$emit('sendImageData',_this.screenshotsData);
       },
       MainBabyAnswerSuccess(res) {
         let _this = this;
-        _this.screenshotsData.mainBabyAnswerList.push(aliCallbackImgUrl + res.name);
+        _this.screenshotsData.mainBabyAnswerList[index].src = aliCallbackImgUrl + res.name;
+        _this.$emit('sendImageData',_this.screenshotsData);
       },
       removeMainBabyAnswer(res) {
         let _this = this;
         let sliceIndex = _this.screenshotsData.mainBabyAnswerList.findIndex( item => {
-          return item === res.src;
+          return item.src === res.src;
         });
-        _this.screenshotsData.mainBabyAnswerList.splice(sliceIndex,1);
-      }
+        _this.screenshotsData.mainBabyAnswerList[sliceIndex].src = '';
+        _this.$emit('sendImageData',_this.screenshotsData);
+      },
+      previewImage() {
+        let _this = this;
+        _this.visible = true;
+      },
     }
   }
 </script>
