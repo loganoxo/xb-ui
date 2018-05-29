@@ -27,18 +27,12 @@
       <i-button class="ml-10" type="primary" :loading="searchLoading" @click="searchAuditTask">搜索</i-button>
     </div>
     <div class="mt-10 mb-10">
-      <span v-show="eyesStatus === 'off'" class="fire-eye-off" @click="changeEyesStatus('on')"><icon type="eye-disabled"
-                                                                                                     size="16"></icon>&nbsp;火眼金睛</span>
+      <span v-show="eyesStatus === 'off'" class="fire-eye-off" @click="changeEyesStatus('on')"><icon type="eye-disabled" size="16"></icon>&nbsp;火眼金睛</span>
       <span v-show="eyesStatus === 'off'" class="ml-10 cl999">打开火眼金睛，拿手数据一目了然！</span>
-      <span v-show="eyesStatus === 'on'" class="fire-eye-on" @click="changeEyesStatus('off')"><icon type="eye"
-                                                                                                    size="16"></icon>&nbsp;火眼金睛</span>
-      <span v-show="eyesStatus === 'on' && getMemberVersionLevel === 100" class="ml-10 cl999">距离服务结束还有&nbsp;<time-down
-        v-if="valueAddedServiceStatusInfo.vasBlackListDeadlineTime"
-        :endTime="valueAddedServiceStatusInfo.vasBlackListDeadlineTime" timeEndText="服务已到期"></time-down></span>
-      <span v-show="eyesStatus === 'on' && getMemberVersionLevel === 100"
-            class="blue text-decoration-underline ml-10 cursor-p" @click="renewalEyes">续费</span>
-      <span v-show="eyesStatus === 'on' && getMemberVersionLevel !== 100"
-            class="ml-10 cl999">VIP及SVIP免费使用火眼金睛功能 ^_^  </span>
+      <span v-show="eyesStatus === 'on'" class="fire-eye-on" @click="changeEyesStatus('off')"><icon type="eye" size="16"></icon>&nbsp;火眼金睛</span>
+      <span v-show="eyesStatus === 'on' && !valueAddedServiceStatusInfo.isMemberOK" class="ml-10 cl999">距离服务结束还有&nbsp;<time-down v-if="valueAddedServiceStatusInfo.vasBlackListDeadlineTime" :endTime="valueAddedServiceStatusInfo.vasBlackListDeadlineTime" timeEndText="服务已到期" @timeEnd="timeEnd"></time-down></span>
+      <span v-show="eyesStatus === 'on' && !valueAddedServiceStatusInfo.isMemberOK" class="blue text-decoration-underline ml-10 cursor-p" @click="renewalEyes">续费</span>
+      <span v-show="eyesStatus === 'on' && valueAddedServiceStatusInfo.isMemberOK" class="ml-10 cl999">VIP及SVIP免费使用火眼金睛功能 ^_^  </span>
     </div>
     <div class="mt-12 pos-rel" v-for="(item,index) in taskWaitAuditList" :key="item.id">
       <div class="collapse-header clear" @click="collapseToggle(item.id,index)" :class="{noBorderRadius:selectId}">
@@ -518,6 +512,7 @@
         speedUpModal: false,
         speedUpLoading: false,
         hasTrialQualification: false,
+        isEndTime: false,
       }
     },
     created() {
@@ -720,7 +715,7 @@
         }
       },
       changeEyesStatus(status) {
-        if (!this.valueAddedServiceStatusInfo.isMemberOK) {
+        if ((!this.valueAddedServiceStatusInfo.isMemberOK && !this.valueAddedServiceStatusInfo.vasBlackListDeadlineTime) || this.isEndTime) {
           if (this.eyesPeriodList.length === 0) {
             this.getValueAddedServicePeriod()
           }
@@ -742,7 +737,7 @@
         api.valueAddedServiceStatus().then(res => {
           if (res.status) {
             _this.valueAddedServiceStatusInfo = res.data;
-            if (res.data.isMemberOK) {
+            if ((_this.valueAddedServiceStatusInfo.isMemberOK) || (!this.valueAddedServiceStatusInfo.isMemberOK && _this.valueAddedServiceStatusInfo.vasBlackListDeadlineTime)) {
               _this.eyesStatus = 'on'
             } else {
               _this.eyesStatus = 'off'
@@ -857,6 +852,10 @@
             _this.$Message.error(res.msg)
           }
         })
+      },
+      timeEnd() {
+        this.isEndTime = true;
+        this.eyesStatus = 'off';
       },
       openSpeedUp(taskId, userId) {
         this.speedUpModal = true;
