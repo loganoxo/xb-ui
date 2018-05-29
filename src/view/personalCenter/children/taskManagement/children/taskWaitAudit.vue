@@ -68,12 +68,9 @@
             <tr>
               <th width="20%" class="pt-10 pb-10">
                 <p class="mb-5">淘宝账号（旺旺号）</p>
-                <i-button :class="[sortList.select === item.sortField ? 'ww-active' : '']" size="small"
-                          v-for="(item,index) in sortList.defaultList" :key="index"
-                          @click="sortChange(item.sortField,index)">
+                <i-button :class="[sortList.select === item.sortField ? 'ww-active' : '']" size="small" v-for="(item,index) in sortList.defaultList" :key="index" @click="sortChange(item.sortField,index)">
                   <span>{{item.name}}</span>
-                  <icon v-show="item.sort === 'desc'" type="arrow-down-c"></icon>
-                  <Icon v-show="item.sort === 'asc' " type="arrow-up-c"></Icon>
+                  <icon :type="item.sort === 'desc' ? 'arrow-down-c' : 'arrow-up-c'"></icon>
                 </i-button>
               </th>
               <th width="20%">申请时间</th>
@@ -94,12 +91,19 @@
                   <p>淘气值：{{allTask.tqz}}</p>
                   <p class="mt-5" v-cloak>申请次数：{{allTask.applyCount || 0}}</p>
                   <p v-cloak>成功次数：{{allTask.applySuccessCount || 0}}</p>
+                  <div class="value-added-info" v-if="!eyesServerPermissions">
+                    <p>
+                      <span>被平台商家拉黑：</span>
+                      <span class="cursor-p blue" @click="getValueAddedServicePeriod">
+                        <tooltip content="打开火眼金睛，拿手数据一目了然！"><icon class="vtc-text-btm" type="eye-disabled" size="16"></icon>&nbsp;查看</tooltip>
+                      </span>
+                    </p>
+                  </div>
                   <div class="value-added-info" v-if="eyesStatus === 'on'">
                     <p>
                       <span>被平台商家拉黑：</span>
                       <span v-if="allTask.blackCount === 0" class="blue text-decoration-underline">0</span>
-                      <span v-else class="blue text-decoration-underline cursor-p"
-                            @click="lookBlackListInfo(allTask.alitmAccount, allTask.showkerId, allTask.creditLevel, allTask.tqz)">{{allTask.blackCount || 0}}</span>
+                      <span v-else class="blue text-decoration-underline cursor-p" @click="lookBlackListInfo(allTask.alitmAccount, allTask.showkerId, allTask.creditLevel, allTask.tqz)">{{allTask.blackCount || 0}}</span>
                     </p>
                     <!-- <p class="mt-5">
                        <span>被平台商家打标：</span>
@@ -114,8 +118,7 @@
                 <a @click="openNewTrialReportFunc(encryptionId(allTask.showkerId))">查看</a>
               </td>
               <td>
-                <tooltip v-if="allTask.reason && allTask.status === 'waiting_resubmit'" :content="allTask.reason"
-                         placement="top" class="cursor-p">
+                <tooltip v-if="allTask.reason && allTask.status === 'waiting_resubmit'" :content="allTask.reason" placement="top" class="cursor-p">
                   <icon color="#f9284f" type="information-circled"></icon>
                   <span class="main-color">{{getStatusInfo(allTask.status)}}</span>
                 </tooltip>
@@ -135,8 +138,7 @@
             <tbody>
             <tr>
               <td colspan="5">
-                <page :total="taskTotalElements" :page-size="taskPageSize" :current="taskPageIndex"
-                      @on-change="taskPageChange"></page>
+                <page :total="taskTotalElements" :page-size="taskPageSize" :current="taskPageIndex" @on-change="taskPageChange"></page>
               </td>
             </tr>
             </tbody>
@@ -549,6 +551,13 @@
         let money = this.selectEyesPeriodInfo.fee - this.getUserBalance * 100;
         return money > 0 ? money : 0;
       },
+
+      /** 计算用户是否有火眼金睛增值服务权限（true: 有，false: 无）
+       * @return {boolean}
+       */
+      eyesServerPermissions() {
+         return !((!this.valueAddedServiceStatusInfo.isMemberOK && !this.valueAddedServiceStatusInfo.vasBlackListDeadlineTime) || this.isEndTime);
+      }
     },
     methods: {
       changeLookScreenShot(num) {
@@ -714,15 +723,18 @@
           this.appliesWaitingAuditAll(id, index)
         }
       },
+      openOrderEyesModel() {
+        if (this.eyesPeriodList.length === 0) {
+          this.getValueAddedServicePeriod()
+        }
+        this.getEyeTrialQualification();
+        this.orderEyesModel = true;
+      },
       changeEyesStatus(status) {
         if ((!this.valueAddedServiceStatusInfo.isMemberOK && !this.valueAddedServiceStatusInfo.vasBlackListDeadlineTime) || this.isEndTime) {
-          if (this.eyesPeriodList.length === 0) {
-            this.getValueAddedServicePeriod()
-          }
-          this.getEyeTrialQualification();
-          this.orderEyesModel = true;
+          this.openOrderEyesModel()
         } else {
-          this.eyesStatus = status;
+          this.eyesStatus = status
         }
       },
       renewalEyes() {
