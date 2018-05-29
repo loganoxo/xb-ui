@@ -101,7 +101,7 @@
       <!--填写活动信息详情-->
       <div class="activity-info" v-show="stepName === 'information'">
         <div class="activity-info-title">填写活动信息</div>
-        <div class="activity-type ml-60 mt-22">
+        <div class="activity-type ml-20 mt-22">
           <span class="required">下单方式：</span>
           <radio-group v-model="taskRelease.taskType" @on-change="taskTypeChange">
             <radio label="pc_search">
@@ -118,17 +118,17 @@
             </radio>
           </radio-group>
         </div>
-        <div class="activity-time ml-60 mt-20">
+        <div class="activity-time ml-20 mt-20">
           <span class="required">活动时长：</span>
           <i-input v-model.number="taskRelease.taskDaysDuration" placeholder="请输入活动时长" style="width: 120px"></i-input>
           <span>天</span>
           <span class="main-color ml-10"> <i class="ivu-icon ivu-icon-information-circled cle60012"></i>（注意：单期活动时间为3-10天，请于活动结束后48小时内审批完成所有拿手资格，逾期系统将自动为您审批）</span>
         </div>
-        <div class="trial-condition ml-35 mt-20">
+        <div class="trial-condition ml-20 mt-20">
           <span class="ml-5">拿手申请条件：</span>
           <checkbox v-model="taskRelease.refuseOldShowker">拒绝已参加过本店活动的拿手再次申请</checkbox>
         </div>
-        <div class="order-speed ml-35 mt-20">
+        <div class="order-speed ml-20 mt-20">
           <span class="ml-5">拿手下单速度：</span>
           <radio-group v-model="taskRelease.showkerOrderTimeLimit">
             <radio :label="24"><span>24小时内</span></radio>
@@ -138,12 +138,12 @@
           </radio-group>
           <span class="sizeColor2">（拿手通过审批后需要指定时间内完成淘宝下单并在本平台提交订单号，否则资格自动过期）</span>
         </div>
-        <div class="trial-condition ml-60 mt-20">
+        <div class="trial-condition ml-20 mt-20">
           <span class="ml-4"> 收藏加购：</span>
           <checkbox v-model="taskRelease.needBrowseCollectAddCart">需要</checkbox>
           <span class="sizeColor2">（系统会随机让部分拿手完成对宝贝的收藏加购，活动上线后您可以在生意参谋后台查看收藏加购有无增加）</span>
         </div>
-        <div class="answer ml-60 mt-20">
+        <div class="answer ml-20 mt-20">
           <span class="ml-4"> 浏览答题：</span>
           <checkbox v-model="needBrowseAnswer" @on-change="needBrowseAnswerChange">需要</checkbox>
           <span class="sizeColor2">（保证拿手充分浏览详情页，减少秒拍情况发生，最多可添加3个）</span>
@@ -181,10 +181,35 @@
           <div class="mt-12 pl-68 sizeColor2" v-show="needBrowseAnswer">请在手机详情页中挑选一段文案，建议3-8字，输入文本框内，拿手将提供本文案所在位置截图
           </div>
         </div>
-        <div class="task-speed-up ml-60 mt-20">
+        <div class="task-speed-up ml-20 mt-20">
           <span class="ml-4">一键加速：</span>
           <checkbox v-model="taskRelease.speedUp">需要</checkbox>
           <span class="sizeColor2">（选择后，该活动所有名额的审批由系统推荐和控制，适合需要快速消化单量的商家）</span>
+        </div>
+        <div class="value-added-services">
+          <p class="main-color">增值服务（平台已保证所有拿手安全下单，但您仍不放心，可选择以下增值服务，该服务会要求拿手上传截图留证）</p>
+          <div class="inline-block mr-20 mt-10" v-for="item in valueAddedServicesList">
+            <checkbox v-model="item.isSelect">{{item.keyDec}}</checkbox>
+            <span class="sizeColor2">({{item.price / 100 || 0}}元)</span>
+            <span class="value-added-services-demo-image">图</span>
+          </div>
+          <div class="mt-10 inline-block">
+            <checkbox v-model="shopAroundStatus" @on-change="shopAroundStatusChange">货比三家</checkbox>
+            <span class="sizeColor2">(最多添加3个)</span>
+          </div>
+          <div v-show="shopAroundStatus">
+            <template v-for="(keys, index) in shopAroundList">
+              <div class="cl999 mt-10">同类宝贝{{index + 1}}：</div>
+              <div class="inline-block mr-15 mt-10" v-for="item in keys">
+                <checkbox v-model="item.isSelect">{{item.keyDec}}</checkbox>
+                <span class="sizeColor2">({{item.price / 100 || 0}}元)</span>
+                <span class="value-added-services-demo-image">图</span>
+              </div>
+            </template>
+            <i-button :disabled="shopAroundList.length > 2" class="mt-12 add-btn-bg-color" type="dashed" icon="plus-round" @click="addShopAroundList">添加</i-button>
+            <i-button :disabled="shopAroundList.length === 1" class="ml-20 mt-12 add-btn-bg-color" type="dashed" icon="minus-round" @click="delShopAroundList">删除</i-button>
+          </div>
+          <div class="value-added-charge mt-20">增值服务费合计：{{(oneValueAddedCost / 100).toFixed(2)}} 元 </div>
         </div>
         <div class="baby-info mt-22" v-show="taskRelease.activityCategory === 'free_get'">
           <div class="activity-info-title">填写活动宝贝信息</div>
@@ -437,9 +462,9 @@
                 <span class="sizeColor2" v-else>（根据你的会员版本，每天同一宝贝可以发布2次）</span>
                 <span v-if="getMemberVersionLevel !==300" class="svip-upgrade ml-10 mr-5"
                       @click="upgradeSvip">不够用？+1次</span>
-                <Tooltip content="同一宝贝每日发布活动次数：免费商家2次，VIP商家5次，SVIP商家10次" placement="top">
+                <tooltip content="同一宝贝每日发布活动次数：免费商家2次，VIP商家5次，SVIP商家10次" placement="top">
                   <Icon class="cursor-p" size="16" type="help-circled"></Icon>
-                </Tooltip>
+                </tooltip>
               </div>
               <div class="baby-price ml-10 mt-20">
                 <span class="required">宝贝单价：</span>
@@ -458,27 +483,27 @@
               </div>
               <div class="baby-pinkage ml-10 mt-20">
                 <span class="required left">是否包邮：</span>
-                <Radio-group v-model="taskRelease.pinkage">
-                  <Radio label="true">
+                <radio-group v-model="taskRelease.pinkage">
+                  <radio label="true">
                     <span>宝贝包邮，无需修改运费</span>
-                  </Radio>
+                  </radio>
                   <br>
-                  <Radio class="mt-10" label="false">
+                  <radio class="mt-10" label="false">
                     <span>宝贝不包邮，需要额外多垫付10元邮费，随货款一起对买手实行多退少补返还！</span>
-                  </Radio>
-                </Radio-group>
+                  </radio>
+                </radio-group>
               </div>
               <div class="baby-payment ml-10 mt-20">
                 <span class="required left">付款方式：</span>
-                <Radio-group v-model="taskRelease.paymentMethod">
-                  <Radio label="all" class="mb-10"><span>无所谓（可以使用花呗、信用卡等付款，也可以不用）</span></Radio>
+                <radio-group v-model="taskRelease.paymentMethod">
+                  <radio label="all" class="mb-10"><span>无所谓（可以使用花呗、信用卡等付款，也可以不用）</span></radio>
                   <br/>
-                  <Radio label="no_hua_and_credit_pay" class="mb-10"><span>禁止使用花呗和信用卡付款</span></Radio>
+                  <radio label="no_hua_and_credit_pay" class="mb-10"><span>禁止使用花呗和信用卡付款</span></radio>
                   <br/>
-                  <Radio label="no_hua_pay" class="mb-10"><span>禁止使用花呗</span></Radio>
+                  <radio label="no_hua_pay" class="mb-10"><span>禁止使用花呗</span></radio>
                   <br/>
-                  <Radio label="no_credit_pay"><span>禁止使信用卡付款</span></Radio>
-                </Radio-group>
+                  <radio label="no_credit_pay"><span>禁止使信用卡付款</span></radio>
+                </radio-group>
               </div>
               <div class="task-remark ml-10 mt-20 clear">
                 <span class="left ml-5">下单要求：</span>
@@ -491,34 +516,34 @@
               </div>
               <div class="donotPostPhoto ml-15 mt-20 clear">
                 <span class="left required">是否在淘宝评价中晒图：</span>
-                <Radio-group v-model="taskRelease.donotPostPhoto">
-                  <Radio label="true">
+                <radio-group v-model="taskRelease.donotPostPhoto">
+                  <radio label="true">
                     <span>请勿晒图</span>
-                  </Radio>
-                  <Radio label="false">
+                  </radio>
+                  <radio label="false">
                     <span>无所谓（拿手可能晒出B宝贝图片）</span>
-                  </Radio>
-                </Radio-group>
+                  </radio>
+                </radio-group>
               </div>
               <div class="evaluation-requirements ml-15 mt-10 clear">
                 <span class="left mt-5 required">淘宝评价要求：</span>
                 <div class="left">
-                  <RadioGroup v-model="taskRelease.itemReviewRequired" :vertical="true"
+                  <radio-group v-model="taskRelease.itemReviewRequired" :vertical="true"
                               @on-change="changeSelectEvaluation">
-                    <Radio label="review_by_showker_self">
+                    <radio label="review_by_showker_self">
                       <span>由拿手自主发挥（拿手自主发挥评价更客观更真实。<span class="main-color">选择此项不可因主观喜好对评价结果有异议。</span>）</span>
-                    </Radio>
-                    <Radio label="offer_review_summary">
+                    </radio>
+                    <radio label="offer_review_summary">
                         <span>有个大概要求（可以写下评价的大概要求，因每个人理解不一样，可能评价结果会与期望有偏差。<span
                           class="main-color">选择此项不可因主观喜好对评价结果有异议。</span>）</span>
-                    </Radio>
+                    </radio>
                     <i-input v-if="taskRelease.itemReviewRequired === 'offer_review_summary'"
                             v-model="taskRelease.itemReviewSummary" class="mb-10" type="textarea"
                             :autosize="{minRows: 1,maxRows: 3}" placeholder="请输入你的评价要求，如：需晒图/勿晒图、希望出现的关键词等~"></i-input>
-                    <Radio label="assign_review_detail">
+                    <radio label="assign_review_detail">
                       <span>我来提供评价内容（拿手将直接拷贝亲提供的评价内容在淘宝上进行评价，每个名额需要提供一份评价内容。）</span>
-                    </Radio>
-                  </RadioGroup>
+                    </radio>
+                  </radio-group>
                   <p v-show="taskRelease.itemReviewRequired === 'assign_review_detail'" class="main-color ml-20">
                     可自定义的评价数跟您发布宝贝数量相同，系统会随机分配给申请通过的拿手每人一条评论，以保证评价内容的唯一性。</p>
                   <div class="afford-evaluation-list mt-10"
@@ -934,17 +959,14 @@
               <!--<tooltip placement="top" content="为提高平台拿手活跃度，鼓励拿手创作更优质的买家秀内容，原平台推广费将改为打赏费，用于拿手打赏！">-->
               <!--<a>什么是打赏费？</a>-->
               <!--</tooltip>-->
-              <span v-if="getMemberVersionLevel !== 300" class="ml-10 svip-upgrade"
-                    @click="upgradeSvip">升级SVIP免除推广费</span>
+              <span v-if="getMemberVersionLevel !== 300" class="ml-10 svip-upgrade" @click="upgradeSvip">升级SVIP免除推广费</span>
             </p>
-            <p class="mt-6">总费用 = 活动担保金 + 总推广费 = <span>{{(orderMoney / 100).toFixed(2)}}</span> 元</p>
-            <p class="mt-6" v-if="!isBalance">手续费说明： 使用支付宝充值支付，支付宝会收取0.6%的手续费，该笔费用需要商家承担，手续费不予退还，敬请谅解！<a
-              @click="isShowAliPayTip = true">查看支付宝官方说明</a></p>
+            <p>总增值费 = 单品增值费 × 份数 =  <span>{{(oneValueAddedCost / 100).toFixed(2)}}</span> × <span>{{taskRelease.taskCount}}</span> = {{(allValueAddedCost / 100).toFixed(2)}} 元</p>
+            <p class="mt-6">总费用 = 活动担保金 + 总推广费 + 总增值费用 = <span>{{(orderMoney / 100).toFixed(2)}}</span> 元</p>
+            <p class="mt-6" v-if="!isBalance">手续费说明： 使用支付宝充值支付，支付宝会收取0.6%的手续费，该笔费用需要商家承担，手续费不予退还，敬请谅解！<a @click="isShowAliPayTip = true">查看支付宝官方说明</a></p>
           </div>
         </div>
-        <div class="pay-info mt-40" v-if="isBalance && !priceHasChange">本次总共要支付的金额为：<span class="second-color">{{(orderMoney / 100).toFixed(2)}}</span>&nbsp;元。您的账户的当前余额为：<strong>{{getUserBalance
-          || 0}}</strong>&nbsp;元
-        </div>
+        <div class="pay-info mt-40" v-if="isBalance && !priceHasChange">本次总共要支付的金额为：<span class="second-color">{{(orderMoney / 100).toFixed(2)}}</span>&nbsp;元。您的账户的当前余额为：<strong>{{getUserBalance || 0}}</strong>&nbsp;元</div>
         <div class="pay-info mt-40" v-if="!isBalance && !priceHasChange">本次总共要支付的金额为：<strong>{{(orderMoney /
           100).toFixed(2)}}</strong>&nbsp;元。您账户余额为：<strong>{{getUserBalance || 0}}</strong>&nbsp;元，还需充值：<span
           class="second-color">{{(needPayMoneyBefore / 100).toFixed(2)}}</span>&nbsp;元。
@@ -1096,16 +1118,6 @@
         <iButton type="error" size="large" long @click="isGetStoreInfoError = false">我知道了</iButton>
       </div>
     </modal>
-    <!--商家进入发布活动页面后对商家说明的弹框-->
-    <!--<modal v-model="isShowBusinessTip" width="700" :closable="false">-->
-      <!--<p class="mt-20">亲，即日起，平台将上线 “分享必中” 活动，鼓励拿手们积极分享您的宝贝给朋友，分享最多的拿手，将获得宝贝必中资格！</p>-->
-      <!--<p class="mt-20">您的宝贝将在白拿拿平台上获得更多的曝光，点击和申请，也将获得更多的访客和收藏加购！</p>-->
-      <!--<p class="mt-20 mb-20">该活动，最多涉及您单次发布任务中，宝贝份数的{{taskSystemHoldPercent.configValue+'%'}}，请知晓！</p>-->
-      <!--<p slot="footer">-->
-        <!--<checkbox v-model="noMoreTip" class="mr-20">不再提示</checkbox>-->
-        <!--<iButton type="error" size="large" @click="noMoreTipFunc">我知道了</iButton>-->
-      <!--</p>-->
-    <!--</modal>-->
     <!--用户没有绑定任何店铺弹框提示-->
     <modal v-model="isBindStore" :closable="false" :mask-closable="false" width="360">
       <p slot="header" class="text-ct">
@@ -1341,8 +1353,84 @@
         isSelectStoreUrl: false,
         isGetStoreInfoError: false,
         isBindStore: false,
-        // isShowBusinessTip: true,
         noMoreTip: false,
+        valueAddedServicesList: [
+          {
+            keyDec: '搜索关键词',
+            price: 20,
+            isSelect: false,
+          },
+          {
+            keyDec: '评价浏览',
+            price: 20,
+            isSelect: false,
+          },
+          {
+            keyDec: '加入购物车',
+            price: 20,
+            isSelect: false,
+          },
+          {
+            keyDec: '收藏宝贝',
+            price: 20,
+            isSelect: false,
+          },
+          {
+            keyDec: '次宝贝浏览',
+            price: 20,
+            isSelect: false,
+          },
+          {
+            keyDec: '问大家浏览',
+            price: 20,
+            isSelect: false,
+          },
+          {
+            keyDec: '旺旺聊天',
+            price: 20,
+            isSelect: false,
+          },
+          {
+            keyDec: '收藏店铺',
+            price: 20,
+            isSelect: false,
+          },
+        ],
+        shopAroundStatus: false,
+        shopAroundList: [
+          [
+            {
+              keyDec: '浏览宝贝见底',
+              price: 100,
+              isSelect: false,
+            },
+            {
+              keyDec: '评价浏览',
+              price: 20,
+              isSelect: false,
+            },
+            {
+              keyDec: '加入购物车',
+              price: 20,
+              isSelect: false,
+            },
+            {
+              keyDec: '问大家浏览',
+              price: 20,
+              isSelect: false,
+            },
+            {
+              keyDec: '旺旺聊天',
+              price: 20,
+              isSelect: false,
+            },
+            {
+              keyDec: '收藏店铺',
+              price: 20,
+              isSelect: false,
+            },
+          ]
+        ],
       }
     },
     mounted() {
@@ -1368,7 +1456,6 @@
       this.getItemCatalog();
       // this.getDetectionUserClauseTip();
       this.getStoreBindInfoList();
-      // this.isShowBusinessTip = !getStorage('noMorePopup');
     },
     computed: {
       /**
@@ -1530,10 +1617,10 @@
        */
       orderMoney() {
         if (this.taskRelease.activityCategory === 'free_get') {
-          return (this.taskRelease.taskCount * this.oneBond) + this.allPromotionExpenses * 100
+          return (this.taskRelease.taskCount * this.oneBond) + this.allPromotionExpenses * 100 + this.allValueAddedCost
         }
         if (this.taskRelease.activityCategory === 'present_get') {
-          return (this.taskRelease.taskCount * this.oneBondAToB) + this.allPromotionExpenses * 100
+          return (this.taskRelease.taskCount * this.oneBondAToB) + this.allPromotionExpenses * 100 + this.allValueAddedCost
         }
       },
 
@@ -1634,6 +1721,52 @@
        */
       taskSystemHoldPercent() {
         return this.$store.getters.getTaskSystemHoldPercent;
+      },
+
+      /**
+       * 计算用户选择的增值服务费用（不包含‘货比三家’服务）
+       * @return {number}
+       */
+      valueAddedCost() {
+        let cost = 0;
+        this.valueAddedServicesList.map(item => {
+          if(item.isSelect) {
+            cost += item.price
+          }
+        });
+        return cost
+      },
+
+      /**
+       * 计算用户选择的‘货比三家’增值服务费用
+       * @return {number}
+       */
+      shopAroundCost() {
+        let cost = 0;
+        this.shopAroundList.map(keys => {
+          keys.map(item => {
+            if(item.isSelect) {
+              cost += item.price
+            }
+          })
+        });
+        return cost
+      },
+
+      /**
+       * 计算用户选择的增值服务费用（单品：valueAddedCost + shopAroundCost）
+       * @return {number}
+       */
+      oneValueAddedCost() {
+        return this.valueAddedCost + this.shopAroundCost
+      },
+
+      /**
+       * 计算用户总增值服务费用（单品费用 * 宝贝数量）
+       * @return {number}
+       */
+      allValueAddedCost() {
+        return this.oneValueAddedCost * this.taskRelease.taskCount
       }
     },
     methods: {
@@ -2642,18 +2775,55 @@
           this.answerDefaultList = [];
         }
       },
-      testAnswerTextNumber() {
-        let _this = this;
-        _this.isShowAnswerTip = _this.browseAnswer.some(item => {
-          return item.answerContent.length > 8
-        })
+
+      addShopAroundList() {
+        this.shopAroundList.push([
+          {
+            keyDec: '浏览宝贝见底',
+            price: 100,
+            isSelect: false,
+          },
+          {
+            keyDec: '评价浏览',
+            price: 20,
+            isSelect: false,
+          },
+          {
+            keyDec: '加入购物车',
+            price: 20,
+            isSelect: false,
+          },
+          {
+            keyDec: '问大家浏览',
+            price: 20,
+            isSelect: false,
+          },
+          {
+            keyDec: '旺旺聊天',
+            price: 20,
+            isSelect: false,
+          },
+          {
+            keyDec: '收藏店铺',
+            price: 20,
+            isSelect: false,
+          },
+        ])
       },
-      //不再显示商家通知弹框
-      // noMoreTipFunc() {
-      //   const _this = this;
-      //   _this.isShowBusinessTip = false;
-      //   setStorage('noMorePopup', _this.noMoreTip);
-      // },
+      delShopAroundList() {
+        this.shopAroundList.splice(this.shopAroundList.length - 1, 1)
+      },
+      shopAroundStatusChange() {
+        if(!this.shopAroundStatus) {
+          this.shopAroundList.map(keys => {
+            keys.map(item => {
+              if(item.isSelect) {
+                return item.isSelect = false
+              }
+            })
+          })
+        }
+      },
     },
   }
 </script>
@@ -3073,6 +3243,31 @@
       color: #FF8C2B;
       background-color: #FFFC00;
       cursor: pointer;
+    }
+
+    .value-added-services {
+      width: 96%;
+      background-color: #FFF5E2;
+      padding: 15px;
+      margin: 20px auto 20px auto;
+      border-radius: 4px;
+    }
+
+    .value-added-services-demo-image {
+      padding: 0 1px;
+      border-radius: 2px;
+      color: #fff;
+      background-color: #17A1FF;
+      cursor: pointer;
+    }
+
+    .add-btn-bg-color {
+      background-color: #fff;
+    }
+
+    .value-added-charge {
+      border-top: 2px solid #EFE8DB;
+      padding: 10px 0 0 0;
     }
   }
 
