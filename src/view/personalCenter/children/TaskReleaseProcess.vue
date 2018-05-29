@@ -2458,7 +2458,7 @@
           this.needBrowseAnswer = false;
         }
       },
-      removeMainImage() {
+      removeMainImage(res) {
         this.taskRelease.taskMainImage = null;
       },
       removeAppImage() {
