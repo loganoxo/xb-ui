@@ -399,7 +399,7 @@
     }
 
     .account-info {
-      width: 140px;
+      width: 156px;
     }
 
     .parting-line {
