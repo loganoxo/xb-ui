@@ -61,8 +61,7 @@
                 <Icon type="camera" size="20"></Icon>
               </div>
             </upload>
-            <!--<div class="pt-10 pb-5">评价浏览</div>-->
-            <!--<div class="review-image">查看示例图</div>-->
+
           </div>
         </div>
       </div>
