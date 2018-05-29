@@ -120,7 +120,7 @@
   import TimeDown from '@/components/TimeDown'
   import Clipboard from 'clipboard';
   import api from '@/config/apiConfig'
-  import {TaskErrorStatusList, getUrlParams} from '@/config/utils'
+  import {taskErrorStatusList, getUrlParams} from '@/config/utils'
 
   export default {
     name: 'PlaceOrderStep',
@@ -214,7 +214,7 @@
         }
       },
       getTaskStatus(type) {
-        return TaskErrorStatusList(type);
+        return taskErrorStatusList(type);
       },
       changeTaskPlaceInfo() {
         let _this = this;

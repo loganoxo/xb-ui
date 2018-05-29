@@ -192,7 +192,7 @@
   import TimeDown from '@/components/TimeDown'
   import api from '@/config/apiConfig'
   import {aliCallbackImgUrl} from '@/config/env'
-  import {TaskErrorStatusList, decode, encryption} from '@/config/utils'
+  import {taskErrorStatusList, decode, encryption} from '@/config/utils'
 
   export default {
     name: 'ProbationReport',
@@ -306,7 +306,7 @@
         this.$router.push({path: '/user/task-management/pass'})
       },
       getTaskStatus(type) {
-        return TaskErrorStatusList(type);
+        return taskErrorStatusList(type);
       },
       closeRefundModel() {
         this.showRefundModel = false;

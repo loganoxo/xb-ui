@@ -41,11 +41,11 @@
       <div><span class="inline-block title">淘宝账号（旺旺ID）：</span><iInput class="ww-name" v-model="wwName"></iInput></div>
       <div class="mt-20">
         <span class="inline-block title">拉黑原因：</span>
-        <iSelect v-model="addToBlackListReason" style="width:300px">
-          <iOption v-for="(item ,index) in reasonList" :value="item" :key="index">{{item}}</iOption>
-        </iSelect>
+        <i-select v-model="addToBlackListReason" style="width:300px">
+          <i-option v-for="(item ,index) in reasonList" :value="item.reasonStatus" :key="index">{{item.reasonDec}}</i-option>
+        </i-select>
       </div>
-      <div class="mt-20" v-show="addToBlackListReason === '自定义'">
+      <div class="mt-20" v-show="addToBlackListReason === 'other_reason'">
         <span class="inline-block title">填写原因：</span>
         <iInput type="textarea" v-model="addToBlackOtherReason" placeholder="100字以内" style="width:300px"></iInput>
       </div>
@@ -73,14 +73,29 @@
     },
     data() {
       return {
-        addToBlackOtherReason:null,
-        addToBlackListReason:null,
-        reasonList:[
-          '我是商家我任性',
-          '不按要求操作',
-          '此号不安全',
-          '有退货行为',
-          '自定义'
+        addToBlackOtherReason: null,
+        addToBlackListReason: null,
+        reasonList: [
+          {
+            reasonStatus: 'none_reason',
+            reasonDec: '无理由'
+          },
+          {
+            reasonStatus: 'illegal_operation',
+            reasonDec: '不按要求操作'
+          },
+          {
+            reasonStatus: 'danger_account',
+            reasonDec: '此号不安全'
+          },
+          {
+            reasonStatus: 'sales_return',
+            reasonDec: '有退货行为'
+          },
+          {
+            reasonStatus: 'other_reason',
+            reasonDec: '其他'
+          },
         ],
         addToBlackListPop:false,
         blackListWwName:'',
@@ -142,16 +157,12 @@
         })
       },
       changePagesFun(page){
-        let self = this;
-        self.noListNow = false;
-        self.page = page-1;
-        self.getBlackList();
+        this.noListNow = false;
+        this.page = page - 1;
+        this.getBlackList();
       },
       addShowkerToBlackList(){
-        let self = this;
-        if(self.addToBlackListReason === '自定义'){
-          self.addToBlackListReason = self.addToBlackOtherReason;
-        }
+        const self = this;
         if (!self.wwName){
           self.$Message.error("请填写要拉黑的旺旺号！");
           return
@@ -161,12 +172,16 @@
           return
         }
         api.addShowkerToBlackList({
-          alitmAccount:self.wwName,
-          reason:self.addToBlackListReason,
+          alitmAccount: self.wwName,
+          reasonCode: self.addToBlackListReason,
+          reasonText: self.addToBlackOtherReason,
         }).then( res => {
           if (res.status){
             self.addToBlackListPop = false;
             self.$Message.success("添加黑名单成功！");
+            self.wwName = '';
+            self.addToBlackListReason = '';
+            self.addToBlackOtherReason = '';
             self.page = 0;
             self.wwName = '';
             self.addToBlackListReason = '';

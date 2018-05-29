@@ -275,8 +275,8 @@
   import {Icon, Form, Page, Button, Modal, DatePicker, Select, Option, OptionGroup, Input, Tooltip} from 'iview'
   import api from '@/config/apiConfig'
   import SmsCountdown from '@/components/SmsCountdown'
-  import {TaskErrorStatusList,isNumber, isChinaStr} from '@/config/utils'
-  import {bankList} from '../../../../../../bankNameList/bankNameList';
+  import {taskErrorStatusList,isNumber, isChinaStr} from '@/config/utils'
+  import {bankList} from '@/bank';
 
   export default {
     name: 'getOutMoney',
@@ -463,7 +463,7 @@
         isChange: false,
         ifVerifiedTip: false,
         ifFirstWithDraw: null,
-        bankList:bankList,
+        bankList: bankList,
       }
     },
     mounted() {
@@ -609,7 +609,7 @@
       },
 
       getTradType(type) {
-        return TaskErrorStatusList(type);
+        return taskErrorStatusList(type);
       },
 
       //控制提现模块每个部分是否显示，根据账户信息

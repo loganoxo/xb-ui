@@ -181,18 +181,17 @@
           <div class="mt-12 pl-68 sizeColor2" v-show="needBrowseAnswer">请在手机详情页中挑选一段文案，建议3-8字，输入文本框内，拿手将提供本文案所在位置截图
           </div>
         </div>
-  <!--      <div class="task-speed-up ml-60 mt-20">
-          <span class="ml-4"> 一键加速：</span>
+        <div class="task-speed-up ml-60 mt-20">
+          <span class="ml-4">一键加速：</span>
           <checkbox v-model="taskRelease.speedUp">需要</checkbox>
           <span class="sizeColor2">（选择后，该活动所有名额的审批由系统推荐和控制，适合需要快速消化单量的商家）</span>
-        </div>-->
+        </div>
         <div class="baby-info mt-22" v-show="taskRelease.activityCategory === 'free_get'">
           <div class="activity-info-title">填写活动宝贝信息</div>
           <div class="baby-title ml-45 mt-20">
             <span class="required">宝贝标题：</span>
             <i-input v-model="taskRelease.taskName" placeholder="请输入宝贝标题" style="width: 296px"></i-input>
-            <span class="ml-20 sizeColor2"><Icon v-show="taskNameLength > 35" color="#f9284f"
-                                                 type="information-circled"></Icon>&nbsp;此处填宝贝名称，突出宝贝特点，勿填无关内容，最多支持35个字符，当前已输入  <span
+            <span class="ml-20 sizeColor2"><icon v-show="taskNameLength > 35" color="#f9284f" type="information-circled"></icon>&nbsp;此处填宝贝名称，突出宝贝特点，勿填无关内容，最多支持35个字符，当前已输入  <span
               class="main-color">{{taskNameLength}}</span> / 35个字符。</span>
           </div>
           <div class="baby-title ml-45 mt-20">
@@ -1125,40 +1124,14 @@
 </template>
 
 <script>
-  import {
-    Icon,
-    Form,
-    Input,
-    Checkbox,
-    Button,
-    Radio,
-    Modal,
-    Alert,
-    Select,
-    Option,
-    OptionGroup,
-    Steps,
-    Tooltip
-  } from 'iview'
+  import {Icon, Form, Input, Checkbox, Button, Radio, Modal, Alert, Select, Option, OptionGroup, Steps, Tooltip} from 'iview'
   import {Quill, quillEditor} from 'vue-quill-editor'
   import Upload from '@/components/Upload'
   import PayModel from '@/components/PayModel'
   import UserClause from '@/components/UserClause'
   import api from '@/config/apiConfig'
   import {aliCallbackImgUrl} from '@/config/env'
-  import {
-    aliUploadImg,
-    isPositiveInteger,
-    isNumber,
-    isInteger,
-    isAliUrl,
-    randomString,
-    extendDeep,
-    decode,
-    setStorage,
-    getStorage,
-    getUrlParams
-  } from '@/config/utils'
+  import {aliUploadImg, isPositiveInteger, isNumber, isInteger, isAliUrl, randomString, extendDeep, decode, setStorage, getStorage, getUrlParams} from '@/config/utils'
 
   export default {
     name: 'TaskReleaseProcess',
@@ -2845,18 +2818,6 @@
     }
     .ivu-steps-item {
       line-height: 26px;
-    }
-    .pay-model {
-      @include fullScreenModel
-    }
-    .title-tip {
-      height: 36px;
-      line-height: 36px;
-      margin: 52px auto 28px auto;
-      color: #000;
-      background-color: #FFF6F3;
-      padding-left: 26px;
-      font-size: 14px;
     }
     .task-remark-input {
       width: 600px;

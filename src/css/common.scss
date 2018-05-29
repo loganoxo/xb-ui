@@ -250,15 +250,11 @@ input[type="number"] {
   line-height: 20px;
 }
 
-.mg-at {
+.margin-auto {
   margin: auto;
 }
 
-.mg-20 {
-  margin: 20px;
-}
-
-.ml-12p {
+.ml-pct-12 {
   margin-left: 12%;
 }
 
@@ -267,7 +263,7 @@ input[type="number"] {
 }
 
 .mt-5 {
-  margin-top: 5px !important;
+  margin-top: 5px;
 }
 
 .mt-6 {
@@ -283,7 +279,7 @@ input[type="number"] {
 }
 
 .mt-10 {
-  margin-top: 10px !important;
+  margin-top: 10px;
 }
 
 .mt-12 {
@@ -382,16 +378,24 @@ input[type="number"] {
   margin-left: 70px;
 }
 
-.ml-70 {
-  margin-left: 70px;
-}
-
 .ml-80 {
   margin-left: 80px;
 }
 
 .ml-88 {
   margin-left: 88px;
+}
+
+.ml-90 {
+  margin-left: 90px;
+}
+
+.ml-100 {
+  margin-left: 100px;
+}
+
+.ml-120 {
+  margin-left: 120px;
 }
 
 .mr-5 {
@@ -416,6 +420,10 @@ input[type="number"] {
 
 .mr-60 {
   margin-right: 60px;
+}
+
+.mb-5 {
+  margin-bottom: 5px;
 }
 
 .mb-10 {
@@ -554,15 +562,19 @@ input[type="number"] {
   font-style: italic;
 }
 
+.width-ptc-100 {
+  width: 100%;
+}
+
 .bgF1F1F1 {
   background-color: #F1F1F1;
 }
 
-.bgfff {
+.bg-fff {
   background-color: #fff;
 }
 
-.bgddd {
+.bg-ddd {
   background-color: #ddd;
 }
 
@@ -598,14 +610,6 @@ input[type="number"] {
   color: #9c4040;
 }
 
-.cl97C71C {
-  color: #97C71C;
-}
-
-.clC4C71D {
-  color: #C4C71D;
-}
-
 .cl57C78D {
   color: #57C78D;
 }
@@ -631,8 +635,16 @@ input[type="number"] {
   margin: auto;
 }
 
-.border50 {
+.border-radius-50 {
   border-radius: 50%;
+}
+
+.border-radius-5 {
+  border-radius: 5px;
+}
+
+.border-ddd {
+  border: 1px solid #ddd;
 }
 
 .required:before {
@@ -664,10 +676,6 @@ input[type="number"] {
   text-indent: 25px
 }
 
-.search-highlight {
-  color: #f9284f
-}
-
 .main-color {
   color: #f9284f;
 }
@@ -678,6 +686,10 @@ input[type="number"] {
 
 .text-decoration-through {
   text-decoration: line-through;
+}
+
+.text-decoration-underline {
+  text-decoration: underline;
 }
 
 .breadcrumb {

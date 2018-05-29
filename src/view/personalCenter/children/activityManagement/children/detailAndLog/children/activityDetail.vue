@@ -179,6 +179,11 @@
           </div>
           <p class="mt-6 pl-68 sizeColor" v-show="needBrowseAnswer">请在手机详情页面中挑选一段文案，输入文本框内的文案最长不能超过8个字（建议3-8字）拿手将提供本文案所在位置截图</p>
         </div>
+        <div class="task-speed-up ml-60 mt-20">
+          <span class="ml-4">一键加速：</span>
+          <checkbox v-model="taskRelease.speedUp" :disabled="true">需要</checkbox>
+          <span class="sizeColor2">（选择后，该活动所有名额的审批由系统推荐和控制，适合需要快速消化单量的商家）</span>
+        </div>
         <div class="baby-info mt-22" v-if="taskRelease.activityCategory === 'free_get'">
           <div class="activity-info-title">填写活动宝贝信息</div>
           <div class="baby-title ml-45 mt-20">
@@ -747,6 +752,7 @@
           needBrowseCollectAddCart: false,
           taskName: null,
           remark: null,
+          speedUp: false,
           itemType: null,
           taskMainImage: null,
           itemUrl: null,
@@ -1509,9 +1515,6 @@
     position: relative;
     border-radius: 2px;
     @include transition;
-    &:hover {
-      border-color: $mainColor;
-    }
     &.isSelect {
       border-color: $mainColor;
     }

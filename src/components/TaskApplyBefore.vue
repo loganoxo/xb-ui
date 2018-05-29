@@ -413,7 +413,7 @@
   import {Button, Modal, Radio, Icon} from 'iview'
   import Upload from '@/components/Upload'
   import PlaceOrderStep from '@/components/PlaceOrderStep'
-  import {TaskErrorStatusList} from '@/config/utils'
+  import {taskErrorStatusList} from '@/config/utils'
   import {aliCallbackImgUrl} from '@/config/env'
   import api from '@/config/apiConfig'
 

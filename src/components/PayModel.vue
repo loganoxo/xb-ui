@@ -84,34 +84,47 @@
       ArtificialRechargeModel: ArtificialRechargeModel
     },
     props: {
+      // 需要充值的金额
       orderMoney: {
         type: [Number, String],
         required: true
       },
+      // 订购会员版本
       memberLevel: {
         type: [Number, String],
         default: null
       },
+      // 订购会员周期
       timeLevel: {
         type: [Number, String],
         default: null
       },
+      // 订购增值服务Id
+      vasFeeId: {
+        type: [Number, String],
+        default: null
+      },
+      // 是否显示vip升级按钮
       isShowUpgradeVIP: {
         type: Boolean,
         default: false
       },
+      // 余额是否足够支付
       isBalance: {
         type: Boolean,
         required: true
       },
+      // 购买类型（0：正常充值， 1：购买会员充值，2：购买增值服务充值）
       orderType: {
         type: Number,
         default: 0
       },
+      // 支付按钮文本
       payButtonText: {
         type: String,
         default: '确认支付'
       },
+      // 充值按钮文本
       rechargeButtonText: {
         type: String,
         default: '立即充值'
@@ -129,15 +142,23 @@
       }
     },
     computed: {
-
+      /** 获取用户支付密码修改状态
+       * @return {boolean}
+       */
       isPwdAmend() {
         return this.$store.getters.getIsEditPwdAlready
       },
 
+      /** 获取用户会员版本
+       * @return {Number}
+       */
       getMemberVersionLevel() {
         return this.$store.state.userInfo.memberLevel
       },
 
+      /** 获取用户会员状态
+       * @return {Number}
+       */
       isMember() {
         return this.$store.getters.isMemberOk
       },
@@ -146,7 +167,6 @@
        * @return {Number}
        */
       lastPayMoney() {
-        // return Math.ceil(Math.ceil(this.orderMoney) / 0.994)
         if(this.orderType === 0) {
           return Math.ceil(Math.ceil(this.orderMoney) / 0.994)
         } else {
@@ -179,7 +199,8 @@
             payChannel: 1,
             memberLevel: _this.memberLevel,
             timeLevel : _this.timeLevel,
-            orderType: _this.orderType
+            orderType: _this.orderType,
+            vasFeeId: _this.vasFeeId,
           }).then(res => {
             _this.payLoading = false;
             if (res.status) {
@@ -210,7 +231,7 @@
         this.confirmRechargeModel = false;
         this.payPopWindowWX = false;
         this.$store.dispatch('getUserInformation').then(res => {
-          if(res.status && this.orderType === 1) {
+          if(res.status) {
             this.$emit('orderVipSuccess');
           }
         });

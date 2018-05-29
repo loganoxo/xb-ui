@@ -515,7 +515,7 @@
           <div class="left text-ct" v-if="needIssueAnswer[2]">
             <p class="pd-3 bgFDF5E0 cl000">{{needIssueAnswer[2].issue}}</p>
             <Upload
-              class="mg-at copy-write-img"
+              class="margin-auto copy-write-img"
               :default-file-list="defaultImageCwThree"
               :on-remove="removeMainImageCwThree"
               :on-success="copyWriteThreeImageFun"
@@ -637,7 +637,7 @@
   import ActivityScreenshotsUpload from '@/components/ActivityScreenshotsUpload'
   import api from '@/config/apiConfig'
   import {aliCallbackImgUrl} from '@/config/env'
-  import {TaskErrorStatusList, isNumber, encryption} from '@/config/utils'
+  import {taskErrorStatusList, isNumber, encryption} from '@/config/utils'
 
   export default {
     name: 'ApplyPassAudit',
@@ -856,7 +856,7 @@
         return encryption(id)
       },
       getTaskStatus(type) {
-        return TaskErrorStatusList(type);
+        return taskErrorStatusList(type);
       },
       goTaskDetails(id) {
         this.$router.push({name: 'TaskDetails', query: {q: encryption(id)}})

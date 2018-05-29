@@ -37,7 +37,7 @@
     <div class="mt-22 line"></div>
     <div class="transaction-amount">
       <span>收入：<span style="color: #2F962F;">{{(userAccount.amountIncomes / 100).toFixed(2) || 0}}</span>元</span>
-      <span class="ml-20">支出：<span style="color: #FF0E0E;">{{(userAccount.amountPayment / 100).toFixed(2) || 0}}</span>元</span>
+      <span class="ml-20">支出：<span class="main-color">{{(userAccount.amountPayment / 100).toFixed(2) || 0}}</span>元</span>
     </div>
     <div class="personal-list-table mt-10">
       <table class="list-table">
@@ -57,13 +57,13 @@
           </td>
           <td>
             <p>{{getTradType(tbodyDetails.accountChangeType)}}</p>
-            <p v-if="tbodyDetails.accountChangeType !== 3 && tbodyDetails.accountChangeType !== 1 && tbodyDetails.accountChangeType !== 2">活动编号：{{tbodyDetails.taskSerialNum}}</p>
+            <p v-if="tbodyDetails.accountChangeType !== 1 && tbodyDetails.accountChangeType !== 2 && tbodyDetails.accountChangeType !== 3 && tbodyDetails.accountChangeType !== 10 && tbodyDetails.accountChangeType !== 11">活动编号：{{tbodyDetails.taskSerialNum}}</p>
           </td>
           <td :class="{tdColor:tbodyDetails.amountChange<0 , tdColorGreen:tbodyDetails.amountChange>0}">
             {{typeChang(tbodyDetails.amountChange / 100) || 0}}
           </td>
           <td>
-            <p style="color:blue;" class="details" @click="detailsInit(tbodyDetails.id)">详情
+            <p class="details blue" @click="detailsInit(tbodyDetails.id)">详情
               <Icon :type="detailSelect===tbodyDetails.id?'arrow-up-b':'arrow-down-b'" class="ml-5 "></Icon>
             </p>
           </td>
@@ -172,7 +172,7 @@
 <script>
   import {Icon, DatePicker, Input, Checkbox, Button, Page, Radio, Modal} from 'iview'
   import api from '@/config/apiConfig'
-  import {TaskErrorStatusList} from '@/config/utils'
+  import {taskErrorStatusList} from '@/config/utils'
   import CollapseTransition from 'iview/src/components/base/collapse-transition'
 
   export default {
@@ -434,7 +434,7 @@
         }
       },
       getTradType(type) {
-        return TaskErrorStatusList(type);
+        return taskErrorStatusList(type);
       },
       getDepositReturnList(type) {
         let _this = this;

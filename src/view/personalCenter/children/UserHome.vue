@@ -4,7 +4,7 @@
     <div class="fs-14 user-info-box">
       <div class="clear">
         <div class="lef">
-          <img class="left border50" :src="userHeadUrl" alt="" width="86" height="86">
+          <img class="left border-radius-50" :src="userHeadUrl" alt="" width="86" height="86">
         </div>
         <div class="left ml-20 mt-12">
           <p>
