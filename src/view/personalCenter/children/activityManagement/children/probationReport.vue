@@ -297,7 +297,7 @@
         })
       },
       returnUpPage() {
-        this.$router.push({name: 'ApproveShowker', query: {q: encryption(this.showkerTaskInfo.task.id)}})
+        this.$router.push({name: 'TaskPassAudit'})
       },
       returnUpPageFrom() {
         this.$router.push({name: 'ApplyPassAudit'})
