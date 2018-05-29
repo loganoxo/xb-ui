@@ -94,7 +94,7 @@
                   <div class="value-added-info" v-if="!eyesServerPermissions">
                     <p>
                       <span>被平台商家拉黑：</span>
-                      <span class="cursor-p blue" @click="getValueAddedServicePeriod">
+                      <span class="cursor-p blue" @click="openOrderEyesModel">
                         <tooltip content="打开火眼金睛，拿手数据一目了然！"><icon class="vtc-text-btm" type="eye-disabled" size="16"></icon>&nbsp;查看</tooltip>
                       </span>
                     </p>
