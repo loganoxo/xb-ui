@@ -720,9 +720,9 @@
         }
       },
       changeEyesStatus(status) {
-        if (!this.valueAddedServiceStatusInfo.vasBlackListDeadlineTime && this.getMemberVersionLevel === 100) {
+        if (!this.valueAddedServiceStatusInfo.isMemberOK) {
           if (this.eyesPeriodList.length === 0) {
-            this.getValueAddedServicePeriod();
+            this.getValueAddedServicePeriod()
           }
           this.getEyeTrialQualification();
           this.orderEyesModel = true;
@@ -742,7 +742,7 @@
         api.valueAddedServiceStatus().then(res => {
           if (res.status) {
             _this.valueAddedServiceStatusInfo = res.data;
-            if ((this.getMemberVersionLevel === 100 && this.valueAddedServiceStatusInfo.vasBlackListDeadlineTime) || this.getMemberVersionLevel !== 100) {
+            if (res.data.isMemberOK) {
               _this.eyesStatus = 'on'
             } else {
               _this.eyesStatus = 'off'
