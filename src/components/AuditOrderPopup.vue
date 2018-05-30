@@ -190,13 +190,25 @@
       orderReviewStatus:{
         type:String,
         default:'passAudit'
+      },
+      operateTaskId:{
+        type:Number,
+        default:0
+      },
+      operateIndex:{
+        type:Number,
+        default:0
+      },
+      passesShowkerTask:{
+        type:Function,
+        default() {
+          return {}
+        }
       }
     },
     data() {
       return {
         needBrowseCollectAddCart: false,
-        // needIssue: false,
-        // orderReviewStatus: 'passAudit',
         orderNoPassReason: null,
         orderNoPassReasonDiy: null,
         payButtonText: '确认支付并通过',
@@ -206,7 +218,9 @@
           {},{},{},{},{},{},{}
         ],
         mainBabyAnswerList:[{},{}],
-        shopOneList:[{},{},{},{},{},{}]
+        shopOneList:[{},{},{},{},{},{}],
+        taskTotalElements:0,
+        auditResult:false
       }
     },
     computed:{
@@ -270,65 +284,23 @@
             _this.$Message.success('订单号审核成功！');
             _this.$store.dispatch('getPersonalTrialCount');
             _this.$store.dispatch('getUserInformation');
-            _this.showCheckOrder = false;
+            // _this.showCheckOrder = false;
+            this.$emit('closeAuditModel');
             _this.passesShowkerTask(_this.operateTaskId, _this.operateIndex);
           } else {
             _this.$Message.error(res.msg);
-            _this.closeCheckOrder();
-          }
-        })
-      },
-      handleViewIssue(value, key) {
-        let _this = this;
-        _this.isShowCheckScreenshotModel = true;
-        _this.checkScreenshotSrc = value;
-        _this.checkScreenshotModleTitle = '浏览答题截图：（' + key + '）';
-      },
-      orderNumberAudit() {
-        let _this = this;
-        if(_this.orderReviewStatus === 'failAudit'){
-          if (!_this.orderNoPassReason) {
-            _this.$Message.error("亲，请填写不通过的理由！");
-            return;
-          }else {
-            if(_this.orderNoPassReason === '自定义'){
-              if(!_this.orderNoPassReasonDiy){
-                _this.$Message.error("亲，请填写不通过自定义原因！");
-                return;
-              }else {
-                if(_this.orderNoPassReasonDiy.length > 50){
-                  _this.$Message.error("亲，自定义原因字数不超过50个字！");
-                  return;
-                }else {
-                  _this.orderNoPassReason = _this.orderNoPassReasonDiy;
-                }
-              }
-            }else {
-              _this.orderNoPassReasonDiy = '';
-            }
-          }
-        }
+            // _this.closeCheckOrder();
+            this.$emit('closeAuditModel');
 
-        if (_this.orderReviewStatus === 'passAudit' && _this.orderNoPassReason) {
-          _this.orderNoPassReason = null;
-        }
-        api.orderNumberAudit({
-          id: _this.orderInfo.id,
-          status: _this.orderReviewStatus === 'passAudit' ? 'true' : 'false',
-          msg: _this.orderNoPassReason
-        }).then(res => {
-          if (res.status) {
-            _this.$Message.success('订单号审核成功！');
-            _this.$store.dispatch('getPersonalTrialCount');
-            _this.$store.dispatch('getUserInformation');
-            _this.showCheckOrder = false;
-            _this.passesShowkerTask(_this.operateTaskId, _this.operateIndex);
-          } else {
-            _this.$Message.error(res.msg);
-            _this.closeCheckOrder();
           }
         })
       },
+      // handleViewIssue(value, key) {
+      //   let _this = this;
+      //   _this.isShowCheckScreenshotModel = true;
+      //   _this.checkScreenshotSrc = value;
+      //   _this.checkScreenshotModleTitle = '浏览答题截图：（' + key + '）';
+      // },
       confirmPayment(pwd) {
         let _this = this;
         api.depositSupplement({
@@ -337,7 +309,7 @@
         }).then(res => {
           if (res.status) {
             _this.$store.dispatch('getUserInformation');
-            _this.showCheckOrder = false;
+            this.$emit('closeAuditModel');
             _this.$Message.success('支付成功！');
             _this.passesShowkerTask(_this.operateTaskId, _this.operateIndex);
           } else {
@@ -345,29 +317,29 @@
           }
         })
       },
-      passesShowkerTask(taskId, index, pageIndex) {
-        let _this = this;
-        _this.operateTaskId = taskId;
-        _this.operateIndex = index;
-        api.passesShowkerTask({
-          taskId: taskId,
-          alitmAccount: _this.alitmAccount,
-          orderNum: _this.orderNum,
-          showkerTaskStatusList: JSON.stringify(_this.showkerTaskStatusList),
-          pageIndex: pageIndex ? pageIndex : 1,
-          pageSize: _this.taskPageSize,
-        }).then(res => {
-          if (res.status) {
-            _this.$set(_this.taskPassAuditList[index], 'passTask', []);
-            res.data.content.forEach(item => {
-              _this.taskPassAuditList[index].passTask.push(item);
-            });
-            _this.taskTotalElements = res.data.totalElements;
-          } else {
-            _this.$Message.error(res.msg);
-          }
-        })
-      },
+      // passesShowkerTask(taskId, index, pageIndex) {
+      //   let _this = this;
+      //   _this.operateTaskId = taskId;
+      //   _this.operateIndex = index;
+      //   api.passesShowkerTask({
+      //     taskId: taskId,
+      //     alitmAccount: _this.alitmAccount,
+      //     orderNum: _this.orderNum,
+      //     showkerTaskStatusList: JSON.stringify(_this.showkerTaskStatusList),
+      //     pageIndex: pageIndex ? pageIndex : 1,
+      //     pageSize: _this.taskPageSize,
+      //   }).then(res => {
+      //     if (res.status) {
+      //       _this.$set(_this.taskPassAuditList[index], 'passTask', []);
+      //       res.data.content.forEach(item => {
+      //         _this.taskPassAuditList[index].passTask.push(item);
+      //       });
+      //       _this.taskTotalElements = res.data.totalElements;
+      //     } else {
+      //       _this.$Message.error(res.msg);
+      //     }
+      //   })
+      // },
 
     }
   }

@@ -171,7 +171,14 @@
       <Page :total="totalElements" :page-size="pageSize" :current="pageIndex" @on-change="pageChange"></Page>
     </div>
     <!--审核订单号弹窗-->
-    <audit-order-popup v-if="showCheckOrder" @closeAuditModel="closeModel" :orderInfo="orderInfo" :needIssue="needIssue" :orderReviewStatus="orderReviewStatus"></audit-order-popup>
+    <audit-order-popup v-if="showCheckOrder"
+                       @closeAuditModel="closeModel"
+                       :orderInfo="orderInfo"
+                       :needIssue="needIssue"
+                       :orderReviewStatus="orderReviewStatus"
+                       :operateTaskId="operateTaskId"
+                       :operateIndex="operateIndex"
+                       :passesShowkerTask="passesShowkerTask"></audit-order-popup>
     <!--<div class="check-order-model" v-if="showCheckOrder">-->
       <!--<div class="check-order-con">-->
         <!--<i class="right" @click="showCheckOrder = false">&times;</i>-->
@@ -401,7 +408,7 @@
     },
     data() {
       return {
-        orderNoPassReasonDiy: null,
+        // orderNoPassReasonDiy: null,
         evaluateShowker: false,
         wwQuality: 'hao_ping',
         fillOrderCooperate: 'hao_ping',
@@ -425,12 +432,12 @@
         operateTaskId: null,
         operateIndex: null,
         selectId: null,
-        payButtonText: '确认支付并通过',
-        rechargeButtonText: '前去充值',
+        // payButtonText: '确认支付并通过',
+        // rechargeButtonText: '前去充值',
         showCheckOrder: true,
         orderInfo: {},
         orderReviewStatus: 'passAudit',
-        orderNoPassReason: null,
+        // orderNoPassReason: null,
         loading: false,
         evaluateShowkerAlitmAccount: null,
         dataStatusTip: '',
@@ -468,28 +475,28 @@
       _this.getViolationTag();
     },
     computed: {
-      getOderPrice() {
-        let _this = this;
-        if (_this.orderInfo.discountPrice && _this.orderInfo.discountPrice > 0) {
-          return _this.orderInfo.orderPrice - _this.orderInfo.discountPrice
-        } else if (_this.orderInfo.discountRate && _this.orderInfo.discountRate > 0) {
-          return _this.orderInfo.orderPrice * (1 - _this.orderInfo.discountRate)
-        } else {
-          return _this.orderInfo.orderPrice
-        }
-      },
-      needReplenishMoney() {
-        return (this.getOderPrice - this.orderInfo.perMarginNeed) * 100
-      },
+      // getOderPrice() {
+      //   let _this = this;
+      //   if (_this.orderInfo.discountPrice && _this.orderInfo.discountPrice > 0) {
+      //     return _this.orderInfo.orderPrice - _this.orderInfo.discountPrice
+      //   } else if (_this.orderInfo.discountRate && _this.orderInfo.discountRate > 0) {
+      //     return _this.orderInfo.orderPrice * (1 - _this.orderInfo.discountRate)
+      //   } else {
+      //     return _this.orderInfo.orderPrice
+      //   }
+      // },
+      // needReplenishMoney() {
+      //   return (this.getOderPrice - this.orderInfo.perMarginNeed) * 100
+      // },
       getUserBalance() {
         return this.$store.getters.getUserBalance
       },
-      isBalance() {
-        return this.needReplenishMoney <= this.getUserBalance * 100
-      },
-      needReplenishMoneyText() {
-        return `${(this.needReplenishMoney / 100).toFixed(2)} + ${(((Math.ceil(this.needReplenishMoney / 0.994)) - this.needReplenishMoney) / 100).toFixed(2)}`
-      },
+      // isBalance() {
+      //   return this.needReplenishMoney <= this.getUserBalance * 100
+      // },
+      // needReplenishMoneyText() {
+      //   return `${(this.needReplenishMoney / 100).toFixed(2)} + ${(((Math.ceil(this.needReplenishMoney / 0.994)) - this.needReplenishMoney) / 100).toFixed(2)}`
+      // },
       successToProcessNum() {
         return this.batchPassResult ? this.batchPassResult.data.success : 0
       },
@@ -647,22 +654,22 @@
           }
         })
       },
-      confirmPayment(pwd) {
-        let _this = this;
-        api.depositSupplement({
-          payPassword: pwd,
-          taskId: _this.orderInfo.id
-        }).then(res => {
-          if (res.status) {
-            _this.$store.dispatch('getUserInformation');
-            _this.showCheckOrder = false;
-            _this.$Message.success('支付成功！');
-            _this.passesShowkerTask(_this.operateTaskId, _this.operateIndex);
-          } else {
-            _this.$Message.error(res.msg)
-          }
-        })
-      },
+      // confirmPayment(pwd) {
+      //   let _this = this;
+      //   api.depositSupplement({
+      //     payPassword: pwd,
+      //     taskId: _this.orderInfo.id
+      //   }).then(res => {
+      //     if (res.status) {
+      //       _this.$store.dispatch('getUserInformation');
+      //       _this.showCheckOrder = false;
+      //       _this.$Message.success('支付成功！');
+      //       _this.passesShowkerTask(_this.operateTaskId, _this.operateIndex);
+      //     } else {
+      //       _this.$Message.error(res.msg)
+      //     }
+      //   })
+      // },
       openCheckOrder(id, needBrowseCollectAddCart, itemIssue, index) {
         let _this = this;
         // _this.needBrowseCollectAddCart = needBrowseCollectAddCart;
@@ -683,51 +690,51 @@
       goProbationReport(id) {
         this.$router.push({name: 'ProbationReport', query: {id: encryption(id), from: 'taskPassAudit'}});
       },
-      orderNumberAudit() {
-        let _this = this;
-        if(_this.orderReviewStatus === 'failAudit'){
-          if (!_this.orderNoPassReason) {
-            _this.$Message.error("亲，请填写不通过的理由！");
-            return;
-          }else {
-            if(_this.orderNoPassReason === '自定义'){
-              if(!_this.orderNoPassReasonDiy){
-                _this.$Message.error("亲，请填写不通过自定义原因！");
-                return;
-              }else {
-                if(_this.orderNoPassReasonDiy.length > 50){
-                  _this.$Message.error("亲，自定义原因字数不超过50个字！");
-                  return;
-                }else {
-                  _this.orderNoPassReason = _this.orderNoPassReasonDiy;
-                }
-              }
-            }else {
-              _this.orderNoPassReasonDiy = '';
-            }
-          }
-        }
-
-        if (_this.orderReviewStatus === 'passAudit' && _this.orderNoPassReason) {
-          _this.orderNoPassReason = null;
-        }
-        api.orderNumberAudit({
-          id: _this.orderInfo.id,
-          status: _this.orderReviewStatus === 'passAudit' ? 'true' : 'false',
-          msg: _this.orderNoPassReason
-        }).then(res => {
-          if (res.status) {
-            _this.$Message.success('订单号审核成功！');
-            _this.$store.dispatch('getPersonalTrialCount');
-            _this.$store.dispatch('getUserInformation');
-            _this.showCheckOrder = false;
-            _this.passesShowkerTask(_this.operateTaskId, _this.operateIndex);
-          } else {
-            _this.$Message.error(res.msg);
-            _this.closeCheckOrder();
-          }
-        })
-      },
+      // orderNumberAudit() {
+      //   let _this = this;
+      //   if(_this.orderReviewStatus === 'failAudit'){
+      //     if (!_this.orderNoPassReason) {
+      //       _this.$Message.error("亲，请填写不通过的理由！");
+      //       return;
+      //     }else {
+      //       if(_this.orderNoPassReason === '自定义'){
+      //         if(!_this.orderNoPassReasonDiy){
+      //           _this.$Message.error("亲，请填写不通过自定义原因！");
+      //           return;
+      //         }else {
+      //           if(_this.orderNoPassReasonDiy.length > 50){
+      //             _this.$Message.error("亲，自定义原因字数不超过50个字！");
+      //             return;
+      //           }else {
+      //             _this.orderNoPassReason = _this.orderNoPassReasonDiy;
+      //           }
+      //         }
+      //       }else {
+      //         _this.orderNoPassReasonDiy = '';
+      //       }
+      //     }
+      //   }
+      //
+      //   if (_this.orderReviewStatus === 'passAudit' && _this.orderNoPassReason) {
+      //     _this.orderNoPassReason = null;
+      //   }
+      //   api.orderNumberAudit({
+      //     id: _this.orderInfo.id,
+      //     status: _this.orderReviewStatus === 'passAudit' ? 'true' : 'false',
+      //     msg: _this.orderNoPassReason
+      //   }).then(res => {
+      //     if (res.status) {
+      //       _this.$Message.success('订单号审核成功！');
+      //       _this.$store.dispatch('getPersonalTrialCount');
+      //       _this.$store.dispatch('getUserInformation');
+      //       _this.showCheckOrder = false;
+      //       _this.passesShowkerTask(_this.operateTaskId, _this.operateIndex);
+      //     } else {
+      //       _this.$Message.error(res.msg);
+      //       _this.closeCheckOrder();
+      //     }
+      //   })
+      // },
       collapseToggle(id, index) {
         this.taskPageIndex = 1;
         if (this.selectId === id) {
@@ -737,12 +744,12 @@
           this.passesShowkerTask(id, index, self.taskPageIndex);
         }
       },
-      handleViewIssue(value, key) {
-        let _this = this;
-        _this.isShowCheckScreenshotModel = true;
-        _this.checkScreenshotSrc = value;
-        _this.checkScreenshotModleTitle = '浏览答题截图：（' + key + '）';
-      },
+      // handleViewIssue(value, key) {
+      //   let _this = this;
+      //   _this.isShowCheckScreenshotModel = true;
+      //   _this.checkScreenshotSrc = value;
+      //   _this.checkScreenshotModleTitle = '浏览答题截图：（' + key + '）';
+      // },
       handleView(value, key) {
         let _this = this;
         _this.isShowCheckScreenshotModel = true;
