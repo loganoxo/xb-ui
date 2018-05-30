@@ -12,12 +12,21 @@
         <!--<img src="~assets/img/common/suspend-service.png" alt="">-->
       <!--</a>-->
       <div v-if="getUserRole === 1" class="pos-rel">
-        <img src="~assets/img/common/suspend-service-merchant.png" alt="">
-        <a href="http://wpa.qq.com/msgrd?v=3&site=qq&menu=yes&uin=2012364029" target="_blank"  class="service service1"></a>
-        <a href="http://wpa.qq.com/msgrd?v=3&site=qq&menu=yes&uin=1873512513" target="_blank"  class="service service2"></a>
-        <a href="http://wpa.qq.com/msgrd?v=3&site=qq&menu=yes&uin=2331878513" target="_blank"  class="service service3"></a>
-        <a href="http://wpa.qq.com/msgrd?v=3&site=qq&menu=yes&uin=1624363653" target="_blank"  class="service service4"></a>
-        <div class="hide-box" v-if="memberLevel === 100 || memberLevel === null"></div>
+        <img src="~assets/img/common/service-little-sister.png" alt="">
+        <div class="service-content">
+          <p class="service-title text-ct fs-14">您的专属</p>
+          <p class="service-title text-ct fs-14">一对一产品服务</p>
+          <div class="business-service text-ct" v-if="memberLevel === 100 || memberLevel === null">
+            <p class="fs-14 cl666 mt-10">商家咨询</p>
+            <a href="http://wpa.qq.com/msgrd?v=3&site=qq&menu=yes&uin=2012364029" target="_blank">小米</a>
+            <a href="http://wpa.qq.com/msgrd?v=3&site=qq&menu=yes&uin=1873512513" target="_blank">元宝</a>
+            <a href="http://wpa.qq.com/msgrd?v=3&site=qq&menu=yes&uin=2331878513" target="_blank">周洲</a>
+          </div>
+          <div class="vip-service text-ct" v-if="memberLevel === 200 || memberLevel === 300">
+            <p class="fs-14 cl666 mt-10">VIP售后客服</p>
+            <a href="http://wpa.qq.com/msgrd?v=3&site=qq&menu=yes&uin=1624363653" target="_blank">拿拿酱</a>
+          </div>
+        </div>
       </div>
       <a href="https://jq.qq.com/?_wv=1027&k=5ZMH7Iu" target="_blank" class="pos-rel block" v-else>
         <img src="~assets/img/common/suspend-service-showker.png" alt="">
@@ -128,31 +137,36 @@
     right: 64px;
     top: 242px;
     cursor: pointer;
-    .service{
+    .service-content {
+      width:111px;
+      min-height: 50px;
+      border:1px solid #ccc;
+      border-radius:5px;
+      box-sizing: border-box;
       position: absolute;
-      width:100%;
-      height:25px;
-    }
-    .service1{
-      top:173px;
-    }
-    .service2{
-      top:200px;
-    }
-    .service3{
-      top:227px;
-    }
-    .service4{
-      bottom:15px;
-    }
-    .hide-box{
-      width:84%;
-      height:50px;
+      top:92px;
+      left:7px;
       background-color: #fff;
-      position: absolute;
-      bottom:12px;
-      left:10px;
-
+      padding:15px 5px;
+      .service-title {
+        color:#FF6636;
+      }
+      a{
+        display: inline-block;
+        width:86px;
+        height:24px;
+        background-color: #E5E5E5;
+        border:1px solid #ccc;
+        border-radius: 12px;
+        background-image: url("assets/img/common/qq-icon.png");
+        background-repeat: no-repeat;
+        background-position: 8px 2px;
+        padding-left:32px;
+        text-align: left;
+        font-size: 14px;
+        color:#000;
+        margin-top:10px;
+      }
     }
   }
 
