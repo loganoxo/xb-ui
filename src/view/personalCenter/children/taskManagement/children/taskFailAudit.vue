@@ -19,6 +19,9 @@
       </div>
     </div>
     <div class="search-list">
+      <i-select v-model="selectedStore" style="width:170px;margin-right:15px;" placeholder="全部店铺" :filterable="true" @on-change="filterStore">
+        <i-option v-for="(item,index) in storeList" :key="index" :value="item">{{item}}</i-option>
+      </i-select>
       <span>淘宝会员名：</span>
       <i-input v-model="alitmAccount" style="width: 160px;margin-right: 8px;"></i-input>
       <span>活动编号：</span>
@@ -82,7 +85,7 @@
 </template>
 
 <script>
-  import {Collapse, Checkbox, Page, Icon, Button, Input} from 'iview'
+  import {Collapse, Checkbox, Page, Icon, Button, Input, Select, Option} from 'iview'
   import CollapseTransition from 'iview/src/components/base/collapse-transition'
   import {taskErrorStatusList} from '@/config/utils'
   import api from '@/config/apiConfig'
@@ -98,7 +101,9 @@
       iButton: Button,
       iInput: Input,
       Icon: Icon,
-      CollapseTransition: CollapseTransition
+      CollapseTransition: CollapseTransition,
+      iSelect:Select,
+      iOption:Option
     },
     data() {
       return {
@@ -113,11 +118,15 @@
         taskFailAuditList: [],
         totalElements: 0,
         selectId: null,
-        dataStatusTip: ''
+        dataStatusTip: '',
+        storeList:[],
+        selectedStore:'',
+        realStoreName:''
       }
     },
     created() {
       this.appliesEndTask();
+      this.getStoreInfo();
     },
     computed: {},
     methods: {
@@ -169,7 +178,8 @@
           pageSize: _this.pageSize,
           taskNumber: _this.taskNumber,
           alitmAccount: _this.alitmAccount,
-          rejectReasonList: rejectReasonList
+          rejectReasonList: rejectReasonList,
+          realStoreName:_this.realStoreName
         }).then(res => {
           if (res.status) {
             _this.taskFailAuditList = res.data.content;
@@ -206,6 +216,28 @@
           this.appliesEndShowkerTask(id, index)
         }
       },
+      // 获取商家已绑定的店铺列表（用于筛选店铺）
+      getStoreInfo() {
+        const _this = this;
+        api.getStoreBindInfo().then(res => {
+          if (res.status) {
+            let tempList = res.data;
+            _this.storeList = tempList.map(item => {
+              return item.storeName;
+            });
+            _this.storeList.unshift('全部店铺');
+          } else {
+            _this.$Message.error(res.msg);
+          }
+        })
+      },
+      // 筛选店铺
+      filterStore(res) {
+        const _this = this;
+        _this.realStoreName = res === '全部店铺' ? '' : res;
+        _this.pageIndex = 1;
+        _this.appliesEndTask();
+      }
     }
   }
 </script>

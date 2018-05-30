@@ -58,20 +58,23 @@
       </div>
     </div>
     <div class="list-sort clear">
-      <iSelect v-model="activityCategory" size="small" style="width:108px" class="left mr-10" placeholder="全部类型活动" @on-change="changeActivityCategory">
-        <iOption v-for="item in activityTypeList" :value="item.value" :key="item.value">{{ item.label }}</iOption>
-      </iSelect>
-      <ButtonGroup class="left">
-        <iButton :class="[sortList.select === item.sortField ? 'active' : '']" size="small" v-for="(item,index) in sortList.defaultList" :key="index" @click="sortChange(item.sortField,index)">
+      <i-select v-model="selectedStore" size="small" style="width:170px;" placeholder="全部店铺" :filterable="true" @on-change="filterStore" class="left mr-10">
+        <i-option v-for="(item,index) in storeList" :key="index" :value="item">{{item}}</i-option>
+      </i-select>
+      <i-select v-model="activityCategory" size="small" style="width:108px" class="left mr-10" placeholder="全部类型活动" @on-change="changeActivityCategory">
+        <i-option v-for="item in activityTypeList" :value="item.value" :key="item.value">{{ item.label }}</i-option>
+      </i-select>
+      <button-group class="left">
+        <i-button :class="[sortList.select === item.sortField ? 'active' : '']" size="small" v-for="(item,index) in sortList.defaultList" :key="index" @click="sortChange(item.sortField,index)">
           <span>{{item.name}}</span>
-          <Icon v-show="item.sort === 'desc'" type="arrow-down-c"></Icon>
-          <Icon v-show="item.sort === 'asc' " type="arrow-up-c"></Icon>
-        </iButton>
-      </ButtonGroup>
-      <iInput v-model="taskNumber" size="small" placeholder="使用活动编号或者订单号搜索" class="left ml-10" style="width: 280px;"
+          <icon v-show="item.sort === 'desc'" type="arrow-down-c"></icon>
+          <icon v-show="item.sort === 'asc' " type="arrow-up-c"></icon>
+        </i-button>
+      </button-group>
+      <i-input v-model="taskNumber" size="small" placeholder="使用活动编号或者订单号搜索" class="left ml-10" style="width: 280px;"
               @on-enter="getTaskList">
         <iButton slot="append" icon="ios-search" size="small" :loading="searchLoading" @click="searchTaskList"></iButton>
-      </iInput>
+      </i-input>
     </div>
     <!--管理列表-->
     <div class="activity-table">
@@ -110,7 +113,7 @@
           </td>
           <td class="cursor-p main-color" v-else>
             <Tooltip :content="item.auditLogs[item.auditLogs.length - 1].resultMsg" placement="top">
-              <Icon color="#f9284f" type="information-circled"></Icon>&nbsp;待修改
+              <icon color="#f9284f" type="information-circled"></icon>&nbsp;待修改
             </Tooltip>
           </td>
           <td>{{item.showkerApplyTotalCount || 0}} / {{item.showkerApplyPassedCount || 0}}（人）</td>
@@ -228,7 +231,7 @@
     <!--关闭任务弹框-->
     <modal v-model="closeModal" width="360">
       <p slot="header" class="main-color text-ct">
-        <Icon type="information-circled"></Icon>
+        <icon type="information-circled"></icon>
         <span>关闭确认</span>
       </p>
       <div class="text-ct">
@@ -269,7 +272,7 @@
     <!--结算成功弹框-直接结算-->
     <modal v-model="directSettlementSuccess" width="360">
       <p slot="header" class="main-color text-ct">
-        <Icon type="checkmark-circled"></Icon>
+        <icon type="checkmark-circled"></icon>
         <span>结算成功</span>
       </p>
       <div class="text-ct">
@@ -283,7 +286,7 @@
     <!--结算成功弹框-结算有返款-->
     <modal v-model="auditSettlementSuccess" width="360">
       <p slot="header" class="main-color text-ct">
-        <Icon type="checkmark-circled"></Icon>
+        <icon type="checkmark-circled"></icon>
         <span>结算成功</span>
       </p>
       <div class="text-ct">
@@ -311,7 +314,7 @@
     <!--活动失效提示弹框-->
     <modal v-model="isTaskOverdueModel" width="420" :mask-closable="false" :closable="false">
       <p slot="header" class="text-ct">
-        <Icon color="#f9284f" type="information-circled"></Icon>
+        <icon color="#f9284f" type="information-circled"></icon>
         <span class="main-color">活动失效</span>
       </p>
       <div class="text-ct">
@@ -326,12 +329,12 @@
       <PayModel ref="payModelRef" :orderMoney="needPayMoney" @confirmPayment="confirmPayment" :isShowUpgradeVIP="true" :isBalance="isBalance">
         <i slot="closeModel" class="close-recharge" @click="showPayModel = false">&times;</i>
         <div slot="noBalance" class="title-tip">
-          <span class="size-color3"><Icon color="#FF2424" size="18" type="ios-information"></Icon>
+          <span class="size-color3"><icon color="#FF2424" size="18" type="ios-information"></icon>
             <span class="ml-10">亲，您的余额不足，请充值。</span>
           </span>还需充值<strong class="size-color3">{{needPayMoneyText}}</strong>元
         </div>
         <div slot="isBalance" class="title-tip">
-          <Icon color="#FF2424" size="18px" type="ios-information"></Icon>
+          <icon color="#FF2424" size="18px" type="ios-information"></icon>
           <span class="ml-10">您本次需要支付金额为 <span class="size-color3">{{(orderMoney / 100).toFixed(2)}}</span> 元。</span>
         </div>
       </PayModel>
@@ -341,7 +344,7 @@
 
 <script>
   import {Checkbox, Page, Modal, Icon, Button, Input, Tooltip, Select, Option} from 'iview'
-  import api from '@/config/apiConfig'
+  import api from '@/config/apiconfig'
   import PayModel from '@/components/PayModel'
   import {taskErrorStatusList, getSeverTime, encryption, decode,setStorage, getStorage,} from '@/config/utils'
 
@@ -429,7 +432,10 @@
               sort: 'desc',
             },
           ]
-        }
+        },
+        storeList:[],
+        selectedStore:'',
+        realStoreName:''
       }
     },
     created() {
@@ -448,6 +454,7 @@
           _this.getTaskList();
         }, 400)
       }
+      _this.getStoreInfo();
     },
     computed: {
       getUserBalance() {
@@ -561,6 +568,7 @@
           pageIndex: _this.pageIndex,
           pageSize: _this.pageSize,
           online: online,
+          realStoreName:_this.realStoreName
         }).then(res => {
           if (res.status) {
             _this.taskData = res.data;
@@ -731,6 +739,28 @@
             _this.$Message.error(res.msg)
           }
         })
+      },
+      // 获取商家已绑定的店铺列表（用于筛选店铺）
+      getStoreInfo() {
+        const _this = this;
+        api.getStoreBindInfo().then(res => {
+          if (res.status) {
+            let tempList = res.data;
+            _this.storeList = tempList.map(item => {
+              return item.storeName;
+            });
+            _this.storeList.unshift('全部店铺');
+          } else {
+            _this.$Message.error(res.msg);
+          }
+        })
+      },
+      // 筛选店铺
+      filterStore(res) {
+        const _this = this;
+        _this.realStoreName = res === '全部店铺' ? '' : res;
+        _this.pageIndex = 1;
+        _this.getTaskList();
       }
     }
   }

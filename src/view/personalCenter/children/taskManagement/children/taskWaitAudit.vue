@@ -4,6 +4,11 @@
       <icon type="information-circled"></icon>
       <span> 亲，请记得在活动结束前审批拿手哦，如果活动结束后48小时内仍未审批满，系统将自动按申请时间审批剩余名额！</span>
     </div>
+    <div class="store-list pt-20 pb-20">
+      <i-select v-model="selectedStore" style="width:170px;" placeholder="全部店铺" :filterable="true" @on-change="filterStore">
+        <i-option v-for="(item,index) in storeList" :key="index" :value="item">{{item}}</i-option>
+      </i-select>
+    </div>
     <div class="search-list">
       <span>淘宝会员名：</span>
       <i-input v-model="alitmAccount" style="width: 100px;margin-right: 8px;"></i-input>
@@ -515,12 +520,16 @@
         speedUpLoading: false,
         hasTrialQualification: false,
         isEndTime: false,
+        storeList:[],
+        selectedStore:'',
+        realStoreName:''
       }
     },
     created() {
       this.appliesWaitingAuditTask();
       this.$store.dispatch('getPersonalTrialCount');
       this.getValueAddedServiceStatus();
+      this.getStoreInfo();
     },
     computed: {
       /** 获取用户账户余额
@@ -659,7 +668,8 @@
           taskNumber: _this.taskNumber,
           alitmAccount: _this.alitmAccount,
           tqz: _this.wwFormValidate.tqz,
-          creditLevel: _this.wwFormValidate.creditLevel
+          creditLevel: _this.wwFormValidate.creditLevel,
+          realStoreName:_this.realStoreName
         }).then(res => {
           if (res.status) {
             _this.taskWaitAuditList = res.data.content;
@@ -893,6 +903,28 @@
           _this.speedUpLoading = false;
         })
       },
+      // 获取商家已绑定的店铺列表（用于筛选店铺）
+      getStoreInfo() {
+        const _this = this;
+        api.getStoreBindInfo().then(res => {
+          if (res.status) {
+            let tempList = res.data;
+            _this.storeList = tempList.map(item => {
+              return item.storeName;
+            });
+            _this.storeList.unshift('全部店铺');
+          } else {
+            _this.$Message.error(res.msg);
+          }
+        })
+      },
+      // 筛选店铺
+      filterStore(res) {
+        const _this = this;
+        _this.realStoreName = res === '全部店铺' ? '' : res;
+        _this.pageIndex = 1;
+        _this.appliesWaitingAuditTask();
+      }
     }
   }
 </script>
