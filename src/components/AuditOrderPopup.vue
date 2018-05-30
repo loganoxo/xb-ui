@@ -1,9 +1,9 @@
 <template>
   <div class="check-order-model">
     <div class="check-order-con">
-      <i class="right" @click="showCheckOrder = false">&times;</i>
-      <div class="f-b fs-14 main-color mt-28" v-if="needBrowseCollectAddCart || needIssue">1.请查看拿手提交的截图信息</div>
-      <div class="clear">
+      <i class="right" @click="closeModel">&times;</i>
+      <!--<div class="f-b fs-14 main-color mt-28" v-if="needBrowseCollectAddCart || needIssue">1.请查看拿手提交的截图信息</div>-->
+      <!--<div class="clear">-->
         <!--<div class="left" v-if="needBrowseCollectAddCart">
           <div class="mt-5 cl00 fs-12 f-b">A.查看拿手提交的收藏加购截图</div>
           <div class="order-info-screenshot mt-5" v-for="(value, key) in orderInfo.screenshot" :key="key" v-if="value">
@@ -14,18 +14,83 @@
           </div>
         </div>-->
         <!--<div class="left parting-line" v-if="needIssue"></div>-->
-        <div class="left ml-10" v-if="needIssue">
-          <div class="mt-5 cl00 fs-12 f-b"><!--<span>{{needIssue ? 'B.' : 'A.'}}</span>-->查看拿手提交的浏览答题截图</div>
-          <div class="order-info-screenshot mt-5" v-for="(item, index) in orderInfo.issueAnswerScreenshot"
-               :key="index" v-if="item">
-            <img :src="item.screenshotSrc + '!thum54'" alt="浏览答题截图">
-            <div class="order-info-screenshot-cover">
-              <icon type="ios-eye-outline" @click.native="handleViewIssue(item.screenshotSrc,item.issueText.issue)"></icon>
+        <!--<div class="left ml-10" v-if="needIssue">-->
+          <!--<div class="mt-5 cl00 fs-12 f-b"><span>{{needIssue ? 'B.' : 'A.'}}</span>查看拿手提交的浏览答题截图</div>-->
+          <!--<div class="order-info-screenshot mt-5" v-for="(item, index) in orderInfo.issueAnswerScreenshot"-->
+               <!--:key="index" v-if="item">-->
+            <!--<img :src="item.screenshotSrc + '!thum54'" alt="浏览答题截图">-->
+            <!--<div class="order-info-screenshot-cover">-->
+              <!--<icon type="ios-eye-outline" @click.native="handleViewIssue(item.screenshotSrc,item.issueText.issue)"></icon>-->
+            <!--</div>-->
+          <!--</div>-->
+        <!--</div>-->
+      <!--</div>-->
+      <div class="f-b fs-14 main-color mt-10">
+        请查看拿手提交的截图信息
+        <span class="f-b fs-12 cl666">（未按要求的截图可选择重新提交）</span>
+      </div>
+      <div class="screen-shots-area">
+        <p class="main-baby-title fs-12 f-b cl666">查看拿手提交的主宝贝浏览截图</p>
+        <div class="main-baby-image">
+          <div class="image-area" v-for="(item,index) in mainBabyImageList" :key="index">
+            <img src="~assets/img/vip-member/vip-demo-01.png" alt="" width="54" height="54">
+            <p>搜索关键词</p>
+            <div>
+              <checkbox v-model="resubmit">
+                <span class="resubmit-text">重新提交</span>
+              </checkbox>
+            </div>
+          </div>
+        </div>
+        <div class="main-baby-answer">
+          <div class="image-area" v-for="(item,index) in mainBabyAnswerList" :key="index">
+            <img src="~assets/img/vip-member/vip-demo-01.png" alt="" width="54" height="54">
+            <p>搜索关键词</p>
+            <div>
+              <checkbox v-model="resubmit">
+                <span class="resubmit-text">重新提交</span>
+              </checkbox>
+            </div>
+          </div>
+        </div>
+        <p class="main-baby-title fs-12 f-b cl666 mt-20">查看拿手提交的货比3家浏览截图</p>
+        <div class="shop-compare">
+          <div class="image-area" v-for="(item,index) in shopOneList" :key="index">
+            <img src="~assets/img/vip-member/vip-demo-01.png" alt="" width="54" height="54">
+            <p>搜索关键词</p>
+            <div>
+              <checkbox v-model="resubmit">
+                <span class="resubmit-text">重新提交</span>
+              </checkbox>
+            </div>
+          </div>
+        </div>
+        <div class="shop-compare">
+          <div class="image-area" v-for="(item,index) in shopOneList" :key="index">
+            <img src="~assets/img/vip-member/vip-demo-01.png" alt="" width="54" height="54">
+            <p>搜索关键词</p>
+            <div>
+              <checkbox v-model="resubmit">
+                <span class="resubmit-text">重新提交</span>
+              </checkbox>
+            </div>
+          </div>
+        </div>
+        <div class="shop-compare">
+          <div class="image-area" v-for="(item,index) in shopOneList" :key="index">
+            <img src="~assets/img/vip-member/vip-demo-01.png" alt="" width="54" height="54">
+            <p>搜索关键词</p>
+            <div>
+              <checkbox v-model="resubmit">
+                <span class="resubmit-text">重新提交</span>
+              </checkbox>
             </div>
           </div>
         </div>
       </div>
-      <div class="f-b fs-14 main-color mt-10"><span v-if="needBrowseCollectAddCart || needIssue">2.</span>请仔细核对订单号与交易金额
+      <div class="f-b fs-14 main-color mt-10">
+        <!--<span v-if="needBrowseCollectAddCart || needIssue">2.</span>-->
+        请仔细核对订单号与交易金额
       </div>
       <div class="order-info-con text-lf mt-10">
         <p>
@@ -57,7 +122,7 @@
           <i-select v-model="orderNoPassReason" style="width:200px" placeholder="请选择不通过原因">
             <!--<i-option value="收藏加购截图不合格">收藏加购截图不合格</i-option>-->
             <i-option value="浏览答题截图不合格">浏览答题截图不合格</i-option>
-            <i-option value="订单号有误">订单号有误</i-option>
+            <i-option value="订单信息有误">订单信息有误</i-option>
             <i-option value="实付金额有误">实付金额有误</i-option>
             <i-option value="下单旺旺和平台绑定旺旺不一致">下单旺旺和平台绑定旺旺不一致</i-option>
             <i-option value="自定义">自定义</i-option>
@@ -99,70 +164,211 @@
 
 <script>
   import PayModel from '@/components/PayModel'
+  import api from '@/config/apiConfig'
+  import {Icon, Radio, Select, Option, Input, Checkbox} from 'iview'
   export default {
     name: "audit-order-popup",
     components:{
-      PayModel:PayModel
+      PayModel:PayModel,
+      Icon:Icon,
+      Radio:Radio,
+      RadioGroup:Radio.Group,
+      iSelect: Select,
+      iOption:Option,
+      iInput:Input,
+      Checkbox:Checkbox
     },
     props:{
-
+      orderInfo:{
+        type:Object,
+        default:{}
+      },
+      needIssue:{
+        type:Boolean,
+        default:false
+      },
+      orderReviewStatus:{
+        type:String,
+        default:'passAudit'
+      }
     },
     data() {
       return {
         needBrowseCollectAddCart: false,
-        needIssue: false,
-        orderInfo: {},
-        orderReviewStatus: 'passAudit',
+        // needIssue: false,
+        // orderReviewStatus: 'passAudit',
         orderNoPassReason: null,
         orderNoPassReasonDiy: null,
+        payButtonText: '确认支付并通过',
+        rechargeButtonText: '前去充值',
+        resubmit:false,
+        mainBabyImageList:[
+          {},{},{},{},{},{},{}
+        ],
+        mainBabyAnswerList:[{},{}],
+        shopOneList:[{},{},{},{},{},{}]
       }
     },
-    methods:{
-      orderNumberAudit() {
-        // let _this = this;
-        // if(_this.orderReviewStatus === 'failAudit'){
-        //   if (!_this.orderNoPassReason) {
-        //     _this.$Message.error("亲，请填写不通过的理由！");
-        //     return;
-        //   }else {
-        //     if(_this.orderNoPassReason === '自定义'){
-        //       if(!_this.orderNoPassReasonDiy){
-        //         _this.$Message.error("亲，请填写不通过自定义原因！");
-        //         return;
-        //       }else {
-        //         if(_this.orderNoPassReasonDiy.length > 50){
-        //           _this.$Message.error("亲，自定义原因字数不超过50个字！");
-        //           return;
-        //         }else {
-        //           _this.orderNoPassReason = _this.orderNoPassReasonDiy;
-        //         }
-        //       }
-        //     }else {
-        //       _this.orderNoPassReasonDiy = '';
-        //     }
-        //   }
-        // }
-        //
-        // if (_this.orderReviewStatus === 'passAudit' && _this.orderNoPassReason) {
-        //   _this.orderNoPassReason = null;
-        // }
-        // api.orderNumberAudit({
-        //   id: _this.orderInfo.id,
-        //   status: _this.orderReviewStatus === 'passAudit' ? 'true' : 'false',
-        //   msg: _this.orderNoPassReason
-        // }).then(res => {
-        //   if (res.status) {
-        //     _this.$Message.success('订单号审核成功！');
-        //     _this.$store.dispatch('getPersonalTrialCount');
-        //     _this.$store.dispatch('getUserInformation');
-        //     _this.showCheckOrder = false;
-        //     _this.passesShowkerTask(_this.operateTaskId, _this.operateIndex);
-        //   } else {
-        //     _this.$Message.error(res.msg);
-        //     _this.closeCheckOrder();
-        //   }
-        // })
+    computed:{
+      getOderPrice() {
+        let _this = this;
+        if (_this.orderInfo.discountPrice && _this.orderInfo.discountPrice > 0) {
+          return _this.orderInfo.orderPrice - _this.orderInfo.discountPrice
+        } else if (_this.orderInfo.discountRate && _this.orderInfo.discountRate > 0) {
+          return _this.orderInfo.orderPrice * (1 - _this.orderInfo.discountRate)
+        } else {
+          return _this.orderInfo.orderPrice
+        }
       },
+      isBalance() {
+        return this.needReplenishMoney <= this.getUserBalance * 100
+      },
+      needReplenishMoney() {
+        return (this.getOderPrice - this.orderInfo.perMarginNeed) * 100
+      },
+      needReplenishMoneyText() {
+        return `${(this.needReplenishMoney / 100).toFixed(2)} + ${(((Math.ceil(this.needReplenishMoney / 0.994)) - this.needReplenishMoney) / 100).toFixed(2)}`
+      },
+    },
+    methods:{
+      closeModel() {
+        this.$emit('closeAuditModel');
+      },
+      orderNumberAudit() {
+        let _this = this;
+        if(_this.orderReviewStatus === 'failAudit'){
+          if (!_this.orderNoPassReason) {
+            _this.$Message.error("亲，请填写不通过的理由！");
+            return;
+          }else {
+            if(_this.orderNoPassReason === '自定义'){
+              if(!_this.orderNoPassReasonDiy){
+                _this.$Message.error("亲，请填写不通过自定义原因！");
+                return;
+              }else {
+                if(_this.orderNoPassReasonDiy.length > 50){
+                  _this.$Message.error("亲，自定义原因字数不超过50个字！");
+                  return;
+                }else {
+                  _this.orderNoPassReason = _this.orderNoPassReasonDiy;
+                }
+              }
+            }else {
+              _this.orderNoPassReasonDiy = '';
+            }
+          }
+        }
+        if (_this.orderReviewStatus === 'passAudit' && _this.orderNoPassReason) {
+          _this.orderNoPassReason = null;
+        }
+        api.orderNumberAudit({
+          id: _this.orderInfo.id,
+          status: _this.orderReviewStatus === 'passAudit' ? 'true' : 'false',
+          msg: _this.orderNoPassReason
+        }).then(res => {
+          if (res.status) {
+            _this.$Message.success('订单号审核成功！');
+            _this.$store.dispatch('getPersonalTrialCount');
+            _this.$store.dispatch('getUserInformation');
+            _this.showCheckOrder = false;
+            _this.passesShowkerTask(_this.operateTaskId, _this.operateIndex);
+          } else {
+            _this.$Message.error(res.msg);
+            _this.closeCheckOrder();
+          }
+        })
+      },
+      handleViewIssue(value, key) {
+        let _this = this;
+        _this.isShowCheckScreenshotModel = true;
+        _this.checkScreenshotSrc = value;
+        _this.checkScreenshotModleTitle = '浏览答题截图：（' + key + '）';
+      },
+      orderNumberAudit() {
+        let _this = this;
+        if(_this.orderReviewStatus === 'failAudit'){
+          if (!_this.orderNoPassReason) {
+            _this.$Message.error("亲，请填写不通过的理由！");
+            return;
+          }else {
+            if(_this.orderNoPassReason === '自定义'){
+              if(!_this.orderNoPassReasonDiy){
+                _this.$Message.error("亲，请填写不通过自定义原因！");
+                return;
+              }else {
+                if(_this.orderNoPassReasonDiy.length > 50){
+                  _this.$Message.error("亲，自定义原因字数不超过50个字！");
+                  return;
+                }else {
+                  _this.orderNoPassReason = _this.orderNoPassReasonDiy;
+                }
+              }
+            }else {
+              _this.orderNoPassReasonDiy = '';
+            }
+          }
+        }
+
+        if (_this.orderReviewStatus === 'passAudit' && _this.orderNoPassReason) {
+          _this.orderNoPassReason = null;
+        }
+        api.orderNumberAudit({
+          id: _this.orderInfo.id,
+          status: _this.orderReviewStatus === 'passAudit' ? 'true' : 'false',
+          msg: _this.orderNoPassReason
+        }).then(res => {
+          if (res.status) {
+            _this.$Message.success('订单号审核成功！');
+            _this.$store.dispatch('getPersonalTrialCount');
+            _this.$store.dispatch('getUserInformation');
+            _this.showCheckOrder = false;
+            _this.passesShowkerTask(_this.operateTaskId, _this.operateIndex);
+          } else {
+            _this.$Message.error(res.msg);
+            _this.closeCheckOrder();
+          }
+        })
+      },
+      confirmPayment(pwd) {
+        let _this = this;
+        api.depositSupplement({
+          payPassword: pwd,
+          taskId: _this.orderInfo.id
+        }).then(res => {
+          if (res.status) {
+            _this.$store.dispatch('getUserInformation');
+            _this.showCheckOrder = false;
+            _this.$Message.success('支付成功！');
+            _this.passesShowkerTask(_this.operateTaskId, _this.operateIndex);
+          } else {
+            _this.$Message.error(res.msg)
+          }
+        })
+      },
+      passesShowkerTask(taskId, index, pageIndex) {
+        let _this = this;
+        _this.operateTaskId = taskId;
+        _this.operateIndex = index;
+        api.passesShowkerTask({
+          taskId: taskId,
+          alitmAccount: _this.alitmAccount,
+          orderNum: _this.orderNum,
+          showkerTaskStatusList: JSON.stringify(_this.showkerTaskStatusList),
+          pageIndex: pageIndex ? pageIndex : 1,
+          pageSize: _this.taskPageSize,
+        }).then(res => {
+          if (res.status) {
+            _this.$set(_this.taskPassAuditList[index], 'passTask', []);
+            res.data.content.forEach(item => {
+              _this.taskPassAuditList[index].passTask.push(item);
+            });
+            _this.taskTotalElements = res.data.totalElements;
+          } else {
+            _this.$Message.error(res.msg);
+          }
+        })
+      },
+
     }
   }
 </script>
@@ -175,13 +381,15 @@
 
   .check-order-con {
     position: absolute;
-    width: 652px;
+    width: 700px;
+    height:95%;
     background-color: #fff;
     border-radius: 5px;
     left: 50%;
     margin-left: -300px;
-    top: 30%;
+    top: 2%;
     padding: 0 18px 26px 18px;
+    /*overflow: auto;*/
     > i {
       font-size: 24px;
       cursor: pointer;
@@ -289,4 +497,19 @@
     border-radius: 5px;
     padding: 10px;
   }
+  .screen-shots-area {
+    padding:10px 15px;
+    .image-area{
+      width:80px;
+      text-align: center;
+      margin-top:20px;
+      margin-right:10px;
+      display: inline-block;
+    }
+    .resubmit-text{
+     color:#2b85e4
+    }
+
+  }
+
 </style>

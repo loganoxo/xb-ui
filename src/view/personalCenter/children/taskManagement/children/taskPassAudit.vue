@@ -25,7 +25,7 @@
             <span>活动完成</span>
           </checkbox>
           <checkbox label="order_num_error">
-            <span>订单号有误</span>
+            <span>订单信息有误</span>
           </checkbox>
           <checkbox label="trial_report_unqualified">
             <span>买家秀不合格</span>
@@ -80,7 +80,7 @@
             <span v-show="showkerTaskStatusList.length === 0 || oneOf('trial_finished',showkerTaskStatusList)"
                   class="ml-5">活动完成<span class="main-color">({{item.trial_finished || 0}})</span></span>
             <span v-show="showkerTaskStatusList.length === 0 || oneOf('order_num_error',showkerTaskStatusList)"
-                  class="ml-5">订单号有误<span class="main-color">({{item.order_num_error || 0}})</span></span>
+                  class="ml-5">订单信息有误<span class="main-color">({{item.order_num_error || 0}})</span></span>
             <span v-show="showkerTaskStatusList.length === 0 || oneOf('trial_report_unqualified',showkerTaskStatusList)"
                   class="ml-5">买家秀不合格<span class="main-color">({{item.trial_report_unqualified || 0}})</span></span>
             <span v-show="showkerTaskStatusList.length === 0 || oneOf('trial_end',showkerTaskStatusList)" class="ml-5">任务终止<span
@@ -171,7 +171,7 @@
       <Page :total="totalElements" :page-size="pageSize" :current="pageIndex" @on-change="pageChange"></Page>
     </div>
     <!--审核订单号弹窗-->
-    <audit-order-popup v-if="showCheckOrder"></audit-order-popup>
+    <audit-order-popup v-if="showCheckOrder" @closeAuditModel="closeModel" :orderInfo="orderInfo" :needIssue="needIssue" :orderReviewStatus="orderReviewStatus"></audit-order-popup>
     <!--<div class="check-order-model" v-if="showCheckOrder">-->
       <!--<div class="check-order-con">-->
         <!--<i class="right" @click="showCheckOrder = false">&times;</i>-->
@@ -230,7 +230,7 @@
             <!--<i-select v-model="orderNoPassReason" style="width:200px" placeholder="请选择不通过原因">-->
               <!--&lt;!&ndash;<i-option value="收藏加购截图不合格">收藏加购截图不合格</i-option>&ndash;&gt;-->
               <!--<i-option value="浏览答题截图不合格">浏览答题截图不合格</i-option>-->
-              <!--<i-option value="订单号有误">订单号有误</i-option>-->
+              <!--<i-option value="订单信息有误">订单信息有误</i-option>-->
               <!--<i-option value="实付金额有误">实付金额有误</i-option>-->
               <!--<i-option value="下单旺旺和平台绑定旺旺不一致">下单旺旺和平台绑定旺旺不一致</i-option>-->
               <!--<i-option value="自定义">自定义</i-option>-->
@@ -882,7 +882,15 @@
             _this.$Message.error(res.msg);
           }
         })
+      },
+      // 子组件向父组件传值，关闭审核订单弹窗
+      closeModel() {
+        this.showCheckOrder = false;
+      },
+      closeCheckOrder() {
+        this.showCheckOrder = false;
       }
+
     }
   }
 </script>

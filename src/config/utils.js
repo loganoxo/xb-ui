@@ -280,7 +280,7 @@ export const taskErrorStatusList = (type) => {
   const mapList = {
     'pass_and_unclaimed': '已通过待下单',
     'order_num_waiting_audit': '订单号待审核',
-    'order_num_error': '订单号有误',
+    'order_num_error': '订单信息有误',
     'trial_report_waiting_submit': '已下单待交买家秀',
     'trial_report_waiting_confirm': '买家秀待确认',
     'trial_report_unqualified': '买家秀不合格',

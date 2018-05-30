@@ -27,7 +27,7 @@
               <span>活动完成</span>
             </Checkbox>
             <Checkbox label="order_num_error">
-              <span>订单号有误</span>
+              <span>订单信息有误</span>
             </Checkbox>
             <Checkbox label="trial_report_unqualified">
               <span>买家秀不合格</span>
@@ -89,7 +89,7 @@
               <div class="mt-5 main-color cursor-p" v-if="item.status === 'order_num_error'">
                 <Tooltip :content="item.auditDescription" placement="top">
                   <Icon color="#f9284f" type="information-circled"></Icon>
-                  <span>订单号有误</span>
+                  <span>订单信息有误</span>
                 </Tooltip>
                 <p>
                   <time-down color='#ff4040' :fontWeight=600 :endTime="item.currentGenerationEndTime"></time-down>
@@ -120,9 +120,9 @@
                  @click="changePassOperation('report','write',item.id)">制作买家秀</p>
               <p v-if="item.status === 'trial_report_unqualified'" class="operation"
                  @click="changePassOperation('report','amend',item.id)">修改买家秀</p>
-              <p v-if="item.status === 'pass_and_unclaimed'" class="operation mt-5"
-                 @click="openAuditOrder(item.id, item.taskType, item.activityCategory, item.status, item.statusDesc, item.auditDescription)">
-                填订单号</p>
+              <!--<p v-if="item.status === 'pass_and_unclaimed'" class="operation mt-5"-->
+                 <!--@click="openAuditOrder(item.id, item.taskType, item.activityCategory, item.status, item.statusDesc, item.auditDescription)">-->
+                <!--填订单号</p>-->
               <p v-if="item.status === 'order_num_error'" class="operation mt-5"
                  @click="openAuditOrderModify(item.id, item.taskType, item.activityCategory, item.orderNum, item.orderPrice, item.status, item.statusDesc, item.auditDescription)">
                 修改订单号</p>
