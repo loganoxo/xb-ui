@@ -122,12 +122,6 @@
                  @click="changePassOperation('report','write',item.id)">制作买家秀</p>
               <p v-if="item.status === 'trial_report_unqualified'" class="operation"
                  @click="changePassOperation('report','amend',item.id)">修改买家秀</p>
-              <!--<p v-if="item.status === 'pass_and_unclaimed'" class="operation mt-5"-->
-                 <!--@click="openAuditOrder(item.id, item.taskType, item.activityCategory, item.status, item.statusDesc, item.auditDescription)">-->
-                <!--填订单号</p>-->
-              <!--<p v-if="item.status === 'order_num_error'" class="operation mt-5"-->
-                 <!--@click="openAuditOrderModify(item.id, item.taskType, item.activityCategory, item.orderNum, item.orderPrice, item.status, item.statusDesc, item.auditDescription)">-->
-                <!--修改订单号</p>-->
               <p v-if="item.status === 'trial_report_waiting_confirm' || item.status === 'trial_finished'"
                  class="operation mt-5"
                  @click="lookReportInfo(item.id)">查看买家秀详情</p>

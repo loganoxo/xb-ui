@@ -1059,4 +1059,18 @@ export default {
     return axiosConfig.post('/api/buy-eye-trial-one-day.json', params)
   },
 
+  /**
+   * 获取发布任务页增值服务列表
+   */
+  taskVasList() {
+    return axiosConfig.get('/api/task-value-added-services-list.json')
+  },
+
+  /**
+   * 获取商家发布任务时选择的增值服务信息
+   */
+  taskVasSelectInfo(params) {
+    return axiosConfig.get('/api/vas-select-info.json', params)
+  },
+
 }

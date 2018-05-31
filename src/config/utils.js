@@ -270,8 +270,7 @@ export const getUrlParams = (url, name) => {
  * 删除字符串中的html双标签及标签的内容
  */
 export const delHtmlTag = str => {
-  let tempStr = str.replace(/>[^>]+</g, '');
-  return tempStr.replace(/<[^>]+>/g, '');
+  return str.replace(/>[^>]+</g, '').replace(/<[^>]+>/g, '');
 };
 /**
  * 任务流程状态映射
