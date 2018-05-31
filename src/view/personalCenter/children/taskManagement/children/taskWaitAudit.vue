@@ -750,7 +750,7 @@
           if (res.status) {
             _this.valueAddedServiceStatusInfo = {};
             _this.valueAddedServiceStatusInfo = res.data;
-            if ((_this.valueAddedServiceStatusInfo.isMemberOK) || (!this.valueAddedServiceStatusInfo.isMemberOK && _this.valueAddedServiceStatusInfo.vasBlackListDeadlineTime)) {
+            if (_this.valueAddedServiceStatusInfo.isMemberOK || (!this.valueAddedServiceStatusInfo.isMemberOK && _this.valueAddedServiceStatusInfo.vasBlackListDeadlineTime)) {
               _this.eyesStatus = 'on'
             } else {
               _this.eyesStatus = 'off'
@@ -869,7 +869,9 @@
       },
       timeEnd() {
         this.isEndTime = true;
-        this.eyesStatus = 'off';
+        if(!this.valueAddedServiceStatusInfo.isMemberOK) {
+          this.eyesStatus = 'off';
+        }
       },
       openSpeedUp(taskId, userId) {
         this.speedUpModal = true;
