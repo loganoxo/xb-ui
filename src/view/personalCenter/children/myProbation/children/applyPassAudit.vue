@@ -209,7 +209,7 @@
         <span class="sizeColor3">请务必按照要求操作！</span>
       </div>
       <!--活动截图上传-->
-      <activity-screenshots-upload @sendImageData="getImageData"></activity-screenshots-upload>
+      <activity-screenshots-upload v-if="Object.keys(showkerOrder).length > 0" @sendImageData="getImageData" :orderInfo="showkerOrder"></activity-screenshots-upload>
       <!--<div class="upload-image-title pt-20 pb-10">活动截图上传</div>-->
       <!--<div class="upload-image-area">-->
         <!--<div class="shop-compare">-->
@@ -742,7 +742,8 @@
         watchAnswerImg:false,
         needIssueAnswer:[],
         issueAnswerScreenshot:[],
-        screenShotsData:{}
+        screenShotsData:{},
+        showkerOrder:{}
       }
     },
     mounted() {
@@ -909,6 +910,7 @@
         api.showkerToProcessOrder({id: _this.itemId}).then(res => {
           if (res.status) {
             _this.showkerTask ={};
+            _this.showkerOrder = res.data;
             _this.showkerTask = res.data.showkerTask;
             _this.taskPlaceInfo = res.data.showkerTask.task;
             // _this.needBrowseCollectAddCart = res.data.needBrowseCollectAddCart;

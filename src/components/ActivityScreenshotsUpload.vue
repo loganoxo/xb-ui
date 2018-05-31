@@ -107,6 +107,7 @@
           </div>
         </div>
       </div>
+      {{orderInfo}}
       <div v-if="visible" style="z-index: 3000" class="text">
         <Modal title="图片查看器" v-model="visible">
           <!--<img :src="uploadSrc + '!orgi75'" v-if="visible" style="width: 100%">-->
@@ -120,6 +121,7 @@
   import {Icon, Modal} from 'iview'
   import Upload from '@/components/Upload'
   import {aliCallbackImgUrl} from '@/config/env'
+  import api from  '@/config/apiConfig'
   export default {
     name: "activity-screenshots-upload",
     components:{
@@ -132,26 +134,7 @@
         visible:false,
         shopCompareList:[{},{},{}],
         screenshotsData:{
-          shopOneImageList:[
-            {
-              title:'宝贝浏览见底'
-            },
-            {
-              title:'浏览评价'
-            },
-            {
-              title:'加入购物车'
-            },
-            {
-              title:'问大家浏览'
-            },
-            {
-              title:'旺旺聊天'
-            },
-            {
-              title:'收藏店铺'
-            }
-          ],
+          shopOneImageList:[],
           shopTwoImageList:[],
           shopThreeImageList:[],
           mainBabyImageList:[],
@@ -161,17 +144,23 @@
       }
     },
     props:{
-      // sendImageData:{
-      //   type:Function,
-      //   default() {
-      //     return {}
-      //   }
-      // }
+      orderInfo:{
+        type:Object,
+        default:{},
+        required:true
+      }
     },
     computed:{
-
+      data() {
+        return this.orderInfo;
+      }
     },
     created() {
+      console.log(this.orderInfo);
+      this.handleData();
+
+    },
+    mounted() {
 
     },
     methods:{
@@ -256,6 +245,48 @@
         let _this = this;
         _this.visible = true;
       },
+      // 处理后台返回的数据
+      handleData() {
+        const _this = this;
+        let tempData = _this.orderInfo;
+        let mainBabyList = [];
+        let mainAnswerList = [];
+        let babyOneList = [];
+        let babyTwoList = [];
+        let babyThreeList = [];
+        let nainIndex = -1;
+        let similarOneIndex = -1;
+        let similarTwoIndex = -1;
+        let similarThreeIndex = -1;
+        tempData.showkerTaskVasSettings.forEach( item => {
+          let obj = {
+            screenShotList:item.answerScreenshot?[item.answerScreenshot]:[],
+            showLoading:false,
+            resubmitImg:true,
+            title:'宝贝浏览见底',
+            id:item.id,
+          };
+          if (item.itemType === "main_item"){
+            nainIndex ++;
+            obj.title = res.data.mainVasSettings[nainIndex].name;
+            mainCommodityList.push(obj)
+          }else {
+            if (item.itemIndex === 0){
+              similarOneIndex ++;
+              obj.title = res.data.similarVasSettings[0][similarOneIndex].name;
+              commodityOneList.push(obj)
+            }else if (item.itemIndex === 1){
+              similarTwoIndex ++;
+              obj.title = res.data.similarVasSettings[1][similarTwoIndex].name;
+              commodityTwoList.push(obj)
+            }else {
+              similarThreeIndex ++;
+              obj.title = res.data.similarVasSettings[2][similarThreeIndex].name;
+              commodityThreeList.push(obj)
+            }
+          }
+        });
+      }
     }
   }
 </script>
