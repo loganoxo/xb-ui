@@ -868,8 +868,8 @@
         })
       },
       timeEnd() {
-        this.isEndTime = true;
-        if(!this.valueAddedServiceStatusInfo.isMemberOK) {
+        if (!this.valueAddedServiceStatusInfo.isMemberOK) {
+          this.isEndTime = true;
           this.eyesStatus = 'off';
         }
       },
