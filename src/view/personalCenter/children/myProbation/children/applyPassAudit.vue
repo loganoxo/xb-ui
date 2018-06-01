@@ -118,6 +118,8 @@
                  @click="changePassOperation('place','', item.id, item.taskType, item.activityCategory)">去下单</p>
               <p v-if="item.status === 'order_num_error'" class="operation"
                  @click="changePassOperation('place','', item.id, item.taskType, item.activityCategory)">修改订单信息</p>
+              <!--<p v-if="item.status === 'order_num_error'" class="operation mt-5"-->
+                 <!--@click="openAuditOrderModify(item.id, item.taskType, item.activityCategory, item.orderNum, item.orderPrice, item.status, item.statusDesc, item.auditDescription)">修改订单信息</p>-->
               <p v-if="item.status === 'trial_report_waiting_submit'" class="operation"
                  @click="changePassOperation('report','write',item.id)">制作买家秀</p>
               <p v-if="item.status === 'trial_report_unqualified'" class="operation"
@@ -133,6 +135,31 @@
               <p v-if="item.status !== 'trial_end' && item.status !== 'trial_finished'" class="operation mt-5"
                  @click="endTrialModel(item.id)">结束活动</p>
             </td>
+            <!--原版，保留一段时间-->
+            <!--<td>-->
+              <!--<p v-if="item.status === 'pass_and_unclaimed' || item.status === 'order_num_error'" class="operation"-->
+                 <!--@click="changePassOperation('place','', item.id, item.taskType, item.activityCategory)">去下单</p>-->
+              <!--<p v-if="item.status === 'trial_report_waiting_submit'" class="operation"-->
+                 <!--@click="changePassOperation('report','write',item.id)">制作买家秀</p>-->
+              <!--<p v-if="item.status === 'trial_report_unqualified'" class="operation"-->
+                 <!--@click="changePassOperation('report','amend',item.id)">修改买家秀</p>-->
+              <!--<p v-if="item.status === 'pass_and_unclaimed'" class="operation mt-5"-->
+                 <!--@click="openAuditOrder(item.id, item.taskType, item.activityCategory, item.status, item.statusDesc, item.auditDescription)">-->
+                <!--填订单号</p>-->
+              <!--<p v-if="item.status === 'order_num_error'" class="operation mt-5"-->
+                 <!--@click="openAuditOrderModify(item.id, item.taskType, item.activityCategory, item.orderNum, item.orderPrice, item.status, item.statusDesc, item.auditDescription)">-->
+                <!--修改订单号</p>-->
+              <!--<p v-if="item.status === 'trial_report_waiting_confirm' || item.status === 'trial_finished'"-->
+                 <!--class="operation mt-5"-->
+                 <!--@click="lookReportInfo(item.id)">查看买家秀详情</p>-->
+              <!--<p v-if="item.status === 'trial_finished'" class="operation mt-5">-->
+                <!--<router-link-->
+                  <!--:to="{path:'/user/money-management/transaction-record',query:{taskNumber:item.orderNumber}}">查看活动账单-->
+                <!--</router-link>-->
+              <!--</p>-->
+              <!--<p v-if="item.status !== 'trial_end' && item.status !== 'trial_finished'" class="operation mt-5"-->
+                 <!--@click="endTrialModel(item.id)">结束活动</p>-->
+            <!--</td>-->
           </tr>
           </tbody>
           <tbody v-if="applySuccessList.length === 0">
@@ -216,8 +243,9 @@
         <button class="copy-evaluation-tbn mt-10 copy-btn" :data-clipboard-text="showkerTask.other.itemReviewAssign.reviewContent">复制评价内容</button>
       </div>
       <div class="write-order-number mt-20">
-        <span
-          @click="openAuditOrder(null,orderType, null, showkerTask.status, showkerTask.statusDesc, showkerTask.latestShowkerTaskOpLog.auditDescription)">下单完成，填订单号</span>
+        <span v-if="showkerOrder.status === 'pass_and_unclaimed'" @click="openAuditOrder(null,orderType, null, showkerTask.status, showkerTask.statusDesc, showkerTask.latestShowkerTaskOpLog.auditDescription)">下单完成，填订单号</span>
+        <span v-if="showkerOrder.status === 'order_num_error'"
+              @click="openAuditOrderModify(item.id, item.taskType, item.activityCategory, item.orderNum, item.orderPrice, item.status, item.statusDesc, item.auditDescription)">重新提交</span>
         <span class="ml-35" @click="returnUpPage">返回上页</span>
       </div>
     </div>
@@ -738,7 +766,8 @@
         // needIssueAnswer:[],
         issueAnswerScreenshot:[],
         screenShotsData:{},
-        showkerOrder:{}
+        showkerOrder:{},
+        orderState:''
       }
     },
     mounted() {
@@ -910,6 +939,7 @@
             _this.taskPlaceInfo = res.data.showkerTask.task;
             _this.affirmOrderNumber = res.data.orderNum ? res.data.orderNum : null;
             _this.payMoney = res.data.orderPrice ? res.data.orderPrice : null;
+            _this.orderState = res.data.status;
             _this.needBrowseCollectAddCart = res.data.needBrowseCollectAddCart;
             console.log(_this.payMoney);
             console.log(res.data.orderNum);
