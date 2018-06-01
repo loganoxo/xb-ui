@@ -103,7 +103,7 @@
         <div class="activity-info-title">填写活动信息</div>
         <div class="activity-type ml-20 mt-22">
           <span class="required">下单方式：</span>
-          <radio-group v-model="taskRelease.taskSales" @on-change="taskSalesChange">
+          <radio-group v-model="taskRelease.orderType" @on-change="taskSalesChange">
             <radio label="normal">
               <span>普通销量单</span>
             </radio>
@@ -143,11 +143,11 @@
           <span>天</span>
           <span class="main-color ml-10">
             <i class="ivu-icon ivu-icon-information-circled cle60012"></i>
-            <span v-show="taskRelease.taskSales === 'normal'">（注意：单期活动时间为3-10天，请于活动结束后48小时内审批完成所有拿手资格，逾期系统将自动为您审批）</span>
-            <span v-show="taskRelease.taskSales === 'day_now' || taskRelease.taskSales === 'day_reserve'">（注意：请于当日22:20分前审批完成所有拿手资格，逾期系统将自动为您审批）</span>
+            <span v-show="taskRelease.orderType === 'normal'">（注意：单期活动时间为3-10天，请于活动结束后48小时内审批完成所有拿手资格，逾期系统将自动为您审批）</span>
+            <span v-show="taskRelease.orderType === 'day_now' || taskRelease.orderType === 'day_reserve'">（注意：请于当日22:20分前审批完成所有拿手资格，逾期系统将自动为您审批）</span>
           </span>
         </div>
-        <div class="ml-15 mt-20" v-show="taskRelease.taskSales === 'day_reserve'">
+        <div class="ml-15 mt-20" v-show="taskRelease.orderType === 'day_reserve'">
           <i class="ivu-icon ivu-icon-information-circled cle60012"></i>
           <span>转当日单：</span>
           <checkbox v-model="taskRelease.dayReserveToNow">需要</checkbox>
@@ -161,15 +161,15 @@
         <div class="order-speed ml-20 mt-20">
           <span class="ml-8">下单速度：</span>
           <radio-group v-model="taskRelease.showkerOrderTimeLimit">
-            <radio :label="24" v-show="taskRelease.taskSales === 'day_now'"><span>当日24点前</span></radio>
-            <radio :label="24" v-show="taskRelease.taskSales === 'day_reserve'"><span>当日24点前加入购物车，次日下单购买</span></radio>
-            <radio :label="24" v-show="taskRelease.taskSales === 'normal'"><span>24小时内</span></radio>
-            <radio :label="12" v-show="taskRelease.taskSales === 'normal'"><span>12小时内</span></radio>
-            <radio :label="6" v-show="taskRelease.taskSales === 'normal'"><span>6小时内</span></radio>
-            <radio :label="3" v-show="taskRelease.taskSales === 'normal'"><span>3小时内</span></radio>
+            <radio :label="24" v-show="taskRelease.orderType === 'day_now'"><span>当日24点前</span></radio>
+            <radio :label="24" v-show="taskRelease.orderType === 'day_reserve'"><span>当日24点前加入购物车，次日下单购买</span></radio>
+            <radio :label="24" v-show="taskRelease.orderType === 'normal'"><span>24小时内</span></radio>
+            <radio :label="12" v-show="taskRelease.orderType === 'normal'"><span>12小时内</span></radio>
+            <radio :label="6" v-show="taskRelease.orderType === 'normal'"><span>6小时内</span></radio>
+            <radio :label="3" v-show="taskRelease.orderType === 'normal'"><span>3小时内</span></radio>
           </radio-group>
-          <span class="sizeColor2" v-show="taskRelease.taskSales === 'normal'">（拿手通过审批后需要指定时间内完成淘宝下单并在本平台提交订单号，否则资格自动过期）</span>
-          <span class="sizeColor2" v-show="taskRelease.taskSales === 'day_reserve'">（拿手通过审批后需要在当日24点前加入购物车，次日在淘宝下单并在平台提交订单号，否则资格自动过期）</span>
+          <span class="sizeColor2" v-show="taskRelease.orderType === 'normal'">（拿手通过审批后需要指定时间内完成淘宝下单并在本平台提交订单号，否则资格自动过期）</span>
+          <span class="sizeColor2" v-show="taskRelease.orderType === 'day_reserve'">（拿手通过审批后需要在当日24点前加入购物车，次日在淘宝下单并在平台提交订单号，否则资格自动过期）</span>
         </div>
         <div class="trial-condition ml-20 mt-20">
           <span class="ml-8"> 收藏加购：</span>
@@ -217,7 +217,7 @@
         <div class="task-speed-up ml-20 mt-20">
           <span class="ml-8">一键加速：</span>
           <checkbox v-model="taskRelease.speedUp">需要</checkbox>
-          <span class="sizeColor2"><span v-show="taskRelease.taskSales === 'day_now' || taskRelease.taskSales === 'day_reserve'" class="main-color f-b">强烈建议勾选！</span>（选择后，该活动所有名额的审批由系统推荐和控制，适合需要快速消化单量的商家）</span>
+          <span class="sizeColor2"><span v-show="taskRelease.orderType === 'day_now' || taskRelease.orderType === 'day_reserve'" class="main-color f-b">强烈建议勾选！</span>（选择后，该活动所有名额的审批由系统推荐和控制，适合需要快速消化单量的商家）</span>
         </div>
         <div class="value-added-services">
           <p class="main-color">增值服务（平台已保证所有拿手安全下单，但您仍不放心，可选择以下增值服务，该服务会要求拿手上传截图留证）</p>
@@ -1297,7 +1297,7 @@
         ],
         taskRelease: {
           taskType: 'pc_search',
-          taskSales: 'normal',
+          orderType: 'normal',
           taskDaysDuration: null,
           onlyShowForQualification: false,
           showkerOrderTimeLimit: 24,
@@ -1932,10 +1932,12 @@
       taskSalesChange(type) {
         if ((type === 'day_now' || type === 'day_reserve') && this.getMemberVersionLevel === 100) {
           this.upgradeMembershipModal = true;
-          this.taskRelease.taskSales = 'normal'
+          this.taskRelease.orderType = 'normal'
         }
         if (type === 'day_now' || type === 'day_reserve') {
           this.taskRelease.speedUp = true;
+          this.taskRelease.taskCount = null;
+          this.taskRelease.taskDaysDuration = null;
           this.taskCountInputPlaceholder = '当日22点前有效';
           this.taskCountInputDisabled = true;
           this.vasMainItem.map(item => {
