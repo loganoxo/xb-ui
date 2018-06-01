@@ -1072,5 +1072,11 @@ export default {
   taskVasSelectInfo(params) {
     return axiosConfig.get('/api/vas-select-info.json', params)
   },
+  /**
+   * 增值服务提交答案（截图）
+   */
+  submitVasAnswer(params) {
+    return axiosConfig.post('/api/task-showker-vas-answer-submit.json',params);
+  }
 
 }

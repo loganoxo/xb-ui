@@ -210,12 +210,6 @@
       </div>
       <!--活动截图上传-->
       <activity-screenshots-upload v-if="Object.keys(showkerOrder).length > 0" @sendImageData="getImageData" :orderInfo="showkerOrder"></activity-screenshots-upload>
-      <!--<div class="upload-image-title pt-20 pb-10">活动截图上传</div>-->
-      <!--<div class="upload-image-area">-->
-        <!--<div class="shop-compare">-->
-          <!--<p class="compare-title">货比3家（宝贝1）</p>-->
-        <!--</div>-->
-      <!--</div>-->
       <div class="evaluation-content-tip-assign mt-10"
            v-if="showkerTask.task && showkerTask.task.itemReviewRequired === 'assign_review_detail'">
         <div>{{showkerTask.other.itemReviewAssign.reviewContent}}</div>

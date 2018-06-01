@@ -30,58 +30,61 @@
         <span class="f-b fs-12 cl666">（未按要求的截图可选择重新提交）</span>
       </div>
       <div class="screen-shots-area">
+        <!--主宝贝截图-->
         <p class="main-baby-title fs-12 f-b cl666">查看拿手提交的主宝贝浏览截图</p>
         <div class="main-baby-image">
           <div class="image-area" v-for="(item,index) in mainBabyImageList" :key="index">
-            <img src="~assets/img/vip-member/vip-demo-01.png" alt="" width="54" height="54">
+            <img :src="item.screenshotsList[0].src" alt="" width="54" height="54">
             <p>搜索关键词</p>
             <div>
-              <checkbox v-model="resubmit">
+              <checkbox v-model="item.isSelect">
                 <span class="resubmit-text">重新提交</span>
               </checkbox>
             </div>
           </div>
         </div>
+        <!--主宝贝答题-->
         <div class="main-baby-answer">
           <div class="image-area" v-for="(item,index) in mainBabyAnswerList" :key="index">
-            <img src="~assets/img/vip-member/vip-demo-01.png" alt="" width="54" height="54">
+            <img src="" alt="" width="54" height="54">
             <p>搜索关键词</p>
             <div>
-              <checkbox v-model="resubmit">
+              <checkbox v-model="item.isSelect">
                 <span class="resubmit-text">重新提交</span>
               </checkbox>
             </div>
           </div>
         </div>
+        <!--货比三家-->
         <p class="main-baby-title fs-12 f-b cl666 mt-20">查看拿手提交的货比3家浏览截图</p>
         <div class="shop-compare">
-          <div class="image-area" v-for="(item,index) in shopOneList" :key="index">
-            <img src="~assets/img/vip-member/vip-demo-01.png" alt="" width="54" height="54">
+          <div class="image-area" v-for="(item,index) in babyOneImageList" :key="index">
+            <img :src="item.screenshotsList[0].src" alt="" width="54" height="54">
             <p>搜索关键词</p>
             <div>
-              <checkbox v-model="resubmit">
+              <checkbox v-model="item.isSelect">
                 <span class="resubmit-text">重新提交</span>
               </checkbox>
             </div>
           </div>
         </div>
         <div class="shop-compare">
-          <div class="image-area" v-for="(item,index) in shopOneList" :key="index">
-            <img src="~assets/img/vip-member/vip-demo-01.png" alt="" width="54" height="54">
+          <div class="image-area" v-for="(item,index) in babyTwoImageList" :key="index">
+            <img :src="item.screenshotsList[0].src" alt="" width="54" height="54">
             <p>搜索关键词</p>
             <div>
-              <checkbox v-model="resubmit">
+              <checkbox v-model="item.isSelect">
                 <span class="resubmit-text">重新提交</span>
               </checkbox>
             </div>
           </div>
         </div>
         <div class="shop-compare">
-          <div class="image-area" v-for="(item,index) in shopOneList" :key="index">
-            <img src="~assets/img/vip-member/vip-demo-01.png" alt="" width="54" height="54">
+          <div class="image-area" v-for="(item,index) in babyThreeImageList" :key="index">
+            <img :src="item.screenshotsList[0].src" alt="" width="54" height="54">
             <p>搜索关键词</p>
             <div>
-              <checkbox v-model="resubmit">
+              <checkbox v-model="item.isSelect">
                 <span class="resubmit-text">重新提交</span>
               </checkbox>
             </div>
@@ -187,10 +190,10 @@
         type:Boolean,
         default:false
       },
-      orderReviewStatus:{
-        type:String,
-        default:'passAudit'
-      },
+      // orderReviewStatus:{
+      //   type:String,
+      //   default:'passAudit'
+      // },
       operateTaskId:{
         type:Number,
         default:0
@@ -213,14 +216,16 @@
         orderNoPassReasonDiy: null,
         payButtonText: '确认支付并通过',
         rechargeButtonText: '前去充值',
-        resubmit:false,
-        mainBabyImageList:[
-          {},{},{},{},{},{},{}
-        ],
+        orderReviewStatus: 'passAudit',
+
+        mainBabyImageList:[],
         mainBabyAnswerList:[{},{}],
-        shopOneList:[{},{},{},{},{},{}],
+        babyOneImageList:[],
+        babyTwoImageList:[],
+        babyThreeImageList:[],
         taskTotalElements:0,
-        auditResult:false
+        auditResult:false,
+        resubmitList:[]
       }
     },
     computed:{
@@ -244,12 +249,20 @@
         return `${(this.needReplenishMoney / 100).toFixed(2)} + ${(((Math.ceil(this.needReplenishMoney / 0.994)) - this.needReplenishMoney) / 100).toFixed(2)}`
       },
     },
+    created() {
+      this.handleScreenShot();
+    },
     methods:{
       closeModel() {
         this.$emit('closeAuditModel');
       },
       orderNumberAudit() {
         let _this = this;
+        _this.handleResubmit(_this.mainBabyImageList);
+        _this.handleResubmit(_this.babyOneImageList);
+        _this.handleResubmit(_this.babyTwoImageList);
+        _this.handleResubmit(_this.babyThreeImageList);
+
         if(_this.orderReviewStatus === 'failAudit'){
           if (!_this.orderNoPassReason) {
             _this.$Message.error("亲，请填写不通过的理由！");
@@ -272,13 +285,20 @@
             }
           }
         }
+        if (_this.resubmitList.length > 0) {
+          _this.orderReviewStatus = 'failAudit';
+          _this.orderNoPassReason = '浏览答题截图不合格';
+        }
+
         if (_this.orderReviewStatus === 'passAudit' && _this.orderNoPassReason) {
           _this.orderNoPassReason = null;
         }
+        console.log(_this.resubmitList);
         api.orderNumberAudit({
           id: _this.orderInfo.id,
           status: _this.orderReviewStatus === 'passAudit' ? 'true' : 'false',
-          msg: _this.orderNoPassReason
+          msg: _this.orderNoPassReason,
+          needResubmitScreenshots:JSON.stringify(_this.resubmitList)
         }).then(res => {
           if (res.status) {
             _this.$Message.success('订单号审核成功！');
@@ -340,7 +360,71 @@
       //     }
       //   })
       // },
-
+      // 处理截图数据
+      handleScreenShot() {
+        const _this = this;
+        let tempData = _this.orderInfo;
+        let mainBabyList = [];
+        let babyOneList = [];
+        let babyTwoList = [];
+        let babyThreeList = [];
+        let mainIndex = -1;
+        let similarOneIndex = -1;
+        let similarTwoIndex = -1;
+        let similarThreeIndex = -1;
+        tempData.showkerTaskVasSettings.forEach( item => {
+          let screenshotsList = item.answerScreenshot ? [{src:item.answerScreenshot}] : [];
+          let obj = {
+            src:'',
+            screenshotsList:screenshotsList,
+            title:'',
+            id:item.id,
+            itemIndex:item.itemIndex,
+            isSelect:false
+          };
+          if (item.itemType === "main_item"){
+            mainIndex ++;
+            obj.title = tempData.mainVasSettings[mainIndex].name;
+            obj.required = item.required;
+            obj.tipsPicture = tempData.mainVasSettings[mainIndex].tipsPicture;
+            mainBabyList.push(obj)
+          }else {
+            if (item.itemIndex === 0){
+              similarOneIndex ++;
+              obj.title = tempData.similarVasSettings[0][similarOneIndex].name;
+              obj.required = item.required;
+              obj.tipsPicture = tempData.similarVasSettings[0][similarOneIndex].tipsPicture;
+              babyOneList.push(obj)
+            }else if (item.itemIndex === 1){
+              similarTwoIndex ++;
+              obj.title = tempData.similarVasSettings[1][similarTwoIndex].name;
+              obj.required = item.required;
+              obj.tipsPicture = tempData.similarVasSettings[1][similarTwoIndex].tipsPicture;
+              babyTwoList.push(obj)
+            }else {
+              similarThreeIndex ++;
+              obj.title = tempData.similarVasSettings[2][similarThreeIndex].name;
+              obj.required = item.required;
+              obj.tipsPicture = tempData.similarVasSettings[2][similarThreeIndex].tipsPicture;
+              babyThreeList.push(obj)
+            }
+          }
+        });
+        _this.mainBabyImageList = mainBabyList;
+        _this.babyOneImageList = babyOneList;
+        _this.babyTwoImageList = babyTwoList;
+        _this.babyThreeImageList = babyThreeList;
+        // console.log(_this.mainBabyImageList);
+      },
+      // 处理重新提交
+      handleResubmit(array) {
+        const _this = this;
+        array.forEach(item => {
+          if (item.isSelect) {
+            _this.resubmitList.push(item.id);
+          }
+        })
+      }
     }
   }
 </script>

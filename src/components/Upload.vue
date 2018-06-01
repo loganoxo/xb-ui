@@ -55,6 +55,12 @@
       iProgress: Progress,
     },
     props: {
+      itemInfo:{
+        type:Object,
+        default() {
+         return {};
+        }
+      },
       index:{
         type:Number,
         default:1
@@ -309,7 +315,7 @@
         if (_file) {
           _file.status = 'finished';
           _file.src = aliCallbackImgUrl + res.name;
-          this.onSuccess(res, this.index, _file, this.fileList);
+          this.onSuccess(res, this.itemInfo, _file, this.fileList);
           setTimeout(() => {
             _file.showProgress = false;
           }, 1000);
@@ -328,7 +334,7 @@
       handleRemove(file){
         const fileList = this.fileList;
         fileList.splice(fileList.indexOf(file), 1);
-        this.onRemove(file, fileList);
+        this.onRemove(file, this.itemInfo, fileList);
       },
       handlePreview(file){
         if (file.status === 'finished') {

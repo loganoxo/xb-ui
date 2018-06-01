@@ -2,98 +2,107 @@
     <div class="image-upload">
       <div class="image-upload-title f-b">活动截图上传</div>
       <div class="image-upload-area">
+        <!--货比三家 start-->
         <div class="shop-compare clear">
           <p class="upload-type-title">货比3家（宝贝1）<span>搜索过程中随意点击其他店铺的宝贝进行浏览，并上传浏览截图</span></p>
-          <div class="upload-area left" v-for="(item,index) in screenshotsData.shopOneImageList" :key="index">
+          <div class="upload-area left" v-for="(item,index) in shopOneImageList" :key="index">
             <upload key="otherShopImageList" class="upload"
-                    :on-success="shopOneImgSuccess"
-                    :default-file-list="screenshotsData.defaultImageList"
-                    :on-remove="removeShopOneImg"
+                    :on-success="uploadSuccess"
+                    :default-file-list="item.screenshotsList"
+                    :on-remove="removeImage"
                     :format="['jpg','jpeg','png','gif','bmp']"
                     :max-size="1024"
                     name="task"
                     :on-format-error="handleFormatError"
                     :on-exceeded-size="handleMaxSize"
                     :index="index"
-                    type="drag">
+                    type="drag"
+                    :itemInfo="item">
               <div class="camera">
                 <Icon type="camera" size="20"></Icon>
               </div>
             </upload>
             <div class="pt-10 pb-5">{{item.title}}</div>
-            <div class="review-image cursor-p" @click="previewImage()">查看示例图</div>
+            <div class="review-image cursor-p" @click="previewImage(item.tipsPicture)">查看示例图</div>
           </div>
         </div>
         <div class="shop-compare clear">
           <p class="upload-type-title">货比3家（宝贝2）<span>搜索过程中随意点击其他店铺的宝贝进行浏览，并上传浏览截图</span></p>
-          <div class="upload-area left">
+          <div class="upload-area left" v-for="(item,index) in shopTwoImageList" :key="index">
             <upload key="otherShopImageList" class="upload"
-                    :on-success="shopTwoImgSuccess"
-                    :default-file-list="screenshotsData.shopTwoImageList"
-                    :on-remove="removeShopTwoImg"
+                    :on-success="uploadSuccess"
+                    :default-file-list="item.screenshotsList"
+                    :on-remove="removeImage"
                     :format="['jpg','jpeg','png','gif','bmp']"
                     :max-size="1024"
                     name="task"
                     :on-format-error="handleFormatError"
                     :on-exceeded-size="handleMaxSize"
-                    type="drag">
+                    type="drag"
+                    :itemInfo="item">
               <div class="camera">
                 <Icon type="camera" size="20"></Icon>
               </div>
             </upload>
-            <div class="pt-10 pb-5">宝贝浏览见底</div>
-            <div class="review-image">查看示例图</div>
+            <div class="pt-10 pb-5">{{item.title}}</div>
+            <div class="review-image cursor-p" @click="previewImage(item.tipsPicture)">查看示例图</div>
           </div>
         </div>
         <div class="shop-compare clear">
           <p class="upload-type-title">货比3家（宝贝3）<span>搜索过程中随意点击其他店铺的宝贝进行浏览，并上传浏览截图</span></p>
-          <div class="upload-area left">
+          <div class="upload-area left" v-for="(item,index) in shopThreeImageList" :key="index">
             <upload key="otherShopImageList" class="upload"
-                    :on-success="shopThreeImgSuccess"
-                    :default-file-list="screenshotsData.shopThreeImageList"
-                    :on-remove="removeShopThreeImg"
+                    :on-success="uploadSuccess"
+                    :default-file-list="item.screenshotsList"
+                    :on-remove="removeImage"
                     :format="['jpg','jpeg','png','gif','bmp']"
                     :max-size="1024"
                     name="task"
                     :on-format-error="handleFormatError"
                     :on-exceeded-size="handleMaxSize"
-                    type="drag">
+                    type="drag"
+                    :itemInfo="item">
               <div class="camera">
-                <Icon type="camera" size="20"></Icon>
+                <Icon type="camera " size="20"></Icon>
               </div>
             </upload>
-            <div class="pt-10 pb-5">宝贝浏览见底</div>
-            <div class="review-image">查看示例图</div>
+            <div class="pt-10 pb-5">{{item.title}}</div>
+            <div class="review-image cursor-p" @click="previewImage(item.tipsPicture)">查看示例图</div>
           </div>
         </div>
+        <!--货比三家 end-->
+        <!--主宝贝截图 start-->
         <div class="main-baby-screenshots clear">
           <p class="upload-type-title">主宝贝浏览截图 <span>搜索到目标宝贝，按要求截图并上传</span></p>
-          <div class="upload-area left">
+          <div class="upload-area left" v-for="(item,index) in mainBabyImageList" :key="index">
             <upload key="mainBabyImageList" class="upload"
-                    :on-success="mainBabyImgSuccess"
-                    :default-file-list="screenshotsData.mainBabyImageList"
-                    :on-remove="removeMainBabyImage"
+                    :on-success="uploadSuccess"
+                    :default-file-list="item.screenshotsList"
+                    :on-remove="removeImage"
                     :format="['jpg','jpeg','png','gif','bmp']"
                     :max-size="1024"
                     name="task"
                     :on-format-error="handleFormatError"
                     :on-exceeded-size="handleMaxSize"
-                    type="drag">
+                    type="drag"
+                    :itemInfo="item">
               <div class="camera">
                 <Icon type="camera" size="20"></Icon>
               </div>
             </upload>
-            <div class="pt-10 pb-5">评价浏览</div>
-            <div class="review-image">查看示例图</div>
+            <div class="pt-10 pb-5">{{item.title}}</div>
+            <div class="review-image cursor-p" @click="previewImage(item.tipsPicture)">查看示例图</div>
           </div>
         </div>
+        <!--主宝贝截图 end-->
+        <!--主宝贝答题 start-->
         <div class="main-baby-answer clear">
           <p class="upload-type-title">主宝贝浏览答题<span>在目标宝贝的详情页找到如下文案，并提供坐在位置截图</span> <span class="review-image">查看示例图</span></p>
           <div class="upload-area left">
             <upload key="mainBabyAnswerList" class="upload"
-                    :on-success="MainBabyAnswerSuccess"
-                    :default-file-list="screenshotsData.mainBabyAnswerList"
-                    :on-remove="removeMainBabyAnswer"
+                    :on-success="uploadSuccess"
+                    :default-file-list="mainBabyAnswerList"
+                    :on-remove="removeImage"
                     :format="['jpg','jpeg','png','gif','bmp']"
                     :max-size="1024"
                     name="task"
@@ -106,12 +115,12 @@
             </upload>
           </div>
         </div>
+        <!--主宝贝答题 end-->
       </div>
-      {{orderInfo}}
+      <!--查看示例图弹窗-->
       <div v-if="visible" style="z-index: 3000" class="text">
         <Modal title="图片查看器" v-model="visible">
-          <!--<img :src="uploadSrc + '!orgi75'" v-if="visible" style="width: 100%">-->
-          <div>图片预览</div>
+          <img :src="demoPictureSrc" v-if="visible" style="width: 100%">
         </Modal>
       </div>
     </div>
@@ -132,33 +141,30 @@
     data() {
       return {
         visible:false,
-        shopCompareList:[{},{},{}],
-        screenshotsData:{
-          shopOneImageList:[],
-          shopTwoImageList:[],
-          shopThreeImageList:[],
-          mainBabyImageList:[],
-          mainBabyAnswerList:[],
-          defaultImageList:[]
-        }
+        shopOneImageList:[],
+        shopTwoImageList:[],
+        shopThreeImageList:[],
+        mainBabyImageList:[],
+        mainBabyAnswerList:[],
+        demoPictureSrc:''
       }
     },
     props:{
       orderInfo:{
         type:Object,
-        default:{},
+        default() {
+          return {}
+        },
         required:true
       }
     },
     computed:{
-      data() {
-        return this.orderInfo;
-      }
+
     },
     created() {
-      console.log(this.orderInfo);
-      this.handleData();
-
+      // console.log(this.orderInfo);
+      // this.handleData();
+      this.handleDataTest();
     },
     mounted() {
 
@@ -176,116 +182,137 @@
           content: `图片 ${file.name} 太大，不能超过 1M`
         })
       },
-      shopOneImgSuccess(res,index) {
+      // 上传成功后的回调
+      uploadSuccess(res,info) {
         let _this = this;
-        _this.screenshotsData.shopOneImageList[index].src = aliCallbackImgUrl + res.name;
-        _this.$emit('sendImageData',_this.screenshotsData);
+        info.src = aliCallbackImgUrl + res.name;
+        _this.submitVasAnswer(info);
       },
-      removeShopOneImg(res) {
-        let _this = this;
-        let sliceIndex = _this.screenshotsData.shopOneImageList.findIndex( item => {
-          return item.src === res.src;
-        });
-        _this.screenshotsData.shopOneImageList[sliceIndex].src = '';
-        _this.$emit('sendImageData',_this.screenshotsData);
+      // 删除已上传的图片
+      removeImage() {
+
       },
-      shopTwoImgSuccess(res) {
-        let _this = this;
-        _this.screenshotsData.shopTwoImageList[index].src = aliCallbackImgUrl + res.name;
-        _this.$emit('sendImageData',_this.screenshotsData);
-      },
-      removeShopTwoImg(res) {
-        let _this = this;
-        let sliceIndex = _this.screenshotsData.shopTwoImageList.findIndex( item => {
-          return item.src === res.src;
-        });
-        _this.screenshotsData.shopTwoImageList[sliceIndex].src = '';
-        _this.$emit('sendImageData',_this.screenshotsData);
-      },
-      shopThreeImgSuccess(res) {
-        let _this = this;
-        _this.screenshotsData.shopThreeImageList[index].src = aliCallbackImgUrl + res.name;
-        _this.$emit('sendImageData',_this.screenshotsData);
-      },
-      removeShopThreeImg(res) {
-        let _this = this;
-        let sliceIndex = _this.screenshotsData.shopThreeImageList.findIndex( item => {
-          return item.src === res.src;
-        });
-        _this.screenshotsData.shopThreeImageList[sliceIndex].src = '';
-        _this.$emit('sendImageData',_this.screenshotsData);
-      },
-      mainBabyImgSuccess(res) {
-        let _this = this;
-        _this.screenshotsData.mainBabyImageList[index].src = aliCallbackImgUrl + res.name;
-        _this.$emit('sendImageData',_this.screenshotsData);
-      },
-      removeMainBabyImage(res) {
-        let _this = this;
-        let sliceIndex = _this.screenshotsData.mainBabyImageList.findIndex( item => {
-          return item.src === res.src;
-        });
-        _this.screenshotsData.mainBabyImageList[sliceIndex].src = '';
-        _this.$emit('sendImageData',_this.screenshotsData);
-      },
-      MainBabyAnswerSuccess(res) {
-        let _this = this;
-        _this.screenshotsData.mainBabyAnswerList[index].src = aliCallbackImgUrl + res.name;
-        _this.$emit('sendImageData',_this.screenshotsData);
-      },
-      removeMainBabyAnswer(res) {
-        let _this = this;
-        let sliceIndex = _this.screenshotsData.mainBabyAnswerList.findIndex( item => {
-          return item.src === res.src;
-        });
-        _this.screenshotsData.mainBabyAnswerList[sliceIndex].src = '';
-        _this.$emit('sendImageData',_this.screenshotsData);
-      },
-      previewImage() {
-        let _this = this;
-        _this.visible = true;
-      },
+
       // 处理后台返回的数据
-      handleData() {
+      // handleData() {
+      //   const _this = this;
+      //   let tempData = _this.orderInfo;
+      //   let mainBabyList = [];
+      //   let babyOneList = [];
+      //   let babyTwoList = [];
+      //   let babyThreeList = [];
+      //   let mainIndex = -1;
+      //   let similarOneIndex = -1;
+      //   let similarTwoIndex = -1;
+      //   let similarThreeIndex = -1;
+      //   tempData.showkerTaskVasSettings.forEach( item => {
+      //     let screenshotsList = item.answerScreenshot ? [{src:item.answerScreenshot}] : [];
+      //     let obj = {
+      //       src:'',
+      //       screenshotsList:screenshotsList,
+      //       title:'',
+      //       id:item.id,
+      //       itemIndex:item.itemIndex
+      //     };
+      //     if (item.itemType === "main_item"){
+      //       mainIndex ++;
+      //       obj.title = tempData.mainVasSettings[mainIndex].name;
+      //       obj.required = item.required;
+      //       obj.tipsPicture = tempData.mainVasSettings[mainIndex].tipsPicture;
+      //       mainBabyList.push(obj)
+      //     }else {
+      //       if (item.itemIndex === 0){
+      //         similarOneIndex ++;
+      //         obj.title = tempData.similarVasSettings[0][similarOneIndex].name;
+      //         obj.required = item.required;
+      //         obj.tipsPicture = tempData.similarVasSettings[0][similarOneIndex].tipsPicture;
+      //         babyOneList.push(obj)
+      //       }else if (item.itemIndex === 1){
+      //         similarTwoIndex ++;
+      //         obj.title = tempData.similarVasSettings[1][similarTwoIndex].name;
+      //         obj.required = item.required;
+      //         obj.tipsPicture = tempData.similarVasSettings[1][similarTwoIndex].tipsPicture;
+      //         babyTwoList.push(obj)
+      //       }else {
+      //         similarThreeIndex ++;
+      //         obj.title = tempData.similarVasSettings[2][similarThreeIndex].name;
+      //         obj.required = item.required;
+      //         obj.tipsPicture = tempData.similarVasSettings[2][similarThreeIndex].tipsPicture;
+      //         babyThreeList.push(obj)
+      //       }
+      //     }
+      //   });
+      //   _this.mainBabyImageList = mainBabyList;
+      //   _this.shopOneImageList = babyOneList;
+      //   _this.shopTwoImageList = babyTwoList;
+      //   _this.shopThreeImageList = babyThreeList;
+      //   console.log(_this.mainBabyImageList);
+      // },
+      // 测试
+      handleDataTest() {
         const _this = this;
         let tempData = _this.orderInfo;
-        let mainBabyList = [];
-        let mainAnswerList = [];
-        let babyOneList = [];
-        let babyTwoList = [];
-        let babyThreeList = [];
-        let nainIndex = -1;
-        let similarOneIndex = -1;
-        let similarTwoIndex = -1;
-        let similarThreeIndex = -1;
-        tempData.showkerTaskVasSettings.forEach( item => {
-          let obj = {
-            screenShotList:item.answerScreenshot?[item.answerScreenshot]:[],
-            showLoading:false,
-            resubmitImg:true,
-            title:'宝贝浏览见底',
-            id:item.id,
-          };
-          if (item.itemType === "main_item"){
-            nainIndex ++;
-            obj.title = res.data.mainVasSettings[nainIndex].name;
-            mainCommodityList.push(obj)
-          }else {
-            if (item.itemIndex === 0){
-              similarOneIndex ++;
-              obj.title = res.data.similarVasSettings[0][similarOneIndex].name;
-              commodityOneList.push(obj)
-            }else if (item.itemIndex === 1){
-              similarTwoIndex ++;
-              obj.title = res.data.similarVasSettings[1][similarTwoIndex].name;
-              commodityTwoList.push(obj)
-            }else {
-              similarThreeIndex ++;
-              obj.title = res.data.similarVasSettings[2][similarThreeIndex].name;
-              commodityThreeList.push(obj)
+        let handleList = tempData.showkerTaskVasSettings.map(item => {
+          let tempObj = {};
+          tempData.mainVasSettings.map(main => {
+            if (item.vasConfigId === main.id) {
+              tempObj.id = item.id;
+              tempObj.title = main.name;
+              tempObj.tipsPicture = main.tipsPicture;
+              tempObj.itemType = item.itemType;
+              tempObj.itemIndex = item.itemIndex;
+              tempObj.required = item.required;
+              tempObj.screenshotsList = item.answerScreenshot ? [{src:item.answerScreenshot}] : [];
             }
-          }
+          });
+          tempData.similarVasSettings.map(similarOut => {
+            similarOut.map(similarIn => {
+              if (item.vasConfigId === similarIn.id) {
+                tempObj.id = item.id;
+                tempObj.title = similarIn.name;
+                tempObj.tipsPicture = similarIn.tipsPicture;
+                tempObj.itemType = item.itemType;
+                tempObj.itemIndex = item.itemIndex;
+                tempObj.required = item.required;
+                tempObj.screenshotsList = item.answerScreenshot ? [{src:item.answerScreenshot}] : [];
+              }
+            })
+          });
+          return tempObj;
         });
+        console.log(handleList);
+        _this.shopOneImageList = handleList.filter(item => {
+          return item.itemIndex === 0;
+        });
+        _this.shopTwoImageList = handleList.filter(item => {
+          return item.itemIndex === 1;
+        });
+        _this.shopThreeImageList = handleList.filter(item => {
+          return item.itemIndex === 2;
+        });
+        _this.mainBabyImageList = handleList.filter(item => {
+          return item.itemType === 'main_item';
+        });
+      },
+      // 提交增值服务答案（截图）
+      submitVasAnswer(info) {
+        const _this = this;
+        api.submitVasAnswer({
+          showkerTaskVasSettingsId:info.id,
+          answerScreenshot:info.src,
+          answer:''
+        }).then(res => {
+          if (res.status) {
+            _this.$Message.success('上传成功');
+          } else {
+            _this.$Message.error(res.msg)
+          }
+        })
+      },
+      // 查看示例图
+      previewImage(img) {
+        this.demoPictureSrc = img;
+        this.visible = true;
       }
     }
   }

@@ -171,11 +171,10 @@
       <Page :total="totalElements" :page-size="pageSize" :current="pageIndex" @on-change="pageChange"></Page>
     </div>
     <!--审核订单号弹窗-->
-    <audit-order-popup v-if="showCheckOrder"
+    <audit-order-popup v-if="showCheckOrder && Object.keys(orderInfo).length > 0"
                        @closeAuditModel="closeModel"
                        :orderInfo="orderInfo"
                        :needIssue="needIssue"
-                       :orderReviewStatus="orderReviewStatus"
                        :operateTaskId="operateTaskId"
                        :operateIndex="operateIndex"
                        :passesShowkerTask="passesShowkerTask"></audit-order-popup>
@@ -436,7 +435,7 @@
         // rechargeButtonText: '前去充值',
         showCheckOrder: true,
         orderInfo: {},
-        orderReviewStatus: 'passAudit',
+        // orderReviewStatus: 'passAudit',
         // orderNoPassReason: null,
         loading: false,
         evaluateShowkerAlitmAccount: null,
