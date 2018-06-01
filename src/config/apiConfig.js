@@ -1076,7 +1076,15 @@ export default {
    * 增值服务提交答案（截图）
    */
   submitVasAnswer(params) {
-    return axiosConfig.post('/api/task-showker-vas-answer-submit.json',params);
+    return axiosConfig.post('/api/task-showker-vas-answer-submit.json',params)
+  },
+
+  /**
+   * 提交浏览答题截图
+   */
+  submitAnswerScreenshots(params) {
+    return axiosConfig.post('/api/task-showker-issue-answer-submit.json',params)
   }
+
 
 }

@@ -34,8 +34,8 @@
         <p class="main-baby-title fs-12 f-b cl666">查看拿手提交的主宝贝浏览截图</p>
         <div class="main-baby-image">
           <div class="image-area" v-for="(item,index) in mainBabyImageList" :key="index">
-            <img :src="item.screenshotsList[0].src" alt="" width="54" height="54">
-            <p>搜索关键词</p>
+            <img :src="item.screenshotsList[0].src" alt="" width="54" height="54" @click="previewImage(item.screenshotsList[0].src)">
+            <p>{{item.title}}</p>
             <div>
               <checkbox v-model="item.isSelect">
                 <span class="resubmit-text">重新提交</span>
@@ -46,21 +46,16 @@
         <!--主宝贝答题-->
         <div class="main-baby-answer">
           <div class="image-area" v-for="(item,index) in mainBabyAnswerList" :key="index">
-            <img src="" alt="" width="54" height="54">
-            <p>搜索关键词</p>
-            <div>
-              <checkbox v-model="item.isSelect">
-                <span class="resubmit-text">重新提交</span>
-              </checkbox>
-            </div>
+            <img :src="item.screenshotsList[0].src" alt="" width="54" height="54" @click="previewImage(item.screenshotsList[0].src)">
+            <p>{{item.title}}</p>
           </div>
         </div>
         <!--货比三家-->
         <p class="main-baby-title fs-12 f-b cl666 mt-20">查看拿手提交的货比3家浏览截图</p>
         <div class="shop-compare">
           <div class="image-area" v-for="(item,index) in babyOneImageList" :key="index">
-            <img :src="item.screenshotsList[0].src" alt="" width="54" height="54">
-            <p>搜索关键词</p>
+            <img :src="item.screenshotsList[0].src" alt="" width="54" height="54"  @click="previewImage(item.screenshotsList[0].src)">
+            <p>{{item.title}}</p>
             <div>
               <checkbox v-model="item.isSelect">
                 <span class="resubmit-text">重新提交</span>
@@ -70,8 +65,8 @@
         </div>
         <div class="shop-compare">
           <div class="image-area" v-for="(item,index) in babyTwoImageList" :key="index">
-            <img :src="item.screenshotsList[0].src" alt="" width="54" height="54">
-            <p>搜索关键词</p>
+            <img :src="item.screenshotsList[0].src" alt="" width="54" height="54" @click="previewImage(item.screenshotsList[0].src)">
+            <p>{{item.title}}</p>
             <div>
               <checkbox v-model="item.isSelect">
                 <span class="resubmit-text">重新提交</span>
@@ -81,8 +76,8 @@
         </div>
         <div class="shop-compare">
           <div class="image-area" v-for="(item,index) in babyThreeImageList" :key="index">
-            <img :src="item.screenshotsList[0].src" alt="" width="54" height="54">
-            <p>搜索关键词</p>
+            <img :src="item.screenshotsList[0].src" alt="" width="54" height="54" @click="previewImage(item.screenshotsList[0].src)">
+            <p>{{item.title}}</p>
             <div>
               <checkbox v-model="item.isSelect">
                 <span class="resubmit-text">重新提交</span>
@@ -161,6 +156,12 @@
           class="main-color">{{needReplenishMoneyText}}</strong>元,请充值！
         </div>
       </pay-model>
+      <!--图片预览弹窗-->
+      <Modal v-model="previewImg" :transfer="false">
+        <div class="text-ct">
+          <img :src="previewImgUrl" width="500" height="500">
+        </div>
+      </Modal>
     </div>
   </div>
 </template>
@@ -168,7 +169,7 @@
 <script>
   import PayModel from '@/components/PayModel'
   import api from '@/config/apiConfig'
-  import {Icon, Radio, Select, Option, Input, Checkbox} from 'iview'
+  import {Icon, Radio, Select, Option, Input, Checkbox, Modal} from 'iview'
   export default {
     name: "audit-order-popup",
     components:{
@@ -179,7 +180,8 @@
       iSelect: Select,
       iOption:Option,
       iInput:Input,
-      Checkbox:Checkbox
+      Checkbox:Checkbox,
+      Modal:Modal
     },
     props:{
       orderInfo:{
@@ -225,7 +227,9 @@
         babyThreeImageList:[],
         taskTotalElements:0,
         auditResult:false,
-        resubmitList:[]
+        resubmitList:[],
+        previewImg:false,
+        previewImgUrl:''
       }
     },
     computed:{
@@ -415,6 +419,13 @@
         _this.babyTwoImageList = babyTwoList;
         _this.babyThreeImageList = babyThreeList;
         // console.log(_this.mainBabyImageList);
+        // 处理浏览答题截图数据
+        _this.mainBabyAnswerList = tempData.issueAnswerScreenshot.map((item,index) => {
+          let tempObj = {};
+          tempObj.title = item.issueText.issue;
+          tempObj.screenshotsList = item.issueText.image ? [{src:item.issueText.image}] : [];
+          return tempObj;
+        })
       },
       // 处理重新提交
       handleResubmit(array) {
@@ -424,6 +435,11 @@
             _this.resubmitList.push(item.id);
           }
         })
+      },
+      // 预览图片
+      previewImage(url) {
+        this.previewImg = true;
+        this.previewImgUrl = url;
       }
     }
   }
@@ -445,7 +461,7 @@
     margin-left: -300px;
     top: 2%;
     padding: 0 18px 26px 18px;
-    /*overflow: auto;*/
+    overflow: auto;
     > i {
       font-size: 24px;
       cursor: pointer;
@@ -564,6 +580,10 @@
     }
     .resubmit-text{
      color:#2b85e4
+    }
+    .preview-modal {
+      width:600px;
+      height:600px;
     }
 
   }

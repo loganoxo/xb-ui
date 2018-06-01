@@ -373,7 +373,8 @@
     </div>
     <!--填写订单号弹窗-->
     <div class="audit-order-number-model" v-if="showAuditOrderNumber">
-      <div class="audit-order-number-con showSweetAlert" :style="{height:needBrowseCollectAddCart?(needIssueAnswer.length > 0?660+'px': 520+ 'px'):(needIssueAnswer.length > 0?430+'px':290+'px')}">
+      <!--<div class="audit-order-number-con showSweetAlert" :style="{height:needBrowseCollectAddCart?(needIssueAnswer.length > 0?660+'px': 520+ 'px'):(needIssueAnswer.length > 0?430+'px':290+'px')}">-->
+      <div class="audit-order-number-con showSweetAlert">
         <i class="close-model right mr-10" @click="closeAuditOrder">&times;</i>
         <p class="tip-title mt-10">
           <span>注意：订单号及实付金额提交后商家审核前不能修改，请正确填写！</span>
@@ -464,63 +465,63 @@
             <p class="mt-8 example-pic" @click="pcSearchSelectFun('five')">查看示例图</p>
           </div>
         </div>-->
-        <div class="clear ml-45 mr-40 mt-20" v-if="needIssueAnswer.length > 0">
-          <div style="border-top: 1px solid #eee" class="pt-10 pb-10">在详情页找到如下文案，并提供所在位置截图<p @click="watchAnswerImg = true" class="example-pic inline-block ml-10">查看示例图</p></div>
-          <div class="left mr-20 text-ct" v-if="needIssueAnswer[0]">
-            <p class="pd-3 bgFDF5E0 cl000">{{needIssueAnswer[0].issue}}</p>
-            <Upload
-              class="copy-write-img"
-              :default-file-list="defaultImageCwOne"
-              :on-remove="removeMainImageCwOne"
-              :on-success="copyWriteOneImageFun"
-              :format="['jpg','jpeg','png','gif','bmp']"
-              :max-size="10240"
-              name="task"
-              :on-format-error="handleFormatError"
-              :on-exceeded-size="handleMaxSize"
-              type="drag">
-              <div style="width: 58px;height:58px;line-height: 58px;">
-                <Icon type="camera" size="20"></Icon>
-              </div>
-            </Upload>
-          </div>
-          <div class="left mr-20 text-ct" v-if="needIssueAnswer[1]">
-            <p class="pd-3 bgFDF5E0 cl000">{{needIssueAnswer[1].issue}}</p>
-            <Upload
-              class="copy-write-img"
-              :default-file-list="defaultImageCwTwo"
-              :on-remove="removeMainImageCwTwo"
-              :on-success="copyWriteTwoImageFun"
-              :format="['jpg','jpeg','png','gif','bmp']"
-              :max-size="10240"
-              name="task"
-              :on-format-error="handleFormatError"
-              :on-exceeded-size="handleMaxSize"
-              type="drag">
-              <div style="width: 58px;height:58px;line-height: 58px;">
-                <Icon type="camera" size="20"></Icon>
-              </div>
-            </Upload>
-          </div>
-          <div class="left text-ct" v-if="needIssueAnswer[2]">
-            <p class="pd-3 bgFDF5E0 cl000">{{needIssueAnswer[2].issue}}</p>
-            <Upload
-              class="margin-auto copy-write-img"
-              :default-file-list="defaultImageCwThree"
-              :on-remove="removeMainImageCwThree"
-              :on-success="copyWriteThreeImageFun"
-              :format="['jpg','jpeg','png','gif','bmp']"
-              :max-size="10240"
-              name="task"
-              :on-format-error="handleFormatError"
-              :on-exceeded-size="handleMaxSize"
-              type="drag">
-              <div style="width: 58px;height:58px;line-height: 58px;">
-                <Icon type="camera" size="20"></Icon>
-              </div>
-            </Upload>
-          </div>
-        </div>
+        <!--<div class="clear ml-45 mr-40 mt-20" v-if="needIssueAnswer.length > 0">-->
+          <!--<div style="border-top: 1px solid #eee" class="pt-10 pb-10">在详情页找到如下文案，并提供所在位置截图<p @click="watchAnswerImg = true" class="example-pic inline-block ml-10">查看示例图</p></div>-->
+          <!--<div class="left mr-20 text-ct" v-if="needIssueAnswer[0]">-->
+            <!--<p class="pd-3 bgFDF5E0 cl000">{{needIssueAnswer[0].issue}}</p>-->
+            <!--<Upload-->
+              <!--class="copy-write-img"-->
+              <!--:default-file-list="defaultImageCwOne"-->
+              <!--:on-remove="removeMainImageCwOne"-->
+              <!--:on-success="copyWriteOneImageFun"-->
+              <!--:format="['jpg','jpeg','png','gif','bmp']"-->
+              <!--:max-size="10240"-->
+              <!--name="task"-->
+              <!--:on-format-error="handleFormatError"-->
+              <!--:on-exceeded-size="handleMaxSize"-->
+              <!--type="drag">-->
+              <!--<div style="width: 58px;height:58px;line-height: 58px;">-->
+                <!--<Icon type="camera" size="20"></Icon>-->
+              <!--</div>-->
+            <!--</Upload>-->
+          <!--</div>-->
+          <!--<div class="left mr-20 text-ct" v-if="needIssueAnswer[1]">-->
+            <!--<p class="pd-3 bgFDF5E0 cl000">{{needIssueAnswer[1].issue}}</p>-->
+            <!--<Upload-->
+              <!--class="copy-write-img"-->
+              <!--:default-file-list="defaultImageCwTwo"-->
+              <!--:on-remove="removeMainImageCwTwo"-->
+              <!--:on-success="copyWriteTwoImageFun"-->
+              <!--:format="['jpg','jpeg','png','gif','bmp']"-->
+              <!--:max-size="10240"-->
+              <!--name="task"-->
+              <!--:on-format-error="handleFormatError"-->
+              <!--:on-exceeded-size="handleMaxSize"-->
+              <!--type="drag">-->
+              <!--<div style="width: 58px;height:58px;line-height: 58px;">-->
+                <!--<Icon type="camera" size="20"></Icon>-->
+              <!--</div>-->
+            <!--</Upload>-->
+          <!--</div>-->
+          <!--<div class="left text-ct" v-if="needIssueAnswer[2]">-->
+            <!--<p class="pd-3 bgFDF5E0 cl000">{{needIssueAnswer[2].issue}}</p>-->
+            <!--<Upload-->
+              <!--class="margin-auto copy-write-img"-->
+              <!--:default-file-list="defaultImageCwThree"-->
+              <!--:on-remove="removeMainImageCwThree"-->
+              <!--:on-success="copyWriteThreeImageFun"-->
+              <!--:format="['jpg','jpeg','png','gif','bmp']"-->
+              <!--:max-size="10240"-->
+              <!--name="task"-->
+              <!--:on-format-error="handleFormatError"-->
+              <!--:on-exceeded-size="handleMaxSize"-->
+              <!--type="drag">-->
+              <!--<div style="width: 58px;height:58px;line-height: 58px;">-->
+                <!--<Icon type="camera" size="20"></Icon>-->
+              <!--</div>-->
+            <!--</Upload>-->
+          <!--</div>-->
+        <!--</div>-->
         <div class="mt-10 ml-45">
           <p class="mt-20 mb-20 des-text" v-if="needBrowseCollectAddCart">填写下单信息</p>
           <span>请输入订单号：</span>
@@ -726,15 +727,15 @@
         defaultImageEnshrine: [],
         defaultImageItemLocation: [],
         defaultImageSearchCondition: [],
-        defaultImageCwOne:[],
-        defaultImageCwTwo:[],
-        defaultImageCwThree:[],
+        // defaultImageCwOne:[],
+        // defaultImageCwTwo:[],
+        // defaultImageCwThree:[],
         copyWriteOneImg:null,
         copyWriteTwoImg:null,
         copyWriteThreeImg:null,
         watchExample: false,
         watchAnswerImg:false,
-        needIssueAnswer:[],
+        // needIssueAnswer:[],
         issueAnswerScreenshot:[],
         screenShotsData:{},
         showkerOrder:{}
@@ -826,24 +827,24 @@
       addToCartImageFun(res) {
         this.upLoadImageUrl.addToCartImage = aliCallbackImgUrl + res.name
       },
-      copyWriteOneImageFun(res){
-        this.copyWriteOneImg = aliCallbackImgUrl + res.name
-      },
-      copyWriteTwoImageFun(res){
-        this.copyWriteTwoImg = aliCallbackImgUrl + res.name
-      },
-      copyWriteThreeImageFun(res){
-        this.copyWriteThreeImg = aliCallbackImgUrl + res.name
-      },
-      removeMainImageCwOne(){
-        this.copyWriteOneImg = null
-      },
-      removeMainImageCwTwo(){
-        this.copyWriteTwoImg = null
-      },
-      removeMainImageCwThree(){
-        this.copyWriteThreeImg = null
-      },
+      // copyWriteOneImageFun(res){
+      //   this.copyWriteOneImg = aliCallbackImgUrl + res.name
+      // },
+      // copyWriteTwoImageFun(res){
+      //   this.copyWriteTwoImg = aliCallbackImgUrl + res.name
+      // },
+      // copyWriteThreeImageFun(res){
+      //   this.copyWriteThreeImg = aliCallbackImgUrl + res.name
+      // },
+      // removeMainImageCwOne(){
+      //   this.copyWriteOneImg = null
+      // },
+      // removeMainImageCwTwo(){
+      //   this.copyWriteTwoImg = null
+      // },
+      // removeMainImageCwThree(){
+      //   this.copyWriteThreeImg = null
+      // },
       encryptionId(id) {
         return encryption(id)
       },
@@ -907,10 +908,14 @@
             _this.showkerOrder = res.data;
             _this.showkerTask = res.data.showkerTask;
             _this.taskPlaceInfo = res.data.showkerTask.task;
-            // _this.needBrowseCollectAddCart = res.data.needBrowseCollectAddCart;
+            _this.affirmOrderNumber = res.data.orderNum ? res.data.orderNum : null;
+            _this.payMoney = res.data.orderPrice ? res.data.orderPrice : null;
+            _this.needBrowseCollectAddCart = res.data.needBrowseCollectAddCart;
+            console.log(_this.payMoney);
+            console.log(res.data.orderNum);
             _this.needBrowseCollectAddCart = false;
             _this.taskType = res.data.taskType;
-            _this.needIssueAnswer = res.data.itemIssue;
+            // _this.needIssueAnswer = res.data.itemIssue;
             let screenShot = res.data.screenshot;
             _this.defaultImageAddToCart = screenShot.addToCart ? [{src: screenShot.addToCart}] : [];
             _this.upLoadImageUrl.addToCartImage = screenShot.addToCart ? screenShot.addToCart : null;
@@ -924,9 +929,9 @@
             _this.copyWriteOneImg = issueAnswerScreenshot[0]?issueAnswerScreenshot[0]:null;
             _this.copyWriteTwoImg = issueAnswerScreenshot[1]?issueAnswerScreenshot[1]:null;
             _this.copyWriteThreeImg = issueAnswerScreenshot[2]?issueAnswerScreenshot[2]:null;
-            _this.defaultImageCwOne = _this.copyWriteOneImg?[{src: issueAnswerScreenshot[0]}]:[];
-            _this.defaultImageCwTwo = _this.copyWriteTwoImg?[{src: issueAnswerScreenshot[1]}]:[];
-            _this.defaultImageCwThree = _this.copyWriteThreeImg?[{src: issueAnswerScreenshot[2]}]:[];
+            // _this.defaultImageCwOne = _this.copyWriteOneImg?[{src: issueAnswerScreenshot[0]}]:[];
+            // _this.defaultImageCwTwo = _this.copyWriteTwoImg?[{src: issueAnswerScreenshot[1]}]:[];
+            // _this.defaultImageCwThree = _this.copyWriteThreeImg?[{src: issueAnswerScreenshot[2]}]:[];
           } else {
             _this.$Message.error(res.msg);
           }
@@ -1077,18 +1082,18 @@
       },
       saveOrUpdateOrderNumber() {
         let _this = this;
-        if (_this.needIssueAnswer.length > 0 && !_this.copyWriteOneImg) {
-          _this.$Message.error("亲，请上传第一张答题截图！");
-          return;
-        }
-        if (_this.needIssueAnswer.length > 1 && !_this.copyWriteTwoImg) {
-          _this.$Message.error("亲，请上传第二张答题截图！");
-          return;
-        }
-        if (_this.needIssueAnswer.length > 2 && !_this.copyWriteThreeImg) {
-          _this.$Message.error("亲，请上传第三张答题截图！");
-          return;
-        }
+        // if (_this.needIssueAnswer.length > 0 && !_this.copyWriteOneImg) {
+        //   _this.$Message.error("亲，请上传第一张答题截图！");
+        //   return;
+        // }
+        // if (_this.needIssueAnswer.length > 1 && !_this.copyWriteTwoImg) {
+        //   _this.$Message.error("亲，请上传第二张答题截图！");
+        //   return;
+        // }
+        // if (_this.needIssueAnswer.length > 2 && !_this.copyWriteThreeImg) {
+        //   _this.$Message.error("亲，请上传第三张答题截图！");
+        //   return;
+        // }
         _this.issueAnswerScreenshot = [];
         if (_this.copyWriteOneImg){
           _this.issueAnswerScreenshot.push(_this.copyWriteOneImg)

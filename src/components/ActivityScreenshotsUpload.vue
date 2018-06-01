@@ -5,7 +5,7 @@
         <!--货比三家 start-->
         <div class="shop-compare clear">
           <p class="upload-type-title">货比3家（宝贝1）<span>搜索过程中随意点击其他店铺的宝贝进行浏览，并上传浏览截图</span></p>
-          <div class="upload-area left" v-for="(item,index) in shopOneImageList" :key="index">
+          <div class="upload-area left pos-rel" v-for="(item,index) in shopOneImageList" :key="index">
             <upload key="otherShopImageList" class="upload"
                     :on-success="uploadSuccess"
                     :default-file-list="item.screenshotsList"
@@ -24,11 +24,12 @@
             </upload>
             <div class="pt-10 pb-5">{{item.title}}</div>
             <div class="review-image cursor-p" @click="previewImage(item.tipsPicture)">查看示例图</div>
+            <div class="tip-resubmit" v-if="item.status === 'waiting_modify'">重新提交</div>
           </div>
         </div>
         <div class="shop-compare clear">
           <p class="upload-type-title">货比3家（宝贝2）<span>搜索过程中随意点击其他店铺的宝贝进行浏览，并上传浏览截图</span></p>
-          <div class="upload-area left" v-for="(item,index) in shopTwoImageList" :key="index">
+          <div class="upload-area left pos-rel" v-for="(item,index) in shopTwoImageList" :key="index">
             <upload key="otherShopImageList" class="upload"
                     :on-success="uploadSuccess"
                     :default-file-list="item.screenshotsList"
@@ -46,11 +47,12 @@
             </upload>
             <div class="pt-10 pb-5">{{item.title}}</div>
             <div class="review-image cursor-p" @click="previewImage(item.tipsPicture)">查看示例图</div>
+            <div class="tip-resubmit" v-if="item.status === 'waiting_modify'">重新提交</div>
           </div>
         </div>
         <div class="shop-compare clear">
           <p class="upload-type-title">货比3家（宝贝3）<span>搜索过程中随意点击其他店铺的宝贝进行浏览，并上传浏览截图</span></p>
-          <div class="upload-area left" v-for="(item,index) in shopThreeImageList" :key="index">
+          <div class="upload-area left pos-rel" v-for="(item,index) in shopThreeImageList" :key="index">
             <upload key="otherShopImageList" class="upload"
                     :on-success="uploadSuccess"
                     :default-file-list="item.screenshotsList"
@@ -68,13 +70,14 @@
             </upload>
             <div class="pt-10 pb-5">{{item.title}}</div>
             <div class="review-image cursor-p" @click="previewImage(item.tipsPicture)">查看示例图</div>
+            <div class="tip-resubmit" v-if="item.status === 'waiting_modify'">重新提交</div>
           </div>
         </div>
         <!--货比三家 end-->
         <!--主宝贝截图 start-->
         <div class="main-baby-screenshots clear">
           <p class="upload-type-title">主宝贝浏览截图 <span>搜索到目标宝贝，按要求截图并上传</span></p>
-          <div class="upload-area left" v-for="(item,index) in mainBabyImageList" :key="index">
+          <div class="upload-area left pos-rel" v-for="(item,index) in mainBabyImageList" :key="index">
             <upload key="mainBabyImageList" class="upload"
                     :on-success="uploadSuccess"
                     :default-file-list="item.screenshotsList"
@@ -92,23 +95,26 @@
             </upload>
             <div class="pt-10 pb-5">{{item.title}}</div>
             <div class="review-image cursor-p" @click="previewImage(item.tipsPicture)">查看示例图</div>
+            <div class="tip-resubmit" v-if="item.status === 'waiting_modify'">重新提交</div>
           </div>
         </div>
         <!--主宝贝截图 end-->
         <!--主宝贝答题 start-->
         <div class="main-baby-answer clear">
           <p class="upload-type-title">主宝贝浏览答题<span>在目标宝贝的详情页找到如下文案，并提供坐在位置截图</span> <span class="review-image">查看示例图</span></p>
-          <div class="upload-area left">
-            <upload key="mainBabyAnswerList" class="upload"
-                    :on-success="uploadSuccess"
-                    :default-file-list="mainBabyAnswerList"
+          <div class="upload-area left" v-for="(item,index) in mainBabyAnswerList" :key="index">
+            <div class="answer-title">{{item.title}}</div>
+            <upload key="mainBabyAnswerList" class="upload mt-5"
+                    :on-success="uploadAnswerSuccess"
+                    :default-file-list="item.screenShotList"
                     :on-remove="removeImage"
                     :format="['jpg','jpeg','png','gif','bmp']"
                     :max-size="1024"
                     name="task"
                     :on-format-error="handleFormatError"
                     :on-exceeded-size="handleMaxSize"
-                    type="drag">
+                    type="drag"
+                    :itemInfo="item">
               <div class="camera">
                 <Icon type="camera" size="20"></Icon>
               </div>
@@ -146,7 +152,8 @@
         shopThreeImageList:[],
         mainBabyImageList:[],
         mainBabyAnswerList:[],
-        demoPictureSrc:''
+        demoPictureSrc:'',
+        taskId:this.orderInfo.showkerTask.id
       }
     },
     props:{
@@ -192,8 +199,15 @@
       removeImage() {
 
       },
+      // 浏览答题上传成功回调
+      uploadAnswerSuccess(res,info) {
+        let _this = this;
+        info.src = aliCallbackImgUrl + res.name;
+        _this.submitAnswer(info);
+      },
 
       // 处理后台返回的数据
+      // 老铁，千万别删！！
       // handleData() {
       //   const _this = this;
       //   let tempData = _this.orderInfo;
@@ -218,6 +232,7 @@
       //       mainIndex ++;
       //       obj.title = tempData.mainVasSettings[mainIndex].name;
       //       obj.required = item.required;
+      //       obj.status = item.status;
       //       obj.tipsPicture = tempData.mainVasSettings[mainIndex].tipsPicture;
       //       mainBabyList.push(obj)
       //     }else {
@@ -225,18 +240,21 @@
       //         similarOneIndex ++;
       //         obj.title = tempData.similarVasSettings[0][similarOneIndex].name;
       //         obj.required = item.required;
+      //         obj.status = item.status;
       //         obj.tipsPicture = tempData.similarVasSettings[0][similarOneIndex].tipsPicture;
       //         babyOneList.push(obj)
       //       }else if (item.itemIndex === 1){
       //         similarTwoIndex ++;
       //         obj.title = tempData.similarVasSettings[1][similarTwoIndex].name;
       //         obj.required = item.required;
+      //         obj.status = item.status;
       //         obj.tipsPicture = tempData.similarVasSettings[1][similarTwoIndex].tipsPicture;
       //         babyTwoList.push(obj)
       //       }else {
       //         similarThreeIndex ++;
       //         obj.title = tempData.similarVasSettings[2][similarThreeIndex].name;
       //         obj.required = item.required;
+      //         obj.status = item.status;
       //         obj.tipsPicture = tempData.similarVasSettings[2][similarThreeIndex].tipsPicture;
       //         babyThreeList.push(obj)
       //       }
@@ -262,6 +280,7 @@
               tempObj.itemType = item.itemType;
               tempObj.itemIndex = item.itemIndex;
               tempObj.required = item.required;
+              tempObj.status = item.status;
               tempObj.screenshotsList = item.answerScreenshot ? [{src:item.answerScreenshot}] : [];
             }
           });
@@ -274,13 +293,13 @@
                 tempObj.itemType = item.itemType;
                 tempObj.itemIndex = item.itemIndex;
                 tempObj.required = item.required;
+                tempObj.status = item.status;
                 tempObj.screenshotsList = item.answerScreenshot ? [{src:item.answerScreenshot}] : [];
               }
             })
           });
           return tempObj;
         });
-        console.log(handleList);
         _this.shopOneImageList = handleList.filter(item => {
           return item.itemIndex === 0;
         });
@@ -293,6 +312,15 @@
         _this.mainBabyImageList = handleList.filter(item => {
           return item.itemType === 'main_item';
         });
+        // 处理浏览答题
+        // console.log(_this.orderInfo.issueAnswerList);
+        _this.orderInfo.issueAnswerList.forEach((item,index) => {
+          item.index = index;
+          item.src = '';
+          item.screenShotList = item.screenShotList.length > 0 ? [{src:item.screenShotList[0]}] : [];
+        });
+        _this.mainBabyAnswerList = _this.orderInfo.issueAnswerList;
+        console.log(_this.mainBabyAnswerList);
       },
       // 提交增值服务答案（截图）
       submitVasAnswer(info) {
@@ -301,6 +329,22 @@
           showkerTaskVasSettingsId:info.id,
           answerScreenshot:info.src,
           answer:''
+        }).then(res => {
+          if (res.status) {
+            _this.$Message.success('上传成功');
+          } else {
+            _this.$Message.error(res.msg)
+          }
+        })
+      },
+      // 提交浏览答题
+      submitAnswer(info) {
+        const _this = this;
+        console.log(info);
+        api.submitAnswerScreenshots({
+          showkerTaskId:_this.taskId,
+          issueIndex:info.index,
+          issueAnswerScreenshot:info.src
         }).then(res => {
           if (res.status) {
             _this.$Message.success('上传成功');
@@ -348,9 +392,26 @@
         height: 58px;
         line-height: 58px;
       }
+      .tip-resubmit {
+        color:#fff;
+        background: $mainColor;
+        text-align: center;
+        position: absolute;
+        top:43px;
+        left:21px;
+        width:58px;
+        font-size: 12px;
+        border-radius: 0 0 5px 5px;
+      }
     }
     .review-image{
       color:#2b85e4;
+    }
+    .answer-title{
+      border-radius: 3px;
+      background: #FDF5E0;
+      display: inline;
+
     }
   }
 
