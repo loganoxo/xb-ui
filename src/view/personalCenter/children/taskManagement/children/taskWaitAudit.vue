@@ -158,8 +158,8 @@
       </div>
       <div class="mt-20">
         <span class="inline-block title">拉黑原因：</span>
-        <i-select v-model="addToBlackListReason" style="width:200px">
-          <i-option v-for="(item ,index) in reasonList" :value="item.reasonStatus" :key="index">{{item.reasonDec}}
+        <i-select v-model="addToBlackListReason" style="width:300px;">
+          <i-option style="width:300px;" v-for="(item ,index) in reasonList" :value="item.reasonStatus" :key="index">{{item.reasonDec}}
           </i-option>
         </i-select>
       </div>
@@ -316,7 +316,7 @@
         reasonList: [
           {
             reasonStatus: 'none_reason',
-            reasonDec: '无理由'
+            reasonDec: '无理由（仅屏蔽此用户申请，不记入征信体系）'
           },
           {
             reasonStatus: 'illegal_operation',
