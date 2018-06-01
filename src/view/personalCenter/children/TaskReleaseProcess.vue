@@ -2002,7 +2002,7 @@
       },
       stepNext() {
         let _this = this;
-        if (!_this.taskRelease.taskDaysDuration) {
+        if (_this.taskRelease.orderType === 'normal' && !_this.taskRelease.taskDaysDuration) {
           _this.$Message.warning('亲，活动时长不能为空！');
           return;
         }

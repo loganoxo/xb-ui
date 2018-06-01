@@ -270,6 +270,7 @@
       handleDataTest() {
         const _this = this;
         let tempData = _this.orderInfo;
+
         let handleList = tempData.showkerTaskVasSettings.map(item => {
           let tempObj = {};
           tempData.mainVasSettings.map(main => {
