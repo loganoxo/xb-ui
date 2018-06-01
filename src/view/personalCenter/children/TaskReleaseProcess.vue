@@ -2006,15 +2006,15 @@
           _this.$Message.warning('亲，活动时长不能为空！');
           return;
         }
-        if (!isInteger(_this.taskRelease.taskDaysDuration)) {
+        if (_this.taskRelease.orderType === 'normal' && !isInteger(_this.taskRelease.taskDaysDuration)) {
           _this.$Message.warning('亲，活动时长必须为数字！');
           return;
         }
-        if (_this.taskRelease.taskDaysDuration < 3) {
+        if (_this.taskRelease.orderType === 'normal' && _this.taskRelease.taskDaysDuration < 3) {
           _this.$Message.warning('亲，活动时长最短为3天起！');
           return;
         }
-        if (_this.taskRelease.taskDaysDuration > 30) {
+        if (_this.taskRelease.orderType === 'normal' && _this.taskRelease.taskDaysDuration > 30) {
           _this.$Message.warning('亲，活动时长最长为30天！');
           return;
         }
