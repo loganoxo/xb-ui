@@ -264,14 +264,13 @@ export const getUrlParams = (url, name) => {
   return null;
 };
 
-
-
 /**
  * 删除字符串中的html双标签及标签的内容
  */
 export const delHtmlTag = str => {
   return str.replace(/>[^>]+</g, '').replace(/<[^>]+>/g, '');
 };
+
 /**
  * 任务流程状态映射
  */

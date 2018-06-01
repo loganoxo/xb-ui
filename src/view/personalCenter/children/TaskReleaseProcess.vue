@@ -107,13 +107,13 @@
             <radio label="normal">
               <span>普通销量单</span>
             </radio>
-            <radio label="one_day">
+            <radio label="day_now">
               <tooltip content="活动发布当日22点前有效，并在24点后自动取消未下单的拿手资格，仅限VIP、SVIP使用" placement="top">
                 <span>当日单</span>
                 <img src="~assets/img/common/vip.png" alt="vipLogo">
               </tooltip>
             </radio>
-            <radio label="subscribe">
+            <radio label="day_reserve">
               <tooltip content="活动发布当日24点前加入购物车，次日下单购买，系统会自动终止未按要求操作的拿手资格，仅限SVIP使用" placement="top">
                 <span>预约单</span>
                 <img src="~assets/img/common/svip.png" alt="svipLogo">
@@ -144,13 +144,13 @@
           <span class="main-color ml-10">
             <i class="ivu-icon ivu-icon-information-circled cle60012"></i>
             <span v-show="taskRelease.taskSales === 'normal'">（注意：单期活动时间为3-10天，请于活动结束后48小时内审批完成所有拿手资格，逾期系统将自动为您审批）</span>
-            <span v-show="taskRelease.taskSales === 'one_day' || taskRelease.taskSales === 'subscribe'">（注意：请于当日22:20分前审批完成所有拿手资格，逾期系统将自动为您审批）</span>
+            <span v-show="taskRelease.taskSales === 'day_now' || taskRelease.taskSales === 'day_reserve'">（注意：请于当日22:20分前审批完成所有拿手资格，逾期系统将自动为您审批）</span>
           </span>
         </div>
-        <div class="ml-15 mt-20" v-show="taskRelease.taskSales === 'subscribe'">
+        <div class="ml-15 mt-20" v-show="taskRelease.taskSales === 'day_reserve'">
           <i class="ivu-icon ivu-icon-information-circled cle60012"></i>
           <span>转当日单：</span>
-          <checkbox v-model="taskRelease.refuseOldShowker">需要</checkbox>
+          <checkbox v-model="taskRelease.dayReserveToNow">需要</checkbox>
           <span class="main-color f-b">建议勾选！</span>
           <span class="sizeColor2">（若审核通过的拿手当日未加入购物车，在次日扔可继续下单购买，活动剩余名额也自动转为当日单）</span>
         </div>
@@ -161,15 +161,15 @@
         <div class="order-speed ml-20 mt-20">
           <span class="ml-8">下单速度：</span>
           <radio-group v-model="taskRelease.showkerOrderTimeLimit">
-            <radio :label="24" v-show="taskRelease.taskSales === 'one_day'"><span>当日24点前</span></radio>
-            <radio :label="24" v-show="taskRelease.taskSales === 'subscribe'"><span>当日24点前加入购物车，次日下单购买</span></radio>
+            <radio :label="24" v-show="taskRelease.taskSales === 'day_now'"><span>当日24点前</span></radio>
+            <radio :label="24" v-show="taskRelease.taskSales === 'day_reserve'"><span>当日24点前加入购物车，次日下单购买</span></radio>
             <radio :label="24" v-show="taskRelease.taskSales === 'normal'"><span>24小时内</span></radio>
             <radio :label="12" v-show="taskRelease.taskSales === 'normal'"><span>12小时内</span></radio>
             <radio :label="6" v-show="taskRelease.taskSales === 'normal'"><span>6小时内</span></radio>
             <radio :label="3" v-show="taskRelease.taskSales === 'normal'"><span>3小时内</span></radio>
           </radio-group>
           <span class="sizeColor2" v-show="taskRelease.taskSales === 'normal'">（拿手通过审批后需要指定时间内完成淘宝下单并在本平台提交订单号，否则资格自动过期）</span>
-          <span class="sizeColor2" v-show="taskRelease.taskSales === 'subscribe'">（拿手通过审批后需要在当日24点前加入购物车，次日在淘宝下单并在平台提交订单号，否则资格自动过期）</span>
+          <span class="sizeColor2" v-show="taskRelease.taskSales === 'day_reserve'">（拿手通过审批后需要在当日24点前加入购物车，次日在淘宝下单并在平台提交订单号，否则资格自动过期）</span>
         </div>
         <div class="trial-condition ml-20 mt-20">
           <span class="ml-8"> 收藏加购：</span>
@@ -217,13 +217,13 @@
         <div class="task-speed-up ml-20 mt-20">
           <span class="ml-8">一键加速：</span>
           <checkbox v-model="taskRelease.speedUp">需要</checkbox>
-          <span class="sizeColor2"><span v-show="taskRelease.taskSales === 'one_day' || taskRelease.taskSales === 'subscribe'" class="main-color f-b">强烈建议勾选！</span>（选择后，该活动所有名额的审批由系统推荐和控制，适合需要快速消化单量的商家）</span>
+          <span class="sizeColor2"><span v-show="taskRelease.taskSales === 'day_now' || taskRelease.taskSales === 'day_reserve'" class="main-color f-b">强烈建议勾选！</span>（选择后，该活动所有名额的审批由系统推荐和控制，适合需要快速消化单量的商家）</span>
         </div>
         <div class="value-added-services">
           <p class="main-color">增值服务（平台已保证所有拿手安全下单，但您仍不放心，可选择以下增值服务，该服务会要求拿手上传截图留证）</p>
             <template v-for="item in vasMainItem">
               <checkbox v-show="taskRelease.taskType === 'pc_search' || taskRelease.taskType === 'direct_access' ? item.showForPc : item.showForApp" class="mt-10 mr-15"
-                        v-model="item.isSelect">
+                        v-model="item.isSelect" :disabled="item.isDisabled">
                 <span>{{item.name}}</span>
                 <span class="sizeColor2">({{item.price / 100 || 0}}元)</span>
                 <span class="value-added-services-demo-image">图</span>
@@ -1177,7 +1177,7 @@
         <span class="main-color">温馨提示</span>
       </p>
       <div class="text-ct">
-        <p class="fs-16">{{upgradeMembershipModalTipText}}</p>
+        <p class="fs-16">该功能仅限VIP / SVIP 使用 : (</p>
         <p class="mt-5">是否现在升级您的会员版本？</p>
       </div>
       <div slot="footer" class="text-ct">
@@ -1301,6 +1301,7 @@
           taskDaysDuration: null,
           onlyShowForQualification: false,
           showkerOrderTimeLimit: 24,
+          dayReserveToNow: false,
           refuseOldShowker: false,
           needBrowseCollectAddCart: false,
           speedUp: false,
@@ -1417,7 +1418,6 @@
         shopAroundStatus: false,
         originalVasMainItem: [],
         upgradeMembershipModal: false,
-        upgradeMembershipModalTipText: '该功能仅限VIP / SVIP 使用 : (',
       }
     },
     mounted() {
@@ -1778,27 +1778,45 @@
           if (res.status) {
             res.data.mainVasSettings.map(keys => {
               _this.vasMainItem.map(key => {
-                if(keys.id === key.id) {
+                if (keys.id === key.id) {
                   key.isSelect = true;
                   return key;
                 }
               })
             });
-            let vasSimilar = [];
-            res.data.similarVasSettings.map(items => {
-              _this.vasSimilarItem.map(keys => {
+            const similarVasSettings = res.data.similarVasSettings;
+            const len = similarVasSettings.length;
+            if (len > 1) {
+              for (let i = 0; i < len - 1; i++) {
+                _this.addShopAroundList()
+              }
+              _this.shopAroundStatus = true;
+              // 创建一个临时数组变量用来存储拷贝的原始数据
+              let tempArr = [];
+              // 循环遍历服务端返回的用户选择增值服务数据
+              similarVasSettings.map((keys, i) => {
+                // 每次循环的时候从原始数据拷贝当前循环数对应的下标对象
+                tempArr[i] = extendDeep(_this.vasSimilarItem[i], []);
                 keys.map(key => {
-                  items.map(item => {
-                    console.log(item)
-                  })
+                  // 将拷贝的临时原始数据和用户选中的数据进行对比，并返回处理后的临时数据
+                  tempArr = _this.asNameToSetKey(i, key.id, keys, tempArr);
                 })
-              })
-
-            });
+              });
+              // 将处理后的临时数据通过使用‘对象展开操作符’和原始数据合并
+              _this.vasSimilarItem = [...tempArr];
+            }
           } else {
             _this.$Message.error(res.msg)
           }
         })
+      },
+      asNameToSetKey(m, id, arr, tempArr) {
+        for (let i = 0, len = arr.length; i < len; i++) {
+          if(arr[i].id === id) {
+            tempArr[m][i].isSelect = true;
+          }
+        }
+        return tempArr;
       },
       getTaskVasList() {
         const _this = this;
@@ -1886,12 +1904,11 @@
           }
         },*/
       changeExampleImageUrl(type) {
-        let _this = this;
-        _this.isShowExampleImageModel = true;
+        this.isShowExampleImageModel = true;
         if (type === 'main') {
-          _this.exampleImageUrl = '/static/img/demo/taskRelease/task-main-image.jpg'
+          this.exampleImageUrl = '/static/img/demo/taskRelease/task-main-image.jpg'
         } else {
-          _this.exampleImageUrl = '/static/img/demo/taskRelease/browse-answer-image.png'
+          this.exampleImageUrl = '/static/img/demo/taskRelease/browse-answer-image.png'
         }
       },
       taskTypeChange(type) {
@@ -1913,24 +1930,35 @@
         }
       },
       taskSalesChange(type) {
-        if((type === 'one_day' || type === 'subscribe') && this.getMemberVersionLevel === 100) {
+        if ((type === 'day_now' || type === 'day_reserve') && this.getMemberVersionLevel === 100) {
           this.upgradeMembershipModal = true;
-          this.upgradeMembershipModalTipText = '该功能仅限VIP / SVIP 使用 : (';
           this.taskRelease.taskSales = 'normal'
         }
-        if(type === 'subscribe' && this.getMemberVersionLevel === 200) {
-          this.upgradeMembershipModal = true;
-          this.upgradeMembershipModalTipText = '该功能仅限 SVIP 使用 : (';
-          this.taskRelease.taskSales = 'normal'
-        }
-        if(type === 'one_day' || type === 'subscribe') {
+        if (type === 'day_now' || type === 'day_reserve') {
           this.taskRelease.speedUp = true;
           this.taskCountInputPlaceholder = '当日22点前有效';
           this.taskCountInputDisabled = true;
+          this.vasMainItem.map(item => {
+            if (item.id === 3 && item.isSelect) {
+              item.isSelect = false;
+              item.isDisabled = false;
+              return item;
+            }
+          })
         }
-        if(type === 'normal') {
+        if (type === 'day_reserve') {
+          this.vasMainItem.map(item => {
+            if (item.id === 3) {
+              item.isSelect = true;
+              item.isDisabled = true;
+              return item;
+            }
+          })
+        }
+        if (type === 'normal') {
           this.taskCountInputPlaceholder = '请输入活动时长';
           this.taskCountInputDisabled = false;
+          this.taskRelease.speedUp = false;
         }
       },
       onEditorBlur(editor) {
@@ -2403,7 +2431,7 @@
         this.taskCreate(true);
       },
       getTaskInfo() {
-        let _this = this;
+        const _this = this;
         let type = _this.$route.query.type;
         api.getTaskInfo({
           taskId: _this.editTaskId
@@ -2432,7 +2460,7 @@
             _this.taskRelease.pinkage = _this.taskRelease.pinkage.toString();
             _this.taskRelease.donotPostPhoto = _this.taskRelease.donotPostPhoto.toString();
 
-            // 复制老活动的时候如果掌柜旺旺信息不能匹配到绑定店铺的旺旺名则默认自动选择第一个店铺，反之取接口实时数据
+            // 复制历史活动的时候如果掌柜旺旺信息不能匹配到绑定店铺的旺旺名则默认自动选择第一个店铺，反之取接口实时数据
             _this.selectStoreInfo = {};
             const hasStoreBind = _this.storeBindInfoList.every(item => {
               return decodeURI(item.storeAlitm) !== _this.taskRelease.storeName && decodeURI(item.storeName !== _this.taskRelease.realStoreName)
@@ -2460,7 +2488,7 @@
               _this.taskRelease.activityCategory = 'free_get';
             }
 
-            //处理拍A发A淘宝评价要求重置为false
+            // 处理复制历史活动拍A发A淘宝评价要求重置为false
             if (res.data.donotPostPhoto && activityCategory === 'free_get') {
               _this.taskRelease.donotPostPhoto = 'false';
             }

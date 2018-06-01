@@ -668,8 +668,9 @@
       <div class="description-fees-con mt-10">
         <p>活动担保金 = 份数 × 单品活动担保金 = <span>{{oneBondMarginText}}</span> 元</p>
         <!--<p class="mt-6">单品推广费 = 单品试用担保金 × 费率 =<span>{{onePromotionExpensesBeforeText}}</span> 元<span>{{onePromotionExpensesTipText}}</span></p>-->
-        <p class="mt-6">总推广费 = 单品推广费用 × 份数 = <span>{{onePromotionExpenses}}</span> × <span>{{taskRelease.taskCount}} = <span>{{allPromotionExpenses}}</span></span> 元</p>
-        <p class="mt-6">总费用 = 活动担保金 + 总推广费 = <span>{{(orderMoney).toFixed(2)}}</span> 元</p>
+        <p class="mt-6">总推广费 = 单品推广费用 × 份数 = <span>{{onePromotionExpenses}}</span> × <span>{{taskRelease.taskCount}} = <span>{{(allPromotionExpenses / 100).toFixed(2)}}</span></span> 元</p>
+        <p>总增值费 = 单品增值费 × 份数 =  <span>{{(oneValueAddedCost / 100).toFixed(2)}}</span> × <span>{{taskRelease.taskCount}}</span> = {{(allValueAddedCost / 100).toFixed(2)}} 元</p>
+        <p class="mt-6">总费用 = 活动担保金 + 总推广费 + 总增值费用 = <span>{{(orderMoney / 100).toFixed(2)}}</span> 元</p>
       </div>
     </div>
     <router-link class="footer-btn" tag="div" to="/user/activity-management/list">返回上一页</router-link>
@@ -699,7 +700,6 @@
     data() {
       return {
         itemCatalogList: [],
-        itemCatalog: [],
         mainDefaultList: null,
         appDefaultList: null,
         pcDefaultList: null,
@@ -836,6 +836,7 @@
     created() {
       this.getItemCatalog();
       this.getStoreBindInfoList();
+      this.getTaskVasList();
       let taskId = decode(this.$route.query.q);
       if (taskId) {
         this.editTaskId = taskId;
@@ -877,7 +878,7 @@
        * @return {number}
        */
       oneBond() {
-        return this.taskRelease.pinkage === 'true' ? (this.newItemPrice / 100).toFixed(2) * 1 : (this.newItemPrice / 100 + 10).toFixed(2) * 1;
+        return this.taskRelease.pinkage === 'true' ? this.newItemPrice : this.newItemPrice + 1000;
       },
 
       /**
@@ -893,9 +894,28 @@
        * @return {number}
        */
       onePromotionExpenses() {
-       /* let price = this.taskRelease.pinkage === 'true' ? this.taskRelease.itemPrice : this.taskRelease.itemPrice + 10;
-        return price * 0.06 > 3 ? 3.00 : (price * 0.06).toFixed(2) * 1;*/
-       return 0
+        if (this.taskRelease.activityCategory === 'free_get') {
+          if (this.getMemberVersionLevel === 100) {
+            return 3
+          }
+          if (this.getMemberVersionLevel === 200) {
+            return 0
+          }
+          if (this.getMemberVersionLevel === 300) {
+            return 0
+          }
+        }
+        if (this.taskRelease.activityCategory === 'present_get') {
+          if (this.getMemberVersionLevel === 100) {
+            return 6
+          }
+          if (this.getMemberVersionLevel === 200) {
+            return 3
+          }
+          if (this.getMemberVersionLevel === 300) {
+            return 0
+          }
+        }
       },
 
       /**
@@ -903,10 +923,10 @@
        * @return {String}
        */
       oneBondMarginText() {
-        if(this.taskRelease.activityCategory === 'free_get') {
-          return `${this.taskRelease.taskCount} × ${(this.oneBond).toFixed(2)} = ${(this.taskRelease.taskCount * this.oneBond).toFixed(2)}`
+        if (this.taskRelease.activityCategory === 'free_get') {
+          return `${this.taskRelease.taskCount} × ${(this.oneBond / 100).toFixed(2)} = ${((this.taskRelease.taskCount * this.oneBond) / 100).toFixed(2)}`
         }
-        if(this.taskRelease.activityCategory === 'present_get') {
+        if (this.taskRelease.activityCategory === 'present_get') {
           return `${this.taskRelease.taskCount} × ${(this.oneBondAToB / 100).toFixed(2)} = ${((this.taskRelease.taskCount * this.oneBondAToB) / 100).toFixed(2)}`
         }
       },
@@ -923,30 +943,29 @@
        * @return {String}
        */
       onePromotionExpensesBeforeText() {
-        if(this.taskRelease.activityCategory === 'free_get') {
-          if(this.getMemberVersionLevel === 100) {
-            return `${(this.oneBond).toFixed(2)} × 4% = ${(this.oneBond * 0.04).toFixed(2)}`
+        if (this.taskRelease.activityCategory === 'free_get') {
+          if (this.getMemberVersionLevel === 100) {
+            return `${(this.oneBond / 100).toFixed(2)} × 4% = ${(this.oneBond * 0.04).toFixed(2)}`
           }
-          if(this.getMemberVersionLevel === 200) {
-            return `${(this.oneBond).toFixed(2)} × 2% = ${(this.oneBond * 0.02).toFixed(2)}`
+          if (this.getMemberVersionLevel === 200) {
+            return `${(this.oneBond / 100).toFixed(2)} × 2% = ${(this.oneBond * 0.02).toFixed(2)}`
           }
-          if(this.getMemberVersionLevel === 300) {
-            return `${(this.oneBond).toFixed(2)} × 0 = 0`
+          if (this.getMemberVersionLevel === 300) {
+            return `${(this.oneBond / 100).toFixed(2)} × 0 = 0`
           }
         }
-        if(this.taskRelease.activityCategory === 'present_get') {
-          if(this.getMemberVersionLevel === 100) {
+        if (this.taskRelease.activityCategory === 'present_get') {
+          if (this.getMemberVersionLevel === 100) {
             return `${(this.oneBondAToB / 100).toFixed(2)} × 4% = ${(this.oneBondAToB * 0.04).toFixed(2)}`
           }
-          if(this.getMemberVersionLevel === 200) {
+          if (this.getMemberVersionLevel === 200) {
             return `${(this.oneBondAToB / 100).toFixed(2)} × 4% = ${(this.oneBondAToB * 0.02).toFixed(2)}`
           }
-          if(this.getMemberVersionLevel === 300) {
+          if (this.getMemberVersionLevel === 300) {
             return `${(this.oneBondAToB / 100).toFixed(2)} × 0 = 0`
           }
         }
       },
-
 
       /**
        * 计算最终单品推广费用（打赏费）
@@ -995,7 +1014,7 @@
        * @return {number}
        */
       allPromotionExpenses() {
-        return (this.onePromotionExpenses * this.taskRelease.taskCount).toFixed(2) * 1;
+        return this.onePromotionExpenses * this.taskRelease.taskCount;
       },
 
       /**
@@ -1003,8 +1022,61 @@
        * @return {number}
        */
       orderMoney() {
-        return (((this.taskRelease.taskCount * this.oneBond * 100) + this.allPromotionExpenses * 100) / 100).toFixed(2) * 1;
+        if (this.taskRelease.activityCategory === 'free_get') {
+          return (this.taskRelease.taskCount * this.oneBond) + this.allPromotionExpenses * 100 + this.allValueAddedCost
+        }
+        if (this.taskRelease.activityCategory === 'present_get') {
+          return (this.taskRelease.taskCount * this.oneBondAToB) + this.allPromotionExpenses * 100 + this.allValueAddedCost
+        }
       },
+
+      /**
+       * 计算用户选择的增值服务费用（不包含‘货比三家’服务）
+       * @return {number}
+       */
+      vasMainItemCost() {
+        let cost = 0;
+        this.vasMainItem.map(item => {
+          if(item.isSelect) {
+            cost += item.price
+          }
+        });
+        return cost
+      },
+
+      /**
+       * 计算用户选择的‘货比三家’增值服务费用
+       * @return {number}
+       */
+      vasSimilarItemCost() {
+        let cost = 0;
+        if(this.shopAroundStatus) {
+          this.vasSimilarItem.map(keys => {
+            keys.map(item => {
+              if(item.isSelect) {
+                cost += item.price
+              }
+            })
+          });
+        }
+        return cost
+      },
+
+      /**
+       * 计算用户选择的增值服务费用（单品：vasMainItemCost + vasSimilarItemCost）
+       * @return {number}
+       */
+      oneValueAddedCost() {
+        return this.vasMainItemCost + this.vasSimilarItemCost
+      },
+
+      /**
+       * 计算用户总增值服务费用（单品费用 * 宝贝数量）
+       * @return {number}
+       */
+      allValueAddedCost() {
+        return this.oneValueAddedCost * this.taskRelease.taskCount
+      }
     },
     methods: {
       getStoreBindInfoList() {
@@ -1019,25 +1091,80 @@
           }
         })
       },
+      asNameToSetKey(m, id, arr, tempArr) {
+        for (let i = 0, len = arr.length; i < len; i++) {
+          if(arr[i].id === id) {
+            tempArr[m][i].isSelect = true;
+          }
+        }
+        return tempArr;
+      },
+      getTaskVasSelectInfo(id) {
+        const _this = this;
+        api.taskVasSelectInfo({
+          taskId: id
+        }).then(res => {
+          if (res.status) {
+            res.data.mainVasSettings.map(keys => {
+              _this.vasMainItem.map(key => {
+                if (keys.id === key.id) {
+                  key.isSelect = true;
+                  return key;
+                }
+              })
+            });
+            const similarVasSettings = res.data.similarVasSettings;
+            const len = similarVasSettings.length;
+            if (len > 1) {
+              for (let i = 0; i < len - 1; i++) {
+                _this.addShopAroundList()
+              }
+              _this.shopAroundStatus = true;
+              let tempArr = [];
+              similarVasSettings.map((keys, i) => {
+                tempArr[i] = extendDeep(_this.vasSimilarItem[i], []);
+                keys.map(key => {
+                  tempArr = _this.asNameToSetKey(i, key.id, keys, tempArr);
+                });
+              });
+              _this.vasSimilarItem = [...tempArr];
+            }
+          } else {
+            _this.$Message.error(res.msg)
+          }
+        })
+      },
+      addShopAroundList() {
+        // 深度复制数组，防止每次取到的数据在内存中指向同一地址造成数据监听异常
+        const copy = extendDeep(this.originalVasMainItem, []);
+        this.vasSimilarItem.push(copy);
+      },
+      getTaskVasList() {
+        const _this = this;
+        api.taskVasList().then(res => {
+          if (res.status) {
+            _this.vasSimilarItem.push(res.data.vasSimilarItem);
+            _this.originalVasMainItem = extendDeep(res.data.vasSimilarItem, []);
+            _this.vasMainItem = res.data.vasMainItem;
+          } else {
+            _this.$Message.error(res.msg)
+          }
+        })
+      },
       getTaskInfo() {
-        let _this = this;
-        let type = _this.$route.query.type;
+        const _this = this;
         api.getTaskInfo({
           taskId: _this.editTaskId
         }).then(res => {
           if (res.status) {
-            _this.itemCatalog = res.data;
+            _this.getTaskVasSelectInfo(_this.editTaskId);
             _this.selectStoreInfo.storeName = res.data.realStoreName;
             _this.mainDefaultList = null;
             _this.pcDefaultList = null;
             _this.appDefaultList = null;
-            if (!type) {
-              _this.taskRelease.taskId = res.data.id;
-            }
             _this.paidDeposit = (res.data.marginPaid + res.data.promotionExpensesPaid) / 100 || 0;
             _this.taskStatus = res.data.taskStatus;
             _this.mainDefaultList = res.data.taskMainImage;
-            _this.taskRelease.itemType = res.data.itemCatalog.id;
             for (let k in _this.taskRelease) {
               for (let i in res.data) {
                 if (k === i) {
@@ -1045,15 +1172,16 @@
                 }
               }
             }
+            _this.taskRelease.itemType = res.data.itemCatalog.id;
             _this.taskRelease.pinkage =  _this.taskRelease.pinkage.toString();
             _this.taskRelease.donotPostPhoto = _this.taskRelease.donotPostPhoto.toString();
-            //start 临时处理 10元包邮，白菜价活动下线复制历史活动
+            // 临时处理 10元包邮，白菜价活动下线复制历史活动
             const activityCategory = res.data.activityCategory;
             if(activityCategory === 'pinkage_for_10' || activityCategory === 'price_low'){
               _this.taskRelease.discountType = 'discount_0';
               _this.taskRelease.activityCategory = 'free_get';
             }
-            //end
+
             let itemIssue = JSON.parse(res.data.itemIssue);
             if(itemIssue && itemIssue.length > 0) {
               _this.needBrowseAnswer = true;
