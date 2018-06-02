@@ -1804,35 +1804,11 @@
                   })
                 }
               })
-        /*      similarVasSettings.map((keys, i) => {
-                tempArra = extendDeep(_this.vasSimilarItem[i], []);
-                tempArrb = keys;
-                tempArra.map(items => {
-                  tempArrb.map(item => {
-                    if(items.id === item.id) {
-                      tempArra.isSelect = true;
-                      return tempArra
-                    }
-                  })
-                });
-              /!*  keys.map(key => {
-                  tempArr = _this.asNameToSetKey(i, key.id, keys, tempArr);
-                })*!/
-              });*/
-              // _this.vasSimilarItem = [...tempArr];
             }
           } else {
             _this.$Message.error(res.msg)
           }
         })
-      },
-      asNameToSetKey(m, id, arr, tempArr) {
-        for (let i = 0, len = arr.length; i < len; i++) {
-          if(arr[i].id === id) {
-            tempArr[m][i].isSelect = true;
-          }
-        }
-        return tempArr;
       },
       getTaskVasList() {
         const _this = this;

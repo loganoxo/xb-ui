@@ -6,72 +6,67 @@
     </div>
     <div class="select-status pl-10 clear">
       <div class="left mr-10" style="padding-top: 1px;">
-        <Checkbox
-          :value="checkAll"
-          @click.prevent.native="handleCheckAll">全部
-        </Checkbox>
+        <checkbox :value="checkAll" @click.prevent.native="handleCheckAll">全部</checkbox>
       </div>
       <div class="left">
-        <Checkbox-group v-model="taskStatusList" @on-change="checkAllGroupChange">
-          <Checkbox label="waiting_pay">
+        <checkbox-group v-model="taskStatusList" @on-change="checkAllGroupChange">
+          <checkbox label="waiting_pay">
             <span>待付款</span>
-          </Checkbox>
-          <Checkbox label="waiting_audit">
+          </checkbox>
+          <checkbox label="waiting_audit">
             <span>待审核</span>
-          </Checkbox>
-          <Checkbox label="waiting_modify">
+          </checkbox>
+          <checkbox label="waiting_modify">
             <span>待修改</span>
-          </Checkbox>
-          <Checkbox label="under_way">
+          </checkbox>
+          <checkbox label="under_way">
             <span>进行中</span>
-          </Checkbox>
-          <Checkbox label="finished">
+          </checkbox>
+          <checkbox label="finished">
             <span>已结束</span>
-          </Checkbox>
-          <Checkbox label="closed">
+          </checkbox>
+          <checkbox label="closed">
             <span>已关闭</span>
-          </Checkbox>
-        </Checkbox-group>
+          </checkbox>
+        </checkbox-group>
       </div>
       <div class="left">
-        <Checkbox-group v-model="settlementStatusList" @on-change="checkAllGroupChange">
-          <Checkbox label="cannot_settlement">
+        <checkbox-group v-model="settlementStatusList" @on-change="checkAllGroupChange">
+          <checkbox label="cannot_settlement">
             <span>不可申请结算</span>
-          </Checkbox>
-          <Checkbox label="waiting_settlement">
+          </checkbox>
+          <checkbox label="waiting_settlement">
             <span>待申请结算</span>
-          </Checkbox>
+          </checkbox>
           <!--<Checkbox label="waiting_audit">
             <span>待结算审核</span>
           </Checkbox>-->
-          <Checkbox label="settlement_finished">
+          <checkbox label="settlement_finished">
             <span>已结算</span>
-          </Checkbox>
-        </Checkbox-group>
+          </checkbox>
+        </checkbox-group>
       </div>
       <div class="left">
-        <Checkbox-group v-model="taskOnline" @on-change="checkAllGroupChange">
+        <checkbox-group v-model="taskOnline" @on-change="checkAllGroupChange">
           <Checkbox label="online">
             <span>已下线</span>
           </Checkbox>
-        </Checkbox-group>
+        </checkbox-group>
       </div>
     </div>
     <div class="list-sort clear">
-      <iSelect v-model="activityCategory" size="small" style="width:108px" class="left mr-10" placeholder="全部类型活动" @on-change="changeActivityCategory">
-        <iOption v-for="item in activityTypeList" :value="item.value" :key="item.value">{{ item.label }}</iOption>
-      </iSelect>
-      <ButtonGroup class="left">
-        <iButton :class="[sortList.select === item.sortField ? 'active' : '']" size="small" v-for="(item,index) in sortList.defaultList" :key="index" @click="sortChange(item.sortField,index)">
+      <i-select v-model="activityCategory" size="small" style="width:108px" class="left mr-10" placeholder="全部类型活动" @on-change="changeActivityCategory">
+        <i-option v-for="item in activityTypeList" :value="item.value" :key="item.value">{{ item.label }}</i-option>
+      </i-select>
+      <button-group class="left">
+        <i-button :class="[sortList.select === item.sortField ? 'active' : '']" size="small" v-for="(item,index) in sortList.defaultList" :key="index" @click="sortChange(item.sortField,index)">
           <span>{{item.name}}</span>
-          <Icon v-show="item.sort === 'desc'" type="arrow-down-c"></Icon>
-          <Icon v-show="item.sort === 'asc' " type="arrow-up-c"></Icon>
-        </iButton>
-      </ButtonGroup>
-      <iInput v-model="taskNumber" size="small" placeholder="使用活动编号或者订单号搜索" class="left ml-10" style="width: 280px;"
-              @on-enter="getTaskList">
-        <iButton slot="append" icon="ios-search" size="small" :loading="searchLoading" @click="searchTaskList"></iButton>
-      </iInput>
+          <icon :type="item.sort === 'desc' ? 'arrow-down-c': 'arrow-up-c'"></icon>
+        </i-button>
+      </button-group>
+      <i-input v-model="taskNumber" size="small" placeholder="使用活动编号或者订单号搜索" class="left ml-10" style="width: 280px;" @on-enter="getTaskList">
+        <i-button slot="append" icon="ios-search" size="small" :loading="searchLoading" @click="searchTaskList"></i-button>
+      </i-input>
     </div>
     <!--管理列表-->
     <div class="activity-table">
@@ -83,7 +78,7 @@
           <th width="10%">活动状态</th>
           <th width="12%">报名 / 已通过</th>
           <th width="8%">可审批名额</th>
-          <th width="24%">活动所需担保金 / 活动所需推广费 / 已存入</th>
+          <th width="24%">所需（担保金 / 推广费 / 增值费）已存入</th>
           <th width="12%">操作</th>
         </tr>
         </thead>
@@ -109,14 +104,14 @@
             <span v-else>{{item.taskStatusDesc}}</span><br/>{{item.settlementStatusDesc}}
           </td>
           <td class="cursor-p main-color" v-else>
-            <Tooltip :content="item.auditLogs[item.auditLogs.length - 1].resultMsg" placement="top">
-              <Icon color="#f9284f" type="information-circled"></Icon>&nbsp;待修改
-            </Tooltip>
+            <tooltip :content="item.auditLogs[item.auditLogs.length - 1].resultMsg" placement="top">
+              <icon color="#f9284f" type="information-circled"></icon>&nbsp;待修改
+            </tooltip>
           </td>
           <td>{{item.showkerApplyTotalCount || 0}} / {{item.showkerApplyPassedCount || 0}}（人）</td>
           <td>{{(item.taskCount  - item.showkerApplySuccessCount)}}</td>
           <td>
-            {{item.totalMarginNeed / 100}} / {{item.promotionExpensesNeed / 100}} / {{(item.marginPaid + item.promotionExpensesPaid) / 100 || 0}}
+           （ {{(item.totalMarginNeed / 100).toFixed(2) || 0}} / {{(item.promotionExpensesNeed / 100).toFixed(2) || 0}} / {{(item.vasFeeNeed / 100).toFixed(2) || 0}}）{{((item.marginPaid + item.promotionExpensesPaid) / 100).toFixed(2) || 0}}
           </td>
           <td v-if="item.taskStatus === 'waiting_pay'">
             <p class="del-edit">
@@ -124,7 +119,7 @@
               <span @click="closeTask(item.id)">关闭</span>
             </p>
             <p class="bond mt-6">
-              <span @click="depositMoney((item.totalMarginNeed + item.promotionExpensesNeed),item.id,item.marginPaid + item.promotionExpensesPaid, item.createTime)">存担保金</span>
+              <span @click="depositMoney((item.totalMarginNeed + item.promotionExpensesNeed + item.vasFeeNeed),item.id,item.marginPaid + item.promotionExpensesPaid + item.vasFeePaid, item.createTime)">存担保金</span>
             </p>
             <p class="copy mt-6">
               <span @click="copyTask(item.id)">复制活动</span>
@@ -223,7 +218,7 @@
     </div>
     <!--列表分页-->
     <div class="activity-page mt-20 right mr-10" v-show="taskList && taskList.length > 0">
-      <Page :total="totalElements" :page-size="pageSize" :current="pageIndex" @on-change="pageChange"></Page>
+      <page :total="totalElements" :page-size="pageSize" :current="pageIndex" @on-change="pageChange"></page>
     </div>
     <!--关闭任务弹框-->
     <modal v-model="closeModal" width="360">
