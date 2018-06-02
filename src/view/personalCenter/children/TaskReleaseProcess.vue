@@ -2365,17 +2365,19 @@
             mainTaskVasId.push(item.id)
           }
         });
-        _this.vasSimilarItem.map(keys => {
-          let i = [];
-          keys.map(item => {
-            if (item.isSelect) {
-              i.push(item.id)
+        if (_this.shopAroundStatus) {
+          _this.vasSimilarItem.map(keys => {
+            let i = [];
+            keys.map(item => {
+              if (item.isSelect) {
+                i.push(item.id)
+              }
+            });
+            if (i.length > 0) {
+              similarTaskVasId.push(i)
             }
           });
-          if (i.length > 0) {
-            similarTaskVasId.push(i)
-          }
-        });
+        }
         _this.taskRelease.mainTaskVasConfigIds = JSON.stringify(mainTaskVasId);
         _this.taskRelease.similarTaskVasConfigIds = JSON.stringify(similarTaskVasId);
         let pcTaskDetailClone = extendDeep(_this.pcTaskDetail, []);
