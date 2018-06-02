@@ -1921,11 +1921,22 @@
           this.appDefaultList.push({src: this.appTaskDetail[0].itemMainImage})
         }
         if (type === 'pc_search' || type === 'direct_access') {
-          this.vasMainItem.map(item => {
-            if (item.id === 6 && item.isSelect) {
-              item.isSelect = false
+          this.vasMainItem.map(key => {
+            if (key.id === 6 && key.isSelect) {
+              key.isSelect = false;
+              return key;
             }
-          })
+          });
+          if (this.shopAroundStatus) {
+            this.vasSimilarItem.map(keys => {
+              keys.map(key => {
+                if (key.id === 12 && key.isSelect) {
+                  key.isSelect = false;
+                  return key;
+                }
+              })
+            })
+          }
         }
       },
       taskSalesChange(type) {
