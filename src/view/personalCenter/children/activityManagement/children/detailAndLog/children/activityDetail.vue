@@ -121,7 +121,7 @@
         <div class="activity-info-title">填写活动信息</div>
         <div class="activity-type ml-60 mt-22">
           <span class="required">下单方式：</span>
-          <radio-group v-model="taskRelease.orderType" @on-change="taskSalesChange">
+          <radio-group v-model="taskRelease.orderType">
             <radio label="normal" disabled>
               <span>普通销量单</span>
             </radio>
@@ -176,12 +176,12 @@
         <div class="order-speed ml-35 mt-20">
           <span class="ml-5">拿手下单速度：</span>
           <radio-group v-model="taskRelease.showkerOrderTimeLimit">
-            <radio :label="''" v-show="taskRelease.orderType === 'day_now'"><span>当日24点前</span></radio>
-            <radio :label="''" v-show="taskRelease.orderType === 'day_reserve'"><span>当日24点前加入购物车，次日下单购买</span></radio>
-            <radio :label="24" v-show="taskRelease.orderType === 'normal'"><span>24小时内</span></radio>
-            <radio :label="12" v-show="taskRelease.orderType === 'normal'"><span>12小时内</span></radio>
-            <radio :label="6" v-show="taskRelease.orderType === 'normal'"><span>6小时内</span></radio>
-            <radio :label="3" v-show="taskRelease.orderType === 'normal'"><span>3小时内</span></radio>
+            <radio :label="''" v-show="taskRelease.orderType === 'day_now'" disabled><span>当日24点前</span></radio>
+            <radio :label="''" v-show="taskRelease.orderType === 'day_reserve'" disabled><span>当日24点前加入购物车，次日下单购买</span></radio>
+            <radio :label="24" v-show="taskRelease.orderType === 'normal'" disabled><span>24小时内</span></radio>
+            <radio :label="12" v-show="taskRelease.orderType === 'normal'" disabled><span>12小时内</span></radio>
+            <radio :label="6" v-show="taskRelease.orderType === 'normal'" disabled><span>6小时内</span></radio>
+            <radio :label="3" v-show="taskRelease.orderType === 'normal'" disabled><span>3小时内</span></radio>
           </radio-group>
           <span class="sizeColor2" v-show="taskRelease.orderType === 'normal'">（拿手通过审批后需要指定时间内完成淘宝下单并在本平台提交订单号，否则资格自动过期）</span>
           <span class="sizeColor2" v-show="taskRelease.orderType === 'day_reserve'">（拿手通过审批后需要在当日24点前加入购物车，次日在淘宝下单并在平台提交订单号，否则资格自动过期）</span>
@@ -207,6 +207,35 @@
           <span class="ml-4">一键加速：</span>
           <checkbox v-model="taskRelease.speedUp" :disabled="true">需要</checkbox>
           <span class="sizeColor2"><span v-show="taskRelease.orderType === 'day_now' || taskRelease.orderType === 'day_reserve'" class="main-color f-b">强烈建议勾选！</span>（选择后，该活动所有名额的审批由系统推荐和控制，适合需要快速消化单量的商家）</span>
+        </div>
+        <div v-if="getMemberVersionLevel !== 100" class="value-added-services">
+          <p class="main-color">增值服务（平台已保证所有拿手安全下单，但您仍不放心，可选择以下增值服务，该服务会要求拿手上传截图留证）</p>
+          <template v-for="item in vasMainItem">
+            <checkbox v-show="taskRelease.taskType === 'pc_search' || taskRelease.taskType === 'direct_access' ? item.showForPc : item.showForApp" class="mt-10 mr-15"
+                      v-model="item.isSelect" disabled>
+              <span>{{item.name}}</span>
+              <span class="sizeColor2">({{item.price / 100 || 0}}元)</span>
+              <span class="value-added-services-demo-image">图</span>
+            </checkbox>
+          </template>
+          <checkbox class="mt-10" v-model="shopAroundStatus" disabled>
+            <span>货比三家</span>
+            <span class="sizeColor2">(最多添加3个)</span>
+          </checkbox>
+          <template v-for="(keys, index) in vasSimilarItem">
+            <div v-show="shopAroundStatus" class="cl999 mt-10">同类宝贝{{index + 1}}：</div>
+            <div v-show="shopAroundStatus">
+              <template v-for="item in keys">
+                <checkbox v-show="taskRelease.taskType === 'pc_search' || taskRelease.taskType === 'direct_access' ? item.showForPc : item.showForApp" class="mt-10 mr-15"
+                          v-model="item.isSelect" disabled>
+                  <span>{{item.name}}</span>
+                  <span class="sizeColor2">({{item.price / 100 || 0}}元)</span>
+                  <span class="value-added-services-demo-image">图</span>
+                </checkbox>
+              </template>
+            </div>
+          </template>
+          <div class="value-added-charge mt-15">增值服务费合计：{{(oneValueAddedCost / 100).toFixed(2)}} 元 </div>
         </div>
         <div class="baby-info mt-22" v-if="taskRelease.activityCategory === 'free_get'">
           <div class="activity-info-title">填写活动宝贝信息</div>
@@ -693,7 +722,7 @@
         <p>活动担保金 = 份数 × 单品活动担保金 = <span>{{oneBondMarginText}}</span> 元</p>
         <!--<p class="mt-6">单品推广费 = 单品试用担保金 × 费率 =<span>{{onePromotionExpensesBeforeText}}</span> 元<span>{{onePromotionExpensesTipText}}</span></p>-->
         <p class="mt-6">总推广费 = 单品推广费用 × 份数 = <span>{{onePromotionExpenses}}</span> × <span>{{taskRelease.taskCount}} = <span>{{(allPromotionExpenses / 100).toFixed(2)}}</span></span> 元</p>
-        <p>总增值费 = 单品增值费 × 份数 =  <span>{{(oneValueAddedCost / 100).toFixed(2)}}</span> × <span>{{taskRelease.taskCount}}</span> = {{(allValueAddedCost / 100).toFixed(2)}} 元</p>
+        <p class="mt-6">总增值费 = 单品增值费 × 份数 =  <span>{{(oneValueAddedCost / 100).toFixed(2)}}</span> × <span>{{taskRelease.taskCount}}</span> = {{(allValueAddedCost / 100).toFixed(2)}} 元</p>
         <p class="mt-6">总费用 = 活动担保金 + 总推广费 + 总增值费用 = <span>{{(orderMoney / 100).toFixed(2)}}</span> 元</p>
       </div>
     </div>
@@ -856,15 +885,15 @@
         needBrowseAnswer: false,
         storeBindInfoList: [],
         selectStoreInfo: {},
+        shopAroundStatus: false,
         vasMainItem: [],
         vasSimilarItem: [],
       }
     },
-    mounted() {},
     created() {
       this.getItemCatalog();
       this.getStoreBindInfoList();
-      this.getTaskVasList();
+      this.getMemberVersionLevel !== 100 && this.getTaskVasList();
       let taskId = decode(this.$route.query.q);
       if (taskId) {
         this.editTaskId = taskId;
@@ -1107,61 +1136,16 @@
       }
     },
     methods: {
-      taskSalesChange(type) {
-        if ((type === 'day_now' || type === 'day_reserve') && this.getMemberVersionLevel === 100) {
-          this.upgradeMembershipModal = true;
-          this.taskRelease.orderType = 'normal'
-        }
-        if (type === 'day_now' || type === 'day_reserve') {
-          this.taskRelease.speedUp = true;
-          this.taskRelease.taskCount = null;
-          this.taskRelease.taskDaysDuration = null;
-          this.taskCountInputPlaceholder = '当日22点前有效';
-          this.taskRelease.showkerOrderTimeLimit = '';
-          this.taskCountInputDisabled = true;
-          this.vasMainItem.map(item => {
-            if (item.id === 3 && item.isSelect) {
-              item.isSelect = false;
-              item.isDisabled = false;
-              return item;
-            }
-          })
-        }
-        if (type === 'day_reserve') {
-          this.vasMainItem.map(item => {
-            if (item.id === 3) {
-              item.isSelect = true;
-              item.isDisabled = true;
-              return item;
-            }
-          })
-        }
-        if (type === 'normal') {
-          this.taskCountInputPlaceholder = '请输入活动时长';
-          this.taskCountInputDisabled = false;
-          this.taskRelease.speedUp = false;
-          this.taskRelease.showkerOrderTimeLimit = 24;
-        }
-      },
       getStoreBindInfoList() {
         const _this = this;
         api.getStoreBindInfo().then(res =>{
           if(res.status) {
             _this.storeBindInfoList = res.data;
             _this.isBindStore = res.data.length === 0;
-            // _this.selectStoreInfo.storeName = res.data[0].storeName;
           } else {
             _this.$Message.error(res.msg)
           }
         })
-      },
-      asNameToSetKey(m, id, arr, tempArr) {
-        for (let i = 0, len = arr.length; i < len; i++) {
-          if(arr[i].id === id) {
-            tempArr[m][i].isSelect = true;
-          }
-        }
-        return tempArr;
       },
       getTaskVasSelectInfo(id) {
         const _this = this;
@@ -1184,14 +1168,19 @@
                 _this.addShopAroundList()
               }
               _this.shopAroundStatus = true;
-              let tempArr = [];
-              similarVasSettings.map((keys, i) => {
-                tempArr[i] = extendDeep(_this.vasSimilarItem[i], []);
-                keys.map(key => {
-                  tempArr = _this.asNameToSetKey(i, key.id, keys, tempArr);
-                });
-              });
-              _this.vasSimilarItem = [...tempArr];
+              _this.vasSimilarItem.map((keys, i) => {
+                let tempArr = similarVasSettings[i];
+                if(tempArr.length > 0) {
+                  tempArr.map(items => {
+                    keys.map(item => {
+                      if(items.id === item.id) {
+                        item.isSelect = true;
+                        return item
+                      }
+                    })
+                  })
+                }
+              })
             }
           } else {
             _this.$Message.error(res.msg)
@@ -1221,13 +1210,13 @@
           taskId: _this.editTaskId
         }).then(res => {
           if (res.status) {
-            _this.getTaskVasSelectInfo(_this.editTaskId);
+            _this.getMemberVersionLevel !== 100 && _this.getTaskVasSelectInfo(_this.editTaskId);
             _this.itemCatalog = res.data;
             _this.selectStoreInfo.storeName = res.data.realStoreName;
             _this.mainDefaultList = null;
             _this.pcDefaultList = null;
             _this.appDefaultList = null;
-            _this.paidDeposit = (res.data.marginPaid + res.data.promotionExpensesPaid) / 100 || 0;
+            _this.paidDeposit = (res.data.marginPaid + res.data.promotionExpensesPaid + res.data.vasFeePaid) / 100 || 0;
             _this.taskStatus = res.data.taskStatus;
             _this.mainDefaultList = res.data.taskMainImage;
             for (let k in _this.taskRelease) {
@@ -1243,6 +1232,12 @@
 
             if (_this.taskRelease.orderType === 'day_reserve' || _this.taskRelease.orderType === 'day_now') {
               _this.taskRelease.taskDaysDuration = null;
+              _this.taskCountInputDisabled = true;
+            }
+
+            if (_this.taskRelease.orderType === 'day_reserve' || _this.taskRelease.orderType === 'day_now') {
+              _this.taskRelease.taskDaysDuration = null;
+              _this.taskCountInputPlaceholder = '当日22点前有效';
               _this.taskCountInputDisabled = true;
             }
 
@@ -1721,6 +1716,27 @@
       opacity: 0.5;
       cursor: not-allowed;
     }
+  }
+
+  .value-added-services {
+    width: 96%;
+    background-color: #FFF5E2;
+    padding: 15px;
+    margin: 20px auto 20px auto;
+    border-radius: 4px;
+  }
+
+  .value-added-services-demo-image {
+    padding: 0 1px;
+    border-radius: 2px;
+    color: #fff;
+    background-color: #17A1FF;
+    cursor: pointer;
+  }
+
+  .value-added-charge {
+    border-top: 2px solid #EFE8DB;
+    padding: 10px 0 0 0;
   }
 
 </style>

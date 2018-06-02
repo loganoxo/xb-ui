@@ -220,8 +220,23 @@
           <span class="sizeColor2"><span v-show="taskRelease.orderType === 'day_now' || taskRelease.orderType === 'day_reserve'" class="main-color f-b">强烈建议勾选！</span>（选择后，该活动所有名额的审批由系统推荐和控制，适合需要快速消化单量的商家）</span>
         </div>
         <div v-if="getMemberVersionLevel !== 100" class="value-added-services">
-          <p class="main-color">增值服务（平台已保证所有拿手安全下单，但您仍不放心，可选择以下增值服务，该服务会要求拿手上传截图留证）</p>
-            <template v-for="item in vasMainItem">
+        <p class="main-color">增值服务（平台已保证所有拿手安全下单，但您仍不放心，可选择以下增值服务，该服务会要求拿手上传截图留证）</p>
+        <template v-for="item in vasMainItem">
+          <checkbox v-show="taskRelease.taskType === 'pc_search' || taskRelease.taskType === 'direct_access' ? item.showForPc : item.showForApp" class="mt-10 mr-15"
+                    v-model="item.isSelect" :disabled="item.isDisabled">
+            <span>{{item.name}}</span>
+            <span class="sizeColor2">({{item.price / 100 || 0}}元)</span>
+            <span class="value-added-services-demo-image">图</span>
+          </checkbox>
+        </template>
+        <checkbox class="mt-10" v-model="shopAroundStatus" @on-change="shopAroundStatusChange">
+          <span>货比三家</span>
+          <span class="sizeColor2">(最多添加3个)</span>
+        </checkbox>
+        <template v-for="(keys, index) in vasSimilarItem">
+          <div v-show="shopAroundStatus" class="cl999 mt-10">同类宝贝{{index + 1}}：</div>
+          <div v-show="shopAroundStatus">
+            <template v-for="item in keys">
               <checkbox v-show="taskRelease.taskType === 'pc_search' || taskRelease.taskType === 'direct_access' ? item.showForPc : item.showForApp" class="mt-10 mr-15"
                         v-model="item.isSelect" :disabled="item.isDisabled">
                 <span>{{item.name}}</span>
@@ -229,27 +244,12 @@
                 <span class="value-added-services-demo-image">图</span>
               </checkbox>
             </template>
-          <checkbox class="mt-10" v-model="shopAroundStatus" @on-change="shopAroundStatusChange">
-              <span>货比三家</span>
-              <span class="sizeColor2">(最多添加3个)</span>
-            </checkbox>
-          <template v-for="(keys, index) in vasSimilarItem">
-            <div v-show="shopAroundStatus" class="cl999 mt-10">同类宝贝{{index + 1}}：</div>
-            <div v-show="shopAroundStatus">
-              <template v-for="item in keys">
-                <checkbox v-show="taskRelease.taskType === 'pc_search' || taskRelease.taskType === 'direct_access' ? item.showForPc : item.showForApp" class="mt-10 mr-15"
-                          v-model="item.isSelect" :disabled="item.isDisabled">
-                  <span>{{item.name}}</span>
-                  <span class="sizeColor2">({{item.price / 100 || 0}}元)</span>
-                  <span class="value-added-services-demo-image">图</span>
-                </checkbox>
-              </template>
-            </div>
-          </template>
-          <i-button v-show="shopAroundStatus" :disabled="vasSimilarItem.length > 2" class="mt-12 add-btn-bg-color" type="dashed" icon="plus-round" @click="addShopAroundList">添加</i-button>
-          <i-button v-show="shopAroundStatus" :disabled="vasSimilarItem.length === 1" class="ml-20 mt-12 add-btn-bg-color" type="dashed" icon="minus-round" @click="delShopAroundList">删除</i-button>
-          <div class="value-added-charge mt-15">增值服务费合计：{{(oneValueAddedCost / 100).toFixed(2)}} 元 </div>
-        </div>
+          </div>
+        </template>
+        <i-button v-show="shopAroundStatus" :disabled="vasSimilarItem.length > 2" class="mt-12 add-btn-bg-color" type="dashed" icon="plus-round" @click="addShopAroundList">添加</i-button>
+        <i-button v-show="shopAroundStatus" :disabled="vasSimilarItem.length === 1" class="ml-20 mt-12 add-btn-bg-color" type="dashed" icon="minus-round" @click="delShopAroundList">删除</i-button>
+        <div class="value-added-charge mt-15">增值服务费合计：{{(oneValueAddedCost / 100).toFixed(2)}} 元 </div>
+      </div>
         <div class="baby-info mt-22" v-show="taskRelease.activityCategory === 'free_get'">
           <div class="activity-info-title">填写活动宝贝信息</div>
           <div class="baby-title ml-20 mt-20">
@@ -1442,9 +1442,7 @@
     created() {
       this.getItemCatalog();
       this.getStoreBindInfoList();
-      if(this.getMemberVersionLevel !== 100) {
-        this.getTaskVasList();
-      }
+      this.getMemberVersionLevel !== 100 && this.getTaskVasList();
     },
     computed: {
       /**
