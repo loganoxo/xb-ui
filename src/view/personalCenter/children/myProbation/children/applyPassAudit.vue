@@ -116,6 +116,8 @@
             <td>
               <p v-if="item.status === 'pass_and_unclaimed'" class="operation"
                  @click="changePassOperation('place','', item.id, item.taskType, item.activityCategory)">去下单</p>
+              <!--<p v-if="item.status === 'waiting_add_to_cart'" class="operation"-->
+                 <!--@click="changePassOperation('place','', item.id, item.taskType, item.activityCategory)">去加购</p>-->
               <p v-if="item.status === 'order_num_error'" class="operation"
                  @click="changePassOperation('place','', item.id, item.taskType, item.activityCategory)">修改订单信息</p>
               <!--<p v-if="item.status === 'order_num_error'" class="operation mt-5"-->
@@ -243,7 +245,7 @@
         <button class="copy-evaluation-tbn mt-10 copy-btn" :data-clipboard-text="showkerTask.other.itemReviewAssign.reviewContent">复制评价内容</button>
       </div>
       <div class="write-order-number mt-20">
-        <span v-if="showkerOrder.status === 'pass_and_unclaimed'" @click="openAuditOrder(null,orderType, null, showkerTask.status, showkerTask.statusDesc, showkerTask.latestShowkerTaskOpLog.auditDescription)">下单完成，填订单号</span>
+        <span v-if="showkerOrder.status === 'pass_and_unclaimed' || showkerOrder.status === 'waiting_add_to_cart'" @click="openAuditOrder(null,orderType, null, showkerTask.status, showkerTask.statusDesc, showkerTask.latestShowkerTaskOpLog.auditDescription)">下单完成，填订单号</span>
         <!--<span v-if="showkerOrder.status === 'order_num_error'"-->
               <!--@click="openAuditOrderModify(item.id, item.taskType, item.activityCategory, item.orderNum, item.orderPrice, item.status, item.statusDesc, item.auditDescription)">重新提交</span>-->
         <span v-if="showkerOrder.status === 'order_num_error'"
@@ -642,9 +644,9 @@
       </div>
     </Modal>
     <!--用户服务条款弹框-->
-    <div v-if="isShowUserClause" class="user-clause-model">
-      <user-clause @closeClauseModel="closeClauseModel" isShowClause="showker"></user-clause>
-    </div>
+    <!--<div v-if="isShowUserClause" class="user-clause-model">-->
+      <!--<user-clause @closeClauseModel="closeClauseModel" isShowClause="showker"></user-clause>-->
+    <!--</div>-->
   </div>
 </template>
 
@@ -732,7 +734,7 @@
         currentOrderStatusInfo: {},
         endReason: null,
         otherReason: null,
-        isShowUserClause: false,
+        // isShowUserClause: false,
         taobaoScreenShotImg: null,
         defaultTaobaoScreenShotImg: [],
         needBrowseCollectAddCart: false,
@@ -789,7 +791,7 @@
       } else {
         _this.showkerSuccessList();
       }
-      _this.getDetectionUserClauseTip();
+      // _this.getDetectionUserClauseTip();
       _this.copyEvaluate();
     },
     computed: {
@@ -1270,19 +1272,19 @@
       lookReportInfo(id) {
         this.$router.push({path: '/user/my-probation/report', query: {id: encryption(id), from: 'buyer'}});
       },
-      closeClauseModel() {
-        this.isShowUserClause = false;
-      },
-      getDetectionUserClauseTip() {
-        let _this = this;
-        api.detectionUserClauseTip().then(res => {
-          if (res.status) {
-            _this.isShowUserClause = !res.data;
-          } else {
-            _this.$Message.error(res.msg);
-          }
-        })
-      },
+      // closeClauseModel() {
+      //   this.isShowUserClause = false;
+      // },
+      // getDetectionUserClauseTip() {
+      //   let _this = this;
+      //   api.detectionUserClauseTip().then(res => {
+      //     if (res.status) {
+      //       _this.isShowUserClause = !res.data;
+      //     } else {
+      //       _this.$Message.error(res.msg);
+      //     }
+      //   })
+      // },
       getImageData(data) {
         this.screenShotsData = data;
         console.log(this.screenShotsData);

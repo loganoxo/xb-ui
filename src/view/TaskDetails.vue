@@ -45,6 +45,9 @@
                     :style="{backgroundColor: $store.state.discountPriceType[parseFloat(commodityData.task.discountRate/10) + '折'].backgroundColor}">
                     {{commodityData.task.discountRate/10}}折清仓
                   </span>
+              <span v-if="commodityData.task.perVasFee" class="fs-12 bg-main-color cl-fff pr-5 pl-5">
+                返利{{computeVasReturnFee(commodityData.task.perVasFee,commodityData.task.systemVasFeeCommissionPercent)}}元
+              </span>
             </h3>
             <p class="fs-14">
               活动类型：
@@ -601,6 +604,9 @@
       },
     },
     methods: {
+      computeVasReturnFee(fee,percent) {
+        return (fee/100*(1-percent/100)).toFixed(2);
+      },
       encryptionId(id) {
         return encryption(id);
       },

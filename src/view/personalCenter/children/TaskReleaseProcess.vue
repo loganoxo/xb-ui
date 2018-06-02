@@ -114,9 +114,9 @@
               </tooltip>
             </radio>
             <radio label="day_reserve">
-              <tooltip content="活动发布当日24点前加入购物车，次日下单购买，系统会自动终止未按要求操作的拿手资格，仅限VIP、SVIP使用" placement="top">
+              <tooltip content="活动发布当日24点前加入购物车，次日下单购买，系统会自动终止未按要求操作的拿手资格，仅限SVIP使用" placement="top">
                 <span>预约单</span>
-                <img src="~assets/img/common/vip.png" alt="vipLogo">
+                <img src="~assets/img/common/svip.png" alt="svipLogo">
               </tooltip>
             </radio>
           </radio-group>
@@ -219,24 +219,9 @@
           <checkbox v-model="taskRelease.speedUp">需要</checkbox>
           <span class="sizeColor2"><span v-show="taskRelease.orderType === 'day_now' || taskRelease.orderType === 'day_reserve'" class="main-color f-b">强烈建议勾选！</span>（选择后，该活动所有名额的审批由系统推荐和控制，适合需要快速消化单量的商家）</span>
         </div>
-        <div v-if="getMemberVersionLevel !== 100" class="value-added-services">
-        <p class="main-color">增值服务（平台已保证所有拿手安全下单，但您仍不放心，可选择以下增值服务，该服务会要求拿手上传截图留证）</p>
-        <template v-for="item in vasMainItem">
-          <checkbox v-show="taskRelease.taskType === 'pc_search' || taskRelease.taskType === 'direct_access' ? item.showForPc : item.showForApp" class="mt-10 mr-15"
-                    v-model="item.isSelect" :disabled="item.isDisabled">
-            <span>{{item.name}}</span>
-            <span class="sizeColor2">({{item.price / 100 || 0}}元)</span>
-            <span class="value-added-services-demo-image">图</span>
-          </checkbox>
-        </template>
-        <checkbox class="mt-10" v-model="shopAroundStatus" @on-change="shopAroundStatusChange">
-          <span>货比三家</span>
-          <span class="sizeColor2">(最多添加3个)</span>
-        </checkbox>
-        <template v-for="(keys, index) in vasSimilarItem">
-          <div v-show="shopAroundStatus" class="cl999 mt-10">同类宝贝{{index + 1}}：</div>
-          <div v-show="shopAroundStatus">
-            <template v-for="item in keys">
+        <div class="value-added-services">
+          <p class="main-color">增值服务（平台已保证所有拿手安全下单，但您仍不放心，可选择以下增值服务，该服务会要求拿手上传截图留证）</p>
+            <template v-for="item in vasMainItem">
               <checkbox v-show="taskRelease.taskType === 'pc_search' || taskRelease.taskType === 'direct_access' ? item.showForPc : item.showForApp" class="mt-10 mr-15"
                         v-model="item.isSelect" :disabled="item.isDisabled">
                 <span>{{item.name}}</span>
@@ -244,12 +229,27 @@
                 <span class="value-added-services-demo-image">图</span>
               </checkbox>
             </template>
-          </div>
-        </template>
-        <i-button v-show="shopAroundStatus" :disabled="vasSimilarItem.length > 2" class="mt-12 add-btn-bg-color" type="dashed" icon="plus-round" @click="addShopAroundList">添加</i-button>
-        <i-button v-show="shopAroundStatus" :disabled="vasSimilarItem.length === 1" class="ml-20 mt-12 add-btn-bg-color" type="dashed" icon="minus-round" @click="delShopAroundList">删除</i-button>
-        <div class="value-added-charge mt-15">增值服务费合计：{{(oneValueAddedCost / 100).toFixed(2)}} 元 </div>
-      </div>
+          <checkbox class="mt-10" v-model="shopAroundStatus" @on-change="shopAroundStatusChange">
+              <span>货比三家</span>
+              <span class="sizeColor2">(最多添加3个)</span>
+            </checkbox>
+          <template v-for="(keys, index) in vasSimilarItem">
+            <div v-show="shopAroundStatus" class="cl999 mt-10">同类宝贝{{index + 1}}：</div>
+            <div v-show="shopAroundStatus">
+              <template v-for="item in keys">
+                <checkbox v-show="taskRelease.taskType === 'pc_search' || taskRelease.taskType === 'direct_access' ? item.showForPc : item.showForApp" class="mt-10 mr-15"
+                          v-model="item.isSelect" :disabled="item.isDisabled">
+                  <span>{{item.name}}</span>
+                  <span class="sizeColor2">({{item.price / 100 || 0}}元)</span>
+                  <span class="value-added-services-demo-image">图</span>
+                </checkbox>
+              </template>
+            </div>
+          </template>
+          <i-button v-show="shopAroundStatus" :disabled="vasSimilarItem.length > 2" class="mt-12 add-btn-bg-color" type="dashed" icon="plus-round" @click="addShopAroundList">添加</i-button>
+          <i-button v-show="shopAroundStatus" :disabled="vasSimilarItem.length === 1" class="ml-20 mt-12 add-btn-bg-color" type="dashed" icon="minus-round" @click="delShopAroundList">删除</i-button>
+          <div class="value-added-charge mt-15">增值服务费合计：{{(oneValueAddedCost / 100).toFixed(2)}} 元 </div>
+        </div>
         <div class="baby-info mt-22" v-show="taskRelease.activityCategory === 'free_get'">
           <div class="activity-info-title">填写活动宝贝信息</div>
           <div class="baby-title ml-20 mt-20">
@@ -1010,7 +1010,7 @@
           class="second-color">{{(needPayMoneyBefore / 100).toFixed(2)}}</span>&nbsp;元。
         </div>
         <div class="pay-info mt-40" v-if="isBalanceReplenish && priceHasChange">
-          该任务已付总费用 <strong>{{paidDeposit.toFixed(2)}}</strong>元，本次修改需要支付超出部分的金额为：<strong class="main-color">{{(replenishMoney
+          该任务已付担保金 <strong>{{paidDeposit.toFixed(2)}}</strong>元，本次修改需要支付超出部分的金额为：<strong class="main-color">{{(replenishMoney
           / 100).toFixed(2)}}</strong>元。您账号的当前余额为：<strong>{{(getUserBalance).toFixed(2) || 0}}</strong>&nbsp;元
         </div>
         <div class="pay-info mt-40" v-if="!isBalanceReplenish && priceHasChange">该任务已付担保金 <strong>{{(paidDeposit).toFixed(2)}}</strong>元，本次修改需要支付超出部分的金额为：<strong
@@ -1060,11 +1060,11 @@
     <modal v-model="editPriceAfterModel">.
       <div class="clear mt-10">
         <div class="left mt-5">
-          <icon color="#f9284f" size="32" type="information-circled"></icon>
+          <Icon color="#f9284f" size="32" type="information-circled"></Icon>
         </div>
         <div class="left ml-10">
-          <p class="fs-14">由于您修改了当前活动信息，且修改后的</p>
-          <p class="fs-14">费用高于原费用，因此需要对超出部分进行支付。</p>
+          <p class="fs-14">由于您修改了当前宝贝价格/包邮条件/发放数量等，且修改后的</p>
+          <p class="fs-14">价格高于原活动担保金，因此需要对超出部分进行支付。</p>
         </div>
       </div>
       <div slot="footer">
@@ -1182,7 +1182,7 @@
       </div>
       <div slot="footer" class="text-ct">
         <i-button class="mr-60" type="error" size="large" @click="upgradeSvip">升级会员版本</i-button>
-        <i-button size="large" @click="closeUpgradeMembershipModal">我知道了</i-button>
+        <i-button size="large" @click="upgradeMembershipModal = false">我知道了</i-button>
       </div>
     </modal>
   </div>
@@ -1442,7 +1442,7 @@
     created() {
       this.getItemCatalog();
       this.getStoreBindInfoList();
-      this.getMemberVersionLevel !== 100 && this.getTaskVasList();
+      this.getTaskVasList();
     },
     computed: {
       /**
@@ -1787,29 +1787,36 @@
             const similarVasSettings = res.data.similarVasSettings;
             const len = similarVasSettings.length;
             if (len > 1) {
-              _this.vasSimilarItem.splice(1, _this.vasSimilarItem.length - 1);
               for (let i = 0; i < len - 1; i++) {
                 _this.addShopAroundList()
               }
               _this.shopAroundStatus = true;
-              _this.vasSimilarItem.map((keys, i) => {
-                let tempArr = similarVasSettings[i];
-                if(tempArr.length > 0) {
-                  tempArr.map(items => {
-                    keys.map(item => {
-                      if(items.id === item.id) {
-                        item.isSelect = true;
-                        return item
-                      }
-                    })
-                  })
-                }
-              })
+              // 创建一个临时数组变量用来存储拷贝的原始数据
+              let tempArr = [];
+              // 循环遍历服务端返回的用户选择增值服务数据
+              similarVasSettings.map((keys, i) => {
+                // 每次循环的时候从原始数据拷贝当前循环数对应的下标对象
+                tempArr[i] = extendDeep(_this.vasSimilarItem[i], []);
+                keys.map(key => {
+                  // 将拷贝的临时原始数据和用户选中的数据进行对比，并返回处理后的临时数据
+                  tempArr = _this.asNameToSetKey(i, key.id, keys, tempArr);
+                })
+              });
+              // 将处理后的临时数据通过使用‘对象展开操作符’和原始数据合并
+              _this.vasSimilarItem = [...tempArr];
             }
           } else {
             _this.$Message.error(res.msg)
           }
         })
+      },
+      asNameToSetKey(m, id, arr, tempArr) {
+        for (let i = 0, len = arr.length; i < len; i++) {
+          if(arr[i].id === id) {
+            tempArr[m][i].isSelect = true;
+          }
+        }
+        return tempArr;
       },
       getTaskVasList() {
         const _this = this;
@@ -1921,36 +1928,11 @@
           this.appDefaultList = [];
           this.appDefaultList.push({src: this.appTaskDetail[0].itemMainImage})
         }
-        if (type === 'pc_search' || type === 'direct_access') {
-          this.vasMainItem.map(key => {
-            if (key.id === 6 && key.isSelect) {
-              key.isSelect = false;
-              return key;
-            }
-          });
-          if (this.shopAroundStatus) {
-            this.vasSimilarItem.map(keys => {
-              keys.map(key => {
-                if (key.id === 12 && key.isSelect) {
-                  key.isSelect = false;
-                  return key;
-                }
-              })
-            })
-          }
-        }
-      },
-      closeUpgradeMembershipModal() {
-        this.upgradeMembershipModal = false;
-        this.taskRelease.orderType = 'normal';
-        this.taskCountInputPlaceholder = '请输入活动时长';
-        this.taskCountInputDisabled = false;
-        this.taskRelease.speedUp = false;
-        this.taskRelease.showkerOrderTimeLimit = 24;
       },
       taskSalesChange(type) {
         if ((type === 'day_now' || type === 'day_reserve') && this.getMemberVersionLevel === 100) {
           this.upgradeMembershipModal = true;
+          this.taskRelease.orderType = 'normal';
         }
         if (type === 'day_now' || type === 'day_reserve') {
           this.taskRelease.speedUp = true;
@@ -2307,11 +2289,11 @@
         }
         let status = _this.taskStatus;
         let type = _this.$route.query.type;
-        if ((status === 'waiting_modify' || status === 'waiting_pay') && _this.paidDeposit * 100 === _this.orderMoney && !type) {
+        if ((status === 'waiting_modify' || status === 'waiting_pay') && _this.paidDeposit * 100 >= _this.orderMoney && !type) {
           _this.taskCreate(true);
-        } else if ((status === 'waiting_modify' || status === 'waiting_pay') && _this.paidDeposit * 100 > _this.orderMoney && !type) {
+        } else if ((status === 'waiting_modify' || status === 'waiting_pay') && _this.paidDeposit > _this.orderMoney && !type) {
           this.editPriceToLowAfterModel = true;
-        } else if ((status === 'waiting_modify' || status === 'waiting_pay') && _this.paidDeposit > 0 && _this.paidDeposit * 100 < _this.orderMoney && !type) {
+        } else if ((status === 'waiting_modify' || status === 'waiting_pay') && _this.paidDeposit > 0 && _this.paidDeposit < _this.orderMoney && !type) {
           _this.editPriceAfterModel = true;
           _this.priceHasChange = true;
         } else if (type && type === 'copy') {
@@ -2361,19 +2343,17 @@
             mainTaskVasId.push(item.id)
           }
         });
-        if (_this.shopAroundStatus) {
-          _this.vasSimilarItem.map(keys => {
-            let i = [];
-            keys.map(item => {
-              if (item.isSelect) {
-                i.push(item.id)
-              }
-            });
-            if (i.length > 0) {
-              similarTaskVasId.push(i)
+        _this.vasSimilarItem.map(keys => {
+          let i = [];
+          keys.map(item => {
+            if (item.isSelect) {
+              i.push(item.id)
             }
           });
-        }
+          if (i.length > 0) {
+            similarTaskVasId.push(i)
+          }
+        });
         _this.taskRelease.mainTaskVasConfigIds = JSON.stringify(mainTaskVasId);
         _this.taskRelease.similarTaskVasConfigIds = JSON.stringify(similarTaskVasId);
         let pcTaskDetailClone = extendDeep(_this.pcTaskDetail, []);
@@ -2462,7 +2442,7 @@
           taskId: _this.editTaskId
         }).then(res => {
           if (res.status) {
-            _this.getMemberVersionLevel !== 100 && _this.getTaskVasSelectInfo(_this.editTaskId);
+            _this.getTaskVasSelectInfo(_this.editTaskId);
             _this.mainDefaultList = [];
             _this.pcDefaultList = [];
             _this.appDefaultList = [];
@@ -2471,7 +2451,7 @@
             if (!type) {
               _this.taskRelease.taskId = res.data.id;
             }
-            _this.paidDeposit = (res.data.marginPaid + res.data.promotionExpensesPaid + res.data.vasFeePaid) / 100 || 0;
+            _this.paidDeposit = (res.data.marginPaid + res.data.promotionExpensesPaid) / 100 || 0;
             _this.taskStatus = res.data.taskStatus;
             _this.mainDefaultList.push({src: res.data.taskMainImage});
             for (let k in _this.taskRelease) {
@@ -2487,7 +2467,6 @@
 
             if (_this.taskRelease.orderType === 'day_reserve' || _this.taskRelease.orderType === 'day_now') {
               _this.taskRelease.taskDaysDuration = null;
-              _this.taskCountInputPlaceholder = '当日22点前有效';
               _this.taskCountInputDisabled = true;
             }
 
@@ -2900,12 +2879,13 @@
             this.vasSimilarItem.splice(1, this.vasSimilarItem.length - 1)
           }
           this.vasSimilarItem[0].map(item => {
-            if (!item.isDisabled && item.isSelect) {
+            if (item.isSelect) {
               return item.isSelect = false
             }
           })
         }
       },
+
     },
   }
 </script>
