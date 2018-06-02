@@ -244,8 +244,10 @@
       </div>
       <div class="write-order-number mt-20">
         <span v-if="showkerOrder.status === 'pass_and_unclaimed'" @click="openAuditOrder(null,orderType, null, showkerTask.status, showkerTask.statusDesc, showkerTask.latestShowkerTaskOpLog.auditDescription)">下单完成，填订单号</span>
+        <!--<span v-if="showkerOrder.status === 'order_num_error'"-->
+              <!--@click="openAuditOrderModify(item.id, item.taskType, item.activityCategory, item.orderNum, item.orderPrice, item.status, item.statusDesc, item.auditDescription)">重新提交</span>-->
         <span v-if="showkerOrder.status === 'order_num_error'"
-              @click="openAuditOrderModify(item.id, item.taskType, item.activityCategory, item.orderNum, item.orderPrice, item.status, item.statusDesc, item.auditDescription)">重新提交</span>
+              @click="openAuditOrderModify(showkerTask.id, taskPlaceInfo.taskType, taskPlaceInfo.activityCategory, showkerOrder.orderNum, showkerOrder.orderPrice, showkerTask.status, showkerTask.statusDesc, showkerOrder.auditDescription)">重新提交</span>
         <span class="ml-35" @click="returnUpPage">返回上页</span>
       </div>
     </div>

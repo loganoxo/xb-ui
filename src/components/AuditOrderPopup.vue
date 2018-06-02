@@ -435,6 +435,7 @@
             _this.resubmitList.push(item.id);
           }
         })
+        console.log(_this.resubmitList);
       },
       // 预览图片
       previewImage(url) {
