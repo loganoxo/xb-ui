@@ -263,9 +263,9 @@
     </modal>
     <!--结算成功弹框-直接结算-->
     <modal v-model="directSettlementSuccess" width="360">
-      <p slot="header" class="main-color text-ct">
-        <Icon type="checkmark-circled"></Icon>
-        <span>结算成功</span>
+      <p slot="header" class="text-ct">
+        <icon color="#f9284f" type="checkmark-circled"></icon>
+        <span class="main-color">结算成功</span>
       </p>
       <div class="text-ct">
         <p>该活动未产生需返还的多余费用，已直接结算成功！</p>
@@ -278,15 +278,16 @@
     <!--结算成功弹框-结算有返款-->
     <modal v-model="auditSettlementSuccess" width="360">
       <p slot="header" class="main-color text-ct">
-        <Icon type="checkmark-circled"></Icon>
-        <span>结算成功</span>
+        <icon color="#f9284f" type="checkmark-circled"></icon>
+        <span class="main-color">结算成功</span>
       </p>
       <div class="text-ct">
         <p>结算说明：活动剩余资格{{taskCountLeft}}，返还担保金共{{marginRefund}}元</p>
         <p>返还推广费{{promotionRefund}}元。</p>
+        <p>返还增值费{{promotionRefund}}元。</p>
       </div>
       <div slot="footer" class="text-ct">
-        <iButton type="error" size="large" long @click="auditSettlementSuccess = false">确认</iButton>
+        <i-button type="error" size="large" long @click="auditSettlementSuccess = false">确认</i-button>
       </div>
     </modal>
     <!--结算详情弹框-->
