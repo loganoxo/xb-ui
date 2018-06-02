@@ -344,7 +344,7 @@
 
 <script>
   import {Checkbox, Page, Modal, Icon, Button, Input, Tooltip, Select, Option} from 'iview'
-  import api from '@/config/apiconfig'
+  import api from '@/config/apiConfig'
   import PayModel from '@/components/PayModel'
   import {taskErrorStatusList, getSeverTime, encryption, decode,setStorage, getStorage,} from '@/config/utils'
 
