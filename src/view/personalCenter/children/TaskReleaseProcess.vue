@@ -1791,19 +1791,35 @@
                 _this.addShopAroundList()
               }
               _this.shopAroundStatus = true;
-              // 创建一个临时数组变量用来存储拷贝的原始数据
-              let tempArr = [];
-              // 循环遍历服务端返回的用户选择增值服务数据
-              similarVasSettings.map((keys, i) => {
-                // 每次循环的时候从原始数据拷贝当前循环数对应的下标对象
-                tempArr[i] = extendDeep(_this.vasSimilarItem[i], []);
-                keys.map(key => {
-                  // 将拷贝的临时原始数据和用户选中的数据进行对比，并返回处理后的临时数据
+              _this.vasSimilarItem.map((keys, i) => {
+                let tempArr = similarVasSettings[i];
+                if(tempArr.length > 0) {
+                  tempArr.map(items => {
+                    keys.map(item => {
+                      if(items.id === item.id) {
+                        item.isSelect = true;
+                        return item
+                      }
+                    })
+                  })
+                }
+              })
+        /*      similarVasSettings.map((keys, i) => {
+                tempArra = extendDeep(_this.vasSimilarItem[i], []);
+                tempArrb = keys;
+                tempArra.map(items => {
+                  tempArrb.map(item => {
+                    if(items.id === item.id) {
+                      tempArra.isSelect = true;
+                      return tempArra
+                    }
+                  })
+                });
+              /!*  keys.map(key => {
                   tempArr = _this.asNameToSetKey(i, key.id, keys, tempArr);
-                })
-              });
-              // 将处理后的临时数据通过使用‘对象展开操作符’和原始数据合并
-              _this.vasSimilarItem = [...tempArr];
+                })*!/
+              });*/
+              // _this.vasSimilarItem = [...tempArr];
             }
           } else {
             _this.$Message.error(res.msg)
@@ -1927,6 +1943,13 @@
         if (this.appTaskDetail[0].itemMainImage) {
           this.appDefaultList = [];
           this.appDefaultList.push({src: this.appTaskDetail[0].itemMainImage})
+        }
+        if (type === 'pc_search' || type === 'direct_access') {
+          this.vasMainItem.map(item => {
+            if (item.id === 6 && item.isSelect) {
+              item.isSelect = false
+            }
+          })
         }
       },
       taskSalesChange(type) {
@@ -2411,9 +2434,9 @@
         let type = _this.$route.query.type;
         if ((type && type === 'copy') || !type) {
           _this.editTaskId = _this.taskPayId;
-          _this.getTaskInfo();
+          // _this.getTaskInfo();
         } else {
-          _this.getTaskInfo();
+          // _this.getTaskInfo();
         }
         _this.stepName = 'information';
         _this.current = 0;
@@ -2878,13 +2901,12 @@
             this.vasSimilarItem.splice(1, this.vasSimilarItem.length - 1)
           }
           this.vasSimilarItem[0].map(item => {
-            if (item.isSelect) {
+            if (!item.isDisabled && item.isSelect) {
               return item.isSelect = false
             }
           })
         }
       },
-
     },
   }
 </script>
