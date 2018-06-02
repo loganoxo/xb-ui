@@ -120,47 +120,71 @@
       <div class="activity-info">
         <div class="activity-info-title">填写活动信息</div>
         <div class="activity-type ml-60 mt-22">
-          <span class="required">活动类型：</span>
-          <Radio-group v-model="taskRelease.taskType">
-            <Radio label="pc_search" disabled>
-              <span>PC搜索下单（taobao.com）</span>
-            </Radio>
-            <Radio label="app_search" disabled>
-              <span>手淘搜索下单（APP）</span>
-            </Radio>
-            <Radio label="tao_code" disabled>
-              <span>淘口令下单（APP）</span>
-            </Radio>
-            <Radio label="direct_access" disabled>
-              <span>宝贝链接下单（taobao.com）</span>
-            </Radio>
-          </Radio-group>
+          <span class="required">下单方式：</span>
+          <radio-group v-model="taskRelease.orderType" @on-change="taskSalesChange">
+            <radio label="normal" disabled>
+              <span>普通销量单</span>
+            </radio>
+            <radio label="day_now" disabled>
+              <span>当日单</span>
+              <img src="~assets/img/common/vip.png" alt="vipLogo">
+            </radio>
+            <radio label="day_reserve" disabled>
+              <span>预约单</span>
+              <img src="~assets/img/common/svip.png" alt="svipLogo">
+            </radio>
+          </radio-group>
+          <div class="mt-10 ml-70">
+            <radio-group v-model="taskRelease.taskType">
+              <radio label="pc_search" disabled>
+                <span>PC搜索下单（taobao.com）</span>
+              </radio>
+              <radio label="app_search" disabled>
+                <span>手淘搜索下单（APP）</span>
+              </radio>
+              <radio label="tao_code" disabled>
+                <span>淘口令下单（APP）</span>
+              </radio>
+              <radio label="direct_access" disabled>
+                <span>宝贝链接下单（taobao.com）</span>
+              </radio>
+            </radio-group>
+          </div>
         </div>
         <div class="activity-time ml-60 mt-20">
           <span class="required">活动时长：</span>
           <iInput v-model="taskRelease.taskDaysDuration" placeholder="请输入活动时长" :disabled="true"
                   style="width: 120px"></iInput>
           <span>天</span>
-          <span class="second-color ml-10">请于活动结束后48小时内审批完成所有拿手资格，逾期系统将自动为您审批。</span>
-          <p class="mt-6 pl-60">（单期活动时间为3-10天。）</p>
+          <span class="main-color ml-10">
+            <i class="ivu-icon ivu-icon-information-circled cle60012"></i>
+            <span v-show="taskRelease.orderType === 'normal'">（注意：单期活动时间为3-10天，请于活动结束后48小时内审批完成所有拿手资格，逾期系统将自动为您审批）</span>
+            <span v-show="taskRelease.orderType === 'day_now' || taskRelease.orderType === 'day_reserve'">（注意：请于当日22:20分前审批完成所有拿手资格，逾期系统将自动为您审批）</span>
+          </span>
+        </div>
+        <div class="ml-15 mt-20" v-show="taskRelease.orderType === 'day_reserve'">
+          <i class="ivu-icon ivu-icon-information-circled cle60012"></i>
+          <span>转当日单：</span>
+          <checkbox v-model="taskRelease.dayReserveToNow">需要</checkbox>
+          <span class="main-color f-b">建议勾选！</span>
+          <span class="sizeColor2">（若审核通过的拿手当日未加入购物车，在次日扔可继续下单购买，活动剩余名额也自动转为当日单）</span>
         </div>
         <div class="trial-condition ml-35 mt-20">
           <span class="ml-5">拿手申请条件：</span>
-          <!--<Checkbox v-model="taskRelease.onlyShowForQualification" disabled>只有获得资格的拿手才可以查看活动信息</Checkbox>-->
-          <!--<p class="pl-94 size-color">勾选后可以避免拿手私下索要资格，避免同行举报。但流量、收藏量、分享量会相对减少</p>-->
-          <!--<p class="pl-94 mt-8">-->
-            <Checkbox v-model="taskRelease.refuseOldShowker" disabled>拒绝已参加过本店活动的拿手再次申请</Checkbox>
-          <!--</p>-->
+            <checkbox v-model="taskRelease.refuseOldShowker" disabled>拒绝已参加过本店活动的拿手再次申请</checkbox>
         </div>
         <div class="order-speed ml-35 mt-20">
           <span class="ml-5">拿手下单速度：</span>
           <radio-group v-model="taskRelease.showkerOrderTimeLimit">
-            <Radio :label="24" disabled><span>24小时内</span></Radio>
-            <Radio :label="12" disabled><span>12小时内</span></Radio>
-            <Radio :label="6" disabled><span>6小时内</span></Radio>
-            <Radio :label="3" disabled><span>3小时内</span></Radio>
+            <radio :label="''" v-show="taskRelease.orderType === 'day_now'"><span>当日24点前</span></radio>
+            <radio :label="''" v-show="taskRelease.orderType === 'day_reserve'"><span>当日24点前加入购物车，次日下单购买</span></radio>
+            <radio :label="24" v-show="taskRelease.orderType === 'normal'"><span>24小时内</span></radio>
+            <radio :label="12" v-show="taskRelease.orderType === 'normal'"><span>12小时内</span></radio>
+            <radio :label="6" v-show="taskRelease.orderType === 'normal'"><span>6小时内</span></radio>
+            <radio :label="3" v-show="taskRelease.orderType === 'normal'"><span>3小时内</span></radio>
           </radio-group>
-          <span class="sizeColor2">（拿手通过审批后需要指定时间内完成淘宝下单并在本平台提交订单号，否则资格自动过期）</span>
+          <span class="sizeColor2" v-show="taskRelease.orderType === 'normal'">（拿手通过审批后需要指定时间内完成淘宝下单并在本平台提交订单号，否则资格自动过期）</span>
+          <span class="sizeColor2" v-show="taskRelease.orderType === 'day_reserve'">（拿手通过审批后需要在当日24点前加入购物车，次日在淘宝下单并在平台提交订单号，否则资格自动过期）</span>
         </div>
         <div class="trial-condition ml-60 mt-20">
           <span class="ml-4"> 收藏加购：</span>
@@ -182,7 +206,7 @@
         <div class="task-speed-up ml-60 mt-20">
           <span class="ml-4">一键加速：</span>
           <checkbox v-model="taskRelease.speedUp" :disabled="true">需要</checkbox>
-          <span class="sizeColor2">（选择后，该活动所有名额的审批由系统推荐和控制，适合需要快速消化单量的商家）</span>
+          <span class="sizeColor2"><span v-show="taskRelease.orderType === 'day_now' || taskRelease.orderType === 'day_reserve'" class="main-color f-b">强烈建议勾选！</span>（选择后，该活动所有名额的审批由系统推荐和控制，适合需要快速消化单量的商家）</span>
         </div>
         <div class="baby-info mt-22" v-if="taskRelease.activityCategory === 'free_get'">
           <div class="activity-info-title">填写活动宝贝信息</div>
@@ -746,6 +770,7 @@
         ],
         taskRelease: {
           taskType: 'pc_search',
+          orderType: 'normal',
           taskDaysDuration: null,
           onlyShowForQualification: false,
           refuseOldShowker: false,
@@ -1082,6 +1107,42 @@
       }
     },
     methods: {
+      taskSalesChange(type) {
+        if ((type === 'day_now' || type === 'day_reserve') && this.getMemberVersionLevel === 100) {
+          this.upgradeMembershipModal = true;
+          this.taskRelease.orderType = 'normal'
+        }
+        if (type === 'day_now' || type === 'day_reserve') {
+          this.taskRelease.speedUp = true;
+          this.taskRelease.taskCount = null;
+          this.taskRelease.taskDaysDuration = null;
+          this.taskCountInputPlaceholder = '当日22点前有效';
+          this.taskRelease.showkerOrderTimeLimit = '';
+          this.taskCountInputDisabled = true;
+          this.vasMainItem.map(item => {
+            if (item.id === 3 && item.isSelect) {
+              item.isSelect = false;
+              item.isDisabled = false;
+              return item;
+            }
+          })
+        }
+        if (type === 'day_reserve') {
+          this.vasMainItem.map(item => {
+            if (item.id === 3) {
+              item.isSelect = true;
+              item.isDisabled = true;
+              return item;
+            }
+          })
+        }
+        if (type === 'normal') {
+          this.taskCountInputPlaceholder = '请输入活动时长';
+          this.taskCountInputDisabled = false;
+          this.taskRelease.speedUp = false;
+          this.taskRelease.showkerOrderTimeLimit = 24;
+        }
+      },
       getStoreBindInfoList() {
         const _this = this;
         api.getStoreBindInfo().then(res =>{

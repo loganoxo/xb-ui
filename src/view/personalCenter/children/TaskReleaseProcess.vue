@@ -161,8 +161,8 @@
         <div class="order-speed ml-20 mt-20">
           <span class="ml-8">下单速度：</span>
           <radio-group v-model="taskRelease.showkerOrderTimeLimit">
-            <radio :label="24" v-show="taskRelease.orderType === 'day_now'"><span>当日24点前</span></radio>
-            <radio :label="24" v-show="taskRelease.orderType === 'day_reserve'"><span>当日24点前加入购物车，次日下单购买</span></radio>
+            <radio :label="''" v-show="taskRelease.orderType === 'day_now'"><span>当日24点前</span></radio>
+            <radio :label="''" v-show="taskRelease.orderType === 'day_reserve'"><span>当日24点前加入购物车，次日下单购买</span></radio>
             <radio :label="24" v-show="taskRelease.orderType === 'normal'"><span>24小时内</span></radio>
             <radio :label="12" v-show="taskRelease.orderType === 'normal'"><span>12小时内</span></radio>
             <radio :label="6" v-show="taskRelease.orderType === 'normal'"><span>6小时内</span></radio>
@@ -1932,13 +1932,14 @@
       taskSalesChange(type) {
         if ((type === 'day_now' || type === 'day_reserve') && this.getMemberVersionLevel === 100) {
           this.upgradeMembershipModal = true;
-          this.taskRelease.orderType = 'normal'
+          this.taskRelease.orderType = 'normal';
         }
         if (type === 'day_now' || type === 'day_reserve') {
           this.taskRelease.speedUp = true;
           this.taskRelease.taskCount = null;
           this.taskRelease.taskDaysDuration = null;
           this.taskCountInputPlaceholder = '当日22点前有效';
+          this.taskRelease.showkerOrderTimeLimit = '';
           this.taskCountInputDisabled = true;
           this.vasMainItem.map(item => {
             if (item.id === 3 && item.isSelect) {
@@ -1961,6 +1962,7 @@
           this.taskCountInputPlaceholder = '请输入活动时长';
           this.taskCountInputDisabled = false;
           this.taskRelease.speedUp = false;
+          this.taskRelease.showkerOrderTimeLimit = 24;
         }
       },
       onEditorBlur(editor) {
@@ -2461,6 +2463,11 @@
             _this.taskRelease.itemType = res.data.itemCatalog.id;
             _this.taskRelease.pinkage = _this.taskRelease.pinkage.toString();
             _this.taskRelease.donotPostPhoto = _this.taskRelease.donotPostPhoto.toString();
+
+            if (_this.taskRelease.orderType === 'day_reserve' || _this.taskRelease.orderType === 'day_now') {
+              _this.taskRelease.taskDaysDuration = null;
+              _this.taskCountInputDisabled = true;
+            }
 
             // 复制历史活动的时候如果掌柜旺旺信息不能匹配到绑定店铺的旺旺名则默认自动选择第一个店铺，反之取接口实时数据
             _this.selectStoreInfo = {};

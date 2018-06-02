@@ -358,7 +358,7 @@ export default {
    * 任务数据获取
    */
   getTaskInfo(params) {
-    return axiosConfig.post("/api/get-task.json", params)
+    return axiosConfig.get("/api/get-task.json", params)
   },
 
   /**
