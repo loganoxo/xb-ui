@@ -2488,6 +2488,7 @@
 
             if (_this.taskRelease.orderType === 'day_reserve' || _this.taskRelease.orderType === 'day_now') {
               _this.taskRelease.taskDaysDuration = null;
+              _this.taskCountInputPlaceholder = '当日22点前有效';
               _this.taskCountInputDisabled = true;
             }
 

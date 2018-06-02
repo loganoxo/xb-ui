@@ -223,8 +223,8 @@
     <!--关闭任务弹框-->
     <modal v-model="closeModal" width="360">
       <p slot="header" class="main-color text-ct">
-        <Icon type="information-circled"></Icon>
-        <span>关闭确认</span>
+        <icon color="#f9284f" type="information-circled"></icon>
+        <span class="main-color">关闭确认</span>
       </p>
       <div class="text-ct">
         <p>此任务关闭后，任务将无法发布，若已存入保证金，</p>
@@ -282,9 +282,9 @@
         <span class="main-color">结算成功</span>
       </p>
       <div class="text-ct">
-        <p>结算说明：活动剩余资格{{taskCountLeft}}，返还担保金共{{marginRefund}}元</p>
-        <p>返还推广费{{promotionRefund}}元。</p>
-        <p>返还增值费{{promotionRefund}}元。</p>
+        <p>结算说明：活动剩余资格{{settlementRefundDetails.taskCountLeft}}，返还担保金共{{settlementRefundDetails.marginRefund}}元</p>
+        <p>返还推广费{{settlementRefundDetails.promotionRefund}}元。</p>
+        <p>返还增值费{{settlementRefundDetails.vasFeeRefund}}元。</p>
       </div>
       <div slot="footer" class="text-ct">
         <i-button type="error" size="large" long @click="auditSettlementSuccess = false">确认</i-button>
@@ -293,12 +293,16 @@
     <!--结算详情弹框-->
     <modal v-model="billDetailsModel" width="420">
       <p slot="header" class="text-ct">
+        <icon color="#f9284f" type="checkmark-circled"></icon>
         <span class="main-color">结算详情</span>
       </p>
       <div>
         <p>活动标题：{{taskSettlementDetailInfo.storeName}}</p>
-        <p>结算时间：{{taskSettlementDetailInfo.settlementTime | dateFormat('YYYY-MM-DD hh:mm:ss')}}</p>
-        <p>结算备注：活动剩余资格{{taskSettlementDetailInfo.taskCountLeft}}，返还担保金共{{taskSettlementDetailInfo.marginRefund}}元，返还F费{{taskSettlementDetailInfo.promotionRefund}}元。</p>
+        <p class="mt-5">结算时间：{{taskSettlementDetailInfo.settlementTime | dateFormat('YYYY-MM-DD hh:mm:ss')}}</p>
+        <p class="mt-5">结算备注：活动剩余资格 {{taskSettlementDetailInfo.taskCountLeft}}</p>
+        <p class="ml-60 mt-5">返还担保金共 {{taskSettlementDetailInfo.marginRefund}} 元</p>
+        <p class="ml-60 mt-5">返还推广费费 {{taskSettlementDetailInfo.promotionRefund}} 元</p>
+        <p class="ml-60 mt-5">返还推广费费 {{taskSettlementDetailInfo.vasFeeRefund}} 元</p>
       </div>
       <div slot="footer" class="text-ct">
         <iButton type="error" size="large" long @click="billDetailsModel = false">确认</iButton>
@@ -380,9 +384,7 @@
         billDetailsModel: false,
         searchLoading: false,
         ActivityNumber: null,
-        marginRefund: 0,
-        promotionRefund: 0,
-        taskCountLeft: 0,
+        settlementRefundDetails: {},
         taskSettlementDetailInfo: {},
         title: null,
         taskNumber: null,
@@ -628,9 +630,10 @@
           if (res.status) {
             if (res.data) {
               _this.auditSettlementSuccess = true;
-              _this.marginRefund = res.data.marginRefund / 100 || 0;
-              _this.promotionRefund = res.data.promotionRefund / 100 || 0;
-              _this.taskCountLeft = res.data.taskCountLeft || 0;
+              _this.settlementRefundDetails.marginRefund = (res.data.marginRefund / 100).toFixed(2) || 0;
+              _this.settlementRefundDetails.promotionRefund = (res.data.promotionRefund / 100).toFixed(2) || 0;
+              _this.settlementRefundDetails.vasFeeRefund = (res.data.vasFeeRefund / 100).toFixed(2) || 0;
+              _this.settlementRefundDetails.taskCountLeft = res.data.taskCountLeft || 0;
             } else {
               _this.directSettlementSuccess = true;
             }
@@ -720,8 +723,9 @@
             _this.billDetailsModel = true;
             _this.taskSettlementDetailInfo.settlementTime = res.data.settlementTime;
             _this.taskSettlementDetailInfo.taskCountLeft = res.data.taskCountLeft;
-            _this.taskSettlementDetailInfo.marginRefund = res.data.marginRefund / 100;
-            _this.taskSettlementDetailInfo.promotionRefund = res.data.promotionRefund / 100;
+            _this.taskSettlementDetailInfo.marginRefund = (res.data.marginRefund / 100).toFixed(2);
+            _this.taskSettlementDetailInfo.promotionRefund = (res.data.promotionRefund / 100).toFixed(2);
+            _this.taskSettlementDetailInfo.vasFeeRefund = (res.data.vasFeeRefund / 100).toFixed(2);
             _this.taskSettlementDetailInfo.storeName = storeName;
           } else {
             _this.$Message.error(res.msg)
