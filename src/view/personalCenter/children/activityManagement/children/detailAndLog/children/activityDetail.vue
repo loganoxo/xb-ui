@@ -679,7 +679,7 @@
 
 <script>
   import {Icon, Input, Checkbox, Button, Alert, Radio, Select, Option, OptionGroup} from 'iview'
-  import {decode, getStorage} from '@/config/utils'
+  import {decode, getStorage, extendDeep} from '@/config/utils'
   import api from '@/config/apiConfig'
 
   export default {
@@ -700,6 +700,7 @@
     data() {
       return {
         itemCatalogList: [],
+        itemCatalog: [],
         mainDefaultList: null,
         appDefaultList: null,
         pcDefaultList: null,
@@ -830,6 +831,8 @@
         needBrowseAnswer: false,
         storeBindInfoList: [],
         selectStoreInfo: {},
+        vasMainItem: [],
+        vasSimilarItem: [],
       }
     },
     mounted() {},
@@ -1158,6 +1161,7 @@
         }).then(res => {
           if (res.status) {
             _this.getTaskVasSelectInfo(_this.editTaskId);
+            _this.itemCatalog = res.data;
             _this.selectStoreInfo.storeName = res.data.realStoreName;
             _this.mainDefaultList = null;
             _this.pcDefaultList = null;
