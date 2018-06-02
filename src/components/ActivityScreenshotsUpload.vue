@@ -174,9 +174,6 @@
     data() {
       return {
         visible: false,
-        shopOneImageList: [],
-        shopTwoImageList: [],
-        shopThreeImageList: [],
         mainBabyImageList: [],
         mainBabyAnswerList: [],
         similarImageList: [],
@@ -195,12 +192,7 @@
     },
     computed: {},
     created() {
-      // console.log(this.orderInfo);
-      // this.handleData();
       this.handleDataTest();
-    },
-    mounted() {
-
     },
     methods: {
       handleFormatError(file) {
@@ -233,121 +225,6 @@
       },
 
       // 处理后台返回的数据
-      // 老铁，千万别删！！
-      // handleData() {
-      //   const _this = this;
-      //   let tempData = _this.orderInfo;
-      //   let mainBabyList = [];
-      //   let babyOneList = [];
-      //   let babyTwoList = [];
-      //   let babyThreeList = [];
-      //   let mainIndex = -1;
-      //   let similarOneIndex = -1;
-      //   let similarTwoIndex = -1;
-      //   let similarThreeIndex = -1;
-      //   tempData.showkerTaskVasSettings.forEach( item => {
-      //     let screenshotsList = item.answerScreenshot ? [{src:item.answerScreenshot}] : [];
-      //     let obj = {
-      //       src:'',
-      //       screenshotsList:screenshotsList,
-      //       title:'',
-      //       id:item.id,
-      //       itemIndex:item.itemIndex
-      //     };
-      //     if (item.itemType === "main_item"){
-      //       mainIndex ++;
-      //       obj.title = tempData.mainVasSettings[mainIndex].name;
-      //       obj.required = item.required;
-      //       obj.status = item.status;
-      //       obj.tipsPicture = tempData.mainVasSettings[mainIndex].tipsPicture;
-      //       mainBabyList.push(obj)
-      //     }else {
-      //       if (item.itemIndex === 0){
-      //         similarOneIndex ++;
-      //         obj.title = tempData.similarVasSettings[0][similarOneIndex].name;
-      //         obj.required = item.required;
-      //         obj.status = item.status;
-      //         obj.tipsPicture = tempData.similarVasSettings[0][similarOneIndex].tipsPicture;
-      //         babyOneList.push(obj)
-      //       }else if (item.itemIndex === 1){
-      //         similarTwoIndex ++;
-      //         obj.title = tempData.similarVasSettings[1][similarTwoIndex].name;
-      //         obj.required = item.required;
-      //         obj.status = item.status;
-      //         obj.tipsPicture = tempData.similarVasSettings[1][similarTwoIndex].tipsPicture;
-      //         babyTwoList.push(obj)
-      //       }else {
-      //         similarThreeIndex ++;
-      //         obj.title = tempData.similarVasSettings[2][similarThreeIndex].name;
-      //         obj.required = item.required;
-      //         obj.status = item.status;
-      //         obj.tipsPicture = tempData.similarVasSettings[2][similarThreeIndex].tipsPicture;
-      //         babyThreeList.push(obj)
-      //       }
-      //     }
-      //   });
-      //   _this.mainBabyImageList = mainBabyList;
-      //   _this.shopOneImageList = babyOneList;
-      //   _this.shopTwoImageList = babyTwoList;
-      //   _this.shopThreeImageList = babyThreeList;
-      //   console.log(_this.mainBabyImageList);
-      // },
-      // 测试 （千万别删）
-      // handleDataTest() {
-      //   const _this = this;
-      //   let tempData = _this.orderInfo;
-      //   let handleList = tempData.showkerTaskVasSettings.map(item => {
-      //     let tempObj = {};
-      //     tempData.mainVasSettings.map(main => {
-      //       if (item.vasConfigId === main.id) {
-      //         tempObj.id = item.id;
-      //         tempObj.title = main.name;
-      //         tempObj.tipsPicture = main.tipsPicture;
-      //         tempObj.itemType = item.itemType;
-      //         tempObj.itemIndex = item.itemIndex;
-      //         tempObj.required = item.required;
-      //         tempObj.status = item.status;
-      //         tempObj.screenshotsList = item.answerScreenshot ? [{src:item.answerScreenshot}] : [];
-      //       }
-      //     });
-      //     tempData.similarVasSettings.map(similarOut => {
-      //       similarOut.map(similarIn => {
-      //         if (item.vasConfigId === similarIn.id) {
-      //           tempObj.id = item.id;
-      //           tempObj.title = similarIn.name;
-      //           tempObj.tipsPicture = similarIn.tipsPicture;
-      //           tempObj.itemType = item.itemType;
-      //           tempObj.itemIndex = item.itemIndex;
-      //           tempObj.required = item.required;
-      //           tempObj.status = item.status;
-      //           tempObj.screenshotsList = item.answerScreenshot ? [{src:item.answerScreenshot}] : [];
-      //         }
-      //       })
-      //     });
-      //     return tempObj;
-      //   });
-      //   _this.shopOneImageList = handleList.filter(item => {
-      //     return item.itemIndex === 0;
-      //   });
-      //   _this.shopTwoImageList = handleList.filter(item => {
-      //     return item.itemIndex === 1;
-      //   });
-      //   _this.shopThreeImageList = handleList.filter(item => {
-      //     return item.itemIndex === 2;
-      //   });
-      //   _this.mainBabyImageList = handleList.filter(item => {
-      //     return item.itemType === 'main_item';
-      //   });
-      //   // 处理浏览答题
-      //   // console.log(_this.orderInfo.issueAnswerList);
-      //   _this.orderInfo.issueAnswerList.forEach((item,index) => {
-      //     item.index = index;
-      //     item.src = '';
-      //     item.screenShotList = item.screenShotList.length > 0 ? [{src:item.screenShotList[0]}] : [];
-      //   });
-      //   _this.mainBabyAnswerList = _this.orderInfo.issueAnswerList;
-      //   console.log(_this.mainBabyAnswerList);
-      // },
       // 测试2
       // handleDataTest() {
       //   const _this = this;
@@ -392,43 +269,54 @@
       //   });
       // },
       // 测试3
-      handleDataTestT() {
-        const _this = this;
-        // 主图
-        let mainTempData = extendDeep(_this.orderInfo.mainVasSettings, []);
-        _this.orderInfo.showkerTaskVasSettings.map(keys => {
-          mainTempData.map(key => {
-            if (keys.vasConfigId === key.id) {
-              key.uploadId = keys.id;
-              key.status = keys.status;
-              key.required = keys.required;
-              key.screenshotsList = keys.answerScreenshot ? [{src: keys.answerScreenshot}] : [];
-              return key;
-            }
-          })
-        });
-
-        // 获比三家
-        let similarTempArr = [];
-        _this.orderInfo.similarVasSettings.map((keys, i) => {
-          similarTempArr[i] = extendDeep(keys, []);
-          keys.map((key, j) => {
-            _this.orderInfo.showkerTaskVasSettings.map(item => {
-              if (item.itemType === 'similar_item' && item.itemIndex === j && item.vasConfigId === key.id) {
-                similarTempArr[i][j].uploadId = item.id;
-                similarTempArr[i][j].status = item.status;
-                similarTempArr[i][j].required = item.required;
-                similarTempArr[i][j].screenshotsList = item.answerScreenshot ? [{src: item.answerScreenshot}] : [];
-              }
-            })
-          });
-        });
-        _this.mainBabyImageList = mainTempData;
-        _this.similarImageList = similarTempArr;
-        // console.log(similarTempArr)
-      },
+      // handleDataTest() {
+      //   console.time('upload');
+      //   const _this = this;
+      //   // 主图
+      //   let mainTempData = extendDeep(_this.orderInfo.mainVasSettings, []);
+      //   _this.orderInfo.showkerTaskVasSettings.map(keys => {
+      //     mainTempData.map(key => {
+      //       if (keys.vasConfigId === key.id) {
+      //         key.uploadId = keys.id;
+      //         key.status = keys.status;
+      //         key.required = keys.required;
+      //         key.screenshotsList = keys.answerScreenshot ? [{src: keys.answerScreenshot}] : [];
+      //         return key;
+      //       }
+      //     })
+      //   });
+      //
+      //   // 获比三家
+      //   let similarTempArr = [];
+      //   _this.orderInfo.similarVasSettings.map((keys, i) => {
+      //     similarTempArr[i] = extendDeep(keys, []);
+      //     keys.map((key, j) => {
+      //       _this.orderInfo.showkerTaskVasSettings.map(item => {
+      //         if (item.itemType === 'similar_item' && item.itemIndex === i && item.vasConfigId === key.id) {
+      //           similarTempArr[i][j].uploadId = item.id;
+      //           similarTempArr[i][j].status = item.status;
+      //           similarTempArr[i][j].required = item.required;
+      //           similarTempArr[i][j].screenshotsList = item.answerScreenshot ? [{src: item.answerScreenshot}] : [];
+      //         }
+      //       })
+      //     });
+      //   });
+      //   // 处理浏览答题
+      //   _this.orderInfo.issueAnswerList.forEach((item,index) => {
+      //     item.index = index;
+      //     item.src = '';
+      //     item.screenShotList = item.screenShotList.length > 0 ? [{src:item.screenShotList[0]}] : [];
+      //   });
+      //   _this.mainBabyImageList = mainTempData;
+      //   _this.similarImageList = similarTempArr;
+      //   _this.mainBabyAnswerList = _this.orderInfo.issueAnswerList;
+      //   console.timeEnd('upload');
+      // },
+      // 乐奇
       handleDataTest() {
+        console.time('upload-for-lq');
         const _this = this;
+        // 主宝贝
         let mainVasSettingsMap = {};
         let similarVasSettingsMapList = [];
         _this.orderInfo.mainVasSettings.map(key => {
@@ -441,7 +329,7 @@
           });
           similarVasSettingsMapList.push(similarVasSettingsMap);
         });
-
+        // 货比三家
         let mainShowkerTaskVasSettings = [];
         let similarShowkerTaskVasSettings = [];
         _this.orderInfo.showkerTaskVasSettings.map(key => {
@@ -462,14 +350,16 @@
             }
           }
         });
-        console.log(mainVasSettingsMap);
-        console.log(similarVasSettingsMapList);
-        console.log(mainShowkerTaskVasSettings);
-        console.log(similarShowkerTaskVasSettings);
-
+        // 处理浏览答题
+        _this.orderInfo.issueAnswerList.forEach((item,index) => {
+          item.index = index;
+          item.src = '';
+          item.screenShotList = item.screenShotList.length > 0 ? [{src:item.screenShotList[0]}] : [];
+        });
         _this.mainBabyImageList = mainShowkerTaskVasSettings;
         _this.similarImageList = similarShowkerTaskVasSettings;
-        // console.log(similarTempArr)
+        _this.mainBabyAnswerList = _this.orderInfo.issueAnswerList;
+        console.timeEnd('upload-for-lq');
       },
       // 提交增值服务答案（截图）
       submitVasAnswer(info) {

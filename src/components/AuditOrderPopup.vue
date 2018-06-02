@@ -297,7 +297,6 @@
         if (_this.orderReviewStatus === 'passAudit' && _this.orderNoPassReason) {
           _this.orderNoPassReason = null;
         }
-        console.log(_this.resubmitList);
         api.orderNumberAudit({
           id: _this.orderInfo.id,
           status: _this.orderReviewStatus === 'passAudit' ? 'true' : 'false',
@@ -434,7 +433,7 @@
           if (item.isSelect) {
             _this.resubmitList.push(item.id);
           }
-        })
+        });
         console.log(_this.resubmitList);
       },
       // 预览图片
@@ -582,10 +581,7 @@
     .resubmit-text{
      color:#2b85e4
     }
-    .preview-modal {
-      width:600px;
-      height:600px;
-    }
+
 
   }
 
