@@ -114,9 +114,9 @@
               </tooltip>
             </radio>
             <radio label="day_reserve">
-              <tooltip content="活动发布当日24点前加入购物车，次日下单购买，系统会自动终止未按要求操作的拿手资格，仅限SVIP使用" placement="top">
+              <tooltip content="活动发布当日24点前加入购物车，次日下单购买，系统会自动终止未按要求操作的拿手资格，仅限VIP、SVIP使用" placement="top">
                 <span>预约单</span>
-                <img src="~assets/img/common/svip.png" alt="svipLogo">
+                <img src="~assets/img/common/vip.png" alt="vipLogo">
               </tooltip>
             </radio>
           </radio-group>
@@ -219,7 +219,7 @@
           <checkbox v-model="taskRelease.speedUp">需要</checkbox>
           <span class="sizeColor2"><span v-show="taskRelease.orderType === 'day_now' || taskRelease.orderType === 'day_reserve'" class="main-color f-b">强烈建议勾选！</span>（选择后，该活动所有名额的审批由系统推荐和控制，适合需要快速消化单量的商家）</span>
         </div>
-        <div class="value-added-services">
+        <div v-if="getMemberVersionLevel !== 100" class="value-added-services">
           <p class="main-color">增值服务（平台已保证所有拿手安全下单，但您仍不放心，可选择以下增值服务，该服务会要求拿手上传截图留证）</p>
             <template v-for="item in vasMainItem">
               <checkbox v-show="taskRelease.taskType === 'pc_search' || taskRelease.taskType === 'direct_access' ? item.showForPc : item.showForApp" class="mt-10 mr-15"
@@ -1182,7 +1182,7 @@
       </div>
       <div slot="footer" class="text-ct">
         <i-button class="mr-60" type="error" size="large" @click="upgradeSvip">升级会员版本</i-button>
-        <i-button size="large" @click="upgradeMembershipModal = false">我知道了</i-button>
+        <i-button size="large" @click="closeUpgradeMembershipModal">我知道了</i-button>
       </div>
     </modal>
   </div>
@@ -1442,7 +1442,9 @@
     created() {
       this.getItemCatalog();
       this.getStoreBindInfoList();
-      this.getTaskVasList();
+      if(this.getMemberVersionLevel !== 100) {
+        this.getTaskVasList();
+      }
     },
     computed: {
       /**
@@ -1787,6 +1789,7 @@
             const similarVasSettings = res.data.similarVasSettings;
             const len = similarVasSettings.length;
             if (len > 1) {
+              _this.vasSimilarItem.splice(1, _this.vasSimilarItem.length - 1);
               for (let i = 0; i < len - 1; i++) {
                 _this.addShopAroundList()
               }
@@ -1939,10 +1942,17 @@
           }
         }
       },
+      closeUpgradeMembershipModal() {
+        this.upgradeMembershipModal = false;
+        this.taskRelease.orderType = 'normal';
+        this.taskCountInputPlaceholder = '请输入活动时长';
+        this.taskCountInputDisabled = false;
+        this.taskRelease.speedUp = false;
+        this.taskRelease.showkerOrderTimeLimit = 24;
+      },
       taskSalesChange(type) {
         if ((type === 'day_now' || type === 'day_reserve') && this.getMemberVersionLevel === 100) {
           this.upgradeMembershipModal = true;
-          this.taskRelease.orderType = 'normal';
         }
         if (type === 'day_now' || type === 'day_reserve') {
           this.taskRelease.speedUp = true;
@@ -2423,9 +2433,9 @@
         let type = _this.$route.query.type;
         if ((type && type === 'copy') || !type) {
           _this.editTaskId = _this.taskPayId;
-          // _this.getTaskInfo();
+          _this.getTaskInfo();
         } else {
-          // _this.getTaskInfo();
+          _this.getTaskInfo();
         }
         _this.stepName = 'information';
         _this.current = 0;
@@ -2453,7 +2463,7 @@
           taskId: _this.editTaskId
         }).then(res => {
           if (res.status) {
-            _this.getTaskVasSelectInfo(_this.editTaskId);
+            _this.getMemberVersionLevel !== 100 && _this.getTaskVasSelectInfo(_this.editTaskId);
             _this.mainDefaultList = [];
             _this.pcDefaultList = [];
             _this.appDefaultList = [];
@@ -2462,7 +2472,7 @@
             if (!type) {
               _this.taskRelease.taskId = res.data.id;
             }
-            _this.paidDeposit = (res.data.marginPaid + res.data.promotionExpensesPaid) / 100 || 0;
+            _this.paidDeposit = (res.data.marginPaid + res.data.promotionExpensesPaid + res.data.vasFeePaid) / 100 || 0;
             _this.taskStatus = res.data.taskStatus;
             _this.mainDefaultList.push({src: res.data.taskMainImage});
             for (let k in _this.taskRelease) {
