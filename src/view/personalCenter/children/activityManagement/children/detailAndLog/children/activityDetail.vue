@@ -186,12 +186,12 @@
         </div>
         <div class="trial-condition ml-60 mt-20">
           <span class="ml-4"> 收藏加购：</span>
-          <Checkbox v-model="taskRelease.needBrowseCollectAddCart" disabled>需要</Checkbox>
+          <checkbox v-model="taskRelease.needBrowseCollectAddCart" disabled>需要</checkbox>
           <span class="size-color">（系统会随机让部分拿手完成对宝贝的收藏加购，活动上线后您可以在生意参谋后台查看收藏加购有无增加）</span>
         </div>
         <div class="answer ml-60 mt-20">
           <span class="ml-4"> 浏览答题：</span>
-          <Checkbox v-model="needBrowseAnswer" :disabled="true">需要</Checkbox>
+          <checkbox v-model="needBrowseAnswer" disabled>需要</checkbox>
           <span class="sizeColor">（保证拿手充分浏览详情首页，减少秒拍情况发生，最多可添加3个）</span>
           <div class="mt-20 mt-10 pl-68 clear" v-if="needBrowseAnswer" v-for="(item, index) in browseAnswer" :key="index">
             <i-input class="mr-5 left mt-12 mr-20" type="text" v-model="item.issue" :disabled="true" placeholder="请输入浏览答题文案" style="width: 124px;"></i-input>

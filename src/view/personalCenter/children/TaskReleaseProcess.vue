@@ -467,7 +467,7 @@
               </div>
             </div>
           </div>
-          <div class="product-introduction ml-20 mt-20">
+          <div class="product-introduction ml-20 mt-20" v-if="taskRelease.activityCategory === 'free_get'">
             <span class="left required">商品简介：</span>
             <quill-editor ref="myTextEditorFree"
                           v-model="taskRelease.itemDescription"
@@ -658,7 +658,8 @@
                   <span class="sizeColor3 ml-10">平台审批份数：{{systemApprovalTaskNumber || 0}} 份</span>
                 </p>
               </div>
-              <div class="product-introduction ml-10 mt-20">
+
+              <div class="product-introduction ml-10 mt-20" v-if="taskRelease.activityCategory === 'present_get'">
                 <span class="left ml-5 required">商品简介：</span>
                 <quill-editor ref="myTextEditorPresent"
                               v-model="taskRelease.itemDescription"
@@ -667,8 +668,7 @@
                               @focus="onEditorFocus($event)"
                               @ready="onEditorReady($event)">
                 </quill-editor>
-                <input v-show="false" id="presentGet" type="file" name="avator" multiple
-                       accept="image/jpg,image/jpeg,image/png,image/gif" @change="uploadImgPresentGet">
+                <input v-show="false" id="presentGet" type="file" name="avator" multiple accept="image/jpg,image/jpeg,image/png,image/gif" @change="uploadImgPresentGet">
               </div>
             </div>
           </div>
@@ -680,7 +680,7 @@
           <template v-if="taskRelease.taskType === 'pc_search'">
             <div class="baby-main-img ml-40 mt-20 clear">
               <span class="required left mr-5 mt-20">宝贝主图：</span>
-              <Upload key="pcDefaultList" class="left ml-4"
+              <upload key="pcDefaultList" class="left ml-4"
                       name="task"
                       :default-file-list="pcDefaultList"
                       :on-remove="removePcImage"
@@ -693,7 +693,7 @@
                 <div class="camera">
                   <Icon type="camera" size="20"></Icon>
                 </div>
-              </Upload>
+              </upload>
               <p class="sizeColor2 left mt-20 ml-15">（点击或者拖拽自主上传图片，支持jpg \ jpeg \ png \ gif \
                 bmp格式，最佳尺寸400*400（像素），不超过1M，可与宝贝主图一致）</p>
             </div>
@@ -705,20 +705,20 @@
                   <!--<sup class="badge-count" v-show="item.countAssigned > 0">{{item.countAssigned}}</sup>-->
                   <span v-if="item.index === pcTaskDetail.length - 1 && item.index !== 0" class="close-tag"
                         @click="handleClose(item.index)">
-                      <Icon type="ios-close-empty"></Icon>
+                      <icon type="ios-close-empty"></icon>
                     </span>
                 </div>
-                <iButton class="ml-5" v-show="pcTaskDetail.length < 5" icon="ios-plus-empty" type="dashed"
+                <i-button class="ml-5" v-show="pcTaskDetail.length < 5" icon="ios-plus-empty" type="dashed"
                          size="small" @click="handleAdd">添加关键词方案
-                </iButton>
+                </i-button>
               </div>
               <div class="mt-10 sizeColor2">（请确保提供的关键词能够搜索到宝贝，同时为了避免拿手找不到对应的宝贝，您最多可以添加5组关键词方案）</div>
             </div>
             <template v-for="item in pcTaskDetail" v-if="item.index === selectKeywordScheme">
-              <Alert show-icon class="tag-alert">
+              <alert show-icon class="tag-alert">
                 您当前选择的是关键词方案 {{item.index + 1}}
-                <Icon type="ios-lightbulb-outline" slot="icon" size="18"></Icon>
-              </Alert>
+                <icon type="ios-lightbulb-outline" slot="icon" size="18"></icon>
+              </alert>
               <!--  <div class="matching-num ml-40 mt-20">
                   <span>匹配人数：</span>
                   <i-input v-model.number="item.countAssigned" placeholder="请输入匹配人数" style="width: 160px"></i-input>
@@ -731,22 +731,21 @@
               </div>
               <div class="sort-by ml-40 mt-20">
                 <span class="required">排序方式：</span>
-                <Radio-group v-model="item.searchSort">
-                  <Radio label="zong_he">
+                <radio-group v-model="item.searchSort">
+                  <radio label="zong_he">
                     <span>综合排序</span>
-                  </Radio>
-                  <Radio label="xiao_liang">
+                  </radio>
+                  <radio label="xiao_liang">
                     <span>销量排序</span>
-                  </Radio>
-                  <Radio label="ren_qi">
+                  </radio>
+                  <radio label="ren_qi">
                     <span>人气排序</span>
-                  </Radio>
-                </Radio-group>
+                  </radio>
+                </radio-group>
               </div>
               <div class="search-price ml-40 mt-20">
                 <span class="required">展示价格：</span>
-                <i-input v-model.number="item.searchPagePrice" placeholder="请输入搜索列表页展示价格"
-                        style="width: 160px"></i-input>
+                <i-input v-model.number="item.searchPagePrice" placeholder="请输入搜索列表页展示价格" style="width: 160px"></i-input>
                 <span class="sizeColor2">（务必亲自搜索，确认价格准确）</span>
               </div>
               <div class="baby-location ml-15 mt-20">
@@ -817,7 +816,7 @@
           <template v-else-if="taskRelease.taskType === 'app_search'">
             <div class="baby-main-img ml-40 mt-20 clear">
               <span class="required left mr-5 mt-20">宝贝主图：</span>
-              <Upload key="appDefaultList" class="left ml-4"
+              <upload key="appDefaultList" class="left ml-4"
                       :on-success="appBabyImgSuccess"
                       :default-file-list="appDefaultList"
                       :on-remove="removeAppImage"
@@ -828,9 +827,9 @@
                       :on-exceeded-size="handleMaxSize"
                       type="drag">
                 <div class="camera">
-                  <Icon type="camera" size="20"></Icon>
+                  <icon type="camera" size="20"></icon>
                 </div>
-              </Upload>
+              </upload>
               <p class="sizeColor2 left ml-15 mt-20">（点击或者拖拽自主上传图片，支持jpg \ jpeg \ png \ gif \
                 bmp格式，最佳尺寸400*400（像素），不超过1M，可与宝贝主图一致）</p>
             </div>
@@ -842,20 +841,19 @@
                   <!--<sup class="badge-count" v-show="item.countAssigned > 0">{{item.countAssigned}}</sup>-->
                   <span v-if="item.index === appTaskDetail.length - 1 && item.index !== 0" class="close-tag"
                         @click="handleClose(item.index)">
-                      <Icon type="ios-close-empty"></Icon>
+                      <icon type="ios-close-empty"></icon>
                     </span>
                 </div>
-                <iButton v-show="appTaskDetail.length < 5" icon="ios-plus-empty" type="dashed" size="small"
-                         @click="handleAdd">添加关键词方案
-                </iButton>
+                <i-button v-show="appTaskDetail.length < 5" icon="ios-plus-empty" type="dashed" size="small" @click="handleAdd">添加关键词方案
+                </i-button>
               </div>
               <div class="mt-10 sizeColor2">（请确保提供的关键词能够搜索到宝贝，同时为了避免拿手找不到对应的宝贝，您最多可以添加5组关键词方案）</div>
             </div>
             <template v-for="item in appTaskDetail" v-if="item.index === selectKeywordScheme">
-              <Alert show-icon class="tag-alert">
+              <alert show-icon class="tag-alert">
                 您当前选择的是关键词方案 {{item.index + 1}}
-                <Icon type="ios-lightbulb-outline" slot="icon" size="18"></Icon>
-              </Alert>
+                iIcon type="ios-lightbulb-outline" slot="icon" size="18"></Icon>
+              </alert>
               <!-- <div class="matching-num ml-40 mt-20">
                  <span>匹配人数：</span>
                  <i-input v-model.number="item.countAssigned" placeholder="请输入匹配人数" style="width: 160px"></i-input>
@@ -868,19 +866,18 @@
               </div>
               <div class="sort-by ml-40 mt-20">
                 <span class="required">排序方式：</span>
-                <Radio-group v-model="item.searchSort">
-                  <Radio label="zong_he">
+                <radio-group v-model="item.searchSort">
+                  <radio label="zong_he">
                     <span>综合排序</span>
-                  </Radio>
-                  <Radio label="xiao_liang">
+                  </radio>
+                  <radio label="xiao_liang">
                     <span>销量排序</span>
-                  </Radio>
-                </Radio-group>
+                  </radio>
+                </radio-group>
               </div>
               <div class="search-price ml-40 mt-20">
                 <span class="required">展示价格：</span>
-                <i-input v-model="item.searchPagePrice" placeholder="请输入搜索列表页展示价格"
-                        style="width: 160px"></i-input>
+                <i-input v-model="item.searchPagePrice" placeholder="请输入搜索列表页展示价格" style="width: 160px"></i-input>
                 <span class="sizeColor2">（务必亲自搜索，确认价格准确）</span>
               </div>
               <div class="baby-location ml-15 mt-20">
@@ -961,7 +958,7 @@
                       :on-exceeded-size="handleMaxSize"
                       type="drag">
                 <div class="camera">
-                  <Icon type="camera" size="20"></Icon>
+                  <icon type="camera" size="20"></icon>
                 </div>
               </upload>
               <span class="sizeColor2 left ml-15 mt-20">（点击或者拖拽自主上传图片，支持jpg \ jpeg \ png \ gif \ bmp格式，最佳尺寸400*400（像素），不超过1M，可与宝贝主图一致）</span>
@@ -1418,24 +1415,28 @@
         upgradeMembershipModal: false,
       }
     },
-    mounted() {
+    updated() {
       const _this = this;
-      const imgHandlerFreeGet = async function (image) {
-        _this.addImgRangeFreeGet = _this.$refs.myTextEditorFree.quill.getSelection();
-        if (image) {
-          let fileInput = document.getElementById('freeGet');
-          fileInput.click()
-        }
-      };
-      _this.$refs.myTextEditorFree.quill.getModule("toolbar").addHandler("image", imgHandlerFreeGet);
-      const imgHandlerPresentGet = async function (image) {
-        _this.addImgRangePresentGet = _this.$refs.myTextEditorPresent.quill.getSelection();
-        if (image) {
-          let fileInput = document.getElementById('presentGet');
-          fileInput.click()
-        }
-      };
-      _this.$refs.myTextEditorPresent.quill.getModule("toolbar").addHandler("image", imgHandlerPresentGet);
+      if (_this.$refs.myTextEditorFree) {
+        const imgHandlerFreeGet = async function (image) {
+          _this.addImgRangeFreeGet = _this.$refs.myTextEditorFree.quill.getSelection();
+          if (image) {
+            let fileInput = document.getElementById('freeGet');
+            fileInput.click()
+          }
+        };
+        _this.$refs.myTextEditorFree.quill.getModule("toolbar").addHandler("image", imgHandlerFreeGet);
+      }
+     if (_this.$refs.myTextEditorPresent) {
+       const imgHandlerPresentGet = async function (image) {
+         _this.addImgRangePresentGet = _this.$refs.myTextEditorPresent.quill.getSelection();
+         if (image) {
+           let fileInput = document.getElementById('presentGet');
+           fileInput.click()
+         }
+       };
+       _this.$refs.myTextEditorPresent.quill.getModule("toolbar").addHandler("image", imgHandlerPresentGet);
+      }
     },
     created() {
       this.getItemCatalog();
@@ -2655,12 +2656,12 @@
             _this.addImgRangeFreeGet = _this.$refs.myTextEditorFree.quill.getSelection();
             _this.$refs.myTextEditorFree.quill.insertEmbed(_this.addImgRangeFreeGet !== null ? _this.addImgRangeFreeGet.index : 0, 'image', value, Quill.sources.USER);
             document.getElementById('freeGet').value = '';
-            _this.$Message.success('亲，图片上传成功！');
+            _this.$Message.success('商品简介图片上传成功！');
           }
         }).catch(err => {
-          console.log(err);
+          console.error(err);
           document.getElementById('freeGet').value = '';
-          _this.$Message.warning('亲，图片上传失败！');
+          _this.$Message.warning('商品简介图片上传失败，请重试！');
         })
       },
       uploadImgPresentGet(e) {
@@ -2673,12 +2674,12 @@
             _this.addImgRangePresentGet = _this.$refs.myTextEditorPresent.quill.getSelection();
             _this.$refs.myTextEditorPresent.quill.insertEmbed(_this.addImgRangePresentGet !== null ? _this.addImgRangePresentGet.index : 0, 'image', value, Quill.sources.USER);
             document.getElementById('presentGet').value = '';
-            _this.$Message.success('亲，图片上传成功！');
+            _this.$Message.success('商品简介图片上传成功！');
           }
         }).catch(err => {
-          console.log(err);
+          console.error(err);
           document.getElementById('presentGet').value = '';
-          _this.$Message.warning('亲，图片上传失败！');
+          _this.$Message.warning('商品简介图片上传失败，请重试！');
         })
       },
       removeAnswerImage(file) {
