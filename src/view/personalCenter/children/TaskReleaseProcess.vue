@@ -221,11 +221,12 @@
         <div v-if="getMemberVersionLevel !== 100" class="value-added-services">
         <p class="main-color">增值服务（平台已保证所有拿手安全下单，但您仍不放心，可选择以下增值服务，该服务会要求拿手上传截图留证）</p>
         <template v-for="item in vasMainItem">
-          <checkbox v-show="taskRelease.taskType === 'pc_search' || taskRelease.taskType === 'direct_access' ? item.showForPc : item.showForApp" class="mt-10 mr-15"
-                    v-model="item.isSelect" :disabled="item.isDisabled">
+          <checkbox v-show="taskRelease.taskType === 'pc_search' || taskRelease.taskType === 'direct_access' ? item.showForPc : item.showForApp" class="mt-10 mr-15" v-model="item.isSelect" :disabled="item.isDisabled">
             <span>{{item.name}}</span>
             <span class="sizeColor2">({{item.price / 100 || 0}}元)</span>
-            <span class="value-added-services-demo-image">图</span>
+            <tooltip content="查看示例图" placement="top">
+              <span class="value-added-services-demo-image" @click.stop="openSampleImageModal(taskRelease.taskType === 'pc_search' || taskRelease.taskType === 'direct_access' ? item.pcTipsPicture : item.appTipsPicture)">图</span>
+            </tooltip>
           </checkbox>
         </template>
         <checkbox class="mt-10" v-model="shopAroundStatus" @on-change="shopAroundStatusChange">
@@ -239,7 +240,9 @@
               <checkbox v-show="taskRelease.taskType === 'pc_search' || taskRelease.taskType === 'direct_access' ? item.showForPc : item.showForApp" class="mt-10 mr-15" v-model="item.isSelect" :disabled="item.isDisabled">
                 <span>{{item.name}}</span>
                 <span class="sizeColor2">({{item.price / 100 || 0}}元)</span>
-                <span class="value-added-services-demo-image">图</span>
+                <tooltip content="查看示例图" placement="top">
+                  <span class="value-added-services-demo-image" @click.stop="openSampleImageModal(taskRelease.taskType === 'pc_search' || taskRelease.taskType === 'direct_access' ? item.pcTipsPicture : item.appTipsPicture)">图</span>
+                </tooltip>
               </checkbox>
             </template>
           </div>
@@ -1781,7 +1784,7 @@
             });
             const similarVasSettings = res.data.similarVasSettings;
             const len = similarVasSettings.length;
-            if (len > 1) {
+            if (len >= 1) {
               _this.vasSimilarItem.splice(1, _this.vasSimilarItem.length - 1);
               for (let i = 0; i < len - 1; i++) {
                 _this.addShopAroundList()
@@ -1820,6 +1823,10 @@
       },
       goStoreBind() {
         this.$router.push({name:'StoreBindRules',query:{from:'taskRelease'}});
+      },
+      openSampleImageModal(src) {
+        this.isShowExampleImageModel  = true;
+        this.exampleImageUrl = src;
       },
       upgradeSvip() {
         this.$router.push({path: '/user/vip-member/order'})
