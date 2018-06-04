@@ -992,7 +992,7 @@
        * @return {Number}
        */
       getMemberVersionLevel() {
-        return this.$store.state.userInfo.memberLevel
+        return this.$store.getters.getMemberLevel
       },
 
       /**

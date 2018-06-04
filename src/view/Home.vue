@@ -755,7 +755,7 @@
         return this.$store.state.userInfo.memberDeadline
       },
       getMemberVersionLevel() {
-        return this.$store.state.userInfo.memberLevel
+        return this.$store.getters.getMemberLevel
       },
       isMember() {
         return this.$store.getters.isMemberOk

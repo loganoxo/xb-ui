@@ -534,7 +534,7 @@
        * @return {Number}
        */
       getMemberVersionLevel() {
-        return this.$store.state.userInfo.memberLevel
+        return this.$store.getters.getMemberLevel
       },
 
       /** 计算用户账户余额是否足够支付选购的增值服务版本价格（true: 余额足够， false: 余额不足）

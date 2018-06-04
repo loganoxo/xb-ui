@@ -51,7 +51,7 @@
         return this.$store.state.userInfo.memberOK;
       },
       memberLevel(){
-        return this.$store.state.userInfo.memberLevel;
+        return this.$store.getters.getMemberLevel;
       },
     },
     created(){
