@@ -1784,12 +1784,16 @@
             });
             const similarVasSettings = res.data.similarVasSettings;
             const len = similarVasSettings.length;
-            if (len >= 1) {
-              _this.vasSimilarItem.splice(1, _this.vasSimilarItem.length - 1);
-              for (let i = 0; i < len - 1; i++) {
-                _this.addShopAroundList()
-              }
+            if (len > 0) {
               _this.shopAroundStatus = true;
+              if(len > 1) {
+                if(_this.vasSimilarItem.length > 1) {
+                  _this.vasSimilarItem.splice(1, _this.vasSimilarItem.length - 1);
+                }
+                for (let i = 0; i < len - 1; i++) {
+                  _this.addShopAroundList()
+                }
+              }
               _this.vasSimilarItem.map((keys, i) => {
                 let tempArr = similarVasSettings[i];
                 if(tempArr.length > 0) {
