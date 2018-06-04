@@ -1049,7 +1049,7 @@
           <span @click="isShowAliPayTip = true">【<span class="blue cursor-p">支付宝手续费</span>】</span>
         </div>
         <div slot="isBalance" class="title-tip">
-          <Icon color="#FF2424" size="18px" type="ios-information"></Icon>
+          <icon color="#FF2424" size="18px" type="ios-information"></icon>
           <span class="ml-10">您本次需要支付金额为 <span class="sizeColor3">{{!priceHasChange ? (orderMoney / 100).toFixed(2) : (replenishMoney / 100).toFixed(2)}}</span> 元。</span>
         </div>
       </PayModel>
@@ -1066,24 +1066,24 @@
         </div>
       </div>
       <div slot="footer">
-        <iButton type="error" size="large" @click="continueNextStep">我已了解，继续下一步</iButton>
-        <iButton style="margin-left: 35px;" type="error" size="large" @click="IThink">我再想想</iButton>
+        <i-button type="error" size="large" @click="continueNextStep">我已了解，继续下一步</i-button>
+        <i-button style="margin-left: 35px;" type="error" size="large" @click="IThink">我再想想</i-button>
       </div>
     </modal>
     <!--用户修改价格比原始价格低提示弹框-->
     <modal v-model="editPriceToLowAfterModel">
       <div class="clear mt-40">
         <div class="left mt-5">
-          <Icon color="#f9284f" size="32" type="information-circled"></Icon>
+          <icon color="#f9284f" size="32" type="information-circled"></icon>
         </div>
         <div class="left ml-10">
-          <p style="font-size: 14px;">由于您修改了当前宝贝价格/包邮条件/发放数量等，且修改后的</p>
-          <p style="font-size: 14px;">价格低于原价格，对于超出部分的费用将在活动结算时返还给您。</p>
+          <p style="font-size: 14px;">由于您修改了当前活动信息，且修改后的</p>
+          <p style="font-size: 14px;">费用低于原费用，对于超出部分的费用将在活动结算时返还给您。</p>
         </div>
       </div>
       <div slot="footer">
-        <iButton type="error" size="large" @click="toLowContinueNextStep">我已了解，继续下一步</iButton>
-        <iButton class="ml-35" type="error" size="large" @click="IThink">我再想想</iButton>
+        <i-button type="error" size="large" @click="toLowContinueNextStep">我已了解，继续下一步</i-button>
+        <i-button class="ml-35" type="error" size="large" @click="IThink">我再想想</i-button>
       </div>
     </modal>
     <!--商家改低宝贝数量并且关键词方案大于当前宝贝数量弹框-->
@@ -1105,7 +1105,7 @@
     <div v-if="isShowUserClause" class="user-clause-model">
       <user-clause @closeClauseModel="closeClauseModel"></user-clause>
     </div>
-    <!--收藏加购物和浏览答题截图查看-->
+    <!--收藏加购物、浏览答题、增值服务示例图查看-->
     <modal title="浏览答题示例图片查看" v-model="isShowExampleImageModel">
       <img :src="exampleImageUrl" style="width: 100%">
     </modal>
