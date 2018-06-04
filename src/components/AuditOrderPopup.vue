@@ -43,7 +43,7 @@
             </div>
           </div>
         </div>
-        <!--主宝贝答题-->
+        <!--浏览答题截图-->
         <div class="main-baby-answer" v-if="mainBabyAnswerList.length > 0">
           <p class="main-baby-answer-title fs-12 f-b cl666">查看拿手提交的主宝贝浏览截图</p>
           <div class="image-area" v-for="(item,index) in mainBabyAnswerList" :key="index">
@@ -222,7 +222,7 @@
         orderReviewStatus: 'passAudit',
 
         mainBabyImageList:[],
-        mainBabyAnswerList:[{},{}],
+        mainBabyAnswerList:[],
         babyOneImageList:[],
         babyTwoImageList:[],
         babyThreeImageList:[],
@@ -420,7 +420,7 @@
         _this.mainBabyAnswerList = tempData.issueAnswerScreenshot.map((item,index) => {
           let tempObj = {};
           tempObj.title = item.issueText.issue;
-          tempObj.screenshotsList = item.issueText.image ? [{src:item.issueText.image}] : [];
+          tempObj.screenshotsList = item.screenshotSrc ? [{src:item.screenshotSrc}] : [];
           return tempObj;
         })
       },
