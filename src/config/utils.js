@@ -265,6 +265,17 @@ export const getUrlParams = (url, name) => {
 };
 
 /**
+ * 平滑滚动到顶部
+ */
+export const scrollToTop = () => {
+  const c = document.documentElement.scrollTop || document.body.scrollTop;
+  if (c > 0) {
+    window.requestAnimationFrame(scrollToTop);
+    window.scrollTo(0, c - c / 8);
+  }
+};
+
+/**
  * 删除字符串中的html双标签及标签的内容
  */
 export const delHtmlTag = str => {

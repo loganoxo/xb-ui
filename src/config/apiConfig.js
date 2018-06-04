@@ -260,7 +260,7 @@ export default {
    * 获取商品类型
    */
   itemCatalog() {
-    return axiosConfig.post("/api/item-catalog.json")
+    return axiosConfig.get("/api/item-catalog.json")
   },
 
   /**

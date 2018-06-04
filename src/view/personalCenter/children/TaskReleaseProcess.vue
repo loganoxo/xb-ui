@@ -147,7 +147,7 @@
             <span v-show="taskRelease.orderType === 'day_now' || taskRelease.orderType === 'day_reserve'">（注意：请于当日22:20分前审批完成所有拿手资格，逾期系统将自动为您审批）</span>
           </span>
         </div>
-        <div class="ml-15 mt-20" v-show="taskRelease.orderType === 'day_reserve'">
+        <div class="ml-15 mt-20" v-if="taskRelease.orderType === 'day_reserve'">
           <i class="ivu-icon ivu-icon-information-circled cle60012"></i>
           <span>转当日单：</span>
           <checkbox v-model="taskRelease.dayReserveToNow">需要</checkbox>
@@ -221,13 +221,13 @@
         <div v-if="getMemberVersionLevel !== 100" class="value-added-services">
         <p class="main-color">增值服务（平台已保证所有拿手安全下单，但您仍不放心，可选择以下增值服务，该服务会要求拿手上传截图留证）</p>
         <template v-for="item in vasMainItem">
-          <checkbox v-show="taskRelease.taskType === 'pc_search' || taskRelease.taskType === 'direct_access' ? item.showForPc : item.showForApp" class="mt-10 mr-15" v-model="item.isSelect" :disabled="item.isDisabled">
+          <checkbox v-show="taskRelease.taskType === 'pc_search' || taskRelease.taskType === 'direct_access' ? item.showForPc : item.showForApp" class="mt-10 mr-0" v-model="item.isSelect" :disabled="item.isDisabled">
             <span>{{item.name}}</span>
             <span class="sizeColor2">({{item.price / 100 || 0}}元)</span>
-            <tooltip content="查看示例图" placement="top">
-              <span class="value-added-services-demo-image" @click.stop="openSampleImageModal(taskRelease.taskType === 'pc_search' || taskRelease.taskType === 'direct_access' ? item.pcTipsPicture : item.appTipsPicture)">图</span>
-            </tooltip>
           </checkbox>
+          <tooltip class="mr-15" content="查看示例图" placement="top" v-show="taskRelease.taskType === 'pc_search' || taskRelease.taskType === 'direct_access' ? item.showForPc : item.showForApp">
+            <span class="value-added-services-demo-image" @click.stop="openSampleImageModal(taskRelease.taskType === 'pc_search' || taskRelease.taskType === 'direct_access' ? item.pcTipsPicture : item.appTipsPicture)">图</span>
+          </tooltip>
         </template>
         <checkbox class="mt-10" v-model="shopAroundStatus" @on-change="shopAroundStatusChange">
           <span>货比三家</span>
@@ -237,13 +237,13 @@
           <div v-show="shopAroundStatus" class="cl999 mt-10">同类宝贝{{index + 1}}：</div>
           <div v-show="shopAroundStatus">
             <template v-for="item in keys">
-              <checkbox v-show="taskRelease.taskType === 'pc_search' || taskRelease.taskType === 'direct_access' ? item.showForPc : item.showForApp" class="mt-10 mr-15" v-model="item.isSelect" :disabled="item.isDisabled">
+              <checkbox v-show="taskRelease.taskType === 'pc_search' || taskRelease.taskType === 'direct_access' ? item.showForPc : item.showForApp" class="mt-10 mr-0" v-model="item.isSelect" :disabled="item.isDisabled">
                 <span>{{item.name}}</span>
                 <span class="sizeColor2">({{item.price / 100 || 0}}元)</span>
-                <tooltip content="查看示例图" placement="top">
-                  <span class="value-added-services-demo-image" @click.stop="openSampleImageModal(taskRelease.taskType === 'pc_search' || taskRelease.taskType === 'direct_access' ? item.pcTipsPicture : item.appTipsPicture)">图</span>
-                </tooltip>
               </checkbox>
+              <tooltip class="mr-15" content="查看示例图" placement="top" v-show="taskRelease.taskType === 'pc_search' || taskRelease.taskType === 'direct_access' ? item.showForPc : item.showForApp">
+                <span class="value-added-services-demo-image" @click.stop="openSampleImageModal(taskRelease.taskType === 'pc_search' || taskRelease.taskType === 'direct_access' ? item.pcTipsPicture : item.appTipsPicture)">图</span>
+              </tooltip>
             </template>
           </div>
         </template>
@@ -286,7 +286,7 @@
                       :on-exceeded-size="handleMaxSize"
                       type="drag">
                 <div class="camera">
-                  <Icon type="camera" size="20"></Icon>
+                  <icon type="camera" size="20"></icon>
                 </div>
               </upload>
               <span class="blue left mt-20 ml-10 cursor-p" @click="changeExampleImageUrl('main')">【查看示例图】</span>
@@ -312,9 +312,9 @@
               <span class="required">宝贝数量：</span>
               <i-input v-model.number="taskRelease.taskCount" placeholder="请输入宝贝数量" style="width: 120px" @on-blur="addItemReviewList"></i-input>
               <span>份</span>
-              <span class="sizeColor3 ml-5">（平台会按照1/5的比例进行计算，部分中奖名额将会由系统进行推荐）</span>
+              <span v-show="taskRelease.orderType === 'normal'" class="sizeColor3 ml-5">（平台会按照1/5的比例进行计算，部分中奖名额将会由系统进行推荐）</span>
             </p>
-            <p class="mt-10 ml-70" v-show="systemApprovalTaskNumber > 0">
+            <p class="mt-10 ml-70" v-show="systemApprovalTaskNumber > 0 && taskRelease.orderType === 'normal'">
               <icon color="#f9284f" type="information-circled"></icon>
               <span class="sizeColor3">商家审批份数：{{taskRelease.taskCount - systemApprovalTaskNumber || 0}} 份</span>
               <span class="sizeColor3 ml-10">平台审批份数：{{systemApprovalTaskNumber || 0}} 份</span>
@@ -650,10 +650,10 @@
                   <i-input v-model.number="taskRelease.taskCount" placeholder="请输入宝贝数量" style="width: 120px"
                           @on-blur="addItemReviewList"></i-input>
                   <span>份</span>
-                  <span class="sizeColor3 ml-5">（平台会按照1/5的比例进行计算，部分中奖名额将会由系统进行推荐）</span>
+                  <span v-show="taskRelease.orderType === 'normal'" class="sizeColor3 ml-5">（平台会按照1/5的比例进行计算，部分中奖名额将会由系统进行推荐）</span>
                 </p>
-                <p class="mt-10 ml-70" v-show="systemApprovalTaskNumber > 0">
-                  <Icon color="#f9284f" type="information-circled"></Icon>
+                <p class="mt-10 ml-70" v-show="systemApprovalTaskNumber > 0 && taskRelease.orderType === 'normal'">
+                  <icon color="#f9284f" type="information-circled"></icon>
                   <span class="sizeColor3">商家审批份数：{{taskRelease.taskCount - systemApprovalTaskNumber || 0}} 份</span>
                   <span class="sizeColor3 ml-10">平台审批份数：{{systemApprovalTaskNumber || 0}} 份</span>
                 </p>
@@ -852,7 +852,7 @@
             <template v-for="item in appTaskDetail" v-if="item.index === selectKeywordScheme">
               <alert show-icon class="tag-alert">
                 您当前选择的是关键词方案 {{item.index + 1}}
-                iIcon type="ios-lightbulb-outline" slot="icon" size="18"></Icon>
+                <icon type="ios-lightbulb-outline" slot="icon" size="18"></icon>
               </alert>
               <!-- <div class="matching-num ml-40 mt-20">
                  <span>匹配人数：</span>
@@ -1103,7 +1103,7 @@
       <user-clause @closeClauseModel="closeClauseModel"></user-clause>
     </div>
     <!--收藏加购物、浏览答题、增值服务示例图查看-->
-    <modal title="浏览答题示例图片查看" v-model="isShowExampleImageModel">
+    <modal title="示例图片查看" v-model="isShowExampleImageModel">
       <img :src="exampleImageUrl" style="width: 100%">
     </modal>
     <!--支付宝手续费说明弹框-->
@@ -1191,10 +1191,10 @@
   import UserClause from '@/components/UserClause'
   import api from '@/config/apiConfig'
   import {aliCallbackImgUrl} from '@/config/env'
-  import {aliUploadImg, isPositiveInteger, isNumber, isInteger, isAliUrl, randomString, extendDeep, decode, setStorage, getStorage, getUrlParams} from '@/config/utils'
+  import {aliUploadImg, isPositiveInteger, isNumber, isInteger, isAliUrl, randomString, extendDeep, decode, setStorage, getStorage, getUrlParams, scrollToTop} from '@/config/utils'
 
   export default {
-    name: 'TaskReleaseProcess',
+    name: 'task-release-process',
     components: {
       quillEditor: quillEditor,
       iInput: Input,
@@ -1427,17 +1427,18 @@
         };
         _this.$refs.myTextEditorFree.quill.getModule("toolbar").addHandler("image", imgHandlerFreeGet);
       }
-     if (_this.$refs.myTextEditorPresent) {
-       const imgHandlerPresentGet = async function (image) {
-         _this.addImgRangePresentGet = _this.$refs.myTextEditorPresent.quill.getSelection();
-         if (image) {
+      if (_this.$refs.myTextEditorPresent) {
+        const imgHandlerPresentGet = async function (image) {
+          _this.addImgRangePresentGet = _this.$refs.myTextEditorPresent.quill.getSelection();
+          if (image) {
            let fileInput = document.getElementById('presentGet');
            fileInput.click()
-         }
-       };
-       _this.$refs.myTextEditorPresent.quill.getModule("toolbar").addHandler("image", imgHandlerPresentGet);
+          }
+        };
+        _this.$refs.myTextEditorPresent.quill.getModule("toolbar").addHandler("image", imgHandlerPresentGet);
       }
     },
+    mounted() {},
     created() {
       this.getItemCatalog();
       this.getStoreBindInfoList();
@@ -1729,14 +1730,14 @@
        */
       vasSimilarItemCost() {
         let cost = 0;
-        if(this.shopAroundStatus) {
+        if (this.shopAroundStatus) {
           this.vasSimilarItem.map(keys => {
             keys.map(item => {
               if(item.isSelect) {
                 cost += item.price
               }
             })
-          });
+          })
         }
         return cost
       },
