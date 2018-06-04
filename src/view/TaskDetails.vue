@@ -250,6 +250,10 @@
                     <span class="cl000">使用下方提供的内容进行评价，为避免纠纷，</span>
                     <span>请务必按照要求操作！</span>
                   </p>
+                  <p class="mt-10" v-if="commodityData.vasCount">
+                    <span>浏览截图：</span>
+                    <span>{{commodityData.vasCount}}张，（返利{{computeVasReturnFee(commodityData.task.perVasFee,commodityData.task.systemVasFeeCommissionPercent)}}元）</span>
+                  </p>
                   <div class="evaluation-content-tip cl666"
                        v-if="commodityData.task.itemReviewRequired === 'assign_review_detail' && commodityData.showkerTask">
                     <div v-if="showkerTask.other && showkerTask.other.itemReviewAssign">{{showkerTask.other.itemReviewAssign.reviewContent}}</div>

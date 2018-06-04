@@ -25,64 +25,66 @@
           <!--</div>-->
         <!--</div>-->
       <!--</div>-->
-      <div class="f-b fs-14 main-color mt-10">
-        请查看拿手提交的截图信息
-        <span class="f-b fs-12 cl666">（未按要求的截图可选择重新提交）</span>
-      </div>
-      <div class="screen-shots-area">
-        <!--主宝贝截图-->
-        <div class="main-baby-image" v-if="mainBabyImageList.length > 0">
-          <p class="main-baby-image-title fs-12 f-b cl666">查看拿手提交的主宝贝浏览截图</p>
-          <div class="image-area" v-for="(item,index) in mainBabyImageList" :key="index">
-            <img :src="item.screenshotsList[0].src" alt="" width="54" height="54" @click="previewImage(item.screenshotsList[0].src)">
-            <p>{{item.title}}</p>
-            <div>
-              <checkbox v-model="item.isSelect">
-                <span class="resubmit-text">重新提交</span>
-              </checkbox>
+      <div class="screenshot" v-if="mainBabyRawData.length > 0 || mainAnswerRewData.length > 0 || similarBabyRawData.length > 0">
+        <div class="f-b fs-14 main-color mt-10">
+          请查看拿手提交的截图信息
+          <span class="f-b fs-12 cl666">（未按要求的截图可选择重新提交）</span>
+        </div>
+        <div class="screen-shots-area">
+          <!--主宝贝截图-->
+          <div class="main-baby-image" v-if="mainBabyImageList.length > 0">
+            <p class="main-baby-image-title fs-12 f-b cl666">查看拿手提交的主宝贝浏览截图</p>
+            <div class="image-area" v-for="(item,index) in mainBabyImageList" :key="index">
+              <img :src="item.screenshotsList[0].src" alt="" width="54" height="54" @click="previewImage(item.screenshotsList[0].src)">
+              <p>{{item.title}}</p>
+              <div>
+                <checkbox v-model="item.isSelect">
+                  <span class="resubmit-text">重新提交</span>
+                </checkbox>
+              </div>
             </div>
           </div>
-        </div>
-        <!--浏览答题截图-->
-        <div class="main-baby-answer" v-if="mainBabyAnswerList.length > 0">
-          <p class="main-baby-answer-title fs-12 f-b cl666">查看拿手提交的主宝贝浏览截图</p>
-          <div class="image-area" v-for="(item,index) in mainBabyAnswerList" :key="index">
-            <img :src="item.screenshotsList[0].src" alt="" width="54" height="54" @click="previewImage(item.screenshotsList[0].src)">
-            <p>{{item.title}}</p>
-          </div>
-        </div>
-        <!--货比三家-->
-        <div class="shop-compare" v-if="babyOneImageList.length > 0 || babyTwoImageList.length > 0 || babyThreeImageList.length > 0">
-          <p class="similar-baby-title fs-12 f-b cl666 mt-20">查看拿手提交的货比3家浏览截图</p>
-          <div class="image-area" v-for="(item,index) in babyOneImageList" :key="index">
-            <img :src="item.screenshotsList[0].src" alt="" width="54" height="54"  @click="previewImage(item.screenshotsList[0].src)">
-            <p>{{item.title}}</p>
-            <div>
-              <checkbox v-model="item.isSelect">
-                <span class="resubmit-text">重新提交</span>
-              </checkbox>
+          <!--浏览答题截图-->
+          <div class="main-baby-answer" v-if="mainBabyAnswerList.length > 0">
+            <p class="main-baby-answer-title fs-12 f-b cl666">查看拿手提交的主宝贝浏览截图</p>
+            <div class="image-area" v-for="(item,index) in mainBabyAnswerList" :key="index">
+              <img :src="item.screenshotsList[0].src" alt="" width="54" height="54" @click="previewImage(item.screenshotsList[0].src)">
+              <p>{{item.title}}</p>
             </div>
           </div>
-        </div>
-        <div class="shop-compare">
-          <div class="image-area" v-for="(item,index) in babyTwoImageList" :key="index">
-            <img :src="item.screenshotsList[0].src" alt="" width="54" height="54" @click="previewImage(item.screenshotsList[0].src)">
-            <p>{{item.title}}</p>
-            <div>
-              <checkbox v-model="item.isSelect">
-                <span class="resubmit-text">重新提交</span>
-              </checkbox>
+          <!--货比三家-->
+          <div class="shop-compare" v-if="babyOneImageList.length > 0 || babyTwoImageList.length > 0 || babyThreeImageList.length > 0">
+            <p class="similar-baby-title fs-12 f-b cl666 mt-20">查看拿手提交的货比3家浏览截图</p>
+            <div class="image-area" v-for="(item,index) in babyOneImageList" :key="index">
+              <img :src="item.screenshotsList[0].src" alt="" width="54" height="54"  @click="previewImage(item.screenshotsList[0].src)">
+              <p>{{item.title}}</p>
+              <div>
+                <checkbox v-model="item.isSelect">
+                  <span class="resubmit-text">重新提交</span>
+                </checkbox>
+              </div>
             </div>
           </div>
-        </div>
-        <div class="shop-compare">
-          <div class="image-area" v-for="(item,index) in babyThreeImageList" :key="index">
-            <img :src="item.screenshotsList[0].src" alt="" width="54" height="54" @click="previewImage(item.screenshotsList[0].src)">
-            <p>{{item.title}}</p>
-            <div>
-              <checkbox v-model="item.isSelect">
-                <span class="resubmit-text">重新提交</span>
-              </checkbox>
+          <div class="shop-compare">
+            <div class="image-area" v-for="(item,index) in babyTwoImageList" :key="index">
+              <img :src="item.screenshotsList[0].src" alt="" width="54" height="54" @click="previewImage(item.screenshotsList[0].src)">
+              <p>{{item.title}}</p>
+              <div>
+                <checkbox v-model="item.isSelect">
+                  <span class="resubmit-text">重新提交</span>
+                </checkbox>
+              </div>
+            </div>
+          </div>
+          <div class="shop-compare">
+            <div class="image-area" v-for="(item,index) in babyThreeImageList" :key="index">
+              <img :src="item.screenshotsList[0].src" alt="" width="54" height="54" @click="previewImage(item.screenshotsList[0].src)">
+              <p>{{item.title}}</p>
+              <div>
+                <checkbox v-model="item.isSelect">
+                  <span class="resubmit-text">重新提交</span>
+                </checkbox>
+              </div>
             </div>
           </div>
         </div>
@@ -226,11 +228,15 @@
         babyOneImageList:[],
         babyTwoImageList:[],
         babyThreeImageList:[],
+        mainBabyRawData:[],
+        mainAnswerRewData:[],
+        similarBabyRawData:[],
         taskTotalElements:0,
         auditResult:false,
         resubmitList:[],
         previewImg:false,
-        previewImgUrl:''
+        previewImgUrl:'',
+
       }
     },
     computed:{
@@ -373,6 +379,9 @@
         let similarOneIndex = -1;
         let similarTwoIndex = -1;
         let similarThreeIndex = -1;
+        _this.mainBabyRawData = tempData.mainVasSettings;
+        _this.mainAnswerRewData = tempData.issueAnswerScreenshot;
+        _this.similarBabyRawData = tempData.similarVasSettings;
         tempData.showkerTaskVasSettings.forEach( item => {
           let screenshotsList = item.answerScreenshot ? [{src:item.answerScreenshot}] : [];
           let obj = {
@@ -385,6 +394,7 @@
           };
           if (item.itemType === "main_item"){
             mainIndex ++;
+            console.log(tempData.mainVasSettings);
             obj.title = tempData.mainVasSettings[mainIndex].name;
             obj.required = item.required;
             obj.tipsPicture = tempData.mainVasSettings[mainIndex].tipsPicture;
@@ -424,6 +434,59 @@
           return tempObj;
         })
       },
+      // 乐奇
+      // handleDataTest() {
+      //   console.time('upload-for-lq');
+      //   const _this = this;
+      //   // 主宝贝
+      //   let mainVasSettingsMap = {};
+      //   let similarVasSettingsMapList = [];
+      //   _this.orderInfo.mainVasSettings.map(key => {
+      //     mainVasSettingsMap[key.id] = key;
+      //   });
+      //   _this.orderInfo.similarVasSettings.map(listKey => {
+      //     let similarVasSettingsMap = {};
+      //     listKey.map(key => {
+      //       similarVasSettingsMap[key.id] = key;
+      //     });
+      //     similarVasSettingsMapList.push(similarVasSettingsMap);
+      //   });
+      //   // 货比三家
+      //   let mainShowkerTaskVasSettings = [];
+      //   let similarShowkerTaskVasSettings = [];
+      //   _this.orderInfo.showkerTaskVasSettings.map(key => {
+      //     if (key.required) {
+      //       key.screenshotsList = key.answerScreenshot ? [{src: key.answerScreenshot}] : [];
+      //       if (key.itemType === 'main_item') {
+      //         key.title = mainVasSettingsMap[key.vasConfigId].name;
+      //         key.pcTipsPicture = mainVasSettingsMap[key.vasConfigId].pcTipsPicture;
+      //         mainShowkerTaskVasSettings.push(key);
+      //       } else {
+      //         let similarShowkerTaskVasSettingsTemp = similarShowkerTaskVasSettings[key.itemIndex];
+      //         if (!similarShowkerTaskVasSettingsTemp || similarShowkerTaskVasSettingsTemp.length === 0) {
+      //           similarShowkerTaskVasSettingsTemp = [];
+      //           similarShowkerTaskVasSettings[key.itemIndex] = [];
+      //         }
+      //         key.title = similarVasSettingsMapList[key.itemIndex][key.vasConfigId].name;
+      //         key.pcTipsPicture = similarVasSettingsMapList[key.itemIndex][key.vasConfigId].pcTipsPicture;
+      //         similarShowkerTaskVasSettingsTemp.push(key);
+      //         similarShowkerTaskVasSettings[key.itemIndex] = similarShowkerTaskVasSettingsTemp;
+      //       }
+      //     }
+      //   });
+      //   // 处理浏览答题
+      //   _this.orderInfo.issueAnswerList.forEach((item,index) => {
+      //     item.index = index;
+      //     item.src = '';
+      //     item.screenShotList = item.screenShotList.length > 0 ? [{src:item.screenShotList[0]}] : [];
+      //   });
+      //   _this.mainBabyImageList = mainShowkerTaskVasSettings;
+      //   _this.similarImageList = similarShowkerTaskVasSettings;
+      //   _this.mainBabyAnswerList = _this.orderInfo.issueAnswerList;
+      //   console.log(_this.mainBabyImageList);
+      //   console.timeEnd('upload-for-lq');
+      // },
+
       // 处理重新提交
       handleResubmit(array) {
         const _this = this;
@@ -452,7 +515,7 @@
   .check-order-con {
     position: absolute;
     width: 700px;
-    height:95%;
+    /*height:95%;*/
     background-color: #fff;
     border-radius: 5px;
     left: 50%;

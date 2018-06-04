@@ -78,7 +78,7 @@
         reasonList: [
           {
             reasonStatus: 'none_reason',
-            reasonDec: '无理由'
+            reasonDec: '无理由（仅屏蔽此用户申请，不计入征信体系）'
           },
           {
             reasonStatus: 'illegal_operation',

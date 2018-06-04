@@ -13,7 +13,7 @@
             <span>已通过待下单</span>
           </checkbox>
           <checkbox label="order_num_waiting_audit">
-            <span>订单号待审核</span>
+            <span>订单信息待审核</span>
           </checkbox>
           <checkbox label="trial_report_waiting_submit">
             <span>已下订单待交买家秀</span>

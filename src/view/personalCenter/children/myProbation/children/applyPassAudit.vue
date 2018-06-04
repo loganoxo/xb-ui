@@ -945,8 +945,6 @@
             _this.payMoney = res.data.orderPrice ? res.data.orderPrice : null;
             _this.orderState = res.data.status;
             _this.needBrowseCollectAddCart = res.data.needBrowseCollectAddCart;
-            console.log(_this.payMoney);
-            console.log(res.data.orderNum);
             _this.needBrowseCollectAddCart = false;
             _this.taskType = res.data.taskType;
             // _this.needIssueAnswer = res.data.itemIssue;
@@ -1024,18 +1022,54 @@
         }
       },
       openAuditOrder(id, type, activityCategory, status, statusDesc, auditDescription) {
-        this.affirmOrderNumber = null;
-        this.payMoney = null;
-        this.orderType = type;
-        this.activityCategory = activityCategory;
-        this.currentOrderStatusInfo.status = status;
-        this.currentOrderStatusInfo.statusDesc = statusDesc;
-        this.currentOrderStatusInfo.auditDescription = auditDescription;
-        this.showAuditOrderNumber = true;
-        if (id && !this.itemId) {
-          this.itemId = id;
-          this.getShowkerToProcessOrder();
-        }
+        const _this = this;
+        // 校验截图有没有全部上传，全部上传，填订单号，没有全部上传，提示用户
+        let orderInfo = {};
+        api.showkerToProcessOrder({id:_this.itemId}).then(res => {
+          if (res.status) {
+            orderInfo = res.data;
+            let checkImageUpload = orderInfo.showkerTaskVasSettings.every(item => {
+              return item.answerScreenshot !== null;
+            });
+            let checkAnswer = orderInfo.issueAnswerList.every(item => {
+              return item.screenShotList.length > 0;
+            });
+            if (checkImageUpload && checkAnswer) {
+              this.affirmOrderNumber = null;
+              this.payMoney = null;
+              this.orderType = type;
+              this.activityCategory = activityCategory;
+              this.currentOrderStatusInfo.status = status;
+              this.currentOrderStatusInfo.statusDesc = statusDesc;
+              this.currentOrderStatusInfo.auditDescription = auditDescription;
+              this.showAuditOrderNumber = true;
+              if (id && !this.itemId) {
+                this.itemId = id;
+                this.getShowkerToProcessOrder();
+              }
+            } else {
+              _this.$Message.error('请上传截图');
+            }
+          } else {
+            _this.$Message.error(res.msg);
+          }
+        });
+
+        // api.showkerToProcessOrder({id:id}).then(res => {
+        //
+        // });
+        // this.affirmOrderNumber = null;
+        // this.payMoney = null;
+        // this.orderType = type;
+        // this.activityCategory = activityCategory;
+        // this.currentOrderStatusInfo.status = status;
+        // this.currentOrderStatusInfo.statusDesc = statusDesc;
+        // this.currentOrderStatusInfo.auditDescription = auditDescription;
+        // this.showAuditOrderNumber = true;
+        // if (id && !this.itemId) {
+        //   this.itemId = id;
+        //   this.getShowkerToProcessOrder();
+        // }
       },
       uploadTaobaoImgSuccess(res) {
         this.taobaoScreenShotImg = aliCallbackImgUrl + res.name;

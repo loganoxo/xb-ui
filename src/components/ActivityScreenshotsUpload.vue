@@ -23,81 +23,10 @@
             </div>
           </upload>
           <div class="pt-10 pb-5">{{item.title}}</div>
-          <div class="review-image cursor-p" @click="previewImage(item.tipsPicture)">查看示例图</div>
+          <div class="review-image cursor-p" @click="previewImage(item.pcTipsPicture)">查看示例图</div>
           <div class="tip-resubmit" v-if="item.status === 'waiting_modify'">重新提交</div>
         </div>
       </div>
-      <!--<div class="shop-compare clear">-->
-      <!--<p class="upload-type-title">货比3家（宝贝1）<span>搜索过程中随意点击其他店铺的宝贝进行浏览，并上传浏览截图</span></p>-->
-      <!--<div class="upload-area left pos-rel" v-for="(item,index) in shopOneImageList" :key="index">-->
-      <!--<upload key="otherShopImageList" class="upload"-->
-      <!--:on-success="uploadSuccess"-->
-      <!--:default-file-list="item.screenshotsList"-->
-      <!--:on-remove="removeImage"-->
-      <!--:format="['jpg','jpeg','png','gif','bmp']"-->
-      <!--:max-size="1024"-->
-      <!--name="task"-->
-      <!--:on-format-error="handleFormatError"-->
-      <!--:on-exceeded-size="handleMaxSize"-->
-      <!--:index="index"-->
-      <!--type="drag"-->
-      <!--:itemInfo="item">-->
-      <!--<div class="camera">-->
-      <!--<Icon type="camera" size="20"></Icon>-->
-      <!--</div>-->
-      <!--</upload>-->
-      <!--<div class="pt-10 pb-5">{{item.title}}</div>-->
-      <!--<div class="review-image cursor-p" @click="previewImage(item.tipsPicture)">查看示例图</div>-->
-      <!--<div class="tip-resubmit" v-if="item.status === 'waiting_modify'">重新提交</div>-->
-      <!--</div>-->
-      <!--</div>-->
-      <!--<div class="shop-compare clear">-->
-      <!--<p class="upload-type-title">货比3家（宝贝2）<span>搜索过程中随意点击其他店铺的宝贝进行浏览，并上传浏览截图</span></p>-->
-      <!--<div class="upload-area left pos-rel" v-for="(item,index) in shopTwoImageList" :key="index">-->
-      <!--<upload key="otherShopImageList" class="upload"-->
-      <!--:on-success="uploadSuccess"-->
-      <!--:default-file-list="item.screenshotsList"-->
-      <!--:on-remove="removeImage"-->
-      <!--:format="['jpg','jpeg','png','gif','bmp']"-->
-      <!--:max-size="1024"-->
-      <!--name="task"-->
-      <!--:on-format-error="handleFormatError"-->
-      <!--:on-exceeded-size="handleMaxSize"-->
-      <!--type="drag"-->
-      <!--:itemInfo="item">-->
-      <!--<div class="camera">-->
-      <!--<Icon type="camera" size="20"></Icon>-->
-      <!--</div>-->
-      <!--</upload>-->
-      <!--<div class="pt-10 pb-5">{{item.title}}</div>-->
-      <!--<div class="review-image cursor-p" @click="previewImage(item.tipsPicture)">查看示例图</div>-->
-      <!--<div class="tip-resubmit" v-if="item.status === 'waiting_modify'">重新提交</div>-->
-      <!--</div>-->
-      <!--</div>-->
-      <!--<div class="shop-compare clear">-->
-      <!--<p class="upload-type-title">货比3家（宝贝3）<span>搜索过程中随意点击其他店铺的宝贝进行浏览，并上传浏览截图</span></p>-->
-      <!--<div class="upload-area left pos-rel" v-for="(item,index) in shopThreeImageList" :key="index">-->
-      <!--<upload key="otherShopImageList" class="upload"-->
-      <!--:on-success="uploadSuccess"-->
-      <!--:default-file-list="item.screenshotsList"-->
-      <!--:on-remove="removeImage"-->
-      <!--:format="['jpg','jpeg','png','gif','bmp']"-->
-      <!--:max-size="1024"-->
-      <!--name="task"-->
-      <!--:on-format-error="handleFormatError"-->
-      <!--:on-exceeded-size="handleMaxSize"-->
-      <!--type="drag"-->
-      <!--:itemInfo="item">-->
-      <!--<div class="camera">-->
-      <!--<Icon type="camera " size="20"></Icon>-->
-      <!--</div>-->
-      <!--</upload>-->
-      <!--<div class="pt-10 pb-5">{{item.title}}</div>-->
-      <!--<div class="review-image cursor-p" @click="previewImage(item.tipsPicture)">查看示例图</div>-->
-      <!--<div class="tip-resubmit" v-if="item.status === 'waiting_modify'">重新提交</div>-->
-      <!--</div>-->
-      <!--</div>-->
-      <!--货比三家 end-->
       <!--主宝贝截图 start-->
       <div class="main-baby-screenshots clear" v-if="mainBabyImageList.length > 0">
         <p class="upload-type-title">主宝贝浏览截图 <span>搜索到目标宝贝，按要求截图并上传</span></p>
@@ -118,7 +47,7 @@
             </div>
           </upload>
           <div class="pt-10 pb-5">{{item.title}}</div>
-          <div class="review-image cursor-p" @click="previewImage(item.tipsPicture)">查看示例图</div>
+          <div class="review-image cursor-p" @click="previewImage(item.pcTipsPicture)">查看示例图</div>
           <div class="tip-resubmit" v-if="item.status === 'waiting_modify'">重新提交</div>
         </div>
       </div>
@@ -126,7 +55,7 @@
       <!--主宝贝答题 start-->
       <div class="main-baby-answer clear" v-if="mainBabyAnswerList.length > 0">
         <p class="upload-type-title">主宝贝浏览答题<span>在目标宝贝的详情页找到如下文案，并提供坐在位置截图</span> <span
-          class="review-image">查看示例图</span></p>
+          class="review-image cursor-p" @click="previewAnswer = true">查看示例图</span></p>
         <div class="upload-area left" v-for="(item,index) in mainBabyAnswerList" :key="index">
           <div class="answer-title">{{item.title}}</div>
           <upload key="mainBabyAnswerList" class="upload mt-5"
@@ -154,6 +83,10 @@
         <img :src="demoPictureSrc" v-if="visible" style="width: 100%">
       </Modal>
     </div>
+    <!--查看浏览答题示例图-->
+    <Modal v-model="previewAnswer">
+      <img src="~assets/img/common/answer_question_img.png" alt="">
+    </Modal>
   </div>
 </template>
 
@@ -178,6 +111,7 @@
         mainBabyAnswerList: [],
         similarImageList: [],
         demoPictureSrc: '',
+        previewAnswer:false,
         taskId: this.orderInfo.showkerTask.id
       }
     },
@@ -190,7 +124,11 @@
         required: true
       }
     },
-    computed: {},
+    computed: {
+      checkScreenshot() {
+
+      }
+    },
     created() {
       this.handleDataTest();
     },
@@ -214,9 +152,11 @@
         _this.submitVasAnswer(info);
       },
       // 删除已上传的图片
-      removeImage() {
-
+      removeImage(file,info) {
+        info.answerScreenshot = [];
+        console.log(this.mainBabyImageList);
       },
+
       // 浏览答题上传成功回调
       uploadAnswerSuccess(res, info) {
         let _this = this;
@@ -224,50 +164,6 @@
         _this.submitAnswer(info);
       },
 
-      // 处理后台返回的数据
-      // 测试2
-      // handleDataTest() {
-      //   const _this = this;
-      //   let tempData = _this.orderInfo;
-      //   // 主宝贝
-      //   _this.mainBabyImageList = tempData.mainVasSettings.map(main => {
-      //     let tempObj = {};
-      //     tempData.showkerTaskVasSettings.map(common => {
-      //       if (common.vasConfigId === main.id) {
-      //         tempObj.id = common.id;
-      //         tempObj.title = main.name;
-      //         tempObj.tipsPicture = main.tipsPicture;
-      //         tempObj.itemType = common.itemType;
-      //         tempObj.itemIndex = common.itemIndex;
-      //         tempObj.required = common.required;
-      //         tempObj.status = common.status;
-      //         tempObj.screenshotsList = common.answerScreenshot ? [{src:common.answerScreenshot}] : [];
-      //       }
-      //     });
-      //     return tempObj;
-      //   });
-      //   // 货比三家
-      //   _this.similarImageList = tempData.similarVasSettings.map(similarOut => {
-      //     let tempArray = [];
-      //     tempArray = similarOut.map((similarIn) => {
-      //       let tempObj = {};
-      //       tempData.showkerTaskVasSettings.map(common => {
-      //         if (common.vasConfigId === similarIn.id) {
-      //           tempObj.id = common.id;
-      //           tempObj.title = similarIn.name;
-      //           tempObj.tipsPicture = similarIn.tipsPicture;
-      //           tempObj.itemType = common.itemType;
-      //           tempObj.itemIndex = common.itemIndex;
-      //           tempObj.required = common.required;
-      //           tempObj.status = common.status;
-      //           tempObj.screenshotsList = common.answerScreenshot ? [{src:common.answerScreenshot}] : [];
-      //         }
-      //       });
-      //       return tempObj;
-      //     });
-      //     return tempArray;
-      //   });
-      // },
       // 测试3
       // handleDataTest() {
       //   console.time('upload');
@@ -337,6 +233,7 @@
             key.screenshotsList = key.answerScreenshot ? [{src: key.answerScreenshot}] : [];
             if (key.itemType === 'main_item') {
               key.title = mainVasSettingsMap[key.vasConfigId].name;
+              key.pcTipsPicture = mainVasSettingsMap[key.vasConfigId].pcTipsPicture;
               mainShowkerTaskVasSettings.push(key);
             } else {
               let similarShowkerTaskVasSettingsTemp = similarShowkerTaskVasSettings[key.itemIndex];
@@ -345,6 +242,7 @@
                 similarShowkerTaskVasSettings[key.itemIndex] = [];
               }
               key.title = similarVasSettingsMapList[key.itemIndex][key.vasConfigId].name;
+              key.pcTipsPicture = similarVasSettingsMapList[key.itemIndex][key.vasConfigId].pcTipsPicture;
               similarShowkerTaskVasSettingsTemp.push(key);
               similarShowkerTaskVasSettings[key.itemIndex] = similarShowkerTaskVasSettingsTemp;
             }
@@ -359,6 +257,7 @@
         _this.mainBabyImageList = mainShowkerTaskVasSettings;
         _this.similarImageList = similarShowkerTaskVasSettings;
         _this.mainBabyAnswerList = _this.orderInfo.issueAnswerList;
+        console.log(_this.mainBabyImageList);
         console.timeEnd('upload-for-lq');
       },
       // 提交增值服务答案（截图）
