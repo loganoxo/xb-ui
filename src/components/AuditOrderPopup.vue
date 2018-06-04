@@ -266,7 +266,9 @@
         _this.handleResubmit(_this.babyOneImageList);
         _this.handleResubmit(_this.babyTwoImageList);
         _this.handleResubmit(_this.babyThreeImageList);
-
+        if (_this.resubmitList.length > 0) {
+          _this.orderReviewStatus = 'failAudit';
+        }
         if(_this.orderReviewStatus === 'failAudit'){
           if (!_this.orderNoPassReason) {
             _this.$Message.error("亲，请填写不通过的理由！");
@@ -289,11 +291,6 @@
             }
           }
         }
-        if (_this.resubmitList.length > 0) {
-          _this.orderReviewStatus = 'failAudit';
-          _this.orderNoPassReason = '浏览答题截图不合格';
-        }
-
         if (_this.orderReviewStatus === 'passAudit' && _this.orderNoPassReason) {
           _this.orderNoPassReason = null;
         }
@@ -434,7 +431,6 @@
             _this.resubmitList.push(item.id);
           }
         });
-        console.log(_this.resubmitList);
       },
       // 预览图片
       previewImage(url) {
@@ -449,6 +445,7 @@
   @import 'src/css/mixin';
   .check-order-model {
     @include fullScreenModel;
+    z-index: 100;
   }
 
   .check-order-con {
