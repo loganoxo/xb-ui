@@ -15,7 +15,7 @@
               <span>已通过待下单</span>
             </Checkbox>
             <Checkbox label="order_num_waiting_audit">
-              <span>订单号待审核</span>
+              <span>订单信息待审核</span>
             </Checkbox>
             <Checkbox label="trial_report_waiting_submit">
               <span>已下订单待交买家秀</span>
@@ -194,7 +194,8 @@
         <div class="mt-10">
           <strong>当前流程状态：</strong>
           <Icon v-if="showkerTask.status === 'order_num_error'" type="information-circled" color="#f9284f"></Icon>
-          <span :class="[showkerTask.status === 'order_num_error' ? 'main-color': '']">{{showkerTask.statusDesc}}</span>
+          <!--<span :class="[showkerTask.status === 'order_num_error' ? 'main-color': '']">{{showkerTask.statusDesc}}</span>-->
+          <span :class="[showkerTask.status === 'order_num_error' ? 'main-color': '']">{{getTaskStatus(showkerTask.status)}}</span>
           <strong class="ml-10" v-if="showkerTask.status === 'order_num_error'">原因：{{showkerTask.latestShowkerTaskOpLog.auditDescription}}</strong>
         </div>
       </div>
@@ -415,88 +416,88 @@
           <strong class="cl000">当前流程状态：</strong>
           <Icon v-if="currentOrderStatusInfo.status === 'order_num_error'" type="information-circled"
                 color="#f9284f"></Icon>
-          <span :class="[currentOrderStatusInfo.status === 'order_num_error' ? 'main-color': '']">{{currentOrderStatusInfo.statusDesc}}</span>
+          <span :class="[currentOrderStatusInfo.status === 'order_num_error' ? 'main-color': '']">{{getTaskStatus(currentOrderStatusInfo.status)}}</span>
           <strong class="ml-10" v-if="currentOrderStatusInfo.status === 'order_num_error'">原因：{{currentOrderStatusInfo.auditDescription}}</strong>
         </div>
-       <!-- <div v-if="needBrowseCollectAddCart" class="mt-20 ml-45 des-text">1.收藏、加入购物车，提交相关截图</div>
-        <div v-if="needBrowseCollectAddCart" class="clear text-ct ml-45 mt-20">
-          <div class="left mr-20" v-if="taskType === 'pc_search'">
-            <p>搜索条件截图</p>
-            <Upload
-              class="copy-write-img"
-              :default-file-list="defaultImageSearchCondition"
-              :on-remove="removeMainImageCondition"
-              :on-success="searchConditionImageFun"
-              :format="['jpg','jpeg','png','gif','bmp']"
-              :max-size="10240"
-              name="task"
-              :on-format-error="handleFormatError"
-              :on-exceeded-size="handleMaxSize"
-              type="drag">
-              <div style="width: 58px;height:58px;line-height: 58px;">
-                <Icon type="camera" size="20"></Icon>
-              </div>
-            </Upload>
-            <p class="mt-8 cursor-p example-pic" @click="pcSearchSelectFun('one')">查看示例图</p>
-          </div>
-          <div class="left mr-20" v-if="taskType === 'pc_search'|| taskType === 'app_search'">
-            <p>所在位置截图</p>
-            <Upload
-              class="copy-write-img"
-              :default-file-list="defaultImageItemLocation"
-              :on-remove="removeMainImageLocation"
-              :on-success="itemLocationImageFun"
-              :format="['jpg','jpeg','png','gif','bmp']"
-              :max-size="10240"
-              name="task"
-              :on-format-error="handleFormatError"
-              :on-exceeded-size="handleMaxSize"
-              type="drag">
-              <div style="width: 58px;height:58px;line-height: 58px;">
-                <Icon type="camera" size="20"></Icon>
-              </div>
-            </Upload>
-            <p class="mt-8 cursor-p example-pic" @click="pcSearchSelectFun('two')">查看示例图</p>
-          </div>
-          <div class="left mr-20">
-            <p>宝贝加入收藏夹</p>
-            <Upload
-              class="copy-write-img"
-              :default-file-list="defaultImageEnshrine"
-              :on-remove="removeMainImageEnshrineImage"
-              :on-success="enshrineImageFun"
-              :format="['jpg','jpeg','png','gif','bmp']"
-              :max-size="10240"
-              name="task"
-              :on-format-error="handleFormatError"
-              :on-exceeded-size="handleMaxSize"
-              type="drag">
-              <div style="width: 58px;height:58px;line-height: 58px;">
-                <Icon type="camera" size="20"></Icon>
-              </div>
-            </Upload>
-            <p class="mt-8 cursor-p example-pic" @click="pcSearchSelectFun('four')">查看示例图</p>
-          </div>
-          <div class="left ">
-            <p>宝贝加入购物车</p>
-            <Upload
-              class="copy-write-img"
-              :default-file-list="defaultImageAddToCart"
-              :on-remove="removeMainImageAddToCart"
-              :on-success="addToCartImageFun"
-              :format="['jpg','jpeg','png','gif','bmp']"
-              :max-size="10240"
-              name="task"
-              :on-format-error="handleFormatError"
-              :on-exceeded-size="handleMaxSize"
-              type="drag">
-              <div style="width: 58px;height:58px;line-height: 58px;">
-                <Icon type="camera" size="20"></Icon>
-              </div>
-            </Upload>
-            <p class="mt-8 example-pic" @click="pcSearchSelectFun('five')">查看示例图</p>
-          </div>
-        </div>-->
+       <!--<div v-if="needBrowseCollectAddCart" class="mt-20 ml-45 des-text">1.收藏、加入购物车，提交相关截图</div>-->
+        <!--<div v-if="needBrowseCollectAddCart" class="clear text-ct ml-45 mt-20">-->
+          <!--<div class="left mr-20" v-if="taskType === 'pc_search'">-->
+            <!--<p>搜索条件截图</p>-->
+            <!--<Upload-->
+              <!--class="copy-write-img"-->
+              <!--:default-file-list="defaultImageSearchCondition"-->
+              <!--:on-remove="removeMainImageCondition"-->
+              <!--:on-success="searchConditionImageFun"-->
+              <!--:format="['jpg','jpeg','png','gif','bmp']"-->
+              <!--:max-size="10240"-->
+              <!--name="task"-->
+              <!--:on-format-error="handleFormatError"-->
+              <!--:on-exceeded-size="handleMaxSize"-->
+              <!--type="drag">-->
+              <!--<div style="width: 58px;height:58px;line-height: 58px;">-->
+                <!--<Icon type="camera" size="20"></Icon>-->
+              <!--</div>-->
+            <!--</Upload>-->
+            <!--<p class="mt-8 cursor-p example-pic" @click="pcSearchSelectFun('one')">查看示例图</p>-->
+          <!--</div>-->
+          <!--<div class="left mr-20" v-if="taskType === 'pc_search'|| taskType === 'app_search'">-->
+            <!--<p>所在位置截图</p>-->
+            <!--<Upload-->
+              <!--class="copy-write-img"-->
+              <!--:default-file-list="defaultImageItemLocation"-->
+              <!--:on-remove="removeMainImageLocation"-->
+              <!--:on-success="itemLocationImageFun"-->
+              <!--:format="['jpg','jpeg','png','gif','bmp']"-->
+              <!--:max-size="10240"-->
+              <!--name="task"-->
+              <!--:on-format-error="handleFormatError"-->
+              <!--:on-exceeded-size="handleMaxSize"-->
+              <!--type="drag">-->
+              <!--<div style="width: 58px;height:58px;line-height: 58px;">-->
+                <!--<Icon type="camera" size="20"></Icon>-->
+              <!--</div>-->
+            <!--</Upload>-->
+            <!--<p class="mt-8 cursor-p example-pic" @click="pcSearchSelectFun('two')">查看示例图</p>-->
+          <!--</div>-->
+          <!--<div class="left mr-20">-->
+            <!--<p>宝贝加入收藏夹</p>-->
+            <!--<Upload-->
+              <!--class="copy-write-img"-->
+              <!--:default-file-list="defaultImageEnshrine"-->
+              <!--:on-remove="removeMainImageEnshrineImage"-->
+              <!--:on-success="enshrineImageFun"-->
+              <!--:format="['jpg','jpeg','png','gif','bmp']"-->
+              <!--:max-size="10240"-->
+              <!--name="task"-->
+              <!--:on-format-error="handleFormatError"-->
+              <!--:on-exceeded-size="handleMaxSize"-->
+              <!--type="drag">-->
+              <!--<div style="width: 58px;height:58px;line-height: 58px;">-->
+                <!--<Icon type="camera" size="20"></Icon>-->
+              <!--</div>-->
+            <!--</Upload>-->
+            <!--<p class="mt-8 cursor-p example-pic" @click="pcSearchSelectFun('four')">查看示例图</p>-->
+          <!--</div>-->
+          <!--<div class="left ">-->
+            <!--<p>宝贝加入购物车</p>-->
+            <!--<Upload-->
+              <!--class="copy-write-img"-->
+              <!--:default-file-list="defaultImageAddToCart"-->
+              <!--:on-remove="removeMainImageAddToCart"-->
+              <!--:on-success="addToCartImageFun"-->
+              <!--:format="['jpg','jpeg','png','gif','bmp']"-->
+              <!--:max-size="10240"-->
+              <!--name="task"-->
+              <!--:on-format-error="handleFormatError"-->
+              <!--:on-exceeded-size="handleMaxSize"-->
+              <!--type="drag">-->
+              <!--<div style="width: 58px;height:58px;line-height: 58px;">-->
+                <!--<Icon type="camera" size="20"></Icon>-->
+              <!--</div>-->
+            <!--</Upload>-->
+            <!--<p class="mt-8 example-pic" @click="pcSearchSelectFun('five')">查看示例图</p>-->
+          <!--</div>-->
+        <!--</div>-->
         <!--<div class="clear ml-45 mr-40 mt-20" v-if="needIssueAnswer.length > 0">-->
           <!--<div style="border-top: 1px solid #eee" class="pt-10 pb-10">在详情页找到如下文案，并提供所在位置截图<p @click="watchAnswerImg = true" class="example-pic inline-block ml-10">查看示例图</p></div>-->
           <!--<div class="left mr-20 text-ct" v-if="needIssueAnswer[0]">-->
@@ -1321,7 +1322,6 @@
       // },
       getImageData(data) {
         this.screenShotsData = data;
-        console.log(this.screenShotsData);
       }
     }
   }

@@ -23,7 +23,7 @@
             </div>
           </upload>
           <div class="pt-10 pb-5">{{item.title}}</div>
-          <div class="review-image cursor-p" @click="previewImage(item.pcTipsPicture)">查看示例图</div>
+          <div class="review-image cursor-p" @click="previewImage(item)">查看示例图</div>
           <div class="tip-resubmit" v-if="item.status === 'waiting_modify'">重新提交</div>
         </div>
       </div>
@@ -47,7 +47,7 @@
             </div>
           </upload>
           <div class="pt-10 pb-5">{{item.title}}</div>
-          <div class="review-image cursor-p" @click="previewImage(item.pcTipsPicture)">查看示例图</div>
+          <div class="review-image cursor-p" @click="previewImage(item)">查看示例图</div>
           <div class="tip-resubmit" v-if="item.status === 'waiting_modify'">重新提交</div>
         </div>
       </div>
@@ -124,11 +124,7 @@
         required: true
       }
     },
-    computed: {
-      checkScreenshot() {
-
-      }
-    },
+    computed: {},
     created() {
       this.handleDataTest();
     },
@@ -153,8 +149,7 @@
       },
       // 删除已上传的图片
       removeImage(file,info) {
-        info.answerScreenshot = [];
-        console.log(this.mainBabyImageList);
+        // info.answerScreenshot = [];
       },
 
       // 浏览答题上传成功回调
@@ -257,7 +252,6 @@
         _this.mainBabyImageList = mainShowkerTaskVasSettings;
         _this.similarImageList = similarShowkerTaskVasSettings;
         _this.mainBabyAnswerList = _this.orderInfo.issueAnswerList;
-        console.log(_this.mainBabyImageList);
         console.timeEnd('upload-for-lq');
       },
       // 提交增值服务答案（截图）
@@ -291,8 +285,9 @@
         })
       },
       // 查看示例图
-      previewImage(img) {
-        this.demoPictureSrc = img;
+      previewImage(info) {
+        // this.demoPictureSrc = info.pcTipsPicture ? info.pcTipsPicture : info.appTipsPicture;
+        this.demoPictureSrc = info.pcTipsPicture || info.appTipsPicture;
         this.visible = true;
       }
     }

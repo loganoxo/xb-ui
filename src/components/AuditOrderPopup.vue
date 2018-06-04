@@ -425,7 +425,6 @@
         _this.babyOneImageList = babyOneList;
         _this.babyTwoImageList = babyTwoList;
         _this.babyThreeImageList = babyThreeList;
-        // console.log(_this.mainBabyImageList);
         // 处理浏览答题截图数据
         _this.mainBabyAnswerList = tempData.issueAnswerScreenshot.map((item,index) => {
           let tempObj = {};
@@ -483,7 +482,6 @@
       //   _this.mainBabyImageList = mainShowkerTaskVasSettings;
       //   _this.similarImageList = similarShowkerTaskVasSettings;
       //   _this.mainBabyAnswerList = _this.orderInfo.issueAnswerList;
-      //   console.log(_this.mainBabyImageList);
       //   console.timeEnd('upload-for-lq');
       // },
 
