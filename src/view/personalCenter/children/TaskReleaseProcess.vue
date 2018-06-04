@@ -1846,7 +1846,6 @@
       },
       getStoreInfo() {
         const _this = this;
-        _this.isShowStoreInfoLoading = true;
         return new Promise((resolve, reject) => {
           api.getStoreInfoByLink({
             link: _this.taskRelease.itemUrl
@@ -2320,6 +2319,7 @@
         _this.taskLoading = true;
         let detectionStoreInfo = null;
         try {
+          _this.isShowStoreInfoLoading = true;
           await _this.$store.dispatch('getUserInformation');
           detectionStoreInfo = await _this.getStoreInfo();
         } catch (err) {

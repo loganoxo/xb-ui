@@ -9,7 +9,7 @@
           <th width="10%">活动状态</th>
           <th width="12%">报名 / 已通过</th>
           <th width="8%">可审批名额</th>
-          <th width="24%">活动所需担保金 / 活动所需推广费 / 已存入</th>
+          <th width="24%">所需（担保金 / 推广费 / 增值费）已存入</th>
         </tr>
         </thead>
         <tbody>
@@ -29,16 +29,16 @@
             {{itemCatalog.taskStatusDesc}}<br/>{{itemCatalog.settlementStatusDesc}}
           </td>
           <td class="cursor-p main-color" v-else>
-            <Tooltip :content="itemCatalog.auditLogs[itemCatalog.auditLogs.length - 1].resultMsg" placement="top">
-              <Icon color="#f9284f" type="information-circled"></Icon>&nbsp;待修改
-            </Tooltip>
+            <tooltip :content="itemCatalog.auditLogs[itemCatalog.auditLogs.length - 1].resultMsg" placement="top">
+              <icon color="#f9284f" type="information-circled"></icon>&nbsp;待修改
+            </tooltip>
           </td>
           <td class="registration">
             {{itemCatalog.showkerApplyTotalCount || 0}} / {{itemCatalog.showkerApplySuccessCount || 0}}（人）
           </td>
           <td>{{itemCatalog.taskCount  - itemCatalog.showkerApplySuccessCount}}</td>
           <td>
-            {{itemCatalog.totalMarginNeed / 100}} / {{itemCatalog.promotionExpensesNeed / 100}} / {{(itemCatalog.marginPaid + itemCatalog.promotionExpensesPaid) / 100 || 0}}
+            （ {{(itemCatalog.totalMarginNeed / 100).toFixed(2) || 0}} / {{(itemCatalog.promotionExpensesNeed / 100).toFixed(2) || 0}} / {{(itemCatalog.vasFeeNeed / 100).toFixed(2) || 0}}）{{((itemCatalog.marginPaid + itemCatalog.promotionExpensesPaid + itemCatalog.vasFeePaid) / 100).toFixed(2) || 0}}
           </td>
         </tr>
         </tbody>
