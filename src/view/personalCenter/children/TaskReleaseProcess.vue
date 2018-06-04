@@ -226,7 +226,7 @@
             <span class="sizeColor2">({{item.price / 100 || 0}}元)</span>
           </checkbox>
           <tooltip class="mr-15" content="查看示例图" placement="top" v-show="taskRelease.taskType === 'pc_search' || taskRelease.taskType === 'direct_access' ? item.showForPc : item.showForApp">
-            <span class="value-added-services-demo-image" @click.stop="openSampleImageModal(taskRelease.taskType === 'pc_search' || taskRelease.taskType === 'direct_access' ? item.pcTipsPicture : item.appTipsPicture)">图</span>
+            <span class="value-added-services-demo-image" @click="openSampleImageModal(taskRelease.taskType === 'pc_search' || taskRelease.taskType === 'direct_access' ? item.pcTipsPicture : item.appTipsPicture)">图</span>
           </tooltip>
         </template>
         <checkbox class="mt-10" v-model="shopAroundStatus" @on-change="shopAroundStatusChange">
@@ -242,7 +242,7 @@
                 <span class="sizeColor2">({{item.price / 100 || 0}}元)</span>
               </checkbox>
               <tooltip class="mr-15" content="查看示例图" placement="top" v-show="taskRelease.taskType === 'pc_search' || taskRelease.taskType === 'direct_access' ? item.showForPc : item.showForApp">
-                <span class="value-added-services-demo-image" @click.stop="openSampleImageModal(taskRelease.taskType === 'pc_search' || taskRelease.taskType === 'direct_access' ? item.pcTipsPicture : item.appTipsPicture)">图</span>
+                <span class="value-added-services-demo-image" @click="openSampleImageModal(taskRelease.taskType === 'pc_search' || taskRelease.taskType === 'direct_access' ? item.pcTipsPicture : item.appTipsPicture)">图</span>
               </tooltip>
             </template>
           </div>
@@ -1732,9 +1732,9 @@
         let cost = 0;
         if (this.shopAroundStatus) {
           this.vasSimilarItem.map(keys => {
-            keys.map(item => {
-              if(item.isSelect) {
-                cost += item.price
+            keys.map(key => {
+              if(key.isSelect) {
+                cost += key.price
               }
             })
           })
@@ -1958,6 +1958,7 @@
       taskSalesChange(type) {
         if ((type === 'day_now' || type === 'day_reserve') && this.getMemberVersionLevel === 100) {
           this.upgradeMembershipModal = true;
+          return;
         }
         if (type === 'day_now' || type === 'day_reserve') {
           this.taskRelease.speedUp = true;
@@ -1966,19 +1967,20 @@
           this.taskCountInputPlaceholder = '当日22点前有效';
           this.taskRelease.showkerOrderTimeLimit = '';
           this.taskCountInputDisabled = true;
-          this.vasMainItem.map(item => {
-            if (item.id === 3 && item.isSelect) {
-              item.isSelect = false;
-              item.isDisabled = false;
-              return item;
-            }
-          })
         }
         if (type === 'day_reserve') {
           this.vasMainItem.map(item => {
             if (item.id === 3) {
               item.isSelect = true;
               item.isDisabled = true;
+              return item;
+            }
+          })
+        } else {
+          this.vasMainItem.map(item => {
+            if (item.id === 3 && item.isSelect) {
+              item.isSelect = false;
+              item.isDisabled = false;
               return item;
             }
           })
