@@ -1,15 +1,15 @@
 <template>
   <div class="clear">
-    <div class="demo-upload-list left" v-for="item in fileList" v-if="uploadType === 'image'">
+    <div class="demo-upload-list left" v-for="item in fileList" v-if="isShowTipCover">
       <template v-if="item.status === 'finished'">
         <img :src="item.src + '!thum54'">
         <div class="demo-upload-list-cover">
-          <Icon type="ios-eye-outline" @click.native="handleView(item.src)"></Icon>
-          <Icon type="ios-trash-outline" @click.native="handleRemove(item)"></Icon>
+          <icon type="ios-eye-outline" @click.native="handleView(item.src)"></icon>
+          <icon type="ios-trash-outline" @click.native="handleRemove(item)"></icon>
         </div>
       </template>
       <template v-else>
-        <iProgress v-if="item.showProgress" :percent="item.percentage" hide-info></iProgress>
+        <i-progress v-if="item.showProgress" :percent="item.percentage" hide-info></i-progress>
       </template>
     </div>
     <div ref="Upload" class="left" :class="[prefixCls]" v-show="showUpload">
@@ -80,9 +80,9 @@
         type: String,
         default: 'file'
       },
-      uploadType: {
-        type: String,
-        default: 'image'
+      isShowTipCover: {
+        type: Boolean,
+        default: true
       },
       withCredentials: {
         type: Boolean,
