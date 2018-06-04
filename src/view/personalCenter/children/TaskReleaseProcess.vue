@@ -2325,7 +2325,8 @@
         _this.taskLoading = true;
         let detectionStoreInfo = null;
         try {
-          detectionStoreInfo = await _this.getStoreInfo()
+          await _this.$store.dispatch('getUserInformation');
+          detectionStoreInfo = await _this.getStoreInfo();
         } catch (err) {
           _this.taskLoading = false;
           console.error(err);
