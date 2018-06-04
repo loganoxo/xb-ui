@@ -1,8 +1,7 @@
 <template>
   <div class="activity-detail">
-    <div class="activity-table mt-20">
-      <table>
-        <thead>
+    <table class="mt-20">
+      <thead>
         <tr>
           <th width="20%">活动标题</th>
           <th width="14%">活动开始 / 结束时间</th>
@@ -12,7 +11,7 @@
           <th width="24%">所需（担保金 / 推广费 / 增值费）已存入</th>
         </tr>
         </thead>
-        <tbody>
+      <tbody>
         <tr class="task-number">
           <td colspan="7">活动编号：{{itemCatalog.number || '------'}}</td>
         </tr>
@@ -43,7 +42,6 @@
         </tr>
         </tbody>
       </table>
-    </div>
     <div class="activity-type mt-20">
       <!--选择绑定的店铺-->
       <div class="activity-type mt-20">
@@ -176,12 +174,12 @@
         <div class="order-speed ml-35 mt-20">
           <span class="ml-5">拿手下单速度：</span>
           <radio-group v-model="taskRelease.showkerOrderTimeLimit">
-            <radio :label="''" v-show="taskRelease.orderType === 'day_now'"><span>当日24点前</span></radio>
-            <radio :label="''" v-show="taskRelease.orderType === 'day_reserve'"><span>当日24点前加入购物车，次日下单购买</span></radio>
-            <radio :label="24" v-show="taskRelease.orderType === 'normal'"><span>24小时内</span></radio>
-            <radio :label="12" v-show="taskRelease.orderType === 'normal'"><span>12小时内</span></radio>
-            <radio :label="6" v-show="taskRelease.orderType === 'normal'"><span>6小时内</span></radio>
-            <radio :label="3" v-show="taskRelease.orderType === 'normal'"><span>3小时内</span></radio>
+            <radio :label="''" v-show="taskRelease.orderType === 'day_now'" disabled><span>当日24点前</span></radio>
+            <radio :label="''" v-show="taskRelease.orderType === 'day_reserve'" disabled><span>当日24点前加入购物车，次日下单购买</span></radio>
+            <radio :label="24" v-show="taskRelease.orderType === 'normal'" disabled><span>24小时内</span></radio>
+            <radio :label="12" v-show="taskRelease.orderType === 'normal'" disabled><span>12小时内</span></radio>
+            <radio :label="6" v-show="taskRelease.orderType === 'normal'" disabled><span>6小时内</span></radio>
+            <radio :label="3" v-show="taskRelease.orderType === 'normal'" disabled><span>3小时内</span></radio>
           </radio-group>
           <span class="sizeColor2" v-show="taskRelease.orderType === 'normal'">（拿手通过审批后需要指定时间内完成淘宝下单并在本平台提交订单号，否则资格自动过期）</span>
           <span class="sizeColor2" v-show="taskRelease.orderType === 'day_reserve'">（拿手通过审批后需要在当日24点前加入购物车，次日在淘宝下单并在平台提交订单号，否则资格自动过期）</span>
@@ -1334,86 +1332,6 @@
 <style lang="scss" scoped>
   @import 'src/css/mixin';
 
-  .activity-table table {
-    width: 100%;
-    border: 1px solid #dddee1;
-    border-bottom: 0;
-    border-right: 0;
-  }
-
-  .activity-table table td,
-  .activity-table table th {
-    border-right: 1px solid #e9eaec;
-    border-bottom: 1px solid #e9eaec;
-    text-align: center;
-  }
-
-  .activity-table table tr.task-number td {
-    text-align: left;
-    padding: 6px 0 6px 10px;
-  }
-
-  .activity-table table th {
-    height: 40px;
-    white-space: nowrap;
-    overflow: hidden;
-    background-color: #f8f8f9;
-  }
-
-  .activity-table table td {
-    padding-top: 15px;
-    padding-bottom: 15px;
-  }
-
-  .activity-table table td img {
-    width: 54px;
-    height: 54px;
-  }
-
-  .activity-table table td .img-title {
-    display: inline-block;
-    width: 132px;
-    height: 54px;
-    padding-left: 10px;
-    text-align: left;
-  }
-
-  .activity-table table td .del-edit span {
-    color: #2b85e4;
-    cursor: pointer;
-    @include transition;
-    &:hover {
-      color: darken(#2b85e4, 10%);
-    }
-  }
-
-  .activity-table table td .del-edit span:last-child {
-    color: #2b85e4;
-    @include transition;
-    &:hover {
-      color: darken(#2b85e4, 10%);
-    }
-  }
-
-  .activity-table table td .bond span {
-    color: $mainColor;
-    border-radius: 5px;
-    cursor: pointer;
-    @include transition;
-    &:hover {
-      color: darken($mainColor, 10%);
-    }
-  }
-
-  .activity-table table td .copy span {
-    color: #2b85e4;
-    cursor: pointer;
-    @include transition;
-    &:hover {
-      color: darken(#2b85e4, 10%);
-    }
-  }
-
   .activity-detail {
     .main-color {
       color: $mainColor;
@@ -1434,6 +1352,87 @@
     .size-color3 {
       color: #FF0100;
     }
+
+    table {
+      width: 100%;
+      border: 1px solid #dddee1;
+      border-bottom: 0;
+      border-right: 0;
+    }
+
+    table td,
+    table th {
+      border-right: 1px solid #e9eaec;
+      border-bottom: 1px solid #e9eaec;
+      text-align: center;
+    }
+
+    table tr.task-number td {
+      text-align: left;
+      padding: 6px 0 6px 10px;
+    }
+
+    table th {
+      height: 40px;
+      white-space: nowrap;
+      overflow: hidden;
+      background-color: #f8f8f9;
+    }
+
+    table td {
+      padding-top: 15px;
+      padding-bottom: 15px;
+    }
+
+    table td img {
+      width: 54px;
+      height: 54px;
+    }
+
+    table td .img-title {
+      display: inline-block;
+      width: 132px;
+      height: 54px;
+      padding-left: 10px;
+      text-align: left;
+    }
+
+    table td .del-edit span {
+      color: #2b85e4;
+      cursor: pointer;
+      @include transition;
+      &:hover {
+        color: darken(#2b85e4, 10%);
+      }
+    }
+
+    table td .del-edit span:last-child {
+      color: #2b85e4;
+      @include transition;
+      &:hover {
+        color: darken(#2b85e4, 10%);
+      }
+    }
+
+    table td .bond span {
+      color: $mainColor;
+      border-radius: 5px;
+      cursor: pointer;
+      @include transition;
+      &:hover {
+        color: darken($mainColor, 10%);
+      }
+    }
+
+    table td .copy span {
+      color: #2b85e4;
+      cursor: pointer;
+      @include transition;
+      &:hover {
+        color: darken(#2b85e4, 10%);
+      }
+    }
+
 
     .task-release-title {
       height: 52px;
