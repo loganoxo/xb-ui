@@ -31,8 +31,8 @@
       </div>
       <div class="screen-shots-area">
         <!--主宝贝截图-->
-        <p class="main-baby-title fs-12 f-b cl666">查看拿手提交的主宝贝浏览截图</p>
-        <div class="main-baby-image">
+        <div class="main-baby-image" v-if="mainBabyImageList.length > 0">
+          <p class="main-baby-image-title fs-12 f-b cl666">查看拿手提交的主宝贝浏览截图</p>
           <div class="image-area" v-for="(item,index) in mainBabyImageList" :key="index">
             <img :src="item.screenshotsList[0].src" alt="" width="54" height="54" @click="previewImage(item.screenshotsList[0].src)">
             <p>{{item.title}}</p>
@@ -44,15 +44,16 @@
           </div>
         </div>
         <!--主宝贝答题-->
-        <div class="main-baby-answer">
+        <div class="main-baby-answer" v-if="mainBabyAnswerList.length > 0">
+          <p class="main-baby-answer-title fs-12 f-b cl666">查看拿手提交的主宝贝浏览截图</p>
           <div class="image-area" v-for="(item,index) in mainBabyAnswerList" :key="index">
             <img :src="item.screenshotsList[0].src" alt="" width="54" height="54" @click="previewImage(item.screenshotsList[0].src)">
             <p>{{item.title}}</p>
           </div>
         </div>
         <!--货比三家-->
-        <p class="main-baby-title fs-12 f-b cl666 mt-20">查看拿手提交的货比3家浏览截图</p>
-        <div class="shop-compare">
+        <div class="shop-compare" v-if="babyOneImageList.length > 0 || babyTwoImageList.length > 0 || babyThreeImageList.length > 0">
+          <p class="similar-baby-title fs-12 f-b cl666 mt-20">查看拿手提交的货比3家浏览截图</p>
           <div class="image-area" v-for="(item,index) in babyOneImageList" :key="index">
             <img :src="item.screenshotsList[0].src" alt="" width="54" height="54"  @click="previewImage(item.screenshotsList[0].src)">
             <p>{{item.title}}</p>
@@ -119,7 +120,7 @@
         <div class="no-pass-reason text-ct inline-block fs-14" v-show="orderReviewStatus === 'failAudit'">
           <i-select v-model="orderNoPassReason" style="width:200px" placeholder="请选择不通过原因">
             <!--<i-option value="收藏加购截图不合格">收藏加购截图不合格</i-option>-->
-            <i-option value="浏览答题截图不合格">浏览答题截图不合格</i-option>
+            <i-option value="截图不合格">截图不合格</i-option>
             <i-option value="订单信息有误">订单信息有误</i-option>
             <i-option value="实付金额有误">实付金额有误</i-option>
             <i-option value="下单旺旺和平台绑定旺旺不一致">下单旺旺和平台绑定旺旺不一致</i-option>

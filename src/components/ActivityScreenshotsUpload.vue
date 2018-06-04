@@ -99,7 +99,7 @@
       <!--</div>-->
       <!--货比三家 end-->
       <!--主宝贝截图 start-->
-      <div class="main-baby-screenshots clear">
+      <div class="main-baby-screenshots clear" v-if="mainBabyImageList.length > 0">
         <p class="upload-type-title">主宝贝浏览截图 <span>搜索到目标宝贝，按要求截图并上传</span></p>
         <div class="upload-area left pos-rel" v-for="(item,index) in mainBabyImageList" :key="index">
           <upload key="mainBabyImageList" class="upload"
@@ -124,7 +124,7 @@
       </div>
       <!--主宝贝截图 end-->
       <!--主宝贝答题 start-->
-      <div class="main-baby-answer clear">
+      <div class="main-baby-answer clear" v-if="mainBabyAnswerList.length > 0">
         <p class="upload-type-title">主宝贝浏览答题<span>在目标宝贝的详情页找到如下文案，并提供坐在位置截图</span> <span
           class="review-image">查看示例图</span></p>
         <div class="upload-area left" v-for="(item,index) in mainBabyAnswerList" :key="index">

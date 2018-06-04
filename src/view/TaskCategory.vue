@@ -679,6 +679,7 @@
           zoneFilters: self.searchTaskParams.zoneFilters ? JSON.stringify(self.searchTaskParams.zoneFilters) : '',
           onlyAvailableCertainlyHit: self.searchTaskParams.onlyAvailableCertainlyHit,
           donotShowSpeedUp: self.searchTaskParams.donotShowSpeedUp,
+          justShowNormalOrder: true
         };
         api.getSearchTask(option).then((res) => {
           if(res.status){
