@@ -163,7 +163,7 @@
         <div class="ml-15 mt-20" v-show="taskRelease.orderType === 'day_reserve'">
           <i class="ivu-icon ivu-icon-information-circled cle60012"></i>
           <span>转当日单：</span>
-          <checkbox v-model="taskRelease.dayReserveToNow">需要</checkbox>
+          <checkbox v-model="taskRelease.dayReserveToNow" disabled>需要</checkbox>
           <span class="main-color f-b">建议勾选！</span>
           <span class="sizeColor2">（若审核通过的拿手当日未加入购物车，在次日扔可继续下单购买，活动剩余名额也自动转为当日单）</span>
         </div>
