@@ -1,12 +1,12 @@
 import {aliCallbackImgUrl} from '@/config/env'
 
 export default {
-  //从userInfo中获取用户账户信息
+  // 从userInfo中获取用户账户信息
   getUserAccountInfo: state => {
     return Object.keys(state.userInfo).length > 0 ? state.userInfo.userAccount : {};
   },
 
-  //从userInfo中获取用户个人基本信息
+  // 从userInfo中获取用户个人基本信息
   getPersonalInfo: state => {
     return Object.keys(state.userInfo).length > 0 ? {
       alitmNum: state.userInfo.alitmNum,
@@ -28,22 +28,22 @@ export default {
     } : {}
   },
 
-  //从userInfo中获取用户账户余额
+  // 从userInfo中获取用户账户余额
   getUserBalance: state => {
     return Object.keys(state.userInfo).length > 0 ? state.userInfo.userAccount.accountBalance / 100 : 0;
   },
 
-  //从userInfo中获取用户是否修改过支付密码
+  // 从userInfo中获取用户是否修改过支付密码
   getIsEditPwdAlready: state => {
     return Object.keys(state.userInfo).length > 0 ? state.userInfo.userAccount.ifEditPwdAlready : false;
   },
 
-  //从userInfo中获取用户类型（1：商家，0拿手）
+  // 从userInfo中获取用户类型（1：商家，0拿手）
   getUserRole: state => {
     return Object.keys(state.userInfo).length > 0 ? state.userInfo.role : 0;
   },
 
-  //从userInfo中获取用户头像地址
+  // 从userInfo中获取用户头像地址
   getUserHeadUrl: state => {
     if (Object.keys(state.userInfo).length > 0) {
       if (state.userInfo.portraitPic.indexOf('head-image') >= 0) {
@@ -58,47 +58,51 @@ export default {
     }
   },
 
-  //计算用户会员截止时间是否已到期（true：过期 false：未过期）* 判断用户是否是会员也应使用此变量
-  getMembershipIsExpire: state => {
-    return state.userInfo.memberDeadline ? state.userInfo.memberDeadline < state.severTime + new Date().getTime() - state.clientTime : true;
-  },
-
-  //从userInfo中获取用户会员状态（是否是会员 true: 是 false: 否）
+  // 从userInfo中获取用户会员状态（是否是会员 true: 是 false: 否）
   isMemberOk: state => {
     return state.userInfo.memberOK
   },
 
-  //从sysConfigInfo中获取pcMerchantQqGroup信息
+  // 从userInfo中获取用户是否是VIP会员
+  getMemberLevel: state => {
+    if (!state.userInfo.memberOK) {
+      return 100
+    } else {
+      return state.userInfo.memberLevel
+    }
+  },
+
+  // 从sysConfigInfo中获取pcMerchantQqGroup信息
   getPcMerchantQqGroup: state => {
     return Object.keys(state.sysConfigInfo).length > 0 ? state.sysConfigInfo.pcMerchantQqGroup : {};
   },
 
-  //从sysConfigInfo中获取taskApplyBaseCountFreshman信息
+  // 从sysConfigInfo中获取taskApplyBaseCountFreshman信息
   getTaskApplyBaseCountFreshman: state => {
     return Object.keys(state.sysConfigInfo).length > 0 ? state.sysConfigInfo.taskApplyBaseCountFreshman : {};
   },
 
-  //从sysConfigInfo中获取taskApplyBaseCountOldman信息
+  // 从sysConfigInfo中获取taskApplyBaseCountOldman信息
   getTaskApplyBaseCountOldman: state => {
     return Object.keys(state.sysConfigInfo).length > 0 ? state.sysConfigInfo.taskApplyBaseCountOldman : {};
   },
 
-  //从sysConfigInfo中获取showkerInviteShowkerFee信息
+  // 从sysConfigInfo中获取showkerInviteShowkerFee信息
   getShowkerInviteShowkerFee: state => {
     return Object.keys(state.sysConfigInfo).length > 0 ? state.sysConfigInfo.showkerInviteShowkerFee : {};
   },
 
-  //从sysConfigInfo中获取showkerInviteSellerFee信息
+  // 从sysConfigInfo中获取showkerInviteSellerFee信息
   getShowkerInviteSellerFee: state => {
     return Object.keys(state.sysConfigInfo).length > 0 ? state.sysConfigInfo.showkerInviteSellerFee : {};
   },
 
-  //从sysConfigInfo中获取taskSystemHoldPercent信息
+  // 从sysConfigInfo中获取taskSystemHoldPercent信息
   getTaskSystemHoldPercent: state => {
     return Object.keys(state.sysConfigInfo).length > 0 ? state.sysConfigInfo.taskSystemHoldPercent : {};
   },
 
-  //从sysConfigInfo中获取客服QQ信息
+  // 从sysConfigInfo中获取客服QQ信息
   getSellerCustomerQq: state => {
     return Object.keys(state.sysConfigInfo).length > 0 ? state.sysConfigInfo.sellerCustomerQq : {};
   }

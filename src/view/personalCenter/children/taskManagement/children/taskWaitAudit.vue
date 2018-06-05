@@ -163,8 +163,8 @@
       </div>
       <div class="mt-20">
         <span class="inline-block title">拉黑原因：</span>
-        <i-select v-model="addToBlackListReason" style="width:200px">
-          <i-option v-for="(item ,index) in reasonList" :value="item.reasonStatus" :key="index">{{item.reasonDec}}
+        <i-select v-model="addToBlackListReason" style="width:300px;">
+          <i-option style="width:300px;" v-for="(item ,index) in reasonList" :value="item.reasonStatus" :key="index">{{item.reasonDec}}
           </i-option>
         </i-select>
       </div>
@@ -321,7 +321,7 @@
         reasonList: [
           {
             reasonStatus: 'none_reason',
-            reasonDec: '无理由'
+            reasonDec: '无理由（仅屏蔽此用户申请，不记入征信体系）'
           },
           {
             reasonStatus: 'illegal_operation',
@@ -543,7 +543,7 @@
        * @return {Number}
        */
       getMemberVersionLevel() {
-        return this.$store.state.userInfo.memberLevel
+        return this.$store.getters.getMemberLevel
       },
 
       /** 计算用户账户余额是否足够支付选购的增值服务版本价格（true: 余额足够， false: 余额不足）
@@ -760,7 +760,7 @@
           if (res.status) {
             _this.valueAddedServiceStatusInfo = {};
             _this.valueAddedServiceStatusInfo = res.data;
-            if ((_this.valueAddedServiceStatusInfo.isMemberOK) || (!this.valueAddedServiceStatusInfo.isMemberOK && _this.valueAddedServiceStatusInfo.vasBlackListDeadlineTime)) {
+            if (_this.valueAddedServiceStatusInfo.isMemberOK || (!this.valueAddedServiceStatusInfo.isMemberOK && _this.valueAddedServiceStatusInfo.vasBlackListDeadlineTime)) {
               _this.eyesStatus = 'on'
             } else {
               _this.eyesStatus = 'off'
@@ -878,8 +878,10 @@
         })
       },
       timeEnd() {
-        this.isEndTime = true;
-        this.eyesStatus = 'off';
+        if (!this.valueAddedServiceStatusInfo.isMemberOK) {
+          this.isEndTime = true;
+          this.eyesStatus = 'off';
+        }
       },
       openSpeedUp(taskId, userId) {
         this.speedUpModal = true;

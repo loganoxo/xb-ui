@@ -25,11 +25,11 @@
         <div class="pay-tip">
           <Icon color="#f9284f" size="16" type="alert-circled"></Icon>
           <span class="fs-14">使用支付宝充值支付，支付宝会收取0.6%的手续费，该笔费用需要商家承担，手续费不予退还，敬请谅解！<a @click="isShowAliPayTip = true">查看支付宝官方说明</a></span>
-          <router-link v-if="memberLevel===100 || memberLevel===null" class="upgroup-btn mt-10" to="/user/vip-member/order">升级VIP免除手续费</router-link>
-        </div>
+          <router-link v-if="memberLevel===100" class="upgroup-btn mt-10" to="/user/vip-member/order">升级VIP免除手续费</router-link>
+        </div>`
         <Form-item>
           <iButton class="payMoneyBtn" @click="balanceOrderCreate()">提交</iButton>
-          <iButton v-if="memberLevel===200||memberLevel===300" class="vipRecharge ml-20" @click="showFreePayModel=true"><span v-if="memberLevel===300">S</span>VIP<span class="freeRecharge">免手续费充值</span>点击这里</iButton>
+          <iButton v-if="memberLevel===200 || memberLevel===300" class="vipRecharge ml-20" @click="showFreePayModel=true"><span v-if="memberLevel===300">S</span>VIP<span class="freeRecharge">免手续费充值</span>点击这里</iButton>
 
           <!--<iButton class="payMoneyBtn" @click="stopRecharge = true">提交</iButton>-->
         </Form-item>
@@ -150,7 +150,7 @@
         return this.$store.getters.getUserBalance;
       },
       memberLevel(){
-        return this.$store.state.userInfo.memberLevel;
+        return this.$store.getters.getMemberLevel;
       }
     },
     methods: {

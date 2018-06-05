@@ -45,6 +45,9 @@
                     :style="{backgroundColor: $store.state.discountPriceType[parseFloat(commodityData.task.discountRate/10) + '折'].backgroundColor}">
                     {{commodityData.task.discountRate/10}}折清仓
                   </span>
+              <span v-if="commodityData.task.perVasFee" class="fs-12 bg-main-color cl-fff pr-5 pl-5">
+                返利{{computeVasReturnFee(commodityData.task.perVasFee,commodityData.task.systemVasFeeCommissionPercent)}}元
+              </span>
             </h3>
             <p class="fs-14">
               活动类型：
@@ -246,6 +249,10 @@
                     <span class="cl-red">在淘宝</span>
                     <span class="cl000">使用下方提供的内容进行评价，为避免纠纷，</span>
                     <span>请务必按照要求操作！</span>
+                  </p>
+                  <p class="mt-10" v-if="commodityData.vasCount">
+                    <span>浏览截图：</span>
+                    <span>{{commodityData.vasCount}}张，（返利{{computeVasReturnFee(commodityData.task.perVasFee,commodityData.task.systemVasFeeCommissionPercent)}}元）</span>
                   </p>
                   <div class="evaluation-content-tip cl666"
                        v-if="commodityData.task.itemReviewRequired === 'assign_review_detail' && commodityData.showkerTask">
@@ -601,6 +608,9 @@
       },
     },
     methods: {
+      computeVasReturnFee(fee,percent) {
+        return (fee/100*(1-percent/100)).toFixed(2);
+      },
       encryptionId(id) {
         return encryption(id);
       },

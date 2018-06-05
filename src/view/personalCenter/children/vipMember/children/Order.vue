@@ -129,7 +129,7 @@
        * @return {Number}
        */
       getMemberVersionLevel() {
-        return this.$store.state.userInfo.memberLevel
+        return this.$store.getters.getMemberLevel
       },
 
       /** 获取用户会员周期等级（100：季度， 200：半年， 300： 一年）
@@ -313,7 +313,7 @@
           _this.isSelectVersionPeriodInfo.timeLevel = _this.getMemberPeriodLevel;
           _this.isSelectVersionPeriodInfo.timeLevelText = _this.memberPeriodNameMap[_this.getMemberPeriodLevel];
         }*/
-        if (_this.getMemberVersionLevel !==100) {
+        if (_this.getMemberVersionLevel !== 100) {
           _this.isSelectVersionPeriodInfo.level = _this.getMemberVersionLevel;
           _this.isSelectVersionPeriodInfo.levelText = _this.memberVersionNameMap[_this.getMemberVersionLevel]
         } else {

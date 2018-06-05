@@ -268,10 +268,14 @@
               </div>
               <div class="home-commodity-text">
                 <p class="cl000">{{homeCommodity.taskName}}</p>
-                <p class="home-commodity-price">
-                  <em class="price-list left">
+                <p class="price">
+                  <em>
                     <span class="cl666 block text-decoration-through">￥{{homeCommodity.itemPrice / 100}}</span>
-                    <span class="f-b" v-if="homeCommodity.discountPrice">￥{{homeCommodity.discountPrice / 100}}</span>
+                  </em>
+                  <em class="vas-fee-return ml-10 pl-5 pr-5" v-if="homeCommodity.perVasFee">返利{{computeVasReturnFee(homeCommodity.perVasFee,homeCommodity.systemVasFeeCommissionPercent)}}元</em>
+                </p>
+                <p class="discount-price">
+                  <em>
                     <span class="f-b" v-if="!homeCommodity.discountPrice && homeCommodity.discountRate">
                       ￥{{(Math.floor((homeCommodity.discountRate/100) * homeCommodity.itemPrice)/100).toFixed(2)}}
                     </span>
@@ -290,6 +294,29 @@
                     </span>
                   </em>
                 </p>
+                <!--<p class="home-commodity-price">-->
+                  <!--<em class="price-list left">-->
+                    <!--<span class="cl666 block text-decoration-through">￥{{homeCommodity.itemPrice / 100}}</span>-->
+                    <!--<span class="f-b" v-if="homeCommodity.discountPrice">￥{{homeCommodity.discountPrice / 100}}</span>-->
+                    <!--<span class="f-b" v-if="!homeCommodity.discountPrice && homeCommodity.discountRate">-->
+                      <!--￥{{(Math.floor((homeCommodity.discountRate/100) * homeCommodity.itemPrice)/100).toFixed(2)}}-->
+                    <!--</span>-->
+                    <!--<span class="f-b" v-if="!homeCommodity.discountPrice && !homeCommodity.discountRate">￥0</span>-->
+                  <!--</em>-->
+                  <!--<em class="vas-fee-return left ml-10 pl-5 pr-5" v-if="homeCommodity.perVasFee">返利{{computeVasReturnFee(homeCommodity.perVasFee,homeCommodity.systemVasFeeCommissionPercent)}}元</em>-->
+                  <!--<em class="price-icon mt-10">-->
+                    <!--<span v-if="homeCommodity.activityCategory === 'price_low' && homeCommodity.discountPrice"-->
+                          <!--class="left home-discount-price mt-5"-->
+                          <!--:style="{backgroundColor: $store.state.discountPriceType[parseFloat(homeCommodity.discountPrice/100)].backgroundColor}">-->
+                      <!--{{homeCommodity.discountPrice/100}}试用-->
+                    <!--</span>-->
+                    <!--<span v-if="homeCommodity.activityCategory === 'price_low' && homeCommodity.discountRate"-->
+                          <!--class="left home-discount-price mt-5"-->
+                          <!--:style="{backgroundColor: $store.state.discountPriceType[parseFloat(homeCommodity.discountRate/10) + '折'].backgroundColor}">-->
+                      <!--{{homeCommodity.discountRate/10}}折试用-->
+                    <!--</span>-->
+                  <!--</em>-->
+                <!--</p>-->
                 <!--打赏费，勿删-->
                 <!--<div v-if="getUserRole === 0 && isLogin === true">-->
                   <!--<p class="rewards-fee" v-if="homeCommodity.createTime>=1526464800000">-->
@@ -345,9 +372,12 @@
               </div>
               <div class="home-commodity-text">
                 <p class="cl000">{{homeCommodity.taskName}}</p>
-                <p class="home-commodity-price">
-                  <em class="price-list left">
-                    <span class="cl666 block text-decoration-through">￥{{homeCommodity.itemPrice / 100}}</span>
+                <p class="price">
+                  <span class="cl666 text-decoration-through">￥{{homeCommodity.itemPrice / 100}}</span>
+                  <span class="vas-fee-return ml-10 pl-5 pr-5" v-if="homeCommodity.perVasFee">返利{{computeVasReturnFee(homeCommodity.perVasFee,homeCommodity.systemVasFeeCommissionPercent)}}元</span>
+                </p>
+                <p class="discount-price">
+                  <em class="price-list">
                     <span class="f-b" v-if="homeCommodity.discountPrice">￥{{homeCommodity.discountPrice / 100}}</span>
                     <span class="f-b" v-if="!homeCommodity.discountPrice && homeCommodity.discountRate">
                       ￥{{(Math.floor((homeCommodity.discountRate/100) * homeCommodity.itemPrice)/100).toFixed(2)}}
@@ -356,7 +386,7 @@
                       ￥0
                     </span>
                   </em>
-                  <em class="price-icon mt-10">
+                  <em class="price-icon">
                     <span v-if="homeCommodity.activityCategory === 'pinkage_for_10'"
                           style="padding: 0 4px; background: #ff9966; color: #fff; margin-left: 10px; display: inline-block;height: 20px;line-height: 20px;">10元包邮</span>
                     <span v-if="homeCommodity.activityCategory === 'present_get'"
@@ -378,6 +408,40 @@
                     </span>
                   </em>
                 </p>
+                <!--<p class="home-commodity-price">-->
+                  <!--<em class="price-list left">-->
+                    <!--<span class="cl666 block text-decoration-through">￥{{homeCommodity.itemPrice / 100}}</span>-->
+                    <!--<span class="f-b" v-if="homeCommodity.discountPrice">￥{{homeCommodity.discountPrice / 100}}</span>-->
+                    <!--<span class="f-b" v-if="!homeCommodity.discountPrice && homeCommodity.discountRate">-->
+                      <!--￥{{(Math.floor((homeCommodity.discountRate/100) * homeCommodity.itemPrice)/100).toFixed(2)}}-->
+                    <!--</span>-->
+                    <!--<span class="f-b" v-if="!homeCommodity.discountPrice && !homeCommodity.discountRate">-->
+                      <!--￥0-->
+                    <!--</span>-->
+                  <!--</em>-->
+                  <!--<em class="vas-fee-return left ml-10 pl-5 pr-5" v-if="homeCommodity.perVasFee">返利{{computeVasReturnFee(homeCommodity.perVasFee,homeCommodity.systemVasFeeCommissionPercent)}}元</em>-->
+                  <!--<em class="price-icon mt-10">-->
+                    <!--<span v-if="homeCommodity.activityCategory === 'pinkage_for_10'"-->
+                          <!--style="padding: 0 4px; background: #ff9966; color: #fff; margin-left: 10px; display: inline-block;height: 20px;line-height: 20px;">10元包邮</span>-->
+                    <!--<span v-if="homeCommodity.activityCategory === 'present_get'"-->
+                          <!--style="padding: 0 4px; background: #00cc66; color: #ffffff; margin-left: 10px; display: inline-block;height: 20px;line-height: 20px;">体验专区</span>-->
+                    <!--<span v-if="homeCommodity.activityCategory === 'price_low' && homeCommodity.discountPrice"-->
+                          <!--class="left home-discount-price mt-5"-->
+                          <!--:style="{backgroundColor: $store.state.discountPriceType[parseFloat(homeCommodity.discountPrice/100)].backgroundColor}">-->
+                      <!--{{homeCommodity.discountPrice/100}}试用-->
+                    <!--</span>-->
+                    <!--<span v-if="homeCommodity.activityCategory === 'price_low' && homeCommodity.discountRate"-->
+                          <!--class="left home-discount-price mt-5"-->
+                          <!--:style="{backgroundColor: $store.state.discountPriceType[parseFloat(homeCommodity.discountRate/10) + '折'].backgroundColor}">-->
+                      <!--{{homeCommodity.discountRate/10}}折试用-->
+                    <!--</span>-->
+                    <!--<span v-if="homeCommodity.activityCategory === 'goods_clearance' && homeCommodity.discountRate "-->
+                          <!--class="left home-discount-price mt-5"-->
+                          <!--:style="{backgroundColor: $store.state.discountPriceType[parseFloat(homeCommodity.discountRate/10) + '折'].backgroundColor}">-->
+                      <!--{{homeCommodity.discountRate/10}}折清仓-->
+                    <!--</span>-->
+                  <!--</em>-->
+                <!--</p>-->
                 <!--打赏费，勿删-->
                 <!--<div  v-if="getUserRole === 0 && isLogin === true">-->
                   <!--<p class="rewards-fee" v-if="homeCommodity.createTime>=1526464800000">-->
@@ -411,7 +475,7 @@
             </router-link>
           </div>
         </div>
-
+        <!--体验专区结束-->
       </div>
 
       <!--历史活动开始-->
@@ -437,30 +501,56 @@
               </div>
               <div class="home-commodity-text">
                 <p class="cl000">{{homeHistory.taskName}}</p>
-                <p class="home-commodity-price">
-                  <em class="price-list left">
-                    <span class="cl666 block text-decoration-through">￥{{homeHistory.itemPrice / 100}}</span>
+                <p class="price">
+                  <span class="cl666 text-decoration-through">￥{{homeHistory.itemPrice / 100}}</span>
+                  <span class="vas-fee-return ml-10 pl-5 pr-5" v-if="homeHistory.perVasFee">返利{{computeVasReturnFee(homeHistory.perVasFee,homeHistory.systemVasFeeCommissionPercent)}}元</span>
+                </p>
+                <p class="discount-price">
+                  <span>
                     <span class="f-b" v-if="homeHistory.discountPrice">￥{{homeHistory.discountPrice / 100}}</span>
                     <span class="f-b" v-if="!homeHistory.discountPrice && homeHistory.discountRate">
-                      ￥{{(Math.floor((homeHistory.discountRate/100) * homeHistory.itemPrice)/100).toFixed(2)}}
+                    ￥{{(Math.floor((homeHistory.discountRate/100) * homeHistory.itemPrice)/100).toFixed(2)}}
                     </span>
                     <span class="f-b" v-if="!homeHistory.discountPrice && !homeHistory.discountRate">
-                      ￥0
+                    ￥0
                     </span>
-                  </em>
-                  <em class="price-icon mt-10">
+                  </span>
+                  <span>
                     <span v-if="homeHistory.activityCategory === 'price_low' && homeHistory.discountPrice"
-                          class="left home-discount-price mt-5"
-                          :style="{backgroundColor: $store.state.discountPriceType[parseFloat(homeHistory.discountPrice/100)].backgroundColor}">
-                      {{homeHistory.discountPrice/100}}试用
+                      class="left home-discount-price mt-5" :style="{backgroundColor: $store.state.discountPriceType[parseFloat(homeHistory.discountPrice/100)].backgroundColor}">
+                    {{homeHistory.discountPrice/100}}试用
                     </span>
-                    <span v-if="homeHistory.activityCategory === 'price_low' && homeHistory.discountRate"
-                          class="left home-discount-price mt-5"
-                          :style="{backgroundColor: $store.state.discountPriceType[parseFloat(homeHistory.discountRate/10) + '折'].backgroundColor}">
-                      {{homeHistory.discountRate/10}}折试用
+                    <span v-if="homeHistory.activityCategory === 'price_low' && homeHistory.discountRate" class="left home-discount-price mt-5"
+                    :style="{backgroundColor: $store.state.discountPriceType[parseFloat(homeHistory.discountRate/10) + '折'].backgroundColor}">
+                    {{homeHistory.discountRate/10}}折试用
                     </span>
-                  </em>
+                  </span>
                 </p>
+                <!--<p class="home-commodity-price">-->
+                  <!--<em class="price-list left">-->
+                    <!--<span class="cl666 block text-decoration-through">￥{{homeHistory.itemPrice / 100}}</span>-->
+                    <!--<span class="f-b" v-if="homeHistory.discountPrice">￥{{homeHistory.discountPrice / 100}}</span>-->
+                    <!--<span class="f-b" v-if="!homeHistory.discountPrice && homeHistory.discountRate">-->
+                      <!--￥{{(Math.floor((homeHistory.discountRate/100) * homeHistory.itemPrice)/100).toFixed(2)}}-->
+                    <!--</span>-->
+                    <!--<span class="f-b" v-if="!homeHistory.discountPrice && !homeHistory.discountRate">-->
+                      <!--￥0-->
+                    <!--</span>-->
+                  <!--</em>-->
+                  <!--<em class="vas-fee-return left ml-10 pl-5 pr-5" v-if="homeHistory.perVasFee">返利{{computeVasReturnFee(homeHistory.perVasFee,homeHistory.systemVasFeeCommissionPercent)}}元</em>-->
+                  <!--<em class="price-icon mt-10">-->
+                    <!--<span v-if="homeHistory.activityCategory === 'price_low' && homeHistory.discountPrice"-->
+                          <!--class="left home-discount-price mt-5"-->
+                          <!--:style="{backgroundColor: $store.state.discountPriceType[parseFloat(homeHistory.discountPrice/100)].backgroundColor}">-->
+                      <!--{{homeHistory.discountPrice/100}}试用-->
+                    <!--</span>-->
+                    <!--<span v-if="homeHistory.activityCategory === 'price_low' && homeHistory.discountRate"-->
+                          <!--class="left home-discount-price mt-5"-->
+                          <!--:style="{backgroundColor: $store.state.discountPriceType[parseFloat(homeHistory.discountRate/10) + '折'].backgroundColor}">-->
+                      <!--{{homeHistory.discountRate/10}}折试用-->
+                    <!--</span>-->
+                  <!--</em>-->
+                <!--</p>-->
                 <!--打赏费，勿删-->
                 <!--<div v-if="getUserRole === 0 && isLogin === true">-->
                   <!--<p class="rewards-fee" v-if="homeHistory.createTime>=1526464800000">-->
@@ -755,7 +845,7 @@
         return this.$store.state.userInfo.memberDeadline
       },
       getMemberVersionLevel() {
-        return this.$store.state.userInfo.memberLevel
+        return this.$store.getters.getMemberLevel
       },
       isMember() {
         return this.$store.getters.isMemberOk
@@ -782,6 +872,9 @@
     },
 
     methods: {
+      computeVasReturnFee(fee,percent) {
+        return (fee/100*(1-percent/100)).toFixed(2);
+      },
       changeIsBuyVipPopupFunc() {
         this.$router.push({name: 'TaskReleaseProcess'});
       },
@@ -1428,8 +1521,8 @@
             background-color: #EEEEEE;
             padding: 5px 5px 8px 5px;
             p {
-              line-height: 28px;
-              height: 28px;
+              line-height: 25px;
+              height: 25px;
               font-size: 14px;
               text-overflow: ellipsis;
               white-space: nowrap;
@@ -1439,22 +1532,12 @@
               color: #000;
               text-align: left;
             }
-            p.home-commodity-price {
+            .vas-fee-return{
+              color:#fff;
+              background: $mainColor;
+            }
+            p.discount-price {
               color: #FF6633;
-              height: 40px;
-              line-height: normal;
-              em {
-                font-style: normal;
-              }
-              em.price-list {
-                float: left;
-              }
-              em.price-icon {
-                span {
-                  margin-top: 16px;
-                  margin-left: 10px;
-                }
-              }
             }
             p.home-commodity-apply {
               color: #000;
@@ -1501,7 +1584,6 @@
               width: 168px;
               height: 168px;
             }
-
           }
           .home-commodity-text {
             background-color: #EEEEEE;
@@ -1518,22 +1600,14 @@
               color: #000;
               text-align: left;
             }
-            p.home-commodity-price {
+            p.price {
+              .vas-fee-return{
+                color:#fff;
+                background: $mainColor;
+              }
+            }
+            p.discount-price {
               color: #FF6633;
-              height: 40px;
-              line-height: normal;
-              em {
-                font-style: normal;
-              }
-              em.price-list {
-                float: left;
-              }
-              em.price-icon {
-                span {
-                  margin-top: 16px;
-                  margin-left: 10px;
-                }
-              }
             }
             p.home-commodity-apply {
               color: #000;

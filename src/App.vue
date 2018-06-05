@@ -88,7 +88,7 @@
         return this.$store.getters.getSellerCustomerQq
       },
       memberLevel() {
-        return this.$store.state.userInfo.memberLevel
+        return this.$store.getters.getMemberLevel
       }
     },
     created() {

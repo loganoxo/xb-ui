@@ -264,15 +264,24 @@ export const getUrlParams = (url, name) => {
   return null;
 };
 
-
+/**
+ * 平滑滚动到顶部
+ */
+export const scrollToTop = () => {
+  const c = document.documentElement.scrollTop || document.body.scrollTop;
+  if (c > 0) {
+    window.requestAnimationFrame(scrollToTop);
+    window.scrollTo(0, c - c / 8);
+  }
+};
 
 /**
  * 删除字符串中的html双标签及标签的内容
  */
 export const delHtmlTag = str => {
-  let tempStr = str.replace(/>[^>]+</g, '');
-  return tempStr.replace(/<[^>]+>/g, '');
+  return str.replace(/>[^>]+</g, '').replace(/<[^>]+>/g, '');
 };
+
 /**
  * 任务流程状态映射
  */
@@ -280,7 +289,7 @@ export const taskErrorStatusList = (type) => {
   const mapList = {
     'pass_and_unclaimed': '已通过待下单',
     'order_num_waiting_audit': '订单号待审核',
-    'order_num_error': '订单号有误',
+    'order_num_error': '订单信息有误',
     'trial_report_waiting_submit': '已下单待交买家秀',
     'trial_report_waiting_confirm': '买家秀待确认',
     'trial_report_unqualified': '买家秀不合格',
@@ -346,6 +355,12 @@ export const taskErrorStatusList = (type) => {
     'invite_showker_success': '成功邀请拿手',
     'seller_task_commission': '商家活动提成',
     'showker_task_commission': '拿手活动提成',
+    'task_vas_return_shower': '活动返利',
+    'task_return_vas_fee_seller': '活动结算增值服务费返款',
+    'pay_for_task_vas_fee_seller': '支付活动增值服务费',
+    'pay_for_task_vas_fee_supply_seller': '补交活动增值费',
+    'task_delete_return_vas_fee_seller': '删除活动返款增值费'
+
   };
   return mapList[type];
 };

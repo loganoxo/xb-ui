@@ -111,22 +111,44 @@
               </div>
               <div class="task-category-commodity-text">
                 <p v-html="searchTask.taskName"></p>
-                <p class="home-commodity-price">
+                <p>
                   <em class="price-list left">
                     <span class="cl666 block text-decoration-through">￥{{searchTask.itemPrice }}</span>
+                  </em>
+                  <em class="vas-fee-return left ml-10 pl-5 pr-5" v-if="searchTask.perVasFee">返利{{computeVasReturnFee(searchTask.perVasFee,searchTask.systemVasFeeCommissionPercent)}}元</em>
+                </p>
+                <p>
+                  <em class="price-list">
                     <span class="f-b main-color" v-if="searchTask.discountPrice">￥{{(searchTask.discountPrice / 100).toFixed(2)}}</span>
                     <span class="f-b main-color" v-if="!searchTask.discountPrice && searchTask.discountRate">
-                      ￥{{(Math.floor((searchTask.discountRate/100) * searchTask.itemPrice)/100).toFixed(2)}}
-                    </span>
+                    ￥{{(Math.floor((searchTask.discountRate/100) * searchTask.itemPrice)/100).toFixed(2)}}
+                  </span>
                     <span class="f-b main-color" v-if="!searchTask.discountPrice && !searchTask.discountRate">
-                      ￥0
-                    </span>
+                    ￥0
+                  </span>
                   </em>
                   <em class="price-icon mt-10">
                     <span v-if= "searchTask.activityCategory === 'pinkage_for_10'" style="padding: 0 4px; background: #75c5ff; color: #fff; margin-left: 10px; display: inline-block;height: 20px;line-height: 20px;">10元包邮</span>
                     <span v-if= "searchTask.activityCategory === 'present_get'" style="padding: 0 4px; background: #00cc66; color: #ffffff; margin-left: 10px; display: inline-block;height: 20px;line-height: 20px;">体验专区</span>
                   </em>
                 </p>
+                <!--<p class="home-commodity-price">-->
+                  <!--<em class="price-list left">-->
+                    <!--<span class="cl666 block text-decoration-through">￥{{searchTask.itemPrice }}</span>-->
+                    <!--<span class="f-b main-color" v-if="searchTask.discountPrice">￥{{(searchTask.discountPrice / 100).toFixed(2)}}</span>-->
+                    <!--<span class="f-b main-color" v-if="!searchTask.discountPrice && searchTask.discountRate">-->
+                      <!--￥{{(Math.floor((searchTask.discountRate/100) * searchTask.itemPrice)/100).toFixed(2)}}-->
+                    <!--</span>-->
+                    <!--<span class="f-b main-color" v-if="!searchTask.discountPrice && !searchTask.discountRate">-->
+                      <!--￥0-->
+                    <!--</span>-->
+                  <!--</em>-->
+                  <!--<em class="price-icon mt-10">-->
+                    <!--<span v-if= "searchTask.activityCategory === 'pinkage_for_10'" style="padding: 0 4px; background: #75c5ff; color: #fff; margin-left: 10px; display: inline-block;height: 20px;line-height: 20px;">10元包邮</span>-->
+                    <!--<span v-if= "searchTask.activityCategory === 'present_get'" style="padding: 0 4px; background: #00cc66; color: #ffffff; margin-left: 10px; display: inline-block;height: 20px;line-height: 20px;">体验专区</span>-->
+                  <!--</em>-->
+                  <!--<em class="vas-fee-return left ml-10 pl-5 pr-5" v-if="searchTask.perVasFee">返利{{computeVasReturnFee(searchTask.perVasFee,searchTask.systemVasFeeCommissionPercent)}}元</em>-->
+                <!--</p>-->
                 <!--打赏费，勿删-->
                 <!--<div v-if="getUserRole === 0 && isLogin === true">-->
                   <!--<p class="rewards-fee" v-if="searchTask.createTime>=1526464800000">-->
@@ -149,7 +171,7 @@
                   <span class="main-color"> {{searchTask.taskCount - searchTask.showkerApplySuccessCount || 0}} </span> 份
                 </p>
                 <p class="cl000">剩余时间：<time-down  :endTime="searchTask.endTime" ></time-down>&nbsp;</p>
-                <p >
+                <p class="get-btn">
                   <router-link :to="{ 'path': '/task-details','query': {'q': encryptionId(searchTask.id)}}" class="ivu-btn ivu-btn-long" >免费领取</router-link>
                 </p>
               </div>
@@ -189,9 +211,14 @@
               </div>
               <div class="task-category-commodity-text">
                 <p v-html="historyTask.taskName"></p>
-                <p class="home-commodity-price ">
-                  <em class="price-list left">
+                <p>
+                  <em>
                     <span class="cl666 block text-decoration-through">￥{{historyTask.itemPrice / 100}}</span>
+                  </em>
+                  <em class="vas-fee-return ml-10 pl-5 pr-5" v-if="historyTask.perVasFee">返利{{computeVasReturnFee(historyTask.perVasFee,historyTask.systemVasFeeCommissionPercent)}}元</em>
+                </p>
+                <p>
+                  <em>
                     <span class="main-color f-b" v-if="historyTask.discountPrice">￥{{(historyTask.discountPrice / 100).toFixed(2)}}</span>
                     <span class="main-color f-b" v-if="!historyTask.discountPrice && historyTask.discountRate">
                       ￥{{(Math.floor((historyTask.discountRate/100) * historyTask.itemPrice)/100).toFixed(2)}}
@@ -200,7 +227,7 @@
                       ￥0
                     </span>
                   </em>
-                  <em  class="price-icon mt-10">
+                  <em class="price-icon">
                     <span v-if= "historyTask.activityCategory === 'pinkage_for_10'" style="padding: 0 4px; background: #75c5ff; color: #fff; margin-left: 10px; display: inline-block;height: 20px;line-height: 20px;">10元包邮</span>
                     <span v-if= "historyTask.activityCategory === 'present_get'" style="padding: 0 4px; background: #00cc66; color: #ffffff; margin-left: 10px; display: inline-block;height: 20px;line-height: 20px;">体验专区</span>
                     <span v-if="historyTask.activityCategory === 'price_low' && historyTask.discountPrice" class="left home-discount-price mt-5" :style="{backgroundColor: $store.state.discountPriceType[parseFloat(historyTask.discountPrice/100)].backgroundColor}" >
@@ -214,6 +241,31 @@
                     </span>
                   </em>
                 </p>
+                <!--<p class="home-commodity-price ">-->
+                  <!--<em class="price-list left">-->
+                    <!--<span class="cl666 block text-decoration-through">￥{{historyTask.itemPrice / 100}}</span>-->
+                    <!--<span class="main-color f-b" v-if="historyTask.discountPrice">￥{{(historyTask.discountPrice / 100).toFixed(2)}}</span>-->
+                    <!--<span class="main-color f-b" v-if="!historyTask.discountPrice && historyTask.discountRate">-->
+                      <!--￥{{(Math.floor((historyTask.discountRate/100) * historyTask.itemPrice)/100).toFixed(2)}}-->
+                    <!--</span>-->
+                    <!--<span class="main-color f-b" v-if="!historyTask.discountPrice && !historyTask.discountRate">-->
+                      <!--￥0-->
+                    <!--</span>-->
+                  <!--</em>-->
+                  <!--<em  class="price-icon mt-10">-->
+                    <!--<span v-if= "historyTask.activityCategory === 'pinkage_for_10'" style="padding: 0 4px; background: #75c5ff; color: #fff; margin-left: 10px; display: inline-block;height: 20px;line-height: 20px;">10元包邮</span>-->
+                    <!--<span v-if= "historyTask.activityCategory === 'present_get'" style="padding: 0 4px; background: #00cc66; color: #ffffff; margin-left: 10px; display: inline-block;height: 20px;line-height: 20px;">体验专区</span>-->
+                    <!--<span v-if="historyTask.activityCategory === 'price_low' && historyTask.discountPrice" class="left home-discount-price mt-5" :style="{backgroundColor: $store.state.discountPriceType[parseFloat(historyTask.discountPrice/100)].backgroundColor}" >-->
+                      <!--{{historyTask.discountPrice/100}}试用-->
+                    <!--</span>-->
+                    <!--<span v-if="historyTask.activityCategory === 'price_low' && historyTask.discountRate" class="left home-discount-price mt-5" :style="{backgroundColor: $store.state.discountPriceType[parseFloat(historyTask.discountRate/10) + '折'].backgroundColor}" >-->
+                      <!--{{historyTask.discountRate/10}}折试用-->
+                    <!--</span>-->
+                    <!--<span v-if="historyTask.activityCategory === 'goods_clearance' && historyTask.discountRate " class="left home-discount-price mt-5" :style="{backgroundColor: $store.state.discountPriceType[parseFloat(historyTask.discountRate/10) + '折'].backgroundColor}" >-->
+                      <!--{{historyTask.discountRate/10}}折清仓-->
+                    <!--</span>-->
+                  <!--</em>-->
+                <!--</p>-->
                 <!--打赏费，勿删-->
                 <!--<div v-if="getUserRole === 0 && isLogin === true">-->
                   <!--<p class="rewards-fee" v-if="historyTask.createTime>=1526464800000">-->
@@ -231,11 +283,11 @@
                     <!--</Tooltip>-->
                   <!--</p>-->
                 <!--</div>-->
-                <p class="cl000">
+                <p class="cl000 mt-5">
                   限量 <span class="main-color"> {{historyTask.taskCount || 0 }} </span> 份，剩余
                   <span class="main-color"> {{historyTask.taskCount - historyTask.showkerApplySuccessCount || 0}} </span> 份
                 </p>
-                <p >
+                <p class="check-detail">
                   <router-link :to="{ 'path': '/task-details','query': {'q': encryptionId(historyTask.id)}}" class="ivu-btn ivu-btn-long" >
                     查看详情
                   </router-link>
@@ -394,6 +446,9 @@
       }
     },
     methods: {
+      computeVasReturnFee(fee,percent) {
+        return (fee/100*(1-percent/100)).toFixed(2);
+      },
       encryptionId(id){
         return encryption(id)
       },
@@ -624,6 +679,7 @@
           zoneFilters: self.searchTaskParams.zoneFilters ? JSON.stringify(self.searchTaskParams.zoneFilters) : '',
           onlyAvailableCertainlyHit: self.searchTaskParams.onlyAvailableCertainlyHit,
           donotShowSpeedUp: self.searchTaskParams.donotShowSpeedUp,
+          justShowNormalOrder: true
         };
         api.getSearchTask(option).then((res) => {
           if(res.status){
@@ -767,25 +823,6 @@
     margin-right: 15px;
     margin-left: 5px
   }
-
-  p.home-commodity-price {
-    height: 40px !important;
-    line-height: normal !important;
-    color: #FF6633;
-    em{
-      font-style: normal;
-    }
-    em.price-list{
-      float: left;
-    }
-    em.price-icon{
-
-      span{
-        margin-top: 16px;
-        margin-left: 10px;
-      }
-    }
-  }
   .task-category-ctt {
     background-color: #F1F1F1;
     .task-category-sel{
@@ -851,8 +888,8 @@
             background-color: #EEEEEE;
             padding:5px;
             p{
-              line-height: 35px;
-              height: 35px;
+              line-height: 25px;
+              height: 25px;
               font-size: 14px;
               text-overflow: ellipsis;
               white-space: nowrap;
@@ -862,7 +899,32 @@
                 color: #000;
                 text-align: left;
               }
+            }
+            em{
+              font-style: normal;
+            }
+            em.price-list{
+              float: left;
+            }
+            em.vas-fee-return{
+              padding: 0 4px;
+              background: $mainColor;
+              color: #fff;
+              margin-left: 10px;
+              display: inline-block;
+              height: 20px;
+              line-height: 20px;
+            }
+            em.price-icon{
 
+            }
+            .get-btn {
+              line-height: 35px;
+              height: 35px;
+            }
+            .check-detail{
+              line-height: 35px;
+              height: 35px;
             }
             p.task-category-commodity-text-price{
               color: #FF6633;

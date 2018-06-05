@@ -92,6 +92,24 @@
         <div class="c-l-blue">免费使用</div>
         <div class="c-l-orange">免费使用</div>
       </li>
+      <li class="clear eight">
+        <div class="t-catalog c-white">活动增值服务项</div>
+        <div class="c-l-grey">{{freeMemberInfo.taskVasItem}}</div>
+        <div class="c-l-blue">{{vipMemberInfo.taskVasItem}}</div>
+        <div class="c-l-orange">{{svipMemberInfo.taskVasItem}}</div>
+      </li>
+      <li class="clear eight">
+        <div class="t-catalog c-white">当日单</div>
+        <div class="c-l-grey">{{freeMemberInfo.dayNow}}</div>
+        <div class="c-l-blue">{{vipMemberInfo.dayNow}}</div>
+        <div class="c-l-orange">{{svipMemberInfo.dayNow}}</div>
+      </li>
+      <li class="clear eight">
+        <div class="t-catalog c-white">预约单</div>
+        <div class="c-l-grey">{{freeMemberInfo.dayReserve}}</div>
+        <div class="c-l-blue">{{vipMemberInfo.dayReserve}}</div>
+        <div class="c-l-orange">{{svipMemberInfo.dayReserve}}</div>
+      </li>
     </ul>
     <p class="to-be-continue">更多权益正在添加中，敬请期待...</p>
     <Modal v-model="isShowDemo" class="text-ct pt-40" width="700">

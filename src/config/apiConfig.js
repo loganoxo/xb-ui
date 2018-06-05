@@ -260,7 +260,7 @@ export default {
    * 获取商品类型
    */
   itemCatalog() {
-    return axiosConfig.post("/api/item-catalog.json")
+    return axiosConfig.get("/api/item-catalog.json")
   },
 
   /**
@@ -358,7 +358,7 @@ export default {
    * 任务数据获取
    */
   getTaskInfo(params) {
-    return axiosConfig.post("/api/get-task.json", params)
+    return axiosConfig.get("/api/get-task.json", params)
   },
 
   /**
@@ -1058,5 +1058,33 @@ export default {
   buyEyeTrialOneDay(params) {
     return axiosConfig.post('/api/buy-eye-trial-one-day.json', params)
   },
+
+  /**
+   * 获取发布任务页增值服务列表
+   */
+  taskVasList() {
+    return axiosConfig.get('/api/task-value-added-services-list.json')
+  },
+
+  /**
+   * 获取商家发布任务时选择的增值服务信息
+   */
+  taskVasSelectInfo(params) {
+    return axiosConfig.get('/api/vas-select-info.json', params)
+  },
+  /**
+   * 增值服务提交答案（截图）
+   */
+  submitVasAnswer(params) {
+    return axiosConfig.post('/api/task-showker-vas-answer-submit.json',params)
+  },
+
+  /**
+   * 提交浏览答题截图
+   */
+  submitAnswerScreenshots(params) {
+    return axiosConfig.post('/api/task-showker-issue-answer-submit.json',params)
+  }
+
 
 }

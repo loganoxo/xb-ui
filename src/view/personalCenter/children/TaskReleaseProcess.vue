@@ -97,61 +97,93 @@
          </div>-->
       </div>
     </div>
+    <!--填写活动信息详情-->
     <div class="activity-con mt-20">
-      <!--填写活动信息详情-->
       <div class="activity-info" v-show="stepName === 'information'">
         <div class="activity-info-title">填写活动信息</div>
-        <div class="activity-type ml-60 mt-22">
+        <div class="activity-type ml-20 mt-22">
           <span class="required">下单方式：</span>
-          <radio-group v-model="taskRelease.taskType" @on-change="taskTypeChange">
-            <radio label="pc_search">
-              <span>PC搜索下单（taobao.com）</span>
+          <radio-group v-model="taskRelease.orderType" @on-change="taskSalesChange">
+            <radio label="normal">
+              <span>普通销量单</span>
             </radio>
-            <radio label="app_search">
-              <span>手淘搜索下单（APP）</span>
+            <radio label="day_now">
+              <tooltip content="活动发布当日22点前有效，并在24点后自动取消未下单的拿手资格，仅限VIP、SVIP使用" placement="top">
+                <span>当日单</span>
+                <img src="~assets/img/common/vip.png" alt="vipLogo">
+              </tooltip>
             </radio>
-            <radio label="tao_code">
-              <span>淘口令下单（APP）</span>
-            </radio>
-            <radio label="direct_access">
-              <span>宝贝链接下单（taobao.com）</span>
+            <radio label="day_reserve">
+              <tooltip content="活动发布当日24点前加入购物车，次日下单购买，系统会自动终止未按要求操作的拿手资格，仅限VIP、SVIP使用" placement="top">
+                <span>预约单</span>
+                <img src="~assets/img/common/vip.png" alt="vipLogo">
+              </tooltip>
             </radio>
           </radio-group>
+          <div class="mt-10 ml-70">
+            <radio-group v-model="taskRelease.taskType" @on-change="taskTypeChange">
+              <radio label="pc_search">
+                <span>PC搜索下单（taobao.com）</span>
+              </radio>
+              <radio label="app_search">
+                <span>手淘搜索下单（APP）</span>
+              </radio>
+              <radio label="tao_code">
+                <span>淘口令下单（APP）</span>
+              </radio>
+              <radio label="direct_access">
+                <span>宝贝链接下单（taobao.com）</span>
+              </radio>
+            </radio-group>
+          </div>
         </div>
-        <div class="activity-time ml-60 mt-20">
+        <div class="activity-time ml-20 mt-20">
           <span class="required">活动时长：</span>
-          <i-input v-model.number="taskRelease.taskDaysDuration" placeholder="请输入活动时长" style="width: 120px"></i-input>
+          <i-input v-model.number="taskRelease.taskDaysDuration" :disabled="taskCountInputDisabled" :placeholder="taskCountInputPlaceholder" style="width: 120px"></i-input>
           <span>天</span>
-          <span class="main-color ml-10"> <i class="ivu-icon ivu-icon-information-circled cle60012"></i>（注意：单期活动时间为3-10天，请于活动结束后48小时内审批完成所有拿手资格，逾期系统将自动为您审批）</span>
+          <span class="main-color ml-10">
+            <i class="ivu-icon ivu-icon-information-circled cle60012"></i>
+            <span v-show="taskRelease.orderType === 'normal'">（注意：单期活动时间为3-10天，请于活动结束后48小时内审批完成所有拿手资格，逾期系统将自动为您审批）</span>
+            <span v-show="taskRelease.orderType === 'day_now' || taskRelease.orderType === 'day_reserve'">（注意：请于当日22:20分前审批完成所有拿手资格，逾期系统将自动为您审批）</span>
+          </span>
         </div>
-        <div class="trial-condition ml-35 mt-20">
-          <span class="ml-5">拿手申请条件：</span>
+        <div class="ml-15 mt-20" v-if="taskRelease.orderType === 'day_reserve'">
+          <i class="ivu-icon ivu-icon-information-circled cle60012"></i>
+          <span>转当日单：</span>
+          <checkbox v-model="taskRelease.dayReserveToNow">需要</checkbox>
+          <span class="main-color f-b">建议勾选！</span>
+          <span class="sizeColor2">（若审核通过的拿手当日未加入购物车，在次日扔可继续下单购买，活动剩余名额也自动转为当日单）</span>
+        </div>
+        <div class="trial-condition ml-20 mt-20">
+          <span class="ml-8">申请条件：</span>
           <checkbox v-model="taskRelease.refuseOldShowker">拒绝已参加过本店活动的拿手再次申请</checkbox>
         </div>
-        <div class="order-speed ml-35 mt-20">
-          <span class="ml-5">拿手下单速度：</span>
+        <div class="order-speed ml-20 mt-20">
+          <span class="ml-8">下单速度：</span>
           <radio-group v-model="taskRelease.showkerOrderTimeLimit">
-            <radio :label="24"><span>24小时内</span></radio>
-            <radio :label="12"><span>12小时内</span></radio>
-            <radio :label="6"><span>6小时内</span></radio>
-            <radio :label="3"><span>3小时内</span></radio>
+            <radio :label="''" v-show="taskRelease.orderType === 'day_now'"><span>当日24点前</span></radio>
+            <radio :label="''" v-show="taskRelease.orderType === 'day_reserve'"><span>当日24点前加入购物车，次日下单购买</span></radio>
+            <radio :label="24" v-show="taskRelease.orderType === 'normal'"><span>24小时内</span></radio>
+            <radio :label="12" v-show="taskRelease.orderType === 'normal'"><span>12小时内</span></radio>
+            <radio :label="6" v-show="taskRelease.orderType === 'normal'"><span>6小时内</span></radio>
+            <radio :label="3" v-show="taskRelease.orderType === 'normal'"><span>3小时内</span></radio>
           </radio-group>
-          <span class="sizeColor2">（拿手通过审批后需要指定时间内完成淘宝下单并在本平台提交订单号，否则资格自动过期）</span>
+          <span class="sizeColor2" v-show="taskRelease.orderType === 'normal'">（拿手通过审批后需要指定时间内完成淘宝下单并在本平台提交订单号，否则资格自动过期）</span>
+          <span class="sizeColor2" v-show="taskRelease.orderType === 'day_reserve'">（拿手通过审批后需要在当日24点前加入购物车，次日在淘宝下单并在平台提交订单号，否则资格自动过期）</span>
         </div>
-        <div class="trial-condition ml-60 mt-20">
-          <span class="ml-4"> 收藏加购：</span>
+        <div class="trial-condition ml-20 mt-20">
+          <span class="ml-8"> 收藏加购：</span>
           <checkbox v-model="taskRelease.needBrowseCollectAddCart">需要</checkbox>
           <span class="sizeColor2">（系统会随机让部分拿手完成对宝贝的收藏加购，活动上线后您可以在生意参谋后台查看收藏加购有无增加）</span>
         </div>
-        <div class="answer ml-60 mt-20">
-          <span class="ml-4"> 浏览答题：</span>
+        <div class="answer ml-20 mt-20">
+          <span class="ml-8"> 浏览答题：</span>
           <checkbox v-model="needBrowseAnswer" @on-change="needBrowseAnswerChange">需要</checkbox>
           <span class="sizeColor2">（保证拿手充分浏览详情页，减少秒拍情况发生，最多可添加3个）</span>
           <div class="mt-10 pl-68 clear" v-if="needBrowseAnswer">
             <div class="clear mt-10" v-for="(item,index) in browseAnswer" :key="index">
               <span class="left mt-20 fs-14">{{index + 1}}.</span>
-              <i-input class="mr-5 mt-12 ml-10 left" type="text" @on-change="answerInputChange(index)"
-                       v-model="item.issue" placeholder="请输入浏览答题文案" style="width: 124px;"></i-input>
+              <i-input class="mr-5 mt-12 ml-10 left" type="text" @on-change="answerInputChange(index)" v-model="item.issue" placeholder="请输入浏览答题文案" style="width: 124px;"></i-input>
               <upload class="ml-20 left"
                       :disabled="!item.issue"
                       :default-file-list="answerDefaultList[index]"
@@ -164,7 +196,7 @@
                       :on-exceeded-size="handleMaxSize"
                       type="drag">
                 <div class="camera">
-                  <Icon :class="{'disabled-fs-color':!item.issue}" type="camera" size="20"></Icon>
+                  <icon :class="{'disabled-fs-color':!item.issue}" type="camera" size="20"></icon>
                 </div>
               </upload>
               <span class="left mt-20 ml-5 sizeColor2">（请上传文案所在位置截图）</span>
@@ -181,33 +213,66 @@
           <div class="mt-12 pl-68 sizeColor2" v-show="needBrowseAnswer">请在手机详情页中挑选一段文案，建议3-8字，输入文本框内，拿手将提供本文案所在位置截图
           </div>
         </div>
-        <div class="task-speed-up ml-60 mt-20">
-          <span class="ml-4">一键加速：</span>
+        <div class="task-speed-up ml-20 mt-20">
+          <span class="ml-8">一键加速：</span>
           <checkbox v-model="taskRelease.speedUp">需要</checkbox>
-          <span class="sizeColor2">（选择后，该活动所有名额的审批由系统推荐和控制，适合需要快速消化单量的商家）</span>
+          <span class="sizeColor2"><span v-show="taskRelease.orderType === 'day_now' || taskRelease.orderType === 'day_reserve'" class="main-color f-b">强烈建议勾选！</span>（选择后，该活动所有名额的审批由系统推荐和控制，适合需要快速消化单量的商家）</span>
         </div>
+        <div v-if="getMemberVersionLevel !== 100" class="value-added-services">
+        <p class="main-color">增值服务（平台已保证所有拿手安全下单，但您仍不放心，可选择以下增值服务，该服务会要求拿手上传截图留证）</p>
+        <template v-for="item in vasMainItem">
+          <checkbox v-show="taskRelease.taskType === 'pc_search' || taskRelease.taskType === 'direct_access' ? item.showForPc : item.showForApp" class="mt-10 mr-0" v-model="item.isSelect" :disabled="item.isDisabled">
+            <span>{{item.name}}</span>
+            <span class="sizeColor2">({{item.price / 100 || 0}}元)</span>
+          </checkbox>
+          <tooltip class="mr-15" content="查看示例图" placement="top" v-show="taskRelease.taskType === 'pc_search' || taskRelease.taskType === 'direct_access' ? item.showForPc : item.showForApp">
+            <span class="value-added-services-demo-image" @click="openSampleImageModal(taskRelease.taskType === 'pc_search' || taskRelease.taskType === 'direct_access' ? item.pcTipsPicture : item.appTipsPicture)">图</span>
+          </tooltip>
+        </template>
+        <checkbox class="mt-10" v-model="shopAroundStatus" @on-change="shopAroundStatusChange">
+          <span>货比三家</span>
+          <span class="sizeColor2">(最多添加3个)</span>
+        </checkbox>
+        <template v-for="(keys, index) in vasSimilarItem">
+          <div v-show="shopAroundStatus" class="cl999 mt-10">同类宝贝{{index + 1}}：</div>
+          <div v-show="shopAroundStatus">
+            <template v-for="item in keys">
+              <checkbox v-show="taskRelease.taskType === 'pc_search' || taskRelease.taskType === 'direct_access' ? item.showForPc : item.showForApp" class="mt-10 mr-0" v-model="item.isSelect" :disabled="item.isDisabled">
+                <span>{{item.name}}</span>
+                <span class="sizeColor2">({{item.price / 100 || 0}}元)</span>
+              </checkbox>
+              <tooltip class="mr-15" content="查看示例图" placement="top" v-show="taskRelease.taskType === 'pc_search' || taskRelease.taskType === 'direct_access' ? item.showForPc : item.showForApp">
+                <span class="value-added-services-demo-image" @click="openSampleImageModal(taskRelease.taskType === 'pc_search' || taskRelease.taskType === 'direct_access' ? item.pcTipsPicture : item.appTipsPicture)">图</span>
+              </tooltip>
+            </template>
+          </div>
+        </template>
+        <i-button v-show="shopAroundStatus" :disabled="vasSimilarItem.length > 2" class="mt-12 add-btn-bg-color" type="dashed" icon="plus-round" @click="addShopAroundList">添加</i-button>
+        <i-button v-show="shopAroundStatus" :disabled="vasSimilarItem.length === 1" class="ml-20 mt-12 add-btn-bg-color" type="dashed" icon="minus-round" @click="delShopAroundList">删除</i-button>
+        <div class="value-added-charge mt-15">增值服务费合计：{{(oneValueAddedCost / 100).toFixed(2)}} 元 </div>
+      </div>
         <div class="baby-info mt-22" v-show="taskRelease.activityCategory === 'free_get'">
           <div class="activity-info-title">填写活动宝贝信息</div>
-          <div class="baby-title ml-45 mt-20">
+          <div class="baby-title ml-20 mt-20">
             <span class="required">宝贝标题：</span>
             <i-input v-model="taskRelease.taskName" placeholder="请输入宝贝标题" style="width: 296px"></i-input>
             <span class="ml-20 sizeColor2"><icon v-show="taskNameLength > 35" color="#f9284f" type="information-circled"></icon>&nbsp;此处填宝贝名称，突出宝贝特点，勿填无关内容，最多支持35个字符，当前已输入  <span
               class="main-color">{{taskNameLength}}</span> / 35个字符。</span>
           </div>
-          <div class="baby-title ml-45 mt-20">
+          <div class="baby-title ml-20 mt-20">
             <span class="required">宝贝类型：</span>
             <i-select v-model="taskRelease.itemType" style="width:200px">
-              <option-group v-for="parentItem in itemCatalogList" v-if="parentItem.level === 1"
-                            :label="parentItem.name" :key="parentItem.id">
-                <i-option
-                  v-if="item.level === 2 && item.parentItemCatalog && item.parentItemCatalog.id === parentItem.id"
-                  v-for="item in itemCatalogList" :value="item.id" :key="item.name">{{ item.name }}
-                </i-option>
-              </option-group>
+              <template v-for="parentItem in itemCatalogList">
+                <option-group v-if="parentItem.level === 1" :label="parentItem.name" :key="parentItem.id">
+                  <template  v-for="item in itemCatalogList">
+                    <i-option v-if="item.level === 2 && item.parentItemCatalog && item.parentItemCatalog.id === parentItem.id" :value="item.id">{{ item.name }}</i-option>
+                  </template>
+                </option-group>
+              </template>
             </i-select>
             <span class="ml-20 main-color" v-if="taskRelease.itemType === 1003">旅行相关活动，仅支持飞猪的宝贝</span>
           </div>
-          <div class="baby-img ml-45 mt-20">
+          <div class="baby-img ml-20 mt-20">
             <div class="clear">
               <span class="required left mt-20 mr-5">宝贝主图：</span>
               <upload class="left ml-4"
@@ -221,7 +286,7 @@
                       :on-exceeded-size="handleMaxSize"
                       type="drag">
                 <div class="camera">
-                  <Icon type="camera" size="20"></Icon>
+                  <icon type="camera" size="20"></icon>
                 </div>
               </upload>
               <span class="blue left mt-20 ml-10 cursor-p" @click="changeExampleImageUrl('main')">【查看示例图】</span>
@@ -230,7 +295,7 @@
               bmp格式，最佳尺寸400*400（像素），不超过1M</p>
             <p class="ml-70 mt-5 sizeColor3">主图要求：白底背景，主图必须清晰，必须是所送的商品，且不能出现图片拼接、水印、logo及其它文字</p>
           </div>
-          <div class="baby-url ml-45 mt-20">
+          <div class="baby-url ml-20 mt-20">
             <span class="required">宝贝地址：</span>
             <i-input v-model="taskRelease.itemUrl" placeholder="请输入宝贝地址" style="width: 296px"></i-input>
             <span class="sizeColor2" v-if="getMemberVersionLevel === 200">（根据你的会员版本，每天同一宝贝可以发布5次）</span>
@@ -238,25 +303,24 @@
             <span class="sizeColor2" v-else>（根据你的会员版本，每天同一宝贝可以发布2次）</span>
             <span v-if="getMemberVersionLevel !==300" class="svip-upgrade ml-10 mr-5"
                   @click="upgradeSvip">不够用？+1次</span>
-            <Tooltip content="同一宝贝每日发布活动次数：免费商家2次，VIP商家5次，SVIP商家10次" placement="top">
-              <Icon class="cursor-p" size="16" type="help-circled"></Icon>
-            </Tooltip>
+            <tooltip content="同一宝贝每日发布活动次数：免费商家2次，VIP商家5次，SVIP商家10次" placement="top">
+              <icon class="cursor-p" size="16" type="help-circled"></icon>
+            </tooltip>
           </div>
-          <div class="baby-number ml-45 mt-20">
+          <div class="baby-number ml-20 mt-20">
             <p>
               <span class="required">宝贝数量：</span>
-              <i-input v-model.number="taskRelease.taskCount" placeholder="请输入宝贝数量" style="width: 120px"
-                      @on-blur="addItemReviewList"></i-input>
+              <i-input v-model.number="taskRelease.taskCount" placeholder="请输入宝贝数量" style="width: 120px" @on-blur="addItemReviewList"></i-input>
               <span>份</span>
-              <span class="sizeColor3 ml-5">（平台会按照1/5的比例进行计算，部分中奖名额将会由系统进行推荐）</span>
+              <span v-show="taskRelease.orderType === 'normal'" class="sizeColor3 ml-5">（平台会按照1/5的比例进行计算，部分中奖名额将会由系统进行推荐）</span>
             </p>
-            <p class="mt-10 ml-70" v-show="systemApprovalTaskNumber > 0">
-              <Icon color="#f9284f" type="information-circled"></Icon>
+            <p class="mt-10 ml-70" v-show="systemApprovalTaskNumber > 0 && taskRelease.orderType === 'normal'">
+              <icon color="#f9284f" type="information-circled"></icon>
               <span class="sizeColor3">商家审批份数：{{taskRelease.taskCount - systemApprovalTaskNumber || 0}} 份</span>
               <span class="sizeColor3 ml-10">平台审批份数：{{systemApprovalTaskNumber || 0}} 份</span>
             </p>
           </div>
-          <div class="baby-price ml-45 mt-20">
+          <div class="baby-price ml-20 mt-20">
             <span class="required">宝贝单价：</span>
             <!--<i-input v-model.number="taskRelease.itemPrice" @on-change="clearDiscount" placeholder="请输入宝贝单价" style="width: 120px"></i-input>-->
             <i-input v-model.number="taskRelease.itemPrice" placeholder="请输入宝贝单价" style="width: 120px"></i-input>
@@ -266,7 +330,7 @@
             <!--<span v-show="taskRelease.itemPrice && taskRelease.itemPrice < 10 && taskRelease.activityCategory === 'pinkage_for_10'" class="main-color ml-20"><Icon color="#f9284f" type="information-circled"></Icon>&nbsp;10元包邮活动，宝贝最低价格不能低于10元</span>-->
             <span class="sizeColor2 ml-5" v-show="!taskRelease.itemPrice || taskRelease.itemPrice > 1">（活动活动期间，商家不允许修改下单页商品信息，经核查属实，本平台有权将活动担保金返还已获得资格的拿手，商家账号按相应规则处罚）</span>
           </div>
-          <!--            <div class="discount ml-40 mt-20"
+          <!--            <div class="discount ml-20 mt-20"
                            v-show="taskRelease.activityCategory !== 'free_get' && taskRelease.activityCategory !== 'present_get'">
                         <div class="clear" v-show="taskRelease.activityCategory !== 'pinkage_for_10'">
                           <span class="required mt-8 left">折扣/活动：</span>
@@ -343,56 +407,54 @@
                           拿手以<span class="main-color">{{taskRelease.itemPrice}}</span>元价格在淘宝上购买，活动成功后返款<span
                           class="main-color">{{taskRelease.itemPrice > 10 ? taskRelease.itemPrice - 10 : 0}}</span>元给拿手！</p>
                       </div>-->
-          <div class="baby-pinkage ml-45 mt-20">
+          <div class="baby-pinkage ml-20 mt-20">
             <span class="required left">是否包邮：</span>
-            <Radio-group v-model="taskRelease.pinkage">
-              <Radio label="true">
+            <radio-group v-model="taskRelease.pinkage">
+              <radio label="true">
                 <span>宝贝包邮，无需修改运费</span>
-              </Radio>
+              </radio>
               <br>
-              <Radio class="mt-10" label="false">
+              <radio class="mt-10" label="false">
                 <span>宝贝不包邮，需要额外多垫付10元邮费，随货款一起对买手实行多退少补返还！</span>
-              </Radio>
-            </Radio-group>
+              </radio>
+            </radio-group>
           </div>
-          <div class="baby-payment ml-45 mt-20">
+          <div class="baby-payment ml-20 mt-20">
             <span class="required left">付款方式：</span>
-            <Radio-group v-model="taskRelease.paymentMethod">
-              <Radio label="all" class="mb-10"><span>无所谓（可以使用花呗、信用卡等付款，也可以不用）</span></Radio>
+            <radio-group v-model="taskRelease.paymentMethod">
+              <radio label="all" class="mb-10"><span>无所谓（可以使用花呗、信用卡等付款，也可以不用）</span></radio>
               <br/>
-              <Radio label="no_hua_and_credit_pay" class="mb-10"><span>禁止使用花呗和信用卡付款</span></Radio>
+              <radio label="no_hua_and_credit_pay" class="mb-10"><span>禁止使用花呗和信用卡付款</span></radio>
               <br/>
-              <Radio label="no_hua_pay" class="mb-10"><span>禁止使用花呗</span></Radio>
+              <radio label="no_hua_pay" class="mb-10"><span>禁止使用花呗</span></radio>
               <br/>
-              <Radio label="no_credit_pay"><span>禁止使信用卡付款</span></Radio>
-            </Radio-group>
+              <radio label="no_credit_pay"><span>禁止使信用卡付款</span></radio>
+            </radio-group>
           </div>
-          <div class="task-remark ml-45 mt-20 clear">
-            <span class="left ml-5">下单要求：</span>
+          <div class="task-remark ml-28 mt-20 clear">
+            <span class="left">下单要求：</span>
             <div class="left">
-              <i-input class="task-remark-input" type="textarea" :autosize="{minRows: 6,  maxRows: 12}"
-                      placeholder="请在这里输入需要拿手注意的事项，例如：SKU信息等，这里的信息会无条件展示出来。" v-model="taskRelease.remark"></i-input>
+              <i-input class="task-remark-input" type="textarea" :autosize="{minRows: 6,  maxRows: 12}" placeholder="请在这里输入需要拿手注意的事项，例如：SKU信息等，这里的信息会无条件展示出来。" v-model="taskRelease.remark"></i-input>
             </div>
           </div>
-          <div class="evaluation-requirements ml-15 mt-10 clear">
-            <span class="left mt-5 required">淘宝评价要求：</span>
+          <div class="evaluation-requirements mt-10 clear">
+            <span class="left mt-5 ml-20 required">评价要求：</span>
             <div class="left">
-              <RadioGroup v-model="taskRelease.itemReviewRequired" :vertical="true"
-                          @on-change="changeSelectEvaluation">
-                <Radio label="review_by_showker_self">
+              <radio-group v-model="taskRelease.itemReviewRequired" :vertical="true" @on-change="changeSelectEvaluation">
+                <radio label="review_by_showker_self">
                   <span>由拿手自主发挥（拿手自主发挥评价更客观更真实。<span class="main-color">选择此项不可因主观喜好对评价结果有异议。</span>）</span>
-                </Radio>
-                <Radio label="offer_review_summary">
+                </radio>
+                <radio label="offer_review_summary">
                     <span>有个大概要求（可以写下评价的大概要求，因每个人理解不一样，可能评价结果会与期望有偏差。<span
                       class="main-color">选择此项不可因主观喜好对评价结果有异议。</span>）</span>
-                </Radio>
+                </radio>
                 <i-input v-if="taskRelease.itemReviewRequired === 'offer_review_summary'"
                         v-model="taskRelease.itemReviewSummary" class="mb-10" type="textarea"
                         :autosize="{minRows: 1,maxRows: 3}" placeholder="请输入你的评价要求，如：需晒图/勿晒图、希望出现的关键词等~"></i-input>
                 <Radio label="assign_review_detail">
                   <span>我来提供评价内容（拿手将直接拷贝亲提供的评价内容在淘宝上进行评价，每个名额需要提供一份评价内容。）</span>
                 </Radio>
-              </RadioGroup>
+              </radio-group>
               <p v-show="taskRelease.itemReviewRequired === 'assign_review_detail'" class="main-color ml-20">
                 可自定义的评价数跟您发布宝贝数量相同，系统会随机分配给申请通过的拿手每人一条评论，以保证评价内容的唯一性。</p>
               <div class="afford-evaluation-list mt-10"
@@ -405,8 +467,8 @@
               </div>
             </div>
           </div>
-          <div class="product-introduction ml-28 mt-20">
-            <span class="left ml-5 required">商品简介：</span>
+          <div class="product-introduction ml-20 mt-20" v-if="taskRelease.activityCategory === 'free_get'">
+            <span class="left required">商品简介：</span>
             <quill-editor ref="myTextEditorFree"
                           v-model="taskRelease.itemDescription"
                           :options="editorOption"
@@ -414,8 +476,7 @@
                           @focus="onEditorFocus($event)"
                           @ready="onEditorReady($event)">
             </quill-editor>
-            <input v-show="false" id="freeGet" type="file" name="avator" multiple
-                   accept="image/jpg,image/jpeg,image/png,image/gif" @change="uploadImgFreeGet">
+            <input v-show="false" id="freeGet" type="file" name="avator" multiple accept="image/jpg,image/jpeg,image/png,image/gif" @change="uploadImgFreeGet">
           </div>
         </div>
         <div class="baby-info mt-22" v-show="taskRelease.activityCategory === 'present_get'">
@@ -437,9 +498,9 @@
                 <span class="sizeColor2" v-else>（根据你的会员版本，每天同一宝贝可以发布2次）</span>
                 <span v-if="getMemberVersionLevel !==300" class="svip-upgrade ml-10 mr-5"
                       @click="upgradeSvip">不够用？+1次</span>
-                <Tooltip content="同一宝贝每日发布活动次数：免费商家2次，VIP商家5次，SVIP商家10次" placement="top">
+                <tooltip content="同一宝贝每日发布活动次数：免费商家2次，VIP商家5次，SVIP商家10次" placement="top">
                   <Icon class="cursor-p" size="16" type="help-circled"></Icon>
-                </Tooltip>
+                </tooltip>
               </div>
               <div class="baby-price ml-10 mt-20">
                 <span class="required">宝贝单价：</span>
@@ -458,27 +519,27 @@
               </div>
               <div class="baby-pinkage ml-10 mt-20">
                 <span class="required left">是否包邮：</span>
-                <Radio-group v-model="taskRelease.pinkage">
-                  <Radio label="true">
+                <radio-group v-model="taskRelease.pinkage">
+                  <radio label="true">
                     <span>宝贝包邮，无需修改运费</span>
-                  </Radio>
+                  </radio>
                   <br>
-                  <Radio class="mt-10" label="false">
+                  <radio class="mt-10" label="false">
                     <span>宝贝不包邮，需要额外多垫付10元邮费，随货款一起对买手实行多退少补返还！</span>
-                  </Radio>
-                </Radio-group>
+                  </radio>
+                </radio-group>
               </div>
               <div class="baby-payment ml-10 mt-20">
                 <span class="required left">付款方式：</span>
-                <Radio-group v-model="taskRelease.paymentMethod">
-                  <Radio label="all" class="mb-10"><span>无所谓（可以使用花呗、信用卡等付款，也可以不用）</span></Radio>
+                <radio-group v-model="taskRelease.paymentMethod">
+                  <radio label="all" class="mb-10"><span>无所谓（可以使用花呗、信用卡等付款，也可以不用）</span></radio>
                   <br/>
-                  <Radio label="no_hua_and_credit_pay" class="mb-10"><span>禁止使用花呗和信用卡付款</span></Radio>
+                  <radio label="no_hua_and_credit_pay" class="mb-10"><span>禁止使用花呗和信用卡付款</span></radio>
                   <br/>
-                  <Radio label="no_hua_pay" class="mb-10"><span>禁止使用花呗</span></Radio>
+                  <radio label="no_hua_pay" class="mb-10"><span>禁止使用花呗</span></radio>
                   <br/>
-                  <Radio label="no_credit_pay"><span>禁止使信用卡付款</span></Radio>
-                </Radio-group>
+                  <radio label="no_credit_pay"><span>禁止使信用卡付款</span></radio>
+                </radio-group>
               </div>
               <div class="task-remark ml-10 mt-20 clear">
                 <span class="left ml-5">下单要求：</span>
@@ -491,34 +552,34 @@
               </div>
               <div class="donotPostPhoto ml-15 mt-20 clear">
                 <span class="left required">是否在淘宝评价中晒图：</span>
-                <Radio-group v-model="taskRelease.donotPostPhoto">
-                  <Radio label="true">
+                <radio-group v-model="taskRelease.donotPostPhoto">
+                  <radio label="true">
                     <span>请勿晒图</span>
-                  </Radio>
-                  <Radio label="false">
+                  </radio>
+                  <radio label="false">
                     <span>无所谓（拿手可能晒出B宝贝图片）</span>
-                  </Radio>
-                </Radio-group>
+                  </radio>
+                </radio-group>
               </div>
               <div class="evaluation-requirements ml-15 mt-10 clear">
                 <span class="left mt-5 required">淘宝评价要求：</span>
                 <div class="left">
-                  <RadioGroup v-model="taskRelease.itemReviewRequired" :vertical="true"
+                  <radio-group v-model="taskRelease.itemReviewRequired" :vertical="true"
                               @on-change="changeSelectEvaluation">
-                    <Radio label="review_by_showker_self">
+                    <radio label="review_by_showker_self">
                       <span>由拿手自主发挥（拿手自主发挥评价更客观更真实。<span class="main-color">选择此项不可因主观喜好对评价结果有异议。</span>）</span>
-                    </Radio>
-                    <Radio label="offer_review_summary">
+                    </radio>
+                    <radio label="offer_review_summary">
                         <span>有个大概要求（可以写下评价的大概要求，因每个人理解不一样，可能评价结果会与期望有偏差。<span
                           class="main-color">选择此项不可因主观喜好对评价结果有异议。</span>）</span>
-                    </Radio>
+                    </radio>
                     <i-input v-if="taskRelease.itemReviewRequired === 'offer_review_summary'"
                             v-model="taskRelease.itemReviewSummary" class="mb-10" type="textarea"
                             :autosize="{minRows: 1,maxRows: 3}" placeholder="请输入你的评价要求，如：需晒图/勿晒图、希望出现的关键词等~"></i-input>
-                    <Radio label="assign_review_detail">
+                    <radio label="assign_review_detail">
                       <span>我来提供评价内容（拿手将直接拷贝亲提供的评价内容在淘宝上进行评价，每个名额需要提供一份评价内容。）</span>
-                    </Radio>
-                  </RadioGroup>
+                    </radio>
+                  </radio-group>
                   <p v-show="taskRelease.itemReviewRequired === 'assign_review_detail'" class="main-color ml-20">
                     可自定义的评价数跟您发布宝贝数量相同，系统会随机分配给申请通过的拿手每人一条评论，以保证评价内容的唯一性。</p>
                   <div class="afford-evaluation-list mt-10"
@@ -589,15 +650,16 @@
                   <i-input v-model.number="taskRelease.taskCount" placeholder="请输入宝贝数量" style="width: 120px"
                           @on-blur="addItemReviewList"></i-input>
                   <span>份</span>
-                  <span class="sizeColor3 ml-5">（平台会按照1/5的比例进行计算，部分中奖名额将会由系统进行推荐）</span>
+                  <span v-show="taskRelease.orderType === 'normal'" class="sizeColor3 ml-5">（平台会按照1/5的比例进行计算，部分中奖名额将会由系统进行推荐）</span>
                 </p>
-                <p class="mt-10 ml-70" v-show="systemApprovalTaskNumber > 0">
-                  <Icon color="#f9284f" type="information-circled"></Icon>
+                <p class="mt-10 ml-70" v-show="systemApprovalTaskNumber > 0 && taskRelease.orderType === 'normal'">
+                  <icon color="#f9284f" type="information-circled"></icon>
                   <span class="sizeColor3">商家审批份数：{{taskRelease.taskCount - systemApprovalTaskNumber || 0}} 份</span>
                   <span class="sizeColor3 ml-10">平台审批份数：{{systemApprovalTaskNumber || 0}} 份</span>
                 </p>
               </div>
-              <div class="product-introduction ml-10 mt-20">
+
+              <div class="product-introduction ml-10 mt-20" v-if="taskRelease.activityCategory === 'present_get'">
                 <span class="left ml-5 required">商品简介：</span>
                 <quill-editor ref="myTextEditorPresent"
                               v-model="taskRelease.itemDescription"
@@ -606,8 +668,7 @@
                               @focus="onEditorFocus($event)"
                               @ready="onEditorReady($event)">
                 </quill-editor>
-                <input v-show="false" id="presentGet" type="file" name="avator" multiple
-                       accept="image/jpg,image/jpeg,image/png,image/gif" @change="uploadImgPresentGet">
+                <input v-show="false" id="presentGet" type="file" name="avator" multiple accept="image/jpg,image/jpeg,image/png,image/gif" @change="uploadImgPresentGet">
               </div>
             </div>
           </div>
@@ -619,7 +680,7 @@
           <template v-if="taskRelease.taskType === 'pc_search'">
             <div class="baby-main-img ml-40 mt-20 clear">
               <span class="required left mr-5 mt-20">宝贝主图：</span>
-              <Upload key="pcDefaultList" class="left ml-4"
+              <upload key="pcDefaultList" class="left ml-4"
                       name="task"
                       :default-file-list="pcDefaultList"
                       :on-remove="removePcImage"
@@ -632,7 +693,7 @@
                 <div class="camera">
                   <Icon type="camera" size="20"></Icon>
                 </div>
-              </Upload>
+              </upload>
               <p class="sizeColor2 left mt-20 ml-15">（点击或者拖拽自主上传图片，支持jpg \ jpeg \ png \ gif \
                 bmp格式，最佳尺寸400*400（像素），不超过1M，可与宝贝主图一致）</p>
             </div>
@@ -644,20 +705,20 @@
                   <!--<sup class="badge-count" v-show="item.countAssigned > 0">{{item.countAssigned}}</sup>-->
                   <span v-if="item.index === pcTaskDetail.length - 1 && item.index !== 0" class="close-tag"
                         @click="handleClose(item.index)">
-                      <Icon type="ios-close-empty"></Icon>
+                      <icon type="ios-close-empty"></icon>
                     </span>
                 </div>
-                <iButton class="ml-5" v-show="pcTaskDetail.length < 5" icon="ios-plus-empty" type="dashed"
+                <i-button class="ml-5" v-show="pcTaskDetail.length < 5" icon="ios-plus-empty" type="dashed"
                          size="small" @click="handleAdd">添加关键词方案
-                </iButton>
+                </i-button>
               </div>
               <div class="mt-10 sizeColor2">（请确保提供的关键词能够搜索到宝贝，同时为了避免拿手找不到对应的宝贝，您最多可以添加5组关键词方案）</div>
             </div>
             <template v-for="item in pcTaskDetail" v-if="item.index === selectKeywordScheme">
-              <Alert show-icon class="tag-alert">
+              <alert show-icon class="tag-alert">
                 您当前选择的是关键词方案 {{item.index + 1}}
-                <Icon type="ios-lightbulb-outline" slot="icon" size="18"></Icon>
-              </Alert>
+                <icon type="ios-lightbulb-outline" slot="icon" size="18"></icon>
+              </alert>
               <!--  <div class="matching-num ml-40 mt-20">
                   <span>匹配人数：</span>
                   <i-input v-model.number="item.countAssigned" placeholder="请输入匹配人数" style="width: 160px"></i-input>
@@ -670,22 +731,21 @@
               </div>
               <div class="sort-by ml-40 mt-20">
                 <span class="required">排序方式：</span>
-                <Radio-group v-model="item.searchSort">
-                  <Radio label="zong_he">
+                <radio-group v-model="item.searchSort">
+                  <radio label="zong_he">
                     <span>综合排序</span>
-                  </Radio>
-                  <Radio label="xiao_liang">
+                  </radio>
+                  <radio label="xiao_liang">
                     <span>销量排序</span>
-                  </Radio>
-                  <Radio label="ren_qi">
+                  </radio>
+                  <radio label="ren_qi">
                     <span>人气排序</span>
-                  </Radio>
-                </Radio-group>
+                  </radio>
+                </radio-group>
               </div>
               <div class="search-price ml-40 mt-20">
                 <span class="required">展示价格：</span>
-                <i-input v-model.number="item.searchPagePrice" placeholder="请输入搜索列表页展示价格"
-                        style="width: 160px"></i-input>
+                <i-input v-model.number="item.searchPagePrice" placeholder="请输入搜索列表页展示价格" style="width: 160px"></i-input>
                 <span class="sizeColor2">（务必亲自搜索，确认价格准确）</span>
               </div>
               <div class="baby-location ml-15 mt-20">
@@ -756,7 +816,7 @@
           <template v-else-if="taskRelease.taskType === 'app_search'">
             <div class="baby-main-img ml-40 mt-20 clear">
               <span class="required left mr-5 mt-20">宝贝主图：</span>
-              <Upload key="appDefaultList" class="left ml-4"
+              <upload key="appDefaultList" class="left ml-4"
                       :on-success="appBabyImgSuccess"
                       :default-file-list="appDefaultList"
                       :on-remove="removeAppImage"
@@ -767,9 +827,9 @@
                       :on-exceeded-size="handleMaxSize"
                       type="drag">
                 <div class="camera">
-                  <Icon type="camera" size="20"></Icon>
+                  <icon type="camera" size="20"></icon>
                 </div>
-              </Upload>
+              </upload>
               <p class="sizeColor2 left ml-15 mt-20">（点击或者拖拽自主上传图片，支持jpg \ jpeg \ png \ gif \
                 bmp格式，最佳尺寸400*400（像素），不超过1M，可与宝贝主图一致）</p>
             </div>
@@ -781,20 +841,19 @@
                   <!--<sup class="badge-count" v-show="item.countAssigned > 0">{{item.countAssigned}}</sup>-->
                   <span v-if="item.index === appTaskDetail.length - 1 && item.index !== 0" class="close-tag"
                         @click="handleClose(item.index)">
-                      <Icon type="ios-close-empty"></Icon>
+                      <icon type="ios-close-empty"></icon>
                     </span>
                 </div>
-                <iButton v-show="appTaskDetail.length < 5" icon="ios-plus-empty" type="dashed" size="small"
-                         @click="handleAdd">添加关键词方案
-                </iButton>
+                <i-button v-show="appTaskDetail.length < 5" icon="ios-plus-empty" type="dashed" size="small" @click="handleAdd">添加关键词方案
+                </i-button>
               </div>
               <div class="mt-10 sizeColor2">（请确保提供的关键词能够搜索到宝贝，同时为了避免拿手找不到对应的宝贝，您最多可以添加5组关键词方案）</div>
             </div>
             <template v-for="item in appTaskDetail" v-if="item.index === selectKeywordScheme">
-              <Alert show-icon class="tag-alert">
+              <alert show-icon class="tag-alert">
                 您当前选择的是关键词方案 {{item.index + 1}}
-                <Icon type="ios-lightbulb-outline" slot="icon" size="18"></Icon>
-              </Alert>
+                <icon type="ios-lightbulb-outline" slot="icon" size="18"></icon>
+              </alert>
               <!-- <div class="matching-num ml-40 mt-20">
                  <span>匹配人数：</span>
                  <i-input v-model.number="item.countAssigned" placeholder="请输入匹配人数" style="width: 160px"></i-input>
@@ -807,19 +866,18 @@
               </div>
               <div class="sort-by ml-40 mt-20">
                 <span class="required">排序方式：</span>
-                <Radio-group v-model="item.searchSort">
-                  <Radio label="zong_he">
+                <radio-group v-model="item.searchSort">
+                  <radio label="zong_he">
                     <span>综合排序</span>
-                  </Radio>
-                  <Radio label="xiao_liang">
+                  </radio>
+                  <radio label="xiao_liang">
                     <span>销量排序</span>
-                  </Radio>
-                </Radio-group>
+                  </radio>
+                </radio-group>
               </div>
               <div class="search-price ml-40 mt-20">
                 <span class="required">展示价格：</span>
-                <i-input v-model="item.searchPagePrice" placeholder="请输入搜索列表页展示价格"
-                        style="width: 160px"></i-input>
+                <i-input v-model="item.searchPagePrice" placeholder="请输入搜索列表页展示价格" style="width: 160px"></i-input>
                 <span class="sizeColor2">（务必亲自搜索，确认价格准确）</span>
               </div>
               <div class="baby-location ml-15 mt-20">
@@ -900,7 +958,7 @@
                       :on-exceeded-size="handleMaxSize"
                       type="drag">
                 <div class="camera">
-                  <Icon type="camera" size="20"></Icon>
+                  <icon type="camera" size="20"></icon>
                 </div>
               </upload>
               <span class="sizeColor2 left ml-15 mt-20">（点击或者拖拽自主上传图片，支持jpg \ jpeg \ png \ gif \ bmp格式，最佳尺寸400*400（像素），不超过1M，可与宝贝主图一致）</span>
@@ -934,23 +992,20 @@
               <!--<tooltip placement="top" content="为提高平台拿手活跃度，鼓励拿手创作更优质的买家秀内容，原平台推广费将改为打赏费，用于拿手打赏！">-->
               <!--<a>什么是打赏费？</a>-->
               <!--</tooltip>-->
-              <span v-if="getMemberVersionLevel !== 300" class="ml-10 svip-upgrade"
-                    @click="upgradeSvip">升级SVIP免除推广费</span>
+              <span v-if="getMemberVersionLevel !== 300" class="ml-10 svip-upgrade" @click="upgradeSvip">升级SVIP免除推广费</span>
             </p>
-            <p class="mt-6">总费用 = 活动担保金 + 总推广费 = <span>{{(orderMoney / 100).toFixed(2)}}</span> 元</p>
-            <p class="mt-6" v-if="!isBalance">手续费说明： 使用支付宝充值支付，支付宝会收取0.6%的手续费，该笔费用需要商家承担，手续费不予退还，敬请谅解！<a
-              @click="isShowAliPayTip = true">查看支付宝官方说明</a></p>
+            <p>总增值费 = 单品增值费 × 份数 =  <span>{{(oneValueAddedCost / 100).toFixed(2)}}</span> × <span>{{taskRelease.taskCount}}</span> = {{(allValueAddedCost / 100).toFixed(2)}} 元</p>
+            <p class="mt-6">总费用 = 活动担保金 + 总推广费 + 总增值费用 = <span>{{(orderMoney / 100).toFixed(2)}}</span> 元</p>
+            <p class="mt-6" v-if="!isBalance">手续费说明： 使用支付宝充值支付，支付宝会收取0.6%的手续费，该笔费用需要商家承担，手续费不予退还，敬请谅解！<a @click="isShowAliPayTip = true">查看支付宝官方说明</a></p>
           </div>
         </div>
-        <div class="pay-info mt-40" v-if="isBalance && !priceHasChange">本次总共要支付的金额为：<span class="second-color">{{(orderMoney / 100).toFixed(2)}}</span>&nbsp;元。您的账户的当前余额为：<strong>{{getUserBalance
-          || 0}}</strong>&nbsp;元
-        </div>
+        <div class="pay-info mt-40" v-if="isBalance && !priceHasChange">本次总共要支付的金额为：<span class="second-color">{{(orderMoney / 100).toFixed(2)}}</span>&nbsp;元。您的账户的当前余额为：<strong>{{getUserBalance || 0}}</strong>&nbsp;元</div>
         <div class="pay-info mt-40" v-if="!isBalance && !priceHasChange">本次总共要支付的金额为：<strong>{{(orderMoney /
           100).toFixed(2)}}</strong>&nbsp;元。您账户余额为：<strong>{{getUserBalance || 0}}</strong>&nbsp;元，还需充值：<span
           class="second-color">{{(needPayMoneyBefore / 100).toFixed(2)}}</span>&nbsp;元。
         </div>
         <div class="pay-info mt-40" v-if="isBalanceReplenish && priceHasChange">
-          该任务已付担保金 <strong>{{paidDeposit.toFixed(2)}}</strong>元，本次修改需要支付超出部分的金额为：<strong class="main-color">{{(replenishMoney
+          该任务已付总费用 <strong>{{paidDeposit.toFixed(2)}}</strong>元，本次修改需要支付超出部分的金额为：<strong class="main-color">{{(replenishMoney
           / 100).toFixed(2)}}</strong>元。您账号的当前余额为：<strong>{{(getUserBalance).toFixed(2) || 0}}</strong>&nbsp;元
         </div>
         <div class="pay-info mt-40" v-if="!isBalanceReplenish && priceHasChange">该任务已付担保金 <strong>{{(paidDeposit).toFixed(2)}}</strong>元，本次修改需要支付超出部分的金额为：<strong
@@ -991,7 +1046,7 @@
           <span @click="isShowAliPayTip = true">【<span class="blue cursor-p">支付宝手续费</span>】</span>
         </div>
         <div slot="isBalance" class="title-tip">
-          <Icon color="#FF2424" size="18px" type="ios-information"></Icon>
+          <icon color="#FF2424" size="18px" type="ios-information"></icon>
           <span class="ml-10">您本次需要支付金额为 <span class="sizeColor3">{{!priceHasChange ? (orderMoney / 100).toFixed(2) : (replenishMoney / 100).toFixed(2)}}</span> 元。</span>
         </div>
       </PayModel>
@@ -1000,32 +1055,32 @@
     <modal v-model="editPriceAfterModel">.
       <div class="clear mt-10">
         <div class="left mt-5">
-          <Icon color="#f9284f" size="32" type="information-circled"></Icon>
+          <icon color="#f9284f" size="32" type="information-circled"></icon>
         </div>
         <div class="left ml-10">
-          <p class="fs-14">由于您修改了当前宝贝价格/包邮条件/发放数量等，且修改后的</p>
-          <p class="fs-14">价格高于原活动担保金，因此需要对超出部分进行支付。</p>
+          <p class="fs-14">由于您修改了当前活动信息，且修改后的</p>
+          <p class="fs-14">费用高于原费用，因此需要对超出部分进行支付。</p>
         </div>
       </div>
       <div slot="footer">
-        <iButton type="error" size="large" @click="continueNextStep">我已了解，继续下一步</iButton>
-        <iButton style="margin-left: 35px;" type="error" size="large" @click="IThink">我再想想</iButton>
+        <i-button type="error" size="large" @click="continueNextStep">我已了解，继续下一步</i-button>
+        <i-button style="margin-left: 35px;" type="error" size="large" @click="IThink">我再想想</i-button>
       </div>
     </modal>
     <!--用户修改价格比原始价格低提示弹框-->
     <modal v-model="editPriceToLowAfterModel">
       <div class="clear mt-40">
         <div class="left mt-5">
-          <Icon color="#f9284f" size="32" type="information-circled"></Icon>
+          <icon color="#f9284f" size="32" type="information-circled"></icon>
         </div>
         <div class="left ml-10">
-          <p style="font-size: 14px;">由于您修改了当前宝贝价格/包邮条件/发放数量等，且修改后的</p>
-          <p style="font-size: 14px;">价格低于原价格，对于超出部分的费用将在活动结算时返还给您。</p>
+          <p style="font-size: 14px;">由于您修改了当前活动信息，且修改后的</p>
+          <p style="font-size: 14px;">费用低于原费用，对于超出部分的费用将在活动结算时返还给您。</p>
         </div>
       </div>
       <div slot="footer">
-        <iButton type="error" size="large" @click="toLowContinueNextStep">我已了解，继续下一步</iButton>
-        <iButton class="ml-35" type="error" size="large" @click="IThink">我再想想</iButton>
+        <i-button type="error" size="large" @click="toLowContinueNextStep">我已了解，继续下一步</i-button>
+        <i-button class="ml-35" type="error" size="large" @click="IThink">我再想想</i-button>
       </div>
     </modal>
     <!--商家改低宝贝数量并且关键词方案大于当前宝贝数量弹框-->
@@ -1047,8 +1102,8 @@
     <div v-if="isShowUserClause" class="user-clause-model">
       <user-clause @closeClauseModel="closeClauseModel"></user-clause>
     </div>
-    <!--收藏加购物和浏览答题截图查看-->
-    <modal title="浏览答题示例图片查看" v-model="isShowExampleImageModel">
+    <!--收藏加购物、浏览答题、增值服务示例图查看-->
+    <modal title="示例图片查看" v-model="isShowExampleImageModel">
       <img :src="exampleImageUrl" style="width: 100%">
     </modal>
     <!--支付宝手续费说明弹框-->
@@ -1096,16 +1151,6 @@
         <iButton type="error" size="large" long @click="isGetStoreInfoError = false">我知道了</iButton>
       </div>
     </modal>
-    <!--商家进入发布活动页面后对商家说明的弹框-->
-    <!--<modal v-model="isShowBusinessTip" width="700" :closable="false">-->
-      <!--<p class="mt-20">亲，即日起，平台将上线 “分享必中” 活动，鼓励拿手们积极分享您的宝贝给朋友，分享最多的拿手，将获得宝贝必中资格！</p>-->
-      <!--<p class="mt-20">您的宝贝将在白拿拿平台上获得更多的曝光，点击和申请，也将获得更多的访客和收藏加购！</p>-->
-      <!--<p class="mt-20 mb-20">该活动，最多涉及您单次发布任务中，宝贝份数的{{taskSystemHoldPercent.configValue+'%'}}，请知晓！</p>-->
-      <!--<p slot="footer">-->
-        <!--<checkbox v-model="noMoreTip" class="mr-20">不再提示</checkbox>-->
-        <!--<iButton type="error" size="large" @click="noMoreTipFunc">我知道了</iButton>-->
-      <!--</p>-->
-    <!--</modal>-->
     <!--用户没有绑定任何店铺弹框提示-->
     <modal v-model="isBindStore" :closable="false" :mask-closable="false" width="360">
       <p slot="header" class="text-ct">
@@ -1120,6 +1165,21 @@
         <iButton type="error" size="large" long @click="goStoreBind">前去绑定店铺</iButton>
       </div>
     </modal>
+    <!--普通会员用户使用当日单或预约单提示升级会员版本弹框-->
+    <modal v-model="upgradeMembershipModal" :closable="false" :mask-closable="false" width="360">
+      <p slot="header" class="text-ct">
+        <icon color="#f9284f" type="information-circled"></icon>
+        <span class="main-color">温馨提示</span>
+      </p>
+      <div class="text-ct">
+        <p class="fs-16">该功能仅限VIP / SVIP 使用 : (</p>
+        <p class="mt-5">是否现在升级您的会员版本？</p>
+      </div>
+      <div slot="footer" class="text-ct">
+        <i-button class="mr-60" type="error" size="large" @click="upgradeSvip">升级会员版本</i-button>
+        <i-button size="large" @click="closeUpgradeMembershipModal">我知道了</i-button>
+      </div>
+    </modal>
   </div>
 </template>
 
@@ -1131,10 +1191,10 @@
   import UserClause from '@/components/UserClause'
   import api from '@/config/apiConfig'
   import {aliCallbackImgUrl} from '@/config/env'
-  import {aliUploadImg, isPositiveInteger, isNumber, isInteger, isAliUrl, randomString, extendDeep, decode, setStorage, getStorage, getUrlParams} from '@/config/utils'
+  import {aliUploadImg, isPositiveInteger, isNumber, isInteger, isAliUrl, randomString, extendDeep, decode, setStorage, getStorage, getUrlParams, scrollToTop} from '@/config/utils'
 
   export default {
-    name: 'TaskReleaseProcess',
+    name: 'task-release-process',
     components: {
       quillEditor: quillEditor,
       iInput: Input,
@@ -1232,9 +1292,11 @@
         ],
         taskRelease: {
           taskType: 'pc_search',
+          orderType: 'normal',
           taskDaysDuration: null,
           onlyShowForQualification: false,
           showkerOrderTimeLimit: 24,
+          dayReserveToNow: false,
           refuseOldShowker: false,
           needBrowseCollectAddCart: false,
           speedUp: false,
@@ -1261,7 +1323,11 @@
           itemReviewRequired: 'review_by_showker_self',
           itemReviewSummary: null,
           itemReviewAssignString: [],
+          mainTaskVasConfigIds: [],
+          similarTaskVasConfigIds: [],
         },
+        taskCountInputPlaceholder: '请输入活动时长',
+        taskCountInputDisabled: false,
         discountDisabled: {
           discount_0: {
             isDiscount: false,
@@ -1341,34 +1407,42 @@
         isSelectStoreUrl: false,
         isGetStoreInfoError: false,
         isBindStore: false,
-        // isShowBusinessTip: true,
         noMoreTip: false,
+        vasMainItem: [],
+        vasSimilarItem: [],
+        shopAroundStatus: false,
+        originalVasMainItem: [],
+        upgradeMembershipModal: false,
       }
     },
-    mounted() {
+    updated() {
       const _this = this;
-      const imgHandlerFreeGet = async function (image) {
-        _this.addImgRangeFreeGet = _this.$refs.myTextEditorFree.quill.getSelection();
-        if (image) {
-          let fileInput = document.getElementById('freeGet');
-          fileInput.click()
-        }
-      };
-      _this.$refs.myTextEditorFree.quill.getModule("toolbar").addHandler("image", imgHandlerFreeGet);
-      const imgHandlerPresentGet = async function (image) {
-        _this.addImgRangePresentGet = _this.$refs.myTextEditorPresent.quill.getSelection();
-        if (image) {
-          let fileInput = document.getElementById('presentGet');
-          fileInput.click()
-        }
-      };
-      _this.$refs.myTextEditorPresent.quill.getModule("toolbar").addHandler("image", imgHandlerPresentGet);
+      if (_this.$refs.myTextEditorFree) {
+        const imgHandlerFreeGet = async function (image) {
+          _this.addImgRangeFreeGet = _this.$refs.myTextEditorFree.quill.getSelection();
+          if (image) {
+            let fileInput = document.getElementById('freeGet');
+            fileInput.click()
+          }
+        };
+        _this.$refs.myTextEditorFree.quill.getModule("toolbar").addHandler("image", imgHandlerFreeGet);
+      }
+      if (_this.$refs.myTextEditorPresent) {
+        const imgHandlerPresentGet = async function (image) {
+          _this.addImgRangePresentGet = _this.$refs.myTextEditorPresent.quill.getSelection();
+          if (image) {
+           let fileInput = document.getElementById('presentGet');
+           fileInput.click()
+          }
+        };
+        _this.$refs.myTextEditorPresent.quill.getModule("toolbar").addHandler("image", imgHandlerPresentGet);
+      }
     },
+    mounted() {},
     created() {
       this.getItemCatalog();
-      // this.getDetectionUserClauseTip();
       this.getStoreBindInfoList();
-      // this.isShowBusinessTip = !getStorage('noMorePopup');
+      this.getMemberVersionLevel !== 100 && this.getTaskVasList();
     },
     computed: {
       /**
@@ -1399,7 +1473,7 @@
        * @return {Number}
        */
       getMemberVersionLevel() {
-        return this.$store.state.userInfo.memberLevel
+        return this.$store.getters.getMemberLevel
       },
 
       /**
@@ -1530,10 +1604,10 @@
        */
       orderMoney() {
         if (this.taskRelease.activityCategory === 'free_get') {
-          return (this.taskRelease.taskCount * this.oneBond) + this.allPromotionExpenses * 100
+          return (this.taskRelease.taskCount * this.oneBond) + this.allPromotionExpenses * 100 + this.allValueAddedCost
         }
         if (this.taskRelease.activityCategory === 'present_get') {
-          return (this.taskRelease.taskCount * this.oneBondAToB) + this.allPromotionExpenses * 100
+          return (this.taskRelease.taskCount * this.oneBondAToB) + this.allPromotionExpenses * 100 + this.allValueAddedCost
         }
       },
 
@@ -1634,6 +1708,54 @@
        */
       taskSystemHoldPercent() {
         return this.$store.getters.getTaskSystemHoldPercent;
+      },
+
+      /**
+       * 计算用户选择的增值服务费用（不包含‘货比三家’服务）
+       * @return {number}
+       */
+      vasMainItemCost() {
+        let cost = 0;
+        this.vasMainItem.map(item => {
+          if(item.isSelect) {
+            cost += item.price
+          }
+        });
+        return cost
+      },
+
+      /**
+       * 计算用户选择的‘货比三家’增值服务费用
+       * @return {number}
+       */
+      vasSimilarItemCost() {
+        let cost = 0;
+        if (this.shopAroundStatus) {
+          this.vasSimilarItem.map(keys => {
+            keys.map(key => {
+              if(key.isSelect) {
+                cost += key.price
+              }
+            })
+          })
+        }
+        return cost
+      },
+
+      /**
+       * 计算用户选择的增值服务费用（单品：vasMainItemCost + vasSimilarItemCost）
+       * @return {number}
+       */
+      oneValueAddedCost() {
+        return this.vasMainItemCost + this.vasSimilarItemCost
+      },
+
+      /**
+       * 计算用户总增值服务费用（单品费用 * 宝贝数量）
+       * @return {number}
+       */
+      allValueAddedCost() {
+        return this.oneValueAddedCost * this.taskRelease.taskCount
       }
     },
     methods: {
@@ -1648,9 +1770,69 @@
           }
         }
       },
+      getTaskVasSelectInfo(id) {
+        const _this = this;
+        api.taskVasSelectInfo({
+          taskId: id
+        }).then(res => {
+          if (res.status) {
+            res.data.mainVasSettings.map(keys => {
+              _this.vasMainItem.map(key => {
+                if (keys.id === key.id) {
+                  key.isSelect = true;
+                  return key;
+                }
+              })
+            });
+            const similarVasSettings = res.data.similarVasSettings;
+            const len = similarVasSettings.length;
+            if (len > 0) {
+              _this.shopAroundStatus = true;
+              if (len > 1) {
+                if (_this.vasSimilarItem.length > 1) {
+                  _this.vasSimilarItem.splice(1, _this.vasSimilarItem.length - 1);
+                }
+                for (let i = 0; i < len - 1; i++) {
+                  _this.addShopAroundList()
+                }
+              }
+              _this.vasSimilarItem.map((keys, i) => {
+                let tempArr = similarVasSettings[i];
+                if (tempArr.length > 0) {
+                  tempArr.map(items => {
+                    keys.map(item => {
+                      if (items.id === item.id) {
+                        item.isSelect = true;
+                        return item
+                      }
+                    })
+                  })
+                }
+              })
+            }
+          } else {
+            _this.$Message.error(res.msg)
+          }
+        })
+      },
+      getTaskVasList() {
+        const _this = this;
+        api.taskVasList().then(res => {
+          if (res.status) {
+            _this.vasSimilarItem.push(res.data.vasSimilarItem);
+            _this.originalVasMainItem = extendDeep(res.data.vasSimilarItem, []);
+            _this.vasMainItem = res.data.vasMainItem;
+          } else {
+            _this.$Message.error(res.msg)
+          }
+        })
+      },
       goStoreBind() {
-        // this.$router.push({path: '/user/bind-store/store-bind-rules?from=taskRelease'})
         this.$router.push({name:'StoreBindRules',query:{from:'taskRelease'}});
+      },
+      openSampleImageModal(src) {
+        this.isShowExampleImageModel  = true;
+        this.exampleImageUrl = src;
       },
       upgradeSvip() {
         this.$router.push({path: '/user/vip-member/order'})
@@ -1677,7 +1859,6 @@
       },
       getStoreInfo() {
         const _this = this;
-        _this.isShowStoreInfoLoading = true;
         return new Promise((resolve, reject) => {
           api.getStoreInfoByLink({
             link: _this.taskRelease.itemUrl
@@ -1723,12 +1904,11 @@
           }
         },*/
       changeExampleImageUrl(type) {
-        let _this = this;
-        _this.isShowExampleImageModel = true;
+        this.isShowExampleImageModel = true;
         if (type === 'main') {
-          _this.exampleImageUrl = '/static/img/demo/taskRelease/task-main-image.jpg'
+          this.exampleImageUrl = '/static/img/demo/taskRelease/task-main-image.jpg'
         } else {
-          _this.exampleImageUrl = '/static/img/demo/taskRelease/browse-answer-image.png'
+          this.exampleImageUrl = '/static/img/demo/taskRelease/browse-answer-image.png'
         }
       },
       taskTypeChange(type) {
@@ -1747,6 +1927,69 @@
         if (this.appTaskDetail[0].itemMainImage) {
           this.appDefaultList = [];
           this.appDefaultList.push({src: this.appTaskDetail[0].itemMainImage})
+        }
+        if (type === 'pc_search' || type === 'direct_access') {
+          this.vasMainItem.map(key => {
+            if (key.id === 6 && key.isSelect) {
+              key.isSelect = false;
+              return key;
+            }
+          });
+          if (this.shopAroundStatus) {
+            this.vasSimilarItem.map(keys => {
+              keys.map(key => {
+                if (key.id === 12 && key.isSelect) {
+                  key.isSelect = false;
+                  return key;
+                }
+              })
+            })
+          }
+        }
+      },
+      closeUpgradeMembershipModal() {
+        this.upgradeMembershipModal = false;
+        this.taskRelease.orderType = 'normal';
+        this.taskCountInputPlaceholder = '请输入活动时长';
+        this.taskCountInputDisabled = false;
+        this.taskRelease.speedUp = false;
+        this.taskRelease.showkerOrderTimeLimit = 24;
+      },
+      taskSalesChange(type) {
+        if ((type === 'day_now' || type === 'day_reserve') && this.getMemberVersionLevel === 100) {
+          this.upgradeMembershipModal = true;
+          return;
+        }
+        if (type === 'day_now' || type === 'day_reserve') {
+          this.taskRelease.speedUp = true;
+          this.taskRelease.taskCount = null;
+          this.taskRelease.taskDaysDuration = null;
+          this.taskCountInputPlaceholder = '当日22点前有效';
+          this.taskRelease.showkerOrderTimeLimit = '';
+          this.taskCountInputDisabled = true;
+        }
+        if (type === 'day_reserve') {
+          this.vasMainItem.map(item => {
+            if (item.id === 3) {
+              item.isSelect = true;
+              item.isDisabled = true;
+              return item;
+            }
+          })
+        } else {
+          this.vasMainItem.map(item => {
+            if (item.id === 3 && item.isSelect) {
+              item.isSelect = false;
+              item.isDisabled = false;
+              return item;
+            }
+          })
+        }
+        if (type === 'normal') {
+          this.taskCountInputPlaceholder = '请输入活动时长';
+          this.taskCountInputDisabled = false;
+          this.taskRelease.speedUp = false;
+          this.taskRelease.showkerOrderTimeLimit = 24;
         }
       },
       onEditorBlur(editor) {
@@ -1788,19 +2031,19 @@
       },
       stepNext() {
         let _this = this;
-        if (!_this.taskRelease.taskDaysDuration) {
+        if (_this.taskRelease.orderType === 'normal' && !_this.taskRelease.taskDaysDuration) {
           _this.$Message.warning('亲，活动时长不能为空！');
           return;
         }
-        if (!isInteger(_this.taskRelease.taskDaysDuration)) {
+        if (_this.taskRelease.orderType === 'normal' && !isInteger(_this.taskRelease.taskDaysDuration)) {
           _this.$Message.warning('亲，活动时长必须为数字！');
           return;
         }
-        if (_this.taskRelease.taskDaysDuration < 3) {
+        if (_this.taskRelease.orderType === 'normal' && _this.taskRelease.taskDaysDuration < 3) {
           _this.$Message.warning('亲，活动时长最短为3天起！');
           return;
         }
-        if (_this.taskRelease.taskDaysDuration > 30) {
+        if (_this.taskRelease.orderType === 'normal' && _this.taskRelease.taskDaysDuration > 30) {
           _this.$Message.warning('亲，活动时长最长为30天！');
           return;
         }
@@ -1836,14 +2079,6 @@
           _this.$Message.warning('亲，仅支持淘宝、天猫、飞猪链接！');
           return;
         }
-        /*  if (!_this.taskRelease.storeName) {
-            _this.$Message.warning('亲，掌柜旺旺不能为空！');
-            return;
-          }
-          if (!_this.taskRelease.realStoreName) {
-            _this.$Message.warning('亲，店铺名称不能为空！');
-            return;
-          }*/
         if (!_this.taskRelease.taskCount) {
           _this.$Message.warning('亲，宝贝数量不能为空或者0！');
           return;
@@ -2081,11 +2316,11 @@
         }
         let status = _this.taskStatus;
         let type = _this.$route.query.type;
-        if ((status === 'waiting_modify' || status === 'waiting_pay') && _this.paidDeposit * 100 >= _this.orderMoney && !type) {
+        if ((status === 'waiting_modify' || status === 'waiting_pay') && _this.paidDeposit * 100 === _this.orderMoney && !type) {
           _this.taskCreate(true);
-        } else if ((status === 'waiting_modify' || status === 'waiting_pay') && _this.paidDeposit > _this.orderMoney && !type) {
+        } else if ((status === 'waiting_modify' || status === 'waiting_pay') && _this.paidDeposit * 100 > _this.orderMoney && !type) {
           this.editPriceToLowAfterModel = true;
-        } else if ((status === 'waiting_modify' || status === 'waiting_pay') && _this.paidDeposit > 0 && _this.paidDeposit < _this.orderMoney && !type) {
+        } else if ((status === 'waiting_modify' || status === 'waiting_pay') && _this.paidDeposit > 0 && _this.paidDeposit * 100 < _this.orderMoney && !type) {
           _this.editPriceAfterModel = true;
           _this.priceHasChange = true;
         } else if (type && type === 'copy') {
@@ -2097,37 +2332,60 @@
       taskCreate: async function (type) {
         const _this = this;
         _this.taskLoading = true;
+        let detectionStoreInfo = null;
         try {
-          const detectionStoreInfo = await _this.getStoreInfo().catch(err => {
-            _this.taskLoading = false;
-            console.error(err);
-          });
-          _this.isShowStoreInfoLoading = false;
-          if (detectionStoreInfo.status) {
-            if (detectionStoreInfo.data) {
-              if (detectionStoreInfo.data.sellerId.toString() !== _this.selectStoreInfo.sellerId && detectionStoreInfo.data.shopId.toString() !== _this.selectStoreInfo.shopId) {
-                _this.isSelectStoreUrl = true;
-                _this.taskLoading = false;
-                return;
-              } else {
-                _this.isSelectStoreUrl = false;
-              }
-            } else {
-              _this.isGetStoreInfoError = true;
+          _this.isShowStoreInfoLoading = true;
+          await _this.$store.dispatch('getUserInformation');
+          detectionStoreInfo = await _this.getStoreInfo();
+        } catch (err) {
+          _this.taskLoading = false;
+          console.error(err);
+          return;
+        }
+        _this.isShowStoreInfoLoading = false;
+        if (detectionStoreInfo.status) {
+          if (detectionStoreInfo.data) {
+            if (detectionStoreInfo.data.sellerId.toString() !== _this.selectStoreInfo.sellerId && detectionStoreInfo.data.shopId.toString() !== _this.selectStoreInfo.shopId) {
+              _this.isSelectStoreUrl = true;
               _this.taskLoading = false;
               return;
+            } else {
+              _this.isSelectStoreUrl = false;
             }
           } else {
-            _this.$Message.error(detectionStoreInfo.msg);
+            _this.isGetStoreInfoError = true;
+            _this.taskLoading = false;
             return;
           }
-        } catch (err) {
-          console.error(err);
+        } else {
+          _this.$Message.error(detectionStoreInfo.msg);
           return;
         }
         _this.taskRelease.storeName = _this.selectStoreInfo.storeAlitm;
         _this.taskRelease.realStoreName = _this.selectStoreInfo.storeName;
         _this.taskRelease.itemReviewAssignString = JSON.stringify(_this.itemReviewPushList);
+        const mainTaskVasId = [];
+        const similarTaskVasId = [];
+        _this.vasMainItem.map(item => {
+          if (item.isSelect) {
+            mainTaskVasId.push(item.id)
+          }
+        });
+        if (_this.shopAroundStatus) {
+          _this.vasSimilarItem.map(keys => {
+            let i = [];
+            keys.map(item => {
+              if (item.isSelect) {
+                i.push(item.id)
+              }
+            });
+            if (i.length > 0) {
+              similarTaskVasId.push(i)
+            }
+          });
+        }
+        _this.taskRelease.mainTaskVasConfigIds = JSON.stringify(mainTaskVasId);
+        _this.taskRelease.similarTaskVasConfigIds = JSON.stringify(similarTaskVasId);
         let pcTaskDetailClone = extendDeep(_this.pcTaskDetail, []);
         let appTaskDetailClone = extendDeep(_this.appTaskDetail, []);
         let taoCodeTaskDetailClone = extendDeep(_this.taoCodeTaskDetail, []);
@@ -2137,23 +2395,23 @@
         switch (_this.taskRelease.taskType) {
           case 'pc_search' :
             pcTaskDetailClone.forEach(item => {
-              item.searchPagePrice = (item.searchPagePrice * 100).toFixed(0) * 1;
-              item.priceRangeMax = item.priceRangeMax > 0 ? (item.priceRangeMax * 100).toFixed(0) * 1 : null;
-              item.priceRangeMin = item.priceRangeMin > 0 ? (item.priceRangeMin * 100).toFixed(0) * 1 : null;
+              item.searchPagePrice = Math.ceil(item.searchPagePrice * 100);
+              item.priceRangeMax = item.priceRangeMax > 0 ? Math.ceil(item.priceRangeMax * 100) : null;
+              item.priceRangeMin = item.priceRangeMin > 0 ? Math.ceil(item.priceRangeMin * 100) : null;
             });
             _this.taskRelease.taskDetail = JSON.stringify(pcTaskDetailClone);
             break;
           case 'app_search' :
             appTaskDetailClone.forEach(item => {
-              item.searchPagePrice = (item.searchPagePrice * 100).toFixed(0) * 1;
-              item.priceRangeMax = item.priceRangeMax > 0 ? (item.priceRangeMax * 100).toFixed(0) * 1 : null;
-              item.priceRangeMin = item.priceRangeMin > 0 ? (item.priceRangeMin * 100).toFixed(0) * 1 : null;
+              item.searchPagePrice = Math.ceil(item.searchPagePrice * 100);
+              item.priceRangeMax = item.priceRangeMax > 0 ? Math.ceil(item.priceRangeMax * 100) : null;
+              item.priceRangeMin = item.priceRangeMin > 0 ? Math.ceil(item.priceRangeMin * 100) : null;
             });
             _this.taskRelease.taskDetail = JSON.stringify(appTaskDetailClone);
             break;
           case 'tao_code' :
             taoCodeTaskDetailClone.forEach(item => {
-              item.homePageLockItemPrice = item.homePageLockItemPrice > 0 ? (item.homePageLockItemPrice * 100).toFixed(0) * 1 : null;
+              item.homePageLockItemPrice = item.homePageLockItemPrice > 0 ? Math.ceil(item.homePageLockItemPrice * 100) : null;
             });
             _this.taskRelease.taskDetail = JSON.stringify(taoCodeTaskDetailClone);
             break;
@@ -2208,12 +2466,13 @@
         this.taskCreate(true);
       },
       getTaskInfo() {
-        let _this = this;
+        const _this = this;
         let type = _this.$route.query.type;
         api.getTaskInfo({
           taskId: _this.editTaskId
         }).then(res => {
           if (res.status) {
+            _this.getMemberVersionLevel !== 100 && _this.getTaskVasSelectInfo(_this.editTaskId);
             _this.mainDefaultList = [];
             _this.pcDefaultList = [];
             _this.appDefaultList = [];
@@ -2222,7 +2481,7 @@
             if (!type) {
               _this.taskRelease.taskId = res.data.id;
             }
-            _this.paidDeposit = (res.data.marginPaid + res.data.promotionExpensesPaid) / 100 || 0;
+            _this.paidDeposit = (res.data.marginPaid + res.data.promotionExpensesPaid + res.data.vasFeePaid) / 100 || 0;
             _this.taskStatus = res.data.taskStatus;
             _this.mainDefaultList.push({src: res.data.taskMainImage});
             for (let k in _this.taskRelease) {
@@ -2236,7 +2495,13 @@
             _this.taskRelease.pinkage = _this.taskRelease.pinkage.toString();
             _this.taskRelease.donotPostPhoto = _this.taskRelease.donotPostPhoto.toString();
 
-            //复制老活动的时候如果掌柜旺旺信息不能匹配到绑定店铺的旺旺名则默认自动选择第一个店铺，反之取接口实时数据
+            if (_this.taskRelease.orderType === 'day_reserve' || _this.taskRelease.orderType === 'day_now') {
+              _this.taskRelease.taskDaysDuration = null;
+              _this.taskCountInputPlaceholder = '当日22点前有效';
+              _this.taskCountInputDisabled = true;
+            }
+
+            // 复制历史活动的时候如果掌柜旺旺信息不能匹配到绑定店铺的旺旺名则默认自动选择第一个店铺，反之取接口实时数据
             _this.selectStoreInfo = {};
             const hasStoreBind = _this.storeBindInfoList.every(item => {
               return decodeURI(item.storeAlitm) !== _this.taskRelease.storeName && decodeURI(item.storeName !== _this.taskRelease.realStoreName)
@@ -2257,14 +2522,14 @@
               })
             }
 
-            // 临时处理 10元包邮，白菜价活动下线复制历史活动
+            // 处理 10元包邮，白菜价活动下线复制历史活动
             const activityCategory = res.data.activityCategory;
             if (activityCategory === 'pinkage_for_10' || activityCategory === 'price_low') {
               _this.taskRelease.discountType = 'discount_0';
               _this.taskRelease.activityCategory = 'free_get';
             }
 
-            //临时处理拍A发A淘宝评价要求重置为false
+            // 处理复制历史活动拍A发A淘宝评价要求重置为false
             if (res.data.donotPostPhoto && activityCategory === 'free_get') {
               _this.taskRelease.donotPostPhoto = 'false';
             }
@@ -2394,12 +2659,12 @@
             _this.addImgRangeFreeGet = _this.$refs.myTextEditorFree.quill.getSelection();
             _this.$refs.myTextEditorFree.quill.insertEmbed(_this.addImgRangeFreeGet !== null ? _this.addImgRangeFreeGet.index : 0, 'image', value, Quill.sources.USER);
             document.getElementById('freeGet').value = '';
-            _this.$Message.success('亲，图片上传成功！');
+            _this.$Message.success('商品简介图片上传成功！');
           }
         }).catch(err => {
-          console.log(err);
+          console.error(err);
           document.getElementById('freeGet').value = '';
-          _this.$Message.warning('亲，图片上传失败！');
+          _this.$Message.warning('商品简介图片上传失败，请重试！');
         })
       },
       uploadImgPresentGet(e) {
@@ -2412,12 +2677,12 @@
             _this.addImgRangePresentGet = _this.$refs.myTextEditorPresent.quill.getSelection();
             _this.$refs.myTextEditorPresent.quill.insertEmbed(_this.addImgRangePresentGet !== null ? _this.addImgRangePresentGet.index : 0, 'image', value, Quill.sources.USER);
             document.getElementById('presentGet').value = '';
-            _this.$Message.success('亲，图片上传成功！');
+            _this.$Message.success('商品简介图片上传成功！');
           }
         }).catch(err => {
-          console.log(err);
+          console.error(err);
           document.getElementById('presentGet').value = '';
-          _this.$Message.warning('亲，图片上传失败！');
+          _this.$Message.warning('商品简介图片上传失败，请重试！');
         })
       },
       removeAnswerImage(file) {
@@ -2431,7 +2696,7 @@
           this.needBrowseAnswer = false;
         }
       },
-      removeMainImage() {
+      removeMainImage(res) {
         this.taskRelease.taskMainImage = null;
       },
       removeAppImage() {
@@ -2613,17 +2878,6 @@
       closeClauseModel() {
         this.isShowUserClause = false;
       },
-      // 服务条款弹窗的改动，勿删
-      // getDetectionUserClauseTip() {
-      //   let _this = this;
-      //   api.detectionUserClauseTip().then(res => {
-      //     if (res.status) {
-      //       _this.isShowUserClause = !res.data;
-      //     } else {
-      //       _this.$Message.error(res.msg);
-      //     }
-      //   })
-      // },
       addAnswer() {
         if (this.browseAnswer.length < 3) {
           this.browseAnswer.push({
@@ -2642,18 +2896,26 @@
           this.answerDefaultList = [];
         }
       },
-      testAnswerTextNumber() {
-        let _this = this;
-        _this.isShowAnswerTip = _this.browseAnswer.some(item => {
-          return item.answerContent.length > 8
-        })
+      addShopAroundList() {
+        // 深度复制数组，防止每次取到的数据在内存中指向同一地址造成数据监听异常
+        const copy = extendDeep(this.originalVasMainItem, []);
+        this.vasSimilarItem.push(copy);
       },
-      //不再显示商家通知弹框
-      // noMoreTipFunc() {
-      //   const _this = this;
-      //   _this.isShowBusinessTip = false;
-      //   setStorage('noMorePopup', _this.noMoreTip);
-      // },
+      delShopAroundList() {
+        this.vasSimilarItem.splice(this.vasSimilarItem.length - 1, 1)
+      },
+      shopAroundStatusChange() {
+        if (!this.shopAroundStatus) {
+          if (this.vasSimilarItem.length > 1) {
+            this.vasSimilarItem.splice(1, this.vasSimilarItem.length - 1)
+          }
+          this.vasSimilarItem[0].map(item => {
+            if (!item.isDisabled && item.isSelect) {
+              return item.isSelect = false
+            }
+          })
+        }
+      },
     },
   }
 </script>
@@ -3073,6 +3335,31 @@
       color: #FF8C2B;
       background-color: #FFFC00;
       cursor: pointer;
+    }
+
+    .value-added-services {
+      width: 96%;
+      background-color: #FFF5E2;
+      padding: 15px;
+      margin: 20px auto 20px auto;
+      border-radius: 4px;
+    }
+
+    .value-added-services-demo-image {
+      padding: 0 1px;
+      border-radius: 2px;
+      color: #fff;
+      background-color: #17A1FF;
+      cursor: pointer;
+    }
+
+    .add-btn-bg-color {
+      background-color: #fff;
+    }
+
+    .value-added-charge {
+      border-top: 2px solid #EFE8DB;
+      padding: 10px 0 0 0;
     }
   }
 

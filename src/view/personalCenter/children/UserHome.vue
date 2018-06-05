@@ -262,7 +262,7 @@
         return this.$store.state.userInfo;
       },
       getMemberVersionLevel() {
-        return this.$store.state.userInfo.memberLevel
+        return this.$store.getters.getMemberLevel
       },
       getMemberDeadline() {
         return this.$store.state.userInfo.memberDeadline

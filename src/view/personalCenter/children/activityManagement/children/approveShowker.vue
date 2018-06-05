@@ -121,7 +121,7 @@
                   <span>活动完成</span>
                 </Checkbox>
                 <Checkbox label="order_num_error">
-                  <span>订单号有误</span>
+                  <span>订单信息有误</span>
                 </Checkbox>
                 <Checkbox label="trial_report_unqualified">
                   <span>买家秀不合格</span>
@@ -298,7 +298,7 @@
               <i-select v-model="orderNoPassReason" style="width:200px" placeholder="请选择不通过原因">
                 <!--<i-option value="收藏加购截图不合格">收藏加购截图不合格</i-option>-->
                 <i-option value="浏览答题截图不合格">浏览答题截图不合格</i-option>
-                <i-option value="订单号有误">订单号有误</i-option>
+                <i-option value="订单信息有误">订单信息有误</i-option>
                 <i-option value="实付金额有误">实付金额有误</i-option>
                 <i-option value="下单旺旺和平台绑定旺旺不一致">下单旺旺和平台绑定旺旺不一致</i-option>
               </i-select>

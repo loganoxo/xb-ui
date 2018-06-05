@@ -1,15 +1,15 @@
 <template>
   <div class="clear">
-    <div class="demo-upload-list left" v-for="item in fileList" v-if="uploadType === 'image'">
+    <div class="demo-upload-list left" v-for="item in fileList" v-if="isShowTipCover">
       <template v-if="item.status === 'finished'">
         <img :src="item.src + '!thum54'">
         <div class="demo-upload-list-cover">
-          <Icon type="ios-eye-outline" @click.native="handleView(item.src)"></Icon>
-          <Icon type="ios-trash-outline" @click.native="handleRemove(item)"></Icon>
+          <icon type="ios-eye-outline" @click.native="handleView(item.src)"></icon>
+          <icon type="ios-trash-outline" @click.native="handleRemove(item)"></icon>
         </div>
       </template>
       <template v-else>
-        <iProgress v-if="item.showProgress" :percent="item.percentage" hide-info></iProgress>
+        <i-progress v-if="item.showProgress" :percent="item.percentage" hide-info></i-progress>
       </template>
     </div>
     <div ref="Upload" class="left" :class="[prefixCls]" v-show="showUpload">
@@ -55,6 +55,16 @@
       iProgress: Progress,
     },
     props: {
+      itemInfo:{
+        type:Object,
+        default() {
+         return {};
+        }
+      },
+      index:{
+        type:Number,
+        default:1
+      },
       multiple: {
         type: Boolean,
         default: false
@@ -70,9 +80,9 @@
         type: String,
         default: 'file'
       },
-      uploadType: {
-        type: String,
-        default: 'image'
+      isShowTipCover: {
+        type: Boolean,
+        default: true
       },
       withCredentials: {
         type: Boolean,
@@ -305,7 +315,7 @@
         if (_file) {
           _file.status = 'finished';
           _file.src = aliCallbackImgUrl + res.name;
-          this.onSuccess(res, _file, this.fileList);
+          this.onSuccess(res, this.itemInfo, _file, this.fileList);
           setTimeout(() => {
             _file.showProgress = false;
           }, 1000);
@@ -324,7 +334,7 @@
       handleRemove(file){
         const fileList = this.fileList;
         fileList.splice(fileList.indexOf(file), 1);
-        this.onRemove(file, fileList);
+        this.onRemove(file, this.itemInfo, fileList);
       },
       handlePreview(file){
         if (file.status === 'finished') {
