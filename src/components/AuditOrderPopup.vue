@@ -394,7 +394,6 @@
           };
           if (item.itemType === "main_item"){
             mainIndex ++;
-            console.log(tempData.mainVasSettings);
             obj.title = tempData.mainVasSettings[mainIndex].name;
             obj.required = item.required;
             obj.tipsPicture = tempData.mainVasSettings[mainIndex].tipsPicture;
