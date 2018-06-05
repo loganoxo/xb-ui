@@ -1788,8 +1788,8 @@
             const len = similarVasSettings.length;
             if (len > 0) {
               _this.shopAroundStatus = true;
-              if(len > 1) {
-                if(_this.vasSimilarItem.length > 1) {
+              if (len > 1) {
+                if (_this.vasSimilarItem.length > 1) {
                   _this.vasSimilarItem.splice(1, _this.vasSimilarItem.length - 1);
                 }
                 for (let i = 0; i < len - 1; i++) {
@@ -1798,10 +1798,10 @@
               }
               _this.vasSimilarItem.map((keys, i) => {
                 let tempArr = similarVasSettings[i];
-                if(tempArr.length > 0) {
+                if (tempArr.length > 0) {
                   tempArr.map(items => {
                     keys.map(item => {
-                      if(items.id === item.id) {
+                      if (items.id === item.id) {
                         item.isSelect = true;
                         return item
                       }
@@ -2395,23 +2395,23 @@
         switch (_this.taskRelease.taskType) {
           case 'pc_search' :
             pcTaskDetailClone.forEach(item => {
-              item.searchPagePrice = (item.searchPagePrice * 100).toFixed(0) * 1;
-              item.priceRangeMax = item.priceRangeMax > 0 ? (item.priceRangeMax * 100).toFixed(0) * 1 : null;
-              item.priceRangeMin = item.priceRangeMin > 0 ? (item.priceRangeMin * 100).toFixed(0) * 1 : null;
+              item.searchPagePrice = Math.ceil(item.searchPagePrice * 100);
+              item.priceRangeMax = item.priceRangeMax > 0 ? Math.ceil(item.priceRangeMax * 100) : null;
+              item.priceRangeMin = item.priceRangeMin > 0 ? Math.ceil(item.priceRangeMin * 100) : null;
             });
             _this.taskRelease.taskDetail = JSON.stringify(pcTaskDetailClone);
             break;
           case 'app_search' :
             appTaskDetailClone.forEach(item => {
-              item.searchPagePrice = (item.searchPagePrice * 100).toFixed(0) * 1;
-              item.priceRangeMax = item.priceRangeMax > 0 ? (item.priceRangeMax * 100).toFixed(0) * 1 : null;
-              item.priceRangeMin = item.priceRangeMin > 0 ? (item.priceRangeMin * 100).toFixed(0) * 1 : null;
+              item.searchPagePrice = Math.ceil(item.searchPagePrice * 100);
+              item.priceRangeMax = item.priceRangeMax > 0 ? Math.ceil(item.priceRangeMax * 100) : null;
+              item.priceRangeMin = item.priceRangeMin > 0 ? Math.ceil(item.priceRangeMin * 100) : null;
             });
             _this.taskRelease.taskDetail = JSON.stringify(appTaskDetailClone);
             break;
           case 'tao_code' :
             taoCodeTaskDetailClone.forEach(item => {
-              item.homePageLockItemPrice = item.homePageLockItemPrice > 0 ? (item.homePageLockItemPrice * 100).toFixed(0) * 1 : null;
+              item.homePageLockItemPrice = item.homePageLockItemPrice > 0 ? Math.ceil(item.homePageLockItemPrice * 100) : null;
             });
             _this.taskRelease.taskDetail = JSON.stringify(taoCodeTaskDetailClone);
             break;
