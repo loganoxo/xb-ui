@@ -151,8 +151,8 @@
         </div>
         <div class="activity-time ml-60 mt-20">
           <span class="required">活动时长：</span>
-          <iInput v-model="taskRelease.taskDaysDuration" placeholder="请输入活动时长" :disabled="true"
-                  style="width: 120px"></iInput>
+          <i-input v-model="taskRelease.taskDaysDuration" placeholder="请输入活动时长" :disabled="true"
+                  style="width: 120px"></i-input>
           <span>天</span>
           <span class="main-color ml-10">
             <i class="ivu-icon ivu-icon-information-circled cle60012"></i>
@@ -239,16 +239,16 @@
           <div class="activity-info-title">填写活动宝贝信息</div>
           <div class="baby-title ml-45 mt-20">
             <span class="required">宝贝标题：</span>
-            <iInput v-model="taskRelease.taskName" placeholder="请输入活动标题" :disabled="true" style="width: 296px"></iInput>
+            <i-input v-model="taskRelease.taskName" placeholder="请输入活动标题" :disabled="true" style="width: 296px"></i-input>
           </div>
           <div class="baby-title ml-45 mt-20">
             <span class="required">宝贝类型：</span>
-            <iSelect v-model="taskRelease.itemType" disabled style="width:200px">
-              <Option-group v-for="parentItem in itemCatalogList" v-if="parentItem.level === 1" :label="parentItem.name" :key="parentItem.id">
-                <iOption v-if="item.level === 2 && item.parentItemCatalog && item.parentItemCatalog.id === parentItem.id" v-for="item in itemCatalogList" :value="item.id" :key="item.id">{{ item.name }}
-                </iOption>
-              </Option-group>
-            </iSelect>
+            <i-select v-model="taskRelease.itemType" disabled style="width:200px">
+              <option-group v-for="parentItem in itemCatalogList" v-if="parentItem.level === 1" :label="parentItem.name" :key="parentItem.id">
+                <i-option v-if="item.level === 2 && item.parentItemCatalog && item.parentItemCatalog.id === parentItem.id" v-for="item in itemCatalogList" :value="item.id" :key="item.id">{{ item.name }}
+                </i-option>
+              </option-group>
+            </i-select>
           </div>
           <div class="baby-img ml-45 mt-20">
             <span class="required left mt-20">宝贝主图：</span>
@@ -258,70 +258,70 @@
           </div>
           <div class="baby-url ml-45 mt-20">
             <span class="required">宝贝地址：</span>
-            <iInput v-model="taskRelease.itemUrl" placeholder="请输入宝贝地址" :disabled="true" style="width: 296px"></iInput>
+            <i-input v-model="taskRelease.itemUrl" placeholder="请输入宝贝地址" :disabled="true" style="width: 296px"></i-input>
           </div>
           <div class="baby-number ml-45 mt-20">
             <span class="required">宝贝数量：</span>
-            <iInput v-model="taskRelease.taskCount" placeholder="请输入宝贝数量" :disabled="true" style="width: 120px"></iInput>
+            <i-input v-model="taskRelease.taskCount" placeholder="请输入宝贝数量" :disabled="true" style="width: 120px"></i-input>
             <span>份</span>
           </div>
           <div class="baby-price ml-45 mt-20">
             <span class="required">宝贝单价：</span>
-            <iInput v-model="taskRelease.itemPrice" placeholder="请输入宝贝单价" :disabled="true"
-                    style="width: 120px"></iInput>
+            <i-input v-model="taskRelease.itemPrice" placeholder="请输入宝贝单价" :disabled="true"
+                    style="width: 120px"></i-input>
             <span>元</span>
             <p class="size-color pl-60 mt-8">活动活动期间，商家不允许修改下单页商品信息，经核查属实，本平台有权将活动担保金返还已获得资格的拿手，商家账号按相应规则处罚</p>
           </div>
           <div class="baby-pinkage ml-45 mt-20">
             <span class="required left">是否包邮：</span>
-            <Radio-group v-model="taskRelease.pinkage">
-              <Radio label="true" disabled>
+            <radio-group v-model="taskRelease.pinkage">
+              <radio label="true" disabled>
                 <span>宝贝包邮，无需修改运费</span>
-              </Radio>
+              </radio>
               <br/>
-              <Radio class="mt-20" label="false" disabled>
+              <radio class="mt-20" label="false" disabled>
                 <span>宝贝不包邮，需要额外多垫付10元邮费，随货款一起对买手实行多退少补返还！</span>
-              </Radio>
-            </Radio-group>
+              </radio>
+            </radio-group>
           </div>
           <div class="baby-payment ml-45 mt-20">
             <span class="required left">付款方式：</span>
-            <Radio-group v-model="taskRelease.paymentMethod">
-              <Radio label="all" class="mb-10" disabled><span>无所谓（可以使用花呗、信用卡等付款，也可以不用）</span></Radio>
+            <radio-group v-model="taskRelease.paymentMethod">
+              <radio label="all" class="mb-10" disabled><span>无所谓（可以使用花呗、信用卡等付款，也可以不用）</span></radio>
               <br/>
-              <Radio label="no_hua_and_credit_pay" class="mb-10" disabled><span>禁止使用花呗和信用卡付款</span></Radio>
+              <radio label="no_hua_and_credit_pay" class="mb-10" disabled><span>禁止使用花呗和信用卡付款</span></radio>
               <br/>
-              <Radio label="no_hua_pay" class="mb-10" disabled><span>禁止使用花呗</span></Radio>
+              <radio label="no_hua_pay" class="mb-10" disabled><span>禁止使用花呗</span></radio>
               <br/>
-              <Radio label="no_credit_pay" disabled><span>禁止使信用卡付款</span></Radio>
-            </Radio-group>
+              <radio label="no_credit_pay" disabled><span>禁止使信用卡付款</span></radio>
+            </radio-group>
           </div>
           <div class="task-remark ml-45 mt-20 clear">
             <span class="left ml-5">下单备注：</span>
             <div class="left">
-              <iInput class="task-remark-input" type="textarea" :autosize="{minRows: 6,  maxRows: 12}" :disabled="true" placeholder="请在这里输入需要拿手注意的事项，例如：SKU信息等，这里的信息会无条件展示出来。" v-model="taskRelease.remark"></iInput>
+              <i-input class="task-remark-input" type="textarea" :autosize="{minRows: 6,  maxRows: 12}" :disabled="true" placeholder="请在这里输入需要拿手注意的事项，例如：SKU信息等，这里的信息会无条件展示出来。" v-model="taskRelease.remark"></i-input>
             </div>
           </div>
           <div class="evaluation-requirements ml-15 mt-20 clear">
             <span class="left mt-5 required">淘宝评价要求：</span>
             <div class="left">
-              <RadioGroup v-model="taskRelease.itemReviewRequired" :vertical="true">
-                <Radio label="review_by_showker_self" :disabled="true">
+              <radio-group v-model="taskRelease.itemReviewRequired" :vertical="true">
+                <radio label="review_by_showker_self" :disabled="true">
                   <span>由拿手自主发挥（拿手自主发挥评价更客观更真实。<span class="main-color">选择此项不可因主观喜好对评价结果有异议。</span>）</span>
-                </Radio>
-                <Radio label="offer_review_summary" :disabled="true">
+                </radio>
+                <radio label="offer_review_summary" :disabled="true">
                   <span>有个大概要求（可以写下评价的大概要求，因每个人理解不一样，可能评价结果会与期望有偏差。<span class="main-color">选择此项不可因主观喜好对评价结果有异议。</span>）</span>
-                </Radio>
-                <iInput :disabled="true" v-if="taskRelease.itemReviewRequired === 'offer_review_summary'" v-model="taskRelease.itemReviewSummary" class="mb-10" type="textarea" :autosize="{minRows: 1,maxRows: 3}" placeholder="请输入你的评价要求，如：需晒图/勿晒图、希望出现的关键词等~"></iInput>
-                <Radio label="assign_review_detail" :disabled="true">
+                </radio>
+                <i-input :disabled="true" v-if="taskRelease.itemReviewRequired === 'offer_review_summary'" v-model="taskRelease.itemReviewSummary" class="mb-10" type="textarea" :autosize="{minRows: 1,maxRows: 3}" placeholder="请输入你的评价要求，如：需晒图/勿晒图、希望出现的关键词等~"></i-input>
+                <radio label="assign_review_detail" :disabled="true">
                   <span>我来提供评价内容（拿手将直接拷贝亲提供的评价内容在淘宝上进行评价，每个名额需要提供一份评价内容。）</span>
-                </Radio>
-              </RadioGroup>
+                </radio>
+              </radio-group>
               <p v-show="taskRelease.itemReviewRequired === 'assign_review_detail'" class="main-color ml-20">可自定义的评价数跟您发布宝贝数量相同，系统会随机分配给申请通过的拿手每人一条评论，以保证评价内容的唯一性。</p>
               <div class="afford-evaluation-list mt-10" v-if="taskRelease.itemReviewRequired === 'assign_review_detail' && taskRelease.taskCount > 0">
                 <p v-for="item in itemReviewList">
                   <span class="vtc-sup">{{'评价' + item.index}}：</span>
-                  <iInput v-model="item.value" class="mb-10" type="textarea" :autosize="{minRows: 1,maxRows: 3}" :disabled="true" placeholder="请输入你的评价内容" style="width: 620px;"></iInput>
+                  <i-input v-model="item.value" class="mb-10" type="textarea" :autosize="{minRows: 1,maxRows: 3}" :disabled="true" placeholder="请输入你的评价内容" style="width: 620px;"></i-input>
                 </p>
               </div>
             </div>
@@ -344,11 +344,11 @@
             <div class="baby-info-present-con">
               <div class="baby-url ml-10 mt-20">
                 <span class="required">宝贝地址：</span>
-                <iInput v-model="taskRelease.itemUrl" disabled placeholder="请输入宝贝地址" style="width: 296px"></iInput>
+                <i-input v-model="taskRelease.itemUrl" disabled placeholder="请输入宝贝地址" style="width: 296px"></i-input>
               </div>
               <div class="baby-price ml-10 mt-20">
                 <span class="required">宝贝单价：</span>
-                <iInput v-model.number="taskRelease.itemPrice" disabled placeholder="请输入宝贝单价" style="width: 120px"></iInput>
+                <i-input v-model.number="taskRelease.itemPrice" disabled placeholder="请输入宝贝单价" style="width: 120px"></i-input>
                 <span>元</span>
                 <span v-show="taskRelease.itemPrice && taskRelease.itemPrice < 1" class="main-color ml-15"><Icon color="#f9284f" type="information-circled"></Icon>&nbsp;每份试用品的价值必须在1元以上</span>
                 <span class="sizeColor2 ml-4" v-show="!taskRelease.itemPrice || taskRelease.itemPrice > 1">（活动活动期间，商家不允许修改下单页商品信息，经核查属实，本平台有权将活动担保金返还已获得资格的拿手，商家账号按相应规则处罚）</span>
@@ -361,67 +361,67 @@
               </div>
               <div class="baby-pinkage ml-10 mt-20">
                 <span class="required left">是否包邮：</span>
-                <Radio-group v-model="taskRelease.pinkage" disabled>
-                  <Radio label="true" disabled>
+                <radio-group v-model="taskRelease.pinkage" disabled>
+                  <radio label="true" disabled>
                     <span>宝贝包邮，无需修改运费</span>
-                  </Radio>
+                  </radio>
                   <br>
-                  <Radio class="mt-10" label="false" disabled>
+                  <radio class="mt-10" label="false" disabled>
                     <span>宝贝不包邮，需要额外多垫付10元邮费，随货款一起对买手实行多退少补返还！</span>
-                  </Radio>
-                </Radio-group>
+                  </radio>
+                </radio-group>
               </div>
               <div class="baby-payment ml-10 mt-20">
                 <span class="required left">付款方式：</span>
-                <Radio-group v-model="taskRelease.paymentMethod">
-                  <Radio label="all" class="mb-10" disabled><span>无所谓（可以使用花呗、信用卡等付款，也可以不用）</span></Radio>
+                <radio-group v-model="taskRelease.paymentMethod">
+                  <radio label="all" class="mb-10" disabled><span>无所谓（可以使用花呗、信用卡等付款，也可以不用）</span></radio>
                   <br/>
-                  <Radio label="no_hua_and_credit_pay" class="mb-10" disabled><span>禁止使用花呗和信用卡付款</span></Radio>
+                  <radio label="no_hua_and_credit_pay" class="mb-10" disabled><span>禁止使用花呗和信用卡付款</span></radio>
                   <br/>
-                  <Radio label="no_hua_pay" class="mb-10" disabled><span>禁止使用花呗</span></Radio>
+                  <radio label="no_hua_pay" class="mb-10" disabled><span>禁止使用花呗</span></radio>
                   <br/>
-                  <Radio label="no_credit_pay" disabled><span>禁止使信用卡付款</span></Radio>
-                </Radio-group>
+                  <radio label="no_credit_pay" disabled><span>禁止使信用卡付款</span></radio>
+                </radio-group>
               </div>
               <div class="task-remark ml-10 mt-20 clear">
                 <span class="left ml-5">下单要求：</span>
                 <div class="left">
-                  <iInput class="task-remark-input" disabled type="textarea" :autosize="{minRows: 6,  maxRows: 12}" placeholder="请在这里输入需要拿手注意的事项，例如：SKU信息等，这里的信息会无条件展示出来。" v-model="taskRelease.remark"></iInput>
+                  <i-input class="task-remark-input" disabled type="textarea" :autosize="{minRows: 6,  maxRows: 12}" placeholder="请在这里输入需要拿手注意的事项，例如：SKU信息等，这里的信息会无条件展示出来。" v-model="taskRelease.remark"></i-input>
                   <p class="sizeColor3 mt-10">下单要求中明确说明希望拿手拍下的SKU（否则拿手可能会找不到宝贝）</p>
                   <p class="sizeColor3 mt-6">建议商家下单要求中明确说明：“请勿在淘宝中评价及晒图！”，若未注明，拿手在淘宝中进行评价或晒图后可能会影响主宝贝的评价情况。</p>
                 </div>
               </div>
               <div class="donotPostPhoto ml-15 mt-20 clear">
                 <span class="left required">是否在淘宝评价中晒图：</span>
-                <Radio-group v-model="taskRelease.donotPostPhoto">
-                  <Radio label="true" disabled>
+                <radio-group v-model="taskRelease.donotPostPhoto">
+                  <radio label="true" disabled>
                     <span>请勿晒图</span>
-                  </Radio>
-                  <Radio label="false" disabled>
+                  </radio>
+                  <radio label="false" disabled>
                     <span>无所谓（拿手可能晒出B宝贝图片）</span>
-                  </Radio>
-                </Radio-group>
+                  </radio>
+                </radio-group>
               </div>
               <div class="evaluation-requirements ml-15 mt-10 clear">
                 <span class="left mt-5 required">淘宝评价要求：</span>
                 <div class="left">
-                  <RadioGroup v-model="taskRelease.itemReviewRequired" :vertical="true">
-                    <Radio label="review_by_showker_self" disabled>
+                  <radio-group v-model="taskRelease.itemReviewRequired" :vertical="true">
+                    <radio label="review_by_showker_self" disabled>
                       <span>由拿手自主发挥（拿手自主发挥评价更客观更真实。<span class="main-color">选择此项不可因主观喜好对评价结果有异议。</span>）</span>
-                    </Radio>
-                    <Radio label="offer_review_summary" disabled>
+                    </radio>
+                    <radio label="offer_review_summary" disabled>
                       <span>有个大概要求（可以写下评价的大概要求，因每个人理解不一样，可能评价结果会与期望有偏差。<span class="main-color">选择此项不可因主观喜好对评价结果有异议。</span>）</span>
-                    </Radio>
+                    </radio>
                     <iInput v-if="taskRelease.itemReviewRequired === 'offer_review_summary'" v-model="taskRelease.itemReviewSummary" class="mb-10" type="textarea" :autosize="{minRows: 1,maxRows: 3}" placeholder="请输入你的评价要求，如：需晒图/勿晒图、希望出现的关键词等~"></iInput>
-                    <Radio label="assign_review_detail" disabled>
+                    <radio label="assign_review_detail" disabled>
                       <span>我来提供评价内容（拿手将直接拷贝亲提供的评价内容在淘宝上进行评价，每个名额需要提供一份评价内容。）</span>
-                    </Radio>
-                  </RadioGroup>
+                    </radio>
+                  </radio-group>
                   <p v-show="taskRelease.itemReviewRequired === 'assign_review_detail'" class="main-color ml-20">可自定义的评价数跟您发布宝贝数量相同，系统会随机分配给申请通过的拿手每人一条评论，以保证评价内容的唯一性。</p>
                   <div class="afford-evaluation-list mt-10" v-if="taskRelease.itemReviewRequired === 'assign_review_detail' && taskRelease.taskCount > 0">
                     <p v-for="item in itemReviewList">
                       <span class="vtc-sup">{{'评价' + item.index}}：</span>
-                      <iInput v-model="item.value" disabled class="mb-10" type="textarea" :autosize="{minRows: 1,maxRows: 3}" placeholder="请输入你的评价内容" style="width: 620px;"></iInput>
+                      <i-input v-model="item.value" disabled class="mb-10" type="textarea" :autosize="{minRows: 1,maxRows: 3}" placeholder="请输入你的评价内容" style="width: 620px;"></i-input>
                     </p>
                   </div>
                 </div>
@@ -460,7 +460,7 @@
               <div class="baby-number ml-10 mt-20">
                 <p>
                   <span class="required">宝贝数量：</span>
-                  <iInput v-model.number="taskRelease.taskCount" disabled placeholder="请输入宝贝数量" style="width: 120px" @on-blur="addItemReviewList"></iInput>
+                  <i-input v-model.number="taskRelease.taskCount" disabled placeholder="请输入宝贝数量" style="width: 120px" @on-blur="addItemReviewList"></i-input>
                   <span>份</span>
                   <span class="sizeColor3 ml-5">（平台会按照1/5的比例进行计算，部分中奖名额将会由系统进行推荐）</span>
                 </p>
@@ -492,10 +492,10 @@
               <div class="mt-10 sizeColor">（请确保提供的关键词能够搜索到宝贝，同时为了避免拿手找不到对应的宝贝，您最多可以添加5组关键词方案）</div>
             </div>
             <template v-for="item in pcTaskDetail" v-if="item.index === selectKeywordScheme">
-              <Alert show-icon class="tag-alert">
+              <alert show-icon class="tag-alert">
                 您当前选择的是关键词方案 {{item.index + 1}}
                 <Icon type="ios-lightbulb-outline" slot="icon" size="18"></Icon>
-              </Alert>
+              </alert>
              <!-- <div class="matching-num ml-40 mt-20">
                 <span>匹配人数：</span>
                 <iInput v-model.number="item.countAssigned" placeholder="请输入匹配人数" style="width: 160px" :disabled="true"></iInput>
@@ -508,79 +508,79 @@
               </div>
               <div class="sort-by ml-40 mt-20">
                 <span class="required">排序方式：</span>
-                <Radio-group v-model="item.searchSort">
-                  <Radio label="zong_he" disabled>
+                <radio-group v-model="item.searchSort">
+                  <radio label="zong_he" disabled>
                     <span>综合排序</span>
-                  </Radio>
-                  <Radio label="xiao_liang" disabled>
+                  </radio>
+                  <radio label="xiao_liang" disabled>
                     <span>销售排序</span>
-                  </Radio>
-                  <Radio label="ren_qi" disabled>
+                  </radio>
+                  <radio label="ren_qi" disabled>
                     <span>人气排序</span>
-                  </Radio>
-                </Radio-group>
+                  </radio>
+                </radio-group>
               </div>
               <div class="search-price ml-40 mt-20">
                 <span class="required">展示价格：</span>
-                <iInput v-model="item.searchPagePrice" :disabled="true" placeholder="请输入搜索列表页展示价格"
-                        style="width: 160px"></iInput>
+                <i-input v-model="item.searchPagePrice" :disabled="true" placeholder="请输入搜索列表页展示价格"
+                        style="width: 160px"></i-input>
                 <span class="size-color2">（务必亲自搜索，确认价格准确）</span>
               </div>
               <div class="baby-location ml-15 mt-20">
                 <span class="required">宝贝搜索位置：</span>
                 <span>第</span>
-                <iInput v-model="item.searchPagePositionMin" :disabled="true" style="width: 40px"></iInput>
+                <i-input v-model="item.searchPagePositionMin" :disabled="true" style="width: 40px"></i-input>
                 <span>---</span>
-                <iInput v-model="item.searchPagePositionMax" :disabled="true" style="width: 40px"></iInput>
+                <i-input v-model="item.searchPagePositionMax" :disabled="true" style="width: 40px"></i-input>
                 <span>页</span>
                 <p class="size-color2 ml-80 mt-6">宝贝参考位置页数差值最大值不大于3页（如果PC端排名在10页以后， 可使用下面的卡条件功能）</p>
               </div>
               <div class="screen-condition ml-45 mt-20 clear">
                 <span class="left">刷选条件：</span>
                 <div class="left ml-5">
-                  <Checkbox-group v-model="item.searchFilter">
-                    <Checkbox label="pinkage" disabled>
+                  <checkbox-group v-model="item.searchFilter">
+                    <checkbox label="pinkage" disabled>
                       <span>包邮</span>
-                    </Checkbox>
-                    <Checkbox label="mobile_exclusive" disabled>
+                    </checkbox>
+                    <checkbox label="mobile_exclusive" disabled>
                       <span>手机专享</span>
-                    </Checkbox>
-                    <Checkbox label="tao_coin_deduction" disabled>
+                    </checkbox>
+                    <checkbox label="tao_coin_deduction" disabled>
                       <span>淘金币抵扣</span>
-                    </Checkbox>
-                    <Checkbox label="sales_return_7_plus" disabled>
+                    </checkbox>
+                    <checkbox label="sales_return_7_plus" disabled>
                       <span>7+天退货</span>
-                    </Checkbox>
-                    <Checkbox label="tmall" disabled>
+                    </checkbox>
+                    <checkbox label="tmall" disabled>
                       <span>天猫</span>
-                    </Checkbox>
+                    </checkbox>
                     <p style="height: 10px;"></p>
-                    <Checkbox label="global_shopping" disabled>
+                    <checkbox label="global_shopping" disabled>
                       <span>全球购</span>
-                    </Checkbox>
-                    <Checkbox label="overseas_goods" disabled>
+                    </checkbox>
+                    <checkbox label="overseas_goods" disabled>
                       <span>海外商品</span>
-                    </Checkbox>
-                    <Checkbox label="consumer_protect" disabled>
+                    </checkbox>
+                    <checkbox label="consumer_protect" disabled>
                       <span>消费者保障</span>
-                    </Checkbox>
-                    <Checkbox label="pay_after_receive" disabled>
+                    </checkbox>
+                    <checkbox label="pay_after_receive" disabled>
                       <span>货到付款</span>
-                    </Checkbox>
-                    <Checkbox label="hua_pay_installment" disabled>
+                    </checkbox>
+                    <checkbox label="hua_pay_installment" disabled>
                       <span>花呗分期</span>
-                    </Checkbox>
-                    <Checkbox label="wangwang_online" disabled>
+                    </checkbox>
+                    <checkbox label="wangwang_online" disabled>
                       <span>旺旺在线</span>
-                    </Checkbox>
-                  </Checkbox-group>
+                    </checkbox>
+                  </checkbox-group>
                 </div>
               </div>
               <div class="price-select ml-45 mt-20">
                 <span>价格区间：</span>
-                <iInput v-model="item.priceRangeMin" :disabled="true" style="width: 40px"></iInput>
+                <i-input v-model="item.priceRangeMin" :disabled="true" style="width: 40px"></i-input>
                 <span>---</span>
-                <iInput v-model="item.priceRangeMax" :disabled="true" style="width: 40px"></iInput>
+                <i-input v-model="item.priceRangeMax" :disabled="true" style="width: 40px"></i-input>
                 <span>元</span>
               </div>
             </template>
@@ -603,10 +603,10 @@
               <div class="mt-10 sizeColor">（请确保提供的关键词能够搜索到宝贝，同时为了避免拿手找不到对应的宝贝，您最多可以添加5组关键词方案）</div>
             </div>
             <template v-for="item in appTaskDetail" v-if="item.index === selectKeywordScheme">
-              <Alert show-icon class="tag-alert">
+              <alert show-icon class="tag-alert">
                 您当前选择的是关键词方案 {{item.index + 1}}
-                <Icon type="ios-lightbulb-outline" slot="icon" size="18"></Icon>
-              </Alert>
+                <icon type="ios-lightbulb-outline" slot="icon" size="18"></icon>
+              </alert>
             <!--  <div class="matching-num ml-40 mt-20">
                 <span>匹配人数：</span>
                 <iInput v-model.number="item.countAssigned" placeholder="请输入匹配人数" style="width: 160px" :disabled="true"></iInput>
@@ -614,81 +614,81 @@
               </div>-->
               <div class="search-keyword mt-20 ml-28">
                 <span class="required">搜索关键词：</span>
-                <iInput v-model="item.searchKeyword" placeholder="请输入搜索关键词" :disabled="true" style="width: 260px"></iInput>
+                <i-input v-model="item.searchKeyword" placeholder="请输入搜索关键词" :disabled="true" style="width: 260px"></i-input>
                 <span class="size-color2">（APP端请确保在120位以内，若是长尾关键词请不要过量补单）</span>
               </div>
               <div class="sort-by ml-40 mt-20">
                 <span class="required">排序方式：</span>
-                <Radio-group v-model="item.searchSort">
-                  <Radio label="zong_he" disabled>
+                <radio-group v-model="item.searchSort">
+                  <radio label="zong_he" disabled>
                     <span>综合排序</span>
-                  </Radio>
-                  <Radio label="xiao_liang" disabled>
+                  </radio>
+                  <radio label="xiao_liang" disabled>
                     <span>销售排序</span>
-                  </Radio>
-                </Radio-group>
+                  </radio>
+                </radio-group>
               </div>
               <div class="search-price ml-40 mt-20">
                 <span class="required">展示价格：</span>
-                <iInput v-model="item.searchPagePrice" placeholder="请输入搜索列表页展示价格" :disabled="true"
-                        style="width: 160px"></iInput>
+                <i-input v-model="item.searchPagePrice" placeholder="请输入搜索列表页展示价格" :disabled="true"
+                        style="width: 160px"></i-input>
                 <span class="size-color2">（务必亲自搜索，确认价格准确）</span>
               </div>
               <div class="baby-location ml-15 mt-20">
                 <span class="required">宝贝搜索位置：</span>
                 <span>从上往下数第</span>
-                <iInput v-model="item.searchRankPosition" :disabled="true" style="width: 40px"></iInput>
+                <i-input v-model="item.searchRankPosition" :disabled="true" style="width: 40px"></i-input>
                 <span>个宝贝左右</span>
                 <p class="size-color2 ml-80 mt-6">位置统一切换为一列展示后，在数位置。（如果移动端排名在100名以内，可使用下面的卡条件功能）</p>
               </div>
               <div class="screen-condition ml-45 mt-20 clear">
                 <span class="left">筛选条件：</span>
                 <div class="left ml-5">
-                  <Checkbox-group v-model="item.searchFilter">
-                    <Checkbox label="pinkage" disabled>
+                  <checkbox-group v-model="item.searchFilter">
+                    <checkbox label="pinkage" disabled>
                       <span>包邮</span>
-                    </Checkbox>
-                    <Checkbox label="mobile_exclusive" disabled>
+                    </checkbox>
+                    <checkbox label="mobile_exclusive" disabled>
                       <span>手机专享</span>
-                    </Checkbox>
-                    <Checkbox label="tao_coin_deduction" disabled>
+                    </checkbox>
+                    <checkbox label="tao_coin_deduction" disabled>
                       <span>淘金币抵扣</span>
-                    </Checkbox>
-                    <Checkbox label="sales_return_7_plus" disabled>
+                    </checkbox>
+                    <checkbox label="sales_return_7_plus" disabled>
                       <span>7+天退货</span>
-                    </Checkbox>
-                    <Checkbox label="tmall" disabled>
+                    </checkbox>
+                    <checkbox label="tmall" disabled>
                       <span>天猫</span>
-                    </Checkbox>
+                    </checkbox>
                     <p style="height: 10px;"></p>
-                    <Checkbox label="global_shopping" disabled>
+                    <checkbox label="global_shopping" disabled>
                       <span>全球购</span>
-                    </Checkbox>
+                    </checkbox>
                     <Checkbox label="overseas_goods" disabled>
                       <span>海外商品</span>
                     </Checkbox>
-                    <Checkbox label="consumer_protect" disabled>
+                    <checkbox label="consumer_protect" disabled>
                       <span>消费者保障</span>
-                    </Checkbox>
-                    <Checkbox label="pay_after_receive" disabled>
+                    </checkbox>
+                    <checkbox label="pay_after_receive" disabled>
                       <span>货到付款</span>
-                    </Checkbox>
-                    <Checkbox label="hua_pay_installment" disabled>
+                    </checkbox>
+                    <checkbox label="hua_pay_installment" disabled>
                       <span>花呗分期</span>
-                    </Checkbox>
-                  </Checkbox-group>
+                    </checkbox>
+                  </checkbox-group>
                 </div>
               </div>
               <div class="price-select ml-45 mt-20">
                 <span>价格区间：</span>
-                <iInput v-model="item.priceRangeMin" :disabled="true" style="width: 40px"></iInput>
+                <i-input v-model="item.priceRangeMin" :disabled="true" style="width: 40px"></i-input>
                 <span>---</span>
-                <iInput v-model="item.priceRangeMax" :disabled="true" style="width: 40px"></iInput>
+                <i-input v-model="item.priceRangeMax" :disabled="true" style="width: 40px"></i-input>
                 <span>元</span>
               </div>
               <div class="deliver-address ml-56 mt-20">
                 <span>发货地：</span>
-                <iInput v-model="item.deliverAddress" :disabled="true" style="width: 120px"></iInput>
+                <i-input v-model="item.deliverAddress" :disabled="true" style="width: 120px"></i-input>
                 <span class="size-color2">出于安全考虑，请勿大量使用</span>
               </div>
             </template>
@@ -697,7 +697,7 @@
           <template v-else-if="taskRelease.taskType === 'tao_code'">
             <div class="tao_code ml-56 mt-20">
               <span class="required">淘口令：</span>
-              <iInput v-model="taoCodeTaskDetail[0].taoCode" placeholder="请输入任务宝贝的淘口令" :disabled="true" style="width: 320px"></iInput>
+              <i-input v-model="taoCodeTaskDetail[0].taoCode" placeholder="请输入任务宝贝的淘口令" :disabled="true" style="width: 320px"></i-input>
             </div>
             <div class="tao-code mt-20 clear" v-if="taoCodeDefaultList">
               <span class="left ml-15 mt-20">卡首屏宝贝主图：</span>
@@ -707,7 +707,7 @@
             </div>
             <div class="tao-code ml-15 mt-20" v-if="taoCodeTaskDetail[0].homePageLockItemPrice">
               <span>卡首屏宝贝价格：</span>
-              <iInput v-model.number="taoCodeTaskDetail[0].homePageLockItemPrice" placeholder="请输入卡首屏宝贝价格" style="width: 140px" :disabled="true"></iInput>
+              <i-input v-model.number="taoCodeTaskDetail[0].homePageLockItemPrice" placeholder="请输入卡首屏宝贝价格" style="width: 140px" :disabled="true"></i-input>
               <span>元</span>
             </div>
           </template>
