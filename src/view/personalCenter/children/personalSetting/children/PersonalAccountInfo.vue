@@ -89,6 +89,11 @@
             </li>
           </ul>
         </li>
+        <li>
+          <ul>
+            <li></li>
+          </ul>
+        </li>
       </ul>
     </div>
 
@@ -177,8 +182,7 @@
                                 :phone="payCustom.phone"
                                 :purpose="payCustom.purpose"
                                 :validateCode="payCustom.validateCode"
-                                :timeout=120
-                  >
+                                :timeout=120>
                   </SmsCountdown>
                 </Form-item>
               </div>

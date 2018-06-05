@@ -1292,21 +1292,21 @@
         switch (type) {
           case 'pc_search' :
             _this.pcTaskDetail.forEach(item => {
-              item.searchPagePrice = Math.ceil(item.searchPagePrice / 100);
-              item.priceRangeMax = item.priceRangeMax > 0 ? Math.ceil(item.priceRangeMax / 100) : null;
-              item.priceRangeMin = item.priceRangeMin > 0 ? Math.ceil(item.priceRangeMin / 100) : null;
+              item.searchPagePrice = (item.searchPagePrice / 100).toFixed() * 1;
+              item.priceRangeMax = item.priceRangeMax > 0 ? (item.priceRangeMax / 100).toFixed() * 1 : null;
+              item.priceRangeMin = item.priceRangeMin > 0 ? (item.priceRangeMin / 100).toFixed() * 1 : null;
             });
             break;
           case 'app_search' :
             _this.appTaskDetail.forEach(item => {
-              item.searchPagePrice = Math.ceil(item.searchPagePrice / 100);
-              item.priceRangeMax = item.priceRangeMax > 0 ? Math.ceil(item.priceRangeMax / 100) : null;
-              item.priceRangeMin = item.priceRangeMin > 0 ? Math.ceil(item.priceRangeMin / 100) : null;
+              item.searchPagePrice = (item.searchPagePrice / 100).toFixed() * 1;
+              item.priceRangeMax = item.priceRangeMax > 0 ? (item.priceRangeMax / 100).toFixed() * 1 : null;
+              item.priceRangeMin = item.priceRangeMin > 0 ? (item.priceRangeMin / 100).toFixed() * 1 : null;
             });
             break;
           case 'tao_code':
             _this.taoCodeTaskDetail.forEach(item => {
-              item.homePageLockItemPrice = item.homePageLockItemPrice > 0 ? Math.ceil(item.homePageLockItemPrice / 100) : null;
+              item.homePageLockItemPrice = item.homePageLockItemPrice > 0 ? (item.homePageLockItemPrice / 100).toFixed() * 1 : null;
             });
             break
         }
