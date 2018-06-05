@@ -56,14 +56,10 @@
     },
     props: {
       itemInfo:{
-        type:Object,
+        type: Object,
         default() {
          return {};
         }
-      },
-      index:{
-        type:Number,
-        default:1
       },
       multiple: {
         type: Boolean,

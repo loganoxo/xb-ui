@@ -2,7 +2,7 @@
   <div class="image-upload">
     <div class="image-upload-title f-b">活动截图上传</div>
     <div class="image-upload-area">
-      <!--货比三家 start-->
+      <!--货比三家截图上传-->
       <div class="shop-compare clear" v-for="(similar,index) in similarImageList" :key="index">
         <p class="upload-type-title">货比3家（宝贝{{index + 1}}）<span>搜索过程中随意点击其他店铺的宝贝进行浏览，并上传浏览截图</span></p>
         <div class="upload-area left pos-rel" v-for="(item,index) in similar" :key="index">
@@ -27,7 +27,7 @@
           <div class="tip-resubmit" v-if="item.status === 'waiting_modify'">重新提交</div>
         </div>
       </div>
-      <!--主宝贝截图 start-->
+      <!--主宝贝截图上传-->
       <div class="main-baby-screenshots clear" v-if="mainBabyImageList.length > 0">
         <p class="upload-type-title">主宝贝浏览截图 <span>搜索到目标宝贝，按要求截图并上传</span></p>
         <div class="upload-area left pos-rel" v-for="(item,index) in mainBabyImageList" :key="index">
@@ -43,7 +43,7 @@
                   type="drag"
                   :itemInfo="item">
             <div class="camera">
-              <Icon type="camera" size="20"></Icon>
+              <icon type="camera" size="20"></icon>
             </div>
           </upload>
           <div class="pt-10 pb-5">{{item.title}}</div>
@@ -51,11 +51,9 @@
           <div class="tip-resubmit" v-if="item.status === 'waiting_modify'">重新提交</div>
         </div>
       </div>
-      <!--主宝贝截图 end-->
-      <!--主宝贝答题 start-->
+      <!--浏览答题截图上传-->
       <div class="main-baby-answer clear" v-if="mainBabyAnswerList.length > 0">
-        <p class="upload-type-title">主宝贝浏览答题<span>在目标宝贝的详情页找到如下文案，并提供坐在位置截图</span> <span
-          class="review-image cursor-p" @click="previewAnswer = true">查看示例图</span></p>
+        <p class="upload-type-title">主宝贝浏览答题<span>在目标宝贝的详情页找到如下文案，并提供所在位置截图</span> <span class="review-image cursor-p" @click="previewAnswer = true">查看示例图</span></p>
         <div class="upload-area left" v-for="(item,index) in mainBabyAnswerList" :key="index">
           <div class="answer-title">{{item.title}}</div>
           <upload key="mainBabyAnswerList" class="upload mt-5"
@@ -70,23 +68,20 @@
                   type="drag"
                   :itemInfo="item">
             <div class="camera">
-              <Icon type="camera" size="20"></Icon>
+              <icon type="camera" size="20"></icon>
             </div>
           </upload>
         </div>
       </div>
-      <!--主宝贝答题 end-->
     </div>
     <!--查看示例图弹窗-->
-    <div v-if="visible" style="z-index: 3000" class="text">
-      <Modal title="图片查看器" v-model="visible">
+    <modal title="图片查看器" v-model="visible">
         <img :src="demoPictureSrc" v-if="visible" style="width: 100%">
-      </Modal>
-    </div>
+      </modal>
     <!--查看浏览答题示例图-->
-    <Modal v-model="previewAnswer">
-      <img src="~assets/img/common/answer_question_img.png" alt="">
-    </Modal>
+    <modal v-model="previewAnswer">
+      <img src="~assets/img/common/answer_question_img.png" alt="浏览答题示例图">
+    </modal>
   </div>
 </template>
 
@@ -111,7 +106,7 @@
         mainBabyAnswerList: [],
         similarImageList: [],
         demoPictureSrc: '',
-        previewAnswer:false,
+        previewAnswer: false,
         taskId: this.orderInfo.showkerTask.id
       }
     },
@@ -141,71 +136,24 @@
           content: `图片 ${file.name} 太大，不能超过 1M`
         })
       },
-      // 上传成功后的回调
+      // 增值服务截图上传成功回调
       uploadSuccess(res, info) {
-        let _this = this;
         info.src = aliCallbackImgUrl + res.name;
-        _this.submitVasAnswer(info);
+        this.submitVasAnswer(info);
       },
       // 删除已上传的图片
       removeImage(file,info) {
         // info.answerScreenshot = [];
       },
 
-      // 浏览答题上传成功回调
+      // 浏览答题截图上传成功回调
       uploadAnswerSuccess(res, info) {
         let _this = this;
         info.src = aliCallbackImgUrl + res.name;
         _this.submitAnswer(info);
       },
 
-      // 测试3
-      // handleDataTest() {
-      //   console.time('upload');
-      //   const _this = this;
-      //   // 主图
-      //   let mainTempData = extendDeep(_this.orderInfo.mainVasSettings, []);
-      //   _this.orderInfo.showkerTaskVasSettings.map(keys => {
-      //     mainTempData.map(key => {
-      //       if (keys.vasConfigId === key.id) {
-      //         key.uploadId = keys.id;
-      //         key.status = keys.status;
-      //         key.required = keys.required;
-      //         key.screenshotsList = keys.answerScreenshot ? [{src: keys.answerScreenshot}] : [];
-      //         return key;
-      //       }
-      //     })
-      //   });
-      //
-      //   // 获比三家
-      //   let similarTempArr = [];
-      //   _this.orderInfo.similarVasSettings.map((keys, i) => {
-      //     similarTempArr[i] = extendDeep(keys, []);
-      //     keys.map((key, j) => {
-      //       _this.orderInfo.showkerTaskVasSettings.map(item => {
-      //         if (item.itemType === 'similar_item' && item.itemIndex === i && item.vasConfigId === key.id) {
-      //           similarTempArr[i][j].uploadId = item.id;
-      //           similarTempArr[i][j].status = item.status;
-      //           similarTempArr[i][j].required = item.required;
-      //           similarTempArr[i][j].screenshotsList = item.answerScreenshot ? [{src: item.answerScreenshot}] : [];
-      //         }
-      //       })
-      //     });
-      //   });
-      //   // 处理浏览答题
-      //   _this.orderInfo.issueAnswerList.forEach((item,index) => {
-      //     item.index = index;
-      //     item.src = '';
-      //     item.screenShotList = item.screenShotList.length > 0 ? [{src:item.screenShotList[0]}] : [];
-      //   });
-      //   _this.mainBabyImageList = mainTempData;
-      //   _this.similarImageList = similarTempArr;
-      //   _this.mainBabyAnswerList = _this.orderInfo.issueAnswerList;
-      //   console.timeEnd('upload');
-      // },
-      // 乐奇
       handleDataTest() {
-        console.time('upload-for-lq');
         const _this = this;
         // 主宝贝
         let mainVasSettingsMap = {};
@@ -244,15 +192,15 @@
           }
         });
         // 处理浏览答题
-        _this.orderInfo.issueAnswerList.forEach((item,index) => {
+        _this.orderInfo.issueAnswerList.map((item,index) => {
           item.index = index;
           item.src = '';
           item.screenShotList = item.screenShotList.length > 0 ? [{src:item.screenShotList[0]}] : [];
+          return item;
         });
         _this.mainBabyImageList = mainShowkerTaskVasSettings;
         _this.similarImageList = similarShowkerTaskVasSettings;
         _this.mainBabyAnswerList = _this.orderInfo.issueAnswerList;
-        console.timeEnd('upload-for-lq');
       },
       // 提交增值服务答案（截图）
       submitVasAnswer(info) {
@@ -286,7 +234,6 @@
       },
       // 查看示例图
       previewImage(info) {
-        // this.demoPictureSrc = info.pcTipsPicture ? info.pcTipsPicture : info.appTipsPicture;
         this.demoPictureSrc = info.pcTipsPicture || info.appTipsPicture;
         this.visible = true;
       }
