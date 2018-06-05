@@ -160,7 +160,7 @@
             <span v-show="taskRelease.orderType === 'day_now' || taskRelease.orderType === 'day_reserve'">（注意：请于当日22:20分前审批完成所有拿手资格，逾期系统将自动为您审批）</span>
           </span>
         </div>
-        <div class="ml-15 mt-20" v-show="taskRelease.orderType === 'day_reserve'">
+        <div class="ml-15 mt-20" v-if="taskRelease.orderType === 'day_reserve'">
           <i class="ivu-icon ivu-icon-information-circled cle60012"></i>
           <span>转当日单：</span>
           <checkbox v-model="taskRelease.dayReserveToNow" disabled>需要</checkbox>
