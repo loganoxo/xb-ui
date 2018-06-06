@@ -847,6 +847,7 @@
           alitmAccount: _this.alitmAccount,
           orderNum: _this.orderNum,
           showkerTaskStatusList: showkerTaskStatusList,
+          realStoreName:_this.realStoreName
         }).then(res => {
           if(res.status) {
             let rowData = [];
