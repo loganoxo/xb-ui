@@ -1930,7 +1930,7 @@
           this.exampleImageUrl = '/static/img/demo/taskRelease/browse-answer-image.png'
         }
       },
-      taskTypeChange(type) {
+      taskTypeChange: function (type) {
         if (type === 'pc_search') {
           this.addKeywordScheme = this.pcTaskDetail.length - 1;
           this.selectKeywordScheme = 0;
@@ -1963,6 +1963,17 @@
                 }
               })
             })
+          }
+        }
+        if (type === 'direct_access' || type === 'tao_code') {
+          this.vasMainItem.map(key => {
+            if (key.id === 1 && key.isSelect) {
+              key.isSelect = false;
+              return key;
+            }
+          });
+          if (this.shopAroundStatus) {
+            this.shopAroundStatus = false;
           }
         }
       },
