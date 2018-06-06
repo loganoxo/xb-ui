@@ -82,12 +82,12 @@
             <p class="fs-14">{{commodityData.task.showkerApplyTotalCount}} 人申请，{{parseInt(commodityData.trailOn) ?
               commodityData.trailOn: 0}} 人正在参与活动，{{parseInt(commodityData.trailDone) ? commodityData.trailDone : 0}}
               人完成活动， 剩余 {{commodityData.task.taskCount - commodityData.task.showkerApplySuccessCount >= 0 ? commodityData.task.taskCount - commodityData.task.showkerApplySuccessCount : 0}} 份
-              <span class="inline-block tag" v-if="getRole === 0 && isShowAddGroupTip">
+              <span class="inline-block tag" v-if="getUserRole === 0 && isShowAddGroupTip">
               <a href="http://shang.qq.com/wpa/qunwpa?idkey=c8b3150dbd8821f50cced9a08831de701636de9ae107e707114150d0050df9a4"
                 target="_blank">内部QQ群：478360486 ，据说里面的人都抢到了！</a>
               <span class="close-tag" @click="handleCloseTag()"><Icon type="ios-close-empty"></Icon></span>
             </span>
-              <span class="inline-block tag" v-if="getRole === 1 && isShowAddGroupTip">
+              <span class="inline-block tag" v-if="getUserRole === 1 && isShowAddGroupTip">
               <a :href="pcMerchantQqGroup.remark"
                 target="_blank">加入商家QQ群：{{pcMerchantQqGroup.configValue}} ，学习怎样有效放单！</a>
               <span class="close-tag" @click="handleCloseTag()"><Icon type="ios-close-empty"></Icon></span>
@@ -316,16 +316,9 @@
                   </div>
                 </li>
               </ul>
-              <div v-if="detailsShowkerList.length <=0" class="fs-14 text-ct pt-20 pb-20">
-                暂无数据
-              </div>
+              <div v-if="detailsShowkerList.length <=0" class="fs-14 text-ct pt-20 pb-20">暂无数据</div>
               <div class="text-ct pd-tb-20" v-if="detailsShowkerList.length > 0">
-                <Page
-                  :total=totalElements
-                  :page-size=5
-                  @on-change=pageChange
-                  show-elevator
-                ></Page>
+                <page :total=totalElements :page-size=5 @on-change=pageChange show-elevator></page>
               </div>
             </div>
             <div v-show="graphicInfoSelClass === 'audited'" class="graphic-audited-buyer">
@@ -347,17 +340,16 @@
         </div>
       </div>
     </div>
-    <Modal
-      v-model="selWwModel" class-name="vertical-center-modal" ok-text="确定" cancel-text="" @on-ok="selWwFunc()">
-      <p class="fs-18 fb mt-20" style="color: #FF6600">请选择活动旺旺号:</p>
-      <p class="fs-14 mt-10">注意：请 <span style="color: #FF6600">务必使用选择的旺旺号下单购买</span>，否则订单审核将无法通过！</p>
-      <Radio-group class="mt-20" v-model="selectedWw">
-        <Radio v-for="ww in wwList" :label="ww.id" :key="ww.id" :disabled="wwState[ww.status].disabled">
+    <modal v-model="selWwModel" class-name="vertical-center-modal" ok-text="确定" cancel-text="" @on-ok="selWwFunc()">
+      <p class="fs-18 fb mt-20 main-color">请选择活动旺旺号:</p>
+      <p class="fs-14 mt-10">注意：请 <span class="main-color">务必使用选择的旺旺号下单购买</span>，否则订单审核将无法通过！</p>
+      <radio-group class="mt-20" v-model="selectedWw">
+        <radio v-for="ww in wwList" :label="ww.id" :key="ww.id" :disabled="wwState[ww.status].disabled">
           <span :class="[ww.status !== 2 ? 'cl999':'']">{{ww.alitmAccount}}</span>
           <span v-if="wwState[ww.status].text" :class="[ww.status !== 2 ? 'cl999':'']">({{wwState[ww.status].text}})</span>
-        </Radio>
-      </Radio-group>
-      <span v-if="!canUseWw" style="color: #FF6600">（无可用旺旺号）</span>
+        </radio>
+      </radio-group>
+      <span class="main-color" v-if="!canUseWw">（无可用旺旺号）</span>
       <div v-if="limit">
         <p class="mt-10">本次申请将消耗 <span class="clff6633"> “1次” </span> 申请次数，当前您的剩余次数为 <span class="clff6633"> “{{residue}}次” </span> </p>
         <div class="mt-10">
@@ -371,8 +363,8 @@
           </a>
         </div>
       </div>
-    </Modal>
-    <Modal v-model="applySuccess" width="500">
+    </modal>
+    <modal v-model="applySuccess" width="500">
       <p class="mt-20 mb-20 text-ct fs-22" style="height: 50px;line-height: 50px">
         <Icon type="checkmark-circled" color="#3E9D3E" :size="40" style="vertical-align: sub;"></Icon>
         提交申请成功，请耐心等待商家审核
@@ -383,8 +375,8 @@
         </router-link>
         <span @click="refreshPage" class="ivu-btn ivu-btn-primary ivu-btn-large cl-fff">好的，明白了</span>
       </div>
-    </Modal>
-    <Modal v-model="selectLogin" width="500">
+    </modal>
+    <modal v-model="selectLogin" width="500">
       <p class="mt-20 mb-40 text-ct fs-22 vtc-mid" style="height: 50px;line-height: 50px">
         <Icon type="android-alert" size="20" color="#f9284f"></Icon>
         亲，你还没登录哦~
@@ -399,27 +391,28 @@
                      style="color: #fff;  width: 102px;">新用户注册
         </router-link>
       </div>
-    </Modal>
-    <Modal v-model="trialReportPicShow" width="600">
+    </modal>
+    <modal v-model="trialReportPicShow" width="600">
       <div style="text-align:center">
         <img :src="trialReportPic" alt="" style="width: 100%;margin-top: 20px;">
       </div>
       <div slot="footer">
       </div>
-    </Modal>
-    <Modal v-model="alitNumSuccess" cancel-text="" ok-text="去绑定旺旺号" @on-ok="goWwBind()">
+    </modal>
+    <modal v-model="alitNumSuccess" cancel-text="" ok-text="去绑定旺旺号" @on-ok="goWwBind()">
       <div class="ivu-modal-confirm-body">
         <div class="ivu-modal-confirm-body-icon ivu-modal-confirm-body-icon-warning">
           <i class="ivu-icon ivu-icon-android-alert vtd-mid"></i></div>
         <div><p class="fs-20 f-b">亲，你还没绑定旺旺号 </p><br> <span class="fs-12">请先绑定旺旺号在申请活动!</span></div>
       </div>
-    </Modal>
-    <Modal v-model="inBlackListPop" class="text-ct">
+    </modal>
+    <modal v-model="inBlackListPop" class="text-ct">
       <div class="fs-20 f-b mt-30"><Icon type="information-circled" class="main-color mr-5"></Icon><span>糟糕，出事儿了~</span></div>
       <div class="mt-20 mb-20">你的旺旺号已被此商家拉黑，无权申请该活动~</div>
       <div slot="footer" class="text-ct">
       </div>
-    </Modal>
+    </modal>
+    <qq-bind-modal :closable="isOpenQqBindModal" @change="openQqBindModal"></qq-bind-modal>
   </div>
 
 </template>
@@ -432,6 +425,7 @@
   import {aliCallbackImgUrl} from '@/config/env'
   import TimeDown from '@/components/TimeDown'
   import TaskApplyBefore from '@/components/TaskApplyBefore'
+  import QQBindModal from '@/components/QQBindModal'
 
   export default {
     name: 'TaskDetails',
@@ -453,6 +447,7 @@
       Alert: Alert,
       TaskApplyBefore: TaskApplyBefore,
       Tooltip: Tooltip,
+      QqBindModal: QQBindModal,
     },
     data() {
       return {
@@ -551,6 +546,7 @@
         canUseWw: false,
         isShowAddGroupTip: true,
         limit: false,
+        isOpenQqBindModal: false,
       }
     },
     created() {
@@ -597,14 +593,14 @@
       isLogin() {
         return this.$store.state.login
       },
-      getRole() {
-        return this.$store.state.userInfo.role
-      },
       pcMerchantQqGroup() {
         return this.$store.getters.getPcMerchantQqGroup
       },
       getUserRole() {
         return this.$store.getters.getUserRole
+      },
+      qqNumber() {
+        return this.$store.getters.getQQNumber
       },
     },
     methods: {
@@ -613,6 +609,9 @@
       },
       encryptionId(id) {
         return encryption(id);
+      },
+      openQqBindModal(value) {
+        this.isOpenQqBindModal = value
       },
       getUserHead(src) {
         if (src && src.indexOf('head-image') >= 0) {
@@ -654,21 +653,23 @@
         })
       },
       getShowkerCanTrial() {
-        let self = this;
+        const self = this;
         self.taskApplyLoading = true;
         api.showkerCanTrial({
           taskId: decode(self.$route.query.q)
         }).then((res) => {
           self.taskApplyLoading = false;
           if (res.status) {
-            self.selWwModel = true;
-            // let selRes = false;
-            self.wwList = res.data.alitmList;
-            for (let i = 0, j = res.data.alitmList.length; i < j; i++) {
-              if (res.data.alitmList[i].status === 2) {
-                // selRes = true;
-                self.canUseWw = true;
-                break;
+            if (!self.qqNumber) {
+              self.openQqBindModal(true)
+            } else {
+              self.selWwModel = true;
+              self.wwList = res.data.alitmList;
+              for (let i = 0, j = res.data.alitmList.length; i < j; i++) {
+                if (res.data.alitmList[i].status === 2) {
+                  self.canUseWw = true;
+                  break;
+                }
               }
             }
           } else {

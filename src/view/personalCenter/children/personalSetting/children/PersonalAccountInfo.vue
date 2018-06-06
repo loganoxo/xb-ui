@@ -1,5 +1,4 @@
 <template>
-  <!--账号信息beg-->
   <div class="user-info-box">
     <div class="user-basic">
       <p class="fs-14 user-basic-title">基本信息</p>
@@ -17,9 +16,8 @@
           </picture-upload>
         </div>
         <ul class="left">
-          <li>
-            手机帐号：{{userList.phone}}
-          </li>
+          <li>手机号：{{userList.phone}}</li>
+          <li>QQ号：{{qqNumber || '------'}}</li>
           <li v-if="userList.role === 0">
             <p v-if="userList.alitmNum <= 0 ">
               绑定淘宝账号：未绑定 -
@@ -49,54 +47,40 @@
       </div>
     </div>
     <div class="user-safe" v-show="myAccount.userSafe">
-      <p class="fs-14">账户&安全</p>
-      <ul>
-        <li>
-          <ul>
-            <li class="one">登录密码</li>
-            <li class="two">
-              已设置
-              <span>(建议定期修改登录密码)</span>
-            </li>
-            <li class="three">
-              <a @click="myAccountPwdChangeFather('modifyPwd')">去修改</a>
-            </li>
-          </ul>
-        </li>
-        <li>
-          <ul>
-            <li class="one">支付密码</li>
-            <li class="two">
-              <span v-if="!isEditPwdAlready">未设置(初始密码888888)</span>
-              <span v-if="isEditPwdAlready">已设置</span>
-            </li>
-            <li class="three">
-              <router-link to="/user/money-management/account-management?infoSelect=accountInfo">去设置</router-link>
-            </li>
-          </ul>
-        </li>
-        <li v-if="getUserRole === 0">
-          <ul>
-            <li class="one">
-              提现账号
-            </li>
-            <li class="two">
-              <span v-if="!userList.ifBandingBankCard">未设置</span>
-              <span v-if="userList.ifBandingBankCard">已设置</span>
-            </li>
-            <li class="three">
-              <router-link to="/user/money-management/getout-money">去设置</router-link>
-            </li>
-          </ul>
-        </li>
-        <li>
-          <ul>
-            <li></li>
-          </ul>
-        </li>
-      </ul>
+      <div class="fs-14 user-safe-head">账户&安全</div>
+      <div class="user-safe-con">
+        <span class="one">登录密码</span>
+        <span class="two">已设置(建议定期修改登录密码)</span>
+        <span class="three">
+          <a @click="myAccountPwdChangeFather('modifyPwd')">去修改</a>
+        </span>
+      </div>
+      <div class="user-safe-con">
+        <span class="one">支付密码</span>
+        <span class="two" v-if="isEditPwdAlready">已设置</span>
+        <span v-else class="two">未设置(初始密码888888)</span>
+        <span class="three">
+          <router-link to="/user/money-management/account-management?infoSelect=accountInfo">去设置</router-link>
+        </span>
+      </div>
+      <div class="user-safe-con" v-if="getUserRole === 0">
+        <span class="one">提现账号</span>
+        <span class="two" v-if="userList.ifBandingBankCard">已设置</span>
+        <span class="two" v-else>未设置</span>
+        <span class="three">
+          <router-link to="/user/money-management/getout-money">去设置</router-link>
+        </span>
+      </div>
+      <div class="user-safe-con">
+        <span class="one">QQ号</span>
+        <span class="two" v-if="qqNumber">已设定</span>
+        <span class="two" v-else>未设定</span>
+        <span class="three">
+        <a v-if="qqNumber" @click="openQqBindModal(true)">去修改</a>
+        <a v-else @click="openQqBindModal(true)">去设定</a>
+      </span>
+      </div>
     </div>
-
     <!--修改密码-->
     <div class="my-account">
       <div class="modify-pwd clear" v-show="myAccount.modifyPwd">
@@ -105,8 +89,7 @@
           <div v-show="myAccountSon.selBox" class="sel-box clear">
             <p class="left">请选择重置的方式：</p>
             <div class="left">
-              <div>
-                <div @click="myAccountPwdChangeSon('selDefaultModify')" class="sel-canal">
+              <div @click="myAccountPwdChangeSon('selDefaultModify')" class="sel-canal">
                   <p>
                     我忘记登录密码了
                     <br>
@@ -115,27 +98,22 @@
                   <i data-v-5aa11427="" class="ivu-icon ivu-icon-chevron-right"
                      style="vertical-align: middle;display: table-cell; font-size: 20px;"></i>
                 </div>
-                <div @click="myAccountPwdChangeSon('selPhoneModify')" class="sel-canal">
+              <div @click="myAccountPwdChangeSon('selPhoneModify')" class="sel-canal">
                   <p>
                     我记得原来的密码
                   </p>
                   <i data-v-5aa11427="" class="ivu-icon ivu-icon-chevron-right"
                      style="vertical-align: middle;display: table-cell; font-size: 20px;"></i>
                 </div>
-                <iButton @click="myAccountPwdChangeFather('userSafe')">
-                  返回上一页
-                </iButton>
-              </div>
+              <i-button @click="myAccountPwdChangeFather('userSafe')">返回上一页</i-button>
             </div>
-
           </div>
           <div v-show="myAccountSon.selPhoneModify" class="sel-default-modify mt-20">
-            <iForm ref="defaultModifyCustom" :model="defaultModifyCustom" :rules="defaultModifyRuleCustom"
-                   :label-width="400">
+            <i-form ref="defaultModifyCustom" :model="defaultModifyCustom" :rules="defaultModifyRuleCustom" :label-width="400">
               <div class="clear form-input-box">
-                <Form-item label="原始密码" class="left" style="width: 650px" prop="oldPwd">
+                <form-item label="原始密码" class="left" style="width: 650px" prop="oldPwd">
                   <iInput type="password" size="large" v-model="defaultModifyCustom.oldPwd"></iInput>
-                </Form-item>
+                </form-item>
               </div>
               <div class="clear form-input-box">
                 <Form-item label="新密码" class="left" style="width: 650px" prop="newPwd">
@@ -158,7 +136,7 @@
                   </iButton>
                 </Form-item>
               </div>
-            </iForm>
+            </i-form>
           </div>
           <div v-show="myAccountSon.selDefaultModify" class="sel-phone-modify mt-20">
             <iForm ref="payCustom" :model="payCustom" :rules="payRuleCustom" :label-width="400">
@@ -223,8 +201,8 @@
         </div>
       </div>
     </div>
+    <qq-bind-modal :closable="isOpenQqBindModal" @change="openQqBindModal"></qq-bind-modal>
   </div>
-  <!--账号信息end-->
 </template>
 
 <script>
@@ -232,6 +210,7 @@
   import pictureUpload from 'vue-image-crop-upload';
   import api from '@/config/apiConfig'
   import Upload from '@/components/Upload'
+  import QQBindModal from '@/components/QQBindModal'
   import {setStorage, getStorage, aliUploadImgBuffer, randomString} from '@/config/utils'
   import {aliCallbackImgUrl} from '@/config/env'
   import SmsCountdown from '@/components/SmsCountdown'
@@ -249,6 +228,7 @@
       Radio: Radio,
       RadioGroup: Radio.Group,
       Upload: Upload,
+      QqBindModal: QQBindModal,
       Modal: Modal,
       Alert: Alert,
       SmsCountdown: SmsCountdown,
@@ -380,7 +360,8 @@
             outOfSize: '单文件大小不能超过',
             lowestPx: '图片最低像素为（宽*高）：'
           }
-        }
+        },
+        isOpenQqBindModal: false
       }
     },
     mounted() {
@@ -405,6 +386,9 @@
       userBalance() {
         return this.$store.getters.getUserBalance
       },
+      qqNumber() {
+        return this.$store.getters.getQQNumber
+      },
       isEditPwdAlready() {
         return this.$store.getters.getIsEditPwdAlready
       },
@@ -427,6 +411,9 @@
             _this.modifyPortraitPic();
           }
         })
+      },
+      openQqBindModal(value) {
+        this.isOpenQqBindModal = value;
       },
       toggleShow() {
         this.showPictureUpload = !this.showPictureUpload;

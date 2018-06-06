@@ -98,8 +98,9 @@
             <thead>
             <tr>
               <th width="25%">淘宝账号（旺旺号）</th>
-              <th width="20%">状态</th>
-              <th width="25%">订单号</th>
+              <th width="15%">QQ号码</th>
+              <th width="15%">状态</th>
+              <th width="15%">订单号</th>
               <th width="10%">实付金额（元）</th>
               <th width="20%">操作</th>
             </tr>
@@ -113,28 +114,27 @@
                 <p v-cloak>申请次数：{{item.applyCount || 0}}</p>
                 <p v-cloak>成功次数：{{item.applySuccessCount || 0}}</p>
               </td>
+              <td>{{item.qqNumber || '------'}}</td>
               <td>
                 <p v-if="item.status === 'order_num_error'|| item.status === 'trial_report_unqualified'">
-                  <Tooltip
+                  <tooltip
                     :content="item.auditDescription"
                     placement="top" class="cursor-p">
-                    <Icon color="#f9284f" type="information-circled"></Icon>
+                    <icon color="#f9284f" type="information-circled"></icon>
                     <span class="main-color">{{getTaskStatus(item.status)}}</span>
-                  </Tooltip>
+                  </tooltip>
                 </p>
-                <p
-                  v-if="item.status !== 'order_num_error' && item.status !== 'trial_end' && item.status !== 'trial_report_unqualified'">
+                <p v-if="item.status !== 'order_num_error' && item.status !== 'trial_end' && item.status !== 'trial_report_unqualified'">
                   {{getTaskStatus(item.status)}}</p>
                 <p v-if="item.status !== 'trial_end' && item.status !== 'trial_finished'">
                   <time-down color='#ff4040' :fontWeight=600 :endTime="item.currentGenerationEndTime"></time-down>
                 </p>
                 <p v-if="item.status === 'trial_end'">
-                  <Tooltip
-                    :content="item.trialEndReason === 'admin_manual_close' ? getTaskStatus(item.trialEndReason) +'：'+ item.auditDescription : getTaskStatus(item.trialEndReason)"
+                  <tooltip :content="item.trialEndReason === 'admin_manual_close' ? getTaskStatus(item.trialEndReason) +'：'+ item.auditDescription : getTaskStatus(item.trialEndReason)"
                     placement="top" class="cursor-p">
-                    <Icon color="#f9284f" type="information-circled"></Icon>
+                    <icon color="#f9284f" type="information-circled"></icon>
                     <span class="main-color">{{getTaskStatus(item.status)}}</span>
-                  </Tooltip>
+                  </tooltip>
                 </p>
               </td>
               <td>{{item.orderNum || '------'}}</td>
@@ -147,22 +147,21 @@
                         @click="goProbationReport(item.id)">审核买家秀</span>
                   <span v-if="item.status === 'trial_finished' && !item.ifEvaluated"
                         @click="getShowkerReportInfo(item.id,item.alitmAccount)">评价拿手</span>
-                  <span
-                    v-if="item.status !== 'order_num_waiting_audit' && item.status !== 'trial_report_waiting_confirm' && !(item.status === 'trial_finished' && !item.ifEvaluated)">------</span>
+                  <span v-if="item.status !== 'order_num_waiting_audit' && item.status !== 'trial_report_waiting_confirm' && !(item.status === 'trial_finished' && !item.ifEvaluated)">------</span>
                 </p>
               </td>
             </tr>
             </tbody>
             <thead v-if="taskPassAuditList[index].passTask && taskPassAuditList[index].passTask.length > 0">
             <tr>
-              <td colspan="5">
+              <td colspan="6">
                 <page :total="taskTotalElements" :page-size="taskPageSize" :current="taskPageIndex" @on-change="TaskPageChange"></page>
               </td>
             </tr>
             </thead>
             <thead v-if="taskPassAuditList[index].passTask && taskPassAuditList[index].passTask.length === 0">
             <tr>
-              <td colspan="5" width="100%">暂无数据</td>
+              <td colspan="6" width="100%">暂无数据</td>
             </tr>
             </thead>
           </table>

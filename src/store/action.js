@@ -30,7 +30,7 @@ export default {
             info: res.data
           })
         } else {
-          console.log('获取用户信息：', res.msg);
+          console.error('获取用户信息：', res.msg);
         }
         resolve(res);
       }).catch(err => {
@@ -60,7 +60,7 @@ export default {
           countInfo: res.data
         })
       } else {
-        console.log('获取商家任务管理活动数量信息：', res.msg);
+        console.error('获取商家任务管理活动数量信息：', res.msg);
       }
     })
   },
@@ -74,7 +74,7 @@ export default {
           result: res.data
         });
       } else {
-        console.log('获取系统配置信息错误：', res.msg)
+        console.error('获取系统配置信息错误：', res.msg)
       }
     })
   },

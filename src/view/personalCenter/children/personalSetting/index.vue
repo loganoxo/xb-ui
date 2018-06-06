@@ -120,37 +120,37 @@
         }
       }
       .user-safe {
+        border: 1px solid #EEE;
         margin-top: 20px;
-        P {
+        .user-safe-head {
           padding: 0 20px;
           height: 36px;
           line-height: 36px;
           background-color: #f8f8f8;
         }
-        ul {
-          width: 100%;
-          li {
-            ul {
-              display: table;
-              height: 60px;
-              font-size: 14px;
-              li {
-                display: table-cell;
-                vertical-align: middle;
-                text-align: center;
-              }
-              li.one {
-                width: 30%;
-              }
-              li.two {
-                width: 50%;
-                text-align: left;
-              }
-              li.three {
-                width: 20%;
-              }
-            }
-          }
+        .one {
+          display: inline-block;
+          width: 30%;
+          height: 60px;
+          line-height: 60px;
+          font-size: 14px;
+          text-align: center;
+        }
+        .two {
+          display: inline-block;
+          width: 49%;
+          text-align: left;
+          height: 60px;
+          line-height: 60px;
+          font-size: 14px;
+        }
+        .three {
+          display: inline-block;
+          width: 20%;
+          height: 60px;
+          line-height: 60px;
+          font-size: 14px;
+          text-align: center;
         }
       }
       .my-account {

@@ -152,7 +152,7 @@
           <span>转当日单：</span>
           <checkbox v-model="taskRelease.dayReserveToNow">需要</checkbox>
           <span class="main-color f-b">建议勾选！</span>
-          <span class="sizeColor2">（若审核通过的拿手当日未加入购物车，在次日扔可继续下单购买，活动剩余名额也自动转为当日单）</span>
+          <span class="sizeColor2">（若审核通过的拿手当日未加入购物车，在次日仍可继续下单购买，活动剩余名额也自动转为当日单）</span>
         </div>
         <div class="trial-condition ml-20 mt-20">
           <span class="ml-8">申请条件：</span>
@@ -1140,7 +1140,7 @@
     <!--爬虫抓取宝贝地址对应的店铺信息失败提示弹框-->
     <modal v-model="isGetStoreInfoError" :closable="false" :mask-closable="false" width="360">
       <p slot="header" class="text-ct">
-        <Icon color="#f9284f" type="information-circled"></Icon>
+        <icon color="#f9284f" type="information-circled"></icon>
         <span class="main-color">温馨提示</span>
       </p>
       <div class="text-ct">
@@ -1154,7 +1154,7 @@
     <!--用户没有绑定任何店铺弹框提示-->
     <modal v-model="isBindStore" :closable="false" :mask-closable="false" width="360">
       <p slot="header" class="text-ct">
-        <Icon color="#f9284f" type="information-circled"></Icon>
+        <icon color="#f9284f" type="information-circled"></icon>
         <span class="main-color">温馨提示</span>
       </p>
       <div class="text-ct">
@@ -1162,7 +1162,7 @@
         <p>请先绑定店铺后在发布活动</p>
       </div>
       <div slot="footer">
-        <iButton type="error" size="large" long @click="goStoreBind">前去绑定店铺</iButton>
+        <i-button type="error" size="large" long @click="goStoreBind">前去绑定店铺</i-button>
       </div>
     </modal>
     <!--普通会员用户使用当日单或预约单提示升级会员版本弹框-->
@@ -1180,6 +1180,8 @@
         <i-button size="large" @click="closeUpgradeMembershipModal">我知道了</i-button>
       </div>
     </modal>
+    <!--用户绑定QQ号弹框-->
+    <qq-bind-modal :closable="isOpenQqBindModal" :closableIcon="false" @change="openQqBindModal"></qq-bind-modal>
   </div>
 </template>
 
@@ -1189,6 +1191,7 @@
   import Upload from '@/components/Upload'
   import PayModel from '@/components/PayModel'
   import UserClause from '@/components/UserClause'
+  import QQBindModal from '@/components/QQBindModal'
   import api from '@/config/apiConfig'
   import {aliCallbackImgUrl} from '@/config/env'
   import {aliUploadImg, isPositiveInteger, isNumber, isInteger, isAliUrl, randomString, extendDeep, decode, setStorage, getStorage, getUrlParams, scrollToTop} from '@/config/utils'
@@ -1217,6 +1220,7 @@
       Tooltip: Tooltip,
       PayModel: PayModel,
       UserClause: UserClause,
+      QqBindModal: QQBindModal,
     },
     data() {
       return {
@@ -1413,6 +1417,7 @@
         shopAroundStatus: false,
         originalVasMainItem: [],
         upgradeMembershipModal: false,
+        isOpenQqBindModal: false,
       }
     },
     updated() {
@@ -1443,6 +1448,9 @@
       this.getItemCatalog();
       this.getStoreBindInfoList();
       this.getMemberVersionLevel !== 100 && this.getTaskVasList();
+      if (!this.qqNumber) {
+        this.isOpenQqBindModal = true
+      }
     },
     computed: {
       /**
@@ -1466,7 +1474,15 @@
        * @return {number}
        */
       getUserBalance() {
-        return this.$store.getters.getUserBalance;
+        return this.$store.getters.getUserBalance
+      },
+
+      /**
+       * 从vuex中获取用户QQ号码
+       * @return {number}
+       */
+      qqNumber() {
+        return this.$store.getters.getQQNumber
       },
 
       /** 获取用户会员版本等级（100：普通用户， 200：VIP， 300：SVIP）
@@ -1770,6 +1786,9 @@
           }
         }
       },
+      openQqBindModal(value) {
+        this.isOpenQqBindModal = value
+      },
       getTaskVasSelectInfo(id) {
         const _this = this;
         api.taskVasSelectInfo({
@@ -1962,7 +1981,6 @@
         }
         if (type === 'day_now' || type === 'day_reserve') {
           this.taskRelease.speedUp = true;
-          this.taskRelease.taskCount = null;
           this.taskRelease.taskDaysDuration = null;
           this.taskCountInputPlaceholder = '当日22点前有效';
           this.taskRelease.showkerOrderTimeLimit = '';

@@ -1,16 +1,13 @@
 <template>
   <div class="xiu-ba-pc">
-    <Top v-show="isTopShow"></Top>
+    <top v-show="isTopShow"></top>
     <router-view></router-view>
     <!--网站底部信息-->
-    <Bottom v-show="isBottomShow"></Bottom>
+    <bottom v-show="isBottomShow"></bottom>
     <!--侧边栏信息导航-->
     <side-navigation></side-navigation>
     <!--侧边栏固定联系客服图片展示-->
     <div class="suspend-service" v-show="showSuspendService" v-if="isLogin">
-      <!--<a href="http://wpa.qq.com/msgrd?v=3&site=qq&menu=yes&uin=1624363653" target="_blank" v-if="getUserRole === 1">-->
-        <!--<img src="~assets/img/common/suspend-service.png" alt="">-->
-      <!--</a>-->
       <div v-if="getUserRole === 1" class="pos-rel">
         <img src="~assets/img/common/service-little-sister.png" alt="">
         <div class="service-content">
@@ -38,12 +35,12 @@
         </div>
       </a>
       <span class="close-suspend-service" @click.stop.self="closeSuspendService">关闭</span>
-      <Modal v-model="$store.state.isBuyVipPopup" width="700" class="show-buyer-popup" >
+      <modal v-model="$store.state.isBuyVipPopup" width="700" class="show-buyer-popup" >
         <div class="show-buyer-popup-body pos-rel" >
           <a href="http://wpa.qq.com/msgrd?v=3&site=qq&menu=yes&uin=2012364029" target="_blank" @click="closeSuspendService"></a>
           <div class="dynamicQQ">{{getSellerCustomerQq.configValue}}</div>
         </div>
-      </Modal>
+      </modal>
     </div>
   </div>
 </template>
@@ -92,14 +89,14 @@
       }
     },
     created() {
-      let _this = this;
+      const _this = this;
       let userInfo = getStorage('userInfo');
       if (!userInfo && _this.logInAuthority) {
         _this.$store.dispatch('loggedOut').then((res) => {
           if (res.status) {
             _this.$router.push({name: 'login'});
           } else {
-            console.log(res.msg);
+            console.error(res.msg);
           }
         });
       }
