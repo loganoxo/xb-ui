@@ -107,7 +107,7 @@
                   <div class="value-added-info" v-if="eyesStatus === 'on'">
                     <p>
                       <span>被平台商家拉黑：</span>
-                      <span v-if="allTask.blackCount === 0" class="blue text-decoration-underline">0</span>
+                      <span v-if="allTask.blackCount === 0 || allTask.blackCount < 4" class="blue text-decoration-underline">0</span>
                       <span v-else class="blue text-decoration-underline cursor-p" @click="lookBlackListInfo(allTask.alitmAccount, allTask.showkerId, allTask.creditLevel, allTask.tqz)">{{allTask.blackCount || 0}}</span>
                     </p>
                     <!-- <p class="mt-5">

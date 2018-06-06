@@ -1930,7 +1930,7 @@
           this.exampleImageUrl = '/static/img/demo/taskRelease/browse-answer-image.png'
         }
       },
-      taskTypeChange: function (type) {
+      taskTypeChange(type) {
         if (type === 'pc_search') {
           this.addKeywordScheme = this.pcTaskDetail.length - 1;
           this.selectKeywordScheme = 0;
