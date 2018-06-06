@@ -1448,9 +1448,6 @@
       this.getItemCatalog();
       this.getStoreBindInfoList();
       this.getMemberVersionLevel !== 100 && this.getTaskVasList();
-      if (!this.qqNumber) {
-        this.isOpenQqBindModal = true
-      }
     },
     computed: {
       /**
@@ -1866,6 +1863,9 @@
             _this.selectStoreInfo.storeAlitm = res.data.length > 0 ? decodeURI(res.data[0].storeAlitm) : null;
             _this.selectStoreInfo.sellerId = res.data.length > 0 ? res.data[0].sellerId : null;
             _this.selectStoreInfo.shopId = res.data.length > 0 ? res.data[0].shopId : null;
+            if (!_this.isBindStore && !_this.qqNumber) {
+              _this.isOpenQqBindModal = true
+            }
           } else {
             _this.$Message.error(res.msg)
           }
