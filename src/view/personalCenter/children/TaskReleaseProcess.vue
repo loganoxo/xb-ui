@@ -221,15 +221,15 @@
         <div v-if="getMemberVersionLevel !== 100" class="value-added-services">
         <p class="main-color">增值服务（平台已保证所有拿手安全下单，但您仍不放心，可选择以下增值服务，该服务会要求拿手上传截图留证）</p>
         <template v-for="item in vasMainItem">
-          <checkbox v-show="taskRelease.taskType === 'pc_search' || taskRelease.taskType === 'direct_access' ? item.showForPc : item.showForApp" class="mt-10 mr-0" v-model="item.isSelect" :disabled="item.isDisabled">
+          <checkbox v-show="item.id !== 1 ? taskRelease.taskType === 'pc_search' || taskRelease.taskType === 'direct_access' ? item.showForPc : item.showForApp : taskRelease.taskType === 'pc_search' || taskRelease.taskType === 'app_search'" class="mt-10 mr-0" v-model="item.isSelect" :disabled="item.isDisabled">
             <span>{{item.name}}</span>
             <span class="sizeColor2">({{item.price / 100 || 0}}元)</span>
           </checkbox>
-          <tooltip class="mr-15" content="查看示例图" placement="top" v-show="taskRelease.taskType === 'pc_search' || taskRelease.taskType === 'direct_access' ? item.showForPc : item.showForApp">
+          <tooltip class="mr-15" content="查看示例图" placement="top" v-show="item.id !== 1 ? taskRelease.taskType === 'pc_search' || taskRelease.taskType === 'direct_access' ? item.showForPc : item.showForApp : taskRelease.taskType === 'pc_search' || taskRelease.taskType === 'app_search'">
             <span class="value-added-services-demo-image" @click="openSampleImageModal(taskRelease.taskType === 'pc_search' || taskRelease.taskType === 'direct_access' ? item.pcTipsPicture : item.appTipsPicture)">图</span>
           </tooltip>
         </template>
-        <checkbox class="mt-10" v-model="shopAroundStatus" @on-change="shopAroundStatusChange">
+        <checkbox class="mt-10" v-model="shopAroundStatus" @on-change="shopAroundStatusChange" v-show="taskRelease.taskType === 'pc_search' || taskRelease.taskType === 'app_search'">
           <span>货比三家</span>
           <span class="sizeColor2">(最多添加3个)</span>
         </checkbox>
