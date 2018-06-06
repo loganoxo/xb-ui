@@ -68,6 +68,7 @@
             <td colspan="6">
               <span>活动编号：{{item.orderNumber || '------'}}</span>
               <span class="ml-20">通过日期：{{item.createTime | dateFormat('YYYY-MM-DD hh:mm:ss')}}</span>
+              <span class="ml-20">商家QQ号：{{item.qqNumber || '------'}}</span>
             </td>
           </tr>
           <tr>
@@ -77,7 +78,7 @@
             </td>
             <td>{{item.alitmAccount}}</td>
             <td>{{item.orderPrice}} / {{item.perMarginNeed}}</td>
-            <td>{{item.orderNum || '-----'}}</td>
+            <td>{{item.orderNum || '------'}}</td>
             <td>
               <div
                 v-if="item.status !== 'trial_end' && item.status !== 'order_num_error' && item.status !== 'trial_report_unqualified'">
@@ -130,9 +131,7 @@
                  class="operation mt-5"
                  @click="lookReportInfo(item.id)">查看买家秀详情</p>
               <p v-if="item.status === 'trial_finished'" class="operation mt-5">
-                <router-link
-                  :to="{path:'/user/money-management/transaction-record',query:{taskNumber:item.orderNumber}}">查看活动账单
-                </router-link>
+                <router-link :to="{path:'/user/money-management/transaction-record',query:{taskNumber:item.orderNumber}}">查看活动账单</router-link>
               </p>
               <p v-if="item.status !== 'trial_end' && item.status !== 'trial_finished'" class="operation mt-5"
                  @click="endTrialModel(item.id)">结束活动</p>
@@ -1135,6 +1134,7 @@
               data.createTime = item.createTime;
               data.orderNumber = item.task.number;
               data.taskType = item.task.taskType;
+              data.qqNumber = item.other.qqNumber;
               data.activityCategory = item.task.activityCategory;
               if (item.latestShowkerTaskOpLog) {
                 data.auditDescription = item.latestShowkerTaskOpLog.auditDescription;
