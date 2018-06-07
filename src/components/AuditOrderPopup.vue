@@ -513,7 +513,7 @@
   .check-order-con {
     position: absolute;
     width: 700px;
-    /*height:95%;*/
+    max-height:85%;
     background-color: #fff;
     border-radius: 5px;
     left: 50%;
