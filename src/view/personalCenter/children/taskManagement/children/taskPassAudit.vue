@@ -143,8 +143,11 @@
                 <p class="del-edit">
                   <span v-if="item.status === 'order_num_waiting_audit'"
                         @click="openCheckOrder(item.id, item.needBrowseCollectAddCart, item.itemIssue, index)">审核订单信息</span>
-                  <span v-if="item.status === 'trial_report_waiting_confirm'"
-                        @click="goProbationReport(item.id)">审核买家秀</span>
+                  <!--<span v-if="item.status === 'trial_report_waiting_confirm'"-->
+                        <!--@click="goProbationReport(item.id)">审核买家秀</span>-->
+                  <router-link target="_blank" :to="{path:'/user/activity-management/report',query:{id: encryptionId(item.id), from: 'taskPassAudit'}}" v-if="item.status === 'trial_report_waiting_confirm'">
+                    审核买家秀
+                  </router-link>
                   <span v-if="item.status === 'trial_finished' && !item.ifEvaluated"
                         @click="getShowkerReportInfo(item.id,item.alitmAccount)">评价拿手</span>
                   <span v-if="item.status !== 'order_num_waiting_audit' && item.status !== 'trial_report_waiting_confirm' && !(item.status === 'trial_finished' && !item.ifEvaluated)">------</span>
@@ -510,6 +513,9 @@
       }
     },
     methods: {
+      encryptionId(id) {
+        return encryption(id);
+      },
       getShowkerReportInfo(id, alitmAccount) {
         let self = this;
         self.evaluateShowkerAlitmAccount = alitmAccount;

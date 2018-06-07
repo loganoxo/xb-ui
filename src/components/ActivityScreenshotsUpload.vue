@@ -15,7 +15,6 @@
                   name="task"
                   :on-format-error="handleFormatError"
                   :on-exceeded-size="handleMaxSize"
-                  :index="index"
                   type="drag"
                   :itemInfo="item">
             <div class="camera">
@@ -121,7 +120,7 @@
     },
     computed: {},
     created() {
-      this.handleDataTest();
+      this.handleData();
     },
     methods: {
       handleFormatError(file) {
@@ -153,7 +152,7 @@
         _this.submitAnswer(info);
       },
 
-      handleDataTest() {
+      handleData() {
         const _this = this;
         // 主宝贝
         let mainVasSettingsMap = {};
@@ -219,6 +218,7 @@
       },
       // 提交浏览答题
       submitAnswer(info) {
+        console.log(info);
         const _this = this;
         api.submitAnswerScreenshots({
           showkerTaskId: _this.taskId,

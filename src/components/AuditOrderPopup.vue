@@ -2,6 +2,7 @@
   <div class="check-order-model">
     <div class="check-order-con">
       <i class="right" @click="closeModel">&times;</i>
+      <!--原显示收藏加购浏览答题截图-->
       <!--<div class="f-b fs-14 main-color mt-28" v-if="needBrowseCollectAddCart || needIssue">1.请查看拿手提交的截图信息</div>-->
       <!--<div class="clear">-->
         <!--<div class="left" v-if="needBrowseCollectAddCart">

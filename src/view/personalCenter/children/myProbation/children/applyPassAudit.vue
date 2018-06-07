@@ -117,8 +117,6 @@
             <td>
               <p v-if="item.status === 'pass_and_unclaimed'" class="operation"
                  @click="changePassOperation('place','', item.id, item.taskType, item.activityCategory)">去下单</p>
-              <!--<p v-if="item.status === 'waiting_add_to_cart'" class="operation"-->
-                 <!--@click="changePassOperation('place','', item.id, item.taskType, item.activityCategory)">去加购</p>-->
               <p v-if="item.status === 'order_num_error'" class="operation"
                  @click="changePassOperation('place','', item.id, item.taskType, item.activityCategory)">修改订单信息</p>
               <!--<p v-if="item.status === 'order_num_error'" class="operation mt-5"-->
@@ -193,7 +191,6 @@
         <div class="mt-10">
           <strong>当前流程状态：</strong>
           <Icon v-if="showkerTask.status === 'order_num_error'" type="information-circled" color="#f9284f"></Icon>
-          <!--<span :class="[showkerTask.status === 'order_num_error' ? 'main-color': '']">{{showkerTask.statusDesc}}</span>-->
           <span :class="[showkerTask.status === 'order_num_error' ? 'main-color': '']">{{getTaskStatus(showkerTask.status)}}</span>
           <strong class="ml-10" v-if="showkerTask.status === 'order_num_error'">原因：{{showkerTask.latestShowkerTaskOpLog.auditDescription}}</strong>
         </div>
@@ -418,6 +415,7 @@
           <span :class="[currentOrderStatusInfo.status === 'order_num_error' ? 'main-color': '']">{{getTaskStatus(currentOrderStatusInfo.status)}}</span>
           <strong class="ml-10" v-if="currentOrderStatusInfo.status === 'order_num_error'">原因：{{currentOrderStatusInfo.auditDescription}}</strong>
         </div>
+        <!--收藏加购的代码，勿删-->
        <!--<div v-if="needBrowseCollectAddCart" class="mt-20 ml-45 des-text">1.收藏、加入购物车，提交相关截图</div>-->
         <!--<div v-if="needBrowseCollectAddCart" class="clear text-ct ml-45 mt-20">-->
           <!--<div class="left mr-20" v-if="taskType === 'pc_search'">-->
