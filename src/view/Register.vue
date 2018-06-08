@@ -679,7 +679,7 @@
               info: res.data
             });
             if (res.data.role === 1) {
-              self.$router.push({name: 'home'});
+              self.$router.push({name: 'Home'});
             } else {
               self.$router.push({name: 'WwBind'});
             }

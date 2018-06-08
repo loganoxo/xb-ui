@@ -94,7 +94,7 @@
       if (!userInfo && _this.logInAuthority) {
         _this.$store.dispatch('loggedOut').then((res) => {
           if (res.status) {
-            _this.$router.push({name: 'login'});
+            _this.$router.push({name: 'Login'});
           } else {
             console.error(res.msg);
           }
