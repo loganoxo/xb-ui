@@ -2,30 +2,6 @@
   <div class="check-order-model">
     <div class="check-order-con">
       <i class="right" @click="closeModel">&times;</i>
-      <!--原显示收藏加购浏览答题截图-->
-      <!--<div class="f-b fs-14 main-color mt-28" v-if="needBrowseCollectAddCart || needIssue">1.请查看拿手提交的截图信息</div>-->
-      <!--<div class="clear">-->
-        <!--<div class="left" v-if="needBrowseCollectAddCart">
-          <div class="mt-5 cl00 fs-12 f-b">A.查看拿手提交的收藏加购截图</div>
-          <div class="order-info-screenshot mt-5" v-for="(value, key) in orderInfo.screenshot" :key="key" v-if="value">
-            <img :src="value + '!thum54'" alt="收藏加购截图">
-            <div class="order-info-screenshot-cover">
-              <icon type="ios-eye-outline" @click.native="handleView(value,key)"></icon>
-            </div>
-          </div>
-        </div>-->
-        <!--<div class="left parting-line" v-if="needIssue"></div>-->
-        <!--<div class="left ml-10" v-if="needIssue">-->
-          <!--<div class="mt-5 cl00 fs-12 f-b"><span>{{needIssue ? 'B.' : 'A.'}}</span>查看拿手提交的浏览答题截图</div>-->
-          <!--<div class="order-info-screenshot mt-5" v-for="(item, index) in orderInfo.issueAnswerScreenshot"-->
-               <!--:key="index" v-if="item">-->
-            <!--<img :src="item.screenshotSrc + '!thum54'" alt="浏览答题截图">-->
-            <!--<div class="order-info-screenshot-cover">-->
-              <!--<icon type="ios-eye-outline" @click.native="handleViewIssue(item.screenshotSrc,item.issueText.issue)"></icon>-->
-            <!--</div>-->
-          <!--</div>-->
-        <!--</div>-->
-      <!--</div>-->
       <div class="screenshot" v-if="mainBabyRawData.length > 0 || mainAnswerRewData.length > 0 || similarBabyRawData.length > 0">
         <div class="f-b fs-14 main-color mt-10">
           请查看拿手提交的截图信息
@@ -196,10 +172,6 @@
         type:Boolean,
         default:false
       },
-      // orderReviewStatus:{
-      //   type:String,
-      //   default:'passAudit'
-      // },
       operateTaskId:{
         type:Number,
         default:0
@@ -312,12 +284,10 @@
             _this.$Message.success('订单号审核成功！');
             _this.$store.dispatch('getPersonalTrialCount');
             _this.$store.dispatch('getUserInformation');
-            // _this.showCheckOrder = false;
             this.$emit('closeAuditModel');
             _this.passesShowkerTask(_this.operateTaskId, _this.operateIndex);
           } else {
             _this.$Message.error(res.msg);
-            // _this.closeCheckOrder();
             this.$emit('closeAuditModel');
 
           }
@@ -345,30 +315,6 @@
           }
         })
       },
-      // passesShowkerTask(taskId, index, pageIndex) {
-      //   let _this = this;
-      //   _this.operateTaskId = taskId;
-      //   _this.operateIndex = index;
-      //   api.passesShowkerTask({
-      //     taskId: taskId,
-      //     alitmAccount: _this.alitmAccount,
-      //     orderNum: _this.orderNum,
-      //     showkerTaskStatusList: JSON.stringify(_this.showkerTaskStatusList),
-      //     pageIndex: pageIndex ? pageIndex : 1,
-      //     pageSize: _this.taskPageSize,
-      //   }).then(res => {
-      //     if (res.status) {
-      //       _this.$set(_this.taskPassAuditList[index], 'passTask', []);
-      //       res.data.content.forEach(item => {
-      //         _this.taskPassAuditList[index].passTask.push(item);
-      //       });
-      //       _this.taskTotalElements = res.data.totalElements;
-      //     } else {
-      //       _this.$Message.error(res.msg);
-      //     }
-      //   })
-      // },
-      // 处理截图数据
       handleScreenShot() {
         const _this = this;
         let tempData = _this.orderInfo;
@@ -426,7 +372,7 @@
         _this.babyTwoImageList = babyTwoList;
         _this.babyThreeImageList = babyThreeList;
         // 处理浏览答题截图数据
-        _this.mainBabyAnswerList = tempData.issueAnswerScreenshot.map((item,index) => {
+        _this.mainBabyAnswerList = tempData.issueAnswerScreenshot.map(item => {
           let tempObj = {};
           tempObj.title = item.issueText.issue;
           tempObj.screenshotsList = item.screenshotSrc ? [{src:item.screenshotSrc}] : [];
