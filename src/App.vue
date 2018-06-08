@@ -216,6 +216,12 @@
     line-height: 30px;
   }
 
+  .ivu-modal .camera {
+    width: 58px;
+    height: 58px;
+    line-height: 58px;
+  }
+
 </style>
 
 

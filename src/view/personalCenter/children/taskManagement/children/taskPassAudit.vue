@@ -500,7 +500,7 @@
         return this.$store.getters.getUserBalance
       },
       // isBalance() {
-      //   return this.needReplenishMoney <= this.getUserBalance * 100
+      //   return this.needReplenishMoney <= this.getUserBalance
       // },
       // needReplenishMoneyText() {
       //   return `${(this.needReplenishMoney / 100).toFixed(2)} + ${(((Math.ceil(this.needReplenishMoney / 0.994)) - this.needReplenishMoney) / 100).toFixed(2)}`

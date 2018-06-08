@@ -1,7 +1,7 @@
 <template>
   <div class="my-pay">
     <div class="clear my-pay-top">
-      <span class="left">当前可用余额<span style="color:red ">{{getUserBalance}}</span>元</span>
+      <span class="left">当前可用余额<span style="color:red ">{{(getUserBalance / 100).toFixed(2)}}</span>元</span>
       <router-link :to="{'path':'/user/money-management/transaction-record',query:{'activeType':1}}"
                    class="right cursor-p" style="color: blue;">查看充值记录
       </router-link>

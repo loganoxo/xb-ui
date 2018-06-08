@@ -3,7 +3,7 @@
     <div class="my-money clear">
       <div class="money-info-left left">
           <div>可用余额（元）</div>
-          <div class="number mt-5 ">{{userBalance}}</div>
+          <div class="number mt-5 ">{{(userBalance / 100).toFixed(2)}}</div>
           <p>收入金额（元）：{{(userAccount.amountIncomes / 100).toFixed(2) || 0}}</p>
           <p>支出金额（元）：{{(userAccount.amountPayment / 100).toFixed(2) || 0}}</p>
           <div class="view-details mt-10"  v-if="userRole ===1">

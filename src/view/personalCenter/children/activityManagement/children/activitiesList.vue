@@ -463,10 +463,10 @@
         return this.hasDeposited > 0 ? this.needDepositMoney - this.hasDeposited : this.needDepositMoney;
       },
       isBalance() {
-        return this.orderMoney <= this.getUserBalance * 100
+        return this.orderMoney <= this.getUserBalance
       },
       needPayMoney() {
-        return !this.hasBalance ? Math.abs(this.getUserBalance * 100 - this.orderMoney) : 0
+        return !this.hasBalance ? Math.abs(this.getUserBalance - this.orderMoney) : 0
       },
       needPayMoneyText() {
         return `${(this.needPayMoney / 100).toFixed(2)} + ${(((Math.ceil(this.needPayMoney / 0.994)) - this.needPayMoney) / 100).toFixed(2)}`

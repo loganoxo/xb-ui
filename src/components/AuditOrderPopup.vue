@@ -252,7 +252,7 @@
         }
       },
       isBalance() {
-        return this.needReplenishMoney <= this.getUserBalance * 100
+        return this.needReplenishMoney <= this.getUserBalance
       },
       needReplenishMoney() {
         return (this.getOderPrice - this.orderInfo.perMarginNeed) * 100
