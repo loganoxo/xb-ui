@@ -124,7 +124,7 @@
         v-for="homeCommodity in homeCommodityList"
         :title="homeCommodity.taskName"
         :key="homeCommodity.id"
-        :to="{path: '/task-details',query: {q: encryptionId(homeCommodity.id)}}">
+        :to="{path: `/task-details/${encryptionId(homeCommodity.id)}`}">
         <div class="home-commodity-img pos-rel">
           <img class="block" v-lazy="homeCommodity.taskMainImage + '!orgi75'" width="210" height="208">
           <span class="applied"> {{homeCommodity.showkerApplyTotalCount || 0}} 人已申请</span>
@@ -149,7 +149,7 @@
             份
           </p>
           <p class="home-commodity-take">
-            <router-link :to="{path: '/task-details',query: {q: encryptionId(homeCommodity.id)}}"
+            <router-link :to="{path: `/task-details/${encryptionId(homeCommodity.id)}`}"
                          class="ivu-btn ivu-btn-long">免费领取
             </router-link>
           </p>

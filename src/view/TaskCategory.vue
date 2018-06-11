@@ -103,7 +103,7 @@
               v-show="searchTaskList.length > 0"
               v-for="searchTask in searchTaskList"
               :key= "searchTask.id"
-              :to="{ 'path': '/task-details', 'query': {'q': encryptionId(searchTask.id)}}"
+              :to="{path: `/task-details/${encryptionId(searchTask.id)}`}"
               class="task-category-commodity-details">
               <div class="task-category-commodity-img pos-rel">
                 <img class="block" v-lazy="searchTask.taskMainImage +'!thum400'" height="220" width="220">
@@ -172,20 +172,20 @@
                 </p>
                 <p class="cl000">剩余时间：<time-down  :endTime="searchTask.endTime" ></time-down>&nbsp;</p>
                 <p class="get-btn">
-                  <router-link :to="{ 'path': '/task-details','query': {'q': encryptionId(searchTask.id)}}" class="ivu-btn ivu-btn-long" >免费领取</router-link>
+                  <router-link :to="{path: `/task-details/${encryptionId(searchTask.id)}`}" class="ivu-btn ivu-btn-long" >免费领取</router-link>
                 </p>
               </div>
             </router-link>
             <p class="text-ct" v-show="searchTaskList.length <= 0">暂无数据</p>
           </div>
           <div class="task-category-commodity-page" v-show="searchTaskList.length > 0" >
-            <Page
+            <page
               :current="searchTaskParams.pageIndex"
               :total= pageCount
               :page-size = searchTaskParams.pageSize
               @on-change = pageChange
               show-elevator
-            ></Page>
+            />
           </div>
         </div>
       </div>
@@ -203,7 +203,7 @@
               v-show="historyTaskList.length > 0"
               v-for="historyTask in historyTaskList"
               :key= "historyTask.id"
-              :to="{ 'path': '/task-details', 'query': {'q': encryptionId(historyTask.id)}}"
+              :to="{ path: `/task-details/${encryptionId(historyTask.id)}`}"
               class="task-category-commodity-details">
               <div class="task-category-commodity-img pos-rel">
                 <img class="block" v-lazy="historyTask.taskMainImage +'!thum400'" alt="" width="220" height="220">
@@ -288,7 +288,7 @@
                   <span class="main-color"> {{historyTask.taskCount - historyTask.showkerApplySuccessCount || 0}} </span> 份
                 </p>
                 <p class="check-detail">
-                  <router-link :to="{ 'path': '/task-details','query': {'q': encryptionId(historyTask.id)}}" class="ivu-btn ivu-btn-long" >
+                  <router-link :to="{path: `/task-details/${encryptionId(historyTask.id)}`}" class="ivu-btn ivu-btn-long" >
                     查看详情
                   </router-link>
                 </p>
@@ -297,13 +297,13 @@
             <p class="text-ct" v-show="historyTaskList.length <= 0">暂无数据</p>
           </div>
           <div class="task-category-commodity-page" v-show="historyTaskList.length > 0" >
-            <Page
+            <page
               :current="historyTaskListParams.pageIndex"
               :total= "historyTaskListTotal"
               :page-size = "historyTaskListParams.pageSize"
               @on-change = historyPageChange
               show-elevator
-            ></Page>
+            />
           </div>
         </div>
       </div>

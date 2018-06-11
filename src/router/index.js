@@ -316,7 +316,7 @@ export default new Router({
       }
     },
     {
-      path: '/task-details',
+      path: '/task-details/:id',
       name: 'TaskDetails',
       component: TaskDetails,
       meta: {

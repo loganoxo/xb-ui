@@ -1,8 +1,8 @@
 <template>
   <div>
-    <role-top></role-top>
+    <role-top/>
     <div class="qq-login fs-22">
-      <Spin class="spin"></Spin>
+      <spin class="spin"/>
       <p class="mt-10">QQ登录中....</p>
     </div>
   </div>
@@ -10,23 +10,23 @@
 
 <script>
   import {Spin} from 'iview'
+  import RoleTop from '@/components/RoleTop'
   import api from '@/config/apiConfig'
   import {setStorage} from '@/config/utils'
 
   export default {
-    name: 'QQLogin',
+    name: 'qq-login',
     components: {
       Spin: Spin,
+      RoleTop: RoleTop,
     },
     data() {
       return {
         accessToken: {},
       }
     },
-    mounted() {},
-    computed: {},
     created() {
-      let _this = this;
+      const _this = this;
       if (_this.$route.hash) {
         let hash = _this.$route.hash.replace('#', '');
         hash = hash.split("&");

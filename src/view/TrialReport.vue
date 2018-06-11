@@ -49,11 +49,11 @@
               </ul>
               <p v-if="trialReportList.length <= 0" class="mt-20 mb-20 fs-14">暂无数据</p>
               <div class="text-ct pd-tb-20" v-if="trialReportList.length > 0">
-                <Page
+                <page
                   :total= totalPages
                   :page-size = trialReportParams.pageSize
                   @on-change = pageChange
-                  show-elevator></Page>
+                  show-elevator/>
               </div>
             </div>
           </div>
@@ -66,9 +66,9 @@
             </div>
             <div class="trial-account-details">
               <div class="task-info">
-                <router-link tag="img" :to="{path: '/task-details',query:{q: encryptionId(showkerReportDesc.task.id)}}" :src="showkerReportDesc.task.taskMainImage + '!orgi75'" alt="" width="100" class="left cursor-p"></router-link>
+                <router-link tag="img" :to="{path: `/task-details/${encryptionId(showkerReportDesc.task.id)}`}" :src="showkerReportDesc.task.taskMainImage + '!orgi75'" alt="" width="100" class="left cursor-p"></router-link>
                 <div class="left ml-20">
-                  <router-link :to="{path: '/task-details',query:{q: encryptionId(showkerReportDesc.task.id)}}">{{showkerReportDesc.task.taskName}}</router-link>
+                  <router-link :to="{path: `/task-details/${encryptionId(showkerReportDesc.task.id)}`}">{{showkerReportDesc.task.taskName}}</router-link>
                   <p>宝贝单价&nbsp;<span>{{showkerReportDesc.task.itemPrice / 100}}</span>&nbsp;元 。</p>
                   <iButton type="primary" class="mt-10" @click="applyingActivity">前去申请活动</iButton>
                 </div>
@@ -267,7 +267,7 @@
         return encryption(id);
       },
       applyingActivity() {
-        this.$router.push({path: '/task-details',query:{q: encryption(this.showkerReportDesc.task.id)}})
+        this.$router.push({path: `/task-details/${encryption(this.showkerReportDesc.task.id)}`})
       },
       getTagTrialReports(key){
         this.trialReportParams.itemCatalogname = key;
