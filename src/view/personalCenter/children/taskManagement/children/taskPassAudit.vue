@@ -648,12 +648,12 @@
         }).then(res => {
           if(res.status) {
             let rowData = [];
-            res.data.forEach(item => {
-              rowData.push({'订单号': item})
+            res.data.map(item => {
+              rowData.push({'订单号': item.orderNum, '旺旺号': item.alitmAccount})
             });
 
             // 开始执行批量导出订单号
-            const downloadData = Csv([{key: '订单号'}], rowData);
+            const downloadData = Csv([{key: '订单号'},{key: '旺旺号'}], rowData);
             ExportCsv.download(`${timeToDate()}.csv`, downloadData, () => {
               _this.$Message.success('批量导出订单成功！')
             });
