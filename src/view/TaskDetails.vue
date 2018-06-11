@@ -366,7 +366,7 @@
     </modal>
     <modal v-model="applySuccess" width="500">
       <p class="mt-20 mb-20 text-ct fs-22" style="height: 50px;line-height: 50px">
-        <icon type="checkmark-circled" color="#3E9D3E" :size="40" style="vertical-align: sub;" />
+        <Icon type="checkmark-circled" color="#3E9D3E" :size="40" style="vertical-align: sub;"></Icon>
         提交申请成功，请耐心等待商家审核
       </p>
       <div slot="footer" class="text-ct">
@@ -378,7 +378,7 @@
     </modal>
     <modal v-model="selectLogin" width="500">
       <p class="mt-20 mb-40 text-ct fs-22 vtc-mid" style="height: 50px;line-height: 50px">
-        <icon type="android-alert" size="20" color="#f9284f" />
+        <Icon type="android-alert" size="20" color="#f9284f"></Icon>
         亲，你还没登录哦~
         <br>
         <span class="fs-12">请先登录后再申请免费活动</span>
@@ -407,12 +407,12 @@
       </div>
     </modal>
     <modal v-model="inBlackListPop" class="text-ct">
-      <div class="fs-20 f-b mt-30"><icon type="information-circled" class="main-color mr-5"/><span>糟糕，出事儿了~</span></div>
+      <div class="fs-20 f-b mt-30"><Icon type="information-circled" class="main-color mr-5"></Icon><span>糟糕，出事儿了~</span></div>
       <div class="mt-20 mb-20">你的旺旺号已被此商家拉黑，无权申请该活动~</div>
       <div slot="footer" class="text-ct">
       </div>
     </modal>
-    <qq-bind-modal :closable="isOpenQqBindModal" @change="openQqBindModal"/>
+    <qq-bind-modal :closable="isOpenQqBindModal" @change="openQqBindModal"></qq-bind-modal>
   </div>
 
 </template>
@@ -428,7 +428,7 @@
   import QQBindModal from '@/components/QQBindModal'
 
   export default {
-    name: 'task-details',
+    name: 'TaskDetails',
     components: {
       iInput: Input,
       iForm: Form,
@@ -656,7 +656,7 @@
         const self = this;
         self.taskApplyLoading = true;
         api.showkerCanTrial({
-          taskId: decode(self.$route.params.id)
+          taskId: decode(self.$route.query.q)
         }).then((res) => {
           self.taskApplyLoading = false;
           if (res.status) {
@@ -688,7 +688,7 @@
       },
       getDetailsShowkerList() {
         let self = this;
-        self.detailsShowkerParams.taskId = decode(self.$route.params.id);
+        self.detailsShowkerParams.taskId = decode(self.$route.query.q);
         api.getDetailsShowkerList(self.detailsShowkerParams).then((res) => {
           if (res.status) {
             for (let i = 0, j = res.data.content.length; i < j; i++) {
@@ -703,8 +703,8 @@
         })
       },
       getDetailsSuccessShowkerList() {
-        const self = this;
-        self.detailsSuccessShowkerParams.taskId = decode(self.$route.params.id);
+        let self = this;
+        self.detailsSuccessShowkerParams.taskId = decode(self.$route.query.q);
         api.getDetailsSuccessShowkerList(self.detailsSuccessShowkerParams).then((res) => {
           if (res.status) {
             self.detailsSuccessShowkerList = res.data;
@@ -721,7 +721,7 @@
         })
       },
       getTaskDetails() {
-        const self = this;
+        let self = this;
         self.commodityData = {
           showkerTask: {},
           taskApply: {},
@@ -731,7 +731,7 @@
             }
           }
         };
-        api.getTaskDetails({taskId: decode(self.$route.params.id)}).then((res) => {
+        api.getTaskDetails({taskId: decode(self.$route.query.q)}).then((res) => {
           if (res.status) {
             self.commodityData = res.data;
             self.$set(self.commodityData);
@@ -783,7 +783,7 @@
         })
       },
       selWwFunc() {
-        const self = this;
+        let self = this;
         let selRes = false;
         if (self.residue > 0) {
           for (let i = 0, j = self.wwList.length; i < j; i++) {
@@ -798,7 +798,7 @@
             } else {
               api.showkerApplySelWwId({
                 wangwangId: self.selectedWw,
-                taskId: decode(self.$route.params.id),
+                taskId: decode(self.$route.query.q),
                 searchCondition: null,
                 itemLocation: null,
                 browseToBottom: null,
@@ -816,6 +816,7 @@
                 }
               })
             }
+
           } else {
             self.$Message.info('无可用旺旺号');
           }
@@ -876,7 +877,7 @@
     watch: {
       '$route'(to, from) {
         //刷新参数放到这里里面去触发就可以刷新相同界面了
-        let taskId = decode(this.$route.params.id);
+        let taskId = decode(this.$route.query.q);
         this.getTaskDetails(taskId);
       },
     }

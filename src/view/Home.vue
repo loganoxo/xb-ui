@@ -217,11 +217,11 @@
             </div>
           </div>
           <div class="right-ctt right ml-5">
-            <div class="over-hd">
+            <div style="overflow: hidden">
               <ul :class="[leftTopSlider ? 'slider-top-active-right' : 'slider-top-default-right']"
                   @mouseover="clearLeftTopSliderFunc()" @mouseleave="leftTopSliderFunc()">
                 <li v-for="taskTopLeft in taskTopLeftList">
-                  <router-link :to="{path: `/task-details/${encryptionId(taskTopLeft.task.id)}`}"
+                  <router-link :to="{path:'/task-details', query:{q: encryptionId(taskTopLeft.task.id)}}"
                                :title="taskTopLeft.task.taskName" class="block">
                     <div class="left img-box">
                       <img :src="taskTopLeft.task.taskMainImage + '!thum54'" alt="" width="54" height="54">
@@ -261,7 +261,7 @@
                          target="_blank"
                          v-for="homeCommodity in homeCommodityList"
                          :key="homeCommodity.id"
-                         :to="{path: `/task-details/${encryptionId(homeCommodity.id)}`}">
+                         :to="{ 'path': '/task-details','query': {'q': encryptionId(homeCommodity.id)}}">
               <div class="home-commodity-img pos-rel">
                 <img class="block" v-lazy="homeCommodity.taskMainImage +'!thum400'" alt=""/>
                 <span class="applied"> {{homeCommodity.showkerApplyTotalCount || 0}} 人已申请</span>
@@ -340,7 +340,7 @@
                     class="main-color"> {{homeCommodity.taskCount - homeCommodity.showkerApplySuccessCount || 0}} </span>
                   份
                 <p class="home-commodity-take">
-                  <router-link :to="{path: `/task-details/${encryptionId(homeCommodity.id)}`}"
+                  <router-link :to="{ 'path': '/task-details','query': {'q':encryptionId(homeCommodity.id)}}"
                                class="ivu-btn ivu-btn-long">免费领取
                   </router-link>
                 </p>
@@ -365,7 +365,7 @@
                          target="_blank"
                          v-for="homeCommodity in presentGet"
                          :key="homeCommodity.id"
-                         :to="{path: `/task-details${encryptionId(homeCommodity.id)}`}">
+                         :to="{ 'path': '/task-details','query': {'q': encryptionId(homeCommodity.id)}}">
               <div class="home-commodity-img pos-rel">
                 <img class="block" v-lazy="homeCommodity.taskMainImage +'!thum400'" alt="">
                 <span class="applied"> {{homeCommodity.showkerApplyTotalCount || 0}} 人已申请</span>
@@ -466,7 +466,7 @@
                   份
                 </p>
                 <p class="home-commodity-take">
-                  <router-link :to="{path: `/task-details/${encryptionId(homeCommodity.id)}`}"
+                  <router-link :to="{ 'path': '/task-details','query': {'q':encryptionId(homeCommodity.id)}}"
                                class="ivu-btn ivu-btn-long">
                     免费领取
                   </router-link>
@@ -494,7 +494,7 @@
                          target="_blank"
                          v-for="homeHistory in homeHistoryList"
                          :key="homeHistory.id"
-                         :to="{path: `/task-details/${encryptionId(homeHistory.id)}`}">
+                         :to="{ 'path': '/task-details','query': {'q': encryptionId(homeHistory.id)}}">
               <div class="home-commodity-img pos-rel">
                 <img class="block" v-lazy="homeHistory.taskMainImage +'!thum400'" height="208" width="210">
                 <span class="applied"> {{homeHistory.showkerApplyTotalCount || 0}} 人已申请</span>
@@ -573,7 +573,7 @@
                   <span
                     class="main-color"> {{homeHistory.taskCount - homeHistory.showkerApplySuccessCount || 0}} </span> 份
                 <p class="home-commodity-take">
-                  <router-link :to="{ path: `/task-details/${encryptionId(homeHistory.id)}`}"
+                  <router-link :to="{ 'path': '/task-details','query': {'q':encryptionId(homeHistory.id)}}"
                                class="ivu-btn ivu-btn-long">查看详情
                   </router-link>
                 </p>

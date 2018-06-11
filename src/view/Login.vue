@@ -103,7 +103,7 @@
 <script>
   import {Icon, Form, Input, Checkbox, Button, Radio, Modal} from 'iview'
   import SmsCountdown from '@/components/SmsCountdown'
-  import RoleTop from '@/components/RoleTop'
+  import RoleTop from '@/components/RoleTop.vue'
   import api from '@/config/apiConfig'
   import {setStorage, getStorage, removeStorage} from '@/config/utils'
 
