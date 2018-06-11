@@ -348,7 +348,7 @@ export const taskErrorStatusList = (type) => {
     '11': '增值业务交易记录',
     'waiting_resubmit': '待重新提交',
     'audit_pass': '审核通过',
-    'deleted': '已删除',
+    'deleted': '未通过',
     'recharge_alipay': '充值-支付宝',
     'recharge_wxpay': '充值-微信',
     'invite_seller_success': '成功邀请商家',
