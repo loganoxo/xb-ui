@@ -51,7 +51,7 @@
         </ul>
       </div>
     </div>
-    <div class="ww-account-bind" v-if="showWwBindBox">
+    <div class="ww-account-bind" v-if="!showWwBindBox">
       <Alert v-show="remarks.text" type="warning" show-icon>
         审核不通过： {{remarks.text}},请重新提交（{{remarks.auditTime | dateFormat('YYYY-MM-DD hh:mm:ss')}}）
       </Alert>
@@ -70,6 +70,19 @@
                 女
               </Radio>
             </Radio-group>
+          </Form-item>
+          <Form-item label="是否开启蚂蚁花呗" prop="antPay">
+            <Radio-group v-model="wwFormValidate.antPay">
+              <Radio label="1">
+                是
+              </Radio>
+              <Radio label="0">
+                否
+              </Radio>
+            </Radio-group>
+          </Form-item>
+          <Form-item label="生日" prop="birthday">
+            <DatePicker type="date" placeholder="请选择生日" format="yyyy-MM-dd" @on-change="selectDate"></DatePicker>
           </Form-item>
           <Form-item label="旺旺号信用等级：" prop="alitmLevel">
             <iSelect v-model="wwFormValidate.alitmLevel">
@@ -182,6 +195,7 @@
           <p class="ww-tip">
             1.支持jpg/jpeg/gif/bmp/png格式，最大不超过10M
           </p>
+          {{wwFormValidate.birthday}}
         </iForm>
 
       </div>
@@ -216,7 +230,7 @@
 </template>
 
 <script>
-  import {Icon, Form, Input, Switch, Select, Option, Button, Radio, Modal, Alert, Tooltip} from 'iview'
+  import {Icon, Form, Input, Switch, Select, Option, Button, Radio, Modal, Alert, Tooltip, DatePicker} from 'iview'
   import {RegionPicker} from 'vue-region-picker'
   import CHINA_REGION from 'china-area-data'
   import Upload from '@/components/Upload'
@@ -243,6 +257,7 @@
       iSelect: Select,
       iOption: Option,
       RegionPicker: RegionPicker,
+      DatePicker:DatePicker
     },
     data() {
       //表单验证
@@ -281,6 +296,20 @@
           callback(new Error('请上传淘气值图片'));
         } else {
           callback()
+        }
+      };
+      const antPay = (rule, value, callback) => {
+        if (value === '') {
+          callback(new Error('请选择是否开启花呗'));
+        } else {
+          callback();
+        }
+      };
+      const birthday = (rule, value, callback) => {
+        if (value === '') {
+          callback(new Error('请选择生日'));
+        } else {
+          callback();
         }
       };
       return {
@@ -420,6 +449,8 @@
         wwBindLists: [],
         wwFormValidate: {
           sex: '0',
+          antPay:'0',
+          birthday:'',
           alitmAccount: '',
           alitmLevel: '',
           taoqizhi: null,
@@ -456,6 +487,12 @@
           taoqizhiPicUrl: [
             {required: true, validator: tqzUrl, trigger: 'blur'},
           ],
+          antPay: [
+            {required: true, validator: antPay, trigger: 'blur'},
+          ],
+          birthday: [
+            {required:true, validator: birthday, trigger:'blur'}
+          ]
         },
         remarks: {
           text: '',
@@ -776,6 +813,9 @@
          }
          return check;*/
       },
+      selectDate(date) {
+        this.wwFormValidate.birthday = date;
+      }
     }
   }
 </script>
