@@ -1,6 +1,6 @@
 <template>
   <div class="ww-account-box">
-    <div v-show="!showWwBindBox" class="ww-account-list">
+    <div v-if="!showWwBindBox" class="ww-account-list">
       <a @click=addWwBindFunc>添加新旺旺号</a>
       <ul class="ww-account-title">
         <li>已绑定旺旺号</li>
@@ -51,7 +51,7 @@
         </ul>
       </div>
     </div>
-    <div class="ww-account-bind" v-if="!showWwBindBox">
+    <div class="ww-account-bind" v-if="showWwBindBox">
       <Alert v-show="remarks.text" type="warning" show-icon>
         审核不通过： {{remarks.text}},请重新提交（{{remarks.auditTime | dateFormat('YYYY-MM-DD hh:mm:ss')}}）
       </Alert>
@@ -662,23 +662,21 @@
       },
       addWwBindFunc() {
         let _this = this;
-        if ((_this.wwBindLists && _this.wwBindLists.length < 1) || !_this.wwBindLists) {
+        if (!_this.wwBindLists) {
           _this.showWwBindBox = true;
           _this.wwFormValidate.id = '';
           _this.wwFormValidate.alitmAccount = '';
           _this.wwFormValidate.alitmLevel = '';
           _this.wwFormValidate.taoqizhi = '';
           _this.wwFormValidate.birthday = '';
-          _this.wwFormValidate.antPay = null;
+          _this.wwFormValidate.antPay = 'true';
 //          _this.wwFormValidate.picUrl = [];
           _this.wwFormValidate.alitmLevelPicUrl = [];
           _this.wwFormValidate.taoqizhiPicUrl = [];
           _this.remarks.text = '';
           _this.modifyWw = false;
         } else {
-          _this.$Modal.warning({
-            content: "亲, 最多只能绑定1个旺旺号"
-          });
+          _this.$Message.warning("亲, 最多只能绑定1个旺旺号");
         }
       },
       changeDemoPicFunc(demoPic) {

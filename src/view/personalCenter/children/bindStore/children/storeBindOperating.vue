@@ -6,7 +6,7 @@
       <div class="form-box">
         <div>
           <i class="required mr-5"></i>
-          <span class="f-b mr-20">店铺类型:</span>
+          <span class="f-b mr-20">店铺类型：</span>
           <RadioGroup v-model="storeBindForm.storeType">
             <Radio label="taobao">淘宝</Radio>
             <Radio label="tmall">天猫</Radio>
@@ -14,20 +14,45 @@
         </div>
         <div class="mt-10">
           <i class="required mr-5"></i>
-          <span class="f-b mr-20">店铺名称:</span>
+          <span class="f-b mr-20">店铺名称：</span>
           {{storeBindForm.storeName}}
         </div>
         <div class="mt-10">
           <i class="required mr-5"></i>
-          <span class="f-b mr-20">店铺旺旺:</span>
+          <span class="f-b mr-20">店铺旺旺：</span>
           {{storeBindForm.storeWw}}
         </div>
-        <div class="mt-10">
+        <div class="mt-10 clear">
+          <i class="required mr-5 left"></i>
+          <span class="f-b mr-20 left">店铺后台截图：</span>
+          <div class="left ml-20">
+            <div class="clear">
+              <upload key="backstageImage" class="left"
+                      :on-success="uploadSuccess"
+                      :default-file-list="backstageImageList"
+                      :on-remove="removeImage"
+                      :format="['jpg','jpeg','png','gif','bmp']"
+                      :max-size="1024"
+                      name="storeBackStage"
+                      :on-format-error="handleFormatError"
+                      :on-exceeded-size="handleMaxSize"
+                      type="drag">
+                <div class="camera">
+                  <icon type="camera" size="20"></icon>
+                </div>
+              </upload>
+              <span class="left mt-20 ml-10 blue" @click="showDemoPicture = true">【查看示例图】</span>
+            </div>
+            <div class="mt-20 cl666">（为避免恶意绑定他人店铺必须上传店铺的后台登录截图）</div>
+          </div>
+        </div>
+        <div class="mt-20">
           <iButton class="verified-btn" size="large" :loading="bindBtnLoading" @click="verifiedAndBindFunc">
-            验证并绑定店铺
+            提交店铺审核
           </iButton>
         </div>
       </div>
+      <div class="tip">提示：店铺绑定审核时间1个工作日左右，若超过一个工作日请联系客服！</div>
     </div>
     <div v-show="!protocol" class="mt-20 pos-rel">
       <router-link to="/user/bind-store/store-bind-rules" class="backwards">返回上一页</router-link>
@@ -38,13 +63,19 @@
         <iButton class="confirm-link-btn" :loading="confirmBtnLoading" @click="getStoreInfoByLink">确认</iButton>
       </div>
     </div>
+    <!--示例图弹窗-->
+    <modal v-model="showDemoPicture" width="768">
+      <img src="~assets/img/bind-store/store-backstage-demo.png" alt="店铺后台示例图" width="100%">
+    </modal>
   </div>
 </template>
 
 <script>
-  import {Form, Input, Radio, Button, Modal} from 'iview';
+  import {Form, Input, Radio, Button, Modal, Icon} from 'iview';
   import {getUrlParams, delHtmlTag} from '@/config/utils'
   import api from '@/config/apiConfig'
+  import Upload from '@/components/Upload'
+  import {aliCallbackImgUrl} from '@/config/env'
 
   export default {
     name: "store-bind-operating",
@@ -55,7 +86,9 @@
       FormItem: Form.Item,
       Radio: Radio,
       RadioGroup: Radio.Group,
-      Modal: Modal
+      Modal: Modal,
+      Upload: Upload,
+      Icon:Icon
     },
     data() {
       return {
@@ -69,10 +102,13 @@
         },
         commodityLink: '',
         showDemo: false,
-        protocol: false,
+        protocol: true,
         confirmBtnLoading: false,
         bindBtnLoading: false,
-        query:''
+        query:'',
+        backstageImageList:[],
+        storeBackstageImage:null,
+        showDemoPicture:false
       }
     },
     created() {
@@ -179,6 +215,29 @@
           }
         })
       },
+      // 上传店铺后天截图相关函数
+      uploadSuccess(res) {
+        this.storeBackstageImage = aliCallbackImgUrl + res.name;
+        console.log(this.storeBackstageImage);
+      },
+      removeImage() {
+        this.storeBackstageImage = null;
+        console.log(this.storeBackstageImage);
+      },
+      handleFormatError() {
+        this.$Modal.warning({
+          title: '文件格式不正确',
+          content: `图片 ${file.name} 格式不正确，请上传 jpg 或 jpeg 或 gif 或 bmp 格式的图片。`
+        })
+      },
+      handleMaxSize() {
+        this.$Modal.warning({
+          title: '超出文件大小限制',
+          content: `图片 ${file.name} 太大，不能超过 1M`
+        })
+      }
+
+
     }
 
   }
@@ -197,6 +256,8 @@
       .verified-btn {
         background-color: #FF6865;
         color: #fff;
+        width:300px;
+        margin-left:100px;
       }
     }
     .commodity-input {
@@ -217,6 +278,18 @@
       position: absolute;
       top: -40px;
       right: 0;
+    }
+    .camera {
+      width: 58px;
+      height: 58px;
+      line-height: 58px;
+    }
+    .tip {
+      padding:15px 30px;
+      margin:40px auto;
+      background: #FFF0D8;
+      border-radius: 5px;
+      width: 95%;
     }
   }
 

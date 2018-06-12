@@ -13,15 +13,18 @@
         <div class="service-content">
           <p class="service-title text-ct fs-14">您的专属</p>
           <p class="service-title text-ct fs-14">一对一产品服务</p>
-          <div class="business-service text-ct" v-if="memberLevel === 100 || memberLevel === null">
-            <p class="fs-14 cl666 mt-10">商家咨询</p>
-            <a href="http://wpa.qq.com/msgrd?v=3&site=qq&menu=yes&uin=2012364029" target="_blank">小米</a>
-            <a href="http://wpa.qq.com/msgrd?v=3&site=qq&menu=yes&uin=1873512513" target="_blank">元宝</a>
-            <a href="http://wpa.qq.com/msgrd?v=3&site=qq&menu=yes&uin=2331878513" target="_blank">周洲</a>
-          </div>
-          <div class="vip-service text-ct" v-if="memberLevel === 200 || memberLevel === 300">
-            <p class="fs-14 cl666 mt-10">VIP售后客服</p>
-            <a href="http://wpa.qq.com/msgrd?v=3&site=qq&menu=yes&uin=1624363653" target="_blank">拿拿酱</a>
+          <!--<div class="business-service text-ct" v-if="memberLevel === 100 || memberLevel === null">-->
+            <!--<p class="fs-14 cl666 mt-10">商家咨询</p>-->
+            <!--<a href="http://wpa.qq.com/msgrd?v=3&site=qq&menu=yes&uin=2012364029" target="_blank">小米</a>-->
+            <!--<a href="http://wpa.qq.com/msgrd?v=3&site=qq&menu=yes&uin=1873512513" target="_blank">元宝</a>-->
+            <!--<a href="http://wpa.qq.com/msgrd?v=3&site=qq&menu=yes&uin=2331878513" target="_blank">周洲</a>-->
+          <!--</div>-->
+          <!--<div class="vip-service text-ct" v-if="memberLevel === 200 || memberLevel === 300">-->
+            <!--<p class="fs-14 cl666 mt-10">VIP售后客服</p>-->
+            <!--<a href="http://wpa.qq.com/msgrd?v=3&site=qq&menu=yes&uin=1624363653" target="_blank">拿拿酱</a>-->
+          <!--</div>-->
+          <div class="common-service text-ct">
+            <a href="http://wpa.qq.com/msgrd?v=3&site=qq&menu=yes&uin=800019404" target="_blank">点击咨询</a>
           </div>
         </div>
       </div>
@@ -157,8 +160,8 @@
         border-radius: 12px;
         background-image: url("assets/img/common/qq-icon.png");
         background-repeat: no-repeat;
-        background-position: 8px 2px;
-        padding-left:32px;
+        background-position: 4px 2px;
+        padding-left:25px;
         text-align: left;
         font-size: 14px;
         color:#000;
