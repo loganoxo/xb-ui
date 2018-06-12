@@ -35,7 +35,7 @@
           v-if="isMember && isVersionUpgrade">，根据您现在的会员版本可折价抵扣：{{(deductionPrice / 100).toFixed(2) || 0.00}}元，成功升级后现有版本将失效。</span>
       </p>
       <p class="fs-16 mt-10">本次总共需要支付的金额为：<span class="f-b">{{buyOrderPrice > 0 ? (buyOrderPrice / 100).toFixed(2) : 0}}</span>
-        元。您账户余额为： <span class="f-b">{{(getUserBalance).toFixed(2) || 0}}</span>
+        元。您账户余额为： <span class="f-b">{{(getUserBalance / 100).toFixed(2)}}</span>
         元<span v-if="!hasBalance">，还需要充值：<span class="f-b">{{(needPayMoney / 100).toFixed(2)}}</span> 元</span>
       </p>
     </div>
@@ -184,14 +184,14 @@
        * @return {boolean}
        */
       hasBalance() {
-        return this.getUserBalance * 100 - this.buyOrderPrice >= 0
+        return this.getUserBalance - this.buyOrderPrice >= 0
       },
 
       /** 计算当用户账户余额不足以支付选购的会员版本价格的需要额外充值的金额
        * @return {Number}
        */
       needPayMoney() {
-        return !this.hasBalance ? Math.abs(this.getUserBalance * 100 - this.buyOrderPrice) : 0
+        return !this.hasBalance ? Math.abs(this.getUserBalance - this.buyOrderPrice) : 0
       },
 
       /** 计算充值界面上的金额文本显示

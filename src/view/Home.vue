@@ -1143,7 +1143,7 @@
         let _this = this;
         _this.$store.dispatch('loggedOut').then(res => {
           if (res.status) {
-            _this.$router.push({name: 'login'})
+            _this.$router.push({name: 'Login'})
           } else {
             _this.$Message.error(res.msg);
           }

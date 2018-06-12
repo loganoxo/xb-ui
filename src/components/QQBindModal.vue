@@ -1,10 +1,6 @@
 <template>
-  <modal :value="closable" :mask-closable="false" :closable="closableIcon" width="380" @on-visible-change="change">
-    <div slot="header" class="text-ct">
-      <icon color="#f9284f" size="14" type="information-circled"></icon>
-      <span class="fs-14 main-color f-b">{{title}}</span>
-    </div>
-    <div class="text-lf f-b fs-14 mb-10">{{tip}}：</div>
+  <modal :title="title" :value="closable" :mask-closable="false" :closable="closableIcon" width="380" @on-visible-change="change">
+    <div class="text-lf fs-14 mb-10">{{tip}}：</div>
     <i-input type="text" v-model="qqNumberInput" @on-focus="focus" placeholder="请输入您的QQ号"></i-input>
     <div class="text-lf main-color mt-10" v-show="messageText">
       <icon color="#f9284f" size="14" type="ios-close"></icon>

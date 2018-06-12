@@ -37,7 +37,7 @@
       }
     },
     computed: {
-      getUserBalance: function () {
+      getUserBalance() {
         return this.$store.getters.getUserBalance;
       }
     },

@@ -55,7 +55,7 @@ router.beforeEach((to, from, next) => {
   });
   if (to.meta.logInAuthority && !store.state.login) {
     next('/login');
-  } else if (to.meta.role !== null && to.meta.role !== store.getters.getUserRole) {
+  } else if (to.meta.role && to.meta.role !== store.getters.getUserRole) {
     next('/');
   } else if (to.matched.length === 0) {
     from.name ? next({name: from.name}) : next('/');

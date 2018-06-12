@@ -264,7 +264,7 @@ export default new Router({
     },
     {
       path: '/login',
-      name: 'login',
+      name: 'Login',
       component: Login,
       meta: {
         title: "用户登录",

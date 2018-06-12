@@ -999,17 +999,17 @@
             <p class="mt-6" v-if="!isBalance">手续费说明： 使用支付宝充值支付，支付宝会收取0.6%的手续费，该笔费用需要商家承担，手续费不予退还，敬请谅解！<a @click="isShowAliPayTip = true">查看支付宝官方说明</a></p>
           </div>
         </div>
-        <div class="pay-info mt-40" v-if="isBalance && !priceHasChange">本次总共要支付的金额为：<span class="second-color">{{(orderMoney / 100).toFixed(2)}}</span>&nbsp;元。您的账户的当前余额为：<strong>{{getUserBalance || 0}}</strong>&nbsp;元</div>
+        <div class="pay-info mt-40" v-if="isBalance && !priceHasChange">本次总共要支付的金额为：<span class="second-color">{{(orderMoney / 100).toFixed(2)}}</span>&nbsp;元。您的账户的当前余额为：<strong>{{(getUserBalance / 100).toFixed(2)}}</strong>&nbsp;元</div>
         <div class="pay-info mt-40" v-if="!isBalance && !priceHasChange">本次总共要支付的金额为：<strong>{{(orderMoney /
-          100).toFixed(2)}}</strong>&nbsp;元。您账户余额为：<strong>{{getUserBalance || 0}}</strong>&nbsp;元，还需充值：<span
+          100).toFixed(2)}}</strong>&nbsp;元。您账户余额为：<strong>{{(getUserBalance / 100).toFixed(2)}}</strong>&nbsp;元，还需充值：<span
           class="second-color">{{(needPayMoneyBefore / 100).toFixed(2)}}</span>&nbsp;元。
         </div>
         <div class="pay-info mt-40" v-if="isBalanceReplenish && priceHasChange">
           该任务已付总费用 <strong>{{paidDeposit.toFixed(2)}}</strong>元，本次修改需要支付超出部分的金额为：<strong class="main-color">{{(replenishMoney
-          / 100).toFixed(2)}}</strong>元。您账号的当前余额为：<strong>{{(getUserBalance).toFixed(2) || 0}}</strong>&nbsp;元
+          / 100).toFixed(2)}}</strong>元。您账号的当前余额为：<strong>{{(getUserBalance / 100).toFixed(2) || 0}}</strong>&nbsp;元
         </div>
         <div class="pay-info mt-40" v-if="!isBalanceReplenish && priceHasChange">该任务已付担保金 <strong>{{(paidDeposit).toFixed(2)}}</strong>元，本次修改需要支付超出部分的金额为：<strong
-          class="main-color">{{(replenishMoney / 100).toFixed(2)}}</strong>元。您账号的当前余额为：<strong>{{(getUserBalance).toFixed(2)
+          class="main-color">{{(replenishMoney / 100).toFixed(2)}}</strong>元。您账号的当前余额为：<strong>{{(getUserBalance / 100).toFixed(2)
           || 0}}</strong>&nbsp;元,还需充值：<span
           class="second-color">{{(needPayMoneyBefore / 100).toFixed(2)}}</span>&nbsp;元。
         </div>
@@ -1638,9 +1638,9 @@
        */
       isBalance() {
         if (this.priceHasChange) {
-          return this.replenishMoney <= this.getUserBalance * 100
+          return this.replenishMoney <= this.getUserBalance
         } else {
-          return this.orderMoney <= this.getUserBalance * 100
+          return this.orderMoney <= this.getUserBalance
         }
       },
 
@@ -1649,7 +1649,7 @@
        * @return {boolean}
        */
       isBalanceReplenish() {
-        return this.replenishMoney <= this.getUserBalance * 100;
+        return this.replenishMoney <= this.getUserBalance;
       },
 
       /**
@@ -1672,10 +1672,10 @@
        */
       needPayMoneyBefore() {
         if (!this.isBalance && !this.priceHasChange) {
-          let money = this.orderMoney - this.getUserBalance * 100;
+          let money = this.orderMoney - this.getUserBalance;
           return money > 0 ? money : 0
         } else if (!this.isBalanceReplenish && this.priceHasChange) {
-          let money = this.replenishMoney - this.getUserBalance * 100;
+          let money = this.replenishMoney - this.getUserBalance;
           return money > 0 ? money : 0
         } else {
           return 0

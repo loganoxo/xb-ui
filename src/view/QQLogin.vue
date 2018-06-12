@@ -43,7 +43,7 @@
     },
     methods: {
       setUserInfo() {
-        let _this = this;
+        const _this = this;
         api.QQLoginFunc({
           accessToken: _this.accessToken.accessToken,
           platForm: 'PC',
@@ -54,7 +54,7 @@
               info: res.data
             });
             setStorage('weChartPop', 1);
-            _this.$router.push('Home');
+            _this.$router.push({name: 'Home'});
           } else {
             if (res.statusCode === 'new_user') {
               _this.$router.push({

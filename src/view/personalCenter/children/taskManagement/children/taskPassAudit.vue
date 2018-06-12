@@ -183,102 +183,6 @@
                        :operateTaskId="operateTaskId"
                        :operateIndex="operateIndex"
                        :passesShowkerTask="passesShowkerTask"></audit-order-popup>
-    <!--<div class="check-order-model" v-if="showCheckOrder">-->
-      <!--<div class="check-order-con">-->
-        <!--<i class="right" @click="showCheckOrder = false">&times;</i>-->
-        <!--<div class="f-b fs-14 main-color mt-28" v-if="needBrowseCollectAddCart || needIssue">1.请查看拿手提交的截图信息</div>-->
-        <!--<div class="clear">-->
-          <!--&lt;!&ndash;<div class="left" v-if="needBrowseCollectAddCart">-->
-            <!--<div class="mt-5 cl00 fs-12 f-b">A.查看拿手提交的收藏加购截图</div>-->
-            <!--<div class="order-info-screenshot mt-5" v-for="(value, key) in orderInfo.screenshot" :key="key" v-if="value">-->
-              <!--<img :src="value + '!thum54'" alt="收藏加购截图">-->
-              <!--<div class="order-info-screenshot-cover">-->
-                <!--<Icon type="ios-eye-outline" @click.native="handleView(value,key)"></Icon>-->
-              <!--</div>-->
-            <!--</div>-->
-          <!--</div>&ndash;&gt;-->
-          <!--&lt;!&ndash;<div class="left parting-line" v-if="needIssue"></div>&ndash;&gt;-->
-          <!--<div class="left ml-10" v-if="needIssue">-->
-            <!--<div class="mt-5 cl00 fs-12 f-b">&lt;!&ndash;<span>{{needIssue ? 'B.' : 'A.'}}</span>&ndash;&gt;查看拿手提交的浏览答题截图</div>-->
-            <!--<div class="order-info-screenshot mt-5" v-for="(item, index) in orderInfo.issueAnswerScreenshot"-->
-                 <!--:key="index" v-if="item">-->
-              <!--<img :src="item.screenshotSrc + '!thum54'" alt="浏览答题截图">-->
-              <!--<div class="order-info-screenshot-cover">-->
-                <!--<Icon type="ios-eye-outline" @click.native="handleViewIssue(item.screenshotSrc,item.issueText.issue)"></Icon>-->
-              <!--</div>-->
-            <!--</div>-->
-          <!--</div>-->
-        <!--</div>-->
-        <!--<div class="f-b fs-14 main-color mt-10"><span v-if="needBrowseCollectAddCart || needIssue">2.</span>请仔细核对订单号与交易金额-->
-        <!--</div>-->
-        <!--<div class="order-info-con text-lf mt-10">-->
-          <!--<p>-->
-            <!--<span class="f-b">订单号：</span>-->
-            <!--<span class="main-color">{{orderInfo.orderNum}}</span>-->
-          <!--</p>-->
-          <!--<p class="mt-10">-->
-            <!--<span><span class="f-b">拿手实付金额：</span><span class="main-color">{{orderInfo.orderPrice || 0}}</span>元<span>（当前每单活动担保金<span>{{orderInfo.perMarginNeed}}</span>元）</span></span>-->
-          <!--</p>-->
-        <!--</div>-->
-        <!--<p class="cl-red mt-10 text-lf" v-if="orderInfo.orderPrice < orderInfo.perMarginNeed">-->
-          <!--<Icon type="information-circled" color="red" size="14" class="mr-5"></Icon>-->
-          <!--注意：拿手实付金额与活动担保金金额不一致，请仔细审核！-->
-        <!--</p>-->
-        <!--<p class="cl-red mt-10 text-lf" v-else>-->
-          <!--<Icon type="information-circled" color="red" size="14" class="mr-5"></Icon>-->
-          <!--注意：为了防止不良拿手冒领担保金，请您仔细审核交易订单信息，确认不误再作提交！-->
-        <!--</p>-->
-        <!--<div class="mt-22 text-lf">-->
-          <!--<Radio-group v-model="orderReviewStatus">-->
-            <!--<Radio class="mr-30" label="passAudit">-->
-              <!--<span class="fs-14">通过</span>-->
-            <!--</Radio>-->
-            <!--<Radio label="failAudit">-->
-              <!--<span class="fs-14">不通过</span>-->
-            <!--</Radio>-->
-          <!--</Radio-group>-->
-          <!--<div class="no-pass-reason text-ct inline-block fs-14" v-show="orderReviewStatus === 'failAudit'">-->
-            <!--<i-select v-model="orderNoPassReason" style="width:200px" placeholder="请选择不通过原因">-->
-              <!--&lt;!&ndash;<i-option value="收藏加购截图不合格">收藏加购截图不合格</i-option>&ndash;&gt;-->
-              <!--<i-option value="浏览答题截图不合格">浏览答题截图不合格</i-option>-->
-              <!--<i-option value="订单信息有误">订单信息有误</i-option>-->
-              <!--<i-option value="实付金额有误">实付金额有误</i-option>-->
-              <!--<i-option value="下单旺旺和平台绑定旺旺不一致">下单旺旺和平台绑定旺旺不一致</i-option>-->
-              <!--<i-option value="自定义">自定义</i-option>-->
-            <!--</i-select>-->
-          <!--</div>-->
-          <!--<div class="mt-20 text-lf" v-show="orderNoPassReason === '自定义'">-->
-            <!--<iInput placeholder="自定义内容,字数不超过50个字" v-model="orderNoPassReasonDiy"></iInput>-->
-          <!--</div>-->
-          <!--<p  class="cl-red mt-10 text-lf" v-show="orderNoPassReasonDiy && orderNoPassReasonDiy.length > 50" >-->
-            <!--<Icon type="information-circled" color="red" size="14" class="mr-5"></Icon>-->
-            <!--注意：自定义字数不能超过50个字-->
-          <!--</p>-->
-        <!--</div>-->
-        <!--<div class="true-btn" v-show="orderReviewStatus === 'failAudit'" @click="orderNumberAudit">确认提交</div>-->
-        <!--<div class="true-btn" v-show="orderReviewStatus === 'passAudit' && orderInfo.perMarginNeed >= getOderPrice"-->
-             <!--@click="orderNumberAudit">确认提交-->
-        <!--</div>-->
-        <!--<PayModel v-show="orderReviewStatus === 'passAudit' && orderInfo.perMarginNeed < getOderPrice"-->
-                  <!--:orderMoney="needReplenishMoney" :isShowUpgradeVIP="true" :isBalance="isBalance"-->
-                  <!--@confirmPayment="confirmPayment" :payButtonText="payButtonText"-->
-                  <!--:rechargeButtonText="rechargeButtonText" style="margin-top: 120px;width: 652px;margin-left: -326px;"-->
-                  <!--:style="{top:needBrowseCollectAddCart ? 45+'%' : 20 +'%'}">-->
-          <!--<div slot="isBalance" class="title-tip">-->
-                <!--<span class="size-color3">-->
-                <!--<Icon color="#FF2424" size="18" type="ios-information"></Icon>-->
-                <!--<span class="ml-10">注意：该拿手实付金额大于活动担保金，</span></span>需要补充担保金<strong-->
-            <!--class="main-color">{{(needReplenishMoney / 100).toFixed(2)}}</strong>元-->
-          <!--</div>-->
-          <!--<div slot="noBalance" class="title-tip">-->
-                <!--<span class="size-color3">-->
-                <!--<Icon color="#FF2424" size="18" type="ios-information"></Icon>-->
-                <!--<span class="ml-10">注意：该拿手实付金额大于活动担保金，</span></span>需要补充担保金<strong-->
-            <!--class="main-color">{{needReplenishMoneyText}}</strong>元,请充值！-->
-          <!--</div>-->
-        <!--</PayModel>-->
-      <!--</div>-->
-    <!--</div>-->
     <!--收藏加购物和浏览答题截图查看-->
     <modal :title="checkScreenshotModleTitle" v-model="isShowCheckScreenshotModel">
       <img :src="checkScreenshotSrc + '!orgi75'" style="width: 100%">
@@ -412,7 +316,6 @@
     },
     data() {
       return {
-        // orderNoPassReasonDiy: null,
         evaluateShowker: false,
         wwQuality: 'hao_ping',
         fillOrderCooperate: 'hao_ping',
@@ -436,12 +339,8 @@
         operateTaskId: null,
         operateIndex: null,
         selectId: null,
-        // payButtonText: '确认支付并通过',
-        // rechargeButtonText: '前去充值',
         showCheckOrder: true,
         orderInfo: {},
-        // orderReviewStatus: 'passAudit',
-        // orderNoPassReason: null,
         loading: false,
         evaluateShowkerAlitmAccount: null,
         dataStatusTip: '',
@@ -483,28 +382,9 @@
       _this.getStoreInfo();
     },
     computed: {
-      // getOderPrice() {
-      //   let _this = this;
-      //   if (_this.orderInfo.discountPrice && _this.orderInfo.discountPrice > 0) {
-      //     return _this.orderInfo.orderPrice - _this.orderInfo.discountPrice
-      //   } else if (_this.orderInfo.discountRate && _this.orderInfo.discountRate > 0) {
-      //     return _this.orderInfo.orderPrice * (1 - _this.orderInfo.discountRate)
-      //   } else {
-      //     return _this.orderInfo.orderPrice
-      //   }
-      // },
-      // needReplenishMoney() {
-      //   return (this.getOderPrice - this.orderInfo.perMarginNeed) * 100
-      // },
       getUserBalance() {
         return this.$store.getters.getUserBalance
       },
-      // isBalance() {
-      //   return this.needReplenishMoney <= this.getUserBalance * 100
-      // },
-      // needReplenishMoneyText() {
-      //   return `${(this.needReplenishMoney / 100).toFixed(2)} + ${(((Math.ceil(this.needReplenishMoney / 0.994)) - this.needReplenishMoney) / 100).toFixed(2)}`
-      // },
       successToProcessNum() {
         return this.batchPassResult ? this.batchPassResult.data.success : 0
       },
@@ -666,25 +546,8 @@
           }
         })
       },
-      // confirmPayment(pwd) {
-      //   let _this = this;
-      //   api.depositSupplement({
-      //     payPassword: pwd,
-      //     taskId: _this.orderInfo.id
-      //   }).then(res => {
-      //     if (res.status) {
-      //       _this.$store.dispatch('getUserInformation');
-      //       _this.showCheckOrder = false;
-      //       _this.$Message.success('支付成功！');
-      //       _this.passesShowkerTask(_this.operateTaskId, _this.operateIndex);
-      //     } else {
-      //       _this.$Message.error(res.msg)
-      //     }
-      //   })
-      // },
       openCheckOrder(id, needBrowseCollectAddCart, itemIssue, index) {
         let _this = this;
-        // _this.needBrowseCollectAddCart = needBrowseCollectAddCart;
         _this.needIssue = itemIssue;
         _this.showCheckOrder = true;
         _this.orderNoPassReason = null;
@@ -702,51 +565,6 @@
       goProbationReport(id) {
         this.$router.push({name: 'ProbationReport', query: {id: encryption(id), from: 'taskPassAudit'}});
       },
-      // orderNumberAudit() {
-      //   let _this = this;
-      //   if(_this.orderReviewStatus === 'failAudit'){
-      //     if (!_this.orderNoPassReason) {
-      //       _this.$Message.error("亲，请填写不通过的理由！");
-      //       return;
-      //     }else {
-      //       if(_this.orderNoPassReason === '自定义'){
-      //         if(!_this.orderNoPassReasonDiy){
-      //           _this.$Message.error("亲，请填写不通过自定义原因！");
-      //           return;
-      //         }else {
-      //           if(_this.orderNoPassReasonDiy.length > 50){
-      //             _this.$Message.error("亲，自定义原因字数不超过50个字！");
-      //             return;
-      //           }else {
-      //             _this.orderNoPassReason = _this.orderNoPassReasonDiy;
-      //           }
-      //         }
-      //       }else {
-      //         _this.orderNoPassReasonDiy = '';
-      //       }
-      //     }
-      //   }
-      //
-      //   if (_this.orderReviewStatus === 'passAudit' && _this.orderNoPassReason) {
-      //     _this.orderNoPassReason = null;
-      //   }
-      //   api.orderNumberAudit({
-      //     id: _this.orderInfo.id,
-      //     status: _this.orderReviewStatus === 'passAudit' ? 'true' : 'false',
-      //     msg: _this.orderNoPassReason
-      //   }).then(res => {
-      //     if (res.status) {
-      //       _this.$Message.success('订单号审核成功！');
-      //       _this.$store.dispatch('getPersonalTrialCount');
-      //       _this.$store.dispatch('getUserInformation');
-      //       _this.showCheckOrder = false;
-      //       _this.passesShowkerTask(_this.operateTaskId, _this.operateIndex);
-      //     } else {
-      //       _this.$Message.error(res.msg);
-      //       _this.closeCheckOrder();
-      //     }
-      //   })
-      // },
       collapseToggle(id, index) {
         this.taskPageIndex = 1;
         if (this.selectId === id) {
@@ -754,32 +572,6 @@
         } else {
           this.selectId = id;
           this.passesShowkerTask(id, index, self.taskPageIndex);
-        }
-      },
-      // handleViewIssue(value, key) {
-      //   let _this = this;
-      //   _this.isShowCheckScreenshotModel = true;
-      //   _this.checkScreenshotSrc = value;
-      //   _this.checkScreenshotModleTitle = '浏览答题截图：（' + key + '）';
-      // },
-      handleView(value, key) {
-        let _this = this;
-        _this.isShowCheckScreenshotModel = true;
-        _this.checkScreenshotSrc = value;
-        switch (key) {
-          case 'addToCart':
-            _this.checkScreenshotModleTitle = '加入购物车截图';
-            break;
-          case 'enshrine':
-            _this.checkScreenshotModleTitle = '加入收藏夹截图';
-            break;
-          case 'itemLocation':
-            _this.checkScreenshotModleTitle = '宝贝所在位置截图';
-            break;
-          case 'searchCondition':
-            _this.checkScreenshotModleTitle = '宝贝搜索条件置截图';
-            break;
-
         }
       },
       TaskPageChange(data) {
@@ -856,12 +648,12 @@
         }).then(res => {
           if(res.status) {
             let rowData = [];
-            res.data.forEach(item => {
-              rowData.push({'订单号': item})
+            res.data.map(item => {
+              rowData.push({'订单号': item.orderNum, '旺旺号': item.alitmAccount})
             });
 
             // 开始执行批量导出订单号
-            const downloadData = Csv([{key: '订单号'}], rowData);
+            const downloadData = Csv([{key: '订单号'},{key: '旺旺号'}], rowData);
             ExportCsv.download(`${timeToDate()}.csv`, downloadData, () => {
               _this.$Message.success('批量导出订单成功！')
             });

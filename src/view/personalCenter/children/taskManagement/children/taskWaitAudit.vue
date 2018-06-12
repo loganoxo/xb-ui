@@ -177,6 +177,29 @@
         <span class="inline-block title">填写原因：</span>
         <i-input type="textarea" v-model="addToBlackOtherReason" placeholder="100字以内" style="width:300px"></i-input>
       </div>
+    <!--  <div class="mt-20">
+        <span>记入征信体系：</span>
+        <checkbox v-model="needScreenshots">需要</checkbox>
+        <span class="cl999">（成功计入征信体系后， <span class="main-color">火眼金睛</span>会统计此条拉黑记录）</span>
+      </div>
+      <div class="mt-5 cl999 ml-88" v-show="needScreenshots">记入征信体系需要提交截图证明，由平台审核是否属实，审核期间及审核结果均不影响您正常拉黑，即此用户无法申请您发布的任何活动。</div>
+      <div class="mt-20 clear" v-show="needScreenshots">
+        <span class="left mt-20">相关截图：</span>
+        <upload class="left ml-5" :on-success="bankListImageSuccess"
+                :default-file-list="bankListDefaultList"
+                :on-remove="removeBankListImage"
+                :format="['jpg','jpeg','png','gif','bmp']"
+                :max-size="1024"
+                name="screenshots"
+                :on-format-error="handleFormatError"
+                :on-exceeded-size="handleMaxSize"
+                type="drag">
+          <div class="camera">
+            <icon type="camera" size="20"></icon>
+          </div>
+        </upload>
+        <span class="ml-10 mt-20 left cl999">支持jpg/jpeg/gif/bmp格式，大小不超过10M，最多可上传5张</span>
+      </div>-->
       <div slot="footer" class="text-ct">
         <i-button type="error" size="large" class="pl-40 pr-40" @click="addShowkerToBlackList">确定</i-button>
       </div>
@@ -298,6 +321,7 @@
   import CollapseTransition from 'iview/src/components/base/collapse-transition'
   import PayModel from '@/components/PayModel'
   import TimeDown from '@/components/TimeDown'
+  import Upload from '@/components/Upload'
   import {taskErrorStatusList, encryption} from '@/config/utils'
   import {aliCallbackImgUrl} from '@/config/env'
   import api from '@/config/apiConfig'
@@ -318,6 +342,7 @@
       CollapseTransition: CollapseTransition,
       PayModel: PayModel,
       TimeDown: TimeDown,
+      Upload: Upload,
     },
     data() {
       return {
@@ -525,9 +550,11 @@
         speedUpLoading: false,
         hasTrialQualification: false,
         isEndTime: false,
-        storeList:[],
-        selectedStore:'',
-        realStoreName:''
+        storeList: [],
+        selectedStore: '',
+        realStoreName: '',
+        needScreenshots: true,
+        bankListDefaultList: [],
       }
     },
     created() {
@@ -555,14 +582,14 @@
        * @return {boolean}
        */
       hasBalance() {
-        return this.getUserBalance * 100 >= this.selectEyesPeriodInfo.fee
+        return this.getUserBalance >= this.selectEyesPeriodInfo.fee
       },
 
       /** 计算当用户账户余额不够的时候需要充值的金额
        * @return {Number}
        */
       needRechargeMoney() {
-        let money = this.selectEyesPeriodInfo.fee - this.getUserBalance * 100;
+        let money = this.selectEyesPeriodInfo.fee - this.getUserBalance;
         return money > 0 ? money : 0;
       },
 
@@ -581,6 +608,10 @@
       openNewTrialReportFunc(id) {
         window.open('/trial-report?q=' + id)
       },
+      bankListImageSuccess() {},
+      removeBankListImage() {},
+      handleFormatError() {},
+      handleMaxSize() {},
       addShowkerToBlackList() {
         const _this = this;
         if (!_this.wwName) {

@@ -30,7 +30,7 @@ export default {
 
   // 从userInfo中提取用户账户余额
   getUserBalance: state => {
-    return Object.keys(state.userInfo).length > 0 ? state.userInfo.userAccount.accountBalance / 100 : 0;
+    return Object.keys(state.userInfo).length > 0 ? state.userInfo.userAccount.accountBalance : 0;
   },
 
   // 从userInfo中提取用户是否修改过支付密码

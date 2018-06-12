@@ -1,4 +1,4 @@
-export const bankList = [
+export default [
   "安徽农村信用社",
   "鞍山市商业银行",
   "澳新银行",

@@ -68,7 +68,7 @@
     </div>
     <div class="get-out-number" v-show="changeBankIdCardShow.getoutMoney">
       <div class="clear title">
-        <span class="left">当前可用余额<span style="color:red ">{{getUserBalance}}</span>元</span>
+        <span class="left">当前可用余额<span style="color:red ">{{(getUserBalance / 100).toFixed(2)}}</span>元</span>
         <span class="right cursor-p" style="color: blue;" @click="lookGetoutRecord('getoutRecord')">查看提现记录</span>
       </div>
       <div class="content">
@@ -276,10 +276,10 @@
   import api from '@/config/apiConfig'
   import SmsCountdown from '@/components/SmsCountdown'
   import {taskErrorStatusList,isNumber, isChinaStr} from '@/config/utils'
-  import {bankList} from '@/bank';
+  import bankList from '@/config/bankList';
 
   export default {
-    name: 'getOutMoney',
+    name: 'get-out-money',
     components: {
       iInput: Input,
       iSelect: Select,
