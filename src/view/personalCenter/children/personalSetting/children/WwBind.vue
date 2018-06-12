@@ -619,7 +619,6 @@
                 self.$router.go(0);
               }
             });
-
           } else {
             if (res.statusCode === 'have_waiting_audit_apply') {
               res.msg = '亲，该旺旺还有活动任务正在审核中，请完成该旺旺的所有任务后再进行解绑操作！';
