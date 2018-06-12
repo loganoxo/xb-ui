@@ -78,8 +78,8 @@
                   <icon :type="item.sort === 'desc' ? 'arrow-down-c' : 'arrow-up-c'"></icon>
                 </i-button>
               </th>
-              <th width="20%">申请时间</th>
-              <th width="20%">拿手的买家秀记录</th>
+              <th width="20%">申请时间/IP地址</th>
+              <th width="20%">拿手活动概况</th>
               <th width="20%">流程状态</th>
               <th width="20%">操作</th>
             </tr>
@@ -94,8 +94,8 @@
                   <p>{{allTask.alitmAccount}}</p>
                   <img :src="allTask.creditLevel" alt="淘宝等级LOGO">
                   <p>淘气值：{{allTask.tqz}}</p>
-                  <p class="mt-5" v-cloak>申请次数：{{allTask.applyCount || 0}}</p>
-                  <p v-cloak>成功次数：{{allTask.applySuccessCount || 0}}</p>
+                  <!--<p class="mt-5" v-cloak>申请次数：{{allTask.applyCount || 0}}</p>-->
+                  <!--<p v-cloak>成功次数：{{allTask.applySuccessCount || 0}}</p>-->
                   <div class="value-added-info" v-if="!eyesServerPermissions">
                     <p>
                       <span>被平台商家拉黑：</span>
@@ -118,9 +118,14 @@
                   </div>
                 </div>
               </td>
-              <td>{{allTask.applyTime | dateFormat('YYYY-MM-DD hh:mm:ss')}}</td>
+              <td>
+                <p>{{allTask.applyTime | dateFormat('YYYY-MM-DD hh:mm:ss')}}</p>
+                <p class="mt-10">{{filterIp(allTask.regIp)}}</p>
+              </td>
               <td class="registration">
-                <a @click="openNewTrialReportFunc(encryptionId(allTask.showkerId))">查看</a>
+                <p class="mt-5 cl666" v-cloak>申请次数：{{allTask.applyCount || 0}}</p>
+                <p v-cloak class="mt-5 mb-5 cl666">成功次数：{{allTask.applySuccessCount || 0}}</p>
+                <a @click="openNewTrialReportFunc(encryptionId(allTask.showkerId))">查看TA的买家秀</a>
               </td>
               <td>
                 <tooltip v-if="allTask.reason && allTask.status === 'waiting_resubmit'" :content="allTask.reason" placement="top" class="cursor-p">
@@ -926,6 +931,14 @@
         _this.realStoreName = res === '全部店铺' ? '' : res;
         _this.pageIndex = 1;
         _this.appliesWaitingAuditTask();
+      },
+      // 过滤注册IP
+      filterIp(ip) {
+        if (!ip || ip === 'null') {
+          return '';
+        } else {
+          return ip;
+        }
       }
     }
   }

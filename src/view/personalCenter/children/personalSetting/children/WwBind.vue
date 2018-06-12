@@ -73,10 +73,10 @@
           </Form-item>
           <Form-item label="是否开启蚂蚁花呗" prop="antPay">
             <Radio-group v-model="wwFormValidate.antPay">
-              <Radio label="1">
+              <Radio label="true">
                 是
               </Radio>
-              <Radio label="0">
+              <Radio label="false">
                 否
               </Radio>
             </Radio-group>
@@ -183,9 +183,9 @@
               @onchange="regionPickerChange">
             </region-picker>
           </Form-item>
-          <Form-item prop="detailAddress">
-            <iInput v-model="wwFormValidate.detailAddress"></iInput>
-          </Form-item>
+          <!--<Form-item prop="detailAddress">-->
+            <!--<iInput v-model="wwFormValidate.detailAddress"></iInput>-->
+          <!--</Form-item>-->
           <Form-item>
             <iButton :class="[btnState.wwBindBtn ? '': 'ww-bind-btn']" :disabled="btnState.wwBindBtn"
                      @click="handleSubmit('wwFormValidate',wwBindFunc)">提交
@@ -262,7 +262,7 @@
     data() {
       //表单验证
       const wwName = (rule, value, callback) => {
-        if (value === '') {
+        if (!value) {
           callback(new Error('不能为空'));
         } else if (value.length > 50) {
           callback(new Error('旺旺ID过长'))
@@ -277,23 +277,9 @@
           callback()
         }
       };
-      const addAddress = (rule, value, callback) => {
-        if (value === '') {
-          callback(new Error('地址不能为空'));
-        } else {
-          callback()
-        }
-      };
       const sex = (rule, value, callback) => {
         if (value === '') {
           callback(new Error('请选择性别'));
-        } else {
-          callback()
-        }
-      };
-      const tqzUrl = (rule, value, callback) => {
-        if (value === '') {
-          callback(new Error('请上传淘气值图片'));
         } else {
           callback()
         }
@@ -306,12 +292,51 @@
         }
       };
       const birthday = (rule, value, callback) => {
-        if (value === '') {
+        if (!value) {
           callback(new Error('请选择生日'));
         } else {
           callback();
         }
       };
+      const alitmLevel = (rule, value, callback) => {
+        if (!value) {
+          callback(new Error('请选择旺旺号信用等级'));
+        } else {
+          callback();
+        }
+      };
+      const alitmLevelUrl = (rule, value, callback) => {
+        if (value.length === 0) {
+          callback(new Error('请选择旺旺号信用等级截图'));
+        } else {
+          callback();
+        }
+
+      };
+      const taoqizhi = (rule, value, callback) => {
+        if (!value) {
+          callback(new Error('请选择淘气值'));
+        } else {
+          callback()
+        }
+      };
+      const tqzUrl = (rule, value, callback) => {
+        if (value.length === 0) {
+          callback(new Error('请上传淘气值图片'));
+        } else {
+          callback()
+        }
+      };
+      // const addAddress = (rule, value, callback) => {
+      //   console.log(value + '111');
+      //   if (value === '') {
+      //     callback(new Error('地址不能为空'));
+      //   } else {
+      //     callback()
+      //   }
+      // };
+
+
       return {
         alimitId: null,
         wwStatusTextOn: '启用中',
@@ -449,50 +474,54 @@
         wwBindLists: [],
         wwFormValidate: {
           sex: '0',
-          antPay:'0',
+          antPay:'true',
           birthday:'',
           alitmAccount: '',
           alitmLevel: '',
-          taoqizhi: null,
+          taoqizhi: '',
 //          picUrl: [],
           alitmLevelPicUrl: [],
           taoqizhiPicUrl: [],
-          detailAddress: '',
+          // detailAddress: '',
         },
         wwFormRuleCustom: {
           alitmAccount: [
             {required: true, validator: wwName, trigger: 'blur'},
           ],
-          alitmLevel: [
-            {required: true, validator: wwRequired, trigger: 'change'},
-          ],
-          alitmLevelPicUrl: [
-            {required: true, validator: wwRequired, trigger: 'blur'},
-          ],
-          taoqizhi: [
-            {required: true, validator: wwRequired, trigger: 'change'},
-          ],
-         /* taoqizhiPicUrl: [
-            {required: true, validator: wwName, trigger: 'blur'},
-          ],*/
-          address: [
-            {required: true, validator: wwRequired, trigger: 'blur'}
-          ],
-          detailAddress: [
-            {required: true, validator: addAddress, trigger: 'blur'},
-          ],
           sex: [
             {required: true, validator: sex, trigger: 'blur'},
+          ],
+          antPay: [
+            {required: true, validator: antPay, trigger: 'change'},
+          ],
+          birthday: [
+            {required:true, validator: birthday, trigger:'blur'}
+          ],
+          alitmLevel: [
+            {required: true, validator: alitmLevel, trigger: 'change'},
+          ],
+          alitmLevelPicUrl: [
+            {required: true, validator: alitmLevelUrl, trigger: 'blur'},
+          ],
+          taoqizhi: [
+            {required: true, validator: taoqizhi, trigger: 'change'},
           ],
           taoqizhiPicUrl: [
             {required: true, validator: tqzUrl, trigger: 'blur'},
           ],
-          antPay: [
-            {required: true, validator: antPay, trigger: 'blur'},
-          ],
-          birthday: [
-            {required:true, validator: birthday, trigger:'blur'}
-          ]
+         /* taoqizhiPicUrl: [
+            {required: true, validator: wwName, trigger: 'blur'},
+          ],*/
+          // address: [
+          //   {required: true, validator: addAddress, trigger: 'blur'}
+          // ],
+          // detailAddress: [
+          //   {required: true, validator: addAddress, trigger: 'blur'},
+          // ],
+
+
+
+
         },
         remarks: {
           text: '',
@@ -639,6 +668,8 @@
           _this.wwFormValidate.alitmAccount = '';
           _this.wwFormValidate.alitmLevel = '';
           _this.wwFormValidate.taoqizhi = '';
+          _this.wwFormValidate.birthday = '';
+          _this.wwFormValidate.antPay = null;
 //          _this.wwFormValidate.picUrl = [];
           _this.wwFormValidate.alitmLevelPicUrl = [];
           _this.wwFormValidate.taoqizhiPicUrl = [];
@@ -681,6 +712,14 @@
             self.$Message.error('请选择省');
             return
           }
+          if (!self.address.city) {
+            self.$Message.error('请选择市');
+            return
+          }
+          if (!self.address.district) {
+            self.$Message.error('请选择区/县');
+            return
+          }
           self.btnState.wwBindBtn = true;
           if (self.modifyWw) {
             api.wwModify({
@@ -695,7 +734,9 @@
               takeCity: self.address.city || null,
               takeDistrict: self.address.district || null,
               alitmRole: self.wwFormValidate.sex,
-              takeDetail: self.wwFormValidate.detailAddress
+              birthday:self.wwFormValidate.birthday,
+              antPay:self.wwFormValidate.antPay
+              // takeDetail: self.wwFormValidate.detailAddress
             }).then((res) => {
               if (res.status) {
                 self.remarks = '';
@@ -725,7 +766,9 @@
               takeCity: self.address.city || null,
               takeDistrict: self.address.district || null,
               alitmRole: self.wwFormValidate.sex,
-              takeDetail: self.wwFormValidate.detailAddress
+              birthday:self.wwFormValidate.birthday,
+              antPay:self.wwFormValidate.antPay
+              // takeDetail: self.wwFormValidate.detailAddress
             }).then((res) => {
               if (res.status) {
                 self.$Message.success({
