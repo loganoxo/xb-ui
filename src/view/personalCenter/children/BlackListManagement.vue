@@ -33,7 +33,7 @@
           <td>
             <template v-if="item.auditStatus !== 3">
               <p>{{item.auditStatusStr}}</p>
-              <p class="blue cursor-p mt-5" v-if="!item.addToCredit" @click="applyToAdd(item.alitmAccount, item.id, item.reasonCode)">（申请添加）</p>
+              <p class="blue cursor-p mt-5" v-if="!item.addToCredit && item.reasonCode !== 'none_reason' && item.reasonCode !== 'tao_ke'" @click="applyToAdd(item.alitmAccount, item.id, item.reasonCode)">（申请添加）</p>
               <p class="blue cursor-p mt-5" v-if="item.auditStatus === 1 && item.addToCredit">（<span @click="seeDetails(item, true)">查看详情</span><span @click="revoke(item)" class="ml-10">撤销</span>）</p>
             </template>
             <template v-else>

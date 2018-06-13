@@ -226,7 +226,7 @@
             class="main-color f-b">强烈建议勾选！</span>（选择后，该活动所有名额的审批由系统推荐和控制，适合需要快速消化单量的商家）</span>
         </div>
         <div class="value-added-services">
-          <p class="main-color">增值服务（平台已保证所有拿手安全下单，但您仍不放心，可选择以下增值服务，该服务会要求拿手上传截图留证）</p>
+          <p class="main-color"><img src="~assets/img/common/vip.png" alt="vipLogo"/>&nbsp;增值服务（平台已保证所有拿手安全下单，但您仍不放心，可选择以下增值服务，该服务会要求拿手上传截图留证）</p>
           <template v-for="item in vasMainItem">
             <checkbox v-show="item.id !== 1 ? taskRelease.taskType === 'pc_search' || taskRelease.taskType === 'direct_access' ? item.showForPc : item.showForApp : taskRelease.taskType === 'pc_search' || taskRelease.taskType === 'app_search'"
               class="mt-10 mr-0" v-model="item.isSelect" :disabled="item.isDisabled">
@@ -3259,8 +3259,8 @@
       text-align: center;
       cursor: pointer;
       position: relative;
-      border-radius: 2px;
       padding: 10px;
+      border-radius: 5px;
       border: 2px solid transparent;
       @include transition;
       P:first-child {
@@ -3418,8 +3418,8 @@
       cursor: pointer;
       padding: 10px;
       border: 2px solid transparent;
+      border-radius: 5px;
       position: relative;
-      border-radius: 2px;
       @include transition;
       &:hover {
         border-color: $mainColor;
