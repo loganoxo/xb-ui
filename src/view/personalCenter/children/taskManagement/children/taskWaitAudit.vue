@@ -121,7 +121,8 @@
               <td>
                 <p>{{allTask.applyTime | dateFormat('YYYY-MM-DD hh:mm:ss')}}</p>
                 <p class="mt-10">{{filterIp(allTask.regIp)}}</p>
-                <p class="mt-10" v-if="allTask.regIp && allTask.regIp !== 'null'">{{allTask.ipInfo.region}}-{{allTask.ipInfo.city}}-{{allTask.ipInfo.county}}</p>
+                <p class="mt-10" v-if="allTask.regIp && allTask.regIp !== 'null' && allTask.ipInfo">{{allTask.ipInfo.region}}-{{allTask.ipInfo.city}}-{{allTask.ipInfo.county}}</p>
+                <p class="mt-10" v-if="!allTask.ipInfo">归属地未知</p>
               </td>
               <td class="registration">
                 <p class="mt-5 cl666" v-cloak>申请次数：{{allTask.applyCount || 0}}</p>

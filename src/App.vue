@@ -24,7 +24,8 @@
             <!--<a href="http://wpa.qq.com/msgrd?v=3&site=qq&menu=yes&uin=1624363653" target="_blank">拿拿酱</a>-->
           <!--</div>-->
           <div class="common-service text-ct">
-            <a href="http://wpa.qq.com/msgrd?v=3&site=qq&menu=yes&uin=800019404" target="_blank">点击咨询</a>
+            <!--<a href="http://wpa.qq.com/msgrd?v=3&site=qq&menu=yes&uin=800019404" target="_blank">点击咨询</a>-->
+            <a href="http://wpa.b.qq.com/cgi/wpa.php?ln=1&key=XzgwMDAxOTQwNF80ODQ2MjlfODAwMDE5NDA0XzJf" target="_blank">点击咨询</a>
           </div>
         </div>
       </div>
