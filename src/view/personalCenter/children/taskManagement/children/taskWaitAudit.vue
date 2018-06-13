@@ -301,32 +301,6 @@
     },
     data() {
       return {
-        addToBlackOtherReason: null,
-        addToBlackListReason: 'none_reason',
-        reasonList: [
-          {
-            reasonStatus: 'none_reason',
-            reasonDec: '无理由（仅屏蔽此用户申请，不记入征信体系）'
-          },
-          {
-            reasonStatus: 'illegal_operation',
-            reasonDec: '不按要求操作'
-          },
-          {
-            reasonStatus: 'danger_account',
-            reasonDec: '此号不安全'
-          },
-          {
-            reasonStatus: 'sales_return',
-            reasonDec: '有退货行为'
-          },
-          {
-            reasonStatus: 'other_reason',
-            reasonDec: '其他'
-          },
-        ],
-        addToBlackListPop: false,
-        wwName: null,
         wwFormValidate: {
           creditLevel: null,
           tqz: null,
@@ -508,8 +482,6 @@
         storeList: [],
         selectedStore: '',
         realStoreName: '',
-        needScreenshots: true,
-        bankListDefaultList: [],
         closableModal: false,
         addBlackListInfo: {},
       }

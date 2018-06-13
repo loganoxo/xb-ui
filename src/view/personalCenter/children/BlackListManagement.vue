@@ -80,7 +80,6 @@
         totalElements: 0,
         closableModal: false,
         disabled: false,
-        alitmAccount: null,
         addBlackListInfo: {}
       }
     },
