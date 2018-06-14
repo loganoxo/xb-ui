@@ -11,11 +11,13 @@
     <!--<p class="has-bind-title fs-16">我已绑定的店铺 <span class="main-color">（根据你的会员版本，最多可绑定{{memberLevel===100?1:(memberLevel===200?4:8)}}个店铺。）</span> </p>-->
     <p class="had-band-title fs-16">我已绑定的店铺 <span class="main-color">（根据你的会员版本，最多可绑定<span v-if="memberLevel===100||memberLevel===null">{{freeStoreBindNum}}</span><span v-if="memberLevel===200">{{vipStoreBindNum}}</span><span v-if="memberLevel===300">{{svipStoreBindNum}}</span>个店铺。）</span> </p>
     <ul class="had-band-box clear">
-      <li class="left" v-for="storeInfo in storeInfoList" :key="storeInfo.id">
+      <li class="left pos-rel" v-for="storeInfo in storeInfoList" :key="storeInfo.id">
         <img src="~assets/img/common/taobao-logo.png" v-if="storeInfo.storeType === 'taobao'">
         <img src="~assets/img/common/tmall-logo.png" v-if="storeInfo.storeType === 'tmall'">
         <p class="store-name mt-15 f-b fs-16">{{storeInfo.storeName}}</p>
         <p class="store-ww mt-15">店铺旺旺：<span>{{storeInfo.storeAlitm}}</span></p>
+        <p v-if="" class="auditing">店铺审核中...（查看详情）</p>
+        <p class="audit-fail">审核未通过...（查看详情）</p>
       </li>
       <li v-if="isShowBindBtn" class="left cursor-p" @click="toBindStore">
         <p class="mt-20"><Icon type="plus" size="50" color="#999"></Icon></p>
@@ -163,6 +165,25 @@
         margin-bottom:20px;
         width:236px;
       }
+      .auditing {
+        width: 100%;
+        position: absolute;
+        padding:8px 0;
+        text-align: center;
+        color: #fff;
+        background: rgba(0,0,0,.7);
+        bottom: 0;
+      }
+      .audit-fail {
+        width: 100%;
+        position: absolute;
+        padding:8px 0;
+        text-align: center;
+        color: #fff;
+        background: rgba(249,40,80,.8);
+        bottom: 0;
+      }
+
     }
     .upgrade-vip{
       padding:0 5px;
