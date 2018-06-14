@@ -818,7 +818,6 @@
       self.getHomeHistoryList();
       self.getBuyerShowList();
       self.getHomeDisCountList();
-
     },
     destroyed() {
       let self = this;
