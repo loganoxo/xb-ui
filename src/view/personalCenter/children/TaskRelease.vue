@@ -1255,7 +1255,7 @@
   } from '@/config/utils'
 
   export default {
-    name: 'task-release-process',
+    name: 'task-release',
     components: {
       quillEditor: quillEditor,
       iInput: Input,
@@ -1920,12 +1920,16 @@
         const _this = this;
         api.getStoreBindInfo().then(res => {
           if (res.status) {
-            _this.storeBindInfoList = res.data;
-            _this.isBindStore = res.data.length === 0;
-            _this.selectStoreInfo.storeName = res.data.length > 0 ? decodeURI(res.data[0].storeName) : null;
-            _this.selectStoreInfo.storeAlitm = res.data.length > 0 ? decodeURI(res.data[0].storeAlitm) : null;
-            _this.selectStoreInfo.sellerId = res.data.length > 0 ? res.data[0].sellerId : null;
-            _this.selectStoreInfo.shopId = res.data.length > 0 ? res.data[0].shopId : null;
+            _this.storeBindInfoList = res.data.filter(item => {
+              return item.applyStatus === 2
+            });
+            _this.isBindStore = _this.storeBindInfoList.length === 0;
+            if (_this.storeBindInfoList.length > 0 ) {
+              _this.selectStoreInfo.storeName = decodeURI(_this.storeBindInfoList[0].storeName);
+              _this.selectStoreInfo.storeAlitm = decodeURI(_this.storeBindInfoList[0].storeAlitm);
+              _this.selectStoreInfo.sellerId = _this.storeBindInfoList[0].sellerId;
+              _this.selectStoreInfo.shopId = _this.storeBindInfoList[0].shopId;
+            }
             if (!_this.isBindStore && !_this.qqNumber) {
               _this.isOpenQqBindModal = true
             }
