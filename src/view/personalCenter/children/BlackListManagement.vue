@@ -23,7 +23,8 @@
         <tr v-for="item in blackListArr" :key="item.id">
           <td>
             <p>{{item.alitmAccount}}</p>
-            <img :src="item.creditLevel" alt="旺旺等级">
+            <img v-if="item.creditLevel" :src="item.creditLevel" alt="旺旺等级">
+            <p v-else>旺旺等级：未知</p>
             <p>淘气值：{{item.tqz}}</p>
             <p>申请次数：{{item.applyCount || 0}}</p>
             <p>成功次数次数：{{item.applySuccessCount || 0}}</p>
