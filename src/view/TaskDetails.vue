@@ -407,12 +407,12 @@
       </div>
     </modal>
     <modal v-model="inBlackListPop" class="text-ct">
-      <div class="fs-20 f-b mt-30"><Icon type="information-circled" class="main-color mr-5"></Icon><span>糟糕，出事儿了~</span></div>
+      <div class="fs-20 f-b mt-30"><icon type="information-circled" class="main-color mr-5"/><span>糟糕，出事儿了~</span></div>
       <div class="mt-20 mb-20">你的旺旺号已被此商家拉黑，无权申请该活动~</div>
       <div slot="footer" class="text-ct">
       </div>
     </modal>
-    <qq-bind-modal :closable="isOpenQqBindModal" @change="openQqBindModal"></qq-bind-modal>
+    <qq-bind-modal :closable="isOpenQqBindModal" @change="openQqBindModal"/>
   </div>
 
 </template>
@@ -783,7 +783,7 @@
         })
       },
       selWwFunc() {
-        let self = this;
+        const self = this;
         let selRes = false;
         if (self.residue > 0) {
           for (let i = 0, j = self.wwList.length; i < j; i++) {
@@ -793,7 +793,7 @@
             }
           }
           if (selRes) {
-            if (self.selectedWw === '') {
+            if (!self.selectedWw) {
               self.$Message.info('请选择旺旺号');
             } else {
               api.showkerApplySelWwId({
@@ -808,7 +808,7 @@
                 if (res.status) {
                   self.applySuccess = true;
                 } else {
-                  if (res.msg === '你的旺旺号已被此商家拉黑,无权申请该活动') {
+                  if (res.statusCode === 'black') {
                     self.inBlackListPop = true;
                   } else {
                     self.$Message.error(res.msg);
