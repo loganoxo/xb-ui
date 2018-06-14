@@ -1,7 +1,8 @@
 <template>
   <div class="store-bind-operating">
-    <div v-show="protocol" class="pos-rel">
+    <div v-if="protocol" class="pos-rel">
       <a class="backToCommodityLink" @click="protocol=false">返回上一页</a>
+      <a class="backToCommodityLink" @click="toUpPage">返回上一页</a>
       <p class="main-color operating-tip">注意：店铺一旦绑定成功后，将无法修改和解绑，请核对店铺信息，慎重操作！</p>
       <div class="form-box">
         <div>
@@ -71,7 +72,7 @@
       <div v-if="bindStatus === 3" class="tip">审核不通过：店铺截图对应的店铺名称不一致，请重新提交</div>
       <div v-else class="tip">提示：店铺绑定审核时间1个工作日左右，若超过一个工作日请联系客服！</div>
     </div>
-    <div v-show="!protocol" class="mt-20 pos-rel">
+    <div v-if="!protocol" class="mt-20 pos-rel">
       <router-link to="/user/bind-store/store-bind-rules" class="backwards">返回上一页</router-link>
       <span class="required"></span>
       <span class="mr-10">需要您提供店铺内任意商品链接</span>
@@ -133,9 +134,9 @@
       pageChange() {
         return this.$route.query.protocol
       },
-      fromPage() {
-        return this.$route.query.from
-      },
+      // fromPage() {
+      //   return this.$route.query.from
+      // },
       storeId() {
         return this.$route.query.id
       },
@@ -150,10 +151,14 @@
       if (_this.pageChange) {
         _this.protocol = true;
         _this.getStoreBindInfo();
-        console.log(_this.storeId)
       }
     },
     methods: {
+      toUpPage() {
+        this.protocol = false;
+        this.defaultScreenshotList = [];
+        this.storeBackstageImage = null;
+      },
       //根据商品链接判断店铺类型
       getStoreType() {
         const _this = this;
@@ -249,11 +254,12 @@
               content: '店铺绑定申请已提交！',
               duration: 1
             });
-            if (this.fromPage) {
-              _this.$router.replace({path: '/user/task-release'});
-            } else {
-              _this.$router.replace({name: 'StoreBindRules'});
-            }
+            // if (this.fromPage) {
+            //   _this.$router.replace({path: '/user/task-release'});
+            // } else {
+            //   _this.$router.replace({name: 'StoreBindRules'});
+            // }
+            _this.$router.replace({name: 'StoreBindRules'});
           } else {
             _this.$Message.error(res.msg);
           }
@@ -265,7 +271,7 @@
       },
       removeImage() {
         this.storeBackstageImage = null;
-        this.backstageImageList = [];
+        this.defaultScreenshotList = [];
       },
       handleFormatError() {
         this.$Modal.warning({

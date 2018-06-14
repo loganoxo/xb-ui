@@ -131,14 +131,15 @@
         } else if (_this.memberLevel === 300 && _this.storeInfoList.length >= _this.svipStoreBindNum) {
           _this.isShowBindBtn = false;
         }else {
-          let query = _this.$route.query.from;
-          if (query) {
-            // this.$router.push({path:`/user/bind-store/store-bind-operating?from=${query}`});
-            this.$router.push({name:'StoreBindOperating',query:{from:query}});
-          } else {
-            // this.$router.push({path:`/user/bind-store/store-bind-operating`});
-            this.$router.push({name:'StoreBindOperating'});
-          }
+          // let query = _this.$route.query.from;
+          // if (query) {
+          //   // this.$router.push({path:`/user/bind-store/store-bind-operating?from=${query}`});
+          //   this.$router.push({name:'StoreBindOperating',query:{from:query}});
+          // } else {
+          //   // this.$router.push({path:`/user/bind-store/store-bind-operating`});
+          //   this.$router.push({name:'StoreBindOperating'});
+          // }
+          this.$router.push({name:'StoreBindOperating'});
         }
       },
       // 查看绑定店铺的详情（审核中，未通过）
