@@ -883,7 +883,7 @@
         return (fee/100*(1-percent/100)).toFixed(2);
       },
       changeIsBuyVipPopupFunc() {
-        this.$router.push({name: 'TaskReleaseProcess'});
+        this.$router.push({name: 'TaskRelease'});
       },
       getReceiveTime(createTime) {
         let nowTime = getSeverTime();

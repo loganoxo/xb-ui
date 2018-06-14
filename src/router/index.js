@@ -25,7 +25,8 @@ const TaskDetails = r => require.ensure([], () => r(require('@/view/TaskDetails.
 
 const PersonalCenter = r => require.ensure([], () => r(require('@/view/personalCenter/index.vue')), 'PersonalCenter');
 const UserHome = r => require.ensure([], () => r(require('@/view/personalCenter/children/UserHome.vue')), 'PersonalCenter');
-const TaskReleaseProcess = r => require.ensure([], () => r(require('@/view/personalCenter/children/TaskReleaseProcess.vue')), 'TaskReleaseProcess');
+const TaskRelease = r => require.ensure([], () => r(require('@/view/personalCenter/children/TaskRelease.vue')), 'TaskRelease');
+const FastTaskRelease = r => require.ensure([], () => r(require('@/view/personalCenter/children/FastTaskRelease.vue')), 'FastTaskRelease');
 
 const ActivityManagement = r => require.ensure([], () => r(require('@/view/personalCenter/children/activityManagement/index.vue')), 'ActivityManagement');
 const ActivitiesList = r => require.ensure([], () => r(require('@/view/personalCenter/children/activityManagement/children/activitiesList.vue')), 'ActivityManagement');
@@ -389,10 +390,22 @@ export default new Router({
         },
         {
           path: 'task-release',
-          name: 'TaskReleaseProcess',
-          component: TaskReleaseProcess,
+          name: 'TaskRelease',
+          component: TaskRelease,
           meta: {
             title: "发布活动",
+            logInAuthority: true,
+            topShow: true,
+            bottomShow: true,
+            role: 1,
+          }
+        },
+        {
+          path: 'fast-task-release',
+          name: 'FastTaskRelease',
+          component: FastTaskRelease,
+          meta: {
+            title: "快速发布活动",
             logInAuthority: true,
             topShow: true,
             bottomShow: true,

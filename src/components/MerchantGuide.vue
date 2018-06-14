@@ -8,11 +8,11 @@
       </div>
       <div class="merchant-guide-step-02" v-show="merchantGuideStep === 2">
         <img src="~assets/img/merchant-guide/merchant-guide-step-02.png" alt="">
-        <div class="merchant-guide-step-02-btn" @click="merchantGuideNextStep(3,'TaskReleaseProcess')"></div>
+        <div class="merchant-guide-step-02-btn" @click="merchantGuideNextStep(3,'TaskRelease')"></div>
       </div>
       <div class="merchant-guide-step-03" v-show="merchantGuideStep === 3">
         <img src="~assets/img/merchant-guide/merchant-guide-step-03.png" alt="">
-        <div class="merchant-guide-step-03-btn" @click="merchantGuideNextStep(4,'TaskReleaseProcess')"></div>
+        <div class="merchant-guide-step-03-btn" @click="merchantGuideNextStep(4,'TaskRelease')"></div>
       </div>
       <div class="merchant-guide-step-04" v-show="merchantGuideStep === 4">
         <img src="~assets/img/merchant-guide/merchant-guide-step-04.png" alt="">
