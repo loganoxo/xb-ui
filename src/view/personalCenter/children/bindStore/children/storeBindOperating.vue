@@ -55,9 +55,9 @@
           </iButton>
         </div>
         <div v-else-if="bindStatus === 3" class="mt-20">
-          <iButton class="resubmit-btn" size="large" :loading="bindBtnLoading" @click="verifiedAndBindFunc">
-            提交店铺审核
-          </iButton>
+          <!--<iButton class="resubmit-btn" size="large" :loading="bindBtnLoading" @click="verifiedAndBindFunc">-->
+            <!--提交店铺审核-->
+          <!--</iButton>-->
           <iButton class="delete-btn ml-20" size="large" :loading="bindBtnLoading" @click="deleteStore">
             删除此店铺
           </iButton>
@@ -217,14 +217,14 @@
       verifiedAndBindFunc() {
         let _this = this;
         if (_this.storeBindForm.storeType === 'taobao') {
-          let URL_REG = /((taobao)*?)/;
+          let URL_REG = /((taobao.com).*?)/;
           if (!URL_REG.test(_this.commodityLink)) {
             _this.$Message.warning('亲，店铺链接与所选的店铺类型不一致！');
             return
           }
         }
         if (_this.storeBindForm.storeType === 'tmall') {
-          let URL_REG = /((tmall)*?)/;
+          let URL_REG = /((tmall.com).*?)/;
           if (!URL_REG.test(_this.commodityLink)) {
             _this.$Message.warning('亲，店铺链接与所选的店铺类型不一致！');
             return
@@ -295,8 +295,7 @@
               _this.storeBindForm.shopId = _this.currentStoreInfo.id;
               _this.storeBindForm.sellerId = _this.currentStoreInfo.sellerId;
               _this.storeBackstageImage = _this.currentStoreInfo.screenshot;
-              _this.defaultScreenshotList = [{src:_this.currentStoreInfo.screenshot}];
-              _this.commodityLink = _this.currentStoreInfo.storeType
+              _this.defaultScreenshotList = [{src:_this.currentStoreInfo.screenshot}]
             }
           }else{
             Toast(res.msg);
