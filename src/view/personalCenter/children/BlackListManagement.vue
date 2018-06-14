@@ -27,7 +27,7 @@
             <p v-else>旺旺等级：未知</p>
             <p>淘气值：{{item.tqz}}</p>
             <p>申请次数：{{item.applyCount || 0}}</p>
-            <p>成功次数次数：{{item.applySuccessCount || 0}}</p>
+            <p>成功次数：{{item.applySuccessCount || 0}}</p>
           </td>
           <td>{{item.reasonStr}}</td>
           <td>{{item.createTime | dateFormat('YYYY-MM-DD hh:mmm:ss')}}</td>
