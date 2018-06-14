@@ -16,8 +16,8 @@
         <img src="~assets/img/common/tmall-logo.png" v-if="storeInfo.storeType === 'tmall'">
         <p class="store-name mt-15 f-b fs-16">{{storeInfo.storeName}}</p>
         <p class="store-ww mt-15">店铺旺旺：<span>{{storeInfo.storeAlitm}}</span></p>
-        <p v-if="" class="auditing">店铺审核中...（查看详情）</p>
-        <p class="audit-fail">审核未通过...（查看详情）</p>
+        <p v-if="storeInfo.applyStatus === 1" class="auditing" @click="checkDetail(storeInfo)">店铺审核中...（查看详情）</p>
+        <p v-if="storeInfo.applyStatus === 3" class="audit-fail" @click="checkDetail(storeInfo)">审核未通过...（查看详情）</p>
       </li>
       <li v-if="isShowBindBtn" class="left cursor-p" @click="toBindStore">
         <p class="mt-20"><Icon type="plus" size="50" color="#999"></Icon></p>
@@ -45,7 +45,8 @@
         vipStoreBindNum:0,
         svipStoreBindNum:0,
         showBindStoreText:true,
-        showUpgradeText:false
+        showUpgradeText:false,
+        // availableStoreList:[]
       }
     },
     computed:{
@@ -87,6 +88,9 @@
           if(res.status){
             if(res.data.length > 0){
               _this.storeInfoList = res.data;
+              // _this.availableStoreList = _this.storeInfoList.filter(item => {
+              //   return item.applyStatus === 2;
+              // });
               _this.bindBtnText();
             }
           }else{
@@ -98,12 +102,12 @@
       bindBtnText(){
         let _this = this;
         // 免费
-        if(_this.memberLevel === 100 || _this.memberLevel === null && _this.storeInfoList.length >=_this.freeStoreBindNum ){
+        if((_this.memberLevel === 100 || _this.memberLevel === null) && (_this.storeInfoList.length >=_this.freeStoreBindNum)){
           _this.showBindStoreText = false;
           _this.showUpgradeText = true;
         }
         // vip
-        if(_this.memberLevel === 200 && _this.storeInfoList.length >= _this.vipStoreBindNum){
+        if(_this.memberLevel === 200 && (_this.storeInfoList.length >= _this.vipStoreBindNum)){
           _this.showBindStoreText = false;
           _this.showUpgradeText = true;
         }
@@ -137,6 +141,11 @@
           }
         }
       },
+      // 查看绑定店铺的详情（审核中，未通过）
+      checkDetail(storeInfo) {
+        this.$router.push({name:'StoreBindOperating',query:{protocol:true,id:storeInfo.id,status:storeInfo.applyStatus}});
+      }
+
     },
   }
 </script>

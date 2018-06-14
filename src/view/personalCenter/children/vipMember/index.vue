@@ -51,8 +51,12 @@
 </template>
 
 <script>
+  import {Icon} from 'iview'
   export default {
     name: "vip-member",
+    components:{
+      Icon:Icon
+    },
     data() {
       return {
         infoSelectList: [

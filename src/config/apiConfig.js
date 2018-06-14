@@ -1094,4 +1094,11 @@ export default {
     return axiosConfig.post('/api/user-add-or-edit-qq-number.json', params)
   },
 
+  /**
+   * 删除店铺
+   */
+  deleteStore(params) {
+    return axiosConfig.post('/api/delete-store.json',params)
+  }
+
 }

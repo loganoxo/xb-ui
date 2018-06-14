@@ -29,7 +29,7 @@
             <div class="clear">
               <upload key="backstageImage" class="left"
                       :on-success="uploadSuccess"
-                      :default-file-list="backstageImageList"
+                      :default-file-list="defaultScreenshotList"
                       :on-remove="removeImage"
                       :format="['jpg','jpeg','png','gif','bmp']"
                       :max-size="1024"
@@ -46,13 +46,30 @@
             <div class="mt-20 cl666">（为避免恶意绑定他人店铺必须上传店铺的后台登录截图）</div>
           </div>
         </div>
-        <div class="mt-20">
+        <div v-if="bindStatus === 1" class="mt-20">
+          <iButton class="auditing-btn" size="large" :loading="bindBtnLoading">
+            店铺审核中...
+          </iButton>
+          <iButton class="delete-btn ml-20" size="large" :loading="bindBtnLoading" @click="deleteStore ">
+            删除此店铺
+          </iButton>
+        </div>
+        <div v-else-if="bindStatus === 3" class="mt-20">
+          <iButton class="resubmit-btn" size="large" :loading="bindBtnLoading" @click="verifiedAndBindFunc">
+            提交店铺审核
+          </iButton>
+          <iButton class="delete-btn ml-20" size="large" :loading="bindBtnLoading" @click="deleteStore">
+            删除此店铺
+          </iButton>
+        </div>
+        <div v-else class="mt-20">
           <iButton class="verified-btn" size="large" :loading="bindBtnLoading" @click="verifiedAndBindFunc">
             提交店铺审核
           </iButton>
         </div>
       </div>
-      <div class="tip">提示：店铺绑定审核时间1个工作日左右，若超过一个工作日请联系客服！</div>
+      <div v-if="bindStatus === 3" class="tip">审核不通过：店铺截图对应的店铺名称不一致，请重新提交</div>
+      <div v-else class="tip">提示：店铺绑定审核时间1个工作日左右，若超过一个工作日请联系客服！</div>
     </div>
     <div v-show="!protocol" class="mt-20 pos-rel">
       <router-link to="/user/bind-store/store-bind-rules" class="backwards">返回上一页</router-link>
@@ -64,7 +81,7 @@
       </div>
     </div>
     <!--示例图弹窗-->
-    <modal v-model="showDemoPicture" width="768">
+    <modal v-model="showDemoPicture" width="1000">
       <img src="~assets/img/bind-store/store-backstage-demo.png" alt="店铺后台示例图" width="100%">
     </modal>
   </div>
@@ -105,14 +122,36 @@
         protocol: false,
         confirmBtnLoading: false,
         bindBtnLoading: false,
-        query:'',
-        backstageImageList:[],
+        // query:'',
         storeBackstageImage:null,
-        showDemoPicture:false
+        defaultScreenshotList:[],
+        showDemoPicture:false,
+        currentStoreInfo:{}
       }
     },
+    computed:{
+      pageChange() {
+        return this.$route.query.protocol
+      },
+      fromPage() {
+        return this.$route.query.from
+      },
+      storeId() {
+        return this.$route.query.id
+      },
+      bindStatus() {
+        return this.$route.query.status
+      }
+
+    },
     created() {
-      this.query = this.$route.query.from;
+      const _this = this;
+      // this.query = this.$route.query.from;
+      if (_this.pageChange) {
+        _this.protocol = true;
+        _this.getStoreBindInfo();
+        console.log(_this.storeId)
+      }
     },
     methods: {
       //根据商品链接判断店铺类型
@@ -191,6 +230,10 @@
             return
           }
         }
+        if (!_this.storeBackstageImage) {
+          _this.$Message.warning('亲，请上传店铺后台截图！');
+          return
+        }
         _this.bindBtnLoading = true;
         api.bindStore({
           storeType: _this.storeBindForm.storeType,
@@ -203,10 +246,10 @@
           _this.bindBtnLoading = false;
           if (res.status) {
             _this.$Message.success({
-              content: '店铺绑定成功！',
+              content: '店铺绑定申请已提交！',
               duration: 1
             });
-            if (this.query) {
+            if (this.fromPage) {
               _this.$router.replace({path: '/user/task-release'});
             } else {
               _this.$router.replace({name: 'StoreBindRules'});
@@ -223,7 +266,6 @@
       removeImage() {
         this.storeBackstageImage = null;
         this.backstageImageList = [];
-        console.log(this.storeBackstageImage);
       },
       handleFormatError() {
         this.$Modal.warning({
@@ -236,6 +278,42 @@
           title: '超出文件大小限制',
           content: `图片 ${file.name} 太大，不能超过 1M`
         })
+      },
+      // 获取商家绑定的店铺列表(针对有问题的店铺查看详情时)
+      getStoreBindInfo(){
+        const _this = this;
+        api.getStoreBindInfo({}).then(res=>{
+          if(res.status){
+            if(res.data.length > 0){
+              _this.storeInfoList = res.data;
+              _this.currentStoreInfo = _this.storeInfoList.find(item => {
+                return item.id === _this.storeId;
+              });
+              _this.storeBindForm.storeName = _this.currentStoreInfo.storeName;
+              _this.storeBindForm.storeWw = _this.currentStoreInfo.storeAlitm;
+              _this.storeBindForm.storeType = _this.currentStoreInfo.storeType;
+              _this.storeBindForm.shopId = _this.currentStoreInfo.id;
+              _this.storeBindForm.sellerId = _this.currentStoreInfo.sellerId;
+              _this.storeBackstageImage = _this.currentStoreInfo.screenshot;
+              _this.defaultScreenshotList = [{src:_this.currentStoreInfo.screenshot}]
+            }
+          }else{
+            Toast(res.msg);
+          }
+        })
+      },
+      // 删除店铺
+      deleteStore() {
+        const _this = this;
+        api.deleteStore({id:_this.storeId}).then(res => {
+          if (res.status) {
+            _this.$router.replace({name:'StoreBindRules'});
+            _this.$Message.success('删除店铺成功');
+          } else {
+            _this.$Message.warning(res.msg);
+          }
+        })
+
       }
 
 
@@ -252,13 +330,28 @@
       padding: 20px 0 10px 90px;
     }
     .form-box {
-      width: 600px;
+      width: 800px;
       padding-left: 90px;
       .verified-btn {
         background-color: #FF6865;
         color: #fff;
         width:300px;
+        margin-left:50px;
+      }
+      .auditing-btn {
+        width:200px;
         margin-left:100px;
+        color:#999;
+      }
+      .delete-btn {
+        width: 200px;
+        background-color: #FF6865;
+        color: #fff;
+      }
+      .resubmit-btn{
+        width: 200px;
+        background-color: #FF6865;
+        color: #fff;
       }
     }
     .commodity-input {
