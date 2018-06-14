@@ -801,7 +801,11 @@
       if (self.$store.state.userInfo.role === 0) {
         self.getAvailableBoardByAdTypeList('showker_pc_home_page_slide_show');
       } else if (self.$store.state.userInfo.role === 1) {
-        self.getAvailableBoardByAdTypeList('seller_pc_home_page_slide_show');
+        if (self.getMemberLevel === 100 || self.getMemberLevel === null) {
+          self.getAvailableBoardByAdTypeList('free_seller_pc_home_page_slide_show');
+        } else {
+          self.getAvailableBoardByAdTypeList('seller_pc_home_page_slide_show');
+        }
       } else {
         self.getAvailableBoardByAdTypeList('seller_pc_home_page_slide_show');
       }
@@ -858,6 +862,9 @@
       },
       TaskCategoryActive() {
         return this.$store.state.TaskCategoryActive
+      },
+      getMemberLevel() {
+        return this.$store.state.userInfo.memberLevel
       },
     },
     mounted: function () {
