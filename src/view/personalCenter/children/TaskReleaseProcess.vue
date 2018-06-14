@@ -311,8 +311,8 @@
             <p class="ml-70 mt-5 sizeColor3">主图要求：白底背景，主图必须清晰，必须是所送的商品，且不能出现图片拼接、水印、logo及其它文字</p>
           </div>
           <div class="baby-url ml-20 mt-20">
-            <span class="required">宝贝地址：</span>
-            <i-input v-model="taskRelease.itemUrl" placeholder="请输入宝贝地址" style="width: 296px"/>
+            <span class="required">宝贝链接：</span>
+            <i-input v-model="taskRelease.itemUrl" placeholder="请输入宝贝链接" style="width: 296px"/>
             <span class="sizeColor2" v-if="getMemberVersionLevel === 200">（根据你的会员版本，每天同一宝贝可以发布5次）</span>
             <span class="sizeColor2" v-else-if="getMemberVersionLevel === 300">（每天同一宝贝可以发布10次）</span>
             <span class="sizeColor2" v-else>（根据你的会员版本，每天同一宝贝可以发布2次）</span>
@@ -502,7 +502,7 @@
           <div class="activity-info-title">填写活动宝贝信息</div>
           <div class="complimentary-tip mt-20 pl-15">
             <p class="sizeColor3">赠品活动发布说明：</p>
-            <p class="sizeColor3 mt-6">1、宝贝标题、宝贝类型、宝贝主图、商品简介填写赠品相关信息；宝贝地址、掌柜旺旺、宝贝单价填写淘宝正品（即希望拿手拍下的SKU）相关信息；</p>
+            <p class="sizeColor3 mt-6">1、宝贝标题、宝贝类型、宝贝主图、商品简介填写赠品相关信息；宝贝链接、掌柜旺旺、宝贝单价填写淘宝正品（即希望拿手拍下的SKU）相关信息；</p>
             <p class="sizeColor3">2、在下单要求中明确说明希望拿手拍下的SKU（否则拿手可能会找不到宝贝）。</p>
             <p class="sizeColor3">3、为了不影响人群标签，赠品类型必须与正品同属一个类目，否则后台审核不给予通过。</p>
           </div>
@@ -510,8 +510,8 @@
             <div class="baby-info-present-title">A宝贝信息（用户在淘宝拍下的宝贝）</div>
             <div class="baby-info-present-con pb-20">
               <div class="baby-url ml-10 mt-20">
-                <span class="required">宝贝地址：</span>
-                <i-input v-model="taskRelease.itemUrl" placeholder="请输入宝贝地址" style="width: 296px"/>
+                <span class="required">宝贝链接：</span>
+                <i-input v-model="taskRelease.itemUrl" placeholder="请输入宝贝链接" style="width: 296px"/>
                 <span class="sizeColor2" v-if="getMemberVersionLevel === 200">（根据你的会员版本，每天同一宝贝可以发布5次）</span>
                 <span class="sizeColor2" v-else-if="getMemberVersionLevel === 300">（每天同一宝贝可以发布10次）</span>
                 <span class="sizeColor2" v-else>（根据你的会员版本，每天同一宝贝可以发布2次）</span>
@@ -1154,7 +1154,7 @@
       <div class="text-ct mt-46 fs-16">店铺信息校验中，请稍后...</div>
       <div slot="footer"></div>
     </modal>
-    <!--宝贝地址不属于绑定店铺提示弹框-->
+    <!--宝贝链接不属于绑定店铺提示弹框-->
     <modal v-model="isSelectStoreUrl" :closable="false" :mask-closable="false" width="360">
       <p slot="header" class="text-ct">
         <Icon color="#f9284f" type="information-circled"/>
@@ -1168,14 +1168,14 @@
         <iButton type="error" size="large" long @click="isSelectStoreUrl = false">我知道了</iButton>
       </div>
     </modal>
-    <!--爬虫抓取宝贝地址对应的店铺信息失败提示弹框-->
+    <!--爬虫抓取宝贝链接对应的店铺信息失败提示弹框-->
     <modal v-model="isGetStoreInfoError" :closable="false" :mask-closable="false" width="360">
       <p slot="header" class="text-ct">
         <icon color="#f9284f" type="information-circled"/>
         <span class="main-color">温馨提示</span>
       </p>
       <div class="text-ct">
-        <p>宝贝地址对应的店铺信息获取失败</p>
+        <p>宝贝链接对应的店铺信息获取失败</p>
         <p>请核实宝贝链接的完整性或者稍后重试</p>
       </div>
       <div slot="footer">
@@ -2173,7 +2173,7 @@
           return;
         }
         if (!_this.taskRelease.itemUrl) {
-          _this.$Message.warning('亲，宝贝地址不能为空！');
+          _this.$Message.warning('亲，宝贝链接不能为空！');
           return;
         }
         if (!isAliUrl(_this.taskRelease.itemUrl)) {
