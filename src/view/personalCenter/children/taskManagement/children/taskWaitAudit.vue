@@ -1,7 +1,7 @@
 <template>
   <div class="mt-20">
     <div class="prompt">
-      <icon type="information-circled"></icon>
+      <icon type="information-circled"/>
       <span> 亲，请记得在活动结束前审批拿手哦，如果活动结束后48小时内仍未审批满，系统将自动按申请时间审批剩余名额！</span>
     </div>
     <div class="store-list pt-20 pb-20">
@@ -11,9 +11,9 @@
     </div>
     <div class="search-list">
       <span>淘宝会员名：</span>
-      <i-input v-model="alitmAccount" style="width: 100px;margin-right: 8px;"></i-input>
+      <i-input v-model="alitmAccount" style="width: 100px;margin-right: 8px;"/>
       <span class="ml-10">活动编号：</span>
-      <i-input v-model="taskNumber" style="width: 140px;margin-right: 8px;"></i-input>
+      <i-input v-model="taskNumber" style="width: 140px;margin-right: 8px;"/>
       <span class="ml-10">旺旺号信用等级大于等于：</span>
       <i-select v-model="wwFormValidate.creditLevel" style="width: 130px;">
         <i-option v-for="(taobaoLevelImg,index) in taobaoLevelImgs" :label='taobaoLevelImg.label'
@@ -32,10 +32,10 @@
       <i-button class="ml-10" type="primary" :loading="searchLoading" @click="searchAuditTask">搜索</i-button>
     </div>
     <div class="mt-10 mb-10">
-      <span v-show="eyesStatus === 'off'" class="fire-eye-off" @click="changeEyesStatus('on')"><icon type="eye-disabled" size="16"></icon>&nbsp;火眼金睛</span>
+      <span v-show="eyesStatus === 'off'" class="fire-eye-off" @click="changeEyesStatus('on')"><icon type="eye-disabled" size="16"/>&nbsp;火眼金睛</span>
       <span v-show="eyesStatus === 'off'" class="ml-10 cl999">打开火眼金睛，拿手数据一目了然！</span>
-      <span v-show="eyesStatus === 'on'" class="fire-eye-on" @click="changeEyesStatus('off')"><icon type="eye" size="16"></icon>&nbsp;火眼金睛</span>
-      <span v-show="eyesStatus === 'on' && !valueAddedServiceStatusInfo.isMemberOK" class="ml-10 cl999">距离服务结束还有&nbsp;<time-down v-if="valueAddedServiceStatusInfo.vasBlackListDeadlineTime" :endTime="valueAddedServiceStatusInfo.vasBlackListDeadlineTime" timeEndText="服务已到期" @timeEnd="timeEnd"></time-down></span>
+      <span v-show="eyesStatus === 'on'" class="fire-eye-on" @click="changeEyesStatus('off')"><icon type="eye" size="16"/>&nbsp;火眼金睛</span>
+      <span v-show="eyesStatus === 'on' && !valueAddedServiceStatusInfo.isMemberOK" class="ml-10 cl999">距离服务结束还有&nbsp;<time-down v-if="valueAddedServiceStatusInfo.vasBlackListDeadlineTime" :endTime="valueAddedServiceStatusInfo.vasBlackListDeadlineTime" timeEndText="服务已到期" @timeEnd="timeEnd"/></span>
       <span v-show="eyesStatus === 'on' && !valueAddedServiceStatusInfo.isMemberOK" class="blue text-decoration-underline ml-10 cursor-p" @click="renewalEyes">续费</span>
       <span v-show="eyesStatus === 'on' && valueAddedServiceStatusInfo.isMemberOK" class="ml-10 cl999">VIP及SVIP免费使用火眼金睛功能 ^_^  </span>
     </div>
@@ -58,12 +58,12 @@
             <p class="task-wait-fail">新增待审批<span>{{item.newestTaskApplyCount || 0}}</span>人</p>
             <p class="task-wait-fail">共有待审批<span>{{item.totalTaskApplyCount || 0}}</span>人</p>
           </div>
-          <i-button type="error" @click.stop="openSpeedUp(item.id, item.userId)"><span class="mr-5">一键加速</span>
+          <i-button v-if="item.taskStatus === 'under_way' && !item.speedUp" type="error" @click.stop="openSpeedUp(item.id, item.userId)"><span class="mr-5">一键加速</span>
             <tooltip class="vtc-text-btm" style="line-height: 0" content="启用后，系统会匹配拿手进行审核，无需商家干预" placement="top">
-              <icon type="help-circled" size="14" color="#fff"></icon>
+              <icon type="help-circled" size="14" color="#fff"/>
             </tooltip>
           </i-button>
-          <icon :class="{'show-table-styles' : selectId === item.id}" class="ml-10 mt-28" type="arrow-right-b"></icon>
+          <icon :class="{'show-table-styles' : selectId === item.id}" class="ml-10 mt-28" type="arrow-right-b"/>
         </div>
       </div>
       <collapse-transition>
@@ -75,7 +75,7 @@
                 <p class="mb-5">淘宝账号（旺旺号）</p>
                 <i-button :class="[sortList.select === item.sortField ? 'ww-active' : '']" size="small" v-for="(item,index) in sortList.defaultList" :key="index" @click="sortChange(item.sortField,index)">
                   <span>{{item.name}}</span>
-                  <icon :type="item.sort === 'desc' ? 'arrow-down-c' : 'arrow-up-c'"></icon>
+                  <icon :type="item.sort === 'desc' ? 'arrow-down-c' : 'arrow-up-c'"/>
                 </i-button>
               </th>
               <th width="20%">申请时间/IP地址</th>
@@ -100,7 +100,7 @@
                     <p>
                       <span>被平台商家拉黑：</span>
                       <span class="cursor-p blue" @click="openOrderEyesModel">
-                        <tooltip content="打开火眼金睛，拿手数据一目了然！"><icon class="vtc-text-btm" type="eye-disabled" size="16"></icon>&nbsp;查看</tooltip>
+                        <tooltip content="打开火眼金睛，拿手数据一目了然！"><icon class="vtc-text-btm" type="eye-disabled" size="16"/>&nbsp;查看</tooltip>
                       </span>
                     </p>
                   </div>
@@ -131,7 +131,7 @@
               </td>
               <td>
                 <tooltip v-if="allTask.reason && allTask.status === 'waiting_resubmit'" :content="allTask.reason" placement="top" class="cursor-p">
-                  <icon color="#f9284f" type="information-circled"></icon>
+                  <icon color="#f9284f" type="information-circled"/>
                   <span class="main-color">{{getStatusInfo(allTask.status)}}</span>
                 </tooltip>
                 <span v-else>{{getStatusInfo(allTask.status)}}</span>
@@ -150,7 +150,7 @@
             <tbody>
             <tr>
               <td colspan="5">
-                <page :total="taskTotalElements" :page-size="taskPageSize" :current="taskPageIndex" @on-change="taskPageChange"></page>
+                <page :total="taskTotalElements" :page-size="taskPageSize" :current="taskPageIndex" @on-change="taskPageChange"/>
               </td>
             </tr>
             </tbody>
@@ -160,52 +160,10 @@
     </div>
     <div class="mt-40 text-ct">{{dataStatusTip}}</div>
     <div class="activity-page mt-20 right mr-10" v-if="taskWaitAuditList && taskWaitAuditList.length > 0">
-      <page :total="totalElements" :page-size="pageSize" :current="pageIndex" @on-change="pageChange"></page>
+      <page :total="totalElements" :page-size="pageSize" :current="pageIndex" @on-change="pageChange"/>
     </div>
     <!--添加黑名单弹框-->
-    <modal v-model="addToBlackListPop" title="添加黑名单" class="black-list-pop">
-      <div>
-        <span class="inline-block title">淘宝账号（旺旺ID）：</span>
-        <i-input class="ww-name" v-model="wwName" style="width: 120px;"></i-input>
-      </div>
-      <div class="mt-20">
-        <span class="inline-block title">拉黑原因：</span>
-        <i-select v-model="addToBlackListReason" style="width:300px;">
-          <i-option style="width:300px;" v-for="(item ,index) in reasonList" :value="item.reasonStatus" :key="index">{{item.reasonDec}}
-          </i-option>
-        </i-select>
-      </div>
-      <div class="mt-20" v-show="addToBlackListReason === 'other_reason'">
-        <span class="inline-block title">填写原因：</span>
-        <i-input type="textarea" v-model="addToBlackOtherReason" placeholder="100字以内" style="width:300px"></i-input>
-      </div>
-    <!--  <div class="mt-20">
-        <span>记入征信体系：</span>
-        <checkbox v-model="needScreenshots">需要</checkbox>
-        <span class="cl999">（成功计入征信体系后， <span class="main-color">火眼金睛</span>会统计此条拉黑记录）</span>
-      </div>
-      <div class="mt-5 cl999 ml-88" v-show="needScreenshots">记入征信体系需要提交截图证明，由平台审核是否属实，审核期间及审核结果均不影响您正常拉黑，即此用户无法申请您发布的任何活动。</div>
-      <div class="mt-20 clear" v-show="needScreenshots">
-        <span class="left mt-20">相关截图：</span>
-        <upload class="left ml-5" :on-success="bankListImageSuccess"
-                :default-file-list="bankListDefaultList"
-                :on-remove="removeBankListImage"
-                :format="['jpg','jpeg','png','gif','bmp']"
-                :max-size="1024"
-                name="screenshots"
-                :on-format-error="handleFormatError"
-                :on-exceeded-size="handleMaxSize"
-                type="drag">
-          <div class="camera">
-            <icon type="camera" size="20"></icon>
-          </div>
-        </upload>
-        <span class="ml-10 mt-20 left cl999">支持jpg/jpeg/gif/bmp格式，大小不超过10M，最多可上传5张</span>
-      </div>-->
-      <div slot="footer" class="text-ct">
-        <i-button type="error" size="large" class="pl-40 pr-40" @click="addShowkerToBlackList">确定</i-button>
-      </div>
-    </modal>
+    <add-to-black-list-modal :blackListInfo="addBlackListInfo" :closable="closableModal" :on-success="addSuccess" @change="blackListModalChange"/>
     <!--拉黑详情列表弹框-->
     <modal v-model="blackListInfoModel">
       <div class="mt-20 clear">
@@ -324,6 +282,7 @@
   import PayModel from '@/components/PayModel'
   import TimeDown from '@/components/TimeDown'
   import Upload from '@/components/Upload'
+  import AddToBlackListModal from '@/components/AddToBlackListModal'
   import {taskErrorStatusList, encryption} from '@/config/utils'
   import {aliCallbackImgUrl} from '@/config/env'
   import api from '@/config/apiConfig'
@@ -345,35 +304,10 @@
       PayModel: PayModel,
       TimeDown: TimeDown,
       Upload: Upload,
+      AddToBlackListModal: AddToBlackListModal,
     },
     data() {
       return {
-        addToBlackOtherReason: null,
-        addToBlackListReason: 'none_reason',
-        reasonList: [
-          {
-            reasonStatus: 'none_reason',
-            reasonDec: '无理由（仅屏蔽此用户申请，不记入征信体系）'
-          },
-          {
-            reasonStatus: 'illegal_operation',
-            reasonDec: '不按要求操作'
-          },
-          {
-            reasonStatus: 'danger_account',
-            reasonDec: '此号不安全'
-          },
-          {
-            reasonStatus: 'sales_return',
-            reasonDec: '有退货行为'
-          },
-          {
-            reasonStatus: 'other_reason',
-            reasonDec: '其他'
-          },
-        ],
-        addToBlackListPop: false,
-        wwName: null,
         wwFormValidate: {
           creditLevel: null,
           tqz: null,
@@ -555,8 +489,8 @@
         storeList: [],
         selectedStore: '',
         realStoreName: '',
-        needScreenshots: true,
-        bankListDefaultList: [],
+        closableModal: false,
+        addBlackListInfo: {},
       }
     },
     created() {
@@ -610,38 +544,16 @@
       openNewTrialReportFunc(id) {
         window.open('/trial-report?q=' + id)
       },
-      bankListImageSuccess() {},
-      removeBankListImage() {},
-      handleFormatError() {},
-      handleMaxSize() {},
-      addShowkerToBlackList() {
-        const _this = this;
-        if (!_this.wwName) {
-          _this.$Message.error("请填写要拉黑的旺旺号！");
-          return
-        }
-        if (!_this.addToBlackListReason) {
-          _this.$Message.error("请填写拉黑原因！");
-          return
-        }
-        api.addShowkerToBlackList({
-          alitmAccount: _this.wwName,
-          reasonCode: _this.addToBlackListReason,
-          reasonText: _this.addToBlackOtherReason,
-        }).then(res => {
-          if (res.status) {
-            _this.addToBlackListPop = false;
-            _this.$Message.success("添加黑名单成功！");
-            _this.appliesWaitingAuditAll(_this.operateTaskId, _this.operateIndex);
-          } else {
-            _this.$Message.error(res.msg);
-          }
-        })
+      blackListModalChange(value) {
+        this.closableModal = value;
+        this.addBlackListInfo = {};
+      },
+      addSuccess() {
+        this.appliesWaitingAuditAll(this.operateTaskId, this.operateIndex);
       },
       addToBlackListFun(wwName) {
-        this.addToBlackListReason = 'none_reason';
-        this.addToBlackListPop = true;
-        this.wwName = wwName;
+        this.closableModal = true;
+        this.addBlackListInfo.alitmAccount = wwName
       },
       sortChange(name, index) {
         let sort = this.sortList.defaultList[index].sort;

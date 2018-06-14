@@ -3,194 +3,173 @@
     <div class="pt-10 pb-10 black-list-management-title fs-18">黑名单管理</div>
     <div class="pl-10 pt-20 pb-20 border-bottom-eee">
       <span>淘宝会员名：</span>
-      <iInput class="input" v-model="blackListWwName"></iInput>
-      <iButton type="error" class="ml-10" @click="searchWw">搜索</iButton>
-      <iButton type="error" class="ml-10" @click="addToBlackListPop = true">+添加黑名单</iButton>
+      <i-input class="input" v-model="blackListWwName"/>
+      <i-button type="error" class="ml-10" @click="searchWw">搜索</i-button>
+      <i-button type="error" class="ml-10" @click="closableModal = true">+添加黑名单</i-button>
     </div>
     <div class="black-list">
       <p class="pt-20 pb-20">添加黑名单的旺旺号（该用户）将无法申请您发布的活动，从黑名单移除后该用户可恢复申请。</p>
       <table class="black-list-table">
         <thead>
         <tr>
-            <th width="25%">淘宝账号（旺旺号）</th>
-            <th width="25%">拉黑理由</th>
-            <th width="25%">拉黑时间</th>
-            <th width="25%">操作</th>
-          </tr>
+          <th width="20%">淘宝账号（旺旺号）</th>
+          <th width="20%">拉黑理由</th>
+          <th width="20%">拉黑时间</th>
+          <th width="20%">征信处理</th>
+          <th width="20%">操作</th>
+        </tr>
         </thead>
         <tbody>
-        <tr v-for="(item,index) in blackListArr" :key="index">
+        <tr v-for="item in blackListArr" :key="item.id">
           <td>
             <p>{{item.alitmAccount}}</p>
-            <img :src="item.creditLevel" alt="">
+            <img v-if="item.creditLevel" :src="item.creditLevel" alt="旺旺等级">
+            <p v-else>旺旺等级：未知</p>
             <p>淘气值：{{item.tqz}}</p>
             <p>申请次数：{{item.applyCount || 0}}</p>
-            <p>成功次数次数：{{item.applySuccessCount || 0}}</p>
+            <p>成功次数：{{item.applySuccessCount || 0}}</p>
           </td>
-          <td>{{item.reason}}</td>
+          <td>{{item.reasonStr}}</td>
           <td>{{item.createTime | dateFormat('YYYY-MM-DD hh:mmm:ss')}}</td>
-          <td class="blue cursor-p" @click="removeFromBlackList(item.id,index)">从黑名单移除</td>
+          <td>
+            <template v-if="item.auditStatus !== 3">
+              <p>{{item.auditStatusStr}}</p>
+              <p class="blue cursor-p mt-5" v-if="!item.addToCredit && item.reasonCode !== 'none_reason' && item.reasonCode !== 'tao_ke'" @click="applyToAdd(item.alitmAccount, item.id, item.reasonCode)">（申请添加）</p>
+              <p class="blue cursor-p mt-5" v-if="item.auditStatus === 1 && item.addToCredit">（<span @click="seeDetails(item, true)">查看详情</span><span @click="revoke(item)" class="ml-10">撤销</span>）</p>
+            </template>
+            <template v-else>
+              <tooltip :content="item.refuseReason" placement="top">{{item.auditStatusStr}}</tooltip>
+              <p>（<span @click="seeDetails(item, false)">重新提交</span><span class="ml-10" @click="revoke(item)">撤销</span>）</p>
+            </template>
+          </td>
+          <td class="blue cursor-p" @click="removeFromBlackList(item.id)">从黑名单移除</td>
         </tr>
         </tbody>
       </table>
       <div class="pt-20 pb-20 text-ct main-color f-b" v-show="noListNow">暂无数据！</div>
-      <div class="clear"><Page class="right mr-20 mt-20" :total="totalPages*10" @on-change="changePagesFun"></Page></div>
+      <div class="clear">
+        <page class="right mr-20 mt-20" :total="totalElements" :page-size="size" @on-change="changePagesFun"/>
+      </div>
     </div>
-    <!--弹窗开始-->
-    <Modal v-model="addToBlackListPop" title="添加黑名单" class="black-list-pop">
-      <div><span class="inline-block title">淘宝账号（旺旺ID）：</span><iInput class="ww-name" v-model="wwName"></iInput></div>
-      <div class="mt-20">
-        <span class="inline-block title">拉黑原因：</span>
-        <i-select v-model="addToBlackListReason" style="width:300px">
-          <i-option v-for="(item ,index) in reasonList" :value="item.reasonStatus" :key="index">{{item.reasonDec}}</i-option>
-        </i-select>
-      </div>
-      <div class="mt-20" v-show="addToBlackListReason === 'other_reason'">
-        <span class="inline-block title">填写原因：</span>
-        <iInput type="textarea" v-model="addToBlackOtherReason" placeholder="100字以内" style="width:300px"></iInput>
-      </div>
-      <div slot="footer" class="text-ct">
-        <iButton type="error" size="large" class="button" @click="addShowkerToBlackList">确认</iButton>
-      </div>
-    </Modal>
+    <!--添加黑名单弹框-->
+    <add-to-black-list-modal :blackListInfo="addBlackListInfo" :disabled="disabled" :closable="closableModal" :on-success="addSuccess" @change="blackListModalChange"/>
   </div>
 </template>
 
 <script>
-  import {Select, Option, Button, Icon, Page, Modal, Input} from 'iview'
+  import {Button, Icon, Page, Input, Tooltip} from 'iview'
+  import AddToBlackListModal from '@/components/AddToBlackListModal'
   import api from '@/config/apiConfig'
 
   export default {
-    name: 'BlackListManagement',
+    name: 'black-list-management',
     components: {
       iButton: Button,
       Page: Page,
-      Modal: Modal,
       iInput: Input,
+      Tooltip: Tooltip,
       Icon: Icon,
-      iSelect: Select,
-      iOption: Option,
+      AddToBlackListModal: AddToBlackListModal,
     },
     data() {
       return {
-        addToBlackOtherReason: null,
-        addToBlackListReason: null,
-        reasonList: [
-          {
-            reasonStatus: 'none_reason',
-            reasonDec: '无理由（仅屏蔽此用户申请，不记入征信体系）'
-          },
-          {
-            reasonStatus: 'illegal_operation',
-            reasonDec: '不按要求操作'
-          },
-          {
-            reasonStatus: 'danger_account',
-            reasonDec: '此号不安全'
-          },
-          {
-            reasonStatus: 'sales_return',
-            reasonDec: '有退货行为'
-          },
-          {
-            reasonStatus: 'other_reason',
-            reasonDec: '其他'
-          },
-        ],
-        addToBlackListPop:false,
-        blackListWwName:'',
-        blackListArr:[],
-        wwName:null,
-        noListNow:false,
-        page:0,
-        size:4,
-        totalPages:0,
+        blackListWwName: '',
+        blackListArr: [],
+        noListNow: false,
+        page: 0,
+        size: 4,
+        totalElements: 0,
+        closableModal: false,
+        disabled: false,
+        addBlackListInfo: {}
       }
     },
     created() {
-      let self = this;
-      self.getBlackList();
-    },
-    computed: {
-    },
-    mounted() {
-
+      this.getBlackList()
     },
     methods: {
-      getBlackList(){
-        let self = this;
-        self.noListNow = false;
+      blackListModalChange(value) {
+        this.closableModal = value;
+        this.disabled = false;
+        this.addBlackListInfo = {};
+      },
+      seeDetails(item, disabled) {
+        this.addBlackListInfo.alitmAccount = item.alitmAccount;
+        this.addBlackListInfo.reasonCode = item.reasonCode;
+        this.addBlackListInfo.refuseReason = item.refuseReason;
+        this.addBlackListInfo.screenshot = item.screenshot;
+        this.addBlackListInfo.auditStatus = item.auditStatus;
+        this.addBlackListInfo.addToCredit = item.addToCredit;
+        this.closableModal = true;
+        this.disabled = disabled;
+      },
+      applyToAdd (alitmAccount, id, reasonCode) {
+        this.addBlackListInfo.alitmAccount = alitmAccount;
+        this.addBlackListInfo.id = id;
+        this.addBlackListInfo.reasonCode = reasonCode;
+        this.addBlackListInfo.addToCredit = true;
+        this.closableModal = true;
+      },
+      revoke(item) {
+        const _this = this;
+        api.addShowkerToBlackList({
+          id: item.id,
+          alitmAccount: item.alitmAccount,
+          reasonCode: item.reasonCode,
+          reasonText: null,
+          addToCredit: false,
+          screenshot: '[]',
+        }).then(res => {
+          if (res.status) {
+            _this.$Message.success('撤销成功！');
+            _this.getBlackList();
+          } else {
+            _this.$Message.error(res.msg)
+          }
+        })
+      },
+      getBlackList() {
+        const self = this;
         api.getBlackList({
           acc: self.blackListWwName,
-          page:self.page,
-          size:self.size,
-        }).then( res => {
-          if (res.status){
-           self.blackListArr = res.data;
-           self.totalPages = res.totalPages;
-           if (self.blackListArr.length === 0){
-             self.noListNow = true;
-            }
-          }
-        })
-      },
-      searchWw(){
-        let self = this;
-        if (!self.blackListWwName){
-          self.$Message.error("请输入旺旺名！");
-        }
-        self.page = 0;
-        self.getBlackList();
-      },
-      removeFromBlackList(id,index){
-        let self = this;
-        api.removeFromBlackList({
-          id:id
-        }).then( res => {
-          if (res.status){
-            self.$Message.success("移除黑名单成功！");
-            self.blackListArr.splice(index,1);
-            if (self.blackListArr.length === 0){
+          page: self.page,
+          size: self.size,
+        }).then(res => {
+          if (res.status) {
+            self.blackListArr = res.data;
+            self.totalElements = res.totalElements;
+            if (self.blackListArr.length === 0) {
               self.noListNow = true;
             }
+          } else {
+            self.$Message.error(res.msg)
           }
         })
       },
-      changePagesFun(page){
-        this.noListNow = false;
+      searchWw() {
+        this.page = 0;
+        this.getBlackList();
+      },
+      removeFromBlackList(id) {
+        const self = this;
+        api.removeFromBlackList({
+          id: id
+        }).then(res => {
+          if (res.status) {
+            self.$Message.success("移除黑名单成功！");
+            self.getBlackList();
+          } else {
+            self.$Message.error(res.msg)
+          }
+        })
+      },
+      changePagesFun(page) {
         this.page = page - 1;
         this.getBlackList();
       },
-      addShowkerToBlackList(){
-        const self = this;
-        if (!self.wwName){
-          self.$Message.error("请填写要拉黑的旺旺号！");
-          return
-        }
-        if (!self.addToBlackListReason){
-          self.$Message.error("请填写拉黑原因！");
-          return
-        }
-        api.addShowkerToBlackList({
-          alitmAccount: self.wwName,
-          reasonCode: self.addToBlackListReason,
-          reasonText: self.addToBlackOtherReason,
-        }).then( res => {
-          if (res.status){
-            self.addToBlackListPop = false;
-            self.$Message.success("添加黑名单成功！");
-            self.wwName = '';
-            self.addToBlackListReason = '';
-            self.addToBlackOtherReason = '';
-            self.page = 0;
-            self.wwName = '';
-            self.addToBlackListReason = '';
-            self.addToBlackOtherReason = '';
-            self.getBlackList();
-          }else {
-            self.$Message.error(res.msg);
-          }
-        })
+      addSuccess() {
+        this.page = 0;
+        this.getBlackList();
       },
     }
   }
@@ -203,43 +182,45 @@
     .black-list-management-title {
       border-bottom: 1px solid #eee;
     }
-    .input{
+    .input {
       width: 200px;
     }
-    .border-bottom-eee{
+    .border-bottom-eee {
       border-bottom: 1px solid #eee;
     }
   }
-  .black-list-pop{
-    .ww-name{
+
+  .black-list-pop {
+    .ww-name {
       width: 200px;
       margin-left: 3px;
     }
-    .title{
+    .title {
       width: 120px;
       text-align: right;
     }
-    .button{
+    .button {
       padding-left: 30px;
       padding-right: 30px;
     }
   }
-  .black-list-table{
+
+  .black-list-table {
     text-align: center;
     width: 100%;
     border-top: 1px solid #eee;
     border-left: 1px solid #eee;
-    th,td{
+    th, td {
       border-right: 1px solid #eee;
       border-bottom: 1px solid #eee;
       padding-top: 10px;
       padding-bottom: 10px;
     }
-    th{
+    th {
       background-color: #F8F8F9;
       color: #000;
     }
-    td{
+    td {
 
     }
   }

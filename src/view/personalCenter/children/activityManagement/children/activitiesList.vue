@@ -478,11 +478,11 @@
           this.isTaskOverdueModel = true;
           this.taskId = id;
         } else {
-          this.$router.push({name: 'TaskReleaseProcess', query: {q: encryption(id)}})
+          this.$router.push({name: 'TaskRelease', query: {q: encryption(id)}})
         }
       },
       copyTask(id) {
-        this.$router.push({name: 'TaskReleaseProcess', query: {q: encryption(id), type: 'copy'}})
+        this.$router.push({name: 'TaskRelease', query: {q: encryption(id), type: 'copy'}})
       },
       openSpeedUp(taskId, userId) {
         this.speedUpModal = true;

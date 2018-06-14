@@ -34,7 +34,8 @@
         <span class="main-color">{{orderValidityTime | dateFormat('YYYY-MM-DD') || '------'}}</span><span
           v-if="isMember && isVersionUpgrade">，根据您现在的会员版本可折价抵扣：{{(deductionPrice / 100).toFixed(2) || 0.00}}元，成功升级后现有版本将失效。</span>
       </p>
-      <p class="fs-16 mt-10">本次总共需要支付的金额为：<span class="f-b">{{buyOrderPrice > 0 ? (buyOrderPrice / 100).toFixed(2) : 0}}</span>
+      <p class="fs-16 mt-10">本次总共需要支付的金额为：<span
+        class="f-b">{{buyOrderPrice > 0 ? (buyOrderPrice / 100).toFixed(2) : 0}}</span>
         元。您账户余额为： <span class="f-b">{{(getUserBalance / 100).toFixed(2)}}</span>
         元<span v-if="!hasBalance">，还需要充值：<span class="f-b">{{(needPayMoney / 100).toFixed(2)}}</span> 元</span>
       </p>
@@ -44,8 +45,8 @@
     <!--支付弹窗-->
     <div class="pay-model" v-if="isNeedRecharge">
       <pay-model ref="orderPayModel" :orderMoney="needPayMoney" :orderType="1" :isBalance="hasBalance"
-                :memberLevel="isSelectVersionPeriodInfo.level" :timeLevel="isSelectVersionPeriodInfo.timeLevel"
-                @orderVipSuccess="orderVipSuccess" @confirmPayment="confirmPayment">
+                 :memberLevel="isSelectVersionPeriodInfo.level" :timeLevel="isSelectVersionPeriodInfo.timeLevel"
+                 @orderVipSuccess="orderVipSuccess" @confirmPayment="confirmPayment">
         <i slot="closeModel" class="close-recharge" @click="isNeedRecharge = false">&times;</i>
         <div slot="noBalance" class="title-tip">
           <span class="size-color3">
@@ -219,7 +220,7 @@
             this.memberPeriodList.push(item)
           }
         });
-        if(level === 300) {
+        if (level === 300) {
           this.isSelectVersionPeriodInfo.timeLevel = 300;
           this.isSelectVersionPeriodInfo.timeLevelText = '1年';
         }
@@ -269,7 +270,7 @@
             });
             _this.memberVersionList = [...new Set(memberVersionList)];
             _this.memberVersionPeriodList = filterData;
-            if(_this.getMemberVersionLevel && _this.getMemberVersionLevel !== 100) {
+            if (_this.getMemberVersionLevel && _this.getMemberVersionLevel !== 100) {
               _this.memberVersionPeriodList.forEach(item => {
                 if (item.level === _this.getMemberVersionLevel) {
                   _this.memberPeriodList.push(item)
@@ -290,7 +291,7 @@
       },
 
       // 获取用户当前版本折扣价格
-      getMemberSurplusFee () {
+      getMemberSurplusFee() {
         const _this = this;
         return new Promise((resolve, reject) => {
           api.getMemberSurplusFee().then(res => {
@@ -321,7 +322,7 @@
           _this.isSelectVersionPeriodInfo.levelText = _this.memberVersionNameMap[200]
         }
         _this.memberPeriodList = [];
-        if(_this.getMemberVersionLevel !== 100) {
+        if (_this.getMemberVersionLevel !== 100) {
           _this.memberVersionPeriodList.forEach(item => {
             if (item.level === _this.getMemberVersionLevel) {
               _this.memberPeriodList.push(item)
@@ -335,7 +336,7 @@
           });
         }
 
-       // 默认选择一年的周期（不考虑用户当前版本周期）
+        // 默认选择一年的周期（不考虑用户当前版本周期）
         _this.isSelectVersionPeriodInfo.timeLevel = 300;
         _this.isSelectVersionPeriodInfo.timeLevelText = '1年';
         if (_this.isMember && _this.getMemberVersionLevel === 200) {
@@ -395,6 +396,7 @@
     padding-left: 40px;
     padding-bottom: 40px;
     padding-top: 20px;
+    padding-right: 40px;
   }
 
   .select-version,
@@ -422,6 +424,5 @@
     margin-top: 40px;
     margin-left: 206px;
   }
-
 
 </style>

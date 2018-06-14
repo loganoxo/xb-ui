@@ -3,7 +3,7 @@
     <div class="demo-upload-list left" v-for="item in fileList" v-if="isShowTipCover">
       <template v-if="item.status === 'finished'">
         <img :src="item.src + '!thum54'">
-        <div class="demo-upload-list-cover">
+        <div class="demo-upload-list-cover" v-if="!disabled">
           <icon type="ios-eye-outline" @click.native="handleView(item.src)"></icon>
           <icon type="ios-trash-outline" @click.native="handleRemove(item)"></icon>
         </div>

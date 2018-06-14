@@ -24,7 +24,7 @@
           <div class="middle-ctt left">
             <Carousel autoplay :autoplay-speed="5000" v-model="homeCarousel" loop>
               <Carousel-item v-for="swipeItem in swipeItemList" :key="swipeItem.src">
-                <a :href="swipeItem.adUrl" class="block">
+                <a :href="swipeItem.adUrl" class="block" target="_blank">
                   <img :src="getSwipeHead(swipeItem.adImg)" alt="">
                 </a>
               </Carousel-item>
@@ -801,7 +801,7 @@
       if (self.$store.state.userInfo.role === 0) {
         self.getAvailableBoardByAdTypeList('showker_pc_home_page_slide_show');
       } else if (self.$store.state.userInfo.role === 1) {
-        if (self.getMemberLevel === 100 && self.getMemberLevel === null) {
+        if (self.getMemberLevel === 100 || self.getMemberLevel === null) {
           self.getAvailableBoardByAdTypeList('free_seller_pc_home_page_slide_show');
         } else {
           self.getAvailableBoardByAdTypeList('seller_pc_home_page_slide_show');
@@ -818,6 +818,7 @@
       self.getHomeHistoryList();
       self.getBuyerShowList();
       self.getHomeDisCountList();
+
     },
     destroyed() {
       let self = this;
@@ -853,9 +854,6 @@
       isMember() {
         return this.$store.getters.isMemberOk
       },
-      getMemberLevel() {
-        return this.$store.state.userInfo.memberLevel
-      },
       userHeadUrl() {
         return this.$store.getters.getUserHeadUrl
       },
@@ -865,6 +863,7 @@
       TaskCategoryActive() {
         return this.$store.state.TaskCategoryActive
       },
+
     },
     mounted: function () {
       this.$nextTick(function () {
@@ -882,7 +881,7 @@
         return (fee/100*(1-percent/100)).toFixed(2);
       },
       changeIsBuyVipPopupFunc() {
-        this.$router.push({name: 'TaskReleaseProcess'});
+        this.$router.push({name: 'TaskRelease'});
       },
       getReceiveTime(createTime) {
         let nowTime = getSeverTime();
