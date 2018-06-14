@@ -102,7 +102,7 @@
         },
         commodityLink: '',
         showDemo: false,
-        protocol: true,
+        protocol: false,
         confirmBtnLoading: false,
         bindBtnLoading: false,
         query:'',
@@ -197,7 +197,8 @@
           storeName: _this.storeBindForm.storeName,
           storeAlitm: _this.storeBindForm.storeWw,
           shopId: _this.storeBindForm.shopId,
-          sellerId: _this.storeBindForm.sellerId
+          sellerId: _this.storeBindForm.sellerId,
+          screenshot:_this.storeBackstageImage
         }).then(res => {
           _this.bindBtnLoading = false;
           if (res.status) {
@@ -218,10 +219,10 @@
       // 上传店铺后天截图相关函数
       uploadSuccess(res) {
         this.storeBackstageImage = aliCallbackImgUrl + res.name;
-        console.log(this.storeBackstageImage);
       },
       removeImage() {
         this.storeBackstageImage = null;
+        this.backstageImageList = [];
         console.log(this.storeBackstageImage);
       },
       handleFormatError() {
