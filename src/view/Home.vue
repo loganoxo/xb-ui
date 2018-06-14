@@ -24,7 +24,7 @@
           <div class="middle-ctt left">
             <Carousel autoplay :autoplay-speed="5000" v-model="homeCarousel" loop>
               <Carousel-item v-for="swipeItem in swipeItemList" :key="swipeItem.src">
-                <a :href="swipeItem.adUrl" class="block">
+                <a :href="swipeItem.adUrl" class="block" target="_blank">
                   <img :src="getSwipeHead(swipeItem.adImg)" alt="">
                 </a>
               </Carousel-item>
