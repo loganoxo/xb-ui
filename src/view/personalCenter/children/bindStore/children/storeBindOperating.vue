@@ -9,8 +9,8 @@
           <i class="required mr-5"></i>
           <span class="f-b mr-20">店铺类型：</span>
           <RadioGroup v-model="storeBindForm.storeType">
-            <Radio label="taobao">淘宝</Radio>
-            <Radio label="tmall">天猫</Radio>
+            <Radio label="taobao" disabled>淘宝</Radio>
+            <Radio label="tmall" disabled>天猫</Radio>
           </RadioGroup>
         </div>
         <div class="mt-10">
@@ -56,9 +56,9 @@
           </iButton>
         </div>
         <div v-else-if="bindStatus === 3" class="mt-20">
-          <!--<iButton class="resubmit-btn" size="large" :loading="bindBtnLoading" @click="verifiedAndBindFunc">-->
-            <!--提交店铺审核-->
-          <!--</iButton>-->
+          <iButton class="resubmit-btn" size="large" :loading="bindBtnLoading" @click="verifiedAndBindFunc">
+            提交店铺审核
+          </iButton>
           <iButton class="delete-btn ml-20" size="large" :loading="bindBtnLoading" @click="deleteStore">
             删除此店铺
           </iButton>
@@ -69,7 +69,7 @@
           </iButton>
         </div>
       </div>
-      <div v-if="bindStatus === 3" class="tip">审核不通过：店铺截图对应的店铺名称不一致，请重新提交</div>
+      <div v-if="bindStatus === 3" class="tip">审核不通过：{{refuseReason}}</div>
       <div v-else class="tip">提示：店铺绑定审核时间1个工作日左右，若超过一个工作日请联系客服！</div>
     </div>
     <div v-if="!protocol" class="mt-20 pos-rel">
@@ -127,7 +127,8 @@
         storeBackstageImage:null,
         defaultScreenshotList:[],
         showDemoPicture:false,
-        currentStoreInfo:{}
+        currentStoreInfo:{},
+        refuseReason:''
       }
     },
     computed:{
@@ -221,18 +222,21 @@
       //验证并绑定店铺
       verifiedAndBindFunc() {
         let _this = this;
-        if (_this.storeBindForm.storeType === 'taobao') {
-          let URL_REG = /((taobao.com).*?)/;
-          if (!URL_REG.test(_this.commodityLink)) {
-            _this.$Message.warning('亲，店铺链接与所选的店铺类型不一致！');
-            return
+        // 如果是重新提交的则不需要在根据链接做判断店铺类型，数据已经返回给我们
+        if (!_this.storeId) {
+          if (_this.storeBindForm.storeType === 'taobao') {
+            let URL_REG = /((taobao.com).*?)/;
+            if (!URL_REG.test(_this.commodityLink)) {
+              _this.$Message.warning('亲，店铺链接与所选的店铺类型不一致！');
+              return
+            }
           }
-        }
-        if (_this.storeBindForm.storeType === 'tmall') {
-          let URL_REG = /((tmall.com).*?)/;
-          if (!URL_REG.test(_this.commodityLink)) {
-            _this.$Message.warning('亲，店铺链接与所选的店铺类型不一致！');
-            return
+          if (_this.storeBindForm.storeType === 'tmall') {
+            let URL_REG = /((tmall.com).*?)/;
+            if (!URL_REG.test(_this.commodityLink)) {
+              _this.$Message.warning('亲，店铺链接与所选的店铺类型不一致！');
+              return
+            }
           }
         }
         if (!_this.storeBackstageImage) {
@@ -246,7 +250,8 @@
           storeAlitm: _this.storeBindForm.storeWw,
           shopId: _this.storeBindForm.shopId,
           sellerId: _this.storeBindForm.sellerId,
-          screenshot:_this.storeBackstageImage
+          screenshot:_this.storeBackstageImage,
+          id:_this.$route.query ? _this.storeId : ''
         }).then(res => {
           _this.bindBtnLoading = false;
           if (res.status) {
@@ -273,13 +278,13 @@
         this.storeBackstageImage = null;
         this.defaultScreenshotList = [];
       },
-      handleFormatError() {
+      handleFormatError(file) {
         this.$Modal.warning({
           title: '文件格式不正确',
           content: `图片 ${file.name} 格式不正确，请上传 jpg 或 jpeg 或 gif 或 bmp 格式的图片。`
         })
       },
-      handleMaxSize() {
+      handleMaxSize(file) {
         this.$Modal.warning({
           title: '超出文件大小限制',
           content: `图片 ${file.name} 太大，不能超过 1M`
@@ -301,7 +306,8 @@
               _this.storeBindForm.shopId = _this.currentStoreInfo.id;
               _this.storeBindForm.sellerId = _this.currentStoreInfo.sellerId;
               _this.storeBackstageImage = _this.currentStoreInfo.screenshot;
-              _this.defaultScreenshotList = [{src:_this.currentStoreInfo.screenshot}]
+              _this.defaultScreenshotList = [{src:_this.currentStoreInfo.screenshot}];
+              _this.refuseReason = _this.currentStoreInfo.reasonRefuse;
             }
           }else{
             Toast(res.msg);
