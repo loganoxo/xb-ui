@@ -2500,23 +2500,23 @@
         switch (_this.taskRelease.taskType) {
           case 'pc_search' :
             pcTaskDetailClone.forEach(item => {
-              item.searchPagePrice = (item.searchPagePrice * 100).toFixed() * 1;
-              item.priceRangeMax = item.priceRangeMax > 0 ? (item.priceRangeMax * 100).toFixed() * 1 : null;
-              item.priceRangeMin = item.priceRangeMin > 0 ? (item.priceRangeMin * 100).toFixed() * 1 : null;
+              item.searchPagePrice = (item.searchPagePrice * 100).toFixed(2) * 1;
+              item.priceRangeMax = item.priceRangeMax > 0 ? (item.priceRangeMax * 100).toFixed(2) * 1 : null;
+              item.priceRangeMin = item.priceRangeMin > 0 ? (item.priceRangeMin * 100).toFixed(2) * 1 : null;
             });
             _this.taskRelease.taskDetail = JSON.stringify(pcTaskDetailClone);
             break;
           case 'app_search' :
             appTaskDetailClone.forEach(item => {
-              item.searchPagePrice = (item.searchPagePrice * 100).toFixed() * 1;
-              item.priceRangeMax = item.priceRangeMax > 0 ? (item.priceRangeMax * 100).toFixed() * 1 : null;
-              item.priceRangeMin = item.priceRangeMin > 0 ? (item.priceRangeMin * 100).toFixed() * 1 : null;
+              item.searchPagePrice = (item.searchPagePrice * 100).toFixed(2) * 1;
+              item.priceRangeMax = item.priceRangeMax > 0 ? (item.priceRangeMax * 100).toFixed(2) * 1 : null;
+              item.priceRangeMin = item.priceRangeMin > 0 ? (item.priceRangeMin * 100).toFixed(2) * 1 : null;
             });
             _this.taskRelease.taskDetail = JSON.stringify(appTaskDetailClone);
             break;
           case 'tao_code' :
             taoCodeTaskDetailClone.forEach(item => {
-              item.homePageLockItemPrice = item.homePageLockItemPrice > 0 ? (item.homePageLockItemPrice * 100).toFixed() * 1 : null;
+              item.homePageLockItemPrice = item.homePageLockItemPrice > 0 ? (item.homePageLockItemPrice * 100).toFixed(2) * 1 : null;
             });
             _this.taskRelease.taskDetail = JSON.stringify(taoCodeTaskDetailClone);
             break;
@@ -2719,7 +2719,7 @@
         switch (type) {
           case 'pc_search' :
             _this.pcTaskDetail.forEach(item => {
-              item.searchPagePrice = (item.searchPagePrice / 100).toFixed(0) * 1;
+              item.searchPagePrice = (item.searchPagePrice / 100).toFixed(2) * 1;
               item.priceRangeMax = item.priceRangeMax > 0 ? (item.priceRangeMax / 100).toFixed(2) * 1 : null;
               item.priceRangeMin = item.priceRangeMin > 0 ? (item.priceRangeMin / 100).toFixed(2) * 1 : null;
             });

@@ -239,7 +239,7 @@
           <div class="activity-info-title">填写活动宝贝信息</div>
           <div class="baby-title ml-45 mt-20">
             <span class="required">宝贝标题：</span>
-            <i-input v-model="taskRelease.taskName" placeholder="请输入活动标题" :disabled="true" style="width: 296px"></i-input>
+            <i-input v-model="taskRelease.taskName" placeholder="请输入活动标题" :disabled="true" style="width: 296px"/>
           </div>
           <div class="baby-title ml-45 mt-20">
             <span class="required">宝贝类型：</span>
@@ -1292,21 +1292,22 @@
         switch (type) {
           case 'pc_search' :
             _this.pcTaskDetail.forEach(item => {
-              item.searchPagePrice = (item.searchPagePrice / 100).toFixed() * 1;
-              item.priceRangeMax = item.priceRangeMax > 0 ? (item.priceRangeMax / 100).toFixed() * 1 : null;
-              item.priceRangeMin = item.priceRangeMin > 0 ? (item.priceRangeMin / 100).toFixed() * 1 : null;
+              item.searchPagePrice = (item.searchPagePrice / 100).toFixed(2) * 1;
+              item.priceRangeMax = item.priceRangeMax > 0 ? (item.priceRangeMax / 100).toFixed(2) * 1 : null;
+              item.priceRangeMin = item.priceRangeMin > 0 ? (item.priceRangeMin / 100).toFixed(2) * 1 : null;
             });
             break;
           case 'app_search' :
             _this.appTaskDetail.forEach(item => {
-              item.searchPagePrice = (item.searchPagePrice / 100).toFixed() * 1;
-              item.priceRangeMax = item.priceRangeMax > 0 ? (item.priceRangeMax / 100).toFixed() * 1 : null;
-              item.priceRangeMin = item.priceRangeMin > 0 ? (item.priceRangeMin / 100).toFixed() * 1 : null;
+              item.searchPagePrice = (item.searchPagePrice / 100).toFixed(2) * 1;
+              item.priceRangeMax = item.priceRangeMax > 0 ? (item.priceRangeMax / 100).toFixed(2) * 1 : null;
+              item.priceRangeMin = item.priceRangeMin > 0 ? (item.priceRangeMin / 100).toFixed(2) * 1 : null;
+              console.log(item.searchPagePrice)
             });
             break;
           case 'tao_code':
             _this.taoCodeTaskDetail.forEach(item => {
-              item.homePageLockItemPrice = item.homePageLockItemPrice > 0 ? (item.homePageLockItemPrice / 100).toFixed() * 1 : null;
+              item.homePageLockItemPrice = item.homePageLockItemPrice > 0 ? (item.homePageLockItemPrice / 100).toFixed(2) * 1 : null;
             });
             break
         }
