@@ -7,117 +7,117 @@
         <input type="text" class="ivu-input" style="width: 30%" readonly="readonly" v-model="copyValue"/>
         <a class="ivu-btn ivu-btn-button ivu-btn-primary copy-btn" :data-clipboard-text="copyValue">复制链接</a>
       </p>
-      <div class="mt-20 fs-18">
-        <span>一键分享：</span>
-        <div v-html="copyHtml" style="display: inline-block;"></div>
-      </div>
-      <div class="award-box">
-        <p class="fs-18">奖励说明：</p>
-        <ul v-if="getUserInfoRole === 0">
-          <li>
-            1.通过您的邀请链接成功进行注册，如果是拿手，成功注册并完成首个任务后，即可获得 <span style="color: #ff6600">￥{{showkerInviteShowkerFee.configValue/100}}</span> 奖励;
-          </li>
-          <li>
-            2.通过您的邀请链接成功进行注册，如果是商家，那么当商家成功发布一个活动后，即可获得 <span style="color: #ff6600">￥{{showkerInviteSellerFee.configValue/100}}</span> 奖励;
-          </li>
-          <li>
-            3.奖励的金额将直接充值到您的账户余额中，您可以用来提现；
-          </li>
-        </ul>
-        <ul v-if="getUserInfoRole === 1">
-          <li>
-            通过您的邀请链接成功进行注册，无论是拿手还是商家，只要满30人，即可获赠 <span class="main-color">“一个月VIP时长”</span>
-          </li>
-        </ul>
-      </div>
-      <div class="mt-30">
-        <div class="fs-18">
-          <span>我邀请的好友：</span>
-          <p class="fs-14 cl000 " style="display: inline-block;" v-if="getUserInfoRole===0">
-            一共邀请了 <span style="color: #ff6600"> {{count}} </span> 位好友，共获得 <span
-            style="color: #ff6600"> ￥{{reward/100}} </span> 奖励
-          </p>
-          <p class="fs-14 cl000 " style="display: inline-block;" v-if="getUserInfoRole===1">
-            一共邀请了 <span style="color: #ff6600"> {{count}} </span> 位好友，
-            共获赠<span style="color: #ff6600"> {{Math.floor(count/30)}} </span> 月VIP时长。
-          </p>
-        </div>
-        <div class="mt-20 clear-both">
-          <div data-v-616de780="" class="ivu-table-wrapper">
-            <div class="ivu-table"><!---->
-              <div class="ivu-table-header">
-                <table cellspacing="0" cellpadding="0" border="0" style="width: 1031px;">
-                  <thead>
-                  <tr>
-                    <th class="">
-                      <div class="ivu-table-cell"><span>用户</span></div>
-                    </th>
-                    <th class="">
-                      <div class="ivu-table-cell"><span>注册时间</span></div>
-                    </th>
-                    <th class="">
-                      <div class="ivu-table-cell"><span>类型</span></div>
-                    </th>
-                    <th class="main-color" v-if="getUserInfoRole === 0">
-                      <div class="ivu-table-cell">
-                        <span style="color: #495060;">获得奖励</span>
-                      </div>
-                    </th>
-                    <!--<th class="main-color">-->
-                    <!--<div class="ivu-table-cell">-->
-                    <!--<span style="color: #495060;">累计奖励</span>-->
-                    <!--</div>-->
+      <!--<div class="mt-20 fs-18">-->
+        <!--<span>一键分享：</span>-->
+        <!--<div v-html="copyHtml" style="display: inline-block;"></div>-->
+      <!--</div>-->
+      <!--<div class="award-box">-->
+        <!--<p class="fs-18">奖励说明：</p>-->
+        <!--<ul v-if="getUserInfoRole === 0">-->
+          <!--<li>-->
+            <!--1.通过您的邀请链接成功进行注册，如果是拿手，成功注册并完成首个任务后，即可获得 <span style="color: #ff6600">￥{{showkerInviteShowkerFee.configValue/100}}</span> 奖励;-->
+          <!--</li>-->
+          <!--<li>-->
+            <!--2.通过您的邀请链接成功进行注册，如果是商家，那么当商家成功发布一个活动后，即可获得 <span style="color: #ff6600">￥{{showkerInviteSellerFee.configValue/100}}</span> 奖励;-->
+          <!--</li>-->
+          <!--<li>-->
+            <!--3.奖励的金额将直接充值到您的账户余额中，您可以用来提现；-->
+          <!--</li>-->
+        <!--</ul>-->
+        <!--<ul v-if="getUserInfoRole === 1">-->
+          <!--<li>-->
+            <!--通过您的邀请链接成功进行注册，无论是拿手还是商家，只要满30人，即可获赠 <span class="main-color">“一个月VIP时长”</span>-->
+          <!--</li>-->
+        <!--</ul>-->
+      <!--</div>-->
+      <!--<div class="mt-30">-->
+        <!--<div class="fs-18">-->
+          <!--<span>我邀请的好友：</span>-->
+          <!--<p class="fs-14 cl000 " style="display: inline-block;" v-if="getUserInfoRole===0">-->
+            <!--一共邀请了 <span style="color: #ff6600"> {{count}} </span> 位好友，共获得 <span-->
+            <!--style="color: #ff6600"> ￥{{reward/100}} </span> 奖励-->
+          <!--</p>-->
+          <!--<p class="fs-14 cl000 " style="display: inline-block;" v-if="getUserInfoRole===1">-->
+            <!--一共邀请了 <span style="color: #ff6600"> {{count}} </span> 位好友，-->
+            <!--共获赠<span style="color: #ff6600"> {{Math.floor(count/30)}} </span> 月VIP时长。-->
+          <!--</p>-->
+        <!--</div>-->
+        <!--<div class="mt-20 clear-both">-->
+          <!--<div data-v-616de780="" class="ivu-table-wrapper">-->
+            <!--<div class="ivu-table">&lt;!&ndash;&ndash;&gt;-->
+              <!--<div class="ivu-table-header">-->
+                <!--<table cellspacing="0" cellpadding="0" border="0" style="width: 1031px;">-->
+                  <!--<thead>-->
+                  <!--<tr>-->
+                    <!--<th class="">-->
+                      <!--<div class="ivu-table-cell"><span>用户</span></div>-->
                     <!--</th>-->
-                  </tr>
-                  </thead>
-                </table>
-              </div>
-              <div class="ivu-table-body">
-                <table cellspacing="0" cellpadding="0" border="0" style="width: 1031px;" v-show="recommendData.length">
-                  <tbody class="ivu-table-tbody">
-                  <tr class="ivu-table-row" v-for="recommend in recommendData">
-                    <td class="">
-                      <div class="ivu-table-cell"><span>{{recommend.inviteePhone}}</span></div>
-                    </td>
-                    <td class="">
-                      <div class="ivu-table-cell"><span>{{recommend.inviteeRegisterTime | dateFormat('YYYY-MM-DD hh:mm:ss')}}</span>
-                      </div>
-                    </td>
-                    <td class="">
-                      <div class="ivu-table-cell">
-                        <span v-if="recommend.inviteeRole === 0">拿手</span>
-                        <span v-if="recommend.inviteeRole === 1">商家</span>
-                      </div>
-                    </td>
-                    <td class="main-color" v-if="getUserInfoRole === 0">
-                      <div class="ivu-table-cell"><span>￥{{recommend.singleReward/100}}</span></div>
-                    </td>
-                    <!--<td class="main-color">-->
-                    <!--<div class="ivu-table-cell"> <span>￥{{recommend.todayReward/100}}</span> </div>-->
+                    <!--<th class="">-->
+                      <!--<div class="ivu-table-cell"><span>注册时间</span></div>-->
+                    <!--</th>-->
+                    <!--<th class="">-->
+                      <!--<div class="ivu-table-cell"><span>类型</span></div>-->
+                    <!--</th>-->
+                    <!--<th class="main-color" v-if="getUserInfoRole === 0">-->
+                      <!--<div class="ivu-table-cell">-->
+                        <!--<span style="color: #495060;">获得奖励</span>-->
+                      <!--</div>-->
+                    <!--</th>-->
+                    <!--&lt;!&ndash;<th class="main-color">&ndash;&gt;-->
+                    <!--&lt;!&ndash;<div class="ivu-table-cell">&ndash;&gt;-->
+                    <!--&lt;!&ndash;<span style="color: #495060;">累计奖励</span>&ndash;&gt;-->
+                    <!--&lt;!&ndash;</div>&ndash;&gt;-->
+                    <!--&lt;!&ndash;</th>&ndash;&gt;-->
+                  <!--</tr>-->
+                  <!--</thead>-->
+                <!--</table>-->
+              <!--</div>-->
+              <!--<div class="ivu-table-body">-->
+                <!--<table cellspacing="0" cellpadding="0" border="0" style="width: 1031px;" v-show="recommendData.length">-->
+                  <!--<tbody class="ivu-table-tbody">-->
+                  <!--<tr class="ivu-table-row" v-for="recommend in recommendData">-->
+                    <!--<td class="">-->
+                      <!--<div class="ivu-table-cell"><span>{{recommend.inviteePhone}}</span></div>-->
                     <!--</td>-->
-                    <!--<td class="main-color">-->
-                    <!--<div class="ivu-table-cell"> <span>￥{{recommend.accumulativeReward/100}}</span> </div>-->
+                    <!--<td class="">-->
+                      <!--<div class="ivu-table-cell"><span>{{recommend.inviteeRegisterTime | dateFormat('YYYY-MM-DD hh:mm:ss')}}</span>-->
+                      <!--</div>-->
                     <!--</td>-->
-                  </tr>
-                  </tbody>
-                </table>
-              </div>
-              <div class="ivu-table-tip" v-show="!recommendData.length">
-                <table cellspacing="0" cellpadding="0" border="0">
-                  <tbody>
-                  <tr>
-                    <td><span>暂无筛选结果</span></td>
-                  </tr>
-                  </tbody>
-                </table>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="mt-20 right">
-        <Page :total="count" :page-size="size" :current="page" @on-change="pageChange"></Page>
-      </div>
+                    <!--<td class="">-->
+                      <!--<div class="ivu-table-cell">-->
+                        <!--<span v-if="recommend.inviteeRole === 0">拿手</span>-->
+                        <!--<span v-if="recommend.inviteeRole === 1">商家</span>-->
+                      <!--</div>-->
+                    <!--</td>-->
+                    <!--<td class="main-color" v-if="getUserInfoRole === 0">-->
+                      <!--<div class="ivu-table-cell"><span>￥{{recommend.singleReward/100}}</span></div>-->
+                    <!--</td>-->
+                    <!--&lt;!&ndash;<td class="main-color">&ndash;&gt;-->
+                    <!--&lt;!&ndash;<div class="ivu-table-cell"> <span>￥{{recommend.todayReward/100}}</span> </div>&ndash;&gt;-->
+                    <!--&lt;!&ndash;</td>&ndash;&gt;-->
+                    <!--&lt;!&ndash;<td class="main-color">&ndash;&gt;-->
+                    <!--&lt;!&ndash;<div class="ivu-table-cell"> <span>￥{{recommend.accumulativeReward/100}}</span> </div>&ndash;&gt;-->
+                    <!--&lt;!&ndash;</td>&ndash;&gt;-->
+                  <!--</tr>-->
+                  <!--</tbody>-->
+                <!--</table>-->
+              <!--</div>-->
+              <!--<div class="ivu-table-tip" v-show="!recommendData.length">-->
+                <!--<table cellspacing="0" cellpadding="0" border="0">-->
+                  <!--<tbody>-->
+                  <!--<tr>-->
+                    <!--<td><span>暂无筛选结果</span></td>-->
+                  <!--</tr>-->
+                  <!--</tbody>-->
+                <!--</table>-->
+              <!--</div>-->
+            <!--</div>-->
+          <!--</div>-->
+        <!--</div>-->
+      <!--</div>-->
+      <!--<div class="mt-20 right">-->
+        <!--<Page :total="count" :page-size="size" :current="page" @on-change="pageChange"></Page>-->
+      <!--</div>-->
 
     </div>
   </div>
