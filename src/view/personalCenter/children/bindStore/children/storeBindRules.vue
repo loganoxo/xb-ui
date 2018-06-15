@@ -16,8 +16,8 @@
         <img src="~assets/img/common/tmall-logo.png" v-if="storeInfo.storeType === 'tmall'">
         <p class="store-name mt-15 f-b fs-16">{{storeInfo.storeName}}</p>
         <p class="store-ww mt-15">店铺旺旺：<span>{{storeInfo.storeAlitm}}</span></p>
-        <p v-if="storeInfo.applyStatus === 1" class="auditing" @click="checkDetail(storeInfo)">店铺审核中...（查看详情）</p>
-        <p v-if="storeInfo.applyStatus === 3" class="audit-fail" @click="checkDetail(storeInfo)">审核未通过...（查看详情）</p>
+        <p v-if="storeInfo.applyStatus === 1" class="auditing cursor-p" @click="checkDetail(storeInfo)">店铺审核中...（查看详情）</p>
+        <p v-if="storeInfo.applyStatus === 3" class="audit-fail cursor-p" @click="checkDetail(storeInfo)">审核未通过...（查看详情）</p>
       </li>
       <li v-if="isShowBindBtn" class="left cursor-p" @click="toBindStore">
         <p class="mt-20"><Icon type="plus" size="50" color="#999"></Icon></p>
