@@ -344,7 +344,7 @@
             <span v-show="taskRelease.itemPrice && taskRelease.itemPrice < 1" class="main-color ml-15"><icon
               color="#f9284f" type="information-circled"/>&nbsp;每份试用品的价值必须在1元以上</span>
             <!--<span v-show="taskRelease.itemPrice && taskRelease.itemPrice < 10 && taskRelease.activityCategory === 'pinkage_for_10'" class="main-color ml-20"><Icon color="#f9284f" type="information-circled"></Icon>&nbsp;10元包邮活动，宝贝最低价格不能低于10元</span>-->
-            <span class="sizeColor2 ml-5" v-show="!taskRelease.itemPrice || taskRelease.itemPrice > 1">（活动活动期间，商家不允许修改下单页商品信息，经核查属实，本平台有权将活动担保金返还已获得资格的拿手，商家账号按相应规则处罚）</span>
+            <span class="sizeColor2 ml-5" v-show="!taskRelease.itemPrice || taskRelease.itemPrice > 1">（活动期间，商家不允许修改下单页商品信息，经核查属实，本平台有权将活动担保金返还已获得资格的拿手，商家账号按相应规则处罚）</span>
           </div>
           <!--            <div class="discount ml-20 mt-20"
                            v-show="taskRelease.activityCategory !== 'free_get' && taskRelease.activityCategory !== 'present_get'">
@@ -527,7 +527,7 @@
                 <span>元</span>
                 <span v-show="taskRelease.itemPrice && taskRelease.itemPrice < 1" class="main-color ml-15"><icon
                   color="#f9284f" type="information-circled"/>&nbsp;每份试用品的价值必须在1元以上</span>
-                <span class="sizeColor2 ml-4" v-show="!taskRelease.itemPrice || taskRelease.itemPrice > 1">（活动活动期间，商家不允许修改下单页商品信息，经核查属实，本平台有权将活动担保金返还已获得资格的拿手，商家账号按相应规则处罚）</span>
+                <span class="sizeColor2 ml-4" v-show="!taskRelease.itemPrice || taskRelease.itemPrice > 1">（活动期间，商家不允许修改下单页商品信息，经核查属实，本平台有权将活动担保金返还已获得资格的拿手，商家账号按相应规则处罚）</span>
               </div>
               <div class="order-quantity  ml-10 mt-20 mb-20">
                 <span class="required">拍下数量：</span>
@@ -995,10 +995,10 @@
       </div>
       <!--存入担保金详情-->
       <div class="deposits-received" v-show="stepName === 'deposit'">
-        <div class="deposits-received-title mt-20 mb-20">活动活动信息已成功保存，请您存入本次活动的活动担保金。</div>
+        <div class="deposits-received-title mt-20 mb-20">活动信息已成功保存，请您存入本次活动的活动担保金。</div>
         <div class="deposits-received-info">您现在为 <span class="second-color">{{taskRelease.taskName}}</span> 存入活动担保金
           <span class="second-color">{{(orderMoney / 100).toFixed(2)}}</span>
-          元，此笔款项将作为发布活动活动诚信担保的重要工具，待拿手完成活动流程后将返还给每个拿手
+          元，此笔款项将作为发布活动诚信担保的重要工具，待拿手完成活动流程后将返还给每个拿手
           <span v-if="taskRelease.activityCategory === 'free_get'"
                 class="second-color">{{(oneBond / 100).toFixed(2)}}</span>
           <span v-if="taskRelease.activityCategory === 'present_get'" class="second-color">{{(oneBondAToB / 100).toFixed(2)}}</span>
@@ -1219,7 +1219,6 @@
 <script>
   import {
     Icon,
-    Form,
     Input,
     Checkbox,
     Button,
@@ -1259,8 +1258,6 @@
     components: {
       quillEditor: quillEditor,
       iInput: Input,
-      iForm: Form,
-      FormItem: Form.Item,
       Checkbox: Checkbox,
       CheckboxGroup: Checkbox.Group,
       iButton: Button,
@@ -2558,14 +2555,12 @@
         this.current += 1;
       },
       IThink() {
-        let _this = this;
-        _this.editPriceAfterModel = false;
-        _this.editPriceToLowAfterModel = false;
+        this.editPriceAfterModel = false;
+        this.editPriceToLowAfterModel = false;
       },
       continueNextStep() {
-        let _this = this;
-        _this.taskCreate(false);
-        _this.editPriceAfterModel = false;
+        this.taskCreate(false);
+        this.editPriceAfterModel = false;
       },
       toLowContinueNextStep() {
         this.taskCreate(true);
@@ -2577,7 +2572,7 @@
           taskId: _this.editTaskId
         }).then(res => {
           if (res.status) {
-            _this.getMemberVersionLevel !== 100 && _this.getTaskVasSelectInfo(_this.editTaskId);
+            _this.getTaskVasSelectInfo(_this.editTaskId);
             _this.mainDefaultList = [];
             _this.pcDefaultList = [];
             _this.appDefaultList = [];
@@ -2801,7 +2796,7 @@
           this.needBrowseAnswer = false;
         }
       },
-      removeMainImage(res) {
+      removeMainImage() {
         this.taskRelease.taskMainImage = null;
       },
       removeAppImage() {
