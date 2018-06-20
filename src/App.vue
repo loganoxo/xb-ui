@@ -103,8 +103,10 @@
           }
         });
       }
+      if (_this.$store.state.login) {
+        _this.$store.dispatch('getTaskCreateFastStatus');
+      }
       _this.$store.dispatch('getSysConfigInfo');
-      _this.$store.dispatch('getTaskCreateFastStatus');
     },
     methods: {
       closeSuspendService() {

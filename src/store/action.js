@@ -2,6 +2,7 @@
  * Created by ycb on 2017/7/17.
  */
 import api from '@/config/apiConfig'
+import {setStorage, getStorage} from '@/config/utils'
 
 export default {
   //用户退出登录
@@ -81,12 +82,17 @@ export default {
 
   //获取商家用户是否有首发资格
   getTaskCreateFastStatus({commit}) {
-    api.taskCreateFastStatus().then(res => {
-      if (res.status) {
-        commit('TASK_CREATE_FAST_STATUS', {status: res.data});
-      } else {
-        _this.$Message.error(res.msg)
-      }
-    })
+    if (getStorage('taskCreateFastStatus')) {
+      commit('TASK_CREATE_FAST_STATUS', {status: getStorage('taskCreateFastStatus')});
+    } else {
+      api.taskCreateFastStatus().then(res => {
+        if (res.status) {
+          commit('TASK_CREATE_FAST_STATUS', {status: res.data});
+          setStorage('taskCreateFastStatus', res.data);
+        } else {
+          _this.$Message.error(res.msg)
+        }
+      })
+    }
   },
 }

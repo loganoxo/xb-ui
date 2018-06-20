@@ -1248,6 +1248,9 @@
               _this.nextCurrent();
               _this.stepName = 'deposit';
             }
+            // 更新首发资格状态
+            removeStorage('taskCreateFastStatus');
+            _this.$store.dispatch('getTaskCreateFastStatus');
           } else {
             _this.$Message.error(res.msg);
           }

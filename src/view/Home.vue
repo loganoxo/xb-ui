@@ -812,7 +812,7 @@
         // showSellerVipPopup: false,
         pinkageFor10: [],
         presentGet: [],
-        showFirstVisitModel: true
+        showFirstVisitModel: false
       }
     },
     beforeMount() {
@@ -846,7 +846,9 @@
       self.getHomeHistoryList();
       self.getBuyerShowList();
       self.getHomeDisCountList();
-      self.showFirstVisitModel = self.$store.state.taskCreateFastStatus;
+      self.$nextTick(() => {
+        self.showFirstVisitModel = self.$store.state.taskCreateFastStatus;
+      });
     },
     destroyed() {
       let self = this;
