@@ -23,22 +23,22 @@
         <i-option v-for="(item,index) in storeList" :key="index" :value="item">{{item}}</i-option>
       </i-select>
       <span>淘宝会员名：</span>
-      <i-input v-model="alitmAccount" style="width: 160px;margin-right: 8px;"></i-input>
+      <i-input v-model="alitmAccount" style="width: 160px;margin-right: 8px;"/>
       <span>活动编号：</span>
-      <i-input v-model="taskNumber" style="width: 160px;margin-right: 8px;"></i-input>
+      <i-input v-model="taskNumber" style="width: 160px;margin-right: 8px;"/>
       <i-button type="primary" :loading="searchLoading" @click="searchFailTask">搜索</i-button>
     </div>
     <div class="mt-12" v-for="(item,index) in taskFailAuditList" :key="item.id" v-if="taskFailAuditList.length > 0">
       <div class="collapse-header clear" @click="collapseToggle(item.id,index)" :class="{noBorderRadius:selectId}">
         <div class="manage-img inline-block">
-          <img :src="item.taskMainImage + '!thum54'" alt="">
+          <img :src="item.taskMainImage | imageSrc('!thum54')" alt="活动主图">
           <span v-if="item.zone === 'certainly_hit'" class="certainly-hit-tip">推荐必中</span>
         </div>
         <div class="manage-text left ml-5 inline-block mt-8">
           <p>活动编号：{{item.number}}</p>
           <p>活动名称：{{item.taskName}}</p>
         </div>
-        <icon :class="{'show-table-styles':selectId === item.id}" class="mt-22 right mr-20 vtc-text-btm" type="arrow-right-b"></icon>
+        <icon :class="{'show-table-styles':selectId === item.id}" class="mt-22 right mr-20 vtc-text-btm" type="arrow-right-b"/>
         <div class="waiting-task-number-fail">
           <p class="task-wait-fail">共{{item.count}}人</p>
         </div>
@@ -79,7 +79,7 @@
     </div>
     <div class="mt-40 text-ct">{{dataStatusTip}}</div>
     <div class="activity-page mt-20 right mr-10" v-if="taskFailAuditList && taskFailAuditList.length > 0">
-      <Page :total="totalElements" :page-size="pageSize" :current="pageIndex" @on-change="pageChange"></Page>
+      <page :total="totalElements" :page-size="pageSize" :current="pageIndex" @on-change="pageChange"/>
     </div>
   </div>
 </template>

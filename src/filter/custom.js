@@ -66,4 +66,9 @@ const phoneNumberFormat = (number) => {
   return number.replace(/(\d{3})\d{4}(\d{4})/,'$1****$2');
 };
 
-export {dateFormat, numberFormat, phoneNumberFormat}
+const imageSrc = (src, hank) => {
+  if (!src) return;
+  return src.includes('img.alicdn.com') ? src : `${src}${hank}`
+};
+
+export {dateFormat, numberFormat, phoneNumberFormat, imageSrc}

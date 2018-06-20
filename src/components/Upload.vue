@@ -2,7 +2,7 @@
   <div class="clear">
     <div class="demo-upload-list left" v-for="item in fileList" v-if="isShowTipCover">
       <template v-if="item.status === 'finished'">
-        <img :src="getUploaderSrc(item.src)">
+        <img :src="item.src | imageSrc('!thum54')">
         <div class="demo-upload-list-cover" v-if="!disabled">
           <icon type="ios-eye-outline" @click.native="handleView(item.src)"/>
           <icon type="ios-trash-outline" @click.native="handleRemove(item)"/>
@@ -32,7 +32,7 @@
     </div>
     <div v-if="visible" style="z-index: 3000" class="text">
       <modal title="图片查看器" v-model="visible">
-        <img :src="getOriginalSrc(originalSrc)" v-if="visible" style="width: 100%">
+        <img :src="originalSrc | imageSrc('!orgi75')" v-if="visible" style="width: 100%">
       </modal>
     </div>
   </div>
@@ -191,12 +191,6 @@
       }
     },
     methods: {
-      getUploaderSrc(src) {
-        return src.includes('img.alicdn.com') ? src : `${src}!thum54`
-      },
-      getOriginalSrc(src) {
-        return src.includes('img.alicdn.com') ? src : `${src}!orgi75`
-      },
       handleView(name) {
         this.originalSrc = name;
         this.visible = true;

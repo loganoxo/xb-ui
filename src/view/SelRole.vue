@@ -251,9 +251,9 @@
             });
             setStorage('weChartPop', 1);
             if(res.data.role === 1) {
-              self.$router.push({name: 'SellerTest'});
+              self.$router.push({name: 'Home'});
             }else {
-              self.$router.push({name: 'WwBind'});
+              self.$router.push({name: 'Home'});
             }
           } else {
             self.$Message.error(res.msg);

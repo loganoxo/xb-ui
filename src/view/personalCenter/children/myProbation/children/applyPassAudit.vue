@@ -73,7 +73,7 @@
           </tr>
           <tr>
             <td class="cursor-p" @click="goTaskDetails(item.taskId)">
-              <img class="left ml-10" :src="item.taskMainImage + '!thum54'">
+              <img class="left ml-10" :src="item.taskMainImage | imageSrc('!thum54')">
               <a class="img-title left" :title="item.taskName">{{item.taskName}}</a>
             </td>
             <td>{{item.alitmAccount}}</td>

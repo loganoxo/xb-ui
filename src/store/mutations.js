@@ -103,4 +103,9 @@ export default {
     state.sellerTaskInfo = result;
   },
 
+  //商家任务信息
+  [types.TASK_CREATE_FAST_STATUS](state, {status}) {
+    state.taskCreateFastStatus = status;
+  },
+
 }

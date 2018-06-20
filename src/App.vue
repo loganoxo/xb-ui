@@ -103,7 +103,8 @@
           }
         });
       }
-      _this.$store.dispatch('getSysConfigInfo')
+      _this.$store.dispatch('getSysConfigInfo');
+      _this.$store.dispatch('getTaskCreateFastStatus');
     },
     methods: {
       closeSuspendService() {

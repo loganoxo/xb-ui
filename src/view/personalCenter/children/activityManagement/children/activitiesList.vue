@@ -96,7 +96,7 @@
         </tr>
         <tr>
           <td @click="goTaskDetails(item.id)" class="cursor-p">
-            <img class="left ml-10" :src="item.taskMainImage + '!thum54'" :alt="item.taskName">
+            <img class="left ml-10" :src="item.taskMainImage | imageSrc('!thum54')" :alt="item.taskName">
             <a class="img-title left" :title="item.taskName">{{item.taskName}}</a>
           </td>
           <td>
@@ -109,7 +109,7 @@
           </td>
           <td class="cursor-p main-color" v-else>
             <tooltip :content="item.auditLogs[item.auditLogs.length - 1].resultMsg" placement="top">
-              <icon color="#f9284f" type="information-circled"></icon>&nbsp;待修改
+              <icon color="#f9284f" type="information-circled"/>&nbsp;待修改
             </tooltip>
           </td>
           <td>{{item.showkerApplyTotalCount || 0}} / {{item.showkerApplyPassedCount || 0}}（人）</td>
@@ -222,12 +222,12 @@
     </div>
     <!--列表分页-->
     <div class="activity-page mt-20 right mr-10" v-show="taskList && taskList.length > 0">
-      <page :total="totalElements" :page-size="pageSize" :current="pageIndex" @on-change="pageChange"></page>
+      <page :total="totalElements" :page-size="pageSize" :current="pageIndex" @on-change="pageChange"/>
     </div>
     <!--关闭任务弹框-->
     <modal v-model="closeModal" width="360">
       <p slot="header" class="main-color text-ct">
-        <icon type="information-circled"></icon>
+        <icon type="information-circled"/>
         <span>关闭确认</span>
       </p>
       <div class="text-ct">
@@ -242,7 +242,7 @@
     <!--删除任务弹框-->
     <modal v-model="deleteModal" width="360">
       <p slot="header" class="text-ct">
-        <icon color="#f9284f" type="information-circled"></icon>
+        <icon color="#f9284f" type="information-circled"/>
         <span class="main-color">删除确认</span>
       </p>
       <div class="text-ct">
@@ -255,7 +255,7 @@
     <!--开启一键加速功能确认弹框-->
     <modal v-model="speedUpModal" width="360">
       <p slot="header" class="text-ct">
-        <icon color="#f9284f" type="information-circled"></icon>
+        <icon color="#f9284f" type="information-circled"/>
         <span class="main-color">一键加速</span>
       </p>
       <div class="text-ct">
@@ -268,7 +268,7 @@
     <!--结算成功弹框-直接结算-->
     <modal v-model="directSettlementSuccess" width="360">
       <p slot="header" class="text-ct">
-        <icon color="#f9284f" type="checkmark-circled"></icon>
+        <icon color="#f9284f" type="checkmark-circled"/>
         <span class="main-color">结算成功</span>
       </p>
       <div class="text-ct">
@@ -282,7 +282,7 @@
     <!--结算成功弹框-结算有返款-->
     <modal v-model="auditSettlementSuccess" width="360">
       <p slot="header" class="main-color text-ct">
-        <icon color="#f9284f" type="checkmark-circled"></icon>
+        <icon color="#f9284f" type="checkmark-circled"/>
         <span class="main-color">结算成功</span>
       </p>
       <div class="text-ct">
@@ -297,7 +297,7 @@
     <!--结算详情弹框-->
     <modal v-model="billDetailsModel" width="420">
       <p slot="header" class="text-ct">
-        <icon color="#f9284f" type="checkmark-circled"></icon>
+        <icon color="#f9284f" type="checkmark-circled"/>
         <span class="main-color">结算详情</span>
       </p>
       <div>
@@ -315,7 +315,7 @@
     <!--活动失效提示弹框-->
     <modal v-model="isTaskOverdueModel" width="420" :mask-closable="false" :closable="false">
       <p slot="header" class="text-ct">
-        <icon color="#f9284f" type="information-circled"></icon>
+        <icon color="#f9284f" type="information-circled"/>
         <span class="main-color">活动失效</span>
       </p>
       <div class="text-ct">
@@ -350,7 +350,7 @@
   import {taskErrorStatusList, getSeverTime, encryption, decode,setStorage, getStorage,} from '@/config/utils'
 
   export default {
-    name: 'ActivitiesList',
+    name: 'activities-list',
     components: {
       Checkbox: Checkbox,
       CheckboxGroup: Checkbox.Group,
@@ -473,6 +473,9 @@
       },
     },
     methods: {
+      getImageSrc(src) {
+        return src.includes('img.alicdn.com') ? src : `${src}!thum54`
+      },
       editTask(id, createTime) {
         if(createTime <= 1526457600000) {
           this.isTaskOverdueModel = true;

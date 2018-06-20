@@ -16,7 +16,7 @@
     </div>
     <div class="service-statement cl666 text-ct">
       声明：为避免纠纷，发布活动前请先阅读本平台的服务条款，凡成功提交活动申请皆默认亲已仔细阅读并同意平台的<span class="blue cursor-p" @click="isShowUserClause = true">《服务条款》</span></div>
-    <div class="text-ct mt-20" v-if="createFastTaskStatus">
+    <div class="text-ct mt-20" v-if="getTaskCreateFastStatus">
       <i-button type="primary" @click="goTaskCreateFast">启用首单快速发布通道</i-button>
     </div>
     <!--选择绑定的店铺-->
@@ -1195,9 +1195,11 @@
       </div>
       <div slot="footer">
         <p><i-button type="error" size="large" long @click="goStoreBind">前去绑定店铺</i-button></p>
-        <p class="fs-14 f-b mt-20">或者，亲想先简单试试效果再说？</p>
-        <p class="mt-20 cl999 text-ct">为快速体验平台服务，新商家可通过以下通道快速完成首发活动，该方法仅支持新商家首次发布！</p>
-        <p class="mt-20"><i-button type="success" size="large" long @click="goTaskCreateFast">首单快速发布通道</i-button></p>
+        <template v-if="getTaskCreateFastStatus">
+          <p class="fs-14 f-b mt-10 text-ct">或者，亲想先简单试试效果再说？</p>
+          <p class="mt-10 cl999 text-ct">为快速体验平台服务，新商家可通过以下通道快速完成首发活动，该方法仅支持新商家首次发布！</p>
+          <p class="mt-10"><i-button type="success" size="large" long @click="goTaskCreateFast">首单快速发布通道</i-button></p>
+        </template>
       </div>
     </modal>
     <!--普通会员用户使用当日单或预约单提示升级会员版本弹框-->
@@ -1483,7 +1485,6 @@
       this.getItemCatalog();
       this.getStoreBindInfoList();
       this.getTaskVasList();
-      this.getTaskCreateFastStatus();
     },
     computed: {
       /**
@@ -1809,6 +1810,14 @@
        */
       allValueAddedCost() {
         return this.oneValueAddedCost * this.taskRelease.taskCount
+      },
+
+      /**
+       * 获取商家用户是否有首发资格
+       * @return {number}
+       */
+      getTaskCreateFastStatus() {
+        return this.$store.state.taskCreateFastStatus
       }
     },
     methods: {
@@ -1885,16 +1894,6 @@
       },
       goStoreBind() {
         this.$router.push({name: 'StoreBindRules', query: {from: 'taskRelease'}});
-      },
-      getTaskCreateFastStatus() {
-        const _this = this;
-        api.taskCreateFastStatus().then(res => {
-          if (res.status) {
-            _this.createFastTaskStatus = res.data;
-          } else {
-            _this.$Message.error(res.msg)
-          }
-        })
       },
       goTaskCreateFast() {
         this.$router.push({name: 'FastTaskRelease'})

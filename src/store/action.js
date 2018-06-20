@@ -78,4 +78,15 @@ export default {
       }
     })
   },
+
+  //获取商家用户是否有首发资格
+  getTaskCreateFastStatus({commit}) {
+    api.taskCreateFastStatus().then(res => {
+      if (res.status) {
+        commit('TASK_CREATE_FAST_STATUS', {status: res.data});
+      } else {
+        _this.$Message.error(res.msg)
+      }
+    })
+  },
 }

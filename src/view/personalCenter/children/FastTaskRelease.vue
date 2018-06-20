@@ -632,7 +632,7 @@
         taskRelease: {
           taskType: 'pc_search',
           orderType: 'normal',
-          taskDaysDuration: null,
+          taskDaysDuration: 3,
           onlyShowForQualification: false,
           showkerOrderTimeLimit: 24,
           dayReserveToNow: false,
@@ -670,7 +670,6 @@
         priceHasChange: false,
         paidDeposit: 0,
         taskStatus: null,
-        editTaskId: null,
         isShowUserClause: false,
         isShowExampleImageModel: false,
         exampleImageUrl: null,
@@ -1218,25 +1217,19 @@
         }
         switch (_this.taskRelease.taskType) {
           case 'pc_search' :
-            pcTaskDetailClone.forEach(item => {
-              item.searchPagePrice = (item.searchPagePrice * 100).toFixed(2) * 1;
-              item.priceRangeMax = item.priceRangeMax > 0 ? (item.priceRangeMax * 100).toFixed(2) * 1 : null;
-              item.priceRangeMin = item.priceRangeMin > 0 ? (item.priceRangeMin * 100).toFixed(2) * 1 : null;
-            });
+            pcTaskDetailClone[0].searchPagePrice = (pcTaskDetailClone[0].searchPagePrice * 100).toFixed(2) * 1;
+            pcTaskDetailClone[0].priceRangeMax = pcTaskDetailClone[0].priceRangeMax > 0 ? (pcTaskDetailClone[0].priceRangeMax * 100).toFixed(2) * 1 : null;
+            pcTaskDetailClone[0].priceRangeMin = pcTaskDetailClone[0].priceRangeMin > 0 ? (pcTaskDetailClone[0].priceRangeMin * 100).toFixed(2) * 1 : null;
             _this.taskRelease.taskDetail = JSON.stringify(pcTaskDetailClone);
             break;
           case 'app_search' :
-            appTaskDetailClone.forEach(item => {
-              item.searchPagePrice = (item.searchPagePrice * 100).toFixed(2) * 1;
-              item.priceRangeMax = item.priceRangeMax > 0 ? (item.priceRangeMax * 100).toFixed(2) * 1 : null;
-              item.priceRangeMin = item.priceRangeMin > 0 ? (item.priceRangeMin * 100).toFixed(2) * 1 : null;
-            });
+            appTaskDetailClone[0].searchPagePrice = (appTaskDetailClone[0].searchPagePrice * 100).toFixed(2) * 1;
+            appTaskDetailClone[0].priceRangeMax = appTaskDetailClone[0].priceRangeMax > 0 ? (appTaskDetailClone[0].priceRangeMax * 100).toFixed(2) * 1 : null;
+            appTaskDetailClone[0].priceRangeMin = appTaskDetailClone[0].priceRangeMin > 0 ? (appTaskDetailClone[0].priceRangeMin * 100).toFixed(2) * 1 : null;
             _this.taskRelease.taskDetail = JSON.stringify(appTaskDetailClone);
             break;
           case 'tao_code' :
-            taoCodeTaskDetailClone.forEach(item => {
-              item.homePageLockItemPrice = item.homePageLockItemPrice > 0 ? (item.homePageLockItemPrice * 100).toFixed(2) * 1 : null;
-            });
+            taoCodeTaskDetailClone[0].homePageLockItemPrice = taoCodeTaskDetailClone[0].homePageLockItemPrice > 0 ? (taoCodeTaskDetailClone[0].homePageLockItemPrice * 100).toFixed(2) * 1 : null;
             _this.taskRelease.taskDetail = JSON.stringify(taoCodeTaskDetailClone);
             break;
           case 'direct_access' :
@@ -1263,20 +1256,15 @@
       },
       getTaskInfo() {
         const _this = this;
-        let type = _this.$route.query.type;
         api.getTaskInfo({
-          taskId: _this.editTaskId
+          taskId: _this.taskPayId
         }).then(res => {
           if (res.status) {
-            _this.getTaskVasSelectInfo(_this.editTaskId);
             _this.mainDefaultList = [];
             _this.pcDefaultList = [];
             _this.appDefaultList = [];
             _this.taoCodeDefaultList = [];
             _this.answerDefaultList = [];
-            if (!type) {
-              _this.taskRelease.taskId = res.data.id;
-            }
             _this.paidDeposit = (res.data.marginPaid + res.data.promotionExpensesPaid + res.data.vasFeePaid) / 100 || 0;
             _this.taskStatus = res.data.taskStatus;
             _this.mainDefaultList.push({src: res.data.taskMainImage});
@@ -1292,22 +1280,18 @@
             _this.taskRelease.itemPrice = _this.taskRelease.itemPrice / 100;
             _this.taskRelease.taskDetail = {};
             if (res.data.taskType === 'tao_code') {
-              _this.taoCodeTaskDetail = res.data.taskDetailObject;
-              const image = _this.taoCodeTaskDetail[0].homePageLockItemImage;
+              _this.taoCodeTaskDetail = res.data.taskDetailObject[0];
+              const image = _this.taoCodeTaskDetail.homePageLockItemImage;
               image && _this.taoCodeDefaultList.push({src: image});
               _this.taoCodeTaskDetail.itemMainImage = image;
               _this.conversionPrice('tao_code');
             } else if (res.data.taskType === 'pc_search') {
-              _this.pcTaskDetail = res.data.taskDetailObject;
-              _this.addKeywordScheme = _this.pcTaskDetail.length - 1;
-              _this.pcDefaultList.push({src: _this.pcTaskDetail[0].itemMainImage});
-              _this.pcTaskDetail.itemMainImage = _this.pcTaskDetail[0].itemMainImage;
+              _this.pcTaskDetail = res.data.taskDetailObject[0];
+              _this.pcDefaultList.push({src: _this.pcTaskDetail.itemMainImage});
               _this.conversionPrice('pc_search');
             } else if (res.data.taskType === 'app_search') {
-              _this.appTaskDetail = res.data.taskDetailObject;
-              _this.addKeywordScheme = _this.appTaskDetail.length - 1;
-              _this.appDefaultList.push({src: _this.appTaskDetail[0].itemMainImage});
-              _this.appTaskDetail.itemMainImage = _this.appTaskDetail[0].itemMainImage;
+              _this.appTaskDetail = res.data.taskDetailObject[0];
+              _this.appDefaultList.push({src: _this.appTaskDetail.itemMainImage});
               _this.conversionPrice('app_search');
             } else {
               _this.taskRelease.taskDetail = {};
@@ -1339,23 +1323,17 @@
       conversionPrice(type) {
         switch (type) {
           case 'pc_search' :
-            this.pcTaskDetail.forEach(item => {
-              item.searchPagePrice = (item.searchPagePrice / 100).toFixed(2) * 1;
-              item.priceRangeMax = item.priceRangeMax > 0 ? (item.priceRangeMax / 100).toFixed(2) * 1 : null;
-              item.priceRangeMin = item.priceRangeMin > 0 ? (item.priceRangeMin / 100).toFixed(2) * 1 : null;
-            });
+            this.pcTaskDetail.searchPagePrice = (this.pcTaskDetail.searchPagePrice / 100).toFixed(2) * 1;
+            this.pcTaskDetail.priceRangeMax = this.pcTaskDetail.priceRangeMax > 0 ? (this.pcTaskDetail.priceRangeMax / 100).toFixed(2) * 1 : null;
+            this.pcTaskDetail.priceRangeMin = this.pcTaskDetail.priceRangeMin > 0 ? (this.pcTaskDetail.priceRangeMin / 100).toFixed(2) * 1 : null;
             break;
           case 'app_search' :
-            this.appTaskDetail.forEach(item => {
-              item.searchPagePrice = (item.searchPagePrice / 100).toFixed(2) * 1;
-              item.priceRangeMax = item.priceRangeMax > 0 ? (item.priceRangeMax / 100).toFixed(2) * 1 : null;
-              item.priceRangeMin = item.priceRangeMin > 0 ? (item.priceRangeMin / 100).toFixed(2) * 1 : null;
-            });
+            this.appTaskDetail.searchPagePrice = (this.appTaskDetail.searchPagePrice / 100).toFixed(2) * 1;
+            this.appTaskDetail.priceRangeMax = this.appTaskDetail.priceRangeMax > 0 ? (this.appTaskDetail.priceRangeMax / 100).toFixed(2) * 1 : null;
+            this.appTaskDetail.priceRangeMin = this.appTaskDetail.priceRangeMin > 0 ? (this.appTaskDetail.priceRangeMin / 100).toFixed(2) * 1 : null;
             break;
           case 'tao_code':
-            this.taoCodeTaskDetail.forEach(item => {
-              item.homePageLockItemPrice = item.homePageLockItemPrice > 0 ? (item.homePageLockItemPrice / 100).toFixed(2) * 1 : null;
-            });
+            this.taoCodeTaskDetail.homePageLockItemPrice = this.taoCodeTaskDetail.homePageLockItemPrice > 0 ? (this.taoCodeTaskDetail.homePageLockItemPrice / 100).toFixed(2) * 1 : null;
             break;
         }
       },
