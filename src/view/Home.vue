@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="home">
     <div class="home-ctt">
       <div class="container">
         <div class="home-section">
@@ -617,6 +617,43 @@
         </div>
       </div>
     </div>
+    <!--弹窗-->
+    <modal v-model="showModel" width="1000" class="first-release-activity">
+      <div slot="header" class="m-header">
+        <img src="~assets/img/home/tit.png" alt="" class="m-icon">
+        HI,<span class="main-color">138****8888</span>这是您第一次访问白拿拿，您的身份是<span class="main-color">淘宝商家</span> 。
+      </div>
+      <div class="m-body">
+        <p class="m-title">平台都是精准定位的<span class="main-color">真实消费群体</span>，看我们如何做到<span class="main-color">安全、合理的转化</span>！</p>
+        <ul class="clear mt-20">
+          <li class="left">
+            <span class="step">1、平均20分钟就有1人申请</span>
+            <div class="mt-20">
+              <img src="~assets/img/home/m-1.png" alt="">
+            </div>
+            <p class="desc mt-25">活动成功上线后，平均20分钟就有1人申请试用。由<span class="main-color">亲自己决定什么时间通过、通过多少名额（通过后才能去淘宝下单）</span>，合理控制转化。</p>
+          </li>
+          <li class="left">
+            <span class="step">2、商家自己选择下单旺旺号</span>
+            <div class="mt-20">
+              <img src="~assets/img/home/m-2.png" alt="">
+            </div>
+            <p class="desc mt-10">在申请列表中，商家可以看到申请旺旺号的各类信息，如历史申请类目、数量、所在地等，<span class="main-color">商家自行选择旺旺号</span>，主权交给商家，更安全更放心!</p>
+          </li>
+          <li class="left">
+            <span class="step">3、先看淘宝评价在返款</span>
+            <div class="mt-20">
+              <img src="~assets/img/home/m-3.png" alt="">
+            </div>
+            <p class="desc mt-25">平台的优质买手通常能发表精致的买家秀，效果堪比网红，<span class="main-color">商家可先审核淘宝评论</span>再决定是否向买手返款。</p>
+          </li>
+        </ul>
+      </div>
+      <div slot="footer" class="m-footer text-ct">
+        <i-button type="default" class="later-btn">先逛逛再说~</i-button>
+        <i-button class="release-btn">马上免费发布活动（试用）</i-button>
+      </div>
+    </modal>
   </div>
 </template>
 
@@ -779,6 +816,7 @@
         // showSellerVipPopup: false,
         pinkageFor10: [],
         presentGet: [],
+        showModel:true
       }
     },
     beforeMount() {
@@ -1709,4 +1747,53 @@
       margin-left: -220px;
     }
   }
+  /*弹窗*/
+  .m-header{
+    padding:40px 0 10px 0;
+    font-size: 16px;
+    text-align: center;
+    background-color: #eeeeee;
+    position: relative;
+    .m-icon{
+      position: absolute;
+      top:8px;
+      left:60px;
+    }
+  }
+  .m-body {
+    padding:20px 0;
+    .m-title {
+      text-align: center;
+      font-size: 22px;
+      font-weight: bold;
+    }
+    .step {
+      padding:2px 15px;
+      background: #000;
+      color: #fff;
+      font-weight:bold;
+      font-size:16px;
+    }
+    li {
+      width:33.33%;
+      padding:0 20px;
+      text-align: center;
+    }
+    .desc {
+      text-align: left;
+    }
+  }
+  .m-footer {
+    .later-btn {
+      margin-right:10%;
+      padding-left:40px;
+      padding-right:40px;
+    }
+    .release-btn {
+      margin-left:10%;
+      color:#fff;
+      background: $mainColor;
+    }
+  }
+
 </style>
