@@ -15,8 +15,9 @@
       <span><b class="sizeColor3">注意：</b> 本站支持拍A发A（免费领），拍A发B（体验专区），满足商家的各种需求！</span>
     </div>
     <div class="service-statement cl666 text-ct">
-      声明：为避免纠纷，发布活动前请先阅读本平台的服务条款，凡成功提交活动申请皆默认亲已仔细阅读并同意平台的<span class="blue cursor-p" @click="isShowUserClause = true">服务条款</span>
-      ！
+      声明：为避免纠纷，发布活动前请先阅读本平台的服务条款，凡成功提交活动申请皆默认亲已仔细阅读并同意平台的<span class="blue cursor-p" @click="isShowUserClause = true">《服务条款》</span></div>
+    <div class="text-ct mt-20" v-if="createFastTaskStatus">
+      <i-button type="primary" @click="goTaskCreateFast">启用首单快速发布通道</i-button>
     </div>
     <!--选择绑定的店铺-->
     <div class="activity-type mt-20" v-show="stepName === 'information'">
@@ -267,9 +268,9 @@
           <div class="baby-title ml-20 mt-20">
             <span class="required">宝贝标题：</span>
             <i-input v-model="taskRelease.taskName" placeholder="请输入宝贝标题" style="width: 296px"/>
-            <span class="ml-20 sizeColor2"><icon v-show="taskNameLength > 35" color="#f9284f"
-                                                 type="information-circled"/>&nbsp;此处填宝贝名称，突出宝贝特点，勿填无关内容，最多支持35个字符，当前已输入  <span
-              class="main-color">{{taskNameLength}}</span> / 35个字符。</span>
+            <span class="ml-20 sizeColor2"><icon v-show="taskNameLength > 60" color="#f9284f"
+                                                 type="information-circled"/>&nbsp;此处填宝贝名称，突出宝贝特点，勿填无关内容，最多支持60个字符，当前已输入  <span
+              class="main-color">{{taskNameLength}}</span> / 60个字符。</span>
           </div>
           <div class="baby-title ml-20 mt-20">
             <span class="required">宝贝类型：</span>
@@ -617,9 +618,9 @@
               <div class="baby-title ml-10 mt-20">
                 <span class="required">宝贝标题：</span>
                 <i-input v-model="taskRelease.taskName" placeholder="请输入宝贝标题" style="width: 296px"/>
-                <span class="ml-20 sizeColor2"><icon v-show="taskNameLength > 35" color="#f9284f"
-                                                     type="information-circled"/>&nbsp;此处填宝贝名称，突出宝贝特点，勿填无关内容，最多支持35个字符，当前已输入  <span
-                  class="main-color">{{taskNameLength}}</span> / 35个字符。</span>
+                <span class="ml-20 sizeColor2"><icon v-show="taskNameLength > 60" color="#f9284f"
+                                                     type="information-circled"/>&nbsp;此处填宝贝名称，突出宝贝特点，勿填无关内容，最多支持60个字符，当前已输入  <span
+                  class="main-color">{{taskNameLength}}</span> / 60个字符。</span>
               </div>
               <div class="baby-title ml-10 mt-20">
                 <span class="required">宝贝类型：</span>
@@ -1193,7 +1194,10 @@
         <p>请先绑定店铺后在发布活动</p>
       </div>
       <div slot="footer">
-        <i-button type="error" size="large" long @click="goStoreBind">前去绑定店铺</i-button>
+        <p><i-button type="error" size="large" long @click="goStoreBind">前去绑定店铺</i-button></p>
+        <p class="fs-14 f-b mt-20">或者，亲想先简单试试效果再说？</p>
+        <p class="mt-20 cl999 text-ct">为快速体验平台服务，新商家可通过以下通道快速完成首发活动，该方法仅支持新商家首次发布！</p>
+        <p class="mt-20"><i-button type="success" size="large" long @click="goTaskCreateFast">首单快速发布通道</i-button></p>
       </div>
     </modal>
     <!--普通会员用户使用当日单或预约单提示升级会员版本弹框-->
@@ -1217,20 +1221,7 @@
 </template>
 
 <script>
-  import {
-    Icon,
-    Input,
-    Checkbox,
-    Button,
-    Radio,
-    Modal,
-    Alert,
-    Select,
-    Option,
-    OptionGroup,
-    Steps,
-    Tooltip
-  } from 'iview'
+  import {Icon, Input, Checkbox, Button, Radio, Modal, Alert, Select, Option, OptionGroup, Steps, Tooltip} from 'iview'
   import {Quill, quillEditor} from 'vue-quill-editor'
   import Upload from '@/components/Upload'
   import PayModel from '@/components/PayModel'
@@ -1238,20 +1229,7 @@
   import QQBindModal from '@/components/QQBindModal'
   import api from '@/config/apiConfig'
   import {aliCallbackImgUrl} from '@/config/env'
-  import {
-    aliUploadImg,
-    isPositiveInteger,
-    isNumber,
-    isInteger,
-    isAliUrl,
-    randomString,
-    extendDeep,
-    decode,
-    setStorage,
-    getStorage,
-    getUrlParams,
-    scrollToTop
-  } from '@/config/utils'
+  import {aliUploadImg, isPositiveInteger, isNumber, isInteger, isAliUrl, randomString, extendDeep, decode, setStorage, getStorage, getUrlParams, isInternetUrl} from '@/config/utils'
 
   export default {
     name: 'task-release',
@@ -1376,7 +1354,7 @@
           donotPostPhoto: "true",
           paymentMethod: "all",
           remark: null,
-          itemDescription: '',
+          itemDescription: null,
           taskId: null,
           taskDetail: [],
           itemReviewRequired: 'review_by_showker_self',
@@ -1473,6 +1451,7 @@
         originalVasMainItem: [],
         upgradeMembershipModal: false,
         isOpenQqBindModal: false,
+        createFastTaskStatus: false,
       }
     },
     updated() {
@@ -1504,6 +1483,7 @@
       this.getItemCatalog();
       this.getStoreBindInfoList();
       this.getTaskVasList();
+      this.getTaskCreateFastStatus();
     },
     computed: {
       /**
@@ -1750,7 +1730,7 @@
        * @return {number}
        */
       taskNameLength() {
-        return this.taskRelease.taskName ? this.taskRelease.taskName.length : 0
+        return this.taskRelease.taskName ? this.taskRelease.taskName.replace(/[\u0391-\uFFE5]/g,"aa").length : 0
       },
 
       /**
@@ -1905,6 +1885,19 @@
       },
       goStoreBind() {
         this.$router.push({name: 'StoreBindRules', query: {from: 'taskRelease'}});
+      },
+      getTaskCreateFastStatus() {
+        const _this = this;
+        api.taskCreateFastStatus().then(res => {
+          if (res.status) {
+            _this.createFastTaskStatus = res.data;
+          } else {
+            _this.$Message.error(res.msg)
+          }
+        })
+      },
+      goTaskCreateFast() {
+        this.$router.push({name: 'FastTaskRelease'})
       },
       openSampleImageModal(src) {
         this.isShowExampleImageModel = true;
@@ -2161,8 +2154,8 @@
           _this.$Message.warning('亲，宝贝标题不能为空！');
           return;
         }
-        if (_this.taskRelease.taskName.length > 35) {
-          _this.$Message.warning('亲，宝贝标题最多35个字符！');
+        if (_this.taskRelease.taskName.length > 60) {
+          _this.$Message.warning('亲，宝贝标题最多60个字符！');
           return;
         }
         if (!_this.taskRelease.itemType) {
@@ -2175,6 +2168,10 @@
         }
         if (!_this.taskRelease.itemUrl) {
           _this.$Message.warning('亲，宝贝链接不能为空！');
+          return;
+        }
+        if (!isInternetUrl(_this.taskRelease.itemUrl)) {
+          _this.$Message.warning('亲，宝贝链接格式不正确！');
           return;
         }
         if (!isAliUrl(_this.taskRelease.itemUrl)) {
@@ -2431,7 +2428,7 @@
           _this.taskCreate(false);
         }
       },
-      taskCreate: async function (type) {
+      async taskCreate(type) {
         const _this = this;
         _this.taskLoading = true;
         let detectionStoreInfo = null;
@@ -2710,24 +2707,23 @@
         })
       },
       conversionPrice(type) {
-        let _this = this;
         switch (type) {
           case 'pc_search' :
-            _this.pcTaskDetail.forEach(item => {
+            this.pcTaskDetail.forEach(item => {
               item.searchPagePrice = (item.searchPagePrice / 100).toFixed(2) * 1;
               item.priceRangeMax = item.priceRangeMax > 0 ? (item.priceRangeMax / 100).toFixed(2) * 1 : null;
               item.priceRangeMin = item.priceRangeMin > 0 ? (item.priceRangeMin / 100).toFixed(2) * 1 : null;
             });
             break;
           case 'app_search' :
-            _this.appTaskDetail.forEach(item => {
+            this.appTaskDetail.forEach(item => {
               item.searchPagePrice = (item.searchPagePrice / 100).toFixed(2) * 1;
               item.priceRangeMax = item.priceRangeMax > 0 ? (item.priceRangeMax / 100).toFixed(2) * 1 : null;
               item.priceRangeMin = item.priceRangeMin > 0 ? (item.priceRangeMin / 100).toFixed(2) * 1 : null;
             });
             break;
           case 'tao_code':
-            _this.taoCodeTaskDetail.forEach(item => {
+            this.taoCodeTaskDetail.forEach(item => {
               item.homePageLockItemPrice = item.homePageLockItemPrice > 0 ? (item.homePageLockItemPrice / 100).toFixed(2) * 1 : null;
             });
             break;

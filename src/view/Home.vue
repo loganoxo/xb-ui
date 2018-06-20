@@ -367,7 +367,7 @@
                          :key="homeCommodity.id"
                          :to="{ 'path': '/task-details','query': {'q': encryptionId(homeCommodity.id)}}">
               <div class="home-commodity-img pos-rel">
-                <img class="block" v-lazy="homeCommodity.taskMainImage +'!thum400'" alt="">
+                <img class="block" v-lazy="homeCommodity.taskMainImage +'!thum400'" alt=""/>
                 <span class="applied"> {{homeCommodity.showkerApplyTotalCount || 0}} 人已申请</span>
               </div>
               <div class="home-commodity-text">
@@ -583,12 +583,6 @@
         </div>
       </div>
       <!--历史活动结束-->
-     <!-- <div class="container">
-        <div class="home-bottom mt-20">
-          <img v-if="!isLogin || getUserInfoRole === 1" class="ml-5" src="~assets/img/home/home_23.png" alt="">
-          <img v-if="isLogin &&　getUserInfoRole === 0" class="ml-5" src="~assets/img/home/home_24.png" alt="">
-        </div>
-      </div>-->
     </div>
 
 

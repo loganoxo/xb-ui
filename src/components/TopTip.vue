@@ -81,7 +81,7 @@
   import {mapActions} from 'vuex'
 
   export default {
-    name: 'TopTip',
+    name: 'top-tip',
     components: {
       Icon: Icon,
       Tooltip: Tooltip,

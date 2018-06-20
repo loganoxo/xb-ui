@@ -103,7 +103,7 @@ export const isNumber = (number) => {
   if (!number) {
     return
   }
-  let IS_NUMBER = /^[0-9]+(.[0-9]{1,2})?$/;
+  const IS_NUMBER = /^[0-9]+(.[0-9]{1,2})?$/;
   return IS_NUMBER.test(number)
 };
 
@@ -114,15 +114,29 @@ export const isInteger = (number) => {
   if (!number) {
     return
   }
-  let IS_INTEGER = /^\+?[1-9][0-9]*$/;
+  const IS_INTEGER = /^\+?[1-9][0-9]*$/;
   return IS_INTEGER.test(number)
+};
+
+/**
+ * 验证是否是网址
+ */
+export const isInternetUrl = (url) => {
+  if (!url) {
+    return
+  }
+  const IS_INTERNET_URL = /[a-zA-z]+:\/\/[^\s]*/;
+  return IS_INTERNET_URL.test(url)
 };
 
 /**
  * 验证是否是淘宝或者天猫链接地址
  */
 export const isAliUrl = (url) => {
-  let URL_REG = /(((item|detail|s.click).(tmall|taobao))|(fliggy).*?)/;
+  if (!url) {
+    return
+  }
+  const URL_REG = /(((item|detail|s.click).(tmall|taobao))|(fliggy).*?)/;
   return URL_REG.test(url)
 };
 

@@ -2,14 +2,14 @@
   <div class="clear">
     <div class="demo-upload-list left" v-for="item in fileList" v-if="isShowTipCover">
       <template v-if="item.status === 'finished'">
-        <img :src="item.src + '!thum54'">
+        <img :src="getUploaderSrc(item.src)">
         <div class="demo-upload-list-cover" v-if="!disabled">
-          <icon type="ios-eye-outline" @click.native="handleView(item.src)"></icon>
-          <icon type="ios-trash-outline" @click.native="handleRemove(item)"></icon>
+          <icon type="ios-eye-outline" @click.native="handleView(item.src)"/>
+          <icon type="ios-trash-outline" @click.native="handleRemove(item)"/>
         </div>
       </template>
       <template v-else>
-        <i-progress v-if="item.showProgress" :percent="item.percentage" hide-info></i-progress>
+        <i-progress v-if="item.showProgress" :percent="item.percentage" hide-info/>
       </template>
     </div>
     <div ref="Upload" class="left" :class="[prefixCls]" v-show="showUpload">
@@ -26,13 +26,13 @@
           @change="handleChange"
           :multiple="multiple"
           :accept="accept">
-        <slot></slot>
+        <slot/>
       </div>
-      <slot name="tip"></slot>
+      <slot name="tip"/>
     </div>
     <div v-if="visible" style="z-index: 3000" class="text">
       <modal title="图片查看器" v-model="visible">
-        <img :src="uploadSrc + '!orgi75'" v-if="visible" style="width: 100%">
+        <img :src="getOriginalSrc(originalSrc)" v-if="visible" style="width: 100%">
       </modal>
     </div>
   </div>
@@ -163,7 +163,7 @@
         dragOver: false,
         fileList: [],
         visible: false,
-        uploadSrc: null,
+        originalSrc: null,
         showUpload: true,
         tempIndex: 1
       };
@@ -178,8 +178,7 @@
             [`${prefixCls}-dragOver`]: this.type === 'drag' && this.dragOver
           }
         ];
-      },
-
+      }
     },
     created() {
       if (this.defaultFileList.length > 0) {
@@ -192,8 +191,14 @@
       }
     },
     methods: {
+      getUploaderSrc(src) {
+        return src.includes('img.alicdn.com') ? src : `${src}!thum54`
+      },
+      getOriginalSrc(src) {
+        return src.includes('img.alicdn.com') ? src : `${src}!orgi75`
+      },
       handleView(name) {
-        this.uploadSrc = name;
+        this.originalSrc = name;
         this.visible = true;
       },
       handleRemove(file) {

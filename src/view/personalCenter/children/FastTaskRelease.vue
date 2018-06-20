@@ -15,9 +15,7 @@
       <span><b class="sizeColor3">注意：</b> 本站支持拍A发A（免费领），拍A发B（体验专区），满足商家的各种需求！</span>
     </div>
     <div class="service-statement cl666 text-ct">
-      声明：为避免纠纷，发布活动前请先阅读本平台的服务条款，凡成功提交活动申请皆默认亲已仔细阅读并同意平台的<span class="blue cursor-p" @click="isShowUserClause = true">服务条款</span>
-      ！
-    </div>
+      声明：为避免纠纷，发布活动前请先阅读本平台的服务条款，凡成功提交活动申请皆默认亲已仔细阅读并同意平台的<span class="blue cursor-p" @click="isShowUserClause = true">《服务条款》</span></div>
     <!--选择活动类型-->
     <div class="activity-type mt-20" v-show="stepName === 'information'">
       <div class="activity-type-title">请选择活动类型：</div>
@@ -73,13 +71,21 @@
           <div class="activity-info-title">填写活动宝贝信息</div>
           <div class="baby-url ml-20 mt-20">
             <span class="required">宝贝链接：</span>
-            <i-input v-model="taskRelease.itemUrl" placeholder="请输入宝贝链接" style="width: 296px"/>
+            <i-input v-model="taskRelease.itemUrl" placeholder="请输入宝贝链接" style="width: 296px" @on-blur="getStoreInfo"/>
           </div>
           <div class="baby-title ml-20 mt-20">
             <span class="required">宝贝标题：</span>
             <i-input v-model="taskRelease.taskName" placeholder="请输入宝贝标题" style="width: 296px"/>
-            <span class="ml-20 sizeColor2"><icon v-show="taskNameLength > 35" color="#f9284f" type="information-circled"/>&nbsp;此处填宝贝名称，突出宝贝特点，勿填无关内容，最多支持35个字符，当前已输入  <span
-              class="main-color">{{taskNameLength}}</span> / 35个字符。</span>
+            <span class="ml-10 sizeColor2"><icon v-show="taskNameLength > 60" color="#f9284f" type="information-circled"/>&nbsp;此处填宝贝名称，突出宝贝特点，勿填无关内容，最多支持60个字符，当前已输入  <span
+              class="main-color">{{taskNameLength}}</span> / 60个字符。</span>
+          </div>
+          <div class="baby-title ml-20 mt-20">
+            <span class="required">店铺名称：</span>
+            <i-input v-model="taskRelease.realStoreName" placeholder="请输入宝贝标题" style="width: 296px"/>
+          </div>
+          <div class="baby-title ml-20 mt-20">
+            <span class="required">掌柜旺旺：</span>
+            <i-input v-model="taskRelease.storeName" placeholder="请输入宝贝标题" style="width: 296px"/>
           </div>
           <div class="baby-title ml-20 mt-20">
             <span class="required">宝贝类型：</span>
@@ -165,7 +171,15 @@
             <div class="baby-info-present-con pb-20">
               <div class="baby-url ml-10 mt-20">
                 <span class="required">宝贝链接：</span>
-                <i-input v-model="taskRelease.itemUrl" placeholder="请输入宝贝链接" style="width: 296px"/>
+                <i-input v-model="taskRelease.itemUrl" placeholder="请输入宝贝链接" style="width: 296px" @on-blur="getStoreInfo"/>
+              </div>
+              <div class="baby-url ml-10 mt-20">
+                <span class="required">店铺名称：</span>
+                <i-input v-model="taskRelease.realStoreName" placeholder="请输入宝贝标题" style="width: 296px"/>
+              </div>
+              <div class="baby-url ml-10 mt-20">
+                <span class="required">掌柜旺旺：</span>
+                <i-input v-model="taskRelease.storeName" placeholder="请输入宝贝标题" style="width: 296px"/>
               </div>
               <div class="baby-price ml-10 mt-20">
                 <span class="required">宝贝单价：</span>
@@ -197,8 +211,8 @@
               <div class="baby-title ml-10 mt-20">
                 <span class="required">宝贝标题：</span>
                 <i-input v-model="taskRelease.taskName" placeholder="请输入宝贝标题" style="width: 296px"/>
-                <span class="ml-20 sizeColor2"><icon v-show="taskNameLength > 35" color="#f9284f" type="information-circled"/>&nbsp;此处填宝贝名称，突出宝贝特点，勿填无关内容，最多支持35个字符，当前已输入  <span
-                  class="main-color">{{taskNameLength}}</span> / 35个字符。</span>
+                <span class="ml-20 sizeColor2"><icon v-show="taskNameLength > 60" color="#f9284f" type="information-circled"/>&nbsp;此处填宝贝名称，突出宝贝特点，勿填无关内容，最多支持60个字符，当前已输入  <span
+                  class="main-color">{{taskNameLength}}</span> / 60个字符。</span>
               </div>
               <div class="baby-title ml-10 mt-20">
                 <span class="required">宝贝类型：</span>
@@ -393,9 +407,7 @@
             <p class="mt-6">总推广费 = 单品推广费 × 份数 = <span>{{onePromotionExpenses}}</span> × <span>{{taskRelease.taskCount}} = <span>{{(allPromotionExpenses).toFixed(2)}}</span></span>
               元 &nbsp;&nbsp;
             </p>
-            <p>总增值费 = 单品增值费 × 份数 = <span>{{(oneValueAddedCost / 100).toFixed(2)}}</span> × <span>{{taskRelease.taskCount}}</span>
-              = {{(allValueAddedCost / 100).toFixed(2)}} 元</p>
-            <p class="mt-6">总费用 = 活动担保金 + 总推广费 + 总增值费用 = <span>{{(orderMoney / 100).toFixed(2)}}</span> 元</p>
+            <p class="mt-6">总费用 = 活动担保金 + 总推广费 = <span>{{(orderMoney / 100).toFixed(2)}}</span> 元</p>
             <p class="mt-6" v-if="!isBalance">手续费说明： 使用支付宝充值支付，支付宝会收取0.6%的手续费，该笔费用需要商家承担，手续费不予退还，敬请谅解！<a
               @click="isShowAliPayTip = true">查看支付宝官方说明</a></p>
           </div>
@@ -499,7 +511,7 @@
       <user-clause @closeClauseModel="closeClauseModel"/>
     </div>
     <!--店铺信息检测loading弹框-->
-    <modal v-model="isShowStoreInfoLoading" :closable="false" :mask-closable="false" width="360">
+    <modal v-model="isShowInfoLoading" :closable="false" :mask-closable="false" width="360">
       <div slot="header"></div>
       <div class="loading">
         <span></span>
@@ -508,8 +520,22 @@
         <span></span>
         <span></span>
       </div>
-      <div class="text-ct mt-46 fs-16">店铺信息校验中，请稍后...</div>
+      <div class="text-ct mt-46 fs-16">宝贝信息获取中，请稍后...</div>
       <div slot="footer"></div>
+    </modal>
+    <!--爬虫抓取宝贝链接对应的店铺信息失败提示弹框-->
+    <modal v-model="isGetInfoError" :closable="false" :mask-closable="false" width="360">
+      <p slot="header" class="text-ct">
+        <icon color="#f9284f" type="information-circled"/>
+        <span class="main-color">温馨提示</span>
+      </p>
+      <div class="text-ct">
+        <p>宝贝链接对应的店铺信息获取失败</p>
+        <p>请核实宝贝链接的完整性或者稍后重试</p>
+      </div>
+      <div slot="footer">
+        <iButton type="error" size="large" long @click="isGetInfoError = false">我知道了</iButton>
+      </div>
     </modal>
   </div>
 </template>
@@ -521,7 +547,8 @@
   import PayModel from '@/components/PayModel'
   import UserClause from '@/components/UserClause'
   import {aliCallbackImgUrl} from '@/config/env'
-  import {aliUploadImg, isPositiveInteger, isNumber, isInteger, isAliUrl, randomString, extendDeep, decode, setStorage, getStorage, getUrlParams} from '@/config/utils'
+  import api from '@/config/apiConfig'
+  import {aliUploadImg, isPositiveInteger, isNumber, isInteger, isAliUrl, randomString, extendDeep, decode, setStorage, getStorage, getUrlParams, isInternetUrl} from '@/config/utils'
 
   export default {
     name: 'fast-task-release',
@@ -571,42 +598,41 @@
         pcDefaultList: [],
         appDefaultList: [],
         taoCodeDefaultList: [],
-        pcTaskDetailItemMainImage: null,
         pcTaskDetail: {
-            itemMainImage: null,
-            countAssigned: null,
-            searchKeyword: null,
-            searchSort: 'zong_he',
-            searchPagePrice: null,
-            searchPagePositionMin: null,
-            searchPagePositionMax: null,
-            searchFilter: [],
-            priceRangeMin: null,
-            priceRangeMax: null,
-            deliverAddress: null,
-          },
-        appTaskDetailItemMainImage: null,
+          itemMainImage: null,
+          countAssigned: null,
+          searchKeyword: null,
+          searchSort: 'zong_he',
+          searchPagePrice: null,
+          searchPagePositionMin: null,
+          searchPagePositionMax: null,
+          searchFilter: [],
+          priceRangeMin: null,
+          priceRangeMax: null,
+          deliverAddress: null,
+        },
         appTaskDetail: {
-            itemMainImage: null,
-            countAssigned: null,
-            searchKeyword: null,
-            searchSort: 'zong_he',
-            searchPagePrice: null,
-            searchRankPosition: null,
-            searchFilter: [],
-            priceRangeMin: null,
-            priceRangeMax: null,
-            deliverAddress: null,
-          },
-        taoCodeTaskDetailItemMainImage: null,
+          itemMainImage: null,
+          countAssigned: null,
+          searchKeyword: null,
+          searchSort: 'zong_he',
+          searchPagePrice: null,
+          searchRankPosition: null,
+          searchFilter: [],
+          priceRangeMin: null,
+          priceRangeMax: null,
+          deliverAddress: null,
+        },
         taoCodeTaskDetail: {
-            taoCode: null,
-            accessDescription: null,
-            homePageLockItemImage: null,
-            homePageLockItemPrice: null,
-          },
+          taoCode: null,
+          accessDescription: null,
+          homePageLockItemImage: null,
+          homePageLockItemPrice: null,
+        },
         taskRelease: {
           taskType: 'pc_search',
+          orderType: 'normal',
+          taskDaysDuration: null,
           onlyShowForQualification: false,
           showkerOrderTimeLimit: 24,
           dayReserveToNow: false,
@@ -628,9 +654,9 @@
           activityCategory: 'free_get',
           pinkage: "true",
           donotPostPhoto: "true",
-          paymentMethod: "all",
+          paymentMethod: "no_hua_and_credit_pay",
           remark: null,
-          itemDescription: '',
+          itemDescription: null,
           taskId: null,
           taskDetail: [],
           itemReviewRequired: 'review_by_showker_self',
@@ -639,53 +665,6 @@
           mainTaskVasConfigIds: [],
           similarTaskVasConfigIds: [],
         },
-        discountDisabled: {
-          discount_0: {
-            isDiscount: false,
-            disabled: false,
-            buyPrice: 0,
-            returnPrice: 0,
-          },
-          discount_9_9: {
-            isDiscount: false,
-            disabled: true,
-            buyPrice: 50,
-            returnPrice: 9.9,
-          },
-          discount_10: {
-            isDiscount: false,
-            disabled: true,
-            buyPrice: 0,
-            returnPrice: 10,
-          },
-          discount_49_9: {
-            isDiscount: false,
-            disabled: true,
-            buyPrice: 150,
-            returnPrice: 49.9,
-          },
-          discount_99_9: {
-            isDiscount: false,
-            disabled: true,
-            buyPrice: 250,
-            returnPrice: 99.9,
-          },
-          discount_r_10: {
-            isDiscount: true,
-            discount: 0.1,
-            returnPrice: 0.1,
-          },
-          discount_r_30: {
-            isDiscount: true,
-            discount: 0.3,
-            returnPrice: 0.3,
-          },
-          discount_r_50: {
-            isDiscount: true,
-            discount: 0.5,
-            returnPrice: 0.5,
-          },
-        },
         editPriceAfterModel: false,
         editPriceToLowAfterModel: false,
         priceHasChange: false,
@@ -693,23 +672,12 @@
         taskStatus: null,
         editTaskId: null,
         isShowUserClause: false,
-        isShowAnswerTip: false,
         isShowExampleImageModel: false,
         exampleImageUrl: null,
         isShowAliPayTip: false,
-        storeBindInfoList: [],
-        isRightItemUrl: true,
-        isShowStoreInfoLoading: false,
-        isSelectStoreUrl: false,
-        isGetStoreInfoError: false,
-        isBindStore: false,
-        noMoreTip: false,
-        vasMainItem: [],
-        vasSimilarItem: [],
-        shopAroundStatus: false,
-        originalVasMainItem: [],
+        isShowInfoLoading: false,
+        isGetInfoError: false,
         upgradeMembershipModal: false,
-        isOpenQqBindModal: false,
       }
     },
     updated() {
@@ -771,25 +739,11 @@
       },
 
       /**
-       * 计算商家需要存入的单品担保金（当用户勾选折扣试用的时候：宝贝单价 - 对应的折扣价格）
-       * 单位为分
-       * @return {number}
-       */
-      newItemPrice() {
-        let type = this.taskRelease.discountType;
-        if (!this.discountDisabled[type].isDiscount) {
-          return (this.taskRelease.itemPrice - this.discountDisabled[type].returnPrice) * 100;
-        } else {
-          return Math.ceil(100 * this.taskRelease.itemPrice * (1 - this.discountDisabled[type].returnPrice));
-        }
-      },
-
-      /**
        * 计算拍A发A最终商家发布单品活动担保金（宝贝单价 + 邮费）
        * @return {number}
        */
       oneBond() {
-        return this.taskRelease.pinkage === 'true' ? this.newItemPrice : this.newItemPrice + 1000;
+        return this.taskRelease.pinkage === 'true' ? 100 * this.taskRelease.itemPrice : 100 * this.taskRelease.itemPrice + 1000;
       },
 
       /**
@@ -807,7 +761,7 @@
       onePromotionExpenses() {
         if (this.taskRelease.activityCategory === 'free_get') {
           if (this.getMemberVersionLevel === 100) {
-            return 3
+            return 0
           }
           if (this.getMemberVersionLevel === 200) {
             return 0
@@ -818,10 +772,10 @@
         }
         if (this.taskRelease.activityCategory === 'present_get') {
           if (this.getMemberVersionLevel === 100) {
-            return 6
+            return 0
           }
           if (this.getMemberVersionLevel === 200) {
-            return 3
+            return 0
           }
           if (this.getMemberVersionLevel === 300) {
             return 0
@@ -898,10 +852,10 @@
        */
       orderMoney() {
         if (this.taskRelease.activityCategory === 'free_get') {
-          return (this.taskRelease.taskCount * this.oneBond) + this.allPromotionExpenses * 100 + this.allValueAddedCost
+          return (this.taskRelease.taskCount * this.oneBond) + this.allPromotionExpenses * 100
         }
         if (this.taskRelease.activityCategory === 'present_get') {
-          return (this.taskRelease.taskCount * this.oneBondAToB) + this.allPromotionExpenses * 100 + this.allValueAddedCost
+          return (this.taskRelease.taskCount * this.oneBondAToB) + this.allPromotionExpenses * 100
         }
       },
 
@@ -975,56 +929,8 @@
        * @return {number}
        */
       taskNameLength() {
-        return this.taskRelease.taskName ? this.taskRelease.taskName.length : 0
+        return this.taskRelease.taskName ? this.taskRelease.taskName.replace(/[\u0391-\uFFE5]/g,"aa").length : 0
       },
-
-      /**
-       * 计算商家分布任务份数中系统需要审批的份数
-       * @return {number}
-       */
-      systemApprovalTaskNumber() {
-        return Math.round(this.taskRelease.taskCount * 0.2)
-      },
-
-      /**
-       * 计算平台占发布活动的比例
-       * @return {number}
-       */
-      taskSystemHoldPercent() {
-        return this.$store.getters.getTaskSystemHoldPercent;
-      },
-
-      /**
-       * 计算用户选择的增值服务费用（不包含‘货比三家’服务）
-       * @return {number}
-       */
-      vasMainItemCost() {
-        return 0
-      },
-
-      /**
-       * 计算用户选择的‘货比三家’增值服务费用
-       * @return {number}
-       */
-      vasSimilarItemCost() {
-        return 0
-      },
-
-      /**
-       * 计算用户选择的增值服务费用（单品：vasMainItemCost + vasSimilarItemCost）
-       * @return {number}
-       */
-      oneValueAddedCost() {
-        return 0
-      },
-
-      /**
-       * 计算用户总增值服务费用（单品费用 * 宝贝数量）
-       * @return {number}
-       */
-      allValueAddedCost() {
-        return 0
-      }
     },
     methods: {
       changeSelectActivity(type) {
@@ -1046,6 +952,47 @@
           this.exampleImageUrl = '/static/img/demo/taskRelease/browse-answer-image.png'
         }
       },
+      getStoreInfo() {
+        const _this = this;
+        if (!_this.taskRelease.itemUrl) {
+          return;
+        }
+        if (!isInternetUrl(_this.taskRelease.itemUrl)) {
+          _this.$Message.warning('亲，宝贝链接格式不正确！');
+          return;
+        }
+        if (!isAliUrl(_this.taskRelease.itemUrl)) {
+          _this.$Message.warning('亲，仅支持淘宝、天猫、飞猪链接！');
+          return;
+        }
+        const commodityId = getUrlParams(_this.taskRelease.itemUrl, 'id');
+        _this.isShowInfoLoading = true;
+        api.getItemInfoById({
+          commodityId: commodityId
+        }).then(res => {
+          _this.isShowInfoLoading = false;
+          if (res.status) {
+            if (res.data) {
+              _this.taskRelease.taskName = res.data.title;
+              _this.taskRelease.realStoreName = res.data.store.name;
+              _this.taskRelease.storeName = res.data.store.wangwangId;
+              _this.taskRelease.taskMainImage = res.data.picUrl;
+              _this.pcTaskDetail.itemMainImage = res.data.picUrl;
+              _this.appTaskDetail.itemMainImage = res.data.picUrl;
+              _this.mainDefaultList = [];
+              _this.mainDefaultList.push({src: res.data.picUrl});
+              _this.pcDefaultList = [];
+              _this.pcDefaultList.push({src: res.data.picUrl});
+              _this.appDefaultList = [];
+              _this.appDefaultList.push({src: res.data.picUrl});
+            } else {
+              _this.isGetInfoError = true;
+            }
+          } else {
+            _this.$Message.error(res.msg)
+          }
+        })
+      },
       taskTypeChange() {
         if (this.pcTaskDetail.itemMainImage) {
           this.pcDefaultList = [];
@@ -1060,13 +1007,13 @@
         this.taskRelease.taskMainImage = aliCallbackImgUrl + res.name;
       },
       pcBabyImgSuccess(res) {
-        this.pcTaskDetailItemMainImage = aliCallbackImgUrl + res.name;
+        this.pcTaskDetail.itemMainImage = aliCallbackImgUrl + res.name;
       },
       appBabyImgSuccess(res) {
-        this.appTaskDetailItemMainImage = aliCallbackImgUrl + res.name;
+        this.appTaskDetail.itemMainImage = aliCallbackImgUrl + res.name;
       },
       taoCodeImgSuccess(res) {
-        this.taoCodeTaskDetailItemMainImage = aliCallbackImgUrl + res.name;
+        this.taoCodeTaskDetail.itemMainImage = aliCallbackImgUrl + res.name;
       },
       handleFormatError(file) {
         this.$Modal.warning({
@@ -1086,6 +1033,10 @@
           _this.$Message.warning('亲，宝贝链接不能为空！');
           return;
         }
+        if (!isInternetUrl(_this.taskRelease.itemUrl)) {
+          _this.$Message.warning('亲，宝贝链接格式不正确！');
+          return;
+        }
         if (!isAliUrl(_this.taskRelease.itemUrl)) {
           _this.$Message.warning('亲，仅支持淘宝、天猫、飞猪链接！');
           return;
@@ -1094,8 +1045,8 @@
           _this.$Message.warning('亲，宝贝标题不能为空！');
           return;
         }
-        if (_this.taskRelease.taskName.length > 35) {
-          _this.$Message.warning('亲，宝贝标题最多35个字符！');
+        if (_this.taskRelease.taskName.length > 60) {
+          _this.$Message.warning('亲，宝贝标题最多60个字符！');
           return;
         }
         if (!_this.taskRelease.itemType) {
@@ -1162,75 +1113,73 @@
           _this.$Message.warning('亲，商品简介中至少需要包含一张图片！');
           return;
         }
-        _this.taskRelease.itemIssue = JSON.stringify([]);
         if (_this.taskRelease.taskType === 'pc_search') {
-            if (!_this.pcTaskDetail.itemMainImage) {
-              _this.$Message.warning('亲，请上传PC搜索宝贝主图！');
-              return;
-            }
-            if (!_this.pcTaskDetail.searchKeyword) {
-              _this.$Message.warning('亲，PC搜索关键词不能空！');
-              return;
-            }
-            if (!_this.pcTaskDetail.searchPagePrice) {
-              _this.$Message.warning('亲，PC搜索中的展示价格不能空！');
-              return;
-            }
-            if (!isNumber(_this.pcTaskDetail.searchPagePrice)) {
-              _this.$Message.warning('亲，PC搜索中的展示价格必须为数字！');
-              return;
-            }
-            if (!_this.pcTaskDetail.searchPagePositionMin) {
-              _this.$Message.warning('亲，PC搜索中的宝贝搜索起始位置不能空！');
-              return;
-            }
-            if (!_this.pcTaskDetail.searchPagePositionMax) {
-              _this.$Message.warning('亲，PC搜索中的宝贝搜索结束位置不能空！');
-              return;
-            }
-            if (!isInteger(_this.pcTaskDetail.searchPagePositionMin)) {
-              _this.$Message.warning('亲，PC搜索中的宝贝搜索起始位置必须为正整数！');
-              return;
-            }
-            if (!isInteger(_this.pcTaskDetail.searchPagePositionMax)) {
-              _this.$Message.warning('亲，PC搜索中的宝贝搜索结束位置必须为正整数！');
-              return;
-            }
-            if (_this.pcTaskDetail.searchPagePositionMax < _this.pcTaskDetail.searchPagePositionMin) {
-              _this.$Message.warning('亲，PC搜索中的宝贝搜索位置起始页不能大于结束页！');
-              return;
-            }
-            if (_this.pcTaskDetail.searchPagePositionMax - _this.pcTaskDetail.searchPagePositionMin > 2) {
-              _this.$Message.warning('亲，PC搜索中的宝贝搜索位置页数差值最大不大于3页！');
-              return;
-            }
+          if (!_this.pcTaskDetail.itemMainImage) {
+            _this.$Message.warning('亲，请上传PC搜索宝贝主图！');
+            return;
+          }
+          if (!_this.pcTaskDetail.searchKeyword) {
+            _this.$Message.warning('亲，PC搜索关键词不能空！');
+            return;
+          }
+          if (!_this.pcTaskDetail.searchPagePrice) {
+            _this.$Message.warning('亲，PC搜索中的展示价格不能空！');
+            return;
+          }
+          if (!isNumber(_this.pcTaskDetail.searchPagePrice)) {
+            _this.$Message.warning('亲，PC搜索中的展示价格必须为数字！');
+            return;
+          }
+          if (!_this.pcTaskDetail.searchPagePositionMin) {
+            _this.$Message.warning('亲，PC搜索中的宝贝搜索起始位置不能空！');
+            return;
+          }
+          if (!_this.pcTaskDetail.searchPagePositionMax) {
+            _this.$Message.warning('亲，PC搜索中的宝贝搜索结束位置不能空！');
+            return;
+          }
+          if (!isInteger(_this.pcTaskDetail.searchPagePositionMin)) {
+            _this.$Message.warning('亲，PC搜索中的宝贝搜索起始位置必须为正整数！');
+            return;
+          }
+          if (!isInteger(_this.pcTaskDetail.searchPagePositionMax)) {
+            _this.$Message.warning('亲，PC搜索中的宝贝搜索结束位置必须为正整数！');
+            return;
+          }
+          if (_this.pcTaskDetail.searchPagePositionMax < _this.pcTaskDetail.searchPagePositionMin) {
+            _this.$Message.warning('亲，PC搜索中的宝贝搜索位置起始页不能大于结束页！');
+            return;
+          }
+          if (_this.pcTaskDetail.searchPagePositionMax - _this.pcTaskDetail.searchPagePositionMin > 2) {
+            _this.$Message.warning('亲，PC搜索中的宝贝搜索位置页数差值最大不大于3页！');
+            return;
+          }
         }
         if (_this.taskRelease.taskType === 'app_search') {
-            if (!_this.appTaskDetail.itemMainImage) {
-              _this.$Message.warning('亲，请上传手淘搜索宝贝主图！');
-              return;
-            }
-            if (!_this.appTaskDetail.searchKeyword) {
-              _this.$Message.warning('亲，手淘搜索中的搜索关键词不能空！');
-              return;
-            }
-            if (!_this.appTaskDetail.searchPagePrice) {
-              _this.$Message.warning('亲，手淘搜索中的展示价格不能空！');
-              return;
-            }
-            if (!isNumber(_this.appTaskDetail.searchPagePrice)) {
-              _this.$Message.warning('亲，手淘搜索中的展示价格必须为数字！');
-              return;
-            }
-            if (!_this.appTaskDetail.searchRankPosition) {
-              _this.$Message.warning('亲，手淘搜索中的宝贝搜索位置不能空！');
-              return;
-            }
-            if (!isInteger(_this.appTaskDetail.searchRankPosition)) {
-              _this.$Message.warning('亲，手淘搜索中的宝贝搜索位置需为正整数！');
-              return;
-            }
-
+          if (!_this.appTaskDetail.itemMainImage) {
+            _this.$Message.warning('亲，请上传手淘搜索宝贝主图！');
+            return;
+          }
+          if (!_this.appTaskDetail.searchKeyword) {
+            _this.$Message.warning('亲，手淘搜索中的搜索关键词不能空！');
+            return;
+          }
+          if (!_this.appTaskDetail.searchPagePrice) {
+            _this.$Message.warning('亲，手淘搜索中的展示价格不能空！');
+            return;
+          }
+          if (!isNumber(_this.appTaskDetail.searchPagePrice)) {
+            _this.$Message.warning('亲，手淘搜索中的展示价格必须为数字！');
+            return;
+          }
+          if (!_this.appTaskDetail.searchRankPosition) {
+            _this.$Message.warning('亲，手淘搜索中的宝贝搜索位置不能空！');
+            return;
+          }
+          if (!isInteger(_this.appTaskDetail.searchRankPosition)) {
+            _this.$Message.warning('亲，手淘搜索中的宝贝搜索位置需为正整数！');
+            return;
+          }
         }
         if (_this.taskRelease.taskType === 'tao_code') {
           if (!_this.taoCodeTaskDetail.taoCode) {
@@ -1243,7 +1192,6 @@
           _this.taskRelease.itemDescription = _this.taskRelease.itemDescription.replace(IMG_HREF_ATTRIBUTE, '');
         }
         let status = _this.taskStatus;
-        let type = _this.$route.query.type;
         if ((status === 'waiting_modify' || status === 'waiting_pay') && _this.paidDeposit * 100 === _this.orderMoney && !type) {
           _this.taskCreate(true);
         } else if ((status === 'waiting_modify' || status === 'waiting_pay') && _this.paidDeposit * 100 > _this.orderMoney && !type) {
@@ -1251,8 +1199,6 @@
         } else if ((status === 'waiting_modify' || status === 'waiting_pay') && _this.paidDeposit > 0 && _this.paidDeposit * 100 < _this.orderMoney && !type) {
           _this.editPriceAfterModel = true;
           _this.priceHasChange = true;
-        } else if (type && type === 'copy') {
-          _this.taskCreate(false);
         } else {
           _this.taskCreate(false);
         }
@@ -1260,37 +1206,36 @@
       taskCreate (type) {
         const _this = this;
         _this.taskLoading = true;
-        _this.taskRelease.storeName = _this.selectStoreInfo.storeAlitm;
-        _this.taskRelease.realStoreName = _this.selectStoreInfo.storeName;
+        _this.taskRelease.itemIssue = JSON.stringify([]);
         _this.taskRelease.itemReviewAssignString = JSON.stringify([]);
         _this.taskRelease.mainTaskVasConfigIds = JSON.stringify([]);
         _this.taskRelease.similarTaskVasConfigIds = JSON.stringify([]);
-        let pcTaskDetailClone = extendDeep(_this.pcTaskDetail, []);
-        let appTaskDetailClone = extendDeep(_this.appTaskDetail, []);
-        let taoCodeTaskDetailClone = extendDeep(_this.taoCodeTaskDetail, []);
+        const pcTaskDetailClone = [extendDeep(_this.pcTaskDetail)];
+        const appTaskDetailClone = [extendDeep(_this.appTaskDetail)];
+        const taoCodeTaskDetailClone = [extendDeep(_this.taoCodeTaskDetail)];
         if (_this.taskRelease.activityCategory === 'free_get') {
           _this.taskRelease.donotPostPhoto = 'false'
         }
         switch (_this.taskRelease.taskType) {
           case 'pc_search' :
             pcTaskDetailClone.forEach(item => {
-              item.searchPagePrice = (item.searchPagePrice * 100).toFixed() * 1;
-              item.priceRangeMax = item.priceRangeMax > 0 ? (item.priceRangeMax * 100).toFixed() * 1 : null;
-              item.priceRangeMin = item.priceRangeMin > 0 ? (item.priceRangeMin * 100).toFixed() * 1 : null;
+              item.searchPagePrice = (item.searchPagePrice * 100).toFixed(2) * 1;
+              item.priceRangeMax = item.priceRangeMax > 0 ? (item.priceRangeMax * 100).toFixed(2) * 1 : null;
+              item.priceRangeMin = item.priceRangeMin > 0 ? (item.priceRangeMin * 100).toFixed(2) * 1 : null;
             });
             _this.taskRelease.taskDetail = JSON.stringify(pcTaskDetailClone);
             break;
           case 'app_search' :
             appTaskDetailClone.forEach(item => {
-              item.searchPagePrice = (item.searchPagePrice * 100).toFixed() * 1;
-              item.priceRangeMax = item.priceRangeMax > 0 ? (item.priceRangeMax * 100).toFixed() * 1 : null;
-              item.priceRangeMin = item.priceRangeMin > 0 ? (item.priceRangeMin * 100).toFixed() * 1 : null;
+              item.searchPagePrice = (item.searchPagePrice * 100).toFixed(2) * 1;
+              item.priceRangeMax = item.priceRangeMax > 0 ? (item.priceRangeMax * 100).toFixed(2) * 1 : null;
+              item.priceRangeMin = item.priceRangeMin > 0 ? (item.priceRangeMin * 100).toFixed(2) * 1 : null;
             });
             _this.taskRelease.taskDetail = JSON.stringify(appTaskDetailClone);
             break;
           case 'tao_code' :
             taoCodeTaskDetailClone.forEach(item => {
-              item.homePageLockItemPrice = item.homePageLockItemPrice > 0 ? (item.homePageLockItemPrice * 100).toFixed() * 1 : null;
+              item.homePageLockItemPrice = item.homePageLockItemPrice > 0 ? (item.homePageLockItemPrice * 100).toFixed(2) * 1 : null;
             });
             _this.taskRelease.taskDetail = JSON.stringify(taoCodeTaskDetailClone);
             break;
@@ -1298,7 +1243,7 @@
             _this.taskRelease.taskDetail = JSON.stringify([]);
             break;
         }
-        api.taskCreate(_this.taskRelease).then(res => {
+        api.taskCreateFast(_this.taskRelease).then(res => {
           if (res.status) {
             _this.taskPayId = res.data.id;
             if (!_this.taskRelease.taskId) {
@@ -1343,13 +1288,6 @@
               }
             }
             _this.taskRelease.itemType = res.data.itemCatalog.id;
-            _this.taskRelease.pinkage = _this.taskRelease.pinkage.toString();
-            _this.taskRelease.donotPostPhoto = _this.taskRelease.donotPostPhoto.toString();
-
-            if (_this.taskRelease.onlyShowForQualification) {
-              _this.taskRelease.onlyShowForQualification = false;
-            }
-
             _this.taskRelease.presentPrice = _this.taskRelease.presentPrice / 100;
             _this.taskRelease.itemPrice = _this.taskRelease.itemPrice / 100;
             _this.taskRelease.taskDetail = {};
@@ -1357,19 +1295,19 @@
               _this.taoCodeTaskDetail = res.data.taskDetailObject;
               const image = _this.taoCodeTaskDetail[0].homePageLockItemImage;
               image && _this.taoCodeDefaultList.push({src: image});
-              _this.taoCodeTaskDetailItemMainImage = image;
+              _this.taoCodeTaskDetail.itemMainImage = image;
               _this.conversionPrice('tao_code');
             } else if (res.data.taskType === 'pc_search') {
               _this.pcTaskDetail = res.data.taskDetailObject;
               _this.addKeywordScheme = _this.pcTaskDetail.length - 1;
               _this.pcDefaultList.push({src: _this.pcTaskDetail[0].itemMainImage});
-              _this.pcTaskDetailItemMainImage = _this.pcTaskDetail[0].itemMainImage;
+              _this.pcTaskDetail.itemMainImage = _this.pcTaskDetail[0].itemMainImage;
               _this.conversionPrice('pc_search');
             } else if (res.data.taskType === 'app_search') {
               _this.appTaskDetail = res.data.taskDetailObject;
               _this.addKeywordScheme = _this.appTaskDetail.length - 1;
               _this.appDefaultList.push({src: _this.appTaskDetail[0].itemMainImage});
-              _this.appTaskDetailItemMainImage = _this.appTaskDetail[0].itemMainImage;
+              _this.appTaskDetail.itemMainImage = _this.appTaskDetail[0].itemMainImage;
               _this.conversionPrice('app_search');
             } else {
               _this.taskRelease.taskDetail = {};
@@ -1402,7 +1340,7 @@
         switch (type) {
           case 'pc_search' :
             this.pcTaskDetail.forEach(item => {
-              item.searchPagePrice = (item.searchPagePrice / 100).toFixed(0) * 1;
+              item.searchPagePrice = (item.searchPagePrice / 100).toFixed(2) * 1;
               item.priceRangeMax = item.priceRangeMax > 0 ? (item.priceRangeMax / 100).toFixed(2) * 1 : null;
               item.priceRangeMin = item.priceRangeMin > 0 ? (item.priceRangeMin / 100).toFixed(2) * 1 : null;
             });
@@ -1477,10 +1415,10 @@
         this.taskRelease.taskMainImage = null;
       },
       removeAppImage() {
-        this.appTaskDetailItemMainImage = null;
+        this.appTaskDetail.itemMainImage = null;
       },
       removePcImage() {
-        this.pcTaskDetailItemMainImage = null;
+        this.pcTaskDetail.itemMainImage = null;
       },
       removeTaoCodeImage() {
         this.taoCodeTaskDetailItemMainImage = null;

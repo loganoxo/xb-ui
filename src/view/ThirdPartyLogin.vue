@@ -1,8 +1,8 @@
 <template>
   <div>
-    <role-top></role-top>
+    <role-top/>
     <div class="third-party-login fs-22">
-      <Spin class="spin"></Spin>
+      <spin class="spin"/>
       <p class="mt-10">白拿拿登录中....</p>
     </div>
   </div>
@@ -14,7 +14,7 @@
   import api from '@/config/apiConfig'
   import {setStorage, encryption} from '@/config/utils'
   export default {
-    name: 'ThirdPartyLogin',
+    name: 'third-party-login',
     components: {
       Spin: Spin,
       RoleTop: RoleTop,
@@ -44,7 +44,6 @@
             } else {
               _this.$router.push({name: 'Home'});
             }
-
           } else {
             _this.$Message.error(res.msg)
           }
