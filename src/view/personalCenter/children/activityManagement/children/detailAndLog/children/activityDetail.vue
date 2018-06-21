@@ -17,7 +17,7 @@
         </tr>
         <tr>
           <td>
-            <img class="left ml-10" :src="itemCatalog.taskMainImage" :alt="itemCatalog.taskName">
+            <img class="left ml-10" :src="itemCatalog.taskMainImage | imageSrc('!thum54')" :alt="itemCatalog.taskName">
             <span class="img-title left">{{itemCatalog.taskName}}</span>
           </td>
           <td>
