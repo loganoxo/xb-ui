@@ -652,7 +652,7 @@
           presentPrice: null,
           discountType: 'discount_0',
           activityCategory: 'free_get',
-          pinkage: "true",
+          pinkage: true,
           donotPostPhoto: "true",
           paymentMethod: "no_hua_and_credit_pay",
           remark: null,
@@ -742,7 +742,7 @@
        * @return {number}
        */
       oneBond() {
-        return this.taskRelease.pinkage === 'true' ? 100 * this.taskRelease.itemPrice : 100 * this.taskRelease.itemPrice + 1000;
+        return this.taskRelease.pinkage ? 100 * this.taskRelease.itemPrice : (100 * this.taskRelease.itemPrice + 1000);
       },
 
       /**
@@ -750,7 +750,7 @@
        * @return {number}
        */
       oneBondAToB() {
-        return this.taskRelease.pinkage === 'true' ? this.taskRelease.itemPrice * this.taskRelease.orderQuantity * 100 : this.taskRelease.itemPrice * this.taskRelease.orderQuantity * 100 + 1000;
+        return this.taskRelease.pinkage ? this.taskRelease.itemPrice * this.taskRelease.orderQuantity * 100 : (this.taskRelease.itemPrice * this.taskRelease.orderQuantity * 100 + 1000);
       },
 
       /**

@@ -825,16 +825,18 @@
       const self = this;
       if (self.$store.state.login) {
         self.weChartAlertFunc();
-        self.$store.dispatch('getTaskCreateFastStatus').then(res => {
-          if (res.status) {
-            self.showFirstVisitModel = res.data;
-          }
-        });
+        if (self.$store.getters.getUserRole === 1) {
+          self.$store.dispatch('getTaskCreateFastStatus').then(res => {
+            if (res.status) {
+              self.showFirstVisitModel = res.data
+            }
+          });
+        }
       }
       if (self.$store.state.userInfo.role === 0) {
         self.getAvailableBoardByAdTypeList('showker_pc_home_page_slide_show');
       } else if (self.$store.state.userInfo.role === 1) {
-        if (self.getMemberVersionLevel === 100 || self.getMemberVersionLevel === null) {
+        if (self.getMemberVersionLevel === 100) {
           self.getAvailableBoardByAdTypeList('free_seller_pc_home_page_slide_show');
         } else {
           self.getAvailableBoardByAdTypeList('seller_pc_home_page_slide_show');

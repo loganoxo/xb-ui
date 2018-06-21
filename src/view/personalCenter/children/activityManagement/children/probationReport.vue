@@ -15,7 +15,7 @@
     <div class="report-info mt-12">
       <div class="manage-info-con clear">
         <div class="manage-img left">
-          <img :src="showkerTaskInfo.task.taskMainImage + '!thum54' || ''" :alt="showkerTaskInfo.taskName">
+          <img :src="showkerTaskInfo.task.taskMainImage | imageSrc('!thum54')" :alt="showkerTaskInfo.taskName">
         </div>
         <div class="manage-text left ml-5">
           <p>{{showkerTaskInfo.taskName}}</p>
@@ -195,7 +195,7 @@
   import {taskErrorStatusList, decode, encryption} from '@/config/utils'
 
   export default {
-    name: 'ProbationReport',
+    name: 'probation-report',
     components: {
       iButton: Button,
       Icon: Icon,

@@ -1545,7 +1545,7 @@
        * @return {number}
        */
       oneBond() {
-        return this.taskRelease.pinkage === 'true' ? this.newItemPrice : this.newItemPrice + 1000;
+        return this.taskRelease.pinkage === 'true' ? this.newItemPrice : (this.newItemPrice + 1000);
       },
 
       /**
@@ -1553,7 +1553,7 @@
        * @return {number}
        */
       oneBondAToB() {
-        return this.taskRelease.pinkage === 'true' ? this.taskRelease.itemPrice * this.taskRelease.orderQuantity * 100 : this.taskRelease.itemPrice * this.taskRelease.orderQuantity * 100 + 1000;
+        return this.taskRelease.pinkage === 'true' ? this.taskRelease.itemPrice * this.taskRelease.orderQuantity * 100 : (this.taskRelease.itemPrice * this.taskRelease.orderQuantity * 100 + 1000);
       },
 
       /**
