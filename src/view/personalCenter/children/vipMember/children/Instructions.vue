@@ -2,16 +2,16 @@
   <div class="instructions">
     <ul class="table-box">
       <li class="t-head clear first">
-        <div class="t-catalog left c-white function">功能说明</div>
-        <div class="left c-d-grey">
+        <div class="head">功能说明</div>
+        <div class="c-d-grey head">
           <p>{{freeMemberInfo.memberName}}</p>
           <p class="mt-10">{{freeMemberInfo.memberDesc}}</p>
         </div>
-        <div class="left c-d-blue">
+        <div class="c-d-blue head">
           <p>{{vipMemberInfo.memberName}}</p>
           <p class="mt-10">{{vipMemberInfo.memberDesc}}</p>
         </div>
-        <div class="left c-d-orange">
+        <div class="c-d-orange head">
           <p>{{svipMemberInfo.memberName}}</p>
           <p class="mt-10">{{svipMemberInfo.memberDesc}}</p>
         </div>
@@ -83,8 +83,7 @@
         <div class="t-catalog c-white">店铺绑定数量</div>
         <div class="c-l-grey" v-if="freeMemberInfo.storeBindingLimit">{{freeMemberInfo.storeBindingLimit.number}}个</div>
         <div class="c-l-blue" v-if="vipMemberInfo.storeBindingLimit">{{vipMemberInfo.storeBindingLimit.number}}个</div>
-        <div class="c-l-orange" v-if="svipMemberInfo.storeBindingLimit">{{svipMemberInfo.storeBindingLimit.number}}个
-        </div>
+        <div class="c-l-orange" v-if="svipMemberInfo.storeBindingLimit">{{svipMemberInfo.storeBindingLimit.number}}个</div>
       </li>
       <li class="clear eight">
         <div class="t-catalog c-white">火眼金睛（拿手数据查询）</div>
@@ -189,140 +188,155 @@
   .c-d-grey {
     background-color: #cccccc;
   }
-
   .c-l-grey {
     background-color: #f0f0f0;
   }
-
   .c-d-blue {
     background-color: #66cccc;
   }
-
   .c-l-blue {
     background-color: #d1f0f0;
   }
-
   .c-d-orange {
     background-color: #ff9966;
   }
-
   .c-l-orange {
     background-color: #ffe0d1;
   }
-
   .c-white {
     background-color: #fff;
   }
-
   div {
     box-sizing: border-box;
   }
-
   .instructions {
     padding: 40px 60px 60px 60px;
   }
-
   .table-box {
     border: 1px solid #ccc;
     border-right: none;
     div {
       width: 25%;
+      padding:20px 0;
+      vertical-align: middle;
       text-align: center;
-      float: left
+      float: left;
+      border-bottom: 1px solid #ccc;
+      border-right: 1px solid #ccc;
     }
-    .t-catalog {
-      color: #666666;
-      text-align: left;
-      padding-left: 10px;
-    }
-    .first {
-      div {
-        height: 94px;
-        text-align: center;
-        color: #fff;
+    li {
+      div:nth-of-type(1) {
+        text-align: left;
+        padding-left: 10px;
+        background-color: #fff;
+      }
+      div:nth-of-type(2) {
+        background-color: #f0f0f0;
+      }
+      div:nth-of-type(3) {
+        background-color: #d1f0f0;
+      }
+      div:nth-of-type(4) {
+        background-color: #ffe0d1;
+      }
+      div.function{
+        height:94px;
         font-weight: bold;
         font-size: 16px;
         padding: 20px 0;
-        border-bottom: 1px solid #ccc;
-        border-right: 1px solid #ccc;
-      }
-      .function {
-        color: #666;
-        text-align: left;
-        padding-left: 10px;
-        line-height: 54px;
       }
     }
-    .second {
-      .lh-48 {
-        line-height: 48px;
-      }
-      div {
-        height: 48px;
-        border-bottom: 1px solid #ccc;
-        border-right: 1px solid #ccc;
-      }
-    }
-    .third {
-      height: 48px;
-      line-height: 48px;
-      div {
-        border-bottom: 1px solid #ccc;
-        border-right: 1px solid #ccc;
-      }
-    }
-    .forth {
-      height: 48px;
-      line-height: 48px;
-      div {
-        border-bottom: 1px solid #ccc;
-        border-right: 1px solid #ccc;
-      }
-    }
-    .fifth {
-      div {
-        border-bottom: 1px solid #ccc;
-        border-right: 1px solid #ccc;
-        height: 80px;
-      }
-      .t-catalog {
-        color: #ccc;
-      }
-      .lh-80 {
-        height: 80px;
-        line-height: 80px;
-      }
-      .check-box {
-        padding: 20px 0;
-      }
-      .check-text {
-        color: blue;
-      }
-    }
-    .sixth {
-      height: 48px;
-      line-height: 48px;
-      div {
-        border-bottom: 1px solid #ccc;
-        border-right: 1px solid #ccc;
-      }
-    }
-    .seventh {
-      height: 48px;
-      line-height: 48px;
-      div {
-        border-bottom: 1px solid #ccc;
-        border-right: 1px solid #ccc;
-      }
-    }
-    .eight {
-      height: 48px;
-      line-height: 48px;
-      div {
-        border-bottom: 1px solid #ccc;
-        border-right: 1px solid #ccc;
-      }
-    }
+    /*.t-catalog {*/
+      /*text-align: left;*/
+      /*padding-left: 10px;*/
+    /*}*/
+    /*.first {*/
+      /*div {*/
+        /*height: 94px;*/
+        /*text-align: center;*/
+        /*font-weight: bold;*/
+        /*font-size: 16px;*/
+        /*padding: 20px 0;*/
+        /*border-bottom: 1px solid #ccc;*/
+        /*border-right: 1px solid #ccc;*/
+      /*}*/
+      /*.function {*/
+        /*color: #666;*/
+        /*text-align: left;*/
+        /*padding-left: 10px;*/
+        /*line-height: 54px;*/
+      /*}*/
+    /*}*/
+    /*.second {*/
+      /*.lh-48 {*/
+        /*line-height: 48px;*/
+      /*}*/
+      /*div {*/
+        /*height: 48px;*/
+        /*border-bottom: 1px solid #ccc;*/
+        /*border-right: 1px solid #ccc;*/
+      /*}*/
+    /*}*/
+    /*.third {*/
+      /*height: 48px;*/
+      /*line-height: 48px;*/
+      /*div {*/
+        /*border-bottom: 1px solid #ccc;*/
+        /*border-right: 1px solid #ccc;*/
+      /*}*/
+    /*}*/
+    /*.forth {*/
+      /*height: 48px;*/
+      /*line-height: 48px;*/
+      /*div {*/
+        /*border-bottom: 1px solid #ccc;*/
+        /*border-right: 1px solid #ccc;*/
+      /*}*/
+    /*}*/
+    /*.fifth {*/
+      /*div {*/
+        /*border-bottom: 1px solid #ccc;*/
+        /*border-right: 1px solid #ccc;*/
+        /*height: 80px;*/
+      /*}*/
+      /*.t-catalog {*/
+        /*color: #ccc;*/
+      /*}*/
+      /*.lh-80 {*/
+        /*height: 80px;*/
+        /*line-height: 80px;*/
+      /*}*/
+      /*.check-box {*/
+        /*padding: 20px 0;*/
+      /*}*/
+      /*.check-text {*/
+        /*color: blue;*/
+      /*}*/
+    /*}*/
+    /*.sixth {*/
+      /*height: 48px;*/
+      /*line-height: 48px;*/
+      /*div {*/
+        /*border-bottom: 1px solid #ccc;*/
+        /*border-right: 1px solid #ccc;*/
+      /*}*/
+    /*}*/
+    /*.seventh {*/
+      /*height: 48px;*/
+      /*line-height: 48px;*/
+      /*div {*/
+        /*border-bottom: 1px solid #ccc;*/
+        /*border-right: 1px solid #ccc;*/
+      /*}*/
+    /*}*/
+    /*.eight {*/
+      /*height: 48px;*/
+      /*line-height: 48px;*/
+      /*div {*/
+        /*border-bottom: 1px solid #ccc;*/
+        /*border-right: 1px solid #ccc;*/
+      /*}*/
+    /*}*/
   }
 
   .to-be-continue {
