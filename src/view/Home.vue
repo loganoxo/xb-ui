@@ -822,9 +822,14 @@
       }
     },
     created() {
-      let self = this;
+      const self = this;
       if (self.$store.state.login) {
         self.weChartAlertFunc();
+        self.$store.dispatch('getTaskCreateFastStatus').then(res => {
+          if (res.status) {
+            self.showFirstVisitModel = res.data;
+          }
+        });
       }
       if (self.$store.state.userInfo.role === 0) {
         self.getAvailableBoardByAdTypeList('showker_pc_home_page_slide_show');
@@ -846,9 +851,6 @@
       self.getHomeHistoryList();
       self.getBuyerShowList();
       self.getHomeDisCountList();
-      self.$nextTick(() => {
-        self.showFirstVisitModel = self.$store.state.taskCreateFastStatus;
-      });
     },
     destroyed() {
       let self = this;

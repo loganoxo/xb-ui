@@ -82,17 +82,18 @@ export default {
 
   //获取商家用户是否有首发资格
   getTaskCreateFastStatus({commit}) {
-    if (getStorage('taskCreateFastStatus')) {
-      commit('TASK_CREATE_FAST_STATUS', {status: getStorage('taskCreateFastStatus')});
-    } else {
-      api.taskCreateFastStatus().then(res => {
-        if (res.status) {
-          commit('TASK_CREATE_FAST_STATUS', {status: res.data});
-          setStorage('taskCreateFastStatus', res.data);
-        } else {
-          _this.$Message.error(res.msg)
-        }
-      })
-    }
+   return new Promise((resolve, reject) => {
+     api.taskCreateFastStatus().then(res => {
+       if (res.status) {
+         commit('TASK_CREATE_FAST_STATUS', {status: res.data});
+       } else {
+         _this.$Message.error(res.msg);
+       }
+       resolve(res);
+     }).catch(err => {
+       console.error(err);
+       reject(err);
+     })
+   })
   },
 }
