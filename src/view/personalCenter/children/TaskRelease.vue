@@ -1501,6 +1501,7 @@
       this.getItemCatalog();
       this.getStoreBindInfoList();
       this.getTaskVasList();
+      this.$store.dispatch('getTaskCreateFastStatus');
     },
     computed: {
       /**
