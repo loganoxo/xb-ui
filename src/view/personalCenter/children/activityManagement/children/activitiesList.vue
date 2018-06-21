@@ -90,7 +90,7 @@
         <tr class="task-number">
           <td colspan="7">
             <span>活动编号：{{item.number || '------'}}</span>
-            <span class="ml-10">创建时间：{{item.createTime | dateFormat('YYYY-MM-DD hh:mm:ss') || '----'}}</span>
+            <span class="ml-10">创建时间：{{item.createTime | dateFormat('YYYY-MM-DD hh:mm:ss') || '------'}}</span>
             <span class="ml-10">活动类型：{{item.activityCategoryDesc}}</span>
           </td>
         </tr>
@@ -100,8 +100,8 @@
             <a class="img-title left" :title="item.taskName">{{item.taskName}}</a>
           </td>
           <td>
-            <p>{{item.upLineTime | dateFormat('YYYY-MM-DD hh:mm:ss') || '----'}}</p>
-            <p class="mt-10">{{item.endTime | dateFormat('YYYY-MM-DD hh:mm:ss') || '----'}}</p>
+            <p>{{item.upLineTime | dateFormat('YYYY-MM-DD hh:mm:ss') || '------'}}</p>
+            <p class="mt-10">{{item.endTime | dateFormat('YYYY-MM-DD hh:mm:ss') || '------'}}</p>
           </td>
           <td v-if="item.taskStatus !== 'waiting_modify'">
             <span v-if="item.taskStatus === 'under_way' && !item.online">已下线</span>
