@@ -1,113 +1,106 @@
 <template>
   <div class="instructions">
     <ul class="table-box">
-      <li class="t-head clear first">
-        <div class="head">功能说明</div>
-        <div class="c-d-grey head">
+      <!--以下注释的代码是svip相关，请勿删除-->
+      <li class="clear">
+        <div class="function">功能说明</div>
+        <div class="head head-grey">
           <p>{{freeMemberInfo.memberName}}</p>
           <p class="mt-10">{{freeMemberInfo.memberDesc}}</p>
         </div>
-        <div class="c-d-blue head">
+        <div class="head head-blue">
           <p>{{vipMemberInfo.memberName}}</p>
           <p class="mt-10">{{vipMemberInfo.memberDesc}}</p>
         </div>
-        <div class="c-d-orange head">
-          <p>{{svipMemberInfo.memberName}}</p>
-          <p class="mt-10">{{svipMemberInfo.memberDesc}}</p>
-        </div>
+        <!--<div class="head head-orange">-->
+          <!--<p>{{svipMemberInfo.memberName}}</p>-->
+          <!--<p class="mt-10">{{svipMemberInfo.memberDesc}}</p>-->
+        <!--</div>-->
       </li>
-      <li class="clear second">
+      <li class="clear">
         <!--<div class="t-catalog c-white">推广费（每单）</div>-->
         <!--<div class="c-l-grey" v-if="freeMemberInfo.promotionFee">宝贝单价*{{freeMemberInfo.promotionFee.percent}}%，{{freeMemberInfo.promotionFee.limit/100}}元封顶</div>-->
         <!--<div class="c-l-blue" v-if="vipMemberInfo.promotionFee">宝贝单价*{{vipMemberInfo.promotionFee.percent}}%，{{vipMemberInfo.promotionFee.limit/100}}元封顶</div>-->
         <!--<div class="c-l-orange" v-if="svipMemberInfo.promotionFee && svipMemberInfo.promotionFee.percent === 0">免</div>-->
         <!--<div class="c-l-orange" v-if="svipMemberInfo.promotionFee &&!svipMemberInfo.promotionFee.percent === 0">宝贝单价*{{svipMemberInfo.promotionFee.percent}}%，{{svipMemberInfo.promotionFee.limit/100}}元封顶</div>-->
-        <div class="t-catalog c-white lh-48">推广费（每单）</div>
-        <div class="c-l-grey">
-          <p class="mt-5" v-if="freeMemberInfo.rewardFee">拍A发A：{{freeMemberInfo.rewardFee.AA.floor/100}}元/单</p>
-          <p v-if="freeMemberInfo.rewardFee">拍A发B：{{freeMemberInfo.rewardFee.AB.floor/100}}元/单</p>
+        <div>推广费（每单）</div>
+        <div class="extend-fee">
+          <p v-if="freeMemberInfo.rewardFee">拍A发A：{{freeMemberInfo.rewardFee.AA.floor/100}}元/单</p>
+          <p class="mt-5" v-if="freeMemberInfo.rewardFee">拍A发B：{{freeMemberInfo.rewardFee.AB.floor/100}}元/单</p>
         </div>
-        <div class="c-l-blue">
-          <p class="mt-5" v-if="vipMemberInfo.rewardFee">拍A发A：{{vipMemberInfo.rewardFee.AA.floor/100}}元/单</p>
-          <p v-if="vipMemberInfo.rewardFee">拍A发B：{{vipMemberInfo.rewardFee.AB.floor/100}}元/单</p>
+        <div class="extend-fee">
+          <p v-if="vipMemberInfo.rewardFee">拍A发A：{{vipMemberInfo.rewardFee.AA.floor/100}}元/单</p>
+          <p class="mt-5" v-if="vipMemberInfo.rewardFee">拍A发B：{{vipMemberInfo.rewardFee.AB.floor/100}}元/单</p>
         </div>
-        <div class="c-l-orange lh-48">
-          免
-        </div>
+        <!--<div>免</div>-->
       </li>
-      <li class="clear third">
-        <div class="t-catalog c-white">充值手续费</div>
-        <div class="c-l-grey" v-if="freeMemberInfo.rechargeCommission">
-          千分之六（支付宝收取）
-        </div>
-        <div class="c-l-blue">
-          免
-        </div>
-        <div class="c-l-orange">
-          免
-        </div>
+      <li class="clear">
+        <div>充值手续费</div>
+        <div v-if="freeMemberInfo.rechargeCommission">千分之六（支付宝收取）</div>
+        <div>免</div>
+        <!--<div>免</div>-->
       </li>
-      <li class="clear forth">
-        <div class="t-catalog c-white">活动审核</div>
-        <div class="c-l-grey">{{freeMemberInfo.taskAudit}}</div>
-        <div class="c-l-blue">{{vipMemberInfo.taskAudit}}</div>
-        <div class="c-l-orange">{{svipMemberInfo.taskAudit}}</div>
+      <li class="clear">
+        <div>活动审核</div>
+        <div>{{freeMemberInfo.taskAudit}}</div>
+        <div>{{vipMemberInfo.taskAudit}}</div>
+        <!--<div>{{svipMemberInfo.taskAudit}}</div>-->
       </li>
-      <li class="clear fifth">
-        <div class="t-catalog c-white lh-80">活动置顶显示，开发中...</div>
-        <div class="c-l-grey lh-80">{{freeMemberInfo.taskStickUp}}</div>
-        <div class="c-l-blue check-box">
-          <p>每日上新页置顶<span class="check-text cursor-p" @click="showDemo('demo-1')">（查看）</span></p>
+      <li class="clear">
+        <div class="activity-top developing">活动置顶显示，开发中...</div>
+        <div class="activity-top">{{freeMemberInfo.taskStickUp}}</div>
+        <div class="check-demo">
+          <p>每日上新页置顶<span class="check cursor-p" @click="showDemo('demo-1')">（查看）</span></p>
           <p class="mt-5" v-if="vipMemberInfo.taskStickUp">
             每天{{vipMemberInfo.taskStickUp.frequency}}次，每次{{vipMemberInfo.taskStickUp.time}}分钟</p>
         </div>
-        <div class="c-l-orange check-box">
-          <p>首页最新活动置顶<span class="check-text cursor-p" @click="showDemo('demo-2')">（查看）</span></p>
-          <p class="mt-5" v-if="svipMemberInfo.taskStickUp">
-            每天{{svipMemberInfo.taskStickUp.frequency}}次，每次{{svipMemberInfo.taskStickUp.time}}分钟</p>
-        </div>
+        <!--<div class="check-demo">-->
+          <!--<p>首页最新活动置顶<span class="check cursor-p" @click="showDemo('demo-2')">（查看）</span></p>-->
+          <!--<p class="mt-5" v-if="svipMemberInfo.taskStickUp">-->
+            <!--每天{{svipMemberInfo.taskStickUp.frequency}}次，每次{{svipMemberInfo.taskStickUp.time}}分钟</p>-->
+        <!--</div>-->
       </li>
-      <li class="clear sixth">
-        <div class="t-catalog c-white">同一宝贝每日发布活动次数</div>
-        <div class="c-l-grey" v-if="freeMemberInfo.itemReleaseTaskOneDayLimit">
+      <li class="clear">
+        <div>同一宝贝每日发布活动次数</div>
+        <div v-if="freeMemberInfo.itemReleaseTaskOneDayLimit">
           {{freeMemberInfo.itemReleaseTaskOneDayLimit.frequency}}次
         </div>
-        <div class="c-l-blue" v-if="vipMemberInfo.itemReleaseTaskOneDayLimit">
+        <div v-if="vipMemberInfo.itemReleaseTaskOneDayLimit">
           {{vipMemberInfo.itemReleaseTaskOneDayLimit.frequency}}次
         </div>
-        <div class="c-l-orange" v-if="svipMemberInfo.itemReleaseTaskOneDayLimit">
-          {{svipMemberInfo.itemReleaseTaskOneDayLimit.frequency}}次
-        </div>
+        <!--<div v-if="svipMemberInfo.itemReleaseTaskOneDayLimit">-->
+          <!--{{svipMemberInfo.itemReleaseTaskOneDayLimit.frequency}}次-->
+        <!--</div>-->
       </li>
-      <li class="clear seventh">
-        <div class="t-catalog c-white">店铺绑定数量</div>
-        <div class="c-l-grey" v-if="freeMemberInfo.storeBindingLimit">{{freeMemberInfo.storeBindingLimit.number}}个</div>
-        <div class="c-l-blue" v-if="vipMemberInfo.storeBindingLimit">{{vipMemberInfo.storeBindingLimit.number}}个</div>
-        <div class="c-l-orange" v-if="svipMemberInfo.storeBindingLimit">{{svipMemberInfo.storeBindingLimit.number}}个</div>
+      <li class="clear">
+        <div >店铺绑定数量</div>
+        <div v-if="freeMemberInfo.storeBindingLimit">{{freeMemberInfo.storeBindingLimit.number}}个</div>
+        <div v-if="vipMemberInfo.storeBindingLimit">{{vipMemberInfo.storeBindingLimit.number}}个</div>
+        <!--<div v-if="svipMemberInfo.storeBindingLimit">{{svipMemberInfo.storeBindingLimit.number}}个</div>-->
       </li>
-      <li class="clear eight">
-        <div class="t-catalog c-white">火眼金睛（拿手数据查询）</div>
-        <div class="c-l-grey">单独购买</div>
-        <div class="c-l-blue">免费使用</div>
-        <div class="c-l-orange">免费使用</div>
+      <li class="clear">
+        <div>火眼金睛（拿手数据查询）</div>
+        <div>单独购买</div>
+        <div>免费使用</div>
+        <!--<div>免费使用</div>-->
       </li>
-      <li class="clear eight">
-        <div class="t-catalog c-white">活动增值服务项</div>
-        <div class="c-l-grey">{{freeMemberInfo.taskVasItem}}</div>
-        <div class="c-l-blue">{{vipMemberInfo.taskVasItem}}</div>
-        <div class="c-l-orange">{{svipMemberInfo.taskVasItem}}</div>
+      <li class="clear">
+        <div>活动增值服务项</div>
+        <div>{{freeMemberInfo.taskVasItem}}</div>
+        <div>{{vipMemberInfo.taskVasItem}}</div>
+        <!--<div>{{svipMemberInfo.taskVasItem}}</div>-->
       </li>
-      <li class="clear eight">
-        <div class="t-catalog c-white">当日单</div>
-        <div class="c-l-grey">{{freeMemberInfo.dayNow}}</div>
-        <div class="c-l-blue">{{vipMemberInfo.dayNow}}</div>
-        <div class="c-l-orange">{{svipMemberInfo.dayNow}}</div>
+      <li class="clear">
+        <div>当日单</div>
+        <div>{{freeMemberInfo.dayNow}}</div>
+        <div>{{vipMemberInfo.dayNow}}</div>
+        <!--<div>{{svipMemberInfo.dayNow}}</div>-->
       </li>
-      <li class="clear eight">
-        <div class="t-catalog c-white">预约单</div>
-        <div class="c-l-grey">{{freeMemberInfo.dayReserve}}</div>
-        <div class="c-l-blue">{{vipMemberInfo.dayReserve}}</div>
-        <div class="c-l-orange">{{svipMemberInfo.dayReserve}}</div>
+      <li class="clear">
+        <div>预约单</div>
+        <div>{{freeMemberInfo.dayReserve}}</div>
+        <div>{{vipMemberInfo.dayReserve}}</div>
+        <!--<div>{{svipMemberInfo.dayReserve}}</div>-->
       </li>
     </ul>
     <p class="to-be-continue">更多权益正在添加中，敬请期待...</p>
@@ -122,7 +115,6 @@
 <script>
   import {Modal} from 'iview'
   import api from '@/config/apiConfig'
-
   export default {
     name: "vip-member-instructions",
     components: {
@@ -144,7 +136,7 @@
     },
     methods: {
       getVersionInfo() {
-        let _this = this;
+        const _this = this;
         api.getMemberInstructionsInfo().then(res => {
           let tempData = [];
           if (res.status) {
@@ -178,34 +170,12 @@
         }
         _this.isShowDemo = true;
       }
-
     },
-
   }
 </script>
 
 <style scoped lang="scss">
-  .c-d-grey {
-    background-color: #cccccc;
-  }
-  .c-l-grey {
-    background-color: #f0f0f0;
-  }
-  .c-d-blue {
-    background-color: #66cccc;
-  }
-  .c-l-blue {
-    background-color: #d1f0f0;
-  }
-  .c-d-orange {
-    background-color: #ff9966;
-  }
-  .c-l-orange {
-    background-color: #ffe0d1;
-  }
-  .c-white {
-    background-color: #fff;
-  }
+
   div {
     box-sizing: border-box;
   }
@@ -213,12 +183,12 @@
     padding: 40px 60px 60px 60px;
   }
   .table-box {
-    border: 1px solid #ccc;
-    border-right: none;
+    border-top:1px solid #ccc;
+    border-left:1px solid #ccc;
     div {
-      width: 25%;
-      padding:20px 0;
-      vertical-align: middle;
+      width: 33.33%;
+      height:48px;
+      line-height: 48px;
       text-align: center;
       float: left;
       border-bottom: 1px solid #ccc;
@@ -226,8 +196,6 @@
     }
     li {
       div:nth-of-type(1) {
-        text-align: left;
-        padding-left: 10px;
         background-color: #fff;
       }
       div:nth-of-type(2) {
@@ -243,102 +211,46 @@
         height:94px;
         font-weight: bold;
         font-size: 16px;
-        padding: 20px 0;
+        padding: 20px 0 20px 10px;
+      }
+      div.head{
+        font-weight: bold;
+        font-size: 16px;
+        line-height: 20px;
+        color:#fff;
+        height:94px;
+        padding:20px 0;
+      }
+      div.head-grey{
+        background-color: #cccccc;
+      }
+      div.head-blue{
+        background-color: #66cccc;
+      }
+      div.head-orange{
+        background-color: #ff9966;
+      }
+      div.extend-fee{
+        line-height: 18px;
+        padding:5px 0;
+      }
+      div.activity-top{
+        height:80px;
+        line-height: 80px;
+      }
+      div.developing{
+        color:#ccc;
+      }
+      div.check-demo{
+        height:80px;
+        line-height: 20px;
+        padding:20px 0;
+        .check{
+          color:blue;
+        }
       }
     }
-    /*.t-catalog {*/
-      /*text-align: left;*/
-      /*padding-left: 10px;*/
-    /*}*/
-    /*.first {*/
-      /*div {*/
-        /*height: 94px;*/
-        /*text-align: center;*/
-        /*font-weight: bold;*/
-        /*font-size: 16px;*/
-        /*padding: 20px 0;*/
-        /*border-bottom: 1px solid #ccc;*/
-        /*border-right: 1px solid #ccc;*/
-      /*}*/
-      /*.function {*/
-        /*color: #666;*/
-        /*text-align: left;*/
-        /*padding-left: 10px;*/
-        /*line-height: 54px;*/
-      /*}*/
-    /*}*/
-    /*.second {*/
-      /*.lh-48 {*/
-        /*line-height: 48px;*/
-      /*}*/
-      /*div {*/
-        /*height: 48px;*/
-        /*border-bottom: 1px solid #ccc;*/
-        /*border-right: 1px solid #ccc;*/
-      /*}*/
-    /*}*/
-    /*.third {*/
-      /*height: 48px;*/
-      /*line-height: 48px;*/
-      /*div {*/
-        /*border-bottom: 1px solid #ccc;*/
-        /*border-right: 1px solid #ccc;*/
-      /*}*/
-    /*}*/
-    /*.forth {*/
-      /*height: 48px;*/
-      /*line-height: 48px;*/
-      /*div {*/
-        /*border-bottom: 1px solid #ccc;*/
-        /*border-right: 1px solid #ccc;*/
-      /*}*/
-    /*}*/
-    /*.fifth {*/
-      /*div {*/
-        /*border-bottom: 1px solid #ccc;*/
-        /*border-right: 1px solid #ccc;*/
-        /*height: 80px;*/
-      /*}*/
-      /*.t-catalog {*/
-        /*color: #ccc;*/
-      /*}*/
-      /*.lh-80 {*/
-        /*height: 80px;*/
-        /*line-height: 80px;*/
-      /*}*/
-      /*.check-box {*/
-        /*padding: 20px 0;*/
-      /*}*/
-      /*.check-text {*/
-        /*color: blue;*/
-      /*}*/
-    /*}*/
-    /*.sixth {*/
-      /*height: 48px;*/
-      /*line-height: 48px;*/
-      /*div {*/
-        /*border-bottom: 1px solid #ccc;*/
-        /*border-right: 1px solid #ccc;*/
-      /*}*/
-    /*}*/
-    /*.seventh {*/
-      /*height: 48px;*/
-      /*line-height: 48px;*/
-      /*div {*/
-        /*border-bottom: 1px solid #ccc;*/
-        /*border-right: 1px solid #ccc;*/
-      /*}*/
-    /*}*/
-    /*.eight {*/
-      /*height: 48px;*/
-      /*line-height: 48px;*/
-      /*div {*/
-        /*border-bottom: 1px solid #ccc;*/
-        /*border-right: 1px solid #ccc;*/
-      /*}*/
-    /*}*/
   }
-
   .to-be-continue {
     color: #666;
     text-align: center;

@@ -3,13 +3,13 @@
     <div class="rules-box">
       <p class="rules-title">店铺绑定说明:</p>
       <ul>
-        <li>1、免费商家可绑定{{freeStoreBindNum}}个店铺，VIP商家可绑定{{vipStoreBindNum}}个店铺，SVIP商家可绑定{{svipStoreBindNum}}个店铺。</li>
+        <li>1、免费商家可绑定{{freeStoreBindNum}}个店铺，VIP商家可绑定{{vipStoreBindNum}}个店铺。</li>
         <li>2、店铺绑定成功后无法解绑和修改，请慎重操作！</li>
         <li>3、发布活动的宝贝必须是所绑定店铺内的宝贝，否则活动无法发布！</li>
       </ul>
     </div>
-    <!--<p class="has-bind-title fs-16">我已绑定的店铺 <span class="main-color">（根据你的会员版本，最多可绑定{{memberLevel===100?1:(memberLevel===200?4:8)}}个店铺。）</span> </p>-->
-    <p class="had-band-title fs-16">我已绑定的店铺 <span class="main-color">（根据你的会员版本，最多可绑定<span v-if="memberLevel===100||memberLevel===null">{{freeStoreBindNum}}</span><span v-if="memberLevel===200">{{vipStoreBindNum}}</span><span v-if="memberLevel===300">{{svipStoreBindNum}}</span>个店铺。）</span> </p>
+    <!--<p class="had-band-title fs-16">我已绑定的店铺 <span class="main-color">（根据你的会员版本，最多可绑定<span v-if="memberLevel===100||memberLevel===null">{{freeStoreBindNum}}</span><span v-if="memberLevel===200">{{vipStoreBindNum}}</span><span v-if="memberLevel===300">{{svipStoreBindNum}}</span>个店铺。）</span> </p>-->
+    <p class="had-band-title fs-16">我已绑定的店铺 <span class="main-color">（根据你的会员版本，最多可绑定<span v-if="memberLevel === 100 || memberLevel === null">{{freeStoreBindNum}}</span><span v-if="memberLevel === 200">{{vipStoreBindNum}}</span>个店铺。）</span> </p>
     <ul class="had-band-box clear">
       <li class="left pos-rel" v-for="storeInfo in storeInfoList" :key="storeInfo.id">
         <img src="~assets/img/common/taobao-logo.png" v-if="storeInfo.storeType === 'taobao'">
@@ -22,7 +22,8 @@
       <li v-if="isShowBindBtn" class="left cursor-p" @click="toBindStore">
         <p class="mt-20"><Icon type="plus" size="50" color="#999"></Icon></p>
         <p class="bind-new-store mt-10 fs-16 f-b" v-if="showBindStoreText">绑定新店铺</p>
-        <p class="upgrade-vip mt-10" v-if="showUpgradeText">升级<span v-if="memberLevel===200">S</span>VIP绑定更多店铺</p>
+        <!--<p class="upgrade-vip mt-10" v-if="showUpgradeText">升级<span v-if="memberLevel===200">S</span>VIP绑定更多店铺</p>-->
+        <p class="upgrade-vip mt-10" v-if="showUpgradeText">升级VIP绑定更多店铺</p>
       </li>
     </ul>
   </div>
@@ -100,53 +101,59 @@
       },
       // 根据会员等级和已绑定店铺数量页面绑定按钮显示不同
       bindBtnText(){
-        let _this = this;
+        const _this = this;
         // 免费
-        if((_this.memberLevel === 100 || _this.memberLevel === null) && (_this.storeInfoList.length >=_this.freeStoreBindNum)){
+        if ((_this.memberLevel === 100 || _this.memberLevel === null) && (_this.storeInfoList.length >=_this.freeStoreBindNum)){
           _this.showBindStoreText = false;
           _this.showUpgradeText = true;
         }
-        // vip
-        if(_this.memberLevel === 200 && (_this.storeInfoList.length >= _this.vipStoreBindNum)){
-          _this.showBindStoreText = false;
-          _this.showUpgradeText = true;
-        }
-        // svip
-        if(_this.memberLevel === 300){
+        if (_this.memberLevel === 200) {
           _this.showBindStoreText = true;
           _this.showUpgradeText = false;
-          if(_this.storeInfoList.length >= _this.svipStoreBindNum){
+          if (_this.storeInfoList.length >= _this.vipStoreBindNum) {
             _this.isShowBindBtn = false;
           }
         }
-
+        // 下面为有svip版本的逻辑，先保留着
+        // vip
+        // if(_this.memberLevel === 200 && (_this.storeInfoList.length >= _this.vipStoreBindNum)){
+        //   _this.showBindStoreText = false;
+        //   _this.showUpgradeText = true;
+        // }
+        // svip
+        // if(_this.memberLevel === 300){
+        //   _this.showBindStoreText = true;
+        //   _this.showUpgradeText = false;
+        //   if(_this.storeInfoList.length >= _this.svipStoreBindNum){
+        //     _this.isShowBindBtn = false;
+        //   }
+        // }
       },
       // 绑店铺还是买会员（需要判断）
       toBindStore(){
         const _this = this;
-        if((_this.memberLevel ===100 || _this.memberLevel === null) && _this.storeInfoList.length >= _this.freeStoreBindNum){
+        if ((_this.memberLevel ===100 || _this.memberLevel === null) && _this.storeInfoList.length >= _this.freeStoreBindNum) {
           _this.$router.push({path:'/user/vip-member/order'});
         } else if (_this.memberLevel === 200 && _this.storeInfoList.length >= _this.vipStoreBindNum) {
-          _this.$router.push({path:'/user/vip-member/order'});
-        } else if (_this.memberLevel === 300 && _this.storeInfoList.length >= _this.svipStoreBindNum) {
           _this.isShowBindBtn = false;
-        }else {
-          // let query = _this.$route.query.from;
-          // if (query) {
-          //   // this.$router.push({path:`/user/bind-store/store-bind-operating?from=${query}`});
-          //   this.$router.push({name:'StoreBindOperating',query:{from:query}});
-          // } else {
-          //   // this.$router.push({path:`/user/bind-store/store-bind-operating`});
-          //   this.$router.push({name:'StoreBindOperating'});
-          // }
+        } else {
           this.$router.push({name:'StoreBindOperating'});
         }
+        // 下面为有svip版本的逻辑，先保留着
+        // if((_this.memberLevel ===100 || _this.memberLevel === null) && _this.storeInfoList.length >= _this.freeStoreBindNum){
+        //   _this.$router.push({path:'/user/vip-member/order'});
+        // } else if (_this.memberLevel === 200 && _this.storeInfoList.length >= _this.vipStoreBindNum) {
+        //   _this.$router.push({path:'/user/vip-member/order'});
+        // } else if (_this.memberLevel === 300 && _this.storeInfoList.length >= _this.svipStoreBindNum) {
+        //   _this.isShowBindBtn = false;
+        // } else {
+        //   this.$router.push({name:'StoreBindOperating'});
+        // }
       },
       // 查看绑定店铺的详情（审核中，未通过）
       checkDetail(storeInfo) {
         this.$router.push({name:'StoreBindOperating',query:{protocol:true,id:storeInfo.id,status:storeInfo.applyStatus}});
       }
-
     },
   }
 </script>
