@@ -1,14 +1,33 @@
 <template>
   <div class="task-release">
     <div class="task-release-title">发布活动</div>
-    <!--发布活动进度-->
-    <div class="flow-title mt-10 mb-20">
-      <steps :current="current">
-        <step title="填写活动信息"/>
-        <step title="存入活动担保金"/>
-        <step title="等待审核"/>
-        <step title="活动上线"/>
-      </steps>
+    <!--发布活动流程说明-->
+    <div class="flow-title mt-10 mb-20 clear">
+      <div class="inline-block flow-title-first left">平台流程</div>
+      <div class="inline-block step left clear">
+        <div class="inline-block step-number left">1</div>
+        <div class="inline-block step-text left">商家提交活动申请，预付活动担保金，等待平台审核。</div>
+        <icon class="left mt-20 mr-5" type="chevron-right" size="30" color="#ccc"/>
+      </div>
+      <div class="inline-block step left clear">
+        <div class="inline-block step-number left">2</div>
+        <div class="inline-block step-text left">活动上线后，商家可审核来申请试用的拿手旺旺号。</div>
+        <icon class="left mt-20 mr-5" type="chevron-right" size="30" color="#ccc"/>
+      </div>
+      <div class="inline-block step left clear">
+        <div class="inline-block step-number left">3</div>
+        <div class="inline-block step-text left">通过的拿手按商家指定的下单方式去淘宝下单（拿手先垫付）。</div>
+        <icon class="left mt-20 mr-5" type="chevron-right" size="30" color="#ccc"/>
+      </div>
+      <div class="inline-block step left clear">
+        <div class="inline-block step-number left">4</div>
+        <div class="inline-block step-text left">拿手收到宝贝后，提交买家秀（即淘宝评价）。</div>
+        <icon class="left mt-20 mr-5" type="chevron-right" size="30" color="#ccc"/>
+      </div>
+      <div class="inline-block step left clear">
+        <div class="inline-block step-number left">5</div>
+        <div class="inline-block step-text left">商家审核完买家秀后向拿手返款，活动圆满结束。</div>
+      </div>
     </div>
     <div class="activity-tip mb-20">
       <icon type="information-circled" color="#FF0100"/>
@@ -1223,7 +1242,7 @@
 </template>
 
 <script>
-  import {Icon, Input, Checkbox, Button, Radio, Modal, Alert, Select, Option, OptionGroup, Steps, Tooltip} from 'iview'
+  import {Icon, Input, Checkbox, Button, Radio, Modal, Alert, Select, Option, OptionGroup, Tooltip} from 'iview'
   import {Quill, quillEditor} from 'vue-quill-editor'
   import Upload from '@/components/Upload'
   import PayModel from '@/components/PayModel'
@@ -1247,8 +1266,6 @@
       iSelect: Select,
       iOption: Option,
       Upload: Upload,
-      Steps: Steps,
-      Step: Steps.Step,
       OptionGroup: OptionGroup,
       Modal: Modal,
       Alert: Alert,
@@ -1277,7 +1294,6 @@
           }
         },
         showPayModel: false,
-        current: 0,
         stepName: 'information',
         taskLoading: false,
         taskPayId: null,
@@ -2526,7 +2542,6 @@
             if (type === true) {
               _this.$router.push({name: 'ActivitiesList'});
             } else {
-              _this.nextCurrent();
               _this.stepName = 'deposit';
             }
           } else {
@@ -2545,10 +2560,6 @@
           _this.getTaskInfo();
         }
         _this.stepName = 'information';
-        _this.current = 0;
-      },
-      nextCurrent() {
-        this.current += 1;
       },
       IThink() {
         this.editPriceAfterModel = false;
@@ -2821,7 +2832,6 @@
             _this.$store.dispatch('getUserInformation');
             _this.showPayModel = false;
             _this.$Message.success('恭喜您，支付成功！');
-            _this.nextCurrent();
             _this.stepName = 'audit';
           } else {
             _this.$Message.error(res.msg);
@@ -3022,6 +3032,67 @@
   @import 'src/css/mixin';
 
   .task-release {
+    .flow-title {
+      height: 72px;
+      width: 100%;
+      border-radius: 5px;
+      border: 1px solid #eee;
+    }
+
+    .flow-title-first:after {
+      content: '';
+      position: absolute;
+      left: 100%;
+      bottom: 28px;
+      width: 0;
+      height: 0;
+      border-width: 6px;
+      border-style: solid;
+      border-color: transparent;
+      border-left-width: 8px;
+      border-left-color: currentColor;
+      color: $mainColor;
+    }
+
+    .flow-title-first {
+      position: relative;
+      background-color: $mainColor;
+      width: 46px;
+      font-size: 18px;
+      text-align: center;
+      color: #fff;
+      line-height: 24px;
+      padding-top: 10px;
+      height: 100%;
+      border-radius: 5px 0 0 5px;
+      margin-right: 5px;
+    }
+
+    .step {
+      margin-left: 10px;
+      height: 100%;
+    }
+
+    .step-number {
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      color: #fff;
+      font-size: 16px;
+      background-color: #FD5574;
+      text-align: center;
+      line-height: 28px;
+      margin-top: 20px;
+      margin-right: 10px;
+    }
+
+    .step-text {
+      width: 130px;
+      color: #000;
+      line-height: 18px;
+      margin-top: 8px;
+    }
+
     .check-member {
       width: 200px;
       font-size: 18px;
@@ -3029,12 +3100,11 @@
       background-color: $mainColor;
       border-color: $mainColor;
     }
+
     .ml-38 {
       margin-left: 38px;
     }
-    .main-color {
-      color: $mainColor;
-    }
+
     .second-color {
       color: $secondColor;
     }

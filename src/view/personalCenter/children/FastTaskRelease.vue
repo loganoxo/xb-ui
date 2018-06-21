@@ -1,14 +1,33 @@
 <template>
   <div class="task-release">
     <div class="task-release-title">发布活动</div>
-    <!--发布活动进度-->
-    <div class="flow-title mt-10 mb-20">
-      <steps :current="current">
-        <step title="填写活动信息"/>
-        <step title="存入活动担保金"/>
-        <step title="等待审核"/>
-        <step title="活动上线"/>
-      </steps>
+    <!--发布活动流程说明-->
+    <div class="flow-title mt-10 mb-20 clear">
+      <div class="inline-block flow-title-first left">平台流程</div>
+      <div class="inline-block step left clear">
+        <div class="inline-block step-number left">1</div>
+        <div class="inline-block step-text left">商家提交活动申请，预付活动担保金，等待平台审核。</div>
+        <icon class="left mt-20 mr-5" type="chevron-right" size="30" color="#ccc"/>
+      </div>
+      <div class="inline-block step left clear">
+        <div class="inline-block step-number left">2</div>
+        <div class="inline-block step-text left">活动上线后，商家可审核来申请试用的拿手旺旺号。</div>
+        <icon class="left mt-20 mr-5" type="chevron-right" size="30" color="#ccc"/>
+      </div>
+      <div class="inline-block step left clear">
+        <div class="inline-block step-number left">3</div>
+        <div class="inline-block step-text left">通过的拿手按商家指定的下单方式去淘宝下单（拿手先垫付）。</div>
+        <icon class="left mt-20 mr-5" type="chevron-right" size="30" color="#ccc"/>
+      </div>
+      <div class="inline-block step left clear">
+        <div class="inline-block step-number left">4</div>
+        <div class="inline-block step-text left">拿手收到宝贝后，提交买家秀（即淘宝评价）。</div>
+        <icon class="left mt-20 mr-5" type="chevron-right" size="30" color="#ccc"/>
+      </div>
+      <div class="inline-block step left clear">
+        <div class="inline-block step-number left">5</div>
+        <div class="inline-block step-text left">商家审核完买家秀后向拿手返款，活动圆满结束。</div>
+      </div>
     </div>
     <div class="activity-tip mb-20">
       <icon type="information-circled" color="#FF0100"/>
@@ -541,7 +560,7 @@
 </template>
 
 <script>
-  import {Icon, Form, Input, Button, Radio, Modal, Select, Option, OptionGroup, Steps} from 'iview'
+  import {Icon, Form, Input, Button, Radio, Modal, Select, Option, OptionGroup} from 'iview'
   import {Quill, quillEditor} from 'vue-quill-editor'
   import Upload from '@/components/Upload'
   import PayModel from '@/components/PayModel'
@@ -562,8 +581,6 @@
       iSelect: Select,
       iOption: Option,
       Upload: Upload,
-      Steps: Steps,
-      Step: Steps.Step,
       OptionGroup: OptionGroup,
       Modal: Modal,
       PayModel: PayModel,
@@ -589,7 +606,6 @@
           }
         },
         showPayModel: false,
-        current: 0,
         stepName: 'information',
         taskLoading: false,
         taskPayId: null,
@@ -678,6 +694,8 @@
         isShowInfoLoading: false,
         isGetInfoError: false,
         upgradeMembershipModal: false,
+        temporaryImageSrc: null,
+        temporaryTaskName: null,
       }
     },
     updated() {
@@ -941,13 +959,28 @@
       changeSelectActivity(type) {
         const _this = this;
         _this.taskRelease.activityCategory = type;
-        if (type === 'pinkage_for_10') {
-          _this.taskRelease.discountType = 'discount_10';
+        if (type === 'present_get') {
+          _this.taskRelease.taskName = null;
+          _this.taskRelease.taskMainImage = null;
+          _this.pcTaskDetail.itemMainImage = null;
+          _this.appTaskDetail.itemMainImage = null;
+          _this.mainDefaultList = [];
+          _this.pcDefaultList = [];
+          _this.appDefaultList = [];
         } else {
-          if (_this.taskRelease.discountType !== 'discount_0') {
-            _this.taskRelease.discountType = 'discount_0';
+          if (_this.temporaryImageSrc) {
+            _this.taskRelease.taskMainImage = _this.temporaryImageSrc;
+            _this.pcTaskDetail.itemMainImage = _this.temporaryImageSrc;
+            _this.appTaskDetail.itemMainImage = _this.temporaryImageSrc;
+            _this.mainDefaultList.push({src: _this.temporaryImageSrc});
+            _this.pcDefaultList.push({src: _this.temporaryImageSrc});
+            _this.appDefaultList.push({src: _this.temporaryImageSrc});
+          }
+          if (_this.temporaryTaskName) {
+            _this.taskRelease.taskName = _this.temporaryTaskName;
           }
         }
+
       },
       changeExampleImageUrl(type) {
         this.isShowExampleImageModel = true;
@@ -978,18 +1011,22 @@
           _this.isShowInfoLoading = false;
           if (res.status) {
             if (res.data) {
-              _this.taskRelease.taskName = res.data.title;
               _this.taskRelease.realStoreName = res.data.store.name;
               _this.taskRelease.storeName = res.data.store.wangwangId;
-              _this.taskRelease.taskMainImage = res.data.picUrl;
-              _this.pcTaskDetail.itemMainImage = res.data.picUrl;
-              _this.appTaskDetail.itemMainImage = res.data.picUrl;
-              _this.mainDefaultList = [];
-              _this.mainDefaultList.push({src: res.data.picUrl});
-              _this.pcDefaultList = [];
-              _this.pcDefaultList.push({src: res.data.picUrl});
-              _this.appDefaultList = [];
-              _this.appDefaultList.push({src: res.data.picUrl});
+              _this.temporaryImageSrc = res.data.picUrl;
+              _this.temporaryTaskName = res.data.title;
+              if (_this.taskRelease.activityCategory === 'free_get') {
+                _this.taskRelease.taskName = res.data.title;
+                _this.taskRelease.taskMainImage = res.data.picUrl;
+                _this.pcTaskDetail.itemMainImage = res.data.picUrl;
+                _this.appTaskDetail.itemMainImage = res.data.picUrl;
+                _this.mainDefaultList = [];
+                _this.mainDefaultList.push({src: res.data.picUrl});
+                _this.pcDefaultList = [];
+                _this.pcDefaultList.push({src: res.data.picUrl});
+                _this.appDefaultList = [];
+                _this.appDefaultList.push({src: res.data.picUrl});
+              }
             } else {
               _this.isGetInfoError = true;
             }
@@ -1100,10 +1137,6 @@
             return;
           }
         }
-        if (_this.taskRelease.itemPrice < 10 && _this.taskRelease.activityCategory === 'pinkage_for_10') {
-          _this.$Message.warning('亲，10元包邮活动宝贝最低价格不能低于10元！');
-          return;
-        }
 
         if (_this.taskRelease.remark && _this.taskRelease.remark.length > 300) {
           _this.$Message.warning('亲，下单要求说明不能超过300个字！');
@@ -1197,11 +1230,11 @@
           _this.taskRelease.itemDescription = _this.taskRelease.itemDescription.replace(IMG_HREF_ATTRIBUTE, '');
         }
         let status = _this.taskStatus;
-        if ((status === 'waiting_modify' || status === 'waiting_pay') && _this.paidDeposit * 100 === _this.orderMoney && !type) {
+        if ((status === 'waiting_modify' || status === 'waiting_pay') && _this.paidDeposit * 100 === _this.orderMoney) {
           _this.taskCreate(true);
-        } else if ((status === 'waiting_modify' || status === 'waiting_pay') && _this.paidDeposit * 100 > _this.orderMoney && !type) {
+        } else if ((status === 'waiting_modify' || status === 'waiting_pay') && _this.paidDeposit * 100 > _this.orderMoney) {
           this.editPriceToLowAfterModel = true;
-        } else if ((status === 'waiting_modify' || status === 'waiting_pay') && _this.paidDeposit > 0 && _this.paidDeposit * 100 < _this.orderMoney && !type) {
+        } else if ((status === 'waiting_modify' || status === 'waiting_pay') && _this.paidDeposit > 0 && _this.paidDeposit * 100 < _this.orderMoney) {
           _this.editPriceAfterModel = true;
           _this.priceHasChange = true;
         } else {
@@ -1251,9 +1284,10 @@
             if (type === true) {
               _this.$router.push({name: 'ActivitiesList'});
             } else {
-              _this.nextCurrent();
               _this.stepName = 'deposit';
             }
+            // 更新首发资格状态
+            _this.$store.dispatch('getTaskCreateFastStatus');
           } else {
             _this.$Message.error(res.msg);
           }
@@ -1312,14 +1346,10 @@
         this.editTaskId = this.taskPayId;
         this.getTaskInfo();
         this.stepName = 'information';
-        this.current = 0;
       },
       IThink() {
         this.editPriceAfterModel = false;
         this.editPriceToLowAfterModel = false;
-      },
-      nextCurrent() {
-        this.current += 1;
       },
       continueNextStep() {
         this.taskCreate(false);
@@ -1427,7 +1457,6 @@
             _this.$store.dispatch('getUserInformation');
             _this.showPayModel = false;
             _this.$Message.success('恭喜您，支付成功！');
-            _this.nextCurrent();
             _this.stepName = 'audit';
           } else {
             _this.$Message.error(res.msg);
@@ -1446,6 +1475,67 @@
   @import 'src/css/mixin';
 
   .task-release {
+    .flow-title {
+      height: 72px;
+      width: 100%;
+      border-radius: 5px;
+      border: 1px solid #eee;
+    }
+
+    .flow-title-first:after {
+      content: '';
+      position: absolute;
+      left: 100%;
+      bottom: 28px;
+      width: 0;
+      height: 0;
+      border-width: 6px;
+      border-style: solid;
+      border-color: transparent;
+      border-left-width: 8px;
+      border-left-color: currentColor;
+      color: $mainColor;
+    }
+
+    .flow-title-first {
+      position: relative;
+      background-color: $mainColor;
+      width: 46px;
+      font-size: 18px;
+      text-align: center;
+      color: #fff;
+      line-height: 24px;
+      padding-top: 10px;
+      height: 100%;
+      border-radius: 5px 0 0 5px;
+      margin-right: 5px;
+    }
+
+    .step {
+      margin-left: 10px;
+      height: 100%;
+    }
+
+    .step-number {
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      color: #fff;
+      font-size: 16px;
+      background-color: #FD5574;
+      text-align: center;
+      line-height: 28px;
+      margin-top: 20px;
+      margin-right: 10px;
+    }
+
+    .step-text {
+      width: 130px;
+      color: #000;
+      line-height: 18px;
+      margin-top: 8px;
+    }
+
     .check-member {
       width: 200px;
       font-size: 18px;
@@ -1453,12 +1543,11 @@
       background-color: $mainColor;
       border-color: $mainColor;
     }
+
     .ml-38 {
       margin-left: 38px;
     }
-    .main-color {
-      color: $mainColor;
-    }
+
     .second-color {
       color: $secondColor;
     }
