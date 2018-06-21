@@ -356,6 +356,8 @@
               item.percentage = 100;
               return item;
             });
+          } else {
+            this.fileList = [];
           }
         },
       }
