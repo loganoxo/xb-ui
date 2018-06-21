@@ -64,12 +64,12 @@
       <button-group class="left">
         <i-button :class="[sortList.select === item.sortField ? 'active' : '']" size="small" v-for="(item,index) in sortList.defaultList" :key="index" @click="sortChange(item.sortField,index)">
           <span>{{item.name}}</span>
-          <icon :type="item.sort === 'desc' ? 'arrow-down-c': 'arrow-up-c'"></icon>
+          <icon :type="item.sort === 'desc' ? 'arrow-down-c': 'arrow-up-c'"/>
         </i-button>
       </button-group>
       <i-input v-model="taskNumber" size="small" placeholder="使用活动编号或者订单号搜索" class="left ml-10" style="width: 280px;"
               @on-enter="getTaskList">
-        <iButton slot="append" icon="ios-search" size="small" :loading="searchLoading" @click="searchTaskList"></iButton>
+        <i-button slot="append" icon="ios-search" size="small" :loading="searchLoading" @click="searchTaskList"/>
       </i-input>
     </div>
     <!--管理列表-->
@@ -119,7 +119,7 @@
           </td>
           <td v-if="item.taskStatus === 'waiting_pay'">
             <p class="del-edit">
-              <span class="mr-10" @click="editTask(item.id, item.createTime)">编辑</span>
+              <span class="mr-10" @click="editTask(item.id, item.createTime, item.fastPublish)">编辑</span>
               <span @click="closeTask(item.id)">关闭</span>
             </p>
             <p class="bond mt-6">
@@ -131,7 +131,7 @@
           </td>
           <td v-else-if="item.taskStatus === 'waiting_modify'">
             <p class="del-edit">
-              <span class="mr-10" @click="editTask(item.id, item.createTime)">编辑</span>
+              <span class="mr-10" @click="editTask(item.id, item.createTime, item.fastPublish)">编辑</span>
               <span @click="closeTask(item.id)">关闭</span>
             </p>
             <p class="copy mt-6">
@@ -473,15 +473,16 @@
       },
     },
     methods: {
-      getImageSrc(src) {
-        return src.includes('img.alicdn.com') ? src : `${src}!thum54`
-      },
-      editTask(id, createTime) {
+      editTask(id, createTime, fastPublish) {
         if(createTime <= 1526457600000) {
           this.isTaskOverdueModel = true;
           this.taskId = id;
         } else {
-          this.$router.push({name: 'TaskRelease', query: {q: encryption(id)}})
+          if (fastPublish) {
+            this.$router.push({name: 'FastTaskRelease', query: {q: encryption(id)}})
+          } else {
+            this.$router.push({name: 'TaskRelease', query: {q: encryption(id)}})
+          }
         }
       },
       copyTask(id) {

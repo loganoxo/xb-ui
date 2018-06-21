@@ -81,11 +81,11 @@
           </div>
           <div class="baby-title ml-20 mt-20">
             <span class="required">店铺名称：</span>
-            <i-input v-model="taskRelease.realStoreName" placeholder="请输入宝贝标题" style="width: 296px"/>
+            <i-input v-model="taskRelease.realStoreName" placeholder="请输入店铺名称" style="width: 296px"/>
           </div>
           <div class="baby-title ml-20 mt-20">
             <span class="required">掌柜旺旺：</span>
-            <i-input v-model="taskRelease.storeName" placeholder="请输入宝贝标题" style="width: 296px"/>
+            <i-input v-model="taskRelease.storeName" placeholder="请输入掌柜旺旺" style="width: 296px"/>
           </div>
           <div class="baby-title ml-20 mt-20">
             <span class="required">宝贝类型：</span>
@@ -175,11 +175,11 @@
               </div>
               <div class="baby-url ml-10 mt-20">
                 <span class="required">店铺名称：</span>
-                <i-input v-model="taskRelease.realStoreName" placeholder="请输入宝贝标题" style="width: 296px"/>
+                <i-input v-model="taskRelease.realStoreName" placeholder="请输入店铺名称" style="width: 296px"/>
               </div>
               <div class="baby-url ml-10 mt-20">
                 <span class="required">掌柜旺旺：</span>
-                <i-input v-model="taskRelease.storeName" placeholder="请输入宝贝标题" style="width: 296px"/>
+                <i-input v-model="taskRelease.storeName" placeholder="请输入掌柜旺旺" style="width: 296px"/>
               </div>
               <div class="baby-price ml-10 mt-20">
                 <span class="required">宝贝单价：</span>
@@ -405,7 +405,7 @@
           <div class="description-fees-con mt-10">
             <p>活动担保金 = 份数 × 单品活动担保金 = <span>{{oneBondMarginText}}</span> 元</p>
             <p class="mt-6">总推广费 = 单品推广费 × 份数 = <span>{{onePromotionExpenses}}</span> × <span>{{taskRelease.taskCount}} = <span>{{(allPromotionExpenses).toFixed(2)}}</span></span>
-              元 &nbsp;&nbsp;
+              元 &nbsp;<span class="main-color">（您是首次放单，享受首单推广费减免）</span>
             </p>
             <p class="mt-6">总费用 = 活动担保金 + 总推广费 = <span>{{(orderMoney / 100).toFixed(2)}}</span> 元</p>
             <p class="mt-6" v-if="!isBalance">手续费说明： 使用支付宝充值支付，支付宝会收取0.6%的手续费，该笔费用需要商家承担，手续费不予退还，敬请谅解！<a
@@ -593,6 +593,7 @@
         stepName: 'information',
         taskLoading: false,
         taskPayId: null,
+        editTaskId: null,
         itemCatalogList: [],
         mainDefaultList: [],
         pcDefaultList: [],
@@ -703,7 +704,12 @@
       }
     },
     created() {
-      this.getItemCatalog()
+      this.getItemCatalog();
+      const taskId = decode(this.$route.query.q);
+      if (taskId) {
+        this.editTaskId = taskId;
+        this.getTaskInfo();
+      }
     },
     computed: {
       /**
@@ -1248,8 +1254,6 @@
               _this.nextCurrent();
               _this.stepName = 'deposit';
             }
-            // 更新首发资格状态
-            _this.$store.dispatch('getTaskCreateFastStatus');
           } else {
             _this.$Message.error(res.msg);
           }
@@ -1259,9 +1263,10 @@
       getTaskInfo() {
         const _this = this;
         api.getTaskInfo({
-          taskId: _this.taskPayId
+          taskId: _this.editTaskId
         }).then(res => {
           if (res.status) {
+            _this.taskRelease.taskId = res.data.id;
             _this.mainDefaultList = [];
             _this.pcDefaultList = [];
             _this.appDefaultList = [];
@@ -1304,6 +1309,7 @@
         })
       },
       returnUpStep() {
+        this.editTaskId = this.taskPayId;
         this.getTaskInfo();
         this.stepName = 'information';
         this.current = 0;
