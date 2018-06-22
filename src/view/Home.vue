@@ -110,9 +110,9 @@
                   </div>
                   <div v-if="getUserInfoRole === 1 && isMember" class="fs-12">
                     <img v-if="getMemberVersionLevel === 200" src="~assets/img/common/vip.png" alt="vipLogo">
-                    <!--<img v-if="getMemberVersionLevel === 300" src="~assets/img/common/svip.png" alt="svipLogo">-->
+                    <img v-if="getMemberVersionLevel === 300" src="~assets/img/common/svip.png" alt="svipLogo">
                     <span class="cl-red" v-if="getMemberVersionLevel === 200">您已是VIP，<router-link to="/user/vip-member/instructions?q=VipMemberInstructions">查看我的权限</router-link></span>
-                    <!--<span class="cl-red" v-if="getMemberVersionLevel === 300">您已是SVIP，<router-link to="/user/vip-member/instructions?q=VipMemberInstructions">查看我的权限</router-link></span>-->
+                    <span class="cl-red" v-if="getMemberVersionLevel === 300">您已是SVIP，<router-link to="/user/vip-member/instructions?q=VipMemberInstructions">查看我的权限</router-link></span>
                   </div>
                 </div>
                 <p class="clear-both fs-14 mt-10 left ml-20">当前进行的活动：

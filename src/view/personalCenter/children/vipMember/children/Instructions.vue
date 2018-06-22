@@ -17,22 +17,39 @@
           <!--<p class="mt-10">{{svipMemberInfo.memberDesc}}</p>-->
         <!--</div>-->
       </li>
+      <!--<li class="clear">-->
+        <!--<div>推广费（每单）</div>-->
+        <!--<div class="extend-fee">-->
+          <!--<p v-if="freeMemberInfo.rewardFee">拍A发A：{{freeMemberInfo.rewardFee.AA.floor/100}}元/单</p>-->
+          <!--<p class="mt-5" v-if="freeMemberInfo.rewardFee">拍A发B：{{freeMemberInfo.rewardFee.AB.floor/100}}元/单</p>-->
+        <!--</div>-->
+        <!--<div class="extend-fee">-->
+          <!--<p v-if="vipMemberInfo.rewardFee">拍A发A：{{vipMemberInfo.rewardFee.AA.floor/100}}元/单</p>-->
+          <!--<p class="mt-5" v-if="vipMemberInfo.rewardFee">拍A发B：{{vipMemberInfo.rewardFee.AB.floor/100}}元/单</p>-->
+        <!--</div>-->
+        <!--&lt;!&ndash;<div>免</div>&ndash;&gt;-->
+      <!--</li>-->
       <li class="clear">
-        <!--<div class="t-catalog c-white">推广费（每单）</div>-->
-        <!--<div class="c-l-grey" v-if="freeMemberInfo.promotionFee">宝贝单价*{{freeMemberInfo.promotionFee.percent}}%，{{freeMemberInfo.promotionFee.limit/100}}元封顶</div>-->
-        <!--<div class="c-l-blue" v-if="vipMemberInfo.promotionFee">宝贝单价*{{vipMemberInfo.promotionFee.percent}}%，{{vipMemberInfo.promotionFee.limit/100}}元封顶</div>-->
-        <!--<div class="c-l-orange" v-if="svipMemberInfo.promotionFee && svipMemberInfo.promotionFee.percent === 0">免</div>-->
-        <!--<div class="c-l-orange" v-if="svipMemberInfo.promotionFee &&!svipMemberInfo.promotionFee.percent === 0">宝贝单价*{{svipMemberInfo.promotionFee.percent}}%，{{svipMemberInfo.promotionFee.limit/100}}元封顶</div>-->
-        <div>推广费（每单）</div>
-        <div class="extend-fee">
-          <p v-if="freeMemberInfo.rewardFee">拍A发A：{{freeMemberInfo.rewardFee.AA.floor/100}}元/单</p>
-          <p class="mt-5" v-if="freeMemberInfo.rewardFee">拍A发B：{{freeMemberInfo.rewardFee.AB.floor/100}}元/单</p>
+        <div>平台服务费</div>
+        <div>
+          <span>拍A发A：4元/单</span>
+          <span class="ml-5">拍A发B：7元/单</span>
         </div>
-        <div class="extend-fee">
-          <p v-if="vipMemberInfo.rewardFee">拍A发A：{{vipMemberInfo.rewardFee.AA.floor/100}}元/单</p>
-          <p class="mt-5" v-if="vipMemberInfo.rewardFee">拍A发B：{{vipMemberInfo.rewardFee.AB.floor/100}}元/单</p>
+        <div>
+          <span>拍A发A：2元/单</span>
+          <span class="ml-5">拍A发B：3元/单</span>
         </div>
-        <!--<div>免</div>-->
+      </li>
+      <li class="clear">
+        <div>激励金</div>
+        <div>
+          <span>拍A发A：1元/单</span>
+          <span class="ml-5">拍A发B：3元/单</span>
+        </div>
+        <div>
+          <span>拍A发A：1元/单</span>
+          <span class="ml-5">拍A发B：3元/单</span>
+        </div>
       </li>
       <li class="clear">
         <div>充值手续费</div>
@@ -257,6 +274,4 @@
     font-size: 24px;
     margin-top: 40px;
   }
-
-
 </style>

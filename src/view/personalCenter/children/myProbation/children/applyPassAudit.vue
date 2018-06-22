@@ -976,6 +976,7 @@
         this.trialReportImages = [];
         this.defaultImageList = [];
         this.trialReportText = null;
+        this.showkerOrder = {};
       },
       handleCheckAll() {
         this.checkAll = !this.checkAll;
