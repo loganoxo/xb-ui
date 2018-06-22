@@ -327,16 +327,17 @@
     </modal>
     <!--支付保证金弹框-->
     <div class="pay-model" v-if="showPayModel">
-      <PayModel ref="payModelRef" :orderMoney="needPayMoney" @confirmPayment="confirmPayment" :isShowUpgradeVIP="true" :isBalance="isBalance">
+      <PayModel ref="payModelRef" :orderMoney="needPayMoney" @confirmPayment="confirmPayment" :isShowUpgradeVIP="true"
+                :isBalance="isBalance" :redEnvelopesState="redEnvelopesState" @change="redEnvelopesState = arguments[0]" :redEnvelopeDeductionNumber="redEnvelopeDeductionNumber">
         <i slot="closeModel" class="close-recharge" @click="showPayModel = false">&times;</i>
         <div slot="noBalance" class="title-tip">
-          <span class="size-color3"><icon color="#FF2424" size="18" type="ios-information"></icon>
+          <span class="size-color3"><icon color="#FF2424" size="18" type="ios-information"/>
             <span class="ml-10">亲，您的余额不足，请充值。</span>
           </span>还需充值<strong class="size-color3">{{needPayMoneyText}}</strong>元
         </div>
         <div slot="isBalance" class="title-tip">
-          <icon color="#FF2424" size="18px" type="ios-information"></icon>
-          <span class="ml-10">您本次需要支付金额为 <span class="size-color3">{{(orderMoney / 100).toFixed(2)}}</span> 元。</span>
+          <icon color="#FF2424" size="18px" type="ios-information"/>
+          <span class="ml-10">您本次需要支付金额为 <span class="size-color3">{{(orderMoneyAfter / 100).toFixed(2)}}</span> 元。</span>
         </div>
       </PayModel>
     </div>
@@ -383,6 +384,7 @@
         needDepositMoney: 0,
         hasDeposited: 0,
         taskPayId: null,
+        taskId: null,
         directSettlementSuccess: false,
         auditSettlementSuccess: false,
         billDetailsModel: false,
@@ -432,9 +434,11 @@
             },
           ]
         },
-        storeList:[],
-        selectedStore:'',
-        realStoreName:''
+        storeList: [],
+        selectedStore: '',
+        realStoreName: '',
+        redEnvelopesState: true,
+        redEnvelopeDeductionNumber: 0,
       }
     },
     created() {
@@ -462,11 +466,14 @@
       orderMoney() {
         return this.hasDeposited > 0 ? this.needDepositMoney - this.hasDeposited : this.needDepositMoney;
       },
+      orderMoneyAfter() {
+        return this.redEnvelopesState ? this.orderMoney - this.redEnvelopeDeductionNumber : this.orderMoney
+      },
       isBalance() {
         return this.orderMoney <= this.getUserBalance
       },
       needPayMoney() {
-        return !this.hasBalance ? Math.abs(this.getUserBalance - this.orderMoney) : 0
+        return !this.hasBalance ? Math.abs(this.getUserBalance - this.orderMoneyAfter) : 0
       },
       needPayMoneyText() {
         return `${(this.needPayMoney / 100).toFixed(2)} + ${(((Math.ceil(this.needPayMoney / 0.994)) - this.needPayMoney) / 100).toFixed(2)}`
@@ -595,7 +602,7 @@
         this.taskId = id;
       },
       confirmClose() {
-        let _this = this;
+        const _this = this;
         _this.modalLoading = true;
         _this.taskOverdueLoading = true;
         api.closeTask({
@@ -691,7 +698,7 @@
         this.confirmClose()
       },
       depositMoney(money, id, deposited, createTime) {
-        let _this = this;
+        const _this = this;
         if(createTime <= 1526457600000) {
           _this.isTaskOverdueModel = true;
           _this.taskId = id;
@@ -699,28 +706,48 @@
           _this.needDepositMoney = money || 0;
           _this.hasDeposited = deposited || 0;
           _this.taskPayId = id;
-          _this.showPayModel = true;
+          api.redEnvelopeDeduction({
+            taskId: id,
+          }).then(res => {
+            if (res.status) {
+              _this.redEnvelopeDeductionNumber = res.data;
+              _this.showPayModel = true;
+            } else {
+              _this.$Message.error(res.msg)
+            }
+          })
         }
       },
       confirmPayment(pwd) {
-        let _this = this;
-        api.payByBalance({
-          fee: _this.orderMoney,
-          payPassword: pwd,
+        const _this = this;
+        api.editPromotion({
+          redEnvelopesState: _this.redEnvelopesState,
           taskId: _this.taskPayId,
-          type: _this.hasDeposited > 0 ? 'supply_pay' : 'first_pay'
+        }).then(res => {
+          return res
         }).then(res => {
           if (res.status) {
-            _this.showPayModel = false;
-            _this.$Message.success('支付成功！');
-            _this.$store.dispatch('getUserInformation');
-            setTimeout(()=> {
-              _this.getTaskList();
-            }, 400);
+            api.payByBalance({
+              fee: _this.orderMoneyAfter,
+              payPassword: pwd,
+              taskId: _this.taskPayId,
+              type: _this.hasDeposited > 0 ? 'supply_pay' : 'first_pay'
+            }).then(res => {
+              if (res.status) {
+                _this.showPayModel = false;
+                _this.$Message.success('支付成功！');
+                _this.$store.dispatch('getUserInformation');
+                setTimeout(()=> {
+                  _this.getTaskList();
+                }, 400);
+              } else {
+                _this.$Message.error(res.msg)
+              }
+              _this.$refs.payModelRef.payLoading = false;
+            })
           } else {
             _this.$Message.error(res.msg)
           }
-          _this.$refs.payModelRef.payLoading = false;
         })
       },
       lookBill() {

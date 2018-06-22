@@ -1,15 +1,16 @@
 <template>
   <div class="pay-model-con">
-    <slot name="closeModel"></slot>
-    <div v-if="!isBalance">
-      <slot name="noBalance"></slot>
-    </div>
-    <div v-else>
-      <slot name="isBalance"></slot>
-    </div>
+    <slot name="closeModel"/>
+    <checkbox v-if="getMemberVersionLevel > 100" class="mt-40" :value="redEnvelopesState" :disabled="disabledRedEnvelopes" @on-change="checkboxChange">使用<span class="main-color">推广费减免红包</span>抵扣 {{(redEnvelopeDeductionNumber / 100).toFixed(2)}} 元</checkbox>
+    <template v-if="!isBalance">
+      <slot name="noBalance"/>
+    </template>
+    <template v-else>
+      <slot name="isBalance"/>
+    </template>
     <div class="hasBalance mt-40" v-if="isBalance">
       <span class="input-pay-pwd">请输入支付密码：</span>
-      <iInput v-model="payPassword" type="password" style="width: 200px" @on-keypress="pressEnterLoginNormal"></iInput>
+      <i-input v-model="payPassword" type="password" style="width: 200px" @on-keypress="pressEnterLoginNormal"/>
       <span class="ml-10" v-if="isPwdAmend"><router-link
         :to="{path:'/user/money-management/account-management',query:{type:'findPwd'}}">忘记支付密码？</router-link></span>
       <p class="mt-20 default-pwd" v-else>初始密码为：888888，为了您的账号安全，建议您
@@ -18,14 +19,11 @@
     </div>
     <div class="select-pay-type ml-56 clear" v-else>
       <span class="left mt-8">请选择支付方式：</span>
-      <Radio-group v-model="payType" class="left ml-20">
-        <Radio label="ali">
+      <radio-group v-model="payType" class="left ml-20">
+        <radio label="ali">
           <span class="ali-logo"></span>
-        </Radio>
-        <!--<Radio label="wechat">-->
-        <!--<span class="wechat-logo"></span>-->
-        <!--</Radio>-->
-      </Radio-group>
+        </radio>
+      </radio-group>
     </div>
     <div class="text-ct mt-30">
       <iButton type="primary" v-if="isBalance" @click="confirmPayment" :loading="payLoading" class="recharge-btn">
@@ -68,7 +66,7 @@
 </template>
 
 <script>
-  import {Input, Radio, Button, Modal} from 'iview'
+  import {Input, Radio, Button, Modal, Checkbox} from 'iview'
   import api from '@/config/apiConfig'
   import {aliPayUrl, weiXinPayUrl} from '@/config/env'
   import ArtificialRechargeModel from '@/components/ArtificialRechargeModel';
@@ -81,7 +79,8 @@
       RadioGroup: Radio.Group,
       iButton: Button,
       Modal: Modal,
-      ArtificialRechargeModel: ArtificialRechargeModel
+      Checkbox: Checkbox,
+      ArtificialRechargeModel: ArtificialRechargeModel,
     },
     props: {
       // 需要充值的金额
@@ -114,8 +113,18 @@
         type: Boolean,
         required: true
       },
+      // 红包启用状态
+      redEnvelopesState: {
+        type: Boolean,
+        required: true
+      },
       // 购买类型（0：正常充值， 1：购买会员充值，2：购买增值服务充值）
       orderType: {
+        type: Number,
+        default: 0
+      },
+      // 红包抵扣金额
+      redEnvelopeDeductionNumber: {
         type: Number,
         default: 0
       },
@@ -138,7 +147,8 @@
         confirmRechargeModel: false,
         payPopWindowWX: false,
         payLoading: false,
-        showFreePayModel: false
+        showFreePayModel: false,
+        disabledRedEnvelopes: false,
       }
     },
     computed: {
@@ -186,6 +196,9 @@
       },
       upgradeSvip() {
         this.$router.push({path: '/user/vip-member/order'})
+      },
+      checkboxChange(value) {
+        this.$emit('change', value)
       },
       confirmRecharge() {
         const _this = this;
@@ -256,7 +269,6 @@
     margin-left: -300px;
     top: 30%;
     padding: 0 32px 26px 32px;
-    text-align: center;
     .select-pay-type {
       font-size: 16px;
       .ali-logo {

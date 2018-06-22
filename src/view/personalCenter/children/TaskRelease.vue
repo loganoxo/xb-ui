@@ -1055,7 +1055,7 @@
           class="second-color">{{(needPayMoneyBefore / 100).toFixed(2)}}</span>&nbsp;元。
         </div>
         <div class="mt-10 ml-40">
-          <checkbox v-model="redEnvelopesState" :disabled="disabledRedEnvelopes">使用<span class="main-color">推广费减免红包</span>抵扣 {{(redEnvelopeDeductionNumber / 100).toFixed(2)}} 元</checkbox>
+          <!--<checkbox v-model="redEnvelopesState" :disabled="disabledRedEnvelopes">使用<span class="main-color">推广费减免红包</span>抵扣 {{(redEnvelopeDeductionNumber / 100).toFixed(2)}} 元</checkbox>-->
         </div>
         <div class="description-fees-footer">
           <span class="pay-btn" v-if="isBalance" @click="openRecharge">前去支付</span>
@@ -1082,21 +1082,21 @@
     <!--活动担保金支付弹框-->
     <div class="pay-model" v-if="showPayModel">
       <PayModel ref="payModelRef" :orderMoney="needPayMoneyBeforeAsRedEnvelopes" @confirmPayment="confirmPayment"
-                :isShowUpgradeVIP="true" :isBalance="isBalance">
+                :isShowUpgradeVIP="true" :isBalance="isBalance" :redEnvelopesState="redEnvelopesState" @change="redEnvelopesState = arguments[0]" :redEnvelopeDeductionNumber="redEnvelopeDeductionNumber">
         <i slot="closeModel" class="close-recharge" @click="closeRecharge">&times;</i>
         <div slot="noBalance" class="title-tip">
           <span class="sizeColor3"><icon color="#FF2424" size="18px" type="ios-information"/><span class="ml-10">亲，您的余额不足，请充值。</span></span>还需充值<strong
-          class="sizeColor3">{{needPayMoneyAfterText}}</strong>元
+          class="sizeColor3">{{needPayMoneyBeforeText}}</strong>元
           <span @click="isShowAliPayTip = true">【<span class="blue cursor-p">支付宝手续费</span>】</span>
         </div>
         <div slot="isBalance" class="title-tip">
           <icon color="#FF2424" size="18px" type="ios-information"/>
-          <span class="ml-10">您本次需要支付金额为 <span class="sizeColor3">{{!priceHasChange ? (orderMoney / 100).toFixed(2) : (replenishMoney / 100).toFixed(2)}}</span> 元。</span>
+          <span class="ml-5">您本次需要支付金额为 <span class="sizeColor3">{{(needPayMoneyAfterAsRedEnvelopes / 100).toFixed(2)}}</span> 元。</span>
         </div>
       </PayModel>
     </div>
     <!--用户修改价格比原始价格高需要补差价提示弹框-->
-    <modal v-model="editPriceAfterModel">.
+    <modal v-model="editPriceAfterModel">
       <div class="clear mt-10">
         <div class="left mt-5">
           <icon color="#f9284f" size="32" type="information-circled"/>
@@ -1463,7 +1463,7 @@
         upgradeMembershipModal: false,
         isOpenQqBindModal: false,
         createFastTaskStatus: false,
-        redEnvelopesState: false,
+        redEnvelopesState: true,
         disabledRedEnvelopes: false,
         redEnvelopeDeductionNumber: 0,
       }
@@ -1736,7 +1736,7 @@
        * @return {number}
        */
       needPayMoneyAfterAsRedEnvelopes() {
-        return this.redEnvelopesState ? this.needPayMoneyAfter : this.needPayMoneyAfter - this.redEnvelopeDeductionNumber
+        return this.redEnvelopesState ? this.needPayMoneyAfter - this.redEnvelopeDeductionNumber : this.needPayMoneyAfter
       },
 
       /**
@@ -1760,13 +1760,13 @@
        * @return {number}
        */
       needPayMoneyBeforeAsRedEnvelopes() {
-        return this.redEnvelopesState ? this.needPayMoneyBefore : this.needPayMoneyBefore - this.redEnvelopeDeductionNumber
+        return this.redEnvelopesState ? this.needPayMoneyBefore - this.redEnvelopeDeductionNumber : this.needPayMoneyBefore
       },
 
       /** 计算充值界面上的金额文本显示
        * @return {String}
        */
-      needPayMoneyAfterText() {
+      needPayMoneyBeforeText() {
         return !this.isBalance ? `${(this.needPayMoneyBeforeAsRedEnvelopes / 100).toFixed(2)} + ${(((Math.ceil(this.needPayMoneyBeforeAsRedEnvelopes / 0.994)) - this.needPayMoneyBeforeAsRedEnvelopes) / 100).toFixed(2)}` : ''
       },
 

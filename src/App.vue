@@ -200,10 +200,12 @@
   .title-tip {
     height: 36px;
     line-height: 36px;
-    margin: 56px auto 20px auto;
+    margin: 16px auto 20px auto;
     color: #000;
     background-color: #FFF6F3;
     font-size: 14px;
+    text-align: center;
+    border-radius: 5px;
   }
 
   .open-vip-btn {
