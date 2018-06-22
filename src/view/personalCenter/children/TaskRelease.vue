@@ -1471,6 +1471,22 @@
         createFastTaskStatus: false,
       }
     },
+    // 当用户有首发资格路由重定向到快速发布通道反之则停留在此页面
+    // 此处需要注意在 beforeRouteEnter 守卫中不能直接访问当前组件实例，通过传一个回调给 next 来访问组件实例
+    beforeRouteEnter(to, from, next) {
+      // 通过快速发布通道进入此页面不执行任何回调操作
+      if (from.name !== 'FastTaskRelease') {
+        next (vm => {
+          vm.$store.dispatch('getTaskCreateFastStatus').then(res => {
+            if (res.status && res.data) {
+              vm.$router.push({name: 'FastTaskRelease'})
+            }
+          });
+        })
+      } else {
+       next()
+      }
+    },
     updated() {
       const _this = this;
       if (_this.$refs.myTextEditorFree) {
@@ -1493,8 +1509,6 @@
         };
         _this.$refs.myTextEditorPresent.quill.getModule("toolbar").addHandler("image", imgHandlerPresentGet);
       }
-    },
-    mounted() {
     },
     created() {
       this.getItemCatalog();

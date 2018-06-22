@@ -35,6 +35,9 @@
     </div>
     <div class="service-statement cl666 text-ct">
       声明：为避免纠纷，发布活动前请先阅读本平台的服务条款，凡成功提交活动申请皆默认亲已仔细阅读并同意平台的<span class="blue cursor-p" @click="isShowUserClause = true">《服务条款》</span></div>
+    <div class="text-ct mt-20">
+      <i-button type="primary" @click="goTaskCreate">启用完整版发布通道</i-button>
+    </div>
     <!--选择活动类型-->
     <div class="activity-type mt-20" v-show="stepName === 'information'">
       <div class="activity-type-title">请选择活动类型：</div>
@@ -670,7 +673,7 @@
           discountType: 'discount_0',
           activityCategory: 'free_get',
           pinkage: true,
-          donotPostPhoto: "true",
+          donotPostPhoto: true,
           paymentMethod: "no_hua_and_credit_pay",
           remark: null,
           itemDescription: null,
@@ -980,7 +983,9 @@
             _this.taskRelease.taskName = _this.temporaryTaskName;
           }
         }
-
+      },
+      goTaskCreate() {
+        this.$router.push({name: 'TaskRelease'})
       },
       changeExampleImageUrl(type) {
         this.isShowExampleImageModel = true;
@@ -1251,9 +1256,6 @@
         const pcTaskDetailClone = [extendDeep(_this.pcTaskDetail)];
         const appTaskDetailClone = [extendDeep(_this.appTaskDetail)];
         const taoCodeTaskDetailClone = [extendDeep(_this.taoCodeTaskDetail)];
-        if (_this.taskRelease.activityCategory === 'free_get') {
-          _this.taskRelease.donotPostPhoto = 'false'
-        }
         switch (_this.taskRelease.taskType) {
           case 'pc_search' :
             pcTaskDetailClone[0].searchPagePrice = (pcTaskDetailClone[0].searchPagePrice * 100).toFixed(2) * 1;

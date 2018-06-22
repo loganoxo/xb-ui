@@ -83,7 +83,7 @@ export default {
   //获取商家用户是否有首发资格（当用户没有首发资格，将变量存储到本地，避免非必要的http请求）
   getTaskCreateFastStatus({commit}) {
     return new Promise((resolve, reject) => {
-      if (!getStorage('taskCreateFastStatus')) {
+      if (getStorage('taskCreateFastStatus') === null) {
         api.taskCreateFastStatus().then(res => {
           if (res.status) {
             commit('TASK_CREATE_FAST_STATUS', {status: res.data});
