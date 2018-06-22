@@ -570,7 +570,7 @@
   import UserClause from '@/components/UserClause'
   import {aliCallbackImgUrl} from '@/config/env'
   import api from '@/config/apiConfig'
-  import {aliUploadImg, isPositiveInteger, isNumber, isInteger, isAliUrl, randomString, extendDeep, decode, setStorage, getStorage, getUrlParams, isInternetUrl} from '@/config/utils'
+  import {aliUploadImg, isPositiveInteger, isNumber, isInteger, isAliUrl, randomString, extendDeep, decode, setStorage, getStorage, getUrlParams, isInternetUrl, delHtmlTag} from '@/config/utils'
 
   export default {
     name: 'fast-task-release',
@@ -1035,7 +1035,7 @@
               _this.taskRelease.realStoreName = res.data.store.name;
               _this.taskRelease.storeName = res.data.store.wangwangId;
               _this.temporaryImageSrc = res.data.picUrl;
-              _this.temporaryTaskName = res.data.title;
+              _this.temporaryTaskName = delHtmlTag(res.data.title);
               if (_this.taskRelease.activityCategory === 'free_get') {
                 _this.taskRelease.taskName = res.data.title;
                 _this.taskRelease.taskMainImage = res.data.picUrl;
