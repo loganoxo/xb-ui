@@ -1112,7 +1112,20 @@ export default {
    * 删除店铺
    */
   deleteStore(params) {
-    return axiosConfig.post('/api/delete-store.json',params)
-  }
+    return axiosConfig.post('/api/delete-store.json', params)
+  },
 
+  /**
+   * 获取当前发布的活动可以抵扣金额的红包金额
+   */
+  redEnvelopeDeduction(params) {
+    return axiosConfig.get('/api/get-red-envelope-deduction.json', params)
+  },
+
+  /**
+   * 使用红包抵扣的时候修改活动推广费
+   */
+  editPromotion(params) {
+    return axiosConfig.get('/api/edit-promotion.json', params)
+  }
 }

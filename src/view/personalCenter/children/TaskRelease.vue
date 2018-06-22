@@ -1062,7 +1062,9 @@
           || 0}}</strong>&nbsp;元,还需充值：<span
           class="second-color">{{(needPayMoneyBefore / 100).toFixed(2)}}</span>&nbsp;元。
         </div>
-        <checkbox>使用<span>推广费减免红包</span>抵扣30元</checkbox>
+        <div class="mt-10 ml-40">
+          <checkbox v-model="redEnvelopesState" :disabled="disabledRedEnvelopes">使用<span class="main-color">推广费减免红包</span>抵扣 {{(redEnvelopeDeductionNumber / 100).toFixed(2)}} 元</checkbox>
+        </div>
         <div class="description-fees-footer">
           <span class="pay-btn" v-if="isBalance" @click="openRecharge">前去支付</span>
           <span class="pay-btn" v-else @click="openRecharge">前去充值</span>
@@ -1469,6 +1471,9 @@
         upgradeMembershipModal: false,
         isOpenQqBindModal: false,
         createFastTaskStatus: false,
+        redEnvelopesState: true,
+        disabledRedEnvelopes: false,
+        redEnvelopeDeductionNumber: 0
       }
     },
     // 当用户有首发资格路由重定向到快速发布通道反之则停留在此页面
@@ -1514,7 +1519,6 @@
       this.getItemCatalog();
       this.getStoreBindInfoList();
       this.getTaskVasList();
-      this.$store.dispatch('getTaskCreateFastStatus');
     },
     computed: {
       /**
@@ -2559,9 +2563,19 @@
               _this.stepName = 'deposit';
             }
           } else {
-            _this.$Message.error(res.msg);
+            _this.$Message.error(res.msg)
           }
           _this.taskLoading = false;
+        }).then(() => {
+          api.redEnvelopeDeduction({
+            taskId: _this.taskPayId,
+          }).then(res => {
+            if (res.status) {
+              _this.redEnvelopeDeductionNumber = res.data
+            } else {
+              _this.$Message.error(res.msg)
+            }
+          })
         });
       },
       returnUpStep() {
@@ -3192,7 +3206,8 @@
       }
       .pay-info {
         @include sc(18px, #000);
-        text-align: center;
+        text-align: left;
+        margin-left: 42px;
       }
       .description-fees-footer {
         text-align: center;
