@@ -1035,7 +1035,7 @@
               _this.taskRelease.realStoreName = res.data.store.name;
               _this.taskRelease.storeName = res.data.store.wangwangId;
               _this.temporaryImageSrc = res.data.picUrl;
-              _this.temporaryTaskName = delHtmlTag(res.data.title);
+              _this.temporaryTaskName = decodeURI(delHtmlTag(res.data.title));
               if (_this.taskRelease.activityCategory === 'free_get') {
                 _this.taskRelease.taskName = res.data.title;
                 _this.taskRelease.taskMainImage = res.data.picUrl;
