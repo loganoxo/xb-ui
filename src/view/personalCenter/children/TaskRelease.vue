@@ -1034,8 +1034,6 @@
               <!--<tooltip placement="top" content="为提高平台拿手活跃度，鼓励拿手创作更优质的买家秀内容，原平台推广费将改为打赏费，用于拿手打赏！">-->
               <!--<a>什么是打赏费？</a>-->
               <!--</tooltip>-->
-              <span v-if="getMemberVersionLevel !== 300" class="ml-10 svip-upgrade"
-                    @click="upgradeSvip">升级SVIP免除推广费</span>
             </p>
             <p>总增值费 = 单品增值费 × 份数 = <span>{{(oneValueAddedCost / 100).toFixed(2)}}</span> × <span>{{taskRelease.taskCount}}</span>
               = {{(allValueAddedCost / 100).toFixed(2)}} 元</p>
@@ -1044,22 +1042,16 @@
               @click="isShowAliPayTip = true">查看支付宝官方说明</a></p>
           </div>
         </div>
-        <div class="pay-info mt-40" v-if="isBalance && !priceHasChange">本次总共要支付的金额为：<span class="second-color">{{(orderMoney / 100).toFixed(2)}}</span>&nbsp;元。您的账户的当前余额为：<strong>{{(getUserBalance
-          / 100).toFixed(2)}}</strong>&nbsp;元
+        <div class="pay-info mt-40" v-if="isBalance && !priceHasChange">本次总共要支付的金额为：<span class="second-color">{{(orderMoney / 100).toFixed(2)}}</span>&nbsp;元。您的账户的当前余额为：<strong>{{(getUserBalance / 100).toFixed(2)}}</strong>&nbsp;元
         </div>
-        <div class="pay-info mt-40" v-if="!isBalance && !priceHasChange">本次总共要支付的金额为：<strong>{{(orderMoney /
-          100).toFixed(2)}}</strong>&nbsp;元。您账户余额为：<strong>{{(getUserBalance /
-          100).toFixed(2)}}</strong>&nbsp;元，还需充值：<span
+        <div class="pay-info mt-40" v-if="!isBalance && !priceHasChange">本次总共要支付的金额为：<strong>{{(orderMoney / 100).toFixed(2)}}</strong>&nbsp;元。您账户余额为：<strong>{{(getUserBalance / 100).toFixed(2)}}</strong>&nbsp;元，还需充值：<span
           class="second-color">{{(needPayMoneyBefore / 100).toFixed(2)}}</span>&nbsp;元。
         </div>
         <div class="pay-info mt-40" v-if="isBalanceReplenish && priceHasChange">
-          该任务已付总费用 <strong>{{paidDeposit.toFixed(2)}}</strong>元，本次修改需要支付超出部分的金额为：<strong class="main-color">{{(replenishMoney
-          / 100).toFixed(2)}}</strong>元。您账号的当前余额为：<strong>{{(getUserBalance / 100).toFixed(2) || 0}}</strong>&nbsp;元
+          该任务已付总费用 <strong>{{paidDeposit.toFixed(2)}}</strong>元，本次修改需要支付超出部分的金额为：<strong class="main-color">{{(replenishMoney / 100).toFixed(2)}}</strong>元。您账号的当前余额为：<strong>{{(getUserBalance / 100).toFixed(2) || 0}}</strong>&nbsp;元
         </div>
         <div class="pay-info mt-40" v-if="!isBalanceReplenish && priceHasChange">该任务已付担保金 <strong>{{(paidDeposit).toFixed(2)}}</strong>元，本次修改需要支付超出部分的金额为：<strong
-          class="main-color">{{(replenishMoney / 100).toFixed(2)}}</strong>元。您账号的当前余额为：<strong>{{(getUserBalance /
-          100).toFixed(2)
-          || 0}}</strong>&nbsp;元,还需充值：<span
+          class="main-color">{{(replenishMoney / 100).toFixed(2)}}</strong>元。您账号的当前余额为：<strong>{{(getUserBalance / 100).toFixed(2) || 0}}</strong>&nbsp;元,还需充值：<span
           class="second-color">{{(needPayMoneyBefore / 100).toFixed(2)}}</span>&nbsp;元。
         </div>
         <div class="mt-10 ml-40">
@@ -1089,7 +1081,7 @@
     <i-button class="fs-18 mt-20" type="primary" long :loading="taskLoading" v-show="stepName === 'information'" @click="stepNext">下一步</i-button>
     <!--活动担保金支付弹框-->
     <div class="pay-model" v-if="showPayModel">
-      <PayModel ref="payModelRef" :orderMoney="needPayMoneyBefore" @confirmPayment="confirmPayment"
+      <PayModel ref="payModelRef" :orderMoney="needPayMoneyBeforeAsRedEnvelopes" @confirmPayment="confirmPayment"
                 :isShowUpgradeVIP="true" :isBalance="isBalance">
         <i slot="closeModel" class="close-recharge" @click="closeRecharge">&times;</i>
         <div slot="noBalance" class="title-tip">
@@ -1726,7 +1718,7 @@
       },
 
       /**
-       * 计算当用户账户余额足以支付活动所需金额要额外充值的金额
+       * 计算当用户账户余额足以支付活动所需金额时要支付的金额
        * @return {number}
        */
       needPayMoneyAfter() {
@@ -1737,6 +1729,14 @@
         } else {
           return 0
         }
+      },
+
+      /**
+       * 计算当用户账户余额足以支付活动所需金额时要支付的金额（包含是否启用红包金额，此金额为最终需要支付金额）
+       * @return {number}
+       */
+      needPayMoneyAfterAsRedEnvelopes() {
+        return this.redEnvelopesState ? this.needPayMoneyAfter : this.needPayMoneyAfter - this.redEnvelopeDeductionNumber
       },
 
       /**
@@ -1755,11 +1755,19 @@
         }
       },
 
+      /**
+       * 计算当用户账户余额不足以支付活动所需金额要额外充值的金额（包含是否启用红包金额，此金额为最终需要充值金额）
+       * @return {number}
+       */
+      needPayMoneyBeforeAsRedEnvelopes() {
+        return this.redEnvelopesState ? this.needPayMoneyBefore : this.needPayMoneyBefore - this.redEnvelopeDeductionNumber
+      },
+
       /** 计算充值界面上的金额文本显示
        * @return {String}
        */
       needPayMoneyAfterText() {
-        return !this.isBalance ? `${(this.needPayMoneyBefore / 100).toFixed(2)} + ${(((Math.ceil(this.needPayMoneyBefore / 0.994)) - this.needPayMoneyBefore) / 100).toFixed(2)}` : ''
+        return !this.isBalance ? `${(this.needPayMoneyBeforeAsRedEnvelopes / 100).toFixed(2)} + ${(((Math.ceil(this.needPayMoneyBeforeAsRedEnvelopes / 0.994)) - this.needPayMoneyBeforeAsRedEnvelopes) / 100).toFixed(2)}` : ''
       },
 
       /**
@@ -2851,22 +2859,33 @@
         this.showPayModel = false;
       },
       confirmPayment(pwd) {
-        let _this = this;
-        api.payByBalance({
-          fee: _this.needPayMoneyAfter,
-          payPassword: pwd,
+        const _this = this;
+        api.editPromotion({
+          redEnvelopesState: _this.redEnvelopesState,
           taskId: _this.taskPayId,
-          type: _this.priceHasChange ? 'supply_pay' : 'first_pay'
+        }).then(res => {
+          return res
         }).then(res => {
           if (res.status) {
-            _this.$store.dispatch('getUserInformation');
-            _this.showPayModel = false;
-            _this.$Message.success('恭喜您，支付成功！');
-            _this.stepName = 'audit';
+            api.payByBalance({
+              fee: _this.needPayMoneyAfterAsRedEnvelopes,
+              payPassword: pwd,
+              taskId: _this.taskPayId,
+              type: _this.priceHasChange ? 'supply_pay' : 'first_pay'
+            }).then(res => {
+              if (res.status) {
+               _this.$store.dispatch('getUserInformation');
+               _this.showPayModel = false;
+               _this.$Message.success('恭喜您，支付成功！');
+               _this.stepName = 'audit';
+              } else {
+                _this.$Message.error(res.msg)
+              }
+              _this.$refs.payModelRef.payLoading = false;
+           })
           } else {
-            _this.$Message.error(res.msg);
+            _this.$Message.error(res.msg)
           }
-          _this.$refs.payModelRef.payLoading = false;
         })
       },
       addItemReviewList() {

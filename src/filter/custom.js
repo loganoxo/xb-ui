@@ -58,7 +58,7 @@ const numberFormat = (number, decimals) => {
 /**
  * 格式化手机号码（保留前三位和后四位）
  * number：要格式化的手机号码
- * */
+ */
 const phoneNumberFormat = (number) => {
   if (typeof number !== 'string') {
     number = number.toString();
@@ -66,6 +66,11 @@ const phoneNumberFormat = (number) => {
   return number.replace(/(\d{3})\d{4}(\d{4})/,'$1****$2');
 };
 
+/**
+ * 图片地址（平台上传到阿里云的图片需要加hank，直接从淘宝，天猫抓取的图片不需要）
+ * src 图片原始地址
+ * hank 阿里云图片需要加的hank
+ */
 const imageSrc = (src, hank) => {
   if (!src) return;
   return src.includes('alicdn.com') ? src : `${src}${hank}`
