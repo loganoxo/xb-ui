@@ -1485,6 +1485,9 @@
           vm.$store.dispatch('getTaskCreateFastStatus').then(res => {
             if (res.status && res.data) {
               vm.$router.push({name: 'FastTaskRelease'})
+            } else {
+              // 防止页面跳转绑定店铺弹框闪烁需要将店铺请求放此处执行
+              vm.getStoreBindInfoList();
             }
           });
         })
@@ -1517,7 +1520,6 @@
     },
     created() {
       this.getItemCatalog();
-      this.getStoreBindInfoList();
       this.getTaskVasList();
     },
     computed: {

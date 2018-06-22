@@ -993,7 +993,10 @@
         const _this = this;
         api.getStoreBindInfo().then(res => {
           if (res.status) {
-            _this.isBindStore = res.data.length > 0;
+             const storeBindInfoList = res.data.filter(item => {
+              return item.applyStatus === 2
+            });
+            _this.isBindStore = storeBindInfoList.length > 0;
           } else {
             _this.$Message.error(res.msg)
           }
