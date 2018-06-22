@@ -66,4 +66,14 @@ const phoneNumberFormat = (number) => {
   return number.replace(/(\d{3})\d{4}(\d{4})/,'$1****$2');
 };
 
-export {dateFormat, numberFormat, phoneNumberFormat}
+/**
+ * 图片地址（平台上传到阿里云的图片需要加hank，直接从淘宝，天猫抓取的图片不需要）
+ * src 图片原始地址
+ * hank 阿里云图片需要加的hank
+ */
+const imageSrc = (src, hank) => {
+  if (!src) return;
+  return src.includes('alicdn.com') ? src : `${src}${hank}`
+};
+
+export {dateFormat, numberFormat, phoneNumberFormat, imageSrc}

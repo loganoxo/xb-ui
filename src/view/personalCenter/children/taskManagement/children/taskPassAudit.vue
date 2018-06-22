@@ -41,21 +41,21 @@
         <i-option v-for="(item,index) in storeList" :key="index" :value="item">{{item}}</i-option>
       </i-select>
       <span>淘宝会员名：</span>
-      <i-input v-model="alitmAccount" style="width: 160px;margin-right: 8px;"></i-input>
+      <i-input v-model="alitmAccount" style="width: 160px;margin-right: 8px;"/>
       <span>活动编号：</span>
-      <i-input v-model="taskNumber" style="width: 160px;margin-right: 8px;"></i-input>
+      <i-input v-model="taskNumber" style="width: 160px;margin-right: 8px;"/>
       <span>订单编号：</span>
-      <i-input v-model="orderNum" style="width: 160px;margin-right: 8px;"></i-input>
+      <i-input v-model="orderNum" style="width: 160px;margin-right: 8px;"/>
       <i-button type="primary" :loading="searchLoading" @click="searchPassesTask">搜索</i-button>
     </div>
     <div class="text-align-rt mt-10" v-if="taskPassAuditList.length > 0">
-      <i-button size="large" class="mr-10" :loading="batchPassLoading" @click="readyBatchPass"><icon type="android-done-all"></icon>批量通过所有待审核订单</i-button>
-      <i-button size="large" @click="batchExportModel = true"><icon type="ios-download-outline"></icon> 批量导出以下所有订单号</i-button>
+      <i-button size="large" class="mr-10" :loading="batchPassLoading" @click="readyBatchPass"><icon type="android-done-all"/>批量通过所有待审核订单</i-button>
+      <i-button size="large" @click="batchExportModel = true"><icon type="ios-download-outline"/> 批量导出以下所有订单号</i-button>
     </div>
     <div class="mt-12" v-for="(item,index) in taskPassAuditList" :key="item.id" v-if="taskPassAuditList.length > 0">
       <div class="collapse-header clear" @click="collapseToggle(item.id,index)" :class="{noBorderRadius:selectId}">
         <div class="manage-img inline-block">
-          <img :src="item.taskMainImage + '!thum54'" width="54" height="54" alt="活动宝贝主图">
+          <img :src="item.taskMainImage | imageSrc('!thum54')" alt="活动主图">
           <span v-if="item.zone === 'certainly_hit'" class="certainly-hit-tip">推荐必中</span>
         </div>
         <div class="manage-text left ml-5 inline-block mt-8" @click.stop>

@@ -103,7 +103,7 @@
           }
         });
       }
-      _this.$store.dispatch('getSysConfigInfo')
+      _this.$store.dispatch('getSysConfigInfo');
     },
     methods: {
       closeSuspendService() {
@@ -224,6 +224,7 @@
     height: 58px;
     line-height: 58px;
   }
+
 
 </style>
 

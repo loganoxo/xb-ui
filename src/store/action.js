@@ -2,6 +2,7 @@
  * Created by ycb on 2017/7/17.
  */
 import api from '@/config/apiConfig'
+import {getStorage, setStorage} from '@/config/utils'
 
 export default {
   //用户退出登录
@@ -75,6 +76,34 @@ export default {
         });
       } else {
         console.error('获取系统配置信息错误：', res.msg)
+      }
+    })
+  },
+
+  //获取商家用户是否有首发资格（当用户没有首发资格，将变量存储到本地，避免非必要的http请求）
+  getTaskCreateFastStatus({commit}) {
+    return new Promise((resolve, reject) => {
+      if (getStorage('taskCreateFastStatus') === null) {
+        api.taskCreateFastStatus().then(res => {
+          if (res.status) {
+            commit('TASK_CREATE_FAST_STATUS', {status: res.data});
+            if (!res.data) {
+              setStorage('taskCreateFastStatus', false)
+            }
+          } else {
+            _this.$Message.error(res.msg);
+          }
+          resolve(res);
+        }).catch(err => {
+          console.error(err);
+          reject(err);
+        })
+      } else {
+        commit('TASK_CREATE_FAST_STATUS', {status: getStorage('taskCreateFastStatus')});
+        resolve({
+          status: true,
+          data: false
+        });
       }
     })
   },

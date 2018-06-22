@@ -257,6 +257,20 @@ export default {
   },
 
   /**
+   * 用户快速任务发布
+   */
+  taskCreateFast(params) {
+    return axiosConfig.post("/api/task-create-fast.json", params)
+  },
+
+  /**
+   * 获取用户快速任务发布资格
+   */
+  taskCreateFastStatus() {
+    return axiosConfig.get("/api/task-create-fast-status.json")
+  },
+
+  /**
    * 获取商品类型
    */
   itemCatalog() {

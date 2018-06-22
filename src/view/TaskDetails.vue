@@ -21,7 +21,7 @@
       <div class="container">
         <div class="task-details-top">
           <div class="task-details-top-left left">
-            <img :src="commodityData.task.taskMainImage + '!orgi75'" alt="">
+            <img :src="commodityData.task.taskMainImage | imageSrc('!orgi75')" alt=""/>
           </div>
           <div class="task-details-top-right left">
             <h3 class="fs-18">
@@ -98,7 +98,7 @@
               距申请结束：
               <time-down
                 v-show="applyBtnShow === 'buyerTasking' || applyBtnShow === 'noLogin' || applyBtnShow === 'sellerTasking' "
-                color="#495060" size="20" :endTime="commodityData.task.endTime"></time-down>
+                color="#495060" size="20" :endTime="commodityData.task.endTime"/>
               <span v-show="applyBtnShow === 'taskEnd'">已结束</span>
             </div>
             <div style="margin: 0; line-height: 40px; font-size: 14px;">
@@ -199,7 +199,7 @@
           <div class="graphic-info-ctt">
             <div v-show="graphicInfoSelClass === 'activity'" class="graphic-info-details">
               <div v-if="commodityData.showkerTask" class="bgF1F1F1 pd-20 task-step-explain mb-20">
-                <place-order-step v-if="Object.keys(showkerTask).length > 0" :showkerTaskInfo="showkerTask" :isShowPrecautions="false" @changeTask="getShowkerToProcessOrder"></place-order-step>
+                <place-order-step v-if="Object.keys(showkerTask).length > 0" :showkerTaskInfo="showkerTask" :isShowPrecautions="false" @changeTask="getShowkerToProcessOrder"/>
               </div>
               <div class="fs-18 text-ct">
                 <div class="precautions mb-20 pt-10">
@@ -207,9 +207,9 @@
                   <p class="mt-10" v-if="commodityData.task.showkerOrderTimeLimit">
                     <span>下单速度：</span>
                     <span>{{commodityData.task.showkerOrderTimeLimit}}小时</span>
-                    <Tooltip content="通过审批后需要指定时间内完成淘宝下单并在本平台提交订单号，否则资格自动过期" placement="top-start">
-                      <Icon class="fs-14 ml-5" type="help-circled"></Icon>
-                    </Tooltip>
+                    <tooltip content="通过审批后需要指定时间内完成淘宝下单并在本平台提交订单号，否则资格自动过期" placement="top-start">
+                      <icon class="fs-14 ml-5" type="help-circled"/>
+                    </tooltip>
                   </p>
                   <p class="mt-10" v-if="commodityData.task.orderQuantity">
                     <span>拍下件数：</span>
@@ -261,7 +261,7 @@
                   </div>
                 </div>
                 <div v-if="commodityData.cannotShowItemDescriptionOfQualification">
-                  <Icon type="information-circled" color="#FF6633" size="30" style="vertical-align: sub;"></Icon>
+                  <icon type="information-circled" color="#FF6633" size="30" style="vertical-align: sub;"/>
                   获得资格后才能看到活动品信息哦~
                   <div v-if="applyBtnShow === 'buyerTasking'" class="inline-block">
                     <iButton v-show="!commodityData.taskApply" :disabled="taskApplyLoading" style="width: 100px;"
@@ -309,7 +309,7 @@
                     <p>
                       <a v-for="trialReportImage in detailsShowker.trialReportImages"
                          @click="trialReportPicShowFunc(trialReportImage)">
-                        <img :src="trialReportImage + '!thum54'" alt="">
+                        <img :src="trialReportImage | imageSrc('!thum54')" alt="">
                       </a>
                     </p>
 
@@ -318,7 +318,7 @@
               </ul>
               <div v-if="detailsShowkerList.length <=0" class="fs-14 text-ct pt-20 pb-20">暂无数据</div>
               <div class="text-ct pd-tb-20" v-if="detailsShowkerList.length > 0">
-                <page :total=totalElements :page-size=5 @on-change=pageChange show-elevator></page>
+                <page :total=totalElements :page-size=5 @on-change=pageChange show-elevator/>
               </div>
             </div>
             <div v-show="graphicInfoSelClass === 'audited'" class="graphic-audited-buyer">
@@ -366,7 +366,7 @@
     </modal>
     <modal v-model="applySuccess" width="500">
       <p class="mt-20 mb-20 text-ct fs-22" style="height: 50px;line-height: 50px">
-        <Icon type="checkmark-circled" color="#3E9D3E" :size="40" style="vertical-align: sub;"></Icon>
+        <icon type="checkmark-circled" color="#3E9D3E" :size="40" style="vertical-align: sub;"/>
         提交申请成功，请耐心等待商家审核
       </p>
       <div slot="footer" class="text-ct">
@@ -378,7 +378,7 @@
     </modal>
     <modal v-model="selectLogin" width="500">
       <p class="mt-20 mb-40 text-ct fs-22 vtc-mid" style="height: 50px;line-height: 50px">
-        <Icon type="android-alert" size="20" color="#f9284f"></Icon>
+        <icon type="android-alert" size="20" color="#f9284f"/>
         亲，你还没登录哦~
         <br>
         <span class="fs-12">请先登录后再申请免费活动</span>
@@ -428,7 +428,7 @@
   import QQBindModal from '@/components/QQBindModal'
 
   export default {
-    name: 'TaskDetails',
+    name: 'task-details',
     components: {
       iInput: Input,
       iForm: Form,

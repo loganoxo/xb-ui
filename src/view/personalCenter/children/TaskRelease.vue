@@ -1,22 +1,42 @@
 <template>
   <div class="task-release">
     <div class="task-release-title">发布活动</div>
-    <!--发布活动进度-->
-    <div class="flow-title mt-10 mb-20">
-      <steps :current="current">
-        <step title="填写活动信息"/>
-        <step title="存入活动担保金"/>
-        <step title="等待审核"/>
-        <step title="活动上线"/>
-      </steps>
+    <!--发布活动流程说明-->
+    <div class="flow-title mt-10 mb-20 clear">
+      <div class="inline-block flow-title-first left">平台流程</div>
+      <div class="inline-block step left clear">
+        <div class="inline-block step-number left">1</div>
+        <div class="inline-block step-text left">商家提交活动申请，预付活动担保金，等待平台审核。</div>
+        <icon class="left mt-20 mr-5" type="chevron-right" size="30" color="#ccc"/>
+      </div>
+      <div class="inline-block step left clear">
+        <div class="inline-block step-number left">2</div>
+        <div class="inline-block step-text left">活动上线后，商家可审核来申请试用的拿手旺旺号。</div>
+        <icon class="left mt-20 mr-5" type="chevron-right" size="30" color="#ccc"/>
+      </div>
+      <div class="inline-block step left clear">
+        <div class="inline-block step-number left">3</div>
+        <div class="inline-block step-text left">通过的拿手按商家指定的下单方式去淘宝下单（拿手先垫付）。</div>
+        <icon class="left mt-20 mr-5" type="chevron-right" size="30" color="#ccc"/>
+      </div>
+      <div class="inline-block step left clear">
+        <div class="inline-block step-number left">4</div>
+        <div class="inline-block step-text left">拿手收到宝贝后，提交买家秀（即淘宝评价）。</div>
+        <icon class="left mt-20 mr-5" type="chevron-right" size="30" color="#ccc"/>
+      </div>
+      <div class="inline-block step left clear">
+        <div class="inline-block step-number left">5</div>
+        <div class="inline-block step-text left">商家审核完买家秀后向拿手返款，活动圆满结束。</div>
+      </div>
     </div>
     <div class="activity-tip mb-20">
       <icon type="information-circled" color="#FF0100"/>
       <span><b class="sizeColor3">注意：</b> 本站支持拍A发A（免费领），拍A发B（体验专区），满足商家的各种需求！</span>
     </div>
     <div class="service-statement cl666 text-ct">
-      声明：为避免纠纷，发布活动前请先阅读本平台的服务条款，凡成功提交活动申请皆默认亲已仔细阅读并同意平台的<span class="blue cursor-p" @click="isShowUserClause = true">服务条款</span>
-      ！
+      声明：为避免纠纷，发布活动前请先阅读本平台的服务条款，凡成功提交活动申请皆默认亲已仔细阅读并同意平台的<span class="blue cursor-p" @click="isShowUserClause = true">《服务条款》</span></div>
+    <div class="text-ct mt-20" v-if="getTaskCreateFastStatus && stepName === 'information'">
+      <i-button type="primary" @click="goTaskCreateFast">启用首单快速发布通道</i-button>
     </div>
     <!--选择绑定的店铺-->
     <div class="activity-type mt-20" v-show="stepName === 'information'">
@@ -267,9 +287,9 @@
           <div class="baby-title ml-20 mt-20">
             <span class="required">宝贝标题：</span>
             <i-input v-model="taskRelease.taskName" placeholder="请输入宝贝标题" style="width: 296px"/>
-            <span class="ml-20 sizeColor2"><icon v-show="taskNameLength > 35" color="#f9284f"
-                                                 type="information-circled"/>&nbsp;此处填宝贝名称，突出宝贝特点，勿填无关内容，最多支持35个字符，当前已输入  <span
-              class="main-color">{{taskNameLength}}</span> / 35个字符。</span>
+            <span class="ml-20 sizeColor2"><icon v-show="taskNameLength > 60" color="#f9284f"
+                                                 type="information-circled"/>&nbsp;此处填宝贝名称，突出宝贝特点，勿填无关内容，最多支持60个字符，当前已输入  <span
+              class="main-color">{{taskNameLength}}</span> / 60个字符。</span>
           </div>
           <div class="baby-title ml-20 mt-20">
             <span class="required">宝贝类型：</span>
@@ -617,9 +637,9 @@
               <div class="baby-title ml-10 mt-20">
                 <span class="required">宝贝标题：</span>
                 <i-input v-model="taskRelease.taskName" placeholder="请输入宝贝标题" style="width: 296px"/>
-                <span class="ml-20 sizeColor2"><icon v-show="taskNameLength > 35" color="#f9284f"
-                                                     type="information-circled"/>&nbsp;此处填宝贝名称，突出宝贝特点，勿填无关内容，最多支持35个字符，当前已输入  <span
-                  class="main-color">{{taskNameLength}}</span> / 35个字符。</span>
+                <span class="ml-20 sizeColor2"><icon v-show="taskNameLength > 60" color="#f9284f"
+                                                     type="information-circled"/>&nbsp;此处填宝贝名称，突出宝贝特点，勿填无关内容，最多支持60个字符，当前已输入  <span
+                  class="main-color">{{taskNameLength}}</span> / 60个字符。</span>
               </div>
               <div class="baby-title ml-10 mt-20">
                 <span class="required">宝贝类型：</span>
@@ -1193,7 +1213,12 @@
         <p>请先绑定店铺后在发布活动</p>
       </div>
       <div slot="footer">
-        <i-button type="error" size="large" long @click="goStoreBind">前去绑定店铺</i-button>
+        <p><i-button type="error" size="large" long @click="goStoreBind">前去绑定店铺</i-button></p>
+        <template v-if="getTaskCreateFastStatus">
+          <p class="fs-14 f-b mt-10 text-ct">或者，亲想先简单试试效果再说？</p>
+          <p class="mt-10 cl999 text-ct">为快速体验平台服务，新商家可通过以下通道快速完成首发活动，该方法仅支持新商家首次发布！</p>
+          <p class="mt-10"><i-button type="success" size="large" long @click="goTaskCreateFast">首单快速发布通道</i-button></p>
+        </template>
       </div>
     </modal>
     <!--普通会员用户使用当日单或预约单提示升级会员版本弹框-->
@@ -1217,21 +1242,7 @@
 </template>
 
 <script>
-  import {
-    Icon,
-    Form,
-    Input,
-    Checkbox,
-    Button,
-    Radio,
-    Modal,
-    Alert,
-    Select,
-    Option,
-    OptionGroup,
-    Steps,
-    Tooltip
-  } from 'iview'
+  import {Icon, Input, Checkbox, Button, Radio, Modal, Alert, Select, Option, OptionGroup, Tooltip} from 'iview'
   import {Quill, quillEditor} from 'vue-quill-editor'
   import Upload from '@/components/Upload'
   import PayModel from '@/components/PayModel'
@@ -1239,28 +1250,13 @@
   import QQBindModal from '@/components/QQBindModal'
   import api from '@/config/apiConfig'
   import {aliCallbackImgUrl} from '@/config/env'
-  import {
-    aliUploadImg,
-    isPositiveInteger,
-    isNumber,
-    isInteger,
-    isAliUrl,
-    randomString,
-    extendDeep,
-    decode,
-    setStorage,
-    getStorage,
-    getUrlParams,
-    scrollToTop
-  } from '@/config/utils'
+  import {aliUploadImg, isPositiveInteger, isNumber, isInteger, isAliUrl, randomString, extendDeep, decode, setStorage, getStorage, getUrlParams, isInternetUrl} from '@/config/utils'
 
   export default {
     name: 'task-release',
     components: {
       quillEditor: quillEditor,
       iInput: Input,
-      iForm: Form,
-      FormItem: Form.Item,
       Checkbox: Checkbox,
       CheckboxGroup: Checkbox.Group,
       iButton: Button,
@@ -1270,8 +1266,6 @@
       iSelect: Select,
       iOption: Option,
       Upload: Upload,
-      Steps: Steps,
-      Step: Steps.Step,
       OptionGroup: OptionGroup,
       Modal: Modal,
       Alert: Alert,
@@ -1300,7 +1294,6 @@
           }
         },
         showPayModel: false,
-        current: 0,
         stepName: 'information',
         taskLoading: false,
         taskPayId: null,
@@ -1379,7 +1372,7 @@
           donotPostPhoto: "true",
           paymentMethod: "all",
           remark: null,
-          itemDescription: '',
+          itemDescription: null,
           taskId: null,
           taskDetail: [],
           itemReviewRequired: 'review_by_showker_self',
@@ -1476,6 +1469,26 @@
         originalVasMainItem: [],
         upgradeMembershipModal: false,
         isOpenQqBindModal: false,
+        createFastTaskStatus: false,
+      }
+    },
+    // 当用户有首发资格路由重定向到快速发布通道反之则停留在此页面
+    // 此处需要注意在 beforeRouteEnter 守卫中不能直接访问当前组件实例，通过传一个回调给 next 来访问组件实例
+    beforeRouteEnter(to, from, next) {
+      // 通过快速发布通道进入此页面不执行任何回调操作
+      if (from.name !== 'FastTaskRelease') {
+        next (vm => {
+          vm.$store.dispatch('getTaskCreateFastStatus').then(res => {
+            if (res.status && res.data) {
+              vm.$router.push({name: 'FastTaskRelease'})
+            } else {
+              // 防止页面跳转绑定店铺弹框闪烁需要将店铺请求放此处执行
+              vm.getStoreBindInfoList();
+            }
+          });
+        })
+      } else {
+       next()
       }
     },
     updated() {
@@ -1501,11 +1514,8 @@
         _this.$refs.myTextEditorPresent.quill.getModule("toolbar").addHandler("image", imgHandlerPresentGet);
       }
     },
-    mounted() {
-    },
     created() {
       this.getItemCatalog();
-      this.getStoreBindInfoList();
       this.getTaskVasList();
     },
     computed: {
@@ -1567,7 +1577,7 @@
        * @return {number}
        */
       oneBond() {
-        return this.taskRelease.pinkage === 'true' ? this.newItemPrice : this.newItemPrice + 1000;
+        return this.taskRelease.pinkage === 'true' ? this.newItemPrice : (this.newItemPrice + 1000);
       },
 
       /**
@@ -1575,7 +1585,7 @@
        * @return {number}
        */
       oneBondAToB() {
-        return this.taskRelease.pinkage === 'true' ? this.taskRelease.itemPrice * this.taskRelease.orderQuantity * 100 : this.taskRelease.itemPrice * this.taskRelease.orderQuantity * 100 + 1000;
+        return this.taskRelease.pinkage === 'true' ? this.taskRelease.itemPrice * this.taskRelease.orderQuantity * 100 : (this.taskRelease.itemPrice * this.taskRelease.orderQuantity * 100 + 1000);
       },
 
       /**
@@ -1753,7 +1763,7 @@
        * @return {number}
        */
       taskNameLength() {
-        return this.taskRelease.taskName ? this.taskRelease.taskName.length : 0
+        return this.taskRelease.taskName ? this.taskRelease.taskName.replace(/[\u0391-\uFFE5]/g,"aa").length : 0
       },
 
       /**
@@ -1832,6 +1842,14 @@
        */
       allValueAddedCost() {
         return this.oneValueAddedCost * this.taskRelease.taskCount
+      },
+
+      /**
+       * 获取商家用户是否有首发资格
+       * @return {number}
+       */
+      getTaskCreateFastStatus() {
+        return this.$store.state.taskCreateFastStatus
       }
     },
     methods: {
@@ -1908,6 +1926,9 @@
       },
       goStoreBind() {
         this.$router.push({name: 'StoreBindRules', query: {from: 'taskRelease'}});
+      },
+      goTaskCreateFast() {
+        this.$router.push({name: 'FastTaskRelease'})
       },
       openSampleImageModal(src) {
         this.isShowExampleImageModel = true;
@@ -2164,8 +2185,8 @@
           _this.$Message.warning('亲，宝贝标题不能为空！');
           return;
         }
-        if (_this.taskRelease.taskName.length > 35) {
-          _this.$Message.warning('亲，宝贝标题最多35个字符！');
+        if (_this.taskRelease.taskName.length > 60) {
+          _this.$Message.warning('亲，宝贝标题最多60个字符！');
           return;
         }
         if (!_this.taskRelease.itemType) {
@@ -2178,6 +2199,10 @@
         }
         if (!_this.taskRelease.itemUrl) {
           _this.$Message.warning('亲，宝贝链接不能为空！');
+          return;
+        }
+        if (!isInternetUrl(_this.taskRelease.itemUrl)) {
+          _this.$Message.warning('亲，宝贝链接格式不正确！');
           return;
         }
         if (!isAliUrl(_this.taskRelease.itemUrl)) {
@@ -2434,7 +2459,7 @@
           _this.taskCreate(false);
         }
       },
-      taskCreate: async function (type) {
+      async taskCreate(type) {
         const _this = this;
         _this.taskLoading = true;
         let detectionStoreInfo = null;
@@ -2533,7 +2558,6 @@
             if (type === true) {
               _this.$router.push({name: 'ActivitiesList'});
             } else {
-              _this.nextCurrent();
               _this.stepName = 'deposit';
             }
           } else {
@@ -2552,20 +2576,14 @@
           _this.getTaskInfo();
         }
         _this.stepName = 'information';
-        _this.current = 0;
-      },
-      nextCurrent() {
-        this.current += 1;
       },
       IThink() {
-        let _this = this;
-        _this.editPriceAfterModel = false;
-        _this.editPriceToLowAfterModel = false;
+        this.editPriceAfterModel = false;
+        this.editPriceToLowAfterModel = false;
       },
       continueNextStep() {
-        let _this = this;
-        _this.taskCreate(false);
-        _this.editPriceAfterModel = false;
+        this.taskCreate(false);
+        this.editPriceAfterModel = false;
       },
       toLowContinueNextStep() {
         this.taskCreate(true);
@@ -2715,24 +2733,23 @@
         })
       },
       conversionPrice(type) {
-        let _this = this;
         switch (type) {
           case 'pc_search' :
-            _this.pcTaskDetail.forEach(item => {
+            this.pcTaskDetail.forEach(item => {
               item.searchPagePrice = (item.searchPagePrice / 100).toFixed(2) * 1;
               item.priceRangeMax = item.priceRangeMax > 0 ? (item.priceRangeMax / 100).toFixed(2) * 1 : null;
               item.priceRangeMin = item.priceRangeMin > 0 ? (item.priceRangeMin / 100).toFixed(2) * 1 : null;
             });
             break;
           case 'app_search' :
-            _this.appTaskDetail.forEach(item => {
+            this.appTaskDetail.forEach(item => {
               item.searchPagePrice = (item.searchPagePrice / 100).toFixed(2) * 1;
               item.priceRangeMax = item.priceRangeMax > 0 ? (item.priceRangeMax / 100).toFixed(2) * 1 : null;
               item.priceRangeMin = item.priceRangeMin > 0 ? (item.priceRangeMin / 100).toFixed(2) * 1 : null;
             });
             break;
           case 'tao_code':
-            _this.taoCodeTaskDetail.forEach(item => {
+            this.taoCodeTaskDetail.forEach(item => {
               item.homePageLockItemPrice = item.homePageLockItemPrice > 0 ? (item.homePageLockItemPrice / 100).toFixed(2) * 1 : null;
             });
             break;
@@ -2801,7 +2818,7 @@
           this.needBrowseAnswer = false;
         }
       },
-      removeMainImage(res) {
+      removeMainImage() {
         this.taskRelease.taskMainImage = null;
       },
       removeAppImage() {
@@ -2831,7 +2848,6 @@
             _this.$store.dispatch('getUserInformation');
             _this.showPayModel = false;
             _this.$Message.success('恭喜您，支付成功！');
-            _this.nextCurrent();
             _this.stepName = 'audit';
           } else {
             _this.$Message.error(res.msg);
@@ -3032,6 +3048,67 @@
   @import 'src/css/mixin';
 
   .task-release {
+    .flow-title {
+      height: 72px;
+      width: 100%;
+      border-radius: 5px;
+      border: 1px solid #eee;
+    }
+
+    .flow-title-first:after {
+      content: '';
+      position: absolute;
+      left: 100%;
+      bottom: 28px;
+      width: 0;
+      height: 0;
+      border-width: 6px;
+      border-style: solid;
+      border-color: transparent;
+      border-left-width: 8px;
+      border-left-color: currentColor;
+      color: $mainColor;
+    }
+
+    .flow-title-first {
+      position: relative;
+      background-color: $mainColor;
+      width: 46px;
+      font-size: 18px;
+      text-align: center;
+      color: #fff;
+      line-height: 24px;
+      padding-top: 10px;
+      height: 100%;
+      border-radius: 5px 0 0 5px;
+      margin-right: 5px;
+    }
+
+    .step {
+      margin-left: 10px;
+      height: 100%;
+    }
+
+    .step-number {
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      color: #fff;
+      font-size: 16px;
+      background-color: #FD5574;
+      text-align: center;
+      line-height: 28px;
+      margin-top: 20px;
+      margin-right: 10px;
+    }
+
+    .step-text {
+      width: 130px;
+      color: #000;
+      line-height: 18px;
+      margin-top: 8px;
+    }
+
     .check-member {
       width: 200px;
       font-size: 18px;
@@ -3039,12 +3116,11 @@
       background-color: $mainColor;
       border-color: $mainColor;
     }
+
     .ml-38 {
       margin-left: 38px;
     }
-    .main-color {
-      color: $mainColor;
-    }
+
     .second-color {
       color: $secondColor;
     }

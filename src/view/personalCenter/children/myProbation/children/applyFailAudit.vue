@@ -3,7 +3,7 @@
     <iSelect v-model="selectStatus" style="width: 120px;margin-right: 12px;">
       <iOption v-for="item in SelectList" :value="item.value" :key="item.value">{{ item.label }}</iOption>
     </iSelect>
-    <iInput v-model="searchValue" style="width: 160px;margin-right: 8px;"></iInput>
+    <i-input v-model="searchValue" style="width: 160px;margin-right: 8px;"/>
     <iButton style="width: 69px;" type="primary" :loading="searchLoading" @click="searchShowkerFailTask">搜索</iButton>
     <div class="clear ml-45 ivu-select" style="width: 600px;">
       <div class="left mr-10">
@@ -13,14 +13,14 @@
         </Checkbox>
       </div>
       <div class="left">
-        <Checkbox-group v-model="rejectReasonList" @on-change="checkFailChange">
+        <checkbox-group v-model="rejectReasonList" @on-change="checkFailChange">
           <Checkbox label="system_reject">
             <span>系统终止</span>
           </Checkbox>
           <Checkbox label="showker_give_up">
             <span>拿手放弃</span>
           </Checkbox>
-        </Checkbox-group>
+        </checkbox-group>
       </div>
     </div>
     <div class="probation-table mt-20">
@@ -43,7 +43,7 @@
         </tr>
         <tr>
           <td class="cursor-p" @click="goTaskDetails(item.task.id)">
-            <img class="left ml-10" :src="item.task.taskMainImage + '!thum54'">
+            <img class="left ml-10" :src="item.task.taskMainImage | imageSrc('!thum54')">
             <a class="left img-title" :title="item.task.taskName">{{item.task.taskName}}</a>
           </td>
           <td>{{item.alitmAccount}}</td>

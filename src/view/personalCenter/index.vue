@@ -11,7 +11,7 @@
           <span class="bind-store icon-size"></span>
           <router-link to="/user/bind-store/store-bind-rules">店铺绑定</router-link>
         </li>
-        <li :class="{isSelect:isSelect ==='TaskRelease'}">
+        <li :class="{isSelect:isSelect ==='TaskRelease' || isSelect ==='FastTaskRelease'}">
           <span class="issue-activity icon-size"></span>
           <router-link to="/user/task-release">发布活动</router-link>
         </li>

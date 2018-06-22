@@ -15,7 +15,7 @@
               <ul v-if="trialReportList.length > 0">
                 <li v-for="trialReport in trialReportList" :key="trialReport.id">
                   <div>
-                    <img :src="trialReport.task.taskMainImage + '!orgi75'" alt="" style="width: 150px;">
+                    <img :src="trialReport.task.taskMainImage | imageSrc('!thum400')" alt="" style="width: 150px;">
                   </div>
                   <div>
                     <p>{{trialReport.task.taskName}}</p>
@@ -53,7 +53,7 @@
             </div>
             <div class="trial-account-details">
               <div class="task-info">
-                <img :src="showkerReportDesc.task.taskMainImage + '!orgi75'" alt="" width="100px" class="left">
+                <img :src="showkerReportDesc.task.taskMainImage | imageSrc('!thum400')" alt="" width="100px" class="left">
                 <div class="left ml-20">
                   <p>{{showkerReportDesc.task.taskName}}</p>
                   <p>宝贝单价&nbsp;<span>{{showkerReportDesc.task.itemPrice / 100}}</span>&nbsp;元 。</p>
@@ -78,14 +78,14 @@
                   </Carousel-item>
                 </Carousel>
               </div>
-              <p class="text-ct mt-20 fs-16">共获得<span style="color: #FF6633">{{showkerReportDesc.other.likeCount}}</span>赞</p>
+              <p v-if="showkerReportDesc.other" class="text-ct mt-20 fs-16">共获得<span style="color: #FF6633">{{showkerReportDesc.other.likeCount}}</span>赞</p>
             </div>
           </div>
         </div>
       </div>
     </div>
     <Modal v-model="trialReportPicShow" width="600">
-      <div style="text-align:center">
+      <div class="text-ct">
         <img :src="trialReportPic" alt="" style="width: 100%;margin-top: 20px;">
       </div>
       <div slot="footer">
@@ -102,7 +102,7 @@
   import {setStorage, getStorage, decode, encryption} from '@/config/utils'
   export default {
 
-    name: 'MyTrialReport',
+    name: 'my-trial-report',
     components: {
       iInput: Input,
       iForm: Form,

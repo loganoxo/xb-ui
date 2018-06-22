@@ -25,14 +25,14 @@
         </tr>
         <tr>
           <td class="cursor-p" @click="goTaskDetails(item.task.id)">
-            <img class="left ml-10" :src="item.task.taskMainImage + '!thum54'">
+            <img class="left ml-10" :src="item.task.taskMainImage | imageSrc('!thum54')">
             <a class="left img-title" :title="item.task.taskName">{{item.task.taskName}}</a>
           </td>
           <td>{{item.alitmAccount}}</td>
           <td>{{item.task.perMarginNeed / 100}}</td>
           <td>
             <Tooltip :content="item.rejectToResubmitReason || item.reason" placement="top" v-if="item.reason && item.status === 'waiting_resubmit'">
-              <Icon color="#f9284f" type="information-circled"></Icon>
+              <icon color="#f9284f" type="information-circled"/>
               <span class="main-color">{{getTaskStatus(item.status)}}</span>
             </Tooltip>
             <span v-else> {{getTaskStatus(item.status)}}</span>

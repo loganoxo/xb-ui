@@ -42,7 +42,7 @@
     <div class="mt-12 pos-rel" v-for="(item,index) in taskWaitAuditList" :key="item.id">
       <div class="collapse-header clear" @click="collapseToggle(item.id,index)" :class="{noBorderRadius:selectId}">
         <div class="manage-img inline-block">
-          <img :src="item.taskMainImage + '!thum54'" alt="活动主图">
+          <img :src="item.taskMainImage | imageSrc('!thum54')" alt="活动主图">
           <span v-if="item.zone === 'certainly_hit'" class="certainly-hit-tip">推荐必中</span>
         </div>
         <div class="manage-text ml-5 inline-block" @click.stop>

@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="home">
     <div class="home-ctt">
       <div class="container">
         <div class="home-section">
@@ -186,10 +186,10 @@
                     :to="{path:'/trial-report',query:{q:encryptionId(item.showkerId),showReportDesc:true,id:encryptionId(item.id)}}"
                     :title="item.taskName" target="_blank">
                     <div style="height: 260px">
-                      <img :src="item.trialReportImages+'!thum400'" alt="" width="200" height="260">
+                      <img :src="item.trialReportImages | imageSrc('!thum400')" alt="" width="200" height="260"/>
                     </div>
                     <p class="top-heart clear" v-show="item.likeCount !== 0">
-                      <Icon type="heart" class="left fs-14 mt" style="margin-top: 2px"></Icon>
+                      <icon type="heart" class="left fs-14 mt" style="margin-top: 2px"/>
                       <span class="left ml-5">赞({{item.likeCount}})</span>
                     </p>
                     <p class="price clear">
@@ -202,10 +202,7 @@
                     <a class="des-text" :title="item.trialReportText">{{item.trialReportText}}</a>
                   </p>
                   <div class="clear bottom mt-20">
-                    <router-link :to="{path:'/trial-report',query:{q:encryptionId(item.showkerId)}}"
-                                 class="user-head-box ml-10"><img width="48" height="48"
-                                                                  :src="getUserHead(item.showkerPortraitPic)" alt="">
-                    </router-link>
+                    <router-link :to="{path:'/trial-report',query:{q:encryptionId(item.showkerId)}}" class="user-head-box ml-10"><img width="48" height="48" :src="getUserHead(item.showkerPortraitPic)" alt=""></router-link>
                     <div class="left ml-10 mt-5">
                       <p class="cl000">{{item.nickName}}</p>
                       <img :src="item.creditLevel" alt="">
@@ -224,7 +221,7 @@
                   <router-link :to="{path:'/task-details', query:{q: encryptionId(taskTopLeft.task.id)}}"
                                :title="taskTopLeft.task.taskName" class="block">
                     <div class="left img-box">
-                      <img :src="taskTopLeft.task.taskMainImage + '!thum54'" alt="" width="54" height="54">
+                      <img :src="taskTopLeft.task.taskMainImage | imageSrc('!thum54')" alt="" width="54" height="54">
                     </div>
                     <div class="left text-box ml-10">
                       <p>拿手 {{taskTopLeft.other.nickname}} 免费领取了</p>
@@ -263,7 +260,7 @@
                          :key="homeCommodity.id"
                          :to="{ 'path': '/task-details','query': {'q': encryptionId(homeCommodity.id)}}">
               <div class="home-commodity-img pos-rel">
-                <img class="block" v-lazy="homeCommodity.taskMainImage +'!thum400'" alt=""/>
+                <img class="block" :src="homeCommodity.taskMainImage | imageSrc('!thum400')" alt=""/>
                 <span class="applied"> {{homeCommodity.showkerApplyTotalCount || 0}} 人已申请</span>
               </div>
               <div class="home-commodity-text">
@@ -367,7 +364,7 @@
                          :key="homeCommodity.id"
                          :to="{ 'path': '/task-details','query': {'q': encryptionId(homeCommodity.id)}}">
               <div class="home-commodity-img pos-rel">
-                <img class="block" v-lazy="homeCommodity.taskMainImage +'!thum400'" alt="">
+                <img class="block" :src="homeCommodity.taskMainImage | imageSrc('!thum400')" alt=""/>
                 <span class="applied"> {{homeCommodity.showkerApplyTotalCount || 0}} 人已申请</span>
               </div>
               <div class="home-commodity-text">
@@ -496,7 +493,7 @@
                          :key="homeHistory.id"
                          :to="{ 'path': '/task-details','query': {'q': encryptionId(homeHistory.id)}}">
               <div class="home-commodity-img pos-rel">
-                <img class="block" v-lazy="homeHistory.taskMainImage +'!thum400'" height="208" width="210">
+                <img class="block" :src="homeHistory.taskMainImage | imageSrc('!thum400')" height="208" width="210">
                 <span class="applied"> {{homeHistory.showkerApplyTotalCount || 0}} 人已申请</span>
               </div>
               <div class="home-commodity-text">
@@ -583,15 +580,8 @@
         </div>
       </div>
       <!--历史活动结束-->
-     <!-- <div class="container">
-        <div class="home-bottom mt-20">
-          <img v-if="!isLogin || getUserInfoRole === 1" class="ml-5" src="~assets/img/home/home_23.png" alt="">
-          <img v-if="isLogin &&　getUserInfoRole === 0" class="ml-5" src="~assets/img/home/home_24.png" alt="">
-        </div>
-      </div>-->
     </div>
-
-
+    <!--添加微信弹窗-->
     <div class="confirm-recharge-model" v-show="$store.state.wechartShow">
       <div class="confirm-recharge-con">
         <div class="pos-rel">
@@ -623,6 +613,43 @@
         </div>
       </div>
     </div>
+    <!--商家首次登陆平台卡快速发布任务引导弹窗-->
+    <modal v-model="showFirstVisitModel" width="1000" :mask-closable="false" :closable="false" class="first-release-activity">
+      <div slot="header" class="m-header">
+        <img src="~assets/img/home/tit.png" alt="" class="m-icon">
+        HI，<span class="main-color">{{getUserInfoPhone}}</span>&nbsp;这是您第一次访问白拿拿，您的身份是<span class="main-color">淘宝商家</span> 。
+      </div>
+      <div class="m-body">
+        <p class="m-title">平台都是精准定位的<span class="main-color">真实消费群体</span>，看我们如何做到<span class="main-color">安全、合理的转化</span>！</p>
+        <ul class="clear mt-20">
+          <li class="left">
+            <span class="step">1、平均20分钟就有1人申请</span>
+            <div class="mt-20">
+              <img src="~assets/img/home/m-1.png" alt="">
+            </div>
+            <p class="desc mt-25">活动成功上线后，平均20分钟就有1人申请试用。由<span class="main-color">亲自己决定什么时间通过、通过多少名额（通过后才能去淘宝下单）</span>，合理控制转化。</p>
+          </li>
+          <li class="left">
+            <span class="step">2、商家自己选择下单旺旺号</span>
+            <div class="mt-20">
+              <img src="~assets/img/home/m-2.png" alt="">
+            </div>
+            <p class="desc mt-10">在申请列表中，商家可以看到申请旺旺号的各类信息，如历史申请类目、数量、所在地等，<span class="main-color">商家自行选择旺旺号</span>，主权交给商家，更安全更放心!</p>
+          </li>
+          <li class="left">
+            <span class="step">3、先看淘宝评价在返款</span>
+            <div class="mt-20">
+              <img src="~assets/img/home/m-3.png" alt="">
+            </div>
+            <p class="desc mt-25">平台的优质买手通常能发表精致的买家秀，效果堪比网红，<span class="main-color">商家可先审核淘宝评论</span>再决定是否向买手返款。</p>
+          </li>
+        </ul>
+      </div>
+      <div slot="footer" class="m-footer text-ct">
+        <i-button type="default" class="later-btn" @click="showFirstVisitModel = false">先逛逛再说~</i-button>
+        <i-button class="release-btn" @click="goTaskCreateFast">马上免费发布活动（试用）</i-button>
+      </div>
+    </modal>
   </div>
 </template>
 
@@ -785,6 +812,7 @@
         // showSellerVipPopup: false,
         pinkageFor10: [],
         presentGet: [],
+        showFirstVisitModel: false
       }
     },
     beforeMount() {
@@ -794,14 +822,21 @@
       }
     },
     created() {
-      let self = this;
+      const self = this;
       if (self.$store.state.login) {
         self.weChartAlertFunc();
+        if (self.$store.getters.getUserRole === 1) {
+          self.$store.dispatch('getTaskCreateFastStatus').then(res => {
+            if (res.status) {
+              self.showFirstVisitModel = res.data
+            }
+          });
+        }
       }
       if (self.$store.state.userInfo.role === 0) {
         self.getAvailableBoardByAdTypeList('showker_pc_home_page_slide_show');
       } else if (self.$store.state.userInfo.role === 1) {
-        if (self.getMemberVersionLevel === 100 || self.getMemberVersionLevel === null) {
+        if (self.getMemberVersionLevel === 100) {
           self.getAvailableBoardByAdTypeList('free_seller_pc_home_page_slide_show');
         } else {
           self.getAvailableBoardByAdTypeList('seller_pc_home_page_slide_show');
@@ -818,7 +853,6 @@
       self.getHomeHistoryList();
       self.getBuyerShowList();
       self.getHomeDisCountList();
-
     },
     destroyed() {
       let self = this;
@@ -865,17 +899,12 @@
       },
 
     },
-    mounted: function () {
-      this.$nextTick(function () {
-        let self = this;
-        self.leftTopSliderFunc();
+    mounted() {
+      this.$nextTick(() => {
+        this.leftTopSliderFunc();
+        this.leftSliderFunc();
       });
-      this.$nextTick(function () {
-        let self = this;
-        self.leftSliderFunc();
-      })
     },
-
     methods: {
       computeVasReturnFee(fee,percent) {
         return (fee/100*(1-percent/100)).toFixed(2);
@@ -896,6 +925,10 @@
       getSwipeHead(src) {
         return aliCallbackImgUrl + src
       },
+      goTaskCreateFast() {
+        this.$router.push({name: 'FastTaskRelease'});
+        this.showFirstVisitModel = false;
+      },
       getAvailableBoardByAdTypeList(advertType) {
         let self = this;
         api.getAvailableBoardByAdTypeList({advertType: advertType}).then((res) => {
@@ -903,14 +936,14 @@
           let z = 0;
           if (self.$store.state.login) {
             for (let i = 0, j = data.length; i < j; i++) {
-              if (data[i].showMode != 'logout') {
+              if (data[i].showMode !== 'logout') {
                 self.$set(self.swipeItemList, z, data[i]);
                 z++;
               }
             }
           } else if (!self.$store.state.login) {
             for (let i = 0, j = data.length; i < j; i++) {
-              if (data[i].showMode != 'login') {
+              if (data[i].showMode !== 'login') {
                 self.$set(self.swipeItemList, z, data[i]);
                 z++;
               }
@@ -1715,4 +1748,53 @@
       margin-left: -220px;
     }
   }
+  /*弹窗*/
+  .m-header{
+    padding:40px 0 10px 0;
+    font-size: 16px;
+    text-align: center;
+    background-color: #eeeeee;
+    position: relative;
+    .m-icon{
+      position: absolute;
+      top:8px;
+      left:60px;
+    }
+  }
+  .m-body {
+    padding:20px 0;
+    .m-title {
+      text-align: center;
+      font-size: 22px;
+      font-weight: bold;
+    }
+    .step {
+      padding:2px 15px;
+      background: #000;
+      color: #fff;
+      font-weight:bold;
+      font-size:16px;
+    }
+    li {
+      width:33.33%;
+      padding:0 20px;
+      text-align: center;
+    }
+    .desc {
+      text-align: left;
+    }
+  }
+  .m-footer {
+    .later-btn {
+      margin-right:10%;
+      padding-left:40px;
+      padding-right:40px;
+    }
+    .release-btn {
+      margin-left:10%;
+      color:#fff;
+      background: $mainColor;
+    }
+  }
+
 </style>

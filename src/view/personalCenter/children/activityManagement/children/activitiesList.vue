@@ -64,12 +64,12 @@
       <button-group class="left">
         <i-button :class="[sortList.select === item.sortField ? 'active' : '']" size="small" v-for="(item,index) in sortList.defaultList" :key="index" @click="sortChange(item.sortField,index)">
           <span>{{item.name}}</span>
-          <icon :type="item.sort === 'desc' ? 'arrow-down-c': 'arrow-up-c'"></icon>
+          <icon :type="item.sort === 'desc' ? 'arrow-down-c': 'arrow-up-c'"/>
         </i-button>
       </button-group>
       <i-input v-model="taskNumber" size="small" placeholder="使用活动编号或者订单号搜索" class="left ml-10" style="width: 280px;"
               @on-enter="getTaskList">
-        <iButton slot="append" icon="ios-search" size="small" :loading="searchLoading" @click="searchTaskList"></iButton>
+        <i-button slot="append" icon="ios-search" size="small" :loading="searchLoading" @click="searchTaskList"/>
       </i-input>
     </div>
     <!--管理列表-->
@@ -90,18 +90,18 @@
         <tr class="task-number">
           <td colspan="7">
             <span>活动编号：{{item.number || '------'}}</span>
-            <span class="ml-10">创建时间：{{item.createTime | dateFormat('YYYY-MM-DD hh:mm:ss') || '----'}}</span>
+            <span class="ml-10">创建时间：{{item.createTime | dateFormat('YYYY-MM-DD hh:mm:ss') || '------'}}</span>
             <span class="ml-10">活动类型：{{item.activityCategoryDesc}}</span>
           </td>
         </tr>
         <tr>
           <td @click="goTaskDetails(item.id)" class="cursor-p">
-            <img class="left ml-10" :src="item.taskMainImage + '!thum54'" :alt="item.taskName">
+            <img class="left ml-10" :src="item.taskMainImage | imageSrc('!thum54')" :alt="item.taskName">
             <a class="img-title left" :title="item.taskName">{{item.taskName}}</a>
           </td>
           <td>
-            <p>{{item.upLineTime | dateFormat('YYYY-MM-DD hh:mm:ss') || '----'}}</p>
-            <p class="mt-10">{{item.endTime | dateFormat('YYYY-MM-DD hh:mm:ss') || '----'}}</p>
+            <p>{{item.upLineTime | dateFormat('YYYY-MM-DD hh:mm:ss') || '------'}}</p>
+            <p class="mt-10">{{item.endTime | dateFormat('YYYY-MM-DD hh:mm:ss') || '------'}}</p>
           </td>
           <td v-if="item.taskStatus !== 'waiting_modify'">
             <span v-if="item.taskStatus === 'under_way' && !item.online">已下线</span>
@@ -109,7 +109,7 @@
           </td>
           <td class="cursor-p main-color" v-else>
             <tooltip :content="item.auditLogs[item.auditLogs.length - 1].resultMsg" placement="top">
-              <icon color="#f9284f" type="information-circled"></icon>&nbsp;待修改
+              <icon color="#f9284f" type="information-circled"/>&nbsp;待修改
             </tooltip>
           </td>
           <td>{{item.showkerApplyTotalCount || 0}} / {{item.showkerApplyPassedCount || 0}}（人）</td>
@@ -119,7 +119,7 @@
           </td>
           <td v-if="item.taskStatus === 'waiting_pay'">
             <p class="del-edit">
-              <span class="mr-10" @click="editTask(item.id, item.createTime)">编辑</span>
+              <span class="mr-10" @click="editTask(item.id, item.createTime, item.fastPublish)">编辑</span>
               <span @click="closeTask(item.id)">关闭</span>
             </p>
             <p class="bond mt-6">
@@ -131,7 +131,7 @@
           </td>
           <td v-else-if="item.taskStatus === 'waiting_modify'">
             <p class="del-edit">
-              <span class="mr-10" @click="editTask(item.id, item.createTime)">编辑</span>
+              <span class="mr-10" @click="editTask(item.id, item.createTime, item.fastPublish)">编辑</span>
               <span @click="closeTask(item.id)">关闭</span>
             </p>
             <p class="copy mt-6">
@@ -222,12 +222,12 @@
     </div>
     <!--列表分页-->
     <div class="activity-page mt-20 right mr-10" v-show="taskList && taskList.length > 0">
-      <page :total="totalElements" :page-size="pageSize" :current="pageIndex" @on-change="pageChange"></page>
+      <page :total="totalElements" :page-size="pageSize" :current="pageIndex" @on-change="pageChange"/>
     </div>
     <!--关闭任务弹框-->
     <modal v-model="closeModal" width="360">
       <p slot="header" class="main-color text-ct">
-        <icon type="information-circled"></icon>
+        <icon type="information-circled"/>
         <span>关闭确认</span>
       </p>
       <div class="text-ct">
@@ -242,7 +242,7 @@
     <!--删除任务弹框-->
     <modal v-model="deleteModal" width="360">
       <p slot="header" class="text-ct">
-        <icon color="#f9284f" type="information-circled"></icon>
+        <icon color="#f9284f" type="information-circled"/>
         <span class="main-color">删除确认</span>
       </p>
       <div class="text-ct">
@@ -255,7 +255,7 @@
     <!--开启一键加速功能确认弹框-->
     <modal v-model="speedUpModal" width="360">
       <p slot="header" class="text-ct">
-        <icon color="#f9284f" type="information-circled"></icon>
+        <icon color="#f9284f" type="information-circled"/>
         <span class="main-color">一键加速</span>
       </p>
       <div class="text-ct">
@@ -268,7 +268,7 @@
     <!--结算成功弹框-直接结算-->
     <modal v-model="directSettlementSuccess" width="360">
       <p slot="header" class="text-ct">
-        <icon color="#f9284f" type="checkmark-circled"></icon>
+        <icon color="#f9284f" type="checkmark-circled"/>
         <span class="main-color">结算成功</span>
       </p>
       <div class="text-ct">
@@ -282,7 +282,7 @@
     <!--结算成功弹框-结算有返款-->
     <modal v-model="auditSettlementSuccess" width="360">
       <p slot="header" class="main-color text-ct">
-        <icon color="#f9284f" type="checkmark-circled"></icon>
+        <icon color="#f9284f" type="checkmark-circled"/>
         <span class="main-color">结算成功</span>
       </p>
       <div class="text-ct">
@@ -297,7 +297,7 @@
     <!--结算详情弹框-->
     <modal v-model="billDetailsModel" width="420">
       <p slot="header" class="text-ct">
-        <icon color="#f9284f" type="checkmark-circled"></icon>
+        <icon color="#f9284f" type="checkmark-circled"/>
         <span class="main-color">结算详情</span>
       </p>
       <div>
@@ -315,7 +315,7 @@
     <!--活动失效提示弹框-->
     <modal v-model="isTaskOverdueModel" width="420" :mask-closable="false" :closable="false">
       <p slot="header" class="text-ct">
-        <icon color="#f9284f" type="information-circled"></icon>
+        <icon color="#f9284f" type="information-circled"/>
         <span class="main-color">活动失效</span>
       </p>
       <div class="text-ct">
@@ -350,7 +350,7 @@
   import {taskErrorStatusList, getSeverTime, encryption, decode,setStorage, getStorage,} from '@/config/utils'
 
   export default {
-    name: 'ActivitiesList',
+    name: 'activities-list',
     components: {
       Checkbox: Checkbox,
       CheckboxGroup: Checkbox.Group,
@@ -473,12 +473,16 @@
       },
     },
     methods: {
-      editTask(id, createTime) {
+      editTask(id, createTime, fastPublish) {
         if(createTime <= 1526457600000) {
           this.isTaskOverdueModel = true;
           this.taskId = id;
         } else {
-          this.$router.push({name: 'TaskRelease', query: {q: encryption(id)}})
+          if (fastPublish) {
+            this.$router.push({name: 'FastTaskRelease', query: {q: encryption(id)}})
+          } else {
+            this.$router.push({name: 'TaskRelease', query: {q: encryption(id)}})
+          }
         }
       },
       copyTask(id) {

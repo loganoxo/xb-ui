@@ -126,7 +126,7 @@
         :key="homeCommodity.id"
         :to="{path: '/task-details',query: {q: encryptionId(homeCommodity.id)}}">
         <div class="home-commodity-img pos-rel">
-          <img class="block" v-lazy="homeCommodity.taskMainImage + '!orgi75'" width="210" height="208">
+          <img class="block" :src="homeCommodity.taskMainImage | imageSrc('!orgi75')" width="210" height="208">
           <span class="applied"> {{homeCommodity.showkerApplyTotalCount || 0}} 人已申请</span>
         </div>
         <div class="home-commodity-text">
@@ -202,7 +202,7 @@
   import {setStorage, getStorage, getSeverTime, encryption} from '@/config/utils'
 
   export default {
-    name: 'UserHome',
+    name: 'user-home',
     components: {
       iInput: Input,
       iForm: Form,
