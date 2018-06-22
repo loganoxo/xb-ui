@@ -73,23 +73,23 @@ export default {
   },
 
   //拿手登录首页弹出微信弹窗
-  [types.SET_WECHART_SHOW](state,{result}) {
+  [types.SET_WECHART_SHOW](state, {result}) {
     state.wechartShow = result;
   },
 
-  [types.SET_WECHART_RES](state,{result}) {
+  [types.SET_WECHART_RES](state, {result}) {
     state.wechartRes = result;
   },
 
-  [types.SET_DISCOUNT_TASK_CATEGORY](state,{result}) {
+  [types.SET_DISCOUNT_TASK_CATEGORY](state, {result}) {
     state.disCountTaskCategory = result;
   },
 
-  [types.SET_SHOW_TOP_CATEGORY_RES](state,{result}) {
+  [types.SET_SHOW_TOP_CATEGORY_RES](state, {result}) {
     state.showTopCategoryRes = result;
   },
 
-  [types.SET_ACTIVITY_CATEGORY](state,{info}) {
+  [types.SET_ACTIVITY_CATEGORY](state, {info}) {
     state.activityCategory = info;
   },
 
