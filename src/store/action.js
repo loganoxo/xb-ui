@@ -2,7 +2,7 @@
  * Created by ycb on 2017/7/17.
  */
 import api from '@/config/apiConfig'
-import {setStorage, getStorage} from '@/config/utils'
+import {getStorage, setStorage} from '@/config/utils'
 
 export default {
   //用户退出登录

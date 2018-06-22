@@ -985,6 +985,7 @@
             _this.taskRelease.taskName = _this.temporaryTaskName;
           }
         }
+
       },
       goTaskCreate() {
         this.$router.push({name: 'TaskRelease'})

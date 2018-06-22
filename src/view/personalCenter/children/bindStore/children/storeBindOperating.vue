@@ -69,7 +69,7 @@
           </iButton>
         </div>
       </div>
-      <div v-if="bindStatus === 3" class="tip">审核不通过：{{refuseReason}}</div>
+      <div v-if="bindStatus === 3" class="tip">审核不通过：{{refuseReason}} <span class="ml-20">{{reviewTime | dateFormat('YYYY-MM-DD hh:mm:ss')}}</span></div>
       <div v-else class="tip">提示：店铺绑定审核时间1个工作日左右，若超过一个工作日请联系客服！</div>
     </div>
     <div v-if="!protocol" class="mt-20 pos-rel">
@@ -128,7 +128,8 @@
         defaultScreenshotList:[],
         showDemoPicture:false,
         currentStoreInfo:{},
-        refuseReason:''
+        refuseReason:'',
+        reviewTime:''
       }
     },
     computed:{
@@ -308,6 +309,7 @@
               _this.storeBackstageImage = _this.currentStoreInfo.screenshot;
               _this.defaultScreenshotList = [{src:_this.currentStoreInfo.screenshot}];
               _this.refuseReason = _this.currentStoreInfo.reasonRefuse;
+              _this.reviewTime = _this.currentStoreInfo.updateTime;
             }
           }else{
             Toast(res.msg);

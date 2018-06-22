@@ -1463,9 +1463,6 @@
         upgradeMembershipModal: false,
         isOpenQqBindModal: false,
         createFastTaskStatus: false,
-        redEnvelopesState: true,
-        disabledRedEnvelopes: false,
-        redEnvelopeDeductionNumber: 0
       }
     },
     // 当用户有首发资格路由重定向到快速发布通道反之则停留在此页面
