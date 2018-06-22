@@ -62,7 +62,7 @@
         <iButton class="error-btn" type="error" @click="hasProblem">充值失败</iButton>
       </div>
     </Modal>
-    <artificial-recharge-model v-if="showFreePayModel" @colseFreePayModal="showFreePayModel = false"></artificial-recharge-model>
+    <artificial-recharge-model v-if="showFreePayModel" @colseFreePayModal="showFreePayModel = false"/>
   </div>
 
 </template>

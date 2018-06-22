@@ -1062,6 +1062,7 @@
           || 0}}</strong>&nbsp;元,还需充值：<span
           class="second-color">{{(needPayMoneyBefore / 100).toFixed(2)}}</span>&nbsp;元。
         </div>
+        <checkbox>使用<span>推广费减免红包</span>抵扣30元</checkbox>
         <div class="description-fees-footer">
           <span class="pay-btn" v-if="isBalance" @click="openRecharge">前去支付</span>
           <span class="pay-btn" v-else @click="openRecharge">前去充值</span>
@@ -1083,9 +1084,7 @@
       </div>
     </div>
     <!--填写完成活动信息下一步按钮-->
-    <i-button class="fs-18 mt-20" type="primary" long :loading="taskLoading" v-show="stepName === 'information'"
-              @click="stepNext">下一步
-    </i-button>
+    <i-button class="fs-18 mt-20" type="primary" long :loading="taskLoading" v-show="stepName === 'information'" @click="stepNext">下一步</i-button>
     <!--活动担保金支付弹框-->
     <div class="pay-model" v-if="showPayModel">
       <PayModel ref="payModelRef" :orderMoney="needPayMoneyBefore" @confirmPayment="confirmPayment"
@@ -1580,24 +1579,24 @@
       onePromotionExpenses() {
         if (this.taskRelease.activityCategory === 'free_get') {
           if (this.getMemberVersionLevel === 100) {
-            return 3
+            return 5
           }
           if (this.getMemberVersionLevel === 200) {
-            return 0
+            return 3
           }
           if (this.getMemberVersionLevel === 300) {
-            return 0
+            return 3
           }
         }
         if (this.taskRelease.activityCategory === 'present_get') {
           if (this.getMemberVersionLevel === 100) {
-            return 6
+            return 10
           }
           if (this.getMemberVersionLevel === 200) {
-            return 3
+            return 6
           }
           if (this.getMemberVersionLevel === 300) {
-            return 0
+            return 6
           }
         }
       },

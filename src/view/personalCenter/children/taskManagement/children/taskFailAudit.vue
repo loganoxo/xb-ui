@@ -91,7 +91,7 @@
   import api from '@/config/apiConfig'
 
   export default {
-    name: 'task-pass-audit',
+    name: 'task-fail-audit',
     components: {
       Collapse: Collapse,
       Panel: Collapse.Panel,
