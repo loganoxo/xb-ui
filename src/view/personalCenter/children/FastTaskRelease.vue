@@ -35,7 +35,7 @@
     </div>
     <div class="service-statement cl666 text-ct">
       声明：为避免纠纷，发布活动前请先阅读本平台的服务条款，凡成功提交活动申请皆默认亲已仔细阅读并同意平台的<span class="blue cursor-p" @click="isShowUserClause = true">《服务条款》</span></div>
-    <div class="text-ct mt-20">
+    <div class="text-ct mt-20" v-if="isBindStore && stepName === 'information'">
       <i-button type="primary" @click="goTaskCreate">启用完整版发布通道</i-button>
     </div>
     <!--选择活动类型-->
@@ -699,6 +699,7 @@
         upgradeMembershipModal: false,
         temporaryImageSrc: null,
         temporaryTaskName: null,
+        isBindStore: false,
       }
     },
     updated() {
@@ -726,6 +727,7 @@
     },
     created() {
       this.getItemCatalog();
+      this.getStoreBindInfoList();
       const taskId = decode(this.$route.query.q);
       if (taskId) {
         this.editTaskId = taskId;
@@ -987,6 +989,16 @@
       },
       goTaskCreate() {
         this.$router.push({name: 'TaskRelease'})
+      },
+      getStoreBindInfoList() {
+        const _this = this;
+        api.getStoreBindInfo().then(res => {
+          if (res.status) {
+            _this.isBindStore = res.data.length > 0;
+          } else {
+            _this.$Message.error(res.msg)
+          }
+        })
       },
       changeExampleImageUrl(type) {
         this.isShowExampleImageModel = true;
