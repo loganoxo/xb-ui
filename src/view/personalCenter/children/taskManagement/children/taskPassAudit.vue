@@ -90,7 +90,7 @@
               class="main-color">({{item.trial_end || 0}})</span></span>
           </p>
         </div>
-        <icon :class="{'show-table-styles' : selectId === item.id}" class="mt-15" type="arrow-right-b"></icon>
+        <icon :class="{'show-table-styles' : selectId === item.id}" class="mt-15" type="arrow-right-b"/>
       </div>
       <collapse-transition>
         <div class="task-table" v-show="selectId === item.id">
@@ -120,19 +120,19 @@
                   <tooltip
                     :content="item.auditDescription"
                     placement="top" class="cursor-p">
-                    <icon color="#f9284f" type="information-circled"></icon>
+                    <icon color="#f9284f" type="information-circled"/>
                     <span class="main-color">{{getTaskStatus(item.status)}}</span>
                   </tooltip>
                 </p>
                 <p v-if="item.status !== 'order_num_error' && item.status !== 'trial_end' && item.status !== 'trial_report_unqualified'">
                   {{getTaskStatus(item.status)}}</p>
                 <p v-if="item.status !== 'trial_end' && item.status !== 'trial_finished'">
-                  <time-down color='#ff4040' :fontWeight=600 :endTime="item.currentGenerationEndTime"></time-down>
+                  <time-down color='#ff4040' :fontWeight=600 :endTime="item.currentGenerationEndTime"/>
                 </p>
                 <p v-if="item.status === 'trial_end'">
                   <tooltip :content="item.trialEndReason === 'admin_manual_close' ? getTaskStatus(item.trialEndReason) +'：'+ item.auditDescription : getTaskStatus(item.trialEndReason)"
                     placement="top" class="cursor-p">
-                    <icon color="#f9284f" type="information-circled"></icon>
+                    <icon color="#f9284f" type="information-circled"/>
                     <span class="main-color">{{getTaskStatus(item.status)}}</span>
                   </tooltip>
                 </p>
@@ -158,7 +158,7 @@
             <thead v-if="taskPassAuditList[index].passTask && taskPassAuditList[index].passTask.length > 0">
             <tr>
               <td colspan="6">
-                <page :total="taskTotalElements" :page-size="taskPageSize" :current="taskPageIndex" @on-change="TaskPageChange"></page>
+                <page :total="taskTotalElements" :page-size="taskPageSize" :current="taskPageIndex" @on-change="TaskPageChange"/>
               </td>
             </tr>
             </thead>
@@ -173,7 +173,7 @@
     </div>
     <div class="text-ct mt-40">{{dataStatusTip}}</div>
     <div class="activity-page mt-20 right mr-10" v-if="taskPassAuditList && taskPassAuditList.length > 0">
-      <Page :total="totalElements" :page-size="pageSize" :current="pageIndex" @on-change="pageChange"></Page>
+      <page :total="totalElements" :page-size="pageSize" :current="pageIndex" @on-change="pageChange"/>
     </div>
     <!--审核订单号弹窗-->
     <audit-order-popup v-if="showCheckOrder && Object.keys(orderInfo).length > 0"
@@ -182,7 +182,7 @@
                        :needIssue="needIssue"
                        :operateTaskId="operateTaskId"
                        :operateIndex="operateIndex"
-                       :passesShowkerTask="passesShowkerTask"></audit-order-popup>
+                       :passesShowkerTask="passesShowkerTask"/>
     <!--收藏加购物和浏览答题截图查看-->
     <modal :title="checkScreenshotModleTitle" v-model="isShowCheckScreenshotModel">
       <img :src="checkScreenshotSrc + '!orgi75'" style="width: 100%">
@@ -195,7 +195,7 @@
         <div class="pt-10 pb-10 evaluate-showker-pop-box mt-20">
           <p class="title">
             <Tooltip content="你感觉该拿手的淘号质量如何？" placement="top">
-              <Icon type="help-circled"></Icon>
+              <icon type="help-circled"/>
             </Tooltip>
             <span class="cl000">买号质量：</span>
           </p>
@@ -210,9 +210,9 @@
         </div>
         <div class="pt-10 pb-10 evaluate-showker-pop-box mt-10">
           <p class="title">
-            <Tooltip content="该拿手有没有完全按照您的要求执行任务？" placement="top">
-              <Icon type="help-circled"></Icon>
-            </Tooltip>
+            <tooltip content="该拿手有没有完全按照您的要求执行任务？" placement="top">
+              <icon type="help-circled"/>
+            </tooltip>
             <span class="cl000">下单配合度：</span>
           </p>
           <RadioGroup v-model="fillOrderCooperate">
@@ -226,9 +226,9 @@
         </div>
         <div class="pt-10 pb-10 evaluate-showker-pop-box mt-10">
           <p class="title">
-            <Tooltip content="该拿手提供的淘宝评价和晒图，是否满足您的要求？" placement="top">
-              <Icon type="help-circled"></Icon>
-            </Tooltip>
+            <tooltip content="该拿手提供的淘宝评价和晒图，是否满足您的要求？" placement="top">
+              <icon type="help-circled"/>
+            </tooltip>
             <span class="cl000">买家秀质量：</span>
           </p>
           <RadioGroup v-model="buyerShowQuality">
@@ -256,9 +256,9 @@
       <div v-show="batchPassStep === 'ready'" class="mt-20 text-ct fs-14">共有"<span class="main-color">订单号待审核</span>"任务<span class="main-color"> {{batchPassCount}} </span>条，是否对此进行批量通过操作？</div>
       <div v-show="batchPassStep === 'start'" class="mt-20 text-ct">
         <div class="fs-14">正在处理第 {{startToProcessNum}} 条，共 {{batchPassCount}} 条...</div>
-        <i-progress :progressBarWidth="400" :progressWidth="progressWidth" class="mt-10"></i-progress>
+        <i-progress :progressBarWidth="400" :progressWidth="progressWidth" class="mt-10"/>
       </div>
-      <div v-show="batchPassStep === 'end'" class="text-ct fs-14 mt-20"><icon color="#2DAB2D" class="mr-5" type="checkmark-circled"></icon>恭喜，已成功处理 {{successToProcessNum}} 条任务，失败 {{errorToProcessNum}} 条</div>
+      <div v-show="batchPassStep === 'end'" class="text-ct fs-14 mt-20"><icon color="#2DAB2D" class="mr-5" type="checkmark-circled"/>恭喜，已成功处理 {{successToProcessNum}} 条任务，失败 {{errorToProcessNum}} 条</div>
       <div slot="footer" class="text-ct">
         <i-button type="error" size="large" class="mr-60 pl-20 pr-20" :disabled="batchPassCount === 0" v-show="batchPassStep === 'ready'" @click="startBatchPass">执行批量通过</i-button>
         <i-button class="ml-35 pl-40 pr-40" size="large" @click="batchPassModel = false" v-show="batchPassStep === 'ready'">取消</i-button>
@@ -268,7 +268,7 @@
     <!--批量导出订单号-->
     <modal v-model="batchExportModel">
       <div slot="header" class="text-ct mt-10">
-        <icon color="#f9284f" type="information-circled"></icon>
+        <icon color="#f9284f" type="information-circled"/>
         <span class="main-color fs-14">温馨提示</span>
       </div>
       <div class="text-ct fs-14">您确定要批量导出以下所有订单号吗？</div>
@@ -294,7 +294,7 @@
   import {taskErrorStatusList, encryption, timeToDate} from '@/config/utils'
 
   export default {
-    name: 'task-fail-audit',
+    name: 'task-pass-audit',
     components: {
       Icon: Icon,
       Checkbox: Checkbox,
@@ -524,7 +524,7 @@
         })
       },
       passesShowkerTask(taskId, index, pageIndex) {
-        let _this = this;
+        const _this = this;
         _this.operateTaskId = taskId;
         _this.operateIndex = index;
         api.passesShowkerTask({
@@ -571,13 +571,12 @@
           this.selectId = null;
         } else {
           this.selectId = id;
-          this.passesShowkerTask(id, index, self.taskPageIndex);
+          this.passesShowkerTask(id, index, this.taskPageIndex);
         }
       },
       TaskPageChange(data) {
-        let self = this;
-        self.taskPageIndex = data;
-        self.passesShowkerTask(self.operateTaskId, self.operateIndex, self.taskPageIndex);
+        this.taskPageIndex = data;
+        this.passesShowkerTask(this.operateTaskId, this.operateIndex, this.taskPageIndex);
       },
       readyBatchPass() {
         const _this = this;

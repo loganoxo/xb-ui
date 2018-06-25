@@ -15,7 +15,7 @@
     "babel-polyfill": "^6.26.0",
     "china-area-data": "^4.0.0",
     "clipboard": "^1.7.1",
-    "iview": "^2.14.1",
+    "iview": "^2.14.3",
     "qs": "^6.5.1",
     "vue": "^2.5.16",
     "vue-fullpage": "^2.0.5",

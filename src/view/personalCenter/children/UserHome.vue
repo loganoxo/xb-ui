@@ -9,19 +9,12 @@
         <div class="left ml-20 mt-12">
           <p>
             <span>账号：{{userData.phone}} </span>
-            <span v-if="!userData.userAccount.ifEditPwdAlready">支付密码：<Icon type="information-circled"
-                                                                           color="#f9284f"></Icon>&nbsp;未设置<router-link
-              :to="{ 'path': '/user/money-management/account-management','query': {'infoSelect': 'accountInfo'}}">&nbsp;&nbsp;设置</router-link></span>
-            <span v-if="userData.userAccount.ifEditPwdAlready">支付密码：<Icon color="#70CF70"
-                                                                          type="checkmark-circled"></Icon> 已设置</span>
-            <span v-if="userData.alitmNum <= 0 "><span v-if="userData.alitmNum <= 0 && getUserInfoRole === 0">淘宝账号：<Icon
-              type="information-circled" color="#f9284f"></Icon> 未绑定<router-link
-              to="/user/personal-setting/ww-bind">去绑定</router-link></span></span>
-            <span v-else><span v-if="userData.alitmNum > 0 && getUserInfoRole === 0">淘宝账号：<Icon color="#70CF70"
-                                                                                                type="checkmark-circled"></Icon> 绑定成功</span></span>
-            <span v-if="Boolean(userData.ifCertification)">实名认证：<Icon color="#70CF70" type="checkmark-circled"></Icon> 已认证</span>
-            <span v-else>实名认证：<Icon type="information-circled" color="#f9284f"></Icon> 未认证 &nbsp;&nbsp;<router-link
-              to="/user/personal-setting/verified">去认证</router-link></span>
+            <span v-if="!userData.userAccount.ifEditPwdAlready">支付密码：<icon type="information-circled" color="#f9284f"/>&nbsp;未设置<router-link :to="{path: '/user/money-management/account-management','query': {'infoSelect': 'accountInfo'}}">&nbsp;&nbsp;设置</router-link></span>
+            <span v-if="userData.userAccount.ifEditPwdAlready">支付密码：<icon color="#70CF70" type="checkmark-circled"/> 已设置</span>
+            <span v-if="userData.alitmNum <= 0 "><span v-if="userData.alitmNum <= 0 && getUserInfoRole === 0">淘宝账号：<icon type="information-circled" color="#f9284f"/> 未绑定<router-link to="/user/personal-setting/ww-bind">去绑定</router-link></span></span>
+            <span v-else><span v-if="userData.alitmNum > 0 && getUserInfoRole === 0">淘宝账号：<icon color="#70CF70" type="checkmark-circled"/> 绑定成功</span></span>
+            <span v-if="Boolean(userData.ifCertification)">实名认证：<icon color="#70CF70" type="checkmark-circled"/> 已认证</span>
+            <span v-else>实名认证：<icon type="information-circled" color="#f9284f"/> 未认证 &nbsp;&nbsp;<router-link to="/user/personal-setting/verified">去认证</router-link></span>
           </p>
           <div>
           <span v-if="getUserInfoRole === 1 && !isMember">
@@ -37,19 +30,24 @@
             <span>可用金额：{{(getUserBalance / 100).toFixed(2)}} 元 </span>
             <span v-if="getUserInfoRole === 0">提现中：{{userData.userAccount.enChashingMoney ? (userData.userAccount.enChashingMoney/100).toFixed(2): 0 }} 元  </span>
             <router-link v-if="getUserInfoRole === 1" :to="{path: '/user/money-management/pay-money'}">充值</router-link>
-            <router-link v-if="getUserInfoRole === 0" :to="{path: '/user/money-management/getout-money'}">提现
-            </router-link>
-            <div v-if="limit" class="inline-block ml-20 pos-rel" style="top: 5px;">
+            <span class="ml-10" v-if="getUserInfoRole === 1 && redEnvelopesExpirationTime">
+              <span>推广费减免红包</span>
+              <tooltip :content="`有效期至${getMemberDeadline}，仅限于推广费抵扣，最多抵扣${getMemberVersionLevel === 200 ? 3 : 6}元 / 单`" placement="top">
+                <icon type="help-circled"/>
+              </tooltip>
+            </span>
+            <router-link v-if="getUserInfoRole === 0" :to="{path: '/user/money-management/getout-money'}">提现</router-link>
+            <div v-if="limit" class="inline-block ml-20 pos-rel mt-5">
               <a v-if="getUserInfoRole === 0" class="left">
                 <span style="color: #495060;">剩余申请次数</span>{{residue}}
               </a>
               <a class="pos-rel apply-num left" v-if="getUserInfoRole === 0">
-                <Icon type="help-circled"
-                      color="#f9284f"></Icon>
+                <icon type="help-circled"
+                      color="#f9284f"/>
                 <i class="up-icon"></i>
                 <em>
                   您今天有{{getUserApplyCount}}次申请活动的机会，扫描以下二维码，关注51白拿拿公众号并分享宝贝，获取更多申请次数！
-                  <img style="width: 200px" src="/static/img/common/qr_code_bainana.png" alt="" class="mt-10 block">
+                  <img width="200" src="/static/img/common/qr_code_bainana.png" alt="" class="mt-10 block">
                 </em>
               </a>
             </div>
@@ -57,8 +55,7 @@
         </div>
       </div>
       <div class="mt-10">
-        <router-link :to="{path:'/user/personal-setting/personal-account-info',query:{from:'userHome'}}">好头像，才有好形象！
-        </router-link>
+        <router-link :to="{path:'/user/personal-setting/personal-account-info',query:{from:'userHome'}}">好头像，才有好形象！</router-link>
       </div>
     </div>
     <div class="fs-14 pd-tb-20 clear" style="border-bottom: 1px solid #eee;">
@@ -199,7 +196,7 @@
   import {Icon, Alert, Form, Input, Checkbox, Button, Radio, Modal, Breadcrumb, Page, Carousel, Tooltip} from 'iview'
   import TimeDown from '@/components/TimeDown'
   import api from '@/config/apiConfig'
-  import {setStorage, getStorage, getSeverTime, encryption} from '@/config/utils'
+  import {setStorage, getStorage, getSeverTime, encryption, timeToDate} from '@/config/utils'
 
   export default {
     name: 'user-home',
@@ -249,7 +246,6 @@
         this.getShowkerApplyCount()
       }
       this.$store.dispatch('getUserInformation');
-
     },
     computed: {
       getUserInfoRole() {
@@ -261,11 +257,15 @@
       userData() {
         return this.$store.state.userInfo;
       },
+      getMemberDeadline () {
+        const time = new Date(this.redEnvelopesExpirationTime);
+        return `${time.getFullYear()}-${time.getMonth() + 1}-${time.getDate()}`
+      },
       getMemberVersionLevel() {
         return this.$store.getters.getMemberLevel
       },
-      getMemberDeadline() {
-        return this.$store.state.userInfo.memberDeadline
+      redEnvelopesExpirationTime() {
+        return this.$store.getters.getRedEnvelopesExpirationTime
       },
       isMember() {
         return this.$store.getters.isMemberOk

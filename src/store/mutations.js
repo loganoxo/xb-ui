@@ -10,6 +10,7 @@ export default {
     state.login = false;
     state.userInfo = {};
     removeStorage("userInfo");
+    removeStorage("taskCreateFastStatus");
   },
 
   //登录成功后存储用户信息到localStorage和vuex

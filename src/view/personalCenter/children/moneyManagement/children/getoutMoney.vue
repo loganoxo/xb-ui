@@ -483,19 +483,19 @@
       this.getFirstWithdrawalCommand();
     },
     computed: {
-      getUserBalance: function () {
+      getUserBalance() {
         return this.$store.getters.getUserBalance;
       },
-      getUserPhone: function () {
+      getUserPhone() {
         return this.$store.state.userInfo.phone;
       },
-      getIfEditPwdAlready: function () {
+      getIfEditPwdAlready() {
         return this.$store.getters.getIsEditPwdAlready;
       },
-      userList: function () {
+      userList() {
         return this.$store.getters.getPersonalInfo;
       },
-      userAccount: function () {
+      userAccount() {
         return this.$store.getters.getUserAccountInfo;
       }
     },

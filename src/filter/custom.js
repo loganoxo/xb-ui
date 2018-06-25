@@ -58,7 +58,7 @@ const numberFormat = (number, decimals) => {
 /**
  * 格式化手机号码（保留前三位和后四位）
  * number：要格式化的手机号码
- * */
+ */
 const phoneNumberFormat = (number) => {
   if (typeof number !== 'string') {
     number = number.toString();

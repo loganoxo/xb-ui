@@ -86,132 +86,134 @@
           <th width="12%">操作</th>
         </tr>
         </thead>
-        <tbody v-for="item in taskList" :key="item.id" v-if="taskList && taskList.length > 0">
-        <tr class="task-number">
-          <td colspan="7">
-            <span>活动编号：{{item.number || '------'}}</span>
-            <span class="ml-10">创建时间：{{item.createTime | dateFormat('YYYY-MM-DD hh:mm:ss') || '------'}}</span>
-            <span class="ml-10">活动类型：{{item.activityCategoryDesc}}</span>
-          </td>
-        </tr>
-        <tr>
-          <td @click="goTaskDetails(item.id)" class="cursor-p">
-            <img class="left ml-10" :src="item.taskMainImage | imageSrc('!thum54')" :alt="item.taskName">
-            <a class="img-title left" :title="item.taskName">{{item.taskName}}</a>
-          </td>
-          <td>
-            <p>{{item.upLineTime | dateFormat('YYYY-MM-DD hh:mm:ss') || '------'}}</p>
-            <p class="mt-10">{{item.endTime | dateFormat('YYYY-MM-DD hh:mm:ss') || '------'}}</p>
-          </td>
-          <td v-if="item.taskStatus !== 'waiting_modify'">
-            <span v-if="item.taskStatus === 'under_way' && !item.online">已下线</span>
-            <span v-else>{{item.taskStatusDesc}}</span><br/>{{item.settlementStatusDesc}}
-          </td>
-          <td class="cursor-p main-color" v-else>
-            <tooltip :content="item.auditLogs[item.auditLogs.length - 1].resultMsg" placement="top">
-              <icon color="#f9284f" type="information-circled"/>&nbsp;待修改
-            </tooltip>
-          </td>
-          <td>{{item.showkerApplyTotalCount || 0}} / {{item.showkerApplyPassedCount || 0}}（人）</td>
-          <td>{{(item.taskCount  - item.showkerApplySuccessCount)}}</td>
-          <td>
-           （ {{(item.totalMarginNeed / 100).toFixed(2) || 0}} / {{(item.promotionExpensesNeed / 100).toFixed(2) || 0}} / {{(item.vasFeeNeed / 100).toFixed(2) || 0}}）{{((item.marginPaid + item.promotionExpensesPaid + item.vasFeePaid) / 100).toFixed(2) || 0}}
-          </td>
-          <td v-if="item.taskStatus === 'waiting_pay'">
-            <p class="del-edit">
-              <span class="mr-10" @click="editTask(item.id, item.createTime, item.fastPublish)">编辑</span>
-              <span @click="closeTask(item.id)">关闭</span>
-            </p>
-            <p class="bond mt-6">
-              <span @click="depositMoney((item.totalMarginNeed + item.promotionExpensesNeed + item.vasFeeNeed),item.id,item.marginPaid + item.promotionExpensesPaid + item.vasFeePaid, item.createTime)">存担保金</span>
-            </p>
-            <p class="copy mt-6">
-              <span @click="copyTask(item.id)">复制活动</span>
-            </p>
-          </td>
-          <td v-else-if="item.taskStatus === 'waiting_modify'">
-            <p class="del-edit">
-              <span class="mr-10" @click="editTask(item.id, item.createTime, item.fastPublish)">编辑</span>
-              <span @click="closeTask(item.id)">关闭</span>
-            </p>
-            <p class="copy mt-6">
-              <span @click="copyTask(item.id)">复制活动</span>
-            </p>
-          </td>
-          <td v-else-if="item.taskStatus === 'waiting_audit'">
-            <p class="copy mt-6">
-              <span @click="lookTaskDetail(item.id)">查看详情</span>
-            </p>
-            <p class="copy mt-6">
-              <span @click="copyTask(item.id)">复制活动</span>
-            </p>
-          </td>
-          <td v-else-if="item.settlementStatus === 'waiting_settlement' && (item.taskStatus === 'finished' || item.taskStatus === 'under_way')">
-            <!--<p class="bond mt-6" v-if="isApproveExpire(item.endTime) && (item.taskCount - item.showkerApplySuccessCount) !== 0">-->
-              <!--<span @click="approveShowker(item.id)">审批拿手</span>-->
-            <!--</p>-->
-            <p class="bond mt-6">
-              <span @click="settlementTask(item.id, item.number)">申请结算</span>
-            </p>
-            <p class="copy mt-6">
-              <span @click="lookTaskDetail(item.id)">查看详情</span>
-            </p>
-            <p class="copy mt-6">
-              <span @click="copyTask(item.id)">复制活动</span>
-            </p>
-          </td>
-          <td v-else-if="item.settlementStatus === 'cannot_settlement' && item.taskStatus === 'finished'">
-            <!--<p class="bond mt-6" v-if="isApproveExpire(item.endTime) && (item.taskCount - item.showkerApplySuccessCount) !== 0">-->
-              <!--<span @click="approveShowker(item.id)">审批拿手</span>-->
-            <!--</p>-->
-            <p class="copy mt-6">
-              <span @click="lookTaskDetail(item.id)">查看详情</span>
-            </p>
-            <p class="copy mt-6">
-              <span @click="copyTask(item.id)">复制活动</span>
-            </p>
-          </td>
-          <td v-else-if="(item.settlementStatus === 'settlement_finished' || item.settlementStatus === 'waiting_audit') && item.taskStatus === 'finished'">
-            <p class="copy mt-6">
-              <span @click="billDetails(item.id, item.storeName)">结算详情</span>
-            </p>
-            <p class="copy mt-6" v-if="item.settlementStatus === 'settlement_finished'">
-              <router-link :to="{path:'/user/money-management/transaction-record',query:{taskNumber:item.number}}">查看活动账单</router-link>
-            </p>
-            <p class="copy mt-6">
-              <span @click="lookTaskDetail(item.id)">查看详情</span>
-            </p>
-            <p class="copy mt-6">
-              <span @click="copyTask(item.id)">复制活动</span>
-            </p>
-          </td>
-          <td v-else-if="item.taskStatus === 'closed'">
-            <p class="bond mt-6">
-              <span @click="deleteTask(item.id)">彻底删除</span>
-            </p>
-            <p class="copy mt-6">
-              <span @click="lookTaskDetail(item.id)">查看详情</span>
-            </p>
-            <p class="copy mt-6">
-              <span @click="copyTask(item.id)">复制活动</span>
-            </p>
-          </td>
-          <td v-else>
-            <!--<p class="bond mt-6">-->
-              <!--<span @click="approveShowker(item.id,item.endTime)">审批拿手</span>-->
-            <!--</p>-->
-            <p class="copy mt-6">
-              <span @click="lookTaskDetail(item.id)">查看详情</span>
-            </p>
-            <tooltip v-if="!item.speedUp" class="mt-6" content="启用后，系统会匹配拿手进行审核，无需商家干预" placement="top">
-              <span class="cursor-p main-color" @click="openSpeedUp(item.id, item.userId)">一键加速</span>
-            </tooltip>
-            <p v-else class="cl-red mt-6">已加速</p>
-            <p class="copy mt-6">
-              <span @click="copyTask(item.id)">复制活动</span>
-            </p>
-          </td>
-        </tr>
+        <tbody v-if="taskList && taskList.length > 0">
+          <template v-for="item in taskList">
+            <tr class="task-number">
+              <td colspan="7">
+                <span>活动编号：{{item.number || '------'}}</span>
+                <span class="ml-10">创建时间：{{item.createTime | dateFormat('YYYY-MM-DD hh:mm:ss') || '------'}}</span>
+                <span class="ml-10">活动类型：{{item.activityCategoryDesc}}</span>
+              </td>
+            </tr>
+            <tr>
+              <td @click="goTaskDetails(item.id)" class="cursor-p">
+                <img class="left ml-10" :src="item.taskMainImage | imageSrc('!thum54')" :alt="item.taskName">
+                <a class="img-title left" :title="item.taskName">{{item.taskName}}</a>
+              </td>
+              <td>
+                <p>{{item.upLineTime | dateFormat('YYYY-MM-DD hh:mm:ss') || '------'}}</p>
+                <p class="mt-10">{{item.endTime | dateFormat('YYYY-MM-DD hh:mm:ss') || '------'}}</p>
+              </td>
+              <td v-if="item.taskStatus !== 'waiting_modify'">
+                <span v-if="item.taskStatus === 'under_way' && !item.online">已下线</span>
+                <span v-else>{{item.taskStatusDesc}}</span><br/>{{item.settlementStatusDesc}}
+              </td>
+              <td class="cursor-p main-color" v-else>
+                <tooltip :content="item.auditLogs[item.auditLogs.length - 1].resultMsg" placement="top">
+                  <icon color="#f9284f" type="information-circled"/>&nbsp;待修改
+                </tooltip>
+              </td>
+              <td>{{item.showkerApplyTotalCount || 0}} / {{item.showkerApplyPassedCount || 0}}（人）</td>
+              <td>{{(item.taskCount  - item.showkerApplySuccessCount)}}</td>
+              <td>
+                （ {{(item.totalMarginNeed / 100).toFixed(2) || 0}} / {{((item.promotionExpensesNeed + item.redEnvelopeDeductionNeed) / 100).toFixed(2) || 0}} / {{(item.vasFeeNeed / 100).toFixed(2) || 0}}）{{((item.marginPaid + item.promotionExpensesPaid + item.vasFeePaid + item.redEnvelopeDeductionPaid) / 100).toFixed(2) || 0}}
+              </td>
+              <td v-if="item.taskStatus === 'waiting_pay'">
+                <p class="del-edit">
+                  <span class="mr-10" @click="editTask(item.id, item.createTime, item.fastPublish)">编辑</span>
+                  <span @click="closeTask(item.id)">关闭</span>
+                </p>
+                <p class="bond mt-6">
+                  <span @click="depositMoney(item.totalMarginNeed + item.promotionExpensesNeed + item.vasFeeNeed + item.redEnvelopeDeductionPaid, item.id,item.marginPaid + item.promotionExpensesPaid + item.vasFeePaid + item.redEnvelopeDeductionPaid, item.createTime)">存担保金</span>
+                </p>
+                <p class="copy mt-6">
+                  <span @click="copyTask(item.id)">复制活动</span>
+                </p>
+              </td>
+              <td v-else-if="item.taskStatus === 'waiting_modify'">
+                <p class="del-edit">
+                  <span class="mr-10" @click="editTask(item.id, item.createTime, item.fastPublish)">编辑</span>
+                  <span @click="closeTask(item.id)">关闭</span>
+                </p>
+                <p class="copy mt-6">
+                  <span @click="copyTask(item.id)">复制活动</span>
+                </p>
+              </td>
+              <td v-else-if="item.taskStatus === 'waiting_audit'">
+                <p class="copy mt-6">
+                  <span @click="lookTaskDetail(item.id)">查看详情</span>
+                </p>
+                <p class="copy mt-6">
+                  <span @click="copyTask(item.id)">复制活动</span>
+                </p>
+              </td>
+              <td v-else-if="item.settlementStatus === 'waiting_settlement' && (item.taskStatus === 'finished' || item.taskStatus === 'under_way')">
+                <!--<p class="bond mt-6" v-if="isApproveExpire(item.endTime) && (item.taskCount - item.showkerApplySuccessCount) !== 0">-->
+                <!--<span @click="approveShowker(item.id)">审批拿手</span>-->
+                <!--</p>-->
+                <p class="bond mt-6">
+                  <span @click="settlementTask(item.id, item.number)">申请结算</span>
+                </p>
+                <p class="copy mt-6">
+                  <span @click="lookTaskDetail(item.id)">查看详情</span>
+                </p>
+                <p class="copy mt-6">
+                  <span @click="copyTask(item.id)">复制活动</span>
+                </p>
+              </td>
+              <td v-else-if="item.settlementStatus === 'cannot_settlement' && item.taskStatus === 'finished'">
+                <!--<p class="bond mt-6" v-if="isApproveExpire(item.endTime) && (item.taskCount - item.showkerApplySuccessCount) !== 0">-->
+                <!--<span @click="approveShowker(item.id)">审批拿手</span>-->
+                <!--</p>-->
+                <p class="copy mt-6">
+                  <span @click="lookTaskDetail(item.id)">查看详情</span>
+                </p>
+                <p class="copy mt-6">
+                  <span @click="copyTask(item.id)">复制活动</span>
+                </p>
+              </td>
+              <td v-else-if="(item.settlementStatus === 'settlement_finished' || item.settlementStatus === 'waiting_audit') && item.taskStatus === 'finished'">
+                <p class="copy mt-6">
+                  <span @click="billDetails(item.id, item.storeName)">结算详情</span>
+                </p>
+                <p class="copy mt-6" v-if="item.settlementStatus === 'settlement_finished'">
+                  <router-link :to="{path:'/user/money-management/transaction-record',query:{taskNumber:item.number}}">查看活动账单</router-link>
+                </p>
+                <p class="copy mt-6">
+                  <span @click="lookTaskDetail(item.id)">查看详情</span>
+                </p>
+                <p class="copy mt-6">
+                  <span @click="copyTask(item.id)">复制活动</span>
+                </p>
+              </td>
+              <td v-else-if="item.taskStatus === 'closed'">
+                <p class="bond mt-6">
+                  <span @click="deleteTask(item.id)">彻底删除</span>
+                </p>
+                <p class="copy mt-6">
+                  <span @click="lookTaskDetail(item.id)">查看详情</span>
+                </p>
+                <p class="copy mt-6">
+                  <span @click="copyTask(item.id)">复制活动</span>
+                </p>
+              </td>
+              <td v-else>
+                <!--<p class="bond mt-6">-->
+                <!--<span @click="approveShowker(item.id,item.endTime)">审批拿手</span>-->
+                <!--</p>-->
+                <p class="copy mt-6">
+                  <span @click="lookTaskDetail(item.id)">查看详情</span>
+                </p>
+                <tooltip v-if="!item.speedUp" class="mt-6" content="启用后，系统会匹配拿手进行审核，无需商家干预" placement="top">
+                  <span class="cursor-p main-color" @click="openSpeedUp(item.id, item.userId)">一键加速</span>
+                </tooltip>
+                <p v-else class="cl-red mt-6">已加速</p>
+                <p class="copy mt-6">
+                  <span @click="copyTask(item.id)">复制活动</span>
+                </p>
+              </td>
+            </tr>
+          </template>
         </tbody>
         <tbody v-if="taskList && taskList.length === 0">
         <tr>
@@ -236,7 +238,7 @@
         <p>是否确认关闭？</p>
       </div>
       <div slot="footer">
-        <iButton type="error" size="large" long :loading="modalLoading" @click="confirmClose">关闭</iButton>
+        <i-button type="error" size="large" long :loading="modalLoading" @click="confirmClose">关闭</i-button>
       </div>
     </modal>
     <!--删除任务弹框-->
@@ -249,7 +251,7 @@
         <p>是否彻底删除该活动？</p>
       </div>
       <div slot="footer">
-        <iButton type="error" size="large" long :loading="modalLoading" @click="confirmDelete">删除</iButton>
+        <i-button type="error" size="large" long :loading="modalLoading" @click="confirmDelete">删除</i-button>
       </div>
     </modal>
     <!--开启一键加速功能确认弹框-->
@@ -262,7 +264,7 @@
         <p>启用后，该活动剩余名额将全部由系统进行匹配和审核，且无法修改，适合于需要快速消化单量的商家！</p>
       </div>
       <div slot="footer">
-        <iButton type="error" size="large" long :loading="speedUpLoading" @click="speedUp">确认开启</iButton>
+        <i-button type="error" size="large" long :loading="speedUpLoading" @click="speedUp">确认开启</i-button>
       </div>
     </modal>
     <!--结算成功弹框-直接结算-->
@@ -276,7 +278,7 @@
       </div>
       <div slot="footer" class="clear">
         <iButton class="left ml-28" type="error" size="large" @click="lookBill">查看活动账单</iButton>
-        <iButton class="right mr-30" type="error" size="large" @click="directSettlementSuccess = false">我知道了</iButton>
+        <i-button class="right mr-30" type="error" size="large" @click="directSettlementSuccess = false">我知道了</i-button>
       </div>
     </modal>
     <!--结算成功弹框-结算有返款-->
@@ -305,11 +307,11 @@
         <p class="mt-5">结算时间：{{taskSettlementDetailInfo.settlementTime | dateFormat('YYYY-MM-DD hh:mm:ss')}}</p>
         <p class="mt-5">结算备注：活动剩余资格 {{taskSettlementDetailInfo.taskCountLeft}}</p>
         <p class="ml-60 mt-5">返还担保金共 {{taskSettlementDetailInfo.marginRefund}} 元</p>
-        <p class="ml-60 mt-5">返还推广费费 {{taskSettlementDetailInfo.promotionRefund}} 元</p>
-        <p class="ml-60 mt-5">返还推广费费 {{taskSettlementDetailInfo.vasFeeRefund}} 元</p>
+        <p class="ml-60 mt-5">返还推广费 {{taskSettlementDetailInfo.promotionRefund}} 元</p>
+        <p class="ml-60 mt-5">返还增值费 {{taskSettlementDetailInfo.vasFeeRefund}} 元</p>
       </div>
       <div slot="footer" class="text-ct">
-        <iButton type="error" size="large" long @click="billDetailsModel = false">确认</iButton>
+        <i-button type="error" size="large" long @click="billDetailsModel = false">确认</i-button>
       </div>
     </modal>
     <!--活动失效提示弹框-->
@@ -322,23 +324,24 @@
         <p class="fs-14">该活动已失效，请关闭！</p>
       </div>
       <div slot="footer" class="text-ct">
-        <iButton type="error" size="large" long :loading="taskOverdueLoading" @click="isTaskOverdueClose">关闭活动</iButton>
+        <i-button type="error" size="large" long :loading="taskOverdueLoading" @click="isTaskOverdueClose">关闭活动</i-button>
       </div>
     </modal>
     <!--支付保证金弹框-->
     <div class="pay-model" v-if="showPayModel">
-      <PayModel ref="payModelRef" :orderMoney="needPayMoney" @confirmPayment="confirmPayment" :isShowUpgradeVIP="true" :isBalance="isBalance">
+      <pay-model ref="payModelRef" :orderMoney="needPayMoney" @confirmPayment="confirmPayment" :isShowUpgradeVIP="true"
+                :isBalance="isBalance" :redEnvelopesState="redEnvelopesState" @change="redEnvelopesState = arguments[0]" :redEnvelopeDeductionNumber="redEnvelopeDeductionNumber">
         <i slot="closeModel" class="close-recharge" @click="showPayModel = false">&times;</i>
         <div slot="noBalance" class="title-tip">
-          <span class="size-color3"><icon color="#FF2424" size="18" type="ios-information"></icon>
+          <span class="size-color3"><icon color="#FF2424" size="18" type="ios-information"/>
             <span class="ml-10">亲，您的余额不足，请充值。</span>
           </span>还需充值<strong class="size-color3">{{needPayMoneyText}}</strong>元
         </div>
         <div slot="isBalance" class="title-tip">
-          <icon color="#FF2424" size="18px" type="ios-information"></icon>
-          <span class="ml-10">您本次需要支付金额为 <span class="size-color3">{{(orderMoney / 100).toFixed(2)}}</span> 元。</span>
+          <icon color="#FF2424" size="18px" type="ios-information"/>
+          <span class="ml-10">您本次需要支付金额为 <span class="size-color3">{{(orderMoneyAfter / 100).toFixed(2)}}</span> 元。</span>
         </div>
-      </PayModel>
+      </pay-model>
     </div>
   </div>
 </template>
@@ -383,6 +386,7 @@
         needDepositMoney: 0,
         hasDeposited: 0,
         taskPayId: null,
+        taskId: null,
         directSettlementSuccess: false,
         auditSettlementSuccess: false,
         billDetailsModel: false,
@@ -432,9 +436,11 @@
             },
           ]
         },
-        storeList:[],
-        selectedStore:'',
-        realStoreName:''
+        storeList: [],
+        selectedStore: '',
+        realStoreName: '',
+        redEnvelopesState: true,
+        redEnvelopeDeductionNumber: 0,
       }
     },
     created() {
@@ -462,11 +468,14 @@
       orderMoney() {
         return this.hasDeposited > 0 ? this.needDepositMoney - this.hasDeposited : this.needDepositMoney;
       },
+      orderMoneyAfter() {
+        return this.redEnvelopesState ? this.orderMoney - this.redEnvelopeDeductionNumber : this.orderMoney
+      },
       isBalance() {
         return this.orderMoney <= this.getUserBalance
       },
       needPayMoney() {
-        return !this.hasBalance ? Math.abs(this.getUserBalance - this.orderMoney) : 0
+        return !this.hasBalance ? Math.abs(this.getUserBalance - this.orderMoneyAfter) : 0
       },
       needPayMoneyText() {
         return `${(this.needPayMoney / 100).toFixed(2)} + ${(((Math.ceil(this.needPayMoney / 0.994)) - this.needPayMoney) / 100).toFixed(2)}`
@@ -474,7 +483,7 @@
     },
     methods: {
       editTask(id, createTime, fastPublish) {
-        if(createTime <= 1526457600000) {
+        if(createTime <= 1529933415818) {
           this.isTaskOverdueModel = true;
           this.taskId = id;
         } else {
@@ -595,7 +604,7 @@
         this.taskId = id;
       },
       confirmClose() {
-        let _this = this;
+        const _this = this;
         _this.modalLoading = true;
         _this.taskOverdueLoading = true;
         api.closeTask({
@@ -691,36 +700,56 @@
         this.confirmClose()
       },
       depositMoney(money, id, deposited, createTime) {
-        let _this = this;
-        if(createTime <= 1526457600000) {
+        const _this = this;
+        if (createTime <= 1526457600000) {
           _this.isTaskOverdueModel = true;
           _this.taskId = id;
         } else {
-          _this.needDepositMoney = money || 0;
-          _this.hasDeposited = deposited || 0;
+          _this.needDepositMoney = money;
+          _this.hasDeposited = deposited;
           _this.taskPayId = id;
-          _this.showPayModel = true;
+          api.redEnvelopeDeduction({
+            taskId: id,
+          }).then(res => {
+            if (res.status) {
+              _this.redEnvelopeDeductionNumber = res.data;
+              _this.showPayModel = true;
+            } else {
+              _this.$Message.error(res.msg)
+            }
+          })
         }
       },
       confirmPayment(pwd) {
-        let _this = this;
-        api.payByBalance({
-          fee: _this.orderMoney,
-          payPassword: pwd,
+        const _this = this;
+        api.editPromotion({
+          redEnvelopesState: _this.redEnvelopesState,
           taskId: _this.taskPayId,
-          type: _this.hasDeposited > 0 ? 'supply_pay' : 'first_pay'
+        }).then(res => {
+          return res
         }).then(res => {
           if (res.status) {
-            _this.showPayModel = false;
-            _this.$Message.success('支付成功！');
-            _this.$store.dispatch('getUserInformation');
-            setTimeout(()=> {
-              _this.getTaskList();
-            }, 400);
+            api.payByBalance({
+              fee: _this.orderMoneyAfter,
+              payPassword: pwd,
+              taskId: _this.taskPayId,
+              type: _this.hasDeposited > 0 ? 'supply_pay' : 'first_pay'
+            }).then(res => {
+              if (res.status) {
+                _this.showPayModel = false;
+                _this.$Message.success('支付成功！');
+                _this.$store.dispatch('getUserInformation');
+                setTimeout(()=> {
+                  _this.getTaskList();
+                }, 400);
+              } else {
+                _this.$Message.error(res.msg)
+              }
+              _this.$refs.payModelRef.payLoading = false;
+            })
           } else {
             _this.$Message.error(res.msg)
           }
-          _this.$refs.payModelRef.payLoading = false;
         })
       },
       lookBill() {

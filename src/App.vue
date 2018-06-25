@@ -13,7 +13,7 @@
         <div class="service-content">
           <p class="service-title text-ct fs-14">您的专属</p>
           <p class="service-title text-ct fs-14">一对一产品服务</p>
-          <!--<div class="business-service text-ct" v-if="memberLevel === 100 || memberLevel === null">-->
+          <!--<div class="business-service text-ct" v-if="memberLevel === 100">-->
             <!--<p class="fs-14 cl666 mt-10">商家咨询</p>-->
             <!--<a href="http://wpa.qq.com/msgrd?v=3&site=qq&menu=yes&uin=2012364029" target="_blank">小米</a>-->
             <!--<a href="http://wpa.qq.com/msgrd?v=3&site=qq&menu=yes&uin=1873512513" target="_blank">元宝</a>-->
@@ -200,10 +200,12 @@
   .title-tip {
     height: 36px;
     line-height: 36px;
-    margin: 56px auto 20px auto;
+    margin: 32px auto 20px auto;
     color: #000;
     background-color: #FFF6F3;
     font-size: 14px;
+    text-align: center;
+    border-radius: 5px;
   }
 
   .open-vip-btn {

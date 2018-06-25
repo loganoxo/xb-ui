@@ -2,13 +2,13 @@
   <div class="vip-member-order">
     <p class="mt-10"><strong>VIP会员服务说明：</strong></p>
     <p class="mt-5">1、可在服务期内使用对应版本的服务功能，VIP及SVIP购买成功后费用不退还。</p>
-    <p class="mt-5">2、会员版本仅支持向上扩展。譬如：当前版本为SVIP版本，在该版本到期前不支持购买VIP版本。</p>
-    <p class="mt-5">3、时间周期在当前版本中叠加购买。譬如：当前为VIP年版，再购买VIP半年则在原到期时间上延长半年 。</p>
-    <p class="mt-5">4、会员版本升级时，将现有会员剩余时间按天进行折算，剩余价格将抵扣到新版本的费用中（若折算出的价格有溢出，将不退回）。</p>
+    <!--<p class="mt-5">2、会员版本仅支持向上扩展。譬如：当前版本为SVIP版本，在该版本到期前不支持购买VIP版本。</p>-->
+    <p class="mt-5">2、时间周期在当前版本中叠加购买。譬如：当前为VIP年版，再购买VIP半年则在原到期时间上延长半年 。</p>
+    <p class="mt-5">3、会员版本升级时，将现有会员剩余时间按天进行折算，剩余价格将抵扣到新版本的费用中（若折算出的价格有溢出，将不退回）。</p>
     <div class="mt-30">
       <span class="f-b">请选择您的会员版本：</span>
       <i-button class="select-version fs-16" :class="{'is-active': isSelectVersionPeriodInfo.level === item}"
-                v-for="item in memberVersionList" :key="item.id"
+                v-for="(item, index) in memberVersionList" :key="index"
                 :disabled="getMemberVersionLevel > item && isMember"
                 @click="selectVersion(item, memberVersionNameMap[item])">
         {{memberVersionNameMap[item]}}
@@ -18,6 +18,7 @@
       <span class="f-b">请选择您的时间周期：</span>
       <i-button :class="{'is-active': isSelectVersionPeriodInfo.timeLevel === item.timeLevel}" class="select-period"
                 v-for="item in memberPeriodList" :key="item.id"
+                :disabled="getMemberVersionLevel === 300"
                 @click="selectPeriod(item.timeLevel, memberPeriodNameMap[item.timeLevel])">
         <div>
           <span class="fs-16">{{memberPeriodNameMap[item.timeLevel]}}</span>
@@ -29,7 +30,7 @@
     <div class="mt-28">
       <p class="fs-14">您当前为：{{nowVersionName}}<span v-if="isMember">，到期时间：{{getMemberDeadline | dateFormat('YYYY-MM-DD') || '------'}}</span>
       </p>
-      <p class="mt-10 fs-14">您已选择 <span class="main-color">{{selectOrderStatusMap[selectOrderStatus]}}</span> <span
+      <p class="mt-10 fs-14" v-if="getMemberVersionLevel !== 300">您已选择 <span class="main-color">{{selectOrderStatusMap[selectOrderStatus]}}</span> <span
         class="cl000 f-b">{{selectVersionPeriodStatus || '--'}}</span>，有效期至
         <span class="main-color">{{orderValidityTime | dateFormat('YYYY-MM-DD') || '------'}}</span><span
           v-if="isMember && isVersionUpgrade">，根据您现在的会员版本可折价抵扣：{{(deductionPrice / 100).toFixed(2) || 0.00}}元，成功升级后现有版本将失效。</span>
@@ -40,7 +41,7 @@
         元<span v-if="!hasBalance">，还需要充值：<span class="f-b">{{(needPayMoney / 100).toFixed(2)}}</span> 元</span>
       </p>
     </div>
-    <i-button v-if="hasBalance" class="pay-btn" @click="buyNow">立即购买</i-button>
+    <i-button v-if="hasBalance" class="pay-btn" @click="buyNow" :disabled="getMemberVersionLevel === 300">立即购买</i-button>
     <i-button v-if="!hasBalance" class="pay-btn" @click="buyNow">前去充值</i-button>
     <!--支付弹窗-->
     <div class="pay-model" v-if="isNeedRecharge">
@@ -50,16 +51,15 @@
         <i slot="closeModel" class="close-recharge" @click="isNeedRecharge = false">&times;</i>
         <div slot="noBalance" class="title-tip">
           <span class="size-color3">
-            <Icon color="#FF2424" size="16" type="ios-information"></Icon>
+            <icon color="#FF2424" size="16" type="ios-information"/>
             <span class="">亲，您的余额不足，请充值。</span>
           </span>还需充值
-          <!--<strong class="size-color3">{{needPayMoneyText}}</strong> 元。-->
           <strong class="size-color3">{{(needPayMoney / 100).toFixed(2)}}</strong> 元。
         </div>
         <div slot="isBalance" class="title-tip">
-          <Icon color="#FF2424" size="18px" type="ios-information"></Icon>
+          <icon color="#FF2424" size="18px" type="ios-information"/>
           <span class="ml-10">您本次需要支付金额为 <span
-            class="size-color3">{{buyOrderPrice > 0 ? (buyOrderPrice / 100).toFixed(2) : 0}}</span> 元。</span>
+            class="size-color3">{{buyOrderPrice > 0 ? (buyOrderPrice / 100).toFixed(2) : 0.00}}</span> 元。</span>
         </div>
       </pay-model>
     </div>
@@ -83,10 +83,10 @@
     data() {
       return {
         isSelectVersionPeriodInfo: {
-          level: 200,
-          levelText: 'VIP',
-          timeLevel: 300,
-          timeLevelText: '1年',
+          level: null,
+          levelText: null,
+          timeLevel: null,
+          timeLevelText: null,
         },
         selectOrderStatusMap: {
           'renewal': '续费',
@@ -220,6 +220,7 @@
             this.memberPeriodList.push(item)
           }
         });
+        // 如果选择SVIP版本默认选择SVIP一年
         if (level === 300) {
           this.isSelectVersionPeriodInfo.timeLevel = 300;
           this.isSelectVersionPeriodInfo.timeLevelText = '1年';
@@ -274,6 +275,9 @@
               _this.memberVersionPeriodList.forEach(item => {
                 if (item.level === _this.getMemberVersionLevel) {
                   _this.memberPeriodList.push(item)
+                } else {
+                  // 此处是为了兼容去除SVIP版本后的处理，如果将来重新加入高级版本，此代码可删除
+                  _this.memberPeriodList.push(item)
                 }
               });
             } else {
@@ -326,6 +330,9 @@
           _this.memberVersionPeriodList.forEach(item => {
             if (item.level === _this.getMemberVersionLevel) {
               _this.memberPeriodList.push(item)
+            } else {
+              // 此处是为了兼容去除SVIP版本后的处理，如果将来重新加入高级版本，此代码可删除
+              _this.memberPeriodList.push(item)
             }
           });
         } else {
@@ -337,8 +344,10 @@
         }
 
         // 默认选择一年的周期（不考虑用户当前版本周期）
-        _this.isSelectVersionPeriodInfo.timeLevel = 300;
-        _this.isSelectVersionPeriodInfo.timeLevelText = '1年';
+        if (_this.getMemberVersionLevel !== 300) { // 此判断是为了兼容去除SVIP版本后的处理，如果将来重新加入高级版本，此判断可删除
+          _this.isSelectVersionPeriodInfo.timeLevel = 300;
+          _this.isSelectVersionPeriodInfo.timeLevelText = '1年';
+        }
         if (_this.isMember && _this.getMemberVersionLevel === 200) {
           _this.nowVersionName = 'VIP会员'
         } else if (_this.isMember && _this.getMemberVersionLevel === 300) {
@@ -423,6 +432,11 @@
     font-size: 18px;
     margin-top: 40px;
     margin-left: 206px;
+    &:disabled {
+      color: #bbbec4;
+      background-color: #f7f7f7;
+      border-color: #dddee1;
+    }
   }
 
 </style>

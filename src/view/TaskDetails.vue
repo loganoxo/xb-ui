@@ -45,8 +45,8 @@
                     :style="{backgroundColor: $store.state.discountPriceType[parseFloat(commodityData.task.discountRate/10) + '折'].backgroundColor}">
                     {{commodityData.task.discountRate/10}}折清仓
                   </span>
-              <span v-if="commodityData.task.perVasFee" class="fs-12 bg-main-color cl-fff pr-5 pl-5">
-                返利{{computeVasReturnFee(commodityData.task.perVasFee,commodityData.task.systemVasFeeCommissionPercent)}}元
+              <span v-if="(commodityData.task.perVasFee || commodityData.task.promotionExpensesPaid && (uplineTime < commodityData.task.createTime))" class="fs-12 bg-main-color cl-fff pr-5 pl-5">
+                返利{{computeVasReturnFee(commodityData.task.perVasFee,commodityData.task.systemVasFeeCommissionPercent,commodityData.task.activityCategory,commodityData.task.promotionExpensesPaid,commodityData.task.createTime)}}元
               </span>
             </h3>
             <p class="fs-14">
@@ -73,11 +73,6 @@
               &nbsp;&nbsp;&nbsp;&nbsp;
               活动份数：<span class="fs-18"> {{commodityData.task.taskCount}} </span>份
             </p>
-            <!--打赏费，勿删-->
-            <!--<div v-if="getUserRole === 0 && isLogin === true">-->
-              <!--<p class="f-b cl000 fs-14" v-if="commodityData.task.createTime>=1526464800000">完成该活动可额外获得打赏费<span v-if="commodityData.task.activityCategory === 'free_get'">1</span><span v-else-if="commodityData.task.activityCategory === 'present_get'">2</span>元</p>-->
-              <!--<p class="f-b cl000 fs-14" v-else>完成该活动可额外获得打赏费0元</p>-->
-            <!--</div>-->
             <p class="fs-14">（商家已存入总活动担保金&nbsp;{{commodityData.task.totalMarginNeed/100}}&nbsp;元，请放心申请）</p>
             <p class="fs-14">{{commodityData.task.showkerApplyTotalCount}} 人申请，{{parseInt(commodityData.trailOn) ?
               commodityData.trailOn: 0}} 人正在参与活动，{{parseInt(commodityData.trailDone) ? commodityData.trailDone : 0}}
@@ -252,7 +247,9 @@
                   </p>
                   <p class="mt-10" v-if="commodityData.vasCount">
                     <span>浏览截图：</span>
-                    <span>{{commodityData.vasCount}}张，（返利{{computeVasReturnFee(commodityData.task.perVasFee,commodityData.task.systemVasFeeCommissionPercent)}}元）</span>
+                    <span>
+                      {{commodityData.vasCount}}张，（返利{{computeVasReturnFee(commodityData.task.perVasFee,commodityData.task.systemVasFeeCommissionPercent,commodityData.task.activityCategory,commodityData.task.promotionExpensesPaid)}}元）
+                    </span>
                   </p>
                   <div class="evaluation-content-tip cl666"
                        v-if="commodityData.task.itemReviewRequired === 'assign_review_detail' && commodityData.showkerTask">
@@ -280,7 +277,6 @@
                   </iButton>
                 </div>
               </div>
-
               <div class="text-ct mt-20 graphic-info-itemDescription" v-show="!commodityData.cannotShowItemDescriptionOfQualification">
                 <div v-html="commodityData.task.itemDescription"></div>
               </div>
@@ -312,7 +308,6 @@
                         <img :src="trialReportImage | imageSrc('!thum54')" alt="">
                       </a>
                     </p>
-
                   </div>
                 </li>
               </ul>
@@ -547,6 +542,7 @@
         isShowAddGroupTip: true,
         limit: false,
         isOpenQqBindModal: false,
+        uplineTime: 1529933415818
       }
     },
     created() {
@@ -604,8 +600,17 @@
       },
     },
     methods: {
-      computeVasReturnFee(fee,percent) {
-        return (fee/100*(1-percent/100)).toFixed(2);
+      computeVasReturnFee(fee,percent,type,promotion,createTime) {
+        const newActivity = this.uplineTime - createTime < 0 ? true : false;
+        if (promotion && newActivity) {
+          if (type === 'free_get') {
+            return (fee / 100 * (1 - percent / 100) + 1).toFixed(2);
+          } else if (type === 'present_get') {
+            return (fee / 100 * (1 - percent / 100) + 3).toFixed(2);
+          }
+        } else {
+          return (fee / 100 * (1 - percent / 100)).toFixed(2);
+        }
       },
       encryptionId(id) {
         return encryption(id);

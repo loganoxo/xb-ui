@@ -14,7 +14,7 @@
 
 <script>
   export default {
-    name: 'MyProbation',
+    name: 'my-probation',
     data() {
       return {
         showProbationStatus:'ApplyWaitAudit'

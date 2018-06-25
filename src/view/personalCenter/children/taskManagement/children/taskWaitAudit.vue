@@ -194,7 +194,7 @@
     <!--订购火眼金睛功能弹框-->
     <modal v-model="orderEyesModel">
       <div class="text-ct" slot="header">
-        <icon type="ios-cart" color="#f9284f" size="20"></icon>
+        <icon type="ios-cart" color="#f9284f" size="20"/>
         <span class="ml-5 fs-14 main-color">订购火眼金睛</span></div>
       <div class="mt-10">
         <span>订购方式一：</span>
@@ -241,13 +241,13 @@
         <i slot="closeModel" class="close-recharge" @click="eyesPayModel = false">&times;</i>
         <div slot="noBalance" class="title-tip">
           <span class="size-color3">
-            <icon color="#FF2424" size="16" type="ios-information"></icon>
+            <icon color="#FF2424" size="16" type="ios-information"/>
             <span class="">亲，您的余额不足，请充值。</span>
           </span>还需充值
           <strong class="size-color3">{{(needRechargeMoney / 100).toFixed(2)}}</strong> 元。
         </div>
         <div slot="isBalance" class="title-tip">
-          <icon color="#FF2424" size="18px" type="ios-information"></icon>
+          <icon color="#FF2424" size="18px" type="ios-information"/>
           <span class="ml-10">您本次需要支付金额为 <span
             class="size-color3">{{(selectEyesPeriodInfo.fee / 100).toFixed(2)}}</span> 元。</span>
         </div>
@@ -263,7 +263,7 @@
     <!--开启一键加速功能确认弹框-->
     <modal v-model="speedUpModal" width="360">
       <p slot="header" class="text-ct">
-        <icon color="#f9284f" type="information-circled"></icon>
+        <icon color="#f9284f" type="information-circled"/>
         <span class="main-color">一键加速</span>
       </p>
       <div class="text-ct">

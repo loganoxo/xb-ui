@@ -75,8 +75,7 @@ export const delCookie = (name) => {
 /**
  * 生成当前时间的年月日
  */
-export const timeToDate = () => {
-  let time = new Date();
+export const timeToDate = (time = new Date()) => {
   let Y = time.getFullYear();
   let M = time.getMonth() + 1;
   let D = time.getDate();
