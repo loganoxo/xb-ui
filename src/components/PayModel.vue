@@ -118,6 +118,11 @@
         type: Boolean,
         default: true
       },
+      // 红包按钮禁用状态
+      disabledRedEnvelopes: {
+        type: Boolean,
+        default: false
+      },
       // 红包抵扣金额
       redEnvelopeDeductionNumber: {
         type: Number,
@@ -148,7 +153,6 @@
         payPopWindowWX: false,
         payLoading: false,
         showFreePayModel: false,
-        disabledRedEnvelopes: false,
       }
     },
     computed: {
