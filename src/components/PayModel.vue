@@ -1,14 +1,14 @@
 <template>
   <div class="pay-model-con">
     <slot name="closeModel"/>
-    <checkbox v-if="getMemberVersionLevel > 100" class="mt-40" :value="redEnvelopesState" :disabled="disabledRedEnvelopes" @on-change="checkboxChange">使用<span class="main-color">推广费减免红包</span>抵扣 {{(redEnvelopeDeductionNumber / 100).toFixed(2)}} 元</checkbox>
+    <checkbox v-if="getMemberVersionLevel > 100 && redEnvelopeDeductionNumber > 0" class="mt-40" :value="redEnvelopesState" :disabled="disabledRedEnvelopes" @on-change="checkboxChange">使用<span class="main-color">推广费减免红包</span>抵扣 {{(redEnvelopeDeductionNumber / 100).toFixed(2)}} 元</checkbox>
     <template v-if="!isBalance">
       <slot name="noBalance"/>
     </template>
     <template v-else>
       <slot name="isBalance"/>
     </template>
-    <div class="hasBalance mt-40" v-if="isBalance">
+    <div class="hasBalance mt-30" v-if="isBalance">
       <span class="input-pay-pwd">请输入支付密码：</span>
       <i-input v-model="payPassword" type="password" style="width: 200px" @on-keypress="pressEnterLoginNormal"/>
       <span class="ml-10" v-if="isPwdAmend"><router-link
@@ -50,7 +50,7 @@
         </div>
       </div>
     </div>
-    <Modal v-model="payPopWindowWX" :styles="{top:'310px'}">
+    <modal v-model="payPopWindowWX" :styles="{top:'310px'}">
       <div slot="header" class="text-ct">微信支付二维码</div>
       <div class="text-ct">
         <img :src="wxPayImgSrc" alt="">
@@ -59,7 +59,7 @@
         <iButton class="success-btn" type="success" @click="finishRecharge">充值成功</iButton>
         <iButton class="error-btn" type="error" @click="hasProblem">充值失败</iButton>
       </div>
-    </Modal>
+    </modal>
     <artificial-recharge-model v-if="showFreePayModel" @colseFreePayModal="showFreePayModel = false"/>
   </div>
 

@@ -1035,7 +1035,7 @@
               <!--<a>什么是打赏费？</a>-->
               <!--</tooltip>-->
             </p>
-            <p>总增值费 = 单品增值费 × 份数 = <span>{{(oneValueAddedCost / 100).toFixed(2)}}</span> × <span>{{taskRelease.taskCount}}</span>
+            <p class="mt-6">总增值费 = 单品增值费 × 份数 = <span>{{(oneValueAddedCost / 100).toFixed(2)}}</span> × <span>{{taskRelease.taskCount}}</span>
               = {{(allValueAddedCost / 100).toFixed(2)}} 元</p>
             <p class="mt-6">总费用 = 活动担保金 + 总推广费 + 总增值费用 = <span>{{(orderMoney / 100).toFixed(2)}}</span> 元</p>
             <p class="mt-6" v-if="!isBalance">手续费说明： 使用支付宝充值支付，支付宝会收取0.6%的手续费，该笔费用需要商家承担，手续费不予退还，敬请谅解！<a
@@ -1048,14 +1048,11 @@
           class="second-color">{{(needPayMoneyBefore / 100).toFixed(2)}}</span>&nbsp;元。
         </div>
         <div class="pay-info mt-40" v-if="isBalanceReplenish && priceHasChange">
-          该任务已付总费用 <strong>{{paidDeposit.toFixed(2)}}</strong>元，本次修改需要支付超出部分的金额为：<strong class="main-color">{{(replenishMoney / 100).toFixed(2)}}</strong>元。您账号的当前余额为：<strong>{{(getUserBalance / 100).toFixed(2) || 0}}</strong>&nbsp;元
+          该任务已付总费用 <strong>{{(paidDeposit / 100).toFixed(2)}}</strong>元，本次修改需要支付超出部分的金额为：<strong class="main-color">{{(replenishMoney / 100).toFixed(2)}}</strong>元。您账号的当前余额为：<strong>{{(getUserBalance / 100).toFixed(2) || 0}}</strong>&nbsp;元
         </div>
-        <div class="pay-info mt-40" v-if="!isBalanceReplenish && priceHasChange">该任务已付担保金 <strong>{{(paidDeposit).toFixed(2)}}</strong>元，本次修改需要支付超出部分的金额为：<strong
+        <div class="pay-info mt-40" v-if="!isBalanceReplenish && priceHasChange">该任务已付担保金 <strong>{{((paidDeposit / 100)).toFixed(2)}}</strong>元，本次修改需要支付超出部分的金额为：<strong
           class="main-color">{{(replenishMoney / 100).toFixed(2)}}</strong>元。您账号的当前余额为：<strong>{{(getUserBalance / 100).toFixed(2) || 0}}</strong>&nbsp;元,还需充值：<span
           class="second-color">{{(needPayMoneyBefore / 100).toFixed(2)}}</span>&nbsp;元。
-        </div>
-        <div class="mt-10 ml-40">
-          <!--<checkbox v-model="redEnvelopesState" :disabled="disabledRedEnvelopes">使用<span class="main-color">推广费减免红包</span>抵扣 {{(redEnvelopeDeductionNumber / 100).toFixed(2)}} 元</checkbox>-->
         </div>
         <div class="description-fees-footer">
           <span class="pay-btn" v-if="isBalance" @click="openRecharge">前去支付</span>
@@ -1694,7 +1691,7 @@
        * @return {number}
        */
       replenishMoney() {
-        return this.priceHasChange ? this.orderMoney - this.paidDeposit * 100 : 0;
+        return this.priceHasChange ? this.orderMoney - this.paidDeposit : 0;
       },
 
       /**
@@ -2458,11 +2455,11 @@
         }
         let status = _this.taskStatus;
         let type = _this.$route.query.type;
-        if ((status === 'waiting_modify' || status === 'waiting_pay') && _this.paidDeposit * 100 === _this.orderMoney && !type) {
+        if ((status === 'waiting_modify' || status === 'waiting_pay') && _this.paidDeposit === _this.orderMoney && !type) {
           _this.taskCreate(true);
-        } else if ((status === 'waiting_modify' || status === 'waiting_pay') && _this.paidDeposit * 100 > _this.orderMoney && !type) {
+        } else if ((status === 'waiting_modify' || status === 'waiting_pay') && _this.paidDeposit > _this.orderMoney && !type) {
           this.editPriceToLowAfterModel = true;
-        } else if ((status === 'waiting_modify' || status === 'waiting_pay') && _this.paidDeposit > 0 && _this.paidDeposit * 100 < _this.orderMoney && !type) {
+        } else if ((status === 'waiting_modify' || status === 'waiting_pay') && _this.paidDeposit > 0 && _this.paidDeposit < _this.orderMoney && !type) {
           _this.editPriceAfterModel = true;
           _this.priceHasChange = true;
         } else if (type && type === 'copy') {
@@ -2626,7 +2623,7 @@
             if (!type) {
               _this.taskRelease.taskId = res.data.id;
             }
-            _this.paidDeposit = (res.data.marginPaid + res.data.promotionExpensesPaid + res.data.vasFeePaid) / 100 || 0;
+            _this.paidDeposit = res.data.marginPaid + res.data.promotionExpensesPaid + res.data.vasFeePaid + res.data.redEnvelopeDeductionPaid;
             _this.taskStatus = res.data.taskStatus;
             _this.mainDefaultList.push({src: res.data.taskMainImage});
             for (let k in _this.taskRelease) {
@@ -2715,6 +2712,11 @@
               _this.conversionPrice('tao_code');
             } else if (res.data.taskType === 'pc_search') {
               _this.pcTaskDetail = res.data.taskDetailObject;
+              _this.pcTaskDetail.map(item => {
+                if (!item.searchFilter) {
+                  return item.searchFilter = []
+                }
+              });
               _this.addKeywordScheme = _this.pcTaskDetail.length - 1;
               _this.pcDefaultList.push({src: _this.pcTaskDetail[0].itemMainImage});
               _this.pcTaskDetailItemMainImage = _this.pcTaskDetail[0].itemMainImage;
@@ -2727,6 +2729,11 @@
               _this.isCountAssigned = null;*/
             } else if (res.data.taskType === 'app_search') {
               _this.appTaskDetail = res.data.taskDetailObject;
+              _this.appTaskDetail.map(item => {
+                if (!item.searchFilter) {
+                  return item.searchFilter = []
+                }
+              });
               _this.addKeywordScheme = _this.appTaskDetail.length - 1;
               _this.appDefaultList.push({src: _this.appTaskDetail[0].itemMainImage});
               _this.appTaskDetailItemMainImage = _this.appTaskDetail[0].itemMainImage;

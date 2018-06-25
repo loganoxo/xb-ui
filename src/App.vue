@@ -200,7 +200,7 @@
   .title-tip {
     height: 36px;
     line-height: 36px;
-    margin: 16px auto 20px auto;
+    margin: 32px auto 20px auto;
     color: #000;
     background-color: #FFF6F3;
     font-size: 14px;

@@ -115,7 +115,7 @@
           <td>{{item.showkerApplyTotalCount || 0}} / {{item.showkerApplyPassedCount || 0}}（人）</td>
           <td>{{(item.taskCount  - item.showkerApplySuccessCount)}}</td>
           <td>
-           （ {{(item.totalMarginNeed / 100).toFixed(2) || 0}} / {{(item.promotionExpensesNeed / 100).toFixed(2) || 0}} / {{(item.vasFeeNeed / 100).toFixed(2) || 0}}）{{((item.marginPaid + item.promotionExpensesPaid + item.vasFeePaid) / 100).toFixed(2) || 0}}
+           （ {{(item.totalMarginNeed / 100).toFixed(2) || 0}} / {{((item.promotionExpensesNeed + item.redEnvelopeDeductionNeed) / 100).toFixed(2) || 0}} / {{(item.vasFeeNeed / 100).toFixed(2) || 0}}）{{((item.marginPaid + item.promotionExpensesPaid + item.vasFeePaid + item.redEnvelopeDeductionPaid) / 100).toFixed(2) || 0}}
           </td>
           <td v-if="item.taskStatus === 'waiting_pay'">
             <p class="del-edit">
@@ -123,7 +123,7 @@
               <span @click="closeTask(item.id)">关闭</span>
             </p>
             <p class="bond mt-6">
-              <span @click="depositMoney((item.totalMarginNeed + item.promotionExpensesNeed + item.vasFeeNeed),item.id,item.marginPaid + item.promotionExpensesPaid + item.vasFeePaid, item.createTime)">存担保金</span>
+              <span @click="depositMoney(item.totalMarginNeed + item.promotionExpensesNeed + item.vasFeeNeed + item.redEnvelopeDeductionPaid, item.id,item.marginPaid + item.promotionExpensesPaid + item.vasFeePaid + item.redEnvelopeDeductionPaid, item.createTime)">存担保金</span>
             </p>
             <p class="copy mt-6">
               <span @click="copyTask(item.id)">复制活动</span>
@@ -305,8 +305,8 @@
         <p class="mt-5">结算时间：{{taskSettlementDetailInfo.settlementTime | dateFormat('YYYY-MM-DD hh:mm:ss')}}</p>
         <p class="mt-5">结算备注：活动剩余资格 {{taskSettlementDetailInfo.taskCountLeft}}</p>
         <p class="ml-60 mt-5">返还担保金共 {{taskSettlementDetailInfo.marginRefund}} 元</p>
-        <p class="ml-60 mt-5">返还推广费费 {{taskSettlementDetailInfo.promotionRefund}} 元</p>
-        <p class="ml-60 mt-5">返还推广费费 {{taskSettlementDetailInfo.vasFeeRefund}} 元</p>
+        <p class="ml-60 mt-5">返还推广费 {{taskSettlementDetailInfo.promotionRefund}} 元</p>
+        <p class="ml-60 mt-5">返还增值费 {{taskSettlementDetailInfo.vasFeeRefund}} 元</p>
       </div>
       <div slot="footer" class="text-ct">
         <iButton type="error" size="large" long @click="billDetailsModel = false">确认</iButton>
@@ -699,12 +699,12 @@
       },
       depositMoney(money, id, deposited, createTime) {
         const _this = this;
-        if(createTime <= 1526457600000) {
+        if (createTime <= 1526457600000) {
           _this.isTaskOverdueModel = true;
           _this.taskId = id;
         } else {
-          _this.needDepositMoney = money || 0;
-          _this.hasDeposited = deposited || 0;
+          _this.needDepositMoney = money;
+          _this.hasDeposited = deposited;
           _this.taskPayId = id;
           api.redEnvelopeDeduction({
             taskId: id,
