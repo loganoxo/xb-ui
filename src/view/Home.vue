@@ -689,7 +689,7 @@
         pinkageFor10: [],
         presentGet: [],
         showFirstVisitModel: false,
-        uplineTime: 1529928000000
+        uplineTime: 1529933415818
       }
     },
     beforeMount() {
