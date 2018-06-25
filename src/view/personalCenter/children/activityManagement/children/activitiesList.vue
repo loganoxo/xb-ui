@@ -124,7 +124,7 @@
                   <span @click="closeTask(item.id)">关闭</span>
                 </p>
                 <p class="bond mt-6">
-                  <span @click="depositMoney(item.totalMarginNeed + item.promotionExpensesNeed + item.vasFeeNeed + item.redEnvelopeDeductionPaid, item.id,item.marginPaid + item.promotionExpensesPaid + item.vasFeePaid + item.redEnvelopeDeductionPaid, item.createTime)">存担保金</span>
+                  <span @click="depositMoney(item.totalMarginNeed + item.promotionExpensesNeed + item.vasFeeNeed + item.redEnvelopeDeductionPaid, item.id,item.marginPaid + item.promotionExpensesPaid + item.vasFeePaid + item.redEnvelopeDeductionPaid, item.createTime, item.promotionExpensesPaid)">存担保金</span>
                 </p>
                 <p class="copy mt-6">
                   <span @click="copyTask(item.id)">复制活动</span>
@@ -330,7 +330,8 @@
     <!--支付保证金弹框-->
     <div class="pay-model" v-if="showPayModel">
       <pay-model ref="payModelRef" :orderMoney="needPayMoney" @confirmPayment="confirmPayment" :isShowUpgradeVIP="true"
-                :isBalance="isBalance" :redEnvelopesState="redEnvelopesState" @change="redEnvelopesState = arguments[0]" :redEnvelopeDeductionNumber="redEnvelopeDeductionNumber">
+                :isBalance="isBalance" :redEnvelopesState="redEnvelopesState" @change="redEnvelopesState = arguments[0]"
+                 :redEnvelopeDeductionNumber="redEnvelopeDeductionNumber" :disabledRedEnvelopes="disabledRedEnvelopes">
         <i slot="closeModel" class="close-recharge" @click="showPayModel = false">&times;</i>
         <div slot="noBalance" class="title-tip">
           <span class="size-color3"><icon color="#FF2424" size="18" type="ios-information"/>
@@ -441,6 +442,7 @@
         realStoreName: '',
         redEnvelopesState: true,
         redEnvelopeDeductionNumber: 0,
+        disabledRedEnvelopes: false,
       }
     },
     created() {
@@ -699,12 +701,14 @@
       isTaskOverdueClose() {
         this.confirmClose()
       },
-      depositMoney(money, id, deposited, createTime) {
+      depositMoney(money, id, deposited, createTime, promotionExpensesPaid) {
         const _this = this;
         if (createTime <= 1526457600000) {
           _this.isTaskOverdueModel = true;
           _this.taskId = id;
         } else {
+          _this.disabledRedEnvelopes = true;
+          _this.redEnvelopesState = promotionExpensesPaid > 0;
           _this.needDepositMoney = money;
           _this.hasDeposited = deposited;
           _this.taskPayId = id;
