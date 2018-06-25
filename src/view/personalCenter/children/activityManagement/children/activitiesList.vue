@@ -483,7 +483,7 @@
     },
     methods: {
       editTask(id, createTime, fastPublish) {
-        if(createTime <= 1526457600000) {
+        if(createTime <= 1529933415818) {
           this.isTaskOverdueModel = true;
           this.taskId = id;
         } else {
