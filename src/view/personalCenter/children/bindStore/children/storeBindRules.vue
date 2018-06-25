@@ -61,7 +61,7 @@
     },
     methods:{
       // 获取会员版本说明（主要是可绑定店铺数量）
-      getVersionInfo(){
+      getVersionInfo() {
         const _this = this;
         api.getMemberInstructionsInfo().then(res => {
           let tempData = [];
@@ -80,9 +80,9 @@
         })
       },
       // 获取商家绑定的店铺列表
-      getStoreBindInfo(){
+      getStoreBindInfo() {
         const _this = this;
-        api.getStoreBindInfo({}).then(res=>{
+        api.getStoreBindInfo().then(res=>{
           if (res.status) {
             if (res.data.length > 0) {
               _this.storeInfoList = res.data;
@@ -94,10 +94,10 @@
         })
       },
       // 根据会员等级和已绑定店铺数量页面绑定按钮显示不同
-      bindBtnText(){
+      bindBtnText() {
         const _this = this;
         // 免费
-        if ((_this.memberLevel === 100 || _this.memberLevel === null) && (_this.storeInfoList.length >= _this.freeStoreBindNum)){
+        if ((_this.memberLevel === 100) && (_this.storeInfoList.length >= _this.freeStoreBindNum)){
           _this.showBindStoreText = false;
           _this.showUpgradeText = true;
         }
@@ -131,15 +131,15 @@
         // }
       },
       // 绑店铺还是买会员（需要判断）
-      toBindStore(){
+      toBindStore() {
         const _this = this;
-        if ((_this.memberLevel ===100 || _this.memberLevel === null) && _this.storeInfoList.length >= _this.freeStoreBindNum) {
+        if ((_this.memberLevel ===100) && _this.storeInfoList.length >= _this.freeStoreBindNum) {
           _this.$router.push({path:'/user/vip-member/order'});
         } else {
           this.$router.push({name:'StoreBindOperating'});
         }
         // 下面为有svip版本的逻辑，先保留着
-        // if((_this.memberLevel ===100 || _this.memberLevel === null) && _this.storeInfoList.length >= _this.freeStoreBindNum){
+        // if((_this.memberLevel ===100) && _this.storeInfoList.length >= _this.freeStoreBindNum){
         //   _this.$router.push({path:'/user/vip-member/order'});
         // } else if (_this.memberLevel === 200 && _this.storeInfoList.length >= _this.vipStoreBindNum) {
         //   _this.$router.push({path:'/user/vip-member/order'});

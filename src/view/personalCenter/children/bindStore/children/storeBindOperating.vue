@@ -8,10 +8,10 @@
         <div>
           <i class="required mr-5"></i>
           <span class="f-b mr-20">店铺类型：</span>
-          <RadioGroup v-model="storeBindForm.storeType">
-            <Radio label="taobao" disabled>淘宝</Radio>
-            <Radio label="tmall" disabled>天猫</Radio>
-          </RadioGroup>
+          <radio-group v-model="storeBindForm.storeType">
+            <radio label="taobao" disabled>淘宝</radio>
+            <radio label="tmall" disabled>天猫</radio>
+          </radio-group>
         </div>
         <div class="mt-10">
           <i class="required mr-5"></i>
@@ -42,31 +42,31 @@
                   <icon type="camera" size="20"></icon>
                 </div>
               </upload>
-              <span class="left mt-20 ml-10 blue" @click="showDemoPicture = true">【查看示例图】</span>
+              <span class="left mt-20 ml-10 blue cursor-p" @click="showDemoPicture = true">【查看示例图】</span>
             </div>
             <div class="mt-20 cl666">（为避免恶意绑定他人店铺必须上传店铺的后台登录截图）</div>
           </div>
         </div>
         <div v-if="bindStatus === 1" class="mt-20">
-          <iButton class="auditing-btn" size="large" :loading="bindBtnLoading">
+          <i-button class="auditing-btn" size="large" :loading="bindBtnLoading">
             店铺审核中...
-          </iButton>
-          <iButton class="delete-btn ml-20" size="large" :loading="bindBtnLoading" @click="deleteStore">
+          </i-button>
+          <i-button class="delete-btn ml-20" size="large" :loading="bindBtnLoading" @click="deleteStore">
             删除此店铺
-          </iButton>
+          </i-button>
         </div>
         <div v-else-if="bindStatus === 3" class="mt-20">
-          <iButton class="resubmit-btn" size="large" :loading="bindBtnLoading" @click="verifiedAndBindFunc">
+          <i-button class="resubmit-btn" size="large" :loading="bindBtnLoading" @click="verifiedAndBindFunc">
             提交店铺审核
-          </iButton>
-          <iButton class="delete-btn ml-20" size="large" :loading="bindBtnLoading" @click="deleteStore">
+          </i-button>
+          <i-button class="delete-btn ml-20" size="large" :loading="bindBtnLoading" @click="deleteStore">
             删除此店铺
-          </iButton>
+          </i-button>
         </div>
         <div v-else class="mt-20">
-          <iButton class="verified-btn" size="large" :loading="bindBtnLoading" @click="verifiedAndBindFunc">
+          <i-button class="verified-btn" size="large" :loading="bindBtnLoading" @click="verifiedAndBindFunc">
             提交店铺审核
-          </iButton>
+          </i-button>
         </div>
       </div>
       <div v-if="bindStatus === 3" class="tip">审核不通过：{{refuseReason}} <span class="ml-20">{{reviewTime | dateFormat('YYYY-MM-DD hh:mm:ss')}}</span></div>
@@ -76,9 +76,9 @@
       <router-link to="/user/bind-store/store-bind-rules" class="backwards">返回上一页</router-link>
       <span class="required"></span>
       <span class="mr-10">需要您提供店铺内任意商品链接</span>
-      <iInput type="text" size="large" class="commodity-input" v-model="commodityLink"></iInput>
+      <i-input type="text" size="large" class="commodity-input" v-model="commodityLink"></i-input>
       <div class="text-ct mt-30">
-        <iButton class="confirm-link-btn" :loading="confirmBtnLoading" @click="getStoreInfoByLink">确认</iButton>
+        <i-button class="confirm-link-btn" :loading="confirmBtnLoading" @click="getStoreInfoByLink">确认</i-button>
       </div>
     </div>
     <!--示例图弹窗-->
@@ -266,7 +266,7 @@
       // 获取商家绑定的店铺列表(针对有问题的店铺查看详情时)
       getStoreBindInfo(){
         const _this = this;
-        api.getStoreBindInfo({}).then(res=>{
+        api.getStoreBindInfo().then(res=>{
           if(res.status){
             if(res.data.length > 0){
               _this.storeInfoList = res.data;
