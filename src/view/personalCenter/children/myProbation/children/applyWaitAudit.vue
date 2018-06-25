@@ -1,10 +1,10 @@
 <template>
   <div class="probation-await mt-20">
-    <iSelect v-model="selectStatus" style="width: 120px;margin-right: 12px;">
-      <iOption v-for="item in SelectList" :value="item.value" :key="item.value">{{ item.label }}</iOption>
-    </iSelect>
-    <iInput v-model="searchValue" style="width: 160px;margin-right: 8px;"></iInput>
-    <iButton type="primary" :loading="searchLoading" @click="searchShowkerWaitTask">搜索</iButton>
+    <i-select v-model="selectStatus" style="width: 120px;margin-right: 12px;">
+      <i-option v-for="item in SelectList" :value="item.value" :key="item.value">{{ item.label }}</i-option>
+    </i-select>
+    <i-input v-model="searchValue" style="width: 160px;margin-right: 8px;"/>
+    <i-button type="primary" :loading="searchLoading" @click="searchShowkerWaitTask">搜索</i-button>
     <div class="probation-table mt-20">
       <table>
         <thead>
@@ -16,33 +16,35 @@
           <th width="15%">操作</th>
         </tr>
         </thead>
-        <tbody v-if="applyList.length > 0" v-for="item in applyList" :key="item.id">
-        <tr class="task-number">
-          <td colspan="5">
-            <span>活动编号：{{item.task.number || '------'}}</span>
-            <span class="ml-10">申请日期：{{item.applyTime | dateFormat('YYYY-MM-DD hh:mm:ss')}}</span>
-          </td>
-        </tr>
-        <tr>
-          <td class="cursor-p" @click="goTaskDetails(item.task.id)">
-            <img class="left ml-10" :src="item.task.taskMainImage | imageSrc('!thum54')">
-            <a class="left img-title" :title="item.task.taskName">{{item.task.taskName}}</a>
-          </td>
-          <td>{{item.alitmAccount}}</td>
-          <td>{{item.task.perMarginNeed / 100}}</td>
-          <td>
-            <Tooltip :content="item.rejectToResubmitReason || item.reason" placement="top" v-if="item.reason && item.status === 'waiting_resubmit'">
-              <icon color="#f9284f" type="information-circled"/>
-              <span class="main-color">{{getTaskStatus(item.status)}}</span>
-            </Tooltip>
-            <span v-else> {{getTaskStatus(item.status)}}</span>
-          </td>
-          <td>
-            <!--<p class="operation" v-show="item.status === 'waiting_resubmit'" @click="resubmitFun(item.task.id)">重新提交</p>-->
-            <!--<p v-show="item.task.needBrowseCollectAddCart" class="operation mt-5" @click="getUserScreenShot(item.id, item.rejectToResubmitReason, item.status, item.task.endTime)">查看详情</p>-->
-            <p class="operation mt-5" @click="endTrialModel(item.id)">结束活动</p>
-          </td>
-        </tr>
+        <tbody v-if="applyList.length > 0">
+          <template v-for="item in applyList">
+            <tr class="task-number">
+              <td colspan="5">
+                <span>活动编号：{{item.task.number || '------'}}</span>
+                <span class="ml-10">申请日期：{{item.applyTime | dateFormat('YYYY-MM-DD hh:mm:ss')}}</span>
+              </td>
+            </tr>
+            <tr>
+              <td class="cursor-p" @click="goTaskDetails(item.task.id)">
+                <img class="left ml-10" :src="item.task.taskMainImage | imageSrc('!thum54')">
+                <a class="left img-title" :title="item.task.taskName">{{item.task.taskName}}</a>
+              </td>
+              <td>{{item.alitmAccount}}</td>
+              <td>{{item.task.perMarginNeed / 100}}</td>
+              <td>
+                <Tooltip :content="item.rejectToResubmitReason || item.reason" placement="top" v-if="item.reason && item.status === 'waiting_resubmit'">
+                  <icon color="#f9284f" type="information-circled"/>
+                  <span class="main-color">{{getTaskStatus(item.status)}}</span>
+                </Tooltip>
+                <span v-else> {{getTaskStatus(item.status)}}</span>
+              </td>
+              <td>
+                <!--<p class="operation" v-show="item.status === 'waiting_resubmit'" @click="resubmitFun(item.task.id)">重新提交</p>-->
+                <!--<p v-show="item.task.needBrowseCollectAddCart" class="operation mt-5" @click="getUserScreenShot(item.id, item.rejectToResubmitReason, item.status, item.task.endTime)">查看详情</p>-->
+                <p class="operation mt-5" @click="endTrialModel(item.id)">结束活动</p>
+              </td>
+            </tr>
+          </template>
         </tbody>
         <tbody v-if="applyList.length === 0">
         <tr>
@@ -52,41 +54,38 @@
       </table>
     </div>
     <div class="activity-page mt-20 right mr-10" v-show="applyList.length > 0">
-      <Page :total="totalElements" :page-size="pageSize" :current="pageIndex" @on-change="pageChange"></Page>
+      <page :total="totalElements" :page-size="pageSize" :current="pageIndex" @on-change="pageChange"/>
     </div>
     <!--删除活动确认弹框-->
-    <Modal v-model="deleteModal" width="360">
+    <modal v-model="deleteModal" width="360">
       <p slot="header" class="main-color text-ct">
-        <Icon type="information-circled"></Icon>
+        <icon type="information-circled"/>
         <span>结束确认</span>
       </p>
-      <div>
-        <p style="text-indent:25px;font-weight: bold;">您好，为了更好地改善平台试用体验并提高活动的质量，请告诉我们您结束活动的原因：</p>
-        <p>
-          <RadioGroup v-model="endReason">
-            <Radio label="流程太繁琐了" class="mt-20 mr-40"></Radio>
-            <Radio label="找不到商家发布的宝贝" class="mt-20"></Radio>
-            <Radio label="没有收到宝贝" class="mt-20 mr-40"></Radio>
-            <Radio label="我不想做了" class="mt-20"></Radio>
-            <Radio label="其他" class="mt-20">
-              <span>其他：</span>
-              <iInput v-model="otherReason" style="width: 200px"></iInput>
-            </Radio>
-          </RadioGroup>
-        </p>
-      </div>
+      <p style="text-indent:25px;font-weight: bold;">您好，为了更好地改善平台试用体验并提高活动的质量，请告诉我们您结束活动的原因：</p>
+      <p>
+        <radio-group v-model="endReason">
+          <radio label="流程太繁琐了" class="mt-20 mr-40"/>
+          <radio label="找不到商家发布的宝贝" class="mt-20"/>
+          <radio label="没有收到宝贝" class="mt-20 mr-40"/>
+          <radio label="我不想做了" class="mt-20"/>
+          <radio label="其他" class="mt-20">
+            <span>其他：</span>
+            <i-input v-model="otherReason" style="width: 200px"/>
+          </radio>
+        </radio-group>
+      </p>
       <div slot="footer" class="text-ct">
         <iButton class="mr-20" type="error" size="large" :loading="modalLoading" @click="endTrial">确认提交</iButton>
         <iButton size="large" @click="unSelectSubmit">取消</iButton>
       </div>
-    </Modal>
+    </modal>
     <!--查看详情弹窗-->
-    <div v-if="getEndTime">
-      <Modal v-model="approvalPop"
+    <modal v-model="approvalPop"
              width="600"
              :transfer="false">
         <p slot="header" class="main-color text-ct">
-          <Icon type="information-circled"></Icon>
+          <icon type="information-circled"/>
           <span>已提交的活动截图</span>
         </p>
         <div class="text-ct mt-20 ">
@@ -118,24 +117,23 @@
         </div>
         <div slot="footer" v-show="status === 'waiting_resubmit'" class="clear">
           <div class="left ml-20" style="color: #FF6636;font-size: 29px">
-            <Icon type="alert-circled"></Icon>
+            <icon type="alert-circled"/>
           </div>
           <div class="left ml-20" style="text-align: left">
             <p>商家希望重新提交申请，理由：{{reason}}</p>
             <p> 您还有
-              <time-down :endTime="getEndTime"></time-down>
+              <time-down :endTime="getEndTime"/>
               重新提交，若该时间内未提交，将视为放弃活动！
             </p>
           </div>
         </div>
-      </Modal>
-    </div>
+      </modal>
     <!--照片查看器-->
-    <Modal v-model="viewScreenShot" :transfer="false" width="580" title="照片查看器">
+    <modal v-model="viewScreenShot" :transfer="false" width="580" title="照片查看器">
       <div class="text-ct">
         <img style="width: 550px" :src="viewScreenShotUrl" alt="">
       </div>
-    </Modal>
+    </modal>
   </div>
 </template>
 
@@ -146,7 +144,7 @@
   import TimeDown from '@/components/TimeDown'
 
   export default {
-    name: 'ApplyWaitAudit',
+    name: 'apply-wait-audit',
     components: {
       iButton: Button,
       iInput: Input,

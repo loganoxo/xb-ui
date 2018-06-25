@@ -34,25 +34,27 @@
           <th width="15%">操作</th>
         </tr>
         </thead>
-        <tbody v-if="applyList.length > 0" v-for="item in applyList" :key="item.id">
-        <tr class="task-number">
-          <td colspan="5">
-            <span>活动编号：{{item.task.number || '------'}}</span>
-            <span class="ml-10">申请日期：{{item.applyTime | dateFormat('YYYY-MM-DD hh:mm:ss')}}</span>
-          </td>
-        </tr>
-        <tr>
-          <td class="cursor-p" @click="goTaskDetails(item.task.id)">
-            <img class="left ml-10" :src="item.task.taskMainImage | imageSrc('!thum54')">
-            <a class="left img-title" :title="item.task.taskName">{{item.task.taskName}}</a>
-          </td>
-          <td>{{item.alitmAccount}}</td>
-          <td>{{item.auditTime | dateFormat('YYYY-MM-DD hh:mm:ss')}}</td>
-          <td>{{getTaskStatus(item.status)}}</td>
-          <td>
-            <p class="operation" @click="applyDelete(item.id)">删除</p>
-          </td>
-        </tr>
+        <tbody v-if="applyList.length > 0">
+          <template v-for="item in applyList">
+            <tr class="task-number">
+              <td colspan="5">
+                <span>活动编号：{{item.task.number || '------'}}</span>
+                <span class="ml-10">申请日期：{{item.applyTime | dateFormat('YYYY-MM-DD hh:mm:ss')}}</span>
+              </td>
+            </tr>
+            <tr>
+              <td class="cursor-p" @click="goTaskDetails(item.task.id)">
+                <img class="left ml-10" :src="item.task.taskMainImage | imageSrc('!thum54')">
+                <a class="left img-title" :title="item.task.taskName">{{item.task.taskName}}</a>
+              </td>
+              <td>{{item.alitmAccount}}</td>
+              <td>{{item.auditTime | dateFormat('YYYY-MM-DD hh:mm:ss')}}</td>
+              <td>{{getTaskStatus(item.status)}}</td>
+              <td>
+                <p class="operation" @click="applyDelete(item.id)">删除</p>
+              </td>
+            </tr>
+          </template>
         </tbody>
         <tbody v-if="applyList.length === 0">
         <tr>
@@ -62,7 +64,7 @@
       </table>
     </div>
     <div class="activity-page mt-20 right mr-10" v-show="applyList.length > 0">
-      <Page :total="totalElements" :page-size="pageSize" :current="pageIndex" @on-change="pageChange"></Page>
+      <page :total="totalElements" :page-size="pageSize" :current="pageIndex" @on-change="pageChange"/>
     </div>
   </div>
 </template>
@@ -74,7 +76,7 @@
   import {taskErrorStatusList, encryption} from '@/config/utils'
 
   export default {
-    name: 'ApplyFailAudit',
+    name: 'apply-fail-audit',
     components: {
       iButton: Button,
       iInput: Input,

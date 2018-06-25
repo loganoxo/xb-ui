@@ -90,7 +90,7 @@
               class="main-color">({{item.trial_end || 0}})</span></span>
           </p>
         </div>
-        <icon :class="{'show-table-styles' : selectId === item.id}" class="mt-15" type="arrow-right-b"></icon>
+        <icon :class="{'show-table-styles' : selectId === item.id}" class="mt-15" type="arrow-right-b"/>
       </div>
       <collapse-transition>
         <div class="task-table" v-show="selectId === item.id">
@@ -120,14 +120,14 @@
                   <tooltip
                     :content="item.auditDescription"
                     placement="top" class="cursor-p">
-                    <icon color="#f9284f" type="information-circled"></icon>
+                    <icon color="#f9284f" type="information-circled"/>
                     <span class="main-color">{{getTaskStatus(item.status)}}</span>
                   </tooltip>
                 </p>
                 <p v-if="item.status !== 'order_num_error' && item.status !== 'trial_end' && item.status !== 'trial_report_unqualified'">
                   {{getTaskStatus(item.status)}}</p>
                 <p v-if="item.status !== 'trial_end' && item.status !== 'trial_finished'">
-                  <time-down color='#ff4040' :fontWeight=600 :endTime="item.currentGenerationEndTime"></time-down>
+                  <time-down color='#ff4040' :fontWeight=600 :endTime="item.currentGenerationEndTime"/>
                 </p>
                 <p v-if="item.status === 'trial_end'">
                   <tooltip :content="item.trialEndReason === 'admin_manual_close' ? getTaskStatus(item.trialEndReason) +'：'+ item.auditDescription : getTaskStatus(item.trialEndReason)"

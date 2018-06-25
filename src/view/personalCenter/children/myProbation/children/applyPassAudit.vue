@@ -43,12 +43,12 @@
           <iOption placeholder="请选择类型查询" v-for="item in SelectList" :value="item.value" :key="item.value">{{item.label}}
           </iOption>
         </iSelect>
-        <iInput v-model="searchValue" style="width: 160px;margin-right: 8px;"></iInput>
+        <i-input v-model="searchValue" style="width: 160px;margin-right: 8px;"/>
         <span class="ml-10">订单号：</span>
-        <iInput v-model="orderNumber" placement="请输入订单号查询" style="width: 160px;margin-right: 8px;"></iInput>
+        <i-input v-model="orderNumber" placement="请输入订单号查询" style="width: 160px;margin-right: 8px;"/>
         <span class="ml-10">通过日期：</span>
-        <Date-picker format="yyyy-MM-dd" type="daterange" placement="bottom-end" placeholder="请选择日期查询"
-                     style="width: 200px" @on-change="handleDataChange"></Date-picker>
+        <date-picker format="yyyy-MM-dd" type="daterange" placement="bottom-end" placeholder="请选择日期查询"
+                     style="width: 200px" @on-change="handleDataChange"/>
         <iButton type="primary" class="ml-20" :loading="searchLoading" @click="searchShowkerPassTask">搜索</iButton>
       </div>
       <div class="probation-table mt-20">
@@ -63,103 +63,80 @@
             <th width="10%">操作</th>
           </tr>
           </thead>
-          <tbody v-if="applySuccessList.length > 0" v-for="item in applySuccessList" :key="item.id">
-          <tr class="task-number">
-            <td colspan="6">
-              <span>活动编号：{{item.orderNumber || '------'}}</span>
-              <span class="ml-20">通过日期：{{item.createTime | dateFormat('YYYY-MM-DD hh:mm:ss')}}</span>
-              <span class="ml-20">商家QQ号：{{item.qqNumber || '------'}}</span>
-            </td>
-          </tr>
-          <tr>
-            <td class="cursor-p" @click="goTaskDetails(item.taskId)">
-              <img class="left ml-10" :src="item.taskMainImage | imageSrc('!thum54')">
-              <a class="img-title left" :title="item.taskName">{{item.taskName}}</a>
-            </td>
-            <td>{{item.alitmAccount}}</td>
-            <td>{{item.orderPrice}} / {{item.perMarginNeed}}</td>
-            <td>{{item.orderNum || '------'}}</td>
-            <td>
-              <div
-                v-if="item.status !== 'trial_end' && item.status !== 'order_num_error' && item.status !== 'trial_report_unqualified'">
-                <p>{{getTaskStatus(item.status)}}</p>
-                <p v-if="item.status !== 'trial_finished'">
-                  <time-down color='#ff4040' :fontWeight=600 :endTime="item.currentGenerationEndTime"></time-down>
-                </p>
-              </div>
-              <div class="mt-5 main-color cursor-p" v-if="item.status === 'order_num_error'">
-                <Tooltip :content="item.auditDescription" placement="top">
-                  <Icon color="#f9284f" type="information-circled"></Icon>
-                  <span>订单信息有误</span>
-                </Tooltip>
-                <p>
-                  <time-down color='#ff4040' :fontWeight=600 :endTime="item.currentGenerationEndTime"></time-down>
-                </p>
-              </div>
-              <div class="mt-5 main-color cursor-p" v-if="item.status === 'trial_report_unqualified'">
-                <Tooltip :content="item.auditDescription" placement="top">
-                  <Icon color="#f9284f" type="information-circled"></Icon>
-                  <span>报告不合格</span>
-                </Tooltip>
-                <p>
-                  <time-down color='#ff4040' :fontWeight=600 :endTime="item.currentGenerationEndTime"></time-down>
-                </p>
-              </div>
-              <div class="mt-5 main-color cursor-p" v-if="item.status === 'trial_end'">
-                <Tooltip
-                  :content="item.trialEndReason === 'admin_manual_close' ? getTaskStatus(item.trialEndReason) +'：'+ item.auditDescription : getTaskStatus(item.trialEndReason)"
-                  placement="top">
-                  <Icon color="#f9284f" type="information-circled"></Icon>
-                  <span>活动终止</span>
-                </Tooltip>
-              </div>
-            </td>
-            <td>
-              <p v-if="item.status === 'pass_and_unclaimed'" class="operation"
-                 @click="changePassOperation('place','', item.id, item.taskType, item.activityCategory)">去下单</p>
-              <p v-if="item.status === 'order_num_error'" class="operation"
-                 @click="changePassOperation('place','', item.id, item.taskType, item.activityCategory)">修改订单信息</p>
-              <!--<p v-if="item.status === 'order_num_error'" class="operation mt-5"-->
-                 <!--@click="openAuditOrderModify(item.id, item.taskType, item.activityCategory, item.orderNum, item.orderPrice, item.status, item.statusDesc, item.auditDescription)">修改订单信息</p>-->
-              <p v-if="item.status === 'trial_report_waiting_submit'" class="operation"
-                 @click="changePassOperation('report','write',item.id)">制作买家秀</p>
-              <p v-if="item.status === 'trial_report_unqualified'" class="operation"
-                 @click="changePassOperation('report','amend',item.id)">修改买家秀</p>
-              <p v-if="item.status === 'trial_report_waiting_confirm' || item.status === 'trial_finished'"
-                 class="operation mt-5"
-                 @click="lookReportInfo(item.id)">查看买家秀详情</p>
-              <p v-if="item.status === 'trial_finished'" class="operation mt-5">
-                <router-link :to="{path:'/user/money-management/transaction-record',query:{taskNumber:item.orderNumber}}">查看活动账单</router-link>
-              </p>
-              <p v-if="item.status !== 'trial_end' && item.status !== 'trial_finished'" class="operation mt-5"
-                 @click="endTrialModel(item.id)">结束活动</p>
-            </td>
-            <!--原版，保留一段时间-->
-            <!--<td>-->
-              <!--<p v-if="item.status === 'pass_and_unclaimed' || item.status === 'order_num_error'" class="operation"-->
-                 <!--@click="changePassOperation('place','', item.id, item.taskType, item.activityCategory)">去下单</p>-->
-              <!--<p v-if="item.status === 'trial_report_waiting_submit'" class="operation"-->
-                 <!--@click="changePassOperation('report','write',item.id)">制作买家秀</p>-->
-              <!--<p v-if="item.status === 'trial_report_unqualified'" class="operation"-->
-                 <!--@click="changePassOperation('report','amend',item.id)">修改买家秀</p>-->
-              <!--<p v-if="item.status === 'pass_and_unclaimed'" class="operation mt-5"-->
-                 <!--@click="openAuditOrder(item.id, item.taskType, item.activityCategory, item.status, item.statusDesc, item.auditDescription)">-->
-                <!--填订单号</p>-->
-              <!--<p v-if="item.status === 'order_num_error'" class="operation mt-5"-->
-                 <!--@click="openAuditOrderModify(item.id, item.taskType, item.activityCategory, item.orderNum, item.orderPrice, item.status, item.statusDesc, item.auditDescription)">-->
-                <!--修改订单号</p>-->
-              <!--<p v-if="item.status === 'trial_report_waiting_confirm' || item.status === 'trial_finished'"-->
-                 <!--class="operation mt-5"-->
-                 <!--@click="lookReportInfo(item.id)">查看买家秀详情</p>-->
-              <!--<p v-if="item.status === 'trial_finished'" class="operation mt-5">-->
-                <!--<router-link-->
-                  <!--:to="{path:'/user/money-management/transaction-record',query:{taskNumber:item.orderNumber}}">查看活动账单-->
-                <!--</router-link>-->
-              <!--</p>-->
-              <!--<p v-if="item.status !== 'trial_end' && item.status !== 'trial_finished'" class="operation mt-5"-->
-                 <!--@click="endTrialModel(item.id)">结束活动</p>-->
-            <!--</td>-->
-          </tr>
+          <tbody v-if="applySuccessList.length > 0">
+            <template v-for="item in applySuccessList">
+              <tr class="task-number">
+                <td colspan="6">
+                  <span>活动编号：{{item.orderNumber || '------'}}</span>
+                  <span class="ml-20">通过日期：{{item.createTime | dateFormat('YYYY-MM-DD hh:mm:ss')}}</span>
+                  <span class="ml-20">商家QQ号：{{item.qqNumber || '------'}}</span>
+                </td>
+              </tr>
+              <tr>
+                <td class="cursor-p" @click="goTaskDetails(item.taskId)">
+                  <img class="left ml-10" :src="item.taskMainImage | imageSrc('!thum54')">
+                  <a class="img-title left" :title="item.taskName">{{item.taskName}}</a>
+                </td>
+                <td>{{item.alitmAccount}}</td>
+                <td>{{item.orderPrice}} / {{item.perMarginNeed}}</td>
+                <td>{{item.orderNum || '------'}}</td>
+                <td>
+                  <div
+                    v-if="item.status !== 'trial_end' && item.status !== 'order_num_error' && item.status !== 'trial_report_unqualified'">
+                    <p>{{getTaskStatus(item.status)}}</p>
+                    <p v-if="item.status !== 'trial_finished'">
+                      <time-down color='#ff4040' :fontWeight=600 :endTime="item.currentGenerationEndTime"/>
+                    </p>
+                  </div>
+                  <div class="mt-5 main-color cursor-p" v-if="item.status === 'order_num_error'">
+                    <Tooltip :content="item.auditDescription" placement="top">
+                      <icon color="#f9284f" type="information-circled"/>
+                      <span>订单信息有误</span>
+                    </Tooltip>
+                    <p>
+                      <time-down color='#ff4040' :fontWeight=600 :endTime="item.currentGenerationEndTime"/>
+                    </p>
+                  </div>
+                  <div class="mt-5 main-color cursor-p" v-if="item.status === 'trial_report_unqualified'">
+                    <Tooltip :content="item.auditDescription" placement="top">
+                      <icon color="#f9284f" type="information-circled"/>
+                      <span>报告不合格</span>
+                    </Tooltip>
+                    <p>
+                      <time-down color='#ff4040' :fontWeight=600 :endTime="item.currentGenerationEndTime"/>
+                    </p>
+                  </div>
+                  <div class="mt-5 main-color cursor-p" v-if="item.status === 'trial_end'">
+                    <tooltip
+                      :content="item.trialEndReason === 'admin_manual_close' ? getTaskStatus(item.trialEndReason) +'：'+ item.auditDescription : getTaskStatus(item.trialEndReason)"
+                      placement="top">
+                      <icon color="#f9284f" type="information-circled"/>
+                      <span>活动终止</span>
+                    </tooltip>
+                  </div>
+                </td>
+                <td>
+                  <p v-if="item.status === 'pass_and_unclaimed'" class="operation"
+                     @click="changePassOperation('place','', item.id, item.taskType, item.activityCategory)">去下单</p>
+                  <p v-if="item.status === 'order_num_error'" class="operation"
+                     @click="changePassOperation('place','', item.id, item.taskType, item.activityCategory)">修改订单信息</p>
+                  <!--<p v-if="item.status === 'order_num_error'" class="operation mt-5"-->
+                  <!--@click="openAuditOrderModify(item.id, item.taskType, item.activityCategory, item.orderNum, item.orderPrice, item.status, item.statusDesc, item.auditDescription)">修改订单信息</p>-->
+                  <p v-if="item.status === 'trial_report_waiting_submit'" class="operation"
+                     @click="changePassOperation('report','write',item.id)">制作买家秀</p>
+                  <p v-if="item.status === 'trial_report_unqualified'" class="operation"
+                     @click="changePassOperation('report','amend',item.id)">修改买家秀</p>
+                  <p v-if="item.status === 'trial_report_waiting_confirm' || item.status === 'trial_finished'"
+                     class="operation mt-5"
+                     @click="lookReportInfo(item.id)">查看买家秀详情</p>
+                  <p v-if="item.status === 'trial_finished'" class="operation mt-5">
+                    <router-link :to="{path:'/user/money-management/transaction-record',query:{taskNumber:item.orderNumber}}">查看活动账单</router-link>
+                  </p>
+                  <p v-if="item.status !== 'trial_end' && item.status !== 'trial_finished'" class="operation mt-5"
+                     @click="endTrialModel(item.id)">结束活动</p>
+                </td>
+              </tr>
+            </template>
           </tbody>
           <tbody v-if="applySuccessList.length === 0">
           <tr>
@@ -169,7 +146,7 @@
         </table>
       </div>
       <div class="activity-page mt-20 right mr-10" v-show="applySuccessList.length > 0 && !showPassOperation">
-        <Page :total="totalElements" :page-size="pageSize" :current="pageIndex" @on-change="pageChange"></Page>
+        <page :total="totalElements" :page-size="pageSize" :current="pageIndex" @on-change="pageChange"/>
       </div>
     </div>
     <!--已通过-去下单-->
@@ -190,7 +167,7 @@
         </div>
         <div class="mt-10">
           <strong>当前流程状态：</strong>
-          <Icon v-if="showkerTask.status === 'order_num_error'" type="information-circled" color="#f9284f"></Icon>
+          <icon v-if="showkerTask.status === 'order_num_error'" type="information-circled" color="#f9284f"/>
           <span :class="[showkerTask.status === 'order_num_error' ? 'main-color': '']">{{getTaskStatus(showkerTask.status)}}</span>
           <strong class="ml-10" v-if="showkerTask.status === 'order_num_error'">原因：{{showkerTask.latestShowkerTaskOpLog.auditDescription}}</strong>
         </div>
@@ -201,9 +178,9 @@
         <p class="mt-10 f-b">2. 核对订单</p>
         <p class="mt-5 cl666">请正确填写订单号与实付金额，以免影响返款！若您发现淘宝该宝贝的实付金额高于白拿拿平台显示的商品金额，请勿下单，请结束任务！</p>
       </div>
-      <place-order-step v-if="Object.keys(showkerTask).length > 0" :showkerTaskInfo="showkerTask" @changeTask="getShowkerToProcessOrder"></place-order-step>
+      <place-order-step v-if="Object.keys(showkerTask).length > 0" :showkerTaskInfo="showkerTask" @changeTask="getShowkerToProcessOrder"/>
       <div class="precautions-tip-info mt-20" v-if="showkerTask.task && showkerTask.task.itemReviewRequired === 'review_by_showker_self'">
-        <Icon type="information-circled" color="#FF0100"></Icon>
+        <icon type="information-circled" color="#FF0100"/>
         <span class="sizeColor3">注意：</span>
         <span>亲收到货后记得</span>
         <span class="sizeColor3">在淘宝</span>
@@ -215,7 +192,7 @@
       </div>
       <div class="precautions-tip-info mt-20"
            v-if="showkerTask.task && showkerTask.task.itemReviewRequired === 'offer_review_summary'">
-        <Icon type="information-circled" color="#FF0100"></Icon>
+        <icon type="information-circled" color="#FF0100"/>
         <span class="sizeColor3">注意：</span>
         <span>商家希望亲</span>
         <span class="sizeColor3">在淘宝</span>
@@ -227,7 +204,7 @@
       </div>
       <div class="precautions-tip-info mt-20"
            v-if="showkerTask.task && showkerTask.task.itemReviewRequired === 'assign_review_detail'">
-        <Icon type="information-circled" color="#FF0100"></Icon>
+        <icon type="information-circled" color="#FF0100"/>
         <span class="sizeColor3">注意：</span>
         <span>商家要求</span>
         <span class="sizeColor3">在淘宝</span>
@@ -235,7 +212,7 @@
         <span class="sizeColor3">请务必按照要求操作！</span>
       </div>
       <!--活动截图上传-->
-      <activity-screenshots-upload v-if="Object.keys(showkerOrder).length > 0" @sendImageData="getImageData" :orderInfo="showkerOrder"></activity-screenshots-upload>
+      <activity-screenshots-upload v-if="Object.keys(showkerOrder).length > 0" @sendImageData="getImageData" :orderInfo="showkerOrder"/>
       <div class="evaluation-content-tip-assign mt-10"
            v-if="showkerTask.task && showkerTask.task.itemReviewRequired === 'assign_review_detail'">
         <div>{{showkerTask.other.itemReviewAssign.reviewContent}}</div>
@@ -281,10 +258,10 @@
         </p>
         <p>
           <strong>当前流程状态：</strong>
-          <Icon v-if="showkerTask.status === 'trial_report_unqualified'" type="information-circled" color="#f9284f"></Icon>
+          <icon v-if="showkerTask.status === 'trial_report_unqualified'" type="information-circled" color="#f9284f"/>
           <span :class="[showkerTask.status === 'trial_report_unqualified' ? 'main-color': '']">{{getTaskStatus(showkerTask.status)}}</span>
           <strong v-if="showkerTask.status === 'trial_report_unqualified'" class="ml-10">原因：{{showkerTask.latestShowkerTaskOpLog.auditDescription}}</strong>
-          <span class="main-color ml-10"><time-down color='#ff4040' :fontWeight=600 :endTime="showkerTask.currentGenerationEndTime"></time-down></span>
+          <span class="main-color ml-10"><time-down color='#ff4040' :fontWeight=600 :endTime="showkerTask.currentGenerationEndTime"/></span>
         </p>
       </div>
       <div class="precautions-info mt-10" v-if="showkerTask.task.remark">
@@ -295,7 +272,7 @@
         </p>
       </div>
       <div class="precautions-tip-info mt-20" v-if="showkerTask.task.itemReviewRequired === 'review_by_showker_self'">
-        <Icon type="information-circled" color="#FF0100"></Icon>
+        <icon type="information-circled" color="#FF0100"/>
         <span class="sizeColor3">注意：</span>
         <span>亲收到货后记得</span>
         <span class="sizeColor3">在淘宝</span>
@@ -306,7 +283,7 @@
         <span class="sizeColor3">请勿在淘宝评价中晒图片！</span>
       </div>
       <div class="precautions-tip-info mt-20" v-if="showkerTask.task.itemReviewRequired === 'offer_review_summary'">
-        <Icon type="information-circled" color="#FF0100"></Icon>
+        <icon type="information-circled" color="#FF0100"/>
         <span class="sizeColor3">注意：</span>
         <span>商家希望亲</span>
         <span class="sizeColor3">在淘宝</span>
@@ -316,7 +293,7 @@
         {{showkerTask.task.itemReviewSummary}}
       </div>
       <div class="precautions-tip-info mt-20" v-if="showkerTask.task.itemReviewRequired === 'assign_review_detail'">
-        <Icon type="information-circled" color="#FF0100"></Icon>
+        <icon type="information-circled" color="#FF0100"/>
         <span class="sizeColor3">注意：</span>
         <span>商家要求</span>
         <span class="sizeColor3">在淘宝</span>
@@ -343,7 +320,7 @@
           :on-exceeded-size="handleMaxSize"
           type="drag">
           <div style="width: 58px;height:58px;line-height: 58px;">
-            <Icon type="camera" size="20"></Icon>
+            <icon type="camera" size="20"/>
           </div>
         </Upload>
         <div class="watch-example-pic"><p>该截图将作为商家审核返款的凭证哦，请根据要求评价！</p>
@@ -356,8 +333,8 @@
           <Radio label="3">还阔以</Radio>
           <Radio label="1">质量太差了</Radio>
         </RadioGroup>
-        <iInput v-model="trialReportText" type="textarea" :autosize="{minRows: 5,maxRows: 12}"
-                placeholder="请填写在试用过程中，对于宝贝的真实使用体会及感受，可以和淘宝上的宝贝评价一致"></iInput>
+        <i-input v-model="trialReportText" type="textarea" :autosize="{minRows: 5,maxRows: 12}"
+                placeholder="请填写在试用过程中，对于宝贝的真实使用体会及感受，可以和淘宝上的宝贝评价一致"/>
       </div>
       <div class="experience-img mt-22">
         <div class="mb-10">
@@ -381,20 +358,6 @@
           </div>
         </Upload>
       </div>
-      <!--  <div class="experience-video mt-22">
-          <p class="mb-20">买家秀视频：（视频支持wmv、asf、rmvb、mpg、mpeg、3gp、mov、mp4、avi、dat、mkv、flv、vob格式，大小不超过200M）</p>
-          <Upload
-            upload-type="video"
-            :format="['wmv','asf','rmvb','mpg','mpeg','3gp','mov','mp4','avi','dat','mkv','flv','vob']"
-            :max-size="200000"
-            name="report-video"
-            type="drag">
-            <div class="pt-20 pb-20" style="width: 280px;">
-              <Icon type="ios-cloud-upload" size="52" style="color: #999"></Icon>
-              <p class="main-color">上传买家秀视频</p>
-            </div>
-          </Upload>
-        </div>-->
       <div class="write-order-number mt-40">
         <span @click="submitReport">提交买家秀</span>
         <span class="ml-35" @click="returnUpPage">返回上页</span>
@@ -410,8 +373,8 @@
         </p>
         <div class="ml-45 mt-15 pr-20">
           <strong class="cl000">当前流程状态：</strong>
-          <Icon v-if="currentOrderStatusInfo.status === 'order_num_error'" type="information-circled"
-                color="#f9284f"></Icon>
+          <icon v-if="currentOrderStatusInfo.status === 'order_num_error'" type="information-circled"
+                color="#f9284f"/>
           <span :class="[currentOrderStatusInfo.status === 'order_num_error' ? 'main-color': '']">{{getTaskStatus(currentOrderStatusInfo.status)}}</span>
           <strong class="ml-10" v-if="currentOrderStatusInfo.status === 'order_num_error'">原因：{{currentOrderStatusInfo.auditDescription}}</strong>
         </div>
@@ -555,64 +518,58 @@
         <div class="mt-10 ml-45">
           <p class="mt-20 mb-20 des-text" v-if="needBrowseCollectAddCart">填写下单信息</p>
           <span>请输入订单号：</span>
-          <iInput v-model="affirmOrderNumber" style="width: 300px;"></iInput>
-          <iButton @click="orderImg = true">什么是订单号？</iButton>
-          <Modal v-if="pcOrApp === 'pcOrder'" v-model="orderImg" width="1000" :transfer="false">
+          <i-input v-model="affirmOrderNumber" style="width: 300px;"/>
+          <i-button @click="orderImg = true">什么是订单号？</i-button>
+          <modal v-model="orderImg" :width="pcOrApp === 'pcOrder' ? 1000 : 360" :transfer="false">
             <div class="text-ct">
-              <img style="width: 900px;height: 750px;" src="~assets/img/order-number/order_pc.png" alt="">
+              <img v-if="pcOrApp === 'pcOrder'" width="900" height="750" src="~assets/img/order-number/order_pc.png" alt="">
+              <img v-else width="300" height="450" src="~assets/img/order-number/order_pc.png" alt="">
             </div>
-          </Modal>
-          <Modal v-else v-model="orderImg" width="360" :transfer="false">
-            <div class="text-ct">
-              <img style="width: 300px;height: 450px;" src="~assets/img/order-number/order_phone.png" alt="">
-            </div>
-          </Modal>
+          </modal>
         </div>
         <p class="mt-20 ml-35">
           <span>请输入实付金额：</span>
-          <iInput v-model.number="payMoney" style="width: 120px;"></iInput>
+          <i-input v-model.number="payMoney" style="width: 120px;"/>
           <span class="ml-5">元</span>
         </p>
         <div class="submit-btn mt-20" @click="saveOrUpdateOrderNumber">确认提交</div>
       </div>
     </div>
     <!--结束活动确认弹框-->
-    <Modal v-model="deleteModal" width="360">
+    <modal v-model="deleteModal" width="360">
       <p slot="header" class="text-ct main-color">
-        <Icon type="information-circled"></Icon>
+        <icon type="information-circled"/>
         <span>结束确认</span>
       </p>
-      <div>
-        <p style="text-indent:25px;font-weight: bold;">您好，为了更好地改善平台试用体验并提高活动的质量，请告诉我们您结束活动的原因：</p>
-        <p>
-          <RadioGroup v-model="endReason">
-            <Radio label="流程太繁琐了" class="mt-20 mr-40"></Radio>
-            <Radio label="找不到商家发布的宝贝" class="mt-20"></Radio>
-            <Radio label="没有收到宝贝" class="mt-20 mr-40"></Radio>
-            <Radio label="我不想做了" class="mt-20"></Radio>
-            <Radio label="其他" class="mt-20">
-              <span>其他：</span>
-              <iInput v-model="otherReason" style="width: 200px"></iInput>
-            </Radio>
-          </RadioGroup>
+      <p style="text-indent:25px;font-weight: bold;">您好，为了更好地改善平台试用体验并提高活动的质量，请告诉我们您结束活动的原因：</p>
+      <p>
+        <radio-group v-model="endReason">
+          <radio label="流程太繁琐了" class="mt-20 mr-40"/>
+          <radio label="找不到商家发布的宝贝" class="mt-20"/>
+          <radio label="没有收到宝贝" class="mt-20 mr-40"/>
+          <radio label="我不想做了" class="mt-20"/>
+          <radio label="其他" class="mt-20">
+            <span>其他：</span>
+            <i-input v-model="otherReason" style="width: 200px"/>
+          </radio>
+          </radio-group>
         </p>
-      </div>
       <div slot="footer" class="text-ct">
-        <iButton class="mr-20" type="error" size="large" :loading="modalLoading" @click="endTrial">确认提交</iButton>
-        <iButton size="large" @click="unSelectSubmit">取消</iButton>
+        <i-button class="mr-20" type="error" size="large" :loading="modalLoading" @click="endTrial">确认提交</i-button>
+        <i-button size="large" @click="unSelectSubmit">取消</i-button>
       </div>
-    </Modal>
-    <Modal v-model="watchExample" width="500" title="照片查看器">
+    </modal>
+    <modal v-model="watchExample" width="500" title="照片查看器">
       <div class="text-ct">
         <img width="400" src="~assets/img/screen-shot/taobao-screenShot.jpg" alt="">
       </div>
-    </Modal>
+    </modal>
     <Modal v-model="watchAnswerImg" width="500" title="照片查看器">
       <div class="text-ct">
         <img width="400" src="~assets/img/screen-shot/answer_question_img.png" alt="">
       </div>
     </Modal>
-    <Modal v-model="pcSearch" title="照片查看器" width="800" :styles="{top:'20px'}">
+    <modal v-model="pcSearch" title="照片查看器" width="800" :styles="{top:'20px'}">
       <div v-if="pcSearchSelect.one && taskType === 'pc_search'" class="text-ct">
         <img width="700" src="~assets/img/screen-shot/select_type.jpg" alt="">
       </div>
@@ -627,8 +584,8 @@
         <img width="700" v-if="taskType ==='direct_access'|| taskType=== 'pc_search'"
              src="~assets/img/screen-shot/shop_car_pc.jpg" alt="">
       </div>
-    </Modal>
-    <Modal v-model="appSearch" title="照片查看器" width="500" :styles="{top:'20px'}">
+    </modal>
+    <modal v-model="appSearch" title="照片查看器" width="500" :styles="{top:'20px'}">
       <div v-if="pcSearchSelect.two" class="text-ct">
         <img width="400" v-if="taskType === 'app_search'" src="~assets/img/screen-shot/position_app.png" alt="">
       </div>
@@ -640,7 +597,7 @@
         <img width="400" v-if="taskType ==='app_search'|| taskType=== 'tao_code'"
              src="~assets/img/screen-shot/shop_car_app.png" alt="">
       </div>
-    </Modal>
+    </modal>
     <!--用户服务条款弹框-->
     <!--<div v-if="isShowUserClause" class="user-clause-model">-->
       <!--<user-clause @closeClauseModel="closeClauseModel" isShowClause="showker"></user-clause>-->
@@ -661,7 +618,7 @@
   import {taskErrorStatusList, isNumber, encryption} from '@/config/utils'
 
   export default {
-    name: 'ApplyPassAudit',
+    name: 'apply-pass-audit',
     components: {
       iButton: Button,
       Icon: Icon,
