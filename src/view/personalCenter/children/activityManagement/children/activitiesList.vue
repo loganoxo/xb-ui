@@ -124,7 +124,7 @@
                   <span @click="closeTask(item.id)">关闭</span>
                 </p>
                 <p class="bond mt-6">
-                  <span @click="depositMoney(item.totalMarginNeed + item.promotionExpensesNeed + item.vasFeeNeed + item.redEnvelopeDeductionPaid, item.id,item.marginPaid + item.promotionExpensesPaid + item.vasFeePaid + item.redEnvelopeDeductionPaid, item.createTime, item.promotionExpensesPaid)">存担保金</span>
+                  <span @click="depositMoney(item.totalMarginNeed + item.promotionExpensesNeed + item.vasFeeNeed + item.redEnvelopeDeductionPaid, item.id,item.marginPaid + item.promotionExpensesPaid + item.vasFeePaid + item.redEnvelopeDeductionPaid, item.createTime, item.redEnvelopeDeductionPaid, item.marginPaid)">存担保金</span>
                 </p>
                 <p class="copy mt-6">
                   <span @click="copyTask(item.id)">复制活动</span>
@@ -701,14 +701,14 @@
       isTaskOverdueClose() {
         this.confirmClose()
       },
-      depositMoney(money, id, deposited, createTime, promotionExpensesPaid) {
+      depositMoney(money, id, deposited, createTime, redEnvelopeDeductionPaid, marginPaid) {
         const _this = this;
         if (createTime <= 1526457600000) {
           _this.isTaskOverdueModel = true;
           _this.taskId = id;
         } else {
-          _this.disabledRedEnvelopes = true;
-          _this.redEnvelopesState = promotionExpensesPaid > 0;
+          _this.disabledRedEnvelopes = marginPaid > 0;
+          _this.redEnvelopesState = marginPaid > 0 ? redEnvelopeDeductionPaid > 0 : true;
           _this.needDepositMoney = money;
           _this.hasDeposited = deposited;
           _this.taskPayId = id;

@@ -1035,9 +1035,9 @@
               _this.taskRelease.realStoreName = res.data.store.name;
               _this.taskRelease.storeName = res.data.store.wangwangId;
               _this.temporaryImageSrc = res.data.picUrl;
-              _this.temporaryTaskName = decodeURI(delHtmlTag(res.data.title));
+              _this.temporaryTaskName = (delHtmlTag(decodeURI(res.data.title))).replace(/\s+/g,'');
               if (_this.taskRelease.activityCategory === 'free_get') {
-                _this.taskRelease.taskName = res.data.title;
+                _this.taskRelease.taskName = delHtmlTag(decodeURI(res.data.title));
                 _this.taskRelease.taskMainImage = res.data.picUrl;
                 _this.pcTaskDetail.itemMainImage = res.data.picUrl;
                 _this.appTaskDetail.itemMainImage = res.data.picUrl;
