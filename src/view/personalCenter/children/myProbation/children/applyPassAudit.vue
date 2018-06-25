@@ -4,45 +4,45 @@
     <div class="probation-pass mt-20" v-show="!showPassOperation">
       <div class="check-status clear">
         <div class="left mr-10" style="margin-top: 2px;">
-          <Checkbox
+          <checkbox
             :value="checkAll"
             @click.prevent.native="handleCheckAll">所有
-          </Checkbox>
+          </checkbox>
         </div>
         <div class="left">
-          <Checkbox-group v-model="checkPassList" @on-change="checkChange">
-            <Checkbox label="pass_and_unclaimed">
+          <checkbox-group v-model="checkPassList" @on-change="checkChange">
+            <checkbox label="pass_and_unclaimed">
               <span>已通过待下单</span>
-            </Checkbox>
-            <Checkbox label="order_num_waiting_audit">
+            </checkbox>
+            <checkbox label="order_num_waiting_audit">
               <span>订单信息待审核</span>
-            </Checkbox>
-            <Checkbox label="trial_report_waiting_submit">
+            </checkbox>
+            <checkbox label="trial_report_waiting_submit">
               <span>已下订单待交买家秀</span>
-            </Checkbox>
-            <Checkbox label="trial_report_waiting_confirm">
+            </checkbox>
+            <checkbox label="trial_report_waiting_confirm">
               <span>买家秀待确认</span>
-            </Checkbox>
-            <Checkbox label="trial_finished">
+            </checkbox>
+            <checkbox label="trial_finished">
               <span>活动完成</span>
-            </Checkbox>
-            <Checkbox label="order_num_error">
+            </checkbox>
+            <checkbox label="order_num_error">
               <span>订单信息有误</span>
-            </Checkbox>
-            <Checkbox label="trial_report_unqualified">
+            </checkbox>
+            <checkbox label="trial_report_unqualified">
               <span>买家秀不合格</span>
-            </Checkbox>
-            <Checkbox label="trial_end">
+            </checkbox>
+            <checkbox label="trial_end">
               <span>活动终止</span>
-            </Checkbox>
-          </Checkbox-group>
+            </checkbox>
+          </checkbox-group>
         </div>
       </div>
       <div class="order-query">
-        <iSelect v-model="selectStatus" style="width: 120px;margin-right: 12px;">
-          <iOption placeholder="请选择类型查询" v-for="item in SelectList" :value="item.value" :key="item.value">{{item.label}}
-          </iOption>
-        </iSelect>
+        <i-select v-model="selectStatus" style="width: 120px;margin-right: 12px;">
+          <i-option placeholder="请选择类型查询" v-for="item in SelectList" :value="item.value" :key="item.value">{{item.label}}
+          </i-option>
+        </i-select>
         <i-input v-model="searchValue" style="width: 160px;margin-right: 8px;"/>
         <span class="ml-10">订单号：</span>
         <i-input v-model="orderNumber" placement="请输入订单号查询" style="width: 160px;margin-right: 8px;"/>
