@@ -30,17 +30,17 @@ export default {
 
   // 从userInfo中提取用户账户余额
   getUserBalance: state => {
-    return Object.keys(state.userInfo).length > 0 ? state.userInfo.userAccount.accountBalance : 0;
+    return Object.keys(state.userInfo).length > 0 ? state.userInfo.userAccount.accountBalance : 0
   },
 
   // 从userInfo中提取用户是否修改过支付密码
   getIsEditPwdAlready: state => {
-    return Object.keys(state.userInfo).length > 0 ? state.userInfo.userAccount.ifEditPwdAlready : false;
+    return Object.keys(state.userInfo).length > 0 ? state.userInfo.userAccount.ifEditPwdAlready : false
   },
 
   // 从userInfo中提取用户类型（1：商家，0拿手）
   getUserRole: state => {
-    return Object.keys(state.userInfo).length > 0 ? state.userInfo.role : 0;
+    return Object.keys(state.userInfo).length > 0 ? state.userInfo.role : 0
   },
 
   // 从userInfo中提取用户头像地址
@@ -74,41 +74,46 @@ export default {
 
   // 从userInfo中提取用户QQ号码
   getQQNumber: state => {
-    return Object.keys(state.userInfo).length > 0 ? state.userInfo.qqNumber : null;
+    return Object.keys(state.userInfo).length > 0 ? state.userInfo.qqNumber : null
+  },
+
+  // 从userInfo中获取红包到期时间
+  getRedEnvelopesExpirationTime: state => {
+    return Object.keys(state.userInfo).length > 0 ? state.userInfo.userAccount.redEnvelopeSellerDeadLine : null
   },
 
   // 从sysConfigInfo中提取pcMerchantQqGroup信息
   getPcMerchantQqGroup: state => {
-    return Object.keys(state.sysConfigInfo).length > 0 ? state.sysConfigInfo.pcMerchantQqGroup : {};
+    return Object.keys(state.sysConfigInfo).length > 0 ? state.sysConfigInfo.pcMerchantQqGroup : {}
   },
 
   // 从sysConfigInfo中提取taskApplyBaseCountFreshman信息
   getTaskApplyBaseCountFreshman: state => {
-    return Object.keys(state.sysConfigInfo).length > 0 ? state.sysConfigInfo.taskApplyBaseCountFreshman : {};
+    return Object.keys(state.sysConfigInfo).length > 0 ? state.sysConfigInfo.taskApplyBaseCountFreshman : {}
   },
 
   // 从sysConfigInfo中提取taskApplyBaseCountOldman信息
   getTaskApplyBaseCountOldman: state => {
-    return Object.keys(state.sysConfigInfo).length > 0 ? state.sysConfigInfo.taskApplyBaseCountOldman : {};
+    return Object.keys(state.sysConfigInfo).length > 0 ? state.sysConfigInfo.taskApplyBaseCountOldman : {}
   },
 
   // 从sysConfigInfo中提取showkerInviteShowkerFee信息
   getShowkerInviteShowkerFee: state => {
-    return Object.keys(state.sysConfigInfo).length > 0 ? state.sysConfigInfo.showkerInviteShowkerFee : {};
+    return Object.keys(state.sysConfigInfo).length > 0 ? state.sysConfigInfo.showkerInviteShowkerFee : {}
   },
 
   // 从sysConfigInfo中提取showkerInviteSellerFee信息
   getShowkerInviteSellerFee: state => {
-    return Object.keys(state.sysConfigInfo).length > 0 ? state.sysConfigInfo.showkerInviteSellerFee : {};
+    return Object.keys(state.sysConfigInfo).length > 0 ? state.sysConfigInfo.showkerInviteSellerFee : {}
   },
 
   // 从sysConfigInfo中提取taskSystemHoldPercent信息
   getTaskSystemHoldPercent: state => {
-    return Object.keys(state.sysConfigInfo).length > 0 ? state.sysConfigInfo.taskSystemHoldPercent : {};
+    return Object.keys(state.sysConfigInfo).length > 0 ? state.sysConfigInfo.taskSystemHoldPercent : {}
   },
 
   // 从sysConfigInfo中提取客服QQ信息
   getSellerCustomerQq: state => {
-    return Object.keys(state.sysConfigInfo).length > 0 ? state.sysConfigInfo.sellerCustomerQq : {};
+    return Object.keys(state.sysConfigInfo).length > 0 ? state.sysConfigInfo.sellerCustomerQq : {}
   }
 }

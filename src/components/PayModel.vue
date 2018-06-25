@@ -1,7 +1,7 @@
 <template>
   <div class="pay-model-con">
     <slot name="closeModel"/>
-    <checkbox v-if="getMemberVersionLevel > 100 && redEnvelopeDeductionNumber > 0" class="mt-40" :value="redEnvelopesState" :disabled="disabledRedEnvelopes" @on-change="checkboxChange">使用<span class="main-color">推广费减免红包</span>抵扣 {{(redEnvelopeDeductionNumber / 100).toFixed(2)}} 元</checkbox>
+    <checkbox v-if="redEnvelopeDeductionNumber > 0" class="mt-40" :value="redEnvelopesState" :disabled="disabledRedEnvelopes" @on-change="checkboxChange">使用<span class="main-color">推广费减免红包</span>抵扣 {{(redEnvelopeDeductionNumber / 100).toFixed(2)}} 元</checkbox>
     <template v-if="!isBalance">
       <slot name="noBalance"/>
     </template>
@@ -116,15 +116,15 @@
       // 红包启用状态
       redEnvelopesState: {
         type: Boolean,
-        required: true
-      },
-      // 购买类型（0：正常充值， 1：购买会员充值，2：购买增值服务充值）
-      orderType: {
-        type: Number,
-        default: 0
+        default: true
       },
       // 红包抵扣金额
       redEnvelopeDeductionNumber: {
+        type: Number,
+        default: 0
+      },
+      // 购买类型（0：正常充值， 1：购买会员充值，2：购买增值服务充值）
+      orderType: {
         type: Number,
         default: 0
       },

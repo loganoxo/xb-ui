@@ -9,6 +9,7 @@
       <span class="f-b">请选择您的会员版本：</span>
       <i-button class="select-version fs-16" :class="{'is-active': isSelectVersionPeriodInfo.level === item}"
                 v-for="(item, index) in memberVersionList" :key="index"
+                :disabled="getMemberVersionLevel > item && isMember"
                 @click="selectVersion(item, memberVersionNameMap[item])">
         {{memberVersionNameMap[item]}}
       </i-button>
@@ -17,6 +18,7 @@
       <span class="f-b">请选择您的时间周期：</span>
       <i-button :class="{'is-active': isSelectVersionPeriodInfo.timeLevel === item.timeLevel}" class="select-period"
                 v-for="item in memberPeriodList" :key="item.id"
+                :disabled="getMemberVersionLevel === 300"
                 @click="selectPeriod(item.timeLevel, memberPeriodNameMap[item.timeLevel])">
         <div>
           <span class="fs-16">{{memberPeriodNameMap[item.timeLevel]}}</span>
@@ -81,10 +83,10 @@
     data() {
       return {
         isSelectVersionPeriodInfo: {
-          level: 200,
-          levelText: 'VIP',
-          timeLevel: 300,
-          timeLevelText: '1年',
+          level: null,
+          levelText: null,
+          timeLevel: null,
+          timeLevelText: null,
         },
         selectOrderStatusMap: {
           'renewal': '续费',
@@ -218,6 +220,7 @@
             this.memberPeriodList.push(item)
           }
         });
+        // 如果选择SVIP版本默认选择SVIP一年
         if (level === 300) {
           this.isSelectVersionPeriodInfo.timeLevel = 300;
           this.isSelectVersionPeriodInfo.timeLevelText = '1年';
@@ -273,7 +276,7 @@
                 if (item.level === _this.getMemberVersionLevel) {
                   _this.memberPeriodList.push(item)
                 } else {
-                  // 此处是为了兼容去除SVIP版本后的处理
+                  // 此处是为了兼容去除SVIP版本后的处理，如果将来重新加入高级版本，此代码可删除
                   _this.memberPeriodList.push(item)
                 }
               });
@@ -328,7 +331,7 @@
             if (item.level === _this.getMemberVersionLevel) {
               _this.memberPeriodList.push(item)
             } else {
-              // 此处是为了兼容去除SVIP版本后的处理
+              // 此处是为了兼容去除SVIP版本后的处理，如果将来重新加入高级版本，此代码可删除
               _this.memberPeriodList.push(item)
             }
           });
@@ -341,8 +344,10 @@
         }
 
         // 默认选择一年的周期（不考虑用户当前版本周期）
-        _this.isSelectVersionPeriodInfo.timeLevel = 300;
-        _this.isSelectVersionPeriodInfo.timeLevelText = '1年';
+        if (_this.getMemberVersionLevel !== 300) { // 此判断是为了兼容去除SVIP版本后的处理，如果将来重新加入高级版本，此判断可删除
+          _this.isSelectVersionPeriodInfo.timeLevel = 300;
+          _this.isSelectVersionPeriodInfo.timeLevelText = '1年';
+        }
         if (_this.isMember && _this.getMemberVersionLevel === 200) {
           _this.nowVersionName = 'VIP会员'
         } else if (_this.isMember && _this.getMemberVersionLevel === 300) {

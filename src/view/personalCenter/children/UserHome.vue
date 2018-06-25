@@ -30,9 +30,9 @@
             <span>可用金额：{{(getUserBalance / 100).toFixed(2)}} 元 </span>
             <span v-if="getUserInfoRole === 0">提现中：{{userData.userAccount.enChashingMoney ? (userData.userAccount.enChashingMoney/100).toFixed(2): 0 }} 元  </span>
             <router-link v-if="getUserInfoRole === 1" :to="{path: '/user/money-management/pay-money'}">充值</router-link>
-            <span class="ml-10" v-if="getUserInfoRole === 1 && getMemberVersionLevel > 100">
+            <span class="ml-10" v-if="getUserInfoRole === 1 && redEnvelopesExpirationTime">
               <span>推广费减免红包</span>
-              <tooltip :content="`有效期至${getMemberDeadline}，仅限于推广费抵扣，最多抵扣6元 / 单`" placement="top">
+              <tooltip :content="`有效期至${redEnvelopesExpirationTime}，仅限于推广费抵扣，最多抵扣6元 / 单`" placement="top">
                 <icon type="help-circled"/>
               </tooltip>
             </span>
@@ -263,6 +263,9 @@
       },
       getMemberVersionLevel() {
         return this.$store.getters.getMemberLevel
+      },
+      redEnvelopesExpirationTime() {
+        return this.$store.getters.getRedEnvelopesExpirationTime
       },
       isMember() {
         return this.$store.getters.isMemberOk
