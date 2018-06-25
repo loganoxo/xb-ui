@@ -1,7 +1,7 @@
 <template>
   <div class="store-bind-operating">
     <div v-if="protocol" class="pos-rel">
-      <a class="backToCommodityLink" @click="protocol=false">返回上一页</a>
+      <!--<a class="backToCommodityLink" @click="protocol = false">返回上一页</a>-->
       <a class="backToCommodityLink" @click="toUpPage">返回上一页</a>
       <p class="main-color operating-tip">注意：店铺一旦绑定成功后，将无法修改和解绑，请核对店铺信息，慎重操作！</p>
       <div class="form-box">
@@ -51,7 +51,7 @@
           <iButton class="auditing-btn" size="large" :loading="bindBtnLoading">
             店铺审核中...
           </iButton>
-          <iButton class="delete-btn ml-20" size="large" :loading="bindBtnLoading" @click="deleteStore ">
+          <iButton class="delete-btn ml-20" size="large" :loading="bindBtnLoading" @click="deleteStore">
             删除此店铺
           </iButton>
         </div>
@@ -123,7 +123,6 @@
         protocol: false,
         confirmBtnLoading: false,
         bindBtnLoading: false,
-        // query:'',
         storeBackstageImage:null,
         defaultScreenshotList:[],
         showDemoPicture:false,
@@ -136,20 +135,15 @@
       pageChange() {
         return this.$route.query.protocol
       },
-      // fromPage() {
-      //   return this.$route.query.from
-      // },
       storeId() {
         return this.$route.query.id
       },
       bindStatus() {
         return this.$route.query.status
       }
-
     },
     created() {
       const _this = this;
-      // this.query = this.$route.query.from;
       if (_this.pageChange) {
         _this.protocol = true;
         _this.getStoreBindInfo();
@@ -186,25 +180,7 @@
         }
         _this.getStoreType();
         _this.confirmBtnLoading = true;
-        // let commodityId = getUrlParams(_this.commodityLink, 'id');
-        // api.getStoreInfo({commodityId: commodityId}).then(res => {
-        //   _this.confirmBtnLoading = false;
-        //   if (res.status) {
-        //     let tempData = res.data;
-        //     let decodeStoreName = decodeURI(tempData.store.name);
-        //     _this.storeBindForm.storeName = delHtmlTag(decodeStoreName);
-        //     let decodeStoreWw = decodeURI(tempData.store.wangwangId);
-        //     _this.storeBindForm.storeWw = delHtmlTag(decodeStoreWw);
-        //     _this.storeBindForm.storeLink = _this.commodityLink;
-        //     _this.storeBindForm.shopId = tempData.store.shopId;
-        //     _this.storeBindForm.sellerId = tempData.store.sellerId;
-        //     _this.protocol = true;
-        //   } else {
-        //     _this.$Message.error(res.msg);
-        //   }
-        // })
         api.getStoreInfoByLink({link: _this.commodityLink}).then(res => {
-          _this.confirmBtnLoading = false;
           if (res.status) {
             let tempData = res.data;
             let decodeStoreName = decodeURI(tempData.name);
@@ -218,6 +194,7 @@
           } else {
             _this.$Message.error(res.msg);
           }
+          _this.confirmBtnLoading = false;
         })
       },
       //验证并绑定店铺
@@ -254,21 +231,16 @@
           screenshot:_this.storeBackstageImage,
           id:_this.$route.query ? _this.storeId : ''
         }).then(res => {
-          _this.bindBtnLoading = false;
           if (res.status) {
             _this.$Message.success({
               content: '店铺绑定申请已提交！',
               duration: 1
             });
-            // if (this.fromPage) {
-            //   _this.$router.replace({path: '/user/task-release'});
-            // } else {
-            //   _this.$router.replace({name: 'StoreBindRules'});
-            // }
             _this.$router.replace({name: 'StoreBindRules'});
           } else {
             _this.$Message.error(res.msg);
           }
+          _this.bindBtnLoading = false;
         })
       },
       // 上传店铺后天截图相关函数
@@ -311,14 +283,15 @@
               _this.refuseReason = _this.currentStoreInfo.reasonRefuse;
               _this.reviewTime = _this.currentStoreInfo.updateTime;
             }
-          }else{
-            Toast(res.msg);
+          } else {
+            _this.$Message.error(res.msg);
           }
         })
       },
       // 删除店铺
       deleteStore() {
         const _this = this;
+        _this.bindBtnLoading = true;
         api.deleteStore({id:_this.storeId}).then(res => {
           if (res.status) {
             _this.$router.replace({name:'StoreBindRules'});
@@ -326,13 +299,10 @@
           } else {
             _this.$Message.warning(res.msg);
           }
+          _this.bindBtnLoading = false;
         })
-
       }
-
-
     }
-
   }
 </script>
 

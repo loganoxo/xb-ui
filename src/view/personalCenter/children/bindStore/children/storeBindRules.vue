@@ -46,7 +46,6 @@
         svipStoreBindNum:0,
         showBindStoreText:true,
         showUpgradeText:false,
-        // availableStoreList:[]
       }
     },
     computed:{
@@ -59,17 +58,16 @@
     },
     created(){
       this.getVersionInfo();
-      // this.getStoreBindInfo();
     },
     methods:{
       // 获取会员版本说明（主要是可绑定店铺数量）
       getVersionInfo(){
         const _this = this;
-        api.getMemberInstructionsInfo().then(res=>{
+        api.getMemberInstructionsInfo().then(res => {
           let tempData = [];
-          if(res.status){
+          if (res.status) {
             tempData = res.data;
-            tempData.forEach(item=>{
+            tempData.forEach(item => {
               item.storeBindingLimit = JSON.parse(item.storeBindingLimit);
             });
             _this.freeStoreBindNum = tempData[0].storeBindingLimit.number;
@@ -85,16 +83,13 @@
       getStoreBindInfo(){
         const _this = this;
         api.getStoreBindInfo({}).then(res=>{
-          if(res.status){
-            if(res.data.length > 0){
+          if (res.status) {
+            if (res.data.length > 0) {
               _this.storeInfoList = res.data;
-              // _this.availableStoreList = _this.storeInfoList.filter(item => {
-              //   return item.applyStatus === 2;
-              // });
               _this.bindBtnText();
             }
           }else{
-            Toast(res.msg);
+            _this.$Message.error(res.msg);
           }
         })
       },
@@ -204,7 +199,6 @@
         background: rgba(249,40,80,.8);
         bottom: 0;
       }
-
     }
     .upgrade-vip{
       padding:0 5px;
@@ -215,6 +209,4 @@
       display: inline-block;
     }
   }
-
-
 </style>
