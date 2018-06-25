@@ -2624,7 +2624,7 @@
             if (!type) {
               _this.taskRelease.taskId = res.data.id;
               _this.redEnvelopesState = res.data.redEnvelopeDeductionPaid > 0;
-              _this.disabledRedEnvelopes = true;
+              _this.disabledRedEnvelopes = res.data.redEnvelopeDeductionPaid > 0;
             }
             _this.paidDeposit = res.data.marginPaid + res.data.promotionExpensesPaid + res.data.vasFeePaid + res.data.redEnvelopeDeductionPaid;
             _this.taskStatus = res.data.taskStatus;
