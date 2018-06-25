@@ -32,7 +32,7 @@
             <router-link v-if="getUserInfoRole === 1" :to="{path: '/user/money-management/pay-money'}">充值</router-link>
             <span class="ml-10" v-if="getUserInfoRole === 1 && redEnvelopesExpirationTime">
               <span>推广费减免红包</span>
-              <tooltip :content="`有效期至${getMemberDeadline}，仅限于推广费抵扣，最多抵扣6元 / 单`" placement="top">
+              <tooltip :content="`有效期至${getMemberDeadline}，仅限于推广费抵扣，最多抵扣${getMemberVersionLevel === 200 ? 3 : 6}元 / 单`" placement="top">
                 <icon type="help-circled"/>
               </tooltip>
             </span>

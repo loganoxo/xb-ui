@@ -2583,7 +2583,7 @@
               _this.$Message.error(res.msg)
             }
           })
-        });
+        })
       },
       returnUpStep() {
         let _this = this;
