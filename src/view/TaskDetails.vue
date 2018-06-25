@@ -45,8 +45,8 @@
                     :style="{backgroundColor: $store.state.discountPriceType[parseFloat(commodityData.task.discountRate/10) + '折'].backgroundColor}">
                     {{commodityData.task.discountRate/10}}折清仓
                   </span>
-              <span v-if="(commodityData.task.perVasFee || commodityData.task.promotionExpensesPaid)" class="fs-12 bg-main-color cl-fff pr-5 pl-5">
-                返利{{computeVasReturnFee(commodityData.task.perVasFee,commodityData.task.systemVasFeeCommissionPercent,commodityData.task.activityCategory,commodityData.task.promotionExpensesPaid)}}元
+              <span v-if="(commodityData.task.perVasFee || commodityData.task.promotionExpensesPaid && (uplineTime < commodityData.task.createTime))" class="fs-12 bg-main-color cl-fff pr-5 pl-5">
+                返利{{computeVasReturnFee(commodityData.task.perVasFee,commodityData.task.systemVasFeeCommissionPercent,commodityData.task.activityCategory,commodityData.task.promotionExpensesPaid,commodityData.task.createTime)}}元
               </span>
             </h3>
             <p class="fs-14">
@@ -542,6 +542,7 @@
         isShowAddGroupTip: true,
         limit: false,
         isOpenQqBindModal: false,
+        uplineTime: 1529928000000
       }
     },
     created() {
@@ -600,7 +601,8 @@
     },
     methods: {
       computeVasReturnFee(fee,percent,type,promotion) {
-        if (promotion) {
+        const newActivity = this.uplineTime - createTime < 0 ? true : false;
+        if (promotion && newActivity) {
           if (type === 'free_get') {
             return (fee / 100 * (1 - percent / 100) + 1).toFixed(2);
           } else if (type === 'present_get') {

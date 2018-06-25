@@ -108,6 +108,7 @@
               <div class="task-category-commodity-img pos-rel">
                 <img class="block" :src="searchTask.taskMainImage | imageSrc('!thum400')" height="220" width="220">
                 <span class="applied"> {{searchTask.showkerApplyTotalCount || 0}} 人已申请</span>
+                <!--<img src="~assets/img/common/hot-top-subscript.png" class="hot-top-icon">-->
               </div>
               <div class="task-category-commodity-text">
                 <p v-html="searchTask.taskName"></p>
@@ -115,8 +116,8 @@
                   <em class="price-list left">
                     <span class="cl666 block text-decoration-through">￥{{searchTask.itemPrice }}</span>
                   </em>
-                  <em class="vas-fee-return left ml-10 pl-5 pr-5" v-if="(searchTask.perVasFee || searchTask.promotionExpensesPaid)">
-                    返利{{computeVasReturnFee(searchTask.perVasFee,searchTask.systemVasFeeCommissionPercent,searchTask.activityCategory,searchTask.promotionExpensesPaid)}}元
+                  <em class="vas-fee-return left ml-10 pl-5 pr-5" v-if="(searchTask.perVasFee || searchTask.promotionExpensesPaid && (uplineTime < searchTask.createTime))">
+                    返利{{computeVasReturnFee(searchTask.perVasFee,searchTask.systemVasFeeCommissionPercent,searchTask.activityCategory,searchTask.promotionExpensesPaid,searchTask.createTime)}}元
                   </em>
                 </p>
                 <p>
@@ -177,6 +178,7 @@
               <div class="task-category-commodity-img pos-rel">
                 <img class="block" :src="historyTask.taskMainImage | imageSrc('!thum400')" alt="" width="220" height="220">
                 <span class="applied"> {{historyTask.showkerApplyTotalCount || 0}} 人已申请</span>
+                <!--<img src="~assets/img/common/hot-top-subscript.png" class="hot-top-icon">-->
               </div>
               <div class="task-category-commodity-text">
                 <p v-html="historyTask.taskName"></p>
@@ -184,8 +186,8 @@
                   <em>
                     <span class="cl666 block text-decoration-through">￥{{historyTask.itemPrice / 100}}</span>
                   </em>
-                  <em class="vas-fee-return ml-10 pl-5 pr-5" v-if="(historyTask.perVasFee || historyTask.promotionExpensesPaid)">
-                    返利{{computeVasReturnFee(historyTask.perVasFee,historyTask.systemVasFeeCommissionPercent,historyTask.activityCategory,historyTask.promotionExpensesPaid)}}元
+                  <em class="vas-fee-return ml-10 pl-5 pr-5" v-if="(historyTask.perVasFee || historyTask.promotionExpensesPaid && (uplineTime < historyTask.createTime))">
+                    返利{{computeVasReturnFee(historyTask.perVasFee,historyTask.systemVasFeeCommissionPercent,historyTask.activityCategory,historyTask.promotionExpensesPaid,historyTask.createTime)}}元
                   </em>
                 </p>
                 <p>
@@ -353,7 +355,8 @@
           pageSize: 20,
           itemCatalogs: [],
           sortField: 'endTime',
-        }
+        },
+        uplineTime: 1529928000000
       }
     },
     created(){
@@ -375,8 +378,9 @@
       }
     },
     methods: {
-      computeVasReturnFee(fee,percent,type,promotion) {
-        if (promotion) {
+      computeVasReturnFee(fee,percent,type,promotion,createTime) {
+        const newActivity = this.uplineTime - createTime < 0 ? true : false;
+        if (promotion && newActivity) {
           if (type === 'free_get') {
             return (fee / 100 * (1 - percent / 100) + 1).toFixed(2);
           } else if (type === 'present_get') {
@@ -820,6 +824,13 @@
           margin: 0 4px 30px 4px;
           .task-category-commodity-img{
             border: 1px solid #ddd;
+            .hot-top-icon {
+              position: absolute;
+              top:0;
+              left:-4px;
+              width:50px;
+              height:50px;
+            }
           }
           .task-category-commodity-text{
             background-color: #EEEEEE;
