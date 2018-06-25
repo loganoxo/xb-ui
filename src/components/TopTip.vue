@@ -8,7 +8,7 @@
         你好，<span class="user-name">
         <span v-if="getUserInfo.role === 1 && isMember" class="mr-5">
           <img v-if="getMemberVersionLevel === 200" src="~assets/img/common/vip.png" alt="vipLogo">
-          <!--<img v-if="getMemberVersionLevel === 300" src="~assets/img/common/svip.png" alt="svipLogo">-->
+          <img v-if="getMemberVersionLevel === 300" src="~assets/img/common/svip.png" alt="svipLogo">
         </span>
         <router-link class="blue" tag="span" to="/user/user-home" @click.native="cancelActivityCategory">
           <span class="main-color" v-if="getUserInfo.role === 1"> 商家 </span>
