@@ -600,7 +600,7 @@
       },
     },
     methods: {
-      computeVasReturnFee(fee,percent,type,promotion) {
+      computeVasReturnFee(fee,percent,type,promotion,createTime) {
         const newActivity = this.uplineTime - createTime < 0 ? true : false;
         if (promotion && newActivity) {
           if (type === 'free_get') {
