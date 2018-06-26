@@ -3,12 +3,12 @@
     <div class="rules-box">
       <p class="rules-title">店铺绑定说明:</p>
       <ul>
-        <li>1、免费商家可绑定{{freeStoreBindNum}}个店铺，VIP商家可绑定{{vipStoreBindNum}}个店铺，SVIP商家可绑定{{svipStoreBindNum}}个店铺。</li>
+        <li>1、免费商家可绑定{{freeStoreBindNum}}个店铺，VIP商家可绑定{{vipStoreBindNum}}个店铺。</li>
         <li>2、店铺绑定成功后无法解绑和修改，请慎重操作！</li>
         <li>3、发布活动的宝贝必须是所绑定店铺内的宝贝，否则活动无法发布！</li>
       </ul>
     </div>
-    <p class="had-band-title fs-16">我已绑定的店铺 <span class="main-color">（根据你的会员版本，最多可绑定<span v-if="memberLevel === 100 || memberLevel === null">{{freeStoreBindNum}}</span><span v-if="memberLevel === 200">{{vipStoreBindNum}}</span><span v-if="memberLevel === 300">{{svipStoreBindNum}}</span>个店铺。）</span> </p>
+    <p class="had-band-title fs-16">我已绑定的店铺 <span class="main-color">（根据你的会员版本，最多可绑定<span v-if="memberLevel === 100">{{freeStoreBindNum}}</span><span v-if="memberLevel === 200">{{vipStoreBindNum}}</span><span v-if="memberLevel === 300">{{svipStoreBindNum}}</span>个店铺。）</span> </p>
     <ul class="had-band-box clear">
       <li class="left pos-rel" v-for="storeInfo in storeInfoList" :key="storeInfo.id">
         <img src="~assets/img/common/taobao-logo.png" v-if="storeInfo.storeType === 'taobao'">

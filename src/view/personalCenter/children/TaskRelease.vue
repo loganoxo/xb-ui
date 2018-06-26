@@ -338,7 +338,7 @@
             <span class="sizeColor2" v-else>（根据你的会员版本，每天同一宝贝可以发布2次）</span>
             <span v-if="getMemberVersionLevel !==300" class="svip-upgrade ml-10 mr-5"
                   @click="upgradeSvip">不够用？+1次</span>
-            <tooltip content="同一宝贝每日发布活动次数：免费商家2次，VIP商家5次，SVIP商家10次" placement="top">
+            <tooltip content="同一宝贝每日发布活动次数：免费商家2次，VIP商家5次" placement="top">
               <icon class="cursor-p" size="16" type="help-circled"/>
             </tooltip>
           </div>
@@ -537,7 +537,7 @@
                 <span class="sizeColor2" v-else>（根据你的会员版本，每天同一宝贝可以发布2次）</span>
                 <span v-if="getMemberVersionLevel !==300" class="svip-upgrade ml-10 mr-5"
                       @click="upgradeSvip">不够用？+1次</span>
-                <tooltip content="同一宝贝每日发布活动次数：免费商家2次，VIP商家5次，SVIP商家10次" placement="top">
+                <tooltip content="同一宝贝每日发布活动次数：免费商家2次，VIP商家5次" placement="top">
                   <icon class="cursor-p" size="16" type="help-circled"/>
                 </tooltip>
               </div>
@@ -1219,7 +1219,7 @@
         <span class="main-color">温馨提示</span>
       </p>
       <div class="text-ct">
-        <p class="fs-16">该功能仅限VIP / SVIP 使用 : (</p>
+        <p class="fs-16">该功能仅限VIP 使用 : (</p>
         <p class="mt-5">是否现在升级您的会员版本？</p>
       </div>
       <div slot="footer" class="text-ct">
