@@ -116,7 +116,7 @@
               <td>{{item.showkerApplyTotalCount || 0}} / {{item.showkerApplyPassedCount || 0}}（人）</td>
               <td>{{(item.taskCount  - item.showkerApplySuccessCount)}}</td>
               <td>
-                （ {{(item.totalMarginNeed / 100).toFixed(2) || 0}} / {{((item.promotionExpensesNeed + item.redEnvelopeDeductionNeed) / 100).toFixed(2) || 0}} / {{(item.vasFeeNeed / 100).toFixed(2) || 0}}）{{((item.marginPaid + item.promotionExpensesPaid + item.vasFeePaid) / 100).toFixed(2) || 0}}
+                （ {{(item.totalMarginNeed / 100).toFixed(2)}} / {{((item.promotionExpensesNeed) / 100).toFixed(2)}} / {{(item.vasFeeNeed / 100).toFixed(2)}}）{{((item.marginPaid + item.promotionExpensesPaid + item.vasFeePaid) / 100).toFixed(2)}}
               </td>
               <td v-if="item.taskStatus === 'waiting_pay'">
                 <p class="del-edit">
@@ -124,7 +124,7 @@
                   <span @click="closeTask(item.id)">关闭</span>
                 </p>
                 <p class="bond mt-6">
-                  <span @click="depositMoney(item.totalMarginNeed + item.promotionExpensesNeed + item.vasFeeNeed + item.redEnvelopeDeductionPaid, item.id,item.marginPaid + item.promotionExpensesPaid + item.vasFeePaid + item.redEnvelopeDeductionPaid, item.createTime, item.redEnvelopeDeductionPaid, item.marginPaid)">存担保金</span>
+                  <span @click="depositMoney(item.totalMarginNeed + item.promotionExpensesNeed + item.vasFeeNeed + item.redEnvelopeDeductionNeed, item.id, item.marginPaid + item.promotionExpensesPaid + item.vasFeePaid + item.redEnvelopeDeductionPaid, item.createTime, item.redEnvelopeDeductionPaid, item.marginPaid)">存担保金</span>
                 </p>
                 <p class="copy mt-6">
                   <span @click="copyTask(item.id)">复制活动</span>
@@ -336,7 +336,7 @@
         <div slot="noBalance" class="title-tip">
           <span class="size-color3"><icon color="#FF2424" size="18" type="ios-information"/>
             <span class="ml-10">亲，您的余额不足，请充值。</span>
-          </span>还需充值<strong class="size-color3">{{needPayMoneyText}}</strong>元
+          </span>还需充值<strong class="size-color3">{{needPayMoneyText}}</strong>元 <span @click="isShowAliPayTip = true">【<span class="blue cursor-p">支付宝手续费</span>】</span>
         </div>
         <div slot="isBalance" class="title-tip">
           <icon color="#FF2424" size="18px" type="ios-information"/>
@@ -344,6 +344,10 @@
         </div>
       </pay-model>
     </div>
+    <!--支付宝手续费说明弹框-->
+    <modal v-model="isShowAliPayTip">
+      <img src="~assets/img/common/ali-pay-tip.jpg"/>
+    </modal>
   </div>
 </template>
 
@@ -376,6 +380,7 @@
         deleteModal: false,
         closeModal: false,
         modalLoading: false,
+        isShowAliPayTip: false,
         taskStatusList: [],
         taskOnline:[],
         settlementStatusList: [],

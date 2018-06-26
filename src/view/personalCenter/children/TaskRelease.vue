@@ -1078,7 +1078,7 @@
     <i-button class="fs-18 mt-20" type="primary" long :loading="taskLoading" v-show="stepName === 'information'" @click="stepNext">下一步</i-button>
     <!--活动担保金支付弹框-->
     <div class="pay-model" v-if="showPayModel">
-      <PayModel ref="payModelRef" :orderMoney="needPayMoneyBeforeAsRedEnvelopes" @confirmPayment="confirmPayment"
+      <pay-model ref="payModelRef" :orderMoney="needPayMoneyBeforeAsRedEnvelopes" @confirmPayment="confirmPayment"
                 :isShowUpgradeVIP="true" :isBalance="isBalance" :redEnvelopesState="redEnvelopesState"
                 @change="redEnvelopesState = arguments[0]" :redEnvelopeDeductionNumber="redEnvelopeDeductionNumber" :disabledRedEnvelopes="disabledRedEnvelopes">
         <i slot="closeModel" class="close-recharge" @click="closeRecharge">&times;</i>
@@ -1091,7 +1091,7 @@
           <icon color="#FF2424" size="18px" type="ios-information"/>
           <span class="ml-5">您本次需要支付金额为 <span class="sizeColor3">{{(needPayMoneyAfterAsRedEnvelopes / 100).toFixed(2)}}</span> 元。</span>
         </div>
-      </PayModel>
+      </pay-model>
     </div>
     <!--用户修改价格比原始价格高需要补差价提示弹框-->
     <modal v-model="editPriceAfterModel">
