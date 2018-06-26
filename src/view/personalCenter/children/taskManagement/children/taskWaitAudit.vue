@@ -50,7 +50,7 @@
           <p>活动名称：{{item.taskName}}</p>
           <p>参与概况：总份数<span class="main-color">{{item.taskCount || 0}}</span>，
             <span class="main-color">{{item.trailOn || 0}}</span>人正在参与活动，<span class="main-color">{{item.trailDone || 0}}</span>人完成活动，剩余名额<span
-              class="main-color">{{item.residueCount || 0}}</span>个
+              class="main-color">{{item.residueCount || 0}}</span>个 <i-button type="primary" size="small" @click="taskAdditionalQuota(item)">追加名额</i-button>
           </p>
         </div>
         <div class="right mr-10">
@@ -121,7 +121,7 @@
               <td>
                 <p>{{allTask.applyTime | dateFormat('YYYY-MM-DD hh:mm:ss')}}</p>
                 <p class="mt-10">{{filterIp(allTask.regIp)}}</p>
-                <p class="mt-10" v-if="allTask.regIp && allTask.regIp !== 'null' && allTask.ipInfo">{{allTask.ipInfo.region}}-{{allTask.ipInfo.city}}</p>
+                <p class="mt-10" v-if="allTask.regIp && allTask.ipInfo">{{allTask.ipInfo.region}}-{{allTask.ipInfo.city}}</p>
                 <p class="mt-10" v-if="!allTask.ipInfo">归属地未知</p>
               </td>
               <td class="registration">
@@ -271,6 +271,12 @@
       </div>
       <div slot="footer">
         <iButton type="error" size="large" long :loading="speedUpLoading" @click="speedUp">确认开启</iButton>
+      </div>
+    </modal>
+    <!--追加活动名额弹框-->
+    <modal v-model="additionalQuotaModal" width="360" :mask-closable="false">
+      <div slot="header" class="clear">
+
       </div>
     </modal>
   </div>
@@ -491,6 +497,8 @@
         realStoreName: '',
         closableModal: false,
         addBlackListInfo: {},
+        additionalQuotaModal: false,
+        TaskAdditionalQuotaInfo: {}
       }
     },
     created() {
@@ -533,7 +541,7 @@
        * @return {boolean}
        */
       eyesServerPermissions() {
-         return !((!this.valueAddedServiceStatusInfo.isMemberOK && !this.valueAddedServiceStatusInfo.vasBlackListDeadlineTime) || this.isEndTime);
+         return !((!this.valueAddedServiceStatusInfo.isMemberOK && !this.valueAddedServiceStatusInfo.vasBlackListDeadlineTime) || this.isEndTime)
       }
     },
     methods: {
@@ -547,6 +555,17 @@
       blackListModalChange(value) {
         this.closableModal = value;
         this.addBlackListInfo = {};
+      },
+      taskAdditionalQuota(item) {
+        Object.assign(this.TaskAdditionalQuotaInfo,{
+
+        })
+        this.TaskAdditionalQuotaInfo.taskMainImage = item.taskMainImage;
+        this.TaskAdditionalQuotaInfo.taskName = item.taskName;
+        this.TaskAdditionalQuotaInfo.taskCount = item.taskCount;
+        this.TaskAdditionalQuotaInfo.trailOn = item.trailOn;
+        this.TaskAdditionalQuotaInfo.trailDone = item.trailDone;
+        this.TaskAdditionalQuotaInfo.residueCount = item.residueCount;
       },
       addSuccess() {
         this.appliesWaitingAuditAll(this.operateTaskId, this.operateIndex);
