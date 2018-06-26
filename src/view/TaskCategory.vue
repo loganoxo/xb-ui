@@ -356,7 +356,7 @@
           itemCatalogs: [],
           sortField: 'endTime',
         },
-        uplineTime: 1529933415818
+        uplineTime: 1529933400000
       }
     },
     created(){

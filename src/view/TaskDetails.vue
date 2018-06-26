@@ -542,7 +542,7 @@
         isShowAddGroupTip: true,
         limit: false,
         isOpenQqBindModal: false,
-        uplineTime: 1529933415818
+        uplineTime: 1529933400000
       }
     },
     created() {
