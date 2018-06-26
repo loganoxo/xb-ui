@@ -474,7 +474,7 @@
         return this.redEnvelopesState ? this.orderMoney - this.redEnvelopeDeductionNumber : this.orderMoney
       },
       isBalance() {
-        return this.orderMoney <= this.getUserBalance
+        return this.redEnvelopesState ? this.orderMoney - this.redEnvelopeDeductionNumber <= this.getUserBalance : this.orderMoney <= this.getUserBalance
       },
       needPayMoney() {
         return !this.hasBalance ? Math.abs(this.getUserBalance - this.orderMoneyAfter) : 0

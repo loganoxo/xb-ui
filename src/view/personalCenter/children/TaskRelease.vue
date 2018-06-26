@@ -1701,9 +1701,9 @@
        */
       isBalance() {
         if (this.priceHasChange) {
-          return this.replenishMoney <= this.getUserBalance
+          return this.redEnvelopesState ? this.replenishMoney - this.redEnvelopeDeductionNumber <= this.getUserBalance : this.replenishMoney <= this.getUserBalance
         } else {
-          return this.orderMoney <= this.getUserBalance
+          return this.redEnvelopesState ? this.orderMoney - this.redEnvelopeDeductionNumber <= this.getUserBalance : this.orderMoney <= this.getUserBalance
         }
       },
 
