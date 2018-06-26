@@ -2610,7 +2610,6 @@
       },
       getTaskInfo() {
         const _this = this;
-        let type = _this.$route.query.type;
         api.getTaskInfo({
           taskId: _this.editTaskId
         }).then(res => {
@@ -2621,13 +2620,15 @@
             _this.appDefaultList = [];
             _this.taoCodeDefaultList = [];
             _this.answerDefaultList = [];
-            if (!type) {
-              _this.taskRelease.taskId = res.data.id;
-              _this.redEnvelopesState = res.data.redEnvelopeDeductionPaid > 0;
-              _this.disabledRedEnvelopes = res.data.redEnvelopeDeductionPaid > 0;
-            }
             _this.paidDeposit = res.data.marginPaid + res.data.promotionExpensesPaid + res.data.vasFeePaid + res.data.redEnvelopeDeductionPaid;
             _this.taskStatus = res.data.taskStatus;
+            if (!_this.$route.query.type) {
+              _this.taskRelease.taskId = res.data.id;
+            }
+            if (_this.taskStatus === 'waiting_modify') {
+              _this.redEnvelopesState = res.data.redEnvelopeDeductionPaid > 0;
+              _this.disabledRedEnvelopes = true;
+            }
             _this.mainDefaultList.push({src: res.data.taskMainImage});
             for (let k in _this.taskRelease) {
               for (let i in res.data) {
@@ -3244,7 +3245,7 @@
         text-align: center;
         .pay-btn {
           display: inline-block;
-          @include wh(120px, 36px);
+          @include wh(160px, 36px);
           line-height: 36px;
           @include sc(18px, #fff);
           background-color: $mainColor;
@@ -3252,6 +3253,7 @@
           margin: 20px auto 42px auto;
           @include transition;
           cursor: pointer;
+          border-radius: 5px;
           &:hover {
             background-color: darken($mainColor, 10%);
           }
