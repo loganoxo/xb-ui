@@ -336,9 +336,9 @@
             <span class="sizeColor2" v-if="getMemberVersionLevel === 200">（根据你的会员版本，每天同一宝贝可以发布5次）</span>
             <span class="sizeColor2" v-else-if="getMemberVersionLevel === 300">（每天同一宝贝可以发布10次）</span>
             <span class="sizeColor2" v-else>（根据你的会员版本，每天同一宝贝可以发布2次）</span>
-            <span v-if="getMemberVersionLevel !==300" class="svip-upgrade ml-10 mr-5"
+            <span v-if="getMemberVersionLevel !== 200" class="svip-upgrade ml-10 mr-5"
                   @click="upgradeSvip">不够用？+1次</span>
-            <tooltip content="同一宝贝每日发布活动次数：免费商家2次，VIP商家5次" placement="top">
+            <tooltip v-if="getMemberVersionLevel !== 200" content="同一宝贝每日发布活动次数：免费商家2次，VIP商家5次" placement="top">
               <icon class="cursor-p" size="16" type="help-circled"/>
             </tooltip>
           </div>
@@ -535,9 +535,9 @@
                 <span class="sizeColor2" v-if="getMemberVersionLevel === 200">（根据你的会员版本，每天同一宝贝可以发布5次）</span>
                 <span class="sizeColor2" v-else-if="getMemberVersionLevel === 300">（每天同一宝贝可以发布10次）</span>
                 <span class="sizeColor2" v-else>（根据你的会员版本，每天同一宝贝可以发布2次）</span>
-                <span v-if="getMemberVersionLevel !==300" class="svip-upgrade ml-10 mr-5"
+                <span v-if="getMemberVersionLevel !== 200" class="svip-upgrade ml-10 mr-5"
                       @click="upgradeSvip">不够用？+1次</span>
-                <tooltip content="同一宝贝每日发布活动次数：免费商家2次，VIP商家5次" placement="top">
+                <tooltip v-if="getMemberVersionLevel !== 200" content="同一宝贝每日发布活动次数：免费商家2次，VIP商家5次" placement="top">
                   <icon class="cursor-p" size="16" type="help-circled"/>
                 </tooltip>
               </div>
@@ -1078,7 +1078,7 @@
     <i-button class="fs-18 mt-20" type="primary" long :loading="taskLoading" v-show="stepName === 'information'" @click="stepNext">下一步</i-button>
     <!--活动担保金支付弹框-->
     <div class="pay-model" v-if="showPayModel">
-      <PayModel ref="payModelRef" :orderMoney="needPayMoneyBeforeAsRedEnvelopes" @confirmPayment="confirmPayment"
+      <pay-model ref="payModelRef" :orderMoney="needPayMoneyBeforeAsRedEnvelopes" @confirmPayment="confirmPayment"
                 :isShowUpgradeVIP="true" :isBalance="isBalance" :redEnvelopesState="redEnvelopesState"
                 @change="redEnvelopesState = arguments[0]" :redEnvelopeDeductionNumber="redEnvelopeDeductionNumber" :disabledRedEnvelopes="disabledRedEnvelopes">
         <i slot="closeModel" class="close-recharge" @click="closeRecharge">&times;</i>
@@ -1091,7 +1091,7 @@
           <icon color="#FF2424" size="18px" type="ios-information"/>
           <span class="ml-5">您本次需要支付金额为 <span class="sizeColor3">{{(needPayMoneyAfterAsRedEnvelopes / 100).toFixed(2)}}</span> 元。</span>
         </div>
-      </PayModel>
+      </pay-model>
     </div>
     <!--用户修改价格比原始价格高需要补差价提示弹框-->
     <modal v-model="editPriceAfterModel">
@@ -1479,7 +1479,7 @@
               // 防止页面跳转绑定店铺弹框闪烁需要将店铺请求放此处执行
               vm.getStoreBindInfoList();
             }
-          });
+          })
         })
       } else {
        next()
