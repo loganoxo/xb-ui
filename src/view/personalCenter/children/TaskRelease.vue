@@ -34,7 +34,8 @@
       <span><b class="sizeColor3">注意：</b> 本站支持拍A发A（免费领），拍A发B（体验专区），满足商家的各种需求！</span>
     </div>
     <div class="service-statement cl666 text-ct">
-      声明：为避免纠纷，发布活动前请先阅读本平台的服务条款，凡成功提交活动申请皆默认亲已仔细阅读并同意平台的<span class="blue cursor-p" @click="isShowUserClause = true">《服务条款》</span></div>
+      声明：为避免纠纷，发布活动前请先阅读本平台的服务条款，凡成功提交活动申请皆默认亲已仔细阅读并同意平台的<span class="blue cursor-p" @click="isShowUserClause = true">《服务条款》</span>
+    </div>
     <div class="text-ct mt-20" v-if="getTaskCreateFastStatus && stepName === 'information'">
       <i-button type="primary" @click="goTaskCreateFast">启用首单快速发布通道</i-button>
     </div>
@@ -246,18 +247,23 @@
             class="main-color f-b">强烈建议勾选！</span>（选择后，该活动所有名额的审批由系统推荐和控制，适合需要快速消化单量的商家）</span>
         </div>
         <div class="value-added-services">
-          <p class="main-color"><img src="~assets/img/common/vip.png" alt="vipLogo"/>&nbsp;增值服务（平台已保证所有拿手安全下单，但您仍不放心，可选择以下增值服务，该服务会要求拿手上传截图留证）</p>
+          <p class="main-color"><img src="~assets/img/common/vip.png" alt="vipLogo"/>&nbsp;增值服务（平台已保证所有拿手安全下单，但您仍不放心，可选择以下增值服务，该服务会要求拿手上传截图留证）
+          </p>
           <template v-for="item in vasMainItem">
-            <checkbox v-show="item.id !== 1 ? taskRelease.taskType === 'pc_search' || taskRelease.taskType === 'direct_access' ? item.showForPc : item.showForApp : taskRelease.taskType === 'pc_search' || taskRelease.taskType === 'app_search'"
+            <checkbox
+              v-show="item.id !== 1 ? taskRelease.taskType === 'pc_search' || taskRelease.taskType === 'direct_access' ? item.showForPc : item.showForApp : taskRelease.taskType === 'pc_search' || taskRelease.taskType === 'app_search'"
               class="mt-10 mr-0" v-model="item.isSelect" :disabled="item.isDisabled">
               <span>{{item.name}}</span>
               <span class="sizeColor2">({{item.price / 100 || 0}}元)</span>
             </checkbox>
-            <tooltip class="mr-15" content="查看示例图" placement="top" v-show="item.id !== 1 ? taskRelease.taskType === 'pc_search' || taskRelease.taskType === 'direct_access' ? item.showForPc : item.showForApp : taskRelease.taskType === 'pc_search' || taskRelease.taskType === 'app_search'">
-              <span class="value-added-services-demo-image" @click="openSampleImageModal(taskRelease.taskType === 'pc_search' || taskRelease.taskType === 'direct_access' ? item.pcTipsPicture : item.appTipsPicture)">图</span>
+            <tooltip class="mr-15" content="查看示例图" placement="top"
+                     v-show="item.id !== 1 ? taskRelease.taskType === 'pc_search' || taskRelease.taskType === 'direct_access' ? item.showForPc : item.showForApp : taskRelease.taskType === 'pc_search' || taskRelease.taskType === 'app_search'">
+              <span class="value-added-services-demo-image"
+                    @click="openSampleImageModal(taskRelease.taskType === 'pc_search' || taskRelease.taskType === 'direct_access' ? item.pcTipsPicture : item.appTipsPicture)">图</span>
             </tooltip>
           </template>
-          <checkbox class="mt-10" v-model="shopAroundStatus" @on-change="shopAroundStatusChange" v-show="taskRelease.taskType === 'pc_search' || taskRelease.taskType === 'app_search'">
+          <checkbox class="mt-10" v-model="shopAroundStatus" @on-change="shopAroundStatusChange"
+                    v-show="taskRelease.taskType === 'pc_search' || taskRelease.taskType === 'app_search'">
             <span>货比三家</span>
             <span class="sizeColor2">(最多添加3个)</span>
           </checkbox>
@@ -271,15 +277,20 @@
                   <span>{{item.name}}</span>
                   <span class="sizeColor2">({{item.price / 100 || 0}}元)</span>
                 </checkbox>
-                <tooltip class="mr-15" content="查看示例图" placement="top" v-show="taskRelease.taskType === 'pc_search' || taskRelease.taskType === 'direct_access' ? item.showForPc : item.showForApp">
-                  <span class="value-added-services-demo-image" @click="openSampleImageModal(taskRelease.taskType === 'pc_search' || taskRelease.taskType === 'direct_access' ? item.pcTipsPicture : item.appTipsPicture)">图</span>
+                <tooltip class="mr-15" content="查看示例图" placement="top"
+                         v-show="taskRelease.taskType === 'pc_search' || taskRelease.taskType === 'direct_access' ? item.showForPc : item.showForApp">
+                  <span class="value-added-services-demo-image"
+                        @click="openSampleImageModal(taskRelease.taskType === 'pc_search' || taskRelease.taskType === 'direct_access' ? item.pcTipsPicture : item.appTipsPicture)">图</span>
                 </tooltip>
               </template>
             </div>
           </template>
-          <i-button v-show="shopAroundStatus" :disabled="vasSimilarItem.length > 2" class="mt-12 add-btn-bg-color" type="dashed" icon="plus-round" @click="addShopAroundList">添加
+          <i-button v-show="shopAroundStatus" :disabled="vasSimilarItem.length > 2" class="mt-12 add-btn-bg-color"
+                    type="dashed" icon="plus-round" @click="addShopAroundList">添加
           </i-button>
-          <i-button v-show="shopAroundStatus" :disabled="vasSimilarItem.length === 1" class="ml-20 mt-12 add-btn-bg-color" type="dashed" icon="minus-round" @click="delShopAroundList">删除</i-button>
+          <i-button v-show="shopAroundStatus" :disabled="vasSimilarItem.length === 1"
+                    class="ml-20 mt-12 add-btn-bg-color" type="dashed" icon="minus-round" @click="delShopAroundList">删除
+          </i-button>
           <div class="value-added-charge mt-15">增值服务费合计：{{(oneValueAddedCost / 100).toFixed(2)}} 元</div>
         </div>
         <div class="baby-info mt-22" v-show="taskRelease.activityCategory === 'free_get'">
@@ -1042,16 +1053,22 @@
               @click="isShowAliPayTip = true">查看支付宝官方说明</a></p>
           </div>
         </div>
-        <div class="pay-info mt-40" v-if="isBalance && !priceHasChange">本次总共要支付的金额为：<span class="second-color">{{(orderMoney / 100).toFixed(2)}}</span>&nbsp;元。您的账户的当前余额为：<strong>{{(getUserBalance / 100).toFixed(2)}}</strong>&nbsp;元
+        <div class="pay-info mt-40" v-if="isBalance && !priceHasChange">本次总共要支付的金额为：<span class="second-color">{{(orderMoney / 100).toFixed(2)}}</span>&nbsp;元。您的账户的当前余额为：<strong>{{(getUserBalance
+          / 100).toFixed(2)}}</strong>&nbsp;元
         </div>
-        <div class="pay-info mt-40" v-if="!isBalance && !priceHasChange">本次总共要支付的金额为：<strong>{{(orderMoney / 100).toFixed(2)}}</strong>&nbsp;元。您账户余额为：<strong>{{(getUserBalance / 100).toFixed(2)}}</strong>&nbsp;元，还需充值：<span
+        <div class="pay-info mt-40" v-if="!isBalance && !priceHasChange">本次总共要支付的金额为：<strong>{{(orderMoney /
+          100).toFixed(2)}}</strong>&nbsp;元。您账户余额为：<strong>{{(getUserBalance /
+          100).toFixed(2)}}</strong>&nbsp;元，还需充值：<span
           class="second-color">{{(needPayMoneyBefore / 100).toFixed(2)}}</span>&nbsp;元。
         </div>
         <div class="pay-info mt-40" v-if="isBalanceReplenish && priceHasChange">
-          该任务已付总费用 <strong>{{(paidDeposit / 100).toFixed(2)}}</strong>元，本次修改需要支付超出部分的金额为：<strong class="main-color">{{(replenishMoney / 100).toFixed(2)}}</strong>元。您账号的当前余额为：<strong>{{(getUserBalance / 100).toFixed(2) || 0}}</strong>&nbsp;元
+          该任务已付总费用 <strong>{{(paidDeposit / 100).toFixed(2)}}</strong>元，本次修改需要支付超出部分的金额为：<strong class="main-color">{{(replenishMoney
+          / 100).toFixed(2)}}</strong>元。您账号的当前余额为：<strong>{{(getUserBalance / 100).toFixed(2) || 0}}</strong>&nbsp;元
         </div>
-        <div class="pay-info mt-40" v-if="!isBalanceReplenish && priceHasChange">该任务已付担保金 <strong>{{((paidDeposit / 100)).toFixed(2)}}</strong>元，本次修改需要支付超出部分的金额为：<strong
-          class="main-color">{{(replenishMoney / 100).toFixed(2)}}</strong>元。您账号的当前余额为：<strong>{{(getUserBalance / 100).toFixed(2) || 0}}</strong>&nbsp;元,还需充值：<span
+        <div class="pay-info mt-40" v-if="!isBalanceReplenish && priceHasChange">该任务已付担保金 <strong>{{((paidDeposit /
+          100)).toFixed(2)}}</strong>元，本次修改需要支付超出部分的金额为：<strong
+          class="main-color">{{(replenishMoney / 100).toFixed(2)}}</strong>元。您账号的当前余额为：<strong>{{(getUserBalance /
+          100).toFixed(2) || 0}}</strong>&nbsp;元,还需充值：<span
           class="second-color">{{(needPayMoneyBefore / 100).toFixed(2)}}</span>&nbsp;元。
         </div>
         <div class="description-fees-footer">
@@ -1075,12 +1092,15 @@
       </div>
     </div>
     <!--填写完成活动信息下一步按钮-->
-    <i-button class="fs-18 mt-20" type="primary" long :loading="taskLoading" v-show="stepName === 'information'" @click="stepNext">下一步</i-button>
+    <i-button class="fs-18 mt-20" type="primary" long :loading="taskLoading" v-show="stepName === 'information'"
+              @click="stepNext">下一步
+    </i-button>
     <!--活动担保金支付弹框-->
     <div class="pay-model" v-if="showPayModel">
       <pay-model ref="payModelRef" :orderMoney="needPayMoneyBeforeAsRedEnvelopes" @confirmPayment="confirmPayment"
-                :isShowUpgradeVIP="true" :isBalance="isBalance" :redEnvelopesState="redEnvelopesState"
-                @change="redEnvelopesState = arguments[0]" :redEnvelopeDeductionNumber="redEnvelopeDeductionNumber" :disabledRedEnvelopes="disabledRedEnvelopes">
+                 :isShowUpgradeVIP="true" :isBalance="isBalance" :redEnvelopesState="redEnvelopesState"
+                 @change="redEnvelopesState = arguments[0]" :redEnvelopeDeductionNumber="redEnvelopeDeductionNumber"
+                 :disabledRedEnvelopes="disabledRedEnvelopes">
         <i slot="closeModel" class="close-recharge" @click="closeRecharge">&times;</i>
         <div slot="noBalance" class="title-tip">
           <span class="sizeColor3"><icon color="#FF2424" size="18px" type="ios-information"/><span class="ml-10">亲，您的余额不足，请充值。</span></span>还需充值<strong
@@ -1089,7 +1109,8 @@
         </div>
         <div slot="isBalance" class="title-tip">
           <icon color="#FF2424" size="18px" type="ios-information"/>
-          <span class="ml-5">您本次需要支付金额为 <span class="sizeColor3">{{(needPayMoneyAfterAsRedEnvelopes / 100).toFixed(2)}}</span> 元。</span>
+          <span class="ml-5">您本次需要支付金额为 <span
+            class="sizeColor3">{{(needPayMoneyAfterAsRedEnvelopes / 100).toFixed(2)}}</span> 元。</span>
         </div>
       </pay-model>
     </div>
@@ -1204,11 +1225,15 @@
         <p>请先绑定店铺后在发布活动</p>
       </div>
       <div slot="footer">
-        <p><i-button type="error" size="large" long @click="goStoreBind">前去绑定店铺</i-button></p>
+        <p>
+          <i-button type="error" size="large" long @click="goStoreBind">前去绑定店铺</i-button>
+        </p>
         <template v-if="getTaskCreateFastStatus">
           <p class="fs-14 f-b mt-10 text-ct">或者，亲想先简单试试效果再说？</p>
           <p class="mt-10 cl999 text-ct">为快速体验平台服务，新商家可通过以下通道快速完成首发活动，该方法仅支持新商家首次发布！</p>
-          <p class="mt-10"><i-button type="success" size="large" long @click="goTaskCreateFast">首单快速发布通道</i-button></p>
+          <p class="mt-10">
+            <i-button type="success" size="large" long @click="goTaskCreateFast">首单快速发布通道</i-button>
+          </p>
         </template>
       </div>
     </modal>
@@ -1241,7 +1266,20 @@
   import QQBindModal from '@/components/QQBindModal'
   import api from '@/config/apiConfig'
   import {aliCallbackImgUrl} from '@/config/env'
-  import {aliUploadImg, isPositiveInteger, isNumber, isInteger, isAliUrl, randomString, extendDeep, decode, setStorage, getStorage, getUrlParams, isInternetUrl} from '@/config/utils'
+  import {
+    aliUploadImg,
+    isPositiveInteger,
+    isNumber,
+    isInteger,
+    isAliUrl,
+    randomString,
+    extendDeep,
+    decode,
+    setStorage,
+    getStorage,
+    getUrlParams,
+    isInternetUrl
+  } from '@/config/utils'
 
   export default {
     name: 'task-release',
@@ -1470,20 +1508,19 @@
     // 此处需要注意在 beforeRouteEnter 守卫中不能直接访问当前组件实例，通过传一个回调给 next 来访问组件实例
     beforeRouteEnter(to, from, next) {
       // 通过快速发布通道进入此页面不执行任何回调操作
-      if (from.name !== 'FastTaskRelease') {
-        next (vm => {
+      next(vm => {
+        if (from.name !== 'FastTaskRelease') {
           vm.$store.dispatch('getTaskCreateFastStatus').then(res => {
             if (res.status && res.data) {
               vm.$router.push({name: 'FastTaskRelease'})
-            } else {
-              // 防止页面跳转绑定店铺弹框闪烁需要将店铺请求放此处执行
-              vm.getStoreBindInfoList();
             }
           })
-        })
-      } else {
-       next()
-      }
+        } else {
+          next()
+        }
+        // 防止页面跳转绑定店铺弹框闪烁需要将店铺请求放此处执行
+        vm.getStoreBindInfoList()
+      })
     },
     updated() {
       const _this = this;
@@ -1773,7 +1810,7 @@
        * @return {number}
        */
       taskNameLength() {
-        return this.taskRelease.taskName ? this.taskRelease.taskName.replace(/[\u0391-\uFFE5]/g,"aa").length : 0
+        return this.taskRelease.taskName ? this.taskRelease.taskName.replace(/[\u0391-\uFFE5]/g, "aa").length : 0
       },
 
       /**
@@ -1955,7 +1992,7 @@
               return item.applyStatus === 2
             });
             _this.isBindStore = _this.storeBindInfoList.length === 0;
-            if (_this.storeBindInfoList.length > 0 ) {
+            if (_this.storeBindInfoList.length > 0) {
               _this.selectStoreInfo.storeName = decodeURI(_this.storeBindInfoList[0].storeName);
               _this.selectStoreInfo.storeAlitm = decodeURI(_this.storeBindInfoList[0].storeAlitm);
               _this.selectStoreInfo.sellerId = _this.storeBindInfoList[0].sellerId;
@@ -2885,15 +2922,15 @@
               type: _this.priceHasChange ? 'supply_pay' : 'first_pay'
             }).then(res => {
               if (res.status) {
-               _this.$store.dispatch('getUserInformation');
-               _this.showPayModel = false;
-               _this.$Message.success('恭喜您，支付成功！');
-               _this.stepName = 'audit';
+                _this.$store.dispatch('getUserInformation');
+                _this.showPayModel = false;
+                _this.$Message.success('恭喜您，支付成功！');
+                _this.stepName = 'audit';
               } else {
                 _this.$Message.error(res.msg)
               }
               _this.$refs.payModelRef.payLoading = false;
-           })
+            })
           } else {
             _this.$Message.error(res.msg)
           }
@@ -3081,7 +3118,7 @@
           })
         }
         if (this.getMemberVersionLevel === 100) {
-         this.upgradeMembershipModal = true
+          this.upgradeMembershipModal = true
         }
       },
     },
