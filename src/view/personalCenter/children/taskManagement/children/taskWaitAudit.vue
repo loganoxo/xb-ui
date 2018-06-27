@@ -274,11 +274,7 @@
       </div>
     </modal>
     <!--追加活动名额弹框-->
-    <modal v-model="additionalQuotaModal" width="360" :mask-closable="false">
-      <div slot="header" class="clear">
-
-      </div>
-    </modal>
+    <task-additional-quota-modal v-model="additionalQuotaModal" :data="taskAdditionalQuotaInfo"/>
   </div>
 </template>
 
@@ -289,6 +285,7 @@
   import TimeDown from '@/components/TimeDown'
   import Upload from '@/components/Upload'
   import AddToBlackListModal from '@/components/AddToBlackListModal'
+  import TaskAdditionalQuotaModal from '@/components/TaskAdditionalQuotaModal'
   import {taskErrorStatusList, encryption} from '@/config/utils'
   import {aliCallbackImgUrl} from '@/config/env'
   import api from '@/config/apiConfig'
@@ -311,6 +308,7 @@
       TimeDown: TimeDown,
       Upload: Upload,
       AddToBlackListModal: AddToBlackListModal,
+      TaskAdditionalQuotaModal: TaskAdditionalQuotaModal,
     },
     data() {
       return {
@@ -498,7 +496,7 @@
         closableModal: false,
         addBlackListInfo: {},
         additionalQuotaModal: false,
-        TaskAdditionalQuotaInfo: {}
+        taskAdditionalQuotaInfo: {}
       }
     },
     created() {
@@ -557,15 +555,23 @@
         this.addBlackListInfo = {};
       },
       taskAdditionalQuota(item) {
-        Object.assign(this.TaskAdditionalQuotaInfo,{
-
-        })
-        this.TaskAdditionalQuotaInfo.taskMainImage = item.taskMainImage;
-        this.TaskAdditionalQuotaInfo.taskName = item.taskName;
-        this.TaskAdditionalQuotaInfo.taskCount = item.taskCount;
-        this.TaskAdditionalQuotaInfo.trailOn = item.trailOn;
-        this.TaskAdditionalQuotaInfo.trailDone = item.trailDone;
-        this.TaskAdditionalQuotaInfo.residueCount = item.residueCount;
+        this.taskAdditionalQuotaInfo = {};
+        Object.assign(this.taskAdditionalQuotaInfo, {
+          taskMainImage: item.taskMainImage,
+          taskName: item.taskName,
+          taskCount: item.taskCount,
+          trailOn: item.trailOn,
+          trailDone: item.trailDone,
+          residueCount: item.residueCount,
+          totalTaskApplyCount: item.totalTaskApplyCount,
+          pinkage: item.pinkage,
+          itemPrice: item.itemPrice,
+          orderQuantity: item.orderQuantity,
+          activityCategory: item.activityCategory,
+          promotionExpensesPaid: item.promotionExpensesPaid,
+          vasFeePaid: item.vasFeePaid,
+        });
+        this.additionalQuotaModal = true;
       },
       addSuccess() {
         this.appliesWaitingAuditAll(this.operateTaskId, this.operateIndex);
