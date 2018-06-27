@@ -270,6 +270,9 @@
       redEnvelopesExpirationTime() {
         return this.$store.getters.getRedEnvelopesExpirationTime
       },
+      isRedEnvelopesExpirationTime() {
+        return this.redEnvelopesExpirationTime > getSeverTime()
+      },
       isMember() {
         return this.$store.getters.isMemberOk
       },
