@@ -715,7 +715,7 @@
       <div class="description-fees-con mt-10">
         <p>活动担保金 = 份数 × 单品活动担保金 = <span>{{oneBondMarginText}}</span> 元</p>
         <!--<p class="mt-6">单品推广费 = 单品试用担保金 × 费率 =<span>{{onePromotionExpensesBeforeText}}</span> 元<span>{{onePromotionExpensesTipText}}</span></p>-->
-        <p class="mt-6">总推广费 = 单品推广费用 × 份数 = <span>{{onePromotionExpenses}}</span> × <span>{{taskRelease.taskCount}} = <span>{{(allPromotionExpenses).toFixed(2)}}</span></span> 元 <span class="main-color" v-if="fastPublish">（您是首次放单，享受首单推广减免）</span></p>
+        <p class="mt-6">总推广费 = 单品推广费用 × 份数 = <span>{{(onePromotionExpensesAfter / 100).toFixed(2)}}</span> × <span>{{taskRelease.taskCount}} = <span>{{(allPromotionExpenses / 100).toFixed(2)}}</span></span> 元 <span class="main-color" v-if="fastPublish">（您是首次放单，享受首单推广减免）</span></p>
         <p v-if="!fastPublish" class="mt-6">总增值费 = 单品增值费 × 份数 =  <span>{{(oneValueAddedCost / 100).toFixed(2)}}</span> × <span>{{taskRelease.taskCount}}</span> = {{(allValueAddedCost / 100).toFixed(2)}} 元</p>
         <p class="mt-6">总费用 = 活动担保金 + 总推广费 + 总增值费用 = <span>{{(orderMoney / 100).toFixed(2)}}</span> 元</p>
       </div>
@@ -884,6 +884,7 @@
         vasMainItem: [],
         vasSimilarItem: [],
         fastPublish: false,
+        redEnvelopeDeductionPaid: 0,
       }
     },
     created() {
@@ -992,7 +993,7 @@
       },
 
       /**
-       * 计算最终单品推广费用（打赏费）
+       * 计算最终单品推广费用（原始推广费）
        * @return {number}
        */
       onePromotionExpenses() {
@@ -1001,27 +1002,36 @@
         } else {
           if (this.taskRelease.activityCategory === 'free_get') {
             if (this.getMemberVersionLevel === 100) {
-              return 3
+              return 5
             }
             if (this.getMemberVersionLevel === 200) {
-              return 0
+              return 3
             }
             if (this.getMemberVersionLevel === 300) {
-              return 0
+              return 3
             }
           }
           if (this.taskRelease.activityCategory === 'present_get') {
             if (this.getMemberVersionLevel === 100) {
-              return 6
+              return 10
             }
             if (this.getMemberVersionLevel === 200) {
-              return 3
+              return 6
             }
             if (this.getMemberVersionLevel === 300) {
-              return 0
+              return 6
             }
           }
         }
+      },
+
+
+      /**
+       * 计算最终单品推广费用（最终推广费，扣除抵扣红包金额）
+       * @return {number}
+       */
+      onePromotionExpensesAfter() {
+        return  this.redEnvelopeDeductionPaid > 0 ? this.onePromotionExpenses * 100 - this.redEnvelopeDeductionPaid / this.taskRelease.taskCount : this.onePromotionExpenses * 100
       },
 
       /**
@@ -1029,10 +1039,10 @@
        * @return {String}
        */
       onePromotionExpensesTipText() {
-        if(this.getMemberVersionLevel === 100) {
+        if (this.getMemberVersionLevel === 100) {
           return this.onePromotionExpenses >= 5 ? `（单品推广费用超过平台设定的最高上限5.00元，本次实际收取的单品推广费用为5元）` : ''
         }
-        if(this.getMemberVersionLevel === 200) {
+        if (this.getMemberVersionLevel === 200) {
           return this.onePromotionExpenses >= 3 ? `（单品推广费用超过平台设定的最高上限3.00元，本次实际收取的单品推广费用为3元）` : ''
         }
       },
@@ -1042,7 +1052,7 @@
        * @return {number}
        */
       allPromotionExpenses() {
-        return this.onePromotionExpenses * this.taskRelease.taskCount;
+        return this.onePromotionExpenses * 100 * this.taskRelease.taskCount - this.redEnvelopeDeductionPaid
       },
 
       /**
@@ -1187,9 +1197,10 @@
             _this.mainDefaultList = null;
             _this.pcDefaultList = null;
             _this.appDefaultList = null;
-            _this.paidDeposit = (res.data.marginPaid + res.data.promotionExpensesPaid + res.data.vasFeePaid) / 100 || 0;
             _this.taskStatus = res.data.taskStatus;
             _this.mainDefaultList = res.data.taskMainImage;
+            _this.redEnvelopeDeductionPaid = res.data.redEnvelopeDeductionPaid;
+            _this.fastPublish = res.data.fastPublish;
             for (let k in _this.taskRelease) {
               for (let i in res.data) {
                 if (k === i) {
@@ -1197,7 +1208,6 @@
                 }
               }
             }
-            _this.fastPublish = res.data.fastPublish;
             _this.taskRelease.itemType = res.data.itemCatalog.id;
             _this.taskRelease.pinkage =  _this.taskRelease.pinkage.toString();
             _this.taskRelease.donotPostPhoto = _this.taskRelease.donotPostPhoto.toString();

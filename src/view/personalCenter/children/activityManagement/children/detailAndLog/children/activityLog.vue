@@ -28,9 +28,9 @@
           <td v-if="itemCatalog.taskStatus !== 'waiting_modify'">{{itemCatalog.taskStatusDesc}}<br/>{{itemCatalog.settlementStatusDesc}}
           </td>
           <td class="cursor-p main-color" v-else>
-            <Tooltip :content="itemCatalog.auditLogs[itemCatalog.auditLogs.length - 1].resultMsg" placement="top">
-              <Icon color="#f9284f" type="information-circled"></Icon>&nbsp;待修改
-            </Tooltip>
+            <tooltip :content="itemCatalog.auditLogs[itemCatalog.auditLogs.length - 1].resultMsg" placement="top">
+              <icon color="#f9284f" type="information-circled"/>&nbsp;待修改
+            </tooltip>
           </td>
           <td class="registration">{{itemCatalog.showkerApplyTotalCount || 0}} / {{itemCatalog.showkerApplySuccessCount
             || 0}}（人）
@@ -48,7 +48,7 @@
         <Panel name="1">
           商家活动进程
           <ul slot="content" class="seller-log-details">
-            <li v-for="log in logList" v-if="!(log.opType == 'showker_apply_success')">
+            <li v-for="log in logList" v-if="!(log.opType === 'showker_apply_success')">
               {{log.createTime | dateFormat('YYYY-MM-DD hh:mm:ss')}}
               <span v-if="log.showkerPhone">{{log.opDesc.replace(/{phone}/g,log.showkerPhone)}}</span>
               <span v-else>
