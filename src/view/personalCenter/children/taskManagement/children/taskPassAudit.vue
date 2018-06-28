@@ -53,12 +53,12 @@
       <i-button size="large" @click="batchExportModel = true"><icon type="ios-download-outline"/> 批量导出以下所有订单号</i-button>
     </div>
     <div class="mt-12" v-for="(item,index) in taskPassAuditList" :key="item.id" v-if="taskPassAuditList.length > 0">
-      <div class="collapse-header clear" @click="collapseToggle(item.id,index)" :class="{noBorderRadius:selectId}">
+      <div class="collapse-header clear" @click.self="collapseToggle(item.id,index)" :class="{noBorderRadius:selectId}">
         <div class="manage-img inline-block">
           <img :src="item.taskMainImage | imageSrc('!thum54')" alt="活动主图">
           <span v-if="item.zone === 'certainly_hit'" class="certainly-hit-tip">推荐必中</span>
         </div>
-        <div class="manage-text left ml-5 inline-block mt-8" @click.stop>
+        <div class="manage-text left ml-5 inline-block mt-8">
           <p>
             <span>活动编号：{{item.number}}</span>
             <span class="ml-5">（{{item.taskStatusDesc}} / {{item.settlementStatusDesc}}）</span>

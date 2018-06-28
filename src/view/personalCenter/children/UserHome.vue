@@ -222,13 +222,6 @@
     },
     data() {
       return {
-        setting: {
-          autoplay: false,
-          autoplaySpeed: 2000,
-          dots: 'none',
-          trigger: 'click',
-          arrow: 'hover',
-        },
         trialCount: {},
         homeCommodityList: [],
         lastTime: null,
@@ -269,9 +262,6 @@
       },
       redEnvelopesExpirationTime() {
         return this.$store.getters.getRedEnvelopesExpirationTime
-      },
-      isRedEnvelopesExpirationTime() {
-        return this.redEnvelopesExpirationTime > getSeverTime()
       },
       isMember() {
         return this.$store.getters.isMemberOk

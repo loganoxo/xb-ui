@@ -40,12 +40,12 @@
       <span v-show="eyesStatus === 'on' && valueAddedServiceStatusInfo.isMemberOK" class="ml-10 cl999">VIP及SVIP免费使用火眼金睛功能 ^_^  </span>
     </div>
     <div class="mt-12 pos-rel" v-for="(item,index) in taskWaitAuditList" :key="item.id">
-      <div class="collapse-header clear" @click="collapseToggle(item.id,index)" :class="{noBorderRadius:selectId}">
+      <div class="collapse-header clear" @click.self="collapseToggle(item.id,index)" :class="{noBorderRadius:selectId}">
         <div class="manage-img inline-block">
           <img :src="item.taskMainImage | imageSrc('!thum54')" alt="活动主图">
           <span v-if="item.zone === 'certainly_hit'" class="certainly-hit-tip">推荐必中</span>
         </div>
-        <div class="manage-text ml-5 inline-block" @click.stop>
+        <div class="manage-text ml-5 inline-block">
           <p>活动编号：{{item.number}}</p>
           <p>活动名称：{{item.taskName}}</p>
           <p>参与概况：总份数<span class="main-color">{{item.taskCount || 0}}</span>，
@@ -557,6 +557,7 @@
       taskAdditionalQuota(item) {
         this.taskAdditionalQuotaInfo = {};
         Object.assign(this.taskAdditionalQuotaInfo, {
+          taskId: item.id,
           taskMainImage: item.taskMainImage,
           taskName: item.taskName,
           taskCount: item.taskCount,

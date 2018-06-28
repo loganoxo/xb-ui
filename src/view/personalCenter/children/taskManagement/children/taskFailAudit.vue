@@ -29,7 +29,7 @@
       <i-button type="primary" :loading="searchLoading" @click="searchFailTask">搜索</i-button>
     </div>
     <div class="mt-12" v-for="(item,index) in taskFailAuditList" :key="item.id" v-if="taskFailAuditList.length > 0">
-      <div class="collapse-header clear" @click="collapseToggle(item.id,index)" :class="{noBorderRadius:selectId}">
+      <div class="collapse-header clear" @click.self="collapseToggle(item.id,index)" :class="{noBorderRadius:selectId}">
         <div class="manage-img inline-block">
           <img :src="item.taskMainImage | imageSrc('!thum54')" alt="活动主图">
           <span v-if="item.zone === 'certainly_hit'" class="certainly-hit-tip">推荐必中</span>

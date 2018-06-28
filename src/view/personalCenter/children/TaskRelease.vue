@@ -1702,7 +1702,7 @@
       },
 
       /**
-       * 计算总推广费用
+       * 计算活动总推广费用
        * @return {number}
        */
       allPromotionExpenses() {
@@ -1710,7 +1710,7 @@
       },
 
       /**
-       * 计算订单总金额
+       * 计算活动总金额
        * @return {number}
        */
       orderMoney() {

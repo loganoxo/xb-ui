@@ -1,40 +1,55 @@
 <template>
-  <div>
-   <template>
-     <modal :value="currentValue" title="活动追加名额" width="560" :mask-closable="false" @on-visible-change="change">
-       <div class="clear">
-         <div class="left">
-           <img class="border-radius-5" width="54" height="54" :src="data.taskMainImage" alt="活动主图">
-         </div>
-         <div class="left ml-10">
-           <p>活动名称：{{data.taskName}}</p>
-           <p>参与概括：总份数 <span class="main-color">{{data.taskCount}}</span>，<span class="main-color">{{data.trailOn}} </span>人正在参与活动
-             ，<span class="main-color">{{data.trailDone}}</span>人完成活动，剩余名额 <span
-               class="main-color">{{data.residueCount}}</span> 个
-           </p>
-           <p>单品活动担保金：<span class="main-color">{{(oneBondLast / 100).toFixed(2)}}</span>
-             元&nbsp;&nbsp;&nbsp;&nbsp;单品推广费：<span class="main-color">{{(data.promotionExpensesPaid / 100).toFixed(2)}}</span> 元&nbsp;&nbsp;&nbsp;&nbsp;单品增值服务费：<span
-               class="main-color">{{(data.vasFeePaid / 100 / data.taskCount).toFixed(2)}}</span> 元</p>
-         </div>
-       </div>
-       <div class="mt-10 border-top pt-10">
-         <p>当前待审核：<span class="main-color">{{data.totalTaskApplyCount}}</span> 人</p>
-         <p class="mt-10">
-           <span>追加份数：</span>
-           <i-input v-model="taskNumber" placeholder="请输入追加份数" style="width: 100px;"/>
-         </p>
-       </div>
-       <div slot="footer">
-         <i-button type="primary" size="large" long :loding="buttonLoading">下一步</i-button>
-       </div>
-     </modal>
-   </template>
-
-  </div>
+  <modal :value="currentValue" :title="title" width="600" :mask-closable="false" @on-visible-change="change">
+    <template v-if="step === 'create'">
+      <div class="clear">
+        <div class="left">
+          <img class="border-radius-5" width="54" height="54" :src="data.taskMainImage" alt="活动主图">
+        </div>
+        <div class="left ml-10">
+          <p>活动名称：{{data.taskName}}</p>
+          <p>参与概括：总份数 <span class="main-color">{{data.taskCount}}</span>，<span
+            class="main-color">{{data.trailOn}} </span>人正在参与活动
+            ，<span class="main-color">{{data.trailDone}}</span>人完成活动，剩余名额 <span
+              class="main-color">{{data.residueCount}}</span> 个
+          </p>
+          <p>单品活动担保金：<span class="main-color">{{(oneBondLast / 100).toFixed(2)}}</span>
+            元&nbsp;&nbsp;&nbsp;&nbsp;单品推广费：<span
+              class="main-color">{{(data.promotionExpensesPaid / 100).toFixed(2)}}</span> 元&nbsp;&nbsp;&nbsp;&nbsp;单品增值服务费：<span
+              class="main-color">{{(data.vasFeePaid / 100 / data.taskCount).toFixed(2)}}</span> 元</p>
+        </div>
+      </div>
+      <div class="mt-10 border-top pt-10">
+        <p>当前待审核：<span class="main-color">{{data.totalTaskApplyCount}}</span> 人</p>
+        <p class="mt-10">
+          <span>追加份数：</span>
+          <i-input v-model="addTaskNumber" placeholder="请输入追加份数" style="width: 100px;"/>
+        </p>
+      </div>
+      <div slot="footer">
+        <i-button type="primary" size="large" long :loding="buttonLoading" @click="nextStep">下一步</i-button>
+      </div>
+    </template>
+    <template v-else>
+      <pay-model ref="payModelRef" :orderMoney="needPayMoneyBeforeAsRedEnvelopes" @confirmPayment="confirmPayment"
+                 :isBalance="isBalance" :redEnvelopesState="redEnvelopesState"
+                 @change="redEnvelopesState = arguments[0]" :redEnvelopeDeductionNumber="redEnvelopeDeductionNumber"
+                 :disabledRedEnvelopes="disabledRedEnvelopes">
+        <div slot="noBalance" class="title-tip">
+          <span class="sizeColor3"><icon color="#FF2424" size="18px" type="ios-information"/><span class="ml-10">亲，您的余额不足，请充值。</span></span>还需充值<strong
+          class="sizeColor3">{{needPayMoneyBeforeText}}</strong>元
+          <span @click="isShowAliPayTip = true">【<span class="blue cursor-p">支付宝手续费</span>】</span>
+        </div>
+        <div slot="isBalance" class="title-tip">
+          <icon color="#FF2424" size="18px" type="ios-information"/>
+          <span class="ml-5">您本次需要支付金额为 <span class="sizeColor3">{{(needPayMoneyAfterAsRedEnvelopes / 100).toFixed(2)}}</span> 元。</span>
+        </div>
+      </pay-model>
+    </template>
+  </modal>
 </template>
 
 <script>
-  import {Modal, Input, Button} from 'iview'
+  import {Modal, Input, Button, Icon} from 'iview'
   import PayModel from '@/components/PayModel'
 
   export default {
@@ -43,13 +58,20 @@
       return {
         currentValue: this.value,
         buttonLoading: false,
-        taskNumber: null,
+        addTaskNumber: null,
+        step: 'create',
+        redEnvelopeDeductionNumber: 0,
+        redEnvelopesState: true,
+        disabledRedEnvelopes: false,
+        title: '活动追加名额'
       }
     },
     components: {
       Modal: Modal,
+      Icon: Icon,
       IInput: Input,
       IButton: Button,
+      PayModel: PayModel,
     },
     props: {
       value: {
@@ -69,6 +91,14 @@
        */
       getMemberVersionLevel() {
         return this.$store.getters.getMemberLevel
+      },
+
+      /**
+       * 获取用户账户余额
+       * @return {number}
+       */
+      getUserBalance() {
+        return this.$store.getters.getUserBalance
       },
 
       /**
@@ -128,6 +158,75 @@
           }
         }
       },
+
+      /**
+       * 计算活动总增值费
+       * @return {number}
+       */
+      allValueAddedCost() {
+        return (this.data.vasFeePaid / this.data.taskCount) * this.addTaskNumber
+      },
+
+      /**
+       * 计算活动总推广费用
+       * @return {number}
+       */
+      allPromotionExpenses() {
+        return this.onePromotionExpenses * this.data.taskCount;
+      },
+
+      /**
+       * 计算活动总金额
+       * @return {number}
+       */
+      orderMoney() {
+        if (this.data.activityCategory === 'free_get') {
+          return (this.addTaskNumber * this.oneBondAToA) + this.allPromotionExpenses * 100 + this.allValueAddedCost
+        }
+        if (this.data.activityCategory === 'present_get') {
+          return (this.addTaskNumber * this.oneBondAToB) + this.allPromotionExpenses * 100 + this.allValueAddedCost
+        }
+      },
+
+      /**
+       * 计算余额是否足够支付订单金额
+       * @return {boolean}
+       */
+      isBalance() {
+        return this.redEnvelopesState ? this.orderMoney - this.redEnvelopeDeductionNumber <= this.getUserBalance : this.orderMoney <= this.getUserBalance
+      },
+
+      /**
+       * 计算当用户账户余额不足以支付活动所需金额要额外充值的金额
+       * @return {number}
+       */
+      needPayMoneyBefore() {
+        const money = this.orderMoney - this.getUserBalance;
+        return !this.isBalance ? money > 0 ? money : 0 : 0;
+      },
+
+      /**
+       * 计算当用户账户余额足以支付活动所需金额时要支付的金额（包含是否启用红包金额，此金额为最终需要支付金额）
+       * @return {number}
+       */
+      needPayMoneyAfterAsRedEnvelopes() {
+        return this.redEnvelopesState ? this.orderMoney - this.redEnvelopeDeductionNumber : this.orderMoney
+      },
+
+      /**
+       * 计算当用户账户余额不足以支付活动所需金额要额外充值的金额（包含是否启用红包金额，此金额为最终需要充值金额）
+       * @return {number}
+       */
+      needPayMoneyBeforeAsRedEnvelopes() {
+        return this.redEnvelopesState ? this.needPayMoneyBefore - this.redEnvelopeDeductionNumber : this.needPayMoneyBefore
+      },
+
+      /** 计算充值界面上的金额文本显示
+       * @return {String}
+       */
+      needPayMoneyBeforeText() {
+        return !this.isBalance ? `${(this.needPayMoneyBeforeAsRedEnvelopes / 100).toFixed(2)} + ${(((Math.ceil(this.needPayMoneyBeforeAsRedEnvelopes / 0.994)) - this.needPayMoneyBeforeAsRedEnvelopes) / 100).toFixed(2)}` : ''
+      },
     },
     methods: {
       setCurrentValue(value) {
@@ -137,16 +236,56 @@
         if (!value) {
           this.$emit('input', false);
         }
-      }
+        this.addTaskNumber = null;
+        // 此定时器是为解决在支付步骤关闭弹框延迟渲染创建活动界面
+        setTimeout(() => {
+          this.step = 'create';
+        }, 200);
+      },
+      nextStep() {
+        if (!this.addTaskNumber) {
+          this.$Message.warning('亲，请输入需要追加的活动分数！');
+          return;
+        }
+        this.title = '支付充值活动费用';
+        this.step = 'pay';
+      },
+      createTask() {
+
+      },
+      confirmPayment(pwd) {
+        const _this = this;
+        api.editPromotion({
+          redEnvelopesState: _this.redEnvelopesState,
+          taskId: _this.data.taskId,
+        }).then(res => {
+          return res
+        }).then(res => {
+          if (res.status) {
+            api.payByBalance({
+              fee: _this.needPayMoneyAfterAsRedEnvelopes,
+              payPassword: pwd,
+              taskId: _this.data.taskId,
+              type: 'supply_pay'
+            }).then(res => {
+              if (res.status) {
+                _this.$store.dispatch('getUserInformation');
+                _this.$Message.success('恭喜您，支付成功！');
+              } else {
+                _this.$Message.error(res.msg)
+              }
+              _this.$refs.payModelRef.payLoading = false;
+            })
+          } else {
+            _this.$Message.error(res.msg)
+          }
+        })
+      },
     },
     watch: {
       value(val) {
-        this.setCurrentValue(val);
+        this.setCurrentValue(val)
       }
     },
   }
 </script>
-
-<style scoped>
-
-</style>
