@@ -117,7 +117,7 @@
                     <span class="cl666 block text-decoration-through">￥{{searchTask.itemPrice }}</span>
                   </em>
                   <em class="vas-fee-return left ml-10 pl-5 pr-5" v-if="(searchTask.perVasFee || searchTask.promotionExpensesPaid && (uplineTime < searchTask.createTime))">
-                    返利{{computeVasReturnFee(searchTask.perVasFee,searchTask.systemVasFeeCommissionPercent,searchTask.activityCategory,searchTask.promotionExpensesPaid,searchTask.createTime)}}元
+                    返利{{computeVasReturnFee(searchTask.perVasFee,searchTask.systemVasFeeCommissionPercent,searchTask.activityCategory,searchTask.promotionExpensesPaid,searchTask.taskCount,searchTask.createTime)}}元
                   </em>
                 </p>
                 <p>
@@ -187,7 +187,7 @@
                     <span class="cl666 block text-decoration-through">￥{{historyTask.itemPrice / 100}}</span>
                   </em>
                   <em class="vas-fee-return ml-10 pl-5 pr-5" v-if="(historyTask.perVasFee || historyTask.promotionExpensesPaid && (uplineTime < historyTask.createTime))">
-                    返利{{computeVasReturnFee(historyTask.perVasFee,historyTask.systemVasFeeCommissionPercent,historyTask.activityCategory,historyTask.promotionExpensesPaid,historyTask.createTime)}}元
+                    返利{{computeVasReturnFee(historyTask.perVasFee,historyTask.systemVasFeeCommissionPercent,historyTask.activityCategory,historyTask.promotionExpensesPaid,historyTask.taskCount,historyTask.createTime)}}元
                   </em>
                 </p>
                 <p>
@@ -378,13 +378,13 @@
       }
     },
     methods: {
-      computeVasReturnFee(perVasFee,sysHold,type,promotion,createTime) {
+      computeVasReturnFee(perVasFee,sysHold,type,promotion,taskCount,createTime) {
         const newActivity = this.uplineTime - createTime < 0;
         if (promotion && newActivity) {
           if (type === 'free_get') {
             return (perVasFee / 100 * (1 - sysHold / 100) + 1).toFixed(2);
           } else if (type === 'present_get') {
-            if (promotion <= 300) {
+            if (promotion / taskCount <= 300) {
               return (perVasFee / 100 * (1 - sysHold / 100) + 1).toFixed(2);
             } else {
               return (perVasFee / 100 * (1 - sysHold / 100) + 3).toFixed(2);
