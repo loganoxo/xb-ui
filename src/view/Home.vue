@@ -783,16 +783,20 @@
       });
     },
     methods: {
-      computeVasReturnFee(fee,percent,type,promotion,createTime) {
-        const newActivity = this.uplineTime - createTime < 0 ? true : false;
+      computeVasReturnFee(perVasFee,sysHold,type,promotion,createTime) {
+        const newActivity = this.uplineTime - createTime < 0;
         if (promotion && newActivity) {
           if (type === 'free_get') {
-            return (fee / 100 * (1 - percent / 100) + 1).toFixed(2);
+            return (perVasFee / 100 * (1 - sysHold / 100) + 1).toFixed(2);
           } else if (type === 'present_get') {
-            return (fee / 100 * (1 - percent / 100) + 3).toFixed(2);
+            if (promotion <= 300) {
+              return (perVasFee / 100 * (1 - sysHold / 100) + 1).toFixed(2);
+            } else {
+              return (perVasFee / 100 * (1 - sysHold / 100) + 3).toFixed(2);
+            }
           }
         } else {
-          return (fee / 100 * (1 - percent / 100)).toFixed(2);
+          return (perVasFee / 100 * (1 - sysHold / 100)).toFixed(2);
         }
       },
       changeIsBuyVipPopupFunc() {
