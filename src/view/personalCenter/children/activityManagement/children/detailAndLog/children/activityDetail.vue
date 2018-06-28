@@ -1052,7 +1052,7 @@
        * @return {number}
        */
       allPromotionExpenses() {
-        return this.onePromotionExpenses * 100 * this.taskRelease.taskCount - this.redEnvelopeDeductionPaid
+        return (this.onePromotionExpenses * 100 * this.taskRelease.taskCount) - this.redEnvelopeDeductionPaid
       },
 
       /**
@@ -1061,10 +1061,10 @@
        */
       orderMoney() {
         if (this.taskRelease.activityCategory === 'free_get') {
-          return (this.taskRelease.taskCount * this.oneBond) + this.allPromotionExpenses * 100 + this.allValueAddedCost
+          return (this.taskRelease.taskCount * this.oneBond) + this.allPromotionExpenses + this.allValueAddedCost
         }
         if (this.taskRelease.activityCategory === 'present_get') {
-          return (this.taskRelease.taskCount * this.oneBondAToB) + this.allPromotionExpenses * 100 + this.allValueAddedCost
+          return (this.taskRelease.taskCount * this.oneBondAToB) + this.allPromotionExpenses + this.allValueAddedCost
         }
       },
 
