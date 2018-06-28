@@ -2609,16 +2609,19 @@
             _this.$Message.error(res.msg)
           }
           _this.taskLoading = false;
-        }).then(() => {
-          api.redEnvelopeDeduction({
-            taskId: _this.taskPayId,
-          }).then(res => {
-            if (res.status) {
-              _this.redEnvelopeDeductionNumber = res.data
-            } else {
-              _this.$Message.error(res.msg)
-            }
-          })
+          return res.status;
+        }).then(status => {
+          if (status) {
+            api.redEnvelopeDeduction({
+              taskId: _this.taskPayId,
+            }).then(res => {
+              if (res.status) {
+                _this.redEnvelopeDeductionNumber = res.data
+              } else {
+                _this.$Message.error(res.msg)
+              }
+            })
+          }
         })
       },
       returnUpStep() {
