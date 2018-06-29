@@ -91,7 +91,7 @@
                 class="main-color">({{item.trial_end || 0}})</span></span>
             </p>
           </div>
-          <icon :class="{'show-table-styles' : selectId === item.id}" class="mt-15" type="arrow-right-b"/>
+          <icon :class="{'show-table-styles' : selectId === item.id}" class="mt-15" type="arrow-right-b" @click="collapseToggle(item.id,index)"/>
         </div>
         <collapse-transition>
           <div class="task-table" v-show="selectId === item.id">

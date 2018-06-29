@@ -28,55 +28,57 @@
       <i-input v-model="taskNumber" style="width: 160px;margin-right: 8px;"/>
       <i-button type="primary" :loading="searchLoading" @click="searchFailTask">搜索</i-button>
     </div>
-    <div class="mt-12" v-for="(item,index) in taskFailAuditList" :key="item.id" v-if="taskFailAuditList.length > 0">
-      <div class="collapse-header clear" @click.self="collapseToggle(item.id,index)" :class="{noBorderRadius:selectId}">
-        <div class="manage-img inline-block">
-          <img :src="item.taskMainImage | imageSrc('!thum54')" alt="活动主图">
-          <span v-if="item.zone === 'certainly_hit'" class="certainly-hit-tip">推荐必中</span>
+    <template v-if="taskFailAuditList.length > 0">
+      <div class="mt-12" v-for="(item,index) in taskFailAuditList" :key="item.id">
+        <div class="collapse-header clear" @click.self="collapseToggle(item.id,index)" :class="{noBorderRadius:selectId}">
+          <div class="manage-img inline-block">
+            <img :src="item.taskMainImage | imageSrc('!thum54')" alt="活动主图">
+            <span v-if="item.zone === 'certainly_hit'" class="certainly-hit-tip">推荐必中</span>
+          </div>
+          <div class="manage-text left ml-5 inline-block mt-8">
+            <p>活动编号：{{item.number}}</p>
+            <p>活动名称：{{item.taskName}}</p>
+          </div>
+          <icon :class="{'show-table-styles':selectId === item.id}" class="mt-22 right mr-20 vtc-text-btm" type="arrow-right-b" @click="collapseToggle(item.id,index)"/>
+          <div class="waiting-task-number-fail">
+            <p class="task-wait-fail">共{{item.count}}人</p>
+          </div>
         </div>
-        <div class="manage-text left ml-5 inline-block mt-8">
-          <p>活动编号：{{item.number}}</p>
-          <p>活动名称：{{item.taskName}}</p>
-        </div>
-        <icon :class="{'show-table-styles':selectId === item.id}" class="mt-22 right mr-20 vtc-text-btm" type="arrow-right-b"/>
-        <div class="waiting-task-number-fail">
-          <p class="task-wait-fail">共{{item.count}}人</p>
-        </div>
+        <collapse-transition>
+          <div class="task-table" v-show="selectId === item.id">
+            <table>
+              <thead>
+              <tr>
+                <th width="25%">淘宝账号（旺旺号）</th>
+                <th width="25%">状态</th>
+                <th width="25%">终止时间</th>
+                <th width="25%">终止原因</th>
+              </tr>
+              </thead>
+              <tbody v-for="item in item.failTask" :key="item.id">
+              <tr>
+                <td>
+                  <p>{{item.alitmAccount}}</p>
+                  <img :src="item.creditLevel" alt="淘宝等级LOGO">
+                  <p>淘气值：{{item.tqz}}</p>
+                  <p v-cloak>申请次数：{{item.applyCount || 0}}</p>
+                  <p v-cloak>成功次数：{{item.applySuccessCount || 0}}</p>
+                </td>
+                <td>{{getTaskStatus(item.status)}}</td>
+                <td>{{item.auditTime | dateFormat('YYYY-MM-DD hh:mm:ss') || '------'}}</td>
+                <td>{{item.rejectReasonDesc || '------'}}</td>
+              </tr>
+              </tbody>
+              <tbody v-if="taskFailAuditList[index].failTask && taskFailAuditList[index].failTask.length === 0">
+              <tr>
+                <td colspan="5" width="100%">暂无数据</td>
+              </tr>
+              </tbody>
+            </table>
+          </div>
+        </collapse-transition>
       </div>
-      <collapse-transition>
-        <div class="task-table" v-show="selectId === item.id">
-          <table>
-            <thead>
-            <tr>
-              <th width="25%">淘宝账号（旺旺号）</th>
-              <th width="25%">状态</th>
-              <th width="25%">终止时间</th>
-              <th width="25%">终止原因</th>
-            </tr>
-            </thead>
-            <tbody v-for="item in item.failTask" :key="item.id">
-            <tr>
-              <td>
-                <p>{{item.alitmAccount}}</p>
-                <img :src="item.creditLevel" alt="淘宝等级LOGO">
-                <p>淘气值：{{item.tqz}}</p>
-                <p v-cloak>申请次数：{{item.applyCount || 0}}</p>
-                <p v-cloak>成功次数：{{item.applySuccessCount || 0}}</p>
-              </td>
-              <td>{{getTaskStatus(item.status)}}</td>
-              <td>{{item.auditTime | dateFormat('YYYY-MM-DD hh:mm:ss') || '------'}}</td>
-              <td>{{item.rejectReasonDesc || '------'}}</td>
-            </tr>
-            </tbody>
-            <tbody v-if="taskFailAuditList[index].failTask && taskFailAuditList[index].failTask.length === 0">
-            <tr>
-              <td colspan="5" width="100%">暂无数据</td>
-            </tr>
-            </tbody>
-          </table>
-        </div>
-      </collapse-transition>
-    </div>
+    </template>
     <div class="mt-40 text-ct">{{dataStatusTip}}</div>
     <div class="activity-page mt-20 right mr-10" v-if="taskFailAuditList && taskFailAuditList.length > 0">
       <page :total="totalElements" :page-size="pageSize" :current="pageIndex" @on-change="pageChange"/>

@@ -39,125 +39,127 @@
       <span v-show="eyesStatus === 'on' && !valueAddedServiceStatusInfo.isMemberOK" class="blue text-decoration-underline ml-10 cursor-p" @click="renewalEyes">续费</span>
       <span v-show="eyesStatus === 'on' && valueAddedServiceStatusInfo.isMemberOK" class="ml-10 cl999">VIP及SVIP免费使用火眼金睛功能 ^_^  </span>
     </div>
-    <div class="mt-12 pos-rel" v-for="(item,index) in taskWaitAuditList" :key="item.id">
-      <div class="collapse-header clear" @click.self="collapseToggle(item.id,index)" :class="{noBorderRadius:selectId}">
-        <div class="manage-img inline-block">
-          <img :src="item.taskMainImage | imageSrc('!thum54')" alt="活动主图">
-          <span v-if="item.zone === 'certainly_hit'" class="certainly-hit-tip">推荐必中</span>
-        </div>
-        <div class="manage-text ml-5 inline-block">
-          <p>活动编号：{{item.number}}</p>
-          <p>活动名称：{{item.taskName}}</p>
-          <p>参与概况：总份数<span class="main-color">{{item.taskCount || 0}}</span>，
-            <span class="main-color">{{item.trailOn || 0}}</span>人正在参与活动，<span class="main-color">{{item.trailDone || 0}}</span>人完成活动，剩余名额<span
-              class="main-color">{{item.residueCount || 0}}</span>个 <i-button v-if="item.taskStatus === 'under_way' && !item.speedUp" type="primary" size="small" @click="taskAdditionalQuota(item)">追加名额</i-button>
-          </p>
-        </div>
-        <div class="right mr-10">
-          <div class="waiting-task-number-wait">
-            <p class="task-wait-fail">新增待审批<span>{{item.newestTaskApplyCount || 0}}</span>人</p>
-            <p class="task-wait-fail">共有待审批<span>{{item.totalTaskApplyCount || 0}}</span>人</p>
+    <template v-if="taskWaitAuditList.length > 0">
+      <div class="mt-12 pos-rel" v-for="(item,index) in taskWaitAuditList" :key="item.id">
+        <div class="collapse-header clear" @click.self="collapseToggle(item.id,index)" :class="{noBorderRadius:selectId}">
+          <div class="manage-img inline-block">
+            <img :src="item.taskMainImage | imageSrc('!thum54')" alt="活动主图">
+            <span v-if="item.zone === 'certainly_hit'" class="certainly-hit-tip">推荐必中</span>
           </div>
-          <i-button v-if="item.taskStatus === 'under_way' && !item.speedUp" type="error" @click.stop="openSpeedUp(item.id, item.userId)"><span class="mr-5">一键加速</span>
-            <tooltip class="vtc-text-btm" style="line-height: 0" content="启用后，系统会匹配拿手进行审核，无需商家干预" placement="top">
-              <icon type="help-circled" size="14" color="#fff"/>
-            </tooltip>
-          </i-button>
-          <icon :class="{'show-table-styles' : selectId === item.id}" class="ml-10 mt-28" type="arrow-right-b"/>
+          <div class="manage-text ml-5 inline-block">
+            <p>活动编号：{{item.number}}</p>
+            <p>活动名称：{{item.taskName}}</p>
+            <p>参与概况：总份数<span class="main-color">{{item.taskCount || 0}}</span>，
+              <span class="main-color">{{item.trailOn || 0}}</span>人正在参与活动，<span class="main-color">{{item.trailDone || 0}}</span>人完成活动，剩余名额<span
+                class="main-color">{{item.residueCount || 0}}</span>个 <i-button v-if="item.taskStatus === 'under_way' && !item.speedUp" type="primary" size="small" @click="taskAdditionalQuota(item)">追加名额</i-button>
+            </p>
+          </div>
+          <div class="right mr-10">
+            <div class="waiting-task-number-wait">
+              <p class="task-wait-fail">新增待审批<span>{{item.newestTaskApplyCount || 0}}</span>人</p>
+              <p class="task-wait-fail">共有待审批<span>{{item.totalTaskApplyCount || 0}}</span>人</p>
+            </div>
+            <i-button v-if="item.taskStatus === 'under_way' && !item.speedUp" type="error" @click.stop="openSpeedUp(item.id, item.userId)"><span class="mr-5">一键加速</span>
+              <tooltip class="vtc-text-btm" style="line-height: 0" content="启用后，系统会匹配拿手进行审核，无需商家干预" placement="top">
+                <icon type="help-circled" size="14" color="#fff"/>
+              </tooltip>
+            </i-button>
+            <icon :class="{'show-table-styles' : selectId === item.id}" class="ml-10 mt-28" type="arrow-right-b" @click="collapseToggle(item.id,index)"/>
+          </div>
         </div>
-      </div>
-      <collapse-transition>
-        <div class="task-table" v-show="selectId === item.id">
-          <table>
-            <thead>
-            <tr>
-              <th width="20%" class="pt-10 pb-10">
-                <p class="mb-5">淘宝账号（旺旺号）</p>
-                <i-button :class="[sortList.select === item.sortField ? 'ww-active' : '']" size="small" v-for="(item,index) in sortList.defaultList" :key="index" @click="sortChange(item.sortField,index)">
-                  <span>{{item.name}}</span>
-                  <icon :type="item.sort === 'desc' ? 'arrow-down-c' : 'arrow-up-c'"/>
-                </i-button>
-              </th>
-              <th width="20%">申请时间/IP地址</th>
-              <th width="20%">拿手活动概况</th>
-              <th width="20%">流程状态</th>
-              <th width="20%">操作</th>
-            </tr>
-            </thead>
-            <tbody v-for="allTask in item.applyAllTask" :key="allTask.id">
-            <tr :class="{readBackground:allTask.newest}">
-              <td>
-                <tooltip v-if="allTask.applySuccessCount === 0" content="多给新人一点机会吧，他们可是很认真的 ^_^" placement="top">
-                  <img src="/static/img/icon/newman.png">
-                </tooltip>
-                <div class="inline-block account-info">
-                  <p>{{allTask.alitmAccount}}</p>
-                  <img :src="allTask.creditLevel" alt="淘宝等级LOGO">
-                  <p>淘气值：{{allTask.tqz}}</p>
-                  <!--<p class="mt-5" v-cloak>申请次数：{{allTask.applyCount || 0}}</p>-->
-                  <!--<p v-cloak>成功次数：{{allTask.applySuccessCount || 0}}</p>-->
-                  <div class="value-added-info" v-if="!eyesServerPermissions">
-                    <p>
-                      <span>被平台商家拉黑：</span>
-                      <span class="cursor-p blue" @click="openOrderEyesModel">
+        <collapse-transition>
+          <div class="task-table" v-show="selectId === item.id">
+            <table>
+              <thead>
+              <tr>
+                <th width="20%" class="pt-10 pb-10">
+                  <p class="mb-5">淘宝账号（旺旺号）</p>
+                  <i-button :class="[sortList.select === item.sortField ? 'ww-active' : '']" size="small" v-for="(item,index) in sortList.defaultList" :key="index" @click="sortChange(item.sortField,index)">
+                    <span>{{item.name}}</span>
+                    <icon :type="item.sort === 'desc' ? 'arrow-down-c' : 'arrow-up-c'"/>
+                  </i-button>
+                </th>
+                <th width="20%">申请时间/IP地址</th>
+                <th width="20%">拿手活动概况</th>
+                <th width="20%">流程状态</th>
+                <th width="20%">操作</th>
+              </tr>
+              </thead>
+              <tbody v-for="allTask in item.applyAllTask" :key="allTask.id">
+              <tr :class="{readBackground:allTask.newest}">
+                <td>
+                  <tooltip v-if="allTask.applySuccessCount === 0" content="多给新人一点机会吧，他们可是很认真的 ^_^" placement="top">
+                    <img src="/static/img/icon/newman.png">
+                  </tooltip>
+                  <div class="inline-block account-info">
+                    <p>{{allTask.alitmAccount}}</p>
+                    <img :src="allTask.creditLevel" alt="淘宝等级LOGO">
+                    <p>淘气值：{{allTask.tqz}}</p>
+                    <!--<p class="mt-5" v-cloak>申请次数：{{allTask.applyCount || 0}}</p>-->
+                    <!--<p v-cloak>成功次数：{{allTask.applySuccessCount || 0}}</p>-->
+                    <div class="value-added-info" v-if="!eyesServerPermissions">
+                      <p>
+                        <span>被平台商家拉黑：</span>
+                        <span class="cursor-p blue" @click="openOrderEyesModel">
                         <tooltip content="打开火眼金睛，拿手数据一目了然！"><icon class="vtc-text-btm" type="eye-disabled" size="16"/>&nbsp;查看</tooltip>
                       </span>
-                    </p>
+                      </p>
+                    </div>
+                    <div class="value-added-info" v-if="eyesStatus === 'on'">
+                      <p>
+                        <span>被平台商家拉黑：</span>
+                        <span v-if="allTask.blackCount === 0 || allTask.blackCount < 4" class="blue text-decoration-underline">0</span>
+                        <span v-else class="blue text-decoration-underline cursor-p" @click="lookBlackListInfo(allTask.alitmAccount, allTask.showkerId, allTask.creditLevel, allTask.tqz)">{{allTask.blackCount || 0}}</span>
+                      </p>
+                      <!-- <p class="mt-5">
+                         <span>被平台商家打标：</span>
+                         <span v-if="allTask.tagCount === 0" class="blue text-decoration-underline">0</span>
+                         <span v-else class="blue text-decoration-underline cursor-p">{{allTask.tagCount || 0}}</span>
+                       </p>-->
+                    </div>
                   </div>
-                  <div class="value-added-info" v-if="eyesStatus === 'on'">
-                    <p>
-                      <span>被平台商家拉黑：</span>
-                      <span v-if="allTask.blackCount === 0 || allTask.blackCount < 4" class="blue text-decoration-underline">0</span>
-                      <span v-else class="blue text-decoration-underline cursor-p" @click="lookBlackListInfo(allTask.alitmAccount, allTask.showkerId, allTask.creditLevel, allTask.tqz)">{{allTask.blackCount || 0}}</span>
-                    </p>
-                    <!-- <p class="mt-5">
-                       <span>被平台商家打标：</span>
-                       <span v-if="allTask.tagCount === 0" class="blue text-decoration-underline">0</span>
-                       <span v-else class="blue text-decoration-underline cursor-p">{{allTask.tagCount || 0}}</span>
-                     </p>-->
-                  </div>
-                </div>
-              </td>
-              <td>
-                <p>{{allTask.applyTime | dateFormat('YYYY-MM-DD hh:mm:ss')}}</p>
-                <p class="mt-10">{{filterIp(allTask.regIp)}}</p>
-                <p class="mt-10" v-if="allTask.regIp && allTask.ipInfo">{{allTask.ipInfo.region}}-{{allTask.ipInfo.city}}</p>
-                <p class="mt-10" v-if="!allTask.ipInfo">归属地未知</p>
-              </td>
-              <td class="registration">
-                <p class="mt-5 cl666" v-cloak>申请次数：{{allTask.applyCount || 0}}</p>
-                <p v-cloak class="mt-5 mb-5 cl666">成功次数：{{allTask.applySuccessCount || 0}}</p>
-                <a @click="openNewTrialReportFunc(encryptionId(allTask.showkerId))">查看TA的买家秀</a>
-              </td>
-              <td>
-                <tooltip v-if="allTask.reason && allTask.status === 'waiting_resubmit'" :content="allTask.reason" placement="top" class="cursor-p">
-                  <icon color="#f9284f" type="information-circled"/>
-                  <span class="main-color">{{getStatusInfo(allTask.status)}}</span>
-                </tooltip>
-                <span v-else>{{getStatusInfo(allTask.status)}}</span>
-              </td>
-              <td>
-                <p class="del-edit">
-                  <span class="ml-5" @click="taskWaitToPass(allTask.id, 'true')">通过</span>
-                  <span v-if="allTask.newest" class="ml-5" @click="markRead(item.id,allTask.id)">设为已读</span>
-                  <tooltip placement="top" content="加入黑名单后该用户将无法申请你发布的活动">
-                    <span class="ml-5" @click="addToBlackListFun(allTask.alitmAccount)">加入黑名单</span>
+                </td>
+                <td>
+                  <p>{{allTask.applyTime | dateFormat('YYYY-MM-DD hh:mm:ss')}}</p>
+                  <p class="mt-10">{{filterIp(allTask.regIp)}}</p>
+                  <p class="mt-10" v-if="allTask.regIp && allTask.ipInfo">{{allTask.ipInfo.region}}-{{allTask.ipInfo.city}}</p>
+                  <p class="mt-10" v-if="!allTask.ipInfo">归属地未知</p>
+                </td>
+                <td class="registration">
+                  <p class="mt-5 cl666" v-cloak>申请次数：{{allTask.applyCount || 0}}</p>
+                  <p v-cloak class="mt-5 mb-5 cl666">成功次数：{{allTask.applySuccessCount || 0}}</p>
+                  <a @click="openNewTrialReportFunc(encryptionId(allTask.showkerId))">查看TA的买家秀</a>
+                </td>
+                <td>
+                  <tooltip v-if="allTask.reason && allTask.status === 'waiting_resubmit'" :content="allTask.reason" placement="top" class="cursor-p">
+                    <icon color="#f9284f" type="information-circled"/>
+                    <span class="main-color">{{getStatusInfo(allTask.status)}}</span>
                   </tooltip>
-                </p>
-              </td>
-            </tr>
-            </tbody>
-            <tbody>
-            <tr>
-              <td colspan="5">
-                <page :total="taskTotalElements" :page-size="taskPageSize" :current="taskPageIndex" @on-change="taskPageChange"/>
-              </td>
-            </tr>
-            </tbody>
-          </table>
-        </div>
-      </collapse-transition>
-    </div>
+                  <span v-else>{{getStatusInfo(allTask.status)}}</span>
+                </td>
+                <td>
+                  <p class="del-edit">
+                    <span class="ml-5" @click="taskWaitToPass(allTask.id, 'true')">通过</span>
+                    <span v-if="allTask.newest" class="ml-5" @click="markRead(item.id,allTask.id)">设为已读</span>
+                    <tooltip placement="top" content="加入黑名单后该用户将无法申请你发布的活动">
+                      <span class="ml-5" @click="addToBlackListFun(allTask.alitmAccount)">加入黑名单</span>
+                    </tooltip>
+                  </p>
+                </td>
+              </tr>
+              </tbody>
+              <tbody>
+              <tr>
+                <td colspan="5">
+                  <page :total="taskTotalElements" :page-size="taskPageSize" :current="taskPageIndex" @on-change="taskPageChange"/>
+                </td>
+              </tr>
+              </tbody>
+            </table>
+          </div>
+        </collapse-transition>
+      </div>
+    </template>
     <div class="mt-40 text-ct">{{dataStatusTip}}</div>
     <div class="activity-page mt-20 right mr-10" v-if="taskWaitAuditList && taskWaitAuditList.length > 0">
       <page :total="totalElements" :page-size="pageSize" :current="pageIndex" @on-change="pageChange"/>
