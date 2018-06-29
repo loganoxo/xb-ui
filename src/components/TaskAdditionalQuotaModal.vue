@@ -14,8 +14,8 @@
           </p>
           <p>单品活动担保金：<span class="main-color">{{(oneBondLast / 100).toFixed(2)}}</span>
             元&nbsp;&nbsp;&nbsp;&nbsp;单品推广费：<span
-              class="main-color">{{(data.promotionExpensesPaid / 100).toFixed(2)}}</span> 元&nbsp;&nbsp;&nbsp;&nbsp;单品增值服务费：<span
-              class="main-color">{{(data.vasFeePaid / 100 / data.taskCount).toFixed(2)}}</span> 元</p>
+              class="main-color">{{(data.promotionExpensesPaid / data.taskCount / 100).toFixed(2)}}</span> 元&nbsp;&nbsp;&nbsp;&nbsp;单品增值服务费：<span
+              class="main-color">{{(data.vasFeePaid / data.taskCount / 100).toFixed(2)}}</span> 元</p>
         </div>
       </div>
       <div class="mt-10 border-top pt-10">
