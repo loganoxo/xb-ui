@@ -54,7 +54,7 @@
                 class="main-color">{{item.residueCount || 0}}</span>个 <i-button v-if="item.taskStatus === 'under_way' && !item.speedUp" type="primary" size="small" @click="taskAdditionalQuota(item)">追加名额</i-button>
             </p>
           </div>
-          <div class="right mr-10">
+          <div class="right mr-20">
             <div class="waiting-task-number-wait">
               <p class="task-wait-fail">新增待审批<span>{{item.newestTaskApplyCount || 0}}</span>人</p>
               <p class="task-wait-fail">共有待审批<span>{{item.totalTaskApplyCount || 0}}</span>人</p>
