@@ -22,7 +22,7 @@
         <p>当前待审核：<span class="main-color">{{data.totalTaskApplyCount}}</span> 人</p>
         <p class="mt-10">
           <span>追加份数：</span>
-          <i-input v-model="addTaskNumber" placeholder="请输入追加份数" style="width: 100px;"/>
+          <i-input v-model.number="addTaskNumber" placeholder="请输入追加份数" style="width: 100px;"/>
         </p>
       </div>
       <div slot="footer">
@@ -52,6 +52,7 @@
   import {Modal, Input, Button, Icon} from 'iview'
   import PayModel from '@/components/PayModel'
   import api from '@/config/apiConfig'
+  import {isInteger} from '@/config/utils'
 
   export default {
     name: "task-additional-quota-modal",
@@ -261,6 +262,14 @@
           this.$Message.warning('亲，请输入需要追加的活动份数！');
           return;
         }
+        if (!isInteger(this.addTaskNumber)) {
+          this.$Message.warning('亲，请输入数字！');
+          return;
+        }
+        if (this.addTaskNumber <= 0) {
+          this.$Message.warning('亲，追加活动份数必须大于0！');
+          return;
+        }
         this.title = '支付充值活动费用';
         this.step = 'pay';
       },
@@ -274,10 +283,10 @@
           if (res.status) {
             _this.addTaskNumber = null;
             _this.$emit('addTaskSuccess');
+            _this.$emit('input', false);
           } else {
             _this.$Message.error(res.msg)
           }
-          _this.$emit('input', false)
         })
       },
     },
