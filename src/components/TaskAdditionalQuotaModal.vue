@@ -33,7 +33,7 @@
       <pay-model ref="payModelRef" :orderMoney="needPayMoneyBeforeAsRedEnvelopes" @confirmPayment="confirmPayment"
                  :isBalance="isBalance" :redEnvelopesState="redEnvelopesState"
                  @change="redEnvelopesState = arguments[0]" :redEnvelopeDeductionNumber="redEnvelopeDeductionNumber"
-                 :disabledRedEnvelopes="disabledRedEnvelopes">
+                 :disabledRedEnvelopes="true">
         <div slot="noBalance" class="title-tip">
           <span class="sizeColor3"><icon color="#FF2424" size="18px" type="ios-information"/><span class="ml-10">亲，您的余额不足，请充值。</span></span>还需充值<strong
           class="sizeColor3">{{needPayMoneyBeforeText}}</strong>元
@@ -51,6 +51,7 @@
 <script>
   import {Modal, Input, Button, Icon} from 'iview'
   import PayModel from '@/components/PayModel'
+  import api from '@/config/apiConfig'
 
   export default {
     name: "task-additional-quota-modal",
@@ -60,9 +61,6 @@
         buttonLoading: false,
         addTaskNumber: null,
         step: 'create',
-        redEnvelopeDeductionNumber: 0,
-        redEnvelopesState: true,
-        disabledRedEnvelopes: false,
         title: '活动追加名额'
       }
     },
@@ -99,6 +97,22 @@
        */
       getUserBalance() {
         return this.$store.getters.getUserBalance
+      },
+
+      /**
+       * 计算红包启用状态
+       * @return {number}
+       */
+      redEnvelopesState() {
+        return this.data.redEnvelopeDeductionPaid > 0
+      },
+
+      /**
+       * 计算红包抵扣金额
+       * @return {number}
+       */
+      redEnvelopeDeductionNumber() {
+        return this.data.redEnvelopeDeductionPaid > 0 ? this.data.redEnvelopeDeductionPaid / this.data.taskCount * this.addTaskNumber : 0
       },
 
       /**
@@ -172,7 +186,7 @@
        * @return {number}
        */
       allPromotionExpenses() {
-        return this.onePromotionExpenses * this.data.taskCount;
+        return this.onePromotionExpenses * this.addTaskNumber
       },
 
       /**
@@ -225,7 +239,7 @@
        * @return {String}
        */
       needPayMoneyBeforeText() {
-        return !this.isBalance ? `${(this.needPayMoneyBeforeAsRedEnvelopes / 100).toFixed(2)} + ${(((Math.ceil(this.needPayMoneyBeforeAsRedEnvelopes / 0.994)) - this.needPayMoneyBeforeAsRedEnvelopes) / 100).toFixed(2)}` : ''
+        return !this.isBalance ? `${(this.needPayMoneyBeforeAsRedEnvelopes / 100).toFixed(2)} + ${((Math.ceil(this.needPayMoneyBeforeAsRedEnvelopes / 0.994) - this.needPayMoneyBeforeAsRedEnvelopes) / 100).toFixed(2)}` : ''
       },
     },
     methods: {
@@ -237,48 +251,33 @@
           this.$emit('input', false);
         }
         this.addTaskNumber = null;
-        // 此定时器是为解决在支付步骤关闭弹框延迟渲染创建活动界面
+        // 关闭弹框时延迟渲染创建活动界面
         setTimeout(() => {
           this.step = 'create';
         }, 200);
       },
       nextStep() {
         if (!this.addTaskNumber) {
-          this.$Message.warning('亲，请输入需要追加的活动分数！');
+          this.$Message.warning('亲，请输入需要追加的活动份数！');
           return;
         }
         this.title = '支付充值活动费用';
         this.step = 'pay';
       },
-      createTask() {
-
-      },
       confirmPayment(pwd) {
         const _this = this;
-        api.editPromotion({
-          redEnvelopesState: _this.redEnvelopesState,
+        api.additionalTaskAccount({
+          payPwd: pwd,
           taskId: _this.data.taskId,
-        }).then(res => {
-          return res
+          additionCount: _this.addTaskNumber
         }).then(res => {
           if (res.status) {
-            api.payByBalance({
-              fee: _this.needPayMoneyAfterAsRedEnvelopes,
-              payPassword: pwd,
-              taskId: _this.data.taskId,
-              type: 'supply_pay'
-            }).then(res => {
-              if (res.status) {
-                _this.$store.dispatch('getUserInformation');
-                _this.$Message.success('恭喜您，支付成功！');
-              } else {
-                _this.$Message.error(res.msg)
-              }
-              _this.$refs.payModelRef.payLoading = false;
-            })
+            _this.addTaskNumber = null;
+            _this.$emit('addTaskSuccess');
           } else {
             _this.$Message.error(res.msg)
           }
+          _this.$emit('input', false)
         })
       },
     },

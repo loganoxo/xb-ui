@@ -1127,5 +1127,12 @@ export default {
    */
   editPromotion(params) {
     return axiosConfig.get('/api/edit-promotion.json', params)
-  }
+  },
+
+  /**
+   * 商家追加活动份数
+   */
+  additionalTaskAccount(params) {
+    return axiosConfig.post('/api/additional-task-account.json', params)
+  },
 }

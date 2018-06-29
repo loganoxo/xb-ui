@@ -50,7 +50,7 @@
           <p>活动名称：{{item.taskName}}</p>
           <p>参与概况：总份数<span class="main-color">{{item.taskCount || 0}}</span>，
             <span class="main-color">{{item.trailOn || 0}}</span>人正在参与活动，<span class="main-color">{{item.trailDone || 0}}</span>人完成活动，剩余名额<span
-              class="main-color">{{item.residueCount || 0}}</span>个 <i-button type="primary" size="small" @click="taskAdditionalQuota(item)">追加名额</i-button>
+              class="main-color">{{item.residueCount || 0}}</span>个 <i-button v-if="item.taskStatus === 'under_way' && !item.speedUp" type="primary" size="small" @click="taskAdditionalQuota(item)">追加名额</i-button>
           </p>
         </div>
         <div class="right mr-10">
@@ -274,7 +274,7 @@
       </div>
     </modal>
     <!--追加活动名额弹框-->
-    <task-additional-quota-modal v-model="additionalQuotaModal" :data="taskAdditionalQuotaInfo"/>
+    <task-additional-quota-modal v-model="additionalQuotaModal" :data="taskAdditionalQuotaInfo" @addTaskSuccess="addTaskSuccess"/>
   </div>
 </template>
 
@@ -496,7 +496,7 @@
         closableModal: false,
         addBlackListInfo: {},
         additionalQuotaModal: false,
-        taskAdditionalQuotaInfo: {}
+        taskAdditionalQuotaInfo: {},
       }
     },
     created() {
@@ -571,8 +571,15 @@
           activityCategory: item.activityCategory,
           promotionExpensesPaid: item.promotionExpensesPaid,
           vasFeePaid: item.vasFeePaid,
+          redEnvelopeDeductionPaid: item.redEnvelopeDeductionPaid,
         });
         this.additionalQuotaModal = true;
+      },
+      addTaskSuccess() {
+        // 追加份数成功后，因后端数据返回有延迟，需要延迟更新列表数据
+        setTimeout(() => {
+          this.appliesWaitingAuditTask()
+        }, 200)
       },
       addSuccess() {
         this.appliesWaitingAuditAll(this.operateTaskId, this.operateIndex);
