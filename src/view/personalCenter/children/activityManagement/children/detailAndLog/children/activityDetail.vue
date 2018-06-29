@@ -216,7 +216,7 @@
               <span class="value-added-services-demo-image">图</span>
             </checkbox>
           </template>
-          <checkbox class="mt-10" v-model="shopAroundStatus" disabled>
+          <checkbox class="mt-10" v-model="shopAroundStatus" disabled v-show="taskRelease.taskType === 'pc_search' || taskRelease.taskType === 'app_search'">
             <span>货比三家</span>
             <span class="sizeColor2">(最多添加3个)</span>
           </checkbox>
@@ -1095,7 +1095,7 @@
                 cost += item.price
               }
             })
-          });
+          })
         }
         return cost
       },
@@ -1144,24 +1144,27 @@
             });
             const similarVasSettings = res.data.similarVasSettings;
             const len = similarVasSettings.length;
-            if (len > 1) {
-              for (let i = 0; i < len - 1; i++) {
-                _this.addShopAroundList()
-              }
+            if (len > 0) {
               _this.shopAroundStatus = true;
-              _this.vasSimilarItem.map((keys, i) => {
-                let tempArr = similarVasSettings[i];
-                if(tempArr.length > 0) {
-                  tempArr.map(items => {
-                    keys.map(item => {
-                      if(items.id === item.id) {
-                        item.isSelect = true;
-                        return item
-                      }
-                    })
-                  })
+              if (len > 1) {
+                for (let i = 0; i < len - 1; i++) {
+                  _this.addShopAroundList()
                 }
-              })
+                _this.shopAroundStatus = true;
+                _this.vasSimilarItem.map((keys, i) => {
+                  let tempArr = similarVasSettings[i];
+                  if(tempArr.length > 0) {
+                    tempArr.map(items => {
+                      keys.map(item => {
+                        if(items.id === item.id) {
+                          item.isSelect = true;
+                          return item
+                        }
+                      })
+                    })
+                  }
+                })
+              }
             }
           } else {
             _this.$Message.error(res.msg)
