@@ -1,10 +1,9 @@
 <template>
   <div class="sel-role-ctt">
     <role-top></role-top>
-
     <div v-show="!showQQ" class="container">
       <p v-if="showRegister" class="fs-24  fast-register-tip">
-        <Icon type="information-circled" color="#FF6633"></Icon>
+        <icon type="information-circled" color="#FF6633"/>
         亲是第一次登录白拿拿，请选择您的角色！
       </p>
       <div class="login-box">

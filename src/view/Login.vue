@@ -8,13 +8,13 @@
           <div class="login-rt-ctt">
             <p class="login-rt-ctt-top">
               <a @click="selLogin = true" :class="[selLogin ? 'active' : '']">
-                <Icon v-show="selLogin" type="person" color="#ff6633"></Icon>
-                <Icon v-show="!selLogin" type="person"></Icon>
+                <icon v-show="selLogin" type="person" color="#ff6633"/>
+                <icon v-show="!selLogin" type="person"/>
                 用户登录
               </a>
               <a @click="selLogin = false" :class="[selLogin ? '' : 'active']">
-                <Icon v-show="!selLogin" type="iphone" color="#ff6633"></Icon>
-                <Icon v-show="selLogin" type="iphone"></Icon>
+                <icon v-show="!selLogin" type="iphone" color="#ff6633"/>
+                <icon v-show="selLogin" type="iphone"/>
                 手机动态码登录
               </a>
               <span class="login-rt-ctt-top-line" :class="[selLogin ? 'pos-lf-0' : 'pos-lf-50']"></span>

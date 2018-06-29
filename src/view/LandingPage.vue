@@ -1,5 +1,6 @@
 <template>
   <div class="landing-page">
+    <top></top>
     <img src="~assets/img/landing-page/banner-top.png" class="banner">
     <img src="~assets/img/landing-page/troubled.png" class="troubled mt-5">
     <img src="~assets/img/landing-page/ensure.png" class="mt-20">
@@ -22,11 +23,15 @@
 </template>
 
 <script>
+  import Top from '@/components/Top.vue'
   export default {
     name: "landing-page",
+    components: {
+      Top:Top
+    },
     methods: {
       toFastTaskRelease() {
-        this.$router.push({name:'FastTaskRelease'});
+        this.$router.push({name:'TaskRelease'});
       }
     }
   }
