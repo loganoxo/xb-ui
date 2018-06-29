@@ -194,7 +194,8 @@
 
 
   .pay-model {
-    @include fullScreenModel
+    @include fullScreenModel;
+    z-index: 9999;
   }
 
   .title-tip {
