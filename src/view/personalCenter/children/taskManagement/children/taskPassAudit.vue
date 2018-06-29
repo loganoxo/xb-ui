@@ -643,21 +643,20 @@
           alitmAccount: _this.alitmAccount,
           orderNum: _this.orderNum,
           showkerTaskStatusList: showkerTaskStatusList,
-          realStoreName:_this.realStoreName
+          realStoreName: _this.realStoreName
         }).then(res => {
           if(res.status) {
             let rowData = [];
             res.data.map(item => {
-              rowData.push({ '提交订单号时间': item.orderTime,'订单号': item.orderNum,'旺旺号': item.alitmAccount})
+              rowData.push({'提交订单号时间': item.orderTime, '订单号': item.orderNum, '旺旺号': item.alitmAccount})
             });
-
             // 开始执行批量导出订单号
-            const downloadData = Csv([{key: '提交订单号时间'},{key: '订单号'},{key: '旺旺号'}], rowData);
+            const downloadData = Csv([{key: '提交订单号时间'}, {key: '订单号'}, {key: '旺旺号'}], rowData);
             ExportCsv.download(`${timeToDate()}.csv`, downloadData, () => {
               _this.$Message.success('批量导出订单成功！')
-            });
+            })
           } else {
-            _this.$Message.error(res.msg);
+            _this.$Message.error(res.msg)
           }
         })
       },
