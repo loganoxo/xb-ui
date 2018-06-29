@@ -250,7 +250,7 @@ export default new Router({
         logInAuthority: false,
         topShow: false,
         bottomShow: true,
-        role: 1,
+        role: null,
       }
     },
     {
