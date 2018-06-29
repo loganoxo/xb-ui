@@ -78,6 +78,8 @@ const VipMember = r => require.ensure([], () => r(require('@/view/personalCenter
 const VipMemberInstructions = r => require.ensure([], () => r(require('@/view/personalCenter/children/vipMember/children/Instructions.vue')), 'VipMember');
 const VipMemberOrder = r => require.ensure([], () => r(require('@/view/personalCenter/children/vipMember/children/Order.vue')), 'VipMember');
 
+const LandingPage = r => require.ensure([], () => r(require('@/view/LandingPage.vue')), 'LandingPage');
+
 Vue.use(Router);
 
 /**
@@ -237,6 +239,18 @@ export default new Router({
         topShow: false,
         bottomShow: true,
         role: 0,
+      }
+    },
+    {
+      path:'/landing-page',
+      name:'LandingPage',
+      component:LandingPage,
+      meta: {
+        title: "商家落地页",
+        logInAuthority: false,
+        topShow: false,
+        bottomShow: true,
+        role: 1,
       }
     },
     {
@@ -810,7 +824,6 @@ export default new Router({
             },
           ]
         },
-
       ]
     }
   ],
