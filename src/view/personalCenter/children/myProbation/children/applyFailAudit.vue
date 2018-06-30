@@ -1,7 +1,7 @@
 <template>
   <div class="probation-fail mt-20">
     <i-select v-model="selectStatus" style="width: 120px;margin-right: 12px;">
-      <i-option v-for="item in SelectList" :value="ibtem.value" :key="item.value">{{ item.label }}</i-option>
+      <i-option v-for="item in SelectList" :value="item.value" :key="item.value">{{ item.label }}</i-option>
     </i-select>
     <i-input v-model="searchValue" style="width: 160px;margin-right: 8px;"/>
     <i-button style="width: 69px;" type="primary" :loading="searchLoading" @click="searchShowkerFailTask">搜索</i-button>
