@@ -116,7 +116,7 @@
               <td>{{item.showkerApplyTotalCount || 0}} / {{item.showkerApplyPassedCount || 0}}（人）</td>
               <td>{{(item.taskCount  - item.showkerApplySuccessCount)}}</td>
               <td>
-                （ {{(item.totalMarginNeed / 100).toFixed(2)}} / {{((item.promotionExpensesNeed) / 100).toFixed(2)}} / {{(item.vasFeeNeed / 100).toFixed(2)}}）{{((item.marginPaid + item.promotionExpensesPaid + item.vasFeePaid) / 100).toFixed(2)}}
+                （ {{(item.totalMarginNeed / 100).toFixed(2)}} / {{((item.promotionExpensesNeed > 0 ? item.promotionExpensesNeed : 0) / 100).toFixed(2)}} / {{(item.vasFeeNeed / 100).toFixed(2)}}）{{((item.marginPaid + item.promotionExpensesPaid + item.vasFeePaid) / 100).toFixed(2)}}
               </td>
               <td v-if="item.taskStatus === 'waiting_pay'">
                 <p class="del-edit">

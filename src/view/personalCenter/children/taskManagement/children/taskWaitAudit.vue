@@ -51,7 +51,7 @@
             <p>活动名称：{{item.taskName}}</p>
             <p>参与概况：总份数<span class="main-color">{{item.taskCount || 0}}</span>，
               <span class="main-color">{{item.trailOn || 0}}</span>人正在参与活动，<span class="main-color">{{item.trailDone || 0}}</span>人完成活动，剩余名额<span
-                class="main-color">{{item.residueCount || 0}}</span>个 <i-button v-if="item.taskStatus === 'under_way' && !item.speedUp" type="primary" size="small" @click="taskAdditionalQuota(item)">追加名额</i-button>
+                class="main-color">{{item.residueCount || 0}}</span>个 <!--<i-button v-if="item.taskStatus === 'under_way' && !item.speedUp" type="primary" size="small" @click="taskAdditionalQuota(item)">追加名额</i-button>-->
             </p>
           </div>
           <div class="right mr-20">
