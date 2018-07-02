@@ -59,7 +59,7 @@
             <img :src="item.taskMainImage | imageSrc('!thum54')" alt="活动主图">
             <span v-if="item.zone === 'certainly_hit'" class="certainly-hit-tip">推荐必中</span>
           </div>
-          <div class="manage-text left ml-5 inline-block mt-8" @click.stop="">
+          <div class="manage-text left ml-5 inline-block mt-8">
             <p>
               <span>活动编号：{{item.number}}</span>
               <span class="ml-5">（{{item.taskStatusDesc}} / {{item.settlementStatusDesc}}）</span>

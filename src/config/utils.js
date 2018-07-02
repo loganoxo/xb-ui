@@ -289,6 +289,13 @@ export const scrollToTop = () => {
 };
 
 /**
+ * 删除字符串中首位空格
+ */
+export const delSpace = str => {
+  return str.replace(/(^\s*)|(\s*$)/g, "")
+};
+
+/**
  * 删除字符串中的html双标签及标签的内容
  */
 export const delHtmlTag = str => {

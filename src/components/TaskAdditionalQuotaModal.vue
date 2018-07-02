@@ -29,7 +29,7 @@
         <p class="mb-10">该活动设置了指定评价，请对追加的份数提供相应的评价数：</p>
         <p class="mt-5" v-for="item in itemReviewList">
           <span class="vtc-sup">{{'评价' + item.index}}：</span>
-          <i-input v-model="item.value" class="mb-10" type="textarea" :autosize="{minRows: 1,maxRows: 3}" placeholder="请输入你的评价内容" style="width: 520px;"/>
+          <i-input v-model="item.value" class="mb-10" type="textarea" :autosize="{minRows: 1,maxRows: 3}" placeholder="请输入你的评价内容" style="width: 480px;"/>
         </p>
       </div>
       <div slot="footer">
@@ -59,7 +59,7 @@
   import {Modal, Input, Button, Icon} from 'iview'
   import PayModel from '@/components/PayModel'
   import api from '@/config/apiConfig'
-  import {isInteger} from '@/config/utils'
+  import {isInteger, delSpace} from '@/config/utils'
 
   export default {
     name: "task-additional-quota-modal",
@@ -279,7 +279,17 @@
           this.$Message.warning('亲，追加活动份数必须大于0！');
           return;
         }
-
+        let isItemReviewOk = true;
+        this.itemReviewList.map(item => {
+          if (!delSpace(item.value)) {
+            item.value = delSpace(item.value);
+            this.$Message.warning('亲，追加评价内容不能为空！');
+            isItemReviewOk = false;
+          }
+        });
+        if (!isItemReviewOk) {
+          return
+        }
         this.title = '支付充值活动费用';
         this.step = 'pay';
       },
@@ -298,7 +308,7 @@
         if (_this.itemReviewList.length > 0) {
           _this.itemReviewList.forEach(item => {
             if (item.value) {
-              _this.itemReviewPushList.push(item.value);
+              itemReviewPushList.push(delSpace(item.value));
             }
           })
         }

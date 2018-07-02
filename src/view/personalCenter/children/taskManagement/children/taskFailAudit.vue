@@ -30,7 +30,7 @@
     </div>
     <template v-if="taskFailAuditList.length > 0">
       <div class="mt-12" v-for="(item,index) in taskFailAuditList" :key="item.id">
-        <div class="collapse-header clear" @click.self="collapseToggle(item.id,index)" :class="{noBorderRadius:selectId}">
+        <div class="collapse-header clear" @click="collapseToggle(item.id,index)" :class="{noBorderRadius:selectId}">
           <div class="manage-img inline-block">
             <img :src="item.taskMainImage | imageSrc('!thum54')" alt="活动主图">
             <span v-if="item.zone === 'certainly_hit'" class="certainly-hit-tip">推荐必中</span>
@@ -39,7 +39,7 @@
             <p>活动编号：{{item.number}}</p>
             <p>活动名称：{{item.taskName}}</p>
           </div>
-          <icon :class="{'show-table-styles':selectId === item.id}" class="mt-22 right mr-20 vtc-text-btm" type="arrow-right-b" @click="collapseToggle(item.id,index)"/>
+          <icon :class="{'show-table-styles':selectId === item.id}" class="mt-22 right mr-20 vtc-text-btm" type="arrow-right-b"/>
           <div class="waiting-task-number-fail">
             <p class="task-wait-fail">共{{item.count}}人</p>
           </div>
