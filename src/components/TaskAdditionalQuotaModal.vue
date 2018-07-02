@@ -279,6 +279,7 @@
           this.$Message.warning('亲，追加活动份数必须大于0！');
           return;
         }
+
         this.title = '支付充值活动费用';
         this.step = 'pay';
       },
@@ -293,11 +294,19 @@
       },
       confirmPayment(pwd) {
         const _this = this;
+        const itemReviewPushList = [];
+        if (_this.itemReviewList.length > 0) {
+          _this.itemReviewList.forEach(item => {
+            if (item.value) {
+              _this.itemReviewPushList.push(item.value);
+            }
+          })
+        }
         api.additionalTaskAccount({
           payPwd: pwd,
           taskId: _this.data.taskId,
           additionCount: _this.addTaskNumber,
-          additionItemReview: JSON.stringify(_this.itemReviewList)
+          additionItemReview: JSON.stringify(itemReviewPushList)
         }).then(res => {
           if (res.status) {
             _this.addTaskNumber = null;
@@ -306,6 +315,7 @@
           } else {
             _this.$Message.error(res.msg)
           }
+          _this.$refs.payModelRef.payLoading = false;
         })
       },
     },
