@@ -103,6 +103,7 @@
         this.addBlackListInfo.screenshot = item.screenshot;
         this.addBlackListInfo.auditStatus = item.auditStatus;
         this.addBlackListInfo.addToCredit = item.addToCredit;
+        this.addBlackListInfo.id = item.id;
         this.closableModal = true;
         this.disabled = disabled;
       },
