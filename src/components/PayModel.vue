@@ -26,19 +26,19 @@
       </radio-group>
     </div>
     <div class="text-ct mt-30">
-      <iButton type="primary" v-if="isBalance" @click="confirmPayment" :loading="payLoading" class="recharge-btn">
+      <i-button type="primary" v-if="isBalance" @click="confirmPayment" :loading="payLoading" class="recharge-btn">
         {{payButtonText}}
-      </iButton>
-      <iButton type="primary" v-else @click="confirmRecharge" :loading="payLoading" class="recharge-btn">
+      </i-button>
+      <i-button type="primary" v-else @click="confirmRecharge" :loading="payLoading" class="recharge-btn">
         {{rechargeButtonText}}
-      </iButton>
-      <iButton v-if="getMemberVersionLevel !== 100 && !isBalance && orderType !== 1" class="vip-pay-btn" @click="showFreePayModel = true">
+      </i-button>
+      <i-button v-if="getMemberVersionLevel !== 100 && !isBalance && orderType !== 1" class="vip-pay-btn" @click="showFreePayModel = true">
         <span v-if="getMemberVersionLevel === 200">VIP</span>
         <span v-if="getMemberVersionLevel === 300">SVIP</span>
         <span>免手续费充值</span>
         <span>点击这里</span>
-      </iButton>
-      <iButton v-if="getMemberVersionLevel === 100 && !isBalance && isShowUpgradeVIP" class="svip-upgrade" @click="upgradeSvip">升级VIP免除手续费</iButton>
+      </i-button>
+      <i-button v-if="getMemberVersionLevel === 100 && !isBalance && isShowUpgradeVIP" class="svip-upgrade" @click="upgradeSvip">升级VIP免除手续费</i-button>
     </div>
 
     <div class="confirm-recharge-model" v-if="confirmRechargeModel">
@@ -50,16 +50,16 @@
         </div>
       </div>
     </div>
-    <modal v-model="payPopWindowWX" :styles="{top:'310px'}">
+    <!--<modal v-model="payPopWindowWX" :styles="{top:'310px'}">
       <div slot="header" class="text-ct">微信支付二维码</div>
       <div class="text-ct">
-        <img :src="wxPayImgSrc" alt="">
+        <img :src="wxPayImgSrc" alt="微信支付二维码">
       </div>
       <div slot="footer" class="text-ct">
-        <iButton class="success-btn" type="success" @click="finishRecharge">充值成功</iButton>
-        <iButton class="error-btn" type="error" @click="hasProblem">充值失败</iButton>
+        <i-button class="success-btn" type="success" @click="finishRecharge">充值成功</i-button>
+        <i-button class="error-btn" type="error" @click="hasProblem">充值失败</i-button>
       </div>
-    </modal>
+    </modal>-->
     <artificial-recharge-model v-if="showFreePayModel" @colseFreePayModal="showFreePayModel = false"/>
   </div>
 

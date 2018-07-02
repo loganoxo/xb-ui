@@ -180,7 +180,11 @@
         </div>
         <div class="trial-condition ml-20 mt-20">
           <span class="ml-8">申请条件：</span>
-          <checkbox v-model="taskRelease.refuseOldShowker">拒绝已参加过本店活动的拿手再次申请</checkbox>
+          <radio-group v-model="trialCondition">
+            <radio label="all">不限制</radio>
+            <radio label="refuseOldShowkerFor30Days">拒绝30天内参考过本店铺的拿手再次申请</radio>
+            <radio label="refuseOldShowker">拒绝已参加过本店活动的拿手再次申请</radio>
+          </radio-group>
         </div>
         <div class="order-speed ml-20 mt-20">
           <span class="ml-8">下单速度：</span>
@@ -1382,6 +1386,7 @@
           showkerOrderTimeLimit: 24,
           dayReserveToNow: false,
           refuseOldShowker: false,
+          refuseOldShowkerFor30Days: false,
           needBrowseCollectAddCart: false,
           speedUp: false,
           itemIssue: [],
@@ -1410,6 +1415,7 @@
           mainTaskVasConfigIds: [],
           similarTaskVasConfigIds: [],
         },
+        trialCondition: 'refuseOldShowkerFor30Days',
         taskCountInputPlaceholder: '请输入活动时长',
         taskCountInputDisabled: false,
         discountDisabled: {
@@ -2485,6 +2491,18 @@
           }
           _this.taoCodeTaskDetail[0].homePageLockItemImage = _this.taoCodeTaskDetailItemMainImage;
         }
+        switch (this.trialCondition) {
+          case 'refuseOldShowkerFor30Days' :
+            this.taskRelease.refuseOldShowkerFor30Days = true;
+            break;
+          case 'refuseOldShowker' :
+            this.taskRelease.refuseOldShowker = true;
+            break;
+          case 'all' :
+            this.taskRelease.refuseOldShowkerFor30Days = false;
+            this.taskRelease.refuseOldShowker = false;
+            break;
+        }
         const IMG_HREF_ATTRIBUTE = /(href|target)=["|'].*?["|']/g;
         if (IMG_HREF_ATTRIBUTE.test(_this.taskRelease.itemDescription)) {
           _this.taskRelease.itemDescription = _this.taskRelease.itemDescription.replace(IMG_HREF_ATTRIBUTE, '');
@@ -2938,7 +2956,7 @@
         })
       },
       addItemReviewList() {
-        let _this = this;
+        const _this = this;
         // let type = _this.taskRelease.taskType;
         _this.itemReviewList = [];
         let count = _this.taskRelease.taskCount;

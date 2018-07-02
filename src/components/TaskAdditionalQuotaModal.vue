@@ -22,7 +22,14 @@
         <p>当前待审核：<span class="main-color">{{data.totalTaskApplyCount}}</span> 人</p>
         <p class="mt-10">
           <span>追加份数：</span>
-          <i-input v-model.number="addTaskNumber" placeholder="请输入追加份数" style="width: 100px;"/>
+          <i-input v-model.number="addTaskNumber" placeholder="请输入追加份数" @on-change="addTaskNumberChange" style="width: 100px;"/>
+        </p>
+      </div>
+      <div class="mt-10 border-top pt-10" v-if="data.itemReviewRequired === 'assign_review_detail' && itemReviewList.length > 0">
+        <p class="mb-10">该活动设置了指定评价，请对追加的份数提供相应的评价数：</p>
+        <p class="mt-5" v-for="item in itemReviewList">
+          <span class="vtc-sup">{{'评价' + item.index}}：</span>
+          <i-input v-model="item.value" class="mb-10" type="textarea" :autosize="{minRows: 1,maxRows: 3}" placeholder="请输入你的评价内容" style="width: 520px;"/>
         </p>
       </div>
       <div slot="footer">
@@ -61,6 +68,7 @@
         currentValue: this.value,
         buttonLoading: false,
         addTaskNumber: null,
+        itemReviewList: [],
         step: 'create',
         title: '活动追加名额'
       }
@@ -249,9 +257,10 @@
       },
       change(value) {
         if (!value) {
-          this.$emit('input', false);
+          this.$emit('input', false)
         }
         this.addTaskNumber = null;
+        this.itemReviewList = [];
         // 关闭弹框时延迟渲染创建活动界面
         setTimeout(() => {
           this.step = 'create';
@@ -263,7 +272,7 @@
           return;
         }
         if (!isInteger(this.addTaskNumber)) {
-          this.$Message.warning('亲，请输入数字！');
+          this.$Message.warning('亲，追加活动份数必须为正整数数字！');
           return;
         }
         if (this.addTaskNumber <= 0) {
@@ -273,12 +282,22 @@
         this.title = '支付充值活动费用';
         this.step = 'pay';
       },
+      addTaskNumberChange() {
+        this.itemReviewList = [];
+        for (let i = 1; i <= this.addTaskNumber; i++) {
+          this.itemReviewList.push({
+            value: null,
+            index: i,
+          })
+        }
+      },
       confirmPayment(pwd) {
         const _this = this;
         api.additionalTaskAccount({
           payPwd: pwd,
           taskId: _this.data.taskId,
-          additionCount: _this.addTaskNumber
+          additionCount: _this.addTaskNumber,
+          additionItemReview: JSON.stringify(_this.itemReviewList)
         }).then(res => {
           if (res.status) {
             _this.addTaskNumber = null;

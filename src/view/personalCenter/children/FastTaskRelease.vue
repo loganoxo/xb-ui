@@ -657,6 +657,7 @@
           showkerOrderTimeLimit: 24,
           dayReserveToNow: false,
           refuseOldShowker: false,
+          refuseOldShowkerFor30Days: false,
           needBrowseCollectAddCart: false,
           speedUp: false,
           itemIssue: [],

@@ -572,6 +572,7 @@
           promotionExpensesPaid: item.promotionExpensesPaid,
           vasFeePaid: item.vasFeePaid,
           redEnvelopeDeductionPaid: item.redEnvelopeDeductionPaid,
+          itemReviewRequired: item.itemReviewRequired,
         });
         this.additionalQuotaModal = true;
       },
