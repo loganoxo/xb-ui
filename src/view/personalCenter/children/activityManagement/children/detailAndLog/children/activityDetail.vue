@@ -1,3 +1,4 @@
+
 <template>
   <div class="activity-detail">
     <table class="mt-20">
@@ -169,7 +170,11 @@
         </div>
         <div class="trial-condition ml-35 mt-20">
           <span class="ml-5">拿手申请条件：</span>
-            <checkbox v-model="taskRelease.refuseOldShowker" disabled>拒绝已参加过本店活动的拿手再次申请</checkbox>
+          <radio-group v-model="trialCondition">
+            <radio label="all" disabled>不限制</radio>
+            <radio label="refuseOldShowkerFor30Days" disabled>拒绝30天内参考过本店铺的拿手再次申请</radio>
+            <radio label="refuseOldShowker" disabled>拒绝已参加过本店活动的拿手再次申请</radio>
+          </radio-group>
         </div>
         <div class="order-speed ml-35 mt-20">
           <span class="ml-5">拿手下单速度：</span>
@@ -824,6 +829,8 @@
           itemReviewSummary: null,
           itemReviewAssignString: [],
         },
+        trialCondition: 'all',
+        taskCountInputPlaceholder: '请输入活动时长',
         editTaskId: null,
         discountDisabled: {
           discount_0: {
@@ -1233,6 +1240,14 @@
               _this.taskRelease.activityCategory = 'free_get';
             }
 
+            if (res.data.refuseOldShowker) {
+              _this.trialCondition = 'refuseOldShowker'
+            } else if (res.data.refuseOldShowkerFor30Days) {
+              _this.trialCondition = 'refuseOldShowkerFor30Days'
+            } else {
+              _this.trialCondition = 'all'
+            }
+
             let itemIssue = JSON.parse(res.data.itemIssue);
             if(itemIssue && itemIssue.length > 0) {
               _this.needBrowseAnswer = true;
@@ -1288,7 +1303,6 @@
               item.searchPagePrice = (item.searchPagePrice / 100).toFixed(2) * 1;
               item.priceRangeMax = item.priceRangeMax > 0 ? (item.priceRangeMax / 100).toFixed(2) * 1 : null;
               item.priceRangeMin = item.priceRangeMin > 0 ? (item.priceRangeMin / 100).toFixed(2) * 1 : null;
-              console.log(item.searchPagePrice)
             });
             break;
           case 'tao_code':

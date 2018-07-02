@@ -1415,7 +1415,7 @@
           mainTaskVasConfigIds: [],
           similarTaskVasConfigIds: [],
         },
-        trialCondition: 'refuseOldShowkerFor30Days',
+        trialCondition: 'all',
         taskCountInputPlaceholder: '请输入活动时长',
         taskCountInputDisabled: false,
         discountDisabled: {
@@ -2491,16 +2491,16 @@
           }
           _this.taoCodeTaskDetail[0].homePageLockItemImage = _this.taoCodeTaskDetailItemMainImage;
         }
-        switch (this.trialCondition) {
+        switch (_this.trialCondition) {
           case 'refuseOldShowkerFor30Days' :
-            this.taskRelease.refuseOldShowkerFor30Days = true;
+            _this.taskRelease.refuseOldShowkerFor30Days = true;
             break;
           case 'refuseOldShowker' :
-            this.taskRelease.refuseOldShowker = true;
+            _this.taskRelease.refuseOldShowker = true;
             break;
           case 'all' :
-            this.taskRelease.refuseOldShowkerFor30Days = false;
-            this.taskRelease.refuseOldShowker = false;
+            _this.taskRelease.refuseOldShowkerFor30Days = false;
+            _this.taskRelease.refuseOldShowker = false;
             break;
         }
         const IMG_HREF_ATTRIBUTE = /(href|target)=["|'].*?["|']/g;
@@ -2734,6 +2734,14 @@
             // 处理复制历史活动拍A发A淘宝评价要求重置为false
             if (res.data.donotPostPhoto && activityCategory === 'free_get') {
               _this.taskRelease.donotPostPhoto = 'false';
+            }
+
+            if (res.data.refuseOldShowker) {
+              _this.trialCondition = 'refuseOldShowker'
+            } else if (res.data.refuseOldShowkerFor30Days) {
+              _this.trialCondition = 'refuseOldShowkerFor30Days'
+            } else {
+              _this.trialCondition = 'all'
             }
 
             if (_this.taskRelease.onlyShowForQualification) {
