@@ -338,7 +338,7 @@
   }
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
   .addition-item {
     overflow-y: auto;
     max-height: 200px;
