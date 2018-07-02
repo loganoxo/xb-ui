@@ -29,9 +29,21 @@
     components: {
       Top:Top
     },
+    computed: {
+      isLogin() {
+        return this.$store.state.login;
+      },
+      getRole() {
+        return this.$store.state.userInfo.role
+      },
+    },
     methods: {
       toFastTaskRelease() {
-        this.$router.push({name:'TaskRelease'});
+        if (this.isLogin && this.getRole === 1) {
+          this.$router.push({name:'TaskRelease'});
+        } else {
+          this.$router.push({path:'/register/seller-register'});
+        }
       }
     }
   }
