@@ -281,8 +281,8 @@
         }
         let isItemReviewOk = true;
         this.itemReviewList.map(item => {
-          if (!delSpace(item.value)) {
-            item.value = delSpace(item.value);
+          if (!item.value || !delSpace(item.value)) {
+            item.value = item.value ? delSpace(item.value) : item.value;
             this.$Message.warning('亲，追加评价内容不能为空！');
             isItemReviewOk = false;
           }
