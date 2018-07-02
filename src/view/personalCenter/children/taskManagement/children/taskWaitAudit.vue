@@ -37,7 +37,7 @@
       <span v-show="eyesStatus === 'on'" class="fire-eye-on" @click="changeEyesStatus('off')"><icon type="eye" size="16"/>&nbsp;火眼金睛</span>
       <span v-show="eyesStatus === 'on' && !valueAddedServiceStatusInfo.isMemberOK" class="ml-10 cl999">距离服务结束还有&nbsp;<time-down v-if="valueAddedServiceStatusInfo.vasBlackListDeadlineTime" :endTime="valueAddedServiceStatusInfo.vasBlackListDeadlineTime" timeEndText="服务已到期" @timeEnd="timeEnd"/></span>
       <span v-show="eyesStatus === 'on' && !valueAddedServiceStatusInfo.isMemberOK" class="blue text-decoration-underline ml-10 cursor-p" @click="renewalEyes">续费</span>
-      <span v-show="eyesStatus === 'on' && valueAddedServiceStatusInfo.isMemberOK" class="ml-10 cl999">VIP及SVIP免费使用火眼金睛功能 ^_^  </span>
+      <span v-show="eyesStatus === 'on' && valueAddedServiceStatusInfo.isMemberOK" class="ml-10 cl999">VIP免费使用火眼金睛功能 ^_^  </span>
     </div>
     <template v-if="taskWaitAuditList.length > 0">
       <div class="mt-12 pos-rel" v-for="(item,index) in taskWaitAuditList" :key="item.id">
@@ -95,8 +95,6 @@
                     <p>{{allTask.alitmAccount}}</p>
                     <img :src="allTask.creditLevel" alt="淘宝等级LOGO">
                     <p>淘气值：{{allTask.tqz}}</p>
-                    <!--<p class="mt-5" v-cloak>申请次数：{{allTask.applyCount || 0}}</p>-->
-                    <!--<p v-cloak>成功次数：{{allTask.applySuccessCount || 0}}</p>-->
                     <div class="value-added-info" v-if="!eyesServerPermissions">
                       <p>
                         <span>被平台商家拉黑：</span>

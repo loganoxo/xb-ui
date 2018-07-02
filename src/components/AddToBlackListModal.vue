@@ -142,8 +142,9 @@
           this.addToBlackOtherReason = this.blackListInfo.reasonCode && this.blackListInfo.reasonCode === 'other_reason' ? this.blackListInfo.reasonStr : null;
           this.addToCredit = this.blackListInfo.addToCredit ? this.blackListInfo.addToCredit : null;
           this.blackListInfo.screenshot ? this.bankListDefaultList.push({src: this.blackListInfo.screenshot}) : [];
+          this.screenshot = this.blackListInfo.screenshot ?  this.blackListInfo.screenshot : null;
         } else {
-          this.addToBlackListReason = '';
+          this.addToBlackListReason = null;
           this.$emit('change', false);
           this.alitmAccount = null;
           this.addToBlackListReason = null;

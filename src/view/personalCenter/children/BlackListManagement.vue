@@ -38,16 +38,19 @@
               <p class="blue cursor-p mt-5" v-if="item.auditStatus === 1 && item.addToCredit">（<span @click="seeDetails(item, true)">查看详情</span><span @click="revoke(item)" class="ml-10">撤销</span>）</p>
             </template>
             <template v-else>
-              <tooltip :content="item.refuseReason" placement="top">{{item.auditStatusStr}}</tooltip>
-              <p>（<span @click="seeDetails(item, false)">重新提交</span><span class="ml-10" @click="revoke(item)">撤销</span>）</p>
+              <p>
+               <icon color="#f9284f" type="information-circled"/>
+               <tooltip :content="item.refuseReason" placement="top" class="main-color cursor-p">{{item.auditStatusStr}}</tooltip>
+             </p>
+              <p class="mt-5 blue">（<span class="cursor-p" @click="seeDetails(item, false)">重新提交</span><span class="ml-10 cursor-p" @click="revoke(item)">撤销</span>）</p>
             </template>
           </td>
           <td class="blue cursor-p" @click="removeFromBlackList(item.id)">从黑名单移除</td>
         </tr>
         </tbody>
       </table>
-      <div class="pt-20 pb-20 text-ct main-color f-b" v-show="noListNow">暂无数据！</div>
-      <div class="clear">
+      <div class="pt-20 pb-20 text-ct" v-show="noListNow">暂无黑名单数据！</div>
+      <div class="clear" v-if="blackListArr.length > 0">
         <page class="right mr-20 mt-20" :total="totalElements" :page-size="size" @on-change="changePagesFun"/>
       </div>
     </div>
