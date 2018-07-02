@@ -201,7 +201,7 @@
 <style lang="scss">
   .black-list-error-tip {
     width: 100%;
-    height: 36px;
+    min-height: 36px;
     line-height: 36px;
     background-color: #FFF5E6;
     border: 1px solid #FFEBCC;
