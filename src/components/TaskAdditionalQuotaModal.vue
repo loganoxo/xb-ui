@@ -25,7 +25,7 @@
           <i-input v-model.number="addTaskNumber" placeholder="请输入追加份数" @on-change="addTaskNumberChange" style="width: 100px;"/>
         </p>
       </div>
-      <div class="mt-10 border-top pt-10" v-if="data.itemReviewRequired === 'assign_review_detail' && itemReviewList.length > 0">
+      <div class="mt-10 border-top pt-10 addition-item" v-if="data.itemReviewRequired === 'assign_review_detail' && itemReviewList.length > 0">
         <p class="mb-10">该活动设置了指定评价，请对追加的份数提供相应的评价数：</p>
         <p class="mt-5" v-for="item in itemReviewList">
           <span class="vtc-sup">{{'评价' + item.index}}：</span>
@@ -280,13 +280,14 @@
           return;
         }
         let isItemReviewOk = true;
-        this.itemReviewList.map(item => {
-          if (!item.value || !delSpace(item.value)) {
-            item.value = item.value ? delSpace(item.value) : item.value;
-            this.$Message.warning('亲，追加评价内容不能为空！');
+        for (let i = 0, len = this.itemReviewList.length; i < len; i++) {
+          if (!this.itemReviewList[i].value || !delSpace(this.itemReviewList[i].value)) {
+            this.itemReviewList[i].value = this.itemReviewList[i].value ? delSpace(this.itemReviewList[i].value) : this.itemReviewList[i].value;
+            this.$Message.warning('亲，追加评价'+ (i + 1) +'内容不能为空！');
             isItemReviewOk = false;
+            break;
           }
-        });
+        }
         if (!isItemReviewOk) {
           return
         }
@@ -336,3 +337,10 @@
     },
   }
 </script>
+
+<style lang="scss">
+  .addition-item {
+    overflow-y: auto;
+    max-height: 200px;
+  }
+</style>

@@ -183,7 +183,7 @@
           <radio-group v-model="trialCondition">
             <radio label="all">不限制</radio>
             <radio label="refuseOldShowkerFor30Days">拒绝30天内参考过本店铺的拿手再次申请</radio>
-            <radio label="refuseOldShowker">拒绝已参加过本店活动的拿手再次申请</radio>
+            <!--<radio label="refuseOldShowker">拒绝已参加过本店活动的拿手再次申请</radio>-->
           </radio-group>
         </div>
         <div class="order-speed ml-20 mt-20">
