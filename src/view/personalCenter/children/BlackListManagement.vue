@@ -19,7 +19,7 @@
           <th width="20%">操作</th>
         </tr>
         </thead>
-        <tbody>
+        <tbody v-if="blackListArr.length > 0">
         <tr v-for="item in blackListArr" :key="item.id">
           <td>
             <p>{{item.alitmAccount}}</p>
@@ -48,8 +48,14 @@
           <td class="blue cursor-p" @click="removeFromBlackList(item.id)">从黑名单移除</td>
         </tr>
         </tbody>
+        <tbody v-else>
+        <tr>
+          <td colspan="5">
+            暂无黑名单数据！
+          </td>
+        </tr>
+        </tbody>
       </table>
-      <div class="pt-20 pb-20 text-ct" v-show="noListNow">暂无黑名单数据！</div>
       <div class="clear" v-if="blackListArr.length > 0">
         <page class="right mr-20 mt-20" :total="totalElements" :page-size="size" @on-change="changePagesFun"/>
       </div>
@@ -78,7 +84,6 @@
       return {
         blackListWwName: '',
         blackListArr: [],
-        noListNow: false,
         page: 0,
         size: 4,
         totalElements: 0,
@@ -142,9 +147,6 @@
           if (res.status) {
             self.blackListArr = res.data;
             self.totalElements = res.totalElements;
-            if (self.blackListArr.length === 0) {
-              self.noListNow = true;
-            }
           } else {
             self.$Message.error(res.msg)
           }
