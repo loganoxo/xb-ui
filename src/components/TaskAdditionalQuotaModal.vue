@@ -280,7 +280,7 @@
           return;
         }
         let isItemReviewOk = true;
-        if(this.itemReviewList.length >0) {
+        if (this.data.itemReviewRequired === 'assign_review_detail') {
           for (let i = 0, len = this.itemReviewList.length; i < len; i++) {
             if (!this.itemReviewList[i].value || !delSpace(this.itemReviewList[i].value)) {
               this.itemReviewList[i].value = this.itemReviewList[i].value ? delSpace(this.itemReviewList[i].value) : this.itemReviewList[i].value;
@@ -290,7 +290,7 @@
             }
           }
         }
-        if (!isItemReviewOk) {
+        if (this.data.itemReviewRequired === 'assign_review_detail' && !isItemReviewOk) {
           return
         }
         this.title = '支付充值活动费用';
@@ -298,11 +298,13 @@
       },
       addTaskNumberChange() {
         this.itemReviewList = [];
-        for (let i = 1; i <= this.addTaskNumber; i++) {
-          this.itemReviewList.push({
-            value: null,
-            index: i,
-          })
+        if (this.data.itemReviewRequired === 'assign_review_detail') {
+          for (let i = 1; i <= this.addTaskNumber; i++) {
+            this.itemReviewList.push({
+              value: null,
+              index: i,
+            })
+          }
         }
       },
       confirmPayment(pwd) {
