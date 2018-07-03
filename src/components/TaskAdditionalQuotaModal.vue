@@ -27,8 +27,8 @@
       </div>
       <div class="mt-10 border-top pt-10 addition-item" v-if="data.itemReviewRequired === 'assign_review_detail' && itemReviewList.length > 0">
         <p class="mb-10">该活动设置了指定评价，请对追加的份数提供相应的评价数：</p>
-        <p class="mt-5" v-for="item in itemReviewList">
-          <span class="vtc-sup">{{'评价' + item.index}}：</span>
+        <p class="mt-5" v-for="(item, index) in itemReviewList">
+          <span class="vtc-sup">{{`评价${index + 1}`}}：</span>
           <i-input v-model="item.value" class="mb-10" type="textarea" :autosize="{minRows: 1,maxRows: 3}" placeholder="请输入你的评价内容" style="width: 480px;"/>
         </p>
       </div>
@@ -67,6 +67,7 @@
       return {
         currentValue: this.value,
         buttonLoading: false,
+        oldAddTaskNumber: null,
         addTaskNumber: null,
         itemReviewList: [],
         step: 'create',
@@ -260,6 +261,7 @@
           this.$emit('input', false)
         }
         this.addTaskNumber = null;
+        this.oldAddTaskNumber = null;
         this.itemReviewList = [];
         // 关闭弹框时延迟渲染创建活动界面
         setTimeout(() => {
@@ -297,14 +299,20 @@
         this.step = 'pay';
       },
       addTaskNumberChange() {
-        this.itemReviewList = [];
-        if (this.data.itemReviewRequired === 'assign_review_detail') {
-          for (let i = 1; i <= this.addTaskNumber; i++) {
-            this.itemReviewList.push({
-              value: null,
-              index: i,
-            })
-          }
+        if (this.data.itemReviewRequired === 'assign_review_detail' && this.addTaskNumber > 0) {
+         setTimeout(()=> {
+           if (this.addTaskNumber > this.oldAddTaskNumber) {
+             for (let i = 1, len = this.addTaskNumber - this.oldAddTaskNumber; i <= len; i++) {
+               this.itemReviewList.push({
+                 value: null,
+                 index: i,
+               })
+             }
+           } else if (this.addTaskNumber < this.oldAddTaskNumber) {
+             this.itemReviewList.splice(this.addTaskNumber, this.oldAddTaskNumber - this.addTaskNumber)
+           }
+           this.oldAddTaskNumber = this.addTaskNumber
+         },600)
         }
       },
       confirmPayment(pwd) {
