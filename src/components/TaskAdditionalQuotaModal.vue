@@ -280,13 +280,14 @@
           return;
         }
         let isItemReviewOk = true;
-        for (let i = 0, len = this.itemReviewList.length; i < len; i++) {
-         // if (!this.itemReviewList[i].value || !delSpace(this.itemReviewList[i].value)) {
-          if (!this.itemReviewList[i].value) {
-            this.itemReviewList[i].value = this.itemReviewList[i].value ? delSpace(this.itemReviewList[i].value) : this.itemReviewList[i].value;
-            this.$Message.warning('亲，追加评价'+ (i + 1) +'内容不能为空！');
-            isItemReviewOk = false;
-            break;
+        if(itemReviewList.length >0) {
+          for (let i = 0, len = this.itemReviewList.length; i < len; i++) {
+            if (!this.itemReviewList[i].value || !delSpace(this.itemReviewList[i].value)) {
+              this.itemReviewList[i].value = this.itemReviewList[i].value ? delSpace(this.itemReviewList[i].value) : this.itemReviewList[i].value;
+              this.$Message.warning('亲，追加评价' + (i + 1) + '内容不能为空！');
+              isItemReviewOk = false;
+              break;
+            }
           }
         }
         if (!isItemReviewOk) {
