@@ -44,7 +44,7 @@
             } else {
               _this.$router.push({name: 'LandingPage'});
             }*/
-            _this.$router.push({name: 'LandingPage'});
+            _this.$router.push({name: res.data.role === 1 ? 'LandingPage' : 'Home'});
           } else {
             _this.$Message.error(res.msg)
           }
