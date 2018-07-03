@@ -280,7 +280,7 @@
           return;
         }
         let isItemReviewOk = true;
-        if(itemReviewList.length >0) {
+        if(this.itemReviewList.length >0) {
           for (let i = 0, len = this.itemReviewList.length; i < len; i++) {
             if (!this.itemReviewList[i].value || !delSpace(this.itemReviewList[i].value)) {
               this.itemReviewList[i].value = this.itemReviewList[i].value ? delSpace(this.itemReviewList[i].value) : this.itemReviewList[i].value;
