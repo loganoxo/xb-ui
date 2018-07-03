@@ -292,7 +292,7 @@
             }
           }
         }
-        if (this.data.itemReviewRequired === 'assign_review_detail' && !isItemReviewOk) {
+        if (!isItemReviewOk) {
           return
         }
         this.title = '支付充值活动费用';
