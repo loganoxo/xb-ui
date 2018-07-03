@@ -754,30 +754,21 @@
             </div>
             <div class="more-keyword-scheme ml-40 mt-20">
               <div>
-                <div class="inline-block tag" v-for="item in pcTaskDetail" :key="item.index"
-                     :class="selectKeywordScheme === item.index ? 'select-tag-bg' : ''">
+                <div class="inline-block tag" v-for="item in pcTaskDetail" :key="item.index" :class="selectKeywordScheme === item.index ? 'select-tag-bg' : ''">
                   <span @click="selectChangeScheme(item.index)">关键词方案{{ item.index + 1 }}</span>
                   <sup class="badge-count" v-show="item.countAssigned > 0">{{item.countAssigned}}</sup>
-                  <span v-if="item.index === pcTaskDetail.length - 1 && item.index !== 0" class="close-tag"
-                        @click="handleClose(item.index)">
-                      <icon type="ios-close-empty"/>
-                    </span>
+                  <span v-if="item.index === pcTaskDetail.length - 1 && item.index !== 0" class="close-tag" @click="handleClose(item.index)"><icon type="ios-close-empty"/></span>
                 </div>
-                <i-button class="ml-5" v-show="pcTaskDetail.length < 5" icon="ios-plus-empty" type="dashed"
-                          size="small" @click="handleAdd">添加关键词方案
-                </i-button>
+                <i-button class="ml-5" v-show="pcTaskDetail.length < 5" icon="ios-plus-empty" type="dashed" size="small" @click="handleAdd">添加关键词方案</i-button>
               </div>
-              <div class="mt-10 sizeColor2">（请确保提供的关键词能够搜索到宝贝，同时为了避免拿手找不到对应的宝贝，您最多可以添加5组关键词方案）</div>
+              <div class="mt-10 sizeColor2">（最多可为1份宝贝匹配1个进店关键词，<span class="main-color">剩余匹配数： 9</span>）</div>
             </div>
-            <template v-for="item in pcTaskDetail" v-if="item.index === selectKeywordScheme">
-              <alert show-icon class="tag-alert">
-                您当前选择的是关键词方案 {{item.index + 1}}
-                <icon type="ios-lightbulb-outline" slot="icon" size="18"/>
-              </alert>
-                <div class="matching-num ml-40 mt-20">
-                  <span>匹配人数：</span>
+            <div class="keyword-plan" v-for="item in pcTaskDetail" v-show="item.index === selectKeywordScheme">
+              <div class="keyword-plan-tip">关键词方案 {{item.index + 1}}</div>
+              <div class="matching-num ml-40 mt-20">
+                  <span class="required">匹配人数：</span>
                   <i-input v-model.number="item.countAssigned" placeholder="请输入匹配人数" style="width: 160px"/>
-                  <p class="sizeColor2 mt-10">（系统会按照审批拿手通过数量以及匹配人数，依次展示对应的关键词。<span class="main-color">注意：匹配人数可以不设定，一旦设定则每个关键词方案的匹配人数之和必须等于宝贝数量）</span></p>
+                  <span class="sizeColor2">（为当前关键词分配拿手，表示需要几个拿手使用该关键词进店成交，最小为1）</span>
                 </div>
               <div class="search-keyword mt-20 ml-28">
                 <span class="required">搜索关键词：</span>
@@ -865,7 +856,7 @@
                 <i-input v-model="item.deliverAddress" style="width: 120px"/>
                 <span class="sizeColor2 ml-5">（出于安全考虑，请勿大量使用）</span>
               </div>
-            </template>
+            </div>
           </template>
           <!--APP搜索下单设置-->
           <template v-else-if="taskRelease.taskType === 'app_search'">
@@ -1339,7 +1330,7 @@
           {
             index: 0,
             itemMainImage: null,
-            countAssigned: null,
+            countAssigned: 1,
             searchKeyword: null,
             searchSort: 'zong_he',
             searchPagePrice: null,
@@ -1356,7 +1347,7 @@
           {
             index: 0,
             itemMainImage: null,
-            countAssigned: null,
+            countAssigned: 1,
             searchKeyword: null,
             searchSort: 'zong_he',
             searchPagePrice: null,
@@ -3245,7 +3236,6 @@
 
     .activity-con {
       border: 1px solid #F5F5F5;
-      padding-bottom: 42px;
     }
 
     .activity-info-title {
@@ -3544,30 +3534,28 @@
       color: #fff;
       border-color: $mainColor;
     }
-    .tag-alert {
-      width: 586px;
-      margin: 20px 0 0 32px;
+
+    .badge-count{
+      position: absolute;
+      transform: translateX(50%);
+      top: -16px;
+      right: 0;
+      height: 20px;
+      border-radius: 10px;
+      min-width: 20px;
+      background: #ed3f14;
+      border: 1px solid transparent;
+      color: #fff;
+      line-height: 18px;
+      text-align: center;
+      padding: 0 6px;
+      font-size: 12px;
+      white-space: nowrap;
+      transform-origin: -10% center;
+      z-index: 10;
+      box-shadow: 0 0 0 1px #fff;
     }
-      .badge-count{
-        position: absolute;
-        transform: translateX(50%);
-        top: -16px;
-        right: 0;
-        height: 20px;
-        border-radius: 10px;
-        min-width: 20px;
-        background: #ed3f14;
-        border: 1px solid transparent;
-        color: #fff;
-        line-height: 18px;
-        text-align: center;
-        padding: 0 6px;
-        font-size: 12px;
-        white-space: nowrap;
-        transform-origin: -10% center;
-        z-index: 10;
-        box-shadow: 0 0 0 1px #fff;
-      }
+
     .user-clause-model {
       @include fullScreenModel;
     }
@@ -3646,6 +3634,21 @@
     .value-added-charge {
       border-top: 2px solid #EFE8DB;
       padding: 10px 0 0 0;
+    }
+
+    .keyword-plan {
+      margin: 20px;
+      border: 2px solid #ddd;
+      padding-bottom: 20px;
+    }
+
+    .keyword-plan-tip {
+      height: 32px;
+      line-height: 32px;
+      font-size: 14px;
+      font-weight: bold;
+      background-color: #ddd;
+      padding-left: 20px;
     }
   }
 
