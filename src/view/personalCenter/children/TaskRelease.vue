@@ -2736,9 +2736,7 @@
               _this.taskRelease.donotPostPhoto = 'false';
             }
 
-            if (res.data.refuseOldShowker) {
-              _this.trialCondition = 'refuseOldShowker'
-            } else if (res.data.refuseOldShowkerFor30Days) {
+            if (res.data.refuseOldShowkerFor30Days) {
               _this.trialCondition = 'refuseOldShowkerFor30Days'
             } else {
               _this.trialCondition = 'all'
