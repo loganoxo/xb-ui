@@ -25,8 +25,8 @@
     created() {
       const _this = this;
       let queryString = _this.$route.query.p;
-      let pg = _this.$route.query.pg;
-      let other = _this.$route.query.other;
+     /* let pg = _this.$route.query.pg;
+      let other = _this.$route.query.other;*/
       if(queryString){
         api.thirdPartyLogin({
           queryString: encodeURI(queryString),
@@ -38,20 +38,19 @@
               info: res.data
             });
             setStorage('weChartPop', 1);
-            if(pg && other){
+            /*if(pg && other){
                let taskId = JSON.parse(other);
               _this.$router.push({path: pg, query:{q: encryption(taskId.p)}});
             } else {
-              _this.$router.push({name: 'Home'});
-            }
+              _this.$router.push({name: 'LandingPage'});
+            }*/
+            _this.$router.push({name: 'LandingPage'});
           } else {
             _this.$Message.error(res.msg)
           }
         })
       }
-    },
-    computed: {},
-    methods: {}
+    }
   }
 </script>
 

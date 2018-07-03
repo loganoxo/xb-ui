@@ -242,9 +242,9 @@ export default new Router({
       }
     },
     {
-      path:'/landing-page',
-      name:'LandingPage',
-      component:LandingPage,
+      path: '/landing-page',
+      name: 'LandingPage',
+      component: LandingPage,
       meta: {
         title: "商家落地页",
         logInAuthority: false,

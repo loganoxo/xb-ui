@@ -1,6 +1,6 @@
 <template>
   <div class="landing-page">
-    <top></top>
+    <top/>
     <img src="~assets/img/landing-page/banner-top.png" class="banner">
     <img src="~assets/img/landing-page/troubled.png" class="troubled mt-5">
     <img src="~assets/img/landing-page/ensure.png" class="mt-20">
@@ -23,11 +23,12 @@
 </template>
 
 <script>
-  import Top from '@/components/Top.vue'
+  import Top from '@/components/Top'
+
   export default {
     name: "landing-page",
     components: {
-      Top:Top
+      Top: Top
     },
     computed: {
       isLogin() {
@@ -40,9 +41,9 @@
     methods: {
       toFastTaskRelease() {
         if (this.isLogin && this.getRole === 1) {
-          this.$router.push({name:'TaskRelease'});
+          this.$router.push({name: 'TaskRelease'});
         } else {
-          this.$router.push({path:'/register/seller-register'});
+          this.$router.push({path: '/register/seller-register'});
         }
       }
     }
@@ -51,43 +52,44 @@
 
 <style scoped lang="scss">
   @import 'src/css/mixin';
+
   .landing-page {
     position: relative;
     text-align: center;
     .banner {
-      width:100%;
+      width: 100%;
     }
     .troubled {
       margin-top: -30px;
     }
     .down-load-btn {
       position: absolute;
-      width:50%;
-      height:45px;
-      right:0;
-      bottom:32px;
+      width: 50%;
+      height: 45px;
+      right: 0;
+      bottom: 32px;
     }
 
     .floating-window {
-      position:fixed;
-      left:0;
-      bottom:0;
+      position: fixed;
+      left: 0;
+      bottom: 0;
       .bottom-window {
-        width:100%;
+        width: 100%;
       }
       .receive-material {
         position: absolute;
-        width:30%;
-        height:45px;
-        right:65px;
-        top:10px;
+        width: 30%;
+        height: 45px;
+        right: 65px;
+        top: 10px;
       }
       .fast-release {
         position: absolute;
-        width:30%;
-        height:45px;
-        right:65px;
-        bottom:10px;
+        width: 30%;
+        height: 45px;
+        right: 65px;
+        bottom: 10px;
       }
     }
   }

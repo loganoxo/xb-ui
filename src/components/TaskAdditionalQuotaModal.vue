@@ -300,6 +300,7 @@
       },
       addTaskNumberChange() {
         if (this.data.itemReviewRequired === 'assign_review_detail' && this.addTaskNumber > 0) {
+          // 等待用户输入600毫秒后触发逻辑，防止逻辑秒触发
          setTimeout(()=> {
            if (this.addTaskNumber > this.oldAddTaskNumber) {
              for (let i = 1, len = this.addTaskNumber - this.oldAddTaskNumber; i <= len; i++) {
