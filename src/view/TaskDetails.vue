@@ -185,7 +185,7 @@
       <div class="container">
         <div class="graphic-info">
           <div class="graphic-info-sel">
-            <a :class="[graphicInfoSelClass == graphicSel.isClass ? 'active' : '' ]"
+            <a :class="[graphicInfoSelClass === graphicSel.isClass ? 'active' : '' ]"
                v-for="graphicSel in graphicInfoSels" :key="graphicSel.isClass" @click="graphicSelFunc(graphicSel)">
               {{graphicSel.text}}
               <span v-if=graphicSel.num>({{graphicSel.num}})</span>
@@ -712,7 +712,7 @@
         })
       },
       getDetailsSuccessShowkerList() {
-        let self = this;
+        const self = this;
         self.detailsSuccessShowkerParams.taskId = decode(self.$route.query.q);
         api.getDetailsSuccessShowkerList(self.detailsSuccessShowkerParams).then((res) => {
           if (res.status) {
@@ -722,7 +722,7 @@
         })
       },
       getShowkerToProcessOrder() {
-        let self = this;
+        const self = this;
         api.showkerToProcessOrder({
           id: self.commodityData.showkerTask.id
         }).then((res) => {
@@ -730,7 +730,7 @@
         })
       },
       getTaskDetails() {
-        let self = this;
+        const self = this;
         self.commodityData = {
           showkerTask: {},
           taskApply: {},

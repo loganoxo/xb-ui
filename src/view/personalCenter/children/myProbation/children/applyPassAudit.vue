@@ -182,8 +182,7 @@
         <p class="mt-10 f-b">2. 核对订单</p>
         <p class="mt-5 cl666">请正确填写订单号与实付金额，以免影响返款！若您发现淘宝该宝贝的实付金额高于白拿拿平台显示的商品金额，请勿下单，请结束任务！</p>
       </div>
-      <place-order-step v-if="Object.keys(showkerTask).length > 0" :showkerTaskInfo="showkerTask"
-                        @changeTask="getShowkerToProcessOrder"/>
+      <place-order-step v-if="Object.keys(showkerTask).length > 0" :showkerTaskInfo="showkerTask" @changeTask="getShowkerToProcessOrder"/>
       <div class="precautions-tip-info mt-20"
            v-if="showkerTask.task && showkerTask.task.itemReviewRequired === 'review_by_showker_self'">
         <icon type="information-circled" color="#FF0100"/>
@@ -271,8 +270,7 @@
           <icon v-if="showkerTask.status === 'trial_report_unqualified'" type="information-circled" color="#f9284f"/>
           <span :class="[showkerTask.status === 'trial_report_unqualified' ? 'main-color': '']">{{getTaskStatus(showkerTask.status)}}</span>
           <strong v-if="showkerTask.status === 'trial_report_unqualified'" class="ml-10">原因：{{showkerTask.latestShowkerTaskOpLog.auditDescription}}</strong>
-          <span class="main-color ml-10"><time-down color='#ff4040' :fontWeight=600
-                                                    :endTime="showkerTask.currentGenerationEndTime"/></span>
+          <span class="main-color ml-10"><time-down color='#ff4040' :fontWeight=600 :endTime="showkerTask.currentGenerationEndTime"/></span>
         </p>
       </div>
       <div class="precautions-info mt-10" v-if="showkerTask.task.remark">
@@ -764,14 +762,13 @@
       this.copyEvaluate();
     },
     computed: {
-      pcOrApp: function () {
-        let type = this.orderType;
-        return type === 'pc_search' || type === 'direct_access' ? 'pcOrder' : 'appOrder';
+      pcOrApp() {
+        return this.orderType === 'pc_search' || this.orderType === 'direct_access' ? 'pcOrder' : 'appOrder';
       }
     },
     methods: {
       copyEvaluate() {
-        let _this = this;
+        const _this = this;
         _this.$nextTick(() => {
           let clipboard = new Clipboard('.copy-btn');
           clipboard.on('success', () => {
@@ -827,7 +824,7 @@
         this.$router.push({name: 'TaskDetails', query: {q: encryption(id)}})
       },
       changePassOperation(type, status, id, orderType, activityCategory) {
-        let _this = this;
+        const _this = this;
         _this.reportStatus = status;
         _this.itemId = id;
         _this.orderType = orderType;
@@ -873,7 +870,7 @@
         }
       },
       getShowkerToProcessOrder() {
-        let _this = this;
+        const _this = this;
         api.showkerToProcessOrder({id: _this.itemId}).then(res => {
           if (res.status) {
             _this.showkerTask = {};

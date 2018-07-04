@@ -2,37 +2,27 @@
   <div class="place-order-step">
     <div class="place-type">
       <span>{{showkerTaskInfo.task.taskTypeDesc}}</span>
-      <span v-if="showkerTaskInfo.currentGenerationEndTime" class="ml-20">下单剩余时间<time-down color='#ff4040' :fontWeight=600 :endTime="showkerTaskInfo.currentGenerationEndTime"></time-down>（超时未下单，即未在平台提交订单号，视为主动放弃活动资格）</span>
+      <span v-if="showkerTaskInfo.currentGenerationEndTime" class="ml-20">下单剩余时间<time-down color='#ff4040' :fontWeight=600 :endTime="showkerTaskInfo.currentGenerationEndTime"/>（超时未下单，即未在平台提交订单号，视为主动放弃活动资格）</span>
     </div>
     <div class="place-step mt-22" v-if="showkerTaskInfo.task.taskType === 'pc_search' || showkerTaskInfo.task.taskType === 'app_search'">
-      <p
-        v-if="hasCurrentSearchSchemeIndex ? showkerTaskInfo.task.taskType === 'pc_search' : showkerTaskInfo.taskType === 'pc_search'">
-        第1步：打开浏览器输入【<span>www.taobao.com</span>】</p>
-      <p
-        v-if="hasCurrentSearchSchemeIndex ? showkerTaskInfo.task.taskType === 'app_search' : showkerTaskInfo.taskType === 'app_search'">
-        第1步：打开【<span>手机淘宝APP</span>】</p>
+      <p v-if="hasAssignedSearchSchemeIndex ? showkerTaskInfo.task.taskType === 'pc_search' : showkerTaskInfo.taskType === 'pc_search'">第1步：打开浏览器输入【<span>www.taobao.com</span>】</p>
+      <p v-if="hasAssignedSearchSchemeIndex ? showkerTaskInfo.task.taskType === 'app_search' : showkerTaskInfo.taskType === 'app_search'">第1步：打开【<span>手机淘宝APP</span>】</p>
       <p>第2步：搜索框输入关键词【<span>{{taskDetail.searchKeyword}}</span>】
-        <span v-if="hasCurrentSearchSchemeIndex && isShowChangeKeyword && showkerTaskInfo.status !== 'trial_end'"
-              class="ml-10 color cursor-p" @click="changeTaskPlaceInfo">找不到宝贝？点击换个关键词试试</span>
-        <!--<span v-if="!hasCurrentSearchSchemeIndex && isShowChangeKeyword" class="ml-10 color cursor-p" @click="changeTaskPlaceInfo">找不到宝贝？点击换个关键词试试</span>-->
+        <span v-if="hasAssignedSearchSchemeIndex && isShowChangeKeyword && showkerTaskInfo.status !== 'trial_end'" class="ml-10 color cursor-p" @click="changeTaskPlaceInfo">找不到宝贝？点击换个关键词试试</span>
+        <!--<span v-if="!hasAssignedSearchSchemeIndex && isShowChangeKeyword" class="ml-10 color cursor-p" @click="changeTaskPlaceInfo">找不到宝贝？点击换个关键词试试</span>-->
       </p>
       <p>第3步：选择【<span>{{getTaskStatus(taskDetail.searchSort)}}</span>】排序</p>
-      <p
-        v-if="hasCurrentSearchSchemeIndex ? showkerTaskInfo.task.taskType === 'app_search' : showkerTaskInfo.taskType === 'app_search'">
+      <p v-if="hasAssignedSearchSchemeIndex ? showkerTaskInfo.task.taskType === 'app_search' : showkerTaskInfo.taskType === 'app_search'">
         第4步：从上往下数第【<span>{{taskDetail.searchRankPosition}}</span>】个宝贝左右</p>
-      <p
-        v-if="hasCurrentSearchSchemeIndex ? showkerTaskInfo.task.taskType === 'pc_search' : showkerTaskInfo.taskType === 'pc_search'">
+      <p v-if="hasAssignedSearchSchemeIndex ? showkerTaskInfo.task.taskType === 'pc_search' : showkerTaskInfo.taskType === 'pc_search'">
         第4步：在【<span>{{taskDetail.searchPagePositionMin}}-{{taskDetail.searchPagePositionMax}}</span>】页附近找到下图宝贝。（由于千人千面的影响，位置仅供参考）
       </p>
-      <p v-if="taskDetail.priceRangeMin > 0 || taskDetail.deliverAddress || checkText">第5步：<span class="minor-color"
-                                                                                                 v-if="taskDetail.priceRangeMin > 0">搜索指定价格【<span>{{taskDetail.priceRangeMin / 100}}-{{taskDetail.priceRangeMax / 100}}</span>】，</span><span
+      <p v-if="taskDetail.priceRangeMin > 0 || taskDetail.deliverAddress || checkText">第5步：<span class="minor-color" v-if="taskDetail.priceRangeMin > 0">搜索指定价格【<span>{{taskDetail.priceRangeMin / 100}}-{{taskDetail.priceRangeMax / 100}}</span>】，</span><span
         class="minor-color" v-if="taskDetail.deliverAddress">搜索指定发货地【<span>{{taskDetail.deliverAddress}}</span>】，</span><span
         class="minor-color" v-if="checkText">勾选【<span>{{checkText}}</span>】</span></p>
-      <p
-        v-if="showkerTaskInfo.task.needBrowseCollectAddCart && !(taskDetail.priceRangeMin > 0) && !taskDetail.deliverAddress && !checkText">
+      <p v-if="showkerTaskInfo.task.needBrowseCollectAddCart && !(taskDetail.priceRangeMin > 0) && !taskDetail.deliverAddress && !checkText">
         第5步：请收藏宝贝，并加入购物车。</p>
-      <p
-        v-if="showkerTaskInfo.task.needBrowseCollectAddCart && (taskDetail.priceRangeMin > 0) && taskDetail.deliverAddress && checkText">
+      <p v-if="showkerTaskInfo.task.needBrowseCollectAddCart && (taskDetail.priceRangeMin > 0) && taskDetail.deliverAddress && checkText">
         第6步：请收藏宝贝，并加入购物车。</p>
     </div>
     <div class="tao-code-place-step" v-if="showkerTaskInfo.task.taskType === 'tao_code'">
@@ -43,7 +33,7 @@
         <div class="tao-code-image mt-5 inline-block left">
           <img :src="taskDetail.homePageLockItemImage" alt="卡首屏宝贝主图">
           <div class="tao-code-image-cover" @click="isShowTaoCodeModel = true">
-            <Icon type="ios-eye-outline"></Icon>
+            <icon type="ios-eye-outline"/>
           </div>
         </div>
         <span class="main-color ml-5 mt-28 left">点击缩略图可查看原图</span>
@@ -55,7 +45,7 @@
       <p class="clear"><strong class="left">宝贝链接：</strong><a class="left ml-5" :href="showkerTaskInfo.task.itemUrl" target="_blank">{{showkerTaskInfo.task.itemUrl}}</a></p>
     </div>
     <div class="baby-info clear mt-40" v-if="showkerTaskInfo.task.taskType === 'pc_search' || showkerTaskInfo.task.taskType === 'app_search'">
-      <img class="left" :src="taskDetail.itemMainImage" alt="">
+      <img class="left" :src="taskDetail.itemMainImage" alt="宝贝主图">
       <div class="left ml-20 mt-5">
         <p>
           <span>掌柜旺旺：</span>
@@ -70,20 +60,19 @@
           <span>￥{{(showkerTaskInfo.task.itemPrice / 100).toFixed(2) || 0}}</span>
         </p>
         <p>
-          <!--<router-link :to="{path:'/user/help-center/faq-showker',query:{page:'common',qusNum:9}}" class="color" target="_blank">找不到宝贝，怎么办？</router-link>-->
           <span class="color cursor-p" @click="showQrCodeModel = !showQrCodeModel" v-if="showkerTaskInfo.task.taskType === 'app_search'">关键词找不到宝贝？点我！</span>
         </p>
       </div>
     </div>
     <p class="pt-20 main-color">禁止从淘宝客等其他任何返利途径下单，一旦发现系统将扣除产生的淘客佣金，情节严重者直接扣除所有返款并冻结账号！如有疑问请及时联系客服。</p>
-    <div class="precautions mt-20 pt-20" v-if="isShowPrecautions" :class="[!hasCurrentSearchSchemeIndex ? 'precautions-bg' : '']">
+    <div class="precautions mt-20 pt-20" v-if="isShowPrecautions" :class="[!hasAssignedSearchSchemeIndex ? 'precautions-bg' : '']">
       <p>注意事项：</p>
       <p class="mt-10" v-if="showkerTaskInfo.task.showkerOrderTimeLimit">
         <span>下单速度：</span>
         <span>{{showkerTaskInfo.task.showkerOrderTimeLimit}}小时</span>
-        <Tooltip content="通过审批后需要指定时间内完成淘宝下单并在本平台提交订单号，否则资格自动过期" placement="top">
-          <Icon class="fs-14 ml-5" type="help-circled"></Icon>
-        </Tooltip>
+        <tooltip content="通过审批后需要指定时间内完成淘宝下单并在本平台提交订单号，否则资格自动过期" placement="top">
+          <icon class="fs-14 ml-5" type="help-circled"/>
+        </tooltip>
       </p>
       <p class="mt-10" v-if="showkerTaskInfo.task.orderQuantity">
         <span>拍下件数：</span>
@@ -108,9 +97,7 @@
     <!--查看黑搜二维码弹窗-->
     <modal title="二维码关键词" v-model="showQrCodeModel">
       <p class="fs-14">如果所有关键词都找不到宝贝，请使用<span class="main-color">淘宝客户端</span>扫描下方二维码，即可找到商家要求下单的宝贝！</p>
-      <p class="text-ct">
-        <img :src="getCodeUrl" alt="二维码关键词">
-      </p>
+      <img :src="getCodeUrl" alt="二维码关键词">
     </modal>
   </div>
 </template>
@@ -123,7 +110,7 @@
   import {taskErrorStatusList, getUrlParams} from '@/config/utils'
 
   export default {
-    name: 'PlaceOrderStep',
+    name: 'place-order-step',
     components: {
       iButton: Button,
       Icon: Icon,
@@ -152,7 +139,7 @@
       }
     },
     created() {
-      let _this = this;
+      const _this = this;
       _this.$nextTick(() => {
         let clipboard = new Clipboard('.copy-btn');
         clipboard.on('success', () => {
@@ -166,20 +153,19 @@
     },
     computed: {
       taskDetail() {
-        let _this = this;
-        let taskDetailObject = _this.showkerTaskInfo.task.taskDetailObject;
-        if (_this.hasCurrentSearchSchemeIndex) {
-          let index = _this.showkerTaskInfo.currentSearchSchemeIndex;
+        const _this = this;
+        const taskDetailObject = _this.showkerTaskInfo.task.taskDetailObject;
+        if (_this.hasAssignedSearchSchemeIndex) {
+          let index = _this.showkerTaskInfo.assignedSearchSchemeIndex;
           for (let i = 0, len = taskDetailObject.length; i < len; i++) {
             if (taskDetailObject[i].index === index) {
-              return taskDetailObject[i];
+              return taskDetailObject[i]
             }
           }
         } else {
           if (_this.showkerTaskInfo.task.taskType === 'tao_code') {
-            // return taskDetailObject[0];
-            return taskDetailObject?taskDetailObject[0]:{};
-          } else if(_this.showkerTaskInfo.task.taskType === 'direct_access'){
+            return taskDetailObject ? taskDetailObject[0] : {};
+          } else if (_this.showkerTaskInfo.task.taskType === 'direct_access') {
             return {}
           } else {
             let len = _this.showkerTaskInfo.taskDetailObject.length;
@@ -191,43 +177,52 @@
       checkText() {
         return this.taskDetail.searchFilterDesc ? this.taskDetail.searchFilterDesc.split(',').join('、') : null;
       },
-      hasCurrentSearchSchemeIndex() {
-        return this.showkerTaskInfo.currentSearchSchemeIndex !== undefined && this.showkerTaskInfo.currentSearchSchemeIndex !== null;
+      hasAssignedSearchSchemeIndex() {
+        return this.showkerTaskInfo.assignedSearchSchemeIndex !== undefined && this.showkerTaskInfo.assignedSearchSchemeIndex !== null;
       },
       isShowChangeKeyword() {
-        return this.showkerTaskInfo.task.taskDetailObject.length > 1;
+        if (this.showkerTaskInfo.task.taskDetailObject[0].countAssigned === undefined || this.showkerTaskInfo.task.taskDetailObject[0].countAssigned === null) {
+          return this.showkerTaskInfo.task.taskDetailObject.length > 1;
+        } else {
+          let canReassignSearchScheme = false;
+          this.showkerTaskInfo.task.taskDetailObject.forEach(elem => {
+            if (elem.assignedUsed < elem.countAssigned && elem.index !== this.showkerTaskInfo.assignedSearchSchemeIndex) {
+              canReassignSearchScheme = true;
+            }
+          });
+          return canReassignSearchScheme
+        }
       },
       getCodeUrl() {
         const id = getUrlParams(this.showkerTaskInfo.task.itemUrl, 'id');
-        if(this.showkerTaskInfo.task.taskDetailObject){
+        if (this.showkerTaskInfo.task.taskDetailObject) {
           return `/api/get-qr-image.json?id=${id}&keyWord=${this.showkerTaskInfo.task.taskDetailObject[0].searchKeyword}`;
         }
-        // return `/api/get-qr-image.json?id=${id}&keyWord=${this.showkerTaskInfo.task.taskDetailObject[0].searchKeyword}`;
       }
     },
     methods: {
       getRealStoreName(name) {
         if (name) {
           return `${name.substr(0, 1)}****${ name.substr(-1)}`;
-        }else {
+        } else {
           return '******'
         }
       },
       getTaskStatus(type) {
-        return taskErrorStatusList(type);
+        return taskErrorStatusList(type)
       },
       changeTaskPlaceInfo() {
         let _this = this;
-        if (_this.hasCurrentSearchSchemeIndex) {
+        if (_this.hasAssignedSearchSchemeIndex) {
           api.getSchemeReassign({
             showkerTaskId: _this.showkerTaskInfo.id,
           }).then(res => {
             if (res.status) {
-              _this.$emit('changeTask');
+              _this.$emit('changeTask')
             } else {
-              _this.$Message.error(res.msg);
+              _this.$Message.error(res.msg)
             }
-          });
+          })
         }
       }
     }
