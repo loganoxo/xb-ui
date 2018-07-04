@@ -1894,11 +1894,7 @@
             return cur.countAssigned + prev
           }, 0)
         }
-        if (this.taskRelease.taskCount > 0) {
-          return this.taskRelease.taskCount - num
-        } else {
-          return 0
-        }
+        return this.taskRelease.taskCount > 0 ? this.taskRelease.taskCount - num : 0
       }
 
     },
