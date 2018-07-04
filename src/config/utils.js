@@ -313,6 +313,8 @@ export const taskErrorStatusList = (type) => {
     'trial_report_waiting_submit': '已下单待交买家秀',
     'trial_report_waiting_confirm': '买家秀待确认',
     'trial_report_unqualified': '买家秀不合格',
+    'waiting_add_to_cart': '待加入购物车',
+    'add_to_cart_done': '放入购物车完成',
     'trial_end': '任务终止',
     'trial_finished': '活动完成',
     'timeout_auto_close': '任务超时终止',

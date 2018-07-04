@@ -40,7 +40,8 @@
       </div>
       <div class="order-query">
         <i-select v-model="selectStatus" style="width: 120px;margin-right: 12px;">
-          <i-option placeholder="请选择类型查询" v-for="item in SelectList" :value="item.value" :key="item.value">{{item.label}}
+          <i-option placeholder="请选择类型查询" v-for="item in SelectList" :value="item.value" :key="item.value">
+            {{item.label}}
           </i-option>
         </i-select>
         <i-input v-model="searchValue" style="width: 160px;margin-right: 8px;"/>
@@ -64,79 +65,81 @@
           </tr>
           </thead>
           <tbody v-if="applySuccessList.length > 0">
-            <template v-for="item in applySuccessList">
-              <tr class="task-number">
-                <td colspan="6">
-                  <span>活动编号：{{item.orderNumber || '------'}}</span>
-                  <span class="ml-20">通过日期：{{item.createTime | dateFormat('YYYY-MM-DD hh:mm:ss')}}</span>
-                  <span class="ml-20">商家QQ号：{{item.qqNumber || '------'}}</span>
-                </td>
-              </tr>
-              <tr>
-                <td class="cursor-p" @click="goTaskDetails(item.taskId)">
-                  <img class="left ml-10" :src="item.taskMainImage | imageSrc('!thum54')">
-                  <a class="img-title left" :title="item.taskName">{{item.taskName}}</a>
-                </td>
-                <td>{{item.alitmAccount}}</td>
-                <td>{{item.orderPrice}} / {{item.perMarginNeed}}</td>
-                <td>{{item.orderNum || '------'}}</td>
-                <td>
-                  <div
-                    v-if="item.status !== 'trial_end' && item.status !== 'order_num_error' && item.status !== 'trial_report_unqualified'">
-                    <p>{{getTaskStatus(item.status)}}</p>
-                    <p v-if="item.status !== 'trial_finished'">
-                      <time-down color='#ff4040' :fontWeight=600 :endTime="item.currentGenerationEndTime"/>
-                    </p>
-                  </div>
-                  <div class="mt-5 main-color cursor-p" v-if="item.status === 'order_num_error'">
-                    <Tooltip :content="item.auditDescription" placement="top">
-                      <icon color="#f9284f" type="information-circled"/>
-                      <span>订单信息有误</span>
-                    </Tooltip>
-                    <p>
-                      <time-down color='#ff4040' :fontWeight=600 :endTime="item.currentGenerationEndTime"/>
-                    </p>
-                  </div>
-                  <div class="mt-5 main-color cursor-p" v-if="item.status === 'trial_report_unqualified'">
-                    <Tooltip :content="item.auditDescription" placement="top">
-                      <icon color="#f9284f" type="information-circled"/>
-                      <span>报告不合格</span>
-                    </Tooltip>
-                    <p>
-                      <time-down color='#ff4040' :fontWeight=600 :endTime="item.currentGenerationEndTime"/>
-                    </p>
-                  </div>
-                  <div class="mt-5 main-color cursor-p" v-if="item.status === 'trial_end'">
-                    <tooltip
-                      :content="item.trialEndReason === 'admin_manual_close' ? getTaskStatus(item.trialEndReason) +'：'+ item.auditDescription : getTaskStatus(item.trialEndReason)"
-                      placement="top">
-                      <icon color="#f9284f" type="information-circled"/>
-                      <span>活动终止</span>
-                    </tooltip>
-                  </div>
-                </td>
-                <td>
-                  <p v-if="item.status === 'pass_and_unclaimed'" class="operation"
-                     @click="changePassOperation('place','', item.id, item.taskType, item.activityCategory)">去下单</p>
-                  <p v-if="item.status === 'order_num_error'" class="operation"
-                     @click="changePassOperation('place','', item.id, item.taskType, item.activityCategory)">修改订单信息</p>
-                  <!--<p v-if="item.status === 'order_num_error'" class="operation mt-5"-->
-                  <!--@click="openAuditOrderModify(item.id, item.taskType, item.activityCategory, item.orderNum, item.orderPrice, item.status, item.statusDesc, item.auditDescription)">修改订单信息</p>-->
-                  <p v-if="item.status === 'trial_report_waiting_submit'" class="operation"
-                     @click="changePassOperation('report','write',item.id)">制作买家秀</p>
-                  <p v-if="item.status === 'trial_report_unqualified'" class="operation"
-                     @click="changePassOperation('report','amend',item.id)">修改买家秀</p>
-                  <p v-if="item.status === 'trial_report_waiting_confirm' || item.status === 'trial_finished'"
-                     class="operation mt-5"
-                     @click="lookReportInfo(item.id)">查看买家秀详情</p>
-                  <p v-if="item.status === 'trial_finished'" class="operation mt-5">
-                    <router-link :to="{path:'/user/money-management/transaction-record',query:{taskNumber:item.orderNumber}}">查看活动账单</router-link>
+          <template v-for="item in applySuccessList">
+            <tr class="task-number">
+              <td colspan="6">
+                <span>活动编号：{{item.orderNumber || '------'}}</span>
+                <span class="ml-20">通过日期：{{item.createTime | dateFormat('YYYY-MM-DD hh:mm:ss')}}</span>
+                <span class="ml-20">商家QQ号：{{item.qqNumber || '------'}}</span>
+              </td>
+            </tr>
+            <tr>
+              <td class="cursor-p" @click="goTaskDetails(item.taskId)">
+                <img class="left ml-10" :src="item.taskMainImage | imageSrc('!thum54')">
+                <a class="img-title left" :title="item.taskName">{{item.taskName}}</a>
+              </td>
+              <td>{{item.alitmAccount}}</td>
+              <td>{{item.orderPrice}} / {{item.perMarginNeed}}</td>
+              <td>{{item.orderNum || '------'}}</td>
+              <td>
+                <div
+                  v-if="item.status !== 'trial_end' && item.status !== 'order_num_error' && item.status !== 'trial_report_unqualified'">
+                  <p>{{getTaskStatus(item.status)}}</p>
+                  <p v-if="item.status !== 'trial_finished'">
+                    <time-down color='#ff4040' :fontWeight=600 :endTime="item.currentGenerationEndTime"/>
                   </p>
-                  <p v-if="item.status !== 'trial_end' && item.status !== 'trial_finished'" class="operation mt-5"
-                     @click="endTrialModel(item.id)">结束活动</p>
-                </td>
-              </tr>
-            </template>
+                </div>
+                <div class="mt-5 main-color cursor-p" v-if="item.status === 'order_num_error'">
+                  <Tooltip :content="item.auditDescription" placement="top">
+                    <icon color="#f9284f" type="information-circled"/>
+                    <span>订单信息有误</span>
+                  </Tooltip>
+                  <p>
+                    <time-down color='#ff4040' :fontWeight=600 :endTime="item.currentGenerationEndTime"/>
+                  </p>
+                </div>
+                <div class="mt-5 main-color cursor-p" v-if="item.status === 'trial_report_unqualified'">
+                  <Tooltip :content="item.auditDescription" placement="top">
+                    <icon color="#f9284f" type="information-circled"/>
+                    <span>报告不合格</span>
+                  </Tooltip>
+                  <p>
+                    <time-down color='#ff4040' :fontWeight=600 :endTime="item.currentGenerationEndTime"/>
+                  </p>
+                </div>
+                <div class="mt-5 main-color cursor-p" v-if="item.status === 'trial_end'">
+                  <tooltip
+                    :content="item.trialEndReason === 'admin_manual_close' ? getTaskStatus(item.trialEndReason) +'：'+ item.auditDescription : getTaskStatus(item.trialEndReason)"
+                    placement="top">
+                    <icon color="#f9284f" type="information-circled"/>
+                    <span>活动终止</span>
+                  </tooltip>
+                </div>
+              </td>
+              <td>
+                <p v-if="item.status === 'pass_and_unclaimed'" class="operation"
+                   @click="changePassOperation('place','', item.id, item.taskType, item.activityCategory)">去下单</p>
+                <p v-if="item.status === 'order_num_error'" class="operation"
+                   @click="changePassOperation('place','', item.id, item.taskType, item.activityCategory)">修改订单信息</p>
+                <!--<p v-if="item.status === 'order_num_error'" class="operation mt-5"-->
+                <!--@click="openAuditOrderModify(item.id, item.taskType, item.activityCategory, item.orderNum, item.orderPrice, item.status, item.statusDesc, item.auditDescription)">修改订单信息</p>-->
+                <p v-if="item.status === 'trial_report_waiting_submit'" class="operation"
+                   @click="changePassOperation('report','write',item.id)">制作买家秀</p>
+                <p v-if="item.status === 'trial_report_unqualified'" class="operation"
+                   @click="changePassOperation('report','amend',item.id)">修改买家秀</p>
+                <p v-if="item.status === 'trial_report_waiting_confirm' || item.status === 'trial_finished'"
+                   class="operation mt-5"
+                   @click="lookReportInfo(item.id)">查看买家秀详情</p>
+                <p v-if="item.status === 'trial_finished'" class="operation mt-5">
+                  <router-link
+                    :to="{path:'/user/money-management/transaction-record',query:{taskNumber:item.orderNumber}}">查看活动账单
+                  </router-link>
+                </p>
+                <p v-if="item.status !== 'trial_end' && item.status !== 'trial_finished'" class="operation mt-5"
+                   @click="endTrialModel(item.id)">结束活动</p>
+              </td>
+            </tr>
+          </template>
           </tbody>
           <tbody v-if="applySuccessList.length === 0">
           <tr>
@@ -158,7 +161,7 @@
       <div class="commodity-info mt-20">
         <div class="clear">
           <div class="commodity-img left">
-            <img :src="taskPlaceInfo.taskMainImage + '!thum54'" alt="">
+            <img :src="taskPlaceInfo.taskMainImage | imageSrc('!thum54')" alt="">
           </div>
           <div class="commodity-text left ml-5">
             <p>{{taskPlaceInfo.taskName}}</p>
@@ -174,12 +177,15 @@
       </div>
       <div class="mt-10 pt-10 pb-10 pl-10 bgF1F1F1">
         <p class="f-b">1.禁止秒拍</p>
-        <p class="mt-5 cl666">请确保足够时间的浏览后再下单哦<span class="main-color">（至少3-5分钟）</span>，请按要求操作，否则将失去试用资格，若造成商家<span class="main-color">投诉</span>，平台有权<span class="main-color">冻结</span>您的拿手账号！</p>
+        <p class="mt-5 cl666">请确保足够时间的浏览后再下单哦<span class="main-color">（至少3-5分钟）</span>，请按要求操作，否则将失去试用资格，若造成商家<span
+          class="main-color">投诉</span>，平台有权<span class="main-color">冻结</span>您的拿手账号！</p>
         <p class="mt-10 f-b">2. 核对订单</p>
         <p class="mt-5 cl666">请正确填写订单号与实付金额，以免影响返款！若您发现淘宝该宝贝的实付金额高于白拿拿平台显示的商品金额，请勿下单，请结束任务！</p>
       </div>
-      <place-order-step v-if="Object.keys(showkerTask).length > 0" :showkerTaskInfo="showkerTask" @changeTask="getShowkerToProcessOrder"/>
-      <div class="precautions-tip-info mt-20" v-if="showkerTask.task && showkerTask.task.itemReviewRequired === 'review_by_showker_self'">
+      <place-order-step v-if="Object.keys(showkerTask).length > 0" :showkerTaskInfo="showkerTask"
+                        @changeTask="getShowkerToProcessOrder"/>
+      <div class="precautions-tip-info mt-20"
+           v-if="showkerTask.task && showkerTask.task.itemReviewRequired === 'review_by_showker_self'">
         <icon type="information-circled" color="#FF0100"/>
         <span class="sizeColor3">注意：</span>
         <span>亲收到货后记得</span>
@@ -212,16 +218,20 @@
         <span class="sizeColor3">请务必按照要求操作！</span>
       </div>
       <!--活动截图上传-->
-      <activity-screenshots-upload v-if="Object.keys(showkerOrder).length > 0" @sendImageData="getImageData" :orderInfo="showkerOrder"/>
+      <activity-screenshots-upload v-if="Object.keys(showkerOrder).length > 0" @sendImageData="getImageData"
+                                   :orderInfo="showkerOrder"/>
       <div class="evaluation-content-tip-assign mt-10"
            v-if="showkerTask.task && showkerTask.task.itemReviewRequired === 'assign_review_detail'">
         <div>{{showkerTask.other.itemReviewAssign.reviewContent}}</div>
-        <button class="copy-evaluation-tbn mt-10 copy-btn" :data-clipboard-text="showkerTask.other.itemReviewAssign.reviewContent">复制评价内容</button>
+        <button class="copy-evaluation-tbn mt-10 copy-btn"
+                :data-clipboard-text="showkerTask.other.itemReviewAssign.reviewContent">复制评价内容
+        </button>
       </div>
       <div class="write-order-number mt-20">
-        <span v-if="showkerOrder.status === 'pass_and_unclaimed' || showkerOrder.status === 'waiting_add_to_cart'" @click="openAuditOrder(null,orderType, null, showkerTask.status, showkerTask.statusDesc, showkerTask.latestShowkerTaskOpLog.auditDescription)">下单完成，填订单号</span>
+        <span v-if="showkerOrder.status === 'pass_and_unclaimed' || showkerOrder.status === 'waiting_add_to_cart'"
+              @click="openAuditOrder(null,orderType, null, showkerTask.status, showkerTask.statusDesc, showkerTask.latestShowkerTaskOpLog.auditDescription)">下单完成，填订单号</span>
         <!--<span v-if="showkerOrder.status === 'order_num_error'"-->
-              <!--@click="openAuditOrderModify(item.id, item.taskType, item.activityCategory, item.orderNum, item.orderPrice, item.status, item.statusDesc, item.auditDescription)">重新提交</span>-->
+        <!--@click="openAuditOrderModify(item.id, item.taskType, item.activityCategory, item.orderNum, item.orderPrice, item.status, item.statusDesc, item.auditDescription)">重新提交</span>-->
         <span v-if="showkerOrder.status === 'order_num_error'"
               @click="openAuditOrderModify(showkerTask.id, taskPlaceInfo.taskType, taskPlaceInfo.activityCategory, showkerOrder.orderNum, showkerOrder.orderPrice, showkerTask.status, showkerTask.statusDesc, showkerOrder.auditDescription)">重新提交</span>
         <span class="ml-35" @click="returnUpPage">返回上页</span>
@@ -261,7 +271,8 @@
           <icon v-if="showkerTask.status === 'trial_report_unqualified'" type="information-circled" color="#f9284f"/>
           <span :class="[showkerTask.status === 'trial_report_unqualified' ? 'main-color': '']">{{getTaskStatus(showkerTask.status)}}</span>
           <strong v-if="showkerTask.status === 'trial_report_unqualified'" class="ml-10">原因：{{showkerTask.latestShowkerTaskOpLog.auditDescription}}</strong>
-          <span class="main-color ml-10"><time-down color='#ff4040' :fontWeight=600 :endTime="showkerTask.currentGenerationEndTime"/></span>
+          <span class="main-color ml-10"><time-down color='#ff4040' :fontWeight=600
+                                                    :endTime="showkerTask.currentGenerationEndTime"/></span>
         </p>
       </div>
       <div class="precautions-info mt-10" v-if="showkerTask.task.remark">
@@ -303,11 +314,13 @@
       <div class="evaluation-content-tip-assign mt-10"
            v-if="showkerTask.task.itemReviewRequired === 'assign_review_detail'">
         <div>{{showkerTask.other.itemReviewAssign.reviewContent}}</div>
-        <button class="copy-evaluation-tbn mt-10 copy-btn" @click="copyEvaluate" :data-clipboard-text="showkerTask.other.itemReviewAssign.reviewContent">复制评价内容</button>
+        <button class="copy-evaluation-tbn mt-10 copy-btn" @click="copyEvaluate"
+                :data-clipboard-text="showkerTask.other.itemReviewAssign.reviewContent">复制评价内容
+        </button>
       </div>
       <div class="mt-20 pos-rel">
         <p class="fs-14"><span class="des-text">1.淘宝评价截图</span><span class="cl666">（商家返款凭证，必传）</span></p>
-        <Upload
+        <upload
           class="mt-10 cursor-p"
           :default-file-list="defaultTaobaoScreenShotImg"
           :on-success="uploadTaobaoImgSuccess"
@@ -322,19 +335,18 @@
           <div style="width: 58px;height:58px;line-height: 58px;">
             <icon type="camera" size="20"/>
           </div>
-        </Upload>
+        </upload>
         <div class="watch-example-pic"><p>该截图将作为商家审核返款的凭证哦，请根据要求评价！</p>
           <p class="mt-5"><span class="example-pic" @click="watchExamplePic">查看示例图</span></p></div>
       </div>
       <div class="experience mt-22">
         <p class="mb-10"><span class="des-text">2.拿手活动过程与体验评价：</span><span class="cl666">（白拿拿平台展示）</span></p>
-        <RadioGroup v-model="selectEvaluate" class="mb-10">
-          <Radio label="5">东西棒棒哒</Radio>
-          <Radio label="3">还阔以</Radio>
-          <Radio label="1">质量太差了</Radio>
-        </RadioGroup>
-        <i-input v-model="trialReportText" type="textarea" :autosize="{minRows: 5,maxRows: 12}"
-                placeholder="请填写在试用过程中，对于宝贝的真实使用体会及感受，可以和淘宝上的宝贝评价一致"/>
+        <radio-group v-model="selectEvaluate" class="mb-10">
+          <radio label="5">东西棒棒哒</radio>
+          <radio label="3">还阔以</radio>
+          <radio label="1">质量太差了</radio>
+        </radio-group>
+        <i-input v-model="trialReportText" type="textarea" :autosize="{minRows: 5,maxRows: 12}" placeholder="请填写在试用过程中，对于宝贝的真实使用体会及感受，可以和淘宝上的宝贝评价一致"/>
       </div>
       <div class="experience-img mt-22">
         <div class="mb-10">
@@ -342,7 +354,7 @@
           <p class="cl666">
             请上传宝贝试用和体验的相关图片，不是淘宝好评的截图。图片支持jpg、jpeg、png、gif、bmp格式，大小不超过10M,该组图片将会在白拿拿平台展示哦，多多晒图，更有利于商家选中你哦</p>
         </div>
-        <Upload
+        <upload
           :default-file-list="defaultImageList"
           :on-success="uploadImgSuccess"
           :on-remove="removeImage"
@@ -354,9 +366,9 @@
           :on-exceeded-size="handleMaxSize"
           type="drag">
           <div style="width: 58px;height:58px;line-height: 58px;">
-            <Icon type="camera" size="20"></Icon>
+            <icon type="camera" size="20"/>
           </div>
-        </Upload>
+        </upload>
       </div>
       <div class="write-order-number mt-40">
         <span @click="submitReport">提交买家秀</span>
@@ -365,7 +377,6 @@
     </div>
     <!--填写订单号弹窗-->
     <div class="audit-order-number-model" v-if="showAuditOrderNumber">
-      <!--<div class="audit-order-number-con showSweetAlert" :style="{height:needBrowseCollectAddCart?(needIssueAnswer.length > 0?660+'px': 520+ 'px'):(needIssueAnswer.length > 0?430+'px':290+'px')}">-->
       <div class="audit-order-number-con showSweetAlert">
         <i class="close-model right mr-10" @click="closeAuditOrder">&times;</i>
         <p class="tip-title mt-10">
@@ -379,141 +390,141 @@
           <strong class="ml-10" v-if="currentOrderStatusInfo.status === 'order_num_error'">原因：{{currentOrderStatusInfo.auditDescription}}</strong>
         </div>
         <!--收藏加购的代码，勿删-->
-       <!--<div v-if="needBrowseCollectAddCart" class="mt-20 ml-45 des-text">1.收藏、加入购物车，提交相关截图</div>-->
+        <!--<div v-if="needBrowseCollectAddCart" class="mt-20 ml-45 des-text">1.收藏、加入购物车，提交相关截图</div>-->
         <!--<div v-if="needBrowseCollectAddCart" class="clear text-ct ml-45 mt-20">-->
-          <!--<div class="left mr-20" v-if="taskType === 'pc_search'">-->
-            <!--<p>搜索条件截图</p>-->
-            <!--<Upload-->
-              <!--class="copy-write-img"-->
-              <!--:default-file-list="defaultImageSearchCondition"-->
-              <!--:on-remove="removeMainImageCondition"-->
-              <!--:on-success="searchConditionImageFun"-->
-              <!--:format="['jpg','jpeg','png','gif','bmp']"-->
-              <!--:max-size="10240"-->
-              <!--name="task"-->
-              <!--:on-format-error="handleFormatError"-->
-              <!--:on-exceeded-size="handleMaxSize"-->
-              <!--type="drag">-->
-              <!--<div style="width: 58px;height:58px;line-height: 58px;">-->
-                <!--<Icon type="camera" size="20"></Icon>-->
-              <!--</div>-->
-            <!--</Upload>-->
-            <!--<p class="mt-8 cursor-p example-pic" @click="pcSearchSelectFun('one')">查看示例图</p>-->
-          <!--</div>-->
-          <!--<div class="left mr-20" v-if="taskType === 'pc_search'|| taskType === 'app_search'">-->
-            <!--<p>所在位置截图</p>-->
-            <!--<Upload-->
-              <!--class="copy-write-img"-->
-              <!--:default-file-list="defaultImageItemLocation"-->
-              <!--:on-remove="removeMainImageLocation"-->
-              <!--:on-success="itemLocationImageFun"-->
-              <!--:format="['jpg','jpeg','png','gif','bmp']"-->
-              <!--:max-size="10240"-->
-              <!--name="task"-->
-              <!--:on-format-error="handleFormatError"-->
-              <!--:on-exceeded-size="handleMaxSize"-->
-              <!--type="drag">-->
-              <!--<div style="width: 58px;height:58px;line-height: 58px;">-->
-                <!--<Icon type="camera" size="20"></Icon>-->
-              <!--</div>-->
-            <!--</Upload>-->
-            <!--<p class="mt-8 cursor-p example-pic" @click="pcSearchSelectFun('two')">查看示例图</p>-->
-          <!--</div>-->
-          <!--<div class="left mr-20">-->
-            <!--<p>宝贝加入收藏夹</p>-->
-            <!--<Upload-->
-              <!--class="copy-write-img"-->
-              <!--:default-file-list="defaultImageEnshrine"-->
-              <!--:on-remove="removeMainImageEnshrineImage"-->
-              <!--:on-success="enshrineImageFun"-->
-              <!--:format="['jpg','jpeg','png','gif','bmp']"-->
-              <!--:max-size="10240"-->
-              <!--name="task"-->
-              <!--:on-format-error="handleFormatError"-->
-              <!--:on-exceeded-size="handleMaxSize"-->
-              <!--type="drag">-->
-              <!--<div style="width: 58px;height:58px;line-height: 58px;">-->
-                <!--<Icon type="camera" size="20"></Icon>-->
-              <!--</div>-->
-            <!--</Upload>-->
-            <!--<p class="mt-8 cursor-p example-pic" @click="pcSearchSelectFun('four')">查看示例图</p>-->
-          <!--</div>-->
-          <!--<div class="left ">-->
-            <!--<p>宝贝加入购物车</p>-->
-            <!--<Upload-->
-              <!--class="copy-write-img"-->
-              <!--:default-file-list="defaultImageAddToCart"-->
-              <!--:on-remove="removeMainImageAddToCart"-->
-              <!--:on-success="addToCartImageFun"-->
-              <!--:format="['jpg','jpeg','png','gif','bmp']"-->
-              <!--:max-size="10240"-->
-              <!--name="task"-->
-              <!--:on-format-error="handleFormatError"-->
-              <!--:on-exceeded-size="handleMaxSize"-->
-              <!--type="drag">-->
-              <!--<div style="width: 58px;height:58px;line-height: 58px;">-->
-                <!--<Icon type="camera" size="20"></Icon>-->
-              <!--</div>-->
-            <!--</Upload>-->
-            <!--<p class="mt-8 example-pic" @click="pcSearchSelectFun('five')">查看示例图</p>-->
-          <!--</div>-->
+        <!--<div class="left mr-20" v-if="taskType === 'pc_search'">-->
+        <!--<p>搜索条件截图</p>-->
+        <!--<Upload-->
+        <!--class="copy-write-img"-->
+        <!--:default-file-list="defaultImageSearchCondition"-->
+        <!--:on-remove="removeMainImageCondition"-->
+        <!--:on-success="searchConditionImageFun"-->
+        <!--:format="['jpg','jpeg','png','gif','bmp']"-->
+        <!--:max-size="10240"-->
+        <!--name="task"-->
+        <!--:on-format-error="handleFormatError"-->
+        <!--:on-exceeded-size="handleMaxSize"-->
+        <!--type="drag">-->
+        <!--<div style="width: 58px;height:58px;line-height: 58px;">-->
+        <!--<Icon type="camera" size="20"></Icon>-->
+        <!--</div>-->
+        <!--</Upload>-->
+        <!--<p class="mt-8 cursor-p example-pic" @click="pcSearchSelectFun('one')">查看示例图</p>-->
+        <!--</div>-->
+        <!--<div class="left mr-20" v-if="taskType === 'pc_search'|| taskType === 'app_search'">-->
+        <!--<p>所在位置截图</p>-->
+        <!--<Upload-->
+        <!--class="copy-write-img"-->
+        <!--:default-file-list="defaultImageItemLocation"-->
+        <!--:on-remove="removeMainImageLocation"-->
+        <!--:on-success="itemLocationImageFun"-->
+        <!--:format="['jpg','jpeg','png','gif','bmp']"-->
+        <!--:max-size="10240"-->
+        <!--name="task"-->
+        <!--:on-format-error="handleFormatError"-->
+        <!--:on-exceeded-size="handleMaxSize"-->
+        <!--type="drag">-->
+        <!--<div style="width: 58px;height:58px;line-height: 58px;">-->
+        <!--<Icon type="camera" size="20"></Icon>-->
+        <!--</div>-->
+        <!--</Upload>-->
+        <!--<p class="mt-8 cursor-p example-pic" @click="pcSearchSelectFun('two')">查看示例图</p>-->
+        <!--</div>-->
+        <!--<div class="left mr-20">-->
+        <!--<p>宝贝加入收藏夹</p>-->
+        <!--<Upload-->
+        <!--class="copy-write-img"-->
+        <!--:default-file-list="defaultImageEnshrine"-->
+        <!--:on-remove="removeMainImageEnshrineImage"-->
+        <!--:on-success="enshrineImageFun"-->
+        <!--:format="['jpg','jpeg','png','gif','bmp']"-->
+        <!--:max-size="10240"-->
+        <!--name="task"-->
+        <!--:on-format-error="handleFormatError"-->
+        <!--:on-exceeded-size="handleMaxSize"-->
+        <!--type="drag">-->
+        <!--<div style="width: 58px;height:58px;line-height: 58px;">-->
+        <!--<Icon type="camera" size="20"></Icon>-->
+        <!--</div>-->
+        <!--</Upload>-->
+        <!--<p class="mt-8 cursor-p example-pic" @click="pcSearchSelectFun('four')">查看示例图</p>-->
+        <!--</div>-->
+        <!--<div class="left ">-->
+        <!--<p>宝贝加入购物车</p>-->
+        <!--<Upload-->
+        <!--class="copy-write-img"-->
+        <!--:default-file-list="defaultImageAddToCart"-->
+        <!--:on-remove="removeMainImageAddToCart"-->
+        <!--:on-success="addToCartImageFun"-->
+        <!--:format="['jpg','jpeg','png','gif','bmp']"-->
+        <!--:max-size="10240"-->
+        <!--name="task"-->
+        <!--:on-format-error="handleFormatError"-->
+        <!--:on-exceeded-size="handleMaxSize"-->
+        <!--type="drag">-->
+        <!--<div style="width: 58px;height:58px;line-height: 58px;">-->
+        <!--<Icon type="camera" size="20"></Icon>-->
+        <!--</div>-->
+        <!--</Upload>-->
+        <!--<p class="mt-8 example-pic" @click="pcSearchSelectFun('five')">查看示例图</p>-->
+        <!--</div>-->
         <!--</div>-->
         <!--<div class="clear ml-45 mr-40 mt-20" v-if="needIssueAnswer.length > 0">-->
-          <!--<div style="border-top: 1px solid #eee" class="pt-10 pb-10">在详情页找到如下文案，并提供所在位置截图<p @click="watchAnswerImg = true" class="example-pic inline-block ml-10">查看示例图</p></div>-->
-          <!--<div class="left mr-20 text-ct" v-if="needIssueAnswer[0]">-->
-            <!--<p class="pd-3 bgFDF5E0 cl000">{{needIssueAnswer[0].issue}}</p>-->
-            <!--<Upload-->
-              <!--class="copy-write-img"-->
-              <!--:default-file-list="defaultImageCwOne"-->
-              <!--:on-remove="removeMainImageCwOne"-->
-              <!--:on-success="copyWriteOneImageFun"-->
-              <!--:format="['jpg','jpeg','png','gif','bmp']"-->
-              <!--:max-size="10240"-->
-              <!--name="task"-->
-              <!--:on-format-error="handleFormatError"-->
-              <!--:on-exceeded-size="handleMaxSize"-->
-              <!--type="drag">-->
-              <!--<div style="width: 58px;height:58px;line-height: 58px;">-->
-                <!--<Icon type="camera" size="20"></Icon>-->
-              <!--</div>-->
-            <!--</Upload>-->
-          <!--</div>-->
-          <!--<div class="left mr-20 text-ct" v-if="needIssueAnswer[1]">-->
-            <!--<p class="pd-3 bgFDF5E0 cl000">{{needIssueAnswer[1].issue}}</p>-->
-            <!--<Upload-->
-              <!--class="copy-write-img"-->
-              <!--:default-file-list="defaultImageCwTwo"-->
-              <!--:on-remove="removeMainImageCwTwo"-->
-              <!--:on-success="copyWriteTwoImageFun"-->
-              <!--:format="['jpg','jpeg','png','gif','bmp']"-->
-              <!--:max-size="10240"-->
-              <!--name="task"-->
-              <!--:on-format-error="handleFormatError"-->
-              <!--:on-exceeded-size="handleMaxSize"-->
-              <!--type="drag">-->
-              <!--<div style="width: 58px;height:58px;line-height: 58px;">-->
-                <!--<Icon type="camera" size="20"></Icon>-->
-              <!--</div>-->
-            <!--</Upload>-->
-          <!--</div>-->
-          <!--<div class="left text-ct" v-if="needIssueAnswer[2]">-->
-            <!--<p class="pd-3 bgFDF5E0 cl000">{{needIssueAnswer[2].issue}}</p>-->
-            <!--<Upload-->
-              <!--class="margin-auto copy-write-img"-->
-              <!--:default-file-list="defaultImageCwThree"-->
-              <!--:on-remove="removeMainImageCwThree"-->
-              <!--:on-success="copyWriteThreeImageFun"-->
-              <!--:format="['jpg','jpeg','png','gif','bmp']"-->
-              <!--:max-size="10240"-->
-              <!--name="task"-->
-              <!--:on-format-error="handleFormatError"-->
-              <!--:on-exceeded-size="handleMaxSize"-->
-              <!--type="drag">-->
-              <!--<div style="width: 58px;height:58px;line-height: 58px;">-->
-                <!--<Icon type="camera" size="20"></Icon>-->
-              <!--</div>-->
-            <!--</Upload>-->
-          <!--</div>-->
+        <!--<div style="border-top: 1px solid #eee" class="pt-10 pb-10">在详情页找到如下文案，并提供所在位置截图<p @click="watchAnswerImg = true" class="example-pic inline-block ml-10">查看示例图</p></div>-->
+        <!--<div class="left mr-20 text-ct" v-if="needIssueAnswer[0]">-->
+        <!--<p class="pd-3 bgFDF5E0 cl000">{{needIssueAnswer[0].issue}}</p>-->
+        <!--<Upload-->
+        <!--class="copy-write-img"-->
+        <!--:default-file-list="defaultImageCwOne"-->
+        <!--:on-remove="removeMainImageCwOne"-->
+        <!--:on-success="copyWriteOneImageFun"-->
+        <!--:format="['jpg','jpeg','png','gif','bmp']"-->
+        <!--:max-size="10240"-->
+        <!--name="task"-->
+        <!--:on-format-error="handleFormatError"-->
+        <!--:on-exceeded-size="handleMaxSize"-->
+        <!--type="drag">-->
+        <!--<div style="width: 58px;height:58px;line-height: 58px;">-->
+        <!--<Icon type="camera" size="20"></Icon>-->
+        <!--</div>-->
+        <!--</Upload>-->
+        <!--</div>-->
+        <!--<div class="left mr-20 text-ct" v-if="needIssueAnswer[1]">-->
+        <!--<p class="pd-3 bgFDF5E0 cl000">{{needIssueAnswer[1].issue}}</p>-->
+        <!--<Upload-->
+        <!--class="copy-write-img"-->
+        <!--:default-file-list="defaultImageCwTwo"-->
+        <!--:on-remove="removeMainImageCwTwo"-->
+        <!--:on-success="copyWriteTwoImageFun"-->
+        <!--:format="['jpg','jpeg','png','gif','bmp']"-->
+        <!--:max-size="10240"-->
+        <!--name="task"-->
+        <!--:on-format-error="handleFormatError"-->
+        <!--:on-exceeded-size="handleMaxSize"-->
+        <!--type="drag">-->
+        <!--<div style="width: 58px;height:58px;line-height: 58px;">-->
+        <!--<Icon type="camera" size="20"></Icon>-->
+        <!--</div>-->
+        <!--</Upload>-->
+        <!--</div>-->
+        <!--<div class="left text-ct" v-if="needIssueAnswer[2]">-->
+        <!--<p class="pd-3 bgFDF5E0 cl000">{{needIssueAnswer[2].issue}}</p>-->
+        <!--<Upload-->
+        <!--class="margin-auto copy-write-img"-->
+        <!--:default-file-list="defaultImageCwThree"-->
+        <!--:on-remove="removeMainImageCwThree"-->
+        <!--:on-success="copyWriteThreeImageFun"-->
+        <!--:format="['jpg','jpeg','png','gif','bmp']"-->
+        <!--:max-size="10240"-->
+        <!--name="task"-->
+        <!--:on-format-error="handleFormatError"-->
+        <!--:on-exceeded-size="handleMaxSize"-->
+        <!--type="drag">-->
+        <!--<div style="width: 58px;height:58px;line-height: 58px;">-->
+        <!--<Icon type="camera" size="20"></Icon>-->
+        <!--</div>-->
+        <!--</Upload>-->
+        <!--</div>-->
         <!--</div>-->
         <div class="mt-10 ml-45">
           <p class="mt-20 mb-20 des-text" v-if="needBrowseCollectAddCart">填写下单信息</p>
@@ -522,7 +533,8 @@
           <i-button @click="orderImg = true">什么是订单号？</i-button>
           <modal v-model="orderImg" :width="pcOrApp === 'pcOrder' ? 1000 : 360" :transfer="false">
             <div class="text-ct">
-              <img v-if="pcOrApp === 'pcOrder'" width="900" height="750" src="~assets/img/order-number/order_pc.png" alt="">
+              <img v-if="pcOrApp === 'pcOrder'" width="900" height="750" src="~assets/img/order-number/order_pc.png"
+                   alt="">
               <img v-else width="300" height="450" src="~assets/img/order-number/order_pc.png" alt="">
             </div>
           </modal>
@@ -552,8 +564,8 @@
             <span>其他：</span>
             <i-input v-model="otherReason" style="width: 200px"/>
           </radio>
-          </radio-group>
-        </p>
+        </radio-group>
+      </p>
       <div slot="footer" class="text-ct">
         <i-button class="mr-20" type="error" size="large" :loading="modalLoading" @click="endTrial">确认提交</i-button>
         <i-button size="large" @click="unSelectSubmit">取消</i-button>
@@ -598,15 +610,24 @@
              src="~assets/img/screen-shot/shop_car_app.png" alt="">
       </div>
     </modal>
-    <!--用户服务条款弹框-->
-    <!--<div v-if="isShowUserClause" class="user-clause-model">-->
-      <!--<user-clause @closeClauseModel="closeClauseModel" isShowClause="showker"></user-clause>-->
-    <!--</div>-->
   </div>
 </template>
 
 <script>
-  import {Button, Input, Icon, Select, Option, OptionGroup, Page, Radio, Checkbox, DatePicker, Tooltip, Modal} from 'iview'
+  import {
+    Button,
+    Input,
+    Icon,
+    Select,
+    Option,
+    OptionGroup,
+    Page,
+    Radio,
+    Checkbox,
+    DatePicker,
+    Tooltip,
+    Modal
+  } from 'iview'
   import Clipboard from 'clipboard'
   import Upload from '@/components/Upload'
   import TimeDown from '@/components/TimeDown'
@@ -638,11 +659,11 @@
       TimeDown: TimeDown,
       PlaceOrderStep: PlaceOrderStep,
       UserClause: UserClause,
-      ActivityScreenshotsUpload:ActivityScreenshotsUpload
+      ActivityScreenshotsUpload: ActivityScreenshotsUpload
     },
     data() {
       return {
-        selectEvaluate:'5',
+        selectEvaluate: '5',
         appSearch: false,
         downloadButton: false,
         showPassOperation: '',
@@ -689,7 +710,6 @@
         currentOrderStatusInfo: {},
         endReason: null,
         otherReason: null,
-        // isShowUserClause: false,
         taobaoScreenShotImg: null,
         defaultTaobaoScreenShotImg: [],
         needBrowseCollectAddCart: false,
@@ -714,40 +734,34 @@
         defaultImageEnshrine: [],
         defaultImageItemLocation: [],
         defaultImageSearchCondition: [],
-        // defaultImageCwOne:[],
-        // defaultImageCwTwo:[],
-        // defaultImageCwThree:[],
-        copyWriteOneImg:null,
-        copyWriteTwoImg:null,
-        copyWriteThreeImg:null,
+        copyWriteOneImg: null,
+        copyWriteTwoImg: null,
+        copyWriteThreeImg: null,
         watchExample: false,
-        watchAnswerImg:false,
-        // needIssueAnswer:[],
-        issueAnswerScreenshot:[],
-        screenShotsData:{},
-        showkerOrder:{},
-        orderState:''
+        watchAnswerImg: false,
+        issueAnswerScreenshot: [],
+        screenShotsData: {},
+        showkerOrder: {},
+        orderState: ''
       }
     },
     mounted() {
     },
     created() {
-      let _this = this;
-      let status = _this.$route.query.status;
+      const status = this.$route.query.status;
       if (status) {
         if (status === 'order_num_error') {
-          _this.checkPassList.push('order_num_error');
-          _this.checkPassList.push('trial_report_unqualified');
-          _this.showkerSuccessList();
+          this.checkPassList.push('order_num_error');
+          this.checkPassList.push('trial_report_unqualified');
+          this.showkerSuccessList();
         } else {
-          _this.checkPassList.push(status);
-          _this.showkerSuccessList();
+          this.checkPassList.push(status);
+          this.showkerSuccessList();
         }
       } else {
-        _this.showkerSuccessList();
+        this.showkerSuccessList();
       }
-      // _this.getDetectionUserClauseTip();
-      _this.copyEvaluate();
+      this.copyEvaluate();
     },
     computed: {
       pcOrApp: function () {
@@ -756,7 +770,7 @@
       }
     },
     methods: {
-      copyEvaluate(){
+      copyEvaluate() {
         let _this = this;
         _this.$nextTick(() => {
           let clipboard = new Clipboard('.copy-btn');
@@ -783,18 +797,6 @@
           k === type ? this.pcSearchSelect[k] = true : this.pcSearchSelect[k] = false;
         }
       },
-      removeMainImageCondition() {
-        this.upLoadImageUrl.searchConditionImage = null;
-      },
-      removeMainImageLocation() {
-        this.upLoadImageUrl.itemLocationImage = null;
-      },
-      removeMainImageEnshrineImage() {
-        this.upLoadImageUrl.enshrineImage = null;
-      },
-      removeMainImageAddToCart() {
-        this.upLoadImageUrl.addToCartImage = null;
-      },
       //获搜索条件截图片地址
       searchConditionImageFun(res) {
         this.upLoadImageUrl.searchConditionImage = aliCallbackImgUrl + res.name
@@ -815,24 +817,6 @@
       addToCartImageFun(res) {
         this.upLoadImageUrl.addToCartImage = aliCallbackImgUrl + res.name
       },
-      // copyWriteOneImageFun(res){
-      //   this.copyWriteOneImg = aliCallbackImgUrl + res.name
-      // },
-      // copyWriteTwoImageFun(res){
-      //   this.copyWriteTwoImg = aliCallbackImgUrl + res.name
-      // },
-      // copyWriteThreeImageFun(res){
-      //   this.copyWriteThreeImg = aliCallbackImgUrl + res.name
-      // },
-      // removeMainImageCwOne(){
-      //   this.copyWriteOneImg = null
-      // },
-      // removeMainImageCwTwo(){
-      //   this.copyWriteTwoImg = null
-      // },
-      // removeMainImageCwThree(){
-      //   this.copyWriteThreeImg = null
-      // },
       encryptionId(id) {
         return encryption(id)
       },
@@ -892,7 +876,7 @@
         let _this = this;
         api.showkerToProcessOrder({id: _this.itemId}).then(res => {
           if (res.status) {
-            _this.showkerTask ={};
+            _this.showkerTask = {};
             _this.showkerOrder = res.data;
             _this.showkerTask = res.data.showkerTask;
             _this.taskPlaceInfo = res.data.showkerTask.task;
@@ -902,7 +886,6 @@
             _this.needBrowseCollectAddCart = res.data.needBrowseCollectAddCart;
             _this.needBrowseCollectAddCart = false;
             _this.taskType = res.data.taskType;
-            // _this.needIssueAnswer = res.data.itemIssue;
             let screenShot = res.data.screenshot;
             _this.defaultImageAddToCart = screenShot.addToCart ? [{src: screenShot.addToCart}] : [];
             _this.upLoadImageUrl.addToCartImage = screenShot.addToCart ? screenShot.addToCart : null;
@@ -913,12 +896,9 @@
             _this.defaultImageSearchCondition = screenShot.searchCondition ? [{src: screenShot.searchCondition}] : [];
             _this.upLoadImageUrl.searchConditionImage = screenShot.searchCondition ? screenShot.searchCondition : null;
             let issueAnswerScreenshot = res.data.issueAnswerScreenshot;
-            _this.copyWriteOneImg = issueAnswerScreenshot[0]?issueAnswerScreenshot[0]:null;
-            _this.copyWriteTwoImg = issueAnswerScreenshot[1]?issueAnswerScreenshot[1]:null;
-            _this.copyWriteThreeImg = issueAnswerScreenshot[2]?issueAnswerScreenshot[2]:null;
-            // _this.defaultImageCwOne = _this.copyWriteOneImg?[{src: issueAnswerScreenshot[0]}]:[];
-            // _this.defaultImageCwTwo = _this.copyWriteTwoImg?[{src: issueAnswerScreenshot[1]}]:[];
-            // _this.defaultImageCwThree = _this.copyWriteThreeImg?[{src: issueAnswerScreenshot[2]}]:[];
+            _this.copyWriteOneImg = issueAnswerScreenshot[0] ? issueAnswerScreenshot[0] : null;
+            _this.copyWriteTwoImg = issueAnswerScreenshot[1] ? issueAnswerScreenshot[1] : null;
+            _this.copyWriteThreeImg = issueAnswerScreenshot[2] ? issueAnswerScreenshot[2] : null;
           } else {
             _this.$Message.error(res.msg);
           }
@@ -981,7 +961,7 @@
         const _this = this;
         // 校验截图有没有全部上传，全部上传，填订单号，没有全部上传，提示用户
         let orderInfo = {};
-        api.showkerToProcessOrder({id:_this.itemId}).then(res => {
+        api.showkerToProcessOrder({id: _this.itemId}).then(res => {
           if (res.status) {
             orderInfo = res.data;
             let checkImageUpload = orderInfo.showkerTaskVasSettings.every(item => {
@@ -1010,22 +990,6 @@
             _this.$Message.error(res.msg);
           }
         });
-
-        // api.showkerToProcessOrder({id:id}).then(res => {
-        //
-        // });
-        // this.affirmOrderNumber = null;
-        // this.payMoney = null;
-        // this.orderType = type;
-        // this.activityCategory = activityCategory;
-        // this.currentOrderStatusInfo.status = status;
-        // this.currentOrderStatusInfo.statusDesc = statusDesc;
-        // this.currentOrderStatusInfo.auditDescription = auditDescription;
-        // this.showAuditOrderNumber = true;
-        // if (id && !this.itemId) {
-        //   this.itemId = id;
-        //   this.getShowkerToProcessOrder();
-        // }
       },
       uploadTaobaoImgSuccess(res) {
         this.taobaoScreenShotImg = aliCallbackImgUrl + res.name;
@@ -1057,7 +1021,7 @@
         this.showkerSuccessList();
       },
       showkerSuccessList() {
-        let _this = this;
+        const _this = this;
         _this.searchLoading = true;
         api.showkerSuccessList({
           selectStatus: _this.selectStatus,
@@ -1106,27 +1070,15 @@
         })
       },
       saveOrUpdateOrderNumber() {
-        let _this = this;
-        // if (_this.needIssueAnswer.length > 0 && !_this.copyWriteOneImg) {
-        //   _this.$Message.error("亲，请上传第一张答题截图！");
-        //   return;
-        // }
-        // if (_this.needIssueAnswer.length > 1 && !_this.copyWriteTwoImg) {
-        //   _this.$Message.error("亲，请上传第二张答题截图！");
-        //   return;
-        // }
-        // if (_this.needIssueAnswer.length > 2 && !_this.copyWriteThreeImg) {
-        //   _this.$Message.error("亲，请上传第三张答题截图！");
-        //   return;
-        // }
+        const _this = this;
         _this.issueAnswerScreenshot = [];
-        if (_this.copyWriteOneImg){
+        if (_this.copyWriteOneImg) {
           _this.issueAnswerScreenshot.push(_this.copyWriteOneImg)
         }
-        if (_this.copyWriteTwoImg){
+        if (_this.copyWriteTwoImg) {
           _this.issueAnswerScreenshot.push(_this.copyWriteTwoImg)
         }
-        if (_this.copyWriteThreeImg){
+        if (_this.copyWriteThreeImg) {
           _this.issueAnswerScreenshot.push(_this.copyWriteThreeImg)
         }
         if (!_this.affirmOrderNumber) {
@@ -1189,7 +1141,7 @@
             trialReportText: _this.trialReportText,
             trialReportImages: JSON.stringify(_this.trialReportImages),
             taoBaoCommentImage: _this.taobaoScreenShotImg,
-            itemStars:_this.selectEvaluate,
+            itemStars: _this.selectEvaluate,
           }).then(res => {
             if (res.status) {
               _this.$Message.success({
@@ -1208,7 +1160,7 @@
             trialReportText: _this.trialReportText,
             trialReportImages: JSON.stringify(_this.trialReportImages),
             taoBaoCommentImage: _this.taobaoScreenShotImg,
-            itemStars:_this.selectEvaluate,
+            itemStars: _this.selectEvaluate,
           }).then(res => {
             if (res.status) {
               _this.$Message.success('买家秀修改成功，请耐心等待商家审核！');
@@ -1263,19 +1215,6 @@
       lookReportInfo(id) {
         this.$router.push({path: '/user/my-probation/report', query: {id: encryption(id), from: 'buyer'}});
       },
-      // closeClauseModel() {
-      //   this.isShowUserClause = false;
-      // },
-      // getDetectionUserClauseTip() {
-      //   let _this = this;
-      //   api.detectionUserClauseTip().then(res => {
-      //     if (res.status) {
-      //       _this.isShowUserClause = !res.data;
-      //     } else {
-      //       _this.$Message.error(res.msg);
-      //     }
-      //   })
-      // },
       getImageData(data) {
         this.screenShotsData = data;
       }
@@ -1284,7 +1223,8 @@
 </script>
 <style lang="scss" scoped>
   @import 'src/css/mixin';
+
   .upload-image-title {
-    border-bottom:2px solid #F6F6F6
+    border-bottom: 2px solid #F6F6F6
   }
 </style>
