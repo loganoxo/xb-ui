@@ -196,19 +196,19 @@
         </div>
         <div class="pt-10 pb-10 evaluate-showker-pop-box mt-20">
           <p class="title">
-            <Tooltip content="你感觉该拿手的淘号质量如何？" placement="top">
+            <tooltip content="你感觉该拿手的淘号质量如何？" placement="top">
               <icon type="help-circled"/>
-            </Tooltip>
+            </tooltip>
             <span class="cl000">买号质量：</span>
           </p>
-          <RadioGroup v-model="wwQuality">
-            <Radio label="hao_ping"><img class="vtc-mid img" src="~assets/img/common/haoping.png" alt=""><span
-              class="ml-5">好评</span></Radio>
-            <Radio label="zhong_ping"><img class="vtc-mid img" src="~assets/img/common/zhongping.png" alt=""><span
-              class="ml-5">中评</span></Radio>
-            <Radio label="cha_ping"><img class="vtc-mid img" src="~assets/img/common/chaping.png" alt=""><span
-              class="ml-5">差评</span></Radio>
-          </RadioGroup>
+          <radio-group v-model="wwQuality">
+            <radio label="hao_ping"><img class="vtc-mid img" src="~assets/img/common/haoping.png" alt=""><span
+              class="ml-5">好评</span></radio>
+            <radio label="zhong_ping"><img class="vtc-mid img" src="~assets/img/common/zhongping.png" alt=""><span
+              class="ml-5">中评</span></radio>
+            <radio label="cha_ping"><img class="vtc-mid img" src="~assets/img/common/chaping.png" alt=""><span
+              class="ml-5">差评</span></radio>
+          </radio-group>
         </div>
         <div class="pt-10 pb-10 evaluate-showker-pop-box mt-10">
           <p class="title">
@@ -217,14 +217,14 @@
             </tooltip>
             <span class="cl000">下单配合度：</span>
           </p>
-          <RadioGroup v-model="fillOrderCooperate">
-            <Radio label="hao_ping"><img class="vtc-mid img" src="~assets/img/common/haoping.png" alt=""><span
-              class="ml-5">好评</span></Radio>
-            <Radio label="zhong_ping"><img class="vtc-mid img" src="~assets/img/common/zhongping.png" alt=""><span
-              class="ml-5">中评</span></Radio>
-            <Radio label="cha_ping"><img class="vtc-mid img" src="~assets/img/common/chaping.png" alt=""><span
-              class="ml-5">差评</span></Radio>
-          </RadioGroup>
+          <radio-group v-model="fillOrderCooperate">
+            <radio label="hao_ping"><img class="vtc-mid img" src="~assets/img/common/haoping.png" alt=""><span
+              class="ml-5">好评</span></radio>
+            <radio label="zhong_ping"><img class="vtc-mid img" src="~assets/img/common/zhongping.png" alt=""><span
+              class="ml-5">中评</span></radio>
+            <radio label="cha_ping"><img class="vtc-mid img" src="~assets/img/common/chaping.png" alt=""><span
+              class="ml-5">差评</span></radio>
+          </radio-group>
         </div>
         <div class="pt-10 pb-10 evaluate-showker-pop-box mt-10">
           <p class="title">
@@ -233,14 +233,14 @@
             </tooltip>
             <span class="cl000">买家秀质量：</span>
           </p>
-          <RadioGroup v-model="buyerShowQuality">
-            <Radio label="hao_ping"><img class="vtc-mid img" src="~assets/img/common/haoping.png" alt=""><span
-              class="ml-5">好评</span></Radio>
-            <Radio label="zhong_ping"><img class="vtc-mid img" src="~assets/img/common/zhongping.png" alt=""><span
-              class="ml-5">中评</span></Radio>
-            <Radio label="cha_ping"><img class="vtc-mid img" src="~assets/img/common/chaping.png" alt=""><span
-              class="ml-5">差评</span></Radio>
-          </RadioGroup>
+          <radio-group v-model="buyerShowQuality">
+            <radio label="hao_ping"><img class="vtc-mid img" src="~assets/img/common/haoping.png" alt=""><span
+              class="ml-5">好评</span></radio>
+            <radio label="zhong_ping"><img class="vtc-mid img" src="~assets/img/common/zhongping.png" alt=""><span
+              class="ml-5">中评</span></radio>
+            <radio label="cha_ping"><img class="vtc-mid img" src="~assets/img/common/chaping.png" alt=""><span
+              class="ml-5">差评</span></radio>
+          </radio-group>
         </div>
       </div>
       <div class="pl-20 pr-20 mt-30 violation-labels">
