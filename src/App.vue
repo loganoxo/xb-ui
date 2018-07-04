@@ -9,7 +9,7 @@
     <!--侧边栏固定联系客服图片展示-->
     <div class="suspend-service" v-show="showSuspendService" v-if="isLogin">
       <div v-if="getUserRole === 1" class="pos-rel">
-        <img src="~assets/img/common/service-little-sister.png" alt="">
+        <img src="~assets/img/common/service-little-sister-1.png" alt="">
         <div class="service-content">
           <p class="service-title text-ct fs-14">您的专属</p>
           <p class="service-title text-ct fs-14">一对一产品服务</p>
