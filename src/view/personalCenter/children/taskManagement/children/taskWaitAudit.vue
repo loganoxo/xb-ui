@@ -636,7 +636,7 @@
         _this.operateTaskId = taskId;
         _this.speedUpLoading = true;
         api.merchantCheckShowkerApply({
-          taskId: taskId
+          taskId: _this.selectId
         }).then(res => {
           if (res.status) {
             _this.showkerApplyInfoModal = true;
