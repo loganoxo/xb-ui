@@ -1135,4 +1135,12 @@ export default {
   additionalTaskAccount(params) {
     return axiosConfig.post('/api/additional-task-account.json', params)
   },
+
+  /**
+   * 商家审批拿手的时验证拿手申请情况
+   */
+  merchantCheckShowkerApply(params) {
+    return axiosConfig.get('/api/merchant-check-showker-apply.json', params)
+  },
+
 }
