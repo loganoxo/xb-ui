@@ -1825,7 +1825,7 @@
        */
       vasMainItemCost() {
         let cost = 0;
-        this.vasMainItem.map(item => {
+        this.vasMainItem.forEach(item => {
           if (item.isSelect) {
             if (this.getMemberVersionLevel === 100) {
               this.upgradeMembershipModal = true;
@@ -1844,8 +1844,8 @@
       vasSimilarItemCost() {
         let cost = 0;
         if (this.shopAroundStatus) {
-          this.vasSimilarItem.map(keys => {
-            keys.map(key => {
+          this.vasSimilarItem.forEach(keys => {
+            keys.forEach(key => {
               if (key.isSelect) {
                 cost += key.price
               }
@@ -1923,11 +1923,10 @@
           taskId: id
         }).then(res => {
           if (res.status) {
-            res.data.mainVasSettings.map(keys => {
-              _this.vasMainItem.map(key => {
+            res.data.mainVasSettings.forEach(keys => {
+              _this.vasMainItem.forEach(key => {
                 if (keys.id === key.id) {
                   key.isSelect = true;
-                  return key;
                 }
               })
             });
@@ -1943,14 +1942,13 @@
                   _this.addShopAroundList()
                 }
               }
-              _this.vasSimilarItem.map((keys, i) => {
+              _this.vasSimilarItem.forEach((keys, i) => {
                 let tempArr = similarVasSettings[i];
                 if (tempArr.length > 0) {
-                  tempArr.map(items => {
-                    keys.map(item => {
+                  tempArr.forEach(items => {
+                    keys.forEach(item => {
                       if (items.id === item.id) {
                         item.isSelect = true;
-                        return item
                       }
                     })
                   })
@@ -2086,28 +2084,25 @@
           this.appDefaultList.push({src: this.appTaskDetail[0].itemMainImage})
         }
         if (type === 'pc_search' || type === 'direct_access') {
-          this.vasMainItem.map(key => {
+          this.vasMainItem.forEach(key => {
             if (key.id === 6 && key.isSelect) {
               key.isSelect = false;
-              return key;
             }
           });
           if (this.shopAroundStatus) {
-            this.vasSimilarItem.map(keys => {
-              keys.map(key => {
+            this.vasSimilarItem.forEach(keys => {
+              keys.forEach(key => {
                 if (key.id === 12 && key.isSelect) {
                   key.isSelect = false;
-                  return key;
                 }
               })
             })
           }
         }
         if (type === 'direct_access' || type === 'tao_code') {
-          this.vasMainItem.map(key => {
+          this.vasMainItem.forEach(key => {
             if (key.id === 1 && key.isSelect) {
               key.isSelect = false;
-              return key;
             }
           });
           if (this.shopAroundStatus) {
@@ -2125,10 +2120,9 @@
         if (this.shopAroundStatus) {
           this.shopAroundStatus = false;
         }
-        this.vasMainItem.map(item => {
+        this.vasMainItem.forEach(item => {
           if (item.isSelect) {
             item.isSelect = false;
-            return item;
           }
         })
       },
@@ -2145,19 +2139,17 @@
           this.taskCountInputDisabled = true;
         }
         if (type === 'day_reserve') {
-          this.vasMainItem.map(item => {
+          this.vasMainItem.forEach(item => {
             if (item.id === 3) {
               item.isSelect = true;
               item.isDisabled = true;
-              return item;
             }
           })
         } else {
-          this.vasMainItem.map(item => {
+          this.vasMainItem.forEach(item => {
             if (item.id === 3 && item.isSelect) {
               item.isSelect = false;
               item.isDisabled = false;
-              return item;
             }
           })
         }
@@ -2574,15 +2566,15 @@
         _this.taskRelease.itemReviewAssignString = JSON.stringify(_this.itemReviewPushList);
         const mainTaskVasId = [];
         const similarTaskVasId = [];
-        _this.vasMainItem.map(item => {
+        _this.vasMainItem.forEach(item => {
           if (item.isSelect) {
             mainTaskVasId.push(item.id)
           }
         });
         if (_this.shopAroundStatus) {
-          _this.vasSimilarItem.map(keys => {
+          _this.vasSimilarItem.forEach(keys => {
             let i = [];
-            keys.map(item => {
+            keys.forEach(item => {
               if (item.isSelect) {
                 i.push(item.id)
               }
@@ -2794,9 +2786,9 @@
               _this.conversionPrice('tao_code');
             } else if (res.data.taskType === 'pc_search') {
               _this.pcTaskDetail = res.data.taskDetailObject;
-              _this.pcTaskDetail.map(item => {
+              _this.pcTaskDetail.forEach(item => {
                 if (!item.searchFilter) {
-                  return item.searchFilter = []
+                  item.searchFilter = [];
                 }
               });
               _this.addKeywordScheme = _this.pcTaskDetail.length - 1;
@@ -2811,16 +2803,16 @@
               _this.isCountAssigned = null;
             } else if (res.data.taskType === 'app_search') {
               _this.appTaskDetail = res.data.taskDetailObject;
-              _this.appTaskDetail.map(item => {
+              _this.appTaskDetail.forEach(item => {
                 if (!item.searchFilter) {
-                  return item.searchFilter = []
+                  item.searchFilter = []
                 }
               });
               _this.addKeywordScheme = _this.appTaskDetail.length - 1;
               _this.appDefaultList.push({src: _this.appTaskDetail[0].itemMainImage});
               _this.appTaskDetailItemMainImage = _this.appTaskDetail[0].itemMainImage;
               _this.conversionPrice('app_search');
-               if(!_this.isCountAssigned) {
+               if (!_this.isCountAssigned) {
                  _this.appTaskDetail.forEach(item => {
                    item.countAssigned = null;
                  })
@@ -3006,7 +2998,7 @@
           this.taskRelease.itemReviewSummary = null;
         }
         if (this.itemReviewList.length > 0) {
-          this.itemReviewList.map(item => {
+          this.itemReviewList.forEach(item => {
             item.value = '';
           })
         }
@@ -3159,9 +3151,9 @@
           if (this.vasSimilarItem.length > 1) {
             this.vasSimilarItem.splice(1, this.vasSimilarItem.length - 1)
           }
-          this.vasSimilarItem[0].map(item => {
+          this.vasSimilarItem[0].forEach(item => {
             if (!item.isDisabled && item.isSelect) {
-              return item.isSelect = false
+              item.isSelect = false
             }
           })
         }
