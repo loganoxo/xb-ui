@@ -268,11 +268,12 @@
                 <p class="cl000">{{homeCommodity.taskName}}</p>
                 <p class="price">
                   <em>
-                    <span class="cl666 block text-decoration-through">￥{{homeCommodity.itemPrice / 100}}</span>
+                    <span class="cl666 text-decoration-through">￥{{homeCommodity.itemPrice / 100}}</span>
                   </em>
-                  <em class="vas-fee-return ml-10 pl-5 pr-5" v-if="(homeCommodity.perVasFee || homeCommodity.promotionExpensesPaid && (uplineTime < homeCommodity.createTime))">
-                    返利{{computeVasReturnFee(homeCommodity.perVasFee,homeCommodity.systemVasFeeCommissionPercent,homeCommodity.activityCategory,homeCommodity.promotionExpensesPaid,homeCommodity.taskCount,homeCommodity.createTime)}}元
-                  </em>
+                  <!--<em class="vas-fee-return ml-10 pl-5 pr-5" v-if="(homeCommodity.perVasFee || homeCommodity.promotionExpensesPaid && (uplineTime < homeCommodity.createTime))">-->
+                  <span class="vas-fee-return ml-10 pl-5 pr-5" v-if="(homeCommodity.perVasFee || homeCommodity.promotionExpensesPaid && (uplineTime < homeCommodity.createTime))">
+                    奖励{{computeVasReturnFee(homeCommodity.perVasFee,homeCommodity.systemVasFeeCommissionPercent,homeCommodity.activityCategory,homeCommodity.promotionExpensesPaid,homeCommodity.taskCount,homeCommodity.createTime)}}元
+                  </span>
                 </p>
                 <p class="discount-price">
                   <em>
@@ -336,7 +337,7 @@
                 <p class="price">
                   <span class="cl666 text-decoration-through">￥{{homeCommodity.itemPrice / 100}}</span>
                   <span class="vas-fee-return ml-10 pl-5 pr-5" v-if="(homeCommodity.perVasFee || homeCommodity.promotionExpensesPaid && (uplineTime < homeCommodity.createTime))">
-                    返利{{computeVasReturnFee(homeCommodity.perVasFee,homeCommodity.systemVasFeeCommissionPercent,homeCommodity.activityCategory,homeCommodity.promotionExpensesPaid,homeCommodity.taskCount,homeCommodity.createTime)}}元
+                    奖励{{computeVasReturnFee(homeCommodity.perVasFee,homeCommodity.systemVasFeeCommissionPercent,homeCommodity.activityCategory,homeCommodity.promotionExpensesPaid,homeCommodity.taskCount,homeCommodity.createTime)}}元
                   </span>
                 </p>
                 <p class="discount-price">
@@ -417,7 +418,7 @@
                 <p class="price">
                   <span class="cl666 text-decoration-through">￥{{homeHistory.itemPrice / 100}}</span>
                   <span class="vas-fee-return ml-10 pl-5 pr-5" v-if="(homeHistory.perVasFee || homeHistory.promotionExpensesPaid && (uplineTime < homeHistory.createTime))">
-                    返利{{computeVasReturnFee(homeHistory.perVasFee,homeHistory.systemVasFeeCommissionPercent,homeHistory.activityCategory,homeHistory.promotionExpensesPaid,homeHistory.taskCount,homeHistory.createTime)}}元
+                    奖励{{computeVasReturnFee(homeHistory.perVasFee,homeHistory.systemVasFeeCommissionPercent,homeHistory.activityCategory,homeHistory.promotionExpensesPaid,homeHistory.taskCount,homeHistory.createTime)}}元
                   </span>
                 </p>
                 <p class="discount-price">
