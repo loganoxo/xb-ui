@@ -182,7 +182,7 @@
         <p class="mt-10 f-b">2. 核对订单</p>
         <p class="mt-5 cl666">请正确填写订单号与实付金额，以免影响返款！若您发现淘宝该宝贝的实付金额高于白拿拿平台显示的商品金额，请勿下单，请结束任务！</p>
       </div>
-      <place-order-step v-if="Object.keys(showkerTask).length > 0" :showkerTaskInfo="showkerTask" @changeTask="getShowkerToProcessOrder"/>
+      <place-order-step v-if="Object.keys(showkerTask).length > 0" :showkerTaskInfo="showkerTask"  :merchantQQ="showkerOrder.merchantQQ" @changeTask="getShowkerToProcessOrder"/>
       <div class="precautions-tip-info mt-20"
            v-if="showkerTask.task && showkerTask.task.itemReviewRequired === 'review_by_showker_self'">
         <icon type="information-circled" color="#FF0100"/>

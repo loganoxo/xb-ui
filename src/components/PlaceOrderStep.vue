@@ -60,7 +60,9 @@
           <span>￥{{(showkerTaskInfo.task.itemPrice / 100).toFixed(2) || 0}}</span>
         </p>
         <p>
-          <span class="color cursor-p" @click="showQrCodeModel = !showQrCodeModel" v-if="showkerTaskInfo.task.taskType === 'app_search'">关键词找不到宝贝？点我！</span>
+          <!--<span class="color cursor-p" @click="showQrCodeModel = !showQrCodeModel" v-if="showkerTaskInfo.task.taskType === 'app_search'">关键词找不到宝贝？点我！</span>-->
+          <span class="color cursor-p" v-if="merchantQQ">关键词找不到宝贝？请联系商家QQ：{{merchantQQ}}</span>
+          <span class="color cursor-p" v-if="!merchantQQ">关键词找不到宝贝？请联系客服处理。</span>
         </p>
       </div>
     </div>
@@ -130,7 +132,10 @@
       isShowPrecautions: {
         type: Boolean,
         default: true
-      }
+      },
+      merchantQQ:{
+        type:String
+      },
     },
     data() {
       return {
@@ -139,6 +144,7 @@
       }
     },
     created() {
+      console.log(this.merchantQQ);
       const _this = this;
       _this.$nextTick(() => {
         let clipboard = new Clipboard('.copy-btn');
