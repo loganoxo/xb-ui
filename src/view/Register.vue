@@ -447,6 +447,9 @@
       RoleTop: RoleTop,
       Modal: Modal,
     },
+    computed: {
+
+    },
     data() {
       //表单验证
       const validatePhone = (rule, value, callback) => {
@@ -679,7 +682,11 @@
               info: res.data
             });
             if (res.data.role === 1) {
-              self.$router.push({name: 'Home'});
+              if (self.$route.query.from && self.$route.query.from === 'chapaiming') {
+                self.$router.push({name:'ChapaimingLanding'});
+              } else {
+                self.$router.push({name: 'Home'});
+              }
             } else {
               self.$router.push({name: 'WwBind'});
             }
