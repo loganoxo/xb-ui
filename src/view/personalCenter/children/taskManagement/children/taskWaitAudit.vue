@@ -137,7 +137,7 @@
                 </td>
                 <td>
                   <p class="del-edit">
-                    <span class="ml-5" @click="taskWaitToPass(allTask.id, 'true')">通过</span>
+                    <span class="ml-5" @click="checkShowkerApply(allTask.id)">通过</span>
                     <span v-if="allTask.newest" class="ml-5" @click="markRead(item.id,allTask.id)">设为已读</span>
                     <tooltip placement="top" content="加入黑名单后该用户将无法申请你发布的活动">
                       <span class="ml-5" @click="addToBlackListFun(allTask.alitmAccount)">加入黑名单</span>
@@ -275,6 +275,20 @@
     </modal>
     <!--追加活动名额弹框-->
     <task-additional-quota-modal v-model="additionalQuotaModal" :data="taskAdditionalQuotaInfo" @addTaskSuccess="addTaskSuccess"/>
+    <!--检测拿手近期申请活动情况弹框-->
+    <modal v-model="showkerApplyInfoModal" width="480">
+      <p slot="header" class="text-ct">
+        <icon color="#f9284f" type="information-circled"/>
+        <span class="main-color">温馨提示</span>
+      </p>
+      <div class="text-ct">
+        <p>该用户在&nbsp;<span class="main-color">{{showkerApplyInfo.daysAgo > 0 ? `${showkerApplyInfo.daysAgo}天前` : '24小时'}}</span>&nbsp;获得您改店铺的试用资格，{{showkerApplyInfo.orderedIn30Days ? '并且已成功下单' : '但还未成功下单'}}，是否仍然审批通过？</p>
+      </div>
+      <div class="clear" slot="footer">
+        <i-button class="left ml-40 pl-40 pr-40" type="error" size="large" :loading="speedUpLoading" @click="taskWaitToPass(operateTaskId, 'true')">仍然通过</i-button>
+        <i-button class="right mr-40 pl-40 pr-40" type="error" size="large" :loading="speedUpLoading" @click="taskWaitToPass(operateTaskId, 'false')">拒绝试用</i-button>
+      </div>
+    </modal>
   </div>
 </template>
 
@@ -433,7 +447,6 @@
         ],
         searchLoading: false,
         taskWaitAuditList: [],
-        taskId: null,
         totalElements: 0,
         taskTotalElements: 0,
         pageIndex: 1,
@@ -497,6 +510,8 @@
         addBlackListInfo: {},
         additionalQuotaModal: false,
         taskAdditionalQuotaInfo: {},
+        showkerApplyInfo: {},
+        showkerApplyInfoModal: false,
       }
     },
     created() {
@@ -616,6 +631,22 @@
         this.pageIndex = 1;
         this.appliesWaitingAuditTask();
       },
+      checkShowkerApply(taskId) {
+        const _this = this;
+        _this.operateTaskId = taskId;
+        _this.speedUpLoading = true;
+        api.merchantCheckShowkerApply({
+          taskId: taskId
+        }).then(res => {
+          if (res.status) {
+            _this.showkerApplyInfoModal = true;
+            _this.showkerApplyInfo = res.data;
+          } else {
+            _this.taskWaitToPass(taskId, 'true')
+          }
+          _this.speedUpLoading = false;
+        })
+      },
       taskWaitToPass(id, status) {
         const _this = this;
         api.setTaskShowkerAudit({
@@ -628,17 +659,17 @@
             _this.$store.dispatch('getPersonalTrialCount');
             _this.appliesWaitingAuditAll(_this.operateTaskId, _this.operateIndex);
             if (_this.taskWaitAuditList[_this.operateIndex].newestTaskApplyCount > 0) {
-              _this.taskWaitAuditList[_this.operateIndex].newestTaskApplyCount -= 1;
+              _this.taskWaitAuditList[_this.operateIndex].newestTaskApplyCount -= 1
             }
             if (_this.taskWaitAuditList[_this.operateIndex].totalTaskApplyCount > 0) {
-              _this.taskWaitAuditList[_this.operateIndex].totalTaskApplyCount -= 1;
+              _this.taskWaitAuditList[_this.operateIndex].totalTaskApplyCount -= 1
             }
             if (_this.taskWaitAuditList[_this.operateIndex].residueCount > 0) {
-              _this.taskWaitAuditList[_this.operateIndex].residueCount -= 1;
+              _this.taskWaitAuditList[_this.operateIndex].residueCount -= 1
             }
-            _this.taskWaitAuditList[_this.operateIndex].trailOn += 1;
+            _this.taskWaitAuditList[_this.operateIndex].trailOn += 1
           } else {
-            _this.$Message.error(res.msg);
+            _this.$Message.error(res.msg)
           }
         })
       },
@@ -684,9 +715,15 @@
               _this.taskTotalElements = res.data.totalElements;
             } else {
               _this.taskWaitAuditList[index].applyAllTask = [];
+              _this.selectId = null;
             }
           } else {
-            _this.$Message.error(res.msg);
+            if (res.statusCode === 'task_is_null') {
+              _this.appliesWaitingAuditTask();
+              _this.selectId = null;
+            } else {
+              _this.$Message.error(res.msg)
+            }
           }
         })
       },

@@ -2690,6 +2690,7 @@
               _this.taskRelease.taskDaysDuration = null;
               _this.taskCountInputPlaceholder = '当日22点前有效';
               _this.taskCountInputDisabled = true;
+              _this.taskRelease.showkerOrderTimeLimit = ''
             }
 
             // 复制历史活动的时候如果掌柜旺旺信息不能匹配到绑定店铺的旺旺名则默认自动选择第一个店铺，反之取接口实时数据

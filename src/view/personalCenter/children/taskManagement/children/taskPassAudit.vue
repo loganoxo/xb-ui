@@ -196,19 +196,19 @@
         </div>
         <div class="pt-10 pb-10 evaluate-showker-pop-box mt-20">
           <p class="title">
-            <Tooltip content="你感觉该拿手的淘号质量如何？" placement="top">
+            <tooltip content="你感觉该拿手的淘号质量如何？" placement="top">
               <icon type="help-circled"/>
-            </Tooltip>
+            </tooltip>
             <span class="cl000">买号质量：</span>
           </p>
-          <RadioGroup v-model="wwQuality">
-            <Radio label="hao_ping"><img class="vtc-mid img" src="~assets/img/common/haoping.png" alt=""><span
-              class="ml-5">好评</span></Radio>
-            <Radio label="zhong_ping"><img class="vtc-mid img" src="~assets/img/common/zhongping.png" alt=""><span
-              class="ml-5">中评</span></Radio>
-            <Radio label="cha_ping"><img class="vtc-mid img" src="~assets/img/common/chaping.png" alt=""><span
-              class="ml-5">差评</span></Radio>
-          </RadioGroup>
+          <radio-group v-model="wwQuality">
+            <radio label="hao_ping"><img class="vtc-mid img" src="~assets/img/common/haoping.png" alt=""><span
+              class="ml-5">好评</span></radio>
+            <radio label="zhong_ping"><img class="vtc-mid img" src="~assets/img/common/zhongping.png" alt=""><span
+              class="ml-5">中评</span></radio>
+            <radio label="cha_ping"><img class="vtc-mid img" src="~assets/img/common/chaping.png" alt=""><span
+              class="ml-5">差评</span></radio>
+          </radio-group>
         </div>
         <div class="pt-10 pb-10 evaluate-showker-pop-box mt-10">
           <p class="title">
@@ -217,14 +217,14 @@
             </tooltip>
             <span class="cl000">下单配合度：</span>
           </p>
-          <RadioGroup v-model="fillOrderCooperate">
-            <Radio label="hao_ping"><img class="vtc-mid img" src="~assets/img/common/haoping.png" alt=""><span
-              class="ml-5">好评</span></Radio>
-            <Radio label="zhong_ping"><img class="vtc-mid img" src="~assets/img/common/zhongping.png" alt=""><span
-              class="ml-5">中评</span></Radio>
-            <Radio label="cha_ping"><img class="vtc-mid img" src="~assets/img/common/chaping.png" alt=""><span
-              class="ml-5">差评</span></Radio>
-          </RadioGroup>
+          <radio-group v-model="fillOrderCooperate">
+            <radio label="hao_ping"><img class="vtc-mid img" src="~assets/img/common/haoping.png" alt=""><span
+              class="ml-5">好评</span></radio>
+            <radio label="zhong_ping"><img class="vtc-mid img" src="~assets/img/common/zhongping.png" alt=""><span
+              class="ml-5">中评</span></radio>
+            <radio label="cha_ping"><img class="vtc-mid img" src="~assets/img/common/chaping.png" alt=""><span
+              class="ml-5">差评</span></radio>
+          </radio-group>
         </div>
         <div class="pt-10 pb-10 evaluate-showker-pop-box mt-10">
           <p class="title">
@@ -233,14 +233,14 @@
             </tooltip>
             <span class="cl000">买家秀质量：</span>
           </p>
-          <RadioGroup v-model="buyerShowQuality">
-            <Radio label="hao_ping"><img class="vtc-mid img" src="~assets/img/common/haoping.png" alt=""><span
-              class="ml-5">好评</span></Radio>
-            <Radio label="zhong_ping"><img class="vtc-mid img" src="~assets/img/common/zhongping.png" alt=""><span
-              class="ml-5">中评</span></Radio>
-            <Radio label="cha_ping"><img class="vtc-mid img" src="~assets/img/common/chaping.png" alt=""><span
-              class="ml-5">差评</span></Radio>
-          </RadioGroup>
+          <radio-group v-model="buyerShowQuality">
+            <radio label="hao_ping"><img class="vtc-mid img" src="~assets/img/common/haoping.png" alt=""><span
+              class="ml-5">好评</span></radio>
+            <radio label="zhong_ping"><img class="vtc-mid img" src="~assets/img/common/zhongping.png" alt=""><span
+              class="ml-5">中评</span></radio>
+            <radio label="cha_ping"><img class="vtc-mid img" src="~assets/img/common/chaping.png" alt=""><span
+              class="ml-5">差评</span></radio>
+          </radio-group>
         </div>
       </div>
       <div class="pl-20 pr-20 mt-30 violation-labels">
@@ -367,21 +367,20 @@
       }
     },
     created() {
-      let _this = this;
-      let status = _this.$route.query.status;
+      const status = this.$route.query.status;
       if (status) {
         if (status === 'orderNum') {
-          _this.showkerTaskStatusList.push('order_num_waiting_audit');
-          _this.passesTaskList();
+          this.showkerTaskStatusList.push('order_num_waiting_audit');
+          this.passesTaskList();
         } else if (status === 'trialReport') {
-          _this.showkerTaskStatusList.push('trial_report_waiting_confirm');
-          _this.passesTaskList();
+          this.showkerTaskStatusList.push('trial_report_waiting_confirm');
+          this.passesTaskList();
         }
       } else {
         this.passesTaskList();
       }
-      _this.getViolationTag();
-      _this.getStoreInfo();
+      this.getViolationTag();
+      this.getStoreInfo();
     },
     computed: {
       getUserBalance() {
@@ -399,46 +398,46 @@
         return encryption(id);
       },
       getShowkerReportInfo(id, alitmAccount) {
-        let self = this;
-        self.evaluateShowkerAlitmAccount = alitmAccount;
-        self.evaluateShowker = true;
+        const _this = this;
+        _this.evaluateShowkerAlitmAccount = alitmAccount;
+        _this.evaluateShowker = true;
         api.showkerTaskReport({id: id}).then(res => {
           if (res.status) {
-            self.showkerReportInfo = res.data
+            _this.showkerReportInfo = res.data
           } else {
-            self.$Message.error(res.msg);
+            _this.$Message.error(res.msg);
           }
         });
       },
       evaluateShowkerFun() {
-        let self = this;
-        self.loading = true;
+        const _this = this;
+        _this.loading = true;
         api.evaluateFormSellerToShowker({
-          showkerId: self.showkerReportInfo.showkerId,
-          showkerAlitmAccount: self.evaluateShowkerAlitmAccount,
-          taskId: self.showkerReportInfo.task.id,
-          taskNum: self.showkerReportInfo.task.number,
-          buyerQuality: self.buyerShowQuality,
-          orderTone: self.fillOrderCooperate,
-          trialReportQuality: self.wwQuality,
-          showkerTaskId: self.showkerReportInfo.showkerTaskId,
-          tagGradeJson:JSON.stringify(self.selectedLabelList)
+          showkerId: _this.showkerReportInfo.showkerId,
+          showkerAlitmAccount: _this.evaluateShowkerAlitmAccount,
+          taskId: _this.showkerReportInfo.task.id,
+          taskNum: _this.showkerReportInfo.task.number,
+          buyerQuality: _this.buyerShowQuality,
+          orderTone: _this.fillOrderCooperate,
+          trialReportQuality: _this.wwQuality,
+          showkerTaskId: _this.showkerReportInfo.showkerTaskId,
+          tagGradeJson:JSON.stringify(_this.selectedLabelList)
         }).then(res => {
           if (res.status) {
-            self.$Message.success('评价成功！');
-            self.loading = false;
-            self.wwQuality= 'hao_ping';
-            self.fillOrderCooperate = 'hao_ping';
-            self.buyerShowQuality = 'hao_ping';
-            self.selectedLabelList = [];
-            self.violationLabelList.map(item=>{
+            _this.$Message.success('评价成功！');
+            _this.loading = false;
+            _this.wwQuality= 'hao_ping';
+            _this.fillOrderCooperate = 'hao_ping';
+            _this.buyerShowQuality = 'hao_ping';
+            _this.selectedLabelList = [];
+            _this.violationLabelList.map(item =>{
               return item.selected = false
             });
-            self.passesShowkerTask(self.showkerReportInfo.task.id, self.operateIndex)
+            _this.passesShowkerTask(self.showkerReportInfo.task.id, self.operateIndex)
           } else {
-            self.$Message.error(res.msg)
+            _this.$Message.error(res.msg)
           }
-          self.evaluateShowker = false;
+          _this.evaluateShowker = false;
         })
       },
       oneOf(value, validList) {
@@ -485,7 +484,7 @@
         this.passesTaskList();
       },
       passesTaskList() {
-        let _this = this;
+        const _this = this;
         _this.searchLoading = true;
         _this.dataStatusTip = '数据加载中';
         let showkerTaskStatusList = JSON.stringify(_this.showkerTaskStatusList);
@@ -549,7 +548,7 @@
         })
       },
       openCheckOrder(id, needBrowseCollectAddCart, itemIssue, index) {
-        let _this = this;
+        const _this = this;
         _this.needIssue = itemIssue;
         _this.showCheckOrder = true;
         _this.orderNoPassReason = null;
@@ -714,16 +713,15 @@
             });
             _this.storeList.unshift('全部店铺');
           } else {
-            _this.$Message.error(res.msg);
+            _this.$Message.error(res.msg)
           }
         })
       },
       // 筛选店铺
       filterStore(res) {
-        const _this = this;
-        _this.realStoreName = res === '全部店铺' ? '' : res;
-        _this.pageIndex = 1;
-        _this.passesTaskList();
+        this.realStoreName = res === '全部店铺' ? '' : res;
+        this.pageIndex = 1;
+        this.passesTaskList();
       }
     }
   }
