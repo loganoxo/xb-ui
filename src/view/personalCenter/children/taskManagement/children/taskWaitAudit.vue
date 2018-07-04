@@ -285,8 +285,8 @@
         <p>该用户在&nbsp;<span class="main-color">{{showkerApplyInfo.daysAgo > 0 ? `${showkerApplyInfo.daysAgo}天前` : '24小时'}}</span>&nbsp;获得您改店铺的试用资格，{{showkerApplyInfo.orderedIn30Days ? '并且已成功下单' : '但还未成功下单'}}，是否仍然审批通过？</p>
       </div>
       <div class="clear" slot="footer">
-        <i-button class="left ml-40 pl-40 pr-40" type="error" size="large" :loading="speedUpLoading" @click="speedUp">仍然通过</i-button>
-        <i-button class="right mr-40 pl-40 pr-40" type="error" size="large" :loading="speedUpLoading" @click="speedUp">拒绝试用</i-button>
+        <i-button class="left ml-40 pl-40 pr-40" type="error" size="large" :loading="speedUpLoading" @click="taskWaitToPass(operateTaskId, 'true')">仍然通过</i-button>
+        <i-button class="right mr-40 pl-40 pr-40" type="error" size="large" :loading="speedUpLoading" @click="taskWaitToPass(operateTaskId, 'false')">拒绝试用</i-button>
       </div>
     </modal>
   </div>
@@ -447,7 +447,6 @@
         ],
         searchLoading: false,
         taskWaitAuditList: [],
-        taskId: null,
         totalElements: 0,
         taskTotalElements: 0,
         pageIndex: 1,
@@ -635,6 +634,7 @@
       checkShowkerApply(taskId) {
         const _this = this;
         _this.operateTaskId = taskId;
+        _this.speedUpLoading = true;
         api.merchantCheckShowkerApply({
           taskId: taskId
         }).then(res => {
@@ -644,6 +644,7 @@
           } else {
             _this.taskWaitToPass(taskId, 'true')
           }
+          _this.speedUpLoading = false;
         })
       },
       taskWaitToPass(id, status) {
