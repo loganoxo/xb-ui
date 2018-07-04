@@ -360,8 +360,7 @@
           <div class="baby-number ml-20 mt-20">
             <p>
               <span class="required">宝贝数量：</span>
-              <i-input v-model.number="taskRelease.taskCount" placeholder="请输入宝贝数量" style="width: 120px"
-                       @on-blur="addItemReviewList"/>
+              <i-input v-model.number="taskRelease.taskCount" placeholder="请输入宝贝数量" style="width: 120px" @on-blur="addItemReviewList" @on-change="taskCountChange"/>
               <span>份</span>
               <span v-show="taskRelease.orderType === 'normal'" class="sizeColor3 ml-5">（平台会按照1/5的比例进行计算，部分中奖名额将会由系统进行推荐）</span>
             </p>
@@ -701,8 +700,7 @@
               <div class="baby-number ml-10 mt-20">
                 <p>
                   <span class="required">宝贝数量：</span>
-                  <i-input v-model.number="taskRelease.taskCount" placeholder="请输入宝贝数量" style="width: 120px"
-                           @on-blur="addItemReviewList"/>
+                  <i-input v-model.number="taskRelease.taskCount" placeholder="请输入宝贝数量" style="width: 120px" @on-blur="addItemReviewList" @on-change="taskCountChange"/>
                   <span>份</span>
                   <span v-show="taskRelease.orderType === 'normal'" class="sizeColor3 ml-5">（平台会按照1/5的比例进行计算，部分中奖名额将会由系统进行推荐）</span>
                 </p>
@@ -752,24 +750,24 @@
               <p class="sizeColor2 left mt-20 ml-15">（点击或者拖拽自主上传图片，支持jpg \ jpeg \ png \ gif \
                 bmp格式，最佳尺寸400*400（像素），不超过1M，可与宝贝主图一致）</p>
             </div>
-            <div class="more-keyword-scheme ml-40 mt-20">
+            <div class="more-keyword-scheme ml-40 mr-40">
               <div>
                 <div class="inline-block tag" v-for="item in pcTaskDetail" :key="item.index" :class="selectKeywordScheme === item.index ? 'select-tag-bg' : ''">
                   <span @click="selectChangeScheme(item.index)">关键词方案{{ item.index + 1 }}</span>
                   <sup class="badge-count" v-show="item.countAssigned > 0">{{item.countAssigned}}</sup>
                   <span v-if="item.index === pcTaskDetail.length - 1 && item.index !== 0" class="close-tag" @click="handleClose(item.index)"><icon type="ios-close-empty"/></span>
                 </div>
-                <i-button class="ml-5" v-show="pcTaskDetail.length < 5" icon="ios-plus-empty" type="dashed" size="small" @click="handleAdd">添加关键词方案</i-button>
+                <i-button class="ml-5 mt-28" icon="ios-plus-empty" type="dashed" size="small" @click="handleAdd">添加关键词方案</i-button>
               </div>
-              <div class="mt-10 sizeColor2">（最多可为1份宝贝匹配1个进店关键词，<span class="main-color">剩余匹配数： 9</span>）</div>
+              <div class="mt-10 sizeColor2">（最多可为1份宝贝匹配1个进店关键词，<span class="main-color">剩余匹配数： {{residualMatchNumber}}</span>）</div>
             </div>
             <div class="keyword-plan" v-for="item in pcTaskDetail" v-show="item.index === selectKeywordScheme">
               <div class="keyword-plan-tip">关键词方案 {{item.index + 1}}</div>
               <div class="matching-num ml-40 mt-20">
-                  <span class="required">匹配人数：</span>
-                  <i-input v-model.number="item.countAssigned" placeholder="请输入匹配人数" style="width: 160px"/>
-                  <span class="sizeColor2">（为当前关键词分配拿手，表示需要几个拿手使用该关键词进店成交，最小为1）</span>
-                </div>
+                <span class="required">匹配人数：</span>
+                <i-input v-model.number="item.countAssigned" placeholder="请输入匹配人数" style="width: 160px" @on-change="countAssignedChange"/>
+                <span class="sizeColor2">（为当前关键词分配拿手，表示需要几个拿手使用该关键词进店成交，最小为1）</span>
+              </div>
               <div class="search-keyword mt-20 ml-28">
                 <span class="required">搜索关键词：</span>
                 <i-input v-model="item.searchKeyword" placeholder="请输入搜索关键词" style="width: 260px"/>
@@ -881,30 +879,20 @@
             </div>
             <div class="more-keyword-scheme ml-40 mt-20">
               <div>
-                <div class="inline-block tag" v-for="item in appTaskDetail" :key="item.index"
-                     :class="selectKeywordScheme === item.index ? 'select-tag-bg' : ''">
+                <div class="inline-block tag" v-for="item in appTaskDetail" :key="item.index" :class="selectKeywordScheme === item.index ? 'select-tag-bg' : ''">
                   <span @click="selectChangeScheme(item.index)">关键词方案{{ item.index + 1 }}</span>
                   <sup class="badge-count" v-show="item.countAssigned > 0">{{item.countAssigned}}</sup>
-                  <span v-if="item.index === appTaskDetail.length - 1 && item.index !== 0" class="close-tag"
-                        @click="handleClose(item.index)">
-                      <icon type="ios-close-empty"/>
-                    </span>
+                  <span v-if="item.index === pcTaskDetail.length - 1 && item.index !== 0" class="close-tag" @click="handleClose(item.index)"><icon type="ios-close-empty"/></span>
                 </div>
-                <i-button v-show="appTaskDetail.length < 5" icon="ios-plus-empty" type="dashed" size="small"
-                          @click="handleAdd">添加关键词方案
-                </i-button>
+                <i-button class="mt-28" icon="ios-plus-empty" type="dashed" size="small" @click="handleAdd">添加关键词方案</i-button>
               </div>
-              <div class="mt-10 sizeColor2">（请确保提供的关键词能够搜索到宝贝，同时为了避免拿手找不到对应的宝贝，您最多可以添加5组关键词方案）</div>
             </div>
-            <template v-for="item in appTaskDetail" v-if="item.index === selectKeywordScheme">
-              <alert show-icon class="tag-alert">
-                您当前选择的是关键词方案 {{item.index + 1}}
-                <icon type="ios-lightbulb-outline" slot="icon" size="18"/>
-              </alert>
+            <div class="keyword-plan" v-for="item in appTaskDetail" v-show="item.index === selectKeywordScheme">
+              <div class="keyword-plan-tip">关键词方案 {{item.index + 1}}</div>
                <div class="matching-num ml-40 mt-20">
-                 <span>匹配人数：</span>
-                 <i-input v-model.number="item.countAssigned" placeholder="请输入匹配人数" style="width: 160px"/>
-                 <p class="sizeColor2 mt-10">（系统会按照审批拿手通过数量以及匹配人数，依次展示对应的关键词。<span class="main-color">注意：每个关键词的匹配人数之和不能大于宝贝数量，并且宝贝数量大于等于关键词方案数量）</span></p>
+                 <span class="required">匹配人数：</span>
+                 <i-input v-model.number="item.countAssigned" placeholder="请输入匹配人数" style="width: 160px" @on-change="countAssignedChange"/>
+                 <span class="sizeColor2">（为当前关键词分配拿手，表示需要几个拿手使用该关键词进店成交，最小为1）</span>
                </div>
               <div class="search-keyword mt-20 ml-28">
                 <span class="required">搜索关键词：</span>
@@ -984,7 +972,7 @@
                 <i-input v-model="item.deliverAddress" style="width: 120px"/>
                 <span class="sizeColor2 ml-5">出于安全考虑，请勿大量使用</span>
               </div>
-            </template>
+            </div>
           </template>
           <!--淘口令下单设置-->
           <template v-else-if="taskRelease.taskType === 'tao_code'">
@@ -1012,8 +1000,7 @@
             </div>
             <div class="tao-code ml-15 mt-20">
               <span>卡首屏宝贝价格：</span>
-              <i-input v-model.number="taoCodeTaskDetail[0].homePageLockItemPrice" placeholder="请输入卡首屏宝贝价格"
-                       style="width: 140px"/>
+              <i-input v-model.number="taoCodeTaskDetail[0].homePageLockItemPrice" placeholder="请输入卡首屏宝贝价格" style="width: 140px"/>
               <span>元</span>
             </div>
           </template>
@@ -1330,7 +1317,7 @@
           {
             index: 0,
             itemMainImage: null,
-            countAssigned: 1,
+            countAssigned: null,
             searchKeyword: null,
             searchSort: 'zong_he',
             searchPagePrice: null,
@@ -1347,7 +1334,7 @@
           {
             index: 0,
             itemMainImage: null,
-            countAssigned: 1,
+            countAssigned: null,
             searchKeyword: null,
             searchSort: 'zong_he',
             searchPagePrice: null,
@@ -1890,7 +1877,30 @@
        */
       getTaskCreateFastStatus() {
         return this.$store.state.taskCreateFastStatus
+      },
+
+      /**
+       * 计算关键词剩余匹配数
+       * @return {number}
+       */
+      residualMatchNumber() {
+        let num = 0;
+        if (this.taskRelease.taskType === 'pc_search') {
+          num = this.pcTaskDetail.reduce((prev, cur) => {
+            return cur.countAssigned + prev
+          }, 0)
+        } else if (this.taskRelease.taskType === 'app_search') {
+          num = this.appTaskDetail.reduce((prev, cur) => {
+            return cur.countAssigned + prev
+          }, 0)
+        }
+        if (this.taskRelease.taskCount > 0) {
+          return this.taskRelease.taskCount - num
+        } else {
+          return 0
+        }
       }
+
     },
     methods: {
       changeSelectActivity(type) {
@@ -2355,6 +2365,14 @@
               _this.$Message.warning('亲，请上传关键词方案' + index + '中的PC搜索宝贝主图！');
               return;
             }
+            if (!_this.pcTaskDetail[i].countAssigned) {
+              _this.$Message.warning('亲，关键词方案' + index + '中的匹配人数不能空！');
+              return;
+            }
+            if (!_this.pcTaskDetail[i].countAssigned > _this.residualMatchNumber) {
+              _this.$Message.warning('亲，关键词方案' + index + '中的当前剩余匹配数不足！');
+              return;
+            }
             if (!_this.pcTaskDetail[i].searchKeyword) {
               _this.$Message.warning('亲，关键词方案' + index + '中的搜索关键词不能空！');
               return;
@@ -2433,6 +2451,14 @@
             countAssigned += _this.appTaskDetail[i].countAssigned;
             if (!_this.appTaskDetail[i].itemMainImage) {
               _this.$Message.warning('亲，请上传关键词方案' + index + '中的手淘搜索宝贝主图！');
+              return;
+            }
+            if (!_this.appTaskDetail[i].countAssigned) {
+              _this.$Message.warning('亲，关键词方案' + index + '中的匹配人数不能空！');
+              return;
+            }
+            if (!_this.appTaskDetail[i].countAssigned > _this.residualMatchNumber) {
+              _this.$Message.warning('亲，关键词方案' + index + '中的当前剩余匹配数不足！');
               return;
             }
             if (!_this.appTaskDetail[i].searchKeyword) {
@@ -2966,6 +2992,15 @@
            _this.keywordLowerChangeModel = true;
          }
       },
+      taskCountChange(e) {
+        if (e.target.value > 0) {
+          this.pcTaskDetail[0].countAssigned = 1;
+          this.appTaskDetail[0].countAssigned = 1;
+        } else {
+          this.pcTaskDetail[0].countAssigned = null;
+          this.appTaskDetail[0].countAssigned = null;
+        }
+      },
       changeSelectEvaluation() {
         if (this.taskRelease.itemReviewSummary) {
           this.taskRelease.itemReviewSummary = null;
@@ -2979,21 +3014,23 @@
           this.addItemReviewList();
         }
       },
+      countAssignedChange(e) {
+        if (e.target.value > this.residualMatchNumber) {
+          this.$Message.warning('亲，当前剩余匹配数不足！');
+        }
+      },
       handleAdd() {
-        const _this = this;
-        _this.addKeywordScheme++;
-         let keywordLen = _this.taskRelease.taskCount > 0 ? _this.taskRelease.taskCount : 1;
-         if(keywordLen > _this.addKeywordScheme + 1){
-           _this.addKeywordScheme++;
-         } else {
-           _this.$Message.error('亲，您当前最多只能添加' + keywordLen + '套关键词方案');
+        if (this.residualMatchNumber === 0) {
+           this.$Message.warning('亲，剩余匹配数为0，无法新增关键词了！');
            return;
-         }
-        if (_this.taskRelease.taskType === 'pc_search') {
-          _this.pcTaskDetail.push({
-            index: _this.addKeywordScheme,
+        }
+        let initialValue = this.taskRelease.taskCount > 0 ? 1 : null;
+        this.addKeywordScheme++;
+        if (this.taskRelease.taskType === 'pc_search') {
+          this.pcTaskDetail.push({
+            index: this.addKeywordScheme,
             itemMainImage: null,
-            countAssigned: null,
+            countAssigned: initialValue,
             searchKeyword: null,
             searchSort: 'zong_he',
             searchPagePrice: null,
@@ -3005,11 +3042,11 @@
             deliverAddress: null,
           })
         }
-        if (_this.taskRelease.taskType === 'app_search') {
-          _this.appTaskDetail.push({
-            index: _this.addKeywordScheme,
+        if (this.taskRelease.taskType === 'app_search') {
+          this.appTaskDetail.push({
+            index: this.addKeywordScheme,
             itemMainImage: null,
-            countAssigned: null,
+            countAssigned: initialValue,
             searchKeyword: null,
             searchSort: 'zong_he',
             searchPagePrice: null,
@@ -3021,24 +3058,20 @@
             deliverAddress: null,
           })
         }
-        _this.selectKeywordScheme = _this.addKeywordScheme;
+        this.selectKeywordScheme = this.addKeywordScheme;
       },
       handleClose(name) {
-        let _this = this;
-        let thisIndex;
+        const _this = this;
+        let thisIndex = null;
         if (_this.taskRelease.taskType === 'pc_search') {
-          _this.pcTaskDetail.forEach(item => {
-            if (item.index === name) {
-              thisIndex = _this.pcTaskDetail.indexOf(item);
-            }
+          thisIndex = _this.pcTaskDetail.findIndex(item => {
+            return item.index === name
           });
           _this.pcTaskDetail.splice(thisIndex, 1);
         }
         if (_this.taskRelease.taskType === 'app_search') {
-          _this.appTaskDetail.forEach(item => {
-            if (item.index === name) {
-              thisIndex = _this.appTaskDetail.indexOf(item);
-            }
+          thisIndex = _this.appTaskDetail.findIndex(item => {
+            return item.index === name
           });
           _this.appTaskDetail.splice(thisIndex, 1);
         }
@@ -3507,7 +3540,7 @@
       display: inline-block;
       height: 22px;
       line-height: 22px;
-      margin: 2px 12px 2px 0;
+      margin: 28px 12px 2px 0;
       padding: 0 8px;
       border: 1px solid #e9eaec;
       border-radius: 3px;
@@ -3649,7 +3682,7 @@
       font-size: 14px;
       font-weight: bold;
       background-color: #ddd;
-      padding-left: 20px;
+      padding-left: 10px;
     }
   }
 
