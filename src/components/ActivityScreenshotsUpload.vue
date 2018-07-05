@@ -217,7 +217,6 @@
       },
       // 提交浏览答题
       submitAnswer(info) {
-        console.log(info);
         const _this = this;
         api.submitAnswerScreenshots({
           showkerTaskId: _this.taskId,
