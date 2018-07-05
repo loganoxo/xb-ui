@@ -97,8 +97,8 @@
       </li>
       <li class="clear">
         <div>火眼金睛（拿手数据查询）</div>
-        <div>单独购买</div>
-        <div>免费使用</div>
+        <div>无</div>
+        <div>订购使用</div>
         <!--<div>免费使用</div>-->
       </li>
       <li class="clear">

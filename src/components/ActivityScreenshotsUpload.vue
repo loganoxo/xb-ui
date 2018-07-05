@@ -18,7 +18,7 @@
                   type="drag"
                   :itemInfo="item">
             <div class="camera">
-              <Icon type="camera" size="20"></Icon>
+              <icon type="camera" size="20"/>
             </div>
           </upload>
           <div class="pt-10 pb-5">{{item.title}}</div>
@@ -42,7 +42,7 @@
                   type="drag"
                   :itemInfo="item">
             <div class="camera">
-              <icon type="camera" size="20"></icon>
+              <icon type="camera" size="20"/>
             </div>
           </upload>
           <div class="pt-10 pb-5">{{item.title}}</div>
@@ -67,7 +67,7 @@
                   type="drag"
                   :itemInfo="item">
             <div class="camera">
-              <icon type="camera" size="20"></icon>
+              <icon type="camera" size="20"/>
             </div>
           </upload>
         </div>
@@ -147,9 +147,8 @@
 
       // 浏览答题截图上传成功回调
       uploadAnswerSuccess(res, info) {
-        let _this = this;
         info.src = aliCallbackImgUrl + res.name;
-        _this.submitAnswer(info);
+        this.submitAnswer(info);
       },
 
       handleData() {
@@ -157,10 +156,10 @@
         // 主宝贝
         let mainVasSettingsMap = {};
         let similarVasSettingsMapList = [];
-        _this.orderInfo.mainVasSettings.map(key => {
+        _this.orderInfo.mainVasSettings.forEach(key => {
           mainVasSettingsMap[key.id] = key;
         });
-        _this.orderInfo.similarVasSettings.map(listKey => {
+        _this.orderInfo.similarVasSettings.forEach(listKey => {
           let similarVasSettingsMap = {};
           listKey.map(key => {
             similarVasSettingsMap[key.id] = key;
@@ -170,7 +169,7 @@
         // 货比三家
         let mainShowkerTaskVasSettings = [];
         let similarShowkerTaskVasSettings = [];
-        _this.orderInfo.showkerTaskVasSettings.map(key => {
+        _this.orderInfo.showkerTaskVasSettings.forEach(key => {
           if (key.required) {
             key.screenshotsList = key.answerScreenshot ? [{src: key.answerScreenshot}] : [];
             if (key.itemType === 'main_item') {
@@ -191,11 +190,10 @@
           }
         });
         // 处理浏览答题
-        _this.orderInfo.issueAnswerList.map((item,index) => {
+        _this.orderInfo.issueAnswerList.forEach((item,index) => {
           item.index = index;
           item.src = '';
           item.screenShotList = item.screenShotList.length > 0 ? [{src:item.screenShotList[0]}] : [];
-          return item;
         });
         _this.mainBabyImageList = mainShowkerTaskVasSettings;
         _this.similarImageList = similarShowkerTaskVasSettings;
@@ -218,7 +216,6 @@
       },
       // 提交浏览答题
       submitAnswer(info) {
-        console.log(info);
         const _this = this;
         api.submitAnswerScreenshots({
           showkerTaskId: _this.taskId,

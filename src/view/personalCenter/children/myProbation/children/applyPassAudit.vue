@@ -217,10 +217,8 @@
         <span class="sizeColor3">请务必按照要求操作！</span>
       </div>
       <!--活动截图上传-->
-      <activity-screenshots-upload v-if="Object.keys(showkerOrder).length > 0" @sendImageData="getImageData"
-                                   :orderInfo="showkerOrder"/>
-      <div class="evaluation-content-tip-assign mt-10"
-           v-if="showkerTask.task && showkerTask.task.itemReviewRequired === 'assign_review_detail'">
+      <activity-screenshots-upload v-if="showActivityScreenshotsUpload" @sendImageData="getImageData" :orderInfo="showkerOrder"/>
+      <div class="evaluation-content-tip-assign mt-10" v-if="showkerTask.task && showkerTask.task.itemReviewRequired === 'assign_review_detail'">
         <div>{{showkerTask.other.itemReviewAssign.reviewContent}}</div>
         <button class="copy-evaluation-tbn mt-10 copy-btn"
                 :data-clipboard-text="showkerTask.other.itemReviewAssign.reviewContent">复制评价内容
@@ -764,6 +762,9 @@
     computed: {
       pcOrApp() {
         return this.orderType === 'pc_search' || this.orderType === 'direct_access' ? 'pcOrder' : 'appOrder';
+      },
+      showActivityScreenshotsUpload() {
+        return Object.keys(this.showkerOrder).length > 0 && (this.showkerOrder.issueAnswerList.length > 0 || this.showkerOrder.showkerTaskVasSettings.length > 0)
       }
     },
     methods: {
