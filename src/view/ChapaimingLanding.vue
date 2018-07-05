@@ -164,7 +164,7 @@
           _this.showProgress = true;
           let timer = setInterval(function () {
             _this.percent ++;
-            if (_this.percent === 100) {
+            if (_this.percent >= 100) {
               clearInterval(timer);
               _this.showProgress = false;
               _this.percent = 0;
