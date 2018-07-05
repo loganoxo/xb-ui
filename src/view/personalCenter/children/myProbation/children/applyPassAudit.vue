@@ -218,10 +218,8 @@
         <span class="sizeColor3">请务必按照要求操作！</span>
       </div>
       <!--活动截图上传-->
-      <activity-screenshots-upload v-if="Object.keys(showkerOrder).length > 0" @sendImageData="getImageData"
-                                   :orderInfo="showkerOrder"/>
-      <div class="evaluation-content-tip-assign mt-10"
-           v-if="showkerTask.task && showkerTask.task.itemReviewRequired === 'assign_review_detail'">
+      <activity-screenshots-upload v-if="showActivityScreenshotsUpload" @sendImageData="getImageData" :orderInfo="showkerOrder"/>
+      <div class="evaluation-content-tip-assign mt-10" v-if="showkerTask.task && showkerTask.task.itemReviewRequired === 'assign_review_detail'">
         <div>{{showkerTask.other.itemReviewAssign.reviewContent}}</div>
         <button class="copy-evaluation-tbn mt-10 copy-btn"
                 :data-clipboard-text="showkerTask.other.itemReviewAssign.reviewContent">复制评价内容
@@ -271,8 +269,7 @@
           <icon v-if="showkerTask.status === 'trial_report_unqualified'" type="information-circled" color="#f9284f"/>
           <span :class="[showkerTask.status === 'trial_report_unqualified' ? 'main-color': '']">{{getTaskStatus(showkerTask.status)}}</span>
           <strong v-if="showkerTask.status === 'trial_report_unqualified'" class="ml-10">原因：{{showkerTask.latestShowkerTaskOpLog.auditDescription}}</strong>
-          <span class="main-color ml-10"><time-down color='#ff4040' :fontWeight=600
-                                                    :endTime="showkerTask.currentGenerationEndTime"/></span>
+          <span class="main-color ml-10"><time-down color='#ff4040' :fontWeight=600 :endTime="showkerTask.currentGenerationEndTime"/></span>
         </p>
       </div>
       <div class="precautions-info mt-10" v-if="showkerTask.task.remark">
@@ -767,6 +764,9 @@
       pcOrApp: function () {
         let type = this.orderType;
         return type === 'pc_search' || type === 'direct_access' ? 'pcOrder' : 'appOrder';
+      },
+      showActivityScreenshotsUpload() {
+        return Object.keys(this.showkerOrder).length > 0 && (this.showkerOrder.issueAnswerList.length > 0 || this.showkerOrder.showkerTaskVasSettings.length > 0)
       }
     },
     methods: {

@@ -18,7 +18,7 @@
                   type="drag"
                   :itemInfo="item">
             <div class="camera">
-              <Icon type="camera" size="20"></Icon>
+              <icon type="camera" size="20"/>
             </div>
           </upload>
           <div class="pt-10 pb-5">{{item.title}}</div>
@@ -42,7 +42,7 @@
                   type="drag"
                   :itemInfo="item">
             <div class="camera">
-              <icon type="camera" size="20"></icon>
+              <icon type="camera" size="20"/>
             </div>
           </upload>
           <div class="pt-10 pb-5">{{item.title}}</div>
@@ -67,7 +67,7 @@
                   type="drag"
                   :itemInfo="item">
             <div class="camera">
-              <icon type="camera" size="20"></icon>
+              <icon type="camera" size="20"/>
             </div>
           </upload>
         </div>
