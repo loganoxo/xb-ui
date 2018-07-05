@@ -137,7 +137,7 @@
                 </td>
                 <td>
                   <p class="del-edit">
-                    <span class="ml-5" @click="checkShowkerApply(allTask.id, allTask.showkerId)">通过</span>
+                    <span class="ml-5" @click="checkShowkerApply(item.id, allTask.showkerId)">通过</span>
                     <span v-if="allTask.newest" class="ml-5" @click="markRead(item.id,allTask.id)">设为已读</span>
                     <tooltip placement="top" content="加入黑名单后该用户将无法申请你发布的活动">
                       <span class="ml-5" @click="addToBlackListFun(allTask.alitmAccount)">加入黑名单</span>
@@ -636,7 +636,7 @@
         _this.operateTaskId = taskId;
         _this.speedUpLoading = true;
         api.merchantCheckShowkerApply({
-          taskId: _this.selectId,
+          taskId: taskId,
           showkerId: showkerId,
         }).then(res => {
           if (res.status) {
