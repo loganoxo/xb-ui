@@ -383,10 +383,17 @@ export default {
   },
 
   /**
-   * 商家审核拿手是否通过
+   * 商家审核秀客允许通过
    */
-  setTaskShowkerAudit(params) {
-    return axiosConfig.post("/api/set-task-showker-audit.json", params)
+  setTaskShowkerPass(params) {
+    return axiosConfig.post("/api/set-task-showker-pass.json", params)
+  },
+
+  /**
+   * 商家审核秀客拒绝通过
+   */
+  setTaskShowkerReject(params) {
+    return axiosConfig.post("/api/set-task-showker-reject.json", params)
   },
 
   /**

@@ -81,9 +81,9 @@
       <p class="mt-10" v-if="showkerTaskInfo.task.showkerOrderTimeLimit">
         <span>下单速度：</span>
         <span>{{showkerTaskInfo.task.showkerOrderTimeLimit}}小时</span>
-        <Tooltip content="通过审批后需要指定时间内完成淘宝下单并在本平台提交订单号，否则资格自动过期" placement="top">
-          <Icon class="fs-14 ml-5" type="help-circled"></Icon>
-        </Tooltip>
+        <tooltip content="通过审批后需要指定时间内完成淘宝下单并在本平台提交订单号，否则资格自动过期" placement="top">
+          <icon class="fs-14 ml-5" type="help-circled"/>
+        </tooltip>
       </p>
       <p class="mt-10" v-if="showkerTaskInfo.task.orderQuantity">
         <span>拍下件数：</span>

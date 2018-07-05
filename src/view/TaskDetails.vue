@@ -185,7 +185,7 @@
       <div class="container">
         <div class="graphic-info">
           <div class="graphic-info-sel">
-            <a :class="[graphicInfoSelClass == graphicSel.isClass ? 'active' : '' ]"
+            <a :class="[graphicInfoSelClass === graphicSel.isClass ? 'active' : '' ]"
                v-for="graphicSel in graphicInfoSels" :key="graphicSel.isClass" @click="graphicSelFunc(graphicSel)">
               {{graphicSel.text}}
               <span v-if=graphicSel.num>({{graphicSel.num}})</span>

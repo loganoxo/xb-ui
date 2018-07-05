@@ -285,8 +285,8 @@
         <p>该用户在&nbsp;<span class="main-color">{{showkerApplyInfo.daysAgo > 0 ? `${showkerApplyInfo.daysAgo}天前` : '24小时'}}</span>&nbsp;获得您该店铺的试用资格，{{showkerApplyInfo.orderedIn30Days ? '并且已成功下单' : '但还未成功下单'}}，是否仍然审批通过？</p>
       </div>
       <div class="clear" slot="footer">
-        <i-button class="left ml-40 pl-40 pr-40" type="error" size="large" :loading="speedUpLoading" @click="taskWaitToPass(showkerTaskId, 'true')">仍然通过</i-button>
-        <i-button class="right mr-40 pl-40 pr-40" type="error" size="large" :loading="speedUpLoading" @click="taskWaitToPass(showkerTaskId, 'false')">拒绝试用</i-button>
+        <i-button class="left ml-40 pl-40 pr-40" type="error" size="large" :loading="speedUpLoading" @click="taskWaitToPass(taskApplyId)">仍然通过</i-button>
+        <i-button class="right mr-40 pl-40 pr-40" type="error" size="large" :loading="speedUpLoading" @click="taskWaitToReject(taskApplyId)">拒绝试用</i-button>
       </div>
     </modal>
   </div>
@@ -456,7 +456,7 @@
         alitmAccount: null,
         taskNumber: null,
         operateTaskId: null,
-        showkerTaskId: null,
+        taskApplyId: null,
         operateIndex: null,
         selectId: null,
         showApprovalPop: false,
@@ -632,9 +632,9 @@
         this.pageIndex = 1;
         this.appliesWaitingAuditTask();
       },
-      checkShowkerApply(taskId, showkerId, showkerTaskId) {
+      checkShowkerApply(taskId, showkerId, taskApplyId) {
         const _this = this;
-        _this.showkerTaskId = showkerTaskId;
+        _this.taskApplyId = taskApplyId;
         _this.speedUpLoading = true;
         api.merchantCheckShowkerApply({
           taskId: taskId,
@@ -644,20 +644,18 @@
             _this.showkerApplyInfoModal = true;
             _this.showkerApplyInfo = res.data;
           } else {
-            _this.taskWaitToPass(showkerTaskId, 'true')
+            _this.taskWaitToPass(taskApplyId)
           }
           _this.speedUpLoading = false;
         })
       },
-      taskWaitToPass(id, status) {
+      taskWaitToPass(taskApplyId) {
         const _this = this;
-        api.setTaskShowkerAudit({
-          id: id,
-          status: status,
-          reason: null
+        api.setTaskShowkerPass({
+          id: taskApplyId,
         }).then(res => {
           if (res.status) {
-            _this.$Message.success(status ? '审核拿手成功！' : '拒绝拿手成功！');
+            _this.$Message.success('审核拿手成功！');
             _this.showkerApplyInfoModal = false;
             _this.$store.dispatch('getPersonalTrialCount');
             _this.appliesWaitingAuditAll(_this.operateTaskId, _this.operateIndex);
@@ -671,6 +669,26 @@
               _this.taskWaitAuditList[_this.operateIndex].residueCount -= 1
             }
             _this.taskWaitAuditList[_this.operateIndex].trailOn += 1
+          } else {
+            _this.$Message.error(res.msg)
+          }
+        })
+      },
+      taskWaitToReject(taskApplyId) {
+        const _this = this;
+        api.setTaskShowkerReject({
+          taskApplyId: taskApplyId
+        }).then(res => {
+          if (res.status) {
+            _this.$Message.success('拒绝拿手成功！');
+            _this.showkerApplyInfoModal = false;
+            _this.appliesWaitingAuditAll(_this.operateTaskId, _this.operateIndex);
+            if (_this.taskWaitAuditList[_this.operateIndex].newestTaskApplyCount > 0) {
+              _this.taskWaitAuditList[_this.operateIndex].newestTaskApplyCount -= 1
+            }
+            if (_this.taskWaitAuditList[_this.operateIndex].totalTaskApplyCount > 0) {
+              _this.taskWaitAuditList[_this.operateIndex].totalTaskApplyCount -= 1
+            }
           } else {
             _this.$Message.error(res.msg)
           }

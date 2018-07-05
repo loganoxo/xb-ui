@@ -765,7 +765,7 @@
       },
       setShowkerAudit(id, status, reason) {
         let _this = this;
-        api.setTaskShowkerAudit({
+        api.setTaskShowkerPass({
           id: id,
           status: status,
           reason: reason || null
