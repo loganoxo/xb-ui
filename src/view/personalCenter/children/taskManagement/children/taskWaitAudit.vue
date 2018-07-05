@@ -589,6 +589,7 @@
           vasFeePaid: item.vasFeePaid,
           redEnvelopeDeductionPaid: item.redEnvelopeDeductionPaid,
           itemReviewRequired: item.itemReviewRequired,
+          keywordPlanNum: item.keywordPlanNum,
         });
         this.additionalQuotaModal = true;
       },

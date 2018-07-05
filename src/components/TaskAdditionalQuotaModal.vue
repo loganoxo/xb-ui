@@ -13,13 +13,16 @@
               class="main-color">{{data.residueCount}}</span> 个
           </p>
           <p>单品活动担保金：<span class="main-color">{{(oneBondLast / 100).toFixed(2)}}</span>
-            元&nbsp;&nbsp;&nbsp;&nbsp;单品推广费：<span
-              class="main-color">{{(data.promotionExpensesPaid / data.taskCount / 100).toFixed(2)}}</span> 元&nbsp;&nbsp;&nbsp;&nbsp;单品增值服务费：<span
+            元&nbsp;&nbsp;&nbsp;&nbsp;单品推广费：<span class="main-color">{{(data.promotionExpensesPaid / data.taskCount / 100).toFixed(2)}}</span> 元&nbsp;&nbsp;&nbsp;&nbsp;单品增值服务费：<span
               class="main-color">{{(data.vasFeePaid / data.taskCount / 100).toFixed(2)}}</span> 元</p>
         </div>
       </div>
       <div class="mt-10 border-top pt-10">
         <p>当前待审核：<span class="main-color">{{data.totalTaskApplyCount}}</span> 人</p>
+       <!-- <div class="inline-block tag" v-for="item in appTaskDetail" :key="item.index" :class="selectKeywordScheme === item.index ? 'select-tag-bg' : ''">
+          <span @click="selectChangeScheme(item.index)">关键词方案{{ item.index + 1 }}</span>
+          <span v-if="item.index === pcTaskDetail.length - 1 && item.index !== 0" class="close-tag" @click="handleClose(item.index)"><icon type="ios-close-empty"/></span>
+        </div>-->
         <p class="mt-10">
           <span>追加份数：</span>
           <i-input v-model.number="addTaskNumber" placeholder="请输入追加份数" @on-change="addTaskNumberChange" style="width: 100px;"/>

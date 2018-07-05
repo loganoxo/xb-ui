@@ -882,10 +882,11 @@
                 <div class="inline-block tag" v-for="item in appTaskDetail" :key="item.index" :class="selectKeywordScheme === item.index ? 'select-tag-bg' : ''">
                   <span @click="selectChangeScheme(item.index)">关键词方案{{ item.index + 1 }}</span>
                   <sup class="badge-count" v-show="item.countAssigned > 0">{{item.countAssigned}}</sup>
-                  <span v-if="item.index === pcTaskDetail.length - 1 && item.index !== 0" class="close-tag" @click="handleClose(item.index)"><icon type="ios-close-empty"/></span>
+                  <span v-if="item.index === appTaskDetail.length - 1 && item.index !== 0" class="close-tag" @click="handleClose(item.index)"><icon type="ios-close-empty"/></span>
                 </div>
                 <i-button class="mt-28" icon="ios-plus-empty" type="dashed" size="small" @click="handleAdd">添加关键词方案</i-button>
               </div>
+              <div class="mt-10 sizeColor2">（最多可为1份宝贝匹配1个进店关键词，<span class="main-color">剩余匹配数： {{residualMatchNumber}}</span>）</div>
             </div>
             <div class="keyword-plan" v-for="item in appTaskDetail" v-show="item.index === selectKeywordScheme">
               <div class="keyword-plan-tip">关键词方案 {{item.index + 1}}</div>
@@ -1074,8 +1075,7 @@
       </div>
     </div>
     <!--填写完成活动信息下一步按钮-->
-    <i-button class="fs-18 mt-20" type="primary" long :loading="taskLoading" v-show="stepName === 'information'"
-              @click="stepNext">下一步
+    <i-button class="fs-18 mt-20" type="primary" long :loading="taskLoading" v-show="stepName === 'information'" @click="stepNext">下一步
     </i-button>
     <!--活动担保金支付弹框-->
     <div class="pay-model" v-if="showPayModel">
@@ -1894,6 +1894,7 @@
             return cur.countAssigned + prev
           }, 0)
         }
+        console.log(num)
         return this.taskRelease.taskCount > 0 ? this.taskRelease.taskCount - num : 0
       }
 
@@ -2328,7 +2329,7 @@
           _this.taskRelease.itemIssue = JSON.stringify([]);
         }
         if (_this.taskRelease.taskType === 'pc_search') {
-           let countAssigned = 0;
+          /* let countAssigned = 0;
            _this.isCountAssigned = _this.pcTaskDetail.every(item => {
              return item.countAssigned > 0;
            });
@@ -2344,7 +2345,7 @@
                  _this.pcTaskDetail[i].countAssigned = integer;
                }
              }
-           }
+           }*/
           for (let i = 0, len = _this.pcTaskDetail.length; i < len; i++) {
             _this.pcTaskDetail[i].itemMainImage = _this.pcTaskDetailItemMainImage;
             let index = _this.pcTaskDetail[i].index + 1;
@@ -2410,13 +2411,13 @@
               }
             }
           }
-           if(countAssigned !== _this.taskRelease.taskCount) {
+          /* if(countAssigned !== _this.taskRelease.taskCount) {
              _this.$Message.warning('亲，你分配的人数与宝贝数量不符，请重新分配人数！');
              return;
-           }
+           }*/
         }
         if (_this.taskRelease.taskType === 'app_search') {
-           let countAssigned = 0;
+           /*let countAssigned = 0;
            _this.isCountAssigned = _this.appTaskDetail.every(item => {
              return item.countAssigned > 0;
            });
@@ -2432,7 +2433,7 @@
                  _this.appTaskDetail[i].countAssigned = integer;
                }
              }
-           }
+           }*/
           for (let i = 0, len = _this.appTaskDetail.length; i < len; i++) {
             _this.appTaskDetail[i].itemMainImage = _this.appTaskDetailItemMainImage;
             let index = _this.appTaskDetail[i].index + 1;
@@ -2482,10 +2483,10 @@
               }
             }
           }
-           if(countAssigned !== _this.taskRelease.taskCount){
+           /*if(countAssigned !== _this.taskRelease.taskCount){
              _this.$Message.warning('亲，你分配的人数与宝贝数量不符，请重新分配人数！');
              return;
-           }
+           }*/
         }
         if (_this.taskRelease.taskType === 'tao_code') {
           if (!_this.taoCodeTaskDetail[0].taoCode) {
@@ -2786,17 +2787,26 @@
                 if (!item.searchFilter) {
                   item.searchFilter = [];
                 }
+                if (!item) {
+
+                }
               });
               _this.addKeywordScheme = _this.pcTaskDetail.length - 1;
               _this.pcDefaultList.push({src: _this.pcTaskDetail[0].itemMainImage});
               _this.pcTaskDetailItemMainImage = _this.pcTaskDetail[0].itemMainImage;
               _this.conversionPrice('pc_search');
-              if(!_this.isCountAssigned) {
+             /* if(!_this.isCountAssigned) {
                 _this.pcTaskDetail.forEach(item => {
                   item.countAssigned = null;
                 })
               }
-              _this.isCountAssigned = null;
+              _this.isCountAssigned = null;*/
+             // 处理复制历史活动 countAssigned 字段为空的时候 默认赋值为 1
+              _this.pcTaskDetail.forEach(item => {
+                if (!item.countAssigned) {
+                  item.countAssigned = 1
+                }
+              })
             } else if (res.data.taskType === 'app_search') {
               _this.appTaskDetail = res.data.taskDetailObject;
               _this.appTaskDetail.forEach(item => {
@@ -2808,12 +2818,18 @@
               _this.appDefaultList.push({src: _this.appTaskDetail[0].itemMainImage});
               _this.appTaskDetailItemMainImage = _this.appTaskDetail[0].itemMainImage;
               _this.conversionPrice('app_search');
-               if (!_this.isCountAssigned) {
+              /* if (!_this.isCountAssigned) {
                  _this.appTaskDetail.forEach(item => {
                    item.countAssigned = null;
                  })
                }
-               _this.isCountAssigned = null;
+               _this.isCountAssigned = null;*/
+              // 处理复制历史活动 countAssigned 字段为空的时候 默认赋值为 1
+              _this.appTaskDetail.forEach(item => {
+                if (!item.countAssigned) {
+                  item.countAssigned = 1
+                }
+              })
             } else {
               _this.taskRelease.taskDetail = {};
             }
