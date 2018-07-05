@@ -60,7 +60,6 @@
           <span>￥{{(showkerTaskInfo.task.itemPrice / 100).toFixed(2) || 0}}</span>
         </p>
         <p>
-          <!--<span class="color cursor-p" @click="showQrCodeModel = !showQrCodeModel" v-if="showkerTaskInfo.task.taskType === 'app_search'">关键词找不到宝贝？点我！</span>-->
           <span class="color cursor-p" v-if="merchantQQ">关键词找不到宝贝？请联系商家QQ：{{merchantQQ}}</span>
           <span class="color cursor-p" v-if="!merchantQQ">关键词找不到宝贝？请联系客服处理。</span>
         </p>
@@ -96,11 +95,6 @@
     <modal title="卡首屏宝贝主图截图查看" v-model="isShowTaoCodeModel">
       <img :src="taskDetail.homePageLockItemImage + '!orgi75'" style="width: 100%">
     </modal>
-    <!--查看黑搜二维码弹窗-->
-    <modal title="二维码关键词" v-model="showQrCodeModel">
-      <p class="fs-14">如果所有关键词都找不到宝贝，请使用<span class="main-color">淘宝客户端</span>扫描下方二维码，即可找到商家要求下单的宝贝！</p>
-      <img :src="getCodeUrl" alt="二维码关键词">
-    </modal>
   </div>
 </template>
 
@@ -134,7 +128,8 @@
         default: true
       },
       merchantQQ:{
-        type:String
+        type: String,
+        default: ''
       },
     },
     data() {
@@ -144,7 +139,6 @@
       }
     },
     created() {
-      console.log(this.merchantQQ);
       const _this = this;
       _this.$nextTick(() => {
         let clipboard = new Clipboard('.copy-btn');
@@ -198,12 +192,6 @@
           });
           return canReassignSearchScheme
         }
-      },
-      getCodeUrl() {
-        const id = getUrlParams(this.showkerTaskInfo.task.itemUrl, 'id');
-        if (this.showkerTaskInfo.task.taskDetailObject) {
-          return `/api/get-qr-image.json?id=${id}&keyWord=${this.showkerTaskInfo.task.taskDetailObject[0].searchKeyword}`;
-        }
       }
     },
     methods: {
@@ -218,7 +206,7 @@
         return taskErrorStatusList(type)
       },
       changeTaskPlaceInfo() {
-        let _this = this;
+        const _this = this;
         if (_this.hasAssignedSearchSchemeIndex) {
           api.getSchemeReassign({
             showkerTaskId: _this.showkerTaskInfo.id,
