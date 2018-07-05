@@ -1484,6 +1484,7 @@
         redEnvelopesState: true,
         disabledRedEnvelopes: false,
         redEnvelopeDeductionNumber: 0,
+        residualMatchNumber: 0,
       }
     },
     // 当用户有首发资格路由重定向到快速发布通道反之则停留在此页面
@@ -1878,25 +1879,6 @@
       getTaskCreateFastStatus() {
         return this.$store.state.taskCreateFastStatus
       },
-
-      /**
-       * 计算关键词剩余匹配数
-       * @return {number}
-       */
-      residualMatchNumber() {
-        let num = 0;
-        if (this.taskRelease.taskType === 'pc_search') {
-          num = this.pcTaskDetail.reduce((prev, cur) => {
-            return cur.countAssigned + prev
-          }, 0)
-        } else if (this.taskRelease.taskType === 'app_search') {
-          num = this.appTaskDetail.reduce((prev, cur) => {
-            return cur.countAssigned + prev
-          }, 0)
-        }
-        console.log(num)
-        return this.taskRelease.taskCount > 0 ? this.taskRelease.taskCount - num : 0
-      }
 
     },
     methods: {
@@ -2349,7 +2331,7 @@
           for (let i = 0, len = _this.pcTaskDetail.length; i < len; i++) {
             _this.pcTaskDetail[i].itemMainImage = _this.pcTaskDetailItemMainImage;
             let index = _this.pcTaskDetail[i].index + 1;
-            countAssigned += _this.pcTaskDetail[i].countAssigned;
+            // countAssigned += _this.pcTaskDetail[i].countAssigned;
             if (!_this.pcTaskDetail[i].itemMainImage) {
               _this.$Message.warning('亲，请上传关键词方案' + index + '中的PC搜索宝贝主图！');
               return;
@@ -2358,7 +2340,7 @@
               _this.$Message.warning('亲，关键词方案' + index + '中的匹配人数不能空！');
               return;
             }
-            if (!_this.pcTaskDetail[i].countAssigned > _this.residualMatchNumber) {
+            if (_this.pcTaskDetail[i].countAssigned > _this.residualMatchNumber) {
               _this.$Message.warning('亲，关键词方案' + index + '中的当前剩余匹配数不足！');
               return;
             }
@@ -2437,7 +2419,7 @@
           for (let i = 0, len = _this.appTaskDetail.length; i < len; i++) {
             _this.appTaskDetail[i].itemMainImage = _this.appTaskDetailItemMainImage;
             let index = _this.appTaskDetail[i].index + 1;
-            countAssigned += _this.appTaskDetail[i].countAssigned;
+            // countAssigned += _this.appTaskDetail[i].countAssigned;
             if (!_this.appTaskDetail[i].itemMainImage) {
               _this.$Message.warning('亲，请上传关键词方案' + index + '中的手淘搜索宝贝主图！');
               return;
@@ -2446,7 +2428,7 @@
               _this.$Message.warning('亲，关键词方案' + index + '中的匹配人数不能空！');
               return;
             }
-            if (!_this.appTaskDetail[i].countAssigned > _this.residualMatchNumber) {
+            if (_this.appTaskDetail[i].countAssigned > _this.residualMatchNumber) {
               _this.$Message.warning('亲，关键词方案' + index + '中的当前剩余匹配数不足！');
               return;
             }
@@ -2833,6 +2815,7 @@
             } else {
               _this.taskRelease.taskDetail = {};
             }
+            _this.countAssignedChange();
             if (_this.taskRelease.itemPrice >= 50) {
               _this.discountDisabled.discount_9_9.disabled = false;
             }
@@ -3018,10 +3001,22 @@
           this.addItemReviewList();
         }
       },
-      countAssignedChange(e) {
-        if (e.target.value > this.residualMatchNumber) {
+      countAssignedChange() {
+        let num = 0;
+        if (this.taskRelease.taskType === 'pc_search') {
+          num = this.pcTaskDetail.reduce((prev, cur) => {
+            return (cur.countAssigned > 0 ? cur.countAssigned : 0) + prev
+          }, 0)
+        } else if (this.taskRelease.taskType === 'app_search') {
+          num = this.appTaskDetail.reduce((prev, cur) => {
+            return (cur.countAssigned > 0 ? cur.countAssigned : 0)  + prev
+          }, 0)
+        }
+        if (num > this.taskRelease.taskCount) {
           this.$Message.warning('亲，当前剩余匹配数不足！');
         }
+        console.log(this.taskRelease.taskCount - num)
+       this.residualMatchNumber = this.taskRelease.taskCount > 0 ? this.taskRelease.taskCount - num > 0 ? this.taskRelease.taskCount - num : 0 : 0;
       },
       handleAdd() {
         if (this.residualMatchNumber === 0) {
