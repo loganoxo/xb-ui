@@ -1485,6 +1485,8 @@
         disabledRedEnvelopes: false,
         redEnvelopeDeductionNumber: 0,
         residualMatchNumber: 0,
+        isMatchNumberOk: true,
+
       }
     },
     // 当用户有首发资格路由重定向到快速发布通道反之则停留在此页面
@@ -2340,10 +2342,6 @@
               _this.$Message.warning('亲，关键词方案' + index + '中的匹配人数不能空！');
               return;
             }
-            if (_this.pcTaskDetail[i].countAssigned > _this.residualMatchNumber) {
-              _this.$Message.warning('亲，关键词方案' + index + '中的当前剩余匹配数不足！');
-              return;
-            }
             if (!_this.pcTaskDetail[i].searchKeyword) {
               _this.$Message.warning('亲，关键词方案' + index + '中的搜索关键词不能空！');
               return;
@@ -2428,10 +2426,6 @@
               _this.$Message.warning('亲，关键词方案' + index + '中的匹配人数不能空！');
               return;
             }
-            if (_this.appTaskDetail[i].countAssigned > _this.residualMatchNumber) {
-              _this.$Message.warning('亲，关键词方案' + index + '中的当前剩余匹配数不足！');
-              return;
-            }
             if (!_this.appTaskDetail[i].searchKeyword) {
               _this.$Message.warning('亲，关键词方案' + index + '中的搜索关键词不能空！');
               return;
@@ -2476,6 +2470,10 @@
             return;
           }
           _this.taoCodeTaskDetail[0].homePageLockItemImage = _this.taoCodeTaskDetailItemMainImage;
+        }
+        if (!_this.isMatchNumberOk) {
+          _this.$Message.warning('亲，当前剩余匹配数不足！');
+          return;
         }
         switch (_this.trialCondition) {
           case 'refuseOldShowkerFor30Days' :
@@ -3013,9 +3011,9 @@
           }, 0)
         }
         if (num > this.taskRelease.taskCount) {
+          this.isMatchNumberOk = false;
           this.$Message.warning('亲，当前剩余匹配数不足！');
         }
-        console.log(this.taskRelease.taskCount - num)
        this.residualMatchNumber = this.taskRelease.taskCount > 0 ? this.taskRelease.taskCount - num > 0 ? this.taskRelease.taskCount - num : 0 : 0;
       },
       handleAdd() {
