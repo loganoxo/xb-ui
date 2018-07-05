@@ -456,6 +456,7 @@
         alitmAccount: null,
         taskNumber: null,
         operateTaskId: null,
+        showkerTaskId: null,
         operateIndex: null,
         selectId: null,
         showApprovalPop: false,
