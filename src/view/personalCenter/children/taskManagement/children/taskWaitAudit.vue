@@ -635,7 +635,6 @@
       checkShowkerApply(taskId, showkerId, taskApplyId) {
         const _this = this;
         _this.taskApplyId = taskApplyId;
-        _this.speedUpLoading = true;
         api.merchantCheckShowkerApply({
           taskId: taskId,
           showkerId: showkerId,
@@ -646,11 +645,11 @@
           } else {
             _this.taskWaitToPass(taskApplyId)
           }
-          _this.speedUpLoading = false;
         })
       },
       taskWaitToPass(taskApplyId) {
         const _this = this;
+        _this.speedUpLoading = true;
         api.setTaskShowkerPass({
           id: taskApplyId,
         }).then(res => {
@@ -668,14 +667,16 @@
             if (_this.taskWaitAuditList[_this.operateIndex].residueCount > 0) {
               _this.taskWaitAuditList[_this.operateIndex].residueCount -= 1
             }
-            _this.taskWaitAuditList[_this.operateIndex].trailOn += 1
+            _this.taskWaitAuditList[_this.operateIndex].trailOn += 1;
           } else {
             _this.$Message.error(res.msg)
           }
+          _this.speedUpLoading = false;
         })
       },
       taskWaitToReject(taskApplyId) {
         const _this = this;
+        _this.speedUpLoading = true;
         api.setTaskShowkerReject({
           taskApplyId: taskApplyId
         }).then(res => {
@@ -692,6 +693,7 @@
           } else {
             _this.$Message.error(res.msg)
           }
+          _this.speedUpLoading = false;
         })
       },
       appliesWaitingAuditTask() {
