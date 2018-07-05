@@ -147,9 +147,8 @@
 
       // 浏览答题截图上传成功回调
       uploadAnswerSuccess(res, info) {
-        let _this = this;
         info.src = aliCallbackImgUrl + res.name;
-        _this.submitAnswer(info);
+        this.submitAnswer(info);
       },
 
       handleData() {
