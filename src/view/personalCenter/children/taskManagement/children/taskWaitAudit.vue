@@ -657,7 +657,8 @@
           reason: null
         }).then(res => {
           if (res.status) {
-            _this.$Message.success("审核拿手成功！");
+            _this.$Message.success(status ? '审核拿手成功！' : '拒绝拿手成功！');
+            _this.showkerApplyInfoModal = false;
             _this.$store.dispatch('getPersonalTrialCount');
             _this.appliesWaitingAuditAll(_this.operateTaskId, _this.operateIndex);
             if (_this.taskWaitAuditList[_this.operateIndex].newestTaskApplyCount > 0) {
