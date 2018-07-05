@@ -793,7 +793,7 @@
             if (promotion /taskCount <= 300) {
               return (perVasFee / 100 * (1 - sysHold / 100) + 1).toFixed(2);
             } else {
-              return (perVasFee / 100 * (1 - sysHold / 100) + 3).toFixed(2);
+              return (perVasFee / 100 * (1 - sysHold / 100) + 1.5).toFixed(2);
             }
           }
         } else {
