@@ -13,87 +13,97 @@
               <span class="search-btn" @click="searchOperation">查小号/查信誉</span>
             </div>
           </div>
-          <div class="result-box">
+          <div class="result-box fs-14" v-if="showResultBox">
             <p class="result-title clear">
               <span class="result-point">淘宝买家：</span>
               <span class="result-name">问天</span>
+              <img src="~assets/img/common/ww-avatar.gif" alt="" class="vtc-mid">
               <span class="result-time right">当前查询时间：2018-7-4 17:31:32</span>
             </p>
-            <p>
-              <span class="result-point">注册时间：</span>
-              <span>2003-02-01</span>
-            </p>
-            <p>
-              <span class="result-point">实名认证：</span>
-              <span>---</span>
-            </p>
-            <p>
-              <span class="result-point">店铺信息：</span>
-              <span>暂无店铺</span>
-            </p>
-            <p>
-              <span class="result-point">当前主营：</span>
-              <span>暂无</span>
-            </p>
-            <p>
-              <span class="result-point">当前地区：</span>
-              <span>保密</span>
-            </p>
-            <p>
-              <span class="result-point">给出评价：</span>
-              <span>中评（0）</span>
-              <span>差评（0）</span>
-              <span>给他人中差评比例（0%）</span>
-            </p>
-            <div class="result-bottom-box clear">
-              <div class="result-left-box left">
-                <p>
-                  <span class="result-point">买家信用</span>
-                  <span>0</span>
-                  <span>好评率（0.00%）</span>
-                </p>
-                <p>
-                  <span class="result-point">最近一周：</span>
-                  <span>0点数</span>
-                  <span class="result-point">周平均：</span>
-                  <span>0.00单</span>
-                </p>
-                <p>
-                  <span class="result-point">最近一月：</span>
-                  <span>0点数</span>
-                </p>
-                <p>
-                  <span class="result-point">最近半年：</span>
-                  <span>0点数</span>
-                </p>
-                <p>
-                  <span class="result-point">半年以前：</span>
-                  <span>0点数</span>
-                </p>
+            <div v-if="showSearchResult">
+              <p>
+                <span class="result-point">注册时间：</span>
+                <span>2003-02-01</span>
+              </p>
+              <p>
+                <span class="result-point">实名认证：</span>
+                <span class="color-blue">---</span>
+                <span class="color-blue">支付宝个人实名认证</span>
+                <img src="~assets/img/common/zfb_person_small.gif" alt="" class="vtc-mid">
+              </p>
+              <p>
+                <span class="result-point">店铺信息：</span>
+                <span class="main-color">暂无店铺</span>
+              </p>
+              <p>
+                <span class="result-point">当前主营：</span>
+                <span>暂无</span>
+              </p>
+              <p>
+                <span class="result-point">当前地区：</span>
+                <span>保密</span>
+              </p>
+              <p>
+                <span class="result-point">给出评价：</span>
+                <img src="~assets/img/common/zhongping.png" alt="" class="vtc-mid">
+                <span class="color-orange">中评（0）</span>
+                <img src="~assets/img/common/chaping.png" alt="" class="vtc-mid">
+                <span>差评（0）</span>
+                <span class="main-color">给他人中差评比例（0%）</span>
+              </p>
+              <div class="result-bottom-box clear">
+                <div class="result-left-box left">
+                  <p>
+                    <span class="result-point">买家信用</span>
+                    <span class="color-blue">0</span>
+                    <span class="main-color">好评率（0.00%）</span>
+                  </p>
+                  <p>
+                    <span class="result-point">最近一周：</span>
+                    <span><span class="color-orange">0</span> 点数</span>
+                    <span class="result-point ml-40">周平均：</span>
+                    <span><span class="color-orange">0.16</span> 单</span>
+                  </p>
+                  <p>
+                    <span class="result-point">最近一月：</span>
+                    <span><span class="color-orange">0</span> 点数</span>
+                  </p>
+                  <p>
+                    <span class="result-point">最近半年：</span>
+                    <span><span class="color-orange">0</span> 点数</span>
+                  </p>
+                  <p>
+                    <span class="result-point">半年以前：</span>
+                    <span><span class="color-orange">0</span> 点数</span>
+                  </p>
+                </div>
+                <div class="result-right-box left">
+                  <p>
+                    <span class="result-point">卖家信用：</span>
+                    <span><span class="color-blue">0</span> 点</span>
+                    <span class="main-color ">暂无店铺</span>
+                  </p>
+                  <p>
+                    <span class="result-point">最近一周：</span>
+                    <span><span class="color-orange">0</span> 点数</span>
+                  </p>
+                  <p>
+                    <span class="result-point">最近一月：</span>
+                    <span><span class="color-orange">0</span> 点数</span>
+                  </p>
+                  <p>
+                    <span class="result-point">最近半年：</span>
+                    <span><span class="color-orange">0</span> 点数</span>
+                  </p>
+                  <p>
+                    <span class="result-point">半年以前：</span>
+                    <span><span class="color-orange">0</span> 点数</span>
+                  </p>
+                </div>
               </div>
-              <div class="result-right-box left">
-                <p>
-                  <span class="result-point">卖家信用：</span>
-                  <span>0点</span>
-                  <span>暂无店铺</span>
-                </p>
-                <p>
-                  <span class="result-point">最近一周：</span>
-                  <span>0点数</span>
-                </p>
-                <p>
-                  <span class="result-point">最近一月：</span>
-                  <span>0点数</span>
-                </p>
-                <p>
-                  <span class="result-point">最近半年：</span>
-                  <span>0点数</span>
-                </p>
-                <p>
-                  <span class="result-point">半年以前：</span>
-                  <span>0点数</span>
-                </p>
-              </div>
+            </div>
+            <div v-else @click="toRegister">
+              <img src="~assets/img/landing-page/ww-search-noLogin.jpg" alt="">
             </div>
           </div>
           <div class="explain-box">
@@ -128,36 +138,43 @@
     data() {
       return {
         showProgress:false,
-        percent:0
+        percent:0,
+        showResultBox:false,
+        showSearchResult:false
       }
+    },
+    created() {
     },
     methods: {
       toRegister() {
-        this.$router.push({path: '/register/seller-register',query:{from:'chapaiming'}});
-        setStorage('hadRegister',true)
+        this.$router.replace({path: '/register/seller-register',query:{from:'chapaiming'}});
       },
       searchOperation() {
         const _this = this;
-        _this.showProgress = true;
-        let timer = setInterval(function () {
-          _this.percent ++;
-          if (_this.percent === 100) {
-            clearInterval(timer);
-            _this.showProgress = false;
-            _this.percent = 0;
-          }
-        },50)
-        // if (getStorage('hadRegister')) {
-        //   _this.showProgress = true;
-        //   let timer = setInterval(function () {
-        //     _this.percent ++;
-        //     if (_this.percent === 100) {
-        //       clearInterval(timer)
-        //     }
-        //   },50)
-        // } else {
-        //   _this.toRegister();
-        // }
+        // _this.showProgress = true;
+        // let timer = setInterval(function () {
+        //   _this.percent ++;
+        //   if (_this.percent === 100) {
+        //     clearInterval(timer);
+        //     _this.showProgress = false;
+        //     _this.percent = 0;
+        //   }
+        // },50)
+        if (getStorage('hadRegister')) {
+          _this.showProgress = true;
+          let timer = setInterval(function () {
+            _this.percent ++;
+            if (_this.percent === 100) {
+              clearInterval(timer);
+              _this.showProgress = false;
+              _this.percent = 0;
+              _this.showSearchResult = true;
+              _this.showResultBox = true;
+            }
+          },50)
+        } else {
+          _this.showResultBox = true;
+        }
       }
     }
   }
@@ -165,6 +182,12 @@
 
 <style scoped lang="scss">
   @import "src/css/mixin";
+  .color-blue {
+    color:#29a7e1
+  }
+  .color-orange {
+    color:#ff6600;
+  }
   .chapaiming-area {
     background: #F1F1F1;
     .content {
@@ -194,6 +217,11 @@
           border-bottom:1px solid #ddd;
           margin-bottom:20px;
         }
+        .result-name {
+          font-weight: bold;
+          color:#29a7e1;
+        }
+
         .result-point {
           display: inline-block;
           width:106px;
