@@ -33,7 +33,7 @@
             <span class="ml-10" v-if="getUserInfoRole === 1 && isRedEnvelopesExpirationTime">
               <img class="vtc-text-btm" src="~assets/img/common/red-envelopes-logo.png" alt="">
               <span>推广费减免红包</span>
-              <tooltip :content="`有效期至${getMemberDeadline}，仅限于推广费抵扣，最多抵扣${getMemberVersionLevel === 200 ? 3 : 6}元 / 单`" placement="top">
+              <tooltip :content="`有效期至${getMemberDeadline}，仅限于推广费抵扣，最多抵扣${(redEnvelopeDeductionLimit /100).toFixed(2)}元 / 单`" placement="top">
                 <icon type="help-circled"/>
               </tooltip>
             </span>
@@ -260,6 +260,9 @@
       },
       getMemberVersionLevel() {
         return this.$store.getters.getMemberLevel
+      },
+      redEnvelopeDeductionLimit() {
+        return this.$store.getters.getRedEnvelopeDeductionLimit
       },
       redEnvelopesExpirationTime() {
         return this.$store.getters.getRedEnvelopesExpirationTime
