@@ -36,7 +36,7 @@
       <span v-show="eyesStatus === 'off'" class="ml-10 cl999">打开火眼金睛，拿手数据一目了然！</span>
       <span v-show="eyesStatus === 'on'" class="fire-eye-on" @click="changeEyesStatus('off')"><icon type="eye" size="16"/>&nbsp;火眼金睛</span>
       <span v-show="eyesStatus === 'on' && !valueAddedServiceStatusInfo.isMemberOK" class="ml-10 cl999">距离服务结束还有&nbsp;<time-down v-if="valueAddedServiceStatusInfo.vasBlackListDeadlineTime" :endTime="valueAddedServiceStatusInfo.vasBlackListDeadlineTime" timeEndText="服务已到期" @timeEnd="timeEnd"/></span>
-      <span v-show="eyesStatus === 'on' && !valueAddedServiceStatusInfo.isMemberOK" class="blue text-decoration-underline ml-10 cursor-p" @click="renewalEyes">续费</span>
+      <!--<span v-show="eyesStatus === 'on' && !valueAddedServiceStatusInfo.isMemberOK" class="blue text-decoration-underline ml-10 cursor-p" @click="renewalEyes">续费</span>-->
       <span v-show="eyesStatus === 'on' && valueAddedServiceStatusInfo.isMemberOK" class="ml-10 cl999">VIP免费使用火眼金睛功能 ^_^  </span>
     </div>
     <template v-if="taskWaitAuditList.length > 0">
@@ -98,14 +98,14 @@
                     <div class="value-added-info" v-if="!eyesServerPermissions">
                       <p>
                         <span>被平台商家拉黑：</span>
-                        <span class="cursor-p blue" @click="openOrderEyesModel">
+                        <span class="cursor-p blue" @click="changeEyesStatus">
                         <tooltip content="打开火眼金睛，拿手数据一目了然！"><icon class="vtc-text-btm" type="eye-disabled" size="16"/>&nbsp;查看</tooltip>
                       </span>
                       </p>
                     </div>
                     <div class="value-added-info" v-if="eyesStatus === 'on'">
                       <p>
-                        <span>被平台商家拉黑：</span>
+                        <span>平台拉黑情况：</span>
                         <span v-if="allTask.blackCount === 0 || allTask.blackCount < 4" class="blue text-decoration-underline">0</span>
                         <span v-else class="blue text-decoration-underline cursor-p" @click="lookBlackListInfo(allTask.alitmAccount, allTask.showkerId, allTask.creditLevel, allTask.tqz)">{{allTask.blackCount || 0}}</span>
                       </p>
@@ -196,29 +196,19 @@
       <div class="text-ct" slot="header">
         <icon type="ios-cart" color="#f9284f" size="20"/>
         <span class="ml-5 fs-14 main-color">订购火眼金睛</span></div>
-      <div class="mt-10">
-        <span>订购方式一：</span>
-        <span class="open-vip-btn" @click="openVipOrSvip">开通VIP或者SVIP免费使用该功能</span>
-      </div>
       <div class="mt-20">
-        <span>订购方式二：</span>
-        <i-button class="mr-20 select-period" v-for="item in eyesPeriodList" :key="item.id"
-                  @click="changeSelectPeriod(item.id, item.intervalFee)"
-                  :class="{'is-select': selectEyesPeriodInfo.id === item.id}">
+        <i-button class="mr-20 select-period" v-for="item in eyesPeriodList" :key="item.id" @click="changeSelectPeriod(item.id, item.intervalFee)" :class="{'is-select': selectEyesPeriodInfo.id === item.id}">
           <div>{{item.frontDisplay}}</div>
           <div>￥ {{(item.intervalFee / 100).toFixed(2) || 0}} 元</div>
         </i-button>
       </div>
       <div class="text-ct">
-        <i-button v-if="hasBalance" type="error" class="pl-40 pr-40 mt-20 fs-14" @click="eyesPayModel = true">立即购买
-        </i-button>
+        <i-button v-if="hasBalance" type="error" class="pl-40 pr-40 mt-20 fs-14" @click="eyesPayModel = true">立即购买</i-button>
         <i-button v-else type="error" class="pl-40 pr-40 mt-20 fs-14" @click="eyesPayModel = true">立即充值</i-button>
-        <i-button v-if="hasTrialQualification" class="pl-40 pr-40 mt-20 fs-14 ml-20" @click="openTheTrial">开通一天试用
-        </i-button>
+        <i-button v-if="hasTrialQualification" class="pl-40 pr-40 mt-20 fs-14 ml-20" @click="openTheTrial">开通一天试用</i-button>
       </div>
       <div slot="footer">
-        <div class="text-lf text-indent f-b"><span class="main-color">火眼金睛</span>是平台增值服务功能，激活该功能后可查看平台拿手旺旺号的私密数据，如被商家拉黑的次数及原因，完成活动后收到的商家评价和打标，旺旺号姓别、年龄、地址、购物标签等（功能陆续开发添加中...），使用火眼金睛让你对拿手审核一百个放心！
-        </div>
+        <div class="text-lf text-indent f-b"><span class="main-color">火眼金睛</span>是平台增值服务功能，激活该功能后可查看平台拿手旺旺号的私密数据，如被商家拉黑的次数及原因，完成活动后收到的商家评价和打标，旺旺号姓别、年龄、地址、购物标签等（功能陆续开发添加中...），使用火眼金睛让你对拿手审核一百个放心！</div>
         <div class="text-ct mt-10 clear">
           <div class="left ml-120" @click="changeLookScreenShot(1)">
             <img class="border-radius-5 border-ddd cursor-p" src="~assets/img/task-management/eyes-demo-01.png"
@@ -287,6 +277,21 @@
       <div class="clear" slot="footer">
         <i-button class="left ml-40 pl-40 pr-40" type="error" size="large" :loading="speedUpLoading" @click="taskWaitToPass(taskApplyId)">仍然通过</i-button>
         <i-button class="right mr-40 pl-40 pr-40" type="error" size="large" :loading="speedUpLoading" @click="taskWaitToReject(taskApplyId)">拒绝试用</i-button>
+      </div>
+    </modal>
+    <!--普通会员使用火眼金睛功能提示升级会员弹框-->
+    <modal v-model="upgradeMembershipModal" :closable="false" :mask-closable="false" width="360">
+      <p slot="header" class="text-ct">
+        <icon color="#f9284f" type="information-circled"/>
+        <span class="main-color">温馨提示</span>
+      </p>
+      <div class="text-ct">
+        <p class="fs-16">该功能仅限VIP 使用 : (</p>
+        <p class="mt-5">是否现在升级您的会员版本？</p>
+      </div>
+      <div slot="footer" class="text-ct">
+        <i-button class="mr-60" type="error" size="large" @click="upgradeVip">升级会员版本</i-button>
+        <i-button size="large" @click="upgradeMembershipModal = false">我知道了</i-button>
       </div>
     </modal>
   </div>
@@ -513,6 +518,7 @@
         taskAdditionalQuotaInfo: {},
         showkerApplyInfo: {},
         showkerApplyInfoModal: false,
+        upgradeMembershipModal: false,
       }
     },
     created() {
@@ -565,6 +571,9 @@
       },
       openNewTrialReportFunc(id) {
         window.open('/trial-report?q=' + id)
+      },
+      upgradeVip() {
+        this.$router.push({path: '/user/vip-member/order'})
       },
       blackListModalChange(value) {
         this.closableModal = value;
@@ -788,7 +797,8 @@
       },
       changeEyesStatus(status) {
         if ((!this.valueAddedServiceStatusInfo.isMemberOK && !this.valueAddedServiceStatusInfo.vasBlackListDeadlineTime) || this.isEndTime) {
-          this.openOrderEyesModel()
+          // this.openOrderEyesModel()
+          this.upgradeMembershipModal = true
         } else {
           this.eyesStatus = status
         }
@@ -882,7 +892,7 @@
           }
         })
       },
-      openVipOrSvip() {
+      orderVip() {
         this.$router.push({name: 'VipMemberOrder'})
       },
       getUserHeardUrl(url) {

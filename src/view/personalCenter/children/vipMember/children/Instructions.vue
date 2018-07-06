@@ -98,8 +98,8 @@
       <li class="clear">
         <div>火眼金睛（拿手数据查询）</div>
         <div>无</div>
-        <div>订购使用</div>
-        <!--<div>免费使用</div>-->
+        <!--<div>订购使用</div>-->
+        <div>免费使用</div>
       </li>
       <li class="clear">
         <div>活动增值服务项</div>
