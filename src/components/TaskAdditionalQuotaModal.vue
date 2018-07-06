@@ -19,7 +19,7 @@
       </div>
       <div class="mt-10 border-top pt-10">
         <p>当前待审核：<span class="main-color">{{data.totalTaskApplyCount}}</span> 人</p>
-        <template v-if="!isOldTask">
+        <template v-if="!data.isOldTask">
           <div class="inline-block tag" v-for="item in keywordPlanInfo" :class="selectKeywordScheme === item.index ? 'select-tag-bg' : ''">
             <span @click="selectChangeScheme(item.index)">关键词方案{{ item.index + 1 }}</span>
             <sup class="badge-count" v-show="item.addTaskNumber > 0">{{item.addTaskNumber}}</sup>
@@ -30,19 +30,17 @@
             <span>追加份数：</span>
             <i-input v-model.number="item.addTaskNumber" placeholder="请输入追加份数" @on-change="addTaskNumberChange" style="width: 100px;"/>
           </div>
-          <div class="mt-10 border-top pt-10 addition-item" v-if="data.itemReviewRequired === 'assign_review_detail' && item.itemReviewList && item.itemReviewList.length > 0">
+          <div class="mt-10 border-top pt-10 addition-item" v-if="data.itemReviewRequired === 'assign_review_detail' && itemReviewList.length > 0">
             <p class="mb-10">该活动设置了指定评价，请对追加的份数提供相应的评价数：</p>
-            <p class="mt-5" v-for="(list, index) in item.itemReviewList">
+            <p class="mt-5" v-for="(item, index) in itemReviewList">
               <span class="vtc-sup">{{`评价${index + 1}`}}：</span>
-              <i-input v-model="list.value" class="mb-10" type="textarea" :autosize="{minRows: 1,maxRows: 3}" placeholder="请输入你的评价内容" style="width: 480px;"/>
+              <i-input v-model="item.value" class="mb-10" type="textarea" :autosize="{minRows: 1,maxRows: 3}" placeholder="请输入你的评价内容" style="width: 480px;"/>
             </p>
           </div>
         </div>
       </div>
       <div class="mt-10 border-top pt-10">共追加&nbsp;<span class="main-color">{{allAddTaskNumber}}</span>&nbsp;份</div>
-      <div slot="footer">
-        <i-button type="primary" size="large" long :loding="buttonLoading" @click="nextStep">下一步</i-button>
-      </div>
+      <i-button slot="footer" type="primary" size="large" long :loding="buttonLoading" @click="nextStep">下一步</i-button>
     </template>
     <template v-else>
       <pay-model ref="payModelRef" :orderMoney="needPayMoneyBeforeAsRedEnvelopes" @confirmPayment="confirmPayment"
@@ -280,12 +278,12 @@
           this.$emit('input', false);
           this.keywordPlanInfo.forEach(item => {
             item.addTaskNumber = null;
-            item.itemReviewList = [];
           });
+          this.itemReviewList = [];
           this.oldAddTaskNumber = null;
           // 关闭弹框时延迟渲染创建活动界面
           setTimeout(() => {
-            this.step = 'create';
+            this.step = 'create'
           }, 200);
         }
       },
@@ -296,17 +294,6 @@
           if (!this.keywordPlanInfo[0].addTaskNumber) {
             this.$Message.warning(`亲，请输入需要追加的活动份数！`);
             return;
-          }
-          if (this.data.itemReviewRequired === 'assign_review_detail') {
-            for (let l = 0, len = this.keywordPlanInfo[0].itemReviewList.length; l < len; l++) {
-              if (!this.keywordPlanInfo[0].itemReviewList[l].value || !delSpace(this.keywordPlanInfo[0].itemReviewList[l].value)) {
-                // 当用户输入连续空格的时候自动将空格去除
-                this.keywordPlanInfo[0].itemReviewList[l].value = delSpace(this.keywordPlanInfo[0].itemReviewList[l].value);
-                this.$Message.warning(`亲，追加评价 ${l + 1} 内容不能为空！`);
-                isItemReviewOk = false;
-                break;
-              }
-            }
           }
         } else {
           // 新活动的校验逻辑（有关键词人数分配）
@@ -323,19 +310,16 @@
               this.$Message.warning(`亲，关键词方案 ${i + 1} 中追加活动份数必须大于0！`);
               return;
             }
-            if (this.data.itemReviewRequired === 'assign_review_detail') {
-              for (let l = 0, len = this.keywordPlanInfo[i].itemReviewList.length; l < len; l++) {
-                if (!this.keywordPlanInfo[i].itemReviewList[l].value || !delSpace(this.keywordPlanInfo[i].itemReviewList[l].value)) {
-                  // 当用户输入连续空格的时候自动将空格去除
-                  this.keywordPlanInfo[i].itemReviewList[l].value = delSpace(this.keywordPlanInfo[i].itemReviewList[l].value);
-                  this.$Message.warning(`亲，关键词方案 ${i + 1} 中追加评价 ${l + 1} 内容不能为空！`);
-                  isItemReviewOk = false;
-                  break;
-                }
-              }
-            }
-            if (!isItemReviewOk) {
-              break
+          }
+        }
+        if (this.data.itemReviewRequired === 'assign_review_detail') {
+          for (let l = 0, len = this.itemReviewList.length; l < len; l++) {
+            if (!this.itemReviewList[l].value || !delSpace(this.itemReviewList[l].value)) {
+              // 当用户输入连续空格的时候自动将空格去除
+              this.itemReviewList[l].value = delSpace(this.itemReviewList[l].value);
+              this.$Message.warning(`亲，追加评价 ${l + 1} 内容不能为空！`);
+              isItemReviewOk = false;
+              break;
             }
           }
         }
@@ -347,22 +331,23 @@
       addTaskNumberChange() {
         if (this.data.itemReviewRequired === 'assign_review_detail') {
           // 函数防抖处理（等待用户输入完成后600毫秒后触发逻辑，防止逻辑不停触发造成不必要的性能损失）
+          // 动态增删追加评价输入框DOM
           const _this = this;
           if (_this.timer) {
             clearTimeout(_this.timer)
           }
           _this.timer = setTimeout(() => {
-            _this.keywordPlanInfo.forEach((item, index) => {
-              _this.$set(_this.keywordPlanInfo[index], 'itemReviewList', []);
-              if (item.addTaskNumber > 0) {
-                for (let i = 1; i <= item.addTaskNumber; i++) {
-                  item.itemReviewList.push({
-                    value: null,
-                    index: i,
-                  })
-                }
+            if (_this.allAddTaskNumber > _this.oldAddTaskNumber) {
+              for (let i = 0, len = _this.allAddTaskNumber - _this.oldAddTaskNumber; i < len; i++) {
+                this.itemReviewList.push({
+                  value: null,
+                  index: i + 1,
+                })
               }
-            })
+            } else if (_this.allAddTaskNumber < _this.oldAddTaskNumber) {
+              this.itemReviewList.splice(_this.allAddTaskNumber, _this.oldAddTaskNumber - _this.allAddTaskNumber)
+            }
+            this.oldAddTaskNumber = _this.allAddTaskNumber
           }, 600)
         }
       },
@@ -372,6 +357,7 @@
       confirmPayment(pwd) {
         const _this = this;
         const itemReviewPushList = [];
+        const additionSearchScheme = [];
         if (_this.itemReviewList.length > 0) {
           _this.itemReviewList.forEach(item => {
             if (item.value) {
@@ -379,17 +365,21 @@
             }
           })
         }
+        _this.keywordPlanInfo.forEach(item => {
+          additionSearchScheme.push(item.addTaskNumber)
+        });
         api.additionalTaskAccount({
           payPwd: pwd,
           taskId: _this.data.taskId,
           additionCount: _this.allAddTaskNumber,
           additionItemReview: JSON.stringify(itemReviewPushList),
+          additionSearchScheme : JSON.stringify(additionSearchScheme),
         }).then(res => {
           if (res.status) {
             _this.keywordPlanInfo.forEach(item => {
               item.addTaskNumber = null;
-              item.itemReviewList = [];
             });
+            _this.itemReviewList = [];
             _this.$emit('addTaskSuccess');
             _this.$emit('input', false);
           } else {
@@ -405,7 +395,7 @@
       },
       'data.keywordPlanNum'(val) {
         if (val > 0) {
-          for (let i = 0, len = this.data.keywordPlanNum; i < len; i++) {
+          for (let i = 0; i < this.data.keywordPlanNum; i++) {
             this.keywordPlanInfo.push({
               addTaskNumber: null,
               index: i
