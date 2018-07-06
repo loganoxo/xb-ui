@@ -185,6 +185,9 @@
       isLogin() {
         return this.$store.state.login
       },
+      getUserRole() {
+        return this.$store.getters.getUserRole
+      },
     },
     created() {
     },
@@ -200,7 +203,7 @@
           });
           return
         }
-        if (_this.isLogin) {
+        if (_this.isLogin && _this.getUserRole === 1) {
           _this.isShowLoading = true;
           api.searchCredit({
             alitm: encodeURIComponent(_this.alitm)
@@ -310,7 +313,7 @@
         height:38px;
         line-height: 38px;
         color:#fff;
-        background: #29a7e1;
+        background: $mainColor;
         text-align: center;
         font-size: 16px;
         cursor: pointer;
@@ -357,7 +360,7 @@
       }
       .search-box {
         height:150px;
-        border-top:1px solid #29a7e1;
+        border-top:1px solid $mainColor;
         border-left:1px solid #ddd;
         border-bottom:1px solid #ddd;
         border-right:1px solid #ddd;
@@ -384,7 +387,7 @@
           text-align: center;
           color:#fff;
           border-radius: 2px;
-          background: #29a7e1;
+          background: $mainColor;
           cursor: pointer;
           padding:6px 30px;
         }
@@ -402,7 +405,7 @@
         .explain-title {
           font-size: 26px;
           font-weight: 700;
-          color:#29a7e1;
+          color:$mainColor;
           padding:10px;
         }
         .explain-point {
