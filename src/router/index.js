@@ -80,6 +80,7 @@ const VipMemberOrder = r => require.ensure([], () => r(require('@/view/personalC
 
 const LandingPage = r => require.ensure([], () => r(require('@/view/LandingPage.vue')), 'LandingPage');
 const ChapaimingLanding = r => require.ensure([], () => r(require('@/view/ChapaimingLanding.vue')), 'ChapaimingLanding');
+const SpreadLandingPage = r => require.ensure([], () => r(require('@/view/SpreadLandingPage.vue')), 'SpreadLandingPage');
 
 Vue.use(Router);
 
@@ -260,6 +261,18 @@ export default new Router({
       component:ChapaimingLanding,
       meta: {
         title: "商家落地页",
+        logInAuthority: false,
+        topShow: false,
+        bottomShow: true,
+        role: null,
+      }
+    },
+    {
+      path:'/spread-landing-page',
+      name:'SpreadLandingPage',
+      component:SpreadLandingPage,
+      meta: {
+        title: "推广落地页",
         logInAuthority: false,
         topShow: false,
         bottomShow: true,
