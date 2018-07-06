@@ -1143,7 +1143,7 @@
     </modal>
     <!--服务条款弹框-->
     <div v-if="isShowUserClause" class="user-clause-model">
-      <user-clause @closeClauseModel="closeClauseModel"/>
+      <user-clause @closeClauseModel="isShowUserClause = false"/>
     </div>
     <!--收藏加购物、浏览答题、增值服务示例图查看-->
     <modal title="示例图片查看" v-model="isShowExampleImageModel">
@@ -2964,9 +2964,9 @@
             index: i,
           });
         }
-         if(count > 0 && (type === 'pc_search' || type === 'app_search') && (count < _this.pcTaskDetail.length || count < _this.appTaskDetail.length)){
-           _this.keywordLowerChangeModel = true;
-         }
+        if(count > 0 && (type === 'pc_search' || type === 'app_search') && count < this.allPlanNumber()){
+          _this.keywordLowerChangeModel = true;
+        }
       },
       taskCountChange(e) {
         if (e.target.value > 0) {
@@ -2990,7 +2990,7 @@
           this.addItemReviewList();
         }
       },
-      countAssignedChange() {
+      allPlanNumber() {
         let num = 0;
         if (this.taskRelease.taskType === 'pc_search') {
           num = this.pcTaskDetail.reduce((prev, cur) => {
@@ -3001,6 +3001,10 @@
             return (cur.countAssigned > 0 ? cur.countAssigned : 0)  + prev
           }, 0)
         }
+        return num
+      },
+      countAssignedChange() {
+        let num = this.allPlanNumber();
         if (num > this.taskRelease.taskCount) {
           this.isMatchNumberOk = false;
           this.$Message.warning('亲，当前剩余匹配数不足！');
@@ -3071,14 +3075,15 @@
       },
       keywordLowerChange () {
         const _this = this;
-        let type = _this.taskRelease.taskType;
+        const type = _this.taskRelease.taskType;
+        let initialValue = this.taskRelease.taskCount > 0 ? 1 : null;
         _this.keywordLowerChangeModel = false;
         if(type === 'pc_search'){
           _this.pcTaskDetail = [
             {
               index:0,
               itemMainImage: null,
-              countAssigned: null,
+              countAssigned: initialValue,
               searchKeyword: null,
               searchSort: 'zong_he',
               searchPagePrice: null,
@@ -3093,12 +3098,12 @@
           _this.addKeywordScheme = 0;
           _this.selectKeywordScheme = 0;
         }
-        if(type === "app_search"){
+        if(type === 'app_search'){
           _this.appTaskDetail = [
             {
               index:0,
               itemMainImage: null,
-              countAssigned: null,
+              countAssigned: initialValue,
               searchKeyword: null,
               searchSort: 'zong_he',
               searchPagePrice: null,
@@ -3111,10 +3116,8 @@
           ];
           _this.addKeywordScheme = 0;
           _this.selectKeywordScheme = 0;
+          _this.countAssignedChange();
         }
-      },
-      closeClauseModel() {
-        this.isShowUserClause = false;
       },
       addAnswer() {
         if (this.browseAnswer.length < 3) {

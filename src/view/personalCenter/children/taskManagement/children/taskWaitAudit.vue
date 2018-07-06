@@ -97,7 +97,7 @@
                     <p>淘气值：{{allTask.tqz}}</p>
                     <div class="value-added-info" v-if="!eyesServerPermissions">
                       <p>
-                        <span>被平台商家拉黑：</span>
+                        <span>平台拉黑情况：</span>
                         <span class="cursor-p blue" @click="changeEyesStatus">
                         <tooltip content="打开火眼金睛，拿手数据一目了然！"><icon class="vtc-text-btm" type="eye-disabled" size="16"/>&nbsp;查看</tooltip>
                       </span>

@@ -276,9 +276,7 @@
       change(value) {
         if (!value) {
           this.$emit('input', false);
-          this.keywordPlanInfo.forEach(item => {
-            item.addTaskNumber = null;
-          });
+          this.keywordPlanInfo = [];
           this.itemReviewList = [];
           this.oldAddTaskNumber = null;
           // 关闭弹框时延迟渲染创建活动界面
@@ -373,12 +371,10 @@
           taskId: _this.data.taskId,
           additionCount: _this.allAddTaskNumber,
           additionItemReview: JSON.stringify(itemReviewPushList),
-          additionSearchScheme : JSON.stringify(additionSearchScheme),
+          additionSearchScheme: JSON.stringify(additionSearchScheme),
         }).then(res => {
           if (res.status) {
-            _this.keywordPlanInfo.forEach(item => {
-              item.addTaskNumber = null;
-            });
+            _this.keywordPlanInfo = [];
             _this.itemReviewList = [];
             _this.$emit('addTaskSuccess');
             _this.$emit('input', false);
@@ -393,8 +389,9 @@
       value(val) {
         this.setCurrentValue(val)
       },
-      'data.keywordPlanNum'(val) {
-        if (val > 0) {
+      'data.keywordPlanNum': {
+        deep: true,
+        handler() {
           for (let i = 0; i < this.data.keywordPlanNum; i++) {
             this.keywordPlanInfo.push({
               addTaskNumber: null,
