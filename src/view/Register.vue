@@ -684,7 +684,6 @@
             if (res.data.role === 1) {
               // 此处的if else 修改是针对查排名落地页（原来直接跳首页）
               if (self.$route.query.from && self.$route.query.from === 'chapaiming') {
-                setStorage('hadRegister',true);
                 self.$router.push({name:'ChapaimingLanding'});
               } else {
                 self.$router.push({name: 'Home'});

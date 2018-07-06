@@ -5,7 +5,7 @@
         <div class="banner pos-rel">
           <div class="btn-area">
             <div class="register-btn btn mr-20" @click="toRegister">注册商家账号</div>
-            <a class="advisory-btn btn ml-20" href="http://wpa.b.qq.com/cgi/wpa.php?ln=1&key=XzgwMDAxOTQwNF80ODQ2MjlfODAwMDE5NDA0XzJf" target="_blank">马上咨询</a>
+            <div class="advisory-btn btn ml-20" @click="toRegister">马上咨询</div>
           </div>
         </div>
         <img src="~assets/img/spread-landing-page/choose-bainan.png" alt="" class="mt-40">
@@ -22,7 +22,7 @@
         <img src="~assets/img/spread-landing-page/progress-explain.png" alt="" class="mt-40">
         <div class="merchant-backstage"></div>
         <div class="diagnosis">
-          <a class="diagnosis-btn cursor-p text-ct" href="http://wpa.b.qq.com/cgi/wpa.php?ln=1&key=XzgwMDAxOTQwNF80ODQ2MjlfODAwMDE5NDA0XzJf" target="_blank"></a>
+          <a class="diagnosis-btn cursor-p text-ct" @click="toRegister"></a>
         </div>
         <div v-if="showQuickRegister" class="quick-register">
           <div class="center">
@@ -31,29 +31,29 @@
             <div class="edit-box clear">
               <div class="edit-input-box clear">
                 <span class="edit-tip">手机号：</span>
-                <input class="edit-input" type="text" v-model="formCustom.phone">
+                <input class="edit-input" type="number" v-model="formCustom.phone">
                 <!--<span class="send-verifed-code">发送验证码</span>-->
               </div>
               <div class="edit-input-box clear">
                 <span class="edit-tip">用户密码：</span>
-                <input class="edit-input" type="text" v-model="formCustom.pwd">
+                <input class="edit-input" type="password" v-model="formCustom.pwd">
               </div>
               <div class="edit-input-box clear">
                 <span class="edit-tip">确认密码：</span>
-                <input class="edit-input" type="text" v-model="formCustom.repwd">
+                <input class="edit-input" type="password" v-model="formCustom.repwd">
               </div>
               <div class="edit-input-box clear">
                 <span class="edit-tip">QQ：</span>
-                <input class="edit-input" type="text" v-model="formCustom.qqNumber">
+                <input class="edit-input" type="number" v-model="formCustom.qqNumber">
               </div>
               <div class="edit-input-box clear">
                 <span class="edit-tip">图形验证码：</span>
-                <input class="edit-input" type="text" v-model="formCustom.validateCode">
+                <input class="edit-input" type="number" v-model="formCustom.validateCode">
                 <img class="vrcode-image" :src="regImgSrc" width="100" alt="图形验证码" @click="getRegVrcode">
               </div>
               <div class="edit-input-box clear">
                 <span class="edit-tip">短信验证码：</span>
-                <input class="edit-input" type="text" v-model="formCustom.smsCode">
+                <input class="edit-input" type="number" v-model="formCustom.smsCode">
                 <sms-countdown style="top:3px;" :on-success="sendCodeSuccess"
                                :phone="formCustom.phone"
                                :purpose="formCustom.purpose"
@@ -113,7 +113,8 @@
         this.$router.push({path: '/register/seller-register'});
       },
       getRegVrcode() {
-        this.regImgSrc = "/api/vrcode.json?rand=" + new Date() / 100
+        this.regImgSrc = "/api/vrcode.json?rand=" + new Date() / 100;
+        this.formCustom.validateCode = null;
       },
       sendCodeSuccess(res) {
         const self = this;
@@ -272,7 +273,7 @@
       background: url("~assets/img/spread-landing-page/diagnosis.png") no-repeat center center;
       background-size: 100% 100%;
       overflow: hidden;
-      margin-bottom: 60px;
+      margin-bottom: 100px;
       .diagnosis-btn {
         width: 310px;
         height:60px;

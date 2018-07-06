@@ -181,6 +181,11 @@
         sellerOldHalfYear: null
       }
     },
+    computed: {
+      isLogin() {
+        return this.$store.state.login
+      },
+    },
     created() {
     },
     methods: {
@@ -195,7 +200,7 @@
           });
           return
         }
-        if (getStorage('hadRegister')) {
+        if (_this.isLogin) {
           _this.isShowLoading = true;
           api.searchCredit({
             alitm: encodeURIComponent(_this.alitm)
