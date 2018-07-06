@@ -2767,8 +2767,8 @@
                 if (!item.searchFilter) {
                   item.searchFilter = [];
                 }
-                if (!item) {
-
+                if (!item.countAssigned) {
+                  item.countAssigned = 1
                 }
               });
               _this.addKeywordScheme = _this.pcTaskDetail.length - 1;
@@ -2781,17 +2781,14 @@
                 })
               }
               _this.isCountAssigned = null;*/
-             // 处理复制历史活动 countAssigned 字段为空的时候 默认赋值为 1
-              _this.pcTaskDetail.forEach(item => {
-                if (!item.countAssigned) {
-                  item.countAssigned = 1
-                }
-              })
             } else if (res.data.taskType === 'app_search') {
               _this.appTaskDetail = res.data.taskDetailObject;
               _this.appTaskDetail.forEach(item => {
                 if (!item.searchFilter) {
                   item.searchFilter = []
+                }
+                if (!item.countAssigned) {
+                  item.countAssigned = 1
                 }
               });
               _this.addKeywordScheme = _this.appTaskDetail.length - 1;
@@ -2804,12 +2801,6 @@
                  })
                }
                _this.isCountAssigned = null;*/
-              // 处理复制历史活动 countAssigned 字段为空的时候 默认赋值为 1
-              _this.appTaskDetail.forEach(item => {
-                if (!item.countAssigned) {
-                  item.countAssigned = 1
-                }
-              })
             } else {
               _this.taskRelease.taskDetail = {};
             }

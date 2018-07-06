@@ -590,6 +590,7 @@
           redEnvelopeDeductionPaid: item.redEnvelopeDeductionPaid,
           itemReviewRequired: item.itemReviewRequired,
           keywordPlanNum: item.keywordPlanNum,
+          isOldTask: item.isOldTask,
         });
         this.additionalQuotaModal = true;
       },

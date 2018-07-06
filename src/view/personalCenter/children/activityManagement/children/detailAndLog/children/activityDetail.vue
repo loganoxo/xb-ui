@@ -1657,6 +1657,7 @@
     width: 586px;
     margin: 20px 0 0 32px;
   }
+
   .badge-count{
     position: absolute;
     transform: translateX(50%);
