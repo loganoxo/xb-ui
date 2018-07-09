@@ -3,9 +3,12 @@
       <Top/>
       <div class="content text-ct">
         <div class="banner pos-rel">
-          <div class="btn-area">
+          <div v-if="!isLogin" class="btn-area">
             <div class="register-btn btn mr-20" @click="toRegister">注册商家账号</div>
             <div class="advisory-btn btn ml-20" @click="toRegister">马上咨询</div>
+          </div>
+          <div v-if="isLogin" class="btn-area">
+            <a href="http://wpa.b.qq.com/cgi/wpa.php?ln=1&key=XzgwMDAxOTQwNF80ODQ2MjlfODAwMDE5NDA0XzJf" target="_blank" class="advisory-btn btn ml-20">马上咨询</a>
           </div>
         </div>
         <img src="~assets/img/spread-landing-page/choose-bainan.png" alt="" class="mt-40">
@@ -14,7 +17,7 @@
         </div>
         <img src="~assets/img/spread-landing-page/the-problem.png" alt="" class="mt-40">
         <img src="~assets/img/spread-landing-page/bainana-data.png" alt="" class="mt-40">
-        <div class="cursor-p" @click="toRegister">
+        <div class="cursor-p" @click="toReleaseActivity">
           <img src="~assets/img/spread-landing-page/experience.png" alt="" class="mt-40">
         </div>
         <img src="~assets/img/spread-landing-page/platform-compare.png" alt="" class="mt-40">
@@ -22,7 +25,8 @@
         <img src="~assets/img/spread-landing-page/progress-explain.png" alt="" class="mt-40">
         <div class="merchant-backstage"></div>
         <div class="diagnosis">
-          <a class="diagnosis-btn cursor-p text-ct" @click="toRegister"></a>
+          <a v-if="isLogin" class="diagnosis-btn cursor-p text-ct" href="http://wpa.b.qq.com/cgi/wpa.php?ln=1&key=XzgwMDAxOTQwNF80ODQ2MjlfODAwMDE5NDA0XzJf" target="_blank" ></a>
+          <a v-else class="diagnosis-btn cursor-p text-ct" @click="toRegister"></a>
         </div>
         <div v-if="showQuickRegister" class="quick-register">
           <div class="center">
@@ -103,14 +107,22 @@
       }
     },
     computed: {
-
+      isLogin() {
+        return this.$store.state.login
+      },
     },
     created() {
       this.getRegVrcode();
+      if (this.isLogin) {
+        this.showQuickRegister = false;
+      }
     },
     methods: {
       toRegister() {
         this.$router.push({path: '/register/seller-register'});
+      },
+      toReleaseActivity() {
+        this.$router.push({name: 'TaskRelease'});
       },
       getRegVrcode() {
         this.regImgSrc = "/api/vrcode.json?rand=" + new Date() / 100;
@@ -194,7 +206,7 @@
             if (res.data.role === 1) {
               // 此处的if else 修改是针对查排名落地页（原来直接跳首页）
               if (self.$route.query.from && self.$route.query.from === 'chapaiming') {
-                setStorage('hadRegister',true);
+                // setStorage('hadRegister',true);
                 self.$router.push({name:'ChapaimingLanding'});
               } else {
                 self.$router.push({name: 'Home'});
