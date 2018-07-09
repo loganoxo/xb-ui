@@ -19,7 +19,7 @@
       </div>
       <div class="mt-10 border-top pt-10">
         <p>当前待审核：<span class="main-color">{{data.totalTaskApplyCount}}</span> 人</p>
-        <template v-if="!data.isOldTask">
+        <template v-if="data.isMoreKeywordsPlan">
           <div class="inline-block tag" v-for="item in keywordPlanInfo" :class="selectKeywordScheme === item.index ? 'select-tag-bg' : ''">
             <span @click="selectChangeScheme(item.index)">关键词方案{{ item.index + 1 }}</span>
             <sup class="badge-count" v-show="item.addTaskNumber > 0">{{item.addTaskNumber}}</sup>
@@ -287,7 +287,7 @@
       },
       nextStep() {
         let isItemReviewOk = true;
-        if (this.data.isOldTask) {
+        if (!this.data.isMoreKeywordsPlan) {
           // 老活动的校验逻辑（没有关键词人数分配）
           if (!this.keywordPlanInfo[0].addTaskNumber) {
             this.$Message.warning(`亲，请输入需要追加的活动份数！`);
@@ -399,8 +399,9 @@
       },
       'data.keywordPlanNum': {
         deep: true,
-        handler() {
-          for (let i = 0; i < this.data.keywordPlanNum; i++) {
+        handler(val) {
+          let len = val > 0 ? val : 1;
+          for (let i = 0; i < len; i++) {
             this.keywordPlanInfo.push({
               addTaskNumber: null,
               index: i
