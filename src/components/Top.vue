@@ -46,7 +46,7 @@
             </li>
           </ul>
         </div>
-        <div class="home-nav-list">
+        <div class="home-nav-list clear">
           <a :class="[activityCategory === 'home' ? 'active' : '']" @click="selTaskCategoryHome">首页</a>
           <a :class="[activityCategory === 'free_get' ? 'active' : '']" @click="selTaskCategoryFunc('free_get')" >
             <Tooltip :content="TaskCategoryActiveList['free_get'].desc" placement="bottom">
@@ -90,6 +90,9 @@
             买家秀
           </a>
         </div>
+        <div class="merchant-entering right" @click="toLandingPage">
+          <span class="merchant-entering-icon icon-size"></span>
+          商家入驻</div>
       </div>
     </div>
   </div>
@@ -235,7 +238,9 @@
         }else {
           self.$router.push({ 'path': '/task-category', 'query': {'category': 'all', 'categoryId': 'all'}});
         }
-
+      },
+      toLandingPage() {
+        this.$router.push({name:'SpreadLandingPage'});
       }
     },
     watch: {
@@ -426,6 +431,27 @@
         background-color: #fd5474;
         border-left: 2px solid $mainColor;
         border-right:2px solid $mainColor;
+      }
+    }
+    .merchant-entering {
+      background: #F8F8F8;
+      padding:5px 10px;
+      color:$mainColor;
+      border-radius: 3px;
+      margin-right:100px;
+      margin-top:7px;
+      cursor: pointer;
+      .icon-size {
+        display: inline-block;
+        width: 13px;
+        height: 13px;
+        background-size: 13px 13px;
+        background-repeat: no-repeat;
+        margin-right: 5px;
+        transform: translateY(1px);
+      }
+      .merchant-entering-icon {
+        background-image: url("~assets/img/userhome-merchant/store-bind-on.png");
       }
     }
   }
