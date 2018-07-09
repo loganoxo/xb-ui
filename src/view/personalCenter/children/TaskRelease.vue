@@ -2406,10 +2406,10 @@
               }
             }
           }
-          /* if(countAssigned !== _this.taskRelease.taskCount) {
-             _this.$Message.warning('亲，你分配的人数与宝贝数量不符，请重新分配人数！');
+           if (_this.residualMatchNumber > 0) {
+             _this.$Message.warning('亲，当前还有剩余宝贝数未进行关键词匹配！');
              return;
-           }*/
+           }
         }
         if (_this.taskRelease.taskType === 'app_search') {
            /*let countAssigned = 0;
@@ -2474,10 +2474,10 @@
               }
             }
           }
-           /*if(countAssigned !== _this.taskRelease.taskCount){
-             _this.$Message.warning('亲，你分配的人数与宝贝数量不符，请重新分配人数！');
-             return;
-           }*/
+          if (_this.residualMatchNumber > 0) {
+            _this.$Message.warning('亲，当前还有剩余宝贝数未进行关键词匹配！');
+            return;
+          }
         }
         if (_this.taskRelease.taskType === 'tao_code') {
           if (!_this.taoCodeTaskDetail[0].taoCode) {
@@ -2642,15 +2642,14 @@
         })
       },
       returnUpStep() {
-        let _this = this;
-        let type = _this.$route.query.type;
+        const type = this.$route.query.type;
         if ((type && type === 'copy') || !type) {
-          _this.editTaskId = _this.taskPayId;
-          _this.getTaskInfo();
+          this.editTaskId = this.taskPayId;
+          this.getTaskInfo();
         } else {
-          _this.getTaskInfo();
+          this.getTaskInfo();
         }
-        _this.stepName = 'information';
+        this.stepName = 'information';
       },
       IThink() {
         this.editPriceAfterModel = false;
@@ -2934,10 +2933,10 @@
         this.taoCodeTaskDetailItemMainImage = null;
       },
       openRecharge() {
-        if (this.needPayMoneyBeforeAsRedEnvelopes <= 0) {
+        if (this.needPayMoneyBeforeAsRedEnvelopes < 0) {
           this.$router.push({name: 'ActivitiesList'})
         } else {
-          this.showPayModel = true;
+          this.showPayModel = true
         }
       },
       closeRecharge() {
@@ -3101,7 +3100,7 @@
         const type = _this.taskRelease.taskType;
         let initialValue = this.taskRelease.taskCount > 0 ? 1 : null;
         _this.keywordLowerChangeModel = false;
-        if(type === 'pc_search'){
+        if (type === 'pc_search'){
           _this.pcTaskDetail = [
             {
               index:0,
@@ -3121,7 +3120,7 @@
           _this.addKeywordScheme = 0;
           _this.selectKeywordScheme = 0;
         }
-        if(type === 'app_search'){
+        if (type === 'app_search'){
           _this.appTaskDetail = [
             {
               index:0,
