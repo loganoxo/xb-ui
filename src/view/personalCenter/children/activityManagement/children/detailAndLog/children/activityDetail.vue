@@ -1032,13 +1032,12 @@
         }
       },
 
-
       /**
        * 计算最终单品推广费用（最终推广费，扣除抵扣红包金额）
        * @return {number}
        */
       onePromotionExpensesAfter() {
-        return  this.redEnvelopeDeductionPaid > 0 ? this.onePromotionExpenses * 100 - this.redEnvelopeDeductionPaid / this.taskRelease.taskCount : this.onePromotionExpenses * 100
+        return  this.redEnvelopeDeductionPaid > 0 ? this.onePromotionExpenses * 100 - (this.redEnvelopeDeductionPaid / this.taskRelease.taskCount) : this.onePromotionExpenses * 100
       },
 
       /**

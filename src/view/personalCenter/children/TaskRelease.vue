@@ -1023,7 +1023,7 @@
           <div class="description-fees-con mt-10">
             <p>活动担保金 = 份数 × 单品活动担保金 = <span>{{oneBondMarginText}}</span> 元</p>
             <!--<p class="mt-6">单品打赏费 = 单品试用担保金 × 费率 =<span>{{onePromotionExpensesBeforeText}}</span> 元<span>{{onePromotionExpensesTipText}}</span></p>-->
-            <p class="mt-6">总推广费 = 单品推广费 × 份数 = <span>{{onePromotionExpenses}}</span> × <span>{{taskRelease.taskCount}} = <span>{{(allPromotionExpenses).toFixed(2)}}</span></span>
+            <p class="mt-6">总推广费 = 单品推广费 × 份数 = <span>{{(onePromotionExpenses).toFixed(2)}}</span> × <span>{{taskRelease.taskCount}} = <span>{{(allPromotionExpenses).toFixed(2)}}</span></span>
               元 &nbsp;&nbsp;
               <!--<tooltip placement="top" content="为提高平台拿手活跃度，鼓励拿手创作更优质的买家秀内容，原平台推广费将改为打赏费，用于拿手打赏！">-->
               <!--<a>什么是打赏费？</a>-->
@@ -1044,9 +1044,11 @@
           100).toFixed(2)}}</strong>&nbsp;元，还需充值：<span
           class="second-color">{{(needPayMoneyBefore / 100).toFixed(2)}}</span>&nbsp;元。
         </div>
-        <div class="pay-info mt-40" v-if="isBalanceReplenish && priceHasChange">
-          该任务已付总费用 <strong>{{(paidDeposit / 100).toFixed(2)}}</strong>元，本次修改需要支付超出部分的金额为：<strong class="main-color">{{(replenishMoney
-          / 100).toFixed(2)}}</strong>元。您账号的当前余额为：<strong>{{(getUserBalance / 100).toFixed(2) || 0}}</strong>&nbsp;元
+        <div class="pay-info mt-28" v-if="isBalanceReplenish && priceHasChange">
+          <p>该任务已付总费用&nbsp;<strong>{{(paidDeposit / 100).toFixed(2)}}</strong>&nbsp;元（包含红包抵扣&nbsp;{{(redEnvelopeDeductionPaid / 100).toFixed(2)}}&nbsp;元）。</p>
+          <p class="mt-10">本次修改需要支付超出部分的金额为：<strong class="main-color">{{((needPayMoneyBeforeAsRedEnvelopes > 0 ? needPayMoneyBeforeAsRedEnvelopes : 0)
+            / 100).toFixed(2)}}</strong>&nbsp;元（包含红包抵扣&nbsp;{{(redEnvelopeDeductionNumber / 100).toFixed(2)}}&nbsp;元）。</p>
+          <p class="mt-10">您账号的当前余额为：<strong>{{(getUserBalance / 100).toFixed(2) || 0}}</strong>&nbsp;元。</p>
         </div>
         <div class="pay-info mt-40" v-if="!isBalanceReplenish && priceHasChange">该任务已付担保金 <strong>{{((paidDeposit /
           100)).toFixed(2)}}</strong>元，本次修改需要支付超出部分的金额为：<strong
@@ -1483,6 +1485,7 @@
         createFastTaskStatus: false,
         redEnvelopesState: true,
         disabledRedEnvelopes: false,
+        redEnvelopeDeductionPaid: 0,
         redEnvelopeDeductionNumber: 0,
         residualMatchNumber: 0,
         isMatchNumberOk: true,
@@ -2672,12 +2675,13 @@
             _this.appDefaultList = [];
             _this.taoCodeDefaultList = [];
             _this.answerDefaultList = [];
+            _this.redEnvelopeDeductionPaid = res.data.redEnvelopeDeductionPaid;
             _this.paidDeposit = res.data.marginPaid + res.data.promotionExpensesPaid + res.data.vasFeePaid + res.data.redEnvelopeDeductionPaid;
             _this.taskStatus = res.data.taskStatus;
             if (!_this.$route.query.type) {
               _this.taskRelease.taskId = res.data.id;
             }
-            if (_this.taskStatus === 'waiting_modify') {
+            if (_this.taskStatus === 'waiting_modify' || _this.taskStatus === 'waiting_pay') {
               _this.redEnvelopesState = res.data.redEnvelopeDeductionPaid > 0;
               _this.disabledRedEnvelopes = true;
             }
@@ -2930,7 +2934,11 @@
         this.taoCodeTaskDetailItemMainImage = null;
       },
       openRecharge() {
-        this.showPayModel = true;
+        if (this.needPayMoneyBeforeAsRedEnvelopes <= 0) {
+          this.$router.push({name: 'ActivitiesList'})
+        } else {
+          this.showPayModel = true;
+        }
       },
       closeRecharge() {
         this.showPayModel = false;
@@ -3323,11 +3331,12 @@
         padding: 0 42px;
       }
       .pay-info {
-        @include sc(18px, #000);
+        @include sc(16px, #000);
         text-align: left;
         margin-left: 42px;
       }
       .description-fees-footer {
+        margin-top: 20px;
         text-align: center;
         .pay-btn {
           display: inline-block;
@@ -3361,6 +3370,7 @@
       padding: 12px;
       border: 1px solid #FFD6D0;
       background-color: #FFF5E0;
+      border-radius: 5px;
     }
     .audit {
       .audit-title {
