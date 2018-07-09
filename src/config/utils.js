@@ -165,8 +165,8 @@ export const aliUploadImg = (key, file) => {
           reject(error);
         })
       }
-    });
-  });
+    })
+  })
 };
 
 /**
@@ -194,8 +194,8 @@ export const aliUploadImgBuffer = (key, file) => {
       }).catch((error) => {
         reject(error);
       })
-    });
-  });
+    })
+  })
 };
 
 /**

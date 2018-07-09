@@ -293,6 +293,14 @@
             this.$Message.warning(`亲，请输入需要追加的活动份数！`);
             return;
           }
+          if (!isInteger(this.keywordPlanInfo[0].addTaskNumber)) {
+            this.$Message.warning(`亲，追加活动份数必须为正整数数字！`);
+            return;
+          }
+          if (this.keywordPlanInfo[0].addTaskNumber <= 0) {
+            this.$Message.warning(`亲，追加活动份数必须大于0！`);
+            return;
+          }
         } else {
           // 新活动的校验逻辑（有关键词人数分配）
           for (let i = 0, len = this.keywordPlanInfo.length; i < len; i++) {
