@@ -14,12 +14,19 @@
           </div>
           <div class="result-box fs-14" v-if="showResultBox">
             <p class="result-title clear">
-              <span class="result-point">淘宝买家：</span>
+              <span v-if="isSeller === 1" class="result-point">淘宝买家：</span>
+              <span v-if="isSeller === 2" class="result-point">淘宝卖家：</span>
               <span class="result-name">{{wwName}}</span>
               <img src="~assets/img/common/ww-avatar.gif" alt="" class="vtc-mid">
+              <img :src="tamllInfo" alt="">
               <span class="result-time right">当前查询时间：{{searchTime | dateFormat('YYYY-MM-DD hh:mm:ss')}}</span>
             </p>
-            <div v-if="showSearchResult">
+            <div v-if="showSearchResult" class="pos-rel">
+              <div class="safe-level">
+                <img v-if="safeLevel === 1" src="~assets/img/common/ww-search-level-safe.png" alt="">
+                <img v-if="safeLevel === 2" src="~assets/img/common/ww-search-level-normal.png" alt="">
+                <img v-if="safeLevel === 3" src="~assets/img/common/ww-search-level-dangerous.png" alt="">
+              </div>
               <p>
                 <span class="result-point">注册时间：</span>
                 <span>{{wwRegisteTime}}</span>
@@ -27,11 +34,13 @@
               <p>
                 <span class="result-point">实名认证：</span>
                 <span class="color-blue">{{wwVerified}}</span>
-                <img src="~assets/img/common/zfb_person_small.gif" alt="" class="vtc-mid">
+                <!--<img src="~assets/img/common/zfb_person_small.gif" alt="" class="vtc-mid">-->
+                <img :src="wwVerifiedImg" alt="" class="vtc-mid">
               </p>
               <p>
                 <span class="result-point">店铺信息：</span>
-                <span class="main-color">{{wwShopName ? wwShopName : '暂无店铺'}}</span>
+                <span v-if="!wwShopName" class="main-color">暂无店铺</span>
+                <span v-if="wwShopName">进入<a :href="wwShopUrl" target="_blank">【{{wwShopName}}】</a>的店铺，（创建时间：{{wwShopTime}}）</span>
               </p>
               <p>
                 <span class="result-point">当前主营：</span>
@@ -60,21 +69,25 @@
                   </p>
                   <p>
                     <span class="result-point">最近一周：</span>
-                    <span><span class="color-orange">{{buyerRecentWeek}}</span> 点数</span>
+                    <span v-if="isSeller === 1"><span class="color-orange">{{buyerRecentWeek}}</span> 点数</span>
+                    <span v-if="isSeller === 2"><span class="color-orange">0</span> 点数</span>
                     <span class="result-point ml-40">周平均：</span>
                     <span><span class="color-orange">{{buyerAverageWeek}}</span> 单</span>
                   </p>
                   <p>
                     <span class="result-point">最近一月：</span>
-                    <span><span class="color-orange">{{buyerRecentMonth}}</span> 点数</span>
+                    <span v-if="isSeller === 1"><span class="color-orange">{{buyerRecentMonth}}</span> 点数</span>
+                    <span v-if="isSeller === 2"><span class="color-orange">0</span> 点数</span>
                   </p>
                   <p>
                     <span class="result-point">最近半年：</span>
-                    <span><span class="color-orange">{{buyerRecentHalfYear}}</span> 点数</span>
+                    <span v-if="isSeller === 1"><span class="color-orange">{{buyerRecentHalfYear}}</span> 点数</span>
+                    <span v-if="isSeller === 2"><span class="color-orange">0</span> 点数</span>
                   </p>
                   <p>
                     <span class="result-point">半年以前：</span>
-                    <span><span class="color-orange">{{buyerOldHalfYear}}</span> 点数</span>
+                    <span v-if="isSeller === 1"><span class="color-orange">{{buyerOldHalfYear}}</span> 点数</span>
+                    <span v-if="isSeller === 2"><span class="color-orange">0</span> 点数</span>
                   </p>
                 </div>
                 <div class="result-right-box left">
@@ -82,7 +95,9 @@
                     <span class="result-point">卖家信用：</span>
                     <span><span class="color-blue" v-if="!sellerCredit">0 点</span></span>
                     <span><span class="color-blue" v-if="sellerCredit">{{sellerCredit}} 点</span></span>
-                    <span class="main-color">{{wwShopName ? wwShopName : '暂无店铺'}}</span>
+                    <img v-if="isSeller === 2" :src="sellerCreditImg" alt="">
+                    <span v-if="isSeller === 2" class="main-color">好评率（{{sellerGoodRate}}）</span>
+                    <span v-if="isSeller === 1" class="main-color">暂无店铺</span>
                   </p>
                   <p>
                     <span class="result-point">最近一周：</span>
@@ -157,10 +172,16 @@
         alitm: '',
         isShowLoading: false,
         searchTime: null,
+        isSeller:null,
+        // safeLevel: null,
+        averageNum: null,
+        tamllInfo: null,
         wwName: null,
         wwRegisteTime: null,
         wwVerified: null,
         wwShopName: null,
+        wwShopUrl: null,
+        wwShopTime: null,
         wwCurrentMain: null,
         wwCurrentArea: null,
         wwNormalAssess: null,
@@ -175,6 +196,8 @@
         buyerRecentHalfYear: null,
         buyerOldHalfYear: null,
         sellerCredit: null,
+        sellerCreditImg: null,
+        sellerGoodRate: null,
         sellerRecentWeek: null,
         sellerRecentMonth: null,
         sellerRecentHalfYear: null,
@@ -188,6 +211,19 @@
       getUserRole() {
         return this.$store.getters.getUserRole
       },
+      // 1 代表安全 2 代表一般 3 代表危险
+      safeLevel() {
+        if (this.averageNum >= 0 && this.averageNum <= 4.99) {
+          return 1
+        }
+        if (this.averageNum >=5 && this.averageNum <= 19.99) {
+          return 2
+        }
+        if (this.averageNum >= 20) {
+          return 3
+        }
+
+      }
     },
     created() {
     },
@@ -211,10 +247,16 @@
             if (res.status) {
               let tempData = res.data;
               _this.searchTime = parseInt(tempData.UpdateTime.match(/\(([^)]*)\)/)[1]);
+              _this.isSeller = tempData.IsSeller;
+              _this.averageNum = parseInt(tempData.AverageNum);
+              _this.tamllInfo = tempData.TamllInfo;
               _this.wwName = tempData.UserName;
               _this.wwRegisteTime = tempData.UserTime;
               _this.wwVerified = tempData.UserIdent;
-              _this.wwshopName = tempData.ShopName;
+              _this.wwVerifiedImg = tempData.UserIdentImg;
+              _this.wwShopName = tempData.ShopName;
+              _this.wwShopUrl = tempData.ShopUrl;
+              _this.wwShopTime = tempData.ShopTime;
               _this.wwCurrentMain = tempData.ShopType;
               _this.wwCurrentArea = tempData.UserArea;
               _this.wwNormalAssess = tempData.TotalNormalCount;
@@ -223,16 +265,18 @@
               _this.buyerCredit = tempData.UserBuyerCount;
               _this.buyerGoodRate = tempData.UserBuyerGoodRate;
               _this.buyerCreditImg = tempData.UserBuyerImg;
-              _this.buyerRecentWeek = tempData.WeekRateNormal;
               _this.buyerAverageWeek = tempData.AverageNum;
-              _this.buyerRecentMonth = tempData.MonthRateNormal;
-              _this.buyerRecentHalfYear = tempData.YearRateNormal;
-              _this.buyerOldHalfYear = tempData.YearOldRateNormal;
+              _this.buyerRecentWeek = tempData.WeekRateGood;
+              _this.buyerRecentMonth = tempData.MonthRateGood;
+              _this.buyerRecentHalfYear = tempData.YearRateGood;
+              _this.buyerOldHalfYear = tempData.YearOldRateGood;
               _this.sellerCredit = tempData.UserSellerCount;
-              _this.sellerRecentWeek = tempData.WeekRateNormal;
-              _this.sellerRecentMonth = tempData.MonthRateNormal;
-              _this.sellerRecentHalfYear = tempData.YearRateNormal;
-              _this.sellerOldHalfYear = tempData.YearOldRateNormal;
+              _this.sellerCreditImg = tempData.UserSellerImg;
+              _this.sellerGoodRate = tempData.UserSellerGoodRate;
+              _this.sellerRecentWeek = tempData.WeekRateGood;
+              _this.sellerRecentMonth = tempData.MonthRateGood;
+              _this.sellerRecentHalfYear = tempData.YearRateGood;
+              _this.sellerOldHalfYear = tempData.YearOldRateGood;
               _this.showSearchResult = true;
               _this.showResultBox = true;
             } else {
@@ -323,6 +367,11 @@
       .result-box {
         background: #fff;
         padding:20px 125px;
+        .safe-level {
+          position: absolute;
+          top:30px;
+          right:0;
+        }
         p {
           height:48px;
           line-height: 48px;
@@ -417,6 +466,9 @@
           font-size: 14px;
           line-height: 40px;
           color:#999;
+        }
+        .point {
+          color: $mainColor;
         }
       }
     }
