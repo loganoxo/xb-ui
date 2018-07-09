@@ -610,11 +610,11 @@
         }, 200)
       },
       addSuccess() {
-        this.appliesWaitingAuditAll(this.operateTaskId, this.operateIndex);
+        this.appliesWaitingAuditAll(this.operateTaskId, this.operateIndex)
       },
       addToBlackListFun(wwName) {
         this.closableModal = true;
-        this.addBlackListInfo.alitmAccount = wwName
+        this.addBlackListInfo.alitmAccount = wwName;
       },
       sortChange(name, index) {
         let sort = this.sortList.defaultList[index].sort;

@@ -2051,10 +2051,22 @@
         if (type === 'pc_search') {
           this.addKeywordScheme = this.pcTaskDetail.length - 1;
           this.selectKeywordScheme = 0;
+          this.pcTaskDetail.forEach(item => {
+            if (!item.countAssigned) {
+              item.countAssigned = 1
+            }
+          });
+          this.countAssignedChange();
         }
         if (type === 'app_search') {
           this.addKeywordScheme = this.appTaskDetail.length - 1;
           this.selectKeywordScheme = 0;
+          this.appTaskDetail.forEach(item => {
+            if (!item.countAssigned) {
+              item.countAssigned = 1
+            }
+          });
+          this.countAssignedChange();
         }
         if (this.pcTaskDetail[0].itemMainImage) {
           this.pcDefaultList = [];
@@ -2964,7 +2976,7 @@
             index: i,
           });
         }
-        if(count > 0 && (type === 'pc_search' || type === 'app_search') && count < this.allPlanNumber()){
+        if (count > 0 && (type === 'pc_search' || type === 'app_search') && count < this.allPlanNumber()){
           _this.keywordLowerChangeModel = true;
         }
       },
@@ -2976,6 +2988,7 @@
           this.pcTaskDetail[0].countAssigned = null;
           this.appTaskDetail[0].countAssigned = null;
         }
+        this.countAssignedChange();
       },
       changeSelectEvaluation() {
         if (this.taskRelease.itemReviewSummary) {
@@ -3051,6 +3064,7 @@
           })
         }
         this.selectKeywordScheme = this.addKeywordScheme;
+        this.countAssignedChange();
       },
       handleClose(name) {
         const _this = this;
@@ -3069,6 +3083,7 @@
         }
         _this.addKeywordScheme -= 1;
         _this.selectKeywordScheme = thisIndex - 1;
+        _this.countAssignedChange();
       },
       selectChangeScheme(name) {
         this.selectKeywordScheme = name;
