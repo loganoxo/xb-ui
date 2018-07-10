@@ -2995,7 +2995,7 @@
           this.pcTaskDetail[0].countAssigned = null;
           this.appTaskDetail[0].countAssigned = null;
         }
-        this.countAssignedChange();
+        this.countAssignedChange('noVerify');
       },
       changeSelectEvaluation() {
         if (this.taskRelease.itemReviewSummary) {
@@ -3023,9 +3023,9 @@
         }
         return num
       },
-      countAssignedChange() {
+      countAssignedChange(type) {
         let num = this.allPlanNumber();
-        if (num > this.taskRelease.taskCount) {
+        if (num > this.taskRelease.taskCount && !type) {
           this.isMatchNumberOk = false;
           this.$Message.warning('亲，当前剩余匹配数不足！');
         } else {
@@ -3105,7 +3105,7 @@
         if (type === 'pc_search'){
           _this.pcTaskDetail = [
             {
-              index:0,
+              index: 0,
               itemMainImage: null,
               countAssigned: initialValue,
               searchKeyword: null,
@@ -3125,7 +3125,7 @@
         if (type === 'app_search'){
           _this.appTaskDetail = [
             {
-              index:0,
+              index: 0,
               itemMainImage: null,
               countAssigned: initialValue,
               searchKeyword: null,
@@ -3140,8 +3140,8 @@
           ];
           _this.addKeywordScheme = 0;
           _this.selectKeywordScheme = 0;
-          _this.countAssignedChange();
         }
+        _this.countAssignedChange();
       },
       addAnswer() {
         if (this.browseAnswer.length < 3) {
