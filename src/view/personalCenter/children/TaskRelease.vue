@@ -1757,7 +1757,7 @@
        * @return {number}
        */
       needPayMoneyAfterAsRedEnvelopes() {
-        return this.redEnvelopesState ? this.needPayMoneyAfter - this.redEnvelopeDeductionNumber : this.needPayMoneyAfter
+        return this.isBalance ? this.redEnvelopesState ? this.needPayMoneyAfter - this.redEnvelopeDeductionNumber : this.needPayMoneyAfter : 0
       },
 
       /**
@@ -1781,7 +1781,7 @@
        * @return {number}
        */
       needPayMoneyBeforeAsRedEnvelopes() {
-        return this.redEnvelopesState ? this.needPayMoneyBefore - this.redEnvelopeDeductionNumber : this.needPayMoneyBefore
+        return !this.isBalance ? this.redEnvelopesState ? this.needPayMoneyBefore - this.redEnvelopeDeductionNumber : this.needPayMoneyBefore : 0
       },
 
       /** 计算充值界面上的金额文本显示
@@ -2680,7 +2680,7 @@
             if (!_this.$route.query.type) {
               _this.taskRelease.taskId = res.data.id;
             }
-            if (_this.taskStatus === 'waiting_modify' || _this.taskStatus === 'waiting_pay') {
+            if ((_this.taskStatus === 'waiting_modify' || _this.taskStatus === 'waiting_pay') && _this.$route.query.type !== 'copy') {
               _this.redEnvelopesState = res.data.redEnvelopeDeductionPaid > 0;
               _this.disabledRedEnvelopes = true;
             }
@@ -2933,7 +2933,7 @@
         this.taoCodeTaskDetailItemMainImage = null;
       },
       openRecharge() {
-        if (this.needPayMoneyBeforeAsRedEnvelopes < 0) {
+        if (this.needPayMoneyBeforeAsRedEnvelopes < 0 || this.needPayMoneyAfterAsRedEnvelopes < 0) {
           this.$router.push({name: 'ActivitiesList'})
         } else {
           this.showPayModel = true
@@ -3018,7 +3018,7 @@
           }, 0)
         } else if (this.taskRelease.taskType === 'app_search') {
           num = this.appTaskDetail.reduce((prev, cur) => {
-            return (cur.countAssigned > 0 ? cur.countAssigned : 0)  + prev
+            return (cur.countAssigned > 0 ? cur.countAssigned : 0) + prev
           }, 0)
         }
         return num
