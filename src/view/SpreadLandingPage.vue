@@ -110,6 +110,9 @@
       isLogin() {
         return this.$store.state.login
       },
+      getUserRole() {
+        return this.$store.getters.getUserRole
+      },
     },
     created() {
       this.getRegVrcode();
@@ -119,7 +122,7 @@
     },
     methods: {
       toRegister() {
-        this.$router.push({path: '/register/seller-register'});
+        this.$router.push({path: '/register/seller-register',query:{from:'spreadLandingPage'}});
       },
       toReleaseActivity() {
         this.$router.push({name: 'TaskRelease'});
