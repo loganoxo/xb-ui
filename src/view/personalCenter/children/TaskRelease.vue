@@ -3028,6 +3028,8 @@
         if (num > this.taskRelease.taskCount) {
           this.isMatchNumberOk = false;
           this.$Message.warning('亲，当前剩余匹配数不足！');
+        } else {
+          this.isMatchNumberOk = true;
         }
        this.residualMatchNumber = this.taskRelease.taskCount > 0 ? this.taskRelease.taskCount - num > 0 ? this.taskRelease.taskCount - num : 0 : 0;
       },

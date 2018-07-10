@@ -1150,11 +1150,11 @@ export default {
     return axiosConfig.get('/api/merchant-check-showker-apply.json', params)
   },
 
-/**
- * 查排名落地页查小号/查信誉接口
- */
+  /**
+   * 查排名落地页查小号/查信誉接口
+   */
   searchCredit(params) {
-    return axiosConfig.get('/api/search-credit.json',params)
+    return axiosConfig.get('/api/search-credit.json', params)
   }
 
 

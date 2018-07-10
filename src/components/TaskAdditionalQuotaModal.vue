@@ -366,9 +366,7 @@
         const additionSearchScheme = [];
         if (_this.itemReviewList.length > 0) {
           _this.itemReviewList.forEach(item => {
-            if (item.value) {
-              itemReviewPushList.push(delSpace(item.value));
-            }
+            itemReviewPushList.push(delSpace(item.value));
           })
         }
         _this.keywordPlanInfo.forEach(item => {
