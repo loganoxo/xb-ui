@@ -492,7 +492,6 @@
                 <span @click="selectChangeScheme(item.index)">{{ item.searchKeyword}}</span>
                 <sup class="badge-count" v-show="item.countAssigned > 0">{{item.countAssigned}}</sup>
               </div>
-              <div class="mt-10 sizeColor">（请确保提供的关键词能够搜索到宝贝，同时为了避免拿手找不到对应的宝贝，您最多可以添加5组关键词方案）</div>
             </div>
             <div class="keyword-plan" v-for="item in pcTaskDetail" v-show="item.index === selectKeywordScheme">
               <div class="keyword-plan-tip">关键词方案 {{item.index + 1}}</div>
