@@ -580,8 +580,7 @@
         this.addBlackListInfo = {};
       },
       taskAdditionalQuota(item) {
-        this.taskAdditionalQuotaInfo = {};
-        Object.assign(this.taskAdditionalQuotaInfo, {
+        Object.assign(this.taskAdditionalQuotaInfo = {}, {
           taskId: item.id,
           taskMainImage: item.taskMainImage,
           taskName: item.taskName,
@@ -600,6 +599,7 @@
           itemReviewRequired: item.itemReviewRequired,
           keywordPlanNum: item.keywordPlanNum,
           isMoreKeywordsPlan: item.isMoreKeywordsPlan,
+          searchKeywords: item.searchKeywords,
         });
         this.additionalQuotaModal = true;
       },

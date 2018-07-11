@@ -21,7 +21,7 @@
         <p>当前待审核：<span class="main-color">{{data.totalTaskApplyCount}}</span> 人</p>
         <template v-if="data.isMoreKeywordsPlan">
           <div class="inline-block tag" v-for="item in keywordPlanInfo" :class="selectKeywordScheme === item.index ? 'select-tag-bg' : ''">
-            <span @click="selectChangeScheme(item.index)">关键词方案{{ item.index + 1 }}</span>
+            <span @click="selectChangeScheme(item.index)">{{item.title ? item.title : `关键词方案${item.index + 1}`}}</span>
             <sup class="badge-count" v-show="item.addTaskNumber > 0">{{item.addTaskNumber}}</sup>
           </div>
         </template>
@@ -29,6 +29,7 @@
           <div class="mt-10">
             <span>追加份数：</span>
             <i-input v-model.number="item.addTaskNumber" placeholder="请输入追加份数" @on-change="addTaskNumberChange" style="width: 100px;"/>
+            <span class="ml-10 cl000 fs-14" v-if="item.title">为{{` "${item.title}" `}}追加的份数</span>
           </div>
           <div class="mt-10 border-top pt-10 addition-item" v-if="data.itemReviewRequired === 'assign_review_detail' && itemReviewList.length > 0">
             <p class="mb-10">该活动设置了指定评价，请对追加的份数提供相应的评价数：</p>
@@ -395,7 +396,8 @@
           for (let i = 0; i < len; i++) {
             this.keywordPlanInfo.push({
               addTaskNumber: null,
-              index: i
+              index: i,
+              title: this.data.searchKeywords[i] ? this.data.searchKeywords[i] : null
             })
           }
         }
