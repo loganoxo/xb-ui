@@ -363,7 +363,7 @@
           })
         }
         _this.keywordPlanInfo.forEach(item => {
-          additionSearchScheme.push(item.addTaskNumber)
+          additionSearchScheme.push(item.addTaskNumber > 0 ? item.addTaskNumber : 0)
         });
         api.additionalTaskAccount({
           payPwd: pwd,
