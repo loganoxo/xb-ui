@@ -890,10 +890,10 @@
             </div>
             <div class="keyword-plan" v-for="item in appTaskDetail" v-show="item.index === selectKeywordScheme">
               <div class="keyword-plan-tip">关键词方案 {{item.index + 1}}</div>
-               <div class="matching-num ml-40 mt-20">
-                 <span class="required">匹配人数：</span>
-                 <i-input v-model.number="item.countAssigned" placeholder="请输入匹配人数" style="width: 160px" @on-change="countAssignedChange"/>
-                 <span class="sizeColor2">（为当前关键词分配拿手，表示需要几个拿手使用该关键词进店成交，最小为1）</span>
+              <div class="matching-num ml-40 mt-20">
+                <span class="required">匹配人数：</span>
+                <i-input v-model.number="item.countAssigned" placeholder="请输入匹配人数" style="width: 160px" @on-change="countAssignedChange"/>
+                <span class="sizeColor2">（为当前关键词分配拿手，表示需要几个拿手使用该关键词进店成交，最小为1）</span>
                </div>
               <div class="search-keyword mt-20 ml-28">
                 <span class="required">搜索关键词：</span>
