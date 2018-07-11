@@ -7,7 +7,6 @@ import VueLazyload from 'vue-lazyload'
 import {Modal, Message, Notice} from 'iview'
 import '../iview/iview.less'
 import '@/css/common.scss'
-// import 'animate.css'
 
 Vue.config.productionTip = false;
 
