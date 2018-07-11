@@ -303,19 +303,12 @@
           }
         } else {
           // 新活动的校验逻辑（有关键词人数分配）
-          for (let i = 0, len = this.keywordPlanInfo.length; i < len; i++) {
-            if (!this.keywordPlanInfo[i].addTaskNumber) {
-              this.$Message.warning(`亲，请输入关键词方案 ${i + 1} 中需要追加的活动份数！`);
-              return;
-            }
-            if (!isInteger(this.keywordPlanInfo[i].addTaskNumber)) {
-              this.$Message.warning(`亲，关键词方案 ${i + 1} 中追加活动份数必须为正整数数字！`);
-              return;
-            }
-            if (this.keywordPlanInfo[i].addTaskNumber <= 0) {
-              this.$Message.warning(`亲，关键词方案 ${i + 1} 中追加活动份数必须大于0！`);
-              return;
-            }
+          const allOk = this.keywordPlanInfo.some(item => {
+            return item.addTaskNumber > 0
+          });
+          if (!allOk) {
+            this.$Message.warning(`亲，请输入需要追加的活动份数！`);
+            return;
           }
         }
         if (this.data.itemReviewRequired === 'assign_review_detail') {
