@@ -448,7 +448,9 @@
       Modal: Modal,
     },
     computed: {
-
+      fromPage() {
+        return this.$route.query.from
+      }
     },
     data() {
       //表单验证
@@ -568,6 +570,7 @@
         this.selLogin.buyer = false;
         this.selLogin.seller = true;
       }
+      console.log(this.fromPage);
     },
     methods: {
       getRegVrcode() {
@@ -575,8 +578,13 @@
       },
       selLoginFunc(num) {
         if (num === 0) {
-          this.selLogin.buyer = true;
-          this.selLogin.seller = false
+          if (this.fromPage && this.fromPage === 'spreadLandingPage') {
+            this.selLogin.seller = true;
+            this.selLogin.buyer = false;
+          } else {
+            this.selLogin.buyer = true;
+            this.selLogin.seller = false
+          }
         } else {
           this.selLogin.seller = true;
           this.selLogin.buyer = false;

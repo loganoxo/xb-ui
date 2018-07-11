@@ -1,80 +1,80 @@
 <template>
-    <div class="spread-landing-page">
-      <Top/>
-      <div class="content text-ct">
-        <div class="banner pos-rel">
-          <div v-if="!isLogin" class="btn-area">
-            <div class="register-btn btn mr-20" @click="toRegister">注册商家账号</div>
-            <div class="advisory-btn btn ml-20" @click="toRegister">马上咨询</div>
-          </div>
-          <div v-if="isLogin" class="btn-area">
-            <a href="http://wpa.b.qq.com/cgi/wpa.php?ln=1&key=XzgwMDAxOTQwNF80ODQ2MjlfODAwMDE5NDA0XzJf" target="_blank" class="advisory-btn btn ml-20">马上咨询</a>
-          </div>
+  <div class="spread-landing-page">
+    <Top/>
+    <div class="content text-ct">
+      <div class="banner pos-rel">
+        <div v-if="!isLogin" class="btn-area">
+          <div class="register-btn btn mr-20" @click="toRegister">注册商家账号</div>
+          <div class="advisory-btn btn ml-20" @click="toRegister">马上咨询</div>
         </div>
-        <img src="~assets/img/spread-landing-page/choose-bainan.png" alt="" class="mt-40">
-        <div class="bainana-niubility">
-          <img src="~assets/img/spread-landing-page/bainana-niubility_03.png" alt="" class="mt-40">
+        <div v-if="isLogin" class="btn-area">
+          <a href="http://wpa.b.qq.com/cgi/wpa.php?ln=1&key=XzgwMDAxOTQwNF80ODQ2MjlfODAwMDE5NDA0XzJf" target="_blank" class="advisory-btn btn ml-20">马上咨询</a>
         </div>
-        <img src="~assets/img/spread-landing-page/the-problem.png" alt="" class="mt-40">
-        <img src="~assets/img/spread-landing-page/bainana-data.png" alt="" class="mt-40">
-        <div class="cursor-p" @click="toReleaseActivity">
-          <img src="~assets/img/spread-landing-page/experience.png" alt="" class="mt-40">
-        </div>
-        <img src="~assets/img/spread-landing-page/platform-compare.png" alt="" class="mt-40">
-        <div class="success-case"></div>
-        <img src="~assets/img/spread-landing-page/progress-explain.png" alt="" class="mt-40">
-        <div class="merchant-backstage"></div>
-        <div class="diagnosis">
-          <a v-if="isLogin" class="diagnosis-btn cursor-p text-ct" href="http://wpa.b.qq.com/cgi/wpa.php?ln=1&key=XzgwMDAxOTQwNF80ODQ2MjlfODAwMDE5NDA0XzJf" target="_blank" ></a>
-          <a v-else class="diagnosis-btn cursor-p text-ct" @click="toRegister"></a>
-        </div>
-        <div v-if="showQuickRegister" class="quick-register">
-          <div class="center">
-            <img src="~assets/img/spread-landing-page/help-superman.png" alt="" class="superman">
-            <img src="~assets/img/spread-landing-page/help-text.png" alt="" class="help-text">
-            <div class="edit-box clear">
-              <div class="edit-input-box clear">
-                <span class="edit-tip">手机号：</span>
-                <input class="edit-input" type="number" v-model="formCustom.phone">
-                <!--<span class="send-verifed-code">发送验证码</span>-->
-              </div>
-              <div class="edit-input-box clear">
-                <span class="edit-tip">用户密码：</span>
-                <input class="edit-input" type="password" v-model="formCustom.pwd">
-              </div>
-              <div class="edit-input-box clear">
-                <span class="edit-tip">确认密码：</span>
-                <input class="edit-input" type="password" v-model="formCustom.repwd">
-              </div>
-              <div class="edit-input-box clear">
-                <span class="edit-tip">QQ：</span>
-                <input class="edit-input" type="number" v-model="formCustom.qqNumber">
-              </div>
-              <div class="edit-input-box clear">
-                <span class="edit-tip">图形验证码：</span>
-                <input class="edit-input" type="number" v-model="formCustom.validateCode">
-                <img class="vrcode-image" :src="regImgSrc" width="100" alt="图形验证码" @click="getRegVrcode">
-              </div>
-              <div class="edit-input-box clear">
-                <span class="edit-tip">短信验证码：</span>
-                <input class="edit-input" type="number" v-model="formCustom.smsCode">
-                <sms-countdown style="top:3px;" :on-success="sendCodeSuccess"
-                               :phone="formCustom.phone"
-                               :purpose="formCustom.purpose"
-                               :validateCode="formCustom.validateCode">
-                </sms-countdown>
-              </div>
-              <div class="edit-input-box clear submit-btn" @click="register">
-                立即注册
-              </div>
+      </div>
+      <img src="~assets/img/spread-landing-page/choose-bainan.png" alt="" class="mt-40">
+      <div class="bainana-niubility">
+        <img src="~assets/img/spread-landing-page/bainana-niubility_03.png" alt="" class="mt-40">
+      </div>
+      <img src="~assets/img/spread-landing-page/the-problem.png" alt="" class="mt-40">
+      <img src="~assets/img/spread-landing-page/bainana-data.png" alt="" class="mt-40">
+      <div class="cursor-p" @click="toReleaseActivity">
+        <img src="~assets/img/spread-landing-page/experience.png" alt="" class="mt-40">
+      </div>
+      <img src="~assets/img/spread-landing-page/platform-compare.png" alt="" class="mt-40">
+      <div class="success-case"></div>
+      <img src="~assets/img/spread-landing-page/progress-explain.png" alt="" class="mt-40">
+      <div class="merchant-backstage"></div>
+      <div class="diagnosis">
+        <a v-if="isLogin" class="diagnosis-btn cursor-p text-ct" href="http://wpa.b.qq.com/cgi/wpa.php?ln=1&key=XzgwMDAxOTQwNF80ODQ2MjlfODAwMDE5NDA0XzJf" target="_blank" ></a>
+        <a v-else class="diagnosis-btn cursor-p text-ct" @click="toRegister"></a>
+      </div>
+      <div v-if="showQuickRegister" class="quick-register">
+        <div class="center">
+          <img src="~assets/img/spread-landing-page/help-superman.png" alt="" class="superman">
+          <img src="~assets/img/spread-landing-page/help-text.png" alt="" class="help-text">
+          <div class="edit-box clear">
+            <div class="edit-input-box clear">
+              <span class="edit-tip">手机号：</span>
+              <input class="edit-input" type="number" v-model="formCustom.phone">
+              <!--<span class="send-verifed-code">发送验证码</span>-->
             </div>
-            <div class="close-btn" @click="showQuickRegister = false">
-              <img src="~assets/img/spread-landing-page/guanbaniu.png" alt="">
+            <div class="edit-input-box clear">
+              <span class="edit-tip">用户密码：</span>
+              <input class="edit-input" type="password" v-model="formCustom.pwd">
             </div>
+            <div class="edit-input-box clear">
+              <span class="edit-tip">确认密码：</span>
+              <input class="edit-input" type="password" v-model="formCustom.repwd">
+            </div>
+            <div class="edit-input-box clear">
+              <span class="edit-tip">QQ：</span>
+              <input class="edit-input" type="number" v-model="formCustom.qqNumber">
+            </div>
+            <div class="edit-input-box clear">
+              <span class="edit-tip">图形验证码：</span>
+              <input class="edit-input" type="number" v-model="formCustom.validateCode">
+              <img class="vrcode-image" :src="regImgSrc" width="100" alt="图形验证码" @click="getRegVrcode">
+            </div>
+            <div class="edit-input-box clear">
+              <span class="edit-tip">短信验证码：</span>
+              <input class="edit-input" type="number" v-model="formCustom.smsCode">
+              <sms-countdown style="top:3px;" :on-success="sendCodeSuccess"
+                             :phone="formCustom.phone"
+                             :purpose="formCustom.purpose"
+                             :validateCode="formCustom.validateCode">
+              </sms-countdown>
+            </div>
+            <div class="edit-input-box clear submit-btn" @click="register">
+              立即注册
+            </div>
+          </div>
+          <div class="close-btn" @click="showQuickRegister = false">
+            <img src="~assets/img/spread-landing-page/guanbaniu.png" alt="">
           </div>
         </div>
       </div>
     </div>
+  </div>
 </template>
 
 <script>
@@ -110,6 +110,9 @@
       isLogin() {
         return this.$store.state.login
       },
+      getUserRole() {
+        return this.$store.getters.getUserRole
+      },
     },
     created() {
       this.getRegVrcode();
@@ -119,7 +122,7 @@
     },
     methods: {
       toRegister() {
-        this.$router.push({path: '/register/seller-register'});
+        this.$router.push({path: '/register/seller-register',query:{from:'spreadLandingPage'}});
       },
       toReleaseActivity() {
         this.$router.push({name: 'TaskRelease'});
