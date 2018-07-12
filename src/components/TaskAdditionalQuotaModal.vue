@@ -436,7 +436,7 @@
     border-color: $mainColor;
   }
 
-  .badge-count{
+  .badge-count {
     position: absolute;
     transform: translateX(50%);
     top: -16px;

@@ -489,21 +489,17 @@
             </div>
             <div class="more-keyword-scheme ml-40 mt-20" v-if="!fastPublish">
               <div class="inline-block tag" v-for="item in pcTaskDetail" :key="item.index" :class="selectKeywordScheme === item.index ? 'select-tag-bg' : ''">
-                <span @click="selectChangeScheme(item.index)">关键词方案{{ item.index + 1 }}</span>
+                <span @click="selectChangeScheme(item.index)">{{ item.searchKeyword}}</span>
                 <sup class="badge-count" v-show="item.countAssigned > 0">{{item.countAssigned}}</sup>
               </div>
-              <div class="mt-10 sizeColor">（请确保提供的关键词能够搜索到宝贝，同时为了避免拿手找不到对应的宝贝，您最多可以添加5组关键词方案）</div>
             </div>
-            <template v-for="item in pcTaskDetail" v-if="item.index === selectKeywordScheme">
-              <alert show-icon class="tag-alert" v-if="!fastPublish">
-                您当前选择的是关键词方案 {{item.index + 1}}
-                <icon type="ios-lightbulb-outline" slot="icon" size="18"/>
-              </alert>
-             <!-- <div class="matching-num ml-40 mt-20">
+            <div class="keyword-plan" v-for="item in pcTaskDetail" v-show="item.index === selectKeywordScheme">
+              <div class="keyword-plan-tip">关键词方案 {{item.index + 1}}</div>
+              <div class="matching-num ml-40 mt-20">
                 <span>匹配人数：</span>
-                <iInput v-model.number="item.countAssigned" placeholder="请输入匹配人数" style="width: 160px" :disabled="true"></iInput>
-                <p class="sizeColor mt-10">（系统会按照审批拿手通过数量以及匹配人数，依次展示对应的关键词。注意：每个关键词的匹配人数之和不能大于宝贝数量）</p>
-              </div>-->
+                <i-input v-model.number="item.countAssigned" placeholder="请输入匹配人数" style="width: 160px" :disabled="true"/>
+                <span class="sizeColor2">（为当前关键词分配拿手，表示需要几个拿手使用该关键词进店成交，最小为1）</span>
+              </div>
               <div class="search-keyword mt-20 ml-28">
                 <span class="required">搜索关键词：</span>
                 <i-input v-model="item.searchKeyword" placeholder="请输入搜索关键词" :disabled="true" style="width: 260px"/>
@@ -526,7 +522,7 @@
               <div class="search-price ml-40 mt-20">
                 <span class="required">展示价格：</span>
                 <i-input v-model="item.searchPagePrice" :disabled="true" placeholder="请输入搜索列表页展示价格"
-                        style="width: 160px"/>
+                         style="width: 160px"/>
                 <span class="size-color2">（务必亲自搜索，确认价格准确）</span>
               </div>
               <div class="baby-location ml-15 mt-20">
@@ -586,7 +582,7 @@
                 <i-input v-model="item.priceRangeMax" :disabled="true" style="width: 40px"/>
                 <span>元</span>
               </div>
-            </template>
+            </div>
           </template>
           <!--APP搜索下单设置-->
           <template v-else-if="taskRelease.taskType === 'app_search'">
@@ -598,21 +594,17 @@
             </div>
             <div class="more-keyword-scheme ml-40 mt-20" v-if="!fastPublish">
               <div class="inline-block tag" v-for="item in appTaskDetail" :key="item.index" :class="selectKeywordScheme === item.index ? 'select-tag-bg' : ''">
-                <span @click="selectChangeScheme(item.index)">关键词方案{{ item.index + 1 }}</span>
+                <span @click="selectChangeScheme(item.index)">{{ item.searchKeyword}}</span>
                 <sup class="badge-count" v-show="item.countAssigned > 0">{{item.countAssigned}}</sup>
               </div>
-              <div class="mt-10 sizeColor">（请确保提供的关键词能够搜索到宝贝，同时为了避免拿手找不到对应的宝贝，您最多可以添加5组关键词方案）</div>
             </div>
-            <template v-for="item in appTaskDetail" v-if="item.index === selectKeywordScheme">
-              <alert show-icon class="tag-alert" v-if="!fastPublish">
-                您当前选择的是关键词方案 {{item.index + 1}}
-                <icon type="ios-lightbulb-outline" slot="icon" size="18"/>
-              </alert>
-            <!--  <div class="matching-num ml-40 mt-20">
+            <div class="keyword-plan" v-for="item in appTaskDetail" v-show="item.index === selectKeywordScheme">
+              <div class="keyword-plan-tip">关键词方案 {{item.index + 1}}</div>
+              <div class="matching-num ml-40 mt-20">
                 <span>匹配人数：</span>
-                <iInput v-model.number="item.countAssigned" placeholder="请输入匹配人数" style="width: 160px" :disabled="true"></iInput>
-                <p class="sizeColor mt-10">（系统会按照审批拿手通过数量以及匹配人数，依次展示对应的关键词。注意：每个关键词的匹配人数之和不能大于宝贝数量）</p>
-              </div>-->
+                <i-input v-model.number="item.countAssigned" placeholder="请输入匹配人数" style="width: 160px" :disabled="true"/>
+                <span class="sizeColor2">（为当前关键词分配拿手，表示需要几个拿手使用该关键词进店成交，最小为1）</span>
+              </div>
               <div class="search-keyword mt-20 ml-28">
                 <span class="required">搜索关键词：</span>
                 <i-input v-model="item.searchKeyword" placeholder="请输入搜索关键词" :disabled="true" style="width: 260px"/>
@@ -632,7 +624,7 @@
               <div class="search-price ml-40 mt-20">
                 <span class="required">展示价格：</span>
                 <i-input v-model="item.searchPagePrice" placeholder="请输入搜索列表页展示价格" :disabled="true"
-                        style="width: 160px"/>
+                         style="width: 160px"/>
                 <span class="size-color2">（务必亲自搜索，确认价格准确）</span>
               </div>
               <div class="baby-location ml-15 mt-20">
@@ -692,7 +684,7 @@
                 <i-input v-model="item.deliverAddress" :disabled="true" style="width: 120px"/>
                 <span class="size-color2">出于安全考虑，请勿大量使用</span>
               </div>
-            </template>
+            </div>
           </template>
           <!--淘口令下单设置-->
           <template v-else-if="taskRelease.taskType === 'tao_code'">
@@ -1740,4 +1732,19 @@
     padding: 10px 0 0 0;
   }
 
+
+  .keyword-plan {
+    margin: 20px;
+    border: 2px solid #ddd;
+    padding-bottom: 20px;
+  }
+
+  .keyword-plan-tip {
+    height: 32px;
+    line-height: 32px;
+    font-size: 14px;
+    font-weight: bold;
+    background-color: #ddd;
+    padding-left: 10px;
+  }
 </style>
