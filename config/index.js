@@ -26,8 +26,8 @@ module.exports = {
   },
   dev: {
     host: 'pc.51bainana.com',
-    port: 9091,
-    autoOpenBrowser: true,
+    port: 9090,
+    autoOpenBrowser: false,
     assetsSubDirectory: 'static',
     assetsPublicPath: '/',
     proxyTable: {
