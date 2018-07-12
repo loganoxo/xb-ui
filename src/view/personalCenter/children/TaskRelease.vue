@@ -2610,6 +2610,7 @@
             break;
         }
         if (_this.getTaskCreateFastStatus) {
+          // 首单发布任务接口
           api.taskCreateFast(_this.taskRelease).then(res => {
             if (res.status) {
               _this.taskPayId = res.data.id;
@@ -2623,6 +2624,7 @@
             _this.taskLoading = false;
           });
         } else {
+          // 非首单发布任务接口
           api.taskCreate(_this.taskRelease).then(res => {
             if (res.status) {
               _this.taskPayId = res.data.id;
