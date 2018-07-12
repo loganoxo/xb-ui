@@ -4,6 +4,10 @@
     <div class="mt-20 width-300 margin">
       <i-input v-model="formCustom.phone" placeholder="请输入手机号"/>
     </div>
+    <div class="mt-10 width-300 margin cl999">默认密码为手机后6位！</div>
+    <div class="mt-10 width-300 margin">
+      <i-input v-model="formCustom.qqNumber" placeholder="请输入QQ号"/>
+    </div>
     <div class="mt-20 width-300 margin">
       <i-input v-model="formCustom.validateCode" class="width-200" placeholder="请输入图形验证码"/>
       <img :src="regImgSrc" class="inline-block vtc-mid" alt="图形验证码" @click="getVrcode">
@@ -89,6 +93,10 @@
         }
         if (!(/^1\d{10}$/.test(_this.formCustom.phone))) {
           _this.$Message.info({content:'请输入正确的手机号！'});
+          return
+        }
+        if (!_this.formCustom.qqNumber) {
+          _this.$Message.warning('请输入QQ号！');
           return
         }
         if (!_this.formCustom.validateCode) {
