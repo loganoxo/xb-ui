@@ -32,10 +32,10 @@ module.exports = {
         test: /\.vue$/,
         loader: 'vue-loader',
       },
-     /* {
+      {
         test: /iview.src.*?js$/,
         loader: 'babel-loader'
-      },*/
+      },
       {
         test: /\.js$/,
         loader: 'babel-loader',
