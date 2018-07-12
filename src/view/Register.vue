@@ -475,7 +475,7 @@
       const validateQQNumber = (rule, value, callback) => {
         if (!value) {
           callback(new Error('请输入QQ号码'));
-        } else if(!isInteger(value) || value.length > 10) {
+        } else if(!isInteger(value) || !/^[1-9][0-9]{5,10}$/.test(value)) {
           callback(new Error('请输入正确的QQ号码'));
         } else {
           callback()
@@ -570,7 +570,6 @@
         this.selLogin.buyer = false;
         this.selLogin.seller = true;
       }
-      console.log(this.fromPage);
     },
     methods: {
       getRegVrcode() {
@@ -690,12 +689,7 @@
               info: res.data
             });
             if (res.data.role === 1) {
-              // 此处的if else 修改是针对查排名落地页（原来直接跳首页）
-              if (self.$route.query.from && self.$route.query.from === 'chapaiming') {
-                self.$router.push({name:'ChapaimingLanding'});
-              } else {
-                self.$router.push({name: 'Home'});
-              }
+              self.$router.push({name: 'Home'});
             } else {
               self.$router.push({name: 'WwBind'});
             }

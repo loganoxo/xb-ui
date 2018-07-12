@@ -29,6 +29,7 @@
 
 <script>
   import {modal, Input, Button} from 'iview'
+  import {isInteger, delSpace} from '@/config/utils'
   import SmsCountdown from '@/components/SmsCountdown'
   import api from '@/config/apiConfig'
   export default {
@@ -43,6 +44,12 @@
       value: {
         type: Boolean,
         default: false
+      },
+      onSuccess: {
+        type: Function,
+        default() {
+          return {}
+        }
       }
     },
     data() {
@@ -87,6 +94,7 @@
       },
       register() {
         const _this = this;
+        const qqReq = /^[1-9][0-9]{5,10}$/;
         if (!_this.formCustom.phone) {
           _this.$Message.warning('请输入手机号！');
           return
@@ -97,6 +105,10 @@
         }
         if (!_this.formCustom.qqNumber) {
           _this.$Message.warning('请输入QQ号！');
+          return
+        }
+        if (!isInteger(_this.formCustom.qqNumber) || !qqReq.test(_this.formCustom.qqNumber)) {
+          _this.$Message.warning('请输入正确的QQ号！');
           return
         }
         if (!_this.formCustom.validateCode) {
@@ -131,6 +143,7 @@
               info: res.data
             });
             _this.$emit('input', false);
+            _this.onSuccess();
           } else {
             _this.$Message.error(res.msg)
           }
