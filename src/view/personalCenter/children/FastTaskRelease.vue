@@ -299,11 +299,6 @@
           <div class="activity-info-title" v-if="taskRelease.taskType !== 'direct_access'">{{getSetType}}下单条件设置 <span class="ml-15 fs-14" v-if="taskRelease.activityCategory === 'present_get'">A宝贝信息（用户在淘宝拍下的宝贝）</span></div>
           <!--PC搜索下单设置-->
           <template v-if="taskRelease.taskType === 'pc_search'">
-            <div class="search-keyword mt-20 ml-28">
-              <span class="required">搜索关键词：</span>
-              <i-input v-model="pcTaskDetail.searchKeyword" placeholder="请输入搜索关键词" style="width: 260px"/>
-              <span class="sizeColor2">（PC端请确保10页以内，若是长尾关键词请不要过量补单）</span>
-            </div>
             <div class="baby-main-img ml-40 mt-20 clear">
               <span class="required left mr-5 mt-20">宝贝主图：</span>
               <upload key="pcDefaultList" class="left ml-4"
@@ -323,7 +318,17 @@
               <p class="sizeColor2 left mt-20 ml-15">（点击或者拖拽自主上传图片，支持jpg \ jpeg \ png \ gif \
                 bmp格式，最佳尺寸400*400（像素），不超过1M，可与宝贝主图一致）</p>
             </div>
-              <div class="sort-by ml-40 mt-20">
+            <div class="matching-num ml-40 mt-20">
+              <span class="required">匹配人数：</span>
+              <i-input v-model.number="pcTaskDetail.countAssigned" placeholder="请输入匹配人数" style="width: 160px"/>
+              <span class="sizeColor2">（为当前关键词分配拿手，表示需要几个拿手使用该关键词进店成交，最小为1）</span>
+            </div>
+            <div class="search-keyword mt-20 ml-28">
+              <span class="required">搜索关键词：</span>
+              <i-input v-model="pcTaskDetail.searchKeyword" placeholder="请输入搜索关键词" style="width: 260px"/>
+              <span class="sizeColor2">（PC端请确保10页以内，若是长尾关键词请不要过量补单）</span>
+            </div>
+            <div class="sort-by ml-40 mt-20">
                 <span class="required">排序方式：</span>
                 <radio-group v-model="pcTaskDetail.searchSort">
                   <radio label="zong_he">
@@ -337,20 +342,20 @@
                   </radio>
                 </radio-group>
               </div>
-              <div class="search-price ml-40 mt-20">
-                <span class="required">展示价格：</span>
-                <i-input v-model.number="pcTaskDetail.searchPagePrice" placeholder="请输入搜索列表页展示价格" style="width: 160px"/>
-                <span class="sizeColor2">（务必亲自搜索，确认价格准确）</span>
-              </div>
-              <div class="baby-location ml-15 mt-20">
-                <span class="required">宝贝搜索位置：</span>
-                <span>第</span>
-                <i-input v-model.number="pcTaskDetail.searchPagePositionMin" style="width: 40px"/>
-                <span>---</span>
-                <i-input v-model.number="pcTaskDetail.searchPagePositionMax" style="width: 40px"/>
-                <span>页</span>
-                <span class="sizeColor2 ml-15">（宝贝参考位置页数差值最大值不大于3页，如果PC端排名在10页以后， 可使用下面的卡条件功能）</span>
-              </div>
+            <div class="search-price ml-40 mt-20">
+              <span class="required">展示价格：</span>
+              <i-input v-model.number="pcTaskDetail.searchPagePrice" placeholder="请输入搜索列表页展示价格" style="width: 160px"/>
+              <span class="sizeColor2">（务必亲自搜索，确认价格准确）</span>
+            </div>
+            <div class="baby-location ml-15 mt-20">
+              <span class="required">宝贝搜索位置：</span>
+              <span>第</span>
+              <i-input v-model.number="pcTaskDetail.searchPagePositionMin" style="width: 40px"/>
+              <span>---</span>
+              <i-input v-model.number="pcTaskDetail.searchPagePositionMax" style="width: 40px"/>
+              <span>页</span>
+              <span class="sizeColor2 ml-15">（宝贝参考位置页数差值最大值不大于3页，如果PC端排名在10页以后， 可使用下面的卡条件功能）</span>
+            </div>
           </template>
           <!--APP搜索下单设置-->
           <template v-else-if="taskRelease.taskType === 'app_search'">
@@ -373,34 +378,39 @@
               <p class="sizeColor2 left ml-15 mt-20">（点击或者拖拽自主上传图片，支持jpg \ jpeg \ png \ gif \
                 bmp格式，最佳尺寸400*400（像素），不超过1M，可与宝贝主图一致）</p>
             </div>
-              <div class="search-keyword mt-20 ml-28">
-                <span class="required">搜索关键词：</span>
-                <i-input v-model="appTaskDetail.searchKeyword" placeholder="请输入搜索关键词" style="width: 260px"/>
-                <span class="sizeColor2">（APP端请确保在120位以内，若是长尾关键词请不要过量补单）</span>
-              </div>
-              <div class="sort-by ml-40 mt-20">
-                <span class="required">排序方式：</span>
-                <radio-group v-model="appTaskDetail.searchSort">
-                  <radio label="zong_he">
-                    <span>综合排序</span>
-                  </radio>
-                  <radio label="xiao_liang">
-                    <span>销量排序</span>
-                  </radio>
-                </radio-group>
-              </div>
-              <div class="search-price ml-40 mt-20">
-                <span class="required">展示价格：</span>
-                <i-input v-model="appTaskDetail.searchPagePrice" placeholder="请输入搜索列表页展示价格" style="width: 160px"/>
-                <span class="sizeColor2">（务必亲自搜索，确认价格准确）</span>
-              </div>
-              <div class="baby-location ml-15 mt-20">
-                <span class="required">宝贝搜索位置：</span>
-                <span>从上往下数第</span>
-                <i-input v-model="appTaskDetail.searchRankPosition" style="width: 40px"/>
-                <span>个宝贝左右</span>
-                <p class="sizeColor2 ml-80 mt-6">位置统一切换为一列展示后，在数位置。（如果移动端排名在100名以后，可使用下面的卡条件功能）</p>
-              </div>
+            <div class="matching-num ml-40 mt-20">
+              <span class="required">匹配人数：</span>
+              <i-input v-model.number="appTaskDetail.countAssigned" placeholder="请输入匹配人数" style="width: 160px"/>
+              <span class="sizeColor2">（为当前关键词分配拿手，表示需要几个拿手使用该关键词进店成交，最小为1）</span>
+            </div>
+            <div class="search-keyword mt-20 ml-28">
+              <span class="required">搜索关键词：</span>
+              <i-input v-model="appTaskDetail.searchKeyword" placeholder="请输入搜索关键词" style="width: 260px"/>
+              <span class="sizeColor2">（APP端请确保在120位以内，若是长尾关键词请不要过量补单）</span>
+            </div>
+            <div class="sort-by ml-40 mt-20">
+              <span class="required">排序方式：</span>
+              <radio-group v-model="appTaskDetail.searchSort">
+                <radio label="zong_he">
+                  <span>综合排序</span>
+                </radio>
+                <radio label="xiao_liang">
+                  <span>销量排序</span>
+                </radio>
+              </radio-group>
+            </div>
+            <div class="search-price ml-40 mt-20">
+              <span class="required">展示价格：</span>
+              <i-input v-model="appTaskDetail.searchPagePrice" placeholder="请输入搜索列表页展示价格" style="width: 160px"/>
+              <span class="sizeColor2">（务必亲自搜索，确认价格准确）</span>
+            </div>
+            <div class="baby-location ml-15 mt-20">
+              <span class="required">宝贝搜索位置：</span>
+              <span>从上往下数第</span>
+              <i-input v-model="appTaskDetail.searchRankPosition" style="width: 40px"/>
+              <span>个宝贝左右</span>
+              <p class="sizeColor2 ml-80 mt-6">位置统一切换为一列展示后，在数位置。（如果移动端排名在100名以后，可使用下面的卡条件功能）</p>
+            </div>
             </template>
           <!--淘口令下单设置-->
           <template v-else-if="taskRelease.taskType === 'tao_code'">
@@ -1178,6 +1188,14 @@
             _this.$Message.warning('亲，请上传PC搜索宝贝主图！');
             return;
           }
+          if (!_this.pcTaskDetail.countAssigned) {
+            _this.$Message.warning('亲，请输入关键词匹配人数！');
+            return;
+          }
+          if (_this.pcTaskDetail.countAssigned !== _this.taskRelease.taskCount) {
+            _this.$Message.warning('亲，关键词匹配人数需要跟宝贝份数一致！');
+            return;
+          }
           if (!_this.pcTaskDetail.searchKeyword) {
             _this.$Message.warning('亲，PC搜索关键词不能空！');
             return;
@@ -1218,6 +1236,14 @@
         if (_this.taskRelease.taskType === 'app_search') {
           if (!_this.appTaskDetail.itemMainImage) {
             _this.$Message.warning('亲，请上传手淘搜索宝贝主图！');
+            return;
+          }
+          if (_this.appTaskDetail.countAssigned !== _this.taskRelease.taskCount) {
+            _this.$Message.warning('亲，关键词匹配人数需要跟宝贝份数一致！');
+            return;
+          }
+          if (_this.appTaskDetail.countAssigned > _this.taskRelease.taskCount) {
+            _this.$Message.warning('亲，关键词匹配人数不能大于宝贝数量！');
             return;
           }
           if (!_this.appTaskDetail.searchKeyword) {
