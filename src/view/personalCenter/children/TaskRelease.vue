@@ -1024,13 +1024,12 @@
             <p>活动担保金 = 份数 × 单品活动担保金 = <span>{{oneBondMarginText}}</span> 元</p>
             <!--<p class="mt-6">单品打赏费 = 单品试用担保金 × 费率 =<span>{{onePromotionExpensesBeforeText}}</span> 元<span>{{onePromotionExpensesTipText}}</span></p>-->
             <p class="mt-6">总推广费 = 单品推广费 × 份数 = <span>{{(onePromotionExpenses).toFixed(2)}}</span> × <span>{{taskRelease.taskCount}} = <span>{{(allPromotionExpenses).toFixed(2)}}</span></span>
-              元 &nbsp;&nbsp;
+              元 &nbsp;&nbsp;<span v-if="getTaskCreateFastStatus" class="main-color">（您是首次放单，享受首单推广费减免）</span>
               <!--<tooltip placement="top" content="为提高平台拿手活跃度，鼓励拿手创作更优质的买家秀内容，原平台推广费将改为打赏费，用于拿手打赏！">-->
               <!--<a>什么是打赏费？</a>-->
               <!--</tooltip>-->
             </p>
-            <p class="mt-6">总增值费 = 单品增值费 × 份数 = <span>{{(oneValueAddedCost / 100).toFixed(2)}}</span> × <span>{{taskRelease.taskCount}}</span>
-              = {{(allValueAddedCost / 100).toFixed(2)}} 元</p>
+            <p class="mt-6">总增值费 = 单品增值费 × 份数 = <span>{{(oneValueAddedCost / 100).toFixed(2)}}</span> × <span>{{taskRelease.taskCount}}</span> = {{(allValueAddedCost / 100).toFixed(2)}} 元</p>
             <p class="mt-6">总费用 = 活动担保金 + 总推广费 + 总增值费用 = <span>{{(orderMoney / 100).toFixed(2)}}</span> 元</p>
             <p class="mt-6" v-if="!isBalance">手续费说明： 使用支付宝充值支付，支付宝会收取0.6%的手续费，该笔费用需要商家承担，手续费不予退还，敬请谅解！<a
               @click="isShowAliPayTip = true">查看支付宝官方说明</a></p>
@@ -2610,35 +2609,52 @@
             _this.taskRelease.taskDetail = JSON.stringify([]);
             break;
         }
-        api.taskCreate(_this.taskRelease).then(res => {
-          if (res.status) {
-            _this.taskPayId = res.data.id;
-            if (!_this.taskRelease.taskId) {
-              _this.taskRelease.taskId = res.data.id;
-            }
-            if (type === true) {
-              _this.$router.push({name: 'ActivitiesList'});
-            } else {
-              _this.stepName = 'deposit';
-            }
-          } else {
-            _this.$Message.error(res.msg)
-          }
-          _this.taskLoading = false;
-          return res.status;
-        }).then(status => {
-          if (status) {
-            api.redEnvelopeDeduction({
-              taskId: _this.taskPayId,
-            }).then(res => {
-              if (res.status) {
-                _this.redEnvelopeDeductionNumber = res.data
-              } else {
-                _this.$Message.error(res.msg)
+        if (_this.getTaskCreateFastStatus) {
+          api.taskCreateFast(_this.taskRelease).then(res => {
+            if (res.status) {
+              _this.taskPayId = res.data.id;
+              if (!_this.taskRelease.taskId) {
+                _this.taskRelease.taskId = res.data.id;
               }
-            })
-          }
-        })
+              _this.stepName = 'deposit';
+              // 更新首发资格状态
+              _this.$store.dispatch('getTaskCreateFastStatus');
+            } else {
+              _this.$Message.error(res.msg);
+            }
+            _this.taskLoading = false;
+          });
+        } else {
+          api.taskCreate(_this.taskRelease).then(res => {
+            if (res.status) {
+              _this.taskPayId = res.data.id;
+              if (!_this.taskRelease.taskId) {
+                _this.taskRelease.taskId = res.data.id;
+              }
+              if (type === true) {
+                _this.$router.push({name: 'ActivitiesList'});
+              } else {
+                _this.stepName = 'deposit';
+              }
+            } else {
+              _this.$Message.error(res.msg)
+            }
+            _this.taskLoading = false;
+            return res.status;
+          }).then(status => {
+            if (status) {
+              api.redEnvelopeDeduction({
+                taskId: _this.taskPayId,
+              }).then(res => {
+                if (res.status) {
+                  _this.redEnvelopeDeductionNumber = res.data
+                } else {
+                  _this.$Message.error(res.msg)
+                }
+              })
+            }
+          })
+        }
       },
       returnUpStep() {
         const type = this.$route.query.type;
