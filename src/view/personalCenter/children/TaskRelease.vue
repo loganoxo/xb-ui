@@ -1495,8 +1495,10 @@
       next(vm => {
         if (from.name !== 'FastTaskRelease') {
           vm.$store.dispatch('getTaskCreateFastStatus').then(res => {
-            if (res.status && res.data) {
-              vm.$router.push({name: 'FastTaskRelease'})
+            if (res.status) {
+              res.data && vm.$router.push({name: 'FastTaskRelease'})
+            } else {
+              vm.$Message.error(res.msg)
             }
           })
         }
