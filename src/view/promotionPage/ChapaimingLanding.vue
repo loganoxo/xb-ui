@@ -154,7 +154,7 @@
 <script>
   import Top from '@/components/Top.vue'
   import {Button, Progress, Modal} from 'iview'
-  import {setStorage, getStorage} from "../config/utils"
+  import {setStorage, getStorage} from "../../config/utils"
   import api from '@/config/apiConfig'
 
   export default {

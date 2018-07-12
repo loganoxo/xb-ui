@@ -25,7 +25,7 @@ module.exports = {
     bundleAnalyzerReport: process.env.npm_config_report
   },
   dev: {
-    host: 'localhost',
+    host: 'pc.51bainana.com',
     port: 9091,
     autoOpenBrowser: true,
     assetsSubDirectory: 'static',
