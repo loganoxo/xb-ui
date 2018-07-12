@@ -2617,8 +2617,6 @@
                 _this.taskRelease.taskId = res.data.id;
               }
               _this.stepName = 'deposit';
-              // 更新首发资格状态
-              _this.$store.dispatch('getTaskCreateFastStatus');
             } else {
               _this.$Message.error(res.msg);
             }
