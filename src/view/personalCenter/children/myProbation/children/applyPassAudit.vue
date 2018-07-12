@@ -274,7 +274,7 @@
       <div class="precautions-info mt-10" v-if="showkerTask.task.remark">
         <p>注意事项：</p>
         <p class="mt-10 mr-10">
-          <span>商家备注：</span>
+          <span>下单要求：</span>
           <span>{{showkerTask.task.remark}}</span>
         </p>
       </div>

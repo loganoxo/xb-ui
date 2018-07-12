@@ -87,7 +87,7 @@
         <span v-if="showkerTaskInfo.task.paymentMethod === 'no_credit_pay'">禁止使用信用卡付款</span>
       </p>
       <p class="mt-10 mr-10" v-if="showkerTaskInfo.task.remark">
-        <span>商家备注：</span>
+        <span>下单要求：</span>
         <span>{{showkerTaskInfo.task.remark}}</span>
       </p>
     </div>
