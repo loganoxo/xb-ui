@@ -1486,7 +1486,6 @@
         redEnvelopeDeductionNumber: 0,
         residualMatchNumber: 0,
         isMatchNumberOk: true,
-
       }
     },
     // 当用户有首发资格路由重定向到快速发布通道反之则停留在此页面
@@ -1604,29 +1603,30 @@
 
       /**
        * 计算最终单品推广费用（打赏费）
+       * 如果用户有首单资格推广费为0
        * @return {number}
        */
       onePromotionExpenses() {
         if (this.taskRelease.activityCategory === 'free_get') {
           if (this.getMemberVersionLevel === 100) {
-            return 5
+            return this.getTaskCreateFastStatus ? 0 : 5
           }
           if (this.getMemberVersionLevel === 200) {
-            return 3
+            return this.getTaskCreateFastStatus ? 0 : 3
           }
           if (this.getMemberVersionLevel === 300) {
-            return 3
+            return this.getTaskCreateFastStatus ? 0 : 3
           }
         }
         if (this.taskRelease.activityCategory === 'present_get') {
           if (this.getMemberVersionLevel === 100) {
-            return 10
+            return this.getTaskCreateFastStatus ? 0 : 10
           }
           if (this.getMemberVersionLevel === 200) {
-            return 6
+            return this.getTaskCreateFastStatus ? 0 : 6
           }
           if (this.getMemberVersionLevel === 300) {
-            return 6
+            return this.getTaskCreateFastStatus ? 0 : 6
           }
         }
       },
