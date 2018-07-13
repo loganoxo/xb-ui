@@ -30,7 +30,8 @@ const webpackConfig = merge(baseWebpackConfig, {
         commons: {
           test: /[\\/]node_modules[\\/]/,
           name: 'vendors',
-          chunks: 'initial'
+          chunks: 'initial',
+          minChunks: 2
         }
       }
     },
