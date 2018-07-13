@@ -147,7 +147,7 @@
       </div>
       <div class="content-input ">
         <span>流水号：</span>
-        <iInput style="width: 150px" v-model="getoutRecord.serialNumber"></iInput>
+        <i-input style="width: 150px" v-model="getoutRecord.serialNumber"/>
         <span class="ml-10">申请时间：</span>
         <Date-picker type="datetime" placeholder="选择日期" style="width: 200px"
                      format="yyyy-MM-dd HH:mm:ss"

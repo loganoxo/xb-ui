@@ -82,6 +82,12 @@ const LandingPage = r => require.ensure([], () => r(require('@/view/LandingPage.
 const ChapaimingLanding = r => require.ensure([], () => r(require('@/view/ChapaimingLanding.vue')), 'ChapaimingLanding');
 const SpreadLandingPage = r => require.ensure([], () => r(require('@/view/SpreadLandingPage.vue')), 'SpreadLandingPage');
 
+// PC 端的商家推广
+const MerchantPromotion = r => require.ensure([], () => r(require('@/view/merchantPromotion/index.vue')), 'Promotion');
+const PromotionRegulation = r => require.ensure([], () => r(require('@/view/merchantPromotion/children/PromotionRegulation.vue')), 'Promotion');
+const PromotionDetails = r => require.ensure([], () => r(require('@/view/merchantPromotion/children/promotionDetails/index.vue')), 'Promotion');
+const PromotionManagement = r => require.ensure([], () => r(require('@/view/merchantPromotion/children/promotionManagement/index.vue')), 'Promotion');
+
 Vue.use(Router);
 
 /**
@@ -849,6 +855,49 @@ export default new Router({
               }
             },
           ]
+        },
+      ]
+    },
+    {
+      path: '/promotion',
+      name: 'Promotion',
+      component: MerchantPromotion,
+      children: [
+        {
+          path:'promotion-regulation',
+          name:'PromotionRegulation',
+          component: PromotionRegulation,
+          meta: {
+            title: "赚点钱儿",
+            logInAuthority: true,
+            topShow: true,
+            bottomShow: true,
+            role: null,
+          }
+        },
+        {
+          path:'promotion-details',
+          name:'PromotionDetails',
+          component: PromotionDetails,
+          meta: {
+            title: "赚钱明细",
+            logInAuthority: true,
+            topShow: true,
+            bottomShow: true,
+            role: null,
+          }
+        },
+        {
+          path:'promotion-management',
+          name:'PromotionManagement',
+          component: PromotionManagement,
+          meta: {
+            title: "推荐管理",
+            logInAuthority: true,
+            topShow: true,
+            bottomShow: true,
+            role: null,
+          }
         },
       ]
     }

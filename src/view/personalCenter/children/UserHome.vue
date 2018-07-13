@@ -37,6 +37,12 @@
                 <icon type="help-circled"/>
               </tooltip>
             </span>
+            <span class="ml-10" v-if="getUserInfoRole === 1">
+              <img src="~assets/img/merchant-promotion/purse-on.png" alt="" class="vtc-mid">
+              <span>钱包：188888880 元</span>
+              <span class="blue ml-10 cursor-p" @click="toWithdrawal">提现</span>
+              <span class="blue ml-10 cursor-p" @click="toRecordDetail">明细</span>
+            </span>
             <router-link v-if="getUserInfoRole === 0" :to="{path: '/user/money-management/getout-money'}">提现</router-link>
             <div v-if="limit" class="inline-block ml-20 pos-rel mt-5">
               <a v-if="getUserInfoRole === 0" class="left">
@@ -338,6 +344,12 @@
             }
           })
         }
+      },
+      toWithdrawal() {
+        this.$router.push({name:'PromotionDetails',query:{from:'userhome-withdrawal'}});
+      },
+      toRecordDetail() {
+        this.$router.push({name:'PromotionDetails',query:{from:'userhome-detail'}});
       }
     },
     watch: {},

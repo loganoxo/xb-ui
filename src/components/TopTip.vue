@@ -48,6 +48,10 @@
           <i data-v-38a9a25e="" class="ivu-icon ivu-icon-person vtc-text-btm fs-16"></i>
           个人中心
         </router-link>
+        <router-link to="/promotion/promotion-regulation" @click.native="cancelActivityCategory">
+          <img src="~assets/img/merchant-promotion/purse-on.png" alt="" width="16" height="16" class="vtc-mid">
+          赚点钱儿
+        </router-link>
         <router-link to="/user/help-center/faq" @click.native="cancelActivityCategory">
           <i data-v-38a9a25e="" class="ivu-icon ivu-icon-help-buoy vtc-text-btm fs-16"></i>
           帮助中心
