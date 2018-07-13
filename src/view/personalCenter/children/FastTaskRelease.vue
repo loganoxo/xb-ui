@@ -574,8 +574,7 @@
 
 <script>
   import {Icon, Form, Input, Button, Radio, Modal, Select, Option, OptionGroup} from 'iview'
-  import quillEditor from 'vue-quill-editor/src/editor'
-  import Quill from 'quill/dist/quill'
+  import {quillEditor, Quill} from 'vue-quill-editor'
   import Upload from '@/components/Upload'
   import PayModel from '@/components/PayModel'
   import UserClause from '@/components/UserClause'
