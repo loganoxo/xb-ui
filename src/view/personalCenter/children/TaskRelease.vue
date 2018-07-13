@@ -519,7 +519,7 @@
               </div>
             </div>
           </div>
-          <div class="product-introduction ml-20 mt-20" v-if="taskRelease.activityCategory === 'free_get'">
+          <!--<div class="product-introduction ml-20 mt-20" v-if="taskRelease.activityCategory === 'free_get'">
             <span class="left required">商品简介：</span>
             <quill-editor ref="myTextEditorFree"
                           v-model="taskRelease.itemDescription"
@@ -530,7 +530,7 @@
             </quill-editor>
             <input v-show="false" id="freeGet" type="file" name="avator" multiple
                    accept="image/jpg,image/jpeg,image/png,image/gif" @change="uploadImgFreeGet">
-          </div>
+          </div>-->
         </div>
         <div class="baby-info mt-22" v-show="taskRelease.activityCategory === 'present_get'">
           <div class="activity-info-title">填写活动宝贝信息</div>
@@ -710,8 +710,7 @@
                   <span class="sizeColor3 ml-10">平台审批份数：{{systemApprovalTaskNumber || 0}} 份</span>
                 </p>
               </div>
-
-              <div class="product-introduction ml-10 mt-20" v-if="taskRelease.activityCategory === 'present_get'">
+           <!--   <div class="product-introduction ml-10 mt-20" v-if="taskRelease.activityCategory === 'present_get'">
                 <span class="left ml-5 required">商品简介：</span>
                 <quill-editor ref="myTextEditorPresent"
                               v-model="taskRelease.itemDescription"
@@ -722,7 +721,7 @@
                 </quill-editor>
                 <input v-show="false" id="presentGet" type="file" name="avator" multiple
                        accept="image/jpg,image/jpeg,image/png,image/gif" @change="uploadImgPresentGet">
-              </div>
+              </div>-->
             </div>
           </div>
         </div>
@@ -1237,7 +1236,7 @@
 
 <script>
   import {Icon, Input, Checkbox, Button, Radio, Modal, Alert, Select, Option, OptionGroup, Tooltip} from 'iview'
-  import {Quill, quillEditor} from 'vue-quill-editor'
+  // import {Quill, quillEditor} from 'vue-quill-editor'
   import Upload from '@/components/Upload'
   import PayModel from '@/components/PayModel'
   import UserClause from '@/components/UserClause'
