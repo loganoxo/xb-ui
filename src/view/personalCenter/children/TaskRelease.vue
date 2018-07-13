@@ -1052,7 +1052,7 @@
           <p>您账号的当前余额为：<strong>{{(getUserBalance / 100).toFixed(2)}}</strong>&nbsp;元,还需充值：<span class="second-color">{{((needPayMoneyBeforeAsRedEnvelopes > 0 ? needPayMoneyBeforeAsRedEnvelopes : 0) / 100).toFixed(2)}}</span>&nbsp;元。</p>
         </div>
         <div class="description-fees-footer">
-          <span class="pay-btn" v-if="isBalance" @click="openRecharge">前去支付</span>
+          <span class="pay-btn" v-if="isBalance" @click="openRecharge">{{PayBtnText}}</span>
           <span class="pay-btn" v-else @click="openRecharge">前去充值</span>
           <span class="return" @click="returnUpStep">返回上一步</span>
           <router-link to="/user/activity-management/list">查看活动管理</router-link>
@@ -1389,6 +1389,7 @@
         },
         trialCondition: 'all',
         taskCountInputPlaceholder: '请输入活动时长',
+        PayBtnText: '前去支付',
         taskCountInputDisabled: false,
         discountDisabled: {
           discount_0: {
@@ -2626,6 +2627,8 @@
           api.taskCreate(_this.taskRelease).then(res => {
             if (res.status) {
               _this.taskPayId = res.data.id;
+              _this.redEnvelopeDeductionPaid = res.data.redEnvelopeDeductionPaid;
+              _this.paidDeposit = res.data.marginPaid + res.data.promotionExpensesPaid + res.data.vasFeePaid + res.data.redEnvelopeDeductionPaid;
               if (!_this.taskRelease.taskId) {
                 _this.taskRelease.taskId = res.data.id;
               }
@@ -2948,8 +2951,9 @@
         this.taoCodeTaskDetailItemMainImage = null;
       },
       openRecharge() {
-        if (this.needPayMoneyBeforeAsRedEnvelopes < 0 || this.needPayMoneyAfterAsRedEnvelopes < 0) {
-          this.$router.push({name: 'ActivitiesList'})
+        if (this.needPayMoneyBeforeAsRedEnvelopes <= 0 || this.needPayMoneyAfterAsRedEnvelopes <= 0) {
+          this.$router.push({name: 'ActivitiesList'});
+          this.PayBtnText = '确认提交'
         } else {
           this.showPayModel = true
         }
