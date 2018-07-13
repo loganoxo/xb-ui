@@ -1257,8 +1257,6 @@
     getUrlParams,
     isInternetUrl
   } from '@/config/utils'
-console.log(Quill)
-console.log(quillEditor)
   export default {
     name: 'task-release',
     components: {
