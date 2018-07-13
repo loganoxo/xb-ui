@@ -1,25 +1,27 @@
+'use strict'
 const path = require('path')
 const utils = require('./utils')
 const config = require('../config')
-const VueLoaderPlugin = require('vue-loader/lib/plugin');
+const vueLoaderConfig = require('./vue-loader.conf')
 
 function resolve (dir) {
   return path.join(__dirname, '..', dir)
 }
 
 module.exports = {
+  context: path.resolve(__dirname, '../'),    // 绝对地址，使用之后 entry 和 loaders 可以基于此地址写相对路径
   entry: {
     app: ["babel-polyfill", "./src/main.js"]
   },
   output: {
-    path: config.build.assetsRoot,
-    filename: '[name].js',
-    publicPath: process.env.NODE_ENV === 'production'
+    path: config.build.assetsRoot,  // 输入路径
+    filename: '[name].js',          // 输出的文件名
+    publicPath: process.env.NODE_ENV === 'production'        // 引用外部image css js 资源被解析成外部的css js时，引入html时相对于html的baseUrl，想要使用cdn加速的，此项很有用
       ? config.build.assetsPublicPath
       : config.dev.assetsPublicPath
   },
   resolve: {
-    extensions: ['.js', '.vue', '.json'],
+    extensions: ['.js', '.vue', '.json'], // 引入扩展，当import资源时，可以省略的后缀
     alias: {
       'vue$': 'vue/dist/vue.esm.js',
       '@': resolve('src'),
@@ -31,6 +33,7 @@ module.exports = {
       {
         test: /\.vue$/,
         loader: 'vue-loader',
+        options: vueLoaderConfig
       },
       {
         test: /iview.src.*?js$/,
@@ -39,13 +42,13 @@ module.exports = {
       {
         test: /\.js$/,
         loader: 'babel-loader',
-        include: [resolve('src'), resolve('test'), resolve('node_modules/webpack-dev-server/client')],
+        include: [resolve('src'), resolve('test'), resolve('node_modules/webpack-dev-server/client')]
       },
       {
         test: /\.(png|jpe?g|gif|svg)(\?.*)?$/,
         loader: 'url-loader',
         options: {
-          limit: 10000,
+          limit: 10000,  // 阈值 10000b， 不超过则转化为 base64格式，超过则输入图片
           name: utils.assetsPath('img/[name].[hash:7].[ext]')
         }
       },
@@ -67,15 +70,14 @@ module.exports = {
       }
     ]
   },
-  plugins: [
-    new VueLoaderPlugin()
-  ],
   node: {
     // prevent webpack from injecting useless setImmediate polyfill because Vue
     // source contains it (although only uses it if it's native).
+    // 防止webpack注入无用的setImmediate polyfill，因为Vue源包含它（尽管只在它是原生的时才使用它）。
     setImmediate: false,
     // prevent webpack from injecting mocks to Node native modules
     // that does not make sense for the client
+    // 防止webpack将 mock 注入到对客户端没有意义的Node本机模块
     dgram: 'empty',
     fs: 'empty',
     net: 'empty',
