@@ -29,7 +29,7 @@ const webpackConfig = merge(baseWebpackConfig, {
       cacheGroups: {
         commons: {
           test: /[\\/]node_modules[\\/]/,
-          name: 'vendors',
+          name: 'commons',
           chunks: 'initial',
           minChunks: 2
         }

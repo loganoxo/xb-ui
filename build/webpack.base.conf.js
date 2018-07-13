@@ -29,10 +29,6 @@ module.exports = {
   module: {
     rules: [
       {
-        test: /vue-quill-editor.src.editor.vue/,
-        loader: 'vue-loader',
-      },
-      {
         test: /\.vue$/,
         loader: 'vue-loader',
       },
