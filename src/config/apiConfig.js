@@ -1155,7 +1155,13 @@ export default {
    */
   searchCredit(params) {
     return axiosConfig.get('/api/search-credit.json', params)
-  }
+  },
 
+  /**
+   * 商家推荐系统收入支出明细查询
+   */
+  getRewardDetail(params) {
+    return axiosConfig.get('/api/get-reward-detail.json', params)
+  }
 
 }

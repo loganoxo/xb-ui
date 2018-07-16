@@ -63,8 +63,12 @@
       return {
         beginTime: null,
         endTime: null,
-        tradTimeStart: null,
-        tradTimeEnd: null,
+        pageSize: 10,
+        pageIndex: 1,
+        tradType: 1,
+        phoneNumber: null,
+        // tradTimeStart: null,
+        // tradTimeEnd: null,
         choiceTime: [
           {
             text: '今天',
@@ -90,16 +94,13 @@
         ],
         timeSelect: 'all',
         activityNumber: null,
-        phoneNumber: null,
-        pageSize: 10,
-        pageIndex: 0,
       }
     },
     computed: {
 
     },
     created() {
-
+      this.getRewardDetail();
     },
     mounted() {
 
@@ -154,33 +155,25 @@
           _this.tradTimeEnd = null;
           _this.isChange = true;
           _this.transactType = [];
-          _this.getTradListAll();
+          _this.getRewardDetail();
         }
       },
-      getTradListAll(type) {
-        let _this = this;
-        if (type && (type.length === 0 || type.length === 5)) {
-          type = null;
-        } else {
-          type = JSON.stringify(type);
-        }
-        api.getTradList({
-          tradTimeStart: _this.tradTimeStart,
-          tradTimeEnd: _this.tradTimeEnd,
-          accountChangeTypeStr: type || null,
-          reversePicUrl: null,
-          taskSerial: _this.activityNumber,
-          page: _this.pageIndex,
-          size: _this.pageSize
+      getRewardDetail(type) {
+        const _this = this;
+        // if (type && (type.length === 0 || type.length === 5)) {
+        //   type = null;
+        // } else {
+        //   type = JSON.stringify(type);
+        // }
+        api.getRewardDetail({
+          tradTimeStart: _this.beginTime,
+          tradTimeEnd: _this.endTime,
+          pageIndex: _this.pageIndex,
+          pageSize: _this.pageSize,
+          tradType: _this.tradType
         }).then(res => {
           if (res.status) {
-            _this.isChange = false;
-            _this.totalPages = res.data.tradPage.totalPages;
-            _this.myTableDetailsAll = res.data.tradPage.content;
-            _this.accountIncomes = res.data.income;
-            _this.accountPayout = res.data.expense;
-            _this.showBigNoticeAll = _this.myTableDetailsAll.length === 0;
-
+            console.log(res.data);
           } else {
             _this.$Message.error(res.msg);
           }
