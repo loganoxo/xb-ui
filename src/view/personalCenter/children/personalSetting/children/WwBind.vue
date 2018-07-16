@@ -38,8 +38,8 @@
               <Icon type="information-circled" color="#FF6633"></Icon>
               <span>审核不通过(查看)</span>
             </Tooltip>
-            <Tooltip v-show="ww.status === 4" content="此旺旺已被列入黑名单" placement="top" style="color: #ff6600;">
-              <span>冻结</span>
+            <Tooltip v-show="ww.status === 4" :content="ww.freezeRemark ? ww.freezeRemark : '系统冻结'" placement="top" style="color: #ff6600;">
+              <span class="cursor-p">冻结</span>
             </Tooltip>
           </li>
           <li>
