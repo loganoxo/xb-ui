@@ -1,6 +1,6 @@
 <template>
   <div class="spread-landing-page">
-    <Top/>
+    <top/>
     <div class="content text-ct">
       <div class="banner pos-rel">
         <div v-if="!isLogin" class="btn-area">
@@ -79,7 +79,7 @@
 
 <script>
   import api from '@/config/apiConfig'
-  import Top from '@/components/Top.vue'
+  import Top from '@/components/Top'
   import SmsCountdown from '@/components/SmsCountdown'
   import {isInteger, setStorage} from '@/config/utils'
   export default {
@@ -184,7 +184,7 @@
             _this.$Message.success({
               content: "注册成功",
               duration: 1,
-              onClose: function () {
+              onClose: () => {
                 _this.setUserInfo(_this.formCustom.phone, _this.formCustom.pwd, _this.formCustom.role);
               }
             });
@@ -207,13 +207,7 @@
               info: res.data
             });
             if (res.data.role === 1) {
-              // 此处的if else 修改是针对查排名落地页（原来直接跳首页）
-              if (self.$route.query.from && self.$route.query.from === 'chapaiming') {
-                // setStorage('hadRegister',true);
-                self.$router.push({name:'ChapaimingLanding'});
-              } else {
-                self.$router.push({name: 'Home'});
-              }
+              self.$router.push({name: 'Home'});
             } else {
               self.$router.push({name: 'WwBind'});
             }

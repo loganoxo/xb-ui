@@ -12,7 +12,6 @@ const SellerSpread = r => require.ensure([], () => r(require('@/view/SellerSprea
 const SellerGuide = r => require.ensure([], () => r(require('@/view/SellerGuide.vue')), 'SellerGuide');
 const PhoneGuide = r => require.ensure([], () => r(require('@/view/PhoneGuide.vue')), 'PhoneGuide');
 const AboutUs = r => require.ensure([], () => r(require('@/view/AboutUs.vue')), 'AboutUs');
-const ShowkerLanding = r => require.ensure([], () => r(require('@/view/ShowkerLanding.vue')), 'ShowkerLanding');
 const SelRole = r => require.ensure([], () => r(require('@/view/SelRole.vue')), 'SelRole');
 const TrialReport = r => require.ensure([], () => r(require('@/view/TrialReport.vue')), 'TrialReport');
 const Login = r => require.ensure([], () => r(require('@/view/Login.vue')), 'Login');
@@ -78,9 +77,11 @@ const VipMember = r => require.ensure([], () => r(require('@/view/personalCenter
 const VipMemberInstructions = r => require.ensure([], () => r(require('@/view/personalCenter/children/vipMember/children/Instructions.vue')), 'VipMember');
 const VipMemberOrder = r => require.ensure([], () => r(require('@/view/personalCenter/children/vipMember/children/Order.vue')), 'VipMember');
 
-const LandingPage = r => require.ensure([], () => r(require('@/view/LandingPage.vue')), 'LandingPage');
-const ChapaimingLanding = r => require.ensure([], () => r(require('@/view/ChapaimingLanding.vue')), 'ChapaimingLanding');
-const SpreadLandingPage = r => require.ensure([], () => r(require('@/view/SpreadLandingPage.vue')), 'SpreadLandingPage');
+const ShowkerLanding = r => require.ensure([], () => r(require('@/view/promotionPage/ShowkerLanding.vue')), 'ShowkerLanding');
+const LandingPage = r => require.ensure([], () => r(require('@/view/promotionPage/LandingPage.vue')), 'LandingPage');
+const ChapaimingLanding = r => require.ensure([], () => r(require('@/view/promotionPage/ChapaimingLanding.vue')), 'ChapaimingLanding');
+const SpreadLandingPage = r => require.ensure([], () => r(require('@/view/promotionPage/SpreadLandingPage.vue')), 'SpreadLandingPage');
+const SpreadLandingPageTwo = r => require.ensure([], () => r(require('@/view/promotionPage/SpreadLandingPageTwo.vue')), 'SpreadLandingPageTwo');
 
 // PC 端的商家推广
 const MerchantPromotion = r => require.ensure([], () => r(require('@/view/merchantPromotion/index.vue')), 'Promotion');
@@ -262,9 +263,9 @@ export default new Router({
       }
     },
     {
-      path:'/chapaiming-landing',
-      name:'ChapaimingLanding',
-      component:ChapaimingLanding,
+      path: '/chapaiming-landing',
+      name: 'ChapaimingLanding',
+      component: ChapaimingLanding,
       meta: {
         title: "商家落地页",
         logInAuthority: false,
@@ -274,9 +275,21 @@ export default new Router({
       }
     },
     {
-      path:'/spread-landing-page',
-      name:'SpreadLandingPage',
-      component:SpreadLandingPage,
+      path: '/spread-landing-page',
+      name: 'SpreadLandingPage',
+      component: SpreadLandingPage,
+      meta: {
+        title: "推广落地页",
+        logInAuthority: false,
+        topShow: false,
+        bottomShow: true,
+        role: null,
+      }
+    },
+    {
+      path: '/spread-landing-page-two',
+      name: 'SpreadLandingPageTwo',
+      component: SpreadLandingPageTwo,
       meta: {
         title: "推广落地页",
         logInAuthority: false,

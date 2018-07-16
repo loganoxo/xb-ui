@@ -38,6 +38,11 @@ export default {
     return Object.keys(state.userInfo).length > 0 ? state.userInfo.userAccount.ifEditPwdAlready : false
   },
 
+  // 从userInfo中提取用红包抵扣限额
+  getRedEnvelopeDeductionLimit: state => {
+    return Object.keys(state.userInfo).length > 0 ? state.userInfo.extension.redEnvelopeDeductionLimit : 0
+  },
+
   // 从userInfo中提取用户类型（1：商家，0拿手）
   getUserRole: state => {
     return Object.keys(state.userInfo).length > 0 ? state.userInfo.role : 0

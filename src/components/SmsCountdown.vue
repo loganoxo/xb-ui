@@ -43,21 +43,34 @@
     },
     methods: {
       run() {
-        let _this = this;
+        const _this = this;
+        if (!_this.phone) {
+          _this.$Message.warning('请输入手机号！');
+          return
+        }
+        if (!_this.validateCode) {
+          _this.$Message.warning('请输入图形验证码！');
+          return
+        }
         if (/^1\d{10}$/.test(_this.phone)) {
           api.getCode({
             phone: _this.phone,
             purpose: _this.purpose,
             validateCode: _this.validateCode,
-          }).then((res) => {
-            _this.onSuccess(res);
+          }).then(res => {
             if (res.status) {
+              _this.onSuccess(res);
               _this.start();
               _this.setDisabled(true);
+            } else {
+              _this.$Message.error(res.msg);
             }
           }).catch(err => {
-            alert('发送短信接口错误信息：' + err);
-          });
+            console.error(err);
+            _this.$Message.error('获取短信验证码发生异常！');
+          })
+        } else {
+          _this.$Message.warning('手机号码格式错误！');
         }
       },
       start() {

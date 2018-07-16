@@ -4,10 +4,10 @@ import router from './router'
 import store from './store'
 import * as filters from './filter/custom'
 import VueLazyload from 'vue-lazyload'
+import 'babel-polyfill'
 import {Modal, Message, Notice} from 'iview'
 import '../iview/iview.less'
 import '@/css/common.scss'
-// import 'animate.css'
 
 Vue.config.productionTip = false;
 

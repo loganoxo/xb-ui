@@ -218,7 +218,7 @@
                     <span v-if="commodityData.task.paymentMethod === 'no_credit_pay'">禁止使用信用卡付款</span>
                   </p>
                   <p class="mt-10 mr-10" v-if="commodityData.task.remark && commodityData.showkerTask">
-                    <span>商家备注：</span>
+                    <span>下单要求：</span>
                     <span>{{commodityData.task.remark}}</span>
                   </p>
                   <p class="mt-10"
@@ -712,7 +712,7 @@
         })
       },
       getDetailsSuccessShowkerList() {
-        let self = this;
+        const self = this;
         self.detailsSuccessShowkerParams.taskId = decode(self.$route.query.q);
         api.getDetailsSuccessShowkerList(self.detailsSuccessShowkerParams).then((res) => {
           if (res.status) {
@@ -722,7 +722,7 @@
         })
       },
       getShowkerToProcessOrder() {
-        let self = this;
+        const self = this;
         api.showkerToProcessOrder({
           id: self.commodityData.showkerTask.id
         }).then((res) => {
@@ -730,7 +730,7 @@
         })
       },
       getTaskDetails() {
-        let self = this;
+        const self = this;
         self.commodityData = {
           showkerTask: {},
           taskApply: {},

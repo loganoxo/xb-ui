@@ -165,8 +165,8 @@ export const aliUploadImg = (key, file) => {
           reject(error);
         })
       }
-    });
-  });
+    })
+  })
 };
 
 /**
@@ -194,8 +194,8 @@ export const aliUploadImgBuffer = (key, file) => {
       }).catch((error) => {
         reject(error);
       })
-    });
-  });
+    })
+  })
 };
 
 /**
@@ -292,6 +292,9 @@ export const scrollToTop = () => {
  * 删除字符串中首位空格
  */
 export const delSpace = str => {
+  if (!str) {
+    return
+  }
   return str.replace(/(^\s*)|(\s*$)/g, "")
 };
 
@@ -299,7 +302,27 @@ export const delSpace = str => {
  * 删除字符串中的html双标签及标签的内容
  */
 export const delHtmlTag = str => {
+  if (!str) {
+    return
+  }
   return str.replace(/>[^>]+</g, '').replace(/<[^>]+>/g, '');
+};
+
+/**
+ * 函数防抖
+ */
+export const debounce = (fn, ms = 0) => {
+  let timeoutId;
+  return function(...args) {
+    if (timeoutId) {
+      clearTimeout(timeoutId)
+    }
+    console.log(fn)
+    console.log(this)
+    timeoutId = setTimeout(() => {
+      fn.apply(this, args)
+    }, ms);
+  }
 };
 
 /**

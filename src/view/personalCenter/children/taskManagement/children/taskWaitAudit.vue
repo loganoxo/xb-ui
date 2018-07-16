@@ -97,7 +97,7 @@
                     <p>淘气值：{{allTask.tqz}}</p>
                     <div class="value-added-info" v-if="!eyesServerPermissions">
                       <p>
-                        <span>被平台商家拉黑：</span>
+                        <span>平台拉黑情况：</span>
                         <span class="cursor-p blue" @click="changeEyesStatus">
                         <tooltip content="打开火眼金睛，拿手数据一目了然！"><icon class="vtc-text-btm" type="eye-disabled" size="16"/>&nbsp;查看</tooltip>
                       </span>
@@ -580,8 +580,7 @@
         this.addBlackListInfo = {};
       },
       taskAdditionalQuota(item) {
-        this.taskAdditionalQuotaInfo = {};
-        Object.assign(this.taskAdditionalQuotaInfo, {
+        Object.assign(this.taskAdditionalQuotaInfo = {}, {
           taskId: item.id,
           taskMainImage: item.taskMainImage,
           taskName: item.taskName,
@@ -598,6 +597,9 @@
           vasFeePaid: item.vasFeePaid,
           redEnvelopeDeductionPaid: item.redEnvelopeDeductionPaid,
           itemReviewRequired: item.itemReviewRequired,
+          keywordPlanNum: item.keywordPlanNum,
+          isMoreKeywordsPlan: item.isMoreKeywordsPlan,
+          searchKeywords: item.searchKeywords,
         });
         this.additionalQuotaModal = true;
       },
@@ -608,11 +610,11 @@
         }, 200)
       },
       addSuccess() {
-        this.appliesWaitingAuditAll(this.operateTaskId, this.operateIndex);
+        this.appliesWaitingAuditAll(this.operateTaskId, this.operateIndex)
       },
       addToBlackListFun(wwName) {
         this.closableModal = true;
-        this.addBlackListInfo.alitmAccount = wwName
+        this.addBlackListInfo.alitmAccount = wwName;
       },
       sortChange(name, index) {
         let sort = this.sortList.defaultList[index].sort;

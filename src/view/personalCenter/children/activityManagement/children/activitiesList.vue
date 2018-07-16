@@ -97,7 +97,7 @@
             </tr>
             <tr>
               <td @click="goTaskDetails(item.id)" class="cursor-p">
-                <img class="left ml-10" :src="item.taskMainImage | imageSrc('!thum54')" :alt="item.taskName">
+                <img class="left ml-10 border-radius-5" :src="item.taskMainImage | imageSrc('!thum54')" :alt="item.taskName">
                 <a class="img-title left" :title="item.taskName">{{item.taskName}}</a>
               </td>
               <td>
@@ -121,7 +121,7 @@
               <td v-if="item.taskStatus === 'waiting_pay'">
                 <p class="del-edit">
                   <span class="mr-10" @click="editTask(item.id, item.createTime, item.fastPublish)">编辑</span>
-                  <span @click="closeTask(item.id)">关闭</span>
+                  <span @click="closeTask(item.id, item.fastPublish)">关闭</span>
                 </p>
                 <p class="bond mt-6">
                   <span @click="depositMoney(item.totalMarginNeed + item.promotionExpensesNeed + item.vasFeeNeed + item.redEnvelopeDeductionNeed, item.id, item.marginPaid + item.promotionExpensesPaid + item.vasFeePaid + item.redEnvelopeDeductionPaid, item.createTime, item.redEnvelopeDeductionPaid, item.marginPaid)">存担保金</span>
@@ -133,7 +133,7 @@
               <td v-else-if="item.taskStatus === 'waiting_modify'">
                 <p class="del-edit">
                   <span class="mr-10" @click="editTask(item.id, item.createTime, item.fastPublish)">编辑</span>
-                  <span @click="closeTask(item.id)">关闭</span>
+                  <span @click="closeTask(item.id, item.fastPublish)">关闭</span>
                 </p>
                 <p class="copy mt-6">
                   <span @click="copyTask(item.id)">复制活动</span>
@@ -228,9 +228,9 @@
     </div>
     <!--关闭任务弹框-->
     <modal v-model="closeModal" width="360">
-      <p slot="header" class="main-color text-ct">
-        <icon type="information-circled"/>
-        <span>关闭确认</span>
+      <p slot="header" class="text-ct">
+        <icon color="#f9284f" type="information-circled"/>
+        <span class="main-color">关闭确认</span>
       </p>
       <div class="text-ct">
         <p>此任务关闭后，任务将无法发布，若已存入保证金，</p>
@@ -238,7 +238,7 @@
         <p>是否确认关闭？</p>
       </div>
       <div slot="footer">
-        <i-button type="error" size="large" long :loading="modalLoading" @click="confirmClose">关闭</i-button>
+        <i-button type="primary" size="large" long :loading="modalLoading" @click="confirmClose">关闭</i-button>
       </div>
     </modal>
     <!--删除任务弹框-->
@@ -251,7 +251,7 @@
         <p>是否彻底删除该活动？</p>
       </div>
       <div slot="footer">
-        <i-button type="error" size="large" long :loading="modalLoading" @click="confirmDelete">删除</i-button>
+        <i-button type="primary" size="large" long :loading="modalLoading" @click="confirmDelete">删除</i-button>
       </div>
     </modal>
     <!--开启一键加速功能确认弹框-->
@@ -264,7 +264,7 @@
         <p>启用后，该活动剩余名额将全部由系统进行匹配和审核，且无法修改，适合于需要快速消化单量的商家！</p>
       </div>
       <div slot="footer">
-        <i-button type="error" size="large" long :loading="speedUpLoading" @click="speedUp">确认开启</i-button>
+        <i-button type="primary" size="large" long :loading="speedUpLoading" @click="speedUp">确认开启</i-button>
       </div>
     </modal>
     <!--结算成功弹框-直接结算-->
@@ -277,8 +277,8 @@
         <p>该活动未产生需返还的多余费用，已直接结算成功！</p>
       </div>
       <div slot="footer" class="clear">
-        <iButton class="left ml-28" type="error" size="large" @click="lookBill">查看活动账单</iButton>
-        <i-button class="right mr-30" type="error" size="large" @click="directSettlementSuccess = false">我知道了</i-button>
+        <iButton class="left ml-28" type="primary" size="large" @click="lookBill">查看活动账单</iButton>
+        <i-button class="right mr-30" type="primary" size="large" @click="directSettlementSuccess = false">我知道了</i-button>
       </div>
     </modal>
     <!--结算成功弹框-结算有返款-->
@@ -293,7 +293,7 @@
         <p>返还增值费{{settlementRefundDetails.vasFeeRefund}}元。</p>
       </div>
       <div slot="footer" class="text-ct">
-        <i-button type="error" size="large" long @click="auditSettlementSuccess = false">确认</i-button>
+        <i-button type="primary" size="large" long @click="auditSettlementSuccess = false">确认</i-button>
       </div>
     </modal>
     <!--结算详情弹框-->
@@ -311,7 +311,7 @@
         <p class="ml-60 mt-5">返还增值费 {{taskSettlementDetailInfo.vasFeeRefund}} 元</p>
       </div>
       <div slot="footer" class="text-ct">
-        <i-button type="error" size="large" long @click="billDetailsModel = false">确认</i-button>
+        <i-button type="primary" size="large" long @click="billDetailsModel = false">确认</i-button>
       </div>
     </modal>
     <!--活动失效提示弹框-->
@@ -324,7 +324,7 @@
         <p class="fs-14">该活动已失效，请关闭！</p>
       </div>
       <div slot="footer" class="text-ct">
-        <i-button type="error" size="large" long :loading="taskOverdueLoading" @click="isTaskOverdueClose">关闭活动</i-button>
+        <i-button type="primary" size="large" long :loading="taskOverdueLoading" @click="isTaskOverdueClose">关闭活动</i-button>
       </div>
     </modal>
     <!--支付保证金弹框-->
@@ -347,6 +347,18 @@
     <!--支付宝手续费说明弹框-->
     <modal v-model="isShowAliPayTip">
       <img src="~assets/img/common/ali-pay-tip.jpg"/>
+    </modal>
+    <!--删除首单面推广费活动提醒弹框-->
+    <modal v-model="deleteFirstTaskModal" width="360">
+      <p slot="header" class="text-ct">
+        <icon color="#f9284f" type="information-circled"/>
+        <span class="main-color">首单关闭提醒</span>
+      </p>
+      <div class="text-lf">该活动是您首次发布创建的活动，享有<span class="main-color">首单推广费减免</span>的特权，关闭后你将无法享受该优惠，是否确认关闭？</div>
+      <div slot="footer" class="text-ct">
+        <i-button class="mr-40 pr-40 pl-40" type="primary" size="large" :loading="speedUpLoading" @click="confirmClose">确认</i-button>
+        <i-button class="ml-40 pr-40 pl-40" type="primary" size="large" @click="deleteFirstTaskModal = false">取消</i-button>
+      </div>
     </modal>
   </div>
 </template>
@@ -448,6 +460,7 @@
         redEnvelopesState: true,
         redEnvelopeDeductionNumber: 0,
         disabledRedEnvelopes: false,
+        deleteFirstTaskModal: false,
       }
     },
     created() {
@@ -602,9 +615,13 @@
       getTaskStatus(type) {
         return taskErrorStatusList(type);
       },
-      closeTask(id) {
-        this.closeModal = true;
+      closeTask(id, fastPublish) {
         this.taskId = id;
+        if (fastPublish) {
+          this.deleteFirstTaskModal = true
+        } else {
+          this.closeModal = true;
+        }
       },
       deleteTask(id) {
         this.deleteModal = true;

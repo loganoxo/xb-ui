@@ -2,7 +2,6 @@
  * Created by ycb on 2017/7/17.
  */
 import api from '@/config/apiConfig'
-import {getStorage, setStorage} from '@/config/utils'
 
 export default {
   //用户退出登录
@@ -84,11 +83,7 @@ export default {
   getTaskCreateFastStatus({commit}) {
     return new Promise((resolve, reject) => {
       api.taskCreateFastStatus().then(res => {
-        if (res.status) {
-          commit('TASK_CREATE_FAST_STATUS', {status: res.data});
-        } else {
-          _this.$Message.error(res.msg);
-        }
+        res.status && commit('TASK_CREATE_FAST_STATUS', {status: res.data});
         resolve(res);
       }).catch(err => {
         console.error(err);

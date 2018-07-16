@@ -13,28 +13,35 @@
               class="main-color">{{data.residueCount}}</span> 个
           </p>
           <p>单品活动担保金：<span class="main-color">{{(oneBondLast / 100).toFixed(2)}}</span>
-            元&nbsp;&nbsp;&nbsp;&nbsp;单品推广费：<span
-              class="main-color">{{(data.promotionExpensesPaid / data.taskCount / 100).toFixed(2)}}</span> 元&nbsp;&nbsp;&nbsp;&nbsp;单品增值服务费：<span
+            元&nbsp;&nbsp;&nbsp;&nbsp;单品推广费：<span class="main-color">{{(data.promotionExpensesPaid / data.taskCount / 100).toFixed(2)}}</span> 元&nbsp;&nbsp;&nbsp;&nbsp;单品增值服务费：<span
               class="main-color">{{(data.vasFeePaid / data.taskCount / 100).toFixed(2)}}</span> 元</p>
         </div>
       </div>
       <div class="mt-10 border-top pt-10">
         <p>当前待审核：<span class="main-color">{{data.totalTaskApplyCount}}</span> 人</p>
-        <p class="mt-10">
-          <span>追加份数：</span>
-          <i-input v-model.number="addTaskNumber" placeholder="请输入追加份数" @on-change="addTaskNumberChange" style="width: 100px;"/>
-        </p>
+        <template v-if="data.isMoreKeywordsPlan">
+          <div class="inline-block tag" v-for="item in keywordPlanInfo" :class="selectKeywordScheme === item.index ? 'select-tag-bg' : ''">
+            <span @click="selectChangeScheme(item.index)">{{item.title ? item.title : `关键词方案${item.index + 1}`}}</span>
+            <sup class="badge-count" v-show="item.addTaskNumber > 0">{{item.addTaskNumber}}</sup>
+          </div>
+        </template>
+        <div v-for="item in keywordPlanInfo" v-show="selectKeywordScheme === item.index">
+          <div class="mt-10">
+            <span>追加份数：</span>
+            <i-input v-model.number="item.addTaskNumber" placeholder="请输入追加份数" @on-change="addTaskNumberChange" style="width: 100px;"/>
+            <span class="ml-10 cl000 fs-14" v-if="item.title">为{{` "${item.title}" `}}追加的份数</span>
+          </div>
+          <div class="mt-10 border-top pt-10 addition-item" v-if="data.itemReviewRequired === 'assign_review_detail' && itemReviewList.length > 0">
+            <p class="mb-10">该活动设置了指定评价，请对追加的份数提供相应的评价数：</p>
+            <p class="mt-5" v-for="(item, index) in itemReviewList">
+              <span class="vtc-sup">{{`评价${index + 1}`}}：</span>
+              <i-input v-model="item.value" class="mb-10" type="textarea" :autosize="{minRows: 1,maxRows: 3}" placeholder="请输入你的评价内容" style="width: 480px;"/>
+            </p>
+          </div>
+        </div>
       </div>
-      <div class="mt-10 border-top pt-10 addition-item" v-if="data.itemReviewRequired === 'assign_review_detail' && itemReviewList.length > 0">
-        <p class="mb-10">该活动设置了指定评价，请对追加的份数提供相应的评价数：</p>
-        <p class="mt-5" v-for="(item, index) in itemReviewList">
-          <span class="vtc-sup">{{`评价${index + 1}`}}：</span>
-          <i-input v-model="item.value" class="mb-10" type="textarea" :autosize="{minRows: 1,maxRows: 3}" placeholder="请输入你的评价内容" style="width: 480px;"/>
-        </p>
-      </div>
-      <div slot="footer">
-        <i-button type="primary" size="large" long :loding="buttonLoading" @click="nextStep">下一步</i-button>
-      </div>
+      <div class="mt-10 border-top pt-10">共追加&nbsp;<span class="main-color">{{allAddTaskNumber}}</span>&nbsp;份</div>
+      <i-button slot="footer" type="primary" size="large" long :loding="buttonLoading" @click="nextStep">下一步</i-button>
     </template>
     <template v-else>
       <pay-model ref="payModelRef" :orderMoney="needPayMoneyBeforeAsRedEnvelopes" @confirmPayment="confirmPayment"
@@ -59,7 +66,7 @@
   import {Modal, Input, Button, Icon} from 'iview'
   import PayModel from '@/components/PayModel'
   import api from '@/config/apiConfig'
-  import {isInteger, delSpace} from '@/config/utils'
+  import {isInteger, delSpace, debounce} from '@/config/utils'
 
   export default {
     name: "task-additional-quota-modal",
@@ -68,10 +75,12 @@
         currentValue: this.value,
         buttonLoading: false,
         oldAddTaskNumber: null,
-        addTaskNumber: null,
         itemReviewList: [],
         step: 'create',
-        title: '活动追加名额'
+        title: '活动追加名额',
+        keywordPlanInfo: [],
+        selectKeywordScheme: 0,
+        timer: null
       }
     },
     components: {
@@ -122,7 +131,7 @@
        * @return {number}
        */
       redEnvelopeDeductionNumber() {
-        return this.data.redEnvelopeDeductionPaid > 0 ? this.data.redEnvelopeDeductionPaid / this.data.taskCount * this.addTaskNumber : 0
+        return this.data.redEnvelopeDeductionPaid > 0 ? this.data.redEnvelopeDeductionPaid / this.data.taskCount * this.allAddTaskNumber : 0
       },
 
       /**
@@ -188,7 +197,7 @@
        * @return {number}
        */
       allValueAddedCost() {
-        return (this.data.vasFeePaid / this.data.taskCount) * this.addTaskNumber
+        return (this.data.vasFeePaid / this.data.taskCount) * this.allAddTaskNumber
       },
 
       /**
@@ -196,7 +205,7 @@
        * @return {number}
        */
       allPromotionExpenses() {
-        return this.onePromotionExpenses * this.addTaskNumber
+        return this.onePromotionExpenses * this.allAddTaskNumber
       },
 
       /**
@@ -205,10 +214,10 @@
        */
       orderMoney() {
         if (this.data.activityCategory === 'free_get') {
-          return (this.addTaskNumber * this.oneBondAToA) + this.allPromotionExpenses * 100 + this.allValueAddedCost
+          return (this.allAddTaskNumber * this.oneBondAToA) + this.allPromotionExpenses * 100 + this.allValueAddedCost
         }
         if (this.data.activityCategory === 'present_get') {
-          return (this.addTaskNumber * this.oneBondAToB) + this.allPromotionExpenses * 100 + this.allValueAddedCost
+          return (this.allAddTaskNumber * this.oneBondAToB) + this.allPromotionExpenses * 100 + this.allValueAddedCost
         }
       },
 
@@ -251,6 +260,15 @@
       needPayMoneyBeforeText() {
         return !this.isBalance ? `${(this.needPayMoneyBeforeAsRedEnvelopes / 100).toFixed(2)} + ${((Math.ceil(this.needPayMoneyBeforeAsRedEnvelopes / 0.994) - this.needPayMoneyBeforeAsRedEnvelopes) / 100).toFixed(2)}` : ''
       },
+
+      /** 计算总追加份数
+       * @return {number}
+       */
+      allAddTaskNumber() {
+       return this.keywordPlanInfo.reduce((prev, cur) => {
+         return (cur.addTaskNumber > 0 ? cur.addTaskNumber : 0) + prev
+        }, 0)
+      }
     },
     methods: {
       setCurrentValue(value) {
@@ -258,82 +276,106 @@
       },
       change(value) {
         if (!value) {
-          this.$emit('input', false)
+          this.$emit('input', false);
+          this.keywordPlanInfo = [];
+          this.itemReviewList = [];
+          this.oldAddTaskNumber = null;
+          // 关闭弹框时延迟渲染创建活动界面
+          setTimeout(() => {
+            this.step = 'create'
+          }, 200);
         }
-        this.addTaskNumber = null;
-        this.oldAddTaskNumber = null;
-        this.itemReviewList = [];
-        // 关闭弹框时延迟渲染创建活动界面
-        setTimeout(() => {
-          this.step = 'create';
-        }, 200);
       },
       nextStep() {
-        if (!this.addTaskNumber) {
-          this.$Message.warning('亲，请输入需要追加的活动份数！');
-          return;
-        }
-        if (!isInteger(this.addTaskNumber)) {
-          this.$Message.warning('亲，追加活动份数必须为正整数数字！');
-          return;
-        }
-        if (this.addTaskNumber <= 0) {
-          this.$Message.warning('亲，追加活动份数必须大于0！');
-          return;
-        }
         let isItemReviewOk = true;
+        if (!this.data.isMoreKeywordsPlan) {
+          // 老活动的校验逻辑（没有关键词人数分配）
+          if (!this.keywordPlanInfo[0].addTaskNumber) {
+            this.$Message.warning(`亲，请输入需要追加的活动份数！`);
+            return;
+          }
+          if (!isInteger(this.keywordPlanInfo[0].addTaskNumber)) {
+            this.$Message.warning(`亲，追加活动份数必须为正整数数字！`);
+            return;
+          }
+          if (this.keywordPlanInfo[0].addTaskNumber <= 0) {
+            this.$Message.warning(`亲，追加活动份数必须大于0！`);
+            return;
+          }
+        } else {
+          // 新活动的校验逻辑（有关键词人数分配）
+          const allOk = this.keywordPlanInfo.some(item => {
+            return item.addTaskNumber > 0
+          });
+          if (!allOk) {
+            this.$Message.warning(`亲，请输入需要追加的活动份数！`);
+            return;
+          }
+        }
         if (this.data.itemReviewRequired === 'assign_review_detail') {
-          for (let i = 0, len = this.itemReviewList.length; i < len; i++) {
-            if (!this.itemReviewList[i].value || !delSpace(this.itemReviewList[i].value)) {
-              this.itemReviewList[i].value = this.itemReviewList[i].value ? delSpace(this.itemReviewList[i].value) : this.itemReviewList[i].value;
-              this.$Message.warning('亲，追加评价' + (i + 1) + '内容不能为空！');
+          for (let l = 0, len = this.itemReviewList.length; l < len; l++) {
+            if (!this.itemReviewList[l].value || !delSpace(this.itemReviewList[l].value)) {
+              // 当用户输入连续空格的时候自动将空格去除
+              this.itemReviewList[l].value = delSpace(this.itemReviewList[l].value);
+              this.$Message.warning(`亲，追加评价 ${l + 1} 内容不能为空！`);
               isItemReviewOk = false;
               break;
             }
           }
         }
-        if (!isItemReviewOk) {
-          return
+        if (isItemReviewOk) {
+          this.title = '支付充值活动费用';
+          this.step = 'pay';
         }
-        this.title = '支付充值活动费用';
-        this.step = 'pay';
       },
       addTaskNumberChange() {
-        if (this.data.itemReviewRequired === 'assign_review_detail' && this.addTaskNumber > 0) {
-          // 等待用户输入600毫秒后触发逻辑，防止逻辑秒触发
-         setTimeout(()=> {
-           if (this.addTaskNumber > this.oldAddTaskNumber) {
-             for (let i = 1, len = this.addTaskNumber - this.oldAddTaskNumber; i <= len; i++) {
-               this.itemReviewList.push({
-                 value: null,
-                 index: i,
-               })
-             }
-           } else if (this.addTaskNumber < this.oldAddTaskNumber) {
-             this.itemReviewList.splice(this.addTaskNumber, this.oldAddTaskNumber - this.addTaskNumber)
-           }
-           this.oldAddTaskNumber = this.addTaskNumber
-         },600)
+        if (this.data.itemReviewRequired === 'assign_review_detail') {
+          // 函数防抖处理（等待用户输入完成后600毫秒后触发逻辑，防止逻辑不停触发造成不必要的性能损失）
+          // 动态增删追加评价输入框DOM
+          const _this = this;
+          if (_this.timer) {
+            clearTimeout(_this.timer)
+          }
+          _this.timer = setTimeout(() => {
+            if (_this.allAddTaskNumber > _this.oldAddTaskNumber) {
+              for (let i = 0, len = _this.allAddTaskNumber - _this.oldAddTaskNumber; i < len; i++) {
+                this.itemReviewList.push({
+                  value: null,
+                  index: i + 1,
+                })
+              }
+            } else if (_this.allAddTaskNumber < _this.oldAddTaskNumber) {
+              this.itemReviewList.splice(_this.allAddTaskNumber, _this.oldAddTaskNumber - _this.allAddTaskNumber)
+            }
+            this.oldAddTaskNumber = _this.allAddTaskNumber
+          }, 600)
         }
+      },
+      selectChangeScheme(index) {
+        this.selectKeywordScheme = index
       },
       confirmPayment(pwd) {
         const _this = this;
         const itemReviewPushList = [];
+        const additionSearchScheme = [];
         if (_this.itemReviewList.length > 0) {
           _this.itemReviewList.forEach(item => {
-            if (item.value) {
-              itemReviewPushList.push(delSpace(item.value));
-            }
+            itemReviewPushList.push(delSpace(item.value));
           })
         }
+        _this.keywordPlanInfo.forEach(item => {
+          additionSearchScheme.push(item.addTaskNumber > 0 ? item.addTaskNumber : 0)
+        });
         api.additionalTaskAccount({
           payPwd: pwd,
           taskId: _this.data.taskId,
-          additionCount: _this.addTaskNumber,
-          additionItemReview: JSON.stringify(itemReviewPushList)
+          additionCount: _this.allAddTaskNumber,
+          additionItemReview: JSON.stringify(itemReviewPushList),
+          additionSearchScheme: JSON.stringify(additionSearchScheme),
         }).then(res => {
           if (res.status) {
-            _this.addTaskNumber = null;
+            _this.keywordPlanInfo = [];
+            _this.itemReviewList = [];
             _this.$emit('addTaskSuccess');
             _this.$emit('input', false);
           } else {
@@ -346,14 +388,72 @@
     watch: {
       value(val) {
         this.setCurrentValue(val)
+      },
+      'data.keywordPlanNum': {
+        deep: true,
+        handler(val) {
+          let len = val > 0 ? val : 1;
+          for (let i = 0; i < len; i++) {
+            this.keywordPlanInfo.push({
+              addTaskNumber: null,
+              index: i,
+              title: this.data.searchKeywords[i] ? this.data.searchKeywords[i] : null
+            })
+          }
+        }
       }
     },
   }
 </script>
 
 <style lang="scss" scoped>
+  @import 'src/css/mixin';
+
   .addition-item {
     overflow-y: auto;
     max-height: 200px;
+  }
+
+  .tag {
+    display: inline-block;
+    height: 22px;
+    line-height: 22px;
+    margin: 20px 12px 10px 0;
+    padding: 0 8px;
+    border: 1px solid #e9eaec;
+    border-radius: 3px;
+    background: #f7f7f7;
+    font-size: 12px;
+    vertical-align: middle;
+    opacity: 1;
+    cursor: pointer;
+    position: relative;
+  }
+
+  .select-tag-bg {
+    background-color: $mainColor;
+    color: #fff;
+    border-color: $mainColor;
+  }
+
+  .badge-count {
+    position: absolute;
+    transform: translateX(50%);
+    top: -16px;
+    right: 0;
+    height: 20px;
+    border-radius: 10px;
+    min-width: 20px;
+    background: #ed3f14;
+    border: 1px solid transparent;
+    color: #fff;
+    line-height: 18px;
+    text-align: center;
+    padding: 0 6px;
+    font-size: 12px;
+    white-space: nowrap;
+    transform-origin: -10% center;
+    z-index: 10;
+    box-shadow: 0 0 0 1px #fff;
   }
 </style>

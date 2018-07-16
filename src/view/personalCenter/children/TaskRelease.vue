@@ -360,8 +360,7 @@
           <div class="baby-number ml-20 mt-20">
             <p>
               <span class="required">宝贝数量：</span>
-              <i-input v-model.number="taskRelease.taskCount" placeholder="请输入宝贝数量" style="width: 120px"
-                       @on-blur="addItemReviewList"/>
+              <i-input v-model.number="taskRelease.taskCount" placeholder="请输入宝贝数量" style="width: 120px" @on-blur="addItemReviewList" @on-change="taskCountChange"/>
               <span>份</span>
               <span v-show="taskRelease.orderType === 'normal'" class="sizeColor3 ml-5">（平台会按照1/5的比例进行计算，部分中奖名额将会由系统进行推荐）</span>
             </p>
@@ -701,8 +700,7 @@
               <div class="baby-number ml-10 mt-20">
                 <p>
                   <span class="required">宝贝数量：</span>
-                  <i-input v-model.number="taskRelease.taskCount" placeholder="请输入宝贝数量" style="width: 120px"
-                           @on-blur="addItemReviewList"/>
+                  <i-input v-model.number="taskRelease.taskCount" placeholder="请输入宝贝数量" style="width: 120px" @on-blur="addItemReviewList" @on-change="taskCountChange"/>
                   <span>份</span>
                   <span v-show="taskRelease.orderType === 'normal'" class="sizeColor3 ml-5">（平台会按照1/5的比例进行计算，部分中奖名额将会由系统进行推荐）</span>
                 </p>
@@ -712,7 +710,6 @@
                   <span class="sizeColor3 ml-10">平台审批份数：{{systemApprovalTaskNumber || 0}} 份</span>
                 </p>
               </div>
-
               <div class="product-introduction ml-10 mt-20" v-if="taskRelease.activityCategory === 'present_get'">
                 <span class="left ml-5 required">商品简介：</span>
                 <quill-editor ref="myTextEditorPresent"
@@ -752,33 +749,24 @@
               <p class="sizeColor2 left mt-20 ml-15">（点击或者拖拽自主上传图片，支持jpg \ jpeg \ png \ gif \
                 bmp格式，最佳尺寸400*400（像素），不超过1M，可与宝贝主图一致）</p>
             </div>
-            <div class="more-keyword-scheme ml-40 mt-20">
+            <div class="more-keyword-scheme ml-40 mr-40">
               <div>
-                <div class="inline-block tag" v-for="item in pcTaskDetail" :key="item.index"
-                     :class="selectKeywordScheme === item.index ? 'select-tag-bg' : ''">
-                  <span @click="selectChangeScheme(item.index)">关键词方案{{ item.index + 1 }}</span>
-                  <!--<sup class="badge-count" v-show="item.countAssigned > 0">{{item.countAssigned}}</sup>-->
-                  <span v-if="item.index === pcTaskDetail.length - 1 && item.index !== 0" class="close-tag"
-                        @click="handleClose(item.index)">
-                      <icon type="ios-close-empty"/>
-                    </span>
+                <div class="inline-block tag" v-for="item in pcTaskDetail" :key="item.index" :class="selectKeywordScheme === item.index ? 'select-tag-bg' : ''">
+                  <span @click="selectChangeScheme(item.index)">{{item.searchKeyword ? item.searchKeyword : `关键词方案${item.index + 1}`}}</span>
+                  <sup class="badge-count" v-show="item.countAssigned > 0">{{item.countAssigned}}</sup>
+                  <span v-if="item.index === pcTaskDetail.length - 1 && item.index !== 0" class="close-tag" @click="handleClose(item.index)"><icon type="ios-close-empty"/></span>
                 </div>
-                <i-button class="ml-5" v-show="pcTaskDetail.length < 5" icon="ios-plus-empty" type="dashed"
-                          size="small" @click="handleAdd">添加关键词方案
-                </i-button>
+                <i-button class="ml-5 mt-28" icon="ios-plus-empty" type="dashed" size="small" @click="handleAdd">添加关键词方案</i-button>
               </div>
-              <div class="mt-10 sizeColor2">（请确保提供的关键词能够搜索到宝贝，同时为了避免拿手找不到对应的宝贝，您最多可以添加5组关键词方案）</div>
+              <div class="mt-10 sizeColor2">（最多可为1份宝贝匹配1个进店关键词，<span class="main-color">剩余匹配数： {{residualMatchNumber}}</span>）</div>
             </div>
-            <template v-for="item in pcTaskDetail" v-if="item.index === selectKeywordScheme">
-              <alert show-icon class="tag-alert">
-                您当前选择的是关键词方案 {{item.index + 1}}
-                <icon type="ios-lightbulb-outline" slot="icon" size="18"/>
-              </alert>
-              <!--  <div class="matching-num ml-40 mt-20">
-                  <span>匹配人数：</span>
-                  <i-input v-model.number="item.countAssigned" placeholder="请输入匹配人数" style="width: 160px"></i-input>
-                  <p class="sizeColor2 mt-10">（系统会按照审批拿手通过数量以及匹配人数，依次展示对应的关键词。<span class="main-color">注意：匹配人数可以不设定，一旦设定则每个关键词方案的匹配人数之和必须等于宝贝数量）</span></p>
-                </div>-->
+            <div class="keyword-plan" v-for="item in pcTaskDetail" v-show="item.index === selectKeywordScheme">
+              <div class="keyword-plan-tip">关键词方案 {{item.index + 1}}</div>
+              <div class="matching-num ml-40 mt-20">
+                <span class="required">匹配人数：</span>
+                <i-input v-model.number="item.countAssigned" placeholder="请输入匹配人数" style="width: 160px" @on-change="countAssignedChange"/>
+                <span class="sizeColor2">（为当前关键词分配拿手，表示需要几个拿手使用该关键词进店成交，最小为1）</span>
+              </div>
               <div class="search-keyword mt-20 ml-28">
                 <span class="required">搜索关键词：</span>
                 <i-input v-model="item.searchKeyword" placeholder="请输入搜索关键词" style="width: 260px"/>
@@ -865,7 +853,7 @@
                 <i-input v-model="item.deliverAddress" style="width: 120px"/>
                 <span class="sizeColor2 ml-5">（出于安全考虑，请勿大量使用）</span>
               </div>
-            </template>
+            </div>
           </template>
           <!--APP搜索下单设置-->
           <template v-else-if="taskRelease.taskType === 'app_search'">
@@ -890,31 +878,22 @@
             </div>
             <div class="more-keyword-scheme ml-40 mt-20">
               <div>
-                <div class="inline-block tag" v-for="item in appTaskDetail" :key="item.index"
-                     :class="selectKeywordScheme === item.index ? 'select-tag-bg' : ''">
-                  <span @click="selectChangeScheme(item.index)">关键词方案{{ item.index + 1 }}</span>
-                  <!--<sup class="badge-count" v-show="item.countAssigned > 0">{{item.countAssigned}}</sup>-->
-                  <span v-if="item.index === appTaskDetail.length - 1 && item.index !== 0" class="close-tag"
-                        @click="handleClose(item.index)">
-                      <icon type="ios-close-empty"/>
-                    </span>
+                <div class="inline-block tag" v-for="item in appTaskDetail" :key="item.index" :class="selectKeywordScheme === item.index ? 'select-tag-bg' : ''">
+                  <span @click="selectChangeScheme(item.index)">{{item.searchKeyword ? item.searchKeyword : `关键词方案${item.index + 1}`}}</span>
+                  <sup class="badge-count" v-show="item.countAssigned > 0">{{item.countAssigned}}</sup>
+                  <span v-if="item.index === appTaskDetail.length - 1 && item.index !== 0" class="close-tag" @click="handleClose(item.index)"><icon type="ios-close-empty"/></span>
                 </div>
-                <i-button v-show="appTaskDetail.length < 5" icon="ios-plus-empty" type="dashed" size="small"
-                          @click="handleAdd">添加关键词方案
-                </i-button>
+                <i-button class="mt-28" icon="ios-plus-empty" type="dashed" size="small" @click="handleAdd">添加关键词方案</i-button>
               </div>
-              <div class="mt-10 sizeColor2">（请确保提供的关键词能够搜索到宝贝，同时为了避免拿手找不到对应的宝贝，您最多可以添加5组关键词方案）</div>
+              <div class="mt-10 sizeColor2">（最多可为1份宝贝匹配1个进店关键词，<span class="main-color">剩余匹配数： {{residualMatchNumber}}</span>）</div>
             </div>
-            <template v-for="item in appTaskDetail" v-if="item.index === selectKeywordScheme">
-              <alert show-icon class="tag-alert">
-                您当前选择的是关键词方案 {{item.index + 1}}
-                <icon type="ios-lightbulb-outline" slot="icon" size="18"/>
-              </alert>
-              <!-- <div class="matching-num ml-40 mt-20">
-                 <span>匹配人数：</span>
-                 <i-input v-model.number="item.countAssigned" placeholder="请输入匹配人数" style="width: 160px"></i-input>
-                 <p class="sizeColor2 mt-10">（系统会按照审批拿手通过数量以及匹配人数，依次展示对应的关键词。<span class="main-color">注意：每个关键词的匹配人数之和不能大于宝贝数量，并且宝贝数量大于等于关键词方案数量）</span></p>
-               </div>-->
+            <div class="keyword-plan" v-for="item in appTaskDetail" v-show="item.index === selectKeywordScheme">
+              <div class="keyword-plan-tip">关键词方案 {{item.index + 1}}</div>
+              <div class="matching-num ml-40 mt-20">
+                <span class="required">匹配人数：</span>
+                <i-input v-model.number="item.countAssigned" placeholder="请输入匹配人数" style="width: 160px" @on-change="countAssignedChange"/>
+                <span class="sizeColor2">（为当前关键词分配拿手，表示需要几个拿手使用该关键词进店成交，最小为1）</span>
+               </div>
               <div class="search-keyword mt-20 ml-28">
                 <span class="required">搜索关键词：</span>
                 <i-input v-model="item.searchKeyword" placeholder="请输入搜索关键词" style="width: 260px"/>
@@ -993,7 +972,7 @@
                 <i-input v-model="item.deliverAddress" style="width: 120px"/>
                 <span class="sizeColor2 ml-5">出于安全考虑，请勿大量使用</span>
               </div>
-            </template>
+            </div>
           </template>
           <!--淘口令下单设置-->
           <template v-else-if="taskRelease.taskType === 'tao_code'">
@@ -1021,8 +1000,7 @@
             </div>
             <div class="tao-code ml-15 mt-20">
               <span>卡首屏宝贝价格：</span>
-              <i-input v-model.number="taoCodeTaskDetail[0].homePageLockItemPrice" placeholder="请输入卡首屏宝贝价格"
-                       style="width: 140px"/>
+              <i-input v-model.number="taoCodeTaskDetail[0].homePageLockItemPrice" placeholder="请输入卡首屏宝贝价格" style="width: 140px"/>
               <span>元</span>
             </div>
           </template>
@@ -1044,39 +1022,37 @@
           <div class="description-fees-con mt-10">
             <p>活动担保金 = 份数 × 单品活动担保金 = <span>{{oneBondMarginText}}</span> 元</p>
             <!--<p class="mt-6">单品打赏费 = 单品试用担保金 × 费率 =<span>{{onePromotionExpensesBeforeText}}</span> 元<span>{{onePromotionExpensesTipText}}</span></p>-->
-            <p class="mt-6">总推广费 = 单品推广费 × 份数 = <span>{{onePromotionExpenses}}</span> × <span>{{taskRelease.taskCount}} = <span>{{(allPromotionExpenses).toFixed(2)}}</span></span>
-              元 &nbsp;&nbsp;
+            <p class="mt-6">总推广费 = 单品推广费 × 份数 = <span>{{(onePromotionExpenses).toFixed(2)}}</span> × <span>{{taskRelease.taskCount}} = <span>{{(allPromotionExpenses).toFixed(2)}}</span></span>
+              元 &nbsp;&nbsp;<span v-if="getTaskCreateFastStatus" class="main-color">（您是首次放单，享受首单推广费减免）</span>
               <!--<tooltip placement="top" content="为提高平台拿手活跃度，鼓励拿手创作更优质的买家秀内容，原平台推广费将改为打赏费，用于拿手打赏！">-->
               <!--<a>什么是打赏费？</a>-->
               <!--</tooltip>-->
             </p>
-            <p class="mt-6">总增值费 = 单品增值费 × 份数 = <span>{{(oneValueAddedCost / 100).toFixed(2)}}</span> × <span>{{taskRelease.taskCount}}</span>
-              = {{(allValueAddedCost / 100).toFixed(2)}} 元</p>
+            <p class="mt-6">总增值费 = 单品增值费 × 份数 = <span>{{(oneValueAddedCost / 100).toFixed(2)}}</span> × <span>{{taskRelease.taskCount}}</span> = {{(allValueAddedCost / 100).toFixed(2)}} 元</p>
             <p class="mt-6">总费用 = 活动担保金 + 总推广费 + 总增值费用 = <span>{{(orderMoney / 100).toFixed(2)}}</span> 元</p>
             <p class="mt-6" v-if="!isBalance">手续费说明： 使用支付宝充值支付，支付宝会收取0.6%的手续费，该笔费用需要商家承担，手续费不予退还，敬请谅解！<a
               @click="isShowAliPayTip = true">查看支付宝官方说明</a></p>
           </div>
         </div>
-        <div class="pay-info mt-40" v-if="isBalance && !priceHasChange">本次总共要支付的金额为：<span class="second-color">{{(orderMoney / 100).toFixed(2)}}</span>&nbsp;元。您的账户的当前余额为：<strong>{{(getUserBalance
-          / 100).toFixed(2)}}</strong>&nbsp;元
+        <div class="pay-info mt-40" v-if="isBalance && !priceHasChange">本次总共要支付的金额为：<span class="second-color">{{(orderMoney / 100).toFixed(2)}}</span>&nbsp;元。您的账户的当前余额为：<strong>{{(getUserBalance / 100).toFixed(2)}}</strong>&nbsp;元
         </div>
-        <div class="pay-info mt-40" v-if="!isBalance && !priceHasChange">本次总共要支付的金额为：<strong>{{(orderMoney /
-          100).toFixed(2)}}</strong>&nbsp;元。您账户余额为：<strong>{{(getUserBalance /
-          100).toFixed(2)}}</strong>&nbsp;元，还需充值：<span
+        <div class="pay-info mt-40" v-if="!isBalance && !priceHasChange">本次总共要支付的金额为：<strong>{{(orderMoney / 100).toFixed(2)}}</strong>&nbsp;元。您账户余额为：<strong>{{(getUserBalance / 100).toFixed(2)}}</strong>&nbsp;元，还需充值：<span
           class="second-color">{{(needPayMoneyBefore / 100).toFixed(2)}}</span>&nbsp;元。
         </div>
-        <div class="pay-info mt-40" v-if="isBalanceReplenish && priceHasChange">
-          该任务已付总费用 <strong>{{(paidDeposit / 100).toFixed(2)}}</strong>元，本次修改需要支付超出部分的金额为：<strong class="main-color">{{(replenishMoney
-          / 100).toFixed(2)}}</strong>元。您账号的当前余额为：<strong>{{(getUserBalance / 100).toFixed(2) || 0}}</strong>&nbsp;元
+        <div class="pay-info mt-28" v-if="isBalanceReplenish && priceHasChange">
+          <p>该任务已付总费用&nbsp;<strong>{{(paidDeposit / 100).toFixed(2)}}</strong>&nbsp;元（包含红包抵扣&nbsp;{{(redEnvelopeDeductionPaid / 100).toFixed(2)}}&nbsp;元）。</p>
+          <p class="mt-10">本次修改需要支付超出部分的金额为：<strong class="main-color">{{((needPayMoneyAfterAsRedEnvelopes > 0 ? needPayMoneyAfterAsRedEnvelopes : 0) / 100).toFixed(2)}}</strong>
+            &nbsp;元<span v-if="redEnvelopesState">（包含红包抵扣&nbsp;{{(redEnvelopeDeductionNumber / 100).toFixed(2)}}&nbsp;元）</span>。</p>
+          <p class="mt-10">您账号的当前余额为：<strong>{{(getUserBalance / 100).toFixed(2)}}</strong>&nbsp;元。</p>
         </div>
-        <div class="pay-info mt-40" v-if="!isBalanceReplenish && priceHasChange">该任务已付担保金 <strong>{{((paidDeposit /
-          100)).toFixed(2)}}</strong>元，本次修改需要支付超出部分的金额为：<strong
-          class="main-color">{{(replenishMoney / 100).toFixed(2)}}</strong>元。您账号的当前余额为：<strong>{{(getUserBalance /
-          100).toFixed(2) || 0}}</strong>&nbsp;元,还需充值：<span
-          class="second-color">{{(needPayMoneyBefore / 100).toFixed(2)}}</span>&nbsp;元。
+        <div class="pay-info mt-28" v-if="!isBalanceReplenish && priceHasChange">
+          <p>该任务已付总费用&nbsp;<strong>{{((paidDeposit / 100)).toFixed(2)}}</strong>&nbsp;元（包含红包抵扣&nbsp;{{(redEnvelopeDeductionPaid / 100).toFixed(2)}}&nbsp;元）。</p>
+          <p>本次修改需要支付超出部分的金额为：<strong class="main-color">{{((needPayMoneyBeforeAsRedEnvelopes > 0 ? needPayMoneyBeforeAsRedEnvelopes : 0) / 100).toFixed(2)}}</strong>
+            &nbsp;元<span v-if="redEnvelopesState">（包含红包抵扣&nbsp;{{(redEnvelopeDeductionNumber / 100).toFixed(2)}}&nbsp;元）</span></p>
+          <p>您账号的当前余额为：<strong>{{(getUserBalance / 100).toFixed(2)}}</strong>&nbsp;元,还需充值：<span class="second-color">{{((needPayMoneyBeforeAsRedEnvelopes > 0 ? needPayMoneyBeforeAsRedEnvelopes : 0) / 100).toFixed(2)}}</span>&nbsp;元。</p>
         </div>
         <div class="description-fees-footer">
-          <span class="pay-btn" v-if="isBalance" @click="openRecharge">前去支付</span>
+          <span class="pay-btn" v-if="isBalance" @click="openRecharge">{{(needPayMoneyBeforeAsRedEnvelopes <= 0 || needPayMoneyAfterAsRedEnvelopes <= 0) ? '确认提交' : '前去支付'}}</span>
           <span class="pay-btn" v-else @click="openRecharge">前去充值</span>
           <span class="return" @click="returnUpStep">返回上一步</span>
           <router-link to="/user/activity-management/list">查看活动管理</router-link>
@@ -1096,8 +1072,7 @@
       </div>
     </div>
     <!--填写完成活动信息下一步按钮-->
-    <i-button class="fs-18 mt-20" type="primary" long :loading="taskLoading" v-show="stepName === 'information'"
-              @click="stepNext">下一步
+    <i-button class="fs-18 mt-20" type="primary" long :loading="taskLoading" v-show="stepName === 'information'" @click="stepNext">下一步
     </i-button>
     <!--活动担保金支付弹框-->
     <div class="pay-model" v-if="showPayModel">
@@ -1151,23 +1126,21 @@
       </div>
     </modal>
     <!--商家改低宝贝数量并且关键词方案大于当前宝贝数量弹框-->
-    <!--   <div class="keywordLowerChange">
-      <Modal v-model="keywordLowerChangeModel" :mask-closable="false" :closable="false" width="368">
-        <p slot="header" class="text-ct">
-          <Icon color="#f9284f" type="information-circled"></Icon>
-          <span class="main-color">关键词方案修改确认</span>
-        </p>
-        <div class="ml-10 text-ct">
-          <p class="fs-14">您当前的宝贝数量发生变更，请重新设定关键词方案</p>
-        </div>
-        <div slot="footer">
-          <iButton type="error" size="large" long @click="keywordLowerChange">确定</iButton>
-        </div>
-      </Modal>
-    </div>-->
+    <modal v-model="keywordLowerChangeModel" :mask-closable="false" :closable="false" width="368">
+      <p slot="header" class="text-ct">
+        <icon color="#f9284f" type="information-circled"/>
+        <span class="main-color">关键词方案修改确认</span>
+      </p>
+      <div class="ml-10 text-ct">
+        <p class="fs-14">您当前的宝贝数量发生变更，请重新设定关键词方案</p>
+      </div>
+      <div slot="footer">
+        <i-button type="error" size="large" long @click="keywordLowerChange">确定</i-button>
+      </div>
+    </modal>
     <!--服务条款弹框-->
     <div v-if="isShowUserClause" class="user-clause-model">
-      <user-clause @closeClauseModel="closeClauseModel"/>
+      <user-clause @closeClauseModel="isShowUserClause = false"/>
     </div>
     <!--收藏加购物、浏览答题、增值服务示例图查看-->
     <modal title="示例图片查看" v-model="isShowExampleImageModel">
@@ -1284,7 +1257,6 @@
     getUrlParams,
     isInternetUrl
   } from '@/config/utils'
-
   export default {
     name: 'task-release',
     components: {
@@ -1467,7 +1439,7 @@
         },
         editPriceAfterModel: false,
         editPriceToLowAfterModel: false,
-        // keywordLowerChangeModel: false,
+        keywordLowerChangeModel: false,
         priceHasChange: false,
         paidDeposit: 0,
         taskStatus: null,
@@ -1476,7 +1448,7 @@
         itemReviewPushList: [],
         selectKeywordScheme: 0,
         addKeywordScheme: 0,
-        // isCountAssigned: null,
+        isCountAssigned: null,
         isShowUserClause: false,
         browseAnswer: [
           {
@@ -1507,7 +1479,10 @@
         createFastTaskStatus: false,
         redEnvelopesState: true,
         disabledRedEnvelopes: false,
+        redEnvelopeDeductionPaid: 0,
         redEnvelopeDeductionNumber: 0,
+        residualMatchNumber: 0,
+        isMatchNumberOk: true,
       }
     },
     // 当用户有首发资格路由重定向到快速发布通道反之则停留在此页面
@@ -1517,8 +1492,10 @@
       next(vm => {
         if (from.name !== 'FastTaskRelease') {
           vm.$store.dispatch('getTaskCreateFastStatus').then(res => {
-            if (res.status && res.data) {
-              vm.$router.push({name: 'FastTaskRelease'})
+            if (res.status) {
+              res.data && vm.$router.push({name: 'FastTaskRelease'})
+            } else {
+              vm.$Message.error(res.msg)
             }
           })
         }
@@ -1625,29 +1602,30 @@
 
       /**
        * 计算最终单品推广费用（打赏费）
+       * 如果用户有首单资格推广费为0
        * @return {number}
        */
       onePromotionExpenses() {
         if (this.taskRelease.activityCategory === 'free_get') {
           if (this.getMemberVersionLevel === 100) {
-            return 5
+            return this.getTaskCreateFastStatus ? 0 : 5
           }
           if (this.getMemberVersionLevel === 200) {
-            return 3
+            return this.getTaskCreateFastStatus ? 0 : 3
           }
           if (this.getMemberVersionLevel === 300) {
-            return 3
+            return this.getTaskCreateFastStatus ? 0 : 3
           }
         }
         if (this.taskRelease.activityCategory === 'present_get') {
           if (this.getMemberVersionLevel === 100) {
-            return 10
+            return this.getTaskCreateFastStatus ? 0 : 10
           }
           if (this.getMemberVersionLevel === 200) {
-            return 6
+            return this.getTaskCreateFastStatus ? 0 : 6
           }
           if (this.getMemberVersionLevel === 300) {
-            return 6
+            return this.getTaskCreateFastStatus ? 0 : 6
           }
         }
       },
@@ -1771,14 +1749,6 @@
       },
 
       /**
-       * 计算当用户账户余额足以支付活动所需金额时要支付的金额（包含是否启用红包金额，此金额为最终需要支付金额）
-       * @return {number}
-       */
-      needPayMoneyAfterAsRedEnvelopes() {
-        return this.redEnvelopesState ? this.needPayMoneyAfter - this.redEnvelopeDeductionNumber : this.needPayMoneyAfter
-      },
-
-      /**
        * 计算当用户账户余额不足以支付活动所需金额要额外充值的金额
        * @return {number}
        */
@@ -1795,11 +1765,19 @@
       },
 
       /**
-       * 计算当用户账户余额不足以支付活动所需金额要额外充值的金额（包含是否启用红包金额，此金额为最终需要充值金额）
+       * 计算当用户账户余额足以支付活动所需金额时要支付的金额（包含是否启用红包金额，此金额为最终需要支付金额）
+       * @return {number}
+       */
+      needPayMoneyAfterAsRedEnvelopes() {
+        return this.isBalance ? this.redEnvelopesState ? this.needPayMoneyAfter - this.redEnvelopeDeductionNumber : this.needPayMoneyAfter : 0
+      },
+
+      /**
+       * 计算当用户账户余额不足以支付活动所需金额要充值的金额（包含是否启用红包金额，此金额为最终需要充值金额）
        * @return {number}
        */
       needPayMoneyBeforeAsRedEnvelopes() {
-        return this.redEnvelopesState ? this.needPayMoneyBefore - this.redEnvelopeDeductionNumber : this.needPayMoneyBefore
+        return !this.isBalance ? this.redEnvelopesState ? this.needPayMoneyBefore - this.redEnvelopeDeductionNumber : this.needPayMoneyBefore : 0
       },
 
       /** 计算充值界面上的金额文本显示
@@ -1832,7 +1810,7 @@
       allAnswerIsOk() {
         return this.browseAnswer.every(item => {
           return !!item.issue && !!item.image;
-        });
+        })
       },
 
       /**
@@ -1849,7 +1827,7 @@
        */
       vasMainItemCost() {
         let cost = 0;
-        this.vasMainItem.map(item => {
+        this.vasMainItem.forEach(item => {
           if (item.isSelect) {
             if (this.getMemberVersionLevel === 100) {
               this.upgradeMembershipModal = true;
@@ -1868,8 +1846,8 @@
       vasSimilarItemCost() {
         let cost = 0;
         if (this.shopAroundStatus) {
-          this.vasSimilarItem.map(keys => {
-            keys.map(key => {
+          this.vasSimilarItem.forEach(keys => {
+            keys.forEach(key => {
               if (key.isSelect) {
                 cost += key.price
               }
@@ -1901,7 +1879,8 @@
        */
       getTaskCreateFastStatus() {
         return this.$store.state.taskCreateFastStatus
-      }
+      },
+
     },
     methods: {
       changeSelectActivity(type) {
@@ -1924,11 +1903,10 @@
           taskId: id
         }).then(res => {
           if (res.status) {
-            res.data.mainVasSettings.map(keys => {
-              _this.vasMainItem.map(key => {
+            res.data.mainVasSettings.forEach(keys => {
+              _this.vasMainItem.forEach(key => {
                 if (keys.id === key.id) {
                   key.isSelect = true;
-                  return key;
                 }
               })
             });
@@ -1944,14 +1922,13 @@
                   _this.addShopAroundList()
                 }
               }
-              _this.vasSimilarItem.map((keys, i) => {
+              _this.vasSimilarItem.forEach((keys, i) => {
                 let tempArr = similarVasSettings[i];
                 if (tempArr.length > 0) {
-                  tempArr.map(items => {
-                    keys.map(item => {
+                  tempArr.forEach(items => {
+                    keys.forEach(item => {
                       if (items.id === item.id) {
                         item.isSelect = true;
-                        return item
                       }
                     })
                   })
@@ -2073,10 +2050,22 @@
         if (type === 'pc_search') {
           this.addKeywordScheme = this.pcTaskDetail.length - 1;
           this.selectKeywordScheme = 0;
+          this.pcTaskDetail.forEach(item => {
+            if (!item.countAssigned) {
+              item.countAssigned = 1
+            }
+          });
+          this.countAssignedChange();
         }
         if (type === 'app_search') {
           this.addKeywordScheme = this.appTaskDetail.length - 1;
           this.selectKeywordScheme = 0;
+          this.appTaskDetail.forEach(item => {
+            if (!item.countAssigned) {
+              item.countAssigned = 1
+            }
+          });
+          this.countAssignedChange();
         }
         if (this.pcTaskDetail[0].itemMainImage) {
           this.pcDefaultList = [];
@@ -2087,28 +2076,25 @@
           this.appDefaultList.push({src: this.appTaskDetail[0].itemMainImage})
         }
         if (type === 'pc_search' || type === 'direct_access') {
-          this.vasMainItem.map(key => {
+          this.vasMainItem.forEach(key => {
             if (key.id === 6 && key.isSelect) {
               key.isSelect = false;
-              return key;
             }
           });
           if (this.shopAroundStatus) {
-            this.vasSimilarItem.map(keys => {
-              keys.map(key => {
+            this.vasSimilarItem.forEach(keys => {
+              keys.forEach(key => {
                 if (key.id === 12 && key.isSelect) {
                   key.isSelect = false;
-                  return key;
                 }
               })
             })
           }
         }
         if (type === 'direct_access' || type === 'tao_code') {
-          this.vasMainItem.map(key => {
+          this.vasMainItem.forEach(key => {
             if (key.id === 1 && key.isSelect) {
               key.isSelect = false;
-              return key;
             }
           });
           if (this.shopAroundStatus) {
@@ -2126,10 +2112,9 @@
         if (this.shopAroundStatus) {
           this.shopAroundStatus = false;
         }
-        this.vasMainItem.map(item => {
+        this.vasMainItem.forEach(item => {
           if (item.isSelect) {
             item.isSelect = false;
-            return item;
           }
         })
       },
@@ -2146,19 +2131,17 @@
           this.taskCountInputDisabled = true;
         }
         if (type === 'day_reserve') {
-          this.vasMainItem.map(item => {
+          this.vasMainItem.forEach(item => {
             if (item.id === 3) {
               item.isSelect = true;
               item.isDisabled = true;
-              return item;
             }
           })
         } else {
-          this.vasMainItem.map(item => {
+          this.vasMainItem.forEach(item => {
             if (item.id === 3 && item.isSelect) {
               item.isSelect = false;
               item.isDisabled = false;
-              return item;
             }
           })
         }
@@ -2366,6 +2349,10 @@
               _this.$Message.warning('亲，请上传关键词方案' + index + '中的PC搜索宝贝主图！');
               return;
             }
+            if (!_this.pcTaskDetail[i].countAssigned) {
+              _this.$Message.warning('亲，关键词方案' + index + '中的匹配人数不能空！');
+              return;
+            }
             if (!_this.pcTaskDetail[i].searchKeyword) {
               _this.$Message.warning('亲，关键词方案' + index + '中的搜索关键词不能空！');
               return;
@@ -2415,13 +2402,13 @@
               }
             }
           }
-          /* if(countAssigned !== _this.taskRelease.taskCount) {
-             _this.$Message.warning('亲，你分配的人数与宝贝数量不符，请重新分配人数！');
+           if (_this.residualMatchNumber > 0) {
+             _this.$Message.warning('亲，当前还有剩余宝贝数未进行关键词匹配！');
              return;
-           }*/
+           }
         }
         if (_this.taskRelease.taskType === 'app_search') {
-          /* let countAssigned = 0;
+           /*let countAssigned = 0;
            _this.isCountAssigned = _this.appTaskDetail.every(item => {
              return item.countAssigned > 0;
            });
@@ -2444,6 +2431,10 @@
             // countAssigned += _this.appTaskDetail[i].countAssigned;
             if (!_this.appTaskDetail[i].itemMainImage) {
               _this.$Message.warning('亲，请上传关键词方案' + index + '中的手淘搜索宝贝主图！');
+              return;
+            }
+            if (!_this.appTaskDetail[i].countAssigned) {
+              _this.$Message.warning('亲，关键词方案' + index + '中的匹配人数不能空！');
               return;
             }
             if (!_this.appTaskDetail[i].searchKeyword) {
@@ -2479,10 +2470,10 @@
               }
             }
           }
-          /* if(countAssigned !== _this.taskRelease.taskCount){
-             _this.$Message.warning('亲，你分配的人数与宝贝数量不符，请重新分配人数！');
-             return;
-           }*/
+          if (_this.residualMatchNumber > 0) {
+            _this.$Message.warning('亲，当前还有剩余宝贝数未进行关键词匹配！');
+            return;
+          }
         }
         if (_this.taskRelease.taskType === 'tao_code') {
           if (!_this.taoCodeTaskDetail[0].taoCode) {
@@ -2490,6 +2481,10 @@
             return;
           }
           _this.taoCodeTaskDetail[0].homePageLockItemImage = _this.taoCodeTaskDetailItemMainImage;
+        }
+        if (!_this.isMatchNumberOk) {
+          _this.$Message.warning('亲，当前剩余匹配数不足！');
+          return;
         }
         switch (_this.trialCondition) {
           case 'refuseOldShowkerFor30Days' :
@@ -2559,15 +2554,15 @@
         _this.taskRelease.itemReviewAssignString = JSON.stringify(_this.itemReviewPushList);
         const mainTaskVasId = [];
         const similarTaskVasId = [];
-        _this.vasMainItem.map(item => {
+        _this.vasMainItem.forEach(item => {
           if (item.isSelect) {
             mainTaskVasId.push(item.id)
           }
         });
         if (_this.shopAroundStatus) {
-          _this.vasSimilarItem.map(keys => {
+          _this.vasSimilarItem.forEach(keys => {
             let i = [];
-            keys.map(item => {
+            keys.forEach(item => {
               if (item.isSelect) {
                 i.push(item.id)
               }
@@ -2612,46 +2607,64 @@
             _this.taskRelease.taskDetail = JSON.stringify([]);
             break;
         }
-        api.taskCreate(_this.taskRelease).then(res => {
-          if (res.status) {
-            _this.taskPayId = res.data.id;
-            if (!_this.taskRelease.taskId) {
-              _this.taskRelease.taskId = res.data.id;
-            }
-            if (type === true) {
-              _this.$router.push({name: 'ActivitiesList'});
-            } else {
-              _this.stepName = 'deposit';
-            }
-          } else {
-            _this.$Message.error(res.msg)
-          }
-          _this.taskLoading = false;
-          return res.status;
-        }).then(status => {
-          if (status) {
-            api.redEnvelopeDeduction({
-              taskId: _this.taskPayId,
-            }).then(res => {
-              if (res.status) {
-                _this.redEnvelopeDeductionNumber = res.data
-              } else {
-                _this.$Message.error(res.msg)
+        if (_this.getTaskCreateFastStatus) {
+          // 首单发布任务接口
+          api.taskCreateFast(_this.taskRelease).then(res => {
+            if (res.status) {
+              _this.taskPayId = res.data.id;
+              if (!_this.taskRelease.taskId) {
+                _this.taskRelease.taskId = res.data.id;
               }
-            })
-          }
-        })
+              _this.stepName = 'deposit';
+            } else {
+              _this.$Message.error(res.msg);
+            }
+            _this.taskLoading = false;
+          });
+        } else {
+          // 非首单发布任务接口
+          api.taskCreate(_this.taskRelease).then(res => {
+            if (res.status) {
+              _this.taskPayId = res.data.id;
+              _this.redEnvelopeDeductionPaid = res.data.redEnvelopeDeductionPaid;
+              _this.paidDeposit = res.data.marginPaid + res.data.promotionExpensesPaid + res.data.vasFeePaid + res.data.redEnvelopeDeductionPaid;
+              if (!_this.taskRelease.taskId) {
+                _this.taskRelease.taskId = res.data.id;
+              }
+              if (type === true) {
+                _this.$router.push({name: 'ActivitiesList'});
+              } else {
+                _this.stepName = 'deposit';
+              }
+            } else {
+              _this.$Message.error(res.msg)
+            }
+            _this.taskLoading = false;
+            return res.status;
+          }).then(status => {
+            if (status) {
+              api.redEnvelopeDeduction({
+                taskId: _this.taskPayId,
+              }).then(res => {
+                if (res.status) {
+                  _this.redEnvelopeDeductionNumber = res.data
+                } else {
+                  _this.$Message.error(res.msg)
+                }
+              })
+            }
+          })
+        }
       },
       returnUpStep() {
-        let _this = this;
-        let type = _this.$route.query.type;
+        const type = this.$route.query.type;
         if ((type && type === 'copy') || !type) {
-          _this.editTaskId = _this.taskPayId;
-          _this.getTaskInfo();
+          this.editTaskId = this.taskPayId;
+          this.getTaskInfo();
         } else {
-          _this.getTaskInfo();
+          this.getTaskInfo();
         }
-        _this.stepName = 'information';
+        this.stepName = 'information';
       },
       IThink() {
         this.editPriceAfterModel = false;
@@ -2676,12 +2689,13 @@
             _this.appDefaultList = [];
             _this.taoCodeDefaultList = [];
             _this.answerDefaultList = [];
+            _this.redEnvelopeDeductionPaid = res.data.redEnvelopeDeductionPaid;
             _this.paidDeposit = res.data.marginPaid + res.data.promotionExpensesPaid + res.data.vasFeePaid + res.data.redEnvelopeDeductionPaid;
             _this.taskStatus = res.data.taskStatus;
             if (!_this.$route.query.type) {
               _this.taskRelease.taskId = res.data.id;
             }
-            if (_this.taskStatus === 'waiting_modify') {
+            if ((_this.taskStatus === 'waiting_modify' || _this.taskStatus === 'waiting_pay') && _this.paidDeposit > 0 && _this.$route.query.type !== 'copy') {
               _this.redEnvelopesState = res.data.redEnvelopeDeductionPaid > 0;
               _this.disabledRedEnvelopes = true;
             }
@@ -2694,6 +2708,8 @@
               }
             }
             _this.taskRelease.itemType = res.data.itemCatalog.id;
+            _this.taskRelease.dayReserveToNow = _this.taskRelease.dayReserveToNow ? _this.taskRelease.dayReserveToNow : false;
+            _this.taskRelease.speedUp = _this.taskRelease.speedUp ? _this.taskRelease.speedUp : false;
             _this.taskRelease.pinkage = _this.taskRelease.pinkage.toString();
             _this.taskRelease.donotPostPhoto = _this.taskRelease.donotPostPhoto.toString();
 
@@ -2779,16 +2795,19 @@
               _this.conversionPrice('tao_code');
             } else if (res.data.taskType === 'pc_search') {
               _this.pcTaskDetail = res.data.taskDetailObject;
-              _this.pcTaskDetail.map(item => {
+              _this.pcTaskDetail.forEach(item => {
                 if (!item.searchFilter) {
-                  return item.searchFilter = []
+                  item.searchFilter = [];
+                }
+                if (!item.countAssigned) {
+                  item.countAssigned = 1
                 }
               });
               _this.addKeywordScheme = _this.pcTaskDetail.length - 1;
               _this.pcDefaultList.push({src: _this.pcTaskDetail[0].itemMainImage});
               _this.pcTaskDetailItemMainImage = _this.pcTaskDetail[0].itemMainImage;
               _this.conversionPrice('pc_search');
-              /*if(!_this.isCountAssigned) {
+             /* if(!_this.isCountAssigned) {
                 _this.pcTaskDetail.forEach(item => {
                   item.countAssigned = null;
                 })
@@ -2796,16 +2815,19 @@
               _this.isCountAssigned = null;*/
             } else if (res.data.taskType === 'app_search') {
               _this.appTaskDetail = res.data.taskDetailObject;
-              _this.appTaskDetail.map(item => {
+              _this.appTaskDetail.forEach(item => {
                 if (!item.searchFilter) {
-                  return item.searchFilter = []
+                  item.searchFilter = []
+                }
+                if (!item.countAssigned) {
+                  item.countAssigned = 1
                 }
               });
               _this.addKeywordScheme = _this.appTaskDetail.length - 1;
               _this.appDefaultList.push({src: _this.appTaskDetail[0].itemMainImage});
               _this.appTaskDetailItemMainImage = _this.appTaskDetail[0].itemMainImage;
               _this.conversionPrice('app_search');
-              /* if(!_this.isCountAssigned) {
+              /* if (!_this.isCountAssigned) {
                  _this.appTaskDetail.forEach(item => {
                    item.countAssigned = null;
                  })
@@ -2814,6 +2836,7 @@
             } else {
               _this.taskRelease.taskDetail = {};
             }
+            _this.countAssignedChange();
             if (_this.taskRelease.itemPrice >= 50) {
               _this.discountDisabled.discount_9_9.disabled = false;
             }
@@ -2927,7 +2950,11 @@
         this.taoCodeTaskDetailItemMainImage = null;
       },
       openRecharge() {
-        this.showPayModel = true;
+        if (this.needPayMoneyBeforeAsRedEnvelopes <= 0 || this.needPayMoneyAfterAsRedEnvelopes <= 0) {
+          this.$router.push({name: 'ActivitiesList'});
+        } else {
+          this.showPayModel = true
+        }
       },
       closeRecharge() {
         this.showPayModel = false;
@@ -2964,7 +2991,7 @@
       },
       addItemReviewList() {
         const _this = this;
-        // let type = _this.taskRelease.taskType;
+        let type = _this.taskRelease.taskType;
         _this.itemReviewList = [];
         let count = _this.taskRelease.taskCount;
         for (let i = 1; i <= count; i++) {
@@ -2973,16 +3000,26 @@
             index: i,
           });
         }
-        /* if(count > 0 && (type === 'pc_search' || type === 'app_search') && (count < _this.pcTaskDetail.length || count < _this.appTaskDetail.length)){
-           _this.keywordLowerChangeModel = true;
-         }*/
+        if (count > 0 && (type === 'pc_search' || type === 'app_search') && count < this.allPlanNumber()){
+          _this.keywordLowerChangeModel = true;
+        }
+      },
+      taskCountChange(e) {
+        if (e.target.value > 0) {
+          this.pcTaskDetail[0].countAssigned = 1;
+          this.appTaskDetail[0].countAssigned = 1;
+        } else {
+          this.pcTaskDetail[0].countAssigned = null;
+          this.appTaskDetail[0].countAssigned = null;
+        }
+        this.countAssignedChange('noVerify');
       },
       changeSelectEvaluation() {
         if (this.taskRelease.itemReviewSummary) {
           this.taskRelease.itemReviewSummary = null;
         }
         if (this.itemReviewList.length > 0) {
-          this.itemReviewList.map(item => {
+          this.itemReviewList.forEach(item => {
             item.value = '';
           })
         }
@@ -2990,21 +3027,41 @@
           this.addItemReviewList();
         }
       },
+      allPlanNumber() {
+        let num = 0;
+        if (this.taskRelease.taskType === 'pc_search') {
+          num = this.pcTaskDetail.reduce((prev, cur) => {
+            return (cur.countAssigned > 0 ? cur.countAssigned : 0) + prev
+          }, 0)
+        } else if (this.taskRelease.taskType === 'app_search') {
+          num = this.appTaskDetail.reduce((prev, cur) => {
+            return (cur.countAssigned > 0 ? cur.countAssigned : 0) + prev
+          }, 0)
+        }
+        return num
+      },
+      countAssignedChange(type) {
+        let num = this.allPlanNumber();
+        if (num > this.taskRelease.taskCount && !type) {
+          this.isMatchNumberOk = false;
+          this.$Message.warning('亲，当前剩余匹配数不足！');
+        } else {
+          this.isMatchNumberOk = true;
+        }
+       this.residualMatchNumber = this.taskRelease.taskCount > 0 ? this.taskRelease.taskCount - num > 0 ? this.taskRelease.taskCount - num : 0 : 0;
+      },
       handleAdd() {
-        let _this = this;
-        _this.addKeywordScheme++;
-        /* let keywordLen = _this.taskRelease.taskCount > 0 ? _this.taskRelease.taskCount : 1;
-         if(keywordLen > _this.addKeywordScheme + 1){
-           _this.addKeywordScheme++;
-         } else {
-           _this.$Message.error('亲，您当前最多只能添加' + keywordLen + '套关键词方案');
+        if (this.residualMatchNumber === 0) {
+           this.$Message.warning('亲，剩余匹配数为0，无法新增关键词了！');
            return;
-         }*/
-        if (_this.taskRelease.taskType === 'pc_search') {
-          _this.pcTaskDetail.push({
-            index: _this.addKeywordScheme,
+        }
+        let initialValue = this.taskRelease.taskCount > 0 ? 1 : null;
+        this.addKeywordScheme++;
+        if (this.taskRelease.taskType === 'pc_search') {
+          this.pcTaskDetail.push({
+            index: this.addKeywordScheme,
             itemMainImage: null,
-            countAssigned: null,
+            countAssigned: initialValue,
             searchKeyword: null,
             searchSort: 'zong_he',
             searchPagePrice: null,
@@ -3016,11 +3073,11 @@
             deliverAddress: null,
           })
         }
-        if (_this.taskRelease.taskType === 'app_search') {
-          _this.appTaskDetail.push({
-            index: _this.addKeywordScheme,
+        if (this.taskRelease.taskType === 'app_search') {
+          this.appTaskDetail.push({
+            index: this.addKeywordScheme,
             itemMainImage: null,
-            countAssigned: null,
+            countAssigned: initialValue,
             searchKeyword: null,
             searchSort: 'zong_he',
             searchPagePrice: null,
@@ -3032,86 +3089,83 @@
             deliverAddress: null,
           })
         }
-        _this.selectKeywordScheme = _this.addKeywordScheme;
+        this.selectKeywordScheme = this.addKeywordScheme;
+        this.countAssignedChange();
       },
       handleClose(name) {
-        let _this = this;
-        let thisIndex;
+        const _this = this;
+        let thisIndex = null;
         if (_this.taskRelease.taskType === 'pc_search') {
-          _this.pcTaskDetail.forEach(item => {
-            if (item.index === name) {
-              thisIndex = _this.pcTaskDetail.indexOf(item);
-            }
+          thisIndex = _this.pcTaskDetail.findIndex(item => {
+            return item.index === name
           });
           _this.pcTaskDetail.splice(thisIndex, 1);
         }
         if (_this.taskRelease.taskType === 'app_search') {
-          _this.appTaskDetail.forEach(item => {
-            if (item.index === name) {
-              thisIndex = _this.appTaskDetail.indexOf(item);
-            }
+          thisIndex = _this.appTaskDetail.findIndex(item => {
+            return item.index === name
           });
           _this.appTaskDetail.splice(thisIndex, 1);
         }
         _this.addKeywordScheme -= 1;
         _this.selectKeywordScheme = thisIndex - 1;
+        _this.countAssignedChange();
       },
       selectChangeScheme(name) {
         this.selectKeywordScheme = name;
       },
-      /*    keywordLowerChange () {
-            let _this = this;
-            let type = _this.taskRelease.taskType;
-            _this.keywordLowerChangeModel = false;
-            if(type === 'pc_search'){
-              _this.pcTaskDetail = [
-                {
-                  index:0,
-                  itemMainImage: null,
-                  countAssigned: null,
-                  searchKeyword: null,
-                  searchSort: 'zong_he',
-                  searchPagePrice: null,
-                  searchPagePositionMin: null,
-                  searchPagePositionMax: null,
-                  searchFilter: [],
-                  priceRangeMin: null,
-                  priceRangeMax: null,
-                  deliverAddress: null,
-                }
-              ];
-              _this.addKeywordScheme = 0;
-              _this.selectKeywordScheme = 0;
+      keywordLowerChange () {
+        const _this = this;
+        const type = _this.taskRelease.taskType;
+        let initialValue = this.taskRelease.taskCount > 0 ? 1 : null;
+        _this.keywordLowerChangeModel = false;
+        if (type === 'pc_search'){
+          _this.pcTaskDetail = [
+            {
+              index: 0,
+              itemMainImage: null,
+              countAssigned: initialValue,
+              searchKeyword: null,
+              searchSort: 'zong_he',
+              searchPagePrice: null,
+              searchPagePositionMin: null,
+              searchPagePositionMax: null,
+              searchFilter: [],
+              priceRangeMin: null,
+              priceRangeMax: null,
+              deliverAddress: null,
             }
-            if(type === "app_search"){
-              _this.appTaskDetail = [
-                {
-                  index:0,
-                  itemMainImage: null,
-                  countAssigned: null,
-                  searchKeyword: null,
-                  searchSort: 'zong_he',
-                  searchPagePrice: null,
-                  searchRankPosition: null,
-                  searchFilter: [],
-                  priceRangeMin: null,
-                  priceRangeMax: null,
-                  deliverAddress: null,
-                }
-              ];
-              _this.addKeywordScheme = 0;
-              _this.selectKeywordScheme = 0;
+          ];
+          _this.addKeywordScheme = 0;
+          _this.selectKeywordScheme = 0;
+        }
+        if (type === 'app_search'){
+          _this.appTaskDetail = [
+            {
+              index: 0,
+              itemMainImage: null,
+              countAssigned: initialValue,
+              searchKeyword: null,
+              searchSort: 'zong_he',
+              searchPagePrice: null,
+              searchRankPosition: null,
+              searchFilter: [],
+              priceRangeMin: null,
+              priceRangeMax: null,
+              deliverAddress: null,
             }
-          },*/
-      closeClauseModel() {
-        this.isShowUserClause = false;
+          ];
+          _this.addKeywordScheme = 0;
+          _this.selectKeywordScheme = 0;
+        }
+        _this.countAssignedChange();
       },
       addAnswer() {
         if (this.browseAnswer.length < 3) {
           this.browseAnswer.push({
             issue: null,
             image: null,
-          });
+          })
         }
       },
       deleteAnswer(index) {
@@ -3137,9 +3191,9 @@
           if (this.vasSimilarItem.length > 1) {
             this.vasSimilarItem.splice(1, this.vasSimilarItem.length - 1)
           }
-          this.vasSimilarItem[0].map(item => {
+          this.vasSimilarItem[0].forEach(item => {
             if (!item.isDisabled && item.isSelect) {
-              return item.isSelect = false
+              item.isSelect = false
             }
           })
         }
@@ -3224,10 +3278,6 @@
       border-color: $mainColor;
     }
 
-    .ml-38 {
-      margin-left: 38px;
-    }
-
     .second-color {
       color: $secondColor;
     }
@@ -3252,7 +3302,6 @@
 
     .activity-con {
       border: 1px solid #F5F5F5;
-      padding-bottom: 42px;
     }
 
     .activity-info-title {
@@ -3300,11 +3349,12 @@
         padding: 0 42px;
       }
       .pay-info {
-        @include sc(18px, #000);
+        @include sc(16px, #000);
         text-align: left;
         margin-left: 42px;
       }
       .description-fees-footer {
+        margin-top: 20px;
         text-align: center;
         .pay-btn {
           display: inline-block;
@@ -3338,6 +3388,7 @@
       padding: 12px;
       border: 1px solid #FFD6D0;
       background-color: #FFF5E0;
+      border-radius: 5px;
     }
     .audit {
       .audit-title {
@@ -3523,7 +3574,7 @@
       display: inline-block;
       height: 22px;
       line-height: 22px;
-      margin: 2px 12px 2px 0;
+      margin: 28px 12px 2px 0;
       padding: 0 8px;
       border: 1px solid #e9eaec;
       border-radius: 3px;
@@ -3551,30 +3602,28 @@
       color: #fff;
       border-color: $mainColor;
     }
-    .tag-alert {
-      width: 586px;
-      margin: 20px 0 0 32px;
+
+    .badge-count{
+      position: absolute;
+      transform: translateX(50%);
+      top: -16px;
+      right: 0;
+      height: 20px;
+      border-radius: 10px;
+      min-width: 20px;
+      background: #ed3f14;
+      border: 1px solid transparent;
+      color: #fff;
+      line-height: 18px;
+      text-align: center;
+      padding: 0 6px;
+      font-size: 12px;
+      white-space: nowrap;
+      transform-origin: -10% center;
+      z-index: 10;
+      box-shadow: 0 0 0 1px #fff;
     }
-    /*  .badge-count{
-        position: absolute;
-        transform: translateX(50%);
-        top: -16px;
-        right: 0;
-        height: 20px;
-        border-radius: 10px;
-        min-width: 20px;
-        background: #ed3f14;
-        border: 1px solid transparent;
-        color: #fff;
-        line-height: 18px;
-        text-align: center;
-        padding: 0 6px;
-        font-size: 12px;
-        white-space: nowrap;
-        transform-origin: -10% center;
-        z-index: 10;
-        box-shadow: 0 0 0 1px #fff;
-      }*/
+
     .user-clause-model {
       @include fullScreenModel;
     }
@@ -3653,6 +3702,21 @@
     .value-added-charge {
       border-top: 2px solid #EFE8DB;
       padding: 10px 0 0 0;
+    }
+
+    .keyword-plan {
+      margin: 20px;
+      border: 2px solid #ddd;
+      padding-bottom: 20px;
+    }
+
+    .keyword-plan-tip {
+      height: 32px;
+      line-height: 32px;
+      font-size: 14px;
+      font-weight: bold;
+      background-color: #ddd;
+      padding-left: 10px;
     }
   }
 

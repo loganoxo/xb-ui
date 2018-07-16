@@ -298,7 +298,7 @@
       },
       handleProgress(file) {
         const _file = this.getFile(file);
-        let interval = setInterval(function () {
+        let interval = setInterval(() => {
           _file.percentage += 20;
           if (_file.percentage === 100) {
             clearInterval(interval)
