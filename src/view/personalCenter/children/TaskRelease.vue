@@ -528,8 +528,7 @@
                           @focus="onEditorFocus($event)"
                           @ready="onEditorReady($event)">
             </quill-editor>
-            <input v-show="false" id="freeGet" type="file" name="avator" multiple
-                   accept="image/jpg,image/jpeg,image/png,image/gif" @change="uploadImgFreeGet">
+            <input v-show="false" id="freeGet" type="file" name="avator" multiple accept="image/jpg,image/jpeg,image/png,image/gif" @change="uploadImgFreeGet">
           </div>
         </div>
         <div class="baby-info mt-22" v-show="taskRelease.activityCategory === 'present_get'">
@@ -1005,8 +1004,34 @@
             </div>
           </template>
           <!--拿手审批条件设置-->
-          <div class="activity-info-title">拿手审批条件设置 <span
-            class="ml-15 fs-14" v-if="taskRelease.activityCategory === 'present_get'">A宝贝信息（用户在淘宝拍下的宝贝）</span></div>
+          <template>
+            <div class="activity-info-title">拿手审批条件设置</div>
+            <div class="sizeColor2 ml-20 mt-10">说明：该活动有名额为系统审批，此处标签设置后，系统将按此条件审批拿手。过多限制可能造成展示量/申请量下降，请综合考虑。</div>
+            <div class="mt-20 ml-20 mb-20">
+              <span class="mr-10">拿手旺旺标签设置：</span>
+              <checkbox>需要</checkbox>
+              <img src="~assets/img/common/vip.png" alt="vipLogo">
+            </div>
+            <div class="mt-20 ml-20">
+              <span class="mr-10">旺旺等级需求：</span>
+              <i-select v-model="showkerTask.creditLevel" class="width-100">
+                <i-option v-for="(item, index) in aliLevelImageList" :label='item.label' :value="item.value" :key="item.value">
+                  <span v-show="index === 0">{{item.text}}</span>
+                  <img v-show="index !== 0" :src="item.text" alt="旺旺等级">
+                </i-option>
+              </i-select>
+            </div>
+            <div class="mt-20 ml-20">
+              <span>地区要求：</span>
+              <span class="sizeColor2">勾选以下“<span class="main-color">不想要</span>”的地区</span>
+            </div>
+            <div class="ml-80 mr-80">
+              <checkbox class="mr-30 mt-10" v-for="(item, index) in regionRequireList" :key="index">{{item}}</checkbox>
+            </div>
+            <div class="mt-20 ml-20">
+
+            </div>
+          </template>
         </div>
       </div>
       <!--存入担保金详情-->
@@ -1075,8 +1100,7 @@
       </div>
     </div>
     <!--填写完成活动信息下一步按钮-->
-    <i-button class="fs-18 mt-20" type="primary" long :loading="taskLoading" v-show="stepName === 'information'" @click="stepNext">下一步
-    </i-button>
+    <i-button class="fs-18 mt-20" type="primary" long :loading="taskLoading" v-show="stepName === 'information'" @click="stepNext">下一步</i-button>
     <!--活动担保金支付弹框-->
     <div class="pay-model" v-if="showPayModel">
       <pay-model ref="payModelRef" :orderMoney="needPayMoneyBeforeAsRedEnvelopes" @confirmPayment="confirmPayment"
@@ -1246,20 +1270,7 @@
   import QQBindModal from '@/components/QQBindModal'
   import api from '@/config/apiConfig'
   import {aliCallbackImgUrl} from '@/config/env'
-  import {
-    aliUploadImg,
-    isPositiveInteger,
-    isNumber,
-    isInteger,
-    isAliUrl,
-    randomString,
-    extendDeep,
-    decode,
-    setStorage,
-    getStorage,
-    getUrlParams,
-    isInternetUrl
-  } from '@/config/utils'
+  import {aliUploadImg, isPositiveInteger, isNumber, isInteger, isAliUrl, randomString, extendDeep, decode, setStorage, getStorage, getUrlParams, isInternetUrl} from '@/config/utils'
   export default {
     name: 'task-release',
     components: {
@@ -1485,6 +1496,91 @@
         redEnvelopeDeductionNumber: 0,
         residualMatchNumber: 0,
         isMatchNumberOk: true,
+        aliLevelImageList: [
+          {
+            value: "''",
+            text: '不限',
+            label: '不限'
+          },
+          {
+            value: 2,
+            text: 'https://img.alicdn.com/newrank/b_red_2.gif',
+            label: '2心起'
+          },
+          {
+            value: 3,
+            text: 'https://img.alicdn.com/newrank/b_red_3.gif',
+            label: '3心起'
+          },
+          {
+            value: 4,
+            text: 'https://img.alicdn.com/newrank/b_red_4.gif',
+            label: '4心起'
+          },
+          {
+            value: 5,
+            text: 'https://img.alicdn.com/newrank/b_red_5.gif',
+            label: '5心起'
+          },
+          {
+            value: 6,
+            text: 'https://img.alicdn.com/newrank/b_blue_1.gif',
+            label: '1钻起'
+          },
+          {
+            value: 7,
+            text: 'https://img.alicdn.com/newrank/b_blue_2.gif',
+            label: '2钻起'
+          },
+          {
+            value: 8,
+            text: 'https://img.alicdn.com/newrank/b_blue_3.gif',
+            label: '3钻起'
+          },
+          {
+            value: 9,
+            text: 'https://img.alicdn.com/newrank/b_blue_4.gif',
+            label: '4钻起'
+          },
+          {
+            value: 10,
+            text: 'https://img.alicdn.com/newrank/b_blue_5.gif',
+            label: '5钻起'
+          },
+          {
+            value: 11,
+            text: 'https://img.alicdn.com/newrank/s_crown_1.gif',
+            label: '1皇冠起'
+          },
+          {
+            value: 12,
+            text: 'https://img.alicdn.com/newrank/s_crown_2.gif',
+            label: '2皇冠起'
+          },
+          {
+            value: 13,
+            text: 'https://img.alicdn.com/newrank/s_crown_3.gif',
+            label: '3皇冠起'
+          },
+          {
+            value: 14,
+            text: 'https://img.alicdn.com/newrank/s_crown_4.gif',
+            label: '4皇冠起'
+          },
+          {
+            value: 15,
+            text: 'https://img.alicdn.com/newrank/s_crown_5.gif',
+            label: '5皇冠起'
+          },
+        ],
+        regionRequireList: [
+          '新疆','西藏','甘肃','宁夏','青海','内蒙古','上海','江苏'
+          ,'浙江','安徽','江西','北京','天津','山西','山东','河北'
+          ,'四川','湖南'
+        ],
+        showkerTask: {
+          creditLevel: null
+        }
       }
     },
     // 当用户有首发资格路由重定向到快速发布通道反之则停留在此页面

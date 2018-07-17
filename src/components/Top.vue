@@ -1,8 +1,8 @@
 <template>
   <div class="home">
-    <top-tip></top-tip>
+    <top-tip/>
     <div class="home-top">
-      <div class="container">
+      <div class="container clear">
         <router-link  to="/" class="left mt-20">
           <img v-if="!isLogin || getUserInfoRole === 1" src="~assets/img/common/top-logo-sj.png" alt="" >
           <img v-if="isLogin && getUserInfoRole === 0" src="~assets/img/common/top-logo-xk.png" alt="" >
@@ -14,21 +14,21 @@
                 <span class="active">宝贝</span>
               </div>
               <i class="ivu-icon ivu-icon-ios-search"></i>
-              <input type="text" class="search-btn left" v-model="searchKey" @keydown="goKeyEnterFunc" autocomplete="off">
+              <input type="text" class="search-btn left" v-model="searchKey" @keydown="goKeyEnterFunc" autocomplete="off"/>
               <a @click="goTaskCategory" class="search left">搜索</a>
             </div>
           </div>
         </div>
-       <!-- <router-link  to="/recommend-spread" class="seller-guide">
+        <router-link to="/recommend-spread" class="seller-guide left">
           <img src="/static/img/common/recommend_spread.gif" alt="">
-        </router-link>-->
+        </router-link>
       </div>
     </div>
     <div class="home-nav">
       <div class="container">
         <div class="top-category">
           <p class=" text-ct">
-            <Icon type="navicon" size="20" class="mt" style="margin-top: 2px"></Icon>
+            <icon type="navicon" size="20" class="mt" style="margin-top: 2px"/>
             <span class="ml-5">宝贝类目</span>
           </p>
           <ul class="top-category-list" v-if="$store.state.showTopCategoryRes">
@@ -49,40 +49,18 @@
         <div class="home-nav-list clear">
           <a :class="[activityCategory === 'home' ? 'active' : '']" @click="selTaskCategoryHome">首页</a>
           <a :class="[activityCategory === 'free_get' ? 'active' : '']" @click="selTaskCategoryFunc('free_get')" >
-            <Tooltip :content="TaskCategoryActiveList['free_get'].desc" placement="bottom">
+            <tooltip :content="TaskCategoryActiveList['free_get'].desc" placement="bottom">
               免费领
-            </Tooltip>
+            </tooltip>
           </a>
           <a :class="[activityCategory === 'present_get' ? 'active' : '']" @click="selTaskCategoryFunc('present_get')" >
             <i style="position: absolute; top: -16px; left: 13px;">
               <img src="/static/img/icon/giveaway.gif" alt="" >
             </i>
-            <Tooltip :content="TaskCategoryActiveList['present_get'].desc" placement="bottom">
+            <tooltip :content="TaskCategoryActiveList['present_get'].desc" placement="bottom">
               体验专区
-            </Tooltip>
+            </tooltip>
           </a>
-          <!--<a :class="[activityCategory === 'pinkage_for_10' ? 'active' : '']" >-->
-            <!--&lt;!&ndash;@click="selTaskCategoryFunc('pinkage_for_10')"&ndash;&gt;-->
-            <!--<i style="position: absolute; top: -16px; left: 19px;">-->
-              <!--<img src="/static/img/icon/franking.gif" alt="" >-->
-            <!--</i>-->
-            <!--<Tooltip :content="TaskCategoryActiveList['pinkage_for_10'].desc" placement="bottom">-->
-              <!--10元包邮-->
-            <!--</Tooltip>-->
-          <!--</a>-->
-          <!--<a :class="[activityCategory === 'price_low' ? 'active' : '']" >-->
-            <!--&lt;!&ndash;@click="selTaskCategoryFunc('price_low')"&ndash;&gt;-->
-            <!--<Tooltip :content="TaskCategoryActiveList['price_low'].desc" placement="bottom">-->
-              <!--白菜价-->
-            <!--</Tooltip>-->
-          <!--</a>-->
-          <!--<a :class="[$store.state.activityCategory == 'goods_clearance' ? 'active' : '']" @click="selTaskCategoryFunc('goods_clearance')" >-->
-            <!--<i style="position: absolute; top: -16px; left: 15px;">-->
-              <!--<img src="/static/img/icon/discount.gif" alt="" >-->
-            <!--</i>-->
-            <!--清仓断码-->
-
-          <!--</a>-->
           <a :class="[activityCategory === 'buyer-show' ? 'active' : '']" @click="linkToBuyerShow('buyer-show')">
             <i style="position: absolute; top: -17px; left: 34px;">
               <img src="/static/img/common/news.gif" alt="" >
@@ -101,7 +79,7 @@
 
 <script>
   import {Tooltip, Button, Icon} from 'iview'
-  import TopTip from '@/components/TopTip.vue'
+  import TopTip from '@/components/TopTip'
   import api from '@/config/apiConfig'
   export default {
     name: 'top',
@@ -265,7 +243,7 @@
       div.search-box {
         margin-left: 20px;
         margin-top: 60px;
-        a.search {
+        .search {
           display: inline-block;
           background-color: $mainColor;
           color: #fff;
@@ -275,7 +253,7 @@
           text-align: center;
           font-size: 16px;
         }
-        p.link-text {
+        .link-text {
           margin-top: 5px;
           a {
             color: #666;
@@ -334,9 +312,8 @@
         }
       }
       a.seller-guide{
-        display: inline-block;
         margin-top: 35px;
-        margin-left: 24px;
+        margin-left: 6px;
         img{
           width: 100%;
         }

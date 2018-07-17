@@ -33,12 +33,12 @@
           </iSelect>
           <iInput v-model="searchValue" style="width: 160px;margin-right: 8px;"></iInput>
           <span class="ml-10">旺旺号信用等级大于等于：</span>
-          <iSelect v-model="wwFormValidate.creditLevel" style="width: 130px;">
-            <iOption v-for="(taobaoLevelImg,index) in taobaoLevelImgs" :label='taobaoLevelImg.label' :value="taobaoLevelImg.value" :key="taobaoLevelImg.value">
+          <i-select v-model="wwFormValidate.creditLevel" style="width: 130px;">
+            <i-option v-for="(taobaoLevelImg,index) in taobaoLevelImgs" :label='taobaoLevelImg.label' :value="taobaoLevelImg.value" :key="taobaoLevelImg.value">
               <span v-show="index === 0">{{taobaoLevelImg.text}}</span>
               <img v-show="index !== 0" :src="taobaoLevelImg.text" alt="">
-            </iOption>
-          </iSelect>
+            </i-option>
+          </i-select>
           <span class="ml-10">淘气值范围：</span>
           <iSelect v-model="wwFormValidate.tqz" style="width: 120px;">
             <iOption v-for="taoqizhi in taoqizhiList" :label='taoqizhi.label' :value="taoqizhi.value" :key="taoqizhi.value">
