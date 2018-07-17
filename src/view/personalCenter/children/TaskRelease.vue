@@ -1448,7 +1448,6 @@
         itemReviewPushList: [],
         selectKeywordScheme: 0,
         addKeywordScheme: 0,
-        isCountAssigned: null,
         isShowUserClause: false,
         browseAnswer: [
           {
@@ -2324,27 +2323,9 @@
           _this.taskRelease.itemIssue = JSON.stringify([]);
         }
         if (_this.taskRelease.taskType === 'pc_search') {
-          /* let countAssigned = 0;
-           _this.isCountAssigned = _this.pcTaskDetail.every(item => {
-             return item.countAssigned > 0;
-           });
-           if(!_this.isCountAssigned) {
-             let len = _this.pcTaskDetail.length;
-             let count = _this.taskRelease.taskCount;
-             let remainder = count % len;
-             let integer = Math.floor(count / len);
-             for (let i = 0, len = _this.pcTaskDetail.length; i < len; i++) {
-               if(i === len - 1) {
-                 _this.pcTaskDetail[i].countAssigned = integer + remainder;
-               } else {
-                 _this.pcTaskDetail[i].countAssigned = integer;
-               }
-             }
-           }*/
           for (let i = 0, len = _this.pcTaskDetail.length; i < len; i++) {
             _this.pcTaskDetail[i].itemMainImage = _this.pcTaskDetailItemMainImage;
             let index = _this.pcTaskDetail[i].index + 1;
-            // countAssigned += _this.pcTaskDetail[i].countAssigned;
             if (!_this.pcTaskDetail[i].itemMainImage) {
               _this.$Message.warning('亲，请上传关键词方案' + index + '中的PC搜索宝贝主图！');
               return;
@@ -2408,27 +2389,9 @@
            }
         }
         if (_this.taskRelease.taskType === 'app_search') {
-           /*let countAssigned = 0;
-           _this.isCountAssigned = _this.appTaskDetail.every(item => {
-             return item.countAssigned > 0;
-           });
-           if(!_this.isCountAssigned) {
-             let len = _this.appTaskDetail.length;
-             let count = _this.taskRelease.taskCount;
-             let remainder = count % len;
-             let integer = Math.floor(count / len);
-             for (let i = 0, len = _this.appTaskDetail.length; i < len; i++) {
-               if(i === len - 1) {
-                 _this.appTaskDetail[i].countAssigned = integer + remainder;
-               } else {
-                 _this.appTaskDetail[i].countAssigned = integer;
-               }
-             }
-           }*/
           for (let i = 0, len = _this.appTaskDetail.length; i < len; i++) {
             _this.appTaskDetail[i].itemMainImage = _this.appTaskDetailItemMainImage;
             let index = _this.appTaskDetail[i].index + 1;
-            // countAssigned += _this.appTaskDetail[i].countAssigned;
             if (!_this.appTaskDetail[i].itemMainImage) {
               _this.$Message.warning('亲，请上传关键词方案' + index + '中的手淘搜索宝贝主图！');
               return;
@@ -2810,12 +2773,6 @@
               _this.pcDefaultList.push({src: _this.pcTaskDetail[0].itemMainImage});
               _this.pcTaskDetailItemMainImage = _this.pcTaskDetail[0].itemMainImage;
               _this.conversionPrice('pc_search');
-             /* if(!_this.isCountAssigned) {
-                _this.pcTaskDetail.forEach(item => {
-                  item.countAssigned = null;
-                })
-              }
-              _this.isCountAssigned = null;*/
             } else if (res.data.taskType === 'app_search') {
               _this.appTaskDetail = res.data.taskDetailObject;
               _this.appTaskDetail.forEach(item => {
@@ -2830,12 +2787,6 @@
               _this.appDefaultList.push({src: _this.appTaskDetail[0].itemMainImage});
               _this.appTaskDetailItemMainImage = _this.appTaskDetail[0].itemMainImage;
               _this.conversionPrice('app_search');
-              /* if (!_this.isCountAssigned) {
-                 _this.appTaskDetail.forEach(item => {
-                   item.countAssigned = null;
-                 })
-               }
-               _this.isCountAssigned = null;*/
             } else {
               _this.taskRelease.taskDetail = {};
             }
