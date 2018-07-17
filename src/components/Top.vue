@@ -347,7 +347,7 @@
         }
       }
       a.seller-guide{
-        margin-top: 35px;
+        margin-top: 6px;
         margin-left: 6px;
         img{
           width: 100%;
