@@ -156,14 +156,13 @@
       },
     },
     methods: {
-      linkToBuyerShow(activityCategory){
-        let self = this;
-        self.$router.push({ 'path': '/buyer-show'});
-        self.$store.commit({
+      linkToBuyerShow(activityCategory) {
+        this.$router.push({ 'path': '/buyer-show'});
+        this.$store.commit({
           type: 'SET_ACTIVITY_CATEGORY',
           info: activityCategory
         });
-        self.$store.commit({
+        this.$store.commit({
           type: 'TASK_CATEGORY_LIST',
           info: activityCategory
         });
@@ -171,8 +170,10 @@
       getSearchRightInfo() {
         const _this = this;
         api.getAvailableBoardByAdTypeList({advertType: 'pc_top_search_right'}).then(res => {
-          _this.searchRight.adImg = aliCallbackImgUrl + res.data[0].adImg;
-          _this.searchRight.adUrl = res.data[0].adUrl;
+          if (res.data.length > 0) {
+            _this.searchRight.adImg = aliCallbackImgUrl + res.data[0].adImg;
+            _this.searchRight.adUrl = res.data[0].adUrl;
+          }
         })
       },
       selTaskCategoryHome(){
