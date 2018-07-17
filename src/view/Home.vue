@@ -821,7 +821,7 @@
         this.showFirstVisitModel = false;
       },
       getAvailableBoardByAdTypeList(advertType) {
-        let self = this;
+        const self = this;
         api.getAvailableBoardByAdTypeList({advertType: advertType}).then((res) => {
           let data = res;
           let z = 0;

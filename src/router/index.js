@@ -83,6 +83,8 @@ const ChapaimingLanding = r => require.ensure([], () => r(require('@/view/promot
 const SpreadLandingPage = r => require.ensure([], () => r(require('@/view/promotionPage/SpreadLandingPage.vue')), 'SpreadLandingPage');
 const SpreadLandingPageTwo = r => require.ensure([], () => r(require('@/view/promotionPage/SpreadLandingPageTwo.vue')), 'SpreadLandingPageTwo');
 
+const News = r => require.ensure([], () => r(require('@/view/newsPage/news.vue')), 'News');
+
 Vue.use(Router);
 
 /**
@@ -864,6 +866,18 @@ export default new Router({
           ]
         },
       ]
+    },
+    {
+      path: '/news',
+      name: 'News',
+      component: News,
+      meta: {
+        title: "新闻页",
+        logInAuthority: false,
+        topShow: true,
+        bottomShow: true,
+        role: null,
+      }
     }
   ],
 })
