@@ -19,9 +19,9 @@
             </div>
           </div>
         </div>
-         <router-link to="/news" class="seller-guide left">
-           <img :src="searchRightImage | imageSrc('!orgi75')" alt="广告图片">
-         </router-link>
+         <a :herf="searchRight.adUrl" class="seller-guide left">
+           <img :src="searchRight.adImg | imageSrc('!orgi75')" alt="广告图片">
+         </a>
       </div>
     </div>
     <div class="home-nav">
@@ -128,12 +128,12 @@
           900: '/static/img/nav-picture/home_25.png',
           1000: '/static/img/nav-picture/home_27.png',
         },
-        searchRightImage: null
+        searchRight: {}
       }
     },
     created(){
      this.getNavList();
-     this.getSearchRightImage();
+     this.getSearchRightInfo();
     },
     computed: {
       isLogin() {
@@ -165,10 +165,11 @@
           info: activityCategory
         });
       },
-      getSearchRightImage() {
+      getSearchRightInfo() {
         const _this = this;
         api.getAvailableBoardByAdTypeList({advertType: 'pc_top_search_right'}).then(res => {
-          _this.searchRightImage = aliCallbackImgUrl + res[0].adImg
+          _this.searchRight.adImg = aliCallbackImgUrl + res.data[0].adImg;
+          _this.searchRight.adUrl = aliCallbackImgUrl + res.data[0].adUrl;
         })
       },
       selTaskCategoryHome(){

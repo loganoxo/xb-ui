@@ -821,26 +821,11 @@
         this.showFirstVisitModel = false;
       },
       getAvailableBoardByAdTypeList(advertType) {
-        const self = this;
-        api.getAvailableBoardByAdTypeList({advertType: advertType}).then((res) => {
-          let data = res;
-          let z = 0;
-          if (self.$store.state.login) {
-            for (let i = 0, j = data.length; i < j; i++) {
-              if (data[i].showMode !== 'logout') {
-                self.$set(self.swipeItemList, z, data[i]);
-                z++;
-              }
-            }
-          } else if (!self.$store.state.login) {
-            for (let i = 0, j = data.length; i < j; i++) {
-              if (data[i].showMode !== 'login') {
-                self.$set(self.swipeItemList, z, data[i]);
-                z++;
-              }
-            }
+        const _this = this;
+        api.getAvailableBoardByAdTypeList({advertType: advertType}).then(res => {
+          if (res.status) {
+            _this.swipeItemList = res.data
           }
-
         })
       },
       getSearchPinkageFor10Task() {
