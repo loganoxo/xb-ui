@@ -19,7 +19,7 @@
             </div>
           </div>
         </div>
-         <a v-if="searchRight.adUrl" :herf="searchRight.adUrl" class="seller-guide left">
+         <a v-if="searchRight.adUrl" :href="searchRight.adUrl" class="seller-guide left" target="_blank">
            <img :src="searchRight.adImg | imageSrc('!orgi75')" alt="广告图片">
          </a>
       </div>
