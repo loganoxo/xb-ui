@@ -1004,6 +1004,9 @@
               <span>元</span>
             </div>
           </template>
+          <!--拿手审批条件设置-->
+          <div class="activity-info-title">拿手审批条件设置 <span
+            class="ml-15 fs-14" v-if="taskRelease.activityCategory === 'present_get'">A宝贝信息（用户在淘宝拍下的宝贝）</span></div>
         </div>
       </div>
       <!--存入担保金详情-->
