@@ -180,6 +180,7 @@
         this.currentTab = tab;
         this.currentTable = tab;
         this.pageIndex = 1;
+        this.memberList = [];
         this.getAllMember();
         this.isChildrenList = false;
       },
