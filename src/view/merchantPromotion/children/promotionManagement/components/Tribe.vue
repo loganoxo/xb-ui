@@ -2,122 +2,175 @@
   <div class="tribe">
     <div class="identity fs-14">
       <img src="~assets/img/merchant-promotion/crown.png" alt="" width="18" height="18" class="vtc-mid mr-15">
-      嗨，1300000000~您当前的身份是代理商，当前共有族人100人
+      嗨，{{myPhone}}~您当前的身份是{{getUserLevel}}，当前共有成员{{totalElements}}人<span v-if="isChildrenList">,你的成员 {{childrenPhone}} 共拥有下级 {{totalElements}} 人</span>
     </div>
     <div class="tab-area clear">
       <div v-for="(tab,index) in tabs" :key="index" @click="changeTab(tab)" :class="[{active:currentTab.id === tab.id}]">{{tab.name}}</div>
     </div>
     <div class="table-area">
       <!--按时间-->
-      <ul v-if="currentTable.id === 1" class="time-check">
-        <li class="thead clear">
-          <div>成员名称</div>
-          <div>成员层级</div>
-         <div>加入时间</div>
-          <div>TA的上级</div>
-          <div>TA的推荐（人）</div>
-          <div>TA的贡献</div>
-          <div></div>
-        </li>
-        <li>
-          <div>
-            <img src="~assets/img/merchant-promotion/crown.png" alt="" width="16" height="16" class="vtc-mid">
-            13100000000
-          </div>
-          <div>1级</div>
-          <div>2018-02-01 12:12:12</div>
-          <div>13000000004</div>
-          <div>3人</div>
-          <div>+900.00元</div>
-          <div>查看</div>
-        </li>
-      </ul>
+      <div  v-if="currentTable.id === 1">
+        <ul class="time-check">
+          <li class="thead clear">
+            <div>成员名称</div>
+            <div>成员层级</div>
+            <div>加入时间</div>
+            <div v-if="!isChildrenList">TA的上级</div>
+            <div>TA的推荐（人）</div>
+            <div>TA的贡献</div>
+            <div></div>
+          </li>
+          <li v-for="member in memberList" :key="member.id">
+            <div>
+              <img src="~assets/img/merchant-promotion/crown.png" alt="" width="16" height="16" class="vtc-mid">
+              {{member.other.memberPhone}}
+            </div>
+            <div>{{member.other.hierarchy}}级</div>
+            <div>{{member.createTime | dateFormat('YYYY-MM-DD hh:mm:ss')}}</div>
+            <div v-if="!isChildrenList">{{member.other.superiorPhone}}</div>
+            <div>{{member.ancestor}}人</div>
+            <div>+{{(member.other.contribute/100).toFixed(2)}}元</div>
+            <div class="cursor-p blue" @click="checkChildrenMember(member)">查看</div>
+          </li>
+        </ul>
+        <div v-if="!totalElements" class="mt-15 text-ct">暂无数据</div>
+        <div class="mt-15 right" v-if="totalElements">
+          <page :total="totalElements" :page-size="pageSize" @on-change="changePages"/>
+        </div>
+      </div>
       <!--按部落-->
-      <ul v-if="currentTab.id === 2" class="tribe-check">
-        <li class="thead clear">
-          <div>成员名称</div>
-          <div>成员层级</div>
-          <div>加入时间</div>
-          <div>TA的上级</div>
-          <div>TA的推荐（人）</div>
-          <div>TA的贡献</div>
-          <div></div>
-        </li>
-        <li>
-          <div>
-            <img src="~assets/img/merchant-promotion/crown.png" alt="" width="16" height="16" class="vtc-mid">
-            13100000000
-          </div>
-          <div>1级</div>
-          <div>2018-02-01 12:12:12</div>
-          <div>13000000004</div>
-          <div>3人</div>
-          <div><span class="light-green">+900.00</span>元</div>
-          <div class="blue">查看</div>
-        </li>
-      </ul>
+      <div  v-if="currentTab.id === 2">
+        <ul class="tribe-check">
+          <li class="thead clear">
+            <div>成员名称</div>
+            <div>成员层级</div>
+            <div>加入时间</div>
+            <div v-if="!isChildrenList">TA的上级</div>
+            <div>TA的推荐（人）</div>
+            <div>TA的贡献</div>
+            <div></div>
+          </li>
+          <li v-for="member in memberList" :key="member.id">
+            <div>
+              <img src="~assets/img/merchant-promotion/crown.png" alt="" width="16" height="16" class="vtc-mid">
+              {{member.other.memberPhone}}
+            </div>
+            <div>{{member.other.hierarchy}}级</div>
+            <div>{{member.createTime | dateFormat('YYYY-MM-DD hh:mm:ss')}}</div>
+            <div v-if="!isChildrenList">{{member.other.superiorPhone}}</div>
+            <div>{{member.ancestor}}人</div>
+            <div><span class="light-green">+{{(member.other.contribute/100).toFixed(2)}}</span>元</div>
+            <div class="blue"  @click="checkChildrenMember(member)">查看</div>
+          </li>
+        </ul>
+        <div v-if="!totalElements" class="mt-15 text-ct">暂无数据</div>
+        <div class="mt-15 right" v-if="totalElements">
+          <page :total="totalElements" :page-size="pageSize" @on-change="changePages"/>
+        </div>
+      </div>
       <!--已脱离-->
-      <ul v-if="currentTab.id === 3" class="detach-check">
-        <li class="thead clear">
-          <div>成员名称</div>
-          <div>成员层级</div>
-          <div>脱离时间</div>
-          <div>TA的推荐（人）</div>
-          <div>TA的贡献</div>
-        </li>
-        <li>
-          <div>
-            <img src="~assets/img/merchant-promotion/crown.png" alt="" width="16" height="16" class="vtc-mid">
-            13100000000
-          </div>
-          <div>2级</div>
-          <div>2018-02-01 12:12:12</div>
-          <div>103人</div>
-          <div><span class="light-green">+900.00</span>元</div>
-        </li>
-      </ul>
+      <div v-if="currentTab.id === 3">
+        <ul class="detach-check" v-if="getLevel !== 0">
+          <li class="thead clear">
+            <div>成员名称</div>
+            <div>成员层级</div>
+            <div>脱离时间</div>
+            <div>TA的推荐（人）</div>
+            <div>TA的贡献</div>
+          </li>
+          <li v-for="member in memberList" :key="member.id">
+            <div>
+              <img src="~assets/img/merchant-promotion/crown.png" alt="" width="16" height="16" class="vtc-mid">
+              {{member.other.memberPhone}}
+            </div>
+            <div>{{member.other.hierarchy}}级</div>
+            <div>{{member.createTime | dateFormat('YYYY-MM-DD hh:mm:ss')}}</div>
+            <div>{{member.ancestor}}人</div>
+            <div><span class="light-green">+{{(member.other.contribute/100).toFixed(2)}}</span>元</div>
+          </li>
+        </ul>
+        <div  v-if="getLevel === 0" class="mt-15 text-ct">您没有已脱离成员</div>
+        <div v-if="!totalElements" class="mt-15 text-ct">暂无数据</div>
+        <div class="mt-15 right" v-if="totalElements">
+          <page :total="totalElements" :page-size="pageSize" @on-change="changePages"/>
+        </div>
+      </div>
     </div>
+
   </div>
 </template>
 
 <script>
   import api from '@/config/apiConfig'
+  import {Page} from 'iview'
   export default {
     name: "tribe",
     components: {
-
+      Page: Page
     },
     data() {
       return {
         tabs: [
           {
             name: '按加入时间',
-            id: 1
+            id: 1,
+            type: 'joinTime'
           },
           {
             name: '按推荐',
-            id: 2
+            id: 2,
+            type:'hierarchy'
           },
           {
             name: '已脱离',
-            id: 3
+            id: 3,
+            type:'divorced'
           }
         ],
         currentTab: {
           name: '按加入时间',
-          id: 1
+          id: 1,
+          type: 'joinTime'
         },
         currentTable: {
           name: '按加入时间',
-          id: 1
-        }
+          id: 1,
+          type: 'joinTime'
+        },
+        pageIndex: 1,
+        pageSize: 10,
+        totalElements: 0,
+        phoneNumber: null,
+        memberList: [],
+        isChildrenList: false,
+        childrenPhone: null
+
       }
     },
     computed: {
-
+      myPhone() {
+        return this.$store.state.userInfo.phone
+      },
+      getRole() {
+        return this.$store.state.userInfo.role
+      },
+      getLevel() {
+        return this.$store.state.userInfo.extension.inviteRole
+      },
+      getUserLevel() {
+        if (this.getRole === 1) {
+          if (this.getLevel === 0) {
+            return '二级成员';
+          } else if (this.getLevel === 1) {
+            return '一级成员';
+          } else if (this.getLevel === 2) {
+            return '代理商';
+          }
+        }
+      }
     },
     created() {
-
+      this.getAllMember();
     },
     mounted() {
 
@@ -126,7 +179,50 @@
       changeTab(tab) {
         this.currentTab = tab;
         this.currentTable = tab;
-      }
+        this.pageIndex = 1;
+        this.getAllMember();
+        this.isChildrenList = false;
+      },
+      // 获取家族成员列表
+      getAllMember() {
+        const _this = this;
+        api.getAllMember({
+          type: _this.currentTab.type,
+          pageIndex: _this.pageIndex,
+          pageSize: _this.pageSize
+        }).then(res => {
+          if (res.status) {
+            _this.memberList = res.data.content;
+            _this.totalElements = res.data.totalElements;
+          } else {
+            _this.$Message.error(res.msg);
+          }
+        })
+      },
+      // 查看子集成员
+      checkChildrenMember(father) {
+        const _this = this;
+        _this.childrenPhone = father.other.memberPhone;
+        api.getChildrenMember({
+          fatherId: father.userId,
+          loginUserId: father.userId,
+          phone: _this.phoneNumber,
+          pageIndex: _this.pageIndex,
+          pageSize: _this.pageSize
+        }).then(res => {
+          if (res.status) {
+            _this.isChildrenList = true;
+            _this.memberList = res.data.content;
+            _this.totalElements = res.data.totalElements;
+          } else {
+            _this.$Message.error(res.msg);
+          }
+        })
+      },
+      changePages(page) {
+        this.pageIndex = page;
+        this.getAllMember();
+      },
     }
   }
 </script>

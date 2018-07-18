@@ -6,16 +6,16 @@
         <Date-picker type="datetime" placeholder="选择日期" style="width: 200px" v-model="beginTime" format="yyyy-MM-dd HH:mm:ss" @on-change="beginTimeFun">
         </Date-picker>
         <span>-</span>
-        <Date-picker type="datetime" placeholder="选择日期" style="width: 200px" v-model="endTime" format="yyyy-MM-dd HH:mm:ss" @on-change="endTimeFun"></Date-picker>
+        <Date-picker type="datetime" placeholder="选择日期" style="width: 200px" v-model="endTime" format="yyyy-MM-dd HH:mm:ss" @on-change="endTimeFun"/>
       </div>
       <div class="choice-time left">
-        <span class="cursor-p" v-for="item in choiceTime" :class="{active:timeSelect === item.isSelect} " @click="getTargetTime(item.id,item.isSelect)">{{item.text}}</span>
+        <span class="cursor-p" v-for="item in choiceTime" :class="{active:timeSelect === item.isSelect} " :key="item.id" @click="getTargetTime(item.id,item.isSelect)">{{item.text}}</span>
       </div>
     </div>
     <div class="phone-search mt-15">
       <span class="mr-10">手机号</span>
-      <i-input v-model.number="phoneNumber" style="width: 25%;"></i-input>
-      <i-button class="pl-20 pr-20 cl-fff bg-main-color ml-20" @click="filterByPhone">筛选</i-button>
+      <i-input v-model.number="phoneNumber" style="width: 25%;"/>
+      <i-button class="pl-20 pr-20 cl-fff bg-main-color ml-20" @click="getRewardDetail">筛选</i-button>
     </div>
     <div class="income-record mt-20">
       <ul>
@@ -25,25 +25,19 @@
           <div>收入来源</div>
           <div>收入类型</div>
         </li>
-        <li>
-          <div>2018-07-11 11:11:11</div>
-          <div class="light-green">+0.40</div>
-          <div>13000000000</div>
-          <div>1级-增值服务费提成</div>
-        </li>
-        <li>
-          <div>2018-07-11 11:11:11</div>
-          <div class="light-green">+0.40</div>
-          <div>13000000000</div>
-          <div>1级-增值服务费提成</div>
-        </li>
-        <li>
-          <div>2018-07-11 11:11:11</div>
-          <div class="light-green">+0.40</div>
-          <div>13000000000</div>
-          <div>1级-增值服务费提成</div>
+        <li v-for="(item,index) in detailList" :key="index">
+          <div>{{item.createTime | dateFormat('YYYY-MM-DD hh:mm:ss')}}</div>
+          <div class="light-green">+{{(item.rewardFee/100).toFixed(2)}}</div>
+          <div>{{item.other.initiatorPhone}}</div>
+          <div>{{item.other.level}}级-{{incomeType(item.initiatorType)}}</div>
         </li>
       </ul>
+    </div>
+    <div v-if="!totalElements" class="text-ct mt-15">
+      暂无数据
+    </div>
+    <div v-if="totalElements" class="right mt-15">
+      <page :total="totalElements" :page-size="pageSize" @on-change="changePages"/>
     </div>
   </div>
 </template>
@@ -51,6 +45,7 @@
 <script>
   import api from '@/config/apiConfig'
   import {DatePicker, Page, Input, Button} from 'iview'
+  import {merchantIncomeType} from '@/config/utils'
   export default {
     name: "income-detail",
     components: {
@@ -63,12 +58,12 @@
       return {
         beginTime: null,
         endTime: null,
+        tradTimeStart: null,
+        tradTimeEnd: null,
         pageSize: 10,
         pageIndex: 1,
         tradType: 1,
         phoneNumber: null,
-        // tradTimeStart: null,
-        // tradTimeEnd: null,
         choiceTime: [
           {
             text: '今天',
@@ -94,6 +89,8 @@
         ],
         timeSelect: 'all',
         activityNumber: null,
+        detailList: [],
+        totalElements: 0,
       }
     },
     computed: {
@@ -106,6 +103,9 @@
 
     },
     methods: {
+      incomeType(type) {
+        return merchantIncomeType(type);
+      },
       beginTimeFun(e) {
         this.beginTime = e;
         this.tradTimeStart = e;
@@ -135,61 +135,48 @@
 
         if (type === 0) {
           _this.beginTime = getDateStr(0);
-          _this.endTime = getDateStr(1);
           _this.tradTimeStart = getDateStr(0);
+          _this.endTime = getDateStr(1);
           _this.tradTimeEnd = getDateStr(1);
         } else if (type === 1) {
           _this.beginTime = getDateStr(-1);
-          _this.endTime = getDateStr(0);
           _this.tradTimeStart = getDateStr(-1);
+          _this.endTime = getDateStr(0);
           _this.tradTimeEnd = getDateStr(0);
         } else if (type === 2) {
           _this.beginTime = getDateStr(-30);
-          _this.endTime = getDateStr(1);
           _this.tradTimeStart = getDateStr(-30);
+          _this.endTime = getDateStr(1);
           _this.tradTimeEnd = getDateStr(1);
         } else {
           _this.beginTime = null;
-          _this.endTime = null;
           _this.tradTimeStart = null;
+          _this.endTime = null;
           _this.tradTimeEnd = null;
-          _this.isChange = true;
-          _this.transactType = [];
           _this.getRewardDetail();
         }
       },
-      getRewardDetail(type) {
+      getRewardDetail() {
         const _this = this;
-        // if (type && (type.length === 0 || type.length === 5)) {
-        //   type = null;
-        // } else {
-        //   type = JSON.stringify(type);
-        // }
         api.getRewardDetail({
-          tradTimeStart: _this.beginTime,
-          tradTimeEnd: _this.endTime,
+          beginTime: _this.tradTimeStart,
+          endTime: _this.tradTimeEnd,
           pageIndex: _this.pageIndex,
           pageSize: _this.pageSize,
-          tradType: _this.tradType
+          tradType: _this.tradType,
+          phone: _this.phoneNumber
         }).then(res => {
           if (res.status) {
-            console.log(res.data);
+            _this.detailList = res.data.content;
+            _this.totalElements = res.data.totalElements;
           } else {
             _this.$Message.error(res.msg);
           }
         });
       },
-      // 根据电话号筛选
-      filterByPhone() {
-        const _this = this;
-        if (!_this.phoneNumber) {
-          _this.$Message.error('请输入手机号！');
-          return
-        }
-        if (!(/^1\d{10}$/.test(_this.formCustom.phone))) {
-          _this.$Message.info({content:'请输入正确的手机号！'});
-          return
-        }
+      changePages(page) {
+        this.pageIndex = page;
+        this.getAllMember();
       }
     }
   }

@@ -1162,6 +1162,27 @@ export default {
    */
   getRewardDetail(params) {
     return axiosConfig.get('/api/get-reward-detail.json', params)
-  }
+  },
+
+  /**
+   * 商家推荐系统成员管理
+   */
+  getAllMember(params) {
+    return axiosConfig.get('/api/get-all-member.json', params)
+  },
+
+  /**
+   * 商家推荐系统成员管理查看子集成员
+   */
+  getChildrenMember(params) {
+    return axiosConfig.get('/api/get-sub-children-member.json', params)
+  },
+
+  /**
+   * 商家系统收入贡献榜
+   */
+  getRewardList(params) {
+    return axiosConfig.get('/api/get-reward-list.json', params)
+  },
 
 }

@@ -18,7 +18,7 @@
       </div>
       <div class="mt-40 cl000">
         <h2 class="text-ct">复制你的推荐链接（或者可将此链接分享到你的朋友圈及微博等...）</h2>
-        <p class="share-link text-ct f-b fs-16">{{recommendLink}}</p>
+        <p class="share-link f-b fs-16">{{recommendLink}}</p>
         <div class="text-ct">
           <div class="copy-btn" :data-clipboard-text="recommendLink">复制链接</div>
         </div>
@@ -42,7 +42,9 @@
 </template>
 
 <script>
-  import Clipboard from 'clipboard';
+  import Clipboard from 'clipboard'
+  import {domain} from '@/config/env'
+  import api from '@/config/apiConfig'
   export default {
     name: "promotion-regulation",
     components: {
@@ -50,7 +52,7 @@
     },
     data() {
       return {
-        recommendLink:'https//www.51bainana.com/sel-rol?recommendCode=eeue5eelo6ljik8miks9'
+        recommendLink:''
       }
     },
     computed: {
@@ -71,10 +73,33 @@
       })
     },
     mounted() {
-
+      const _this = this;
+      api.getRecommendUrl().then(res => {
+        if(res.status){
+          _this.initJS();
+          _this.initCss();
+          _this.recommendLink = domain + '/sel-role?recommendCode='+ res.recommendCode + '&acceptDisciple=acceptDisciple';
+          _this.copyHtml = '<div style="display: inline-block;" data-sites="qzone, qq, weibo" data-title="白拿拿，邀你共享好礼，秀出精彩！" data-image="https://www.xiuba365.com/static/avatar/xiuba-icon.png" data-description="秀出精彩，畅享好礼！我已经在白拿拿了，你还在等什么呢！" class="social-share" data-url=' + _this.recommendLink + '  ></div>';
+        } else {
+          _this.$Message.error(res.msg)
+        }
+      });
     },
     methods: {
-
+      initJS() {
+        const url = 'https://cdn.bootcss.com/social-share.js/1.0.16/js/social-share.min.js';
+        const script = document.createElement('script');
+        script.setAttribute('src', url);
+        document.getElementsByTagName('head')[0].appendChild(script)
+      },
+      initCss() {
+        const url = 'https://cdn.bootcss.com/social-share.js/1.0.16/css/share.min.css';
+        const link = document.createElement('link');
+        link.setAttribute('href', url);
+        link.setAttribute('rel', 'stylesheet');
+        link.setAttribute('type', 'text/css');
+        document.getElementsByTagName('head')[0].appendChild(link)
+      },
     }
   }
 </script>
@@ -114,7 +139,7 @@
       }
     }
     .share-link {
-      width:70%;
+      width:80%;
       background: #FFC26C;
       padding:15px 15px;
       border:2px solid #000;

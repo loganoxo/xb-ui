@@ -642,9 +642,13 @@
         const self = this;
         self.formCustom.role = 1;
         let recommendCode = '';
+        let acceptDiscipleMark = null;
         self.btnState.registerSellerBtn = true;
         if (getCookie('recommendCode')) {
           recommendCode = getCookie('recommendCode');
+        }
+        if (getCookie('acceptDiscipleMark')) {
+          acceptDiscipleMark = getCookie('acceptDiscipleMark');
         }
         api.register({
           phone: self.formCustom.phone,
@@ -658,6 +662,7 @@
           purpose: 'reg',
           recommendCode: recommendCode,
           platForm: 'PC',
+          acceptDiscipleMark: acceptDiscipleMark,
         }).then((res) => {
           if (res.status) {
             self.$Message.success({
@@ -665,6 +670,7 @@
               duration: 1,
               onClose: function () {
                 delCookie('recommendCode');
+                delCookie('acceptDiscipleMark');
                 self.setUserInfo(self.formCustom.phone, self.formCustom.pwd, self.formCustom.role);
               }
             });

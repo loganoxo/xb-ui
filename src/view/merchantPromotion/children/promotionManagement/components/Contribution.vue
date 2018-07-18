@@ -1,21 +1,21 @@
 <template>
   <div class="contribution">
-    <div class="clear date-picker">
-      <div class="left">
-        <span>起止日期：</span>
-        <Date-picker type="datetime" placeholder="选择日期" style="width: 200px" v-model="beginTime" format="yyyy-MM-dd HH:mm:ss" @on-change="beginTimeFun">
-        </Date-picker>
-        <span>-</span>
-        <Date-picker type="datetime" placeholder="选择日期" style="width: 200px" v-model="endTime" format="yyyy-MM-dd HH:mm:ss" @on-change="endTimeFun"></Date-picker>
-      </div>
-      <div class="choice-time left">
-        <span class="cursor-p" v-for="item in choiceTime" :class="{active:timeSelect === item.isSelect} " @click="getTargetTime(item.id,item.isSelect)">{{item.text}}</span>
-      </div>
-    </div>
+    <!--<div class="clear date-picker">-->
+      <!--<div class="left">-->
+        <!--<span>起止日期：</span>-->
+        <!--<Date-picker type="datetime" placeholder="选择日期" style="width: 200px" v-model="beginTime" format="yyyy-MM-dd HH:mm:ss" @on-change="beginTimeFun">-->
+        <!--</Date-picker>-->
+        <!--<span>-</span>-->
+        <!--<Date-picker type="datetime" placeholder="选择日期" style="width: 200px" v-model="endTime" format="yyyy-MM-dd HH:mm:ss" @on-change="endTimeFun"></Date-picker>-->
+      <!--</div>-->
+      <!--<div class="choice-time left">-->
+        <!--<span class="cursor-p" v-for="item in choiceTime" :class="{active:timeSelect === item.isSelect} " @click="getTargetTime(item.id,item.isSelect)">{{item.text}}</span>-->
+      <!--</div>-->
+    <!--</div>-->
     <div class="phone-search mt-15">
       <span class="mr-10">手机号</span>
       <i-input v-model="phoneNumber" style="width: 25%;"></i-input>
-      <i-button class="pl-20 pr-20 cl-fff bg-main-color ml-20">筛选</i-button>
+      <i-button class="pl-20 pr-20 cl-fff bg-main-color ml-20" @click="getRewardList">筛选</i-button>
     </div>
     <div class="table-area mt-20">
       <ul class="table">
@@ -25,17 +25,21 @@
           <div>最近一次提成时间</div>
           <div>TA的上级</div>
           <div>TA的代理商</div>
-          <div>操作</div>
         </li>
-        <li>
-          <div>13000000000</div>
-          <div>+1000.00</div>
-          <div>2018-05-06 11:11:11</div>
-          <div>13000000001</div>
-          <div>13000000002</div>
-          <div class="blue">查看明细</div>
+        <li v-for="(item,index) in contributeList" :key="index">
+          <div>{{item.phone}}</div>
+          <div>+{{(item.fee/100).toFixed(2)}}</div>
+          <div>{{item.lastestTime | dateFormat('YYYY-MM-DD hh:mm:ss')}}</div>
+          <div>{{item.fatherPhone}}</div>
+          <div>{{item.forefatherPhone ? item.forefatherPhone : '暂无代理商'}}</div>
         </li>
       </ul>
+    </div>
+    <div v-if="!totalElements" class="mt-15 text-ct">
+      暂无数据
+    </div>
+    <div v-if="totalElements" class="mt-15 right">
+      <page :total="totalElements" :page-size="pageSize" @on-change="changePages"/>
     </div>
   </div>
 </template>
@@ -79,14 +83,18 @@
           }
         ],
         timeSelect: 'all',
-        phoneNumber: null
+        phoneNumber: null,
+        pageIndex: 1,
+        pageSize: 10,
+        totalElements: 0,
+        contributeList: []
       }
     },
     computed: {
 
     },
     created() {
-
+      this.getRewardList();
     },
     mounted() {
 
@@ -174,6 +182,27 @@
           }
         });
       },
+      // 获取收入贡献榜
+      getRewardList() {
+        const _this = this;
+        api.getRewardList({
+          phone: _this.phoneNumber,
+          pageIndex: _this.pageIndex,
+          pageSize: _this.pageSize
+        }).then(res => {
+          if (res.status) {
+            _this.contributeList = res.data.content;
+            _this.totalElements = res.data.totalElements;
+          } else {
+            _this.$Message.error(res.msg);
+          }
+        })
+      },
+      changePages(page) {
+        this.pageIndex = page;
+        this.getRewardList();
+      }
+
     }
   }
 </script>
@@ -217,22 +246,19 @@
           padding-left:10px;
         }
         div:nth-of-type(1) {
-          width:15%;
+          width:20%;
         }
         div:nth-of-type(2) {
-          width: 15%;
+          width: 20%;
         }
         div:nth-of-type(3) {
-          width: 25%;
+          width: 20%;
         }
         div:nth-of-type(4) {
-          width: 15%;
+          width: 20%;
         }
         div:nth-of-type(5) {
-          width: 15%;
-        }
-        div:nth-of-type(6) {
-          width: 15%;
+          width: 20%;
         }
       }
     }

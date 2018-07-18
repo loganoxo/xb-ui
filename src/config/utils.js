@@ -426,3 +426,17 @@ export const appealCategorization = (type) => {
   };
   return mapList[type];
 };
+
+/**
+ * 商家推荐系统收入类型映射
+ */
+export const merchantIncomeType = (type) => {
+  const mapList = {
+    '1': '会员订购返利',
+    '2': '增值功能费返利',
+    '3': '推广费返利',
+    '4': '增值服务费返利',
+    '10': '首次发布活动'
+  };
+  return mapList[type];
+};

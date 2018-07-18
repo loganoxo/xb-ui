@@ -4,15 +4,15 @@
       <img src="~assets/img/merchant-promotion/detail-on.png" alt="" class="purse-icon">
       <span class="fs-18 cl666 ml-10">赚钱明细</span>
     </div>
-    <div class="btn-area">
-      <span class="cl666 fs-14 mr-15">钱包余额：10000000000000000000.00元</span>
-      <i-button size="small" class="pl-10 pr-10 cl-fff bg-main-color mr-15" @click="applyWithdrawal">申请提现</i-button>
-      <i-button size="small" class="pl-10 pr-10 cl-fff bg-main-color" @click="transferBalance">转入余额</i-button>
-    </div>
+    <!--<div class="btn-area">-->
+      <!--<span class="cl666 fs-14 mr-15">钱包余额：10000000000000000000.00元</span>-->
+      <!--<i-button size="small" class="pl-10 pr-10 cl-fff bg-main-color mr-15" @click="applyWithdrawal">申请提现</i-button>-->
+      <!--<i-button size="small" class="pl-10 pr-10 cl-fff bg-main-color" @click="transferBalance">转入余额</i-button>-->
+    <!--</div>-->
     <div v-if="showRecord">
       <div class="bill-preview fs-16">
-        <span>推广费收入：<span class="light-green mr-20">13250345312.00</span>元</span>
-        <span>推广费支出：<span class="main-color">13250345312.00</span>元</span>
+        <span>推广费收入：<span class="light-green">{{(totalInCome/100).toFixed(2)}}</span>元</span>
+        <!--<span>推广费支出：<span class="main-color">13250345312.00</span>元</span>-->
       </div>
       <div class="tab-area clear">
         <div v-for="(tab,index) in tabs" :key="index" @click="currentTab = tab" :class="[{active:currentTab.name === tab.name}]">
@@ -49,10 +49,10 @@
             name:'收入明细',
             component: IncomeDetail
           },
-          {
-            name:'支出明细',
-            component: ExpenditureDetail
-          }
+          // {
+          //   name:'支出明细',
+          //   component: ExpenditureDetail
+          // }
         ],
 
         currentTab: {
@@ -70,6 +70,9 @@
         } else {
           return '';
         }
+      },
+      totalInCome() {
+        return this.$store.getters.getUserAccountInfo.invitationReward
       }
 
     },
