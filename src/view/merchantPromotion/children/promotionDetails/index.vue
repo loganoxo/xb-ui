@@ -34,7 +34,7 @@
   import ExpenditureDetail from './components/ExpenditureDetail'
   import IncomeDetail from './components/IncomeDetail'
   import TransferBalanceOperate from './components/TransferBalanceOperate'
-  import WithdrawalOperate from './components/WithdrawalOperate'
+  import WithdrawalOperate from './components/WithDrawalOperate.vue'
   export default {
     name: "promotion-details",
     components: {
