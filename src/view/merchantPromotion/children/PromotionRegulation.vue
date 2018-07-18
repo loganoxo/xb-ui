@@ -8,12 +8,12 @@
       <div class="regulation-module pos-rel text-ct cl000">
         <div class="regulation-title fs-14 f-b">如果你的普通推荐者（推荐人数小于30人）</div>
         <p class="fs-16">推荐一个商家注册并成功发布1个活动，他将享受<span class="point">首单推广费全免</span></p>
-        <p class="fs-16 mt-5">你将获得<span class="point">6元</span>奖励，并且以后他每成功消费一次，你将获得<span class="point">10%</span>的提成（包含推广费，会员订购，增值服务及功能等）！</p>
+        <p class="fs-16 mt-5">你将获得<span class="point">{{firstTaskReward/100}}元</span>奖励，并且以后他每成功消费一次，你将获得<span class="point">{{fatherRewardPercent}}%</span>的提成（包含推广费，会员订购，增值服务及功能等）！</p>
       </div>
       <div class="regulation-module pos-rel text-ct cl000 mt-40">
         <div class="regulation-title fs-14 f-b">如果你成为代理商（推荐人数大于30人）</div>
         <p class="fs-16">除了普通推荐者的所有奖励外，</p>
-        <p class="fs-16 mt-5">你将额外获得<span class="point">N级下家（非代理商）的10%消费提成</span></p>
+        <p class="fs-16 mt-5">你将额外获得<span class="point">N级下家（非代理商）的{{foreFatherRewardPercent}}%消费提成</span></p>
         <p class="fs-16 mt-5">即你邀请的A，A邀请B，B邀请C...邀请N，你可获得所有A-N的消费提成，（包含推广费，会员订购，增值服务及功能等）！</p>
       </div>
       <div class="mt-40 cl000">
@@ -56,7 +56,15 @@
       }
     },
     computed: {
-
+      firstTaskReward() {
+        return this.$store.state.sysConfigInfo.sellerInvitationRewardFirstTaskFather.configValue
+      },
+      fatherRewardPercent() {
+        return this.$store.state.sysConfigInfo.sellerInvitationRewardFatherPercent.configValue
+      },
+      foreFatherRewardPercent() {
+        return this.$store.state.sysConfigInfo.sellerInvitationRewardForefatherPercent.configValue
+      }
     },
     created() {
       const _this = this;

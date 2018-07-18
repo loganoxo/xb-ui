@@ -81,6 +81,7 @@
         this.currentOperateComponent = 'WithdrawalOperate';
         this.showRecord = false;
       }
+      this.$store.dispatch('getUserInformation');
     },
     mounted() {
 

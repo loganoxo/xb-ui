@@ -314,7 +314,6 @@
               color: #fff;
               background-color: $mainColor;
             }
-
           }
         }
         i.ivu-icon-ios-search {
