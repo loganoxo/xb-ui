@@ -89,6 +89,8 @@ const PromotionRegulation = r => require.ensure([], () => r(require('@/view/merc
 const PromotionDetails = r => require.ensure([], () => r(require('@/view/merchantPromotion/children/promotionDetails/index.vue')), 'Promotion');
 const PromotionManagement = r => require.ensure([], () => r(require('@/view/merchantPromotion/children/promotionManagement/index.vue')), 'Promotion');
 
+const News = r => require.ensure([], () => r(require('@/view/newsPage/news.vue')), 'News');
+
 Vue.use(Router);
 
 /**
@@ -913,6 +915,18 @@ export default new Router({
           }
         },
       ]
+    },
+    {
+      path: '/news',
+      name: 'News',
+      component: News,
+      meta: {
+        title: "新闻页",
+        logInAuthority: false,
+        topShow: true,
+        bottomShow: true,
+        role: null,
+      }
     }
   ],
 })

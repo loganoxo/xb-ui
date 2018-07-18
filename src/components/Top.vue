@@ -1,8 +1,8 @@
 <template>
   <div class="home">
-    <top-tip></top-tip>
+    <top-tip/>
     <div class="home-top">
-      <div class="container">
+      <div class="container clear">
         <router-link  to="/" class="left mt-20">
           <img v-if="!isLogin || getUserInfoRole === 1" src="~assets/img/common/top-logo-sj.png" alt="" >
           <img v-if="isLogin && getUserInfoRole === 0" src="~assets/img/common/top-logo-xk.png" alt="" >
@@ -19,16 +19,16 @@
             </div>
           </div>
         </div>
-       <!-- <router-link  to="/recommend-spread" class="seller-guide">
-          <img src="/static/img/common/recommend_spread.gif" alt="">
-        </router-link>-->
+         <a :herf="searchRight.adUrl" class="seller-guide left">
+           <img :src="searchRight.adImg | imageSrc('!orgi75')" alt="广告图片">
+         </a>
       </div>
     </div>
     <div class="home-nav">
       <div class="container">
         <div class="top-category">
           <p class=" text-ct">
-            <Icon type="navicon" size="20" class="mt" style="margin-top: 2px"></Icon>
+            <icon type="navicon" size="20" class="mt" style="margin-top: 2px"/>
             <span class="ml-5">宝贝类目</span>
           </p>
           <ul class="top-category-list" v-if="$store.state.showTopCategoryRes">
@@ -103,6 +103,7 @@
   import {Tooltip, Button, Icon} from 'iview'
   import TopTip from '@/components/TopTip.vue'
   import api from '@/config/apiConfig'
+  import {aliCallbackImgUrl} from '@/config/env'
   export default {
     name: 'top',
     components: {
@@ -127,10 +128,12 @@
           900: '/static/img/nav-picture/home_25.png',
           1000: '/static/img/nav-picture/home_27.png',
         },
+        searchRight: {}
       }
     },
     created(){
      this.getNavList();
+     this.getSearchRightInfo();
     },
     computed: {
       isLogin() {
@@ -161,6 +164,13 @@
           type: 'TASK_CATEGORY_LIST',
           info: activityCategory
         });
+      },
+      getSearchRightInfo() {
+        const _this = this;
+        api.getAvailableBoardByAdTypeList({advertType: 'pc_top_search_right'}).then(res => {
+          _this.searchRight.adImg = aliCallbackImgUrl + res.data[0].adImg;
+          _this.searchRight.adUrl = aliCallbackImgUrl + res.data[0].adUrl;
+        })
       },
       selTaskCategoryHome(){
         let self = this;
@@ -263,7 +273,6 @@
     > div {
       background-color: #fff;
       div.search-box {
-        margin-left: 20px;
         margin-top: 60px;
         a.search {
           display: inline-block;
@@ -334,9 +343,8 @@
         }
       }
       a.seller-guide{
-        display: inline-block;
         margin-top: 35px;
-        margin-left: 24px;
+        margin-left: 6px;
         img{
           width: 100%;
         }

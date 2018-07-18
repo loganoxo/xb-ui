@@ -9,8 +9,8 @@
         <div class="left ml-20 mt-12">
           <p>
             <span>账号：{{userData.phone}} </span>
-            <span v-if="!userData.userAccount.ifEditPwdAlready">支付密码：<icon type="information-circled" color="#f9284f"/>&nbsp;未设置<router-link :to="{path: '/user/money-management/account-management','query': {'infoSelect': 'accountInfo'}}">&nbsp;&nbsp;设置</router-link></span>
-            <span v-if="userData.userAccount.ifEditPwdAlready">支付密码：<icon color="#70CF70" type="checkmark-circled"/> 已设置</span>
+            <span v-if="!getIfEditPwdAlready">支付密码：<icon type="information-circled" color="#f9284f"/>&nbsp;未设置<router-link :to="{path: '/user/money-management/account-management','query': {'infoSelect': 'accountInfo'}}">&nbsp;&nbsp;设置</router-link></span>
+            <span v-if="getIfEditPwdAlready">支付密码：<icon color="#70CF70" type="checkmark-circled"/> 已设置</span>
             <span v-if="userData.alitmNum <= 0 "><span v-if="userData.alitmNum <= 0 && getUserInfoRole === 0">淘宝账号：<icon type="information-circled" color="#f9284f"/> 未绑定<router-link to="/user/personal-setting/ww-bind">去绑定</router-link></span></span>
             <span v-else><span v-if="userData.alitmNum > 0 && getUserInfoRole === 0">淘宝账号：<icon color="#70CF70" type="checkmark-circled"/> 绑定成功</span></span>
             <span v-if="Boolean(userData.ifCertification)">实名认证：<icon color="#70CF70" type="checkmark-circled"/> 已认证</span>
@@ -256,6 +256,9 @@
       },
       userData() {
         return this.$store.state.userInfo;
+      },
+      getIfEditPwdAlready() {
+        return this.$store.getters.getIsEditPwdAlready;
       },
       getMemberDeadline () {
         const time = new Date(this.redEnvelopesExpirationTime);
