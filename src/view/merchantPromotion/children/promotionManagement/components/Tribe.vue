@@ -2,11 +2,12 @@
   <div class="tribe">
     <div class="identity fs-14">
       <img src="~assets/img/merchant-promotion/crown.png" alt="" width="18" height="18" class="vtc-mid mr-15">
-      嗨，{{myPhone}}~您当前的身份是{{getUserLevel}}，当前共有成员{{totalElements}}人<span v-if="isChildrenList">,你的成员 {{childrenPhone}} 共拥有下级 {{totalElements}} 人</span>
+      嗨，{{myPhone}}~您当前的身份是{{getUserLevel}}，当前共有成员{{totalElements}}人
     </div>
     <div class="tab-area clear">
       <div v-for="(tab,index) in tabs" :key="index" @click="changeTab(tab)" :class="[{active:currentTab.id === tab.id}]">{{tab.name}}</div>
     </div>
+    <div v-if="isChildrenList" class="mb-10">你的成员 {{childrenPhone}} 共拥有下级 {{totalElements}} 人</div>
     <div class="table-area">
       <!--按时间-->
       <div  v-if="currentTable.id === 1">
@@ -28,7 +29,7 @@
             <div>{{member.other.hierarchy}}级</div>
             <div>{{member.createTime | dateFormat('YYYY-MM-DD hh:mm:ss')}}</div>
             <div v-if="!isChildrenList">{{member.other.superiorPhone}}</div>
-            <div>{{member.ancestor}}人</div>
+            <div>{{member.other.recommendCounts}}人</div>
             <div><span class="light-green">+{{(member.other.contribute/100).toFixed(2)}}</span>元</div>
             <div class="cursor-p blue" @click="checkChildrenMember(member)">查看</div>
           </li>
@@ -58,7 +59,7 @@
             <div>{{member.other.hierarchy}}级</div>
             <div>{{member.createTime | dateFormat('YYYY-MM-DD hh:mm:ss')}}</div>
             <div v-if="!isChildrenList">{{member.other.superiorPhone}}</div>
-            <div>{{member.ancestor}}人</div>
+            <div>{{member.other.recommendCounts}}人</div>
             <div><span class="light-green">+{{(member.other.contribute/100).toFixed(2)}}</span>元</div>
             <div class="blue"  @click="checkChildrenMember(member)">查看</div>
           </li>
@@ -85,7 +86,7 @@
             </div>
             <div>{{member.other.hierarchy}}级</div>
             <div>{{member.createTime | dateFormat('YYYY-MM-DD hh:mm:ss')}}</div>
-            <div>{{member.ancestor}}人</div>
+            <div>{{member.other.recommendCounts}}人</div>
             <div><span class="light-green">+{{(member.other.contribute/100).toFixed(2)}}</span>元</div>
           </li>
         </ul>
@@ -160,9 +161,9 @@
       getUserLevel() {
         if (this.getRole === 1) {
           if (this.getLevel === 0) {
-            return '二级成员';
+            return '普通推荐者';
           } else if (this.getLevel === 1) {
-            return '一级成员';
+            return '普通推荐者';
           } else if (this.getLevel === 2) {
             return '代理商';
           }
@@ -171,6 +172,7 @@
     },
     created() {
       this.getAllMember();
+      this.$store.dispatch('getUserInformation');
     },
     mounted() {
 
@@ -206,7 +208,6 @@
         _this.childrenPhone = father.other.memberPhone;
         api.getChildrenMember({
           fatherId: father.userId,
-          loginUserId: father.userId,
           phone: _this.phoneNumber,
           pageIndex: _this.pageIndex,
           pageSize: _this.pageSize
