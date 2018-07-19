@@ -39,8 +39,8 @@
             </span>
             <span class="ml-10" v-if="getUserInfoRole === 1">
               <img src="~assets/img/merchant-promotion/purse-on.png" alt="" class="vtc-mid">
-              <span>钱包：188888880 元</span>
-              <span class="blue ml-10 cursor-p" @click="toWithdrawal">提现</span>
+              <span>钱包：{{(totalInCome/100).toFixed(2)}}元</span>
+              <!--<span class="blue ml-10 cursor-p" @click="toWithdrawal">提现</span>-->
               <span class="blue ml-10 cursor-p" @click="toRecordDetail">明细</span>
             </span>
             <router-link v-if="getUserInfoRole === 0" :to="{path: '/user/money-management/getout-money'}">提现</router-link>
@@ -284,6 +284,10 @@
       },
       getUserApplyCount() {
         return this.freshman ? this.$store.getters.getTaskApplyBaseCountFreshman.configValue : this.$store.getters.getTaskApplyBaseCountOldman.configValue
+      },
+      // 商家推荐系统钱包
+      totalInCome() {
+        return this.$store.getters.getUserAccountInfo.invitationReward
       }
     },
     methods: {

@@ -11,7 +11,7 @@
     <!--</div>-->
     <div v-if="showRecord">
       <div class="bill-preview fs-16">
-        <span>推广费收入：<span class="light-green">{{(totalInCome/100).toFixed(2)}}</span>元</span>
+        <span>钱包收入：<span class="light-green">{{(totalInCome/100).toFixed(2)}}</span>元</span>
         <!--<span>推广费支出：<span class="main-color">13250345312.00</span>元</span>-->
       </div>
       <div class="tab-area clear">

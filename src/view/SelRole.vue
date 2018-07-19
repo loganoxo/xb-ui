@@ -170,9 +170,9 @@
           setCookie('recommendCode', self.$route.query.recommendCode, 30);
         }
         // 商家推广（PC端大师傅）
-        if (!getCookie('acceptDiscipleMark') && self.$route.query.acceptDisciple) {
-          setCookie('acceptDiscipleMark', self.$route.query.acceptDisciple, 30)
-        }
+        // if (!getCookie('acceptDiscipleMark') && self.$route.query.acceptDisciple) {
+        //   setCookie('acceptDiscipleMark', self.$route.query.acceptDisciple, 30)
+        // }
         //qq快速注册参数
         if(self.$route.query.accessToken && self.$route.query.qqOpenId){
           self.showRegister = true;
