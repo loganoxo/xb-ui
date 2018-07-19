@@ -450,6 +450,16 @@
     computed: {
       fromPage() {
         return this.$route.query.from
+      },
+      isDSF() {
+        if (this.$route.query.acceptDisciple) {
+          return this.$route.query.acceptDisciple;
+        } else {
+          return false;
+        }
+      },
+      recommendCode() {
+        return this.$route.query.recommendCode
       }
     },
     data() {
@@ -580,6 +590,9 @@
           if (this.fromPage && this.fromPage === 'spreadLandingPage') {
             this.selLogin.seller = true;
             this.selLogin.buyer = false;
+          } else if (this.isDSF && this.isDSF === 'acceptDisciple') {
+            this.selLogin.seller = true;
+            this.selLogin.buyer = false;
           } else {
             this.selLogin.buyer = true;
             this.selLogin.seller = false
@@ -647,8 +660,11 @@
         if (getCookie('recommendCode')) {
           recommendCode = getCookie('recommendCode');
         }
-        if (getCookie('acceptDiscipleMark')) {
-          acceptDiscipleMark = getCookie('acceptDiscipleMark');
+        if (self.recommendCode) {
+          recommendCode = self.recommendCode;
+        }
+        if (self.isDSF) {
+          acceptDiscipleMark = self.isDSF;
         }
         api.register({
           phone: self.formCustom.phone,

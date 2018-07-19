@@ -29,14 +29,15 @@
         <h3 class="fs-16 f-b mt-30">什么是普通推荐者？什么是代理商？</h3>
         <p class="fs-14">成功推荐商家数小于30人为普通推荐者，成功推荐商家数大于30人即成为代理商</p>
         <h3 class="fs-16 f-b mt-30">N级下家（非代理商）的消费提成是怎么计算的？</h3>
-        <p class="fs-14">你成功邀请的下级，若他为成为代理商（即他邀请的下级未达到30人），你不但可享受他10%的消费提成，还享受他邀请的所有下级的10%的消费提成</p>
+        <p class="fs-14">你成功邀请的下级，若他未成为代理商（即他邀请的下级未达到30人），你不但可享受他10%的消费提成，还享受他邀请的所有下级的{{foreFatherRewardPercent}}%的消费提成</p>
         <p class="fs-14">若他升级为代理商（即他邀请到的下级大于30人），你将不再享受到他及他所有下级的消费提成。</p>
         <h3 class="fs-16 f-b mt-30">如何查看我获得的奖励？</h3>
         <p class="fs-14">点击左侧菜单“赚钱明细”中，可详细查看每一笔收入来源</p>
         <h3 class="fs-16 f-b mt-30">如何知道我推荐了多少人？</h3>
         <p class="fs-14">点击左侧菜单“推荐管理”中，可详情查看每一位你成功邀请的商家</p>
         <h3 class="fs-16 f-b mt-30">推荐奖励的规则说明</h3>
-        <p class="fs-14">本平台有权对奖励规则进行合理的调整，最终解释权归品台所有</p>
+        <p class="fs-14">以上代理细则有效期至9月30日，后续若有调整，另行通知。</p>
+        <p class="fs-14">本平台有权随时对奖励规则进行合理的调整，最终解释权归品台所有</p>
       </div>
     </div>
 </template>
@@ -56,12 +57,15 @@
       }
     },
     computed: {
+      //被邀请人首单奖励
       firstTaskReward() {
         return this.$store.state.sysConfigInfo.sellerInvitationRewardFirstTaskFather.configValue
       },
+      // 子级消费提成
       fatherRewardPercent() {
         return this.$store.state.sysConfigInfo.sellerInvitationRewardFatherPercent.configValue
       },
+      // N级下家消费提成
       foreFatherRewardPercent() {
         return this.$store.state.sysConfigInfo.sellerInvitationRewardForefatherPercent.configValue
       }
@@ -86,7 +90,7 @@
         if(res.status){
           _this.initJS();
           _this.initCss();
-          _this.recommendLink = domain + '/sel-role?recommendCode='+ res.recommendCode + '&acceptDisciple=acceptDisciple';
+          _this.recommendLink = domain + '/register/seller-register?recommendCode='+ res.recommendCode + '&acceptDisciple=acceptDisciple';
           _this.copyHtml = '<div style="display: inline-block;" data-sites="qzone, qq, weibo" data-title="白拿拿，邀你共享好礼，秀出精彩！" data-image="https://www.xiuba365.com/static/avatar/xiuba-icon.png" data-description="秀出精彩，畅享好礼！我已经在白拿拿了，你还在等什么呢！" class="social-share" data-url=' + _this.recommendLink + '  ></div>';
         } else {
           _this.$Message.error(res.msg)
