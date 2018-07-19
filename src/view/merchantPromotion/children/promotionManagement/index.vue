@@ -2,7 +2,7 @@
   <div class="management">
     <div class="title">
       <img src="~assets/img/merchant-promotion/management-on.png" alt="" class="purse-icon">
-      <span class="fs-18 cl666 ml-10">族人管理</span>
+      <span class="fs-18 cl666 ml-10">成员管理</span>
     </div>
     <div class="tab-area clear">
       <div class="tab" v-for="(tab,index) in tabs" :key="index" @click="currentTab = tab" :class="[{active:currentTab.id === tab.id}]">{{tab.name}}</div>
