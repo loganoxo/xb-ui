@@ -26,19 +26,19 @@
       return {
         tabs: [
           {
-            name: '收入贡献榜',
-            component: Contribution,
+            name: '成员管理',
+            component: Tribe,
             id: 1
           },
           {
-            name: '成员管理',
-            component: Tribe,
+            name: '收入贡献榜',
+            component: Contribution,
             id: 2
-          }
+          },
         ],
         currentTab: {
-          name: '收入贡献榜',
-          component: Contribution,
+          name: '成员管理',
+          component: Tribe,
           id: 1
         }
       }

@@ -29,7 +29,7 @@
             <div>{{member.createTime | dateFormat('YYYY-MM-DD hh:mm:ss')}}</div>
             <div v-if="!isChildrenList">{{member.other.superiorPhone}}</div>
             <div>{{member.ancestor}}人</div>
-            <div>+{{(member.other.contribute/100).toFixed(2)}}元</div>
+            <div><span class="light-green">+{{(member.other.contribute/100).toFixed(2)}}</span>元</div>
             <div class="cursor-p blue" @click="checkChildrenMember(member)">查看</div>
           </li>
         </ul>
