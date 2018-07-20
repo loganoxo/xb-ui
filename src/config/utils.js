@@ -391,6 +391,7 @@ export const taskErrorStatusList = (type) => {
     '9': '打赏费',
     '10': 'VIP会员赠送交易记录',
     '11': '增值业务交易记录',
+    '12': '钱包提取',
     'waiting_resubmit': '待重新提交',
     'audit_pass': '审核通过',
     'deleted': '未通过',
@@ -404,8 +405,8 @@ export const taskErrorStatusList = (type) => {
     'task_return_vas_fee_seller': '活动结算增值服务费返款',
     'pay_for_task_vas_fee_seller': '支付活动增值服务费',
     'pay_for_task_vas_fee_supply_seller': '补交活动增值费',
-    'task_delete_return_vas_fee_seller': '删除活动返款增值费'
-
+    'task_delete_return_vas_fee_seller': '删除活动返款增值费',
+    'coin_withdraw':'钱包提取',
   };
   return mapList[type];
 };

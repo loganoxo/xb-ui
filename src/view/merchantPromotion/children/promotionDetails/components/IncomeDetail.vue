@@ -29,7 +29,7 @@
           <div>{{item.createTime | dateFormat('YYYY-MM-DD hh:mm:ss')}}</div>
           <div class="light-green">+{{(item.rewardFee/100).toFixed(2)}}</div>
           <div>{{item.other.initiatorPhone}}</div>
-          <div>{{item.other.level}}级-{{incomeType(item.initiatorType)}}</div>
+          <div>{{item.other.level}}级-{{incomeType(item.initiatorType)}}<span v-if="item.offerType === 2">（代理商提成）</span>  </div>
         </li>
       </ul>
     </div>
