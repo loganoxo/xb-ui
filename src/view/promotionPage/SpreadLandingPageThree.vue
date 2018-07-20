@@ -92,6 +92,11 @@
     created() {
       this.getVrcode()
     },
+    computed: {
+      isLogin() {
+        return this.$store.state.login
+      }
+    },
     methods: {
       goExperience() {
         if (this.isLogin) {
