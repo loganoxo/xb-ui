@@ -116,9 +116,9 @@
                   <em class="price-list left">
                     <span class="cl666 block text-decoration-through">￥{{searchTask.itemPrice }}</span>
                   </em>
-                  <em class="vas-fee-return left ml-10 pl-5 pr-5" v-if="(searchTask.perVasFee || searchTask.promotionExpensesPaid && (uplineTime < searchTask.createTime))">
-                    奖励{{computeVasReturnFee(searchTask.perVasFee,searchTask.systemVasFeeCommissionPercent,searchTask.activityCategory,searchTask.promotionExpensesPaid,searchTask.taskCount,searchTask.createTime)}}元
-                  </em>
+                  <!--<em class="vas-fee-return left ml-10 pl-5 pr-5" v-if="(searchTask.perVasFee || searchTask.promotionExpensesPaid && (uplineTime < searchTask.createTime))">-->
+                    <!--奖励{{computeVasReturnFee(searchTask.perVasFee,searchTask.systemVasFeeCommissionPercent,searchTask.activityCategory,searchTask.promotionExpensesPaid,searchTask.taskCount,searchTask.createTime)}}元-->
+                  <!--</em>-->
                 </p>
                 <p>
                   <em class="price-list">
@@ -186,9 +186,9 @@
                   <em>
                     <span class="cl666 block text-decoration-through">￥{{historyTask.itemPrice / 100}}</span>
                   </em>
-                  <em class="vas-fee-return ml-10 pl-5 pr-5" v-if="(historyTask.perVasFee || historyTask.promotionExpensesPaid && (uplineTime < historyTask.createTime))">
-                    奖励{{computeVasReturnFee(historyTask.perVasFee,historyTask.systemVasFeeCommissionPercent,historyTask.activityCategory,historyTask.promotionExpensesPaid,historyTask.taskCount,historyTask.createTime)}}元
-                  </em>
+                  <!--<em class="vas-fee-return ml-10 pl-5 pr-5" v-if="(historyTask.perVasFee || historyTask.promotionExpensesPaid && (uplineTime < historyTask.createTime))">-->
+                    <!--奖励{{computeVasReturnFee(historyTask.perVasFee,historyTask.systemVasFeeCommissionPercent,historyTask.activityCategory,historyTask.promotionExpensesPaid,historyTask.taskCount,historyTask.createTime)}}元-->
+                  <!--</em>-->
                 </p>
                 <p>
                   <em>

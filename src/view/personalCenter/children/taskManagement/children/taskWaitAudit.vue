@@ -88,7 +88,7 @@
               <tbody v-for="allTask in item.applyAllTask" :key="allTask.id">
               <tr :class="{readBackground:allTask.newest}">
                 <td>
-                  <tooltip v-if="allTask.applySuccessCount === 0" content="多给新人一点机会吧，他们可是很认真的 ^_^" placement="top">
+                  <tooltip v-if="allTask.freshmanCheck" content="多给新人一点机会吧，他们可是很认真的 ^_^" placement="top">
                     <img src="/static/img/icon/newman.png">
                   </tooltip>
                   <div class="inline-block account-info">

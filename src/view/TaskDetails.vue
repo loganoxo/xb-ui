@@ -45,9 +45,9 @@
                     :style="{backgroundColor: $store.state.discountPriceType[parseFloat(commodityData.task.discountRate/10) + '折'].backgroundColor}">
                     {{commodityData.task.discountRate/10}}折清仓
                   </span>
-              <span v-if="(commodityData.task.perVasFee || commodityData.task.promotionExpensesPaid && (uplineTime < commodityData.task.createTime))" class="fs-12 bg-main-color cl-fff pr-5 pl-5">
-                奖励{{computeVasReturnFee(commodityData.task.perVasFee,commodityData.task.systemVasFeeCommissionPercent,commodityData.task.activityCategory,commodityData.task.promotionExpensesPaid,commodityData.task.taskCount,commodityData.task.createTime)}}元
-              </span>
+              <!--<span v-if="(commodityData.task.perVasFee || commodityData.task.promotionExpensesPaid && (uplineTime < commodityData.task.createTime))" class="fs-12 bg-main-color cl-fff pr-5 pl-5">-->
+                <!--奖励{{computeVasReturnFee(commodityData.task.perVasFee,commodityData.task.systemVasFeeCommissionPercent,commodityData.task.activityCategory,commodityData.task.promotionExpensesPaid,commodityData.task.taskCount,commodityData.task.createTime)}}元-->
+              <!--</span>-->
             </h3>
             <p class="fs-14">
               活动类型：
@@ -247,9 +247,9 @@
                   </p>
                   <p class="mt-10" v-if="commodityData.vasCount">
                     <span>浏览截图：</span>
-                    <span>
-                      {{commodityData.vasCount}}张，（奖励{{computeVasReturnFee(commodityData.task.perVasFee,commodityData.task.systemVasFeeCommissionPercent,commodityData.task.activityCategory,commodityData.task.promotionExpensesPaid,commodityData.task.taskCount)}}元）
-                    </span>
+                    <!--<span>-->
+                      <!--{{commodityData.vasCount}}张，（奖励{{computeVasReturnFee(commodityData.task.perVasFee,commodityData.task.systemVasFeeCommissionPercent,commodityData.task.activityCategory,commodityData.task.promotionExpensesPaid,commodityData.task.taskCount)}}元）-->
+                    <!--</span>-->
                   </p>
                   <div class="evaluation-content-tip cl666"
                        v-if="commodityData.task.itemReviewRequired === 'assign_review_detail' && commodityData.showkerTask">
