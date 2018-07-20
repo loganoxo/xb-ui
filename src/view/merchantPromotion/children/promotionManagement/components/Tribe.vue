@@ -2,7 +2,7 @@
   <div class="tribe">
     <div class="identity fs-14">
       <img src="~assets/img/merchant-promotion/crown.png" alt="" width="18" height="18" class="vtc-mid mr-15">
-      嗨，{{myPhone}}~您当前的身份是{{getUserLevel}}，当前共有成员{{totalElements}}人
+      嗨，{{myPhone}}~您当前的身份是{{getUserLevel}}，当前共有<span v-if="currentTab.id === 1">成员</span><span v-if="currentTab.id === 2">一级成员</span><span v-if="currentTab.id === 3">已脱离成员</span>{{firstLevelTotalElements}}人
     </div>
     <div class="tab-area clear">
       <div v-for="(tab,index) in tabs" :key="index" @click="changeTab(tab)" :class="[{active:currentTab.id === tab.id}]">{{tab.name}}</div>
@@ -61,7 +61,7 @@
             <div v-if="!isChildrenList">{{member.other.superiorPhone}}</div>
             <div>{{member.other.recommendCounts}}人</div>
             <div><span class="light-green">+{{(member.other.contribute/100).toFixed(2)}}</span>元</div>
-            <div class="blue"  @click="checkChildrenMember(member)">查看</div>
+            <div class="blue cursor-p"  @click="checkChildrenMember(member)">查看</div>
           </li>
         </ul>
         <div v-if="!totalElements" class="mt-15 text-ct">暂无数据</div>
@@ -118,7 +118,7 @@
             type: 'joinTime'
           },
           {
-            name: '按推荐',
+            name: '按层级',
             id: 2,
             type:'hierarchy'
           },
@@ -141,6 +141,7 @@
         pageIndex: 1,
         pageSize: 10,
         totalElements: 0,
+        firstLevelTotalElements: 0,
         phoneNumber: null,
         memberList: [],
         isChildrenList: false,
@@ -197,6 +198,7 @@
           if (res.status) {
             _this.memberList = res.data.content;
             _this.totalElements = res.data.totalElements;
+            _this.firstLevelTotalElements = res.data.totalElements;
           } else {
             _this.$Message.error(res.msg);
           }
