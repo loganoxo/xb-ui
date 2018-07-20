@@ -1229,6 +1229,17 @@
         <i-button size="large" @click="closeUpgradeMembershipModal">我知道了</i-button>
       </div>
     </modal>
+    <!--商家推荐奖励广告弹框-->
+    <modal v-model="recommendAdvertising.recommendAdvertisingModal" width="700" :mask-closable="false">
+      <div slot="header" class="text-align-rt mr-20">
+        <checkbox v-model="recommendAdvertising.showRecommendAdvertisingStatus" @on-change="recommendAdvertisingStatusChange">不在显示</checkbox>
+      </div>
+      <div class="pos-rel">
+        <img width="100%" src="~assets/img/task-release/recommend-advertising-image.jpg" alt="商家推荐奖励广告">
+        <div @click="goRecommend" style="position: absolute; width: 246px; height: 46px;left: 50%; margin-left: -123px; bottom: 14px; cursor: pointer"></div>
+      </div>
+      <div slot="footer"></div>
+    </modal>
     <!--用户绑定QQ号弹框-->
     <qq-bind-modal :closable="isOpenQqBindModal" :closableIcon="false" @change="openQqBindModal"/>
   </div>
@@ -1255,7 +1266,7 @@
     setStorage,
     getStorage,
     getUrlParams,
-    isInternetUrl
+    isInternetUrl,
   } from '@/config/utils'
   export default {
     name: 'task-release',
@@ -1482,6 +1493,10 @@
         redEnvelopeDeductionNumber: 0,
         residualMatchNumber: 0,
         isMatchNumberOk: true,
+        recommendAdvertising: {
+          showRecommendAdvertisingStatus: false,
+          recommendAdvertisingModal: false
+        },
       }
     },
     // 当用户有首发资格路由重定向到快速发布通道反之则停留在此页面
@@ -1892,6 +1907,12 @@
             _this.taskRelease.discountType = 'discount_0';
           }
         }
+      },
+      goRecommend() {
+        this.$router.push({name: 'PromotionRegulation'})
+      },
+      recommendAdvertisingStatusChange(status) {
+        status && setStorage('recommendAdvertisingStatus', true)
       },
       openQqBindModal(value) {
         this.isOpenQqBindModal = value
@@ -2579,6 +2600,7 @@
                 _this.taskRelease.taskId = res.data.id;
               }
               _this.stepName = 'deposit';
+              _this.recommendAdvertising.recommendAdvertisingModal = !getStorage('recommendAdvertisingStatus');
             } else {
               _this.$Message.error(res.msg);
             }
@@ -2601,6 +2623,7 @@
                 _this.$router.push({name: 'ActivitiesList'});
               } else {
                 _this.stepName = 'deposit';
+                _this.recommendAdvertising.recommendAdvertisingModal = !getStorage('recommendAdvertisingStatus');
               }
             } else {
               _this.$Message.error(res.msg)
