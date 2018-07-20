@@ -283,7 +283,7 @@
         return this.$store.getters.getUserHeadUrl
       },
       getUserApplyCount() {
-        return this.freshman ? this.$store.getters.getSysConfigValue('getTaskApplyBaseCountFreshman') : this.$store.getters.getSysConfigValue('getTaskApplyBaseCountOldman')
+        return this.freshman ? this.$store.getters.getSysConfigValue('taskApplyBaseCountFreshman') : this.$store.getters.getSysConfigValue('taskApplyBaseCountOldman')
       },
       // 商家推荐系统钱包
       totalInCome() {
