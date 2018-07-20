@@ -590,7 +590,7 @@
         return this.$store.state.login
       },
       pcMerchantQqGroup() {
-        return this.$store.getters.getPcMerchantQqGroup
+        return this.$store.getters.getSysConfigValue('pcMerchantQqGroup')
       },
       getUserRole() {
         return this.$store.getters.getUserRole

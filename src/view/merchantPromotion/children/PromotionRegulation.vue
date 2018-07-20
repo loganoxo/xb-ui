@@ -12,12 +12,12 @@
         <div class="regulation-module pos-rel text-ct cl000">
           <div class="regulation-title fs-14 f-b">如果你的普通推荐者（推荐人数小于30人）</div>
           <p class="fs-16">推荐一个商家注册并成功发布1个活动，他将享受<span class="point">首单推广费全免</span></p>
-          <p class="fs-16 mt-5">你将获得<span class="point">{{firstTaskReward/100}}元</span>奖励，并且以后他每成功消费一次，你将获得<span class="point">{{fatherRewardPercent}}%</span>的提成（包含推广费，会员订购，增值服务及功能等）！</p>
+          <p class="fs-16 mt-5">你将获得<span class="point">{{(firstTaskReward.configValue)/100}}元</span>奖励，并且以后他每成功消费一次，你将获得<span class="point">{{fatherRewardPercent.configValue}}%</span>的提成（包含推广费，会员订购，增值服务及功能等）！</p>
         </div>
         <div class="regulation-module pos-rel text-ct cl000 mt-40">
           <div class="regulation-title fs-14 f-b">如果你成为代理商（推荐人数大于30人）</div>
           <p class="fs-16">除了普通推荐者的所有奖励外，</p>
-          <p class="fs-16 mt-5">你将额外获得<span class="point">N级下家（非代理商）的{{foreFatherRewardPercent}}%消费提成</span></p>
+          <p class="fs-16 mt-5">你将额外获得<span class="point">N级下家（非代理商）的{{foreFatherRewardPercent.configValue}}%消费提成</span></p>
           <p class="fs-16 mt-5">即你邀请的A，A邀请B，B邀请C...邀请N，你可获得所有A-N的消费提成，（包含推广费，会员订购，增值服务及功能等）！</p>
         </div>
         <div class="mt-40 cl000">
@@ -29,11 +29,11 @@
         </div>
         <div class="mt-40 cl000">
           <h3 class="fs-16 f-b mt-30">奖励是如何发放的呢？</h3>
-          <p class="fs-14">奖励以现金的方式存入到你的“赚点钱儿”账户中，该账户可直接体现，也可以转入余额。</p>
+          <p class="fs-14">奖励以现金的方式存入到你的“赚点钱儿”账户中，该账户可直接提现，也可以转入余额。</p>
           <h3 class="fs-16 f-b mt-30">什么是普通推荐者？什么是代理商？</h3>
           <p class="fs-14">成功推荐商家数小于30人为普通推荐者，成功推荐商家数大于30人即成为代理商</p>
           <h3 class="fs-16 f-b mt-30">N级下家（非代理商）的消费提成是怎么计算的？</h3>
-          <p class="fs-14">你成功邀请的下级，若他未成为代理商（即他邀请的下级未达到30人），你不但可享受他10%的消费提成，还享受他邀请的所有下级的{{foreFatherRewardPercent}}%的消费提成</p>
+          <p class="fs-14">你成功邀请的下级，若他未成为代理商（即他邀请的下级未达到30人），你不但可享受他10%的消费提成，还享受他邀请的所有下级的{{foreFatherRewardPercent.configValue}}%的消费提成</p>
           <p class="fs-14">若他升级为代理商（即他邀请到的下级大于30人），你将不再享受到他及他所有下级的消费提成。</p>
           <h3 class="fs-16 f-b mt-30">如何查看我获得的奖励？</h3>
           <p class="fs-14">点击左侧菜单“赚钱明细”中，可详细查看每一笔收入来源</p>
@@ -91,16 +91,17 @@
     computed: {
       //被邀请人首单奖励
       firstTaskReward() {
-        return this.$store.state.sysConfigInfo.sellerInvitationRewardFirstTaskFather.configValue
+        return this.$store.getters.getSysConfigValue('sellerInvitationRewardFirstTaskFather')
       },
       // 子级消费提成
       fatherRewardPercent() {
-        return this.$store.state.sysConfigInfo.sellerInvitationRewardFatherPercent.configValue
+        return this.$store.getters.getSysConfigValue('sellerInvitationRewardFatherPercent')
       },
       // N级下家消费提成
       foreFatherRewardPercent() {
-        return this.$store.state.sysConfigInfo.sellerInvitationRewardForefatherPercent.configValue
-      }
+        return this.$store.getters.getSysConfigValue('sellerInvitationRewardForefatherPercent')
+      },
+
     },
     created() {
       const _this = this;

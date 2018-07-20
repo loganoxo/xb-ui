@@ -87,38 +87,8 @@ export default {
     return Object.keys(state.userInfo).length > 0 ? state.userInfo.userAccount.redEnvelopeSellerDeadLine : null
   },
 
-  // 从sysConfigInfo中提取pcMerchantQqGroup信息
-  getPcMerchantQqGroup: state => {
-    return Object.keys(state.sysConfigInfo).length > 0 ? state.sysConfigInfo.pcMerchantQqGroup : {}
-  },
-
-  // 从sysConfigInfo中提取taskApplyBaseCountFreshman信息
-  getTaskApplyBaseCountFreshman: state => {
-    return Object.keys(state.sysConfigInfo).length > 0 ? state.sysConfigInfo.taskApplyBaseCountFreshman : {}
-  },
-
-  // 从sysConfigInfo中提取taskApplyBaseCountOldman信息
-  getTaskApplyBaseCountOldman: state => {
-    return Object.keys(state.sysConfigInfo).length > 0 ? state.sysConfigInfo.taskApplyBaseCountOldman : {}
-  },
-
-  // 从sysConfigInfo中提取showkerInviteShowkerFee信息
-  getShowkerInviteShowkerFee: state => {
-    return Object.keys(state.sysConfigInfo).length > 0 ? state.sysConfigInfo.showkerInviteShowkerFee : {}
-  },
-
-  // 从sysConfigInfo中提取showkerInviteSellerFee信息
-  getShowkerInviteSellerFee: state => {
-    return Object.keys(state.sysConfigInfo).length > 0 ? state.sysConfigInfo.showkerInviteSellerFee : {}
-  },
-
-  // 从sysConfigInfo中提取taskSystemHoldPercent信息
-  getTaskSystemHoldPercent: state => {
-    return Object.keys(state.sysConfigInfo).length > 0 ? state.sysConfigInfo.taskSystemHoldPercent : {}
-  },
-
-  // 从sysConfigInfo中提取客服QQ信息
-  getSellerCustomerQq: state => {
-    return Object.keys(state.sysConfigInfo).length > 0 ? state.sysConfigInfo.sellerCustomerQq : {}
+  // 从sysConfigInfo中提取对应配置信息
+  getSysConfigValue: (state) => (type) => {
+    return Object.keys(state.sysConfigInfo).length > 0 ? state.sysConfigInfo[type] : {}
   }
 }
