@@ -29,7 +29,7 @@
 
 <script>
   import {modal, Input, Button} from 'iview'
-  import {isInteger, delSpace} from '@/config/utils'
+  import {isInteger} from '@/config/utils'
   import SmsCountdown from '@/components/SmsCountdown'
   import api from '@/config/apiConfig'
   export default {
@@ -44,6 +44,10 @@
       value: {
         type: Boolean,
         default: false
+      },
+      pathName: {
+        type: String,
+        default: ''
       },
       onSuccess: {
         type: Function,
@@ -124,32 +128,34 @@
         _this.formCustom.repwd = _this.formCustom.phone.slice(5);
         api.register(_this.formCustom).then(res => {
           if (res.status) {
-            _this.login(_this.formCustom.phone, _this.formCustom.pwd, _this.formCustom.role)
+            return {
+              phone: _this.formCustom.phone,
+              pwd: _this.formCustom.pwd,
+            }
           } else {
             _this.$Message.error(res.msg)
           }
+        }).then(res => {
+          api.login({
+            phone: res.phone,
+            passWord: res.pwd,
+            platForm: 'PC'
+          }).then(res => {
+            if (res.status) {
+              _this.$store.commit({
+                type: 'RECORD_USER_INFO',
+                info: res.data
+              });
+              _this.$emit('input', false);
+              _this.pathName && _this.$router.push({name: _this.pathName});
+              _this.onSuccess();
+            } else {
+              _this.$Message.error(res.msg)
+            }
+            _this.loginLoading = false;
+          })
         })
       },
-      login(phone, pwd) {
-        const _this = this;
-        api.login({
-          phone: phone,
-          passWord: pwd,
-          platForm: 'PC'
-        }).then(res => {
-          if (res.status) {
-            _this.$store.commit({
-              type: 'RECORD_USER_INFO',
-              info: res.data
-            });
-            _this.$emit('input', false);
-            _this.onSuccess();
-          } else {
-            _this.$Message.error(res.msg)
-          }
-          _this.loginLoading = false;
-        })
-      }
     },
     watch: {
       value(val) {
@@ -160,6 +166,3 @@
   }
 </script>
 
-<style lang="scss" scoped>
-  @import "src/css/mixin";
-</style>

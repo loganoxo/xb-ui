@@ -82,6 +82,7 @@ const LandingPage = r => require.ensure([], () => r(require('@/view/promotionPag
 const ChapaimingLanding = r => require.ensure([], () => r(require('@/view/promotionPage/ChapaimingLanding.vue')), 'ChapaimingLanding');
 const SpreadLandingPage = r => require.ensure([], () => r(require('@/view/promotionPage/SpreadLandingPage.vue')), 'SpreadLandingPage');
 const SpreadLandingPageTwo = r => require.ensure([], () => r(require('@/view/promotionPage/SpreadLandingPageTwo.vue')), 'SpreadLandingPageTwo');
+const SpreadLandingPageThree = r => require.ensure([], () => r(require('@/view/promotionPage/SpreadLandingPageThree.vue')), 'SpreadLandingPageThree');
 
 // PC 端的商家推广
 const MerchantPromotion = r => require.ensure([], () => r(require('@/view/merchantPromotion/index.vue')), 'Promotion');
@@ -292,6 +293,18 @@ export default new Router({
       path: '/spread-landing-page-two',
       name: 'SpreadLandingPageTwo',
       component: SpreadLandingPageTwo,
+      meta: {
+        title: "推广落地页",
+        logInAuthority: false,
+        topShow: false,
+        bottomShow: true,
+        role: null,
+      }
+    },
+    {
+      path: '/spread-landing-page-three',
+      name: 'SpreadLandingPageThree',
+      component: SpreadLandingPageThree,
       meta: {
         title: "推广落地页",
         logInAuthority: false,
