@@ -2600,7 +2600,6 @@
                 _this.taskRelease.taskId = res.data.id;
               }
               _this.stepName = 'deposit';
-              _this.recommendAdvertising.recommendAdvertisingModal = !getStorage('recommendAdvertisingStatus');
             } else {
               _this.$Message.error(res.msg);
             }
@@ -2623,7 +2622,6 @@
                 _this.$router.push({name: 'ActivitiesList'});
               } else {
                 _this.stepName = 'deposit';
-                _this.recommendAdvertising.recommendAdvertisingModal = !getStorage('recommendAdvertisingStatus');
               }
             } else {
               _this.$Message.error(res.msg)
@@ -2956,6 +2954,7 @@
                 _this.showPayModel = false;
                 _this.$Message.success('恭喜您，支付成功！');
                 _this.stepName = 'audit';
+                _this.recommendAdvertising.recommendAdvertisingModal = !getStorage('recommendAdvertisingStatus');
               } else {
                 _this.$Message.error(res.msg)
               }
