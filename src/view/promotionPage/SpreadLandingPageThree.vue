@@ -150,7 +150,7 @@
                 type: 'RECORD_USER_INFO',
                 info: res.data
               });
-              _this.$rourer.push({name: 'TaskRelease'})
+              _this.$router.push({name: 'TaskRelease'})
             } else {
               _this.$Message.error(res.msg)
             }
