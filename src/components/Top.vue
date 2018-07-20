@@ -19,7 +19,7 @@
             </div>
           </div>
         </div>
-         <a :herf="searchRight.adUrl" class="seller-guide left">
+         <a v-if="searchRight.adUrl" :href="searchRight.adUrl" class="seller-guide left" target="_blank">
            <img :src="searchRight.adImg | imageSrc('!orgi75')" alt="广告图片">
          </a>
       </div>
@@ -128,7 +128,10 @@
           900: '/static/img/nav-picture/home_25.png',
           1000: '/static/img/nav-picture/home_27.png',
         },
-        searchRight: {}
+        searchRight: {
+          adImg: null,
+          adUrl: null,
+        }
       }
     },
     created(){
@@ -153,14 +156,13 @@
       },
     },
     methods: {
-      linkToBuyerShow(activityCategory){
-        let self = this;
-        self.$router.push({ 'path': '/buyer-show'});
-        self.$store.commit({
+      linkToBuyerShow(activityCategory) {
+        this.$router.push({ 'path': '/buyer-show'});
+        this.$store.commit({
           type: 'SET_ACTIVITY_CATEGORY',
           info: activityCategory
         });
-        self.$store.commit({
+        this.$store.commit({
           type: 'TASK_CATEGORY_LIST',
           info: activityCategory
         });
@@ -168,8 +170,10 @@
       getSearchRightInfo() {
         const _this = this;
         api.getAvailableBoardByAdTypeList({advertType: 'pc_top_search_right'}).then(res => {
-          _this.searchRight.adImg = aliCallbackImgUrl + res.data[0].adImg;
-          _this.searchRight.adUrl = aliCallbackImgUrl + res.data[0].adUrl;
+          if (res.data.length > 0) {
+            _this.searchRight.adImg = aliCallbackImgUrl + res.data[0].adImg;
+            _this.searchRight.adUrl = res.data[0].adUrl;
+          }
         })
       },
       selTaskCategoryHome(){
@@ -342,7 +346,7 @@
         }
       }
       a.seller-guide{
-        margin-top: 35px;
+        margin-top: 6px;
         margin-left: 6px;
         img{
           width: 100%;
