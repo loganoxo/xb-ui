@@ -53,7 +53,7 @@
                       color="#f9284f"/>
                 <i class="up-icon"></i>
                 <em>
-                  您今天有{{getUserApplyCount}}次申请活动的机会，扫描以下二维码，关注51白拿拿公众号并分享宝贝，获取更多申请次数！
+                  您今天有{{getUserApplyCount.configValue}}次申请活动的机会，扫描以下二维码，关注51白拿拿公众号并分享宝贝，获取更多申请次数！
                   <img width="200" src="/static/img/common/qr_code_bainana.png" alt="" class="mt-10 block">
                 </em>
               </a>
@@ -283,7 +283,7 @@
         return this.$store.getters.getUserHeadUrl
       },
       getUserApplyCount() {
-        return this.freshman ? this.$store.getters.getTaskApplyBaseCountFreshman.configValue : this.$store.getters.getTaskApplyBaseCountOldman.configValue
+        return this.freshman ? this.$store.getters.getSysConfigValue('getTaskApplyBaseCountFreshman') : this.$store.getters.getSysConfigValue('getTaskApplyBaseCountOldman')
       },
       // 商家推荐系统钱包
       totalInCome() {

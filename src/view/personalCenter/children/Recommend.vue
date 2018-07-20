@@ -174,10 +174,10 @@
         return this.$store.state.userInfo.role
       },
       showkerInviteSellerFee() {
-        return this.$store.getters.getShowkerInviteSellerFee
+        return this.$store.getters.getSysConfigValue('showkerInviteSellerFee')
       },
       showkerInviteShowkerFee() {
-        return this.$store.getters.getShowkerInviteShowkerFee
+        return this.$store.getters.getSysConfigValue('showkerInviteShowkerFee')
       }
     },
     mounted() {

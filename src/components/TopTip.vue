@@ -104,7 +104,7 @@
         return this.$store.getters.isMemberOk
       },
       pcMerchantQqGroup() {
-        return this.$store.getters.getPcMerchantQqGroup
+        return this.$store.getters.getSysConfigValue('pcMerchantQqGroup')
       },
     },
     created() {

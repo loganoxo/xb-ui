@@ -1817,7 +1817,7 @@
        * @return {number}
        */
       taskSystemHoldPercent() {
-        return this.$store.getters.getTaskSystemHoldPercent;
+        return this.$store.getters.getSysConfigValue('taskSystemHoldPercent');
       },
 
       /**
