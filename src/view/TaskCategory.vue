@@ -346,7 +346,7 @@
           discountTypes: '',
           countLeft0ToEnd: true,
           itemCatalogFilters: [],
-          zoneFilters: ['freshman_hit'],
+          zoneFilters: ['coin_earn'],
           onlyAvailableCertainlyHit: false,
           donotShowSpeedUp: true
         },
