@@ -48,7 +48,7 @@
           <i data-v-38a9a25e="" class="ivu-icon ivu-icon-person vtc-text-btm fs-16"></i>
           个人中心
         </router-link>
-        <router-link to="/promotion/promotion-regulation" @click.native="cancelActivityCategory">
+        <router-link v-if="getRole === 1" to="/promotion/promotion-regulation" @click.native="cancelActivityCategory">
           <img src="~assets/img/merchant-promotion/purse-on.png" alt="" width="16" height="16" class="vtc-mid">
           赚点钱儿
         </router-link>
@@ -96,6 +96,9 @@
       },
       getUserInfo() {
         return this.$store.state.userInfo
+      },
+      getRole() {
+        return this.$store.state.userInfo.role
       },
       getMemberVersionLevel() {
         return this.$store.getters.getMemberLevel

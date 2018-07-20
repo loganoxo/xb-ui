@@ -900,7 +900,7 @@ export default new Router({
             logInAuthority: true,
             topShow: true,
             bottomShow: true,
-            role: null,
+            role: 1,
           }
         },
         {
@@ -912,7 +912,7 @@ export default new Router({
             logInAuthority: true,
             topShow: true,
             bottomShow: true,
-            role: null,
+            role: 1,
           }
         },
         {
@@ -924,7 +924,7 @@ export default new Router({
             logInAuthority: true,
             topShow: true,
             bottomShow: true,
-            role: null,
+            role: 1,
           }
         },
       ]
