@@ -88,7 +88,6 @@
           }
         ],
         timeSelect: 'all',
-        activityNumber: null,
         detailList: [],
         totalElements: 0,
       }
@@ -158,6 +157,12 @@
       },
       getRewardDetail() {
         const _this = this;
+        if (_this.phoneNumber) {
+          if(!(/^1\d{10}$/.test(_this.phoneNumber))) {
+            _this.$Message.error('请输入正确格式的电话号码');
+            return;
+          }
+        }
         api.getRewardDetail({
           beginTime: _this.tradTimeStart,
           endTime: _this.tradTimeEnd,
@@ -176,7 +181,7 @@
       },
       changePages(page) {
         this.pageIndex = page;
-        this.getAllMember();
+        this.getRewardDetail();
       }
     }
   }

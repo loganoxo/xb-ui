@@ -56,7 +56,6 @@
 <style scoped lang="scss">
   @import "src/css/mixin";
   .merchant-promotion {
-    /*margin: 12px 135px;*/
     width: 1200px;
     margin: auto;
     margin-top: 12px;

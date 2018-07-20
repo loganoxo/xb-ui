@@ -15,7 +15,7 @@
         <!--<span>推广费支出：<span class="main-color">13250345312.00</span>元</span>-->
       </div>
       <div class="tab-area clear">
-        <div v-for="(tab,index) in tabs" :key="index" @click="currentTab = tab" :class="[{active:currentTab.name === tab.name}]">
+        <div v-for="(tab,index) in tabs" :key="index" @click="currentTab = tab" :class="{active:currentTab.name === tab.name}">
           {{tab.name}}
         </div>
       </div>

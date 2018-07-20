@@ -185,6 +185,12 @@
       // 获取收入贡献榜
       getRewardList() {
         const _this = this;
+        if (_this.phoneNumber) {
+          if(!(/^1\d{10}$/.test(_this.phoneNumber))) {
+            _this.$Message.error('请输入正确格式的电话号码');
+            return;
+          }
+        }
         api.getRewardList({
           phone: _this.phoneNumber,
           pageIndex: _this.pageIndex,

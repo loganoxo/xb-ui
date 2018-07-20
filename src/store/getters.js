@@ -89,6 +89,6 @@ export default {
 
   // 从sysConfigInfo中提取对应配置信息
   getSysConfigValue: (state) => (type) => {
-    return Object.keys(state.sysConfigInfo).length > 0 ? state.sysConfigInfo[type] : {}
+    return Object.keys(state.sysConfigInfo).length > 0 ? state.sysConfigInfo[type] : {} 
   }
 }

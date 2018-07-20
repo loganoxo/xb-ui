@@ -5,7 +5,7 @@
       嗨，{{myPhone}}~您当前的身份是{{getUserLevel}}，当前共有<span v-if="currentTab.id === 1">成员</span><span v-if="currentTab.id === 2">一级成员</span><span v-if="currentTab.id === 3">已脱离成员</span>{{firstLevelTotalElements}}人
     </div>
     <div class="tab-area clear">
-      <div v-for="(tab,index) in tabs" :key="index" @click="changeTab(tab)" :class="[{active:currentTab.id === tab.id}]">{{tab.name}}</div>
+      <div v-for="(tab,index) in tabs" :key="index" @click="changeTab(tab)" :class="{active : currentTab.id === tab.id}">{{tab.name}}</div>
     </div>
     <div v-if="isChildrenList" class="mb-10">你的成员 {{childrenPhone}} 共拥有下级 {{totalElements}} 人</div>
     <div class="table-area">
@@ -35,7 +35,7 @@
           </li>
         </ul>
         <div v-if="!totalElements" class="mt-15 text-ct">暂无数据</div>
-        <div class="mt-15 right" v-if="totalElements">
+        <div v-if="totalElements" class="mt-15 right">
           <page :total="totalElements" :page-size="pageSize" @on-change="changePages"/>
         </div>
       </div>
@@ -65,7 +65,7 @@
           </li>
         </ul>
         <div v-if="!totalElements" class="mt-15 text-ct">暂无数据</div>
-        <div class="mt-15 right" v-if="totalElements">
+        <div v-if="totalElements" class="mt-15 right">
           <page :total="totalElements" :page-size="pageSize" @on-change="changePages"/>
         </div>
       </div>
@@ -90,9 +90,9 @@
             <div><span class="light-green">+{{(member.other.contribute/100).toFixed(2)}}</span>元</div>
           </li>
         </ul>
-        <div  v-if="getLevel === 0" class="mt-15 text-ct">您没有已脱离成员</div>
+        <div v-if="getLevel === 0" class="mt-15 text-ct">您没有已脱离成员</div>
         <div v-if="!totalElements" class="mt-15 text-ct">暂无数据</div>
-        <div class="mt-15 right" v-if="totalElements">
+        <div v-if="totalElements" class="mt-15 right">
           <page :total="totalElements" :page-size="pageSize" @on-change="changePages"/>
         </div>
       </div>

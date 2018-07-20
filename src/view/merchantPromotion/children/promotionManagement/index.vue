@@ -5,7 +5,7 @@
       <span class="fs-18 cl666 ml-10">成员管理</span>
     </div>
     <div class="tab-area clear">
-      <div class="tab" v-for="(tab,index) in tabs" :key="index" @click="currentTab = tab" :class="[{active:currentTab.id === tab.id}]">{{tab.name}}</div>
+      <div class="tab" v-for="(tab,index) in tabs" :key="index" @click="currentTab = tab" :class="{active : currentTab.id === tab.id}">{{tab.name}}</div>
     </div>
     <div class="pl-10 pr-10">
       <component :is="currentTab.component"></component>
