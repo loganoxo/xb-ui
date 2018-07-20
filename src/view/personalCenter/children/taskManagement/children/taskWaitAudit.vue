@@ -175,7 +175,7 @@
           <p>淘气值：{{blackListInfo.tqz}}</p>
         </div>
       </div>
-      <table class="width-ptc-100 text-ct lht30 mt-10 border-ddd">
+      <table class="width-pct-100 text-ct lht30 mt-10 border-ddd">
         <thead class="bg-ddd">
         <tr>
           <th>拉黑原因</th>

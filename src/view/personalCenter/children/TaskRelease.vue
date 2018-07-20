@@ -230,12 +230,10 @@
                 </div>
               </upload>
               <span class="left mt-20 ml-5 sizeColor2">（请上传文案所在位置截图）</span>
-              <i-button :disabled="browseAnswer.length > 2 || !allAnswerIsOk" class="ml-20 left mt-12" type="dashed"
-                        icon="plus-round" @click="addAnswer" v-show="index === 0">添加
+              <i-button :disabled="browseAnswer.length > 2 || !allAnswerIsOk" class="ml-20 left mt-12" type="dashed" icon="plus-round" @click="addAnswer" v-show="index === 0">添加
               </i-button>
-              <i-button class="ml-20 left mt-12" type="dashed" icon="minus-round" @click="deleteAnswer(index)"
-                        v-show="index > 0">删除
-              </i-button>
+              <i-button class="ml-20 left mt-12" type="dashed" icon="minus-round" @click="deleteAnswer(index)" v-show="index > 0">删除
+            </i-button>
               <!--<span v-show="isShowAnswerTip" class="ml-20 main-color"><Icon color="#f9284f" type="information-circled" class="mr-5"></Icon>浏览答题文案字数不能超过8个字</span>-->
               <span class="blue cursor-p ml-5 left mt-17" @click="changeExampleImageUrl('answer')">【查看示例图】</span>
             </div>
@@ -1008,16 +1006,16 @@
             <div class="activity-info-title">拿手审批条件设置</div>
             <div class="sizeColor2 ml-20 mt-10">说明：该活动有名额为系统审批，此处标签设置后，系统将按此条件审批拿手。过多限制可能造成展示量/申请量下降，请综合考虑。</div>
             <div class="mt-20 ml-20 mb-20">
-              <span class="mr-10">拿手旺旺标签设置：</span>
+              <span>拿手旺旺标签设置：</span>
               <checkbox>需要</checkbox>
-              <img src="~assets/img/common/vip.png" alt="vipLogo">
+              <img src="~assets/img/common/vip.png" alt="vipLogo"/>
             </div>
             <div class="mt-20 ml-20">
-              <span class="mr-10">旺旺等级需求：</span>
-              <i-select v-model="showkerTask.creditLevel" class="width-100">
+              <span>旺旺等级需求：</span>
+              <i-select v-model="showkerCondition.creditLevel" class="width-150">
                 <i-option v-for="(item, index) in aliLevelImageList" :label='item.label' :value="item.value" :key="item.value">
                   <span v-show="index === 0">{{item.text}}</span>
-                  <img v-show="index !== 0" :src="item.text" alt="旺旺等级">
+                  <img v-show="index !== 0" :src="item.text" alt="旺旺等级"/>
                 </i-option>
               </i-select>
             </div>
@@ -1026,10 +1024,60 @@
               <span class="sizeColor2">勾选以下“<span class="main-color">不想要</span>”的地区</span>
             </div>
             <div class="ml-80 mr-80">
-              <checkbox class="mr-30 mt-10" v-for="(item, index) in regionRequireList" :key="index">{{item}}</checkbox>
+              <checkbox-group v-model="showkerCondition.regionalRequire">
+                <checkbox class="mr-30 mt-10" v-for="(item, index) in regionRequireList" :label="item" :key="index">{{item}}</checkbox>
+              </checkbox-group>
             </div>
             <div class="mt-20 ml-20">
-
+              <span>性别要求：</span>
+              <radio-group v-model="showkerCondition.gender">
+                <radio label="all">无所谓</radio>
+                <radio label="man">男</radio>
+                <radio label="woman">女</radio>
+              </radio-group>
+            </div>
+            <div class="mt-20 ml-20">
+              <span>年龄要求：</span>
+              <checkbox-group class="inline-block" v-model="showkerCondition.age">
+                <checkbox label="18-25">18-25</checkbox>
+                <checkbox label="26-35">26-35</checkbox>
+                <checkbox label="35-">35及以上</checkbox>
+              </checkbox-group>
+            </div>
+            <div class="mt-20 ml-20 clear">
+              <span class="left">审批时间/份数要求：</span>
+              <div class="inline-block left">
+                <div class="sizeColor2">（需将系统审批名额全部设置完成，若有剩余名额未设置，则由系统自由审批。系统名额剩余数：<span class="main-color">{{systemApprovalTaskNumber}}</span>）</div>
+                <div class="clear border-ddd border-radius-5 mt-10 width-600">
+                  <div class="pt-10 pb-10">
+                    <div class="inline-block width-pct-20 text-ct">日期</div>
+                    <div class="inline-block width-pct-39 text-ct">
+                      <span>时段</span>
+                      <tooltip content="请尽量扩大时间范围，提高任务成功率" placement="top"><icon class="cursor-p" type="help-circled"/></tooltip>
+                    </div>
+                    <div class="inline-block width-pct-39 text-ct">
+                      <span>最多可审批数</span>
+                      <tooltip content="系统审批不会超出设定份数但可能少于该份数" placement="top"><icon class="cursor-p" type="help-circled"/></tooltip>
+                    </div>
+                  </div>
+                  <div class="border-top pt-10 pb-10" v-for="(item, index) in showkerCondition.approvalRequire" :key="index">
+                    <div class="inline-block width-pct-20 text-ct">
+                      <datePicker :value="datePickerValue" :options="datePickerOptions" type="date" placeholder="请选择日期" class="width-100"/>
+                    </div>
+                    <div class="inline-block width-pct-39 text-ct">
+                      <input-number v-model.number="item.startTime" :min="inputNumberMin" :max="23" :step="1"/>
+                      <span>点-</span>
+                      <input-number v-model.number="item.endTime" :min="inputNumberMin + 1" :max="24" :step="1"/>
+                      <span>点</span>
+                    </div>
+                    <div class="inline-block width-pct-39 text-ct">
+                      <i-input v-model.number="item.approvalNum" placeholder="请输入审批数" class="width-100"/>
+                      <i-button class="ml-10" size="small" type="dashed" icon="plus-round" @click="addTimeBucket" v-show="index === showkerCondition.approvalRequire.length - 1">添加时间段</i-button>
+                      <i-button class="ml-10" size="small" type="dashed" icon="minus-round" @click="deleteTimeBucket(index)" v-show="index !== showkerCondition.approvalRequire.length - 1">删除时间段</i-button>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
           </template>
         </div>
@@ -1262,7 +1310,7 @@
 </template>
 
 <script>
-  import {Icon, Input, Checkbox, Button, Radio, Modal, Alert, Select, Option, OptionGroup, Tooltip} from 'iview'
+  import {Icon, Input, Checkbox, Button, Radio, Modal, Alert, Select, Option, OptionGroup, Tooltip, DatePicker, InputNumber } from 'iview'
   import {Quill, quillEditor} from 'vue-quill-editor'
   import Upload from '@/components/Upload'
   import PayModel from '@/components/PayModel'
@@ -1270,7 +1318,7 @@
   import QQBindModal from '@/components/QQBindModal'
   import api from '@/config/apiConfig'
   import {aliCallbackImgUrl} from '@/config/env'
-  import {aliUploadImg, isPositiveInteger, isNumber, isInteger, isAliUrl, randomString, extendDeep, decode, setStorage, getStorage, getUrlParams, isInternetUrl} from '@/config/utils'
+  import {aliUploadImg, isPositiveInteger, isNumber, isInteger, isAliUrl, randomString, extendDeep, decode, setStorage, getStorage, getUrlParams, isInternetUrl, getSeverTime} from '@/config/utils'
   export default {
     name: 'task-release',
     components: {
@@ -1291,6 +1339,8 @@
       Tooltip: Tooltip,
       PayModel: PayModel,
       UserClause: UserClause,
+      DatePicker: DatePicker,
+      InputNumber: InputNumber,
       QqBindModal: QQBindModal,
     },
     data() {
@@ -1576,10 +1626,29 @@
         regionRequireList: [
           '新疆','西藏','甘肃','宁夏','青海','内蒙古','上海','江苏'
           ,'浙江','安徽','江西','北京','天津','山西','山东','河北'
-          ,'四川','湖南'
+          ,'四川','湖南','湖北','河南','广东','广西','福建','海南','辽宁'
+          ,'吉林','黑龙江','陕西','重庆','云南','贵州','台湾','香港','澳门',
         ],
-        showkerTask: {
-          creditLevel: null
+        datePickerValue: `${new Date(getSeverTime()).getFullYear()}-${new Date(getSeverTime()).getMonth() + 1}-${new Date(getSeverTime()).getDate()}`,
+        datePickerOptions: {
+          disabledDate(date) {
+            return date && date.valueOf() < getSeverTime() - 86400000
+          }
+        },
+        inputNumberMin: new Date(getSeverTime()).getHours(),
+        showkerCondition: {
+          creditLevel: null,
+          regionalRequire: [],
+          gender: 'all',
+          age: [],
+          approvalRequire: [
+            {
+              date: null,
+              startTime: new Date(getSeverTime()).getHours(),
+              endTime: 24,
+              approvalNum: null
+            }
+          ]
         }
       }
     },
@@ -1898,7 +1967,7 @@
        * @return {number}
        */
       systemApprovalTaskNumber() {
-        return Math.round(this.taskRelease.taskCount * 0.2)
+        return this.taskRelease.taskCount > 0 ? Math.round(this.taskRelease.taskCount * 0.2) : 0
       },
 
       /**
@@ -3172,7 +3241,7 @@
         const type = _this.taskRelease.taskType;
         let initialValue = this.taskRelease.taskCount > 0 ? 1 : null;
         _this.keywordLowerChangeModel = false;
-        if (type === 'pc_search'){
+        if (type === 'pc_search') {
           _this.pcTaskDetail = [
             {
               index: 0,
@@ -3192,7 +3261,7 @@
           _this.addKeywordScheme = 0;
           _this.selectKeywordScheme = 0;
         }
-        if (type === 'app_search'){
+        if (type === 'app_search') {
           _this.appTaskDetail = [
             {
               index: 0,
@@ -3232,7 +3301,7 @@
         }
       },
       addShopAroundList() {
-        // 深度复制数组，防止每次取到的数据在内存中指向同一地址造成数据监听异常
+        // 深度复制对象，防止数据对象共享
         const copy = extendDeep(this.originalVasMainItem, []);
         this.vasSimilarItem.push(copy);
       },
@@ -3254,6 +3323,17 @@
           this.upgradeMembershipModal = true
         }
       },
+      addTimeBucket() {
+        this.showkerCondition.approvalRequire.push({
+          date: null,
+          startTime: new Date(getSeverTime()).getHours(),
+          endTime: 24,
+          approvalNum: null
+        })
+      },
+      deleteTimeBucket(index) {
+        this.showkerCondition.approvalRequire.splice(index, 1)
+      }
     },
   }
 </script>
@@ -3355,6 +3435,8 @@
 
     .activity-con {
       border: 1px solid #F5F5F5;
+      padding-bottom: 20px;
+      border-radius: 5px;
     }
 
     .activity-info-title {
@@ -3569,6 +3651,7 @@
       }
     }
     .pop-tip {
+      position: relative;
       height: 40px;
       line-height: 40px;
       background-color: #F8F8F8;
@@ -3577,7 +3660,7 @@
       padding-left: 12px;
       border: 1px solid #ddd;
       margin-top: 18px;
-      position: relative;
+      border-radius: 5px;
     }
     .pop-tip-arrow {
       top: -18px;
@@ -3697,9 +3780,11 @@
         padding-left: 6px;
         font-size: 14px;
         color: #000;
+        border-radius: 5px 5px 0 0;
       }
       .baby-info-present-con {
         border: 2px solid #ddd;
+        border-radius: 0 0 5px 5px;
       }
     }
 
@@ -3758,9 +3843,10 @@
     }
 
     .keyword-plan {
-      margin: 20px;
+      margin: 20px 16px;
       border: 2px solid #ddd;
       padding-bottom: 20px;
+      border-radius: 5px;
     }
 
     .keyword-plan-tip {
