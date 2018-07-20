@@ -17,7 +17,7 @@
             <div>成员层级</div>
             <div>加入时间</div>
             <div v-if="!isChildrenList">TA的上级</div>
-            <div>TA的推荐（人）</div>
+            <div>TA的下级（人）</div>
             <div>TA的贡献</div>
             <div></div>
           </li>
@@ -47,7 +47,7 @@
             <div>成员层级</div>
             <div>加入时间</div>
             <div v-if="!isChildrenList">TA的上级</div>
-            <div>TA的推荐（人）</div>
+            <div>TA的下级（人）</div>
             <div>TA的贡献</div>
             <div></div>
           </li>
@@ -76,7 +76,7 @@
             <div>成员名称</div>
             <div>成员层级</div>
             <div>脱离时间</div>
-            <div>TA的推荐（人）</div>
+            <div>TA的下级（人）</div>
             <div>TA的贡献</div>
           </li>
           <li v-for="member in memberList" :key="member.id">

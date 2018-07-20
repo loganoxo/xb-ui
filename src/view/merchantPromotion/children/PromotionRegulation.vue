@@ -29,7 +29,7 @@
         </div>
         <div class="mt-40 cl000">
           <h3 class="fs-16 f-b mt-30">奖励是如何发放的呢？</h3>
-          <p class="fs-14">奖励以现金的方式存入到你的“赚点钱儿”账户中，该账户可直接体现，也可以转入余额。</p>
+          <p class="fs-14">奖励以现金的方式存入到你的“赚点钱儿”账户中，该账户可直接提现，也可以转入余额。</p>
           <h3 class="fs-16 f-b mt-30">什么是普通推荐者？什么是代理商？</h3>
           <p class="fs-14">成功推荐商家数小于30人为普通推荐者，成功推荐商家数大于30人即成为代理商</p>
           <h3 class="fs-16 f-b mt-30">N级下家（非代理商）的消费提成是怎么计算的？</h3>
@@ -91,16 +91,17 @@
     computed: {
       //被邀请人首单奖励
       firstTaskReward() {
-        return this.$store.state.sysConfigInfo.sellerInvitationRewardFirstTaskFather.configValue
+        return this.$store.getters.getSysConfigValue('sellerInvitationRewardFirstTaskFather')
       },
       // 子级消费提成
       fatherRewardPercent() {
-        return this.$store.state.sysConfigInfo.sellerInvitationRewardFatherPercent.configValue
+        return this.$store.getters.getSysConfigValue('sellerInvitationRewardFatherPercent')
       },
       // N级下家消费提成
       foreFatherRewardPercent() {
-        return this.$store.state.sysConfigInfo.sellerInvitationRewardForefatherPercent.configValue
-      }
+        return this.$store.getters.getSysConfigValue('sellerInvitationRewardForefatherPercent')
+      },
+
     },
     created() {
       const _this = this;
