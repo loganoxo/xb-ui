@@ -1011,12 +1011,19 @@
               <img src="~assets/img/common/vip.png" alt="vipLogo"/>
             </div>
             <div class="mt-20 ml-20">
-              <span>旺旺等级需求：</span>
+              <span>旺旺等级要求：</span>
               <i-select v-model="showkerCondition.creditLevel" class="width-150">
-                <i-option v-for="(item, index) in aliLevelImageList" :label='item.label' :value="item.value" :key="item.value">
+                <i-option v-for="(item, index) in aliLevelList" :label='item.label' :value="item.value" :key="item.value">
                   <span v-show="index === 0">{{item.text}}</span>
                   <img v-show="index !== 0" :src="item.text" alt="旺旺等级"/>
                 </i-option>
+              </i-select>
+              <span class="ml-4" v-show="parseInt(showkerCondition.creditLevel) > 0">及以上</span>
+            </div>
+            <div class="mt-20 ml-20">
+              <span>淘气值要求：</span>
+              <i-select v-model="showkerCondition.tqz" class="width-150">
+                <i-option v-for="item in aliTqzList" :label='item.label' :value="item.value" :key="item.value">{{item.label}}</i-option>
               </i-select>
             </div>
             <div class="mt-20 ml-20">
@@ -1043,6 +1050,22 @@
                 <checkbox label="26-35">26-35</checkbox>
                 <checkbox label="35-">35及以上</checkbox>
               </checkbox-group>
+            </div>
+            <div class="mt-20 ml-20 mb-20">
+              <span>是否开通花呗：</span>
+              <checkbox v-model="showkerCondition.huaPay">需要</checkbox>
+              <span class="sizeColor2">（指开通了花呗的旺旺号）</span>
+            </div>
+            <div class="mt-20 ml-20 mb-20 clear">
+              <span class="left">平台常申请类目：</span>
+              <div class="inline-block left">
+                <div class="sizeColor2">类目最少选择4个</div>
+                <div class="mt-10">
+                  <checkbox-group class="inline-block" v-model="showkerCondition.categories">
+                    <checkbox class="mr-15" v-for="item in commodityCategoriesList" :key="item.id" :label="item.id">{{item.name}}</checkbox>
+                  </checkbox-group>
+                </div>
+              </div>
             </div>
             <div class="mt-20 ml-20 clear">
               <span class="left">审批时间/份数要求：</span>
@@ -1319,6 +1342,7 @@
   import api from '@/config/apiConfig'
   import {aliCallbackImgUrl} from '@/config/env'
   import {aliUploadImg, isPositiveInteger, isNumber, isInteger, isAliUrl, randomString, extendDeep, decode, setStorage, getStorage, getUrlParams, isInternetUrl, getSeverTime} from '@/config/utils'
+  import commonConfig from '@/config/commonConfig'
   export default {
     name: 'task-release',
     components: {
@@ -1546,83 +1570,8 @@
         redEnvelopeDeductionNumber: 0,
         residualMatchNumber: 0,
         isMatchNumberOk: true,
-        aliLevelImageList: [
-          {
-            value: "''",
-            text: '不限',
-            label: '不限'
-          },
-          {
-            value: 2,
-            text: 'https://img.alicdn.com/newrank/b_red_2.gif',
-            label: '2心起'
-          },
-          {
-            value: 3,
-            text: 'https://img.alicdn.com/newrank/b_red_3.gif',
-            label: '3心起'
-          },
-          {
-            value: 4,
-            text: 'https://img.alicdn.com/newrank/b_red_4.gif',
-            label: '4心起'
-          },
-          {
-            value: 5,
-            text: 'https://img.alicdn.com/newrank/b_red_5.gif',
-            label: '5心起'
-          },
-          {
-            value: 6,
-            text: 'https://img.alicdn.com/newrank/b_blue_1.gif',
-            label: '1钻起'
-          },
-          {
-            value: 7,
-            text: 'https://img.alicdn.com/newrank/b_blue_2.gif',
-            label: '2钻起'
-          },
-          {
-            value: 8,
-            text: 'https://img.alicdn.com/newrank/b_blue_3.gif',
-            label: '3钻起'
-          },
-          {
-            value: 9,
-            text: 'https://img.alicdn.com/newrank/b_blue_4.gif',
-            label: '4钻起'
-          },
-          {
-            value: 10,
-            text: 'https://img.alicdn.com/newrank/b_blue_5.gif',
-            label: '5钻起'
-          },
-          {
-            value: 11,
-            text: 'https://img.alicdn.com/newrank/s_crown_1.gif',
-            label: '1皇冠起'
-          },
-          {
-            value: 12,
-            text: 'https://img.alicdn.com/newrank/s_crown_2.gif',
-            label: '2皇冠起'
-          },
-          {
-            value: 13,
-            text: 'https://img.alicdn.com/newrank/s_crown_3.gif',
-            label: '3皇冠起'
-          },
-          {
-            value: 14,
-            text: 'https://img.alicdn.com/newrank/s_crown_4.gif',
-            label: '4皇冠起'
-          },
-          {
-            value: 15,
-            text: 'https://img.alicdn.com/newrank/s_crown_5.gif',
-            label: '5皇冠起'
-          },
-        ],
+        aliLevelList: commonConfig.aliLevelList,
+        aliTqzList: commonConfig.aliTqzList,
         regionRequireList: [
           '新疆','西藏','甘肃','宁夏','青海','内蒙古','上海','江苏'
           ,'浙江','安徽','江西','北京','天津','山西','山东','河北'
@@ -1638,9 +1587,12 @@
         inputNumberMin: new Date(getSeverTime()).getHours(),
         showkerCondition: {
           creditLevel: null,
+          tqz: null,
           regionalRequire: [],
           gender: 'all',
+          huaPay: false,
           age: [],
+          categories: [],
           approvalRequire: [
             {
               date: null,
@@ -2047,6 +1999,14 @@
       getTaskCreateFastStatus() {
         return this.$store.state.taskCreateFastStatus
       },
+
+      /**
+       * 获取平台宝贝类目列表
+       * @return {array}
+       */
+      commodityCategoriesList() {
+        return this.$store.getters.getCommodityCategoriesList
+      }
 
     },
     methods: {

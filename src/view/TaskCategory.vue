@@ -8,7 +8,7 @@
             <Breadcrumb-item>白拿拿</Breadcrumb-item>
             <Breadcrumb-item v-if="$route.query.searchAll">全部活动</Breadcrumb-item>
             <Breadcrumb-item v-if="$route.query.searchKey">搜索结果</Breadcrumb-item>
-            <Breadcrumb-item v-if="$route.query.activityCategory">{{$store.state.TaskCategoryActiveList[$store.state.activityCategory].text}}</Breadcrumb-item>
+            <Breadcrumb-item v-if="$route.query.activityCategory">{{taskCategoryActiveList[$store.state.activityCategory].text}}</Breadcrumb-item>
             <Breadcrumb-item v-if="$route.query.cate">{{parentItemCatalog.name}}</Breadcrumb-item>
           </Breadcrumb>
         </div>
@@ -16,11 +16,10 @@
 
       <div class="container" >
         <div v-show="!$route.query.searchKey" class="task-category-sel">
-          <span v-if="$route.query.activityCategory">{{$store.state.TaskCategoryActiveList[$store.state.activityCategory].text}}：</span>
+          <span v-if="$route.query.activityCategory">{{taskCategoryActiveList[$store.state.activityCategory].text}}：</span>
           <span v-if="!$route.query.activityCategory">宝贝类型：</span>
           <a :class="[!$route.query.cate ? 'active' : '']" @click="selTaskCategoryAllFunc">全部活动</a>
-          <a v-if="nav.id !== 600 && !isLogin" :class="[($route.query.cate === nav.id || parentItemCatalog.id === nav.id) && $route.query.cate ? 'active' : '']" @click="selTaskCategoryActiveFunc(nav)" v-for="nav in navList" >{{nav.name}}</a>
-          <a v-if="isLogin" :class="[($route.query.cate === nav.id || parentItemCatalog.id === nav.id) && $route.query.cate ? 'active' : '']" @click="selTaskCategoryActiveFunc(nav)" v-for="nav in navList" >{{nav.name}}</a>
+          <a :class="[($route.query.cate === nav.id || parentItemCatalog.id === nav.id) && $route.query.cate ? 'active' : '']" @click="selTaskCategoryActiveFunc(nav)" v-for="nav in commodityCategoriesList" >{{nav.name}}</a>
         </div>
         <div v-show="$route.query.searchKey">
           <div class="task-category-sel">
@@ -42,34 +41,30 @@
             折扣类型：
             <a v-for="(k,discountPrice) in $store.state.discountPriceType" :class="[discountTaskCategoryActive === discountPrice ? 'active' : '' ]" @click="selDiscountPriceTypeFunc(k,discountPrice)">{{discountPrice}}试用</a>
           </div>
-          <div v-if=" $store.state.TaskCategoryActive === 'goods_clearance'" class="task-category-sel" >
-            折扣类型：
-            <a v-for="(k,discountPrice) in $store.state.goodsClearanceList" :class="[discountTaskCategoryActive === discountPrice ? 'active' : '' ]" @click="selDiscountPriceTypeFunc(k,discountPrice)">{{discountPrice}}清仓</a>
-          </div>
         </div>
         <div v-if="!$route.query.activityCategory || $route.query.categroyId || $route.query.categroy" class="task-category-sel">
           <span>活动类型：</span>
-          <a :class="[category === k ? 'active' : '']"  v-for="(TaskCategoryCate,k) in $store.state.TaskCategoryActiveList" v-if="k != 'pinkage_for_10' && k != 'price_low'" @click="selTaskDefaultFunc(k)">{{TaskCategoryCate.text}}</a>
+          <a :class="[category === k ? 'active' : '']"  v-for="(TaskCategoryCate,k) in taskCategoryActiveList" v-if="k != 'pinkage_for_10' && k != 'price_low'" @click="selTaskDefaultFunc(k)">{{TaskCategoryCate.text}}</a>
         </div>
       </div>
       <div class="container">
         <div class="task-category-sort">
           <div class="clear">
-            <Button-group size="small" class="left mt-10">
-              <iButton :class="[sortFieldDefault.name === sortField.name ? 'active' : '']" v-for="(sortField,index) in sortFieldList" :key="sortField.name" @click="getSortFieldFunc(sortField, index)">
+            <button-group size="small" class="left mt-10">
+              <i-button :class="[sortFieldDefault.name === sortField.name ? 'active' : '']" v-for="(sortField,index) in sortFieldList" :key="sortField.name" @click="getSortFieldFunc(sortField, index)">
                 {{sortField.name}}
-                <Icon v-show="sortField.sort === 'desc' " type="arrow-down-c"></Icon>
-                <Icon v-show="sortField.sort === 'asc' " type="arrow-up-c"></Icon>
-              </iButton>
-            </Button-group>
-            <Page class="right"
+                <icon v-show="sortField.sort === 'desc' " type="arrow-down-c"/>
+                <icon v-show="sortField.sort === 'asc' " type="arrow-up-c"/>
+              </i-button>
+            </button-group>
+            <page class="right"
                   :current="searchTaskParams.pageIndex"
                   :total="pageCount"
                   :page-size = searchTaskParams.pageSize
                   @on-change = pageChange
                   simple
                   size="small"
-            ></Page>
+            />
             <p class="right">
               共<span class=""> {{pageCount}} </span>件商品&nbsp;&nbsp;&nbsp;</p>
           </div>
@@ -148,13 +143,13 @@
             <p class="text-ct" v-show="searchTaskList.length <= 0">暂无数据</p>
           </div>
           <div class="task-category-commodity-page" v-show="searchTaskList.length > 0" >
-            <Page
+            <page
               :current="searchTaskParams.pageIndex"
               :total= pageCount
               :page-size = searchTaskParams.pageSize
               @on-change = pageChange
               show-elevator
-            ></Page>
+            />
           </div>
         </div>
       </div>
@@ -228,13 +223,13 @@
             <p class="text-ct" v-show="historyTaskList.length <= 0">暂无数据</p>
           </div>
           <div class="task-category-commodity-page" v-show="historyTaskList.length > 0" >
-            <Page
+            <page
               :current="historyTaskListParams.pageIndex"
               :total= "historyTaskListTotal"
               :page-size = "historyTaskListParams.pageSize"
               @on-change = historyPageChange
               show-elevator
-            ></Page>
+            />
           </div>
         </div>
       </div>
@@ -250,11 +245,12 @@
 <script>
   import {Icon, Form, Input, Checkbox, Button, Radio, Modal, Breadcrumb, Tooltip} from 'iview'
   import {setStorage, getStorage, encryption, removeStorage} from '@/config/utils'
+  import commonConfig from '@/config/commonConfig'
   import api from '@/config/apiConfig'
   import Page from 'iview/src/components/page'
   import TimeDown from '@/components/TimeDown'
   export default {
-    name: 'TaskCategory',
+    name: 'task-category',
     components: {
       iInput: Input,
       iForm: Form,
@@ -287,7 +283,6 @@
           'discount_r_50': true,
         },
         discountTaskCategoryActive: '不限',
-        navList: [],
         pageCount: 1,
         historyTaskListTotal: 1,
         categoryList: [],
@@ -356,12 +351,12 @@
           itemCatalogs: [],
           sortField: 'endTime',
         },
+        taskCategoryActiveList: commonConfig.taskCategoryActiveList,
         uplineTime: 1529933400000
       }
     },
     created(){
-      let self = this;
-      self.searchInit()
+      this.searchInit()
     },
     computed: {
       isLogin() {
@@ -375,6 +370,9 @@
       },
       getUserRole() {
         return this.$store.getters.getUserRole
+      },
+      commodityCategoriesList() {
+        return this.$store.getters.getCommodityCategoriesList
       }
     },
     methods: {
@@ -439,7 +437,6 @@
       searchInit(){
         let self = this;
         self.selSearchTaskParamsFunc();
-        self.getNavList();
       },
       selSearchTaskParamsFunc(){
         let self = this;
@@ -557,22 +554,6 @@
         self.discountTaskCategoryActive = discountPrice;
         self.getSearchTask();
         self.getSearchHistoryTask()
-      },
-      getNavList(){
-        let self = this;
-        api.getNavList().then((res) =>{
-          if(res.status){
-            res.data.sort(function(a,b){
-              return a.sortIndex-b.sortIndex
-            });
-            self.navList = res.data;
-          }else {
-            self.$Message.error({
-              content: res.msg,
-              duration: 9
-            });
-          }
-        })
       },
       getSortFieldFunc(sortField,index){
         if(this.sortFieldDefault.name === sortField.name){

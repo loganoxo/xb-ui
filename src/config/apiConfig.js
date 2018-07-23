@@ -187,9 +187,9 @@ export default {
   },
 
   /**
-   * 首页导航列表
+   * 平台宝贝类目列表
    */
-  getNavList() {
+  getCommodityCategories() {
     return axiosConfig.post("/api/task/item/catalog/main.json")
   },
 

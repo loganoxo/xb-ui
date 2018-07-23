@@ -120,5 +120,16 @@ export default {
   // 从sysConfigInfo中提取客服QQ信息
   getSellerCustomerQq: state => {
     return Object.keys(state.sysConfigInfo).length > 0 ? state.sysConfigInfo.sellerCustomerQq : {}
+  },
+
+  // 根据用户登陆状态过滤宝贝类目列表
+  getCommodityCategoriesList: state => {
+    if (state.login) {
+      return state.commodityCategoriesList
+    } else {
+      return state.commodityCategoriesList.filter(item => {
+        return item.id !== 600
+      })
+    }
   }
 }

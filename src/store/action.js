@@ -4,7 +4,7 @@
 import api from '@/config/apiConfig'
 
 export default {
-  //用户退出登录
+  // 用户退出登录操作
   loggedOut({commit}) {
     return new Promise((resolve, reject) => {
       api.loggedOut().then(res => {
@@ -18,7 +18,7 @@ export default {
     })
   },
 
-  //用户登录后按需重新获取用户信息
+  // 用户登录后按需重新获取用户信息
   getUserInformation({commit}) {
     return new Promise((resolve, reject) => {
       api.getUserAccount({
@@ -39,7 +39,7 @@ export default {
     });
   },
 
-  //获取商家发布任务情况
+  // 获取商家发布任务情况
   getSellerTaskInfo({commit}) {
     return new Promise((resolve, reject) => {
       api.sellerPersonalTrialCount().then(res => {
@@ -51,7 +51,7 @@ export default {
     })
   },
 
-  //获取商家任务管理活动数量信息
+  // 获取商家任务管理活动数量信息
   getPersonalTrialCount({commit}) {
     api.sellerPersonalTrialCount().then(res => {
       if (res.status) {
@@ -65,7 +65,7 @@ export default {
     })
   },
 
-  //获取系统配置信息
+  // 获取系统配置信息
   getSysConfigInfo({commit}) {
     api.getSysConfigInfo().then((res) => {
       if (res.status && res.data) {
@@ -79,7 +79,7 @@ export default {
     })
   },
 
-  //获取商家用户是否有首发资格
+  // 获取商家用户是否有首发资格
   getTaskCreateFastStatus({commit}) {
     return new Promise((resolve, reject) => {
       api.taskCreateFastStatus().then(res => {
@@ -91,4 +91,18 @@ export default {
       })
     })
   },
+
+  // 获取平台宝贝类目列表
+  getCommodityCategoriesList({commit}) {
+    api.getCommodityCategories().then(res => {
+      if (res.status) {
+        const list = res.data.sort((a, b) => {
+          return a.sortIndex - b.sortIndex
+        });
+        commit('COMMODITY_CATEGORIES_LIST', {list: list})
+      } else {
+        console.error('获取平台宝贝类目列表错误：', res.msg)
+      }
+    })
+  }
 }

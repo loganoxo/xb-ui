@@ -27,21 +27,20 @@
     <div class="home-nav">
       <div class="container">
         <div class="top-category">
-          <p class=" text-ct">
+          <p class="cursor-p text-ct">
             <icon type="navicon" size="20" class="mt" style="margin-top: 2px"/>
             <span class="ml-5">宝贝类目</span>
           </p>
           <ul class="top-category-list" v-if="$store.state.showTopCategoryRes">
-            <li v-if="nav.id !== 600 && !isLogin" :class="[TaskCategoryActive === nav.id ? 'active' : '']" @click="selTaskCategoryActiveFunc(nav)" v-for="nav in navList" >
-              <img width="16" height="16" :src="nvaImgSrc[nav.id]" class="vtc-mid"/>
-              <span class="ml-5">{{nav.name}}</span>
+            <li v-for="item in commodityCategoriesList" :key="item.id"
+                :class="[taskCategoryActive === item.id ? 'active' : '']"
+                :style="{padding: isLogin ? '4px 0' : '6px 0'}"
+                @click="selTaskCategoryActiveFunc(item)">
+              <img width="16" height="16" :src="nvaImgSrc[item.id]">
+              <span class="ml-5">{{item.name}}</span>
             </li>
-            <li v-if="isLogin" :class="[TaskCategoryActive === nav.id ? 'active' : '']" @click="selTaskCategoryActiveFunc(nav)" v-for="nav in navList" style="padding: 4px 0">
-              <img width="16" height="16" :src="nvaImgSrc[nav.id]" class="vtc-mid"/>
-              <span class="ml-5">{{nav.name}}</span>
-            </li>
-            <li :class="[TaskCategoryActive === 'all' ? 'active' : '']" @click="selTaskCategoryAllFunc">
-              <img width="16" height="16"  src="/static/img/nav-picture/home_26.png" class="vtc-mid"/>
+            <li :class="[taskCategoryActive === 'all' ? 'active' : '']" @click="selTaskCategoryAllFunc">
+              <img src="/static/img/nav-picture/home_26.png" width="16" height="16">
               <span class="ml-5">全部活动</span>
             </li>
           </ul>
@@ -49,7 +48,7 @@
         <div class="home-nav-list clear">
           <a :class="[activityCategory === 'home' ? 'active' : '']" @click="selTaskCategoryHome">首页</a>
           <a :class="[activityCategory === 'free_get' ? 'active' : '']" @click="selTaskCategoryFunc('free_get')" >
-            <tooltip :content="TaskCategoryActiveList['free_get'].desc" placement="bottom">
+            <tooltip :content="taskCategoryActiveList['free_get'].desc" placement="bottom">
               免费领
             </tooltip>
           </a>
@@ -57,7 +56,7 @@
             <i style="position: absolute; top: -16px; left: 13px;">
               <img src="/static/img/icon/giveaway.gif" alt="" >
             </i>
-            <tooltip :content="TaskCategoryActiveList['present_get'].desc" placement="bottom">
+            <tooltip :content="taskCategoryActiveList['present_get'].desc" placement="bottom">
               体验专区
             </tooltip>
           </a>
@@ -80,6 +79,7 @@
 <script>
   import {Tooltip, Button, Icon} from 'iview'
   import TopTip from '@/components/TopTip'
+  import commonConfig from '@/config/commonConfig'
   import api from '@/config/apiConfig'
   export default {
     name: 'top',
@@ -105,11 +105,10 @@
           900: '/static/img/nav-picture/home_25.png',
           1000: '/static/img/nav-picture/home_27.png',
         },
+        taskCategoryActiveList: commonConfig.taskCategoryActiveList
       }
     },
-    created(){
-     this.getNavList();
-    },
+    created(){},
     computed: {
       isLogin() {
         return this.$store.state.login
@@ -117,15 +116,15 @@
       getUserInfoRole() {
         return this.$store.getters.getUserRole
       },
-      TaskCategoryActive() {
+      taskCategoryActive() {
         return this.$store.state.TaskCategoryActive
       },
       activityCategory() {
         return this.$store.state.activityCategory
       },
-      TaskCategoryActiveList() {
-        return this.$store.state.TaskCategoryActiveList
-      },
+      commodityCategoriesList() {
+        return this.$store.getters.getCommodityCategoriesList
+      }
     },
     methods: {
       linkToBuyerShow(activityCategory){
@@ -183,22 +182,6 @@
           type: 'TASK_CATEGORY_LIST',
           info: 'all',
         });
-      },
-      getNavList(){
-        let self = this;
-        api.getNavList().then((res) =>{
-          if(res.status){
-            res.data.sort(function(a,b){
-              return a.sortIndex-b.sortIndex
-            });
-            self.navList = res.data;
-          }else {
-            self.$Message.error({
-              content: res.msg,
-              duration: 9
-            });
-          }
-        })
       },
       goKeyEnterFunc(ev){
         if(ev.keyCode === 13){

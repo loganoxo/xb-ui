@@ -7,7 +7,7 @@
             <Breadcrumb-item>当前位置：</Breadcrumb-item>
             <Breadcrumb-item>白拿拿</Breadcrumb-item>
             <Breadcrumb-item v-if="commodityData.task.activityCategory">
-              {{$store.state.TaskCategoryActiveList[commodityData.task.activityCategory].text}}
+              {{taskCategoryActiveList[commodityData.task.activityCategory].text}}
             </Breadcrumb-item>
             <Breadcrumb-item>{{commodityData.task.itemCatalog.parentItemCatalog.name}}</Breadcrumb-item>
             <Breadcrumb-item>{{commodityData.task.itemCatalog.name}}</Breadcrumb-item>
@@ -30,21 +30,6 @@
                     style=" font-size:14px; padding: 0 4px; background: #ff9966; color: #fff; margin-left: 10px; display: inline-block;height: 20px;line-height: 20px;">10元包邮</span>
               <span v-if="commodityData.task.activityCategory === 'present_get'"
                     style="font-size:14px; padding: 0 4px; background: #00cc66; color: #ffffff; margin-left: 10px; display: inline-block;height: 20px;line-height: 20px;">体验专区</span>
-              <span v-if="commodityData.task.activityCategory === 'price_low' && commodityData.task.discountPrice"
-                    class=" clfff home-discount-price mt-5"
-                    :style="{backgroundColor: $store.state.discountPriceType[parseFloat(commodityData.task.discountPrice/100)].backgroundColor}">
-                    {{commodityData.task.discountPrice/100}}试用
-                  </span>
-              <span v-if="commodityData.task.activityCategory === 'price_low' && commodityData.task.discountRate"
-                    class=" clfff home-discount-price mt-5"
-                    :style="{backgroundColor: $store.state.discountPriceType[parseFloat(commodityData.task.discountRate/10) + '折'].backgroundColor}">
-                    {{commodityData.task.discountRate/10}}折试用
-                  </span>
-              <span v-if=" commodityData.task.activityCategory === 'goods_clearance' && commodityData.task.discountRate "
-                    class=" clfff home-discount-price mt-5"
-                    :style="{backgroundColor: $store.state.discountPriceType[parseFloat(commodityData.task.discountRate/10) + '折'].backgroundColor}">
-                    {{commodityData.task.discountRate/10}}折清仓
-                  </span>
               <span v-if="(commodityData.task.perVasFee || commodityData.task.promotionExpensesPaid && (uplineTime < commodityData.task.createTime))" class="fs-12 bg-main-color cl-fff pr-5 pl-5">
                 奖励{{computeVasReturnFee(commodityData.task.perVasFee,commodityData.task.systemVasFeeCommissionPercent,commodityData.task.activityCategory,commodityData.task.promotionExpensesPaid,commodityData.task.taskCount,commodityData.task.createTime)}}元
               </span>
@@ -281,7 +266,7 @@
                 <div v-html="commodityData.task.itemDescription"></div>
               </div>
             </div>
-            <div v-show="graphicInfoSelClass == 'report'" class="graphic-info-report">
+            <div v-show="graphicInfoSelClass === 'report'" class="graphic-info-report">
               <ul v-if="detailsShowkerList.length > 0">
                 <li v-for="detailsShowker in detailsShowkerList">
                   <div>
@@ -418,6 +403,7 @@
   import PlaceOrderStep from '@/components/PlaceOrderStep'
   import {setStorage, getStorage, getSeverTime, decode, encryption, taskErrorStatusList} from '@/config/utils'
   import {aliCallbackImgUrl} from '@/config/env'
+  import commonConfig from '@/config/commonConfig'
   import TimeDown from '@/components/TimeDown'
   import TaskApplyBefore from '@/components/TaskApplyBefore'
   import QQBindModal from '@/components/QQBindModal'
@@ -542,6 +528,7 @@
         isShowAddGroupTip: true,
         limit: false,
         isOpenQqBindModal: false,
+        taskCategoryActiveList: commonConfig.taskCategoryActiveList,
         uplineTime: 1529933400000
       }
     },

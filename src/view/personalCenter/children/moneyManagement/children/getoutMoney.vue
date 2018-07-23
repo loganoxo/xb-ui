@@ -13,57 +13,57 @@
     <!--</div>-->
     <div class="bound-bankcard" v-show="changeBankIdCardShow.isBondBankCard">
       <div class="bankcard-title">
-        <Icon class="icon vtc-btm" type="information-circled"></Icon>
+        <icon class="icon vtc-btm" type="information-circled"/>
         <span class="ml-10">请先绑定银行卡，再进行提现操作</span></div>
       <div class="addcard" @click="addBankCard">
-        <Icon class="icon" type="plus-circled"></Icon>
+        <icon class="icon" type="plus-circled"/>
         <p class="mt-10">添加银行卡</p>
       </div>
     </div>
     <div class="add-bankcard" v-show="changeBankIdCardShow.bondBankCard">
       <div class="title">
-        <Icon type="information-circled" class="icon ml-20 over-hd"></Icon>
+        <icon type="information-circled" class="icon ml-20 over-hd"/>
         <span>每个用户只能绑定一张银行卡，如需换卡建议修改银行卡信息</span>
       </div>
       <div class="ipt-information">
-        <iForm ref="formItem" :model="formItem" :label-width="200" :rules="formRuleItem">
-          <Form-item label="开户人姓名:" prop="name">
-            <iInput v-model="formItem.name"></iInput>
-          </Form-item>
-          <Form-item label="选择银行" prop="select">
-            <iSelect v-model="formItem.select" :filterable="true" style="width:300px;height: 32px">
-              <iOption v-for="(item,index) in bankList" :key="index" :value="item">{{item}}</iOption>
-            </iSelect>
+        <i-form ref="formItem" :model="formItem" :label-width="200" :rules="formRuleItem">
+          <form-item label="开户人姓名:" prop="name">
+            <i-input v-model="formItem.name"/>
+          </form-item>
+          <form-item label="选择银行" prop="select">
+            <i-select v-model="formItem.select" :filterable="true" style="width:300px;height: 32px">
+              <i-option v-for="(item,index) in bankList" :key="index" :value="item">{{item}}</i-option>
+            </i-select>
             <div class="main-color bank-tip" v-if="formItem.select === '中国邮政储蓄银行'">注：中国邮政储蓄银行提现到账时间会滞后两到三天，请耐心等待！</div>
-          </Form-item>
-          <Form-item label="银行卡号:" prop="bankNumber">
-            <iInput v-model="formItem.bankNumber"></iInput>
-          </Form-item>
+          </form-item>
+          <form-item label="银行卡号:" prop="bankNumber">
+            <i-input v-model="formItem.bankNumber"/>
+          </form-item>
           <!--<Form-item label="开户支行:" prop="bankBranch">
             <iInput v-model="formItem.bankBranch"></iInput>
           </Form-item>-->
-          <Form-item label="手机号:">
+          <form-item label="手机号:">
             {{getUserPhone}}
-          </Form-item>
-          <Form-item label="图形验证码:" class="formPosition" prop="validateCode" style="width: 380px">
-            <iInput v-model="formItem.validateCode"></iInput>
+          </form-item>
+          <form-item label="图形验证码:" class="formPosition" prop="validateCode" style="width: 380px">
+            <i-input v-model="formItem.validateCode"/>
             <div style="width: 100px;" class="ibtn">
               <img :src="imgSrc" width="100%" alt="" @click="getVrcode">
             </div>
-          </Form-item>
-          <Form-item label="短信验证码:" class="formPosition" prop="cord" style="width: 380px">
-            <iInput v-model="formItem.cord" class="formiInput "></iInput>
-            <SmsCountdown :on-success="sendCodeSuccess" style="top: 2px; right: -112px"
+          </form-item>
+          <form-item label="短信验证码:" class="formPosition" prop="cord" style="width: 380px">
+            <i-input v-model="formItem.cord" class="formiInput "/>
+            <sms-countdown :on-success="sendCodeSuccess" style="top: 2px; right: -112px"
                           :phone="this.getUserPhone"
                           :purpose="formItem.purpose"
                           :validateCode="formItem.validateCode">
-            </SmsCountdown>
-          </Form-item>
-          <Form-item>
+            </sms-countdown>
+          </form-item>
+          <form-item>
             <iButton type="primary" @click="handleSubmit('formItem',addBankCardInfo)">提交</iButton>
             <iButton type="ghost" style="margin-left: 8px" @click="goBack">取消</iButton>
-          </Form-item>
-        </iForm>
+          </form-item>
+        </i-form>
       </div>
     </div>
     <div class="get-out-number" v-show="changeBankIdCardShow.getoutMoney">
@@ -73,15 +73,15 @@
       </div>
       <div class="content">
         <div class="warning">
-          <Icon type="alert-circled" class="icon" size="32" color="#f9284f"></Icon>
+          <icon type="alert-circled" class="icon" size="32" color="#f9284f"/>
           <div class="ml-56">
             所有当日提交的提现申请，统一次日中午进行返款。成功提现的订单即表示已经打款成功，具体到账时间以每个银行受理时间为准。如遇到周末或者节假日，则统一顺延。
           </div>
         </div>
         <div class="get-out-do mt-22">
-          <iForm ref="getoutMoney" :model="getoutMoney" :label-width="200" :rules="getOutMoneyRule">
-            <Form-item label="请输入提现验证口令:" prop="getoutCommand" v-if="ifFirstWithDraw">
-              <iInput v-model.number="getoutMoney.getoutCommand" class="iInput"></iInput>
+          <i-form ref="getoutMoney" :model="getoutMoney" :label-width="200" :rules="getOutMoneyRule">
+            <form-item label="请输入提现验证口令:" prop="getoutCommand" v-if="ifFirstWithDraw">
+              <i-input v-model.number="getoutMoney.getoutCommand" class="iInput"/>
               <!--<span @click="withdrawalCommandPop = true" class="blue cursor-p">查看如何获取验证口令</span>-->
               <Tooltip placement="bottom">
                 <span class="blue cursor-p">查看如何获取验证口令</span>
@@ -99,44 +99,44 @@
                   </div>
                 </div>
               </Tooltip>
-            </Form-item>
-            <Form-item label="请输入提现金额:" prop="getoutNumber">
-              <iInput v-model.number="getoutMoney.getoutNumber" class="iInput"></iInput>
+            </form-item>
+            <form-item label="请输入提现金额:" prop="getoutNumber">
+              <i-input v-model.number="getoutMoney.getoutNumber" class="iInput"/>
               <span>元（最低1元起提）</span>
-            </Form-item>
-            <Form-item label="提现银行卡号:">
+            </form-item>
+            <form-item label="提现银行卡号:">
               <span style="width: 202px;display: inline-block">{{userAccount.bankCardNum}}</span><span
               class=" main-color cursor-p" @click="getBankCardInformationApi">修改银行卡</span>
-            </Form-item>
-            <Form-item label="支付密码:" prop="password">
+            </form-item>
+            <form-item label="支付密码:" prop="password">
               <input type="password" style="width: 0;height: 0;border: none"/>
-              <iInput v-model="getoutMoney.password" class="iInput" :type="psw" :icon="eye"
-                      @on-click="seyPassword"></iInput>
+              <i-input v-model="getoutMoney.password" class="iInput" :type="psw" :icon="eye"
+                      @on-click="seyPassword"/>
               <p>
                 <span v-show="!getIfEditPwdAlready">初始密码为<span class="f-b cl-red">888888</span>，为了你的账号安全，建议您
                 <router-link :to="{'path':'/user/money-management/account-management','query':{'type':'resetPwd'}}" class="blue">重置支付密码。</router-link>
               </span>
               </p>
               <span v-show="getIfEditPwdAlready"><router-link to="/user/money-management/account-management">忘记支付密码？</router-link></span>
-            </Form-item>
-            <Form-item>
-              <iButton type="primary" :loading="loading" @click="applyGetOutMoney" class="ibtns">申请提现</iButton>
-              <Modal
+            </form-item>
+            <form-item>
+              <i-button type="primary" :loading="loading" @click="applyGetOutMoney" class="ibtns">申请提现</i-button>
+              <modal
                 v-model="getOutMoneyPopWindow"
                 :styles="{top:'210px',width:'580px'}"
                 @on-ok="success"
                 title="">
                 <p style="text-align: center;font-size: 40px;color: #FF6633;">
-                  <Icon :type="iconType"></Icon>
+                  <icon :type="iconType"/>
                 </p>
                 <p class="mt-10 text-ct fs-14"><span style="color: #FF6633;">{{applyGetOut}}</span>
                 </p>
                 <!--<p class="mt-10 text-ct fs-14">-->
                   <!--所有当日提交的提现申请，统一次日中午进行返款。成功提现的订单即表示已经打款成功，具体到账时间以每个银行受理时间为准。如遇到周末或者节假日，则统一顺延。-->
                 <!--</p>-->
-              </Modal>
-            </Form-item>
-          </iForm>
+              </modal>
+            </form-item>
+          </i-form>
         </div>
       </div>
     </div>
@@ -147,16 +147,16 @@
       </div>
       <div class="content-input ">
         <span>流水号：</span>
-        <iInput style="width: 150px" v-model="getoutRecord.serialNumber"></iInput>
+        <i-input style="width: 150px" v-model="getoutRecord.serialNumber"/>
         <span class="ml-10">申请时间：</span>
-        <Date-picker type="datetime" placeholder="选择日期" style="width: 200px"
+        <date-picker type="datetime" placeholder="选择日期" style="width: 200px"
                      format="yyyy-MM-dd HH:mm:ss"
-                     @on-change="getBeginTimeFun"></Date-picker>
+                     @on-change="getBeginTimeFun"/>
         <span>-</span>
-        <Date-picker type="datetime" placeholder="选择日期" style="width: 200px"
+        <date-picker type="datetime" placeholder="选择日期" style="width: 200px"
                      format="yyyy-MM-dd HH:mm:ss"
-                     @on-change="getEndTimeFun"></Date-picker>
-        <iButton class="ibtn1" @click="getWithDrawList">搜索</iButton>
+                     @on-change="getEndTimeFun"/>
+        <i-button class="ibtn1" @click="getWithDrawList">搜索</i-button>
       </div>
       <div class="content-select clear">
         <span class="left" v-for="(item,index)  in getOutStatus" :key="index" :class="{actives:getOutSelect===item.isSelect}"
@@ -188,10 +188,10 @@
               {{item.poundage / 100}}
             </td>
             <td class="main-color cursor-p"  v-if="item.state === 'enchashment_audit_defeat' && item.refuseReason !== null">
-              <Tooltip :content="item.refuseReason" placement="top">
-                <Icon type="information-circled" color="main-color"></Icon>
+              <tooltip :content="item.refuseReason" placement="top">
+                <icon type="information-circled" color="main-color"/>
                 {{getTradType(item.state)}}
-              </Tooltip>
+              </tooltip>
             </td>
             <td class="main-color cursor-p" v-else>
                 {{getTradType(item.state)}}
@@ -199,7 +199,7 @@
             <td>
               <p style="color:blue;" class="detailsSpc" @click="getMoneyShowDetailsFun(item.id)">
                 详情
-                <Icon :type="getMoneyShowDetails===item.id?'arrow-up-b':'arrow-down-b'" class="ml-5 "></Icon>
+                <icon :type="getMoneyShowDetails===item.id?'arrow-up-b':'arrow-down-b'" class="ml-5"/>
               </p>
             </td>
           </tr>
@@ -244,7 +244,7 @@
         </table>
       </div>
       <div class="right mt-22" v-show="getOutResList && getOutResList.length > 0" v-if="!isChange">
-        <Page :total="totalElements" :page-size="pageSize" @on-change="changePages"></Page>
+        <page :total="totalElements" :page-size="pageSize" @on-change="changePages"/>
       </div>
     </div>
     <div class="common-question">
@@ -261,14 +261,14 @@
       </div>
     </div>
     <!--需要实名认证的提示框-->
-    <Modal v-model="ifVerifiedTip" width="400" :styles="{top:'30%'}">
+    <modal v-model="ifVerifiedTip" width="400" :styles="{top:'30%'}">
       <div style="text-align:center">
         <h3 class="mt-20">单笔提现金额100元以上或者累计提现金额1000元以上的，为保障资金安全，需要进行实名认证！</h3>
       </div>
       <div slot="footer">
         <router-link to="/user/personal-setting/verified" class="verify-btn">立即申请实名认证</router-link>
       </div>
-    </Modal>
+    </modal>
   </div>
 </template>
 <script>
@@ -276,7 +276,7 @@
   import api from '@/config/apiConfig'
   import SmsCountdown from '@/components/SmsCountdown'
   import {taskErrorStatusList,isNumber, isChinaStr} from '@/config/utils'
-  import bankList from '@/config/bankList';
+  import commonConfig from '@/config/commonConfig';
 
   export default {
     name: 'get-out-money',
@@ -463,8 +463,8 @@
         isChange: false,
         ifVerifiedTip: false,
         ifFirstWithDraw: null,
-        bankList: bankList,
-        loading:false
+        bankList: commonConfig.bankList,
+        loading: false
       }
     },
     mounted() {
@@ -497,6 +497,9 @@
       },
       userAccount() {
         return this.$store.getters.getUserAccountInfo;
+      },
+      commodityCategoriesList() {
+        return this.$store.getters.getCommodityCategoriesList
       }
     },
     methods: {
