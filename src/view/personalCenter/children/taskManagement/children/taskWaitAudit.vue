@@ -124,8 +124,8 @@
                   <p class="mt-10" v-if="!allTask.ipInfo">归属地未知</p>
                 </td>
                 <td class="registration">
-                  <p class="mt-5 cl666" v-cloak>申请次数：{{allTask.applyCount || 0}}</p>
-                  <p v-cloak class="mt-5 mb-5 cl666">成功次数：{{allTask.applySuccessCount || 0}}</p>
+                  <p class="mt-5 cl666" v-cloak>近七天通过次数：{{allTask.applySuccessCount7Days || 0}}</p>
+                  <p v-cloak class="mt-5 mb-5" :style="{color: orderNumberColorTip(allTask.orderCount7Days)}">近七天下单次数：{{allTask.orderCount7Days || 0}}</p>
                   <a @click="openNewTrialReportFunc(encryptionId(allTask.showkerId))">查看TA的买家秀</a>
                 </td>
                 <td>
@@ -562,7 +562,7 @@
        */
       eyesServerPermissions() {
          return !((!this.valueAddedServiceStatusInfo.isMemberOK && !this.valueAddedServiceStatusInfo.vasBlackListDeadlineTime) || this.isEndTime)
-      }
+      },
     },
     methods: {
       changeLookScreenShot(num) {
@@ -578,6 +578,15 @@
       blackListModalChange(value) {
         this.closableModal = value;
         this.addBlackListInfo = {};
+      },
+      orderNumberColorTip(num) {
+        if (num < 10) {
+          return `green`
+        } else if (10 <= num <= 20) {
+          return `orange`
+        } else {
+          return `red`
+        }
       },
       taskAdditionalQuota(item) {
         Object.assign(this.taskAdditionalQuotaInfo = {}, {

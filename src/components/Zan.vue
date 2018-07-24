@@ -1,7 +1,7 @@
 <template>
   <div class="VueStar-ground">
     <div class="VueStar-icon" @click="zanClick">
-      <Icon :type="iconType" :size="fontSize + 4" :color="color"></Icon>
+      <icon :type="iconType" :size="fontSize + 4" :color="color"/>
       <span class="zan-number ml-5" :style="{color: color,fontSize: fontSize + 'px'}">赞({{zanNumber}})</span>
     </div>
   </div>
