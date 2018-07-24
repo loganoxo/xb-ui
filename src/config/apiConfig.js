@@ -1000,14 +1000,14 @@ export default {
    * 批量通过待审核订单
    */
   merchantBatchPassOrder() {
-    return axiosConfig.post('/api/merchant/batch/pass/order.json')
+    return axiosConfig.get('/api/merchant/batch/pass/order.json')
   },
 
   /**
    * 获取批量导出订单的订单号
    */
   getMerchantExportOrderNumber(params) {
-    return axiosConfig.post('/api/merchant/export/order.json', params)
+    return axiosConfig.get('/api/merchant/export/order.json', params)
   },
 
   /**

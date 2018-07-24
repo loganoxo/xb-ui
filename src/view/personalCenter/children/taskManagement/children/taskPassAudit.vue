@@ -286,8 +286,8 @@
 <script>
   import {Checkbox, Page, Icon, Button, Modal, Select, Option, Input, Radio, Tooltip} from 'iview'
   import CollapseTransition from 'iview/src/components/base/collapse-transition'
-  import Csv from '@/csv/csv';
-  import ExportCsv from '@/csv/export-csv';
+  import _csv from '@/csv/csv';
+  import _exportCsv from '@/csv/export-csv';
   import Progress from '@/components/Progress'
   import TimeDown from '@/components/TimeDown'
   import PayModel from '@/components/PayModel'
@@ -648,13 +648,18 @@
           realStoreName: _this.realStoreName
         }).then(res => {
           if(res.status) {
-            let rowData = [];
-            res.data.map(item => {
-              rowData.push({'提交订单号时间': item.orderTime, '订单号': item.orderNum, '旺旺号': item.alitmAccount})
+            const rowData = [];
+            // 根据提交订单号时间对数据降序处理
+            res.data.sort((a, b) => {
+              return b.orderTime - a.orderTime
+            });
+            // 生成表格需要的数组数据
+            res.data.forEach(item => {
+              rowData.push({'提交订单号时间': _this.$options.filters.dateFormat(item.orderTime, 'YYYY-MM-DD hh:mm:ss'), '订单号': item.orderNum, '旺旺号': item.alitmAccount})
             });
             // 开始执行批量导出订单号
-            const downloadData = Csv([{key: '提交订单号时间'}, {key: '订单号'}, {key: '旺旺号'}], rowData);
-            ExportCsv.download(`${timeToDate()}.csv`, downloadData, () => {
+            const downloadData = _csv([{key: '提交订单号时间'}, {key: '订单号'}, {key: '旺旺号'}], rowData);
+            _exportCsv.download(`${timeToDate()}.csv`, downloadData, () => {
               _this.$Message.success('批量导出订单成功！')
             })
           } else {
