@@ -269,9 +269,9 @@
             _this.handleSuccess(res, file);
           }
         }).catch(err => {
-          console.log(err);
-          alert('图片上传错误，请刷新页面或者稍后重试！');
+          console.error(err);
           _this.handleError(err, file);
+          alert('图片上传错误，请刷新页面或者稍后重试！');
         })
       },
       handleStart(file) {

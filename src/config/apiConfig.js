@@ -187,10 +187,10 @@ export default {
   },
 
   /**
-   * 首页导航列表
+   * 平台宝贝类目列表
    */
-  getNavList() {
-    return axiosConfig.get("/api/task/item/catalog/main.json")
+  getCommodityCategories() {
+    return axiosConfig.post("/api/task/item/catalog/main.json")
   },
 
   /**

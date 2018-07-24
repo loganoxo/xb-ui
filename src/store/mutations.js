@@ -109,4 +109,8 @@ export default {
     state.taskCreateFastStatus = status;
   },
 
+  [types.COMMODITY_CATEGORIES_LIST] (state, {list}) {
+    state.commodityCategoriesList = list
+  }
+
 }

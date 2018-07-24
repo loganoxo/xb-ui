@@ -165,7 +165,7 @@
                 class="left report-classify">全部分类
             </li>
             <li @click="getALLTrialReportFun(item.name)" :class="{active:item.name === allReportClassifySelect }"
-                class="left report-classify" v-for="(item,index) in navList" :key="index">{{item.name}}
+                class="left report-classify" v-for="item in commodityCategoriesList" :key="item.id">{{item.name}}
             </li>
           </ul>
         </div>
@@ -271,14 +271,12 @@
         totalPages: 0,
         leftSliderTimer: '',
         leftSlider: false,
-        navList: [],
         buyerShowList: [],
         homeCarousel: 0,
         listLoading: false,
       }
     },
     created() {
-      this.getNavList();
       this.getShowkerReportRank();
       this.getBuyerShowInformation();
       this.getReportRankListFun();
@@ -293,6 +291,9 @@
       isLogin() {
         return this.$store.state.login
       },
+      commodityCategoriesList() {
+        return this.$store.getters.getCommodityCategoriesList
+      }
     },
     mounted: function () {
       this.$nextTick(function () {
@@ -408,19 +409,6 @@
             self.getShowkerReportList = res.data;
           } else {
             self.$Message.error(res.msg)
-          }
-        })
-      },
-      getNavList() {
-        let self = this;
-        api.getNavList().then((res) => {
-          if (res.status) {
-            res.data.sort(function (a, b) {
-              return a.sortIndex - b.sortIndex
-            });
-            self.navList = res.data;
-          } else {
-            self.$Message.error(res.msg);
           }
         })
       },

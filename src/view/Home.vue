@@ -4,31 +4,28 @@
       <div class="container">
         <div class="home-section">
           <div class="left-ctt left ">
-            <ul>
-              <li v-if="nav.id !== 600 && !isLogin" :class="[TaskCategoryActive === nav.id ? 'active' : '']"
-                  @click="selTaskCategoryActiveFunc(nav)" v-for="nav in navList">
-                <img width="16" height="16" :src="nvaImgSrc[nav.id]">
-                <span class="ml-5">{{nav.name}}</span>
+            <ul v-if="commodityCategoriesList.length > 0">
+              <li v-for="item in commodityCategoriesList" :key="item.id"
+                  :class="[taskCategoryActive === item.id ? 'active' : '']"
+                  :style="{padding: isLogin ? '4px 0' : '6px 0'}"
+                  @click="selTaskCategoryActiveFunc(item)">
+                <img width="16" height="16" :src="nvaImgSrc[item.id]">
+                <span class="ml-5">{{item.name}}</span>
               </li>
-              <li v-if="isLogin" :class="[TaskCategoryActive === nav.id ? 'active' : '']"
-                  @click="selTaskCategoryActiveFunc(nav)" v-for="nav in navList" style="padding: 4px 0">
-                <img width="16" height="16" :src="nvaImgSrc[nav.id]">
-                <span class="ml-5">{{nav.name}}</span>
-              </li>
-              <li :class="[TaskCategoryActive === 'all' ? 'active' : '']" @click="selTaskCategoryAllFunc">
+              <li :class="[taskCategoryActive === 'all' ? 'active' : '']" @click="selTaskCategoryAllFunc">
                 <img src="/static/img/nav-picture/home_26.png" width="16" height="16">
                 <span class="ml-5">全部活动</span>
               </li>
             </ul>
           </div>
           <div class="middle-ctt left">
-            <Carousel autoplay :autoplay-speed="5000" v-model="homeCarousel" loop>
-              <Carousel-item v-for="swipeItem in swipeItemList" :key="swipeItem.src">
+            <carousel autoplay :autoplay-speed="5000" v-model="homeCarousel" loop>
+              <carousel-item v-for="swipeItem in swipeItemList" :key="swipeItem.src">
                 <a :href="swipeItem.adUrl" class="block" target="_blank">
                   <img :src="getSwipeHead(swipeItem.adImg)" alt="">
                 </a>
-              </Carousel-item>
-            </Carousel>
+              </carousel-item>
+            </carousel>
           </div>
           <div class="right-ctt">
             <div class="login-up-box" v-if="!isLogin">
@@ -467,7 +464,7 @@
           </Checkbox-group>
           <div style="position: absolute;top:27px;right: 15px;cursor: pointer;color: #FF6633"
                @click="cancelWeiChartFunc">
-            <Icon type="close"></Icon>
+            <icon type="close"/>
           </div>
           <div v-if="getUserInfoRole === 0">
             <img src="/static/img/home/wechart_alert_07.png" alt=""
@@ -659,7 +656,6 @@
         ],
         noticeActive: 'faq',
         taskTopLeftList: [],
-        navList: [],
         nvaImgSrc: {
           100: '/static/img/nav-picture/home_07.png',
           200: '/static/img/nav-picture/home_09.png',
@@ -725,7 +721,6 @@
       }
       self.getSearchPinkageFor10Task();
       self.getSearchPresentGetTask();
-      self.getNavList();
       self.getHomeTaskList();
       self.getHomeTaskTopLeftList();
       self.personalTrialCount();
@@ -773,10 +768,12 @@
       getUserRole() {
         return this.$store.getters.getUserRole
       },
-      TaskCategoryActive() {
+      taskCategoryActive() {
         return this.$store.state.TaskCategoryActive
       },
-
+      commodityCategoriesList() {
+        return this.$store.getters.getCommodityCategoriesList
+      }
     },
     mounted() {
       this.$nextTick(() => {
@@ -915,21 +912,6 @@
           }
         })
       },
-      getNavList() {
-        let self = this;
-        api.getNavList().then((res) => {
-          if (res.status) {
-            if (res.data) {
-              res.data.sort(function (a, b) {
-                return a.sortIndex - b.sortIndex
-              });
-              self.navList = res.data;
-            }
-          } else {
-            self.$Message.error(res.msg);
-          }
-        })
-      },
       getHomeTaskTopLeftList() {
         let self = this;
         api.getHomeTaskTopLeftList().then((res) => {
@@ -1001,40 +983,6 @@
             self.wechartAlertShow = false;
           }
         })
-      },
-      setWeChartAlertFunc(role) {
-        let self = this;
-        let commandList = {
-          0: 1788,
-          1: 9188
-        };
-        if (self.command === '') {
-          self.$Message.error('口令不能为空');
-        } else {
-          if (parseInt(self.command) === parseInt(commandList[role])) {
-            self.setWechartAlert()
-          } else {
-            self.$Message.error('口令输入错误');
-          }
-        }
-      },
-      setWechartAlert() {
-        let self = this;
-        api.setWechartAlert({
-          command: self.command,
-        }).then((res) => {
-          if (res.status) {
-            self.wechartAlertShow = false;
-            self.$Message.success({
-              content: '恭喜您成功获得一个月VIP会员',
-              onClose: function () {
-                self.$store.dispatch('getUserInformation');
-              }
-            });
-          } else {
-            self.$Message.error(res.msg);
-          }
-        });
       },
       cancelWeiChartFunc() {
         let self = this;
@@ -1109,12 +1057,10 @@
       },
 
       clearLeftTopSliderFunc() {
-        let self = this;
-        clearInterval(self.leftTopSliderTimer);
+        clearInterval(this.leftTopSliderTimer);
       },
       clearLeftSliderFunc() {
-        let self = this;
-        clearInterval(self.leftSliderTimer);
+        clearInterval(this.leftSliderTimer);
       },
       changeNoticeTab(notice) {
         this.noticeActive = notice.active;

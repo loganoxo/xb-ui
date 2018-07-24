@@ -25,91 +25,10 @@ const state = {
   showTopCategoryRes: true, //导航栏左侧列表显示
   sysConfigInfo: {},//系统配置信息
   taskCreateFastStatus: false, //商家用户是否用首发资格
-  //导航分类列表
-  TaskCategoryActiveList: {
-    'home': {
-      text: '全部活动'
-    },
-    'free_get': {
-      text: '免费领',
-      desc: '本模块商品，拿手无需支付任何费用，商家任性送！',
-      color: '#99cc33',
-    },
-    'price_low': {
-      text: '白菜价',
-      // desc: '本模块商品，拿手或以类似9.9元一口价买下商品，或享受1折等极低折扣买下商品！',
-      desc: '亲爱的用户，10元包邮与白菜价专区即将下线哦，如您有正在进行中的活动，请尽快结束',
-      color: '#cccc33',
-    },
-    'pinkage_for_10': {
-      text: '10元包邮',
-      // desc: '本模块商品，拿手仅需承担10元运费，商品就归您！',
-      desc: '亲爱的用户，10元包邮与白菜价专区即将下线哦，如您有正在进行中的活动，请尽快结束',
-      color: '#75c5ff',
-    },
-    'present_get': {
-      text: '体验专区',
-      desc: '本模块展示商品，为商家附赠的赠品，在淘宝上需按照商家要求拍下指定商品。',
-      color: '#33cc99',
-    },
-    'goods_clearance': {
-      text: '清仓断码',
-      desc: '本模块商品为商家清仓断码尾货库存，拿手享极低折扣，但需注意尺码等描述哦！',
-      color: '#cccc33',
-    }
-  },
-  //白菜价列表
-  discountPriceType: {
-    '不限': {
-      backgroundColor:　'',
-      discountTypes: ['discount_9_9','discount_49_9', 'discount_99_9','discount_r_10','discount_r_30','discount_r_50'],
-    },
-    9.9: {
-      backgroundColor: '#c4c71d',
-      discountTypes: ['discount_9_9'],
-    },
-    49.9: {
-      backgroundColor: '#c4c71d',
-      discountTypes: ['discount_49_9'],
-    },
-    99.9: {
-      backgroundColor: '#c4c71d',
-      discountTypes: ['discount_99_9'],
-    },
-    '1折': {
-      backgroundColor: '#c4c71d',
-      discountTypes: ['discount_r_10'],
-    },
-    '3折': {
-      backgroundColor: '#c4c71d',
-      discountTypes: ['discount_r_30'],
-    },
-    '5折': {
-      backgroundColor: '#c4c71d',
-      discountTypes: ['discount_r_50'],
-    }
-  },
-  goodsClearanceList: {
-    '不限': {
-      backgroundColor:　'',
-      discountTypes: ['discount_r_10','discount_r_30','discount_r_50'],
-    },
-    '1折': {
-      backgroundColor: '#ff9900',
-      discountTypes: ['discount_r_10'],
-    },
-    '3折': {
-      backgroundColor: '#cc3333',
-      discountTypes: ['discount_r_30'],
-    },
-    '5折': {
-      backgroundColor: '#ff3399',
-      discountTypes: ['discount_r_50'],
-    }
-  },
   activityCategory: '',
   sellerTaskInfo: {},
-  activityStatus:'' //活动管理的状态（待审批，已通过，未通过）
+  activityStatus: '', //活动管理的状态（待审批，已通过，未通过）
+  commodityCategoriesList: [], //平台宝贝类目列表
 };
 
 export default new Vuex.Store({

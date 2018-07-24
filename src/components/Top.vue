@@ -14,34 +14,33 @@
                 <span class="active">宝贝</span>
               </div>
               <i class="ivu-icon ivu-icon-ios-search"></i>
-              <input type="text" class="search-btn left" v-model="searchKey" @keydown="goKeyEnterFunc" autocomplete="off">
+              <input type="text" class="search-btn left" v-model="searchKey" @keydown="goKeyEnterFunc" autocomplete="off"/>
               <a @click="goTaskCategory" class="search left">搜索</a>
             </div>
           </div>
         </div>
-         <a v-if="searchRight.adUrl" :href="searchRight.adUrl" class="seller-guide left" target="_blank">
-           <img :src="searchRight.adImg | imageSrc('!orgi75')" alt="广告图片">
-         </a>
+        <router-link to="/recommend-spread" class="seller-guide left">
+          <img src="/static/img/common/recommend_spread.gif" alt="">
+        </router-link>
       </div>
     </div>
     <div class="home-nav">
       <div class="container">
         <div class="top-category">
-          <p class=" text-ct">
+          <p class="cursor-p text-ct">
             <icon type="navicon" size="20" class="mt" style="margin-top: 2px"/>
             <span class="ml-5">宝贝类目</span>
           </p>
           <ul class="top-category-list" v-if="$store.state.showTopCategoryRes">
-            <li v-if="nav.id !== 600 && !isLogin" :class="[TaskCategoryActive === nav.id ? 'active' : '']" @click="selTaskCategoryActiveFunc(nav)" v-for="nav in navList" >
-              <img width="16" height="16" :src="nvaImgSrc[nav.id]" class="vtc-mid"/>
-              <span class="ml-5">{{nav.name}}</span>
+            <li v-for="item in commodityCategoriesList" :key="item.id"
+                :class="[taskCategoryActive === item.id ? 'active' : '']"
+                :style="{padding: isLogin ? '4px 0' : '6px 0'}"
+                @click="selTaskCategoryActiveFunc(item)">
+              <img width="16" height="16" :src="nvaImgSrc[item.id]">
+              <span class="ml-5">{{item.name}}</span>
             </li>
-            <li v-if="isLogin" :class="[TaskCategoryActive === nav.id ? 'active' : '']" @click="selTaskCategoryActiveFunc(nav)" v-for="nav in navList" style="padding: 4px 0">
-              <img width="16" height="16" :src="nvaImgSrc[nav.id]" class="vtc-mid"/>
-              <span class="ml-5">{{nav.name}}</span>
-            </li>
-            <li :class="[TaskCategoryActive === 'all' ? 'active' : '']" @click="selTaskCategoryAllFunc">
-              <img width="16" height="16"  src="/static/img/nav-picture/home_26.png" class="vtc-mid"/>
+            <li :class="[taskCategoryActive === 'all' ? 'active' : '']" @click="selTaskCategoryAllFunc">
+              <img src="/static/img/nav-picture/home_26.png" width="16" height="16">
               <span class="ml-5">全部活动</span>
             </li>
           </ul>
@@ -49,40 +48,18 @@
         <div class="home-nav-list clear">
           <a :class="[activityCategory === 'home' ? 'active' : '']" @click="selTaskCategoryHome">首页</a>
           <a :class="[activityCategory === 'free_get' ? 'active' : '']" @click="selTaskCategoryFunc('free_get')" >
-            <Tooltip :content="TaskCategoryActiveList['free_get'].desc" placement="bottom">
+            <tooltip :content="taskCategoryActiveList['free_get'].desc" placement="bottom">
               免费领
-            </Tooltip>
+            </tooltip>
           </a>
           <a :class="[activityCategory === 'present_get' ? 'active' : '']" @click="selTaskCategoryFunc('present_get')" >
             <i style="position: absolute; top: -16px; left: 13px;">
               <img src="/static/img/icon/giveaway.gif" alt="" >
             </i>
-            <Tooltip :content="TaskCategoryActiveList['present_get'].desc" placement="bottom">
+            <tooltip :content="taskCategoryActiveList['present_get'].desc" placement="bottom">
               体验专区
-            </Tooltip>
+            </tooltip>
           </a>
-          <!--<a :class="[activityCategory === 'pinkage_for_10' ? 'active' : '']" >-->
-            <!--&lt;!&ndash;@click="selTaskCategoryFunc('pinkage_for_10')"&ndash;&gt;-->
-            <!--<i style="position: absolute; top: -16px; left: 19px;">-->
-              <!--<img src="/static/img/icon/franking.gif" alt="" >-->
-            <!--</i>-->
-            <!--<Tooltip :content="TaskCategoryActiveList['pinkage_for_10'].desc" placement="bottom">-->
-              <!--10元包邮-->
-            <!--</Tooltip>-->
-          <!--</a>-->
-          <!--<a :class="[activityCategory === 'price_low' ? 'active' : '']" >-->
-            <!--&lt;!&ndash;@click="selTaskCategoryFunc('price_low')"&ndash;&gt;-->
-            <!--<Tooltip :content="TaskCategoryActiveList['price_low'].desc" placement="bottom">-->
-              <!--白菜价-->
-            <!--</Tooltip>-->
-          <!--</a>-->
-          <!--<a :class="[$store.state.activityCategory == 'goods_clearance' ? 'active' : '']" @click="selTaskCategoryFunc('goods_clearance')" >-->
-            <!--<i style="position: absolute; top: -16px; left: 15px;">-->
-              <!--<img src="/static/img/icon/discount.gif" alt="" >-->
-            <!--</i>-->
-            <!--清仓断码-->
-
-          <!--</a>-->
           <a :class="[activityCategory === 'buyer-show' ? 'active' : '']" @click="linkToBuyerShow('buyer-show')">
             <i style="position: absolute; top: -17px; left: 34px;">
               <img src="/static/img/common/news.gif" alt="" >
@@ -101,7 +78,8 @@
 
 <script>
   import {Tooltip, Button, Icon} from 'iview'
-  import TopTip from '@/components/TopTip.vue'
+  import TopTip from '@/components/TopTip'
+  import commonConfig from '@/config/commonConfig'
   import api from '@/config/apiConfig'
   import {aliCallbackImgUrl} from '@/config/env'
   export default {
@@ -128,6 +106,7 @@
           900: '/static/img/nav-picture/home_25.png',
           1000: '/static/img/nav-picture/home_27.png',
         },
+        taskCategoryActiveList: commonConfig.taskCategoryActiveList
         searchRight: {
           adImg: null,
           adUrl: null,
@@ -135,8 +114,7 @@
       }
     },
     created(){
-     this.getNavList();
-     this.getSearchRightInfo();
+      this.getSearchRightInfo()
     },
     computed: {
       isLogin() {
@@ -145,15 +123,15 @@
       getUserInfoRole() {
         return this.$store.getters.getUserRole
       },
-      TaskCategoryActive() {
+      taskCategoryActive() {
         return this.$store.state.TaskCategoryActive
       },
       activityCategory() {
         return this.$store.state.activityCategory
       },
-      TaskCategoryActiveList() {
-        return this.$store.state.TaskCategoryActiveList
-      },
+      commodityCategoriesList() {
+        return this.$store.getters.getCommodityCategoriesList
+      }
     },
     methods: {
       linkToBuyerShow(activityCategory) {
@@ -220,22 +198,6 @@
           info: 'all',
         });
       },
-      getNavList(){
-        let self = this;
-        api.getNavList().then((res) =>{
-          if(res.status){
-            res.data.sort(function(a,b){
-              return a.sortIndex-b.sortIndex
-            });
-            self.navList = res.data;
-          }else {
-            self.$Message.error({
-              content: res.msg,
-              duration: 9
-            });
-          }
-        })
-      },
       goKeyEnterFunc(ev){
         if(ev.keyCode === 13){
           this.goTaskCategory()
@@ -277,8 +239,9 @@
     > div {
       background-color: #fff;
       div.search-box {
+        margin-left: 20px;
         margin-top: 60px;
-        a.search {
+        .search {
           display: inline-block;
           background-color: $mainColor;
           color: #fff;
@@ -288,7 +251,7 @@
           text-align: center;
           font-size: 16px;
         }
-        p.link-text {
+        .link-text {
           margin-top: 5px;
           a {
             color: #666;
@@ -346,7 +309,7 @@
         }
       }
       a.seller-guide{
-        margin-top: 6px;
+        margin-top: 35px;
         margin-left: 6px;
         img{
           width: 100%;
