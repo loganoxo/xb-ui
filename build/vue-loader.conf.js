@@ -11,7 +11,6 @@ module.exports = {
     sourceMap: sourceMapEnabled,
     extract: isProduction
   }),
-  extractCSS: true,
   cssSourceMap: sourceMapEnabled,
   cacheBusting: config.dev.cacheBusting,
   transformToRequire: {
