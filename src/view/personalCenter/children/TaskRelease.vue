@@ -1002,7 +1002,7 @@
             </div>
           </template>
           <!--拿手审批条件设置-->
-          <template>
+        <!--  <template>
             <div class="activity-info-title">拿手审批条件设置</div>
             <div class="sizeColor2 ml-20 mt-10">说明：该活动有名额为系统审批，此处标签设置后，系统将按此条件审批拿手。过多限制可能造成展示量/申请量下降，请综合考虑。</div>
             <div class="mt-20 ml-20 mb-20">
@@ -1102,7 +1102,7 @@
                 </div>
               </div>
             </div>
-          </template>
+          </template>-->
         </div>
       </div>
       <!--存入担保金详情-->

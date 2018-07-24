@@ -75,7 +75,7 @@
         return this.$store.getters.getUserRole
       },
       getSellerCustomerQq() {
-        return this.$store.getters.getSellerCustomerQq
+        return this.$store.getters.getSysConfigValue('sellerCustomerQq')
       }
     },
     created() {

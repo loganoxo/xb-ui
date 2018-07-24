@@ -190,7 +190,7 @@ export default {
    * 平台宝贝类目列表
    */
   getCommodityCategories() {
-    return axiosConfig.post("/api/task/item/catalog/main.json")
+    return axiosConfig.get("/api/task/item/catalog/main.json")
   },
 
   /**

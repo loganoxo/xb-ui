@@ -19,9 +19,9 @@
             </div>
           </div>
         </div>
-        <router-link to="/recommend-spread" class="seller-guide left">
-          <img src="/static/img/common/recommend_spread.gif" alt="">
-        </router-link>
+         <a v-if="searchRight.adUrl" :href="searchRight.adUrl" class="seller-guide left" target="_blank">
+           <img :src="searchRight.adImg | imageSrc('!orgi75')" alt="广告图片">
+         </a>
       </div>
     </div>
     <div class="home-nav">
@@ -106,7 +106,7 @@
           900: '/static/img/nav-picture/home_25.png',
           1000: '/static/img/nav-picture/home_27.png',
         },
-        taskCategoryActiveList: commonConfig.taskCategoryActiveList
+        taskCategoryActiveList: commonConfig.taskCategoryActiveList,
         searchRight: {
           adImg: null,
           adUrl: null,

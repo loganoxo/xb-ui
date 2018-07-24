@@ -31,7 +31,7 @@
 
 <script>
   import api from '@/config/apiConfig'
-  import bankList from '@/config/bankList';
+  import commonConfig from '@/config/commonConfig';
   import {Form, Input, Select, Option, Icon, Button} from 'iview'
   export default {
     name: "withdrawal-operate",
@@ -97,7 +97,7 @@
             {validator: validateBankNumber, trigger: 'blur'}
           ]
         },
-        bankList: bankList
+        bankList: commonConfig.bankList
       }
     },
     computed: {
