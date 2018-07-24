@@ -183,14 +183,14 @@ export default {
    * 获取用户、账户、旺旺账号
    */
   getUserAccount(params) {
-    return axiosConfig.post("/api/get-user-account.json", params)
+    return axiosConfig.get("/api/get-user-account.json", params)
   },
 
   /**
    * 首页导航列表
    */
   getNavList() {
-    return axiosConfig.post("/api/task/item/catalog/main.json")
+    return axiosConfig.get("/api/task/item/catalog/main.json")
   },
 
   /**
@@ -246,7 +246,7 @@ export default {
    * 详情页页面
    */
   getTaskDetails(params) {
-    return axiosConfig.post('/api/task/detail.json', params)
+    return axiosConfig.get('/api/task/detail.json', params)
   },
 
   /**
@@ -536,14 +536,14 @@ export default {
    *详情页拿手报告列表
    */
   getDetailsShowkerList(params) {
-    return axiosConfig.post("/api/task/trial/report.json", params)
+    return axiosConfig.get("/api/task/trial/report.json", params)
   },
 
   /**
    *详情页已审核拿手列表
    */
   getDetailsSuccessShowkerList(params) {
-    return axiosConfig.post("/api/task/success.json", params)
+    return axiosConfig.get("/api/task/success.json", params)
   },
 
   /**
@@ -636,7 +636,7 @@ export default {
    * 商家个人主页活动提醒
    */
   sellerPersonalTrialCount() {
-    return axiosConfig.post("/api/task/seller-personal-trial-count.json")
+    return axiosConfig.get("/api/task/seller-personal-trial-count.json")
   },
 
   /**
@@ -713,7 +713,7 @@ export default {
    * 获取活动任务日志
    */
   getLogList(params) {
-    return axiosConfig.post("/api/task-log.json", params)
+    return axiosConfig.get("/api/task-log.json", params)
   },
 
   /**
@@ -727,7 +727,7 @@ export default {
    * 获取拿手活动进程任务日志
    */
   getShowkerLog(params) {
-    return axiosConfig.post("/api/task-detail-log.json", params)
+    return axiosConfig.get("/api/task-detail-log.json", params)
   },
 
   /**
@@ -874,21 +874,21 @@ export default {
    * 获取首页轮播图信息
    */
   getAvailableBoardByAdTypeList(params) {
-    return axiosConfig.post('/api/user/get-available-board-by-adType.json', params)
+    return axiosConfig.get('/api/user/get-available-board-by-adType.json', params)
   },
 
   /**
    * 获取系统配置信息
    */
   getSysConfigInfo() {
-    return axiosConfig.post("/api/user/config/sys.json")
+    return axiosConfig.get("/api/user/config/sys.json")
   },
 
   /**
    * 获取公告信息
    */
   getUserGetAnnouncement(params) {
-    return axiosConfig.post("/api/user-getAnnouncement.json", params)
+    return axiosConfig.get("/api/user-getAnnouncement.json", params)
   },
 
   /**
@@ -965,14 +965,14 @@ export default {
    * 获取商家绑定的店铺列表
    */
   getStoreBindInfo() {
-    return axiosConfig.post('/api/store/get.json')
+    return axiosConfig.get('/api/store/get.json')
   },
 
   /**
    * 根据商品链接获取店铺信息(by-Id)
    */
   getItemInfoById(params) {
-    return axiosConfig.post('/api/get-item-info-by-id.json', params)
+    return axiosConfig.get('/api/get-item-info-by-id.json', params)
   },
 
   /**
