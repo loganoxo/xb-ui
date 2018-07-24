@@ -671,7 +671,7 @@ export default {
    * 商家进入拿手任务管理页任务详情（待审核全部）
    */
   appliesWaitingAuditAll(params) {
-    return axiosConfig.post("/api/applies/waiting/audit/all.json", params)
+    return axiosConfig.get("/api/applies/waiting/audit/all.json", params)
   },
 
   /**
