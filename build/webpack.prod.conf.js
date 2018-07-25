@@ -75,13 +75,13 @@ const webpackConfig = merge(baseWebpackConfig, {
     new HtmlWebpackPlugin({
       filename: config.build.index,
       template: 'index.html',
-      inject: true,
-      hash: true,// 防止缓存
+      inject: 'body',
       minify: {
         removeComments: true,
         collapseWhitespace: true,
         removeAttributeQuotes: true
       },
+      chunksSortMode: 'none'
     }),
     new webpack.HashedModuleIdsPlugin(),
 
