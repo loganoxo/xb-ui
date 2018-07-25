@@ -79,7 +79,7 @@ const webpackConfig = merge(baseWebpackConfig, {
       minify: {
         removeComments: true,
         collapseWhitespace: true,
-        removeAttributeQuotes: false
+        removeAttributeQuotes: true
       },
       chunksSortMode: 'none'
     }),

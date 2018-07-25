@@ -45,7 +45,7 @@ module.exports = {
       {
         test: /\.js$/,
         loader: 'babel-loader',
-        include: [resolve('src')],
+        include: [resolve('src'), resolve('node_modules/webpack-dev-server/client')],
         exclude: /node_modules/,
         options: {
           sourceMap: true,
