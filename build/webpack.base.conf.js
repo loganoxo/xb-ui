@@ -47,10 +47,6 @@ module.exports = {
         loader: 'babel-loader',
         include: [resolve('src'), resolve('node_modules/webpack-dev-server/client')],
         exclude: /node_modules/,
-        options: {
-          sourceMap: true,
-          cacheDirectory: true
-        }
       },
       {
         test: /\.(png|jpe?g|gif|svg)(\?.*)?$/,

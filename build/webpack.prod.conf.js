@@ -81,7 +81,7 @@ const webpackConfig = merge(baseWebpackConfig, {
         collapseWhitespace: true,
         removeAttributeQuotes: true
       },
-      chunksSortMode: 'none'
+      // chunksSortMode: 'none'
     }),
     new webpack.HashedModuleIdsPlugin(),
 
