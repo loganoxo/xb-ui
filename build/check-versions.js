@@ -7,7 +7,7 @@ const shell = require('shelljs')
 function exec (cmd) {
   return require('child_process').execSync(cmd).toString().trim()
 }
-
+// 检查 node 和 npm 的版本
 const versionRequirements = [
   {
     name: 'node',
