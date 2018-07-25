@@ -3,7 +3,7 @@ import Router from 'vue-router'
 
 Vue.use(Router);
 
-const _import = require(`./${process.env.NODE_ENV}`);
+const _import = require(`./router.${process.env.NODE_ENV}.config`);
 
 /**
  * 路由元信息参数说明
