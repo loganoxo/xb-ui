@@ -251,7 +251,7 @@ export default {
   // 淘宝旺旺等级列表配置
   aliLevelList: [
     {
-      value: "''",
+      value: '',
       text: '不限',
       label: '不限'
     },
@@ -329,7 +329,7 @@ export default {
   // 淘宝旺旺淘气值列表配置
   aliTqzList: [
     {
-      value: "''",
+      value: '',
       label: '不限'
     },
     {

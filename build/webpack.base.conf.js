@@ -31,10 +31,6 @@ module.exports = {
         loader: 'vue-loader',
       },
       {
-        test: /vue-image-crop-upload.upload-2.vue/,
-        loader: 'vue-loader',
-      },
-      {
         test: /iview.src.*?js$/,
         loader: 'babel-loader'
       },

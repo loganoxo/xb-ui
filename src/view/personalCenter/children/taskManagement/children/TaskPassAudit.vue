@@ -425,19 +425,19 @@
         }).then(res => {
           if (res.status) {
             _this.$Message.success('评价成功！');
-            _this.loading = false;
             _this.wwQuality= 'hao_ping';
             _this.fillOrderCooperate = 'hao_ping';
             _this.buyerShowQuality = 'hao_ping';
             _this.selectedLabelList = [];
-            _this.violationLabelList.map(item =>{
-              return item.selected = false
+            _this.violationLabelList.forEach(item =>{
+              item.selected = false
             });
-            _this.passesShowkerTask(self.showkerReportInfo.task.id, self.operateIndex)
+            _this.passesShowkerTask(_this.showkerReportInfo.task.id, _this.operateIndex)
           } else {
             _this.$Message.error(res.msg)
           }
           _this.evaluateShowker = false;
+          _this.loading = false;
         })
       },
       oneOf(value, validList) {

@@ -15,7 +15,7 @@
       <span class="ml-10">活动编号：</span>
       <i-input v-model="taskNumber" style="width: 140px;margin-right: 8px;"/>
       <span class="ml-10">旺旺号信用等级大于等于：</span>
-      <i-select v-model="wwFormValidate.creditLevel" style="width: 130px;">
+      <i-select v-model="wwFormValidate.creditLevel" style="width: 130px;" placeholder="不限">
         <i-option v-for="(item, index) in aliLevelList" :label='item.label'
                   :value="item.value" :key="item.value">
           <span v-show="index === 0">{{item.text}}</span>
@@ -23,7 +23,7 @@
         </i-option>
       </i-select>
       <span class="ml-10">淘气值范围：</span>
-      <i-select v-model="wwFormValidate.tqz" style="width: 120px;">
+      <i-select v-model="wwFormValidate.tqz" style="width: 120px;" placeholder="不限">
         <i-option v-for="item in aliTqzList" :label='item.label' :value="item.value" :key="item.value">
           {{item.label}}
         </i-option>

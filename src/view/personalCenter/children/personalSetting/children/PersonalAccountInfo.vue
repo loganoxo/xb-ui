@@ -112,57 +112,57 @@
             <i-form ref="defaultModifyCustom" :model="defaultModifyCustom" :rules="defaultModifyRuleCustom" :label-width="400">
               <div class="clear form-input-box">
                 <form-item label="原始密码" class="left" style="width: 650px" prop="oldPwd">
-                  <iInput type="password" size="large" v-model="defaultModifyCustom.oldPwd"></iInput>
+                  <i-input type="password" size="large" v-model="defaultModifyCustom.oldPwd"/>
                 </form-item>
               </div>
               <div class="clear form-input-box">
-                <Form-item label="新密码" class="left" style="width: 650px" prop="newPwd">
-                  <iInput type="password" size="large" v-model="defaultModifyCustom.newPwd"></iInput>
-                </Form-item>
+                <form-item label="新密码" class="left" style="width: 650px" prop="newPwd">
+                  <i-input type="password" size="large" v-model="defaultModifyCustom.newPwd"/>
+                </form-item>
               </div>
               <div class="clear form-input-box">
-                <Form-item label="确认密码" class="left" style="width: 650px" prop="repwd">
-                  <iInput type="password" size="large" v-model="defaultModifyCustom.repwd"></iInput>
-                </Form-item>
+                <form-item label="确认密码" class="left" style="width: 650px" prop="repwd">
+                  <i-input type="password" size="large" v-model="defaultModifyCustom.repwd"/>
+                </form-item>
               </div>
               <div>
-                <Form-item>
-                  <iButton :disabled="defaultModifyBtnState"
+                <form-item>
+                  <i-button :disabled="defaultModifyBtnState"
                            @click="handleSubmit('defaultModifyCustom',modifyDefaultPwdFunc)">
                     确定
-                  </iButton>
-                  <iButton @click="myAccountPwdChangeSon('selBox')">
+                  </i-button>
+                  <i-button @click="myAccountPwdChangeSon('selBox')">
                     返回上一页
-                  </iButton>
-                </Form-item>
+                  </i-button>
+                </form-item>
               </div>
             </i-form>
           </div>
           <div v-show="myAccountSon.selDefaultModify" class="sel-phone-modify mt-20">
-            <iForm ref="payCustom" :model="payCustom" :rules="payRuleCustom" :label-width="400">
+            <i-form ref="payCustom" :model="payCustom" :rules="payRuleCustom" :label-width="400">
               <div class="clear form-input-box">
-                <Form-item label="绑定手机" prop="phone" class="left" style="width: 650px">
+                <form-item label="绑定手机" prop="phone" class="left" style="width: 650px">
                   <input class="fs-14" type="text" v-model="payCustom.phone" style="border: none;" readonly>
-                </Form-item>
+                </form-item>
               </div>
               <div class="clear form-input-box">
-                <Form-item label="图形验证码" prop="validateCode" class="left" style="width: 550px">
-                  <iInput type="text" size="large" v-model="payCustom.validateCode"></iInput>
-                </Form-item>
+                <form-item label="图形验证码" prop="validateCode" class="left" style="width: 550px">
+                  <i-input type="text" size="large" v-model="payCustom.validateCode"/>
+                </form-item>
                 <div style="width: 100px; float:left;">
                   <img :src="imgSrc" width="100%" alt="" @click="getVrcode">
                 </div>
               </div>
               <div class="clear form-input-box">
-                <Form-item label="短信验证码" class="left pos-rel" style="width: 650px">
-                  <iInput type="text" number size="large" v-model="payCustom.smsCode"></iInput>
-                  <SmsCountdown :on-success="sendCodeSuccess" style="top: 3px;"
+                <form-item label="短信验证码" class="left pos-rel" style="width: 650px">
+                  <i-input type="text" number size="large" v-model="payCustom.smsCode"/>
+                  <sms-countdown :on-success="sendCodeSuccess" style="top: 3px;"
                                 :phone="payCustom.phone"
                                 :purpose="payCustom.purpose"
                                 :validateCode="payCustom.validateCode"
                                 :timeout=120>
-                  </SmsCountdown>
-                </Form-item>
+                  </sms-countdown>
+                </form-item>
               </div>
               <div>
                 <Form-item>
@@ -174,34 +174,34 @@
                   </iButton>
                 </Form-item>
               </div>
-            </iForm>
+            </i-form>
           </div>
           <div v-show="myAccountSon.modifyPwd" class="mt-20">
-            <iForm ref="trendsModifyCustom" :model="trendsModifyCustom" :rules="trendsModifyRuleCustom"
+            <i-form ref="trendsModifyCustom" :model="trendsModifyCustom" :rules="trendsModifyRuleCustom"
                    :label-width="400">
               <div class="clear form-input-box">
-                <Form-item label="新密码" prop="pwd" class="left" style="width: 650px">
-                  <iInput type="password" size="large" v-model="trendsModifyCustom.pwd"></iInput>
-                </Form-item>
+                <form-item label="新密码" prop="pwd" class="left" style="width: 650px">
+                  <i-input type="password" size="large" v-model="trendsModifyCustom.pwd"/>
+                </form-item>
               </div>
               <div class="clear form-input-box">
-                <Form-item label="确认新密码" class="left" style="width: 650px" prop="repwd">
-                  <iInput type="password" size="large" v-model="trendsModifyCustom.repwd"></iInput>
-                </Form-item>
+                <form-item label="确认新密码" class="left" style="width: 650px" prop="repwd">
+                  <i-input type="password" size="large" v-model="trendsModifyCustom.repwd"/>
+                </form-item>
               </div>
               <div>
-                <Form-item>
-                  <iButton :disabled="trendsModifyBtnState" @click="handleSubmit('payCustom',modifyFinishPwdFunc)">
+                <form-item>
+                  <i-button :disabled="trendsModifyBtnState" @click="handleSubmit('payCustom',modifyFinishPwdFunc)">
                     确定
-                  </iButton>
-                </Form-item>
+                  </i-button>
+                </form-item>
               </div>
-            </iForm>
+            </i-form>
           </div>
         </div>
       </div>
     </div>
-    <qq-bind-modal :closable="isOpenQqBindModal" @change="openQqBindModal"></qq-bind-modal>
+    <qq-bind-modal :closable="isOpenQqBindModal" @change="openQqBindModal"/>
   </div>
 </template>
 
@@ -216,7 +216,7 @@
   import SmsCountdown from '@/components/SmsCountdown'
 
   export default {
-    name: 'PersonalAccountInfo',
+    name: 'personal-account-info',
     components: {
       iInput: Input,
       iForm: Form,
