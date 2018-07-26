@@ -198,15 +198,6 @@
                   <em class="price-icon">
                     <span v-if= "historyTask.activityCategory === 'pinkage_for_10'" style="padding: 0 4px; background: #75c5ff; color: #fff; margin-left: 10px; display: inline-block;height: 20px;line-height: 20px;">10元包邮</span>
                     <span v-if= "historyTask.activityCategory === 'present_get'" style="padding: 0 4px; background: #00cc66; color: #ffffff; margin-left: 10px; display: inline-block;height: 20px;line-height: 20px;">体验专区</span>
-                    <span v-if="historyTask.activityCategory === 'price_low' && historyTask.discountPrice" class="left home-discount-price mt-5" :style="{backgroundColor: $store.state.discountPriceType[parseFloat(historyTask.discountPrice/100)].backgroundColor}" >
-                      {{historyTask.discountPrice/100}}试用
-                    </span>
-                    <span v-if="historyTask.activityCategory === 'price_low' && historyTask.discountRate" class="left home-discount-price mt-5" :style="{backgroundColor: $store.state.discountPriceType[parseFloat(historyTask.discountRate/10) + '折'].backgroundColor}" >
-                      {{historyTask.discountRate/10}}折试用
-                    </span>
-                    <span v-if="historyTask.activityCategory === 'goods_clearance' && historyTask.discountRate " class="left home-discount-price mt-5" :style="{backgroundColor: $store.state.discountPriceType[parseFloat(historyTask.discountRate/10) + '折'].backgroundColor}" >
-                      {{historyTask.discountRate/10}}折清仓
-                    </span>
                   </em>
                 </p>
                 <p class="cl000 mt-5">

@@ -19,6 +19,7 @@ module.exports = merge(baseWebpackConfig, {
   devtool: '#cheap-module-eval-source-map',
   // these devServer options should be customized in /config/index.js
   devServer: {
+
     clientLogLevel: 'warning',
     historyApiFallback: {
       rewrites: [
@@ -26,7 +27,7 @@ module.exports = merge(baseWebpackConfig, {
       ],
     },
     hot: true,
-    contentBase: false, // since we use CopyWebpackPlugin.
+    contentBase: path.resolve(__dirname, '../dist'),
     compress: true,
     host: config.dev.host,
     port: config.dev.port,
