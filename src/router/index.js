@@ -1,98 +1,9 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 
-const Home = r => require.ensure([], () => r(require('@/view/Home.vue')), 'Home');
-const BuyerShow = r => require.ensure([], () => r(require('@/view/BuyerShow.vue')), 'BuyerShow');
-const QQLogin = r => require.ensure([], () => r(require('@/view/QQLogin.vue')), 'QQLogin');
-const SellerAdv = r => require.ensure([], () => r(require('@/view/SellerAdv.vue')), 'SellerAdv');
-const RecommendSpread = r => require.ensure([], () => r(require('@/view/RecommendSpread.vue')), 'RecommendSpread');
-const Notice = r => require.ensure([], () => r(require('@/view/Notice.vue')), 'Notice');
-
-const SellerSpread = r => require.ensure([], () => r(require('@/view/SellerSpread.vue')), 'SellerSpread');
-const SellerGuide = r => require.ensure([], () => r(require('@/view/SellerGuide.vue')), 'SellerGuide');
-const PhoneGuide = r => require.ensure([], () => r(require('@/view/PhoneGuide.vue')), 'PhoneGuide');
-const AboutUs = r => require.ensure([], () => r(require('@/view/AboutUs.vue')), 'AboutUs');
-const SelRole = r => require.ensure([], () => r(require('@/view/SelRole.vue')), 'SelRole');
-const TrialReport = r => require.ensure([], () => r(require('@/view/TrialReport.vue')), 'TrialReport');
-const Login = r => require.ensure([], () => r(require('@/view/Login.vue')), 'Login');
-const RevisePassword = r => require.ensure([], () => r(require('@/view/RevisePassword.vue')), 'RevisePassword');
-
-const ThirdPartyLogin = r => require.ensure([], () => r(require('@/view/ThirdPartyLogin.vue')), 'ThirdPartyLogin');
-const Register = r => require.ensure([], () => r(require('@/view/Register.vue')), 'Register');
-const TaskCategory = r => require.ensure([], () => r(require('@/view/TaskCategory.vue')), 'TaskCategory');
-const TaskDetails = r => require.ensure([], () => r(require('@/view/TaskDetails.vue')), 'TaskDetails');
-
-const PersonalCenter = r => require.ensure([], () => r(require('@/view/personalCenter/index.vue')), 'PersonalCenter');
-const UserHome = r => require.ensure([], () => r(require('@/view/personalCenter/children/UserHome.vue')), 'PersonalCenter');
-const TaskRelease = r => require.ensure([], () => r(require('@/view/personalCenter/children/TaskRelease.vue')), 'TaskRelease');
-const FastTaskRelease = r => require.ensure([], () => r(require('@/view/personalCenter/children/FastTaskRelease.vue')), 'FastTaskRelease');
-
-const ActivityManagement = r => require.ensure([], () => r(require('@/view/personalCenter/children/activityManagement/index.vue')), 'ActivityManagement');
-const ActivitiesList = r => require.ensure([], () => r(require('@/view/personalCenter/children/activityManagement/children/activitiesList.vue')), 'ActivityManagement');
-const ApproveShowker = r => require.ensure([], () => r(require('@/view/personalCenter/children/activityManagement/children/approveShowker.vue')), 'ActivityManagement');
-const ProbationReport = r => require.ensure([], () => r(require('@/view/personalCenter/children/activityManagement/children/probationReport.vue')), 'ActivityManagement');
-const DetailAndLog = r => require.ensure([], () => r(require('@/view/personalCenter/children/activityManagement/children/detailAndLog/index.vue')), 'ActivityManagement');
-const ActivityDetail = r => require.ensure([], () => r(require('@/view/personalCenter/children/activityManagement/children/detailAndLog/children/activityDetail.vue')), 'ActivityManagement');
-const ActivityLog = r => require.ensure([], () => r(require('@/view/personalCenter/children/activityManagement/children/detailAndLog/children/activityLog.vue')), 'ActivityManagement');
-
-const MyProbation = r => require.ensure([], () => r(require('@/view/personalCenter/children/myProbation/index.vue')), 'MyProbation');
-const ApplyWaitAudit = r => require.ensure([], () => r(require('@/view/personalCenter/children/myProbation/children/applyWaitAudit.vue')), 'MyProbation');
-const ApplyPassAudit = r => require.ensure([], () => r(require('@/view/personalCenter/children/myProbation/children/applyPassAudit.vue')), 'MyProbation');
-const ApplyFailAudit = r => require.ensure([], () => r(require('@/view/personalCenter/children/myProbation/children/applyFailAudit.vue')), 'MyProbation');
-
-const TaskManagement = r => require.ensure([], () => r(require('@/view/personalCenter/children/taskManagement/index.vue')), 'TaskManagement');
-const TaskWaitAudit = r => require.ensure([], () => r(require('@/view/personalCenter/children/taskManagement/children/taskWaitAudit.vue')), 'TaskManagement');
-const TaskPassAudit = r => require.ensure([], () => r(require('@/view/personalCenter/children/taskManagement/children/taskPassAudit.vue')), 'TaskManagement');
-const TaskFailAudit = r => require.ensure([], () => r(require('@/view/personalCenter/children/taskManagement/children/taskFailAudit.vue')), 'TaskManagement');
-
-const PersonalSetting = r => require.ensure([], () => r(require('@/view/personalCenter/children/personalSetting/index.vue')), 'PersonalSetting');
-const PersonalAccountInfo = r => require.ensure([], () => r(require('@/view/personalCenter/children/personalSetting/children/PersonalAccountInfo.vue')), 'PersonalSetting');
-const WwBind = r => require.ensure([], () => r(require('@/view/personalCenter/children/personalSetting/children/WwBind.vue')), 'PersonalSetting');
-const Verfied = r => require.ensure([], () => r(require('@/view/personalCenter/children/personalSetting/children/Verfied.vue')), 'PersonalSetting');
-
-const HelpCenter = r => require.ensure([], () => r(require('@/view/personalCenter/children/helpCenter/index.vue')), 'helpCenter');
-const Faq = r => require.ensure([], () => r(require('@/view/personalCenter/children/helpCenter/children/Faq.vue')), 'helpCenter');
-const FaqSeller = r => require.ensure([], () => r(require('@/view/personalCenter/children/helpCenter/children/FaqSeller.vue')), 'helpCenter');
-const FaqShowker = r => require.ensure([], () => r(require('@/view/personalCenter/children/helpCenter/children/FaqShowker.vue')), 'helpCenter');
-const SellerTest = r => require.ensure([], () => r(require('@/view/SellerTest.vue')), 'SellerTest');
-
-const MyTrialReport = r => require.ensure([], () => r(require('@/view/personalCenter/children/MyTrialReport.vue')), 'MyTrialReport');
-const MyAppeal = r => require.ensure([], () => r(require('@/view/personalCenter/children/MyAppeal.vue')), 'MyAppeal');
-const BlackListManagement = r => require.ensure([], () => r(require('@/view/personalCenter/children/BlackListManagement.vue')), 'BlackListManagement');
-
-const MoneyManagement = r => require.ensure([], () => r(require('@/view/personalCenter/children/moneyManagement/index.vue')), 'MoneyManagement');
-const AccountInfo = r => require.ensure([], () => r(require('@/view/personalCenter/children/moneyManagement/children/accountInfo.vue')), 'MoneyManagement');
-const AccountManagement = r => require.ensure([], () => r(require('@/view/personalCenter/children/moneyManagement/children/accountManagement.vue')), 'MoneyManagement');
-const PayMoney = r => require.ensure([], () => r(require('@/view/personalCenter/children/moneyManagement/children/payMoney.vue')), 'MoneyManagement');
-const GetoutMoney = r => require.ensure([], () => r(require('@/view/personalCenter/children/moneyManagement/children/getoutMoney.vue')), 'MoneyManagement');
-const TransactionRecord = r => require.ensure([], () => r(require('@/view/personalCenter/children/moneyManagement/children/transactionRecord.vue')), 'MoneyManagement');
-
-const Recommend = r => require.ensure([], () => r(require('@/view/personalCenter/children/Recommend.vue')), 'Recommend');
-
-const BindStore = r => require.ensure([], () => r(require('@/view/personalCenter/children/bindStore/index.vue')), 'BindStore');
-const StoreBindRules = r => require.ensure([], () => r(require('@/view/personalCenter/children/bindStore/children/storeBindRules.vue')), 'StoreBindRules');
-const StoreBindOperating = r => require.ensure([], () => r(require('@/view/personalCenter/children/bindStore/children/storeBindOperating.vue')), 'StoreBindOperating');
-
-const VipMember = r => require.ensure([], () => r(require('@/view/personalCenter/children/vipMember/index.vue')), 'VipMember');
-const VipMemberInstructions = r => require.ensure([], () => r(require('@/view/personalCenter/children/vipMember/children/Instructions.vue')), 'VipMember');
-const VipMemberOrder = r => require.ensure([], () => r(require('@/view/personalCenter/children/vipMember/children/Order.vue')), 'VipMember');
-
-const ShowkerLanding = r => require.ensure([], () => r(require('@/view/promotionPage/ShowkerLanding.vue')), 'ShowkerLanding');
-const LandingPage = r => require.ensure([], () => r(require('@/view/promotionPage/LandingPage.vue')), 'LandingPage');
-const ChapaimingLanding = r => require.ensure([], () => r(require('@/view/promotionPage/ChapaimingLanding.vue')), 'ChapaimingLanding');
-const SpreadLandingPage = r => require.ensure([], () => r(require('@/view/promotionPage/SpreadLandingPage.vue')), 'SpreadLandingPage');
-const SpreadLandingPageTwo = r => require.ensure([], () => r(require('@/view/promotionPage/SpreadLandingPageTwo.vue')), 'SpreadLandingPageTwo');
-const SpreadLandingPageThree = r => require.ensure([], () => r(require('@/view/promotionPage/SpreadLandingPageThree.vue')), 'SpreadLandingPageThree');
-
-// PC 端的商家推广
-const MerchantPromotion = r => require.ensure([], () => r(require('@/view/merchantPromotion/index.vue')), 'Promotion');
-const PromotionRegulation = r => require.ensure([], () => r(require('@/view/merchantPromotion/children/PromotionRegulation.vue')), 'Promotion');
-const PromotionDetails = r => require.ensure([], () => r(require('@/view/merchantPromotion/children/promotionDetails/index.vue')), 'Promotion');
-const PromotionManagement = r => require.ensure([], () => r(require('@/view/merchantPromotion/children/promotionManagement/index.vue')), 'Promotion');
-
-const News = r => require.ensure([], () => r(require('@/view/newsPage/news.vue')), 'News');
-
 Vue.use(Router);
+
+const _import = require(`./router.${process.env.NODE_ENV}.config`);
 
 /**
  * 路由元信息参数说明
@@ -112,7 +23,7 @@ export default new Router({
     {
       path: '/',
       name: 'Home',
-      component: Home,
+      component: _import('Home'),
       meta: {
         title: "白拿拿 - 海量优质商品 免费试用",
         logInAuthority: false,
@@ -124,7 +35,7 @@ export default new Router({
     {
       path: '/buyer-show',
       name: 'BuyerShow',
-      component: BuyerShow,
+      component: _import('BuyerShow'),
       meta: {
         title: "买家秀",
         logInAuthority: false,
@@ -136,7 +47,7 @@ export default new Router({
     {
       path: '/notice',
       name: 'Notice',
-      component: Notice,
+      component: _import('Notice'),
       meta: {
         title: "公告",
         logInAuthority: false,
@@ -148,7 +59,7 @@ export default new Router({
     {
       path: '/sel-role',
       name: 'SelRole',
-      component: SelRole,
+      component: _import('SelRole'),
       meta: {
         title: "注册角色选择",
         logInAuthority: false,
@@ -160,7 +71,7 @@ export default new Router({
     {
       path: '/revise-password',
       name: 'RevisePassword',
-      component: RevisePassword,
+      component: _import('RevisePassword'),
       meta: {
         title: "登录密码修改",
         logInAuthority: false,
@@ -172,7 +83,7 @@ export default new Router({
     {
       path: '/qq-login',
       name: 'QQLogin',
-      component: QQLogin,
+      component: _import('QQLogin'),
       meta: {
         title: "QQ登录中",
         logInAuthority: false,
@@ -184,7 +95,7 @@ export default new Router({
     {
       path: '/seller-adv',
       name: 'SellerAdv',
-      component: SellerAdv,
+      component: _import('SellerAdv'),
       meta: {
         title: "商家推广",
         logInAuthority: false,
@@ -196,7 +107,7 @@ export default new Router({
     {
       path: '/recommend-spread',
       name: 'RecommendSpread',
-      component: RecommendSpread,
+      component: _import('RecommendSpread'),
       meta: {
         title: "推荐引导",
         logInAuthority: false,
@@ -208,7 +119,7 @@ export default new Router({
     {
       path: '/seller-spread',
       name: 'sellerSpread',
-      component: SellerSpread,
+      component: _import('SellerSpread'),
       meta: {
         title: "商家引导",
         logInAuthority: false,
@@ -220,7 +131,7 @@ export default new Router({
     {
       path: '/seller-guide',
       name: 'SellerGuide',
-      component: SellerGuide,
+      component: _import('SellerGuide'),
       meta: {
         title: "商家引导页",
         logInAuthority: true,
@@ -232,7 +143,7 @@ export default new Router({
     {
       path: '/phone-guide',
       name: 'PhoneGuide',
-      component: PhoneGuide,
+      component: _import('PhoneGuide'),
       meta: {
         title: "手机端引导",
         logInAuthority: false,
@@ -244,7 +155,7 @@ export default new Router({
     {
       path: '/showker-landing',
       name: 'ShowkerLanding',
-      component: ShowkerLanding,
+      component: _import('promotionPage/ShowkerLanding'),
       meta: {
         title: "拿手落地页",
         logInAuthority: false,
@@ -256,7 +167,7 @@ export default new Router({
     {
       path: '/landing-page',
       name: 'LandingPage',
-      component: LandingPage,
+      component: _import('promotionPage/LandingPage'),
       meta: {
         title: "商家落地页",
         logInAuthority: false,
@@ -268,7 +179,7 @@ export default new Router({
     {
       path: '/chapaiming-landing',
       name: 'ChapaimingLanding',
-      component: ChapaimingLanding,
+      component: _import('promotionPage/ChapaimingLanding'),
       meta: {
         title: "商家落地页",
         logInAuthority: false,
@@ -280,7 +191,7 @@ export default new Router({
     {
       path: '/spread-landing-page',
       name: 'SpreadLandingPage',
-      component: SpreadLandingPage,
+      component: _import('promotionPage/SpreadLandingPage'),
       meta: {
         title: "推广落地页",
         logInAuthority: false,
@@ -292,7 +203,7 @@ export default new Router({
     {
       path: '/spread-landing-page-two',
       name: 'SpreadLandingPageTwo',
-      component: SpreadLandingPageTwo,
+      component: _import('promotionPage/SpreadLandingPageTwo'),
       meta: {
         title: "推广落地页",
         logInAuthority: false,
@@ -304,7 +215,7 @@ export default new Router({
     {
       path: '/spread-landing-page-three',
       name: 'SpreadLandingPageThree',
-      component: SpreadLandingPageThree,
+      component: _import('promotionPage/SpreadLandingPageThree'),
       meta: {
         title: "推广落地页",
         logInAuthority: false,
@@ -316,7 +227,7 @@ export default new Router({
     {
       path: '/about-us',
       name: 'AboutUs',
-      component: AboutUs,
+      component: _import('AboutUs'),
       meta: {
         title: "关于我们",
         logInAuthority: false,
@@ -328,7 +239,7 @@ export default new Router({
     {
       path: '/go-xb',
       name: 'ThirdPartyLogin',
-      component: ThirdPartyLogin,
+      component: _import('ThirdPartyLogin'),
       meta: {
         title: "用户登录",
         logInAuthority: false,
@@ -340,7 +251,7 @@ export default new Router({
     {
       path: '/login',
       name: 'Login',
-      component: Login,
+      component: _import('Login'),
       meta: {
         title: "用户登录",
         logInAuthority: false,
@@ -352,7 +263,7 @@ export default new Router({
     {
       path: '/register',
       name: 'Register',
-      component: Register,
+      component: _import('Register'),
       children: [
         {
           path: 'seller-register',
@@ -381,7 +292,7 @@ export default new Router({
     {
       path: '/task-category',
       name: 'TaskCategory',
-      component: TaskCategory,
+      component: _import('TaskCategory'),
       meta: {
         title: "任务分类展示",
         logInAuthority: false,
@@ -393,7 +304,7 @@ export default new Router({
     {
       path: '/task-details',
       name: 'TaskDetails',
-      component: TaskDetails,
+      component: _import('TaskDetails'),
       meta: {
         title: "任务详情页",
         logInAuthority: false,
@@ -405,7 +316,7 @@ export default new Router({
     {
       path: '/trial-report',
       name: 'TrialReport',
-      component: TrialReport,
+      component: _import('TrialReport'),
       meta: {
         title: "买家秀页",
         logInAuthority: false,
@@ -417,12 +328,12 @@ export default new Router({
     {
       path: '/user',
       name: 'PersonalCenter',
-      component: PersonalCenter,
+      component: _import('personalCenter/index'),
       children: [
         {
           path: 'user-home',
           name: 'UserHome',
-          component: UserHome,
+          component: _import('personalCenter/children/UserHome'),
           meta: {
             title: "我的主页",
             logInAuthority: true,
@@ -434,12 +345,12 @@ export default new Router({
         {
           path: 'bind-store',
           name: 'BindStore',
-          component: BindStore,
+          component: _import('personalCenter/children/bindStore/index'),
           children: [
             {
               path: 'store-bind-rules',
               name: 'StoreBindRules',
-              component: StoreBindRules,
+              component: _import('personalCenter/children/bindStore/children/StoreBindRules'),
               meta: {
                 title: "店铺绑定说明",
                 logInAuthority: true,
@@ -451,7 +362,7 @@ export default new Router({
             {
               path: 'store-bind-operating',
               name: 'StoreBindOperating',
-              component: StoreBindOperating,
+              component: _import('personalCenter/children/bindStore/children/StoreBindOperating'),
               meta: {
                 title: '店铺绑定操作',
                 logInAuthority: true,
@@ -465,7 +376,7 @@ export default new Router({
         {
           path: 'task-release',
           name: 'TaskRelease',
-          component: TaskRelease,
+          component: _import('personalCenter/children/TaskRelease'),
           meta: {
             title: "发布活动",
             logInAuthority: true,
@@ -477,7 +388,7 @@ export default new Router({
         {
           path: 'fast-task-release',
           name: 'FastTaskRelease',
-          component: FastTaskRelease,
+          component: _import('personalCenter/children/FastTaskRelease'),
           meta: {
             title: "快速发布活动",
             logInAuthority: true,
@@ -489,7 +400,7 @@ export default new Router({
         {
           path: 'recommend',
           name: 'Recommend',
-          component: Recommend,
+          component: _import('personalCenter/children/Recommend'),
           meta: {
             title: "推荐有礼",
             logInAuthority: true,
@@ -501,12 +412,12 @@ export default new Router({
         {
           path: 'activity-management',
           name: 'ActivityManagement',
-          component: ActivityManagement,
+          component: _import('personalCenter/children/activityManagement/index'),
           children: [
             {
               path: 'list',
               name: 'ActivitiesList',
-              component: ActivitiesList,
+              component: _import('personalCenter/children/activityManagement/children/ActivitiesList'),
               meta: {
                 title: "活动管理-活动列表",
                 logInAuthority: true,
@@ -518,7 +429,7 @@ export default new Router({
             {
               path: 'approve',
               name: 'ApproveShowker',
-              component: ApproveShowker,
+              component: _import('personalCenter/children/activityManagement/children/ApproveShowker'),
               meta: {
                 title: "活动管理-审批拿手",
                 logInAuthority: true,
@@ -530,7 +441,7 @@ export default new Router({
             {
               path: 'report',
               name: 'ProbationReport',
-              component: ProbationReport,
+              component: _import('personalCenter/children/activityManagement/children/ProbationReport'),
               meta: {
                 title: "活动管理-买家秀",
                 logInAuthority: true,
@@ -542,12 +453,12 @@ export default new Router({
             {
               path: 'detail-log',
               name: 'DetailAndLog',
-              component: DetailAndLog,
+              component: _import('personalCenter/children/detailAndLog/index'),
               children: [
                 {
                   path: 'detail',
                   name: 'ActivityDetail',
-                  component: ActivityDetail,
+                  component: _import('personalCenter/children/detailAndLog/children/ActivityDetail'),
                   meta: {
                     title: "活动管理-活动详情",
                     logInAuthority: true,
@@ -559,7 +470,7 @@ export default new Router({
                 {
                   path: 'log',
                   name: 'ActivityLog',
-                  component: ActivityLog,
+                  component: _import('personalCenter/children/detailAndLog/children/ActivityLog'),
                   meta: {
                     title: "活动管理-活动日志",
                     logInAuthority: true,
@@ -575,12 +486,12 @@ export default new Router({
         {
           path: 'task-management',
           name: 'TaskManagement',
-          component: TaskManagement,
+          component: _import('personalCenter/children/taskManagement/index'),
           children: [
             {
               path: 'wait',
               name: 'TaskWaitAudit',
-              component: TaskWaitAudit,
+              component: _import('personalCenter/children/taskManagement/children/TaskWaitAudit'),
               meta: {
                 title: "任务管理-待审核",
                 logInAuthority: true,
@@ -592,7 +503,7 @@ export default new Router({
             {
               path: 'pass',
               name: 'TaskPassAudit',
-              component: TaskPassAudit,
+              component: _import('personalCenter/children/taskManagement/children/TaskPassAudit'),
               meta: {
                 title: "任务管理-已通过",
                 logInAuthority: true,
@@ -604,7 +515,7 @@ export default new Router({
             {
               path: 'fail',
               name: 'TaskFailAudit',
-              component: TaskFailAudit,
+              component: _import('personalCenter/children/taskManagement/children/TaskFailAudit'),
               meta: {
                 title: "任务管理-已终止",
                 logInAuthority: true,
@@ -618,12 +529,12 @@ export default new Router({
         {
           path: 'my-probation',
           name: 'MyProbation',
-          component: MyProbation,
+          component: _import('personalCenter/children/myProbation/index'),
           children: [
             {
               path: 'wait',
               name: 'ApplyWaitAudit',
-              component: ApplyWaitAudit,
+              component: _import('personalCenter/children/myProbation/children/ApplyWaitAudit'),
               meta: {
                 title: "我的买家秀-待审批",
                 logInAuthority: true,
@@ -635,7 +546,7 @@ export default new Router({
             {
               path: 'pass',
               name: 'ApplyPassAudit',
-              component: ApplyPassAudit,
+              component: _import('personalCenter/children/myProbation/children/ApplyPassAudit'),
               meta: {
                 title: "我的买家秀-已通过",
                 logInAuthority: true,
@@ -647,7 +558,7 @@ export default new Router({
             {
               path: 'fail',
               name: 'ApplyFailAudit',
-              component: ApplyFailAudit,
+              component: _import('personalCenter/children/myProbation/children/ApplyFailAudit'),
               meta: {
                 title: "我的买家秀-未通过",
                 logInAuthority: true,
@@ -656,18 +567,12 @@ export default new Router({
                 role: 0,
               },
             },
-            {
-              path: 'report',
-              redirect: {
-                name: 'ProbationReport'
-              }
-            },
           ]
         },
         {
           path: 'my-trial-report',
           name: 'MyTrialReport',
-          component: MyTrialReport,
+          component: _import('personalCenter/children/MyTrialReport'),
           meta: {
             title: "我的报告",
             logInAuthority: true,
@@ -679,7 +584,7 @@ export default new Router({
         {
           path: 'my-appeal',
           name: 'MyAppeal',
-          component: MyAppeal,
+          component: _import('personalCenter/children/MyAppeal'),
           meta: {
             title: "我的申诉",
             logInAuthority: true,
@@ -691,7 +596,7 @@ export default new Router({
         {
           path: 'black-list-management',
           name: 'BlackListManagement',
-          component: BlackListManagement,
+          component: _import('personalCenter/children/BlackListManagement'),
           meta: {
             title: "黑名单管理",
             logInAuthority: true,
@@ -703,12 +608,12 @@ export default new Router({
         {
           path: 'personal-setting',
           name: 'personalSetting',
-          component: PersonalSetting,
+          component: _import('personalCenter/children/personalSetting/index'),
           children: [
             {
               path: 'personal-account-info',
               name: 'PersonalAccountInfo',
-              component: PersonalAccountInfo,
+              component: _import('personalCenter/children/personalSetting/children/PersonalAccountInfo'),
               meta: {
                 title: "个人设置-账号信息",
                 logInAuthority: true,
@@ -720,7 +625,7 @@ export default new Router({
             {
               path: 'ww-bind',
               name: 'WwBind',
-              component: WwBind,
+              component: _import('personalCenter/children/personalSetting/children/WwBind'),
               meta: {
                 title: "个人设置-旺旺绑定",
                 logInAuthority: true,
@@ -732,7 +637,7 @@ export default new Router({
             {
               path: 'verified',
               name: 'Verfied',
-              component: Verfied,
+              component: _import('personalCenter/children/personalSetting/children/Verfied'),
               meta: {
                 title: "个人设置-实名认证",
                 logInAuthority: true,
@@ -746,12 +651,12 @@ export default new Router({
         {
           path: 'help-center',
           name: 'helpCenter',
-          component: HelpCenter,
+          component: _import('personalCenter/children/helpCenter/index'),
           children: [
             {
               path: 'faq',
-              name: 'faq',
-              component: Faq,
+              name: 'Faq',
+              component: _import('personalCenter/children/helpCenter/children/Faq'),
               meta: {
                 title: "帮助中心-常见问题",
                 logInAuthority: false,
@@ -762,8 +667,8 @@ export default new Router({
             },
             {
               path: 'faq-seller',
-              name: 'faqSeller',
-              component: FaqSeller,
+              name: 'FaqSeller',
+              component: _import('personalCenter/children/helpCenter/children/FaqSeller'),
               meta: {
                 title: "帮助中心-商家中心",
                 logInAuthority: false,
@@ -774,8 +679,8 @@ export default new Router({
             },
             {
               path: 'faq-showker',
-              name: 'faqShowker',
-              component: FaqShowker,
+              name: 'FaqShowker',
+              component: _import('personalCenter/children/helpCenter/children/FaqShowker'),
               meta: {
                 title: "个人设置-拿手中心",
                 logInAuthority: false,
@@ -789,12 +694,12 @@ export default new Router({
         {
           path: 'money-management',
           name: 'MoneyManagement',
-          component: MoneyManagement,
+          component: _import('personalCenter/children/moneyManagement/index'),
           children: [
             {
               path: 'account-info',
               name: 'AccountInfo',
-              component: AccountInfo,
+              component: _import('personalCenter/children/moneyManagement/children/AccountInfo'),
               meta: {
                 title: "资金管理-账号信息",
                 logInAuthority: true,
@@ -806,7 +711,7 @@ export default new Router({
             {
               path: 'account-management',
               name: 'AccountManagement',
-              component: AccountManagement,
+              component: _import('personalCenter/children/moneyManagement/children/AccountManagement'),
               meta: {
                 title: "资金管理-账户管理",
                 logInAuthority: true,
@@ -818,7 +723,7 @@ export default new Router({
             {
               path: 'pay-money',
               name: 'PayMoney',
-              component: PayMoney,
+              component: _import('personalCenter/children/moneyManagement/children/PayMoney'),
               meta: {
                 title: "资金管理-充值",
                 logInAuthority: true,
@@ -830,7 +735,7 @@ export default new Router({
             {
               path: 'getout-money',
               name: 'GetoutMoney',
-              component: GetoutMoney,
+              component: _import('personalCenter/children/moneyManagement/children/GetoutMoney'),
               meta: {
                 title: "资金管理-提现",
                 logInAuthority: true,
@@ -842,7 +747,7 @@ export default new Router({
             {
               path: 'transaction-record',
               name: 'TransactionRecord',
-              component: TransactionRecord,
+              component: _import('personalCenter/children/moneyManagement/children/TransactionRecord'),
               meta: {
                 title: "资金管理-交易记录",
                 logInAuthority: true,
@@ -856,12 +761,12 @@ export default new Router({
         {
           path: 'vip-member',
           name: 'VipMember',
-          component: VipMember,
+          component: _import('personalCenter/children/vipMember/index'),
           children: [
             {
               path: 'order',
               name: 'VipMemberOrder',
-              component: VipMemberOrder,
+              component: _import('personalCenter/children/vipMember/children/Order'),
               meta: {
                 title: "VIP会员购买",
                 logInAuthority: true,
@@ -873,7 +778,7 @@ export default new Router({
             {
               path: 'instructions',
               name: 'VipMemberInstructions',
-              component: VipMemberInstructions,
+              component: _import('personalCenter/children/vipMember/children/Instructions'),
               meta: {
                 title: "VIP会员说明",
                 logInAuthority: true,
@@ -889,12 +794,12 @@ export default new Router({
     {
       path: '/promotion',
       name: 'Promotion',
-      component: MerchantPromotion,
+      component: _import('merchantPromotion/index'),
       children: [
         {
           path:'promotion-regulation',
           name:'PromotionRegulation',
-          component: PromotionRegulation,
+          component: _import('merchantPromotion/children/PromotionRegulation'),
           meta: {
             title: "赚点钱儿",
             logInAuthority: true,
@@ -906,7 +811,7 @@ export default new Router({
         {
           path:'promotion-details',
           name:'PromotionDetails',
-          component: PromotionDetails,
+          component: _import('merchantPromotion/children/promotionDetails/index'),
           meta: {
             title: "赚钱明细",
             logInAuthority: true,
@@ -918,7 +823,7 @@ export default new Router({
         {
           path:'promotion-management',
           name:'PromotionManagement',
-          component: PromotionManagement,
+          component: _import('merchantPromotion/children/promotionManagement/index'),
           meta: {
             title: "推荐管理",
             logInAuthority: true,
@@ -932,7 +837,7 @@ export default new Router({
     {
       path: '/news',
       name: 'News',
-      component: News,
+      component: _import('newsPage/News'),
       meta: {
         title: "新闻页",
         logInAuthority: false,
