@@ -207,7 +207,7 @@
 
 <script>
   import {Icon, Form, Input, Checkbox, Button, Radio, Modal, Alert} from 'iview'
-  import pictureUpload from 'vue-image-crop-upload';
+  import pictureUpload from '@/components/pictureUpload';
   import api from '@/config/apiConfig'
   import Upload from '@/components/Upload'
   import QQBindModal from '@/components/QQBindModal'
