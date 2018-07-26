@@ -26,8 +26,7 @@ module.exports = merge(baseWebpackConfig, {
         {from: /.*/, to: path.posix.join(config.dev.assetsPublicPath, 'index.html')},
       ],
     },
-    hot: true,
-    contentBase: path.resolve(__dirname, '../dist'),
+    hot: true, // 启用热加载
     compress: true,
     host: config.dev.host,
     port: config.dev.port,
