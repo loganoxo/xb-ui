@@ -979,7 +979,7 @@ export default {
    * 根据商品链接获取店铺名称和店铺旺旺(by-link)
    */
   getStoreInfoByLink(params) {
-    return axiosConfig.post('/api/get-store-info-by-link.json', params)
+    return axiosConfig.get('/api/get-store-info-by-link.json', params)
   },
 
   /**
@@ -1183,6 +1183,13 @@ export default {
    */
   getRewardList(params) {
     return axiosConfig.get('/api/get-reward-list.json', params)
+  },
+
+  /**
+   * 拿手兴趣标签
+   */
+  getInterestTag(params) {
+    return axiosConfig.get('/api/get-tag.json', params)
   },
 
 }

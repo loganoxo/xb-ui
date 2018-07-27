@@ -695,6 +695,7 @@
           itemReviewAssignString: [],
           mainTaskVasConfigIds: [],
           similarTaskVasConfigIds: [],
+          showkerApplyRequire: null,
         },
         editPriceAfterModel: false,
         editPriceToLowAfterModel: false,
