@@ -40,6 +40,11 @@
           </div>
         </div>
       </div>
+      <div class="border-top pt-10 mt-10">
+        <span>系统审批延期：</span>
+        <i-input v-model.number="delayDays" style="width: 100px;" placeholder="请输入延期天数"/>
+        <span>（距离系统自动审批还有）</span>
+      </div>
       <div class="mt-10 border-top pt-10">共追加&nbsp;<span class="main-color">{{allAddTaskNumber}}</span>&nbsp;份</div>
       <i-button slot="footer" type="primary" size="large" long :loding="buttonLoading" @click="nextStep">下一步</i-button>
     </template>
@@ -65,6 +70,7 @@
 <script>
   import {Modal, Input, Button, Icon} from 'iview'
   import PayModel from '@/components/PayModel'
+  import TimeDown from '@/components/TimeDown'
   import api from '@/config/apiConfig'
   import {isInteger, delSpace, debounce} from '@/config/utils'
 
@@ -80,7 +86,8 @@
         title: '活动追加名额',
         keywordPlanInfo: [],
         selectKeywordScheme: 0,
-        timer: null
+        timer: null,
+        delayDays:null,
       }
     },
     components: {
@@ -89,6 +96,7 @@
       IInput: Input,
       IButton: Button,
       PayModel: PayModel,
+      TimeDown: TimeDown,
     },
     props: {
       value: {
@@ -288,14 +296,20 @@
       },
       nextStep() {
         let isItemReviewOk = true;
+        if (!isInteger(this.keywordPlanInfo[0].addTaskNumber)) {
+          this.$Message.warning(`亲，追加活动份数必须为正整数数字！`);
+          return;
+        }
+        if (this.delayDays){
+          if (!isInteger(this.delayDays)) {
+            this.$Message.warning(`亲，延期天数必须为正整数数字！`);
+            return;
+          }
+        }
         if (!this.data.isMoreKeywordsPlan) {
           // 老活动的校验逻辑（没有关键词人数分配）
           if (!this.keywordPlanInfo[0].addTaskNumber) {
             this.$Message.warning(`亲，请输入需要追加的活动份数！`);
-            return;
-          }
-          if (!isInteger(this.keywordPlanInfo[0].addTaskNumber)) {
-            this.$Message.warning(`亲，追加活动份数必须为正整数数字！`);
             return;
           }
           if (this.keywordPlanInfo[0].addTaskNumber <= 0) {

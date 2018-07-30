@@ -9,8 +9,8 @@
         <div class="left pl-60 my-address">
           <p class="fs-18"><strong>杭州秀客科技有限公司</strong></p>
           <p class="mt-20">浙江省杭州市江干区笕丁路168号大世界五金城32幢401室295</p>
-          <p class="mt-20">联系方式：0571-26894144</p>
-          <iButton type="success" class="mt-20 button" @click="register">立即注册</iButton>
+          <p class="mt-20">联系方式：13116718205</p>
+          <div class="mt-20 button cursor-p" @click="register">立即注册</div>
         </div>
       </div>
     </div>
@@ -62,7 +62,12 @@
         background-color: #FF6600;
         border: none;
         height: 40px;
+        line-height: 40px;
+        text-align: center;
+        color: #fff;
+        font-weight: bold;
         font-size: 18px;
+        border-radius: 5px;
       }
     }
     .content{
