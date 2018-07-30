@@ -113,7 +113,8 @@ export const isInteger = (number) => {
   if (!number) {
     return
   }
-  const IS_INTEGER = /^\+?[1-9][0-9]*$/;
+  // const IS_INTEGER = /^\+?[1-9][0-9]*$/;
+  const IS_INTEGER =  /^[1-9]\d*$/;
   return IS_INTEGER.test(number)
 };
 

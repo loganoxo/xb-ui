@@ -28,7 +28,7 @@
         <div v-for="item in keywordPlanInfo" v-show="selectKeywordScheme === item.index">
           <div class="mt-10">
             <span>追加份数：</span>
-            <i-input v-model.number="item.addTaskNumber" placeholder="请输入追加份数" @on-change="addTaskNumberChange" style="width: 100px;"/>
+            <i-input type="number" v-model.number="item.addTaskNumber" placeholder="请输入追加份数" @on-change="addTaskNumberChange" style="width: 100px;"/>
             <span class="ml-10 cl000 fs-14" v-if="item.title">为{{` "${item.title}" `}}追加的份数</span>
           </div>
           <div class="mt-10 border-top pt-10 addition-item" v-if="data.itemReviewRequired === 'assign_review_detail' && itemReviewList.length > 0">
@@ -65,6 +65,7 @@
 <script>
   import {Modal, Input, Button, Icon} from 'iview'
   import PayModel from '@/components/PayModel'
+  import TimeDown from '@/components/TimeDown'
   import api from '@/config/apiConfig'
   import {isInteger, delSpace, debounce} from '@/config/utils'
 
@@ -80,7 +81,7 @@
         title: '活动追加名额',
         keywordPlanInfo: [],
         selectKeywordScheme: 0,
-        timer: null
+        timer: null,
       }
     },
     components: {
@@ -89,6 +90,7 @@
       IInput: Input,
       IButton: Button,
       PayModel: PayModel,
+      TimeDown: TimeDown,
     },
     props: {
       value: {
@@ -288,14 +290,20 @@
       },
       nextStep() {
         let isItemReviewOk = true;
+        let addTaskNumberIsNotInt = false;
+        this.keywordPlanInfo.forEach( item => {
+          if (item.addTaskNumber && !isInteger(item.addTaskNumber)) {
+            this.$Message.warning(`亲，追加活动份数必须为正整数数字！`);
+            addTaskNumberIsNotInt = true;
+          }
+        });
+        if(addTaskNumberIsNotInt){
+          return
+        }
         if (!this.data.isMoreKeywordsPlan) {
           // 老活动的校验逻辑（没有关键词人数分配）
           if (!this.keywordPlanInfo[0].addTaskNumber) {
             this.$Message.warning(`亲，请输入需要追加的活动份数！`);
-            return;
-          }
-          if (!isInteger(this.keywordPlanInfo[0].addTaskNumber)) {
-            this.$Message.warning(`亲，追加活动份数必须为正整数数字！`);
             return;
           }
           if (this.keywordPlanInfo[0].addTaskNumber <= 0) {

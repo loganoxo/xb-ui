@@ -10,7 +10,7 @@
       <div v-if="currentTab.id === 1">
         <h2 class="text-ct mt-20 mb-40">有商家资源？我们一起来赚钱吧！</h2>
         <div class="regulation-module pos-rel text-ct cl000">
-          <div class="regulation-title fs-14 f-b">如果你的普通推荐者（推荐人数小于30人）</div>
+          <div class="regulation-title fs-14 f-b">如果你是普通推荐者（推荐人数小于30人）</div>
           <p class="fs-16">推荐一个商家注册并成功发布1个活动，他将享受<span class="point">首单推广费全免</span></p>
           <p class="fs-16 mt-5">你将获得<span class="point">{{(firstTaskReward.configValue)/100}}元</span>奖励，并且以后他每成功消费一次，你将获得<span class="point">{{fatherRewardPercent.configValue}}%</span>的提成（包含推广费，会员订购，增值服务及功能等）！</p>
         </div>
@@ -109,7 +109,6 @@
         let clipboard = new Clipboard('.copy-btn');
         clipboard.on('success',() => {
           _this.$Message.success("复制链接成功！");
-          clipboard.destroy();
         });
         clipboard.on('error',() => {
           _this.$Message.error("复制链接失败，可能是您的浏览器不支持此功能，请手动复制");
