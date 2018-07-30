@@ -310,10 +310,6 @@
             this.$Message.warning(`亲，追加活动份数必须大于0！`);
             return;
           }
-          /*if (!isInteger(this.keywordPlanInfo[0].addTaskNumber)) {
-            this.$Message.warning(`亲，追加活动份数必须为正整数数字！`);
-            return;
-          }*/
         } else {
           // 新活动的校验逻辑（有关键词人数分配）
           const allOk = this.keywordPlanInfo.some(item => {
@@ -323,10 +319,6 @@
             this.$Message.warning(`亲，请输入需要追加的活动份数！`);
             return;
           }
-          /*if (!isInteger(this.keywordPlanInfo[1].addTaskNumber)) {
-            this.$Message.warning(`亲，追加活动份数必须为正整数数字！`);
-            return;
-          }*/
         }
         if (this.data.itemReviewRequired === 'assign_review_detail') {
           for (let l = 0, len = this.itemReviewList.length; l < len; l++) {
