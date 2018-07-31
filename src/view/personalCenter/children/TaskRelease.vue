@@ -1030,7 +1030,7 @@
               </div>
               <div class="mt-20 ml-20">
                 <span>地区要求：</span>
-                <span class="sizeColor2">勾选以下“<span class="main-color">不想要</span>”的地区</span>
+                <span class="sizeColor2">勾选以下“<span class="main-color">不想要</span>”的地区，最多选5个</span>
               </div>
               <div class="ml-80 mr-80">
                 <checkbox-group v-model="showkerCondition.addressExclude">
@@ -1069,7 +1069,7 @@
                   </div>
                 </div>
               </div>
-              <div class="mt-20 ml-20 clear">
+              <div v-if="taskRelease.orderType === 'normal'" class="mt-20 ml-20 clear">
                 <span class="left">审批时间/份数要求：</span>
                 <div class="inline-block left">
                   <div class="sizeColor2">（需将系统审批名额全部设置完成，若有剩余名额未设置，则由系统自由审批。系统名额剩余数：<span class="main-color">{{systemSurplusApprovalTaskNumber}}</span>）</div>
@@ -1078,7 +1078,7 @@
                       <div class="inline-block width-pct-20 text-ct">日期</div>
                       <div class="inline-block width-pct-39 text-ct">
                         <span>时段</span>
-                        <tooltip content="请尽量扩大时间范围，提高任务成功率" placement="top"><icon class="cursor-p" type="help-circled"/></tooltip>
+                        <tooltip content="请尽量扩大时间范围，提高任务成功率，时间段不可重叠" placement="top"><icon class="cursor-p" type="help-circled"/></tooltip>
                       </div>
                       <div class="inline-block width-pct-39 text-ct">
                         <span>最多可审批数</span>
@@ -1097,11 +1097,11 @@
                       <!--</div>-->
                       <div class="inline-block width-pct-39 text-ct">
                         <i-select v-model="item.hourStart" style="width:100px;" @on-change="limitStartTime(item.hourStart,index)">
-                          <i-option v-for="(item,index) in period" :key="index" :value="item.hour"></i-option>
+                          <i-option v-for="(item,index) in period" :key="index" :value="item.hour" :label='item.hour'></i-option>
                         </i-select>
                         <span>点-</span>
                         <i-select v-model="item.hourEnd" style="width:100px;" @on-change="limitEndTime(item.hourEnd,index)">
-                          <i-option v-for="(item,index) in period" :key="index" :value="item.hour"></i-option>
+                          <i-option v-for="(item,index) in period" :key="index" :value="item.hour" :label='item.hour'></i-option>
                         </i-select>
                         <span>点</span>
                       </div>
@@ -2644,6 +2644,10 @@
               _this.$Message.warning(`拿手审批条件设置中类目最少需要选择4个！`);
               return;
             }
+            if (_this.showkerCondition.addressExclude.length > 5) {
+              _this.$Message.warning(`拿手审批条件设置中所排除地区最多为5个！`);
+              return;
+            }
             // for (let i = 0, len = _this.showkerCondition.auditTimeCountRequire.length; i < len; i++) {
             //   if (!_this.showkerCondition.auditTimeCountRequire[i].count) {
             //     _this.$Message.warning(`亲，拿手审批条件设置中时间段${i + 1}的可审批数不能为空！`);
@@ -3444,8 +3448,8 @@
         }
       },
       limitStartTime(startTime,index) {
-        if (startTime > this.showkerCondition.auditTimeCountRequire[index].hourEnd) {
-          this.$Message.error('开始时间点应小于开始时间点，请重新选择！');
+        if (startTime >= this.showkerCondition.auditTimeCountRequire[index].hourEnd) {
+          this.$Message.error('开始时间点应小于结束时间点，请重新选择！');
         }
         if ((index > 0) && (startTime <= this.showkerCondition.auditTimeCountRequire[index-1].hourEnd)) {
           this.$Message.error('时间段不可重复，请重新选择！');
