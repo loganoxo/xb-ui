@@ -1185,4 +1185,11 @@ export default {
     return axiosConfig.get('/api/get-reward-list.json', params)
   },
 
+  /**
+   * 商家自定义延迟系统审核活动名额时间（待审批状态下）
+   */
+  autoAuditTime(params) {
+    return axiosConfig.post('/api/auto-audit-time.json', params)
+  },
+
 }

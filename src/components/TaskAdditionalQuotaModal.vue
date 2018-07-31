@@ -28,7 +28,7 @@
         <div v-for="item in keywordPlanInfo" v-show="selectKeywordScheme === item.index">
           <div class="mt-10">
             <span>追加份数：</span>
-            <i-input type="number" v-model.number="item.addTaskNumber" placeholder="请输入追加份数" @on-change="addTaskNumberChange" style="width: 100px;"/>
+            <i-input v-model.number="item.addTaskNumber" placeholder="请输入追加份数" @on-change="addTaskNumberChange" style="width: 100px;"/>
             <span class="ml-10 cl000 fs-14" v-if="item.title">为{{` "${item.title}" `}}追加的份数</span>
           </div>
           <div class="mt-10 border-top pt-10 addition-item" v-if="data.itemReviewRequired === 'assign_review_detail' && itemReviewList.length > 0">
@@ -39,6 +39,12 @@
             </p>
           </div>
         </div>
+      </div>
+      <div class="mt-10 border-top pt-10">
+        <span>系统审批延期：</span>
+        <i-input v-model="delayDays" placeholder="请输入延期天数" style="width: 100px"/>
+        <span class="pl-5 pr-5">天</span>
+        (距离系统自动审批还有 <time-down :endTime="getDistanceSysAuditTime" color="#495060"></time-down>)
       </div>
       <div class="mt-10 border-top pt-10">共追加&nbsp;<span class="main-color">{{allAddTaskNumber}}</span>&nbsp;份</div>
       <i-button slot="footer" type="primary" size="large" long :loding="buttonLoading" @click="nextStep">下一步</i-button>
@@ -82,6 +88,7 @@
         keywordPlanInfo: [],
         selectKeywordScheme: 0,
         timer: null,
+        delayDays:null,
       }
     },
     components: {
@@ -105,6 +112,17 @@
       }
     },
     computed: {
+      /**
+       * 计算距离系统自动审批剩余时间
+       */
+      getDistanceSysAuditTime(){
+        if (this.data.finishTime){
+          return this.data.finishTime + this.data.autoAuditWaitHours*3600*1000
+        }else {
+          return this.data.endTime + this.data.autoAuditWaitHours*3600*1000
+        }
+      },
+
       /** 获取用户会员版本等级（100：普通用户， 200：VIP， 300：SVIP）
        * @return {Number}
        */
@@ -282,6 +300,7 @@
           this.keywordPlanInfo = [];
           this.itemReviewList = [];
           this.oldAddTaskNumber = null;
+          this.delayDays = null;
           // 关闭弹框时延迟渲染创建活动界面
           setTimeout(() => {
             this.step = 'create'
@@ -299,6 +318,12 @@
         });
         if(addTaskNumberIsNotInt){
           return
+        }
+        if (this.delayDays ) {
+          if (!isInteger(this.delayDays)){
+            this.$Message.warning(`亲，延期天数必须为正整数数字！`);
+            return
+          }
         }
         if (!this.data.isMoreKeywordsPlan) {
           // 老活动的校验逻辑（没有关键词人数分配）
@@ -384,8 +409,23 @@
           if (res.status) {
             _this.keywordPlanInfo = [];
             _this.itemReviewList = [];
+            if (_this.delayDays){
+              api.autoAuditTime({
+                taskId: _this.data.taskId,
+                days: _this.delayDays,
+              }).then(res => {
+                if (res.status){
+                  _this.$Message.success("延期成功！");
+                  _this.delayDays = null;
+                  _this.$emit('input', false);
+                }else {
+                  _this.$Message.error(res.msg)
+                }
+              })
+            }else {
+              _this.$emit('input', false);
+            }
             _this.$emit('addTaskSuccess');
-            _this.$emit('input', false);
           } else {
             _this.$Message.error(res.msg)
           }

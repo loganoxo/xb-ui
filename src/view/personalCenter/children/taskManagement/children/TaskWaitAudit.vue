@@ -496,6 +496,9 @@
           keywordPlanNum: item.keywordPlanNum,
           isMoreKeywordsPlan: item.isMoreKeywordsPlan,
           searchKeywords: item.searchKeywords,
+          autoAuditWaitHours: item.autoAuditWaitHours,
+          finishTime: item.finishTime,
+          endTime: item.endTime,
         });
         this.additionalQuotaModal = true;
       },
