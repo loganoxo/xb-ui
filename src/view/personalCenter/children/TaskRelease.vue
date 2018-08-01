@@ -1087,7 +1087,7 @@
                     </div>
                     <div class="border-top pt-10 pb-10" v-for="(item, index) in showkerCondition.auditTimeCountRequire" :key="index">
                       <div class="inline-block width-pct-20 text-ct">
-                        <datePicker :value="defaultDatePickerValue" :options="datePickerOptions" @on-change="datePickerValueChange(arguments[0],index)" type="date" placeholder="请选择日期" class="width-100"/>
+                        <datePicker :value="showkerCondition.auditTimeCountRequire[index].date" :options="datePickerOptions" @on-change="datePickerValueChange(arguments[0],index)" type="date" placeholder="请选择日期" class="width-100"/>
                       </div>
                       <!--<div class="inline-block width-pct-39 text-ct">-->
                         <!--<input-number v-model.number="item.hourStart" :min="inputNumberMin" :max="23" :step="1" :precision="0"/>-->
@@ -1624,7 +1624,7 @@
           showkerTagRequire: [],
           auditTimeCountRequire: [
             {
-              date: `${new Date(getSeverTime()).getFullYear()}-${new Date(getSeverTime()).getMonth() + 1}-${new Date(getSeverTime()).getDate()}`,
+              date: `${new Date(getSeverTime()).getFullYear()}-${new Date(getSeverTime()).getMonth() + 1}-${new Date(getSeverTime()).getDate() + 1}`,
               hourStart: new Date(getSeverTime()).getHours(),
               hourEnd: 24,
               count: null
@@ -2324,6 +2324,7 @@
           this.taskCountInputPlaceholder = '当日22点前有效';
           this.taskRelease.showkerOrderTimeLimit = '';
           this.taskCountInputDisabled = true;
+          this.showkerCondition.auditTimeCountRequire = [];
         }
         if (type === 'day_reserve') {
           this.vasMainItem.forEach(item => {
@@ -2920,7 +2921,8 @@
               _this.taskRelease.taskDaysDuration = null;
               _this.taskCountInputPlaceholder = '当日22点前有效';
               _this.taskCountInputDisabled = true;
-              _this.taskRelease.showkerOrderTimeLimit = ''
+              _this.taskRelease.showkerOrderTimeLimit = '';
+              _this.showkerCondition.auditTimeCountRequire = [];
             }
 
             // 复制历史活动的时候如果掌柜旺旺信息不能匹配到绑定店铺的旺旺名则默认自动选择第一个店铺，反之取接口实时数据
