@@ -184,6 +184,15 @@
       // 商家修改店铺的QQ号，（可以为每个店铺绑定QQ）
       editStoreQQ() {
         const _this = this;
+        const qqReq = /^[1-9][0-9]{5,11}$/;
+        if (!_this.storeQQ) {
+          _this.$Message.info('请输入QQ号');
+          return
+        }
+        if (!qqReq.test(_this.storeQQ)) {
+          _this.$Message.info('请输入正确格式的QQ号');
+          return
+        }
         _this.modifyQQLoading = true;
         api.eidtStoreQQ({
           storeId: _this.modifyStoreId,
@@ -192,6 +201,7 @@
           if (res.status) {
             _this.$Message.success('修改店铺QQ号成功！');
             _this.modifyStoreId = null;
+            _this.storeQQ = null;
             _this.showModifyStoreQQ = false;
             _this.getVersionInfo();
           } else {
