@@ -2999,6 +2999,7 @@
                     _this.showkerCondition[k] = res.data.showkerApplyRequireData[i]
                   }
                 }
+
               }
             }
             _this.taskRelease.taskDetail = {};
