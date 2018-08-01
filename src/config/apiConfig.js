@@ -1192,4 +1192,11 @@ export default {
     return axiosConfig.post('/api/auto-audit-time.json', params)
   },
 
+  /**
+   * 商家修改店铺的QQ号，（可以为每个店铺绑定QQ）
+   */
+  eidtStoreQQ(params) {
+    return axiosConfig.post('/api/edit-store-qq.json',params)
+  }
+
 }

@@ -14,7 +14,8 @@
         <img src="~assets/img/common/taobao-logo.png" v-if="storeInfo.storeType === 'taobao'">
         <img src="~assets/img/common/tmall-logo.png" v-if="storeInfo.storeType === 'tmall'">
         <p class="store-name mt-15 f-b fs-16">{{storeInfo.storeName}}</p>
-        <p class="store-ww mt-15">店铺旺旺：<span>{{storeInfo.storeAlitm}}</span></p>
+        <p class="store-ww mt-10">店铺旺旺：<span>{{storeInfo.storeAlitm}}</span></p>
+        <p class="concat-qq mt-10">联系QQ：{{storeInfo.qqNumber ? storeInfo.qqNumber : personalQQ}} <span class="ml-5 cursor-p blue" @click="modifyQQ(storeInfo.id)">修改</span></p>
         <p v-if="storeInfo.applyStatus === 1" class="auditing cursor-p" @click="checkDetail(storeInfo)">店铺审核中...（查看详情）</p>
         <p v-if="storeInfo.applyStatus === 3" class="audit-fail cursor-p" @click="checkDetail(storeInfo)">审核未通过...（查看详情）</p>
       </li>
@@ -25,17 +26,31 @@
         <p class="upgrade-vip mt-10" v-if="showUpgradeText">升级VIP绑定更多店铺</p>
       </li>
     </ul>
+    <!--修改店铺QQ号的弹窗-->
+    <modal v-model="showModifyStoreQQ" width="450" class="modify-qq-modal">
+      <p slot="header" class="f-b fs-16">QQ号设定</p>
+      <div class="pt-10 pb-10">
+        <p class="pb-10 fs-16">为当前店铺设置联系QQ：</p>
+        <i-input v-model="storeQQ" placeholder="请输入你的QQ号"></i-input>
+      </div>
+      <p slot="footer">
+        <i-button :loading="modifyQQLoading" long type="error" @click="editStoreQQ">确定</i-button>
+      </p>
+    </modal>
   </div>
 </template>
 
 <script>
-  import {Icon} from 'iview';
+  import {Icon, Modal, Input, Button} from 'iview';
   import api from '@/config/apiConfig'
   import {delHtmlTag} from '@/config/utils'
   export default {
     name: "store-bind-rules",
     components:{
-      Icon: Icon
+      Icon: Icon,
+      Modal: Modal,
+      iInput:Input,
+      iButton: Button
     },
     data(){
       return {
@@ -46,15 +61,23 @@
         svipStoreBindNum:0,
         showBindStoreText:true,
         showUpgradeText:false,
+        showModifyStoreQQ: false,
+        storeQQ: null,
+        modifyQQLoading: false,
+        modifyStoreId: null
       }
     },
     computed:{
-      isMember(){
+      isMember() {
         return this.$store.getters.isMemberOk;
       },
-      memberLevel(){
+      memberLevel() {
         return this.$store.getters.getMemberLevel;
       },
+      // 获取个人设置里的QQ，当店铺对应的QQ为空时，默认取个人设置的QQ
+      personalQQ() {
+        return this.$store.state.userInfo.qqNumber
+      }
     },
     created(){
       this.getVersionInfo();
@@ -152,6 +175,40 @@
       // 查看绑定店铺的详情（审核中，未通过）
       checkDetail(storeInfo) {
         this.$router.push({name:'StoreBindOperating',query:{protocol:true,id:storeInfo.id,status:storeInfo.applyStatus}});
+      },
+      // 点击修改，弹窗，记录storeID
+      modifyQQ(storeId) {
+        this.showModifyStoreQQ = true;
+        this.modifyStoreId = storeId;
+      },
+      // 商家修改店铺的QQ号，（可以为每个店铺绑定QQ）
+      editStoreQQ() {
+        const _this = this;
+        const qqReq = /^[1-9][0-9]{5,11}$/;
+        if (!_this.storeQQ) {
+          _this.$Message.info('请输入QQ号');
+          return
+        }
+        if (!qqReq.test(_this.storeQQ)) {
+          _this.$Message.info('请输入正确格式的QQ号');
+          return
+        }
+        _this.modifyQQLoading = true;
+        api.eidtStoreQQ({
+          storeId: _this.modifyStoreId,
+          qqNumber: _this.storeQQ
+        }).then(res => {
+          if (res.status) {
+            _this.$Message.success('修改店铺QQ号成功！');
+            _this.modifyStoreId = null;
+            _this.storeQQ = null;
+            _this.showModifyStoreQQ = false;
+            _this.getVersionInfo();
+          } else {
+            _this.$Message.error(res.msg);
+          }
+          _this.modifyQQLoading = false;
+        })
       }
     },
   }
@@ -173,7 +230,7 @@
     .had-band-box{
       li{
         background:#F8F8F8;
-        height:150px;
+        min-height:150px;
         box-sizing: border-box;
         padding:15px 0;
         text-align: center;
@@ -208,5 +265,6 @@
       color:$mainColor;
       display: inline-block;
     }
+
   }
 </style>

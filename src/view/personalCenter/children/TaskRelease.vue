@@ -200,11 +200,11 @@
                 v-show="taskRelease.orderType === 'normal'">（拿手通过审批后需要指定时间内完成淘宝下单并在本平台提交订单号，否则资格自动过期）</span>
           <span class="sizeColor2" v-show="taskRelease.orderType === 'day_reserve'">（拿手通过审批后需要在当日24点前加入购物车，次日在淘宝下单并在平台提交订单号，否则资格自动过期）</span>
         </div>
-        <div class="trial-condition ml-20 mt-20">
-          <span class="ml-8"> 收藏加购：</span>
-          <checkbox v-model="taskRelease.needBrowseCollectAddCart">需要</checkbox>
-          <span class="sizeColor2">（系统会随机让部分拿手完成对宝贝的收藏加购，活动上线后您可以在生意参谋后台查看收藏加购有无增加）</span>
-        </div>
+        <!--<div class="trial-condition ml-20 mt-20">-->
+          <!--<span class="ml-8"> 收藏加购：</span>-->
+          <!--<checkbox v-model="taskRelease.needBrowseCollectAddCart">需要</checkbox>-->
+          <!--<span class="sizeColor2">（系统会随机让部分拿手完成对宝贝的收藏加购，活动上线后您可以在生意参谋后台查看收藏加购有无增加）</span>-->
+        <!--</div>-->
         <div class="answer ml-20 mt-20">
           <span class="ml-8"> 浏览答题：</span>
           <checkbox v-model="needBrowseAnswer" @on-change="needBrowseAnswerChange">需要</checkbox>
@@ -2827,6 +2827,9 @@
             _this.taskRelease.speedUp = _this.taskRelease.speedUp ? _this.taskRelease.speedUp : false;
             _this.taskRelease.pinkage = _this.taskRelease.pinkage.toString();
             _this.taskRelease.donotPostPhoto = _this.taskRelease.donotPostPhoto.toString();
+
+            //取消了收藏加购，复制历史活动时默认为false
+            _this.taskRelease.needBrowseCollectAddCart = false;
 
             if (_this.taskRelease.orderType === 'day_reserve' || _this.taskRelease.orderType === 'day_now') {
               _this.taskRelease.taskDaysDuration = null;
