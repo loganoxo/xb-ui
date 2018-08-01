@@ -44,7 +44,7 @@
         <span>系统审批延期：</span>
         <i-input v-model="delayDays" placeholder="请输入延期天数" style="width: 100px"/>
         <span class="pl-5 pr-5">天</span>
-        (距离系统自动审批还有 <time-down :endTime="getDistanceSysAuditTime" color="#495060"></time-down>)
+        (最多延期30天 距系统审批还有 <time-down :endTime="getDistanceSysAuditTime" color="#495060"></time-down>)
       </div>
       <div class="mt-10 border-top pt-10">共追加&nbsp;<span class="main-color">{{allAddTaskNumber}}</span>&nbsp;份</div>
       <i-button slot="footer" type="primary" size="large" long :loding="buttonLoading" @click="nextStep">下一步</i-button>
@@ -322,6 +322,10 @@
         if (this.delayDays ) {
           if (!isInteger(this.delayDays)){
             this.$Message.warning(`亲，延期天数必须为正整数数字！`);
+            return
+          }
+          if (this.delayDays > 30){
+            this.$Message.warning(`亲，最多延期30天！`);
             return
           }
         }
