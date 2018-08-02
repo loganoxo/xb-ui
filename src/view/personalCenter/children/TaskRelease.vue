@@ -2664,9 +2664,9 @@
                 _this.$Message.warning(`亲，拿手审批条件设置中时间段${i + 1}的开始时间大于结束时间，请重新设置！`);
                 return;
               }
-              if (_this.showkerCondition.auditTimeCountRequire.length > 1) {
-                if (_this.showkerCondition.auditTimeCountRequire[i].hourEnd >= _this.showkerCondition.auditTimeCountRequire[i+1].hourStart) {
-                  _this.$Message.warning(`亲，拿手审批条件设置中时间段${i + 2}的时间段重复，请重新设置！`);
+              if (i > 0 && _this.showkerCondition.auditTimeCountRequire[i].date === _this.showkerCondition.auditTimeCountRequire[i-1].date) {
+                if (_this.showkerCondition.auditTimeCountRequire[i].hourStart < _this.showkerCondition.auditTimeCountRequire[i-1].hourEnd) {
+                  _this.$Message.warning(`亲，拿手审批条件设置中时间段${i + 1}的时间段重复，请重新设置！`);
                   return;
                 }
               }
@@ -2991,16 +2991,21 @@
                 _this.answerDefaultList.push(answerDefault);
               });
             }
-            if (res.data.taskType === 'pc_search' || res.data.taskType === 'app_search') {
-              res.data.showkerApplyRequire && _this.interestTag();
+            if ((res.data.taskType === 'pc_search' || res.data.taskType === 'app_search') && res.data.showkerApplyRequire) {
+              _this.interestTag();
               for (let k in _this.showkerCondition) {
                 for (let i in res.data.showkerApplyRequireData) {
                   if (k === i) {
                     _this.showkerCondition[k] = res.data.showkerApplyRequireData[i]
                   }
                 }
-
               }
+              res.data.showkerApplyRequireData.auditTimeCountRequire.forEach((item,index) => {
+                let timeStamp = Date.parse(new Date(item.date));
+                if (timeStamp < getSeverTime()) {
+                  item.date = `${new Date(getSeverTime()).getFullYear()}-${new Date(getSeverTime()).getMonth() + 1}-${new Date(getSeverTime()).getDate() + 1}`
+                }
+              })
             }
             _this.taskRelease.taskDetail = {};
             if (res.data.taskType === 'tao_code') {
@@ -3412,7 +3417,7 @@
           return;
         }
         this.showkerCondition.auditTimeCountRequire.push({
-          date: `${new Date(getSeverTime()).getFullYear()}-${new Date(getSeverTime()).getMonth() + 1}-${new Date(getSeverTime()).getDate()}`,
+          date: `${new Date(getSeverTime()).getFullYear()}-${new Date(getSeverTime()).getMonth() + 1}-${new Date(getSeverTime()).getDate() + 1}`,
           hourStart: new Date(getSeverTime()).getHours(),
           hourEnd: 24,
           count: null
@@ -3450,11 +3455,12 @@
           this.$Message.error('结束时间点应大于开始时间点，请重新选择！');
         }
       },
+      /*此处的判断存在缺陷，只能限制相邻两个标签的时间段不可重叠*/
       limitStartTime(startTime,index) {
         if (startTime >= this.showkerCondition.auditTimeCountRequire[index].hourEnd) {
           this.$Message.error('开始时间点应小于结束时间点，请重新选择！');
         }
-        if ((index > 0) && (startTime <= this.showkerCondition.auditTimeCountRequire[index-1].hourEnd)) {
+        if ((index > 0) && (this.showkerCondition.auditTimeCountRequire[index].date === this.showkerCondition.auditTimeCountRequire[index-1].date) && (startTime < this.showkerCondition.auditTimeCountRequire[index-1].hourEnd)) {
           this.$Message.error('时间段不可重复，请重新选择！');
         }
       }
