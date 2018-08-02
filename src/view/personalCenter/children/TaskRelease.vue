@@ -1069,7 +1069,7 @@
                   </div>
                 </div>
               </div>
-              <div v-if="taskRelease.orderType === 'normal'" class="mt-20 ml-20 clear">
+              <div v-show="taskRelease.orderType === 'normal'" class="mt-20 ml-20 clear">
                 <span class="left">审批时间/份数要求：</span>
                 <div class="inline-block left">
                   <div class="sizeColor2">（需将系统审批名额全部设置完成，若有剩余名额未设置，则由系统自由审批。系统名额剩余数：<span class="main-color">{{systemSurplusApprovalTaskNumber}}</span>）</div>
@@ -1661,6 +1661,7 @@
           {hour:22},
           {hour:23},
         ],
+
       }
     },
     // 当用户有首发资格路由重定向到快速发布通道反之则停留在此页面
@@ -2346,6 +2347,14 @@
           this.taskCountInputDisabled = false;
           this.taskRelease.speedUp = false;
           this.taskRelease.showkerOrderTimeLimit = 24;
+          this.showkerCondition.auditTimeCountRequire =  [
+            {
+              date: `${new Date(getSeverTime()).getFullYear()}-${new Date(getSeverTime()).getMonth() + 1}-${new Date(getSeverTime()).getDate() + 1}`,
+              hourStart: new Date(getSeverTime()).getHours(),
+              hourEnd: 24,
+              count: null
+            }
+          ]
         }
       },
       onEditorBlur(editor) {
@@ -2664,10 +2673,27 @@
                 _this.$Message.warning(`亲，拿手审批条件设置中时间段${i + 1}的开始时间大于结束时间，请重新设置！`);
                 return;
               }
-              if (i > 0 && _this.showkerCondition.auditTimeCountRequire[i].date === _this.showkerCondition.auditTimeCountRequire[i-1].date) {
-                if (_this.showkerCondition.auditTimeCountRequire[i].hourStart < _this.showkerCondition.auditTimeCountRequire[i-1].hourEnd) {
-                  _this.$Message.warning(`亲，拿手审批条件设置中时间段${i + 1}的时间段重复，请重新设置！`);
-                  return;
+              if (i > 0) {
+                let tempData = extendDeep(this.showkerCondition.auditTimeCountRequire,[]);
+                let startTimeArr = [];
+                let endTimeArr = [];
+                tempData.forEach(item => {
+                  item.startTimeStamp = Date.parse(new Date(item.date + ' ' + item.hourStart + ':00:00'));
+                  item.endTimeStamp = Date.parse(new Date(item.date + ' ' + item.hourEnd + ':00:00'));
+                  startTimeArr.push(item.startTimeStamp);
+                  endTimeArr.push(item.endTimeStamp);
+                });
+                let allStartTime = startTimeArr.sort((a,b) => {
+                  return a-b;
+                });
+                let allEndTime = endTimeArr.sort((a,b) => {
+                  return a-b;
+                });
+                for (let i = 1; i < allStartTime.length; i ++) {
+                  if (allStartTime[i] < allEndTime[i-1]) {
+                    this.$Message.error('时间段有重复，请重新选择！');
+                    return
+                  }
                 }
               }
               let timeStamp = Date.parse(new Date(_this.showkerCondition.auditTimeCountRequire[i].date));
@@ -3454,14 +3480,56 @@
         if (endTime <= this.showkerCondition.auditTimeCountRequire[index].hourStart) {
           this.$Message.error('结束时间点应大于开始时间点，请重新选择！');
         }
+        if (index > 0) {
+          let tempData = extendDeep(this.showkerCondition.auditTimeCountRequire,[]);
+          let startTimeArr = [];
+          let endTimeArr = [];
+          tempData.forEach(item => {
+            item.startTimeStamp = Date.parse(new Date(item.date + ' ' + item.hourStart + ':00:00'));
+            item.endTimeStamp = Date.parse(new Date(item.date + ' ' + item.hourEnd + ':00:00'));
+            startTimeArr.push(item.startTimeStamp);
+            endTimeArr.push(item.endTimeStamp);
+          });
+          let allStartTime = startTimeArr.sort((a,b) => {
+            return a-b;
+          });
+          let allEndTime = endTimeArr.sort((a,b) => {
+            return a-b;
+          });
+          for (let i = 1; i < allStartTime.length; i ++) {
+            if (allStartTime[i] < allEndTime[i-1]) {
+              this.$Message.error('时间段有重复，请重新选择！');
+              break;
+            }
+          }
+        }
       },
-      /*此处的判断存在缺陷，只能限制相邻两个标签的时间段不可重叠*/
       limitStartTime(startTime,index) {
         if (startTime >= this.showkerCondition.auditTimeCountRequire[index].hourEnd) {
           this.$Message.error('开始时间点应小于结束时间点，请重新选择！');
         }
-        if ((index > 0) && (this.showkerCondition.auditTimeCountRequire[index].date === this.showkerCondition.auditTimeCountRequire[index-1].date) && (startTime < this.showkerCondition.auditTimeCountRequire[index-1].hourEnd)) {
-          this.$Message.error('时间段不可重复，请重新选择！');
+        if (index > 0) {
+          let tempData = extendDeep(this.showkerCondition.auditTimeCountRequire,[]);
+          let startTimeArr = [];
+          let endTimeArr = [];
+          tempData.forEach(item => {
+            item.startTimeStamp = Date.parse(new Date(item.date + ' ' + item.hourStart + ':00:00'));
+            item.endTimeStamp = Date.parse(new Date(item.date + ' ' + item.hourEnd + ':00:00'));
+            startTimeArr.push(item.startTimeStamp);
+            endTimeArr.push(item.endTimeStamp);
+          });
+          let allStartTime = startTimeArr.sort((a,b) => {
+            return a-b;
+          });
+          let allEndTime = endTimeArr.sort((a,b) => {
+            return a-b;
+          });
+          for (let i = 1; i < allStartTime.length; i ++) {
+            if (allStartTime[i] < allEndTime[i-1]) {
+              this.$Message.error('时间段有重复，请重新选择！');
+              break;
+            }
+          }
         }
       }
     },
