@@ -1090,7 +1090,7 @@
                         <datePicker :value="showkerCondition.auditTimeCountRequire[index].date" :options="datePickerOptions" @on-change="datePickerValueChange(arguments[0],index)" type="date" placeholder="请选择日期" class="width-100"/>
                       </div>
                       <div class="inline-block width-pct-39 text-ct">
-                        <i-select v-model.number="item.hourStart" class="width-100" @on-change="limitStartTime(item.hourStart,index)">
+                        <i-select v-model="item.hourStart" class="width-100" @on-change="limitStartTime(item.hourStart,index)">
                           <i-option v-for="(item,index) in period" :key="index" :value="item.hour" :label="item.hour"/>
                         </i-select>
                         <span>点-</span>
@@ -2654,7 +2654,7 @@
                 _this.$Message.warning(`亲，拿手审批条件设置中时间段${i + 1}的可审批数不能为空！`);
                 return;
               }
-              if (_this.showkerCondition.auditTimeCountRequire[i].hourStart >= _this.showkerCondition.auditTimeCountRequire[i].hourEnd) {
+              if (_this.showkerCondition.auditTimeCountRequire[i].hourStart * 1 >= _this.showkerCondition.auditTimeCountRequire[i].hourEnd * 1) {
                 _this.$Message.warning(`亲，拿手审批条件设置中时间段${i + 1}的开始时间大于结束时间，请重新设置！`);
                 return;
               }
@@ -3465,7 +3465,7 @@
         })
       },
       limitEndTime(endTime,index) {
-        if (endTime <= this.showkerCondition.auditTimeCountRequire[index].hourStart) {
+        if (endTime * 1 <= this.showkerCondition.auditTimeCountRequire[index].hourStart * 1) {
           this.$Message.error('结束时间点应大于开始时间点，请重新选择！');
         }
         if (index > 0) {
@@ -3493,7 +3493,7 @@
         }
       },
       limitStartTime(startTime,index) {
-        if (startTime >= this.showkerCondition.auditTimeCountRequire[index].hourEnd) {
+        if (startTime * 1 >= this.showkerCondition.auditTimeCountRequire[index].hourEnd * 1) {
           this.$Message.warning('开始时间点应小于结束时间点，请重新选择！');
         }
         if (index > 0) {
