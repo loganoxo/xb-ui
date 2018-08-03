@@ -30,9 +30,9 @@
                     style=" font-size:14px; padding: 0 4px; background: #ff9966; color: #fff; margin-left: 10px; display: inline-block;height: 20px;line-height: 20px;">10元包邮</span>
               <span v-if="commodityData.task.activityCategory === 'present_get'"
                     style="font-size:14px; padding: 0 4px; background: #00cc66; color: #ffffff; margin-left: 10px; display: inline-block;height: 20px;line-height: 20px;">体验专区</span>
-              <span v-if="(commodityData.task.perVasFee || commodityData.task.promotionExpensesPaid && (uplineTime < commodityData.task.createTime))" class="fs-12 bg-main-color cl-fff pr-5 pl-5">
-                奖励{{computeVasReturnFee(commodityData.task.perVasFee,commodityData.task.systemVasFeeCommissionPercent,commodityData.task.activityCategory,commodityData.task.promotionExpensesPaid,commodityData.task.taskCount,commodityData.task.createTime)}}元
-              </span>
+              <!--<span v-if="(commodityData.task.perVasFee || commodityData.task.promotionExpensesPaid && (uplineTime < commodityData.task.createTime))" class="fs-12 bg-main-color cl-fff pr-5 pl-5">-->
+                <!--奖励{{computeVasReturnFee(commodityData.task.perVasFee,commodityData.task.systemVasFeeCommissionPercent,commodityData.task.activityCategory,commodityData.task.promotionExpensesPaid,commodityData.task.taskCount,commodityData.task.createTime)}}元-->
+              <!--</span>-->
             </h3>
             <p class="fs-14">
               活动类型：
