@@ -1089,19 +1089,13 @@
                       <div class="inline-block width-pct-20 text-ct">
                         <datePicker :value="showkerCondition.auditTimeCountRequire[index].date" :options="datePickerOptions" @on-change="datePickerValueChange(arguments[0],index)" type="date" placeholder="请选择日期" class="width-100"/>
                       </div>
-                      <!--<div class="inline-block width-pct-39 text-ct">-->
-                        <!--<input-number v-model.number="item.hourStart" :min="inputNumberMin" :max="23" :step="1" :precision="0"/>-->
-                        <!--<span>点-</span>-->
-                        <!--<input-number v-model.number="item.hourEnd" :min="inputNumberMin + 1" :max="24" :step="1" :precision="0"/>-->
-                        <!--<span>点</span>-->
-                      <!--</div>-->
                       <div class="inline-block width-pct-39 text-ct">
-                        <i-select v-model="item.hourStart" style="width:100px;" @on-change="limitStartTime(item.hourStart,index)">
-                          <i-option v-for="(item,index) in period" :key="index" :value="item.hour" :label='item.hour'></i-option>
+                        <i-select v-model.number="item.hourStart" class="width-100" @on-change="limitStartTime(item.hourStart,index)">
+                          <i-option v-for="(item,index) in period" :key="index" :value="item.hour" :label="item.hour"/>
                         </i-select>
                         <span>点-</span>
-                        <i-select v-model="item.hourEnd" style="width:100px;" @on-change="limitEndTime(item.hourEnd,index)">
-                          <i-option v-for="(item,index) in period" :key="index" :value="item.hour" :label='item.hour'></i-option>
+                        <i-select v-model="item.hourEnd" class="width-100" @on-change="limitEndTime(item.hourEnd,index)">
+                          <i-option v-for="(item,index) in period" :key="index" :value="item.hour" :label="item.hour"/>
                         </i-select>
                         <span>点</span>
                       </div>
@@ -1607,13 +1601,10 @@
         defaultDatePickerValue: `${new Date(getSeverTime()).getFullYear()}-${new Date(getSeverTime()).getMonth() + 1}-${new Date(getSeverTime()).getDate() + 1}`,
         datePickerOptions: {
           disabledDate(date) {
-            // return date && date.valueOf() < getSeverTime() - 86400000
             return date && date.valueOf() < getSeverTime()
           }
         },
         interestTagList: [],
-        // inputNumberMin: new Date(getSeverTime()).getHours(),
-        inputNumberMin: 0,
         showkerCondition: {
           creditLevelRequire: null,
           tqzRequire: [],
@@ -1625,8 +1616,8 @@
           auditTimeCountRequire: [
             {
               date: `${new Date(getSeverTime()).getFullYear()}-${new Date(getSeverTime()).getMonth() + 1}-${new Date(getSeverTime()).getDate() + 1}`,
-              hourStart: new Date(getSeverTime()).getHours(),
-              hourEnd: 24,
+              hourStart: '0',
+              hourEnd: '23',
               count: null
             }
           ]
@@ -1636,30 +1627,30 @@
           recommendAdvertisingModal: false
         },
         period:[
-          {hour:0},
-          {hour:1},
-          {hour:2},
-          {hour:3},
-          {hour:4},
-          {hour:5},
-          {hour:6},
-          {hour:7},
-          {hour:8},
-          {hour:9},
-          {hour:10},
-          {hour:11},
-          {hour:12},
-          {hour:13},
-          {hour:14},
-          {hour:15},
-          {hour:16},
-          {hour:17},
-          {hour:18},
-          {hour:19},
-          {hour:20},
-          {hour:21},
-          {hour:22},
-          {hour:23},
+          {hour:'0'},
+          {hour:'1'},
+          {hour:'2'},
+          {hour:'3'},
+          {hour:'4'},
+          {hour:'5'},
+          {hour:'6'},
+          {hour:'7'},
+          {hour:'8'},
+          {hour:'9'},
+          {hour:'10'},
+          {hour:'11'},
+          {hour:'12'},
+          {hour:'13'},
+          {hour:'14'},
+          {hour:'15'},
+          {hour:'16'},
+          {hour:'17'},
+          {hour:'18'},
+          {hour:'19'},
+          {hour:'20'},
+          {hour:'21'},
+          {hour:'22'},
+          {hour:'23'},
         ],
 
       }
@@ -2350,8 +2341,8 @@
           this.showkerCondition.auditTimeCountRequire =  [
             {
               date: `${new Date(getSeverTime()).getFullYear()}-${new Date(getSeverTime()).getMonth() + 1}-${new Date(getSeverTime()).getDate() + 1}`,
-              hourStart: new Date(getSeverTime()).getHours(),
-              hourEnd: 24,
+              hourStart: '0',
+              hourEnd: '23',
               count: null
             }
           ]
@@ -2658,12 +2649,6 @@
               _this.$Message.warning(`拿手审批条件设置中所排除地区最多为5个！`);
               return;
             }
-            // for (let i = 0, len = _this.showkerCondition.auditTimeCountRequire.length; i < len; i++) {
-            //   if (!_this.showkerCondition.auditTimeCountRequire[i].count) {
-            //     _this.$Message.warning(`亲，拿手审批条件设置中时间段${i + 1}的可审批数不能为空！`);
-            //     return;
-            //   }
-            // }
             for (let i = 0, len = _this.showkerCondition.auditTimeCountRequire.length; i < len; i++) {
               if (!_this.showkerCondition.auditTimeCountRequire[i].count) {
                 _this.$Message.warning(`亲，拿手审批条件设置中时间段${i + 1}的可审批数不能为空！`);
@@ -2683,22 +2668,22 @@
                   startTimeArr.push(item.startTimeStamp);
                   endTimeArr.push(item.endTimeStamp);
                 });
-                let allStartTime = startTimeArr.sort((a,b) => {
-                  return a-b;
+                startTimeArr.sort((a, b) => {
+                  return a-b
                 });
-                let allEndTime = endTimeArr.sort((a,b) => {
-                  return a-b;
+                endTimeArr.sort((a, b) => {
+                  return a-b
                 });
-                for (let i = 1; i < allStartTime.length; i ++) {
-                  if (allStartTime[i] < allEndTime[i-1]) {
-                    this.$Message.error('时间段有重复，请重新选择！');
+                for (let i = 1, len = startTimeArr.length; i < len ; i++) {
+                  if (startTimeArr[i] < endTimeArr[i-1]) {
+                    this.$Message.warning('时间段有重复，请重新选择！');
                     return
                   }
                 }
               }
               let timeStamp = Date.parse(new Date(_this.showkerCondition.auditTimeCountRequire[i].date));
               if (timeStamp > getSeverTime() + 86400000 * _this.taskRelease.taskDaysDuration) {
-                this.$Message.error('您选择的日期大于活动时长，请重新选择');
+                this.$Message.warning('您选择的日期大于活动时长，请重新选择');
                 return
               }
             }
@@ -3444,8 +3429,8 @@
         }
         this.showkerCondition.auditTimeCountRequire.push({
           date: `${new Date(getSeverTime()).getFullYear()}-${new Date(getSeverTime()).getMonth() + 1}-${new Date(getSeverTime()).getDate() + 1}`,
-          hourStart: new Date(getSeverTime()).getHours(),
-          hourEnd: 24,
+          hourStart: '0',
+          hourEnd: '23',
           count: null
         })
       },
@@ -3490,15 +3475,15 @@
             startTimeArr.push(item.startTimeStamp);
             endTimeArr.push(item.endTimeStamp);
           });
-          let allStartTime = startTimeArr.sort((a,b) => {
+          startTimeArr.sort((a,b) => {
             return a-b;
           });
-          let allEndTime = endTimeArr.sort((a,b) => {
+          endTimeArr.sort((a,b) => {
             return a-b;
           });
-          for (let i = 1; i < allStartTime.length; i ++) {
-            if (allStartTime[i] < allEndTime[i-1]) {
-              this.$Message.error('时间段有重复，请重新选择！');
+          for (let i = 1, len = allStartTime.length; i < len; i ++) {
+            if (startTimeArr[i] < endTimeArr[i-1]) {
+              this.$Message.warning('时间段有重复，请重新选择！');
               break;
             }
           }
@@ -3506,7 +3491,7 @@
       },
       limitStartTime(startTime,index) {
         if (startTime >= this.showkerCondition.auditTimeCountRequire[index].hourEnd) {
-          this.$Message.error('开始时间点应小于结束时间点，请重新选择！');
+          this.$Message.warning('开始时间点应小于结束时间点，请重新选择！');
         }
         if (index > 0) {
           let tempData = extendDeep(this.showkerCondition.auditTimeCountRequire,[]);
@@ -3518,15 +3503,15 @@
             startTimeArr.push(item.startTimeStamp);
             endTimeArr.push(item.endTimeStamp);
           });
-          let allStartTime = startTimeArr.sort((a,b) => {
+          startTimeArr.sort((a,b) => {
             return a-b;
           });
-          let allEndTime = endTimeArr.sort((a,b) => {
+          endTimeArr.sort((a,b) => {
             return a-b;
           });
-          for (let i = 1; i < allStartTime.length; i ++) {
-            if (allStartTime[i] < allEndTime[i-1]) {
-              this.$Message.error('时间段有重复，请重新选择！');
+          for (let i = 1, len = allStartTime.length; i < len; i ++) {
+            if (startTimeArr[i] < endTimeArr[i-1]) {
+              this.$Message.warning('时间段有重复，请重新选择！');
               break;
             }
           }
