@@ -119,8 +119,8 @@
          </div>-->
       </div>
     </div>
-    <!--填写活动信息详情-->
     <div class="activity-con mt-20">
+      <!--填写活动信息详情-->
       <div class="activity-info" v-show="stepName === 'information'">
         <div class="activity-info-title">填写活动信息</div>
         <div class="activity-type ml-20 mt-22">
@@ -234,7 +234,6 @@
               </i-button>
               <i-button class="ml-20 left mt-12" type="dashed" icon="minus-round" @click="deleteAnswer(index)" v-show="index > 0">删除
             </i-button>
-              <!--<span v-show="isShowAnswerTip" class="ml-20 main-color"><Icon color="#f9284f" type="information-circled" class="mr-5"></Icon>浏览答题文案字数不能超过8个字</span>-->
               <span class="blue cursor-p ml-5 left mt-17" @click="changeExampleImageUrl('answer')">【查看示例图】</span>
             </div>
           </div>
@@ -655,13 +654,13 @@
               <div class="baby-title ml-10 mt-20">
                 <span class="required">宝贝类型：</span>
                 <i-select v-model="taskRelease.itemType" style="width:200px">
-                  <option-group v-for="parentItem in itemCatalogList" v-if="parentItem.level === 1"
-                                :label="parentItem.name" :key="parentItem.id">
-                    <i-option
-                      v-if="item.level === 2 && item.parentItemCatalog && item.parentItemCatalog.id === parentItem.id"
-                      v-for="item in itemCatalogList" :value="item.id" :key="item.name">{{ item.name }}
-                    </i-option>
-                  </option-group>
+                  <template v-for="parentItem in itemCatalogList">
+                    <option-group v-if="parentItem.level === 1" :label="parentItem.name" :key="parentItem.id">
+                      <template v-for="item in itemCatalogList">
+                        <i-option v-if="item.level === 2 && item.parentItemCatalog && item.parentItemCatalog.id === parentItem.id" :value="item.id" :key="item.id">{{ item.name }}</i-option>
+                      </template>
+                    </option-group>
+                  </template>
                 </i-select>
                 <span class="ml-20 main-color" v-if="taskRelease.itemType === 1003">旅行相关活动，仅支持飞猪的宝贝</span>
               </div>
@@ -1002,107 +1001,115 @@
             </div>
           </template>
           <!--拿手审批条件设置-->
-        <!--  <template>
+          <template>
             <div class="activity-info-title">拿手审批条件设置</div>
             <div class="sizeColor2 ml-20 mt-10">说明：该活动有名额为系统审批，此处标签设置后，系统将按此条件审批拿手。过多限制可能造成展示量/申请量下降，请综合考虑。</div>
             <div class="mt-20 ml-20 mb-20">
               <span>拿手旺旺标签设置：</span>
-              <checkbox>需要</checkbox>
+              <checkbox v-model="aliWwLabelSet" @on-change="aliWwLabelSetChange">需要</checkbox>
               <img src="~assets/img/common/vip.png" alt="vipLogo"/>
             </div>
-            <div class="mt-20 ml-20">
-              <span>旺旺等级要求：</span>
-              <i-select v-model="showkerCondition.creditLevel" class="width-150">
-                <i-option v-for="(item, index) in aliLevelList" :label='item.label' :value="item.value" :key="item.value">
-                  <span v-show="index === 0">{{item.text}}</span>
-                  <img v-show="index !== 0" :src="item.text" alt="旺旺等级"/>
-                </i-option>
-              </i-select>
-              <span class="ml-4" v-show="parseInt(showkerCondition.creditLevel) > 0">及以上</span>
-            </div>
-            <div class="mt-20 ml-20">
-              <span>淘气值要求：</span>
-              <i-select v-model="showkerCondition.tqz" class="width-150">
-                <i-option v-for="item in aliTqzList" :label='item.label' :value="item.value" :key="item.value">{{item.label}}</i-option>
-              </i-select>
-            </div>
-            <div class="mt-20 ml-20">
-              <span>地区要求：</span>
-              <span class="sizeColor2">勾选以下“<span class="main-color">不想要</span>”的地区</span>
-            </div>
-            <div class="ml-80 mr-80">
-              <checkbox-group v-model="showkerCondition.regionalRequire">
-                <checkbox class="mr-30 mt-10" v-for="(item, index) in regionRequireList" :label="item" :key="index">{{item}}</checkbox>
-              </checkbox-group>
-            </div>
-            <div class="mt-20 ml-20">
-              <span>性别要求：</span>
-              <radio-group v-model="showkerCondition.gender">
-                <radio label="all">无所谓</radio>
-                <radio label="man">男</radio>
-                <radio label="woman">女</radio>
-              </radio-group>
-            </div>
-            <div class="mt-20 ml-20">
-              <span>年龄要求：</span>
-              <checkbox-group class="inline-block" v-model="showkerCondition.age">
-                <checkbox label="18-25">18-25</checkbox>
-                <checkbox label="26-35">26-35</checkbox>
-                <checkbox label="35-">35及以上</checkbox>
-              </checkbox-group>
-            </div>
-            <div class="mt-20 ml-20 mb-20">
-              <span>是否开通花呗：</span>
-              <checkbox v-model="showkerCondition.huaPay">需要</checkbox>
-              <span class="sizeColor2">（指开通了花呗的旺旺号）</span>
-            </div>
-            <div class="mt-20 ml-20 mb-20 clear">
-              <span class="left">平台常申请类目：</span>
-              <div class="inline-block left">
-                <div class="sizeColor2">类目最少选择4个</div>
-                <div class="mt-10">
-                  <checkbox-group class="inline-block" v-model="showkerCondition.categories">
-                    <checkbox class="mr-15" v-for="item in commodityCategoriesList" :key="item.id" :label="item.id">{{item.name}}</checkbox>
-                  </checkbox-group>
-                </div>
+            <template v-if="aliWwLabelSet">
+              <div class="mt-20 ml-20">
+                <span>旺旺等级要求：</span>
+                <i-select v-model="showkerCondition.creditLevelRequire" class="width-150">
+                  <i-option v-for="(item, index) in aliLevelList" :label='item.label' :value="item.value" :key="item.value">
+                    <span v-show="index === 0">{{item.text}}</span>
+                    <img v-show="index !== 0" :src="item.text" alt="旺旺等级"/>
+                  </i-option>
+                </i-select>
+                <span class="ml-4" v-show="parseInt(showkerCondition.creditLevel) > 0">及以上</span>
               </div>
-            </div>
-            <div class="mt-20 ml-20 clear">
-              <span class="left">审批时间/份数要求：</span>
-              <div class="inline-block left">
-                <div class="sizeColor2">（需将系统审批名额全部设置完成，若有剩余名额未设置，则由系统自由审批。系统名额剩余数：<span class="main-color">{{systemApprovalTaskNumber}}</span>）</div>
-                <div class="clear border-ddd border-radius-5 mt-10 width-600">
-                  <div class="pt-10 pb-10">
-                    <div class="inline-block width-pct-20 text-ct">日期</div>
-                    <div class="inline-block width-pct-39 text-ct">
-                      <span>时段</span>
-                      <tooltip content="请尽量扩大时间范围，提高任务成功率" placement="top"><icon class="cursor-p" type="help-circled"/></tooltip>
-                    </div>
-                    <div class="inline-block width-pct-39 text-ct">
-                      <span>最多可审批数</span>
-                      <tooltip content="系统审批不会超出设定份数但可能少于该份数" placement="top"><icon class="cursor-p" type="help-circled"/></tooltip>
-                    </div>
-                  </div>
-                  <div class="border-top pt-10 pb-10" v-for="(item, index) in showkerCondition.approvalRequire" :key="index">
-                    <div class="inline-block width-pct-20 text-ct">
-                      <datePicker :value="datePickerValue" :options="datePickerOptions" type="date" placeholder="请选择日期" class="width-100"/>
-                    </div>
-                    <div class="inline-block width-pct-39 text-ct">
-                      <input-number v-model.number="item.startTime" :min="inputNumberMin" :max="23" :step="1"/>
-                      <span>点-</span>
-                      <input-number v-model.number="item.endTime" :min="inputNumberMin + 1" :max="24" :step="1"/>
-                      <span>点</span>
-                    </div>
-                    <div class="inline-block width-pct-39 text-ct">
-                      <i-input v-model.number="item.approvalNum" placeholder="请输入审批数" class="width-100"/>
-                      <i-button class="ml-10" size="small" type="dashed" icon="plus-round" @click="addTimeBucket" v-show="index === showkerCondition.approvalRequire.length - 1">添加时间段</i-button>
-                      <i-button class="ml-10" size="small" type="dashed" icon="minus-round" @click="deleteTimeBucket(index)" v-show="index !== showkerCondition.approvalRequire.length - 1">删除时间段</i-button>
-                    </div>
+              <div class="mt-20 ml-20 clear">
+                <span class="left">淘气值要求：</span>
+                <checkbox-group v-model="showkerCondition.tqzRequire" class="inline-block left">
+                  <template v-for="item in aliTqzList">
+                    <checkbox v-if="item.value" class="mr-15" :label='item.value' :key="item.value">{{item.label}}</checkbox>
+                  </template>
+                </checkbox-group>
+              </div>
+              <div class="mt-20 ml-20">
+                <span>地区要求：</span>
+                <span class="sizeColor2">勾选以下“<span class="main-color">不想要</span>”的地区，最多选5个</span>
+              </div>
+              <div class="ml-80 mr-80">
+                <checkbox-group v-model="showkerCondition.addressExclude">
+                  <checkbox class="mr-30 mt-10" v-for="(item, index) in regionRequireList" :label="item" :key="index">{{item}}</checkbox>
+                </checkbox-group>
+              </div>
+              <div class="mt-20 ml-20">
+                <span>性别要求：</span>
+                <radio-group v-model="showkerCondition.genderRequire">
+                  <radio :label="null">无所谓</radio>
+                  <radio :label="0">男</radio>
+                  <radio :label="1">女</radio>
+                </radio-group>
+              </div>
+              <div class="mt-20 ml-20">
+                <span>年龄要求：</span>
+                <checkbox-group class="inline-block" v-model="showkerCondition.ageRequire">
+                  <checkbox label="18-25">18-25</checkbox>
+                  <checkbox label="26-35">26-35</checkbox>
+                  <checkbox label="35-">35及以上</checkbox>
+                </checkbox-group>
+              </div>
+              <div class="mt-20 ml-20 mb-20">
+                <span>是否开通花呗：</span>
+                <checkbox v-model="showkerCondition.antPayRequire">需要</checkbox>
+                <span class="sizeColor2">（指开通了花呗的旺旺号）</span>
+              </div>
+              <div class="mt-20 ml-20 mb-20 clear">
+                <span class="left">类目：</span>
+                <div class="inline-block left">
+                  <div class="sizeColor2">类目最少选择4个</div>
+                  <div class="mt-10">
+                    <checkbox-group class="inline-block" v-model="showkerCondition.showkerTagRequire">
+                      <checkbox class="mr-15" v-for="item in interestTagList" :key="item.id" :label="item.id">{{item.name}}</checkbox>
+                    </checkbox-group>
                   </div>
                 </div>
               </div>
-            </div>
-          </template>-->
+              <div v-show="taskRelease.orderType === 'normal'" class="mt-20 ml-20 clear">
+                <span class="left">审批时间/份数要求：</span>
+                <div class="inline-block left">
+                  <div class="sizeColor2">（需将系统审批名额全部设置完成，若有剩余名额未设置，则由系统自由审批。系统名额剩余数：<span class="main-color">{{systemSurplusApprovalTaskNumber}}</span>）</div>
+                  <div class="clear border-ddd border-radius-5 mt-10 min-width-750">
+                    <div class="pt-10 pb-10">
+                      <div class="inline-block width-pct-20 text-ct">日期</div>
+                      <div class="inline-block width-pct-39 text-ct">
+                        <span>时段</span>
+                        <tooltip content="请尽量扩大时间范围，提高任务成功率，时间段不可重叠" placement="top"><icon class="cursor-p" type="help-circled"/></tooltip>
+                      </div>
+                      <div class="inline-block width-pct-39 text-ct">
+                        <span>最多可审批数</span>
+                        <tooltip content="系统审批不会超出设定份数但可能少于该份数" placement="top"><icon class="cursor-p" type="help-circled"/></tooltip>
+                      </div>
+                    </div>
+                    <div class="border-top pt-10 pb-10" v-for="(item, index) in showkerCondition.auditTimeCountRequire" :key="index">
+                      <div class="inline-block width-pct-20 text-ct">
+                        <datePicker :value="showkerCondition.auditTimeCountRequire[index].date" :options="datePickerOptions" @on-change="datePickerValueChange(arguments[0],index)" type="date" placeholder="请选择日期" class="width-100"/>
+                      </div>
+                      <div class="inline-block width-pct-39 text-ct">
+                        <i-select v-model.number="item.hourStart" class="width-100" @on-change="limitStartTime(item.hourStart,index)">
+                          <i-option v-for="(item,index) in period" :key="index" :value="item.hour" :label="item.hour"/>
+                        </i-select>
+                        <span>点-</span>
+                        <i-select v-model="item.hourEnd" class="width-100" @on-change="limitEndTime(item.hourEnd,index)">
+                          <i-option v-for="(item,index) in period" :key="index" :value="item.hour" :label="item.hour"/>
+                        </i-select>
+                        <span>点</span>
+                      </div>
+                      <div class="inline-block width-pct-39 text-ct">
+                        <i-input v-model.number="item.count" placeholder="请输入审批数" class="width-100"/>
+                        <i-button class="ml-10" size="small" type="dashed" icon="plus-round" @click="addTimeBucket" v-show="index === showkerCondition.auditTimeCountRequire.length - 1">添加时间段</i-button>
+                        <i-button class="ml-10" size="small" type="dashed" icon="minus-round" @click="deleteTimeBucket(index)" v-show="index !== showkerCondition.auditTimeCountRequire.length - 1">删除时间段</i-button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </template>
+          </template>
         </div>
       </div>
       <!--存入担保金详情-->
@@ -1485,6 +1492,7 @@
           itemReviewAssignString: [],
           mainTaskVasConfigIds: [],
           similarTaskVasConfigIds: [],
+          showkerApplyRequireString: null,
         },
         trialCondition: 'all',
         taskCountInputPlaceholder: '请输入活动时长',
@@ -1583,33 +1591,34 @@
         isMatchNumberOk: true,
         aliLevelList: commonConfig.aliLevelList,
         aliTqzList: commonConfig.aliTqzList,
+        aliWwLabelSet: false,
         regionRequireList: [
           '新疆','西藏','甘肃','宁夏','青海','内蒙古','上海','江苏'
           ,'浙江','安徽','江西','北京','天津','山西','山东','河北'
           ,'四川','湖南','湖北','河南','广东','广西','福建','海南','辽宁'
           ,'吉林','黑龙江','陕西','重庆','云南','贵州','台湾','香港','澳门',
         ],
-        datePickerValue: `${new Date(getSeverTime()).getFullYear()}-${new Date(getSeverTime()).getMonth() + 1}-${new Date(getSeverTime()).getDate()}`,
+        defaultDatePickerValue: `${new Date(getSeverTime()).getFullYear()}-${new Date(getSeverTime()).getMonth() + 1}-${new Date(getSeverTime()).getDate() + 1}`,
         datePickerOptions: {
           disabledDate(date) {
-            return date && date.valueOf() < getSeverTime() - 86400000
+            return date && date.valueOf() < getSeverTime()
           }
         },
-        inputNumberMin: new Date(getSeverTime()).getHours(),
+        interestTagList: [],
         showkerCondition: {
-          creditLevel: null,
-          tqz: null,
-          regionalRequire: [],
-          gender: 'all',
-          huaPay: false,
-          age: [],
-          categories: [],
-          approvalRequire: [
+          creditLevelRequire: null,
+          tqzRequire: [],
+          addressExclude: [],
+          genderRequire: null,
+          antPayRequire: 'false',
+          ageRequire: [],
+          showkerTagRequire: [],
+          auditTimeCountRequire: [
             {
-              date: null,
-              startTime: new Date(getSeverTime()).getHours(),
-              endTime: 24,
-              approvalNum: null
+              date: `${new Date(getSeverTime()).getFullYear()}-${new Date(getSeverTime()).getMonth() + 1}-${new Date(getSeverTime()).getDate() + 1}`,
+              hourStart: '0',
+              hourEnd: '23',
+              count: null
             }
           ]
         },
@@ -1617,6 +1626,33 @@
           showRecommendAdvertisingStatus: false,
           recommendAdvertisingModal: false
         },
+        period:[
+          {hour:'0'},
+          {hour:'1'},
+          {hour:'2'},
+          {hour:'3'},
+          {hour:'4'},
+          {hour:'5'},
+          {hour:'6'},
+          {hour:'7'},
+          {hour:'8'},
+          {hour:'9'},
+          {hour:'10'},
+          {hour:'11'},
+          {hour:'12'},
+          {hour:'13'},
+          {hour:'14'},
+          {hour:'15'},
+          {hour:'16'},
+          {hour:'17'},
+          {hour:'18'},
+          {hour:'19'},
+          {hour:'20'},
+          {hour:'21'},
+          {hour:'22'},
+          {hour:'23'},
+        ],
+
       }
     },
     // 当用户有首发资格路由重定向到快速发布通道反之则停留在此页面
@@ -1938,6 +1974,17 @@
       },
 
       /**
+       * 计算商家设置拿手审批剩余份数
+       * @return {number}
+       */
+      systemSurplusApprovalTaskNumber() {
+        const num = this.showkerCondition.auditTimeCountRequire.reduce((prev, cur) => {
+          return (cur.count > 0 ? cur.count : 0) + prev
+        }, 0);
+        return this.systemApprovalTaskNumber - num > 0 ? this.systemApprovalTaskNumber - num : 0
+      },
+
+      /**
        * 计算商家选填浏览答题后，是否答题和图片都已输入
        * @return {number}
        */
@@ -2014,14 +2061,6 @@
       getTaskCreateFastStatus() {
         return this.$store.state.taskCreateFastStatus
       },
-
-      /**
-       * 获取平台宝贝类目列表
-       * @return {array}
-       */
-      commodityCategoriesList() {
-        return this.$store.getters.getCommodityCategoriesList
-      }
 
     },
     methods: {
@@ -2277,6 +2316,7 @@
           this.taskCountInputPlaceholder = '当日22点前有效';
           this.taskRelease.showkerOrderTimeLimit = '';
           this.taskCountInputDisabled = true;
+          this.showkerCondition.auditTimeCountRequire = [];
         }
         if (type === 'day_reserve') {
           this.vasMainItem.forEach(item => {
@@ -2298,6 +2338,14 @@
           this.taskCountInputDisabled = false;
           this.taskRelease.speedUp = false;
           this.taskRelease.showkerOrderTimeLimit = 24;
+          this.showkerCondition.auditTimeCountRequire =  [
+            {
+              date: `${new Date(getSeverTime()).getFullYear()}-${new Date(getSeverTime()).getMonth() + 1}-${new Date(getSeverTime()).getDate() + 1}`,
+              hourStart: '0',
+              hourEnd: '23',
+              count: null
+            }
+          ]
         }
       },
       onEditorBlur(editor) {
@@ -2587,16 +2635,66 @@
             return;
           }
         }
+        if (_this.taskRelease.taskType === 'app_search' || _this.taskRelease.taskType === 'pc_search') {
+          if (!_this.isMatchNumberOk) {
+            _this.$Message.warning('亲，当前剩余匹配数不足,请重新分配！');
+            return;
+          }
+          if (_this.aliWwLabelSet) {
+            if (_this.showkerCondition.showkerTagRequire.length < 4) {
+              _this.$Message.warning(`拿手审批条件设置中类目最少需要选择4个！`);
+              return;
+            }
+            if (_this.showkerCondition.addressExclude.length > 5) {
+              _this.$Message.warning(`拿手审批条件设置中所排除地区最多为5个！`);
+              return;
+            }
+            for (let i = 0, len = _this.showkerCondition.auditTimeCountRequire.length; i < len; i++) {
+              if (!_this.showkerCondition.auditTimeCountRequire[i].count) {
+                _this.$Message.warning(`亲，拿手审批条件设置中时间段${i + 1}的可审批数不能为空！`);
+                return;
+              }
+              if (_this.showkerCondition.auditTimeCountRequire[i].hourStart >= _this.showkerCondition.auditTimeCountRequire[i].hourEnd) {
+                _this.$Message.warning(`亲，拿手审批条件设置中时间段${i + 1}的开始时间大于结束时间，请重新设置！`);
+                return;
+              }
+              if (i > 0) {
+                let tempData = extendDeep(this.showkerCondition.auditTimeCountRequire,[]);
+                let startTimeArr = [];
+                let endTimeArr = [];
+                tempData.forEach(item => {
+                  item.startTimeStamp = Date.parse(new Date(item.date + ' ' + item.hourStart + ':00:00'));
+                  item.endTimeStamp = Date.parse(new Date(item.date + ' ' + item.hourEnd + ':00:00'));
+                  startTimeArr.push(item.startTimeStamp);
+                  endTimeArr.push(item.endTimeStamp);
+                });
+                startTimeArr.sort((a, b) => {
+                  return a-b
+                });
+                endTimeArr.sort((a, b) => {
+                  return a-b
+                });
+                for (let i = 1, len = startTimeArr.length; i < len ; i++) {
+                  if (startTimeArr[i] < endTimeArr[i-1]) {
+                    this.$Message.warning('时间段有重复，请重新选择！');
+                    return
+                  }
+                }
+              }
+              let timeStamp = Date.parse(new Date(_this.showkerCondition.auditTimeCountRequire[i].date));
+              if (timeStamp > getSeverTime() + 86400000 * _this.taskRelease.taskDaysDuration) {
+                this.$Message.warning('您选择的日期大于活动时长，请重新选择');
+                return
+              }
+            }
+          }
+        }
         if (_this.taskRelease.taskType === 'tao_code') {
           if (!_this.taoCodeTaskDetail[0].taoCode) {
             _this.$Message.warning('亲，任务宝贝淘口令不能为空！');
             return;
           }
           _this.taoCodeTaskDetail[0].homePageLockItemImage = _this.taoCodeTaskDetailItemMainImage;
-        }
-        _this.countAssignedChange();
-        if (!_this.isMatchNumberOk) {
-          return;
         }
         switch (_this.trialCondition) {
           case 'refuseOldShowkerFor30Days' :
@@ -2686,6 +2784,7 @@
         }
         _this.taskRelease.mainTaskVasConfigIds = JSON.stringify(mainTaskVasId);
         _this.taskRelease.similarTaskVasConfigIds = JSON.stringify(similarTaskVasId);
+        _this.taskRelease.showkerApplyRequireString = _this.aliWwLabelSet ? JSON.stringify(_this.showkerCondition) : '';
         let pcTaskDetailClone = extendDeep(_this.pcTaskDetail, []);
         let appTaskDetailClone = extendDeep(_this.appTaskDetail, []);
         let taoCodeTaskDetailClone = extendDeep(_this.taoCodeTaskDetail, []);
@@ -2822,6 +2921,7 @@
                 }
               }
             }
+            _this.aliWwLabelSet = res.data.showkerApplyRequire ? res.data.showkerApplyRequire : false;
             _this.taskRelease.itemType = res.data.itemCatalog.id;
             _this.taskRelease.dayReserveToNow = _this.taskRelease.dayReserveToNow ? _this.taskRelease.dayReserveToNow : false;
             _this.taskRelease.speedUp = _this.taskRelease.speedUp ? _this.taskRelease.speedUp : false;
@@ -2835,7 +2935,8 @@
               _this.taskRelease.taskDaysDuration = null;
               _this.taskCountInputPlaceholder = '当日22点前有效';
               _this.taskCountInputDisabled = true;
-              _this.taskRelease.showkerOrderTimeLimit = ''
+              _this.taskRelease.showkerOrderTimeLimit = '';
+              _this.showkerCondition.auditTimeCountRequire = [];
             }
 
             // 复制历史活动的时候如果掌柜旺旺信息不能匹配到绑定店铺的旺旺名则默认自动选择第一个店铺，反之取接口实时数据
@@ -2903,6 +3004,22 @@
                 answerDefault.push({src: item.image});
                 _this.answerDefaultList.push(answerDefault);
               });
+            }
+            if ((res.data.taskType === 'pc_search' || res.data.taskType === 'app_search') && res.data.showkerApplyRequire) {
+              _this.interestTag();
+              for (let k in _this.showkerCondition) {
+                for (let i in res.data.showkerApplyRequireData) {
+                  if (k === i) {
+                    _this.showkerCondition[k] = res.data.showkerApplyRequireData[i]
+                  }
+                }
+              }
+              res.data.showkerApplyRequireData.auditTimeCountRequire.forEach((item,index) => {
+                let timeStamp = Date.parse(new Date(item.date));
+                if (timeStamp < getSeverTime()) {
+                  item.date = `${new Date(getSeverTime()).getFullYear()}-${new Date(getSeverTime()).getMonth() + 1}-${new Date(getSeverTime()).getDate() + 1}`
+                }
+              })
             }
             _this.taskRelease.taskDetail = {};
             if (res.data.taskType === 'tao_code') {
@@ -3119,7 +3236,7 @@
           this.pcTaskDetail[0].countAssigned = null;
           this.appTaskDetail[0].countAssigned = null;
         }
-        this.countAssignedChange('noVerify');
+        this.countAssignedChange();
       },
       changeSelectEvaluation() {
         if (this.taskRelease.itemReviewSummary) {
@@ -3147,11 +3264,11 @@
         }
         return num
       },
-      countAssignedChange(type) {
-        let num = this.allPlanNumber();
-        if (this.taskRelease.taskCount > 0 && num > this.taskRelease.taskCount && !type) {
+      countAssignedChange() {
+        const num = this.allPlanNumber();
+        if (num > this.taskRelease.taskCount) {
           this.isMatchNumberOk = false;
-          this.$Message.warning('亲，当前剩余匹配数不足！');
+          this.$Message.warning('亲，当前剩余匹配数不足,请重新分配！');
         } else {
           this.isMatchNumberOk = true;
         }
@@ -3309,15 +3426,99 @@
         }
       },
       addTimeBucket() {
-        this.showkerCondition.approvalRequire.push({
-          date: null,
-          startTime: new Date(getSeverTime()).getHours(),
-          endTime: 24,
-          approvalNum: null
+        if (this.systemSurplusApprovalTaskNumber <= 0) {
+          this.$Message.warning('亲，系统剩余可审批名额不足！');
+          return;
+        }
+        this.showkerCondition.auditTimeCountRequire.push({
+          date: `${new Date(getSeverTime()).getFullYear()}-${new Date(getSeverTime()).getMonth() + 1}-${new Date(getSeverTime()).getDate() + 1}`,
+          hourStart: '0',
+          hourEnd: '23',
+          count: null
         })
       },
       deleteTimeBucket(index) {
-        this.showkerCondition.approvalRequire.splice(index, 1)
+        this.showkerCondition.auditTimeCountRequire.splice(index, 1)
+      },
+      datePickerValueChange(data, index) {
+        let timeStamp = Date.parse(new Date(data));
+        if (timeStamp > getSeverTime() + 86400000 * this.taskRelease.taskDaysDuration) {
+          this.$Message.error('您选择的日期大于活动时长，请重新选择')
+        }
+        this.showkerCondition.auditTimeCountRequire[index].date = data;
+      },
+      aliWwLabelSetChange(value) {
+        value && this.interestTagList.length === 0 && this.interestTag()
+      },
+      // 拿手兴趣标签，如果以后有多个业务也需要此配置，可将抽离到Vuex action
+      interestTag() {
+        const _this = this;
+        api.getInterestTag({
+          categoryId: 50000,
+          enable: true
+        }).then(res => {
+          if (res.status) {
+            _this.interestTagList = res.data
+          } else {
+            _this.$Message.error(res.msg)
+          }
+        })
+      },
+      limitEndTime(endTime,index) {
+        if (endTime <= this.showkerCondition.auditTimeCountRequire[index].hourStart) {
+          this.$Message.error('结束时间点应大于开始时间点，请重新选择！');
+        }
+        if (index > 0) {
+          let tempData = extendDeep(this.showkerCondition.auditTimeCountRequire,[]);
+          let startTimeArr = [];
+          let endTimeArr = [];
+          tempData.forEach(item => {
+            item.startTimeStamp = Date.parse(new Date(item.date + ' ' + item.hourStart + ':00:00'));
+            item.endTimeStamp = Date.parse(new Date(item.date + ' ' + item.hourEnd + ':00:00'));
+            startTimeArr.push(item.startTimeStamp);
+            endTimeArr.push(item.endTimeStamp);
+          });
+          startTimeArr.sort((a,b) => {
+            return a-b;
+          });
+          endTimeArr.sort((a,b) => {
+            return a-b;
+          });
+          for (let i = 1, len = allStartTime.length; i < len; i ++) {
+            if (startTimeArr[i] < endTimeArr[i-1]) {
+              this.$Message.warning('时间段有重复，请重新选择！');
+              break;
+            }
+          }
+        }
+      },
+      limitStartTime(startTime,index) {
+        if (startTime >= this.showkerCondition.auditTimeCountRequire[index].hourEnd) {
+          this.$Message.warning('开始时间点应小于结束时间点，请重新选择！');
+        }
+        if (index > 0) {
+          let tempData = extendDeep(this.showkerCondition.auditTimeCountRequire,[]);
+          let startTimeArr = [];
+          let endTimeArr = [];
+          tempData.forEach(item => {
+            item.startTimeStamp = Date.parse(new Date(item.date + ' ' + item.hourStart + ':00:00'));
+            item.endTimeStamp = Date.parse(new Date(item.date + ' ' + item.hourEnd + ':00:00'));
+            startTimeArr.push(item.startTimeStamp);
+            endTimeArr.push(item.endTimeStamp);
+          });
+          startTimeArr.sort((a,b) => {
+            return a-b;
+          });
+          endTimeArr.sort((a,b) => {
+            return a-b;
+          });
+          for (let i = 1, len = allStartTime.length; i < len; i ++) {
+            if (startTimeArr[i] < endTimeArr[i-1]) {
+              this.$Message.warning('时间段有重复，请重新选择！');
+              break;
+            }
+          }
+        }
       }
     },
   }
