@@ -16,11 +16,11 @@
             <span v-if="Boolean(userData.ifCertification)">实名认证：<icon color="#70CF70" type="checkmark-circled"/> 已认证</span>
             <span v-else>实名认证：<icon type="information-circled" color="#f9284f"/> 未认证 &nbsp;&nbsp;<router-link to="/user/personal-setting/verified">去认证</router-link></span>
           </p>
-          <div class="clear">
-            <span v-if="getUserInfoRole === 1 && !isMember">
-              <span>免费会员</span>
-              <router-link to="/user/vip-member/order">马上开通会员</router-link>
-            </span>
+          <div>
+          <span v-if="getUserInfoRole === 1 && !isMember">
+            <span>免费会员</span>
+            <router-link to="/user/vip-member/order">马上开通会员</router-link>
+          </span>
             <span v-if="getUserInfoRole === 1 && isMember" class="mr-5">
               <img v-if="getMemberVersionLevel === 200" src="~assets/img/common/vip.png" alt="vipLogo">
               <img v-if="getMemberVersionLevel === 300" src="~assets/img/common/svip.png" alt="svipLogo">
@@ -44,19 +44,15 @@
               <span class="blue ml-10 cursor-p" @click="toRecordDetail">明细</span>
             </span>
             <router-link v-if="getUserInfoRole === 0" :to="{path: '/user/money-management/getout-money'}">提现</router-link>
-            <div v-if="limit" class="inline-block ml-20 pos-rel last-apply-acount">
-              <a v-if="getUserInfoRole === 0" class="left">
-                <span style="color: #495060;">剩余申请次数</span>{{residue}}
-              </a>
-              <a class="pos-rel apply-num left" v-if="getUserInfoRole === 0">
-                <icon type="help-circled"
-                      color="#f9284f"/>
-                <i class="up-icon"></i>
-                <em>
+            <div v-if="limit && getUserInfoRole === 0" class="inline-block ml-20 pos-rel clear vtc-btm">
+              <span class="left">剩余申请次数<span class="blue">{{residue}}</span></span>
+              <span class="pos-rel apply-num left">
+                <icon type="help-circled" color="#f9284f"/>
+                <em class="bubble-modal">
                   您今天有{{getUserApplyCount.configValue}}次申请活动的机会，扫描以下二维码，关注51白拿拿公众号并分享宝贝，获取更多申请次数！
                   <img width="200" src="/static/img/common/qr_code_bainana.png" alt="" class="mt-10 block">
                 </em>
-              </a>
+              </span>
             </div>
           </div>
         </div>
@@ -392,9 +388,6 @@
         }
       }
     }
-    .last-apply-acount {
-      transform: translateY(6px);
-    }
   }
 
   .user-seller-tips-box {
@@ -483,13 +476,13 @@
   .apply-num {
     display: block;
     margin-left: 5px;
-    &:hover em, &:hover i {
+    &:hover .bubble-modal {
       display: block;
     }
-    em {
+    .bubble-modal {
       display: none;
       position: absolute;
-      top: 23px;
+      top: 28px;
       right: -66px;
       background-color: rgba(70, 76, 91, 0.9);
       color: rgb(255, 255, 255);
@@ -497,11 +490,25 @@
       font-style: normal;
       font-size: 12px;
       z-index: 2;
+      &:after {
+        content: '';
+        position: absolute;
+        bottom: 100%;
+        right: 67px;
+        width: 0;
+        height: 0;
+        border-width: 6px;
+        border-style: solid;
+        border-color: transparent;
+        border-bottom-width: 8px;
+        border-bottom-color: currentColor;
+        color: #585E6B;
+      }
     }
     .up-icon {
       width: 0;
       height: 0;
-      border: 9px solid transparent;
+      border: 6px solid transparent;
       border-bottom-color: rgba(70, 76, 91, 0.9);
       position: absolute;
       bottom: 0;
