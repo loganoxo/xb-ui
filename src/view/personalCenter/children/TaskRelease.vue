@@ -1090,11 +1090,11 @@
                         <datePicker :value="showkerCondition.auditTimeCountRequire[index].date" :options="datePickerOptions" @on-change="datePickerValueChange(arguments[0],index)" type="date" placeholder="请选择日期" class="width-100"/>
                       </div>
                       <div class="inline-block width-pct-39 text-ct">
-                        <i-select v-model="item.hourStart" class="width-100" @on-change="limitStartTime(item.hourStart,index)">
+                        <i-select v-model="item.hourStart" class="width-100" @on-change="limitTimeChange('startTime',item.hourStart,index)">
                           <i-option v-for="(item,index) in period" :key="index" :value="item.hour" :label="item.hour"/>
                         </i-select>
                         <span>点-</span>
-                        <i-select v-model="item.hourEnd" class="width-100" @on-change="limitEndTime(item.hourEnd,index)">
+                        <i-select v-model="item.hourEnd" class="width-100" @on-change="limitTimeChange('endTime',item.hourEnd,index)">
                           <i-option v-for="(item,index) in period" :key="index" :value="item.hour" :label="item.hour"/>
                         </i-select>
                         <span>点</span>
@@ -3464,12 +3464,15 @@
           }
         })
       },
-      limitEndTime(endTime,index) {
-        if (endTime * 1 <= this.showkerCondition.auditTimeCountRequire[index].hourStart * 1) {
+      limitTimeChange(type, time, index) {
+        if (type === 'startTime' && time * 1 <= this.showkerCondition.auditTimeCountRequire[index].hourStart * 1) {
           this.$Message.error('结束时间点应大于开始时间点，请重新选择！');
         }
+        if (type === 'endTime' && time * 1 >= this.showkerCondition.auditTimeCountRequire[index].hourEnd * 1) {
+          this.$Message.warning('开始时间点应小于结束时间点，请重新选择！');
+        }
         if (index > 0) {
-          let tempData = extendDeep(this.showkerCondition.auditTimeCountRequire,[]);
+          let tempData = extendDeep(this.showkerCondition.auditTimeCountRequire, []);
           let startTimeArr = [];
           let endTimeArr = [];
           tempData.forEach(item => {
@@ -3492,34 +3495,6 @@
           }
         }
       },
-      limitStartTime(startTime,index) {
-        if (startTime * 1 >= this.showkerCondition.auditTimeCountRequire[index].hourEnd * 1) {
-          this.$Message.warning('开始时间点应小于结束时间点，请重新选择！');
-        }
-        if (index > 0) {
-          let tempData = extendDeep(this.showkerCondition.auditTimeCountRequire,[]);
-          let startTimeArr = [];
-          let endTimeArr = [];
-          tempData.forEach(item => {
-            item.startTimeStamp = Date.parse(new Date(item.date + ' ' + item.hourStart + ':00:00'));
-            item.endTimeStamp = Date.parse(new Date(item.date + ' ' + item.hourEnd + ':00:00'));
-            startTimeArr.push(item.startTimeStamp);
-            endTimeArr.push(item.endTimeStamp);
-          });
-          startTimeArr.sort((a,b) => {
-            return a-b;
-          });
-          endTimeArr.sort((a,b) => {
-            return a-b;
-          });
-          for (let i = 1, len = startTimeArr.length; i < len; i ++) {
-            if (startTimeArr[i] < endTimeArr[i-1]) {
-              this.$Message.warning('时间段有重复，请重新选择！');
-              break;
-            }
-          }
-        }
-      }
     },
   }
 </script>
