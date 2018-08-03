@@ -16,11 +16,11 @@
             <span v-if="Boolean(userData.ifCertification)">实名认证：<icon color="#70CF70" type="checkmark-circled"/> 已认证</span>
             <span v-else>实名认证：<icon type="information-circled" color="#f9284f"/> 未认证 &nbsp;&nbsp;<router-link to="/user/personal-setting/verified">去认证</router-link></span>
           </p>
-          <div>
-          <span v-if="getUserInfoRole === 1 && !isMember">
-            <span>免费会员</span>
-            <router-link to="/user/vip-member/order">马上开通会员</router-link>
-          </span>
+          <div class="clear">
+            <span v-if="getUserInfoRole === 1 && !isMember">
+              <span>免费会员</span>
+              <router-link to="/user/vip-member/order">马上开通会员</router-link>
+            </span>
             <span v-if="getUserInfoRole === 1 && isMember" class="mr-5">
               <img v-if="getMemberVersionLevel === 200" src="~assets/img/common/vip.png" alt="vipLogo">
               <img v-if="getMemberVersionLevel === 300" src="~assets/img/common/svip.png" alt="svipLogo">
@@ -44,7 +44,7 @@
               <span class="blue ml-10 cursor-p" @click="toRecordDetail">明细</span>
             </span>
             <router-link v-if="getUserInfoRole === 0" :to="{path: '/user/money-management/getout-money'}">提现</router-link>
-            <div v-if="limit" class="inline-block ml-20 pos-rel mt-5">
+            <div v-if="limit" class="inline-block ml-20 pos-rel last-apply-acount">
               <a v-if="getUserInfoRole === 0" class="left">
                 <span style="color: #495060;">剩余申请次数</span>{{residue}}
               </a>
@@ -391,6 +391,9 @@
           margin-right: 20px;
         }
       }
+    }
+    .last-apply-acount {
+      transform: translateY(6px);
     }
   }
 
