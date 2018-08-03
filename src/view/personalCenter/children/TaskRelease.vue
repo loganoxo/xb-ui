@@ -3484,7 +3484,7 @@
           endTimeArr.sort((a,b) => {
             return a-b;
           });
-          for (let i = 1, len = allStartTime.length; i < len; i ++) {
+          for (let i = 1, len = startTimeArr.length; i < len; i ++) {
             if (startTimeArr[i] < endTimeArr[i-1]) {
               this.$Message.warning('时间段有重复，请重新选择！');
               break;
@@ -3512,7 +3512,7 @@
           endTimeArr.sort((a,b) => {
             return a-b;
           });
-          for (let i = 1, len = allStartTime.length; i < len; i ++) {
+          for (let i = 1, len = startTimeArr.length; i < len; i ++) {
             if (startTimeArr[i] < endTimeArr[i-1]) {
               this.$Message.warning('时间段有重复，请重新选择！');
               break;
