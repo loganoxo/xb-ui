@@ -383,7 +383,7 @@
       Tooltip: Tooltip,
       iSelect: Select,
       iOption: Option,
-      PayModel: PayModel
+      PayModel: PayModel,
     },
     data() {
       return {

@@ -50,7 +50,7 @@
       Icon: Icon,
       Modal: Modal,
       iInput:Input,
-      iButton: Button
+      iButton: Button,
     },
     data(){
       return {
