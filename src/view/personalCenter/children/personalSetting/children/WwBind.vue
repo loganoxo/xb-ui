@@ -22,20 +22,20 @@
             <span v-show="ww.status === 1">审核中</span>
             <div v-if="ww.status === 2 ">
               <p>{{wwStatusTextOn}}</p>
-              <iSwitch
+              <i-switch
                 v-model="switchTrue"
                 @on-change="switchTypeTrue(ww.id)">
-              </iSwitch>
+              </i-switch>
             </div>
             <div v-if="ww.status === 5 ">
               <p>{{wwStatusTextOff}}</p>
-              <iSwitch
+              <i-switch
                 v-model="switchFalse"
                 @on-change="switchTypeFalse(ww.id)">
-              </iSwitch>
+              </i-switch>
             </div>
             <Tooltip v-show="ww.status === 3" :content="ww.remarks" placement="top" style="color: #ff6633;">
-              <Icon type="information-circled" color="#FF6633"></Icon>
+              <icon type="md-information-circle" color="#FF6633"/>
               <span>审核不通过(查看)</span>
             </Tooltip>
             <Tooltip v-show="ww.status === 4" :content="ww.freezeRemark ? ww.freezeRemark : '系统冻结'" placement="top" style="color: #ff6600;">
@@ -59,7 +59,7 @@
         <iForm ref="wwFormValidate" :model="wwFormValidate" :rules="wwFormRuleCustom" label-position="right"
                :label-width="150">
           <Form-item label="旺旺ID：" prop="alitmAccount">
-            <iInput v-model="wwFormValidate.alitmAccount" :disabled="modifyWw"></iInput>
+            <i-input v-model="wwFormValidate.alitmAccount" :disabled="modifyWw"/>
           </Form-item>
           <Form-item label="性别：" prop="sex">
             <Radio-group v-model="wwFormValidate.sex">
@@ -85,12 +85,12 @@
             <DatePicker type="date" placeholder="请选择生日" format="yyyy-MM-dd" @on-change="selectDate"></DatePicker>
           </Form-item>
           <Form-item label="旺旺号信用等级：" prop="alitmLevel">
-            <iSelect v-model="wwFormValidate.alitmLevel">
-              <iOption v-for="item in aliLevelList" :label='item.label'
+            <i-select v-model="wwFormValidate.alitmLevel">
+              <i-option v-for="item in aliLevelList" :label='item.label'
                        :value="item.value" :key="item.value">
                 <img :src="item.text" alt="">
-              </iOption>
-            </iSelect>
+              </i-option>
+            </i-select>
           </Form-item>
           <Form-item label="旺旺信用等级截图：" prop="alitmLevelPicUrl" class="ww-info-img clear">
             <Upload class="left"
@@ -107,7 +107,7 @@
                     :before-upload="handleBeforeUpload"
                     type="drag">
               <div style="width: 58px;height:58px;line-height: 58px;">
-                <Icon type="camera" size="20"></Icon>
+                <icon type="md-camera" size="20"/>
               </div>
             </Upload>
           </Form-item>
@@ -140,12 +140,12 @@
             截图位置：我的淘宝->账户设置->安全设置
           </Form-item>-->
           <Form-item label="淘气值：" prop="taoqizhi" class="mt-12">
-            <iSelect v-model="wwFormValidate.taoqizhi">
-              <iOption v-for="item in aliTqzList" :label='item.label' :value="item.value"
+            <i-select v-model="wwFormValidate.taoqizhi">
+              <i-option v-for="item in aliTqzList" :label='item.label' :value="item.value"
                        :key="item.value">
                 {{item.label}}
-              </iOption>
-            </iSelect>
+              </i-option>
+            </i-select>
           </Form-item>
           <Form-item label="淘气值截图：" prop="taoqizhiPicUrl" class="ww-info-img clear">
             <Upload
@@ -163,7 +163,7 @@
               :before-upload="handleBeforeUpload"
               type="drag">
               <div style="width: 58px;height:58px;line-height: 58px;">
-                <Icon type="camera" size="20"></Icon>
+                <Icon type="md-camera" size="20"/>
               </div>
             </Upload>
           </Form-item>
@@ -187,9 +187,9 @@
             <!--<iInput v-model="wwFormValidate.detailAddress"></iInput>-->
           <!--</Form-item>-->
           <Form-item>
-            <iButton :class="[btnState.wwBindBtn ? '': 'ww-bind-btn']" :disabled="btnState.wwBindBtn"
+            <i-button :class="[btnState.wwBindBtn ? '': 'ww-bind-btn']" :disabled="btnState.wwBindBtn"
                      @click="handleSubmit('wwFormValidate',wwBindFunc)">提交
-            </iButton>
+            </i-button>
             <iButton type="ghost" @click="handleReset('wwFormValidate',clearWwInfo)">重置</iButton>
           </Form-item>
           <p class="ww-tip">
@@ -208,7 +208,7 @@
     <!--删除任务弹框-->
     <Modal v-model="deleteWwModal" width="360">
       <p slot="header" class="main-color text-ct">
-        <Icon type="information-circled"></Icon>
+        <Icon type="md-information-circle" size="16"/>
         <span>删除确认</span>
       </p>
       <div class="text-ct">
@@ -216,7 +216,7 @@
         <p>是否确认解绑？</p>
       </div>
       <div slot="footer">
-        <iButton type="error" size="large" long :loading="modalLoading" @click="confirmDelete">删除</iButton>
+        <i-button type="error" size="large" long :loading="modalLoading" @click="confirmDelete">删除</i-button>
       </div>
     </Modal>
     <Modal v-model="demoShow" width="900">

@@ -41,36 +41,36 @@
       </p>
       <p class="right">
         <router-link to="/" @click.native="selTaskCategoryHome">
-          <i data-v-38a9a25e="" class="ivu-icon ivu-icon-home vtc-text-btm fs-16"></i>
+          <icon type="md-home" size="16" class="vtc-text-btm"/>
           白拿拿首页
         </router-link>
         <router-link to="/user/user-home" @click.native="cancelActivityCategory">
-          <i data-v-38a9a25e="" class="ivu-icon ivu-icon-person vtc-text-btm fs-16"></i>
+          <Icon type="md-person" size="16" class="vtc-text-btm"/>
           个人中心
         </router-link>
         <router-link v-if="getRole === 1" to="/promotion/promotion-regulation" @click.native="cancelActivityCategory">
-          <img src="~assets/img/merchant-promotion/purse-on.png" alt="" width="16" height="16" class="vtc-mid">
+          <img src="~assets/img/merchant-promotion/purse-on.png" alt="" width="16" height="16" class="vtc-text-btm">
           赚点钱儿
         </router-link>
         <router-link to="/user/help-center/faq" @click.native="cancelActivityCategory">
-          <i data-v-38a9a25e="" class="ivu-icon ivu-icon-help-buoy vtc-text-btm fs-16"></i>
+          <Icon type="md-help-buoy" size="16" class="vtc-text-btm"/>
           帮助中心
         </router-link>
         <router-link to="/about-us">
-          <i data-v-38a9a25e="" class="ivu-icon ivu-icon-ios-help vtc-text-btm fs-16"></i>
+          <Icon type="md-help-circle" size="16" class="vtc-text-btm"/>
           关于我们
         </router-link>
         <a href="http://wpa.qq.com/msgrd?v=3&site=qq&menu=yes&uin=1624363653" target="_blank" v-if="getUserInfo.role === 1">
-          <i data-v-38a9a25e="" class="ivu-icon ivu-icon-person-stalker vtc-text-btm fs-16"></i>
+          <Icon type="ios-contacts" size="16" class="vtc-text-btm"/>
           联系客服
         </a>
         <a href="https://jq.qq.com/?_wv=1027&k=5ZMH7Iu" target="_blank" v-if="getUserInfo.role === 0">
-          <i data-v-38a9a25e="" class="ivu-icon ivu-icon-person-stalker vtc-text-btm fs-16"></i>
+          <Icon type="ios-contacts" size="16" class="vtc-text-btm"/>
           联系客服
         </a>
         <a>
           <Tooltip content="按Ctrl + D 收藏本站" placement="bottom-end">
-            <i data-v-38a9a25e="" class="ivu-icon ivu-icon-star vtc-text-btm fs-16"></i>
+            <Icon type="md-star" size="16" class="vtc-text-btm"/>
             收藏本站
          </Tooltip>
         </a>
