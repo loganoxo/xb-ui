@@ -65,16 +65,16 @@
               <span class="inline-block tag" v-if="getUserRole === 0 && isShowAddGroupTip">
               <a href="http://shang.qq.com/wpa/qunwpa?idkey=c8b3150dbd8821f50cced9a08831de701636de9ae107e707114150d0050df9a4"
                 target="_blank">内部QQ群：478360486 ，据说里面的人都抢到了！</a>
-              <span class="close-tag" @click="handleCloseTag()"><Icon type="ios-close-empty"></Icon></span>
+              <span class="close-tag" @click="handleCloseTag()"><icon type="md-close" /></span>
             </span>
               <span class="inline-block tag" v-if="getUserRole === 1 && isShowAddGroupTip">
               <a :href="pcMerchantQqGroup.remark"
                 target="_blank">加入商家QQ群：{{pcMerchantQqGroup.configValue}} ，学习怎样有效放单！</a>
-              <span class="close-tag" @click="handleCloseTag()"><Icon type="ios-close-empty"></Icon></span>
+              <span class="close-tag" @click="handleCloseTag()"><Icon type="md-close" /></span>
             </span>
             </p>
             <div class="fs-14">
-              <i class="ivu-icon ivu-icon-clock fs-16"></i>
+              <Icon type="md-stopwatch" size="16"/>
               距申请结束：
               <time-down
                 v-show="applyBtnShow === 'buyerTasking' || applyBtnShow === 'noLogin' || applyBtnShow === 'sellerTasking' "
@@ -133,23 +133,23 @@
             <li>
               <span>1</span>
               <em>提交申请</em>
-              <i class="ivu-icon ivu-icon-chevron-right"></i>
+              <Icon type="ios-arrow-forward" />
             </li>
             <li>
               <span>2</span>
               <em>商家审核，通过后即可获得拿手资格 </em>
-              <i class="ivu-icon ivu-icon-chevron-right"></i>
+              <Icon type="ios-arrow-forward" />
             </li>
             <li>
               <span>3</span>
               <em v-if="commodityData.task.activityCategory === 'free_get'"> 按照商家指定的方式，以{{(commodityData.task.itemPrice/100).toFixed(2)}}的价格购买本宝贝</em>
               <em v-if="commodityData.task.activityCategory === 'present_get'"> 按照商家指定的方式，以{{(commodityData.task.perMarginNeed/100).toFixed(2)}}的价格购买本宝贝</em>
-              <i class="ivu-icon ivu-icon-chevron-right"></i>
+              <Icon type="ios-arrow-forward" />
             </li>
             <li>
               <span>4</span>
               <em>收到宝贝后，提交买家秀</em>
-              <i class="ivu-icon ivu-icon-chevron-right"></i>
+              <Icon type="ios-arrow-forward" />
             </li>
             <li>
               <span>5</span>
@@ -188,7 +188,7 @@
                     <span>下单速度：</span>
                     <span>{{commodityData.task.showkerOrderTimeLimit}}小时</span>
                     <tooltip content="通过审批后需要指定时间内完成淘宝下单并在本平台提交订单号，否则资格自动过期" placement="top-start">
-                      <icon class="fs-14 ml-5" type="help-circled"/>
+                      <Icon type="md-help-circle" size="14" class="ml-5 vtc-text-btm"/>
                     </tooltip>
                   </p>
                   <p class="mt-10" v-if="commodityData.task.orderQuantity">

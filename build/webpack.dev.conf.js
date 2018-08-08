@@ -18,7 +18,6 @@ module.exports = merge(baseWebpackConfig, {
   devtool: '#cheap-module-eval-source-map',
   // these devServer options should be customized in /config/index.js
   devServer: {
-
     clientLogLevel: 'warning',
     historyApiFallback: {
       rewrites: [
@@ -35,15 +34,16 @@ module.exports = merge(baseWebpackConfig, {
       : false,
     publicPath: config.dev.assetsPublicPath,
     proxy: config.dev.proxyTable,
-    quiet: true // necessary for FriendlyErrorsPlugin
-  },
-  watchOptions: {
-    ignored: /node_modules/,
-    poll: 1000, //每秒钟询问变化次数，建议设置1000
-    aggregateTimeout: 500 //累计的超时
+    quiet: true, // necessary for FriendlyErrorsPlugin
+    watchOptions: {
+      ignored: /node_modules/,
+      poll: 1000, //每秒钟询问变化次数，建议设置1000
+      aggregateTimeout: 500 //累计的超时
+    },
   },
   plugins: [
     new VueLoaderPlugin(),
+    new webpack.HotModuleReplacementPlugin(),
     new HtmlWebpackPlugin({
       filename: 'index.html',
       template: 'index.html',

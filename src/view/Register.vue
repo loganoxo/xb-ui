@@ -60,11 +60,11 @@
             </form-item>
             <form-item v-show="selLogin.buyer">
               <i-button :class="[btnState.registerBuyerBtn ? '' : 'register-buyer-btn']" @click="handleSubmit('formCustom',registerBuyer)" :disabled="btnState.registerBuyerBtn">立即注册</i-button>
-              <i-button class="ml-8" type="ghost" @click="handleReset('formCustom')">重置</i-button>
+              <i-button class="ml-8" type="primary" ghost @click="handleReset('formCustom')">重置</i-button>
             </form-item>
             <form-item v-show="selLogin.seller">
               <i-button :class="[btnState.registerSellerBtn ? '' : 'register-seller-btn']" @click="handleSubmit('formCustom',registerSeller)">立即注册</i-button>
-              <i-button class="ml-8" type="ghost" @click="handleReset('formCustom')">重置</i-button>
+              <i-button class="ml-8" type="primary" ghost @click="handleReset('formCustom')">重置</i-button>
             </form-item>
           </i-form>
           <div class="fs-14 text-ct">

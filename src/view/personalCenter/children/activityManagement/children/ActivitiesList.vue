@@ -116,7 +116,9 @@
               <td>{{item.showkerApplyTotalCount || 0}} / {{item.showkerApplyPassedCount || 0}}（人）</td>
               <td>{{(item.taskCount  - item.showkerApplySuccessCount)}}</td>
               <td>
-                （ {{(item.totalMarginNeed / 100).toFixed(2)}} / {{((item.promotionExpensesNeed > 0 ? item.promotionExpensesNeed : 0) / 100).toFixed(2)}} / {{(item.vasFeeNeed / 100).toFixed(2)}}）{{((item.marginPaid + item.promotionExpensesPaid + item.vasFeePaid) / 100).toFixed(2)}}
+                （ {{(item.totalMarginNeed / 100).toFixed(2)}} / {{((item.promotionExpensesNeed > 0 ? item.promotionExpensesNeed : 0) / 100).toFixed(2)}} / {{(item.vasFeeNeed / 100).toFixed(2)}}）
+                <span v-if="item.createFrom === 'without_audit'">{{((item.totalMarginNeed + item.promotionExpensesNeed + item.vasFeeNeed) / 100).toFixed(2)}}</span>
+                <span v-else>{{((item.marginPaid + item.promotionExpensesPaid + item.vasFeePaid) / 100).toFixed(2)}}</span>
               </td>
               <td v-if="item.taskStatus === 'waiting_pay'">
                 <p class="del-edit">
@@ -160,6 +162,12 @@
                 <p class="copy mt-6">
                   <span @click="copyTask(item.id)">复制活动</span>
                 </p>
+                <p class="copy mt-6">
+                  <span @click="exemption(item)">免审发布</span>
+                  <tooltip content="以该活动为模板再次发布可免审核直接上线" placement="top">
+                    <icon type="md-help-circle" color="#f9284f" size="16" class="vtc-text-btm"/>
+                  </tooltip>
+                </p>
               </td>
               <td v-else-if="item.settlementStatus === 'cannot_settlement' && item.taskStatus === 'finished'">
                 <!--<p class="bond mt-6" v-if="isApproveExpire(item.endTime) && (item.taskCount - item.showkerApplySuccessCount) !== 0">-->
@@ -170,6 +178,12 @@
                 </p>
                 <p class="copy mt-6">
                   <span @click="copyTask(item.id)">复制活动</span>
+                </p>
+                <p class="copy mt-6">
+                  <span @click="exemption(item)">免审发布</span>
+                  <tooltip content="以该活动为模板再次发布可免审核直接上线" placement="top">
+                    <icon type="md-help-circle" color="#f9284f" size="16" class="vtc-text-btm"/>
+                  </tooltip>
                 </p>
               </td>
               <td v-else-if="(item.settlementStatus === 'settlement_finished' || item.settlementStatus === 'waiting_audit') && item.taskStatus === 'finished'">
@@ -184,6 +198,12 @@
                 </p>
                 <p class="copy mt-6">
                   <span @click="copyTask(item.id)">复制活动</span>
+                </p>
+                <p class="copy mt-6">
+                  <span @click="exemption(item)">免审发布</span>
+                  <tooltip content="以该活动为模板再次发布可免审核直接上线" placement="top">
+                    <icon type="md-help-circle" color="#f9284f" size="16-" class="vtc-text-btm"/>
+                  </tooltip>
                 </p>
               </td>
               <td v-else-if="item.taskStatus === 'closed'">
@@ -204,10 +224,10 @@
                 <p class="copy mt-6">
                   <span @click="lookTaskDetail(item.id)">查看详情</span>
                 </p>
-                <tooltip v-if="!item.speedUp" class="mt-6" content="启用后，系统会匹配拿手进行审核，无需商家干预" placement="top">
-                  <span class="cursor-p main-color" @click="openSpeedUp(item.id, item.userId)">一键加速</span>
-                </tooltip>
-                <p v-else class="cl-red mt-6">已加速</p>
+                <!--<tooltip v-if="!item.speedUp" class="mt-6" content="启用后，系统会匹配拿手进行审核，无需商家干预" placement="top">-->
+                  <!--<span class="cursor-p main-color" @click="openSpeedUp(item.id, item.userId)">一键加速</span>-->
+                <!--</tooltip>-->
+                <!--<p v-else class="cl-red mt-6">已加速</p>-->
                 <p class="copy mt-6">
                   <span @click="copyTask(item.id)">复制活动</span>
                 </p>
@@ -360,6 +380,8 @@
         <i-button class="ml-40 pr-40 pl-40" type="primary" size="large" @click="deleteFirstTaskModal = false">取消</i-button>
       </div>
     </modal>
+    <!--免审发布弹框-->
+    <exempt-release-modal v-model="exemptRelease" :data="taskInfo" @releaseSuccess="releaseSuccess"/>
   </div>
 </template>
 
@@ -367,6 +389,7 @@
   import {Checkbox, Page, Modal, Icon, Button, Input, Tooltip, Select, Option} from 'iview'
   import api from '@/config/apiConfig'
   import PayModel from '@/components/PayModel'
+  import ExemptReleaseModal from '@/components/ExemptReleaseModal'
   import {taskErrorStatusList, getSeverTime, encryption, decode,setStorage, getStorage,} from '@/config/utils'
 
   export default {
@@ -383,7 +406,8 @@
       Tooltip: Tooltip,
       iSelect: Select,
       iOption: Option,
-      PayModel: PayModel
+      PayModel: PayModel,
+      ExemptReleaseModal: ExemptReleaseModal,
     },
     data() {
       return {
@@ -461,6 +485,8 @@
         redEnvelopeDeductionNumber: 0,
         disabledRedEnvelopes: false,
         deleteFirstTaskModal: false,
+        exemptRelease: false,
+        taskInfo: {}
       }
     },
     created() {
@@ -821,6 +847,18 @@
         _this.realStoreName = res === '全部店铺' ? '' : res;
         _this.pageIndex = 1;
         _this.getTaskList();
+      },
+      // 免审发布
+      exemption(item) {
+        this.taskInfo = item;
+        this.exemptRelease = true;
+      },
+      releaseSuccess() {
+        // 追加份数成功后，因后端数据返回有延迟，需要延迟更新列表数据
+        this.pageIndex = 1;
+        setTimeout(() => {
+          this.getTaskList();
+        }, 200)
       }
     }
   }
