@@ -39,7 +39,7 @@
                       :on-exceeded-size="handleMaxSize"
                       type="drag">
                 <div class="camera">
-                  <icon type="camera" size="20"></icon>
+                  <icon type="ios-camera" size="20"/>
                 </div>
               </upload>
               <span class="left mt-20 ml-10 blue cursor-p" @click="showDemoPicture = true">【查看示例图】</span>
