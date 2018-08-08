@@ -131,7 +131,7 @@
   }
 </script>
 <style lang="scss" scoped>
-
+  @import 'src/css/mixin';
   .content {
     .header {
       color: $mainColor;

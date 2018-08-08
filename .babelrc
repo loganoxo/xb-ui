@@ -8,7 +8,11 @@
     }],
     "stage-2"
   ],
-  "plugins": [["import", {"libraryName": "iview", "libraryDirectory": "src/components"}]],
+  "comments": false,
+  "plugins": [
+    ["syntax-dynamic-import"],
+    ["import", {"libraryName": "iview", "libraryDirectory": "src/components"}]
+  ],
   "env": {
     "test": {
       "presets": ["env", "stage-2"],

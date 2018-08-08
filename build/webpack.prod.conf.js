@@ -7,9 +7,29 @@ const merge = require('webpack-merge')
 const baseWebpackConfig = require('./webpack.base.conf')
 const CopyWebpackPlugin = require('copy-webpack-plugin')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
+const chunkSorters = require('html-webpack-plugin/lib/chunksorter')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 const OptimizeCSSPlugin = require('optimize-css-assets-webpack-plugin')
 const {VueLoaderPlugin} = require('vue-loader')
+
+// 处理HtmlWebpackPlugin插件在webpack4.x版本下排序兼容问题
+const depSort = chunkSorters.dependency;
+chunkSorters.auto = chunkSorters.dependency = (chunks, ...args) => {
+  try {
+    return depSort(chunks, ...args)
+  } catch (e) {
+    return chunks.sort((a, b) => {
+      if (a.id === 'app') {
+        return 1
+      } else if (b.id === 'app') {
+        return -1
+      } else if (a.entry !== b.entry) {
+        return b.entry ? -1 : 1
+      }
+      return 0
+    })
+  }
+};
 
 const webpackConfig = merge(baseWebpackConfig, {
   mode: 'production',
@@ -30,31 +50,36 @@ const webpackConfig = merge(baseWebpackConfig, {
     publicPath: '/'
   },
   optimization: {
-    // minimizer: true,                   // production mode下面自动为true
+    // minimizer: true,
     providedExports: true,
     usedExports: true,
-    //识别package.json中的sideEffects以剔除无用的模块，用来做tree-shake
-    //依赖于optimization.providedExports和optimization.usedExports
+    // 识别package.json中的sideEffects以剔除无用的模块，用来做tree-shake
+    // 依赖于optimization.providedExports和optimization.usedExports
     sideEffects: true,
-    //取代 new webpack.optimize.ModuleConcatenationPlugin()
+    // 取代 new webpack.optimize.ModuleConcatenationPlugin()
     concatenateModules: true,
-    //取代 new webpack.NoEmitOnErrorsPlugin()，编译错误时不打印输出资源。
+    // 取代 new webpack.NoEmitOnErrorsPlugin()，编译错误时不打印输出资源。
     noEmitOnErrors: true,
     splitChunks: {
-      // maxAsyncRequests: 1,                     // 最大异步请求数， 默认1
-      // maxInitialRequests: 1,                   // 最大初始化请求数，默认1
+      maxAsyncRequests: 1,                     // 最大异步请求数， 默认1
+      maxInitialRequests: 1,                   // 最大初始化请求数，默认1
       cacheGroups: {
-        // test: path.resolve(__dirname, '../node_modules'),
-        commons: {
-          chunks: 'all',
+        vendors: {
+          name: `chunk-vendors`,
+          test: /[\\/]node_modules[\\/]/,
+          priority: -10,
+          chunks: 'initial'
+        },
+        common: {
+          name: `chunk-common`,
           minChunks: 2,
-          maxInitialRequests: 5,
-          minSize: 0,
-          name: 'common'
+          priority: -20,
+          chunks: 'initial',
+          reuseExistingChunk: true
         }
       }
     },
-    //提取webpack运行时的代码
+    // 提取webpack运行时的代码
     runtimeChunk: {
       name: 'manifest'
     }
@@ -64,7 +89,7 @@ const webpackConfig = merge(baseWebpackConfig, {
 
     new MiniCssExtractPlugin({
       filename: utils.assetsPath('css/[name].[contenthash].css'),
-      allChunks: true,
+      chunkFilename: utils.assetsPath('css/[id].[contenthash].css'),
     }),
     new OptimizeCSSPlugin({
       cssProcessorOptions: {
@@ -83,7 +108,13 @@ const webpackConfig = merge(baseWebpackConfig, {
         collapseWhitespace: true,
         removeAttributeQuotes: true
       },
-      chunksSortMode: 'none'
+      chunksSortMode: (a, b) => {
+        if (a.entry !== b.entry) {
+          return b.entry ? -1 : 1
+        } else {
+          return 0
+        }
+      }
     }),
     new webpack.HashedModuleIdsPlugin(),
 
@@ -93,11 +124,10 @@ const webpackConfig = merge(baseWebpackConfig, {
       ignore: ['.*']
     }])
   ]
-})
+});
 
 if (config.build.productionGzip) {
-  const CompressionWebpackPlugin = require('compression-webpack-plugin')
-
+  const CompressionWebpackPlugin = require('compression-webpack-plugin');
   webpackConfig.plugins.push(
     new CompressionWebpackPlugin({
       asset: '[path].gz[query]',
@@ -114,8 +144,8 @@ if (config.build.productionGzip) {
 }
 
 if (config.build.bundleAnalyzerReport) {
-  const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin
+  const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
   webpackConfig.plugins.push(new BundleAnalyzerPlugin())
 }
 
-module.exports = webpackConfig
+module.exports = webpackConfig;

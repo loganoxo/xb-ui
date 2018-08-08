@@ -5,8 +5,8 @@ import store from './store'
 import * as filters from './filter/custom'
 import VueLazyload from 'vue-lazyload'
 import {Modal, Message, Notice} from 'iview'
-import '../iview/iview.less'
 import '@/css/common.scss'
+import '../iview/iview.less'
 
 Vue.config.productionTip = false;
 
@@ -15,12 +15,19 @@ Vue.prototype.$Modal = Modal;
 Notice.config({
   top: 40,
 });
+
 Vue.prototype.$Notice = Notice;
 
 Message.config({
   duration: 4
 });
+
 Vue.prototype.$Message = Message;
+
+Vue.prototype.$IVIEW = {
+  size: '',
+  transfer: true
+};
 
 /*VueLazyload配置初始化*/
 Vue.use(VueLazyload, {

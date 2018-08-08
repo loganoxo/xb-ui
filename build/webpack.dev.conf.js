@@ -42,25 +42,6 @@ module.exports = merge(baseWebpackConfig, {
       aggregateTimeout: 500 //累计的超时
     },
   },
-  optimization: {
-    // minimizer: true,
-    providedExports: true,
-    usedExports: true,
-    //识别package.json中的sideEffects以剔除无用的模块，用来做tree-shake
-    //依赖于optimization.providedExports和optimization.usedExports
-    sideEffects: true,
-    //取代 new webpack.optimize.ModuleConcatenationPlugin()
-    concatenateModules: true,
-    //取代 new webpack.NoEmitOnErrorsPlugin()，编译错误时不打印输出资源。
-    noEmitOnErrors: true,
-    splitChunks: {
-      chunks: 'initial', //'all'|'async'|'initial'(全部|按需加载|初始加载)的chunks
-    },
-    //提取webpack运行时的代码
-    runtimeChunk: {
-      name: 'manifest'
-    }
-  },
   plugins: [
     new VueLoaderPlugin(),
     new webpack.HotModuleReplacementPlugin(),
@@ -68,7 +49,6 @@ module.exports = merge(baseWebpackConfig, {
       filename: 'index.html',
       template: 'index.html',
       inject: true,
-      chunksSortMode: 'none'
     }),
     new FriendlyErrorsPlugin()
   ]
