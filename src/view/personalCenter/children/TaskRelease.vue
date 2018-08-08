@@ -226,7 +226,7 @@
                       :on-exceeded-size="handleMaxSize"
                       type="drag">
                 <div class="camera">
-                  <icon :class="{'disabled-fs-color':!item.issue}" type="camera" size="20"/>
+                  <icon type="ios-camera" size="20" :class="{'disabled-fs-color':!item.issue}"/>
                 </div>
               </upload>
               <span class="left mt-20 ml-5 sizeColor2">（请上传文案所在位置截图）</span>
@@ -334,7 +334,7 @@
                       :on-exceeded-size="handleMaxSize"
                       type="drag">
                 <div class="camera">
-                  <icon type="camera" size="20"/>
+                  <icon type="ios-camera" size="20"/>
                 </div>
               </upload>
               <span class="blue left mt-20 ml-10 cursor-p" @click="changeExampleImageUrl('main')">【查看示例图】</span>
@@ -679,7 +679,7 @@
                           :on-exceeded-size="handleMaxSize"
                           type="drag">
                     <div class="camera">
-                      <icon type="camera" size="20"/>
+                      <Icon type="ios-camera" size="20"/>
                     </div>
                   </upload>
                   <span class="blue left mt-20 ml-10 cursor-p" @click="changeExampleImageUrl('main')">【查看示例图】</span>
@@ -740,7 +740,7 @@
                       :on-exceeded-size="handleMaxSize"
                       type="drag">
                 <div class="camera">
-                  <icon type="camera" size="20"/>
+                  <icon type="ios-camera" size="20"/>
                 </div>
               </upload>
               <p class="sizeColor2 left mt-20 ml-15">（点击或者拖拽自主上传图片，支持jpg \ jpeg \ png \ gif \
@@ -751,7 +751,7 @@
                 <div class="inline-block tag" v-for="item in pcTaskDetail" :key="item.index" :class="selectKeywordScheme === item.index ? 'select-tag-bg' : ''">
                   <span @click="selectChangeScheme(item.index)">{{item.searchKeyword ? item.searchKeyword : `关键词方案${item.index + 1}`}}</span>
                   <sup class="badge-count" v-show="item.countAssigned > 0">{{item.countAssigned}}</sup>
-                  <span v-if="item.index === pcTaskDetail.length - 1 && item.index !== 0" class="close-tag" @click="handleClose(item.index)"><icon type="ios-close-empty"/></span>
+                  <span v-if="item.index === pcTaskDetail.length - 1 && item.index !== 0" class="close-tag" @click="handleClose(item.index)"><icon type="ios-close"/></span>
                 </div>
                 <i-button class="ml-5 mt-28" icon="ios-plus-empty" type="dashed" size="small" @click="handleAdd">添加关键词方案</i-button>
               </div>
@@ -867,7 +867,7 @@
                       :on-exceeded-size="handleMaxSize"
                       type="drag">
                 <div class="camera">
-                  <icon type="camera" size="20"/>
+                  <icon type="ios-camera" size="20"/>
                 </div>
               </upload>
               <p class="sizeColor2 left ml-15 mt-20">（点击或者拖拽自主上传图片，支持jpg \ jpeg \ png \ gif \
@@ -878,7 +878,7 @@
                 <div class="inline-block tag" v-for="item in appTaskDetail" :key="item.index" :class="selectKeywordScheme === item.index ? 'select-tag-bg' : ''">
                   <span @click="selectChangeScheme(item.index)">{{item.searchKeyword ? item.searchKeyword : `关键词方案${item.index + 1}`}}</span>
                   <sup class="badge-count" v-show="item.countAssigned > 0">{{item.countAssigned}}</sup>
-                  <span v-if="item.index === appTaskDetail.length - 1 && item.index !== 0" class="close-tag" @click="handleClose(item.index)"><icon type="ios-close-empty"/></span>
+                  <span v-if="item.index === appTaskDetail.length - 1 && item.index !== 0" class="close-tag" @click="handleClose(item.index)"><icon type="ios-close"/></span>
                 </div>
                 <i-button class="mt-28" icon="ios-plus-empty" type="dashed" size="small" @click="handleAdd">添加关键词方案</i-button>
               </div>
@@ -990,7 +990,7 @@
                       :on-exceeded-size="handleMaxSize"
                       type="drag">
                 <div class="camera">
-                  <icon type="camera" size="20"/>
+                  <icon type="ios-camera" size="20"/>
                 </div>
               </upload>
               <span class="sizeColor2 left ml-15 mt-20">（点击或者拖拽自主上传图片，支持jpg \ jpeg \ png \ gif \ bmp格式，最佳尺寸400*400（像素），不超过1M，可与宝贝主图一致）</span>
@@ -3715,7 +3715,7 @@
       color: inherit;
       opacity: .66;
       position: relative;
-      top: 1px;
+      top: 0;
       line-height: 20px;
     }
     .select-tag-bg {
