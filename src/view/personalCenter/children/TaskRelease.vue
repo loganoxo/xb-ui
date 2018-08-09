@@ -249,8 +249,8 @@
             class="main-color f-b">强烈建议勾选！</span>（选择后，该活动所有名额的审批由系统推荐和控制，适合需要快速消化单量的商家）</span>
         </div>
         <div class="value-added-services">
-          <p class="main-color"><img src="~assets/img/common/vip.png" alt="vipLogo"/>&nbsp;增值服务（平台已保证所有拿手安全下单，但您仍不放心，可选择以下增值服务，该服务会要求拿手上传截图留证）
-          </p>
+          <p class="main-color"><img src="~assets/img/common/vip.png" alt="vipLogo"/>&nbsp;增值服务（平台已保证所有拿手安全下单，但您仍不放心，可选择以下增值服务，该服务会要求拿手上传截图留证）</p>
+          <p class="f-b cl000 pt-10 mb-10">若拿手未按要求截图，<span class="fs-16">请在<span class="main-color">通过订单号之前</span>向客服反馈</span>，平台可退还相应截图费用！</p>
           <template v-for="item in vasMainItem">
             <checkbox
               v-show="item.id !== 1 ? taskRelease.taskType === 'pc_search' || taskRelease.taskType === 'direct_access' ? item.showForPc : item.showForApp : taskRelease.taskType === 'pc_search' || taskRelease.taskType === 'app_search'"
@@ -483,7 +483,9 @@
             <span class="left">下单要求：</span>
             <div class="left">
               <i-input class="task-remark-input" type="textarea" :autosize="{minRows: 6,  maxRows: 12}"
-                       placeholder="请在这里输入需要拿手注意的事项，例如：SKU信息等，这里的信息会无条件展示出来。" v-model="taskRelease.remark"/>
+                       placeholder="1、下单要求中明确说明希望拿手拍下的SKU（否则拿手可能会找不到宝贝）
+2、请勿在未勾选增值服务的情况要求拿手执行，若拿手未执行，不算违规。
+3、如果对拿手有特别的要求，此处填写拿手可以看到，但平台只负责传达，无法强制拿手按要求执行！" v-model="taskRelease.remark"/>
             </div>
           </div>
           <div class="evaluation-requirements mt-10 clear">
@@ -595,7 +597,9 @@
                 <span class="left ml-5">下单要求：</span>
                 <div class="left">
                   <i-input class="task-remark-input" type="textarea" :autosize="{minRows: 6,  maxRows: 12}"
-                           placeholder="请在这里输入需要拿手注意的事项，例如：SKU信息等，这里的信息会无条件展示出来。"
+                           placeholder="1、下单要求中明确说明希望拿手拍下的SKU（否则拿手可能会找不到宝贝）
+2、请勿在未勾选增值服务的情况要求拿手执行，若拿手未执行，不算违规。
+3、如果对拿手有特别的要求，此处填写拿手可以看到，但平台只负责传达，无法强制拿手按要求执行！"
                            v-model="taskRelease.remark"/>
                   <p class="sizeColor3 mt-10">下单要求中明确说明希望拿手拍下的SKU（否则拿手可能会找不到宝贝）</p>
                 </div>

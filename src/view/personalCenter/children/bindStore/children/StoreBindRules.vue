@@ -91,7 +91,7 @@
       </p>
     </modal>
     <!--设置店铺联系方式弹窗-->
-    <modal v-model="showSettingModal" title="店铺联系方式设置" class="setting-modal">
+    <modal v-model="showSettingModal" title="店铺联系方式设置" class="setting-modal" @on-visible-change="change">
       <div class="store-info clear">
         <div class="left">
           <img src="~assets/img/common/taobao-logo.png" v-if="modalStoreInfo.storeType === 'taobao'" width="54" height="54">
@@ -106,7 +106,7 @@
         <icon type="md-information-circle" color="#EC4C2F" size="16"/>
         为了活动中与拿手及时沟通，请保持联系方式正确有效
       </div>
-      <i-form ref="contactInfo" :model="contactInfo" :rules="contactRule" class="mt-20">
+      <i-form ref="form" :model="contactInfo" :rules="contactRule" class="mt-20">
         <form-item label="QQ号：" prop="mQQNumber">
           <i-input v-model="contactInfo.mQQNumber" placeholder="请输入QQ号" style="width:200px;"></i-input>
           <span class="ml-10">默认对拿手可见</span>
@@ -449,6 +449,7 @@
             _this.contactInfo.showPhoneNumber = false;
             _this.contactInfo.mWXNumber = null;
             _this.contactInfo.mqrCode = null;
+            _this.$refs.form.resetFields();
             _this.$Message.success('设置店铺联系方式成功！');
             _this.getVersionInfo();
             _this.showSettingModal = false;
@@ -457,6 +458,9 @@
           }
           _this.loading = false;
         })
+      },
+      change(value) {
+        !value && this.$refs.form.resetFields();
       }
     }
   }
