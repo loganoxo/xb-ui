@@ -45,7 +45,7 @@
       <div class="clear mt-10" v-if="storeBindInfoList.length > 0">
         <div :class="{isSelect: selectStoreInfo.storeName === item.storeName}" v-for="item in storeBindInfoList"
              :key="item.id" class="select-store text-ct left mr-10"
-             @click="selectStoreChange(item.storeName, item.storeAlitm, item.shopId, item.sellerId)">
+             @click="selectStoreChange(item.storeName, item.storeAlitm, item.shopId, item.sellerId, item.weChatNum)">
           <img v-if="item.storeType === 'taobao'" src="~assets/img/common/taobao-logo.png" alt="淘宝LOGO"/>
           <img v-if="item.storeType === 'tmall'" src="~assets/img/common/tmall-logo.png" alt="天猫LOGO"/>
           <p class="fs-14 f-b">{{decodeURI(item.storeName)}}</p>
@@ -1340,6 +1340,19 @@
     </modal>
     <!--用户绑定QQ号弹框-->
     <qq-bind-modal :closable="isOpenQqBindModal" :closableIcon="false" @change="openQqBindModal"/>
+    <!--店铺绑定微信的弹窗-->
+    <modal v-model="perfectStoreConcatInfo">
+      <div slot="header">
+        <icon type="md-information-circle" size="16" color="#ED4834" class="vtc-text-btm"/> 提醒
+      </div>
+      <p class="fs-16">
+        当前店铺联系方式未补全，为了与拿手及时沟通，建议补全联系方式！
+      </p>
+      <div slot="footer">
+        <i-button type="error" class="width-pct-39 mr-10" :to="{name:'StoreBindRules'}">马上去补全店铺联系方式</i-button>
+        <i-button type="error" class="width-pct-20" @click="perfectStoreConcatInfo = false">稍后再说</i-button>
+      </div>
+    </modal>
   </div>
 </template>
 
@@ -1617,6 +1630,7 @@
           showRecommendAdvertisingStatus: false,
           recommendAdvertisingModal: false
         },
+        perfectStoreConcatInfo: false
       }
     },
     // 当用户有首发资格路由重定向到快速发布通道反之则停留在此页面
@@ -2126,6 +2140,9 @@
               _this.selectStoreInfo.storeAlitm = decodeURI(_this.storeBindInfoList[0].storeAlitm);
               _this.selectStoreInfo.sellerId = _this.storeBindInfoList[0].sellerId;
               _this.selectStoreInfo.shopId = _this.storeBindInfoList[0].shopId;
+              if (!_this.storeBindInfoList[0].weChatNum) {
+                _this.perfectStoreConcatInfo = true;
+              }
             }
             if (!_this.isBindStore && !_this.qqNumber) {
               _this.isOpenQqBindModal = true
@@ -2152,12 +2169,15 @@
           })
         })
       },
-      selectStoreChange(storeName, alitm, shopId, sellerId) {
+      selectStoreChange(storeName, alitm, shopId, sellerId, weChatNum) {
         this.selectStoreInfo = {};
         this.selectStoreInfo.storeName = storeName;
         this.selectStoreInfo.storeAlitm = alitm;
         this.selectStoreInfo.shopId = shopId;
         this.selectStoreInfo.sellerId = sellerId;
+        if (!weChatNum) {
+          this.perfectStoreConcatInfo = true;
+        }
       },
       /*  clearDiscount() {
           let _this = this;

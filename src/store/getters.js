@@ -1,4 +1,4 @@
-import {aliCallbackImgUrl} from '@/config/env'
+  import {aliCallbackImgUrl} from '@/config/env'
 
 export default {
   // 从userInfo中提取用户账户信息

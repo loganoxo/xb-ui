@@ -1112,7 +1112,7 @@ export default {
    * 用户添加修改QQ号码
    */
   addOrEditQqNumber(params) {
-    return axiosConfig.post('/api/user-add-or-edit-qq-number.json', params)
+      return axiosConfig.post('/api/user-add-or-edit-qq-number.json', params)
   },
 
   /**
@@ -1205,5 +1205,12 @@ export default {
   releaseWithoutAudit(params) {
     return axiosConfig.post('/api/publish-without-audit.json', params)
   },
+
+  /**
+   * 商家完善店铺信息
+   */
+  completeContact(params) {
+    return axiosConfig.post('/api/complete-store-contact.json', params)
+  }
 
 }
