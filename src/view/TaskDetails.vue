@@ -30,9 +30,9 @@
                     style=" font-size:14px; padding: 0 4px; background: #ff9966; color: #fff; margin-left: 10px; display: inline-block;height: 20px;line-height: 20px;">10元包邮</span>
               <span v-if="commodityData.task.activityCategory === 'present_get'"
                     style="font-size:14px; padding: 0 4px; background: #00cc66; color: #ffffff; margin-left: 10px; display: inline-block;height: 20px;line-height: 20px;">体验专区</span>
-              <!--<span v-if="(commodityData.task.perVasFee || commodityData.task.promotionExpensesPaid && (uplineTime < commodityData.task.createTime))" class="fs-12 bg-main-color cl-fff pr-5 pl-5">-->
-                <!--奖励{{computeVasReturnFee(commodityData.task.perVasFee,commodityData.task.systemVasFeeCommissionPercent,commodityData.task.activityCategory,commodityData.task.promotionExpensesPaid,commodityData.task.taskCount,commodityData.task.createTime)}}元-->
-              <!--</span>-->
+              <span v-if="commodityData.task.perVasFee" class="fs-12 bg-main-color cl-fff pr-5 pl-5">
+                奖励{{computeVasReturnFee(commodityData.task.perVasFee,commodityData.task.systemVasFeeCommissionPercent)}}元
+              </span>
             </h3>
             <p class="fs-14">
               活动类型：
@@ -232,9 +232,10 @@
                   </p>
                   <p class="mt-10" v-if="commodityData.vasCount">
                     <span>浏览截图：</span>
-                    <!--<span>-->
-                      <!--{{commodityData.vasCount}}张，（奖励{{computeVasReturnFee(commodityData.task.perVasFee,commodityData.task.systemVasFeeCommissionPercent,commodityData.task.activityCategory,commodityData.task.promotionExpensesPaid,commodityData.task.taskCount)}}元）-->
-                    <!--</span>-->
+                    <span>
+                      {{commodityData.vasCount}}张
+                      <span v-if="commodityData.task.perVasFee"> （奖励{{computeVasReturnFee(commodityData.task.perVasFee,commodityData.task.systemVasFeeCommissionPercent)}}元）</span>
+                    </span>
                   </p>
                   <div class="evaluation-content-tip cl666"
                        v-if="commodityData.task.itemReviewRequired === 'assign_review_detail' && commodityData.showkerTask">
@@ -587,21 +588,8 @@
       },
     },
     methods: {
-      computeVasReturnFee(perVasFee,sysHold,type,promotion,taskCount,createTime) {
-        const newActivity = this.uplineTime - createTime < 0;
-        if (promotion && newActivity) {
-          if (type === 'free_get') {
-            return (perVasFee / 100 * (1 - sysHold / 100) + 1).toFixed(2);
-          } else if (type === 'present_get') {
-            if (promotion / taskCount<= 300) {
-              return (perVasFee / 100 * (1 - sysHold / 100) + 1).toFixed(2);
-            } else {
-              return (perVasFee / 100 * (1 - sysHold / 100) + 1.5).toFixed(2);
-            }
-          }
-        } else {
-          return (perVasFee / 100 * (1 - sysHold / 100)).toFixed(2);
-        }
+      computeVasReturnFee(perVasFee,sysHold) {
+        return (perVasFee / 100 * (1 - sysHold / 100)).toFixed(2);
       },
       encryptionId(id) {
         return encryption(id);

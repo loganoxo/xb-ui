@@ -17,27 +17,55 @@
         <p class="store-ww mt-10">店铺旺旺：<span>{{storeInfo.storeAlitm}}</span></p>
         <!--<p class="concat-qq mt-10">联系QQ：{{storeInfo.qqNumber ? storeInfo.qqNumber : personalQQ}} <span class="ml-5 cursor-p blue" @click="modifyQQ(storeInfo.id)">修改</span></p>-->
         <div class="mt-15 clear concat-box">
-          <div class="icon-box">
+          <div class="icon-box" v-if="personalPhone || storeInfo.qqNumber">
             <tooltip :content="`QQ：${storeInfo.qqNumber ? storeInfo.qqNumber : personalQQ}`" placement="top">
               <img src="/static/img/icon/icon-qq-on.png" alt="">
             </tooltip>
             <p>已开启</p>
           </div>
-          <div class="icon-box">
+          <div class="icon-box" v-if="!personalPhone && !storeInfo.qqNumber">
+            <tooltip content="QQ：暂未绑定" placement="top">
+              <img src="/static/img/icon/icon-qq-off.png" alt="">
+            </tooltip>
+            <p>未开启</p>
+          </div>
+          <div class="icon-box" v-if="storeInfo.weChatNum">
             <tooltip placement="top">
               <img src="/static/img/icon/icon-wx-on.png" alt="">
               <div slot="content" class="text-ct">
                 <!--<img src="/static/img/icon/icon-wx-on.png" alt="">-->
-                <p>微信：{{storeInfo.weChatNum ? storeInfo.weChatNum: '暂未绑定'}}</p>
+                <p>微信：{{storeInfo.weChatNum}}</p>
               </div>
             </tooltip>
             <p>已开启</p>
           </div>
-          <div class="icon-box">
+          <div class="icon-box" v-if="!storeInfo.weChatNum">
+            <tooltip placement="top">
+              <img src="/static/img/icon/icon-wx-off.png" alt="">
+              <div slot="content" class="text-ct">
+                <!--<img src="/static/img/icon/icon-wx-on.png" alt="">-->
+                <p>微信：暂未绑定</p>
+              </div>
+            </tooltip>
+            <p>待补填</p>
+          </div>
+          <div class="icon-box" v-if="(storeInfo.phone || personalPhone) && storeInfo.showPhone">
             <tooltip :content="`手机：${storeInfo.phone ? storeInfo.phone : personalPhone}`" placement="top">
               <img src="/static/img/icon/icon-phone-on.png" alt="">
             </tooltip>
             <p>已开启</p>
+          </div>
+          <div class="icon-box" v-if="!storeInfo.phone && !personalPhone">
+            <tooltip content="`手机：暂未绑定" placement="top">
+              <img src="/static/img/icon/icon-phone-off.png" alt="">
+            </tooltip>
+            <p>待不填</p>
+          </div>
+          <div class="icon-box" v-if="(storeInfo.phone || personalPhone) && !storeInfo.showPhone">
+            <tooltip :content="`手机：${storeInfo.phone ? storeInfo.phone : personalPhone}`" placement="top">
+              <img src="/static/img/icon/icon-phone-off.png" alt="">
+            </tooltip>
+            <p>未开启</p>
           </div>
         </div>
         <p class="blue mt-10 cursor-p" @click="settingConcat(storeInfo)">店铺联系方式设置</p>
@@ -362,7 +390,7 @@
         this.contactInfo.mQQNumber = info.qqNumber ? info.qqNumber : this.personalQQ;
         this.contactInfo.mqrCode = info.weChatQrPicUrl;
         this.contactInfo.mWXNumber = info.weChatNum;
-        this.contactInfo.showPhoneNumber = info.showPhone;
+        this.contactInfo.showPhoneNumber = info.showPhone ? true : false;
         this.showSettingModal = true;
       },
       removewxewmImage() {
@@ -418,7 +446,7 @@
             _this.modalStoreInfo = {};
             _this.contactInfo.mQQNumber = null;
             _this.contactInfo.mPhoneNumber = null;
-            _this.contactInfo.showPhoneNumber = null;
+            _this.contactInfo.showPhoneNumber = false;
             _this.contactInfo.mWXNumber = null;
             _this.contactInfo.mqrCode = null;
             _this.$Message.success('设置店铺联系方式成功！');

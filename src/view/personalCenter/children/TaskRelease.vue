@@ -189,8 +189,8 @@
         <div class="order-speed ml-20 mt-20">
           <span class="ml-8">下单速度：</span>
           <radio-group v-model="taskRelease.showkerOrderTimeLimit">
-            <radio :label="''" v-show="taskRelease.orderType === 'day_now'"><span>当日24点前</span></radio>
-            <radio :label="''" v-show="taskRelease.orderType === 'day_reserve'"><span>当日24点前加入购物车，次日下单购买</span></radio>
+            <radio :label="''" v-show="taskRelease.orderType === 'day_now'"><span>2小时内下单（当日24点前有效）</span></radio>
+            <radio :label="''" v-show="taskRelease.orderType === 'day_reserve'"><span>2小时内加入购物车（单日24点前有效），次日下单购买</span></radio>
             <radio :label="24" v-show="taskRelease.orderType === 'normal'"><span>24小时内</span></radio>
             <radio :label="12" v-show="taskRelease.orderType === 'normal'"><span>12小时内</span></radio>
             <radio :label="6" v-show="taskRelease.orderType === 'normal'"><span>6小时内</span></radio>
@@ -1345,7 +1345,7 @@
       <div slot="header">
         <icon type="md-information-circle" size="16" color="#ED4834" class="vtc-text-btm"/> 提醒
       </div>
-      <p class="fs-16">
+      <p class="fs-14">
         当前店铺联系方式未补全，为了与拿手及时沟通，建议补全联系方式！
       </p>
       <div slot="footer">
