@@ -1132,37 +1132,37 @@
           taskId: id
         }).then(res => {
           if (res.status) {
-            res.data.mainVasSettings.map(keys => {
-              _this.vasMainItem.map(key => {
+            res.data.mainVasSettings.forEach(keys => {
+              _this.vasMainItem.forEach(key => {
                 if (keys.id === key.id) {
                   key.isSelect = true;
-                  return key;
                 }
               })
             });
             const similarVasSettings = res.data.similarVasSettings;
-            const len = similarVasSettings.length;
+            const len = similarVasSettings ? similarVasSettings.length : 0;
             if (len > 0) {
               _this.shopAroundStatus = true;
               if (len > 1) {
+                if (_this.vasSimilarItem.length > 1) {
+                  _this.vasSimilarItem.splice(1, _this.vasSimilarItem.length - 1);
+                }
                 for (let i = 0; i < len - 1; i++) {
                   _this.addShopAroundList()
                 }
-                _this.shopAroundStatus = true;
-                _this.vasSimilarItem.map((keys, i) => {
-                  let tempArr = similarVasSettings[i];
-                  if(tempArr.length > 0) {
-                    tempArr.map(items => {
-                      keys.map(item => {
-                        if(items.id === item.id) {
-                          item.isSelect = true;
-                          return item
-                        }
-                      })
-                    })
-                  }
-                })
               }
+              _this.vasSimilarItem.forEach((keys, i) => {
+                let tempArr = similarVasSettings[i];
+                if (tempArr.length > 0) {
+                  tempArr.forEach(items => {
+                    keys.forEach(item => {
+                      if (items.id === item.id) {
+                        item.isSelect = true;
+                      }
+                    })
+                  })
+                }
+              })
             }
           } else {
             _this.$Message.error(res.msg)
