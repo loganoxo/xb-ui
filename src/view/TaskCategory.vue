@@ -111,7 +111,7 @@
                   <em class="price-list left">
                     <span class="cl666 block text-decoration-through">￥{{searchTask.itemPrice }}</span>
                   </em>
-                  <em class="vas-fee-return left ml-10 pl-5 pr-5" v-if="searchTask.perVasFee">
+                  <em class="vas-fee-return left ml-10 pl-5 pr-5" v-if="searchTask.perVasFee && searchTask.createTime > uplineTime">
                     奖励{{computeVasReturnFee(searchTask.perVasFee,searchTask.systemVasFeeCommissionPercent)}}元
                   </em>
                 </p>
@@ -181,7 +181,7 @@
                   <em>
                     <span class="cl666 block text-decoration-through">￥{{historyTask.itemPrice / 100}}</span>
                   </em>
-                  <em class="vas-fee-return ml-10 pl-5 pr-5" v-if="historyTask.perVasFee">
+                  <em class="vas-fee-return ml-10 pl-5 pr-5" v-if="historyTask.perVasFee && historyTask.createTime > uplineTime">
                     奖励{{computeVasReturnFee(historyTask.perVasFee,historyTask.systemVasFeeCommissionPercent)}}元
                   </em>
                 </p>
@@ -343,7 +343,7 @@
           sortField: 'endTime',
         },
         taskCategoryActiveList: commonConfig.taskCategoryActiveList,
-        uplineTime: 1529933400000
+        uplineTime: 1533821400000
       }
     },
     created(){

@@ -268,7 +268,7 @@
                     <span class="cl666 text-decoration-through">￥{{homeCommodity.itemPrice / 100}}</span>
                   </em>
                   <!--<em class="vas-fee-return ml-10 pl-5 pr-5" v-if="(homeCommodity.perVasFee || homeCommodity.promotionExpensesPaid && (uplineTime < homeCommodity.createTime))">-->
-                  <span class="vas-fee-return ml-10 pl-5 pr-5" v-if="homeCommodity.perVasFee">
+                  <span class="vas-fee-return ml-10 pl-5 pr-5" v-if="homeCommodity.perVasFee && homeCommodity.createTime > uplineTime">
                     奖励{{computeVasReturnFee(homeCommodity.perVasFee,homeCommodity.systemVasFeeCommissionPercent)}}元
                   </span>
                 </p>
@@ -333,7 +333,7 @@
                 <p class="cl000">{{homeCommodity.taskName}}</p>
                 <p class="price">
                   <span class="cl666 text-decoration-through">￥{{homeCommodity.itemPrice / 100}}</span>
-                  <span class="vas-fee-return ml-10 pl-5 pr-5" v-if="homeCommodity.perVasFee">
+                  <span class="vas-fee-return ml-10 pl-5 pr-5" v-if="homeCommodity.perVasFee && homeCommodity.createTime > uplineTime">
                     奖励{{computeVasReturnFee(homeCommodity.perVasFee,homeCommodity.systemVasFeeCommissionPercent)}}元
                   </span>
                 </p>
@@ -414,7 +414,7 @@
                 <p class="cl000">{{homeHistory.taskName}}</p>
                 <p class="price">
                   <span class="cl666 text-decoration-through">￥{{homeHistory.itemPrice / 100}}</span>
-                  <span class="vas-fee-return ml-10 pl-5 pr-5" v-if="homeHistory.perVasFee">
+                  <span class="vas-fee-return ml-10 pl-5 pr-5" v-if="homeHistory.perVasFee && homeHistory.createTime > uplineTime">
                     奖励{{computeVasReturnFee(homeHistory.perVasFee,homeHistory.systemVasFeeCommissionPercent)}}元
                   </span>
                 </p>
@@ -687,7 +687,7 @@
         pinkageFor10: [],
         presentGet: [],
         showFirstVisitModel: false,
-        uplineTime: 1529933400000
+        uplineTime: 1533821400000
       }
     },
     beforeMount() {

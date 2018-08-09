@@ -30,7 +30,7 @@
                     style=" font-size:14px; padding: 0 4px; background: #ff9966; color: #fff; margin-left: 10px; display: inline-block;height: 20px;line-height: 20px;">10元包邮</span>
               <span v-if="commodityData.task.activityCategory === 'present_get'"
                     style="font-size:14px; padding: 0 4px; background: #00cc66; color: #ffffff; margin-left: 10px; display: inline-block;height: 20px;line-height: 20px;">体验专区</span>
-              <span v-if="commodityData.task.perVasFee" class="fs-12 bg-main-color cl-fff pr-5 pl-5">
+              <span v-if="commodityData.task.perVasFee && commodityData.task.createTime > uplineTime" class="fs-12 bg-main-color cl-fff pr-5 pl-5">
                 奖励{{computeVasReturnFee(commodityData.task.perVasFee,commodityData.task.systemVasFeeCommissionPercent)}}元
               </span>
             </h3>
@@ -234,7 +234,7 @@
                     <span>浏览截图：</span>
                     <span>
                       {{commodityData.vasCount}}张
-                      <span v-if="commodityData.task.perVasFee"> （奖励{{computeVasReturnFee(commodityData.task.perVasFee,commodityData.task.systemVasFeeCommissionPercent)}}元）</span>
+                      <span v-if="commodityData.task.perVasFee && commodityData.task.createTime > uplineTime"> （奖励{{computeVasReturnFee(commodityData.task.perVasFee,commodityData.task.systemVasFeeCommissionPercent)}}元）</span>
                     </span>
                   </p>
                   <div class="evaluation-content-tip cl666"
@@ -530,7 +530,7 @@
         limit: false,
         isOpenQqBindModal: false,
         taskCategoryActiveList: commonConfig.taskCategoryActiveList,
-        uplineTime: 1529933400000
+        uplineTime: 1533821400000
       }
     },
     created() {
