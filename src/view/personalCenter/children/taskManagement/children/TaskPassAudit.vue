@@ -702,6 +702,7 @@
       },
       // 子组件向父组件传值，关闭审核订单弹窗
       closeModel() {
+        this.orderInfo = {};
         this.showCheckOrder = false;
       },
       closeCheckOrder() {
