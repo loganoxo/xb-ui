@@ -462,9 +462,9 @@
           <Checkbox-group v-model="wechartShowAgain" style="position: absolute;top:25px;right: 30px;">
             <Checkbox label="true">不再提醒</Checkbox>
           </Checkbox-group>
-          <div style="position: absolute;top:27px;right: 15px;cursor: pointer;color: #FF6633"
+          <div style="position: absolute;top:25px;right: 15px;cursor: pointer;color: #FF6633"
                @click="cancelWeiChartFunc">
-            <icon type="close"/>
+            <icon type="md-close-circle" class="fs-18"/>
           </div>
           <div v-if="getUserInfoRole === 0">
             <img src="/static/img/home/wechart_alert_07.png" alt=""
