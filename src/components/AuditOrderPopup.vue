@@ -238,12 +238,6 @@
     },
     created() {
       this.handleScreenShot();
-      console.log(this.mainBabyImageList);
-      console.log(this.mainBabyAnswerList);
-      console.log(this.babyOneImageList);
-      console.log(this.babyTwoImageList);
-      console.log(this.babyThreeImageList );
-      console.log(this.orderInfo);
     },
     methods:{
       closeModel() {
