@@ -246,7 +246,7 @@
 <script>
   import {Button, Icon, Collapse} from 'iview'
   export default {
-    name: 'FaqSeller',
+    name: 'faq-seller',
     components: {
       iButton: Button,
       ButtonGroup: Button.Group,
@@ -266,7 +266,7 @@
           },
           {
             text: '商家活动完整流程',
-            type: 'ghost',
+            type: 'default',
             selFaq: 'special',
             ref: 'special'
           }
@@ -309,7 +309,7 @@
         if(faqSel.type !== 'primary'){
           for(let i = 0, j = self.faqSelList.length; i < j; i++){
             if(i !== index){
-              self.faqSelList[i].type = 'ghost';
+              self.faqSelList[i].type = 'default';
               break;
             }
           }
