@@ -282,7 +282,7 @@
   import {Button, Icon, Collapse} from 'iview'
   import api from '@/config/apiConfig'
   export default {
-    name: 'FaqShowker',
+    name: 'faq-showker',
     components: {
       iButton: Button,
       ButtonGroup: Button.Group,
@@ -302,7 +302,7 @@
           },
           {
             text: '拿手完整流程',
-            type: 'ghost',
+            type: 'default',
             selFaq: 'special',
             ref: 'special'
           }
@@ -344,7 +344,7 @@
         if(faqSel.type !== 'primary'){
           for(let i = 0, j = self.faqSelList.length; i < j; i++){
             if(i !== index){
-              self.faqSelList[i].type = 'ghost';
+              self.faqSelList[i].type = 'default';
               break;
             }
           }

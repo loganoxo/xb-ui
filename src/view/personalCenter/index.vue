@@ -98,7 +98,7 @@
             <router-link to="/user/personal-setting/personal-account-info">个人设置</router-link>
           </Tooltip>
         </li>
-        <li :class="{isSelect:isSelect === 'faq' || isSelect === 'faqSeller' || isSelect === 'faqShowker'}">
+        <li :class="{isSelect:isSelect === 'Faq' || isSelect === 'FaqSeller' || isSelect === 'FaqShowker'}">
           <span class="help-center icon-size"></span>
           <router-link to="/user/help-center/faq">帮助中心</router-link>
         </li>
