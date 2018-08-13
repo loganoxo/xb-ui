@@ -248,7 +248,7 @@
         </div>
         <div class="value-added-services">
           <p class="main-color"><img src="~assets/img/common/vip.png" alt="vipLogo"/>&nbsp;增值服务（平台已保证所有拿手安全下单，但您仍不放心，可选择以下增值服务，该服务会要求拿手上传截图留证）</p>
-          <p class="f-b cl000 pt-10 mb-10">若拿手未按要求截图，<span class="fs-16">请在<span class="main-color">通过订单号之前</span>向客服反馈</span>，平台可退还相应截图费用！</p>
+          <p class="f-b cl000 pt-10 mb-10">若拿手未按要求截图，<span class="fs-14">请在<span class="main-color">通过订单号之前</span>向客服反馈</span>，平台可退还相应截图费用！</p>
           <template v-for="item in vasMainItem">
             <checkbox
               v-show="item.id !== 1 ? taskRelease.taskType === 'pc_search' || taskRelease.taskType === 'direct_access' ? item.showForPc : item.showForApp : taskRelease.taskType === 'pc_search' || taskRelease.taskType === 'app_search'"
