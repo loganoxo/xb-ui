@@ -23,7 +23,7 @@
 
 <script>
   export default {
-    name: 'Top',
+    name: 'role-top',
     data () {
       return {}
     },

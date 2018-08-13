@@ -1,6 +1,5 @@
 <template>
   <div class="spread-landing-page-two">
-    <top/>
     <div class="spread-landing-page-two-con pos-rel">
       <img src="~assets/img/landing-page/promotion-01.png" alt="推广页面">
       <div class="btn-01" @click="goExperience">马上体验</div>
@@ -29,13 +28,11 @@
 </template>
 
 <script>
-  import Top from '@/components/Top'
   import LoginToRegisterModal from '@/components/LoginToRegisterModal'
   import {Button} from 'iview'
   export default {
     name: "spread-landing-page-two",
     components: {
-      Top: Top,
       LoginToRegisterModal: LoginToRegisterModal,
       IButton: Button,
     },

@@ -114,7 +114,7 @@
       }
     },
     created(){
-      this.getSearchRightInfo()
+      this.getSearchRightInfo();
     },
     computed: {
       isLogin() {

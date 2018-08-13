@@ -313,8 +313,8 @@
           },
         ],
         sortFieldDefault: {
-          name: '最新',
-          sortField: 'upLineTime',
+          name: '人气',
+          sortField: 'showkerApplyTotalCount',
         },
         taskTypes: [],
         itemCatalogs: [],

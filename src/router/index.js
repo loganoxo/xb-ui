@@ -159,7 +159,7 @@ export default new Router({
       meta: {
         title: "拿手落地页",
         logInAuthority: false,
-        topShow: false,
+        topShow: true,
         bottomShow: true,
         role: 0,
       }
@@ -171,7 +171,7 @@ export default new Router({
       meta: {
         title: "商家落地页",
         logInAuthority: false,
-        topShow: false,
+        topShow: true,
         bottomShow: true,
         role: null,
       }
@@ -183,7 +183,7 @@ export default new Router({
       meta: {
         title: "商家落地页",
         logInAuthority: false,
-        topShow: false,
+        topShow: true,
         bottomShow: true,
         role: null,
       }
@@ -195,7 +195,7 @@ export default new Router({
       meta: {
         title: "推广落地页",
         logInAuthority: false,
-        topShow: false,
+        topShow: true,
         bottomShow: true,
         role: null,
       }
@@ -207,7 +207,7 @@ export default new Router({
       meta: {
         title: "推广落地页",
         logInAuthority: false,
-        topShow: false,
+        topShow: true,
         bottomShow: true,
         role: null,
       }
@@ -219,7 +219,7 @@ export default new Router({
       meta: {
         title: "推广落地页",
         logInAuthority: false,
-        topShow: false,
+        topShow: true,
         bottomShow: true,
         role: null,
       }
