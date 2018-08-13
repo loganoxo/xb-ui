@@ -436,7 +436,7 @@
           <h3>费用说明：</h3>
           <div class="description-fees-con mt-10">
             <p>活动担保金 = 份数 × 单品活动担保金 = <span>{{oneBondMarginText}}</span> 元</p>
-            <p class="mt-6">总推广费 = 单品推广费 × 份数 = <span>{{onePromotionExpenses}}</span> × <span>{{taskRelease.taskCount}} = <span>{{(allPromotionExpenses).toFixed(2)}}</span></span>
+            <p class="mt-6">总推广费 = 单品推广费 × 份数 = <span>{{(onePromotionExpenses / 100).toFixed(2)}}</span> × <span>{{taskRelease.taskCount}} = <span>{{(allPromotionExpenses / 100).toFixed(2)}}</span></span>
               元 &nbsp;<span class="main-color">（您是首次放单，享受首单推广费减免）</span>
             </p>
             <p class="mt-6">总费用 = 活动担保金 + 总推广费 = <span>{{(orderMoney / 100).toFixed(2)}}</span> 元</p>
@@ -799,28 +799,8 @@
        * @return {number}
        */
       onePromotionExpenses() {
-        if (this.taskRelease.activityCategory === 'free_get') {
-          if (this.getMemberVersionLevel === 100) {
-            return 0
-          }
-          if (this.getMemberVersionLevel === 200) {
-            return 0
-          }
-          if (this.getMemberVersionLevel === 300) {
-            return 0
-          }
-        }
-        if (this.taskRelease.activityCategory === 'present_get') {
-          if (this.getMemberVersionLevel === 100) {
-            return 0
-          }
-          if (this.getMemberVersionLevel === 200) {
-            return 0
-          }
-          if (this.getMemberVersionLevel === 300) {
-            return 0
-          }
-        }
+        const type = this.taskRelease.activityCategory === 'free_get' ? 'AA' : 'AB';
+        return this.getTaskCreateFastStatus ? 0 : this.$store.getters.getPromotionExpenses[type].limit;
       },
 
       /**
@@ -871,10 +851,10 @@
        */
       onePromotionExpensesTipText() {
         if (this.getMemberVersionLevel === 100) {
-          return this.onePromotionExpenses >= 5 ? `（单品推广费用超过平台设定的最高上限5.00元，本次实际收取的单品推广费用为5元）` : ''
+          return this.onePromotionExpenses >= 500 ? `（单品推广费用超过平台设定的最高上限5.00元，本次实际收取的单品推广费用为5元）` : ''
         }
         if (this.getMemberVersionLevel === 200) {
-          return this.onePromotionExpenses >= 3 ? `（单品推广费用超过平台设定的最高上限3.00元，本次实际收取的单品推广费用为3元）` : ''
+          return this.onePromotionExpenses >= 300 ? `（单品推广费用超过平台设定的最高上限3.00元，本次实际收取的单品推广费用为3元）` : ''
         }
       },
 
@@ -892,10 +872,10 @@
        */
       orderMoney() {
         if (this.taskRelease.activityCategory === 'free_get') {
-          return (this.taskRelease.taskCount * this.oneBond) + this.allPromotionExpenses * 100
+          return (this.taskRelease.taskCount * this.oneBond) + this.allPromotionExpenses
         }
         if (this.taskRelease.activityCategory === 'present_get') {
-          return (this.taskRelease.taskCount * this.oneBondAToB) + this.allPromotionExpenses * 100
+          return (this.taskRelease.taskCount * this.oneBondAToB) + this.allPromotionExpenses
         }
       },
 

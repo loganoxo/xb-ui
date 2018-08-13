@@ -7,22 +7,22 @@
       <div class="inline-block step left clear">
         <div class="inline-block step-number left">1</div>
         <div class="inline-block step-text left">商家提交活动申请，预付活动担保金，等待平台审核。</div>
-        <icon class="left mt-20 mr-5" type="chevron-right" size="30" color="#ccc"/>
+        <icon class="left mt-20" type="ios-arrow-forward" size="26" color="#ccc"/>
       </div>
       <div class="inline-block step left clear">
         <div class="inline-block step-number left">2</div>
         <div class="inline-block step-text left">活动上线后，商家可审核来申请试用的拿手旺旺号。</div>
-        <icon class="left mt-20 mr-5" type="chevron-right" size="30" color="#ccc"/>
+        <icon class="left mt-20" type="ios-arrow-forward" size="26" color="#ccc"/>
       </div>
       <div class="inline-block step left clear">
         <div class="inline-block step-number left">3</div>
         <div class="inline-block step-text left">通过的拿手按商家指定的下单方式去淘宝下单（拿手先垫付）。</div>
-        <icon class="left mt-20 mr-5" type="chevron-right" size="30" color="#ccc"/>
+        <icon class="left mt-20" type="ios-arrow-forward" size="26" color="#ccc"/>
       </div>
       <div class="inline-block step left clear">
         <div class="inline-block step-number left">4</div>
         <div class="inline-block step-text left">拿手收到宝贝后，提交买家秀（即淘宝评价）。</div>
-        <icon class="left mt-20 mr-5" type="chevron-right" size="30" color="#ccc"/>
+        <icon class="left mt-20" type="ios-arrow-forward" size="26" color="#ccc"/>
       </div>
       <div class="inline-block step left clear">
         <div class="inline-block step-number left">5</div>
@@ -130,13 +130,13 @@
               <span>普通销量单</span>
             </radio>
             <radio label="day_now">
-              <tooltip content="活动发布当日22点前有效，并在24点后自动取消未下单的拿手资格，仅限VIP、SVIP使用" placement="top">
+              <tooltip content="活动发布当日22点前有效，并在24点后自动取消未下单的拿手资格，仅限VIP、SVIP使用" placement="top" :transfer="true">
                 <span>当日单</span>
                 <img src="~assets/img/common/vip.png" alt="vipLogo"/>
               </tooltip>
             </radio>
             <radio label="day_reserve">
-              <tooltip content="活动发布当日24点前加入购物车，次日下单购买，系统会自动终止未按要求操作的拿手资格，仅限VIP、SVIP使用" placement="top">
+              <tooltip content="活动发布当日24点前加入购物车，次日下单购买，系统会自动终止未按要求操作的拿手资格，仅限VIP、SVIP使用" placement="top" :transfer="true">
                 <span>预约单</span>
                 <img src="~assets/img/common/vip.png" alt="vipLogo"/>
               </tooltip>
@@ -190,14 +190,13 @@
           <span class="ml-8">下单速度：</span>
           <radio-group v-model="taskRelease.showkerOrderTimeLimit">
             <radio :label="''" v-show="taskRelease.orderType === 'day_now'"><span>2小时内下单（当日24点前有效）</span></radio>
-            <radio :label="''" v-show="taskRelease.orderType === 'day_reserve'"><span>2小时内加入购物车（单日24点前有效），次日下单购买</span></radio>
+            <radio :label="''" v-show="taskRelease.orderType === 'day_reserve'"><span>2小时内加入购物车（当日24点前有效），次日下单购买</span></radio>
             <radio :label="24" v-show="taskRelease.orderType === 'normal'"><span>24小时内</span></radio>
             <radio :label="12" v-show="taskRelease.orderType === 'normal'"><span>12小时内</span></radio>
             <radio :label="6" v-show="taskRelease.orderType === 'normal'"><span>6小时内</span></radio>
             <radio :label="3" v-show="taskRelease.orderType === 'normal'"><span>3小时内</span></radio>
           </radio-group>
-          <span class="sizeColor2"
-                v-show="taskRelease.orderType === 'normal'">（拿手通过审批后需要指定时间内完成淘宝下单并在本平台提交订单号，否则资格自动过期）</span>
+          <span class="sizeColor2" v-show="taskRelease.orderType === 'normal'">（拿手通过审批后需要指定时间内完成淘宝下单并在本平台提交订单号，否则资格自动过期）</span>
           <span class="sizeColor2" v-show="taskRelease.orderType === 'day_reserve'">（拿手通过审批后需要在当日24点前加入购物车，次日在淘宝下单并在平台提交订单号，否则资格自动过期）</span>
         </div>
         <!--<div class="trial-condition ml-20 mt-20">-->
@@ -257,7 +256,7 @@
               <span>{{item.name}}</span>
               <span class="sizeColor2">({{item.price / 100 || 0}}元)</span>
             </checkbox>
-            <tooltip class="mr-15" content="查看示例图" placement="top"
+            <tooltip class="mr-15" content="查看示例图" placement="top" :transfer="true"
                      v-show="item.id !== 1 ? taskRelease.taskType === 'pc_search' || taskRelease.taskType === 'direct_access' ? item.showForPc : item.showForApp : taskRelease.taskType === 'pc_search' || taskRelease.taskType === 'app_search'">
               <span class="value-added-services-demo-image"
                     @click="openSampleImageModal(taskRelease.taskType === 'pc_search' || taskRelease.taskType === 'direct_access' ? item.pcTipsPicture : item.appTipsPicture)">图</span>
@@ -278,7 +277,7 @@
                   <span>{{item.name}}</span>
                   <span class="sizeColor2">({{item.price / 100 || 0}}元)</span>
                 </checkbox>
-                <tooltip class="mr-15" content="查看示例图" placement="top"
+                <tooltip class="mr-15" content="查看示例图" placement="top" :transfer="true"
                          v-show="taskRelease.taskType === 'pc_search' || taskRelease.taskType === 'direct_access' ? item.showForPc : item.showForApp">
                   <span class="value-added-services-demo-image"
                         @click="openSampleImageModal(taskRelease.taskType === 'pc_search' || taskRelease.taskType === 'direct_access' ? item.pcTipsPicture : item.appTipsPicture)">图</span>
@@ -292,7 +291,7 @@
           <i-button v-show="shopAroundStatus" :disabled="vasSimilarItem.length === 1"
                     class="ml-20 mt-12 add-btn-bg-color" type="dashed" icon="minus-round" @click="delShopAroundList">删除
           </i-button>
-          <div class="value-added-charge mt-15">增值服务费合计：{{(oneValueAddedCost / 100).toFixed(2)}} 元</div>
+          <div class="value-added-charge mt-15">单品增值服务费合计：{{(oneValueAddedCost / 100).toFixed(2)}} 元</div>
         </div>
         <div class="baby-info mt-22" v-show="taskRelease.activityCategory === 'free_get'">
           <div class="activity-info-title">填写活动宝贝信息</div>
@@ -350,7 +349,7 @@
             <span class="sizeColor2" v-else>（根据你的会员版本，每天同一宝贝可以发布2次）</span>
             <span v-if="getMemberVersionLevel !== 200" class="svip-upgrade ml-10 mr-5"
                   @click="upgradeSvip">不够用？+1次</span>
-            <tooltip v-if="getMemberVersionLevel !== 200" content="同一宝贝每日发布活动次数：免费商家2次，VIP商家5次" placement="top">
+            <tooltip v-if="getMemberVersionLevel !== 200" content="同一宝贝每日发布活动次数：免费商家2次，VIP商家5次" placement="top" :transfer="true">
               <icon class="cursor-p" size="16" type="help-circled"/>
             </tooltip>
           </div>
@@ -549,7 +548,7 @@
                 <span class="sizeColor2" v-else>（根据你的会员版本，每天同一宝贝可以发布2次）</span>
                 <span v-if="getMemberVersionLevel !== 200" class="svip-upgrade ml-10 mr-5"
                       @click="upgradeSvip">不够用？+1次</span>
-                <tooltip v-if="getMemberVersionLevel !== 200" content="同一宝贝每日发布活动次数：免费商家2次，VIP商家5次" placement="top">
+                <tooltip v-if="getMemberVersionLevel !== 200" content="同一宝贝每日发布活动次数：免费商家2次，VIP商家5次" placement="top" :transfer="true">
                   <icon class="cursor-p" size="16" type="help-circled"/>
                 </tooltip>
               </div>
@@ -1006,87 +1005,107 @@
           </template>
           <!--拿手审批条件设置-->
           <template>
-            <div class="activity-info-title">拿手审批条件设置</div>
+            <div class="activity-info-title">拿手申请条件设置</div>
             <div class="sizeColor2 ml-20 mt-10">说明：该活动有名额为系统审批，此处标签设置后，系统将按此条件审批拿手。过多限制可能造成展示量/申请量下降，请综合考虑。</div>
-            <div class="mt-20 ml-20 mb-20">
-              <span>拿手旺旺标签设置：</span>
-              <checkbox v-model="aliWwLabelSet" @on-change="aliWwLabelSetChange">需要</checkbox>
-              <img src="~assets/img/common/vip.png" alt="vipLogo"/>
+            <div class="mt-20 ml-20 mb-20 clear">
+              <span class="ml-5 left">拿手旺旺标签设置：</span>
+              <div class="left">
+                <checkbox v-model="showkerConditionRequireStatus.aliWwLabelSet" @on-change="aliWwLabelSetChange">需要</checkbox>
+                <img src="~assets/img/common/vip.png" alt="vipLogo"/>
+              </div>
             </div>
-            <template v-if="aliWwLabelSet">
-              <div class="mt-20 ml-20">
-                <span>旺旺等级要求：</span>
-                <i-select v-model="showkerCondition.creditLevelRequire" class="width-150">
-                  <i-option v-for="(item, index) in aliLevelList" :label='item.label' :value="item.value" :key="item.value">
-                    <span v-show="index === 0">{{item.text}}</span>
-                    <img v-show="index !== 0" :src="item.text" alt="旺旺等级"/>
-                  </i-option>
-                </i-select>
-                <span class="ml-4" v-show="parseInt(showkerCondition.creditLevel) > 0">及以上</span>
+            <template v-if="showkerConditionRequireStatus.aliWwLabelSet">
+              <div class="mt-20 ml-20 clear">
+                <span class="left ml-28">旺旺等级要求：</span>
+                <div class="inline-block left">
+                  <checkbox v-model="showkerConditionRequireStatus.creditLevel.require">需要 <span class="sizeColor2">（2心起+0.1元/单；4心起+0.2元/单；5心起+0.3元/单；1钻起+0.4元/单；2钻起+0.5元/单）</span></checkbox>
+                  <div class="mt-10" v-show="showkerConditionRequireStatus.creditLevel.require">
+                    <i-select v-model="showkerCondition.creditLevelRequire" class="width-150" placeholder="不限">
+                      <i-option v-for="(item, index) in aliLevelList" :label='item.label' :value="item.value" :key="item.value">
+                        <span v-show="index === 0">{{item.text}}</span>
+                        <img v-show="index !== 0" :src="item.text" alt="旺旺等级"/>
+                      </i-option>
+                    </i-select>
+                    <span class="ml-4" v-show="showkerCondition.creditLevelRequire > 0">起</span>
+                  </div>
+                </div>
               </div>
               <div class="mt-20 ml-20 clear">
-                <span class="left">淘气值要求：</span>
-                <checkbox-group v-model="showkerCondition.tqzRequire" class="inline-block left">
-                  <template v-for="item in aliTqzList">
-                    <checkbox v-if="item.value" class="mr-15" :label='item.value' :key="item.value">{{item.label}}</checkbox>
-                  </template>
-                </checkbox-group>
+                <span class="left ml-40">淘气值要求：</span>
+                <div class="inline-block left">
+                  <checkbox v-model="showkerConditionRequireStatus.other.tqz.require">需要<span class="sizeColor2">（+0.2元/单）</span></checkbox>
+                  <checkbox-group v-model="showkerCondition.tqzRequire" v-show="showkerConditionRequireStatus.other.tqz.require" class="mt-10">
+                    <template v-for="item in aliTqzList">
+                      <checkbox v-if="item.value" class="mr-15" :label='item.value' :key="item.value">{{item.label}}</checkbox>
+                    </template>
+                  </checkbox-group>
+                </div>
               </div>
-              <div class="mt-20 ml-20">
-                <span>地区要求：</span>
-                <span class="sizeColor2">勾选以下“<span class="main-color">不想要</span>”的地区，最多选5个</span>
+              <div class="mt-20 ml-20 clear">
+                <span class="left ml-52">地区要求：</span>
+                <div class="inline-block left width-pct-86">
+                  <checkbox v-model="showkerConditionRequireStatus.other.address.require">需要<span class="sizeColor2">（+0.2元/单）</span></checkbox>
+                  <div class="sizeColor2 mt-10" v-show="showkerConditionRequireStatus.other.address.require">勾选以下“<span class="main-color">不想要</span>”的地区，最多选5个</div>
+                  <checkbox-group class="mt-10" v-model="showkerCondition.addressExclude" v-show="showkerConditionRequireStatus.other.address.require">
+                    <checkbox class="mr-30 mt-10" v-for="(item, index) in regionRequireList" :label="item" :key="index">{{item}}</checkbox>
+                  </checkbox-group>
+                </div>
               </div>
-              <div class="ml-80 mr-80">
-                <checkbox-group v-model="showkerCondition.addressExclude">
-                  <checkbox class="mr-30 mt-10" v-for="(item, index) in regionRequireList" :label="item" :key="index">{{item}}</checkbox>
-                </checkbox-group>
+              <div class="mt-20 ml-20 clear">
+                <span class="left ml-52">性别要求：</span>
+                <div class="inline-block left">
+                  <checkbox v-model="showkerConditionRequireStatus.other.gender.require">需要 <span class="sizeColor2">（+0.2元/单）</span></checkbox>
+                  <div class="mt-10" v-show="showkerConditionRequireStatus.other.gender.require">
+                    <radio-group v-model="showkerCondition.genderRequire">
+                      <radio :label="0">男</radio>
+                      <radio :label="1">女</radio>
+                    </radio-group>
+                  </div>
+                </div>
               </div>
-              <div class="mt-20 ml-20">
-                <span>性别要求：</span>
-                <radio-group v-model="showkerCondition.genderRequire">
-                  <radio :label="null">无所谓</radio>
-                  <radio :label="0">男</radio>
-                  <radio :label="1">女</radio>
-                </radio-group>
-              </div>
-              <div class="mt-20 ml-20">
-                <span>年龄要求：</span>
-                <checkbox-group class="inline-block" v-model="showkerCondition.ageRequire">
-                  <checkbox label="18-25">18-25</checkbox>
-                  <checkbox label="26-35">26-35</checkbox>
-                  <checkbox label="35-">35及以上</checkbox>
-                </checkbox-group>
-              </div>
-              <div class="mt-20 ml-20 mb-20">
-                <span>是否开通花呗：</span>
-                <checkbox v-model="showkerCondition.antPayRequire">需要</checkbox>
-                <span class="sizeColor2">（指开通了花呗的旺旺号）</span>
+              <div class="mt-20 ml-20 clear">
+                <span class="left ml-52">年龄要求：</span>
+                <div class="inline-block left">
+                  <checkbox v-model="showkerConditionRequireStatus.other.age.require">需要 <span class="sizeColor2">（+0.2元/单）</span></checkbox>
+                  <checkbox-group class="mt-10" v-show="showkerConditionRequireStatus.other.age.require" v-model="showkerCondition.ageRequire">
+                    <checkbox label="18-25">18-25</checkbox>
+                    <checkbox label="26-35">26-35</checkbox>
+                    <checkbox label="35-">35及以上</checkbox>
+                  </checkbox-group>
+                </div>
               </div>
               <div class="mt-20 ml-20 mb-20 clear">
-                <span class="left">类目：</span>
-                <div class="inline-block left">
-                  <div class="sizeColor2">类目最少选择4个</div>
-                  <div class="mt-10">
-                    <checkbox-group class="inline-block" v-model="showkerCondition.showkerTagRequire">
-                      <checkbox class="mr-15" v-for="item in interestTagList" :key="item.id" :label="item.id">{{item.name}}</checkbox>
-                    </checkbox-group>
-                  </div>
+                <span class="ml-28 left">是否开通花呗：</span>
+                <div class="left">
+                  <checkbox v-model="showkerConditionRequireStatus.other.antPay.require">需要</checkbox>
+                  <span class="sizeColor2">（指开通了花呗的旺旺号，开通了花呗的买号在淘宝内部被认为是优质的账号，用这些账号很安全，权重高。+0.5元/单）</span>
+                </div>
+              </div>
+              <div class="mt-20 ml-20 mb-20 clear">
+                <span class="left ml-52">类目要求：</span>
+                <div class="inline-block left width-pct-86">
+                  <checkbox v-model="showkerConditionRequireStatus.other.showkerTag.require">需要<span class="sizeColor2">（+0.2元/单）</span></checkbox>
+                  <div class="sizeColor2 mt-10" v-show="showkerConditionRequireStatus.other.showkerTag.require">类目最少选择4个</div>
+                  <checkbox-group v-show="showkerConditionRequireStatus.other.showkerTag.require" v-model="showkerCondition.showkerTagRequire">
+                    <checkbox class="mr-15 mt-10" v-for="item in interestTagList" :key="item.id" :label="item.id">{{item.name}}</checkbox>
+                  </checkbox-group>
                 </div>
               </div>
               <div v-show="taskRelease.orderType === 'normal'" class="mt-20 ml-20 clear">
                 <span class="left">审批时间/份数要求：</span>
                 <div class="inline-block left">
-                  <div class="sizeColor2">（需将系统审批名额全部设置完成，若有剩余名额未设置，则由系统自由审批。系统名额剩余数：<span class="main-color">{{systemSurplusApprovalTaskNumber}}</span>）</div>
-                  <div class="clear border-ddd border-radius-5 mt-10 min-width-750">
+                  <checkbox v-model="showkerConditionRequireStatus.other.auditTimeCount.require">需要 <span class="sizeColor2">（+0.5元/单）</span></checkbox>
+                  <div class="sizeColor2 mt-10" v-show="showkerConditionRequireStatus.other.auditTimeCount.require">（需将系统审批名额全部设置完成，若有剩余名额未设置，则由系统自由审批。系统名额剩余数：<span class="main-color">{{systemSurplusApprovalTaskNumber.count}}</span>）</div>
+                  <div class="clear border-ddd border-radius-5 mt-10 min-width-750" v-show="showkerConditionRequireStatus.other.auditTimeCount.require">
                     <div class="pt-10 pb-10">
                       <div class="inline-block width-pct-20 text-ct">日期</div>
                       <div class="inline-block width-pct-39 text-ct">
                         <span>时段</span>
-                        <tooltip content="请尽量扩大时间范围，提高任务成功率，时间段不可重叠" placement="top"><icon class="cursor-p" type="help-circled"/></tooltip>
+                        <tooltip content="请尽量扩大时间范围，提高任务成功率，时间段不可重叠" placement="top" :transfer="true"><icon class="cursor-p" type="help-circled"/></tooltip>
                       </div>
                       <div class="inline-block width-pct-39 text-ct">
                         <span>最多可审批数</span>
-                        <tooltip content="系统审批不会超出设定份数但可能少于该份数" placement="top"><icon class="cursor-p" type="help-circled"/></tooltip>
+                        <tooltip content="系统审批不会超出设定份数但可能少于该份数" placement="top" :transfer="true"><icon class="cursor-p" type="help-circled"/></tooltip>
                       </div>
                     </div>
                     <div class="border-top pt-10 pb-10" v-for="(item, index) in showkerCondition.auditTimeCountRequire" :key="index">
@@ -1094,12 +1113,12 @@
                         <datePicker :value="showkerCondition.auditTimeCountRequire[index].date" :options="datePickerOptions" @on-change="datePickerValueChange(arguments[0],index)" type="date" placeholder="请选择日期" class="width-100"/>
                       </div>
                       <div class="inline-block width-pct-39 text-ct">
-                        <i-select v-model="item.hourStart" class="width-100" @on-change="limitStartTime(item.hourStart,index)">
-                          <i-option v-for="(item,index) in period" :key="index" :value="item.hour" :label="item.hour"/>
+                        <i-select v-model="item.hourStart" class="width-100" @on-change="limitTimeChange('startTime',item.hourStart,index)">
+                          <i-option v-for="(hour, index) in showkerConditionRequireStatus.period" :key="index" :value="hour" :label="hour"/>
                         </i-select>
                         <span>点-</span>
-                        <i-select v-model="item.hourEnd" class="width-100" @on-change="limitEndTime(item.hourEnd,index)">
-                          <i-option v-for="(item,index) in period" :key="index" :value="item.hour" :label="item.hour"/>
+                        <i-select v-model="item.hourEnd" class="width-100" @on-change="limitTimeChange('endTime',item.hourEnd,index)">
+                          <i-option v-for="(hour, index) in showkerConditionRequireStatus.period" :key="index" :value="hour" :label="hour"/>
                         </i-select>
                         <span>点</span>
                       </div>
@@ -1112,6 +1131,7 @@
                   </div>
                 </div>
               </div>
+              <div class="tag-price">单品标签增值服务费合计：{{(showkerConditionAllPrice / 100).toFixed(2)}}&nbsp;元</div>
             </template>
           </template>
         </div>
@@ -1132,7 +1152,7 @@
           <div class="description-fees-con mt-10">
             <p>活动担保金 = 份数 × 单品活动担保金 = <span>{{oneBondMarginText}}</span> 元</p>
             <!--<p class="mt-6">单品打赏费 = 单品试用担保金 × 费率 =<span>{{onePromotionExpensesBeforeText}}</span> 元<span>{{onePromotionExpensesTipText}}</span></p>-->
-            <p class="mt-6">总推广费 = 单品推广费 × 份数 = <span>{{(onePromotionExpenses).toFixed(2)}}</span> × <span>{{taskRelease.taskCount}} = <span>{{(allPromotionExpenses).toFixed(2)}}</span></span>
+            <p class="mt-6">总推广费 = 单品推广费 × 份数 = <span>{{(onePromotionExpenses / 100).toFixed(2)}}</span> × <span>{{taskRelease.taskCount}} = <span>{{(allPromotionExpenses / 100).toFixed(2)}}</span></span>
               元 &nbsp;&nbsp;<span v-if="getTaskCreateFastStatus" class="main-color">（您是首次放单，享受首单推广费减免）</span>
               <!--<tooltip placement="top" content="为提高平台拿手活跃度，鼓励拿手创作更优质的买家秀内容，原平台推广费将改为打赏费，用于拿手打赏！">-->
               <!--<a>什么是打赏费？</a>-->
@@ -1368,7 +1388,7 @@
 </template>
 
 <script>
-  import {Icon, Input, Checkbox, Button, Radio, Modal, Alert, Select, Option, OptionGroup, Tooltip, DatePicker, InputNumber } from 'iview'
+  import {Icon, Input, Checkbox, Button, Radio, Modal, Alert, Select, Option, OptionGroup, Tooltip, DatePicker, InputNumber} from 'iview'
   import {Quill, quillEditor} from 'vue-quill-editor'
   import Upload from '@/components/Upload'
   import PayModel from '@/components/PayModel'
@@ -1608,7 +1628,6 @@
         isMatchNumberOk: true,
         aliLevelList: commonConfig.aliLevelList,
         aliTqzList: commonConfig.aliTqzList,
-        aliWwLabelSet: false,
         regionRequireList: [
           '新疆','西藏','甘肃','宁夏','青海','内蒙古','上海','江苏'
           ,'浙江','安徽','江西','北京','天津','山西','山东','河北'
@@ -1622,13 +1641,57 @@
           }
         },
         interestTagList: [],
+        showkerConditionRequireStatus: {
+          aliWwLabelSet: false,
+          period: Array.from({length: 24},(v, k) => {return `${k}`}),
+          creditLevel: {
+            require: false,
+            price: {
+              2: 10,
+              4: 20,
+              5: 30,
+              6: 40,
+              7: 50
+            },
+          },
+          other: {
+            tqz: {
+              require: false,
+              price: 20,
+            },
+            address: {
+              require: false,
+              price: 20,
+            },
+            gender: {
+              require: false,
+              price: 20,
+            },
+            age: {
+              require: false,
+              price: 20,
+            },
+            antPay: {
+              require: false,
+              price: 50,
+            },
+            showkerTag: {
+              require: false,
+              price: 20,
+            },
+            auditTimeCount: {
+              require: false,
+              price: 50,
+            }
+          }
+        },
         showkerCondition: {
-          creditLevelRequire: null,
-          tqzRequire: [],
-          addressExclude: [],
-          genderRequire: null,
-          antPayRequire: 'false',
-          ageRequire: [],
+          creditLevelRequire: 2,
+          tqzRequire: [3,4,5,6,7,8],
+          addressExclude: ['新疆','西藏'],
+          genderRequire: 0,
+          antPayRequire: false,
+          ageRequire: ['18-25'],
           showkerTagRequire: [],
           auditTimeCountRequire: [
             {
@@ -1767,28 +1830,8 @@
        * @return {number}
        */
       onePromotionExpenses() {
-        if (this.taskRelease.activityCategory === 'free_get') {
-          if (this.getMemberVersionLevel === 100) {
-            return this.getTaskCreateFastStatus ? 0 : 5
-          }
-          if (this.getMemberVersionLevel === 200) {
-            return this.getTaskCreateFastStatus ? 0 : 3
-          }
-          if (this.getMemberVersionLevel === 300) {
-            return this.getTaskCreateFastStatus ? 0 : 3
-          }
-        }
-        if (this.taskRelease.activityCategory === 'present_get') {
-          if (this.getMemberVersionLevel === 100) {
-            return this.getTaskCreateFastStatus ? 0 : 10
-          }
-          if (this.getMemberVersionLevel === 200) {
-            return this.getTaskCreateFastStatus ? 0 : 6
-          }
-          if (this.getMemberVersionLevel === 300) {
-            return this.getTaskCreateFastStatus ? 0 : 6
-          }
-        }
+        const type = this.taskRelease.activityCategory === 'free_get' ? 'AA' : 'AB';
+        return this.getTaskCreateFastStatus ? 0 : this.$store.getters.getPromotionExpenses[type].limit;
       },
 
       /**
@@ -1839,10 +1882,10 @@
        */
       onePromotionExpensesTipText() {
         if (this.getMemberVersionLevel === 100) {
-          return this.onePromotionExpenses >= 5 ? `（单品推广费用超过平台设定的最高上限5.00元，本次实际收取的单品推广费用为5元）` : ''
+          return this.onePromotionExpenses >= 500 ? `（单品推广费用超过平台设定的最高上限5.00元，本次实际收取的单品推广费用为5元）` : ''
         }
         if (this.getMemberVersionLevel === 200) {
-          return this.onePromotionExpenses >= 3 ? `（单品推广费用超过平台设定的最高上限3.00元，本次实际收取的单品推广费用为3元）` : ''
+          return this.onePromotionExpenses >= 300 ? `（单品推广费用超过平台设定的最高上限3.00元，本次实际收取的单品推广费用为3元）` : ''
         }
       },
 
@@ -1860,10 +1903,10 @@
        */
       orderMoney() {
         if (this.taskRelease.activityCategory === 'free_get') {
-          return (this.taskRelease.taskCount * this.oneBond) + this.allPromotionExpenses * 100 + this.allValueAddedCost
+          return (this.taskRelease.taskCount * this.oneBond) + this.allPromotionExpenses + this.allValueAddedCost
         }
         if (this.taskRelease.activityCategory === 'present_get') {
-          return (this.taskRelease.taskCount * this.oneBondAToB) + this.allPromotionExpenses * 100 + this.allValueAddedCost
+          return (this.taskRelease.taskCount * this.oneBondAToB) + this.allPromotionExpenses + this.allValueAddedCost
         }
       },
 
@@ -1957,7 +2000,7 @@
       },
 
       /**
-       * 计算商家分布任务份数中系统需要审批的份数
+       * 计算商家发布任务份数中系统可审批的份数
        * @return {number}
        */
       systemApprovalTaskNumber() {
@@ -1965,14 +2008,17 @@
       },
 
       /**
-       * 计算商家设置拿手审批剩余份数
-       * @return {number}
+       * 计算商家设置拿手审批名额剩余份数和名额剩余状态
+       * @return {object}
        */
       systemSurplusApprovalTaskNumber() {
         const num = this.showkerCondition.auditTimeCountRequire.reduce((prev, cur) => {
           return (cur.count > 0 ? cur.count : 0) + prev
         }, 0);
-        return this.systemApprovalTaskNumber - num > 0 ? this.systemApprovalTaskNumber - num : 0
+        return {
+          count: this.systemApprovalTaskNumber - num > 0 ? this.systemApprovalTaskNumber - num : 0,
+          status: this.systemApprovalTaskNumber - num >= 0
+        }
       },
 
       /**
@@ -2030,15 +2076,16 @@
       },
 
       /**
-       * 计算用户选择的增值服务费用（单品：vasMainItemCost + vasSimilarItemCost）
+       * 计算用户选择的单品总增值服务费用
        * @return {number}
        */
       oneValueAddedCost() {
-        return this.vasMainItemCost + this.vasSimilarItemCost
+        return this.vasMainItemCost + this.vasSimilarItemCost + this.showkerConditionAllPrice
       },
 
       /**
-       * 计算用户总增值服务费用（单品费用 * 宝贝数量）
+       * 计算用户总增值服务费用（单品增值总服务费用 * 宝贝数量）
+       * 单品增值总服务费用 = 单品增值服务费 + 单品申请条件设置增值服务费
        * @return {number}
        */
       allValueAddedCost() {
@@ -2053,16 +2100,55 @@
         return this.$store.state.taskCreateFastStatus
       },
 
+      /**
+       * 计算拿手申请设置旺旺等级需求价格
+       * @return {number}
+       */
+      creditLevelRequireOncePrice() {
+        if (this.showkerConditionRequireStatus.creditLevel.require) {
+          if (!this.showkerCondition.creditLevelRequire) {
+            return 0
+          }
+          if (this.showkerCondition.creditLevelRequire >= 2 && this.showkerCondition.creditLevelRequire < 4) {
+            return this.showkerConditionRequireStatus.creditLevel.price[2]
+          }
+          if (this.showkerCondition.creditLevelRequire === 4) {
+            return this.showkerConditionRequireStatus.creditLevel.price[4]
+          }
+          if (this.showkerCondition.creditLevelRequire === 5) {
+            return this.showkerConditionRequireStatus.creditLevel.price[5]
+          }
+          if (this.showkerCondition.creditLevelRequire === 6) {
+            return this.showkerConditionRequireStatus.creditLevel.price[6]
+          }
+          if (this.showkerCondition.creditLevelRequire >= 7) {
+            return this.showkerConditionRequireStatus.creditLevel.price[7]
+          }
+        } else {
+          return 0
+        }
+      },
+
+      /**
+       * 计算拿手申请设置活动总共所需的增值服务费用
+       * @return {number}
+       */
+      showkerConditionAllPrice() {
+        const price = Object.keys(this.showkerConditionRequireStatus.other).reduce((prev, cur) => {
+          return (this.showkerConditionRequireStatus.other[cur].require ? this.showkerConditionRequireStatus.other[cur].price : 0) + prev
+        }, 0);
+        return price + this.creditLevelRequireOncePrice
+      },
+
     },
     methods: {
       changeSelectActivity(type) {
-        const _this = this;
-        _this.taskRelease.activityCategory = type;
+        this.taskRelease.activityCategory = type;
         if (type === 'pinkage_for_10') {
-          _this.taskRelease.discountType = 'discount_10';
+          this.taskRelease.discountType = 'discount_10';
         } else {
-          if (_this.taskRelease.discountType !== 'discount_0') {
-            _this.taskRelease.discountType = 'discount_0';
+          if (this.taskRelease.discountType !== 'discount_0') {
+            this.taskRelease.discountType = 'discount_0';
           }
         }
       },
@@ -2089,7 +2175,7 @@
               })
             });
             const similarVasSettings = res.data.similarVasSettings;
-            const len = similarVasSettings.length;
+            const len = similarVasSettings ? similarVasSettings.length : 0;
             if (len > 0) {
               _this.shopAroundStatus = true;
               if (len > 1) {
@@ -2313,7 +2399,6 @@
           this.taskCountInputPlaceholder = '当日22点前有效';
           this.taskRelease.showkerOrderTimeLimit = '';
           this.taskCountInputDisabled = true;
-          this.showkerCondition.auditTimeCountRequire = [];
         }
         if (type === 'day_reserve') {
           this.vasMainItem.forEach(item => {
@@ -2335,14 +2420,6 @@
           this.taskCountInputDisabled = false;
           this.taskRelease.speedUp = false;
           this.taskRelease.showkerOrderTimeLimit = 24;
-          this.showkerCondition.auditTimeCountRequire =  [
-            {
-              date: `${new Date(getSeverTime()).getFullYear()}-${new Date(getSeverTime()).getMonth() + 1}-${new Date(getSeverTime()).getDate() + 1}`,
-              hourStart: '0',
-              hourEnd: '23',
-              count: null
-            }
-          ]
         }
       },
       onEditorBlur(editor) {
@@ -2637,52 +2714,48 @@
             _this.$Message.warning('亲，当前剩余匹配数不足,请重新分配！');
             return;
           }
-          if (_this.aliWwLabelSet) {
-            if (_this.showkerCondition.showkerTagRequire.length < 4) {
-              _this.$Message.warning(`拿手审批条件设置中类目最少需要选择4个！`);
+          if (_this.showkerConditionRequireStatus.aliWwLabelSet) {
+            const isNotRequire = Object.keys(_this.showkerConditionRequireStatus.other).every(item => {
+              return !_this.showkerConditionRequireStatus.other[item].require
+            });
+            if (!_this.showkerConditionRequireStatus.creditLevel.require && isNotRequire) {
+              _this.$Message.warning(`亲，请选择您需要的旺旺标签设置！`);
               return;
             }
-            if (_this.showkerCondition.addressExclude.length > 5) {
-              _this.$Message.warning(`拿手审批条件设置中所排除地区最多为5个！`);
+            if (_this.showkerConditionRequireStatus.other.showkerTag.require && _this.showkerCondition.showkerTagRequire.length < 4) {
+              _this.$Message.warning(`亲，拿手审批条件设置中类目最少需要选择4个！`);
               return;
             }
-            for (let i = 0, len = _this.showkerCondition.auditTimeCountRequire.length; i < len; i++) {
-              if (!_this.showkerCondition.auditTimeCountRequire[i].count) {
-                _this.$Message.warning(`亲，拿手审批条件设置中时间段${i + 1}的可审批数不能为空！`);
-                return;
-              }
-              if (_this.showkerCondition.auditTimeCountRequire[i].hourStart * 1 >= _this.showkerCondition.auditTimeCountRequire[i].hourEnd * 1) {
-                _this.$Message.warning(`亲，拿手审批条件设置中时间段${i + 1}的开始时间大于结束时间，请重新设置！`);
-                return;
-              }
-              if (i > 0) {
-                let tempData = extendDeep(this.showkerCondition.auditTimeCountRequire,[]);
-                let startTimeArr = [];
-                let endTimeArr = [];
-                tempData.forEach(item => {
-                  item.startTimeStamp = Date.parse(new Date(item.date + ' ' + item.hourStart + ':00:00'));
-                  item.endTimeStamp = Date.parse(new Date(item.date + ' ' + item.hourEnd + ':00:00'));
-                  startTimeArr.push(item.startTimeStamp);
-                  endTimeArr.push(item.endTimeStamp);
-                });
-                startTimeArr.sort((a, b) => {
-                  return a-b
-                });
-                endTimeArr.sort((a, b) => {
-                  return a-b
-                });
-                for (let i = 1, len = startTimeArr.length; i < len ; i++) {
-                  if (startTimeArr[i] < endTimeArr[i-1]) {
-                    this.$Message.warning('时间段有重复，请重新选择！');
-                    return
+            if (_this.showkerConditionRequireStatus.other.address.require && _this.showkerCondition.addressExclude.length > 5) {
+              _this.$Message.warning(`亲，拿手申请条件设置中所排除地区最多为5个！`);
+              return;
+            }
+            if (_this.showkerConditionRequireStatus.other.auditTimeCount.require && _this.taskRelease.orderType === 'normal') {
+              for (let i = 0, len = _this.showkerCondition.auditTimeCountRequire.length; i < len; i++) {
+                if (!_this.showkerCondition.auditTimeCountRequire[i].count) {
+                  _this.$Message.warning(`亲，拿手申请条件设置中时间段${i + 1}的可审批数不能为空！`);
+                  return;
+                }
+                if (_this.showkerCondition.auditTimeCountRequire[i].hourStart * 1 >= _this.showkerCondition.auditTimeCountRequire[i].hourEnd * 1) {
+                  _this.$Message.warning(`亲，拿手申请条件设置中时间段${i + 1}的开始时间大于结束时间，请重新设置！`);
+                  return;
+                }
+                for (let j = i + 1; j < len; j++) {
+                  if (_this.showkerCondition.auditTimeCountRequire[i].date === _this.showkerCondition.auditTimeCountRequire[j].date &&
+                    _this.showkerCondition.auditTimeCountRequire[i].hourEnd * 1 > _this.showkerCondition.auditTimeCountRequire[j].hourStart * 1) {
+                    _this.$Message.warning(`亲，时间段${i + 1}与时间段${j + 1}存在时段重复，请重新选择时段！`);
+                    return false;
                   }
                 }
+                if (Date.parse(new Date(_this.showkerCondition.auditTimeCountRequire[i].date) > getSeverTime() + 86400000 * _this.taskRelease.taskDaysDuration)) {
+                  this.$Message.warning(`亲，拿手申请条件设置中时间段${i + 1}选择的日期大于活动时长，请重新选择日期！`);
+                  return;
+                }
               }
-              let timeStamp = Date.parse(new Date(_this.showkerCondition.auditTimeCountRequire[i].date));
-              if (timeStamp > getSeverTime() + 86400000 * _this.taskRelease.taskDaysDuration) {
-                this.$Message.warning('您选择的日期大于活动时长，请重新选择');
-                return
-              }
+            }
+            if (!_this.systemSurplusApprovalTaskNumber.status) {
+              _this.$Message.warning(`亲，系统名额剩余数不足，请重新分配活动份数！`);
+              return;
             }
           }
         }
@@ -2781,10 +2854,40 @@
         }
         _this.taskRelease.mainTaskVasConfigIds = JSON.stringify(mainTaskVasId);
         _this.taskRelease.similarTaskVasConfigIds = JSON.stringify(similarTaskVasId);
-        _this.taskRelease.showkerApplyRequireString = _this.aliWwLabelSet ? JSON.stringify(_this.showkerCondition) : '';
-        let pcTaskDetailClone = extendDeep(_this.pcTaskDetail, []);
-        let appTaskDetailClone = extendDeep(_this.appTaskDetail, []);
-        let taoCodeTaskDetailClone = extendDeep(_this.taoCodeTaskDetail, []);
+        if (_this.showkerConditionRequireStatus.aliWwLabelSet) {
+          _this.showkerCondition.antPayRequire = _this.showkerConditionRequireStatus.other.auditTimeCount.require;
+          // 根据用户是否勾选‘需要’选项重置申请条件初始化数据
+          const copyShowkerCondition = extendDeep(_this.showkerCondition, {});
+          if (!_this.showkerConditionRequireStatus.creditLevel.require) {
+            copyShowkerCondition.creditLevelRequire = null
+          }
+          if (!_this.showkerConditionRequireStatus.other.tqz.require) {
+            copyShowkerCondition.tqzRequire = []
+          }
+          if (!_this.showkerConditionRequireStatus.other.address.require) {
+            copyShowkerCondition.addressExclude = []
+          }
+          if (!_this.showkerConditionRequireStatus.other.gender.require) {
+            copyShowkerCondition.genderRequire = null
+          }
+          if (!_this.showkerConditionRequireStatus.other.age.require) {
+            copyShowkerCondition.ageRequire = []
+          }
+          if (!_this.showkerConditionRequireStatus.other.showkerTag.require) {
+            copyShowkerCondition.showkerTagRequire = []
+          }
+          if (!_this.showkerConditionRequireStatus.creditLevel.require || _this.taskRelease.orderType === 'day_now' || _this.taskRelease.orderType === 'day_reserve') {
+            copyShowkerCondition.auditTimeCountRequire = []
+          }
+          copyShowkerCondition.creditLevelRequire = copyShowkerCondition.creditLevelRequire === 0 ? null : copyShowkerCondition.creditLevelRequire;
+          _this.taskRelease.showkerApplyRequireString = JSON.stringify(copyShowkerCondition);
+        } else {
+          _this.taskRelease.showkerApplyRequireString = null
+        }
+
+        const pcTaskDetailClone = extendDeep(_this.pcTaskDetail, []);
+        const appTaskDetailClone = extendDeep(_this.appTaskDetail, []);
+        const taoCodeTaskDetailClone = extendDeep(_this.taoCodeTaskDetail, []);
         if (_this.taskRelease.activityCategory === 'free_get') {
           _this.taskRelease.donotPostPhoto = 'false'
         }
@@ -2918,14 +3021,14 @@
                 }
               }
             }
-            _this.aliWwLabelSet = res.data.showkerApplyRequire ? res.data.showkerApplyRequire : false;
+            _this.showkerConditionRequireStatus.aliWwLabelSet = res.data.showkerApplyRequire;
             _this.taskRelease.itemType = res.data.itemCatalog.id;
             _this.taskRelease.dayReserveToNow = _this.taskRelease.dayReserveToNow ? _this.taskRelease.dayReserveToNow : false;
             _this.taskRelease.speedUp = _this.taskRelease.speedUp ? _this.taskRelease.speedUp : false;
             _this.taskRelease.pinkage = _this.taskRelease.pinkage.toString();
             _this.taskRelease.donotPostPhoto = _this.taskRelease.donotPostPhoto.toString();
 
-            //取消了收藏加购，复制历史活动时默认为false
+            // 取消了收藏加购，复制历史活动时默认为false
             _this.taskRelease.needBrowseCollectAddCart = false;
 
             if (_this.taskRelease.orderType === 'day_reserve' || _this.taskRelease.orderType === 'day_now') {
@@ -2933,7 +3036,6 @@
               _this.taskCountInputPlaceholder = '当日22点前有效';
               _this.taskCountInputDisabled = true;
               _this.taskRelease.showkerOrderTimeLimit = '';
-              _this.showkerCondition.auditTimeCountRequire = [];
             }
 
             // 复制历史活动的时候如果掌柜旺旺信息不能匹配到绑定店铺的旺旺名则默认自动选择第一个店铺，反之取接口实时数据
@@ -3002,8 +3104,8 @@
                 _this.answerDefaultList.push(answerDefault);
               });
             }
-            if ((res.data.taskType === 'pc_search' || res.data.taskType === 'app_search') && res.data.showkerApplyRequire) {
-              _this.interestTag();
+            // 处理拿手申请条件设置数据
+            if (res.data.showkerApplyRequire && res.data.showkerApplyRequireData) {
               for (let k in _this.showkerCondition) {
                 for (let i in res.data.showkerApplyRequireData) {
                   if (k === i) {
@@ -3011,12 +3113,50 @@
                   }
                 }
               }
-              res.data.showkerApplyRequireData.auditTimeCountRequire.forEach((item,index) => {
-                let timeStamp = Date.parse(new Date(item.date));
-                if (timeStamp < getSeverTime()) {
-                  item.date = `${new Date(getSeverTime()).getFullYear()}-${new Date(getSeverTime()).getMonth() + 1}-${new Date(getSeverTime()).getDate() + 1}`
-                }
-              })
+              if (_this.showkerCondition.creditLevelRequire) {
+                _this.showkerConditionRequireStatus.creditLevel.require = true
+              } else {
+                _this.showkerCondition.creditLevelRequire = 2
+              }
+              if (_this.showkerCondition.tqzRequire.length > 0) {
+                _this.showkerConditionRequireStatus.other.tqz.require = true
+              } else {
+                _this.showkerCondition.tqzRequire = [3,4,5,6,7,8]
+              }
+              if (_this.showkerCondition.addressExclude.length > 0) {
+                _this.showkerConditionRequireStatus.other.address.require = true
+              } else {
+                _this.showkerCondition.addressExclude = ['新疆','西藏']
+              }
+              if (_this.showkerCondition.genderRequire !== null) {
+                _this.showkerConditionRequireStatus.other.gender.require = true
+              } else {
+                _this.showkerCondition.genderRequire = 0
+              }
+              if (_this.showkerCondition.ageRequire.length > 0) {
+                _this.showkerConditionRequireStatus.other.age.require = true
+              } else {
+                _this.showkerCondition.ageRequire = ['18-25']
+              }
+              if (_this.showkerCondition.showkerTagRequire.length > 0) {
+                _this.showkerConditionRequireStatus.other.showkerTag.require = true
+              }
+              _this.interestTagList.length === 0 && _this.interestTag();
+              if (_this.showkerCondition.auditTimeCountRequire.length > 0) {
+                _this.showkerConditionRequireStatus.other.auditTimeCount.require = true;
+                _this.showkerCondition.auditTimeCountRequire.forEach(item => {
+                  if (Date.parse(new Date(item.date)) < getSeverTime()) {
+                    item.date = `${new Date(getSeverTime()).getFullYear()}-${new Date(getSeverTime()).getMonth() + 1}-${new Date(getSeverTime()).getDate() + 1}`
+                  }
+                })
+              } else {
+                _this.showkerCondition.auditTimeCountRequire.push({
+                  date: `${new Date(getSeverTime()).getFullYear()}-${new Date(getSeverTime()).getMonth() + 1}-${new Date(getSeverTime()).getDate() + 1}`,
+                  hourStart: '0',
+                  hourEnd: '23',
+                  count: null
+                })
+              }
             }
             _this.taskRelease.taskDetail = {};
             if (res.data.taskType === 'tao_code') {
@@ -3265,7 +3405,7 @@
         const num = this.allPlanNumber();
         if (num > this.taskRelease.taskCount) {
           this.isMatchNumberOk = false;
-          this.$Message.warning('亲，当前剩余匹配数不足,请重新分配！');
+          this.taskRelease.taskCount && this.$Message.warning('亲，当前剩余匹配数不足,请重新分配！');
         } else {
           this.isMatchNumberOk = true;
         }
@@ -3423,7 +3563,7 @@
         }
       },
       addTimeBucket() {
-        if (this.systemSurplusApprovalTaskNumber <= 0) {
+        if (this.systemSurplusApprovalTaskNumber.count <= 0) {
           this.$Message.warning('亲，系统剩余可审批名额不足！');
           return;
         }
@@ -3444,8 +3584,18 @@
         }
         this.showkerCondition.auditTimeCountRequire[index].date = data;
       },
+      // 当拿手旺旺标签设置状态改变处理
       aliWwLabelSetChange(value) {
-        value && this.interestTagList.length === 0 && this.interestTag()
+        if (value) {
+          this.interestTagList.length === 0 && this.interestTag()
+        } else {
+          this.showkerConditionRequireStatus.creditLevel.require = false;
+          Object.keys(this.showkerConditionRequireStatus.other).forEach(item => {
+            if (this.showkerConditionRequireStatus.other[item].require) {
+              this.showkerConditionRequireStatus.other[item].require = false
+            }
+          })
+        }
       },
       // 拿手兴趣标签，如果以后有多个业务也需要此配置，可将抽离到Vuex action
       interestTag() {
@@ -3455,68 +3605,34 @@
           enable: true
         }).then(res => {
           if (res.status) {
-            _this.interestTagList = res.data
+            _this.interestTagList = res.data;
+            _this.interestTagList.forEach(item => {
+              _this.showkerCondition.showkerTagRequire.push(item.id)
+            });
           } else {
             _this.$Message.error(res.msg)
           }
         })
       },
-      limitEndTime(endTime,index) {
-        if (endTime * 1 <= this.showkerCondition.auditTimeCountRequire[index].hourStart * 1) {
-          this.$Message.error('结束时间点应大于开始时间点，请重新选择！');
+      limitTimeChange(type, time, index) {
+        if (type === 'startTime' && time * 1 >= this.showkerCondition.auditTimeCountRequire[index].hourEnd * 1) {
+          this.$Message.warning(`亲，时间段${index + 1}开始时间点应小于结束时间点，请重新选择开始时间！`);
+          return;
         }
-        if (index > 0) {
-          let tempData = extendDeep(this.showkerCondition.auditTimeCountRequire,[]);
-          let startTimeArr = [];
-          let endTimeArr = [];
-          tempData.forEach(item => {
-            item.startTimeStamp = Date.parse(new Date(item.date + ' ' + item.hourStart + ':00:00'));
-            item.endTimeStamp = Date.parse(new Date(item.date + ' ' + item.hourEnd + ':00:00'));
-            startTimeArr.push(item.startTimeStamp);
-            endTimeArr.push(item.endTimeStamp);
-          });
-          startTimeArr.sort((a,b) => {
-            return a-b;
-          });
-          endTimeArr.sort((a,b) => {
-            return a-b;
-          });
-          for (let i = 1, len = startTimeArr.length; i < len; i ++) {
-            if (startTimeArr[i] < endTimeArr[i-1]) {
-              this.$Message.warning('时间段有重复，请重新选择！');
+        if (type === 'endTime' && time * 1 <= this.showkerCondition.auditTimeCountRequire[index].hourStart * 1) {
+          this.$Message.error(`亲，时间段${index + 1}结束时间点应大于开始时间点，请重新选择结束时间！`);
+          return;
+        }
+        for (let i = 0, len = this.showkerCondition.auditTimeCountRequire.length; i < len; i++) {
+          for (let j = i + 1; j < len; j++) {
+            if (this.showkerCondition.auditTimeCountRequire[i].date === this.showkerCondition.auditTimeCountRequire[j].date &&
+              this.showkerCondition.auditTimeCountRequire[i].hourEnd * 1 > this.showkerCondition.auditTimeCountRequire[j].hourStart * 1) {
+              this.$Message.warning(`亲，时间段${i + 1}与时间段${j + 1}存在时段重复，请重新选择时段！`);
               break;
             }
           }
         }
       },
-      limitStartTime(startTime,index) {
-        if (startTime * 1 >= this.showkerCondition.auditTimeCountRequire[index].hourEnd * 1) {
-          this.$Message.warning('开始时间点应小于结束时间点，请重新选择！');
-        }
-        if (index > 0) {
-          let tempData = extendDeep(this.showkerCondition.auditTimeCountRequire,[]);
-          let startTimeArr = [];
-          let endTimeArr = [];
-          tempData.forEach(item => {
-            item.startTimeStamp = Date.parse(new Date(item.date + ' ' + item.hourStart + ':00:00'));
-            item.endTimeStamp = Date.parse(new Date(item.date + ' ' + item.hourEnd + ':00:00'));
-            startTimeArr.push(item.startTimeStamp);
-            endTimeArr.push(item.endTimeStamp);
-          });
-          startTimeArr.sort((a,b) => {
-            return a-b;
-          });
-          endTimeArr.sort((a,b) => {
-            return a-b;
-          });
-          for (let i = 1, len = startTimeArr.length; i < len; i ++) {
-            if (startTimeArr[i] < endTimeArr[i-1]) {
-              this.$Message.warning('时间段有重复，请重新选择！');
-              break;
-            }
-          }
-        }
-      }
     },
   }
 </script>
@@ -3558,11 +3674,10 @@
       padding-top: 10px;
       height: 100%;
       border-radius: 5px 0 0 5px;
-      margin-right: 5px;
+      margin-right: 12px;
     }
 
     .step {
-      margin-left: 10px;
       height: 100%;
     }
 
@@ -4039,6 +4154,17 @@
       font-weight: bold;
       background-color: #ddd;
       padding-left: 10px;
+    }
+
+    .tag-price {
+      height: 40px;
+      line-height: 40px;
+      background-color: #FFF5E2;
+      padding-left: 20px;
+      margin-left: 20px;
+      margin-right: 20px;
+      margin-top: 40px;
+      border-radius: 5px;
     }
   }
 

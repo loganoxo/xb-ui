@@ -45,8 +45,6 @@ module.exports = {
     // just be aware of this issue when enabling this option.
     cssSourceMap: false,
     errorOverlay: true,
-    notifyOnErrors: true,
-    poll: false, // https://webpack.js.org/configuration/dev-server/#devserver-watchoptions-
     // If you have problems debugging vue-files in devtools,
     // set this to false - it *may* help
     // https://vue-loader.vuejs.org/en/options.html#cachebusting

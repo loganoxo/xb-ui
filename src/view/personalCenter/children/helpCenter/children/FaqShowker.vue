@@ -336,6 +336,7 @@
     },
     computed: {},
     methods: {
+
       goAnchor(questionId) {
         document.getElementById(questionId).scrollIntoView();
       },

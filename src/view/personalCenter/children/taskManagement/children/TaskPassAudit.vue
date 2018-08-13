@@ -359,11 +359,11 @@
         batchPassCount: 0,
         startToProcessNum: 1,
         batchPassResult: null,
-        violationLabelList:[],
-        selectedLabelList:[],
-        storeList:[],
-        selectedStore:'',
-        realStoreName:''
+        violationLabelList: [],
+        selectedLabelList: [],
+        storeList: [],
+        selectedStore: '',
+        realStoreName: null
       }
     },
     created() {

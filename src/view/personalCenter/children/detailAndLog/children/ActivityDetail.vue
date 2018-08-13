@@ -996,32 +996,8 @@
        * @return {number}
        */
       onePromotionExpenses() {
-        if (this.fastPublish) {
-          return 0
-        } else {
-          if (this.taskRelease.activityCategory === 'free_get') {
-            if (this.getMemberVersionLevel === 100) {
-              return 5
-            }
-            if (this.getMemberVersionLevel === 200) {
-              return 3
-            }
-            if (this.getMemberVersionLevel === 300) {
-              return 3
-            }
-          }
-          if (this.taskRelease.activityCategory === 'present_get') {
-            if (this.getMemberVersionLevel === 100) {
-              return 10
-            }
-            if (this.getMemberVersionLevel === 200) {
-              return 6
-            }
-            if (this.getMemberVersionLevel === 300) {
-              return 6
-            }
-          }
-        }
+        const type = this.taskRelease.activityCategory === 'free_get' ? 'AA' : 'AB';
+        return this.fastPublish ? 0 : this.$store.getters.getPromotionExpenses[type].limit;
       },
 
       /**
@@ -1029,7 +1005,7 @@
        * @return {number}
        */
       onePromotionExpensesAfter() {
-        return  this.redEnvelopeDeductionPaid > 0 ? this.onePromotionExpenses * 100 - (this.redEnvelopeDeductionPaid / this.taskRelease.taskCount) : this.onePromotionExpenses * 100
+        return  this.redEnvelopeDeductionPaid > 0 ? this.onePromotionExpenses - (this.redEnvelopeDeductionPaid / this.taskRelease.taskCount) : this.onePromotionExpenses
       },
 
       /**
@@ -1038,10 +1014,10 @@
        */
       onePromotionExpensesTipText() {
         if (this.getMemberVersionLevel === 100) {
-          return this.onePromotionExpenses >= 5 ? `（单品推广费用超过平台设定的最高上限5.00元，本次实际收取的单品推广费用为5元）` : ''
+          return this.onePromotionExpenses >= 500 ? `（单品推广费用超过平台设定的最高上限5.00元，本次实际收取的单品推广费用为5元）` : ''
         }
         if (this.getMemberVersionLevel === 200) {
-          return this.onePromotionExpenses >= 3 ? `（单品推广费用超过平台设定的最高上限3.00元，本次实际收取的单品推广费用为3元）` : ''
+          return this.onePromotionExpenses >= 300 ? `（单品推广费用超过平台设定的最高上限3.00元，本次实际收取的单品推广费用为3元）` : ''
         }
       },
 
@@ -1050,7 +1026,7 @@
        * @return {number}
        */
       allPromotionExpenses() {
-        return this.onePromotionExpenses * 100 * this.taskRelease.taskCount - this.redEnvelopeDeductionPaid
+        return this.onePromotionExpenses * this.taskRelease.taskCount - this.redEnvelopeDeductionPaid
       },
 
       /**
@@ -1072,7 +1048,7 @@
        */
       vasMainItemCost() {
         let cost = 0;
-        this.vasMainItem.map(item => {
+        this.vasMainItem.forEach(item => {
           if(item.isSelect) {
             cost += item.price
           }
@@ -1087,8 +1063,8 @@
       vasSimilarItemCost() {
         let cost = 0;
         if(this.shopAroundStatus) {
-          this.vasSimilarItem.map(keys => {
-            keys.map(item => {
+          this.vasSimilarItem.forEach(keys => {
+            keys.forEach(item => {
               if(item.isSelect) {
                 cost += item.price
               }

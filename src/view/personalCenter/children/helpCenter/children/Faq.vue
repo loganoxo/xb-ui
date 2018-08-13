@@ -1,9 +1,9 @@
 <template>
   <div>
     <div class="mt-20">
-      <ButtonGroup shape="circle">
-        <iButton :ref="faqSel.ref" v-for="(faqSel,index) in faqSelList" :type="faqSel.type" :key="index" @click="selQuestion(faqSel,index)">{{faqSel.text}}</iButton>
-      </ButtonGroup>
+      <button-group shape="circle">
+        <i-button :ref="faqSel.ref" v-for="(faqSel,index) in faqSelList" :type="faqSel.type" :key="index" @click="selQuestion(faqSel,index)">{{faqSel.text}}</i-button>
+      </button-group>
     </div>
     <div v-show="selFaq === 'common'" class="faq-que-ans animated fadeIn " >
         <a ref="anchor" href="javascript:void(0)" ></a>

@@ -309,23 +309,6 @@ export const delHtmlTag = str => {
 };
 
 /**
- * 函数防抖
- */
-export const debounce = (fn, ms = 0) => {
-  let timeoutId;
-  return function(...args) {
-    if (timeoutId) {
-      clearTimeout(timeoutId)
-    }
-    console.log(fn)
-    console.log(this)
-    timeoutId = setTimeout(() => {
-      fn.apply(this, args)
-    }, ms);
-  }
-};
-
-/**
  * 任务流程状态映射
  */
 export const taskErrorStatusList = (type) => {

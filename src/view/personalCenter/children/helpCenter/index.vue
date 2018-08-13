@@ -1,7 +1,7 @@
 <template>
   <div class="personal-box" :class="[!isLogin ? 'ml-ptc-12' : '']">
     <div class="personal-sel-top">
-      <router-link :to="myInfoSelect.link" :key="myInfoSelect.link" v-for="myInfoSelect in myInfoSelectsFilter" :class="{active:infoSelect == myInfoSelect.isSelect}">
+      <router-link :to="myInfoSelect.link" :key="myInfoSelect.link" v-for="myInfoSelect in myInfoSelectsFilter" :class="{active:infoSelect === myInfoSelect.isSelect}">
         {{myInfoSelect.text}}
       </router-link>
     </div>
@@ -32,8 +32,8 @@
           },
           {
             text: '拿手中心',
-            link: '/user/help-center/faq-showker',
             isSelect: 'FaqShowker',
+            link: '/user/help-center/faq-showker',
             role: 0
           },
         ],
@@ -50,7 +50,7 @@
       this.infoSelect = this.$route.name;
     },
     computed: {
-      isLogin(){
+      isLogin() {
         return this.$store.state.login
       },
       userRole() {

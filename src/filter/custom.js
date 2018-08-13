@@ -33,29 +33,6 @@ const dateFormat = (timeSpan, format) => {
 };
 
 /**
- * 格式化数字
- * number：要格式化的数字
- * decimals：保留几位小数
- */
-const numberFormat = (number, decimals) => {
-  number = (number + '').replace(/[^0-9+-Ee.]/g, '');
-  let n = !isFinite(+number) ? 0 : +number,
-    prec = !isFinite(+decimals) ? 0 : Math.abs(decimals),
-    s = '',
-    toFixedFix = function (n, prec) {
-      let k = Math.pow(10, prec);
-      return '' + Math.ceil(n * k) / k;
-    };
-
-  s = (prec ? toFixedFix(n, prec) : '' + Math.round(n)).split('.');
-  if ((s[1] || '').length < prec) {
-    s[1] = s[1] || '';
-    s[1] += new Array(prec - s[1].length + 1).join('0');
-  }
-  return s.join('.');
-};
-
-/**
  * 格式化手机号码（保留前三位和后四位）
  * number：要格式化的手机号码
  */
@@ -76,4 +53,4 @@ const imageSrc = (src, hank) => {
   return src.includes('alicdn.com') ? src : `${src}${hank}`
 };
 
-export {dateFormat, numberFormat, phoneNumberFormat, imageSrc}
+export {dateFormat, phoneNumberFormat, imageSrc}

@@ -28,6 +28,11 @@ export default {
     } : {}
   },
 
+  // 从userInfo中获取商家推广费配置
+  getPromotionExpenses: state => {
+    return Object.keys(state.userInfo).length > 0 ? JSON.parse(state.userInfo.extension.memberConfig.rewardFee) : {AA: {floor: 0, limit: 0}, AB: {floor: 0, limit: 0}}
+  },
+
   // 从userInfo中提取用户账户余额
   getUserBalance: state => {
     return Object.keys(state.userInfo).length > 0 ? state.userInfo.userAccount.accountBalance : 0
@@ -68,7 +73,7 @@ export default {
     return state.userInfo.memberOK
   },
 
-  // 从userInfo中提取用户是否是VIP会员
+  // 从userInfo中提取用户会员等级（100：普通会员，200：VIP会员，300：SVIP会员）
   getMemberLevel: state => {
     if (!state.userInfo.memberOK) {
       return 100

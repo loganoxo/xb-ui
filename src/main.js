@@ -3,23 +3,30 @@ import App from './App'
 import router from './router'
 import store from './store'
 import * as filters from './filter/custom'
-import VueLazyload from 'vue-lazyload'
+// import VueLazyload from 'vue-lazyload'
 import {Modal, Message, Notice} from 'iview'
-import '../iview/iview.less'
+import {setChannel} from '@/config/channelConfig'
+import '@/css/iview.less'
 import '@/css/common.scss'
 
 Vue.config.productionTip = false;
 
+// 检测并执行设置渠道方法
+setChannel();
+
+// 手动注册配置iview全局方法
 Vue.prototype.$Modal = Modal;
 
 Notice.config({
   top: 40,
 });
+
 Vue.prototype.$Notice = Notice;
 
 Message.config({
   duration: 4
 });
+
 Vue.prototype.$Message = Message;
 
 Vue.prototype.$IVIEW = {
@@ -27,23 +34,23 @@ Vue.prototype.$IVIEW = {
   transfer: true
 };
 
-/*VueLazyload配置初始化*/
-Vue.use(VueLazyload, {
+// VueLazyload配置初始
+/*Vue.use(VueLazyload, {
   preLoad: 1.3,
   error: '/static/img/lazyLoadImage/lazy-load-image-error.svg',
   loading: '/static/img/lazyLoadImage/lazy-load-image-loading.svg',
   attempt: 3
-});
+});*/
 
-/*注册全局过滤器*/
+// 注册全局过滤器
 Object.keys(filters).forEach(key => {
   Vue.filter(key, filters[key])
 });
 
-/*页面刷新的时候初始化用户信息存储*/
+// 页面刷新的时候初始化用户信息存储
 store.commit('INIT_USER_INFO');
 
-/*根据路由改变前处理业务逻辑*/
+// 根据路由改变前处理业务逻辑
 router.beforeEach((to, from, next) => {
   store.commit({
     type: "CHANGE_TOP_SHOW_HIDE",
@@ -68,7 +75,7 @@ router.beforeEach((to, from, next) => {
   }
 });
 
-/*根据路由改变后处理业务逻辑*/
+// 根据路由改变后处理业务逻辑
 router.afterEach(to => {
   document.title = to.meta.title;
 });
