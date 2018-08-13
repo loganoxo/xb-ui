@@ -40,9 +40,9 @@
 
 <script>
   import {Modal} from 'iview'
-  import Top from "@/components/Top.vue"
-  import Bottom from "@/components/Bottom.vue"
-  import SideNavigation from '@/components/SideNavigation.vue'
+  import Top from "@/components/Top"
+  import Bottom from "@/components/Bottom"
+  import SideNavigation from '@/components/SideNavigation'
   import {getStorage} from '@/config/utils'
 
   export default {

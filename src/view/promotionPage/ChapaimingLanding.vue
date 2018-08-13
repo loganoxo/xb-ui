@@ -1,6 +1,5 @@
 <template>
   <div class="chapaiming-landing">
-    <top/>
     <div class="chapaiming-area">
       <div class="content">
         <div class="search-title">淘宝信誉/小号查询</div>
@@ -157,14 +156,12 @@
 
 <script>
   import {Button, Progress, Modal, Input} from 'iview'
-  import Top from '@/components/Top'
   import LoginToRegisterModal from '@/components/LoginToRegisterModal'
   import api from '@/config/apiConfig'
 
   export default {
     name: "chapaiming-landing",
     components: {
-      Top: Top,
       LoginToRegisterModal: LoginToRegisterModal,
       iButton: Button,
       iProgress: Progress,

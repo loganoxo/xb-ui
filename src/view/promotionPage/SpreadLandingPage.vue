@@ -1,6 +1,5 @@
 <template>
   <div class="spread-landing-page">
-    <top/>
     <div class="content text-ct">
       <div class="banner pos-rel">
         <div v-if="!isLogin" class="btn-area">
@@ -79,13 +78,11 @@
 
 <script>
   import api from '@/config/apiConfig'
-  import Top from '@/components/Top'
   import SmsCountdown from '@/components/SmsCountdown'
   import {isInteger, setStorage} from '@/config/utils'
   export default {
     name: "spread-landing-page",
     components: {
-      Top: Top,
       SmsCountdown: SmsCountdown
     },
     data() {
