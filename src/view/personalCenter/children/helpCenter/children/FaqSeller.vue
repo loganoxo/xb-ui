@@ -1,15 +1,15 @@
 <template>
   <div>
     <div class="mt-20">
-      <ButtonGroup shape="circle">
-        <iButton :ref="faqSel.ref" v-for="(faqSel,index) in faqSelList" :key="index" :type="faqSel.type" @click="selQuestion(faqSel,index)">
+      <button-group shape="circle">
+        <i-button :ref="faqSel.ref" v-for="(faqSel,index) in faqSelList" :key="index" :type="faqSel.type" @click="selQuestion(faqSel,index)">
           {{faqSel.text}}
-        </iButton>
-      </ButtonGroup>
+        </i-button>
+      </button-group>
     </div>
     <div v-show="selFaq === 'common'" class="faq-que-ans animated fadeIn ">
         <a ref="anchor" href="javascript:void(0)" ></a>
-        <Collapse class="mt-20" v-model="selectedFaq">
+        <collapse class="mt-20" v-model="selectedFaq">
           <Panel name="1" id="q1">
             1、商家活动支持哪几种搜索/下单渠道？
             <p slot="content">
@@ -97,7 +97,7 @@
               <p>2、没有正在参与活动的试客（所有审核的试客都已完成或终止试用）</p>
             </div>
           </Panel>
-        </Collapse>
+        </collapse>
 
 
       </div>
@@ -246,7 +246,7 @@
 <script>
   import {Button, Icon, Collapse} from 'iview'
   export default {
-    name: 'FaqSeller',
+    name: 'faq-seller',
     components: {
       iButton: Button,
       ButtonGroup: Button.Group,
@@ -266,7 +266,7 @@
           },
           {
             text: '商家活动完整流程',
-            type: 'ghost',
+            type: 'default',
             selFaq: 'special',
             ref: 'special'
           }
@@ -309,7 +309,7 @@
         if(faqSel.type !== 'primary'){
           for(let i = 0, j = self.faqSelList.length; i < j; i++){
             if(i !== index){
-              self.faqSelList[i].type = 'ghost';
+              self.faqSelList[i].type = 'default';
               break;
             }
           }

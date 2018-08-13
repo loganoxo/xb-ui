@@ -28,7 +28,7 @@
         <div v-for="item in keywordPlanInfo" v-show="selectKeywordScheme === item.index">
           <div class="mt-10">
             <span>追加份数：</span>
-            <i-input v-model.number="item.addTaskNumber" placeholder="请输入追加份数" @on-change="addTaskNumberChange" style="width: 100px;"/>
+            <i-input v-model.number="item.addTaskNumber" placeholder="请输入追加份数" @on-change="addTaskNumberChange" class="width-100"/>
             <span class="ml-10 cl000 fs-14" v-if="item.title">为{{` "${item.title}" `}}追加的份数</span>
           </div>
           <div class="mt-10 border-top pt-10 addition-item" v-if="data.itemReviewRequired === 'assign_review_detail' && itemReviewList.length > 0">
@@ -42,9 +42,9 @@
       </div>
       <div class="mt-10 border-top pt-10">
         <span>系统审批延期：</span>
-        <i-input v-model="delayDays" placeholder="请输入延期天数" style="width: 100px"/>
+        <i-input v-model="delayDays" placeholder="请输入延期天数" class="width-100"/>
         <span class="pl-5 pr-5">天</span>
-        (距离系统自动审批还有 <time-down :endTime="getDistanceSysAuditTime" color="#495060"></time-down>)
+        （距离系统自动审批还有 <time-down :endTime="getDistanceSysAuditTime" color="#495060"/>）
       </div>
       <div class="mt-10 border-top pt-10">共追加&nbsp;<span class="main-color">{{allAddTaskNumber}}</span>&nbsp;份</div>
       <i-button slot="footer" type="primary" size="large" long :loding="buttonLoading" @click="nextStep">下一步</i-button>
@@ -88,7 +88,7 @@
         keywordPlanInfo: [],
         selectKeywordScheme: 0,
         timer: null,
-        delayDays:null,
+        delayDays: null,
       }
     },
     components: {
@@ -188,28 +188,8 @@
        * @return {number}
        */
       onePromotionExpenses() {
-        if (this.data.activityCategory === 'free_get') {
-          if (this.getMemberVersionLevel === 100) {
-            return 5
-          }
-          if (this.getMemberVersionLevel === 200) {
-            return 3
-          }
-          if (this.getMemberVersionLevel === 300) {
-            return 3
-          }
-        }
-        if (this.data.activityCategory === 'present_get') {
-          if (this.getMemberVersionLevel === 100) {
-            return 10
-          }
-          if (this.getMemberVersionLevel === 200) {
-            return 6
-          }
-          if (this.getMemberVersionLevel === 300) {
-            return 6
-          }
-        }
+        const type = this.data.activityCategory === 'free_get' ? 'AA' : 'AB';
+        return this.$store.getters.getPromotionExpenses[type].limit;
       },
 
       /**
@@ -234,10 +214,10 @@
        */
       orderMoney() {
         if (this.data.activityCategory === 'free_get') {
-          return (this.allAddTaskNumber * this.oneBondAToA) + this.allPromotionExpenses * 100 + this.allValueAddedCost
+          return (this.allAddTaskNumber * this.oneBondAToA) + this.allPromotionExpenses + this.allValueAddedCost
         }
         if (this.data.activityCategory === 'present_get') {
-          return (this.allAddTaskNumber * this.oneBondAToB) + this.allPromotionExpenses * 100 + this.allValueAddedCost
+          return (this.allAddTaskNumber * this.oneBondAToB) + this.allPromotionExpenses + this.allValueAddedCost
         }
       },
 
@@ -309,39 +289,21 @@
       },
       nextStep() {
         let isItemReviewOk = true;
-        let addTaskNumberIsNotInt = false;
-        this.keywordPlanInfo.forEach( item => {
-          if (item.addTaskNumber && !isInteger(item.addTaskNumber)) {
-            this.$Message.warning(`亲，追加活动份数必须为正整数数字！`);
-            addTaskNumberIsNotInt = true;
-          }
-        });
-        if(addTaskNumberIsNotInt){
-          return
-        }
-        if (this.delayDays ) {
-          if (!isInteger(this.delayDays)){
-            this.$Message.warning(`亲，延期天数必须为正整数数字！`);
-            return
-          }
-        }
         if (!this.data.isMoreKeywordsPlan) {
           // 老活动的校验逻辑（没有关键词人数分配）
-          if (!this.keywordPlanInfo[0].addTaskNumber) {
+          if (this.keywordPlanInfo[0].addTaskNumber <= 0 || !isInteger(this.keywordPlanInfo[0].addTaskNumber)) {
             this.$Message.warning(`亲，请输入需要追加的活动份数！`);
-            return;
-          }
-          if (this.keywordPlanInfo[0].addTaskNumber <= 0) {
-            this.$Message.warning(`亲，追加活动份数必须大于0！`);
             return;
           }
         } else {
           // 新活动的校验逻辑（有关键词人数分配）
-          const allOk = this.keywordPlanInfo.some(item => {
-            return item.addTaskNumber > 0
+          let keywordPlanInfoIndex = 0;
+          const allOk = this.keywordPlanInfo.some((item, index) => {
+            keywordPlanInfoIndex = index;
+            return item.addTaskNumber && item.addTaskNumber > 0
           });
           if (!allOk) {
-            this.$Message.warning(`亲，请输入需要追加的活动份数！`);
+            this.$Message.warning(`亲，请输入"${this.keywordPlanInfo[keywordPlanInfoIndex].title}"中需要追加的活动份数！`);
             return;
           }
         }
@@ -355,6 +317,10 @@
               break;
             }
           }
+        }
+        if (this.delayDays && !isInteger(this.delayDays)){
+          this.$Message.warning(`亲，延期天数必须为正整数数字！`);
+          return;
         }
         if (isItemReviewOk) {
           this.title = '支付充值活动费用';
@@ -415,14 +381,14 @@
                 days: _this.delayDays,
               }).then(res => {
                 if (res.status){
-                  _this.$Message.success("延期成功！");
+                  _this.$Message.success('延期成功！');
                   _this.delayDays = null;
                   _this.$emit('input', false);
-                }else {
+                } else {
                   _this.$Message.error(res.msg)
                 }
               })
-            }else {
+            } else {
               _this.$emit('input', false);
             }
             _this.$emit('addTaskSuccess');

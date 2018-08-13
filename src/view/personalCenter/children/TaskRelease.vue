@@ -749,7 +749,7 @@
                 <div class="inline-block tag" v-for="item in pcTaskDetail" :key="item.index" :class="selectKeywordScheme === item.index ? 'select-tag-bg' : ''">
                   <span @click="selectChangeScheme(item.index)">{{item.searchKeyword ? item.searchKeyword : `关键词方案${item.index + 1}`}}</span>
                   <sup class="badge-count" v-show="item.countAssigned > 0">{{item.countAssigned}}</sup>
-                  <span v-if="item.index === pcTaskDetail.length - 1 && item.index !== 0" class="close-tag" @click="handleClose(item.index)"><icon type="ios-close-empty"/></span>
+                  <span v-if="item.index === pcTaskDetail.length - 1 && item.index !== 0" class="close-tag" @click="handleClose(item.index)"><icon type="ios-close"/></span>
                 </div>
                 <i-button class="ml-5 mt-28" icon="ios-plus-empty" type="dashed" size="small" @click="handleAdd">添加关键词方案</i-button>
               </div>
@@ -1082,8 +1082,8 @@
                 <div class="inline-block left width-pct-86">
                   <checkbox v-model="showkerConditionRequireStatus.other.showkerTag.require">需要<span class="sizeColor2">（+0.2元/单）</span></checkbox>
                   <div class="sizeColor2 mt-10" v-show="showkerConditionRequireStatus.other.showkerTag.require">类目最少选择4个</div>
-                  <checkbox-group v-show="showkerConditionRequireStatus.other.showkerTag.require" class="mt-10" v-model="showkerCondition.showkerTagRequire">
-                    <checkbox class="mr-15" v-for="item in interestTagList" :key="item.id" :label="item.id">{{item.name}}</checkbox>
+                  <checkbox-group v-show="showkerConditionRequireStatus.other.showkerTag.require" v-model="showkerCondition.showkerTagRequire">
+                    <checkbox class="mr-15 mt-10" v-for="item in interestTagList" :key="item.id" :label="item.id">{{item.name}}</checkbox>
                   </checkbox-group>
                 </div>
               </div>
@@ -1148,7 +1148,7 @@
           <div class="description-fees-con mt-10">
             <p>活动担保金 = 份数 × 单品活动担保金 = <span>{{oneBondMarginText}}</span> 元</p>
             <!--<p class="mt-6">单品打赏费 = 单品试用担保金 × 费率 =<span>{{onePromotionExpensesBeforeText}}</span> 元<span>{{onePromotionExpensesTipText}}</span></p>-->
-            <p class="mt-6">总推广费 = 单品推广费 × 份数 = <span>{{(onePromotionExpenses).toFixed(2)}}</span> × <span>{{taskRelease.taskCount}} = <span>{{(allPromotionExpenses).toFixed(2)}}</span></span>
+            <p class="mt-6">总推广费 = 单品推广费 × 份数 = <span>{{(onePromotionExpenses / 100).toFixed(2)}}</span> × <span>{{taskRelease.taskCount}} = <span>{{(allPromotionExpenses / 100).toFixed(2)}}</span></span>
               元 &nbsp;&nbsp;<span v-if="getTaskCreateFastStatus" class="main-color">（您是首次放单，享受首单推广费减免）</span>
               <!--<tooltip placement="top" content="为提高平台拿手活跃度，鼓励拿手创作更优质的买家秀内容，原平台推广费将改为打赏费，用于拿手打赏！">-->
               <!--<a>什么是打赏费？</a>-->
@@ -1669,12 +1669,12 @@
           }
         },
         showkerCondition: {
-          creditLevelRequire: null,
-          tqzRequire: [],
-          addressExclude: [],
-          genderRequire: null,
+          creditLevelRequire: 2,
+          tqzRequire: [3,4,5,6,7,8],
+          addressExclude: ['新疆','西藏'],
+          genderRequire: 0,
           antPayRequire: false,
-          ageRequire: [],
+          ageRequire: ['18-25'],
           showkerTagRequire: [],
           auditTimeCountRequire: [
             {
@@ -1812,28 +1812,8 @@
        * @return {number}
        */
       onePromotionExpenses() {
-        if (this.taskRelease.activityCategory === 'free_get') {
-          if (this.getMemberVersionLevel === 100) {
-            return this.getTaskCreateFastStatus ? 0 : 5
-          }
-          if (this.getMemberVersionLevel === 200) {
-            return this.getTaskCreateFastStatus ? 0 : 3
-          }
-          if (this.getMemberVersionLevel === 300) {
-            return this.getTaskCreateFastStatus ? 0 : 3
-          }
-        }
-        if (this.taskRelease.activityCategory === 'present_get') {
-          if (this.getMemberVersionLevel === 100) {
-            return this.getTaskCreateFastStatus ? 0 : 10
-          }
-          if (this.getMemberVersionLevel === 200) {
-            return this.getTaskCreateFastStatus ? 0 : 6
-          }
-          if (this.getMemberVersionLevel === 300) {
-            return this.getTaskCreateFastStatus ? 0 : 6
-          }
-        }
+        const type = this.taskRelease.activityCategory === 'free_get' ? 'AA' : 'AB';
+        return this.getTaskCreateFastStatus ? 0 : this.$store.getters.getPromotionExpenses[type].limit;
       },
 
       /**
@@ -1884,10 +1864,10 @@
        */
       onePromotionExpensesTipText() {
         if (this.getMemberVersionLevel === 100) {
-          return this.onePromotionExpenses >= 5 ? `（单品推广费用超过平台设定的最高上限5.00元，本次实际收取的单品推广费用为5元）` : ''
+          return this.onePromotionExpenses >= 500 ? `（单品推广费用超过平台设定的最高上限5.00元，本次实际收取的单品推广费用为5元）` : ''
         }
         if (this.getMemberVersionLevel === 200) {
-          return this.onePromotionExpenses >= 3 ? `（单品推广费用超过平台设定的最高上限3.00元，本次实际收取的单品推广费用为3元）` : ''
+          return this.onePromotionExpenses >= 300 ? `（单品推广费用超过平台设定的最高上限3.00元，本次实际收取的单品推广费用为3元）` : ''
         }
       },
 
@@ -1905,10 +1885,10 @@
        */
       orderMoney() {
         if (this.taskRelease.activityCategory === 'free_get') {
-          return (this.taskRelease.taskCount * this.oneBond) + this.allPromotionExpenses * 100 + this.allValueAddedCost
+          return (this.taskRelease.taskCount * this.oneBond) + this.allPromotionExpenses + this.allValueAddedCost
         }
         if (this.taskRelease.activityCategory === 'present_get') {
-          return (this.taskRelease.taskCount * this.oneBondAToB) + this.allPromotionExpenses * 100 + this.allValueAddedCost
+          return (this.taskRelease.taskCount * this.oneBondAToB) + this.allPromotionExpenses + this.allValueAddedCost
         }
       },
 
@@ -2082,7 +2062,7 @@
        * @return {number}
        */
       oneValueAddedCost() {
-        return this.vasMainItemCost + this.vasSimilarItemCost
+        return this.vasMainItemCost + this.vasSimilarItemCost + this.showkerConditionAllPrice
       },
 
       /**
@@ -2091,7 +2071,7 @@
        * @return {number}
        */
       allValueAddedCost() {
-        return (this.oneValueAddedCost + this.showkerConditionAllPrice) * this.taskRelease.taskCount
+        return this.oneValueAddedCost * this.taskRelease.taskCount
       },
 
       /**
@@ -2177,7 +2157,7 @@
               })
             });
             const similarVasSettings = res.data.similarVasSettings;
-            const len = similarVasSettings.length;
+            const len = similarVasSettings ? similarVasSettings.length : 0;
             if (len > 0) {
               _this.shopAroundStatus = true;
               if (len > 1) {
@@ -2714,8 +2694,8 @@
             const isNotRequire = Object.keys(_this.showkerConditionRequireStatus.other).every(item => {
               return !_this.showkerConditionRequireStatus.other[item].require
             });
-            if (isNotRequire) {
-              _this.$Message.warning(`亲，请选择你需要的申请条件设置！`);
+            if (!_this.showkerConditionRequireStatus.creditLevel.require && isNotRequire) {
+              _this.$Message.warning(`亲，请选择您需要的旺旺标签设置！`);
               return;
             }
             if (_this.showkerConditionRequireStatus.other.showkerTag.require && _this.showkerCondition.showkerTagRequire.length < 4) {
@@ -2739,7 +2719,7 @@
                 for (let j = i + 1; j < len; j++) {
                   if (_this.showkerCondition.auditTimeCountRequire[i].date === _this.showkerCondition.auditTimeCountRequire[j].date &&
                     _this.showkerCondition.auditTimeCountRequire[i].hourEnd * 1 > _this.showkerCondition.auditTimeCountRequire[j].hourStart * 1) {
-                    _this.$Message.warning(`亲，时间段${i + 1}与时间段${j + 1}有时段重复，请重新选择时段！`);
+                    _this.$Message.warning(`亲，时间段${i + 1}与时间段${j + 1}存在时段重复，请重新选择时段！`);
                     return false;
                   }
                 }
@@ -2852,14 +2832,33 @@
         _this.taskRelease.similarTaskVasConfigIds = JSON.stringify(similarTaskVasId);
         if (_this.showkerConditionRequireStatus.aliWwLabelSet) {
           _this.showkerCondition.antPayRequire = _this.showkerConditionRequireStatus.other.auditTimeCount.require;
+          // 根据用户是否勾选‘需要’选项重置申请条件初始化数据
           const copyShowkerCondition = extendDeep(_this.showkerCondition, {});
-          if (_this.taskRelease.orderType === 'day_now' || _this.taskRelease.orderType === 'day_reserve') {
+          if (!_this.showkerConditionRequireStatus.creditLevel.require) {
+            copyShowkerCondition.creditLevelRequire = null
+          }
+          if (!_this.showkerConditionRequireStatus.other.tqz.require) {
+            copyShowkerCondition.tqzRequire = []
+          }
+          if (!_this.showkerConditionRequireStatus.other.address.require) {
+            copyShowkerCondition.addressExclude = []
+          }
+          if (!_this.showkerConditionRequireStatus.other.gender.require) {
+            copyShowkerCondition.genderRequire = null
+          }
+          if (!_this.showkerConditionRequireStatus.other.age.require) {
+            copyShowkerCondition.ageRequire = []
+          }
+          if (!_this.showkerConditionRequireStatus.other.showkerTag.require) {
+            copyShowkerCondition.showkerTagRequire = []
+          }
+          if (!_this.showkerConditionRequireStatus.creditLevel.require || _this.taskRelease.orderType === 'day_now' || _this.taskRelease.orderType === 'day_reserve') {
             copyShowkerCondition.auditTimeCountRequire = []
           }
           copyShowkerCondition.creditLevelRequire = copyShowkerCondition.creditLevelRequire === 0 ? null : copyShowkerCondition.creditLevelRequire;
           _this.taskRelease.showkerApplyRequireString = JSON.stringify(copyShowkerCondition);
         } else {
-          _this.taskRelease.showkerApplyRequireString = null;
+          _this.taskRelease.showkerApplyRequireString = null
         }
 
         const pcTaskDetailClone = extendDeep(_this.pcTaskDetail, []);
@@ -2998,7 +2997,7 @@
                 }
               }
             }
-            _this.showkerConditionRequireStatus.aliWwLabelSet = res.data.showkerApplyRequire ? res.data.showkerApplyRequire : false;
+            _this.showkerConditionRequireStatus.aliWwLabelSet = res.data.showkerApplyRequire;
             _this.taskRelease.itemType = res.data.itemCatalog.id;
             _this.taskRelease.dayReserveToNow = _this.taskRelease.dayReserveToNow ? _this.taskRelease.dayReserveToNow : false;
             _this.taskRelease.speedUp = _this.taskRelease.speedUp ? _this.taskRelease.speedUp : false;
@@ -3081,20 +3080,57 @@
                 _this.answerDefaultList.push(answerDefault);
               });
             }
-            if ((res.data.taskType === 'pc_search' || res.data.taskType === 'app_search') && res.data.showkerApplyRequire) {
-              _this.interestTag();
-              if (res.data.showkerApplyRequireData) {
-                for (let k in _this.showkerCondition) {
-                  for (let i in res.data.showkerApplyRequireData) {
-                    if (k === i) {
-                      _this.showkerCondition[k] = res.data.showkerApplyRequireData[i]
-                    }
+            // 处理拿手申请条件设置数据
+            if (res.data.showkerApplyRequire && res.data.showkerApplyRequireData) {
+              for (let k in _this.showkerCondition) {
+                for (let i in res.data.showkerApplyRequireData) {
+                  if (k === i) {
+                    _this.showkerCondition[k] = res.data.showkerApplyRequireData[i]
                   }
                 }
-                res.data.showkerApplyRequireData.auditTimeCountRequire.forEach(item => {
+              }
+              if (_this.showkerCondition.creditLevelRequire) {
+                _this.showkerConditionRequireStatus.creditLevel.require = true
+              } else {
+                _this.showkerCondition.creditLevelRequire = 2
+              }
+              if (_this.showkerCondition.tqzRequire.length > 0) {
+                _this.showkerConditionRequireStatus.other.tqz.require = true
+              } else {
+                _this.showkerCondition.tqzRequire = [3,4,5,6,7,8]
+              }
+              if (_this.showkerCondition.addressExclude.length > 0) {
+                _this.showkerConditionRequireStatus.other.address.require = true
+              } else {
+                _this.showkerCondition.addressExclude = ['新疆','西藏']
+              }
+              if (_this.showkerCondition.genderRequire !== null) {
+                _this.showkerConditionRequireStatus.other.gender.require = true
+              } else {
+                _this.showkerCondition.genderRequire = 0
+              }
+              if (_this.showkerCondition.ageRequire.length > 0) {
+                _this.showkerConditionRequireStatus.other.age.require = true
+              } else {
+                _this.showkerCondition.ageRequire = ['18-25']
+              }
+              if (_this.showkerCondition.showkerTagRequire.length > 0) {
+                _this.showkerConditionRequireStatus.other.showkerTag.require = true
+              }
+              _this.interestTagList.length === 0 && _this.interestTag();
+              if (_this.showkerCondition.auditTimeCountRequire.length > 0) {
+                _this.showkerConditionRequireStatus.other.auditTimeCount.require = true;
+                _this.showkerCondition.auditTimeCountRequire.forEach(item => {
                   if (Date.parse(new Date(item.date)) < getSeverTime()) {
                     item.date = `${new Date(getSeverTime()).getFullYear()}-${new Date(getSeverTime()).getMonth() + 1}-${new Date(getSeverTime()).getDate() + 1}`
                   }
+                })
+              } else {
+                _this.showkerCondition.auditTimeCountRequire.push({
+                  date: `${new Date(getSeverTime()).getFullYear()}-${new Date(getSeverTime()).getMonth() + 1}-${new Date(getSeverTime()).getDate() + 1}`,
+                  hourStart: '0',
+                  hourEnd: '23',
+                  count: null
                 })
               }
             }
@@ -3345,7 +3381,7 @@
         const num = this.allPlanNumber();
         if (num > this.taskRelease.taskCount) {
           this.isMatchNumberOk = false;
-          this.$Message.warning('亲，当前剩余匹配数不足,请重新分配！');
+          this.taskRelease.taskCount && this.$Message.warning('亲，当前剩余匹配数不足,请重新分配！');
         } else {
           this.isMatchNumberOk = true;
         }
@@ -3524,8 +3560,18 @@
         }
         this.showkerCondition.auditTimeCountRequire[index].date = data;
       },
+      // 当拿手旺旺标签设置状态改变处理
       aliWwLabelSetChange(value) {
-        value && this.interestTagList.length === 0 && this.interestTag()
+        if (value) {
+          this.interestTagList.length === 0 && this.interestTag()
+        } else {
+          this.showkerConditionRequireStatus.creditLevel.require = false;
+          Object.keys(this.showkerConditionRequireStatus.other).forEach(item => {
+            if (this.showkerConditionRequireStatus.other[item].require) {
+              this.showkerConditionRequireStatus.other[item].require = false
+            }
+          })
+        }
       },
       // 拿手兴趣标签，如果以后有多个业务也需要此配置，可将抽离到Vuex action
       interestTag() {
@@ -3535,7 +3581,10 @@
           enable: true
         }).then(res => {
           if (res.status) {
-            _this.interestTagList = res.data
+            _this.interestTagList = res.data;
+            _this.interestTagList.forEach(item => {
+              _this.showkerCondition.showkerTagRequire.push(item.id)
+            });
           } else {
             _this.$Message.error(res.msg)
           }
@@ -3554,7 +3603,7 @@
           for (let j = i + 1; j < len; j++) {
             if (this.showkerCondition.auditTimeCountRequire[i].date === this.showkerCondition.auditTimeCountRequire[j].date &&
               this.showkerCondition.auditTimeCountRequire[i].hourEnd * 1 > this.showkerCondition.auditTimeCountRequire[j].hourStart * 1) {
-              this.$Message.warning(`亲，时间段${i + 1}与时间段${j + 1}有时段重复，请重新选择时段！`);
+              this.$Message.warning(`亲，时间段${i + 1}与时间段${j + 1}存在时段重复，请重新选择时段！`);
               break;
             }
           }

@@ -1,7 +1,7 @@
 <template>
   <div class="personal-box" :class="[!isLogin ? 'ml-ptc-12' : '']">
     <div class="personal-sel-top">
-      <router-link v-if="$store.state.userInfo.role === myInfoSelect.role || myInfoSelect.role === null" :to="myInfoSelect.link" :key="myInfoSelect.link" v-for="(myInfoSelect,index) in myInfoSelects" :class="{active:infoSelect == myInfoSelect.isSelect}">
+      <router-link :to="myInfoSelect.link" :key="myInfoSelect.link" v-for="myInfoSelect in myInfoSelectsFilter" :class="{active:infoSelect === myInfoSelect.isSelect}">
         {{myInfoSelect.text}}
       </router-link>
     </div>
@@ -13,27 +13,27 @@
 
 <script>
   export default {
-    name: 'HelpCenter',
+    name: 'help-center',
     data() {
       return {
         userData: {},
         myInfoSelects: [
           {
             text: '常见问题',
-            isSelect: 'faq',
+            isSelect: 'Faq',
             link: '/user/help-center/faq',
             role: null
           },
           {
             text: '商家中心',
-            isSelect: 'faqSeller',
+            isSelect: 'FaqSeller',
             link: '/user/help-center/faq-seller',
             role: 1
           },
           {
             text: '拿手中心',
+            isSelect: 'FaqShowker',
             link: '/user/help-center/faq-showker',
-            isSelect: 'faqShowker',
             role: 0
           },
         ],
@@ -50,9 +50,17 @@
       this.infoSelect = this.$route.name;
     },
     computed: {
-      isLogin(){
+      isLogin() {
         return this.$store.state.login
       },
+      userRole() {
+        return this.$store.state.userInfo.role
+      },
+      myInfoSelectsFilter() {
+        return this.myInfoSelects.filter(item => {
+          return item.role === this.userRole || item.role === null
+        })
+      }
     },
     methods: {
 

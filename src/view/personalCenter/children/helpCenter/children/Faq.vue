@@ -1,9 +1,9 @@
 <template>
   <div>
     <div class="mt-20">
-      <ButtonGroup shape="circle">
-        <iButton :ref="faqSel.ref" v-for="(faqSel,index) in faqSelList" :type="faqSel.type" :key="index" @click="selQuestion(faqSel,index)">{{faqSel.text}}</iButton>
-      </ButtonGroup>
+      <button-group shape="circle">
+        <i-button :ref="faqSel.ref" v-for="(faqSel,index) in faqSelList" :type="faqSel.type" :key="index" @click="selQuestion(faqSel,index)">{{faqSel.text}}</i-button>
+      </button-group>
     </div>
     <div v-show="selFaq === 'common'" class="faq-que-ans animated fadeIn " >
         <a ref="anchor" href="javascript:void(0)" ></a>
@@ -218,7 +218,7 @@
 <script>
   import {Button, Icon, Collapse} from 'iview'
   export default {
-    name: 'Faq',
+    name: 'faq',
     components: {
       iButton: Button,
       ButtonGroup: Button.Group,
@@ -239,7 +239,7 @@
           },
           {
             text: '特色说明问题',
-            type: 'ghost',
+            type: 'default',
             selFaq: 'special',
             ref: 'special'
           }
@@ -277,7 +277,7 @@
         if(faqSel.type !== 'primary'){
           for(let i = 0, j = self.faqSelList.length; i < j; i++){
             if(i !== index){
-              self.faqSelList[i].type = 'ghost';
+              self.faqSelList[i].type = 'default';
               break;
             }
           }

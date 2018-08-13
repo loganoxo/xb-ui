@@ -10,9 +10,10 @@ const HtmlWebpackPlugin = require('html-webpack-plugin')
 const chunkSorters = require('html-webpack-plugin/lib/chunksorter')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 const OptimizeCSSPlugin = require('optimize-css-assets-webpack-plugin')
+const ScriptExtHtmlWebpackPlugin = require('script-ext-html-webpack-plugin')
 const {VueLoaderPlugin} = require('vue-loader')
 
-// 处理HtmlWebpackPlugin插件在webpack4.x版本下排序兼容问题
+// 处理最新版的HtmlWebpackPlugin插件在webpack4.x版本下循环引用依赖兼容问题
 const depSort = chunkSorters.dependency;
 chunkSorters.auto = chunkSorters.dependency = (chunks, ...args) => {
   try {
@@ -31,10 +32,14 @@ chunkSorters.auto = chunkSorters.dependency = (chunks, ...args) => {
   }
 };
 
+// NamedChunksPlugin need
+const seen = new Set();
+const nameLength = 4;
+
 const webpackConfig = merge(baseWebpackConfig, {
   mode: 'production',
   entry: {
-    vendors: ['vue', 'vuex', 'vue-router'],
+    vendors: ['vue', 'vuex', 'vue-router', 'axios', 'qs'],
   },
   module: {
     rules: utils.styleLoaders({
@@ -51,7 +56,8 @@ const webpackConfig = merge(baseWebpackConfig, {
   },
   optimization: {
     // minimizer: true,
-    providedExports: true,
+    // providedExports: true,
+    moduleIds: 'hashed',
     usedExports: true,
     // 识别package.json中的sideEffects以剔除无用的模块，用来做tree-shake
     // 依赖于optimization.providedExports和optimization.usedExports
@@ -61,20 +67,20 @@ const webpackConfig = merge(baseWebpackConfig, {
     // 取代 new webpack.NoEmitOnErrorsPlugin()，编译错误时不打印输出资源。
     noEmitOnErrors: true,
     splitChunks: {
-      maxAsyncRequests: 1,                     // 最大异步请求数， 默认1
-      maxInitialRequests: 1,                   // 最大初始化请求数，默认1
+      chunks: 'all',
       cacheGroups: {
         vendors: {
-          name: `chunk-vendors`,
+          name: 'vendors',
           test: /[\\/]node_modules[\\/]/,
-          priority: -10,
+          priority: 10,
           chunks: 'initial'
         },
         common: {
-          name: `chunk-common`,
+          name: 'common',
+          test: path.resolve(__dirname, 'src/components'),
           minChunks: 2,
-          priority: -20,
-          chunks: 'initial',
+          priority: 5,
+          // chunks: 'initial',
           reuseExistingChunk: true
         }
       }
@@ -116,7 +122,29 @@ const webpackConfig = merge(baseWebpackConfig, {
         }
       }
     }),
-    new webpack.HashedModuleIdsPlugin(),
+
+    // 将webpack提取的运行时代码内联到index.html，减少http请求数
+    new ScriptExtHtmlWebpackPlugin({
+      inline: /manifest\..*\.js$/
+    }),
+
+    // 保持chunk id 稳定，以便异步块具有一致的哈希值
+    new webpack.NamedChunksPlugin(chunk => {
+      if (chunk.name) {
+        return chunk.name;
+      }
+      const modules = Array.from(chunk.modulesIterable);
+      if (modules.length > 1) {
+        const hash = require("hash-sum");
+        const joinedHash = hash(modules.map(m => m.id).join("_"));
+        let len = nameLength;
+        while (seen.has(joinedHash.substr(0, len))) len++;
+        seen.add(joinedHash.substr(0, len));
+        return `51bnn-${joinedHash.substr(0, len)}`;
+      } else {
+        return modules[0].id;
+      }
+    }),
 
     new CopyWebpackPlugin([{
       from: path.resolve(__dirname, '../static'),
