@@ -43,7 +43,6 @@ module.exports = merge(baseWebpackConfig, {
   },
   plugins: [
     new VueLoaderPlugin(),
-    new webpack.HotModuleReplacementPlugin(),
     new HtmlWebpackPlugin({
       filename: 'index.html',
       template: 'index.html',
