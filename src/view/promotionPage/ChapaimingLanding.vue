@@ -158,7 +158,6 @@
   import {Button, Progress, Modal, Input} from 'iview'
   import LoginToRegisterModal from '@/components/LoginToRegisterModal'
   import api from '@/config/apiConfig'
-
   export default {
     name: "chapaiming-landing",
     components: {

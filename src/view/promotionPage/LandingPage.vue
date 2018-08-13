@@ -61,9 +61,11 @@
     .down-load-btn {
       position: absolute;
       width: 50%;
-      height: 45px;
+      height: 70px;
       right: 0;
-      bottom: 32px;
+      bottom: 92px;
+      left: 50%;
+      margin-left: -25%;
     }
 
     .floating-window {

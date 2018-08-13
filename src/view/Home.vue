@@ -167,76 +167,88 @@
           </div>
         </div>
       </div>
-      <div class="container">
-        <div class="buyer-xiu clear">
-          <div class="left-ctt left">
-            <div style="overflow: hidden">
-              <div class="title clear">
-                <img class="vtc-mid" src="~assets/img/home/top_mjx.png" alt="">
-                <span class="ml-10" style="font-size: 13px;color: #999;transform: translateY(2px)">给你最精彩</span>
-                <span class="right cursor-p" @click="toBuyerShow">更多买家秀...</span>
+      <div class="container clear bg-fff platform-info">
+        <div  class="width-pct-25 left platform-info-con">
+          <p>已入驻试用商家家</p>
+          <p class="main-color mt-10 f-b fs-14">46425家</p>
+        </div>
+        <div  class="width-pct-25 left platform-info-con">
+          <p>今日新增商品数</p>
+          <p class="main-color mt-10 f-b fs-14">{{newOutCommodityInfo.newCommodity || 0}}份</p>
+        </div>
+        <div  class="width-pct-25 left platform-info-con">
+          <p>昨日登陆拿手数</p>
+          <p class="main-color mt-10 f-b fs-14">{{newOutCommodityInfo.onlineShowker || 0}}人</p>
+        </div>
+        <div  class="width-pct-25 left platform-info-con">
+          <p>今日送出商品数</p>
+          <p class="main-color mt-10 f-b fs-14">{{newOutCommodityInfo.outCommodity || 0}}份</p>
+        </div>
+      </div>
+      <div class="container buyer-xiu clear">
+        <div class="left-ctt left">
+          <div class="title">
+            <img class="vtc-mid" src="~assets/img/home/top_mjx.png" alt="">
+            <span class="ml-10" style="font-size: 13px;color: #999;transform: translateY(2px)">给你最精彩</span>
+            <span class="right cursor-p" @click="toBuyerShow">更多买家秀...</span>
+          </div>
+          <ul :class="[leftSlider ? 'slider-top-active-left' : 'slider-top-default-left']"
+              @mouseover="clearLeftSliderFunc()" @mouseleave="leftSliderFunc()">
+            <li v-for="item in buyerShowList" class="content cursor-p left pos-rel">
+              <router-link
+                :to="{path:'/trial-report',query:{q:encryptionId(item.showkerId),showReportDesc:true,id:encryptionId(item.id)}}"
+                :title="item.taskName" target="_blank">
+                <div style="height: 260px">
+                  <img :src="item.trialReportImages | imageSrc('!thum400')" alt="" width="200" height="260"/>
+                </div>
+                <p class="top-heart clear" v-show="item.likeCount !== 0">
+                  <icon type="heart" class="left fs-14 mt" style="margin-top: 2px"/>
+                  <span class="left ml-5">赞({{item.likeCount}})</span>
+                </p>
+                <p class="price clear">
+                  <span class="left ellipsis">{{item.taskName}}</span>
+                  <span class="right pl-10">￥{{item.itemPrice/100}}</span>
+                </p>
+              </router-link>
+              <p class="mt-10 description pos-rel">
+                <span class="double-question-mark"></span>
+                <a class="des-text" :title="item.trialReportText">{{item.trialReportText}}</a>
+              </p>
+              <div class="clear bottom mt-20">
+                <router-link :to="{path:'/trial-report',query:{q:encryptionId(item.showkerId)}}" class="user-head-box ml-10"><img width="48" height="48" :src="getUserHead(item.showkerPortraitPic)" alt=""></router-link>
+                <div class="left ml-10 mt-5">
+                  <p class="cl000">{{item.nickName}}</p>
+                  <img :src="item.creditLevel" alt="">
+                  <p>淘气值：{{item.tqz}}</p>
+                </div>
               </div>
-              <ul class="clear" :class="[leftSlider ? 'slider-top-active-left' : 'slider-top-default-left']"
-                  @mouseover="clearLeftSliderFunc()" @mouseleave="leftSliderFunc()">
-                <li v-for="item in buyerShowList" class="content cursor-p left pos-rel">
-                  <router-link
-                    :to="{path:'/trial-report',query:{q:encryptionId(item.showkerId),showReportDesc:true,id:encryptionId(item.id)}}"
-                    :title="item.taskName" target="_blank">
-                    <div style="height: 260px">
-                      <img :src="item.trialReportImages | imageSrc('!thum400')" alt="" width="200" height="260"/>
-                    </div>
-                    <p class="top-heart clear" v-show="item.likeCount !== 0">
-                      <icon type="heart" class="left fs-14 mt" style="margin-top: 2px"/>
-                      <span class="left ml-5">赞({{item.likeCount}})</span>
-                    </p>
-                    <p class="price clear">
-                      <span class="left ellipsis">{{item.taskName}}</span>
-                      <span class="right pl-10">￥{{item.itemPrice/100}}</span>
-                    </p>
-                  </router-link>
-                  <p class="mt-10 description pos-rel">
-                    <span class="double-question-mark"></span>
-                    <a class="des-text" :title="item.trialReportText">{{item.trialReportText}}</a>
+            </li>
+          </ul>
+        </div>
+        <div class="right-ctt right ml-5">
+          <ul :class="[leftTopSlider ? 'slider-top-active-right' : 'slider-top-default-right']"
+              @mouseover="clearLeftTopSliderFunc()" @mouseleave="leftTopSliderFunc()">
+            <li v-for="taskTopLeft in taskTopLeftList">
+              <router-link :to="{path:'/task-details', query:{q: encryptionId(taskTopLeft.task.id)}}"
+                           :title="taskTopLeft.task.taskName" class="block">
+                <div class="left img-box">
+                  <img :src="taskTopLeft.task.taskMainImage | imageSrc('!thum54')" alt="" width="54" height="54">
+                </div>
+                <div class="left text-box ml-10">
+                  <p>拿手 {{taskTopLeft.other.nickname}} 免费领取了</p>
+                  <p>
+                    价值<span class="text ml-5">￥{{taskTopLeft.task.itemPrice / 100}}</span> 的宝贝
                   </p>
-                  <div class="clear bottom mt-20">
-                    <router-link :to="{path:'/trial-report',query:{q:encryptionId(item.showkerId)}}" class="user-head-box ml-10"><img width="48" height="48" :src="getUserHead(item.showkerPortraitPic)" alt=""></router-link>
-                    <div class="left ml-10 mt-5">
-                      <p class="cl000">{{item.nickName}}</p>
-                      <img :src="item.creditLevel" alt="">
-                      <p>淘气值：{{item.tqz}}</p>
-                    </div>
-                  </div>
-                </li>
-              </ul>
-            </div>
-          </div>
-          <div class="right-ctt right ml-5">
-            <div style="overflow: hidden">
-              <ul :class="[leftTopSlider ? 'slider-top-active-right' : 'slider-top-default-right']"
-                  @mouseover="clearLeftTopSliderFunc()" @mouseleave="leftTopSliderFunc()">
-                <li v-for="taskTopLeft in taskTopLeftList">
-                  <router-link :to="{path:'/task-details', query:{q: encryptionId(taskTopLeft.task.id)}}"
-                               :title="taskTopLeft.task.taskName" class="block">
-                    <div class="left img-box">
-                      <img :src="taskTopLeft.task.taskMainImage | imageSrc('!thum54')" alt="" width="54" height="54">
-                    </div>
-                    <div class="left text-box ml-10">
-                      <p>拿手 {{taskTopLeft.other.nickname}} 免费领取了</p>
-                      <p>
-                        价值<span class="text ml-5">￥{{taskTopLeft.task.itemPrice / 100}}</span> 的宝贝
-                      </p>
-                      <span class="cl999">{{getReceiveTime(taskTopLeft.createTime)}}</span>
-                      <span class="cl999"
-                            v-if="(new Date() -taskTopLeft.createTime)/1000/60 < 60 || (new Date() -taskTopLeft.createTime)/1000 < 60">分钟前</span>
-                      <span class="cl999"
-                            v-if="(new Date() -taskTopLeft.createTime)/1000/60/60/24 < 1 && (new Date() -taskTopLeft.createTime)/1000/60 >= 60">小时前</span>
-                      <span class="cl999" v-if="(new Date() -taskTopLeft.createTime)/1000/60/60/24 >= 1">天前</span>
-                    </div>
-                  </router-link>
-                </li>
-              </ul>
-            </div>
-          </div>
+                  <span class="cl999">{{getReceiveTime(taskTopLeft.createTime)}}</span>
+                  <span class="cl999"
+                        v-if="(new Date() -taskTopLeft.createTime)/1000/60 < 60 || (new Date() -taskTopLeft.createTime)/1000 < 60">分钟前</span>
+                  <span class="cl999"
+                        v-if="(new Date() -taskTopLeft.createTime)/1000/60/60/24 < 1 && (new Date() -taskTopLeft.createTime)/1000/60 >= 60">小时前</span>
+                  <span class="cl999" v-if="(new Date() -taskTopLeft.createTime)/1000/60/60/24 >= 1">天前</span>
+                </div>
+              </router-link>
+            </li>
+          </ul>
         </div>
       </div>
       <div class="container mt-5">
@@ -268,9 +280,9 @@
                     <span class="cl666 text-decoration-through">￥{{homeCommodity.itemPrice / 100}}</span>
                   </em>
                   <!--<em class="vas-fee-return ml-10 pl-5 pr-5" v-if="(homeCommodity.perVasFee || homeCommodity.promotionExpensesPaid && (uplineTime < homeCommodity.createTime))">-->
-                  <span class="vas-fee-return ml-10 pl-5 pr-5" v-if="homeCommodity.perVasFee && homeCommodity.createTime > uplineTime">
-                    奖励{{computeVasReturnFee(homeCommodity.perVasFee,homeCommodity.systemVasFeeCommissionPercent)}}元
-                  </span>
+                  <!--<span class="vas-fee-return ml-10 pl-5 pr-5" v-if="(homeCommodity.perVasFee || homeCommodity.promotionExpensesPaid && (uplineTime < homeCommodity.createTime))">-->
+                    <!--奖励{{computeVasReturnFee(homeCommodity.perVasFee,homeCommodity.systemVasFeeCommissionPercent,homeCommodity.activityCategory,homeCommodity.promotionExpensesPaid,homeCommodity.taskCount,homeCommodity.createTime)}}元-->
+                  <!--</span>-->
                 </p>
                 <p class="discount-price">
                   <em>
@@ -333,9 +345,9 @@
                 <p class="cl000">{{homeCommodity.taskName}}</p>
                 <p class="price">
                   <span class="cl666 text-decoration-through">￥{{homeCommodity.itemPrice / 100}}</span>
-                  <span class="vas-fee-return ml-10 pl-5 pr-5" v-if="homeCommodity.perVasFee && homeCommodity.createTime > uplineTime">
-                    奖励{{computeVasReturnFee(homeCommodity.perVasFee,homeCommodity.systemVasFeeCommissionPercent)}}元
-                  </span>
+                  <!--<span class="vas-fee-return ml-10 pl-5 pr-5" v-if="(homeCommodity.perVasFee || homeCommodity.promotionExpensesPaid && (uplineTime < homeCommodity.createTime))">-->
+                    <!--奖励{{computeVasReturnFee(homeCommodity.perVasFee,homeCommodity.systemVasFeeCommissionPercent,homeCommodity.activityCategory,homeCommodity.promotionExpensesPaid,homeCommodity.taskCount,homeCommodity.createTime)}}元-->
+                  <!--</span>-->
                 </p>
                 <p class="discount-price">
                   <em class="price-list">
@@ -414,9 +426,9 @@
                 <p class="cl000">{{homeHistory.taskName}}</p>
                 <p class="price">
                   <span class="cl666 text-decoration-through">￥{{homeHistory.itemPrice / 100}}</span>
-                  <span class="vas-fee-return ml-10 pl-5 pr-5" v-if="homeHistory.perVasFee && homeHistory.createTime > uplineTime">
-                    奖励{{computeVasReturnFee(homeHistory.perVasFee,homeHistory.systemVasFeeCommissionPercent)}}元
-                  </span>
+                  <!--<span class="vas-fee-return ml-10 pl-5 pr-5" v-if="(homeHistory.perVasFee || homeHistory.promotionExpensesPaid && (uplineTime < homeHistory.createTime))">-->
+                    <!--奖励{{computeVasReturnFee(homeHistory.perVasFee,homeHistory.systemVasFeeCommissionPercent,homeHistory.activityCategory,homeHistory.promotionExpensesPaid,homeHistory.taskCount,homeHistory.createTime)}}元-->
+                  <!--</span>-->
                 </p>
                 <p class="discount-price">
                   <span>
@@ -687,7 +699,8 @@
         pinkageFor10: [],
         presentGet: [],
         showFirstVisitModel: false,
-        uplineTime: 1533821400000
+        uplineTime: 1533821400000,
+        newOutCommodityInfo: {}
       }
     },
     beforeMount() {
@@ -727,6 +740,7 @@
       self.getHomeHistoryList();
       self.getBuyerShowList();
       self.getHomeDisCountList();
+      self.getNewOutCommodity();
     },
     destroyed() {
       let self = this;
@@ -794,6 +808,14 @@
           (nowTime - createTime) / 1000 / 60 < 60 ? parseInt((nowTime - createTime) / 1000 / 60) :
             (nowTime - createTime) / 1000 / 60 / 60 / 24 < 1 ? parseInt((nowTime - createTime) / 1000 / 60 / 60) :
               parseInt((nowTime - createTime) / 1000 / 60 / 60 / 24);
+      },
+      getNewOutCommodity() {
+        const _this = this;
+        api.newOutCommodity().then(res => {
+          if (res.status) {
+            _this.newOutCommodityInfo =  res.data
+          }
+        })
       },
       toBuyerShow() {
         this.$router.push({path: 'buyer-show'});
@@ -1615,6 +1637,16 @@
       color:#fff;
       background: $mainColor;
     }
+  }
+
+  .platform-info {
+    margin-top: 20px;
+    text-align: center;
+    padding: 10px 0;
+  }
+
+  .platform-info-con:not(:last-child) {
+    border-right: 1px solid #eee;
   }
 
 </style>
