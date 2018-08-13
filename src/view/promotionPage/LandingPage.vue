@@ -1,6 +1,5 @@
 <template>
   <div class="landing-page">
-    <top/>
     <img src="~assets/img/landing-page/banner-top.png" class="banner">
     <img src="~assets/img/landing-page/troubled.png" class="troubled mt-5">
     <img src="~assets/img/landing-page/ensure.png" class="mt-20">
@@ -23,13 +22,9 @@
 </template>
 
 <script>
-  import Top from '@/components/Top'
-
   export default {
     name: "landing-page",
-    components: {
-      Top: Top
-    },
+    components: {},
     computed: {
       isLogin() {
         return this.$store.state.login;
@@ -63,11 +58,14 @@
       margin-top: -30px;
     }
     .down-load-btn {
+      /*background: yellow;*/
       position: absolute;
       width: 50%;
-      height: 45px;
+      height: 70px;
       right: 0;
-      bottom: 32px;
+      bottom: 92px;
+      left: 50%;
+      margin-left: -25%;
     }
 
     .floating-window {

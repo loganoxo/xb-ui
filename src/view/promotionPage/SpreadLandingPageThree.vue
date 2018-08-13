@@ -1,6 +1,5 @@
 <template>
   <div class="spread-landing-page-three">
-    <top/>
     <div class="pos-rel spread-landing-page-three-top">
       <div class="login">
         <div class="login-top width-300 margin">
@@ -55,7 +54,6 @@
 
 <script>
   import {Input, Button, Icon} from 'iview'
-  import Top from '@/components/Top'
   import LoginToRegisterModal from '@/components/LoginToRegisterModal'
   import SmsCountdown from '@/components/SmsCountdown'
   import {isInteger} from '@/config/utils'
@@ -67,7 +65,6 @@
       IInput: Input,
       IButton: Button,
       Icon: Icon,
-      Top: Top,
       LoginToRegisterModal: LoginToRegisterModal,
       SmsCountdown: SmsCountdown,
     },
