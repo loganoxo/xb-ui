@@ -1388,7 +1388,7 @@
 </template>
 
 <script>
-  import {Icon, Input, Checkbox, Button, Radio, Modal, Alert, Select, Option, OptionGroup, Tooltip, DatePicker, InputNumber} from 'iview'
+  import {Icon, Input, Checkbox, Button, Radio, Modal, Alert, Select, Option, OptionGroup, Tooltip, DatePicker} from 'iview'
   import {Quill, quillEditor} from 'vue-quill-editor'
   import Upload from '@/components/Upload'
   import PayModel from '@/components/PayModel'
@@ -1419,7 +1419,6 @@
       PayModel: PayModel,
       UserClause: UserClause,
       DatePicker: DatePicker,
-      InputNumber: InputNumber,
       QqBindModal: QQBindModal,
     },
     data() {
@@ -1634,7 +1633,6 @@
           ,'四川','湖南','湖北','河南','广东','广西','福建','海南','辽宁'
           ,'吉林','黑龙江','陕西','重庆','云南','贵州','台湾','香港','澳门',
         ],
-        defaultDatePickerValue: `${new Date(getSeverTime()).getFullYear()}-${new Date(getSeverTime()).getMonth() + 1}-${new Date(getSeverTime()).getDate() + 1}`,
         datePickerOptions: {
           disabledDate(date) {
             return date && date.valueOf() < getSeverTime()
@@ -2752,10 +2750,10 @@
                   return;
                 }
               }
-            }
-            if (!_this.systemSurplusApprovalTaskNumber.status) {
-              _this.$Message.warning(`亲，系统名额剩余数不足，请重新分配活动份数！`);
-              return;
+              if (!_this.systemSurplusApprovalTaskNumber.status) {
+                _this.$Message.warning(`亲，系统名额剩余数不足，请重新分配活动份数！`);
+                return;
+              }
             }
           }
         }

@@ -704,6 +704,129 @@
               <span>元</span>
             </div>
           </template>
+          <!--拿手审批条件设置-->
+          <template>
+            <div class="activity-info-title">拿手申请条件设置</div>
+            <div class="sizeColor2 ml-20 mt-10">说明：该活动有名额为系统审批，此处标签设置后，系统将按此条件审批拿手。过多限制可能造成展示量/申请量下降，请综合考虑。</div>
+            <div class="mt-20 ml-20 mb-20 clear">
+              <span class="ml-5 left">拿手旺旺标签设置：</span>
+              <div class="left">
+                <checkbox v-model="showkerConditionRequireStatus.aliWwLabelSet" :disabled="true">需要</checkbox>
+                <img src="~assets/img/common/vip.png" alt="vipLogo"/>
+              </div>
+            </div>
+            <template v-if="showkerConditionRequireStatus.aliWwLabelSet">
+              <div class="mt-20 ml-20 clear">
+                <span class="left ml-28">旺旺等级要求：</span>
+                <div class="inline-block left">
+                  <checkbox v-model="showkerConditionRequireStatus.creditLevel.require" :disabled="true">需要 <span class="sizeColor2">（2心起+0.1元/单；4心起+0.2元/单；5心起+0.3元/单；1钻起+0.4元/单；2钻起+0.5元/单）</span></checkbox>
+                  <div class="mt-10" v-show="showkerConditionRequireStatus.creditLevel.require">
+                    <i-select v-model="showkerCondition.creditLevelRequire" :disabled="true" class="width-150" placeholder="不限">
+                      <i-option v-for="(item, index) in aliLevelList" :label='item.label' :value="item.value" :key="item.value">
+                        <span v-show="index === 0">{{item.text}}</span>
+                        <img v-show="index !== 0" :src="item.text" alt="旺旺等级"/>
+                      </i-option>
+                    </i-select>
+                    <span class="ml-4" v-show="showkerCondition.creditLevelRequire > 0">起</span>
+                  </div>
+                </div>
+              </div>
+              <div class="mt-20 ml-20 clear">
+                <span class="left ml-40">淘气值要求：</span>
+                <div class="inline-block left">
+                  <checkbox v-model="showkerConditionRequireStatus.other.tqz.require" :disabled="true">需要<span class="sizeColor2">（+0.2元/单）</span></checkbox>
+                  <checkbox-group v-model="showkerCondition.tqzRequire" v-show="showkerConditionRequireStatus.other.tqz.require" class="mt-10">
+                    <template v-for="item in aliTqzList">
+                      <checkbox v-if="item.value" class="mr-15" :label='item.value' :key="item.value" :disabled="true">{{item.label}}</checkbox>
+                    </template>
+                  </checkbox-group>
+                </div>
+              </div>
+              <div class="mt-20 ml-20 clear">
+                <span class="left ml-52">地区要求：</span>
+                <div class="inline-block left width-pct-86">
+                  <checkbox v-model="showkerConditionRequireStatus.other.address.require" :disabled="true">需要<span class="sizeColor2">（+0.2元/单）</span></checkbox>
+                  <div class="sizeColor2 mt-10" v-show="showkerConditionRequireStatus.other.address.require">勾选以下“<span class="main-color">不想要</span>”的地区，最多选5个</div>
+                  <checkbox-group class="mt-10" v-model="showkerCondition.addressExclude" v-show="showkerConditionRequireStatus.other.address.require" :disabled="true">
+                    <checkbox class="mr-30 mt-10" v-for="(item, index) in regionRequireList" :label="item" :key="index">{{item}}</checkbox>
+                  </checkbox-group>
+                </div>
+              </div>
+              <div class="mt-20 ml-20 clear">
+                <span class="left ml-52">性别要求：</span>
+                <div class="inline-block left">
+                  <checkbox v-model="showkerConditionRequireStatus.other.gender.require" :disabled="true">需要 <span class="sizeColor2">（+0.2元/单）</span></checkbox>
+                  <div class="mt-10" v-show="showkerConditionRequireStatus.other.gender.require">
+                    <radio-group v-model="showkerCondition.genderRequire">
+                      <radio :label="0" :disabled="true">男</radio>
+                      <radio :label="1" :disabled="true">女</radio>
+                    </radio-group>
+                  </div>
+                </div>
+              </div>
+              <div class="mt-20 ml-20 clear">
+                <span class="left ml-52">年龄要求：</span>
+                <div class="inline-block left">
+                  <checkbox v-model="showkerConditionRequireStatus.other.age.require" :disabled="true">需要 <span class="sizeColor2">（+0.2元/单）</span></checkbox>
+                  <checkbox-group class="mt-10" v-show="showkerConditionRequireStatus.other.age.require" v-model="showkerCondition.ageRequire">
+                    <checkbox label="18-25" :disabled="true">18-25</checkbox>
+                    <checkbox label="26-35" :disabled="true">26-35</checkbox>
+                    <checkbox label="35-" :disabled="true">35及以上</checkbox>
+                  </checkbox-group>
+                </div>
+              </div>
+              <div class="mt-20 ml-20 mb-20 clear">
+                <span class="ml-28 left">是否开通花呗：</span>
+                <div class="left">
+                  <checkbox v-model="showkerConditionRequireStatus.other.antPay.require" :disabled="true">需要</checkbox>
+                  <span class="sizeColor2">（指开通了花呗的旺旺号，开通了花呗的买号在淘宝内部被认为是优质的账号，用这些账号很安全，权重高。+0.5元/单）</span>
+                </div>
+              </div>
+              <div class="mt-20 ml-20 mb-20 clear">
+                <span class="left ml-52">类目要求：</span>
+                <div class="inline-block left width-pct-86">
+                  <checkbox v-model="showkerConditionRequireStatus.other.showkerTag.require" :disabled="true">需要<span class="sizeColor2">（+0.2元/单）</span></checkbox>
+                  <div class="sizeColor2 mt-10" v-show="showkerConditionRequireStatus.other.showkerTag.require">类目最少选择4个</div>
+                  <checkbox-group v-show="showkerConditionRequireStatus.other.showkerTag.require" v-model="showkerCondition.showkerTagRequire">
+                    <checkbox class="mr-15 mt-10" v-for="item in interestTagList" :disabled="true" :key="item.id" :label="item.id">{{item.name}}</checkbox>
+                  </checkbox-group>
+                </div>
+              </div>
+              <div v-show="taskRelease.orderType === 'normal'" class="mt-20 ml-20 clear">
+                <span class="left">审批时间/份数要求：</span>
+                <div class="inline-block left">
+                  <checkbox v-model="showkerConditionRequireStatus.other.auditTimeCount.require" :disabled="true">需要 <span class="sizeColor2">（+0.5元/单）</span></checkbox>
+                  <div class="sizeColor2 mt-10" v-show="showkerConditionRequireStatus.other.auditTimeCount.require">（需将系统审批名额全部设置完成，若有剩余名额未设置，则由系统自由审批。系统名额剩余数：<span class="main-color">{{systemSurplusApprovalTaskNumber.count}}</span>）</div>
+                  <div class="clear border-ddd border-radius-5 mt-10 min-width-750" v-show="showkerConditionRequireStatus.other.auditTimeCount.require">
+                    <div class="pt-10 pb-10">
+                      <div class="inline-block width-pct-20 text-ct">日期</div>
+                      <div class="inline-block width-pct-39 text-ct">
+                        <span>时段</span>
+                      </div>
+                      <div class="inline-block width-pct-39 text-ct">
+                        <span>最多可审批数</span>
+                      </div>
+                    </div>
+                    <div class="border-top pt-10 pb-10" v-for="(item, index) in showkerCondition.auditTimeCountRequire" :key="index">
+                      <div class="inline-block width-pct-20 text-ct">
+                        <i-input class="width-100" v-model="showkerCondition.auditTimeCountRequire[index].date" :disabled="true"/>
+                      </div>
+                      <div class="inline-block width-pct-39 text-ct">
+                        <i-input class="width-50" v-model="item.hourStart" :disabled="true"/>
+                        <span>点-</span>
+                        <i-input class="width-50" v-model="item.hourEnd" :disabled="true"/>
+                        <span>点</span>
+                      </div>
+                      <div class="inline-block width-pct-39 text-ct">
+                        <i-input v-model.number="item.count" :disabled="true" placeholder="请输入审批数" class="width-100"/>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="tag-price">单品标签增值服务费合计：{{(showkerConditionAllPrice / 100).toFixed(2)}}&nbsp;元</div>
+            </template>
+          </template>
         </div>
       </div>
     </div>
@@ -722,8 +845,9 @@
 </template>
 
 <script>
-  import {Icon, Input, Checkbox, Button, Alert, Radio, Select, Option, OptionGroup} from 'iview'
-  import {decode, getStorage, extendDeep} from '@/config/utils'
+  import {Icon, Input, Checkbox, Button, Alert, Radio, Select, Option, OptionGroup, Tooltip} from 'iview'
+  import {decode, getStorage, extendDeep, getSeverTime} from '@/config/utils'
+  import commonConfig from '@/config/commonConfig'
   import api from '@/config/apiConfig'
 
   export default {
@@ -739,6 +863,7 @@
       iSelect: Select,
       iOption: Option,
       OptionGroup: OptionGroup,
+      Tooltip: Tooltip,
       Alert: Alert,
     },
     data() {
@@ -884,6 +1009,75 @@
         vasSimilarItem: [],
         fastPublish: false,
         redEnvelopeDeductionPaid: 0,
+        aliLevelList: commonConfig.aliLevelList,
+        aliTqzList: commonConfig.aliTqzList,
+        regionRequireList: [
+          '新疆','西藏','甘肃','宁夏','青海','内蒙古','上海','江苏'
+          ,'浙江','安徽','江西','北京','天津','山西','山东','河北'
+          ,'四川','湖南','湖北','河南','广东','广西','福建','海南','辽宁'
+          ,'吉林','黑龙江','陕西','重庆','云南','贵州','台湾','香港','澳门',
+        ],
+        interestTagList: [],
+        showkerConditionRequireStatus: {
+          aliWwLabelSet: false,
+          creditLevel: {
+            require: false,
+            price: {
+              2: 10,
+              4: 20,
+              5: 30,
+              6: 40,
+              7: 50
+            },
+          },
+          other: {
+            tqz: {
+              require: false,
+              price: 20,
+            },
+            address: {
+              require: false,
+              price: 20,
+            },
+            gender: {
+              require: false,
+              price: 20,
+            },
+            age: {
+              require: false,
+              price: 20,
+            },
+            antPay: {
+              require: false,
+              price: 50,
+            },
+            showkerTag: {
+              require: false,
+              price: 20,
+            },
+            auditTimeCount: {
+              require: false,
+              price: 50,
+            }
+          }
+        },
+        showkerCondition: {
+          creditLevelRequire: 2,
+          tqzRequire: [3,4,5,6,7,8],
+          addressExclude: ['新疆','西藏'],
+          genderRequire: 0,
+          antPayRequire: false,
+          ageRequire: ['18-25'],
+          showkerTagRequire: [],
+          auditTimeCountRequire: [
+            {
+              date: `${new Date(getSeverTime()).getFullYear()}-${new Date(getSeverTime()).getMonth() + 1}-${new Date(getSeverTime()).getDate() + 1}`,
+              hourStart: '0',
+              hourEnd: '23',
+              count: null
+            }
+          ]
+        },
       }
     },
     created() {
@@ -1075,20 +1269,77 @@
       },
 
       /**
-       * 计算用户选择的增值服务费用（单品：vasMainItemCost + vasSimilarItemCost）
+       * 计算用户选择的单品总增值服务费用
        * @return {number}
        */
       oneValueAddedCost() {
-        return this.vasMainItemCost + this.vasSimilarItemCost
+        return this.vasMainItemCost + this.vasSimilarItemCost + this.showkerConditionAllPrice
       },
 
       /**
-       * 计算用户总增值服务费用（单品费用 * 宝贝数量）
+       * 计算用户总增值服务费用（单品增值总服务费用 * 宝贝数量）
+       * 单品增值总服务费用 = 单品增值服务费 + 单品申请条件设置增值服务费
        * @return {number}
        */
       allValueAddedCost() {
         return this.oneValueAddedCost * this.taskRelease.taskCount
-      }
+      },
+
+      /**
+       * 计算商家设置拿手审批名额剩余份数和名额剩余状态
+       * @return {object}
+       */
+      systemSurplusApprovalTaskNumber() {
+        const num = this.showkerCondition.auditTimeCountRequire.reduce((prev, cur) => {
+          return (cur.count > 0 ? cur.count : 0) + prev
+        }, 0);
+        return {
+          count: this.systemApprovalTaskNumber - num > 0 ? this.systemApprovalTaskNumber - num : 0,
+          status: this.systemApprovalTaskNumber - num >= 0
+        }
+      },
+
+      /**
+       * 计算拿手申请设置旺旺等级需求价格
+       * @return {number}
+       */
+      creditLevelRequireOncePrice() {
+        if (this.showkerConditionRequireStatus.creditLevel.require) {
+          if (!this.showkerCondition.creditLevelRequire) {
+            return 0
+          }
+          if (this.showkerCondition.creditLevelRequire >= 2 && this.showkerCondition.creditLevelRequire < 4) {
+            return this.showkerConditionRequireStatus.creditLevel.price[2]
+          }
+          if (this.showkerCondition.creditLevelRequire === 4) {
+            return this.showkerConditionRequireStatus.creditLevel.price[4]
+          }
+          if (this.showkerCondition.creditLevelRequire === 5) {
+            return this.showkerConditionRequireStatus.creditLevel.price[5]
+          }
+          if (this.showkerCondition.creditLevelRequire === 6) {
+            return this.showkerConditionRequireStatus.creditLevel.price[6]
+          }
+          if (this.showkerCondition.creditLevelRequire >= 7) {
+            return this.showkerConditionRequireStatus.creditLevel.price[7]
+          }
+        } else {
+          return 0
+        }
+      },
+
+      /**
+       * 计算拿手申请设置活动总共所需的增值服务费用
+       * @return {number}
+       */
+      showkerConditionAllPrice() {
+        const price = Object.keys(this.showkerConditionRequireStatus.other).reduce((prev, cur) => {
+          return (this.showkerConditionRequireStatus.other[cur].require ? this.showkerConditionRequireStatus.other[cur].price : 0) + prev
+        }, 0);
+        return price + this.creditLevelRequireOncePrice
+      },
+
+
     },
     methods: {
       getStoreBindInfoList() {
@@ -1231,11 +1482,65 @@
             }
             _this.taskRelease.itemPrice = _this.taskRelease.itemPrice / 100;
             _this.taskRelease.presentPrice = _this.taskRelease.presentPrice / 100;
+            // 处理拿手申请条件设置数据
+            if (res.data.showkerApplyRequire && res.data.showkerApplyRequireData) {
+              for (let k in _this.showkerCondition) {
+                for (let i in res.data.showkerApplyRequireData) {
+                  if (k === i) {
+                    _this.showkerCondition[k] = res.data.showkerApplyRequireData[i]
+                  }
+                }
+              }
+              if (_this.showkerCondition.creditLevelRequire) {
+                _this.showkerConditionRequireStatus.creditLevel.require = true
+              } else {
+                _this.showkerCondition.creditLevelRequire = 2
+              }
+              if (_this.showkerCondition.tqzRequire.length > 0) {
+                _this.showkerConditionRequireStatus.other.tqz.require = true
+              } else {
+                _this.showkerCondition.tqzRequire = [3,4,5,6,7,8]
+              }
+              if (_this.showkerCondition.addressExclude.length > 0) {
+                _this.showkerConditionRequireStatus.other.address.require = true
+              } else {
+                _this.showkerCondition.addressExclude = ['新疆','西藏']
+              }
+              if (_this.showkerCondition.genderRequire !== null) {
+                _this.showkerConditionRequireStatus.other.gender.require = true
+              } else {
+                _this.showkerCondition.genderRequire = 0
+              }
+              if (_this.showkerCondition.ageRequire.length > 0) {
+                _this.showkerConditionRequireStatus.other.age.require = true
+              } else {
+                _this.showkerCondition.ageRequire = ['18-25']
+              }
+              if (_this.showkerCondition.showkerTagRequire.length > 0) {
+                _this.showkerConditionRequireStatus.other.showkerTag.require = true
+              }
+              _this.interestTagList.length === 0 && _this.interestTag();
+              if (_this.showkerCondition.auditTimeCountRequire.length > 0) {
+                _this.showkerConditionRequireStatus.other.auditTimeCount.require = true;
+                _this.showkerCondition.auditTimeCountRequire.forEach(item => {
+                  if (Date.parse(new Date(item.date)) < getSeverTime()) {
+                    item.date = `${new Date(getSeverTime()).getFullYear()}-${new Date(getSeverTime()).getMonth() + 1}-${new Date(getSeverTime()).getDate() + 1}`
+                  }
+                })
+              } else {
+                _this.showkerCondition.auditTimeCountRequire.push({
+                  date: `${new Date(getSeverTime()).getFullYear()}-${new Date(getSeverTime()).getMonth() + 1}-${new Date(getSeverTime()).getDate() + 1}`,
+                  hourStart: '0',
+                  hourEnd: '23',
+                  count: null
+                })
+              }
+            }
             _this.taskRelease.taskDetail = {};
             if (res.data.taskType === 'tao_code') {
               _this.taoCodeTaskDetail = JSON.parse(res.data.taskDetail);
               const image = _this.taoCodeTaskDetail[0].homePageLockItemImage;
-              if(image){
+              if(image) {
                 _this.taoCodeDefaultList = image;
               }
               _this.conversionPrice('tao_code');
@@ -1292,8 +1597,25 @@
         }
       },
       selectChangeScheme(name) {
-        this.selectKeywordScheme = name;
-      }
+        this.selectKeywordScheme = name
+      },
+      // 拿手兴趣标签，如果以后有多个业务也需要此配置，可将抽离到Vuex action
+      interestTag() {
+        const _this = this;
+        api.getInterestTag({
+          categoryId: 50000,
+          enable: true
+        }).then(res => {
+          if (res.status) {
+            _this.interestTagList = res.data;
+            _this.interestTagList.forEach(item => {
+              _this.showkerCondition.showkerTagRequire.push(item.id)
+            });
+          } else {
+            _this.$Message.error(res.msg)
+          }
+        })
+      },
     }
   }
 </script>
@@ -1722,5 +2044,16 @@
     font-weight: bold;
     background-color: #ddd;
     padding-left: 10px;
+  }
+
+  .tag-price {
+    height: 40px;
+    line-height: 40px;
+    background-color: #FFF5E2;
+    padding-left: 20px;
+    margin-left: 20px;
+    margin-right: 20px;
+    margin-top: 40px;
+    border-radius: 5px;
   }
 </style>
