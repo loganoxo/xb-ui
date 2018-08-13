@@ -348,7 +348,7 @@
     <modal v-model="isShowAliPayTip">
       <img src="~assets/img/common/ali-pay-tip.jpg"/>
     </modal>
-    <!--删除首单面推广费活动提醒弹框-->
+    <!--删除首单免推广费活动提醒弹框-->
     <modal v-model="deleteFirstTaskModal" width="360">
       <p slot="header" class="text-ct">
         <icon color="#f9284f" type="information-circled"/>
