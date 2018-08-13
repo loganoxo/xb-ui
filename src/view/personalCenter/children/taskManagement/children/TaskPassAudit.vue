@@ -117,8 +117,11 @@
                 </td>
                 <td>
                   <p>QQ：{{item.qqNumber || '------'}}</p>
-                  <p>微信号：{{item.wechatNum || '------'}}</p>
-                  <p>手机：{{item.phone || '------'}}</p>
+                  <p class="mt-10">微信号：{{item.wechatNum || '------'}}</p>
+                  <p class="mt-10">手机号：
+                    <span v-if="item.isShowPhone">{{item.phone || '------'}}</span>
+                    <span v-else>未开启可见</span>
+                  </p>
                 </td>
                 <td>
                   <p v-if="item.status === 'order_num_error'|| item.status === 'trial_report_unqualified'">

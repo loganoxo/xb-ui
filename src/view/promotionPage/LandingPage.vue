@@ -1,6 +1,5 @@
 <template>
   <div class="landing-page">
-    <top/>
     <img src="~assets/img/landing-page/banner-top.png" class="banner">
     <img src="~assets/img/landing-page/troubled.png" class="troubled mt-5">
     <img src="~assets/img/landing-page/ensure.png" class="mt-20">
@@ -23,12 +22,10 @@
 </template>
 
 <script>
-  import Top from '@/components/Top'
 
   export default {
     name: "landing-page",
     components: {
-      Top: Top
     },
     computed: {
       isLogin() {
@@ -36,6 +33,9 @@
       },
       getRole() {
         return this.$store.state.userInfo.role
+      },
+      isTopShow() {
+        return this.$store.state.topShow
       },
     },
     methods: {
