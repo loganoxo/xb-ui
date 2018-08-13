@@ -169,7 +169,7 @@
       </div>
       <div class="container clear bg-fff platform-info">
         <div  class="width-pct-25 left platform-info-con">
-          <p>已入驻试用商家家</p>
+          <p>已入驻试用商家</p>
           <p class="main-color mt-10 f-b fs-14">46425家</p>
         </div>
         <div  class="width-pct-25 left platform-info-con">
@@ -177,7 +177,7 @@
           <p class="main-color mt-10 f-b fs-14">{{newOutCommodityInfo.newCommodity || 0}}份</p>
         </div>
         <div  class="width-pct-25 left platform-info-con">
-          <p>昨日登陆拿手数</p>
+          <p>昨日登录拿手数</p>
           <p class="main-color mt-10 f-b fs-14">{{newOutCommodityInfo.onlineShowker || 0}}人</p>
         </div>
         <div  class="width-pct-25 left platform-info-con">

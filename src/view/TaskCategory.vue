@@ -53,8 +53,8 @@
             <button-group size="small" class="left mt-10">
               <i-button :class="[sortFieldDefault.name === sortField.name ? 'active' : '']" v-for="(sortField,index) in sortFieldList" :key="sortField.name" @click="getSortFieldFunc(sortField, index)">
                 {{sortField.name}}
-                <icon v-show="sortField.sort === 'desc' " type="arrow-down-c"/>
-                <icon v-show="sortField.sort === 'asc' " type="arrow-up-c"/>
+                <icon v-show="sortField.sort === 'desc' " type="md-arrow-round-down"/>
+                <icon v-show="sortField.sort === 'asc' " type="md-arrow-round-up"/>
               </i-button>
             </button-group>
             <page class="right"
@@ -325,7 +325,7 @@
           taskName: '',
           taskTypes: [],
           itemCatalogs: [],
-          sortField: 'upLineTime',
+          sortField: 'showkerApplyTotalCount',
           sortOrder: 'desc',
           ifAccess: [],
           activityCategories: [],
