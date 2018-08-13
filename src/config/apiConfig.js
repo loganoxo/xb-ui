@@ -1211,6 +1211,13 @@ export default {
    */
   completeContact(params) {
     return axiosConfig.post('/api/complete-store-contact.json', params)
-  }
+  },
+
+  /**
+   * 获取新增商品，送出商品数据
+   */
+  newOutCommodity() {
+    return axiosConfig.get('/api/get-new-out-commodity.json')
+  },
 
 }
