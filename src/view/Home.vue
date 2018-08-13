@@ -268,9 +268,9 @@
                     <span class="cl666 text-decoration-through">￥{{homeCommodity.itemPrice / 100}}</span>
                   </em>
                   <!--<em class="vas-fee-return ml-10 pl-5 pr-5" v-if="(homeCommodity.perVasFee || homeCommodity.promotionExpensesPaid && (uplineTime < homeCommodity.createTime))">-->
-                  <!--<span class="vas-fee-return ml-10 pl-5 pr-5" v-if="(homeCommodity.perVasFee || homeCommodity.promotionExpensesPaid && (uplineTime < homeCommodity.createTime))">-->
-                    <!--奖励{{computeVasReturnFee(homeCommodity.perVasFee,homeCommodity.systemVasFeeCommissionPercent,homeCommodity.activityCategory,homeCommodity.promotionExpensesPaid,homeCommodity.taskCount,homeCommodity.createTime)}}元-->
-                  <!--</span>-->
+                  <span class="vas-fee-return ml-10 pl-5 pr-5" v-if="homeCommodity.perVasFee && homeCommodity.createTime > uplineTime">
+                    奖励{{computeVasReturnFee(homeCommodity.perVasFee,homeCommodity.systemVasFeeCommissionPercent)}}元
+                  </span>
                 </p>
                 <p class="discount-price">
                   <em>
@@ -333,9 +333,9 @@
                 <p class="cl000">{{homeCommodity.taskName}}</p>
                 <p class="price">
                   <span class="cl666 text-decoration-through">￥{{homeCommodity.itemPrice / 100}}</span>
-                  <!--<span class="vas-fee-return ml-10 pl-5 pr-5" v-if="(homeCommodity.perVasFee || homeCommodity.promotionExpensesPaid && (uplineTime < homeCommodity.createTime))">-->
-                    <!--奖励{{computeVasReturnFee(homeCommodity.perVasFee,homeCommodity.systemVasFeeCommissionPercent,homeCommodity.activityCategory,homeCommodity.promotionExpensesPaid,homeCommodity.taskCount,homeCommodity.createTime)}}元-->
-                  <!--</span>-->
+                  <span class="vas-fee-return ml-10 pl-5 pr-5" v-if="homeCommodity.perVasFee && homeCommodity.createTime > uplineTime">
+                    奖励{{computeVasReturnFee(homeCommodity.perVasFee,homeCommodity.systemVasFeeCommissionPercent)}}元
+                  </span>
                 </p>
                 <p class="discount-price">
                   <em class="price-list">
@@ -414,9 +414,9 @@
                 <p class="cl000">{{homeHistory.taskName}}</p>
                 <p class="price">
                   <span class="cl666 text-decoration-through">￥{{homeHistory.itemPrice / 100}}</span>
-                  <!--<span class="vas-fee-return ml-10 pl-5 pr-5" v-if="(homeHistory.perVasFee || homeHistory.promotionExpensesPaid && (uplineTime < homeHistory.createTime))">-->
-                    <!--奖励{{computeVasReturnFee(homeHistory.perVasFee,homeHistory.systemVasFeeCommissionPercent,homeHistory.activityCategory,homeHistory.promotionExpensesPaid,homeHistory.taskCount,homeHistory.createTime)}}元-->
-                  <!--</span>-->
+                  <span class="vas-fee-return ml-10 pl-5 pr-5" v-if="homeHistory.perVasFee && homeHistory.createTime > uplineTime">
+                    奖励{{computeVasReturnFee(homeHistory.perVasFee,homeHistory.systemVasFeeCommissionPercent)}}元
+                  </span>
                 </p>
                 <p class="discount-price">
                   <span>
@@ -462,9 +462,9 @@
           <Checkbox-group v-model="wechartShowAgain" style="position: absolute;top:25px;right: 30px;">
             <Checkbox label="true">不再提醒</Checkbox>
           </Checkbox-group>
-          <div style="position: absolute;top:27px;right: 15px;cursor: pointer;color: #FF6633"
+          <div style="position: absolute;top:25px;right: 15px;cursor: pointer;color: #FF6633"
                @click="cancelWeiChartFunc">
-            <icon type="close"/>
+            <icon type="md-close-circle" class="fs-18"/>
           </div>
           <div v-if="getUserInfoRole === 0">
             <img src="/static/img/home/wechart_alert_07.png" alt=""
@@ -687,7 +687,7 @@
         pinkageFor10: [],
         presentGet: [],
         showFirstVisitModel: false,
-        uplineTime: 1529933400000
+        uplineTime: 1533821400000
       }
     },
     beforeMount() {
@@ -782,21 +782,8 @@
       });
     },
     methods: {
-      computeVasReturnFee(perVasFee,sysHold,type,promotion,taskCount,createTime) {
-        const newActivity = this.uplineTime - createTime < 0;
-        if (promotion && newActivity) {
-          if (type === 'free_get') {
-            return (perVasFee / 100 * (1 - sysHold / 100) + 1).toFixed(2);
-          } else if (type === 'present_get') {
-            if (promotion /taskCount <= 300) {
-              return (perVasFee / 100 * (1 - sysHold / 100) + 1).toFixed(2);
-            } else {
-              return (perVasFee / 100 * (1 - sysHold / 100) + 1.5).toFixed(2);
-            }
-          }
-        } else {
-          return (perVasFee / 100 * (1 - sysHold / 100)).toFixed(2);
-        }
+      computeVasReturnFee(perVasFee,sysHold) {
+        return (perVasFee / 100 * (1 - sysHold / 100)).toFixed(2);
       },
       changeIsBuyVipPopupFunc() {
         this.$router.push({name: 'TaskRelease'});

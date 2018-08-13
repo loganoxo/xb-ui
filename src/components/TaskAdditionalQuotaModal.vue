@@ -44,7 +44,7 @@
         <span>系统审批延期：</span>
         <i-input v-model="delayDays" placeholder="请输入延期天数" style="width: 100px"/>
         <span class="pl-5 pr-5">天</span>
-        (距离系统自动审批还有 <time-down :endTime="getDistanceSysAuditTime" color="#495060"></time-down>)
+        (一次最多延期30天 距系统审批还有 <span v-if="currentValue"><time-down :endTime="getDistanceSysAuditTime" color="#495060"></time-down></span>)
       </div>
       <div class="mt-10 border-top pt-10">共追加&nbsp;<span class="main-color">{{allAddTaskNumber}}</span>&nbsp;份</div>
       <i-button slot="footer" type="primary" size="large" long :loding="buttonLoading" @click="nextStep">下一步</i-button>
@@ -324,6 +324,10 @@
             this.$Message.warning(`亲，延期天数必须为正整数数字！`);
             return
           }
+          if (this.delayDays > 30){
+            this.$Message.warning(`亲，最多延期30天！`);
+            return
+          }
         }
         if (!this.data.isMoreKeywordsPlan) {
           // 老活动的校验逻辑（没有关键词人数分配）
@@ -399,38 +403,55 @@
         _this.keywordPlanInfo.forEach(item => {
           additionSearchScheme.push(item.addTaskNumber > 0 ? item.addTaskNumber : 0)
         });
-        api.additionalTaskAccount({
-          payPwd: pwd,
-          taskId: _this.data.taskId,
-          additionCount: _this.allAddTaskNumber,
-          additionItemReview: JSON.stringify(itemReviewPushList),
-          additionSearchScheme: JSON.stringify(additionSearchScheme),
-        }).then(res => {
-          if (res.status) {
-            _this.keywordPlanInfo = [];
-            _this.itemReviewList = [];
-            if (_this.delayDays){
-              api.autoAuditTime({
+        if (_this.delayDays){
+          api.autoAuditTime({
+            taskId: _this.data.taskId,
+            days: _this.delayDays,
+          }).then(res => {
+            if (res.status){
+              _this.delayDays = null;
+              api.additionalTaskAccount({
+                payPwd: pwd,
                 taskId: _this.data.taskId,
-                days: _this.delayDays,
+                additionCount: _this.allAddTaskNumber,
+                additionItemReview: JSON.stringify(itemReviewPushList),
+                additionSearchScheme: JSON.stringify(additionSearchScheme),
               }).then(res => {
-                if (res.status){
-                  _this.$Message.success("延期成功！");
-                  _this.delayDays = null;
+                if (res.status) {
+                  _this.keywordPlanInfo = [];
+                  _this.itemReviewList = [];
+                  _this.$emit('addTaskSuccess');
                   _this.$emit('input', false);
-                }else {
-                  _this.$Message.error(res.msg)
+                  _this.$Message.success("追加延期时间和份数成功！");
+                } else {
+                  _this.$Message.error("追加延期时间成功、追加份数失败！");
                 }
-              })
+                _this.$refs.payModelRef.payLoading = false;
+              });
             }else {
-              _this.$emit('input', false);
+              _this.$Message.error(res.msg)
             }
-            _this.$emit('addTaskSuccess');
-          } else {
-            _this.$Message.error(res.msg)
-          }
-          _this.$refs.payModelRef.payLoading = false;
-        })
+          })
+        }else {
+          api.additionalTaskAccount({
+            payPwd: pwd,
+            taskId: _this.data.taskId,
+            additionCount: _this.allAddTaskNumber,
+            additionItemReview: JSON.stringify(itemReviewPushList),
+            additionSearchScheme: JSON.stringify(additionSearchScheme),
+          }).then(res => {
+            if (res.status) {
+              _this.keywordPlanInfo = [];
+              _this.itemReviewList = [];
+              _this.$Message.success("追加份数成功！");
+              _this.$emit('addTaskSuccess');
+              _this.$emit('input', false);
+            } else {
+              _this.$Message.error(res.msg)
+            }
+            _this.$refs.payModelRef.payLoading = false;
+          });
+        }
       },
     },
     watch: {

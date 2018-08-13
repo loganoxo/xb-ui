@@ -32,23 +32,23 @@
       <li class="clear">
         <div>平台服务费</div>
         <div>
-          <span>拍A发A：4元/单</span>
-          <span class="ml-5">拍A发B：7元/单</span>
+          <span class="mr-10">拍A发A：4元/单</span>
+          <span>拍A发B：7元/单</span>
         </div>
         <div>
-          <span>拍A发A：2元/单</span>
-          <span class="ml-5">拍A发B：3元/单</span>
+          <span class="mr-10">拍A发A：2元/单</span>
+          <span>拍A发B： 3元/单</span>
         </div>
       </li>
       <li class="clear">
         <div>激励金</div>
         <div>
-          <span>拍A发A：1元/单</span>
-          <span class="ml-5">拍A发B：3元/单</span>
+          <span class="mr-10">拍A发A：1元/单</span>
+          <span>拍A发B：3元/单</span>
         </div>
         <div>
-          <span>拍A发A：1元/单</span>
-          <span class="ml-5">拍A发B：3元/单</span>
+          <span class="mr-10">拍A发A：1元/单</span>
+          <span>拍A发B：3元/单</span>
         </div>
       </li>
       <li class="clear">

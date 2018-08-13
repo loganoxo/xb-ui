@@ -45,7 +45,7 @@
       <div class="clear mt-10" v-if="storeBindInfoList.length > 0">
         <div :class="{isSelect: selectStoreInfo.storeName === item.storeName}" v-for="item in storeBindInfoList"
              :key="item.id" class="select-store text-ct left mr-10"
-             @click="selectStoreChange(item.storeName, item.storeAlitm, item.shopId, item.sellerId)">
+             @click="selectStoreChange(item.storeName, item.storeAlitm, item.shopId, item.sellerId, item.weChatNum)">
           <img v-if="item.storeType === 'taobao'" src="~assets/img/common/taobao-logo.png" alt="淘宝LOGO"/>
           <img v-if="item.storeType === 'tmall'" src="~assets/img/common/tmall-logo.png" alt="天猫LOGO"/>
           <p class="fs-14 f-b">{{decodeURI(item.storeName)}}</p>
@@ -189,8 +189,8 @@
         <div class="order-speed ml-20 mt-20">
           <span class="ml-8">下单速度：</span>
           <radio-group v-model="taskRelease.showkerOrderTimeLimit">
-            <radio :label="''" v-show="taskRelease.orderType === 'day_now'"><span>当日24点前</span></radio>
-            <radio :label="''" v-show="taskRelease.orderType === 'day_reserve'"><span>当日24点前加入购物车，次日下单购买</span></radio>
+            <radio :label="''" v-show="taskRelease.orderType === 'day_now'"><span>2小时内下单（当日24点前有效）</span></radio>
+            <radio :label="''" v-show="taskRelease.orderType === 'day_reserve'"><span>2小时内加入购物车（单日24点前有效），次日下单购买</span></radio>
             <radio :label="24" v-show="taskRelease.orderType === 'normal'"><span>24小时内</span></radio>
             <radio :label="12" v-show="taskRelease.orderType === 'normal'"><span>12小时内</span></radio>
             <radio :label="6" v-show="taskRelease.orderType === 'normal'"><span>6小时内</span></radio>
@@ -226,7 +226,7 @@
                       :on-exceeded-size="handleMaxSize"
                       type="drag">
                 <div class="camera">
-                  <icon :class="{'disabled-fs-color':!item.issue}" type="camera" size="20"/>
+                  <icon type="ios-camera" size="20" :class="{'disabled-fs-color':!item.issue}"/>
                 </div>
               </upload>
               <span class="left mt-20 ml-5 sizeColor2">（请上传文案所在位置截图）</span>
@@ -248,8 +248,8 @@
             class="main-color f-b">强烈建议勾选！</span>（选择后，该活动所有名额的审批由系统推荐和控制，适合需要快速消化单量的商家）</span>
         </div>
         <div class="value-added-services">
-          <p class="main-color"><img src="~assets/img/common/vip.png" alt="vipLogo"/>&nbsp;增值服务（平台已保证所有拿手安全下单，但您仍不放心，可选择以下增值服务，该服务会要求拿手上传截图留证）
-          </p>
+          <p class="main-color"><img src="~assets/img/common/vip.png" alt="vipLogo"/>&nbsp;增值服务（平台已保证所有拿手安全下单，但您仍不放心，可选择以下增值服务，该服务会要求拿手上传截图留证）</p>
+          <p class="f-b cl000 pt-10 mb-10">若拿手未按要求截图，<span class="fs-16">请在<span class="main-color">通过订单号之前</span>向客服反馈</span>，平台可退还相应截图费用！</p>
           <template v-for="item in vasMainItem">
             <checkbox
               v-show="item.id !== 1 ? taskRelease.taskType === 'pc_search' || taskRelease.taskType === 'direct_access' ? item.showForPc : item.showForApp : taskRelease.taskType === 'pc_search' || taskRelease.taskType === 'app_search'"
@@ -333,7 +333,7 @@
                       :on-exceeded-size="handleMaxSize"
                       type="drag">
                 <div class="camera">
-                  <icon type="camera" size="20"/>
+                  <icon type="ios-camera" size="20"/>
                 </div>
               </upload>
               <span class="blue left mt-20 ml-10 cursor-p" @click="changeExampleImageUrl('main')">【查看示例图】</span>
@@ -482,7 +482,9 @@
             <span class="left">下单要求：</span>
             <div class="left">
               <i-input class="task-remark-input" type="textarea" :autosize="{minRows: 6,  maxRows: 12}"
-                       placeholder="请在这里输入需要拿手注意的事项，例如：SKU信息等，这里的信息会无条件展示出来。" v-model="taskRelease.remark"/>
+                       placeholder="1、下单要求中明确说明希望拿手拍下的SKU（否则拿手可能会找不到宝贝）
+2、请勿在未勾选增值服务的情况要求拿手执行，若拿手未执行，不算违规。
+3、如果对拿手有特别的要求，此处填写拿手可以看到，但平台只负责传达，无法强制拿手按要求执行！" v-model="taskRelease.remark"/>
             </div>
           </div>
           <div class="evaluation-requirements mt-10 clear">
@@ -594,7 +596,9 @@
                 <span class="left ml-5">下单要求：</span>
                 <div class="left">
                   <i-input class="task-remark-input" type="textarea" :autosize="{minRows: 6,  maxRows: 12}"
-                           placeholder="请在这里输入需要拿手注意的事项，例如：SKU信息等，这里的信息会无条件展示出来。"
+                           placeholder="1、下单要求中明确说明希望拿手拍下的SKU（否则拿手可能会找不到宝贝）
+2、请勿在未勾选增值服务的情况要求拿手执行，若拿手未执行，不算违规。
+3、如果对拿手有特别的要求，此处填写拿手可以看到，但平台只负责传达，无法强制拿手按要求执行！"
                            v-model="taskRelease.remark"/>
                   <p class="sizeColor3 mt-10">下单要求中明确说明希望拿手拍下的SKU（否则拿手可能会找不到宝贝）</p>
                 </div>
@@ -678,7 +682,7 @@
                           :on-exceeded-size="handleMaxSize"
                           type="drag">
                     <div class="camera">
-                      <icon type="camera" size="20"/>
+                      <Icon type="ios-camera" size="20"/>
                     </div>
                   </upload>
                   <span class="blue left mt-20 ml-10 cursor-p" @click="changeExampleImageUrl('main')">【查看示例图】</span>
@@ -739,7 +743,7 @@
                       :on-exceeded-size="handleMaxSize"
                       type="drag">
                 <div class="camera">
-                  <icon type="camera" size="20"/>
+                  <icon type="ios-camera" size="20"/>
                 </div>
               </upload>
               <p class="sizeColor2 left mt-20 ml-15">（点击或者拖拽自主上传图片，支持jpg \ jpeg \ png \ gif \
@@ -750,7 +754,7 @@
                 <div class="inline-block tag" v-for="item in pcTaskDetail" :key="item.index" :class="selectKeywordScheme === item.index ? 'select-tag-bg' : ''">
                   <span @click="selectChangeScheme(item.index)">{{item.searchKeyword ? item.searchKeyword : `关键词方案${item.index + 1}`}}</span>
                   <sup class="badge-count" v-show="item.countAssigned > 0">{{item.countAssigned}}</sup>
-                  <span v-if="item.index === pcTaskDetail.length - 1 && item.index !== 0" class="close-tag" @click="handleClose(item.index)"><icon type="ios-close-empty"/></span>
+                  <span v-if="item.index === pcTaskDetail.length - 1 && item.index !== 0" class="close-tag" @click="handleClose(item.index)"><icon type="ios-close"/></span>
                 </div>
                 <i-button class="ml-5 mt-28" icon="ios-plus-empty" type="dashed" size="small" @click="handleAdd">添加关键词方案</i-button>
               </div>
@@ -866,7 +870,7 @@
                       :on-exceeded-size="handleMaxSize"
                       type="drag">
                 <div class="camera">
-                  <icon type="camera" size="20"/>
+                  <icon type="ios-camera" size="20"/>
                 </div>
               </upload>
               <p class="sizeColor2 left ml-15 mt-20">（点击或者拖拽自主上传图片，支持jpg \ jpeg \ png \ gif \
@@ -877,7 +881,7 @@
                 <div class="inline-block tag" v-for="item in appTaskDetail" :key="item.index" :class="selectKeywordScheme === item.index ? 'select-tag-bg' : ''">
                   <span @click="selectChangeScheme(item.index)">{{item.searchKeyword ? item.searchKeyword : `关键词方案${item.index + 1}`}}</span>
                   <sup class="badge-count" v-show="item.countAssigned > 0">{{item.countAssigned}}</sup>
-                  <span v-if="item.index === appTaskDetail.length - 1 && item.index !== 0" class="close-tag" @click="handleClose(item.index)"><icon type="ios-close-empty"/></span>
+                  <span v-if="item.index === appTaskDetail.length - 1 && item.index !== 0" class="close-tag" @click="handleClose(item.index)"><icon type="ios-close"/></span>
                 </div>
                 <i-button class="mt-28" icon="ios-plus-empty" type="dashed" size="small" @click="handleAdd">添加关键词方案</i-button>
               </div>
@@ -989,7 +993,7 @@
                       :on-exceeded-size="handleMaxSize"
                       type="drag">
                 <div class="camera">
-                  <icon type="camera" size="20"/>
+                  <icon type="ios-camera" size="20"/>
                 </div>
               </upload>
               <span class="sizeColor2 left ml-15 mt-20">（点击或者拖拽自主上传图片，支持jpg \ jpeg \ png \ gif \ bmp格式，最佳尺寸400*400（像素），不超过1M，可与宝贝主图一致）</span>
@@ -1347,6 +1351,19 @@
     </modal>
     <!--用户绑定QQ号弹框-->
     <qq-bind-modal :closable="isOpenQqBindModal" :closableIcon="false" @change="openQqBindModal"/>
+    <!--店铺绑定微信的弹窗-->
+    <modal v-model="perfectStoreConcatInfo">
+      <div slot="header">
+        <icon type="md-information-circle" size="16" color="#ED4834" class="vtc-text-btm"/> 提醒
+      </div>
+      <p class="fs-14">
+        当前店铺联系方式未补全，为了与拿手及时沟通，建议补全联系方式！
+      </p>
+      <div slot="footer">
+        <i-button type="error" class="width-pct-39 mr-10" :to="{name:'StoreBindRules'}">马上去补全店铺联系方式</i-button>
+        <i-button type="error" class="width-pct-20" @click="perfectStoreConcatInfo = false">稍后再说</i-button>
+      </div>
+    </modal>
   </div>
 </template>
 
@@ -1626,33 +1643,7 @@
           showRecommendAdvertisingStatus: false,
           recommendAdvertisingModal: false
         },
-        period:[
-          {hour:'0'},
-          {hour:'1'},
-          {hour:'2'},
-          {hour:'3'},
-          {hour:'4'},
-          {hour:'5'},
-          {hour:'6'},
-          {hour:'7'},
-          {hour:'8'},
-          {hour:'9'},
-          {hour:'10'},
-          {hour:'11'},
-          {hour:'12'},
-          {hour:'13'},
-          {hour:'14'},
-          {hour:'15'},
-          {hour:'16'},
-          {hour:'17'},
-          {hour:'18'},
-          {hour:'19'},
-          {hour:'20'},
-          {hour:'21'},
-          {hour:'22'},
-          {hour:'23'},
-        ],
-
+        perfectStoreConcatInfo: false
       }
     },
     // 当用户有首发资格路由重定向到快速发布通道反之则停留在此页面
@@ -2165,6 +2156,9 @@
               _this.selectStoreInfo.storeAlitm = decodeURI(_this.storeBindInfoList[0].storeAlitm);
               _this.selectStoreInfo.sellerId = _this.storeBindInfoList[0].sellerId;
               _this.selectStoreInfo.shopId = _this.storeBindInfoList[0].shopId;
+              if (!_this.storeBindInfoList[0].weChatNum) {
+                _this.perfectStoreConcatInfo = true;
+              }
             }
             if (!_this.isBindStore && !_this.qqNumber) {
               _this.isOpenQqBindModal = true
@@ -2191,12 +2185,15 @@
           })
         })
       },
-      selectStoreChange(storeName, alitm, shopId, sellerId) {
+      selectStoreChange(storeName, alitm, shopId, sellerId, weChatNum) {
         this.selectStoreInfo = {};
         this.selectStoreInfo.storeName = storeName;
         this.selectStoreInfo.storeAlitm = alitm;
         this.selectStoreInfo.shopId = shopId;
         this.selectStoreInfo.sellerId = sellerId;
+        if (!weChatNum) {
+          this.perfectStoreConcatInfo = true;
+        }
       },
       /*  clearDiscount() {
           let _this = this;
@@ -3916,7 +3913,7 @@
       color: inherit;
       opacity: .66;
       position: relative;
-      top: 1px;
+      top: 0;
       line-height: 20px;
     }
     .select-tag-bg {

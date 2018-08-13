@@ -189,11 +189,11 @@
           <span class="sizeColor2" v-show="taskRelease.orderType === 'normal'">（拿手通过审批后需要指定时间内完成淘宝下单并在本平台提交订单号，否则资格自动过期）</span>
           <span class="sizeColor2" v-show="taskRelease.orderType === 'day_reserve'">（拿手通过审批后需要在当日24点前加入购物车，次日在淘宝下单并在平台提交订单号，否则资格自动过期）</span>
         </div>
-        <div class="trial-condition ml-60 mt-20">
-          <span class="ml-4"> 收藏加购：</span>
-          <checkbox v-model="taskRelease.needBrowseCollectAddCart" disabled>需要</checkbox>
-          <span class="size-color">（系统会随机让部分拿手完成对宝贝的收藏加购，活动上线后您可以在生意参谋后台查看收藏加购有无增加）</span>
-        </div>
+        <!--<div class="trial-condition ml-60 mt-20">-->
+          <!--<span class="ml-4"> 收藏加购：</span>-->
+          <!--<checkbox v-model="taskRelease.needBrowseCollectAddCart" disabled>需要</checkbox>-->
+          <!--<span class="size-color">（系统会随机让部分拿手完成对宝贝的收藏加购，活动上线后您可以在生意参谋后台查看收藏加购有无增加）</span>-->
+        <!--</div>-->
         <div class="answer ml-60 mt-20">
           <span class="ml-4"> 浏览答题：</span>
           <checkbox v-model="needBrowseAnswer" disabled>需要</checkbox>
@@ -1132,37 +1132,37 @@
           taskId: id
         }).then(res => {
           if (res.status) {
-            res.data.mainVasSettings.map(keys => {
-              _this.vasMainItem.map(key => {
+            res.data.mainVasSettings.forEach(keys => {
+              _this.vasMainItem.forEach(key => {
                 if (keys.id === key.id) {
                   key.isSelect = true;
-                  return key;
                 }
               })
             });
             const similarVasSettings = res.data.similarVasSettings;
-            const len = similarVasSettings.length;
+            const len = similarVasSettings ? similarVasSettings.length : 0;
             if (len > 0) {
               _this.shopAroundStatus = true;
               if (len > 1) {
+                if (_this.vasSimilarItem.length > 1) {
+                  _this.vasSimilarItem.splice(1, _this.vasSimilarItem.length - 1);
+                }
                 for (let i = 0; i < len - 1; i++) {
                   _this.addShopAroundList()
                 }
-                _this.shopAroundStatus = true;
-                _this.vasSimilarItem.map((keys, i) => {
-                  let tempArr = similarVasSettings[i];
-                  if(tempArr.length > 0) {
-                    tempArr.map(items => {
-                      keys.map(item => {
-                        if(items.id === item.id) {
-                          item.isSelect = true;
-                          return item
-                        }
-                      })
-                    })
-                  }
-                })
               }
+              _this.vasSimilarItem.forEach((keys, i) => {
+                let tempArr = similarVasSettings[i];
+                if (tempArr.length > 0) {
+                  tempArr.forEach(items => {
+                    keys.forEach(item => {
+                      if (items.id === item.id) {
+                        item.isSelect = true;
+                      }
+                    })
+                  })
+                }
+              })
             }
           } else {
             _this.$Message.error(res.msg)

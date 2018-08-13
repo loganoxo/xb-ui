@@ -1206,4 +1206,18 @@ export default {
     return axiosConfig.get('/api/get-tag.json', params)
   },
 
+  /**
+   * 商家免审发布
+   */
+  releaseWithoutAudit(params) {
+    return axiosConfig.post('/api/publish-without-audit.json', params)
+  },
+
+  /**
+   * 商家完善店铺信息
+   */
+  completeContact(params) {
+    return axiosConfig.post('/api/complete-store-contact.json', params)
+  }
+
 }

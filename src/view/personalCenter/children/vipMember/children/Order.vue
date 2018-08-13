@@ -262,7 +262,7 @@
         api.getMemberVersionPeriodList().then(res => {
           if (res.status) {
             let filterData = res.data.filter(item => {
-              return item.validDays >= 91
+              return item.validDays > 91
             });
             filterData.map(item => {
               if (item.level) {

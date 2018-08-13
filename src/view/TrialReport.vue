@@ -308,6 +308,8 @@
             self.applyCount = res.data.applyCount;
             self.applySuccessCount = res.data.applySuccessCount;
             self.showkerInfo = res.data.showkerInfo;
+            self.showkerInfo.lastLoginTimeAPP = res.data.lastLoginTimeAPP;
+            self.showkerInfo.lastLoginTimePC = res.data.lastLoginTimePC;
             self.showkerTag = res.data.showkerTag;
             self.lastApplySuccessTime = res.data.lastApplySuccessTime;
             self.creditLevel = res.data.creditLevel;
