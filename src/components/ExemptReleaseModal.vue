@@ -101,7 +101,7 @@
        * @return {number}
        */
       orderMoney() {
-        return this.newestData.totalMarginNeed + this.newestData.promotionExpensesNeed + this.newestData.vasFeeNeed
+        return this.newestData.totalMarginNeed + this.newestData.promotionExpensesNeed + this.newestData.vasFeeNeed + this.newestData.tagVasFeeNeed
       },
 
       /**
