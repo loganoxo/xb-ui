@@ -491,6 +491,7 @@
           activityCategory: item.activityCategory,
           promotionExpensesPaid: item.promotionExpensesPaid,
           vasFeePaid: item.vasFeePaid,
+          tagVasFeePaid: item.tagVasFeePaid,
           redEnvelopeDeductionPaid: item.redEnvelopeDeductionPaid,
           itemReviewRequired: item.itemReviewRequired,
           keywordPlanNum: item.keywordPlanNum,
