@@ -809,7 +809,7 @@
         this.directSettlementSuccess = false;
       },
       billDetails(taskId, storeName) {
-        let _this = this;
+        const _this = this;
         api.taskSettlementDetail({
           taskId: taskId
         }).then(res => {

@@ -22,7 +22,7 @@ export default {
    * 用户退出登录
    */
   loggedOut() {
-    return axiosConfig.post("/api/logged-out.json")
+    return axiosConfig.get("/api/logged-out.json")
   },
 
   /**
@@ -36,7 +36,7 @@ export default {
    * 获取银行卡信息
    */
   getBankCardInformation() {
-    return axiosConfig.post("/api/get-bank-card-information.json")
+    return axiosConfig.get("/api/get-bank-card-information.json")
   },
 
   /**
@@ -110,7 +110,7 @@ export default {
   },
 
   /**
-   *获取用户交易列表
+   * 获取用户交易列表
    */
   getTradList(params) {
     return axiosConfig.post("/api/get-trad-list.json", params)
@@ -197,35 +197,35 @@ export default {
    * 首页活动任务展示接口
    */
   getHomeTaskList() {
-    return axiosConfig.post("/api/task/index/newest.json")
+    return axiosConfig.get("/api/task/index/newest.json")
   },
 
   /**
    * 首页推荐
    */
   getIndexRecommend(params) {
-    return axiosConfig.post("/api/task/index/recommend.json", params)
+    return axiosConfig.get("/api/task/index/recommend.json", params)
   },
 
   /**
    * 首页左上角类表接口
    */
   getHomeTaskTopLeftList() {
-    return axiosConfig.post("/api/task/showker-newest.json")
+    return axiosConfig.get("/api/task/showker-newest.json")
   },
 
   /**
    * 分类页面请求
    */
   getTaskCategory(params) {
-    return axiosConfig.post("/api/task/get/item/catalog/parent.json", params)
+    return axiosConfig.get("/api/task/get/item/catalog/parent.json", params)
   },
 
   /**
    * 分类页面下的小类
    */
   getTaskCategoryList(params) {
-    return axiosConfig.post('/api/task/item/catalog/child.json', params)
+    return axiosConfig.get('/api/task/item/catalog/child.json', params)
   },
 
   /**
@@ -615,7 +615,7 @@ export default {
    * 获取买家秀列表
    */
   getBuyerShowList() {
-    return axiosConfig.post("/api/task/showker/index/report.json")
+    return axiosConfig.get("/api/task/showker/index/report.json")
   },
 
   /**
@@ -629,7 +629,7 @@ export default {
    * 判断是否已经点赞接口
    */
   whetherClickPraise(params) {
-    return axiosConfig.post("/api/task/showker/liked/report.json", params)
+    return axiosConfig.get("/api/task/showker/liked/report.json", params)
   },
 
   /**
@@ -642,8 +642,8 @@ export default {
   /**
    * 拿手个人主页活动提醒
    */
-  showkerPersonalTrialCount(params) {
-    return axiosConfig.post("/api/task/showker-personal-trial-count.json", params)
+  showkerPersonalTrialCount() {
+    return axiosConfig.get("/api/task/showker-personal-trial-count.json")
   },
 
   /**
@@ -657,7 +657,7 @@ export default {
    * 商家查看活动结算详情
    */
   taskSettlementDetail(params) {
-    return axiosConfig.post("/api/task-settlement-detail.json", params)
+    return axiosConfig.get("/api/task-settlement-detail.json", params)
   },
 
   /**
@@ -734,35 +734,35 @@ export default {
    * 获取推荐链接
    */
   getMyRecommend() {
-    return axiosConfig.post("/api/user/reward/getMyRecommend.json")
+    return axiosConfig.get("/api/user/reward/getMyRecommend.json")
   },
 
   /**
    * 获取推荐链接
    */
   getRecommendUrl() {
-    return axiosConfig.post("/api/recommend-code.json")
+    return axiosConfig.get("/api/recommend-code.json")
   },
 
   /**
    * 获取推荐列表
    */
   getRecommendPage(params) {
-    return axiosConfig.post("/api/user/reward/getRecommendPage.json", params)
+    return axiosConfig.get("/api/user/reward/getRecommendPage.json", params)
   },
 
   /**
    * 获取推荐排行版
    */
   getRecommendRankingPage() {
-    return axiosConfig.post("/api/user/reward/getRecommendRankList.json",)
+    return axiosConfig.get("/api/user/reward/getRecommendRankList.json",)
   },
 
   /**
    * 判断是否弹出微信弹框
    */
   checkWechartAlert() {
-    return axiosConfig.post('/api/user/verify/check.json')
+    return axiosConfig.get('/api/user/verify/check.json')
   },
 
   /**
@@ -783,14 +783,14 @@ export default {
    * PC首页历史活动接口
    */
   getHomeHistoryList() {
-    return axiosConfig.post('/api/task/index/history.json')
+    return axiosConfig.get('/api/task/index/history.json')
   },
 
   /**
    * 检测用户是否已关闭加群提示
    */
   detectionAddGroupTip() {
-    return axiosConfig.post('/api/detection-add-group-tip.json')
+    return axiosConfig.get('/api/detection-add-group-tip.json')
   },
 
   /**
@@ -811,7 +811,7 @@ export default {
    * 设置用户关闭服务条款提示，关闭后不在显示
    */
   setUserClauseTip() {
-    return axiosConfig.post('/api/set-user-clause-tip.json')
+    return axiosConfig.get('/api/set-user-clause-tip.json')
   },
 
   /**
@@ -832,28 +832,28 @@ export default {
    * 获取买家秀排行榜列表
    */
   getShowkerReportRank() {
-    return axiosConfig.post('/api/task/showker/getShowkerReportRank.json')
+    return axiosConfig.get('/api/task/showker/getShowkerReportRank.json')
   },
 
   /**
    * 获取真实拿手数量、拿手已发表的买家秀数量、买家达人秀列表
    */
   getBuyerShowInfo() {
-    return axiosConfig.post('/api/get-buyerShow-info.json')
+    return axiosConfig.get('/api/get-buyerShow-info.json')
   },
 
   /**
    * 获取买家秀轮播列表
    */
   getReportRankList() {
-    return axiosConfig.post('/api/task/showker/getReportRank25.json')
+    return axiosConfig.get('/api/task/showker/getReportRank25.json')
   },
 
   /**
    * 获取所有买家秀
    */
   getALLTrialReport(params) {
-    return axiosConfig.post('/api/task/showker/getALLTrialReport.json', params)
+    return axiosConfig.get('/api/task/showker/getALLTrialReport.json', params)
   },
 
   /**
@@ -867,7 +867,7 @@ export default {
    * 获取拿手可申请活动的次数
    */
   getShowkerApplyCount() {
-    return axiosConfig.post("/api/task/showker-apply-count.json")
+    return axiosConfig.get("/api/task/showker-apply-count.json")
   },
 
   /**
@@ -923,7 +923,7 @@ export default {
    * 获取黑名单列表
    */
   getBlackList(params) {
-    return axiosConfig.post("/api/task/apply/black/getAlitmBlackListByUid.json", params)
+    return axiosConfig.get("/api/task/apply/black/getAlitmBlackListByUid.json", params)
   },
 
   /**
@@ -944,21 +944,21 @@ export default {
    * 判断秀客是否是第一次提现
    */
   someAccountOrMoneyJudgement() {
-    return axiosConfig.post('/api/user/account/someAccountOrMoneyJudgement.json');
+    return axiosConfig.get('/api/user/account/someAccountOrMoneyJudgement.json');
   },
 
   /**
    * 设置第一次验证提现口令
    */
   setFirstWithdrawalCommand() {
-    return axiosConfig.post('/api/set-first-fill-withdrawal-command.json')
+    return axiosConfig.get('/api/set-first-fill-withdrawal-command.json')
   },
 
   /**
    * 获取是否是第一次验证提现口令
    */
   getFirstWithdrawalCommand() {
-    return axiosConfig.post('/api/detection-first-fill-withdrawal-command.json')
+    return axiosConfig.get('/api/detection-first-fill-withdrawal-command.json')
   },
 
   /**

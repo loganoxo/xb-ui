@@ -2938,7 +2938,7 @@
 
               // 重新计算活动红包抵扣金额和活动已支付金额
               _this.redEnvelopeDeductionPaid = res.data.redEnvelopeDeductionPaid;
-              _this.paidDeposit = res.data.marginPaid + res.data.promotionExpensesPaid + res.data.vasFeePaid + res.data.redEnvelopeDeductionPaid;
+              _this.paidDeposit = res.data.marginPaid + res.data.promotionExpensesPaid + res.data.vasFeePaid + res.data.redEnvelopeDeductionPaid + res.data.tagVasFeePaid;
 
               if (!_this.taskRelease.taskId) {
                 _this.taskRelease.taskId = res.data.id;
@@ -3002,7 +3002,7 @@
             _this.taoCodeDefaultList = [];
             _this.answerDefaultList = [];
             _this.redEnvelopeDeductionPaid = res.data.redEnvelopeDeductionPaid;
-            _this.paidDeposit = res.data.marginPaid + res.data.promotionExpensesPaid + res.data.vasFeePaid + res.data.redEnvelopeDeductionPaid;
+            _this.paidDeposit = res.data.marginPaid + res.data.promotionExpensesPaid + res.data.vasFeePaid + res.data.redEnvelopeDeductionPaid + res.data.tagVasFeePaid;
             _this.taskStatus = res.data.taskStatus;
             if (!_this.$route.query.type) {
               _this.taskRelease.taskId = res.data.id;

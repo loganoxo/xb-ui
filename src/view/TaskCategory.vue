@@ -325,7 +325,7 @@
           taskName: '',
           taskTypes: [],
           itemCatalogs: [],
-          sortField: 'upLineTime',
+          sortField: 'showkerApplyTotalCount',
           sortOrder: 'desc',
           ifAccess: [],
           activityCategories: [],
