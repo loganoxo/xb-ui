@@ -1131,7 +1131,7 @@
                   </div>
                 </div>
               </div>
-              <div class="tag-price">单品标签增值服务费合计：{{((showkerConditionAllPrice + oneValueAddedCost) / 100).toFixed(2)}}&nbsp;元</div>
+              <div class="tag-price">单品标签增值服务费合计：{{(showkerConditionAllPrice / 100).toFixed(2)}}&nbsp;元</div>
             </template>
           </template>
         </div>
@@ -1369,17 +1369,18 @@
       </div>
       <div slot="footer"></div>
     </modal>
-    <!--用户绑定QQ号弹框-->
+    <!--商家绑定QQ号弹框-->
     <qq-bind-modal :closable="isOpenQqBindModal" :closableIcon="false" @change="openQqBindModal"/>
-    <!--店铺绑定微信的弹窗-->
+    <!--商家店铺绑定微信的弹窗-->
     <modal v-model="perfectStoreConcatInfo">
-      <div slot="header">
-        <icon type="md-information-circle" size="16" color="#ED4834" class="vtc-text-btm"/> 提醒
+      <div slot="header" class="text-ct">
+        <icon type="md-information-circle" size="16" color="#ED4834" class="vtc-text-btm"/>
+        <span class="main-color">温馨提示</span>
       </div>
-      <p class="fs-14">
+      <p class="fs-14 text-ct">
         当前店铺联系方式未补全，为了与拿手及时沟通，建议补全联系方式！
       </p>
-      <div slot="footer">
+      <div slot="footer" class="text-ct">
         <i-button type="error" class="width-pct-39 mr-10" :to="{name:'StoreBindRules'}">马上去补全店铺联系方式</i-button>
         <i-button type="error" class="width-pct-20" @click="perfectStoreConcatInfo = false">稍后再说</i-button>
       </div>
@@ -2373,6 +2374,7 @@
       },
       closeUpgradeMembershipModal() {
         this.upgradeMembershipModal = false;
+        this.showkerConditionRequireStatus.aliWwLabelSet = false;
         this.taskRelease.orderType = 'normal';
         this.taskCountInputPlaceholder = '请输入活动时长';
         this.taskCountInputDisabled = false;
@@ -3571,10 +3573,13 @@
         }
         this.showkerCondition.auditTimeCountRequire[index].date = data;
       },
-      // 当拿手旺旺标签设置状态改变处理，当状态为false自动取消所有标签选项
+      // 当拿手旺旺标签设置状态改变处理，1.免费会员弹出升级会员弹框 2.当状态为false自动取消所有标签选项
       aliWwLabelSetChange(value) {
         if (value) {
-          this.interestTagList.length === 0 && this.interestTag()
+          this.interestTagList.length === 0 && this.interestTag();
+          if (this.getMemberVersionLevel === 100) {
+            this.upgradeMembershipModal = true;
+          }
         } else {
           this.showkerConditionRequireStatus.creditLevel.require = false;
           Object.keys(this.showkerConditionRequireStatus.other).forEach(item => {
