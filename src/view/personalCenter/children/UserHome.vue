@@ -34,7 +34,7 @@
               <img class="vtc-text-btm" src="~assets/img/common/red-envelopes-logo.png" alt="">
               <span>推广费减免红包</span>
               <tooltip :content="`有效期至${getMemberDeadline}，仅限于推广费抵扣，最多抵扣${(redEnvelopeDeductionLimit /100).toFixed(2)}元 / 单`" placement="top">
-                <icon type="help-circled"/>
+                <icon type="md-help-circle"/>
               </tooltip>
             </span>
             <span class="ml-10" v-if="getUserInfoRole === 1">
