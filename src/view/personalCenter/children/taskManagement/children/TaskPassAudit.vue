@@ -99,7 +99,7 @@
               <thead>
               <tr>
                 <th width="25%">淘宝账号（旺旺号）</th>
-                <th width="15%">QQ号码</th>
+                <th width="15%">拿手联系方式</th>
                 <th width="15%">状态</th>
                 <th width="15%">订单号</th>
                 <th width="10%">实付金额（元）</th>
@@ -115,7 +115,14 @@
                   <p v-cloak>申请次数：{{item.applyCount || 0}}</p>
                   <p v-cloak>成功次数：{{item.applySuccessCount || 0}}</p>
                 </td>
-                <td>{{item.qqNumber || '------'}}</td>
+                <td>
+                  <p>QQ：{{item.qqNumber || '------'}}</p>
+                  <p class="mt-10">微信号：{{item.wechatNum || '------'}}</p>
+                  <p class="mt-10">手机号：
+                    <span v-if="item.isShowPhone">{{item.phone || '------'}}</span>
+                    <span v-else>未开启可见</span>
+                  </p>
+                </td>
                 <td>
                   <p v-if="item.status === 'order_num_error'|| item.status === 'trial_report_unqualified'">
                     <tooltip
