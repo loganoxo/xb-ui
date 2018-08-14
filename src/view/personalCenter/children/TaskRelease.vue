@@ -1006,7 +1006,7 @@
           <!--拿手审批条件设置-->
           <template>
             <div class="activity-info-title">拿手申请条件设置</div>
-            <div class="sizeColor2 ml-20 mt-10">说明：该活动有名额为系统审批，此处标签设置后，系统将按此条件审批拿手。过多限制可能造成展示量/申请量下降，请综合考虑。</div>
+            <div class="sizeColor2 ml-20 mt-20">说明：此处设置符合标签的拿手旺旺才可申请活动。过多限制可能造成展示量/申请量下降，请综合考虑。</div>
             <div class="mt-20 ml-20 mb-20 clear">
               <span class="ml-5 left">拿手旺旺标签设置：</span>
               <div class="left">
@@ -2848,7 +2848,7 @@
         _this.taskRelease.mainTaskVasConfigIds = JSON.stringify(mainTaskVasId);
         _this.taskRelease.similarTaskVasConfigIds = JSON.stringify(similarTaskVasId);
         if (_this.showkerConditionRequireStatus.aliWwLabelSet) {
-          _this.showkerCondition.antPayRequire = _this.showkerConditionRequireStatus.other.auditTimeCount.require;
+          _this.showkerCondition.antPayRequire = _this.showkerConditionRequireStatus.other.antPay.require;
           // 根据用户是否勾选‘需要’选项重置申请条件初始化数据
           const copyShowkerCondition = extendDeep(_this.showkerCondition, {});
           if (!_this.showkerConditionRequireStatus.creditLevel.require) {
@@ -3126,6 +3126,7 @@
               } else {
                 _this.showkerCondition.genderRequire = 0
               }
+              _this.showkerConditionRequireStatus.other.antPay.require = _this.showkerCondition.antPayRequire;
               if (_this.showkerCondition.ageRequire.length > 0) {
                 _this.showkerConditionRequireStatus.other.age.require = true
               } else {

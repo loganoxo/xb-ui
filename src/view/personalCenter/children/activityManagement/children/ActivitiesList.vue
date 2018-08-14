@@ -64,7 +64,7 @@
       <button-group class="left">
         <i-button :class="[sortList.select === item.sortField ? 'active' : '']" size="small" v-for="(item,index) in sortList.defaultList" :key="index" @click="sortChange(item.sortField,index)">
           <span>{{item.name}}</span>
-          <icon :type="item.sort === 'desc' ? 'arrow-down-c': 'arrow-up-c'"/>
+          <icon :type="item.sort === 'desc' ? 'md-arrow-down': 'md-arrow-up'"/>
         </i-button>
       </button-group>
       <i-input v-model="taskNumber" size="small" placeholder="使用活动编号或者订单号搜索" class="left ml-10" style="width: 280px;"
