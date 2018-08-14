@@ -1046,7 +1046,7 @@
                 <div class="inline-block left width-pct-86">
                   <checkbox v-model="showkerConditionRequireStatus.other.address.require">需要<span class="sizeColor2">（+0.2元/单）</span></checkbox>
                   <div class="sizeColor2 mt-10" v-show="showkerConditionRequireStatus.other.address.require">勾选以下“<span class="main-color">不想要</span>”的地区，最多选5个</div>
-                  <checkbox-group class="mt-10" v-model="showkerCondition.addressExclude" v-show="showkerConditionRequireStatus.other.address.require">
+                  <checkbox-group class="mt-10" v-model="showkerCondition.addressExclude" v-show="showkerConditionRequireStatus.other.address.require" @on-change="addressExcludeChange">
                     <checkbox class="mr-30 mt-10" v-for="(item, index) in regionRequireList" :label="item" :key="index">{{item}}</checkbox>
                   </checkbox-group>
                 </div>
@@ -1086,7 +1086,7 @@
                 <div class="inline-block left width-pct-86">
                   <checkbox v-model="showkerConditionRequireStatus.other.showkerTag.require">需要<span class="sizeColor2">（+0.2元/单）</span></checkbox>
                   <div class="sizeColor2 mt-10" v-show="showkerConditionRequireStatus.other.showkerTag.require">类目最少选择4个</div>
-                  <checkbox-group v-show="showkerConditionRequireStatus.other.showkerTag.require" v-model="showkerCondition.showkerTagRequire">
+                  <checkbox-group v-show="showkerConditionRequireStatus.other.showkerTag.require" v-model="showkerCondition.showkerTagRequire" @on-change="showkerTagRequireChange">
                     <checkbox class="mr-15 mt-10" v-for="item in interestTagList" :key="item.id" :label="item.id">{{item.name}}</checkbox>
                   </checkbox-group>
                 </div>
@@ -1101,11 +1101,11 @@
                       <div class="inline-block width-pct-20 text-ct">日期</div>
                       <div class="inline-block width-pct-39 text-ct">
                         <span>时段</span>
-                        <tooltip content="请尽量扩大时间范围，提高任务成功率，时间段不可重叠" placement="top" :transfer="true"><icon class="cursor-p" type="help-circled"/></tooltip>
+                        <tooltip content="请尽量扩大时间范围，提高任务成功率，时间段不可重叠" placement="top" :transfer="true"><icon size="14" class="cursor-p vtc-text-btm" type="md-help-circle"/></tooltip>
                       </div>
                       <div class="inline-block width-pct-39 text-ct">
                         <span>最多可审批数</span>
-                        <tooltip content="系统审批不会超出设定份数但可能少于该份数" placement="top" :transfer="true"><icon class="cursor-p" type="help-circled"/></tooltip>
+                        <tooltip content="系统审批不会超出设定份数但可能少于该份数" placement="top" :transfer="true"><icon size="14" class="cursor-p vtc-text-btm" type="md-help-circle"/></tooltip>
                       </div>
                     </div>
                     <div class="border-top pt-10 pb-10" v-for="(item, index) in showkerCondition.auditTimeCountRequire" :key="index">
@@ -1131,7 +1131,7 @@
                   </div>
                 </div>
               </div>
-              <div class="tag-price">单品标签增值服务费合计：{{(showkerConditionAllPrice / 100).toFixed(2)}}&nbsp;元</div>
+              <div class="tag-price">单品标签增值服务费合计：{{((showkerConditionAllPrice + oneValueAddedCost) / 100).toFixed(2)}}&nbsp;元</div>
             </template>
           </template>
         </div>
@@ -1158,7 +1158,7 @@
               <!--<a>什么是打赏费？</a>-->
               <!--</tooltip>-->
             </p>
-            <p class="mt-6">总增值费 = 单品增值费 × 份数 = <span>{{(oneValueAddedCost / 100).toFixed(2)}}</span> × <span>{{taskRelease.taskCount}}</span> = {{(allValueAddedCost / 100).toFixed(2)}} 元</p>
+            <p class="mt-6">总增值费 = 单品增值费 × 份数 = <span>{{((oneValueAddedCost + showkerConditionAllPrice) / 100).toFixed(2)}}</span> × <span>{{taskRelease.taskCount}}</span> = {{(allValueAddedCost / 100).toFixed(2)}} 元</p>
             <p class="mt-6">总费用 = 活动担保金 + 总推广费 + 总增值费用 = <span>{{(orderMoney / 100).toFixed(2)}}</span> 元</p>
             <p class="mt-6" v-if="!isBalance">手续费说明： 使用支付宝充值支付，支付宝会收取0.6%的手续费，该笔费用需要商家承担，手续费不予退还，敬请谅解！<a
               @click="isShowAliPayTip = true">查看支付宝官方说明</a></p>
@@ -1640,6 +1640,7 @@
         },
         interestTagList: [],
         showkerConditionRequireStatus: {
+          showkerTagRequireChangeLengthFor4: null,
           aliWwLabelSet: false,
           period: Array.from({length: 24},(v, k) => {return `${k}`}),
           creditLevel: {
@@ -2015,7 +2016,7 @@
         }, 0);
         return {
           count: this.systemApprovalTaskNumber - num > 0 ? this.systemApprovalTaskNumber - num : 0,
-          status: this.systemApprovalTaskNumber - num >= 0
+          status: this.systemApprovalTaskNumber - num > 0
         }
       },
 
@@ -2078,7 +2079,7 @@
        * @return {number}
        */
       oneValueAddedCost() {
-        return this.vasMainItemCost + this.vasSimilarItemCost + this.showkerConditionAllPrice
+        return this.vasMainItemCost + this.vasSimilarItemCost
       },
 
       /**
@@ -2087,7 +2088,7 @@
        * @return {number}
        */
       allValueAddedCost() {
-        return this.oneValueAddedCost * this.taskRelease.taskCount
+        return (this.oneValueAddedCost + this.showkerConditionAllPrice) * this.taskRelease.taskCount
       },
 
       /**
@@ -2720,14 +2721,14 @@
               _this.$Message.warning(`亲，请选择您需要的旺旺标签设置！`);
               return;
             }
-            if (_this.showkerConditionRequireStatus.other.showkerTag.require && _this.showkerCondition.showkerTagRequire.length < 4) {
+           /* if (_this.showkerConditionRequireStatus.other.showkerTag.require && _this.showkerCondition.showkerTagRequire.length < 4) {
               _this.$Message.warning(`亲，拿手审批条件设置中类目最少需要选择4个！`);
               return;
             }
             if (_this.showkerConditionRequireStatus.other.address.require && _this.showkerCondition.addressExclude.length > 5) {
               _this.$Message.warning(`亲，拿手申请条件设置中所排除地区最多为5个！`);
               return;
-            }
+            }*/
             if (_this.showkerConditionRequireStatus.other.auditTimeCount.require && _this.taskRelease.orderType === 'normal') {
               for (let i = 0, len = _this.showkerCondition.auditTimeCountRequire.length; i < len; i++) {
                 if (!_this.showkerCondition.auditTimeCountRequire[i].count) {
@@ -2750,8 +2751,8 @@
                   return;
                 }
               }
-              if (!_this.systemSurplusApprovalTaskNumber.status) {
-                _this.$Message.warning(`亲，系统名额剩余数不足，请重新分配活动份数！`);
+              if (_this.systemSurplusApprovalTaskNumber.status) {
+                _this.$Message.warning(`亲，审批时间/份数要求还有剩余名额未分配！`);
                 return;
               }
             }
@@ -2874,7 +2875,7 @@
           if (!_this.showkerConditionRequireStatus.other.showkerTag.require) {
             copyShowkerCondition.showkerTagRequire = []
           }
-          if (!_this.showkerConditionRequireStatus.creditLevel.require || _this.taskRelease.orderType === 'day_now' || _this.taskRelease.orderType === 'day_reserve') {
+          if (!_this.showkerConditionRequireStatus.other.auditTimeCount.require || _this.taskRelease.orderType === 'day_now' || _this.taskRelease.orderType === 'day_reserve') {
             copyShowkerCondition.auditTimeCountRequire = []
           }
           copyShowkerCondition.creditLevelRequire = copyShowkerCondition.creditLevelRequire === 0 ? null : copyShowkerCondition.creditLevelRequire;
@@ -3561,10 +3562,6 @@
         }
       },
       addTimeBucket() {
-        if (this.systemSurplusApprovalTaskNumber.count <= 0) {
-          this.$Message.warning('亲，系统剩余可审批名额不足！');
-          return;
-        }
         this.showkerCondition.auditTimeCountRequire.push({
           date: `${new Date(getSeverTime()).getFullYear()}-${new Date(getSeverTime()).getMonth() + 1}-${new Date(getSeverTime()).getDate() + 1}`,
           hourStart: '0',
@@ -3582,7 +3579,7 @@
         }
         this.showkerCondition.auditTimeCountRequire[index].date = data;
       },
-      // 当拿手旺旺标签设置状态改变处理
+      // 当拿手旺旺标签设置状态改变处理，当状态为false自动取消所有标签选项
       aliWwLabelSetChange(value) {
         if (value) {
           this.interestTagList.length === 0 && this.interestTag()
@@ -3591,6 +3588,27 @@
           Object.keys(this.showkerConditionRequireStatus.other).forEach(item => {
             if (this.showkerConditionRequireStatus.other[item].require) {
               this.showkerConditionRequireStatus.other[item].require = false
+            }
+          })
+        }
+      },
+      // 标签设置地区选择改变处理，最多选5个，当用户选中超过5个地区自动取消勾选超出的地区选项
+      addressExcludeChange(data) {
+        if (data.length > 5) {
+          this.$Message.warning('亲，拿手申请条件设置地区要求最多选择5个！');
+          this.showkerCondition.addressExclude.splice(5, 1);
+        }
+      },
+      // 标签设置类目选择改变处理，最少选4个，当用户选中少于4个地区自动勾选将要取消勾选的地区选项
+      showkerTagRequireChange(data) {
+        if (data.length === 4) {
+          this.showkerConditionRequireStatus.showkerTagRequireChangeLengthFor4 = data
+        }
+        if (data.length < 4) {
+          this.$Message.warning('亲，拿手申请条件设置类目要求最少选择4个！');
+          this.showkerConditionRequireStatus.showkerTagRequireChangeLengthFor4.forEach(item => {
+            if (!this.showkerCondition.showkerTagRequire.includes(item)) {
+              this.showkerCondition.showkerTagRequire.push(item)
             }
           })
         }
