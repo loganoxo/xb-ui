@@ -128,7 +128,7 @@
                     <tooltip
                       :content="item.auditDescription"
                       placement="top" class="cursor-p">
-                      <icon color="#f9284f" type="information-circled"/>
+                      <icon color="#f9284f" type="md-alert"/>
                       <span class="main-color">{{getTaskStatus(item.status)}}</span>
                     </tooltip>
                   </p>
@@ -140,7 +140,7 @@
                   <p v-if="item.status === 'trial_end'">
                     <tooltip :content="item.trialEndReason === 'admin_manual_close' ? getTaskStatus(item.trialEndReason) +'：'+ item.auditDescription : getTaskStatus(item.trialEndReason)"
                              placement="top" class="cursor-p">
-                      <icon color="#f9284f" type="information-circled"/>
+                      <icon color="#f9284f" type="md-alert"/>
                       <span class="main-color">{{getTaskStatus(item.status)}}</span>
                     </tooltip>
                   </p>
@@ -277,7 +277,7 @@
     <!--批量导出订单号-->
     <modal v-model="batchExportModel">
       <div slot="header" class="text-ct mt-10">
-        <icon color="#f9284f" type="information-circled"/>
+        <icon color="#f9284f" type="md-alert"/>
         <span class="main-color fs-14">温馨提示</span>
       </div>
       <div class="text-ct fs-14">您确定要批量导出以下所有订单号吗？</div>

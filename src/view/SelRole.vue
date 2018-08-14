@@ -3,7 +3,7 @@
     <role-top></role-top>
     <div v-show="!showQQ" class="container">
       <p v-if="showRegister" class="fs-24  fast-register-tip">
-        <icon type="information-circled" color="#FF6633"/>
+        <icon type="md-alert" color="#FF6633"/>
         亲是第一次登录白拿拿，请选择您的角色！
       </p>
       <div class="login-box">

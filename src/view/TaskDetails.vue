@@ -244,7 +244,7 @@
                   </div>
                 </div>
                 <div v-if="commodityData.cannotShowItemDescriptionOfQualification">
-                  <icon type="information-circled" color="#FF6633" size="30" style="vertical-align: sub;"/>
+                  <icon type="md-alert" color="#FF6633" size="30" style="vertical-align: sub;"/>
                   获得资格后才能看到活动品信息哦~
                   <div v-if="applyBtnShow === 'buyerTasking'" class="inline-block">
                     <iButton v-show="!commodityData.taskApply" :disabled="taskApplyLoading" style="width: 100px;"
@@ -388,7 +388,7 @@
       </div>
     </modal>
     <modal v-model="inBlackListPop" class="text-ct">
-      <div class="fs-20 f-b mt-30"><icon type="information-circled" class="main-color mr-5"/><span>糟糕，出事儿了~</span></div>
+      <div class="fs-20 f-b mt-30"><icon type="md-alert" class="main-color mr-5"/><span>糟糕，出事儿了~</span></div>
       <div class="mt-20 mb-20">你的旺旺号已被此商家拉黑，无权申请该活动~</div>
       <div slot="footer" class="text-ct">
       </div>

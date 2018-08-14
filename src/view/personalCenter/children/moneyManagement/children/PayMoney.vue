@@ -65,7 +65,7 @@
     </div>
     <!--<Modal v-model="stopRecharge" width="360">
       <p slot="header" style="color:#f9284f;text-align:center">
-        <Icon type="information-circled"></Icon>
+        <Icon type="md-alert"></Icon>
         <span>系统维护</span>
       </p>
       <div style="text-align:center">

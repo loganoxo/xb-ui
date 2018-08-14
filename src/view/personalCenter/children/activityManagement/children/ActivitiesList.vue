@@ -110,7 +110,7 @@
               </td>
               <td class="cursor-p main-color" v-else>
                 <tooltip :content="item.other.auditLogs[0].resultMsg" placement="top">
-                  <icon color="#f9284f" type="information-circled"/>&nbsp;待修改
+                  <icon color="#f9284f" type="md-alert"/>&nbsp;待修改
                 </tooltip>
               </td>
               <td>{{item.showkerApplyTotalCount || 0}} / {{item.showkerApplyPassedCount || 0}}（人）</td>
@@ -249,7 +249,7 @@
     <!--关闭任务弹框-->
     <modal v-model="closeModal" width="360">
       <p slot="header" class="text-ct">
-        <icon color="#f9284f" type="information-circled"/>
+        <icon color="#f9284f" type="md-alert"/>
         <span class="main-color">关闭确认</span>
       </p>
       <div class="text-ct">
@@ -264,7 +264,7 @@
     <!--删除任务弹框-->
     <modal v-model="deleteModal" width="360">
       <p slot="header" class="text-ct">
-        <icon color="#f9284f" type="information-circled"/>
+        <icon color="#f9284f" type="md-alert"/>
         <span class="main-color">删除确认</span>
       </p>
       <div class="text-ct">
@@ -277,7 +277,7 @@
     <!--开启一键加速功能确认弹框-->
     <modal v-model="speedUpModal" width="360">
       <p slot="header" class="text-ct">
-        <icon color="#f9284f" type="information-circled"/>
+        <icon color="#f9284f" type="md-alert"/>
         <span class="main-color">一键加速</span>
       </p>
       <div class="text-ct">
@@ -337,7 +337,7 @@
     <!--活动失效提示弹框-->
     <modal v-model="isTaskOverdueModel" width="420" :mask-closable="false" :closable="false">
       <p slot="header" class="text-ct">
-        <icon color="#f9284f" type="information-circled"/>
+        <icon color="#f9284f" type="md-alert"/>
         <span class="main-color">活动失效</span>
       </p>
       <div class="text-ct">
@@ -371,7 +371,7 @@
     <!--删除首单免推广费活动提醒弹框-->
     <modal v-model="deleteFirstTaskModal" width="360">
       <p slot="header" class="text-ct">
-        <icon color="#f9284f" type="information-circled"/>
+        <icon color="#f9284f" type="md-alert"/>
         <span class="main-color">首单关闭提醒</span>
       </p>
       <div class="text-lf">该活动是您首次发布创建的活动，享有<span class="main-color">首单推广费减免</span>的特权，关闭后你将无法享受该优惠，是否确认关闭？</div>

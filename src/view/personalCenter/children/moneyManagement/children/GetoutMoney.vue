@@ -13,7 +13,7 @@
     <!--</div>-->
     <div class="bound-bankcard" v-show="changeBankIdCardShow.isBondBankCard">
       <div class="bankcard-title">
-        <icon class="icon vtc-btm" type="information-circled"/>
+        <icon class="icon vtc-btm" type="md-alert"/>
         <span class="ml-10">请先绑定银行卡，再进行提现操作</span></div>
       <div class="addcard" @click="addBankCard">
         <icon class="icon" type="plus-circled"/>
@@ -22,7 +22,7 @@
     </div>
     <div class="add-bankcard" v-show="changeBankIdCardShow.bondBankCard">
       <div class="title">
-        <icon type="information-circled" class="icon ml-20 over-hd"/>
+        <icon type="md-alert" class="icon ml-20 over-hd"/>
         <span>每个用户只能绑定一张银行卡，如需换卡建议修改银行卡信息</span>
       </div>
       <div class="ipt-information">
@@ -189,7 +189,7 @@
             </td>
             <td class="main-color cursor-p"  v-if="item.state === 'enchashment_audit_defeat' && item.refuseReason !== null">
               <tooltip :content="item.refuseReason" placement="top">
-                <icon type="information-circled" color="main-color"/>
+                <icon type="md-alert" color="main-color"/>
                 {{getTradType(item.state)}}
               </tooltip>
             </td>

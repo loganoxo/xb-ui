@@ -1,7 +1,7 @@
 <template>
   <div class="content">
     <p slot="header" class="header">
-      <Icon type="information-circled"></Icon>
+      <Icon type="md-alert"></Icon>
       <span>{{applyName}}提交的活动申请截图</span>
     </p>
     <div class="text-ct mt-20 ">

@@ -33,7 +33,7 @@
               <td>{{item.task.perMarginNeed / 100}}</td>
               <td>
                 <Tooltip :content="item.rejectToResubmitReason || item.reason" placement="top" v-if="item.reason && item.status === 'waiting_resubmit'">
-                  <icon color="#f9284f" type="information-circled"/>
+                  <icon color="#f9284f" type="md-alert"/>
                   <span class="main-color">{{getTaskStatus(item.status)}}</span>
                 </Tooltip>
                 <span v-else> {{getTaskStatus(item.status)}}</span>
@@ -59,7 +59,7 @@
     <!--删除活动确认弹框-->
     <modal v-model="deleteModal" width="360">
       <p slot="header" class="main-color text-ct">
-        <icon type="information-circled"/>
+        <icon type="md-alert"/>
         <span>结束确认</span>
       </p>
       <p style="text-indent:25px;font-weight: bold;">您好，为了更好地改善平台试用体验并提高活动的质量，请告诉我们您结束活动的原因：</p>
@@ -85,7 +85,7 @@
              width="600"
              :transfer="false">
         <p slot="header" class="main-color text-ct">
-          <icon type="information-circled"/>
+          <icon type="md-alert"/>
           <span>已提交的活动截图</span>
         </p>
         <div class="text-ct mt-20 ">

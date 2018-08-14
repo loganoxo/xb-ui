@@ -39,7 +39,7 @@
             </template>
             <template v-else>
               <p>
-               <icon color="#f9284f" type="information-circled"/>
+               <icon color="#f9284f" type="md-alert"/>
                <tooltip :content="item.refuseReason" placement="top" class="main-color cursor-p">{{item.auditStatusStr}}</tooltip>
              </p>
               <p class="mt-5 blue">（<span class="cursor-p" @click="seeDetails(item, false)">重新提交</span><span class="ml-10 cursor-p" @click="revoke(item)">撤销</span>）</p>

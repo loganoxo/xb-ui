@@ -30,7 +30,7 @@
       </div>
     </div>
     <div class="activity-tip mb-20">
-      <icon type="information-circled" color="#FF0100"/>
+      <icon type="md-alert" color="#FF0100"/>
       <span><b class="sizeColor3">注意：</b> 本站支持拍A发A（免费领），拍A发B（体验专区），满足商家的各种需求！</span>
     </div>
     <div class="service-statement cl666 text-ct">
@@ -165,14 +165,14 @@
                    :placeholder="taskCountInputPlaceholder" style="width: 120px"/>
           <span>天</span>
           <span class="main-color ml-10">
-            <i class="ivu-icon ivu-icon-information-circled cle60012"></i>
+            <i class="ivu-icon ivu-icon-md-alert cle60012"></i>
             <span
               v-show="taskRelease.orderType === 'normal'">（注意：单期活动时间为3-10天，请于活动结束后48小时内审批完成所有拿手资格，逾期系统将自动为您审批）</span>
             <span v-show="taskRelease.orderType === 'day_now' || taskRelease.orderType === 'day_reserve'">（注意：请于当日22:20分前审批完成所有拿手资格，逾期系统将自动为您审批）</span>
           </span>
         </div>
         <div class="ml-15 mt-20" v-if="taskRelease.orderType === 'day_reserve'">
-          <i class="ivu-icon ivu-icon-information-circled cle60012"></i>
+          <i class="ivu-icon ivu-icon-md-alert cle60012"></i>
           <span>转当日单：</span>
           <checkbox v-model="taskRelease.dayReserveToNow">需要</checkbox>
           <span class="main-color f-b">建议勾选！</span>
@@ -299,7 +299,7 @@
             <span class="required">宝贝标题：</span>
             <i-input v-model="taskRelease.taskName" placeholder="请输入宝贝标题" style="width: 296px"/>
             <span class="ml-20 sizeColor2"><icon v-show="taskNameLength > 60" color="#f9284f"
-                                                 type="information-circled"/>&nbsp;此处填宝贝名称，突出宝贝特点，勿填无关内容，最多支持60个字符，当前已输入  <span
+                                                 type="md-alert"/>&nbsp;此处填宝贝名称，突出宝贝特点，勿填无关内容，最多支持60个字符，当前已输入  <span
               class="main-color">{{taskNameLength}}</span> / 60个字符。</span>
           </div>
           <div class="baby-title ml-20 mt-20">
@@ -361,7 +361,7 @@
               <span v-show="taskRelease.orderType === 'normal'" class="sizeColor3 ml-5">（平台会按照1/5的比例进行计算，部分中奖名额将会由系统进行推荐）</span>
             </p>
             <p class="mt-10 ml-70" v-show="systemApprovalTaskNumber > 0 && taskRelease.orderType === 'normal'">
-              <icon color="#f9284f" type="information-circled"/>
+              <icon color="#f9284f" type="md-alert"/>
               <span class="sizeColor3">商家审批份数：{{taskRelease.taskCount - systemApprovalTaskNumber || 0}} 份</span>
               <span class="sizeColor3 ml-10">平台审批份数：{{systemApprovalTaskNumber || 0}} 份</span>
             </p>
@@ -372,8 +372,8 @@
             <i-input v-model.number="taskRelease.itemPrice" placeholder="请输入宝贝单价" style="width: 120px"/>
             <span>元</span>
             <span v-show="taskRelease.itemPrice && taskRelease.itemPrice < 1" class="main-color ml-15"><icon
-              color="#f9284f" type="information-circled"/>&nbsp;每份试用品的价值必须在1元以上</span>
-            <!--<span v-show="taskRelease.itemPrice && taskRelease.itemPrice < 10 && taskRelease.activityCategory === 'pinkage_for_10'" class="main-color ml-20"><Icon color="#f9284f" type="information-circled"></Icon>&nbsp;10元包邮活动，宝贝最低价格不能低于10元</span>-->
+              color="#f9284f" type="md-alert"/>&nbsp;每份试用品的价值必须在1元以上</span>
+            <!--<span v-show="taskRelease.itemPrice && taskRelease.itemPrice < 10 && taskRelease.activityCategory === 'pinkage_for_10'" class="main-color ml-20"><Icon color="#f9284f" type="md-alert"></Icon>&nbsp;10元包邮活动，宝贝最低价格不能低于10元</span>-->
             <span class="sizeColor2 ml-5" v-show="!taskRelease.itemPrice || taskRelease.itemPrice > 1">（活动期间，商家不允许修改下单页商品信息，经核查属实，本平台有权将活动担保金返还已获得资格的拿手，商家账号按相应规则处罚）</span>
           </div>
           <!--            <div class="discount ml-20 mt-20"
@@ -557,7 +557,7 @@
                 <i-input v-model.number="taskRelease.itemPrice" placeholder="请输入宝贝单价" style="width: 120px"/>
                 <span>元</span>
                 <span v-show="taskRelease.itemPrice && taskRelease.itemPrice < 1" class="main-color ml-15"><icon
-                  color="#f9284f" type="information-circled"/>&nbsp;每份试用品的价值必须在1元以上</span>
+                  color="#f9284f" type="md-alert"/>&nbsp;每份试用品的价值必须在1元以上</span>
                 <span class="sizeColor2 ml-4" v-show="!taskRelease.itemPrice || taskRelease.itemPrice > 1">（活动期间，商家不允许修改下单页商品信息，经核查属实，本平台有权将活动担保金返还已获得资格的拿手，商家账号按相应规则处罚）</span>
               </div>
               <div class="order-quantity  ml-10 mt-20 mb-20">
@@ -651,7 +651,7 @@
                 <span class="required">宝贝标题：</span>
                 <i-input v-model="taskRelease.taskName" placeholder="请输入宝贝标题" style="width: 296px"/>
                 <span class="ml-20 sizeColor2"><icon v-show="taskNameLength > 60" color="#f9284f"
-                                                     type="information-circled"/>&nbsp;此处填宝贝名称，突出宝贝特点，勿填无关内容，最多支持60个字符，当前已输入  <span
+                                                     type="md-alert"/>&nbsp;此处填宝贝名称，突出宝贝特点，勿填无关内容，最多支持60个字符，当前已输入  <span
                   class="main-color">{{taskNameLength}}</span> / 60个字符。</span>
               </div>
               <div class="baby-title ml-10 mt-20">
@@ -704,7 +704,7 @@
                   <span v-show="taskRelease.orderType === 'normal'" class="sizeColor3 ml-5">（平台会按照1/5的比例进行计算，部分中奖名额将会由系统进行推荐）</span>
                 </p>
                 <p class="mt-10 ml-70" v-show="systemApprovalTaskNumber > 0 && taskRelease.orderType === 'normal'">
-                  <icon color="#f9284f" type="information-circled"/>
+                  <icon color="#f9284f" type="md-alert"/>
                   <span class="sizeColor3">商家审批份数：{{taskRelease.taskCount - systemApprovalTaskNumber || 0}} 份</span>
                   <span class="sizeColor3 ml-10">平台审批份数：{{systemApprovalTaskNumber || 0}} 份</span>
                 </p>
@@ -1226,7 +1226,7 @@
     <modal v-model="editPriceAfterModel">
       <div class="clear mt-10">
         <div class="left mt-5">
-          <icon color="#f9284f" size="32" type="information-circled"/>
+          <icon color="#f9284f" size="32" type="md-alert"/>
         </div>
         <div class="left ml-10">
           <p class="fs-14">由于您修改了当前活动信息，且修改后的</p>
@@ -1242,7 +1242,7 @@
     <modal v-model="editPriceToLowAfterModel">
       <div class="clear mt-40">
         <div class="left mt-5">
-          <icon color="#f9284f" size="32" type="information-circled"/>
+          <icon color="#f9284f" size="32" type="md-alert"/>
         </div>
         <div class="left ml-10">
           <p style="font-size: 14px;">由于您修改了当前活动信息，且修改后的</p>
@@ -1257,7 +1257,7 @@
     <!--商家改低宝贝数量并且关键词方案大于当前宝贝数量弹框-->
     <modal v-model="keywordLowerChangeModel" :mask-closable="false" :closable="false" width="368">
       <p slot="header" class="text-ct">
-        <icon color="#f9284f" type="information-circled"/>
+        <icon color="#f9284f" type="md-alert"/>
         <span class="main-color">关键词方案修改确认</span>
       </p>
       <div class="ml-10 text-ct">
@@ -1295,7 +1295,7 @@
     <!--宝贝链接不属于绑定店铺提示弹框-->
     <modal v-model="isSelectStoreUrl" :closable="false" :mask-closable="false" width="360">
       <p slot="header" class="text-ct">
-        <Icon color="#f9284f" type="information-circled"/>
+        <Icon color="#f9284f" type="md-alert"/>
         <span class="main-color">温馨提示</span>
       </p>
       <div class="text-ct">
@@ -1309,7 +1309,7 @@
     <!--爬虫抓取宝贝链接对应的店铺信息失败提示弹框-->
     <modal v-model="isGetStoreInfoError" :closable="false" :mask-closable="false" width="360">
       <p slot="header" class="text-ct">
-        <icon color="#f9284f" type="information-circled"/>
+        <icon color="#f9284f" type="md-alert"/>
         <span class="main-color">温馨提示</span>
       </p>
       <div class="text-ct">
@@ -1323,7 +1323,7 @@
     <!--用户没有绑定任何店铺弹框提示-->
     <modal v-model="isBindStore" :closable="false" :mask-closable="false" width="360">
       <p slot="header" class="text-ct">
-        <icon color="#f9284f" type="information-circled"/>
+        <icon color="#f9284f" type="md-alert"/>
         <span class="main-color">温馨提示</span>
       </p>
       <div class="text-ct">
@@ -1346,7 +1346,7 @@
     <!--普通会员用户使用当日单或预约单提示升级会员版本弹框-->
     <modal v-model="upgradeMembershipModal" :closable="false" :mask-closable="false" width="360">
       <p slot="header" class="text-ct">
-        <icon color="#f9284f" type="information-circled"/>
+        <icon color="#f9284f" type="md-alert"/>
         <span class="main-color">温馨提示</span>
       </p>
       <div class="text-ct">
@@ -2721,14 +2721,6 @@
               _this.$Message.warning(`亲，请选择您需要的旺旺标签设置！`);
               return;
             }
-           /* if (_this.showkerConditionRequireStatus.other.showkerTag.require && _this.showkerCondition.showkerTagRequire.length < 4) {
-              _this.$Message.warning(`亲，拿手审批条件设置中类目最少需要选择4个！`);
-              return;
-            }
-            if (_this.showkerConditionRequireStatus.other.address.require && _this.showkerCondition.addressExclude.length > 5) {
-              _this.$Message.warning(`亲，拿手申请条件设置中所排除地区最多为5个！`);
-              return;
-            }*/
             if (_this.showkerConditionRequireStatus.other.auditTimeCount.require && _this.taskRelease.orderType === 'normal') {
               for (let i = 0, len = _this.showkerCondition.auditTimeCountRequire.length; i < len; i++) {
                 if (!_this.showkerCondition.auditTimeCountRequire[i].count) {
@@ -3592,14 +3584,14 @@
           })
         }
       },
-      // 标签设置地区选择改变处理，最多选5个，当用户选中超过5个地区自动取消勾选超出的地区选项
+      // 标签设置地区选择改变处理，最多选5个地区，当用户选中超过5个地区自动取消勾选超出的地区选项
       addressExcludeChange(data) {
         if (data.length > 5) {
           this.$Message.warning('亲，拿手申请条件设置地区要求最多选择5个！');
           this.showkerCondition.addressExclude.splice(5, 1);
         }
       },
-      // 标签设置类目选择改变处理，最少选4个，当用户选中少于4个地区自动勾选将要取消勾选的地区选项
+      // 标签设置类目选择改变处理，最少选4个类目，当用户选中少于4个地区自动勾选将要取消勾选的地区选项
       showkerTagRequireChange(data) {
         if (data.length === 4) {
           this.showkerConditionRequireStatus.showkerTagRequireChangeLengthFor4 = data

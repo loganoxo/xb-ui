@@ -1,7 +1,7 @@
 <template>
   <div class="mt-20">
     <div class="prompt">
-      <icon type="information-circled"/>
+      <icon type="md-alert"/>
       <span> 亲，请记得在活动结束前审批拿手哦，如果活动结束后48小时内仍未审批满，系统将自动按申请时间审批剩余名额！</span>
     </div>
     <div class="store-list pt-20 pb-20">
@@ -129,7 +129,7 @@
                 </td>
                 <td>
                   <tooltip v-if="allTask.reason && allTask.status === 'waiting_resubmit'" :content="allTask.reason" placement="top" class="cursor-p">
-                    <icon color="#f9284f" type="information-circled"/>
+                    <icon color="#f9284f" type="md-alert"/>
                     <span class="main-color">{{getStatusInfo(allTask.status)}}</span>
                   </tooltip>
                   <span v-else>{{getStatusInfo(allTask.status)}}</span>
@@ -252,7 +252,7 @@
     <!--开启一键加速功能确认弹框-->
     <modal v-model="speedUpModal" width="360">
       <p slot="header" class="text-ct">
-        <icon color="#f9284f" type="information-circled"/>
+        <icon color="#f9284f" type="md-alert"/>
         <span class="main-color">一键加速</span>
       </p>
       <div class="text-ct">
@@ -267,7 +267,7 @@
     <!--检测拿手近期申请活动情况弹框-->
     <modal v-model="showkerApplyInfoModal" width="480">
       <p slot="header" class="text-ct">
-        <icon color="#f9284f" type="information-circled"/>
+        <icon color="#f9284f" type="md-alert"/>
         <span class="main-color">温馨提示</span>
       </p>
       <div class="text-ct">
@@ -281,7 +281,7 @@
     <!--普通会员使用火眼金睛功能提示升级会员弹框-->
     <modal v-model="upgradeMembershipModal" :closable="false" :mask-closable="false" width="360">
       <p slot="header" class="text-ct">
-        <icon color="#f9284f" type="information-circled"/>
+        <icon color="#f9284f" type="md-alert"/>
         <span class="main-color">温馨提示</span>
       </p>
       <div class="text-ct">

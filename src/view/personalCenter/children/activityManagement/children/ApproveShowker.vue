@@ -25,7 +25,7 @@
         <!--待审批-->
         <div class="await-approve mt-20" v-show="showApproveStatus === 'toAudit'">
           <div class="prompt mb-20">
-            <Icon type="information-circled"></Icon>
+            <Icon type="md-alert"></Icon>
             <span> 亲，请记得在活动结束前审批拿手哦，如果活动结束后48小时内仍未审批满，系统将自动按申请时间审批剩余名额！</span>
           </div>
           <iSelect v-model="selectStatus" style="width: 120px;margin-right: 12px;">
@@ -152,7 +152,7 @@
                     <Tooltip
                       :content="item.auditDescription"
                       placement="top" class="cursor-p">
-                      <Icon color="#f9284f" type="information-circled"></Icon>
+                      <Icon color="#f9284f" type="md-alert"></Icon>
                       <span class="main-color">{{getTaskStatus(item.status)}}</span>
                     </Tooltip>
                   </p>
@@ -283,8 +283,8 @@
               <span><span class="f-b">拿手实付金额：</span><span class="main-color">{{orderInfo.orderPrice || 0}}</span>元<span>（当前每单活动担保金<span>{{orderInfo.perMarginNeed}}</span>元）</span></span>
             </p>
           </div>
-          <p class="cl-red mt-10 text-ct" v-if="orderInfo.orderPrice < orderInfo.perMarginNeed"><Icon type="information-circled" color="red" size="14" class="mr-5"></Icon>注意：拿手实付金额与活动担保金金额不一致，请仔细审核！</p>
-          <p class="cl-red mt-10 text-ct" v-else><Icon type="information-circled" color="red" size="14" class="mr-5"></Icon>注意：为了防止不良拿手冒领担保金，请您仔细审核交易订单信息，确认不误再作提交！</p>
+          <p class="cl-red mt-10 text-ct" v-if="orderInfo.orderPrice < orderInfo.perMarginNeed"><Icon type="md-alert" color="red" size="14" class="mr-5"></Icon>注意：拿手实付金额与活动担保金金额不一致，请仔细审核！</p>
+          <p class="cl-red mt-10 text-ct" v-else><Icon type="md-alert" color="red" size="14" class="mr-5"></Icon>注意：为了防止不良拿手冒领担保金，请您仔细审核交易订单信息，确认不误再作提交！</p>
           <div class="mt-22 text-ct">
             <Radio-group v-model="orderReviewStatus">
               <Radio class="mr-30" label="passAudit">
