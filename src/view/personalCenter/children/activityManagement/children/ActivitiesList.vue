@@ -126,7 +126,7 @@
                   <span @click="closeTask(item.id, item.fastPublish)">关闭</span>
                 </p>
                 <p class="bond mt-6">
-                  <span @click="depositMoney(item.totalMarginNeed + item.promotionExpensesNeed + item.vasFeeNeed + item.tagVasFeeNeed + item.redEnvelopeDeductionNeed, item.id, item.marginPaid + item.promotionExpensesPaid + item.vasFeePaid + item.tagVasFeePaid + item.redEnvelopeDeductionPaid, item.createTime, item.redEnvelopeDeductionPaid, item.marginPaid)">存担保金</span>
+                  <span @click="depositMoney(item.totalMarginNeed + item.promotionExpensesNeed + item.vasFeeNeed + item.tagVasFeeNeed + item.redEnvelopeDeductionNeed, item.id, item.marginPaid + item.promotionExpensesPaid + item.vasFeePaid + item.tagVasFeePaid + item.redEnvelopeDeductionPaid, item.createTime, item.redEnvelopeDeductionPaid, item.marginPaid, item.promotionExpensesNeed)">存担保金</span>
                 </p>
                 <p class="copy mt-6">
                   <span @click="copyTask(item.id)">复制活动</span>
@@ -749,23 +749,33 @@
       isTaskOverdueClose() {
         this.confirmClose()
       },
-      depositMoney(money, id, deposited, createTime, redEnvelopeDeductionPaid, marginPaid) {
+      depositMoney(money, id, deposited, createTime, redEnvelopeDeductionPaid, marginPaid, promotionExpensesNeed) {
         const _this = this;
+        _this.taskId = id;
         if (createTime <= 1529933400000) {
           _this.isTaskOverdueModel = true;
-          _this.taskId = id;
         } else {
-          _this.disabledRedEnvelopes = marginPaid > 0;
-          _this.redEnvelopesState = marginPaid > 0 ? redEnvelopeDeductionPaid > 0 : true;
-          _this.needDepositMoney = money;
-          _this.hasDeposited = deposited;
-          _this.taskPayId = id;
-          api.redEnvelopeDeduction({
-            taskId: id,
-          }).then(res => {
+          api.taskNewestPromotion({taskId: id}).then(res => {
             if (res.status) {
-              _this.redEnvelopeDeductionNumber = res.data;
-              _this.showPayModel = true;
+              if (promotionExpensesNeed === res.data) {
+                _this.disabledRedEnvelopes = marginPaid > 0;
+                _this.redEnvelopesState = marginPaid > 0 ? redEnvelopeDeductionPaid > 0 : true;
+                _this.needDepositMoney = money;
+                _this.hasDeposited = deposited;
+                _this.taskPayId = id;
+                api.redEnvelopeDeduction({
+                  taskId: id,
+                }).then(res => {
+                  if (res.status) {
+                    _this.redEnvelopeDeductionNumber = res.data;
+                    _this.showPayModel = true;
+                  } else {
+                    _this.$Message.error(res.msg)
+                  }
+                })
+              } else {
+                _this.isTaskOverdueModel = true
+              }
             } else {
               _this.$Message.error(res.msg)
             }

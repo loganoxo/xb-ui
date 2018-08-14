@@ -1227,4 +1227,11 @@ export default {
     return axiosConfig.get('/api/get-new-out-commodity.json')
   },
 
+  /**
+   * 获取新增商品，送出商品数据
+   */
+  taskNewestPromotion(params) {
+    return axiosConfig.get('/api/task-newest-promotion.json', params)
+  },
+
 }
