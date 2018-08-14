@@ -22,9 +22,11 @@
 </template>
 
 <script>
+
   export default {
     name: "landing-page",
-    components: {},
+    components: {
+    },
     computed: {
       isLogin() {
         return this.$store.state.login;
