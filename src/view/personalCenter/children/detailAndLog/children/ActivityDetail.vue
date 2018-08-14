@@ -836,7 +836,7 @@
         <p>活动担保金 = 份数 × 单品活动担保金 = <span>{{oneBondMarginText}}</span> 元</p>
         <!--<p class="mt-6">单品推广费 = 单品试用担保金 × 费率 =<span>{{onePromotionExpensesBeforeText}}</span> 元<span>{{onePromotionExpensesTipText}}</span></p>-->
         <p class="mt-6">总推广费 = 单品推广费用 × 份数 = <span>{{(onePromotionExpensesAfter / 100).toFixed(2)}}</span> × <span>{{taskRelease.taskCount}} = <span>{{(allPromotionExpenses / 100).toFixed(2)}}</span></span> 元 <span class="main-color" v-if="fastPublish">（您是首次放单，享受首单推广减免）</span></p>
-        <p v-if="!fastPublish" class="mt-6">总增值费 = 单品增值费 × 份数 =  <span>{{(oneValueAddedCost / 100).toFixed(2)}}</span> × <span>{{taskRelease.taskCount}}</span> = {{(allValueAddedCost / 100).toFixed(2)}} 元</p>
+        <p v-if="!fastPublish" class="mt-6">总增值费 = 单品增值费 × 份数 =  <span>{{((oneValueAddedCost + showkerConditionAllPrice) / 100).toFixed(2)}}</span> × <span>{{taskRelease.taskCount}}</span> = {{(allValueAddedCost / 100).toFixed(2)}} 元</p>
         <p class="mt-6">总费用 = 活动担保金 + 总推广费 + 总增值费用 = <span>{{(orderMoney / 100).toFixed(2)}}</span> 元</p>
       </div>
     </div>
@@ -1273,7 +1273,7 @@
        * @return {number}
        */
       oneValueAddedCost() {
-        return this.vasMainItemCost + this.vasSimilarItemCost + this.showkerConditionAllPrice
+        return this.vasMainItemCost + this.vasSimilarItemCost
       },
 
       /**
@@ -1282,7 +1282,7 @@
        * @return {number}
        */
       allValueAddedCost() {
-        return this.oneValueAddedCost * this.taskRelease.taskCount
+        return (this.oneValueAddedCost + this.showkerConditionAllPrice) * this.taskRelease.taskCount
       },
 
       /**
@@ -1483,6 +1483,7 @@
             _this.taskRelease.itemPrice = _this.taskRelease.itemPrice / 100;
             _this.taskRelease.presentPrice = _this.taskRelease.presentPrice / 100;
             // 处理拿手申请条件设置数据
+            _this.showkerConditionRequireStatus.aliWwLabelSet = res.data.showkerApplyRequire;
             if (res.data.showkerApplyRequire && res.data.showkerApplyRequireData) {
               for (let k in _this.showkerCondition) {
                 for (let i in res.data.showkerApplyRequireData) {
@@ -1758,6 +1759,7 @@
       background-color: $mainColor;
       text-align: center;
       margin: 20px auto 42px auto;
+      border-radius: 5px;
       @include transition;
       cursor: pointer;
       &:hover {
