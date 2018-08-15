@@ -3467,10 +3467,10 @@
       },
       // 商家须知按钮倒计时
       merchantInformationInterval() {
-        let time = 0;
+        let time = 10;
         const interval = setInterval(() => {
-          time ++;
-          if (time === 10) {
+          time --;
+          if (time === 0) {
             clearInterval(interval);
             this.merchantInformationModal.btnText = '确定';
             this.merchantInformationModal.disabled = false;
