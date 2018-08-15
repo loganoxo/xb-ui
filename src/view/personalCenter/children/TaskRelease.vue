@@ -1273,6 +1273,21 @@
         <i-button type="error" class="width-pct-20" @click="perfectStoreConcatInfo = false">稍后再说</i-button>
       </div>
     </modal>
+    <!--商家须知-->
+    <modal v-model="merchantInformationModal.status" :closable="false" :mask-closable="false">
+      <div slot="header" class="text-ct main-color fs-16 f-b">商家须知</div>
+      <p>白拿拿平台旨在为大家提供更优质的试用服务，为保证试用活动的顺利进行，也为了保证商家朋友的权益，以下条款请务必认真阅读并遵守：</p>
+      <p class="mt-10">1、实际发货的赠品须与平台上发布活动所展示的赠品一致；</p>
+      <p class="mt-10">2、请认真审核拿手提交的订单编号，确认无误之后，及时安排发货；</p>
+      <p class="mt-10">3、请确保平台上预留的电话和QQ等联系方式真实有效，可以联系上；</p>
+      <p class="mt-10">4、对于审核通过的拿手活动商家不得无故随意终止；</p>
+      <p class="mt-10">5、因物流或者其他不可抗因素导致赠品破损或者丢件的及时跟平台客服沟通配合处理；</p>
+      <p class="main-color mt-10">6、任务期间请关闭淘宝客、村淘、分享有赏等淘客活动，若因淘客活动引起的佣金支出由商家自己承担！</p>
+      <p class="mt-10">以上条款如有违反，造成不良后果，商家自行承担。</p>
+      <div slot="footer" class="text-ct">
+        <i-button type="error" class="width-pct-39 mr-10" :disabled="merchantInformationModal.disabled" @click="closeMerchantInformationModal">{{merchantInformationModal.btnText}}</i-button>
+      </div>
+    </modal>
   </div>
 </template>
 
@@ -1547,7 +1562,12 @@
           showRecommendAdvertisingStatus: false,
           recommendAdvertisingModal: false
         },
-        perfectStoreConcatInfo: false
+        perfectStoreConcatInfo: false,
+        merchantInformationModal: {
+          status: false,
+          btnText: '确定',
+          disabled: true
+        },
       }
     },
     // 当用户有首发资格路由重定向到快速发布通道反之则停留在此页面
@@ -1564,6 +1584,8 @@
             }
           })
         }
+        vm.merchantInformationInterval();
+        vm.merchantInformationModal.status = true;
         // 防止页面跳转绑定店铺弹框闪烁需要将店铺请求放此处执行
         vm.getStoreBindInfoList()
       })
@@ -1640,7 +1662,7 @@
        * @return {number}
        */
       oneBond() {
-        return this.taskRelease.pinkage === 'true' ? this.taskRelease.itemPrice : (this.taskRelease.itemPrice + 1000);
+        return this.taskRelease.pinkage === 'true' ? this.taskRelease.itemPrice * 100 : (this.taskRelease.itemPrice * 100 + 1000);
       },
 
       /**
@@ -2062,7 +2084,7 @@
               _this.selectStoreInfo.storeAlitm = decodeURI(_this.storeBindInfoList[0].storeAlitm);
               _this.selectStoreInfo.sellerId = _this.storeBindInfoList[0].sellerId;
               _this.selectStoreInfo.shopId = _this.storeBindInfoList[0].shopId;
-              if (!_this.storeBindInfoList[0].weChatNum) {
+              if (!_this.merchantInformationModal && !_this.storeBindInfoList[0].weChatNum) {
                 _this.perfectStoreConcatInfo = true;
               }
             }
@@ -3441,6 +3463,26 @@
               break;
             }
           }
+        }
+      },
+      // 商家须知按钮倒计时
+      merchantInformationInterval() {
+        let time = 0;
+        const interval = setInterval(() => {
+          time ++;
+          if (time === 10) {
+            clearInterval(interval);
+            this.merchantInformationModal.btnText = '确定';
+            this.merchantInformationModal.disabled = false;
+          } else {
+            this.merchantInformationModal.btnText = `确定（${time}秒）`
+          }
+        }, 1000)
+      },
+      closeMerchantInformationModal() {
+        this.merchantInformationModal.status = false;
+        if (!this.storeBindInfoList[0].weChatNum) {
+          this.perfectStoreConcatInfo = true;
         }
       },
     },

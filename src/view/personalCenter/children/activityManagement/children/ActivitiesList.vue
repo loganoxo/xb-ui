@@ -308,9 +308,10 @@
         <span class="main-color">结算成功</span>
       </p>
       <div class="text-ct">
-        <p>结算说明：活动剩余资格{{settlementRefundDetails.taskCountLeft}}，返还担保金共{{settlementRefundDetails.marginRefund}}元</p>
-        <p>返还推广费{{settlementRefundDetails.promotionRefund}}元。</p>
-        <p>返还增值费{{settlementRefundDetails.vasFeeRefund}}元。</p>
+        <p>结算说明：活动剩余资格：{{settlementRefundDetails.taskCountLeft}}，返还担保金共：{{settlementRefundDetails.marginRefund}} 元；</p>
+        <p>返还推广费：{{settlementRefundDetails.promotionRefund}} 元；</p>
+        <p>返还增值服务费：{{settlementRefundDetails.vasFeeRefund}} 元；</p>
+        <p>返还标签增值服务费：{{settlementRefundDetails.tagVasFeeRefund}} 元；</p>
       </div>
       <div slot="footer" class="text-ct">
         <i-button type="primary" size="large" long @click="auditSettlementSuccess = false">确认</i-button>
@@ -325,10 +326,11 @@
       <div>
         <p>活动标题：{{taskSettlementDetailInfo.storeName}}</p>
         <p class="mt-5">结算时间：{{taskSettlementDetailInfo.settlementTime | dateFormat('YYYY-MM-DD hh:mm:ss')}}</p>
-        <p class="mt-5">结算备注：活动剩余资格 {{taskSettlementDetailInfo.taskCountLeft}}</p>
-        <p class="ml-60 mt-5">返还担保金共 {{taskSettlementDetailInfo.marginRefund}} 元</p>
-        <p class="ml-60 mt-5">返还推广费 {{taskSettlementDetailInfo.promotionRefund}} 元</p>
-        <p class="ml-60 mt-5">返还增值费 {{taskSettlementDetailInfo.vasFeeRefund}} 元</p>
+        <p class="mt-5">结算备注：活动剩余资格: {{taskSettlementDetailInfo.taskCountLeft}} ；</p>
+        <p class="ml-60 mt-5">返还担保金共：{{taskSettlementDetailInfo.marginRefund}} 元；</p>
+        <p class="ml-60 mt-5">返还推广费：{{taskSettlementDetailInfo.promotionRefund}} 元；</p>
+        <p class="ml-60 mt-5">返还增值费：{{taskSettlementDetailInfo.vasFeeRefund}} 元；</p>
+        <p class="ml-60 mt-5">返还标签增值服务费：{{taskSettlementDetailInfo.tagVasFeeRefund}} 元；</p>
       </div>
       <div slot="footer" class="text-ct">
         <i-button type="primary" size="large" long @click="billDetailsModel = false">确认</i-button>
@@ -702,10 +704,11 @@
           if (res.status) {
             if (res.data) {
               _this.auditSettlementSuccess = true;
-              _this.settlementRefundDetails.marginRefund = res.data.marginRefund / 100 || 0;
-              _this.settlementRefundDetails.promotionRefund = res.data.promotionRefund / 100 || 0;
-              _this.settlementRefundDetails.vasFeeRefund = res.data.vasFeeRefund / 100 || 0;
-              _this.settlementRefundDetails.taskCountLeft = res.data.taskCountLeft || 0;
+              _this.settlementRefundDetails.marginRefund = (res.data.marginRefund / 100).toFixed(2);
+              _this.settlementRefundDetails.promotionRefund = (res.data.promotionRefund / 100).toFixed(2);
+              _this.settlementRefundDetails.vasFeeRefund = (res.data.vasFeeRefund / 100).toFixed(2);
+              _this.settlementRefundDetails.tagVasFeeRefund = (res.data.tagVasFeeRefund / 100).toFixed(2);
+              _this.settlementRefundDetails.taskCountLeft = (res.data.taskCountLeft).toFixed(2);
             } else {
               _this.directSettlementSuccess = true;
             }
@@ -830,6 +833,7 @@
             _this.taskSettlementDetailInfo.marginRefund = (res.data.marginRefund / 100).toFixed(2);
             _this.taskSettlementDetailInfo.promotionRefund = (res.data.promotionRefund / 100).toFixed(2);
             _this.taskSettlementDetailInfo.vasFeeRefund = (res.data.vasFeeRefund / 100).toFixed(2);
+            _this.taskSettlementDetailInfo.tagVasFeeRefund = (res.data.tagVasFeeRefund / 100).toFixed(2);
             _this.taskSettlementDetailInfo.storeName = storeName;
           } else {
             _this.$Message.error(res.msg)

@@ -353,7 +353,7 @@ export const taskErrorStatusList = (type) => {
     'task_delete_return_promotion_expenses_seller': '关闭活动返款-活动推广费',
     'task_return_deposit_seller': '活动结算担保金返款',
     'task_return_promotion_expenses_seller': '活动结算推广费返款',
-    'reward_fee':'活动打赏费',
+    'reward_fee': '活动打赏费',
     'pinkage': '包邮',
     'mobile_exclusive': '手机专享',
     'tao_coin_deduction': '淘金币抵扣',
@@ -387,10 +387,11 @@ export const taskErrorStatusList = (type) => {
     'showker_task_commission': '拿手活动提成',
     'task_vas_return_shower': '活动返利',
     'task_return_vas_fee_seller': '活动结算增值服务费返款',
+    'task_return_tag_vas_fee_seller': '活动结算标签增值服务费返款',
     'pay_for_task_vas_fee_seller': '支付活动增值服务费',
     'pay_for_task_vas_fee_supply_seller': '补交活动增值费',
     'task_delete_return_vas_fee_seller': '删除活动返款增值费',
-    'coin_withdraw':'钱包提取',
+    'coin_withdraw': '钱包提取',
   };
   return mapList[type];
 };
