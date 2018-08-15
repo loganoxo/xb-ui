@@ -78,7 +78,7 @@
                     <icon :type="item.sort === 'desc' ? 'arrow-down-c' : 'arrow-up-c'"/>
                   </i-button>
                 </th>
-                <th width="20%">申请时间/IP地址</th>
+                <th width="20%">申请时间/IP</th>
                 <th width="20%">拿手活动概况</th>
                 <th width="20%">流程状态</th>
                 <th width="20%">操作</th>
@@ -119,8 +119,8 @@
                 <td>
                   <p>{{allTask.applyTime | dateFormat('YYYY-MM-DD hh:mm:ss')}}</p>
                   <p class="mt-10">{{filterIp(allTask.regIp)}}</p>
-                  <p class="mt-10" v-if="allTask.regIp && allTask.ipInfo">{{allTask.ipInfo.region}}-{{allTask.ipInfo.city}}</p>
-                  <p class="mt-10" v-if="!allTask.ipInfo">归属地未知</p>
+                  <!--<p class="mt-10" v-if="allTask.regIp && allTask.ipInfo">{{allTask.ipInfo.region}}-{{allTask.ipInfo.city}}</p>-->
+                  <!--<p class="mt-10" v-if="!allTask.ipInfo">归属地未知</p>-->
                 </td>
                 <td class="registration">
                   <p class="mt-5 cl666" v-cloak>近七天通过次数：{{allTask.applySuccessCount7Days || 0}}</p>
