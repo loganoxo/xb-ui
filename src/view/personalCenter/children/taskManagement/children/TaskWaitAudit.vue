@@ -469,7 +469,7 @@
       orderNumberColorTip(num) {
         if (num < 10) {
           return `green`
-        } else if (10 <= num <= 20) {
+        } else if (num >= 10 && num <= 20) {
           return `orange`
         } else {
           return `red`
@@ -853,6 +853,7 @@
         }).then(res => {
           if (res.status) {
             _this.appliesWaitingAuditTask();
+            _this.selectId = null;
             _this.$Message.success('一键加速开启成功！');
           } else {
             _this.$Message.error(res.msg)
