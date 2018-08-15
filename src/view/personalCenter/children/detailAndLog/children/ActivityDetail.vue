@@ -1512,6 +1512,7 @@
               } else {
                 _this.showkerCondition.genderRequire = 0
               }
+              _this.showkerConditionRequireStatus.other.antPay.require = _this.showkerCondition.antPayRequire;
               if (_this.showkerCondition.ageRequire.length > 0) {
                 _this.showkerConditionRequireStatus.other.age.require = true
               } else {
