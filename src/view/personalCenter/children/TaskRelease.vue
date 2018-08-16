@@ -1570,7 +1570,7 @@
           showkerTagRequire: [],
           auditTimeCountRequire: [
             {
-              date: `${new Date(getSeverTime()).getFullYear()}-${new Date(getSeverTime()).getMonth() + 1}-${new Date(getSeverTime()).getDate() + 1}`,
+              date: `${new Date(getSeverTime()).getFullYear()}-${this.formatNumber(new Date(getSeverTime()).getMonth() + 1)}-${new Date(getSeverTime()).getDate() + 1}`,
               hourStart: '0',
               hourEnd: '23',
               count: null
@@ -2024,6 +2024,9 @@
 
     },
     methods: {
+      formatNumber(num) {
+        return num.toString().padStart(2, '0')
+      },
       changeSelectActivity(type) {
         this.taskRelease.activityCategory = type;
       },
@@ -2592,6 +2595,10 @@
                   _this.$Message.warning(`亲，拿手审批条件限制中时间段${i + 1}的开始时间大于结束时间，请重新设置！`);
                   return;
                 }
+                if (Date.parse(new Date(_this.showkerCondition.auditTimeCountRequire[i].date)) < getSeverTime()) {
+                  this.$Message.warning(`亲，拿手审批条件限制中时间段${i + 1}选择的日期已过期，请重新选择日期！`);
+                  return;
+                }
                 if (Date.parse(new Date(_this.showkerCondition.auditTimeCountRequire[i].date)) > getSeverTime() + 86400000 * _this.taskRelease.taskDaysDuration) {
                   this.$Message.warning(`亲，拿手审批条件限制中时间段${i + 1}选择的日期大于活动时长，请重新选择日期！`);
                   return;
@@ -3006,23 +3013,25 @@
               if (_this.showkerCondition.showkerTagRequire.length > 0) {
                 _this.showkerConditionRequireStatus.other.showkerTag.require = true;
               }
+
               _this.interestTagList.length === 0 && _this.interestTag();
+
               if (_this.showkerCondition.auditTimeCountRequire.length > 0) {
                 _this.showkerConditionRequireStatus.other.auditTimeCount.require = true;
-                const auditTimeCountRequireFirstData = _this.showkerCondition.auditTimeCountRequire[0].date;
-                _this.showkerCondition.auditTimeCountRequire.forEach(item => {
-                  if (Date.parse(new Date(item.date)) < getSeverTime()) {
-                    if (item.date === auditTimeCountRequireFirstData) {
-                      item.date = `${new Date(getSeverTime()).getFullYear()}-${new Date(getSeverTime()).getMonth() + 1}-${new Date(getSeverTime() + 86400000).getDate()}`
+                if (_this.$route.query.type === 'copy') {
+                  const auditTimeCountRequireFirstDate = _this.showkerCondition.auditTimeCountRequire[0].date;
+                  for (let l = 0, len = _this.showkerCondition.auditTimeCountRequire.length; l < len; l++) {
+                    if (Date.parse(new Date(_this.showkerCondition.auditTimeCountRequire[l].date)) === Date.parse(new Date(auditTimeCountRequireFirstDate))) {
+                      _this.showkerCondition.auditTimeCountRequire[l].date = `${new Date(getSeverTime()).getFullYear()}-${this.formatNumber(new Date(getSeverTime()).getMonth() + 1)}-${new Date(getSeverTime() + 86400000).getDate()}`
                     } else {
-                      let time =Date.parse(new Date(item.date)) - Date.parse(new Date(auditTimeCountRequireFirstData));
-                      item.date = `${new Date(getSeverTime()).getFullYear()}-${new Date(getSeverTime()).getMonth() + 1}-${new Date(getSeverTime() + time).getDate()}`
+                      let time = Date.parse(new Date(_this.showkerCondition.auditTimeCountRequire[l].date)) - Date.parse(new Date(auditTimeCountRequireFirstDate)) + 86400000;
+                      _this.showkerCondition.auditTimeCountRequire[l].date = `${new Date(getSeverTime()).getFullYear()}-${this.formatNumber(new Date(getSeverTime()).getMonth() + 1)}-${new Date(getSeverTime() + time).getDate()}`
                     }
                   }
-                })
+                }
               } else {
                 _this.showkerCondition.auditTimeCountRequire.push({
-                  date: `${new Date(getSeverTime()).getFullYear()}-${new Date(getSeverTime()).getMonth() + 1}-${new Date(getSeverTime()).getDate() + 1}`,
+                  date: `${new Date(getSeverTime()).getFullYear()}-${this.formatNumber(new Date(getSeverTime()).getMonth() + 1)}-${new Date(getSeverTime() + 86400000).getDate()}`,
                   hourStart: '0',
                   hourEnd: '23',
                   count: null
@@ -3426,7 +3435,7 @@
       },
       addTimeBucket() {
         this.showkerCondition.auditTimeCountRequire.push({
-          date: `${new Date(getSeverTime()).getFullYear()}-${new Date(getSeverTime()).getMonth() + 1}-${new Date(getSeverTime()).getDate() + 1}`,
+          date: `${new Date(getSeverTime()).getFullYear()}-${this.formatNumber(new Date(getSeverTime()).getMonth() + 1)}-${new Date(getSeverTime()).getDate() + 1}`,
           hourStart: '0',
           hourEnd: '23',
           count: null

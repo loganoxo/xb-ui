@@ -538,7 +538,7 @@
           if (fastPublish) {
             this.$router.push({name: 'FastTaskRelease', query: {q: encryption(id)}})
           } else {
-            this.$router.push({name: 'TaskRelease', query: {q: encryption(id)}})
+            this.$router.push({name: 'TaskRelease', query: {q: encryption(id), type: 'edit'}})
           }
         }
       },
