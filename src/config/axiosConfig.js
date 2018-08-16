@@ -1,7 +1,7 @@
 /**
  * Created by ycb on 2017/7/25.
  */
-import axios from 'axios'
+import  axios from 'axios'
 import qs from 'qs'
 import router from '@/router'
 import store from '@/store'
