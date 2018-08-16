@@ -3445,6 +3445,7 @@
           }
         } else {
           this.showkerConditionRequireStatus.creditLevel.require = false;
+          this.showkerConditionRequireStatus.weekOrder.require = false;
           Object.keys(this.showkerConditionRequireStatus.other).forEach(item => {
             if (this.showkerConditionRequireStatus.other[item].require) {
               this.showkerConditionRequireStatus.other[item].require = false
