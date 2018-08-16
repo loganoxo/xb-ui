@@ -127,8 +127,12 @@
                   <p v-cloak class="mt-5 mb-5" :style="{color: orderNumberColorTip(allTask.orderCount7Days)}">近七天下单次数：{{allTask.orderCount7Days || 0}}</p>
                   <a @click="openNewTrialReportFunc(encryptionId(allTask.showkerId))">查看TA的买家秀</a>
                   <p class="text-ct showker-tag mt-5">
-                    <span v-show="allTask.examDone" class="mr-5">新人考试</span>
-                    <span v-show="allTask.trialDone" class="ml-5">五单出师</span>
+                    <tooltip content="在客服引导下完成新人认证考试" placement="top">
+                      <span v-show="allTask.examDone" class="mr-5">新人考试</span>
+                    </tooltip>
+                    <tooltip content="严格按照商家要求完成5个活动" placement="top">
+                      <span v-show="allTask.trialDone" class="ml-5">五单出师</span>
+                    </tooltip>
                   </p>
                 </td>
                 <td>
