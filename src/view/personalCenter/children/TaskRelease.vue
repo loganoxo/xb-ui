@@ -1271,8 +1271,6 @@
       </div>
       <div slot="footer"></div>
     </modal>
-    <!--商家绑定QQ号弹框-->
-    <qq-bind-modal :closable="isOpenQqBindModal" :closableIcon="false" @change="openQqBindModal"/>
     <!--商家店铺绑定微信的弹窗-->
     <modal v-model="perfectStoreConcatInfo">
       <div slot="header" class="text-ct">
@@ -1488,7 +1486,6 @@
         shopAroundStatus: false,
         originalVasMainItem: [],
         upgradeMembershipModal: false,
-        // isOpenQqBindModal: false,
         createFastTaskStatus: false,
         redEnvelopesState: true,
         disabledRedEnvelopes: false,
@@ -2037,9 +2034,6 @@
       recommendAdvertisingStatusChange(status) {
         status && setStorage('recommendAdvertisingStatus', true)
       },
-      // openQqBindModal(value) {
-      //   this.isOpenQqBindModal = value
-      // },
       getTaskVasSelectInfo(id) {
         const _this = this;
         api.taskVasSelectInfo({
@@ -2130,9 +2124,6 @@
                 _this.perfectStoreConcatInfo = true;
               }
             }
-            // if (!_this.isBindStore && !_this.qqNumber) {
-            //   _this.isOpenQqBindModal = true
-            // }
           } else {
             _this.$Message.error(res.msg)
           }
