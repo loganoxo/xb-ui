@@ -717,6 +717,19 @@
             </div>
             <template v-if="showkerConditionRequireStatus.aliWwLabelSet">
               <div class="mt-20 ml-20 clear">
+                <span class="left ml-5">平台周下单数限制：</span>
+                <div class="left">
+                  <checkbox v-model="showkerConditionRequireStatus.weekOrder.require">需要</checkbox>
+                  <span>（<span class="sizeColor2">7单以下 +0.2元/单，</span><span class="cl999 text-decoration-through">原价1元</span><span class="sizeColor2">；3单以下 +0.5元/单，</span><span class="cl999 text-decoration-through">原价2元</span>）</span>
+                  <div class="mt-10" v-show="showkerConditionRequireStatus.weekOrder.require">
+                    <i-select v-model="showkerCondition.weekOrderRequire" class="width-100">
+                      <i-option label='7单以下' :value="7"/>
+                      <i-option label='3单以下' :value="3"/>
+                    </i-select>
+                  </div>
+                </div>
+              </div>
+              <div class="mt-20 ml-20 clear">
                 <span class="left ml-28">旺旺等级要求：</span>
                 <div class="inline-block left">
                   <checkbox v-model="showkerConditionRequireStatus.creditLevel.require" :disabled="true">需要 <span class="sizeColor2">（2心起+0.1元/单；4心起+0.2元/单；5心起+0.3元/单；1钻起+0.4元/单；2钻起+0.5元/单）</span></checkbox>
@@ -1030,6 +1043,13 @@
               7: 50
             },
           },
+          weekOrder: {
+            require: false,
+            price: {
+              7: 20,
+              3: 50
+            }
+          },
           other: {
             tqz: {
               require: false,
@@ -1300,6 +1320,24 @@
       },
 
       /**
+       * 计算拿手申请设置平台周下单数限制价格
+       * @return {number}
+       */
+      weekOrderRequireOncePrice() {
+        if (this.showkerConditionRequireStatus.weekOrder.require) {
+          if (this.showkerCondition.weekOrderRequire === 7) {
+            return this.showkerConditionRequireStatus.weekOrder.price[7]
+          }
+          if (this.showkerCondition.weekOrderRequire === 3) {
+            return this.showkerConditionRequireStatus.weekOrder.price[3]
+          }
+        } else {
+          return 0
+        }
+      },
+
+
+      /**
        * 计算拿手申请设置旺旺等级需求价格
        * @return {number}
        */
@@ -1336,7 +1374,7 @@
         const price = Object.keys(this.showkerConditionRequireStatus.other).reduce((prev, cur) => {
           return (this.showkerConditionRequireStatus.other[cur].require ? this.showkerConditionRequireStatus.other[cur].price : 0) + prev
         }, 0);
-        return price + this.creditLevelRequireOncePrice
+        return price + this.creditLevelRequireOncePrice + this.weekOrderRequireOncePrice
       },
 
 
@@ -1491,6 +1529,11 @@
                     _this.showkerCondition[k] = res.data.showkerApplyRequireData[i]
                   }
                 }
+              }
+              if (_this.showkerCondition.weekOrderRequire) {
+                _this.showkerConditionRequireStatus.weekOrder.require = true
+              } else {
+                _this.showkerCondition.weekOrderRequire = 7
               }
               if (_this.showkerCondition.creditLevelRequire) {
                 _this.showkerConditionRequireStatus.creditLevel.require = true
