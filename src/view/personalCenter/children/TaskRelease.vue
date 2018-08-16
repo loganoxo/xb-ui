@@ -2784,7 +2784,7 @@
             break;
         }
         if (_this.getTaskCreateFastStatus || _this.isFastPublish) {
-          // 首单发布任务接口
+          // 首单发布任务接口（包括首单对活动的编辑修改）
           api.taskCreateFast(_this.taskRelease).then(res => {
             if (res.status) {
               _this.taskPayId = res.data.id;
