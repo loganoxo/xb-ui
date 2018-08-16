@@ -1223,7 +1223,7 @@
       </div>
     </modal>
     <!--用户没有绑定任何店铺弹框提示-->
-    <modal v-model="isBindStore" :closable="false" :mask-closable="false" width="360">
+    <modal v-model="isBindStore" :closable="false" :mask-closable="false" :scrollable="true" width="360">
       <p slot="header" class="text-ct">
         <icon color="#f9284f" type="md-alert"/>
         <span class="main-color">温馨提示</span>
@@ -1286,7 +1286,7 @@
       </div>
     </modal>
     <!--商家须知-->
-    <modal v-model="merchantInformationModal.status" :closable="false" :mask-closable="false">
+    <modal v-model="merchantInformationModal.status" :closable="false" :mask-closable="false" :scrollable="true">
       <div slot="header" class="text-ct main-color fs-16 f-b">商家须知</div>
       <p class="fs-14">白拿拿平台旨在为大家提供更优质的试用服务，为保证试用活动的顺利进行，也为了保证商家朋友的权益，以下条款请务必认真阅读并遵守：</p>
       <p class="mt-10 fs-14">1、实际发货的赠品须与平台上发布活动所展示的赠品一致；</p>
