@@ -894,8 +894,8 @@
           </template>
           <!--拿手审批条件设置-->
           <template>
-            <div class="activity-info-title">拿手申请条件设置</div>
-            <div class="sizeColor2 ml-20 mt-20">说明：此处设置符合标签的拿手旺旺才可申请活动。过多限制可能造成展示量/申请量下降，请综合考虑。</div>
+            <div class="activity-info-title">拿手审批条件限制</div>
+            <div class="sizeColor2 ml-20 mt-20">说明：此处设置符合标签的拿手旺旺才可被系统审批通过。过多限制可能造成展示量/申请量下降，请综合考虑。</div>
             <div class="mt-20 ml-20 mb-20 clear">
               <span class="ml-5 left">拿手旺旺标签设置：</span>
               <div class="left">
@@ -1290,16 +1290,16 @@
     <!--商家须知-->
     <modal v-model="merchantInformationModal.status" :closable="false" :mask-closable="false">
       <div slot="header" class="text-ct main-color fs-16 f-b">商家须知</div>
-      <p>白拿拿平台旨在为大家提供更优质的试用服务，为保证试用活动的顺利进行，也为了保证商家朋友的权益，以下条款请务必认真阅读并遵守：</p>
-      <p class="mt-10">1、实际发货的赠品须与平台上发布活动所展示的赠品一致；</p>
-      <p class="mt-10">2、请认真审核拿手提交的订单编号，确认无误之后，及时安排发货；</p>
-      <p class="mt-10">3、请确保平台上预留的电话和QQ等联系方式真实有效，可以联系上；</p>
-      <p class="mt-10">4、对于审核通过的拿手活动商家不得无故随意终止；</p>
-      <p class="mt-10">5、因物流或者其他不可抗因素导致赠品破损或者丢件的及时跟平台客服沟通配合处理；</p>
-      <p class="main-color mt-10">6、任务期间请关闭淘宝客、村淘、分享有赏等淘客活动，若因淘客活动引起的佣金支出由商家自己承担！</p>
-      <p class="mt-10">以上条款如有违反，造成不良后果，商家自行承担。</p>
+      <p class="fs-14">白拿拿平台旨在为大家提供更优质的试用服务，为保证试用活动的顺利进行，也为了保证商家朋友的权益，以下条款请务必认真阅读并遵守：</p>
+      <p class="mt-10 fs-14">1、实际发货的赠品须与平台上发布活动所展示的赠品一致；</p>
+      <p class="mt-10 fs-14">2、请认真审核拿手提交的订单编号，确认无误之后，及时安排发货；</p>
+      <p class="mt-10 fs-14">3、请确保平台上预留的电话和QQ等联系方式真实有效，可以联系上；</p>
+      <p class="mt-10 fs-14">4、对于审核通过的拿手活动商家不得无故随意终止；</p>
+      <p class="mt-10 fs-14">5、因物流或者其他不可抗因素导致赠品破损或者丢件的及时跟平台客服沟通配合处理；</p>
+      <p class="main-color mt-10 fs-14">6、任务期间请关闭淘宝客、村淘、分享有赏等淘客活动，若因淘客活动引起的佣金支出由商家自己承担！</p>
+      <p class="mt-10 fs-14">以上条款如有违反，造成不良后果，商家自行承担。</p>
       <div slot="footer" class="text-ct">
-        <i-button type="error" class="width-pct-39 mr-10" :disabled="merchantInformationModal.disabled" @click="closeMerchantInformationModal">{{merchantInformationModal.btnText}}</i-button>
+        <i-button type="error" class="width-pct-39 mr-10 fs-14" :disabled="merchantInformationModal.disabled" @click="closeMerchantInformationModal">{{merchantInformationModal.btnText}}</i-button>
       </div>
     </modal>
   </div>
@@ -1496,6 +1496,7 @@
         redEnvelopeDeductionNumber: 0,
         residualMatchNumber: 0,
         isMatchNumberOk: true,
+        isFastPublish: false,
         aliLevelList: commonConfig.aliLevelList,
         aliTqzList: commonConfig.aliTqzList,
         regionRequireList: [
@@ -1702,7 +1703,7 @@
        */
       onePromotionExpenses() {
         const type = this.taskRelease.activityCategory === 'free_get' ? 'AA' : 'AB';
-        return this.getTaskCreateFastStatus ? 0 : this.$store.getters.getPromotionExpenses[type].limit;
+        return this.isFastPublish ? 0 : this.$store.getters.getPromotionExpenses[type].limit;
       },
 
       /**
@@ -2098,7 +2099,12 @@
         this.$router.push({name: 'StoreBindRules', query: {from: 'taskRelease'}});
       },
       goTaskCreateFast() {
-        this.$router.push({name: 'FastTaskRelease'})
+        const query = this.$route.query.q;
+        if (query) {
+          this.$router.push({name: 'FastTaskRelease', query:{q: query}})
+        } else {
+          this.$router.push({name: 'FastTaskRelease'})
+        }
       },
       openSampleImageModal(src) {
         this.isShowExampleImageModel = true;
@@ -2575,25 +2581,25 @@
               return;
             }
             if (_this.showkerConditionRequireStatus.other.tqz.require && _this.showkerCondition.tqzRequire.length === 0) {
-              _this.$Message.warning(`亲，请选择拿手申请条件设置中的淘气值要求！`);
+              _this.$Message.warning(`亲，请选择拿手审批条件限制中的淘气值要求！`);
               return;
             }
             if (_this.showkerConditionRequireStatus.other.address.require && _this.showkerCondition.addressExclude.length === 0) {
-              _this.$Message.warning(`亲，请选择拿手申请条件设置中的地区要求！`);
+              _this.$Message.warning(`亲，请选择拿手审批条件限制中的地区要求！`);
               return;
             }
             if (_this.showkerConditionRequireStatus.other.age.require && _this.showkerCondition.ageRequire.length === 0) {
-              _this.$Message.warning(`亲，请选择拿手申请条件设置中的年龄要求！`);
+              _this.$Message.warning(`亲，请选择拿手审批条件限制中的年龄要求！`);
               return;
             }
             if (_this.showkerConditionRequireStatus.other.auditTimeCount.require && _this.taskRelease.orderType === 'normal') {
               for (let i = 0, len = _this.showkerCondition.auditTimeCountRequire.length; i < len; i++) {
                 if (!_this.showkerCondition.auditTimeCountRequire[i].count) {
-                  _this.$Message.warning(`亲，拿手申请条件设置中时间段${i + 1}的可审批数不能为空！`);
+                  _this.$Message.warning(`亲，拿手审批条件限制中时间段${i + 1}的可审批数不能为空！`);
                   return;
                 }
                 if (_this.showkerCondition.auditTimeCountRequire[i].hourStart * 1 >= _this.showkerCondition.auditTimeCountRequire[i].hourEnd * 1) {
-                  _this.$Message.warning(`亲，拿手申请条件设置中时间段${i + 1}的开始时间大于结束时间，请重新设置！`);
+                  _this.$Message.warning(`亲，拿手审批条件限制中时间段${i + 1}的开始时间大于结束时间，请重新设置！`);
                   return;
                 }
                 for (let j = i + 1; j < len; j++) {
@@ -2604,7 +2610,7 @@
                   }
                 }
                 if (Date.parse(new Date(_this.showkerCondition.auditTimeCountRequire[i].date) > getSeverTime() + 86400000 * _this.taskRelease.taskDaysDuration)) {
-                  this.$Message.warning(`亲，拿手申请条件设置中时间段${i + 1}选择的日期大于活动时长，请重新选择日期！`);
+                  this.$Message.warning(`亲，拿手审批条件限制中时间段${i + 1}选择的日期大于活动时长，请重新选择日期！`);
                   return;
                 }
               }
@@ -2777,7 +2783,7 @@
             _this.taskRelease.taskDetail = JSON.stringify([]);
             break;
         }
-        if (_this.getTaskCreateFastStatus) {
+        if (_this.getTaskCreateFastStatus || _this.isFastPublish) {
           // 首单发布任务接口
           api.taskCreateFast(_this.taskRelease).then(res => {
             if (res.status) {
@@ -2886,6 +2892,9 @@
             _this.taskRelease.pinkage = _this.taskRelease.pinkage.toString();
             _this.taskRelease.donotPostPhoto = _this.taskRelease.donotPostPhoto.toString();
 
+            // 是否是首发活动标识
+            _this.isFastPublish = res.data.fastPublish || false;
+
             // 取消了收藏加购，复制历史活动时默认为false
             _this.taskRelease.needBrowseCollectAddCart = false;
 
@@ -2962,7 +2971,7 @@
                 _this.answerDefaultList.push(answerDefault);
               });
             }
-            // 处理拿手申请条件设置数据
+            // 处理拿手审批条件限制数据
             _this.showkerConditionRequireStatus.aliWwLabelSet = res.data.showkerApplyRequire;
             if (res.data.showkerApplyRequire && res.data.showkerApplyRequireData) {
               for (let k in _this.showkerCondition) {
@@ -3455,7 +3464,7 @@
       // 标签设置地区选择改变处理，最多选5个地区，当用户选中超过5个地区自动取消勾选超出的地区选项
       addressExcludeChange(data) {
         if (data.length > 5) {
-          this.$Message.warning('亲，拿手申请条件设置地区要求最多选择5个！');
+          this.$Message.warning('亲，拿手审批条件限制地区要求最多选择5个！');
           this.showkerCondition.addressExclude.splice(5, 1);
         }
       },
@@ -3465,7 +3474,7 @@
           this.showkerConditionRequireStatus.showkerTagRequireChangeLengthFor4 = data
         }
         if (data.length < 4) {
-          this.$Message.warning('亲，拿手申请条件设置类目要求最少选择4个！');
+          this.$Message.warning('亲，拿手审批条件限制类目要求最少选择4个！');
           this.showkerConditionRequireStatus.showkerTagRequireChangeLengthFor4.forEach(item => {
             if (!this.showkerCondition.showkerTagRequire.includes(item)) {
               this.showkerCondition.showkerTagRequire.push(item)

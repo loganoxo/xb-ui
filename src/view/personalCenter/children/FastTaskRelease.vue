@@ -980,7 +980,12 @@
 
       },
       goTaskCreate() {
-        this.$router.push({name: 'TaskRelease'})
+        const query = this.$route.query.q;
+        if (query) {
+          this.$router.push({name: 'TaskRelease', query:{q: query}})
+        } else {
+          this.$router.push({name: 'TaskRelease'})
+        }
       },
       getStoreBindInfoList() {
         const _this = this;
@@ -1312,8 +1317,6 @@
             } else {
               _this.stepName = 'deposit';
             }
-            // 更新首发资格状态
-            _this.$store.dispatch('getTaskCreateFastStatus');
           } else {
             _this.$Message.error(res.msg);
           }

@@ -500,7 +500,7 @@
       </div>
     </div>
     <!--商家首次登陆平台卡快速发布任务引导弹窗-->
-    <modal v-model="showFirstVisitModel" width="1000" :mask-closable="false" :closable="false" class="first-release-activity">
+    <modal v-model="showFirstVisitModel" width="1000" :mask-closable="false" :closable="false" :scrollable="true" class="first-release-activity">
       <div slot="header" class="m-header">
         <img src="~assets/img/home/tit.png" alt="" class="m-icon">
         HI，<span class="main-color">{{getUserInfoPhone}}</span>&nbsp;这是您第一次访问白拿拿，您的身份是<span class="main-color">淘宝商家</span> 。

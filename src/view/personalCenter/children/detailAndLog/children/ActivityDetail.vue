@@ -765,7 +765,7 @@
                   <checkbox v-model="showkerConditionRequireStatus.other.address.require" :disabled="true">需要<span class="sizeColor2">（+0.2元/单，</span><span class="cl999 text-decoration-through">原价0.5元</span><span class="sizeColor2">，注：拿手在平台填写的收货地获取）</span></checkbox>
                   <div class="sizeColor2 mt-10" v-show="showkerConditionRequireStatus.other.address.require">勾选以下“<span class="main-color">不想要</span>”的地区，最多选5个</div>
                   <checkbox-group class="mt-10" v-model="showkerCondition.addressExclude" v-show="showkerConditionRequireStatus.other.address.require" :disabled="true">
-                    <checkbox class="mr-30 mt-10" v-for="(item, index) in regionRequireList" :label="item" :key="index">{{item}}</checkbox>
+                    <checkbox class="mr-30 mt-10" v-for="(item, index) in regionRequireList" :disabled="true" :label="item" :key="index">{{item}}</checkbox>
                   </checkbox-group>
                 </div>
               </div>
