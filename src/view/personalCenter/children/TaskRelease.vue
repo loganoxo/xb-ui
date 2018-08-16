@@ -1311,7 +1311,7 @@
   import Upload from '@/components/Upload'
   import PayModel from '@/components/PayModel'
   import UserClause from '@/components/UserClause'
-  import QQBindModal from '@/components/QQBindModal'
+  // import QQBindModal from '@/components/QQBindModal'
   import api from '@/config/apiConfig'
   import {aliCallbackImgUrl} from '@/config/env'
   import {aliUploadImg, isPositiveInteger, isNumber, isInteger, isAliUrl, randomString, extendDeep, decode, setStorage, getStorage, getUrlParams, isInternetUrl, getSeverTime} from '@/config/utils'
@@ -1337,7 +1337,7 @@
       PayModel: PayModel,
       UserClause: UserClause,
       DatePicker: DatePicker,
-      QqBindModal: QQBindModal,
+      // QqBindModal: QQBindModal,
     },
     data() {
       return {
@@ -1488,7 +1488,7 @@
         shopAroundStatus: false,
         originalVasMainItem: [],
         upgradeMembershipModal: false,
-        isOpenQqBindModal: false,
+        // isOpenQqBindModal: false,
         createFastTaskStatus: false,
         redEnvelopesState: true,
         disabledRedEnvelopes: false,
@@ -2037,9 +2037,9 @@
       recommendAdvertisingStatusChange(status) {
         status && setStorage('recommendAdvertisingStatus', true)
       },
-      openQqBindModal(value) {
-        this.isOpenQqBindModal = value
-      },
+      // openQqBindModal(value) {
+      //   this.isOpenQqBindModal = value
+      // },
       getTaskVasSelectInfo(id) {
         const _this = this;
         api.taskVasSelectInfo({
@@ -2130,9 +2130,9 @@
                 _this.perfectStoreConcatInfo = true;
               }
             }
-            if (!_this.isBindStore && !_this.qqNumber) {
-              _this.isOpenQqBindModal = true
-            }
+            // if (!_this.isBindStore && !_this.qqNumber) {
+            //   _this.isOpenQqBindModal = true
+            // }
           } else {
             _this.$Message.error(res.msg)
           }
