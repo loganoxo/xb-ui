@@ -30,21 +30,12 @@
         <!--&lt;!&ndash;<div>免</div>&ndash;&gt;-->
       <!--</li>-->
       <li class="clear">
-        <div>平台服务费</div>
+        <div>平台推广费</div>
         <div>
-          <span>7元/单</span>
+          <span>10元/单</span>
         </div>
         <div>
-          <span>3元/单</span>
-        </div>
-      </li>
-      <li class="clear">
-        <div>激励金</div>
-        <div>
-          <span>3元/单</span>
-        </div>
-        <div>
-          <span>3元/单</span>
+          <span>6元/单</span>
         </div>
       </li>
       <li class="clear">
