@@ -981,9 +981,7 @@
               </div>
               <div class="mt-20 ml-20 mb-20 clear">
                 <span class="ml-28 left">是否开通花呗：</span>
-                <div class="left">
-                  <checkbox v-model="showkerConditionRequireStatus.other.antPay.require">需要<span class="sizeColor2">（+0.5元/单，<span class="cl999 text-decoration-through">原价2元，</span>注：指开通了花呗的旺旺号，开通了花呗的买号在淘宝内部被认为是优质的账号，用这些账号很安全，权重高）</span></checkbox>
-                </div>
+                <checkbox class="left" v-model="showkerConditionRequireStatus.other.antPay.require">需要<span class="sizeColor2">（+0.5元/单，<span class="cl999 text-decoration-through">原价2元，</span>注：指开通了花呗的旺旺号，开通了花呗的买号在淘宝内部被认为是优质的账号，用这些账号很安全，权重高）</span></checkbox>
               </div>
               <div class="mt-20 ml-20 mb-20 clear">
                 <span class="left ml-52">类目要求：</span>
@@ -3008,7 +3006,7 @@
               if (_this.showkerCondition.showkerTagRequire.length > 0) {
                 _this.showkerConditionRequireStatus.other.showkerTag.require = true;
               }
-              _this.interestTag();
+              _this.interestTagList.length === 0 && _this.interestTag();
               if (_this.showkerCondition.auditTimeCountRequire.length > 0) {
                 _this.showkerConditionRequireStatus.other.auditTimeCount.require = true;
                 _this.showkerCondition.auditTimeCountRequire.forEach(item => {
