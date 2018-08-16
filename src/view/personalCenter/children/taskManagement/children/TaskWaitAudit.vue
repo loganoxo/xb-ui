@@ -126,6 +126,10 @@
                   <p class="mt-5 cl666" v-cloak>近七天通过次数：{{allTask.applySuccessCount7Days || 0}}</p>
                   <p v-cloak class="mt-5 mb-5" :style="{color: orderNumberColorTip(allTask.orderCount7Days)}">近七天下单次数：{{allTask.orderCount7Days || 0}}</p>
                   <a @click="openNewTrialReportFunc(encryptionId(allTask.showkerId))">查看TA的买家秀</a>
+                  <p class="text-ct showker-tag mt-5">
+                    <span v-show="allTask.examDone" class="mr-5">新人考试</span>
+                    <span v-show="allTask.trialDone" class="ml-5">五单出师</span>
+                  </p>
                 </td>
                 <td>
                   <tooltip v-if="allTask.reason && allTask.status === 'waiting_resubmit'" :content="allTask.reason" placement="top" class="cursor-p">
@@ -911,5 +915,15 @@
     border-color: $mainColor;
     background-color: #FFF4F1;
     color: $mainColor;
+  }
+
+  .showker-tag {
+    span {
+      padding: 3px 10px;
+      background: #2D8cF0;
+      color: #fff;
+      border-radius: 3px;
+      user-select: none;
+    }
   }
 </style>
