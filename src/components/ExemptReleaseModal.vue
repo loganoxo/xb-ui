@@ -31,7 +31,7 @@
           <span @click="isShowAliPayTip = true">【<span class="blue cursor-p">支付宝手续费</span>】</span>
         </div>
         <div slot="isBalance" class="title-tip">
-          <icon color="#FF2424" size="18px" type="ios-information"/>
+          <icon color="#FF2424" size="18px" type="md-alert"/>
           <span class="ml-5">您本次需要支付金额为 <span class="sizeColor3">{{(realPayMoney/100).toFixed(2)}}</span> 元。</span>
         </div>
       </pay-model>

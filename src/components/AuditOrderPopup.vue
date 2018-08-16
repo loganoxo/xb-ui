@@ -128,13 +128,13 @@
                 :style="{top:needBrowseCollectAddCart ? 45+'%' : 20 +'%'}">
         <div slot="isBalance" class="title-tip">
                 <span class="size-color3">
-                <icon color="#FF2424" size="18" type="ios-information"></icon>
+                <icon color="#FF2424" size="18" type="md-alert"></icon>
                 <span class="ml-10">注意：该拿手实付金额大于活动担保金，</span></span>需要补充担保金<strong
           class="main-color">{{(needReplenishMoney / 100).toFixed(2)}}</strong>元
         </div>
         <div slot="noBalance" class="title-tip">
                 <span class="size-color3">
-                <icon color="#FF2424" size="18" type="ios-information"></icon>
+                <icon color="#FF2424" size="18" type="md-alert"></icon>
                 <span class="ml-10">注意：该拿手实付金额大于活动担保金，</span></span>需要补充担保金<strong
           class="main-color">{{needReplenishMoneyText}}</strong>元,请充值！
         </div>

@@ -356,12 +356,12 @@
                  :redEnvelopeDeductionNumber="redEnvelopeDeductionNumber" :disabledRedEnvelopes="disabledRedEnvelopes">
         <i slot="closeModel" class="close-recharge" @click="showPayModel = false">&times;</i>
         <div slot="noBalance" class="title-tip">
-          <span class="size-color3"><icon color="#FF2424" size="18" type="ios-information"/>
+          <span class="size-color3"><icon color="#FF2424" size="18" type="md-alert"/>
             <span class="ml-10">亲，您的余额不足，请充值。</span>
           </span>还需充值<strong class="size-color3">{{needPayMoneyText}}</strong>元 <span @click="isShowAliPayTip = true">【<span class="blue cursor-p">支付宝手续费</span>】</span>
         </div>
         <div slot="isBalance" class="title-tip">
-          <icon color="#FF2424" size="18px" type="ios-information"/>
+          <icon color="#FF2424" size="18px" type="md-alert"/>
           <span class="ml-10">您本次需要支付金额为 <span class="size-color3">{{(orderMoneyAfter / 100).toFixed(2)}}</span> 元。</span>
         </div>
       </pay-model>

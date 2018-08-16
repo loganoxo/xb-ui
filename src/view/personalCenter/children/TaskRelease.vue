@@ -982,7 +982,7 @@
               <div class="mt-20 ml-20 mb-20 clear">
                 <span class="ml-28 left">是否开通花呗：</span>
                 <div class="left">
-                  <checkbox v-model="showkerConditionRequireStatus.other.antPay.require">需要<span class="sizeColor2">（+0.5元/单，<span class="cl999 text-decoration-through">原价2元，</span>注：指开通了花呗的旺旺号，开通了花呗的买号在淘宝内部被认为是优质的账号，用这些账号很安全，权重高。）</span></checkbox>
+                  <checkbox v-model="showkerConditionRequireStatus.other.antPay.require">需要<span class="sizeColor2">（+0.5元/单，<span class="cl999 text-decoration-through">原价2元，</span>注：指开通了花呗的旺旺号，开通了花呗的买号在淘宝内部被认为是优质的账号，用这些账号很安全，权重高）</span></checkbox>
                 </div>
               </div>
               <div class="mt-20 ml-20 mb-20 clear">
@@ -1115,12 +1115,12 @@
                  :disabledRedEnvelopes="disabledRedEnvelopes">
         <i slot="closeModel" class="close-recharge" @click="closeRecharge">&times;</i>
         <div slot="noBalance" class="title-tip">
-          <span class="sizeColor3"><icon color="#FF2424" size="18px" type="ios-information"/><span class="ml-10">亲，您的余额不足，请充值。</span></span>还需充值<strong
+          <span class="sizeColor3"><icon color="#FF2424" size="18px" type="md-alert"/><span class="ml-10">亲，您的余额不足，请充值。</span></span>还需充值<strong
           class="sizeColor3">{{needPayMoneyBeforeText}}</strong>元
           <span @click="isShowAliPayTip = true">【<span class="blue cursor-p">支付宝手续费</span>】</span>
         </div>
         <div slot="isBalance" class="title-tip">
-          <icon color="#FF2424" size="18px" type="ios-information"/>
+          <icon color="#FF2424" size="18px" type="md-alert"/>
           <span class="ml-5">您本次需要支付金额为 <span
             class="sizeColor3">{{(needPayMoneyAfterAsRedEnvelopes / 100).toFixed(2)}}</span> 元。</span>
         </div>

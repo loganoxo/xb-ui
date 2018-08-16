@@ -230,13 +230,13 @@
         <i slot="closeModel" class="close-recharge" @click="eyesPayModel = false">&times;</i>
         <div slot="noBalance" class="title-tip">
           <span class="size-color3">
-            <icon color="#FF2424" size="16" type="ios-information"/>
+            <icon color="#FF2424" size="16" type="md-alert"/>
             <span class="">亲，您的余额不足，请充值。</span>
           </span>还需充值
           <strong class="size-color3">{{(needRechargeMoney / 100).toFixed(2)}}</strong> 元。
         </div>
         <div slot="isBalance" class="title-tip">
-          <icon color="#FF2424" size="18px" type="ios-information"/>
+          <icon color="#FF2424" size="18px" type="md-alert"/>
           <span class="ml-10">您本次需要支付金额为 <span
             class="size-color3">{{(selectEyesPeriodInfo.fee / 100).toFixed(2)}}</span> 元。</span>
         </div>
