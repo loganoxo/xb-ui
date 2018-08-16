@@ -119,7 +119,7 @@
                 <td>
                   <p>{{allTask.applyTime | dateFormat('YYYY-MM-DD hh:mm:ss')}}</p>
                   <p class="mt-10">{{filterIp(allTask.regIp)}}</p>
-                  <p class="mt-10" v-if="allTask.regIp && allTask.ipInfo">{{allTask.ipInfo.location}}</p>
+                  <p class="mt-10" v-if="allTask.regIp && allTask.ipInfo">{{allTask.ipInfo.province}}-{{allTask.ipInfo.city}}-{{allTask.ipInfo.takeDistrict}}</p>
                   <p class="mt-10" v-if="!allTask.ipInfo">归属地未知</p>
                 </td>
                 <td class="registration">
