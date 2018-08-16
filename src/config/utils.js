@@ -333,7 +333,7 @@ export const taskErrorStatusList = (type) => {
     'ren_qi': '人气',
     'enchashment': '提现',
     'pay_for_task_deposit_seller': '支付活动担保金',
-    'pay_for_task_tag_vas_fee_seller': '标签增值服务费',
+    'pay_for_task_tag_vas_fee_seller': '支付标签增值服务费',
     'task_trad_record_seller': '商家活动交易记录',
     'task_return_seller': '活动结算返款',
     'showker_task_supplementary_seller': '补充任务担保金',

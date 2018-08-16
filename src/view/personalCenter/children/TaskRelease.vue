@@ -1309,7 +1309,6 @@
   import Upload from '@/components/Upload'
   import PayModel from '@/components/PayModel'
   import UserClause from '@/components/UserClause'
-  // import QQBindModal from '@/components/QQBindModal'
   import api from '@/config/apiConfig'
   import {aliCallbackImgUrl} from '@/config/env'
   import {aliUploadImg, isPositiveInteger, isNumber, isInteger, isAliUrl, randomString, extendDeep, decode, setStorage, getStorage, getUrlParams, isInternetUrl, getSeverTime} from '@/config/utils'
@@ -1604,8 +1603,8 @@
             }
           })
         }
-        vm.merchantInformationInterval();
-        vm.merchantInformationModal.status = true;
+      /*  vm.merchantInformationInterval();
+        vm.merchantInformationModal.status = true;*/
         // 防止页面跳转绑定店铺弹框闪烁需要将店铺请求放此处执行
         vm.getStoreBindInfoList()
       })
@@ -2593,6 +2592,10 @@
                   _this.$Message.warning(`亲，拿手审批条件限制中时间段${i + 1}的开始时间大于结束时间，请重新设置！`);
                   return;
                 }
+                if (Date.parse(new Date(_this.showkerCondition.auditTimeCountRequire[i].date)) > getSeverTime() + 86400000 * _this.taskRelease.taskDaysDuration) {
+                  this.$Message.warning(`亲，拿手审批条件限制中时间段${i + 1}选择的日期大于活动时长，请重新选择日期！`);
+                  return;
+                }
                 for (let j = i + 1; j < len; j++) {
                   if (_this.showkerCondition.auditTimeCountRequire[i].date === _this.showkerCondition.auditTimeCountRequire[j].date &&
                     _this.showkerCondition.auditTimeCountRequire[i].hourEnd * 1 > _this.showkerCondition.auditTimeCountRequire[j].hourStart * 1) {
@@ -2600,10 +2603,7 @@
                     return false;
                   }
                 }
-                if (Date.parse(new Date(_this.showkerCondition.auditTimeCountRequire[i].date) > getSeverTime() + 86400000 * _this.taskRelease.taskDaysDuration)) {
-                  this.$Message.warning(`亲，拿手审批条件限制中时间段${i + 1}选择的日期大于活动时长，请重新选择日期！`);
-                  return;
-                }
+
               }
               if (_this.systemSurplusApprovalTaskNumber.status) {
                 _this.$Message.warning(`亲，审批时间/份数要求还有剩余名额未分配！`);
@@ -3009,9 +3009,15 @@
               _this.interestTagList.length === 0 && _this.interestTag();
               if (_this.showkerCondition.auditTimeCountRequire.length > 0) {
                 _this.showkerConditionRequireStatus.other.auditTimeCount.require = true;
+                const auditTimeCountRequireFirstData = _this.showkerCondition.auditTimeCountRequire[0].date;
                 _this.showkerCondition.auditTimeCountRequire.forEach(item => {
                   if (Date.parse(new Date(item.date)) < getSeverTime()) {
-                    item.date = `${new Date(getSeverTime()).getFullYear()}-${new Date(getSeverTime()).getMonth() + 1}-${new Date(getSeverTime()).getDate() + 1}`
+                    if (item.date === auditTimeCountRequireFirstData) {
+                      item.date = `${new Date(getSeverTime()).getFullYear()}-${new Date(getSeverTime()).getMonth() + 1}-${new Date(getSeverTime() + 86400000).getDate()}`
+                    } else {
+                      let time =Date.parse(new Date(item.date)) - Date.parse(new Date(auditTimeCountRequireFirstData));
+                      item.date = `${new Date(getSeverTime()).getFullYear()}-${new Date(getSeverTime()).getMonth() + 1}-${new Date(getSeverTime() + time).getDate()}`
+                    }
                   }
                 })
               } else {
