@@ -908,7 +908,7 @@
                 <span class="left ml-5">平台周下单数限制：</span>
                 <div class="left">
                   <checkbox v-model="showkerConditionRequireStatus.weekOrder.require">需要</checkbox>
-                  <span>（<span class="sizeColor2">7单以下 +0.2元/单，</span><span class="cl999 text-decoration-through">原价1元</span><span class="sizeColor2">；3单以下 +0.5元/单，</span><span class="cl999 text-decoration-through">原价2元</span>）</span>
+                  <span class="sizeColor2">（<span>7单以下 +0.2元/单，</span><span class="cl999 text-decoration-through">原价1元</span><span class="sizeColor2">；3单以下 +0.5元/单，</span><span class="cl999 text-decoration-through">原价2元</span>）</span>
                   <div class="mt-10" v-show="showkerConditionRequireStatus.weekOrder.require">
                     <i-select v-model="showkerCondition.weekOrderRequire" class="width-100">
                       <i-option label='7单以下' :value="7"/>
@@ -938,7 +938,7 @@
               <div class="mt-20 ml-20 clear">
                 <span class="left ml-40">淘气值要求：</span>
                 <div class="inline-block left">
-                  <checkbox v-model="showkerConditionRequireStatus.other.tqz.require">需要<span class="sizeColor2">（+0.2元/单），</span><span class="cl999 text-decoration-through">原价1元</span></checkbox>
+                  <checkbox v-model="showkerConditionRequireStatus.other.tqz.require">需要<span class="sizeColor2">（+0.2元/单，<span class="cl999 text-decoration-through">原价1元</span>）</span></checkbox>
                   <checkbox-group v-model="showkerCondition.tqzRequire" v-show="showkerConditionRequireStatus.other.tqz.require" class="mt-10">
                     <template v-for="item in aliTqzList">
                       <checkbox v-if="item.value" class="mr-15" :label='item.value' :key="item.value">{{item.label}}</checkbox>
@@ -959,7 +959,7 @@
               <div class="mt-20 ml-20 clear">
                 <span class="left ml-52">性别要求：</span>
                 <div class="inline-block left">
-                  <checkbox v-model="showkerConditionRequireStatus.other.gender.require">需要 <span class="sizeColor2">（+0.2元/单），</span><span class="cl999 text-decoration-through">原价0.5元</span></checkbox>
+                  <checkbox v-model="showkerConditionRequireStatus.other.gender.require">需要 <span class="sizeColor2">（+0.2元/单，<span class="cl999 text-decoration-through">原价0.5元</span>）</span></checkbox>
                   <div class="mt-10" v-show="showkerConditionRequireStatus.other.gender.require">
                     <radio-group v-model="showkerCondition.genderRequire">
                       <radio :label="0">男</radio>
@@ -971,7 +971,7 @@
               <div class="mt-20 ml-20 clear">
                 <span class="left ml-52">年龄要求：</span>
                 <div class="inline-block left">
-                  <checkbox v-model="showkerConditionRequireStatus.other.age.require">需要 <span class="sizeColor2">（+0.2元/单），</span><span class="cl999 text-decoration-through">原价0.5元</span></checkbox>
+                  <checkbox v-model="showkerConditionRequireStatus.other.age.require">需要 <span class="sizeColor2">（+0.2元/单，<span class="cl999 text-decoration-through">原价0.5元</span>）</span></checkbox>
                   <checkbox-group class="mt-10" v-show="showkerConditionRequireStatus.other.age.require" v-model="showkerCondition.ageRequire">
                     <checkbox label="18-25">18-25</checkbox>
                     <checkbox label="26-35">26-35</checkbox>
@@ -982,14 +982,13 @@
               <div class="mt-20 ml-20 mb-20 clear">
                 <span class="ml-28 left">是否开通花呗：</span>
                 <div class="left">
-                  <checkbox v-model="showkerConditionRequireStatus.other.antPay.require">需要</checkbox>
-                  <span class="sizeColor2">（+0.5元/单，<span class="cl999 text-decoration-through">原价2元，</span>注：指开通了花呗的旺旺号，开通了花呗的买号在淘宝内部被认为是优质的账号，用这些账号很安全，权重高。）</span>
+                  <checkbox v-model="showkerConditionRequireStatus.other.antPay.require">需要<span class="sizeColor2">（+0.5元/单，<span class="cl999 text-decoration-through">原价2元，</span>注：指开通了花呗的旺旺号，开通了花呗的买号在淘宝内部被认为是优质的账号，用这些账号很安全，权重高。）</span></checkbox>
                 </div>
               </div>
               <div class="mt-20 ml-20 mb-20 clear">
                 <span class="left ml-52">类目要求：</span>
                 <div class="inline-block left width-pct-86">
-                  <checkbox v-model="showkerConditionRequireStatus.other.showkerTag.require">需要<span class="sizeColor2">（+0.2元/单），</span><span class="cl999 text-decoration-through">原价1元</span></checkbox>
+                  <checkbox v-model="showkerConditionRequireStatus.other.showkerTag.require">需要<span class="sizeColor2">（+0.2元/单，<span class="cl999 text-decoration-through">原价1元</span>）</span></checkbox>
                   <div class="sizeColor2 mt-10" v-show="showkerConditionRequireStatus.other.showkerTag.require">类目最少选择4个</div>
                   <checkbox-group v-show="showkerConditionRequireStatus.other.showkerTag.require" v-model="showkerCondition.showkerTagRequire" @on-change="showkerTagRequireChange">
                     <checkbox class="mr-15 mt-10" v-for="item in interestTagList" :key="item.id" :label="item.id">{{item.name}}</checkbox>
@@ -999,7 +998,7 @@
               <div v-show="taskRelease.orderType === 'normal'" class="mt-20 ml-20 clear">
                 <span class="left">审批时间/份数要求：</span>
                 <div class="inline-block left">
-                  <checkbox v-model="showkerConditionRequireStatus.other.auditTimeCount.require">需要 <span class="sizeColor2">（+0.5元/单），</span><span class="cl999 text-decoration-through">原价2元</span></checkbox>
+                  <checkbox v-model="showkerConditionRequireStatus.other.auditTimeCount.require">需要 <span class="sizeColor2">（+0.5元/单，<span class="cl999 text-decoration-through">原价2元</span>）</span></checkbox>
                   <div class="sizeColor2 mt-10" v-show="showkerConditionRequireStatus.other.auditTimeCount.require">（需将系统审批名额全部设置完成，若有剩余名额未设置，则由系统自由审批。系统名额剩余数：<span class="main-color">{{systemSurplusApprovalTaskNumber.count}}</span>）</div>
                   <div class="clear border-ddd border-radius-5 mt-10 min-width-750" v-show="showkerConditionRequireStatus.other.auditTimeCount.require">
                     <div class="pt-10 pb-10">
@@ -3007,9 +3006,9 @@
                 _this.showkerCondition.ageRequire = ['18-25']
               }
               if (_this.showkerCondition.showkerTagRequire.length > 0) {
-                _this.showkerConditionRequireStatus.other.showkerTag.require = true
+                _this.showkerConditionRequireStatus.other.showkerTag.require = true;
               }
-              _this.interestTagList.length === 0 && _this.interestTag();
+              _this.interestTag();
               if (_this.showkerCondition.auditTimeCountRequire.length > 0) {
                 _this.showkerConditionRequireStatus.other.auditTimeCount.require = true;
                 _this.showkerCondition.auditTimeCountRequire.forEach(item => {
@@ -3485,7 +3484,7 @@
         }).then(res => {
           if (res.status) {
             _this.interestTagList = res.data;
-            if (_this.interestTagList.length === 0) {
+            if (!_this.showkerConditionRequireStatus.other.showkerTag.require) {
               _this.interestTagList.forEach(item => {
                 _this.showkerCondition.showkerTagRequire.push(item.id)
               });
