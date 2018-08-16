@@ -905,6 +905,19 @@
             </div>
             <template v-if="showkerConditionRequireStatus.aliWwLabelSet">
               <div class="mt-20 ml-20 clear">
+                <span class="left ml-5">平台周下单数限制：</span>
+                <div class="left">
+                  <checkbox v-model="showkerConditionRequireStatus.weekOrder.require">需要</checkbox>
+                  <span>（<span class="sizeColor2">7单以下 +0.2元/单，</span><span class="cl999 text-decoration-through">原价1元</span><span class="sizeColor2">；3单以下 +0.5元/单，</span><span class="cl999 text-decoration-through">原价2元</span>）</span>
+                  <div class="mt-10" v-show="showkerConditionRequireStatus.weekOrder.require">
+                    <i-select v-model="showkerCondition.weekOrderRequire" class="width-100">
+                      <i-option label='7单以下' :value="7"/>
+                      <i-option label='3单以下' :value="3"/>
+                    </i-select>
+                  </div>
+                </div>
+              </div>
+              <div class="mt-20 ml-20 clear">
                 <span class="left ml-28">旺旺等级要求：</span>
                 <div class="inline-block left">
                   <checkbox v-model="showkerConditionRequireStatus.creditLevel.require">需要 <span class="sizeColor2">（2心起+0.1元/单；4心起+0.2元/单；5心起+0.3元/单；1钻起+0.4元/单；2钻起+0.5元/单）</span></checkbox>
@@ -932,7 +945,7 @@
               <div class="mt-20 ml-20 clear">
                 <span class="left ml-52">地区要求：</span>
                 <div class="inline-block left width-pct-86">
-                  <checkbox v-model="showkerConditionRequireStatus.other.address.require">需要<span class="sizeColor2">（+0.2元/单）</span></checkbox>
+                  <checkbox v-model="showkerConditionRequireStatus.other.address.require">需要<span class="sizeColor2">（+0.2元/单，</span><span class="cl999 text-decoration-through">原价0.5元</span><span class="sizeColor2">，注：拿手在平台填写的收货地获取）</span></checkbox>
                   <div class="sizeColor2 mt-10" v-show="showkerConditionRequireStatus.other.address.require">勾选以下“<span class="main-color">不想要</span>”的地区，最多选5个</div>
                   <checkbox-group class="mt-10" v-model="showkerCondition.addressExclude" v-show="showkerConditionRequireStatus.other.address.require" @on-change="addressExcludeChange">
                     <checkbox class="mr-30 mt-10" v-for="(item, index) in regionRequireList" :label="item" :key="index">{{item}}</checkbox>
@@ -1503,12 +1516,19 @@
           creditLevel: {
             require: false,
             price: {
-              2: 10,
+              2: 0,
               4: 20,
               5: 30,
               6: 40,
               7: 50
             },
+          },
+          weekOrder: {
+            require: false,
+            price: {
+              7: 20,
+              3: 50
+            }
           },
           other: {
             tqz: {
@@ -1542,6 +1562,7 @@
           }
         },
         showkerCondition: {
+          weekOrderRequire: 7,
           creditLevelRequire: 2,
           tqzRequire: [3,4,5,6,7,8],
           addressExclude: ['新疆','西藏'],
@@ -1584,8 +1605,8 @@
             }
           })
         }
-        vm.merchantInformationInterval();
-        vm.merchantInformationModal.status = true;
+       /* vm.merchantInformationInterval();
+        vm.merchantInformationModal.status = true;*/
         // 防止页面跳转绑定店铺弹框闪烁需要将店铺请求放此处执行
         vm.getStoreBindInfoList()
       })
@@ -1950,14 +1971,28 @@
       },
 
       /**
+       * 计算拿手申请设置平台周下单数限制价格
+       * @return {number}
+       */
+      weekOrderRequireOncePrice() {
+        if (this.showkerConditionRequireStatus.weekOrder.require) {
+          if (this.showkerCondition.weekOrderRequire === 7) {
+            return this.showkerConditionRequireStatus.weekOrder.price[7]
+          }
+          if (this.showkerCondition.weekOrderRequire === 3) {
+            return this.showkerConditionRequireStatus.weekOrder.price[3]
+          }
+        } else {
+          return 0
+        }
+      },
+
+      /**
        * 计算拿手申请设置旺旺等级需求价格
        * @return {number}
        */
       creditLevelRequireOncePrice() {
         if (this.showkerConditionRequireStatus.creditLevel.require) {
-          if (!this.showkerCondition.creditLevelRequire) {
-            return 0
-          }
           if (this.showkerCondition.creditLevelRequire >= 2 && this.showkerCondition.creditLevelRequire < 4) {
             return this.showkerConditionRequireStatus.creditLevel.price[2]
           }
@@ -1986,7 +2021,7 @@
         const price = Object.keys(this.showkerConditionRequireStatus.other).reduce((prev, cur) => {
           return (this.showkerConditionRequireStatus.other[cur].require ? this.showkerConditionRequireStatus.other[cur].price : 0) + prev
         }, 0);
-        return price + this.creditLevelRequireOncePrice
+        return price + this.creditLevelRequireOncePrice + this.weekOrderRequireOncePrice
       },
 
     },
@@ -2678,6 +2713,9 @@
           _this.showkerCondition.antPayRequire = _this.showkerConditionRequireStatus.other.antPay.require;
           // 根据用户是否勾选‘需要’选项重置申请条件初始化数据
           const copyShowkerCondition = extendDeep(_this.showkerCondition, {});
+          if (!_this.showkerConditionRequireStatus.weekOrder.require) {
+            copyShowkerCondition.weekOrderRequire = null
+          }
           if (!_this.showkerConditionRequireStatus.creditLevel.require) {
             copyShowkerCondition.creditLevelRequire = null
           }
@@ -2932,6 +2970,11 @@
                     _this.showkerCondition[k] = res.data.showkerApplyRequireData[i]
                   }
                 }
+              }
+              if (_this.showkerCondition.weekOrderRequire) {
+                _this.showkerConditionRequireStatus.weekOrder.require = true
+              } else {
+                _this.showkerCondition.weekOrderRequire = 7
               }
               if (_this.showkerCondition.creditLevelRequire) {
                 _this.showkerConditionRequireStatus.creditLevel.require = true
@@ -3388,7 +3431,7 @@
       datePickerValueChange(data, index) {
         let timeStamp = Date.parse(new Date(data));
         if (timeStamp > getSeverTime() + 86400000 * this.taskRelease.taskDaysDuration) {
-          this.$Message.error('您选择的日期大于活动时长，请重新选择')
+          this.$Message.warning('您选择的日期大于活动时长，请重新选择')
         }
         this.showkerCondition.auditTimeCountRequire[index].date = data;
       },
@@ -3438,9 +3481,11 @@
         }).then(res => {
           if (res.status) {
             _this.interestTagList = res.data;
-            _this.interestTagList.forEach(item => {
-              _this.showkerCondition.showkerTagRequire.push(item.id)
-            });
+            if (_this.interestTagList.length === 0) {
+              _this.interestTagList.forEach(item => {
+                _this.showkerCondition.showkerTagRequire.push(item.id)
+              });
+            }
           } else {
             _this.$Message.error(res.msg)
           }
