@@ -61,7 +61,7 @@
           </form-item>
           <form-item>
             <iButton type="primary" @click="handleSubmit('formItem',addBankCardInfo)">提交</iButton>
-            <iButton type="ghost" style="margin-left: 8px" @click="goBack">取消</iButton>
+            <iButton type="ghost" class="cl666" style="margin-left: 8px" @click="goBack">取消</iButton>
           </form-item>
         </i-form>
       </div>
