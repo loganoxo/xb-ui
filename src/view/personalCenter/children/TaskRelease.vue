@@ -2803,7 +2803,8 @@
           api.taskCreate(_this.taskRelease).then(res => {
             if (res.status) {
               _this.taskPayId = res.data.id;
-
+              // 是否是首发活动标识
+              _this.isFastPublish = res.data.fastPublish ? res.data.fastPublish : false;
               // 重新计算活动红包抵扣金额和活动已支付金额
               _this.redEnvelopeDeductionPaid = res.data.redEnvelopeDeductionPaid;
               _this.paidDeposit = res.data.marginPaid + res.data.promotionExpensesPaid + res.data.vasFeePaid + res.data.redEnvelopeDeductionPaid + res.data.tagVasFeePaid;
@@ -2894,7 +2895,7 @@
             _this.taskRelease.donotPostPhoto = _this.taskRelease.donotPostPhoto.toString();
 
             // 是否是首发活动标识
-            _this.isFastPublish = res.data.fastPublish || false;
+            _this.isFastPublish = res.data.fastPublish ? res.data.fastPublish : false;
 
             // 取消了收藏加购，复制历史活动时默认为false
             _this.taskRelease.needBrowseCollectAddCart = false;
@@ -3021,7 +3022,7 @@
 
               if (_this.showkerCondition.auditTimeCountRequire.length > 0) {
                 _this.showkerConditionRequireStatus.other.auditTimeCount.require = true;
-                // 复制活动的时候如果时间段日期没有过期维持历史活动的时间段日期否则自动延期（过期的条件为：小于当前时间）
+                // 复制活动的时候如果时间段日期没有过期维持历史活动的时间段日期否则自动延期（过期的条件为：小于当前日期+2天）
                 // 延期日期时间根据历史活动数据为参照基础
                 if (_this.$route.query.type === 'copy') {
                   const auditTimeCountRequireFirstDate = _this.showkerCondition.auditTimeCountRequire[0].date;
