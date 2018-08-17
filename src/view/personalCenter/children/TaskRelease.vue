@@ -1569,7 +1569,7 @@
           showkerTagRequire: [],
           auditTimeCountRequire: [
             {
-              date: `${new Date(getSeverTime()).getFullYear()}-${this.formatNumber(new Date(getSeverTime()).getMonth() + 1)}-${new Date(getSeverTime()).getDate() + 1}`,
+              date: this.getDateTime(86400000),
               hourStart: '0',
               hourEnd: '23',
               count: null
@@ -2025,6 +2025,10 @@
     methods: {
       formatNumber(num) {
         return num.toString().padStart(2, '0')
+      },
+      getDateTime(time = 0) {
+        const nowTime = getSeverTime() + time;
+        return `${new Date(nowTime).getFullYear()}-${this.formatNumber(new Date(nowTime).getMonth() + 1)}-${this.formatNumber(new Date(nowTime).getDate())}`
       },
       changeSelectActivity(type) {
         this.taskRelease.activityCategory = type;
@@ -3020,17 +3024,22 @@
                 if (_this.$route.query.type === 'copy') {
                   const auditTimeCountRequireFirstDate = _this.showkerCondition.auditTimeCountRequire[0].date;
                   for (let l = 0, len = _this.showkerCondition.auditTimeCountRequire.length; l < len; l++) {
-                    if (Date.parse(new Date(_this.showkerCondition.auditTimeCountRequire[l].date)) === Date.parse(new Date(auditTimeCountRequireFirstDate))) {
-                      _this.showkerCondition.auditTimeCountRequire[l].date = `${new Date(getSeverTime()).getFullYear()}-${this.formatNumber(new Date(getSeverTime()).getMonth() + 1)}-${new Date(getSeverTime() + 86400000).getDate()}`
+                    let nowDate = Date.parse(new Date(_this.showkerCondition.auditTimeCountRequire[l].date));
+                    if (nowDate < Date.parse(this.getDateTime(86400000 * 2))) {
+                      if (nowDate === Date.parse(new Date(auditTimeCountRequireFirstDate))) {
+                        _this.showkerCondition.auditTimeCountRequire[l].date = this.getDateTime(86400000)
+                      } else {
+                        let time = nowDate - Date.parse(new Date(auditTimeCountRequireFirstDate)) + 86400000;
+                        _this.showkerCondition.auditTimeCountRequire[l].date = this.getDateTime(time);
+                      }
                     } else {
-                      let time = Date.parse(new Date(_this.showkerCondition.auditTimeCountRequire[l].date)) - Date.parse(new Date(auditTimeCountRequireFirstDate)) + 86400000;
-                      _this.showkerCondition.auditTimeCountRequire[l].date = `${new Date(getSeverTime()).getFullYear()}-${this.formatNumber(new Date(getSeverTime()).getMonth() + 1)}-${new Date(getSeverTime() + time).getDate()}`
+                      break
                     }
                   }
                 }
               } else {
                 _this.showkerCondition.auditTimeCountRequire.push({
-                  date: `${new Date(getSeverTime()).getFullYear()}-${this.formatNumber(new Date(getSeverTime()).getMonth() + 1)}-${new Date(getSeverTime() + 86400000).getDate()}`,
+                  date: _this.getDateTime(86400000),
                   hourStart: '0',
                   hourEnd: '23',
                   count: null
@@ -3434,7 +3443,7 @@
       },
       addTimeBucket() {
         this.showkerCondition.auditTimeCountRequire.push({
-          date: `${new Date(getSeverTime()).getFullYear()}-${this.formatNumber(new Date(getSeverTime()).getMonth() + 1)}-${new Date(getSeverTime()).getDate() + 1}`,
+          date: this.getDateTime(86400000),
           hourStart: '0',
           hourEnd: '23',
           count: null
@@ -3528,7 +3537,7 @@
       },
       // 商家须知按钮倒计时
       merchantInformationInterval() {
-        let time = 10;
+        let time = 3;
         const interval = setInterval(() => {
           time --;
           if (time === 0) {
