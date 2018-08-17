@@ -191,7 +191,7 @@
             <i-button :class="[btnState.wwBindBtn ? '': 'ww-bind-btn']" :disabled="btnState.wwBindBtn"
                      @click="handleSubmit('wwFormValidate',wwBindFunc)">提交
             </i-button>
-            <iButton type="ghost" @click="handleReset('wwFormValidate',clearWwInfo)">重置</iButton>
+            <iButton type="ghost" class="cl666" @click="handleReset('wwFormValidate',clearWwInfo)">重置</iButton>
           </Form-item>
           <p class="ww-tip">
             1.支持jpg/jpeg/gif/bmp/png格式，最大不超过10M

@@ -63,7 +63,7 @@
             <iButton :class="[btnState.verifiedBtn ? '' : 'verified-btn']" :disabled="btnState.verifiedBtn"
                      @click="handleSubmit('verifiedValidate',verifiedFunc)">提交
             </iButton>
-            <iButton type="ghost" @click="handleReset('verifiedValidate',clearVerified)">重置</iButton>
+            <iButton type="ghost" class="cl666" @click="handleReset('verifiedValidate',clearVerified)">重置</iButton>
           </Form-item>
         </iForm>
         <div class="left mt-20 verified-cue">
