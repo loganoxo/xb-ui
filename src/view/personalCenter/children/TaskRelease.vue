@@ -2972,7 +2972,7 @@
                 _this.answerDefaultList.push(answerDefault);
               });
             }
-            // 处理拿手审批条件限制数据
+            // 处理复制、编辑活动拿手审批条件限制数据
             _this.showkerConditionRequireStatus.aliWwLabelSet = res.data.showkerApplyRequire;
             if (res.data.showkerApplyRequire && res.data.showkerApplyRequireData) {
               for (let k in _this.showkerCondition) {
@@ -3021,6 +3021,8 @@
 
               if (_this.showkerCondition.auditTimeCountRequire.length > 0) {
                 _this.showkerConditionRequireStatus.other.auditTimeCount.require = true;
+                // 复制活动的时候如果时间段日期没有过期维持历史活动的时间段日期否则自动延期（过期的条件为：小于当前时间）
+                // 延期日期时间根据历史活动数据为参照基础
                 if (_this.$route.query.type === 'copy') {
                   const auditTimeCountRequireFirstDate = _this.showkerCondition.auditTimeCountRequire[0].date;
                   for (let l = 0, len = _this.showkerCondition.auditTimeCountRequire.length; l < len; l++) {
