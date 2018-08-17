@@ -117,7 +117,7 @@
               <td>{{(item.taskCount  - item.showkerApplySuccessCount)}}</td>
               <td>
                 （ {{(item.totalMarginNeed / 100).toFixed(2)}} / {{((item.promotionExpensesNeed > 0 ? item.promotionExpensesNeed : 0) / 100).toFixed(2)}} / {{((item.vasFeeNeed + item.tagVasFeeNeed) / 100).toFixed(2)}}）
-                <span v-if="item.createFrom === 'without_audit'">{{((item.totalMarginNeed + item.promotionExpensesNeed + item.vasFeeNeed + item.vasFeeNeed) / 100).toFixed(2)}}</span>
+                <span v-if="item.createFrom === 'without_audit'">{{((item.totalMarginNeed + item.promotionExpensesNeed + item.vasFeeNeed + item.tagVasFeeNeed) / 100).toFixed(2)}}</span>
                 <span v-else>{{((item.marginPaid + item.promotionExpensesPaid + item.vasFeePaid + item.tagVasFeePaid) / 100).toFixed(2)}}</span>
               </td>
               <td v-if="item.taskStatus === 'waiting_pay'">
