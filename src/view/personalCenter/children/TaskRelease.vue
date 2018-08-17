@@ -2789,6 +2789,8 @@
           api.taskCreateFast(_this.taskRelease).then(res => {
             if (res.status) {
               _this.taskPayId = res.data.id;
+              // 是否是首发活动标识
+              _this.isFastPublish = res.data.fastPublish ? res.data.fastPublish : false;
               if (!_this.taskRelease.taskId) {
                 _this.taskRelease.taskId = res.data.id;
               }
@@ -3552,7 +3554,7 @@
       },
       closeMerchantInformationModal() {
         this.merchantInformationModal.status = false;
-        if (!this.storeBindInfoList[0].weChatNum) {
+        if (this.storeBindInfoList.length > 0 && !this.storeBindInfoList[0].weChatNum) {
           this.perfectStoreConcatInfo = true;
         }
       },
