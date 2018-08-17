@@ -3034,8 +3034,6 @@
                         let time = nowDate - Date.parse(new Date(auditTimeCountRequireFirstDate)) + 86400000;
                         _this.showkerCondition.auditTimeCountRequire[l].date = _this.getDateTime(time);
                       }
-                    } else {
-                      break
                     }
                   }
                 }
