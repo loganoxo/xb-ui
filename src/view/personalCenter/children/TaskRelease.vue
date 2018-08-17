@@ -36,7 +36,7 @@
     <div class="service-statement cl666 text-ct">
       声明：为避免纠纷，发布活动前请先阅读本平台的服务条款，凡成功提交活动申请皆默认亲已仔细阅读并同意平台的<span class="blue cursor-p" @click="isShowUserClause = true">《服务条款》</span>
     </div>
-    <div class="text-ct mt-20" v-if="getTaskCreateFastStatus && stepName === 'information'">
+    <div class="text-ct mt-20" v-if="(getTaskCreateFastStatus || isFastPublish) && stepName === 'information'">
       <i-button type="primary" @click="goTaskCreateFast">启用首单快速发布通道</i-button>
     </div>
     <!--选择绑定的店铺-->

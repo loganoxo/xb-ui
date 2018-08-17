@@ -797,8 +797,7 @@
        * @return {number}
        */
       onePromotionExpenses() {
-        const type = this.taskRelease.activityCategory === 'free_get' ? 'AA' : 'AB';
-        return this.getTaskCreateFastStatus ? 0 : this.$store.getters.getPromotionExpenses[type].limit;
+        return 0
       },
 
       /**
