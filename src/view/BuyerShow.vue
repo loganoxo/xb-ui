@@ -176,7 +176,7 @@
                 :to="{'path':'/trial-report','query':{q: encryptionId(item.showkerId), showReportDesc: true, id: encryptionId(item.id)}}"
                 class="pos-rel" target="_blank">
                 <img width="220" v-show="item.trialReportImages !== ''" class="cursor-p"
-                     v-lazy="item.trialReportImages" alt="">
+                     :src="item.trialReportImages" alt="">
                 <!--<div class="pic-box" style="width:220px;height:220px;color:#ccc;">-->
                   <!--<img width="220" v-show="item.trialReportImages !== ''" class="cursor-p"-->
                        <!--v-lazy="item.trialReportImages" alt="" style="width:100%;height:100%">-->
