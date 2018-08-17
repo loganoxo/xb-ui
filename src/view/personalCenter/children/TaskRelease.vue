@@ -3027,12 +3027,12 @@
                   const auditTimeCountRequireFirstDate = _this.showkerCondition.auditTimeCountRequire[0].date;
                   for (let l = 0, len = _this.showkerCondition.auditTimeCountRequire.length; l < len; l++) {
                     let nowDate = Date.parse(new Date(_this.showkerCondition.auditTimeCountRequire[l].date));
-                    if (nowDate < Date.parse(this.getDateTime(86400000 * 2))) {
+                    if (nowDate < Date.parse(_this.getDateTime(86400000 * 2))) {
                       if (nowDate === Date.parse(new Date(auditTimeCountRequireFirstDate))) {
-                        _this.showkerCondition.auditTimeCountRequire[l].date = this.getDateTime(86400000)
+                        _this.showkerCondition.auditTimeCountRequire[l].date = _this.getDateTime(86400000)
                       } else {
                         let time = nowDate - Date.parse(new Date(auditTimeCountRequireFirstDate)) + 86400000;
-                        _this.showkerCondition.auditTimeCountRequire[l].date = this.getDateTime(time);
+                        _this.showkerCondition.auditTimeCountRequire[l].date = _this.getDateTime(time);
                       }
                     } else {
                       break
