@@ -56,16 +56,16 @@
         <p>4，当天充值金额请勿重复！否则只会到账一笔！</p>
       </div>
       <div class="step-box mt-10">
-        <h2>第一步：转账到试客多官方账号：</h2>
+        <h2>第一步：转账到官方账号：</h2>
         <div class="step-one pt-20 pb-20 pl-15">
           <p>到账时间：<span class="main-color">自动到账，7*24小时</span></p>
-          <p>浙商银行 <span class="main-color">6223093310012598036</span> （户名：胡红红 开户行：浙商银行运河支行）</p>
+          <p>浙商银行 <span class="main-color">6223 0933 1001 2598 036</span> （户名：胡红红 开户行：浙商银行运河支行）</p>
         </div>
         <h2>第二步：每次打完钱都必需提交如下信息，否则<span>无法到账</span></h2>
         <div class="step-two">
           <i-form ref="form" :model="rechargeApplyInfo" :rules="applyRule">
             <form-item label="转账金额" prop="rechargeFee">
-              <i-input class="width-150 mr-10" v-model.number="rechargeApplyInfo.rechargeFee"></i-input>
+              <i-input class="width-150 mr-10" v-model="rechargeApplyInfo.rechargeFee" maxlength="16"></i-input>
               <span class="mr-10">元</span>
               <span class="main-color fs-16">当天充值金额请勿重复！</span>
             </form-item>
@@ -76,19 +76,21 @@
                 <radio label="alipay">支付宝转账到银行卡</radio>
               </radio-group>
             </form-item>
-            <div>
-              <form-item :label="rechargeApplyInfo.payChannel === 'alipay' ? '支付宝绑定姓名': '转出银行卡持卡人姓名'" prop="name">
-                <i-input v-model="rechargeApplyInfo.name" class="width-150"></i-input>
-              </form-item>
-              <form-item :label="rechargeApplyInfo.payChannel === 'alipay' ? '转出渠道' : '转出银行名称'" prop="outBank">
-                <i-select v-model="rechargeApplyInfo.outBank" class="width-pct-39">
-                  <i-option value="支付宝" label="支付宝">支付宝</i-option>
-                  <i-option v-for="(bank,index) in bankList" :key="index" :value="bank" :label="bank">{{bank}}</i-option>
-                </i-select>
-              </form-item>
-            </div>
+            <form-item :label="rechargeApplyInfo.payChannel === 'alipay' ? '支付宝绑定姓名': '转出银行卡持卡人姓名'" prop="name">
+              <i-input v-model="rechargeApplyInfo.name" class="width-150"></i-input>
+            </form-item>
+            <form-item v-if="rechargeApplyInfo.payChannel === 'alipay'" label="转出渠道" prop="outBank">
+              <i-select v-model="rechargeApplyInfo.outBank" class="width-pct-39" disabled>
+                <i-option value="支付宝" label="支付宝">支付宝</i-option>
+              </i-select>
+            </form-item>
+            <form-item v-else label="转出银行名称" prop="outBank">
+              <i-select v-model="rechargeApplyInfo.outBank" class="width-pct-39">
+                <i-option v-for="(bank,index) in bankList" :key="index" :value="bank" :label="bank">{{bank}}</i-option>
+              </i-select>
+            </form-item>
             <form-item label="转入银行名称" prop="inBank">
-              <i-select v-model="rechargeApplyInfo.inBank" placeholder="请选择您转入的银行名称..." class="width-pct-39">
+              <i-select v-model="rechargeApplyInfo.inBank" disabled class="width-pct-39" >
                 <i-option :value="item.label" :label="item.label" v-for="(item,index) in inBankList" :key="index">{{item.label}}</i-option>
               </i-select>
             </form-item>
@@ -194,8 +196,8 @@
           callback(new Error('请输入充值金额'));
         } else if (value * 100 === this.seasonVipFee || value * 100 === this.halfYearVipFee || value * 100 === this.yearVipFee) {
           callback(new Error('转账金额请勿与VIP价格（1199、1999、2999）相同！'));
-        } else if (!(/^[0-9]+(.[0-9]{1,2})?$/.test(this.rechargeApplyInfo.rechargeFee))) {
-          callback(new Error('如果金额带小数，请保留两位小数'));
+        }else if (!(/^[0-9]+(.[0-9]{1,2})?$/.test(this.rechargeApplyInfo.rechargeFee))) {
+          callback(new Error('请输入数字，如果金额带小数，请保留两位小数'));
         } else {
           callback();
         }
@@ -250,12 +252,13 @@
           payChannel: null,
           name: null,
           outBank: null,
-          inBank: null,
+          inBank: '浙商银行',
         },
         rechargeApplyLoading: false,
         inBankList:[
           {
-            label: '浙商银行'
+            label: '浙商银行',
+            value: '浙商银行'
           },
         ],
         bankList: commonConfig.bankList,
@@ -390,8 +393,13 @@
         })
       },
       channelChange(value) {
+        if (value === 'alipay') {
+          this.rechargeApplyInfo.outBank = '支付宝';
+        } else {
+          this.rechargeApplyInfo.outBank = null;
+        }
         this.rechargeApplyInfo.name = null;
-        this.rechargeApplyInfo.outBank = null;
+
       },
       timeEnd() {
         this.showTimeDown = false;
@@ -406,7 +414,7 @@
           return
         }
         if (!(/^[0-9]+(.[0-9]{1,2})?$/.test(_this.rechargeApplyInfo.rechargeFee))) {
-          _this.$Message.info('请保留两位小数');
+          _this.$Message.info('请输入数字，如果金额有小数，请保留两位');
           return
         }
         if (!_this.rechargeApplyInfo.payChannel) {
@@ -438,7 +446,6 @@
             // _this.$Message.success('已成功提交申请');
             _this.isSuccessApply = true;
             _this.$store.dispatch('getUserInformation');
-            _this.$refs.payForm.resetFields();
             _this.limitTime = getSeverTime() + 5 * 60 * 1000;
             setStorage('limitTime',_this.limitTime);
             _this.disabled = true;
@@ -446,6 +453,8 @@
             for(let key in _this.rechargeApplyInfo) {
               _this.rechargeApplyInfo[key] = null;
             }
+            _this.rechargeApplyInfo.inBank = '浙商银行';
+            _this.$refs.payForm.resetFields();
           } else {
             _this.$Message.error(res.msg);
           }
