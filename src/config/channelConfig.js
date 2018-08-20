@@ -1,4 +1,4 @@
-import {setCookie} from '@/config/utils'
+import {setCookie, getUrlParams} from '@/config/utils'
 
 const getUrlQueryString = (name) => {
   const reg = new RegExp('(^|&|\\?)' + name + '=([^&]*)(&|$)', 'i');
@@ -10,6 +10,25 @@ const getUrlQueryString = (name) => {
 };
 
 export const setChannel = () => {
+  const referer = document.referrer;
+  if (referer) {
+    const searchEngineConfig = {
+      'www.baidu.com': {'name': 'BAIDU', 'queryKey': 'wd'},
+      'pc.51bainana.com': {'name': 'xiuba', 'queryKey': 'wd'},
+      'www.so.com': {'name': '360', 'queryKey': 'q'},
+      'www.sogou.com': {'name': 'SOUGOU', 'queryKey': 'query'}
+    };
+    for (let key in searchEngineConfig) {
+      if (referer.indexOf(key) > 0) {
+        let qudaoData = searchEngineConfig[key];
+        let searchKeyWord = getUrlParams(referer, searchEngineConfig[key].queryKey);
+        setCookie('from_qudao_key', searchKeyWord);
+        setCookie('from_qudao', qudaoData);
+        break;
+      }
+    }
+  }
+
   // 旧渠道的Key为qd
   if (getUrlQueryString('qd')) {
     setCookie('from_qudao', getUrlQueryString('qd').toUpperCase());
