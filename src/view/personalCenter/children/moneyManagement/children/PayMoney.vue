@@ -59,7 +59,7 @@
         <h2>第一步：转账到试客多官方账号：</h2>
         <div class="step-one pt-20 pb-20 pl-15">
           <p>到账时间：<span class="main-color">自动到账，7*24小时</span></p>
-          <p>民生银行 <span class="main-color">6226 2277 0838 9139</span> （户名：郭天亮 开户行：民生银行杭州城东支行）</p>
+          <p>浙商银行 <span class="main-color">6223093310012598036</span> （户名：胡红红 开户行：浙商银行运河支行）</p>
         </div>
         <h2>第二步：每次打完钱都必需提交如下信息，否则<span>无法到账</span></h2>
         <div class="step-two">
@@ -435,7 +435,8 @@
           payDay: getSeverTime()
         }).then(res => {
           if (res.status) {
-            _this.$Message.success('已成功提交申请');
+            // _this.$Message.success('已成功提交申请');
+            _this.isSuccessApply = true;
             _this.$store.dispatch('getUserInformation');
             _this.$refs.payForm.resetFields();
             _this.limitTime = getSeverTime() + 5 * 60 * 1000;
