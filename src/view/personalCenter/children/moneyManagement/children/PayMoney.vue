@@ -85,12 +85,12 @@
               </i-select>
             </form-item>
             <form-item v-else label="转出银行名称" prop="outBank">
-              <i-select v-model="rechargeApplyInfo.outBank" class="width-pct-39">
+              <i-select v-model="rechargeApplyInfo.outBank" filterable class="width-pct-39">
                 <i-option v-for="(bank,index) in bankList" :key="index" :value="bank" :label="bank">{{bank}}</i-option>
               </i-select>
             </form-item>
             <form-item label="转入银行名称" prop="inBank">
-              <i-select v-model="rechargeApplyInfo.inBank" disabled class="width-pct-39" >
+              <i-select v-model="rechargeApplyInfo.inBank" disabled class="width-pct-39">
                 <i-option :value="item.label" :label="item.label" v-for="(item,index) in inBankList" :key="index">{{item.label}}</i-option>
               </i-select>
             </form-item>
