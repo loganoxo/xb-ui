@@ -65,7 +65,7 @@
         <div class="step-two">
           <i-form ref="form" :model="rechargeApplyInfo" :rules="applyRule">
             <form-item label="转账金额" prop="rechargeFee">
-              <i-input class="width-150 mr-10" v-model="rechargeApplyInfo.rechargeFee" maxlength="16"></i-input>
+              <i-input class="width-150 mr-10" v-model="rechargeApplyInfo.rechargeFee" :maxlength="16"></i-input>
               <span class="mr-10">元</span>
               <span class="main-color fs-16">当天充值金额请勿重复！</span>
             </form-item>
@@ -85,7 +85,7 @@
               </i-select>
             </form-item>
             <form-item v-else label="转出银行名称" prop="outBank">
-              <i-select v-model="rechargeApplyInfo.outBank" filterable class="width-pct-39">
+              <i-select v-model="rechargeApplyInfo.outBank" clearable filterable class="width-pct-39" ref="bankListSelect" placeholder="请选择（支持关键词搜索）">
                 <i-option v-for="(bank,index) in bankList" :key="index" :value="bank" :label="bank">{{bank}}</i-option>
               </i-select>
             </form-item>
@@ -212,6 +212,8 @@
       const validateName = (rule, value, callback) => {
         if (!value) {
           callback(new Error('请输入持卡人姓名'));
+        } else if (value.length > 20) {
+          callback(new Error('姓名的字符长度不能超过20'));
         } else {
           callback();
         }
@@ -396,10 +398,12 @@
         if (value === 'alipay') {
           this.rechargeApplyInfo.outBank = '支付宝';
         } else {
+          this.$nextTick(function () {
+            this.$refs.bankListSelect.clearSingleSelect();
+          });
           this.rechargeApplyInfo.outBank = null;
         }
         this.rechargeApplyInfo.name = null;
-
       },
       timeEnd() {
         this.showTimeDown = false;
@@ -425,6 +429,10 @@
           _this.$Message.info('请输入持卡人姓名');
           return
         }
+        if (_this.rechargeApplyInfo.name.length > 20) {
+          _this.$Message.info('姓名字符长度不可超过20');
+          return
+        }
         if (!_this.rechargeApplyInfo.outBank) {
           _this.$Message.info('请输入转出银行名称');
           return
@@ -443,13 +451,15 @@
           payDay: getSeverTime()
         }).then(res => {
           if (res.status) {
-            // _this.$Message.success('已成功提交申请');
             _this.isSuccessApply = true;
             _this.$store.dispatch('getUserInformation');
             _this.limitTime = getSeverTime() + 5 * 60 * 1000;
             setStorage('limitTime',_this.limitTime);
             _this.disabled = true;
             _this.showTimeDown = true;
+            if (_this.rechargeApplyInfo.payChannel !== 'alipay') {
+              this.$refs.bankListSelect.clearSingleSelect();
+            }
             for(let key in _this.rechargeApplyInfo) {
               _this.rechargeApplyInfo[key] = null;
             }
