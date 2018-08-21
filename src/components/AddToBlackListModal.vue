@@ -26,6 +26,8 @@
               ref="upload"
               :on-success="bankListImageSuccess"
               :disabled="disabled"
+              :multiple="true"
+              :uploadLength="5"
               :default-file-list="bankListDefaultList"
               :on-remove="removeBankListImage"
               :format="['jpg','jpeg','png','gif','bmp']"
@@ -35,9 +37,10 @@
               :on-exceeded-size="handleMaxSize"
               type="drag">
         <div class="camera">
-          <icon type="camera" size="20"/>
+          <icon type="ios-camera" size="20"/>
         </div>
       </upload>
+
       <span class="ml-10 mt-20 left cl999">支持jpg/jpeg/gif/bmp格式，大小不超过10M，最多可上传5张</span>
     </div>
     <div class="black-list-error-tip mt-20" v-if="blackListInfo.auditStatus && blackListInfo.auditStatus === 3"><icon color="#FF9900" type="information-circled"/><span class="ml-5">审核不通过：{{blackListInfo.refuseReason}}</span></div>

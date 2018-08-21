@@ -33,7 +33,7 @@
             :on-exceeded-size="handleMaxSize"
             type="drag">
             <div style="width: 58px;height:58px;line-height: 58px;">
-              <Icon type="camera" size="20"></Icon>
+              <Icon type="ios-camera" size="20"></Icon>
             </div>
           </Upload>
           <p class="mt-8">搜索条件截图</p>
@@ -54,7 +54,7 @@
             :on-exceeded-size="handleMaxSize"
             type="drag">
             <div style="width: 58px;height:58px;line-height: 58px;">
-              <Icon type="camera" size="20"></Icon>
+              <Icon type="ios-camera" size="20"></Icon>
             </div>
           </Upload>
           <p class="mt-8">所在位置截图</p>
@@ -75,7 +75,7 @@
             :on-exceeded-size="handleMaxSize"
             type="drag">
             <div style="width: 58px;height:58px;line-height: 58px;">
-              <Icon type="camera" size="20"></Icon>
+              <Icon type="ios-camera" size="20"></Icon>
             </div>
           </Upload>
           <p class="mt-8">宝贝浏览见底</p>
@@ -96,7 +96,7 @@
             :on-exceeded-size="handleMaxSize"
             type="drag">
             <div style="width: 58px;height:58px;line-height: 58px;">
-              <Icon type="camera" size="20"></Icon>
+              <Icon type="ios-camera" size="20"></Icon>
             </div>
           </Upload>
           <p class="mt-8">宝贝加入收藏夹</p>
@@ -117,7 +117,7 @@
             :on-exceeded-size="handleMaxSize"
             type="drag">
             <div style="width: 58px;height:58px;line-height: 58px;">
-              <Icon type="camera" size="20"></Icon>
+              <Icon type="ios-camera" size="20"></Icon>
             </div>
           </Upload>
           <p class="mt-8">宝贝加入购物车</p>
@@ -140,7 +140,7 @@
             :on-exceeded-size="handleMaxSize"
             type="drag">
             <div style="width: 58px;height:58px;line-height: 58px;">
-              <Icon type="camera" size="20"></Icon>
+              <Icon type="ios-camera" size="20"></Icon>
             </div>
           </Upload>
           <p class="mt-8">所在位置截图</p>
@@ -161,7 +161,7 @@
             :on-exceeded-size="handleMaxSize"
             type="drag">
             <div style="width: 58px;height:58px;line-height: 58px;">
-              <Icon type="camera" size="20"></Icon>
+              <Icon type="ios-camera" size="20"></Icon>
             </div>
           </Upload>
           <p class="mt-8">宝贝浏览见底</p>
@@ -182,7 +182,7 @@
             :on-exceeded-size="handleMaxSize"
             type="drag">
             <div style="width: 58px;height:58px;line-height: 58px;">
-              <Icon type="camera" size="20"></Icon>
+              <Icon type="ios-camera" size="20"></Icon>
             </div>
           </Upload>
           <p class="mt-8">宝贝加入收藏夹</p>
@@ -203,7 +203,7 @@
             :on-exceeded-size="handleMaxSize"
             type="drag">
             <div style="width: 58px;height:58px;line-height: 58px;">
-              <Icon type="camera" size="20"></Icon>
+              <Icon type="ios-camera" size="20"></Icon>
             </div>
           </Upload>
           <p class="mt-8">宝贝加入购物车</p>
@@ -226,7 +226,7 @@
             :on-exceeded-size="handleMaxSize"
             type="drag">
             <div style="width: 58px;height:58px;line-height: 58px;">
-              <Icon type="camera" size="20"></Icon>
+              <Icon type="ios-camera" size="20"></Icon>
             </div>
           </Upload>
           <p class="mt-8">宝贝浏览见底</p>
@@ -247,7 +247,7 @@
             :on-exceeded-size="handleMaxSize"
             type="drag">
             <div style="width: 58px;height:58px;line-height: 58px;">
-              <Icon type="camera" size="20"></Icon>
+              <Icon type="ios-camera" size="20"></Icon>
             </div>
           </Upload>
           <p class="mt-8">宝贝加入收藏夹</p>
@@ -268,7 +268,7 @@
             :on-exceeded-size="handleMaxSize"
             type="drag">
             <div style="width: 58px;height:58px;line-height: 58px;">
-              <Icon type="camera" size="20"></Icon>
+              <Icon type="ios-camera" size="20"></Icon>
             </div>
           </Upload>
           <p class="mt-8">宝贝加入购物车</p>
@@ -291,7 +291,7 @@
             :on-exceeded-size="handleMaxSize"
             type="drag">
             <div style="width: 58px;height:58px;line-height: 58px;">
-              <Icon type="camera" size="20"></Icon>
+              <Icon type="ios-camera" size="20"></Icon>
             </div>
           </Upload>
           <p class="mt-8">宝贝浏览见底</p>
@@ -312,7 +312,7 @@
             :on-exceeded-size="handleMaxSize"
             type="drag">
             <div style="width: 58px;height:58px;line-height: 58px;">
-              <Icon type="camera" size="20"></Icon>
+              <Icon type="ios-camera" size="20"></Icon>
             </div>
           </Upload>
           <p class="mt-8">宝贝加入收藏夹</p>
@@ -333,7 +333,7 @@
             :on-exceeded-size="handleMaxSize"
             type="drag">
             <div style="width: 58px;height:58px;line-height: 58px;">
-              <Icon type="camera" size="20"></Icon>
+              <Icon type="ios-camera" size="20"></Icon>
             </div>
           </Upload>
           <p class="mt-8">宝贝加入购物车</p>

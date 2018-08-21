@@ -133,7 +133,7 @@
               :before-upload="handleBeforeUpload"
               type="drag">
               <div style="width: 58px;height:58px;line-height: 58px;">
-                <Icon type="camera" size="20"></Icon>
+                <Icon type="ios-camera" size="20"></Icon>
               </div>
             </Upload>
           </Form-item>

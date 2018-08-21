@@ -329,7 +329,7 @@
           :on-exceeded-size="handleMaxSize"
           type="drag">
           <div style="width: 58px;height:58px;line-height: 58px;">
-            <icon type="camera" size="20"/>
+            <icon type="ios-camera" size="20"/>
           </div>
         </upload>
         <div class="watch-example-pic"><p>该截图将作为商家审核返款的凭证哦，请根据要求评价！</p>
@@ -362,7 +362,7 @@
           :on-exceeded-size="handleMaxSize"
           type="drag">
           <div style="width: 58px;height:58px;line-height: 58px;">
-            <icon type="camera" size="20"/>
+            <icon type="ios-camera" size="20"/>
           </div>
         </upload>
       </div>
@@ -402,7 +402,7 @@
         <!--:on-exceeded-size="handleMaxSize"-->
         <!--type="drag">-->
         <!--<div style="width: 58px;height:58px;line-height: 58px;">-->
-        <!--<Icon type="camera" size="20"></Icon>-->
+        <!--<Icon type="ios-camera" size="20"></Icon>-->
         <!--</div>-->
         <!--</Upload>-->
         <!--<p class="mt-8 cursor-p example-pic" @click="pcSearchSelectFun('one')">查看示例图</p>-->
@@ -421,7 +421,7 @@
         <!--:on-exceeded-size="handleMaxSize"-->
         <!--type="drag">-->
         <!--<div style="width: 58px;height:58px;line-height: 58px;">-->
-        <!--<Icon type="camera" size="20"></Icon>-->
+        <!--<Icon type="ios-camera" size="20"></Icon>-->
         <!--</div>-->
         <!--</Upload>-->
         <!--<p class="mt-8 cursor-p example-pic" @click="pcSearchSelectFun('two')">查看示例图</p>-->
@@ -440,7 +440,7 @@
         <!--:on-exceeded-size="handleMaxSize"-->
         <!--type="drag">-->
         <!--<div style="width: 58px;height:58px;line-height: 58px;">-->
-        <!--<Icon type="camera" size="20"></Icon>-->
+        <!--<Icon type="ios-camera" size="20"></Icon>-->
         <!--</div>-->
         <!--</Upload>-->
         <!--<p class="mt-8 cursor-p example-pic" @click="pcSearchSelectFun('four')">查看示例图</p>-->
@@ -459,7 +459,7 @@
         <!--:on-exceeded-size="handleMaxSize"-->
         <!--type="drag">-->
         <!--<div style="width: 58px;height:58px;line-height: 58px;">-->
-        <!--<Icon type="camera" size="20"></Icon>-->
+        <!--<Icon type="ios-camera" size="20"></Icon>-->
         <!--</div>-->
         <!--</Upload>-->
         <!--<p class="mt-8 example-pic" @click="pcSearchSelectFun('five')">查看示例图</p>-->
@@ -481,7 +481,7 @@
         <!--:on-exceeded-size="handleMaxSize"-->
         <!--type="drag">-->
         <!--<div style="width: 58px;height:58px;line-height: 58px;">-->
-        <!--<Icon type="camera" size="20"></Icon>-->
+        <!--<Icon type="ios-camera" size="20"></Icon>-->
         <!--</div>-->
         <!--</Upload>-->
         <!--</div>-->
@@ -499,7 +499,7 @@
         <!--:on-exceeded-size="handleMaxSize"-->
         <!--type="drag">-->
         <!--<div style="width: 58px;height:58px;line-height: 58px;">-->
-        <!--<Icon type="camera" size="20"></Icon>-->
+        <!--<Icon type="ios-camera" size="20"></Icon>-->
         <!--</div>-->
         <!--</Upload>-->
         <!--</div>-->
@@ -517,7 +517,7 @@
         <!--:on-exceeded-size="handleMaxSize"-->
         <!--type="drag">-->
         <!--<div style="width: 58px;height:58px;line-height: 58px;">-->
-        <!--<Icon type="camera" size="20"></Icon>-->
+        <!--<Icon type="ios-camera" size="20"></Icon>-->
         <!--</div>-->
         <!--</Upload>-->
         <!--</div>-->

@@ -139,7 +139,7 @@
                       :on-exceeded-size="handleMaxSize"
                       type="drag">
                 <div class="camera">
-                  <icon type="camera" size="20"/>
+                  <icon type="ios-camera" size="20"/>
                 </div>
               </upload>
               <span class="blue left mt-20 ml-10 cursor-p" @click="changeExampleImageUrl('main')">【查看示例图】</span>
@@ -263,7 +263,7 @@
                           :on-exceeded-size="handleMaxSize"
                           type="drag">
                     <div class="camera">
-                      <icon type="camera" size="20"/>
+                      <icon type="ios-camera" size="20"/>
                     </div>
                   </upload>
                   <span class="blue left mt-20 ml-10 cursor-p" @click="changeExampleImageUrl('main')">【查看示例图】</span>
@@ -312,7 +312,7 @@
                       :on-exceeded-size="handleMaxSize"
                       type="drag">
                 <div class="camera">
-                  <icon type="camera" size="20"/>
+                  <icon type="ios-camera" size="20"/>
                 </div>
               </upload>
               <p class="sizeColor2 left mt-20 ml-15">（点击或者拖拽自主上传图片，支持jpg \ jpeg \ png \ gif \
@@ -372,7 +372,7 @@
                       :on-exceeded-size="handleMaxSize"
                       type="drag">
                 <div class="camera">
-                  <icon type="camera" size="20"/>
+                  <icon type="ios-camera" size="20"/>
                 </div>
               </upload>
               <p class="sizeColor2 left ml-15 mt-20">（点击或者拖拽自主上传图片，支持jpg \ jpeg \ png \ gif \
