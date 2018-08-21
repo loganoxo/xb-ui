@@ -1234,4 +1234,10 @@ export default {
     return axiosConfig.get('/api/task-newest-promotion.json', params)
   },
 
+  /**
+   * 免手续费充值申请
+   */
+  rechargeApply(params) {
+    return axiosConfig.post('/api/artificial-recharge.json', params)
+  }
 }
