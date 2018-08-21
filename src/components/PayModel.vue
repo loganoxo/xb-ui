@@ -32,7 +32,7 @@
       <i-button type="primary" v-else @click="confirmRecharge" :loading="payLoading" class="recharge-btn">
         {{rechargeButtonText}}
       </i-button>
-      <i-button v-if="getMemberVersionLevel !== 100 && !isBalance && orderType !== 1" class="vip-pay-btn" @click="showFreePayModel = true">
+      <i-button v-if="getMemberVersionLevel !== 100 && !isBalance && orderType !== 1" class="vip-pay-btn" @click="toArtificialRecharge">
         <span v-if="getMemberVersionLevel === 200">VIP</span>
         <span v-if="getMemberVersionLevel === 300">SVIP</span>
         <span>免手续费充值</span>
@@ -256,6 +256,9 @@
       hasProblem() {
         this.confirmRechargeModel = false;
         this.payPopWindowWX = false;
+      },
+      toArtificialRecharge() {
+        this.$router.push({name:'PayMoney',query:{stage:'artificialPay'}})
       }
     }
   }

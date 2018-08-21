@@ -299,6 +299,9 @@
     },
     created() {
       this.getMemberVersionPeriodList();
+      if (this.stage) {
+        this.status = 'artificialPay'
+      }
       if (getStorage('limitTime')) {
         this.limitTime = getStorage('limitTime');
         this.showTimeDown = true;
@@ -311,6 +314,9 @@
       },
       memberLevel(){
         return this.$store.getters.getMemberLevel;
+      },
+      stage() {
+        return this.$route.query ? this.$route.query.stage : false
       }
     },
     methods: {
