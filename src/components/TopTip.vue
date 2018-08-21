@@ -160,10 +160,6 @@
       },
       cancelActivityCategory(){
         let self = this;
-        // self.$store.commit({
-        //   type: 'TASK_CATEGORY_LIST',
-        //   info: ''
-        // });
         self.$store.commit({
           type: 'SET_ACTIVITY_CATEGORY',
           info: ''

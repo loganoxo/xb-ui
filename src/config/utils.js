@@ -269,8 +269,8 @@ export const getUrlParams = (url, name) => {
   if (!url || !name) {
     return
   }
-  let reg = new RegExp("(^|&|\\?)" + name + "=([^&]*)(&|$)", "i");
-  let r = url.substr(1).match(reg);
+  const reg = new RegExp("(^|&|\\?)" + name + "=([^&]*)(&|$)", "i");
+  const r = url.substr(1).match(reg);
   if (r !== null) {
     return unescape(r[2]);
   }

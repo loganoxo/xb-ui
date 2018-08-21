@@ -5,16 +5,16 @@ import store from './store'
 import * as filters from './filter/custom'
 // import VueLazyload from 'vue-lazyload'
 import {Modal, Message, Notice} from 'iview'
-import {setChannel} from '@/config/channelConfig'
+import setChannel from '@/config/channelConfig'
 import '@/css/iview.less'
 import '@/css/common.scss'
 
 Vue.config.productionTip = false;
 
-// 检测并执行设置渠道方法
+// 收集渠道来源相关信息
 setChannel();
 
-// 手动注册配置iview全局方法
+// 注册配置iview全局方法
 Vue.prototype.$Modal = Modal;
 
 Notice.config({

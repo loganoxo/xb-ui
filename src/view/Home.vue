@@ -47,10 +47,10 @@
             </div>
             <div class="login-in-box" v-if="isLogin && getUserInfoRole　=== 0">
               <div  @click="cancelActivityCategory">
-                <Tooltip content="上传自定义个性头像，可以提高活动申请通过率哦，点击修改头像！" placement="bottom" class="left">
+                <tooltip content="上传自定义个性头像，可以提高活动申请通过率哦，点击修改头像！" placement="bottom" class="left">
                   <router-link tag="img" to="/user/personal-setting/personal-account-info" :src="userHeadUrl"
                                class="cursor-p heard-img"></router-link>
-                </Tooltip>
+                </tooltip>
                 <div class="left fs-14 ml-20" style="margin-left: 10px;line-height: 28px;">
                   <router-link to="/user/personal-setting/personal-account-info"
                                :title="decodeURIComponent(getUserInfoPhone)" class="ellipsis user-name">
@@ -92,10 +92,10 @@
             </div>
             <div class="login-in-box" v-if="isLogin && getUserInfoRole　=== 1">
               <div class="clear" @click="cancelActivityCategory">
-                <Tooltip content="上传自定义个性头像，可以提高活动申请通过率哦，点击修改头像！" placement="bottom" class="left">
+                <tooltip content="上传自定义个性头像，可以提高活动申请通过率哦，点击修改头像！" placement="bottom" class="left">
                   <router-link style="border-radius: 50%" tag="img" to="/user/personal-setting/personal-account-info"
                                width="56" :src="userHeadUrl" class="cursor-p"></router-link>
-                </Tooltip>
+                </tooltip>
                 <div class="left fs-14 ml-20" style="margin-left: 10px;line-height: 28px;">
                   <router-link to="/user/user-home" :title="decodeURIComponent(getUserInfoPhone)"
                                class="ellipsis user-name">
@@ -541,7 +541,6 @@
 
 <script>
   import {Icon, Input, Checkbox, Button, Modal, Tooltip, Carousel} from 'iview'
-  import SmsCountdown from '@/components/SmsCountdown'
   import api from '@/config/apiConfig'
   import {setStorage, getStorage, encryption, removeStorage, getSeverTime} from '@/config/utils'
   import {aliCallbackImgUrl} from '@/config/env'
@@ -554,7 +553,6 @@
       CheckboxGroup: Checkbox.Group,
       iButton: Button,
       Icon: Icon,
-      SmsCountdown: SmsCountdown,
       Modal: Modal,
       Carousel: Carousel,
       CarouselItem: Carousel.Item,
@@ -566,7 +564,6 @@
         confirmRechargeModel: true,
         command: '',
         recommendPageSize: 6,
-        wechartAlertShow: false,
         wechartShowAgain: [],
         leftTopSliderTimer: '',
         leftSliderTimer: '',
@@ -575,7 +572,6 @@
         trialCount: {},
         homeCommodityList: [],
         homeHistoryList: [],
-        homeDisCountList: [],
         noticeList: [
           {
             title: '常见问题',
@@ -695,11 +691,8 @@
           discountTypes: '',
           zoneFilters: ['coin_earn'],
         },
-        // showSellerVipPopup: false,
-        pinkageFor10: [],
         presentGet: [],
         showFirstVisitModel: false,
-        uplineTime: 1533821400000,
         newOutCommodityInfo: {}
       }
     },
@@ -711,19 +704,16 @@
     },
     created() {
       const self = this;
-      if (self.$store.state.login) {
-        self.weChartAlertFunc();
-        if (self.$store.getters.getUserRole === 1) {
-          self.$store.dispatch('getTaskCreateFastStatus').then(res => {
-            if (res.status) {
-              self.showFirstVisitModel = res.data
-            }
-          });
-        }
+      if (self.login && self.getUserInfoRole === 1) {
+        self.$store.dispatch('getTaskCreateFastStatus').then(res => {
+          if (res.status) {
+            self.showFirstVisitModel = res.data
+          }
+        });
       }
-      if (self.$store.state.userInfo.role === 0) {
+      if (self.getUserInfoRole === 0) {
         self.getAvailableBoardByAdTypeList('showker_pc_home_page_slide_show');
-      } else if (self.$store.state.userInfo.role === 1) {
+      } else if (self.getUserInfoRole === 1) {
         if (self.getMemberVersionLevel === 100) {
           self.getAvailableBoardByAdTypeList('free_seller_pc_home_page_slide_show');
         } else {
@@ -732,14 +722,12 @@
       } else {
         self.getAvailableBoardByAdTypeList('seller_pc_home_page_slide_show');
       }
-      self.getSearchPinkageFor10Task();
       self.getSearchPresentGetTask();
       self.getHomeTaskList();
       self.getHomeTaskTopLeftList();
       self.personalTrialCount();
       self.getHomeHistoryList();
       self.getBuyerShowList();
-      self.getHomeDisCountList();
       self.getNewOutCommodity();
     },
     destroyed() {
@@ -829,27 +817,15 @@
       },
       getAvailableBoardByAdTypeList(advertType) {
         const _this = this;
-        api.getAvailableBoardByAdTypeList({advertType: advertType}).then(res => {
+        api.getAvailableBoardByAdTypeList({
+          advertType: advertType
+          }).then(res => {
           if (res.status) {
             _this.swipeItemList = res.data
+          } else {
+            _this.$Message.error(res.msg)
           }
         })
-      },
-      getSearchPinkageFor10Task() {
-        let self = this;
-        api.getIndexRecommend({
-          count: 6,
-          activityCategory: 'pinkage_for_10',
-        }).then((res) => {
-          if (res.status) {
-            if (res.data) {
-              self.pinkageFor10 = res.data;
-              // self.$set(self.pinkageFor10);
-            }
-          } else {
-            self.$Message.error(res.msg);
-          }
-        });
       },
       getSearchPresentGetTask() {
         let self = this;
@@ -858,25 +834,11 @@
           activityCategory: 'present_get',
         }).then((res) => {
           if (res.status) {
-            if (res.data) {
-              self.presentGet = res.data;
-              // self.$set(self.presentGet);
-            }
+            self.presentGet = res.data.filter(item => {
+              return item.activityCategory === 'present_get'
+            })
           } else {
-            self.$Message.error(res.msg);
-          }
-        });
-      },
-      getHomeDisCountList() {
-        let self = this;
-        api.getIndexRecommend({
-          count: 6,
-          activityCategory: 'price_low',
-        }).then((res) => {
-          if (res.status) {
-            self.homeDisCountList = res.data ? res.data : self.homeDisCountList = [];
-          } else {
-            self.$Message.error(res.msg);
+            self.$Message.error(res.msg)
           }
         });
       },
@@ -982,17 +944,6 @@
         });
         setStorage('weChartPop', 2);
       },
-      weChartAlertFunc() {
-        let self = this;
-        api.checkWechartAlert().then((res) => {
-          if (res.status && getStorage('weChartPop') === 1) {
-            self.wechartAlertShow = true;
-            setStorage('weChartPop', 2)
-          } else {
-            self.wechartAlertShow = false;
-          }
-        })
-      },
       cancelWeiChartFunc() {
         let self = this;
         if (self.wechartShowAgain !== '') {
@@ -1075,12 +1026,7 @@
         this.noticeActive = notice.active;
       },
       cancelActivityCategory(){
-        let self = this;
-        // self.$store.commit({
-        //   type: 'TASK_CATEGORY_LIST',
-        //   info: ''
-        // });
-        self.$store.commit({
+        this.$store.commit({
           type: 'SET_ACTIVITY_CATEGORY',
           info: ''
         });
