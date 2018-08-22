@@ -136,6 +136,20 @@
     <modal v-model="isSuccessApply" title="提示">
       <p class="fs-16 f-b cl000">已成功提交，若15分钟后没到账请联系客服处理！</p>
     </modal>
+    <!--充值提示-->
+    <modal v-model="isShowPayTip">
+      <p slot="header" class="text-ct">
+        <icon type="md-information-circle" color="#f9284f" size="18"/>
+        <span class="main-color">充值提示</span>
+      </p>
+      <div class="lht28 cl000">
+        <p>1、请<span class="main-color">尽量使用手机银行</span>APP转账，绝大多数手机银行APP都免手续费,且即时到帐。</p>
+        <p>2、<span class="main-color">不推荐使用支付宝</span>转账到银行卡，除超出额度会收取千分之一的手续费外，频繁支付宝对银行卡转出可能存在风险！</p>
+      </div>
+      <div slot="footer">
+        <i-button long type="error" @click="isShowPayTip = false">确定</i-button>
+      </div>
+    </modal>
     <artificial-recharge-model v-if="showFreePayModel" @colseFreePayModal="showFreePayModel=false"></artificial-recharge-model>
     <!--<Modal v-model="stopRecharge" width="360">
     <p slot="header" style="color:#f9284f;text-align:center">
@@ -287,7 +301,8 @@
         isSuccessApply: false,
         showTimeDown: false,
         limitTime: null,
-        disabled: false
+        disabled: false,
+        isShowPayTip: false
       }
     },
     mounted() {
@@ -295,6 +310,7 @@
         this.$refs.form.resetFields();
       } else if (this.status === 'artificialPay') {
         this.$refs.payForm.resetFields();
+        this.isShowPayTip = true;
       }
     },
     created() {
@@ -479,6 +495,7 @@
       },
       toArtificialPay() {
         this.status = 'artificialPay';
+        this.isShowPayTip = true;
       }
     }
   }
