@@ -144,7 +144,7 @@
                 </td>
                 <td>
                   <p class="del-edit">
-                    <span class="ml-5" @click="checkShowkerApply(item.id, allTask.showkerId, allTask.id)">通过</span>
+                    <span class="ml-5" @click="checkShowkerApply(item.id, allTask.showkerId, allTask.id, allTask.applySuccessCount7Days)">通过</span>
                     <span v-if="allTask.newest" class="ml-5" @click="markRead(item.id, allTask.id)">设为已读</span>
                     <tooltip placement="top" content="加入黑名单后该用户将无法申请你发布的活动">
                       <span class="ml-5" @click="addToBlackListFun(allTask.alitmAccount)">加入黑名单</span>
@@ -279,7 +279,7 @@
         <span class="main-color">温馨提示</span>
       </p>
       <div class="text-ct">
-        <p>该用户在&nbsp;<span class="main-color">{{showkerApplyInfo.daysAgo > 0 ? `${showkerApplyInfo.daysAgo}天前` : '24小时'}}</span>&nbsp;获得您该店铺的试用资格，{{showkerApplyInfo.orderedIn30Days ? '并且已成功下单' : '但还未成功下单'}}，是否仍然审批通过？</p>
+        <p v-html="showkerApplyInfoModalText"></p>
       </div>
       <div class="clear" slot="footer">
         <i-button class="left ml-40 pl-40 pr-40" type="error" size="large" :loading="speedUpLoading" @click="taskWaitToPass(taskApplyId)">仍然通过</i-button>
@@ -411,8 +411,8 @@
         addBlackListInfo: {},
         additionalQuotaModal: false,
         taskAdditionalQuotaInfo: {},
-        showkerApplyInfo: {},
         showkerApplyInfoModal: false,
+        showkerApplyInfoModalText: null,
         upgradeMembershipModal: false,
       }
     },
@@ -458,6 +458,13 @@
       eyesServerPermissions() {
          return !((!this.valueAddedServiceStatusInfo.isMemberOK && !this.valueAddedServiceStatusInfo.vasBlackListDeadlineTime) || this.isEndTime)
       },
+
+      /** 获取拿手近7天通过次数限制配置
+       * @return {number}
+       */
+      showkerApplySuccessCount7Limit() {
+        return this.$store.getters.getSysConfigValue('showkerApplySuccessCount7Limit').configValue
+      }
     },
     methods: {
       changeLookScreenShot(num) {
@@ -551,20 +558,25 @@
         this.pageIndex = 1;
         this.appliesWaitingAuditTask();
       },
-      checkShowkerApply(taskId, showkerId, taskApplyId) {
+      checkShowkerApply(taskId, showkerId, taskApplyId, applySuccessCount7Days) {
         const _this = this;
         _this.taskApplyId = taskApplyId;
-        api.merchantCheckShowkerApply({
-          taskId: taskId,
-          showkerId: showkerId,
-        }).then(res => {
-          if (res.status) {
-            _this.showkerApplyInfoModal = true;
-            _this.showkerApplyInfo = res.data;
-          } else {
-            _this.taskWaitToPass(taskApplyId)
-          }
-        })
+        if (applySuccessCount7Days >= _this.showkerApplySuccessCount7Limit) {
+          _this.showkerApplyInfoModal = true;
+          _this.showkerApplyInfoModalText = '该用户近七天下单数较为频繁，请谨慎选择！'
+        } else {
+          api.merchantCheckShowkerApply({
+            taskId: taskId,
+            showkerId: showkerId,
+          }).then(res => {
+            if (res.status) {
+              _this.showkerApplyInfoModal = true;
+              _this.showkerApplyInfoModalText = `该用户在&nbsp;<span class="main-color">${res.data.daysAgo > 0 ? res.data.daysAgo + '天前' : '24小时'}</span>&nbsp;获得您该店铺的试用资格，${res.data.orderedIn30Days ? '并且已成功下单' : '但还未成功下单'}，是否仍然审批通过？`;
+            } else {
+              _this.taskWaitToPass(taskApplyId)
+            }
+          })
+        }
       },
       taskWaitToPass(taskApplyId) {
         const _this = this;
