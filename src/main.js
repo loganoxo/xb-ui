@@ -29,11 +29,6 @@ Message.config({
 
 Vue.prototype.$Message = Message;
 
-Vue.prototype.$IVIEW = {
-  size: '',
-  transfer: true
-};
-
 // VueLazyload配置初始
 /*Vue.use(VueLazyload, {
   preLoad: 1.3,
