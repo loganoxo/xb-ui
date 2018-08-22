@@ -18,7 +18,6 @@
     "qs": "^6.5.1",
     "vue": "^2.5.17",
     "vue-lazyload": "^1.2.3",
-    "vue-qart": "^2.1.0",
     "vue-quill-editor": "^2.2.4",
     "vue-region-picker": "^3.0.1",
     "vue-router": "^3.0.1",

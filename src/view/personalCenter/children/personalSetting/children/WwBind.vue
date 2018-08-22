@@ -242,7 +242,7 @@
   RegionPicker.region = CHINA_REGION;
   RegionPicker.vueVersion = 2;
   export default {
-    name: 'WwBind',
+    name: 'ww-bind',
     components: {
       Tooltip: Tooltip,
       iInput: Input,
