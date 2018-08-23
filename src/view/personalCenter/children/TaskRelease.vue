@@ -1051,6 +1051,10 @@
         </div>
         <div class="description-fees mt-40">
           <h3>费用说明：</h3>
+          <div class="mt-10">
+            <icon class="vtc-text-btm" type="md-volume-up" color="green" size="16"/>
+            <span style="color: green">通知：即日起AA与AB单统一推广费标准，免费会员：10元/单，VIP：6元/单</span>
+          </div>
           <div class="description-fees-con mt-10">
             <p>活动担保金 = 份数 × 单品活动担保金 = <span>{{oneBondMarginText}}</span> 元</p>
             <!--<p class="mt-6">单品打赏费 = 单品试用担保金 × 费率 =<span>{{onePromotionExpensesBeforeText}}</span> 元<span>{{onePromotionExpensesTipText}}</span></p>-->

@@ -1,6 +1,8 @@
 <template>
   <div id="topTip" class="top-tip bg-f8f8f8">
-    <div class="notice text-ct bg-FFFDD6 main-color" v-if="whetherShowNotice">{{noticeTitle}}
+    <div class="notice text-ct bg-FFFDD6 main-color" v-if="whetherShowNotice">
+      <icon type="md-volume-up" color="#f9284f" size="16" class="vtc-text-btm mr-5"/>
+      {{noticeTitle}}
       <router-link to="/notice" class="main-color">【阅读全文】</router-link>
     </div>
     <div class="container" id="buyershowPosition">
@@ -18,15 +20,16 @@
         </span>
         <span @click="goOut">[ 退出登录 ]</span>
         <a v-if="getUserInfo.role === 1" target="_blank" :href="pcMerchantQqGroup.remark" class="ml-10 qq-tip">
-          <img src="~assets/img/common/qq.png" alt="" >
+          <img src="~assets/img/common/qq.png" alt="">
           加入QQ交流群：
-          <span >{{pcMerchantQqGroup.configValue}}</span>
+          <span>{{pcMerchantQqGroup.configValue}}</span>
           <span class="cl000">(内幕玩法抢先得)</span>
         </a>
-        <a v-if="getUserInfo.role === 0" target="_blank" href="https://jq.qq.com/?_wv=1027&k=5ZMH7Iu" class="ml-10 qq-tip">
-          <img src="~assets/img/common/qq.png" alt="" >
+        <a v-if="getUserInfo.role === 0" target="_blank" href="https://jq.qq.com/?_wv=1027&k=5ZMH7Iu"
+           class="ml-10 qq-tip">
+          <img src="~assets/img/common/qq.png" alt="">
           加入QQ交流群：
-          <span >672268939</span>
+          <span>672268939</span>
           <span class="cl000">(第一时间抢便宜)</span>
         </a>
       </p>
@@ -60,7 +63,8 @@
           <Icon type="md-help-circle" size="16" class="vtc-text-btm"/>
           关于我们
         </router-link>
-        <a href="http://wpa.qq.com/msgrd?v=3&site=qq&menu=yes&uin=1624363653" target="_blank" v-if="getUserInfo.role === 1">
+        <a href="http://wpa.qq.com/msgrd?v=3&site=qq&menu=yes&uin=1624363653" target="_blank"
+           v-if="getUserInfo.role === 1">
           <Icon type="ios-contacts" size="16" class="vtc-text-btm"/>
           联系客服
         </a>
@@ -72,7 +76,7 @@
           <Tooltip content="按Ctrl + D 收藏本站" placement="bottom-end">
             <Icon type="md-star" size="16" class="vtc-text-btm"/>
             收藏本站
-         </Tooltip>
+          </Tooltip>
         </a>
       </p>
     </div>
@@ -115,8 +119,8 @@
     },
     data() {
       return {
-        noticeTitle:null,
-        whetherShowNotice:false,
+        noticeTitle: null,
+        whetherShowNotice: false,
       }
     },
     methods: {
@@ -124,7 +128,7 @@
         'loggedOut'
       ]),
       openMember() {
-        this.$router.push({name:'VipMember'})
+        this.$router.push({name: 'VipMember'})
       },
       goOut() {
         let _this = this;
@@ -136,18 +140,18 @@
           }
         })
       },
-      getUserGetAnnouncement(){
+      getUserGetAnnouncement() {
         let self = this;
         api.getUserGetAnnouncement({
-          type:'all'
-        }).then( res => {
-          if (res && res.length>0){
+          type: 'all'
+        }).then(res => {
+          if (res && res.length > 0) {
             self.noticeTitle = res[0].title;
             self.whetherShowNotice = true;
           }
         })
       },
-      selTaskCategoryHome(){
+      selTaskCategoryHome() {
         let self = this;
         self.$store.commit({
           type: 'TASK_CATEGORY_LIST',
@@ -158,7 +162,7 @@
           info: 'home'
         });
       },
-      cancelActivityCategory(){
+      cancelActivityCategory() {
         let self = this;
         self.$store.commit({
           type: 'SET_ACTIVITY_CATEGORY',
@@ -171,12 +175,15 @@
 
 <style lang="scss" scoped>
   @import 'src/css/mixin';
-  .bg-f8f8f8{
+
+  .bg-f8f8f8 {
     background-color: #F8F8F8;
   }
-  .bg-FFFDD6{
+
+  .bg-FFFDD6 {
     background-color: #FFFDD6;
   }
+
   .top-tip {
     /*background-color: #F8F8F8;*/
     > div {
@@ -187,9 +194,9 @@
         color: $mainColor;
         padding-right: 5px;
       }
-      a.qq-tip{
+      a.qq-tip {
         color: $mainColor;
-        img{
+        img {
           vertical-align: text-bottom;
           width: 16px;
         }
@@ -197,7 +204,7 @@
       p.left {
         span {
           cursor: pointer;
-          &:hover{
+          &:hover {
             color: red;
           }
         }
@@ -206,7 +213,7 @@
         a {
           color: #666;
           padding: 0 5px;
-          &:hover{
+          &:hover {
             color: $mainColor;
           }
         }
