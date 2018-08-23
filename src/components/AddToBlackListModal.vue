@@ -14,12 +14,15 @@
       <span class="inline-block title">填写原因：</span>
       <i-input type="textarea" v-model="addToBlackOtherReason" :disabled="disabled" placeholder="100字以内" style="width:300px"/>
     </div>
-    <div class="mt-20" v-if="addToBlackListReason && addToBlackListReason !== 'tao_ke' && addToBlackListReason !== 'none_reason'">
+    <div class="mt-20" v-if="addToBlackListReason && addToBlackListReason !== 'none_reason'">
       <span>记入征信体系：</span>
       <checkbox v-model="addToCredit" :disabled="disabled">需要</checkbox>
       <span class="cl999">（成功计入征信体系后， <span class="main-color">火眼金睛</span>会统计此条拉黑记录）</span>
     </div>
-    <div class="mt-5 cl999 ml-88" v-show="addToCredit && addToBlackListReason">记入征信体系需要提交截图证明，由平台审核是否属实，审核期间及审核结果均不影响您正常拉黑，即此用户无法申请您发布的任何活动。</div>
+    <div class="mt-5 cl999 ml-88" v-show="addToCredit && addToBlackListReason">
+      <p>记入征信体系需要提交截图证明，由平台审核是否属实，审核期间及审核结果均不影响您正常拉黑，即此用户无法申请您发布的任何活动。</p>
+      <p class="main-color f-b">客服审核通过后，会根据实际情况对违规的拿手进行相关处罚。</p>
+    </div>
     <div class="mt-20 clear" v-show="addToCredit && addToBlackListReason">
       <span class="left mt-20">相关截图：</span>
       <upload class="left ml-5"
@@ -96,19 +99,51 @@
           },
           {
             reasonStatus: 'tao_ke',
-            reasonDec: '走淘客（仅屏蔽此用户申请，不记入征信体系）'
+            reasonDec: '返利下单'
           },
           {
-            reasonStatus: 'illegal_operation',
-            reasonDec: '不按要求操作'
+            reasonStatus: 'tao_ke',
+            reasonDec: '违规使用信用卡和花呗'
           },
           {
-            reasonStatus: 'danger_account',
-            reasonDec: '此号不安全'
+            reasonStatus: 'tao_ke',
+            reasonDec: '淘宝上提及平台相关信息'
           },
           {
-            reasonStatus: 'sales_return',
-            reasonDec: '有退货行为'
+            reasonStatus: 'tao_ke',
+            reasonDec: '淘宝晒图违规'
+          },
+          {
+            reasonStatus: 'tao_ke',
+            reasonDec: '未发货私自退款'
+          },
+          {
+            reasonStatus: 'tao_ke',
+            reasonDec: '已发货私自退款'
+          },
+          {
+            reasonStatus: 'tao_ke',
+            reasonDec: '使用错误的旺旺号下单'
+          },
+          {
+            reasonStatus: 'tao_ke',
+            reasonDec: '随意终止活动'
+          },
+          {
+            reasonStatus: 'tao_ke',
+            reasonDec: '淘宝给中差评'
+          },
+          {
+            reasonStatus: 'tao_ke',
+            reasonDec: '未按要求评价'
+          },
+          {
+            reasonStatus: 'tao_ke',
+            reasonDec: '秒拍/扫码进店'
+          },
+          {
+            reasonStatus: 'tao_ke',
+            reasonDec: '未及时提交订单号、评价截图及买家秀等'
           },
           {
             reasonStatus: 'other_reason',
@@ -158,7 +193,7 @@
         }
       },
       selectChange(value) {
-        this.addToCredit = !(value === 'none_reason' || value === 'tao_ke');
+        this.addToCredit = !(value === 'none_reason');
       },
       confirm() {
         const _this = this;

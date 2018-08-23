@@ -1,6 +1,6 @@
 <template>
   <div class="my-appeal">
-    <div class="pt-10 pb-10 my-appeal-title fs-18">我的申诉</div>
+    <div class="pt-10 pb-10 my-appeal-title fs-18">我的建议</div>
     <div class="clear date-picker">
       <div>
         <span>提交时间：</span>
@@ -32,7 +32,7 @@
         </Checkbox-group>
       </div>
       <div>
-        <i-button class="appeal-button" @click="submitNewAppeal = true">+提交新申诉</i-button>
+        <i-button class="appeal-button" @click="submitNewAppeal = true">+提交新建议</i-button>
       </div>
     </div>
     <div class="appeal-list">
@@ -76,7 +76,7 @@
         <div class="right" @click="cancelFun">
           <Icon type="close" class="cursor-p fs-16"></Icon>
         </div>
-        <span>提交新申诉</span>
+        <span>提交新建议</span>
       </div>
       <div class="appeal-content">
         <div>
@@ -90,14 +90,14 @@
           </i-select>
         </div>
         <div class="mt-20">
-          <span class="main-color">*</span><span>申诉标题：</span>
+          <span class="main-color">*</span><span>建议标题：</span>
           <i-input style="width: 200px" placeholder="请输入申诉标题" v-model="appealTitle"></i-input>
           <span class="ml-10">最多支持35个字符，当前已输入<span class="main-color">{{getTitleLength}}</span>/35个字符</span>
         </div>
         <div class="mt-20">
-          <span class="main-color">*</span><span>问题描述：</span>
+          <span class="main-color">*</span><span>建议描述：</span>
           <i-input v-model="appealDes" style="width: 600px" type="textarea"
-                   placeholder="请描述相关的问题，如果是活动任务相关的问题，请提供对应的活动编号，最多不超过500字"></i-input>
+                   placeholder="请描述相关建议"></i-input>
         </div>
         <div class="mt-20 clear img-pop">
           <span class="left ml-8">相关截图：</span>
