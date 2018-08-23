@@ -150,6 +150,7 @@
         <i-button class="concat-info-confirm" long :loading="loading" @click="confirm">确认</i-button>
       </div>
     </modal>
+    <flow-order-model v-model="showFlowOrder"></flow-order-model>
   </div>
 </template>
 
@@ -158,6 +159,7 @@
   import api from '@/config/apiConfig'
   import Upload from '@/components/Upload'
   import {delHtmlTag} from '@/config/utils'
+  import FlowOrderModel from '@/components/FlowOrderModel.vue'
   export default {
     name: "store-bind-rules",
     components:{
@@ -170,6 +172,7 @@
       FormItem: Form.Item,
       Checkbox: Checkbox,
       Upload: Upload,
+      FlowOrderModel: FlowOrderModel
     },
     data() {
       const validateQQ = (rule, value, callback) => {
@@ -234,8 +237,8 @@
           ],
         },
         wxewmDefaultList: [],
-        loading: false
-
+        loading: false,
+        showFlowOrder: true
       }
     },
     computed:{
