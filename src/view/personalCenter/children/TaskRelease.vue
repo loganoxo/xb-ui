@@ -1573,7 +1573,7 @@
           showkerTagRequire: [],
           auditTimeCountRequire: [
             {
-              date: this.getDateTime(86400000),
+              date: this.getDateTime(),
               hourStart: '0',
               hourEnd: '23',
               count: null
@@ -2030,7 +2030,7 @@
       formatNumber(num) {
         return num.toString().padStart(2, '0')
       },
-      getDateTime(time = 0) {
+      getDateTime(time = 86400000) {
         const nowTime = getSeverTime() + time;
         return `${new Date(nowTime).getFullYear()}-${this.formatNumber(new Date(nowTime).getMonth() + 1)}-${this.formatNumber(new Date(nowTime).getDate())}`
       },
@@ -3036,7 +3036,7 @@
                     let nowDate = Date.parse(new Date(_this.showkerCondition.auditTimeCountRequire[l].date));
                     if (nowDate < Date.parse(_this.getDateTime(86400000 * 2))) {
                       if (nowDate === Date.parse(new Date(auditTimeCountRequireFirstDate))) {
-                        _this.showkerCondition.auditTimeCountRequire[l].date = _this.getDateTime(86400000)
+                        _this.showkerCondition.auditTimeCountRequire[l].date = _this.getDateTime()
                       } else {
                         let time = nowDate - Date.parse(new Date(auditTimeCountRequireFirstDate)) + 86400000;
                         _this.showkerCondition.auditTimeCountRequire[l].date = _this.getDateTime(time);
@@ -3046,7 +3046,7 @@
                 }
               } else {
                 _this.showkerCondition.auditTimeCountRequire.push({
-                  date: _this.getDateTime(86400000),
+                  date: _this.getDateTime(),
                   hourStart: '0',
                   hourEnd: '23',
                   count: null
@@ -3450,7 +3450,7 @@
       },
       addTimeBucket() {
         this.showkerCondition.auditTimeCountRequire.push({
-          date: this.getDateTime(86400000),
+          date: this.getDateTime(),
           hourStart: '0',
           hourEnd: '23',
           count: null
