@@ -135,7 +135,7 @@
                     </tooltip>
                   </p>
                 </td>
-                <td>
+                <td :class="{conformity: item.checkTag}">
                   <tooltip v-if="allTask.reason && allTask.status === 'waiting_resubmit'" :content="allTask.reason" placement="top" class="cursor-p">
                     <icon color="#f9284f" type="md-alert"/>
                     <span class="main-color">{{getStatusInfo(allTask.status)}}</span>
@@ -165,8 +165,8 @@
         </collapse-transition>
       </div>
     </template>
-    <div class="mt-40 text-ct">{{dataStatusTip}}</div>
-    <div class="activity-page mt-20 right mr-10" v-if="taskWaitAuditList && taskWaitAuditList.length > 0">
+    <div v-if="dataStatusTip" class="mt-40 text-ct">{{dataStatusTip}}</div>
+    <div class="activity-page mt-20 right" v-if="taskWaitAuditList && taskWaitAuditList.length > 0">
       <page :total="totalElements" :page-size="pageSize" :current="pageIndex" @on-change="pageChange"/>
     </div>
     <!--添加黑名单弹框-->
@@ -559,9 +559,10 @@
         this.appliesWaitingAuditTask();
       },
       checkShowkerApply(taskId, showkerId, taskApplyId, applySuccessCount7Days) {
+        console.log(applySuccessCount7Days)
         const _this = this;
         _this.taskApplyId = taskApplyId;
-        if (applySuccessCount7Days >= _this.showkerApplySuccessCount7Limit) {
+        if (applySuccessCount7Days >= _this.showkerApplySuccessCount7Limit * 1) {
           _this.showkerApplyInfoModal = true;
           _this.showkerApplyInfoModalText = '该用户近七天下单数较为频繁，请谨慎选择！'
         } else {
@@ -941,5 +942,11 @@
       border-radius: 3px;
       user-select: none;
     }
+  }
+
+  .conformity {
+    background-image: url("~assets/img/common/conformity-logo.png");
+    background-repeat: no-repeat;
+    background-position-x: right;
   }
 </style>
