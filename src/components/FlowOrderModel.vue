@@ -193,12 +193,6 @@
       isMember() {
         return this.$store.getters.isMemberOk
       },
-      /** 获取用户会员到期时间
-       * @return {Number}
-       */
-      getMemberDeadline() {
-        return this.$store.state.userInfo.memberDeadline
-      },
       /** 计算用户账户余额是否足够支付选购商品的价格（true: 余额足够， false: 余额不足）
        * @return {boolean}
        */
