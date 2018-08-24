@@ -145,10 +145,10 @@
                 <td>
                   <p class="del-edit">
                     <span class="ml-5" @click="checkShowkerApply(item.id, allTask.showkerId, allTask.id, allTask.applySuccessCount7Days)">通过</span>
-                    <span v-if="allTask.newest" class="ml-5" @click="markRead(item.id, allTask.id)">设为已读</span>
                     <tooltip placement="top" content="加入黑名单后该用户将无法申请你发布的活动">
                       <span class="ml-5" @click="addToBlackListFun(allTask.alitmAccount)">加入黑名单</span>
                     </tooltip>
+                    <span v-if="allTask.newest" class="ml-5" @click="markRead(item.id, allTask.id)">设为已读</span>
                   </p>
                 </td>
               </tr>

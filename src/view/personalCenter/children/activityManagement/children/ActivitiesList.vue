@@ -531,7 +531,7 @@
     },
     methods: {
       editTask(id, createTime, fastPublish) {
-        if(createTime <= 1529933415818) {
+        if (createTime <= 1529933415818) {
           this.isTaskOverdueModel = true;
           this.taskId = id;
         } else {
@@ -586,7 +586,7 @@
         _this.sortList.defaultList[index].sort = sort === 'desc' ? 'asc' : 'desc';
         _this.getTaskList(name, _this.sortList.defaultList[index].sort);
       },
-      searchTaskList()  {
+      searchTaskList() {
         this.pageIndex = 1;
         this.getTaskList();
       },
