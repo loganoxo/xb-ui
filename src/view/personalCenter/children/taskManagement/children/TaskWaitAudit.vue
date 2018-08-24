@@ -135,12 +135,15 @@
                     </tooltip>
                   </p>
                 </td>
-                <td :class="{conformity: allTask.checkTag}">
+                <td class="pos-rel">
                   <tooltip v-if="allTask.reason && allTask.status === 'waiting_resubmit'" :content="allTask.reason" placement="top" class="cursor-p">
                     <icon color="#f9284f" type="md-alert"/>
                     <span class="main-color">{{getStatusInfo(allTask.status)}}</span>
                   </tooltip>
                   <span v-else>{{getStatusInfo(allTask.status)}}</span>
+                  <tooltip v-if="allTask.checkTag" placement="top" class="conformity" content="该旺旺号符合您的标签设置">
+                    <img src="~assets/img/common/conformity-logo.png" alt="标签合格标志">
+                  </tooltip>
                 </td>
                 <td>
                   <p class="del-edit">
@@ -945,8 +948,8 @@
   }
 
   .conformity {
-    background-image: url("~assets/img/common/conformity-logo.png");
-    background-repeat: no-repeat;
-    background-position-x: right;
+    position: absolute;
+    right: 0;
+    top: 0;
   }
 </style>
