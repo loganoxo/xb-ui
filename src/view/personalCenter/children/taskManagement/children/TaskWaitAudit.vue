@@ -135,7 +135,7 @@
                     </tooltip>
                   </p>
                 </td>
-                <td :class="{conformity: item.checkTag}">
+                <td :class="{conformity: allTask.checkTag}">
                   <tooltip v-if="allTask.reason && allTask.status === 'waiting_resubmit'" :content="allTask.reason" placement="top" class="cursor-p">
                     <icon color="#f9284f" type="md-alert"/>
                     <span class="main-color">{{getStatusInfo(allTask.status)}}</span>
