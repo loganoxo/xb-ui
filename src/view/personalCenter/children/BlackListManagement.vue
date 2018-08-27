@@ -1,6 +1,6 @@
 <template>
   <div class="black-list-management">
-    <div class="pt-10 pb-10 black-list-management-title fs-18">黑名单管理</div>
+    <div class="pt-10 pb-10 black-list-management-title fs-18">拿手违规申诉</div>
     <div class="pl-10 pt-20 pb-20 border-bottom-eee">
       <span>淘宝会员名：</span>
       <i-input class="input" v-model="blackListWwName"/>

@@ -99,50 +99,66 @@
           },
           {
             reasonStatus: 'tao_ke',
+            reasonDec: '走淘客'
+          },
+          {
+            reasonStatus: 'illegal_operation',
+            reasonDec: '不按要求操作'
+          },
+          {
+            reasonStatus: 'danger_account',
+            reasonDec: '此号不安全'
+          },
+          {
+            reasonStatus: 'sales_return',
+            reasonDec: '有退货行为'
+          },
+          {
+            reasonStatus: 'rebate_order',
             reasonDec: '返利下单'
           },
           {
-            reasonStatus: 'tao_ke',
+            reasonStatus: 'illegal_use_credit_cards_or_ant',
             reasonDec: '违规使用信用卡和花呗'
           },
           {
-            reasonStatus: 'tao_ke',
+            reasonStatus: 'mentioned_on_taobao',
             reasonDec: '淘宝上提及平台相关信息'
           },
           {
-            reasonStatus: 'tao_ke',
+            reasonStatus: 'show_illegal_pic_on_taobao',
             reasonDec: '淘宝晒图违规'
           },
           {
-            reasonStatus: 'tao_ke',
+            reasonStatus: 'not_deliver_refund',
             reasonDec: '未发货私自退款'
           },
           {
-            reasonStatus: 'tao_ke',
+            reasonStatus: 'already_deliver_refund',
             reasonDec: '已发货私自退款'
           },
           {
-            reasonStatus: 'tao_ke',
+            reasonStatus: 'alitm_account_wrong',
             reasonDec: '使用错误的旺旺号下单'
           },
           {
-            reasonStatus: 'tao_ke',
+            reasonStatus: 'voluntary_termination',
             reasonDec: '随意终止活动'
           },
           {
-            reasonStatus: 'tao_ke',
+            reasonStatus: 'bad_evaluation_on_taobao',
             reasonDec: '淘宝给中差评'
           },
           {
-            reasonStatus: 'tao_ke',
+            reasonStatus: 'not_evaluated_as_required',
             reasonDec: '未按要求评价'
           },
           {
-            reasonStatus: 'tao_ke',
+            reasonStatus: 'quick_order',
             reasonDec: '秒拍/扫码进店'
           },
           {
-            reasonStatus: 'tao_ke',
+            reasonStatus: 'commit_not_in_time',
             reasonDec: '未及时提交订单号、评价截图及买家秀等'
           },
           {
