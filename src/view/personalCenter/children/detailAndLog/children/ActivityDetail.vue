@@ -1469,13 +1469,11 @@
             _this.mainDefaultList = res.data.taskMainImage;
             _this.redEnvelopeDeductionPaid = res.data.redEnvelopeDeductionPaid;
             _this.fastPublish = res.data.fastPublish;
-            for (let k in _this.taskRelease) {
-              for (let i in res.data) {
-                if (k === i) {
-                  _this.taskRelease[k] = res.data[i];
-                }
+            Object.keys(_this.taskRelease).forEach(key => {
+              if (res.data[key]) {
+                _this.taskRelease[key] = res.data[key]
               }
-            }
+            });
             _this.taskRelease.itemType = res.data.itemCatalog.id;
             _this.taskRelease.pinkage =  _this.taskRelease.pinkage.toString();
             _this.taskRelease.donotPostPhoto = _this.taskRelease.donotPostPhoto.toString();
@@ -1636,7 +1634,7 @@
       },
       addItemReviewList() {
         this.itemReviewList = [];
-        for(let i =1; i <= this.taskRelease.taskCount; i++){
+        for (let i =1; i <= this.taskRelease.taskCount; i++){
           this.itemReviewList.push({
             value: '',
             index: i,
