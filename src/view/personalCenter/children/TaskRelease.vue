@@ -2674,8 +2674,7 @@
           detectionStoreInfo = await _this.getStoreInfo();
         } catch (err) {
           _this.taskLoading = false;
-          console.error(err);
-          return;
+          throw Error(err);
         }
         _this.isShowStoreInfoLoading = false;
         if (detectionStoreInfo.status) {
@@ -2887,13 +2886,11 @@
               _this.disabledRedEnvelopes = true;
             }
             _this.mainDefaultList.push({src: res.data.taskMainImage});
-            for (let k in _this.taskRelease) {
-              for (let i in res.data) {
-                if (k === i) {
-                  _this.taskRelease[k] = res.data[i]
-                }
+            Object.keys(_this.taskRelease).forEach(key => {
+              if (res.data[key]) {
+                _this.taskRelease[key] = res.data[key]
               }
-            }
+            });
             _this.taskRelease.itemType = res.data.itemCatalog.id;
             _this.taskRelease.dayReserveToNow = _this.taskRelease.dayReserveToNow ? _this.taskRelease.dayReserveToNow : false;
             _this.taskRelease.speedUp = _this.taskRelease.speedUp ? _this.taskRelease.speedUp : false;
@@ -2982,13 +2979,9 @@
             // 处理复制、编辑活动拿手审批条件限制数据
             _this.showkerConditionRequireStatus.aliWwLabelSet = res.data.showkerApplyRequire;
             if (res.data.showkerApplyRequire && res.data.showkerApplyRequireData) {
-              for (let k in _this.showkerCondition) {
-                for (let i in res.data.showkerApplyRequireData) {
-                  if (k === i) {
-                    _this.showkerCondition[k] = res.data.showkerApplyRequireData[i]
-                  }
-                }
-              }
+              Object.keys(_this.showkerCondition).forEach(key => {
+                _this.showkerCondition[key] = res.data.showkerApplyRequireData[key]
+              });
               if (_this.showkerCondition.weekOrderRequire) {
                 _this.showkerConditionRequireStatus.weekOrder.require = true
               } else {
@@ -3030,7 +3023,8 @@
                 _this.showkerConditionRequireStatus.other.auditTimeCount.require = true;
                 // 复制活动的时候如果时间段日期没有过期维持历史活动的时间段日期否则自动延期（过期的条件为：小于当前日期+2天）
                 // 延期日期时间根据历史活动数据为参照基础
-                if (_this.$route.query.type === 'copy') {
+                const type = _this.$route.query.type;
+                if (type && type === 'copy') {
                   const auditTimeCountRequireFirstDate = _this.showkerCondition.auditTimeCountRequire[0].date;
                   for (let l = 0, len = _this.showkerCondition.auditTimeCountRequire.length; l < len; l++) {
                     let nowDate = Date.parse(new Date(_this.showkerCondition.auditTimeCountRequire[l].date));
