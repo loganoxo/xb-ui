@@ -38,7 +38,7 @@
           </td>
           <td>{{itemCatalog.taskCount  - itemCatalog.showkerApplySuccessCount}}</td>
           <td>
-            （ {{(itemCatalog.totalMarginNeed / 100).toFixed(2) || 0}} / {{(itemCatalog.promotionExpensesNeed / 100).toFixed(2) || 0}} / {{((itemCatalog.vasFeeNeed + itemCatalog.tagVasFeeNeed) / 100).toFixed(2) || 0}}）{{((itemCatalog.marginPaid + itemCatalog.promotionExpensesPaid + itemCatalog.vasFeePaid + itemCatalog.tagVasFeeNeed) / 100).toFixed(2) || 0}}
+            （ {{(itemCatalog.totalMarginNeed / 100).toFixed(2)}} / {{(itemCatalog.promotionExpensesNeed / 100).toFixed(2)}} / {{((itemCatalog.vasFeeNeed + itemCatalog.tagVasFeeNeed) / 100).toFixed(2)}}）{{((itemCatalog.marginPaid + itemCatalog.promotionExpensesPaid + itemCatalog.vasFeePaid + itemCatalog.tagVasFeePaid) / 100).toFixed(2)}}
           </td>
         </tr>
         </tbody>
