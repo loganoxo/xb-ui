@@ -135,7 +135,7 @@
           },
           {
             reasonStatus: 'already_deliver_refund',
-            reasonDec: '已发货私自退款'
+              reasonDec: '已发货私自退款'
           },
           {
             reasonStatus: 'alitm_account_wrong',
@@ -174,11 +174,13 @@
         addToCredit: false,
         bankListDefaultList: [],
         screenshot: null,
+        screenshotList: []
       }
     },
     methods: {
       bankListImageSuccess(res) {
-        this.screenshot = aliCallbackImgUrl + res.name
+        this.screenshot = aliCallbackImgUrl + res.name;
+        this.screenshotList.push(this.screenshot);
       },
       removeBankListImage() {
         this.screenshot = null
@@ -195,7 +197,11 @@
           this.addToBlackListReason = this.blackListInfo.reasonCode ? this.blackListInfo.reasonCode : null;
           this.addToBlackOtherReason = this.blackListInfo.reasonCode && this.blackListInfo.reasonCode === 'other_reason' ? this.blackListInfo.reasonStr : null;
           this.addToCredit = this.blackListInfo.addToCredit ? this.blackListInfo.addToCredit : null;
-          this.blackListInfo.screenshot ? this.bankListDefaultList.push({src: this.blackListInfo.screenshot}) : [];
+          if (this.blackListInfo.screenshot && this.blackListInfo.screenshot.length > 0) {
+            this.blackListInfo.screenshot.forEach(item => {
+              this.bankListDefaultList.push({src: item})
+            })
+          }
           this.screenshot = this.blackListInfo.screenshot ? this.blackListInfo.screenshot : null;
         } else {
           this.addToBlackListReason = null;
@@ -205,6 +211,7 @@
           this.addToBlackOtherReason = null;
           this.addToCredit = false;
           this.bankListDefaultList = [];
+          this.screenshotList = [];
           this.$refs.upload.fileList.splice(0, 1);
         }
       },
@@ -236,7 +243,7 @@
           reasonCode: _this.addToBlackListReason,
           reasonText: _this.addToBlackOtherReason,
           addToCredit: _this.addToCredit,
-          screenshot: JSON.stringify([_this.screenshot]),
+          screenshot: JSON.stringify(_this.screenshotList),
         }).then(res => {
           if (res.status) {
             _this.$emit('change', false);
