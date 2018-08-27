@@ -3048,42 +3048,46 @@
               }
             }
             _this.taskRelease.taskDetail = {};
-            if (res.data.taskType === 'tao_code') {
-              _this.taoCodeTaskDetail = res.data.taskDetailObject;
-              const image = _this.taoCodeTaskDetail[0].homePageLockItemImage;
-              image && _this.taoCodeDefaultList.push({src: image});
-              _this.taoCodeTaskDetailItemMainImage = image;
-              _this.conversionPrice('tao_code');
-            } else if (res.data.taskType === 'pc_search') {
-              _this.pcTaskDetail = res.data.taskDetailObject;
-              _this.pcTaskDetail.forEach(item => {
-                if (!item.searchFilter) {
-                  item.searchFilter = [];
-                }
-                if (!item.countAssigned) {
-                  item.countAssigned = 1
-                }
-              });
-              _this.addKeywordScheme = _this.pcTaskDetail.length - 1;
-              _this.pcDefaultList.push({src: _this.pcTaskDetail[0].itemMainImage});
-              _this.pcTaskDetailItemMainImage = _this.pcTaskDetail[0].itemMainImage;
-              _this.conversionPrice('pc_search');
-            } else if (res.data.taskType === 'app_search') {
-              _this.appTaskDetail = res.data.taskDetailObject;
-              _this.appTaskDetail.forEach(item => {
-                if (!item.searchFilter) {
-                  item.searchFilter = []
-                }
-                if (!item.countAssigned) {
-                  item.countAssigned = 1
-                }
-              });
-              _this.addKeywordScheme = _this.appTaskDetail.length - 1;
-              _this.appDefaultList.push({src: _this.appTaskDetail[0].itemMainImage});
-              _this.appTaskDetailItemMainImage = _this.appTaskDetail[0].itemMainImage;
-              _this.conversionPrice('app_search');
-            } else {
-              _this.taskRelease.taskDetail = {};
+            switch (res.data.taskType) {
+              case 'tao_code':
+                const image = _this.taoCodeTaskDetail[0].homePageLockItemImage;
+                image && _this.taoCodeDefaultList.push({src: image});
+                _this.taoCodeTaskDetailItemMainImage = image;
+                _this.conversionPrice('tao_code');
+                break;
+              case 'pc_search':
+                _this.pcTaskDetail = res.data.taskDetailObject;
+                _this.pcTaskDetail.forEach(item => {
+                  if (!item.searchFilter) {
+                    item.searchFilter = [];
+                  }
+                  if (!item.countAssigned) {
+                    item.countAssigned = 1
+                  }
+                });
+                _this.addKeywordScheme = _this.pcTaskDetail.length - 1;
+                _this.pcDefaultList.push({src: _this.pcTaskDetail[0].itemMainImage});
+                _this.pcTaskDetailItemMainImage = _this.pcTaskDetail[0].itemMainImage;
+                _this.conversionPrice('pc_search');
+                break;
+              case 'app_search':
+                _this.appTaskDetail = res.data.taskDetailObject;
+                _this.appTaskDetail.forEach(item => {
+                  if (!item.searchFilter) {
+                    item.searchFilter = []
+                  }
+                  if (!item.countAssigned) {
+                    item.countAssigned = 1
+                  }
+                });
+                _this.addKeywordScheme = _this.appTaskDetail.length - 1;
+                _this.appDefaultList.push({src: _this.appTaskDetail[0].itemMainImage});
+                _this.appTaskDetailItemMainImage = _this.appTaskDetail[0].itemMainImage;
+                _this.conversionPrice('app_search');
+                break;
+              case 'direct_access':
+                _this.taskRelease.taskDetail = {};
+                break;
             }
             _this.countAssignedChange();
           } else {

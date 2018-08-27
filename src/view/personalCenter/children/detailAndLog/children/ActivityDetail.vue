@@ -38,7 +38,7 @@
           </td>
           <td>{{itemCatalog.taskCount  - itemCatalog.showkerApplySuccessCount}}</td>
           <td>
-            （ {{(itemCatalog.totalMarginNeed / 100).toFixed(2) || 0}} / {{(itemCatalog.promotionExpensesNeed / 100).toFixed(2) || 0}} / {{(itemCatalog.vasFeeNeed / 100).toFixed(2) || 0}}）{{((itemCatalog.marginPaid + itemCatalog.promotionExpensesPaid + itemCatalog.vasFeePaid) / 100).toFixed(2) || 0}}
+            （ {{(itemCatalog.totalMarginNeed / 100).toFixed(2) || 0}} / {{(itemCatalog.promotionExpensesNeed / 100).toFixed(2) || 0}} / {{((itemCatalog.vasFeeNeed + itemCatalog.tagVasFeeNeed) / 100).toFixed(2) || 0}}）{{((itemCatalog.marginPaid + itemCatalog.promotionExpensesPaid + itemCatalog.vasFeePaid + itemCatalog.tagVasFeeNeed) / 100).toFixed(2) || 0}}
           </td>
         </tr>
         </tbody>
@@ -1037,7 +1037,7 @@
           creditLevel: {
             require: false,
             price: {
-              2: 10,
+              2: 0,
               4: 20,
               5: 30,
               6: 40,
