@@ -2846,10 +2846,8 @@
         const type = this.$route.query.type;
         if ((type && type === 'copy') || !type) {
           this.editTaskId = this.taskPayId;
-          this.getTaskInfo();
-        } else {
-          this.getTaskInfo();
         }
+        this.getTaskInfo();
         this.stepName = 'information';
       },
       IThink() {
@@ -2878,10 +2876,11 @@
             _this.redEnvelopeDeductionPaid = res.data.redEnvelopeDeductionPaid;
             _this.paidDeposit = res.data.marginPaid + res.data.promotionExpensesPaid + res.data.vasFeePaid + res.data.redEnvelopeDeductionPaid + res.data.tagVasFeePaid;
             _this.taskStatus = res.data.taskStatus;
-            if (!_this.$route.query.type) {
+            const type = _this.$route.query.type;
+            if (!type) {
               _this.taskRelease.taskId = res.data.id;
             }
-            if ((_this.taskStatus === 'waiting_modify' || _this.taskStatus === 'waiting_pay') && _this.paidDeposit > 0 && _this.$route.query.type !== 'copy') {
+            if ((_this.taskStatus === 'waiting_modify' || _this.taskStatus === 'waiting_pay') && _this.paidDeposit > 0 && type !== 'copy') {
               _this.redEnvelopesState = res.data.redEnvelopeDeductionPaid > 0;
               _this.disabledRedEnvelopes = true;
             }
@@ -3023,7 +3022,6 @@
                 _this.showkerConditionRequireStatus.other.auditTimeCount.require = true;
                 // 复制活动的时候如果时间段日期没有过期维持历史活动的时间段日期否则自动延期（过期的条件为：小于当前日期+2天）
                 // 延期日期时间根据历史活动数据为参照基础
-                const type = _this.$route.query.type;
                 if (type && type === 'copy') {
                   const auditTimeCountRequireFirstDate = _this.showkerCondition.auditTimeCountRequire[0].date;
                   for (let l = 0, len = _this.showkerCondition.auditTimeCountRequire.length; l < len; l++) {
