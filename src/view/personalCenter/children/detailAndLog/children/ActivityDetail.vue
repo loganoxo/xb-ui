@@ -1523,13 +1523,9 @@
             // 处理拿手申请条件设置数据
             _this.showkerConditionRequireStatus.aliWwLabelSet = res.data.showkerApplyRequire;
             if (res.data.showkerApplyRequire && res.data.showkerApplyRequireData) {
-              for (let k in _this.showkerCondition) {
-                for (let i in res.data.showkerApplyRequireData) {
-                  if (k === i) {
-                    _this.showkerCondition[k] = res.data.showkerApplyRequireData[i]
-                  }
-                }
-              }
+              Object.keys(_this.showkerCondition).forEach(key => {
+                _this.showkerCondition[key] = res.data.showkerApplyRequireData[key]
+              });
               if (_this.showkerCondition.weekOrderRequire) {
                 _this.showkerConditionRequireStatus.weekOrder.require = true
               } else {
