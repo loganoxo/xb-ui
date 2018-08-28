@@ -343,6 +343,18 @@ export default new Router({
           }
         },
         {
+          path: 'flow-order-detail',
+          name: 'FlowOrderDetail',
+          component: _import('personalCenter/children/FlowOrderDetail'),
+          meta: {
+            title: "收藏加购及访客流量",
+            logInAuthority: true,
+            topShow: true,
+            bottomShow: true,
+            role: 1,
+          }
+        },
+        {
           path: 'bind-store',
           name: 'BindStore',
           component: _import('personalCenter/children/bindStore/index'),
