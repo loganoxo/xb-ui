@@ -23,12 +23,12 @@
             </div>
             <p v-if="getMemberVersionLevel === 100" class="mt-15 ml-56">
               <span>单价：￥0.70元/条</span>
-              <span class="ml-15 mr-15 text-decoration-through">VIP：￥0.35元/条！</span>
+              <span class="ml-15 mr-15 text-decoration-through">VIP：￥0.35元/条</span>
               <span>(<span class="blue text-decoration-underline">升级VIP</span><span class="main-color text-decoration-underline">，享受5折订购</span>)</span>
             </p>
             <p v-else class="mt-15 ml-56">
               <span>单价：￥0.35元/条</span>
-              <span class="text-decoration-through mr-15 ml-15">原价：￥0.70元/条！</span>
+              <span class="text-decoration-through mr-15 ml-15">原价：￥0.70元/条</span>
               <span>(<span class="main-color">您当前是VIP会员，享受5折订购！</span>)</span>
             </p>
           </div>
@@ -230,9 +230,7 @@
       confirmPayment() {
         const _this = this;
         _this.orderLoading = true;
-
       }
-
     }
   }
 </script>
