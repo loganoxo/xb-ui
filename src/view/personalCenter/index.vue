@@ -60,11 +60,11 @@
         </li>
         <li :class="{isSelect:isSelect === 'MyAppeal'}" class="pos-rel">
           <span class="icon-size my-appeal-nav"></span>
-          <router-link to="/user/my-appeal">我的申诉</router-link>
+          <router-link to="/user/my-appeal">我的建议</router-link>
         </li>
         <li :class="{isSelect:isSelect === 'BlackListManagement'}" class="pos-rel">
           <span class="icon-size black-management"></span>
-          <router-link to="/user/black-list-management">黑名单管理</router-link>
+          <router-link to="/user/black-list-management">拿手违规申诉</router-link>
         </li>
       </ul>
 
@@ -114,7 +114,7 @@
         </li>
         <li :class="{isSelect:isSelect === 'MyAppeal'}" class="pos-rel">
           <span class="icon-size my-appeal-nav"></span>
-          <router-link to="/user/my-appeal">我的申诉</router-link>
+          <router-link to="/user/my-appeal">我的建议</router-link>
         </li>
       </ul>
     </div>

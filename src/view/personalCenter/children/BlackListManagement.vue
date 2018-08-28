@@ -1,20 +1,21 @@
 <template>
   <div class="black-list-management">
-    <div class="pt-10 pb-10 black-list-management-title fs-18">黑名单管理</div>
+    <div class="pt-10 pb-10 black-list-management-title fs-18">拿手违规申诉</div>
     <div class="pl-10 pt-20 pb-20 border-bottom-eee">
       <span>淘宝会员名：</span>
       <i-input class="input" v-model="blackListWwName"/>
       <i-button type="error" class="ml-10" @click="searchWw">搜索</i-button>
-      <i-button type="error" class="ml-10" @click="closableModal = true">+添加黑名单</i-button>
+      <i-button type="error" class="ml-10" @click="closableModal = true">+提交违规行为</i-button>
     </div>
     <div class="black-list">
-      <p class="pt-20 pb-20">添加黑名单的旺旺号（该用户）将无法申请您发布的活动，从黑名单移除后该用户可恢复申请。</p>
+      <p class="pt-10 main-color">提交成功之后，该旺旺号对应的用户将自动添加到黑名单，并无法申请您发布的活动，从黑名单移除该用户后可恢复申请。</p>
+      <p class="pt-10 pb-10 main-color">关于拿手计入征信的违规行为，提交并经客服审核后，会依据实际情况对拿手进行相应的处罚。<span class="blue cursor-p" @click="isShowRules = true">点我查看拿手处罚细则</span></p>
       <table class="black-list-table">
         <thead>
         <tr>
           <th width="20%">淘宝账号（旺旺号）</th>
-          <th width="20%">拉黑理由</th>
-          <th width="20%">拉黑时间</th>
+          <th width="20%">违规行为</th>
+          <th width="20%">申述时间</th>
           <th width="20%">征信处理</th>
           <th width="20%">操作</th>
         </tr>
@@ -34,7 +35,7 @@
           <td>
             <template v-if="item.auditStatus !== 3">
               <p>{{item.auditStatusStr}}</p>
-              <p class="blue cursor-p mt-5" v-if="!item.addToCredit && item.reasonCode !== 'none_reason' && item.reasonCode !== 'tao_ke'" @click="applyToAdd(item.alitmAccount, item.id, item.reasonCode)">（申请添加）</p>
+              <p class="blue cursor-p mt-5" v-if="!item.addToCredit && item.reasonCode !== 'none_reason'" @click="applyToAdd(item.alitmAccount, item.id, item.reasonCode)">（申请添加）</p>
               <p class="blue cursor-p mt-5" v-if="item.auditStatus === 1 && item.addToCredit">（<span @click="seeDetails(item, true)">查看详情</span><span @click="revoke(item)" class="ml-10">撤销</span>）</p>
             </template>
             <template v-else>
@@ -62,11 +63,43 @@
     </div>
     <!--添加黑名单弹框-->
     <add-to-black-list-modal :blackListInfo="addBlackListInfo" :disabled="disabled" :closable="closableModal" :on-success="addSuccess" @change="blackListModalChange"/>
+    <!--拿手处罚细则弹窗-->
+    <modal v-model="isShowRules" :closable="false" width="650">
+      <p slot="header" class="rule-title">拿手处罚细则</p>
+      <div class="fs-14">
+        <p>根据平台的实际情况以及用户的反馈，按照违规行为的轻重程度，特此制定对应的处罚细则！</p>
+        <h3 class="main-color mt-10">轻重程度：低 （禁止申请必中宝盒7天）</h3>
+        <p>1、未及时提交订单号、评价截图以及买家秀；</p>
+        <p>2、下单完成之后，随意终止活动；</p>
+        <p>3、淘宝上给了中差评，改成好评。</p>
+        <h3 class="main-color mt-10">轻重程度：中低 （禁止中奖3天）</h3>
+        <p>1、淘宝上晒错图之后配合删除；</p>
+        <p>2、走返利下单，返还佣金；</p>
+        <p>3、违规使用信用卡花呗付款，返还手续费；</p>
+        <p>4、下单之后私自申请退款，配合撤销退款；</p>
+        <p>5、没有按照要求的内容评价或者直接无脑复制其他评价内容。</p>
+        <h3 class="main-color mt-10">轻重程度：一般 （禁止中奖5天）</h3>
+        <p>1、秒拍秒退或者扫码进店；</p>
+        <p>2、商家未发货私自申请退款之后，不撤销退款；</p>
+        <p>3、使用错误的旺旺号下单。</p>
+        <h3 class="main-color mt-10">轻重程度：重 （禁止中奖7天）</h3>
+        <p>1、淘宝旺旺上直接提及或影射自己是活动用户，非真实买家的。</p>
+        <h3 class="main-color mt-10">轻重程度：严重 （禁止中奖7天，禁止提现3天）</h3>
+        <p>1、返利下单，不返还佣金；</p>
+        <p>2、违规使用信用卡花呗付款，不返还手续费；</p>
+        <p>3、淘宝乱晒图并拒绝修改和补救；</p>
+        <p>4、淘宝上给中差评，并拒绝修改和补救；</p>
+        <p>5、商家已发货，私自申请退款之后，不撤销退款。</p>
+      </div>
+      <div slot="footer" class="text-ct">
+        <i-button type="error" class="rule-confirm-btn" @click="isShowRules = false">确定</i-button>
+      </div>
+    </modal>
   </div>
 </template>
 
 <script>
-  import {Button, Icon, Page, Input, Tooltip} from 'iview'
+  import {Button, Icon, Page, Input, Tooltip, Modal} from 'iview'
   import AddToBlackListModal from '@/components/AddToBlackListModal'
   import api from '@/config/apiConfig'
 
@@ -78,6 +111,7 @@
       iInput: Input,
       Tooltip: Tooltip,
       Icon: Icon,
+      Modal: Modal,
       AddToBlackListModal: AddToBlackListModal,
     },
     data() {
@@ -89,7 +123,8 @@
         totalElements: 0,
         closableModal: false,
         disabled: false,
-        addBlackListInfo: {}
+        addBlackListInfo: {},
+        isShowRules: false
       }
     },
     created() {
@@ -229,6 +264,16 @@
     td {
 
     }
+  }
+  .rule-title {
+    color: $mainColor;
+    font-weight: bold;
+    font-size: 16px;
+    text-align: center;
+    cursor: pointer;
+  }
+  .rule-confirm-btn {
+    width: 120px;
   }
 </style>
 
