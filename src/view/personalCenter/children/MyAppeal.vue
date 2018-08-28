@@ -41,7 +41,7 @@
         <tr>
           <th style="width: 20%">提交时间</th>
           <th style="width: 20%">问题分类</th>
-          <th style="width: 30%">申诉标题</th>
+          <th style="width: 30%">建议标题</th>
           <th style="width: 20%">处理状态</th>
           <th style="width: 10%">操作</th>
         </tr>
@@ -74,7 +74,7 @@
       :closable="false">
       <div slot="header" class="clear">
         <div class="right" @click="cancelFun">
-          <Icon type="close" class="cursor-p fs-16"></Icon>
+          <Icon type="md-close-circle" class="cursor-p fs-16"/>
         </div>
         <span>提交新建议</span>
       </div>
@@ -91,7 +91,7 @@
         </div>
         <div class="mt-20">
           <span class="main-color">*</span><span>建议标题：</span>
-          <i-input style="width: 200px" placeholder="请输入申诉标题" v-model="appealTitle"></i-input>
+          <i-input style="width: 200px" placeholder="请输入建议标题" v-model="appealTitle"></i-input>
           <span class="ml-10">最多支持35个字符，当前已输入<span class="main-color">{{getTitleLength}}</span>/35个字符</span>
         </div>
         <div class="mt-20">
@@ -131,7 +131,7 @@
       <Modal
         v-model="appealDetailsPop"
         :styles="{top:'200px',width:'700px'}"
-        title="查看申诉详情"
+        title="查看建议详情"
         :mask-closable="false"
       >
         <div class="appeal-content">
@@ -147,11 +147,11 @@
             <span class="right main-color f-b fs-italic">{{getAppealCategorization(appealDetailsObj.status)}}</span>
           </div>
           <div class="mt-20">
-            <span class="main-color">*</span><span>申诉标题：</span>
-            <i-input style="width: 200px" placeholder="请输入申诉标题" v-model="appealDetailsObj.title" disabled></i-input>
+            <span class="main-color">*</span><span>建议标题：</span>
+            <i-input style="width: 200px" placeholder="请输入建议标题" v-model="appealDetailsObj.title" disabled></i-input>
           </div>
           <div class="mt-20">
-            <span class="main-color">*</span><span>问题描述：</span>
+            <span class="main-color">*</span><span>建议描述：</span>
             <i-input v-model="appealDetailsObj.description" style="width: 600px" type="textarea" disabled></i-input>
           </div>
           <div class="mt-20 clear screen-shot">
@@ -341,11 +341,11 @@
       userComplaintCreate() {
         let self = this;
         if (!self.categorization) {
-          self.$Message.error('请选择申诉类型！');
+          self.$Message.error('请选择问题分类！');
           return
         }
         if (!self.appealTitle) {
-          self.$Message.error('请输入申诉标题！');
+          self.$Message.error('请输入建议标题！');
           return
         }
         if (self.appealTitle && self.appealTitle.length > 35) {
@@ -353,7 +353,7 @@
           return
         }
         if (!self.appealDes) {
-          self.$Message.error('请输入详细描述！');
+          self.$Message.error('请输入建议描述！');
           return
         }
         api.userComplaintCreate({

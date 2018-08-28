@@ -8,14 +8,14 @@
       <i-button type="error" class="ml-10" @click="closableModal = true">+提交违规行为</i-button>
     </div>
     <div class="black-list">
-      <p class="pt-10 main-color">添加黑名单的旺旺号（该用户）将无法申请您发布的活动，从黑名单移除后该用户可恢复申请。</p>
+      <p class="pt-10 main-color">提交成功之后，该旺旺号对应的用户将自动添加到黑名单，并无法申请您发布的活动，从黑名单移除该用户后可恢复申请。</p>
       <p class="pt-10 pb-10 main-color">关于拿手计入征信的违规行为，提交并经客服审核后，会依据实际情况对拿手进行相应的处罚。<span class="blue cursor-p" @click="isShowRules = true">点我查看拿手处罚细则</span></p>
       <table class="black-list-table">
         <thead>
         <tr>
           <th width="20%">淘宝账号（旺旺号）</th>
-          <th width="20%">拉黑理由</th>
-          <th width="20%">拉黑时间</th>
+          <th width="20%">违规行为</th>
+          <th width="20%">申述时间</th>
           <th width="20%">征信处理</th>
           <th width="20%">操作</th>
         </tr>
@@ -35,7 +35,7 @@
           <td>
             <template v-if="item.auditStatus !== 3">
               <p>{{item.auditStatusStr}}</p>
-              <p class="blue cursor-p mt-5" v-if="!item.addToCredit && item.reasonCode !== 'none_reason' && item.reasonCode !== 'tao_ke'" @click="applyToAdd(item.alitmAccount, item.id, item.reasonCode)">（申请添加）</p>
+              <p class="blue cursor-p mt-5" v-if="!item.addToCredit && item.reasonCode !== 'none_reason'" @click="applyToAdd(item.alitmAccount, item.id, item.reasonCode)">（申请添加）</p>
               <p class="blue cursor-p mt-5" v-if="item.auditStatus === 1 && item.addToCredit">（<span @click="seeDetails(item, true)">查看详情</span><span @click="revoke(item)" class="ml-10">撤销</span>）</p>
             </template>
             <template v-else>

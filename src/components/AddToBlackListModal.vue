@@ -1,11 +1,11 @@
 <template>
-  <modal :value="closable" title="添加黑名单" @on-visible-change="modalChange" :mask-closable="false">
+  <modal :value="closable" title="提交违规行为" @on-visible-change="modalChange" :mask-closable="false">
     <div>
-      <span class="inline-block title">淘宝账号（旺旺ID）：</span>
+      <span class="inline-block title">旺旺号：</span>
       <i-input class="ww-name" :disabled="disabled" v-model="alitmAccount" style="width: 120px;"/>
     </div>
     <div class="mt-20">
-      <span class="inline-block title">拉黑原因：</span>
+      <span class="inline-block title">违规行为：</span>
       <i-select :disabled="disabled" v-model="addToBlackListReason" style="width:300px;" @on-change="selectChange">
         <i-option style="width:300px;" v-for="(item ,index) in reasonList" :value="item.reasonStatus" :key="index">{{item.reasonDec}}</i-option>
       </i-select>
@@ -97,22 +97,22 @@
             reasonStatus: 'none_reason',
             reasonDec: '无理由（仅屏蔽此用户申请，不记入征信体系）'
           },
-          {
-            reasonStatus: 'tao_ke',
-            reasonDec: '走淘客'
-          },
-          {
-            reasonStatus: 'illegal_operation',
-            reasonDec: '不按要求操作'
-          },
-          {
-            reasonStatus: 'danger_account',
-            reasonDec: '此号不安全'
-          },
-          {
-            reasonStatus: 'sales_return',
-            reasonDec: '有退货行为'
-          },
+          // {
+          //   reasonStatus: 'tao_ke',
+          //   reasonDec: '走淘客'
+          // },
+          // {
+          //   reasonStatus: 'illegal_operation',
+          //   reasonDec: '不按要求操作'
+          // },
+          // {
+          //   reasonStatus: 'danger_account',
+          //   reasonDec: '此号不安全'
+          // },
+          // {
+          //   reasonStatus: 'sales_return',
+          //   reasonDec: '有退货行为'
+          // },
           {
             reasonStatus: 'rebate_order',
             reasonDec: '返利下单'
@@ -141,10 +141,10 @@
             reasonStatus: 'alitm_account_wrong',
             reasonDec: '使用错误的旺旺号下单'
           },
-          {
-            reasonStatus: 'voluntary_termination',
-            reasonDec: '随意终止活动'
-          },
+          // {
+          //   reasonStatus: 'voluntary_termination',
+          //   reasonDec: '随意终止活动'
+          // },
           {
             reasonStatus: 'bad_evaluation_on_taobao',
             reasonDec: '淘宝给中差评'
@@ -154,8 +154,16 @@
             reasonDec: '未按要求评价'
           },
           {
+            reasonStatus: 'evaluated_delete',
+            reasonDec: '评价被删除'
+          },
+          {
             reasonStatus: 'quick_order',
-            reasonDec: '秒拍/扫码进店'
+            reasonDec: '秒拍'
+          },
+          {
+            reasonStatus: 'enter_store_not_flow_require',
+            reasonDec: '未按要求进店'
           },
           {
             reasonStatus: 'commit_not_in_time',
@@ -221,19 +229,19 @@
       confirm() {
         const _this = this;
         if (!_this.alitmAccount) {
-          _this.$Message.warning("请填写要拉黑的旺旺号！");
+          _this.$Message.warning("请填写违规的旺旺号！");
           return;
         }
         if (!_this.addToBlackListReason) {
-          _this.$Message.warning("请选择拉黑原因！");
+          _this.$Message.warning("请选择违规原因！");
           return;
         }
         if (_this.addToCredit && !_this.screenshot) {
-          _this.$Message.warning("请上传拉黑相关凭证截图！");
+          _this.$Message.warning("请上传拉违规关凭证截图！");
           return;
         }
         if (_this.addToBlackListReason === 'other_reason' && !_this.addToBlackOtherReason) {
-          _this.$Message.warning("请填写拉黑原因！");
+          _this.$Message.warning("请填写违规原因！");
           return;
         }
         _this.loading = true;
@@ -247,7 +255,7 @@
         }).then(res => {
           if (res.status) {
             _this.$emit('change', false);
-            _this.$Message.success("添加黑名单成功！");
+            _this.$Message.success("拿手违规申诉成功！");
             _this.onSuccess();
           } else {
             _this.$Message.error(res.msg)
