@@ -1,6 +1,6 @@
 <template>
   <div class="my-appeal">
-    <div class="pt-10 pb-10 my-appeal-title fs-18">我的申诉</div>
+    <div class="pt-10 pb-10 my-appeal-title fs-18">我的建议</div>
     <div class="clear date-picker">
       <div>
         <span>提交时间：</span>
@@ -32,7 +32,7 @@
         </Checkbox-group>
       </div>
       <div>
-        <i-button class="appeal-button" @click="submitNewAppeal = true">+提交新申诉</i-button>
+        <i-button class="appeal-button" @click="submitNewAppeal = true">+提交新建议</i-button>
       </div>
     </div>
     <div class="appeal-list">
@@ -41,7 +41,7 @@
         <tr>
           <th style="width: 20%">提交时间</th>
           <th style="width: 20%">问题分类</th>
-          <th style="width: 30%">申诉标题</th>
+          <th style="width: 30%">建议标题</th>
           <th style="width: 20%">处理状态</th>
           <th style="width: 10%">操作</th>
         </tr>
@@ -74,9 +74,9 @@
       :closable="false">
       <div slot="header" class="clear">
         <div class="right" @click="cancelFun">
-          <Icon type="close" class="cursor-p fs-16"></Icon>
+          <Icon type="md-close-circle" class="cursor-p fs-16"/>
         </div>
-        <span>提交新申诉</span>
+        <span>提交新建议</span>
       </div>
       <div class="appeal-content">
         <div>
@@ -90,14 +90,14 @@
           </i-select>
         </div>
         <div class="mt-20">
-          <span class="main-color">*</span><span>申诉标题：</span>
-          <i-input style="width: 200px" placeholder="请输入申诉标题" v-model="appealTitle"></i-input>
+          <span class="main-color">*</span><span>建议标题：</span>
+          <i-input style="width: 200px" placeholder="请输入建议标题" v-model="appealTitle"></i-input>
           <span class="ml-10">最多支持35个字符，当前已输入<span class="main-color">{{getTitleLength}}</span>/35个字符</span>
         </div>
         <div class="mt-20">
-          <span class="main-color">*</span><span>问题描述：</span>
+          <span class="main-color">*</span><span>建议描述：</span>
           <i-input v-model="appealDes" style="width: 600px" type="textarea"
-                   placeholder="请描述相关的问题，如果是活动任务相关的问题，请提供对应的活动编号，最多不超过500字"></i-input>
+                   placeholder="请描述相关建议"></i-input>
         </div>
         <div class="mt-20 clear img-pop">
           <span class="left ml-8">相关截图：</span>
@@ -131,7 +131,7 @@
       <Modal
         v-model="appealDetailsPop"
         :styles="{top:'200px',width:'700px'}"
-        title="查看申诉详情"
+        title="查看建议详情"
         :mask-closable="false"
       >
         <div class="appeal-content">
@@ -147,11 +147,11 @@
             <span class="right main-color f-b fs-italic">{{getAppealCategorization(appealDetailsObj.status)}}</span>
           </div>
           <div class="mt-20">
-            <span class="main-color">*</span><span>申诉标题：</span>
-            <i-input style="width: 200px" placeholder="请输入申诉标题" v-model="appealDetailsObj.title" disabled></i-input>
+            <span class="main-color">*</span><span>建议标题：</span>
+            <i-input style="width: 200px" placeholder="请输入建议标题" v-model="appealDetailsObj.title" disabled></i-input>
           </div>
           <div class="mt-20">
-            <span class="main-color">*</span><span>问题描述：</span>
+            <span class="main-color">*</span><span>建议描述：</span>
             <i-input v-model="appealDetailsObj.description" style="width: 600px" type="textarea" disabled></i-input>
           </div>
           <div class="mt-20 clear screen-shot">
@@ -341,11 +341,11 @@
       userComplaintCreate() {
         let self = this;
         if (!self.categorization) {
-          self.$Message.error('请选择申诉类型！');
+          self.$Message.error('请选择问题分类！');
           return
         }
         if (!self.appealTitle) {
-          self.$Message.error('请输入申诉标题！');
+          self.$Message.error('请输入建议标题！');
           return
         }
         if (self.appealTitle && self.appealTitle.length > 35) {
@@ -353,7 +353,7 @@
           return
         }
         if (!self.appealDes) {
-          self.$Message.error('请输入详细描述！');
+          self.$Message.error('请输入建议描述！');
           return
         }
         api.userComplaintCreate({

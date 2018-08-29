@@ -135,20 +135,23 @@
                     </tooltip>
                   </p>
                 </td>
-                <td>
+                <td class="pos-rel">
                   <tooltip v-if="allTask.reason && allTask.status === 'waiting_resubmit'" :content="allTask.reason" placement="top" class="cursor-p">
                     <icon color="#f9284f" type="md-alert"/>
                     <span class="main-color">{{getStatusInfo(allTask.status)}}</span>
                   </tooltip>
                   <span v-else>{{getStatusInfo(allTask.status)}}</span>
+                  <tooltip v-if="allTask.checkTag" placement="top" class="conformity" content="该旺旺号符合您的标签设置">
+                    <img src="~assets/img/common/conformity-logo.png" alt="标签合格标志">
+                  </tooltip>
                 </td>
                 <td>
                   <p class="del-edit">
-                    <span class="ml-5" @click="checkShowkerApply(item.id, allTask.showkerId, allTask.id, allTask.applySuccessCount7Days)">通过</span>
-                    <span v-if="allTask.newest" class="ml-5" @click="markRead(item.id, allTask.id)">设为已读</span>
+                    <span class="ml-5" @click="checkShowkerApply(item.id, allTask.showkerId, allTask.id)">通过</span>
                     <tooltip placement="top" content="加入黑名单后该用户将无法申请你发布的活动">
                       <span class="ml-5" @click="addToBlackListFun(allTask.alitmAccount)">加入黑名单</span>
                     </tooltip>
+                    <span v-if="allTask.newest" class="ml-5" @click="markRead(item.id, allTask.id)">设为已读</span>
                   </p>
                 </td>
               </tr>
@@ -165,8 +168,8 @@
         </collapse-transition>
       </div>
     </template>
-    <div class="mt-40 text-ct">{{dataStatusTip}}</div>
-    <div class="activity-page mt-20 right mr-10" v-if="taskWaitAuditList && taskWaitAuditList.length > 0">
+    <div v-if="dataStatusTip" class="mt-40 text-ct">{{dataStatusTip}}</div>
+    <div class="activity-page mt-20 right" v-if="taskWaitAuditList && taskWaitAuditList.length > 0">
       <page :total="totalElements" :page-size="pageSize" :current="pageIndex" @on-change="pageChange"/>
     </div>
     <!--添加黑名单弹框-->
@@ -558,25 +561,20 @@
         this.pageIndex = 1;
         this.appliesWaitingAuditTask();
       },
-      checkShowkerApply(taskId, showkerId, taskApplyId, applySuccessCount7Days) {
+      checkShowkerApply(taskId, showkerId, taskApplyId) {
         const _this = this;
         _this.taskApplyId = taskApplyId;
-        if (applySuccessCount7Days >= _this.showkerApplySuccessCount7Limit) {
-          _this.showkerApplyInfoModal = true;
-          _this.showkerApplyInfoModalText = '该用户近七天下单数较为频繁，请谨慎选择！'
-        } else {
-          api.merchantCheckShowkerApply({
-            taskId: taskId,
-            showkerId: showkerId,
-          }).then(res => {
-            if (res.status) {
-              _this.showkerApplyInfoModal = true;
-              _this.showkerApplyInfoModalText = `该用户在&nbsp;<span class="main-color">${res.data.daysAgo > 0 ? res.data.daysAgo + '天前' : '24小时'}</span>&nbsp;获得您该店铺的试用资格，${res.data.orderedIn30Days ? '并且已成功下单' : '但还未成功下单'}，是否仍然审批通过？`;
-            } else {
-              _this.taskWaitToPass(taskApplyId)
-            }
-          })
-        }
+        api.merchantCheckShowkerApply({
+          taskId: taskId,
+          showkerId: showkerId,
+        }).then(res => {
+          if (res.status) {
+            _this.showkerApplyInfoModal = true;
+            _this.showkerApplyInfoModalText = `该用户在&nbsp;<span class="main-color">${res.data.daysAgo > 0 ? res.data.daysAgo + '天前' : '24小时'}</span>&nbsp;获得您该店铺的试用资格，${res.data.orderedIn30Days ? '并且已成功下单' : '但还未成功下单'}，是否仍然审批通过？`;
+          } else {
+            _this.taskWaitToPass(taskApplyId)
+          }
+        })
       },
       taskWaitToPass(taskApplyId) {
         const _this = this;
@@ -941,5 +939,11 @@
       border-radius: 3px;
       user-select: none;
     }
+  }
+
+  .conformity {
+    position: absolute;
+    right: 0;
+    top: 0;
   }
 </style>

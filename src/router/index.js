@@ -598,7 +598,7 @@ export default new Router({
           name: 'MyAppeal',
           component: _import('personalCenter/children/MyAppeal'),
           meta: {
-            title: "我的申诉",
+            title: "我的建议",
             logInAuthority: true,
             topShow: true,
             bottomShow: true,
@@ -610,7 +610,7 @@ export default new Router({
           name: 'BlackListManagement',
           component: _import('personalCenter/children/BlackListManagement'),
           meta: {
-            title: "黑名单管理",
+            title: "拿手违规申诉",
             logInAuthority: true,
             topShow: true,
             bottomShow: true,

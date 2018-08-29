@@ -401,7 +401,7 @@
       </div>
 
       <!--历史活动开始-->
-      <div class="container mt-10">
+<!--      <div class="container mt-10">
         <div class="home-commodity">
           <div class="home-commodity-title">
             <div class="home-commodity-img-title">
@@ -420,15 +420,15 @@
               <div class="home-commodity-img pos-rel">
                 <img class="block" :src="homeHistory.taskMainImage | imageSrc('!thum400')" height="208" width="210">
                 <span class="applied"> {{homeHistory.showkerApplyTotalCount || 0}} 人已申请</span>
-                <!--<img src="~assets/img/common/hot-top-subscript.png" class="hot-top-icon">-->
+                &lt;!&ndash;<img src="~assets/img/common/hot-top-subscript.png" class="hot-top-icon">&ndash;&gt;
               </div>
               <div class="home-commodity-text">
                 <p class="cl000">{{homeHistory.taskName}}</p>
                 <p class="price">
                   <span class="cl666 text-decoration-through">￥{{homeHistory.itemPrice / 100}}</span>
-                  <!--<span class="vas-fee-return ml-10 pl-5 pr-5" v-if="(homeHistory.perVasFee || homeHistory.promotionExpensesPaid && (uplineTime < homeHistory.createTime))">-->
-                    <!--奖励{{computeVasReturnFee(homeHistory.perVasFee,homeHistory.systemVasFeeCommissionPercent,homeHistory.activityCategory,homeHistory.promotionExpensesPaid,homeHistory.taskCount,homeHistory.createTime)}}元-->
-                  <!--</span>-->
+                  &lt;!&ndash;<span class="vas-fee-return ml-10 pl-5 pr-5" v-if="(homeHistory.perVasFee || homeHistory.promotionExpensesPaid && (uplineTime < homeHistory.createTime))">&ndash;&gt;
+                    &lt;!&ndash;奖励{{computeVasReturnFee(homeHistory.perVasFee,homeHistory.systemVasFeeCommissionPercent,homeHistory.activityCategory,homeHistory.promotionExpensesPaid,homeHistory.taskCount,homeHistory.createTime)}}元&ndash;&gt;
+                  &lt;!&ndash;</span>&ndash;&gt;
                 </p>
                 <p class="discount-price">
                   <span>
@@ -464,7 +464,7 @@
             </router-link>
           </div>
         </div>
-      </div>
+      </div>-->
       <!--历史活动结束-->
     </div>
     <!--添加微信弹窗-->
@@ -726,7 +726,7 @@
       self.getHomeTaskList();
       self.getHomeTaskTopLeftList();
       self.personalTrialCount();
-      self.getHomeHistoryList();
+      // self.getHomeHistoryList();
       self.getBuyerShowList();
       self.getNewOutCommodity();
     },

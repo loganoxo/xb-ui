@@ -11,7 +11,7 @@ axios.defaults.timeout = 100000;//配置请求响应时间
 axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded;charset=UTF-8';//配置post请求头类型
 
 //POST传参序列化(添加请求拦截器)
-axios.interceptors.request.use((config) => {
+axios.interceptors.request.use(config => {
   if (config.method === 'post') {
     config.data = qs.stringify(config.data);
     LoadingBar.start();
@@ -24,7 +24,7 @@ axios.interceptors.request.use((config) => {
 });
 
 //返回状态判断(添加响应拦截器)
-axios.interceptors.response.use((res) => {
+axios.interceptors.response.use(res => {
   store.commit({
     type: 'GET_SEVER_TIME',
     time: {
@@ -39,7 +39,7 @@ axios.interceptors.response.use((res) => {
   if (error.response && error.response.status === 401) {
     store.commit('OUT_LOGIN');
     if (store.state.logInAuthority) {
-      router.push({name: 'login'});
+      router.replace({name: 'login'});
     }
   }
   return Promise.reject(error);

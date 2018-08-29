@@ -109,7 +109,7 @@
                 <span v-else>{{item.taskStatusDesc}}</span><br/>{{item.settlementStatusDesc}}
               </td>
               <td class="cursor-p main-color" v-else>
-                <tooltip :content="item.other.auditLogs[0].resultMsg" placement="top">
+                <tooltip :content="item.other.auditLogs[item.other.auditLogs.length - 1].resultMsg" placement="top">
                   <icon color="#f9284f" type="md-alert"/>&nbsp;待修改
                 </tooltip>
               </td>
@@ -531,7 +531,7 @@
     },
     methods: {
       editTask(id, createTime, fastPublish) {
-        if(createTime <= 1529933415818) {
+        if (createTime <= 1529933415818) {
           this.isTaskOverdueModel = true;
           this.taskId = id;
         } else {
@@ -586,7 +586,7 @@
         _this.sortList.defaultList[index].sort = sort === 'desc' ? 'asc' : 'desc';
         _this.getTaskList(name, _this.sortList.defaultList[index].sort);
       },
-      searchTaskList()  {
+      searchTaskList() {
         this.pageIndex = 1;
         this.getTaskList();
       },

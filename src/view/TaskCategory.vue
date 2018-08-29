@@ -154,7 +154,7 @@
         </div>
       </div>
       <!--历史活动-->
-      <div class="container" id="historyActivity">
+<!--      <div class="container" id="historyActivity">
         <div class="task-category-commodity mt-10">
           <div  class="home-commodity-title">
             <div class="part-title-img-box">
@@ -173,7 +173,7 @@
               <div class="task-category-commodity-img pos-rel">
                 <img class="block" :src="historyTask.taskMainImage | imageSrc('!thum400')" alt="" width="220" height="220">
                 <span class="applied"> {{historyTask.showkerApplyTotalCount || 0}} 人已申请</span>
-                <!--<img src="~assets/img/common/hot-top-subscript.png" class="hot-top-icon">-->
+                &lt;!&ndash;<img src="~assets/img/common/hot-top-subscript.png" class="hot-top-icon">&ndash;&gt;
               </div>
               <div class="task-category-commodity-text">
                 <p v-html="historyTask.taskName"></p>
@@ -223,7 +223,7 @@
             />
           </div>
         </div>
-      </div>
+      </div>-->
     </div>
     <router-link to="/user/task-release" class="baicaijia-dialog" v-show="baicaijiaDialog && $store.state.disCountTaskCategory && getRole === 1 ">
       <b @click.stop="baicaijiaDialog = false">&times;</b>
@@ -461,7 +461,7 @@
           return;
         }
         self.getSearchTask();
-        self.getSearchHistoryTask();
+        // self.getSearchHistoryTask();
       },
 
       pageChange(data){
@@ -531,7 +531,7 @@
         self.searchTaskParams.discountTypes = k.discountTypes;
         self.discountTaskCategoryActive = discountPrice;
         self.getSearchTask();
-        self.getSearchHistoryTask()
+        // self.getSearchHistoryTask()
       },
       getSortFieldFunc(sortField,index){
         if(this.sortFieldDefault.name === sortField.name){
@@ -649,7 +649,7 @@
             if (typeof callback === 'function' && res) {
               callback();
             }
-            self.getSearchHistoryTask();
+            // self.getSearchHistoryTask();
           }else {
             self.$Message.error(res.msg);
           }

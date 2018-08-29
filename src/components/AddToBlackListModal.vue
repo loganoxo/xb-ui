@@ -1,11 +1,11 @@
 <template>
-  <modal :value="closable" title="添加黑名单" @on-visible-change="modalChange" :mask-closable="false">
+  <modal :value="closable" title="提交违规行为" @on-visible-change="modalChange" :mask-closable="false">
     <div>
-      <span class="inline-block title">淘宝账号（旺旺ID）：</span>
+      <span class="inline-block title">旺旺号：</span>
       <i-input class="ww-name" :disabled="disabled" v-model="alitmAccount" style="width: 120px;"/>
     </div>
     <div class="mt-20">
-      <span class="inline-block title">拉黑原因：</span>
+      <span class="inline-block title">违规行为：</span>
       <i-select :disabled="disabled" v-model="addToBlackListReason" style="width:300px;" @on-change="selectChange">
         <i-option style="width:300px;" v-for="(item ,index) in reasonList" :value="item.reasonStatus" :key="index">{{item.reasonDec}}</i-option>
       </i-select>
@@ -14,12 +14,15 @@
       <span class="inline-block title">填写原因：</span>
       <i-input type="textarea" v-model="addToBlackOtherReason" :disabled="disabled" placeholder="100字以内" style="width:300px"/>
     </div>
-    <div class="mt-20" v-if="addToBlackListReason && addToBlackListReason !== 'tao_ke' && addToBlackListReason !== 'none_reason'">
+    <div class="mt-20" v-if="addToBlackListReason && addToBlackListReason !== 'none_reason'">
       <span>记入征信体系：</span>
       <checkbox v-model="addToCredit" :disabled="disabled">需要</checkbox>
       <span class="cl999">（成功计入征信体系后， <span class="main-color">火眼金睛</span>会统计此条拉黑记录）</span>
     </div>
-    <div class="mt-5 cl999 ml-88" v-show="addToCredit && addToBlackListReason">记入征信体系需要提交截图证明，由平台审核是否属实，审核期间及审核结果均不影响您正常拉黑，即此用户无法申请您发布的任何活动。</div>
+    <div class="mt-5 cl999 ml-88" v-show="addToCredit && addToBlackListReason">
+      <p>记入征信体系需要提交截图证明，由平台审核是否属实，审核期间及审核结果均不影响您正常拉黑，即此用户无法申请您发布的任何活动。</p>
+      <p class="main-color f-b">客服审核通过后，会根据实际情况对违规的拿手进行相关处罚。</p>
+    </div>
     <div class="mt-20 clear" v-show="addToCredit && addToBlackListReason">
       <span class="left mt-20">相关截图：</span>
       <upload class="left ml-5"
@@ -94,21 +97,77 @@
             reasonStatus: 'none_reason',
             reasonDec: '无理由（仅屏蔽此用户申请，不记入征信体系）'
           },
+          // {
+          //   reasonStatus: 'tao_ke',
+          //   reasonDec: '走淘客'
+          // },
+          // {
+          //   reasonStatus: 'illegal_operation',
+          //   reasonDec: '不按要求操作'
+          // },
+          // {
+          //   reasonStatus: 'danger_account',
+          //   reasonDec: '此号不安全'
+          // },
+          // {
+          //   reasonStatus: 'sales_return',
+          //   reasonDec: '有退货行为'
+          // },
           {
-            reasonStatus: 'tao_ke',
-            reasonDec: '走淘客（仅屏蔽此用户申请，不记入征信体系）'
+            reasonStatus: 'rebate_order',
+            reasonDec: '返利下单'
           },
           {
-            reasonStatus: 'illegal_operation',
-            reasonDec: '不按要求操作'
+            reasonStatus: 'illegal_use_credit_cards_or_ant',
+            reasonDec: '违规使用信用卡和花呗'
           },
           {
-            reasonStatus: 'danger_account',
-            reasonDec: '此号不安全'
+            reasonStatus: 'mentioned_on_taobao',
+            reasonDec: '淘宝上提及平台相关信息'
           },
           {
-            reasonStatus: 'sales_return',
-            reasonDec: '有退货行为'
+            reasonStatus: 'show_illegal_pic_on_taobao',
+            reasonDec: '淘宝晒图违规'
+          },
+          {
+            reasonStatus: 'not_deliver_refund',
+            reasonDec: '未发货私自退款'
+          },
+          {
+            reasonStatus: 'already_deliver_refund',
+              reasonDec: '已发货私自退款'
+          },
+          {
+            reasonStatus: 'alitm_account_wrong',
+            reasonDec: '使用错误的旺旺号下单'
+          },
+          // {
+          //   reasonStatus: 'voluntary_termination',
+          //   reasonDec: '随意终止活动'
+          // },
+          {
+            reasonStatus: 'bad_evaluation_on_taobao',
+            reasonDec: '淘宝给中差评'
+          },
+          {
+            reasonStatus: 'not_evaluated_as_required',
+            reasonDec: '未按要求评价'
+          },
+          {
+            reasonStatus: 'evaluated_delete',
+            reasonDec: '评价被删除'
+          },
+          {
+            reasonStatus: 'quick_order',
+            reasonDec: '秒拍'
+          },
+          {
+            reasonStatus: 'enter_store_not_flow_require',
+            reasonDec: '未按要求进店'
+          },
+          {
+            reasonStatus: 'commit_not_in_time',
+            reasonDec: '未及时提交订单号、评价截图及买家秀等'
           },
           {
             reasonStatus: 'other_reason',
@@ -123,11 +182,13 @@
         addToCredit: false,
         bankListDefaultList: [],
         screenshot: null,
+        screenshotList: []
       }
     },
     methods: {
       bankListImageSuccess(res) {
-        this.screenshot = aliCallbackImgUrl + res.name
+        this.screenshot = aliCallbackImgUrl + res.name;
+        this.screenshotList.push(this.screenshot);
       },
       removeBankListImage() {
         this.screenshot = null
@@ -144,7 +205,11 @@
           this.addToBlackListReason = this.blackListInfo.reasonCode ? this.blackListInfo.reasonCode : null;
           this.addToBlackOtherReason = this.blackListInfo.reasonCode && this.blackListInfo.reasonCode === 'other_reason' ? this.blackListInfo.reasonStr : null;
           this.addToCredit = this.blackListInfo.addToCredit ? this.blackListInfo.addToCredit : null;
-          this.blackListInfo.screenshot ? this.bankListDefaultList.push({src: this.blackListInfo.screenshot}) : [];
+          if (this.blackListInfo.screenshot && this.blackListInfo.screenshot.length > 0) {
+            this.blackListInfo.screenshot.forEach(item => {
+              this.bankListDefaultList.push({src: item})
+            })
+          }
           this.screenshot = this.blackListInfo.screenshot ? this.blackListInfo.screenshot : null;
         } else {
           this.addToBlackListReason = null;
@@ -154,28 +219,29 @@
           this.addToBlackOtherReason = null;
           this.addToCredit = false;
           this.bankListDefaultList = [];
+          this.screenshotList = [];
           this.$refs.upload.fileList.splice(0, 1);
         }
       },
       selectChange(value) {
-        this.addToCredit = !(value === 'none_reason' || value === 'tao_ke');
+        this.addToCredit = !(value === 'none_reason');
       },
       confirm() {
         const _this = this;
         if (!_this.alitmAccount) {
-          _this.$Message.warning("请填写要拉黑的旺旺号！");
+          _this.$Message.warning("请填写违规的旺旺号！");
           return;
         }
         if (!_this.addToBlackListReason) {
-          _this.$Message.warning("请选择拉黑原因！");
+          _this.$Message.warning("请选择违规原因！");
           return;
         }
         if (_this.addToCredit && !_this.screenshot) {
-          _this.$Message.warning("请上传拉黑相关凭证截图！");
+          _this.$Message.warning("请上传拉违规关凭证截图！");
           return;
         }
         if (_this.addToBlackListReason === 'other_reason' && !_this.addToBlackOtherReason) {
-          _this.$Message.warning("请填写拉黑原因！");
+          _this.$Message.warning("请填写违规原因！");
           return;
         }
         _this.loading = true;
@@ -185,11 +251,11 @@
           reasonCode: _this.addToBlackListReason,
           reasonText: _this.addToBlackOtherReason,
           addToCredit: _this.addToCredit,
-          screenshot: JSON.stringify([_this.screenshot]),
+          screenshot: JSON.stringify(_this.screenshotList),
         }).then(res => {
           if (res.status) {
             _this.$emit('change', false);
-            _this.$Message.success("添加黑名单成功！");
+            _this.$Message.success("拿手违规申诉成功！");
             _this.onSuccess();
           } else {
             _this.$Message.error(res.msg)

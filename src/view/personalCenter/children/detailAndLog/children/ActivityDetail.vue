@@ -38,7 +38,7 @@
           </td>
           <td>{{itemCatalog.taskCount  - itemCatalog.showkerApplySuccessCount}}</td>
           <td>
-            （ {{(itemCatalog.totalMarginNeed / 100).toFixed(2) || 0}} / {{(itemCatalog.promotionExpensesNeed / 100).toFixed(2) || 0}} / {{(itemCatalog.vasFeeNeed / 100).toFixed(2) || 0}}）{{((itemCatalog.marginPaid + itemCatalog.promotionExpensesPaid + itemCatalog.vasFeePaid) / 100).toFixed(2) || 0}}
+            （ {{(itemCatalog.totalMarginNeed / 100).toFixed(2)}} / {{(itemCatalog.promotionExpensesNeed / 100).toFixed(2)}} / {{((itemCatalog.vasFeeNeed + itemCatalog.tagVasFeeNeed) / 100).toFixed(2)}}）{{((itemCatalog.marginPaid + itemCatalog.promotionExpensesPaid + itemCatalog.vasFeePaid + itemCatalog.tagVasFeePaid) / 100).toFixed(2)}}
           </td>
         </tr>
         </tbody>
@@ -1037,7 +1037,7 @@
           creditLevel: {
             require: false,
             price: {
-              2: 10,
+              2: 0,
               4: 20,
               5: 30,
               6: 40,
@@ -1469,13 +1469,11 @@
             _this.mainDefaultList = res.data.taskMainImage;
             _this.redEnvelopeDeductionPaid = res.data.redEnvelopeDeductionPaid;
             _this.fastPublish = res.data.fastPublish;
-            for (let k in _this.taskRelease) {
-              for (let i in res.data) {
-                if (k === i) {
-                  _this.taskRelease[k] = res.data[i];
-                }
+            Object.keys(_this.taskRelease).forEach(key => {
+              if (res.data[key]) {
+                _this.taskRelease[key] = res.data[key]
               }
-            }
+            });
             _this.taskRelease.itemType = res.data.itemCatalog.id;
             _this.taskRelease.pinkage =  _this.taskRelease.pinkage.toString();
             _this.taskRelease.donotPostPhoto = _this.taskRelease.donotPostPhoto.toString();
@@ -1525,13 +1523,9 @@
             // 处理拿手申请条件设置数据
             _this.showkerConditionRequireStatus.aliWwLabelSet = res.data.showkerApplyRequire;
             if (res.data.showkerApplyRequire && res.data.showkerApplyRequireData) {
-              for (let k in _this.showkerCondition) {
-                for (let i in res.data.showkerApplyRequireData) {
-                  if (k === i) {
-                    _this.showkerCondition[k] = res.data.showkerApplyRequireData[i]
-                  }
-                }
-              }
+              Object.keys(_this.showkerCondition).forEach(key => {
+                _this.showkerCondition[key] = res.data.showkerApplyRequireData[key]
+              });
               if (_this.showkerCondition.weekOrderRequire) {
                 _this.showkerConditionRequireStatus.weekOrder.require = true
               } else {
@@ -1636,7 +1630,7 @@
       },
       addItemReviewList() {
         this.itemReviewList = [];
-        for(let i =1; i <= this.taskRelease.taskCount; i++){
+        for (let i =1; i <= this.taskRelease.taskCount; i++){
           this.itemReviewList.push({
             value: '',
             index: i,

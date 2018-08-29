@@ -1148,6 +1148,10 @@
         </div>
         <div class="description-fees mt-40">
           <h3>费用说明：</h3>
+          <div class="mt-10">
+            <icon class="vtc-text-btm" type="md-volume-up" color="green" size="16"/>
+            <span style="color: green">通知：即日起AA与AB单统一推广费收取标准，免费会员：10元/单，VIP：6元/单</span>
+          </div>
           <div class="description-fees-con mt-10">
             <p>活动担保金 = 份数 × 单品活动担保金 = <span>{{oneBondMarginText}}</span> 元</p>
             <!--<p class="mt-6">单品打赏费 = 单品试用担保金 × 费率 =<span>{{onePromotionExpensesBeforeText}}</span> 元<span>{{onePromotionExpensesTipText}}</span></p>-->
@@ -1669,7 +1673,7 @@
           showkerTagRequire: [],
           auditTimeCountRequire: [
             {
-              date: this.getDateTime(86400000),
+              date: this.getDateTime(),
               hourStart: '0',
               hourEnd: '23',
               count: null
@@ -2234,7 +2238,7 @@
       formatNumber(num) {
         return num.toString().padStart(2, '0')
       },
-      getDateTime(time = 0) {
+      getDateTime(time = 86400000) {
         const nowTime = getSeverTime() + time;
         return `${new Date(nowTime).getFullYear()}-${this.formatNumber(new Date(nowTime).getMonth() + 1)}-${this.formatNumber(new Date(nowTime).getDate())}`
       },
@@ -2884,8 +2888,7 @@
           detectionStoreInfo = await _this.getStoreInfo();
         } catch (err) {
           _this.taskLoading = false;
-          console.error(err);
-          return;
+          throw Error(err);
         }
         _this.isShowStoreInfoLoading = false;
         if (detectionStoreInfo.status) {
@@ -3087,10 +3090,8 @@
         const type = this.$route.query.type;
         if ((type && type === 'copy') || !type) {
           this.editTaskId = this.taskPayId;
-          this.getTaskInfo();
-        } else {
-          this.getTaskInfo();
         }
+        this.getTaskInfo();
         this.stepName = 'information';
       },
       IThink() {
@@ -3119,21 +3120,20 @@
             _this.redEnvelopeDeductionPaid = res.data.redEnvelopeDeductionPaid;
             _this.paidDeposit = res.data.marginPaid + res.data.promotionExpensesPaid + res.data.vasFeePaid + res.data.redEnvelopeDeductionPaid + res.data.tagVasFeePaid;
             _this.taskStatus = res.data.taskStatus;
-            if (!_this.$route.query.type) {
+            const type = _this.$route.query.type;
+            if (!type) {
               _this.taskRelease.taskId = res.data.id;
             }
-            if ((_this.taskStatus === 'waiting_modify' || _this.taskStatus === 'waiting_pay') && _this.paidDeposit > 0 && _this.$route.query.type !== 'copy') {
+            if ((_this.taskStatus === 'waiting_modify' || _this.taskStatus === 'waiting_pay') && _this.paidDeposit > 0 && type !== 'copy') {
               _this.redEnvelopesState = res.data.redEnvelopeDeductionPaid > 0;
               _this.disabledRedEnvelopes = true;
             }
             _this.mainDefaultList.push({src: res.data.taskMainImage});
-            for (let k in _this.taskRelease) {
-              for (let i in res.data) {
-                if (k === i) {
-                  _this.taskRelease[k] = res.data[i]
-                }
+            Object.keys(_this.taskRelease).forEach(key => {
+              if (res.data[key]) {
+                _this.taskRelease[key] = res.data[key]
               }
-            }
+            });
             _this.taskRelease.itemType = res.data.itemCatalog.id;
             _this.taskRelease.dayReserveToNow = _this.taskRelease.dayReserveToNow ? _this.taskRelease.dayReserveToNow : false;
             _this.taskRelease.speedUp = _this.taskRelease.speedUp ? _this.taskRelease.speedUp : false;
@@ -3222,13 +3222,9 @@
             // 处理复制、编辑活动拿手审批条件限制数据
             _this.showkerConditionRequireStatus.aliWwLabelSet = res.data.showkerApplyRequire;
             if (res.data.showkerApplyRequire && res.data.showkerApplyRequireData) {
-              for (let k in _this.showkerCondition) {
-                for (let i in res.data.showkerApplyRequireData) {
-                  if (k === i) {
-                    _this.showkerCondition[k] = res.data.showkerApplyRequireData[i]
-                  }
-                }
-              }
+              Object.keys(_this.showkerCondition).forEach(key => {
+                _this.showkerCondition[key] = res.data.showkerApplyRequireData[key]
+              });
               if (_this.showkerCondition.weekOrderRequire) {
                 _this.showkerConditionRequireStatus.weekOrder.require = true
               } else {
@@ -3270,13 +3266,13 @@
                 _this.showkerConditionRequireStatus.other.auditTimeCount.require = true;
                 // 复制活动的时候如果时间段日期没有过期维持历史活动的时间段日期否则自动延期（过期的条件为：小于当前日期+2天）
                 // 延期日期时间根据历史活动数据为参照基础
-                if (_this.$route.query.type === 'copy') {
+                if (type && type === 'copy') {
                   const auditTimeCountRequireFirstDate = _this.showkerCondition.auditTimeCountRequire[0].date;
                   for (let l = 0, len = _this.showkerCondition.auditTimeCountRequire.length; l < len; l++) {
                     let nowDate = Date.parse(new Date(_this.showkerCondition.auditTimeCountRequire[l].date));
                     if (nowDate < Date.parse(_this.getDateTime(86400000 * 2))) {
                       if (nowDate === Date.parse(new Date(auditTimeCountRequireFirstDate))) {
-                        _this.showkerCondition.auditTimeCountRequire[l].date = _this.getDateTime(86400000)
+                        _this.showkerCondition.auditTimeCountRequire[l].date = _this.getDateTime()
                       } else {
                         let time = nowDate - Date.parse(new Date(auditTimeCountRequireFirstDate)) + 86400000;
                         _this.showkerCondition.auditTimeCountRequire[l].date = _this.getDateTime(time);
@@ -3286,7 +3282,7 @@
                 }
               } else {
                 _this.showkerCondition.auditTimeCountRequire.push({
-                  date: _this.getDateTime(86400000),
+                  date: _this.getDateTime(),
                   hourStart: '0',
                   hourEnd: '23',
                   count: null
@@ -3294,42 +3290,46 @@
               }
             }
             _this.taskRelease.taskDetail = {};
-            if (res.data.taskType === 'tao_code') {
-              _this.taoCodeTaskDetail = res.data.taskDetailObject;
-              const image = _this.taoCodeTaskDetail[0].homePageLockItemImage;
-              image && _this.taoCodeDefaultList.push({src: image});
-              _this.taoCodeTaskDetailItemMainImage = image;
-              _this.conversionPrice('tao_code');
-            } else if (res.data.taskType === 'pc_search') {
-              _this.pcTaskDetail = res.data.taskDetailObject;
-              _this.pcTaskDetail.forEach(item => {
-                if (!item.searchFilter) {
-                  item.searchFilter = [];
-                }
-                if (!item.countAssigned) {
-                  item.countAssigned = 1
-                }
-              });
-              _this.addKeywordScheme = _this.pcTaskDetail.length - 1;
-              _this.pcDefaultList.push({src: _this.pcTaskDetail[0].itemMainImage});
-              _this.pcTaskDetailItemMainImage = _this.pcTaskDetail[0].itemMainImage;
-              _this.conversionPrice('pc_search');
-            } else if (res.data.taskType === 'app_search') {
-              _this.appTaskDetail = res.data.taskDetailObject;
-              _this.appTaskDetail.forEach(item => {
-                if (!item.searchFilter) {
-                  item.searchFilter = []
-                }
-                if (!item.countAssigned) {
-                  item.countAssigned = 1
-                }
-              });
-              _this.addKeywordScheme = _this.appTaskDetail.length - 1;
-              _this.appDefaultList.push({src: _this.appTaskDetail[0].itemMainImage});
-              _this.appTaskDetailItemMainImage = _this.appTaskDetail[0].itemMainImage;
-              _this.conversionPrice('app_search');
-            } else {
-              _this.taskRelease.taskDetail = {};
+            switch (res.data.taskType) {
+              case 'tao_code':
+                const image = _this.taoCodeTaskDetail[0].homePageLockItemImage;
+                image && _this.taoCodeDefaultList.push({src: image});
+                _this.taoCodeTaskDetailItemMainImage = image;
+                _this.conversionPrice('tao_code');
+                break;
+              case 'pc_search':
+                _this.pcTaskDetail = res.data.taskDetailObject;
+                _this.pcTaskDetail.forEach(item => {
+                  if (!item.searchFilter) {
+                    item.searchFilter = [];
+                  }
+                  if (!item.countAssigned) {
+                    item.countAssigned = 1
+                  }
+                });
+                _this.addKeywordScheme = _this.pcTaskDetail.length - 1;
+                _this.pcDefaultList.push({src: _this.pcTaskDetail[0].itemMainImage});
+                _this.pcTaskDetailItemMainImage = _this.pcTaskDetail[0].itemMainImage;
+                _this.conversionPrice('pc_search');
+                break;
+              case 'app_search':
+                _this.appTaskDetail = res.data.taskDetailObject;
+                _this.appTaskDetail.forEach(item => {
+                  if (!item.searchFilter) {
+                    item.searchFilter = []
+                  }
+                  if (!item.countAssigned) {
+                    item.countAssigned = 1
+                  }
+                });
+                _this.addKeywordScheme = _this.appTaskDetail.length - 1;
+                _this.appDefaultList.push({src: _this.appTaskDetail[0].itemMainImage});
+                _this.appTaskDetailItemMainImage = _this.appTaskDetail[0].itemMainImage;
+                _this.conversionPrice('app_search');
+                break;
+              case 'direct_access':
+                _this.taskRelease.taskDetail = {};
+                break;
             }
             _this.countAssignedChange();
           } else {
@@ -3690,7 +3690,7 @@
       },
       addTimeBucket() {
         this.showkerCondition.auditTimeCountRequire.push({
-          date: this.getDateTime(86400000),
+          date: this.getDateTime(),
           hourStart: '0',
           hourEnd: '23',
           count: null
