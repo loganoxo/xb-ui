@@ -193,8 +193,20 @@ input[type="number"] {
   width: 50px;
 }
 
+.width-80 {
+  width: 80px;
+}
+
 .width-100 {
   width: 100px;
+}
+
+.width-110 {
+  width: 110px;
+}
+
+.width-120 {
+  width: 120px;
 }
 
 .width-150 {
@@ -452,6 +464,10 @@ input[type="number"] {
 
 .ml-100 {
   margin-left: 100px;
+}
+
+.ml-110 {
+  margin-left: 110px;
 }
 
 .ml-120 {
@@ -713,6 +729,10 @@ input[type="number"] {
 
 .border-top {
   border-top: 1px solid #e9eaec;
+}
+
+.border-bottom {
+  border-bottom: 1px solid #e9eaec;
 }
 
 .border-ddd {
