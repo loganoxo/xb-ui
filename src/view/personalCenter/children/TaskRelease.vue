@@ -1068,12 +1068,13 @@
                 </radio>
                 <div v-show="favoriteCartFlowInfo.popularFlow === 'match_diy'">
                   <template v-if="taskRelease.taskType === 'pc_search'">
-                    <span class="tag mr-10" :class="{'select-tag-bg': favoriteCartFlowInfo.keywordTagIndex === i-1}" v-for="i in pcTaskDetail.length" @click="selectKeywordTag(i - 1)">{{pcTaskDetail[i - 1].searchKeyword ? pcTaskDetail[i - 1].searchKeyword : `关键词方案${i}`}}</span>
+                    <span class="tag mr-10" :class="{'select-tag-bg': favoriteCartFlowInfo.keywordTagIndex === index}" v-for="(item, index) in pcTaskDetail" @click="selectKeywordTag(index)">{{item.searchKeyword ? item.searchKeyword : `关键词方案${index + 1}`}}</span>
+                    <div class="mt-20">为“<span class="main-color f-b">{{pcTaskDetail[favoriteCartFlowInfo.keywordTagIndex].searchKeyword ? pcTaskDetail[favoriteCartFlowInfo.keywordTagIndex].searchKeyword : `关键词方案${favoriteCartFlowInfo.keywordTagIndex + 1}`}}</span>”设置流量：</div>
                   </template>
                   <template v-if="taskRelease.taskType === 'app_search'">
-                    <span class="tag mr-10" :class="{'select-tag-bg': favoriteCartFlowInfo.keywordTagIndex === i-1}" v-for="i in appTaskDetail.length" @click="selectKeywordTag(i - 1)">{{pcTaskDetail[i - 1].searchKeyword ? pcTaskDetail[i - 1].searchKeyword : `关键词方案${i}`}}</span>
+                    <span class="tag mr-10" :class="{'select-tag-bg': favoriteCartFlowInfo.keywordTagIndex === index}" v-for="(item, index) in appTaskDetail" @click="selectKeywordTag(index)">{{item.searchKeyword ? item.searchKeyword : `关键词方案${index + 1}`}}</span>
+                    <div class="mt-20">为“<span class="main-color f-b">{{appTaskDetail[favoriteCartFlowInfo.keywordTagIndex].searchKeyword ? appTaskDetail[favoriteCartFlowInfo.keywordTagIndex].searchKeyword : `关键词方案${favoriteCartFlowInfo.keywordTagIndex + 1}`}}</span>”设置流量：</div>
                   </template>
-                  <div class="mt-20">为“<span class="main-color f-b">{{pcTaskDetail[favoriteCartFlowInfo.keywordTagIndex].searchKeyword ? pcTaskDetail[favoriteCartFlowInfo.keywordTagIndex].searchKeyword : `关键词方案${favoriteCartFlowInfo.keywordTagIndex + 1}`}}</span>”设置流量：</div>
                   <div class="set-flow-btn-box mt-20">
                     <span class="set-flow-btn inline-block" v-for="key in Object.keys(favoriteCartFlowInfo.map)" :key="key" :class="{'set-flow-btn-select': favoriteCartFlowInfo.flowTypeDefault === key}" @click="selectKeywordFlowType(key)">设置<span class="main-color">{{favoriteCartFlowInfo.map[key]}}数</span></span>
                   </div>
@@ -2968,7 +2969,7 @@
             break;
         }
 
-        // 根据用户是否勾选‘需要’选项重置申请条件初始化数据
+        // 拿手审批条件限制
         if (_this.showkerConditionRequireStatus.aliWwLabelSet) {
           _this.showkerCondition.antPayRequire = _this.showkerConditionRequireStatus.other.antPay.require;
           const copyShowkerCondition = extendDeep(_this.showkerCondition, {});
@@ -3005,22 +3006,28 @@
         if (_this.favoriteCartFlowInfo.favoriteCartFlowStatus) {
           _this.taskRelease.popularFlow = _this.favoriteCartFlowInfo.popularFlow;
           if (_this.favoriteCartFlowInfo.popularFlow === 'match_by_apply') {
+            // 根据用户是否勾选‘需要’确定匹配流量数量（没有勾则为0，反之取用户实际输入数量）
             const config = [];
             Object.keys(_this.favoriteCartFlowInfo.matchByApplyInfo).forEach(item => {
               config.push({
                 flowType: item,
-                applyCount: _this.favoriteCartFlowInfo.matchByApplyInfo[item].applyCount,
-                flowCount: _this.favoriteCartFlowInfo.matchByApplyInfo[item].flowCount,
+                applyCount: _this.favoriteCartFlowInfo.require[item + '_require'] ? _this.favoriteCartFlowInfo.matchByApplyInfo[item].applyCount : 0,
+                flowCount: _this.favoriteCartFlowInfo.require[item + '_require'] ? _this.favoriteCartFlowInfo.matchByApplyInfo[item].flowCount : 0,
               })
             });
             _this.taskRelease.popularFlowConfig = JSON.stringify(config);
           }
           if (_this.favoriteCartFlowInfo.popularFlow === 'match_diy') {
+            // 如果用户没有输入收藏加购数，需要将对应关键词下的对应流量类型的数据从对象中删除
             const matchDiyInfo = extendDeep(_this.favoriteCartFlowInfo.matchDiyInfo, {});
             Object.keys(matchDiyInfo).forEach(i => {
-              Object.keys(matchDiyInfo.matchDiyInfo[i]).forEach((k, index) => {
+              const keys = Object.keys(matchDiyInfo[i]);
+              keys.forEach(k => {
                 if (!matchDiyInfo[i][k][0].count) {
-                  matchDiyInfo[i].splice(index, 1)
+                  delete matchDiyInfo[i][k]
+                }
+                if (keys.length === 0) {
+                  delete matchDiyInfo[i]
                 }
               })
             });
@@ -3036,7 +3043,7 @@
           api.taskCreateFast(_this.taskRelease).then(res => {
             if (res.status) {
               _this.taskPayId = res.data.id;
-              // 是否是首发活动标识
+              // 重置是否是首发活动标识
               _this.isFastPublish = res.data.fastPublish ? res.data.fastPublish : false;
               if (!_this.taskRelease.taskId) {
                 _this.taskRelease.taskId = res.data.id;
@@ -3052,7 +3059,7 @@
           api.taskCreate(_this.taskRelease).then(res => {
             if (res.status) {
               _this.taskPayId = res.data.id;
-              // 是否是首发活动标识
+              // 重置是否是首发活动标识
               _this.isFastPublish = res.data.fastPublish ? res.data.fastPublish : false;
               // 重新计算活动红包抵扣金额和活动已支付金额
               _this.redEnvelopeDeductionPaid = res.data.redEnvelopeDeductionPaid;
@@ -3219,7 +3226,9 @@
                 _this.answerDefaultList.push(answerDefault);
               });
             }
+
             // 处理复制、编辑活动拿手审批条件限制数据
+            // 如果用户没有勾选则手动重置为初始化数据，反之取接口实时数据
             _this.showkerConditionRequireStatus.aliWwLabelSet = res.data.showkerApplyRequire;
             if (res.data.showkerApplyRequire && res.data.showkerApplyRequireData) {
               Object.keys(_this.showkerCondition).forEach(key => {
@@ -3288,6 +3297,49 @@
                   count: null
                 })
               }
+            }
+
+            // 按申请数量匹配流量数（复制、编辑活动）
+            if (res.data.popularFlow === 'match_by_apply') {
+              _this.favoriteCartFlowInfo.popularFlow = 'match_by_apply';
+              res.data.other.popularFlowConfig.forEach(item => {
+                _this.favoriteCartFlowInfo.require[item.flowType + '_require'] = item.applyCount > 0;
+                if (item.flowType === 'favorite_cart_flow') {
+                  if (item.applyCount > 0) {
+                    _this.favoriteCartFlowInfo.matchByApplyInfo['favorite_cart_flow'].applyCount = item.applyCount;
+                    _this.favoriteCartFlowInfo.matchByApplyInfo['favorite_cart_flow'].flowCount = item.flowCount;
+                  }
+                }
+              })
+            }
+
+            // 自定义匹配流量数（复制、编辑活动）
+            if (res.data.popularFlow === 'match_diy') {
+              _this.favoriteCartFlowInfo.popularFlow = 'match_diy';
+              res.data.other.popularFlowConfig.forEach(item => {
+                // 当存在多个关键词的时候动态生成对象初始化key
+                if (item.schemeIndex > 0) {
+                  const keys = Object.keys(_this.favoriteCartFlowInfo.matchDiyInfo);
+                  if (!keys.includes(item.schemeIndex.toString())) {
+                    _this.favoriteCartFlowInfo.matchDiyInfo[item.schemeIndex] = {};
+                  }
+                  const childKeys = Object.keys(_this.favoriteCartFlowInfo.matchDiyInfo[item.schemeIndex]);
+                  if (!childKeys.includes(item.flowType)) {
+                    _this.favoriteCartFlowInfo.matchDiyInfo[item.schemeIndex][item.flowType] = [];
+                  }
+                }
+                // 只有一个关键词的时候需要先将所有流量类型初始化数据置空,防止合并数据的时候重复
+                if (item.schemeIndex === 0) {
+                  _this.favoriteCartFlowInfo.matchDiyInfo[item.schemeIndex][item.flowType] = [];
+                }
+                // 根据对象的对应key合并接口返回的对应数据
+                _this.favoriteCartFlowInfo.matchDiyInfo[item.schemeIndex][item.flowType].push({
+                  dateIndex: item.dateIndex,
+                  hourStart: `${item.hourStart}`,
+                  hourEnd: `${item.hourEnd}`,
+                  count: item.count,
+                })
+              })
             }
             _this.taskRelease.taskDetail = {};
             switch (res.data.taskType) {
@@ -3535,7 +3587,7 @@
         } else {
           this.isMatchNumberOk = true;
         }
-       this.residualMatchNumber = this.taskRelease.taskCount > 0 ? this.taskRelease.taskCount - num > 0 ? this.taskRelease.taskCount - num : 0 : 0;
+       this.residualMatchNumber = this.taskRelease.taskCount > 0 ? (this.taskRelease.taskCount - num > 0 ? this.taskRelease.taskCount - num : 0) : 0;
       },
       handleAdd() {
         if (this.residualMatchNumber === 0) {
@@ -3805,6 +3857,8 @@
       selectKeywordFlowType(type) {
         this.favoriteCartFlowInfo.flowTypeDefault = type;
       },
+      // 收藏加购流量自定义匹配设置流量选择关键词
+      // 出于页面渲染性能考虑，除了‘关键词1’外只有用户主动触发其他关键词的时候才会生成对应DOM
       selectKeywordTag(index) {
         this.favoriteCartFlowInfo.keywordTagIndex = index;
         const keys = Object.keys(this.favoriteCartFlowInfo.matchDiyInfo);
@@ -3849,6 +3903,7 @@
           })
         }
       },
+      // 添加收藏加购流量自定义匹配设置流量时间区间
       addTimeBucketForFlowType(i, key, index) {
         this.favoriteCartFlowInfo.matchDiyInfo[i][key].push({
           flowType: key,
@@ -3859,6 +3914,7 @@
         });
         this.setFlowTimeCheck(i, key, index);
       },
+      // 删除收藏加购流量自定义匹配设置流量时间区间
       deleteTimeBucketForFlowType(i, key, index) {
         this.favoriteCartFlowInfo.matchDiyInfo[i][key].splice(index, 1);
         if (this.favoriteCartFlowInfo.matchDiyInfo[i][key].length > 1) {
@@ -3868,6 +3924,7 @@
           this.favoriteCartFlowInfo.error.msg = '';
         }
       },
+      // 校验收藏加购流量自定义匹配设置流量时间区间
       setFlowTimeCheck(i, key, index, type = '') {
         const value = this.favoriteCartFlowInfo.matchDiyInfo[i][key];
         const hourStart = value[index].hourStart;
