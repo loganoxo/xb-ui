@@ -2886,9 +2886,7 @@
             }
             _this.mainDefaultList.push({src: res.data.taskMainImage});
             Object.keys(_this.taskRelease).forEach(key => {
-              if (res.data[key]) {
-                _this.taskRelease[key] = res.data[key]
-              }
+              _this.taskRelease[key] = res.data[key]
             });
             _this.taskRelease.itemType = res.data.itemCatalog.id;
             _this.taskRelease.dayReserveToNow = _this.taskRelease.dayReserveToNow ? _this.taskRelease.dayReserveToNow : false;
