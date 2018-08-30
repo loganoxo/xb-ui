@@ -1,6 +1,6 @@
 <template>
-  <div class="flow-order-model">
-    <modal :value="currentValue" :mask-closable="false" @on-visible-change="change" width="600">
+  <!--<div class="flow-order-model">-->
+    <modal :value="value" :mask-closable="false" @on-visible-change="change" width="600">
       <template v-if="step === 'select'">
         <div slot="header">
           <img src="~assets/img/task-release/shopping-cart.png" alt="">
@@ -8,58 +8,62 @@
         </div>
         <div class="order-box">
           <div class="tabs clear">
-            <div class="tab left" v-for="(tab,index) in tabs" :key="index" :class="{active:defaultTab.type === tab.type}" @click="defaultTab = tab">{{tab.text}}</div>
+            <div class="tab left" v-for="(tab,index) in tabs" :key="index" :class="{active:defaultTab.type === tab.type}" @click="changeType(tab)">{{tab.text}}</div>
           </div>
           <!--收藏加购订购-->
-          <div v-if="defaultTab.type === 'collectionOrder'" class="collection-order pt-20 pb-10 pr-10 pl-10">
+          <div class="collection-order pt-20 pb-10 pr-10 pl-10">
             <div>
               <span>选择条数</span>
-              <i-button v-for="(item,index) in collectionList" :key="index" class="ml-15 collection-option" :class="{'is-active':item.index === defaultCollection.index}" @click="defaultCollection = item">
-                <span class="fs-14 order-num">{{item.orderNum}}条</span><br/>
-                <span class="fs-14 order-price">￥{{getMemberVersionLevel === 100 ? (item.price/100).toFixed(2) : (item.vipPrice/100).toFixed(2)}}元</span><br/>
-                <span v-if="getMemberVersionLevel === 100" class="fs-12 text-decoration-through cl666">VIP:￥{{(item.vipPrice/100).toFixed(2)}}元</span>
-                <span v-else class="fs-12 text-decoration-through cl666">原价:￥{{(item.price/100).toFixed(2)}}元</span>
+              <i-button v-for="item in orderList" :key="item.id" class="ml-15 collection-option" :class="{'is-active':item.id === selectItem.id}" @click="selectItem = item">
+                <span class="fs-14 order-num">{{item.count}}条</span><br/>
+                <span class="fs-14 order-price">￥{{(item.price/100).toFixed(2)}}元</span><br/>
+                <span class="fs-12 text-decoration-through cl666">{{item.memberLevel === 100 ? 'VIP' : '原价'}}:￥{{(item.showPrice/100).toFixed(2)}}元</span>
+                <!--<span v-else class="fs-12 text-decoration-through cl666">原价:￥{{(item.price/100).toFixed(2)}}元</span>-->
               </i-button>
             </div>
             <p v-if="getMemberVersionLevel === 100" class="mt-15 ml-56">
-              <span>单价：￥0.70元/条</span>
-              <span class="ml-15 mr-15 text-decoration-through">VIP：￥0.35元/条</span>
+              <span v-show="defaultTab.type === 'favorite_cart_flow'">单价：￥0.70元/条</span>
+              <span v-show="defaultTab.type === 'favorite_cart_flow'" class="ml-15 mr-15 text-decoration-through">VIP：￥0.35元/条</span>
+              <span v-show="defaultTab.type === 'visitor_flow'">单价：￥0.20元/条</span>
+              <span v-show="defaultTab.type === 'visitor_flow'" class="ml-15 mr-15 text-decoration-through">VIP：￥0.10元/条</span>
               <span>(<span class="blue text-decoration-underline">升级VIP</span><span class="main-color text-decoration-underline">，享受5折订购</span>)</span>
             </p>
             <p v-else class="mt-15 ml-56">
-              <span>单价：￥0.35元/条</span>
-              <span class="text-decoration-through mr-15 ml-15">原价：￥0.70元/条</span>
+              <span v-show="defaultTab.type === 'favorite_cart_flow'">单价：￥0.35元/条</span>
+              <span v-show="defaultTab.type === 'favorite_cart_flow'" class="text-decoration-through mr-15 ml-15">原价：￥0.70元/条</span>
+              <span v-show="defaultTab.type === 'visitor_flow'">单价：￥0.10元/条</span>
+              <span v-show="defaultTab.type === 'visitor_flow'" class="text-decoration-through mr-15 ml-15">原价：￥0.20元/条</span>
               <span>(<span class="main-color">您当前是VIP会员，享受5折订购！</span>)</span>
             </p>
           </div>
           <!--访客流量订购-->
-          <div v-if="defaultTab.type === 'flowOrder'" class="flow-order pt-20 pb-10 pr-10 pl-10">
-            <div>
-              <span>选择条数</span>
-              <i-button v-for="(item,index) in flowList" :key="index" class="ml-15 flow-option" :class="{'is-active':item.index === defaultFlow.index}" @click="defaultFlow = item">
-                <span class="fs-14 order-num">{{item.orderNum}}条</span><br/>
-                <span class="fs-14 order-price">￥{{getMemberVersionLevel === 100 ? (item.originalPrice/100).toFixed(2) : (item.price/100).toFixed(2)}}元</span><br/>
-                <span v-if="getMemberVersionLevel === 100" class="fs-12 text-decoration-through cl666">VIP:￥{{(item.price/100).toFixed(2)}}元</span>
-                <span v-else class="fs-12 text-decoration-through cl666">原价:￥{{(item.originalPrice/100).toFixed(2)}}元</span>
-              </i-button>
-            </div>
-            <p v-if="getMemberVersionLevel === 100" class="mt-15 ml-56">
-              <span>单价：￥0.20元/条</span>
-              <span class="fs-12 text-decoration-through cl666 ml-15 mr-15">VIP：￥0.10元/条</span>
-              <span>(<span class="blue text-decoration-underline">升级VIP</span><span class="main-color text-decoration-underline">，享受5折订购</span>)</span>
-            </p>
-            <p v-else class="mt-15 ml-56">
-              <span>单价：￥0.10元/条</span>
-              <span class="fs-12 text-decoration-through cl666 ml-15 mr-15">原价：￥0.20元/条</span>
-              <span>(<span class="main-color">您当前是VIP会员，享受5折订购！</span>)</span>
-            </p>
-          </div>
+          <!--<div v-if="defaultTab.type === 'flowOrder'" class="flow-order pt-20 pb-10 pr-10 pl-10">-->
+            <!--<div>-->
+              <!--<span>选择条数</span>-->
+              <!--<i-button v-for="(item,index) in flowList" :key="index" class="ml-15 flow-option" :class="{'is-active':item.index === defaultFlow.index}" @click="defaultFlow = item">-->
+                <!--<span class="fs-14 order-num">{{item.orderNum}}条</span><br/>-->
+                <!--<span class="fs-14 order-price">￥{{getMemberVersionLevel === 100 ? (item.originalPrice/100).toFixed(2) : (item.price/100).toFixed(2)}}元</span><br/>-->
+                <!--<span v-if="getMemberVersionLevel === 100" class="fs-12 text-decoration-through cl666">VIP:￥{{(item.price/100).toFixed(2)}}元</span>-->
+                <!--<span v-else class="fs-12 text-decoration-through cl666">原价:￥{{(item.originalPrice/100).toFixed(2)}}元</span>-->
+              <!--</i-button>-->
+            <!--</div>-->
+            <!--<p v-if="getMemberVersionLevel === 100" class="mt-15 ml-56">-->
+              <!--<span>单价：￥0.20元/条</span>-->
+              <!--<span class="fs-12 text-decoration-through cl666 ml-15 mr-15">VIP：￥0.10元/条</span>-->
+              <!--<span>(<span class="blue text-decoration-underline">升级VIP</span><span class="main-color text-decoration-underline">，享受5折订购</span>)</span>-->
+            <!--</p>-->
+            <!--<p v-else class="mt-15 ml-56">-->
+              <!--<span>单价：￥0.10元/条</span>-->
+              <!--<span class="fs-12 text-decoration-through cl666 ml-15 mr-15">原价：￥0.20元/条</span>-->
+              <!--<span>(<span class="main-color">您当前是VIP会员，享受5折订购！</span>)</span>-->
+            <!--</p>-->
+          <!--</div>-->
           <div class="mt-15 ml-56">
             <i-button class="order-btn" :loading="orderLoading" @click="order">立即订购</i-button>
           </div>
         </div>
         <div slot="footer">
-          <p class="f-b text-lf">注意：流量购买后不返还，请按需购买！</p>
+          <p class="f-b text-lf">注意：流量购买后不返还，请按需购买！{{value}}</p>
         </div>
       </template>
       <template v-if="step === 'pay'">
@@ -79,13 +83,14 @@
         </pay-model>
       </template>
     </modal>
-  </div>
+  <!--</div>-->
 </template>
 
 <script>
   import api from '@/config/apiConfig'
   import {Modal, Button, Icon} from 'iview'
   import PayModel from '@/components/PayModel'
+  import {setSessionStorage, getSessionStorage} from '@/config/utils'
   export default {
     name: "flow-order-model",
     components: {
@@ -95,79 +100,30 @@
       PayModel: PayModel
     },
     props: {
-      value: Boolean,
-      default: false
+      value: {
+        type: Boolean,
+        default: false
+      },
     },
     data() {
       return {
-        currentValue: this.value,
         step: 'select',
         tabs: [
           {
             text: '收藏加购订购',
-            type: 'collectionOrder'
+            type: 'favorite_cart_flow'
           },
           {
             text: '访客流量订购',
-            type: 'flowOrder'
+            type: 'visitor_flow'
           }
         ],
         defaultTab: {
           text: '收藏加购订购',
-          type: 'collectionOrder'
+          type: 'favorite_cart_flow'
         },
-        collectionList: [
-          {
-            index: 0,
-            orderNum: 100,
-            price: 7000,
-            vipPrice: 3500
-          },
-          {
-            index: 1,
-            orderNum: 500,
-            price: 35000,
-            vipPrice: 17500
-          },
-          {
-            index: 2,
-            orderNum: 1000,
-            price: 70000,
-            vipPrice: 35000
-          },
-        ],
-        defaultCollection: {
-          index: 0,
-          orderNum: 100,
-          price: 7000,
-          vipPrice: 3500
-        },
-        flowList: [
-          {
-            index: 0,
-            orderNum: 100,
-            price: 1000,
-            originalPrice: 2000
-          },
-          {
-            index: 1,
-            orderNum: 500,
-            price: 5000,
-            originalPrice: 10000
-          },
-          {
-            index: 2,
-            orderNum: 1000,
-            price: 10000,
-            originalPrice: 20000
-          },
-        ],
-        defaultFlow: {
-          index: 0,
-          orderNum: 100,
-          price: 1000,
-          originalPrice: 2000
-        },
+        orderList: [],
+        selectItem: {},
         orderLoading: false,
         payMoney: null
       }
@@ -185,7 +141,11 @@
        * @return {Number}
        */
       getMemberVersionLevel() {
-        return this.$store.getters.getMemberLevel
+        if (this.$store.getters.getMemberLevel === 100) {
+          return 100
+        } else {
+          return 200
+        }
       },
       /** 获取用户会员状态
        * @return {boolean}
@@ -209,29 +169,77 @@
 
     },
     created() {
+
     },
     mounted() {
 
     },
     methods: {
-      change(value) {
+      changeType(tab) {
+        this.defaultTab = tab;
+        this.getFlowOrderConfig(tab.type);
+      },
+      // 获取流量配置信息
+      getFlowOrderConfig(type) {
+        const _this = this;
+        api.getFlowOrderConfig({
+          memberLevel: _this.getMemberVersionLevel,
+          type: type
+        }).then(res => {
+          if (res.status) {
+            if (res.data.length > 0) {
+              _this.orderList = res.data;
+              _this.selectItem = res.data[0];
+              console.log(_this.orderList);
+            }
+          } else {
+            _this.$Message.error(res.msg);
+          }
+        })
 
       },
-      order() {
-        const _this = this;
-        if (_this.defaultTab.type === 'collectionOrder') {
-          _this.payMoney = _this.getMemberVersionLevel === 100 ? _this.defaultCollection.price : _this.defaultCollection.vipPrice;
-        } else if (_this.defaultTab.type === 'flowOrder') {
-          _this.payMoney = _this.getMemberVersionLevel === 100 ? _this.defaultFlow.originalPrice : _this.defaultFlow.price;
+      change(value) {
+        if (!value) {
+          this.step = 'select';
+          this.orderList = [];
+          this.selectItem = {};
+          this.defaultTab = {
+            text: '收藏加购订购',
+            type: 'favorite_cart_flow'
+          };
+          this.$emit('input',false);
+        } else {
+          this.getFlowOrderConfig('favorite_cart_flow');
         }
-        console.log(_this.payMoney);
-        _this.step = 'pay';
       },
-      confirmPayment() {
+      order() {
+        this.payMoney = this.selectItem.price;
+        console.log(this.payMoney);
+        this.step = 'pay';
+      },
+      confirmPayment(pwd) {
         const _this = this;
         _this.orderLoading = true;
-      }
-    }
+        api.orderFlow({
+          popularFlowConfigId: _this.selectItem.id,
+          type: 1,
+          platform: 'PC',
+          payPwd: pwd
+        }).then(res => {
+          if (res.status) {
+            _this.$store.dispatch('getUserInformation');
+            _this.step = 'select';
+            _this.$Message.success('恭喜您，支付成功！');
+            _this.selectItem = _this.orderList[0];
+            _this.$emit('input',false);
+            // _this.$emit('orderSuccess')
+          } else {
+            _this.$Message.error(res.msg);
+          }
+          _this.orderLoading = false;
+        })
+      },
+    },
   }
 </script>
 

@@ -1,7 +1,7 @@
 <template>
   <div class="store-bind-rules">
     <div class="rules-box">
-      <p class="rules-title">店铺绑定说明:</p>
+      <p class="rules-title">店铺绑定说明: </p>
       <ul>
         <li>1、免费商家可绑定{{freeStoreBindNum}}个店铺，VIP商家可绑定{{vipStoreBindNum}}个店铺。</li>
         <li>2、店铺绑定成功后无法解绑和修改，请慎重操作！</li>
@@ -172,7 +172,7 @@
       FormItem: Form.Item,
       Checkbox: Checkbox,
       Upload: Upload,
-      FlowOrderModel: FlowOrderModel
+      FlowOrderModel: FlowOrderModel,
     },
     data() {
       const validateQQ = (rule, value, callback) => {
@@ -238,7 +238,7 @@
         },
         wxewmDefaultList: [],
         loading: false,
-        showFlowOrder: true
+        showFlowOrder: false
       }
     },
     computed:{

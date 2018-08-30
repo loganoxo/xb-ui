@@ -1044,7 +1044,10 @@
               <checkbox v-model="favoriteCartFlowInfo.favoriteCartFlowStatus" @on-change="aliWwLabelSetChange">需要</checkbox>
             </div>
             <template v-if="favoriteCartFlowInfo.favoriteCartFlowStatus">
-              <div class="collection-purchased-tip mt-20"><icon type="md-alert" size="14" class="vtc-text-btm"/>当前您的账户剩余收藏加购流量：<span class="main-color">0</span>条，若数量不足，系统将立即停止发布相关任务。</div>
+              <div class="collection-purchased-tip mt-20">
+                <icon type="md-alert" size="14" class="vtc-text-btm"/>当前您的账户剩余收藏加购流量：<span class="main-color">0</span>条，若数量不足，系统将立即停止发布相关任务。
+                <span class="flow-order" @click="showFlowOrderModel = true">流量订购</span> <span v-if="isMember && !getFreeFlow" class="free-get-flow" @click="showGetFreeFlow = true">VIP免费领取100条流量</span>
+              </div>
               <radio-group :vertical="true" v-model="favoriteCartFlowInfo.popularFlow" class="ml-110 mt-20">
                 <radio label="match_by_apply">
                   <span class="f-b">按申请数量匹配</span>
@@ -1402,6 +1405,19 @@
         <i-button type="error" class="width-pct-39 mr-10 fs-14" :disabled="merchantInformationModal.disabled" @click="closeMerchantInformationModal">{{merchantInformationModal.btnText}}</i-button>
       </div>
     </modal>
+    <!--流量订购弹窗-->
+    <flow-order-model v-model="showFlowOrderModel"/>
+    <!--免费领流量弹窗-->
+    <modal v-model="showGetFreeFlow">
+      <p slot="header" class="text-ct">免费领取流量</p>
+      <div class="cl000">
+        <p>1、每个VIP账户可免费领取1次。</p>
+        <p>2、流量包含40条收藏加购流量及60条访客流量</p>
+      </div>
+      <div slot="footer">
+        <i-button type="error" long :loading="getFreeFlowLoading" @click="freeFlowConfirm">确定领取</i-button>
+      </div>
+    </modal>
   </div>
 </template>
 
@@ -1415,6 +1431,7 @@
   import {aliCallbackImgUrl} from '@/config/env'
   import {aliUploadImg, isPositiveInteger, isNumber, isInteger, isAliUrl, randomString, extendDeep, decode, setStorage, getStorage, getUrlParams, isInternetUrl, getSeverTime} from '@/config/utils'
   import commonConfig from '@/config/commonConfig'
+  import FlowOrderModel from '@/components/FlowOrderModel'
   export default {
     name: 'task-release',
     components: {
@@ -1437,6 +1454,7 @@
       UserClause: UserClause,
       DatePicker: DatePicker,
       inputNumber: inputNumber,
+      FlowOrderModel: FlowOrderModel
     },
     data() {
       return {
@@ -1775,7 +1793,11 @@
               ]
             }
           }
-        }
+        },
+        showFlowOrderModel: false,
+        getFreeFlow: false,
+        showGetFreeFlow: false,
+        getFreeFlowLoading: false
       }
     },
     // 当用户有首发资格路由重定向到快速发布通道反之则停留在此页面
@@ -1824,6 +1846,7 @@
     created() {
       this.getItemCatalog();
       this.getTaskVasList();
+      this.checkIfAlreadyGetFreeFlow();
     },
     computed: {
       /**
@@ -1863,6 +1886,13 @@
        */
       getMemberVersionLevel() {
         return this.$store.getters.getMemberLevel
+      },
+
+      /** 获取用户会员状态
+       * @return {boolean}
+       */
+      isMember() {
+        return this.$store.getters.isMemberOk
       },
 
       /**
@@ -3963,6 +3993,34 @@
           }
         }
       },
+      // 检查是否已经领取过免费流量
+      checkIfAlreadyGetFreeFlow() {
+        const _this = this;
+        api.checkIfAlreadyGetFreeFlow().then(res => {
+          if (res.status) {
+            _this.getFreeFlow = res.data;
+          } else {
+            _this.$Message.error(res.msg);
+          }
+        })
+      },
+      // 免费领取流量
+      freeFlowConfirm() {
+        const _this = this;
+        _this.getFreeFlowLoading = true;
+        api.orderFlow({
+          type: 0,
+          platform: 'PC',
+        }).then(res => {
+          if (res.status) {
+            _this.showGetFreeFlow = false;
+            _this.$Message.success('您已成功领取流量！');
+          } else {
+            _this.$Message.error(res.msg);
+          }
+          _this.getFreeFlowLoading = false;
+        })
+      }
     },
   }
 </script>
@@ -4506,6 +4564,21 @@
       margin-right: 26px;
       padding-left: 10px;
       font-weight: bold;
+      .flow-order {
+        padding: 3px 7px;
+        border-radius: 5px;
+        background: $mainColor;
+        color: #fff;
+        cursor: pointer;
+      }
+      .free-get-flow {
+        padding: 3px 7px;
+        background-color: #F0EA39;
+        color: $mainColor;
+        border: 1px solid $mainColor;
+        border-radius: 5px;
+        cursor: pointer;
+      }
     }
 
     .set-flow-btn-box {

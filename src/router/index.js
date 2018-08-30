@@ -345,7 +345,7 @@ export default new Router({
         {
           path: 'flow-order-detail',
           name: 'FlowOrderDetail',
-          component: _import('personalCenter/children/FlowOrderDetail'),
+          component: _import('personalCenter/children/flowOrderDetail/index'),
           meta: {
             title: "收藏加购及访客流量",
             logInAuthority: true,
