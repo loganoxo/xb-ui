@@ -42,6 +42,7 @@
               <span>钱包：{{(totalInCome/100).toFixed(2)}}元</span>
               <!--<span class="blue ml-10 cursor-p" @click="toWithdrawal">提现</span>-->
               <span class="blue ml-10 cursor-p" @click="toRecordDetail">明细</span>
+              <span class="blue ml-10 cursor-p" @click="toOrderDetail">流量明细</span>
             </span>
             <router-link v-if="getUserInfoRole === 0" :to="{path: '/user/money-management/getout-money'}">提现</router-link>
             <div v-if="limit && getUserInfoRole === 0" class="inline-block ml-20 pos-rel clear vtc-btm">
@@ -356,6 +357,9 @@
       },
       toRecordDetail() {
         this.$router.push({name:'PromotionDetails',query:{from:'userhome-detail'}});
+      },
+      toOrderDetail() {
+        this.$router.push({name:'FlowOrderDetail'});
       }
     },
     watch: {},

@@ -30,7 +30,7 @@
           <td>{{item.serialNumber}}</td>
           <td>{{item.tradName}}</td>
           <td>{{(item.tradAmount/100).toFixed(2)}}</td>
-          <td class="main-color">+1000</td>
+          <td class="main-color">{{item.extension.count ? '+' + item.extension.count: null}}</td>
         </tr>
         </tbody>
       </table>
@@ -91,6 +91,7 @@
         favoriteCartFlow: 0,
         visitorFlow: 0,
         filterLoading: false,
+        accountChangeType: 13
       }
     },
     computed: {
@@ -161,7 +162,7 @@
           tradTimeEnd: _this.tradTimeEnd,
           pageIndex: _this.pageIndex,
           pageSize: _this.pageSize,
-          accountChangeType: null
+          accountChangeType: _this.accountChangeType
         }).then(res => {
           if (res.status) {
             _this.orderDetailList = res.data.page.content;
