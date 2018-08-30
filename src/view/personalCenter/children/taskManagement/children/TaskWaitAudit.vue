@@ -147,7 +147,7 @@
                 </td>
                 <td>
                   <p class="del-edit">
-                    <span class="ml-5" @click="checkShowkerApply(item.id, allTask.showkerId, allTask.id)">通过</span>
+                    <span class="ml-5" @click="checkShowkerApply(item.id, allTask.showkerId, allTask.id, allTask.applySuccessCount7Days)">通过</span>
                     <tooltip placement="top" content="加入黑名单后该用户将无法申请你发布的活动">
                       <span class="ml-5" @click="addToBlackListFun(allTask.alitmAccount)">加入黑名单</span>
                     </tooltip>
@@ -561,20 +561,26 @@
         this.pageIndex = 1;
         this.appliesWaitingAuditTask();
       },
-      checkShowkerApply(taskId, showkerId, taskApplyId) {
+      checkShowkerApply(taskId, showkerId, taskApplyId, applySuccessCount7Days) {
+        console.log(applySuccessCount7Days)
         const _this = this;
         _this.taskApplyId = taskApplyId;
-        api.merchantCheckShowkerApply({
-          taskId: taskId,
-          showkerId: showkerId,
-        }).then(res => {
-          if (res.status) {
-            _this.showkerApplyInfoModal = true;
-            _this.showkerApplyInfoModalText = `该用户在&nbsp;<span class="main-color">${res.data.daysAgo > 0 ? res.data.daysAgo + '天前' : '24小时'}</span>&nbsp;获得您该店铺的试用资格，${res.data.orderedIn30Days ? '并且已成功下单' : '但还未成功下单'}，是否仍然审批通过？`;
-          } else {
-            _this.taskWaitToPass(taskApplyId)
-          }
-        })
+        if (applySuccessCount7Days >= _this.showkerApplySuccessCount7Limit * 1) {
+          _this.showkerApplyInfoModal = true;
+          _this.showkerApplyInfoModalText = '该用户近七天下单数较为频繁，请谨慎选择！'
+        } else {
+          api.merchantCheckShowkerApply({
+            taskId: taskId,
+            showkerId: showkerId,
+          }).then(res => {
+            if (res.status) {
+              _this.showkerApplyInfoModal = true;
+              _this.showkerApplyInfoModalText = `该用户在&nbsp;<span class="main-color">${res.data.daysAgo > 0 ? res.data.daysAgo + '天前' : '24小时'}</span>&nbsp;获得您该店铺的试用资格，${res.data.orderedIn30Days ? '并且已成功下单' : '但还未成功下单'}，是否仍然审批通过？`;
+            } else {
+              _this.taskWaitToPass(taskApplyId)
+            }
+          })
+        }
       },
       taskWaitToPass(taskApplyId) {
         const _this = this;
