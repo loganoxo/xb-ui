@@ -63,7 +63,7 @@
           </div>
         </div>
         <div slot="footer">
-          <p class="f-b text-lf">注意：流量购买后不返还，请按需购买！{{value}}</p>
+          <p class="f-b text-lf">注意：流量购买后不返还，请按需购买！</p>
         </div>
       </template>
       <template v-if="step === 'pay'">
