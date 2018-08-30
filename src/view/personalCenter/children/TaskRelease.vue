@@ -1795,7 +1795,7 @@
           }
         },
         showFlowOrderModel: false,
-        getFreeFlow: false,
+        getFreeFlow: true,
         showGetFreeFlow: false,
         getFreeFlowLoading: false
       }

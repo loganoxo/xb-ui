@@ -169,7 +169,7 @@
 
     },
     created() {
-
+      this.getFlowOrderConfig('favorite_cart_flow');
     },
     mounted() {
 
@@ -236,6 +236,7 @@
           } else {
             _this.$Message.error(res.msg);
           }
+          _this.$refs.payModelRef.payLoading = false;
           _this.orderLoading = false;
         })
       },

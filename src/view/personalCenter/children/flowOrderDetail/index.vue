@@ -64,7 +64,7 @@
         },
         showFreeGetFlow: false,
         loading: false,
-        notGet: false,
+        notGet: true,
         showOrderModel: false,
         orderModal: false
       }

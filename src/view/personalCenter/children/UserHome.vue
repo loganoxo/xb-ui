@@ -42,7 +42,6 @@
               <span>钱包：{{(totalInCome/100).toFixed(2)}}元</span>
               <!--<span class="blue ml-10 cursor-p" @click="toWithdrawal">提现</span>-->
               <span class="blue ml-10 cursor-p" @click="toRecordDetail">明细</span>
-              <span class="blue ml-10 cursor-p" @click="toOrderDetail">流量明细</span>
             </span>
             <router-link v-if="getUserInfoRole === 0" :to="{path: '/user/money-management/getout-money'}">提现</router-link>
             <div v-if="limit && getUserInfoRole === 0" class="inline-block ml-20 pos-rel clear vtc-btm">
@@ -54,6 +53,14 @@
                   <img width="200" src="/static/img/common/qr_code_bainana.png" alt="" class="mt-10 block">
                 </em>
               </span>
+            </div>
+            <div v-if="getUserInfoRole === 1" class="mt-10">
+              <img src="~assets/img/icon/favorite_cart_flow.png" alt="" width="14" height="14">
+              <span class="ml-5">剩余收藏加购： 500 条</span>
+              <img src="~assets/img/icon/visitor_flow.png" alt="" width="14" height="14" class="ml-20">
+              <span class="ml-5">剩余访客流量： 500 条</span>
+              <span class="ml-20 cursor-p blue">购买</span>
+              <span class="ml-10 cursor-p blue" @click="toOrderDetail">明细</span>
             </div>
           </div>
         </div>

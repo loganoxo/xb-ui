@@ -62,7 +62,7 @@
             <p class="cursor-p blue">查看流量详情</p>
           </td>
         </tr>
-        <tr>
+        <tr class="expand">
           <td colspan="7" style="padding: 0px;border: none">
             <collapse-transition>
               <div v-show="true">
@@ -316,6 +316,11 @@
       text-align: left;
       padding:6px 0 6px 10px;
     }
+
+    .personal-list-table table tr.expand table {
+      border: none;
+    }
+
     .personal-list-table tr table {
       width: 100%;
     }
