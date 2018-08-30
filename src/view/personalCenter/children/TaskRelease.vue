@@ -3166,6 +3166,8 @@
               _this.disabledRedEnvelopes = true;
             }
             _this.mainDefaultList.push({src: res.data.taskMainImage});
+            res.data.pinkage = res.data.pinkage.toString();
+            res.data.donotPostPhoto = res.data.donotPostPhoto.toString();
             Object.keys(_this.taskRelease).forEach(key => {
               if (res.data[key]) {
                 _this.taskRelease[key] = res.data[key]
@@ -3174,8 +3176,6 @@
             _this.taskRelease.itemType = res.data.itemCatalog.id;
             _this.taskRelease.dayReserveToNow = _this.taskRelease.dayReserveToNow ? _this.taskRelease.dayReserveToNow : false;
             _this.taskRelease.speedUp = _this.taskRelease.speedUp ? _this.taskRelease.speedUp : false;
-            _this.taskRelease.pinkage = _this.taskRelease.pinkage.toString();
-            _this.taskRelease.donotPostPhoto = _this.taskRelease.donotPostPhoto.toString();
 
             // 是否是首发活动标识
             _this.isFastPublish = res.data.fastPublish ? res.data.fastPublish : false;

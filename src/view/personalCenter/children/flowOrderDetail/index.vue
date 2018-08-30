@@ -114,7 +114,6 @@
         })
       },
       showOrder() {
-        console.log(111);
         this.showOrderModel = true;
       },
       orderSuccess() {

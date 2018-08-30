@@ -1267,6 +1267,13 @@ export default {
    */
   getFlowOrderDetail(params) {
     return axiosConfig.get('/api/get-flow-order-detail.json', params)
+  },
+
+  /**
+   * 获取任务流量列表
+   */
+  getTaskFlowList(params) {
+    return axiosConfig.get('/api/get-task-flow-list.json', params)
   }
 
 }
