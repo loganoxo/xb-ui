@@ -56,10 +56,10 @@
             </div>
             <div v-if="getUserInfoRole === 1" class="mt-10">
               <img src="~assets/img/icon/favorite_cart_flow.png" alt="" width="14" height="14">
-              <span class="ml-5">剩余收藏加购： 500 条</span>
+              <span class="ml-5">剩余收藏加购： {{getFlowNumInfo.favoriteCartFlowLeft}} 条</span>
               <img src="~assets/img/icon/visitor_flow.png" alt="" width="14" height="14" class="ml-20">
-              <span class="ml-5">剩余访客流量： 500 条</span>
-              <span class="ml-20 cursor-p blue">购买</span>
+              <span class="ml-5">剩余访客流量： {{getFlowNumInfo.visitorFlowLeft}} 条</span>
+              <span class="ml-20 cursor-p blue" @click="showFlowOrder = true">购买</span>
               <span class="ml-10 cursor-p blue" @click="toOrderDetail">明细</span>
             </div>
           </div>
@@ -200,6 +200,8 @@
         </ul>
       </div>
     </div>
+    <!--流量购买弹窗-->
+    <flow-order-model v-model="showFlowOrder" />
   </div>
 </template>
 
@@ -208,6 +210,7 @@
   import TimeDown from '@/components/TimeDown'
   import api from '@/config/apiConfig'
   import {setStorage, getStorage, getSeverTime, encryption, timeToDate} from '@/config/utils'
+  import FlowOrderModel from '@/components/FlowOrderModel'
 
   export default {
     name: 'user-home',
@@ -229,7 +232,8 @@
       Alert: Alert,
       Carousel: Carousel,
       CarouselItem: Carousel.Item,
-      Tooltip:Tooltip
+      Tooltip:Tooltip,
+      FlowOrderModel: FlowOrderModel
     },
     data() {
       return {
@@ -241,6 +245,7 @@
         showkerApplyTotal: null,
         limit: true,
         freshman: null,
+        showFlowOrder: false,
       }
     },
     created() {
@@ -292,6 +297,9 @@
       // 商家推荐系统钱包
       totalInCome() {
         return this.$store.getters.getUserAccountInfo.invitationReward
+      },
+      getFlowNumInfo() {
+        return this.$store.state.flowNumberInfo
       }
     },
     methods: {

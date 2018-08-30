@@ -13,7 +13,7 @@
       </div>
     </div>
     <div class="pl-20 pt-10 pb-10 personal-list-table">
-      <p><span>当前您共订购收藏加购流量： <span class="main-color">{{favoriteCartFlow}}</span> 条，访客流量 <span class="main-color">{{visitorFlow}}</span> 条。</span></p>
+      <p><span>当前您共订购收藏加购流量： <span class="main-color">{{getFlowNumInfo.favoriteCartFlowLeft}}</span> 条，访客流量 <span class="main-color">{{getFlowNumInfo.visitorFlowLeft}}</span> 条。</span></p>
       <table class="table-list mt-15">
         <thead>
         <tr>
@@ -95,7 +95,9 @@
       }
     },
     computed: {
-
+      getFlowNumInfo() {
+        return this.$store.state.flowNumberInfo
+      }
     },
     created() {
       this.getFlowOrderDetail();

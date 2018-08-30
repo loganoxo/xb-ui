@@ -235,6 +235,7 @@
         }).then(res => {
           if (res.status) {
             _this.$store.dispatch('getUserInformation');
+            _this.$store.dispatch('getFlowNumInfo');
             _this.step = 'select';
             _this.$Message.success('恭喜您，支付成功！');
             _this.selectItem = _this.orderList[0];

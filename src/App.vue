@@ -92,6 +92,7 @@
       }
       _this.$store.dispatch('getSysConfigInfo');
       _this.$store.dispatch('getCommodityCategoriesList');
+      _this.$store.dispatch('getFlowNumInfo');
     },
     methods: {
       closeSuspendService() {

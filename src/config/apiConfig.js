@@ -1270,6 +1270,13 @@ export default {
   },
 
   /**
+   * 获取流量数量信息
+   */
+  getFlowNumber() {
+    return axiosConfig.get('/api/get-flow-number.json')
+  },
+
+  /**
    * 获取任务流量列表
    */
   getTaskFlowList(params) {

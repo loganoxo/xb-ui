@@ -1045,7 +1045,7 @@
             </div>
             <template v-if="favoriteCartFlowInfo.favoriteCartFlowStatus">
               <div class="collection-purchased-tip mt-20">
-                <icon type="md-alert" size="14" class="vtc-text-btm"/>当前您的账户剩余收藏加购流量：<span class="main-color">0</span>条，若数量不足，系统将立即停止发布相关任务。
+                <icon type="md-alert" size="14" class="vtc-text-btm"/>当前您的账户剩余收藏加购流量：<span class="main-color">{{getFlowNumInfo.favoriteCartFlowLeft}}</span>条，若数量不足，系统将立即停止发布相关任务。
                 <span class="flow-order" @click="showFlowOrderModel = true">流量订购</span> <span v-if="isMember && !getFreeFlow" class="free-get-flow" @click="showGetFreeFlow = true">VIP免费领取100条流量</span>
               </div>
               <radio-group :vertical="true" v-model="favoriteCartFlowInfo.popularFlow" class="ml-110 mt-20">
@@ -2263,6 +2263,15 @@
           visitorCount: visitorCount
         }
       },
+
+      /**
+       * 获取流量数量信息
+       * @return {object}
+       */
+      getFlowNumInfo() {
+        return this.$store.state.flowNumberInfo
+      }
+
 
     },
     methods: {
