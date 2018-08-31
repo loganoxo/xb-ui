@@ -172,7 +172,7 @@
       <i-button slot="footer" type="error" size="large" :loading="loading" long @click="taskFlowStop">确定</i-button>
     </modal>
     <!--流量不足提醒弹框-->
-    <modal v-model="flowNotEnoughModal" :mask-closable="false" width="380">
+    <modal v-model="flowNotEnoughModal" :mask-closable="false" width="420">
       <div slot="header" class="text-ct">
         <icon class="vtc-btm" color="#f9284f" type="md-alert"/>
         <span class="main-color">流量不足</span>
