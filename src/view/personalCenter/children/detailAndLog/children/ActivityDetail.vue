@@ -1800,10 +1800,6 @@
             // 自定义匹配流量数（复制、编辑活动）
             if (res.data.popularFlow === 'match_diy') {
               _this.favoriteCartFlowInfo.popularFlow = 'match_diy';
-              // 先将所有流量类型初始化数据置空,防止合并数据的时候重复
-              Object.keys(_this.favoriteCartFlowInfo.matchDiyInfo[0]).forEach(key => {
-                _this.favoriteCartFlowInfo.matchDiyInfo[0][key] = [];
-              });
               res.data.other.popularFlowConfig.forEach(item => {
                 // 当存在多个关键词的时候动态生成对象初始化key
                 if (item.schemeIndex > 0) {
@@ -1815,6 +1811,9 @@
                   if (!childKeys.includes(item.flowType)) {
                     _this.favoriteCartFlowInfo.matchDiyInfo[item.schemeIndex][item.flowType] = [];
                   }
+                } else {
+                  // 一个关键词的时候将对应的流量类型初始化数据置空，防止合并数据的时候重复
+                  _this.favoriteCartFlowInfo.matchDiyInfo[0][item.flowType] = [];
                 }
                 // 根据对象的对应key合并接口返回的对应数据
                 _this.favoriteCartFlowInfo.matchDiyInfo[item.schemeIndex][item.flowType].push({

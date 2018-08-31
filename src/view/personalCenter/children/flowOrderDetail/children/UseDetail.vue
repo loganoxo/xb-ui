@@ -67,7 +67,7 @@
               <p class="mt-6">访客流量：{{item.flowCountOfVisitorFlow.useCount}}条（{{item.flowCountOfVisitorFlow.successCount}} / {{item.flowCountOfVisitorFlow.failCount}} / {{item.flowCountOfVisitorFlow.pendingCount}}）</p>
             </td>
             <td>
-              <p class="cursor-p blue">查看活动详情</p>
+              <p class="cursor-p blue" @click="lookTaskDetail(item.id)">查看活动详情</p>
               <p class="cursor-p blue mt-6" @click="openDetail(item.id)">查看流量详情</p>
             </td>
           </tr>
@@ -191,7 +191,7 @@
   import api from '@/config/apiConfig'
   import {DatePicker, Page, Icon, Button, Modal, InputNumber, Tooltip} from 'iview'
   import CollapseTransition from 'iview/src/components/base/collapse-transition'
-  import {getSeverTime} from '@/config/utils'
+  import {getSeverTime, encryption} from '@/config/utils'
   import FlowOrderModel from '@/components/FlowOrderModel'
 
   export default {
@@ -393,7 +393,10 @@
             countMapString: JSON.stringify(_this.addFlowCount),
           }).then(res => {
             if (res.status) {
-              _this.$Message.success('流量任务补添成功！')
+              _this.getTaskFlowDetail(_this.addFlowInfo.taskId);
+              _this.selectId = _this.stopFlowInfo.taskId;
+              _this.$Message.success('流量任务补添成功！');
+
             } else {
               _this.$Message.error(res.msg)
             }
@@ -417,7 +420,9 @@
           schemeIndex: _this.stopFlowInfo.schemeIndex
         }).then(res => {
           if (res.status) {
-            _this.$Message.success('流量任务停止成功！')
+            _this.getTaskFlowDetail(_this.stopFlowInfo.taskId);
+            _this.selectId = _this.stopFlowInfo.taskId;
+            _this.$Message.success('流量任务停止成功！');
           } else {
             _this.$Message.error(res.msg)
           }
@@ -428,6 +433,9 @@
       orderImmediately() {
         this.flowNotEnoughModal = false;
         this.showOrderModel = true;
+      },
+      lookTaskDetail(id) {
+        this.$router.push({name: 'ActivityDetail', query: {q: encryption(id)}})
       },
     }
   }
