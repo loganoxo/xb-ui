@@ -1,21 +1,23 @@
 <template>
   <div class="use-detail">
-    <div class="filter-time clear pt-20 pb-20 pl-20">
+    <div class="filter-time clear pt-20 pb-20">
       <div class="left">
-        <date-picker type="daterange" :options="dataPickerOption" placeholder="请选择需要检索的日期区间" class="width-180" format="yyyy-MM-dd" @on-change="dataPickerChange"></date-picker>
+        <date-picker type="daterange" :options="dataPickerOption" placeholder="请选择需要检索的日期区间" class="width-180"
+                     format="yyyy-MM-dd" @on-change="dataPickerChange"></date-picker>
       </div>
-      <i-button class="left ml-8">搜索</i-button>
+      <i-button type="primary" class="left ml-8">搜索</i-button>
     </div>
-    <div class="pl-20 pt-10 pb-10 personal-list-table">
-      <p><span>当前您共订购收藏加购流量： <span class="main-color">0</span> 条，访客流量 <span class="main-color">40</span> 条。</span></p>
+    <div class="personal-list-table">
+      <p class="mt-20"><span>当前您共订购收藏加购流量：<span class="main-color">0</span>&nbsp;条，访客流量：<span
+        class="main-color">40</span>&nbsp;条。</span></p>
       <table class="table-list mt-15">
         <thead>
         <tr>
           <th style="width:15%">活动标题</th>
           <th style="width:16%">活动开始/结束时间</th>
           <th style="width:8%">活动状态</th>
-          <th style="width:15%">任务类型/关键词数</th>
-          <th style="width:8%">匹配方式</th>
+          <th style="width:13%">任务类型/关键词数</th>
+          <th style="width:10%">匹配方式</th>
           <th style="width:20%">共使用
             <icon class="vtc-text-btm" type="md-help-circle"/>
             （成功/失败
@@ -27,113 +29,168 @@
           <th style="width:10%">操作</th>
         </tr>
         </thead>
-        <tbody>
-        <tr class="task-number">
-          <td colspan="7">
-            <span>活动编号：AS10222012545D545665452245J</span>
-            <span>创建时间：2018-08-08 10:00:00</span>
-            <span>活动类型：免费领（拍A发A）</span>
-          </td>
-        </tr>
-        <tr>
-          <td class="task-title clear">
-            <img class="left ml-10 border-radius-5" src="~assets/img/home/chenyuqi.jpg" alt="活动主图">
-            <router-link to="/" class="left" title="流量订购收代理费凉快圣诞节疯狂了是觉得离开房间">流量订购收代理费凉快圣诞节疯狂了是觉得离开房间</router-link>
-          </td>
-          <td>
-            <p>2018-02-01 10:00:00</p>
-            <p class="mt-6">2018-02-01 10:00:00</p>
-          </td>
-          <td>
-            <p>进行中</p>
-            <p class="mt-6">不可进行结算</p>
-          </td>
-          <td class="cl000">
-            <p>手淘所搜下单</p>
-            <p class="mt-6">5个关键词</p>
-          </td>
-          <td class="cl000">
-            申请数匹配
-          </td>
-          <td class="cl000">
-            <p>收藏加购流量：20条 （16/4/20）</p>
-            <p class="mt-6">访客流量：40条 （32/8/20）</p>
-          </td>
-          <td>
-            <p class="cursor-p blue">查看活动详情</p>
-            <p class="cursor-p blue mt-6">查看流量详情</p>
-          </td>
-        </tr>
-        <tr>
-          <td colspan="7" class="detail-table-td">
-            <collapse-transition>
-              <div v-show="true">
-                <table class="detail-table" style="background-color: #f9f9f9;">
-                  <thead>
-                  <tr>
-                    <th style="width:8%;">状态</th>
-                    <th style="width:10%;">关键词</th>
-                    <th style="width:8%;">收藏+加购</th>
-                    <th style="width:8%;">加入购物车</th>
-                    <th style="width:8%;">宝贝收藏</th>
-                    <th style="width:20%;">收藏加购流量（成功/失败/待处理）</th>
-                    <th style="width:5%;">访客数</th>
-                    <th style="width:15%;">访客数（成功/失败/待处理）</th>
-                    <th style="width:8%;">操作</th>
-                  </tr>
-                  </thead>
-                  <tbody>
-                  <tr>
-                    <td>
-                      进行中
-                    </td>
-                    <td>
-                      mp3 随身听
-                    </td>
-                    <td>
-                      2条
-                    </td>
-                    <td>
-                      2条
-                    </td>
-                    <td>
-                      4条
-                    </td>
-                    <td>
-                      共10条（8/2/10）
-                    </td>
-                    <td>
-                      32条
-                    </td>
-                    <td>
-                      共10条（8/2/10）
-                    </td>
-                    <td class="operate-area">
-                      <span>补添</span>
-                      <span>停止</span>
-                    </td>
-                  </tr>
-                 <!-- <tr>
-                    <td colspan="4">暂无数据！</td>
-                  </tr>-->
-                  </tbody>
-                </table>
-              </div>
-            </collapse-transition>
-          </td>
-        </tr>
+        <tbody v-if="flowList.length > 0">
+        <template v-for="item in flowList">
+          <tr class="task-number">
+            <td colspan="7">
+              <span>活动编号：{{item.number}}</span>
+              <span class="ml-10">创建时间：{{item.createTime | dateFormat('YYYY-MM-DD hh:mm:ss') || '------'}}</span>
+              <span class="ml-10">活动类型：{{item.activityCategoryDesc}}</span>
+            </td>
+          </tr>
+          <tr>
+            <td class="task-title clear">
+              <img class="left ml-10 border-radius-5" :src="item.taskMainImage | imageSrc('!thum54')"
+                   :alt="item.taskName">
+              <router-link to="/" class="left" :title="item.taskName">{{item.taskName}}</router-link>
+            </td>
+            <td>
+              <p>{{item.upLineTime | dateFormat('YYYY-MM-DD hh:mm:ss') || '------'}}</p>
+              <p class="mt-6">{{item.endTime | dateFormat('YYYY-MM-DD hh:mm:ss') || '------'}}</p>
+            </td>
+            <td>
+              <p>{{item.taskStatusDesc}}</p>
+              <p class="mt-6">{{item.settlementStatusDesc}}</p>
+            </td>
+            <td class="cl000">
+              <p>{{item.taskTypeDesc}}</p>
+              <p class="mt-6">{{item.keywrodCount}}个关键词</p>
+            </td>
+            <td class="cl000">{{popularFlowType(item.popularFlow)}}</td>
+            <td class="cl000">
+              <p>收藏加购流量：{{item.flowCountOfFavoriteCartFlow.useCount}}条（{{item.flowCountOfFavoriteCartFlow.successCount}}
+                / {{item.flowCountOfFavoriteCartFlow.failCount}} /
+                {{item.flowCountOfFavoriteCartFlow.pendingCount}}）</p>
+              <p class="mt-6">
+                访客流量：{{item.flowCountOfVisitorFlow.useCount}}条（{{item.flowCountOfVisitorFlow.successCount}} /
+                {{item.flowCountOfVisitorFlow.failCount}} / {{item.flowCountOfVisitorFlow.pendingCount}}）</p>
+            </td>
+            <td>
+              <p class="cursor-p blue">查看活动详情</p>
+              <p class="cursor-p blue mt-6" @click="openDetail(item.id)">查看流量详情</p>
+            </td>
+          </tr>
+          <tr>
+            <td colspan="7" class="detail-table-td">
+              <collapse-transition>
+                <div v-show="item.id === selectId">
+                  <table class="detail-table">
+                    <thead>
+                    <tr>
+                      <th style="width:8%;">状态</th>
+                      <th style="width:10%;">关键词</th>
+                      <th style="width:8%;">收藏+加购</th>
+                      <th style="width:8%;">加入购物车</th>
+                      <th style="width:8%;">宝贝收藏</th>
+                      <th style="width:20%;">收藏加购流量（成功/失败/待处理）</th>
+                      <th style="width:5%;">访客数</th>
+                      <th style="width:15%;">访客数（成功/失败/待处理）</th>
+                      <th style="width:8%;">操作</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <template v-for="(childItem, childIndex) in flowDetail">
+                      <tr>
+                        <td>{{item.taskStatusDesc}}</td>
+                        <td>{{item.keywrodList.length > 0 ?item.keywrodList[childIndex] : '------'}}</td>
+                        <td>{{childItem.favoriteCartFlowTotalCount}}条</td>
+                        <td>{{childItem.cartFlowTotalCount}}条</td>
+                        <td>{{childItem.favoriteFlowTotalCount}}条</td>
+                        <td>共{{childItem.favoriteCartFlowSuccessCount +
+                          childItem.favoriteCartFlowFailCount}}条（{{childItem.favoriteCartFlowSuccessCount}} /
+                          {{childItem.favoriteCartFlowFailCount}} / {{childItem.favoriteCartFlowPendingCount}}）
+                        </td>
+                        <td>{{childItem.visitorFlowTotalCount}}条</td>
+                        <td>共{{childItem.visitorFlowSuccessCount +
+                          childItem.visitorFlowFailCount}}条（{{childItem.visitorFlowSuccessCount}} /
+                          {{childItem.visitorFlowFailCount}} / {{childItem.visitorFlowPendingCount}}）
+                        </td>
+                        <td class="operate-area">
+                          <span @click="openAddFlowModal(item.id, item.number, item.taskName, item.taskMainImage, item.keywrodList[childIndex], childIndex)">补添</span>
+                          <span class="ml-5" @click="openStopFlowModal(item.id, childIndex)">停止</span>
+                        </td>
+                      </tr>
+                    </template>
+                    </tbody>
+                  </table>
+                </div>
+              </collapse-transition>
+            </td>
+          </tr>
+        </template>
         </tbody>
       </table>
     </div>
-    <div class="right mt-22">
-      <page :total="page.totalPages" :page-size="page.pageSize" @on-change="changePages"></page>
-    </div>
+    <!--翻页-->
+    <page class="mt-22 text-align-rt" :total="page.totalPages" :page-size="page.pageSize" :current="page.pageIndex" @on-change="pageChange"/>
+    <!--补添流量任务弹框-->
+    <modal v-model="addFlowModal" :mask-closable="false" title="手工补添流量" width="580">
+      <div class="clear">
+        <div class="left">
+          <img :src="addFlowInfo.taskMainImage | imageSrc('!thum54')" :alt="addFlowInfo.taskName">
+        </div>
+        <div class="left ml-20" style="height: 54px;">
+          <p>活动编号：{{addFlowInfo.taskNumber}}</p>
+          <p class="mt-6">活动名称：{{addFlowInfo.taskName}}</p>
+        </div>
+        <div></div>
+      </div>
+      <div class="border-top">
+        <p class="mt-20 ml-20">为“<span class="main-color f-b">{{addFlowInfo.keyword}}</span>”补添流量：</p>
+        <p class="mt-20 ml-40">
+          <span class="cl000">补添&nbsp;收藏+加购：</span>
+          <input-number v-model="addFlowCount['favorite_cart_flow']" size="small" :min="0" :step="1" class="width-50"></input-number>&nbsp;个
+          <span class="cl999">（每个任务消耗2条收藏加购流量）</span>
+        </p>
+        <p class="mt-20 ml-70">
+          <span class="cl000">补添&nbsp;加购：</span>
+          <input-number v-model="addFlowCount['favorite_flow']" size="small" :min="0" :step="1" class="width-50"></input-number>&nbsp;个
+          <span class="cl999">（每个任务消耗1条收藏加购流量）</span>
+        </p>
+        <p class="mt-20 ml-70">
+          <span class="cl000">补添&nbsp;收藏：</span>
+          <input-number v-model="addFlowCount['cart_flow']" size="small" :min="0" :step="1" class="width-50"></input-number>&nbsp;个
+          <span class="cl999">（每个任务消耗1条收藏加购流量）</span>
+        </p>
+        <p class="mt-20 ml-70">
+          <span class="cl000">补添&nbsp;访客：</span>
+          <input-number v-model="addFlowCount['visitor_flow']" size="small" :min="0" :step="1" class="width-50"></input-number>&nbsp;个
+          <span class="cl999">（每个任务消耗1条访客流量）</span>
+        </p>
+      </div>
+      <div class="border-top mt-20">
+        <p class="mt-20 cl000">预计共需要收藏加购流量：<span class="main-color">{{favoriteCartFlowCount}}</span>&nbsp;条，访客流量：<span class="main-color">{{addFlowCount['visitor_flow']}}</span>&nbsp;条</p>
+        <p class="mt-10 cl999">1、确认后平台将自动为您发出对应的流量任务，请确保您的流量剩余数充足，否则任务发布会失败！</p>
+        <p class="mt-6 cl999">2、任务成功发出后，最多1小时内开始处理。请合理控制转化时间。</p>
+      </div>
+      <i-button slot="footer" type="error" :loading="loading" size="large" long @clcik="taskFlowSupplement">确定</i-button>
+    </modal>
+    <!--停止流量任务确认弹框-->
+    <modal v-model="stopFlowModal" :mask-closable="false" width="380">
+      <div slot="header" class="text-ct">
+        <icon class="vtc-btm" color="#f9284f" type="md-alert"/>
+        <span class="main-color">停止流量任务</span>
+      </div>
+      <div class="cl000 f-b">停止流量任务会删除所有待处理任务（包括收藏 + 加购、加购、收藏、访客任务），是否确认停止？</div>
+      <i-button slot="footer" type="error" size="large" :loading="loading" long @clcik="taskFlowStop">确定</i-button>
+    </modal>
+    <!--流量不足提醒弹框-->
+    <modal v-model="flowNotEnoughModal" :mask-closable="false" width="380">
+      <div slot="header" class="text-ct">
+        <icon class="vtc-btm" color="#f9284f" type="md-alert"/>
+        <span class="main-color">流量不足</span>
+      </div>
+      <div class="cl000" v-if="!isFavoriteCartFlowEnough">您的可支配收藏加购流量不足，预计需要：{{favoriteCartFlowCount}}条，当前可支配：{{usefulFavoriteCartFlow}}条</div>
+      <div class="mt-6 cl000" v-if="!isVisitorFlowEnough">您的可支配访客流量不足，预计需要：{{addFlowCount['visitor_flow']}}条，当前可支配：{{usefulVisitorFlow}}条</div>
+      <div class="mt-6 cl000">请先补足流量再发布！</div>
+      <i-button slot="footer" type="error" size="large" :loading="loading" long @clcik="orderImmediately">马上订购</i-button>
+    </modal>
   </div>
 </template>
 
 <script>
   import api from '@/config/apiConfig'
-  import {DatePicker, Page, Icon, Button} from 'iview'
+  import {DatePicker, Page, Icon, Button, Modal, InputNumber} from 'iview'
   import CollapseTransition from 'iview/src/components/base/collapse-transition'
   import {getSeverTime} from '@/config/utils'
 
@@ -144,6 +201,8 @@
       Page: Page,
       Icon: Icon,
       iButton: Button,
+      Modal: Modal,
+      InputNumber: InputNumber,
       CollapseTransition: CollapseTransition
     },
     data() {
@@ -188,20 +247,92 @@
           pageSize: 5,
           totalPages: 1,
         },
-        flowList: null,
+        flowList: [],
+        flowDetail: [],
+        addFlowModal: false,
+        stopFlowModal: false,
+        flowNotEnoughModal: false,
+        addFlowInfo: {},
+        stopFlowInfo: {},
+        loading: false,
+        addFlowCount: {
+          'favorite_cart_flow': 0,
+          'favorite_flow': 0,
+          'cart_flow': 0,
+          'visitor_flow': 0,
+        },
+        selectId: null,
       }
     },
-    computed: {},
+    computed: {
+      /**
+       * 获取商家流量数量信息
+       * @return {object}
+       */
+      getFlowNumInfo() {
+        return this.$store.state.flowNumberInfo
+      },
+
+      /**
+       * 计算商家可支配收藏加购流量数量
+       * @return {number}
+       */
+      usefulFavoriteCartFlow() {
+        return (this.getFlowNumInfo.favoriteCartFlowLeft - this.getFlowNumInfo.favoriteCartFlowFrozen) > 0 ? this.getFlowNumInfo.favoriteCartFlowLeft - this.getFlowNumInfo.favoriteCartFlowFrozen : 0 ;
+      },
+
+      /**
+       * 计算商家可支配访客流量数量
+       * @return {number}
+       */
+      usefulVisitorFlow() {
+        return (this.getFlowNumInfo.visitorFlowLeft - this.getFlowNumInfo.visitorFlowFrozen) > 0 ? this.getFlowNumInfo.visitorFlowLeft - this.getFlowNumInfo.visitorFlowFrozen : 0 ;
+      },
+
+      /**
+       * 计算补添收藏加购流量数量（除访客）
+       * @return {object}
+       */
+      favoriteCartFlowCount() {
+        return this.addFlowCount['favorite_cart_flow'] * 2 + this.addFlowCount['favorite_flow'] + this.addFlowCount['cart_flow']
+      },
+
+      /**
+       * 计算商家可支配收藏加购流量是否足够支付补添的收藏加购流量
+       * @return {boolean}
+       */
+      isFavoriteCartFlowEnough() {
+        return this.usefulFavoriteCartFlow > this.favoriteCartFlowCount
+      },
+
+      /**
+       * 计算商家可支配收藏加购流量是否足够支付补添的收藏加购流量
+       * @return {boolean}
+       */
+      isVisitorFlowEnough() {
+        return this.usefulVisitorFlow > this.addFlowCount['visitor_flow']
+      },
+    },
     created() {
       this.getFlowList()
     },
     methods: {
+      popularFlowType(type) {
+        if (type === 'match_diy') {
+          return '自定义匹配'
+        } else if (type === 'match_by_apply') {
+          return '按申请数量匹配'
+        } else {
+          return '------'
+        }
+      },
       dataPickerChange(date) {
         this.datePickTime.tradTimeStart = date[0];
         this.datePickTime.tradTimeEnd = date[1];
       },
-      changePages() {
-
+      pageChange(pageIndex) {
+        this.page.pageIndex = pageIndex;
+        this.getFlowList()
       },
       getFlowList() {
         const _this = this;
@@ -215,7 +346,85 @@
             _this.$Message.error(res.msg)
           }
         })
-      }
+      },
+      openDetail(id) {
+        if (this.selectId === id) {
+          this.selectId = null;
+        } else {
+          this.selectId = id;
+          this.getTaskFlowDetail(id);
+        }
+      },
+      getTaskFlowDetail(id) {
+        const _this = this;
+        api.getTaskFlowDetail({
+          taskId: id
+        }).then(res => {
+          if (res.status) {
+            _this.flowDetail = res.content;
+          } else {
+            _this.$Message.error(res.msg)
+          }
+        })
+      },
+      openAddFlowModal(taskId, taskNumber, taskName, taskMainImage, keyword, index) {
+        this.addFlowInfo = Object.assign({}, {
+          taskId: taskId,
+          taskNumber: taskNumber,
+          taskName: taskName,
+          taskMainImage: taskMainImage,
+          keyword: keyword,
+          index: index,
+        });
+        this.addFlowModal = true;
+      },
+      taskFlowSupplement() {
+        const _this = this;
+        if (!_this.isFavoriteCartFlowEnough || !_this.isVisitorFlowEnough) {
+          _this.flowNotEnoughModal = true;
+        } else {
+          _this.loading = true;
+          api.taskFlowSupplement({
+            taskId: _this.addFlowInfo.taskId,
+            schemeIndex: _this.addFlowInfo.index,
+            countMapString: JSON.stringify(_this.addFlowCount),
+          }).then(res => {
+            if (res.status) {
+              _this.$Message.success('流量任务补添成功！')
+            } else {
+              _this.$Message.error(res.msg)
+            }
+            _this.loading = false;
+            _this.addFlowModal = false;
+          })
+        }
+      },
+      openStopFlowModal(taskId, schemeIndex) {
+        this.stopFlowInfo = Object.assign({}, {
+          taskId: taskId,
+          schemeIndex: schemeIndex
+        });
+        this.stopFlowModal = true;
+      },
+      taskFlowStop() {
+        const _this = this;
+        _this.loading = true;
+        api.taskFlowStop({
+          taskId: _this.stopFlowInfo.taskId,
+          schemeIndex: _this.stopFlowInfo.schemeIndex
+        }).then(res => {
+          if (res.status) {
+            _this.$Message.success('流量任务停止成功！')
+          } else {
+            _this.$Message.error(res.msg)
+          }
+          _this.loading = false;
+          _this.stopFlowModal = false;
+        })
+      },
+      orderImmediately() {
+        this.loading = true;
+      },
     }
   }
 </script>
@@ -287,6 +496,7 @@
 
   .detail-table {
     width: 100%;
+    background-color: #f9f9f9;
     > thead > tr > th {
       padding: 8px 0;
       border-right: 1px solid #e9eaec;
@@ -298,9 +508,24 @@
     > tbody > tr > td {
       padding: 15px 0;
       border-right: 1px solid #e9eaec;
+      border-top: 1px solid #e9eaec;
       text-align: center;
       &:last-child {
         border-right: 0;
+      }
+      &.operate-area {
+        span {
+          display: inline-block;
+          background-color: #fff;
+          width: 36px;
+          height: 18px;
+          line-height: 18px;
+          border-radius: 5px;
+          text-align: center;
+          color: #EA7430;
+          border: 1px solid #EA7430;
+          cursor: pointer;
+        }
       }
     }
   }

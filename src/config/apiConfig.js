@@ -1281,6 +1281,27 @@ export default {
    */
   getTaskFlowList(params) {
     return axiosConfig.get('/api/get-task-flow-list.json', params)
-  }
+  },
+
+  /**
+   * 获取任务流量列表
+   */
+  getTaskFlowDetail(params) {
+    return axiosConfig.get('/api/get-task-flow-detail.json', params)
+  },
+
+  /**
+   * 任务流量补添
+   */
+  taskFlowSupplement(params) {
+    return axiosConfig.post('/api/task-flow-supplement.json', params)
+  },
+
+  /**
+   * 任务流量停止
+   */
+  taskFlowStop(params) {
+    return axiosConfig.post('/api/task-flow-stop.json', params)
+  },
 
 }

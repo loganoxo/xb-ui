@@ -1045,7 +1045,7 @@
             </div>
             <template v-if="favoriteCartFlowInfo.favoriteCartFlowStatus">
               <div class="collection-purchased-tip mt-20">
-                <icon type="md-alert" size="14" class="vtc-text-btm"/>当前您的账户剩余收藏加购流量：<span class="main-color">{{getFlowNumInfo.favoriteCartFlowLeft}}</span>条，若数量不足，系统将立即停止发布相关任务。
+                <icon type="md-alert" size="14" class="vtc-text-btm"/>当前您的账户剩余收藏加购流量：<span class="main-color">{{getFlowNumInfo.favoriteCartFlowLeft}}</span>&nbsp;条，若数量不足，系统将立即停止发布相关任务。
                 <span class="flow-order" @click="showFlowOrderModel = true">流量订购</span> <span v-if="isMember && !getFreeFlow" class="free-get-flow" @click="showGetFreeFlow = true">VIP免费领取100条流量</span>
               </div>
               <radio-group :vertical="true" v-model="favoriteCartFlowInfo.popularFlow" class="ml-110 mt-20">
@@ -1057,11 +1057,11 @@
                   <template v-for="key in Object.keys(favoriteCartFlowInfo.matchByApplyInfo)">
                     <div class="mt-15">
                       <checkbox v-model="favoriteCartFlowInfo.require[key + '_require']">需要</checkbox>
-                      <input-number v-model="favoriteCartFlowInfo.matchByApplyInfo[key].applyCount" :disabled="favoriteCartFlowInfo.matchByApplyInfo[key].disabled" size="small" :min="1" :step="1" class="width-50"></input-number>
+                      <input-number v-model="favoriteCartFlowInfo.matchByApplyInfo[key].applyCount" :disabled="!favoriteCartFlowInfo.require[key + '_require']" size="small" :min="1" :step="1" class="width-50"></input-number>
                       <span>个申请：</span>
-                      <input-number v-model="favoriteCartFlowInfo.matchByApplyInfo[key].flowCount" :disabled="favoriteCartFlowInfo.matchByApplyInfo[key].disabled" size="small" :min="1" :step="1" class="width-50"></input-number>
+                      <input-number v-model="favoriteCartFlowInfo.matchByApplyInfo[key].flowCount" :disabled="!favoriteCartFlowInfo.require[key + '_require']" size="small" :min="1" :step="1" class="width-50"></input-number>
                       <span>个{{favoriteCartFlowInfo.map[key]}}</span>
-                      <span class="sizeColor2" v-html="favoriteCartFlowInfo.matchByApplyInfo[key].tipText"></span>
+                      <span class="sizeColor2">（<span class="main-color">{{favoriteCartFlowInfo.matchByApplyInfo[key].applyCount}}</span>个申请匹配<span class="main-color">{{favoriteCartFlowInfo.matchByApplyInfo[key].flowCount}}</span>个{{favoriteCartFlowInfo.matchByApplyInfo[key].tipText}})</span>
                     </div>
                   </template>
                 </div>
@@ -1263,10 +1263,10 @@
     </modal>
     <!--商家改低宝贝数量并且关键词方案大于当前宝贝数量弹框-->
     <modal v-model="keywordLowerChangeModel" :mask-closable="false" :closable="false" width="368">
-      <p slot="header" class="text-ct">
+      <div slot="header" class="text-ct">
         <icon color="#f9284f" type="md-alert"/>
         <span class="main-color">关键词方案修改确认</span>
-      </p>
+      </div>
       <div class="ml-10 text-ct">
         <p class="fs-14">您当前的宝贝数量发生变更，请重新设定关键词方案</p>
       </div>
@@ -1731,25 +1731,25 @@
           },
           matchByApplyInfo: {
             'favorite_cart_flow': {
-              tipText: `（<span class="main-color">1</span>个申请匹配<span class="main-color">1</span>个加入购物车+加入收藏夹流量，系统建议1:1匹配，每个任务消耗2条收藏加购流量）`,
+              tipText: '加入购物车+加入收藏夹流量，系统建议1:1匹配，每个任务消耗2条收藏加购流量',
               disabled: false,
               applyCount: 1,
               flowCount: 1,
             },
             'favorite_flow': {
-              tipText: `（<span class="main-color">3</span>个申请匹配<span class="main-color">1</span>个加入购物车数，系统建议3:1匹配，每个任务消耗1条收藏加购流量）`,
+              tipText: '加入购物车数，系统建议3:1匹配，每个任务消耗1条收藏加购流量',
               disabled: true,
               applyCount: 3,
               flowCount: 1,
             },
             'cart_flow': {
-              tipText: `（<span class="main-color">5</span>个申请匹配<span class="main-color">1</span>个加入收藏夹数，系统建议5:1匹配，每个任务消耗1条收藏加购流量）`,
+              tipText: '加入收藏夹数，系统建议5:1匹配，每个任务消耗1条收藏加购流量',
               disabled: true,
               applyCount: 5,
               flowCount: 1,
             },
             'visitor_flow': {
-              tipText: `（<span class="main-color">1</span>个申请匹配<span class="main-color">1</span>个访客数，系统建议1:1匹配，每个任务消耗1条访客流量）`,
+              tipText: '访客数，系统建议1:1匹配，每个任务消耗1条访客流量',
               disabled: true,
               applyCount: 1,
               flowCount: 1,

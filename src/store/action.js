@@ -111,7 +111,6 @@ export default {
     return new Promise((resolve,reject) => {
       api.getFlowNumber().then(res => {
         if (res.status) {
-          console.log('ok');
           commit({
             type: 'FLOW_NUMBER_INFO',
             info: res.data
@@ -124,6 +123,5 @@ export default {
         reject(err);
       })
     })
-
   }
 }
