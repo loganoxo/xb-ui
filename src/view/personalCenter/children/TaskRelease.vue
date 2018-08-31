@@ -1101,7 +1101,7 @@
                               <div class="border-top pt-10 pb-10" >
                                 <div class="inline-block width-pct-20 text-ct">
                                   <i-select v-model="item.dateIndex" class="width-100" @on-change="setFlowTimeCheck(i-1, k, index)">
-                                    <i-option v-for="t in (taskRelease.taskDaysDuration > 0 ? taskRelease.taskDaysDuration + 1 : 1)" :key="t" :value="t" :label="`第${t}天`"/>
+                                    <i-option v-for="t in (taskRelease.taskDaysDuration > 0 ? taskRelease.taskDaysDuration + 1 : 1)" :key="t" :value="t - 1" :label="`第${t}天`"/>
                                   </i-select>
                                 </div>
                                 <div class="inline-block width-pct-39 text-ct">
@@ -1714,7 +1714,7 @@
             status: false,
             msg: ''
           },
-          favoriteCartFlowStatus: true,
+          favoriteCartFlowStatus: false,
           popularFlow: '',
           period: Array.from({length: 25},(v, k) => {return `${k}`}),
           require: {
@@ -1761,7 +1761,7 @@
             0: {
               'favorite_cart_flow': [
                 {
-                  dateIndex: 1,
+                  dateIndex: 0,
                   hourStart: '0',
                   hourEnd: '24',
                   count: null
@@ -1769,7 +1769,7 @@
               ],
               'favorite_flow': [
                 {
-                  dateIndex: 1,
+                  dateIndex: 0,
                   hourStart: '0',
                   hourEnd: '24',
                   count: null
@@ -1777,7 +1777,7 @@
               ],
               'cart_flow': [
                 {
-                  dateIndex: 1,
+                  dateIndex: 0,
                   hourStart: '0',
                   hourEnd: '24',
                   count: null
@@ -1785,7 +1785,7 @@
               ],
               'visitor_flow': [
                 {
-                  dateIndex: 1,
+                  dateIndex: 0,
                   hourStart: '0',
                   hourEnd: '24',
                   count: null
@@ -2241,6 +2241,10 @@
         return price + this.creditLevelRequireOncePrice + this.weekOrderRequireOncePrice
       },
 
+      /**
+       * 计算自定义收藏加购和访客需要数量
+       * @return {number}
+       */
       favoriteCartFlowCount() {
         const matchDiyInfo = this.favoriteCartFlowInfo.matchDiyInfo;
         let favoriteCartCount = 0;
@@ -3335,7 +3339,7 @@
                 })
               }
             }
-
+            _this.favoriteCartFlowInfo.favoriteCartFlowStatus = res.data.popularFlow !== 'none';
             // 按申请数量匹配流量数（复制、编辑活动）
             if (res.data.popularFlow === 'match_by_apply') {
               _this.favoriteCartFlowInfo.popularFlow = 'match_by_apply';
@@ -3360,7 +3364,7 @@
               res.data.other.popularFlowConfig.forEach(item => {
                 // 当存在多个关键词的时候动态生成对象初始化key
                 if (item.schemeIndex > 0) {
-                  const keys = Object.keys(_this.favoriteCartFlowInfo.matchDiyInfo);
+                  const keys = Object.keys(_this.favoriteCartFlowInfo.matchDiyInfo);get
                   if (!keys.includes(item.schemeIndex.toString())) {
                     _this.favoriteCartFlowInfo.matchDiyInfo[item.schemeIndex] = {};
                   }
@@ -3904,7 +3908,7 @@
             'favorite_cart_flow': [
               {
                 flowType: 'favorite_cart_flow',
-                dateIndex: 1,
+                dateIndex: 0,
                 hourStart: '0',
                 hourEnd: '24',
                 count: null
@@ -3913,7 +3917,7 @@
             'favorite_flow': [
               {
                 flowType: 'favorite_flow',
-                dateIndex: 1,
+                dateIndex: 0,
                 hourStart: '0',
                 hourEnd: '24',
                 count: null
@@ -3922,7 +3926,7 @@
             'cart_flow': [
               {
                 flowType: 'cart_flow',
-                dateIndex: 1,
+                dateIndex: 0,
                 hourStart: '0',
                 hourEnd: '24',
                 count: null
@@ -3931,7 +3935,7 @@
             'visitor_flow': [
               {
                 flowType: 'visitor_flow',
-                dateIndex: 1,
+                dateIndex: 0,
                 hourStart: '0',
                 hourEnd: '24',
                 count: null
@@ -3945,7 +3949,7 @@
         const len = this.favoriteCartFlowInfo.matchDiyInfo[i][key].length;
         this.favoriteCartFlowInfo.matchDiyInfo[i][key].push({
           flowType: key,
-          dateIndex: len + 1,
+          dateIndex: len,
           hourStart: '0',
           hourEnd: '24',
           count: null

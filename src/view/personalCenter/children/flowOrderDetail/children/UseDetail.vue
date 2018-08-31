@@ -18,12 +18,18 @@
           <th style="width:8%">活动状态</th>
           <th style="width:13%">任务类型/关键词数</th>
           <th style="width:10%">匹配方式</th>
-          <th style="width:20%">共使用
-            <icon class="vtc-text-btm" type="md-help-circle"/>
+          <th class="pos-rel" style="width:20%">共使用
+            <tooltip placement="top" content="共使用：指已经完成的任务，为处理成功+处理失败的任务。">
+              <icon size="14" class="vtc-text-btm" type="md-help-circle"/>
+            </tooltip>
             （成功/失败
-            <icon type="md-help-circle"/>
+            <tooltip placement="top-end" content="失败：指已经完成的任务，但未在搜索范围前300条找到宝贝（区域、用户标签影响），该情况仍然计算流量任务；若未找到宝贝过多，可停止计划止损。">
+              <icon size="14" class="vtc-text-btm" type="md-help-circle"/>
+            </tooltip>
             /待处理
-            <icon class="vtc-text-btm" type="md-help-circle"/>
+            <tooltip placement="top" content="待处理：指平台已成功发出的任务-已经处理完成的任务。">
+              <icon size="14" class="vtc-text-btm" type="md-help-circle"/>
+            </tooltip>
             ）
           </th>
           <th style="width:10%">操作</th>
@@ -40,8 +46,7 @@
           </tr>
           <tr>
             <td class="task-title clear">
-              <img class="left ml-10 border-radius-5" :src="item.taskMainImage | imageSrc('!thum54')"
-                   :alt="item.taskName">
+              <img class="left ml-10 border-radius-5" :src="item.taskMainImage | imageSrc('!thum54')" :alt="item.taskName">
               <router-link to="/" class="left" :title="item.taskName">{{item.taskName}}</router-link>
             </td>
             <td>
@@ -58,12 +63,8 @@
             </td>
             <td class="cl000">{{popularFlowType(item.popularFlow)}}</td>
             <td class="cl000">
-              <p>收藏加购流量：{{item.flowCountOfFavoriteCartFlow.useCount}}条（{{item.flowCountOfFavoriteCartFlow.successCount}}
-                / {{item.flowCountOfFavoriteCartFlow.failCount}} /
-                {{item.flowCountOfFavoriteCartFlow.pendingCount}}）</p>
-              <p class="mt-6">
-                访客流量：{{item.flowCountOfVisitorFlow.useCount}}条（{{item.flowCountOfVisitorFlow.successCount}} /
-                {{item.flowCountOfVisitorFlow.failCount}} / {{item.flowCountOfVisitorFlow.pendingCount}}）</p>
+              <p>收藏加购流量：{{item.flowCountOfFavoriteCartFlow.useCount}}条（{{item.flowCountOfFavoriteCartFlow.successCount}} / {{item.flowCountOfFavoriteCartFlow.failCount}} / {{item.flowCountOfFavoriteCartFlow.pendingCount}}）</p>
+              <p class="mt-6">访客流量：{{item.flowCountOfVisitorFlow.useCount}}条（{{item.flowCountOfVisitorFlow.successCount}} / {{item.flowCountOfVisitorFlow.failCount}} / {{item.flowCountOfVisitorFlow.pendingCount}}）</p>
             </td>
             <td>
               <p class="cursor-p blue">查看活动详情</p>
@@ -96,14 +97,10 @@
                         <td>{{childItem.favoriteCartFlowTotalCount}}条</td>
                         <td>{{childItem.cartFlowTotalCount}}条</td>
                         <td>{{childItem.favoriteFlowTotalCount}}条</td>
-                        <td>共{{childItem.favoriteCartFlowSuccessCount +
-                          childItem.favoriteCartFlowFailCount}}条（{{childItem.favoriteCartFlowSuccessCount}} /
-                          {{childItem.favoriteCartFlowFailCount}} / {{childItem.favoriteCartFlowPendingCount}}）
+                        <td>共{{childItem.favoriteCartFlowSuccessCount + childItem.favoriteCartFlowFailCount}}条（{{childItem.favoriteCartFlowSuccessCount}} / {{childItem.favoriteCartFlowFailCount}} / {{childItem.favoriteCartFlowPendingCount}}）
                         </td>
                         <td>{{childItem.visitorFlowTotalCount}}条</td>
-                        <td>共{{childItem.visitorFlowSuccessCount +
-                          childItem.visitorFlowFailCount}}条（{{childItem.visitorFlowSuccessCount}} /
-                          {{childItem.visitorFlowFailCount}} / {{childItem.visitorFlowPendingCount}}）
+                        <td>共{{childItem.visitorFlowSuccessCount + childItem.visitorFlowFailCount}}条（{{childItem.visitorFlowSuccessCount}} / {{childItem.visitorFlowFailCount}} / {{childItem.visitorFlowPendingCount}}）
                         </td>
                         <td class="operate-area">
                           <span @click="openAddFlowModal(item.id, item.number, item.taskName, item.taskMainImage, item.keywrodList[childIndex], childIndex)">补添</span>
@@ -186,13 +183,13 @@
       <i-button slot="footer" type="error" size="large" :loading="loading" long @click="orderImmediately">马上订购</i-button>
     </modal>
     <!--流量订购弹窗-->
-    <flow-order-model v-model="showOrderModel" />
+    <flow-order-model v-model="showOrderModel"/>
   </div>
 </template>
 
 <script>
   import api from '@/config/apiConfig'
-  import {DatePicker, Page, Icon, Button, Modal, InputNumber} from 'iview'
+  import {DatePicker, Page, Icon, Button, Modal, InputNumber, Tooltip} from 'iview'
   import CollapseTransition from 'iview/src/components/base/collapse-transition'
   import {getSeverTime} from '@/config/utils'
   import FlowOrderModel from '@/components/FlowOrderModel'
@@ -206,6 +203,7 @@
       iButton: Button,
       Modal: Modal,
       InputNumber: InputNumber,
+      Tooltip: Tooltip,
       CollapseTransition: CollapseTransition,
       FlowOrderModel: FlowOrderModel
     },
@@ -428,7 +426,6 @@
         })
       },
       orderImmediately() {
-        // this.loading = true;
         this.flowNotEnoughModal = false;
         this.showOrderModel = true;
       },
