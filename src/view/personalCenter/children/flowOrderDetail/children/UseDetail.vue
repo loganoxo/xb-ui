@@ -163,7 +163,7 @@
         <p class="mt-10 cl999">1、确认后平台将自动为您发出对应的流量任务，请确保您的流量剩余数充足，否则任务发布会失败！</p>
         <p class="mt-6 cl999">2、任务成功发出后，最多1小时内开始处理。请合理控制转化时间。</p>
       </div>
-      <i-button slot="footer" type="error" :loading="loading" size="large" long @clcik="taskFlowSupplement">确定</i-button>
+      <i-button slot="footer" type="error" :loading="loading" size="large" long @click="taskFlowSupplement">确定</i-button>
     </modal>
     <!--停止流量任务确认弹框-->
     <modal v-model="stopFlowModal" :mask-closable="false" width="380">
@@ -172,7 +172,7 @@
         <span class="main-color">停止流量任务</span>
       </div>
       <div class="cl000 f-b">停止流量任务会删除所有待处理任务（包括收藏 + 加购、加购、收藏、访客任务），是否确认停止？</div>
-      <i-button slot="footer" type="error" size="large" :loading="loading" long @clcik="taskFlowStop">确定</i-button>
+      <i-button slot="footer" type="error" size="large" :loading="loading" long @click="taskFlowStop">确定</i-button>
     </modal>
     <!--流量不足提醒弹框-->
     <modal v-model="flowNotEnoughModal" :mask-closable="false" width="380">
@@ -183,8 +183,10 @@
       <div class="cl000" v-if="!isFavoriteCartFlowEnough">您的可支配收藏加购流量不足，预计需要：{{favoriteCartFlowCount}}条，当前可支配：{{usefulFavoriteCartFlow}}条</div>
       <div class="mt-6 cl000" v-if="!isVisitorFlowEnough">您的可支配访客流量不足，预计需要：{{addFlowCount['visitor_flow']}}条，当前可支配：{{usefulVisitorFlow}}条</div>
       <div class="mt-6 cl000">请先补足流量再发布！</div>
-      <i-button slot="footer" type="error" size="large" :loading="loading" long @clcik="orderImmediately">马上订购</i-button>
+      <i-button slot="footer" type="error" size="large" :loading="loading" long @click="orderImmediately">马上订购</i-button>
     </modal>
+    <!--流量订购弹窗-->
+    <flow-order-model v-model="showOrderModel" />
   </div>
 </template>
 
@@ -193,6 +195,7 @@
   import {DatePicker, Page, Icon, Button, Modal, InputNumber} from 'iview'
   import CollapseTransition from 'iview/src/components/base/collapse-transition'
   import {getSeverTime} from '@/config/utils'
+  import FlowOrderModel from '@/components/FlowOrderModel'
 
   export default {
     name: "use-detail",
@@ -203,7 +206,8 @@
       iButton: Button,
       Modal: Modal,
       InputNumber: InputNumber,
-      CollapseTransition: CollapseTransition
+      CollapseTransition: CollapseTransition,
+      FlowOrderModel: FlowOrderModel
     },
     data() {
       return {
@@ -262,6 +266,7 @@
           'visitor_flow': 0,
         },
         selectId: null,
+        showOrderModel: false
       }
     },
     computed: {
@@ -423,7 +428,9 @@
         })
       },
       orderImmediately() {
-        this.loading = true;
+        // this.loading = true;
+        this.flowNotEnoughModal = false;
+        this.showOrderModel = true;
       },
     }
   }

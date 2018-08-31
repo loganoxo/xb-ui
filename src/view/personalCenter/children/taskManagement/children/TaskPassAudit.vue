@@ -141,8 +141,10 @@
                     <tooltip :content="item.trialEndReason === 'admin_manual_close' ? getTaskStatus(item.trialEndReason) +'：'+ item.auditDescription : getTaskStatus(item.trialEndReason)"
                              placement="top" class="cursor-p">
                       <icon color="#f9284f" type="md-alert"/>
-                      <span class="main-color">{{getTaskStatus(item.status)}}</span>
+                      <span class="main-color">{{item.trialEndReason === 'admin_manual_close' ? getTaskStatus(item.trialEndReason) +'：'+ item.auditDescription : getTaskStatus(item.trialEndReason)}}</span><br/>
+                      <span>{{getTaskStatus(item.trialEndReason)}}</span>
                     </tooltip>
+
                   </p>
                 </td>
                 <td>{{item.orderNum || '------'}}</td>

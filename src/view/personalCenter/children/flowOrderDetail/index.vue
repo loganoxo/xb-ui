@@ -1,7 +1,7 @@
 <template>
   <div class="flow-order-detail">
     <p class="title">收藏加购及访客流量</p>
-    <div class="flow-info pt-20 pb-20 fs-14 pl-5">
+    <div class="flow-info pt-20 pb-20 fs-12 pl-5">
       <icon type="md-alert" color="#000" class="mr-5"/>
       <span class="">当前您的账户剩余收藏加购流量： <span class="main-color">{{flowNumInfo.favoriteCartFlowLeft}}</span> 条（可支配 <span class="main-color">{{usefulFavoriteCartFlow}}</span> 条），访客流量 <span class="main-color">{{flowNumInfo.visitorFlowLeft}}</span> 条（可支配 <span class="main-color">{{usefulVisitorFlow}}</span> 条），若数量不足则无法发布相关任务。</span>
       <span class="flow-order" @click="showOrder">流量订购</span>
@@ -34,7 +34,7 @@
   import OrderDetail from './children/OrderDetail'
   import UseDetail from './children/UseDetail'
   import {Icon, Modal, Button} from 'iview'
-  import FlowOrderModel from '@/components/FlowOrderModel.vue'
+  import FlowOrderModel from '@/components/FlowOrderModel'
   export default {
     name: "flow-order-detail",
     components: {

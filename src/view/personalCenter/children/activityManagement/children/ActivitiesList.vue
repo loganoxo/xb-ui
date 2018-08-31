@@ -108,9 +108,10 @@
                 <span v-if="item.taskStatus === 'under_way' && !item.online">已下线</span>
                 <span v-else>{{item.taskStatusDesc}}</span><br/>{{item.settlementStatusDesc}}
               </td>
-              <td class="cursor-p main-color" v-else>
+              <td class="cursor-p" v-else>
                 <tooltip :content="item.other.auditLogs[item.other.auditLogs.length - 1].resultMsg" placement="top">
-                  <icon color="#f9284f" type="md-alert"/>&nbsp;待修改
+                  <icon color="#f9284f" type="md-alert"/>&nbsp;<span class="main-color">待修改</span><br/>
+                  <span>查看原因</span>
                 </tooltip>
               </td>
               <td>{{item.showkerApplyTotalCount || 0}} / {{item.showkerApplyPassedCount || 0}}（人）</td>
