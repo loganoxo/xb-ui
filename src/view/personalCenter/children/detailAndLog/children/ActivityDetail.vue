@@ -1677,7 +1677,9 @@
             _this.redEnvelopeDeductionPaid = res.data.redEnvelopeDeductionPaid;
             _this.fastPublish = res.data.fastPublish;
             Object.keys(_this.taskRelease).forEach(key => {
-              _this.taskRelease[key] = res.data[key]
+              if (res.data.hasOwnProperty(key)) {
+                _this.taskRelease[key] = res.data[key]
+              }
             });
             _this.taskRelease.itemType = res.data.itemCatalog.id;
             _this.taskRelease.pinkage =  _this.taskRelease.pinkage.toString();
