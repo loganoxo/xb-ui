@@ -15,7 +15,6 @@
         <img src="~assets/img/common/tmall-logo.png" v-if="storeInfo.storeType === 'tmall'">
         <p class="store-name mt-15 f-b fs-16">{{storeInfo.storeName}}</p>
         <p class="store-ww mt-10">店铺旺旺：<span>{{storeInfo.storeAlitm}}</span></p>
-        <!--<p class="concat-qq mt-10">联系QQ：{{storeInfo.qqNumber ? storeInfo.qqNumber : personalQQ}} <span class="ml-5 cursor-p blue" @click="modifyQQ(storeInfo.id)">修改</span></p>-->
         <div class="mt-15 clear concat-box">
           <div class="icon-box" v-if="personalQQ || storeInfo.qqNumber">
             <tooltip :content="`QQ：${storeInfo.qqNumber ? storeInfo.qqNumber : personalQQ}`" placement="top">
@@ -33,7 +32,6 @@
             <tooltip placement="top">
               <img src="/static/img/icon/icon-wx-on.png" alt="">
               <div slot="content" class="text-ct">
-                <!--<img src="/static/img/icon/icon-wx-on.png" alt="">-->
                 <p>微信：{{storeInfo.weChatNum}}</p>
               </div>
             </tooltip>
@@ -43,7 +41,6 @@
             <tooltip placement="top">
               <img src="/static/img/icon/icon-wx-off.png" alt="">
               <div slot="content" class="text-ct">
-                <!--<img src="/static/img/icon/icon-wx-on.png" alt="">-->
                 <p>微信：暂未绑定</p>
               </div>
             </tooltip>
@@ -59,7 +56,7 @@
             <tooltip content="`手机：暂未绑定" placement="top">
               <img src="/static/img/icon/icon-phone-off.png" alt="">
             </tooltip>
-            <p>待不填</p>
+            <p>待补填</p>
           </div>
           <div class="icon-box" v-if="(storeInfo.phone || personalPhone) && !storeInfo.showPhone">
             <tooltip :content="`手机：${storeInfo.phone ? storeInfo.phone : personalPhone}`" placement="top">
@@ -79,17 +76,6 @@
         <p class="upgrade-vip mt-10" v-if="showUpgradeText">升级VIP绑定更多店铺</p>
       </li>
     </ul>
-    <!--修改店铺QQ号的弹窗-->
-    <modal v-model="showModifyStoreQQ" width="450" class="modify-qq-modal">
-      <p slot="header" class="f-b fs-16">QQ号设定</p>
-      <div class="pt-10 pb-10">
-        <p class="pb-10 fs-16">为当前店铺设置联系QQ：</p>
-        <i-input v-model="storeQQ" placeholder="请输入你的QQ号"></i-input>
-      </div>
-      <p slot="footer">
-        <i-button :loading="modifyQQLoading" long type="error" @click="editStoreQQ">确定</i-button>
-      </p>
-    </modal>
     <!--设置店铺联系方式弹窗-->
     <modal v-model="showSettingModal" title="店铺联系方式设置" class="setting-modal" @on-visible-change="change">
       <div class="store-info clear">
@@ -103,16 +89,16 @@
         </div>
       </div>
       <div class="tip-info">
-        <icon type="md-information-circle" color="#EC4C2F" size="16"/>
+        <icon type="md-information-circle" color="#EC4C2F" size="16" class="vtc-text-btm"/>
         为了活动中与拿手及时沟通，请保持联系方式正确有效
       </div>
       <i-form ref="form" :model="contactInfo" :rules="contactRule" class="mt-20">
         <form-item label="QQ号：" prop="mQQNumber">
-          <i-input v-model="contactInfo.mQQNumber" placeholder="请输入QQ号" style="width:200px;"></i-input>
+          <i-input v-model.trim="contactInfo.mQQNumber" placeholder="请输入QQ号" style="width:200px;"></i-input>
           <span class="ml-10">默认对拿手可见</span>
         </form-item>
         <form-item label="微信号：" prop="mWXNumber">
-          <i-input v-model="contactInfo.mWXNumber" placeholder="请输入微信号" style="width:200px;"></i-input>
+          <i-input v-model.trim="contactInfo.mWXNumber" placeholder="请输入微信号" style="width:200px;"></i-input>
           <span class="ml-10">默认对拿手可见</span>
         </form-item>
         <!--<form-item prop="mqrCode">-->
@@ -135,7 +121,7 @@
           <!--</div>-->
         <!--</form-item>-->
         <form-item label="手机号：" prop="mPhoneNumber">
-          <i-input v-model="contactInfo.mPhoneNumber" placeholder="请输入手机号" style="width:200px;"></i-input>
+          <i-input v-model.trim="contactInfo.mPhoneNumber" placeholder="请输入手机号" style="width:200px;"></i-input>
           <span class="ml-10">开启对拿手可见</span>
         </form-item>
         <form-item>
@@ -206,14 +192,9 @@
         svipStoreBindNum:0,
         showBindStoreText:true,
         showUpgradeText:false,
-        showModifyStoreQQ: false,
         storeQQ: null,
         modifyQQLoading: false,
-        modifyStoreId: null,
         modalStoreInfo: {},
-        // mQQNumber: 1625139801,
-        // mWx: 'L1625139801',
-        // mphone: 18611536208,
         showSettingModal: false,
         contactInfo:{
           mQQNumber: null,
@@ -329,7 +310,7 @@
       // 绑店铺还是买会员（需要判断）
       toBindStore() {
         const _this = this;
-        if ((_this.memberLevel ===100) && _this.storeInfoList.length >= _this.freeStoreBindNum) {
+        if ((_this.memberLevel === 100) && _this.storeInfoList.length >= _this.freeStoreBindNum) {
           _this.$router.push({path:'/user/vip-member/order'});
         } else {
           this.$router.push({name:'StoreBindOperating'});
@@ -348,40 +329,6 @@
       // 查看绑定店铺的详情（审核中，未通过）
       checkDetail(storeInfo) {
         this.$router.push({name:'StoreBindOperating',query:{protocol:true,id:storeInfo.id,status:storeInfo.applyStatus}});
-      },
-      // 点击修改，弹窗，记录storeID
-      modifyQQ(storeId) {
-        this.showModifyStoreQQ = true;
-        this.modifyStoreId = storeId;
-      },
-      // 商家修改店铺的QQ号，（可以为每个店铺绑定QQ）
-      editStoreQQ() {
-        const _this = this;
-        const qqReq = /^[1-9][0-9]{5,11}$/;
-        if (!_this.storeQQ) {
-          _this.$Message.info('请输入QQ号');
-          return
-        }
-        if (!qqReq.test(_this.storeQQ)) {
-          _this.$Message.info('请输入正确格式的QQ号');
-          return
-        }
-        _this.modifyQQLoading = true;
-        api.eidtStoreQQ({
-          storeId: _this.modifyStoreId,
-          qqNumber: _this.storeQQ
-        }).then(res => {
-          if (res.status) {
-            _this.$Message.success('修改店铺QQ号成功！');
-            _this.modifyStoreId = null;
-            _this.storeQQ = null;
-            _this.showModifyStoreQQ = false;
-            _this.getVersionInfo();
-          } else {
-            _this.$Message.error(res.msg);
-          }
-          _this.modifyQQLoading = false;
-        })
       },
       settingConcat(info) {
         this.modalStoreInfo = info;
