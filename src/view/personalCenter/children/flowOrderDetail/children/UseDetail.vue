@@ -386,6 +386,14 @@
         if (!_this.isFavoriteCartFlowEnough || !_this.isVisitorFlowEnough) {
           _this.flowNotEnoughModal = true;
         } else {
+          const keys = Object.keys(_this.addFlowCount);
+          const hasInput = keys.some(key => {
+            return _this.addFlowCount[key] > 0
+          });
+          if (!hasInput) {
+            _this.$Message.warning('亲，请输入需要补添的流量类型个数');
+            return;
+          }
           _this.loading = true;
           api.taskFlowSupplement({
             taskId: _this.addFlowInfo.taskId,
@@ -394,9 +402,9 @@
           }).then(res => {
             if (res.status) {
               _this.getTaskFlowDetail(_this.addFlowInfo.taskId);
-              _this.selectId = _this.stopFlowInfo.taskId;
+              _this.selectId = _this.addFlowInfo.taskId;
               _this.$Message.success('流量任务补添成功！');
-
+              _this.$store.dispatch('getFlowNumInfo');
             } else {
               _this.$Message.error(res.msg)
             }
