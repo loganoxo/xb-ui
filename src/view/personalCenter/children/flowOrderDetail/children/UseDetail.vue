@@ -12,7 +12,7 @@
         class="main-color">40</span>&nbsp;条。</span></p>
       <table class="table-list mt-15">
         <thead>
-        <tr>
+        <tr class="bgF1F1F1">
           <th style="width:15%">活动标题</th>
           <th style="width:16%">活动开始/结束时间</th>
           <th style="width:8%">活动状态</th>
@@ -78,15 +78,15 @@
                   <table class="detail-table">
                     <thead>
                     <tr>
-                      <th style="width:8%;">状态</th>
+                      <th style="width:6%;">状态</th>
                       <th style="width:10%;">关键词</th>
                       <th style="width:8%;">收藏+加购</th>
                       <th style="width:8%;">加入购物车</th>
                       <th style="width:8%;">宝贝收藏</th>
-                      <th style="width:20%;">收藏加购流量（成功/失败/待处理）</th>
-                      <th style="width:5%;">访客数</th>
-                      <th style="width:15%;">访客数（成功/失败/待处理）</th>
-                      <th style="width:8%;">操作</th>
+                      <th style="width:18%;">收藏加购流量（成功/失败/待处理）</th>
+                      <th style="width:7%;">访客</th>
+                      <th style="width:15%;">访客流量（成功/失败/待处理）</th>
+                      <th style="width:10%;">操作</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -94,17 +94,20 @@
                       <tr>
                         <td>{{item.taskStatusDesc}}</td>
                         <td>{{item.keywrodList.length > 0 ?item.keywrodList[childIndex] : '------'}}</td>
-                        <td>{{childItem.favoriteCartFlowTotalCount}}条</td>
-                        <td>{{childItem.cartFlowTotalCount}}条</td>
-                        <td>{{childItem.favoriteFlowTotalCount}}条</td>
-                        <td>共{{childItem.favoriteCartFlowSuccessCount + childItem.favoriteCartFlowFailCount}}条（{{childItem.favoriteCartFlowSuccessCount}} / {{childItem.favoriteCartFlowFailCount}} / {{childItem.favoriteCartFlowPendingCount}}）
+                        <td>成功：{{childItem.favoriteCartFlowTotalCount}}条</td>
+                        <td>成功：{{childItem.cartFlowTotalCount}}条</td>
+                        <td>成功：{{childItem.favoriteFlowTotalCount}}条</td>
+                        <td>共使用：{{childItem.favoriteCartFlowSuccessCount + childItem.favoriteCartFlowFailCount}}条（{{childItem.favoriteCartFlowSuccessCount}} / {{childItem.favoriteCartFlowFailCount}} / {{childItem.favoriteCartFlowPendingCount}}）
                         </td>
-                        <td>{{childItem.visitorFlowTotalCount}}条</td>
-                        <td>共{{childItem.visitorFlowSuccessCount + childItem.visitorFlowFailCount}}条（{{childItem.visitorFlowSuccessCount}} / {{childItem.visitorFlowFailCount}} / {{childItem.visitorFlowPendingCount}}）
+                        <td>成功：{{childItem.visitorFlowTotalCount}}条</td>
+                        <td>共使用：{{childItem.visitorFlowSuccessCount + childItem.visitorFlowFailCount}}条（{{childItem.visitorFlowSuccessCount}} / {{childItem.visitorFlowFailCount}} / {{childItem.visitorFlowPendingCount}}）
                         </td>
                         <td class="operate-area">
-                          <span @click="openAddFlowModal(item.id, item.number, item.taskName, item.taskMainImage, item.keywrodList[childIndex], childIndex)">补添</span>
-                          <span class="ml-5" @click="openStopFlowModal(item.id, childIndex)">停止</span>
+                          <template v-if="item.taskStatus === 'under_way'">
+                            <span @click="openAddFlowModal(item.id, item.number, item.taskName, item.taskMainImage, item.keywrodList[childIndex], childIndex)">补添</span>
+                            <span class="ml-5" @click="openStopFlowModal(item.id, childIndex)">停止</span>
+                          </template>
+                          <p v-else>------</p>
                         </td>
                       </tr>
                     </template>
@@ -379,6 +382,9 @@
           keyword: keyword,
           index: index,
         });
+        Object.keys(this.addFlowCount).forEach(key => {
+          this.addFlowCount[key] = 0;
+        });
         this.addFlowModal = true;
       },
       taskFlowSupplement() {
@@ -401,6 +407,7 @@
             countMapString: JSON.stringify(_this.addFlowCount),
           }).then(res => {
             if (res.status) {
+              _this.getFlowList(_this.addFlowInfo.taskId);
               _this.getTaskFlowDetail(_this.addFlowInfo.taskId);
               _this.selectId = _this.addFlowInfo.taskId;
               _this.$Message.success('流量任务补添成功！');

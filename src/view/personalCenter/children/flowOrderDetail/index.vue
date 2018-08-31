@@ -8,7 +8,7 @@
       <span v-if="isMember && !notGet" class="free-get-flow" @click="showFreeGetFlow = true">VIP免费领取100条流量</span>
     </div>
     <div class="tabs clear">
-      <div class="tab left" v-for="tab in tabs" :key="tab.id" :class="{active:currentTab.id === tab.id}" @click="currentTab = tab">{{tab.name}}</div>
+      <div class="tab left cursor-p" v-for="tab in tabs" :key="tab.id" :class="{active:currentTab.id === tab.id}" @click="currentTab = tab">{{tab.name}}</div>
     </div>
     <div class="mt-15">
       <component :is="currentTab.component"></component>
