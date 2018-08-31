@@ -232,6 +232,9 @@
                 <p class="copy mt-6">
                   <span @click="copyTask(item.id)">复制活动</span>
                 </p>
+                <p class="bond mt-6">
+                  <span @click="toFlowOrderDetail">补添流量</span>
+                </p>
               </td>
             </tr>
           </template>
@@ -874,6 +877,9 @@
         setTimeout(() => {
           this.getTaskList();
         }, 200)
+      },
+      toFlowOrderDetail() {
+        this.$router.push({name: 'FlowOrderDetail'});
       }
     }
   }
