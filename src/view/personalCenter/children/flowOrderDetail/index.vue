@@ -126,7 +126,7 @@
         this.showOrderModel = true;
       },
       orderSuccess() {
-        this.$children[1].addFlowModal = true
+        this.$children[1].addFlowModal = true;
       }
     }
   }

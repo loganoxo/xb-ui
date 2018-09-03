@@ -4,6 +4,7 @@
       <date-picker type="daterange" :options="dataPickerOption" placeholder="使用日期区间搜索" class="width-180 left" format="yyyy-MM-dd" @on-change="dataPickerChange"></date-picker>
       <i-input v-model="searchTaskNumber" class="left width-200 ml-10" placeholder="使用活动编号搜索"></i-input>
       <i-button type="primary" class="left ml-8" :loading="loading" @click="searchTask">搜索</i-button>
+      <i-button icon="md-refresh" class="left ml-8" :loading="loading" @click="searchTask">刷新</i-button>
     </div>
     <div class="personal-list-table">
       <p class="mt-20"><span>当前您共订购收藏加购流量：<span class="main-color">0</span>&nbsp;条，访客流量：<span class="main-color">40</span>&nbsp;条。</span></p>
@@ -131,7 +132,7 @@
     <modal v-model="addFlowModal" :mask-closable="false" title="手工补添流量" width="580">
       <div class="clear">
         <div class="left">
-          <img :src="addFlowInfo.taskMainImage | imageSrc('!thum54')" :alt="addFlowInfo.taskName">
+          <img class="border-radius-5" width="54" height="54" :src="addFlowInfo.taskMainImage | imageSrc('!thum54')" :alt="addFlowInfo.taskName">
         </div>
         <div class="left ml-20" style="height: 54px;">
           <p>活动编号：{{addFlowInfo.taskNumber}}</p>
@@ -445,10 +446,10 @@
              setTimeout(() => {
                _this.getFlowList(_this.addFlowInfo.taskId);
                _this.getTaskFlowDetail(_this.addFlowInfo.taskId);
-             }, 200);
-             _this.selectId = _this.addFlowInfo.taskId;
-             _this.$Message.success('流量任务补添成功！');
-             _this.$store.dispatch('getFlowNumInfo');
+               _this.selectId = _this.addFlowInfo.taskId;
+               _this.$Message.success('流量任务补添成功！');
+               _this.$store.dispatch('getFlowNumInfo');
+             }, 600);
             } else {
               _this.$Message.error(res.msg)
             }
@@ -472,9 +473,11 @@
           schemeIndex: _this.stopFlowInfo.schemeIndex
         }).then(res => {
           if (res.status) {
-            _this.getTaskFlowDetail(_this.stopFlowInfo.taskId);
-            _this.selectId = _this.stopFlowInfo.taskId;
-            _this.$Message.success('流量任务停止成功！');
+           setTimeout(() => {
+             _this.getTaskFlowDetail(_this.stopFlowInfo.taskId);
+             _this.selectId = _this.stopFlowInfo.taskId;
+             _this.$Message.success('流量任务停止成功！');
+           }, 400)
           } else {
             _this.$Message.error(res.msg);
           }
