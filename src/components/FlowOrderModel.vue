@@ -1,5 +1,4 @@
 <template>
-  <!--<div class="flow-order-model">-->
   <modal :value="value" :mask-closable="false" @on-visible-change="change" width="600">
     <template v-if="step === 'select'">
       <div slot="header">
@@ -12,7 +11,6 @@
                @click="changeType(tab)">{{tab.text}}
           </div>
         </div>
-        <!--收藏加购订购-->
         <div class="collection-order pt-20 pb-10 pr-10 pl-10">
           <div>
             <span>选择条数</span>
@@ -21,7 +19,6 @@
               <span class="fs-14 order-num">{{item.count}}条</span><br/>
               <span class="fs-14 order-price">￥{{(item.price/100).toFixed(2)}}元</span><br/>
               <span class="fs-12 text-decoration-through cl666">{{item.memberLevel === 100 ? 'VIP' : '原价'}}:￥{{(item.showPrice/100).toFixed(2)}}元</span>
-              <!--<span v-else class="fs-12 text-decoration-through cl666">原价:￥{{(item.price/100).toFixed(2)}}元</span>-->
             </i-button>
           </div>
           <p v-if="getMemberVersionLevel === 100" class="mt-15 ml-56">
@@ -68,7 +65,6 @@
       </pay-model>
     </template>
   </modal>
-  <!--</div>-->
 </template>
 
 <script>
@@ -160,7 +156,6 @@
 
     },
     created() {
-      // this.getFlowOrderConfig('favorite_cart_flow');
       if (this.visitorFlowOrder) {
         this.getFlowOrderConfig('visitor_flow');
       } else {
@@ -196,10 +191,6 @@
           this.step = 'select';
           this.orderList = [];
           this.selectItem = {};
-          // this.defaultTab = {
-          //   text: '收藏加购订购',
-          //   type: 'favorite_cart_flow'
-          // };
           this.$emit('input', false);
         } else {
           this.defaultTab = {
@@ -231,7 +222,7 @@
             _this.$store.dispatch('getFlowNumInfo');
             _this.step = 'select';
             _this.$Message.success('恭喜您，支付成功！');
-            _this.selectItem = _this.orderList[0];
+            _this.selectItem = {};
             _this.$emit('input', false);
             _this.$emit('on-success');
           } else {
