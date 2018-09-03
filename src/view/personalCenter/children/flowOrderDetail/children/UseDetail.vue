@@ -484,7 +484,7 @@
         }).then(res => {
           if (res.status) {
             _this.getFlowList();
-            _this.getTaskFlowDetail(_this.stopFlowInfo.taskId);
+              _this.getTaskFlowDetail(_this.stopFlowInfo.taskId);
             _this.selectId = _this.stopFlowInfo.taskId;
             _this.$Message.success('流量任务停止成功！');
             _this.$store.dispatch('getFlowNumInfo');
@@ -534,6 +534,15 @@
       searchTask() {
         this.getFlowList();
       },
+    },
+    watch: {
+      'addFlowCount.visitor_flow'(value) {
+        let needVisitorFlow = this.usefulVisitorFlow < value;
+        this.$store.commit({
+          type: 'NEED_ORDER_VISITOR_FLOW',
+          status: needVisitorFlow
+        })
+      }
     }
   }
 </script>

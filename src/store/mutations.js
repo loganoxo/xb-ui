@@ -116,6 +116,11 @@ export default {
   // 商家购买流量数量相关信息
   [types.FLOW_NUMBER_INFO] (state, {info}) {
     state.flowNumberInfo = info
+  },
+
+  // 补添流量时是否需要订购访客流量
+  [types.NEED_ORDER_VISITOR_FLOW] (state, {status}) {
+    state.needOrderVisitorFlow = status;
   }
 
 }

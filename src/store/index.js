@@ -30,6 +30,7 @@ const state = {
   activityStatus: '', //活动管理的状态（待审批，已通过，未通过）
   commodityCategoriesList: [], //平台宝贝类目列表
   flowNumberInfo: {}, //流量数量相关信息
+  needOrderVisitorFlow: false  //补添流量时是否需要订购访客流量
 };
 
 export default new Vuex.Store({
