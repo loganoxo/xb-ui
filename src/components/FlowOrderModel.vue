@@ -86,11 +86,6 @@
         type: Boolean,
         default: false
       },
-      // 订购选项卡默认选择（以访客流量是否不足为标准，如果访客流量不足，定位到访客流量订购（true），其他情况均默认收藏加购流量订购（false））
-      // visitorFlowOrder: {
-      //   type: Boolean,
-      //   default: false
-      // }
     },
     data() {
       return {
@@ -154,10 +149,6 @@
         return !this.hasBalance ? Math.abs(this.getUserBalance - this.payMoney) : 0
       },
 
-      visitorFlowOrder() {
-        return this.$store.state.needOrderVisitorFlow
-      }
-
     },
     created() {
       if (this.visitorFlowOrder) {
@@ -195,10 +186,6 @@
           this.step = 'select';
           this.orderList = [];
           this.selectItem = {};
-          this.$store.commit({
-            type: 'NEED_ORDER_VISITOR_FLOW',
-            status: false
-          });
           this.$emit('input', false);
         } else {
           this.defaultTab = {

@@ -117,6 +117,8 @@
         }).then(res => {
           if (res.status) {
             _this.orderDetailList = res.data.page.content;
+            _this.favoriteCartFlow = res.data.favoriteCartFlow;
+            _this.visitorFlow = res.data.visitorFlow;
             _this.totalElements = res.data.page.totalElements;
           } else {
             _this.$Message.error(res.msg);
