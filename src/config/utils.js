@@ -32,6 +32,33 @@ export const removeStorage = (name) => {
 };
 
 /**
+ * 存储sessionStorage
+ */
+export const setSessionStorage = (name, content) => {
+  if (!name) return;
+  if (content) {
+    content = JSON.stringify(content);
+  }
+  window.sessionStorage.setItem(name, content);
+};
+
+/**
+ * 获取sessionStorage
+ */
+export const getSessionStorage = (name) => {
+  if (!name) return;
+  return JSON.parse(window.sessionStorage.getItem(name));
+};
+
+/**
+ * 删除sessionStorage
+ */
+export const removeSessionStorage = (name) => {
+  if (!name) return;
+  window.sessionStorage.removeItem(name);
+};
+
+/**
  * 获取当前环境变量
  */
 export const nodeEnv = () => {
@@ -376,6 +403,7 @@ export const taskErrorStatusList = (type) => {
     '10': 'VIP会员赠送交易记录',
     '11': '增值业务交易记录',
     '12': '钱包提取',
+    '13': '流量订购',
     'waiting_resubmit': '待重新提交',
     'audit_pass': '审核通过',
     'deleted': '未通过',
@@ -422,6 +450,7 @@ export const merchantIncomeType = (type) => {
     '2': '增值功能费返利',
     '3': '推广费返利',
     '4': '增值服务费返利',
+    '5': '流量订购返利',
     '10': '首次发布活动'
   };
   return mapList[type];

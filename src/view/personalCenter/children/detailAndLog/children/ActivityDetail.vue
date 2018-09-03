@@ -841,6 +841,101 @@
               <div class="tag-price">单品标签增值服务费合计：{{(showkerConditionAllPrice / 100).toFixed(2)}}&nbsp;元</div>
             </template>
           </template>
+          <!--收藏加购及访客流量-->
+          <template v-if="taskRelease.taskType === 'pc_search' || taskRelease.taskType === 'app_search'">
+            <div class="activity-info-title">收藏加购及访客流量</div>
+            <div class="mt-20 ml-20">
+              <span class="ml-5">收藏加购/访客：</span>
+              <checkbox v-model="favoriteCartFlowInfo.favoriteCartFlowStatus" :disabled="true">需要</checkbox>
+            </div>
+            <template v-if="favoriteCartFlowInfo.favoriteCartFlowStatus">
+              <radio-group :vertical="true" v-model="favoriteCartFlowInfo.popularFlow" class="ml-110 mt-20">
+                <radio label="match_by_apply">
+                  <span class="f-b">按申请数量匹配</span>
+                  <span class="sizeColor2">（按拿手申请数量匹配对应的收藏加购，若设置多关键词，则关键词随机分配；适合新品推广，收藏加购流量不可控）</span>
+                </radio>
+                <div v-show="favoriteCartFlowInfo.popularFlow === 'match_by_apply'">
+                  <template v-for="key in Object.keys(favoriteCartFlowInfo.matchByApplyInfo)">
+                    <div class="mt-15">
+                      <checkbox v-model="favoriteCartFlowInfo.require[key + '_require']">需要</checkbox>
+                      <input-number v-model="favoriteCartFlowInfo.matchByApplyInfo[key].applyCount" :disabled="true" size="small" :min="1" :step="1" class="width-50"></input-number>
+                      <span>个申请：</span>
+                      <input-number v-model="favoriteCartFlowInfo.matchByApplyInfo[key].flowCount" :disabled="true" size="small" :min="1" :step="1" class="width-50"></input-number>
+                      <span>个{{favoriteCartFlowInfo.map[key]}}</span>
+                      <span class="sizeColor2">（<span class="main-color">{{favoriteCartFlowInfo.matchByApplyInfo[key].applyCount}}</span>个申请匹配<span class="main-color">{{favoriteCartFlowInfo.matchByApplyInfo[key].flowCount}}</span>个{{favoriteCartFlowInfo.matchByApplyInfo[key].tipText}})</span>
+                    </div>
+                  </template>
+                </div>
+                <radio label="match_diy" class="mt-20">
+                  <span class="f-b">自定义匹配</span>
+                  <span class="sizeColor2">（按设置匹配，自控流量，适合已成熟的宝贝）</span>
+                </radio>
+                <div v-show="favoriteCartFlowInfo.popularFlow === 'match_diy'">
+                  <template v-if="taskRelease.taskType === 'pc_search'">
+                    <span class="tag mr-10" :class="{'select-tag-bg': favoriteCartFlowInfo.keywordTagIndex === index}" v-for="(item, index) in pcTaskDetail" @click="selectKeywordTag(index)">{{item.searchKeyword ? item.searchKeyword : `关键词方案${index + 1}`}}</span>
+                    <div class="mt-20">为“<span class="main-color f-b">{{pcTaskDetail[favoriteCartFlowInfo.keywordTagIndex].searchKeyword ? pcTaskDetail[favoriteCartFlowInfo.keywordTagIndex].searchKeyword : `关键词方案${favoriteCartFlowInfo.keywordTagIndex + 1}`}}</span>”设置流量：</div>
+                  </template>
+                  <template v-if="taskRelease.taskType === 'app_search'">
+                    <span class="tag mr-10" :class="{'select-tag-bg': favoriteCartFlowInfo.keywordTagIndex === index}" v-for="(item, index) in appTaskDetail" @click="selectKeywordTag(index)">{{item.searchKeyword ? item.searchKeyword : `关键词方案${index + 1}`}}</span>
+                    <div class="mt-20">为“<span class="main-color f-b">{{appTaskDetail[favoriteCartFlowInfo.keywordTagIndex].searchKeyword ? appTaskDetail[favoriteCartFlowInfo.keywordTagIndex].searchKeyword : `关键词方案${favoriteCartFlowInfo.keywordTagIndex + 1}`}}</span>”设置流量：</div>
+                  </template>
+                  <div class="set-flow-btn-box mt-20">
+                    <span class="set-flow-btn inline-block" v-for="key in Object.keys(favoriteCartFlowInfo.map)" :key="key" :class="{'set-flow-btn-select': favoriteCartFlowInfo.flowTypeDefault === key}" @click="selectKeywordFlowType(key)">设置<span class="main-color">{{favoriteCartFlowInfo.map[key]}}数</span></span>
+                  </div>
+                  <div class="set-flow-task clear min-width-750">
+                    <div class="pt-10 pb-10">
+                      <div class="inline-block width-pct-20 text-ct">日期</div>
+                      <div class="inline-block width-pct-39 text-ct">
+                        <span>每天时段</span>
+                        <tooltip content="请尽量扩大时间范围，提高任务成功率，时间段不可重叠" placement="top" :transfer="true"><icon size="14" class="cursor-p vtc-text-btm" type="md-help-circle"/></tooltip>
+                      </div>
+                      <div class="inline-block width-pct-39 text-ct">
+                        <span>收藏加购数</span>
+                        <tooltip content="系统审批不会超出设定份数但可能少于该份数" placement="top" :transfer="true"><icon size="14" class="cursor-p vtc-text-btm" type="md-help-circle"/></tooltip>
+                      </div>
+                    </div>
+                    <template v-for="i in Object.keys(favoriteCartFlowInfo.matchDiyInfo).length">
+                      <div v-show="favoriteCartFlowInfo.keywordTagIndex === i - 1" :key="i">
+                        <template v-for="k in Object.keys(favoriteCartFlowInfo.matchDiyInfo[i-1])">
+                          <div :key="k" v-show="favoriteCartFlowInfo.flowTypeDefault === k">
+                            <template v-for="(item, index) in favoriteCartFlowInfo.matchDiyInfo[i-1][k]">
+                              <div class="border-top pt-10 pb-10" >
+                                <div class="inline-block width-pct-20 text-ct">
+                                  <i-select v-model="item.dateIndex" class="width-100" @on-change="setFlowTimeCheck(i-1, k, index)">
+                                    <i-option :disabled="true" v-for="t in (taskRelease.taskDaysDuration > 0 ? taskRelease.taskDaysDuration + 1 : 1)" :key="t" :value="t - 1" :label="`第${t}天`"/>
+                                  </i-select>
+                                </div>
+                                <div class="inline-block width-pct-39 text-ct">
+                                  <i-select v-model="item.hourStart" class="width-80" @on-change="setFlowTimeCheck(i-1, k, index, 'startTime')">
+                                    <i-option :disabled="true" v-for="hour in favoriteCartFlowInfo.period" :key="hour" :value="hour" :label="hour"/>
+                                  </i-select>
+                                  <span>点-</span>
+                                  <i-select v-model="item.hourEnd" class="width-80" @on-change="setFlowTimeCheck(i-1, k, index, 'endTime')">
+                                    <i-option :disabled="true" v-for="hour in favoriteCartFlowInfo.period" :key="hour" :value="hour" :label="hour"/>
+                                  </i-select>
+                                  <span>点</span>
+                                </div>
+                                <div class="inline-block width-pct-39 text-ct">
+                                  <i-input :disabled="true" v-model.number="item.count" placeholder="每小时最大60条" class="width-110"/>
+                                </div>
+                              </div>
+                            </template>
+                          </div>
+                        </template>
+                      </div>
+                    </template>
+                  </div>
+                  <div class="mt-20">收藏加购流量：<span class="main-color">{{favoriteCartFlowCount.favoriteCartCount}}</span>&nbsp;条，访客流量：<span class="main-color">{{favoriteCartFlowCount.visitorCount}}</span>&nbsp;条。</div>
+                  <div class="mt-20">
+                    <p class="sizeColor2">1、根据每天时段平均分配收藏加购流量。譬如12:00至14：00需要加购流量为100条，会为12:00至13:00分配50条，13:00-14:00分配50条。</p>
+                    <p class="mt-10 sizeColor2">2、最多每分钟发出一条收藏加购任务，所以每小时最大可配置60条，若由于特殊原因未完成，只收取完成部分的流量数。</p>
+                    <p class="mt-10 sizeColor2">3、仅在活动上线时间内发出任务，若活动下线或者结束或未上线时段，不会发布任务。</p>
+                    <p class="mt-10 sizeColor2">4、收藏 + 加购每个任务消耗2条收藏加购流量，加购、收藏分别每个任务消耗1条收藏加购流量，访客数每个任务消耗1条访客流量。</p>
+                  </div>
+                </div>
+              </radio-group>
+            </template>
+          </template>
         </div>
       </div>
     </div>
@@ -859,7 +954,7 @@
 </template>
 
 <script>
-  import {Icon, Input, Checkbox, Button, Alert, Radio, Select, Option, OptionGroup, Tooltip} from 'iview'
+  import {Icon, Input, Checkbox, Button, Alert, Radio, Select, Option, OptionGroup, Tooltip, InputNumber} from 'iview'
   import {decode, getStorage, extendDeep, getSeverTime} from '@/config/utils'
   import commonConfig from '@/config/commonConfig'
   import api from '@/config/apiConfig'
@@ -879,6 +974,7 @@
       OptionGroup: OptionGroup,
       Tooltip: Tooltip,
       Alert: Alert,
+      InputNumber: InputNumber,
     },
     data() {
       return {
@@ -1099,6 +1195,91 @@
               count: null
             }
           ]
+        },
+        favoriteCartFlowInfo: {
+          error: {
+            status: false,
+            msg: ''
+          },
+          favoriteCartFlowStatus: false,
+          popularFlow: '',
+          period: Array.from({length: 25},(v, k) => {return `${k}`}),
+          require: {
+            'favorite_cart_flow_require': true,
+            'favorite_flow_require': false,
+            'cart_flow_require': false,
+            'visitor_flow_require': false,
+          },
+          map: {
+            'favorite_cart_flow': '收藏 + 加购',
+            'favorite_flow': '加购',
+            'cart_flow': '收藏',
+            'visitor_flow': '访客',
+          },
+          matchByApplyInfo: {
+            'favorite_cart_flow': {
+              tipText: '加入购物车+加入收藏夹流量，系统建议1:1匹配，每个任务消耗2条收藏加购流量',
+              disabled: false,
+              applyCount: 1,
+              flowCount: 1,
+            },
+            'favorite_flow': {
+              tipText: '加入购物车数，系统建议3:1匹配，每个任务消耗1条收藏加购流量',
+              disabled: true,
+              applyCount: 3,
+              flowCount: 1,
+            },
+            'cart_flow': {
+              tipText: '加入收藏夹数，系统建议5:1匹配，每个任务消耗1条收藏加购流量',
+              disabled: true,
+              applyCount: 5,
+              flowCount: 1,
+            },
+            'visitor_flow': {
+              tipText: '访客数，系统建议1:1匹配，每个任务消耗1条访客流量',
+              disabled: true,
+              applyCount: 1,
+              flowCount: 1,
+            }
+          },
+          flowTypeDefault: 'favorite_cart_flow',
+          keywordTagIndex: 0,
+          matchDiyInfo: {
+            0: {
+              'favorite_cart_flow': [
+                {
+                  dateIndex: 0,
+                  hourStart: '0',
+                  hourEnd: '24',
+                  count: null
+                }
+              ],
+              'favorite_flow': [
+                {
+                  dateIndex: 0,
+                  hourStart: '0',
+                  hourEnd: '24',
+                  count: null
+                }
+              ],
+              'cart_flow': [
+                {
+                  dateIndex: 0,
+                  hourStart: '0',
+                  hourEnd: '24',
+                  count: null
+                }
+              ],
+              'visitor_flow': [
+                {
+                  dateIndex: 0,
+                  hourStart: '0',
+                  hourEnd: '24',
+                  count: null
+                }
+              ]
+            }
+          }
         },
       }
     },
@@ -1379,6 +1560,38 @@
         return price + this.creditLevelRequireOncePrice + this.weekOrderRequireOncePrice
       },
 
+      /**
+       * 计算自定义收藏加购和访客需要数量
+       * @return {number}
+       */
+      favoriteCartFlowCount() {
+        const matchDiyInfo = this.favoriteCartFlowInfo.matchDiyInfo;
+        let favoriteCartCount = 0;
+        let visitorCount = 0;
+        Object.keys(matchDiyInfo).forEach(i => {
+          Object.keys(matchDiyInfo[i]).forEach(k => {
+            if (k === 'visitor_flow') {
+              matchDiyInfo[i][k].forEach(item => {
+                visitorCount += item.count ? item.count : 0;
+              })
+            } else {
+              if (k === 'favorite_cart_flow') {
+                matchDiyInfo[i][k].forEach(item => {
+                  favoriteCartCount += item.count ? item.count * 2 : 0;
+                })
+              } else {
+                matchDiyInfo[i][k].forEach(item => {
+                  favoriteCartCount += item.count ? item.count : 0;
+                })
+              }
+            }
+          })
+        });
+        return {
+          favoriteCartCount: favoriteCartCount,
+          visitorCount: visitorCount
+        }
+      },
 
     },
     methods: {
@@ -1577,6 +1790,48 @@
                 })
               }
             }
+            _this.favoriteCartFlowInfo.favoriteCartFlowStatus = res.data.popularFlow !== 'none';
+            // 按申请数量匹配流量数（复制、编辑活动）
+            if (res.data.popularFlow === 'match_by_apply') {
+              _this.favoriteCartFlowInfo.popularFlow = 'match_by_apply';
+              res.data.other.popularFlowConfig.forEach(item => {
+                _this.favoriteCartFlowInfo.require[item.flowType + '_require'] = item.applyCount > 0;
+                if (item.flowType === 'favorite_cart_flow') {
+                  if (item.applyCount > 0) {
+                    _this.favoriteCartFlowInfo.matchByApplyInfo['favorite_cart_flow'].applyCount = item.applyCount;
+                    _this.favoriteCartFlowInfo.matchByApplyInfo['favorite_cart_flow'].flowCount = item.flowCount;
+                  }
+                }
+              })
+            }
+
+            // 自定义匹配流量数（复制、编辑活动）
+            if (res.data.popularFlow === 'match_diy') {
+              _this.favoriteCartFlowInfo.popularFlow = 'match_diy';
+              res.data.other.popularFlowConfig.forEach(item => {
+                // 当存在多个关键词的时候动态生成对象初始化key
+                if (item.schemeIndex > 0) {
+                  const keys = Object.keys(_this.favoriteCartFlowInfo.matchDiyInfo);
+                  if (!keys.includes(item.schemeIndex.toString())) {
+                    _this.favoriteCartFlowInfo.matchDiyInfo[item.schemeIndex] = {};
+                  }
+                  const childKeys = Object.keys(_this.favoriteCartFlowInfo.matchDiyInfo[item.schemeIndex]);
+                  if (!childKeys.includes(item.flowType)) {
+                    _this.favoriteCartFlowInfo.matchDiyInfo[item.schemeIndex][item.flowType] = [];
+                  }
+                } else {
+                  // 一个关键词的时候将对应的流量类型初始化数据置空，防止合并数据的时候重复
+                  _this.favoriteCartFlowInfo.matchDiyInfo[0][item.flowType] = [];
+                }
+                // 根据对象的对应key合并接口返回的对应数据
+                _this.favoriteCartFlowInfo.matchDiyInfo[item.schemeIndex][item.flowType].push({
+                  dateIndex: item.dateIndex,
+                  hourStart: `${item.hourStart}`,
+                  hourEnd: `${item.hourEnd}`,
+                  count: item.count,
+                })
+              })
+            }
             _this.taskRelease.taskDetail = {};
             if (res.data.taskType === 'tao_code') {
               _this.taoCodeTaskDetail = JSON.parse(res.data.taskDetail);
@@ -1659,6 +1914,12 @@
           }
         })
       },
+      selectKeywordFlowType(type) {
+        this.favoriteCartFlowInfo.flowTypeDefault = type;
+      },
+      selectKeywordTag(index) {
+        this.favoriteCartFlowInfo.keywordTagIndex = index;
+      }
     }
   }
 </script>
@@ -2099,5 +2360,64 @@
     margin-right: 20px;
     margin-top: 40px;
     border-radius: 5px;
+  }
+
+  .collection-purchased-tip {
+    height: 38px;
+    line-height: 38px;
+    border-radius: 5px;
+    background-color: #eee;
+    margin-left: 110px;
+    margin-right: 26px;
+    padding-left: 10px;
+    font-weight: bold;
+    .flow-order {
+      padding: 3px 7px;
+      border-radius: 5px;
+      background: $mainColor;
+      color: #fff;
+      cursor: pointer;
+    }
+    .free-get-flow {
+      padding: 3px 7px;
+      background-color: #F0EA39;
+      color: $mainColor;
+      border: 1px solid $mainColor;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+  }
+
+  .set-flow-btn-box {
+    border-bottom: 1px solid #ddd;
+    border-radius: 0 0 5px 0;
+    height: 33px;
+  }
+
+  .set-flow-btn {
+    width: 152px;
+    height: 32px;
+    line-height: 32px;
+    border-radius: 5px 5px 0 0;
+    text-align: center;
+    background-color: #f7f7f7;
+    border-top: 1px solid #ddd;
+    border-left: 1px solid #ddd;
+    border-right: 1px solid #ddd;
+    cursor: pointer;
+    font-weight: bold;
+    margin-right: 6px;
+  }
+
+  .set-flow-btn-select {
+    background-color: #ffff;
+    height: 33px;
+  }
+
+  .set-flow-task {
+    border-bottom: 1px solid #ddd;
+    border-left: 1px solid #ddd;
+    border-right: 1px solid #ddd;
+    border-radius: 0 5px 5px 5px;
   }
 </style>

@@ -1239,5 +1239,69 @@ export default {
    */
   rechargeApply(params) {
     return axiosConfig.post('/api/artificial-recharge.json', params)
-  }
+  },
+
+  /**
+   * 获取收藏流量加购配置
+   */
+  getFlowOrderConfig(params) {
+    return axiosConfig.get('/api/get-flow-config.json', params)
+  },
+
+  /**
+   * 收藏加购流量订购
+   */
+  orderFlow(params) {
+    return axiosConfig.post('/api/order-flow.json', params)
+  },
+
+  /**
+   * 判断是否已经领取过免费领取的流量
+   */
+  checkIfAlreadyGetFreeFlow() {
+    return axiosConfig.get('/api/check-already-got-freeFlow.json')
+  },
+
+  /**
+   * 获取流量订购交易明细列表
+   */
+  getFlowOrderDetail(params) {
+    return axiosConfig.get('/api/get-flow-order-detail.json', params)
+  },
+
+  /**
+   * 获取流量数量信息
+   */
+  getFlowNumber() {
+    return axiosConfig.get('/api/get-flow-number.json')
+  },
+
+  /**
+   * 获取任务流量列表
+   */
+  getTaskFlowList(params) {
+    return axiosConfig.get('/api/get-task-flow-list.json', params)
+  },
+
+  /**
+   * 获取任务流量列表
+   */
+  getTaskFlowDetail(params) {
+    return axiosConfig.get('/api/get-task-flow-detail.json', params)
+  },
+
+  /**
+   * 任务流量补添
+   */
+  taskFlowSupplement(params) {
+    return axiosConfig.post('/api/task-flow-supplement.json', params)
+  },
+
+  /**
+   * 任务流量停止
+   */
+  taskFlowStop(params) {
+    return axiosConfig.post('/api/task-flow-stop.json', params)
+  },
+
 }

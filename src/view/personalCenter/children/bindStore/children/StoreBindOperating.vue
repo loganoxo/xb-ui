@@ -56,7 +56,7 @@
           </i-button>
         </div>
         <div v-else-if="bindStatus === 3" class="mt-20">
-          <i-button class="resubmit-btn" size="large" :loading="bindBtnLoading" @click="verifiedAndBindFunc">
+          <i-button class="resubmit-btn" size="large" :loading="bindBtnLoading" @click="verifiedAndBind">
             提交店铺审核
           </i-button>
           <i-button class="delete-btn ml-20" size="large" :loading="bindBtnLoading" @click="deleteStore">
@@ -64,7 +64,7 @@
           </i-button>
         </div>
         <div v-else class="mt-20">
-          <i-button class="verified-btn" size="large" :loading="bindBtnLoading" @click="verifiedAndBindFunc">
+          <i-button class="verified-btn" size="large" :loading="bindBtnLoading" @click="verifiedAndBind">
             提交店铺审核
           </i-button>
         </div>
@@ -198,7 +198,7 @@
         })
       },
       //验证并绑定店铺
-      verifiedAndBindFunc() {
+      verifiedAndBind() {
         let _this = this;
         // 如果是重新提交的则不需要在根据链接做判断店铺类型，数据已经返回给我们
         if (!_this.storeId) {

@@ -108,9 +108,10 @@
                 <span v-if="item.taskStatus === 'under_way' && !item.online">已下线</span>
                 <span v-else>{{item.taskStatusDesc}}</span><br/>{{item.settlementStatusDesc}}
               </td>
-              <td class="cursor-p main-color" v-else>
+              <td class="cursor-p" v-else>
                 <tooltip :content="item.other.auditLogs[item.other.auditLogs.length - 1].resultMsg" placement="top">
-                  <icon color="#f9284f" type="md-alert"/>&nbsp;待修改
+                  <icon color="#f9284f" type="md-alert"/>&nbsp;<span class="main-color">待修改</span><br/>
+                  <span>查看原因</span>
                 </tooltip>
               </td>
               <td>{{item.showkerApplyTotalCount || 0}} / {{item.showkerApplyPassedCount || 0}}（人）</td>
@@ -221,6 +222,9 @@
                 <!--<p class="bond mt-6">-->
                 <!--<span @click="approveShowker(item.id,item.endTime)">审批拿手</span>-->
                 <!--</p>-->
+                <p class="bond mt-6">
+                  <span @click="toFlowOrderDetail(item.number)">补添流量</span>
+                </p>
                 <p class="copy mt-6">
                   <span @click="lookTaskDetail(item.id)">查看详情</span>
                 </p>
@@ -873,6 +877,9 @@
         setTimeout(() => {
           this.getTaskList();
         }, 200)
+      },
+      toFlowOrderDetail(number) {
+        this.$router.push({name: 'FlowOrderDetail',query: {number: number}});
       }
     }
   }

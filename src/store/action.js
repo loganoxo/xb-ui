@@ -104,5 +104,24 @@ export default {
         console.error('获取平台宝贝类目列表错误：', res.msg)
       }
     })
+  },
+
+  // 获取流量数量相关信息
+  getFlowNumInfo({commit}) {
+    return new Promise((resolve,reject) => {
+      api.getFlowNumber().then(res => {
+        if (res.status) {
+          commit({
+            type: 'FLOW_NUMBER_INFO',
+            info: res.data
+          })
+        } else {
+          console.error('获取流量信息失败：', res.msg);
+        }
+        resolve(res);
+      }).catch(err => {
+        reject(err);
+      })
+    })
   }
 }

@@ -1,5 +1,5 @@
 <template>
-  <modal :value="currentValue" :title="title" width="600" :mask-closable="false" @on-visible-change="change" >
+  <modal :value="value" :title="title" width="600" :mask-closable="false" @on-visible-change="change" >
     <template v-if="step === 'create'">
       <div class="clear task-info pb-20">
         <div class="left">
@@ -57,7 +57,7 @@
     },
     data() {
       return {
-        currentValue: this.value,
+        // currentValue: this.value,
         itemReviewList: [],
         step: 'create',
         title: '免审发布信息确认',
@@ -154,7 +154,6 @@
 
     },
     created() {
-
     },
     mounted() {
 

@@ -254,6 +254,7 @@
               type: 'RECORD_USER_INFO',
               info: res.data
             });
+            self.$store.dispatch('getFlowNumInfo');
             self.rememberAccountFunc();
             self.$Message.success({top: 50, content: '登录成功', duration: 1,});
             setStorage('weChartPop', 1);
@@ -301,6 +302,7 @@
                 type: 'RECORD_USER_INFO',
                 info: res.data
               });
+              self.$store.dispatch('getFlowNumInfo');
               self.$Message.success({top: 50, content: '登录成功', duration: 1,});
               self.btnState.trendsLoginBtn = false;
               setStorage('weChartPop', 1);

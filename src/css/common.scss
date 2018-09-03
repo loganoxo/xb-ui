@@ -193,16 +193,36 @@ input[type="number"] {
   width: 50px;
 }
 
+.width-80 {
+  width: 80px;
+}
+
 .width-100 {
   width: 100px;
+}
+
+.width-110 {
+  width: 110px;
+}
+
+.width-120 {
+  width: 120px;
 }
 
 .width-150 {
   width: 150px;
 }
 
+.width-180 {
+  width: 180px;
+}
+
 .width-200 {
   width: 200px;
+}
+
+.width-260 {
+  width: 260px;
 }
 
 .width-300 {
@@ -309,6 +329,10 @@ input[type="number"] {
 
 .ml-pct-12 {
   margin-left: 12%;
+}
+
+.mt-2 {
+  margin-top: 2px;
 }
 
 .mt-4 {
@@ -452,6 +476,10 @@ input[type="number"] {
 
 .ml-100 {
   margin-left: 100px;
+}
+
+.ml-110 {
+  margin-left: 110px;
 }
 
 .ml-120 {
@@ -650,14 +678,6 @@ input[type="number"] {
   background-color: #f9284f;
 }
 
-.bgF8F6F7 {
-  background-color: #F8F6F7;
-}
-
-.clf99563 {
-  color: #f99563;
-}
-
 .cl-fff {
   color: #fff;
 }
@@ -672,22 +692,6 @@ input[type="number"] {
 
 .cl666 {
   color: #666;
-}
-
-.cl9c4040 {
-  color: #9c4040;
-}
-
-.cl57C78D {
-  color: #57C78D;
-}
-
-.cl75C5FF {
-  color: #75C5FF;
-}
-
-.cle60012 {
-  color: #e60012 !important;
 }
 
 .cl-red {
@@ -713,6 +717,10 @@ input[type="number"] {
 
 .border-top {
   border-top: 1px solid #e9eaec;
+}
+
+.border-bottom {
+  border-bottom: 1px solid #e9eaec;
 }
 
 .border-ddd {
