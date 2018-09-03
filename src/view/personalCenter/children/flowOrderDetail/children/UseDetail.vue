@@ -1,8 +1,8 @@
 <template>
   <div class="use-detail">
     <div class="filter-time clear pt-20 pb-20">
-      <date-picker type="daterange" :options="dataPickerOption" placeholder="使用日期区间搜索" class="width-180 left" format="yyyy-MM-dd" @on-change="dataPickerChange"></date-picker>
-      <i-input v-model="searchTaskNumber" class="left width-200 ml-10" placeholder="使用活动编号搜索"></i-input>
+      <date-picker type="daterange" :options="dataPickerOption" placeholder="使用日期区间进行搜索" class="width-180 left" format="yyyy-MM-dd" @on-change="dataPickerChange"></date-picker>
+      <i-input v-model="searchTaskNumber" :clearable="true" class="left width-260 ml-10" placeholder="使用活动编号进行搜索"></i-input>
       <i-button type="primary" class="left ml-8" :loading="loading" @click="searchTask">搜索</i-button>
       <i-button icon="md-refresh" class="left ml-8" :loading="loading" @click="searchTask">刷新</i-button>
     </div>
@@ -41,7 +41,7 @@
         </tr>
         </thead>
         <tbody v-if="flowList.length > 0">
-        <template v-for="item in flowList">
+          <template v-for="item in flowList">
           <tr class="task-number">
             <td colspan="7">
               <span>活动编号：{{item.number}}</span>
@@ -124,10 +124,15 @@
           </tr>
         </template>
         </tbody>
+        <tbody v-else>
+        <tr>
+          <td colspan="7">暂无数据</td>
+        </tr>
+        </tbody>
       </table>
     </div>
     <!--翻页-->
-    <page class="mt-22 text-align-rt" :total="page.totalPages" :page-size="page.pageSize" :current="page.pageIndex" @on-change="pageChange"/>
+    <page v-if="flowList.length > 0" class="mt-22 text-align-rt" :total="page.totalPages" :page-size="page.pageSize" :current="page.pageIndex" @on-change="pageChange"/>
     <!--补添流量任务弹框-->
     <modal v-model="addFlowModal" :mask-closable="false" title="手工补添流量" width="580">
       <div class="clear">
@@ -364,13 +369,8 @@
       },
       dataPickerChange(date) {
         if (date[0] && date[1]) {
-          if (date[0] === date[1]) {
-            this.datePickTime.tradTimeStart = `${date[0]} 00:00:00`;
-            this.datePickTime.tradTimeEnd = `${date[1]} 23:59:59`;
-          } else {
-            this.datePickTime.tradTimeStart = `${date[0]} 00:00:00`;
-            this.datePickTime.tradTimeEnd = `${date[1]} 00:00:00`;
-          }
+          this.datePickTime.tradTimeStart = `${date[0]} 00:00:00`;
+          this.datePickTime.tradTimeEnd = `${date[1]} 23:59:59`;
         } else {
           this.datePickTime.tradTimeStart = null;
           this.datePickTime.tradTimeEnd = null;

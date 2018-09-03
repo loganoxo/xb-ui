@@ -2882,13 +2882,13 @@
               _this.$Message.warning(_this.favoriteCartFlowInfo.error.msg);
               return;
             }
-          }
-          const isAllRequire =Object.keys(this.favoriteCartFlowInfo.require).some(item => {
-            return this.favoriteCartFlowInfo.require[item]
-          });
-          if (!isAllRequire) {
-            this.$Message.warning('请设置申请数量匹配！');
-            return;
+            const isAllRequire =Object.keys(this.favoriteCartFlowInfo.require).some(item => {
+              return this.favoriteCartFlowInfo.require[item]
+            });
+            if (!isAllRequire) {
+              this.$Message.warning('请设置收藏加购及访客流量中的申请数量匹配！');
+              return;
+            }
           }
         }
         if (_this.taskRelease.taskType === 'tao_code') {
