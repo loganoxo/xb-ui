@@ -7,7 +7,7 @@
       <i-button icon="md-refresh" class="left ml-8" :loading="loading" @click="searchTask">刷新</i-button>
     </div>
     <div class="personal-list-table">
-      <p class="mt-20"><span>当前您共订购收藏加购流量：<span class="main-color">0</span>&nbsp;条，访客流量：<span class="main-color">40</span>&nbsp;条。</span></p>
+      <p class="mt-20"><span>当前您共使用收藏加购流量：<span class="main-color">{{getFlowNumInfo.favoriteCartFlowFrozen}}</span>&nbsp;条，访客流量：<span class="main-color">{{getFlowNumInfo.visitorFlowFrozen}}</span>&nbsp;条。</span></p>
       <p class="border-top pt-20 mt-20 clear">
         <checkbox class="left mr-10 mt-2" :indeterminate="checkbox.indeterminate" :value="checkbox.checkAll" @click.prevent.native="handleCheckAll">全选</checkbox>
         <checkbox-group class="left" v-model="checkbox.checkAllGroup" @on-change="checkAllGroupChange">
@@ -363,8 +363,18 @@
         }
       },
       dataPickerChange(date) {
-        this.datePickTime.tradTimeStart = `${date[0]} 00:00:00`;
-        this.datePickTime.tradTimeEnd = `${date[1]} 00:00:00`;
+        if (date[0] && date[1]) {
+          if (date[0] === date[1]) {
+            this.datePickTime.tradTimeStart = `${date[0]} 00:00:00`;
+            this.datePickTime.tradTimeEnd = `${date[1]} 23:59:59`;
+          } else {
+            this.datePickTime.tradTimeStart = `${date[0]} 00:00:00`;
+            this.datePickTime.tradTimeEnd = `${date[1]} 00:00:00`;
+          }
+        } else {
+          this.datePickTime.tradTimeStart = null;
+          this.datePickTime.tradTimeEnd = null;
+        }
       },
       pageChange(pageIndex) {
         this.page.pageIndex = pageIndex;
@@ -405,7 +415,7 @@
           if (res.status) {
             _this.flowDetail = res.content;
           } else {
-            _this.$Message.error(res.msg)
+            _this.$Message.error(res.msg);
           }
         })
       },
@@ -444,7 +454,7 @@
           }).then(res => {
             if (res.status) {
              setTimeout(() => {
-               _this.getFlowList(_this.addFlowInfo.taskId);
+               _this.getFlowList();
                _this.getTaskFlowDetail(_this.addFlowInfo.taskId);
                _this.selectId = _this.addFlowInfo.taskId;
                _this.$Message.success('流量任务补添成功！');
@@ -473,11 +483,10 @@
           schemeIndex: _this.stopFlowInfo.schemeIndex
         }).then(res => {
           if (res.status) {
-           setTimeout(() => {
-             _this.getTaskFlowDetail(_this.stopFlowInfo.taskId);
-             _this.selectId = _this.stopFlowInfo.taskId;
-             _this.$Message.success('流量任务停止成功！');
-           }, 400)
+            _this.getTaskFlowDetail(_this.stopFlowInfo.taskId);
+            _this.selectId = _this.stopFlowInfo.taskId;
+            _this.$Message.success('流量任务停止成功！');
+            _this.$store.dispatch('getFlowNumInfo');
           } else {
             _this.$Message.error(res.msg);
           }
