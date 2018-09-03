@@ -1,22 +1,9 @@
 <template>
   <div class="order-detail">
     <div class="filter-time clear pt-20 pb-20 pl-20">
-      <!--<div class="left">-->
-        <!--<span>订购日期：</span>-->
-        <!--<date-picker type="date" placeholder="选择日期" class="width-200" format="yyyy-MM-dd HH:mm:ss" v-model="startTime" @on-change="selectBeginTime"></date-picker>-->
-        <!--<span>-</span>-->
-        <!--<date-picker type="date" placeholder="选择日期" class="width-200" format="yyyy-MM-dd HH:mm:ss" v-model="endTime" @on-change="selectEndTime"></date-picker>-->
-      <!--</div>-->
-      <!--<div class="left filter-period ml-40">-->
-        <!--<span v-for="(item,index) in choiceTime" :key="index" :class="{'is-active':timeSelect === item.isSelect}" class="cursor-p" @click="getTargetTime(item.id,item.isSelect)">{{item.text}}</span>-->
-        <!--<i-button class="filter-btn bg-main-color cl-fff ml-15" :loading="filterLoading" @click="filterOrderDetail">筛选</i-button>-->
-      <!--</div>-->
-
       <!--利用组件来筛选-->
-      <div class="left">
-        <date-picker type="daterange" :options="dataPickerOption" placeholder="请选择需要检索的日期区间" class="width-180" format="yyyy-MM-dd" @on-change="dataPickerChange"></date-picker>
-      </div>
-      <i-button @click="getFlowOrderDetail" class="ml-20 bg-main-color cl-fff">筛选</i-button>
+      <date-picker type="daterange" :options="dataPickerOption" placeholder="请选择需要检索的日期区间" class="width-180 left" format="yyyy-MM-dd" @on-change="dataPickerChange"></date-picker>
+      <i-button @click="getFlowOrderDetail" class="ml-20 bg-main-color cl-fff left ml-20">筛选</i-button>
     </div>
     <div class="pl-20 pt-10 pb-10 personal-list-table">
       <p><span>当前您共订购收藏加购流量： <span class="main-color">{{getFlowNumInfo.favoriteCartFlowLeft || 0}}</span> 条，访客流量 <span class="main-color">{{getFlowNumInfo.visitorFlowLeft || 0}}</span> 条。</span></p>

@@ -2253,12 +2253,18 @@
           Object.keys(matchDiyInfo[i]).forEach(k => {
             if (k === 'visitor_flow') {
               matchDiyInfo[i][k].forEach(item => {
-                visitorCount += item.count ? item.count : 0
+                visitorCount += item.count ? item.count : 0;
               })
             } else {
-              matchDiyInfo[i][k].forEach(item => {
-                favoriteCartCount += item.count ? item.count : 0
-              })
+              if (k === 'favorite_cart_flow') {
+                matchDiyInfo[i][k].forEach(item => {
+                  favoriteCartCount += item.count ? item.count * 2 : 0;
+                })
+              } else {
+                matchDiyInfo[i][k].forEach(item => {
+                  favoriteCartCount += item.count ? item.count : 0;
+                })
+              }
             }
           })
         });
@@ -2275,7 +2281,6 @@
       getFlowNumInfo() {
         return this.$store.state.flowNumberInfo
       }
-
 
     },
     methods: {
