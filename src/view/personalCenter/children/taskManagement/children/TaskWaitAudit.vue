@@ -92,7 +92,8 @@
                   </tooltip>
                   <div class="inline-block account-info">
                     <p>{{allTask.alitmAccount}}</p>
-                    <img :src="allTask.creditLevel" alt="淘宝等级LOGO">
+                    <img v-if="allTask.creditLevel" :src="allTask.creditLevel" alt="淘宝等级LOGO">
+                    <p v-else>淘宝等级未知</p>
                     <p>淘气值：{{allTask.tqz}}</p>
                     <div class="value-added-info" v-if="!eyesServerPermissions">
                       <p>
