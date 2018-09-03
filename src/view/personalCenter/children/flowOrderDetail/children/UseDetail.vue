@@ -534,6 +534,15 @@
       searchTask() {
         this.getFlowList();
       },
+    },
+    watch: {
+      'addFlowCount.visitor_flow'(value) {
+        let needVisitorFlow = this.usefulVisitorFlow < value;
+        this.$store.commit({
+          type: 'NEED_ORDER_VISITOR_FLOW',
+          status: needVisitorFlow
+        })
+      }
     }
   }
 </script>

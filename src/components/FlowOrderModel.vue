@@ -149,6 +149,10 @@
         return !this.hasBalance ? Math.abs(this.getUserBalance - this.payMoney) : 0
       },
 
+      visitorFlowOrder() {
+        return this.$store.state.needOrderVisitorFlow
+      }
+
     },
     created() {
       if (this.visitorFlowOrder) {
@@ -186,6 +190,10 @@
           this.step = 'select';
           this.orderList = [];
           this.selectItem = {};
+          this.$store.commit({
+            type: 'NEED_ORDER_VISITOR_FLOW',
+            status: false
+          });
           this.$emit('input', false);
         } else {
           this.defaultTab = {
