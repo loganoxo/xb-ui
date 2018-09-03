@@ -1,15 +1,19 @@
 <template>
   <div class="use-detail">
     <div class="filter-time clear pt-20 pb-20">
-      <div class="left">
-        <date-picker type="daterange" :options="dataPickerOption" placeholder="请选择需要检索的日期区间" class="width-180"
-                     format="yyyy-MM-dd" @on-change="dataPickerChange"></date-picker>
-      </div>
-      <i-button type="primary" class="left ml-8">搜索</i-button>
+      <date-picker type="daterange" :options="dataPickerOption" placeholder="使用日期区间搜索" class="width-180 left" format="yyyy-MM-dd" @on-change="dataPickerChange"></date-picker>
+      <i-input v-model="searchTaskNumber" class="left width-200 ml-10" placeholder="使用活动编号搜索"></i-input>
+      <i-button type="primary" class="left ml-8" :loading="loading" @click="searchTask">搜索</i-button>
     </div>
     <div class="personal-list-table">
-      <p class="mt-20"><span>当前您共订购收藏加购流量：<span class="main-color">0</span>&nbsp;条，访客流量：<span
-        class="main-color">40</span>&nbsp;条。</span></p>
+      <p class="mt-20"><span>当前您共订购收藏加购流量：<span class="main-color">0</span>&nbsp;条，访客流量：<span class="main-color">40</span>&nbsp;条。</span></p>
+      <p class="border-top pt-20 mt-20 clear">
+        <checkbox class="left mr-10 mt-2" :indeterminate="checkbox.indeterminate" :value="checkbox.checkAll" @click.prevent.native="handleCheckAll">全选</checkbox>
+        <checkbox-group class="left" v-model="checkbox.checkAllGroup" @on-change="checkAllGroupChange">
+          <checkbox label="finished">已结束</checkbox>
+          <checkbox label="under_way">进行中</checkbox>
+        </checkbox-group>
+      </p>
       <table class="table-list mt-15">
         <thead>
         <tr class="bgF1F1F1">
@@ -185,14 +189,12 @@
       <div class="mt-6 cl000">请先补足流量再发布！</div>
       <i-button slot="footer" type="error" size="large" :loading="loading" long @click="orderImmediately">马上订购</i-button>
     </modal>
-    <!--流量订购弹窗-->
-    <flow-order-model v-model="showOrderModel" :visitorFlowOrder="!isVisitorFlowEnough"/>
   </div>
 </template>
 
 <script>
   import api from '@/config/apiConfig'
-  import {DatePicker, Page, Icon, Button, Modal, InputNumber, Tooltip} from 'iview'
+  import {DatePicker, Page, Icon, Button, Modal, InputNumber, Tooltip, Checkbox, Input} from 'iview'
   import CollapseTransition from 'iview/src/components/base/collapse-transition'
   import {getSeverTime, encryption} from '@/config/utils'
   import FlowOrderModel from '@/components/FlowOrderModel'
@@ -204,7 +206,10 @@
       Page: Page,
       Icon: Icon,
       iButton: Button,
+      iInput: Input,
       Modal: Modal,
+      Checkbox: Checkbox,
+      CheckboxGroup: Checkbox.Group,
       InputNumber: InputNumber,
       Tooltip: Tooltip,
       CollapseTransition: CollapseTransition,
@@ -267,16 +272,22 @@
           'visitor_flow': 0,
         },
         selectId: null,
-        showOrderModel: false
+        checkbox: {
+          checkAllGroup: [],
+          checkAll: false,
+          indeterminate: true,
+        },
+        searchTaskNumber: null,
       }
     },
+    inject: ['showOrder'],
     computed: {
       /**
        * 获取商家流量数量信息
        * @return {object}
        */
       getFlowNumInfo() {
-        return this.$store.state.flowNumberInfo
+        return this.$store.state.flowNumberInfo;
       },
 
       /**
@@ -284,7 +295,7 @@
        * @return {number}
        */
       usefulFavoriteCartFlow() {
-        return (this.getFlowNumInfo.favoriteCartFlowLeft - this.getFlowNumInfo.favoriteCartFlowFrozen) > 0 ? this.getFlowNumInfo.favoriteCartFlowLeft - this.getFlowNumInfo.favoriteCartFlowFrozen : 0 ;
+        return (this.getFlowNumInfo.favoriteCartFlowLeft - this.getFlowNumInfo.favoriteCartFlowFrozen) > 0 ? this.getFlowNumInfo.favoriteCartFlowLeft - this.getFlowNumInfo.favoriteCartFlowFrozen : 0;
       },
 
       /**
@@ -292,7 +303,7 @@
        * @return {number}
        */
       usefulVisitorFlow() {
-        return (this.getFlowNumInfo.visitorFlowLeft - this.getFlowNumInfo.visitorFlowFrozen) > 0 ? this.getFlowNumInfo.visitorFlowLeft - this.getFlowNumInfo.visitorFlowFrozen : 0 ;
+        return (this.getFlowNumInfo.visitorFlowLeft - this.getFlowNumInfo.visitorFlowFrozen) > 0 ? this.getFlowNumInfo.visitorFlowLeft - this.getFlowNumInfo.visitorFlowFrozen : 0;
       },
 
       /**
@@ -300,7 +311,7 @@
        * @return {object}
        */
       favoriteCartFlowCount() {
-        return this.addFlowCount['favorite_cart_flow'] * 2 + this.addFlowCount['favorite_flow'] + this.addFlowCount['cart_flow']
+        return this.addFlowCount['favorite_cart_flow'] * 2 + this.addFlowCount['favorite_flow'] + this.addFlowCount['cart_flow'];
       },
 
       /**
@@ -308,7 +319,7 @@
        * @return {boolean}
        */
       isFavoriteCartFlowEnough() {
-        return this.usefulFavoriteCartFlow > this.favoriteCartFlowCount
+        return this.usefulFavoriteCartFlow >= this.favoriteCartFlowCount;
       },
 
       /**
@@ -316,11 +327,15 @@
        * @return {boolean}
        */
       isVisitorFlowEnough() {
-        return this.usefulVisitorFlow > this.addFlowCount['visitor_flow']
+        return this.usefulVisitorFlow >= this.addFlowCount['visitor_flow'];
       },
     },
     created() {
-      this.getFlowList()
+      if (this.$route.query.number) {
+        this.getQueryTaskNumber();
+      } else {
+        this.getFlowList();
+      }
     },
     methods: {
       popularFlowType(type) {
@@ -332,9 +347,23 @@
           return '------'
         }
       },
+      getQueryTaskNumber () {
+        const number = this.$route.query.number;
+        if (number) {
+          this.searchTaskNumber = number;
+          this.getFlowList();
+          setTimeout(()=> {
+            if (this.flowList.length > 0) {
+              const taskId = this.flowList[0].id;
+              this.getTaskFlowDetail(taskId);
+              this.selectId = taskId;
+            }
+          },1000)
+        }
+      },
       dataPickerChange(date) {
-        this.datePickTime.tradTimeStart = date[0];
-        this.datePickTime.tradTimeEnd = date[1];
+        this.datePickTime.tradTimeStart = `${date[0]} 00:00:00`;
+        this.datePickTime.tradTimeEnd = `${date[1]} 00:00:00`;
       },
       pageChange(pageIndex) {
         this.page.pageIndex = pageIndex;
@@ -342,15 +371,21 @@
       },
       getFlowList() {
         const _this = this;
+        _this.loading = true;
         api.getTaskFlowList({
-          pageIndex: this.page.pageIndex
+          pageIndex: _this.page.pageIndex,
+          upLineTimeStart: _this.datePickTime.tradTimeStart,
+          upLineTimeEnd: _this.datePickTime.tradTimeEnd,
+          taskStatusListString: JSON.stringify(_this.checkbox.checkAllGroup),
+          taskNumber: _this.searchTaskNumber,
         }).then(res => {
           if (res.status) {
             _this.page.totalPages = res.totalPages;
             _this.flowList = res.content;
           } else {
-            _this.$Message.error(res.msg)
+            _this.$Message.error(res.msg);
           }
+          _this.loading = false;
         })
       },
       openDetail(id) {
@@ -407,11 +442,13 @@
             countMapString: JSON.stringify(_this.addFlowCount),
           }).then(res => {
             if (res.status) {
-              _this.getFlowList(_this.addFlowInfo.taskId);
-              _this.getTaskFlowDetail(_this.addFlowInfo.taskId);
-              _this.selectId = _this.addFlowInfo.taskId;
-              _this.$Message.success('流量任务补添成功！');
-              _this.$store.dispatch('getFlowNumInfo');
+             setTimeout(() => {
+               _this.getFlowList(_this.addFlowInfo.taskId);
+               _this.getTaskFlowDetail(_this.addFlowInfo.taskId);
+             }, 200);
+             _this.selectId = _this.addFlowInfo.taskId;
+             _this.$Message.success('流量任务补添成功！');
+             _this.$store.dispatch('getFlowNumInfo');
             } else {
               _this.$Message.error(res.msg)
             }
@@ -439,7 +476,7 @@
             _this.selectId = _this.stopFlowInfo.taskId;
             _this.$Message.success('流量任务停止成功！');
           } else {
-            _this.$Message.error(res.msg)
+            _this.$Message.error(res.msg);
           }
           _this.loading = false;
           _this.stopFlowModal = false;
@@ -447,10 +484,42 @@
       },
       orderImmediately() {
         this.flowNotEnoughModal = false;
-        this.showOrderModel = true;
+        this.addFlowModal = false;
+        this.showOrder();
       },
       lookTaskDetail(id) {
         this.$router.push({name: 'ActivityDetail', query: {q: encryption(id)}})
+      },
+      checkAllGroupChange(data) {
+        if (data.length === 2) {
+          this.checkbox.indeterminate = false;
+          this.checkbox.checkAll = true;
+        } else if (data.length > 0) {
+          this.checkbox.indeterminate = true;
+          this.checkbox.checkAll = false;
+        } else {
+          this.checkbox.indeterminate = false;
+          this.checkbox.checkAll = false;
+        }
+        this.getFlowList();
+      },
+      handleCheckAll() {
+        if (this.checkbox.indeterminate) {
+          this.checkbox.checkAll = false;
+        } else {
+          this.checkbox.checkAll = !this.checkbox.checkAll;
+        }
+        this.checkbox.indeterminate = false;
+
+        if (this.checkbox.checkAll) {
+          this.checkbox.checkAllGroup = ['under_way', 'finished'];
+        } else {
+          this.checkbox.checkAllGroup = [];
+        }
+        this.getFlowList();
+      },
+      searchTask() {
+        this.getFlowList();
       },
     }
   }

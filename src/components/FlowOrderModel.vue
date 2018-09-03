@@ -42,28 +42,6 @@
             <span>(<span class="main-color">您当前是VIP会员，享受5折订购！</span>)</span>
           </p>
         </div>
-        <!--访客流量订购-->
-        <!--<div v-if="defaultTab.type === 'flowOrder'" class="flow-order pt-20 pb-10 pr-10 pl-10">-->
-        <!--<div>-->
-        <!--<span>选择条数</span>-->
-        <!--<i-button v-for="(item,index) in flowList" :key="index" class="ml-15 flow-option" :class="{'is-active':item.index === defaultFlow.index}" @click="defaultFlow = item">-->
-        <!--<span class="fs-14 order-num">{{item.orderNum}}条</span><br/>-->
-        <!--<span class="fs-14 order-price">￥{{getMemberVersionLevel === 100 ? (item.originalPrice/100).toFixed(2) : (item.price/100).toFixed(2)}}元</span><br/>-->
-        <!--<span v-if="getMemberVersionLevel === 100" class="fs-12 text-decoration-through cl666">VIP:￥{{(item.price/100).toFixed(2)}}元</span>-->
-        <!--<span v-else class="fs-12 text-decoration-through cl666">原价:￥{{(item.originalPrice/100).toFixed(2)}}元</span>-->
-        <!--</i-button>-->
-        <!--</div>-->
-        <!--<p v-if="getMemberVersionLevel === 100" class="mt-15 ml-56">-->
-        <!--<span>单价：￥0.20元/条</span>-->
-        <!--<span class="fs-12 text-decoration-through cl666 ml-15 mr-15">VIP：￥0.10元/条</span>-->
-        <!--<span>(<span class="blue text-decoration-underline">升级VIP</span><span class="main-color text-decoration-underline">，享受5折订购</span>)</span>-->
-        <!--</p>-->
-        <!--<p v-else class="mt-15 ml-56">-->
-        <!--<span>单价：￥0.10元/条</span>-->
-        <!--<span class="fs-12 text-decoration-through cl666 ml-15 mr-15">原价：￥0.20元/条</span>-->
-        <!--<span>(<span class="main-color">您当前是VIP会员，享受5折订购！</span>)</span>-->
-        <!--</p>-->
-        <!--</div>-->
         <div class="mt-15 ml-56">
           <i-button class="order-btn" :loading="orderLoading" @click="order">立即订购</i-button>
         </div>
@@ -255,7 +233,7 @@
             _this.$Message.success('恭喜您，支付成功！');
             _this.selectItem = _this.orderList[0];
             _this.$emit('input', false);
-            // _this.$emit('orderSuccess')
+            _this.$emit('on-success');
           } else {
             _this.$Message.error(res.msg);
           }
