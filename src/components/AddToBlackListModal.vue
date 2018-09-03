@@ -209,7 +209,7 @@
           this.alitmAccount = this.blackListInfo.alitmAccount ? this.blackListInfo.alitmAccount : null;
           this.addToBlackListReason = this.blackListInfo.reasonCode ? this.blackListInfo.reasonCode : null;
           this.addToBlackOtherReason = this.blackListInfo.reasonCode && this.blackListInfo.reasonCode === 'other_reason' ? this.blackListInfo.reasonStr : null;
-          this.taskNumber = this.blackListInfo.taskNumber ? this.blackListInfo.taskNumber : null;
+          this.taskNumber = this.blackListInfo.taskNum ? this.blackListInfo.taskNum : null;
           this.addToCredit = this.blackListInfo.addToCredit ? this.blackListInfo.addToCredit : null;
           if (this.blackListInfo.screenshot && this.blackListInfo.screenshot.length > 0) {
             this.blackListInfo.screenshot.forEach(item => {
@@ -247,10 +247,10 @@
           _this.$Message.warning("请填写拿手违规行为对应的活动编号！");
           return;
         }
-        if (!/^[0-9]*$/.test(_this.taskNumber)) {
-          _this.$Message.warning('请输入正确格式的活动编号！');
-          return;
-        }
+        // if (!/^[0-9]*$/.test(_this.taskNumber)) {
+        //   _this.$Message.warning('请输入正确格式的活动编号！');
+        //   return;
+        // }
         if (_this.addToCredit && !_this.screenshot) {
           _this.$Message.warning("请上传拉违规关凭证截图！");
           return;
@@ -266,6 +266,7 @@
           reasonCode: _this.addToBlackListReason,
           reasonText: _this.addToBlackOtherReason,
           addToCredit: _this.addToCredit,
+          taskNum: _this.taskNumber,
           screenshot: JSON.stringify(_this.screenshotList),
         }).then(res => {
           if (res.status) {
