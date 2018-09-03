@@ -483,6 +483,7 @@
           schemeIndex: _this.stopFlowInfo.schemeIndex
         }).then(res => {
           if (res.status) {
+            _this.getFlowList();
             _this.getTaskFlowDetail(_this.stopFlowInfo.taskId);
             _this.selectId = _this.stopFlowInfo.taskId;
             _this.$Message.success('流量任务停止成功！');
