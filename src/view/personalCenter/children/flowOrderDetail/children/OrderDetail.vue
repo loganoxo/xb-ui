@@ -33,7 +33,7 @@
         </tbody>
       </table>
     </div>
-    <page class="text-align-rt" v-if="orderDetailList.length > 0" :total="page.totalElements" :page-size="pageSize" @on-change="changePages"/>
+    <page class="text-align-rt" v-if="orderDetailList.length > 0" :current="page.pageIndex" :total="page.totalElements" :page-size="page.pageSize" @on-change="changePages"/>
   </div>
 </template>
 
