@@ -176,7 +176,7 @@
         <icon class="vtc-btm" color="#f9284f" type="md-alert"/>
         <span class="main-color">停止流量任务</span>
       </div>
-      <div class="cl000 f-b">停止流量任务会删除所有待处理任务（包括收藏 + 加购、加购、收藏、访客任务），是否确认停止？</div>
+      <div class="cl000 f-b">停止流量任务会删除所有待处理任务（包括收藏 + 加购、加购、收藏、访客任务），若为申请数匹配的流量，停止后将不再发出任务。是否确认停止？</div>
       <i-button slot="footer" type="error" size="large" :loading="loading" long @click="taskFlowStop">确定</i-button>
     </modal>
     <!--流量不足提醒弹框-->
