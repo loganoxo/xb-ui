@@ -30,7 +30,7 @@
           <th style="width:20%">流量数</th>
         </tr>
         </thead>
-        <tbody>
+        <tbody v-if="orderDetailList.length > 0">
         <tr v-for="(item,index) in orderDetailList" :key="index">
           <td>{{item.tradTime | dateFormat('YYYY-MM-DD hh:mm:ss')}}</td>
           <td>{{item.serialNumber}}</td>
@@ -39,13 +39,14 @@
           <td class="main-color">{{item.extension.count ? '+' + item.extension.count: null}}</td>
         </tr>
         </tbody>
+        <tbody v-else>
+        <tr>
+          <td colspan="5">暂无数据</td>
+        </tr>
+        </tbody>
       </table>
     </div>
-    <div class="right mt-22" v-if="totalElements">
-      <Page :total="page.totalElements" :page-size="pageSize" @on-change="changePages"></Page>
-    </div>
-    <div v-if="!page.totalElements" class="text-ct mt-20">暂无数据</div>
-
+    <page class="text-align-rt" v-if="orderDetailList.length > 0" :total="page.totalElements" :page-size="pageSize" @on-change="changePages"/>
   </div>
 </template>
 
@@ -65,9 +66,6 @@
     data() {
       return {
         dataPickerOption: {
-          // disabledDate(date) {
-          //   return date && date.valueOf() > Date.now();
-          // },
           shortcuts: [
             {
               text: '今天',
@@ -95,34 +93,6 @@
             }
           ]
         },
-        // startTime: null,
-        // endTime: null,
-        // tradTimeStart: null,
-        // tradTimeEnd: null,
-        // timeSelect: 'all',
-        // choiceTime: [
-        //   {
-        //     text: '今天',
-        //     isSelect: 'today',
-        //     id: 0
-        //
-        //   },
-        //   {
-        //     text: '昨天',
-        //     isSelect: 'yesterday',
-        //     id: 1
-        //   },
-        //   {
-        //     text: '最近一个月',
-        //     isSelect: 'oneMouth',
-        //     id: 2
-        //   },
-        //   {
-        //     text: '全部',
-        //     isSelect: 'all',
-        //     id: 3
-        //   }
-        // ],
         datePickTime: {
           tradTimeStart: null,
           tradTimeEnd: null,
@@ -133,9 +103,6 @@
           pageSize: 10,
           pageIndex: 1,
         },
-        // totalElements: 0,
-        // pageSize: 10,
-        // pageIndex: 1,
         favoriteCartFlow: 0,
         visitorFlow: 0,
         filterLoading: false,
@@ -154,57 +121,6 @@
 
     },
     methods: {
-      // selectBeginTime(e) {
-      //   this.startTime = e;
-      //   this.tradTimeStart = e;
-      // },
-      // selectEndTime(e) {
-      //   this.endTime = e;
-      //   this.tradTimeEnd = e;
-      // },
-      // getTargetTime(type, select) {
-      //   let _this = this;
-      //   _this.timeSelect = select;
-      //
-      //   function getDateStr(time) {
-      //     let date = new Date();
-      //     date.setDate(date.getDate() + time);
-      //     let seperator1 = "-";
-      //     let seperator2 = ":";
-      //     let month = date.getMonth() + 1;
-      //     let strDate = date.getDate();
-      //     if (month >= 1 && month <= 9) {
-      //       month = "0" + month;
-      //     }
-      //     if (strDate >= 0 && strDate <= 9) {
-      //       strDate = "0" + strDate;
-      //     }
-      //     return date.getFullYear() + seperator1 + month + seperator1 + strDate + " " + '00' + seperator2 + '00' + seperator2 + '00';
-      //   }
-      //
-      //   if (type === 0) {
-      //     _this.startTime = getDateStr(0);
-      //     _this.endTime = getDateStr(1);
-      //     _this.tradTimeStart = getDateStr(0);
-      //     _this.tradTimeEnd = getDateStr(1);
-      //   } else if (type === 1) {
-      //     _this.startTime = getDateStr(-1);
-      //     _this.endTime = getDateStr(0);
-      //     _this.tradTimeStart = getDateStr(-1);
-      //     _this.tradTimeEnd = getDateStr(0);
-      //   } else if (type === 2) {
-      //     _this.startTime = getDateStr(-30);
-      //     _this.endTime = getDateStr(1);
-      //     _this.tradTimeStart = getDateStr(-30);
-      //     _this.tradTimeEnd = getDateStr(1);
-      //   } else {
-      //     _this.startTime = null;
-      //     _this.endTime = null;
-      //     _this.tradTimeStart = null;
-      //     _this.tradTimeEnd = null;
-      //     _this.getFlowOrderDetail();
-      //   }
-      // },
       getFlowOrderDetail() {
         const _this = this;
         api.getFlowOrderDetail({
@@ -228,12 +144,14 @@
         this.page.pageIndex = page;
         this.getFlowOrderDetail();
       },
-      // filterOrderDetail() {
-      //   this.getFlowOrderDetail();
-      // },
       dataPickerChange(date) {
-        this.datePickTime.tradTimeStart = date[0];
-        this.datePickTime.tradTimeEnd = date[1];
+        if (date[0] && date[1]) {
+          this.datePickTime.tradTimeStart = `${date[0]} 00:00:00`;
+          this.datePickTime.tradTimeEnd = `${date[1]} 23:59:59`;
+        } else {
+          this.datePickTime.tradTimeStart = null;
+          this.datePickTime.tradTimeEnd = null;
+        }
       }
     }
   }
