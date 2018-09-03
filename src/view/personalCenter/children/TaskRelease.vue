@@ -3378,10 +3378,19 @@
                 if (item.schemeIndex > 0) {
                   const keys = Object.keys(_this.favoriteCartFlowInfo.matchDiyInfo);
                   if (!keys.includes(item.schemeIndex.toString())) {
-                    _this.favoriteCartFlowInfo.matchDiyInfo[item.schemeIndex] = {};
+                    _this.$set(_this.favoriteCartFlowInfo.matchDiyInfo, item.schemeIndex, {});
+                    Object.keys(_this.favoriteCartFlowInfo.map).forEach(key => {
+                      _this.$set(_this.favoriteCartFlowInfo.matchDiyInfo[item.schemeIndex], key, [
+                        {
+                          dateIndex: 0,
+                          hourStart: `24`,
+                          hourEnd: `0`,
+                          count: null,
+                        }
+                      ]);
+                    });
                   }
-                  const childKeys = Object.keys(_this.favoriteCartFlowInfo.matchDiyInfo[item.schemeIndex]);
-                  if (!childKeys.includes(item.flowType)) {
+                  if (item.flowType) {
                     _this.favoriteCartFlowInfo.matchDiyInfo[item.schemeIndex][item.flowType] = [];
                   }
                 } else {
