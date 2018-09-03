@@ -7,7 +7,7 @@
       <i-button icon="md-refresh" class="left ml-8" :loading="loading" @click="searchTask">刷新</i-button>
     </div>
     <div class="personal-list-table">
-      <p class="mt-20"><span>当前您共使用收藏加购流量：<span class="main-color">{{allUseFavoriteCartFlowCount}}</span>&nbsp;条，访客流量：<span class="main-color">{{allUseVisitorFlowCount}}</span>&nbsp;条。</span></p>
+      <p class="mt-20"><span>当前您共使用收藏加购流量：<span class="main-color">{{getFlowNumInfo.favoriteCartFlowUse}}</span>&nbsp;条，访客流量：<span class="main-color">{{getFlowNumInfo.visitorFlowUse}}</span>&nbsp;条。</span></p>
       <p class="border-top pt-20 mt-20 clear">
         <checkbox class="left mr-10 mt-2" :indeterminate="checkbox.indeterminate" :value="checkbox.checkAll" @click.prevent.native="handleCheckAll">全选</checkbox>
         <checkbox-group class="left" v-model="checkbox.checkAllGroup" @on-change="checkAllGroupChange">
@@ -284,8 +284,6 @@
           indeterminate: true,
         },
         searchTaskNumber: null,
-        allUseFavoriteCartFlowCount: 0,
-        allUseVisitorFlowCount: 0,
       }
     },
     inject: ['showOrder'],
@@ -395,14 +393,6 @@
           if (res.status) {
             _this.page.totalPages = res.totalPages;
             _this.flowList = res.content;
-            let allUseFavoriteCartFlowCount = 0;
-            let allUseVisitorFlowCount = 0;
-            _this.flowList.forEach(item => {
-              allUseFavoriteCartFlowCount += item.flowCountOfFavoriteCartFlow.useCount;
-              allUseVisitorFlowCount += item.flowCountOfVisitorFlow.useCount;
-            });
-            _this.allUseFavoriteCartFlowCount = allUseFavoriteCartFlowCount;
-            _this.allUseVisitorFlowCount = allUseVisitorFlowCount;
           } else {
             _this.$Message.error(res.msg);
           }

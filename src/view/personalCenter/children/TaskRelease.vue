@@ -1715,7 +1715,7 @@
             msg: ''
           },
           favoriteCartFlowStatus: false,
-          popularFlow: '',
+          popularFlow: null,
           period: Array.from({length: 25},(v, k) => {return `${k}`}),
           require: {
             'favorite_cart_flow_require': true,
@@ -2887,12 +2887,14 @@
               _this.$Message.warning(_this.favoriteCartFlowInfo.error.msg);
               return;
             }
-            const isAllRequire =Object.keys(this.favoriteCartFlowInfo.require).some(item => {
-              return this.favoriteCartFlowInfo.require[item]
-            });
-            if (!isAllRequire) {
-              this.$Message.warning('请设置收藏加购及访客流量中的申请数量匹配！');
-              return;
+            if (_this.favoriteCartFlowInfo.popularFlow === 'match_by_apply') {
+              const isAllRequire =Object.keys(this.favoriteCartFlowInfo.require).some(item => {
+                return this.favoriteCartFlowInfo.require[item]
+              });
+              if (!isAllRequire) {
+                this.$Message.warning('请设置收藏加购及访客流量中的申请数量匹配！');
+                return;
+              }
             }
           }
         }
