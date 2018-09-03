@@ -186,7 +186,7 @@
       <i-button slot="footer" type="error" size="large" :loading="loading" long @click="orderImmediately">马上订购</i-button>
     </modal>
     <!--流量订购弹窗-->
-    <flow-order-model v-model="showOrderModel"/>
+    <flow-order-model v-model="showOrderModel" :visitorFlowOrder="!isVisitorFlowEnough"/>
   </div>
 </template>
 

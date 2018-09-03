@@ -56,9 +56,9 @@
             </div>
             <div v-if="getUserInfoRole === 1" class="mt-10">
               <img src="~assets/img/icon/favorite_cart_flow.png" alt="" width="14" height="14">
-              <span class="ml-5">剩余收藏加购： {{getFlowNumInfo.favoriteCartFlowLeft}} 条</span>
+              <span class="ml-5">剩余收藏加购： {{getFlowNumInfo.favoriteCartFlowLeft || 0}} 条</span>
               <img src="~assets/img/icon/visitor_flow.png" alt="" width="14" height="14" class="ml-20">
-              <span class="ml-5">剩余访客流量： {{getFlowNumInfo.visitorFlowLeft}} 条</span>
+              <span class="ml-5">剩余访客流量： {{getFlowNumInfo.visitorFlowLeft || 0}} 条</span>
               <span class="ml-20 cursor-p blue" @click="showFlowOrder = true">购买</span>
               <span class="ml-10 cursor-p blue" @click="toOrderDetail">明细</span>
             </div>

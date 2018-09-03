@@ -112,6 +112,11 @@
         type: Boolean,
         default: false
       },
+      // 订购选项卡默认选择（以访客流量是否不足为标准，如果访客流量不足，定位到访客流量订购（true），其他情况均默认收藏加购流量订购（false））
+      visitorFlowOrder: {
+        type: Boolean,
+        default: false
+      }
     },
     data() {
       return {
@@ -127,8 +132,8 @@
           }
         ],
         defaultTab: {
-          text: '收藏加购订购',
-          type: 'favorite_cart_flow'
+          text: this.visitorFlowOrder ? '访客流量订购' :'收藏加购订购',
+          type: this.visitorFlowOrder ? 'visitor_flow' :'favorite_cart_flow'
         },
         orderList: [],
         selectItem: {},
@@ -177,11 +182,14 @@
 
     },
     created() {
-      this.getFlowOrderConfig('favorite_cart_flow');
+      // this.getFlowOrderConfig('favorite_cart_flow');
+      if (this.visitorFlowOrder) {
+        this.getFlowOrderConfig('visitor_flow');
+      } else {
+        this.getFlowOrderConfig('favorite_cart_flow');
+      }
     },
-    mounted() {
-
-    },
+    mounted() {},
     methods: {
       changeType(tab) {
         this.defaultTab = tab;
@@ -210,18 +218,25 @@
           this.step = 'select';
           this.orderList = [];
           this.selectItem = {};
-          this.defaultTab = {
-            text: '收藏加购订购',
-            type: 'favorite_cart_flow'
-          };
+          // this.defaultTab = {
+          //   text: '收藏加购订购',
+          //   type: 'favorite_cart_flow'
+          // };
           this.$emit('input', false);
         } else {
-          this.getFlowOrderConfig('favorite_cart_flow');
+          this.defaultTab = {
+            text: this.visitorFlowOrder ? '访客流量订购' :'收藏加购订购',
+            type: this.visitorFlowOrder ? 'visitor_flow' :'favorite_cart_flow'
+          };
+          if (this.visitorFlowOrder) {
+            this.getFlowOrderConfig('visitor_flow');
+          } else {
+            this.getFlowOrderConfig('favorite_cart_flow');
+          }
         }
       },
       order() {
         this.payMoney = this.selectItem.price;
-        console.log(this.payMoney);
         this.step = 'pay';
       },
       confirmPayment(pwd) {

@@ -3,7 +3,7 @@
     <p class="title">收藏加购及访客流量</p>
     <div class="flow-info pt-20 pb-20 fs-12 pl-5">
       <icon type="md-alert" color="#000"/>
-      <span class="vtc-mid">当前您的账户剩余收藏加购流量： <span class="main-color">{{flowNumInfo.favoriteCartFlowLeft}}</span> 条（可支配 <span class="main-color">{{usefulFavoriteCartFlow}}</span> 条），访客流量 <span class="main-color">{{flowNumInfo.visitorFlowLeft}}</span> 条（可支配 <span class="main-color">{{usefulVisitorFlow}}</span> 条），若数量不足则无法发布相关任务。</span>
+      <span class="vtc-mid">当前您的账户剩余收藏加购流量： <span class="main-color">{{flowNumInfo.favoriteCartFlowLeft || 0}}</span> 条（可支配 <span class="main-color">{{usefulFavoriteCartFlow || 0}}</span> 条），访客流量 <span class="main-color">{{flowNumInfo.visitorFlowLeft || 0}}</span> 条（可支配 <span class="main-color">{{usefulVisitorFlow || 0}}</span> 条），若数量不足则无法发布相关任务。</span>
       <span class="flow-order" @click="showOrder">流量订购</span>
       <span v-if="isMember && !notGet" class="free-get-flow" @click="showFreeGetFlow = true">VIP免费领取100条流量</span>
     </div>

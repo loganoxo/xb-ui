@@ -710,6 +710,7 @@
               type: 'RECORD_USER_INFO',
               info: res.data
             });
+            self.$store.dispatch('getFlowNumInfo');
             if (res.data.role === 1) {
               self.$router.push({name: 'Home'});
             } else {
