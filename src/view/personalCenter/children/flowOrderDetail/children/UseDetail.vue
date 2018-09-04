@@ -498,6 +498,11 @@
       orderImmediately() {
         this.flowNotEnoughModal = false;
         this.addFlowModal = false;
+        const needVisitorFlow = this.usefulVisitorFlow < this.addFlowCount['visitor_flow'];
+        this.$store.commit({
+          type: 'NEED_ORDER_VISITOR_FLOW',
+          status: needVisitorFlow
+        });
         this.showOrder();
       },
       lookTaskDetail(id) {
@@ -532,18 +537,10 @@
         this.getFlowList();
       },
       searchTask() {
+        this.selectId = null;
         this.getFlowList();
       },
     },
-    watch: {
-      'addFlowCount.visitor_flow'(value) {
-        let needVisitorFlow = this.usefulVisitorFlow < value;
-        this.$store.commit({
-          type: 'NEED_ORDER_VISITOR_FLOW',
-          status: needVisitorFlow
-        })
-      }
-    }
   }
 </script>
 
