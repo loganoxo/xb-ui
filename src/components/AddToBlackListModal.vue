@@ -243,7 +243,7 @@
           _this.$Message.warning("请选择违规原因！");
           return;
         }
-        if (!_this.taskNumber) {
+        if (_this.addToCredit && !_this.taskNumber) {
           _this.$Message.warning("请填写拿手违规行为对应的活动编号！");
           return;
         }
@@ -252,7 +252,7 @@
         //   return;
         // }
         if (_this.addToCredit && !_this.screenshot) {
-          _this.$Message.warning("请上传拉违规关凭证截图！");
+          _this.$Message.warning("请上传违规相关凭证截图！");
           return;
         }
         if (_this.addToBlackListReason === 'other_reason' && !_this.addToBlackOtherReason) {
