@@ -163,12 +163,12 @@
                 <p class="copy mt-6">
                   <span @click="copyTask(item.id)">复制活动</span>
                 </p>
-                <p class="copy mt-6">
-                  <span @click="exemption(item)">免审发布</span>
-                  <tooltip content="以该活动为模板再次发布可免审核直接上线" placement="top">
-                    <icon type="md-help-circle" color="#f9284f" size="16" class="vtc-text-btm"/>
-                  </tooltip>
-                </p>
+                <!--<p class="copy mt-6">-->
+                  <!--<span @click="exemption(item)">免审发布</span>-->
+                  <!--<tooltip content="以该活动为模板再次发布可免审核直接上线" placement="top">-->
+                    <!--<icon type="md-help-circle" color="#f9284f" size="16" class="vtc-text-btm"/>-->
+                  <!--</tooltip>-->
+                <!--</p>-->
               </td>
               <td v-else-if="item.settlementStatus === 'cannot_settlement' && item.taskStatus === 'finished'">
                 <!--<p class="bond mt-6" v-if="isApproveExpire(item.endTime) && (item.taskCount - item.showkerApplySuccessCount) !== 0">-->
@@ -180,12 +180,12 @@
                 <p class="copy mt-6">
                   <span @click="copyTask(item.id)">复制活动</span>
                 </p>
-                <p class="copy mt-6">
-                  <span @click="exemption(item)">免审发布</span>
-                  <tooltip content="以该活动为模板再次发布可免审核直接上线" placement="top">
-                    <icon type="md-help-circle" color="#f9284f" size="16" class="vtc-text-btm"/>
-                  </tooltip>
-                </p>
+                <!--<p class="copy mt-6">-->
+                  <!--<span @click="exemption(item)">免审发布</span>-->
+                  <!--<tooltip content="以该活动为模板再次发布可免审核直接上线" placement="top">-->
+                    <!--<icon type="md-help-circle" color="#f9284f" size="16" class="vtc-text-btm"/>-->
+                  <!--</tooltip>-->
+                <!--</p>-->
               </td>
               <td v-else-if="(item.settlementStatus === 'settlement_finished' || item.settlementStatus === 'waiting_audit') && item.taskStatus === 'finished'">
                 <p class="copy mt-6">
@@ -200,12 +200,12 @@
                 <p class="copy mt-6">
                   <span @click="copyTask(item.id)">复制活动</span>
                 </p>
-                <p class="copy mt-6">
-                  <span @click="exemption(item)">免审发布</span>
-                  <tooltip content="以该活动为模板再次发布可免审核直接上线" placement="top">
-                    <icon type="md-help-circle" color="#f9284f" size="16-" class="vtc-text-btm"/>
-                  </tooltip>
-                </p>
+                <!--<p class="copy mt-6">-->
+                  <!--<span @click="exemption(item)">免审发布</span>-->
+                  <!--<tooltip content="以该活动为模板再次发布可免审核直接上线" placement="top">-->
+                    <!--<icon type="md-help-circle" color="#f9284f" size="16-" class="vtc-text-btm"/>-->
+                  <!--</tooltip>-->
+                <!--</p>-->
               </td>
               <td v-else-if="item.taskStatus === 'closed'">
                 <p class="bond mt-6">
