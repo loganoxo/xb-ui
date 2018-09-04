@@ -10,7 +10,7 @@
             <p>淘气值：{{tqz}}</p>
             <p>申请次数：{{applyCount || 0}} 次</p>
             <p>成功申请：{{applySuccessCount || 0}} 次</p>
-            <p>成功下单：{{orderFillCount || 0}}</p>
+            <p>成功下单：{{orderFillCount || 0}} 次</p>
             <p>上次申请成功：{{lastApplySuccessTime | dateFormat('YYYY-MM-DD') || '-----'}}</p>
             <p>上次登录：{{getLastLoginTime | dateFormat('YYYY-MM-DD') || '-----'}}</p>
           </div>
