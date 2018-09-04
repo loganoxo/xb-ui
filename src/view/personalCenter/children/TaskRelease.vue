@@ -1026,8 +1026,8 @@
                       </div>
                       <div class="inline-block width-pct-39 text-ct">
                         <i-input v-model.number="item.count" placeholder="请输入审批数" class="width-100"/>
-                        <i-button class="ml-10" size="small" type="dashed" icon="plus-round" @click="addTimeBucket" v-show="index === showkerCondition.auditTimeCountRequire.length - 1">添加时间段</i-button>
-                        <i-button class="ml-10" size="small" type="dashed" icon="minus-round" @click="deleteTimeBucket(index)" v-show="index !== showkerCondition.auditTimeCountRequire.length - 1">删除时间段</i-button>
+                        <i-button class="ml-10" size="small" type="dashed" icon="plus-round" @click="addTimeBucket" v-show="index === 0">添加时间段</i-button>
+                        <i-button class="ml-10" size="small" type="dashed" icon="minus-round" @click="deleteTimeBucket(index)" v-show="index !== 0">删除时间段</i-button>
                       </div>
                     </div>
                   </div>
@@ -1116,8 +1116,8 @@
                                 </div>
                                 <div class="inline-block width-pct-39 text-ct">
                                   <i-input v-model.number="item.count" placeholder="每小时最大60条" class="width-110"/>
-                                  <i-button class="ml-10" size="small" type="dashed" icon="plus-round" :disabled="!item.count" @click="addTimeBucketForFlowType(i-1, k, index)" v-show="index === favoriteCartFlowInfo.matchDiyInfo[i-1][k].length - 1">添加时间段</i-button>
-                                  <i-button class="ml-10" size="small" type="dashed" icon="minus-round" @click="deleteTimeBucketForFlowType(i-1, k, index)" v-show="index !== favoriteCartFlowInfo.matchDiyInfo[i-1][k].length - 1">删除时间段</i-button>
+                                  <i-button class="ml-10" size="small" type="dashed" icon="plus-round" :disabled="!item.count" @click="addTimeBucketForFlowType(i-1, k, index)" v-show="index === 0">添加时间段</i-button>
+                                  <i-button class="ml-10" size="small" type="dashed" icon="minus-round" @click="deleteTimeBucketForFlowType(i-1, k, index)" v-show="index !== 0">删除时间段</i-button>
                                 </div>
                               </div>
                             </template>
@@ -1128,7 +1128,7 @@
                   </div>
                   <div class="mt-20">预计共需要收藏加购流量：<span class="main-color">{{favoriteCartFlowCount.favoriteCartCount}}</span>&nbsp;条，访客流量：<span class="main-color">{{favoriteCartFlowCount.visitorCount}}</span>&nbsp;条。</div>
                   <div class="mt-20">
-                    <p class="sizeColor2">1、根据每天时段平均分配收藏加购流量。譬如12:00至14：00需要加购流量为100条，会为12:00至13:00分配50条，13:00-14:00分配50条。</p>
+                    <p class="sizeColor2">1、根据每天时段平均分配收藏加购流量。譬如12:00至14:00需要加购流量为100条，会为12:00至13:00分配50条，13:00至14:00分配50条。</p>
                     <p class="mt-10 sizeColor2">2、最多每分钟发出一条收藏加购任务，所以每小时最大可配置60条，若由于特殊原因未完成，只收取完成部分的流量数。</p>
                     <p class="mt-10 sizeColor2">3、仅在活动上线时间内发出任务，若活动下线或者结束或未上线时段，不会发布任务。</p>
                     <p class="mt-10 sizeColor2">4、收藏 + 加购每个任务消耗2条收藏加购流量，加购、收藏分别每个任务消耗1条收藏加购流量，访客数每个任务消耗1条访客流量。</p>
@@ -1158,12 +1158,8 @@
           </div>
           <div class="description-fees-con mt-10">
             <p>活动担保金 = 份数 × 单品活动担保金 = <span>{{oneBondMarginText}}</span> 元</p>
-            <!--<p class="mt-6">单品打赏费 = 单品试用担保金 × 费率 =<span>{{onePromotionExpensesBeforeText}}</span> 元<span>{{onePromotionExpensesTipText}}</span></p>-->
             <p class="mt-6">总推广费 = 单品推广费 × 份数 = <span>{{(onePromotionExpenses / 100).toFixed(2)}}</span> × <span>{{taskRelease.taskCount}} = <span>{{(allPromotionExpenses / 100).toFixed(2)}}</span></span>
               元 &nbsp;&nbsp;<span v-if="getTaskCreateFastStatus || isFastPublish" class="main-color">（您是首次放单，享受首单推广费减免）</span>
-              <!--<tooltip placement="top" content="为提高平台拿手活跃度，鼓励拿手创作更优质的买家秀内容，原平台推广费将改为打赏费，用于拿手打赏！">-->
-              <!--<a>什么是打赏费？</a>-->
-              <!--</tooltip>-->
             </p>
             <p class="mt-6">总增值费 = 单品增值费 × 份数 = <span>{{((oneValueAddedCost + showkerConditionAllPrice) / 100).toFixed(2)}}</span> × <span>{{taskRelease.taskCount}}</span> = {{(allValueAddedCost / 100).toFixed(2)}} 元</p>
             <p class="mt-6">总费用 = 活动担保金 + 总推广费 + 总增值费用 = <span>{{(orderMoney / 100).toFixed(2)}}</span> 元</p>
@@ -1814,8 +1810,8 @@
             }
           })
         }
-      /*  vm.merchantInformationInterval();
-        vm.merchantInformationModal.status = true;*/
+        vm.merchantInformationInterval();
+        vm.merchantInformationModal.status = true;
         // 防止页面跳转绑定店铺弹框闪烁需要将店铺请求放此处执行
         vm.getStoreBindInfoList()
       })
@@ -2888,14 +2884,16 @@
               return;
             }
             if (_this.favoriteCartFlowInfo.popularFlow === 'match_by_apply') {
-              const isAllRequire =Object.keys(this.favoriteCartFlowInfo.require).some(item => {
-                return this.favoriteCartFlowInfo.require[item]
+              const require = _this.favoriteCartFlowInfo.require;
+              const isAllRequire = Object.keys(require).some(key => {
+                return require[key]
               });
               if (!isAllRequire) {
-                this.$Message.warning('请设置收藏加购及访客流量中的申请数量匹配！');
+                _this.$Message.warning('请设置收藏加购及访客流量中的申请数量匹配！');
                 return;
               }
             }
+
           }
         }
         if (_this.taskRelease.taskType === 'tao_code') {
@@ -3065,11 +3063,12 @@
           if (_this.favoriteCartFlowInfo.popularFlow === 'match_by_apply') {
             // 根据用户是否勾选‘需要’确定匹配流量数量（没有勾则为0，反之取用户实际输入数量）
             const config = [];
-            Object.keys(_this.favoriteCartFlowInfo.matchByApplyInfo).forEach(item => {
+            const matchByApplyInfo = _this.favoriteCartFlowInfo.matchByApplyInfo;
+            Object.keys(matchByApplyInfo).forEach(item => {
               config.push({
                 flowType: item,
-                applyCount: _this.favoriteCartFlowInfo.require[item + '_require'] ? _this.favoriteCartFlowInfo.matchByApplyInfo[item].applyCount : 0,
-                flowCount: _this.favoriteCartFlowInfo.require[item + '_require'] ? _this.favoriteCartFlowInfo.matchByApplyInfo[item].flowCount : 0,
+                applyCount: _this.favoriteCartFlowInfo.require[item + '_require'] ? matchByApplyInfo[item].applyCount : 0,
+                flowCount: _this.favoriteCartFlowInfo.require[item + '_require'] ? matchByApplyInfo[item].flowCount : 0,
               })
             });
             _this.taskRelease.popularFlowConfig = JSON.stringify(config);
@@ -3360,53 +3359,50 @@
             if (res.data.popularFlow === 'match_by_apply') {
               _this.favoriteCartFlowInfo.popularFlow = 'match_by_apply';
               res.data.other.popularFlowConfig.forEach(item => {
-                _this.favoriteCartFlowInfo.require[item.flowType + '_require'] = item.applyCount > 0;
-                if (item.flowType === 'favorite_cart_flow') {
-                  if (item.applyCount > 0) {
-                    _this.favoriteCartFlowInfo.matchByApplyInfo['favorite_cart_flow'].applyCount = item.applyCount;
-                    _this.favoriteCartFlowInfo.matchByApplyInfo['favorite_cart_flow'].flowCount = item.flowCount;
-                  }
+                const flowType = item.flowType;
+                const applyCount = item.applyCount;
+                const flowCount = item.flowCount;
+                _this.favoriteCartFlowInfo.require[flowType + '_require'] = applyCount > 0;
+                if (applyCount > 0 && flowCount > 0) {
+                  _this.favoriteCartFlowInfo.matchByApplyInfo[flowType].applyCount = applyCount;
+                  _this.favoriteCartFlowInfo.matchByApplyInfo[flowType].flowCount = flowCount;
                 }
               })
             }
-
             // 自定义匹配流量数（复制、编辑活动）
             if (res.data.popularFlow === 'match_diy') {
               _this.favoriteCartFlowInfo.popularFlow = 'match_diy';
+              const matchDiyInfo = {};
               res.data.other.popularFlowConfig.forEach(item => {
-                // 当存在多个关键词的时候动态生成对象初始化key
-                if (item.schemeIndex > 0) {
-                  const keys = Object.keys(_this.favoriteCartFlowInfo.matchDiyInfo);
-                  if (!keys.includes(item.schemeIndex.toString())) {
-                    _this.$set(_this.favoriteCartFlowInfo.matchDiyInfo, item.schemeIndex, {});
-                    Object.keys(_this.favoriteCartFlowInfo.map).forEach(key => {
-                      _this.$set(_this.favoriteCartFlowInfo.matchDiyInfo[item.schemeIndex], key, [
-                        {
-                          dateIndex: 0,
-                          hourStart: `24`,
-                          hourEnd: `0`,
-                          count: null,
-                        }
-                      ]);
-                    });
-                  }
-                  if (item.flowType) {
-                    _this.favoriteCartFlowInfo.matchDiyInfo[item.schemeIndex][item.flowType] = [];
-                  }
-                } else {
-                  // 一个关键词的时候将对应的流量类型初始化数据置空，防止合并数据的时候重复
-                  _this.favoriteCartFlowInfo.matchDiyInfo[0][item.flowType] = [];
+                // 动态生成对象初始化key
+                const schemeIndex = item.schemeIndex;
+                const flowType = item.flowType;
+                const keys = Object.keys(matchDiyInfo);
+                if (!keys.includes(schemeIndex.toString())) {
+                  matchDiyInfo[schemeIndex] = {};
+                  Object.keys(_this.favoriteCartFlowInfo.map).forEach(key => {
+                    matchDiyInfo[schemeIndex][key] = [{
+                      dateIndex: 0,
+                      hourStart: `24`,
+                      hourEnd: `0`,
+                      count: null,
+                    }]
+                  })
                 }
-                // 根据对象的对应key合并接口返回的对应数据
-                _this.favoriteCartFlowInfo.matchDiyInfo[item.schemeIndex][item.flowType].push({
+                if (flowType) {
+                  matchDiyInfo[schemeIndex][flowType] = [];
+                }
+                // 根据对象的对应key生成接口返回的对应数据
+                matchDiyInfo[schemeIndex][flowType].push({
                   dateIndex: item.dateIndex,
                   hourStart: `${item.hourStart}`,
                   hourEnd: `${item.hourEnd}`,
                   count: item.count,
                 })
-              })
+              });
+              // 合并数据
+              _this.favoriteCartFlowInfo.matchDiyInfo = Object.assign({}, _this.favoriteCartFlowInfo.matchDiyInfo, matchDiyInfo);
             }
-            _this.taskRelease.taskDetail = {};
             switch (res.data.taskType) {
               case 'tao_code':
                 const image = _this.taoCodeTaskDetail[0].homePageLockItemImage;
@@ -3445,7 +3441,6 @@
                 _this.conversionPrice('app_search');
                 break;
               case 'direct_access':
-                _this.taskRelease.taskDetail = {};
                 break;
             }
             _this.countAssignedChange();
