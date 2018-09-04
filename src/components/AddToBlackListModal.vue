@@ -23,6 +23,10 @@
       <p>记入征信体系需要提交截图证明，由平台审核是否属实，审核期间及审核结果均不影响您正常拉黑，即此用户无法申请您发布的任何活动。</p>
       <p class="main-color f-b">客服审核通过后，会根据实际情况对违规的拿手进行相关处罚。</p>
     </div>
+    <div class="mt-20" v-show="addToCredit && addToBlackListReason">
+      <span>活动编号：</span>
+      <i-input v-model.trim="taskNumber" :disabled="disabled" class="width-300" placeholder="请输入拿手违规行为对应的活动编号" />
+    </div>
     <div class="mt-20 clear" v-show="addToCredit && addToBlackListReason">
       <span class="left mt-20">相关截图：</span>
       <upload class="left ml-5"
@@ -179,6 +183,7 @@
         addToBlackListReason: null,
         addToBlackOtherReason: null,
         alitmAccount: null,
+        taskNumber: null,
         addToCredit: false,
         bankListDefaultList: [],
         screenshot: null,
@@ -204,6 +209,7 @@
           this.alitmAccount = this.blackListInfo.alitmAccount ? this.blackListInfo.alitmAccount : null;
           this.addToBlackListReason = this.blackListInfo.reasonCode ? this.blackListInfo.reasonCode : null;
           this.addToBlackOtherReason = this.blackListInfo.reasonCode && this.blackListInfo.reasonCode === 'other_reason' ? this.blackListInfo.reasonStr : null;
+          this.taskNumber = this.blackListInfo.taskNum ? this.blackListInfo.taskNum : null;
           this.addToCredit = this.blackListInfo.addToCredit ? this.blackListInfo.addToCredit : null;
           if (this.blackListInfo.screenshot && this.blackListInfo.screenshot.length > 0) {
             this.blackListInfo.screenshot.forEach(item => {
@@ -217,6 +223,7 @@
           this.alitmAccount = null;
           this.addToBlackListReason = null;
           this.addToBlackOtherReason = null;
+          this.taskNumber = null;
           this.addToCredit = false;
           this.bankListDefaultList = [];
           this.screenshotList = [];
@@ -236,8 +243,16 @@
           _this.$Message.warning("请选择违规原因！");
           return;
         }
+        if (_this.addToCredit && !_this.taskNumber) {
+          _this.$Message.warning("请填写拿手违规行为对应的活动编号！");
+          return;
+        }
+        // if (!/^[0-9]*$/.test(_this.taskNumber)) {
+        //   _this.$Message.warning('请输入正确格式的活动编号！');
+        //   return;
+        // }
         if (_this.addToCredit && !_this.screenshot) {
-          _this.$Message.warning("请上传拉违规关凭证截图！");
+          _this.$Message.warning("请上传违规相关凭证截图！");
           return;
         }
         if (_this.addToBlackListReason === 'other_reason' && !_this.addToBlackOtherReason) {
@@ -251,6 +266,7 @@
           reasonCode: _this.addToBlackListReason,
           reasonText: _this.addToBlackOtherReason,
           addToCredit: _this.addToCredit,
+          taskNum: _this.taskNumber,
           screenshot: JSON.stringify(_this.screenshotList),
         }).then(res => {
           if (res.status) {

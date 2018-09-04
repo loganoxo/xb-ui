@@ -141,6 +141,7 @@
         this.addBlackListInfo.reasonCode = item.reasonCode;
         this.addBlackListInfo.refuseReason = item.refuseReason;
         this.addBlackListInfo.screenshot = item.screenshot;
+        this.addBlackListInfo.taskNum = item.taskNum;
         this.addBlackListInfo.auditStatus = item.auditStatus;
         this.addBlackListInfo.addToCredit = item.addToCredit;
         this.addBlackListInfo.id = item.id;
@@ -162,6 +163,7 @@
           reasonCode: item.reasonCode,
           reasonText: null,
           addToCredit: false,
+          taskNum: null,
           screenshot: '[]',
         }).then(res => {
           if (res.status) {
