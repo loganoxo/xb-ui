@@ -183,6 +183,11 @@
         api.getStoreInfoByLink({link: _this.commodityLink}).then(res => {
           if (res.status) {
             let tempData = res.data;
+            if (!res.data) {
+              _this.$Message.error('获取店铺信息失败~~');
+              _this.confirmBtnLoading = false;
+              return
+            }
             let decodeStoreName = decodeURI(tempData.name);
             _this.storeBindForm.storeName = delHtmlTag(decodeStoreName);
             let decodeStoreWw = decodeURI(tempData.wangwangId);
