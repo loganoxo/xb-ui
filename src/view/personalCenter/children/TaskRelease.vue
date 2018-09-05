@@ -2879,6 +2879,10 @@
             }
           }
           if (_this.favoriteCartFlowInfo.favoriteCartFlowStatus) {
+            if (!_this.favoriteCartFlowInfo.popularFlow) {
+              _this.$Message.warning('亲，请设置收藏加购/访客流量！');
+              return;
+            }
             // 校验按申请数量匹配是否存在没有设置流量的情况
             if (_this.favoriteCartFlowInfo.popularFlow === 'match_by_apply') {
               const require = _this.favoriteCartFlowInfo.require;
@@ -2886,7 +2890,7 @@
                 return require[key]
               });
               if (!isAllRequire) {
-                _this.$Message.warning('请设置收藏加购及访客流量中的申请数量匹配！');
+                _this.$Message.warning('亲，请设置收藏加购及访客流量中的申请数量匹配！');
                 return;
               }
             }

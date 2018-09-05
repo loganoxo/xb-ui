@@ -6,26 +6,34 @@
         <div class="lef">
           <img class="left border-radius-50" :src="userHeadUrl" alt="" width="86" height="86">
         </div>
-        <div class="left ml-20 mt-12">
+        <div class="left ml-20">
           <p>
             <span>账号：{{userData.phone}} </span>
-            <span v-if="!getIfEditPwdAlready">支付密码：<icon type="md-alert" color="#f9284f"/>&nbsp;未设置<router-link :to="{path: '/user/money-management/account-management','query': {'infoSelect': 'accountInfo'}}">&nbsp;&nbsp;设置</router-link></span>
+            <span v-if="!getIfEditPwdAlready">支付密码：<icon type="md-alert" color="#f9284f"/>&nbsp;未设置<router-link
+              :to="{path: '/user/money-management/account-management','query': {'infoSelect': 'accountInfo'}}">&nbsp;&nbsp;设置</router-link></span>
             <span v-if="getIfEditPwdAlready">支付密码：<icon color="#70CF70" type="checkmark-circled"/> 已设置</span>
-            <span v-if="userData.alitmNum <= 0 "><span v-if="userData.alitmNum <= 0 && getUserInfoRole === 0">淘宝账号：<icon type="md-alert" color="#f9284f"/> 未绑定<router-link to="/user/personal-setting/ww-bind">去绑定</router-link></span></span>
-            <span v-else><span v-if="userData.alitmNum > 0 && getUserInfoRole === 0">淘宝账号：<icon color="#70CF70" type="checkmark-circled"/> 绑定成功</span></span>
-            <span v-if="Boolean(userData.ifCertification)">实名认证：<icon color="#70CF70" type="checkmark-circled"/> 已认证</span>
-            <span v-else>实名认证：<icon type="md-alert" color="#f9284f"/> 未认证 &nbsp;&nbsp;<router-link to="/user/personal-setting/verified">去认证</router-link></span>
+            <span v-if="userData.alitmNum <= 0 "><span v-if="userData.alitmNum <= 0 && getUserInfoRole === 0">淘宝账号：<icon
+              type="md-alert" color="#f9284f"/> 未绑定<router-link
+              to="/user/personal-setting/ww-bind">去绑定</router-link></span></span>
+            <span v-else><span v-if="userData.alitmNum > 0 && getUserInfoRole === 0">淘宝账号：<icon color="#70CF70"
+                                                                                                type="checkmark-circled"/> 绑定成功</span></span>
+            <span v-if="Boolean(userData.ifCertification)">实名认证：<icon color="#70CF70"
+                                                                      type="checkmark-circled"/> 已认证</span>
+            <span v-else>实名认证：<icon type="md-alert" color="#f9284f"/> 未认证 &nbsp;&nbsp;<router-link
+              to="/user/personal-setting/verified">去认证</router-link></span>
           </p>
           <div>
-          <span v-if="getUserInfoRole === 1 && !isMember">
-            <span>免费会员</span>
-            <router-link to="/user/vip-member/order">马上开通会员</router-link>
-          </span>
+             <span v-if="getUserInfoRole === 1 && !isMember">
+               <span>免费会员</span>
+               <router-link to="/user/vip-member/order">马上开通会员</router-link>
+             </span>
             <span v-if="getUserInfoRole === 1 && isMember" class="mr-5">
               <img v-if="getMemberVersionLevel === 200" src="~assets/img/common/vip.png" alt="vipLogo">
               <img v-if="getMemberVersionLevel === 300" src="~assets/img/common/svip.png" alt="svipLogo">
-              <span class="cl-red" v-if="getMemberVersionLevel === 200">您已是VIP，<router-link to="/user/vip-member/instructions?q=VipMemberInstructions">查看我的权限</router-link></span>
-              <span class="cl-red" v-if="getMemberVersionLevel === 300">您已是SVIP，<router-link to="/user/vip-member/instructions?q=VipMemberInstructions">查看我的权限</router-link></span>
+              <span class="cl-red" v-if="getMemberVersionLevel === 200">您已是VIP，<router-link
+                to="/user/vip-member/instructions?q=VipMemberInstructions">查看我的权限</router-link></span>
+              <span class="cl-red" v-if="getMemberVersionLevel === 300">您已是SVIP，<router-link
+                to="/user/vip-member/instructions?q=VipMemberInstructions">查看我的权限</router-link></span>
             </span>
             <span>可用金额：{{(getUserBalance / 100).toFixed(2)}} 元 </span>
             <span v-if="getUserInfoRole === 0">提现中：{{userData.userAccount.enChashingMoney ? (userData.userAccount.enChashingMoney/100).toFixed(2): 0 }} 元  </span>
@@ -33,7 +41,9 @@
             <span class="ml-10" v-if="getUserInfoRole === 1 && isRedEnvelopesExpirationTime">
               <img class="vtc-text-btm" src="~assets/img/common/red-envelopes-logo.png" alt="">
               <span>推广费减免红包</span>
-              <tooltip :content="`有效期至${getMemberDeadline}，仅限于推广费抵扣，最多抵扣${(redEnvelopeDeductionLimit /100).toFixed(2)}元 / 单`" placement="top">
+              <tooltip
+                :content="`有效期至${getMemberDeadline}，仅限于推广费抵扣，最多抵扣${(redEnvelopeDeductionLimit /100).toFixed(2)}元 / 单`"
+                placement="top">
                 <icon type="md-help-circle"/>
               </tooltip>
             </span>
@@ -43,7 +53,8 @@
               <!--<span class="blue ml-10 cursor-p" @click="toWithdrawal">提现</span>-->
               <span class="blue ml-10 cursor-p" @click="toRecordDetail">明细</span>
             </span>
-            <router-link v-if="getUserInfoRole === 0" :to="{path: '/user/money-management/getout-money'}">提现</router-link>
+            <router-link v-if="getUserInfoRole === 0" :to="{path: '/user/money-management/getout-money'}">提现
+            </router-link>
             <div v-if="limit && getUserInfoRole === 0" class="inline-block ml-20 pos-rel clear vtc-btm">
               <span class="left">剩余申请次数<span class="blue">{{residue}}</span></span>
               <span class="pos-rel apply-num left">
@@ -66,7 +77,8 @@
         </div>
       </div>
       <div class="mt-10">
-        <router-link :to="{path:'/user/personal-setting/personal-account-info',query:{from:'userHome'}}">好头像，才有好形象！</router-link>
+        <router-link :to="{path:'/user/personal-setting/personal-account-info',query:{from:'userHome'}}">好头像，才有好形象！
+        </router-link>
       </div>
     </div>
     <div class="fs-14 pd-tb-20 clear" style="border-bottom: 1px solid #eee;">
@@ -144,12 +156,12 @@
           </p>
           <!--打赏费-->
           <!--<P class="rewards-fee">-->
-            <!--<span v-if="homeCommodity.activityCategory === 'free_get'" class="main-color">打赏1元</span>-->
-            <!--<span v-if="homeCommodity.activityCategory === 'present_get'" class="main-color">打赏2元</span>-->
-            <!--<span v-if="homeCommodity.activityCategory !== 'free_get' && homeCommodity.activityCategory !== 'present_get'" class="main-color">打赏0元</span>-->
-            <!--<Tooltip content="完成该任务可额外获得打赏费" placement="top-start">-->
-              <!--<Icon type="help-circled" color="#000"></Icon>-->
-            <!--</Tooltip>-->
+          <!--<span v-if="homeCommodity.activityCategory === 'free_get'" class="main-color">打赏1元</span>-->
+          <!--<span v-if="homeCommodity.activityCategory === 'present_get'" class="main-color">打赏2元</span>-->
+          <!--<span v-if="homeCommodity.activityCategory !== 'free_get' && homeCommodity.activityCategory !== 'present_get'" class="main-color">打赏0元</span>-->
+          <!--<Tooltip content="完成该任务可额外获得打赏费" placement="top-start">-->
+          <!--<Icon type="help-circled" color="#000"></Icon>-->
+          <!--</Tooltip>-->
           <!--</P>-->
           <p class="home-commodity-apply">
             限量 <span class="main-color"> {{homeCommodity.taskCount || 0 }} </span> 份，剩余
@@ -201,7 +213,7 @@
       </div>
     </div>
     <!--流量购买弹窗-->
-    <flow-order-model v-model="showFlowOrder" />
+    <flow-order-model v-model="showFlowOrder"/>
   </div>
 </template>
 
@@ -232,7 +244,7 @@
       Alert: Alert,
       Carousel: Carousel,
       CarouselItem: Carousel.Item,
-      Tooltip:Tooltip,
+      Tooltip: Tooltip,
       FlowOrderModel: FlowOrderModel
     },
     data() {
@@ -269,7 +281,7 @@
       getIfEditPwdAlready() {
         return this.$store.getters.getIsEditPwdAlready;
       },
-      getMemberDeadline () {
+      getMemberDeadline() {
         const time = new Date(this.redEnvelopesExpirationTime);
         return `${time.getFullYear()}-${time.getMonth() + 1}-${time.getDate()}`
       },
@@ -368,13 +380,13 @@
         }
       },
       toWithdrawal() {
-        this.$router.push({name:'PromotionDetails',query:{from:'userhome-withdrawal'}});
+        this.$router.push({name: 'PromotionDetails', query: {from: 'userhome-withdrawal'}});
       },
       toRecordDetail() {
-        this.$router.push({name:'PromotionDetails',query:{from:'userhome-detail'}});
+        this.$router.push({name: 'PromotionDetails', query: {from: 'userhome-detail'}});
       },
       toOrderDetail() {
-        this.$router.push({name:'FlowOrderDetail'});
+        this.$router.push({name: 'FlowOrderDetail'});
       }
     },
     watch: {},
