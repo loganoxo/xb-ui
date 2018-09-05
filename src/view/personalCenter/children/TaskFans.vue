@@ -105,7 +105,7 @@
           </div>
         </div>
       </div>
-      <h2 class="question pd-tb-20">如何粉丝流程？</h2>
+      <h2 class="question pd-tb-20">兑换粉丝流程？</h2>
       <div class="task-progress"></div>
       <div class="task-form mt-46">
         <div class="form-container">
