@@ -1715,8 +1715,8 @@
             status: false,
             msg: ''
           },
-          favoriteCartFlowStatus: false,
-          popularFlow: null,
+          favoriteCartFlowStatus: true,
+          popularFlow: 'match_diy',
           period: Array.from({length: 25},(v, k) => {return `${k}`}),
           require: {
             'favorite_cart_flow_require': true,
@@ -2907,7 +2907,8 @@
               }
               // 校验自定义流量中收藏加购数是否存在输入为空（从时间段 2 开始）
               const matchDiyInfo = _this.favoriteCartFlowInfo.matchDiyInfo;
-              let isCountOk = true;
+              let isAfterCountOk = true;
+              let isBeforeCountOk = false;
               let keyword = null;
               Object.keys(matchDiyInfo).forEach((key, index) => {
                 if (_this.taskRelease.taskType === 'pc_search') {
@@ -2916,14 +2917,17 @@
                 if (_this.taskRelease.taskType === 'app_search') {
                   keyword = _this.appTaskDetail[index].searchKeyword;
                 }
-                if (isCountOk) {
+                if (isAfterCountOk) {
                   Object.keys(matchDiyInfo[key]).forEach(childKey => {
-                    if (isCountOk) {
+                    if (isAfterCountOk) {
                       const len = matchDiyInfo[key][childKey].length;
                       const child = matchDiyInfo[key][childKey];
+                      if (child[0].count) {
+                        isBeforeCountOk = true
+                      }
                       for (let i = 1; i < len; i++) {
                         if (!child[i].count) {
-                          isCountOk = false;
+                          isAfterCountOk = false;
                           _this.$Message.warning(`亲，关键词方案“${keyword}”中设置“${_this.favoriteCartFlowInfo.map[childKey]}数”中时间段${i + 1}收藏加购数为空！`);
                           break;
                         }
@@ -2932,7 +2936,11 @@
                   })
                 }
               });
-              if (!isCountOk) return;
+              if (!isBeforeCountOk) {
+                _this.$Message.warning('亲，请设置收藏加购及访客流量中的自定义匹配！');
+                return;
+              }
+              if (!isAfterCountOk) return;
             }
           }
         }
@@ -3394,7 +3402,6 @@
                 })
               }
             }
-            _this.favoriteCartFlowInfo.favoriteCartFlowStatus = res.data.popularFlow !== 'none';
             // 按申请数量匹配流量数（复制、编辑活动）
             if (res.data.popularFlow === 'match_by_apply') {
               _this.favoriteCartFlowInfo.popularFlow = 'match_by_apply';
@@ -3423,8 +3430,8 @@
                   Object.keys(_this.favoriteCartFlowInfo.map).forEach(key => {
                     matchDiyInfo[schemeIndex][key] = [{
                       dateIndex: 0,
-                      hourStart: `24`,
-                      hourEnd: `0`,
+                      hourStart: `0`,
+                      hourEnd: `24`,
                       count: null,
                     }]
                   })
