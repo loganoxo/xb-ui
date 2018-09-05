@@ -78,7 +78,6 @@
           <p>粉丝妈妈<span class="text-orange">（预售）</span></p>
           <p>尾货/试用商品/赠品</p>
           <p>均可兑换高质量粉丝</p>
-          <!--<span class="is-select-gou" v-show="taskRelease.activityCategory === 'present_get'"></span>-->
         </div>
       </div>
       <div class="pop-tip">
