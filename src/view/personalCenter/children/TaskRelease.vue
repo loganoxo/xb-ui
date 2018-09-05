@@ -74,6 +74,12 @@
           <p>不可跨类目，否则会影响人群标签</p>
           <span class="is-select-gou" v-show="taskRelease.activityCategory === 'present_get'"></span>
         </div>
+        <div class="left activity-type-box mr-10" @click="toTaskFans">
+          <p>粉丝妈妈<span class="text-orange">（预售）</span></p>
+          <p>尾货/试用商品/赠品</p>
+          <p>均可兑换高质量粉丝</p>
+          <!--<span class="is-select-gou" v-show="taskRelease.activityCategory === 'present_get'"></span>-->
+        </div>
       </div>
       <div class="pop-tip">
         <div v-show="taskRelease.activityCategory === 'free_get'">
@@ -4087,6 +4093,9 @@
           }
           _this.getFreeFlowLoading = false;
         })
+      },
+      toTaskFans() {
+        this.$router.push('/user/task-fans');
       }
     },
   }
@@ -4682,4 +4691,10 @@
     }
   }
 
+  .pt-18 {
+    padding-top: 18px;
+  }
+  .text-orange {
+    color: #fd6b22;
+  }
 </style>
