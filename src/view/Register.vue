@@ -431,7 +431,7 @@
   import api from '@/config/apiConfig'
   import SmsCountdown from '@/components/SmsCountdown'
   import RoleTop from '@/components/RoleTop.vue'
-  import {getCookie, setCookie, delCookie, setStorage, getStorage, removeStorage, isInteger} from '@/config/utils'
+  import {getCookie, setCookie, delCookie, setStorage, getStorage, removeStorage, isInteger,setSessionStorage, getSessionStorage, removeSessionStorage} from '@/config/utils'
 
   export default {
     name: 'register',
@@ -451,6 +451,7 @@
       fromPage() {
         return this.$route.query.from
       },
+      // 商家推荐标识（同h5的大师傅）
       isDSF() {
         if (this.$route.query.acceptDisciple) {
           return this.$route.query.acceptDisciple;
@@ -460,7 +461,15 @@
       },
       recommendCode() {
         return this.$route.query.recommendCode
-      }
+      },
+      // 销售代表的推荐链接标识
+      saleInvite() {
+        if (this.$route.query.saleInviteCode) {
+          return this.$route.query.saleInviteCode
+        } else {
+          return null
+        }
+      },
     },
     data() {
       //表单验证
@@ -580,6 +589,10 @@
         this.selLogin.buyer = false;
         this.selLogin.seller = true;
       }
+      // 在由销售代表链接进入该页面时，将链接中的标识存储为sessionStorage,保持在跳转其他页面再回来注册是标识还是有效的
+      if (!getSessionStorage('saleInvite') && this.saleInvite) {
+        setSessionStorage('saleInvite',this.saleInvite);
+      }
     },
     methods: {
       getRegVrcode() {
@@ -591,6 +604,9 @@
             this.selLogin.seller = true;
             this.selLogin.buyer = false;
           } else if (this.isDSF && this.isDSF === 'acceptDisciple') {
+            this.selLogin.seller = true;
+            this.selLogin.buyer = false;
+          } else if (this.saleInvite) {
             this.selLogin.seller = true;
             this.selLogin.buyer = false;
           } else {
@@ -679,6 +695,7 @@
           recommendCode: recommendCode,
           platForm: 'PC',
           acceptDiscipleMark: acceptDiscipleMark,
+          saleInviteCode: getSessionStorage('saleInvite')
         }).then((res) => {
           if (res.status) {
             self.$Message.success({
