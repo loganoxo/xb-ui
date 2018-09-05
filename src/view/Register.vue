@@ -702,6 +702,7 @@
               content: "注册成功",
               duration: 1,
               onClose: function () {
+                removeSessionStorage('saleInvite');
                 delCookie('recommendCode');
                 delCookie('acceptDiscipleMark');
                 self.setUserInfo(self.formCustom.phone, self.formCustom.pwd, self.formCustom.role);
