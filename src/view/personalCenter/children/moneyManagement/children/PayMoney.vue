@@ -60,6 +60,7 @@
         <div class="step-one pt-20 pb-20 pl-15">
           <p>到账时间：<span class="main-color">自动到账，7*24小时</span></p>
           <p>浙商银行 <span class="main-color">6223 0933 1001 2598 036</span> （户名：胡红红 开户行：浙商银行运河支行）</p>
+          <p class="qq-consult" @click="qqConsult"><img class="vtc-text-btm mr-5" src="~assets/img/common/qq-icon.png" alt="">转账问题点此咨询 QQ：3416123233</p>
         </div>
         <h2>第二步：每次打完钱都必需提交如下信息，否则<span>无法到账</span></h2>
         <div class="step-two">
@@ -496,6 +497,9 @@
       toArtificialPay() {
         this.status = 'artificialPay';
         this.isShowPayTip = true;
+      },
+      qqConsult() {
+        window.open('http://wpa.qq.com/msgrd?v=3&site=qq&menu=yes&uin=3416123233')
       }
     }
   }
@@ -550,6 +554,18 @@
       border-radius: 5px;
       margin-left: 20px;
       transform: translateY(20px);
+    }
+
+    .qq-consult {
+      width: 272px;
+      height: 26px;
+      line-height: 26px;
+      background-color: #E5E5E5;
+      text-align: center;
+      border: 1px solid #ccc;
+      border-radius: 10px;
+      cursor: pointer;
+      margin-top: 10px;
     }
   }
 </style>
