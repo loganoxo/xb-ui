@@ -514,6 +514,6 @@
     right: 22px;
     top: -12px;
     width: 32px;
-    animation: tip-icon-move .4s ease-in-out 1s infinite alternate running;
+    animation: tip-icon-move .4s ease-in-out .6s infinite alternate running;
   }
 </style>
