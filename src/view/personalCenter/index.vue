@@ -503,25 +503,7 @@
     @include fullScreenModel
   }
 
-  @keyframes mymove
-  {
-    from { top: -9px; }
-    to { top: -12px; }
-  }
-
-  @-moz-keyframes mymove /* Firefox */
-  {
-    from { top: -9px; }
-    to { top: -12px; }
-  }
-
-  @-webkit-keyframes mymove /* Safari 和 Chrome */
-  {
-    from { top: -9px; }
-    to { top: -12px; }
-  }
-
-  @-o-keyframes mymove /* Opera */
+  @keyframes tip-icon-move
   {
     from { top: -9px; }
     to { top: -12px; }
@@ -532,9 +514,6 @@
     right: 22px;
     top: -12px;
     width: 32px;
-    -webkit-animation: mymove .4s ease-in-out 1s infinite alternate running;
-    -o-animation: mymove .4s ease-in-out 1s infinite alternate running;
-    animation: mymove .4s ease-in-out 1s infinite alternate running;
-
+    animation: tip-icon-move .4s ease-in-out 1s infinite alternate running;
   }
 </style>
