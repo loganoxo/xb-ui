@@ -2919,7 +2919,7 @@
                       for (let i = 1; i < len; i++) {
                         if (!child[i].count) {
                           isCountOk = false;
-                          _this.$Message.warning(`亲，关键词方案“${keyword}”中设置“${_this.favoriteCartFlowInfo.map[childKey]}数”中时间段${i}收藏加购数为空！`);
+                          _this.$Message.warning(`亲，关键词方案“${keyword}”中设置“${_this.favoriteCartFlowInfo.map[childKey]}数”中时间段${i + 1}收藏加购数为空！`);
                           break;
                         }
                       }
