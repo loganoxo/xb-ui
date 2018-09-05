@@ -383,8 +383,7 @@
           <div class="evaluation-requirements mt-10 clear">
             <span class="left mt-5 ml-20 required">评价要求：</span>
             <div class="left">
-              <radio-group v-model="taskRelease.itemReviewRequired" :vertical="true"
-                           @on-change="changeSelectEvaluation">
+              <radio-group v-model="taskRelease.itemReviewRequired" :vertical="true" @on-change="changeSelectEvaluation">
                 <radio label="review_by_showker_self">
                   <span>由拿手自主发挥（拿手自主发挥评价更客观更真实。<span class="main-color">选择此项不可因主观喜好对评价结果有异议。</span>）</span>
                 </radio>
@@ -395,9 +394,9 @@
                 <i-input v-if="taskRelease.itemReviewRequired === 'offer_review_summary'"
                          v-model="taskRelease.itemReviewSummary" class="mb-10" type="textarea"
                          :autosize="{minRows: 1,maxRows: 3}" placeholder="请输入你的评价要求，如：需晒图/勿晒图、希望出现的关键词等~"/>
-                <Radio label="assign_review_detail">
+                <radio label="assign_review_detail">
                   <span>我来提供评价内容（拿手将直接拷贝亲提供的评价内容在淘宝上进行评价，每个名额需要提供一份评价内容。）</span>
-                </Radio>
+                </radio>
               </radio-group>
               <p v-show="taskRelease.itemReviewRequired === 'assign_review_detail'" class="main-color ml-20">
                 可自定义的评价数跟您发布宝贝数量相同，系统会随机分配给申请通过的拿手每人一条评论，以保证评价内容的唯一性。</p>
@@ -405,8 +404,7 @@
                    v-if="taskRelease.itemReviewRequired === 'assign_review_detail' && taskRelease.taskCount > 0">
                 <p v-for="item in itemReviewList">
                   <span class="vtc-sup">{{'评价' + item.index}}：</span>
-                  <i-input v-model="item.value" class="mb-10" type="textarea" :autosize="{minRows: 1,maxRows: 3}"
-                           placeholder="请输入你的评价内容" style="width: 620px;"/>
+                  <i-input v-model="item.value" class="mb-10" type="textarea" :autosize="{minRows: 1,maxRows: 3}" placeholder="请输入你的评价内容" style="width: 620px;"/>
                 </p>
               </div>
             </div>

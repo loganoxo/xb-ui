@@ -105,7 +105,7 @@
         </div>
       </div>
     </div>
-    <Modal v-model="payPopWindow" width="360" :styles="{top:'310px',height:'300px'}">
+    <modal v-model="payPopWindow" width="360" :styles="{top:'310px',height:'300px'}">
       <div class="text-ct">
         <p>请前往充值页面进行充值</p>
       </div>
@@ -113,8 +113,8 @@
         <i-button type="success" style="width: 150px;" @click="success">已完成充值</i-button>
         <i-button type="error" style="width: 150px;" @click="error">充值遇到问题</i-button>
       </div>
-    </Modal>
-    <Modal v-model="payPopWindowWX"
+    </modal>
+    <modal v-model="payPopWindowWX"
            :styles="{top:'310px'}">
       <div slot="header" class="text-ct">微信支付二维码</div>
       <div class="text-ct">
@@ -129,7 +129,7 @@
                  @click="error">充值失败
         </i-button>
       </div>
-    </Modal>
+    </modal>
     <modal v-model="isShowAliPayTip">
       <img src="~assets/img/common/ali-pay-tip.jpg">
     </modal>
@@ -152,20 +152,6 @@
       </div>
     </modal>
     <artificial-recharge-model v-if="showFreePayModel" @colseFreePayModal="showFreePayModel=false"></artificial-recharge-model>
-    <!--<Modal v-model="stopRecharge" width="360">
-    <p slot="header" style="color:#f9284f;text-align:center">
-      <Icon type="information-circled"></Icon>
-      <span>系统维护</span>
-    </p>
-    <div style="text-align:center">
-      <p style="height: 10px;"></p>
-      <p class="fs-14">支付宝充值系统正在维护中，请稍后再试！</p>
-      <p style="height: 10px;"></p>
-    </div>
-    <div slot="footer">
-      <i-button type="error" size="large" long @click="stopRecharge = false" >确定</i-button>
-    </div>
-  </Modal>-->
   </div>
 </template>
 <script>
