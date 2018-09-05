@@ -41,11 +41,11 @@
     <template v-if="taskWaitAuditList.length > 0">
       <div class="mt-12 pos-rel" v-for="(item,index) in taskWaitAuditList" :key="item.id">
         <div class="collapse-header clear" @click="collapseToggle(item.id,index)" :class="{noBorderRadius:selectId}">
-          <div class="manage-img inline-block">
+          <div class="manage-img left">
             <img :src="item.taskMainImage | imageSrc('!thum54')" alt="活动主图">
             <span v-if="item.zone === 'certainly_hit'" class="certainly-hit-tip">推荐必中</span>
           </div>
-          <div class="manage-text ml-5 inline-block">
+          <div class="manage-text ml-5 left">
             <p>活动编号：{{item.number}}</p>
             <p>活动名称：{{item.taskName}}</p>
             <p>参与概况：总份数<span class="main-color">{{item.taskCount || 0}}</span>，
@@ -53,7 +53,7 @@
                 class="main-color">{{item.residueCount || 0}}</span>个 <i-button v-if="item.taskStatus === 'under_way' && !item.speedUp" type="primary" size="small" @click.stop="taskAdditionalQuota(item)">追加名额</i-button>
             </p>
           </div>
-          <div class="right mr-20">
+          <div class="left ml-300">
             <div class="waiting-task-number-wait">
               <p class="task-wait-fail">新增待审批<span>{{item.newestTaskApplyCount || 0}}</span>人</p>
               <p class="task-wait-fail">共有待审批<span>{{item.totalTaskApplyCount || 0}}</span>人</p>
@@ -63,8 +63,8 @@
                 <icon type="help-circled" size="14" color="#fff"/>
               </tooltip>
             </i-button>
-            <icon :class="{'show-table-styles' : selectId === item.id}" class="ml-10 mt-28" type="arrow-right-b"/>
           </div>
+          <icon :class="{'show-table-styles' : selectId === item.id}" class="right mt-20" size="20" type="md-arrow-dropright"/>
         </div>
         <collapse-transition>
           <div class="task-table" v-show="selectId === item.id">
@@ -75,7 +75,7 @@
                   <p class="mb-5">淘宝账号（旺旺号）</p>
                   <i-button :class="[sortList.select === item.sortField ? 'ww-active' : '']" size="small" v-for="(item,index) in sortList.defaultList" :key="index" @click="sortChange(item.sortField,index)">
                     <span>{{item.name}}</span>
-                    <icon :type="item.sort === 'desc' ? 'arrow-down-c' : 'arrow-up-c'"/>
+                    <icon :type="item.sort === 'desc' ? 'md-arrow-round-down' : 'md-arrow-up'"/>
                   </i-button>
                 </th>
                 <th width="20%">申请时间/IP地址</th>

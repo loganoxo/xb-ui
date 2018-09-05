@@ -394,7 +394,7 @@
                 }
                 _this.$refs.payModelRef.payLoading = false;
               });
-            }else {
+            } else {
               _this.$Message.error(res.msg)
             }
           })

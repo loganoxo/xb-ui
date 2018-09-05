@@ -123,7 +123,8 @@
           </div>
           <div class="form-item">
             <span class="form-label inline-block">缴纳的保障金：</span>
-            <input type="number" class="form-input result" placeholder="需缴纳的保障金，粉丝收货后返还" disabled="disabled" v-model="money">
+            <input type="number" class="form-input result" placeholder="需缴纳的保障金，粉丝收货后返还" disabled="disabled"
+                   v-model="money">
             <span class="form-result form-label inline-block" :title="resultTitle">
               20元/个*<span v-text="num"></span>个粉丝
             </span>
@@ -142,9 +143,8 @@
 </template>
 
 <script>
-  import {  } from 'iview';
   export default {
-    name: "TaskFans",
+    name: "task-fans",
     data() {
       return {
         mobile: '',
@@ -154,12 +154,11 @@
     },
     computed: {
       money() {
-        const n = Math.floor( Math.abs( Number( this.fansNumber ) ) );
+        const n = Math.floor(Math.abs(Number(this.fansNumber)));
         return n * 20 ? n * 20 : '';
       },
       num() {
-        const n = Math.floor( Math.abs( Number( this.fansNumber ) ) );
-        return n;
+        return Math.floor(Math.abs(Number(this.fansNumber)));
       },
       resultTitle() {
         return `20元/个*${this.num}个粉丝`;
@@ -167,7 +166,7 @@
     },
     methods: {
       submit() {
-        let reg=/^[1][3,4,5,7,8][0-9]{9}$/;
+        let reg = /^[1][3,4,5,7,8][0-9]{9}$/;
         if (!reg.test(this.mobile) || !reg.test(this.mobileWx) || !this.fansNumber) {
           this.$Message.error('请输入手机号和兑换粉丝数量');
         } else {
@@ -180,254 +179,260 @@
 </script>
 
 <style scoped lang="scss">
-.text-center {
-  text-align: center;
-}
-.m-tb-30 {
-  margin: 25px 0;
-}
+  .text-center {
+    text-align: center;
+  }
 
-.fans-container {
-  border: solid #ddd 1px;
-  background: #f8f8f8;
-  color: #666;
-  font-size: 14px;
-  font-family: "微软雅黑";
-  width: 100%;
-  padding: 15px;
-}
-.fans-top {
-  -webkit-box-shadow:  2px 2px 10px #ccc;
-  -moz-box-shadow:  2px 2px 10px #ccc;
-  box-shadow:  2px 2px 10px #ccc;
-  border-radius: 12px;
-  background: #fff;
-  padding: 10px;
-  text-align: center;
-  .fans-title {
-    color: #f00;
-    font-size: 18px;
-    font-weight: 600;
-    position: relative;
+  .m-tb-30 {
+    margin: 25px 0;
   }
-  .fans-title:after {
-    border-bottom: solid 2px #ccc;
-    content: '';
-    display: block;
-    width: 36px;
-    height: 0;
-    position: absolute;
-    left: 50%;
-    top: 34px;
-    margin-left: -18px;
-  }
-  .fans-describe {
 
+  .fans-container {
+    border: solid #ddd 1px;
+    background: #f8f8f8;
+    color: #666;
+    font-size: 14px;
+    width: 100%;
+    padding: 15px;
   }
-}
-.fans-questions {
-  padding: 0 10px 50px 10px;
-  .border-dashed {
-    border-bottom: dashed 1px #ccc;
-  }
-  .question {
-    color: #fd6b22;
-    font-size: 20px;
-    font-weight: bold;
-  }
-  .answer {
-    background: #eff3f4;
-    border: solid 1px #e2e6e9;
-    padding: 15px 10px;
-    .answer-title {
-      font-size: 16px;
+
+  .fans-top {
+    box-shadow: 2px 2px 10px #ccc;
+    border-radius: 12px;
+    background: #fff;
+    padding: 10px;
+    text-align: center;
+    .fans-title {
+      color: #f00;
+      font-size: 18px;
       font-weight: 600;
+      position: relative;
+    }
+    .fans-title:after {
+      border-bottom: solid 2px #ccc;
+      content: '';
+      display: block;
+      width: 36px;
+      height: 0;
+      position: absolute;
+      left: 50%;
+      top: 34px;
+      margin-left: -18px;
+    }
+    .fans-describe {
+
     }
   }
-  .fans-get {
-    -webkit-box-shadow:  2px 2px 10px #ccc;
-    -moz-box-shadow:  2px 2px 10px #ccc;
-    box-shadow:  2px 2px 10px #ccc;
-    border-radius: 6px;
-    width: 230px;
-    height: 220px;
-    margin-right: 20px;
-    overflow: hidden;
-    .top-first {
-      background: #94db7b;
+
+  .fans-questions {
+    padding: 0 10px 50px 10px;
+    .border-dashed {
+      border-bottom: dashed 1px #ccc;
     }
-    .top-second {
-      background: #faa27e;
+    .question {
+      color: #fd6b22;
+      font-size: 20px;
+      font-weight: bold;
     }
-    .top-third {
-      background: #fbc058;
-    }
-    .top-fourth {
-      background: #77c2ae;
-    }
-    .get-top {
-      height: 70px;
-      padding-top: 5px;
-    }
-    .get-content {
-      background: #fff;
-      height: 150px;
-      text-align: center;
-    }
-    .get-title {
-      font-weight: 600;
-      font-size: 16px;
-      padding: 20px 0 10px 0;
-    }
-    .get-describe p {
-      margin-bottom: 6px;
-    }
-    .desc-two {
-      padding-top: 12px;
-    }
-  }
-  .mr-0 {
-    margin-right: 0;
-  }
-  .requirement {
-    font-size: 16px;
-    font-weight: 600;
-    margin-top: 30px;
-  }
-  .require-container {
-    padding: 20px 90px 30px 90px;
-  }
-}
-.require-item-left {
-  border-top: solid 3px #3780ff;
-}
-.require-item-right {
-  border-top: solid 3px #20ac03;
-}
-.require-item {
-  -webkit-box-shadow:  2px 2px 6px #e6e9f0, -2px 0 6px #e6e9f0;
-  -moz-box-shadow:  2px 2px 6px #e6e9f0, -2px 0 6px #e6e9f0;
-  box-shadow:  2px 2px 6px #e6e9f0, -2px 0 6px #e6e9f0;
-  background: #fff;
-  width: 210px;
-  height: 290px;
-  .require-icon {
-    margin: 25px auto;
-    padding-left: 10px;
-  }
-  .require-title {
-    font-size: 15px;
-    font-weight: 600;
-    margin-bottom: 5px;
-  }
-  p {
-    line-height: 30px;
-  }
-  .pl-36 {
-    padding-left: 36px;
-  }
-}
-.require-middle {
-  width: 340px;
-  height: 290px;
-  padding-top: 80px;
-  .middle-text {
-    color: #fd6b22;
-    font-size: 24px;
-    font-weight: 600;
-    letter-spacing: 4px;
-  }
-}
-.task-progress {
-  background: url("~assets/img/task-fans/task-progress.png");
-  background-size: 100% 100%;
-  width: 100%;
-  height: 214px;
-}
-.task-form {
-  background: url("~assets/img/task-fans/task-form.png");
-  background-size: 100% 100%;
-  width: 100%;
-  height: 724px;
-  padding-top: 118px;
-  position: relative;
-}
-.form-container {
-  padding-left: 380px;
-  .form-item {
-    margin-bottom: 20px;
-    .form-label {
-      font-size: 15px;
-      width: 125px;
-      padding: 15px 15px 0 0;
-      text-align: right;
-    }
-    .form-input {
-      border: solid 1px #ccc;
-      font-size: 15px;
-      width: 260px;
-      height: 44px;
-      outline: 0;
-      padding: 14px 15px;
-      &:focus {
-        border-color: #f9274e;
+    .answer {
+      background: #eff3f4;
+      border: solid 1px #e2e6e9;
+      padding: 15px 10px;
+      .answer-title {
+        font-size: 16px;
+        font-weight: 600;
       }
     }
-    .form-input.result {
-      border-color: #f9274e;
-      background: #fef4f2;
-      color: #f9274e;
-    }
-    .form-result {
-      width: 180px;
-      color: #f9274e;
-      padding-left: 12px;
-      padding-right: 0;
-      position: relative;
-      top: 5px;
-      text-align: left;
+    .fans-get {
+      -webkit-box-shadow: 2px 2px 10px #ccc;
+      -moz-box-shadow: 2px 2px 10px #ccc;
+      box-shadow: 2px 2px 10px #ccc;
+      border-radius: 6px;
+      width: 230px;
+      height: 220px;
+      margin-right: 20px;
       overflow: hidden;
-      text-overflow: ellipsis;
-      white-space: nowrap;
+      .top-first {
+        background: #94db7b;
+      }
+      .top-second {
+        background: #faa27e;
+      }
+      .top-third {
+        background: #fbc058;
+      }
+      .top-fourth {
+        background: #77c2ae;
+      }
+      .get-top {
+        height: 70px;
+        padding-top: 5px;
+      }
+      .get-content {
+        background: #fff;
+        height: 150px;
+        text-align: center;
+      }
+      .get-title {
+        font-weight: 600;
+        font-size: 16px;
+        padding: 20px 0 10px 0;
+      }
+      .get-describe p {
+        margin-bottom: 6px;
+      }
+      .desc-two {
+        padding-top: 12px;
+      }
+    }
+    .mr-0 {
+      margin-right: 0;
+    }
+    .requirement {
+      font-size: 16px;
+      font-weight: 600;
+      margin-top: 30px;
+    }
+    .require-container {
+      padding: 20px 90px 30px 90px;
     }
   }
-  .form-submit {
-    background: #f9274e;
-    border-radius: 6px;
-    color: #fff;
-    font-size: 16px;
-    font-weight: 600;
-    margin-left: 160px;
-    width: 190px;
-    height: 40px;
-    line-height: 40px;
-    outline: 0;
+
+  .require-item-left {
+    border-top: solid 3px #3780ff;
   }
-  .form-submit:hover {
-    opacity: 0.8;
+
+  .require-item-right {
+    border-top: solid 3px #20ac03;
   }
-  .form-submit:active {
-    opacity: 1;
+
+  .require-item {
+    box-shadow: 2px 2px 6px #e6e9f0, -2px 0 6px #e6e9f0;
+    background: #fff;
+    width: 210px;
+    height: 290px;
+    .require-icon {
+      margin: 25px auto;
+      padding-left: 10px;
+    }
+    .require-title {
+      font-size: 15px;
+      font-weight: 600;
+      margin-bottom: 5px;
+    }
+    p {
+      line-height: 30px;
+    }
+    .pl-36 {
+      padding-left: 36px;
+    }
   }
-}
-.form-attention {
-  position: absolute;
-  bottom: 44px;
-  width: 100%;
-  height: 140px;
-  padding: 25px 45px;
-  p {
-    font-size: 15px;
-    margin-bottom: 12px;
+
+  .require-middle {
+    width: 340px;
+    height: 290px;
+    padding-top: 80px;
+    .middle-text {
+      color: #fd6b22;
+      font-size: 24px;
+      font-weight: 600;
+      letter-spacing: 4px;
+    }
   }
-  .attention-title {
-    font-size: 20px;
-    font-weight: 600;
-    color: #f2f2f2;
-    position: absolute;
-    top: -45px;
+
+  .task-progress {
+    background: url("~assets/img/task-fans/task-progress.png");
+    background-size: 100% 100%;
     width: 100%;
-    padding-right: 90px;
+    height: 214px;
   }
-}
+
+  .task-form {
+    background: url("~assets/img/task-fans/task-form.png");
+    background-size: 100% 100%;
+    width: 100%;
+    height: 724px;
+    padding-top: 118px;
+    position: relative;
+  }
+
+  .form-container {
+    padding-left: 380px;
+    .form-item {
+      margin-bottom: 20px;
+      .form-label {
+        font-size: 15px;
+        width: 125px;
+        padding: 15px 15px 0 0;
+        text-align: right;
+      }
+      .form-input {
+        border: solid 1px #ccc;
+        font-size: 15px;
+        width: 260px;
+        height: 44px;
+        outline: 0;
+        padding: 14px 15px;
+        &:focus {
+          border-color: #f9274e;
+        }
+      }
+      .form-input.result {
+        border-color: #f9274e;
+        background: #fef4f2;
+        color: #f9274e;
+      }
+      .form-result {
+        width: 180px;
+        color: #f9274e;
+        padding-left: 12px;
+        padding-right: 0;
+        position: relative;
+        top: 5px;
+        text-align: left;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+    }
+    .form-submit {
+      background: #f9274e;
+      border-radius: 6px;
+      color: #fff;
+      font-size: 16px;
+      font-weight: 600;
+      margin-left: 160px;
+      width: 190px;
+      height: 40px;
+      line-height: 40px;
+      outline: 0;
+    }
+    .form-submit:hover {
+      opacity: 0.8;
+    }
+    .form-submit:active {
+      opacity: 1;
+    }
+  }
+
+  .form-attention {
+    position: absolute;
+    bottom: 44px;
+    width: 100%;
+    height: 140px;
+    padding: 25px 45px;
+    p {
+      font-size: 15px;
+      margin-bottom: 12px;
+    }
+    .attention-title {
+      font-size: 20px;
+      font-weight: 600;
+      color: #f2f2f2;
+      position: absolute;
+      top: -45px;
+      width: 100%;
+      padding-right: 90px;
+    }
+  }
 </style>

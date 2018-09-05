@@ -55,7 +55,7 @@
     <template v-if="taskPassAuditList.length > 0">
       <div class="mt-12" v-for="(item,index) in taskPassAuditList" :key="item.id">
         <div class="collapse-header clear" @click="collapseToggle(item.id,index)" :class="{noBorderRadius: selectId}">
-          <div class="manage-img inline-block">
+          <div class="manage-img left">
             <img :src="item.taskMainImage | imageSrc('!thum54')" alt="活动主图">
             <span v-if="item.zone === 'certainly_hit'" class="certainly-hit-tip">推荐必中</span>
           </div>
@@ -66,7 +66,7 @@
             </p>
             <p>活动名称：{{item.taskName}}</p>
           </div>
-          <div class="waiting-task-number-pass">
+          <div class="waiting-task-number-pass left mt-10">
             <p class="task-pass"
                :class="{'line-height':showkerTaskStatusList.length === 0 || showkerTaskStatusList.length === 8 || showkerTaskStatusList.length > 4}">
             <span v-show="showkerTaskStatusList.length === 0 || showkerTaskStatusList.length === 8">全部<span
@@ -91,7 +91,7 @@
                 class="main-color">({{item.trial_end || 0}})</span></span>
             </p>
           </div>
-          <icon :class="{'show-table-styles' : selectId === item.id}" class="mt-15" type="arrow-right-b"/>
+          <icon :class="{'show-table-styles' : selectId === item.id}" class="right mr-5 mt-15" size="20" type="md-arrow-dropright"/>
         </div>
         <collapse-transition>
           <div class="task-table" v-show="selectId === item.id">

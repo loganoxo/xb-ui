@@ -198,7 +198,6 @@
       height: 42px;
       line-height: 42px;
       color: #666;
-      margin-right: 10px;
       vertical-align: middle;
       margin-left: 80px;
       p.task-wait-fail {
