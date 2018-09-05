@@ -1485,6 +1485,9 @@
       closeClauseModel() {
         this.isShowUserClause = false;
       },
+      toTaskFans() {
+        this.$router.push('/user/task-fans');
+      },
     },
   }
 </script>
