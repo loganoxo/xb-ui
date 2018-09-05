@@ -25,6 +25,11 @@
           <span class="task-management-nav icon-size"></span>
           <router-link to="/user/task-management/wait">任务管理</router-link>
         </li>
+        <li :class="{isSelect:isSelect ==='TaskFans'}" class="pos-rel">
+          <span class="task-fans icon-size"></span>
+          <img src="~assets/img/icon/new.png" alt="" class="new-task">
+          <router-link to="/user/task-fans">粉丝妈妈</router-link>
+        </li>
         <li
           :class="{isSelect:isSelect ==='AccountInfo' || isSelect === 'PayMoney' || isSelect === 'GetoutMoney' || isSelect === 'AccountManagement'}">
           <span class="money-management-nav icon-size"></span>
@@ -283,6 +288,11 @@
             background-image: url("~assets/img/userhome-merchant/black-management-off.png");
           }
         }
+        &:hover {
+          .task-fans {
+            background-image: url("~assets/img/userhome-merchant/task-fans-on.png");
+          }
+        }
 
       }
       a {
@@ -355,6 +365,16 @@
   .isSelect {
     .task-management-nav {
       background-image: url("~assets/img/userhome-merchant/task-management-on.png");
+    }
+  }
+
+  .task-fans {
+    background-image: url("~assets/img/userhome-merchant/task-fans-off.png");
+  }
+
+  .isSelect {
+    .task-fans {
+      background-image: url("~assets/img/userhome-merchant/task-fans-on.png");
     }
   }
 
@@ -481,5 +501,40 @@
 
   .user-clause-model {
     @include fullScreenModel
+  }
+
+  @keyframes mymove
+  {
+    from { top: -9px; }
+    to { top: -12px; }
+  }
+
+  @-moz-keyframes mymove /* Firefox */
+  {
+    from { top: -9px; }
+    to { top: -12px; }
+  }
+
+  @-webkit-keyframes mymove /* Safari 和 Chrome */
+  {
+    from { top: -9px; }
+    to { top: -12px; }
+  }
+
+  @-o-keyframes mymove /* Opera */
+  {
+    from { top: -9px; }
+    to { top: -12px; }
+  }
+
+  .new-task {
+    position: absolute;
+    right: 22px;
+    top: -12px;
+    width: 32px;
+    -webkit-animation: mymove .4s ease-in-out 1s infinite alternate running;
+    -o-animation: mymove .4s ease-in-out 1s infinite alternate running;
+    animation: mymove .4s ease-in-out 1s infinite alternate running;
+
   }
 </style>

@@ -801,6 +801,18 @@ export default new Router({
             },
           ]
         },
+        {
+          path: 'task-fans',
+          name: 'TaskFans',
+          component: _import('personalCenter/children/TaskFans'),
+          meta: {
+            title: "粉丝妈妈",
+            logInAuthority: true,
+            topShow: true,
+            bottomShow: true,
+            role: 1,
+          }
+        }
       ]
     },
     {
