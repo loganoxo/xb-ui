@@ -806,7 +806,7 @@ export default new Router({
           name: 'TaskFans',
           component: _import('personalCenter/children/TaskFans'),
           meta: {
-            title: "粉丝妈妈",
+            title: "微信加粉",
             logInAuthority: true,
             topShow: true,
             bottomShow: true,

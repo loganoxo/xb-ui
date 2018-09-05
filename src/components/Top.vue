@@ -66,6 +66,12 @@
             </i>
             买家秀
           </a>
+          <a :class="[activityCategory === 'task-fans' ? 'active' : '']" @click="linkToTaskFans('task-fans')" v-if="isLogin && userRole == 1">
+            <i style="position: absolute; top: -17px; left: 34px;">
+              <img src="~assets/img/icon/presell.gif" alt="new" >
+            </i>
+            微信加粉
+          </a>
         </div>
         <div class="merchant-entering right" @click="toLandingPage">
           <span class="merchant-entering-icon icon-size"></span>
@@ -131,9 +137,23 @@
       },
       commodityCategoriesList() {
         return this.$store.getters.getCommodityCategoriesList
+      },
+      userRole() {
+        return this.$store.state.userInfo.role;
       }
     },
     methods: {
+      linkToTaskFans(activityCategory) {
+        this.$router.push({ 'path': '/user/task-fans'});
+        this.$store.commit({
+          type: 'SET_ACTIVITY_CATEGORY',
+          info: activityCategory
+        });
+        this.$store.commit({
+          type: 'TASK_CATEGORY_LIST',
+          info: activityCategory
+        });
+      },
       linkToBuyerShow(activityCategory) {
         this.$router.push({ 'path': '/buyer-show'});
         this.$store.commit({

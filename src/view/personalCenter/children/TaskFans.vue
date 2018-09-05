@@ -1,11 +1,11 @@
 <template>
   <div class="fans-container">
     <div class="fans-top">
-      <h3 class="fans-title">粉丝妈妈</h3>
+      <h3 class="fans-title">微信加粉</h3>
       <p class="fans-describe mt-20">帮您快速兑换高质量粉丝，完成自建粉丝池</p>
     </div>
     <div class="fans-questions">
-      <h2 class="question text-center m-tb-30">为什么要使用粉丝妈妈？</h2>
+      <h2 class="question text-center m-tb-30">为什么要使用微信加粉？</h2>
       <div class="answer">
         <p class="answer-title">1、废物利用</p>
         <p class="answer-content mt-5">
@@ -175,6 +175,26 @@
         }
 
       }
+    },
+    created() {
+      this.$store.commit({
+        type: 'SET_ACTIVITY_CATEGORY',
+        info: 'task-fans'
+      });
+      this.$store.commit({
+        type: 'TASK_CATEGORY_LIST',
+        info: 'task-fans'
+      });
+    },
+    beforeDestroy() {
+      this.$store.commit({
+        type: 'SET_ACTIVITY_CATEGORY',
+        info: ''
+      });
+      this.$store.commit({
+        type: 'TASK_CATEGORY_LIST',
+        info: ''
+      });
     }
   }
 </script>
