@@ -505,8 +505,8 @@
 
   @keyframes tip-icon-move
   {
-    from { top: -9px; }
-    to { top: -12px; }
+    from { top: -12px; }
+    to { top: -9px; }
   }
 
   .new-task {

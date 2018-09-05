@@ -68,7 +68,7 @@
           </a>
           <a :class="[activityCategory === 'task-fans' ? 'active' : '']" @click="linkToTaskFans('task-fans')" v-if="isLogin && userRole == 1">
             <i style="position: absolute; top: -17px; left: 34px;">
-              <img src="~assets/img/icon/presell.gif" alt="new" >
+              <img src="~assets/img/icon/advance.gif" alt="new" >
             </i>
             微信加粉
           </a>
