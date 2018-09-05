@@ -80,7 +80,7 @@
       <h2 class="question pd-tb-20">如何兑换粉丝？</h2>
       <div>
         <div class="pl-20 border-dashed">
-          <p>通过将店铺的尾货/试用商品/赠品等变废为宝，换区意向、高匹配的淘宝买家粉丝，自建粉丝池，为安全、高效积攒销量做好准备。</p>
+          <p>通过将店铺的尾货/试用商品/赠品等变废为宝，换取意向、高匹配的淘宝买家粉丝，自建粉丝池，为安全、高效积攒销量做好准备。</p>
           <p class="requirement">商品要求及粉丝筛选条件：</p>
           <div class="require-container clear">
             <div class="require-item left text-center require-item-left">
@@ -123,7 +123,7 @@
           </div>
           <div class="form-item">
             <span class="form-label inline-block">缴纳的保障金：</span>
-            <input type="number" class="form-input result" placeholder="需要缴纳的保证金" disabled="disabled" v-model="money">
+            <input type="number" class="form-input result" placeholder="需缴纳的保障金，粉丝收货后返还" disabled="disabled" v-model="money">
             <span class="form-result form-label inline-block" :title="resultTitle">
               20元/个*<span v-text="num"></span>个粉丝
             </span>
@@ -368,7 +368,7 @@
       width: 260px;
       height: 44px;
       outline: 0;
-      padding: 14px 20px;
+      padding: 14px 15px;
       &:focus {
         border-color: #f9274e;
       }
