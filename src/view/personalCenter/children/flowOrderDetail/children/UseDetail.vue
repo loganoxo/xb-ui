@@ -1,8 +1,8 @@
 <template>
   <div class="use-detail">
     <div class="filter-time clear pt-20 pb-20">
-      <date-picker type="daterange" :options="dataPickerOption" placeholder="使用日期区间进行搜索" class="width-180 left" format="yyyy-MM-dd" @on-change="dataPickerChange"></date-picker>
-      <i-input v-model="searchTaskNumber" :clearable="true" class="left width-260 ml-10" placeholder="使用活动编号进行搜索"></i-input>
+      <date-picker type="daterange" :options="dataPickerOption" placeholder="使用日期区间进行搜索" class="width-180 left" format="yyyy-MM-dd" @on-change="dataPickerChange"/>
+      <i-input v-model="searchTaskNumber" :clearable="true" class="left width-260 ml-10" placeholder="使用活动编号进行搜索"/>
       <i-button type="primary" class="left ml-8" :loading="loading" @click="searchTask">搜索</i-button>
       <i-button icon="md-refresh" class="left ml-8" :loading="loading" @click="searchTask">刷新</i-button>
     </div>
