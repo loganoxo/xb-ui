@@ -14,31 +14,31 @@
         </thead>
       <tbody>
         <tr class="task-number">
-          <td colspan="7">活动编号：{{itemCatalog.number || '------'}}</td>
+          <td colspan="7">活动编号：{{task.number || '------'}}</td>
         </tr>
         <tr>
           <td>
-            <img class="left ml-10" :src="itemCatalog.taskMainImage | imageSrc('!thum54')" :alt="itemCatalog.taskName">
-            <span class="img-title left">{{itemCatalog.taskName}}</span>
+            <img class="left ml-10" :src="task.taskMainImage | imageSrc('!thum54')" :alt="task.taskName">
+            <span class="img-title left">{{task.taskName}}</span>
           </td>
           <td>
-            <p>{{itemCatalog.upLineTime | dateFormat('YYYY-MM-DD hh:mm:ss') || '----'}}</p>
-            <p class="mt-10">{{itemCatalog.endTime | dateFormat('YYYY-MM-DD hh:mm:ss') || '----'}}</p>
+            <p>{{task.upLineTime | dateFormat('YYYY-MM-DD hh:mm:ss') || '----'}}</p>
+            <p class="mt-10">{{task.endTime | dateFormat('YYYY-MM-DD hh:mm:ss') || '----'}}</p>
           </td>
-          <td v-if="itemCatalog.taskStatus !== 'waiting_modify'">
-            {{itemCatalog.taskStatusDesc}}<br/>{{itemCatalog.settlementStatusDesc}}
+          <td v-if="task.taskStatus !== 'waiting_modify'">
+            {{task.taskStatusDesc}}<br/>{{task.settlementStatusDesc}}
           </td>
           <td class="cursor-p main-color" v-else>
-            <tooltip :content="itemCatalog.auditLogs[itemCatalog.auditLogs.length - 1].resultMsg" placement="top">
+            <tooltip :content="task.auditLogs[task.auditLogs.length - 1].resultMsg" placement="top">
               <icon color="#f9284f" type="information-circled"/>&nbsp;待修改
             </tooltip>
           </td>
           <td class="registration">
-            {{itemCatalog.showkerApplyTotalCount || 0}} / {{itemCatalog.showkerApplySuccessCount || 0}}（人）
+            {{task.showkerApplyTotalCount || 0}} / {{task.showkerApplySuccessCount || 0}}（人）
           </td>
-          <td>{{itemCatalog.taskCount  - itemCatalog.showkerApplySuccessCount}}</td>
+          <td>{{task.taskCount  - task.showkerApplySuccessCount}}</td>
           <td>
-            （ {{(itemCatalog.totalMarginNeed / 100).toFixed(2)}} / {{(itemCatalog.promotionExpensesNeed / 100).toFixed(2)}} / {{((itemCatalog.vasFeeNeed + itemCatalog.tagVasFeeNeed) / 100).toFixed(2)}}）{{((itemCatalog.marginPaid + itemCatalog.promotionExpensesPaid + itemCatalog.vasFeePaid + itemCatalog.tagVasFeePaid) / 100).toFixed(2)}}
+            （ {{(task.totalMarginNeed / 100).toFixed(2)}} / {{(task.promotionExpensesNeed / 100).toFixed(2)}} / {{((task.vasFeeNeed + task.tagVasFeeNeed) / 100).toFixed(2)}}）{{((task.marginPaid + task.promotionExpensesPaid + task.vasFeePaid + task.tagVasFeePaid) / 100).toFixed(2)}}
           </td>
         </tr>
         </tbody>
@@ -979,7 +979,7 @@
     data() {
       return {
         itemCatalogList: [],
-        itemCatalog: [],
+        task: {},
         mainDefaultList: null,
         appDefaultList: null,
         pcDefaultList: null,
@@ -1673,7 +1673,7 @@
         }).then(res => {
           if (res.status) {
             _this.getMemberVersionLevel !== 100 && _this.getTaskVasSelectInfo(_this.editTaskId);
-            _this.itemCatalog = res.data;
+            _this.task = res.data;
             _this.selectStoreInfo.storeName = res.data.realStoreName;
             _this.mainDefaultList = null;
             _this.pcDefaultList = null;
@@ -1687,7 +1687,7 @@
                 _this.taskRelease[key] = res.data[key]
               }
             });
-            _this.taskRelease.itemType = res.data.itemCatalog.id;
+            // _this.taskRelease.itemType = res.data.itemCatalog.id;
             _this.taskRelease.pinkage =  _this.taskRelease.pinkage.toString();
             _this.taskRelease.donotPostPhoto = _this.taskRelease.donotPostPhoto.toString();
 

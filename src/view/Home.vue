@@ -46,7 +46,7 @@
               </div>
             </div>
             <div class="login-in-box" v-if="isLogin && getUserInfoRole　=== 0">
-              <div  @click="cancelActivityCategory">
+              <div @click="cancelActivityCategory">
                 <tooltip content="上传自定义个性头像，可以提高活动申请通过率哦，点击修改头像！" placement="bottom" class="left">
                   <router-link tag="img" to="/user/personal-setting/personal-account-info" :src="userHeadUrl"
                                class="cursor-p heard-img"></router-link>
@@ -108,8 +108,10 @@
                   <div v-if="getUserInfoRole === 1 && isMember" class="fs-12">
                     <img v-if="getMemberVersionLevel === 200" src="~assets/img/common/vip.png" alt="vipLogo">
                     <img v-if="getMemberVersionLevel === 300" src="~assets/img/common/svip.png" alt="svipLogo">
-                    <span class="cl-red" v-if="getMemberVersionLevel === 200">您已是VIP，<router-link to="/user/vip-member/instructions?q=VipMemberInstructions">查看我的权限</router-link></span>
-                    <span class="cl-red" v-if="getMemberVersionLevel === 300">您已是SVIP，<router-link to="/user/vip-member/instructions?q=VipMemberInstructions">查看我的权限</router-link></span>
+                    <span class="cl-red" v-if="getMemberVersionLevel === 200">您已是VIP，<router-link
+                      to="/user/vip-member/instructions?q=VipMemberInstructions">查看我的权限</router-link></span>
+                    <span class="cl-red" v-if="getMemberVersionLevel === 300">您已是SVIP，<router-link
+                      to="/user/vip-member/instructions?q=VipMemberInstructions">查看我的权限</router-link></span>
                   </div>
                 </div>
                 <p class="clear-both fs-14 mt-10 left ml-20">当前进行的活动：
@@ -168,19 +170,19 @@
         </div>
       </div>
       <div class="container clear bg-fff platform-info">
-        <div  class="width-pct-25 left platform-info-con">
+        <div class="width-pct-25 left platform-info-con">
           <p>已入驻试用商家</p>
           <p class="main-color mt-10 f-b fs-14">46425家</p>
         </div>
-        <div  class="width-pct-25 left platform-info-con">
+        <div class="width-pct-25 left platform-info-con">
           <p>今日新增商品数</p>
           <p class="main-color mt-10 f-b fs-14">{{newOutCommodityInfo.newCommodity || 0}}份</p>
         </div>
-        <div  class="width-pct-25 left platform-info-con">
+        <div class="width-pct-25 left platform-info-con">
           <p>昨日登录拿手数</p>
           <p class="main-color mt-10 f-b fs-14">{{newOutCommodityInfo.onlineShowker || 0}}人</p>
         </div>
-        <div  class="width-pct-25 left platform-info-con">
+        <div class="width-pct-25 left platform-info-con">
           <p>今日送出商品数</p>
           <p class="main-color mt-10 f-b fs-14">{{newOutCommodityInfo.outCommodity || 0}}份</p>
         </div>
@@ -215,7 +217,10 @@
                 <a class="des-text" :title="item.trialReportText">{{item.trialReportText}}</a>
               </p>
               <div class="clear bottom mt-20">
-                <router-link :to="{path:'/trial-report',query:{q:encryptionId(item.showkerId)}}" class="user-head-box ml-10"><img width="48" height="48" :src="getUserHead(item.showkerPortraitPic)" alt=""></router-link>
+                <router-link :to="{path:'/trial-report',query:{q:encryptionId(item.showkerId)}}"
+                             class="user-head-box ml-10"><img width="48" height="48"
+                                                              :src="getUserHead(item.showkerPortraitPic)" alt="">
+                </router-link>
                 <div class="left ml-10 mt-5">
                   <p class="cl000">{{item.nickName}}</p>
                   <img :src="item.creditLevel" alt="">
@@ -281,7 +286,7 @@
                   </em>
                   <!--<em class="vas-fee-return ml-10 pl-5 pr-5" v-if="(homeCommodity.perVasFee || homeCommodity.promotionExpensesPaid && (uplineTime < homeCommodity.createTime))">-->
                   <!--<span class="vas-fee-return ml-10 pl-5 pr-5" v-if="(homeCommodity.perVasFee || homeCommodity.promotionExpensesPaid && (uplineTime < homeCommodity.createTime))">-->
-                    <!--奖励{{computeVasReturnFee(homeCommodity.perVasFee,homeCommodity.systemVasFeeCommissionPercent,homeCommodity.activityCategory,homeCommodity.promotionExpensesPaid,homeCommodity.taskCount,homeCommodity.createTime)}}元-->
+                  <!--奖励{{computeVasReturnFee(homeCommodity.perVasFee,homeCommodity.systemVasFeeCommissionPercent,homeCommodity.activityCategory,homeCommodity.promotionExpensesPaid,homeCommodity.taskCount,homeCommodity.createTime)}}元-->
                   <!--</span>-->
                 </p>
                 <p class="discount-price">
@@ -346,7 +351,7 @@
                 <p class="price">
                   <span class="cl666 text-decoration-through">￥{{homeCommodity.itemPrice / 100}}</span>
                   <!--<span class="vas-fee-return ml-10 pl-5 pr-5" v-if="(homeCommodity.perVasFee || homeCommodity.promotionExpensesPaid && (uplineTime < homeCommodity.createTime))">-->
-                    <!--奖励{{computeVasReturnFee(homeCommodity.perVasFee,homeCommodity.systemVasFeeCommissionPercent,homeCommodity.activityCategory,homeCommodity.promotionExpensesPaid,homeCommodity.taskCount,homeCommodity.createTime)}}元-->
+                  <!--奖励{{computeVasReturnFee(homeCommodity.perVasFee,homeCommodity.systemVasFeeCommissionPercent,homeCommodity.activityCategory,homeCommodity.promotionExpensesPaid,homeCommodity.taskCount,homeCommodity.createTime)}}元-->
                   <!--</span>-->
                 </p>
                 <p class="discount-price">
@@ -401,70 +406,70 @@
       </div>
 
       <!--历史活动开始-->
-<!--      <div class="container mt-10">
-        <div class="home-commodity">
-          <div class="home-commodity-title">
-            <div class="home-commodity-img-title">
-              <div class="part-title-img-box">
-                <span class="fs-18">历史活动</span>
-              </div>
-            </div>
-            <p class="text-ct fs-14">我型我秀，分享精彩</p>
-          </div>
-          <div class="home-commodity-ctt">
-            <router-link class="home-commodity-details"
-                         target="_blank"
-                         v-for="homeHistory in homeHistoryList"
-                         :key="homeHistory.id"
-                         :to="{ 'path': '/task-details','query': {'q': encryptionId(homeHistory.id)}}">
-              <div class="home-commodity-img pos-rel">
-                <img class="block" :src="homeHistory.taskMainImage | imageSrc('!thum400')" height="208" width="210">
-                <span class="applied"> {{homeHistory.showkerApplyTotalCount || 0}} 人已申请</span>
-                &lt;!&ndash;<img src="~assets/img/common/hot-top-subscript.png" class="hot-top-icon">&ndash;&gt;
-              </div>
-              <div class="home-commodity-text">
-                <p class="cl000">{{homeHistory.taskName}}</p>
-                <p class="price">
-                  <span class="cl666 text-decoration-through">￥{{homeHistory.itemPrice / 100}}</span>
-                  &lt;!&ndash;<span class="vas-fee-return ml-10 pl-5 pr-5" v-if="(homeHistory.perVasFee || homeHistory.promotionExpensesPaid && (uplineTime < homeHistory.createTime))">&ndash;&gt;
-                    &lt;!&ndash;奖励{{computeVasReturnFee(homeHistory.perVasFee,homeHistory.systemVasFeeCommissionPercent,homeHistory.activityCategory,homeHistory.promotionExpensesPaid,homeHistory.taskCount,homeHistory.createTime)}}元&ndash;&gt;
-                  &lt;!&ndash;</span>&ndash;&gt;
-                </p>
-                <p class="discount-price">
-                  <span>
-                    <span class="f-b" v-if="homeHistory.discountPrice">￥{{homeHistory.discountPrice / 100}}</span>
-                    <span class="f-b" v-if="!homeHistory.discountPrice && homeHistory.discountRate">
-                    ￥{{(Math.floor((homeHistory.discountRate/100) * homeHistory.itemPrice)/100).toFixed(2)}}
-                    </span>
-                    <span class="f-b" v-if="!homeHistory.discountPrice && !homeHistory.discountRate">
-                    ￥0
-                    </span>
-                  </span>
-                  <span>
-                    <span v-if="homeHistory.activityCategory === 'price_low' && homeHistory.discountPrice"
-                      class="left home-discount-price mt-5" :style="{backgroundColor: $store.state.discountPriceType[parseFloat(homeHistory.discountPrice/100)].backgroundColor}">
-                    {{homeHistory.discountPrice/100}}试用
-                    </span>
-                    <span v-if="homeHistory.activityCategory === 'price_low' && homeHistory.discountRate" class="left home-discount-price mt-5"
-                    :style="{backgroundColor: $store.state.discountPriceType[parseFloat(homeHistory.discountRate/10) + '折'].backgroundColor}">
-                    {{homeHistory.discountRate/10}}折试用
-                    </span>
-                  </span>
-                </p>
-                <p class="home-commodity-apply">限量 <span class="main-color"> {{homeHistory.taskCount || 0 }} </span>
-                  份，剩余
-                  <span
-                    class="main-color"> {{homeHistory.taskCount - homeHistory.showkerApplySuccessCount || 0}} </span> 份
-                <p class="home-commodity-take">
-                  <router-link :to="{ 'path': '/task-details','query': {'q':encryptionId(homeHistory.id)}}"
-                               class="ivu-btn ivu-btn-long">查看详情
+      <!--      <div class="container mt-10">
+              <div class="home-commodity">
+                <div class="home-commodity-title">
+                  <div class="home-commodity-img-title">
+                    <div class="part-title-img-box">
+                      <span class="fs-18">历史活动</span>
+                    </div>
+                  </div>
+                  <p class="text-ct fs-14">我型我秀，分享精彩</p>
+                </div>
+                <div class="home-commodity-ctt">
+                  <router-link class="home-commodity-details"
+                               target="_blank"
+                               v-for="homeHistory in homeHistoryList"
+                               :key="homeHistory.id"
+                               :to="{ 'path': '/task-details','query': {'q': encryptionId(homeHistory.id)}}">
+                    <div class="home-commodity-img pos-rel">
+                      <img class="block" :src="homeHistory.taskMainImage | imageSrc('!thum400')" height="208" width="210">
+                      <span class="applied"> {{homeHistory.showkerApplyTotalCount || 0}} 人已申请</span>
+                      &lt;!&ndash;<img src="~assets/img/common/hot-top-subscript.png" class="hot-top-icon">&ndash;&gt;
+                    </div>
+                    <div class="home-commodity-text">
+                      <p class="cl000">{{homeHistory.taskName}}</p>
+                      <p class="price">
+                        <span class="cl666 text-decoration-through">￥{{homeHistory.itemPrice / 100}}</span>
+                        &lt;!&ndash;<span class="vas-fee-return ml-10 pl-5 pr-5" v-if="(homeHistory.perVasFee || homeHistory.promotionExpensesPaid && (uplineTime < homeHistory.createTime))">&ndash;&gt;
+                          &lt;!&ndash;奖励{{computeVasReturnFee(homeHistory.perVasFee,homeHistory.systemVasFeeCommissionPercent,homeHistory.activityCategory,homeHistory.promotionExpensesPaid,homeHistory.taskCount,homeHistory.createTime)}}元&ndash;&gt;
+                        &lt;!&ndash;</span>&ndash;&gt;
+                      </p>
+                      <p class="discount-price">
+                        <span>
+                          <span class="f-b" v-if="homeHistory.discountPrice">￥{{homeHistory.discountPrice / 100}}</span>
+                          <span class="f-b" v-if="!homeHistory.discountPrice && homeHistory.discountRate">
+                          ￥{{(Math.floor((homeHistory.discountRate/100) * homeHistory.itemPrice)/100).toFixed(2)}}
+                          </span>
+                          <span class="f-b" v-if="!homeHistory.discountPrice && !homeHistory.discountRate">
+                          ￥0
+                          </span>
+                        </span>
+                        <span>
+                          <span v-if="homeHistory.activityCategory === 'price_low' && homeHistory.discountPrice"
+                            class="left home-discount-price mt-5" :style="{backgroundColor: $store.state.discountPriceType[parseFloat(homeHistory.discountPrice/100)].backgroundColor}">
+                          {{homeHistory.discountPrice/100}}试用
+                          </span>
+                          <span v-if="homeHistory.activityCategory === 'price_low' && homeHistory.discountRate" class="left home-discount-price mt-5"
+                          :style="{backgroundColor: $store.state.discountPriceType[parseFloat(homeHistory.discountRate/10) + '折'].backgroundColor}">
+                          {{homeHistory.discountRate/10}}折试用
+                          </span>
+                        </span>
+                      </p>
+                      <p class="home-commodity-apply">限量 <span class="main-color"> {{homeHistory.taskCount || 0 }} </span>
+                        份，剩余
+                        <span
+                          class="main-color"> {{homeHistory.taskCount - homeHistory.showkerApplySuccessCount || 0}} </span> 份
+                      <p class="home-commodity-take">
+                        <router-link :to="{ 'path': '/task-details','query': {'q':encryptionId(homeHistory.id)}}"
+                                     class="ivu-btn ivu-btn-long">查看详情
+                        </router-link>
+                      </p>
+                    </div>
                   </router-link>
-                </p>
+                </div>
               </div>
-            </router-link>
-          </div>
-        </div>
-      </div>-->
+            </div>-->
       <!--历史活动结束-->
     </div>
     <!--添加微信弹窗-->
@@ -500,27 +505,32 @@
       </div>
     </div>
     <!--商家首次登陆平台卡快速发布任务引导弹窗-->
-    <modal v-model="showFirstVisitModel" width="1000" :mask-closable="false" :closable="false" :scrollable="true" class="first-release-activity">
+    <modal v-model="showFirstVisitModel" width="1000" :mask-closable="false" :closable="false" :scrollable="true"
+           class="first-release-activity">
       <div slot="header" class="m-header">
         <img src="~assets/img/home/tit.png" alt="" class="m-icon">
-        HI，<span class="main-color">{{getUserInfoPhone}}</span>&nbsp;这是您第一次访问白拿拿，您的身份是<span class="main-color">淘宝商家</span> 。
+        HI，<span class="main-color">{{getUserInfoPhone}}</span>&nbsp;这是您第一次访问白拿拿，您的身份是<span
+        class="main-color">淘宝商家</span> 。
       </div>
       <div class="m-body">
-        <p class="m-title">平台都是精准定位的<span class="main-color">真实消费群体</span>，看我们如何做到<span class="main-color">安全、合理的转化</span>！</p>
+        <p class="m-title">平台都是精准定位的<span class="main-color">真实消费群体</span>，看我们如何做到<span
+          class="main-color">安全、合理的转化</span>！</p>
         <ul class="clear mt-20">
           <li class="left">
             <span class="step">1、平均20分钟就有1人申请</span>
             <div class="mt-20">
               <img src="~assets/img/home/m-1.png" alt="">
             </div>
-            <p class="desc mt-25">活动成功上线后，平均20分钟就有1人申请试用。由<span class="main-color">亲自己决定什么时间通过、通过多少名额（通过后才能去淘宝下单）</span>，合理控制转化。</p>
+            <p class="desc mt-25">活动成功上线后，平均20分钟就有1人申请试用。由<span class="main-color">亲自己决定什么时间通过、通过多少名额（通过后才能去淘宝下单）</span>，合理控制转化。
+            </p>
           </li>
           <li class="left">
             <span class="step">2、商家自己选择下单旺旺号</span>
             <div class="mt-20">
               <img src="~assets/img/home/m-2.png" alt="">
             </div>
-            <p class="desc mt-10">在申请列表中，商家可以看到申请旺旺号的各类信息，如历史申请类目、数量、所在地等，<span class="main-color">商家自行选择旺旺号</span>，主权交给商家，更安全更放心!</p>
+            <p class="desc mt-10">在申请列表中，商家可以看到申请旺旺号的各类信息，如历史申请类目、数量、所在地等，<span class="main-color">商家自行选择旺旺号</span>，主权交给商家，更安全更放心!
+            </p>
           </li>
           <li class="left">
             <span class="step">3、先看淘宝评价在返款</span>
@@ -784,7 +794,7 @@
       });
     },
     methods: {
-      computeVasReturnFee(perVasFee,sysHold) {
+      computeVasReturnFee(perVasFee, sysHold) {
         return (perVasFee / 100 * (1 - sysHold / 100)).toFixed(2);
       },
       changeIsBuyVipPopupFunc() {
@@ -801,7 +811,7 @@
         const _this = this;
         api.newOutCommodity().then(res => {
           if (res.status) {
-            _this.newOutCommodityInfo =  res.data
+            _this.newOutCommodityInfo = res.data
           }
         })
       },
@@ -819,7 +829,7 @@
         const _this = this;
         api.getAvailableBoardByAdTypeList({
           advertType: advertType
-          }).then(res => {
+        }).then(res => {
           if (res.status) {
             _this.swipeItemList = res.data
           } else {
@@ -902,7 +912,7 @@
             if (res.data) {
               if (!self.isLogin) {
                 self.homeHistoryList = res.data.filter(item => {
-                  return item.itemCatalog.id !== 1003 && item.itemCatalog.parentItemCatalog.id !== 600;
+                  return [601, 602, 603, 604, 605, 606, 607, 608, 609, 699, 1003].indexOf(item.itemType) >= 0;
                 });
               } else {
                 self.homeHistoryList = res.data;
@@ -1025,7 +1035,7 @@
       changeNoticeTab(notice) {
         this.noticeActive = notice.active;
       },
-      cancelActivityCategory(){
+      cancelActivityCategory() {
         this.$store.commit({
           type: 'SET_ACTIVITY_CATEGORY',
           info: ''
@@ -1332,10 +1342,10 @@
             border: 1px solid #ddd;
             .hot-top-icon {
               position: absolute;
-              top:0;
-              left:-4px;
-              width:50px;
-              height:50px;
+              top: 0;
+              left: -4px;
+              width: 50px;
+              height: 50px;
             }
           }
           .home-commodity-text {
@@ -1353,8 +1363,8 @@
               color: #000;
               text-align: left;
             }
-            .vas-fee-return{
-              color:#fff;
+            .vas-fee-return {
+              color: #fff;
               background: $mainColor;
             }
             p.discount-price {
@@ -1402,10 +1412,10 @@
             border: 1px solid #ddd;
             .hot-top-icon {
               position: absolute;
-              top:0;
-              left:-4px;
-              width:50px;
-              height:50px;
+              top: 0;
+              left: -4px;
+              width: 50px;
+              height: 50px;
             }
             img {
               width: 168px;
@@ -1428,8 +1438,8 @@
               text-align: left;
             }
             p.price {
-              .vas-fee-return{
-                color:#fff;
+              .vas-fee-return {
+                color: #fff;
                 background: $mainColor;
               }
             }
@@ -1536,51 +1546,54 @@
       margin-left: -220px;
     }
   }
+
   /*弹窗*/
-  .m-header{
-    padding:40px 0 10px 0;
+  .m-header {
+    padding: 40px 0 10px 0;
     font-size: 16px;
     text-align: center;
     background-color: #eeeeee;
     position: relative;
-    .m-icon{
+    .m-icon {
       position: absolute;
-      top:8px;
-      left:60px;
+      top: 8px;
+      left: 60px;
     }
   }
+
   .m-body {
-    padding:20px 0;
+    padding: 20px 0;
     .m-title {
       text-align: center;
       font-size: 22px;
       font-weight: bold;
     }
     .step {
-      padding:2px 15px;
+      padding: 2px 15px;
       background: #000;
       color: #fff;
-      font-weight:bold;
-      font-size:16px;
+      font-weight: bold;
+      font-size: 16px;
     }
     li {
-      width:33.33%;
-      padding:0 20px;
+      width: 33.33%;
+      padding: 0 20px;
       text-align: center;
     }
     .desc {
       text-align: left;
     }
   }
+
   .m-footer {
     .later-btn {
-      margin-right:10%;
-      padding-left:40px;
-      padding-right:40px;
+      margin-right: 10%;
+      padding-left: 40px;
+      padding-right: 40px;
     }
     .release-btn {
-      margin-left:10%;
-      color:#fff;
+      margin-left: 10%;
+      color: #fff;
       background: $mainColor;
     }
   }

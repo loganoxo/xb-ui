@@ -1334,7 +1334,6 @@
                 }
               }
             }
-            _this.taskRelease.itemType = res.data.itemCatalog.id;
             _this.taskRelease.presentPrice = _this.taskRelease.presentPrice / 100;
             _this.taskRelease.itemPrice = _this.taskRelease.itemPrice / 100;
             _this.taskRelease.taskDetail = {};

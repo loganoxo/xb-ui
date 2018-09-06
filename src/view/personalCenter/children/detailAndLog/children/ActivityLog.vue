@@ -14,30 +14,30 @@
         </thead>
         <tbody>
         <tr class="task-number">
-          <td colspan="7">活动编号：{{itemCatalog.number || '------'}}</td>
+          <td colspan="7">活动编号：{{task.number || '------'}}</td>
         </tr>
         <tr>
           <td>
-            <img class="left ml-10" :src="itemCatalog.taskMainImage + '!thum54'" :alt="itemCatalog.taskName">
-            <span class="img-title left">{{itemCatalog.taskName}}</span>
+            <img class="left ml-10" :src="task.taskMainImage + '!thum54'" :alt="task.taskName">
+            <span class="img-title left">{{task.taskName}}</span>
           </td>
           <td>
-            <p>{{itemCatalog.upLineTime | dateFormat('YYYY-MM-DD hh:mm:ss') || '----'}}</p>
-            <p class="mt-10">{{itemCatalog.endTime | dateFormat('YYYY-MM-DD hh:mm:ss') || '----'}}</p>
+            <p>{{task.upLineTime | dateFormat('YYYY-MM-DD hh:mm:ss') || '----'}}</p>
+            <p class="mt-10">{{task.endTime | dateFormat('YYYY-MM-DD hh:mm:ss') || '----'}}</p>
           </td>
-          <td v-if="itemCatalog.taskStatus !== 'waiting_modify'">{{itemCatalog.taskStatusDesc}}<br/>{{itemCatalog.settlementStatusDesc}}
+          <td v-if="task.taskStatus !== 'waiting_modify'">{{task.taskStatusDesc}}<br/>{{task.settlementStatusDesc}}
           </td>
           <td class="cursor-p main-color" v-else>
-            <tooltip :content="itemCatalog.auditLogs[itemCatalog.auditLogs.length - 1].resultMsg" placement="top">
+            <tooltip :content="task.auditLogs[task.auditLogs.length - 1].resultMsg" placement="top">
               <icon color="#f9284f" type="information-circled"/>&nbsp;待修改
             </tooltip>
           </td>
-          <td class="registration">{{itemCatalog.showkerApplyTotalCount || 0}} / {{itemCatalog.showkerApplySuccessCount
+          <td class="registration">{{task.showkerApplyTotalCount || 0}} / {{task.showkerApplySuccessCount
             || 0}}（人）
           </td>
-          <td>{{itemCatalog.taskCount - itemCatalog.showkerApplySuccessCount}}</td>
-          <td>{{itemCatalog.totalMarginNeed / 100}} / {{itemCatalog.promotionExpensesNeed / 100}} /
-            {{(itemCatalog.marginPaid + itemCatalog.promotionExpensesPaid) / 100 || 0}}
+          <td>{{task.taskCount - task.showkerApplySuccessCount}}</td>
+          <td>{{task.totalMarginNeed / 100}} / {{task.promotionExpensesNeed / 100}} /
+            {{(task.marginPaid + task.promotionExpensesPaid) / 100 || 0}}
           </td>
         </tr>
         </tbody>
@@ -93,7 +93,7 @@
     data() {
       return {
         taskId: '',
-        itemCatalog: [],
+        task: {},
         buyerCourse: "1",
         logList: [],
         showkerLogList: [],
@@ -120,7 +120,7 @@
           taskId: _this.taskId
         }).then(res => {
           if (res.status) {
-            _this.itemCatalog = res.data
+            _this.task = res.data
           } else {
             _this.$Message.error({
               content: res.msg
