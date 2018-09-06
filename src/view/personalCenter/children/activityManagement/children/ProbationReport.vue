@@ -175,7 +175,7 @@
         </div>
       </div>
       <div class="pl-20 pr-20 mt-30 violation-labels">
-        <div class="cl000">TA是否有以下违规行为（没有可不选）</div>
+        <div class="cl000">TA在任务过程中表现如何？</div>
         <div class="mt-10">
           <span v-for="(label,index) in violationLabelList" :key="index" :class="[label.selected ? 'selectActive' : '']" @click="selectLabel(label,index)">{{label.description}}</span>
         </div>
