@@ -1044,7 +1044,7 @@
             <div class="activity-info-title">收藏加购及访客流量</div>
             <div class="mt-20 ml-20">
               <span class="ml-5">收藏加购/访客：</span>
-              <checkbox v-model="favoriteCartFlowInfo.favoriteCartFlowStatus" @on-change="aliWwLabelSetChange">需要</checkbox>
+              <checkbox v-model="favoriteCartFlowInfo.favoriteCartFlowStatus">需要</checkbox>
             </div>
             <template v-if="favoriteCartFlowInfo.favoriteCartFlowStatus">
               <div class="collection-purchased-tip mt-20">
