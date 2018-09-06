@@ -912,7 +912,7 @@
             if (res.data) {
               if (!self.isLogin) {
                 self.homeHistoryList = res.data.filter(item => {
-                  return [601, 602, 603, 604, 605, 606, 607, 608, 609, 699, 1003].indexOf(item.itemType) >= 0;
+                  return [601, 602, 603, 604, 605, 606, 607, 608, 609, 699, 1003].indexOf(item.itemType) < 0;
                 });
               } else {
                 self.homeHistoryList = res.data;
