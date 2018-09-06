@@ -73,7 +73,7 @@
             </td>
             <td>
               <p class="cursor-p blue" @click="lookTaskDetail(item.id)">查看活动详情</p>
-              <p class="cursor-p blue mt-6" @click="openDetail(item.id)">查看流量详情</p>
+              <p class="cursor-p blue mt-6" @click="openDetail(item.id, item.keywrodCount)">查看流量详情</p>
             </td>
           </tr>
           <tr>
@@ -98,7 +98,7 @@
                     <template v-for="(childItem, childIndex) in flowDetail">
                       <tr>
                         <td>{{item.taskStatusDesc}}</td>
-                        <td>{{item.keywrodList.length > 0 ?item.keywrodList[childIndex] : '------'}}</td>
+                        <td>{{item.keywrodList[childIndex]}}</td>
                         <td>成功：{{childItem.favoriteCartFlowTotalCount}}条</td>
                         <td>成功：{{childItem.cartFlowTotalCount}}条</td>
                         <td>成功：{{childItem.favoriteFlowTotalCount}}条</td>
@@ -278,6 +278,7 @@
           'visitor_flow': 0,
         },
         selectId: null,
+        keywordsCount: null,
         checkbox: {
           checkAllGroup: [],
           checkAll: false,
@@ -399,11 +400,12 @@
           _this.loading = false;
         })
       },
-      openDetail(id) {
+      openDetail(id, count) {
         if (this.selectId === id) {
           this.selectId = null;
         } else {
           this.selectId = id;
+          this.keywordsCount = count;
           this.getTaskFlowDetail(id);
         }
       },
@@ -414,6 +416,22 @@
         }).then(res => {
           if (res.status) {
             _this.flowDetail = res.content;
+            if (_this.flowDetail.length < _this.keywordsCount) {
+              for (let i = 0, len = _this.keywordsCount - _this.flowDetail.length; i < len; i++) {
+                _this.flowDetail.push({
+                  cartFlowTotalCount: 0,
+                  favoriteCartFlowFailCount: 0,
+                  favoriteCartFlowPendingCount: 0,
+                  favoriteCartFlowSuccessCount: 0,
+                  favoriteCartFlowTotalCount: 0,
+                  favoriteFlowTotalCount: 0,
+                  visitorFlowFailCount: 0,
+                  visitorFlowPendingCount: 0,
+                  visitorFlowSuccessCount: 0,
+                  visitorFlowTotalCount: 0
+                })
+              }
+            }
           } else {
             _this.$Message.error(res.msg);
           }
