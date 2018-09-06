@@ -78,7 +78,7 @@
       <span class="mr-10">需要您提供店铺内任意商品链接</span>
       <i-input type="text" size="large" class="commodity-input" v-model="commodityLink"></i-input>
       <div class="text-ct mt-30">
-        <i-button class="confirm-link-btn" :loading="confirmBtnLoading" @click="getStoreInfoByLink">确认</i-button>
+        <i-button class="confirm-link-btn" :loading="confirmBtnLoading" @click="getStoreInfoByLink('once')">确认</i-button>
       </div>
     </div>
     <!--示例图弹窗-->
@@ -166,8 +166,8 @@
           _this.storeBindForm.storeType = 'tmall';
         }
       },
-      //根据商品链接获取店铺信息
-      getStoreInfoByLink() {
+      //根据商品链接获取店铺信息（如果第一次抓取的数据为null,系统自动帮他重新申请一次）
+      getStoreInfoByLink(times) {
         const _this = this;
         if (!_this.commodityLink) {
           _this.$Message.warning('亲，店铺链接不能为空！');
@@ -183,7 +183,11 @@
         api.getStoreInfoByLink({link: _this.commodityLink}).then(res => {
           if (res.status) {
             let tempData = res.data;
-            if (!res.data) {
+            if (!res.data && times === 'once') {
+              _this.getStoreInfoByLink('twice');
+              return
+            }
+            if (!res.data && times === 'twice') {
               _this.$Message.error('获取店铺信息失败~~');
               _this.confirmBtnLoading = false;
               return
