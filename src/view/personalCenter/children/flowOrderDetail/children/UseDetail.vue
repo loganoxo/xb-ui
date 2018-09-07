@@ -370,17 +370,16 @@
       },
       getQueryTaskNumber () {
         const number = this.$route.query.number;
-        if (number) {
-          this.searchTaskNumber = number;
-          this.getFlowList();
-          setTimeout(()=> {
-            if (this.flowList.length > 0) {
-              const taskId = this.flowList[0].id;
-              this.getTaskFlowDetail(taskId);
-              this.selectId = taskId;
-            }
-          },1000)
-        }
+        this.keywordsCount = this.$route.query.keywordsCount;
+        this.searchTaskNumber = number;
+        this.getFlowList();
+        setTimeout(()=> {
+          if (this.flowList.length > 0) {
+            const taskId = this.flowList[0].id;
+            this.getTaskFlowDetail(taskId);
+            this.selectId = taskId;
+          }
+        }, 800)
       },
       dataPickerChange(date) {
         if (date[0] && date[1]) {

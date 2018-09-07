@@ -223,7 +223,7 @@
                 <!--<span @click="approveShowker(item.id,item.endTime)">审批拿手</span>-->
                 <!--</p>-->
                 <p class="bond mt-6">
-                  <span @click="toFlowOrderDetail(item.number)">补添流量</span>
+                  <span @click="toFlowOrderDetail(item.number, item.taskDetailObject.length)">补添流量</span>
                 </p>
                 <p class="copy mt-6">
                   <span @click="lookTaskDetail(item.id)">查看详情</span>
@@ -878,8 +878,8 @@
           this.getTaskList();
         }, 200)
       },
-      toFlowOrderDetail(number) {
-        this.$router.push({name: 'FlowOrderDetail',query: {number: number}});
+      toFlowOrderDetail(number, keywordsCount) {
+        this.$router.push({name: 'FlowOrderDetail',query: {number: number, keywordsCount: keywordsCount}});
       }
     }
   }
