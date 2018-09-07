@@ -2,18 +2,26 @@
     <div>
       <div class="fans-header">
         <h1 class="question pd-tb-20">
+          什么是微信加粉？
+        </h1>
+        <div class="task-describe border">
+          商家用货品（尾货、赠品、试用商品等）/现金来吸引白拿拿上的淘宝买家添加商家微信号，成为商家粉丝的一种新的任务类型。
+        </div>
+      </div>
+      <div class="fans-header">
+        <h1 class="question pd-tb-20">
           微信加粉任务流程
         </h1>
         <img src="~assets/img/task-fans/task-fans-top.png" alt="加粉流程" class="block img-top">
       </div>
       <div class="fans-container mt-20 border">
         <div class="fans-title pl-10">
-          微信加粉任务发布
+          微信加粉任务发布<span class="text-orange">预售</span>
         </div>
         <div class="pd-30">
           <div class="fm-item mb-20">
             <span class="mr-10">需求粉丝数：</span>
-            <Input v-model.number="fansNumber" class="width-150" autofocus/>
+            <Input v-model.number="fansNumber" class="width-150" autofocus placeholder="请输入您需要的粉丝数"/>
             <span class="item-right ml-8">个</span>
           </div>
           <div class="fm-item mb-20">
@@ -140,27 +148,27 @@
             </div>
 
           </div>
-          <div class="mt-40">
-            <p v-show="checkType" class="required mt-10 pl-20">
+          <div class="mt-20">
+            <p v-show="checkType" class="required pl-20">
               购买粉丝费用<span class="color-theme">{{ money }}</span>元，缴纳保障金<span class="color-theme">0</span>元，总计需要支付金额<span class="color-theme">{{ money }}</span>元
             </p>
-            <p v-show="!checkType" class="required mt-10 pl-20 text-ct">
-              购买粉丝费用<span class="color-theme">0</span>元，缴纳保障金<span class="color-theme">{{ money }}</span>元，总计需要支付金额{<span class="color-theme">{{ money }}</span>元
+            <p v-show="!checkType" class="required pl-20">
+              购买粉丝费用<span class="color-theme">0</span>元，缴纳保障金<span class="color-theme">{{ money }}</span>元，总计需要支付金额<span class="color-theme">{{ money }}</span>元
             </p>
             <div class="text-ct mt-20 mb-20">
               <Button size="large" type="primary" class="width-120" @click="submit">立即发布</Button>
               <Button type="warning" class="ml-15" @click="connectService">联系客服</Button>
             </div>
-            <div class="text-ct color-theme mt-30" v-if="paySuccess">活动已发布成功，请联系客服确认订单信息，本次活动为预售活动，预计本月中旬上线。</div>
+            <div class="text-ct color-theme mt-30" v-if="paySuccess">任务已发布成功，请联系客服确认订单信息，本次活动为预售活动，预计本月中旬上线。</div>
           </div>
         </div>
       </div>
       <transition name="slide-fade">
         <div class="pay" v-show="showCode">
           <div class="pay-code">
-            <div class="pay-top pl-20">
+            <div class="pay-top pl-20 clear">
               支付宝扫码付款
-              <Icon type="md-close-circle" class="closeCode cursor-p" @click="closeCode" />
+              <Icon type="md-close-circle" class="closeCode cursor-p right mr-20" @click="closeCode" />
             </div>
             <div class="pay-container text-ct">
               <img src="~assets/img/task-fans/code.png" class="block pay-code-img">
@@ -308,6 +316,9 @@
   .color-theme {
     color: #f9284f !important;
   }
+  .color-orange {
+    coloe: #fd6b22;
+  }
   .font12 {
     font-size: 12px;
   }
@@ -328,6 +339,12 @@
   }
   .img-top {
     width: 100%;
+  }
+  .task-describe {
+    border-radius: 12px;
+    background: #fff5e2;
+    font-size: 16px;
+    padding: 20px 30px;
   }
   .fans-container {
     color: #666;
@@ -406,8 +423,8 @@
     font-size: 16px;
   }
   .closeCode {
-    color: #f2f2f2;
-    font-size: 40px;
+    font-size: 30px;
+    padding-top: 5px;
   }
   .pay-container {
     background: #fff;
