@@ -149,10 +149,10 @@
 
           </div>
           <div class="mt-20">
-            <p v-show="checkType" class="required pl-20">
+            <p v-show="checkType" class="required pl-20 text-ct">
               购买粉丝费用<span class="color-theme">{{ money }}</span>元，缴纳保障金<span class="color-theme">0</span>元，总计需要支付金额<span class="color-theme">{{ money }}</span>元
             </p>
-            <p v-show="!checkType" class="required pl-20">
+            <p v-show="!checkType" class="required pl-20 text-ct">
               购买粉丝费用<span class="color-theme">0</span>元，缴纳保障金<span class="color-theme">{{ money }}</span>元，总计需要支付金额<span class="color-theme">{{ money }}</span>元
             </p>
             <div class="text-ct mt-20 mb-20">
