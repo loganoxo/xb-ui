@@ -20,7 +20,7 @@
         </div>
         <div class="pd-30">
           <div class="fm-item mb-20">
-            <span class="mr-10">需求粉丝数：</span>
+            <span class="mr-10 required">需求粉丝数：</span>
             <Input v-model.number="fansNumber" class="width-150" autofocus placeholder="请输入您需要的粉丝数"/>
             <span class="item-right ml-8">个</span>
           </div>
