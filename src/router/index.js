@@ -804,7 +804,7 @@ export default new Router({
         {
           path: 'task-fans',
           name: 'TaskFans',
-          component: _import('personalCenter/children/TaskFans'),
+          component: _import('personalCenter/children/WxTaskFans'),
           meta: {
             title: "微信加粉",
             logInAuthority: true,
