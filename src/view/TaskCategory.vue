@@ -590,7 +590,7 @@
             self.pageCount = res.data.total;
             if(!self.isLogin){
               self.searchTaskList = res.data.content.filter(item => {
-                return [601, 602, 603, 604, 605, 606, 607, 608, 609, 699, 1003].indexOf(item.itemType) >= 0;
+                return [601, 602, 603, 604, 605, 606, 607, 608, 609, 699, 1003].indexOf(item.itemType) < 0;
               });
             } else {
               self.searchTaskList = res.data.content;
@@ -613,7 +613,7 @@
           if(res.status){
             if(!self.isLogin){
               self.historyTaskList = res.data.content.filter(item => {
-                return [601, 602, 603, 604, 605, 606, 607, 608, 609, 699, 1003].indexOf(item.itemType) >= 0;
+                return [601, 602, 603, 604, 605, 606, 607, 608, 609, 699, 1003].indexOf(item.itemType) < 0;
               });
             } else {
               self.historyTaskList = res.data.content;
