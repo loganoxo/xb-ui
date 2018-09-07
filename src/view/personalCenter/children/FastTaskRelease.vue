@@ -90,9 +90,8 @@
         <div class="baby-title ml-20 mt-20">
           <span class="required">活动标题：</span>
           <i-input v-model="taskRelease.taskName" placeholder="请输入活动标题" style="width: 296px"/>
-          <span class="ml-10">名称实例</span>
           <pop-tip trigger="hover">
-            <icon type="md-help-circle" size="14" class="vtc-text-btm"/>
+            <span class="ml-10 cursor-p">名称实例<icon type="md-help-circle" size="14" class="vtc-text-btm"/></span>
             <div slot="content" class="pt-10 pb-10">
               <p class="cl666 f-b">展示名称填写规范与示例：</p>
               <p class="mt-5">1、标题<span class="cl-red f-b">不要超过60个字，不要带有“【】”</span>等标点符号；</p>
@@ -162,7 +161,7 @@
           <input v-show="false" id="presentGet" type="file" name="avator" multiple accept="image/jpg,image/jpeg,image/png,image/gif" @change="uploadImgPresentGet">
         </div>
         <div class="order-set mt-22">
-          <div class="activity-info-title" v-if="taskRelease.taskType !== 'direct_access'">进店方式设置</div>
+          <div class="activity-info-title">进店方式设置</div>
           <div class="activity-type ml-40 mt-22">
             <span class="required">进店方式：</span>
             <radio-group v-model="taskRelease.taskType" @on-change="taskTypeChange">
@@ -621,6 +620,7 @@
       }
     },*/
     mounted() {
+      const _this = this;
       const imgHandlerPresentGet = async function (image) {
         _this.addImgRangePresentGet = _this.$refs.myTextEditorPresent.quill.getSelection();
         if (image) {
@@ -1296,24 +1296,6 @@
         } else {
           _this.itemCatalogList = itemCatalog;
         }
-      },
-      uploadImgFreeGet(e) {
-        const _this = this;
-        const file = e.target.files[0];
-        const key = 'task' + '/' + randomString();
-        aliUploadImg(key, file).then(res => {
-          if (res) {
-            let value = aliCallbackImgUrl + res.name + '!orgi75';
-            _this.addImgRangeFreeGet = _this.$refs.myTextEditorFree.quill.getSelection();
-            _this.$refs.myTextEditorFree.quill.insertEmbed(_this.addImgRangeFreeGet !== null ? _this.addImgRangeFreeGet.index : 0, 'image', value, Quill.sources.USER);
-            document.getElementById('freeGet').value = '';
-            _this.$Message.success('商品简介图片上传成功！');
-          }
-        }).catch(err => {
-          console.error(err);
-          document.getElementById('freeGet').value = '';
-          _this.$Message.warning('商品简介图片上传失败，请重试！');
-        })
       },
       uploadImgPresentGet(e) {
         const _this = this;

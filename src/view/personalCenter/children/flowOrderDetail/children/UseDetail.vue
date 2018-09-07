@@ -147,24 +147,32 @@
       </div>
       <div class="border-top">
         <p class="mt-20 ml-20">为“<span class="main-color f-b">{{addFlowInfo.keyword}}</span>”补添流量：</p>
-        <p class="mt-20 ml-40">
+        <p class="mt-20 ml-28">
           <span class="cl000">补添&nbsp;收藏+加购：</span>
           <input-number v-model="addFlowCount['favorite_cart_flow']" size="small" :min="0" :step="1" class="width-50"></input-number>&nbsp;个
+          <span class="ml-5">间隔：</span>
+          <input-number v-model="flowInterval['favorite_cart_flow']" size="small" :min="1" :step="1" :max="60" class="width-50"></input-number>&nbsp;分钟/个
           <span class="cl999">（每个任务消耗2条收藏加购流量）</span>
         </p>
-        <p class="mt-20 ml-70">
+        <p class="mt-20 ml-60">
           <span class="cl000">补添&nbsp;加购：</span>
           <input-number v-model="addFlowCount['favorite_flow']" size="small" :min="0" :step="1" class="width-50"></input-number>&nbsp;个
+          <span class="ml-5">间隔：</span>
+          <input-number v-model="flowInterval['favorite_flow']" size="small" :min="1" :step="1" :max="60" class="width-50"></input-number>&nbsp;分钟/个
           <span class="cl999">（每个任务消耗1条收藏加购流量）</span>
         </p>
-        <p class="mt-20 ml-70">
+        <p class="mt-20 ml-60">
           <span class="cl000">补添&nbsp;收藏：</span>
           <input-number v-model="addFlowCount['cart_flow']" size="small" :min="0" :step="1" class="width-50"></input-number>&nbsp;个
+          <span class="ml-5">间隔：</span>
+          <input-number v-model="flowInterval['cart_flow']" size="small" :min="1" :step="1" :max="60" class="width-50"></input-number>&nbsp;分钟/个
           <span class="cl999">（每个任务消耗1条收藏加购流量）</span>
         </p>
-        <p class="mt-20 ml-70">
+        <p class="mt-20 ml-60">
           <span class="cl000">补添&nbsp;访客：</span>
           <input-number v-model="addFlowCount['visitor_flow']" size="small" :min="0" :step="1" class="width-50"></input-number>&nbsp;个
+          <span class="ml-5">间隔：</span>
+          <input-number v-model="flowInterval['visitor_flow']" size="small" :min="1" :step="1" :max="60" class="width-50"></input-number>&nbsp;分钟/个
           <span class="cl999">（每个任务消耗1条访客流量）</span>
         </p>
       </div>
@@ -276,6 +284,12 @@
           'favorite_flow': 0,
           'cart_flow': 0,
           'visitor_flow': 0,
+        },
+        flowInterval: {
+          'favorite_cart_flow': 2,
+          'favorite_flow': 2,
+          'cart_flow': 2,
+          'visitor_flow': 2,
         },
         selectId: null,
         keywordsCount: null,
@@ -469,6 +483,7 @@
             taskId: _this.addFlowInfo.taskId,
             schemeIndex: _this.addFlowInfo.index,
             countMapString: JSON.stringify(_this.addFlowCount),
+            intervalMapString: JSON.stringify(_this.flowInterval),
           }).then(res => {
             if (res.status) {
              setTimeout(() => {

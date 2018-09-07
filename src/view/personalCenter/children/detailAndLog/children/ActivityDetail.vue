@@ -266,7 +266,7 @@
           <span class="left ml-5">商品简介：</span>
           <div class="quill left" v-html="taskRelease.itemDescription"></div>
         </div>
-        <div class="activity-info-title mt-20" v-if="taskRelease.taskType !== 'direct_access'">进店方式设置</div>
+        <div class="activity-info-title mt-20">进店方式设置</div>
         <div class="mt-20 ml-20">
           <radio-group v-model="taskRelease.taskType">
             <radio label="pc_search" disabled>
