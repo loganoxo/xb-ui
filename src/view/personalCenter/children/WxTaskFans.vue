@@ -5,7 +5,7 @@
           什么是微信加粉？
         </h1>
         <div class="task-describe border">
-          商家用货品（尾货、赠品、试用商品等）/现金来吸引白拿拿上的淘宝买家添加商家微信号，成为商家粉丝的一种新的任务类型。
+          商家用<span class="color-theme bold">货品（尾货、赠品、试用商品等）/现金</span>来吸引白拿拿上的淘宝买家添加商家微信号，成为商家粉丝的一种新的任务类型。
         </div>
       </div>
       <div class="fans-header">
@@ -16,7 +16,7 @@
       </div>
       <div class="fans-container mt-20 border">
         <div class="fans-title pl-10">
-          微信加粉任务发布<span class="text-orange">预售</span>
+          微信加粉任务发布<span class="text-orange ml-10 bold">（预售）</span>
         </div>
         <div class="pd-30">
           <div class="fm-item mb-20">
@@ -199,7 +199,7 @@
         goodImg: '',
         codeDefaultList: [],
         goodDefaultList: [],
-        fansNumber: 20,
+        fansNumber: '',
         area: ['all'],
         sex: 'any',
         anyArea: true,
@@ -307,6 +307,9 @@
 </script>
 
 <style scoped lang="scss">
+  .bold {
+    font-weight: bold;
+  }
   .border {
     border: solid 1px #ddd;
   }
@@ -316,8 +319,8 @@
   .color-theme {
     color: #f9284f !important;
   }
-  .color-orange {
-    coloe: #fd6b22;
+  .text-orange {
+    color: #fd6b22 !important;
   }
   .font12 {
     font-size: 12px;
@@ -450,8 +453,7 @@
   .slide-fade-leave-active {
     transition: all .3s cubic-bezier(1.0, 0.5, 0.8, 1.0);
   }
-  .slide-fade-enter, .slide-fade-leave-to
-    /* .slide-fade-leave-active for below version 2.1.8 */ {
+  .slide-fade-enter, .slide-fade-leave-to {
     transform: translateY(10px);
     opacity: 0;
   }
