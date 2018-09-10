@@ -48,7 +48,7 @@
         <div class="home-nav-list clear">
           <a :class="[activityCategory === 'home' ? 'active' : '']" @click="selTaskCategoryHome">首页</a>
           <a :class="[activityCategory === 'free_get' ? 'active' : '']" @click="selTaskCategoryFunc('free_get')" >
-            <tooltip :content="`新增商品${platformData.newCommodity / 4 || 0}件`" placement="bottom">
+            <tooltip :content="`新增商品${parseInt(platformData.newCommodity / 4) || 0}件`" placement="bottom">
               好货精选
             </tooltip>
           </a>
@@ -56,7 +56,7 @@
             <!--<i style="position: absolute; top: -16px; left: 13px;">-->
               <!--<img src="/static/img/icon/giveaway.gif" alt="" >-->
             <!--</i>-->
-            <tooltip :content="`新增商品${platformData.newCommodity / 4 * 3 || 0}件`" placement="bottom">
+            <tooltip :content="`新增商品${parseInt(platformData.newCommodity / 4 * 3) || 0}件`" placement="bottom">
               人气试用
             </tooltip>
           </a>

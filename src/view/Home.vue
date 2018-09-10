@@ -263,7 +263,7 @@
             <p>
               <img src="/static/img/icon/free_get_heart.png" alt="">
               <span class="fs-18 f-b clf99563">好货精选</span>
-              <span class="fs-12 cl666">{{`新增商品${platformData.newCommodity / 4 || 0}件`}}</span>
+              <span class="fs-12 cl666">{{`新增商品${parseInt(platformData.newCommodity / 4) || 0}件`}}</span>
               <router-link to="/task-category?activityCategory=free_get" class="cl666 right mr-20">更多></router-link>
             </p>
           </div>
@@ -331,7 +331,7 @@
             <p>
               <img src="/static/img/icon/present_get_heart.png" alt="">
               <span class="fs-18 f-b cl57C78D">人气试用</span>
-              <span class="fs-12 cl666">{{`新增商品${platformData.newCommodity / 4 * 3 || 0}件`}}</span>
+              <span class="fs-12 cl666">{{`新增商品${parseInt(platformData.newCommodity / 4 * 3) || 0}件`}}</span>
               <router-link to="/task-category?activityCategory=present_get" class="cl666 right mr-20">更多></router-link>
             </p>
           </div>
