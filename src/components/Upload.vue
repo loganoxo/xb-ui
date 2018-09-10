@@ -195,10 +195,6 @@
         this.originalSrc = name;
         this.visible = true;
       },
-      handleRemove(file) {
-        const fileList = this.$refs.Upload.fileList;
-        this.$refs.Upload.fileList.splice(fileList.indexOf(file), 1);
-      },
       handleClick() {
         this.$refs.input.click();
       },
