@@ -1296,6 +1296,7 @@
         showPayModel: false,
         stepName: 'information',
         taskLoading: false,
+        storeCheckFailCount: 0,
         taskPayId: null,
         itemCatalogList: [],
         answerDefaultList: [],
@@ -2786,6 +2787,7 @@
       },
       async checkStoreInfo() {
         const _this = this;
+        _this.taskLoading = true;
         let detectionStoreInfo = null;
         try {
           _this.isShowStoreInfoLoading = true;
@@ -2799,10 +2801,16 @@
         if (detectionStoreInfo.status) {
           _this.taskLoading = false;
           if (detectionStoreInfo.data) {
-            return _this.isSelectStoreUrl = detectionStoreInfo.data.sellerId.toString() === _this.selectStoreInfo.sellerId && detectionStoreInfo.data.shopId.toString() === _this.selectStoreInfo.shopId;
+            _this.isSelectStoreUrl = !(detectionStoreInfo.data.sellerId.toString() === _this.selectStoreInfo.sellerId && detectionStoreInfo.data.shopId.toString() === _this.selectStoreInfo.shopId);
+            return !_this.isSelectStoreUrl;
           } else {
-            _this.isGetStoreInfoError = true;
-            return false;
+            _this.storeCheckFailCount++;
+            if (_this.storeCheckFailCount > 1) {
+              _this.isGetStoreInfoError = true;
+              return false;
+            } else {
+              _this.checkStoreInfo();
+            }
           }
         } else {
           _this.$Message.error(detectionStoreInfo.msg);
@@ -2810,35 +2818,14 @@
       },
       async taskCreate(type) {
         const _this = this;
-        _this.taskLoading = true;
-        let detectionStoreInfo = null;
+        // 抓取校验活动店铺信息（如果店铺信息抓取失败，自动重新抓取一次，若在抓取失败则弹框提示用户）
+        let isCheckOk = null;
         try {
-          _this.isShowStoreInfoLoading = true;
-          await _this.$store.dispatch('getUserInformation');
-          detectionStoreInfo = await _this.getStoreInfo();
-        } catch (err) {
-          _this.taskLoading = false;
-          throw Error(err);
+          isCheckOk = await _this.checkStoreInfo();
+        } catch (e) {
+          isCheckOk = false;
         }
-        _this.isShowStoreInfoLoading = false;
-        if (detectionStoreInfo.status) {
-          if (detectionStoreInfo.data) {
-            if (detectionStoreInfo.data.sellerId.toString() !== _this.selectStoreInfo.sellerId && detectionStoreInfo.data.shopId.toString() !== _this.selectStoreInfo.shopId) {
-              _this.isSelectStoreUrl = true;
-              _this.taskLoading = false;
-              return;
-            } else {
-              _this.isSelectStoreUrl = false;
-            }
-          } else {
-            _this.isGetStoreInfoError = true;
-            _this.taskLoading = false;
-            return;
-          }
-        } else {
-          _this.$Message.error(detectionStoreInfo.msg);
-          return;
-        }
+        if (!isCheckOk) return;
         _this.taskRelease.storeName = _this.selectStoreInfo.storeAlitm;
         _this.taskRelease.realStoreName = _this.selectStoreInfo.storeName;
         _this.taskRelease.itemReviewAssignString = JSON.stringify(_this.itemReviewPushList);
@@ -2846,7 +2833,7 @@
         const similarTaskVasId = [];
         _this.vasMainItem.forEach(item => {
           if (item.isSelect) {
-            mainTaskVasId.push(item.id)
+            mainTaskVasId.push(item.id);
           }
         });
         if (_this.shopAroundStatus) {
