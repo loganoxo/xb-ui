@@ -1212,8 +1212,8 @@
           },
           map: {
             'favorite_cart_flow': '收藏 + 加购',
-            'favorite_flow': '加购',
-            'cart_flow': '收藏',
+            'cart_flow': '加购',
+            'favorite_flow': '收藏',
             'visitor_flow': '访客',
           },
           matchByApplyInfo: {
@@ -1224,13 +1224,13 @@
               flowCount: 1,
             },
             'favorite_flow': {
-              tipText: '加入购物车数，系统建议3:1匹配，每个任务消耗1条收藏加购流量',
+              tipText: '加入收藏夹数，系统建议5:1匹配，每个任务消耗1条收藏加购流量',
               disabled: true,
               applyCount: 3,
               flowCount: 1,
             },
             'cart_flow': {
-              tipText: '加入收藏夹数，系统建议5:1匹配，每个任务消耗1条收藏加购流量',
+              tipText: '加入购物车数，系统建议3:1匹配，每个任务消耗1条收藏加购流量',
               disabled: true,
               applyCount: 5,
               flowCount: 1,
