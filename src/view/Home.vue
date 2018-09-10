@@ -718,18 +718,7 @@
       if (getStorage('weChartPop') === 1 && self.$store.state.userInfo.role === 0 && !getStorage('setWeChartshower' + self.$store.state.userInfo.phone)) {
         self.weChartShowkerAlertFunc();
       }
-      if (self.isLogin && self.getUserInfoRole) {
-        let loginStatus = getStorage('loginInformation');
-        if (loginStatus) {
-          if (timeToDate() !== loginStatus) {
-            self.showTaskFansModal = true;
-            setStorage('loginInformation', timeToDate());
-          }
-        } else {
-          self.showTaskFansModal = true;
-          setStorage('loginInformation', timeToDate());
-        }
-      }
+      this.showTaskFansHandler();
     },
     created() {
       const self = this;
@@ -1062,6 +1051,41 @@
       },
       toTaskFans() {
         this.$router.push('/user/task-fans');
+      },
+      showTaskFansHandler() {
+        const self = this;
+        if (self.$store.state.login && self.$store.state.userInfo.role === 1 && self.$store.state.userInfo.nickname) {
+          let loginStatus = getStorage('loginInformation');
+          loginStatus = loginStatus ? JSON.parse(loginStatus) : [];
+          const obj = { loginTime: timeToDate(), loginPhone: self.getUserInfoPhone };
+          if (loginStatus) {
+            const today = timeToDate();
+            let flag = true;
+            for (let i = 0; i < loginStatus.length; i++) {
+              if (today === loginStatus[i].loginTime && self.$store.state.userInfo.nickname === loginStatus[i].loginPhone) {
+                flag = false;
+                break;
+              }
+            }
+            if (flag) {
+              self.showTaskFansModal = true;
+              loginStatus.push(obj);
+              setStorage('loginInformation', JSON.stringify(loginStatus));
+            }
+          } else {
+            self.showTaskFansModal = true;
+            loginStatus = [];
+            loginStatus.push(obj);
+            setStorage('loginInformation', JSON.stringify(loginStatus));
+          }
+        }
+      }
+    },
+    watch: {
+      getUserInfoPhone() {
+        if(this.getUserInfoPhone) {
+          this.showTaskFansHandler();
+        }
       }
     }
   }
