@@ -14,7 +14,7 @@ const setChannel = () => {
       if (referer.includes(key)) {
         const searchKeyWord = getUrlParams(referer, searchEngineConfig[key].queryKey);
         setCookie('from_qudao_key', searchKeyWord);
-        setCookie('from_qudao', searchEngineConfig[key]);
+        setCookie('from_qudao', searchEngineConfig[key].name);
         break;
       }
     }
