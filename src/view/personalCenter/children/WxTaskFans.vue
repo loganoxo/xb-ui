@@ -16,7 +16,7 @@
       </div>
       <div class="fans-container mt-20 border">
         <div class="fans-title pl-10">
-          微信加粉任务发布<span class="text-orange ml-10 bold">（预售）</span>
+          微信加粉任务发布
         </div>
         <div class="pd-30">
           <div class="fm-item mb-20">
