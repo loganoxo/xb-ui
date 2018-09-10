@@ -48,14 +48,14 @@
       </div>
     </template>
     <template v-if="step === 'pay'">
-      <pay-model ref="payModelRef" :orderMoney="payMoney"
+      <pay-model ref="payModelRef" :orderMoney="needPayMoney"
                  :orderType="0"
                  :isBalance="isBalance"
                  @confirmPayment="confirmPayment">
         <div slot="noBalance" class="title-tip">
           <span class="sizeColor3"><icon color="#FF2424" size="18px" type="md-alert"/><span
             class="ml-10">亲，您的余额不足，请充值。</span></span>还需充值<strong
-          class="sizeColor3">{{needPayMoney > 0 ? (needPayMoney/100).toFixed(2) : 0.00}}</strong>元
+          class="sizeColor3">{{needPayMoneyText > 0 ? (needPayMoneyText/100).toFixed(2) : 0.00}}</strong>元
           <span @click="isShowAliPayTip = true">【<span class="blue cursor-p">支付宝手续费</span>】</span>
         </div>
         <div slot="isBalance" class="title-tip">
@@ -145,8 +145,16 @@
       /** 计算当用户账户余额不足以支付选购的会员版本价格的需要额外充值的金额
        * @return {Number}
        */
+      needPayMoneyText() {
+        return !this.isBalance ? Math.abs(this.getUserBalance - this.payMoney) / 0.994 : 0
+      },
+
+      /**
+       * 计算最终需要支付的金额（传入orderMoney的值）
+       * @return {Number}
+       */
       needPayMoney() {
-        return !this.hasBalance ? Math.abs(this.getUserBalance - this.payMoney) : 0
+        return this.isBalance ? this.payMoney : Math.abs(this.getUserBalance - this.payMoney)
       },
 
       visitorFlowOrder() {
