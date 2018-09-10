@@ -200,15 +200,16 @@
         trialReports:{},
         creditLevel:'',
         tqz:'',
-        orderFillCount: null
+        orderFillCount: null,
+        reportId: null
       }
     },
     created(){
       let self = this;
-      if(self.$route.query.q){
+      if (self.$route.query.q) {
         self.trialReportParams.showkerId = decode(self.$route.query.q);
       }
-      if(self.$route.query.showReportDesc){
+      if (self.$route.query.showReportDesc) {
         let trialReport = {
           id: decode(self.$route.query.id),
           showkerId: decode(self.$route.query.q)
@@ -216,23 +217,26 @@
         self.trialReports = trialReport;
         self.showReportDescFunc(trialReport);
       }
+      if (self.$route.query.showkerTaskId) {
+        self.getReportDetail(decode(self.$route.query.showkerTaskId));
+      }
       this.getTrialReports();
       this.getTrialDetail();
 
     },
     computed: {
-      getUser(){
+      getUser() {
         return this.$store.state.userInfo;
       },
       getLastLoginTime() {
         return Math.max(this.showkerInfo.lastLoginTimeAPP, this.showkerInfo.lastLoginTimePC);
       },
-      getWhetherLogin(){
+      getWhetherLogin() {
         return this.$store.state.login;
       }
     },
     methods: {
-      clickPraise(){
+      clickPraise() {
         let self = this;
         if(!self.getWhetherLogin){
          return self.selectLogin = true;
@@ -383,6 +387,22 @@
         link.setAttribute('type','text/css');
         document.getElementsByTagName('head')[0].appendChild(link)
       },
+      async getReportDetail(showkerTaskId) {
+        const self = this;
+        try {
+          const data =  await api.showkerTaskReport({id:showkerTaskId});
+          if (data.status) {
+            self.reportId = data.data.id;
+          }
+        } catch (err) {
+          throw Error(err);
+        }
+        self.trialReports = {
+          id: self.reportId,
+          showkerId: decode(self.$route.query.q)
+        };
+        self.showReportDescFunc(self.trialReports);
+      }
     },
     watch: {
     }

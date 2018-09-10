@@ -144,24 +144,28 @@
                       <span class="main-color">{{item.trialEndReason === 'admin_manual_close' ? getTaskStatus(item.trialEndReason) +'：'+ item.auditDescription : getTaskStatus(item.trialEndReason)}}</span><br/>
                       <!--<span>{{getTaskStatus(item.trialEndReason)}}</span>-->
                     </tooltip>
-
                   </p>
                 </td>
-                <td>{{item.orderNum || '------'}}</td>
+                <td>
+                  <p>{{item.orderNum || '------'}}</p>
+                  <p>{{item.orderTime | dateFormat('YYYY-MM-DD hh:mm:ss')}}</p>
+                </td>
                 <td>{{(item.orderPrice).toFixed(2)}}</td>
                 <td>
-                  <p class="del-edit">
-                  <span v-if="item.status === 'order_num_waiting_audit'"
-                        @click="openCheckOrder(item.id, item.needBrowseCollectAddCart, item.itemIssue, index)">审核订单信息</span>
-                    <span v-if="item.status === 'trial_report_waiting_confirm'"
-                          @click="goProbationReport(item.id)">审核买家秀</span>
+                  <div class="del-edit">
+                    <span v-if="item.status === 'order_num_waiting_audit'" @click="openCheckOrder(item.id, item.needBrowseCollectAddCart, item.itemIssue, index)">审核订单信息</span>
+                    <span v-if="item.status === 'trial_report_waiting_confirm'" @click="goProbationReport(item.id)">审核买家秀</span>
                     <!--<router-link target="_blank" :to="{path:'/user/activity-management/report',query:{id: encryptionId(item.id), from: 'taskPassAudit'}}" v-if="item.status === 'trial_report_waiting_confirm'">-->
                     <!--审核买家秀-->
                     <!--</router-link>-->
-                    <span v-if="item.status === 'trial_finished' && !item.ifEvaluated"
-                          @click="getShowkerReportInfo(item.id,item.alitmAccount)">评价拿手</span>
-                    <span v-if="item.status !== 'order_num_waiting_audit' && item.status !== 'trial_report_waiting_confirm' && !(item.status === 'trial_finished' && !item.ifEvaluated)">------</span>
-                  </p>
+                    <p v-if="item.status === 'trial_finished' && !item.ifEvaluated">
+                      <span target="_blank" class="check-report" @click="toShowkerReport(item.showkerId,item.id)">查看平台买家秀</span><br/>
+                      <span @click="getShowkerReportInfo(item.id,item.alitmAccount)">评价拿手</span>
+                    </p>
+                    <span  class="check-report" v-if="item.status === 'trial_finished' && item.ifEvaluated"  @click="toShowkerReport(item.showkerId,item.id)">查看平台买家秀</span>
+                    <!--<span v-if="item.status !== 'order_num_waiting_audit' && item.status !== 'trial_report_waiting_confirm' && !(item.status === 'trial_finished' && !item.ifEvaluated)">&#45;&#45;&#45;&#45;&#45;&#45;</span>-->
+                    <span v-if="item.status !== 'order_num_waiting_audit' && item.status !== 'trial_report_waiting_confirm' && item.status !== 'trial_finished'">------</span>
+                  </div>
                 </td>
               </tr>
               </tbody>
@@ -417,6 +421,13 @@
             _this.$Message.error(res.msg);
           }
         });
+      },
+      toShowkerReport(showkerId,showkerTaskId) {
+        let routeData = this.$router.resolve({
+          path: '/trial-report',
+          query: {q: encryption(showkerId),showkerTaskId: encryption(showkerTaskId)}
+        });
+        window.open(routeData.href,'_blank');
       },
       evaluateShowkerFun() {
         const _this = this;

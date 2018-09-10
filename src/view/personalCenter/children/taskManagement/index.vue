@@ -285,6 +285,10 @@
       &:hover {
         color: darken(#2b85e4, 10%);
       }
+      &.check-report {
+        color: $mainColor;
+        cursor: pointer;
+      }
     }
 
     .task-table table td span.look_record {
