@@ -156,16 +156,16 @@
         </p>
         <p class="mt-20 ml-60">
           <span class="cl000">补添&nbsp;加购：</span>
-          <input-number v-model="addFlowCount['favorite_flow']" size="small" :min="0" :step="1" class="width-50"></input-number>&nbsp;个
+          <input-number v-model="addFlowCount['cart_flow']" size="small" :min="0" :step="1" class="width-50"></input-number>&nbsp;个
           <span class="ml-5">间隔：</span>
-          <input-number v-model="flowInterval['favorite_flow']" size="small" :min="1" :step="1" :max="60" class="width-50"></input-number>&nbsp;分钟/个
+          <input-number v-model="flowInterval['cart_flow']" size="small" :min="1" :step="1" :max="60" class="width-50"></input-number>&nbsp;分钟/个
           <span class="cl999">（每个任务消耗1条收藏加购流量）</span>
         </p>
         <p class="mt-20 ml-60">
           <span class="cl000">补添&nbsp;收藏：</span>
-          <input-number v-model="addFlowCount['cart_flow']" size="small" :min="0" :step="1" class="width-50"></input-number>&nbsp;个
+          <input-number v-model="addFlowCount['favorite_flow']" size="small" :min="0" :step="1" class="width-50"></input-number>&nbsp;个
           <span class="ml-5">间隔：</span>
-          <input-number v-model="flowInterval['cart_flow']" size="small" :min="1" :step="1" :max="60" class="width-50"></input-number>&nbsp;分钟/个
+          <input-number v-model="flowInterval['favorite_flow']" size="small" :min="1" :step="1" :max="60" class="width-50"></input-number>&nbsp;分钟/个
           <span class="cl999">（每个任务消耗1条收藏加购流量）</span>
         </p>
         <p class="mt-20 ml-60">
