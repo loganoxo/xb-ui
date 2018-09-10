@@ -1211,11 +1211,11 @@
     <modal v-model="merchantInformationModal.status" :closable="false" :mask-closable="false" :scrollable="true">
       <div slot="header" class="text-ct main-color fs-16 f-b">商家须知</div>
       <p class="fs-14">白拿拿平台旨在为大家提供更优质的试用服务，为保证试用活动的顺利进行，也为了保证商家朋友的权益，以下条款请务必认真阅读并遵守：</p>
-      <p class="mt-10 fs-14">1、实际发货的赠品须与平台上发布活动所展示的赠品一致；</p>
+      <p class="mt-10 fs-14">1、实际发货的商品须与平台上发布活动所展示的商品一致；</p>
       <p class="mt-10 fs-14">2、请认真审核拿手提交的订单编号，确认无误之后，及时安排发货；</p>
       <p class="mt-10 fs-14">3、请确保平台上预留的电话和QQ等联系方式真实有效，可以联系上；</p>
       <p class="mt-10 fs-14">4、对于审核通过的拿手活动商家不得无故随意终止；</p>
-      <p class="mt-10 fs-14">5、因物流或者其他不可抗因素导致赠品破损或者丢件的及时跟平台客服沟通配合处理；</p>
+      <p class="mt-10 fs-14">5、因物流或者其他不可抗因素导致商品破损或者丢件的及时跟平台客服沟通配合处理；</p>
       <p class="main-color mt-10 fs-14">6、任务期间请关闭淘宝客、村淘、分享有赏等淘客活动，若因淘客活动引起的佣金支出由商家自己承担！</p>
       <p class="mt-10 fs-14">以上条款如有违反，造成不良后果，商家自行承担。</p>
       <div slot="footer" class="text-ct">
@@ -2206,7 +2206,7 @@
           }
         })
       },
-      getStoreInfo() {
+  /*    getStoreInfo() {
         const _this = this;
         return new Promise((resolve, reject) => {
           api.getStoreInfoByLink({
@@ -2217,7 +2217,7 @@
             reject(err)
           })
         })
-      },
+      },*/
       selectStoreChange(storeName, alitm, shopId, sellerId, weChatNum) {
         this.selectStoreInfo = {};
         this.selectStoreInfo.storeName = storeName;
@@ -2782,6 +2782,30 @@
           _this.taskCreate(false);
         } else {
           _this.taskCreate(false);
+        }
+      },
+      async checkStoreInfo() {
+        const _this = this;
+        let detectionStoreInfo = null;
+        try {
+          _this.isShowStoreInfoLoading = true;
+          await _this.$store.dispatch('getUserInformation');
+          detectionStoreInfo = await api.getStoreInfoByLink({link: _this.taskRelease.itemUrl});
+        } catch (err) {
+          _this.taskLoading = false;
+          throw Error(err);
+        }
+        _this.isShowStoreInfoLoading = false;
+        if (detectionStoreInfo.status) {
+          _this.taskLoading = false;
+          if (detectionStoreInfo.data) {
+            return _this.isSelectStoreUrl = detectionStoreInfo.data.sellerId.toString() === _this.selectStoreInfo.sellerId && detectionStoreInfo.data.shopId.toString() === _this.selectStoreInfo.shopId;
+          } else {
+            _this.isGetStoreInfoError = true;
+            return false;
+          }
+        } else {
+          _this.$Message.error(detectionStoreInfo.msg);
         }
       },
       async taskCreate(type) {
