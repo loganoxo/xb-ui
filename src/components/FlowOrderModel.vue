@@ -49,7 +49,7 @@
     </template>
     <template v-if="step === 'pay'">
       <pay-model ref="payModelRef" :orderMoney="payMoney"
-                 :orderType="3"
+                 :orderType="0"
                  :isBalance="isBalance"
                  @confirmPayment="confirmPayment">
         <div slot="noBalance" class="title-tip">
