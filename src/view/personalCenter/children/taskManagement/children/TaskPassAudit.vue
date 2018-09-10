@@ -156,7 +156,7 @@
                     <!--审核买家秀-->
                     <!--</router-link>-->
                     <p v-if="item.status === 'trial_finished' && !item.ifEvaluated">
-                      <span class="check-report" @click="toShowkerReport(item.showkerId,item.id)">查看平台买家秀</span><br/>
+                      <span target="_blank" class="check-report" @click="toShowkerReport(item.showkerId,item.id)">查看平台买家秀</span><br/>
                       <span @click="getShowkerReportInfo(item.id,item.alitmAccount)">评价拿手</span>
                     </p>
                     <span  class="check-report" v-if="item.status === 'trial_finished' && item.ifEvaluated"  @click="toShowkerReport(item.showkerId,item.id)">查看平台买家秀</span>
@@ -420,10 +420,11 @@
         });
       },
       toShowkerReport(showkerId,showkerTaskId) {
-        this.$router.push({
+        let routeData = this.$router.resolve({
           path: '/trial-report',
           query: {q: encryption(showkerId),showkerTaskId: encryption(showkerTaskId)}
-        })
+        });
+        window.open(routeData.href,'_blank');
       },
       evaluateShowkerFun() {
         const _this = this;

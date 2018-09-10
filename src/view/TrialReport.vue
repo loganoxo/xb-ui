@@ -218,7 +218,7 @@
         self.showReportDescFunc(trialReport);
       }
       if (self.$route.query.showkerTaskId) {
-        self.getReportDetail(decode(self.$route.query.showkerTaskId))
+        self.getReportDetail(decode(self.$route.query.showkerTaskId));
       }
       this.getTrialReports();
       this.getTrialDetail();
