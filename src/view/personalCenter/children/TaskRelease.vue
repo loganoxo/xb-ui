@@ -954,8 +954,8 @@
                 </div>
                 <div class="mt-20">预计共需要收藏加购流量：<span class="main-color">{{favoriteCartFlowCount.favoriteCartCount}}</span>&nbsp;条，访客流量：<span class="main-color">{{favoriteCartFlowCount.visitorCount}}</span>&nbsp;条。</div>
                 <div class="mt-20">
-                  <p class="sizeColor2">1、根据每天时段平均分配收藏加购流量。譬如12:00至14:00需要加购流量为100条，会为12:00至13:00分配50条，13:00至14:00分配50条。</p>
-                  <p class="mt-10 sizeColor2">2、最多每分钟发出一条收藏加购任务，所以每小时最大可配置60条，若由于特殊原因未完成，只收取完成部分的流量数。</p>
+                  <p class="sizeColor2">1、根据每天时段平均分配收藏加购流量。譬如12:00至14:00需要加购流量为100条，会约1.2分钟发出一个任务。</p>
+                  <p class="mt-10 sizeColor2">2、最多每分钟发出一条收藏加购任务，所以每小时最大可配置60条，超出部分不会执行，若由于特殊原因未完成，只收取完成部分的流量数。</p>
                   <p class="mt-10 sizeColor2">3、仅在活动上线时间内发出任务，若活动下线或者结束或未上线时段，不会发布任务。</p>
                   <p class="mt-10 sizeColor2">4、收藏 + 加购每个任务消耗2条收藏加购流量，加购、收藏分别每个任务消耗1条收藏加购流量，访客数每个任务消耗1条访客流量。</p>
                 </div>
@@ -1649,29 +1649,6 @@
       };
       _this.$refs.myTextEditorPresent.quill.getModule("toolbar").addHandler("image", imgHandlerPresentGet);
     },
-/*    updated() {
-      const _this = this;
-      if (_this.$refs.myTextEditorFree) {
-        const imgHandlerFreeGet = async function (image) {
-          _this.addImgRangeFreeGet = _this.$refs.myTextEditorFree.quill.getSelection();
-          if (image) {
-            let fileInput = document.getElementById('freeGet');
-            fileInput.click()
-          }
-        };
-        _this.$refs.myTextEditorFree.quill.getModule("toolbar").addHandler("image", imgHandlerFreeGet);
-      }
-      if (_this.$refs.myTextEditorPresent) {
-        const imgHandlerPresentGet = async function (image) {
-          _this.addImgRangePresentGet = _this.$refs.myTextEditorPresent.quill.getSelection();
-          if (image) {
-            let fileInput = document.getElementById('presentGet');
-            fileInput.click()
-          }
-        };
-        _this.$refs.myTextEditorPresent.quill.getModule("toolbar").addHandler("image", imgHandlerPresentGet);
-      }
-    },*/
     created() {
       this.getItemCatalog();
       this.getTaskVasList();

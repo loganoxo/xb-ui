@@ -725,8 +725,8 @@
                       <tooltip content="请尽量扩大时间范围，提高任务成功率，时间段不可重叠" placement="top" :transfer="true"><icon size="14" class="cursor-p vtc-text-btm" type="md-help-circle"/></tooltip>
                     </div>
                     <div class="inline-block width-pct-39 text-ct">
-                      <span>收藏加购数</span>
-                      <tooltip content="系统审批不会超出设定份数但可能少于该份数" placement="top" :transfer="true"><icon size="14" class="cursor-p vtc-text-btm" type="md-help-circle"/></tooltip>
+                      <span>共需{{favoriteCartFlowInfo.map[favoriteCartFlowInfo.flowTypeDefault]}}数</span>
+                      <tooltip content="系统会根据你的时间段按分钟平均分配该流量" placement="top" :transfer="true"><icon size="14" class="cursor-p vtc-text-btm" type="md-help-circle"/></tooltip>
                     </div>
                   </div>
                   <template v-for="i in Object.keys(favoriteCartFlowInfo.matchDiyInfo).length">
