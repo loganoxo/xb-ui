@@ -1062,8 +1062,12 @@
             const today = timeToDate();
             let flag = true;
             for (let i = 0; i < loginStatus.length; i++) {
-              if (today === loginStatus[i].loginTime && self.$store.state.userInfo.nickname === loginStatus[i].loginPhone) {
-                flag = false;
+              if (self.$store.state.userInfo.nickname === loginStatus[i].loginPhone) {
+                if (today === loginStatus[i].loginTime) {
+                  flag = false;
+                } else {
+                  loginStatus.splice(i, 1);
+                }
                 break;
               }
             }
