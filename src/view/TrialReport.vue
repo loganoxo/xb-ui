@@ -387,26 +387,15 @@
         link.setAttribute('type','text/css');
         document.getElementsByTagName('head')[0].appendChild(link)
       },
-      getShowkerReport(id) {
-        return new Promise((resolve,reject) => {
-          const self = this;
-          api.showkerTaskReport({id:id}).then(res => {
-            if (res.status) {
-              self.reportId = res.data.id;
-              resolve()
-            } else {
-              self.$Message.error(res.msg);
-              reject(new Error(res.msg));
-            }
-          })
-        });
-      },
       async getReportDetail(showkerTaskId) {
         const self = this;
         try {
-          await self.getShowkerReport(showkerTaskId);
+          const data =  await api.showkerTaskReport({id:showkerTaskId});
+          if (data.status) {
+            self.reportId = data.data.id;
+          }
         } catch (err) {
-          throw new Error(err);
+          throw Error(err);
         }
         self.trialReports = {
           id: self.reportId,
