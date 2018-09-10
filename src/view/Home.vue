@@ -546,13 +546,19 @@
         <i-button class="release-btn" @click="goTaskCreateFast">马上免费发布活动（试用）</i-button>
       </div>
     </modal>
+    <!-- 商家每天首次登录，显示微信加粉弹框 -->
+    <modal v-model="showTaskFansModal" :footer-hide="true" width="900">
+      <a class="showTaskFansModal block" @click="toTaskFans">
+        <img src="~assets/img/task-fans/task-fans-modal.png">
+      </a>
+    </modal>
   </div>
 </template>
 
 <script>
   import {Icon, Input, Checkbox, Button, Modal, Tooltip, Carousel} from 'iview'
   import api from '@/config/apiConfig'
-  import {setStorage, getStorage, encryption, removeStorage, getSeverTime} from '@/config/utils'
+  import {setStorage, getStorage, encryption, removeStorage, getSeverTime, timeToDate} from '@/config/utils'
   import {aliCallbackImgUrl} from '@/config/env'
 
   export default {
@@ -703,13 +709,26 @@
         },
         presentGet: [],
         showFirstVisitModel: false,
-        newOutCommodityInfo: {}
+        newOutCommodityInfo: {},
+        showTaskFansModal: false
       }
     },
     beforeMount() {
       let self = this;
       if (getStorage('weChartPop') === 1 && self.$store.state.userInfo.role === 0 && !getStorage('setWeChartshower' + self.$store.state.userInfo.phone)) {
         self.weChartShowkerAlertFunc();
+      }
+      if (self.isLogin && self.getUserInfoRole) {
+        let loginStatus = getStorage('loginInformation');
+        if (loginStatus) {
+          if (timeToDate() !== loginStatus) {
+            self.showTaskFansModal = true;
+            setStorage('loginInformation', timeToDate());
+          }
+        } else {
+          self.showTaskFansModal = true;
+          setStorage('loginInformation', timeToDate());
+        }
       }
     },
     created() {
@@ -1040,6 +1059,9 @@
           type: 'SET_ACTIVITY_CATEGORY',
           info: ''
         });
+      },
+      toTaskFans() {
+        this.$router.push('/user/task-fans');
       }
     }
   }
@@ -1606,6 +1628,10 @@
 
   .platform-info-con:not(:last-child) {
     border-right: 1px solid #eee;
+  }
+
+  .showTaskFansModal {
+    margin: 20px auto 0 auto;
   }
 
 </style>
