@@ -53,9 +53,9 @@
             </tooltip>
           </a>
           <a :class="[activityCategory === 'present_get' ? 'active' : '']" @click="selTaskCategoryFunc('present_get')" >
-            <i style="position: absolute; top: -16px; left: 13px;">
-              <img src="/static/img/icon/giveaway.gif" alt="" >
-            </i>
+            <!--<i style="position: absolute; top: -16px; left: 13px;">-->
+              <!--<img src="/static/img/icon/giveaway.gif" alt="" >-->
+            <!--</i>-->
             <tooltip :content="`新增商品${platformData.newCommodity / 4 * 3 || 0}件`" placement="bottom">
               人气试用
             </tooltip>
