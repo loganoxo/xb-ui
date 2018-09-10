@@ -596,29 +596,6 @@
         temporaryTaskName: null,
       }
     },
-/*    updated() {
-      const _this = this;
-      if (_this.$refs.myTextEditorFree) {
-        const imgHandlerFreeGet = async function (image) {
-          _this.addImgRangeFreeGet = _this.$refs.myTextEditorFree.quill.getSelection();
-          if (image) {
-            let fileInput = document.getElementById('freeGet');
-            fileInput.click()
-          }
-        };
-        _this.$refs.myTextEditorFree.quill.getModule("toolbar").addHandler("image", imgHandlerFreeGet);
-      }
-      if (_this.$refs.myTextEditorPresent) {
-        const imgHandlerPresentGet = async function (image) {
-          _this.addImgRangePresentGet = _this.$refs.myTextEditorPresent.quill.getSelection();
-          if (image) {
-            let fileInput = document.getElementById('presentGet');
-            fileInput.click()
-          }
-        };
-        _this.$refs.myTextEditorPresent.quill.getModule("toolbar").addHandler("image", imgHandlerPresentGet);
-      }
-    },*/
     mounted() {
       const _this = this;
       const imgHandlerPresentGet = async function (image) {
