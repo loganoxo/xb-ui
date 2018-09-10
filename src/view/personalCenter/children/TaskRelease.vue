@@ -75,7 +75,7 @@
           <span class="is-select-gou" v-show="taskRelease.activityCategory === 'present_get'"></span>
         </div>
         <div class="left activity-type-box mr-10" @click="toTaskFans">
-          <p>微信加粉<span class="text-orange">（预售）</span></p>
+          <p>微信加粉</p>
           <p>尾货/试用商品/赠品</p>
           <p>均可兑换高质量粉丝</p>
         </div>
