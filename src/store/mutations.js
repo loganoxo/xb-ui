@@ -121,6 +121,12 @@ export default {
   // 补添流量时是否需要订购访客流量
   [types.NEED_ORDER_VISITOR_FLOW] (state, {status}) {
     state.needOrderVisitorFlow = status;
+  },
+
+  //首页平台相关数据（入驻商家，登录拿手，新增商品，送出商品数）
+  [types.PLATFORM_DATA] (state, {result}) {
+    state.platformData = result
   }
+
 
 }

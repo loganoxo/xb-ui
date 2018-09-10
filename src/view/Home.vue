@@ -176,15 +176,15 @@
         </div>
         <div class="width-pct-25 left platform-info-con">
           <p>今日新增商品数</p>
-          <p class="main-color mt-10 f-b fs-14">{{newOutCommodityInfo.newCommodity || 0}}份</p>
+          <p class="main-color mt-10 f-b fs-14">{{platformData.newCommodity || 0}}份</p>
         </div>
         <div class="width-pct-25 left platform-info-con">
           <p>昨日登录拿手数</p>
-          <p class="main-color mt-10 f-b fs-14">{{newOutCommodityInfo.onlineShowker || 0}}人</p>
+          <p class="main-color mt-10 f-b fs-14">{{platformData.onlineShowker || 0}}人</p>
         </div>
         <div class="width-pct-25 left platform-info-con">
           <p>今日送出商品数</p>
-          <p class="main-color mt-10 f-b fs-14">{{newOutCommodityInfo.outCommodity || 0}}份</p>
+          <p class="main-color mt-10 f-b fs-14">{{platformData.outCommodity || 0}}份</p>
         </div>
       </div>
       <div class="container buyer-xiu clear">
@@ -262,8 +262,8 @@
           <div class="home-commodity-title">
             <p>
               <img src="/static/img/icon/free_get_heart.png" alt="">
-              <span class="fs-18 f-b clf99563">免费领</span>
-              <span class="fs-12 cl666">拿手无需支付任何费用，商家任性送！</span>
+              <span class="fs-18 f-b clf99563">好货精选</span>
+              <span class="fs-12 cl666">{{`新增商品${platformData.newCommodity / 4 || 0}件`}}</span>
               <router-link to="/task-category?activityCategory=free_get" class="cl666 right mr-20">更多></router-link>
             </p>
           </div>
@@ -330,8 +330,8 @@
           <div class="home-commodity-title">
             <p>
               <img src="/static/img/icon/present_get_heart.png" alt="">
-              <span class="fs-18 f-b cl57C78D">体验专区</span>
-              <span class="fs-12 cl666">为商家附赠的赠品，在淘宝上需按照商家要求拍下指定商品。</span>
+              <span class="fs-18 f-b cl57C78D">人气试用</span>
+              <span class="fs-12 cl666">{{`新增商品${platformData.newCommodity / 4 * 3 || 0}件`}}</span>
               <router-link to="/task-category?activityCategory=present_get" class="cl666 right mr-20">更多></router-link>
             </p>
           </div>
@@ -568,6 +568,41 @@
       CarouselItem: Carousel.Item,
       Tooltip: Tooltip,
     },
+    computed: {
+      isLogin() {
+        return this.$store.state.login
+      },
+      getUserInfoPhone() {
+        return this.$store.state.userInfo.nickname
+      },
+      getUserInfoRole() {
+        return this.$store.state.userInfo.role
+      },
+      getMemberDeadline() {
+        return this.$store.state.userInfo.memberDeadline
+      },
+      getMemberVersionLevel() {
+        return this.$store.getters.getMemberLevel
+      },
+      isMember() {
+        return this.$store.getters.isMemberOk
+      },
+      userHeadUrl() {
+        return this.$store.getters.getUserHeadUrl
+      },
+      getUserRole() {
+        return this.$store.getters.getUserRole
+      },
+      taskCategoryActive() {
+        return this.$store.state.TaskCategoryActive
+      },
+      commodityCategoriesList() {
+        return this.$store.getters.getCommodityCategoriesList
+      },
+      platformData() {
+        return this.$store.state.platformData;
+      }
+    },
     data() {
       return {
         swipeItemList: [],
@@ -703,7 +738,7 @@
         },
         presentGet: [],
         showFirstVisitModel: false,
-        newOutCommodityInfo: {}
+        // newOutCommodityInfo: {}
       }
     },
     beforeMount() {
@@ -738,7 +773,7 @@
       self.personalTrialCount();
       // self.getHomeHistoryList();
       self.getBuyerShowList();
-      self.getNewOutCommodity();
+      // self.getNewOutCommodity();
     },
     destroyed() {
       let self = this;
@@ -754,38 +789,6 @@
         type: 'SET_SHOW_TOP_CATEGORY_RES',
         result: true,
       });
-    },
-    computed: {
-      isLogin() {
-        return this.$store.state.login
-      },
-      getUserInfoPhone() {
-        return this.$store.state.userInfo.nickname
-      },
-      getUserInfoRole() {
-        return this.$store.state.userInfo.role
-      },
-      getMemberDeadline() {
-        return this.$store.state.userInfo.memberDeadline
-      },
-      getMemberVersionLevel() {
-        return this.$store.getters.getMemberLevel
-      },
-      isMember() {
-        return this.$store.getters.isMemberOk
-      },
-      userHeadUrl() {
-        return this.$store.getters.getUserHeadUrl
-      },
-      getUserRole() {
-        return this.$store.getters.getUserRole
-      },
-      taskCategoryActive() {
-        return this.$store.state.TaskCategoryActive
-      },
-      commodityCategoriesList() {
-        return this.$store.getters.getCommodityCategoriesList
-      }
     },
     mounted() {
       this.$nextTick(() => {
@@ -807,14 +810,14 @@
             (nowTime - createTime) / 1000 / 60 / 60 / 24 < 1 ? parseInt((nowTime - createTime) / 1000 / 60 / 60) :
               parseInt((nowTime - createTime) / 1000 / 60 / 60 / 24);
       },
-      getNewOutCommodity() {
-        const _this = this;
-        api.newOutCommodity().then(res => {
-          if (res.status) {
-            _this.newOutCommodityInfo = res.data
-          }
-        })
-      },
+      // getNewOutCommodity() {
+      //   const _this = this;
+      //   api.newOutCommodity().then(res => {
+      //     if (res.status) {
+      //       _this.newOutCommodityInfo = res.data
+      //     }
+      //   })
+      // },
       toBuyerShow() {
         this.$router.push({path: 'buyer-show'});
       },

@@ -112,11 +112,11 @@
            <img src="/static/img/icon/hot.gif" alt="" style="position: absolute;right: 22px;top: -4px;">
            <router-link to="/user/recommend">邀请有礼</router-link>
          </li>-->
-        <li class="pos-rel">
-          <span class="service-clause icon-size"></span>
-          <img src="/static/img/icon/importance.gif" alt="" style="position: absolute;right: 22px;top: -12px;">
-          <a @click="openClauseModel">服务条款</a>
-        </li>
+        <!--<li class="pos-rel">-->
+          <!--<span class="service-clause icon-size"></span>-->
+          <!--<img src="/static/img/icon/importance.gif" alt="" style="position: absolute;right: 22px;top: -12px;">-->
+          <!--<a @click="openClauseModel">服务条款</a>-->
+        <!--</li>-->
         <li :class="{isSelect:isSelect === 'MyAppeal'}" class="pos-rel">
           <span class="icon-size my-appeal-nav"></span>
           <router-link to="/user/my-appeal">我的建议</router-link>

@@ -123,5 +123,24 @@ export default {
         reject(err);
       })
     })
+  },
+
+  //首页平台相关数据（入驻商家，登录拿手，新增商品，送出商品数）
+  getPlatformData({commit}) {
+    return new Promise((resolve,reject) => {
+      api.newOutCommodity().then(res => {
+        if (res.status) {
+          commit({
+            type: 'PLATFORM_DATA',
+            result: res.data
+          })
+        } else {
+          console.error('获取平台数据信息失败：', res.msg);
+        }
+        resolve(res);
+      }).catch(err => {
+        reject(err);
+      })
+    })
   }
 }

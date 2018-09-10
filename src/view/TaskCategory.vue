@@ -127,7 +127,7 @@
                   </em>
                   <em class="price-icon mt-10">
                     <span v-if= "searchTask.activityCategory === 'pinkage_for_10'" style="padding: 0 4px; background: #75c5ff; color: #fff; margin-left: 10px; display: inline-block;height: 20px;line-height: 20px;">10元包邮</span>
-                    <span v-if= "searchTask.activityCategory === 'present_get'" style="padding: 0 4px; background: #00cc66; color: #ffffff; margin-left: 10px; display: inline-block;height: 20px;line-height: 20px;">体验专区</span>
+                    <!--<span v-if= "searchTask.activityCategory === 'present_get'" style="padding: 0 4px; background: #00cc66; color: #ffffff; margin-left: 10px; display: inline-block;height: 20px;line-height: 20px;">体验专区</span>-->
                   </em>
                 </p>
                 <p class="cl000">
