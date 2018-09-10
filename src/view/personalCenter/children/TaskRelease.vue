@@ -2818,6 +2818,7 @@
       },
       async taskCreate(type) {
         const _this = this;
+
         // 抓取校验活动店铺信息（如果店铺信息抓取失败，自动重新抓取一次，若在抓取失败则弹框提示用户）
         let isCheckOk = null;
         try {
@@ -2826,6 +2827,7 @@
           isCheckOk = false;
         }
         if (!isCheckOk) return;
+
         _this.taskRelease.storeName = _this.selectStoreInfo.storeAlitm;
         _this.taskRelease.realStoreName = _this.selectStoreInfo.storeName;
         _this.taskRelease.itemReviewAssignString = JSON.stringify(_this.itemReviewPushList);
@@ -3350,7 +3352,7 @@
       uploadImgPresentGet(e) {
         const _this = this;
         const file = e.target.files[0];
-        const key = 'task' + '/' + randomString();
+        const key = `task/${randomString()}`;
         aliUploadImg(key, file).then(res => {
           if (res) {
             let value = aliCallbackImgUrl + res.name + '!orgi75';
