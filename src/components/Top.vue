@@ -48,16 +48,16 @@
         <div class="home-nav-list clear">
           <a :class="[activityCategory === 'home' ? 'active' : '']" @click="selTaskCategoryHome">首页</a>
           <a :class="[activityCategory === 'free_get' ? 'active' : '']" @click="selTaskCategoryFunc('free_get')" >
-            <tooltip :content="taskCategoryActiveList['free_get'].desc" placement="bottom">
-              免费领
+            <tooltip :content="`新增商品${platformData.newCommodity / 4 || 0}件`" placement="bottom">
+              好货精选
             </tooltip>
           </a>
           <a :class="[activityCategory === 'present_get' ? 'active' : '']" @click="selTaskCategoryFunc('present_get')" >
             <i style="position: absolute; top: -16px; left: 13px;">
               <img src="/static/img/icon/giveaway.gif" alt="" >
             </i>
-            <tooltip :content="taskCategoryActiveList['present_get'].desc" placement="bottom">
-              体验专区
+            <tooltip :content="`新增商品${platformData.newCommodity / 4 * 3 || 0}件`" placement="bottom">
+              人气试用
             </tooltip>
           </a>
           <a :class="[activityCategory === 'buyer-show' ? 'active' : '']" @click="linkToBuyerShow('buyer-show')">
@@ -73,9 +73,10 @@
             微信加粉
           </a>
         </div>
-        <div class="merchant-entering right" @click="toLandingPage">
-          <span class="merchant-entering-icon icon-size"></span>
-          商家入驻</div>
+        <!--<div class="merchant-entering right" @click="toLandingPage">-->
+          <!--<span class="merchant-entering-icon icon-size"></span>-->
+          <!--商家入驻-->
+        <!--</div>-->
       </div>
     </div>
   </div>
@@ -85,7 +86,6 @@
 <script>
   import {Tooltip, Button, Icon} from 'iview'
   import TopTip from '@/components/TopTip'
-  import commonConfig from '@/config/commonConfig'
   import api from '@/config/apiConfig'
   import {aliCallbackImgUrl} from '@/config/env'
   export default {
@@ -112,7 +112,6 @@
           900: '/static/img/nav-picture/home_25.png',
           1000: '/static/img/nav-picture/home_27.png',
         },
-        taskCategoryActiveList: commonConfig.taskCategoryActiveList,
         searchRight: {
           adImg: null,
           adUrl: null,
@@ -140,6 +139,9 @@
       },
       userRole() {
         return this.$store.state.userInfo.role;
+      },
+      platformData() {
+        return this.$store.state.platformData;
       }
     },
     methods: {
@@ -235,9 +237,10 @@
           self.$router.push({ 'path': '/task-category', 'query': {'category': 'all', 'categoryId': 'all'}});
         }
       },
-      toLandingPage() {
-        this.$router.push({name:'SpreadLandingPage'});
-      }
+      // toLandingPage() {
+      //   this.$router.push({name:'SpreadLandingPage'});
+      // },
+
     },
     watch: {
       '$route' (to, from) {
