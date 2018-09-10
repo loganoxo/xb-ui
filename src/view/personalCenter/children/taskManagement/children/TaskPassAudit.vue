@@ -146,7 +146,10 @@
                     </tooltip>
                   </p>
                 </td>
-                <td>{{item.orderNum || '------'}}</td>
+                <td>
+                  <p>{{item.orderNum || '------'}}</p>
+                  <p>{{item.orderTime | dateFormat('YYYY-MM-DD hh:mm:ss')}}</p>
+                </td>
                 <td>{{(item.orderPrice).toFixed(2)}}</td>
                 <td>
                   <div class="del-edit">
