@@ -593,7 +593,7 @@
       if (!getSessionStorage('saleInvite') && this.saleInvite) {
         setSessionStorage('saleInvite',this.saleInvite);
       }
-      // 在有商家推荐链接进入该页面时，将链接中的标识存储为sessionStorage,其key为acceptDisciple和recommendCode
+      // 在由商家推荐链接进入该页面时，将链接中的标识存储为sessionStorage,其key为acceptDisciple和recommendCode
       if (!getSessionStorage('acceptDisciple') && this.isDSF) {
         setSessionStorage('acceptDisciple',this.isDSF);
       }
@@ -685,12 +685,6 @@
         if (getSessionStorage('recommendCode')) {
           recommendCode = getSessionStorage('recommendCode');
         }
-        // if (self.recommendCode) {
-        //   recommendCode = self.recommendCode;
-        // }
-        // if (self.isDSF) {
-        //   acceptDiscipleMark = self.isDSF;
-        // }
         api.register({
           phone: self.formCustom.phone,
           pwd: self.formCustom.pwd,
@@ -715,11 +709,9 @@
                 removeSessionStorage('acceptDisciple');
                 removeSessionStorage('recommendCode');
                 delCookie('recommendCode');
-                delCookie('acceptDiscipleMark');
                 self.setUserInfo(self.formCustom.phone, self.formCustom.pwd, self.formCustom.role);
               }
             });
-
           } else {
             self.$Message.error(res.msg);
             self.getRegVrcode();
@@ -733,7 +725,7 @@
           phone: phone,
           passWord: pwd,
           platForm: 'PC'
-        }).then((res) => {
+        }).then(res => {
           if (res.status) {
             self.$store.commit({
               type: 'RECORD_USER_INFO',
