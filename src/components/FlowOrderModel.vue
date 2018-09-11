@@ -146,7 +146,7 @@
        * @return {Number}
        */
       needPayMoneyText() {
-        return !this.isBalance ? Math.abs(this.getUserBalance - this.payMoney) / 0.994 : 0
+        return !this.isBalance ? Math.ceil(Math.abs(this.getUserBalance - this.payMoney) / 0.994): 0
       },
 
       /**

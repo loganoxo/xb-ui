@@ -181,7 +181,7 @@
        * @return {Number}
        */
       lastPayMoney() {
-        if(this.orderType === 0) {
+        if (this.orderType === 0) {
           return Math.ceil(Math.ceil(this.orderMoney) / 0.994)
         } else {
           return Math.ceil(this.orderMoney)
