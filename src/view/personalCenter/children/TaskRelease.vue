@@ -3236,7 +3236,7 @@
                     }]
                   })
                 }
-                if (flowType) {
+                if (flowType && item.dateIndex === 0) {
                   matchDiyInfo[schemeIndex][flowType] = [];
                 }
                 // 根据对象的对应key生成接口返回的对应数据

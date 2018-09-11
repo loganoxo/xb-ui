@@ -1629,51 +1629,49 @@
             if (res.data.popularFlow === 'match_by_apply') {
               _this.favoriteCartFlowInfo.popularFlow = 'match_by_apply';
               res.data.other.popularFlowConfig.forEach(item => {
-                _this.favoriteCartFlowInfo.require[item.flowType + '_require'] = item.applyCount > 0;
-                if (item.flowType === 'favorite_cart_flow') {
-                  if (item.applyCount > 0) {
-                    _this.favoriteCartFlowInfo.matchByApplyInfo['favorite_cart_flow'].applyCount = item.applyCount;
-                    _this.favoriteCartFlowInfo.matchByApplyInfo['favorite_cart_flow'].flowCount = item.flowCount;
-                  }
+                const flowType = item.flowType;
+                const applyCount = item.applyCount;
+                const flowCount = item.flowCount;
+                _this.favoriteCartFlowInfo.require[flowType + '_require'] = applyCount > 0;
+                if (applyCount > 0 && flowCount > 0) {
+                  _this.favoriteCartFlowInfo.matchByApplyInfo[flowType].applyCount = applyCount;
+                  _this.favoriteCartFlowInfo.matchByApplyInfo[flowType].flowCount = flowCount;
                 }
               })
             }
-
             // 自定义匹配流量数（复制、编辑活动）
             if (res.data.popularFlow === 'match_diy') {
               _this.favoriteCartFlowInfo.popularFlow = 'match_diy';
+              const matchDiyInfo = {};
               res.data.other.popularFlowConfig.forEach(item => {
-                // 当存在多个关键词的时候动态生成对象初始化key
-                if (item.schemeIndex > 0) {
-                  const keys = Object.keys(_this.favoriteCartFlowInfo.matchDiyInfo);
-                  if (!keys.includes(item.schemeIndex.toString())) {
-                    _this.$set(_this.favoriteCartFlowInfo.matchDiyInfo, item.schemeIndex, {});
-                    Object.keys(_this.favoriteCartFlowInfo.map).forEach(key => {
-                      _this.$set(_this.favoriteCartFlowInfo.matchDiyInfo[item.schemeIndex], key, [
-                        {
-                          dateIndex: 0,
-                          hourStart: `24`,
-                          hourEnd: `0`,
-                          count: null,
-                        }
-                      ]);
-                    });
-                  }
-                  if (item.flowType) {
-                    _this.favoriteCartFlowInfo.matchDiyInfo[item.schemeIndex][item.flowType] = [];
-                  }
-                } else {
-                  // 一个关键词的时候将对应的流量类型初始化数据置空，防止合并数据的时候重复
-                  _this.favoriteCartFlowInfo.matchDiyInfo[0][item.flowType] = [];
+                // 动态生成对象初始化key
+                const schemeIndex = item.schemeIndex;
+                const flowType = item.flowType;
+                const keys = Object.keys(matchDiyInfo);
+                if (!keys.includes(schemeIndex.toString())) {
+                  matchDiyInfo[schemeIndex] = {};
+                  Object.keys(_this.favoriteCartFlowInfo.map).forEach(key => {
+                    matchDiyInfo[schemeIndex][key] = [{
+                      dateIndex: 0,
+                      hourStart: `0`,
+                      hourEnd: `24`,
+                      count: null,
+                    }]
+                  })
                 }
-                // 根据对象的对应key合并接口返回的对应数据
-                _this.favoriteCartFlowInfo.matchDiyInfo[item.schemeIndex][item.flowType].push({
+                if (flowType && item.dateIndex === 0) {
+                  matchDiyInfo[schemeIndex][flowType] = [];
+                }
+                // 根据对象的对应key生成接口返回的对应数据
+                matchDiyInfo[schemeIndex][flowType].push({
                   dateIndex: item.dateIndex,
                   hourStart: `${item.hourStart}`,
                   hourEnd: `${item.hourEnd}`,
                   count: item.count,
                 })
-              })
+              });
+              // 合并数据
+              _this.favoriteCartFlowInfo.matchDiyInfo = Object.assign({}, _this.favoriteCartFlowInfo.matchDiyInfo, matchDiyInfo);
             }
             _this.taskRelease.taskDetail = {};
             if (res.data.taskType === 'tao_code') {
