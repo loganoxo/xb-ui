@@ -1026,6 +1026,12 @@
       </div>
     </div>
     <!--填写完成活动信息下一步按钮-->
+    <div class="do-not-audit text-ct mt-20" v-if="doNotAudit.doNotAuditStatus">
+      <checkbox v-model="doNotAudit.doNotAuditStatus"><span class="f-b fs-14">使用免审发布</span></checkbox>
+      <span class="blue cursor-p text-decoration-underline" @click="doNotAudit.doNotAuditStatus = false">关闭免审功能</span>
+      <span class="blue cursor-p text-decoration-underline" @click="doNotAudit.doNotAuditModal = true">查看免审发布条款</span>
+    </div>
+    <i-button v-if="!doNotAudit.doNotAuditStatus && !getTaskCreateFastStatus" class="fs-18 mt-20" type="info" long v-show="stepName === 'information'" @click="doNotAudit.doNotAuditModal = true">开通免审发布</i-button>
     <i-button class="fs-18 mt-20" type="primary" long :loading="taskLoading" v-show="stepName === 'information'" @click="stepNext">下一步</i-button>
     <!--活动担保金支付弹框-->
     <div class="pay-model" v-if="showPayModel">
@@ -1235,6 +1241,21 @@
         <i-button type="error" long :loading="getFreeFlowLoading" @click="freeFlowConfirm">确定领取</i-button>
       </div>
     </modal>
+    <!--开启免审条款弹框-->
+    <modal v-model="doNotAudit.doNotAuditModal" :mask-closable="false">
+      <div slot="header" class="text-ct main-color fs-16 f-b pt-20">同意以下条款可即时开通活动免审核服务</div>
+      <p class="mt-20">1、活动发布前请仔细检查宝贝价格是否正确，宝贝价格关系到拿手垫付金额，若因价格不对造成拿手终止活动甚至店铺申请退款的行为，<span class="main-color">由商家自行承担！</span></p>
+      <p class="mt-20">2、请自觉监督活动商品与活动描述的一致性，若因为拿手收到的商品与活动描述商品不一致而导致的退款/差评等行为，<span class="main-color">由商家自行承担！</span></p>
+      <p class="mt-20">3、活动标题、活动主图及下单要求中，禁止出现红包、返现、奖金等与S单相关的信息，若经发现平台有权马上终止活动，由此产生的退款行为，<span class="main-color">由商家自行承担！</span></p>
+      <p class="mt-20">4、由于商家活动信息设置错误（如商品分类错误等），<span class="main-color">平台有权在不通知商家的情况下对活动信息做修改！</span></p>
+      <div slot="footer">
+        <i-button v-if="!doNotAudit.doNotAuditStatus" type="info" long class="fs-14" @click="openDoNotAudit">同意以上条款并开通免审核服务</i-button>
+        <i-button v-else type="info" long class="fs-14" @click="stopDoNotAudit">终止免审核服务</i-button>
+      </div>
+      <div slot="footer" class="mt-10">
+        <i-button long class="fs-14" @click="doNotAudit.doNotAuditModal = false">取消</i-button>
+      </div>
+    </modal>
   </div>
 </template>
 
@@ -1276,7 +1297,6 @@
     },
     data() {
       return {
-        name: 'base-example',
         addImgRangePresentGet: null,
         editorOption: {
           placeholder: "有吸引力的产品介绍，将吸引更多的拿手来申请活动哦！请在这里编辑您的商品简介（商品简介中至少包含一张图片，可以直接复制淘宝的宝贝详情到这里），但请注意，不要在该简介中，放置任何外链，比如店铺或者商品链接，以免申请的拿手绕过相应的下单条件，造成损失！",
@@ -1614,7 +1634,11 @@
         showFlowOrderModel: false,
         getFreeFlow: true,
         showGetFreeFlow: false,
-        getFreeFlowLoading: false
+        getFreeFlowLoading: false,
+        doNotAudit: {
+          doNotAuditModal: true,
+          doNotAuditStatus: false,
+        }
       }
     },
     // 当用户有首发资格路由重定向到快速发布通道反之则停留在此页面
@@ -3884,7 +3908,14 @@
       },
       toTaskFans() {
         this.$router.push('/user/task-fans');
-      }
+      },
+      openDoNotAudit() {
+        this.doNotAudit.doNotAuditModal = false;
+        this.doNotAudit.doNotAuditStatus = true;
+      },
+      stopDoNotAudit() {
+        this.doNotAudit.doNotAuditStatus = false;
+      },
     },
   }
 </script>
