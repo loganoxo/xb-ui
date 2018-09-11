@@ -246,7 +246,7 @@
         </div>
         <div class="baby-title ml-20 mt-20">
           <span class="required">宝贝类型：</span>
-          <i-select v-model="taskRelease.itemType" style="width:200px">
+          <i-select v-model="taskRelease.itemType" class="width-150">
             <template v-for="parentItem in itemCatalogList">
               <option-group v-if="parentItem.level === 1" :label="parentItem.name" :key="parentItem.id">
                 <template v-for="item in itemCatalogList">
@@ -285,13 +285,13 @@
         </div>
         <div v-show="taskRelease.activityCategory === 'present_get'" class="baby-price ml-20 mt-20">
           <span class="required">展示价格：</span>
-          <i-input v-model.number="taskRelease.presentPrice" placeholder="请输入活动展示价格" class="width-120"/>
+          <i-input v-model.number="taskRelease.presentPrice" placeholder="请输入活动展示价格" class="width-150"/>
           <span>元</span>
         </div>
         <div class="baby-number ml-20 mt-20">
           <p>
             <span class="required">活动份数：</span>
-            <i-input v-model.number="taskRelease.taskCount" placeholder="请输入活动份数" class="width-120" @on-blur="addItemReviewList" @on-change="taskCountChange"/>
+            <i-input v-model.number="taskRelease.taskCount" placeholder="请输入活动份数" class="width-120" @on-change="taskCountChange"/>
             <span>份</span>
             <span v-show="taskRelease.orderType === 'normal'" class="sizeColor3 ml-5">（平台会按照1/5的比例进行计算，部分中奖名额将会由系统进行推荐）</span>
           </p>
@@ -331,29 +331,26 @@
               <radio label="review_by_showker_self">
                 <span>无需求（拿手自主发挥评价更客观。<span class="main-color">选择此项不可因主观喜好对评价结果有异议。</span>）</span>
               </radio>
-              <radio label="offer_review_summary">
-                    <span>有个大概要求（可以写下评价的大概要求，因每个人理解不一样，可能评价结果会与期望有偏差。<span
-                      class="main-color">选择此项不可因主观喜好对评价结果有异议。</span>）</span>
+              <radio label="offer_review_summary"><span>有个大概要求（可以写下评价的大概要求，因每个人理解不一样，可能评价结果会与期望有偏差。<span class="main-color">选择此项不可因主观喜好对评价结果有异议。</span>）</span>
               </radio>
-              <i-input v-if="taskRelease.itemReviewRequired === 'offer_review_summary'"
-                       v-model="taskRelease.itemReviewSummary" class="mb-10" type="textarea"
-                       :autosize="{minRows: 1,maxRows: 3}" placeholder="请输入你的评价要求，如：需晒图/勿晒图、希望出现的关键词等~"/>
+              <i-input v-if="taskRelease.itemReviewRequired === 'offer_review_summary'" v-model="taskRelease.itemReviewSummary" class="mb-10 width-500" type="textarea" :autosize="{minRows: 1,maxRows: 3}" placeholder="请输入你的评价要求，如：需晒图/勿晒图、希望出现的关键词等~"/>
               <radio label="assign_review_detail">
                 <span>参考范本（拿手有可能直接拷贝该范本，为防止评价重复，建议每个名额提供一种范本。）</span>
               </radio>
             </radio-group>
             <p v-show="taskRelease.itemReviewRequired === 'assign_review_detail'" class="main-color ml-20">
               可自定义的评价数跟您发布宝贝数量相同，系统会随机分配给申请通过的拿手每人一条评论，以保证评价内容的唯一性。</p>
-            <div class="afford-evaluation-list mt-10"
-                 v-if="taskRelease.itemReviewRequired === 'assign_review_detail' && taskRelease.taskCount > 0">
-              <p v-for="item in itemReviewList">
-                <span class="vtc-sup">{{'评价' + item.index}}：</span>
-                <i-input v-model="item.value" class="mb-10" type="textarea" :autosize="{minRows: 1,maxRows: 3}" placeholder="请输入你的评价内容" style="width: 620px;"/>
+            <div class="afford-evaluation-list mt-10" v-show="taskRelease.itemReviewRequired === 'assign_review_detail'">
+              <p v-for="(item, index) in itemReviewList" :key="item.index">
+                <span class="vtc-sup">{{`评价${index + 1}`}}：</span>
+                <i-input v-model="item.value" class="mb-10 width-500" type="textarea" :autosize="{minRows: 1,maxRows: 3}" placeholder="请输入你的评价内容"/>
+                <i-button :disabled="itemReviewList.length === 1" class="ml-10 vtc-sup" type="dashed" icon="plus-round" @click="deleteItemReviewList(index)">删除</i-button>
               </p>
+              <i-button :disabled="itemReviewList.length === taskRelease.taskCount || !taskRelease.taskCount" class="ml-45 mt-6 mb-5" type="dashed" icon="plus-round" @click="addItemReviewList">添加</i-button>
             </div>
           </div>
         </div>
-        <div class="task-remark ml-28 mt-20 clear">
+        <div class="task-remark ml-28 mt-15 clear">
           <span class="left">下单要求：</span>
           <div class="left">
             <i-input class="task-remark-input" type="textarea" :autosize="{minRows: 6,  maxRows: 12}"
@@ -1394,8 +1391,9 @@
         paidDeposit: 0,
         taskStatus: null,
         editTaskId: null,
-        itemReviewList: [],
-        itemReviewPushList: [],
+        itemReviewList: [{
+          value: '',
+        }],
         selectKeywordScheme: 0,
         addKeywordScheme: 0,
         isShowUserClause: false,
@@ -2472,17 +2470,20 @@
           _this.$Message.warning('亲，请填写你对评价的大概要求！');
           return;
         }
-        if (_this.itemReviewList.length > 0) {
-          _this.itemReviewPushList = [];
+        if (_this.taskRelease.itemReviewRequired === 'assign_review_detail' && _this.itemReviewList.length > 0) {
+          /*_this.itemReviewPushList = [];
           _this.itemReviewList.forEach(item => {
             if (item.value !== '') {
-              _this.itemReviewPushList.push(item.value);
+              _this.taskRelease.itemReviewAssignString.push(item.value);
             }
-          })
-        }
-        if (_this.taskRelease.itemReviewRequired === 'assign_review_detail' && _this.itemReviewPushList.length < _this.taskRelease.taskCount) {
-          _this.$Message.warning('亲，请填写你要提供的评价内容！');
-          return;
+          })*/
+          const itemReviewRequiredOk =_this.itemReviewList.every(item => {
+            return item.value
+          });
+          if (!itemReviewRequiredOk) {
+            _this.$Message.warning('亲，请填写你要提供的评价内容！');
+            return;
+          }
         }
         if (!_this.taskRelease.itemDescription) {
           _this.$Message.warning('亲，请填写您要发布宝贝的商品简介！');
@@ -2816,7 +2817,10 @@
 
         _this.taskRelease.storeName = _this.selectStoreInfo.storeAlitm;
         _this.taskRelease.realStoreName = _this.selectStoreInfo.storeName;
-        _this.taskRelease.itemReviewAssignString = JSON.stringify(_this.itemReviewPushList);
+        const itemReviewPushList = _this.itemReviewList.map(item => {
+          return item.value
+        });
+        _this.taskRelease.itemReviewAssignString = JSON.stringify(itemReviewPushList);
         const mainTaskVasId = [];
         const similarTaskVasId = [];
         _this.vasMainItem.forEach(item => {
@@ -3107,15 +3111,11 @@
               _this.taskRelease.onlyShowForQualification = false;
             }
 
-            _this.itemReviewList = [];
-            _this.itemReviewPushList = [];
             let itemReviewAssignsData = res.data.itemReviewAssigns;
             if (itemReviewAssignsData) {
-              itemReviewAssignsData.forEach((item, index) => {
-                _this.itemReviewList.push({
-                  index: index + 1,
-                  value: item.reviewContent
-                })
+              _this.itemReviewList = [];
+              itemReviewAssignsData.forEach(item => {
+                _this.itemReviewList.push({value: item.reviewContent})
               })
             }
             _this.taskRelease.presentPrice = _this.taskRelease.presentPrice / 100;
@@ -3418,19 +3418,16 @@
         })
       },
       addItemReviewList() {
-        const _this = this;
-        let type = _this.taskRelease.taskType;
-        _this.itemReviewList = [];
-        let count = _this.taskRelease.taskCount;
-        for (let i = 1; i <= count; i++) {
-          _this.itemReviewList.push({
-            value: '',
-            index: i,
-          });
-        }
-        if (count > 0 && (type === 'pc_search' || type === 'app_search') && count < this.allPlanNumber()){
-          _this.keywordLowerChangeModel = true;
-        }
+       /* let type = this.taskRelease.taskType;
+        let count = this.taskRelease.taskCount;
+        const len = this.itemReviewList.length;*/
+        this.itemReviewList.push({value: ''});
+        /* if (count > 0 && (type === 'pc_search' || type === 'app_search') && count < this.allPlanNumber()){
+           _this.keywordLowerChangeModel = true;
+         }*/
+      },
+      deleteItemReviewList(index) {
+        this.itemReviewList.splice(index, 1);
       },
       taskCountChange(e) {
         if (e.target.value > 0) {
@@ -3442,17 +3439,14 @@
         }
         this.countAssignedChange();
       },
-      changeSelectEvaluation() {
-        if (this.taskRelease.itemReviewSummary) {
+      changeSelectEvaluation(type) {
+        if (type === 'assign_review_detail') {
           this.taskRelease.itemReviewSummary = null;
         }
         if (this.itemReviewList.length > 0) {
           this.itemReviewList.forEach(item => {
             item.value = '';
           })
-        }
-        if (this.taskRelease.taskCount > 0) {
-          this.addItemReviewList();
         }
       },
       allPlanNumber() {
