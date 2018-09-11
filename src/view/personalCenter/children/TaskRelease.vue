@@ -1277,8 +1277,6 @@
     data() {
       return {
         name: 'base-example',
-        uniqueId: 'uniqueId',
-        addImgRangeFreeGet: null,
         addImgRangePresentGet: null,
         editorOption: {
           placeholder: "有吸引力的产品介绍，将吸引更多的拿手来申请活动哦！请在这里编辑您的商品简介（商品简介中至少包含一张图片，可以直接复制淘宝的宝贝详情到这里），但请注意，不要在该简介中，放置任何外链，比如店铺或者商品链接，以免申请的拿手绕过相应的下单条件，造成损失！",
@@ -1436,12 +1434,12 @@
         isFastPublish: false,
         aliLevelList: commonConfig.aliLevelList,
         aliTqzList: commonConfig.aliTqzList,
-        regionRequireList: [
+        regionRequireList: Object.freeze([
           '新疆','西藏','甘肃','宁夏','青海','内蒙古','上海','江苏'
           ,'浙江','安徽','江西','北京','天津','山西','山东','河北'
           ,'四川','湖南','湖北','河南','广东','广西','福建','海南','辽宁'
           ,'吉林','黑龙江','陕西','重庆','云南','贵州','台湾','香港','澳门',
-        ],
+        ]),
         datePickerOptions: {
           disabledDate(date) {
             return date && date.valueOf() < getSeverTime()
@@ -1542,12 +1540,12 @@
             'cart_flow_require': false,
             'visitor_flow_require': false,
           },
-          map: {
+          map: Object.freeze({
             'favorite_cart_flow': '收藏 + 加购',
             'cart_flow': '加购',
             'favorite_flow': '收藏',
             'visitor_flow': '访客',
-          },
+          }),
           matchByApplyInfo: {
             'favorite_cart_flow': {
               tipText: '加入购物车+加入收藏夹流量，系统建议1:1匹配，每个任务消耗2条收藏加购流量',

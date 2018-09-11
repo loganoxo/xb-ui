@@ -406,7 +406,7 @@
         }).then(res => {
           if (res.status) {
             _this.page.totalPages = res.totalPages;
-            _this.flowList = res.content;
+            _this.flowList = Object.freeze(res.content);
           } else {
             _this.$Message.error(res.msg);
           }
@@ -428,10 +428,10 @@
           taskId: id
         }).then(res => {
           if (res.status) {
-            _this.flowDetail = res.content;
-            if (_this.flowDetail.length < _this.keywordsCount) {
-              for (let i = 0, len = _this.keywordsCount - _this.flowDetail.length; i < len; i++) {
-                _this.flowDetail.push({
+            const flowDetail = res.content;
+            if (flowDetail.length < _this.keywordsCount) {
+              for (let i = 0, len = _this.keywordsCount - flowDetail.length; i < len; i++) {
+                flowDetail.push({
                   cartFlowTotalCount: 0,
                   favoriteCartFlowFailCount: 0,
                   favoriteCartFlowPendingCount: 0,
@@ -445,6 +445,7 @@
                 })
               }
             }
+            _this.flowDetail = Object.freeze(flowDetail);
           } else {
             _this.$Message.error(res.msg);
           }
