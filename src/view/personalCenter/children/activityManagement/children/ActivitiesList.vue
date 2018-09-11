@@ -92,7 +92,9 @@
               <td colspan="7">
                 <span>活动编号：{{item.number || '------'}}</span>
                 <span class="ml-10">创建时间：{{item.createTime | dateFormat('YYYY-MM-DD hh:mm:ss') || '------'}}</span>
-                <span class="ml-10">活动类型：{{item.activityCategoryDesc}}</span>
+                <!--<span class="ml-10">活动类型：{{item.activityCategoryDesc}}</span>-->
+                <span v-if="item.activityCategory === 'free_get'" class="ml-10">活动模板：模板A</span>
+                <span v-if="item.activityCategory === 'present_get'" class="ml-10">活动模板：模板B</span>
               </td>
             </tr>
             <tr>

@@ -38,12 +38,12 @@
           <span>6元/单</span>
         </div>
       </li>
-      <li class="clear">
-        <div>充值手续费</div>
-        <div v-if="freeMemberInfo.rechargeCommission">千分之六（支付宝收取）</div>
-        <div>免</div>
+      <!--<li class="clear">-->
+        <!--<div>充值手续费</div>-->
+        <!--<div v-if="freeMemberInfo.rechargeCommission">千分之六（支付宝收取）</div>-->
         <!--<div>免</div>-->
-      </li>
+        <!--<div>免</div>-->
+      <!--</li>-->
       <li class="clear">
         <div>活动审核</div>
         <div>{{freeMemberInfo.taskAudit}}</div>
