@@ -456,7 +456,7 @@
         if (this.$route.query.acceptDisciple) {
           return this.$route.query.acceptDisciple;
         } else {
-          return false;
+          return null;
         }
       },
       recommendCode() {
@@ -593,6 +593,13 @@
       if (!getSessionStorage('saleInvite') && this.saleInvite) {
         setSessionStorage('saleInvite',this.saleInvite);
       }
+      // 在有商家推荐链接进入该页面时，将链接中的标识存储为sessionStorage,其key为acceptDisciple和recommendCode
+      if (!getSessionStorage('acceptDisciple') && this.isDSF) {
+        setSessionStorage('acceptDisciple',this.isDSF);
+      }
+      if (!getSessionStorage('recommendCode') && this.recommendCode) {
+        setSessionStorage('recommendCode',this.recommendCode);
+      }
     },
     methods: {
       getRegVrcode() {
@@ -671,17 +678,19 @@
         const self = this;
         self.formCustom.role = 1;
         let recommendCode = '';
-        let acceptDiscipleMark = null;
         self.btnState.registerSellerBtn = true;
         if (getCookie('recommendCode')) {
           recommendCode = getCookie('recommendCode');
         }
-        if (self.recommendCode) {
-          recommendCode = self.recommendCode;
+        if (getSessionStorage('recommendCode')) {
+          recommendCode = getSessionStorage('recommendCode');
         }
-        if (self.isDSF) {
-          acceptDiscipleMark = self.isDSF;
-        }
+        // if (self.recommendCode) {
+        //   recommendCode = self.recommendCode;
+        // }
+        // if (self.isDSF) {
+        //   acceptDiscipleMark = self.isDSF;
+        // }
         api.register({
           phone: self.formCustom.phone,
           pwd: self.formCustom.pwd,
@@ -694,7 +703,7 @@
           purpose: 'reg',
           recommendCode: recommendCode,
           platForm: 'PC',
-          acceptDiscipleMark: acceptDiscipleMark,
+          acceptDiscipleMark: getSessionStorage('acceptDisciple'),
           saleInviteCode: getSessionStorage('saleInvite')
         }).then((res) => {
           if (res.status) {
@@ -703,6 +712,8 @@
               duration: 1,
               onClose: function () {
                 removeSessionStorage('saleInvite');
+                removeSessionStorage('acceptDisciple');
+                removeSessionStorage('recommendCode');
                 delCookie('recommendCode');
                 delCookie('acceptDiscipleMark');
                 self.setUserInfo(self.formCustom.phone, self.formCustom.pwd, self.formCustom.role);
