@@ -3443,11 +3443,11 @@
         if (type === 'assign_review_detail') {
           this.taskRelease.itemReviewSummary = null;
         }
-        if (this.itemReviewList.length > 0) {
+        /*if (this.itemReviewList.length > 0) {
           this.itemReviewList.forEach(item => {
             item.value = '';
           })
-        }
+        }*/
       },
       allPlanNumber() {
         let num = 0;
