@@ -32,13 +32,13 @@
       <i-button type="primary" v-else @click="confirmRecharge" :loading="payLoading" class="recharge-btn">
         {{rechargeButtonText}}
       </i-button>
-      <i-button v-if="getMemberVersionLevel !== 100 && !isBalance && orderType !== 1" class="vip-pay-btn" @click="toArtificialRecharge">
-        <span v-if="getMemberVersionLevel === 200">VIP</span>
-        <span v-if="getMemberVersionLevel === 300">SVIP</span>
+      <i-button v-if="!isBalance && orderType !== 1" class="vip-pay-btn" @click="toArtificialRecharge">
+        <!--<span v-if="getMemberVersionLevel === 200">VIP</span>-->
+        <!--<span v-if="getMemberVersionLevel === 300">SVIP</span>-->
         <span>免手续费充值</span>
         <span>点击这里</span>
       </i-button>
-      <i-button v-if="getMemberVersionLevel === 100 && !isBalance && isShowUpgradeVIP" class="svip-upgrade" @click="upgradeSvip">升级VIP免除手续费</i-button>
+      <!--<i-button v-if="getMemberVersionLevel === 100 && !isBalance && isShowUpgradeVIP" class="svip-upgrade" @click="upgradeSvip">升级VIP免除手续费</i-button>-->
     </div>
 
     <div class="confirm-recharge-model" v-if="confirmRechargeModel">
