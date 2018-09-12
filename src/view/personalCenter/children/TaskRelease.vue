@@ -2837,14 +2837,15 @@
       async taskCreate(type) {
         const _this = this;
 
+        _this.taskLoading = true;
         // 抓取校验活动店铺信息（如果店铺信息抓取失败，自动重新抓取一次，若在抓取失败则弹框提示用户）
-        let isCheckOk = null;
+       /* let isCheckOk = null;
         try {
           isCheckOk = await _this.checkStoreInfo();
         } catch (e) {
           isCheckOk = false;
         }
-        if (!isCheckOk) return;
+        if (!isCheckOk) return;*/
 
         _this.taskRelease.storeName = _this.selectStoreInfo.storeAlitm;
         _this.taskRelease.realStoreName = _this.selectStoreInfo.storeName;
