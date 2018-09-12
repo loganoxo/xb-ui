@@ -123,6 +123,7 @@
                 <span v-if="item.createFrom === 'without_audit'">{{((item.totalMarginNeed + item.promotionExpensesNeed + item.vasFeeNeed + item.tagVasFeeNeed) / 100).toFixed(2)}}</span>
                 <span v-else>{{((item.marginPaid + item.promotionExpensesPaid + item.vasFeePaid + item.tagVasFeePaid) / 100).toFixed(2)}}</span>
               </td>
+              <!--操作栏-->
               <td v-if="item.taskStatus === 'waiting_pay'">
                 <p class="del-edit">
                   <span v-if="item.createFrom !== 'without_audit'" class="mr-10" @click="editTask(item.id, item.createTime, item.fastPublish)">编辑</span>
@@ -130,6 +131,9 @@
                 </p>
                 <p class="bond mt-6">
                   <span @click="depositMoney(item.totalMarginNeed + item.promotionExpensesNeed + item.vasFeeNeed + item.tagVasFeeNeed + item.redEnvelopeDeductionNeed, item.id, item.marginPaid + item.promotionExpensesPaid + item.vasFeePaid + item.tagVasFeePaid + item.redEnvelopeDeductionPaid, item.createTime, item.redEnvelopeDeductionPaid, item.marginPaid, item.promotionExpensesNeed)">存担保金</span>
+                </p>
+                <p class="copy mt-6">
+                  <span @click="modifyRemarks(item)">活动备注</span>
                 </p>
                 <p class="copy mt-6">
                   <span @click="copyTask(item.id)">复制活动</span>
@@ -141,12 +145,18 @@
                   <span @click="closeTask(item.id, item.fastPublish)">关闭</span>
                 </p>
                 <p class="copy mt-6">
+                  <span @click="modifyRemarks(item)">活动备注</span>
+                </p>
+                <p class="copy mt-6">
                   <span @click="copyTask(item.id)">复制活动</span>
                 </p>
               </td>
               <td v-else-if="item.taskStatus === 'waiting_audit'">
                 <p class="copy mt-6">
                   <span @click="lookTaskDetail(item.id)">查看详情</span>
+                </p>
+                <p class="copy mt-6">
+                  <span @click="modifyRemarks(item)">活动备注</span>
                 </p>
                 <p class="copy mt-6">
                   <span @click="copyTask(item.id)">复制活动</span>
@@ -161,6 +171,9 @@
                 </p>
                 <p class="copy mt-6">
                   <span @click="lookTaskDetail(item.id)">查看详情</span>
+                </p>
+                <p class="copy mt-6">
+                  <span @click="modifyRemarks(item)">活动备注</span>
                 </p>
                 <p class="copy mt-6">
                   <span @click="copyTask(item.id)">复制活动</span>
@@ -178,6 +191,9 @@
                 <!--</p>-->
                 <p class="copy mt-6">
                   <span @click="lookTaskDetail(item.id)">查看详情</span>
+                </p>
+                <p class="copy mt-6">
+                  <span @click="modifyRemarks(item)">活动备注</span>
                 </p>
                 <p class="copy mt-6">
                   <span @click="copyTask(item.id)">复制活动</span>
@@ -200,6 +216,9 @@
                   <span @click="lookTaskDetail(item.id)">查看详情</span>
                 </p>
                 <p class="copy mt-6">
+                  <span @click="modifyRemarks(item)">活动备注</span>
+                </p>
+                <p class="copy mt-6">
                   <span @click="copyTask(item.id)">复制活动</span>
                 </p>
                 <!--<p class="copy mt-6">-->
@@ -217,6 +236,9 @@
                   <span @click="lookTaskDetail(item.id)">查看详情</span>
                 </p>
                 <p class="copy mt-6">
+                  <span @click="modifyRemarks(item)">活动备注</span>
+                </p>
+                <p class="copy mt-6">
                   <span @click="copyTask(item.id)">复制活动</span>
                 </p>
               </td>
@@ -229,6 +251,9 @@
                 </p>
                 <p class="copy mt-6">
                   <span @click="lookTaskDetail(item.id)">查看详情</span>
+                </p>
+                <p class="copy mt-6">
+                  <span @click="modifyRemarks(item)">活动备注</span>
                 </p>
                 <!--<tooltip v-if="!item.speedUp" class="mt-6" content="启用后，系统会匹配拿手进行审核，无需商家干预" placement="top">-->
                   <!--<span class="cursor-p main-color" @click="openSpeedUp(item.id, item.userId)">一键加速</span>-->
@@ -390,6 +415,8 @@
     </modal>
     <!--免审发布弹框-->
     <exempt-release-modal v-model="exemptRelease" :data="taskInfo" @releaseSuccess="releaseSuccess"/>
+    <!--修改活动备注弹窗-->
+    <task-remarks-modal v-model="showRemarksModal" :activityInfo="activityInfo"/>
   </div>
 </template>
 
@@ -398,6 +425,7 @@
   import api from '@/config/apiConfig'
   import PayModel from '@/components/PayModel'
   import ExemptReleaseModal from '@/components/ExemptReleaseModal'
+  import TaskRemarksModal from '@/components/TaskRemarksModal'
   import {taskErrorStatusList, getSeverTime, encryption, decode,setStorage, getStorage,} from '@/config/utils'
 
   export default {
@@ -416,6 +444,7 @@
       iOption: Option,
       PayModel: PayModel,
       ExemptReleaseModal: ExemptReleaseModal,
+      TaskRemarksModal: TaskRemarksModal
     },
     data() {
       return {
@@ -494,7 +523,9 @@
         disabledRedEnvelopes: false,
         deleteFirstTaskModal: false,
         exemptRelease: false,
-        taskInfo: {}
+        taskInfo: {},
+        showRemarksModal: false,
+        activityInfo: {}
       }
     },
     created() {
@@ -882,6 +913,11 @@
       },
       toFlowOrderDetail(number, keywordsCount) {
         this.$router.push({name: 'FlowOrderDetail',query: {number: number, keywordsCount: keywordsCount}});
+      },
+      // 修改活动备注
+      modifyRemarks(info) {
+        this.activityInfo = info;
+        this.showRemarksModal = true;
       }
     }
   }

@@ -123,8 +123,8 @@
     }
 
     .collapse-header {
-      line-height: 62px;
-      padding: 10px 0;
+      /*line-height: 62px;*/
+      padding: 0 0 10px 0;
       color: #666;
       cursor: pointer;
       position: relative;
@@ -134,6 +134,11 @@
        i.show-table-styles {
         transform: rotate(90deg);
         transition: transform .2s ease-in-out;
+      }
+      .task-remarks {
+        background-color: #fff;
+        border-bottom: 1px solid #dddee1;
+        padding: 5px 20px;
       }
     }
 

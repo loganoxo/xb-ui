@@ -253,6 +253,14 @@ input[type="number"] {
   width: 39%;
 }
 
+.width-pct-50 {
+  width: 50%;
+}
+
+.width-pct-45 {
+  width: 45%;
+}
+
 .width-pct-86 {
   width: 86%;
 }
@@ -606,6 +614,10 @@ input[type="number"] {
   padding-bottom: 20px;
 }
 
+.pt-5 {
+  padding-top: 5px;
+}
+
 .pt-10 {
   padding-top: 10px;
 }
@@ -806,6 +818,12 @@ input[type="number"] {
 
 .graphic-info-itemDescription p img {
   max-width: 800px !important;
+}
+
+.ellipsis {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
 }
 
 /*RegionPicker css start*/

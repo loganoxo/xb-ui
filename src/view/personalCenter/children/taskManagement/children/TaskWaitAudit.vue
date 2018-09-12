@@ -39,8 +39,15 @@
       <span v-show="eyesStatus === 'on' && valueAddedServiceStatusInfo.isMemberOK" class="ml-10 cl999">VIP免费使用火眼金睛功能 ^_^  </span>
     </div>
     <template v-if="taskWaitAuditList.length > 0">
-      <div class="mt-12 pos-rel" v-for="(item,index) in taskWaitAuditList" :key="item.id">
-        <div class="collapse-header clear" @click="collapseToggle(item.id,index)" :class="{noBorderRadius:selectId}">
+      <div class="mt-12 pos-rel collapse-header" v-for="(item,index) in taskWaitAuditList" :key="item.id">
+        <div class="clear task-remarks">
+          <span v-if="item.activityCategory === 'free_get'">活动模板：模板A</span>
+          <span v-if="item.activityCategory === 'present_get'">活动模板：模板B</span>
+          <span class="ml-10">结束时间：{{item.endTime | dateFormat('YYYY-MM-DD hh:mm:ss')}}</span>
+          <span class="blue right cursor-p" @click="modifyRemarks(item)">修改</span>
+          <span class="width-pct-45 right text-align-rt ellipsis">辜负当年林下语，对床夜雨听萧瑟。恨此生，长向别离中，凋华发代理商科技考虑到口令就流口水的。</span>
+        </div>
+        <div class="clear pt-10" @click="collapseToggle(item.id,index)" :class="{noBorderRadius:selectId}">
           <div class="manage-img left">
             <img :src="item.taskMainImage | imageSrc('!thum54')" alt="活动主图">
             <span v-if="item.zone === 'certainly_hit'" class="certainly-hit-tip">推荐必中</span>
@@ -305,6 +312,8 @@
         <i-button size="large" @click="upgradeMembershipModal = false">我知道了</i-button>
       </div>
     </modal>
+    <!--修改活动备注弹窗-->
+    <task-remarks-modal v-model="showRemarksModal" :activityInfo="activityInfo"/>
   </div>
 </template>
 
@@ -316,6 +325,7 @@
   import Upload from '@/components/Upload'
   import AddToBlackListModal from '@/components/AddToBlackListModal'
   import TaskAdditionalQuotaModal from '@/components/TaskAdditionalQuotaModal'
+  import TaskRemarksModal from '@/components/TaskRemarksModal'
   import {taskErrorStatusList, encryption} from '@/config/utils'
   import {aliCallbackImgUrl} from '@/config/env'
   import commonConfig from '@/config/commonConfig'
@@ -340,6 +350,7 @@
       Upload: Upload,
       AddToBlackListModal: AddToBlackListModal,
       TaskAdditionalQuotaModal: TaskAdditionalQuotaModal,
+      TaskRemarksModal: TaskRemarksModal
     },
     data() {
       return {
@@ -418,6 +429,8 @@
         showkerApplyInfoModal: false,
         showkerApplyInfoModalText: null,
         upgradeMembershipModal: false,
+        showRemarksModal: false,
+        activityInfo: {}
       }
     },
     created() {
@@ -916,6 +929,11 @@
         } else {
           return ip;
         }
+      },
+      // 修改活动备注
+      modifyRemarks(info) {
+        this.activityInfo = info;
+        this.showRemarksModal = true;
       }
     }
   }
