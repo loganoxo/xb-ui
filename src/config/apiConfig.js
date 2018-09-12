@@ -1304,4 +1304,17 @@ export default {
     return axiosConfig.post('/api/task-flow-stop.json', params)
   },
 
+  /**
+   * 校验商家用户是否有活动发布免审核权限
+   */
+  taskMerchantAuditConfig() {
+    return axiosConfig.get('/api/task-merchant-audit-config.json')
+  },
+
+  /**
+   * 商家用户开启关闭活动发布免审权限
+   */
+  setAuditStatus(params) {
+    return axiosConfig.post('/api/set-audit-status.json', params)
+  },
 }

@@ -1026,12 +1026,16 @@
       </div>
     </div>
     <!--填写完成活动信息下一步按钮-->
-    <div class="do-not-audit text-ct mt-20" v-if="doNotAudit.doNotAuditStatus">
+    <div class="do-not-audit text-ct mt-20" v-if="doNotAudit.couldCheck && doNotAudit.checked">
       <checkbox v-model="doNotAudit.doNotAuditStatus"><span class="f-b fs-14">使用免审发布</span></checkbox>
-      <span class="blue cursor-p text-decoration-underline" @click="doNotAudit.doNotAuditStatus = false">关闭免审功能</span>
+      <span class="blue cursor-p text-decoration-underline" @click="stopDoNotAudit">关闭免审功能</span>
       <span class="blue cursor-p text-decoration-underline" @click="doNotAudit.doNotAuditModal = true">查看免审发布条款</span>
     </div>
-    <i-button v-if="!doNotAudit.doNotAuditStatus && !getTaskCreateFastStatus" class="fs-18 mt-20" type="info" long v-show="stepName === 'information'" @click="doNotAudit.doNotAuditModal = true">开通免审发布</i-button>
+    <div class="activity-tip mb-20" v-if="doNotAudit.limitCountLeft > 0">
+      <icon type="md-alert" color="#FF0100"/>
+      <span>由于您免审发布活动存在违规行为，<span class="main-color">当前免审资格被禁用，将在您正常审核发布 {{doNotAudit.limitCountLeft}} 次后解锁</span>，请注意遵守平台发布规则，共同维护平台环境！</span>
+    </div>
+    <i-button v-if="doNotAudit.couldCheck && !doNotAudit.checked && doNotAudit.limitCountLeft === 0 && !getTaskCreateFastStatus" class="fs-18 mt-20" type="info" long v-show="stepName === 'information'" @click="doNotAudit.doNotAuditModal = true">开通免审发布</i-button>
     <i-button class="fs-18 mt-20" type="primary" long :loading="taskLoading" v-show="stepName === 'information'" @click="stepNext">下一步</i-button>
     <!--活动担保金支付弹框-->
     <div class="pay-model" v-if="showPayModel">
@@ -1249,7 +1253,7 @@
       <p class="mt-20">3、活动标题、活动主图及下单要求中，禁止出现红包、返现、奖金等与S单相关的信息，若经发现平台有权马上终止活动，由此产生的退款行为，<span class="main-color">由商家自行承担！</span></p>
       <p class="mt-20">4、由于商家活动信息设置错误（如商品分类错误等），<span class="main-color">平台有权在不通知商家的情况下对活动信息做修改！</span></p>
       <div slot="footer">
-        <i-button v-if="!doNotAudit.doNotAuditStatus" type="info" long class="fs-14" @click="openDoNotAudit">同意以上条款并开通免审核服务</i-button>
+        <i-button v-if="doNotAudit.couldCheck && !doNotAudit.checked" type="info" long class="fs-14" @click="openDoNotAudit">同意以上条款并开通免审核服务</i-button>
         <i-button v-else type="info" long class="fs-14" @click="stopDoNotAudit">终止免审核服务</i-button>
       </div>
       <div slot="footer" class="mt-10">
@@ -1403,6 +1407,7 @@
           showkerApplyRequireString: null,
           popularFlow: null,
           popularFlowConfig: null,
+          withoutAudit: false,
         },
         trialCondition: 'all',
         taskCountInputPlaceholder: '请输入活动时长',
@@ -1636,7 +1641,7 @@
         showGetFreeFlow: false,
         getFreeFlowLoading: false,
         doNotAudit: {
-          doNotAuditModal: true,
+          doNotAuditModal: false,
           doNotAuditStatus: false,
         }
       }
@@ -1676,6 +1681,7 @@
       this.getItemCatalog();
       this.getTaskVasList();
       this.checkIfAlreadyGetFreeFlow();
+      this.getTaskMerchantAuditConfig();
     },
     computed: {
       /**
@@ -2966,7 +2972,7 @@
           _this.taskRelease.popularFlow = null;
           _this.taskRelease.popularFlowConfig = null;
         }
-
+        _this.taskRelease.withoutAudit = _this.doNotAudit.doNotAuditStatus;
         if (_this.getTaskCreateFastStatus || _this.isFastPublish) {
           // 首单发布任务接口（包括首单对活动的编辑修改）
           api.taskCreateFast(_this.taskRelease).then(res => {
@@ -3074,6 +3080,9 @@
             _this.taskRelease.speedUp = _this.taskRelease.speedUp ? _this.taskRelease.speedUp : false;
             _this.taskRelease.pinkage = _this.taskRelease.pinkage.toString();
             _this.taskRelease.donotPostPhoto = _this.taskRelease.donotPostPhoto.toString();
+
+            // 活动免审状态
+            _this.doNotAudit.doNotAuditStatus = res.data.withoutAudit ? res.data.withoutAudit : false;
 
             // 是否是首发活动标识
             _this.isFastPublish = res.data.fastPublish ? res.data.fastPublish : false;
@@ -3909,12 +3918,51 @@
       toTaskFans() {
         this.$router.push('/user/task-fans');
       },
+      getTaskMerchantAuditConfig() {
+        const _this = this;
+        api.taskMerchantAuditConfig().then(res => {
+          if (res.status) {
+            _this.doNotAudit = Object.assign({}, _this.doNotAudit, {
+              checked: res.data.checked,
+              couldCheck: res.data.couldCheck,
+              limitCountLeft: res.data.limitCountLeft ? res.data.limitCountLeft: 0,
+              limitTimeEnd: res.data.limitTimeEnd,
+            });
+          } else {
+            _this.$Message.error(res.msg);
+          }
+        })
+      },
+      setAuditStatus(type) {
+        const _this = this;
+        const map = {
+          'open': 'true',
+          'close': 'false',
+        };
+        api.setAuditStatus({
+          withoutAudit: map[type]
+        }).then(res => {
+          if (res.status) {
+            if (type === 'open') {
+              _this.$Message.success('开通活动发布免审成功！');
+            } else {
+              _this.$Message.success('关闭活动发布免审成功！');
+            }
+            _this.getTaskMerchantAuditConfig();
+          } else {
+            _this.$Message.error(res.msg);
+          }
+        })
+      },
       openDoNotAudit() {
         this.doNotAudit.doNotAuditModal = false;
         this.doNotAudit.doNotAuditStatus = true;
+        this.setAuditStatus('open');
       },
       stopDoNotAudit() {
         this.doNotAudit.doNotAuditStatus = false;
+        this.doNotAudit.doNotAuditModal = false;
+        this.setAuditStatus('close');
       },
     },
   }
