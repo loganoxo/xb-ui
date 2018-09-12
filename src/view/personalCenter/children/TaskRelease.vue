@@ -1025,18 +1025,20 @@
         </div>
       </div>
     </div>
-    <!--填写完成活动信息下一步按钮-->
-    <div class="do-not-audit text-ct mt-20" v-if="doNotAudit.couldCheck && doNotAudit.checked && stepName === 'information'">
-      <checkbox v-model="doNotAudit.doNotAuditStatus"><span class="f-b fs-14">使用免审发布</span></checkbox>
-      <span class="blue cursor-p text-decoration-underline" @click="stopDoNotAudit">关闭免审功能</span>
-      <span class="blue cursor-p text-decoration-underline" @click="doNotAudit.doNotAuditModal = true">查看免审发布条款</span>
+    <!--填写完成活动信息下一步按钮，免审相关按钮-->
+    <div v-show="stepName === 'information'">
+      <div class="do-not-audit text-ct mt-20" v-if="doNotAudit.couldCheck && doNotAudit.checked">
+        <checkbox v-model="doNotAudit.doNotAuditStatus"><span class="f-b fs-14">使用免审发布</span></checkbox>
+        <span class="blue cursor-p text-decoration-underline" @click="stopDoNotAudit">关闭免审功能</span>
+        <span class="blue cursor-p text-decoration-underline" @click="doNotAudit.doNotAuditModal = true">查看免审发布条款</span>
+      </div>
+      <div class="activity-tip mb-20" v-if="doNotAudit.limitCountLeft > 0">
+        <icon type="md-alert" color="#FF0100"/>
+        <span>由于您免审发布活动存在违规行为，<span class="main-color">当前免审资格被禁用，将在您正常审核发布 {{doNotAudit.limitCountLeft}} 次后解锁</span>，请注意遵守平台发布规则，共同维护平台环境！</span>
+      </div>
+      <i-button v-if="doNotAudit.couldCheck && !doNotAudit.checked && doNotAudit.limitCountLeft === 0 && !getTaskCreateFastStatus" class="fs-18 mt-20" type="info" long @click="doNotAudit.doNotAuditModal = true">开通免审发布</i-button>
+      <i-button class="fs-18 mt-20" type="primary" long :loading="taskLoading" @click="stepNext">下一步</i-button>
     </div>
-    <div class="activity-tip mb-20" v-if="doNotAudit.limitCountLeft > 0">
-      <icon type="md-alert" color="#FF0100"/>
-      <span>由于您免审发布活动存在违规行为，<span class="main-color">当前免审资格被禁用，将在您正常审核发布 {{doNotAudit.limitCountLeft}} 次后解锁</span>，请注意遵守平台发布规则，共同维护平台环境！</span>
-    </div>
-    <i-button v-if="doNotAudit.couldCheck && !doNotAudit.checked && doNotAudit.limitCountLeft === 0 && !getTaskCreateFastStatus" class="fs-18 mt-20" type="info" long v-show="stepName === 'information'" @click="doNotAudit.doNotAuditModal = true">开通免审发布</i-button>
-    <i-button class="fs-18 mt-20" type="primary" long :loading="taskLoading" v-show="stepName === 'information'" @click="stepNext">下一步</i-button>
     <!--活动担保金支付弹框-->
     <div class="pay-model" v-if="showPayModel">
       <pay-model ref="payModelRef" :orderMoney="needPayMoneyBeforeAsRedEnvelopes" @confirmPayment="confirmPayment"
