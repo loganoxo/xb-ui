@@ -339,12 +339,26 @@
               </radio>
             </radio-group>
             <p v-show="taskRelease.itemReviewRequired === 'assign_review_detail'" class="main-color ml-20">
-              可自定义的评价数跟您发布宝贝数量相同，系统会随机分配给申请通过的拿手每人一条评论，以保证评价内容的唯一性。</p>
+              最多为每份名额提供一份内容，可以不添加（不添加表示无要求），系统会对已添加内容进行唯一分配，保证内容不重复。</p>
             <div class="afford-evaluation-list mt-10" v-show="taskRelease.itemReviewRequired === 'assign_review_detail'">
-              <p v-for="(item, index) in itemReviewList" :key="item.index">
-                <span class="vtc-sup">{{`评价${index + 1}`}}：</span>
-                <i-input v-model="item.value" class="mb-10 width-500" type="textarea" :autosize="{minRows: 1,maxRows: 3}" placeholder="请输入你的评价内容"/>
-                <i-button :disabled="itemReviewList.length === 1" class="ml-10 vtc-sup" type="dashed" icon="plus-round" @click="deleteItemReviewList(index)">删除</i-button>
+              <p class="clear" v-for="(item, index) in itemReviewList" :key="item.index">
+                <span class="vtc-sup left">{{`评价${index + 1}`}}：</span>
+                <i-input v-model="item.value" class="mb-10 width-400 left" type="textarea" :autosize="{minRows: 2,maxRows: 2}" placeholder="请输入你的评价内容"/>
+                <upload class="inline-block left"
+                        :default-file-list="mainDefaultList"
+                        :on-remove="removeMainImage"
+                        :on-success="handleSuccess"
+                        :format="['jpg','jpeg','png','gif','bmp']"
+                        :max-size="1024"
+                        name="task"
+                        :on-format-error="handleFormatError"
+                        :on-exceeded-size="handleMaxSize"
+                        type="drag">
+                  <div class="camera">
+                    <icon type="ios-camera" size="20"/>
+                  </div>
+                </upload>
+                <i-button :disabled="itemReviewList.length === 1" class="ml-10 vtc-sup left" type="dashed" icon="plus-round" @click="deleteItemReviewList(index)">删除</i-button>
               </p>
               <i-button :disabled="itemReviewList.length === taskRelease.taskCount || !taskRelease.taskCount" class="ml-45 mt-6 mb-5" type="dashed" icon="plus-round" @click="addItemReviewList">添加</i-button>
             </div>
@@ -4438,12 +4452,20 @@
       border-right: 1px solid #ddd;
       border-radius: 0 5px 5px 5px;
     }
+
+    .camera-evaluation {
+      width: 32px;
+      height: 32px;
+      line-height: 32px;
+    }
+
+    .pt-18 {
+      padding-top: 18px;
+    }
+
+    .text-orange {
+      color: #fd6b22;
+    }
   }
 
-  .pt-18 {
-    padding-top: 18px;
-  }
-  .text-orange {
-    color: #fd6b22;
-  }
 </style>

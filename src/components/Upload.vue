@@ -1,17 +1,19 @@
 <template>
   <div class="clear">
-    <div class="demo-upload-list left" v-for="item in fileList" v-if="isShowTipCover">
-      <template v-if="item.status === 'finished'">
-        <img :src="item.src | imageSrc('!thum54')">
-        <div class="demo-upload-list-cover" v-if="!disabled">
-          <icon type="ios-eye-outline" @click.native="handleView(item.src)"/>
-          <icon type="ios-trash-outline" @click.native="handleRemove(item)"/>
-        </div>
-      </template>
-      <template v-else>
-        <i-progress v-if="item.showProgress" :percent="item.percentage" hide-info/>
-      </template>
-    </div>
+    <template v-if="isShowTipCover">
+      <div class="demo-upload-list left" v-for="item in fileList">
+        <template v-if="item.status === 'finished'">
+          <img :src="item.src | imageSrc('!thum54')">
+          <div class="demo-upload-list-cover" v-if="!disabled">
+            <icon type="ios-eye-outline" @click.native="handleView(item.src)"/>
+            <icon type="ios-trash-outline" @click.native="handleRemove(item)"/>
+          </div>
+        </template>
+        <template v-else>
+          <i-progress v-if="item.showProgress" :percent="item.percentage" hide-info/>
+        </template>
+      </div>
+    </template>
     <div ref="Upload" class="left" :class="[prefixCls]" v-show="showUpload">
       <div :class="[classes,{disabled:disabled}]"
         @click="handleClick"
