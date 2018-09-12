@@ -388,8 +388,6 @@
         <i-button class="ml-40 pr-40 pl-40" type="primary" size="large" @click="deleteFirstTaskModal = false">取消</i-button>
       </div>
     </modal>
-    <!--免审发布弹框-->
-    <exempt-release-modal v-model="exemptRelease" :data="taskInfo" @releaseSuccess="releaseSuccess"/>
   </div>
 </template>
 
@@ -397,7 +395,6 @@
   import {Checkbox, Page, Modal, Icon, Button, Input, Tooltip, Select, Option} from 'iview'
   import api from '@/config/apiConfig'
   import PayModel from '@/components/PayModel'
-  import ExemptReleaseModal from '@/components/ExemptReleaseModal'
   import {taskErrorStatusList, getSeverTime, encryption, decode,setStorage, getStorage,} from '@/config/utils'
 
   export default {
@@ -415,7 +412,6 @@
       iSelect: Select,
       iOption: Option,
       PayModel: PayModel,
-      ExemptReleaseModal: ExemptReleaseModal,
     },
     data() {
       return {
@@ -494,7 +490,6 @@
         disabledRedEnvelopes: false,
         deleteFirstTaskModal: false,
         exemptRelease: false,
-        taskInfo: {}
       }
     },
     created() {
@@ -684,13 +679,13 @@
         })
       },
       confirmDelete() {
-        let _this = this;
+        const _this = this;
         _this.modalLoading = true;
         api.deleteTask({
           taskId: _this.taskId
         }).then(res => {
           if (res.status) {
-            setTimeout(function () {
+            setTimeout(() => {
               _this.$Message.success('任务删除成功！');
             }, 500);
             _this.getTaskList();
@@ -863,15 +858,9 @@
       },
       // 筛选店铺
       filterStore(res) {
-        const _this = this;
-        _this.realStoreName = res === '全部店铺' ? '' : res;
-        _this.pageIndex = 1;
-        _this.getTaskList();
-      },
-      // 免审发布
-      exemption(item) {
-        this.taskInfo = item;
-        this.exemptRelease = true;
+        this.realStoreName = res === '全部店铺' ?  '' : res;
+        this.pageIndex = 1;
+        this.getTaskList();
       },
       releaseSuccess() {
         // 追加份数成功后，因后端数据返回有延迟，需要延迟更新列表数据

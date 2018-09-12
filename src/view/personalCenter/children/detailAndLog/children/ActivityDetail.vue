@@ -773,6 +773,9 @@
         </template>
       </div>
     </div>
+    <div class="text-ct mt-20">
+      <checkbox class="f-b" v-model="taskRelease.withoutAudit" :disabled="true">使用免审发布</checkbox>
+    </div>
     <div class="description-fees mt-40">
       <h3>费用说明：</h3>
       <div class="description-fees-con mt-10">
@@ -889,6 +892,7 @@
           itemReviewRequired: 'review_by_showker_self',
           itemReviewSummary: null,
           itemReviewAssignString: [],
+          withoutAudit: false,
         },
         trialCondition: 'all',
         taskCountInputPlaceholder: '请输入活动时长',
