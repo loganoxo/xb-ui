@@ -1026,7 +1026,7 @@
       </div>
     </div>
     <!--填写完成活动信息下一步按钮-->
-    <div class="do-not-audit text-ct mt-20" v-if="doNotAudit.couldCheck && doNotAudit.checked">
+    <div class="do-not-audit text-ct mt-20" v-if="doNotAudit.couldCheck && doNotAudit.checked && stepName === 'information'">
       <checkbox v-model="doNotAudit.doNotAuditStatus"><span class="f-b fs-14">使用免审发布</span></checkbox>
       <span class="blue cursor-p text-decoration-underline" @click="stopDoNotAudit">关闭免审功能</span>
       <span class="blue cursor-p text-decoration-underline" @click="doNotAudit.doNotAuditModal = true">查看免审发布条款</span>
