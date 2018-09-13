@@ -124,9 +124,9 @@
                   </p>
                 </td>
                 <td>
-                  <p v-if="item.status === 'order_num_error'|| item.status === 'trial_report_unqualified'">
+                  <p v-if="item.status === 'order_num_error' || item.status === 'trial_report_unqualified' || 'trial_end'">
                     <tooltip
-                      :content="item.auditDescription"
+                      :content="item.auditDescription ? item.auditDescription : getTaskStatus(item.trialEndReason)"
                       placement="top" class="cursor-p">
                       <icon color="#f9284f" type="md-alert"/>
                       <span class="main-color">{{getTaskStatus(item.status)}}</span>
@@ -137,14 +137,13 @@
                   <p v-if="item.status !== 'trial_end' && item.status !== 'trial_finished'">
                     <time-down color='#ff4040' :fontWeight=600 :endTime="item.currentGenerationEndTime"/>
                   </p>
-                  <p v-if="item.status === 'trial_end'">
-                    <tooltip :content="item.trialEndReason === 'admin_manual_close' ? getTaskStatus(item.trialEndReason) +'：'+ item.auditDescription : getTaskStatus(item.trialEndReason)"
-                             placement="top" class="cursor-p">
-                      <icon color="#f9284f" type="md-alert"/>
-                      <span class="main-color">{{item.trialEndReason === 'admin_manual_close' ? getTaskStatus(item.trialEndReason) +'：'+ item.auditDescription : getTaskStatus(item.trialEndReason)}}</span><br/>
-                      <!--<span>{{getTaskStatus(item.trialEndReason)}}</span>-->
-                    </tooltip>
-                  </p>
+                  <!--<p v-if="item.status === 'trial_end'">-->
+                    <!--<tooltip :content="item.trialEndReason === 'admin_manual_close' ? getTaskStatus(item.trialEndReason) +'：'+ item.auditDescription : getTaskStatus(item.trialEndReason)"-->
+                             <!--placement="top" class="cursor-p">-->
+                      <!--<icon color="#f9284f" type="md-alert"/>-->
+                      <!--<span class="main-color">{{item.trialEndReason === 'admin_manual_close' ? getTaskStatus(item.trialEndReason) +'：'+ item.auditDescription : getTaskStatus(item.trialEndReason)}}</span><br/>-->
+                    <!--</tooltip>-->
+                  <!--</p>-->
                 </td>
                 <td>
                   <p>{{item.orderNum || '------'}}</p>
