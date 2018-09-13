@@ -39,7 +39,7 @@ axios.interceptors.response.use(res => {
   if (error.response && error.response.status === 401) {
     store.commit('OUT_LOGIN');
     if (store.state.logInAuthority) {
-      router.replace({name: 'login'});
+      router.replace({name: 'Login'});
     }
   }
   return Promise.reject(error);
