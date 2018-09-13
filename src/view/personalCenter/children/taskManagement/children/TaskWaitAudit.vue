@@ -45,7 +45,7 @@
             <img :src="item.taskMainImage | imageSrc('!thum54')" alt="活动主图">
             <span v-if="item.zone === 'certainly_hit'" class="certainly-hit-tip">推荐必中</span>
           </div>
-          <div class="manage-text ml-5 left">
+          <div class="manage-text">
             <p>活动编号：{{item.number}}</p>
             <p>活动名称：{{item.taskName}}</p>
             <p>参与概况：总份数<span class="main-color">{{item.taskCount || 0}}</span>，
@@ -53,7 +53,8 @@
                 class="main-color">{{item.residueCount || 0}}</span>个 <i-button v-if="item.taskStatus === 'under_way' && !item.speedUp" type="primary" size="small" @click.stop="taskAdditionalQuota(item)">追加名额</i-button>
             </p>
           </div>
-          <div class="left ml-300">
+          <icon :class="{'show-table-styles' : selectId === item.id}" class="right mt-20 mr-5" size="20" type="md-arrow-dropright"/>
+          <div class="right ml-300">
             <div class="waiting-task-number-wait">
               <p class="task-wait-fail">新增待审批<span>{{item.newestTaskApplyCount || 0}}</span>人</p>
               <p class="task-wait-fail">共有待审批<span>{{item.totalTaskApplyCount || 0}}</span>人</p>
@@ -64,7 +65,6 @@
               </tooltip>
             </i-button>
           </div>
-          <icon :class="{'show-table-styles' : selectId === item.id}" class="right mt-20" size="20" type="md-arrow-dropright"/>
         </div>
         <collapse-transition>
           <div class="task-table" v-show="selectId === item.id">
