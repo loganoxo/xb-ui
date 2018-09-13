@@ -342,14 +342,15 @@
               最多为每份名额提供一份内容，可以不添加（不添加表示无要求），系统会对已添加内容进行唯一分配，保证内容不重复。</p>
             <div class="afford-evaluation-list mt-10" v-show="taskRelease.itemReviewRequired === 'assign_review_detail'">
               <p class="clear" v-for="(item, index) in itemReviewList" :key="item.index">
-                <span class="vtc-sup left">{{`评价${index + 1}`}}：</span>
-                <i-input v-model="item.value" class="mb-10 width-400 left" type="textarea" :autosize="{minRows: 2,maxRows: 2}" placeholder="请输入你的评价内容"/>
-                <upload class="inline-block left"
-                        :default-file-list="mainDefaultList"
+                <span class="vtc-sup left mt-20">{{`评价${index + 1}`}}：</span>
+                <i-input v-model="item.value" class="mb-10 width-400 mt-8 left" type="textarea" :autosize="{minRows: 2,maxRows: 2}" placeholder="请输入你的评价内容"/>
+                <upload class="inline-block left ml-10"
+                        :default-file-list="item.iamges"
                         :on-remove="removeMainImage"
                         :on-success="handleSuccess"
                         :format="['jpg','jpeg','png','gif','bmp']"
                         :max-size="1024"
+                        :uploadLength="5"
                         name="task"
                         :on-format-error="handleFormatError"
                         :on-exceeded-size="handleMaxSize"
@@ -358,7 +359,7 @@
                     <icon type="ios-camera" size="20"/>
                   </div>
                 </upload>
-                <i-button :disabled="itemReviewList.length === 1" class="ml-10 vtc-sup left" type="dashed" icon="plus-round" @click="deleteItemReviewList(index)">删除</i-button>
+                <i-button :disabled="itemReviewList.length === 1" class="ml-10 mt-15 left" type="dashed" icon="plus-round" @click="deleteItemReviewList(index)">删除</i-button>
               </p>
               <i-button :disabled="itemReviewList.length === taskRelease.taskCount || !taskRelease.taskCount" class="ml-45 mt-6 mb-5" type="dashed" icon="plus-round" @click="addItemReviewList">添加</i-button>
             </div>
@@ -1434,6 +1435,9 @@
         editTaskId: null,
         itemReviewList: [{
           value: '',
+          images: [{
+            src: null
+          }],
         }],
         selectKeywordScheme: 0,
         addKeywordScheme: 0,
@@ -2516,7 +2520,7 @@
           _this.$Message.warning('亲，请填写你对评价的大概要求！');
           return;
         }
-        if (_this.taskRelease.itemReviewRequired === 'assign_review_detail' && _this.itemReviewList.length > 0) {
+        if (_this.taskRelease.itemReviewRequired === 'assign_review_detail') {
           /*_this.itemReviewPushList = [];
           _this.itemReviewList.forEach(item => {
             if (item.value !== '') {
