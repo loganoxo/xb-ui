@@ -71,7 +71,6 @@ router.beforeEach((to, from, next) => {
       });
       next('/user/showker-drainage');
     }
-    console.log(to);
   } else if (to.meta.role && to.meta.role !== store.getters.getUserRole) {
     next('/');
   } else if (to.matched.length === 0) {
