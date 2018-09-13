@@ -59,8 +59,8 @@
               </span>
               <div v-if="log.opType === 'under_way' && showkerLogList.length > 0" class="shower-log-box">
                 <Collapse>
-                  <Panel v-for="(showkerLog, index) in showkerLogList" :key="showkerLog.id">
-                    <span style="width: 98%;display: inline-block;" @click="getShowkerLog(showkerLog, index)"> 拿手 {{showkerLog.showkerPhone}} 任务进程</span>
+                  <Panel @click.native="getShowkerLog(showkerLog, index)" v-for="(showkerLog, index) in showkerLogList" :key="showkerLog.id">
+                    <span> 拿手 {{showkerLog.showkerPhone}} 任务进程</span>
                     <div slot="content" class="shower-log-details">
                       <p v-for="details in showkerLog.detailsAarrayList">
                         {{details.opTime | dateFormat('YYYY-MM-DD hh:mm:ss')}}

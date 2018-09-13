@@ -16,7 +16,7 @@
       </div>
       <div class="user-clause-footer">
         <!--<div class="switch-guide" @click="lookOther('showker')">查看拿手版指引</div>-->
-        <div class="switch-guide">我知道了</div>
+        <div class="switch-guide" @click="closeClauseModel">我知道了</div>
         <!--<div class="no-tip" @click="notTip" v-if="isShowCloseTip">“我已了解，以后不在提醒！”</div>-->
       </div>
     </template>

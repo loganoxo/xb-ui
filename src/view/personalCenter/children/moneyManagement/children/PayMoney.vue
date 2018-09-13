@@ -26,11 +26,10 @@
           <div class="pay-tip">
             <icon color="#f9284f" size="16" type="alert-circled"/>
             <span class="fs-14">使用支付宝充值支付，支付宝会收取0.6%的手续费，该笔费用需要商家承担，手续费不予退还，敬请谅解！<a @click="isShowAliPayTip = true">查看支付宝官方说明</a></span>
-            <router-link v-if="memberLevel===100" class="upgroup-btn mt-10" to="/user/vip-member/order">升级VIP免除手续费</router-link>
           </div>
           <form-item>
             <i-button class="payMoneyBtn" @click="balanceOrderCreate()">提交</i-button>
-            <i-button v-if="memberLevel===200 || memberLevel===300" class="vipRecharge ml-20" @click="toArtificialPay"><span v-if="memberLevel===300">S</span>VIP<span class="freeRecharge">免手续费充值</span>点击这里</i-button>
+            <i-button class="vipRecharge ml-20" @click="toArtificialPay"><span class="freeRecharge">免手续费充值</span>点击这里</i-button>
             <!--<i-button class="payMoneyBtn" @click="stopRecharge = true">提交</i-button>-->
           </form-item>
         </i-form>
