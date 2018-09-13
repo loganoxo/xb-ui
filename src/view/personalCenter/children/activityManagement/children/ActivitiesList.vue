@@ -92,9 +92,7 @@
               <td colspan="7">
                 <span>活动编号：{{item.number || '------'}}</span>
                 <span class="ml-10">创建时间：{{item.createTime | dateFormat('YYYY-MM-DD hh:mm:ss') || '------'}}</span>
-                <!--<span class="ml-10">活动类型：{{item.activityCategoryDesc}}</span>-->
-                <span v-if="item.activityCategory === 'free_get'" class="ml-10">活动模板：模板A</span>
-                <span v-if="item.activityCategory === 'present_get'" class="ml-10">活动模板：模板B</span>
+                <span class="ml-10">活动模板：{{item.activityCategoryDesc}}</span>
               </td>
             </tr>
             <tr>
@@ -153,9 +151,6 @@
                 </p>
               </td>
               <td v-else-if="item.settlementStatus === 'waiting_settlement' && (item.taskStatus === 'finished' || item.taskStatus === 'under_way')">
-                <!--<p class="bond mt-6" v-if="isApproveExpire(item.endTime) && (item.taskCount - item.showkerApplySuccessCount) !== 0">-->
-                <!--<span @click="approveShowker(item.id)">审批拿手</span>-->
-                <!--</p>-->
                 <p class="bond mt-6">
                   <span @click="settlementTask(item.id, item.number)">申请结算</span>
                 </p>
@@ -165,29 +160,14 @@
                 <p class="copy mt-6">
                   <span @click="copyTask(item.id)">复制活动</span>
                 </p>
-                <!--<p class="copy mt-6">-->
-                  <!--<span @click="exemption(item)">免审发布</span>-->
-                  <!--<tooltip content="以该活动为模板再次发布可免审核直接上线" placement="top">-->
-                    <!--<icon type="md-help-circle" color="#f9284f" size="16" class="vtc-text-btm"/>-->
-                  <!--</tooltip>-->
-                <!--</p>-->
               </td>
               <td v-else-if="item.settlementStatus === 'cannot_settlement' && item.taskStatus === 'finished'">
-                <!--<p class="bond mt-6" v-if="isApproveExpire(item.endTime) && (item.taskCount - item.showkerApplySuccessCount) !== 0">-->
-                <!--<span @click="approveShowker(item.id)">审批拿手</span>-->
-                <!--</p>-->
                 <p class="copy mt-6">
                   <span @click="lookTaskDetail(item.id)">查看详情</span>
                 </p>
                 <p class="copy mt-6">
                   <span @click="copyTask(item.id)">复制活动</span>
                 </p>
-                <!--<p class="copy mt-6">-->
-                  <!--<span @click="exemption(item)">免审发布</span>-->
-                  <!--<tooltip content="以该活动为模板再次发布可免审核直接上线" placement="top">-->
-                    <!--<icon type="md-help-circle" color="#f9284f" size="16" class="vtc-text-btm"/>-->
-                  <!--</tooltip>-->
-                <!--</p>-->
               </td>
               <td v-else-if="(item.settlementStatus === 'settlement_finished' || item.settlementStatus === 'waiting_audit') && item.taskStatus === 'finished'">
                 <p class="copy mt-6">
@@ -202,12 +182,6 @@
                 <p class="copy mt-6">
                   <span @click="copyTask(item.id)">复制活动</span>
                 </p>
-                <!--<p class="copy mt-6">-->
-                  <!--<span @click="exemption(item)">免审发布</span>-->
-                  <!--<tooltip content="以该活动为模板再次发布可免审核直接上线" placement="top">-->
-                    <!--<icon type="md-help-circle" color="#f9284f" size="16-" class="vtc-text-btm"/>-->
-                  <!--</tooltip>-->
-                <!--</p>-->
               </td>
               <td v-else-if="item.taskStatus === 'closed'">
                 <p class="bond mt-6">
@@ -221,19 +195,12 @@
                 </p>
               </td>
               <td v-else>
-                <!--<p class="bond mt-6">-->
-                <!--<span @click="approveShowker(item.id,item.endTime)">审批拿手</span>-->
-                <!--</p>-->
-                <p class="bond mt-6">
+                <p class="bond mt-6" v-if="item.taskType === 'pc_search' || item.taskType === 'app_search'">
                   <span @click="toFlowOrderDetail(item.number, item.taskDetailObject.length)">补添流量</span>
                 </p>
                 <p class="copy mt-6">
                   <span @click="lookTaskDetail(item.id)">查看详情</span>
                 </p>
-                <!--<tooltip v-if="!item.speedUp" class="mt-6" content="启用后，系统会匹配拿手进行审核，无需商家干预" placement="top">-->
-                  <!--<span class="cursor-p main-color" @click="openSpeedUp(item.id, item.userId)">一键加速</span>-->
-                <!--</tooltip>-->
-                <!--<p v-else class="cl-red mt-6">已加速</p>-->
                 <p class="copy mt-6">
                   <span @click="copyTask(item.id)">复制活动</span>
                 </p>
@@ -278,19 +245,6 @@
       </div>
       <div slot="footer">
         <i-button type="primary" size="large" long :loading="modalLoading" @click="confirmDelete">删除</i-button>
-      </div>
-    </modal>
-    <!--开启一键加速功能确认弹框-->
-    <modal v-model="speedUpModal" width="360">
-      <p slot="header" class="text-ct">
-        <icon color="#f9284f" type="md-alert"/>
-        <span class="main-color">一键加速</span>
-      </p>
-      <div class="text-ct">
-        <p>启用后，该活动剩余名额将全部由系统进行匹配和审核，且无法修改，适合于需要快速消化单量的商家！</p>
-      </div>
-      <div slot="footer">
-        <i-button type="primary" size="large" long :loading="speedUpLoading" @click="speedUp">确认开启</i-button>
       </div>
     </modal>
     <!--结算成功弹框-直接结算-->
@@ -444,7 +398,6 @@
         taskNumber: null,
         activityCategory: null,
         isTaskOverdueModel: false,
-        speedUpModal: false,
         taskOverdueLoading: false,
         speedUpLoading: false,
         speedUpInfo: {},
@@ -546,36 +499,8 @@
       copyTask(id) {
         this.$router.push({name: 'TaskRelease', query: {q: encryption(id), type: 'copy'}})
       },
-      openSpeedUp(taskId, userId) {
-        this.speedUpModal = true;
-        this.speedUpInfo.taskId = taskId;
-        this.speedUpInfo.userId = userId;
-      },
-      speedUp() {
-        const _this = this;
-        _this.speedUpLoading = true;
-        api.taskSpeedUp({
-          taskId: _this.speedUpInfo.taskId,
-          userId: _this.speedUpInfo.userId
-        }).then(res => {
-          if(res.status) {
-            _this.$Message.success('一键加速开启成功！');
-            _this.getTaskList();
-          } else {
-            _this.$Message.error(res.msg)
-          }
-          _this.speedUpModal = false;
-          _this.speedUpLoading = false;
-        })
-      },
       lookTaskDetail(id) {
         this.$router.push({name: 'ActivityDetail', query: {q: encryption(id)}})
-      },
-      approveShowker(id, time) {
-        this.$router.push({name: 'ApproveShowker', query: {q: encryption(id), endTime: time}})
-      },
-      isApproveExpire(endTime) {
-        return getSeverTime() < endTime + 48 * 3600 * 1000;
       },
       goTaskDetails(id) {
         this.$router.push({name: 'TaskDetails', query: {q: encryption(id)}})
