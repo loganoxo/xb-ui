@@ -93,6 +93,18 @@ export default new Router({
       }
     },
     {
+      path: '/user/showker-drainage',
+      name: 'ShowkerDrainage',
+      component: _import('ShowkerDrainage'),
+      meta: {
+        title: "拿手引流",
+        logInAuthority: true,
+        topShow: false,
+        bottomShow: true,
+        role: null,
+      }
+    },
+    {
       path: '/seller-adv',
       name: 'SellerAdv',
       component: _import('SellerAdv'),

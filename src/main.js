@@ -61,6 +61,17 @@ router.beforeEach((to, from, next) => {
   });
   if (to.meta.logInAuthority && !store.state.login) {
     next('/login');
+  } else if (store.state.login && store.getters.getUserRole === 0) {
+    if (to.path.startsWith('/user')) {
+      next()
+    } else {
+      store.commit({
+        type: "CHANGE_TOP_SHOW_HIDE",
+        status: false
+      });
+      next('/user/showker-drainage');
+    }
+    console.log(to);
   } else if (to.meta.role && to.meta.role !== store.getters.getUserRole) {
     next('/');
   } else if (to.matched.length === 0) {
