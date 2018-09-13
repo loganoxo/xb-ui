@@ -812,6 +812,18 @@ export default new Router({
             bottomShow: true,
             role: 1,
           }
+        },
+        {
+          path: 'release-good',
+          name: 'releaseGood',
+          component: _import('personalCenter/children/ReleaseGood'),
+          meta: {
+            title: "试用活动发布",
+            logInAuthority: true,
+            topShow: true,
+            bottomShow: true,
+            role: 1,
+          }
         }
       ]
     },

@@ -71,6 +71,10 @@
           <span class="icon-size black-management"></span>
           <router-link to="/user/black-list-management">拿手违规申诉</router-link>
         </li>
+        <li :class="{isSelect:isSelect === 'releaseGood'}" class="pos-rel">
+          <span class="icon-size black-management"></span>
+          <router-link to="/user/release-good">发布商品</router-link>
+        </li>
       </ul>
 
       <!--拿手管理导航-->
