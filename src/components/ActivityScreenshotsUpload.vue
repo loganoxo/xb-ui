@@ -16,7 +16,7 @@
                   :on-format-error="handleFormatError"
                   :on-exceeded-size="handleMaxSize"
                   type="drag"
-                  :itemInfo="item">
+                  :itemInfo="item.id">
             <div class="camera">
               <icon type="ios-camera" size="20"/>
             </div>
@@ -40,7 +40,7 @@
                   :on-format-error="handleFormatError"
                   :on-exceeded-size="handleMaxSize"
                   type="drag"
-                  :itemInfo="item">
+                  :itemInfo="item.id">
             <div class="camera">
               <icon type="ios-camera" size="20"/>
             </div>
@@ -65,7 +65,7 @@
                   :on-format-error="handleFormatError"
                   :on-exceeded-size="handleMaxSize"
                   type="drag"
-                  :itemInfo="item">
+                  :itemInfo="item.id">
             <div class="camera">
               <icon type="ios-camera" size="20"/>
             </div>
@@ -136,8 +136,11 @@
         })
       },
       // 增值服务截图上传成功回调
-      uploadSuccess(res, info) {
+      uploadSuccess(res, index) {
         info.src = aliCallbackImgUrl + res.name;
+        let info = this.mainBabyImageList.filter(item => {
+          return item.id === index;
+        });
         this.submitVasAnswer(info);
       },
       // 删除已上传的图片
@@ -146,8 +149,11 @@
       },
 
       // 浏览答题截图上传成功回调
-      uploadAnswerSuccess(res, info) {
+      uploadAnswerSuccess(res, index) {
         info.src = aliCallbackImgUrl + res.name;
+        let info = this.mainBabyAnswerList.filter(item => {
+          return item.id === index;
+        });
         this.submitAnswer(info);
       },
 
