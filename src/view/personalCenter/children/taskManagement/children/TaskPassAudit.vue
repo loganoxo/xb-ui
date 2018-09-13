@@ -124,9 +124,9 @@
                   </p>
                 </td>
                 <td>
-                  <p v-if="item.status === 'order_num_error' || item.status === 'trial_report_unqualified' || 'trial_end'">
+                  <p v-if="item.status === 'order_num_error' || item.status === 'trial_report_unqualified'">
                     <tooltip
-                      :content="item.auditDescription ? item.auditDescription : getTaskStatus(item.trialEndReason)"
+                      :content="item.auditDescription"
                       placement="top" class="cursor-p">
                       <icon color="#f9284f" type="md-alert"/>
                       <span class="main-color">{{getTaskStatus(item.status)}}</span>
@@ -144,6 +144,12 @@
                       <!--<span class="main-color">{{item.trialEndReason === 'admin_manual_close' ? getTaskStatus(item.trialEndReason) +'：'+ item.auditDescription : getTaskStatus(item.trialEndReason)}}</span><br/>-->
                     <!--</tooltip>-->
                   <!--</p>-->
+                  <p v-if="item.status === 'trial_end'">
+                    <tooltip :content="item.auditDescription ? item.auditDescription : getTaskStatus(item.trialEndReason)" placement="top" class="cursor-p">
+                      <icon color="#f9284f" type="md-alert"/>
+                      <span class="main-color">{{getTaskStatus(item.trialEndReason)}}</span>
+                    </tooltip>
+                  </p>
                 </td>
                 <td>
                   <p>{{item.orderNum || '------'}}</p>
