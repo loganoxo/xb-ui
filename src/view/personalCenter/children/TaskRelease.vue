@@ -3568,27 +3568,22 @@
         this.selectKeywordScheme = this.addKeywordScheme;
         this.countAssignedChange();
       },
-      handleClose(name) {
-        const _this = this;
-        let thisIndex = null;
-        if (_this.taskRelease.taskType === 'pc_search') {
-          thisIndex = _this.pcTaskDetail.findIndex(item => {
-            return item.index === name
-          });
-          _this.pcTaskDetail.splice(thisIndex, 1);
+      handleClose(index) {
+        const _matchDiyInfo = this.favoriteCartFlowInfo.matchDiyInfo;
+        if (this.taskRelease.taskType === 'pc_search') {
+          this.pcTaskDetail.splice(index, 1);
+        } else {
+          this.appTaskDetail.splice(index, 1);
         }
-        if (_this.taskRelease.taskType === 'app_search') {
-          thisIndex = _this.appTaskDetail.findIndex(item => {
-            return item.index === name
-          });
-          _this.appTaskDetail.splice(thisIndex, 1);
+        if (Object.keys(_matchDiyInfo).length > 1) {
+          delete _matchDiyInfo[index];
         }
-        _this.addKeywordScheme -= 1;
-        _this.selectKeywordScheme = thisIndex - 1;
-        _this.countAssignedChange();
+        this.addKeywordScheme -= 1;
+        this.selectKeywordScheme = index - 1;
+        this.countAssignedChange();
       },
-      selectChangeScheme(name) {
-        this.selectKeywordScheme = name;
+      selectChangeScheme(index) {
+        this.selectKeywordScheme = index;
       },
       keywordLowerChange () {
         const _this = this;
