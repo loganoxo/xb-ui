@@ -343,11 +343,12 @@
             <div class="afford-evaluation-list mt-10" v-show="taskRelease.itemReviewRequired === 'assign_review_detail'">
               <p class="clear" v-for="(item, index) in itemReviewList" :key="item.index">
                 <span class="vtc-sup left mt-20">{{`评价${index + 1}`}}：</span>
-                <i-input v-model="item.value" class="mb-10 width-400 mt-8 left" type="textarea" :autosize="{minRows: 2,maxRows: 2}" placeholder="请输入你的评价内容"/>
+                <i-input v-model="item.reviewContent" class="mb-10 width-400 mt-8 left" type="textarea" :autosize="{minRows: 2,maxRows: 2}" placeholder="请输入你的评价内容"/>
                 <upload class="inline-block left ml-10"
-                        :default-file-list="item.iamges"
-                        :on-remove="removeMainImage"
-                        :on-success="handleSuccess"
+                        :default-file-list="defaultItemReviewImages[index]"
+                        :item-index="index"
+                        :on-remove="removeEvaluateImage"
+                        :on-success="evaluateImageSuccess"
                         :format="['jpg','jpeg','png','gif','bmp']"
                         :max-size="1024"
                         :uploadLength="5"
@@ -1434,11 +1435,10 @@
         taskStatus: null,
         editTaskId: null,
         itemReviewList: [{
-          value: '',
-          images: [{
-            src: null
-          }],
+          reviewContent: '',
+          reviewPictures: [],
         }],
+        defaultItemReviewImages: [],
         selectKeywordScheme: 0,
         addKeywordScheme: 0,
         isShowUserClause: false,
@@ -2521,14 +2521,8 @@
           return;
         }
         if (_this.taskRelease.itemReviewRequired === 'assign_review_detail') {
-          /*_this.itemReviewPushList = [];
-          _this.itemReviewList.forEach(item => {
-            if (item.value !== '') {
-              _this.taskRelease.itemReviewAssignString.push(item.value);
-            }
-          })*/
           const itemReviewRequiredOk =_this.itemReviewList.every(item => {
-            return item.value
+            return item.reviewContent
           });
           if (!itemReviewRequiredOk) {
             _this.$Message.warning('亲，请填写你要提供的评价内容！');
@@ -2868,10 +2862,7 @@
 
         _this.taskRelease.storeName = _this.selectStoreInfo.storeAlitm;
         _this.taskRelease.realStoreName = _this.selectStoreInfo.storeName;
-        const itemReviewPushList = _this.itemReviewList.map(item => {
-          return item.value
-        });
-        _this.taskRelease.itemReviewAssignString = JSON.stringify(itemReviewPushList);
+        _this.taskRelease.itemReviewAssignString = JSON.stringify(_this.itemReviewList);
         const mainTaskVasId = [];
         const similarTaskVasId = [];
         _this.vasMainItem.forEach(item => {
@@ -3167,9 +3158,13 @@
 
             let itemReviewAssignsData = res.data.itemReviewAssigns;
             if (itemReviewAssignsData) {
-              _this.itemReviewList = [];
+              _this.defaultItemReviewImages = [];
               itemReviewAssignsData.forEach(item => {
-                _this.itemReviewList.push({value: item.reviewContent})
+                _this.defaultItemReviewImages = item.reviewPictures.map(childItem => {
+                  return [].push({
+                    src: childItem
+                  })
+                })
               })
             }
             _this.taskRelease.presentPrice = _this.taskRelease.presentPrice / 100;
@@ -3472,16 +3467,20 @@
         })
       },
       addItemReviewList() {
-       /* let type = this.taskRelease.taskType;
-        let count = this.taskRelease.taskCount;
-        const len = this.itemReviewList.length;*/
-        this.itemReviewList.push({value: ''});
-        /* if (count > 0 && (type === 'pc_search' || type === 'app_search') && count < this.allPlanNumber()){
-           _this.keywordLowerChangeModel = true;
-         }*/
+        this.itemReviewList.push({reviewContent: '', reviewPictures: []});
       },
       deleteItemReviewList(index) {
         this.itemReviewList.splice(index, 1);
+      },
+      removeEvaluateImage(file, itemIndex) {
+        const _reviewPictures = this.itemReviewList[itemIndex].reviewPictures;
+        const index = _reviewPictures.findIndex(item => {
+          return item === file.src;
+        });
+        _reviewPictures.splice(index, 1);
+      },
+      evaluateImageSuccess(res, index) {
+        this.itemReviewList[index].reviewPictures.push(`${aliCallbackImgUrl}${res.name}`);
       },
       taskCountChange(e) {
         if (e.target.value > 0) {
@@ -3497,11 +3496,6 @@
         if (type === 'assign_review_detail') {
           this.taskRelease.itemReviewSummary = null;
         }
-        /*if (this.itemReviewList.length > 0) {
-          this.itemReviewList.forEach(item => {
-            item.value = '';
-          })
-        }*/
       },
       allPlanNumber() {
         let num = 0;

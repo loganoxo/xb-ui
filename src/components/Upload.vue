@@ -16,10 +16,10 @@
     </template>
     <div ref="Upload" class="left" :class="[prefixCls]" v-show="showUpload">
       <div :class="[classes,{disabled:disabled}]"
-        @click="handleClick"
-        @drop.prevent="onDrop"
-        @dragover.prevent="dragOver = true"
-        @dragleave.prevent="dragOver = false">
+           @click="handleClick"
+           @drop.prevent="onDrop"
+           @dragover.prevent="dragOver = true"
+           @dragleave.prevent="dragOver = false">
         <input
           :disabled="disabled"
           ref="input"
@@ -57,11 +57,9 @@
       iProgress: Progress,
     },
     props: {
-      itemInfo:{
-        type: Object,
-        default() {
-         return {};
-        }
+      itemIndex: {
+        type: Number,
+        default: 0
       },
       multiple: {
         type: Boolean,
@@ -205,7 +203,6 @@
         if (!files) {
           return;
         }
-
         this.uploadFiles(files);
         this.$refs.input.value = null;
       },
@@ -308,7 +305,7 @@
         if (_file) {
           _file.status = 'finished';
           _file.src = aliCallbackImgUrl + res.name;
-          this.onSuccess(res, this.itemInfo, _file, this.fileList);
+          this.onSuccess(res, this.itemIndex, _file, this.fileList);
           setTimeout(() => {
             _file.showProgress = false;
           }, 1000);
@@ -324,12 +321,12 @@
 
         this.onError(err, response, file);
       },
-      handleRemove(file){
+      handleRemove(file) {
         const fileList = this.fileList;
         fileList.splice(fileList.indexOf(file), 1);
-        this.onRemove(file, this.itemInfo, fileList);
+        this.onRemove(file, this.itemIndex, fileList);
       },
-      handlePreview(file){
+      handlePreview(file) {
         if (file.status === 'finished') {
           this.onPreview(file);
         }
@@ -355,7 +352,7 @@
               return item;
             });
           } else {
-            this.fileList = [];
+            // this.fileList = [];
           }
         },
       }
@@ -403,10 +400,10 @@
     margin: 0 2px;
   }
 
-  .disabled{
+  .disabled {
     background-color: #f7f7f7;
     cursor: not-allowed;
-    &:hover{
+    &:hover {
       border-color: #dddee1;
     }
   }

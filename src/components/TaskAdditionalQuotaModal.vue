@@ -1,5 +1,5 @@
 <template>
-  <modal :value="currentValue" :title="title" width="600" :mask-closable="false" @on-visible-change="change">
+  <modal :value="currentValue" :title="title" width="760" :mask-closable="false" @on-visible-change="change">
     <template v-if="step === 'create'">
       <div class="clear">
         <div class="left">
@@ -28,14 +28,30 @@
         <div v-for="item in keywordPlanInfo" v-show="selectKeywordScheme === item.index">
           <div class="mt-10">
             <span>追加份数：</span>
-            <i-input v-model.number="item.addTaskNumber" placeholder="请输入追加份数" @on-change="addTaskNumberChange" class="width-100"/>
+            <i-input v-model.number="item.addTaskNumber" placeholder="请输入追加份数" class="width-100"/>
             <span class="ml-10 cl000 fs-14" v-if="item.title">为{{` "${item.title}" `}}追加的份数</span>
           </div>
-          <div class="mt-10 border-top pt-10 addition-item" v-if="data.itemReviewRequired === 'assign_review_detail' && itemReviewList.length > 0">
-            <p class="mb-10">该活动设置了指定评价，请对追加的份数提供相应的评价数：</p>
+          <div class="mt-10 border-top pt-10 addition-item" v-if="data.itemReviewRequired === 'assign_review_detail'">
+            <p class="mb-10">是否对追加份数添加评价范本（选填）</p>
             <p class="mt-5" v-for="(item, index) in itemReviewList">
               <span class="vtc-sup">{{`评价${index + 1}`}}：</span>
-              <i-input v-model="item.value" class="mb-10" type="textarea" :autosize="{minRows: 1,maxRows: 3}" placeholder="请输入你的评价内容" style="width: 480px;"/>
+              <i-input v-model="item.reviewPictures" class="mb-10 width-300 mt-4" type="textarea" :autosize="{minRows: 2,maxRows: 2}" placeholder="请输入你的评价内容"/>
+              <upload class="inline-block vtc-top ml-10"
+                      :item-index="index"
+                      :on-remove="removeEvaluateImage"
+                      :on-success="evaluateImageSuccess"
+                      :format="['jpg','jpeg','png','gif','bmp']"
+                      :max-size="1024"
+                      :uploadLength="5"
+                      name="task"
+                      :on-format-error="handleFormatError"
+                      :on-exceeded-size="handleMaxSize"
+                      type="drag">
+                <div class="camera">
+                  <icon type="ios-camera" size="20"/>
+                </div>
+              </upload>
+              <i-button :disabled="itemReviewList.length === 1" class="ml-10" type="dashed" icon="plus-round" @click="deleteItemReviewList(index)">删除</i-button>
             </p>
           </div>
         </div>
@@ -72,6 +88,7 @@
   import {Modal, Input, Button, Icon} from 'iview'
   import PayModel from '@/components/PayModel'
   import TimeDown from '@/components/TimeDown'
+  import Upload from '@/components/Upload'
   import api from '@/config/apiConfig'
   import {isInteger, delSpace, debounce} from '@/config/utils'
 
@@ -82,7 +99,10 @@
         currentValue: this.value,
         buttonLoading: false,
         oldAddTaskNumber: null,
-        itemReviewList: [],
+        itemReviewList: [{
+          reviewContent: '',
+          reviewPictures: [],
+        }],
         step: 'create',
         title: '活动追加名额',
         keywordPlanInfo: [],
@@ -98,6 +118,7 @@
       IButton: Button,
       PayModel: PayModel,
       TimeDown: TimeDown,
+      Upload: Upload,
     },
     props: {
       value: {
@@ -278,7 +299,10 @@
         if (!value) {
           this.$emit('input', false);
           this.keywordPlanInfo = [];
-          this.itemReviewList = [];
+          this.itemReviewList = [{
+            reviewContent: '',
+            reviewPictures: [],
+          }];
           this.oldAddTaskNumber = null;
           this.delayDays = null;
           // 关闭弹框时延迟渲染创建活动界面
@@ -418,6 +442,21 @@
             _this.$refs.payModelRef.payLoading = false;
           });
         }
+      },
+      deleteItemReviewList() {
+
+      },
+      removeEvaluateImage() {
+
+      },
+      evaluateImageSuccess() {
+
+      },
+      handleFormatError() {
+
+      },
+      handleMaxSize() {
+
       },
     },
     watch: {
