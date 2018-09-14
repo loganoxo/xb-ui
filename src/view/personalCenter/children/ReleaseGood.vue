@@ -120,7 +120,7 @@
     data() {
       const myValidate = (rule, value, callback) => {
         const [key, msg] = [rule.field, ''];
-        if (key == 'task_count') {
+        if (key == 'taskCount') {
           if (Number(value) < 1) {
             callback('商品份数最小为1');
             return null;
