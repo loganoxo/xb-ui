@@ -156,7 +156,7 @@
 <script>
   import {Icon, Form, Input, Radio, Button, Modal, Select, Option} from 'iview'
   import api from '@/config/apiConfig'
-  import {isNumber, getSeverTime, setStorage, getStorage, removeStorage} from '@/config/utils'
+  import {isNumber, getSeverTime, setStorage, getStorage, removeStorage, verifyChinese} from '@/config/utils'
   import {aliPayUrl, weiXinPayUrl} from '@/config/env'
   import ArtificialRechargeModel from '@/components/ArtificialRechargeModel';
   import TimeDown from '@/components/TimeDown'
@@ -214,6 +214,8 @@
           callback(new Error('请输入持卡人姓名'));
         } else if (value.length > 20) {
           callback(new Error('姓名的字符长度不能超过20'));
+        } else if (!verifyChinese(value)) {
+          callback(new Error('绑定姓名仅支持中文，请输入中文字符'))
         } else {
           callback();
         }
@@ -439,6 +441,10 @@
         }
         if (_this.rechargeApplyInfo.name.length > 20) {
           _this.$Message.info('姓名字符长度不可超过20');
+          return
+        }
+        if (!verifyChinese(_this.rechargeApplyInfo.name)) {
+          _this.$Message.info('绑定姓名仅支持中文，请输入中文字符');
           return
         }
         if (!_this.rechargeApplyInfo.outBank) {
