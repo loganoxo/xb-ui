@@ -65,7 +65,7 @@
         <div class="step-two">
           <i-form ref="form" :model="rechargeApplyInfo" :rules="applyRule">
             <form-item label="转账金额" prop="rechargeFee">
-              <i-input class="width-150 mr-10" v-model="rechargeApplyInfo.rechargeFee" :maxlength="16"></i-input>
+              <i-input class="width-150 mr-10" v-model="rechargeApplyInfo.rechargeFee" :maxlength="16"/>
               <span class="mr-10">元</span>
               <span class="main-color fs-16">当天充值金额请勿重复！</span>
             </form-item>
@@ -77,7 +77,7 @@
               </radio-group>
             </form-item>
             <form-item :label="rechargeApplyInfo.payChannel === 'alipay' ? '支付宝绑定姓名': '转出银行卡持卡人姓名'" prop="name">
-              <i-input v-model="rechargeApplyInfo.name" class="width-150"></i-input>
+              <i-input v-model="rechargeApplyInfo.name" class="width-150"/>
             </form-item>
             <form-item v-if="rechargeApplyInfo.payChannel === 'alipay'" label="转出渠道" prop="outBank">
               <i-select v-model="rechargeApplyInfo.outBank" class="width-pct-39" disabled>
@@ -99,7 +99,7 @@
           <p class="main-color fs-16">注：请勿使用企业支付宝或者公司网银转账，否则不会自动到账！</p>
           <div class="mt-20">
             <i-button class="artificialPaySubmit" :loading="rechargeApplyLoading" @click="applySubmit" :disabled="disabled" :class="{'disabled-btn':disabled}">提交</i-button>
-            <span v-if="showTimeDown" class="submit-limit">请于<time-down :endTime="limitTime" stage="artificialPay" @timeEnd="timeEnd"></time-down>后再提交</span>
+            <span v-if="showTimeDown" class="submit-limit">请于<time-down :endTime="limitTime" format="mm:ss" @timeEnd="timeEnd"/>后再提交</span>
           </div>
         </div>
       </div>
@@ -150,7 +150,7 @@
         <i-button long type="error" @click="isShowPayTip = false">确定</i-button>
       </div>
     </modal>
-    <artificial-recharge-model v-if="showFreePayModel" @colseFreePayModal="showFreePayModel=false"></artificial-recharge-model>
+    <artificial-recharge-model v-if="showFreePayModel" @colseFreePayModal="showFreePayModel=false"/>
   </div>
 </template>
 <script>
@@ -158,7 +158,7 @@
   import api from '@/config/apiConfig'
   import {isNumber, getSeverTime, setStorage, getStorage, removeStorage, verifyChinese} from '@/config/utils'
   import {aliPayUrl, weiXinPayUrl} from '@/config/env'
-  import ArtificialRechargeModel from '@/components/ArtificialRechargeModel';
+  import ArtificialRechargeModel from '@/components/ArtificialRechargeModel'
   import TimeDown from '@/components/TimeDown'
   import commonConfig from '@/config/commonConfig'
 
@@ -174,9 +174,9 @@
       ButtonGroup: Button.Group,
       Icon: Icon,
       Modal: Modal,
-      iSelect:Select,
-      iOption:Option,
-      ArtificialRechargeModel:ArtificialRechargeModel,
+      iSelect: Select,
+      iOption: Option,
+      ArtificialRechargeModel: ArtificialRechargeModel,
       TimeDown: TimeDown
     },
     data() {
@@ -249,7 +249,7 @@
         payPopWindow: false,
         payPopWindowWX: false,
         isShowAliPayTip: false,
-        showFreePayModel:false,
+        showFreePayModel: false,
         status: 'aliPay',
         rechargeApplyInfo: {
           rechargeFee: null,
@@ -259,7 +259,7 @@
           inBank: '浙商银行',
         },
         rechargeApplyLoading: false,
-        inBankList:[
+        inBankList: [
           {
             label: '浙商银行',
             value: '浙商银行'
