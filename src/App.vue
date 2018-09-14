@@ -90,9 +90,11 @@
           }
         });
       }
+      if (this.isLogin) {
+        _this.$store.dispatch('getFlowNumInfo');
+      }
       _this.$store.dispatch('getSysConfigInfo');
       _this.$store.dispatch('getCommodityCategoriesList');
-      _this.$store.dispatch('getFlowNumInfo');
       _this.$store.dispatch('getPlatformData');
     },
     methods: {
