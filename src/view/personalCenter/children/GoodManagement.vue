@@ -1,6 +1,6 @@
 <template>
   <div class="pd-tb-20">
-    <p class="page-title">我的商城管理</p>
+    <p class="page-title">我的商品管理</p>
     <img src="~assets/img/good-release/good-list.png" alt="" class="mt-20 mb-20">
     <div class="list clear">
       <Table stripe :columns="columns" :data="data"></Table>
