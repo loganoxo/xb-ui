@@ -11,9 +11,17 @@
           <span class="bind-store icon-size"></span>
           <router-link to="/user/bind-store/store-bind-rules">店铺绑定</router-link>
         </li>
+        <li :class="{isSelect:isSelect === 'releaseGood'}" class="pos-rel">
+          <span class="icon-size release-good"></span>
+          <router-link to="/user/release-good">发布商品</router-link>
+        </li>
         <li :class="{isSelect:isSelect ==='TaskRelease' || isSelect ==='FastTaskRelease'}">
           <span class="issue-activity icon-size"></span>
           <router-link to="/user/task-release">发布活动</router-link>
+        </li>
+        <li :class="{isSelect:isSelect === 'goodManagement'}" class="pos-rel">
+          <span class="icon-size good-management"></span>
+          <router-link to="/user/good-management">商品管理</router-link>
         </li>
         <li
           :class="{isSelect:isSelect === 'ActivitiesList' || isSelect === 'ApproveShowker' || isSelect === 'ActivityDetail' || isSelect === 'ActivityLog'}">
@@ -70,10 +78,6 @@
         <li :class="{isSelect:isSelect === 'BlackListManagement'}" class="pos-rel">
           <span class="icon-size black-management"></span>
           <router-link to="/user/black-list-management">拿手违规申诉</router-link>
-        </li>
-        <li :class="{isSelect:isSelect === 'releaseGood'}" class="pos-rel">
-          <span class="icon-size black-management"></span>
-          <router-link to="/user/release-good">发布商品</router-link>
         </li>
       </ul>
 
@@ -297,7 +301,16 @@
             background-image: url("~assets/img/userhome-merchant/task-fans-on.png");
           }
         }
-
+        &:hover {
+          .release-good {
+            background-image: url("~assets/img/userhome-merchant/release-good-on.png");
+          }
+        }
+        &:hover {
+          .good-management {
+            background-image: url("~assets/img/userhome-merchant/good-management-on.png");
+          }
+        }
       }
       a {
         color: inherit;
@@ -489,6 +502,26 @@
   .isSelect {
     .black-management {
       background-image: url("~assets/img/userhome-merchant/black-management-off.png");
+    }
+  }
+
+  .release-good {
+    background-image: url("~assets/img/userhome-merchant/release-good-off.png");
+  }
+
+  .isSelect {
+    .release-good {
+      background-image: url("~assets/img/userhome-merchant/release-good-on.png");
+    }
+  }
+
+  .good-management {
+    background-image: url("~assets/img/userhome-merchant/good-management-off.png");
+  }
+
+  .isSelect {
+    .good-management {
+      background-image: url("~assets/img/userhome-merchant/good-management-on.png");
     }
   }
 

@@ -1,53 +1,62 @@
 <template>
-  <div>
+  <div class="pd-tb-20">
+    <p class="page-title">商品流程</p>
+    <img src="~assets/img/good-release/good-release.png" alt="" class="mt-20 mb-20">
     <Form :model="validate" :rules="ruleValidate" :label-width="160" ref="form">
-      <div class="title pl-20">申请商品信息</div>
-      <div class="pd-tb-20 pl-20 pr-20">
+      <div class="title pl-20 border-ddd">申请商品信息</div>
+      <div class="pd-tb-20 pl-20 pr-20 border-ddd">
         <FormItem label="淘宝链接：">
-          <Input placeholder="请输入宝贝链接" v-model="validate.link"  class="width-300" />
+          <Input placeholder="请输入商品链接" v-model="validate.itemUrl"  class="width-300" />
           <span class="pl-60">非必填，填写之后审核通过率更高</span>
         </FormItem>
-        <FormItem label="宝贝试用价格：" prop="price" >
-          <Input placeholder="请输入试用价格" v-model.number="validate.price" class="width-100" />
+        <FormItem label="商品试用价格：" prop="itemFirstPrice" >
+          <Input placeholder="请输入试用价格" v-model.number="validate.itemFirstPrice" class="width-100" />
           <span class="pl-10">元</span>
         </FormItem>
-        <FormItem label="7天内确认满意收货尾款：">
-          <Input placeholder="请输入尾款" v-model.number="validate.weekPayment" class="width-100" />
+        <FormItem label="7天内确认满意收货尾款：" prop="itemDay1Price">
+          <Input placeholder="请输入尾款" v-model.model="validate.itemDay1Price" class="width-100" />
           <span class="pl-10">元</span>
-          <span class="ml-40">宝贝成交总价：</span>
+          <span class="ml-40">商品成交总价：</span>
           <Input  disabled class="width-100 ml-20" v-model.number="weekPriceNumber" />
           <span class="pl-10">元</span>
         </FormItem>
-        <FormItem label="14天内确认满意收货尾款：">
-          <Input placeholder="请输入尾款" class="width-100" v-model.number="validate.monthPayment" />
+        <FormItem label="14天内确认满意收货尾款：" prop="itemDay2Price">
+          <Input placeholder="请输入尾款" class="width-100" v-model.number="validate.itemDay2Price" />
           <span class="pl-10">元</span>
-          <span class="ml-40">宝贝成交总价：</span>
+          <span class="ml-40">商品成交总价：</span>
           <Input disabled class="width-100 ml-20" v-model.number="monthPriceNumber" />
           <span class="pl-10">元</span>
         </FormItem>
-        <FormItem label="是否包邮：" prop="isFreePostage">
-          <Radio v-model="validate.isFreePostage">宝贝包邮，无需修改运费</Radio>
+        <FormItem label="是否包邮：" prop="pinkage">
+          <Radio v-model="validate.pinkage">商品包邮，无需修改运费</Radio>
           <span class="ml-60">商城仅支持包邮</span>
         </FormItem>
       </div>
-      <div class="title pl-20">商品展示信息</div>
-      <div class="pd-tb-20 pl-20 pr-20">
-        <FormItem label="宝贝标题：" prop="title">
-          <Input placeholder="请输入宝贝标题" class="width-300" v-model="validate.title" />
-          <span class="ml-10">名称实例<Icon type="md-help-circle" /></span>
+      <div class="title pl-20 border-ddd mt-20">商品展示信息</div>
+      <div class="pd-tb-20 pl-20 pr-20 border-ddd">
+        <FormItem label="商品标题：" prop="taskName">
+          <Input placeholder="请输入商品标题" class="width-300" v-model="validate.taskName" :maxlength="60" />
+          <span class="ml-10">名称实例<Icon type="md-help-circle" class="color-theme font16" /></span>
           <span class="ml-10 describe">
-            （突出宝贝特点，勿填无关内容，最多支持60个字符，当前已输入<span class="color-theme bold">{{validate.title.length}}</span> / 60个字符）
+            （突出商品特点，勿填无关内容，最多支持60个字符，当前已输入<span class="color-theme bold">{{validate.taskName.length}}</span> / 60个字符）
           </span>
         </FormItem>
-        <FormItem label="宝贝类型：" prop="goodType">
-          <Select v-model="validate.goodType" class="width-200">
-            <Option value="beijing">New York</Option>
-            <Option value="shanghai">London</Option>
-            <Option value="shenzhen">Sydney</Option>
+        <FormItem label="商品类型：" prop="itemType">
+          <Select v-model="validate.itemType" style="width:200px">
+            <template v-for="parentItem in itemCatalogList">
+              <OptionGroup v-if="parentItem.level === 1" :label="parentItem.name" :key="parentItem.id">
+                <template v-for="item in itemCatalogList">
+                  <Option
+                    v-if="item.level === 2 && item.parentItemCatalog && item.parentItemCatalog.id === parentItem.id"
+                    :value="item.id">{{ item.name }}
+                  </Option>
+                </template>
+              </OptionGroup>
+            </template>
           </Select>
         </FormItem>
-        <FormItem label="宝贝主图：" class="label-pt" prop="goodImg">
-          <Input v-model="validate.goodImg" class="hidden" />
+        <FormItem label="商品主图：" class="label-pt" prop="taskMainImage">
+          <Input v-model="validate.taskMainImage" class="hidden" />
           <Upload
             ref="goodUpload"
             :show-upload-list="false"
@@ -63,34 +72,34 @@
             </div>
           </Upload>
           <span class="show-image cursor-p" @click="showGoodImage">【查看示例图】</span>
-          <p class="describe">上传的宝贝主图将在平台上展示，支持jpg、jpeg、gif、png、bmp格式，最佳尺寸400*400（像素），不超过1M</p>
-          <p class="color-theme">主图要求：白底背景，主图必须清晰，必须是所送的商品，且不能出现图片拼接、水印、logo及其它文字</p>
+          <p class="describe line16">上传的商品主图将在平台上展示，支持jpg、jpeg、gif、png、bmp格式，最佳尺寸<span class="color-theme">400*400</span>（像素），不超过<span class="color-theme">1M</span></p>
+          <p class="color-theme line16">主图要求：白底背景，主图必须清晰，必须是所送的商品，且不能出现图片拼接、水印、logo及其它文字</p>
         </FormItem>
 
-        <FormItem label="活动份数：" prop="activityNumber">
-          <Input placeholder="请输入活动份数" v-model.number="validate.activityNumber" class="width-120"/>
-          <span>份，需缴纳物流保险金</span>
-          <Input disabled class="width-120" v-model.number="insuranceMoneyNumber"/>
-          <span>元，保险金<span class="color-theme">50</span>元/份，用于因产品问题导致的退货物流补偿买家，余额退还到商家账户。</span>
+        <FormItem label="商品份数：" prop="taskCount">
+          <Input placeholder="请输入商品份数" v-model.number="validate.taskCount" class="width-120"/>
+          <!--<span>份，需缴纳物流保险金</span>-->
+          <!--<Input disabled class="width-120" v-model.number="insuranceMoneyNumber"/>-->
+          <!--<span>元，保险金<span class="color-theme">50</span>元/份，用于因产品问题导致的退货物流补偿买家，余额退还到商家账户。</span>-->
         </FormItem>
-        <FormItem label="保险金的使用规则：" prop="insuranceRule">
-          <CheckboxGroup v-model="validate.insuranceRule">
-            <Checkbox label="Eat">产品问题，退货物流费用</Checkbox>
-            <Checkbox label="Sleep" class="ml-40">7天内无理由退货，退货物流费用</Checkbox>
-          </CheckboxGroup>
-        </FormItem>
-        <FormItem label="商品简介：" prop="describe">
+        <!--<FormItem label="保险金的使用规则：" prop="insuranceRule">-->
+          <!--<CheckboxGroup v-model="validate.insuranceRule">-->
+            <!--<Checkbox label="Eat">产品问题，退货物流费用</Checkbox>-->
+            <!--<Checkbox label="Sleep" class="ml-40">7天内无理由退货，退货物流费用</Checkbox>-->
+          <!--</CheckboxGroup>-->
+        <!--</FormItem>-->
+        <FormItem label="商品简介：" prop="taskDetail">
           <quill-editor ref="myTextEditorFree"
             class="inline-block editor"
-            v-model="validate.describe"
+            v-model="validate.taskDetail"
             :options="editorOption"
           >
           </quill-editor>
         </FormItem>
       </div>
     </Form>
-    <div class="text-ct">
-      <Button class="width-300 mt-20" size="large" type="primary" @click="handleSubmit">提交</Button>
+    <div class="text-ct submit border-ddd mt-20">
+      <Button class="width-300 submit-btn" size="large" type="primary" :loading="loading" @click="handleSubmit">提交</Button>
     </div>
     <!--示例图查看-->
     <Modal title="示例图片查看" v-model="isShowGoodImageModel">
@@ -100,66 +109,78 @@
 </template>
 
 <script>
-  import { Form, FormItem, Input, RadioGroup, Radio, CheckboxGroup, Checkbox, Icon, Select, Option, Modal, Button } from 'iview';
+  import { Form, FormItem, Input, RadioGroup, Radio, CheckboxGroup, Checkbox, Icon, Select, OptionGroup, Option, Modal, Button } from 'iview';
   import Upload from '@/components/Upload';
   import { quillEditor } from 'vue-quill-editor';
   import { aliCallbackImgUrl } from '@/config/env';
+  import api from '@/config/apiConfig';
+  import { getStorage, setStorage } from "@/config/utils";
   export default {
     name: "ReleaseGood",
     data() {
+      const myValidate = (rule, value, callback) => {
+        const [key, msg] = [rule.field, ''];
+        if (key == 'task_count') {
+          if (Number(value) < 1) {
+            callback('商品份数最小为1');
+            return null;
+          }
+        }
+        if (!Number(value) || Number(value) < 0) {
+          callback('该选项必须为不能小于0的数字');
+          return null;
+        }
+        callback();
+
+      }
       return {
+        loading: false,
         isShowGoodImageModel: false,
         goodDefaultList: [],
+        itemCatalogList: [],
         validate: {
-          link: '',
-          price: null,
-          weekPayment: null,
-          weekPrice: null,
-          monthPrice: null,
-          monthPayment: null,
-          isFreePostage: true,
-          title: '',
-          goodType: 'beijing',
-          goodImg: '',
-          activityNumber: null,
-          insuranceMoney: null,
-          insuranceRule: [],
-          describe: ''
+          itemUrl: '',
+          itemFirstPrice: null,
+          itemDay1Price: null,
+          itemDay2Price: null,
+          pinkage: true,
+          taskName: '',
+          itemType: null,
+          taskMainImage: '',
+          taskCount: null,
+          taskDetail: ''
         },
         ruleValidate: {
-          price: [
-            { required: true, type: 'number', message: '试用价格必须大于0', trigger: 'blur' }
+          itemFirstPrice: [
+            { required: true, trigger: 'blur', validator: myValidate  }
           ],
-          weekPayment: [
-            { required: false, type: 'number', message: '尾款必须为数字', trigger: 'blur' }
+          itemDay1Price: [
+            { required: false, trigger: 'blur', validator: myValidate }
           ],
-          monthPayment: [
-            { required: false, type: 'number', message: '尾款必须为数字', trigger: 'blur' }
+          itemDay2Price: [
+            { required: false, trigger: 'blur', validator: myValidate }
           ],
-          isFreePostage: [
+          pinkage: [
             { required: true, type: 'boolean', message: '请选择是否包邮', trigger: 'change' }
           ],
-          title: [
-            { required: true, type: 'string', message: '请输入宝贝标题', trigger: 'blur' }
+          taskName: [
+            { required: true, type: 'string', message: '请输入商品标题', trigger: 'blur' }
           ],
-          goodType: [
-            { required: true, type: 'string', message: '请选择宝贝类型', trigger: 'change' }
+          itemType: [
+            { required: true, type: 'number', message: '请选择商品类型', trigger: 'change' }
           ],
-          goodImg: [
-            { required: true, type: 'string', message: '请上传宝贝主图', trigger: 'change' }
+          taskMainImage: [
+            { required: true, type: 'string', message: '请上传商品主图', trigger: 'change' }
           ],
-          activityNumber: [
-            { required: true, type: 'number', message: '宝贝份数必须大于0', trigger: 'change' }
+          taskCount: [
+            { required: true,  trigger: 'blur', validator: myValidate }
           ],
-          insuranceRule: [
-            { required: true, type: 'array', message: '保险金的试用规则不能为空', trigger: 'change' }
-          ],
-          describe: [
-            { required: true, type: 'string', message: '请填写商品简介', trigger: 'change' }
+          taskDetail: [
+            { required: true, type: 'string', message: '请填写商品简介', trigger: 'blur' }
           ]
         },
         editorOption: {
-          placeholder: "请输入宝贝相关介绍",
+          placeholder: "请输入商品相关介绍",
           modules: {
             toolbar: [
               ['bold', 'italic', 'underline', 'strike'],
@@ -175,25 +196,22 @@
     },
     computed: {
       priceNumber() {
-        return Number(this.validate.price);
+        return Number(this.validate.itemFirstPrice) || 0;
       },
       weekPaymentNumber() {
-        return Number(this.validate.weekPayment);
+        return Number(this.validate.itemDay1Price) || 0;
       },
       weekPriceNumber() {
         return this.priceNumber + this.weekPaymentNumber;
       },
       monthPaymentNumber() {
-        return Number(this.validate.monthPayment);
+        return Number(this.validate.itemDay2Price) || 0;
       },
       monthPriceNumber() {
         return this.priceNumber + this.monthPaymentNumber;
       },
       activityNum() {
-        return Math.floor(Number(this.validate.activityNumber));
-      },
-      insuranceMoneyNumber() {
-        return this.activityNum * 50;
+        return Math.floor(Number(this.validate.taskCount));
       }
     },
     components: {
@@ -207,17 +225,34 @@
       Upload,
       Icon,
       Select,
+      OptionGroup,
       Option,
       Modal,
       Button,
       QuillEditor: quillEditor
     },
     methods: {
+      getItemCatalog() {
+        const _this = this;
+        const itemCatalog = getStorage('itemCatalog');
+        if (!itemCatalog) {
+          api.itemCatalog().then(res => {
+            if (res.status) {
+              _this.itemCatalogList = res.data;
+              setStorage('itemCatalog', _this.itemCatalogList);
+            } else {
+              _this.$Message.error(res.msg);
+            }
+          })
+        } else {
+          _this.itemCatalogList = itemCatalog;
+        }
+      },
       goodHandleSuccess(res) {
-        this.validate.goodImg = aliCallbackImgUrl + res.name;
+        this.validate.taskMainImage = aliCallbackImgUrl + res.name;
       },
       removeGoodImage() {
-        this.validate.goodImg = null;
+        this.validate.taskMainImage = null;
       },
       showGoodImage() {
         this.isShowGoodImageModel = true;
@@ -227,22 +262,36 @@
           if (valid) {
             this.submit();
           } else {
-            this.$Message.error("请填写完整，带 '*' 为必选项!");
+            this.$Message.error("请正确填写完整，带 * 为必选项");
           }
         })
       },
       submit() {
         const data = Object.assign(this.validate, {
-          price: this.priceNumber,
-          weekPayment: this.weekPaymentNumber,
-          weekPrice: this.weekPriceNumber,
-          monthPayment: this.monthPaymentNumber,
-          monthPrice: this.monthPriceNumber,
-          activityNumber: this.activityNum,
-          insuranceMoney: this.insuranceMoneyNumber
+          itemFirstPrice: this.priceNumber * 100,
+          itemDay1Price: this.weekPaymentNumber * 100,
+          itemDay2Price: this.monthPaymentNumber * 100,
+          taskCount: this.activityNum
         });
-        console.log(data)
+        this.loading = true;
+        api.saveTryBeforeBuy(data).then(res => {
+          if (res.status) {
+            this.loading = false;
+            this.$router.push('/user/good-management');
+          } else {
+            this.$Message.error(res.msg);
+            this.loading = false;
+          }
+        });
       }
+    },
+    created() {
+      this.getItemCatalog();
+      api.saveSellerAccesslog().then(res => {
+        if (!res.status) {
+          this.$Message.error(res.msg);
+        }
+      })
     }
   }
 </script>
@@ -259,10 +308,16 @@
     color: #f9284f !important;
   }
   .describe {
-    color: #a7a4c6;
+    color: #91A2BD;
+  }
+  .font16 {
+    font-size: 16px;
   }
   .hidden {
     display: none;
+  }
+  .line16 {
+    line-height: 16px;
   }
   .editor {
     width: 760px;
@@ -281,6 +336,18 @@
     position: relative;
     top: -25px;
     left: 10px;
+  }
+  .page-title {
+    color: #fd6b22;
+    font-size: 20px;
+    font-weight: bold;
+  }
+  .submit {
+    background: #f5f5f5;
+    padding: 25px 0;
+  }
+  .submit-btn {
+    box-shadow: 0 2px 8px #666;
   }
 
 </style>

@@ -1317,4 +1317,25 @@ export default {
   setAuditStatus(params) {
     return axiosConfig.post('/api/set-audit-status.json', params)
   },
+
+  /***
+   * 进入发布商品页面的商家记录
+   */
+  saveSellerAccesslog() {
+    return axiosConfig.get('/api/user/saveSellerAccesslog.json')
+  },
+
+  /***
+   * 发布商品
+   */
+  saveTryBeforeBuy(params) {
+    return axiosConfig.post('/api/task/mall/save-try-before-buy.json', params)
+  },
+
+  /***
+   * 获取用户发布的商品
+   */
+  getGoodList(params) {
+    return axiosConfig.get('/api/task-mall-list.json', params)
+  }
 }
