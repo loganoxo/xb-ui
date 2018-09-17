@@ -54,7 +54,7 @@
             </p>
           </div>
           <icon :class="{'show-table-styles' : selectId === item.id}" class="right mt-20 mr-5" size="20" type="md-arrow-dropright"/>
-          <div class="right ml-300">
+          <div class="right">
             <div class="waiting-task-number-wait">
               <p class="task-wait-fail">新增待审批<span>{{item.newestTaskApplyCount || 0}}</span>人</p>
               <p class="task-wait-fail">共有待审批<span>{{item.totalTaskApplyCount || 0}}</span>人</p>
@@ -563,7 +563,6 @@
         this.appliesWaitingAuditTask();
       },
       checkShowkerApply(taskId, showkerId, taskApplyId, applySuccessCount7Days) {
-        console.log(applySuccessCount7Days)
         const _this = this;
         _this.taskApplyId = taskApplyId;
         if (applySuccessCount7Days >= _this.showkerApplySuccessCount7Limit * 1) {

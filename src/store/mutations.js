@@ -19,6 +19,7 @@ export default {
     state.userInfo = info;
     state.login = true;
     let userInfo = getStorage("userInfo");
+
     if (userInfo) {
       removeStorage("userInfo");
     }

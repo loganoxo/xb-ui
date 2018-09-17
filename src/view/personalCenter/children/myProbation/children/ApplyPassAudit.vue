@@ -210,25 +210,16 @@
       <div class="precautions-tip-info mt-20"
            v-if="showkerTask.task && showkerTask.task.itemReviewRequired === 'assign_review_detail'">
         <icon type="information-circled" color="#FF0100"/>
-        <span class="sizeColor3">注意：</span>
-        <span>商家要求</span>
-        <span class="sizeColor3">在淘宝</span>
-        <span>使用下方提供的内容进行评价，为避免纠纷，</span>
-        <span class="sizeColor3">请务必按照要求操作！</span>
+        <span>商家对</span>
+        <span class="sizeColor3">评价有指定内容</span>
+        <span>完成下单后将为你显示评价，为避免纠纷，</span>
+        <span class="sizeColor3">请务必按要求评价！</span>
       </div>
       <!--活动截图上传-->
       <activity-screenshots-upload v-if="showActivityScreenshotsUpload" @sendImageData="getImageData" :orderInfo="showkerOrder"/>
-      <div class="evaluation-content-tip-assign mt-10" v-if="showkerTask.task && showkerTask.task.itemReviewRequired === 'assign_review_detail'">
-        <div>{{showkerTask.other.itemReviewAssign.reviewContent}}</div>
-        <button class="copy-evaluation-tbn mt-10 copy-btn"
-                :data-clipboard-text="showkerTask.other.itemReviewAssign.reviewContent">复制评价内容
-        </button>
-      </div>
       <div class="write-order-number mt-20">
         <span v-if="showkerOrder.status === 'pass_and_unclaimed' || showkerOrder.status === 'waiting_add_to_cart'"
               @click="openAuditOrder(null,orderType, null, showkerTask.status, showkerTask.statusDesc, showkerTask.latestShowkerTaskOpLog.auditDescription)">下单完成，填订单号</span>
-        <!--<span v-if="showkerOrder.status === 'order_num_error'"-->
-        <!--@click="openAuditOrderModify(item.id, item.taskType, item.activityCategory, item.orderNum, item.orderPrice, item.status, item.statusDesc, item.auditDescription)">重新提交</span>-->
         <span v-if="showkerOrder.status === 'order_num_error'"
               @click="openAuditOrderModify(showkerTask.id, taskPlaceInfo.taskType, taskPlaceInfo.activityCategory, showkerOrder.orderNum, showkerOrder.orderPrice, showkerTask.status, showkerTask.statusDesc, showkerOrder.auditDescription)">重新提交</span>
         <span class="ml-35" @click="returnUpPage">返回上页</span>
@@ -307,12 +298,19 @@
         <span>使用下方提供的内容进行评价，为避免纠纷，</span>
         <span class="sizeColor3">请务必按照要求操作！</span>
       </div>
-      <div class="evaluation-content-tip-assign mt-10"
-           v-if="showkerTask.task.itemReviewRequired === 'assign_review_detail'">
-        <div>{{showkerTask.other.itemReviewAssign.reviewContent}}</div>
-        <button class="copy-evaluation-tbn mt-10 copy-btn" @click="copyEvaluate"
-                :data-clipboard-text="showkerTask.other.itemReviewAssign.reviewContent">复制评价内容
-        </button>
+      <div class="mt-10" v-if="showkerTask.task.itemReviewRequired === 'assign_review_detail'">
+        <div>图片内容（共需晒图{{JSON.parse(showkerTask.other.itemReviewAssign.reviewPictures).length}}张）</div>
+        <div class="clear mt-10">
+          <div class="mr-10 left mr-10" v-for="(item, index) in JSON.parse(showkerTask.other.itemReviewAssign.reviewPictures)" :key="index">
+            <img class="block border-radius-5" :src="item" alt="评价晒图" width="54" height="54">
+            <a class="block mt-10" :href="item" target="_blank">打开晒图</a>
+          </div>
+        </div>
+        <div class="mt-22">文字内容（请复制以下文字内容去淘宝评价）</div>
+        <div class="evaluation-content-tip-assign border-radius-5 mt-10">
+          <div class="mt-10">{{showkerTask.other.itemReviewAssign.reviewContent}}</div>
+          <button class="copy-evaluation-tbn mt-10 copy-btn" @click="copyEvaluate" :data-clipboard-text="showkerTask.other.itemReviewAssign.reviewContent">复制评价内容</button>
+        </div>
       </div>
       <div class="mt-20 pos-rel">
         <p class="fs-14"><span class="des-text">1.淘宝评价截图</span><span class="cl666">（商家返款凭证，必传）</span></p>
