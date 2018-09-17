@@ -158,7 +158,7 @@
                       <span @click="getShowkerReportInfo(item.id,item.alitmAccount)">评价拿手</span>
                     </p>
                     <span class="check-report" v-if="item.status === 'trial_finished' && item.ifEvaluated"  @click="toShowkerReport(item.showkerId,item.id)">查看平台买家秀</span>
-                    <span v-else>------</span>
+                    <span v-if="item.status === 'trial_finished'">------</span>
                     <span class="cursor-p blue" v-if="(item.status === 'pass_and_unclaimed' || item.status === 'order_num_waiting_audit' || item.status === 'trial_report_waiting_confirm' || item.status === 'trial_report_waiting_submit') && item.reviewContent" @click="lookAtTemplate(item.reviewContent, item.reviewPictures)">查看评价范本</span>
                     <span v-else>------</span>
                   </div>
@@ -294,7 +294,7 @@
         <span>评价内容：</span>
         <i-input v-model="itemReviewAssign.reviewContent" readonly class="width-400" type="textarea" :autosize="{minRows: 3, maxRows: 4}"></i-input>
       </div>
-      <div class="mt-20" v-show="itemReviewAssign.reviewPictures.length > 0">
+      <div class="mt-20">
         <span>评价晒图：</span>
         <img v-for="(item, index) in itemReviewAssign.reviewPictures" :key="index" class="border-radius-5 vtc-mid mr-10 border-ddd" :src="item" alt="评价范本图片" width="54" height="54">
       </div>
