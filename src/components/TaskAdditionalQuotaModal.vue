@@ -31,30 +31,30 @@
             <i-input v-model.number="item.addTaskNumber" placeholder="请输入追加份数" class="width-100"/>
             <span class="ml-10 cl000 fs-14" v-if="item.title">为{{` "${item.title}" `}}追加的份数</span>
           </div>
-          <div class="mt-10 border-top pt-10 addition-item" v-if="data.itemReviewRequired === 'assign_review_detail'">
-            <p class="mb-10">是否对追加份数添加评价范本（选填）</p>
-            <p class="mt-5" v-for="(item, index) in itemReviewList">
-              <span class="vtc-sup">{{`评价${index + 1}`}}：</span>
-              <i-input v-model="item.reviewContent" class="mb-10 width-300 mt-4" type="textarea" :autosize="{minRows: 2,maxRows: 2}" placeholder="请输入你的评价内容"/>
-              <upload class="inline-block vtc-top ml-10"
-                      :item-index="index"
-                      :on-remove="removeEvaluateImage"
-                      :on-success="evaluateImageSuccess"
-                      :format="['jpg','jpeg','png','gif','bmp']"
-                      :max-size="1024"
-                      :uploadLength="5"
-                      name="task"
-                      :on-format-error="handleFormatError"
-                      :on-exceeded-size="handleMaxSize"
-                      type="drag">
-                <div class="camera">
-                  <icon type="ios-camera" size="20"/>
-                </div>
-              </upload>
-              <i-button :disabled="itemReviewList.length === 1" type="dashed" icon="plus-round" @click="deleteItemReviewList(index)">删除</i-button>
-            </p>
-            <i-button :disabled="itemReviewList.length === item.addTaskNumber || !item.addTaskNumber" class="ml-45 mt-6 mb-5" type="dashed" icon="plus-round" @click="addItemReviewList">添加</i-button>
-          </div>
+        </div>
+        <div class="mt-10 border-top pt-10 addition-item" v-if="data.itemReviewRequired === 'assign_review_detail'">
+          <p class="mb-10">是否对追加份数添加评价范本（选填）</p>
+          <p class="mt-5" v-for="(item, index) in itemReviewList">
+            <span class="vtc-sup">{{`评价${index + 1}`}}：</span>
+            <i-input v-model="item.reviewContent" class="mb-10 width-300 mt-4" type="textarea" :autosize="{minRows: 2,maxRows: 2}" placeholder="请输入你的评价内容"/>
+            <upload class="inline-block vtc-top ml-10"
+                    :item-index="index"
+                    :on-remove="removeEvaluateImage"
+                    :on-success="evaluateImageSuccess"
+                    :format="['jpg','jpeg','png','gif','bmp']"
+                    :max-size="1024"
+                    :uploadLength="5"
+                    name="task"
+                    :on-format-error="handleFormatError"
+                    :on-exceeded-size="handleMaxSize"
+                    type="drag">
+              <div class="camera">
+                <icon type="ios-camera" size="20"/>
+              </div>
+            </upload>
+            <i-button :disabled="itemReviewList.length === 1" type="dashed" icon="plus-round" @click="deleteItemReviewList(index)">删除</i-button>
+          </p>
+          <i-button :disabled="itemReviewList.length === allAddTaskNumber || allAddTaskNumber === 0" class="ml-45 mt-6 mb-5" type="dashed" icon="plus-round" @click="addItemReviewList">添加</i-button>
         </div>
       </div>
       <div class="mt-10 border-top pt-10">
@@ -409,8 +409,8 @@
                 payPwd: pwd,
                 taskId: _this.data.taskId,
                 additionCount: _this.allAddTaskNumber,
-                additionItemReview: JSON.stringify(itemReviewPushList),
-                additionSearchScheme: JSON.stringify(_this.itemReviewList),
+                additionSearchScheme: JSON.stringify(additionSearchScheme),
+                additionItemReview: JSON.stringify(_this.itemReviewList),
               }).then(res => {
                 if (res.status) {
                   _this.keywordPlanInfo = [];
