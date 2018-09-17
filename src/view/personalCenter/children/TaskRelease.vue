@@ -66,11 +66,11 @@
         <div class="left activity-type-box mr-10" :class="{isSelect:taskRelease.activityCategory === 'present_get'}" @click="changeSelectActivity('present_get')">
           <p class="mt-22">模版B</p>
         </div>
-        <div class="left activity-type-box mr-10" @click="toTaskFans">
-          <p>微信加粉</p>
-          <p>尾货/试用商品/赠品</p>
-          <p>均可兑换高质量粉丝</p>
-        </div>
+        <!--<div class="left activity-type-box mr-10" @click="toTaskFans">-->
+          <!--<p>微信加粉</p>-->
+          <!--<p>尾货/试用商品/赠品</p>-->
+          <!--<p>均可兑换高质量粉丝</p>-->
+        <!--</div>-->
       </div>
     </div>
     <div class="activity-con mt-20">
