@@ -3156,16 +3156,26 @@
               _this.taskRelease.onlyShowForQualification = false;
             }
 
+            // 参考范本评论复制、编辑
             let itemReviewAssignsData = res.data.itemReviewAssigns;
-            if (itemReviewAssignsData) {
-              _this.defaultItemReviewImages = [];
-              itemReviewAssignsData.forEach(item => {
-                _this.defaultItemReviewImages = item.reviewPictures.map(childItem => {
-                  return [].push({
-                    src: childItem
+            if (itemReviewAssignsData.length > 0) {
+              const _itemReviewList = [];
+              const _defaultItemReviewImages = [];
+              itemReviewAssignsData.forEach((item, index) => {
+                const _reviewPictures = JSON.parse(item.reviewPictures);
+                _itemReviewList.push({
+                  reviewPictures: JSON.parse(item.reviewPictures),
+                  reviewContent: item.reviewContent
+                });
+                _defaultItemReviewImages[index] = [];
+                _reviewPictures.forEach(key => {
+                  _defaultItemReviewImages[index].push({
+                    src: key
                   })
                 })
-              })
+              });
+              _this.itemReviewList = _itemReviewList;
+              _this.defaultItemReviewImages = _defaultItemReviewImages;
             }
             _this.taskRelease.presentPrice = _this.taskRelease.presentPrice / 100;
             _this.taskRelease.itemPrice = _this.taskRelease.itemPrice / 100;
@@ -3474,10 +3484,10 @@
       },
       removeEvaluateImage(file, itemIndex) {
         const _reviewPictures = this.itemReviewList[itemIndex].reviewPictures;
-        const index = _reviewPictures.findIndex(item => {
+        const _index = _reviewPictures.findIndex(item => {
           return item === file.src;
         });
-        _reviewPictures.splice(index, 1);
+        _reviewPictures.splice(_index, 1);
       },
       evaluateImageSuccess(res, index) {
         this.itemReviewList[index].reviewPictures.push(`${aliCallbackImgUrl}${res.name}`);

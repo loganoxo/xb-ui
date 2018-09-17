@@ -563,7 +563,6 @@
         this.appliesWaitingAuditTask();
       },
       checkShowkerApply(taskId, showkerId, taskApplyId, applySuccessCount7Days) {
-        console.log(applySuccessCount7Days)
         const _this = this;
         _this.taskApplyId = taskApplyId;
         if (applySuccessCount7Days >= _this.showkerApplySuccessCount7Limit * 1) {

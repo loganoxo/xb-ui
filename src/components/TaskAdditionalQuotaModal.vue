@@ -1,5 +1,5 @@
 <template>
-  <modal :value="currentValue" :title="title" width="760" :mask-closable="false" @on-visible-change="change">
+  <modal :value="currentValue" :title="title" :width="modalWidth" :mask-closable="false" @on-visible-change="change">
     <template v-if="step === 'create'">
       <div class="clear">
         <div class="left">
@@ -35,7 +35,7 @@
             <p class="mb-10">是否对追加份数添加评价范本（选填）</p>
             <p class="mt-5" v-for="(item, index) in itemReviewList">
               <span class="vtc-sup">{{`评价${index + 1}`}}：</span>
-              <i-input v-model="item.reviewPictures" class="mb-10 width-300 mt-4" type="textarea" :autosize="{minRows: 2,maxRows: 2}" placeholder="请输入你的评价内容"/>
+              <i-input v-model="item.reviewContent" class="mb-10 width-300 mt-4" type="textarea" :autosize="{minRows: 2,maxRows: 2}" placeholder="请输入你的评价内容"/>
               <upload class="inline-block vtc-top ml-10"
                       :item-index="index"
                       :on-remove="removeEvaluateImage"
@@ -51,8 +51,9 @@
                   <icon type="ios-camera" size="20"/>
                 </div>
               </upload>
-              <i-button :disabled="itemReviewList.length === 1" class="ml-10" type="dashed" icon="plus-round" @click="deleteItemReviewList(index)">删除</i-button>
+              <i-button :disabled="itemReviewList.length === 1" type="dashed" icon="plus-round" @click="deleteItemReviewList(index)">删除</i-button>
             </p>
+            <i-button :disabled="itemReviewList.length === item.addTaskNumber || !item.addTaskNumber" class="ml-45 mt-6 mb-5" type="dashed" icon="plus-round" @click="addItemReviewList">添加</i-button>
           </div>
         </div>
       </div>
@@ -80,6 +81,7 @@
           <span class="ml-5">您本次需要支付金额为 <span class="sizeColor3">{{(needPayMoneyAfterAsRedEnvelopes / 100).toFixed(2)}}</span> 元。</span>
         </div>
       </pay-model>
+      <div slot="footer"></div>
     </template>
   </modal>
 </template>
@@ -91,6 +93,7 @@
   import Upload from '@/components/Upload'
   import api from '@/config/apiConfig'
   import {isInteger, delSpace, debounce} from '@/config/utils'
+  import {aliCallbackImgUrl} from '@/config/env'
 
   export default {
     name: "task-additional-quota-modal",
@@ -98,6 +101,7 @@
       return {
         currentValue: this.value,
         buttonLoading: false,
+        modalWidth: 800,
         oldAddTaskNumber: null,
         itemReviewList: [{
           reviewContent: '',
@@ -307,7 +311,8 @@
           this.delayDays = null;
           // 关闭弹框时延迟渲染创建活动界面
           setTimeout(() => {
-            this.step = 'create'
+            this.step = 'create';
+            this.modalWidth = 800;
           }, 200);
         }
       },
@@ -331,7 +336,7 @@
             return;
           }
         }
-        if (this.data.itemReviewRequired === 'assign_review_detail') {
+   /*     if (this.data.itemReviewRequired === 'assign_review_detail') {
           for (let l = 0, len = this.itemReviewList.length; l < len; l++) {
             if (!this.itemReviewList[l].value || !delSpace(this.itemReviewList[l].value)) {
               // 当用户输入连续空格的时候自动将空格去除
@@ -341,7 +346,7 @@
               break;
             }
           }
-        }
+        }*/
         if (this.delayDays && !isInteger(this.delayDays)){
           this.$Message.warning(`亲，延期天数必须为正整数数字！`);
           return;
@@ -353,6 +358,7 @@
         if (isItemReviewOk) {
           this.title = '支付充值活动费用';
           this.step = 'pay';
+          this.modalWidth = 600;
         }
       },
       addTaskNumberChange() {
@@ -383,15 +389,14 @@
       },
       confirmPayment(pwd) {
         const _this = this;
-        const itemReviewPushList = [];
-        const additionSearchScheme = [];
+       /* const itemReviewPushList = [];
         if (_this.itemReviewList.length > 0) {
           _this.itemReviewList.forEach(item => {
             itemReviewPushList.push(delSpace(item.value));
           })
-        }
-        _this.keywordPlanInfo.forEach(item => {
-          additionSearchScheme.push(item.addTaskNumber > 0 ? item.addTaskNumber : 0)
+        }*/
+        const additionSearchScheme = _this.keywordPlanInfo.map(item => {
+          return item.addTaskNumber > 0 ? item.addTaskNumber : 0;
         });
         if (_this.delayDays) {
           api.autoAuditTime({
@@ -405,11 +410,14 @@
                 taskId: _this.data.taskId,
                 additionCount: _this.allAddTaskNumber,
                 additionItemReview: JSON.stringify(itemReviewPushList),
-                additionSearchScheme: JSON.stringify(additionSearchScheme),
+                additionSearchScheme: JSON.stringify(_this.itemReviewList),
               }).then(res => {
                 if (res.status) {
                   _this.keywordPlanInfo = [];
-                  _this.itemReviewList = [];
+                  _this.itemReviewList = [{
+                    reviewContent: '',
+                    reviewPictures: [],
+                  }];
                   _this.$emit('addTaskSuccess');
                   _this.$emit('input', false);
                   _this.$Message.success("追加延期时间和份数成功！");
@@ -427,12 +435,15 @@
             payPwd: pwd,
             taskId: _this.data.taskId,
             additionCount: _this.allAddTaskNumber,
-            additionItemReview: JSON.stringify(itemReviewPushList),
+            additionItemReview: JSON.stringify(_this.itemReviewList),
             additionSearchScheme: JSON.stringify(additionSearchScheme),
           }).then(res => {
             if (res.status) {
               _this.keywordPlanInfo = [];
-              _this.itemReviewList = [];
+              _this.itemReviewList = [{
+                reviewContent: '',
+                reviewPictures: [],
+              }];
               _this.$Message.success("追加份数成功！");
               _this.$emit('addTaskSuccess');
               _this.$emit('input', false);
@@ -443,20 +454,33 @@
           });
         }
       },
-      deleteItemReviewList() {
-
+      addItemReviewList() {
+        this.itemReviewList.push({reviewContent: '', reviewPictures: []});
       },
-      removeEvaluateImage() {
-
+      deleteItemReviewList(index) {
+        this.itemReviewList.splice(index, 1);
       },
-      evaluateImageSuccess() {
-
+      removeEvaluateImage(file, itemIndex) {
+        const _reviewPictures = this.itemReviewList[itemIndex].reviewPictures;
+        const _index = _reviewPictures.findIndex(item => {
+          return item === file.src;
+        });
+        _reviewPictures.splice(_index, 1);
       },
-      handleFormatError() {
-
+      evaluateImageSuccess(res, index) {
+        this.itemReviewList[index].reviewPictures.push(`${aliCallbackImgUrl}${res.name}`);
       },
-      handleMaxSize() {
-
+      handleFormatError(file) {
+        this.$Modal.warning({
+          title: '文件格式不正确',
+          content: '图片 ' + file.name + ' 格式不正确，请上传 jpg 或 jpeg 或 gif 或 bmp 格式的图片。'
+        });
+      },
+      handleMaxSize(file) {
+        this.$Modal.warning({
+          title: '超出文件大小限制',
+          content: '图片 ' + file.name + ' 太大，不能超过 1M'
+        });
       },
     },
     watch: {

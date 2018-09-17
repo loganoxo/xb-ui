@@ -1,7 +1,7 @@
 /**
  * Created by ycb on 2017/7/25.
  */
-import  axios from 'axios'
+import axios from 'axios'
 import qs from 'qs'
 import router from '@/router'
 import store from '@/store'
@@ -9,6 +9,7 @@ import {LoadingBar} from 'iview'
 
 axios.defaults.timeout = 100000;//配置请求响应时间
 axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded;charset=UTF-8';//配置post请求头类型
+// axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
 
 //POST传参序列化(添加请求拦截器)
 axios.interceptors.request.use(config => {
