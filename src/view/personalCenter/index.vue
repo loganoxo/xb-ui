@@ -11,16 +11,7 @@
           <span class="bind-store icon-size"></span>
           <router-link to="/user/bind-store/store-bind-rules">店铺绑定</router-link>
         </li>
-        <li :class="{isSelect:isSelect === 'releaseGood'}" class="pos-rel">
-          <span class="icon-size release-good"></span>
-          <img src="~assets/img/icon/new.png" alt="" class="new-task">
-          <router-link to="/user/release-good">发布商品</router-link>
-        </li>
-        <li :class="{isSelect:isSelect === 'goodManagement'}" class="pos-rel">
-          <span class="icon-size good-management"></span>
-          <img src="~assets/img/icon/new.png" alt="" class="new-task">
-          <router-link to="/user/good-management">商品管理</router-link>
-        </li>
+
         <li :class="{isSelect:isSelect ==='TaskRelease' || isSelect ==='FastTaskRelease'}">
           <span class="issue-activity icon-size"></span>
           <router-link to="/user/task-release">发布活动</router-link>
@@ -34,6 +25,16 @@
           :class="{isSelect:isSelect === 'TaskWaitAudit' || isSelect === 'TaskPassAudit' || isSelect === 'TaskFailAudit' || isSelect === 'ProbationReport'}">
           <span class="task-management-nav icon-size"></span>
           <router-link to="/user/task-management/wait">任务管理</router-link>
+        </li>
+        <li :class="{isSelect:isSelect === 'releaseGood'}" class="pos-rel">
+          <span class="icon-size release-good"></span>
+          <img src="~assets/img/icon/new.png" alt="" class="new-task">
+          <router-link to="/user/release-good">发布商品</router-link>
+        </li>
+        <li :class="{isSelect:isSelect === 'goodManagement'}" class="pos-rel">
+          <span class="icon-size good-management"></span>
+          <img src="~assets/img/icon/new.png" alt="" class="new-task">
+          <router-link to="/user/good-management">商品管理</router-link>
         </li>
         <!--<li :class="{isSelect:isSelect ==='TaskFans'}" class="pos-rel">-->
           <!--<span class="task-fans icon-size"></span>-->
