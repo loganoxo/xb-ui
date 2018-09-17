@@ -88,12 +88,16 @@
           <!--</CheckboxGroup>-->
         <!--</FormItem>-->
         <FormItem label="商品简介：" prop="taskDetail" :label-width="100">
-          <quill-editor ref="myTextEditorFree"
+          <quill-editor ref="myTextEditorPresent"
             class="inline-block editor"
             v-model="validate.taskDetail"
             :options="editorOption"
+            @blur="onEditorBlur($event)"
+            @focus="onEditorFocus($event)"
+            @ready="onEditorReady($event)"
           >
           </quill-editor>
+          <input v-show="false" id="presentGet" type="file" name="avator" multiple accept="image/jpg,image/jpeg,image/png,image/gif" @change="uploadImgPresentGet">
         </FormItem>
       </div>
     </Form>
@@ -113,7 +117,7 @@
   import { quillEditor } from 'vue-quill-editor';
   import { aliCallbackImgUrl } from '@/config/env';
   import api from '@/config/apiConfig';
-  import { getStorage, setStorage } from "@/config/utils";
+  import { aliUploadImg, getStorage, setStorage, randomString } from "@/config/utils";
   export default {
     name: "ReleaseGood",
     data() {
@@ -124,7 +128,7 @@
             callback('商品份数最小为1');
             return null;
           }
-        } console.log(rule)
+        }
         if ((!Number(value) || Number(value) < 0) && rule.required) {
           callback('该选项必须为不能小于0的数字');
           return null;
@@ -181,6 +185,7 @@
             { required: true, type: 'string', message: '请填写商品简介', trigger: 'blur' }
           ]
         },
+        addImgRangePresentGet: null,
         editorOption: {
           placeholder: "请输入商品相关介绍",
           modules: {
@@ -289,7 +294,31 @@
         this.timeout = setTimeout(() => {
           this.loading = false;
         }, 15000)
-      }
+      },
+      uploadImgPresentGet(e) {
+        const _this = this;
+        const file = e.target.files[0];
+        const key = `task/${randomString()}`;
+        aliUploadImg(key, file).then(res => {
+          if (res) {
+            let value = aliCallbackImgUrl + res.name + '!orgi75';
+            _this.addImgRangePresentGet = _this.$refs.myTextEditorPresent.quill.getSelection();
+            _this.$refs.myTextEditorPresent.quill.insertEmbed(_this.addImgRangePresentGet !== null ? _this.addImgRangePresentGet.index : 0, 'image', value, Quill.sources.USER);
+            document.getElementById('presentGet').value = '';
+            _this.$Message.success('商品简介图片上传成功！');
+          }
+        }).catch(err => {
+          console.error(err);
+          document.getElementById('presentGet').value = '';
+          _this.$Message.warning('商品简介图片上传失败，请重试！');
+        })
+      },
+      onEditorBlur(editor) {
+      },
+      onEditorFocus(editor) {
+      },
+      onEditorReady(editor) {
+      },
     },
     created() {
       this.getItemCatalog();
@@ -298,6 +327,17 @@
           this.$Message.error(res.msg);
         }
       })
+    },
+    mounted() {
+      const _this = this;
+      const imgHandlerPresentGet = async function (image) {
+        _this.addImgRangePresentGet = _this.$refs.myTextEditorPresent.quill.getSelection();
+        if (image) {
+          let fileInput = document.getElementById('presentGet');
+          fileInput.click()
+        }
+      };
+      _this.$refs.myTextEditorPresent.quill.getModule("toolbar").addHandler("image", imgHandlerPresentGet);
     },
     beforeDestroy() {
       clearTimeout(this.timeout);
