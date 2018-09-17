@@ -17,7 +17,7 @@
         <FormItem label="商品原价：" prop="originalPrice" :label-width="100">
           <Input placeholder="请输入商品原价" v-model.number="validate.originalPrice" class="width-100" />
           <span class="pl-10">元</span>
-          <span class="ml-20 describe">（商品原价必须大于试用成交总价）</span>
+          <span class="ml-20 describe">（商品原价必须大于试用成交总价,7天试用尾款<14天试用尾款）</span>
         </FormItem>
         <FormItem label="商品试用保证金：" prop="itemFirstPrice" :label-width="120">
           <Input placeholder="请输入试用保证金" v-model.number="validate.itemFirstPrice" class="width-100" />
