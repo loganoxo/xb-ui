@@ -342,6 +342,38 @@
         <i-button class="ml-40 pr-40 pl-40" type="primary" size="large" @click="deleteFirstTaskModal = false">取消</i-button>
       </div>
     </modal>
+    <!--任务或者活动结算-->
+    <modal v-model="showSettlementModal">
+      <p slot="header" class="settlement-title text-ct">结算详情</p>
+      <div class="lht30">
+        <p>活动标题：笑傲江湖</p>
+        <p>任务结算状态：可结算名额5个 <icon type="md-help-circle" size="14" color="#000" class="vtc-text-btm"/></p>
+        <p>活动结算状态：不可申请结算</p>
+      </div>
+      <div slot="footer" class="clear">
+        <i-button class="task-settlement-btn left width-pct-39 ml-20 bg-main-color cl-fff" @click="settlement('task')">任务结算</i-button>
+        <i-button class="activity-settlement-btn right width-pct-39 mr-20 bg-main-color cl-fff" disabled @click="settlement('activity')">活动结算</i-button>
+      </div>
+    </modal>
+    <!--结算详情-->
+    <modal v-model="showSettlementDetailModal">
+      <p slot="header" class="settlement-title text-ct">结算详情</p>
+      <div class="lht20">
+        <p>活动标题：笑傲江湖</p>
+        <p>结算时间：2018-02-05 12:00:00</p>
+        <div class="clear">
+          <p class="left">结算备注：</p>
+          <p class="ml-60">本次结算名额：10；</p>
+          <p class="ml-60">返还担保金共：100.00元；</p>
+          <p class="ml-60">返还推广费：0.00元；</p>
+          <p class="ml-60">返还增值费：0.00元；</p>
+          <p class="ml-60">返还标签增值服务费：0.00元；</p>
+        </div>
+      </div>
+      <div slot="footer">
+        <i-button long class="bg-main-color cl-fff">确认</i-button>
+      </div>
+    </modal>
   </div>
 </template>
 
@@ -443,6 +475,8 @@
         disabledRedEnvelopes: false,
         deleteFirstTaskModal: false,
         exemptRelease: false,
+        showSettlementModal: false,
+        showSettlementDetailModal: false,
       }
     },
     created() {
@@ -796,7 +830,18 @@
       },
       toFlowOrderDetail(number, keywordsCount) {
         this.$router.push({name: 'FlowOrderDetail',query: {number: number, keywordsCount: keywordsCount}});
+      },
+      /*结算（任务/活动）*/
+      settlement(type) {
+
       }
     }
   }
 </script>
+<style scoped lang="scss">
+  @import 'src/css/mixin';
+  .settlement-title {
+    color: $mainColor;
+  }
+
+</style>
