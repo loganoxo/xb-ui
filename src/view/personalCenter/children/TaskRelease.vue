@@ -345,7 +345,6 @@
                 <span class="vtc-sup left mt-20">{{`评价${index + 1}`}}：</span>
                 <i-input v-model="item.reviewContent" class="mb-10 width-400 mt-8 left" type="textarea" :autosize="{minRows: 2,maxRows: 2}" placeholder="请输入你的评价内容"/>
                 <upload class="inline-block left ml-10"
-                        :default-file-list="defaultItemReviewImages[index]"
                         :item-index="index"
                         :on-remove="removeEvaluateImage"
                         :on-success="evaluateImageSuccess"
@@ -363,6 +362,7 @@
                 <i-button :disabled="itemReviewList.length === 1" class="ml-10 mt-15 left" type="dashed" icon="plus-round" @click="deleteItemReviewList(index)">删除</i-button>
               </p>
               <i-button :disabled="itemReviewList.length === taskRelease.taskCount || !taskRelease.taskCount" class="ml-45 mt-6 mb-5" type="dashed" icon="plus-round" @click="addItemReviewList">添加</i-button>
+              <span class="ml-10"><icon type="md-alert" color="#f9284f"/>图文评价2元/条，文字评价1元/条；9月测试期免费，10月以后按标准收取。</span>
             </div>
           </div>
         </div>
@@ -1438,7 +1438,6 @@
           reviewContent: '',
           reviewPictures: [],
         }],
-        defaultItemReviewImages: [],
         selectKeywordScheme: 0,
         addKeywordScheme: 0,
         isShowUserClause: false,
@@ -3045,11 +3044,11 @@
         }
       },
       returnUpStep() {
-        const type = this.$route.query.type;
+       /* const type = this.$route.query.type;
         if ((type && type === 'copy') || !type) {
           this.editTaskId = this.taskPayId;
         }
-        this.getTaskInfo();
+        this.getTaskInfo();*/
         this.stepName = 'information';
       },
       IThink() {
@@ -3154,28 +3153,6 @@
 
             if (_this.taskRelease.onlyShowForQualification) {
               _this.taskRelease.onlyShowForQualification = false;
-            }
-
-            // 参考范本评论复制、编辑
-            let itemReviewAssignsData = res.data.itemReviewAssigns;
-            if (itemReviewAssignsData.length > 0) {
-              const _itemReviewList = [];
-              const _defaultItemReviewImages = [];
-              itemReviewAssignsData.forEach((item, index) => {
-                const _reviewPictures = JSON.parse(item.reviewPictures);
-                _itemReviewList.push({
-                  reviewPictures: JSON.parse(item.reviewPictures),
-                  reviewContent: item.reviewContent
-                });
-                _defaultItemReviewImages[index] = [];
-                _reviewPictures.forEach(key => {
-                  _defaultItemReviewImages[index].push({
-                    src: key
-                  })
-                })
-              });
-              _this.itemReviewList = _itemReviewList;
-              _this.defaultItemReviewImages = _defaultItemReviewImages;
             }
             _this.taskRelease.presentPrice = _this.taskRelease.presentPrice / 100;
             _this.taskRelease.itemPrice = _this.taskRelease.itemPrice / 100;
