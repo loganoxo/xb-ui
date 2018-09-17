@@ -14,6 +14,11 @@
         <FormItem label="淘宝链接：" :label-width="100" prop="itemUrl">
           <Input placeholder="请输入淘宝宝贝链接" autofocus v-model="validate.itemUrl"  class="width-300" />
         </FormItem>
+        <FormItem label="商品原价：" prop="originalPrice" :label-width="100">
+          <Input placeholder="请输入商品原价" v-model.number="validate.originalPrice" class="width-100" />
+          <span class="pl-10">元</span>
+          <span class="ml-20 describe">（商品原价必须大于试用成交总价）</span>
+        </FormItem>
         <FormItem label="商品试用保证金：" prop="itemFirstPrice" :label-width="120">
           <Input placeholder="请输入试用保证金" v-model.number="validate.itemFirstPrice" class="width-100" />
           <span class="pl-10">元</span>
@@ -152,6 +157,7 @@
         itemCatalogList: [],
         validate: {
           itemUrl: '',
+          originalPrice: null,
           itemFirstPrice: null,
           itemDay1Price: null,
           itemDay2Price: null,
@@ -165,6 +171,9 @@
         ruleValidate: {
           itemUrl: [
             { required: true, type: 'url', message: '请正确输入商品的链接', trigger: 'blur' }
+          ],
+          originalPrice: [
+            { required: true, trigger: 'blur', validator: myValidate  }
           ],
           itemFirstPrice: [
             { required: true, trigger: 'blur', validator: myValidate  }
@@ -214,6 +223,9 @@
     computed: {
       priceNumber() {
         return Number(this.validate.itemFirstPrice) || 0;
+      },
+      originalPriceNumber() {
+        return Number(this.validate.originalPrice) || 0;
       },
       weekPaymentNumber() {
         return Number(this.validate.itemDay1Price) || 0;
@@ -279,12 +291,22 @@
           if (valid) {
             this.submit();
           } else {
-            this.$Message.error("请正确填写完整，带 * 为必选项");
+            this.$Message.warning("请正确填写完整，带 * 为必选项");
           }
         })
       },
       submit() {
-        const data = Object.assign(this.validate, {
+        if (this.monthPriceNumber < this.weekPriceNumber) {
+          this.$Message.warning('14天确认收货成交总价，不能小于7天确认收货成交总价');
+          return false;
+        }
+        if (this.originalPriceNumber < this.monthPriceNumber) {
+          this.$Message.warning('试用成交总价应小于商品原价');
+          return false;
+        }
+        const data = Object.assign({}, this.validate);
+        Object.assign(data, {
+          originalPrice: this.originalPriceNumber * 100,
           itemFirstPrice: this.priceNumber * 100,
           itemDay1Price: this.weekPaymentNumber * 100,
           itemDay2Price: this.monthPaymentNumber * 100,
