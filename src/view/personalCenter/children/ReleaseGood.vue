@@ -1,12 +1,12 @@
 <template>
   <div class="pd-tb-20">
     <p class="page-title">什么是白拿拿商城？</p>
-    <p class="pl-40 mt-20 font16">
+    <p class="pl-40 mt-10 font16">
       商城是采用<span class="orange">先试后买</span>模式的<span class="orange">淘外卖货</span>平台，
       买家按照商家设定<span class="orange">缴纳保证金</span>后，拥有<span class="orange">14天免费试用权限</span>，
       试用期间若满意则<span class="orange">支付商品尾款</span>（<span class="orange">商品成交价=保证金+商品尾款</span>），若不满意则买家退货完成后，退还买家保证金。
     </p>
-    <p class="page-title mt-20">商品流程</p>
+    <p class="page-title mt-10">商品流程</p>
     <img src="~assets/img/good-release/good-release.png" alt="" class="mt-20 mb-20">
     <Form :model="validate" :rules="ruleValidate"  ref="form" label-position="left">
       <div class="title pl-20 border-ddd">申请商品信息</div>
