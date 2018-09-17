@@ -8,9 +8,10 @@
         <FormItem label="淘宝链接：" :label-width="100" prop="itemUrl">
           <Input placeholder="请输入淘宝宝贝链接" autofocus v-model="validate.itemUrl"  class="width-300" />
         </FormItem>
-        <FormItem label="商品试用价格：" prop="itemFirstPrice" :label-width="120">
-          <Input placeholder="请输入试用价格" v-model.number="validate.itemFirstPrice" class="width-100" />
+        <FormItem label="商品试用保证金：" prop="itemFirstPrice" :label-width="120">
+          <Input placeholder="请输入试用保证金" v-model.number="validate.itemFirstPrice" class="width-100" />
           <span class="pl-10">元</span>
+          <span class="ml-20 describe">（试用保证金接近商品成本价）</span>
         </FormItem>
         <FormItem label="7天内确认满意收货尾款：" prop="itemDay1Price" class="pl-40" :label-width="160">
           <Input placeholder="请输入尾款" v-model.model="validate.itemDay1Price" class="width-100" />
@@ -18,6 +19,7 @@
           <span class="ml-40">商品成交总价：</span>
           <Input  disabled class="width-100 ml-20" v-model.number="weekPriceNumber" />
           <span class="pl-10">元</span>
+          <span class="ml-20 describe">（商品成交总价=试用保证金+尾款）</span>
         </FormItem>
         <FormItem label="14天内确认满意收货尾款：" prop="itemDay2Price" class="pl-40" :label-width="160">
           <Input placeholder="请输入尾款" class="width-100" v-model.number="validate.itemDay2Price" />
@@ -25,6 +27,7 @@
           <span class="ml-40">商品成交总价：</span>
           <Input disabled class="width-100 ml-20" v-model.number="monthPriceNumber" />
           <span class="pl-10">元</span>
+          <span class="ml-20 describe">（商品成交总价=试用保证金+尾款）</span>
         </FormItem>
         <FormItem label="是否包邮：" prop="pinkage" :label-width="100">
           <Radio v-model="validate.pinkage">商品包邮，无需修改运费</Radio>
@@ -326,7 +329,15 @@
         if (!res.status) {
           this.$Message.error(res.msg);
         }
-      })
+      });
+      this.$store.commit({
+        type: 'SET_ACTIVITY_CATEGORY',
+        info: 'release-good'
+      });
+      this.$store.commit({
+        type: 'TASK_CATEGORY_LIST',
+        info: 'release-good'
+      });
     },
     mounted() {
       const _this = this;
@@ -341,6 +352,14 @@
     },
     beforeDestroy() {
       clearTimeout(this.timeout);
+      this.$store.commit({
+        type: 'SET_ACTIVITY_CATEGORY',
+        info: ''
+      });
+      this.$store.commit({
+        type: 'TASK_CATEGORY_LIST',
+        info: ''
+      });
     }
   }
 </script>

@@ -16,14 +16,14 @@
           <img src="~assets/img/icon/new.png" alt="" class="new-task">
           <router-link to="/user/release-good">发布商品</router-link>
         </li>
-        <li :class="{isSelect:isSelect ==='TaskRelease' || isSelect ==='FastTaskRelease'}">
-          <span class="issue-activity icon-size"></span>
-          <router-link to="/user/task-release">发布活动</router-link>
-        </li>
         <li :class="{isSelect:isSelect === 'goodManagement'}" class="pos-rel">
           <span class="icon-size good-management"></span>
           <img src="~assets/img/icon/new.png" alt="" class="new-task">
           <router-link to="/user/good-management">商品管理</router-link>
+        </li>
+        <li :class="{isSelect:isSelect ==='TaskRelease' || isSelect ==='FastTaskRelease'}">
+          <span class="issue-activity icon-size"></span>
+          <router-link to="/user/task-release">发布活动</router-link>
         </li>
         <li
           :class="{isSelect:isSelect === 'ActivitiesList' || isSelect === 'ApproveShowker' || isSelect === 'ActivityDetail' || isSelect === 'ActivityLog'}">
