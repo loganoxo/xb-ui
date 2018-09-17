@@ -2,21 +2,25 @@
   <div class="pd-tb-20">
     <p class="page-title">我的商品管理</p>
     <img src="~assets/img/good-release/good-list.png" alt="" class="mt-20 mb-20">
-    <div class="list clear">
-      <Table stripe :columns="columns" :data="data"></Table>
-      <Page :total="total" :current="pageIndex" :page-size="pageSize" @on-change="currentChange" class="right mt-20" />
+    <div class="mb-20 clear">
+      <Page :total="total" :current="pageIndex" :page-size="pageSize" @on-change="currentChange" class="right inline-block" />
+      <Button type="primary" @click="$router.push('/user/release-good')">发布新的商品</Button>
+    </div>
+    <div class="list">
+      <Table :loading="loading" stripe :columns="columns" :data="data" no-data-text="当前仍未发布商品，赶紧发布商品卖货吧！"></Table>
     </div>
   </div>
 </template>
 
 <script>
-  import { Table, Page } from 'iview';
+  import { Table, Page, Button } from 'iview';
   import api from '@/config/apiConfig';
   export default {
     name: "GoodManagement",
     components: {
       Table,
-      Page
+      Page,
+      Button
     },
     data() {
       function renderHandler(h, params) {
@@ -135,7 +139,8 @@
         ],
         pageIndex: 1,
         total: 0,
-        pageSize: 10
+        pageSize: 10,
+        loading: false
       }
     },
     methods: {
@@ -144,9 +149,11 @@
         this.getGoodList();
       },
       getGoodList() {
+        this.loading = true;
         api.getGoodList({
           pageIndex: this.pageIndex
         }).then(res => {
+          this.loading = false;
           if (res.status) {
             this.total = res.data.totalElements;
             this.data = res.data.content;
