@@ -45,6 +45,37 @@
           color
         }
       }
+      function renderUrl(h, params) {
+        let [itemUrl, id] = [params.row.itemUrl, null];
+        let index = itemUrl.indexOf('?') + 1;
+        if (index > 0) {
+          let datas = itemUrl.substring(index);
+          datas = datas.split('&');
+          for (let i = 0; i<datas.length; i++) {
+            if (datas[i].split('=')[0] == 'id') {
+              id = datas[i].substring(datas[i].indexOf('=') + 1);
+              break;
+            }
+          }
+        }
+        if (!id) {
+          return {
+            props: {},
+            text: '--'
+          }
+        } else {
+          return {
+            props: {
+              domProps: {
+                href: itemUrl,
+                target: '_blank'
+              }
+            },
+            text: id
+          }
+        }
+      }
+
       return {
         columns: [
           {
@@ -59,7 +90,11 @@
             key: 'id',
             width: 160,
             align: 'center',
-            sortable: true
+            sortable: true,
+            render: (h, params) => {
+              let result = renderUrl(h, params);
+              return h('a', result.props, result.text);
+            }
           },
           {
             title: '商品状态',
@@ -81,7 +116,11 @@
             key: 'itemFirstPrice',
             align: 'center',
             render: (h, params) => {
-              return h('div', renderHandler(h, params))
+              return h('div',{
+                style: {
+                  padding: '8px 0'
+                }
+              }, renderHandler(h, params));
             }
           },
           {
