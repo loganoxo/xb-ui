@@ -6,7 +6,6 @@
       <Table stripe :columns="columns" :data="data"></Table>
       <Page :total="total" :current="pageIndex" :page-size="pageSize" @on-change="currentChange" class="right mt-20" />
     </div>
-
   </div>
 </template>
 
@@ -22,9 +21,9 @@
     data() {
       function renderHandler(h, params) {
         let [eles, price, payment1, payment2] = [[], params.row.itemFirstPrice/100, params.row.itemDay1Price/100, params.row.itemDay2Price/100];
-        eles.push(h('p', {}, `试用金： ${price}元`));
-        eles.push(h('p', {}, `试用金${price}+试7天尾款${payment1}=${price + payment1}`));
-        eles.push(h('p', {}, `试用金${price}+试14天尾款${payment2}=${price + payment2}`));
+        eles.push(h('p', {}, `试用保证金： ${price}元`));
+        eles.push(h('p', {}, `试用保证金${price}+试7天尾款${payment1}=${price + payment1}`));
+        eles.push(h('p', {}, `试用保证金${price}+试14天尾款${payment2}=${price + payment2}`));
         return eles;
       }
       function stateFilter(status) {
@@ -45,6 +44,37 @@
           color
         }
       }
+      function renderUrl(h, params) {
+        let [itemUrl, id] = [params.row.itemUrl, null];
+        let index = itemUrl.indexOf('?') + 1;
+        if (index > 0) {
+          let datas = itemUrl.substring(index);
+          datas = datas.split('&');
+          for (let i = 0; i<datas.length; i++) {
+            if (datas[i].split('=')[0] == 'id') {
+              id = datas[i].substring(datas[i].indexOf('=') + 1);
+              break;
+            }
+          }
+        }
+        if (!id) {
+          return {
+            props: {},
+            text: '--'
+          }
+        } else {
+          return {
+            props: {
+              domProps: {
+                href: itemUrl,
+                target: '_blank'
+              }
+            },
+            text: id
+          }
+        }
+      }
+
       return {
         columns: [
           {
@@ -59,13 +89,17 @@
             key: 'id',
             width: 160,
             align: 'center',
-            sortable: true
+            sortable: true,
+            render: (h, params) => {
+              let result = renderUrl(h, params);
+              return h('a', result.props, result.text);
+            }
           },
           {
             title: '商品状态',
             key: 'taskStatus',
             align: 'center',
-            width: 160,
+            width: 140,
             sortable: true,
             render: (h, params) => {
               let data = stateFilter(params.row.taskStatus);
@@ -81,14 +115,18 @@
             key: 'itemFirstPrice',
             align: 'center',
             render: (h, params) => {
-              return h('div', renderHandler(h, params))
+              return h('div',{
+                style: {
+                  padding: '8px 0'
+                }
+              }, renderHandler(h, params));
             }
           },
           {
             title: '库存',
             key: 'taskCount',
             align: 'center',
-            width: 160,
+            width: 140,
             sortable: true
           }
         ],

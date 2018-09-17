@@ -66,11 +66,17 @@
             </i>
             买家秀
           </a>
-          <a :class="[activityCategory === 'task-fans' ? 'active' : '']" @click="linkToTaskFans('task-fans')" v-if="isLogin && userRole == 1">
+          <!--<a :class="[activityCategory === 'task-fans' ? 'active' : '']" @click="linkToTaskFans('task-fans')" v-if="isLogin && userRole == 1">-->
+            <!--<i style="position: absolute; top: -17px; left: 34px;">-->
+              <!--<img src="~assets/img/icon/advance.gif" alt="new" >-->
+            <!--</i>-->
+            <!--微信加粉-->
+          <!--</a>-->
+          <a :class="[activityCategory === 'release-good' ? 'active' : '']" @click="linkToReleaseGood('release-good')" v-if="isLogin && userRole == 1">
             <i style="position: absolute; top: -17px; left: 34px;">
-              <img src="~assets/img/icon/advance.gif" alt="new" >
+              <img src="/static/img/common/news.gif" alt="" >
             </i>
-            微信加粉
+            白拿拿商城
           </a>
         </div>
         <!--<div class="merchant-entering right" @click="toLandingPage">-->
@@ -147,6 +153,17 @@
     methods: {
       linkToTaskFans(activityCategory) {
         this.$router.push({ 'path': '/user/task-fans'});
+        this.$store.commit({
+          type: 'SET_ACTIVITY_CATEGORY',
+          info: activityCategory
+        });
+        this.$store.commit({
+          type: 'TASK_CATEGORY_LIST',
+          info: activityCategory
+        });
+      },
+      linkToReleaseGood(activityCategory) {
+        this.$router.push({ 'path': '/user/release-good'});
         this.$store.commit({
           type: 'SET_ACTIVITY_CATEGORY',
           info: activityCategory
