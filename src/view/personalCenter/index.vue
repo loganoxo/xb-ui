@@ -35,11 +35,11 @@
           <span class="task-management-nav icon-size"></span>
           <router-link to="/user/task-management/wait">任务管理</router-link>
         </li>
-        <li :class="{isSelect:isSelect ==='TaskFans'}" class="pos-rel">
-          <span class="task-fans icon-size"></span>
-          <img src="~assets/img/icon/new.png" alt="" class="new-task">
-          <router-link to="/user/task-fans">微信加粉</router-link>
-        </li>
+        <!--<li :class="{isSelect:isSelect ==='TaskFans'}" class="pos-rel">-->
+          <!--<span class="task-fans icon-size"></span>-->
+          <!--<img src="~assets/img/icon/new.png" alt="" class="new-task">-->
+          <!--<router-link to="/user/task-fans">微信加粉</router-link>-->
+        <!--</li>-->
         <li
           :class="{isSelect:isSelect ==='AccountInfo' || isSelect === 'PayMoney' || isSelect === 'GetoutMoney' || isSelect === 'AccountManagement'}">
           <span class="money-management-nav icon-size"></span>

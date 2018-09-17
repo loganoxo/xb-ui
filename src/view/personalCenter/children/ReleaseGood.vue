@@ -6,7 +6,7 @@
       <div class="title pl-20 border-ddd">申请商品信息</div>
       <div class="pd-tb-20 pl-20 pr-20 border-ddd">
         <FormItem label="淘宝链接：" :label-width="100" prop="itemUrl">
-          <Input placeholder="https://www.51bainana.com" autofocus v-model="validate.itemUrl"  class="width-300" />
+          <Input placeholder="请输入淘宝宝贝链接" autofocus v-model="validate.itemUrl"  class="width-300" />
         </FormItem>
         <FormItem label="商品试用价格：" prop="itemFirstPrice" :label-width="120">
           <Input placeholder="请输入试用价格" v-model.number="validate.itemFirstPrice" class="width-100" />
@@ -28,7 +28,7 @@
         </FormItem>
         <FormItem label="是否包邮：" prop="pinkage" :label-width="100">
           <Radio v-model="validate.pinkage">商品包邮，无需修改运费</Radio>
-          <span class="ml-60">（商城仅支持包邮）</span>
+          <span>（商城仅支持包邮）</span>
         </FormItem>
       </div>
       <div class="title pl-20 border-ddd mt-20">商品展示信息</div>
@@ -194,6 +194,7 @@
             ]
           }
         },
+        timeout: null
       }
     },
     computed: {
@@ -285,6 +286,9 @@
             this.loading = false;
           }
         });
+        this.timeout = setTimeout(() => {
+          this.loading = false;
+        }, 15000)
       }
     },
     created() {
@@ -294,6 +298,9 @@
           this.$Message.error(res.msg);
         }
       })
+    },
+    beforeDestroy() {
+      clearTimeout(this.timeout);
     }
   }
 </script>
