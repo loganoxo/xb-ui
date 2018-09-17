@@ -137,10 +137,10 @@
       },
       // 增值服务截图上传成功回调
       uploadSuccess(res, index) {
-        info.src = aliCallbackImgUrl + res.name;
         let info = this.mainBabyImageList.filter(item => {
           return item.id === index;
         });
+        info.src = aliCallbackImgUrl + res.name;
         this.submitVasAnswer(info);
       },
       // 删除已上传的图片
@@ -150,10 +150,10 @@
 
       // 浏览答题截图上传成功回调
       uploadAnswerSuccess(res, index) {
-        info.src = aliCallbackImgUrl + res.name;
         let info = this.mainBabyAnswerList.filter(item => {
           return item.id === index;
         });
+        info.src = aliCallbackImgUrl + res.name;
         this.submitAnswer(info);
       },
 
