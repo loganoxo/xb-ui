@@ -336,6 +336,16 @@ export const delHtmlTag = str => {
 };
 
 /**
+ * 验证中文字符
+ */
+export const verifyChinese = str => {
+  if (!str) {
+    return
+  }
+  let regExp = /^[\u4e00-\u9fa5]+$/;
+  return regExp.test(str);
+};
+/**
  * 任务流程状态映射
  */
 export const taskErrorStatusList = (type) => {

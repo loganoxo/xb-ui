@@ -63,7 +63,8 @@
           <Icon type="md-help-circle" size="16" class="vtc-text-btm"/>
           关于我们
         </router-link>
-        <a href="http://wpa.qq.com/msgrd?v=3&site=qq&menu=yes&uin=1624363653" target="_blank"
+        <!--<a href="http://wpa.qq.com/msgrd?v=3&site=qq&menu=yes&uin=1624363653" target="_blank"-->
+        <a href="http://wpa.b.qq.com/cgi/wpa.php?ln=1&key=XzgwMDAxOTQwNF80ODQ2MjlfODAwMDE5NDA0XzJf" target="_blank"
            v-if="getUserInfo.role === 1">
           <Icon type="ios-contacts" size="16" class="vtc-text-btm"/>
           联系客服

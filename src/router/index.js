@@ -93,6 +93,18 @@ export default new Router({
       }
     },
     {
+      path: '/user/showker-drainage',
+      name: 'ShowkerDrainage',
+      component: _import('ShowkerDrainage'),
+      meta: {
+        title: "拿手引流",
+        logInAuthority: true,
+        topShow: false,
+        bottomShow: true,
+        role: null,
+      }
+    },
+    {
       path: '/seller-adv',
       name: 'SellerAdv',
       component: _import('SellerAdv'),
@@ -807,6 +819,30 @@ export default new Router({
           component: _import('personalCenter/children/WxTaskFans'),
           meta: {
             title: "微信加粉",
+            logInAuthority: true,
+            topShow: true,
+            bottomShow: true,
+            role: 1,
+          }
+        },
+        {
+          path: 'release-good',
+          name: 'releaseGood',
+          component: _import('personalCenter/children/ReleaseGood'),
+          meta: {
+            title: "发布商品",
+            logInAuthority: true,
+            topShow: true,
+            bottomShow: true,
+            role: 1,
+          }
+        },
+        {
+          path: 'good-management',
+          name: 'goodManagement',
+          component: _import('personalCenter/children/GoodManagement'),
+          meta: {
+            title: "商品管理",
             logInAuthority: true,
             topShow: true,
             bottomShow: true,
