@@ -247,12 +247,13 @@
                 <span>参考范本（拿手有可能直接拷贝该范本，为防止评价重复，建议每个名额提供一种范本。）</span>
               </radio>
             </radio-group>
-            <p v-show="taskRelease.itemReviewRequired === 'assign_review_detail'" class="main-color ml-20">可自定义的评价数跟您发布宝贝数量相同，系统会随机分配给申请通过的拿手每人一条评论，以保证评价内容的唯一性。</p>
-            <div class="afford-evaluation-list mt-10" v-if="taskRelease.itemReviewRequired === 'assign_review_detail' && taskRelease.taskCount > 0">
-              <p v-for="item in itemReviewList">
-                <span class="vtc-sup">{{'评价' + item.index}}：</span>
-                <i-input v-model="item.value" class="mb-10" type="textarea" :autosize="{minRows: 1,maxRows: 3}" :disabled="true" placeholder="请输入你的评价内容" style="width: 620px;"/>
-              </p>
+            <p v-show="taskRelease.itemReviewRequired === 'assign_review_detail'" class="main-color ml-20">最多为每份名额提供一份内容，可以不添加（不添加表示无要求），系统会对已添加内容进行唯一分配，保证内容不重复。</p>
+            <div class="afford-evaluation-list mt-10" v-show="taskRelease.itemReviewRequired === 'assign_review_detail'">
+              <div class="clear mt-10" v-for="(item, index) in itemReviewList" :key="item.index">
+                <span class="vtc-sup left mt-15">{{`评价${index + 1}`}}：</span>
+                <div class="left border-radius-5 width-500 border-ddd ht50">{{item.reviewContent}}</div>
+                <img width="54" height="54" class="border-radius-5 ml-10 left border-ddd" v-for="(childItem, childIndex) in item.reviewPictures" :key="childIndex" :src="childItem" alt="评价图片">
+              </div>
             </div>
           </div>
         </div>
@@ -944,7 +945,10 @@
             returnPrice: 0.5,
           },
         },
-        itemReviewList: [],
+        itemReviewList: [{
+          reviewContent: '',
+          reviewPictures: [],
+        }],
         itemReviewPushList: [],
         selectKeywordScheme: 0,
         addKeywordScheme: 0,
@@ -1560,14 +1564,18 @@
               _this.needBrowseAnswer = true;
               _this.browseAnswer =  itemIssue;
             }
+            // 参考范本评论复制、编辑
             let itemReviewAssignsData = res.data.itemReviewAssigns;
-            if(itemReviewAssignsData){
-              itemReviewAssignsData.forEach((item,index) => {
-                _this.itemReviewList.push({
-                  index: index + 1,
-                  value: item.reviewContent
+            if (itemReviewAssignsData.length > 0) {
+              const _itemReviewList = [];
+              itemReviewAssignsData.forEach(item => {
+                const _reviewPictures = JSON.parse(item.reviewPictures);
+                _itemReviewList.push({
+                  reviewPictures: _reviewPictures,
+                  reviewContent: item.reviewContent
                 })
-              })
+              });
+              _this.itemReviewList = _itemReviewList;
             }
             _this.taskRelease.itemPrice = _this.taskRelease.itemPrice / 100;
             _this.taskRelease.presentPrice = _this.taskRelease.presentPrice / 100;
