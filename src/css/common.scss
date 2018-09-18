@@ -821,6 +821,10 @@ input[type="number"] {
   max-width: 800px !important;
 }
 
+.select-none {
+  user-select: none;
+}
+
 /*RegionPicker css start*/
 .region-picker {
   width: 482px;

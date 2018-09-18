@@ -520,6 +520,7 @@
           finishTime: item.finishTime,
           endTime: item.endTime,
         });
+        console.log(this.taskAdditionalQuotaInfo);
         this.additionalQuotaModal = true;
       },
       addTaskSuccess() {
