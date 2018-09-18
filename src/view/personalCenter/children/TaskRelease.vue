@@ -345,6 +345,7 @@
                 <span class="vtc-sup left mt-20">{{`评价${index + 1}`}}：</span>
                 <i-input v-model="item.reviewContent" class="mb-10 width-400 mt-8 left" type="textarea" :autosize="{minRows: 2,maxRows: 2}" placeholder="请输入你的评价内容"/>
                 <upload class="inline-block left ml-10"
+                        :default-file-list="defaultItemReviewImages[index]"
                         :item-index="index"
                         :on-remove="removeEvaluateImage"
                         :on-success="evaluateImageSuccess"
@@ -1437,7 +1438,8 @@
         itemReviewList: [{
           reviewContent: '',
           reviewPictures: [],
-        }],
+      }],
+        defaultItemReviewImages: [],
         selectKeywordScheme: 0,
         addKeywordScheme: 0,
         isShowUserClause: false,
@@ -3154,6 +3156,29 @@
             if (_this.taskRelease.onlyShowForQualification) {
               _this.taskRelease.onlyShowForQualification = false;
             }
+
+            // 参考范本评论 编辑
+            let itemReviewAssignsData = res.data.itemReviewAssigns;
+            if (type === 'edit' && itemReviewAssignsData && itemReviewAssignsData.length > 0) {
+              const _itemReviewList = [];
+              const _defaultItemReviewImages = [];
+              itemReviewAssignsData.forEach((item, index) => {
+                const _reviewPictures = JSON.parse(item.reviewPictures);
+                _itemReviewList.push({
+                  reviewPictures: JSON.parse(item.reviewPictures),
+                  reviewContent: item.reviewContent
+                });
+                _defaultItemReviewImages[index] = [];
+                _reviewPictures.forEach(key => {
+                  _defaultItemReviewImages[index].push({
+                    src: key
+                  })
+                })
+              });
+              _this.itemReviewList = _itemReviewList;
+              _this.defaultItemReviewImages = _defaultItemReviewImages;
+            }
+
             _this.taskRelease.presentPrice = _this.taskRelease.presentPrice / 100;
             _this.taskRelease.itemPrice = _this.taskRelease.itemPrice / 100;
             let itemIssue = JSON.parse(res.data.itemIssue);
