@@ -2803,7 +2803,7 @@
           _this.taskRelease.itemDescription = _this.taskRelease.itemDescription.replace(IMG_HREF_ATTRIBUTE, '');
         }
         let status = _this.taskStatus;
-        let type = _this.$route.query.type;
+        const type = _this.$route.query.type;
         if (status === 'waiting_modify' && _this.paidDeposit === _this.orderMoney) {
           _this.taskCreate(true);
         } else if (status === 'waiting_pay' && _this.paidDeposit === 0) {
@@ -3054,6 +3054,7 @@
         }
         this.getTaskInfo();*/
         this.stepName = 'information';
+        this.taskRelease.taskId = this.taskPayId;
       },
       IThink() {
         this.editPriceAfterModel = false;
