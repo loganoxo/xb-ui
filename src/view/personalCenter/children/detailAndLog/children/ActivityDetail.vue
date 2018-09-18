@@ -1566,7 +1566,7 @@
             }
             // 参考范本评论复制、编辑
             let itemReviewAssignsData = res.data.itemReviewAssigns;
-            if (itemReviewAssignsData.length > 0) {
+            if (itemReviewAssignsData && itemReviewAssignsData.length > 0) {
               const _itemReviewList = [];
               itemReviewAssignsData.forEach(item => {
                 const _reviewPictures = JSON.parse(item.reviewPictures);
