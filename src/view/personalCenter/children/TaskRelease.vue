@@ -2804,8 +2804,10 @@
         }
         let status = _this.taskStatus;
         let type = _this.$route.query.type;
-        if ((status === 'waiting_modify' || status === 'waiting_pay') && _this.paidDeposit === _this.orderMoney) {
+        if (status === 'waiting_modify' && _this.paidDeposit === _this.orderMoney) {
           _this.taskCreate(true);
+        } else if (status === 'waiting_pay' && _this.paidDeposit === 0) {
+          _this.taskCreate(false);
         } else if ((status === 'waiting_modify' || status === 'waiting_pay') && _this.paidDeposit > _this.orderMoney) {
           _this.editPriceToLowAfterModel = true;
         } else if ((status === 'waiting_modify' || status === 'waiting_pay') && _this.paidDeposit > 0 && _this.paidDeposit < _this.orderMoney) {
@@ -3080,7 +3082,7 @@
             _this.paidDeposit = res.data.marginPaid + res.data.promotionExpensesPaid + res.data.vasFeePaid + res.data.redEnvelopeDeductionPaid + res.data.tagVasFeePaid;
             _this.taskStatus = res.data.taskStatus;
             const type = _this.$route.query.type;
-            if (!type) {
+            if (type === 'edit') {
               _this.taskRelease.taskId = res.data.id;
             }
             if ((_this.taskStatus === 'waiting_modify' || _this.taskStatus === 'waiting_pay') && _this.paidDeposit > 0 && type !== 'copy') {
