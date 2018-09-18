@@ -2804,11 +2804,11 @@
         }
         let status = _this.taskStatus;
         let type = _this.$route.query.type;
-        if ((status === 'waiting_modify' || status === 'waiting_pay') && _this.paidDeposit === _this.orderMoney && !type) {
+        if ((status === 'waiting_modify' || status === 'waiting_pay') && _this.paidDeposit === _this.orderMoney) {
           _this.taskCreate(true);
-        } else if ((status === 'waiting_modify' || status === 'waiting_pay') && _this.paidDeposit > _this.orderMoney && !type) {
-          this.editPriceToLowAfterModel = true;
-        } else if ((status === 'waiting_modify' || status === 'waiting_pay') && _this.paidDeposit > 0 && _this.paidDeposit < _this.orderMoney && !type) {
+        } else if ((status === 'waiting_modify' || status === 'waiting_pay') && _this.paidDeposit > _this.orderMoney) {
+          _this.editPriceToLowAfterModel = true;
+        } else if ((status === 'waiting_modify' || status === 'waiting_pay') && _this.paidDeposit > 0 && _this.paidDeposit < _this.orderMoney) {
           _this.editPriceAfterModel = true;
           _this.priceHasChange = true;
         } else if (type && type === 'copy') {
