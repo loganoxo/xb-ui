@@ -2,7 +2,7 @@
   <div class="pd-tb-20">
     <p class="page-title mt-10">商城卖货流程</p>
     <img src="~assets/img/good-release/good-release.png" alt="" class="mt-20 mb-20">
-    <div class="page-desc radius6 line22 mb-20 border-ddd">
+    <div class="page-desc radius6 line22 mb-20 border-ddd fs-16">
       <div class="pd-tb-20 bg-tp fs-16">
         <p class="text-ct">白拿拿商城是采用<span class="color-theme">先试后买的卖货平台,（绕开淘宝，直接卖货）</span></p>
         <p class="text-ct">商家提供商品给买家试用，买家试用<span class="color-theme">满意即购买收下商品，不满意无损退货</span>的卖货方式。</p>
@@ -13,7 +13,7 @@
           <p>1、提供的商品<span class="color-theme">需支持买家14天免费试用</span>，试用期间<span class="color-theme">支持产品无损退货</span>;</p>
           <p class="pl-5">（食品类通过<span class="color-theme">商品+小样</span>的形式试用，买家试吃小样后确定是否购买，食品类商品拆封后无产品问题不可退货）;</p>
           <p>2、商城商品<span class="color-theme">试用后购买价格不得高于商品的淘宝售价</span>，否则商品无法通过审核上线卖货;</p>
-          <p>3、为激励买家尽快确认购买,<span class="color-theme">试用7天内购买价格试用7~14天购买价格</span>;</p>
+          <p>3、为激励买家尽快确认购买,<span class="color-theme">试用7天内购买价格<i><</i>试用7~14天购买价格</span>;</p>
           <p>4、为吸引买家试用，设置的保证金不宜高于商品价格，建议<span class="color-theme">保证金设置成略高于商品成本+物流成本</span>。</p>
         </div>
       </div>
@@ -467,7 +467,7 @@
     box-shadow: 0 2px 8px #666;
   }
   .line22 {
-    line-height: 24px;
+    line-height: 26px;
   }
   .bg-tp {
     background: #f7e7cb;
