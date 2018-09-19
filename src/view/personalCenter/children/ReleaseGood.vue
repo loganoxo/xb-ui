@@ -370,7 +370,7 @@
       },
     },
     created() {
-      this.getItemCatalog();
+      // this.getItemCatalog();
       api.saveSellerAccesslog().then(res => {
         if (!res.status) {
           this.$Message.error(res.msg);
