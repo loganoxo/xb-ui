@@ -430,6 +430,10 @@ export const taskErrorStatusList = (type) => {
     'pay_for_task_vas_fee_supply_seller': '补交活动增值费',
     'task_delete_return_vas_fee_seller': '删除活动返款增值费',
     'coin_withdraw': '钱包提取',
+    'per_task_return_deposit_seller': '任务结算担保金返款',
+    'per_task_return_promotion_expenses_seller': '任务结算推广费返款',
+    'per_task_return_vas_fee_seller': '任务结算增值费返款',
+    'per_task_return_tag_vas_fee_seller': '任务结算标签增值服务费返款'
   };
   return mapList[type];
 };

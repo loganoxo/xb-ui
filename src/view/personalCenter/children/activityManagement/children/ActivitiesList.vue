@@ -289,7 +289,7 @@
         <p>活动标题：{{taskSettlementDetailInfo.taskName}}</p>
         <p class="mt-5">结算时间：{{taskSettlementDetailInfo.settlementTime | dateFormat('YYYY-MM-DD hh:mm:ss')}}</p>
         <p v-if="taskSettlementDetailInfo.taskSettlement" class="mt-5">结算备注：本次结算名额：{{taskSettlementDetailInfo.refundTaskCount}} ；</p>
-        <p v-else class="mt-5">结算备注：活动剩余资格：{{taskSettlementDetailInfo.taskCountLeft}} ；</p>
+        <p v-else class="mt-5">结算备注：活动剩余名额：{{taskSettlementDetailInfo.taskCountLeft}} ；</p>
         <p class="ml-60 mt-5">返还担保金共：{{taskSettlementDetailInfo.marginRefund}} 元；</p>
         <p class="ml-60 mt-5">返还推广费：{{taskSettlementDetailInfo.promotionRefund}} 元；</p>
         <p class="ml-60 mt-5">返还增值费：{{taskSettlementDetailInfo.vasFeeRefund}} 元；</p>
@@ -358,25 +358,25 @@
         <i-button class="activity-settlement-btn right width-pct-39 mr-20 bg-main-color cl-fff" :disabled="!settlementData.activitySettle" @click="activitySettlement(settlementData.id, settlementData.number)">活动结算</i-button>
       </div>
     </modal>
-    <!--结算详情-->
-    <modal v-model="showSettlementDetailModal">
-      <p slot="header" class="settlement-title text-ct">结算详情</p>
-      <div class="lht20">
-        <p>活动标题：笑傲江湖</p>
-        <p>结算时间：2018-02-05 12:00:00</p>
-        <div class="clear">
-          <p class="left">结算备注：</p>
-          <p class="ml-60">本次结算名额：10；</p>
-          <p class="ml-60">返还担保金共：100.00元；</p>
-          <p class="ml-60">返还推广费：0.00元；</p>
-          <p class="ml-60">返还增值费：0.00元；</p>
-          <p class="ml-60">返还标签增值服务费：0.00元；</p>
-        </div>
-      </div>
-      <div slot="footer">
-        <i-button long class="bg-main-color cl-fff">确认</i-button>
-      </div>
-    </modal>
+    <!--&lt;!&ndash;结算详情&ndash;&gt;-->
+    <!--<modal v-model="showSettlementDetailModal">-->
+      <!--<p slot="header" class="settlement-title text-ct">结算详情</p>-->
+      <!--<div class="lht20">-->
+        <!--<p>活动标题：笑傲江湖</p>-->
+        <!--<p>结算时间：2018-02-05 12:00:00</p>-->
+        <!--<div class="clear">-->
+          <!--<p class="left">结算备注：</p>-->
+          <!--<p class="ml-60">本次结算名额：10；</p>-->
+          <!--<p class="ml-60">返还担保金共：100.00元；</p>-->
+          <!--<p class="ml-60">返还推广费：0.00元；</p>-->
+          <!--<p class="ml-60">返还增值费：0.00元；</p>-->
+          <!--<p class="ml-60">返还标签增值服务费：0.00元；</p>-->
+        <!--</div>-->
+      <!--</div>-->
+      <!--<div slot="footer">-->
+        <!--<i-button long class="bg-main-color cl-fff">确认</i-button>-->
+      <!--</div>-->
+    <!--</modal>-->
   </div>
 </template>
 
