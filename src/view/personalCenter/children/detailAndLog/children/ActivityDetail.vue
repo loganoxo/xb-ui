@@ -1530,6 +1530,9 @@
                 _this.taskRelease[key] = res.data[key]
               }
             });
+
+            // 复制活动时活动份数为发布活动时的活动份数（taskCount + returnCount），而不是可审批份数
+            _this.taskRelease.taskCount = res.data.taskCount + res.data.returnCount * 1;
             // _this.taskRelease.itemType = res.data.itemCatalog.id;
             _this.taskRelease.pinkage =  _this.taskRelease.pinkage.toString();
             _this.taskRelease.donotPostPhoto = _this.taskRelease.donotPostPhoto.toString();

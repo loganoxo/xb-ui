@@ -156,6 +156,9 @@
                   <!--<span @click="settlementTask(item.id, item.number)">申请结算</span>-->
                   <span @click="showSettlement(item)">申请结算</span>
                 </p>
+                <p class="bond mt-6" v-if="(item.taskType === 'pc_search' || item.taskType === 'app_search') && item.taskStatus === 'under_way'">
+                  <span @click="toFlowOrderDetail(item.number, item.taskDetailObject.length)">补添流量</span>
+                </p>
                 <p class="copy mt-6">
                   <span @click="lookTaskDetail(item.id)">查看详情</span>
                 </p>
@@ -289,7 +292,7 @@
         <p>活动标题：{{taskSettlementDetailInfo.taskName}}</p>
         <p class="mt-5">结算时间：{{taskSettlementDetailInfo.settlementTime | dateFormat('YYYY-MM-DD hh:mm:ss')}}</p>
         <p v-if="taskSettlementDetailInfo.taskSettlement" class="mt-5">结算备注：本次结算名额：{{taskSettlementDetailInfo.refundTaskCount}} ；</p>
-        <p v-else class="mt-5">结算备注：活动剩余名额：{{taskSettlementDetailInfo.taskCountLeft}} ；</p>
+        <p v-else class="mt-5">结算备注：活动返还名额：{{taskSettlementDetailInfo.taskCountLeft}} ；</p>
         <p class="ml-60 mt-5">返还担保金共：{{taskSettlementDetailInfo.marginRefund}} 元；</p>
         <p class="ml-60 mt-5">返还推广费：{{taskSettlementDetailInfo.promotionRefund}} 元；</p>
         <p class="ml-60 mt-5">返还增值费：{{taskSettlementDetailInfo.vasFeeRefund}} 元；</p>
@@ -350,7 +353,11 @@
       <p slot="header" class="settlement-title text-ct">结算详情</p>
       <div class="lht30">
         <p>活动标题：{{settlementData.taskName}}</p>
-        <p>任务结算状态：可结算名额{{settlementData.refundTaskCount}}个 <icon type="md-help-circle" size="14" color="#000" class="vtc-text-btm"/></p>
+        <p>任务结算状态：可结算名额{{settlementData.refundTaskCount}}个
+          <tooltip content="成功结算后将直接扣减可审批任务名额" placement="top" :transfer="true">
+            <icon type="md-help-circle" size="14" color="#000" class="vtc-text-btm"/>
+          </tooltip>
+        </p>
         <p>活动结算状态：{{settlementData.activitySettle ? '可结算' : '不可申请结算'}}</p>
       </div>
       <div slot="footer" class="clear">
@@ -867,6 +874,7 @@
           taskId: id
         }).then(res => {
           if (res.status) {
+            _this.getTaskList();
             Object.assign(_this.taskSettlementDetailInfo, {
               settlementTime: getSeverTime(),
               refundTaskCount: res.data.refundTaskCount,

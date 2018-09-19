@@ -3102,6 +3102,9 @@
                 _this.taskRelease[key] = res.data[key]
               }
             });
+
+            // 复制活动时活动份数为taskCount + returnCount
+            _this.taskRelease.taskCount = res.data.taskCount + res.data.returnCount * 1;
             _this.taskRelease.dayReserveToNow = _this.taskRelease.dayReserveToNow ? _this.taskRelease.dayReserveToNow : false;
             _this.taskRelease.speedUp = _this.taskRelease.speedUp ? _this.taskRelease.speedUp : false;
             _this.taskRelease.pinkage = _this.taskRelease.pinkage.toString();
