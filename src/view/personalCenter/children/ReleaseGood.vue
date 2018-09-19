@@ -22,7 +22,7 @@
       <div class="title pl-20 border-ddd">申请商品信息</div>
       <div class="pd-tb-20 pl-20 pr-20 border-ddd">
         <FormItem label="商品淘宝链接：" :label-width="110" prop="itemUrl">
-          <Input placeholder="请输入淘宝宝贝链接" autofocus v-model="validate.itemUrl"  class="width-300" />
+          <Input placeholder="请输入淘宝宝贝链接"  v-model="validate.itemUrl"  class="width-300" />
           <span class="pl-10 describe">（淘宝链接作为商城审核商品使用）</span>
         </FormItem>
         <FormItem label="商品淘宝售价：" prop="originalPrice" :label-width="110">
