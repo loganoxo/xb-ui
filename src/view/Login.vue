@@ -252,7 +252,7 @@
           if (res.status) {
             self.$store.commit({
               type: 'RECORD_USER_INFO',
-              info: res.data
+              info: res.data,
             });
             self.$store.dispatch('getFlowNumInfo');
             self.rememberAccountFunc();

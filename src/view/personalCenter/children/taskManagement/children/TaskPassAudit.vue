@@ -110,7 +110,7 @@
               <tr>
                 <td>
                   <p>{{item.alitmAccount}}</p>
-                  <p><img :src="item.creditLevel" alt="" style="width: auto;height: auto;"></p>
+                  <p><img :src="item.creditLevel" alt="淘气值" style="width: auto;height: auto;"></p>
                   <p v-if="item.tqz">淘气值：{{item.tqz}}</p>
                   <p v-cloak>申请次数：{{item.applyCount || 0}}</p>
                   <p v-cloak>成功次数：{{item.applySuccessCount || 0}}</p>
@@ -137,13 +137,6 @@
                   <p v-if="item.status !== 'trial_end' && item.status !== 'trial_finished'">
                     <time-down color='#ff4040' :fontWeight=600 :endTime="item.currentGenerationEndTime"/>
                   </p>
-                  <!--<p v-if="item.status === 'trial_end'">-->
-                    <!--<tooltip :content="item.trialEndReason === 'admin_manual_close' ? getTaskStatus(item.trialEndReason) +'：'+ item.auditDescription : getTaskStatus(item.trialEndReason)"-->
-                             <!--placement="top" class="cursor-p">-->
-                      <!--<icon color="#f9284f" type="md-alert"/>-->
-                      <!--<span class="main-color">{{item.trialEndReason === 'admin_manual_close' ? getTaskStatus(item.trialEndReason) +'：'+ item.auditDescription : getTaskStatus(item.trialEndReason)}}</span><br/>-->
-                    <!--</tooltip>-->
-                  <!--</p>-->
                   <p v-if="item.status === 'trial_end'">
                     <tooltip :content="item.auditDescription ? item.auditDescription : getTaskStatus(item.trialEndReason)" placement="top" class="cursor-p">
                       <icon color="#f9284f" type="md-alert"/>
@@ -160,16 +153,14 @@
                   <div class="del-edit">
                     <span v-if="item.status === 'order_num_waiting_audit'" @click="openCheckOrder(item.id, item.needBrowseCollectAddCart, item.itemIssue, index)">审核订单信息</span>
                     <span v-if="item.status === 'trial_report_waiting_confirm'" @click="goProbationReport(item.id)">审核买家秀</span>
-                    <!--<router-link target="_blank" :to="{path:'/user/activity-management/report',query:{id: encryptionId(item.id), from: 'taskPassAudit'}}" v-if="item.status === 'trial_report_waiting_confirm'">-->
-                    <!--审核买家秀-->
-                    <!--</router-link>-->
                     <p v-if="item.status === 'trial_finished' && !item.ifEvaluated">
-                      <span target="_blank" class="check-report" @click="toShowkerReport(item.showkerId,item.id)">查看平台买家秀</span><br/>
+                      <span class="check-report" @click="toShowkerReport(item.showkerId,item.id)">查看平台买家秀</span><br/>
                       <span @click="getShowkerReportInfo(item.id,item.alitmAccount)">评价拿手</span>
                     </p>
-                    <span  class="check-report" v-if="item.status === 'trial_finished' && item.ifEvaluated"  @click="toShowkerReport(item.showkerId,item.id)">查看平台买家秀</span>
-                    <!--<span v-if="item.status !== 'order_num_waiting_audit' && item.status !== 'trial_report_waiting_confirm' && !(item.status === 'trial_finished' && !item.ifEvaluated)">&#45;&#45;&#45;&#45;&#45;&#45;</span>-->
-                    <span v-if="item.status !== 'order_num_waiting_audit' && item.status !== 'trial_report_waiting_confirm' && item.status !== 'trial_finished'">------</span>
+                    <span class="check-report" v-if="item.status === 'trial_finished' && item.ifEvaluated"  @click="toShowkerReport(item.showkerId,item.id)">查看平台买家秀</span>
+                    <span v-if="item.status === 'trial_finished'">------</span>
+                    <span class="cursor-p blue" v-if="(item.status === 'pass_and_unclaimed' || item.status === 'order_num_waiting_audit' || item.status === 'trial_report_waiting_confirm' || item.status === 'trial_report_waiting_submit') && item.reviewContent" @click="lookAtTemplate(item.reviewContent, item.reviewPictures)">查看评价范本</span>
+                    <span v-else>------</span>
                   </div>
                 </td>
               </tr>
@@ -297,6 +288,18 @@
         <i-button class="pl-40 pr-40" type="error" size="large" :loading="batchExportLoading" @click="getExportOrderNumberAll">开始批量导出</i-button>
       </div>
     </modal>
+    <!--显示评价范本弹框-->
+    <modal v-model="showTemplateModal" title="查看评价范本">
+      <div>
+        <span>评价内容：</span>
+        <i-input v-model="itemReviewAssign.reviewContent" readonly class="width-400" type="textarea" :autosize="{minRows: 3, maxRows: 4}"></i-input>
+      </div>
+      <div class="mt-20">
+        <span>评价晒图：</span>
+        <img v-for="(item, index) in itemReviewAssign.reviewPictures" :key="index" class="border-radius-5 vtc-mid mr-10 border-ddd" :src="item" alt="评价范本图片" width="54" height="54">
+      </div>
+      <div slot="footer"></div>
+    </modal>
   </div>
 
 </template>
@@ -381,7 +384,9 @@
         selectedLabelList: [],
         storeList: [],
         selectedStore: '',
-        realStoreName: null
+        realStoreName: null,
+        showTemplateModal: false,
+        itemReviewAssign: {},
       }
     },
     created() {
@@ -753,7 +758,16 @@
         this.realStoreName = res === '全部店铺' ? '' : res;
         this.pageIndex = 1;
         this.passesTaskList();
-      }
+      },
+      // 查看范本
+      lookAtTemplate(conten, prictures) {
+        this.showTemplateModal = true;
+        const _itemReviewAssign = Object.assign({},{
+          reviewContent: conten,
+          reviewPictures: prictures,
+        });
+        this.itemReviewAssign = Object.freeze(_itemReviewAssign);
+      },
     }
   }
 </script>

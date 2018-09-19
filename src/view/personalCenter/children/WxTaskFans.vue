@@ -107,7 +107,7 @@
             <div class="requirement border">
               <div class="check-container pd-tb-20 pl-20 pr-20">
                 <div class="mt-20 mb-20">
-                  <span class="mr-10">需求粉丝数：</span>
+                  <span class="mr-10">购买粉丝费用：</span>
                   <Input v-model.number="money" class="width-150 bg-main color-theme" disabled/>
                   <span class="item-right ml-8">元</span>
                   <span class="font12 ml-28">每个粉丝需缴纳20元押金，粉丝确认收货后退还商家</span>
