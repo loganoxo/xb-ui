@@ -869,7 +869,7 @@
           if (res.status) {
             Object.assign(_this.taskSettlementDetailInfo, {
               settlementTime: getSeverTime(),
-              taskCountLeft: res.data.taskCountLeft,
+              refundTaskCount: res.data.refundTaskCount,
               marginRefund: (res.data.marginRefund / 100).toFixed(2),
               promotionRefund: (res.data.promotionRefund / 100).toFixed(2),
               vasFeeRefund: (res.data.vasFeeRefund / 100).toFixed(2),
