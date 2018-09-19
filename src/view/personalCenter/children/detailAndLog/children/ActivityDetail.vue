@@ -110,6 +110,7 @@
           <span class="ml-5">拿手申请条件：</span>
           <radio-group v-model="trialCondition">
             <radio label="all" disabled>不限制</radio>
+            <radio label="refuseOldShowkerFor15Days" disabled>拒绝15天内参加过本店铺的拿手再次申请</radio>
             <radio label="refuseOldShowkerFor30Days" disabled>拒绝30天内参加过本店铺的拿手再次申请</radio>
             <!--<radio label="refuseOldShowker" disabled>拒绝已参加过本店活动的拿手再次申请</radio>-->
           </radio-group>
@@ -1553,6 +1554,8 @@
 
             if (res.data.refuseOldShowker) {
               _this.trialCondition = 'refuseOldShowker'
+            } else if (res.data.refuseOldShowkerFor15Days) {
+              _this.trialCondition = 'refuseOldShowkerFor15Days'
             } else if (res.data.refuseOldShowkerFor30Days) {
               _this.trialCondition = 'refuseOldShowkerFor30Days'
             } else {

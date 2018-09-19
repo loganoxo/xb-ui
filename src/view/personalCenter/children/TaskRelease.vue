@@ -1394,6 +1394,7 @@
           dayReserveToNow: false,
           refuseOldShowker: false,
           refuseOldShowkerFor30Days: false,
+          refuseOldShowkerFor15Days: false,
           needBrowseCollectAddCart: false,
           speedUp: false,
           itemIssue: [],
