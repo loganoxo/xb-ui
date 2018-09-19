@@ -345,6 +345,7 @@
                 <span class="vtc-sup left mt-20">{{`评价${index + 1}`}}：</span>
                 <i-input v-model="item.reviewContent" class="mb-10 width-400 mt-8 left" type="textarea" :autosize="{minRows: 2,maxRows: 2}" placeholder="请输入你的评价内容"/>
                 <upload class="inline-block left ml-10"
+                        :default-file-list="defaultItemReviewImages[index]"
                         :item-index="index"
                         :on-remove="removeEvaluateImage"
                         :on-success="evaluateImageSuccess"
@@ -1437,7 +1438,8 @@
         itemReviewList: [{
           reviewContent: '',
           reviewPictures: [],
-        }],
+      }],
+        defaultItemReviewImages: [],
         selectKeywordScheme: 0,
         addKeywordScheme: 0,
         isShowUserClause: false,
@@ -2801,12 +2803,14 @@
           _this.taskRelease.itemDescription = _this.taskRelease.itemDescription.replace(IMG_HREF_ATTRIBUTE, '');
         }
         let status = _this.taskStatus;
-        let type = _this.$route.query.type;
-        if ((status === 'waiting_modify' || status === 'waiting_pay') && _this.paidDeposit === _this.orderMoney && !type) {
+        const type = _this.$route.query.type;
+        if (status === 'waiting_modify' && _this.paidDeposit === _this.orderMoney) {
           _this.taskCreate(true);
-        } else if ((status === 'waiting_modify' || status === 'waiting_pay') && _this.paidDeposit > _this.orderMoney && !type) {
-          this.editPriceToLowAfterModel = true;
-        } else if ((status === 'waiting_modify' || status === 'waiting_pay') && _this.paidDeposit > 0 && _this.paidDeposit < _this.orderMoney && !type) {
+        } else if (status === 'waiting_pay' && _this.paidDeposit === 0) {
+          _this.taskCreate(false);
+        } else if ((status === 'waiting_modify' || status === 'waiting_pay') && _this.paidDeposit > _this.orderMoney) {
+          _this.editPriceToLowAfterModel = true;
+        } else if ((status === 'waiting_modify' || status === 'waiting_pay') && _this.paidDeposit > 0 && _this.paidDeposit < _this.orderMoney) {
           _this.editPriceAfterModel = true;
           _this.priceHasChange = true;
         } else if (type && type === 'copy') {
@@ -3050,6 +3054,7 @@
         }
         this.getTaskInfo();*/
         this.stepName = 'information';
+        this.taskRelease.taskId = this.taskPayId;
       },
       IThink() {
         this.editPriceAfterModel = false;
@@ -3078,7 +3083,7 @@
             _this.paidDeposit = res.data.marginPaid + res.data.promotionExpensesPaid + res.data.vasFeePaid + res.data.redEnvelopeDeductionPaid + res.data.tagVasFeePaid;
             _this.taskStatus = res.data.taskStatus;
             const type = _this.$route.query.type;
-            if (!type) {
+            if (type === 'edit') {
               _this.taskRelease.taskId = res.data.id;
             }
             if ((_this.taskStatus === 'waiting_modify' || _this.taskStatus === 'waiting_pay') && _this.paidDeposit > 0 && type !== 'copy') {
@@ -3154,6 +3159,29 @@
             if (_this.taskRelease.onlyShowForQualification) {
               _this.taskRelease.onlyShowForQualification = false;
             }
+
+            // 参考范本评论 编辑
+            let itemReviewAssignsData = res.data.itemReviewAssigns;
+            if (type === 'edit' && itemReviewAssignsData && itemReviewAssignsData.length > 0) {
+              const _itemReviewList = [];
+              const _defaultItemReviewImages = [];
+              itemReviewAssignsData.forEach((item, index) => {
+                const _reviewPictures = JSON.parse(item.reviewPictures);
+                _itemReviewList.push({
+                  reviewPictures: JSON.parse(item.reviewPictures),
+                  reviewContent: item.reviewContent
+                });
+                _defaultItemReviewImages[index] = [];
+                _reviewPictures.forEach(key => {
+                  _defaultItemReviewImages[index].push({
+                    src: key
+                  })
+                })
+              });
+              _this.itemReviewList = _itemReviewList;
+              _this.defaultItemReviewImages = _defaultItemReviewImages;
+            }
+
             _this.taskRelease.presentPrice = _this.taskRelease.presentPrice / 100;
             _this.taskRelease.itemPrice = _this.taskRelease.itemPrice / 100;
             let itemIssue = JSON.parse(res.data.itemIssue);
