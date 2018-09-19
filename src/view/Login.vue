@@ -335,9 +335,13 @@
               });
             }
           } else {
-            self.instance('error', '', res.msg);
-            self.getVrcode();
-            self.btnState.trendsLoginBtn = false;
+            if (res.statusCode === 'this_user_has_been_freezing') {
+              self.freezeModal = true;
+            } else {
+              self.instance('error', '', res.msg);
+              self.getVrcode();
+              self.btnState.trendsLoginBtn = false;
+            }
           }
         })
       },
