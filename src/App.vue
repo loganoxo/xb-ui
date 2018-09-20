@@ -10,12 +10,11 @@
     <div class="suspend-service" v-show="showSuspendService" v-if="isLogin">
       <div v-if="getUserRole === 1" class="pos-rel">
         <img src="~assets/img/common/service-little-sister-1.png" alt=""/>
-        <div class="service-content">
-          <p class="service-title text-ct fs-14">您的专属</p>
-          <p class="service-title text-ct fs-14">一对一产品服务</p>
-          <div class="common-service text-ct">
-            <a href="http://wpa.b.qq.com/cgi/wpa.php?ln=1&key=XzgwMDAxOTQwNF80ODQ2MjlfODAwMDE5NDA0XzJf" target="_blank">点击咨询</a>
-          </div>
+        <div class="service-content text-ct">
+          <p class="service-title fs-14">您的专属</p>
+          <p class="service-title fs-14">一对一产品服务</p>
+          <a href="http://wpa.b.qq.com/cgi/wpa.php?ln=1&key=XzgwMDAxOTQwNF80ODQ2MjlfODAwMDE5NDA0XzJf" target="_blank" class="common-service qq-service text-ct">点击咨询</a>
+          <a v-if="!isMember" class="common-service wx-service" @click="showWxVrcode = true">点击咨询</a>
         </div>
       </div>
       <a href="https://jq.qq.com/?_wv=1027&k=5ZMH7Iu" target="_blank" class="pos-rel block" v-else>
@@ -33,6 +32,15 @@
           <a href="http://wpa.qq.com/msgrd?v=3&site=qq&menu=yes&uin=2012364029" target="_blank" @click="closeSuspendService"></a>
           <div class="dynamicQQ">{{getSellerCustomerQq.configValue}}</div>
         </div>
+      </modal>
+      <!--微信运营群二维码弹窗-->
+      <modal v-model="showWxVrcode" class="text-ct" :transfer="true" :footer-hide="true">
+        <div>
+          <img src="~assets/img/common/shangjiaweixinqun2.png" alt="" class="vtc-mid" width="40" height="40">
+          <span class="f-b fs-18 ml-10">白拿拿商家运营交流群</span>
+        </div>
+        <img src="~assets/img/common/merchant-wx-group.jpg" alt="">
+        <p class="f-b fs-18">微信号：bainana51</p>
       </modal>
     </div>
   </div>
@@ -55,7 +63,8 @@
     },
     data() {
       return {
-        showSuspendService: true
+        showSuspendService: true,
+        showWxVrcode: false
       }
     },
     computed: {
@@ -76,7 +85,10 @@
       },
       getSellerCustomerQq() {
         return this.$store.getters.getSysConfigValue('sellerCustomerQq')
-      }
+      },
+      isMember() {
+        return this.$store.getters.isMemberOk;
+      },
     },
     created() {
       const _this = this;
@@ -131,14 +143,14 @@
       .service-title {
         color:#FF6636;
       }
-      a{
+
+      .common-service{
         display: inline-block;
         width:86px;
         height:24px;
         background-color: #E5E5E5;
         border:1px solid #ccc;
         border-radius: 12px;
-        background-image: url("assets/img/common/qq-icon.png");
         background-repeat: no-repeat;
         background-position: 4px 2px;
         padding-left:25px;
@@ -146,6 +158,13 @@
         font-size: 14px;
         color:#000;
         margin-top:10px;
+        &.qq-service {
+          background-image: url("~assets/img/common/qq-icon.png");
+        }
+        &.wx-service {
+          background-image: url("~assets/img/common/shangjiaweixinqun2.png");
+          background-size: 16px 16px;
+        }
       }
     }
   }

@@ -12,6 +12,7 @@
       <div class="side-box side-box-bg qq"></div>
       <div slot="content">
         <!--<p class="pt-10">产品客服：<a href="http://wpa.qq.com/msgrd?v=3&site=qq&menu=yes&uin=2012364029" class="qq-refer-logo" target="_blank"></a></p>-->
+        <img src="~assets/img/common/merchant-ten-group.jpg" alt="" height="140" width="140" class="mt-5">
         <p class="pt-10">产品客服：<a href="http://wpa.b.qq.com/cgi/wpa.php?ln=1&key=XzgwMDAxOTQwNF80ODQ2MjlfODAwMDE5NDA0XzJf" class="qq-refer-logo" target="_blank"></a></p>
         <p class="mt-20">咨询时间：周一至周五 9:00 - 21:00</p>
         <p class="text-align-rt mt-5">周六周日 9:00 - 18:00</p>
@@ -25,11 +26,13 @@
         <p class="text-align-rt mt-5">周六周日 9:00 - 18:00</p>
       </div>
     </Tooltip>
+
     <Tooltip placement="left" :transfer="true" class="mt-10 display-block" v-if="isLogin && getUserRole === 1">
-      <div class="side-box side-box-bg wechat"></div>
+      <div class="side-box side-box-wx-bg"></div>
       <div slot="content" class="text-ct">
-        <p>白拿拿，提权重，促转化</p>
-        <img src="~assets/img/common/merchant-ten-group.jpg" alt="" height="140" width="140" class="mt-5">
+        <img src="~assets/img/common/merchant-wx-group.jpg" alt="" height="140" width="140" class="mt-5">
+        <p class="fs-14">白拿拿商家运营交流群</p>
+        <p class="f-b fs-18">微信号：bainana51</p>
       </div>
     </Tooltip>
     <Tooltip placement="left" :transfer="true" class="mt-10 display-block" v-if="isLogin && getUserRole === 0">
@@ -117,6 +120,15 @@
     display: block;
     background-image: url("~assets/img/common/side_nav_bg.png");
     background-repeat: no-repeat;
+  }
+
+  .side-box-wx-bg {
+    width: 44px;
+    height: 44px;
+    display: block;
+    background-image: url("~assets/img/common/shangjiaweixinqun.png");
+    background-repeat: no-repeat;
+    background-position: center center;
   }
 
   .qq {
