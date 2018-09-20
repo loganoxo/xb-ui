@@ -97,15 +97,15 @@
       </div>
     </div>
     <!--当用户被冻结时的提示弹窗-->
-    <modal v-model="freezeModal" class="text-ct">
+    <modal v-model="freezeModal" class="text-ct" :footer-hide="true">
       <p class="vtc-text-btm mt-30 mb-20">
         <icon type="ios-alert" size="18" color="#FF9900" class="vtc-top mt-2"/> <span class="f-b fs-18">SORRY~出错啦</span>
       </p>
       <p class="fs-14">您的账号已被冻结，有问题请联系客服！</p>
-      <a href="http://wpa.b.qq.com/cgi/wpa.php?ln=1&key=XzgwMDAxOTQwNF80ODQ2MjlfODAwMDE5NDA0XzJf" target="_blank" class="freeze-contact-service" @click="freezeModal = false">
+      <a v-if="frozenMerchantService" href="http://wpa.b.qq.com/cgi/wpa.php?ln=1&key=XzgwMDAxOTQwNF80ODQ2MjlfODAwMDE5NDA0XzJf" target="_blank" class="freeze-contact-service" @click="freezeModal = false">
         在线客服点此咨询
       </a>
-      <div slot="footer"></div>
+      <img v-if="frozenShowkerService" src="~assets/img/common/showker-service.png" alt="" class="mt-10">
     </modal>
   </div>
 
@@ -211,7 +211,9 @@
             {validator: validateSmsCode, trigger: 'blur'}
           ]
         },
-        freezeModal: false
+        freezeModal: false,
+        frozenMerchantService: false,
+        frozenShowkerService: false,
       }
     },
     mounted() {
@@ -272,7 +274,13 @@
             setStorage('weChartPop', 1);
             self.$router.push({name: 'Home'})
           } else {
-            if (res.statusCode === 'the_user_has_been_frozen') {
+            if (res.statusCode === 'merchant_has_been_frozen') {
+              self.frozenMerchantService = true;
+              self.frozenShowkerService = false;
+              self.freezeModal = true;
+            } else if (res.statusCode === 'showker_has_been_frozen') {
+              self.frozenMerchantService = false;
+              self.frozenShowkerService = true;
               self.freezeModal = true;
             } else {
               self.instance('error', '', res.msg);
@@ -335,7 +343,13 @@
               });
             }
           } else {
-            if (res.statusCode === 'this_user_has_been_freezing') {
+            if (res.statusCode === 'merchant_has_been_frozen') {
+              self.frozenMerchantService = true;
+              self.frozenShowkerService = false;
+              self.freezeModal = true;
+            } else if (res.statusCode === 'showker_has_been_frozen') {
+              self.frozenMerchantService = false;
+              self.frozenShowkerService = true;
               self.freezeModal = true;
             } else {
               self.instance('error', '', res.msg);
