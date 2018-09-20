@@ -130,7 +130,7 @@
               </td>
               <td v-if="item.taskStatus === 'waiting_pay'">
                 <p class="del-edit">
-                  <span v-if="item.createFrom !== 'without_audit'" class="mr-10" @click="editTask(item.id, item.createTime, item.fastPublish)">编辑</span>
+                  <span class="mr-10" @click="editTask(item.id, item.createTime, item.fastPublish)">编辑</span>
                   <span @click="closeTask(item.id, item.fastPublish)">关闭</span>
                 </p>
                 <p class="bond mt-6">
