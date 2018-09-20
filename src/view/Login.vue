@@ -96,6 +96,17 @@
         </div>
       </div>
     </div>
+    <!--当用户被冻结时的提示弹窗-->
+    <modal v-model="freezeModal" class="text-ct">
+      <p class="vtc-text-btm mt-30 mb-20">
+        <icon type="ios-alert" size="18" color="#FF9900" class="vtc-top mt-2"/> <span class="f-b fs-18">SORRY~出错啦</span>
+      </p>
+      <p class="fs-14">您的账号已被冻结，有问题请联系客服！</p>
+      <a href="http://wpa.b.qq.com/cgi/wpa.php?ln=1&key=XzgwMDAxOTQwNF80ODQ2MjlfODAwMDE5NDA0XzJf" target="_blank" class="freeze-contact-service" @click="freezeModal = false">
+        在线客服点此咨询
+      </a>
+      <div slot="footer"></div>
+    </modal>
   </div>
 
 </template>
@@ -200,6 +211,7 @@
             {validator: validateSmsCode, trigger: 'blur'}
           ]
         },
+        freezeModal: false
       }
     },
     mounted() {
@@ -260,8 +272,12 @@
             setStorage('weChartPop', 1);
             self.$router.push({name: 'Home'})
           } else {
-            self.instance('error', '', res.msg);
-            self.getVrcode();
+            if (res.statusCode === 'the_user_has_been_frozen') {
+              self.freezeModal = true;
+            } else {
+              self.instance('error', '', res.msg);
+              self.getVrcode();
+            }
           }
           self.btnState.normalLoginBtn = false;
         })
@@ -319,9 +335,13 @@
               });
             }
           } else {
-            self.instance('error', '', res.msg);
-            self.getVrcode();
-            self.btnState.trendsLoginBtn = false;
+            if (res.statusCode === 'this_user_has_been_freezing') {
+              self.freezeModal = true;
+            } else {
+              self.instance('error', '', res.msg);
+              self.getVrcode();
+              self.btnState.trendsLoginBtn = false;
+            }
           }
         })
       },
@@ -478,6 +498,17 @@
         }
       }
     }
+  }
+  .freeze-contact-service {
+    display: inline-block;
+    padding: 10px 50px 10px 60px;
+    border: 1px solid #dddee1;
+    border-radius: 5px;
+    background: #eee;
+    margin: 20px auto;
+    background-image: url("~assets/img/common/qq-icon.png");
+    background-repeat: no-repeat;
+    background-position: 40px 10px;
   }
 </style>
 
