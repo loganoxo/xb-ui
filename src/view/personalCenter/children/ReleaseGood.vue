@@ -142,7 +142,8 @@
   import { quillEditor } from 'vue-quill-editor';
   import { aliCallbackImgUrl } from '@/config/env';
   import api from '@/config/apiConfig';
-  import { aliUploadImg, getStorage, setStorage, randomString } from "@/config/utils";
+  import { getStorage, setStorage, randomString } from "@/config/utils";
+  import aliUploadConfig from '@/config/aliUploadConfig'
   export default {
     name: "ReleaseGood",
     data() {
@@ -348,7 +349,7 @@
         const _this = this;
         const file = e.target.files[0];
         const key = `task/${randomString()}`;
-        aliUploadImg(key, file).then(res => {
+        aliUploadConfig.aliUploadImg(key, file).then(res => {
           if (res) {
             let value = aliCallbackImgUrl + res.name + '!orgi75';
             _this.addImgRangePresentGet = _this.$refs.myTextEditorPresent.quill.getSelection();

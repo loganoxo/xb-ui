@@ -44,7 +44,8 @@
   import {oneOf} from 'iview/src/utils/assist'
   import Emitter from 'iview/src/mixins/emitter'
   import {bucket, aliCallbackImgUrl} from '@/config/env'
-  import {aliUploadImg, randomString} from '@/config/utils'
+  import {randomString} from '@/config/utils'
+  import aliUploadConfig from '@/config/aliUploadConfig'
 
   const prefixCls = 'ivu-upload';
 
@@ -259,10 +260,8 @@
         _this.handleStart(file);
         _this.handleProgress(file);
         let key = _this.name + '/' + randomString();
-        aliUploadImg(key, file).then(res => {
-          if (res) {
-            _this.handleSuccess(res, file);
-          }
+        aliUploadConfig.aliUploadImg(key, file).then(res => {
+          _this.handleSuccess(res, file);
         }).catch(err => {
           console.error(err);
           _this.handleError(err, file);
@@ -270,13 +269,11 @@
         })
       },
       handleStart(file) {
-        file.uid = Date.now() + this.tempIndex;
         const _file = {
           status: 'uploading',
           name: file.name,
           size: file.size,
           percentage: 0,
-          uid: file.uid,
           showProgress: true
         };
 

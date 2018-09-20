@@ -1287,9 +1287,11 @@
   import UserClause from '@/components/UserClause'
   import api from '@/config/apiConfig'
   import {aliCallbackImgUrl} from '@/config/env'
-  import {aliUploadImg, isPositiveInteger, isNumber, isInteger, isAliUrl, randomString, extendDeep, decode, setStorage, getStorage, getUrlParams, isInternetUrl, getSeverTime} from '@/config/utils'
+  import {isPositiveInteger, isNumber, isInteger, isAliUrl, randomString, extendDeep, decode, setStorage, getStorage, getUrlParams, isInternetUrl, getSeverTime} from '@/config/utils'
+  import aliUploadConfig from '@/config/aliUploadConfig'
   import commonConfig from '@/config/commonConfig'
   import FlowOrderModel from '@/components/FlowOrderModel'
+
   export default {
     name: 'task-release',
     components: {
@@ -2365,7 +2367,6 @@
         } else {
           this.vasMainItem.forEach(item => {
             if (item.id === 3 && item.isSelect) {
-              item.isSelect = false;
               item.isDisabled = false;
             }
           })
@@ -3403,7 +3404,7 @@
         const _this = this;
         const file = e.target.files[0];
         const key = `task/${randomString()}`;
-        aliUploadImg(key, file).then(res => {
+        aliUploadConfig.aliUploadImg(key, file).then(res => {
           if (res) {
             let value = aliCallbackImgUrl + res.name + '!orgi75';
             _this.addImgRangePresentGet = _this.$refs.myTextEditorPresent.quill.getSelection();
