@@ -116,10 +116,17 @@
               </td>
               <td>{{item.showkerApplyTotalCount || 0}} / {{item.showkerApplyPassedCount || 0}}（人）</td>
               <td>{{(item.taskCount  - item.showkerApplySuccessCount)}}</td>
-              <td>
+              <td v-if="item.settlementStatus === 'settlement_finished'">
+                （ {{(item.perMarginNeed * item.showkerApplySuccessCount / 100).toFixed(2)}} /
+                {{((item.promotionExpensesNeed > 0 ? item.promotionExpensesNeed : 0) / item.taskCount * item.showkerApplySuccessCount / 100).toFixed(2)}} /
+                {{((item.perVasFee + item.perTagVasFee) * item.showkerApplySuccessCount / 100).toFixed(2)}}）
+                <span>{{((item.perMarginNeed * item.showkerApplySuccessCount +
+                  (item.promotionExpensesNeed > 0 ? item.promotionExpensesNeed : 0) / item.taskCount * item.showkerApplySuccessCount +
+                  (item.perVasFee + item.perTagVasFee) * item.showkerApplySuccessCount) / 100).toFixed(2)}}</span>
+              </td>
+              <td v-if="item.settlementStatus !== 'settlement_finished'">
                 （ {{(item.totalMarginNeed / 100).toFixed(2)}} / {{((item.promotionExpensesNeed > 0 ? item.promotionExpensesNeed : 0) / 100).toFixed(2)}} / {{((item.vasFeeNeed + item.tagVasFeeNeed) / 100).toFixed(2)}}）
-                <span v-if="item.createFrom === 'without_audit'">{{((item.totalMarginNeed + item.promotionExpensesNeed + item.vasFeeNeed + item.tagVasFeeNeed) / 100).toFixed(2)}}</span>
-                <span v-else>{{((item.marginPaid + item.promotionExpensesPaid + item.vasFeePaid + item.tagVasFeePaid) / 100).toFixed(2)}}</span>
+                <span>{{((item.marginPaid + item.promotionExpensesPaid + item.vasFeePaid + item.tagVasFeePaid) / 100).toFixed(2)}}</span>
               </td>
               <td v-if="item.taskStatus === 'waiting_pay'">
                 <p class="del-edit">

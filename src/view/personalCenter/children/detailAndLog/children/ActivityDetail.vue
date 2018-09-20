@@ -37,8 +37,17 @@
             {{task.showkerApplyTotalCount || 0}} / {{task.showkerApplySuccessCount || 0}}（人）
           </td>
           <td>{{task.taskCount  - task.showkerApplySuccessCount}}</td>
-          <td>
-            （ {{(task.totalMarginNeed / 100).toFixed(2)}} / {{(task.promotionExpensesNeed / 100).toFixed(2)}} / {{((task.vasFeeNeed + task.tagVasFeeNeed) / 100).toFixed(2)}}）{{((task.marginPaid + task.promotionExpensesPaid + task.vasFeePaid + task.tagVasFeePaid) / 100).toFixed(2)}}
+          <td v-if="task.settlementStatus === 'settlement_finished'">
+            （ {{(task.perMarginNeed * task.showkerApplySuccessCount / 100).toFixed(2)}} /
+            {{((task.promotionExpensesNeed > 0 ? task.promotionExpensesNeed : 0) / task.taskCount * task.showkerApplySuccessCount / 100).toFixed(2)}} /
+            {{((task.perVasFee + task.perTagVasFee) * task.showkerApplySuccessCount / 100).toFixed(2)}}）
+            <span>{{((task.perMarginNeed * task.showkerApplySuccessCount +
+                  (task.promotionExpensesNeed > 0 ? task.promotionExpensesNeed : 0) / task.taskCount * task.showkerApplySuccessCount +
+                  (task.perVasFee + task.perTagVasFee) * task.showkerApplySuccessCount) / 100).toFixed(2)}}</span>
+          </td>
+          <td v-if="task.settlementStatus !== 'settlement_finished'">
+            （ {{(task.totalMarginNeed / 100).toFixed(2)}} / {{((task.promotionExpensesNeed > 0 ? task.promotionExpensesNeed : 0) / 100).toFixed(2)}} / {{((task.vasFeeNeed + task.tagVasFeeNeed) / 100).toFixed(2)}}）
+            <span>{{((task.marginPaid + task.promotionExpensesPaid + task.vasFeePaid + task.tagVasFeePaid) / 100).toFixed(2)}}</span>
           </td>
         </tr>
         </tbody>
