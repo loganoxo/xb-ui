@@ -547,11 +547,17 @@
       </div>
     </modal>
     <!-- 商家每天首次登录，显示微信加粉弹框 -->
-    <modal v-model="showTaskFansModal" :footer-hide="true" width="900">
-      <a class="showTaskFansModal block" @click="toTaskFans">
-        <img src="~assets/img/task-fans/task-fans-modal.png">
-      </a>
-    </modal>
+    <!--<modal v-model="showTaskFansModal" :footer-hide="true" width="900">-->
+      <!--<a class="showTaskFansModal block" @click="toTaskFans">-->
+        <!--<img src="~assets/img/task-fans/task-fans-modal.png">-->
+      <!--</a>-->
+    <!--</modal>-->
+    <div class="page-modal cursor-p" v-if="showTaskFansModal">
+      <div class="modal-content" @click.self="toGoodRelease">
+        <img src="~assets/img/good-release/modal-close.png" alt="" class="right modal-close" @click="showTaskFansModal = false">
+        <img src="~assets/img/good-release/modal-btn.png" alt="" class="modal-btn cursor-p" @click="toGoodRelease">
+      </div>
+    </div>
   </div>
 </template>
 
@@ -1045,10 +1051,13 @@
       toTaskFans() {
         this.$router.push('/user/task-fans');
       },
+      toGoodRelease() {
+        this.$router.push('/user/release-good');
+      },
       showTaskFansHandler() {
         const self = this;
         if (self.$store.state.login && self.$store.state.userInfo.role === 1 && self.$store.state.userInfo.nickname) {
-          let loginStatus = getStorage('loginInformation');
+          let loginStatus = getStorage('loginInformation2');
           loginStatus = loginStatus ? JSON.parse(loginStatus) : [];
           const obj = { loginTime: timeToDate(), loginPhone: self.getUserInfoPhone };
           if (loginStatus) {
@@ -1067,13 +1076,13 @@
             if (flag) {
               self.showTaskFansModal = true;
               loginStatus.push(obj);
-              setStorage('loginInformation', JSON.stringify(loginStatus));
+              setStorage('loginInformation2', JSON.stringify(loginStatus));
             }
           } else {
             self.showTaskFansModal = true;
             loginStatus = [];
             loginStatus.push(obj);
-            setStorage('loginInformation', JSON.stringify(loginStatus));
+            setStorage('loginInformation2', JSON.stringify(loginStatus));
           }
         }
       }
@@ -1653,6 +1662,36 @@
 
   .showTaskFansModal {
     margin: 20px auto 0 auto;
+  }
+
+  .page-modal {
+    background: rgba(0, 0, 0, .6);
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 10;
+  }
+  .modal-content {
+    background: url("~assets/img/good-release/modal-img.png");
+    width: 840px;
+    height: 534px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+  .modal-close {
+    margin-top: 80px;
+    margin-right: 120px;
+  }
+  .modal-btn {
+    display: block;
+    position: absolute;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
   }
 
 </style>

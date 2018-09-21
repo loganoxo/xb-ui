@@ -164,7 +164,6 @@
       float: left;
       margin-left: 10px;
       p {
-        height: 21px;
         line-height: 21px;
       }
     }

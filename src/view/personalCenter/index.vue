@@ -11,6 +11,7 @@
           <span class="bind-store icon-size"></span>
           <router-link to="/user/bind-store/store-bind-rules">店铺绑定</router-link>
         </li>
+
         <li :class="{isSelect:isSelect ==='TaskRelease' || isSelect ==='FastTaskRelease'}">
           <span class="issue-activity icon-size"></span>
           <router-link to="/user/task-release">发布活动</router-link>
@@ -25,11 +26,21 @@
           <span class="task-management-nav icon-size"></span>
           <router-link to="/user/task-management/wait">任务管理</router-link>
         </li>
-        <li :class="{isSelect:isSelect ==='TaskFans'}" class="pos-rel">
-          <span class="task-fans icon-size"></span>
+        <li :class="{isSelect:isSelect === 'releaseGood'}" class="pos-rel">
+          <span class="icon-size release-good"></span>
           <img src="~assets/img/icon/new.png" alt="" class="new-task">
-          <router-link to="/user/task-fans">微信加粉</router-link>
+          <router-link to="/user/release-good">发布商品</router-link>
         </li>
+        <li :class="{isSelect:isSelect === 'goodManagement'}" class="pos-rel">
+          <span class="icon-size good-management"></span>
+          <img src="~assets/img/icon/new.png" alt="" class="new-task">
+          <router-link to="/user/good-management">商品管理</router-link>
+        </li>
+        <!--<li :class="{isSelect:isSelect ==='TaskFans'}" class="pos-rel">-->
+          <!--<span class="task-fans icon-size"></span>-->
+          <!--<img src="~assets/img/icon/new.png" alt="" class="new-task">-->
+          <!--<router-link to="/user/task-fans">微信加粉</router-link>-->
+        <!--</li>-->
         <li
           :class="{isSelect:isSelect ==='AccountInfo' || isSelect === 'PayMoney' || isSelect === 'GetoutMoney' || isSelect === 'AccountManagement'}">
           <span class="money-management-nav icon-size"></span>
@@ -293,7 +304,16 @@
             background-image: url("~assets/img/userhome-merchant/task-fans-on.png");
           }
         }
-
+        &:hover {
+          .release-good {
+            background-image: url("~assets/img/userhome-merchant/release-good-on.png");
+          }
+        }
+        &:hover {
+          .good-management {
+            background-image: url("~assets/img/userhome-merchant/good-management-on.png");
+          }
+        }
       }
       a {
         color: inherit;
@@ -485,6 +505,26 @@
   .isSelect {
     .black-management {
       background-image: url("~assets/img/userhome-merchant/black-management-off.png");
+    }
+  }
+
+  .release-good {
+    background-image: url("~assets/img/userhome-merchant/release-good-off.png");
+  }
+
+  .isSelect {
+    .release-good {
+      background-image: url("~assets/img/userhome-merchant/release-good-on.png");
+    }
+  }
+
+  .good-management {
+    background-image: url("~assets/img/userhome-merchant/good-management-off.png");
+  }
+
+  .isSelect {
+    .good-management {
+      background-image: url("~assets/img/userhome-merchant/good-management-on.png");
     }
   }
 

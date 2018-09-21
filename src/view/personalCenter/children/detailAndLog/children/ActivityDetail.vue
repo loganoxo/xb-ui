@@ -37,8 +37,17 @@
             {{task.showkerApplyTotalCount || 0}} / {{task.showkerApplySuccessCount || 0}}（人）
           </td>
           <td>{{task.taskCount  - task.showkerApplySuccessCount}}</td>
-          <td>
-            （ {{(task.totalMarginNeed / 100).toFixed(2)}} / {{(task.promotionExpensesNeed / 100).toFixed(2)}} / {{((task.vasFeeNeed + task.tagVasFeeNeed) / 100).toFixed(2)}}）{{((task.marginPaid + task.promotionExpensesPaid + task.vasFeePaid + task.tagVasFeePaid) / 100).toFixed(2)}}
+          <td v-if="task.settlementStatus === 'settlement_finished'">
+            （ {{(task.perMarginNeed * task.showkerApplySuccessCount / 100).toFixed(2)}} /
+            {{((task.promotionExpensesNeed > 0 ? task.promotionExpensesNeed : 0) / task.taskCount * task.showkerApplySuccessCount / 100).toFixed(2)}} /
+            {{((task.perVasFee + task.perTagVasFee) * task.showkerApplySuccessCount / 100).toFixed(2)}}）
+            <span>{{((task.perMarginNeed * task.showkerApplySuccessCount +
+                  (task.promotionExpensesNeed > 0 ? task.promotionExpensesNeed : 0) / task.taskCount * task.showkerApplySuccessCount +
+                  (task.perVasFee + task.perTagVasFee) * task.showkerApplySuccessCount) / 100).toFixed(2)}}</span>
+          </td>
+          <td v-if="task.settlementStatus !== 'settlement_finished'">
+            （ {{(task.totalMarginNeed / 100).toFixed(2)}} / {{((task.promotionExpensesNeed > 0 ? task.promotionExpensesNeed : 0) / 100).toFixed(2)}} / {{((task.vasFeeNeed + task.tagVasFeeNeed) / 100).toFixed(2)}}）
+            <span>{{((task.marginPaid + task.promotionExpensesPaid + task.vasFeePaid + task.tagVasFeePaid) / 100).toFixed(2)}}</span>
           </td>
         </tr>
         </tbody>
@@ -110,6 +119,7 @@
           <span class="ml-5">拿手申请条件：</span>
           <radio-group v-model="trialCondition">
             <radio label="all" disabled>不限制</radio>
+            <radio label="refuseOldShowkerFor15Days" disabled>拒绝15天内参加过本店铺的拿手再次申请</radio>
             <radio label="refuseOldShowkerFor30Days" disabled>拒绝30天内参加过本店铺的拿手再次申请</radio>
             <!--<radio label="refuseOldShowker" disabled>拒绝已参加过本店活动的拿手再次申请</radio>-->
           </radio-group>
@@ -247,12 +257,13 @@
                 <span>参考范本（拿手有可能直接拷贝该范本，为防止评价重复，建议每个名额提供一种范本。）</span>
               </radio>
             </radio-group>
-            <p v-show="taskRelease.itemReviewRequired === 'assign_review_detail'" class="main-color ml-20">可自定义的评价数跟您发布宝贝数量相同，系统会随机分配给申请通过的拿手每人一条评论，以保证评价内容的唯一性。</p>
-            <div class="afford-evaluation-list mt-10" v-if="taskRelease.itemReviewRequired === 'assign_review_detail' && taskRelease.taskCount > 0">
-              <p v-for="item in itemReviewList">
-                <span class="vtc-sup">{{'评价' + item.index}}：</span>
-                <i-input v-model="item.value" class="mb-10" type="textarea" :autosize="{minRows: 1,maxRows: 3}" :disabled="true" placeholder="请输入你的评价内容" style="width: 620px;"/>
-              </p>
+            <p v-show="taskRelease.itemReviewRequired === 'assign_review_detail'" class="main-color ml-20">最多为每份名额提供一份内容，可以不添加（不添加表示无要求），系统会对已添加内容进行唯一分配，保证内容不重复。</p>
+            <div class="afford-evaluation-list mt-10" v-show="taskRelease.itemReviewRequired === 'assign_review_detail'">
+              <div class="clear mt-10" v-for="(item, index) in itemReviewList" :key="item.index">
+                <span class="vtc-sup left mt-15">{{`评价${index + 1}`}}：</span>
+                <div class="left border-radius-5 width-500 border-ddd ht50">{{item.reviewContent}}</div>
+                <img width="54" height="54" class="border-radius-5 ml-10 left border-ddd" v-for="(childItem, childIndex) in item.reviewPictures" :key="childIndex" :src="childItem" alt="评价图片">
+              </div>
             </div>
           </div>
         </div>
@@ -773,6 +784,9 @@
         </template>
       </div>
     </div>
+    <div class="text-ct mt-20">
+      <checkbox class="f-b" v-model="taskRelease.withoutAudit" :disabled="true">使用免审发布</checkbox>
+    </div>
     <div class="description-fees mt-40">
       <h3>费用说明：</h3>
       <div class="description-fees-con mt-10">
@@ -889,6 +903,7 @@
           itemReviewRequired: 'review_by_showker_self',
           itemReviewSummary: null,
           itemReviewAssignString: [],
+          withoutAudit: false,
         },
         trialCondition: 'all',
         taskCountInputPlaceholder: '请输入活动时长',
@@ -940,7 +955,10 @@
             returnPrice: 0.5,
           },
         },
-        itemReviewList: [],
+        itemReviewList: [{
+          reviewContent: '',
+          reviewPictures: [],
+        }],
         itemReviewPushList: [],
         selectKeywordScheme: 0,
         addKeywordScheme: 0,
@@ -1521,6 +1539,9 @@
                 _this.taskRelease[key] = res.data[key]
               }
             });
+
+            // 复制活动时活动份数为发布活动时的活动份数（taskCount + returnCount），而不是可审批份数
+            _this.taskRelease.taskCount = res.data.taskCount + res.data.returnCount * 1;
             // _this.taskRelease.itemType = res.data.itemCatalog.id;
             _this.taskRelease.pinkage =  _this.taskRelease.pinkage.toString();
             _this.taskRelease.donotPostPhoto = _this.taskRelease.donotPostPhoto.toString();
@@ -1545,6 +1566,8 @@
 
             if (res.data.refuseOldShowker) {
               _this.trialCondition = 'refuseOldShowker'
+            } else if (res.data.refuseOldShowkerFor15Days) {
+              _this.trialCondition = 'refuseOldShowkerFor15Days'
             } else if (res.data.refuseOldShowkerFor30Days) {
               _this.trialCondition = 'refuseOldShowkerFor30Days'
             } else {
@@ -1556,14 +1579,18 @@
               _this.needBrowseAnswer = true;
               _this.browseAnswer =  itemIssue;
             }
+            // 参考范本评论复制、编辑
             let itemReviewAssignsData = res.data.itemReviewAssigns;
-            if(itemReviewAssignsData){
-              itemReviewAssignsData.forEach((item,index) => {
-                _this.itemReviewList.push({
-                  index: index + 1,
-                  value: item.reviewContent
+            if (itemReviewAssignsData && itemReviewAssignsData.length > 0) {
+              const _itemReviewList = [];
+              itemReviewAssignsData.forEach(item => {
+                const _reviewPictures = JSON.parse(item.reviewPictures);
+                _itemReviewList.push({
+                  reviewPictures: _reviewPictures,
+                  reviewContent: item.reviewContent
                 })
-              })
+              });
+              _this.itemReviewList = _itemReviewList;
             }
             _this.taskRelease.itemPrice = _this.taskRelease.itemPrice / 100;
             _this.taskRelease.presentPrice = _this.taskRelease.presentPrice / 100;

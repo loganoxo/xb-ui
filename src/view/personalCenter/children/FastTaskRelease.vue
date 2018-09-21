@@ -48,11 +48,11 @@
         <div class="left activity-type-box mr-10" :class="{isSelect:taskRelease.activityCategory === 'present_get'}" @click="changeSelectActivity('present_get')">
           <p class="mt-22">模版B</p>
         </div>
-        <div class="left activity-type-box mr-10" @click="toTaskFans">
-          <p>微信加粉</p>
-          <p>尾货/试用商品/赠品</p>
-          <p>均可兑换高质量粉丝</p>
-        </div>
+        <!--<div class="left activity-type-box mr-10" @click="toTaskFans">-->
+          <!--<p>微信加粉</p>-->
+          <!--<p>尾货/试用商品/赠品</p>-->
+          <!--<p>均可兑换高质量粉丝</p>-->
+        <!--</div>-->
       </div>
     </div>
     <!--填写活动信息详情-->
@@ -462,7 +462,8 @@
   import UserClause from '@/components/UserClause'
   import {aliCallbackImgUrl} from '@/config/env'
   import api from '@/config/apiConfig'
-  import {aliUploadImg, isPositiveInteger, isNumber, isInteger, isAliUrl, randomString, extendDeep, decode, setStorage, getStorage, getUrlParams, isInternetUrl, delHtmlTag} from '@/config/utils'
+  import {isPositiveInteger, isNumber, isInteger, isAliUrl, randomString, extendDeep, decode, setStorage, getStorage, getUrlParams, isInternetUrl, delHtmlTag} from '@/config/utils'
+  import aliUploadConfig from '@/config/aliUploadConfig'
 
   export default {
     name: 'fast-task-release',
@@ -1278,7 +1279,7 @@
         const _this = this;
         const file = e.target.files[0];
         const key = 'task' + '/' + randomString();
-        aliUploadImg(key, file).then(res => {
+        aliUploadConfig.aliUploadImg(key, file).then(res => {
           if (res) {
             let value = aliCallbackImgUrl + res.name + '!orgi75';
             _this.addImgRangePresentGet = _this.$refs.myTextEditorPresent.quill.getSelection();

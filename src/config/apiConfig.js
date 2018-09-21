@@ -348,10 +348,10 @@ export default {
   },
 
   /**
-   * 商家申请任务结算
+   * 商家申请活动结算
    */
-  settlementTask(params) {
-    return axiosConfig.post("/api/task-settlement.json", params)
+  activitySettlement(params) {
+    return axiosConfig.post("/api/activity-settlement.json", params)
   },
 
   /**
@@ -1304,4 +1304,52 @@ export default {
     return axiosConfig.post('/api/task-flow-stop.json', params)
   },
 
+  /**
+   * 校验商家用户是否有活动发布免审核权限
+   */
+  taskMerchantAuditConfig() {
+    return axiosConfig.get('/api/task-merchant-audit-config.json')
+  },
+
+  /**
+   * 商家用户开启关闭活动发布免审权限
+   */
+  setAuditStatus(params) {
+    return axiosConfig.post('/api/set-audit-status.json', params)
+  },
+
+  /***
+   * 进入发布商品页面的商家记录
+   */
+  saveSellerAccesslog() {
+    return axiosConfig.get('/api/user/saveSellerAccesslog.json')
+  },
+
+  /***
+   * 发布商品
+   */
+  saveTryBeforeBuy(params) {
+    return axiosConfig.post('/api/task/mall/save-try-before-buy.json', params)
+  },
+
+  /***
+   * 获取用户发布的商品
+   */
+  getGoodList(params) {
+    return axiosConfig.get('/api/task-mall-list.json', params)
+  },
+
+  /***
+   * 检查商家是否可以提前进行任务结算或活动结算
+   */
+  checkSettlement(params) {
+    return axiosConfig.get('/api/check-settle.json', params)
+  },
+
+  /**
+   * 商家提前进行任务结算
+   */
+  taskSettlement(params) {
+    return axiosConfig.post('/api/task-settlement.json', params)
+  }
 }

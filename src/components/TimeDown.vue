@@ -40,6 +40,10 @@
       timeEndText: {
         type: String,
         default: ''
+      },
+      format: {
+        type: String,
+        default: 'DD hh:mm:ss'
       }
     },
     computed: {},
@@ -49,18 +53,22 @@
         let _this = this;
         let leftTime = parseInt((_this.endTime - nowTime) / 1000);
         let d = parseInt(leftTime / (24 * 60 * 60));
-        let h = _this.format(parseInt(leftTime / (60 * 60) % 24));
-        let m = _this.format(parseInt(leftTime / 60 % 60));
-        let s = _this.format(parseInt(leftTime % 60));
+        let h = _this.formatTime(parseInt(leftTime / (60 * 60) % 24));
+        let m = _this.formatTime(parseInt(leftTime / 60 % 60));
+        let s = _this.formatTime(parseInt(leftTime % 60));
         if (leftTime <= 0) {
           _this.flag = true;
           _this.$emit('timeEnd');
           _this.time = _this.timeEndText;
         } else {
-          _this.time = `${d}天${h}小时${m}分${s}秒`
+          if (_this.format === 'DD hh:mm:ss') {
+            _this.time = `${d}天${h}小时${m}分${s}秒`
+          } else if (_this.format === 'mm:ss') {
+            _this.time = `${m}分${s}秒`
+          }
         }
       },
-      format(time) {
+      formatTime(time) {
         if (time >= 10) {
           return time
         } else {

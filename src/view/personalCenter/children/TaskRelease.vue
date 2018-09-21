@@ -66,11 +66,11 @@
         <div class="left activity-type-box mr-10" :class="{isSelect:taskRelease.activityCategory === 'present_get'}" @click="changeSelectActivity('present_get')">
           <p class="mt-22">模版B</p>
         </div>
-        <div class="left activity-type-box mr-10" @click="toTaskFans">
-          <p>微信加粉</p>
-          <p>尾货/试用商品/赠品</p>
-          <p>均可兑换高质量粉丝</p>
-        </div>
+        <!--<div class="left activity-type-box mr-10" @click="toTaskFans">-->
+          <!--<p>微信加粉</p>-->
+          <!--<p>尾货/试用商品/赠品</p>-->
+          <!--<p>均可兑换高质量粉丝</p>-->
+        <!--</div>-->
       </div>
     </div>
     <div class="activity-con mt-20">
@@ -120,7 +120,8 @@
           <span class="ml-8">申请条件：</span>
           <radio-group v-model="trialCondition">
             <radio label="all">不限制</radio>
-            <radio label="refuseOldShowkerFor30Days">拒绝30天内参加过本店铺的拿手再次申请</radio>
+            <radio label="refuseOldShowkerFor15Days">拒绝15天内本店下过单的拿手再次申请</radio>
+            <radio label="refuseOldShowkerFor30Days">拒绝30天内本店下过单的拿手再次申请</radio>
             <!--<radio label="refuseOldShowker">拒绝已参加过本店活动的拿手再次申请</radio>-->
           </radio-group>
         </div>
@@ -246,7 +247,7 @@
         </div>
         <div class="baby-title ml-20 mt-20">
           <span class="required">宝贝类型：</span>
-          <i-select v-model="taskRelease.itemType" style="width:200px">
+          <i-select v-model="taskRelease.itemType" class="width-150">
             <template v-for="parentItem in itemCatalogList">
               <option-group v-if="parentItem.level === 1" :label="parentItem.name" :key="parentItem.id">
                 <template v-for="item in itemCatalogList">
@@ -285,13 +286,13 @@
         </div>
         <div v-show="taskRelease.activityCategory === 'present_get'" class="baby-price ml-20 mt-20">
           <span class="required">展示价格：</span>
-          <i-input v-model.number="taskRelease.presentPrice" placeholder="请输入活动展示价格" class="width-120"/>
+          <i-input v-model.number="taskRelease.presentPrice" placeholder="请输入活动展示价格" class="width-150"/>
           <span>元</span>
         </div>
         <div class="baby-number ml-20 mt-20">
           <p>
             <span class="required">活动份数：</span>
-            <i-input v-model.number="taskRelease.taskCount" placeholder="请输入活动份数" class="width-120" @on-blur="addItemReviewList" @on-change="taskCountChange"/>
+            <i-input v-model.number="taskRelease.taskCount" placeholder="请输入活动份数" class="width-120" @on-change="taskCountChange"/>
             <span>份</span>
             <span v-show="taskRelease.orderType === 'normal'" class="sizeColor3 ml-5">（平台会按照1/5的比例进行计算，部分中奖名额将会由系统进行推荐）</span>
           </p>
@@ -331,29 +332,43 @@
               <radio label="review_by_showker_self">
                 <span>无需求（拿手自主发挥评价更客观。<span class="main-color">选择此项不可因主观喜好对评价结果有异议。</span>）</span>
               </radio>
-              <radio label="offer_review_summary">
-                    <span>有个大概要求（可以写下评价的大概要求，因每个人理解不一样，可能评价结果会与期望有偏差。<span
-                      class="main-color">选择此项不可因主观喜好对评价结果有异议。</span>）</span>
+              <radio label="offer_review_summary"><span>有个大概要求（可以写下评价的大概要求，因每个人理解不一样，可能评价结果会与期望有偏差。<span class="main-color">选择此项不可因主观喜好对评价结果有异议。</span>）</span>
               </radio>
-              <i-input v-if="taskRelease.itemReviewRequired === 'offer_review_summary'"
-                       v-model="taskRelease.itemReviewSummary" class="mb-10" type="textarea"
-                       :autosize="{minRows: 1,maxRows: 3}" placeholder="请输入你的评价要求，如：需晒图/勿晒图、希望出现的关键词等~"/>
+              <i-input v-if="taskRelease.itemReviewRequired === 'offer_review_summary'" v-model="taskRelease.itemReviewSummary" class="mb-10 width-500" type="textarea" :autosize="{minRows: 1,maxRows: 3}" placeholder="请输入你的评价要求，如：需晒图/勿晒图、希望出现的关键词等~"/>
               <radio label="assign_review_detail">
                 <span>参考范本（拿手有可能直接拷贝该范本，为防止评价重复，建议每个名额提供一种范本。）</span>
               </radio>
             </radio-group>
             <p v-show="taskRelease.itemReviewRequired === 'assign_review_detail'" class="main-color ml-20">
-              可自定义的评价数跟您发布宝贝数量相同，系统会随机分配给申请通过的拿手每人一条评论，以保证评价内容的唯一性。</p>
-            <div class="afford-evaluation-list mt-10"
-                 v-if="taskRelease.itemReviewRequired === 'assign_review_detail' && taskRelease.taskCount > 0">
-              <p v-for="item in itemReviewList">
-                <span class="vtc-sup">{{'评价' + item.index}}：</span>
-                <i-input v-model="item.value" class="mb-10" type="textarea" :autosize="{minRows: 1,maxRows: 3}" placeholder="请输入你的评价内容" style="width: 620px;"/>
+              最多为每份名额提供一份内容，可以不添加（不添加表示无要求），系统会对已添加内容进行唯一分配，保证内容不重复。</p>
+            <div class="afford-evaluation-list mt-10" v-show="taskRelease.itemReviewRequired === 'assign_review_detail'">
+              <p class="clear" v-for="(item, index) in itemReviewList" :key="item.index">
+                <span class="vtc-sup left mt-20">{{`评价${index + 1}`}}：</span>
+                <i-input v-model="item.reviewContent" class="mb-10 width-400 mt-8 left" type="textarea" :autosize="{minRows: 2,maxRows: 2}" placeholder="请输入你的评价内容"/>
+                <upload class="inline-block left ml-10"
+                        :default-file-list="defaultItemReviewImages[index]"
+                        :item-index="index"
+                        :on-remove="removeEvaluateImage"
+                        :on-success="evaluateImageSuccess"
+                        :format="['jpg','jpeg','png','gif','bmp']"
+                        :max-size="1024"
+                        :uploadLength="5"
+                        name="task"
+                        :on-format-error="handleFormatError"
+                        :on-exceeded-size="handleMaxSize"
+                        type="drag">
+                  <div class="camera">
+                    <icon type="ios-camera" size="20"/>
+                  </div>
+                </upload>
+                <i-button :disabled="itemReviewList.length === 1" class="ml-10 mt-15 left" type="dashed" icon="plus-round" @click="deleteItemReviewList(index)">删除</i-button>
               </p>
+              <i-button :disabled="itemReviewList.length === taskRelease.taskCount || !taskRelease.taskCount" class="ml-45 mt-6 mb-5" type="dashed" icon="plus-round" @click="addItemReviewList">添加</i-button>
+              <span class="ml-10"><icon type="md-alert" color="#f9284f"/>图文评价2元/条，文字评价1元/条；近期免费，收费待定。</span>
             </div>
           </div>
         </div>
-        <div class="task-remark ml-28 mt-20 clear">
+        <div class="task-remark ml-28 mt-15 clear">
           <span class="left">下单要求：</span>
           <div class="left">
             <i-input class="task-remark-input" type="textarea" :autosize="{minRows: 6,  maxRows: 12}"
@@ -1025,8 +1040,20 @@
         </div>
       </div>
     </div>
-    <!--填写完成活动信息下一步按钮-->
-    <i-button class="fs-18 mt-20" type="primary" long :loading="taskLoading" v-show="stepName === 'information'" @click="stepNext">下一步</i-button>
+    <!--填写完成活动信息下一步按钮，免审相关按钮-->
+    <div v-show="stepName === 'information'">
+      <div class="do-not-audit text-ct mt-20" v-if="doNotAudit.couldCheck && doNotAudit.checked">
+        <checkbox v-model="doNotAudit.doNotAuditStatus"><span class="f-b fs-14">使用免审发布</span></checkbox>
+        <span class="blue cursor-p text-decoration-underline" @click="stopDoNotAudit">关闭免审功能</span>
+        <span class="blue cursor-p text-decoration-underline" @click="doNotAudit.doNotAuditModal = true">查看免审发布条款</span>
+      </div>
+      <div class="activity-tip mb-20" v-if="doNotAudit.limitCountLeft > 0">
+        <icon type="md-alert" color="#FF0100"/>
+        <span>由于您免审发布活动存在违规行为，<span class="main-color">当前免审资格被禁用，将在您正常审核发布 {{doNotAudit.limitCountLeft}} 次后解锁</span>，请注意遵守平台发布规则，共同维护平台环境！</span>
+      </div>
+      <i-button v-if="doNotAudit.couldCheck && !doNotAudit.checked && doNotAudit.limitCountLeft === 0 && !getTaskCreateFastStatus" class="fs-18 mt-20" type="info" long @click="doNotAudit.doNotAuditModal = true">开通免审发布</i-button>
+      <i-button class="fs-18 mt-20" type="primary" long :loading="taskLoading" @click="stepNext">下一步</i-button>
+    </div>
     <!--活动担保金支付弹框-->
     <div class="pay-model" v-if="showPayModel">
       <pay-model ref="payModelRef" :orderMoney="needPayMoneyBeforeAsRedEnvelopes" @confirmPayment="confirmPayment"
@@ -1235,6 +1262,21 @@
         <i-button type="error" long :loading="getFreeFlowLoading" @click="freeFlowConfirm">确定领取</i-button>
       </div>
     </modal>
+    <!--开启免审条款弹框-->
+    <modal v-model="doNotAudit.doNotAuditModal" :mask-closable="false">
+      <div slot="header" class="text-ct main-color fs-16 f-b pt-20">同意以下条款可即时开通活动免审核服务</div>
+      <p class="mt-20">1、活动发布前请仔细检查宝贝价格是否正确，宝贝价格关系到拿手垫付金额，若因价格不对造成拿手终止活动甚至店铺申请退款的行为，<span class="main-color">由商家自行承担！</span></p>
+      <p class="mt-20">2、请自觉监督活动商品与活动描述的一致性，若因为拿手收到的商品与活动描述商品不一致而导致的退款/差评等行为，<span class="main-color">由商家自行承担！</span></p>
+      <p class="mt-20">3、活动标题、活动主图及下单要求中，禁止出现红包、返现、奖金等与S单相关的信息，若经发现平台有权马上终止活动，由此产生的退款行为，<span class="main-color">由商家自行承担！</span></p>
+      <p class="mt-20">4、由于商家活动信息设置错误（如商品分类错误等），<span class="main-color">平台有权在不通知商家的情况下对活动信息做修改！</span></p>
+      <div slot="footer">
+        <i-button v-if="doNotAudit.couldCheck && !doNotAudit.checked" type="info" long class="fs-14" @click="openDoNotAudit">同意以上条款并开通免审核服务</i-button>
+        <i-button v-else type="info" long class="fs-14" @click="stopDoNotAudit">终止免审核服务</i-button>
+      </div>
+      <div slot="footer" class="mt-10">
+        <i-button long class="fs-14" @click="doNotAudit.doNotAuditModal = false">取消</i-button>
+      </div>
+    </modal>
   </div>
 </template>
 
@@ -1246,9 +1288,11 @@
   import UserClause from '@/components/UserClause'
   import api from '@/config/apiConfig'
   import {aliCallbackImgUrl} from '@/config/env'
-  import {aliUploadImg, isPositiveInteger, isNumber, isInteger, isAliUrl, randomString, extendDeep, decode, setStorage, getStorage, getUrlParams, isInternetUrl, getSeverTime} from '@/config/utils'
+  import {isPositiveInteger, isNumber, isInteger, isAliUrl, randomString, extendDeep, decode, setStorage, getStorage, getUrlParams, isInternetUrl, getSeverTime} from '@/config/utils'
+  import aliUploadConfig from '@/config/aliUploadConfig'
   import commonConfig from '@/config/commonConfig'
   import FlowOrderModel from '@/components/FlowOrderModel'
+
   export default {
     name: 'task-release',
     components: {
@@ -1276,7 +1320,6 @@
     },
     data() {
       return {
-        name: 'base-example',
         addImgRangePresentGet: null,
         editorOption: {
           placeholder: "有吸引力的产品介绍，将吸引更多的拿手来申请活动哦！请在这里编辑您的商品简介（商品简介中至少包含一张图片，可以直接复制淘宝的宝贝详情到这里），但请注意，不要在该简介中，放置任何外链，比如店铺或者商品链接，以免申请的拿手绕过相应的下单条件，造成损失！",
@@ -1353,6 +1396,7 @@
           dayReserveToNow: false,
           refuseOldShowker: false,
           refuseOldShowkerFor30Days: false,
+          refuseOldShowkerFor15Days: false,
           needBrowseCollectAddCart: false,
           speedUp: false,
           itemIssue: [],
@@ -1383,6 +1427,7 @@
           showkerApplyRequireString: null,
           popularFlow: null,
           popularFlowConfig: null,
+          withoutAudit: false,
         },
         trialCondition: 'all',
         taskCountInputPlaceholder: '请输入活动时长',
@@ -1394,8 +1439,11 @@
         paidDeposit: 0,
         taskStatus: null,
         editTaskId: null,
-        itemReviewList: [],
-        itemReviewPushList: [],
+        itemReviewList: [{
+          reviewContent: '',
+          reviewPictures: [],
+      }],
+        defaultItemReviewImages: [],
         selectKeywordScheme: 0,
         addKeywordScheme: 0,
         isShowUserClause: false,
@@ -1614,7 +1662,11 @@
         showFlowOrderModel: false,
         getFreeFlow: true,
         showGetFreeFlow: false,
-        getFreeFlowLoading: false
+        getFreeFlowLoading: false,
+        doNotAudit: {
+          doNotAuditModal: false,
+          doNotAuditStatus: false,
+        }
       }
     },
     // 当用户有首发资格路由重定向到快速发布通道反之则停留在此页面
@@ -1652,6 +1704,7 @@
       this.getItemCatalog();
       this.getTaskVasList();
       this.checkIfAlreadyGetFreeFlow();
+      this.getTaskMerchantAuditConfig();
     },
     computed: {
       /**
@@ -2316,7 +2369,6 @@
         } else {
           this.vasMainItem.forEach(item => {
             if (item.id === 3 && item.isSelect) {
-              item.isSelect = false;
               item.isDisabled = false;
             }
           })
@@ -2472,17 +2524,14 @@
           _this.$Message.warning('亲，请填写你对评价的大概要求！');
           return;
         }
-        if (_this.itemReviewList.length > 0) {
-          _this.itemReviewPushList = [];
-          _this.itemReviewList.forEach(item => {
-            if (item.value !== '') {
-              _this.itemReviewPushList.push(item.value);
-            }
-          })
-        }
-        if (_this.taskRelease.itemReviewRequired === 'assign_review_detail' && _this.itemReviewPushList.length < _this.taskRelease.taskCount) {
-          _this.$Message.warning('亲，请填写你要提供的评价内容！');
-          return;
+        if (_this.taskRelease.itemReviewRequired === 'assign_review_detail') {
+          const itemReviewRequiredOk =_this.itemReviewList.every(item => {
+            return item.reviewContent
+          });
+          if (!itemReviewRequiredOk) {
+            _this.$Message.warning('亲，请填写你要提供的评价内容！');
+            return;
+          }
         }
         if (!_this.taskRelease.itemDescription) {
           _this.$Message.warning('亲，请填写您要发布宝贝的商品简介！');
@@ -2744,11 +2793,15 @@
           case 'refuseOldShowkerFor30Days' :
             _this.taskRelease.refuseOldShowkerFor30Days = true;
             break;
+          case 'refuseOldShowkerFor15Days' :
+            _this.taskRelease.refuseOldShowkerFor15Days = true;
+            break;
           case 'refuseOldShowker' :
             _this.taskRelease.refuseOldShowker = true;
             break;
           case 'all' :
             _this.taskRelease.refuseOldShowkerFor30Days = false;
+            _this.taskRelease.refuseOldShowkerFor15Days = false;
             _this.taskRelease.refuseOldShowker = false;
             break;
         }
@@ -2757,12 +2810,14 @@
           _this.taskRelease.itemDescription = _this.taskRelease.itemDescription.replace(IMG_HREF_ATTRIBUTE, '');
         }
         let status = _this.taskStatus;
-        let type = _this.$route.query.type;
-        if ((status === 'waiting_modify' || status === 'waiting_pay') && _this.paidDeposit === _this.orderMoney && !type) {
+        const type = _this.$route.query.type;
+        if (status === 'waiting_modify' && _this.paidDeposit === _this.orderMoney) {
           _this.taskCreate(true);
-        } else if ((status === 'waiting_modify' || status === 'waiting_pay') && _this.paidDeposit > _this.orderMoney && !type) {
-          this.editPriceToLowAfterModel = true;
-        } else if ((status === 'waiting_modify' || status === 'waiting_pay') && _this.paidDeposit > 0 && _this.paidDeposit < _this.orderMoney && !type) {
+        } else if (status === 'waiting_pay' && _this.paidDeposit === 0) {
+          _this.taskCreate(false);
+        } else if ((status === 'waiting_modify' || status === 'waiting_pay') && _this.paidDeposit > _this.orderMoney) {
+          _this.editPriceToLowAfterModel = true;
+        } else if ((status === 'waiting_modify' || status === 'waiting_pay') && _this.paidDeposit > 0 && _this.paidDeposit < _this.orderMoney) {
           _this.editPriceAfterModel = true;
           _this.priceHasChange = true;
         } else if (type && type === 'copy') {
@@ -2771,6 +2826,7 @@
           _this.taskCreate(false);
         }
       },
+      // 爬虫抓取校验活动店铺信息（如果店铺信息抓取失败，自动重新抓取一次，若再次抓取失败则弹框提示用户）
       async checkStoreInfo() {
         const _this = this;
         _this.taskLoading = true;
@@ -2800,12 +2856,14 @@
           }
         } else {
           _this.$Message.error(detectionStoreInfo.msg);
+          _this.taskLoading = false;
         }
       },
+      // 发布活动
       async taskCreate(type) {
         const _this = this;
+        _this.taskLoading = true;
 
-        // 抓取校验活动店铺信息（如果店铺信息抓取失败，自动重新抓取一次，若在抓取失败则弹框提示用户）
         let isCheckOk = null;
         try {
           isCheckOk = await _this.checkStoreInfo();
@@ -2816,7 +2874,7 @@
 
         _this.taskRelease.storeName = _this.selectStoreInfo.storeAlitm;
         _this.taskRelease.realStoreName = _this.selectStoreInfo.storeName;
-        _this.taskRelease.itemReviewAssignString = JSON.stringify(_this.itemReviewPushList);
+        _this.taskRelease.itemReviewAssignString = JSON.stringify(_this.itemReviewList);
         const mainTaskVasId = [];
         const similarTaskVasId = [];
         _this.vasMainItem.forEach(item => {
@@ -2942,7 +3000,7 @@
           _this.taskRelease.popularFlow = null;
           _this.taskRelease.popularFlowConfig = null;
         }
-
+        _this.taskRelease.withoutAudit = _this.doNotAudit.doNotAuditStatus;
         if (_this.getTaskCreateFastStatus || _this.isFastPublish) {
           // 首单发布任务接口（包括首单对活动的编辑修改）
           api.taskCreateFast(_this.taskRelease).then(res => {
@@ -2999,12 +3057,13 @@
         }
       },
       returnUpStep() {
-        const type = this.$route.query.type;
+       /* const type = this.$route.query.type;
         if ((type && type === 'copy') || !type) {
           this.editTaskId = this.taskPayId;
         }
-        this.getTaskInfo();
+        this.getTaskInfo();*/
         this.stepName = 'information';
+        this.taskRelease.taskId = this.taskPayId;
       },
       IThink() {
         this.editPriceAfterModel = false;
@@ -3033,7 +3092,7 @@
             _this.paidDeposit = res.data.marginPaid + res.data.promotionExpensesPaid + res.data.vasFeePaid + res.data.redEnvelopeDeductionPaid + res.data.tagVasFeePaid;
             _this.taskStatus = res.data.taskStatus;
             const type = _this.$route.query.type;
-            if (!type) {
+            if (type === 'edit') {
               _this.taskRelease.taskId = res.data.id;
             }
             if ((_this.taskStatus === 'waiting_modify' || _this.taskStatus === 'waiting_pay') && _this.paidDeposit > 0 && type !== 'copy') {
@@ -3046,10 +3105,16 @@
                 _this.taskRelease[key] = res.data[key]
               }
             });
+
+            // 复制活动时活动份数为taskCount + returnCount
+            _this.taskRelease.taskCount = res.data.taskCount + res.data.returnCount * 1;
             _this.taskRelease.dayReserveToNow = _this.taskRelease.dayReserveToNow ? _this.taskRelease.dayReserveToNow : false;
             _this.taskRelease.speedUp = _this.taskRelease.speedUp ? _this.taskRelease.speedUp : false;
             _this.taskRelease.pinkage = _this.taskRelease.pinkage.toString();
             _this.taskRelease.donotPostPhoto = _this.taskRelease.donotPostPhoto.toString();
+
+            // 活动免审状态
+            _this.doNotAudit.doNotAuditStatus = res.data.withoutAudit ? res.data.withoutAudit : false;
 
             // 是否是首发活动标识
             _this.isFastPublish = res.data.fastPublish ? res.data.fastPublish : false;
@@ -3099,6 +3164,8 @@
 
             if (res.data.refuseOldShowkerFor30Days) {
               _this.trialCondition = 'refuseOldShowkerFor30Days'
+            } else if (res.data.refuseOldShowkerFor15Days) {
+              _this.trialCondition = 'refuseOldShowkerFor15Days'
             } else {
               _this.trialCondition = 'all'
             }
@@ -3107,17 +3174,28 @@
               _this.taskRelease.onlyShowForQualification = false;
             }
 
-            _this.itemReviewList = [];
-            _this.itemReviewPushList = [];
+            // 参考范本评论 编辑
             let itemReviewAssignsData = res.data.itemReviewAssigns;
-            if (itemReviewAssignsData) {
+            if (type === 'edit' && itemReviewAssignsData && itemReviewAssignsData.length > 0) {
+              const _itemReviewList = [];
+              const _defaultItemReviewImages = [];
               itemReviewAssignsData.forEach((item, index) => {
-                _this.itemReviewList.push({
-                  index: index + 1,
-                  value: item.reviewContent
+                const _reviewPictures = JSON.parse(item.reviewPictures);
+                _itemReviewList.push({
+                  reviewPictures: JSON.parse(item.reviewPictures),
+                  reviewContent: item.reviewContent
+                });
+                _defaultItemReviewImages[index] = [];
+                _reviewPictures.forEach(key => {
+                  _defaultItemReviewImages[index].push({
+                    src: key
+                  })
                 })
-              })
+              });
+              _this.itemReviewList = _itemReviewList;
+              _this.defaultItemReviewImages = _defaultItemReviewImages;
             }
+
             _this.taskRelease.presentPrice = _this.taskRelease.presentPrice / 100;
             _this.taskRelease.itemPrice = _this.taskRelease.itemPrice / 100;
             let itemIssue = JSON.parse(res.data.itemIssue);
@@ -3339,7 +3417,7 @@
         const _this = this;
         const file = e.target.files[0];
         const key = `task/${randomString()}`;
-        aliUploadImg(key, file).then(res => {
+        aliUploadConfig.aliUploadImg(key, file).then(res => {
           if (res) {
             let value = aliCallbackImgUrl + res.name + '!orgi75';
             _this.addImgRangePresentGet = _this.$refs.myTextEditorPresent.quill.getSelection();
@@ -3418,19 +3496,20 @@
         })
       },
       addItemReviewList() {
-        const _this = this;
-        let type = _this.taskRelease.taskType;
-        _this.itemReviewList = [];
-        let count = _this.taskRelease.taskCount;
-        for (let i = 1; i <= count; i++) {
-          _this.itemReviewList.push({
-            value: '',
-            index: i,
-          });
-        }
-        if (count > 0 && (type === 'pc_search' || type === 'app_search') && count < this.allPlanNumber()){
-          _this.keywordLowerChangeModel = true;
-        }
+        this.itemReviewList.push({reviewContent: '', reviewPictures: []});
+      },
+      deleteItemReviewList(index) {
+        this.itemReviewList.splice(index, 1);
+      },
+      removeEvaluateImage(file, itemIndex) {
+        const _reviewPictures = this.itemReviewList[itemIndex].reviewPictures;
+        const _index = _reviewPictures.findIndex(item => {
+          return item === file.src;
+        });
+        _reviewPictures.splice(_index, 1);
+      },
+      evaluateImageSuccess(res, index) {
+        this.itemReviewList[index].reviewPictures.push(`${aliCallbackImgUrl}${res.name}`);
       },
       taskCountChange(e) {
         if (e.target.value > 0) {
@@ -3442,17 +3521,9 @@
         }
         this.countAssignedChange();
       },
-      changeSelectEvaluation() {
-        if (this.taskRelease.itemReviewSummary) {
+      changeSelectEvaluation(type) {
+        if (type === 'assign_review_detail') {
           this.taskRelease.itemReviewSummary = null;
-        }
-        if (this.itemReviewList.length > 0) {
-          this.itemReviewList.forEach(item => {
-            item.value = '';
-          })
-        }
-        if (this.taskRelease.taskCount > 0) {
-          this.addItemReviewList();
         }
       },
       allPlanNumber() {
@@ -3520,27 +3591,22 @@
         this.selectKeywordScheme = this.addKeywordScheme;
         this.countAssignedChange();
       },
-      handleClose(name) {
-        const _this = this;
-        let thisIndex = null;
-        if (_this.taskRelease.taskType === 'pc_search') {
-          thisIndex = _this.pcTaskDetail.findIndex(item => {
-            return item.index === name
-          });
-          _this.pcTaskDetail.splice(thisIndex, 1);
+      handleClose(index) {
+        const _matchDiyInfo = this.favoriteCartFlowInfo.matchDiyInfo;
+        if (this.taskRelease.taskType === 'pc_search') {
+          this.pcTaskDetail.splice(index, 1);
+        } else {
+          this.appTaskDetail.splice(index, 1);
         }
-        if (_this.taskRelease.taskType === 'app_search') {
-          thisIndex = _this.appTaskDetail.findIndex(item => {
-            return item.index === name
-          });
-          _this.appTaskDetail.splice(thisIndex, 1);
+        if (Object.keys(_matchDiyInfo).length > 1) {
+          delete _matchDiyInfo[index];
         }
-        _this.addKeywordScheme -= 1;
-        _this.selectKeywordScheme = thisIndex - 1;
-        _this.countAssignedChange();
+        this.addKeywordScheme -= 1;
+        this.selectKeywordScheme = index - 1;
+        this.countAssignedChange();
       },
-      selectChangeScheme(name) {
-        this.selectKeywordScheme = name;
+      selectChangeScheme(index) {
+        this.selectKeywordScheme = index;
       },
       keywordLowerChange () {
         const _this = this;
@@ -3884,7 +3950,53 @@
       },
       toTaskFans() {
         this.$router.push('/user/task-fans');
-      }
+      },
+      getTaskMerchantAuditConfig() {
+        const _this = this;
+        api.taskMerchantAuditConfig().then(res => {
+          if (res.status) {
+            _this.doNotAudit = Object.assign({}, _this.doNotAudit, {
+              checked: res.data.checked,
+              couldCheck: res.data.couldCheck,
+              limitCountLeft: res.data.limitCountLeft ? res.data.limitCountLeft: 0,
+              limitTimeEnd: res.data.limitTimeEnd,
+            });
+          } else {
+            _this.$Message.error(res.msg);
+          }
+        })
+      },
+      setAuditStatus(type) {
+        const _this = this;
+        const map = {
+          'open': 'true',
+          'close': 'false',
+        };
+        api.setAuditStatus({
+          withoutAudit: map[type]
+        }).then(res => {
+          if (res.status) {
+            if (type === 'open') {
+              _this.$Message.success('开通活动发布免审成功！');
+            } else {
+              _this.$Message.success('关闭活动发布免审成功！');
+            }
+            _this.getTaskMerchantAuditConfig();
+          } else {
+            _this.$Message.error(res.msg);
+          }
+        })
+      },
+      openDoNotAudit() {
+        this.doNotAudit.doNotAuditModal = false;
+        this.doNotAudit.doNotAuditStatus = true;
+        this.setAuditStatus('open');
+      },
+      stopDoNotAudit() {
+        this.doNotAudit.doNotAuditStatus = false;
+        this.doNotAudit.doNotAuditModal = false;
+        this.setAuditStatus('close');
+      },
     },
   }
 </script>
@@ -4444,12 +4556,20 @@
       border-right: 1px solid #ddd;
       border-radius: 0 5px 5px 5px;
     }
+
+    .camera-evaluation {
+      width: 32px;
+      height: 32px;
+      line-height: 32px;
+    }
+
+    .pt-18 {
+      padding-top: 18px;
+    }
+
+    .text-orange {
+      color: #fd6b22;
+    }
   }
 
-  .pt-18 {
-    padding-top: 18px;
-  }
-  .text-orange {
-    color: #fd6b22;
-  }
 </style>

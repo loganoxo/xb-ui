@@ -1,23 +1,25 @@
 <template>
   <div class="clear">
-    <div class="demo-upload-list left" v-for="item in fileList" v-if="isShowTipCover">
-      <template v-if="item.status === 'finished'">
-        <img :src="item.src | imageSrc('!thum54')">
-        <div class="demo-upload-list-cover" v-if="!disabled">
-          <icon type="ios-eye-outline" @click.native="handleView(item.src)"/>
-          <icon type="ios-trash-outline" @click.native="handleRemove(item)"/>
-        </div>
-      </template>
-      <template v-else>
-        <i-progress v-if="item.showProgress" :percent="item.percentage" hide-info/>
-      </template>
-    </div>
+    <template v-if="isShowTipCover">
+      <div class="demo-upload-list left" v-for="item in fileList">
+        <template v-if="item.status === 'finished'">
+          <img :src="item.src | imageSrc('!thum54')">
+          <div class="demo-upload-list-cover" v-if="!disabled">
+            <icon type="ios-eye-outline" @click.native="handleView(item.src)"/>
+            <icon type="ios-trash-outline" @click.native="handleRemove(item)"/>
+          </div>
+        </template>
+        <template v-else>
+          <i-progress v-if="item.showProgress" :percent="item.percentage" hide-info/>
+        </template>
+      </div>
+    </template>
     <div ref="Upload" class="left" :class="[prefixCls]" v-show="showUpload">
       <div :class="[classes,{disabled:disabled}]"
-        @click="handleClick"
-        @drop.prevent="onDrop"
-        @dragover.prevent="dragOver = true"
-        @dragleave.prevent="dragOver = false">
+           @click="handleClick"
+           @drop.prevent="onDrop"
+           @dragover.prevent="dragOver = true"
+           @dragleave.prevent="dragOver = false">
         <input
           :disabled="disabled"
           ref="input"
@@ -30,11 +32,9 @@
       </div>
       <slot name="tip"/>
     </div>
-    <div v-if="visible" style="z-index: 3000" class="text">
-      <modal title="图片查看器" v-model="visible">
-        <img :src="originalSrc | imageSrc('!orgi75')" v-if="visible" style="width: 100%">
-      </modal>
-    </div>
+    <modal title="图片查看器" v-model="visible" :z-index="3000">
+      <img :src="originalSrc | imageSrc('!orgi75')" v-if="visible" class="width-pct-100">
+    </modal>
   </div>
 </template>
 <script>
@@ -42,7 +42,8 @@
   import {oneOf} from 'iview/src/utils/assist'
   import Emitter from 'iview/src/mixins/emitter'
   import {bucket, aliCallbackImgUrl} from '@/config/env'
-  import {aliUploadImg, randomString} from '@/config/utils'
+  import {randomString} from '@/config/utils'
+  import aliUploadConfig from '@/config/aliUploadConfig'
 
   const prefixCls = 'ivu-upload';
 
@@ -55,11 +56,9 @@
       iProgress: Progress,
     },
     props: {
-      itemInfo:{
-        type: Object,
-        default() {
-         return {};
-        }
+      itemIndex: {
+        type: Number,
+        default: 0
       },
       multiple: {
         type: Boolean,
@@ -69,9 +68,6 @@
         type: Boolean,
         default: false
       },
-      data: {
-        type: Object
-      },
       name: {
         type: String,
         default: 'file'
@@ -79,10 +75,6 @@
       isShowTipCover: {
         type: Boolean,
         default: true
-      },
-      withCredentials: {
-        type: Boolean,
-        default: false
       },
       type: {
         type: String,
@@ -203,7 +195,6 @@
         if (!files) {
           return;
         }
-
         this.uploadFiles(files);
         this.$refs.input.value = null;
       },
@@ -260,18 +251,18 @@
         _this.handleStart(file);
         _this.handleProgress(file);
         let key = _this.name + '/' + randomString();
-        aliUploadImg(key, file).then(res => {
-          if (res) {
-            _this.handleSuccess(res, file);
-          }
+        aliUploadConfig.aliUploadImg(key, file).then(res => {
+          _this.handleSuccess(res, file);
         }).catch(err => {
           console.error(err);
           _this.handleError(err, file);
+          const _file = this.getFile(file);
+          _file.showProgress = false;
           alert('图片上传错误，请刷新页面或者稍后重试！');
         })
       },
       handleStart(file) {
-        file.uid = Date.now() + this.tempIndex;
+        file.uid = Date.now();
         const _file = {
           status: 'uploading',
           name: file.name,
@@ -306,7 +297,7 @@
         if (_file) {
           _file.status = 'finished';
           _file.src = aliCallbackImgUrl + res.name;
-          this.onSuccess(res, this.itemInfo, _file, this.fileList);
+          this.onSuccess(res, this.itemIndex, _file, this.fileList);
           setTimeout(() => {
             _file.showProgress = false;
           }, 1000);
@@ -322,15 +313,10 @@
 
         this.onError(err, response, file);
       },
-      handleRemove(file){
+      handleRemove(file) {
         const fileList = this.fileList;
         fileList.splice(fileList.indexOf(file), 1);
-        this.onRemove(file, this.itemInfo, fileList);
-      },
-      handlePreview(file){
-        if (file.status === 'finished') {
-          this.onPreview(file);
-        }
+        this.onRemove(file, this.itemIndex, fileList);
       },
       clearFiles() {
         this.fileList = [];
@@ -353,7 +339,7 @@
               return item;
             });
           } else {
-            this.fileList = [];
+            // this.fileList = [];
           }
         },
       }
@@ -401,10 +387,10 @@
     margin: 0 2px;
   }
 
-  .disabled{
+  .disabled {
     background-color: #f7f7f7;
     cursor: not-allowed;
-    &:hover{
+    &:hover {
       border-color: #dddee1;
     }
   }
