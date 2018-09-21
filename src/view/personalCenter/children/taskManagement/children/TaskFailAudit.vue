@@ -31,13 +31,12 @@
     <template v-if="taskFailAuditList.length > 0">
       <div class="mt-12 collapse-header" v-for="(item,index) in taskFailAuditList" :key="item.id">
         <div class="clear task-remarks">
-          <span v-if="item.activityCategory === 'free_get'">活动模板：模板A</span>
-          <span v-if="item.activityCategory === 'present_get'">活动模板：模板B</span>
+          <span>活动模板：{{item.activityCategoryDesc}}</span>
           <span class="ml-10">结束时间：{{item.endTime | dateFormat('YYYY-MM-DD hh:mm:ss')}}</span>
           <span class="blue right cursor-p" @click="modifyRemarks(item)">修改</span>
-          <span class="width-pct-45 right text-align-rt ellipsis">辜负当年林下语，对床夜雨听萧瑟。恨此生，长向别离中，凋华发代理商科技考虑到口令就流口水的。</span>
+          <span class="width-pct-45 right text-align-rt ellipsis mr-5" :title="item.taskExt ? item.taskExt.remark : '无'">备注：{{item.taskExt ? item.taskExt.remark : '无'}}</span>
         </div>
-        <div class="clear pt-5" @click="collapseToggle(item.id,index)" :class="{noBorderRadius:selectId}">
+        <div class="clear pt-5 activity-desc" @click="collapseToggle(item.id,index)" :class="{noBorderRadius:selectId}">
           <div class="manage-img left">
             <img :src="item.taskMainImage | imageSrc('!thum54')" alt="活动主图">
             <span v-if="item.zone === 'certainly_hit'" class="certainly-hit-tip">推荐必中</span>
@@ -54,7 +53,7 @@
         <collapse-transition>
           <div class="task-table" v-show="selectId === item.id">
             <table>
-              <thead>
+              <thead class="task-title">
               <tr>
                 <th width="25%">淘宝账号（旺旺号）</th>
                 <th width="25%">状态</th>
@@ -91,12 +90,12 @@
       <page :total="totalElements" :page-size="pageSize" :current="pageIndex" @on-change="pageChange"/>
     </div>
     <!--修改活动备注弹窗-->
-    <task-remarks-modal v-model="showRemarksModal" :activityInfo="activityInfo"/>
+    <task-remarks-modal v-model="showRemarksModal" :activityInfo="activityInfo" @remarkSuccess="remarkSuccess"/>
   </div>
 </template>
 
 <script>
-  import {Collapse, Checkbox, Page, Icon, Button, Input, Select, Option} from 'iview'
+  import {Collapse, Checkbox, Page, Icon, Button, Input, Select, Option, Tooltip} from 'iview'
   import CollapseTransition from 'iview/src/components/base/collapse-transition'
   import TaskRemarksModal from '@/components/TaskRemarksModal'
   import {taskErrorStatusList} from '@/config/utils'
@@ -116,6 +115,7 @@
       CollapseTransition: CollapseTransition,
       iSelect:Select,
       iOption:Option,
+      Tooltip: Tooltip,
       TaskRemarksModal: TaskRemarksModal
     },
     data() {
@@ -255,8 +255,19 @@
       },
       // 修改活动备注
       modifyRemarks(info) {
-        this.activityInfo = info;
+        Object.assign(this.activityInfo, {
+          taskName: info.taskName,
+          number: info.number,
+          taskMainImage: info.taskMainImage,
+          settlementStatusDesc: info.settlementStatusDesc,
+          taskStatusDesc: info.taskStatusDesc,
+          taskExt: info.taskExt,
+          taskId: info.id
+        });
         this.showRemarksModal = true;
+      },
+      remarkSuccess() {
+        this.appliesEndTask();
       }
     }
   }

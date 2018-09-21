@@ -405,6 +405,7 @@
   import {Checkbox, Page, Modal, Icon, Button, Input, Tooltip, Select, Option} from 'iview'
   import api from '@/config/apiConfig'
   import PayModel from '@/components/PayModel'
+  import TaskRemarksModal from '@/components/TaskRemarksModal'
   import {taskErrorStatusList, getSeverTime, encryption, decode,setStorage, getStorage,} from '@/config/utils'
 
   export default {
@@ -422,7 +423,6 @@
       iSelect: Select,
       iOption: Option,
       PayModel: PayModel,
-      ExemptReleaseModal: ExemptReleaseModal,
       TaskRemarksModal: TaskRemarksModal
     },
     data() {
@@ -912,7 +912,15 @@
       },
       // 修改活动备注
       modifyRemarks(info) {
-        this.activityInfo = info;
+        Object.assign(this.activityInfo, {
+          taskName: info.taskName,
+          number: info.number,
+          taskMainImage: info.taskMainImage,
+          settlementStatusDesc: info.settlementStatusDesc,
+          taskStatusDesc: info.taskStatusDesc,
+          taskExt: info.taskExt,
+          taskId: info.id
+        })
         this.showRemarksModal = true;
       }
     }

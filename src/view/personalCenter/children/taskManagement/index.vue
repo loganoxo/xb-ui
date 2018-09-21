@@ -123,12 +123,9 @@
     }
 
     .collapse-header {
-      /*line-height: 62px;*/
-      padding: 0 0 10px 0;
       color: #666;
       cursor: pointer;
       position: relative;
-      background-color: #F7F7F7;
       border: 1px solid #dddee1;
       border-radius: 5px;
        i.show-table-styles {
@@ -140,7 +137,89 @@
         border-bottom: 1px solid #dddee1;
         padding: 5px 20px;
       }
+      .activity-desc {
+        padding-bottom: 10px;
+        background-color: #F7F7F7;
+      }
+      .task-title {
+        background-color: #f8f8f9;
+        border-top: 1px solid #dddee1;
+      }
+      .task-table {
+        background-color: #fff;
+      }
+      .task-table table {
+        width: 100%;
+        /*border-left: 1px solid #dddee1;*/
+        /*border-right: 1px solid #dddee1;*/
+        /*border-bottom: 1px solid #dddee1;*/
+      }
+
+      .task-table table td,
+      .task-table table th {
+        border-right: 1px solid #e9eaec;
+        text-align: center;
+      }
+
+      .task-table table td {
+        border-top: 1px solid #e9eaec;
+      }
+
+      .task-table table td:last-child,
+      .task-table table th:last-child {
+        border-right: 0;
+      }
+
+      .task-table table th {
+        height: 40px;
+        white-space: nowrap;
+        overflow: hidden;
+        background-color: #f8f8f9;
+      }
+
+      .task-table table td {
+        padding-top: 15px;
+        padding-bottom: 15px;
+      }
+
+      .task-table table td img.level {
+        width: 54px;
+        height: 54px;
+      }
+
+      .task-table table td .img-title {
+        display: inline-block;
+        width: 132px;
+        height: 54px;
+        padding-left: 10px;
+        text-align: left;
+      }
+
+      .task-table table td.registration {
+        color: #2b85e4;
+      }
+
+      .task-table table td .del-edit span {
+        color: #2b85e4;
+        cursor: pointer;
+        @include transition;
+        &:hover {
+          color: darken(#2b85e4, 10%);
+        }
+        &.check-report {
+          color: $mainColor;
+          cursor: pointer;
+        }
+      }
+
+      .task-table table td span.look_record {
+        color: #2b85e4;
+        &:hover {
+          color: darken(#2b85e4, 10%);
+        }
+      }
     }
+
 
     .noBorderRadius {
       border-radius: 5px 5px 0 0;
@@ -228,77 +307,6 @@
         height: 21px;
         line-height: 21px;
         text-align: right;
-      }
-    }
-
-    .task-table table {
-      width: 100%;
-      border-left: 1px solid #dddee1;
-      border-right: 1px solid #dddee1;
-      border-bottom: 1px solid #dddee1;
-    }
-
-    .task-table table td,
-    .task-table table th {
-      border-right: 1px solid #e9eaec;
-      text-align: center;
-    }
-
-    .task-table table td {
-      border-top: 1px solid #e9eaec;
-    }
-
-    .task-table table td:last-child,
-    .task-table table th:last-child {
-      border-right: 0;
-    }
-
-    .task-table table th {
-      height: 40px;
-      white-space: nowrap;
-      overflow: hidden;
-      background-color: #f8f8f9;
-    }
-
-    .task-table table td {
-      padding-top: 15px;
-      padding-bottom: 15px;
-    }
-
-    .task-table table td img.level {
-      width: 54px;
-      height: 54px;
-    }
-
-    .task-table table td .img-title {
-      display: inline-block;
-      width: 132px;
-      height: 54px;
-      padding-left: 10px;
-      text-align: left;
-    }
-
-    .task-table table td.registration {
-      color: #2b85e4;
-    }
-
-    .task-table table td .del-edit span {
-      color: #2b85e4;
-      cursor: pointer;
-      @include transition;
-      &:hover {
-        color: darken(#2b85e4, 10%);
-      }
-      &.check-report {
-        color: $mainColor;
-        cursor: pointer;
-      }
-    }
-
-    .task-table table td span.look_record {
-      color: #2b85e4;
-      &:hover {
-        color: darken(#2b85e4, 10%);
       }
     }
 

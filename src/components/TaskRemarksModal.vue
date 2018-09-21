@@ -11,19 +11,23 @@
       </div>
     </div>
     <div class="remarks-edit mt-20">
-      <i-input v-model="remarks" type="textarea" placeholder="请输入您的活动备注"></i-input>
+      <i-input v-model="remarks" type="textarea" placeholder="请输入您的活动备注" :rows="4" :autosize="{ minRows: 2, maxRows: 6 }"></i-input>
+    </div>
+    <div slot="footer">
+      <i-button class="cl-fff bg-main-color" long :loading="loading" @click="submitRemark">确定</i-button>
     </div>
   </Modal>
 </template>
 
 <script>
   import api from '@/config/apiConfig'
-  import {Modal, Input} from 'iview'
+  import {Modal, Input, Button} from 'iview'
   export default {
     name: "task-remarks-modal",
     components: {
       Modal: Modal,
-      iInput: Input
+      iInput: Input,
+      IButton: Button
     },
     props: {
       value: {
@@ -39,7 +43,8 @@
     },
     data() {
       return {
-        remarks: null
+        remarks: null,
+        loading: false
       }
     },
     computed: {
@@ -54,8 +59,33 @@
     methods: {
       change(value) {
         if (!value) {
+          this.remarks = null;
           this.$emit('input', false);
+        } else {
+          this.remarks = this.activityInfo.taskExt ? this.activityInfo.taskExt.remark : null;
         }
+      },
+      submitRemark() {
+        const _this = this;
+        if (!_this.remarks) {
+          _this.$Message.info('请输入备注信息');
+          return
+        }
+        _this.loading = true;
+        api.merchantRemark({
+          taskId: _this.activityInfo.taskId,
+          remark: _this.remarks
+        }).then(res => {
+          if (res.status) {
+            _this.$Message.success('活动备注成功！');
+            this.remarks = null;
+            this.$emit('input', false);
+            this.$emit('remarkSuccess');
+          } else {
+            _this.$Message.error(res.msg);
+          }
+          _this.loading = false;
+        })
       }
     }
   }

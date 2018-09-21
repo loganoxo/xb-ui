@@ -41,13 +41,12 @@
     <template v-if="taskWaitAuditList.length > 0">
       <div class="mt-12 pos-rel collapse-header" v-for="(item,index) in taskWaitAuditList" :key="item.id">
         <div class="clear task-remarks">
-          <span v-if="item.activityCategory === 'free_get'">活动模板：模板A</span>
-          <span v-if="item.activityCategory === 'present_get'">活动模板：模板B</span>
+          <span>活动模板：{{item.activityCategoryDesc}}</span>
           <span class="ml-10">结束时间：{{item.endTime | dateFormat('YYYY-MM-DD hh:mm:ss')}}</span>
           <span class="blue right cursor-p" @click="modifyRemarks(item)">修改</span>
-          <span class="width-pct-45 right text-align-rt ellipsis">辜负当年林下语，对床夜雨听萧瑟。恨此生，长向别离中，凋华发代理商科技考虑到口令就流口水的。</span>
+          <span class="width-pct-45 right text-align-rt ellipsis mr-5" :title="item.taskExt ? item.taskExt.remark : '无'">备注：{{item.taskExt ? item.taskExt.remark : '无'}}</span>
         </div>
-        <div class="clear pt-10" @click="collapseToggle(item.id,index)" :class="{noBorderRadius:selectId}">
+        <div class="clear pt-10 activity-desc" @click="collapseToggle(item.id,index)" :class="{noBorderRadius:selectId}">
           <div class="manage-img left">
             <img :src="item.taskMainImage | imageSrc('!thum54')" alt="活动主图">
             <span v-if="item.zone === 'certainly_hit'" class="certainly-hit-tip">推荐必中</span>
@@ -76,7 +75,7 @@
         <collapse-transition>
           <div class="task-table" v-show="selectId === item.id">
             <table>
-              <thead>
+              <thead class="task-title">
               <tr>
                 <th width="20%" class="pt-10 pb-10">
                   <p class="mb-5">淘宝账号（旺旺号）</p>
@@ -313,7 +312,7 @@
       </div>
     </modal>
     <!--修改活动备注弹窗-->
-    <task-remarks-modal v-model="showRemarksModal" :activityInfo="activityInfo"/>
+    <task-remarks-modal v-model="showRemarksModal" :activityInfo="activityInfo" @remarkSuccess="remarkSuccess"/>
   </div>
 </template>
 
@@ -931,8 +930,19 @@
       },
       // 修改活动备注
       modifyRemarks(info) {
-        this.activityInfo = info;
+        Object.assign(this.activityInfo, {
+          taskName: info.taskName,
+          number: info.number,
+          taskMainImage: info.taskMainImage,
+          settlementStatusDesc: info.settlementStatusDesc,
+          taskStatusDesc: info.taskStatusDesc,
+          taskExt: info.taskExt,
+          taskId: info.id
+        });
         this.showRemarksModal = true;
+      },
+      remarkSuccess() {
+        this.appliesWaitingAuditTask();
       }
     }
   }

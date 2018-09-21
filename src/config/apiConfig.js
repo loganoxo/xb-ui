@@ -1351,5 +1351,12 @@ export default {
    */
   taskSettlement(params) {
     return axiosConfig.post('/api/task-settlement.json', params)
+  },
+  /**
+   * 商家备注
+   */
+  merchantRemark(params) {
+    return axiosConfig.post('/api/merchant-remark.json', params)
   }
+
 }
