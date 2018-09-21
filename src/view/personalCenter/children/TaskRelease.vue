@@ -2826,6 +2826,7 @@
           _this.taskCreate(false);
         }
       },
+      // 爬虫抓取校验活动店铺信息（如果店铺信息抓取失败，自动重新抓取一次，若再次抓取失败则弹框提示用户）
       async checkStoreInfo() {
         const _this = this;
         _this.taskLoading = true;
@@ -2855,13 +2856,14 @@
           }
         } else {
           _this.$Message.error(detectionStoreInfo.msg);
+          _this.taskLoading = false;
         }
       },
+      // 发布活动
       async taskCreate(type) {
         const _this = this;
-
         _this.taskLoading = true;
-        // 抓取校验活动店铺信息（如果店铺信息抓取失败，自动重新抓取一次，若再次抓取失败则弹框提示用户）
+
         let isCheckOk = null;
         try {
           isCheckOk = await _this.checkStoreInfo();
