@@ -45,7 +45,7 @@
                 </a>
               </div>
             </div>
-            <div class="login-in-box" v-if="isLogin && getUserInfoRole　=== 0">
+            <div class="login-in-box" v-if="isLogin && getUserRole　=== 0">
               <div @click="cancelActivityCategory">
                 <tooltip content="上传自定义个性头像，可以提高活动申请通过率哦，点击修改头像！" placement="bottom" class="left">
                   <router-link tag="img" to="/user/personal-setting/personal-account-info" :src="userHeadUrl"
@@ -90,7 +90,7 @@
                 </p>
               </div>
             </div>
-            <div class="login-in-box" v-if="isLogin && getUserInfoRole　=== 1">
+            <div class="login-in-box" v-if="isLogin && getUserRole　=== 1">
               <div class="clear" @click="cancelActivityCategory">
                 <tooltip content="上传自定义个性头像，可以提高活动申请通过率哦，点击修改头像！" placement="bottom" class="left">
                   <router-link style="border-radius: 50%" tag="img" to="/user/personal-setting/personal-account-info"
@@ -101,11 +101,11 @@
                                class="ellipsis user-name">
                     Hi~ 商家 {{decodeURIComponent(getUserInfoPhone)}}
                   </router-link>
-                  <div v-if="getUserInfoRole === 1 && !isMember" class="fs-12">
+                  <div v-if="getUserRole === 1 && !isMember" class="fs-12">
                     <span>免费会员</span>
                     <router-link to="/user/vip-member/order">马上开通会员</router-link>
                   </div>
-                  <div v-if="getUserInfoRole === 1 && isMember" class="fs-12">
+                  <div v-if="getUserRole === 1 && isMember" class="fs-12">
                     <img v-if="getMemberVersionLevel === 200" src="~assets/img/common/vip.png" alt="vipLogo">
                     <img v-if="getMemberVersionLevel === 300" src="~assets/img/common/svip.png" alt="svipLogo">
                     <span class="cl-red" v-if="getMemberVersionLevel === 200">您已是VIP，<router-link
@@ -154,7 +154,7 @@
             </div>
             <div class="notice-box">
               <p>
-                <a v-show="!(getUserInfoRole === 0 && notice.title === '商家问题')" v-for="notice in noticeList"
+                <a v-show="!(getUserRole === 0 && notice.title === '商家问题')" v-for="notice in noticeList"
                    :class="[noticeActive === notice.active ? 'active' : '']"
                    @click="changeNoticeTab(notice)">{{notice.title}}</a>
               </p>
@@ -483,7 +483,7 @@
                @click="cancelWeiChartFunc">
             <icon type="md-close-circle" class="fs-18"/>
           </div>
-          <div v-if="getUserInfoRole === 0">
+          <div v-if="getUserRole === 0">
             <img src="/static/img/home/wechart_alert_07.png" alt=""
                  style="width: 507px;height: 340px; margin-top: 20px">
             <img src="/static/img/common/qr_code_bainana.png" alt=""
@@ -586,9 +586,6 @@
       },
       getUserInfoPhone() {
         return this.$store.state.userInfo.nickname
-      },
-      getUserInfoRole() {
-        return this.$store.state.userInfo.role
       },
       getMemberDeadline() {
         return this.$store.state.userInfo.memberDeadline
@@ -762,16 +759,16 @@
     },
     created() {
       const self = this;
-      if (self.login && self.getUserInfoRole === 1) {
+      if (self.isLogin && self.getUserRole === 1) {
         self.$store.dispatch('getTaskCreateFastStatus').then(res => {
           if (res.status) {
             self.showFirstVisitModel = res.data
           }
         });
       }
-      if (self.getUserInfoRole === 0) {
+      if (self.getUserRole === 0) {
         self.getAvailableBoardByAdTypeList('showker_pc_home_page_slide_show');
-      } else if (self.getUserInfoRole === 1) {
+      } else if (self.getUserRole === 1) {
         if (self.getMemberVersionLevel === 100) {
           self.getAvailableBoardByAdTypeList('free_seller_pc_home_page_slide_show');
         } else {
@@ -851,9 +848,11 @@
           activityCategory: 'present_get',
         }).then((res) => {
           if (res.status) {
-            self.presentGet = res.data.filter(item => {
-              return item.activityCategory === 'present_get'
-            })
+            if (res.data) {
+              self.presentGet = res.data.filter(item => {
+                return item.activityCategory === 'present_get'
+              })
+            }
           } else {
             self.$Message.error(res.msg)
           }
@@ -991,8 +990,8 @@
       },
       personalTrialCount() {
         let self = this;
-        if (self.$store.state.login) {
-          if (self.getUserInfoRole === 0) {
+        if (self.isLogin) {
+          if (self.getUserRole === 0) {
             api.showkerPersonalTrialCount().then((res) => {
               if (res.status) {
                 self.trialCount = res.data

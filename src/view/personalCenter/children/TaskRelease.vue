@@ -2478,6 +2478,10 @@
           _this.$Message.warning('亲，宝贝数量必须为数字！');
           return;
         }
+        if (_this.getTaskCreateFastStatus && _this.taskRelease.taskCount > 20) {
+          _this.$Message.warning('亲，首单0推广费免费体验最大支持20份名额！');
+          return;
+        }
         if (!_this.taskRelease.itemPrice) {
           _this.$Message.warning('亲，宝贝单价不能为空！');
           return;
