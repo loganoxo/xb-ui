@@ -237,19 +237,19 @@
               <router-link :to="{path:'/task-details', query:{q: encryptionId(taskTopLeft.task.id)}}"
                            :title="taskTopLeft.task.taskName" class="block">
                 <div class="left img-box">
-                  <img :src="taskTopLeft.task.taskMainImage | imageSrc('!thum54')" alt="" width="54" height="54">
+                  <img :src="taskTopLeft.task.taskMainImage | imageSrc('!thum54')" alt="活动主图" width="54" height="54" class="border-radius-5">
                 </div>
                 <div class="left text-box ml-10">
                   <p>拿手 {{taskTopLeft.other.nickname}} 免费领取了</p>
                   <p>
                     价值<span class="text ml-5">￥{{taskTopLeft.task.itemPrice / 100}}</span> 的宝贝
                   </p>
-                  <span class="cl999">{{getReceiveTime(taskTopLeft.createTime)}}</span>
+                  <!--<span class="cl999">{{getReceiveTime(taskTopLeft.createTime)}}</span>
                   <span class="cl999"
                         v-if="(new Date() -taskTopLeft.createTime)/1000/60 < 60 || (new Date() -taskTopLeft.createTime)/1000 < 60">分钟前</span>
                   <span class="cl999"
                         v-if="(new Date() -taskTopLeft.createTime)/1000/60/60/24 < 1 && (new Date() -taskTopLeft.createTime)/1000/60 >= 60">小时前</span>
-                  <span class="cl999" v-if="(new Date() -taskTopLeft.createTime)/1000/60/60/24 >= 1">天前</span>
+                  <span class="cl999" v-if="(new Date() -taskTopLeft.createTime)/1000/60/60/24 >= 1">天前</span>-->
                 </div>
               </router-link>
             </li>
