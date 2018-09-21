@@ -27,7 +27,7 @@
       </div>
     </Tooltip>
 
-    <Tooltip placement="left" :transfer="true" class="mt-10 display-block" v-if="isLogin && getUserRole === 1">
+    <Tooltip placement="left" :transfer="true" class="mt-10 display-block" v-if="isLogin && getUserRole === 1 && !isMember">
       <div class="side-box side-box-wx-bg"></div>
       <div slot="content" class="text-ct">
         <img src="~assets/img/common/merchant-wx-group.jpg" alt="" height="140" width="140" class="mt-5">
@@ -75,7 +75,10 @@
       },
       getUserRole: function () {
         return this.$store.getters.getUserRole
-      }
+      },
+      isMember() {
+        return this.$store.getters.isMemberOk;
+      },
     },
     methods: {
       returnTop() {
