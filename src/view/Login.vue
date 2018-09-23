@@ -267,6 +267,7 @@
             self.$store.commit({
               type: 'RECORD_USER_INFO',
               info: res.data,
+              token: res.token
             });
             self.$store.dispatch('getFlowNumInfo');
             self.rememberAccountFunc();
@@ -324,7 +325,8 @@
             if (res.statusCode === 'login_success') {
               self.$store.commit({
                 type: 'RECORD_USER_INFO',
-                info: res.data
+                info: res.data,
+                token: res.token
               });
               self.$store.dispatch('getFlowNumInfo');
               self.$Message.success({top: 50, content: '登录成功', duration: 1,});

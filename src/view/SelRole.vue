@@ -204,7 +204,8 @@
           if (res.status) {
             self.$store.commit({
               type: 'RECORD_USER_INFO',
-              info: res.data
+              info: res.data,
+              token: res.token
             });
             self.$Message.success('恭喜您，成功注册白拿拿！');
             if(res.data.role === 0){
@@ -250,7 +251,8 @@
           if (res.status) {
             self.$store.commit({
               type: 'RECORD_USER_INFO',
-              info: res.data
+              info: res.data,
+              token: res.token
             });
             setStorage('weChartPop', 1);
             if(res.data.role === 1) {

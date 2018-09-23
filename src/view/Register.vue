@@ -729,7 +729,8 @@
           if (res.status) {
             self.$store.commit({
               type: 'RECORD_USER_INFO',
-              info: res.data
+              info: res.data,
+              token: res.token
             });
             self.$store.dispatch('getFlowNumInfo');
             if (res.data.role === 1) {
