@@ -1708,6 +1708,7 @@
       this.getStoreBindInfoList();
       this.merchantInformationModal.status = true;
       this.merchantInformationInterval();
+      this.$store.dispatch('getTaskCreateFastStatus');
     },
     computed: {
       /**
