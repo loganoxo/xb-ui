@@ -20,8 +20,8 @@
       <div class="mt-10 border-top pt-10">
         <p>当前待审核：<span class="main-color">{{data.totalTaskApplyCount}}</span> 人</p>
         <template v-if="data.isMoreKeywordsPlan">
-          <div class="inline-block tag" v-for="item in keywordPlanInfo" :class="selectKeywordScheme === item.index ? 'select-tag-bg' : ''">
-            <span @click="selectChangeScheme(item.index)">{{item.searchKeyword ? item.searchKeyword : `关键词方案${item.index + 1}`}}</span>
+          <div class="inline-block tag" v-for="item in keywordPlanInfo" :class="selectKeywordScheme === item.index ? 'select-tag-bg' : ''" @click="selectChangeScheme(item.index)">
+            <span>{{item.searchKeyword ? item.searchKeyword : `关键词方案${item.index + 1}`}}</span>
             <sup class="badge-count" v-show="item.countAssigned > 0">{{item.countAssigned}}</sup>
             <span v-if="!item.oldKeyword && item.index === keywordPlanInfo.length - 1 && item.index !== 0" class="close-tag" @click="handleClose(item.index)"><icon type="ios-close"/></span>
           </div>
@@ -34,7 +34,7 @@
             <!--<sup class="badge-count" v-show="item.countAssigned > 0">{{item.countAssigned}}</sup>-->
           <!--</div>-->
         <!--</template>-->
-        <div v-for="item in keywordPlanInfo" v-show="selectKeywordScheme === item.index && !item.oldKeyword">
+        <div v-for="(item,index) in keywordPlanInfo" v-show="selectKeywordScheme === item.index && !item.oldKeyword">
           <div class="keyword-plan-detail">
             <div class="search-keyword mt-10">
               <span class="required">搜索关键词：</span>
@@ -69,11 +69,12 @@
               <div class="baby-main-image">
                 <span class="lht48">搜索页展示主图</span>
                 <upload class="inline-block vtc-top ml-10"
+                        :item-index="index"
                         :on-remove="removeMainImage"
                         :on-success="changeMainImageSuccess"
                         :format="['jpg','jpeg','png','gif','bmp']"
                         :max-size="1024"
-                        :uploadLength="5"
+                        :uploadLength="1"
                         name="task"
                         :on-format-error="handleFormatError"
                         :on-exceeded-size="handleMaxSize"
@@ -236,7 +237,7 @@
         keywordDetail: {
           index: 0,
           // addTaskNumber: null,
-          itemMainImage: null,
+          itemMainImage: this.data.taskMainImage,
           countAssigned: null,
           searchKeyword: null,
           searchSort: 'zong_he',
@@ -473,7 +474,7 @@
         this.selectKeywordScheme = this.addKeywordScheme;
         this.keywordPlanInfo.push({
           index: this.addKeywordScheme,
-          itemMainImage: null,
+          itemMainImage: this.data.taskMainImage,
           // countAssigned: null,
           searchKeyword: null,
           searchSort: 'zong_he',
@@ -498,11 +499,11 @@
           this.hasSelect = !this.hasSelect;
         })
       },
-      removeMainImage() {
-
+      removeMainImage(file, itemIndex) {
+        this.keywordPlanInfo[itemIndex].itemMainImage = '';
       },
-      changeMainImageSuccess() {
-
+      changeMainImageSuccess(res, index) {
+        this.keywordPlanInfo[index].itemMainImage = `${aliCallbackImgUrl}${res.name}`
       },
       nextStep() {
         let isItemReviewOk = true;
@@ -515,7 +516,6 @@
         this.newSearchScheme.forEach(item => {
           delete item.oldKeyword;
         });
-        console.log(this.newSearchScheme);
         if (!this.data.isMoreKeywordsPlan) {
           // 老活动的校验逻辑（没有关键词人数分配）
           if (this.keywordPlanInfo[0].countAssigned <= 0 || !isInteger(this.keywordPlanInfo[0].countAssigned)) {
@@ -652,7 +652,7 @@
             itemReviewPushList.push(delSpace(item.value));
           })
         }
-        const additionSearchScheme = _this.keywordPlanInfo.map(item => {
+        const additionSearchScheme = _this.oldSearchScheme.map(item => {
           return item.countAssigned > 0 ? item.countAssigned : 0;
         });
         if (_this.delayDays) {
