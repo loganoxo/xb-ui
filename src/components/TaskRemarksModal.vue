@@ -11,7 +11,7 @@
       </div>
     </div>
     <div class="remarks-edit mt-20">
-      <i-input v-model="remarks" type="textarea" placeholder="请输入您的活动备注" :rows="4" :autosize="{ minRows: 2, maxRows: 6 }"></i-input>
+      <i-input v-model="remarks" type="textarea" :maxlength="180" placeholder="请输入您的活动备注" :rows="4" :autosize="{ minRows: 2, maxRows: 6 }"></i-input>
     </div>
     <div slot="footer">
       <i-button class="cl-fff bg-main-color" long :loading="loading" @click="submitRemark">确定</i-button>

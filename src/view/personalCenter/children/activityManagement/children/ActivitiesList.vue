@@ -397,7 +397,7 @@
       </div>
     </modal>
     <!--修改活动备注弹窗-->
-    <task-remarks-modal v-model="showRemarksModal" :activityInfo="activityInfo"/>
+    <task-remarks-modal v-model="showRemarksModal" :activityInfo="activityInfo" @remarkSuccess="remarkSuccess"/>
   </div>
 </template>
 
@@ -920,8 +920,11 @@
           taskStatusDesc: info.taskStatusDesc,
           taskExt: info.taskExt,
           taskId: info.id
-        })
+        });
         this.showRemarksModal = true;
+      },
+      remarkSuccess() {
+        this.getTaskList();
       }
     }
   }
