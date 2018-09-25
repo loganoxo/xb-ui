@@ -553,11 +553,11 @@
           this.isTaskOverdueModel = true;
           this.taskId = id;
         } else {
-          if (fastPublish) {
+         /* if (fastPublish) {
             this.$router.push({name: 'FastTaskRelease', query: {q: encryption(id)}})
           } else {
-            this.$router.push({name: 'TaskRelease', query: {q: encryption(id), type: 'edit'}})
-          }
+          }*/
+          this.$router.push({name: 'TaskRelease', query: {q: encryption(id), type: 'edit'}})
         }
       },
       copyTask(id) {
