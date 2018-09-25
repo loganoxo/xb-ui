@@ -2478,6 +2478,10 @@
           _this.$Message.warning('亲，宝贝数量必须为数字！');
           return;
         }
+        if (_this.getTaskCreateFastStatus && _this.taskRelease.taskCount > 20) {
+          _this.$Message.warning('亲，首单0推广费免费体验最大支持20份名额！');
+          return;
+        }
         if (!_this.taskRelease.itemPrice) {
           _this.$Message.warning('亲，宝贝单价不能为空！');
           return;
@@ -3001,7 +3005,8 @@
           _this.taskRelease.popularFlowConfig = null;
         }
         _this.taskRelease.withoutAudit = _this.doNotAudit.doNotAuditStatus;
-        if (_this.getTaskCreateFastStatus || _this.isFastPublish) {
+        const queryType = _this.$route.query.type;
+        if ((_this.getTaskCreateFastStatus || _this.isFastPublish) && queryType !== 'copy') {
           // 首单发布任务接口（包括首单对活动的编辑修改）
           api.taskCreateFast(_this.taskRelease).then(res => {
             if (res.status) {
