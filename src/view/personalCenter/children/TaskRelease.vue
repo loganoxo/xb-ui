@@ -120,7 +120,8 @@
           <span class="ml-8">申请条件：</span>
           <radio-group v-model="trialCondition">
             <radio label="all">不限制</radio>
-            <radio label="refuseOldShowkerFor30Days">拒绝30天内参加过本店铺的拿手再次申请</radio>
+            <radio label="refuseOldShowkerFor15Days">拒绝15天内本店下过单的拿手再次申请</radio>
+            <radio label="refuseOldShowkerFor30Days">拒绝30天内本店下过单的拿手再次申请</radio>
             <!--<radio label="refuseOldShowker">拒绝已参加过本店活动的拿手再次申请</radio>-->
           </radio-group>
         </div>
@@ -363,7 +364,7 @@
                 <i-button :disabled="itemReviewList.length === 1" class="ml-10 mt-15 left" type="dashed" icon="plus-round" @click="deleteItemReviewList(index)">删除</i-button>
               </p>
               <i-button :disabled="itemReviewList.length === taskRelease.taskCount || !taskRelease.taskCount" class="ml-45 mt-6 mb-5" type="dashed" icon="plus-round" @click="addItemReviewList">添加</i-button>
-              <span class="ml-10"><icon type="md-alert" color="#f9284f"/>图文评价2元/条，文字评价1元/条；9月测试期免费，10月以后按标准收取。</span>
+              <span class="ml-10"><icon type="md-alert" color="#f9284f"/>图文评价2元/条，文字评价1元/条；近期免费，收费待定。</span>
             </div>
           </div>
         </div>
@@ -1287,9 +1288,11 @@
   import UserClause from '@/components/UserClause'
   import api from '@/config/apiConfig'
   import {aliCallbackImgUrl} from '@/config/env'
-  import {aliUploadImg, isPositiveInteger, isNumber, isInteger, isAliUrl, randomString, extendDeep, decode, setStorage, getStorage, getUrlParams, isInternetUrl, getSeverTime} from '@/config/utils'
+  import {isPositiveInteger, isNumber, isInteger, isAliUrl, randomString, extendDeep, decode, setStorage, getStorage, getUrlParams, isInternetUrl, getSeverTime} from '@/config/utils'
+  import aliUploadConfig from '@/config/aliUploadConfig'
   import commonConfig from '@/config/commonConfig'
   import FlowOrderModel from '@/components/FlowOrderModel'
+
   export default {
     name: 'task-release',
     components: {
@@ -1393,6 +1396,7 @@
           dayReserveToNow: false,
           refuseOldShowker: false,
           refuseOldShowkerFor30Days: false,
+          refuseOldShowkerFor15Days: false,
           needBrowseCollectAddCart: false,
           speedUp: false,
           itemIssue: [],
@@ -2365,7 +2369,6 @@
         } else {
           this.vasMainItem.forEach(item => {
             if (item.id === 3 && item.isSelect) {
-              item.isSelect = false;
               item.isDisabled = false;
             }
           })
@@ -2790,11 +2793,15 @@
           case 'refuseOldShowkerFor30Days' :
             _this.taskRelease.refuseOldShowkerFor30Days = true;
             break;
+          case 'refuseOldShowkerFor15Days' :
+            _this.taskRelease.refuseOldShowkerFor15Days = true;
+            break;
           case 'refuseOldShowker' :
             _this.taskRelease.refuseOldShowker = true;
             break;
           case 'all' :
             _this.taskRelease.refuseOldShowkerFor30Days = false;
+            _this.taskRelease.refuseOldShowkerFor15Days = false;
             _this.taskRelease.refuseOldShowker = false;
             break;
         }
@@ -2819,6 +2826,7 @@
           _this.taskCreate(false);
         }
       },
+      // 爬虫抓取校验活动店铺信息（如果店铺信息抓取失败，自动重新抓取一次，若再次抓取失败则弹框提示用户）
       async checkStoreInfo() {
         const _this = this;
         _this.taskLoading = true;
@@ -2848,13 +2856,14 @@
           }
         } else {
           _this.$Message.error(detectionStoreInfo.msg);
+          _this.taskLoading = false;
         }
       },
+      // 发布活动
       async taskCreate(type) {
         const _this = this;
-
         _this.taskLoading = true;
-        // 抓取校验活动店铺信息（如果店铺信息抓取失败，自动重新抓取一次，若再次抓取失败则弹框提示用户）
+
         let isCheckOk = null;
         try {
           isCheckOk = await _this.checkStoreInfo();
@@ -3096,6 +3105,9 @@
                 _this.taskRelease[key] = res.data[key]
               }
             });
+
+            // 复制活动时活动份数为taskCount + returnCount
+            _this.taskRelease.taskCount = res.data.taskCount + res.data.returnCount * 1;
             _this.taskRelease.dayReserveToNow = _this.taskRelease.dayReserveToNow ? _this.taskRelease.dayReserveToNow : false;
             _this.taskRelease.speedUp = _this.taskRelease.speedUp ? _this.taskRelease.speedUp : false;
             _this.taskRelease.pinkage = _this.taskRelease.pinkage.toString();
@@ -3152,6 +3164,8 @@
 
             if (res.data.refuseOldShowkerFor30Days) {
               _this.trialCondition = 'refuseOldShowkerFor30Days'
+            } else if (res.data.refuseOldShowkerFor15Days) {
+              _this.trialCondition = 'refuseOldShowkerFor15Days'
             } else {
               _this.trialCondition = 'all'
             }
@@ -3403,7 +3417,7 @@
         const _this = this;
         const file = e.target.files[0];
         const key = `task/${randomString()}`;
-        aliUploadImg(key, file).then(res => {
+        aliUploadConfig.aliUploadImg(key, file).then(res => {
           if (res) {
             let value = aliCallbackImgUrl + res.name + '!orgi75';
             _this.addImgRangePresentGet = _this.$refs.myTextEditorPresent.quill.getSelection();

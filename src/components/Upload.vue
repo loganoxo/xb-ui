@@ -32,11 +32,9 @@
       </div>
       <slot name="tip"/>
     </div>
-    <div v-if="visible" style="z-index: 3000" class="text">
-      <modal title="图片查看器" v-model="visible">
-        <img :src="originalSrc | imageSrc('!orgi75')" v-if="visible" style="width: 100%">
-      </modal>
-    </div>
+    <modal title="图片查看器" v-model="visible" :z-index="3000">
+      <img :src="originalSrc | imageSrc('!orgi75')" v-if="visible" class="width-pct-100">
+    </modal>
   </div>
 </template>
 <script>
@@ -44,7 +42,8 @@
   import {oneOf} from 'iview/src/utils/assist'
   import Emitter from 'iview/src/mixins/emitter'
   import {bucket, aliCallbackImgUrl} from '@/config/env'
-  import {aliUploadImg, randomString} from '@/config/utils'
+  import {randomString} from '@/config/utils'
+  import aliUploadConfig from '@/config/aliUploadConfig'
 
   const prefixCls = 'ivu-upload';
 
@@ -69,9 +68,6 @@
         type: Boolean,
         default: false
       },
-      data: {
-        type: Object
-      },
       name: {
         type: String,
         default: 'file'
@@ -79,10 +75,6 @@
       isShowTipCover: {
         type: Boolean,
         default: true
-      },
-      withCredentials: {
-        type: Boolean,
-        default: false
       },
       type: {
         type: String,
@@ -259,18 +251,18 @@
         _this.handleStart(file);
         _this.handleProgress(file);
         let key = _this.name + '/' + randomString();
-        aliUploadImg(key, file).then(res => {
-          if (res) {
-            _this.handleSuccess(res, file);
-          }
+        aliUploadConfig.aliUploadImg(key, file).then(res => {
+          _this.handleSuccess(res, file);
         }).catch(err => {
           console.error(err);
           _this.handleError(err, file);
+          const _file = this.getFile(file);
+          _file.showProgress = false;
           alert('图片上传错误，请刷新页面或者稍后重试！');
         })
       },
       handleStart(file) {
-        file.uid = Date.now() + this.tempIndex;
+        file.uid = Date.now();
         const _file = {
           status: 'uploading',
           name: file.name,
@@ -325,11 +317,6 @@
         const fileList = this.fileList;
         fileList.splice(fileList.indexOf(file), 1);
         this.onRemove(file, this.itemIndex, fileList);
-      },
-      handlePreview(file) {
-        if (file.status === 'finished') {
-          this.onPreview(file);
-        }
       },
       clearFiles() {
         this.fileList = [];

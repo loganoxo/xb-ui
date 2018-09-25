@@ -1,10 +1,10 @@
 <template>
   <div class="pd-tb-20">
-    <p class="page-title mt-10">商品流程</p>
+    <p class="page-title mt-10">商城卖货流程</p>
     <img src="~assets/img/good-release/good-release.png" alt="" class="mt-20 mb-20">
-    <div class="page-desc radius6 line22 mb-20 border-ddd">
+    <div class="page-desc radius6 line22 mb-20 border-ddd fs-16">
       <div class="pd-tb-20 bg-tp fs-16">
-        <p class="text-ct">白拿拿商城是采用<span class="color-theme">先试后买的卖货平台,</span></p>
+        <p class="text-ct">白拿拿商城是采用<span class="color-theme">先试后买的卖货平台,（绕开淘宝，直接卖货）</span></p>
         <p class="text-ct">商家提供商品给买家试用，买家试用<span class="color-theme">满意即购买收下商品，不满意无损退货</span>的卖货方式。</p>
       </div>
       <div class="pd-tb-20 pl-20 bg-content">
@@ -13,7 +13,7 @@
           <p>1、提供的商品<span class="color-theme">需支持买家14天免费试用</span>，试用期间<span class="color-theme">支持产品无损退货</span>;</p>
           <p class="pl-5">（食品类通过<span class="color-theme">商品+小样</span>的形式试用，买家试吃小样后确定是否购买，食品类商品拆封后无产品问题不可退货）;</p>
           <p>2、商城商品<span class="color-theme">试用后购买价格不得高于商品的淘宝售价</span>，否则商品无法通过审核上线卖货;</p>
-          <p>3、为激励买家尽快确认购买,<span class="color-theme">试用7天内购买价格试用7~14天购买价格</span>;</p>
+          <p>3、为激励买家尽快确认购买,<span class="color-theme">试用7天内购买价格<i><</i>试用7~14天购买价格</span>;</p>
           <p>4、为吸引买家试用，设置的保证金不宜高于商品价格，建议<span class="color-theme">保证金设置成略高于商品成本+物流成本</span>。</p>
         </div>
       </div>
@@ -21,11 +21,11 @@
     <Form :model="validate" :rules="ruleValidate"  ref="form" label-position="left">
       <div class="title pl-20 border-ddd">申请商品信息</div>
       <div class="pd-tb-20 pl-20 pr-20 border-ddd">
-        <FormItem label="商品淘宝链接：" :label-width="120" prop="itemUrl">
-          <Input placeholder="请输入淘宝宝贝链接" autofocus v-model="validate.itemUrl"  class="width-300" />
-          <span class="pl-10">（淘宝链接作为商城审核品使用）</span>
+        <FormItem label="商品淘宝链接：" :label-width="110" prop="itemUrl">
+          <Input placeholder="请输入淘宝宝贝链接"  v-model="validate.itemUrl"  class="width-300" />
+          <span class="pl-10 describe">（淘宝链接作为商城审核商品使用）</span>
         </FormItem>
-        <FormItem label="商品淘宝售价：" prop="originalPrice" :label-width="120">
+        <FormItem label="商品淘宝售价：" prop="originalPrice" :label-width="110">
           <Input placeholder="请输入商品原价" v-model.number="validate.originalPrice" class="width-100" />
           <span class="pl-10">元</span>
           <span class="ml-10 describe">（淘宝售价作为商品审核的重点，白拿拿商城上的<span class="color-theme">商品价格不得高于宝贝在淘宝的售价</span>）</span>
@@ -33,53 +33,53 @@
         <FormItem label="买家试用本商品的保证金：" prop="itemFirstPrice" :label-width="170">
           <Input placeholder="请输入试用保证金" v-model.number="validate.itemFirstPrice" class="width-100" />
           <span class="pl-10">元</span>
-          <span class="ml-20 describe">（建议<span class="color-theme">略高于商品成本+物流成本</span>，若买家未退货且未缴尾款时，保证金用于<span class="color-theme">补偿商家</span>）</span>
+          <span class="ml-10 describe">（建议<span class="color-theme">略高于商品成本+物流成本</span>，若买家未退货且未缴尾款时，保证金用于<span class="color-theme">补偿商家</span>）</span>
         </FormItem>
         <FormItem label="试用7天内购买的商品价格：" prop="weekPrice" class="pl-40" :label-width="175">
           <Input class="width-100" placeholder="7天购买价格" v-model.number="validate.weekPrice" />
           <span class="pl-10">元</span>
-          <span class="ml-40">买家确认购买商品补缴尾款：</span>
+          <span class="ml-20">买家确认购买商品补缴尾款：</span>
           <Input disabled placeholder="请输入尾款" v-model.model="weekPaymentNumber" class="width-100" />
           <span class="pl-10">元</span>
-          <span class="ml-20 color-theme">（尾款=试用7天商品价格-保证金）</span>
+          <span class="ml-10 color-theme">（尾款=试用7天商品价格-保证金）</span>
         </FormItem>
         <FormItem label="试用7-14天内购买的商品价格：" prop="monthPrice" class="pl-40" :label-width="195">
           <Input class="width-100" placeholder="7-14天购买价格" v-model.number="validate.monthPrice" />
           <span class="pl-10">元</span>
-          <span class="ml-40">买家确认购买商品补缴尾款：</span>
+          <span class="ml-20">买家确认购买商品补缴尾款：</span>
           <Input disabled placeholder="请输入尾款" class="width-100" v-model.number="monthPaymentNumber" />
           <span class="pl-10">元</span>
-          <span class="ml-20 color-theme">（尾款=试用7~14天商品价格-保证金）</span>
+          <span class="ml-10 color-theme">（尾款=试用7~14天商品价格-保证金）</span>
         </FormItem>
-        <FormItem label="是否包邮：" prop="pinkage" :label-width="100">
+        <FormItem label="是否包邮：" prop="pinkage" :label-width="90">
           <Radio v-model="validate.pinkage">商品包邮，无需修改运费</Radio>
           <span class="describe">（商家发货仅支持包邮形式，部分偏远地区的邮费问题请咨询客服处理）</span>
         </FormItem>
       </div>
       <div class="title pl-20 border-ddd mt-20">商品展示信息</div>
       <div class="pd-tb-20 pl-20 pr-20 border-ddd">
-        <FormItem label="商品标题：" prop="taskName" :label-width="100">
+        <FormItem label="商品标题：" prop="taskName" :label-width="90">
           <Input placeholder="请输入商品标题" class="width-300" v-model="validate.taskName" :maxlength="60" />
-          <span class="ml-10">名称实例<Icon type="md-help-circle" class="color-theme font16" /></span>
+          <span class="ml-10 describe">名称实例<Icon type="md-help-circle" class="color-theme font16" /></span>
           <span class="ml-10 describe">
             （突出商品特点，勿填无关内容，最多支持60个字符，当前已输入<span class="color-theme bold">{{validate.taskName.length}}</span> / 60个字符）
           </span>
         </FormItem>
         <!--<FormItem label="商品类型：" prop="itemType">-->
-          <!--<Select v-model="validate.itemType" style="width:200px">-->
-            <!--<template v-for="parentItem in itemCatalogList">-->
-              <!--<OptionGroup v-if="parentItem.level === 1" :label="parentItem.name" :key="parentItem.id">-->
-                <!--<template v-for="item in itemCatalogList">-->
-                  <!--<Option-->
-                    <!--v-if="item.level === 2 && item.parentItemCatalog && item.parentItemCatalog.id === parentItem.id"-->
-                    <!--:value="item.id">{{ item.name }}-->
-                  <!--</Option>-->
-                <!--</template>-->
-              <!--</OptionGroup>-->
-            <!--</template>-->
-          <!--</Select>-->
+        <!--<Select v-model="validate.itemType" style="width:200px">-->
+        <!--<template v-for="parentItem in itemCatalogList">-->
+        <!--<OptionGroup v-if="parentItem.level === 1" :label="parentItem.name" :key="parentItem.id">-->
+        <!--<template v-for="item in itemCatalogList">-->
+        <!--<Option-->
+        <!--v-if="item.level === 2 && item.parentItemCatalog && item.parentItemCatalog.id === parentItem.id"-->
+        <!--:value="item.id">{{ item.name }}-->
+        <!--</Option>-->
+        <!--</template>-->
+        <!--</OptionGroup>-->
+        <!--</template>-->
+        <!--</Select>-->
         <!--</FormItem>-->
-        <FormItem label="商品主图：" class="label-pt" prop="taskMainImage" :label-width="100">
+        <FormItem label="商品主图：" class="label-pt" prop="taskMainImage" :label-width="90">
           <Input v-model="validate.taskMainImage" class="hidden" />
           <Upload
             ref="goodUpload"
@@ -100,19 +100,19 @@
           <p class="color-theme line16">主图要求：白底背景，主图必须清晰，必须是所送的商品，且不能出现图片拼接、水印、logo及其它文字</p>
         </FormItem>
 
-        <FormItem label="商品份数：" prop="taskCount" :label-width="100">
+        <FormItem label="商品份数：" prop="taskCount" :label-width="90">
           <Input placeholder="请输入商品份数" v-model.number="validate.taskCount" class="width-120"/>
           <!--<span>份，需缴纳物流保险金</span>-->
           <!--<Input disabled class="width-120" v-model.number="insuranceMoneyNumber"/>-->
           <!--<span>元，保险金<span class="color-theme">50</span>元/份，用于因产品问题导致的退货物流补偿买家，余额退还到商家账户。</span>-->
         </FormItem>
         <!--<FormItem label="保险金的使用规则：" prop="insuranceRule">-->
-          <!--<CheckboxGroup v-model="validate.insuranceRule">-->
-            <!--<Checkbox label="Eat">产品问题，退货物流费用</Checkbox>-->
-            <!--<Checkbox label="Sleep" class="ml-40">7天内无理由退货，退货物流费用</Checkbox>-->
-          <!--</CheckboxGroup>-->
+        <!--<CheckboxGroup v-model="validate.insuranceRule">-->
+        <!--<Checkbox label="Eat">产品问题，退货物流费用</Checkbox>-->
+        <!--<Checkbox label="Sleep" class="ml-40">7天内无理由退货，退货物流费用</Checkbox>-->
+        <!--</CheckboxGroup>-->
         <!--</FormItem>-->
-        <FormItem label="商品简介：" prop="taskDetail" :label-width="100">
+        <FormItem label="商品简介：" prop="taskDetail" :label-width="90">
           <quill-editor ref="myTextEditorPresent"
             class="inline-block editor"
             v-model="validate.taskDetail"
@@ -142,7 +142,8 @@
   import { quillEditor } from 'vue-quill-editor';
   import { aliCallbackImgUrl } from '@/config/env';
   import api from '@/config/apiConfig';
-  import { aliUploadImg, getStorage, setStorage, randomString } from "@/config/utils";
+  import { getStorage, setStorage, randomString } from "@/config/utils";
+  import aliUploadConfig from '@/config/aliUploadConfig'
   export default {
     name: "ReleaseGood",
     data() {
@@ -348,7 +349,7 @@
         const _this = this;
         const file = e.target.files[0];
         const key = `task/${randomString()}`;
-        aliUploadImg(key, file).then(res => {
+        aliUploadConfig.aliUploadImg(key, file).then(res => {
           if (res) {
             let value = aliCallbackImgUrl + res.name + '!orgi75';
             _this.addImgRangePresentGet = _this.$refs.myTextEditorPresent.quill.getSelection();
@@ -467,7 +468,7 @@
     box-shadow: 0 2px 8px #666;
   }
   .line22 {
-    line-height: 24px;
+    line-height: 26px;
   }
   .bg-tp {
     background: #f7e7cb;

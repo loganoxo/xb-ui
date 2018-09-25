@@ -211,7 +211,8 @@
   import api from '@/config/apiConfig'
   import Upload from '@/components/Upload'
   import QQBindModal from '@/components/QQBindModal'
-  import {setStorage, getStorage, aliUploadImgBuffer, randomString} from '@/config/utils'
+  import {setStorage, getStorage, randomString} from '@/config/utils'
+  import aliUploadConfig from '@/config/aliUploadConfig'
   import {aliCallbackImgUrl} from '@/config/env'
   import SmsCountdown from '@/components/SmsCountdown'
 
@@ -405,7 +406,7 @@
         let reg = new RegExp(/^data:image\/\w+;base64,/);
         let dataBuffer = new Buffer(imgDataUrl.replace(reg, ''), 'base64');
         let key = 'head-image' + '/' + randomString();
-        aliUploadImgBuffer(key, dataBuffer).then(res => {
+        aliUploadConfig.aliUploadImgBuffer(key, dataBuffer).then(res => {
           if (res) {
             _this.pictureUploadImage = res.name;
             _this.modifyPortraitPic();

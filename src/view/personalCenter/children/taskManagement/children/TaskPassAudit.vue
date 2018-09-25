@@ -53,8 +53,16 @@
       <i-button size="large" @click="batchExportModel = true"><icon type="ios-download-outline"/> 批量导出以下所有订单号</i-button>
     </div>
     <template v-if="taskPassAuditList.length > 0">
-      <div class="mt-12" v-for="(item,index) in taskPassAuditList" :key="item.id">
-        <div class="collapse-header clear" @click="collapseToggle(item.id,index)" :class="{noBorderRadius: selectId}">
+      <div class="mt-12 collapse-header" v-for="(item,index) in taskPassAuditList" :key="item.id">
+        <div>
+          <div class="clear task-remarks">
+            <span>活动模板：{{item.activityCategoryDesc}}</span>
+            <span class="ml-10">结束时间：{{item.endTime | dateFormat('YYYY-MM-DD hh:mm:ss')}}</span>
+            <span class="blue right cursor-p" @click="modifyRemarks(item)">修改</span>
+            <span class="width-pct-45 right text-align-rt ellipsis mr-5" :title="item.taskExt ? item.taskExt.remark : '无'">备注：{{item.taskExt ? item.taskExt.remark : '无'}}</span>
+          </div>
+        </div>
+        <div class="clear pt-5 activity-desc" @click="collapseToggle(item.id,index)" :class="{noBorderRadius: selectId}">
           <div class="manage-img left">
             <img :src="item.taskMainImage | imageSrc('!thum54')" alt="活动主图">
             <span v-if="item.zone === 'certainly_hit'" class="certainly-hit-tip">推荐必中</span>
@@ -96,7 +104,7 @@
         <collapse-transition>
           <div class="task-table" v-show="selectId === item.id">
             <table>
-              <thead>
+              <thead class="task-title">
               <tr>
                 <th width="25%">淘宝账号（旺旺号）</th>
                 <th width="15%">拿手联系方式</th>
@@ -300,6 +308,8 @@
       </div>
       <div slot="footer"></div>
     </modal>
+    <!--修改活动备注弹窗-->
+    <task-remarks-modal v-model="showRemarksModal" :activityInfo="activityInfo" @remarkSuccess="remarkSuccess"/>
   </div>
 
 </template>
@@ -313,6 +323,7 @@
   import TimeDown from '@/components/TimeDown'
   import PayModel from '@/components/PayModel'
   import AuditOrderPopup from '@/components/AuditOrderPopup'
+  import TaskRemarksModal from '@/components/TaskRemarksModal'
   import api from '@/config/apiConfig'
   import {taskErrorStatusList, encryption, timeToDate} from '@/config/utils'
 
@@ -335,7 +346,8 @@
       PayModel: PayModel,
       iProgress: Progress,
       CollapseTransition: CollapseTransition,
-      AuditOrderPopup:AuditOrderPopup
+      AuditOrderPopup:AuditOrderPopup,
+      TaskRemarksModal: TaskRemarksModal
     },
     data() {
       return {
@@ -387,6 +399,8 @@
         realStoreName: null,
         showTemplateModal: false,
         itemReviewAssign: {},
+        showRemarksModal: false,
+        activityInfo: {}
       }
     },
     created() {
@@ -768,6 +782,22 @@
         });
         this.itemReviewAssign = Object.freeze(_itemReviewAssign);
       },
+      // 修改活动备注
+      modifyRemarks(info) {
+        Object.assign(this.activityInfo, {
+          taskName: info.taskName,
+          number: info.number,
+          taskMainImage: info.taskMainImage,
+          settlementStatusDesc: info.settlementStatusDesc,
+          taskStatusDesc: info.taskStatusDesc,
+          taskExt: info.taskExt,
+          taskId: info.id
+        });
+        this.showRemarksModal = true;
+      },
+      remarkSuccess() {
+        this.passesTaskList();
+      }
     }
   }
 </script>

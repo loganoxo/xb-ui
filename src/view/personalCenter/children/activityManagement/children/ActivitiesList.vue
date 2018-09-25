@@ -116,18 +116,29 @@
               </td>
               <td>{{item.showkerApplyTotalCount || 0}} / {{item.showkerApplyPassedCount || 0}}（人）</td>
               <td>{{(item.taskCount  - item.showkerApplySuccessCount)}}</td>
-              <td>
-                （ {{(item.totalMarginNeed / 100).toFixed(2)}} / {{((item.promotionExpensesNeed > 0 ? item.promotionExpensesNeed : 0) / 100).toFixed(2)}} / {{((item.vasFeeNeed + item.tagVasFeeNeed) / 100).toFixed(2)}}）
-                <span v-if="item.createFrom === 'without_audit'">{{((item.totalMarginNeed + item.promotionExpensesNeed + item.vasFeeNeed + item.tagVasFeeNeed) / 100).toFixed(2)}}</span>
-                <span v-else>{{((item.marginPaid + item.promotionExpensesPaid + item.vasFeePaid + item.tagVasFeePaid) / 100).toFixed(2)}}</span>
+              <td v-if="item.settlementStatus === 'settlement_finished'">
+                （ {{(item.perMarginNeed * item.showkerApplySuccessCount / 100).toFixed(2)}} /
+                {{((item.promotionExpensesNeed > 0 ? item.promotionExpensesNeed : 0) / item.taskCount * item.showkerApplySuccessCount / 100).toFixed(2)}} /
+                {{((item.perVasFee + item.perTagVasFee) * item.showkerApplySuccessCount / 100).toFixed(2)}}）
+                <span>{{((item.perMarginNeed * item.showkerApplySuccessCount +
+                  (item.promotionExpensesNeed > 0 ? item.promotionExpensesNeed : 0) / item.taskCount * item.showkerApplySuccessCount +
+                  (item.perVasFee + item.perTagVasFee) * item.showkerApplySuccessCount) / 100).toFixed(2)}}</span>
               </td>
+              <td v-if="item.settlementStatus !== 'settlement_finished'">
+                （ {{(item.totalMarginNeed / 100).toFixed(2)}} / {{((item.promotionExpensesNeed > 0 ? item.promotionExpensesNeed : 0) / 100).toFixed(2)}} / {{((item.vasFeeNeed + item.tagVasFeeNeed) / 100).toFixed(2)}}）
+                <span>{{((item.marginPaid + item.promotionExpensesPaid + item.vasFeePaid + item.tagVasFeePaid) / 100).toFixed(2)}}</span>
+              </td>
+              <!--操作栏-->
               <td v-if="item.taskStatus === 'waiting_pay'">
                 <p class="del-edit">
-                  <span v-if="item.createFrom !== 'without_audit'" class="mr-10" @click="editTask(item.id, item.createTime, item.fastPublish)">编辑</span>
+                  <span class="mr-10" @click="editTask(item.id, item.createTime, item.fastPublish)">编辑</span>
                   <span @click="closeTask(item.id, item.fastPublish)">关闭</span>
                 </p>
                 <p class="bond mt-6">
                   <span @click="depositMoney(item.totalMarginNeed + item.promotionExpensesNeed + item.vasFeeNeed + item.tagVasFeeNeed + item.redEnvelopeDeductionNeed, item.id, item.marginPaid + item.promotionExpensesPaid + item.vasFeePaid + item.tagVasFeePaid + item.redEnvelopeDeductionPaid, item.createTime, item.redEnvelopeDeductionPaid, item.marginPaid, item.promotionExpensesNeed)">存担保金</span>
+                </p>
+                <p class="copy mt-6">
+                  <span @click="modifyRemarks(item)">活动备注</span>
                 </p>
                 <p class="copy mt-6">
                   <span @click="copyTask(item.id)">复制活动</span>
@@ -139,6 +150,9 @@
                   <span @click="closeTask(item.id, item.fastPublish)">关闭</span>
                 </p>
                 <p class="copy mt-6">
+                  <span @click="modifyRemarks(item)">活动备注</span>
+                </p>
+                <p class="copy mt-6">
                   <span @click="copyTask(item.id)">复制活动</span>
                 </p>
               </td>
@@ -147,15 +161,25 @@
                   <span @click="lookTaskDetail(item.id)">查看详情</span>
                 </p>
                 <p class="copy mt-6">
+                  <span @click="modifyRemarks(item)">活动备注</span>
+                </p>
+                <p class="copy mt-6">
                   <span @click="copyTask(item.id)">复制活动</span>
                 </p>
               </td>
-              <td v-else-if="item.settlementStatus === 'waiting_settlement' && (item.taskStatus === 'finished' || item.taskStatus === 'under_way')">
+              <!--<td v-else-if="item.settlementStatus === 'waiting_settlement' && (item.taskStatus === 'finished' || item.taskStatus === 'under_way')">-->
+              <td v-else-if="item.settlementStatus === 'waiting_settlement' || (item.canSettleTask && item.settlementStatus !== 'settlement_finished')">
                 <p class="bond mt-6">
-                  <span @click="settlementTask(item.id, item.number)">申请结算</span>
+                  <span @click="showSettlement(item)">申请结算</span>
+                </p>
+                <p class="bond mt-6" v-if="(item.taskType === 'pc_search' || item.taskType === 'app_search') && item.taskStatus === 'under_way'">
+                  <span @click="toFlowOrderDetail(item.number, item.taskDetailObject.length)">补添流量</span>
                 </p>
                 <p class="copy mt-6">
                   <span @click="lookTaskDetail(item.id)">查看详情</span>
+                </p>
+                <p class="copy mt-6">
+                  <span @click="modifyRemarks(item)">活动备注</span>
                 </p>
                 <p class="copy mt-6">
                   <span @click="copyTask(item.id)">复制活动</span>
@@ -166,18 +190,24 @@
                   <span @click="lookTaskDetail(item.id)">查看详情</span>
                 </p>
                 <p class="copy mt-6">
+                  <span @click="modifyRemarks(item)">活动备注</span>
+                </p>
+                <p class="copy mt-6">
                   <span @click="copyTask(item.id)">复制活动</span>
                 </p>
               </td>
               <td v-else-if="(item.settlementStatus === 'settlement_finished' || item.settlementStatus === 'waiting_audit') && item.taskStatus === 'finished'">
                 <p class="copy mt-6">
-                  <span @click="billDetails(item.id, item.storeName)">结算详情</span>
+                  <span @click="billDetails(item.id, item.taskName)">结算详情</span>
                 </p>
                 <p class="copy mt-6" v-if="item.settlementStatus === 'settlement_finished'">
                   <router-link :to="{path:'/user/money-management/transaction-record',query:{taskNumber:item.number}}">查看活动账单</router-link>
                 </p>
                 <p class="copy mt-6">
                   <span @click="lookTaskDetail(item.id)">查看详情</span>
+                </p>
+                <p class="copy mt-6">
+                  <span @click="modifyRemarks(item)">活动备注</span>
                 </p>
                 <p class="copy mt-6">
                   <span @click="copyTask(item.id)">复制活动</span>
@@ -191,6 +221,9 @@
                   <span @click="lookTaskDetail(item.id)">查看详情</span>
                 </p>
                 <p class="copy mt-6">
+                  <span @click="modifyRemarks(item)">活动备注</span>
+                </p>
+                <p class="copy mt-6">
                   <span @click="copyTask(item.id)">复制活动</span>
                 </p>
               </td>
@@ -200,6 +233,9 @@
                 </p>
                 <p class="copy mt-6">
                   <span @click="lookTaskDetail(item.id)">查看详情</span>
+                </p>
+                <p class="copy mt-6">
+                  <span @click="modifyRemarks(item)">活动备注</span>
                 </p>
                 <p class="copy mt-6">
                   <span @click="copyTask(item.id)">复制活动</span>
@@ -284,9 +320,10 @@
         <span class="main-color">结算详情</span>
       </p>
       <div>
-        <p>活动标题：{{taskSettlementDetailInfo.storeName}}</p>
+        <p>活动标题：{{taskSettlementDetailInfo.taskName}}</p>
         <p class="mt-5">结算时间：{{taskSettlementDetailInfo.settlementTime | dateFormat('YYYY-MM-DD hh:mm:ss')}}</p>
-        <p class="mt-5">结算备注：活动剩余资格: {{taskSettlementDetailInfo.taskCountLeft}} ；</p>
+        <p v-if="taskSettlementDetailInfo.taskSettlement" class="mt-5">结算备注：本次结算名额：{{taskSettlementDetailInfo.refundTaskCount}} ；</p>
+        <p v-else class="mt-5">结算备注：活动返还名额：{{taskSettlementDetailInfo.taskCountLeft}} ；</p>
         <p class="ml-60 mt-5">返还担保金共：{{taskSettlementDetailInfo.marginRefund}} 元；</p>
         <p class="ml-60 mt-5">返还推广费：{{taskSettlementDetailInfo.promotionRefund}} 元；</p>
         <p class="ml-60 mt-5">返还增值费：{{taskSettlementDetailInfo.vasFeeRefund}} 元；</p>
@@ -342,6 +379,25 @@
         <i-button class="ml-40 pr-40 pl-40" type="primary" size="large" @click="deleteFirstTaskModal = false">取消</i-button>
       </div>
     </modal>
+    <!--任务或者活动结算-->
+    <modal v-model="showSettlementModal">
+      <p slot="header" class="settlement-title text-ct">结算详情</p>
+      <div class="lht30">
+        <p>活动标题：{{settlementData.taskName}}</p>
+        <p>任务结算状态：可结算名额{{settlementData.refundTaskCount}}个
+          <tooltip content="成功结算后将直接扣减可审批任务名额" placement="top" :transfer="true">
+            <icon type="md-help-circle" size="14" color="#000" class="vtc-text-btm"/>
+          </tooltip>
+        </p>
+        <p>活动结算状态：{{settlementData.activitySettle ? '可结算' : '不可申请结算'}}</p>
+      </div>
+      <div slot="footer" class="clear">
+        <i-button class="task-settlement-btn left width-pct-39 ml-20 bg-main-color cl-fff" :disabled="!settlementData.taskSettle" @click="taskSettlement(settlementData.id,settlementData.taskName)">任务结算</i-button>
+        <i-button class="activity-settlement-btn right width-pct-39 mr-20 bg-main-color cl-fff" :disabled="!settlementData.activitySettle" @click="activitySettlement(settlementData.id, settlementData.number)">活动结算</i-button>
+      </div>
+    </modal>
+    <!--修改活动备注弹窗-->
+    <task-remarks-modal v-model="showRemarksModal" :activityInfo="activityInfo"/>
   </div>
 </template>
 
@@ -349,6 +405,7 @@
   import {Checkbox, Page, Modal, Icon, Button, Input, Tooltip, Select, Option} from 'iview'
   import api from '@/config/apiConfig'
   import PayModel from '@/components/PayModel'
+  import TaskRemarksModal from '@/components/TaskRemarksModal'
   import {taskErrorStatusList, getSeverTime, encryption, decode,setStorage, getStorage,} from '@/config/utils'
 
   export default {
@@ -366,6 +423,7 @@
       iSelect: Select,
       iOption: Option,
       PayModel: PayModel,
+      TaskRemarksModal: TaskRemarksModal
     },
     data() {
       return {
@@ -443,6 +501,12 @@
         disabledRedEnvelopes: false,
         deleteFirstTaskModal: false,
         exemptRelease: false,
+        taskInfo: {},
+        showRemarksModal: false,
+        activityInfo: {},
+        showSettlementModal: false,
+        showSettlementDetailModal: false,
+        settlementData: {}
       }
     },
     created() {
@@ -621,13 +685,14 @@
           _this.modalLoading = false;
         })
       },
-      settlementTask(id, number) {
+      activitySettlement(id, number) {
         let _this = this;
         _this.ActivityNumber = number;
-        api.settlementTask({
+        api.activitySettlement({
           taskId: id
         }).then(res => {
           if (res.status) {
+            _this.showSettlementModal = false;
             if (res.data) {
               _this.auditSettlementSuccess = true;
               _this.settlementRefundDetails.marginRefund = (res.data.marginRefund / 100).toFixed(2);
@@ -747,7 +812,7 @@
         this.$router.push({name: 'TransactionRecord', query: {taskNumber: this.ActivityNumber}});
         this.directSettlementSuccess = false;
       },
-      billDetails(taskId, storeName) {
+      billDetails(taskId, taskName) {
         const _this = this;
         api.taskSettlementDetail({
           taskId: taskId
@@ -755,12 +820,13 @@
           if (res.status) {
             _this.billDetailsModel = true;
             _this.taskSettlementDetailInfo.settlementTime = res.data.settlementTime;
+            // _this.taskSettlementDetailInfo.refundTaskCount = res.data.refundTaskCount;
             _this.taskSettlementDetailInfo.taskCountLeft = res.data.taskCountLeft;
             _this.taskSettlementDetailInfo.marginRefund = (res.data.marginRefund / 100).toFixed(2);
             _this.taskSettlementDetailInfo.promotionRefund = (res.data.promotionRefund / 100).toFixed(2);
             _this.taskSettlementDetailInfo.vasFeeRefund = (res.data.vasFeeRefund / 100).toFixed(2);
             _this.taskSettlementDetailInfo.tagVasFeeRefund = (res.data.tagVasFeeRefund / 100).toFixed(2);
-            _this.taskSettlementDetailInfo.storeName = storeName;
+            _this.taskSettlementDetailInfo.taskName = taskName;
           } else {
             _this.$Message.error(res.msg)
           }
@@ -796,7 +862,74 @@
       },
       toFlowOrderDetail(number, keywordsCount) {
         this.$router.push({name: 'FlowOrderDetail',query: {number: number, keywordsCount: keywordsCount}});
+      },
+      // 弹出结算弹窗
+      showSettlement(item) {
+        const _this = this;
+        api.checkSettlement({
+          taskId: item.id
+        }).then(res => {
+          if (res.status) {
+            const tempData = res.data;
+            Object.assign(_this.settlementData, {
+              activitySettle: tempData.activitySettle,
+              taskSettle: tempData.taskSettle,
+              refundTaskCount: tempData.refundTaskCount,
+              taskName: item.taskName,
+              id: item.id,
+              number: item.number
+            });
+            _this.showSettlementModal = true;
+          } else {
+            _this.$Message.error(res.msg);
+          }
+        })
+      },
+      // 任务结算
+      taskSettlement(id,taskName) {
+        const _this = this;
+        api.taskSettlement({
+          taskId: id
+        }).then(res => {
+          if (res.status) {
+            _this.getTaskList();
+            Object.assign(_this.taskSettlementDetailInfo, {
+              settlementTime: getSeverTime(),
+              refundTaskCount: res.data.refundTaskCount,
+              marginRefund: (res.data.marginRefund / 100).toFixed(2),
+              promotionRefund: (res.data.promotionRefund / 100).toFixed(2),
+              vasFeeRefund: (res.data.vasFeeRefund / 100).toFixed(2),
+              tagVasFeeRefund: (res.data.tagVasFeeRefund / 100).toFixed(2),
+              taskName: taskName,
+              taskSettlement: true
+            });
+            _this.showSettlementModal = false;
+            _this.billDetailsModel = true;
+          } else {
+            _this.$Message.error(res.msg);
+          }
+        })
+      },
+      // 修改活动备注
+      modifyRemarks(info) {
+        Object.assign(this.activityInfo, {
+          taskName: info.taskName,
+          number: info.number,
+          taskMainImage: info.taskMainImage,
+          settlementStatusDesc: info.settlementStatusDesc,
+          taskStatusDesc: info.taskStatusDesc,
+          taskExt: info.taskExt,
+          taskId: info.id
+        })
+        this.showRemarksModal = true;
       }
     }
   }
 </script>
+<style scoped lang="scss">
+  @import 'src/css/mixin';
+  .settlement-title {
+    color: $mainColor;
+  }
+
+</style>

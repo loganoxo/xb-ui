@@ -348,10 +348,10 @@ export default {
   },
 
   /**
-   * 商家申请任务结算
+   * 商家申请活动结算
    */
-  settlementTask(params) {
-    return axiosConfig.post("/api/task-settlement.json", params)
+  activitySettlement(params) {
+    return axiosConfig.post("/api/activity-settlement.json", params)
   },
 
   /**
@@ -1337,5 +1337,26 @@ export default {
    */
   getGoodList(params) {
     return axiosConfig.get('/api/task-mall-list.json', params)
+  },
+
+  /***
+   * 检查商家是否可以提前进行任务结算或活动结算
+   */
+  checkSettlement(params) {
+    return axiosConfig.get('/api/check-settle.json', params)
+  },
+
+  /**
+   * 商家提前进行任务结算
+   */
+  taskSettlement(params) {
+    return axiosConfig.post('/api/task-settlement.json', params)
+  },
+  /**
+   * 商家备注
+   */
+  merchantRemark(params) {
+    return axiosConfig.post('/api/merchant-remark.json', params)
   }
+
 }

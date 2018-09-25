@@ -1,8 +1,7 @@
 /**
  * Created by ycb on 2017/7/18.
  */
-import {aliTokenUrl, bucket} from '@/config/env'
-import store from '@/store'
+import store from '@/store';
 
 /**
  * 存储localStorage
@@ -164,65 +163,6 @@ export const isAliUrl = (url) => {
   }
   const URL_REG = /(((item|detail|s.click).(tmall|taobao))|(fliggy).*?)/;
   return URL_REG.test(url)
-};
-
-/**
- * 上传图片到阿里云（分片上传file文件）
- */
-export const aliUploadImg = (key, file) => {
-  return new Promise((resolve, reject) => {
-    OSS.urllib.request(aliTokenUrl, {method: 'GET'}, function (err, response) {
-      if (err) {
-        reject(err);
-      } else {
-        const result = JSON.parse(response);
-        const client = new OSS.Wrapper({
-          accessKeyId: result.AccessKeyId,
-          accessKeySecret: result.AccessKeySecret,
-          stsToken: result.SecurityToken,
-          bucket: bucket,
-          endpoint: 'https://oss-cn-hangzhou.aliyuncs.com',
-          secure: true
-        });
-        client.multipartUpload(key, file).then(response => {
-          resolve(response);
-        }, err => {
-          reject(err);
-        }).catch((error) => {
-          reject(error);
-        })
-      }
-    })
-  })
-};
-
-/**
- * 上传图片到阿里云（上传Buffer文件）
- */
-export const aliUploadImgBuffer = (key, file) => {
-  return new Promise((resolve, reject) => {
-    OSS.urllib.request(aliTokenUrl, {method: 'GET'}, function (err, response) {
-      if (err) {
-        return alert(err);
-      }
-      const result = JSON.parse(response);
-      const client = new OSS.Wrapper({
-        accessKeyId: result.AccessKeyId,
-        accessKeySecret: result.AccessKeySecret,
-        stsToken: result.SecurityToken,
-        bucket: bucket,
-        endpoint: 'https://oss-cn-hangzhou.aliyuncs.com',
-        secure: true
-      });
-      client.put(key, file).then(response => {
-        resolve(response);
-      }, err => {
-        reject(err);
-      }).catch((error) => {
-        reject(error);
-      })
-    })
-  })
 };
 
 /**
@@ -430,6 +370,10 @@ export const taskErrorStatusList = (type) => {
     'pay_for_task_vas_fee_supply_seller': '补交活动增值费',
     'task_delete_return_vas_fee_seller': '删除活动返款增值费',
     'coin_withdraw': '钱包提取',
+    'per_task_return_deposit_seller': '任务结算担保金返款',
+    'per_task_return_promotion_expenses_seller': '任务结算推广费返款',
+    'per_task_return_vas_fee_seller': '任务结算增值费返款',
+    'per_task_return_tag_vas_fee_seller': '任务结算标签增值服务费返款'
   };
   return mapList[type];
 };
