@@ -36,9 +36,9 @@
     <div class="service-statement cl666 text-ct">
       声明：为避免纠纷，发布活动前请先阅读本平台的服务条款，凡成功提交活动申请皆默认亲已仔细阅读并同意平台的<span class="blue cursor-p" @click="isShowUserClause = true">《服务条款》</span>
     </div>
-    <div class="text-ct mt-20" v-if="(getTaskCreateFastStatus || isFastPublish) && stepName === 'information'">
+  <!--  <div class="text-ct mt-20" v-if="(getTaskCreateFastStatus || isFastPublish) && stepName === 'information'">
       <i-button type="primary" @click="goTaskCreateFast">启用首单快速发布通道</i-button>
-    </div>
+    </div>-->
     <!--选择绑定的店铺-->
     <div class="activity-type mt-20" v-show="stepName === 'information'">
       <div class="activity-type-title">请选择店铺：</div>
@@ -1185,13 +1185,13 @@
         <p>
           <i-button type="error" size="large" long @click="goStoreBind">前去绑定店铺</i-button>
         </p>
-        <template v-if="getTaskCreateFastStatus">
+   <!--     <template v-if="getTaskCreateFastStatus">
           <p class="fs-14 f-b mt-10 text-ct">或者，亲想先简单试试效果再说？</p>
           <p class="mt-10 cl999 text-ct">为快速体验平台服务，新商家可通过以下通道快速完成首发活动，该方法仅支持新商家首次发布！</p>
           <p class="mt-10">
             <i-button type="success" size="large" long @click="goTaskCreateFast">首单快速发布通道</i-button>
           </p>
-        </template>
+        </template>-->
       </div>
     </modal>
     <!--普通会员用户使用当日单或预约单提示升级会员版本弹框-->
@@ -1671,7 +1671,7 @@
     },
     // 当用户有首发资格路由重定向到快速发布通道反之则停留在此页面
     // 此处需要注意在 beforeRouteEnter 守卫中不能直接访问当前组件实例，通过传一个回调给 next 来访问组件实例
-    beforeRouteEnter(to, from, next) {
+  /*  beforeRouteEnter(to, from, next) {
       // 通过快速发布通道进入此页面不执行任何回调操作
       next(vm => {
         if (from.name !== 'FastTaskRelease') {
@@ -1688,7 +1688,7 @@
         // 防止页面跳转绑定店铺弹框闪烁需要将店铺请求放此处执行
         vm.getStoreBindInfoList()
       })
-    },
+    },*/
     mounted() {
       const _this = this;
       const imgHandlerPresentGet = async function (image) {
@@ -1705,6 +1705,9 @@
       this.getTaskVasList();
       this.checkIfAlreadyGetFreeFlow();
       this.getTaskMerchantAuditConfig();
+      this.getStoreBindInfoList();
+      this.merchantInformationModal.status = true;
+      this.merchantInformationInterval();
     },
     computed: {
       /**
