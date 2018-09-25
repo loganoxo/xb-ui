@@ -128,6 +128,7 @@
                 （ {{(item.totalMarginNeed / 100).toFixed(2)}} / {{((item.promotionExpensesNeed > 0 ? item.promotionExpensesNeed : 0) / 100).toFixed(2)}} / {{((item.vasFeeNeed + item.tagVasFeeNeed) / 100).toFixed(2)}}）
                 <span>{{((item.marginPaid + item.promotionExpensesPaid + item.vasFeePaid + item.tagVasFeePaid) / 100).toFixed(2)}}</span>
               </td>
+              <!--操作栏-->
               <td v-if="item.taskStatus === 'waiting_pay'">
                 <p class="del-edit">
                   <span class="mr-10" @click="editTask(item.id, item.createTime, item.fastPublish)">编辑</span>
@@ -135,6 +136,9 @@
                 </p>
                 <p class="bond mt-6">
                   <span @click="depositMoney(item.totalMarginNeed + item.promotionExpensesNeed + item.vasFeeNeed + item.tagVasFeeNeed + item.redEnvelopeDeductionNeed, item.id, item.marginPaid + item.promotionExpensesPaid + item.vasFeePaid + item.tagVasFeePaid + item.redEnvelopeDeductionPaid, item.createTime, item.redEnvelopeDeductionPaid, item.marginPaid, item.promotionExpensesNeed)">存担保金</span>
+                </p>
+                <p class="copy mt-6">
+                  <span @click="modifyRemarks(item)">活动备注</span>
                 </p>
                 <p class="copy mt-6">
                   <span @click="copyTask(item.id)">复制活动</span>
@@ -146,12 +150,18 @@
                   <span @click="closeTask(item.id, item.fastPublish)">关闭</span>
                 </p>
                 <p class="copy mt-6">
+                  <span @click="modifyRemarks(item)">活动备注</span>
+                </p>
+                <p class="copy mt-6">
                   <span @click="copyTask(item.id)">复制活动</span>
                 </p>
               </td>
               <td v-else-if="item.taskStatus === 'waiting_audit'">
                 <p class="copy mt-6">
                   <span @click="lookTaskDetail(item.id)">查看详情</span>
+                </p>
+                <p class="copy mt-6">
+                  <span @click="modifyRemarks(item)">活动备注</span>
                 </p>
                 <p class="copy mt-6">
                   <span @click="copyTask(item.id)">复制活动</span>
@@ -169,12 +179,18 @@
                   <span @click="lookTaskDetail(item.id)">查看详情</span>
                 </p>
                 <p class="copy mt-6">
+                  <span @click="modifyRemarks(item)">活动备注</span>
+                </p>
+                <p class="copy mt-6">
                   <span @click="copyTask(item.id)">复制活动</span>
                 </p>
               </td>
               <td v-else-if="item.settlementStatus === 'cannot_settlement' && item.taskStatus === 'finished'">
                 <p class="copy mt-6">
                   <span @click="lookTaskDetail(item.id)">查看详情</span>
+                </p>
+                <p class="copy mt-6">
+                  <span @click="modifyRemarks(item)">活动备注</span>
                 </p>
                 <p class="copy mt-6">
                   <span @click="copyTask(item.id)">复制活动</span>
@@ -191,6 +207,9 @@
                   <span @click="lookTaskDetail(item.id)">查看详情</span>
                 </p>
                 <p class="copy mt-6">
+                  <span @click="modifyRemarks(item)">活动备注</span>
+                </p>
+                <p class="copy mt-6">
                   <span @click="copyTask(item.id)">复制活动</span>
                 </p>
               </td>
@@ -202,6 +221,9 @@
                   <span @click="lookTaskDetail(item.id)">查看详情</span>
                 </p>
                 <p class="copy mt-6">
+                  <span @click="modifyRemarks(item)">活动备注</span>
+                </p>
+                <p class="copy mt-6">
                   <span @click="copyTask(item.id)">复制活动</span>
                 </p>
               </td>
@@ -211,6 +233,9 @@
                 </p>
                 <p class="copy mt-6">
                   <span @click="lookTaskDetail(item.id)">查看详情</span>
+                </p>
+                <p class="copy mt-6">
+                  <span @click="modifyRemarks(item)">活动备注</span>
                 </p>
                 <p class="copy mt-6">
                   <span @click="copyTask(item.id)">复制活动</span>
@@ -371,25 +396,8 @@
         <i-button class="activity-settlement-btn right width-pct-39 mr-20 bg-main-color cl-fff" :disabled="!settlementData.activitySettle" @click="activitySettlement(settlementData.id, settlementData.number)">活动结算</i-button>
       </div>
     </modal>
-    <!--&lt;!&ndash;结算详情&ndash;&gt;-->
-    <!--<modal v-model="showSettlementDetailModal">-->
-      <!--<p slot="header" class="settlement-title text-ct">结算详情</p>-->
-      <!--<div class="lht20">-->
-        <!--<p>活动标题：笑傲江湖</p>-->
-        <!--<p>结算时间：2018-02-05 12:00:00</p>-->
-        <!--<div class="clear">-->
-          <!--<p class="left">结算备注：</p>-->
-          <!--<p class="ml-60">本次结算名额：10；</p>-->
-          <!--<p class="ml-60">返还担保金共：100.00元；</p>-->
-          <!--<p class="ml-60">返还推广费：0.00元；</p>-->
-          <!--<p class="ml-60">返还增值费：0.00元；</p>-->
-          <!--<p class="ml-60">返还标签增值服务费：0.00元；</p>-->
-        <!--</div>-->
-      <!--</div>-->
-      <!--<div slot="footer">-->
-        <!--<i-button long class="bg-main-color cl-fff">确认</i-button>-->
-      <!--</div>-->
-    <!--</modal>-->
+    <!--修改活动备注弹窗-->
+    <task-remarks-modal v-model="showRemarksModal" :activityInfo="activityInfo" @remarkSuccess="remarkSuccess"/>
   </div>
 </template>
 
@@ -397,6 +405,7 @@
   import {Checkbox, Page, Modal, Icon, Button, Input, Tooltip, Select, Option} from 'iview'
   import api from '@/config/apiConfig'
   import PayModel from '@/components/PayModel'
+  import TaskRemarksModal from '@/components/TaskRemarksModal'
   import {taskErrorStatusList, getSeverTime, encryption, decode,setStorage, getStorage,} from '@/config/utils'
 
   export default {
@@ -414,6 +423,7 @@
       iSelect: Select,
       iOption: Option,
       PayModel: PayModel,
+      TaskRemarksModal: TaskRemarksModal
     },
     data() {
       return {
@@ -491,6 +501,9 @@
         disabledRedEnvelopes: false,
         deleteFirstTaskModal: false,
         exemptRelease: false,
+        taskInfo: {},
+        showRemarksModal: false,
+        activityInfo: {},
         showSettlementModal: false,
         showSettlementDetailModal: false,
         settlementData: {}
@@ -814,7 +827,6 @@
             _this.taskSettlementDetailInfo.vasFeeRefund = (res.data.vasFeeRefund / 100).toFixed(2);
             _this.taskSettlementDetailInfo.tagVasFeeRefund = (res.data.tagVasFeeRefund / 100).toFixed(2);
             _this.taskSettlementDetailInfo.taskName = taskName;
-
           } else {
             _this.$Message.error(res.msg)
           }
@@ -897,8 +909,23 @@
             _this.$Message.error(res.msg);
           }
         })
+      },
+      // 修改活动备注
+      modifyRemarks(info) {
+        Object.assign(this.activityInfo, {
+          taskName: info.taskName,
+          number: info.number,
+          taskMainImage: info.taskMainImage,
+          settlementStatusDesc: info.settlementStatusDesc,
+          taskStatusDesc: info.taskStatusDesc,
+          taskExt: info.taskExt,
+          taskId: info.id
+        });
+        this.showRemarksModal = true;
+      },
+      remarkSuccess() {
+        this.getTaskList();
       }
-
     }
   }
 </script>
