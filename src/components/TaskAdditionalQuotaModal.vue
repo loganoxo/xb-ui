@@ -269,11 +269,8 @@
        * 计算距离系统自动审批剩余时间
        */
       getDistanceSysAuditTime(){
-        if (this.data.finishTime){
-          return this.data.finishTime + this.data.autoAuditWaitHours*3600*1000
-        }else {
-          return this.data.endTime + this.data.autoAuditWaitHours*3600*1000
-        }
+        const autoAuditWaitHours = this.data.autoAuditWaitHours * 3600 * 1000;
+        return this.data.finishTime ? this.data.finishTime + autoAuditWaitHours : this.data.endTime + autoAuditWaitHours;
       },
 
       /** 获取用户会员版本等级（100：普通用户， 200：VIP， 300：SVIP）
@@ -342,7 +339,7 @@
        */
       onePromotionExpenses() {
         const type = this.data.activityCategory === 'free_get' ? 'AA' : 'AB';
-        return this.$store.getters.getPromotionExpenses[type].limit;
+        return this.data.fastPublish ? 0 : this.$store.getters.getPromotionExpenses[type].limit;
       },
 
       /**
@@ -422,6 +419,14 @@
          return (cur.addTaskNumber > 0 ? cur.addTaskNumber : 0) + prev
         }, 0)
       },
+
+      /** 计算首单任务可追加份数，目前最多只支持追加20份
+       *  可追加份数：20 - 已发布的活动总份数
+       * @return {number}
+       */
+      canAddTaskCount() {
+        return 20 - this.data.taskCount
+      }
     },
     methods: {
       setCurrentValue(value) {
@@ -566,6 +571,10 @@
             }
           }
         }*/
+        if (this.data.fastPublish && this.allAddTaskNumber > this.canAddTaskCount) {
+          this.$Message.warning(`亲，首单0推广费免费体验最大支持20份名额！`);
+          return;
+        }
         if (this.delayDays && !isInteger(this.delayDays)){
           this.$Message.warning(`亲，延期天数必须为正整数数字！`);
           return;

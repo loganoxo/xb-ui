@@ -37,8 +37,17 @@
             {{task.showkerApplyTotalCount || 0}} / {{task.showkerApplySuccessCount || 0}}（人）
           </td>
           <td>{{task.taskCount  - task.showkerApplySuccessCount}}</td>
-          <td>
-            （ {{(task.totalMarginNeed / 100).toFixed(2)}} / {{(task.promotionExpensesNeed / 100).toFixed(2)}} / {{((task.vasFeeNeed + task.tagVasFeeNeed) / 100).toFixed(2)}}）{{((task.marginPaid + task.promotionExpensesPaid + task.vasFeePaid + task.tagVasFeePaid) / 100).toFixed(2)}}
+          <td v-if="task.settlementStatus === 'settlement_finished'">
+            （ {{(task.perMarginNeed * task.showkerApplySuccessCount / 100).toFixed(2)}} /
+            {{((task.promotionExpensesNeed > 0 ? task.promotionExpensesNeed : 0) / task.taskCount * task.showkerApplySuccessCount / 100).toFixed(2)}} /
+            {{((task.perVasFee + task.perTagVasFee) * task.showkerApplySuccessCount / 100).toFixed(2)}}）
+            <span>{{((task.perMarginNeed * task.showkerApplySuccessCount +
+                  (task.promotionExpensesNeed > 0 ? task.promotionExpensesNeed : 0) / task.taskCount * task.showkerApplySuccessCount +
+                  (task.perVasFee + task.perTagVasFee) * task.showkerApplySuccessCount) / 100).toFixed(2)}}</span>
+          </td>
+          <td v-if="task.settlementStatus !== 'settlement_finished'">
+            （ {{(task.totalMarginNeed / 100).toFixed(2)}} / {{((task.promotionExpensesNeed > 0 ? task.promotionExpensesNeed : 0) / 100).toFixed(2)}} / {{((task.vasFeeNeed + task.tagVasFeeNeed) / 100).toFixed(2)}}）
+            <span>{{((task.marginPaid + task.promotionExpensesPaid + task.vasFeePaid + task.tagVasFeePaid) / 100).toFixed(2)}}</span>
           </td>
         </tr>
         </tbody>
@@ -110,6 +119,7 @@
           <span class="ml-5">拿手申请条件：</span>
           <radio-group v-model="trialCondition">
             <radio label="all" disabled>不限制</radio>
+            <radio label="refuseOldShowkerFor15Days" disabled>拒绝15天内参加过本店铺的拿手再次申请</radio>
             <radio label="refuseOldShowkerFor30Days" disabled>拒绝30天内参加过本店铺的拿手再次申请</radio>
             <!--<radio label="refuseOldShowker" disabled>拒绝已参加过本店活动的拿手再次申请</radio>-->
           </radio-group>
@@ -1529,6 +1539,9 @@
                 _this.taskRelease[key] = res.data[key]
               }
             });
+
+            // 复制活动时活动份数为发布活动时的活动份数（taskCount + returnCount），而不是可审批份数
+            _this.taskRelease.taskCount = res.data.taskCount + res.data.returnCount * 1;
             // _this.taskRelease.itemType = res.data.itemCatalog.id;
             _this.taskRelease.pinkage =  _this.taskRelease.pinkage.toString();
             _this.taskRelease.donotPostPhoto = _this.taskRelease.donotPostPhoto.toString();
@@ -1553,6 +1566,8 @@
 
             if (res.data.refuseOldShowker) {
               _this.trialCondition = 'refuseOldShowker'
+            } else if (res.data.refuseOldShowkerFor15Days) {
+              _this.trialCondition = 'refuseOldShowkerFor15Days'
             } else if (res.data.refuseOldShowkerFor30Days) {
               _this.trialCondition = 'refuseOldShowkerFor30Days'
             } else {
@@ -1566,7 +1581,7 @@
             }
             // 参考范本评论复制、编辑
             let itemReviewAssignsData = res.data.itemReviewAssigns;
-            if (itemReviewAssignsData.length > 0) {
+            if (itemReviewAssignsData && itemReviewAssignsData.length > 0) {
               const _itemReviewList = [];
               itemReviewAssignsData.forEach(item => {
                 const _reviewPictures = JSON.parse(item.reviewPictures);

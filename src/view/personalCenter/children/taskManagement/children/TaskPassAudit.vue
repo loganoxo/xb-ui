@@ -153,13 +153,11 @@
                   <div class="del-edit">
                     <span v-if="item.status === 'order_num_waiting_audit'" @click="openCheckOrder(item.id, item.needBrowseCollectAddCart, item.itemIssue, index)">审核订单信息</span>
                     <span v-if="item.status === 'trial_report_waiting_confirm'" @click="goProbationReport(item.id)">审核买家秀</span>
-                    <p v-if="item.status === 'trial_finished' && !item.ifEvaluated">
+                    <p v-if="item.status === 'trial_finished'">
                       <span class="check-report" @click="toShowkerReport(item.showkerId,item.id)">查看平台买家秀</span><br/>
-                      <span @click="getShowkerReportInfo(item.id,item.alitmAccount)">评价拿手</span>
+                      <span v-if="!item.ifEvaluated" @click="getShowkerReportInfo(item.id,item.alitmAccount)">评价拿手</span>
                     </p>
-                    <span class="check-report" v-if="item.status === 'trial_finished' && item.ifEvaluated"  @click="toShowkerReport(item.showkerId,item.id)">查看平台买家秀</span>
-                    <span v-if="item.status === 'trial_finished'">------</span>
-                    <span class="cursor-p blue" v-if="(item.status === 'pass_and_unclaimed' || item.status === 'order_num_waiting_audit' || item.status === 'trial_report_waiting_confirm' || item.status === 'trial_report_waiting_submit') && item.reviewContent" @click="lookAtTemplate(item.reviewContent, item.reviewPictures)">查看评价范本</span>
+                    <span class="cursor-p blue" v-else-if="(item.status === 'pass_and_unclaimed' || item.status === 'order_num_waiting_audit' || item.status === 'trial_report_waiting_confirm' || item.status === 'trial_report_waiting_submit') && item.reviewContent" @click="lookAtTemplate(item.reviewContent, item.reviewPictures)">查看评价范本</span>
                     <span v-else>------</span>
                   </div>
                 </td>
