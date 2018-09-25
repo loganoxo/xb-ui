@@ -826,7 +826,7 @@
         return aliCallbackImgUrl + src
       },
       goTaskCreateFast() {
-        this.$router.push({name: 'FastTaskRelease'});
+        this.$router.push({name: 'TaskRelease'});
         this.showFirstVisitModel = false;
       },
       getAvailableBoardByAdTypeList(advertType) {
